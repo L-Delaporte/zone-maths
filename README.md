@@ -2,7 +2,7 @@
 ## Collège Cycle 4 (5ème, 4ème, 3ème / Brevet DNB) — Zone Optimale d'Apprentissage (ZPD & Flow)
 ### Créé par Loïc Delaporte, Professeur de Mathématiques
 
-Cette application web pédagogique a été spécialement conçue pour couvrir l'intégralité du programme officiel de mathématiques du **Cycle 4** (5ème, 4ème et 3ème / DNB), en s'appuyant sur les attendus du Bulletin Officiel de l'Éducation Nationale et les ressources d'excellence de [maths-et-tiques.fr](https://www.maths-et-tiques.fr/) (Yvan Monka).
+Cette application web pédagogique a été spécialement conçue pour couvrir l'intégralité du programme officiel de mathématiques du **Cycle 4** (5ème, 4ème et 3ème / DNB), en s'appuyant sur les attendus du Bulletin Officiel de l'Éducation Nationale.
 
 ---
 
