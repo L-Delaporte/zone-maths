@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 90" width="380" height="90">
+  <defs>
+    <linearGradient id="emblemBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="zGradLogo" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="50%" stop-color="#3b82f6"/>
+      <stop offset="100%" stop-color="#10b981"/>
+    </linearGradient>
+    <linearGradient id="mathsGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#10b981"/>
+    </linearGradient>
+    <filter id="glowLogo" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <!-- Emblème gauche -->
+  <g transform="translate(5, 5)">
+    <rect width="80" height="80" rx="22" fill="url(#emblemBg)" stroke="#334155" stroke-width="2"/>
+    
+    <!-- Cercles concentriques ZPD -->
+    <circle cx="40" cy="40" r="30" fill="none" stroke="#38bdf8" stroke-opacity="0.35" stroke-width="1.2" stroke-dasharray="3 3"/>
+    <circle cx="40" cy="40" r="20" fill="none" stroke="#38bdf8" stroke-opacity="0.5" stroke-width="1.2"/>
+    <circle cx="40" cy="40" r="10" fill="rgba(59, 130, 246, 0.15)" stroke="#60a5fa" stroke-width="0.8"/>
+
+    <!-- Z stylisé -->
+    <path d="M24 26 L56 26 L28 54 L56 54" fill="none" stroke="url(#zGradLogo)" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#glowLogo)"/>
+
+    <!-- Point focal / Cible ZPD -->
+    <circle cx="40" cy="40" r="3" fill="#10b981" stroke="#ffffff" stroke-width="1"/>
+    
+    <!-- Signe plus -->
+    <path d="M53 20 L59 20 M56 17 L56 23" stroke="#38bdf8" stroke-width="2" stroke-linecap="round"/>
+  </g>
+
+  <!-- Typographie Zone-Maths -->
+  <text x="102" y="48" font-family="'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif" font-size="34" font-weight="900" letter-spacing="-0.5" fill="currentColor">
+    Zone<tspan fill="url(#mathsGrad)">-Maths</tspan>
+  </text>
+
+  <!-- Slogan sous-titre -->
+  <text x="104" y="70" font-family="'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif" font-size="10.5" font-weight="700" letter-spacing="1.5" fill="#94a3b8" text-transform="uppercase">
+    Zone Optimale d'Apprentissage
+  </text>
+</svg>

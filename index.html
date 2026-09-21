@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="author" content="Loïc Delaporte, Professeur de Mathématiques" />
+  <meta name="description" content="Plateforme d'apprentissage adaptatif des mathématiques au Collège (Cycle 4 : 5ème, 4ème, 3ème / DNB). Entraînement différencié par paliers ZPD, cours complets, rituels flash chronométrés et devoirs surveillés blancs avec corrigés détaillés. Créé par Loïc Delaporte, Professeur de Mathématiques." />
+  <meta name="keywords" content="mathématiques, collège, cycle 4, 3ème, 4ème, 5ème, brevet, DNB, ZPD, entraînement, cours, devoirs blancs, Loïc Delaporte, Yvan Monka" />
+  
+  <!-- Optimisations PWA & Mobiles -->
+  <meta name="theme-color" content="#0f172a" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Zone-Maths" />
+
+  <!-- Réseaux Sociaux & Open Graph (Pronote, ENT, WhatsApp, Discord, X) -->
+  <meta property="og:title" content="Zone-Maths (Cycle 4 : 5e, 4e, 3e) — Zone Optimale d'Apprentissage" />
+  <meta property="og:description" content="Plateforme d'apprentissage adaptatif des mathématiques au Collège (Cycle 4 : 5ème, 4ème, 3ème / DNB). Conçue par Loïc Delaporte, Professeur de Mathématiques." />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="fr_FR" />
+
+  <title>Zone-Maths — Zone Optimale d'Apprentissage (Cycle 4) | Créé par Loïc Delaporte, Professeur de Mathématiques</title>
+  
+  <!-- KaTeX pour le rendu des formules mathématiques (avec fallback CDN) -->
+  <link rel="stylesheet" href="vendor/katex/katex.min.css" onerror="this.onerror=null;this.href='https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css';" />
+  
+  <!-- Feuilles de style de l'application -->
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="apple-touch-icon" href="assets/favicon.svg" />
+</head>
+<body>
+
+  <!-- En-tête de l'application -->
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="brand-container">
+        <img src="assets/favicon.svg" alt="Zone-Maths" class="brand-logo-img" width="44" height="44" />
+        <div class="brand-text">
+          <h1 id="app-main-title">Zone-Maths <span class="brand-level-tag">3ème (DNB)</span></h1>
+          <span class="brand-tagline">Entraînement évolutif, cours & rituels flash</span>
+        </div>
+      </div>
+
+      <!-- Sélecteur de niveau Collège Cycle 4 -->
+      <div class="cycle4-level-nav" role="tablist" aria-label="Niveau Cycle 4">
+        <span class="cycle4-label">Cycle 4 :</span>
+        <div class="level-pills">
+          <button class="level-pill" id="level-btn-5eme" data-level="5eme" onclick="window.MathsApp.switchLevel('5eme')">5ème</button>
+          <button class="level-pill" id="level-btn-4eme" data-level="4eme" onclick="window.MathsApp.switchLevel('4eme')">4ème</button>
+          <button class="level-pill active" id="level-btn-3eme" data-level="3eme" onclick="window.MathsApp.switchLevel('3eme')">3ème (DNB)</button>
+        </div>
+      </div>
+
+      <div class="header-user-status">
+        <div class="status-pill">
+          <span id="header-user-level">Niveau 1</span>
+        </div>
+        <div class="status-pill">
+          <span id="header-user-xp">0 XP</span>
+        </div>
+        <div class="status-pill">
+          <span id="header-user-streak">🔥 0</span>
+        </div>
+        
+        <!-- Nouveaux boutons inspirés de MathsMentales -->
+        <button id="btn-open-diaporama" class="btn-icon-text btn-accent-glow" title="Lancer un rituel chronométré comme sur MathsMentales">
+          ⏱️ Rituel Flash
+        </button>
+        <button id="btn-open-quiz" class="btn-icon-text" title="Générer un devoir surveillé blanc d'entraînement">
+          📝 Devoir Blanc
+        </button>
+
+        <button id="passport-btn" class="btn-icon-text" title="Mon passeport de compétences">
+          🎓 Mon Bilan
+        </button>
+        <button id="sound-toggle-btn" class="btn-icon-text" title="Activer / Couper les sons" onclick="window.MathsAudio.toggleMute()">
+          🔊 <span class="btn-sound-text">Sons</span>
+        </button>
+        <button id="theme-toggle-btn" class="btn-icon-text" title="Basculer le thème">
+          🌙 Mode Sombre
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Contenu Principal -->
+  <div class="app-container">
+
+    <!-- Volet Latéral : Sélection des 18 Chapitres -->
+    <aside class="sidebar-chapters">
+      <div class="sidebar-title-row">
+        <h2>Progression 3ème</h2>
+        <div class="sidebar-header-actions" style="display: flex; align-items: center; gap: 0.35rem;">
+          <span class="chapters-count">18 chapitres</span>
+          <button id="btn-reset-all-mastery" class="btn-reset-all" title="Remettre à zéro (0%) la maîtrise de TOUS les chapitres">
+            🔄 Tout à 0%
+          </button>
+        </div>
+      </div>
+
+      <!-- Recherche instantanée de chapitres -->
+      <div class="sidebar-search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="chapters-search-input" placeholder="Rechercher (ex: Thalès, fraction...)" aria-label="Rechercher un chapitre" autocomplete="off" />
+        <button id="chapters-search-clear" class="search-clear-btn" style="display:none;" title="Effacer la recherche">✕</button>
+      </div>
+
+      <!-- Filtres par Domaine Officiel -->
+      <div class="domain-filters-scroll">
+        <button class="domain-filter-btn active" data-domain="all">Tous</button>
+        <button class="domain-filter-btn" data-domain="nombres">🔢 Nombres</button>
+        <button class="domain-filter-btn" data-domain="geometrie">📐 Géométrie</button>
+        <button class="domain-filter-btn" data-domain="fonctions">📈 Fonctions</button>
+        <button class="domain-filter-btn" data-domain="algo">💻 Algo</button>
+      </div>
+
+      <!-- Liste des cartes de chapitres -->
+      <div id="chapters-list-container" class="chapters-list">
+        <!-- Rempli dynamiquement par app.js -->
+      </div>
+    </aside>
+
+    <!-- Zone Centrale de Travail -->
+    <main class="main-workspace">
+
+      <!-- Hero Bannière du Chapitre Sélectionné -->
+      <div class="chapter-hero-banner">
+        <div class="hero-text-zone">
+          <div class="hero-meta">
+            <span id="chapter-hero-domain" class="domain-pill">Nombres et Calculs</span>
+          </div>
+          <h2 id="chapter-hero-title">N1 : Ensemble de nombres et fractions</h2>
+          <p id="chapter-hero-desc">Ensembles de nombres, 4 opérations sur les fractions et priorités opératoires.</p>
+        </div>
+
+        <div class="hero-mastery-gauge">
+          <div class="gauge-header">Maîtrise Chapitre</div>
+          <div id="chapter-hero-mastery" class="gauge-value">0%</div>
+          <div class="gauge-track">
+            <div id="chapter-hero-mastery-fill" class="gauge-bar-fill" style="width: 0%;"></div>
+          </div>
+          <button id="btn-reset-chapter-mastery" class="btn-reset-chapter" title="Remettre la maîtrise de ce chapitre à 0%">
+            🔄 Réinitialiser ce chapitre (0%)
+          </button>
+        </div>
+      </div>
+
+      <!-- Barre d'onglets du Chapitre -->
+      <nav class="tabs-navigation-bar no-print">
+        <button class="tab-btn active" data-tab="train">
+          <span>🎯</span> Entraînement Adaptatif (ZPD)
+        </button>
+        <button class="tab-btn" data-tab="course">
+          <span>📖</span> Fiche de Cours & Méthodes
+        </button>
+        <button class="tab-btn" data-tab="sheets">
+          <span>📄</span> Fiches & Sujets Imprimables
+        </button>
+        <button class="tab-btn" data-tab="stats">
+          <span>📊</span> Mon Bilan & Compétences
+        </button>
+      </nav>
+
+      <!-- 1. ONGLET : ENTRAÎNEMENT ADAPTATIF -->
+      <section id="tab-pane-train" class="tab-pane active">
+        
+        <!-- Panneau de Contrôle Adaptatif ZPD -->
+        <div class="adaptive-control-panel">
+          <div class="tier-selector-row">
+            <div class="tier-left-group">
+              <span class="tier-selector-label">Palier :</span>
+              <div class="tier-pills-group">
+                <button class="tier-pill-btn active" data-tier="1">Palier 1 : Socle</button>
+                <button class="tier-pill-btn" data-tier="2">Palier 2 : Guidé</button>
+                <button class="tier-pill-btn" data-tier="3">Palier 3 : Brevet</button>
+                <button class="tier-pill-btn" data-tier="4">Palier 4 : Défi Seconde</button>
+              </div>
+            </div>
+            
+            <div class="tier-right-actions">
+              <button id="btn-random-exercise" class="btn-secondary btn-sm" type="button" title="Générer une nouvelle question à données aléatoires (Inspiré de MathsMentales)">
+                🎲 Question Aléatoire
+              </button>
+              <button id="btn-launch-diapo-quick" class="btn-secondary btn-sm" type="button" title="Lancer un rituel chronométré sur ce chapitre">
+                ⏱️ Rituel Chrono
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Espace de l'Exercice Interactif -->
+        <div class="exercise-workspace-box">
+          <div id="exercise-statement-box">
+            <!-- Énoncé rendu dynamiquement avec KaTeX -->
+          </div>
+
+          <!-- Zone de Saisie / Choix -->
+          <div id="exercise-input-zone" class="exercise-input-zone">
+            <!-- Saisie QCM ou Exacte -->
+          </div>
+
+          <!-- Clavier Mathématique Virtuel Optionnel -->
+          <div class="virtual-keyboard-section">
+            <div class="keyboard-toggle-bar">
+              <button id="btn-toggle-math-keyboard" class="btn-icon-text" type="button">
+                ⌨️ Clavier Mathématique
+              </button>
+            </div>
+            <div id="virtual-math-keyboard" class="virtual-math-keyboard" style="display: none;">
+              <button class="key-btn" data-val="7">7</button>
+              <button class="key-btn" data-val="8">8</button>
+              <button class="key-btn" data-val="9">9</button>
+              <button class="key-btn" data-val="+">+</button>
+              <button class="key-btn" data-val="-">−</button>
+              <button class="key-btn action-key" data-action="backspace">⌫</button>
+
+              <button class="key-btn" data-val="4">4</button>
+              <button class="key-btn" data-val="5">5</button>
+              <button class="key-btn" data-val="6">6</button>
+              <button class="key-btn" data-val="*">×</button>
+              <button class="key-btn" data-val="/">/ (frac)</button>
+              <button class="key-btn action-key" data-action="clear">C</button>
+
+              <button class="key-btn" data-val="1">1</button>
+              <button class="key-btn" data-val="2">2</button>
+              <button class="key-btn" data-val="3">3</button>
+              <button class="key-btn" data-val="x">x</button>
+              <button class="key-btn" data-val="^2">x²</button>
+              <button class="key-btn" data-val="^3">x³</button>
+
+              <button class="key-btn" data-val="0">0</button>
+              <button class="key-btn" data-val=",">,</button>
+              <button class="key-btn" data-val=".">.</button>
+              <button class="key-btn" data-val="(">(</button>
+              <button class="key-btn" data-val=")">)</button>
+              <button class="key-btn action-key" data-action="enter">⏎</button>
+            </div>
+          </div>
+
+          <!-- Barre d'actions & Aides échelonnées -->
+          <div class="exo-actions-bar">
+            <div class="help-buttons-group">
+              <button id="btn-hint-1" class="btn-secondary" type="button">
+                💡 Coup de pouce (Indice 1)
+              </button>
+              <button id="btn-hint-2" class="btn-secondary" type="button">
+                📖 Rappel de cours (Indice 2)
+              </button>
+            </div>
+
+            <div class="submit-buttons-group">
+              <button id="btn-validate-answer" class="btn-primary" type="button">
+                Valider ma réponse ✓
+              </button>
+              <button id="btn-next-exercise" class="btn-primary" type="button" style="display: none;">
+                Exercice suivant ➔
+              </button>
+            </div>
+          </div>
+
+          <!-- Zone de Feedback & Explications pas-à-pas -->
+          <div id="exercise-feedback-zone" style="display: none;">
+            <!-- Message de réussite, indice ou correction détaillée -->
+          </div>
+        </div>
+
+      </section>
+
+      <!-- 2. ONGLET : FICHE DE COURS SYNTHÉTIQUE -->
+      <section id="tab-pane-course" class="tab-pane">
+        <div id="course-content-container">
+          <!-- Rempli dynamiquement par app.js -->
+        </div>
+      </section>
+
+      <!-- 3. ONGLET : FICHES & SUJETS IMPRIMABLES -->
+      <section id="tab-pane-sheets" class="tab-pane">
+        <div class="sheets-quick-header-actions no-print" style="margin-bottom: 1rem; display: flex; gap: 0.75rem;">
+          <button id="btn-quiz-from-sheets" class="btn-primary" type="button">
+            📝 Générer un Devoir Surveillé Blanc d'Entraînement (+ Corrigé)
+          </button>
+        </div>
+        <div id="sheets-content-container">
+          <!-- Rempli dynamiquement par app.js -->
+        </div>
+      </section>
+
+      <!-- 4. ONGLET : BILAN, COMPÉTENCES & PASSEPORT -->
+      <section id="tab-pane-stats" class="tab-pane">
+        <div id="stats-content-container">
+          <!-- Rempli dynamiquement par app.js -->
+        </div>
+      </section>
+
+    </main>
+
+  </div>
+
+  <!-- Pied de page de l'application -->
+  <footer class="app-footer no-print">
+    <div class="app-footer-inner">
+      <div class="footer-brand">
+        <img src="assets/favicon.svg" alt="Zone-Maths" class="footer-logo-img" width="38" height="38" />
+        <div>
+          <div id="app-footer-title" class="footer-title">Zone-Maths — Cycle 4 (5ème, 4ème, 3ème)</div>
+          <div class="footer-subtitle">Zone Optimale d'Apprentissage (ZPD) • Entraînement adaptatif, cours complets, rituels flash & devoirs blancs</div>
+        </div>
+      </div>
+      <div class="footer-author-box">
+        <span class="footer-author-badge">Créé par <strong>Loïc Delaporte</strong>, Professeur de Mathématiques</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- =========================================================================
+       MODALE 1 : MODE RITUEL DIAPORAMA / CHRONOMÉTRÉ (MathsMentales)
+       ========================================================================= -->
+  <div id="diaporama-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-box diapo-box">
+      
+      <!-- Écran 1 : Configuration du Diaporama -->
+      <div id="diapo-screen-config" class="diapo-screen">
+        <div class="modal-header">
+          <div>
+            <h2>⏱️ Zone-Maths — Mode Rituel Flash / Diaporama</h2>
+            <div class="modal-author-badge">Créé par <strong>Loïc Delaporte</strong>, Professeur de Mathématiques</div>
+          </div>
+          <button class="modal-close-btn" onclick="window.MathsDiaporama.closeModal()">✕</button>
+        </div>
+        <p class="modal-intro">
+          Projetez en classe ou entraînez-vous avec des questions flash à données aléatoires rythmées par un compte à rebours.
+        </p>
+
+        <div class="diapo-settings-grid">
+          <div class="diapo-setting-item">
+            <label for="diapo-count-select">Nombre de questions :</label>
+            <select id="diapo-count-select" class="form-select">
+              <option value="5" selected>5 questions</option>
+              <option value="10">10 questions</option>
+              <option value="15">15 questions</option>
+            </select>
+          </div>
+
+          <div class="diapo-setting-item">
+            <label for="diapo-time-select">Durée par question :</label>
+            <select id="diapo-time-select" class="form-select">
+              <option value="15">15 secondes (Flash rapide)</option>
+              <option value="30" selected>30 secondes (Standard)</option>
+              <option value="45">45 secondes (Guidé)</option>
+              <option value="60">60 secondes (Réflexion)</option>
+              <option value="0">Manuel (Avancement au clic)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="diapo-chapters-select-section">
+          <label>Chapitres à inclure dans le rituel :</label>
+          <div id="diaporama-chapters-checkboxes" class="diapo-chips-container">
+            <!-- Rempli dynamiquement -->
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn-secondary" onclick="window.MathsDiaporama.closeModal()">Annuler</button>
+          <button class="btn-primary" onclick="window.MathsDiaporama.start()">Lancer le Diaporama ▶</button>
+        </div>
+      </div>
+
+      <!-- Écran 2 : Diaporama en Cours (Grand Format Plein Écran) -->
+      <div id="diapo-screen-run" class="diapo-screen" style="display: none;">
+        <div class="diapo-top-hud">
+          <span id="diapo-q-index" class="diapo-hud-index">Question 1 / 5</span>
+          <div class="diapo-timer-box">
+            <div class="diapo-timer-bar">
+              <div id="diapo-timer-fill" class="diapo-timer-fill" style="width: 100%;"></div>
+            </div>
+            <span id="diapo-time-text" class="diapo-time-text">30s</span>
+          </div>
+          <button class="modal-close-btn" onclick="window.MathsDiaporama.closeModal()">✕ Quitter</button>
+        </div>
+
+        <div class="diapo-main-stage">
+          <h3 id="diapo-q-title" class="diapo-stage-title">Titre de la question</h3>
+          <div id="diapo-q-body" class="diapo-stage-body">
+            <!-- Énoncé rendu en grand -->
+          </div>
+        </div>
+
+        <div class="diapo-bottom-controls">
+          <button class="btn-secondary" onclick="window.MathsDiaporama.prev()">◀ Précédent</button>
+          <button id="btn-diapo-pause" class="btn-secondary" onclick="window.MathsDiaporama.togglePause()">⏸ Pause</button>
+          <button class="btn-primary" onclick="window.MathsDiaporama.next()">Suivant ▶</button>
+        </div>
+      </div>
+
+      <!-- Écran 3 : Corrigé & Récapitulatif -->
+      <div id="diapo-screen-recap" class="diapo-screen" style="display: none;">
+        <div class="modal-header">
+          <div>
+            <h2>📝 Zone-Maths — Corrigé du Rituel Flash</h2>
+            <div class="modal-author-badge">Créé par <strong>Loïc Delaporte</strong>, Professeur de Mathématiques</div>
+          </div>
+          <button class="modal-close-btn" onclick="window.MathsDiaporama.closeModal()">✕</button>
+        </div>
+        <div id="diapo-recap-list" class="diapo-recap-container">
+          <!-- Rempli dynamiquement -->
+        </div>
+        <div class="modal-footer">
+          <button class="btn-secondary" onclick="window.print()">🖨️ Imprimer le corrigé</button>
+          <button class="btn-primary" onclick="window.MathsDiaporama.closeModal()">Terminer</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODALE 2 : GÉNÉRATEUR DE DEVOIR SURVEILLÉ BLANC D'ENTRAÎNEMENT
+       ========================================================================= -->
+  <div id="quiz-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-box quiz-box">
+      
+      <!-- Écran 1 : Configuration du devoir surveillé blanc -->
+      <div id="quiz-config-screen">
+        <div class="modal-header">
+          <div>
+            <h2>📝 Zone-Maths — Devoir Surveillé Blanc d'Entraînement</h2>
+            <div class="modal-author-badge">Créé par <strong>Loïc Delaporte</strong>, Professeur de Mathématiques</div>
+          </div>
+          <button class="modal-close-btn" onclick="window.MathsQuizGenerator.closeModal()">✕</button>
+        </div>
+        <p class="modal-intro">
+          Entraînez-vous en conditions réelles d'examen avec ce sujet de devoir blanc ! Il est généré aléatoirement avec de nouvelles questions à chaque fois : vous pouvez en générer plusieurs pour vous entraîner intensément.
+        </p>
+
+        <div class="diapo-settings-grid">
+          <div class="diapo-setting-item">
+            <label for="quiz-count-select">Format du devoir blanc :</label>
+            <select id="quiz-count-select" class="form-select">
+              <option value="5">5 questions (Interrogation courte - 15 min - sur 10 pts)</option>
+              <option value="10" selected>10 questions (Devoir type - 30 min - sur 20 pts)</option>
+              <option value="15">15 questions (Grand devoir blanc - 45 min - sur 30 pts)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="diapo-chapters-select-section">
+          <label>Chapitres au programme du devoir :</label>
+          <div id="quiz-chapters-checkboxes" class="diapo-chips-container">
+            <!-- Rempli dynamiquement -->
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn-secondary" onclick="window.MathsQuizGenerator.closeModal()">Annuler</button>
+          <button class="btn-primary" onclick="window.MathsQuizGenerator.generate()">Générer mon Devoir Blanc ➔</button>
+        </div>
+      </div>
+
+      <!-- Écran 2 : Prévisualisation et Impression -->
+      <div id="quiz-preview-screen" style="display: none;">
+        <div class="modal-header no-print">
+          <div>
+            <h2>📝 Zone-Maths — Mon Devoir Surveillé Blanc</h2>
+            <div class="modal-author-badge">Créé par <strong>Loïc Delaporte</strong>, Professeur de Mathématiques</div>
+          </div>
+          <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+            <button class="btn-primary" onclick="window.MathsQuizGenerator.generate()">🔄 Régénérer un nouveau devoir (nouvelles questions)</button>
+            <button class="btn-secondary" id="btn-toggle-quiz-solution" onclick="window.MathsQuizGenerator.toggleSolution()">👁️ Masquer / Afficher le Corrigé</button>
+            <button class="btn-secondary" onclick="window.print()">🖨️ Imprimer</button>
+            <button class="modal-close-btn" onclick="window.MathsQuizGenerator.closeModal()">✕</button>
+          </div>
+        </div>
+
+        <div id="quiz-preview-content" class="quiz-scroll-preview">
+          <!-- Rempli dynamiquement -->
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Scripts KaTeX (avec fallback CDN) -->
+  <script src="vendor/katex/katex.min.js" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js';"></script>
+  <script src="vendor/katex/auto-render.min.js" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js';"></script>
+
+  <!-- Données Mathématiques Multi-Niveaux (Cycle 4 : 5e, 4e, 3e) -->
+  <script src="js/data/chapters.js"></script>
+  <script src="js/data/courses.js"></script>
+  <script src="js/data/worksheets.js"></script>
+  <script src="js/data/exercises.js"></script>
+  <script src="js/data/data_5eme.js"></script>
+  <script src="js/data/data_4eme.js"></script>
+
+  <!-- Modules Applicatifs & Générateurs Inspirés de MathsMentales -->
+  <script src="js/storage.js"></script>
+  <script src="js/audioEffects.js"></script>
+  <script src="js/confetti.js"></script>
+  <script src="js/mathRenderer.js"></script>
+  <script src="js/adaptiveEngine.js"></script>
+  <script src="js/randomGenerators.js"></script>
+  <script src="js/diaporamaEngine.js"></script>
+  <script src="js/flashQuizGenerator.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>
