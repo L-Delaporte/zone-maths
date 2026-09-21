@@ -1553,19 +1553,129 @@ body {
   margin-top: 1rem;
 }
 
-/* Classes utilitaires Math KaTeX */
-.math-h1 { font-size: 1.4rem; font-weight: 800; margin: 1.5rem 0 0.75rem; }
-.math-h2 { font-size: 1.2rem; font-weight: 700; margin: 1.25rem 0 0.5rem; color: var(--primary); }
-.math-h3 { font-size: 1.05rem; font-weight: 700; margin: 1rem 0 0.5rem; }
-.math-p { margin-bottom: 0.75rem; }
+/* Classes utilitaires Math KaTeX & Markdown */
+.math-h1 { font-size: 1.45rem; font-weight: 800; margin: 1.5rem 0 0.75rem; color: var(--text-main); }
+.math-h2 { font-size: 1.25rem; font-weight: 700; margin: 1.35rem 0 0.6rem; color: var(--primary); }
+.math-h3 { font-size: 1.12rem; font-weight: 700; margin: 1.2rem 0 0.5rem; color: var(--text-main); }
+.math-h4 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 1.35rem 0 0.5rem;
+  color: var(--primary);
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.35rem;
+}
+.math-h5 { font-size: 0.98rem; font-weight: 700; margin: 1rem 0 0.4rem; color: var(--text-main); }
+.math-p { margin-bottom: 0.85rem; line-height: 1.75; }
 .math-divider { border: 0; border-top: 1px solid var(--border-color); margin: 1.5rem 0; }
-.math-list { margin-left: 1.5rem; margin-bottom: 1rem; }
+.math-list { margin: 0.5rem 0 1rem 1.5rem; padding-left: 0.5rem; }
+.math-bullet { margin-bottom: 0.45rem; line-height: 1.65; }
 .math-callout {
-  padding: 0.75rem 1rem;
+  padding: 0.85rem 1.15rem;
   border-left: 4px solid var(--primary);
   background-color: var(--primary-subtle);
   border-radius: 0 var(--radius-md) var(--radius-md) 0;
-  margin: 1rem 0;
+  margin: 1.15rem 0;
+  line-height: 1.65;
+}
+
+/* Tableaux Markdown structurés */
+.math-table-container {
+  overflow-x: auto;
+  margin: 1.25rem 0;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+  -webkit-overflow-scrolling: touch;
+}
+
+.math-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.95rem;
+  background-color: var(--bg-surface);
+}
+
+.math-table th {
+  padding: 0.85rem 1.15rem;
+  font-weight: 700;
+  background-color: var(--bg-subtle);
+  border-bottom: 2px solid var(--border-color);
+  color: var(--text-main);
+  white-space: nowrap;
+}
+
+.math-table td {
+  padding: 0.75rem 1.15rem;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-main);
+  vertical-align: middle;
+}
+
+.math-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.math-table tbody tr:hover {
+  background-color: var(--bg-hover);
+}
+
+/* Blocs de code préformatés (Scratch, algorithmique, tableur) */
+.math-code-container {
+  margin: 1.25rem 0;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  background-color: #1e293b;
+  box-shadow: var(--shadow-sm);
+}
+
+.math-code-block {
+  margin: 0;
+  padding: 1rem 1.25rem;
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: #f8fafc;
+  background: transparent;
+}
+
+.math-code-block code {
+  font-family: inherit;
+  white-space: pre;
+}
+
+.math-inline-code {
+  background-color: var(--bg-subtle);
+  color: var(--primary);
+  padding: 0.15rem 0.45rem;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  border: 1px solid var(--border-color);
+}
+
+[data-theme="dark"] .math-table {
+  background-color: var(--bg-surface);
+}
+
+[data-theme="dark"] .math-table th {
+  background-color: var(--bg-surface-elevated);
+  border-bottom-color: var(--border-color);
+  color: var(--text-main);
+}
+
+[data-theme="dark"] .math-table td {
+  border-bottom-color: var(--border-color);
+  color: var(--text-main);
+}
+
+[data-theme="dark"] .math-inline-code {
+  background-color: var(--bg-surface-elevated);
+  border-color: var(--border-color);
+  color: #93c5fd;
 }
 
 /* =========================================================================
@@ -3031,6 +3141,28 @@ body {
   .math-callout {
     padding: 0.6rem 0.75rem;
     font-size: 0.9rem;
+  }
+
+  /* Fiches d'exercices et DS sur mobile */
+  .printable-worksheet {
+    padding: 1.25rem 1rem !important;
+    border-radius: var(--radius-md) !important;
+    line-height: 1.65 !important;
+  }
+
+  .sheet-select-btn {
+    font-size: 0.8rem !important;
+    padding: 6px 10px !important;
+  }
+
+  .math-table th, .math-table td {
+    padding: 0.6rem 0.75rem !important;
+    font-size: 0.88rem !important;
+  }
+
+  .math-code-block {
+    padding: 0.85rem 1rem !important;
+    font-size: 0.85rem !important;
   }
 
   /* Modales Diaporama et Devoir Blanc en plein écran mobile */
