@@ -115,6 +115,20 @@ document.addEventListener('DOMContentLoaded', () => {
       const themeBtn = document.getElementById('theme-toggle-btn');
       if (themeBtn) themeBtn.addEventListener('click', () => this.toggleTheme());
 
+      // Déclencheur du tiroir mobile de chapitres
+      const mobileChapterBtn = document.getElementById('mobile-chapter-btn');
+      const sidebarChapters = document.getElementById('sidebar-chapters');
+      const mobileArrow = document.getElementById('mobile-chapter-arrow');
+      if (mobileChapterBtn && sidebarChapters) {
+        mobileChapterBtn.addEventListener('click', () => {
+          const isOpen = sidebarChapters.classList.toggle('mobile-open');
+          mobileChapterBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+          if (mobileArrow) {
+            mobileArrow.textContent = isOpen ? '▴' : '▾';
+          }
+        });
+      }
+
       // Bouton ouvrir passeport modal
       const passportBtn = document.getElementById('passport-btn');
       if (passportBtn) {
@@ -425,6 +439,24 @@ document.addEventListener('DOMContentLoaded', () => {
       const descEl = document.getElementById('chapter-hero-desc');
       const masteryEl = document.getElementById('chapter-hero-mastery');
       const masteryFill = document.getElementById('chapter-hero-mastery-fill');
+
+      // Mise à jour de la barre mobile de sélection de chapitre et fermeture du tiroir
+      const mobileLabel = document.getElementById('mobile-chapter-label');
+      if (mobileLabel) {
+        mobileLabel.textContent = `${chapter.num || chapter.id} : ${chapter.shortTitle || chapter.title}`;
+      }
+      const sidebarChapters = document.getElementById('sidebar-chapters');
+      if (sidebarChapters) {
+        sidebarChapters.classList.remove('mobile-open');
+      }
+      const mobileArrow = document.getElementById('mobile-chapter-arrow');
+      if (mobileArrow) {
+        mobileArrow.textContent = '▾';
+      }
+      const mobileBtn = document.getElementById('mobile-chapter-btn');
+      if (mobileBtn) {
+        mobileBtn.setAttribute('aria-expanded', 'false');
+      }
 
       const progress = window.MathsStorage.getChapterProgress(chapterId);
 

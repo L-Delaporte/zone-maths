@@ -2,7 +2,7 @@
 <html lang="fr" data-theme="light">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="author" content="Loïc Delaporte, Professeur de Mathématiques" />
   <meta name="description" content="Plateforme d'apprentissage adaptatif des mathématiques au Collège (Cycle 4 : 5ème, 4ème, 3ème / DNB). Entraînement différencié par paliers ZPD, cours complets, rituels flash chronométrés et devoirs surveillés blancs avec corrigés détaillés. Créé par Loïc Delaporte, Professeur de Mathématiques." />
   <meta name="keywords" content="mathématiques, collège, cycle 4, 3ème, 4ème, 5ème, brevet, DNB, ZPD, entraînement, cours, devoirs blancs, Loïc Delaporte, Yvan Monka" />
@@ -54,42 +54,54 @@
       </div>
 
       <div class="header-user-status">
-        <div class="status-pill">
-          <span id="header-user-level">Niveau 1</span>
-        </div>
-        <div class="status-pill">
-          <span id="header-user-xp">0 XP</span>
-        </div>
-        <div class="status-pill">
-          <span id="header-user-streak">🔥 0</span>
+        <div class="status-pills-row">
+          <div class="status-pill">
+            <span id="header-user-level">Niveau 1</span>
+          </div>
+          <div class="status-pill">
+            <span id="header-user-xp">0 XP</span>
+          </div>
+          <div class="status-pill">
+            <span id="header-user-streak">🔥 0</span>
+          </div>
         </div>
         
-        <!-- Nouveaux boutons inspirés de MathsMentales -->
-        <button id="btn-open-diaporama" class="btn-icon-text btn-accent-glow" title="Lancer un rituel chronométré comme sur MathsMentales">
-          ⏱️ Rituel Flash
-        </button>
-        <button id="btn-open-quiz" class="btn-icon-text" title="Générer un devoir surveillé blanc d'entraînement">
-          📝 Devoir Blanc
-        </button>
-
-        <button id="passport-btn" class="btn-icon-text" title="Mon passeport de compétences">
-          🎓 Mon Bilan
-        </button>
-        <button id="sound-toggle-btn" class="btn-icon-text" title="Activer / Couper les sons" onclick="window.MathsAudio.toggleMute()">
-          🔊 <span class="btn-sound-text">Sons</span>
-        </button>
-        <button id="theme-toggle-btn" class="btn-icon-text" title="Basculer le thème">
-          🌙 Mode Sombre
-        </button>
+        <div class="header-actions-row">
+          <!-- Boutons rituels et outils -->
+          <button id="btn-open-diaporama" class="btn-icon-text btn-accent-glow" title="Lancer un rituel chronométré comme sur MathsMentales">
+            ⏱️ <span class="btn-lbl">Rituel</span>
+          </button>
+          <button id="btn-open-quiz" class="btn-icon-text" title="Générer un devoir surveillé blanc d'entraînement">
+            📝 <span class="btn-lbl">Devoir Blanc</span>
+          </button>
+          <button id="passport-btn" class="btn-icon-text" title="Mon passeport de compétences">
+            🎓 <span class="btn-lbl">Bilan</span>
+          </button>
+          <button id="sound-toggle-btn" class="btn-icon-text" title="Activer / Couper les sons" onclick="window.MathsAudio.toggleMute()">
+            🔊 <span class="btn-sound-text btn-lbl">Sons</span>
+          </button>
+          <button id="theme-toggle-btn" class="btn-icon-text" title="Basculer le thème">
+            🌙 <span class="btn-lbl">Mode Sombre</span>
+          </button>
+        </div>
       </div>
     </div>
   </header>
+
+  <!-- Déclencheur Rapide du Volet Chapitres sur Mobile / Tablette -->
+  <div class="mobile-chapter-trigger-bar no-print" id="mobile-chapter-trigger-bar">
+    <button id="mobile-chapter-btn" class="mobile-chapter-btn" type="button" aria-expanded="false" aria-controls="sidebar-chapters">
+      <span class="m-chap-badge">📚 Chapitre</span>
+      <span id="mobile-chapter-label" class="m-chap-title">Chargement...</span>
+      <span class="m-chap-arrow" id="mobile-chapter-arrow">▾</span>
+    </button>
+  </div>
 
   <!-- Contenu Principal -->
   <div class="app-container">
 
     <!-- Volet Latéral : Sélection des 18 Chapitres -->
-    <aside class="sidebar-chapters">
+    <aside id="sidebar-chapters" class="sidebar-chapters">
       <div class="sidebar-title-row">
         <h2>Progression 3ème</h2>
         <div class="sidebar-header-actions" style="display: flex; align-items: center; gap: 0.35rem;">

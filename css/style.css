@@ -320,10 +320,59 @@ body {
   width: 100%;
 }
 
-@media (max-width: 1024px) {
-  .app-container {
-    grid-template-columns: 1fr;
-  }
+/* Déclencheur Mobile du Volet Chapitres */
+.mobile-chapter-trigger-bar {
+  display: none;
+}
+
+.mobile-chapter-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  color: var(--text-main);
+  font-size: 0.92rem;
+  font-weight: 600;
+  transition: var(--transition);
+  text-align: left;
+}
+
+.mobile-chapter-btn:hover {
+  background-color: var(--bg-subtle);
+  border-color: var(--primary);
+}
+
+.m-chap-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  background-color: var(--primary-subtle);
+  color: var(--primary);
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+  letter-spacing: 0.3px;
+  flex-shrink: 0;
+}
+
+.m-chap-title {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.m-chap-arrow {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  transition: transform 0.25s ease;
+  flex-shrink: 0;
 }
 
 /* Barre latérale / Grille des Chapitres */
@@ -2461,34 +2510,377 @@ body {
   color: var(--text-main);
 }
 
-@media (max-width: 768px) {
-  .header-inner {
-    flex-direction: column;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.75rem 1rem;
+/* ==========================================================================
+   RESPONSIVE DESIGN & VERSION MOBILE NATIVE (CYCLE 4)
+   ========================================================================== */
+
+/* --- TABLETTES & ÉCRANS MOYENS (<= 1024px) --- */
+@media (max-width: 1024px) {
+  .app-container {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+    gap: 1rem;
   }
 
+  .mobile-chapter-trigger-bar {
+    display: block;
+    position: sticky;
+    top: 0.5rem;
+    z-index: 80;
+    margin-bottom: 0.75rem;
+  }
+
+  .sidebar-chapters {
+    display: none;
+    max-height: 70vh;
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary);
+    margin-bottom: 1rem;
+  }
+
+  .sidebar-chapters.mobile-open {
+    display: flex;
+    animation: mobileSlideDown 0.25s ease-out forwards;
+  }
+
+  @keyframes mobileSlideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+/* --- SMARTPHONES & PETITS ÉCRANS (<= 768px) --- */
+@media (max-width: 768px) {
+  /* En-tête mobile aéré et optimisé */
+  .app-header {
+    padding: max(0.6rem, env(safe-area-inset-top)) 0.75rem 0.6rem;
+  }
+
+  .header-inner {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.65rem;
+    padding: 0;
+  }
+
+  .brand-container {
+    justify-content: center;
+  }
+
+  .brand-logo-img {
+    width: 36px;
+    height: 36px;
+  }
+
+  .brand-text h1 {
+    font-size: 1.05rem;
+  }
+
+  .brand-tagline {
+    display: none; /* Alléger le header sur mobile */
+  }
+
+  /* Sélecteur de niveau Cycle 4 centré et fluide */
+  .cycle4-level-nav {
+    justify-content: center;
+    width: 100%;
+    padding: 4px 6px;
+  }
+
+  .level-pills {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .level-pill {
+    padding: 5px 10px;
+    font-size: 0.8rem;
+    flex: 1;
+    text-align: center;
+    min-height: 34px;
+  }
+
+  /* Statut et actions utilisateur */
   .header-user-status {
-    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 0.45rem;
+    width: 100%;
+  }
+
+  .status-pills-row {
+    display: flex;
+    align-items: center;
     justify-content: center;
     gap: 0.4rem;
+    width: 100%;
+  }
+
+  .status-pill {
+    padding: 3px 8px;
+    font-size: 0.78rem;
+  }
+
+  .header-actions-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    width: 100%;
+  }
+
+  .header-actions-row .btn-icon-text {
+    padding: 5px 9px;
+    font-size: 0.78rem;
+    border-radius: var(--radius-sm);
+    min-height: 34px;
+  }
+
+  /* Onglets horizontaux scrollables sans barre d'ascenseur */
+  .tabs-navigation-bar {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    flex-wrap: nowrap;
+    gap: 0.4rem;
+    padding-bottom: 0.35rem;
+    margin-bottom: 1rem;
+  }
+
+  .tabs-navigation-bar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tab-btn {
+    white-space: nowrap;
+    padding: 7px 12px;
+    font-size: 0.82rem;
+    flex-shrink: 0;
+  }
+
+  /* Hero bannière chapitre */
+  .chapter-hero-banner {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 1rem;
+    gap: 0.75rem;
+  }
+
+  .chapter-hero-banner h2 {
+    font-size: 1.15rem;
+  }
+
+  .hero-mastery-gauge {
+    width: 100%;
+    min-width: unset;
+  }
+
+  /* Paliers ZPD */
+  .tier-selector-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .tier-pills-group {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    flex-wrap: nowrap;
+    padding-bottom: 2px;
+  }
+
+  .tier-pill-btn {
+    white-space: nowrap;
+    flex-shrink: 0;
+    padding: 6px 12px;
+    font-size: 0.78rem;
+    min-height: 36px;
+  }
+
+  /* Actions de l'exercice - Bouton validation pleine largeur */
+  .exo-actions-bar {
+    flex-direction: column-reverse;
+    align-items: stretch;
+    gap: 0.6rem;
+  }
+
+  .exo-actions-bar .btn-primary {
+    width: 100%;
+    justify-content: center;
+    padding: 0.85rem;
+    font-size: 1rem;
+    min-height: 48px;
+    box-shadow: 0 3px 10px rgba(37, 99, 235, 0.25);
+  }
+
+  .help-buttons-group {
+    width: 100%;
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .help-buttons-group .btn-secondary {
+    flex: 1;
+    justify-content: center;
+    padding: 0.7rem 0.5rem;
+    font-size: 0.82rem;
+    min-height: 42px;
+  }
+
+  /* Clavier mathématique virtuel tactile */
+  .virtual-math-keyboard {
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 0.4rem;
+  }
+
+  .key-btn {
+    min-height: 44px;
+    padding: 10px 4px;
+    font-size: 1.05rem;
+    touch-action: manipulation;
+  }
+
+  .key-btn:active {
+    transform: scale(0.92);
+    background-color: var(--primary-subtle);
+  }
+
+  /* KaTeX et équations mathématiques : protection anti-débordement horizontal */
+  .katex-display {
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    max-width: 100% !important;
+    padding: 0.35rem 0 !important;
+  }
+
+  .math-callout {
+    padding: 0.6rem 0.75rem;
+    font-size: 0.9rem;
+  }
+
+  /* Modales Diaporama et Devoir Blanc en plein écran mobile */
+  .modal-overlay {
+    padding: 0.5rem;
+    align-items: flex-end;
+  }
+
+  .modal-box {
+    max-width: 100% !important;
+    width: 100% !important;
+    max-height: 94vh !important;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  }
+
+  .diapo-box {
+    min-height: unset;
+  }
+
+  .modal-header {
+    padding: 0.85rem 1rem;
+  }
+
+  .modal-header h2 {
+    font-size: 1.05rem;
+  }
+
+  .diapo-stage-title {
+    font-size: 1.15rem !important;
+  }
+
+  .diapo-stage-body {
+    font-size: 1.05rem !important;
+    padding: 1rem 0.5rem !important;
+  }
+
+  .diapo-bottom-controls {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .diapo-bottom-controls button {
+    flex: 1;
+    min-width: 80px;
+    min-height: 44px;
+  }
+
+  /* Pied de page mobile */
+  .app-footer {
+    padding: 1.25rem 0.75rem max(1.25rem, env(safe-area-inset-bottom));
+    margin-top: 2rem;
   }
 
   .app-footer-inner {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+  }
+
+  .footer-brand {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .footer-author-box {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .footer-author-badge {
+    font-size: 0.8rem;
+    text-align: center;
   }
 }
 
+/* --- TRÈS PETITS SMARTPHONES (<= 480px) --- */
 @media (max-width: 480px) {
-  .cycle4-level-nav {
-    flex-wrap: wrap;
-    justify-content: center;
+  .app-container {
+    padding: 0.5rem;
+    gap: 0.75rem;
   }
-  .btn-icon-text {
+
+  .header-actions-row .btn-lbl {
+    display: none; /* Icon-only pour garantir une seule ligne compacte */
+  }
+
+  .header-actions-row .btn-icon-text {
     padding: 6px 10px;
-    font-size: 0.8rem;
+    font-size: 0.95rem;
+  }
+
+  .virtual-math-keyboard {
+    grid-template-columns: repeat(4, 1fr) !important;
+  }
+
+  .key-btn {
+    min-height: 42px;
+    font-size: 0.95rem;
+  }
+
+  .exercise-card {
+    padding: 0.85rem;
+  }
+
+  .exo-title {
+    font-size: 1.05rem;
+  }
+
+  .exo-body {
+    font-size: 0.95rem;
+  }
+
+  .math-text-input {
+    font-size: 1.05rem;
+    padding: 0.65rem 0.75rem;
   }
 }
 
@@ -3077,6 +3469,28 @@ body {
 
 [data-theme="dark"] .brand-container:hover .brand-logo-img {
   box-shadow: 0 4px 16px rgba(56, 189, 248, 0.35);
+}
+
+[data-theme="dark"] .mobile-chapter-btn {
+  background-color: #1e293b;
+  border-color: #334155;
+  color: #f8fafc;
+}
+
+[data-theme="dark"] .mobile-chapter-btn:hover {
+  background-color: #283548;
+  border-color: #38bdf8;
+}
+
+[data-theme="dark"] .m-chap-badge {
+  background-color: rgba(56, 189, 248, 0.15);
+  color: #38bdf8;
+}
+
+[data-theme="dark"] .sidebar-chapters.mobile-open {
+  border-color: #38bdf8;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  background-color: #162032;
 }
 
 
