@@ -491,6 +491,13 @@ document.addEventListener('DOMContentLoaded', () => {
       if (masteryEl) masteryEl.textContent = `${mastery}%`;
       if (masteryFill) masteryFill.style.width = `${mastery}%`;
 
+      // 1b. Pastille de maîtrise sur la barre mobile de sélection
+      const mobileMasteryTag = document.getElementById('mobile-chapter-mastery-tag');
+      if (mobileMasteryTag) {
+        mobileMasteryTag.textContent = `${mastery}%`;
+        mobileMasteryTag.className = 'm-chap-mastery-pill' + (mastery >= 80 ? ' high' : (mastery >= 40 ? ' mid' : ''));
+      }
+
       // 2. Pastille de progression sur la carte latérale du chapitre
       const card = document.querySelector(`.chapter-card[data-chapter-id="${chapterId}"]`);
       if (card) {

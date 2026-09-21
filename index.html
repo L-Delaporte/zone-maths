@@ -91,9 +91,14 @@
   <!-- Déclencheur Rapide du Volet Chapitres sur Mobile / Tablette -->
   <div class="mobile-chapter-trigger-bar no-print" id="mobile-chapter-trigger-bar">
     <button id="mobile-chapter-btn" class="mobile-chapter-btn" type="button" aria-expanded="false" aria-controls="sidebar-chapters">
-      <span class="m-chap-badge">📚 Chapitre</span>
-      <span id="mobile-chapter-label" class="m-chap-title">Chargement...</span>
-      <span class="m-chap-arrow" id="mobile-chapter-arrow">▾</span>
+      <div class="m-chap-left">
+        <span class="m-chap-badge">📚 Chapitre</span>
+        <span id="mobile-chapter-label" class="m-chap-title">Chargement...</span>
+      </div>
+      <div class="m-chap-right">
+        <span id="mobile-chapter-mastery-tag" class="m-chap-mastery-pill">0%</span>
+        <span class="m-chap-arrow" id="mobile-chapter-arrow">▾</span>
+      </div>
     </button>
   </div>
 
@@ -162,16 +167,16 @@
       <!-- Barre d'onglets du Chapitre -->
       <nav class="tabs-navigation-bar no-print">
         <button class="tab-btn active" data-tab="train">
-          <span>🎯</span> Entraînement Adaptatif (ZPD)
+          <span class="tab-icon">🎯</span> <span class="tab-label">Entraînement</span>
         </button>
         <button class="tab-btn" data-tab="course">
-          <span>📖</span> Fiche de Cours & Méthodes
+          <span class="tab-icon">📖</span> <span class="tab-label">Cours</span>
         </button>
         <button class="tab-btn" data-tab="sheets">
-          <span>📄</span> Fiches & Sujets Imprimables
+          <span class="tab-icon">📄</span> <span class="tab-label">Fiches & DS</span>
         </button>
         <button class="tab-btn" data-tab="stats">
-          <span>📊</span> Mon Bilan & Compétences
+          <span class="tab-icon">📊</span> <span class="tab-label">Bilan</span>
         </button>
       </nav>
 
