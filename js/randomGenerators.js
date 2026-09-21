@@ -55,8 +55,8 @@ window.MathsGenerators = {
   formatFraction(num, den) {
     const [n, d] = this.simplifyFraction(num, den);
     if (d === 1) return `${n}`;
-    if (n < 0) return `-\frac{${Math.abs(n)}}{${d}}`;
-    return `\frac{${n}}{${d}}`;
+    if (n < 0) return `-\\frac{${Math.abs(n)}}{${d}}`;
+    return `\\frac{${n}}{${d}}`;
   },
 
   formatSigned(n) {

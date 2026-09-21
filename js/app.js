@@ -848,10 +848,11 @@ document.addEventListener('DOMContentLoaded', () => {
             <span class="xp-badge">+${result.xpEarned} XP</span>
           </div>
           ${result.leveledUp ? `<div class="level-up-banner">${result.levelUpMessage}</div>` : ''}
+          ${result.solution ? `
           <div class="feedback-solution">
-            <strong>Explication / Solution :</strong>
-            <div>${window.MathsRenderer.markdownToHtml(result.solution)}</div>
-          </div>
+            <div class="feedback-solution-title">Explication / Solution détaillée :</div>
+            <div class="feedback-solution-body">${window.MathsRenderer.markdownToHtml(result.solution)}</div>
+          </div>` : ''}
         `;
         window.MathsRenderer.renderElement(feedbackContainer);
 
@@ -898,9 +899,11 @@ document.addEventListener('DOMContentLoaded', () => {
               <span class="feedback-icon">📝</span>
               <h4>${result.message}</h4>
             </div>
+            ${result.solution ? `
             <div class="feedback-solution">
-              ${window.MathsRenderer.markdownToHtml(result.solution)}
-            </div>
+              <div class="feedback-solution-title">Explication / Solution détaillée :</div>
+              <div class="feedback-solution-body">${window.MathsRenderer.markdownToHtml(result.solution)}</div>
+            </div>` : ''}
             ${result.canStepDown ? `
               <div class="step-down-box">
                 <p>${result.stepDownMessage}</p>
