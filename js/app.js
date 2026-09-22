@@ -549,7 +549,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // =========================================================================
     renderTrainingView() {
       const engine = window.MathsAdaptiveEngine;
-      const exercise = engine.state.currentExercise;
+      const activeChapLevel = this.getCurrentChapterLevel();
+      const exercise = engine ? engine.state.currentExercise : null;
 
       // 1. Mise à jour de la jauge ZPD, des paliers et de la maîtrise
       this.renderZpdGauge();
@@ -564,6 +565,13 @@ document.addEventListener('DOMContentLoaded', () => {
       const feedbackContainer = document.getElementById('exercise-feedback-zone');
 
       if (!exercise) {
+        if (engine && typeof engine.nextExercise === 'function') {
+          const fallbackExo = engine.nextExercise();
+          if (fallbackExo) {
+            this.renderTrainingView();
+            return;
+          }
+        }
         if (container) container.innerHTML = `<p class="math-p">Aucun exercice disponible pour ce chapitre.</p>`;
         return;
       }
