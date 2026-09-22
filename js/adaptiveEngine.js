@@ -195,20 +195,19 @@ window.MathsAdaptiveEngine = {
    */
   nextExercise() {
     const progress = window.MathsStorage.getChapterProgress(this.state.chapterId);
-    const mastery = progress.mastery || 0;
+    // Détermination du palier actif pour cet exercice :
+    // S'assurer que le palier en cours (state.currentTier ou progress.currentTier) est débloqué
+    const maxUnlocked = this.getHighestUnlockedTier(this.state.chapterId);
+    let targetTier = this.state.currentTier || progress.currentTier || 1;
 
-    // Si l'élève n'a pas sélectionné manuellement un palier fixe, la difficulté s'adapte continuellement au pourcentage
-    if (!this.state.manualTierSelected) {
-      const dynTier = this.getDynamicTier(mastery);
-      const maxUnlocked = this.getHighestUnlockedTier(this.state.chapterId);
-      this.state.currentTier = Math.min(dynTier, maxUnlocked);
-    } else {
-      // Si le palier sélectionné manuellement est devenu verrouillé, repli sur le palier max débloqué
-      if (!this.isTierUnlocked(this.state.chapterId, this.state.currentTier)) {
-        this.state.currentTier = this.getHighestUnlockedTier(this.state.chapterId);
-        this.state.manualTierSelected = false;
-      }
+    // Si le palier demandé n'est pas/plus débloqué, repli sur le palier max débloqué
+    if (!this.isTierUnlocked(this.state.chapterId, targetTier)) {
+      targetTier = maxUnlocked;
+      this.state.manualTierSelected = false;
     }
+
+    this.state.currentTier = targetTier;
+    progress.currentTier = targetTier;
 
     let candidate = null;
 
@@ -525,7 +524,7 @@ window.MathsAdaptiveEngine = {
 
         // Évolution continue de la difficulté et déblocage progressif des paliers
         const prevTier = this.state.currentTier;
-        // Si un nouveau palier vient d'être validé, débloquer et proposer immédiatement le palier supérieur
+        // Si un nouveau palier vient d'être validé, débloquer et passer immédiatement au palier supérieur à la question suivante
         if (newlyValidatedTiers.length > 0) {
           const maxValidated = Math.max(...newlyValidatedTiers);
           if (maxValidated < 4) {
@@ -534,19 +533,11 @@ window.MathsAdaptiveEngine = {
             unlockedTier = nextUnlocked;
             this.state.currentTier = nextUnlocked;
             p.currentTier = nextUnlocked;
-            this.state.manualTierSelected = false; // bascule sur le nouveau palier débloqué
+            this.state.manualTierSelected = true; // Bascule et maintient sur le palier supérieur pour la question suivante
             levelUpMessage = `🚀 Bravo ! Tu as validé le Palier ${maxValidated} et débloqué le ${this.getTierDisplayName(nextUnlocked)} !`;
-          }
-        } else if (!this.state.manualTierSelected) {
-          // En mode adaptatif, ne jamais dépasser le palier maximal débloqué
-          const maxUnlocked = this.getHighestUnlockedTier(this.state.chapterId);
-          const dynTier = Math.min(this.getDynamicTier(masteryPercent), maxUnlocked);
-          p.currentTier = dynTier;
-          if (dynTier > prevTier) {
+          } else {
             leveledUp = true;
-            unlockedTier = dynTier;
-            this.state.currentTier = dynTier;
-            levelUpMessage = `🚀 Bravo ! Grâce à tes ${masteryPercent}% de maîtrise, tu franchis une nouvelle étape et passes au ${this.getTierDisplayName(dynTier)} !`;
+            levelUpMessage = `👑 Félicitations ! Tu as validé tous les paliers et maîtrisé cette notion à 100% !`;
           }
         }
 
@@ -602,10 +593,11 @@ window.MathsAdaptiveEngine = {
         currentMastery = Math.max(0, curMastery - drop);
         p.mastery = currentMastery;
 
-        // Ajustement proportionnel de la difficulté si besoin
-        if (!this.state.manualTierSelected) {
-          p.currentTier = this.getDynamicTier(currentMastery);
-          this.state.currentTier = p.currentTier;
+        // Repli sécurisé uniquement si le palier en cours n'est plus débloqué
+        if (!this.isTierUnlocked(this.state.chapterId, this.state.currentTier)) {
+          this.state.currentTier = this.getHighestUnlockedTier(this.state.chapterId);
+          p.currentTier = this.state.currentTier;
+          this.state.manualTierSelected = false;
         }
 
         return p;

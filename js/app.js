@@ -702,6 +702,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       if (nextBtn) {
         nextBtn.style.display = 'none';
+        nextBtn.innerHTML = `Exercice suivant ➔`;
         nextBtn.onclick = () => {
           engine.nextExercise();
           this.renderTrainingView();
@@ -898,6 +899,9 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       if (result.isCorrect) {
+        // Mettre à jour immédiatement l'état visuel des boutons de paliers (coche ✓, déblocage, palier actif)
+        this.renderTierButtons();
+
         // Célébration Popup centrale (10s) si un palier ou un rang est déverrouillé
         const hasCelebration = this.handleUnlockCelebration(result);
         if (!hasCelebration) {
@@ -924,6 +928,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (validateBtn) validateBtn.style.display = 'none';
         if (nextBtn) {
           nextBtn.style.display = 'inline-flex';
+          // Si un palier vient d'être validé, inciter au passage au palier supérieur
+          if (result.newlyValidatedTiers && result.newlyValidatedTiers.length > 0 && result.newTier && result.newTier > (exercise.tier || 1)) {
+            const nextTierLabel = this.getTierButtonLabel(result.newTier, this.getCurrentChapterLevel());
+            nextBtn.innerHTML = `<span>Passer au ${nextTierLabel}</span> ➔`;
+          } else {
+            nextBtn.innerHTML = `<span>Exercice suivant</span> ➔`;
+          }
           // Ne pas appeler focus() automatiquement sur nextBtn : l'élève doit avoir le temps de lire le commentaire
         }
 
@@ -1742,7 +1753,8 @@ document.addEventListener('DOMContentLoaded', () => {
             topTier < 4 ? `🚀 ${nextTierName} débloqué` : `💎 100% de réussite`,
             `🏅 Trophée ajouté à ton passeport`
           ],
-          isMaster
+          isMaster,
+          actionLabel: topTier < 4 ? `Passer au ${nextTierName}` : `Continuer l'entraînement`
         });
         return true;
       }
@@ -1762,7 +1774,8 @@ document.addEventListener('DOMContentLoaded', () => {
             `🏅 Trophée ajouté au passeport`,
             `⭐ Progression enregistrée`
           ],
-          isMaster
+          isMaster,
+          actionLabel: `Continuer l'entraînement`
         });
         return true;
       }
@@ -1771,6 +1784,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (hasNewTier) {
         const validatedTier = newValidatedTiers.length > 0 ? Math.max(...newValidatedTiers) : tierUnlocked;
         const tierTitle = this.getTierName(validatedTier, lvl);
+        const nextTierTitle = validatedTier < 4 ? this.getTierName(validatedTier + 1, lvl) : 'Maîtrise totale';
         const isMax = validatedTier >= 4;
 
         this.showUnlockPopup({
@@ -1784,7 +1798,8 @@ document.addEventListener('DOMContentLoaded', () => {
             `📈 Maîtrise en hausse : ${result.mastery}%`,
             `⚡ +${result.xpEarned} XP gagnés`
           ],
-          isMaster: isMax
+          isMaster: isMax,
+          actionLabel: !isMax ? `Passer au ${nextTierTitle}` : `Continuer l'entraînement`
         });
         return true;
       }
@@ -1813,6 +1828,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const perksEl = document.getElementById('unlock-modal-perks');
       const progressBar = document.getElementById('unlock-timer-progress');
       const secondsEl = document.getElementById('unlock-timer-seconds');
+      const actionBtn = modal.querySelector('.reward-action-btn');
 
       if (iconEl) iconEl.textContent = data.icon || '🏆';
       if (catEl) catEl.textContent = data.category || 'FÉLICITATIONS !';
@@ -1823,6 +1839,10 @@ document.addEventListener('DOMContentLoaded', () => {
       if (perksEl) {
         const perks = data.perks || ['🏅 Trophée débloqué'];
         perksEl.innerHTML = perks.map(p => `<span class="reward-perk-pill">${p}</span>`).join('');
+      }
+
+      if (actionBtn) {
+        actionBtn.innerHTML = data.actionLabel ? `<span>${data.actionLabel}</span> ➔` : `<span>Continuer l'entraînement</span> ➔`;
       }
 
       // Effets sonores et visuels festifs
