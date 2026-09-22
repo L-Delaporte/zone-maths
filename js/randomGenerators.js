@@ -3721,27 +3721,148 @@ window.MathsGenerators = {
         solution: `$$B = ${a} \\times ${x} + ${b} = ${a * x} + ${b} = ${ans}$$`
       };
     } else if (t === 3) {
-      // Palier 3 : Brevet (Tester une égalité)
-      const a = this.randInt(2, 5);
-      const x = this.randInt(2, 6);
-      const b = this.randInt(1, 8);
-      const c = a * x + b;
-      return {
-        chapterId: '5N5',
-        tier: 3,
-        title: "Tester si un nombre est solution (5ème)",
-        statement: `On considère l'égalité : $${a}x + ${b} = ${c}$.\n**Le nombre $${x}$ est-il solution de cette équation ?**`,
-        type: "mcq",
-        options: [
-          `Oui, car $${a} \\times ${x} + ${b} = ${c}$`,
-          `Non, car le membre de gauche vaut ${c + 2}`,
-          `Non, car ${x} n'est pas un multiple de ${a}`,
-          `On ne peut pas savoir`
-        ],
-        correctIndex: 0,
-        hint1: `Calcule $${a} \\times ${x} + ${b}$ et compare avec ${c}.`,
-        solution: `Pour $x = ${x}$ : $${a} \\times ${x} + ${b} = ${a * x} + ${b} = ${c}$. L'égalité est vérifiée.`
-      };
+      // Palier 3 : Approfondissement (Tester si un nombre est solution d'une égalité)
+      // Alternance équilibrée (50% Oui / 50% Non) avec différents types d'égalités
+      const isSolution = Math.random() < 0.5;
+      const subType = this.randChoice(['add', 'sub', 'both_sides']);
+
+      if (subType === 'add') {
+        // Forme ax + b = c
+        const a = this.randInt(2, 6);
+        const x = this.randInt(2, 7);
+        const b = this.randInt(1, 9);
+        const leftVal = a * x + b;
+        const c = isSolution ? leftVal : leftVal + this.randChoice([-3, -2, -1, 1, 2, 3]);
+        
+        let correctOption = '';
+        let options = [];
+        let solution = '';
+
+        if (isSolution) {
+          correctOption = `Oui, car $${a} \\times ${x} + ${b} = ${c}$`;
+          options = [
+            correctOption,
+            `Non, car le membre de gauche vaut ${c + 2}`,
+            `Non, car ${x} n'est pas un multiple de ${a}`,
+            `On ne peut pas savoir sans résoudre l'équation`
+          ];
+          solution = `• Pour $x = ${x}$, calculons le membre de gauche :\\n$$${a} \\times ${x} + ${b} = ${a * x} + ${b} = ${leftVal}$$\\n• Le membre de droite vaut $${c}$.\\n• Comme les deux membres sont égaux ($${leftVal} = ${c}$), le nombre **${x} est bien solution** de l'équation.`;
+        } else {
+          correctOption = `Non, car pour $x = ${x}$, $${a} \\times ${x} + ${b} = ${leftVal} \\neq ${c}$`;
+          options = [
+            correctOption,
+            `Oui, car $${a} \\times ${x} + ${b} = ${c}$`,
+            `Oui, car ${x} est un nombre entier`,
+            `On ne peut pas savoir`
+          ];
+          solution = `• Pour $x = ${x}$, calculons le membre de gauche :\\n$$${a} \\times ${x} + ${b} = ${a * x} + ${b} = ${leftVal}$$\\n• Le membre de droite vaut $${c}$.\\n• Comme $${leftVal} \\neq ${c}$, l'égalité n'est pas vérifiée : le nombre **${x} n'est pas solution** de l'équation.`;
+        }
+
+        return {
+          chapterId: '5N5',
+          tier: 3,
+          title: "Tester si un nombre est solution (5ème)",
+          statement: `On considère l'égalité : $${a}x + ${b} = ${c}$.\n**Le nombre $${x}$ est-il solution de cette équation ?**`,
+          type: "mcq",
+          options,
+          answer: correctOption,
+          correctIndex: 0,
+          hint1: `Remplace $x$ par ${x} dans le membre de gauche ($${a} \\times ${x} + ${b}$) et compare le résultat avec ${c}.`,
+          solution
+        };
+
+      } else if (subType === 'sub') {
+        // Forme ax - b = c
+        const a = this.randInt(3, 7);
+        const x = this.randInt(3, 8);
+        const b = this.randInt(1, 8);
+        const leftVal = a * x - b;
+        const c = isSolution ? leftVal : Math.max(1, leftVal + this.randChoice([-4, -2, 2, 4]));
+
+        let correctOption = '';
+        let options = [];
+        let solution = '';
+
+        if (isSolution) {
+          correctOption = `Oui, car $${a} \\times ${x} - ${b} = ${c}$`;
+          options = [
+            correctOption,
+            `Non, car $${a} \\times ${x} - ${b} = ${c + 3}`,
+            `Non, car le membre de gauche vaut ${a * x + b}`,
+            `On ne peut pas savoir`
+          ];
+          solution = `• Pour $x = ${x}$, calculons le membre de gauche :\\n$$${a} \\times ${x} - ${b} = ${a * x} - ${b} = ${leftVal}$$\\n• Le membre de droite vaut $${c}$.\\n• Comme les deux membres sont égaux ($${leftVal} = ${c}$), le nombre **${x} est bien solution** de l'équation.`;
+        } else {
+          correctOption = `Non, car pour $x = ${x}$, $${a} \\times ${x} - ${b} = ${leftVal} \\neq ${c}$`;
+          options = [
+            correctOption,
+            `Oui, car $${a} \\times ${x} - ${b} = ${c}$`,
+            `Oui, car $${x}$ divise $${c}$`,
+            `On ne peut pas savoir`
+          ];
+          solution = `• Pour $x = ${x}$, calculons le membre de gauche :\\n$$${a} \\times ${x} - ${b} = ${a * x} - ${b} = ${leftVal}$$\\n• Le membre de droite vaut $${c}$.\\n• Comme $${leftVal} \\neq ${c}$, l'égalité n'est pas vérifiée : le nombre **${x} n'est pas solution** de l'équation.`;
+        }
+
+        return {
+          chapterId: '5N5',
+          tier: 3,
+          title: "Tester si un nombre est solution (5ème)",
+          statement: `On considère l'égalité : $${a}x - ${b} = ${c}$.\n**Le nombre $${x}$ est-il solution de cette équation ?**`,
+          type: "mcq",
+          options,
+          answer: correctOption,
+          correctIndex: 0,
+          hint1: `Remplace $x$ par ${x} dans le membre de gauche : calcule $${a} \\times ${x} - ${b}$ et compare avec ${c}.`,
+          solution
+        };
+
+      } else {
+        // Forme avec x des deux côtés : ax + b = cx + d
+        const a = this.randInt(3, 6);
+        const cCoeff = this.randInt(1, a - 1);
+        const x = this.randInt(2, 6);
+        const b = this.randInt(1, 8);
+        const leftVal = a * x + b;
+        const d = isSolution ? (leftVal - cCoeff * x) : Math.max(1, leftVal - cCoeff * x + this.randChoice([-3, -2, 2, 3]));
+        const rightVal = cCoeff * x + d;
+
+        let correctOption = '';
+        let options = [];
+        let solution = '';
+
+        if (isSolution) {
+          correctOption = `Oui, car les deux membres valent ${leftVal}`;
+          options = [
+            correctOption,
+            `Non, car le membre de gauche vaut ${leftVal + 1}`,
+            `Non, car il y a des $x$ des deux côtés`,
+            `On ne peut pas savoir sans résoudre`
+          ];
+          solution = `• Membre de gauche pour $x = ${x}$ :\\n$$${a} \\times ${x} + ${b} = ${a * x} + ${b} = ${leftVal}$$\\n• Membre de droite pour $x = ${x}$ :\\n$$${cCoeff} \\times ${x} + ${d} = ${cCoeff * x} + ${d} = ${rightVal}$$\\n• Comme $${leftVal} = ${rightVal}$, l'égalité est vérifiée : **${x} est solution**.`;
+        } else {
+          correctOption = `Non, car le membre de gauche vaut ${leftVal} et celui de droite vaut ${rightVal}`;
+          options = [
+            correctOption,
+            `Oui, car $${leftVal} = ${rightVal}$`,
+            `Oui, car toute égalité a une solution`,
+            `On ne peut pas savoir`
+          ];
+          solution = `• Membre de gauche pour $x = ${x}$ :\\n$$${a} \\times ${x} + ${b} = ${a * x} + ${b} = ${leftVal}$$\\n• Membre de droite pour $x = ${x}$ :\\n$$${cCoeff} \\times ${x} + ${d} = ${cCoeff * x} + ${d} = ${rightVal}$$\\n• Comme $${leftVal} \\neq ${rightVal}$, l'égalité n'est pas vérifiée : **${x} n'est pas solution**.`;
+        }
+
+        return {
+          chapterId: '5N5',
+          tier: 3,
+          title: "Tester une égalité (5ème)",
+          statement: `On considère l'égalité : $${a}x + ${b} = ${cCoeff}x + ${d}$.\n**Le nombre $${x}$ est-il solution de cette égalité ?**`,
+          type: "mcq",
+          options,
+          answer: correctOption,
+          correctIndex: 0,
+          hint1: `Calcule séparément le membre de gauche ($${a} \\times ${x} + ${b}$) et le membre de droite ($${cCoeff} \\times ${x} + ${d}$) pour $x = ${x}$.`,
+          solution
+        };
+      }
     } else {
       // Palier 4 : Défi (Résolution d'équation ax = b)
       const a = this.randInt(3, 8);

@@ -1287,6 +1287,30 @@ window.MATHS_EXERCISES_5E = {
     "skill": "Raisonner"
   },
   {
+    "id": "5N5-3b",
+    "chapterId": "5N5",
+    "tier": 3,
+    "title": "Tester une égalité",
+    "statement": "On considère l'égalité $4x - 5 = 11$. Le nombre 3 est-il solution de cette équation ?",
+    "type": "mcq",
+    "options": [
+      "Non, car $4 \\times 3 - 5 = 12 - 5 = 7 \\neq 11$",
+      "Oui, car $4 \\times 3 - 5 = 11$",
+      "Oui, car 3 divise 12",
+      "On ne peut pas savoir"
+    ],
+    "correctIndex": 0,
+    "explanations": [
+      "Exact : pour x = 3, le membre de gauche vaut 7, ce qui est différent de 11.",
+      "Erreur de calcul : 12 - 5 = 7 et non 11.",
+      "La divisibilité ne prouve pas que le nombre est solution de l'équation.",
+      "On peut le savoir en calculant la valeur du membre de gauche pour x = 3."
+    ],
+    "hint1": "Calcule $4 \\times 3 - 5$ et compare avec 11.",
+    "solution": "Pour $x = 3$, $4 \\times 3 - 5 = 12 - 5 = 7$. Comme $7 \\neq 11$, l'égalité n'est pas vérifiée, 3 n'est pas solution.",
+    "skill": "Raisonner"
+  },
+  {
     "id": "5N5-4",
     "chapterId": "5N5",
     "tier": 4,
