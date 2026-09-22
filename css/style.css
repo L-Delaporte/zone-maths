@@ -4138,3 +4138,264 @@ body {
   border-color: rgba(16, 185, 129, 0.4);
 }
 
+/* ==========================================================================
+   POPUP CÉLÉBRATION PALIER & RANG DÉBLOQUÉ (10 SECONDES)
+   ========================================================================== */
+.reward-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(15, 23, 42, 0.82);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100000;
+  padding: 1.25rem;
+  animation: rewardFadeIn 0.3s ease-out forwards;
+}
+
+@keyframes rewardFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.reward-modal-card {
+  position: relative;
+  background: var(--bg-surface, #ffffff);
+  border: 2px solid rgba(245, 158, 11, 0.45);
+  border-radius: 24px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.45), 0 0 45px rgba(245, 158, 11, 0.28);
+  width: 100%;
+  max-width: 480px;
+  padding: 2.25rem 1.85rem 1.65rem;
+  text-align: center;
+  animation: rewardPopIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+@keyframes rewardPopIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.reward-modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--border-color, #e2e8f0);
+  background: var(--bg-hover, #f1f5f9);
+  color: var(--text-muted, #64748b);
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  z-index: 2;
+}
+
+.reward-modal-close:hover {
+  background: var(--border-color, #cbd5e1);
+  color: var(--text-main, #0f172a);
+  transform: scale(1.1);
+}
+
+.reward-badge-halo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(245, 158, 11, 0.3) 0%, rgba(245, 158, 11, 0.05) 60%, transparent 75%);
+  margin: 0 auto 0.75rem;
+  animation: rewardBadgePulse 2s infinite ease-in-out;
+}
+
+@keyframes rewardBadgePulse {
+  0%, 100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.4));
+  }
+  50% {
+    transform: scale(1.08);
+    filter: drop-shadow(0 0 22px rgba(245, 158, 11, 0.75));
+  }
+}
+
+.reward-badge-icon {
+  font-size: 4rem;
+  line-height: 1;
+  user-select: none;
+}
+
+.reward-tag {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #d97706;
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  padding: 0.35rem 0.9rem;
+  border-radius: 9999px;
+  margin-bottom: 0.65rem;
+}
+
+[data-theme="dark"] .reward-tag {
+  color: #fbbf24;
+  background: rgba(245, 158, 11, 0.2);
+  border-color: rgba(245, 158, 11, 0.4);
+}
+
+.reward-title {
+  font-size: 1.55rem;
+  font-weight: 800;
+  color: var(--text-main, #0f172a);
+  margin: 0 0 0.35rem;
+  line-height: 1.25;
+}
+
+.reward-chap-title {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--text-muted, #64748b);
+  margin-bottom: 1rem;
+}
+
+.reward-description-box {
+  background: var(--bg-hover, #f8fafc);
+  border: 1px solid var(--border-color, #e2e8f0);
+  border-radius: 14px;
+  padding: 0.95rem 1.15rem;
+  font-size: 0.93rem;
+  line-height: 1.55;
+  color: var(--text-main, #1e293b);
+  margin-bottom: 1.1rem;
+  text-align: center;
+}
+
+[data-theme="dark"] .reward-description-box {
+  background: #1e293b;
+  border-color: #334155;
+  color: #f1f5f9;
+}
+
+.reward-perk-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-bottom: 1.35rem;
+}
+
+.reward-perk-pill {
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 0.35rem 0.8rem;
+  border-radius: 9999px;
+  background: rgba(99, 102, 241, 0.1);
+  color: var(--primary, #4f46e5);
+  border: 1px solid rgba(99, 102, 241, 0.25);
+}
+
+[data-theme="dark"] .reward-perk-pill {
+  background: rgba(99, 102, 241, 0.22);
+  color: #a5b4fc;
+}
+
+.reward-timer-wrapper {
+  margin-bottom: 1.35rem;
+}
+
+.reward-timer-bar {
+  width: 100%;
+  height: 6px;
+  background: var(--border-color, #e2e8f0);
+  border-radius: 9999px;
+  overflow: hidden;
+  margin-bottom: 0.45rem;
+}
+
+[data-theme="dark"] .reward-timer-bar {
+  background: #334155;
+}
+
+.reward-timer-progress {
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(90deg, #f59e0b, #10b981);
+  border-radius: 9999px;
+  transition: width 0.1s linear;
+}
+
+.reward-timer-label {
+  font-size: 0.82rem;
+  color: var(--text-muted, #64748b);
+  font-weight: 500;
+}
+
+.reward-timer-label strong {
+  color: var(--text-main, #0f172a);
+  font-weight: 700;
+}
+
+[data-theme="dark"] .reward-timer-label strong {
+  color: #f8fafc;
+}
+
+.reward-action-btn {
+  width: 100%;
+  padding: 0.95rem 1.25rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+  transition: all 0.2s ease;
+}
+
+.reward-action-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.5);
+}
+
+@media (max-width: 480px) {
+  .reward-modal-card {
+    padding: 1.6rem 1.15rem 1.35rem;
+    border-radius: 20px;
+  }
+  .reward-badge-halo {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 0.5rem;
+  }
+  .reward-badge-icon {
+    font-size: 3.2rem;
+  }
+  .reward-title {
+    font-size: 1.32rem;
+  }
+  .reward-description-box {
+    font-size: 0.86rem;
+    padding: 0.8rem 0.9rem;
+  }
+}
+
+

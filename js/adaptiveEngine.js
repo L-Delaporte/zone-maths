@@ -410,6 +410,8 @@ window.MathsAdaptiveEngine = {
       let masteryPercent = 0;
       let leveledUp = false;
       let levelUpMessage = '';
+      let newlyValidatedTiers = [];
+      let unlockedTier = null;
 
       window.MathsStorage.updateChapterProgress(this.state.chapterId, p => {
         if (!p.completed.includes(exercise.id)) {
@@ -444,18 +446,22 @@ window.MathsAdaptiveEngine = {
         // Palier 1 validé : au moins 3 réussites sur le P1 OU maîtrise >= 25% OU palier supérieur
         if (!p.validatedTiers.includes(1) && (p.successesByTier[1] >= 3 || masteryPercent >= 25 || p.currentTier > 1)) {
           p.validatedTiers.push(1);
+          newlyValidatedTiers.push(1);
         }
         // Palier 2 validé : Palier 1 validé ET (au moins 3 réussites sur le P2 OU maîtrise >= 50% OU palier supérieur)
         if (!p.validatedTiers.includes(2) && p.validatedTiers.includes(1) && (p.successesByTier[2] >= 3 || masteryPercent >= 50 || p.currentTier > 2)) {
           p.validatedTiers.push(2);
+          newlyValidatedTiers.push(2);
         }
         // Palier 3 validé : Palier 2 validé ET (au moins 3 réussites sur le P3 OU maîtrise >= 75% OU palier supérieur)
         if (!p.validatedTiers.includes(3) && p.validatedTiers.includes(2) && (p.successesByTier[3] >= 3 || masteryPercent >= 75 || p.currentTier > 3)) {
           p.validatedTiers.push(3);
+          newlyValidatedTiers.push(3);
         }
         // Maître : 100% de la notion requis
         if (!p.validatedTiers.includes(4) && masteryPercent >= 100) {
           p.validatedTiers.push(4);
+          newlyValidatedTiers.push(4);
         }
 
         // Évolution continue de la difficulté proportionnellement au pourcentage
@@ -465,6 +471,7 @@ window.MathsAdaptiveEngine = {
           p.currentTier = newTier;
           if (newTier > prevTier) {
             leveledUp = true;
+            unlockedTier = newTier;
             this.state.currentTier = newTier;
             levelUpMessage = `🚀 Bravo ! Grâce à tes ${masteryPercent}% de maîtrise, tu franchis une nouvelle étape et passes au ${this.getTierDisplayName(newTier)} !`;
           }
@@ -473,14 +480,17 @@ window.MathsAdaptiveEngine = {
         return p;
       });
 
-      // Vérification des Badges
-      this.checkBadges(xpResult, masteryPercent);
+      // Vérification des Badges et Rangs
+      const newlyUnlockedBadges = this.checkBadges(xpResult, masteryPercent);
 
       return {
         isCorrect: true,
         leveledUp,
         levelUpMessage,
         newTier: this.state.currentTier,
+        unlockedTier,
+        newlyValidatedTiers,
+        newlyUnlockedBadges,
         xpEarned,
         totalXp: xpResult.xp,
         userLevel: xpResult.level,
@@ -726,23 +736,32 @@ window.MathsAdaptiveEngine = {
   checkBadges(xpResult, masteryPercent = 0) {
     const chapterId = this.state.chapterId;
     const chapter = (window.MATHS_CHAPTERS || []).find(c => c.id === chapterId);
+    const newlyUnlockedBadges = [];
 
     // 1. Badges d'étape globale
-    window.MathsStorage.unlockBadge('first_step', 'Premier Pas', 'Avoir complété son premier exercice avec succès.', '🎯');
+    if (window.MathsStorage.unlockBadge('first_step', 'Premier Pas', 'Avoir complété son premier exercice avec succès.', '🎯')) {
+      newlyUnlockedBadges.push({ kind: 'general', id: 'first_step', title: 'Premier Pas', desc: 'Avoir complété son premier exercice avec succès.', icon: '🎯' });
+    }
 
     if (xpResult && xpResult.level >= 3) {
-      window.MathsStorage.unlockBadge('level_3', 'Apprenti Géomètre', 'Atteindre le niveau 3 (200 XP).', '📐');
+      if (window.MathsStorage.unlockBadge('level_3', 'Apprenti Géomètre', 'Atteindre le niveau 3 (200 XP).', '📐')) {
+        newlyUnlockedBadges.push({ kind: 'general', id: 'level_3', title: 'Apprenti Géomètre', desc: 'Atteindre le niveau 3 (200 XP).', icon: '📐' });
+      }
     }
 
     if (xpResult && xpResult.level >= 5) {
-      window.MathsStorage.unlockBadge('level_5', 'Maître du Calcul', 'Atteindre le niveau 5 (400 XP).', '⚡');
+      if (window.MathsStorage.unlockBadge('level_5', 'Maître du Calcul', 'Atteindre le niveau 5 (400 XP).', '⚡')) {
+        newlyUnlockedBadges.push({ kind: 'general', id: 'level_5', title: 'Maître du Calcul', desc: 'Atteindre le niveau 5 (400 XP).', icon: '⚡' });
+      }
     }
 
     if (this.state.currentTier === 4) {
       const lvl = this.getCurrentLevel();
       const tier4Title = lvl === '5eme' ? 'Cap vers la 4ème' : (lvl === '4eme' ? 'Cap vers la 3ème' : 'Cap vers la Seconde');
       const tier4Desc = lvl === '5eme' ? 'Avoir débloqué le palier 4 (Défi 4ème).' : (lvl === '4eme' ? 'Avoir débloqué le palier 4 (Défi 3ème).' : 'Avoir débloqué le palier 4 (Défi Seconde).');
-      window.MathsStorage.unlockBadge('tier_4_unlocked', tier4Title, tier4Desc, '🚀');
+      if (window.MathsStorage.unlockBadge('tier_4_unlocked', tier4Title, tier4Desc, '🚀')) {
+        newlyUnlockedBadges.push({ kind: 'tier', tier: 4, id: 'tier_4_unlocked', title: tier4Title, desc: tier4Desc, icon: '🚀', chapter });
+      }
     }
 
     // 2. Trophées et Rangs honorifiques par Palier (Novice, Apprenti, Chevalier, Maître)
@@ -770,15 +789,35 @@ window.MathsAdaptiveEngine = {
           : `Validation du Palier ${t} (${chapter.shortTitle || chapter.title})`;
 
         const newlyUnlocked = window.MathsStorage.unlockBadge(badgeId, title, desc, icon);
-        if (newlyUnlocked && window.MathsApp && window.MathsApp.showToast) {
-          window.MathsApp.showToast(`🎉 <strong>Nouveau Titre Débloqué !</strong><br>${icon} ${title}`);
-          if (window.MathsAudio) window.MathsAudio.playLevelUp();
+        if (newlyUnlocked) {
+          newlyUnlockedBadges.push({
+            kind: 'rank',
+            tier: t,
+            badgeId,
+            title,
+            desc,
+            icon,
+            chapter
+          });
         }
       });
 
       if (masteryPercent >= 100 || p.mastery >= 100) {
-        window.MathsStorage.unlockBadge(`${chapterId}_master`, `Grand Maître ${chapter.shortTitle || chapter.title}`, 'Maîtrise totale à 100% du chapitre.', '👑');
+        const masterUnlocked = window.MathsStorage.unlockBadge(`${chapterId}_master`, `Grand Maître ${chapter.shortTitle || chapter.title}`, 'Maîtrise totale à 100% du chapitre.', '👑');
+        if (masterUnlocked) {
+          newlyUnlockedBadges.push({
+            kind: 'rank',
+            tier: 4,
+            badgeId: `${chapterId}_master`,
+            title: `Grand Maître ${chapter.shortTitle || chapter.title}`,
+            desc: 'Maîtrise totale à 100% du chapitre.',
+            icon: '👑',
+            chapter
+          });
+        }
       }
     }
+
+    return newlyUnlockedBadges;
   }
 };

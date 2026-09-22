@@ -861,15 +861,9 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       if (result.isCorrect) {
-        // Effets sonores procéduraux & célébration visuelle
-        const progress = window.MathsStorage.getChapterProgress(this.currentChapterId);
-        if (progress && progress.mastery >= 100) {
-          if (window.MathsAudio) window.MathsAudio.playMastery();
-          if (window.MathsConfetti) window.MathsConfetti.launch(3500);
-        } else if (result.leveledUp) {
-          if (window.MathsAudio) window.MathsAudio.playLevelUp();
-          if (window.MathsConfetti) window.MathsConfetti.launch(2200);
-        } else {
+        // Célébration Popup centrale (10s) si un palier ou un rang est déverrouillé
+        const hasCelebration = this.handleUnlockCelebration(result);
+        if (!hasCelebration) {
           if (window.MathsAudio) window.MathsAudio.playCorrect();
         }
 
@@ -1654,6 +1648,202 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       } catch (err) {
         console.warn('Erreur lecture paramètres URL :', err);
+      }
+    },
+
+    /**
+     * Analyse si un palier ou un rang a été débloqué et déclenche la célébration popup
+     */
+    handleUnlockCelebration(result) {
+      if (!result || !result.isCorrect) return false;
+
+      const chapterId = this.currentChapterId;
+      const chapter = (window.MATHS_CHAPTERS || []).find(c => c.id === chapterId);
+      const lvl = this.getCurrentChapterLevel();
+
+      const newBadges = result.newlyUnlockedBadges || [];
+      const newValidatedTiers = result.newlyValidatedTiers || [];
+      const tierUnlocked = result.unlockedTier || (result.leveledUp ? result.newTier : null);
+
+      // Filtrer les badges de rang par palier (Novice, Apprenti, Chevalier, Maître / Grand Maître)
+      const rankBadges = newBadges.filter(b => b.kind === 'rank');
+      // Badge général de tier 4 ("Cap vers la Seconde / 3e / 4e")
+      const tier4Badge = newBadges.find(b => b.id === 'tier_4_unlocked');
+
+      const hasNewRank = rankBadges.length > 0;
+      const hasNewTier = newValidatedTiers.length > 0 || (result.leveledUp && !!tierUnlocked) || !!tier4Badge;
+
+      if (!hasNewRank && !hasNewTier) {
+        return false;
+      }
+
+      // 1. Déblocage combiné : Rang + Palier
+      if (hasNewRank && hasNewTier) {
+        const topRank = rankBadges[rankBadges.length - 1];
+        const topTier = newValidatedTiers.length > 0 ? Math.max(...newValidatedTiers) : (tierUnlocked || topRank.tier || 1);
+        const nextTierName = topTier < 4 ? this.getTierName(topTier + 1, lvl) : 'Maîtrise totale';
+        const isMaster = topRank.tier === 4 || topTier >= 4 || result.mastery >= 100;
+
+        this.showUnlockPopup({
+          icon: topRank.icon || (isMaster ? '💎' : '🏆'),
+          category: isMaster ? '👑 MAÎTRISE TOTALE & RANG SUPRÊME !' : '🎉 NOUVEAU RANG & PALIER DÉBLOQUÉS !',
+          title: topRank.title,
+          chapterTitle: chapter ? `${chapter.num} — ${chapter.shortTitle || chapter.title}` : '',
+          description: isMaster
+            ? `Exceptionnel ! Tu as atteint <strong>100% de maîtrise</strong> sur <em>${chapter ? (chapter.shortTitle || chapter.title) : 'ce chapitre'}</em> et débloqué le titre suprême de <strong>${topRank.title}</strong> !`
+            : `Félicitations pour tes efforts ! Tu as validé le <strong>Palier ${topTier}</strong> et conquis le rang honorifique de <strong>${topRank.title}</strong>.<br>${topTier < 4 ? `Le <strong>${nextTierName}</strong> est désormais accessible !` : 'Tous les paliers de ce chapitre sont conquis !'}`,
+          perks: [
+            `🎖️ Titre ${topRank.title}`,
+            topTier < 4 ? `🚀 ${nextTierName} débloqué` : `💎 100% de réussite`,
+            `🏅 Trophée ajouté à ton passeport`
+          ],
+          isMaster
+        });
+        return true;
+      }
+
+      // 2. Uniquement un Rang honorifique débloqué
+      if (hasNewRank) {
+        const topRank = rankBadges[rankBadges.length - 1];
+        const isMaster = topRank.tier === 4 || result.mastery >= 100;
+        this.showUnlockPopup({
+          icon: topRank.icon || '🏆',
+          category: isMaster ? '👑 RANG SUPRÊME DÉBLOQUÉ !' : '🏆 NOUVEAU RANG DÉBLOQUÉ !',
+          title: topRank.title,
+          chapterTitle: chapter ? `${chapter.num} — ${chapter.shortTitle || chapter.title}` : '',
+          description: `Félicitations pour tes progrès constants ! Grâce à ta réussite sur ce chapitre, tu accèdes au rang honorifique de <strong>${topRank.title}</strong> !`,
+          perks: [
+            `🎖️ Rang ${topRank.title}`,
+            `🏅 Trophée ajouté au passeport`,
+            `⭐ Progression enregistrée`
+          ],
+          isMaster
+        });
+        return true;
+      }
+
+      // 3. Uniquement un Palier débloqué / validé
+      if (hasNewTier) {
+        const validatedTier = newValidatedTiers.length > 0 ? Math.max(...newValidatedTiers) : tierUnlocked;
+        const tierTitle = this.getTierName(validatedTier, lvl);
+        const isMax = validatedTier >= 4;
+
+        this.showUnlockPopup({
+          icon: isMax ? '💎' : '🚀',
+          category: isMax ? '💎 PALIER SUPRÊME DÉBLOQUÉ !' : '🚀 NOUVEAU PALIER DÉBLOQUÉ !',
+          title: tierTitle,
+          chapterTitle: chapter ? `${chapter.num} — ${chapter.shortTitle || chapter.title}` : '',
+          description: `Bravo ! Grâce à tes <strong>${result.mastery}% de maîtrise</strong>, tu franchis un nouveau cap et accèdes au <strong>${tierTitle}</strong> !`,
+          perks: [
+            `🎯 Accès aux exercices du ${tierTitle}`,
+            `📈 Maîtrise en hausse : ${result.mastery}%`,
+            `⚡ +${result.xpEarned} XP gagnés`
+          ],
+          isMaster: isMax
+        });
+        return true;
+      }
+
+      return false;
+    },
+
+    /**
+     * Affiche le popup de félicitations au milieu de l'écran pendant 10 secondes
+     */
+    showUnlockPopup(data) {
+      const modal = document.getElementById('reward-unlock-modal');
+      if (!modal) return;
+
+      // Nettoyer tout compte à rebours ou écouteur antérieur
+      if (this._unlockInterval) clearInterval(this._unlockInterval);
+      if (this._unlockTimeout) clearTimeout(this._unlockTimeout);
+      if (this._unlockKeyHandler) window.removeEventListener('keydown', this._unlockKeyHandler);
+
+      // Remplissage des éléments de l'interface
+      const iconEl = document.getElementById('unlock-modal-icon');
+      const catEl = document.getElementById('unlock-modal-category');
+      const titleEl = document.getElementById('unlock-modal-title');
+      const chapEl = document.getElementById('unlock-modal-chap');
+      const descEl = document.getElementById('unlock-modal-desc');
+      const perksEl = document.getElementById('unlock-modal-perks');
+      const progressBar = document.getElementById('unlock-timer-progress');
+      const secondsEl = document.getElementById('unlock-timer-seconds');
+
+      if (iconEl) iconEl.textContent = data.icon || '🏆';
+      if (catEl) catEl.textContent = data.category || 'FÉLICITATIONS !';
+      if (titleEl) titleEl.textContent = data.title || 'Nouveau Titre !';
+      if (chapEl) chapEl.textContent = data.chapterTitle || '';
+      if (descEl) descEl.innerHTML = data.description || 'Félicitations pour tes progrès !';
+
+      if (perksEl) {
+        const perks = data.perks || ['🏅 Trophée débloqué'];
+        perksEl.innerHTML = perks.map(p => `<span class="reward-perk-pill">${p}</span>`).join('');
+      }
+
+      // Effets sonores et visuels festifs
+      if (data.isMaster && window.MathsAudio) {
+        window.MathsAudio.playMastery();
+      } else if (window.MathsAudio) {
+        window.MathsAudio.playLevelUp();
+      }
+      if (window.MathsConfetti) {
+        window.MathsConfetti.launch(3500);
+      }
+
+      // Initialisation du compte à rebours 10 secondes (10 000 ms)
+      const totalDuration = 10000;
+      const startTime = Date.now();
+      if (progressBar) progressBar.style.width = '100%';
+      if (secondsEl) secondsEl.textContent = '10';
+
+      modal.style.display = 'flex';
+      modal.setAttribute('aria-hidden', 'false');
+
+      // Décompte fluide et régulier
+      this._unlockInterval = setInterval(() => {
+        const elapsed = Date.now() - startTime;
+        const remainingMs = Math.max(0, totalDuration - elapsed);
+        const remainingSec = Math.ceil(remainingMs / 1000);
+        const percent = (remainingMs / totalDuration) * 100;
+
+        if (progressBar) progressBar.style.width = `${percent}%`;
+        if (secondsEl) secondsEl.textContent = remainingSec;
+
+        if (remainingMs <= 0) {
+          this.closeUnlockPopup();
+        }
+      }, 100);
+
+      // Fermeture par raccourci clavier (Échap ou Entrée)
+      this._unlockKeyHandler = (e) => {
+        if (e.key === 'Escape' || e.key === 'Enter') {
+          this.closeUnlockPopup();
+        }
+      };
+      window.addEventListener('keydown', this._unlockKeyHandler);
+    },
+
+    /**
+     * Ferme le popup de félicitations et stoppe le compte à rebours
+     */
+    closeUnlockPopup() {
+      const modal = document.getElementById('reward-unlock-modal');
+      if (this._unlockInterval) {
+        clearInterval(this._unlockInterval);
+        this._unlockInterval = null;
+      }
+      if (this._unlockTimeout) {
+        clearTimeout(this._unlockTimeout);
+        this._unlockTimeout = null;
+      }
+      if (this._unlockKeyHandler) {
+        window.removeEventListener('keydown', this._unlockKeyHandler);
+        this._unlockKeyHandler = null;
+      }
+
+      if (modal) {
+        modal.style.display = 'none';
+        modal.setAttribute('aria-hidden', 'true');
       }
     },
 

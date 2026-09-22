@@ -26,7 +26,7 @@
   <link rel="stylesheet" href="vendor/katex/katex.min.css" onerror="this.onerror=null;this.href='https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css';" />
   
   <!-- Feuilles de style de l'application -->
-  <link rel="stylesheet" href="css/style.css?v=20260922b" />
+  <link rel="stylesheet" href="css/style.css?v=20260922c" />
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
   <link rel="apple-touch-icon" href="assets/favicon.svg" />
 </head>
@@ -502,6 +502,47 @@
     </div>
   </div>
 
+  <!-- =========================================================================
+       MODALE 3 : CÉLÉBRATION POPUP DE PALIER / RANG DÉBLOQUÉ (10 SECONDES)
+       ========================================================================= -->
+  <div id="reward-unlock-modal" class="modal-overlay reward-modal-overlay" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="unlock-modal-title" onclick="if (event.target === this) window.MathsApp.closeUnlockPopup();">
+    <div class="reward-modal-card">
+      <button class="reward-modal-close" type="button" onclick="window.MathsApp.closeUnlockPopup()" title="Fermer (Échap)">✕</button>
+      
+      <div class="reward-badge-halo">
+        <div class="reward-badge-icon" id="unlock-modal-icon">🏆</div>
+      </div>
+
+      <div class="reward-tag" id="unlock-modal-category">NOUVEAU RANG DÉBLOQUÉ</div>
+      <h2 class="reward-title" id="unlock-modal-title">Chevalier Pythagoricien</h2>
+      <div class="reward-chap-title" id="unlock-modal-chap">4G1 — Théorème de Pythagore</div>
+
+      <div class="reward-description-box" id="unlock-modal-desc">
+        Félicitations pour tes efforts ! Tu as validé le <strong>Palier 3</strong> et débloqué ce rang prestigieux.
+      </div>
+
+      <div class="reward-perk-pills" id="unlock-modal-perks">
+        <span class="reward-perk-pill">🏅 Trophée ajouté au passeport</span>
+        <span class="reward-perk-pill">🚀 Prochain cap : Palier 4</span>
+      </div>
+
+      <div class="reward-timer-wrapper">
+        <div class="reward-timer-bar">
+          <div class="reward-timer-progress" id="unlock-timer-progress"></div>
+        </div>
+        <div class="reward-timer-label">
+          Fermeture automatique dans <strong id="unlock-timer-seconds">10</strong>s
+        </div>
+      </div>
+
+      <div class="reward-modal-footer">
+        <button class="btn-primary reward-action-btn" type="button" onclick="window.MathsApp.closeUnlockPopup()">
+          Continuer l'entraînement ➔
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- Scripts KaTeX (avec fallback CDN) -->
   <script src="vendor/katex/katex.min.js" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js';"></script>
   <script src="vendor/katex/auto-render.min.js" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js';"></script>
@@ -519,11 +560,11 @@
   <script src="js/audioEffects.js"></script>
   <script src="js/confetti.js"></script>
   <script src="js/mathRenderer.js"></script>
-  <script src="js/adaptiveEngine.js?v=20260922b"></script>
+  <script src="js/adaptiveEngine.js?v=20260922c"></script>
   <script src="js/randomGenerators.js"></script>
   <script src="js/diaporamaEngine.js"></script>
   <script src="js/flashQuizGenerator.js"></script>
-  <script src="js/app.js?v=20260922b"></script>
+  <script src="js/app.js?v=20260922c"></script>
 
 </body>
 </html>
