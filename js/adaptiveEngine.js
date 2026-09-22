@@ -294,6 +294,74 @@ window.MathsAdaptiveEngine = {
   },
 
   /**
+   * Vérifie si l'élève a saisi une fraction exacte numériquement mais non irréductible
+   */
+  checkUnsimplifiedFraction(userAnswer, exercise) {
+    if (!exercise || exercise.type !== 'exact' || userAnswer === null || userAnswer === undefined) return null;
+    const normalizeMath = (str) => {
+      return String(str)
+        .trim()
+        .toLowerCase()
+        .replace(/[−–—]/g, '-')
+        .replace(/[÷⁄]/g, '/')
+        .replace(/\\?frac\{([^{}]+)\}\{([^{}]+)\}/g, '$1/$2')
+        .replace(/,/g, '.')
+        .replace(/\s+/g, '');
+    };
+    let cleanUser = normalizeMath(userAnswer).replace(/^s=\s*\{/i, '').replace(/[\{\}]/g, '').replace(/^[a-z]=\s*/i, '');
+    let cleanExpected = normalizeMath(exercise.answer).replace(/^s=\s*\{/i, '').replace(/[\{\}]/g, '').replace(/^[a-z]=\s*/i, '');
+    const stripUnits = (s) => s.replace(/(cm2|cm|mm|dm|m2|m|km\/h|km|deg|°|euros?|€|litres?|l)$/i, '');
+    cleanUser = stripUnits(cleanUser);
+    cleanExpected = stripUnits(cleanExpected);
+
+    const fracMatch = cleanUser.match(/^(-?[0-9]+)\/([0-9]+)$/);
+    if (!fracMatch) return null;
+
+    const num = parseInt(fracMatch[1], 10);
+    const den = parseInt(fracMatch[2], 10);
+    if (den === 0) return null;
+
+    const parseVal = (val) => {
+      val = val.replace('**', '^');
+      if (/^10\^(-?[0-9]+)$/.test(val)) {
+        const exp = parseInt(val.match(/^10\^(-?[0-9]+)$/)[1], 10);
+        return Math.pow(10, exp);
+      }
+      if (val.includes('/')) {
+        const p = val.split('/');
+        const n = parseFloat(p[0]);
+        const d = parseFloat(p[1]);
+        return d !== 0 ? n / d : NaN;
+      }
+      return parseFloat(val);
+    };
+
+    const userVal = num / den;
+    const expVal = parseVal(cleanExpected);
+
+    if (!isNaN(userVal) && !isNaN(expVal) && Math.abs(userVal - expVal) < 0.0001) {
+      const gcd = (a, b) => {
+        a = Math.abs(Math.round(a));
+        b = Math.abs(Math.round(b));
+        while (b) { const t = b; b = a % b; a = t; }
+        return a;
+      };
+      const g = gcd(num, den);
+      // Non irréductible si gcd > 1 ou si dénominateur simplifiable en entier (ex: 4/2 = 2, 6/1 = 6)
+      if (g > 1 || (den !== 1 && num % den === 0)) {
+        const simpNum = num / g;
+        const simpDen = den / g;
+        return {
+          isUnsimplified: true,
+          userFraction: `${num}/${den}`,
+          simplifiedFraction: simpDen === 1 ? `${simpNum}` : `${simpNum}/${simpDen}`
+        };
+      }
+    }
+    return null;
+  },
+
+  /**
    * Traite la soumission et met en œuvre l'algorithme ZPD
    */
   submitAnswer(userAnswer) {
@@ -305,6 +373,17 @@ window.MathsAdaptiveEngine = {
     }
     if (!exercise.tier) {
       exercise.tier = this.state.currentTier || 1;
+    }
+
+    // Détection bienveillante : fraction juste mais non simplifiée au maximum
+    const unsimplifiedInfo = this.checkUnsimplifiedFraction(userAnswer, exercise);
+    if (unsimplifiedInfo) {
+      return {
+        isCorrect: false,
+        needsSimplification: true,
+        feedback: "C'est la bonne fraction, mais il faut la simplifier !",
+        userFraction: unsimplifiedInfo.userFraction
+      };
     }
 
     const isCorrect = this.validateAnswer(userAnswer, exercise);
@@ -467,8 +546,30 @@ window.MathsAdaptiveEngine = {
     const exercise = this.state.currentExercise;
     if (!exercise) return null;
     this.state.usedHintsCount++;
-    if (hintNumber === 1) return exercise.hint1;
-    if (hintNumber === 2) return exercise.hint2;
+    if (hintNumber === 1) {
+      if (exercise.hint1 && exercise.hint1.trim()) return exercise.hint1;
+      return "Observe bien les données de l'énoncé, repère les mots-clés et commence par appliquer les règles opératoires prioritaires.";
+    }
+    if (hintNumber === 2) {
+      if (exercise.hint2 && exercise.hint2.trim()) return exercise.hint2;
+      // Fallback 1: Si le cours du chapitre existe dans window.MATHS_COURSES
+      const course = (window.MATHS_COURSES || {})[this.state.chapterId];
+      if (course) {
+        if (course.traps && course.traps.length > 0) {
+          const trap = course.traps[0];
+          const kp = (course.keyPoints && course.keyPoints[0]) ? `\n\n**Règle clé :**\n${course.keyPoints[0].content}` : '';
+          return `**Conseil du cours (${course.title || this.state.chapterId}) :**\n${trap}${kp}`;
+        }
+        if (course.keyPoints && course.keyPoints.length > 0) {
+          return `**Propriété essentielle (${course.title || this.state.chapterId}) :**\n${course.keyPoints[0].content}`;
+        }
+      }
+      // Fallback 2: Si l'exercice a une explication ou un indice 1
+      if (exercise.explanation) {
+        return `**Rappel méthodologique :**\n${exercise.explanation}`;
+      }
+      return `**Rappel de cours :**\nPense à appliquer les définitions et propriétés fondamentales du chapitre. Tu peux également consulter l'onglet **📖 Cours** pour retrouver toutes les formules complètes !`;
+    }
     return exercise.hint1;
   },
 
@@ -513,38 +614,117 @@ window.MathsAdaptiveEngine = {
     }
   },
 
-  /**
-   * Vérifie et débloque les badges de réussite
-   */
-  checkBadges(xpResult, masteryPercent = 0) {
-    // Badge 1 : Premier pas
-    window.MathsStorage.unlockBadge('first_step', 'Premier Pas', 'Avoir complété son premier exercice avec succès.', 'compass');
+  getChapterRankTitle(chapter, tier) {
+    const ranks = {
+      1: 'Novice',
+      2: 'Apprenti',
+      3: 'Chevalier',
+      4: 'Maître'
+    };
+    const rank = ranks[tier] || 'Explorateur';
+    if (!chapter) return `${rank} des Maths`;
 
-    // Badge 2 : Niveau 3
-    if (xpResult && xpResult.level >= 3) {
-      window.MathsStorage.unlockBadge('level_3', 'Apprenti Géomètre', 'Atteindre le niveau 3 (200 XP).', 'award');
-    }
+    const specialNotions = {
+      '4G1': 'Pythagoricien',
+      'G0': 'Pythagoricien',
+      '3G0': 'Pythagoricien',
+      'G1': 'Thalésien',
+      'G2': 'Trigonomètre',
+      'N1': 'des Fractions',
+      '5N3': 'des Fractions',
+      '4N2': 'des Fractions',
+      'N2': 'du Calcul Littéral',
+      '5N1': 'du Calcul',
+      '4N1': 'des Relatifs',
+      '5N2': 'des Relatifs',
+      'N3': 'des Puissances',
+      '4N3': 'des Puissances',
+      'N4': 'Arithméticien',
+      'N5': 'des Équations',
+      '4N4': 'des Équations',
+      'G3': 'de la Géométrie dans l’Espace',
+      'G4': 'des Transformations',
+      'G5': 'Géomètre',
+      'Org1': 'des Fonctions',
+      'Org2': 'des Fonctions Linéaires',
+      'Org3': 'Statisticien',
+      'Org4': 'des Probabilités',
+      '5P1': 'de la Proportionnalité',
+      '4P1': 'de la Proportionnalité',
+      'Algo': 'Codeur Scratch',
+      '5A1': 'Codeur Scratch',
+      '4A1': 'Codeur Scratch'
+    };
 
-    // Badge 3 : Niveau 5
-    if (xpResult && xpResult.level >= 5) {
-      window.MathsStorage.unlockBadge('level_5', 'Maître du Calcul', 'Atteindre le niveau 5 (400 XP).', 'zap');
-    }
-
-    // Badge 4 : Palier Défi maximal atteint
-    if (this.state.currentTier === 4) {
-      const lvl = this.getCurrentLevel();
-      if (lvl === '5eme') {
-        window.MathsStorage.unlockBadge('tier_4_unlocked', 'Cap vers la 4ème', 'Avoir débloqué le palier 4 (Défi 4ème).', 'rocket');
-      } else if (lvl === '4eme') {
-        window.MathsStorage.unlockBadge('tier_4_unlocked', 'Cap vers la 3ème', 'Avoir débloqué le palier 4 (Défi 3ème).', 'rocket');
+    let notion = specialNotions[chapter.id];
+    if (!notion) {
+      if (chapter.shortTitle) {
+        if (/^[aeiouyéèê]/i.test(chapter.shortTitle)) {
+          notion = `de l'${chapter.shortTitle}`;
+        } else {
+          notion = `des ${chapter.shortTitle}`;
+        }
       } else {
-        window.MathsStorage.unlockBadge('tier_4_unlocked', 'Cap vers la Seconde', 'Avoir débloqué le palier 4 (Défi Seconde).', 'rocket');
+        notion = chapter.badge || 'des Mathématiques';
       }
     }
 
-    // Badge 5 : Maîtrise complète
-    if (masteryPercent >= 100) {
-      window.MathsStorage.unlockBadge('chapter_mastery_100', 'Maître du Chapitre', 'Atteindre 100% de maîtrise sur un chapitre.', 'award');
+    return `${rank} ${notion}`;
+  },
+
+  /**
+   * Vérifie et débloque les badges de réussite et trophées par palier
+   */
+  checkBadges(xpResult, masteryPercent = 0) {
+    const chapterId = this.state.chapterId;
+    const chapter = (window.MATHS_CHAPTERS || []).find(c => c.id === chapterId);
+
+    // 1. Badges d'étape globale
+    window.MathsStorage.unlockBadge('first_step', 'Premier Pas', 'Avoir complété son premier exercice avec succès.', '🎯');
+
+    if (xpResult && xpResult.level >= 3) {
+      window.MathsStorage.unlockBadge('level_3', 'Apprenti Géomètre', 'Atteindre le niveau 3 (200 XP).', '📐');
+    }
+
+    if (xpResult && xpResult.level >= 5) {
+      window.MathsStorage.unlockBadge('level_5', 'Maître du Calcul', 'Atteindre le niveau 5 (400 XP).', '⚡');
+    }
+
+    if (this.state.currentTier === 4) {
+      const lvl = this.getCurrentLevel();
+      const tier4Title = lvl === '5eme' ? 'Cap vers la 4ème' : (lvl === '4eme' ? 'Cap vers la 3ème' : 'Cap vers la Seconde');
+      const tier4Desc = lvl === '5eme' ? 'Avoir débloqué le palier 4 (Défi 4ème).' : (lvl === '4eme' ? 'Avoir débloqué le palier 4 (Défi 3ème).' : 'Avoir débloqué le palier 4 (Défi Seconde).');
+      window.MathsStorage.unlockBadge('tier_4_unlocked', tier4Title, tier4Desc, '🚀');
+    }
+
+    // 2. Trophées et Rangs honorifiques par Palier (Novice, Apprenti, Chevalier, Maître)
+    if (chapter) {
+      const tiersToUnlock = [];
+      if (masteryPercent >= 25) tiersToUnlock.push(1);
+      if (masteryPercent >= 50) tiersToUnlock.push(2);
+      if (masteryPercent >= 75) tiersToUnlock.push(3);
+      if (masteryPercent >= 100) tiersToUnlock.push(4);
+
+      if (this.state.consecutiveSuccesses >= 2 && !tiersToUnlock.includes(this.state.currentTier)) {
+        tiersToUnlock.push(this.state.currentTier);
+      }
+
+      tiersToUnlock.forEach(t => {
+        const badgeId = `${chapterId}_tier_${t}`;
+        const title = this.getChapterRankTitle(chapter, t);
+        const icon = { 1: '🥉', 2: '🥈', 3: '🥇', 4: '💎' }[t];
+        const desc = `Validation du Palier ${t} (${chapter.shortTitle || chapter.title})`;
+
+        const newlyUnlocked = window.MathsStorage.unlockBadge(badgeId, title, desc, icon);
+        if (newlyUnlocked && window.MathsApp && window.MathsApp.showToast) {
+          window.MathsApp.showToast(`🎉 <strong>Nouveau Trophée Débloqué !</strong><br>${icon} ${title}`);
+          if (window.MathsAudio) window.MathsAudio.playLevelUp();
+        }
+      });
+
+      if (masteryPercent >= 100) {
+        window.MathsStorage.unlockBadge(`${chapterId}_master`, `Grand Maître ${chapter.shortTitle || chapter.title}`, 'Maîtrise totale à 100% du chapitre.', '👑');
+      }
     }
   }
 };

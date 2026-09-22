@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
       this.bindKeyboardShortcuts();
       this.renderDomainNav();
       this.switchLevel(this.currentLevel, false);
+      this.checkUrlShareParams();
       this.updateHeaderProfile();
     },
 
@@ -203,6 +204,12 @@ document.addEventListener('DOMContentLoaded', () => {
         quizFromSheetsBtn.addEventListener('click', () => {
           window.MathsQuizGenerator.openModal(this.currentChapterId);
         });
+      }
+
+      // Bouton Partager l'entraînement (ÉcoleDirecte / Pronote)
+      const shareBtn = document.getElementById('btn-share-training');
+      if (shareBtn) {
+        shareBtn.addEventListener('click', () => this.shareCurrentTraining());
       }
 
       // Bouton Question Aléatoire Infinie (Générateur procédural)
@@ -826,6 +833,33 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!feedbackContainer) return;
       feedbackContainer.style.display = 'block';
 
+      if (result.needsSimplification) {
+        if (window.MathsAudio) window.MathsAudio.playHint();
+        feedbackContainer.className = 'feedback-card feedback-warning';
+        feedbackContainer.innerHTML = `
+          <div class="feedback-header">
+            <span class="feedback-icon">💡</span>
+            <h4>${result.feedback}</h4>
+          </div>
+          <div class="feedback-solution" style="border-left-color: var(--warning, #f59e0b);">
+            <div class="feedback-solution-title" style="color: var(--warning, #f59e0b);">Conseil de simplification :</div>
+            <div class="feedback-solution-body">
+              <p class="math-p">Ta réponse <strong>${result.userFraction}</strong> a la bonne valeur numérique, mais <strong>elle n'est pas sous forme irréductible</strong>.</p>
+              <p class="math-p">Divise le numérateur et le dénominateur par leur plus grand diviseur commun, puis clique de nouveau sur <strong>Valider ma réponse</strong>.</p>
+            </div>
+          </div>
+        `;
+        window.MathsRenderer.renderElement(feedbackContainer);
+        if (validateBtn) validateBtn.style.display = 'inline-flex';
+        if (nextBtn) nextBtn.style.display = 'none';
+        const input = document.getElementById('math-user-input');
+        if (input) {
+          input.focus();
+          input.select();
+        }
+        return;
+      }
+
       if (result.isCorrect) {
         // Effets sonores procéduraux & célébration visuelle
         const progress = window.MathsStorage.getChapterProgress(this.currentChapterId);
@@ -943,6 +977,13 @@ document.addEventListener('DOMContentLoaded', () => {
           <h4>${num === 1 ? 'Coup de pouce méthodologique' : 'Rappel de cours ciblé'}</h4>
         </div>
         <div class="hint-content">${window.MathsRenderer.markdownToHtml(hint)}</div>
+        ${num === 2 ? `
+          <div style="margin-top: 0.75rem; text-align: right;">
+            <button class="btn-secondary btn-sm" onclick="window.MathsApp.switchTab('course')" type="button">
+              📖 Consulter la fiche de cours complète ➔
+            </button>
+          </div>
+        ` : ''}
       `;
       window.MathsRenderer.renderElement(feedbackContainer);
     },
@@ -1158,6 +1199,63 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     },
 
+    getChapterSheets(chapterId) {
+      const baseSheets = ((window.MATHS_WORKSHEETS || {})[chapterId] || []).slice();
+      if (!baseSheets.some(s => s.type === 'ds_type' || (s.id && s.id.includes('ds_type')))) {
+        const ch = (window.MATHS_CHAPTERS || []).find(c => c.id === chapterId);
+        const chTitle = ch ? (ch.shortTitle || ch.title) : chapterId;
+        const dsSheet = this.createDsTypeSheet(chapterId, ch, chTitle);
+        if (dsSheet) {
+          baseSheets.push(dsSheet);
+        }
+      }
+      return baseSheets;
+    },
+
+    createDsTypeSheet(chapterId, ch, chTitle) {
+      const lvlLabel = this.currentLevel === '5eme' ? '5ème' : (this.currentLevel === '4eme' ? '4ème' : '3ème');
+      const staticExos = (window.MATHS_EXERCISES || {})[chapterId] || [];
+      const gen = window.MathsGenerators;
+      
+      const ex1 = staticExos.find(e => e.tier === 1) || (gen ? gen.generateForChapter(chapterId, 1) : null);
+      const ex2 = staticExos.find(e => e.tier === 2) || (gen ? gen.generateForChapter(chapterId, 2) : null);
+      const ex3 = staticExos.find(e => e.tier === 3) || (gen ? gen.generateForChapter(chapterId, 3) : null);
+      const ex4 = staticExos.find(e => e.tier === 4) || (gen ? gen.generateForChapter(chapterId, 4) : null);
+
+      const items = [
+        { num: 1, name: "Automatismes & Questions flash", pts: 4, ex: ex1 },
+        { num: 2, name: "Application directe du cours", pts: 5, ex: ex2 },
+        { num: 3, name: "Raisonnement et calculs approfondis", pts: 5, ex: ex3 },
+        { num: 4, name: "Tâche complexe & Problème concret de modélisation", pts: 6, ex: ex4 }
+      ].filter(item => item.ex && item.ex.statement);
+
+      if (!items.length) return null;
+
+      let statementMd = `# Devoir Surveillé de Mathématiques (${lvlLabel})\n`;
+      statementMd += `## Sujet de DS Type : ${ch ? ch.title : chapterId} (Barème sur 20 points)\n\n`;
+      statementMd += `*Durée recommandée : 50 minutes. Calculatrice autorisée. La qualité de la rédaction, la clarté et la précision des justifications seront notées sur 20 points.*\n\n---\n\n`;
+
+      items.forEach(item => {
+        statementMd += `### Exercice ${item.num} : ${item.ex.title || item.name} (${item.pts} points)\n`;
+        statementMd += `${item.ex.statement}\n\n---\n\n`;
+      });
+
+      let solutionMd = `## Corrigé Détaillé et Barème Officiel du Devoir Surveillé (sur 20 points)\n\n`;
+      items.forEach(item => {
+        const solContent = item.ex.solution || (item.ex.answer ? `Réponse attendue : **${item.ex.answer}**` : "Voir le cours pour les étapes détaillées.");
+        solutionMd += `### Exercice ${item.num} : ${item.ex.title || item.name} (${item.pts} points)\n${solContent}\n\n---\n\n`;
+      });
+
+      return {
+        id: `${chapterId}-ds_type_sommatif`,
+        filename: `DS_Type_${chapterId}.md`,
+        type: 'ds_type',
+        title: `📝 Sujet type de DS (20 pts)`,
+        statement: statementMd,
+        solution: solutionMd
+      };
+    },
+
     // =========================================================================
     // 3. ESPACE FICHES D'EXERCICES COMPLÈTES (IMPRESSION & SUJETS)
     // =========================================================================
@@ -1165,7 +1263,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const container = document.getElementById('sheets-content-container');
       if (!container) return;
 
-      const sheets = (window.MATHS_WORKSHEETS || {})[this.currentChapterId] || [];
+      const sheets = this.getChapterSheets(this.currentChapterId);
       if (!sheets.length) {
         const chMeta = (window.MATHS_CHAPTERS || []).find(c => c.id === this.currentChapterId);
         const exos = (window.MATHS_EXERCISES || {})[this.currentChapterId] || [];
@@ -1176,8 +1274,8 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="sheets-tabs-group">
               <button class="sheet-select-btn active">Fiche d'entraînement (${chMeta ? chMeta.shortTitle : this.currentChapterId})</button>
             </div>
-            <div style="display: flex; gap: 0.5rem; align-items: center;">
-              <button class="btn-primary no-print" onclick="window.MathsQuizGenerator.openModal()">📝 Devoir Blanc</button>
+            <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+              <button class="btn-primary no-print" onclick="window.MathsQuizGenerator.openModal(window.MathsApp.currentChapterId)">📝 Devoir Surveillé (20 pts)</button>
               <button class="btn-secondary print-btn" onclick="window.print()">🖨️ Imprimer la fiche</button>
             </div>
           </div>
@@ -1204,6 +1302,10 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
+      if (this.selectedSheetIndex >= sheets.length) {
+        this.selectedSheetIndex = 0;
+      }
+
       const activeSheet = sheets[this.selectedSheetIndex] || sheets[0];
 
       let navHtml = `
@@ -1215,7 +1317,12 @@ document.addEventListener('DOMContentLoaded', () => {
               </button>
             `).join('')}
           </div>
-          <button class="btn-secondary print-btn" onclick="window.print()">🖨️ Imprimer la fiche</button>
+          <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+            <button class="btn-primary no-print" onclick="window.MathsQuizGenerator.openModal(window.MathsApp.currentChapterId)" title="Générer un Devoir Surveillé complet calibré sur 20 points pour ce chapitre">
+              📝 Générer un DS (20 pts)
+            </button>
+            <button class="btn-secondary print-btn" onclick="window.print()">🖨️ Imprimer la fiche</button>
+          </div>
         </div>
       `;
 
@@ -1318,9 +1425,19 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
 
         <div class="stats-section">
-          <h3>🏆 Badges & Trophées Débloqués</h3>
+          <h3>🏆 Badges d'Étapes & Jalons</h3>
           <div class="badges-grid">
             ${this.renderBadgesHtml(data.badges)}
+          </div>
+        </div>
+
+        <div class="stats-section">
+          <h3>🎖️ Rangs & Trophées par Chapitre — ${levelName}</h3>
+          <p class="math-p" style="margin-bottom: 1rem; font-size: 0.92rem; color: var(--text-muted);">
+            Valide les 4 paliers d'entraînement pour faire évoluer ton titre honorifique : 🥉 <strong>Novice</strong> (Palier 1) ➔ 🥈 <strong>Apprenti</strong> (Palier 2) ➔ 🥇 <strong>Chevalier</strong> (Palier 3) ➔ 💎 <strong>Maître</strong> (Palier 4) !
+          </p>
+          <div class="chapter-trophies-grid">
+            ${this.renderChapterTrophiesHtml(levelChapters, data.badges, data.chapters)}
           </div>
         </div>
 
@@ -1329,6 +1446,8 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="chapters-mastery-list">
             ${levelChapters.map(c => {
               const p = data.chapters[c.id] || { mastery: 0, currentTier: 1, completed: [] };
+              const currentTier = p.currentTier || 1;
+              const currentRank = window.MathsAdaptiveEngine ? window.MathsAdaptiveEngine.getChapterRankTitle(c, currentTier) : `Palier ${currentTier}`;
               return `
                 <div class="mastery-row">
                   <div class="mastery-left">
@@ -1338,7 +1457,7 @@ document.addEventListener('DOMContentLoaded', () => {
                   <div class="mastery-bar-wrapper">
                     <div class="mastery-bar-fill" style="width:${p.mastery || 0}%; background-color:${c.color};"></div>
                   </div>
-                  <span class="mastery-percent">${p.mastery || 0}% (Palier ${p.currentTier || 1})</span>
+                  <span class="mastery-percent">${p.mastery || 0}% — <strong>${currentRank}</strong></span>
                 </div>
               `;
             }).join('')}
@@ -1346,10 +1465,7 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
 
         <div class="stats-footer-actions no-print">
-          <button class="btn-secondary" onclick="window.MathsStorage.exportToJson()">💾 Exporter mon passeport (JSON)</button>
-          <button class="btn-secondary" onclick="document.getElementById('import-file-input').click()">📥 Importer un passeport</button>
-          <input type="file" id="import-file-input" style="display:none;" onchange="window.MathsApp.handleImportFile(event)" />
-          <button class="btn-danger" onclick="window.MathsApp.handleResetProgress()">🔄 Réinitialiser</button>
+          <button class="btn-danger" onclick="window.MathsApp.handleResetProgress()">🔄 Réinitialiser ma progression</button>
         </div>
       `;
 
@@ -1388,20 +1504,103 @@ document.addEventListener('DOMContentLoaded', () => {
       }).join('');
     },
 
-    handleImportFile(e) {
-      const file = e.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const ok = window.MathsStorage.importFromJson(event.target.result);
-        if (ok) {
-          alert('Passeport importé avec succès !');
-          location.reload();
-        } else {
-          alert('Fichier de sauvegarde invalide.');
+    renderChapterTrophiesHtml(chapters, unlockedBadges = [], chaptersData = {}) {
+      const engine = window.MathsAdaptiveEngine;
+      return chapters.map(c => {
+        const p = chaptersData[c.id] || { mastery: 0, currentTier: 1 };
+        const tierItems = [1, 2, 3, 4].map(t => {
+          const badgeId = `${c.id}_tier_${t}`;
+          const isUnlocked = (unlockedBadges || []).some(b => b.id === badgeId);
+          const title = engine ? engine.getChapterRankTitle(c, t) : `Palier ${t}`;
+          const medal = { 1: '🥉', 2: '🥈', 3: '🥇', 4: '💎' }[t];
+          const tierName = { 1: 'Socle', 2: 'Guidé', 3: 'Brevet', 4: 'Défi' }[t];
+          return `
+            <div class="trophy-tier-pill ${isUnlocked ? 'unlocked' : 'locked'}" title="${title} (Palier ${t} : ${tierName})">
+              <span class="trophy-medal">${medal}</span>
+              <span class="trophy-title">${title}</span>
+            </div>
+          `;
+        }).join('');
+
+        return `
+          <div class="chapter-trophy-card">
+            <div class="chapter-trophy-header">
+              <span class="chapter-trophy-code" style="color: ${c.color};">${c.num}</span>
+              <strong>${c.shortTitle || c.title}</strong>
+              <span class="chapter-trophy-mastery">${p.mastery || 0}%</span>
+            </div>
+            <div class="chapter-trophy-tiers">
+              ${tierItems}
+            </div>
+          </div>
+        `;
+      }).join('');
+    },
+
+    showToast(msg, duration = 3500) {
+      let toast = document.getElementById('app-toast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'app-toast';
+        toast.className = 'app-toast';
+        document.body.appendChild(toast);
+      }
+      toast.innerHTML = msg;
+      toast.classList.add('visible');
+      clearTimeout(this._toastTimeout);
+      this._toastTimeout = setTimeout(() => {
+        toast.classList.remove('visible');
+      }, duration);
+    },
+
+    shareCurrentTraining() {
+      const chapterId = this.currentChapterId;
+      const currentTier = (window.MathsAdaptiveEngine && window.MathsAdaptiveEngine.state && window.MathsAdaptiveEngine.state.currentTier) || 1;
+      const chapter = (window.MATHS_CHAPTERS || []).find(c => c.id === chapterId);
+      const chapterName = chapter ? (chapter.shortTitle || chapter.title) : chapterId;
+
+      const url = new URL(window.location.href);
+      url.searchParams.set('chapitre', chapterId);
+      url.searchParams.set('palier', currentTier);
+      const shareUrl = url.toString();
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(shareUrl).then(() => {
+          this.showToast(`🔗 <strong>Lien copié pour ÉcoleDirecte !</strong><br><small>${chapterName} — Palier ${currentTier}</small>`);
+        }).catch(() => {
+          prompt('Voici le lien direct à copier pour ÉcoleDirecte / Pronote :', shareUrl);
+        });
+      } else {
+        prompt('Voici le lien direct à copier pour ÉcoleDirecte / Pronote :', shareUrl);
+      }
+    },
+
+    checkUrlShareParams() {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const chapParam = params.get('chapitre') || params.get('chapter') || params.get('chap');
+        const tierParam = parseInt(params.get('palier') || params.get('tier'), 10);
+
+        if (chapParam) {
+          const allChapters = window.MATHS_CHAPTERS || [];
+          const targetChap = allChapters.find(c => c.id.toLowerCase() === chapParam.toLowerCase());
+          if (targetChap) {
+            if (targetChap.level && targetChap.level !== this.currentLevel) {
+              this.switchLevel(targetChap.level, false);
+            }
+            this.selectChapter(targetChap.id);
+            if (tierParam && tierParam >= 1 && tierParam <= 4) {
+              setTimeout(() => {
+                window.MathsAdaptiveEngine.setTier(tierParam);
+                this.renderTrainingView();
+                this.showToast(`🎯 <strong>Entraînement ciblé pour l'IE :</strong> ${targetChap.shortTitle || targetChap.title} (Palier ${tierParam})`, 4500);
+              }, 250);
+            }
+          }
         }
-      };
-      reader.readAsText(file);
+      } catch (err) {
+        console.warn('Erreur lecture paramètres URL :', err);
+      }
     },
 
     handleResetProgress() {

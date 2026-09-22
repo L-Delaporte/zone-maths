@@ -980,7 +980,8 @@ body {
 
 @media (max-width: 600px) {
   .virtual-math-keyboard {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0.3rem;
   }
 }
 
@@ -1505,6 +1506,92 @@ body {
 .badge-info strong { display: block; font-size: 0.9rem; }
 .badge-info small { font-size: 0.75rem; color: var(--text-muted); }
 
+/* Grille des Trophées par Chapitre */
+.chapter-trophies-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.chapter-trophy-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 0.9rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.chapter-trophy-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.chapter-trophy-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.92rem;
+}
+
+.chapter-trophy-code {
+  font-weight: 800;
+  font-family: monospace;
+}
+
+.chapter-trophy-mastery {
+  margin-left: auto;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--primary);
+  background: var(--primary-subtle);
+  padding: 2px 7px;
+  border-radius: 9999px;
+}
+
+.chapter-trophy-tiers {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.4rem;
+}
+
+.trophy-tier-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 5px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 0.78rem;
+  font-weight: 600;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-subtle);
+}
+
+.trophy-tier-pill.unlocked {
+  background-color: var(--success-bg);
+  border-color: var(--success-border);
+  color: var(--success-text);
+}
+
+.trophy-tier-pill.locked {
+  opacity: 0.45;
+  filter: grayscale(100%);
+  color: var(--text-muted);
+}
+
+.trophy-medal {
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.trophy-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .chapters-mastery-list {
   display: flex;
   flex-direction: column;
@@ -2005,6 +2092,32 @@ body {
   padding: 0.75rem 1rem;
   border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
   font-size: 0.95rem;
+}
+
+/* Toast Notification Moderne */
+.app-toast {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: var(--text-main);
+  color: var(--bg-surface);
+  padding: 0.85rem 1.5rem;
+  border-radius: 9999px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+  font-weight: 600;
+  font-size: 0.95rem;
+  z-index: 99999;
+  pointer-events: none;
+  opacity: 0;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+  text-align: center;
+  max-width: 90vw;
+}
+
+.app-toast.visible {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
 }
 
 /* =========================================================================
@@ -3113,14 +3226,14 @@ body {
 
   /* Clavier mathématique virtuel tactile */
   .virtual-math-keyboard {
-    grid-template-columns: repeat(4, 1fr) !important;
-    gap: 0.4rem;
+    grid-template-columns: repeat(6, 1fr) !important;
+    gap: 0.3rem;
   }
 
   .key-btn {
-    min-height: 44px;
-    padding: 10px 4px;
-    font-size: 1.05rem;
+    min-height: 42px;
+    padding: 8px 2px;
+    font-size: 0.95rem;
     touch-action: manipulation;
   }
 
@@ -3256,12 +3369,14 @@ body {
   }
 
   .virtual-math-keyboard {
-    grid-template-columns: repeat(4, 1fr) !important;
+    grid-template-columns: repeat(6, 1fr) !important;
+    gap: 0.25rem;
   }
 
   .key-btn {
-    min-height: 42px;
-    font-size: 0.95rem;
+    min-height: 38px;
+    padding: 6px 1px;
+    font-size: 0.88rem;
   }
 
   .exercise-card {
@@ -3845,6 +3960,23 @@ body {
 [data-theme="dark"] .badge-item.unlocked {
   background-color: rgba(16, 185, 129, 0.15);
   border-color: #10b981;
+}
+
+[data-theme="dark"] .chapter-trophy-card {
+  background-color: #1e293b;
+  border-color: #334155;
+}
+
+[data-theme="dark"] .trophy-tier-pill {
+  background-color: #162032;
+  border-color: #334155;
+  color: #94a3b8;
+}
+
+[data-theme="dark"] .trophy-tier-pill.unlocked {
+  background-color: rgba(16, 185, 129, 0.15);
+  border-color: #10b981;
+  color: #34d399;
 }
 
 [data-theme="dark"] .passport-author-banner {

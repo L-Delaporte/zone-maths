@@ -175,20 +175,88 @@ window.MathsDiaporama = {
     window.MathsStorage.addXp(xpBonus);
     window.MathsApp.updateHeaderProfile();
 
+    this.state.xpBonus = xpBonus;
+    this.state.recapMode = null; // Afficher l'écran de choix interactif
+    this.renderRecapScreen();
+  },
+
+  setRecapMode(mode) {
+    this.state.recapMode = mode;
+    this.renderRecapScreen();
+  },
+
+  toggleRecapMode() {
+    this.state.recapMode = this.state.recapMode === 'statements' ? 'solutions' : 'statements';
+    this.renderRecapScreen();
+  },
+
+  toggleQuestionSolution(idx) {
+    const solEl = document.getElementById(`recap-sol-${idx}`);
+    const btn = document.getElementById(`btn-toggle-sol-${idx}`);
+    if (!solEl) return;
+    const isHidden = solEl.style.display === 'none' || !solEl.style.display;
+    solEl.style.display = isHidden ? 'block' : 'none';
+    if (btn) btn.textContent = isHidden ? '🙈 Masquer la réponse' : '👁️ Dévoiler la réponse';
+    if (isHidden) {
+      window.MathsRenderer.renderElement(solEl);
+    }
+  },
+
+  renderRecapScreen() {
     const container = document.getElementById('diapo-recap-list');
     if (!container) return;
+
+    const xpBonus = this.state.xpBonus || (this.state.questions.length * 5);
+
+    // Choix initial demandé à l'utilisateur
+    if (!this.state.recapMode) {
+      container.innerHTML = `
+        <div class="diapo-recap-header">
+          <h3>🎉 Rituel Terminé ! (+${xpBonus} XP)</h3>
+          <p>Bravo pour cette session de questions flash ! Comment souhaitez-vous afficher la fin du rituel ?</p>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 1rem; max-width: 480px; margin: 2rem auto; text-align: center;">
+          <button class="btn-primary" style="padding: 1.1rem 1.5rem; font-size: 1.05rem; justify-content: center; flex-direction: column; gap: 0.35rem;" onclick="window.MathsDiaporama.setRecapMode('statements')">
+            <span>📋 Afficher les Énoncés seuls</span>
+            <small style="font-size: 0.85rem; font-weight: normal; opacity: 0.9;">Idéal pour la correction interactive avec la classe</small>
+          </button>
+          <button class="btn-secondary" style="padding: 1.1rem 1.5rem; font-size: 1.05rem; justify-content: center; flex-direction: column; gap: 0.35rem;" onclick="window.MathsDiaporama.setRecapMode('solutions')">
+            <span>✅ Afficher le Corrigé complet</span>
+            <small style="font-size: 0.85rem; font-weight: normal; opacity: 0.9;">Afficher immédiatement toutes les solutions détaillées</small>
+          </button>
+        </div>
+      `;
+      return;
+    }
+
+    const isStatementsOnly = this.state.recapMode === 'statements';
 
     container.innerHTML = `
       <div class="diapo-recap-header">
         <h3>🎉 Rituel Terminé ! (+${xpBonus} XP)</h3>
-        <p>Voici le corrigé complet de toutes les questions flash présentées :</p>
+        <p>Mode actif : <strong>${isStatementsOnly ? '📋 Énoncés seuls (Correction avec la classe)' : '✅ Corrigé complet'}</strong></p>
+        <div style="display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; margin-top: 0.75rem;">
+          <button class="btn-primary btn-sm" onclick="window.MathsDiaporama.toggleRecapMode()">
+            ${isStatementsOnly ? '✅ Passer au Corrigé complet' : '📋 Passer aux Énoncés seuls'}
+          </button>
+          <button class="btn-secondary btn-sm" onclick="window.MathsDiaporama.openModal()">
+            🔄 Relancer un Rituel
+          </button>
+        </div>
       </div>
       <div class="diapo-recap-grid">
         ${this.state.questions.map((q, idx) => `
           <div class="recap-item-card">
-            <div class="recap-item-num">Question ${idx + 1}</div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+              <span class="recap-item-num">Question ${idx + 1}</span>
+              ${isStatementsOnly ? `
+                <button id="btn-toggle-sol-${idx}" class="btn-secondary btn-sm" style="font-size: 0.8rem; padding: 4px 8px;" onclick="window.MathsDiaporama.toggleQuestionSolution(${idx})">
+                  👁️ Dévoiler la réponse
+                </button>
+              ` : ''}
+            </div>
             <div class="recap-statement">${window.MathsRenderer.markdownToHtml(q.statement)}</div>
-            <div class="recap-solution">
+            <div id="recap-sol-${idx}" class="recap-solution" style="${isStatementsOnly ? 'display:none;' : 'display:block;'}">
               <strong>Réponse & Méthode :</strong>
               <div>${window.MathsRenderer.markdownToHtml(q.solution)}</div>
             </div>
