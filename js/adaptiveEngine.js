@@ -60,12 +60,59 @@ window.MathsAdaptiveEngine = {
   },
 
   /**
+   * Vérifie si un palier est débloqué pour un chapitre donné.
+   * Règle d'or : pour débloquer un palier, il faut d'abord avoir validé/terminé le précédent.
+   * Palier 1 toujours débloqué d'office.
+   */
+  isTierUnlocked(chapterId, tier) {
+    const t = parseInt(tier, 10) || 1;
+    if (t <= 1) return true; // Palier 1 toujours accessible
+    if (!chapterId) return false;
+
+    const progress = window.MathsStorage.getChapterProgress(chapterId);
+    const valTiers = progress.validatedTiers || [];
+    const successes = progress.successesByTier || {};
+    const mastery = progress.mastery || 0;
+
+    // Palier 2 : débloqué si Palier 1 validé (au moins 3 réussites sur P1 ou maîtrise >= 25%)
+    if (t === 2) {
+      return valTiers.includes(1) || (successes[1] >= 3) || mastery >= 25;
+    }
+    // Palier 3 : débloqué si Palier 2 validé
+    if (t === 3) {
+      return valTiers.includes(2) || (this.isTierUnlocked(chapterId, 2) && ((successes[2] >= 3) || mastery >= 50));
+    }
+    // Palier 4 : débloqué si Palier 3 validé
+    if (t === 4) {
+      return valTiers.includes(3) || (this.isTierUnlocked(chapterId, 3) && ((successes[3] >= 3) || mastery >= 75));
+    }
+    return false;
+  },
+
+  /**
+   * Retourne le palier débloqué le plus élevé pour un chapitre
+   */
+  getHighestUnlockedTier(chapterId) {
+    for (let t = 4; t >= 1; t--) {
+      if (this.isTierUnlocked(chapterId, t)) return t;
+    }
+    return 1;
+  },
+
+  /**
    * Initialise ou reprend une session pour un chapitre donné
    */
   startChapterSession(chapterId, forceTier = null) {
     const progress = window.MathsStorage.getChapterProgress(chapterId);
     this.state.chapterId = chapterId;
-    this.state.currentTier = forceTier || progress.currentTier || 1;
+
+    let targetTier = forceTier || progress.currentTier || 1;
+    if (!this.isTierUnlocked(chapterId, targetTier)) {
+      targetTier = this.getHighestUnlockedTier(chapterId);
+    }
+
+    this.state.currentTier = targetTier;
+    this.state.manualTierSelected = (forceTier && this.isTierUnlocked(chapterId, forceTier)) ? true : false;
     this.state.consecutiveSuccesses = 0;
     this.state.mistakesOnCurrent = 0;
     this.state.usedHintsCount = 0;
@@ -152,7 +199,15 @@ window.MathsAdaptiveEngine = {
 
     // Si l'élève n'a pas sélectionné manuellement un palier fixe, la difficulté s'adapte continuellement au pourcentage
     if (!this.state.manualTierSelected) {
-      this.state.currentTier = this.getDynamicTier(mastery);
+      const dynTier = this.getDynamicTier(mastery);
+      const maxUnlocked = this.getHighestUnlockedTier(this.state.chapterId);
+      this.state.currentTier = Math.min(dynTier, maxUnlocked);
+    } else {
+      // Si le palier sélectionné manuellement est devenu verrouillé, repli sur le palier max débloqué
+      if (!this.isTierUnlocked(this.state.chapterId, this.state.currentTier)) {
+        this.state.currentTier = this.getHighestUnlockedTier(this.state.chapterId);
+        this.state.manualTierSelected = false;
+      }
     }
 
     let candidate = null;
@@ -201,15 +256,19 @@ window.MathsAdaptiveEngine = {
   },
 
   /**
-   * Forcer manuellement un palier (permet à l'élève de choisir son défi)
+   * Forcer manuellement un palier (permet à l'élève de choisir son défi parmi les paliers débloqués)
    */
   setTier(tier) {
-    if (tier >= 1 && tier <= 4) {
-      this.state.currentTier = tier;
+    const t = parseInt(tier, 10);
+    if (t >= 1 && t <= 4) {
+      if (!this.isTierUnlocked(this.state.chapterId, t)) {
+        return false; // Palier verrouillé !
+      }
+      this.state.currentTier = t;
       this.state.manualTierSelected = true;
       this.state.consecutiveSuccesses = 0;
       window.MathsStorage.updateChapterProgress(this.state.chapterId, p => {
-        p.currentTier = tier;
+        p.currentTier = t;
         return p;
       });
       return this.nextExercise();
@@ -443,37 +502,51 @@ window.MathsAdaptiveEngine = {
         p.successesByTier[exoTier] = (p.successesByTier[exoTier] || 0) + 1;
 
         p.validatedTiers = p.validatedTiers || [];
-        // Palier 1 validé : au moins 3 réussites sur le P1 OU maîtrise >= 25% OU palier supérieur
-        if (!p.validatedTiers.includes(1) && (p.successesByTier[1] >= 3 || masteryPercent >= 25 || p.currentTier > 1)) {
+        // Palier 1 validé : au moins 3 réussites sur le P1 OU maîtrise >= 25%
+        if (!p.validatedTiers.includes(1) && (p.successesByTier[1] >= 3 || masteryPercent >= 25)) {
           p.validatedTiers.push(1);
           newlyValidatedTiers.push(1);
         }
-        // Palier 2 validé : Palier 1 validé ET (au moins 3 réussites sur le P2 OU maîtrise >= 50% OU palier supérieur)
-        if (!p.validatedTiers.includes(2) && p.validatedTiers.includes(1) && (p.successesByTier[2] >= 3 || masteryPercent >= 50 || p.currentTier > 2)) {
+        // Palier 2 validé : Palier 1 validé ET (au moins 3 réussites sur le P2 OU maîtrise >= 50%)
+        if (!p.validatedTiers.includes(2) && p.validatedTiers.includes(1) && (p.successesByTier[2] >= 3 || (masteryPercent >= 50 && (p.successesByTier[2] || 0) >= 1))) {
           p.validatedTiers.push(2);
           newlyValidatedTiers.push(2);
         }
-        // Palier 3 validé : Palier 2 validé ET (au moins 3 réussites sur le P3 OU maîtrise >= 75% OU palier supérieur)
-        if (!p.validatedTiers.includes(3) && p.validatedTiers.includes(2) && (p.successesByTier[3] >= 3 || masteryPercent >= 75 || p.currentTier > 3)) {
+        // Palier 3 validé : Palier 2 validé ET (au moins 3 réussites sur le P3 OU maîtrise >= 75%)
+        if (!p.validatedTiers.includes(3) && p.validatedTiers.includes(2) && (p.successesByTier[3] >= 3 || (masteryPercent >= 75 && (p.successesByTier[3] || 0) >= 1))) {
           p.validatedTiers.push(3);
           newlyValidatedTiers.push(3);
         }
         // Maître : 100% de la notion requis
-        if (!p.validatedTiers.includes(4) && masteryPercent >= 100) {
+        if (!p.validatedTiers.includes(4) && p.validatedTiers.includes(3) && (masteryPercent >= 100 || (p.successesByTier[4] || 0) >= 3)) {
           p.validatedTiers.push(4);
           newlyValidatedTiers.push(4);
         }
 
-        // Évolution continue de la difficulté proportionnellement au pourcentage
+        // Évolution continue de la difficulté et déblocage progressif des paliers
         const prevTier = this.state.currentTier;
-        if (!this.state.manualTierSelected) {
-          const newTier = this.getDynamicTier(masteryPercent);
-          p.currentTier = newTier;
-          if (newTier > prevTier) {
+        // Si un nouveau palier vient d'être validé, débloquer et proposer immédiatement le palier supérieur
+        if (newlyValidatedTiers.length > 0) {
+          const maxValidated = Math.max(...newlyValidatedTiers);
+          if (maxValidated < 4) {
+            const nextUnlocked = maxValidated + 1;
             leveledUp = true;
-            unlockedTier = newTier;
-            this.state.currentTier = newTier;
-            levelUpMessage = `🚀 Bravo ! Grâce à tes ${masteryPercent}% de maîtrise, tu franchis une nouvelle étape et passes au ${this.getTierDisplayName(newTier)} !`;
+            unlockedTier = nextUnlocked;
+            this.state.currentTier = nextUnlocked;
+            p.currentTier = nextUnlocked;
+            this.state.manualTierSelected = false; // bascule sur le nouveau palier débloqué
+            levelUpMessage = `🚀 Bravo ! Tu as validé le Palier ${maxValidated} et débloqué le ${this.getTierDisplayName(nextUnlocked)} !`;
+          }
+        } else if (!this.state.manualTierSelected) {
+          // En mode adaptatif, ne jamais dépasser le palier maximal débloqué
+          const maxUnlocked = this.getHighestUnlockedTier(this.state.chapterId);
+          const dynTier = Math.min(this.getDynamicTier(masteryPercent), maxUnlocked);
+          p.currentTier = dynTier;
+          if (dynTier > prevTier) {
+            leveledUp = true;
+            unlockedTier = dynTier;
+            this.state.currentTier = dynTier;
+            levelUpMessage = `🚀 Bravo ! Grâce à tes ${masteryPercent}% de maîtrise, tu franchis une nouvelle étape et passes au ${this.getTierDisplayName(dynTier)} !`;
           }
         }
 

@@ -741,6 +741,56 @@ body {
 .tier-pill-btn[data-tier="3"].active { background-color: var(--tier-3-color); color: white; border-color: var(--tier-3-color); }
 .tier-pill-btn[data-tier="4"].active { background-color: var(--tier-4-color); color: white; border-color: var(--tier-4-color); }
 
+/* Paliers d'entraînement verrouillés et validés */
+.tier-pill-btn.tier-locked {
+  opacity: 0.65;
+  background-color: var(--bg-hover, #f1f5f9) !important;
+  color: var(--text-muted, #64748b) !important;
+  border: 1px dashed var(--border-color, #cbd5e1) !important;
+  cursor: not-allowed !important;
+  user-select: none;
+}
+
+.tier-pill-btn.tier-locked:hover {
+  opacity: 0.9;
+  border-color: #f59e0b !important;
+  color: var(--text-main, #0f172a) !important;
+}
+
+.tier-pill-btn.tier-validated:not(.active) {
+  border-color: rgba(16, 185, 129, 0.45);
+  background-color: rgba(16, 185, 129, 0.08);
+  color: var(--text-main, #0f172a);
+}
+
+.tier-pill-btn .tier-check-icon {
+  color: #10b981;
+  font-weight: 800;
+  margin-right: 3px;
+}
+
+.tier-pill-btn.active .tier-check-icon {
+  color: #ffffff;
+}
+
+.tier-pill-btn .tier-lock-icon {
+  font-size: 0.85em;
+  margin-right: 3px;
+  opacity: 0.85;
+}
+
+[data-theme="dark"] .tier-pill-btn.tier-locked {
+  background-color: #1e293b !important;
+  color: #64748b !important;
+  border-color: #334155 !important;
+}
+
+[data-theme="dark"] .tier-pill-btn.tier-validated:not(.active) {
+  border-color: rgba(16, 185, 129, 0.5);
+  background-color: rgba(16, 185, 129, 0.15);
+  color: #f1f5f9;
+}
+
 /* Jauge Visuelle ZPD */
 .zpd-gauge-widget {
   background: var(--bg-subtle);

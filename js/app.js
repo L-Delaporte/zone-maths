@@ -555,17 +555,8 @@ document.addEventListener('DOMContentLoaded', () => {
       this.renderZpdGauge();
       this.updateChapterMasteryUI(this.currentChapterId);
 
-      // Paliers boutons
-      const activeChapLevel = this.getCurrentChapterLevel();
-      document.querySelectorAll('.tier-pill-btn').forEach(btn => {
-        const tier = parseInt(btn.dataset.tier, 10);
-        btn.textContent = this.getTierButtonLabel(tier, activeChapLevel);
-        btn.classList.toggle('active', tier === engine.state.currentTier);
-        btn.onclick = () => {
-          engine.setTier(tier);
-          this.renderTrainingView();
-        };
-      });
+      // Paliers boutons (gestion des déblocages et choix de palier)
+      this.renderTierButtons();
 
       // 2. Affichage de l'exercice
       const container = document.getElementById('exercise-statement-box');
@@ -786,12 +777,50 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     },
 
-    updateTierButtonsUI() {
-      const lvl = this.getCurrentChapterLevel();
+    renderTierButtons() {
+      const engine = window.MathsAdaptiveEngine;
+      const activeChapLevel = this.getCurrentChapterLevel();
+      const progress = window.MathsStorage.getChapterProgress(this.currentChapterId);
+      const valTiers = progress.validatedTiers || [];
+
       document.querySelectorAll('.tier-pill-btn').forEach(btn => {
         const tier = parseInt(btn.dataset.tier, 10);
-        btn.textContent = this.getTierButtonLabel(tier, lvl);
+        const isUnlocked = engine ? engine.isTierUnlocked(this.currentChapterId, tier) : (tier === 1);
+        const isValidated = valTiers.includes(tier);
+        const isActive = (tier === (engine && engine.state ? engine.state.currentTier : 1));
+        const baseLabel = this.getTierButtonLabel(tier, activeChapLevel);
+
+        if (!isUnlocked) {
+          // Palier verrouillé : l'élève doit d'abord terminer le précédent
+          btn.innerHTML = `<span class="tier-lock-icon">🔒</span> ${baseLabel}`;
+          btn.classList.add('tier-locked');
+          btn.classList.remove('active', 'tier-validated');
+          btn.title = `Palier ${tier} verrouillé — Termine d'abord le Palier ${tier - 1} pour le débloquer`;
+          btn.onclick = () => {
+            if (window.MathsAudio) window.MathsAudio.playHint();
+            this.showToast(`🔒 <strong>Palier ${tier} verrouillé</strong><br>Termine d'abord le Palier ${tier - 1} pour débloquer ce palier !`, 3500);
+          };
+        } else {
+          // Palier débloqué : l'élève peut toujours choisir lui-même ce palier
+          btn.innerHTML = `${isValidated ? '<span class="tier-check-icon">✓</span> ' : ''}${baseLabel}`;
+          btn.classList.remove('tier-locked');
+          btn.classList.toggle('active', isActive);
+          btn.classList.toggle('tier-validated', isValidated);
+          btn.title = isValidated
+            ? `Palier ${tier} validé — Clique pour choisir ce palier`
+            : `Palier ${tier} débloqué — Clique pour t'entraîner sur ce palier`;
+          btn.onclick = () => {
+            if (engine) {
+              engine.setTier(tier);
+              this.renderTrainingView();
+            }
+          };
+        }
       });
+    },
+
+    updateTierButtonsUI() {
+      this.renderTierButtons();
     },
 
     submitCurrentAnswer() {
@@ -1639,6 +1668,14 @@ document.addEventListener('DOMContentLoaded', () => {
             this.switchTab('train');
             if (tierParam && tierParam >= 1 && tierParam <= 4) {
               setTimeout(() => {
+                // Si l'enseignant partage un palier précis pour une IE, s'assurer que le palier est accessible
+                window.MathsStorage.updateChapterProgress(targetChap.id, p => {
+                  p.validatedTiers = p.validatedTiers || [];
+                  for (let t = 1; t < tierParam; t++) {
+                    if (!p.validatedTiers.includes(t)) p.validatedTiers.push(t);
+                  }
+                  return p;
+                });
                 window.MathsAdaptiveEngine.setTier(tierParam);
                 this.renderTrainingView();
                 this.showToast(`🎯 <strong>Entraînement ciblé :</strong> ${targetChap.shortTitle || targetChap.title} (Palier ${tierParam})`, 4000);
