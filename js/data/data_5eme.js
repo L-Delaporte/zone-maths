@@ -1311,6 +1311,54 @@ window.MATHS_EXERCISES_5E = {
     "skill": "Raisonner"
   },
   {
+    "id": "5N5-3c",
+    "chapterId": "5N5",
+    "tier": 3,
+    "title": "Tester une égalité",
+    "statement": "On considère l'égalité $3x + 4 = 25$. Le nombre 6 est-il solution de cette équation ?",
+    "type": "mcq",
+    "options": [
+      "Non, car $3 \\times 6 + 4 = 18 + 4 = 22 \\neq 25$",
+      "Oui, car $3 \\times 6 + 4 = 25$",
+      "Oui, car 6 est un nombre pair",
+      "On ne peut pas savoir"
+    ],
+    "correctIndex": 0,
+    "explanations": [
+      "Exact : le membre de gauche vaut 22 pour x = 6, ce qui est différent de 25.",
+      "Erreur de calcul : 18 + 4 = 22 et non 25.",
+      "La parité n'indique pas si le nombre vérifie l'égalité.",
+      "On peut le vérifier en calculant la valeur de l'expression."
+    ],
+    "hint1": "Calcule $3 \\times 6 + 4$ et compare avec 25.",
+    "solution": "Pour $x = 6$, $3 \\times 6 + 4 = 18 + 4 = 22$. Comme $22 \\neq 25$, 6 n'est pas solution.",
+    "skill": "Raisonner"
+  },
+  {
+    "id": "5N5-3d",
+    "chapterId": "5N5",
+    "tier": 3,
+    "title": "Tester une égalité",
+    "statement": "On considère l'égalité $5x - 8 = 27$. Le nombre 7 est-il solution de cette équation ?",
+    "type": "mcq",
+    "options": [
+      "Oui, car $5 \\times 7 - 8 = 35 - 8 = 27$",
+      "Non, car $5 \\times 7 - 8 = 25$",
+      "Non, car 7 est un nombre premier",
+      "On ne peut pas savoir"
+    ],
+    "correctIndex": 0,
+    "explanations": [
+      "Exact : pour x = 7, le membre de gauche donne 27, égal au membre de droite.",
+      "Erreur de soustraction : 35 - 8 = 27.",
+      "Le fait d'être premier n'empêche pas d'être solution.",
+      "Le calcul montre directement que l'égalité est vérifiée."
+    ],
+    "hint1": "Calcule $5 \\times 7 - 8$ et compare avec 27.",
+    "solution": "Pour $x = 7$, $5 \\times 7 - 8 = 35 - 8 = 27$. L'égalité est vérifiée, 7 est bien solution.",
+    "skill": "Raisonner"
+  },
+  {
     "id": "5N5-4",
     "chapterId": "5N5",
     "tier": 4,

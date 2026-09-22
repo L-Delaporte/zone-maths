@@ -2585,37 +2585,236 @@ window.MathsGenerators = {
     }
   },
 
-  // --- Org3 : Probabilités ---
+  // --- Org3 : Fonctions linéaires et affines (3ème) ---
   generateOrg3(tier = 1, mastery = 0) {
     const t = this.resolveTier(tier);
 
     if (t === 1) {
-      // Palier 1 : Socle (Événement élémentaire simple)
-      const faces = 6;
-      const target = this.randInt(1, 5); // ex: P(obtenir un nombre <= target)
-      const count = target;
-      const [sN, sD] = this.simplifyFraction(count, faces);
+      // Palier 1 : Socle (Calcul d'image f(x) = ax ou f(x) = ax + b, ordonnée à l'origine)
+      const subType = this.randChoice(['image_lin', 'image_aff', 'ord_origine', 'nature_fonc']);
+
+      if (subType === 'image_lin') {
+        const a = this.randInt(2, 8);
+        const x = this.randInt(-5, 6, [0]);
+        const ans = a * x;
+        return {
+          chapterId: 'Org3',
+          tier: 1,
+          title: "Image par une fonction linéaire",
+          statement: `Soit la fonction linéaire $f(x) = ${a}x$.\n**Calculer l'image de $${x}$ par $f$ :**`,
+          type: "exact",
+          answer: String(ans),
+          placeholder: `Ex: ${ans}`,
+          hint1: `Remplace $x$ par $${x}$ dans l'expression de $f$ : $f(${x}) = ${a} \\times (${x})$.`,
+          solution: `$$f(${x}) = ${a} \\times (${x}) = ${ans}$$`
+        };
+      } else if (subType === 'image_aff') {
+        const a = this.randInt(2, 6);
+        const b = this.randInt(-9, 9, [0]);
+        const x = this.randInt(-4, 5);
+        const ans = a * x + b;
+        const bStr = b > 0 ? `+ ${b}` : `- ${Math.abs(b)}`;
+        return {
+          chapterId: 'Org3',
+          tier: 1,
+          title: "Image par une fonction affine",
+          statement: `Soit la fonction affine $f(x) = ${a}x ${bStr}$.\n**Calculer l'image de $${x}$ par $f$ :**`,
+          type: "exact",
+          answer: String(ans),
+          placeholder: `Ex: ${ans}`,
+          hint1: `Remplace $x$ par $${x}$ : effectue la multiplication $${a} \\times (${x})$, puis ajoute ${b}.`,
+          solution: `$$f(${x}) = ${a} \\times (${x}) ${bStr} = ${a * x} ${bStr} = ${ans}$$`
+        };
+      } else if (subType === 'ord_origine') {
+        const a = this.randInt(-5, 6, [0]);
+        const b = this.randInt(-9, 9, [0]);
+        const aStr = a === 1 ? 'x' : (a === -1 ? '-x' : `${a}x`);
+        const bStr = b > 0 ? `+ ${b}` : `- ${Math.abs(b)}`;
+        return {
+          chapterId: 'Org3',
+          tier: 1,
+          title: "Ordonnée à l'origine d'une droite affine",
+          statement: `On considère la fonction affine $f(x) = ${aStr} ${bStr}$.\n**Quelle est l'ordonnée à l'origine de sa droite représentative ?**`,
+          type: "exact",
+          answer: String(b),
+          placeholder: `Ex: ${b}`,
+          hint1: `Pour une fonction affine $f(x) = ax + b$, l'ordonnée à l'origine est le nombre constant $b$ (valeur en $x = 0$).`,
+          solution: `L'ordonnée à l'origine est la valeur de $f(0)$ :\n$$b = ${b}$$`
+        };
+      } else {
+        const a = this.randInt(2, 7);
+        return {
+          chapterId: 'Org3',
+          tier: 1,
+          title: "Reconnaître une fonction linéaire",
+          statement: `Parmi les fonctions suivantes, laquelle est une fonction linéaire (traduisant une situation de proportionnalité) ?`,
+          type: "mcq",
+          options: [
+            `$f(x) = ${a}x$`,
+            `$g(x) = ${a}x + 3$`,
+            `$h(x) = x^2$`,
+            `$k(x) = \\frac{${a}}{x}$`
+          ],
+          answer: `$f(x) = ${a}x$`,
+          correctIndex: 0,
+          hint1: "Une fonction linéaire est de la forme $f(x) = ax$ sans terme constant ajouté. Sa droite passe par l'origine.",
+          solution: `Une fonction linéaire s'écrit sous la forme $f(x) = ax$. La bonne réponse est donc **$f(x) = ${a}x$**.`
+        };
+      }
+    } else if (t === 2) {
+      // Palier 2 : Guidé (Antécédent par fonction linéaire ou affine, sens de variation)
+      const subType = this.randChoice(['ant_lin', 'ant_aff', 'sens_var']);
+
+      if (subType === 'ant_lin') {
+        const a = this.randInt(2, 7);
+        const ans = this.randInt(-6, 7, [0]);
+        const y = a * ans;
+        return {
+          chapterId: 'Org3',
+          tier: 2,
+          title: "Antécédent par une fonction linéaire",
+          statement: `Soit la fonction linéaire $f(x) = ${a}x$.\n**Déterminer l'antécédent de $${y}$ par $f$ :**`,
+          type: "exact",
+          answer: String(ans),
+          placeholder: `Ex: ${ans}`,
+          hint1: `Résous l'équation $f(x) = ${y}$, c'est-à-dire $${a}x = ${y}$. Divise par $${a}$.`,
+          solution: `$$f(x) = ${y} \\iff ${a}x = ${y} \\iff x = \\frac{${y}}{${a}} = ${ans}$$`
+        };
+      } else if (subType === 'ant_aff') {
+        const a = this.randInt(2, 6);
+        const b = this.randInt(1, 9);
+        const ans = this.randInt(-5, 6);
+        const y = a * ans + b;
+        return {
+          chapterId: 'Org3',
+          tier: 2,
+          title: "Antécédent par une fonction affine",
+          statement: `Soit la fonction affine $f(x) = ${a}x + ${b}$.\n**Déterminer l'antécédent du nombre $${y}$ par $f$ :**`,
+          type: "exact",
+          answer: String(ans),
+          placeholder: `Ex: ${ans}`,
+          hint1: `Résous l'équation $${a}x + ${b} = ${y}$ : commence par soustraire $${b}$, puis divise par $${a}$.`,
+          solution: `$$${a}x + ${b} = ${y} \\iff ${a}x = ${y} - ${b} = ${y - b} \\iff x = \\frac{${y - b}}{${a}} = ${ans}$$`
+        };
+      } else {
+        const a = this.randChoice([-5, -4, -3, -2, 2, 3, 4, 5]);
+        const b = this.randInt(-8, 8);
+        const bStr = b >= 0 ? `+ ${b}` : `- ${Math.abs(b)}`;
+        const isCroissante = a > 0;
+        const correct = isCroissante ? "Strictement croissante (la droite monte)" : "Strictement décroissante (la droite descend)";
+        const wrong = isCroissante ? "Strictement décroissante (la droite descend)" : "Strictement croissante (la droite monte)";
+
+        return {
+          chapterId: 'Org3',
+          tier: 2,
+          title: "Sens de variation d'une fonction affine",
+          statement: `On considère la fonction affine $f(x) = ${a}x ${bStr}$.\nQuel est son sens de variation sur $\\mathbb{R}$ ?`,
+          type: "mcq",
+          options: [
+            correct,
+            wrong,
+            "Constante (la droite est horizontale)",
+            "On ne peut pas savoir sans tracer la courbe"
+          ],
+          answer: correct,
+          correctIndex: 0,
+          hint1: "Le sens de variation dépend uniquement du signe du coefficient directeur $a$ devant $x$.",
+          solution: `Le coefficient directeur est $a = ${a}$. Comme $a ${isCroissante ? '> 0' : '< 0'}$, la fonction $f$ est **${correct.toLowerCase()}**.`
+        };
+      }
+    } else if (t === 3) {
+      // Palier 3 : Brevet (Calcul du coefficient directeur à partir de 2 points : a = (yB - yA) / (xB - xA))
+      const a = this.randChoice([-3, -2, -1, 2, 3, 4]);
+      const xA = this.randInt(-3, 3);
+      const yA = this.randInt(-4, 6);
+      const dx = this.randChoice([1, 2, 3]);
+      const xB = xA + dx;
+      const yB = yA + a * dx;
 
       return {
         chapterId: 'Org3',
-        tier: 1,
-        title: "Probabilité d'un événement simple (Dé à 6 faces)",
-        statement: `On lance un dé équilibré à 6 faces numérotées de 1 à 6.\n**Quelle est la probabilité d'obtenir un nombre inférieur ou égal à $${target}$ ?**\n*(Donner le résultat sous forme de fraction irréductible)*`,
-        type: 'exact',
-        answer: sD === 1 ? String(sN) : `${sN}/${sD}`,
-        placeholder: "Ex: 1/2",
-        hint1: `Le nombre d'issues favorables est $${count}$ (les nombres de 1 à $${target}$). L'effectif total est 6. Forme la fraction $${count}/6$ et simplifie.`,
-        solution: `$$P = \\frac{\\text{Nombre d'issues favorables}}{\\text{Nombre d'issues totales}} = \\frac{${count}}{6} = ${this.formatFraction(count, 6)}$$`
+        tier: 3,
+        title: "Calcul du coefficient directeur (Brevet)",
+        statement: `La représentation graphique d'une fonction affine passe par les points $A(${xA} ; ${yA})$ et $B(${xB} ; ${yB})$.\n\n**Calculer le coefficient directeur $a$ de cette droite :**`,
+        type: "exact",
+        answer: String(a),
+        placeholder: `Ex: ${a}`,
+        hint1: `Utilise la formule du taux d'accroissement : $a = \\frac{y_B - y_A}{x_B - x_A} = \\frac{${yB} - (${yA})}{${xB} - (${xA})}$.`,
+        solution: `$$a = \\frac{y_B - y_A}{x_B - x_A} = \\frac{${yB} - (${yA})}{${xB} - (${xA})} = \\frac{${yB - yA}}{${xB - xA}} = ${a}$$`
       };
+    } else {
+      // Palier 4 : Défi Seconde (Déterminer l'ordonnée à l'origine b connaissant a et un point)
+      const a = this.randChoice([-4, -3, -2, 2, 3, 5]);
+      const b = this.randInt(-7, 8, [0]);
+      const x0 = this.randInt(-3, 4, [0]);
+      const y0 = a * x0 + b;
+
+      return {
+        chapterId: 'Org3',
+        tier: 4,
+        title: "Défi Seconde : Déterminer l'ordonnée à l'origine b",
+        statement: `Soit une fonction affine $f(x) = ax + b$.\nOn sait que son coefficient directeur vaut $a = ${a}$ et que sa droite représentative passe par le point $A(${x0} ; ${y0})$.\n\n**Calculer la valeur exacte de l'ordonnée à l'origine $b$ :**`,
+        type: "exact",
+        answer: String(b),
+        placeholder: `Ex: ${b}`,
+        hint1: `Comme $A(${x0} ; ${y0})$ est sur la droite, on a $f(${x0}) = ${y0}$, soit $${a} \\times (${x0}) + b = ${y0}$. Isole $b$.`,
+        solution: `$$f(${x0}) = ${y0} \\implies ${a} \\times (${x0}) + b = ${y0} \\implies ${a * x0} + b = ${y0}$$\n$$b = ${y0} - (${a * x0}) = ${b}$$\nL'expression complète de la fonction est donc $f(x) = ${a}x ${b > 0 ? '+ ' + b : '- ' + Math.abs(b)}$.`
+      };
+    }
+  },
+
+  // --- Org4 : Probabilités et Expériences aléatoires (3ème) ---
+  generateOrg4(tier = 1, mastery = 0) {
+    const t = this.resolveTier(tier);
+
+    if (t === 1) {
+      // Palier 1 : Socle (Événement élémentaire simple : dé à 6 faces, boule dans une urne)
+      const subType = this.randChoice(['die_faces', 'urn_simple']);
+
+      if (subType === 'die_faces') {
+        const target = this.randInt(1, 5);
+        const count = target;
+        const [sN, sD] = this.simplifyFraction(count, 6);
+
+        return {
+          chapterId: 'Org4',
+          tier: 1,
+          title: "Probabilité d'un événement simple (Dé à 6 faces)",
+          statement: `On lance un dé équilibré à 6 faces numérotées de 1 à 6.\n**Quelle est la probabilité d'obtenir un nombre inférieur ou égal à $${target}$ ?**\n*(Donner le résultat sous forme de fraction irréductible)*`,
+          type: 'exact',
+          answer: sD === 1 ? String(sN) : `${sN}/${sD}`,
+          placeholder: "Ex: 1/2",
+          hint1: `Le nombre d'issues favorables est $${count}$ (les nombres de 1 à $${target}$). Le total d'issues est 6. Forme la fraction $${count}/6$ et simplifie.`,
+          solution: `$$P = \\frac{\\text{Issues favorables}}{\\text{Total issues}} = \\frac{${count}}{6} = ${this.formatFraction(count, 6)}$$`
+        };
+      } else {
+        const rouges = this.randInt(3, 6);
+        const bleues = this.randInt(2, 5);
+        const vertes = this.randInt(1, 4);
+        const total = rouges + bleues + vertes;
+        const [sN, sD] = this.simplifyFraction(rouges, total);
+
+        return {
+          chapterId: 'Org4',
+          tier: 1,
+          title: "Probabilité d'un tirage dans une urne",
+          statement: `Une urne contient $${rouges}$ boules rouges, $${bleues}$ boules bleues et $${vertes}$ boules vertes (soit $${total}$ boules au total).\nOn tire une boule au hasard.\n**Quelle est la probabilité de tirer une boule rouge ?**\n*(Fraction irréductible)*`,
+          type: 'exact',
+          answer: sD === 1 ? String(sN) : `${sN}/${sD}`,
+          placeholder: "Ex: 1/3",
+          hint1: `Nombre de boules rouges : $${rouges}$. Total de boules : $${rouges} + ${bleues} + ${vertes} = ${total}$. Forme le quotient.`,
+          solution: `$$P(\\text{Rouge}) = \\frac{${rouges}}{${total}} = ${this.formatFraction(rouges, total)}$$`
+        };
+      }
     } else if (t === 2) {
-      // Palier 2 : Guidé (Événement contraire)
+      // Palier 2 : Guidé (Événement contraire P(non A) = 1 - P(A))
       const nTotal = this.randChoice([10, 20, 25]);
       const nFav = this.randInt(3, nTotal - 3);
       const nContraire = nTotal - nFav;
       const [sN, sD] = this.simplifyFraction(nContraire, nTotal);
 
       return {
-        chapterId: 'Org3',
+        chapterId: 'Org4',
         tier: 2,
         title: "Probabilité de l'événement contraire",
         statement: `Une urne contient $${nTotal}$ boules indiscernables au toucher dont $${nFav}$ sont gagnantes.\nOn tire une boule au hasard.\n**Quelle est la probabilité de tirer une boule perdante (non gagnante) ?**\n*(Fraction irréductible)*`,
@@ -2629,38 +2828,35 @@ window.MathsGenerators = {
       // Palier 3 : Brevet (Arbre pondéré à deux épreuves indépendantes avec remise)
       const r = this.randChoice([2, 3]);
       const v = this.randChoice([3, 4]);
-      const tot = r + v; // ex: 2 rouges et 3 vertes => total 5
-      // P(Rouge puis Rouge) = (r/tot) * (r/tot)
+      const tot = r + v;
       const pNum = r * r;
       const pDen = tot * tot;
       const [sN, sD] = this.simplifyFraction(pNum, pDen);
 
       return {
-        chapterId: 'Org3',
+        chapterId: 'Org4',
         tier: 3,
         title: "Arbre de probabilités à deux épreuves avec remise",
         statement: `Un sac contient $${r}$ billes rouges et $${v}$ billes vertes (soit $${tot}$ billes au total).\nOn tire une première bille au hasard, on note sa couleur, puis on la **remet** dans le sac avant de tirer une seconde bille.\n\n**Quelle est la probabilité d'obtenir deux billes rouges consécutives ?**\n*(Fraction irréductible)*`,
         type: 'exact',
         answer: `${sN}/${sD}`,
         placeholder: "Ex: 4/25",
-        hint1: `Le tirage s'effectue avec remise : les deux tirages sont indépendants. Multiplie la probabilité du 1er tirage par celle du 2nd tirage : $\\frac{${r}}{${tot}} \\times \\frac{${r}}{${tot}}$.`,
+        hint1: `Le tirage s'effectue avec remise : les deux tirages sont indépendants. Multiplie les probabilités : $\\frac{${r}}{${tot}} \\times \\frac{${r}}{${tot}}$.`,
         solution: `À chaque tirage, la probabilité d'obtenir une bille rouge est $P(R) = \\frac{${r}}{${tot}}$.\nComme il y a remise, les tirages sont indépendants :\n$$P(R \\cap R) = P(R) \\times P(R) = \\frac{${r}}{${tot}} \\times \\frac{${r}}{${tot}} = \\frac{${pNum}}{${pDen}} = ${this.formatFraction(pNum, pDen)}$$`
       };
     } else {
-      // Palier 4 : Défi Seconde (Tirage SANS remise de deux boules : probabilité de même couleur)
-      // r rouges, v vertes, total N.
-      // P(même couleur) = P(R,R) + P(V,V) = (r/N)*((r-1)/(N-1)) + (v/N)*((v-1)/(N-1))
+      // Palier 4 : Défi Seconde (Tirage SANS remise de deux boules : même couleur)
       const configs = [
-        { r: 4, v: 6, tot: 10, num: 4*3 + 6*5, den: 10*9 }, // 12 + 30 = 42 / 90 = 7/15
-        { r: 3, v: 5, tot: 8, num: 3*2 + 5*4, den: 8*7 },   // 6 + 20 = 26 / 56 = 13/28
-        { r: 5, v: 5, tot: 10, num: 5*4 + 5*4, den: 10*9 }, // 20 + 20 = 40 / 90 = 4/9
-        { r: 2, v: 4, tot: 6, num: 2*1 + 4*3, den: 6*5 }    // 2 + 12 = 14 / 30 = 7/15
+        { r: 4, v: 6, tot: 10, num: 4*3 + 6*5, den: 10*9 },
+        { r: 3, v: 5, tot: 8, num: 3*2 + 5*4, den: 8*7 },
+        { r: 5, v: 5, tot: 10, num: 5*4 + 5*4, den: 10*9 },
+        { r: 2, v: 4, tot: 6, num: 2*1 + 4*3, den: 6*5 }
       ];
       const cfg = this.randChoice(configs);
       const [sN, sD] = this.simplifyFraction(cfg.num, cfg.den);
 
       return {
-        chapterId: 'Org3',
+        chapterId: 'Org4',
         tier: 4,
         title: "Défi Seconde : Probabilité composée SANS remise (Même couleur)",
         statement: `Une urne opaque contient $${cfg.r}$ boules rouges et $${cfg.v}$ boules vertes (soit $${cfg.tot}$ boules au total).\nOn tire successivement et **SANS remise** deux boules au hasard dans l'urne.\n\n**Calculer la probabilité que les deux boules tirées soient de la même couleur (deux rouges OU deux vertes).**\n*(Donner la réponse sous forme de fraction irréductible)*`,
@@ -2668,98 +2864,7 @@ window.MathsGenerators = {
         answer: `${sN}/${sD}`,
         placeholder: "Ex: 7/15",
         hint1: `Sans remise, au second tirage il ne reste que $${cfg.tot - 1}$ boules dans l'urne.\n1. $P(R_1 \\cap R_2) = \\frac{${cfg.r}}{${cfg.tot}} \\times \\frac{${cfg.r - 1}}{${cfg.tot - 1}}$.\n2. $P(V_1 \\cap V_2) = \\frac{${cfg.v}}{${cfg.tot}} \\times \\frac{${cfg.v - 1}}{${cfg.tot - 1}}$.\n3. Additionne les deux probabilités.`,
-        solution: `L'événement "obtenir deux boules de même couleur" est l'union disjointe de deux cas :\n1. Deux rouges :\n$$P(R_1 \\cap R_2) = \\frac{${cfg.r}}{${cfg.tot}} \\times \\frac{${cfg.r-1}}{${cfg.tot-1}} = \\frac{${cfg.r*(cfg.r-1)}}{${cfg.den}}$$\n2. Deux vertes :\n$$P(V_1 \\cap V_2) = \\frac{${cfg.v}}{${cfg.tot}} \\times \\frac{${cfg.v-1}}{${cfg.tot-1}} = \\frac{${cfg.v*(cfg.v-1)}}{${cfg.den}}$$\n3. Probabilité totale :\n$$P = \\frac{${cfg.r*(cfg.r-1)}}{${cfg.den}} + \\frac{${cfg.v*(cfg.v-1)}}{${cfg.den}} = \\frac{${cfg.num}}{${cfg.den}} = ${this.formatFraction(cfg.num, cfg.den)}$$`
-      };
-    }
-  },
-
-  // --- Org4 : Proportionnalité, pourcentages et grandeurs composées ---
-  generateOrg4(tier = 1, mastery = 0) {
-    const t = this.resolveTier(tier);
-
-    if (t === 1) {
-      // Palier 1 : Socle (Appliquer un pourcentage simple)
-      const p = this.randChoice([10, 20, 25, 50]);
-      const prix = this.randChoice([40, 60, 80, 120, 200]);
-      const montant = (prix * p) / 100;
-      const prixFinal = prix - montant;
-
-      return {
-        chapterId: 'Org4',
-        tier: 1,
-        title: "Application d'un pourcentage de réduction",
-        statement: `Un article affiché au prix de $${prix}\\text{ €}$ bénéficie d'une remise immédiate de $${p}\\%$.\n**Quel est le nouveau prix de cet article après réduction ?**`,
-        type: 'exact',
-        answer: String(prixFinal),
-        placeholder: `Ex: ${prixFinal}`,
-        hint1: `Calcule le montant de la remise : $\\frac{${p}}{100} \\times ${prix} = ${montant}\\text{ €}$. Puis soustrais-le du prix initial.`,
-        solution: `$$\\text{Montant remise} = ${prix} \\times \\frac{${p}}{100} = ${montant}\\text{ €}$$\n$$\\text{Nouveau prix} = ${prix} - ${montant} = ${prixFinal}\\text{ €}$$`
-      };
-    } else if (t === 2) {
-      // Palier 2 : Guidé (Calcul d'un taux d'évolution)
-      const vi = this.randChoice([50, 80, 100, 200]);
-      const p = this.randChoice([15, 20, 25, 30]);
-      const vf = vi + (vi * p) / 100;
-
-      return {
-        chapterId: 'Org4',
-        tier: 2,
-        title: "Calcul du taux d'évolution en pourcentage",
-        statement: `Le prix d'un abonnement passe de $${vi}\\text{ €}$ à $${vf}\\text{ €}$.\n**Quel est le taux de cette augmentation en pourcentage ?** (Indiquer uniquement le nombre, ex: 15)`,
-        type: 'exact',
-        answer: String(p),
-        placeholder: `Ex: ${p}`,
-        hint1: `Formule du taux d'évolution : $t = \\frac{V_{\\text{finale}} - V_{\\text{initiale}}}{V_{\\text{initiale}}} \\times 100\\%$.`,
-        solution: `$$t = \\frac{${vf} - ${vi}}{${vi}} \\times 100 = \\frac{${vf - vi}}{${vi}} \\times 100 = ${p}\\%$$`
-      };
-    } else if (t === 3) {
-      // Palier 3 : Brevet (Vitesse moyenne et durée décimale)
-      const speeds = [60, 80, 90, 100, 120];
-      const speed = this.randChoice(speeds);
-      // Durée: 1h30 (1.5) ou 1h15 (1.25) ou 2h30 (2.5) ou 0h45 (0.75)
-      const times = [
-        { text: "1\\text{ h } 30\\text{ min}", h: 1.5 },
-        { text: "2\\text{ h } 15\\text{ min}", h: 2.25 },
-        { text: "1\\text{ h } 45\\text{ min}", h: 1.75 },
-        { text: "0\\text{ h } 45\\text{ min}", h: 0.75 }
-      ];
-      const tm = this.randChoice(times);
-      const dist = Math.round(speed * tm.h);
-
-      return {
-        chapterId: 'Org4',
-        tier: 3,
-        title: "Vitesse moyenne et conversion de durée (Brevet)",
-        statement: `Un automobiliste roule à une vitesse moyenne constante de $v = ${speed}\\text{ km/h}$ pendant une durée de $t = ${tm.text}$.\n\n**Calculer la distance totale parcourue $d$ en kilomètres.**`,
-        type: 'exact',
-        answer: String(dist),
-        placeholder: `Ex: ${dist}`,
-        hint1: `Convertis d'abord la durée en heures décimales : $t = ${tm.h}\\text{ h}$. Puis applique $d = v \\times t$.`,
-        solution: `1. Conversion de la durée : $${tm.text} = ${tm.h}\\text{ h}$.\n2. Calcul de la distance :\n$$d = v \\times t = ${speed} \\times ${tm.h} = ${dist}\\text{ km}$$`
-      };
-    } else {
-      // Palier 4 : Défi Seconde (Évolutions successives en pourcentage)
-      // +p% puis -p% ou +p% puis -q%
-      // Exemple classique : Hausse de 20% puis Baisse de 20% => CM = 1.20 * 0.80 = 0.96 => Baisse de 4% !
-      const pairs = [
-        { p1: 20, p2: -20, cm: 0.96, global: -4, desc: "hausse de 20% suivie d'une baisse de 20%" },
-        { p1: 10, p2: -10, cm: 0.99, global: -1, desc: "hausse de 10% suivie d'une baisse de 10%" },
-        { p1: 25, p2: -20, cm: 1.00, global: 0, desc: "hausse de 25% suivie d'une baisse de 20%" },
-        { p1: 50, p2: -50, cm: 0.75, global: -25, desc: "hausse de 50% suivie d'une baisse de 50%" },
-        { p1: 20, p2: 10, cm: 1.32, global: 32, desc: "hausse de 20% suivie d'une hausse de 10%" }
-      ];
-      const evo = this.randChoice(pairs);
-
-      return {
-        chapterId: 'Org4',
-        tier: 4,
-        title: "Défi Seconde : Évolutions successives et coefficient multiplicateur global",
-        statement: `Le prix d'un produit subit deux évolutions consécutives : une ${evo.desc}.\n\n**Quelle est l'évolution globale en pourcentage subie par ce prix ?**\n*(Exemple : saisir -4 pour une baisse de 4%, ou 32 pour une hausse de 32%)*`,
-        type: 'exact',
-        answer: String(evo.global),
-        placeholder: `Ex: ${evo.global}`,
-        hint1: `Attention : on ne peut JAMAIS additionner les pourcentages ! Il faut multiplier les coefficients multiplicateurs :\n$$CM_{\\text{global}} = CM_1 \\times CM_2 = \\left(1 + \\frac{${evo.p1}}{100}\\right) \\times \\left(1 + \\frac{${evo.p2}}{100}\\right)$$`,
-        solution: `1. Coefficients multiplicateurs des deux évolutions :\n- $CM_1 = 1 + \\frac{${evo.p1}}{100} = ${(1 + evo.p1/100).toFixed(2)}$\n- $CM_2 = 1 + \\frac{${evo.p2}}{100} = ${(1 + evo.p2/100).toFixed(2)}$\n2. Coefficient multiplicateur global :\n$$CM_{\\text{global}} = CM_1 \\times CM_2 = ${(1 + evo.p1/100).toFixed(2)} \\times ${(1 + evo.p2/100).toFixed(2)} = ${evo.cm}$$\n3. Taux d'évolution global :\n$$T = (CM_{\\text{global}} - 1) \\times 100\\% = (${evo.cm} - 1) \\times 100\\% = ${evo.global}\\%$$`
+        solution: `L'événement "obtenir deux boules de même couleur" est l'union de deux événements disjoints :\\n1. Deux rouges :\\n$$P(R_1 \\cap R_2) = \\frac{${cfg.r}}{${cfg.tot}} \\times \\frac{${cfg.r-1}}{${cfg.tot-1}} = \\frac{${cfg.r*(cfg.r-1)}}{${cfg.den}}$$\\n2. Deux vertes :\\n$$P(V_1 \\cap V_2) = \\frac{${cfg.v}}{${cfg.tot}} \\times \\frac{${cfg.v-1}}{${cfg.tot-1}} = \\frac{${cfg.v*(cfg.v-1)}}{${cfg.den}}$$\\n3. Probabilité totale :\\n$$P = \\frac{${cfg.r*(cfg.r-1)}}{${cfg.den}} + \\frac{${cfg.v*(cfg.v-1)}}{${cfg.den}} = \\frac{${cfg.num}}{${cfg.den}} = ${this.formatFraction(cfg.num, cfg.den)}$$`
       };
     }
   },
@@ -6087,231 +6192,341 @@ window.MathsGenerators = {
     }
   },
 
-  // --- 5N4 : Arithmétique 5ème (critères de divisibilité, division euclidienne) ---
+  // --- 5N4 : Puissances simples (carré, cube et base 10) ---
   generate5N4(tier = 1, mastery = 0) {
     const t = this.resolveTier(tier);
 
     if (t === 1) {
-      // Palier 1 : Socle (Division euclidienne, critères 2/5/10, vocabulaire multiple)
-      const subType = this.randChoice(['remainder', 'quotient', 'dividend', 'div_2_5_10', 'multiple']);
+      // Palier 1 : Socle (Bases du carré, cube et puissances de 10)
+      const subType = this.randChoice(['carre_entier', 'cube_entier', 'puissance_10', 'ecriture_puissance', 'vocabulaire_exposant']);
 
-      if (subType === 'remainder') {
-        const b = this.randInt(4, 9);
-        const q = this.randInt(5, 12);
-        const r = this.randInt(1, b - 1);
-        const a = b * q + r;
+      if (subType === 'carre_entier') {
+        const a = this.randInt(0, 15);
+        const ans = a * a;
         return {
           chapterId: '5N4',
           tier: 1,
-          title: "Division euclidienne : calcul du reste",
-          statement: `Dans la division euclidienne de $${a}$ par $${b}$ :\n**Quel est le reste de cette division ?**`,
+          title: "Calcul du carré d'un nombre entier",
+          statement: `Calculer la valeur exacte du carré suivant :\n$$A = ${a}^2$$`,
           type: "exact",
-          answer: String(r),
-          placeholder: `Ex: ${r}`,
-          hint1: `Écris l'égalité euclidienne $${a} = ${b} \\times q + r$ avec $0 \\le r < ${b}$.`,
-          solution: `$$${a} = ${b} \\times ${q} + ${r}$$\nLe reste est donc :\n$$r = ${r}$$`
+          answer: String(ans),
+          placeholder: `Ex: ${ans}`,
+          hint1: `Le carré d'un nombre est le produit de ce nombre par lui-même : $${a}^2 = ${a} \\times ${a}$.`,
+          solution: `$$${a}^2 = ${a} \\times ${a} = ${ans}$$`
         };
-      } else if (subType === 'quotient') {
-        const b = this.randInt(4, 9);
-        const q = this.randInt(5, 12);
-        const r = this.randInt(0, b - 1);
-        const a = b * q + r;
+      } else if (subType === 'cube_entier') {
+        const a = this.randChoice([0, 1, 2, 3, 4, 5, 10]);
+        const ans = a * a * a;
         return {
           chapterId: '5N4',
           tier: 1,
-          title: "Division euclidienne : calcul du quotient entier",
-          statement: `Dans la division euclidienne de $${a}$ par $${b}$ :\n**Quel est le quotient entier de cette division ?**`,
+          title: "Calcul du cube d'un nombre entier",
+          statement: `Calculer la valeur exacte du cube suivant :\n$$B = ${a}^3$$`,
           type: "exact",
-          answer: String(q),
-          placeholder: `Ex: ${q}`,
-          hint1: `Combien de fois $${b}$ rentre-t-il au maximum dans $${a}$ sans le dépasser ?`,
-          solution: `$$${a} = ${b} \\times ${q} + ${r}$$\nLe quotient entier est donc :\n$$q = ${q}$$`
+          answer: String(ans),
+          placeholder: `Ex: ${ans}`,
+          hint1: `Le cube d'un nombre est le produit de trois facteurs égaux à ce nombre : $${a}^3 = ${a} \\times ${a} \\times ${a}$.`,
+          solution: `$$${a}^3 = ${a} \\times ${a} \\times ${a} = ${ans}$$`
         };
-      } else if (subType === 'dividend') {
-        const b = this.randInt(4, 9);
-        const q = this.randInt(4, 11);
-        const r = this.randInt(1, b - 1);
-        const a = b * q + r;
+      } else if (subType === 'puissance_10') {
+        const n = this.randInt(1, 6);
+        const zeros = '0'.repeat(n);
+        const ans = '1' + zeros;
         return {
           chapterId: '5N4',
           tier: 1,
-          title: "Division euclidienne : retrouver le dividende",
-          statement: `Dans une division euclidienne par $${b}$, le quotient entier est $${q}$ et le reste vaut $${r}$.\n**Quel est le dividende de cette division ?**`,
+          title: "Écriture décimale d'une puissance de 10",
+          statement: `Donner l'écriture décimale du nombre suivant :\n$$C = 10^${n}$$`,
           type: "exact",
-          answer: String(a),
-          placeholder: `Ex: ${a}`,
-          hint1: `Formule de la division euclidienne : $\\text{Dividende} = (\\text{Diviseur} \\times \\text{Quotient}) + \\text{Reste}$.`,
-          solution: `$$\\text{Dividende} = (${b} \\times ${q}) + ${r} = ${b * q} + ${r} = ${a}$$`
+          answer: ans,
+          placeholder: `Ex: ${ans}`,
+          hint1: `$10^n$ s'écrit avec un $1$ suivi de $n$ zéros. Ici, il y a $${n}$ zéros.`,
+          solution: `$$10^${n} = 1\\underbrace{${zeros}}_{${n}\\text{ zéros}} = ${ans}$$`
         };
-      } else if (subType === 'div_2_5_10') {
-        const crit = this.randChoice([2, 5, 10]);
-        const isDiv = Math.random() > 0.5;
-        let num;
-        if (crit === 2) {
-          num = isDiv ? this.randInt(15, 80) * 2 : this.randInt(15, 80) * 2 + 1;
-        } else if (crit === 5) {
-          num = isDiv ? this.randInt(10, 50) * 5 : this.randInt(10, 50) * 5 + this.randChoice([1, 2, 3, 4]);
-        } else {
-          num = isDiv ? this.randInt(10, 40) * 10 : this.randInt(10, 40) * 10 + this.randInt(1, 9);
-        }
-        const lastDigit = num % 10;
+      } else if (subType === 'ecriture_puissance') {
+        const isCube = Math.random() < 0.5;
+        const a = this.randInt(2, 9);
+        const exp = isCube ? 3 : 2;
+        const prod = isCube ? `${a} \\times ${a} \\times ${a}` : `${a} \\times ${a}`;
+        const correctOpt = `$${a}^${exp}$`;
+        const opts = this.shuffle([
+          correctOpt,
+          `$${a * exp}$`,
+          `$${exp}^${a}$`,
+          `$${a}^{${exp + 1}}$`
+        ]);
         return {
           chapterId: '5N4',
           tier: 1,
-          title: `Critère de divisibilité par ${crit}`,
-          statement: `Le nombre entier $${num}$ est-il divisible par $${crit}$ ? (Répondre par 'oui' ou 'non')`,
-          type: "exact",
-          answer: isDiv ? "oui" : "non",
-          placeholder: "oui ou non",
-          hint1: crit === 2 ? "Un nombre est divisible par 2 s'il se termine par 0, 2, 4, 6 ou 8." :
-                 crit === 5 ? "Un nombre est divisible par 5 s'il se termine par 0 ou 5." :
-                 "Un nombre est divisible par 10 s'il se termine par 0.",
-          solution: `Le dernier chiffre de $${num}$ est $${lastDigit}$.\nComme il ${isDiv ? 'respecte' : 'ne respecte pas'} le critère, le nombre $${num}$ **${isDiv ? 'est divisible' : "n'est pas divisible"}** par $${crit}$.`
+          title: "Écrire un produit sous forme de puissance",
+          statement: `Écrire le produit suivant sous la forme d'une puissance d'un nombre :\n$$P = ${prod}$$`,
+          type: "mcq",
+          options: opts,
+          answer: correctOpt,
+          correctIndex: opts.indexOf(correctOpt),
+          hint1: `Le nombre $${a}$ est répété en facteur $${exp}$ fois : c'est la notation puissance $${a}^${exp}$.`,
+          solution: `Le facteur $${a}$ apparaît $${exp}$ fois dans la multiplication, donc :\n$$${prod} = ${a}^${exp}$$`
         };
       } else {
-        const b = this.randInt(3, 9);
-        const k = this.randInt(3, 9);
-        const isMult = Math.random() > 0.5;
-        const a = isMult ? b * k : b * k + this.randChoice([1, 2]);
+        const a = this.randInt(2, 9);
+        const exp = this.randChoice([2, 3, 4]);
+        const isAskingBase = Math.random() < 0.5;
+        const correctAns = isAskingBase ? String(a) : String(exp);
         return {
           chapterId: '5N4',
           tier: 1,
-          title: "Vocabulaire : multiple et diviseur",
-          statement: `Le nombre $${a}$ est-il un multiple de $${b}$ ? (Répondre par 'oui' ou 'non')`,
+          title: isAskingBase ? "Identifier la base d'une puissance" : "Identifier l'exposant d'une puissance",
+          statement: isAskingBase
+            ? `Dans l'expression $${a}^${exp}$ :\n**Quelle est la base de cette puissance ?**`
+            : `Dans l'expression $${a}^${exp}$ :\n**Quel est l'exposant de cette puissance ?**`,
           type: "exact",
-          answer: isMult ? "oui" : "non",
-          placeholder: "oui ou non",
-          hint1: `Un nombre $a$ est un multiple de $b$ s'il existe un entier $k$ tel que $a = b \\times k$ (le reste de la division vaut 0).`,
-          solution: isMult ?
-            `Oui, car $${a} = ${b} \\times ${k}$. Donc $${a}$ est bien un multiple de $${b}$.` :
-            `Non, car dans la division de $${a}$ par $${b}$, le reste n'est pas nul ($${a} = ${b} \\times ${k} + ${a - b * k}$).`
+          answer: correctAns,
+          placeholder: `Ex: ${correctAns}`,
+          hint1: isAskingBase
+            ? "La base est le nombre qui est élevé à la puissance (le nombre du bas)."
+            : "L'exposant est le petit nombre situé en haut à droite indiquant combien de fois la base est multipliée par elle-même.",
+          solution: `Dans la notation $a^n$, $a$ est la base et $n$ est l'exposant.\nPour $${a}^${exp}$, la base est **${a}** et l'exposant est **${exp}**.\nLa réponse attendue est donc **${correctAns}**.`
         };
       }
     } else if (t === 2) {
-      // Palier 2 : Guidé (Critères 3, 9, 4 et recherche de diviseurs)
-      const subType = this.randChoice(['crit_3_9', 'crit_4', 'missing_digit', 'max_proper_divisor']);
+      // Palier 2 : Guidé (Carré de décimaux, retrouver base/exposant, priorité élémentaire)
+      const subType = this.randChoice(['carre_decimal', 'trouver_base', 'trouver_exposant', 'mult_puissance_10', 'priorite_carre_somme', 'priorite_carre_prod']);
 
-      if (subType === 'crit_3_9') {
-        const mult = this.randChoice([3, 9]);
-        const base = this.randInt(10, 40) * mult;
-        const isDiv = Math.random() > 0.5;
-        const testVal = isDiv ? base : base + this.randChoice([1, 2]);
-        const digitsSum = String(testVal).split('').reduce((s, c) => s + parseInt(c), 0);
-
+      if (subType === 'carre_decimal') {
+        const decimals = [
+          { val: '0.1', ans: '0.01', disp: '0{,}1' },
+          { val: '0.2', ans: '0.04', disp: '0{,}2' },
+          { val: '0.3', ans: '0.09', disp: '0{,}3' },
+          { val: '0.4', ans: '0.16', disp: '0{,}4' },
+          { val: '0.5', ans: '0.25', disp: '0{,}5' },
+          { val: '0.6', ans: '0.36', disp: '0{,}6' },
+          { val: '0.7', ans: '0.49', disp: '0{,}7' },
+          { val: '0.8', ans: '0.64', disp: '0{,}8' },
+          { val: '0.9', ans: '0.81', disp: '0{,}9' },
+          { val: '1.1', ans: '1.21', disp: '1{,}1' },
+          { val: '1.2', ans: '1.44', disp: '1{,}2' },
+          { val: '1.5', ans: '2.25', disp: '1{,}5' }
+        ];
+        const item = this.randChoice(decimals);
         return {
           chapterId: '5N4',
           tier: 2,
-          title: `Critère de divisibilité par ${mult}`,
-          statement: `Le nombre $${testVal}$ est-il divisible par $${mult}$ ? (Répondre par 'oui' ou 'non')`,
+          title: "Carré d'un nombre décimal",
+          statement: `Calculer le carré du nombre décimal suivant :\n$$D = (${item.disp})^2$$`,
           type: "exact",
-          answer: isDiv ? "oui" : "non",
-          placeholder: "oui ou non",
-          hint1: `Un nombre est divisible par $${mult}$ si et seulement si la somme de ses chiffres est un multiple de $${mult}$.`,
-          solution: `Somme des chiffres de $${testVal}$ : ${String(testVal).split('').join(' + ')} = ${digitsSum}.\nComme cette somme ${isDiv ? 'est' : "n'est pas"} divisible par $${mult}$, le nombre $${testVal}$ **${isDiv ? 'est divisible' : "n'est pas divisible"}** par $${mult}$.`
+          answer: item.ans,
+          placeholder: `Ex: ${item.ans}`,
+          hint1: `Multiplie $${item.disp} \\times ${item.disp}$. Attention au nombre de chiffres après la virgule !`,
+          solution: `$$(${item.disp})^2 = ${item.disp} \\times ${item.disp} = ${item.ans.replace('.', ',')}$$`
         };
-      } else if (subType === 'crit_4') {
-        const base = this.randInt(12, 60) * 4;
-        const isDiv = Math.random() > 0.5;
-        const testVal = isDiv ? base : base + this.randChoice([1, 2, 3]);
-        const lastTwo = testVal % 100;
-        const actualDiv = testVal % 4 === 0;
-
+      } else if (subType === 'trouver_base') {
+        const base = this.randInt(2, 12);
+        const square = base * base;
         return {
           chapterId: '5N4',
           tier: 2,
-          title: "Critère de divisibilité par 4",
-          statement: `Le nombre $${testVal}$ est-il divisible par $4$ ? (Répondre par 'oui' ou 'non')`,
+          title: "Retrouver la base : carré d'un nombre",
+          statement: `On sait qu'un nombre positif $x$ vérifie l'égalité :\n$$x^2 = ${square}$$\n**Quelle est la valeur de ce nombre $x$ ?**`,
           type: "exact",
-          answer: actualDiv ? "oui" : "non",
-          placeholder: "oui ou non",
-          hint1: `Un nombre est divisible par 4 si le nombre formé par ses deux derniers chiffres est divisible par 4.`,
-          solution: `Le nombre formé par les deux derniers chiffres de $${testVal}$ est $${lastTwo}$.\nComme $${lastTwo}$ ${actualDiv ? 'est' : "n'est pas"} un multiple de 4, le nombre $${testVal}$ **${actualDiv ? 'est divisible' : "n'est pas divisible"}** par 4.`
+          answer: String(base),
+          placeholder: `Ex: ${base}`,
+          hint1: `Quel nombre positif multiplié par lui-même donne $${square}$ ?`,
+          solution: `Puisque $${base} \\times ${base} = ${square}$, on en déduit :\n$$x = ${base}$$`
         };
-      } else if (subType === 'missing_digit') {
-        // Ex: Trouver d tel que 2_4 soit divisible par 9
-        const div = this.randChoice([3, 9]);
-        const d1 = this.randInt(1, 7);
-        const d2 = this.randInt(1, 8);
-        const sumPartial = d1 + d2;
-        // On cherche d tel que (sumPartial + d) % div === 0 avec 0 <= d <= 9
-        let validDigits = [];
-        for (let d = 0; d <= 9; d++) {
-          if ((sumPartial + d) % div === 0) validDigits.push(d);
-        }
-        const chosenD = validDigits[0];
+      } else if (subType === 'trouver_exposant') {
+        const exp = this.randInt(2, 6);
+        const zeros = '0'.repeat(exp);
+        const val = '1' + zeros;
         return {
           chapterId: '5N4',
           tier: 2,
-          title: `Chiffre manquant et divisibilité par ${div}`,
-          statement: `On considère le nombre à 3 chiffres $N = ${d1}x${d2}$ (où $x$ représente le chiffre des dizaines).\n**Quel est le plus petit chiffre $x$ (entre 0 et 9) pour que $N$ soit divisible par $${div}$ ?**`,
+          title: "Retrouver l'exposant d'une puissance de 10",
+          statement: `Déterminer l'exposant entier $n$ qui vérifie l'égalité :\n$$10^n = ${val}$$\n**Quelle est la valeur de $n$ ?**`,
           type: "exact",
-          answer: String(chosenD),
-          placeholder: `Ex: ${chosenD}`,
-          hint1: `La somme des chiffres est $${d1} + x + ${d2} = ${sumPartial} + x$. Cette somme doit être un multiple de $${div}$.`,
-          solution: `Somme des chiffres : $${d1} + x + ${d2} = ${sumPartial} + x$.\nLe plus petit multiple de $${div}$ supérieur ou égal à $${sumPartial}$ est $${sumPartial + chosenD}$, d'où :\n$$x = ${chosenD}$$`
+          answer: String(exp),
+          placeholder: `Ex: ${exp}`,
+          hint1: `Compte le nombre de zéros après le $1$ dans le nombre $${val}$.`,
+          solution: `Le nombre $${val}$ contient $${exp}$ zéros après le $1$, donc :\n$$10^${exp} = ${val} \\implies n = ${exp}$$`
+        };
+      } else if (subType === 'mult_puissance_10') {
+        const a = this.randInt(2, 9);
+        const exp = this.randInt(2, 4);
+        const ans = a * Math.pow(10, exp);
+        return {
+          chapterId: '5N4',
+          tier: 2,
+          title: "Produit d'un entier par une puissance de 10",
+          statement: `Calculer la valeur numérique exacte :\n$$E = ${a} \\times 10^${exp}$$`,
+          type: "exact",
+          answer: String(ans),
+          placeholder: `Ex: ${ans}`,
+          hint1: `$10^${exp} = ${Math.pow(10, exp)}$. Multiplie ensuite par $${a}$.`,
+          solution: `$$E = ${a} \\times 10^${exp} = ${a} \\times ${Math.pow(10, exp)} = ${ans}$$`
+        };
+      } else if (subType === 'priorite_carre_somme') {
+        const a = this.randInt(2, 8);
+        const b = this.randInt(2, 6);
+        const ans = a + b * b;
+        return {
+          chapterId: '5N4',
+          tier: 2,
+          title: "Priorité de la puissance : $a + b^2$",
+          statement: `Calculer la valeur exacte de l'expression suivante :\n$$F = ${a} + ${b}^2$$`,
+          type: "exact",
+          answer: String(ans),
+          placeholder: `Ex: ${ans}`,
+          hint1: `La puissance est prioritaire sur l'addition : calcule d'abord $${b}^2 = ${b * b}$, puis ajoute $${a}$.`,
+          solution: `$$F = ${a} + (${b}^2) = ${a} + ${b * b} = ${ans}$$`
         };
       } else {
-        const pairs = [
-          { n: 24, maxProp: 12 },
-          { n: 36, maxProp: 18 },
-          { n: 20, maxProp: 10 },
-          { n: 30, maxProp: 15 },
-          { n: 28, maxProp: 14 },
-          { n: 40, maxProp: 20 },
-          { n: 50, maxProp: 25 },
-          { n: 42, maxProp: 21 }
-        ];
-        const item = this.randChoice(pairs);
+        const a = this.randInt(2, 5);
+        const b = this.randInt(2, 6);
+        const ans = a * (b * b);
         return {
           chapterId: '5N4',
           tier: 2,
-          title: "Diviseurs d'un nombre entier",
-          statement: `Quel est le plus grand diviseur du nombre $${item.n}$ strictement inférieur à $${item.n}$ ?`,
+          title: "Priorité de la puissance : $a \\times b^2$",
+          statement: `Calculer la valeur exacte de l'expression suivante :\n$$G = ${a} \\times ${b}^2$$`,
           type: "exact",
-          answer: String(item.maxProp),
-          placeholder: `Ex: ${item.maxProp}`,
-          hint1: `Le plus petit diviseur (autre que 1) d'un nombre pair est 2. Le plus grand diviseur propre est donc $${item.n} \\div 2$.`,
-          solution: `Les diviseurs de $${item.n}$ se regroupent par paires. Le plus grand diviseur strictement inférieur à $${item.n}$ est :\n$$${item.n} \\div 2 = ${item.maxProp}$$`
+          answer: String(ans),
+          placeholder: `Ex: ${ans}`,
+          hint1: `Attention : seul $${b}$ est élevé au carré ! Calcule d'abord $${b}^2 = ${b * b}$, puis multiplie par $${a}$.`,
+          solution: `$$G = ${a} \\times (${b}^2) = ${a} \\times ${b * b} = ${ans}$$`
         };
       }
     } else if (t === 3) {
-      // Palier 3 : Brevet / 5e (Nombres premiers < 30, décomposition simple)
-      const subType = this.randChoice(['is_prime', 'next_prime', 'prime_decomp']);
+      // Palier 3 : Brevet / Approfondissement 5e (Décompositions, calculs mixtes, géométrie)
+      const subType = this.randChoice(['decomp_base10', 'diff_carres', 'somme_carre_cube', 'aire_carre', 'volume_cube', 'produit_puissances_10']);
 
-      if (subType === 'is_prime') {
-        const primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29];
-        const composites = [4, 6, 8, 9, 10, 12, 14, 15, 16, 18, 20, 21, 22, 25, 27];
-        const isP = Math.random() > 0.5;
-        const num = isP ? this.randChoice(primes) : this.randChoice(composites);
-
+      if (subType === 'decomp_base10') {
+        const m = this.randInt(1, 9);
+        const c = this.randInt(0, 9);
+        const d = this.randInt(0, 9);
+        const u = this.randInt(1, 9);
+        const num = m * 1000 + c * 100 + d * 10 + u;
         return {
           chapterId: '5N4',
           tier: 3,
-          title: "Reconnaissance d'un nombre premier",
-          statement: `Le nombre entier $${num}$ est-il un nombre premier ? (Répondre par 'oui' ou 'non')`,
+          title: "Décomposition polynomiale en puissances de 10",
+          statement: `Donner l'écriture décimale du nombre suivant :\n$$H = ${m} \\times 10^3 + ${c} \\times 10^2 + ${d} \\times 10^1 + ${u}$$`,
           type: "exact",
-          answer: isP ? "oui" : "non",
-          placeholder: "oui ou non",
-          hint1: "Un nombre premier n'admet exactement que deux diviseurs distincts : 1 et lui-même.",
-          solution: isP ?
-            `$${num}$ n'a pour diviseurs que 1 et $${num}$. C'est donc un **nombre premier**.` :
-            `$${num}$ admet d'autres diviseurs (par exemple divisible par ${primes.find(p => num % p === 0)}). Ce **n'est pas** un nombre premier.`
+          answer: String(num),
+          placeholder: `Ex: ${num}`,
+          hint1: `$10^3 = 1\\,000$, $10^2 = 100$ et $10^1 = 10$. Calcule chaque produit puis additionne.`,
+          solution: `$$H = ${m} \\times 1\\,000 + ${c} \\times 100 + ${d} \\times 10 + ${u} = ${m * 1000} + ${c * 100} + ${d * 10} + ${u} = ${num}$$`
         };
-      } else if (subType === 'next_prime') {
-        const tests = [
-          { from: 7, next: 11 },
-          { from: 11, next: 13 },
-          { from: 13, next: 17 },
-          { from: 17, next: 19 },
-          { from: 19, next: 23 },
-          { from: 23, next: 29 }
-        ];
-        const item = this.randChoice(tests);
+      } else if (subType === 'diff_carres') {
+        const a = this.randInt(6, 12);
+        const b = this.randInt(2, a - 1);
+        const ans = a * a - b * b;
         return {
           chapterId: '5N4',
           tier: 3,
-          title: "Nombres premiers consécutifs",
-          statement: `Quel est le plus petit nombre premier strictement supérieur à $${item.from}$ ?`,
+          title: "Différence de deux carrés : $a^2 - b^2$",
+          statement: `Calculer la valeur exacte de l'expression :\n$$K = ${a}^2 - ${b}^2$$`,
+          type: "exact",
+          answer: String(ans),
+          placeholder: `Ex: ${ans}`,
+          hint1: `Calcule séparément $${a}^2 = ${a * a}$ et $${b}^2 = ${b * b}$, puis effectue la soustraction.`,
+          solution: `$$K = ${a * a} - ${b * b} = ${ans}$$`
+        };
+      } else if (subType === 'somme_carre_cube') {
+        const a = this.randInt(3, 8);
+        const b = this.randChoice([2, 3, 4]);
+        const ans = a * a + b * b * b;
+        return {
+          chapterId: '5N4',
+          tier: 3,
+          title: "Calcul combiné : carré et cube",
+          statement: `Calculer la valeur exacte de l'expression :\n$$L = ${a}^2 + ${b}^3$$`,
+          type: "exact",
+          answer: String(ans),
+          placeholder: `Ex: ${ans}`,
+          hint1: `$${a}^2 = ${a * a}$ et $${b}^3 = ${b} \\times ${b} \\times ${b} = ${b * b * b}$.`,
+          solution: `$$L = (${a}^2) + (${b}^3) = ${a * a} + ${b * b * b} = ${ans}$$`
+        };
+      } else if (subType === 'aire_carre') {
+        const c = this.randInt(4, 15);
+        const ans = c * c;
+        return {
+          chapterId: '5N4',
+          tier: 3,
+          title: "Application géométrique : Aire d'un carré",
+          statement: `Un carré a pour côté $c = ${c}\\text{ cm}$.\n**Quelle est l'aire exacte de ce carré en $\\text{cm}^2$ ?**`,
+          type: "exact",
+          answer: String(ans),
+          placeholder: `Ex: ${ans}`,
+          hint1: `La formule de l'aire d'un carré est $\\mathcal{A} = c^2 = c \\times c$.`,
+          solution: `$$\\mathcal{A} = c^2 = ${c}^2 = ${c} \\times ${c} = ${ans}\\text{ cm}^2$$`
+        };
+      } else if (subType === 'volume_cube') {
+        const c = this.randChoice([2, 3, 4, 5, 10]);
+        const ans = c * c * c;
+        return {
+          chapterId: '5N4',
+          tier: 3,
+          title: "Application géométrique : Volume d'un cube",
+          statement: `Un cube a pour arête $a = ${c}\\text{ cm}$.\n**Quel est le volume exact de ce cube en $\\text{cm}^3$ ?**`,
+          type: "exact",
+          answer: String(ans),
+          placeholder: `Ex: ${ans}`,
+          hint1: `La formule du volume d'un cube est $\\mathcal{V} = a^3 = a \\times a \\times a$.`,
+          solution: `$$\\mathcal{V} = a^3 = ${c}^3 = ${c} \\times ${c} \\times ${c} = ${ans}\\text{ cm}^3$$`
+        };
+      } else {
+        const p = this.randInt(2, 4);
+        const q = this.randInt(2, 4);
+        const totalZeros = p + q;
+        const ans = '1' + '0'.repeat(totalZeros);
+        return {
+          chapterId: '5N4',
+          tier: 3,
+          title: "Produit de deux puissances de 10",
+          statement: `Donner l'écriture décimale du produit suivant :\n$$M = 10^${p} \\times 10^${q}$$`,
+          type: "exact",
+          answer: ans,
+          placeholder: `Ex: ${ans}`,
+          hint1: `$10^${p}$ a $${p}$ zéros et $10^${q}$ a $${q}$ zéros. Le produit aura $${p} + ${q} = ${totalZeros}$ zéros.`,
+          solution: `$$10^${p} \\times 10^${q} = 10^{${p} + ${q}} = 10^${totalZeros} = ${ans}$$`
+        };
+      }
+    } else {
+      // Palier 4 : Défi 4ème (Calculs complexes avec crochets, comparaisons de puissances)
+      const subType = this.randChoice(['defi_crochet', 'defi_comparaison', 'defi_retro_carre', 'defi_somme_base10']);
+
+      if (subType === 'defi_crochet') {
+        const a = this.randInt(2, 5);
+        const b = this.randInt(2, 4);
+        const sum = a + b;
+        const c = this.randInt(2, 5);
+        const inside = sum * sum - c * c;
+        const possibleDivs = [2, 3, 4, 5, 6].filter(d => inside % d === 0);
+        const d = possibleDivs.length > 0 ? this.randChoice(possibleDivs) : 1;
+        const divPart = inside / d;
+        const k = this.randInt(2, 4);
+        const p = this.randInt(2, 3);
+        const ans = divPart + k * (p * p);
+
+        return {
+          chapterId: '5N4',
+          tier: 4,
+          title: "Défi 4ème : Expression complexe avec puissances et crochets",
+          statement: `Calculer la valeur exacte de l'expression suivante :\n$$E = [(${a} + ${b})^2 - ${c}^2] \\div ${d} + ${k} \\times ${p}^2$$`,
+          type: "exact",
+          answer: String(ans),
+          placeholder: `Ex: ${ans}`,
+          hint1: `1. Calcule la parenthèse intérieure : $(${a} + ${b}) = ${sum}$.\n2. Calcule les carrés : $${sum}^2 = ${sum * sum}$ et $${c}^2 = ${c * c}$.\n3. Calcule le crochet, effectue la division par ${d}, puis ajoute le produit $${k} \\times ${p * p}$.`,
+          solution: `1. Parenthèse : $(${a} + ${b})^2 = ${sum}^2 = ${sum * sum}$.\n2. Intérieur du crochet : $${sum * sum} - ${c * c} = ${inside}$.\n3. Division : $${inside} \\div ${d} = ${divPart}$.\n4. Terme de droite : $${k} \\times ${p}^2 = ${k} \\times ${p * p} = ${k * p * p}$.\n5. Résultat final :\n$$E = ${divPart} + ${k * p * p} = ${ans}$$`
+        };
+      } else if (subType === 'defi_comparaison') {
+        const pairs = [
+          { p1: '2^5', v1: 32, p2: '5^2', v2: 25 },
+          { p1: '3^4', v1: 81, p2: '4^3', v2: 64 },
+          { p1: '2^6', v1: 64, p2: '3^4', v2: 81 },
+          { p1: '2^7', v1: 128, p2: '11^2', v2: 121 },
+          { p1: '5^3', v1: 125, p2: '2^7', v2: 128 }
+        ];
+        const item = this.randChoice(pairs);
           type: "exact",
           answer: String(item.next),
           placeholder: `Ex: ${item.next}`,
@@ -6787,206 +7002,236 @@ window.MathsGenerators = {
     }
   },
 
-  // --- 5G4 : Symétrie centrale & parallélogrammes ---
+  // --- 5G4 : Triangles : constructions, droites remarquables et aires (5ème) ---
   generate5G4(tier = 1, mastery = 0) {
     const t = this.resolveTier(tier);
 
     if (t === 1) {
-      // Palier 1 : Socle (Conservations symétrie centrale : longueurs, angles, périmètre, invariant)
-      const subType = this.randChoice(['length', 'angle', 'perimeter', 'center']);
+      // Palier 1 : Socle (Inégalité triangulaire, constructibilité et périmètre)
+      const subType = this.randChoice(['constructible', 'perimetre', 'points_alignes']);
 
-      if (subType === 'length') {
-        const l = this.randInt(5, 14);
+      if (subType === 'constructible') {
+        const a = this.randInt(4, 9);
+        const b = this.randInt(4, 9);
+        const canBuild = Math.random() < 0.5;
+        const c = canBuild ? this.randInt(Math.abs(a - b) + 1, a + b - 1) : a + b + this.randInt(1, 4);
+        const maxSide = Math.max(a, b, c);
+        const sumOthers = a + b + c - maxSide;
+        const actualCan = maxSide < sumOthers;
+
+        const correct = actualCan ? "Oui" : "Non";
+        const options = actualCan ? [
+          `Oui, car le plus grand côté (${maxSide} cm) est inférieur à la somme des deux autres (${sumOthers} cm)`,
+          `Non, car ${maxSide} > ${sumOthers}`,
+          `Non, car les côtés ne sont pas des multiples de 2`,
+          `On ne peut pas savoir sans tracer`
+        ] : [
+          `Non, car le plus grand côté (${maxSide} cm) est supérieur ou égal à la somme des deux autres (${sumOthers} cm)`,
+          `Oui, car trois longueurs permettent toujours de tracer un triangle`,
+          `Oui, car ${a} + ${b} > 0`,
+          `On ne peut pas savoir`
+        ];
+
         return {
           chapterId: '5G4',
           tier: 1,
-          title: "Conservation des longueurs par symétrie centrale",
-          statement: `Le segment $[A'B']$ est le symétrique du segment $[AB]$ par rapport à un point $O$.\nSachant que $AB = ${l}\\text{ cm}$, **quelle est la longueur de $[A'B']$ ?**`,
-          type: "exact",
-          answer: String(l),
-          placeholder: `Ex: ${l}`,
-          hint1: "La symétrie centrale conserve les longueurs, les angles et le parallélisme.",
-          solution: `La symétrie centrale conserve les longueurs :\n$$A'B' = AB = ${l}\\text{ cm}$$`
+          title: "Inégalité triangulaire (Constructibilité)",
+          statement: `Peut-on construire un triangle de côtés $AB = ${a}\\text{ cm}$, $BC = ${b}\\text{ cm}$ et $AC = ${c}\\text{ cm}$ ?`,
+          type: "mcq",
+          options,
+          answer: options[0],
+          correctIndex: 0,
+          hint1: `Le plus grand côté (${maxSide} cm) doit être strictement inférieur à la somme des deux autres (${sumOthers} cm).`,
+          solution: `• Le plus grand côté mesure $${maxSide}\\text{ cm}$.\\n• La somme des deux autres mesure $${sumOthers}\\text{ cm}$.\\n• Comme $${maxSide} ${actualCan ? '<' : '\\ge'} ${sumOthers}$, le triangle **${actualCan ? 'est' : "n'est pas"} constructible**.`
         };
-      } else if (subType === 'angle') {
-        const deg = this.randInt(30, 85);
-        return {
-          chapterId: '5G4',
-          tier: 1,
-          title: "Conservation des angles par symétrie centrale",
-          statement: `L'angle $\\widehat{A'B'C'}$ est le symétrique de l'angle $\\widehat{ABC}$ par rapport à un point $O$.\nSachant que $\\widehat{ABC} = ${deg}^\\circ$, **quelle est la mesure de $\\widehat{A'B'C'}$ en degrés ?**`,
-          type: "exact",
-          answer: String(deg),
-          placeholder: `Ex: ${deg}`,
-          hint1: "La symétrie centrale est un demi-tour qui conserve les mesures d'angles.",
-          solution: `La symétrie centrale conserve les mesures d'angles :\n$$\\widehat{A'B'C'} = \\widehat{ABC} = ${deg}^\\circ$$`
-        };
-      } else if (subType === 'perimeter') {
-        const a = this.randInt(4, 7);
-        const b = this.randInt(5, 8);
-        const c = this.randInt(6, 9);
+      } else if (subType === 'perimetre') {
+        const a = this.randInt(4, 10);
+        const b = this.randInt(4, 10);
+        const c = this.randInt(Math.abs(a - b) + 1, a + b - 1);
         const perim = a + b + c;
         return {
           chapterId: '5G4',
           tier: 1,
-          title: "Conservation du périmètre par symétrie centrale",
-          statement: `Un triangle a des côtés mesurant $${a}\\text{ cm}$, $${b}\\text{ cm}$ et $${c}\\text{ cm}$ (périmètre de $${perim}\\text{ cm}$).\n**Quel est le périmètre de son triangle image par une symétrie centrale (en cm) ?**`,
+          title: "Périmètre d'un triangle",
+          statement: `Calculer le périmètre d'un triangle dont les côtés mesurent $a = ${a}\\text{ cm}$, $b = ${b}\\text{ cm}$ et $c = ${c}\\text{ cm}$ (en cm).`,
           type: "exact",
           answer: String(perim),
           placeholder: `Ex: ${perim}`,
-          hint1: "La symétrie centrale conserve les longueurs de tous les côtés, et donc le périmètre.",
-          solution: `La symétrie centrale conserve les dimensions de la figure :\n$$\\mathcal{P} = ${a} + ${b} + ${c} = ${perim}\\text{ cm}$$`
+          hint1: "Le périmètre d'un triangle est la somme des longueurs de ses 3 côtés : $P = a + b + c$.",
+          solution: `$$\\mathcal{P} = ${a} + ${b} + ${c} = ${perim}\\text{ cm}$$`
         };
       } else {
+        const d1 = this.randInt(3, 8);
+        const d2 = this.randInt(3, 8);
+        const total = d1 + d2;
         return {
           chapterId: '5G4',
           tier: 1,
-          title: "Point invariant de la symétrie centrale",
-          statement: `Par la symétrie centrale de centre $O$, quel est le symétrique du point $O$ lui-même ?`,
-          type: "exact",
-          answer: "O",
-          placeholder: "Ex: O",
-          hint1: "Le centre de symétrie est le seul point fixe (invariant) de la transformation.",
-          solution: "Le centre de symétrie est invariant : le symétrique de $O$ par rapport à $O$ est le point **O**."
+          title: "Inégalité triangulaire et points alignés",
+          statement: `Trois points $A, B, C$ vérifient $AB = ${d1}\\text{ cm}$, $BC = ${d2}\\text{ cm}$ et $AC = ${total}\\text{ cm}$.\nQue peut-on affirmer sur ces trois points ?`,
+          type: "mcq",
+          options: [
+            "Les points A, B, C sont alignés et B appartient au segment [AC]",
+            "Les points forment un triangle constructible non plat",
+            "Les droites (AB) et (BC) sont perpendiculaires",
+            "Le point A est le milieu de [BC]"
+          ],
+          answer: "Les points A, B, C sont alignés et B appartient au segment [AC]",
+          correctIndex: 0,
+          hint1: `Compare $AB + BC$ et $AC$ : $${d1} + ${d2} = ${total} = AC$.`,
+          solution: `Comme $AB + BC = AC$ ($${d1} + ${d2} = ${total}$), les points $A, B$ et $C$ sont alignés et le point $B$ appartient au segment $[AC]$ (triangle aplati).`
         };
       }
     } else if (t === 2) {
-      // Palier 2 : Guidé (Centre de symétrie et milieu : calcul total, demi-longueur, égalité)
-      const subType = this.randChoice(['total_length', 'half_length', 'equal_dist']);
+      // Palier 2 : Guidé (Droites remarquables : médiatrices, hauteurs, médianes)
+      const subType = this.randChoice(['mediatrice_def', 'cercle_circonscrit', 'hauteur_def', 'mediane_def']);
 
-      if (subType === 'total_length') {
-        const dist = this.randInt(3, 9);
-        const total = dist * 2;
+      if (subType === 'mediatrice_def') {
         return {
           chapterId: '5G4',
           tier: 2,
-          title: "Centre de symétrie comme milieu (Longueur totale)",
-          statement: `Le point $A'$ est le symétrique du point $A$ par rapport au point $O$.\nOn donne $OA = ${dist}\\text{ cm}$.\n**Quelle est la longueur totale du segment $[AA']$ en cm ?**`,
-          type: "exact",
-          answer: String(total),
-          placeholder: `Ex: ${total}`,
-          hint1: `Le centre de symétrie $O$ est le milieu du segment $[AA']$. Donc $AA' = 2 \\times OA$.`,
-          solution: `Le point $O$ étant le milieu de $[AA']$ :\n$$AA' = 2 \\times OA = 2 \\times ${dist} = ${total}\\text{ cm}$$`
+          title: "Définition de la médiatrice",
+          statement: `Quelle est la définition exacte de la médiatrice d'un segment $[AB]$ ?`,
+          type: "mcq",
+          options: [
+            "La droite perpendiculaire à [AB] passant par son milieu",
+            "La droite qui relie un sommet au milieu du côté opposé",
+            "La droite qui partage un angle en deux angles égaux",
+            "La droite parallèle à [AB] passant par un sommet"
+          ],
+          answer: "La droite perpendiculaire à [AB] passant par son milieu",
+          correctIndex: 0,
+          hint1: "La médiatrice est à la fois perpendiculaire au segment et passe en son centre.",
+          solution: "La **médiatrice** d'un segment est la droite perpendiculaire à ce segment qui passe par son milieu. Tout point de la médiatrice est à égale distance des extrémités du segment."
         };
-      } else if (subType === 'half_length') {
-        const dist = this.randInt(3, 9);
-        const total = dist * 2;
+      } else if (subType === 'cercle_circonscrit') {
         return {
           chapterId: '5G4',
           tier: 2,
-          title: "Centre de symétrie comme milieu (Demi-longueur)",
-          statement: `Le point $A'$ est le symétrique du point $A$ par rapport au point $O$.\nLa longueur totale du segment mesure $AA' = ${total}\\text{ cm}$.\n**Quelle est la longueur du segment $[OA]$ en cm ?**`,
-          type: "exact",
-          answer: String(dist),
-          placeholder: `Ex: ${dist}`,
-          hint1: `Le point $O$ est le milieu de $[AA']$, donc $OA = \\frac{AA'}{2}$.`,
-          solution: `$$OA = \\frac{AA'}{2} = \\frac{${total}}{2} = ${dist}\\text{ cm}$$`
+          title: "Point de concours des médiatrices (5ème)",
+          statement: `Dans un triangle, les trois médiatrices sont concourantes en un point remarquable. Quel est ce point ?`,
+          type: "mcq",
+          options: [
+            "Le centre du cercle circonscrit au triangle (passant par les 3 sommets)",
+            "Le centre de gravité du triangle",
+            "L'orthocentre du triangle",
+            "Le centre du cercle inscrit"
+          ],
+          answer: "Le centre du cercle circonscrit au triangle (passant par les 3 sommets)",
+          correctIndex: 0,
+          hint1: "Le point d'intersection des médiatrices est équidistant des 3 sommets du triangle.",
+          solution: "Les trois médiatrices d'un triangle se coupent en un point unique qui est le **centre du cercle circonscrit**, passant par les trois sommets du triangle."
+        };
+      } else if (subType === 'hauteur_def') {
+        return {
+          chapterId: '5G4',
+          tier: 2,
+          title: "Définition d'une hauteur dans un triangle",
+          statement: `Dans un triangle $ABC$, qu'appelle-t-on la **hauteur** issue du sommet $A$ ?`,
+          type: "mcq",
+          options: [
+            "La droite passant par A et perpendiculaire à la droite (BC)",
+            "La droite passant par A et par le milieu de [BC]",
+            "La droite perpendiculaire à [BC] passant par son milieu",
+            "Le segment reliant les milieux de deux côtés"
+          ],
+          answer: "La droite passant par A et perpendiculaire à la droite (BC)",
+          correctIndex: 0,
+          hint1: "Une hauteur forme un angle droit ($90^\\circ$) avec le côté opposé.",
+          solution: "La **hauteur** issue d'un sommet dans un triangle est la droite qui passe par ce sommet et qui est perpendiculaire à la droite portant le côté opposé."
         };
       } else {
-        const dist = this.randInt(4, 11);
         return {
           chapterId: '5G4',
           tier: 2,
-          title: "Distance au centre de symétrie",
-          statement: `Le point $M'$ est le symétrique du point $M$ par rapport à un point $I$.\nSachant que $IM = ${dist}\\text{ cm}$, **quelle est la longueur de $[IM']$ en cm ?**`,
-          type: "exact",
-          answer: String(dist),
-          placeholder: `Ex: ${dist}`,
-          hint1: "Le centre de symétrie $I$ est le milieu du segment $[MM']$, donc $IM' = IM$.",
-          solution: `Comme $I$ est le milieu de $[MM']$ :\n$$IM' = IM = ${dist}\\text{ cm}$$`
+          title: "Définition de la médiane dans un triangle",
+          statement: `Dans un triangle $ABC$, qu'appelle-t-on la **médiane** issue du sommet $A$ ?`,
+          type: "mcq",
+          options: [
+            "La droite passant par le sommet A et par le milieu du côté opposé [BC]",
+            "La droite perpendiculaire à [BC] passant par A",
+            "La droite qui coupe le segment [BC] à angle droit en son milieu",
+            "La droite qui partage l'angle en A en deux parties égales"
+          ],
+          answer: "La droite passant par le sommet A et par le milieu du côté opposé [BC]",
+          correctIndex: 0,
+          hint1: "Le mot « médiane » est relié à « milieu ».",
+          solution: "Une **médiane** d'un triangle est une droite qui passe par un sommet et par le milieu du côté opposé."
         };
       }
     } else if (t === 3) {
-      // Palier 3 : Brevet / 5e (Diagonales, côtés opposés, angles consécutifs d'un parallélogramme)
-      const subType = this.randChoice(['diag_half', 'opp_sides', 'consec_angles']);
+      // Palier 3 : Approfondissement (Aire du triangle : A = base * hauteur / 2)
+      const subType = this.randChoice(['aire_std', 'aire_rectangle', 'retro_calcul']);
 
-      if (subType === 'diag_half') {
-        const diag1 = this.randInt(6, 14);
-        const demiDiag = diag1 / 2;
+      if (subType === 'aire_std') {
+        const b = this.randChoice([6, 8, 10, 12, 14]);
+        const h = this.randInt(3, 9);
+        const aire = (b * h) / 2;
         return {
           chapterId: '5G4',
           tier: 3,
-          title: "Diagonales d'un parallélogramme",
-          statement: `Soit un parallélogramme $ABCD$ de centre $O$ (point d'intersection des diagonales).\nLa diagonale $[AC]$ mesure $AC = ${diag1}\\text{ cm}$.\n**Quelle est la longueur du segment $[OA]$ en cm ?**`,
+          title: "Aire d'un triangle (Base et Hauteur)",
+          statement: `Calculer l'aire d'un triangle dont la base mesure $b = ${b}\\text{ cm}$ et la hauteur correspondante mesure $h = ${h}\\text{ cm}$ (en $\\text{cm}^2$).`,
           type: "exact",
-          answer: String(demiDiag),
-          placeholder: `Ex: ${demiDiag}`,
-          hint1: "Dans un parallélogramme, les diagonales se coupent en leur milieu.",
-          solution: `Le point $O$ est le milieu de la diagonale $[AC]$ :\n$$OA = \\frac{AC}{2} = \\frac{${diag1}}{2} = ${demiDiag}\\text{ cm}$$`
+          answer: String(aire),
+          placeholder: `Ex: ${aire}`,
+          hint1: "Formule : $\\mathcal{A} = \\frac{\\text{base} \\times \\text{hauteur}}{2}$.",
+          solution: `$$\\mathcal{A} = \\frac{b \\times h}{2} = \\frac{${b} \\times ${h}}{2} = \\frac{${b * h}}{2} = ${aire}\\text{ cm}^2$$`
         };
-      } else if (subType === 'opp_sides') {
-        const l1 = this.randInt(6, 12);
-        const l2 = this.randInt(3, 5);
-        const perim = 2 * (l1 + l2);
+      } else if (subType === 'aire_rectangle') {
+        const a = this.randInt(4, 12);
+        const b = this.randChoice([3, 5, 6, 8]);
+        const aire = (a * b) / 2;
         return {
           chapterId: '5G4',
           tier: 3,
-          title: "Périmètre d'un parallélogramme",
-          statement: `Dans un parallélogramme $ABCD$, deux côtés consécutifs mesurent $AB = ${l1}\\text{ cm}$ et $BC = ${l2}\\text{ cm}$.\n**Quel est le périmètre du parallélogramme $ABCD$ en cm ?**`,
+          title: "Aire d'un triangle rectangle",
+          statement: `Dans un triangle rectangle, les deux côtés de l'angle droit mesurent $a = ${a}\\text{ cm}$ et $b = ${b}\\text{ cm}$.\n**Quelle est l'aire de ce triangle en $\\text{cm}^2$ ?**`,
           type: "exact",
-          answer: String(perim),
-          placeholder: `Ex: ${perim}`,
-          hint1: "Les côtés opposés d'un parallélogramme ont la même longueur : $P = 2 \\times (AB + BC)$.",
-          solution: `$$P = 2 \\times (${l1} + ${l2}) = 2 \\times ${l1 + l2} = ${perim}\\text{ cm}$$`
+          answer: String(aire),
+          placeholder: `Ex: ${aire}`,
+          hint1: "Dans un triangle rectangle, chaque côté de l'angle droit est la hauteur relative à l'autre côté : $\\mathcal{A} = \\frac{a \\times b}{2}$.",
+          solution: `$$\\mathcal{A} = \\frac{a \\times b}{2} = \\frac{${a} \\times ${b}}{2} = \\frac{${a * b}}{2} = ${aire}\\text{ cm}^2$$`
         };
       } else {
-        const angleA = this.randChoice([50, 60, 70, 80, 110, 120]);
-        const angleB = 180 - angleA;
+        const b = this.randChoice([4, 6, 8, 10]);
+        const h = this.randInt(3, 9);
+        const aire = (b * h) / 2;
         return {
           chapterId: '5G4',
           tier: 3,
-          title: "Angles consécutifs d'un parallélogramme",
-          statement: `Dans un parallélogramme $ABCD$, l'angle $\\widehat{A}$ mesure $${angleA}^\\circ$.\n**Quelle est la mesure de l'angle consécutif $\\widehat{B}$ en degrés ?**`,
+          title: "Hauteur d'un triangle connaissant son aire",
+          statement: `Un triangle a une aire de $\\mathcal{A} = ${aire}\\text{ cm}^2$ et une base relative $b = ${b}\\text{ cm}$.\n**Quelle est la hauteur $h$ relative à cette base en cm ?**`,
           type: "exact",
-          answer: String(angleB),
-          placeholder: `Ex: ${angleB}`,
-          hint1: "Dans un parallélogramme, deux angles consécutifs sont supplémentaires (leur somme vaut $180^\\circ$).",
-          solution: `$$\\widehat{B} = 180^\\circ - \\widehat{A} = 180^\\circ - ${angleA}^\\circ = ${angleB}^\\circ$$`
+          answer: String(h),
+          placeholder: `Ex: ${h}`,
+          hint1: "Formule inverse : comme $\\mathcal{A} = \\frac{b \\times h}{2}$, alors $h = \\frac{2 \\times \\mathcal{A}}{b}$.",
+          solution: `$$h = \\frac{2 \\times \\mathcal{A}}{b} = \\frac{2 \\times ${aire}}{${b}} = \\frac{${2 * aire}}{${b}} = ${h}\\text{ cm}$$`
         };
       }
     } else {
-      // Palier 4 : Défi 4ème (Caractérisation des quadrilatères particuliers)
-      const variants = [
-        {
-          desc: "dont les diagonales sont de même longueur et se coupent perpendiculairement",
-          nature: "Carré",
-          hint: "Diagonales de même longueur => Rectangle. Diagonales perpendiculaires => Losange. À la fois rectangle et losange => Carré.",
-          exp: "1. Diagonales de même longueur $\\implies$ rectangle.\n2. Diagonales perpendiculaires $\\implies$ losange.\n3. Un rectangle-losange est un **carré**."
-        },
-        {
-          desc: "dont les diagonales se coupent perpendiculairement et n'ont pas la même longueur",
-          nature: "Losange non carré",
-          hint: "Diagonales perpendiculaires => Losange. Comme elles n'ont pas la même longueur, ce n'est pas un carré.",
-          exp: "Les diagonales sont perpendiculaires sans être égales, c'est un **losange non carré**."
-        },
-        {
-          desc: "dont les diagonales sont de même longueur et ne sont pas perpendiculaires",
-          nature: "Rectangle non carré",
-          hint: "Diagonales de même longueur => Rectangle. Pas perpendiculaires => Pas un losange.",
-          exp: "Les diagonales sont de même longueur sans être perpendiculaires, c'est un **rectangle non carré**."
-        },
-        {
-          desc: "qui possède 4 côtés de même longueur et un angle droit",
-          nature: "Carré",
-          hint: "4 côtés de même longueur => Losange. Un angle droit => Carré.",
-          exp: "4 côtés égaux $\\implies$ losange. Un losange avec un angle droit est un **carré**."
-        }
+      // Palier 4 : Défi (Double calcul d'aire pour trouver une deuxième hauteur)
+      // Aire = (b1 * h1)/2 = (b2 * h2)/2  => h2 = (b1 * h1) / b2
+      const configs = [
+        { b1: 10, h1: 6, b2: 12, h2: 5 },
+        { b1: 8, h1: 9, b2: 12, h2: 6 },
+        { b1: 15, h1: 4, b2: 10, h2: 6 },
+        { b1: 12, h1: 7, b2: 14, h2: 6 },
+        { b1: 16, h1: 6, b2: 12, h2: 8 }
       ];
-      const v = this.randChoice(variants);
-      const allOpts = ["Carré", "Losange non carré", "Rectangle non carré", "Trapèze"];
-      const opts = [v.nature, ...allOpts.filter(o => o !== v.nature)];
+      const cfg = this.randChoice(configs);
+      const aire = (cfg.b1 * cfg.h1) / 2;
 
       return {
         chapterId: '5G4',
         tier: 4,
-        title: "Défi 4ème : Nature d'un parallélogramme particulier",
-        statement: `Soit un parallélogramme ${v.desc}.\n\n**Quelle est la nature précise de ce quadrilatère particulier ?**`,
-        type: "mcq",
-        answer: v.nature,
-        options: opts,
-        correctIndex: 0,
-        hint1: v.hint,
-        solution: v.exp
+        title: "Défi 4ème : Hauteur inconnue par égalité d'aires",
+        statement: `Dans un triangle $ABC$ :\n- Le côté $[BC]$ mesure $${cfg.b1}\\text{ cm}$ et la hauteur issue de $A$ mesure $h_A = ${cfg.h1}\\text{ cm}$.\n- Un autre côté $[AB]$ mesure $${cfg.b2}\\text{ cm}$.\n\n**Calculer la longueur de la hauteur $h_C$ issue du sommet $C$ relative au côté $[AB]$ (en cm).**`,
+        type: "exact",
+        answer: String(cfg.h2),
+        placeholder: `Ex: ${cfg.h2}`,
+        hint1: `1. Calcule l'aire du triangle avec la première base et sa hauteur : $\\mathcal{A} = \\frac{${cfg.b1} \\times ${cfg.h1}}{2}$.\n2. Exprime cette même aire avec le côté $[AB]$ et la hauteur $h_C$ : $\\mathcal{A} = \\frac{${cfg.b2} \\times h_C}{2}$, puis déduis $h_C$.`,
+        solution: `1. Calcul de l'aire du triangle $ABC$ :\\n$$\\mathcal{A} = \\frac{BC \\times h_A}{2} = \\frac{${cfg.b1} \\times ${cfg.h1}}{2} = ${aire}\\text{ cm}^2$$\\n2. Cette même aire s'écrit aussi :\\n$$\\mathcal{A} = \\frac{AB \\times h_C}{2} \\implies ${aire} = \\frac{${cfg.b2} \\times h_C}{2}$$\\n3. On en déduit :\\n$$h_C = \\frac{2 \\times ${aire}}{${cfg.b2}} = \\frac{${2 * aire}}{${cfg.b2}} = ${cfg.h2}\\text{ cm}$$`
       };
     }
   },
@@ -7552,7 +7797,7 @@ window.MathsGenerators = {
       // Palier 3 : Approfondissement (Tester si un nombre est solution d'une égalité)
       // Alternance équilibrée (50% Oui / 50% Non) avec différents types d'égalités
       const isSolution = Math.random() < 0.5;
-      const subType = this.randChoice(['add', 'sub', 'both_sides']);
+      const subType = this.randChoice(['add', 'sub', 'parentheses', 'both_sides']);
 
       if (subType === 'add') {
         // Forme ax + b = c
@@ -7560,8 +7805,8 @@ window.MathsGenerators = {
         const x = this.randInt(2, 7);
         const b = this.randInt(1, 9);
         const leftVal = a * x + b;
-        const c = isSolution ? leftVal : leftVal + this.randChoice([-3, -2, -1, 1, 2, 3]);
-        
+        const c = isSolution ? leftVal : leftVal + this.randChoice([-4, -3, -2, 2, 3, 4]);
+
         let correctOption = '';
         let options = [];
         let solution = '';
@@ -7570,8 +7815,8 @@ window.MathsGenerators = {
           correctOption = `Oui, car $${a} \\times ${x} + ${b} = ${c}$`;
           options = [
             correctOption,
-            `Non, car le membre de gauche vaut ${c + 2}`,
-            `Non, car ${x} n'est pas un multiple de ${a}`,
+            `Non, car le membre de gauche vaut $${c + 2}$`,
+            `Non, car $${x}$ n'est pas un multiple de $${a}$`,
             `On ne peut pas savoir sans résoudre l'équation`
           ];
           solution = `• Pour $x = ${x}$, calculons le membre de gauche :\\n$$${a} \\times ${x} + ${b} = ${a * x} + ${b} = ${leftVal}$$\\n• Le membre de droite vaut $${c}$.\\n• Comme les deux membres sont égaux ($${leftVal} = ${c}$), le nombre **${x} est bien solution** de l'équation.`;
@@ -7580,8 +7825,8 @@ window.MathsGenerators = {
           options = [
             correctOption,
             `Oui, car $${a} \\times ${x} + ${b} = ${c}$`,
-            `Oui, car ${x} est un nombre entier`,
-            `On ne peut pas savoir`
+            `Oui, car $${x}$ est un nombre positif`,
+            `On ne peut pas savoir sans résoudre l'équation`
           ];
           solution = `• Pour $x = ${x}$, calculons le membre de gauche :\\n$$${a} \\times ${x} + ${b} = ${a * x} + ${b} = ${leftVal}$$\\n• Le membre de droite vaut $${c}$.\\n• Comme $${leftVal} \\neq ${c}$, l'égalité n'est pas vérifiée : le nombre **${x} n'est pas solution** de l'équation.`;
         }
@@ -7615,9 +7860,9 @@ window.MathsGenerators = {
           correctOption = `Oui, car $${a} \\times ${x} - ${b} = ${c}$`;
           options = [
             correctOption,
-            `Non, car $${a} \\times ${x} - ${b} = ${c + 3}`,
-            `Non, car le membre de gauche vaut ${a * x + b}`,
-            `On ne peut pas savoir`
+            `Non, car $${a} \\times ${x} - ${b} = ${c + 3}$`,
+            `Non, car le membre de gauche vaut $${a * x + b}$`,
+            `On ne peut pas savoir sans résoudre l'équation`
           ];
           solution = `• Pour $x = ${x}$, calculons le membre de gauche :\\n$$${a} \\times ${x} - ${b} = ${a * x} - ${b} = ${leftVal}$$\\n• Le membre de droite vaut $${c}$.\\n• Comme les deux membres sont égaux ($${leftVal} = ${c}$), le nombre **${x} est bien solution** de l'équation.`;
         } else {
@@ -7626,7 +7871,7 @@ window.MathsGenerators = {
             correctOption,
             `Oui, car $${a} \\times ${x} - ${b} = ${c}$`,
             `Oui, car $${x}$ divise $${c}$`,
-            `On ne peut pas savoir`
+            `On ne peut pas savoir sans résoudre l'équation`
           ];
           solution = `• Pour $x = ${x}$, calculons le membre de gauche :\\n$$${a} \\times ${x} - ${b} = ${a * x} - ${b} = ${leftVal}$$\\n• Le membre de droite vaut $${c}$.\\n• Comme $${leftVal} \\neq ${c}$, l'égalité n'est pas vérifiée : le nombre **${x} n'est pas solution** de l'équation.`;
         }
@@ -7641,6 +7886,51 @@ window.MathsGenerators = {
           answer: correctOption,
           correctIndex: 0,
           hint1: `Remplace $x$ par ${x} dans le membre de gauche : calcule $${a} \\times ${x} - ${b}$ et compare avec ${c}.`,
+          solution
+        };
+
+      } else if (subType === 'parentheses') {
+        // Forme a(x + b) = c
+        const a = this.randInt(2, 5);
+        const x = this.randInt(2, 6);
+        const b = this.randInt(1, 5);
+        const leftVal = a * (x + b);
+        const c = isSolution ? leftVal : leftVal + this.randChoice([-3, -2, 2, 3]);
+
+        let correctOption = '';
+        let options = [];
+        let solution = '';
+
+        if (isSolution) {
+          correctOption = `Oui, car $${a} \\times (${x} + ${b}) = ${a} \\times ${x + b} = ${c}$`;
+          options = [
+            correctOption,
+            `Non, car le membre de gauche vaut $${leftVal + a}$`,
+            `Non, car il faut d'abord développer l'expression`,
+            `On ne peut pas savoir`
+          ];
+          solution = `• Pour $x = ${x}$, calculons le membre de gauche :\\n$$${a}(${x} + ${b}) = ${a} \\times ${x + b} = ${leftVal}$$\\n• Le membre de droite vaut $${c}$.\\n• Comme les deux membres sont égaux ($${leftVal} = ${c}$), le nombre **${x} est bien solution**.`;
+        } else {
+          correctOption = `Non, car pour $x = ${x}$, $${a} \\times (${x} + ${b}) = ${leftVal} \\neq ${c}$`;
+          options = [
+            correctOption,
+            `Oui, car $${a} \\times (${x} + ${b}) = ${c}$`,
+            `Oui, car $${x}$ est un entier`,
+            `On ne peut pas savoir sans développer`
+          ];
+          solution = `• Pour $x = ${x}$, calculons le membre de gauche :\\n$$${a}(${x} + ${b}) = ${a} \\times ${x + b} = ${leftVal}$$\\n• Le membre de droite vaut $${c}$.\\n• Comme $${leftVal} \\neq ${c}$, l'égalité n'est pas vérifiée : le nombre **${x} n'est pas solution**.`;
+        }
+
+        return {
+          chapterId: '5N5',
+          tier: 3,
+          title: "Tester une égalité avec parenthèses (5ème)",
+          statement: `On considère l'égalité : $${a}(x + ${b}) = ${c}$.\n**Le nombre $${x}$ est-il solution de cette égalité ?**`,
+          type: "mcq",
+          options,
+          answer: correctOption,
+          correctIndex: 0,
+          hint1: `Remplace $x$ par ${x} dans le membre de gauche : calcule $${a} \\times (${x} + ${b})$ et compare le résultat avec ${c}.`,
           solution
         };
 
@@ -7659,21 +7949,21 @@ window.MathsGenerators = {
         let solution = '';
 
         if (isSolution) {
-          correctOption = `Oui, car les deux membres valent ${leftVal}`;
+          correctOption = `Oui, car les deux membres valent $${leftVal}$`;
           options = [
             correctOption,
-            `Non, car le membre de gauche vaut ${leftVal + 1}`,
+            `Non, car le membre de gauche vaut $${leftVal + 1}$`,
             `Non, car il y a des $x$ des deux côtés`,
             `On ne peut pas savoir sans résoudre`
           ];
           solution = `• Membre de gauche pour $x = ${x}$ :\\n$$${a} \\times ${x} + ${b} = ${a * x} + ${b} = ${leftVal}$$\\n• Membre de droite pour $x = ${x}$ :\\n$$${cCoeff} \\times ${x} + ${d} = ${cCoeff * x} + ${d} = ${rightVal}$$\\n• Comme $${leftVal} = ${rightVal}$, l'égalité est vérifiée : **${x} est solution**.`;
         } else {
-          correctOption = `Non, car le membre de gauche vaut ${leftVal} et celui de droite vaut ${rightVal}`;
+          correctOption = `Non, car le membre de gauche vaut $${leftVal}$ et celui de droite vaut $${rightVal}$`;
           options = [
             correctOption,
-            `Oui, car $${leftVal} = ${rightVal}$`,
+            `Oui, car en remplaçant $x$ par $${x}$ on trouve le même résultat`,
             `Oui, car toute égalité a une solution`,
-            `On ne peut pas savoir`
+            `On ne peut pas savoir sans résoudre`
           ];
           solution = `• Membre de gauche pour $x = ${x}$ :\\n$$${a} \\times ${x} + ${b} = ${a * x} + ${b} = ${leftVal}$$\\n• Membre de droite pour $x = ${x}$ :\\n$$${cCoeff} \\times ${x} + ${d} = ${cCoeff * x} + ${d} = ${rightVal}$$\\n• Comme $${leftVal} \\neq ${rightVal}$, l'égalité n'est pas vérifiée : **${x} n'est pas solution**.`;
         }

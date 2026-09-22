@@ -138,7 +138,7 @@ window.MathsQuizGenerator = {
           </div>
 
           <div class="quiz-footer-credit print-only">
-            <span>Zone-Maths • Devoir surveillé blanc ${levelLabel} • Créé par Loïc Delaporte, Professeur de Mathématiques</span>
+            <span>L'Établi des Maths • Devoir surveillé blanc ${levelLabel} • Créé par Loïc Delaporte, Professeur de Mathématiques</span>
           </div>
         </div>
 
@@ -147,7 +147,7 @@ window.MathsQuizGenerator = {
         <!-- CORRIGÉ DÉTAILLÉ -->
         <div id="quiz-solutions-block" class="quiz-solutions-teacher">
           <div class="quiz-header-box teacher-header">
-            <h3>ZONE-MATHS (${levelLabel}) — CORRIGÉ DÉTAILLÉ DU DEVOIR BLANC — BARÈME SUR ${totalPoints} POINTS</h3>
+            <h3>L'ÉTABLI DES MATHS (${levelLabel}) — CORRIGÉ DÉTAILLÉ DU DEVOIR BLANC — BARÈME SUR ${totalPoints} POINTS</h3>
             <p style="margin: 0.25rem 0 0 0; font-size: 0.85rem; color: var(--text-muted, #555);">
               Thème(s) évalué(s) : ${chapterTitles} — Auto-évaluation & remédiation
             </p>
@@ -170,7 +170,7 @@ window.MathsQuizGenerator = {
           </div>
 
           <div class="quiz-footer-credit print-only">
-            <span>Zone-Maths • Corrigé officiel d'auto-évaluation ${levelLabel} • Créé par Loïc Delaporte, Professeur de Mathématiques</span>
+            <span>L'Établi des Maths • Corrigé officiel d'auto-évaluation ${levelLabel} • Créé par Loïc Delaporte, Professeur de Mathématiques</span>
           </div>
         </div>
 

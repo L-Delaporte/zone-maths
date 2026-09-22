@@ -711,6 +711,31 @@ window.MATHS_EXERCISES = {
       "skill": "Raisonner"
     },
     {
+      "id": "N5-2b",
+      "chapterId": "N5",
+      "tier": 1,
+      "title": "Critère de divisibilité par 9",
+      "statement": "Le nombre 3 142 est-il divisible par 9 ?",
+      "type": "mcq",
+      "options": [
+        "Non, car la somme de ses chiffres vaut 10, qui n'est pas un multiple de 9",
+        "Oui, car la somme de ses chiffres vaut 10",
+        "Oui, car c'est un nombre pair",
+        "Non, car il se termine par 2"
+      ],
+      "correctIndex": 0,
+      "explanations": [
+        "Exact ! $3 + 1 + 4 + 2 = 10$, qui n'est pas divisible par 9.",
+        "10 n'est pas un multiple de 9, donc le nombre n'est pas divisible par 9.",
+        "Être pair indique la divisibilité par 2, pas par 9.",
+        "Le dernier chiffre ne donne pas la divisibilité par 9."
+      ],
+      "hint1": "Calcule la somme des chiffres de 3 142.",
+      "hint2": "$3 + 1 + 4 + 2 = 10$. Est-ce un multiple de 9 ?",
+      "solution": "La somme des chiffres est $3 + 1 + 4 + 2 = 10$. Comme 10 n'est pas un multiple de 9, 3 142 n'est pas divisible par 9.",
+      "skill": "Raisonner"
+    },
+    {
       "id": "N5-3",
       "chapterId": "N5",
       "tier": 2,
@@ -1310,6 +1335,31 @@ window.MATHS_EXERCISES = {
       "hint1": "Calcule le 3ème angle du premier triangle en sachant que la somme vaut $180^\\circ$.",
       "hint2": "$180 - (45 + 65) = 70$. Compare avec le second triangle.",
       "solution": "Dans le triangle 1 : $180^\\circ - (45^\\circ + 65^\\circ) = 70^\\circ$. Les deux triangles ont donc les mêmes angles ($45^\\circ, 65^\\circ, 70^\\circ$), ils sont semblables.",
+      "skill": "Raisonner"
+    },
+    {
+      "id": "G7-2b",
+      "chapterId": "G7",
+      "tier": 2,
+      "title": "Somme des angles et non-similitude",
+      "statement": "Un triangle 1 a pour angles $50^\\circ$ et $60^\\circ$. Un triangle 2 a pour angles $50^\\circ$ et $75^\\circ$. Sont-ils semblables ?",
+      "type": "mcq",
+      "options": [
+        "Non, car les angles du triangle 1 sont $50^\\circ, 60^\\circ, 70^\\circ$ et ceux du triangle 2 sont $50^\\circ, 75^\\circ, 55^\\circ$",
+        "Oui, car ils ont tous les deux un angle de $50^\\circ$",
+        "Oui, car la somme de leurs angles vaut $180^\\circ$",
+        "On ne peut pas savoir sans connaître la longueur des côtés"
+      ],
+      "correctIndex": 0,
+      "explanations": [
+        "Exact ! Le 3ème angle du triangle 1 est $180 - (50+60) = 70^\\circ$, alors que pour le triangle 2 c'est $180 - (50+75) = 55^\\circ$. Leurs angles ne sont pas deux à deux égaux.",
+        "Avoir un seul angle égal ne suffit pas pour que deux triangles soient semblables.",
+        "Tous les triangles ont une somme d'angles de 180°, cela ne prouve pas qu'ils sont semblables.",
+        "Les trois mesures d'angles suffisent à prouver qu'ils ne sont pas semblables."
+      ],
+      "hint1": "Calcule le troisième angle de chaque triangle : $180 - (50+60)$ et $180 - (50+75)$.",
+      "hint2": "Compare l'ensemble des trois angles de chaque triangle.",
+      "solution": "Triangle 1 : angles $50^\\circ, 60^\\circ$ et $180 - 110 = 70^\\circ$.\nTriangle 2 : angles $50^\\circ, 75^\\circ$ et $180 - 125 = 55^\\circ$.\nLeurs angles ne sont pas deux à deux de même mesure, ils **ne sont pas semblables**.",
       "skill": "Raisonner"
     },
     {

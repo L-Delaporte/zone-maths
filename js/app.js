@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
         '3eme': '3ème (DNB)'
       };
       if (titleEl) {
-        titleEl.innerHTML = `Zone-Maths <span class="brand-level-tag">${levelLabels[level] || 'Collège'}</span>`;
+        titleEl.innerHTML = `L'Établi des Maths <span class="brand-level-tag">${levelLabels[level] || 'Collège'}</span>`;
       }
 
       // Titre dynamique dans la barre latérale
@@ -73,9 +73,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const footerTitleEl = document.getElementById('app-footer-title');
       const lvlLabel = level === '5eme' ? '5ème' : (level === '4eme' ? '4ème' : '3ème');
       if (footerTitleEl) {
-        footerTitleEl.textContent = `Zone-Maths (${lvlLabel}) — Zone Optimale d'Apprentissage (ZPD)`;
+        footerTitleEl.textContent = `L'Établi des Maths (${lvlLabel}) — Outils pour apprendre et pratiquer`;
       }
-      document.title = `Zone-Maths (${lvlLabel}) — Zone Optimale d'Apprentissage | Créé par Loïc Delaporte, Professeur de Mathématiques`;
+      document.title = `L'Établi des Maths (${lvlLabel}) — Outils pour apprendre et pratiquer | Créé par Loïc Delaporte`;
 
       this.renderChaptersGrid();
       this.selectChapter(this.currentChapterId);
@@ -426,12 +426,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         const titleEl = document.getElementById('app-main-title');
         const levelLabels = { '5eme': '5ème', '4eme': '4ème', '3eme': '3ème (DNB)' };
-        if (titleEl) titleEl.innerHTML = `Zone-Maths <span class="brand-level-tag">${levelLabels[chapter.level] || 'Collège'}</span>`;
+        if (titleEl) titleEl.innerHTML = `L'Établi des Maths <span class="brand-level-tag">${levelLabels[chapter.level] || 'Collège'}</span>`;
         
         const footerTitleEl = document.getElementById('app-footer-title');
         const lvlLabel = chapter.level === '5eme' ? '5ème' : (chapter.level === '4eme' ? '4ème' : '3ème');
-        if (footerTitleEl) footerTitleEl.textContent = `Zone-Maths (${lvlLabel}) — Zone Optimale d'Apprentissage (ZPD)`;
-        document.title = `Zone-Maths (${lvlLabel}) — Zone Optimale d'Apprentissage | Créé par Loïc Delaporte, Professeur de Mathématiques`;
+        if (footerTitleEl) footerTitleEl.textContent = `L'Établi des Maths (${lvlLabel}) — Outils pour apprendre et pratiquer`;
+        document.title = `L'Établi des Maths (${lvlLabel}) — Outils pour apprendre et pratiquer | Créé par Loïc Delaporte`;
       }
       this.updateTierButtonsUI();
 
@@ -1327,7 +1327,7 @@ document.addEventListener('DOMContentLoaded', () => {
           </div>
           <div class="printable-worksheet">
             <div class="sheet-print-header">
-              <h1>Zone-Maths • Collège — Mathématiques ${lvlLabel}</h1>
+              <h1>L'Établi des Maths • Collège — Mathématiques ${lvlLabel}</h1>
               <h2>Fiche d'entraînement : ${chMeta ? chMeta.title : this.currentChapterId}</h2>
               <div class="sheet-author-tag">Fiche créée par <strong>Loïc Delaporte</strong>, Professeur de Mathématiques</div>
               <div class="print-meta">Nom : .................................... Prénom : .................................... Classe : .......... Date : ..........</div>
@@ -1375,7 +1375,7 @@ document.addEventListener('DOMContentLoaded', () => {
       let sheetBody = `
         <div class="printable-worksheet">
           <div class="sheet-print-header print-only">
-            <h1>Zone-Maths • Collège — Mathématiques ${this.currentLevel === '5eme' ? '5ème' : (this.currentLevel === '4eme' ? '4ème' : '3ème')}</h1>
+            <h1>L'Établi des Maths • Collège — Mathématiques ${this.currentLevel === '5eme' ? '5ème' : (this.currentLevel === '4eme' ? '4ème' : '3ème')}</h1>
             <h2>${activeSheet.title} (${this.currentChapterId})</h2>
             <div class="sheet-author-tag">Fiche d'exercices créée par <strong>Loïc Delaporte</strong>, Professeur de Mathématiques</div>
             <div class="print-meta">Nom : .................................... Prénom : .................................... Classe : .......... Date : ..........</div>
@@ -1444,7 +1444,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       let html = `
         <div class="passport-author-banner">
-          <span>📐 <strong>Zone-Maths • Cycle 4 (${levelName})</strong> • Application et contenus conçus par <strong>Loïc Delaporte</strong>, Professeur de Mathématiques</span>
+          <span>📐 <strong>L'Établi des Maths • Cycle 4 (${levelName})</strong> • Application et contenus conçus par <strong>Loïc Delaporte</strong>, Professeur de Mathématiques</span>
         </div>
 
         <div class="stats-overview-grid">

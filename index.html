@@ -4,31 +4,58 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="author" content="Loïc Delaporte, Professeur de Mathématiques" />
-  <meta name="description" content="Plateforme d'apprentissage adaptatif des mathématiques au Collège (Cycle 4 : 5ème, 4ème, 3ème / DNB). Entraînement différencié par paliers ZPD, cours complets, rituels flash chronométrés et devoirs surveillés blancs avec corrigés détaillés. Créé par Loïc Delaporte, Professeur de Mathématiques." />
-  <meta name="keywords" content="mathématiques, collège, cycle 4, 3ème, 4ème, 5ème, brevet, DNB, ZPD, entraînement, cours, devoirs blancs, Loïc Delaporte, Yvan Monka" />
+  <meta name="description" content="L'Établi des Maths : plateforme d'apprentissage adaptatif des mathématiques au Collège (Cycle 4 : 5ème, 4ème, 3ème / DNB). Outils pour apprendre et pratiquer : entraînement différencié par paliers, cours complets, rituels flash chronométrés et devoirs surveillés blancs. Créé par Loïc Delaporte, Professeur de Mathématiques." />
+  <meta name="keywords" content="mathématiques, collège, cycle 4, 3ème, 4ème, 5ème, brevet, DNB, établi des maths, l'établi des maths, entraînement, cours, devoirs blancs, Loïc Delaporte, Yvan Monka" />
   
+  <link rel="canonical" href="https://etabli-des-maths.fr/" />
+
   <!-- Optimisations PWA & Mobiles -->
   <meta name="theme-color" content="#0f172a" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="Zone-Maths" />
+  <meta name="apple-mobile-web-app-title" content="L'Établi des Maths" />
 
   <!-- Réseaux Sociaux & Open Graph (Pronote, ENT, WhatsApp, Discord, X) -->
-  <meta property="og:title" content="Zone-Maths (Cycle 4 : 5e, 4e, 3e) — Zone Optimale d'Apprentissage" />
+  <meta property="og:title" content="L'Établi des Maths (Cycle 4 : 5e, 4e, 3e) — Outils pour apprendre et pratiquer" />
   <meta property="og:description" content="Plateforme d'apprentissage adaptatif des mathématiques au Collège (Cycle 4 : 5ème, 4ème, 3ème / DNB). Conçue par Loïc Delaporte, Professeur de Mathématiques." />
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="fr_FR" />
+  <meta property="og:site_name" content="L'Établi des Maths" />
+  <meta property="og:url" content="https://etabli-des-maths.fr/" />
+  <meta property="og:image" content="https://etabli-des-maths.fr/assets/logo.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
 
-  <title>Zone-Maths — Zone Optimale d'Apprentissage (Cycle 4) | Créé par Loïc Delaporte, Professeur de Mathématiques</title>
+  <title>L'Établi des Maths — Outils pour apprendre et pratiquer (Cycle 4 : 5e, 4e, 3e)</title>
+
+  <!-- Données structurées pour moteurs de recherche (Google, Bing) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "L'Établi des Maths",
+    "alternateName": "Etabli des Maths",
+    "url": "https://etabli-des-maths.fr/",
+    "description": "Plateforme d'apprentissage adaptatif et d'entraînement aux mathématiques au collège (Cycle 4 : 5e, 4e, 3e). Outils pour apprendre et pratiquer.",
+    "applicationCategory": "EducationalApplication",
+    "operatingSystem": "All",
+    "author": {
+      "@type": "Person",
+      "name": "Loïc Delaporte",
+      "jobTitle": "Professeur de Mathématiques"
+    },
+    "educationalLevel": ["5ème", "4ème", "3ème", "Cycle 4"]
+  }
+  </script>
   
   <!-- KaTeX pour le rendu des formules mathématiques (avec fallback CDN) -->
   <link rel="stylesheet" href="vendor/katex/katex.min.css" onerror="this.onerror=null;this.href='https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css';" />
   
   <!-- Feuilles de style de l'application -->
-  <link rel="stylesheet" href="css/style.css?v=20260922e" />
-  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
-  <link rel="apple-touch-icon" href="assets/favicon.svg" />
+  <link rel="stylesheet" href="css/style.css?v=20260922f" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/favicon.png" />
+  <link rel="apple-touch-icon" href="assets/favicon.png" />
 </head>
 <body>
 
@@ -36,10 +63,10 @@
   <header class="app-header">
     <div class="header-inner">
       <div class="brand-container">
-        <img src="assets/favicon.svg" alt="Zone-Maths" class="brand-logo-img" width="44" height="44" />
+        <img src="assets/logo.png" alt="L'Établi des Maths" class="brand-logo-img" width="44" height="44" />
         <div class="brand-text">
-          <h1 id="app-main-title">Zone-Maths <span class="brand-level-tag">3ème (DNB)</span></h1>
-          <span class="brand-tagline">Entraînement évolutif, cours & rituels flash</span>
+          <h1 id="app-main-title">L'Établi des Maths <span class="brand-level-tag">3ème (DNB)</span></h1>
+          <span class="brand-tagline">Outils pour apprendre et pratiquer</span>
         </div>
       </div>
 
@@ -322,10 +349,10 @@
   <footer class="app-footer no-print">
     <div class="app-footer-inner">
       <div class="footer-brand">
-        <img src="assets/favicon.svg" alt="Zone-Maths" class="footer-logo-img" width="38" height="38" />
+        <img src="assets/logo.png" alt="L'Établi des Maths" class="footer-logo-img" width="38" height="38" />
         <div>
-          <div id="app-footer-title" class="footer-title">Zone-Maths — Cycle 4 (5ème, 4ème, 3ème)</div>
-          <div class="footer-subtitle">Zone Optimale d'Apprentissage (ZPD) • Entraînement adaptatif, cours complets, rituels flash & devoirs blancs</div>
+          <div id="app-footer-title" class="footer-title">L'Établi des Maths — Cycle 4 (5ème, 4ème, 3ème)</div>
+          <div class="footer-subtitle">Outils pour apprendre et pratiquer • Entraînement adaptatif par paliers, cours complets, rituels flash & devoirs blancs</div>
         </div>
       </div>
       <div class="footer-author-box">
@@ -344,7 +371,7 @@
       <div id="diapo-screen-config" class="diapo-screen">
         <div class="modal-header">
           <div>
-            <h2>⏱️ Zone-Maths — Mode Rituel Flash / Diaporama</h2>
+            <h2>⏱️ L'Établi des Maths — Mode Rituel Flash / Diaporama</h2>
             <div class="modal-author-badge">Créé par <strong>Loïc Delaporte</strong>, Professeur de Mathématiques</div>
           </div>
           <button class="modal-close-btn" onclick="window.MathsDiaporama.closeModal()">✕</button>
@@ -419,7 +446,7 @@
       <div id="diapo-screen-recap" class="diapo-screen" style="display: none;">
         <div class="modal-header">
           <div>
-            <h2>📝 Zone-Maths — Corrigé du Rituel Flash</h2>
+            <h2>📝 L'Établi des Maths — Corrigé du Rituel Flash</h2>
             <div class="modal-author-badge">Créé par <strong>Loïc Delaporte</strong>, Professeur de Mathématiques</div>
           </div>
           <button class="modal-close-btn" onclick="window.MathsDiaporama.closeModal()">✕</button>
@@ -446,7 +473,7 @@
       <div id="quiz-config-screen">
         <div class="modal-header">
           <div>
-            <h2>📝 Zone-Maths — Devoir Surveillé Blanc d'Entraînement</h2>
+            <h2>📝 L'Établi des Maths — Devoir Surveillé Blanc d'Entraînement</h2>
             <div class="modal-author-badge">Créé par <strong>Loïc Delaporte</strong>, Professeur de Mathématiques</div>
           </div>
           <button class="modal-close-btn" onclick="window.MathsQuizGenerator.closeModal()">✕</button>
@@ -483,7 +510,7 @@
       <div id="quiz-preview-screen" style="display: none;">
         <div class="modal-header no-print">
           <div>
-            <h2>📝 Zone-Maths — Mon Devoir Surveillé Blanc</h2>
+            <h2>📝 L'Établi des Maths — Mon Devoir Surveillé Blanc</h2>
             <div class="modal-author-badge">Créé par <strong>Loïc Delaporte</strong>, Professeur de Mathématiques</div>
           </div>
           <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
