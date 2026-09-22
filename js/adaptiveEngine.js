@@ -194,11 +194,15 @@ window.MathsAdaptiveEngine = {
    * Mode procédural infini (MathsMentales) : génère de nouvelles valeurs aléatoires à chaque tirage
    */
   nextExercise() {
+    if (!this.state.chapterId && window.MathsApp && window.MathsApp.currentChapterId) {
+      this.state.chapterId = window.MathsApp.currentChapterId;
+    }
     const progress = window.MathsStorage.getChapterProgress(this.state.chapterId);
+    const mastery = (progress && progress.mastery !== undefined) ? progress.mastery : 0;
     // Détermination du palier actif pour cet exercice :
     // S'assurer que le palier en cours (state.currentTier ou progress.currentTier) est débloqué
     const maxUnlocked = this.getHighestUnlockedTier(this.state.chapterId);
-    let targetTier = this.state.currentTier || progress.currentTier || 1;
+    let targetTier = this.state.currentTier || (progress ? progress.currentTier : 1) || 1;
 
     // Si le palier demandé n'est pas/plus débloqué, repli sur le palier max débloqué
     if (!this.isTierUnlocked(this.state.chapterId, targetTier)) {
@@ -207,7 +211,7 @@ window.MathsAdaptiveEngine = {
     }
 
     this.state.currentTier = targetTier;
-    progress.currentTier = targetTier;
+    if (progress) progress.currentTier = targetTier;
 
     let candidate = null;
 

@@ -566,10 +566,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (!exercise) {
         if (engine && typeof engine.nextExercise === 'function') {
-          const fallbackExo = engine.nextExercise();
-          if (fallbackExo) {
-            this.renderTrainingView();
-            return;
+          try {
+            const fallbackExo = engine.nextExercise();
+            if (fallbackExo) {
+              this.renderTrainingView();
+              return;
+            }
+          } catch (err) {
+            console.error("Erreur lors de la génération de l'exercice :", err);
           }
         }
         if (container) container.innerHTML = `<p class="math-p">Aucun exercice disponible pour ce chapitre.</p>`;
@@ -1789,17 +1793,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
         this.showUnlockPopup({
           icon: isMax ? '💎' : '🚀',
-          category: isMax ? '💎 PALIER SUPRÊME DÉBLOQUÉ !' : '🚀 NOUVEAU PALIER DÉBLOQUÉ !',
-          title: tierTitle,
+          category: isMax ? '💎 PALIER SUPRÊME CONQUIS !' : '🚀 NOUVEAU PALIER DÉBLOQUÉ !',
+          title: !isMax ? nextTierTitle : 'Maîtrise totale',
           chapterTitle: chapter ? `${chapter.num} — ${chapter.shortTitle || chapter.title}` : '',
-          description: `Bravo ! Grâce à tes <strong>${result.mastery}% de maîtrise</strong>, tu franchis un nouveau cap et accèdes au <strong>${tierTitle}</strong> !`,
+          description: !isMax
+            ? `Bravo ! Tu as validé le <strong>${tierTitle}</strong> avec <strong>${result.mastery}% de maîtrise</strong>.<br>Le <strong>${nextTierTitle}</strong> est désormais déverrouillé !`
+            : `Exceptionnel ! Tu as validé tous les paliers de ce chapitre avec <strong>100% de maîtrise</strong> !`,
           perks: [
-            `🎯 Accès aux exercices du ${tierTitle}`,
+            !isMax ? `🎯 Accès aux exercices du ${nextTierTitle}` : `👑 Tous les paliers conquis`,
             `📈 Maîtrise en hausse : ${result.mastery}%`,
             `⚡ +${result.xpEarned} XP gagnés`
           ],
           isMaster: isMax,
-          actionLabel: !isMax ? `Passer au ${nextTierTitle}` : `Continuer l'entraînement`
+          actionLabel: !isMax ? `Passer au ${nextTierTitle}` : `Continuer l'entraînement`,
+          advanceOnAction: !isMax
         });
         return true;
       }
@@ -1843,6 +1850,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (actionBtn) {
         actionBtn.innerHTML = data.actionLabel ? `<span>${data.actionLabel}</span> ➔` : `<span>Continuer l'entraînement</span> ➔`;
+        actionBtn.onclick = () => {
+          this.closeUnlockPopup();
+          if (data.advanceOnAction) {
+            const nextBtn = document.getElementById('btn-next-exercise');
+            if (nextBtn && nextBtn.style.display !== 'none') {
+              nextBtn.click();
+            }
+          }
+        };
       }
 
       // Effets sonores et visuels festifs
@@ -1879,10 +1895,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }, 100);
 
-      // Fermeture par raccourci clavier (Échap ou Entrée)
+      // Fermeture par raccourci clavier (Échap ou Entrée / Espace)
       this._unlockKeyHandler = (e) => {
-        if (e.key === 'Escape' || e.key === 'Enter') {
+        if (e.key === 'Escape' || e.key === 'Enter' || e.code === 'Space') {
+          e.preventDefault();
           this.closeUnlockPopup();
+          if (data.advanceOnAction && (e.key === 'Enter' || e.code === 'Space')) {
+            const nextBtn = document.getElementById('btn-next-exercise');
+            if (nextBtn && nextBtn.style.display !== 'none') {
+              nextBtn.click();
+            }
+          }
         }
       };
       window.addEventListener('keydown', this._unlockKeyHandler);
