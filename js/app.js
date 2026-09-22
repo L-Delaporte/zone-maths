@@ -1508,16 +1508,39 @@ document.addEventListener('DOMContentLoaded', () => {
       const engine = window.MathsAdaptiveEngine;
       return chapters.map(c => {
         const p = chaptersData[c.id] || { mastery: 0, currentTier: 1 };
+
+        let highestTier = 0;
+        for (let t = 4; t >= 1; t--) {
+          const badgeId = `${c.id}_tier_${t}`;
+          if ((unlockedBadges || []).some(b => b.id === badgeId) || (p.mastery >= t * 25) || (p.currentTier > t)) {
+            highestTier = t;
+            break;
+          }
+        }
+
+        const tierRanks = { 1: 'Novice', 2: 'Apprenti', 3: 'Chevalier', 4: 'Maître' };
+        const tierMedals = { 1: '🥉', 2: '🥈', 3: '🥇', 4: '💎' };
+        const tierNames = { 1: 'Socle', 2: 'Guidé', 3: 'Brevet', 4: 'Défi' };
+
+        const currentHonorTitle = highestTier > 0 
+          ? (engine ? engine.getChapterRankTitle(c, highestTier) : `${tierMedals[highestTier]} ${tierRanks[highestTier]}`)
+          : (engine ? engine.getChapterRankTitle(c, 1) : 'Novice');
+
         const tierItems = [1, 2, 3, 4].map(t => {
           const badgeId = `${c.id}_tier_${t}`;
-          const isUnlocked = (unlockedBadges || []).some(b => b.id === badgeId);
-          const title = engine ? engine.getChapterRankTitle(c, t) : `Palier ${t}`;
-          const medal = { 1: '🥉', 2: '🥈', 3: '🥇', 4: '💎' }[t];
-          const tierName = { 1: 'Socle', 2: 'Guidé', 3: 'Brevet', 4: 'Défi' }[t];
+          const isUnlocked = (unlockedBadges || []).some(b => b.id === badgeId) || (p.mastery >= t * 25) || (p.currentTier > t);
+          const fullTitle = engine ? engine.getChapterRankTitle(c, t) : `Palier ${t}`;
+          const medal = tierMedals[t];
+          const rankLabel = tierRanks[t];
+          const tierName = tierNames[t];
+
           return `
-            <div class="trophy-tier-pill ${isUnlocked ? 'unlocked' : 'locked'}" title="${title} (Palier ${t} : ${tierName})">
+            <div class="trophy-tier-pill ${isUnlocked ? 'unlocked' : 'locked'}" 
+                 onclick="window.MathsApp.startChapterTier('${c.id}', ${t})" 
+                 title="${fullTitle} (Palier ${t} : ${tierName}) — ${isUnlocked ? 'Validé ! Cliquez pour vous entraîner' : 'À valider — Cliquez pour vous entraîner'}">
               <span class="trophy-medal">${medal}</span>
-              <span class="trophy-title">${title}</span>
+              <span class="trophy-tier-name">P${t} · ${rankLabel}</span>
+              <span class="trophy-tier-status">${isUnlocked ? '✓' : '🔒'}</span>
             </div>
           `;
         }).join('');
@@ -1525,16 +1548,41 @@ document.addEventListener('DOMContentLoaded', () => {
         return `
           <div class="chapter-trophy-card">
             <div class="chapter-trophy-header">
-              <span class="chapter-trophy-code" style="color: ${c.color};">${c.num}</span>
-              <strong>${c.shortTitle || c.title}</strong>
+              <div class="chapter-trophy-title-wrap">
+                <span class="chapter-trophy-code" style="color: ${c.color}; border-color: ${c.color}40; background-color: ${c.color}15;">${c.num}</span>
+                <strong class="chapter-trophy-name" title="${c.title}">${c.shortTitle || c.title}</strong>
+              </div>
               <span class="chapter-trophy-mastery">${p.mastery || 0}%</span>
             </div>
+
+            <div class="chapter-current-rank ${highestTier > 0 ? 'unlocked' : 'locked'}" 
+                 onclick="window.MathsApp.startChapterTier('${c.id}', ${highestTier > 0 ? highestTier : 1})"
+                 title="Cliquez pour vous entraîner sur ce chapitre">
+              <span class="rank-medal">${highestTier > 0 ? tierMedals[highestTier] : '🎯'}</span>
+              <div class="rank-text-wrap">
+                <span class="rank-sublabel">${highestTier > 0 ? 'Titre obtenu' : 'Prochain objectif'}</span>
+                <strong class="rank-title">${currentHonorTitle}</strong>
+              </div>
+            </div>
+
             <div class="chapter-trophy-tiers">
               ${tierItems}
             </div>
           </div>
         `;
       }).join('');
+    },
+
+    startChapterTier(chapterId, tier = 1) {
+      if (!chapterId) return;
+      this.selectChapter(chapterId);
+      this.switchTab('train');
+      if (tier && tier >= 1 && tier <= 4) {
+        if (window.MathsAdaptiveEngine) {
+          window.MathsAdaptiveEngine.setTier(tier);
+        }
+        this.renderTrainingView();
+      }
     },
 
     showToast(msg, duration = 3500) {
