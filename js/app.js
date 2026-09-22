@@ -1607,25 +1607,148 @@ document.addEventListener('DOMContentLoaded', () => {
     },
 
     shareCurrentTraining() {
+      this.openShareModal();
+    },
+
+    openShareModal() {
       const chapterId = this.currentChapterId;
       const currentTier = (window.MathsAdaptiveEngine && window.MathsAdaptiveEngine.state && window.MathsAdaptiveEngine.state.currentTier) || 1;
       const chapter = (window.MATHS_CHAPTERS || []).find(c => c.id === chapterId);
-      const chapterName = chapter ? (chapter.shortTitle || chapter.title) : chapterId;
+      const chapterTitle = chapter ? `${chapter.num} — ${chapter.shortTitle || chapter.title}` : chapterId;
+      const tierName = this.getTierName(currentTier, this.getCurrentChapterLevel());
+      const tierLabel = `Palier ${currentTier} : ${tierName}`;
 
       const url = new URL(window.location.href);
       url.searchParams.set('chapitre', chapterId);
       url.searchParams.set('palier', currentTier);
       const shareUrl = url.toString();
 
+      const chapEl = document.getElementById('share-modal-chap-title');
+      if (chapEl) chapEl.textContent = chapterTitle;
+
+      const tierEl = document.getElementById('share-modal-tier-title');
+      if (tierEl) tierEl.textContent = tierLabel;
+
+      const textMsg = `Bonjour,\nVoici l'entraînement sur Zone-Maths pour préparer la prochaine évaluation (IE) :\n📚 Chapitre : ${chapterTitle}\n🎯 Objectif : Réaliser les exercices du ${tierLabel}\n🔗 Lien d'accès direct : ${shareUrl}\n\nBon travail à tous !`;
+
+      const msgArea = document.getElementById('share-message-text');
+      if (msgArea) msgArea.value = textMsg;
+
+      const linkInput = document.getElementById('share-link-input');
+      if (linkInput) linkInput.value = shareUrl;
+
+      const qrImg = document.getElementById('share-qr-img');
+      if (qrImg) {
+        qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(shareUrl)}`;
+      }
+
+      const nativeBox = document.getElementById('share-native-box');
+      if (nativeBox) {
+        nativeBox.style.display = (navigator.share) ? 'block' : 'none';
+      }
+
+      const modal = document.getElementById('share-modal');
+      if (modal) modal.style.display = 'flex';
+    },
+
+    closeShareModal() {
+      const modal = document.getElementById('share-modal');
+      if (modal) modal.style.display = 'none';
+    },
+
+    copyShareMessage() {
+      const msgArea = document.getElementById('share-message-text');
+      if (!msgArea) return;
+      const text = msgArea.value;
+
       if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(shareUrl).then(() => {
-          this.showToast(`🔗 <strong>Lien copié pour ÉcoleDirecte !</strong><br><small>${chapterName} — Palier ${currentTier}</small>`);
+        navigator.clipboard.writeText(text).then(() => {
+          this.setButtonSuccess('btn-copy-share-msg', '✅ Message copié !');
+          this.showToast('📋 Message complet copié pour ÉcoleDirecte / Pronote !');
         }).catch(() => {
-          prompt('Voici le lien direct à copier pour ÉcoleDirecte / Pronote :', shareUrl);
+          msgArea.select();
+          document.execCommand('copy');
+          this.setButtonSuccess('btn-copy-share-msg', '✅ Message copié !');
         });
       } else {
-        prompt('Voici le lien direct à copier pour ÉcoleDirecte / Pronote :', shareUrl);
+        msgArea.select();
+        document.execCommand('copy');
+        this.setButtonSuccess('btn-copy-share-msg', '✅ Message copié !');
       }
+    },
+
+    copyShareUrl() {
+      const linkInput = document.getElementById('share-link-input');
+      if (!linkInput) return;
+      const url = linkInput.value;
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(() => {
+          this.setButtonSuccess('btn-copy-share-url', '✅ Lien copié !');
+          this.showToast('🔗 Lien direct copié !');
+        }).catch(() => {
+          linkInput.select();
+          document.execCommand('copy');
+          this.setButtonSuccess('btn-copy-share-url', '✅ Lien copié !');
+        });
+      } else {
+        linkInput.select();
+        document.execCommand('copy');
+        this.setButtonSuccess('btn-copy-share-url', '✅ Lien copié !');
+      }
+    },
+
+    setButtonSuccess(btnId, text) {
+      const btn = document.getElementById(btnId);
+      if (!btn) return;
+      const originalText = btn.innerHTML;
+      btn.innerHTML = text;
+      btn.classList.add('btn-success');
+      setTimeout(() => {
+        btn.innerHTML = originalText;
+        btn.classList.remove('btn-success');
+      }, 2500);
+    },
+
+    nativeShare() {
+      const linkInput = document.getElementById('share-link-input');
+      const msgArea = document.getElementById('share-message-text');
+      const url = linkInput ? linkInput.value : window.location.href;
+      const text = msgArea ? msgArea.value : url;
+
+      if (navigator.share) {
+        navigator.share({
+          title: 'Zone-Maths — Entraînement pour l\'IE',
+          text: text,
+          url: url
+        }).catch(err => {
+          if (err.name !== 'AbortError') console.warn(err);
+        });
+      }
+    },
+
+    showSharedTrainingBanner(chapter, tier) {
+      const existing = document.getElementById('shared-training-banner');
+      if (existing) existing.remove();
+
+      const container = document.querySelector('.exercise-workspace-box');
+      if (!container) return;
+
+      const tierName = this.getTierName(tier, this.getCurrentChapterLevel());
+      const banner = document.createElement('div');
+      banner.id = 'shared-training-banner';
+      banner.className = 'shared-training-banner';
+      banner.innerHTML = `
+        <div class="shared-banner-left">
+          <span class="shared-banner-icon">🎯</span>
+          <div class="shared-banner-text">
+            <strong>Devoir demandé par ton professeur sur ÉcoleDirecte / Pronote :</strong>
+            <span>${chapter.num} ${chapter.shortTitle || chapter.title} — <strong>Palier ${tier} : ${tierName}</strong></span>
+          </div>
+        </div>
+        <button class="shared-banner-close" onclick="document.getElementById('shared-training-banner').remove()" title="Fermer ce rappel">✕</button>
+      `;
+      container.insertBefore(banner, container.firstChild);
     },
 
     checkUrlShareParams() {
@@ -1642,10 +1765,12 @@ document.addEventListener('DOMContentLoaded', () => {
               this.switchLevel(targetChap.level, false);
             }
             this.selectChapter(targetChap.id);
+            this.switchTab('train');
             if (tierParam && tierParam >= 1 && tierParam <= 4) {
               setTimeout(() => {
                 window.MathsAdaptiveEngine.setTier(tierParam);
                 this.renderTrainingView();
+                this.showSharedTrainingBanner(targetChap, tierParam);
                 this.showToast(`🎯 <strong>Entraînement ciblé pour l'IE :</strong> ${targetChap.shortTitle || targetChap.title} (Palier ${tierParam})`, 4500);
               }, 250);
             }
