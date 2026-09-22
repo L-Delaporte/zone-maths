@@ -1434,7 +1434,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="stats-section">
           <h3>🎖️ Rangs & Trophées par Chapitre — ${levelName}</h3>
           <p class="math-p" style="margin-bottom: 1rem; font-size: 0.92rem; color: var(--text-muted);">
-            Valide les 4 paliers d'entraînement pour faire évoluer ton titre honorifique : 🥉 <strong>Novice</strong> (Palier 1) ➔ 🥈 <strong>Apprenti</strong> (Palier 2) ➔ 🥇 <strong>Chevalier</strong> (Palier 3) ➔ 💎 <strong>Maître</strong> (Palier 4) !
+            Valide les paliers d'entraînement pour faire évoluer ton titre : 🥉 <strong>Novice</strong> (Palier 1 validé) ➔ 🥈 <strong>Apprenti</strong> (Palier 2 validé) ➔ 🥇 <strong>Chevalier</strong> (Palier 3 validé) ➔ 💎 <strong>Maître</strong> (100% de la notion) !
           </p>
           <div class="chapter-trophies-grid">
             ${this.renderChapterTrophiesHtml(levelChapters, data.badges, data.chapters)}
@@ -1445,9 +1445,21 @@ document.addEventListener('DOMContentLoaded', () => {
           <h3>🗺️ Maîtrise par Chapitre — Classe de ${levelName} (${levelChapters.length} Thèmes)</h3>
           <div class="chapters-mastery-list">
             ${levelChapters.map(c => {
-              const p = data.chapters[c.id] || { mastery: 0, currentTier: 1, completed: [] };
-              const currentTier = p.currentTier || 1;
-              const currentRank = window.MathsAdaptiveEngine ? window.MathsAdaptiveEngine.getChapterRankTitle(c, currentTier) : `Palier ${currentTier}`;
+              const p = data.chapters[c.id] || { mastery: 0, currentTier: 1, completed: [], validatedTiers: [] };
+              const valTiers = p.validatedTiers || [];
+              let highestTier = 0;
+              if (p.mastery >= 100 || valTiers.includes(4) || (data.badges || []).some(b => b.id === `${c.id}_tier_4`)) {
+                highestTier = 4;
+              } else if (valTiers.includes(3) || (data.badges || []).some(b => b.id === `${c.id}_tier_3`) || p.mastery >= 75 || p.currentTier >= 4) {
+                highestTier = 3;
+              } else if (valTiers.includes(2) || (data.badges || []).some(b => b.id === `${c.id}_tier_2`) || p.mastery >= 50 || p.currentTier >= 3) {
+                highestTier = 2;
+              } else if (valTiers.includes(1) || (data.badges || []).some(b => b.id === `${c.id}_tier_1`) || p.mastery >= 25 || p.currentTier >= 2) {
+                highestTier = 1;
+              }
+              const currentRank = highestTier > 0 
+                ? (window.MathsAdaptiveEngine ? window.MathsAdaptiveEngine.getChapterRankTitle(c, highestTier) : `Palier ${highestTier}`)
+                : 'Non débloqué';
               return `
                 <div class="mastery-row">
                   <div class="mastery-left">
@@ -1507,46 +1519,45 @@ document.addEventListener('DOMContentLoaded', () => {
     renderChapterTrophiesHtml(chapters, unlockedBadges = [], chaptersData = {}) {
       const engine = window.MathsAdaptiveEngine;
       return chapters.map(c => {
-        const p = chaptersData[c.id] || { mastery: 0, currentTier: 1 };
+        const p = chaptersData[c.id] || { mastery: 0, currentTier: 1, validatedTiers: [] };
+        const valTiers = p.validatedTiers || [];
 
+        // Règle de déblocage stricte :
+        // 1. Pour Maître : il faut 100% de la notion (p.mastery >= 100)
+        // 2. Si palier 3 validé : débloque Chevalier
+        // 3. Si palier 2 validé : débloque Apprenti
+        // 4. Si palier 1 validé : débloque Novice
         let highestTier = 0;
-        for (let t = 4; t >= 1; t--) {
-          const badgeId = `${c.id}_tier_${t}`;
-          if ((unlockedBadges || []).some(b => b.id === badgeId) || (p.mastery >= t * 25) || (p.currentTier > t)) {
-            highestTier = t;
-            break;
-          }
+        if (p.mastery >= 100 || valTiers.includes(4) || (unlockedBadges || []).some(b => b.id === `${c.id}_tier_4`)) {
+          highestTier = 4;
+        } else if (valTiers.includes(3) || (unlockedBadges || []).some(b => b.id === `${c.id}_tier_3`) || p.mastery >= 75 || p.currentTier >= 4) {
+          highestTier = 3;
+        } else if (valTiers.includes(2) || (unlockedBadges || []).some(b => b.id === `${c.id}_tier_2`) || p.mastery >= 50 || p.currentTier >= 3) {
+          highestTier = 2;
+        } else if (valTiers.includes(1) || (unlockedBadges || []).some(b => b.id === `${c.id}_tier_1`) || p.mastery >= 25 || p.currentTier >= 2) {
+          highestTier = 1;
         }
 
-        const tierRanks = { 1: 'Novice', 2: 'Apprenti', 3: 'Chevalier', 4: 'Maître' };
         const tierMedals = { 1: '🥉', 2: '🥈', 3: '🥇', 4: '💎' };
-        const tierNames = { 1: 'Socle', 2: 'Guidé', 3: 'Brevet', 4: 'Défi' };
+        const tierLabels = {
+          1: 'Palier 1 validé',
+          2: 'Palier 2 validé',
+          3: 'Palier 3 validé',
+          4: '100% de la notion validé'
+        };
 
-        const currentHonorTitle = highestTier > 0 
-          ? (engine ? engine.getChapterRankTitle(c, highestTier) : `${tierMedals[highestTier]} ${tierRanks[highestTier]}`)
+        const rankTitle = highestTier > 0 
+          ? (engine ? engine.getChapterRankTitle(c, highestTier) : `Palier ${highestTier}`)
           : (engine ? engine.getChapterRankTitle(c, 1) : 'Novice');
 
-        const tierItems = [1, 2, 3, 4].map(t => {
-          const badgeId = `${c.id}_tier_${t}`;
-          const isUnlocked = (unlockedBadges || []).some(b => b.id === badgeId) || (p.mastery >= t * 25) || (p.currentTier > t);
-          const fullTitle = engine ? engine.getChapterRankTitle(c, t) : `Palier ${t}`;
-          const medal = tierMedals[t];
-          const rankLabel = tierRanks[t];
-          const tierName = tierNames[t];
-
-          return `
-            <div class="trophy-tier-pill ${isUnlocked ? 'unlocked' : 'locked'}" 
-                 onclick="window.MathsApp.startChapterTier('${c.id}', ${t})" 
-                 title="${fullTitle} (Palier ${t} : ${tierName}) — ${isUnlocked ? 'Validé ! Cliquez pour vous entraîner' : 'À valider — Cliquez pour vous entraîner'}">
-              <span class="trophy-medal">${medal}</span>
-              <span class="trophy-tier-name">P${t} · ${rankLabel}</span>
-              <span class="trophy-tier-status">${isUnlocked ? '✓' : '🔒'}</span>
-            </div>
-          `;
-        }).join('');
+        const medal = highestTier > 0 ? tierMedals[highestTier] : '🔒';
+        const statusLabel = highestTier > 0 ? tierLabels[highestTier] : 'Objectif : Palier 1';
+        const displayTitle = highestTier > 0 ? rankTitle : `Objectif : ${rankTitle}`;
 
         return `
-          <div class="chapter-trophy-card">
+          <div class="chapter-trophy-card ${highestTier > 0 ? 'unlocked tier-' + highestTier : 'locked'}" 
+               onclick="window.MathsApp.startChapterTier('${c.id}', ${highestTier > 0 ? highestTier : 1})"
+               title="Clique pour t'entraîner sur ${c.shortTitle || c.title}">
             <div class="chapter-trophy-header">
               <div class="chapter-trophy-title-wrap">
                 <span class="chapter-trophy-code" style="color: ${c.color}; border-color: ${c.color}40; background-color: ${c.color}15;">${c.num}</span>
@@ -1555,18 +1566,12 @@ document.addEventListener('DOMContentLoaded', () => {
               <span class="chapter-trophy-mastery">${p.mastery || 0}%</span>
             </div>
 
-            <div class="chapter-current-rank ${highestTier > 0 ? 'unlocked' : 'locked'}" 
-                 onclick="window.MathsApp.startChapterTier('${c.id}', ${highestTier > 0 ? highestTier : 1})"
-                 title="Cliquez pour vous entraîner sur ce chapitre">
-              <span class="rank-medal">${highestTier > 0 ? tierMedals[highestTier] : '🎯'}</span>
-              <div class="rank-text-wrap">
-                <span class="rank-sublabel">${highestTier > 0 ? 'Titre obtenu' : 'Prochain objectif'}</span>
-                <strong class="rank-title">${currentHonorTitle}</strong>
+            <div class="chapter-single-rank-banner">
+              <span class="rank-single-medal">${medal}</span>
+              <div class="rank-single-text">
+                <span class="rank-single-status">${statusLabel}</span>
+                <strong class="rank-single-title">${displayTitle}</strong>
               </div>
-            </div>
-
-            <div class="chapter-trophy-tiers">
-              ${tierItems}
             </div>
           </div>
         `;

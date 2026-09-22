@@ -435,6 +435,29 @@ window.MathsAdaptiveEngine = {
         masteryPercent = Math.min(100, curMastery + gain);
         p.mastery = masteryPercent;
 
+        // Suivi précis par palier
+        p.successesByTier = p.successesByTier || { 1: 0, 2: 0, 3: 0, 4: 0 };
+        const exoTier = exercise.tier || this.state.currentTier || 1;
+        p.successesByTier[exoTier] = (p.successesByTier[exoTier] || 0) + 1;
+
+        p.validatedTiers = p.validatedTiers || [];
+        // Palier 1 validé : au moins 3 réussites sur le P1 OU maîtrise >= 25% OU palier supérieur
+        if (!p.validatedTiers.includes(1) && (p.successesByTier[1] >= 3 || masteryPercent >= 25 || p.currentTier > 1)) {
+          p.validatedTiers.push(1);
+        }
+        // Palier 2 validé : Palier 1 validé ET (au moins 3 réussites sur le P2 OU maîtrise >= 50% OU palier supérieur)
+        if (!p.validatedTiers.includes(2) && p.validatedTiers.includes(1) && (p.successesByTier[2] >= 3 || masteryPercent >= 50 || p.currentTier > 2)) {
+          p.validatedTiers.push(2);
+        }
+        // Palier 3 validé : Palier 2 validé ET (au moins 3 réussites sur le P3 OU maîtrise >= 75% OU palier supérieur)
+        if (!p.validatedTiers.includes(3) && p.validatedTiers.includes(2) && (p.successesByTier[3] >= 3 || masteryPercent >= 75 || p.currentTier > 3)) {
+          p.validatedTiers.push(3);
+        }
+        // Maître : 100% de la notion requis
+        if (!p.validatedTiers.includes(4) && masteryPercent >= 100) {
+          p.validatedTiers.push(4);
+        }
+
         // Évolution continue de la difficulté proportionnellement au pourcentage
         const prevTier = this.state.currentTier;
         if (!this.state.manualTierSelected) {
@@ -724,30 +747,36 @@ window.MathsAdaptiveEngine = {
 
     // 2. Trophées et Rangs honorifiques par Palier (Novice, Apprenti, Chevalier, Maître)
     if (chapter) {
-      const tiersToUnlock = [];
-      if (masteryPercent >= 25) tiersToUnlock.push(1);
-      if (masteryPercent >= 50) tiersToUnlock.push(2);
-      if (masteryPercent >= 75) tiersToUnlock.push(3);
-      if (masteryPercent >= 100) tiersToUnlock.push(4);
+      const p = window.MathsStorage.getChapterProgress(chapterId);
+      const valTiers = p.validatedTiers || [];
 
-      if (this.state.consecutiveSuccesses >= 2 && !tiersToUnlock.includes(this.state.currentTier)) {
-        tiersToUnlock.push(this.state.currentTier);
-      }
+      // Déblocage strict demandé :
+      // - Si tout le palier 1 est validé -> débloque Novice
+      // - Si tout le palier 2 est validé -> débloque Apprenti
+      // - Si tout le palier 3 est validé -> débloque Chevalier
+      // - Pour Maître -> il faut 100% de la notion
+      const tiersToUnlock = [];
+      if (valTiers.includes(1) || masteryPercent >= 25 || p.mastery >= 25) tiersToUnlock.push(1);
+      if (valTiers.includes(2) || masteryPercent >= 50 || p.mastery >= 50) tiersToUnlock.push(2);
+      if (valTiers.includes(3) || masteryPercent >= 75 || p.mastery >= 75) tiersToUnlock.push(3);
+      if (masteryPercent >= 100 || p.mastery >= 100) tiersToUnlock.push(4);
 
       tiersToUnlock.forEach(t => {
         const badgeId = `${chapterId}_tier_${t}`;
         const title = this.getChapterRankTitle(chapter, t);
         const icon = { 1: '🥉', 2: '🥈', 3: '🥇', 4: '💎' }[t];
-        const desc = `Validation du Palier ${t} (${chapter.shortTitle || chapter.title})`;
+        const desc = t === 4 
+          ? `100% de maîtrise atteint sur ${chapter.shortTitle || chapter.title}`
+          : `Validation du Palier ${t} (${chapter.shortTitle || chapter.title})`;
 
         const newlyUnlocked = window.MathsStorage.unlockBadge(badgeId, title, desc, icon);
         if (newlyUnlocked && window.MathsApp && window.MathsApp.showToast) {
-          window.MathsApp.showToast(`🎉 <strong>Nouveau Trophée Débloqué !</strong><br>${icon} ${title}`);
+          window.MathsApp.showToast(`🎉 <strong>Nouveau Titre Débloqué !</strong><br>${icon} ${title}`);
           if (window.MathsAudio) window.MathsAudio.playLevelUp();
         }
       });
 
-      if (masteryPercent >= 100) {
+      if (masteryPercent >= 100 || p.mastery >= 100) {
         window.MathsStorage.unlockBadge(`${chapterId}_master`, `Grand Maître ${chapter.shortTitle || chapter.title}`, 'Maîtrise totale à 100% du chapitre.', '👑');
       }
     }
