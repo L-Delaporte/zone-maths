@@ -25,6 +25,7 @@ window.MathsDiaporama = {
     modal.style.display = 'flex';
     document.body.style.overflow = 'hidden';
     document.body.classList.add('modal-open');
+    document.body.classList.add('diapo-modal-open');
 
     // Remplir le sélecteur de chapitres selon le niveau actif
     const selectorContainer = document.getElementById('diaporama-chapters-checkboxes');
@@ -51,6 +52,7 @@ window.MathsDiaporama = {
     if (modal) modal.style.display = 'none';
     document.body.style.overflow = 'auto';
     document.body.classList.remove('modal-open');
+    document.body.classList.remove('diapo-modal-open');
   },
 
   showScreen(name) {

@@ -1523,14 +1523,15 @@ body {
     background: white !important;
     color: black !important;
   }
-  .print-only {
+  .sheet-print-header,
+  .printable-worksheet .print-only {
     display: block !important;
     margin-bottom: 2rem;
     border-bottom: 2px solid black;
     padding-bottom: 1rem;
   }
-  .print-only h1 { font-size: 1.4rem; }
-  .print-only h2 { font-size: 1.2rem; }
+  .sheet-print-header h1, .print-only h1 { font-size: 1.4rem; }
+  .sheet-print-header h2, .print-only h2 { font-size: 1.2rem; }
   .print-meta { margin-top: 1rem; font-size: 0.9rem; }
 }
 
@@ -2324,10 +2325,25 @@ body {
 .quiz-title-line {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   margin-bottom: 0.4rem;
   gap: 0.75rem;
   flex-wrap: wrap;
+}
+
+.quiz-header-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+.quiz-header-logo {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  flex-shrink: 0;
+  display: block;
 }
 
 .quiz-title-main {
@@ -3045,17 +3061,20 @@ body {
   white-space: nowrap;
 }
 
-/* Impression optimisée : SUJET SUR UNE SEULE PAGE A4 */
+/* Impression optimisée : SUJET BLANC & CORRIGÉ DÉTAILLÉ */
 @media print {
   @page {
     size: A4 portrait;
     margin: 8mm 8mm 8mm 8mm;
   }
 
-  body {
+  html, body {
     background: white !important;
     color: black !important;
     font-size: 9pt !important;
+    overflow: visible !important;
+    height: auto !important;
+    min-height: 0 !important;
   }
 
   .no-print {
@@ -3066,97 +3085,291 @@ body {
     display: block !important;
   }
 
-  .modal-overlay {
-    position: static !important;
-    background: none !important;
-    padding: 0 !important;
+  /* Déblocage de la structure en modale pour autoriser l'impression multi-pages */
+  body.modal-open,
+  body.modal-open html {
+    overflow: visible !important;
+    height: auto !important;
   }
 
-  .modal-box {
+  body.modal-open .app-container {
+    display: none !important;
+  }
+
+  /* 1. TOUTES LES AUTRES MODALES SONT STRICTEMENT MASQUÉES À L'IMPRESSION */
+  .modal-overlay,
+  #diaporama-modal,
+  #quiz-modal,
+  #reward-unlock-modal,
+  #flashcards-modal,
+  #streak-modal,
+  #level-modal {
+    display: none !important;
+  }
+
+  /* 2. DÉBLOCAGE EXCLUSIF DU DEVOIR BLANC LORSQU'IL EST IMPRIMÉ */
+  body.quiz-modal-open #quiz-modal,
+  body.modal-open:not(.diapo-modal-open) #quiz-modal {
+    position: static !important;
+    display: block !important;
+    background: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;
+    backdrop-filter: none !important;
+    z-index: auto !important;
+  }
+
+  body.quiz-modal-open #quiz-modal .modal-box,
+  body.modal-open:not(.diapo-modal-open) #quiz-modal .modal-box {
+    display: block !important;
     box-shadow: none !important;
     border: none !important;
+    border-radius: 0 !important;
+    width: 100% !important;
     max-width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
     max-height: none !important;
+    overflow: visible !important;
     padding: 0 !important;
+    margin: 0 !important;
+    background: white !important;
   }
 
-  .quiz-scroll-preview {
-    max-height: none !important;
+  #quiz-config-screen {
+    display: none !important;
+  }
+
+  body.quiz-modal-open #quiz-preview-screen,
+  body.modal-open:not(.diapo-modal-open) #quiz-preview-screen {
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    overflow: visible !important;
     padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  body.quiz-modal-open #quiz-modal .quiz-scroll-preview,
+  body.modal-open:not(.diapo-modal-open) #quiz-modal .quiz-scroll-preview {
+    display: block !important;
+    max-height: none !important;
+    height: auto !important;
+    overflow: visible !important;
+    padding: 0 !important;
+    margin: 0 !important;
     background: none !important;
   }
 
+  /* Impression du Diaporama (si déclenchée depuis le récapitulatif du diaporama) */
+  body.diapo-modal-open #diaporama-modal {
+    position: static !important;
+    display: block !important;
+    background: white !important;
+    width: 100% !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+  body.diapo-modal-open #diaporama-modal #diapo-screen-config,
+  body.diapo-modal-open #diaporama-modal #diapo-screen-play {
+    display: none !important;
+  }
+  body.diapo-modal-open #diaporama-modal #diapo-screen-recap {
+    display: block !important;
+  }
+  body.diapo-modal-open #quiz-modal {
+    display: none !important;
+  }
+
+  .printable-quiz-sheet {
+    display: block !important;
+    background: white !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  /* 3. FEUILLE DE SUJET DU DEVOIR BLANC (PAGE 1) */
   .quiz-single-subject {
+    display: block !important;
     box-shadow: none !important;
     border: 1.5px solid #000 !important;
-    padding: 8mm !important;
+    padding: 5mm 7mm !important;
     margin: 0 !important;
-    page-break-after: always !important;
-    page-break-inside: avoid !important;
+    page-break-before: auto !important;
+    break-before: auto !important;
+    page-break-after: auto !important;
+    break-after: auto !important;
+    page-break-inside: auto !important;
+    break-inside: auto !important;
     box-sizing: border-box !important;
     background: white !important;
+    height: auto !important;
+    overflow: visible !important;
   }
 
   .quiz-questions-grid {
     display: grid !important;
     grid-template-columns: 1fr 1fr !important;
-    gap: 3mm 5mm !important;
+    gap: 2mm 3.5mm !important;
   }
 
   .quiz-q-card {
     border: 1px solid #444 !important;
     background: white !important;
-    padding: 2.5mm 3.5mm !important;
-    font-size: 8.5pt !important;
-    line-height: 1.35 !important;
+    padding: 1.8mm 2.5mm !important;
+    font-size: 8pt !important;
+    line-height: 1.25 !important;
     page-break-inside: avoid !important;
     break-inside: avoid !important;
+    box-sizing: border-box !important;
+    border-radius: 2px !important;
   }
 
   .quiz-header-box {
-    margin-bottom: 3mm !important;
-    padding-bottom: 2mm !important;
+    margin-bottom: 2mm !important;
+    padding-bottom: 1.5mm !important;
+    border-bottom: 1px solid #aaa !important;
   }
 
+  .quiz-title-main h3 {
+    font-size: 9.5pt !important;
+    margin: 0 0 1mm 0 !important;
+    font-weight: 700 !important;
+    color: #000 !important;
+  }
+
+  .quiz-header-right {
+    display: flex !important;
+    align-items: center !important;
+    gap: 2.5mm !important;
+  }
+
+  .quiz-grade-box {
+    font-size: 8.5pt !important;
+    font-weight: 700 !important;
+    padding: 1mm 2.5mm !important;
+    border: 1.5pt solid #000 !important;
+    background: white !important;
+    white-space: nowrap !important;
+    border-radius: 2px !important;
+  }
+
+  .quiz-header-logo {
+    display: block !important;
+    width: 11mm !important;
+    height: 11mm !important;
+    object-fit: contain !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .quiz-student-meta {
+    display: flex !important;
+    justify-content: space-between !important;
+    font-size: 7.5pt !important;
+    margin-top: 1mm !important;
+    color: #111 !important;
+  }
+
+  .quiz-page-break {
+    display: none !important;
+  }
+
+  /* 4. FEUILLE DU CORRIGÉ DÉTAILLÉ (PAGE 2) */
+  #quiz-solutions-block,
   .quiz-solutions-teacher {
+    display: block !important;
     box-shadow: none !important;
     border: 1.5px solid #2563eb !important;
-    padding: 8mm !important;
+    padding: 5mm 7mm !important;
     margin: 0 !important;
+    page-break-before: always !important;
+    break-before: page !important;
     page-break-after: auto !important;
-    page-break-inside: avoid !important;
+    break-after: auto !important;
+    page-break-inside: auto !important;
+    break-inside: auto !important;
+    box-sizing: border-box !important;
     background: white !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  /* Masquer à l'impression UNIQUEMENT si l'élève a cliqué sur "Masquer le corrigé" */
+  #quiz-solutions-block.quiz-solutions-hidden {
+    display: none !important;
+  }
+
+  .teacher-header h3 {
+    font-size: 9pt !important;
+    color: #1e40af !important;
+    margin: 0 !important;
+    font-weight: 700 !important;
   }
 
   .quiz-solutions-grid {
     display: grid !important;
     grid-template-columns: 1fr 1fr !important;
-    gap: 3mm 5mm !important;
+    gap: 2mm 3.5mm !important;
   }
 
   .quiz-sol-card {
-    border: 1px solid #666 !important;
+    border: 1px solid #2563eb !important;
     background: white !important;
-    padding: 2.5mm 3.5mm !important;
-    font-size: 8.5pt !important;
-    line-height: 1.35 !important;
+    padding: 1.8mm 2.5mm !important;
+    font-size: 7.5pt !important;
+    line-height: 1.25 !important;
     page-break-inside: avoid !important;
     break-inside: avoid !important;
+    box-sizing: border-box !important;
+    border-radius: 2px !important;
+  }
+
+  .quiz-sol-header {
+    display: flex !important;
+    align-items: center !important;
+    gap: 1.5mm !important;
+    margin-bottom: 0.8mm !important;
+    font-size: 7.5pt !important;
+    color: #1e40af !important;
+    font-weight: 700 !important;
+  }
+
+  .quiz-sol-body {
+    font-size: 7.5pt !important;
+    line-height: 1.25 !important;
+  }
+
+  .quiz-sol-body p {
+    margin: 0 0 0.8mm 0 !important;
+  }
+
+  .quiz-sol-body p:last-child {
+    margin-bottom: 0 !important;
   }
 
   .quiz-author-line {
-    font-size: 7.5pt !important;
-    margin: 0.5mm 0 1.5mm 0 !important;
+    font-size: 7pt !important;
+    margin: 0.5mm 0 1mm 0 !important;
     color: #333 !important;
   }
 
   .quiz-footer-credit {
     display: block !important;
-    font-size: 7pt !important;
+    font-size: 6.5pt !important;
     color: #444 !important;
     text-align: right !important;
-    margin-top: 2.5mm !important;
-    padding-top: 1mm !important;
+    margin-top: 1.5mm !important;
+    padding-top: 0.8mm !important;
     border-top: 0.5pt solid #bbb !important;
     font-style: italic !important;
   }

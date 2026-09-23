@@ -19,6 +19,7 @@ window.MathsQuizGenerator = {
     modal.style.display = 'flex';
     document.body.style.overflow = 'hidden';
     document.body.classList.add('modal-open');
+    document.body.classList.add('quiz-modal-open');
 
     // Remplir la sélection des chapitres selon le niveau actif
     const container = document.getElementById('quiz-chapters-checkboxes');
@@ -44,6 +45,7 @@ window.MathsQuizGenerator = {
     if (modal) modal.style.display = 'none';
     document.body.style.overflow = 'auto';
     document.body.classList.remove('modal-open');
+    document.body.classList.remove('quiz-modal-open');
   },
 
   /**
@@ -56,6 +58,7 @@ window.MathsQuizGenerator = {
 
     this.showSolutions = !this.showSolutions;
     block.style.display = this.showSolutions ? 'block' : 'none';
+    block.classList.toggle('quiz-solutions-hidden', !this.showSolutions);
     if (btn) {
       btn.textContent = this.showSolutions ? '👁️ Masquer le Corrigé' : '👁️ Afficher le Corrigé';
     }
@@ -106,10 +109,13 @@ window.MathsQuizGenerator = {
           <div class="quiz-header-box">
             <div class="quiz-title-line">
               <div class="quiz-title-main">
-                <h3>📝 ZONE-MATHS (${levelLabel}) — DEVOIR SURVEILLÉ BLANC D'ENTRAÎNEMENT</h3>
+                <h3>📝 L'ÉTABLI DES MATHS (${levelLabel}) — DEVOIR SURVEILLÉ BLANC D'ENTRAÎNEMENT</h3>
                 <span class="quiz-badge-theme">${chapterTitles}</span>
               </div>
-              <div class="quiz-grade-box">Note : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; / ${totalPoints}</div>
+              <div class="quiz-header-right">
+                <div class="quiz-grade-box">Note : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; / ${totalPoints}</div>
+                <img src="assets/logo.png" alt="Logo L'Établi des Maths" class="quiz-header-logo" width="46" height="46" />
+              </div>
             </div>
             <div class="quiz-author-line">
               <span>Créé par <strong>Loïc Delaporte</strong>, Professeur de Mathématiques</span>
@@ -142,15 +148,20 @@ window.MathsQuizGenerator = {
           </div>
         </div>
 
-        <div class="quiz-page-break print-only"></div>
-
         <!-- CORRIGÉ DÉTAILLÉ -->
         <div id="quiz-solutions-block" class="quiz-solutions-teacher">
           <div class="quiz-header-box teacher-header">
-            <h3>L'ÉTABLI DES MATHS (${levelLabel}) — CORRIGÉ DÉTAILLÉ DU DEVOIR BLANC — BARÈME SUR ${totalPoints} POINTS</h3>
-            <p style="margin: 0.25rem 0 0 0; font-size: 0.85rem; color: var(--text-muted, #555);">
-              Thème(s) évalué(s) : ${chapterTitles} — Auto-évaluation & remédiation
-            </p>
+            <div class="quiz-title-line">
+              <div class="quiz-title-main">
+                <h3>L'ÉTABLI DES MATHS (${levelLabel}) — CORRIGÉ DÉTAILLÉ DU DEVOIR BLANC — BARÈME SUR ${totalPoints} POINTS</h3>
+                <p style="margin: 0.25rem 0 0 0; font-size: 0.85rem; color: var(--text-muted, #555);">
+                  Thème(s) évalué(s) : ${chapterTitles} — Auto-évaluation & remédiation
+                </p>
+              </div>
+              <div class="quiz-header-right">
+                <img src="assets/logo.png" alt="Logo L'Établi des Maths" class="quiz-header-logo" width="46" height="46" />
+              </div>
+            </div>
             <div class="quiz-author-line">
               <span>Créé par <strong>Loïc Delaporte</strong>, Professeur de Mathématiques</span>
             </div>
