@@ -1184,7 +1184,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (course.traps && course.traps.length) {
         html += `
           <div class="course-card course-traps">
-            <h3>⚠️ Pièges fréquents & Points de vigilance de l'audit</h3>
+            <h3>⚠️ Pièges fréquents</h3>
             <ul>
               ${course.traps.map(t => `<li>${window.MathsRenderer.markdownToHtml(t)}</li>`).join('')}
             </ul>
