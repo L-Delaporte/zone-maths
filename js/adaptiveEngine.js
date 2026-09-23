@@ -597,7 +597,7 @@ window.MathsAdaptiveEngine = {
         leveledUpProfile: xpResult.leveledUp,
         mastery: masteryPercent,
         solution: this.formatSolutionWithInitialExpr(exercise.statement, exercise.solution),
-        feedback: tierCapMessage ? `Bravo ! Réponse correcte (+${xpEarned} XP). ${tierCapMessage}` : "Bravo ! Réponse correcte."
+        feedback: "Bravo ! Réponse correcte."
       };
     } else {
       // --- ERREUR / ÉCHAFAUDAGE BIENVEILLANT ---
@@ -845,14 +845,14 @@ window.MathsAdaptiveEngine = {
     }
 
     if (xpResult && xpResult.level >= 3) {
-      if (window.MathsStorage.unlockBadge('level_3', 'Apprenti Géomètre', 'Atteindre le niveau 3 (200 XP).', '📐')) {
-        newlyUnlockedBadges.push({ kind: 'general', id: 'level_3', title: 'Apprenti Géomètre', desc: 'Atteindre le niveau 3 (200 XP).', icon: '📐' });
+      if (window.MathsStorage.unlockBadge('level_3', 'Apprenti Géomètre', "Atteindre le Niveau 3 d'expérience.", '📐')) {
+        newlyUnlockedBadges.push({ kind: 'general', id: 'level_3', title: 'Apprenti Géomètre', desc: "Atteindre le Niveau 3 d'expérience.", icon: '📐' });
       }
     }
 
     if (xpResult && xpResult.level >= 5) {
-      if (window.MathsStorage.unlockBadge('level_5', 'Maître du Calcul', 'Atteindre le niveau 5 (400 XP).', '⚡')) {
-        newlyUnlockedBadges.push({ kind: 'general', id: 'level_5', title: 'Maître du Calcul', desc: 'Atteindre le niveau 5 (400 XP).', icon: '⚡' });
+      if (window.MathsStorage.unlockBadge('level_5', 'Maître du Calcul', "Atteindre le Niveau 5 d'expérience.", '⚡')) {
+        newlyUnlockedBadges.push({ kind: 'general', id: 'level_5', title: 'Maître du Calcul', desc: "Atteindre le Niveau 5 d'expérience.", icon: '⚡' });
       }
     }
 
@@ -917,6 +917,11 @@ window.MathsAdaptiveEngine = {
           });
         }
       }
+    }
+
+    // 3. Badges de régularité quotidienne (Daily Streak)
+    if (xpResult && xpResult.newlyUnlockedStreakBadges && xpResult.newlyUnlockedStreakBadges.length > 0) {
+      newlyUnlockedBadges.push(...xpResult.newlyUnlockedStreakBadges);
     }
 
     return newlyUnlockedBadges;

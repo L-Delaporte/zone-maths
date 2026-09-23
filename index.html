@@ -52,7 +52,7 @@
   <link rel="stylesheet" href="vendor/katex/katex.min.css" onerror="this.onerror=null;this.href='https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css';" />
   
   <!-- Feuilles de style de l'application -->
-  <link rel="stylesheet" href="css/style.css?v=20260922f" />
+  <link rel="stylesheet" href="css/style.css?v=20260923e" />
   <link rel="icon" href="/favicon.ico" sizes="any" />
   <link rel="icon" type="image/png" sizes="48x48" href="assets/favicon-48x48.png" />
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png" />
@@ -85,13 +85,13 @@
 
       <div class="header-user-status">
         <div class="status-pills-row">
-          <div class="status-pill">
+          <div class="status-pill status-pill-clickable" id="header-level-pill" title="Clique pour voir ta progression vers le niveau suivant">
             <span id="header-user-level">Niveau 1</span>
           </div>
-          <div class="status-pill">
+          <div class="status-pill status-pill-clickable" id="header-xp-pill" title="Clique pour voir ta progression d'XP">
             <span id="header-user-xp">0 XP</span>
           </div>
-          <div class="status-pill">
+          <div class="status-pill status-pill-clickable" id="header-streak-pill" title="Clique pour voir les détails de ta série quotidienne">
             <span id="header-user-streak">🔥 0</span>
           </div>
         </div>
@@ -744,6 +744,139 @@
     </div>
   </div>
 
+  <!-- =========================================================================
+       MODALE : EXPLICATION DE LA SÉRIE QUOTIDIENNE (DAILY STREAK)
+       ========================================================================= -->
+  <div id="streak-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-box streak-modal-box">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 0.6rem;">
+          <span style="font-size: 1.6rem;" aria-hidden="true">🔥</span>
+          <h2 style="font-size: 1.22rem; font-weight: 700; margin: 0; color: var(--text-primary);">Série de régularité (Daily Streak)</h2>
+        </div>
+        <button class="modal-close-btn" type="button" onclick="window.MathsApp.closeStreakModal()" aria-label="Fermer">✕</button>
+      </div>
+
+      <div class="streak-modal-body">
+        <!-- Carte compteur de série -->
+        <div class="streak-hero-card">
+          <div class="streak-hero-flame" id="streak-modal-flame" aria-hidden="true">🔥</div>
+          <div class="streak-hero-count" id="streak-modal-count">0 jour</div>
+          <div class="streak-hero-subtitle" id="streak-modal-status">Complète un exercice aujourd'hui pour allumer ta flamme !</div>
+        </div>
+
+        <!-- Statistiques de série -->
+        <div class="streak-stats-row">
+          <div class="streak-stat-card">
+            <span class="streak-stat-lbl">Série en cours</span>
+            <strong class="streak-stat-val" id="streak-modal-current">0 jour</strong>
+          </div>
+          <div class="streak-stat-card">
+            <span class="streak-stat-lbl">Record personnel</span>
+            <strong class="streak-stat-val" id="streak-modal-best">0 jour</strong>
+          </div>
+          <div class="streak-stat-card">
+            <span class="streak-stat-lbl">Aujourd'hui</span>
+            <strong class="streak-stat-val" id="streak-modal-today">En attente ⏳</strong>
+          </div>
+        </div>
+
+        <!-- Trophées de Régularité (Daily Streak) -->
+        <div class="streak-trophies-section">
+          <h4 style="margin: 0 0 0.65rem 0; font-size: 0.95rem; color: var(--text-primary); display: flex; align-items: center; justify-content: space-between;">
+            <span>🏆 Trophées de Régularité</span>
+            <span style="font-size: 0.78rem; font-weight: normal; color: var(--text-muted);">Jalons à débloquer</span>
+          </h4>
+          <div id="streak-modal-trophies-list" class="streak-trophies-modal-grid">
+            <!-- Rempli dynamiquement par JS -->
+          </div>
+        </div>
+
+        <!-- Explication pédagogique -->
+        <div class="streak-explanation-box">
+          <h4>💡 Comment fonctionne la flamme ?</h4>
+          <ul>
+            <li><strong>1 exercice par jour</strong> suffit pour entretenir ta flamme et faire grimper ta série.</li>
+            <li><strong>La régularité est la clé</strong> : s'entraîner 5 à 10 minutes chaque jour consolide durablement ta mémoire pour tout le collège et le Brevet.</li>
+            <li>Si tu manques une journée entière, le compteur repartira à 1 au prochain entraînement.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="modal-footer" style="justify-content: center; padding: 1rem 1.5rem 1.25rem;">
+        <button type="button" class="btn-primary" onclick="window.MathsApp.closeStreakModal()">C'est compris ! 🚀</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODALE : PROGRESSION DU NIVEAU & EXPÉRIENCE (XP)
+       ========================================================================= -->
+  <div id="level-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-box level-modal-box">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 0.6rem;">
+          <span style="font-size: 1.6rem;" aria-hidden="true">⭐</span>
+          <h2 style="font-size: 1.22rem; font-weight: 700; margin: 0; color: var(--text-primary);">Progression du Niveau</h2>
+        </div>
+        <button class="modal-close-btn" type="button" onclick="window.MathsApp.closeLevelModal()" aria-label="Fermer">✕</button>
+      </div>
+
+      <div class="level-modal-body">
+        <!-- Carte Héros Niveau & Titre -->
+        <div class="level-hero-card">
+          <div class="level-badge-circle" id="level-modal-badge">
+            <span class="level-badge-number" id="level-modal-num">1</span>
+          </div>
+          <div class="level-hero-info">
+            <div class="level-hero-title" id="level-modal-title">Niveau 1</div>
+            <div class="level-hero-rank" id="level-modal-rank">Apprenti de l'Établi</div>
+          </div>
+        </div>
+
+        <!-- Section Barre de progression XP -->
+        <div class="level-xp-card">
+          <div class="level-xp-header">
+            <span class="level-xp-step-label">Vers le <strong id="level-modal-next-level">Niveau 2</strong></span>
+            <span class="level-xp-values"><strong id="level-modal-xp-in-level">0</strong> / <span id="level-modal-xp-needed">50</span> XP</span>
+          </div>
+          <div class="level-progress-bar-bg" role="progressbar" aria-valuemin="0" aria-valuemax="100" id="level-modal-progressbar" aria-valuenow="0">
+            <div class="level-progress-bar-fill" id="level-modal-progress-fill" style="width: 0%;"></div>
+          </div>
+          <div class="level-xp-remaining-banner" id="level-modal-remaining-banner">
+            🚀 Plus que <strong>50 XP</strong> nécessaires pour passer au <strong>Niveau 2</strong> !
+          </div>
+        </div>
+
+        <!-- Statistiques XP globales -->
+        <div class="level-stats-row">
+          <div class="level-stat-item">
+            <span class="level-stat-lbl">XP Total Cumulé</span>
+            <strong class="level-stat-val" id="level-modal-total-xp">0 XP</strong>
+          </div>
+          <div class="level-stat-item">
+            <span class="level-stat-lbl">Objectif de ce Niveau</span>
+            <strong class="level-stat-val" id="level-modal-step-needed">50 XP</strong>
+          </div>
+        </div>
+
+        <!-- Astuces pédagogiques -->
+        <div class="level-tips-box">
+          <h4>💡 Comment fonctionne la montée de niveau ?</h4>
+          <ul>
+            <li><strong>Courbe progressive</strong> : comme dans un jeu d'aventure, chaque niveau demande un peu plus d'expérience (+25 XP par palier) pour valoriser ta persévérance.</li>
+            <li><strong>+10 XP</strong> par bonne réponse en entraînement adaptatif ou flashcards.</li>
+            <li><strong>Bonus de régularité</strong> : connecte-toi chaque jour pour entretenir ta flamme et débloquer des trophées !</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="modal-footer" style="justify-content: center; padding: 1rem 1.5rem 1.25rem;">
+        <button type="button" class="btn-primary" onclick="window.MathsApp.closeLevelModal()">Continuer l'entraînement 🚀</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Scripts KaTeX (avec fallback CDN) -->
   <script src="vendor/katex/katex.min.js" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js';"></script>
   <script src="vendor/katex/auto-render.min.js" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js';"></script>
@@ -757,16 +890,16 @@
   <script src="js/data/data_4eme.js"></script>
 
   <!-- Modules Applicatifs & Générateurs Inspirés de MathsMentales -->
-  <script src="js/storage.js"></script>
+  <script src="js/storage.js?v=20260923e"></script>
   <script src="js/audioEffects.js"></script>
   <script src="js/confetti.js"></script>
   <script src="js/mathRenderer.js"></script>
-  <script src="js/adaptiveEngine.js?v=20260923b"></script>
+  <script src="js/adaptiveEngine.js?v=20260923e"></script>
   <script src="js/randomGenerators.js?v=20260923b"></script>
   <script src="js/diaporamaEngine.js?v=20260923b"></script>
   <script src="js/flashQuizGenerator.js?v=20260923b"></script>
   <script src="js/flashcardsEngine.js?v=20260923"></script>
-  <script src="js/app.js?v=20260923c"></script>
+  <script src="js/app.js?v=20260923e"></script>
 
   <!-- Statistiques d'audience anonymes et conformes RGPD (GoatCounter) -->
   <script>

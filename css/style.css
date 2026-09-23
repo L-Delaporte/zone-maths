@@ -5100,4 +5100,447 @@ body {
   }
 }
 
+/* =========================================================================
+   SÉRIE QUOTIDIENNE (DAILY STREAK) & MODALE EXPLICATIVE
+   ========================================================================= */
+.status-pill-clickable {
+  cursor: pointer;
+  transition: transform 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
+  user-select: none;
+}
+
+.status-pill-clickable:hover {
+  transform: translateY(-1px);
+  background-color: rgba(245, 158, 11, 0.12);
+  border-color: rgba(245, 158, 11, 0.5);
+}
+
+.streak-modal-box {
+  max-width: 520px;
+  width: 92%;
+  border-radius: 18px;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  animation: modalPopIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+.streak-modal-body {
+  padding: 1.35rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+}
+
+.streak-hero-card {
+  text-align: center;
+  padding: 1.35rem 1rem;
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.12), rgba(239, 68, 68, 0.08));
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-radius: 14px;
+}
+
+.streak-hero-flame {
+  font-size: 3.2rem;
+  animation: flamePulse 1.8s infinite ease-in-out;
+  display: inline-block;
+  margin-bottom: 0.2rem;
+}
+
+@keyframes flamePulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.12); }
+}
+
+.streak-hero-count {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #d97706;
+  letter-spacing: -0.02em;
+}
+
+[data-theme="dark"] .streak-hero-count {
+  color: #fbbf24;
+}
+
+.streak-hero-subtitle {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+  font-weight: 500;
+}
+
+.streak-stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.65rem;
+}
+
+.streak-stat-card {
+  background-color: var(--bg-subtle);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 0.75rem 0.5rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.streak-stat-lbl {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.streak-stat-val {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.streak-explanation-box {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 0.9rem 1.1rem;
+  font-size: 0.86rem;
+  line-height: 1.45;
+  color: var(--text-primary);
+}
+
+.streak-explanation-box h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.92rem;
+  color: var(--text-primary);
+}
+
+.streak-explanation-box ul {
+  margin: 0;
+  padding-left: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+@media (max-width: 480px) {
+  .streak-stats-row {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+}
+
+/* Grille des trophées de régularité dans la modale streak */
+.streak-trophies-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.streak-trophies-modal-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.55rem;
+}
+
+@media (max-width: 460px) {
+  .streak-trophies-modal-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.streak-trophy-modal-card {
+  background-color: var(--bg-subtle);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 0.6rem 0.7rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.streak-trophy-modal-card.unlocked {
+  background: rgba(245, 158, 11, 0.08);
+  border-color: rgba(245, 158, 11, 0.45);
+}
+
+.streak-trophy-modal-card.locked {
+  opacity: 0.72;
+}
+
+.streak-trophy-icon {
+  font-size: 1.45rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.streak-trophy-details {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.streak-trophy-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.streak-trophy-title {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.streak-trophy-pill {
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 0.12rem 0.4rem;
+  border-radius: 999px;
+  background-color: var(--border-color);
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.streak-trophy-modal-card.unlocked .streak-trophy-pill {
+  background-color: rgba(245, 158, 11, 0.2);
+  color: #d97706;
+}
+
+[data-theme="dark"] .streak-trophy-modal-card.unlocked .streak-trophy-pill {
+  color: #fbbf24;
+}
+
+.streak-trophy-sub {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.streak-trophy-progress-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.15rem;
+}
+
+.streak-trophy-bar-bg {
+  flex: 1;
+  height: 5px;
+  background-color: var(--border-color);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.streak-trophy-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #f59e0b, #ef4444);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.streak-trophy-progress-lbl {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.streak-trophy-modal-card.unlocked .streak-trophy-progress-lbl {
+  color: var(--success, #10b981);
+}
+
+/* =========================================================================
+   MODALE : PROGRESSION DU NIVEAU & EXPÉRIENCE (XP)
+   ========================================================================= */
+.level-modal-box {
+  max-width: 480px;
+  width: 92%;
+  border-radius: 18px;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  animation: modalPopIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+.level-modal-body {
+  padding: 1.35rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+}
+
+.level-hero-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.15rem 1.25rem;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.12), rgba(139, 92, 246, 0.1));
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  border-radius: 14px;
+}
+
+.level-badge-circle {
+  width: 58px;
+  height: 58px;
+  min-width: 58px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  box-shadow: 0 4px 14px rgba(59, 130, 246, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.level-badge-number {
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1;
+}
+
+.level-hero-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.level-hero-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.level-hero-rank {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #2563eb;
+}
+
+[data-theme="dark"] .level-hero-rank {
+  color: #60a5fa;
+}
+
+.level-xp-card {
+  background-color: var(--bg-subtle);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1rem 1.15rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.level-xp-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.88rem;
+}
+
+.level-xp-step-label {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.level-xp-values {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.level-xp-values strong {
+  color: var(--text-primary);
+  font-size: 0.95rem;
+}
+
+.level-progress-bar-bg {
+  height: 14px;
+  background-color: var(--border-color);
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+}
+
+.level-progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+  border-radius: 8px;
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.level-xp-remaining-banner {
+  text-align: center;
+  font-size: 0.86rem;
+  padding: 0.5rem 0.75rem;
+  background: rgba(59, 130, 246, 0.08);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  border-radius: 8px;
+  color: var(--text-primary);
+}
+
+.level-stats-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.65rem;
+}
+
+.level-stat-item {
+  background-color: var(--bg-subtle);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 0.75rem 0.5rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.level-stat-lbl {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.level-stat-val {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.level-tips-box {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 0.9rem 1.1rem;
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: var(--text-primary);
+}
+
+.level-tips-box h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.92rem;
+  color: var(--text-primary);
+}
+
+.level-tips-box ul {
+  margin: 0;
+  padding-left: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+
 

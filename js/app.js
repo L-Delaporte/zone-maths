@@ -275,10 +275,56 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Clavier virtuel mathématique
       this.bindVirtualKeyboard();
+
+      // Clic sur la flamme / série quotidienne (Daily Streak)
+      const streakPill = document.getElementById('header-streak-pill');
+      if (streakPill) {
+        streakPill.addEventListener('click', () => this.openStreakModal());
+      }
+
+      // Fermeture de la modale streak au clic sur le fond sombre
+      const streakModal = document.getElementById('streak-modal');
+      if (streakModal) {
+        streakModal.addEventListener('click', (e) => {
+          if (e.target === streakModal) this.closeStreakModal();
+        });
+      }
+
+      // Clic sur le niveau / XP pour afficher le popup de progression
+      const levelPill = document.getElementById('header-level-pill');
+      if (levelPill) {
+        levelPill.addEventListener('click', () => this.openLevelModal());
+      }
+      const xpPill = document.getElementById('header-xp-pill');
+      if (xpPill) {
+        xpPill.addEventListener('click', () => this.openLevelModal());
+      }
+
+      // Fermeture de la modale level au clic sur le fond sombre
+      const levelModal = document.getElementById('level-modal');
+      if (levelModal) {
+        levelModal.addEventListener('click', (e) => {
+          if (e.target === levelModal) this.closeLevelModal();
+        });
+      }
     },
 
     bindKeyboardShortcuts() {
       document.addEventListener('keydown', (e) => {
+        // Touche Échap pour fermer les modales streak et level
+        if (e.key === 'Escape') {
+          const streakModal = document.getElementById('streak-modal');
+          if (streakModal && streakModal.style.display !== 'none') {
+            this.closeStreakModal();
+            return;
+          }
+          const levelModal = document.getElementById('level-modal');
+          if (levelModal && levelModal.style.display !== 'none') {
+            this.closeLevelModal();
+            return;
+          }
+        }
+
         const activeTag = document.activeElement ? document.activeElement.tagName.toLowerCase() : '';
         const isInputField = activeTag === 'input' || activeTag === 'textarea';
 
@@ -342,13 +388,143 @@ document.addEventListener('DOMContentLoaded', () => {
 
     updateHeaderProfile() {
       const data = window.MathsStorage.load();
+      const streakInfo = (window.MathsStorage && typeof window.MathsStorage.getDailyStreakInfo === 'function')
+        ? window.MathsStorage.getDailyStreakInfo()
+        : { streak: (data.user && data.user.streak) || 0, isActiveToday: false };
+
       const levelEl = document.getElementById('header-user-level');
       const xpEl = document.getElementById('header-user-xp');
       const streakEl = document.getElementById('header-user-streak');
 
       if (levelEl) levelEl.textContent = `Niveau ${data.user.level}`;
       if (xpEl) xpEl.textContent = `${data.user.xp} XP`;
-      if (streakEl) streakEl.textContent = `🔥 ${data.user.streak || 0}`;
+      if (streakEl) {
+        const s = streakInfo.streak || 0;
+        streakEl.textContent = `🔥 ${s}`;
+        streakEl.title = streakInfo.isActiveToday
+          ? `Série : ${s} jour(s) d'affilée • Défi du jour validé ! (Clique pour voir les détails)`
+          : `Série : ${s} jour(s) d'affilée • Entraîne-toi aujourd'hui pour continuer ! (Clique pour voir les détails)`;
+      }
+    },
+
+    openStreakModal() {
+      const streakInfo = (window.MathsStorage && typeof window.MathsStorage.getDailyStreakInfo === 'function')
+        ? window.MathsStorage.getDailyStreakInfo()
+        : { streak: 0, bestStreak: 0, isActiveToday: false };
+      const modal = document.getElementById('streak-modal');
+      if (!modal) return;
+
+      const countEl = document.getElementById('streak-modal-count');
+      const statusEl = document.getElementById('streak-modal-status');
+      const currentEl = document.getElementById('streak-modal-current');
+      const bestEl = document.getElementById('streak-modal-best');
+      const todayEl = document.getElementById('streak-modal-today');
+
+      const s = streakInfo.streak || 0;
+      const daysStr = s > 1 ? `${s} jours` : `${s} jour`;
+      const b = Math.max(streakInfo.bestStreak || 0, s);
+      const bestStr = b > 1 ? `${b} jours` : `${b} jour`;
+
+      if (countEl) countEl.textContent = daysStr;
+      if (currentEl) currentEl.textContent = daysStr;
+      if (bestEl) bestEl.textContent = bestStr;
+
+      if (todayEl) {
+        todayEl.innerHTML = streakInfo.isActiveToday 
+          ? `<span style="color: var(--success, #10b981); font-weight: 700;">Validé ✓</span>` 
+          : `<span style="color: #f59e0b; font-weight: 700;">En attente ⏳</span>`;
+      }
+
+      if (statusEl) {
+        if (streakInfo.isActiveToday) {
+          statusEl.textContent = `Bravo ! Défi du jour validé. Reviens demain pour passer à ${s + 1} jours !`;
+        } else if (s > 0) {
+          statusEl.textContent = `Ta série d'hier est préservée ! Résous un exercice aujourd'hui pour passer à ${s + 1} jours.`;
+        } else {
+          statusEl.textContent = `Complète un exercice aujourd'hui pour allumer ta flamme et démarrer ta série !`;
+        }
+      }
+
+      // Rendu dynamique de la grille des 6 trophées de série (1 sem, 2 sem, 1 mois, 2 mois, 6 mois, 1 an)
+      const trophiesContainer = document.getElementById('streak-modal-trophies-list');
+      if (trophiesContainer && typeof window.MathsStorage.getStreakMilestones === 'function') {
+        const milestones = window.MathsStorage.getStreakMilestones();
+        trophiesContainer.innerHTML = milestones.map(m => `
+          <div class="streak-trophy-modal-card ${m.isUnlocked ? 'unlocked' : 'locked'}">
+            <span class="streak-trophy-icon" aria-hidden="true">${m.icon}</span>
+            <div class="streak-trophy-details">
+              <div class="streak-trophy-top">
+                <span class="streak-trophy-title" title="${m.title}">${m.title}</span>
+                <span class="streak-trophy-pill">${m.label}</span>
+              </div>
+              <div class="streak-trophy-sub" title="${m.desc}">${m.desc}</div>
+              <div class="streak-trophy-progress-wrap">
+                <div class="streak-trophy-bar-bg">
+                  <div class="streak-trophy-bar-fill" style="width: ${m.progressPct}%;"></div>
+                </div>
+                <span class="streak-trophy-progress-lbl">${m.isUnlocked ? 'Débloqué ✓' : `${m.current}/${m.days} j`}</span>
+              </div>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      modal.style.display = 'flex';
+    },
+
+    closeStreakModal() {
+      const modal = document.getElementById('streak-modal');
+      if (modal) modal.style.display = 'none';
+    },
+
+    openLevelModal() {
+      const info = (window.MathsStorage && typeof window.MathsStorage.getLevelProgressInfo === 'function')
+        ? window.MathsStorage.getLevelProgressInfo()
+        : {
+            level: 1,
+            nextLevel: 2,
+            totalXp: 0,
+            xpInLevel: 0,
+            xpNeeded: 50,
+            xpToNext: 50,
+            progressPct: 0,
+            rankTitle: "Apprenti de l'Établi"
+          };
+      const modal = document.getElementById('level-modal');
+      if (!modal) return;
+
+      const numEl = document.getElementById('level-modal-num');
+      const titleEl = document.getElementById('level-modal-title');
+      const rankEl = document.getElementById('level-modal-rank');
+      const nextEl = document.getElementById('level-modal-next-level');
+      const xpInLevelEl = document.getElementById('level-modal-xp-in-level');
+      const xpNeededEl = document.getElementById('level-modal-xp-needed');
+      const stepNeededEl = document.getElementById('level-modal-step-needed');
+      const progressFillEl = document.getElementById('level-modal-progress-fill');
+      const progressBgEl = document.getElementById('level-modal-progressbar');
+      const remainingEl = document.getElementById('level-modal-remaining-banner');
+      const totalXpEl = document.getElementById('level-modal-total-xp');
+
+      if (numEl) numEl.textContent = info.level;
+      if (titleEl) titleEl.textContent = `Niveau ${info.level}`;
+      if (rankEl) rankEl.textContent = info.rankTitle;
+      if (nextEl) nextEl.textContent = `Niveau ${info.nextLevel}`;
+      if (xpInLevelEl) xpInLevelEl.textContent = info.xpInLevel;
+      if (xpNeededEl) xpNeededEl.textContent = info.xpNeeded;
+      if (stepNeededEl) stepNeededEl.textContent = `${info.xpNeeded} XP`;
+      if (progressFillEl) progressFillEl.style.width = `${info.progressPct}%`;
+      if (progressBgEl) progressBgEl.setAttribute('aria-valuenow', info.progressPct);
+      if (remainingEl) {
+        remainingEl.innerHTML = `🚀 Plus que <strong>${info.xpToNext} XP</strong> nécessaires pour passer au <strong>Niveau ${info.nextLevel}</strong> !`;
+      }
+      if (totalXpEl) totalXpEl.textContent = `${info.totalXp} XP`;
+
+      modal.style.display = 'flex';
+    },
+
+    closeLevelModal() {
+      const modal = document.getElementById('level-modal');
+      if (modal) modal.style.display = 'none';
     },
 
     renderDomainNav() {
@@ -1513,6 +1689,16 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
 
         <div class="stats-section">
+          <h3>🔥 Trophées de Régularité (Daily Streak)</h3>
+          <p class="math-p" style="margin-bottom: 1rem; font-size: 0.92rem; color: var(--text-muted);">
+            S'entraîner chaque jour entretient ta flamme et débloque des trophées d'assiduité : 1 semaine, 2 semaines, 1 mois, 2 mois, 6 mois et 1 an de persévérance !
+          </p>
+          <div class="badges-grid">
+            ${this.renderStreakBadgesHtml(data)}
+          </div>
+        </div>
+
+        <div class="stats-section">
           <h3>🎖️ Rangs & Trophées par Chapitre — ${levelName}</h3>
           <p class="math-p" style="margin-bottom: 1rem; font-size: 0.92rem; color: var(--text-muted);">
             Valide les paliers d'entraînement pour faire évoluer ton titre : 🥉 <strong>Novice</strong> (Palier 1 validé) ➔ 🥈 <strong>Apprenti</strong> (Palier 2 validé) ➔ 🥇 <strong>Chevalier</strong> (Palier 3 validé) ➔ 💎 <strong>Maître</strong> (100% de la notion) !
@@ -1573,8 +1759,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const allPossibleBadges = [
         { id: 'first_step', title: 'Premier Pas', desc: 'Compléter un exercice avec succès', icon: '🎯' },
-        { id: 'level_3', title: 'Apprenti Géomètre', desc: 'Atteindre le niveau 3 (200 XP)', icon: '📐' },
-        { id: 'level_5', title: 'Maître du Calcul', desc: 'Atteindre le niveau 5 (400 XP)', icon: '⚡' },
+        { id: 'level_3', title: 'Apprenti Géomètre', desc: "Atteindre le Niveau 3 d'expérience", icon: '📐' },
+        { id: 'level_5', title: 'Maître du Calcul', desc: "Atteindre le Niveau 5 d'expérience", icon: '⚡' },
         { 
           id: 'tier_4_unlocked', 
           title: unlockedTier4 ? (unlockedTier4.title || tier4Title) : tier4Title, 
@@ -1591,6 +1777,31 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="badge-info">
               <strong>${b.title}</strong>
               <small>${b.desc}</small>
+            </div>
+          </div>
+        `;
+      }).join('');
+    },
+
+    renderStreakBadgesHtml(data) {
+      const milestones = (window.MathsStorage && typeof window.MathsStorage.getStreakMilestones === 'function')
+        ? window.MathsStorage.getStreakMilestones(data)
+        : [];
+
+      return milestones.map(m => {
+        const statusText = m.isUnlocked 
+          ? '<span style="color: var(--success, #10b981); font-weight: 700;">Obtenu ✓</span>' 
+          : `<span style="color: var(--text-muted);">${m.current} / ${m.days} j (${m.progressPct}%)</span>`;
+
+        return `
+          <div class="badge-item ${m.isUnlocked ? 'unlocked' : 'locked'}">
+            <span class="badge-emoji">${m.icon}</span>
+            <div class="badge-info">
+              <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 0.35rem;">
+                <strong>${m.title}</strong>
+                <span class="streak-trophy-pill" style="font-size: 0.7rem;">${m.label}</span>
+              </div>
+              <small>${m.desc} • ${statusText}</small>
             </div>
           </div>
         `;
@@ -1764,12 +1975,35 @@ document.addEventListener('DOMContentLoaded', () => {
       const rankBadges = newBadges.filter(b => b.kind === 'rank');
       // Badge général de tier 4 ("Cap vers la Seconde / 3e / 4e")
       const tier4Badge = newBadges.find(b => b.id === 'tier_4_unlocked');
+      // Badges de série de jours (Daily Streak)
+      const streakBadges = newBadges.filter(b => b.kind === 'streak');
 
       const hasNewRank = rankBadges.length > 0;
       const hasNewTier = newValidatedTiers.length > 0 || (result.leveledUp && !!tierUnlocked) || !!tier4Badge;
+      const hasStreakBadge = streakBadges.length > 0;
+      const hasLevelUp = !!result.leveledUpProfile;
 
-      if (!hasNewRank && !hasNewTier) {
+      if (!hasNewRank && !hasNewTier && !hasStreakBadge && !hasLevelUp) {
         return false;
+      }
+
+      // 0. Trophée de série de jours conquis (Daily Streak)
+      if (hasStreakBadge) {
+        const topStreak = streakBadges[streakBadges.length - 1];
+        this.showUnlockPopup({
+          icon: topStreak.icon || '🔥',
+          category: '🔥 NOUVEAU TROPHÉE DE RÉGULARITÉ !',
+          title: topStreak.title,
+          chapterTitle: `Série de ${topStreak.days} jours consécutifs validée !`,
+          description: `Incroyable assiduité ! Tu as maintenu ta flamme pendant <strong>${topStreak.days} jours consécutifs</strong> sur L'Établi des Maths.<br>${topStreak.desc || ''}`,
+          perks: [
+            `🔥 Série : ${topStreak.days} jours`,
+            `🏆 Trophée débloqué dans ton passeport`,
+            `⭐ Persévérance exemplaire`
+          ],
+          actionLabel: `Continuer l'entraînement`
+        });
+        return true;
       }
 
       // 1. Déblocage combiné : Rang + Palier
@@ -1842,6 +2076,28 @@ document.addEventListener('DOMContentLoaded', () => {
           isMaster: isMax,
           actionLabel: !isMax ? `Passer au ${nextTierTitle}` : `Continuer l'entraînement`,
           advanceOnAction: !isMax
+        });
+        return true;
+      }
+
+      // 4. Montée de niveau de profil (Progression de Niveau d'Expérience)
+      if (hasLevelUp) {
+        const lvlInfo = (window.MathsStorage && typeof window.MathsStorage.getLevelProgressInfo === 'function')
+          ? window.MathsStorage.getLevelProgressInfo()
+          : { level: result.userLevel || 2, rankTitle: "Apprenti de l'Établi", xpNeeded: 75 };
+
+        this.showUnlockPopup({
+          icon: '⭐',
+          category: '⭐ NIVEAU SUPÉRIEUR ATTEINT !',
+          title: `Niveau ${result.userLevel}`,
+          chapterTitle: lvlInfo.rankTitle,
+          description: `Félicitations pour tes efforts ! Tu as accumulé assez d'expérience pour franchir ce cap et atteindre le <strong>Niveau ${result.userLevel}</strong> !`,
+          perks: [
+            `⭐ Niveau ${result.userLevel} atteint`,
+            `🎓 Titre : ${lvlInfo.rankTitle}`,
+            `🎯 Prochain niveau : ${lvlInfo.xpNeeded} XP nécessaires`
+          ],
+          actionLabel: `Continuer l'entraînement`
         });
         return true;
       }
