@@ -8,16 +8,16 @@ window.MATHS_CHAPTERS = [
     "domainName": "Nombres et Calculs",
     "folder": "5N1_Operations_et_priorites",
     "num": "5N1",
-    "title": "Opérations et priorités opératoires",
-    "shortTitle": "Priorités & Opérations",
+    "title": "Organisation d'un calcul et priorités opératoires",
+    "shortTitle": "Priorités opératoires",
     "icon": "divide",
     "badge": "As du Calcul",
     "color": "#2563eb",
-    "description": "Priorités opératoires, distributivité simple k(a+b), division euclidienne et décimale, critères de divisibilité.",
+    "description": "Priorités opératoires (+, -, ×, ÷), calculs avec parenthèses, vocabulaire (somme, produit, différence, quotient), distributivité simple et division euclidienne.",
     "skills": [
       "Appliquer les priorités opératoires",
-      "Utiliser la distributivité simple",
-      "Maîtriser les critères de divisibilité"
+      "Calculer avec des parenthèses",
+      "Traduire un problème en une seule expression"
     ]
   },
   {
@@ -27,16 +27,16 @@ window.MATHS_CHAPTERS = [
     "domainName": "Nombres et Calculs",
     "folder": "5N2_Nombres_relatifs",
     "num": "5N2",
-    "title": "Nombres relatifs : découverte et opérations",
+    "title": "Nombres relatifs : repérage, comparaison et calculs",
     "shortTitle": "Nombres relatifs",
     "icon": "plus-minus",
     "badge": "Explorateur des Négatifs",
     "color": "#3b82f6",
-    "description": "Repérage sur une droite graduée, comparaison, opposé, additions et soustractions de nombres décimaux relatifs.",
+    "description": "Définition, opposé, valeur absolue, repérage sur droite graduée et dans le plan, comparaison puis additions et soustractions de relatifs.",
     "skills": [
       "Repérer et comparer des nombres relatifs",
-      "Additionner deux nombres relatifs",
-      "Soustraire deux nombres relatifs"
+      "Lire et placer des coordonnées dans le plan",
+      "Additionner et soustraire des relatifs"
     ]
   },
   {
@@ -46,16 +46,16 @@ window.MATHS_CHAPTERS = [
     "domainName": "Nombres et Calculs",
     "folder": "5N3_Fractions_et_rationnels",
     "num": "5N3",
-    "title": "Fractions et nombres rationnels",
-    "shortTitle": "Fractions & Quotients",
+    "title": "Fractions : quotients, comparaison et calculs",
+    "shortTitle": "Fractions",
     "icon": "fraction",
     "badge": "Partageur Équitable",
     "color": "#1d4ed8",
-    "description": "Fractions égales, simplification, comparaison, additions et soustractions à même dénominateur ou multiples, fraction d'une quantité.",
+    "description": "Définition quotient, proportion, quotients égaux, comparer et encadrer des fractions, puis additions et soustractions.",
     "skills": [
       "Reconnaître et simplifier des fractions égales",
-      "Additionner et soustraire des fractions",
-      "Calculer la fraction d'un nombre"
+      "Comparer et encadrer des fractions",
+      "Additionner et soustraire des fractions"
     ]
   },
   {
@@ -65,16 +65,16 @@ window.MATHS_CHAPTERS = [
     "domainName": "Nombres et Calculs",
     "folder": "5N4_Puissances_simples",
     "num": "5N4",
-    "title": "Puissances simples (carré, cube et base 10)",
-    "shortTitle": "Puissances simples",
+    "title": "Puissances : carrés de 1 à 12 et puissances de 2 et 3",
+    "shortTitle": "Puissances & Carrés",
     "icon": "superscript",
     "badge": "Maître du Carré",
     "color": "#1e40af",
-    "description": "Notion de carré, cube, carrés des entiers de 0 à 12, puissances simples de 10 et ordre des opérations.",
+    "description": "Définir les puissances de 2 et 3, connaître de tête les carrés de 1 à 12, écriture sous forme de puissance et calculs d'expressions.",
     "skills": [
-      "Calculer le carré et le cube d'un nombre",
-      "Utiliser les puissances simples de 10",
-      "Respecter l'ordre des puissances"
+      "Connaître par cœur les carrés de 1 à 12",
+      "Calculer des puissances de 2 et de 3",
+      "Calculer des expressions avec puissances"
     ]
   },
   {
@@ -84,16 +84,16 @@ window.MATHS_CHAPTERS = [
     "domainName": "Nombres et Calculs",
     "folder": "5N5_Calcul_litteral_initiation",
     "num": "5N5",
-    "title": "Calcul littéral et initiation aux équations",
-    "shortTitle": "Calcul littéral 5e",
+    "title": "Calcul littéral et équations",
+    "shortTitle": "Calcul littéral & Équations",
     "icon": "variable",
     "badge": "Apprenti Algébriste",
     "color": "#2563eb",
-    "description": "Écrire une formule, calculer la valeur d'une expression par substitution, tester une égalité, équations arithmétiques x+b=c et ax=c.",
+    "description": "Rôle de la lettre, tester une égalité, calcul de valeur d'expression par substitution, simplification d'écritures, distributivité simple et résolution d'équations.",
     "skills": [
       "Substituer une valeur dans une expression",
-      "Développer avec la distributivité simple",
-      "Tester si une égalité est vraie ou fausse"
+      "Tester si une égalité est vraie",
+      "Résoudre des équations simples du premier degré"
     ]
   },
   {
@@ -122,12 +122,12 @@ window.MATHS_CHAPTERS = [
     "domainName": "Espace et Géométrie",
     "folder": "5G2_Symetrie_centrale",
     "num": "5G2",
-    "title": "Symétrie centrale et demi-tour",
+    "title": "Symétrie centrale : constructions et propriétés",
     "shortTitle": "Symétrie centrale",
     "icon": "rotate",
     "badge": "Maître du Demi-Tour",
     "color": "#10b981",
-    "description": "Définition du centre de symétrie, constructions de symétriques, propriétés de conservation des longueurs, angles, parallélisme et aires.",
+    "description": "Rappel symétrie axiale, définition du centre de symétrie, constructions de symétriques et propriétés de conservation (longueurs, angles, parallélisme, aires).",
     "skills": [
       "Construire le symétrique d'un point et d'une figure",
       "Utiliser les propriétés de conservation",
@@ -141,16 +141,16 @@ window.MATHS_CHAPTERS = [
     "domainName": "Espace et Géométrie",
     "folder": "5G3_Angles_et_parallelisme",
     "num": "5G3",
-    "title": "Angles et parallélisme (alternes-internes)",
+    "title": "Angles et parallélisme (alternes-internes et somme 180°)",
     "shortTitle": "Angles & Parallélisme",
     "icon": "angle",
     "badge": "Géomètre des Angles",
     "color": "#047857",
-    "description": "Angles alternes-internes, angles correspondants, caractérisation de droites parallèles, somme des angles d'un triangle égale à 180°.",
+    "description": "Angles alternes-internes, angles correspondants, parallélisme, somme des angles d'un triangle égale à 180°, triangles isocèles et équilatéraux.",
     "skills": [
       "Identifier angles alternes-internes et correspondants",
       "Démontrer le parallélisme de deux droites",
-      "Calculer un angle dans un triangle"
+      "Calculer un angle dans un triangle (somme = 180°)"
     ]
   },
   {
@@ -165,11 +165,11 @@ window.MATHS_CHAPTERS = [
     "icon": "triangle",
     "badge": "Bâtisseur de Triangles",
     "color": "#065f46",
-    "description": "Inégalité triangulaire, construction de triangles, médiatrices et cercle circonscrit, hauteurs et médianes concourantes, calcul de l'aire.",
+    "description": "Constructions de triangles, médiatrices, hauteurs, médianes, points de concours (cercle circonscrit), unités d'aires et calculs d'aires.",
     "skills": [
-      "Vérifier si un triangle est constructible",
-      "Construire médiatrices et cercle circonscrit",
-      "Calculer l'aire d'un triangle"
+      "Construire des triangles et vérifier l'inégalité triangulaire",
+      "Construire médiatrices, hauteurs et médianes",
+      "Calculer l'aire d'un triangle et de figures composées"
     ]
   },
   {
@@ -184,11 +184,11 @@ window.MATHS_CHAPTERS = [
     "icon": "square",
     "badge": "Expert des Parallèles",
     "color": "#0f766e",
-    "description": "Définition, propriétés des côtés et des diagonales, rectangle, losange, carré, calcul de l'aire du parallélogramme.",
+    "description": "Propriétés du parallélogramme, constructions, aire, et parallélogrammes particuliers (rectangle, losange, carré).",
     "skills": [
       "Utiliser les propriétés du parallélogramme",
-      "Démontrer la nature d'un quadrilatère",
-      "Calculer l'aire d'un parallélogramme"
+      "Calculer l'aire d'un parallélogramme",
+      "Reconnaître et caractériser rectangle, losange et carré"
     ]
   },
   {
@@ -198,15 +198,15 @@ window.MATHS_CHAPTERS = [
     "domainName": "Espace et Géométrie",
     "folder": "5G6_Espace_prismes_cylindres",
     "num": "5G6",
-    "title": "Espace : prismes droits, cylindres et volumes",
+    "title": "Prismes droits, cylindres de révolution et volumes",
     "shortTitle": "Prismes & Cylindres",
     "icon": "box",
     "badge": "Architecte 3D",
     "color": "#115e59",
-    "description": "Perspective cavalière, patrons de prismes et de cylindres de révolution, formule du volume V = Base × hauteur, aire du disque.",
+    "description": "Reconnaître les solides, perspective cavalière, patrons, calcul des volumes (cube, pavé, prisme, cylindre) et conversions d'unités de volume et capacité.",
     "skills": [
-      "Reconnaître et dessiner le patron d'un prisme",
-      "Calculer le volume d'un prisme et d'un cylindre",
+      "Caractériser prismes et cylindres (perspective et patrons)",
+      "Calculer le volume d'un pavé, prisme et cylindre",
       "Convertir des unités de volume et capacité"
     ]
   },
@@ -255,16 +255,17 @@ window.MATHS_CHAPTERS = [
     "domainName": "Proportionnalité",
     "folder": "5P1_Proportionnalite_pourcentages",
     "num": "5P1",
-    "title": "Proportionnalité, pourcentages et échelles",
-    "shortTitle": "Proportionnalité 5e",
+    "title": "Proportionnalité : tableaux, pourcentages et graphiques",
+    "shortTitle": "Proportionnalité",
     "icon": "percent",
     "badge": "Maître du Ratio",
     "color": "#c2410c",
-    "description": "Reconnaître la proportionnalité dans des tableaux et graphiques passant par l'origine, coefficient de proportionnalité, vitesse moyenne et échelle.",
+    "description": "Reconnaître la proportionnalité (calculs de quotients), tableaux, linéarité, passage à l'unité, coefficient, pourcentages, échelles et représentations graphiques.",
     "skills": [
+      "Reconnaître la proportionnalité par calculs de quotients",
       "Compléter un tableau de proportionnalité",
       "Appliquer et calculer un pourcentage",
-      "Utiliser une échelle sur un plan ou une carte"
+      "Utiliser une échelle et lire un graphique"
     ]
   },
   {

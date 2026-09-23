@@ -5286,8 +5286,8 @@ window.MathsGenerators = {
     const t = this.resolveTier(tier);
 
     if (t === 1) {
-      // Palier 1 : Socle (Multiplication et division prioritaires sur addition et soustraction)
-      const subType = this.randChoice(['add_mult', 'mult_add', 'sub_mult', 'mult_sub', 'add_div', 'sub_div']);
+      // Palier 1 : Socle (Multiplication/division prioritaires, vocabulaire et nature d'un calcul)
+      const subType = this.randChoice(['add_mult', 'mult_add', 'sub_mult', 'mult_sub', 'add_div', 'sub_div', 'nom_calcul', 'vocabulaire_operation']);
       
       if (subType === 'add_mult') {
         const a = this.randInt(2, 9);
@@ -5370,7 +5370,7 @@ window.MathsGenerators = {
           hint1: `La division est prioritaire sur l'addition : effectue d'abord $${b} \\div ${c}$.`,
           solution: `$$A = ${a} + (${b} \\div ${c}) = ${a} + ${q} = ${ans}$$`
         };
-      } else {
+      } else if (subType === 'sub_div') {
         const c = this.randInt(2, 5);
         const q = this.randInt(2, 8);
         const b = c * q;
@@ -5386,6 +5386,48 @@ window.MathsGenerators = {
           placeholder: `Ex: ${ans}`,
           hint1: `La division est prioritaire : calcule $${b} \\div ${c} = ${q}$, puis effectue la soustraction.`,
           solution: `$$A = ${a} - (${b} \\div ${c}) = ${a} - ${q} = ${ans}$$`
+        };
+      } else if (subType === 'nom_calcul') {
+        const variants = [
+          { expr: "50 - 80 \\div 2", ans: "Une différence", lastOp: "la soustraction", reason: "la division $80 \\div 2$ est prioritaire, la soustraction est faite en dernier" },
+          { expr: "14 + 3 \\times 5", ans: "Une somme", lastOp: "l'addition", reason: "la multiplication $3 \\times 5$ est prioritaire, l'addition est faite en dernier" },
+          { expr: "(15 - 6) \\times 4", ans: "Un produit", lastOp: "la multiplication", reason: "la parenthèse $(15 - 6)$ est prioritaire, la multiplication par 4 est faite en dernier" },
+          { expr: "(40 + 8) \\div 6", ans: "Un quotient", lastOp: "la division", reason: "la parenthèse $(40 + 8)$ est prioritaire, la division par 6 est faite en dernier" }
+        ];
+        const v = this.randChoice(variants);
+        const opts = ["Une somme", "Une différence", "Un produit", "Un quotient"];
+        return {
+          chapterId: '5N1',
+          tier: 1,
+          title: "Nature d'un calcul (règle du cours)",
+          statement: `On considère l'expression suivante :\n$$E = ${v.expr}$$\n**Quelle est la nature de cette expression numérique ?**\n*(Règle du cours : on nomme toujours un calcul par l'opération effectuée en dernier)*`,
+          type: "mcq",
+          options: opts,
+          answer: v.ans,
+          correctIndex: opts.indexOf(v.ans),
+          hint1: "Détermine quelle opération est effectuée en dernier en respectant les priorités opératoires.",
+          solution: `En respectant les priorités, ${v.reason}.\nComme la dernière opération effectuée est ${v.lastOp}, l'expression est donc **${v.ans.toLowerCase()}**.`
+        };
+      } else {
+        const vocab = [
+          { op: "une addition", res: "Une somme" },
+          { op: "une soustraction", res: "Une différence" },
+          { op: "une multiplication", res: "Un produit" },
+          { op: "une division", res: "Un quotient" }
+        ];
+        const v = this.randChoice(vocab);
+        const opts = ["Une somme", "Une différence", "Un produit", "Un quotient"];
+        return {
+          chapterId: '5N1',
+          tier: 1,
+          title: "Vocabulaire fondamental des 4 opérations",
+          statement: `Comment s'appelle le résultat d'**${v.op}** ?`,
+          type: "mcq",
+          options: opts,
+          answer: v.res,
+          correctIndex: opts.indexOf(v.res),
+          hint1: "Rappel : Addition -> Somme, Soustraction -> Différence, Multiplication -> Produit, Division -> Quotient.",
+          solution: `Le résultat d'${v.op} s'appelle **${v.res.toLowerCase()}**.`
         };
       }
     } else if (t === 2) {
@@ -5610,8 +5652,8 @@ window.MathsGenerators = {
     const t = this.resolveTier(tier);
 
     if (t === 1) {
-      // Palier 1 : Socle (5 variantes dynamiques riches : même signe, signes contraires simples, opposés, distance à zéro)
-      const subType = this.randChoice(['two_neg', 'pos_neg_easy', 'opposites', 'opp_def', 'zero_dist']);
+      // Palier 1 : Socle (6 variantes : comparaison, opposés, distance à zéro, additions simples de même signe ou contraires)
+      const subType = this.randChoice(['two_neg', 'pos_neg_easy', 'opposites', 'opp_def', 'zero_dist', 'compare_rel']);
 
       if (subType === 'two_neg') {
         // Addition de 2 relatifs négatifs : (-a) + (-b)
@@ -5681,7 +5723,7 @@ window.MathsGenerators = {
           hint1: "Deux nombres opposés ont la même distance à zéro mais des signes contraires.",
           solution: `L'opposé de $${numStr}$ est **$${ans}$** car $(${numStr}) + (${ans}) = 0$.`
         };
-      } else {
+      } else if (subType === 'zero_dist') {
         // Distance à zéro
         const n = this.randInt(4, 25);
         return {
@@ -5694,6 +5736,37 @@ window.MathsGenerators = {
           placeholder: `Ex: ${n}`,
           hint1: "La distance à zéro d'un nombre est toujours un nombre positif : c'est le nombre sans son signe.",
           solution: `La distance à zéro de $-${n}$ est le nombre positif **$${n}$** (noté $|-${n}| = ${n}$).`
+        };
+      } else {
+        // Comparaison de deux relatifs
+        const isTwoNeg = Math.random() < 0.6;
+        let n1, n2;
+        if (isTwoNeg) {
+          n1 = -this.randInt(2, 20);
+          do { n2 = -this.randInt(2, 20); } while (n1 === n2);
+        } else {
+          n1 = -this.randInt(1, 15);
+          n2 = this.randInt(1, 15);
+        }
+        const maxVal = Math.max(n1, n2);
+        const minVal = Math.min(n1, n2);
+        const askMax = Math.random() < 0.5;
+        const target = askMax ? maxVal : minVal;
+        const label = askMax ? "le plus grand" : "le plus petit";
+        const n1Str = n1 > 0 ? `+${n1}` : `${n1}`;
+        const n2Str = n2 > 0 ? `+${n2}` : `${n2}`;
+        return {
+          chapterId: '5N2',
+          tier: 1,
+          title: `Comparaison de nombres relatifs (${label})`,
+          statement: `Entre les deux nombres relatifs $${n1Str}$ et $${n2Str}$ :\n**Quel est le nombre ${label} ?**`,
+          type: "exact",
+          answer: String(target),
+          placeholder: `Ex: ${target}`,
+          hint1: isTwoNeg 
+            ? "Entre deux nombres négatifs, le plus grand est celui qui est le plus proche de zéro (la plus petite distance à zéro)." 
+            : "Tout nombre positif est toujours strictement supérieur à tout nombre négatif.",
+          solution: `Sur la droite graduée, $${minVal} < ${maxVal}$.\nLe nombre ${label} est donc **${target}**.`
         };
       }
     } else if (t === 2) {
@@ -5877,8 +5950,8 @@ window.MathsGenerators = {
     const t = this.resolveTier(tier);
 
     if (t === 1) {
-      // Palier 1 : Socle (Égalité de fractions, simplification, écriture décimale)
-      const subType = this.randChoice(['missing_num', 'missing_den', 'simplify', 'decimal_val', 'factor']);
+      // Palier 1 : Socle (Égalité de fractions, simplification, écriture décimale, comparaison)
+      const subType = this.randChoice(['missing_num', 'missing_den', 'simplify', 'decimal_val', 'factor', 'compare_same_den', 'compare_to_one']);
 
       if (subType === 'missing_num') {
         const num = this.randInt(2, 6);
@@ -5957,7 +6030,7 @@ window.MathsGenerators = {
           hint1: `Effectue la division décimale de $${item.num}$ par $${item.den}$ ($${item.num} \\div ${item.den}$).`,
           solution: `$$Q = \\frac{${item.num}}{${item.den}} = ${item.num} \\div ${item.den} = ${item.ans}$$`
         };
-      } else {
+      } else if (subType === 'factor') {
         const num = this.randInt(2, 5);
         const den = this.randInt(3, 7);
         const k = this.randInt(2, 6);
@@ -5973,6 +6046,56 @@ window.MathsGenerators = {
           placeholder: `Ex: ${k}`,
           hint1: `Calcule $${bigNum} \\div ${num}$ ou $${bigDen} \\div ${den}$.`,
           solution: `$$${num} \\times ${k} = ${bigNum} \\quad \\text{et} \\quad ${den} \\times ${k} = ${bigDen} \\implies k = ${k}$$`
+        };
+      } else if (subType === 'compare_same_den') {
+        const d = this.randInt(4, 12);
+        const a = this.randInt(1, d + 3);
+        let b;
+        do { b = this.randInt(1, d + 3); } while (a === b);
+        const askMax = Math.random() < 0.5;
+        const targetNum = askMax ? Math.max(a, b) : Math.min(a, b);
+        const label = askMax ? "la plus grande" : "la plus petite";
+        return {
+          chapterId: '5N3',
+          tier: 1,
+          title: `Comparaison de fractions de même dénominateur (${label})`,
+          statement: `Entre les deux fractions $\\frac{${a}}{${d}}$ et $\\frac{${b}}{${d}}$ :\n**Quelle est ${label} fraction ?** (écrire sous la forme a/b)`,
+          type: "exact",
+          answer: `${targetNum}/${d}`,
+          placeholder: `Ex: ${targetNum}/${d}`,
+          hint1: "Deux fractions qui ont le même dénominateur sont rangées dans le même ordre que leurs numérateurs.",
+          solution: `Comme les dénominateurs sont égaux à $${d}$, on compare les numérateurs : $${Math.min(a, b)} < ${Math.max(a, b)}$.\nLa fraction ${label} est donc **\\frac{${targetNum}}{${d}}**.`
+        };
+      } else {
+        const d = this.randInt(3, 11);
+        const typeChoice = this.randChoice(['inf', 'sup', 'eq']);
+        let n, correctOpt;
+        if (typeChoice === 'inf') {
+          n = this.randInt(1, d - 1);
+          correctOpt = `Strictement inférieure à 1 (${n}/${d} < 1)`;
+        } else if (typeChoice === 'sup') {
+          n = d + this.randInt(1, 5);
+          correctOpt = `Strictement supérieure à 1 (${n}/${d} > 1)`;
+        } else {
+          n = d;
+          correctOpt = `Égale à 1 (${n}/${d} = 1)`;
+        }
+        const opts = [
+          `Strictement inférieure à 1 (${n}/${d} < 1)`,
+          `Égale à 1 (${n}/${d} = 1)`,
+          `Strictement supérieure à 1 (${n}/${d} > 1)`
+        ];
+        return {
+          chapterId: '5N3',
+          tier: 1,
+          title: "Comparer une fraction à 1",
+          statement: `La fraction $\\frac{${n}}{${d}}$ est-elle inférieure à 1, égale à 1 ou supérieure à 1 ?`,
+          type: "mcq",
+          options: opts,
+          answer: correctOpt,
+          correctIndex: opts.indexOf(correctOpt),
+          hint1: "Si le numérateur est plus petit que le dénominateur, la fraction est < 1. S'ils sont égaux, elle est = 1. Si le numérateur est plus grand, elle est > 1.",
+          solution: `• Numérateur : $${n}$, Dénominateur : $${d}$.\n• Comme $${n} ${n < d ? '<' : (n > d ? '>' : '=')} ${d}$, on en déduit que $\\frac{${n}}{${d}} ${n < d ? '<' : (n > d ? '>' : '=')} 1$.`
         };
       }
     } else if (t === 2) {
@@ -6197,388 +6320,540 @@ window.MathsGenerators = {
     const t = this.resolveTier(tier);
 
     if (t === 1) {
-      // Palier 1 : Socle (Bases du carré, cube et puissances de 10)
-      const subType = this.randChoice(['carre_entier', 'cube_entier', 'puissance_10', 'ecriture_puissance', 'vocabulaire_exposant']);
+      // Palier 1 : Socle (Fiche Ex 1, 2, 3 : Écriture sous forme d'une puissance, Base/Exposant, Calculs simples, Exposants 0 et 1, Vocabulaire carré/cube)
+      const subType = this.randChoice([
+        'ecriture_seule_puissance',
+        'tableau_base_exposant',
+        'cas_particuliers_0_1',
+        'calcul_puissance_base',
+        'carre_cube_vocabulaire'
+      ]);
 
-      if (subType === 'carre_entier') {
-        const a = this.randInt(0, 15);
-        const ans = a * a;
-        return {
-          chapterId: '5N4',
-          tier: 1,
-          title: "Calcul du carré d'un nombre entier",
-          statement: `Calculer la valeur exacte du carré suivant :\n$$A = ${a}^2$$`,
-          type: "exact",
-          answer: String(ans),
-          placeholder: `Ex: ${ans}`,
-          hint1: `Le carré d'un nombre est le produit de ce nombre par lui-même : $${a}^2 = ${a} \\times ${a}$.`,
-          solution: `$$${a}^2 = ${a} \\times ${a} = ${ans}$$`
-        };
-      } else if (subType === 'cube_entier') {
-        const a = this.randChoice([0, 1, 2, 3, 4, 5, 10]);
-        const ans = a * a * a;
-        return {
-          chapterId: '5N4',
-          tier: 1,
-          title: "Calcul du cube d'un nombre entier",
-          statement: `Calculer la valeur exacte du cube suivant :\n$$B = ${a}^3$$`,
-          type: "exact",
-          answer: String(ans),
-          placeholder: `Ex: ${ans}`,
-          hint1: `Le cube d'un nombre est le produit de trois facteurs égaux à ce nombre : $${a}^3 = ${a} \\times ${a} \\times ${a}$.`,
-          solution: `$$${a}^3 = ${a} \\times ${a} \\times ${a} = ${ans}$$`
-        };
-      } else if (subType === 'puissance_10') {
-        const n = this.randInt(1, 6);
-        const zeros = '0'.repeat(n);
-        const ans = '1' + zeros;
-        return {
-          chapterId: '5N4',
-          tier: 1,
-          title: "Écriture décimale d'une puissance de 10",
-          statement: `Donner l'écriture décimale du nombre suivant :\n$$C = 10^${n}$$`,
-          type: "exact",
-          answer: ans,
-          placeholder: `Ex: ${ans}`,
-          hint1: `$10^n$ s'écrit avec un $1$ suivi de $n$ zéros. Ici, il y a $${n}$ zéros.`,
-          solution: `$$10^${n} = 1\\underbrace{${zeros}}_{${n}\\text{ zéros}} = ${ans}$$`
-        };
-      } else if (subType === 'ecriture_puissance') {
-        const isCube = Math.random() < 0.5;
-        const a = this.randInt(2, 9);
-        const exp = isCube ? 3 : 2;
-        const prod = isCube ? `${a} \\times ${a} \\times ${a}` : `${a} \\times ${a}`;
-        const correctOpt = `$${a}^${exp}$`;
-        const opts = this.shuffle([
-          correctOpt,
-          `$${a * exp}$`,
-          `$${exp}^${a}$`,
-          `$${a}^{${exp + 1}}$`
-        ]);
-        return {
-          chapterId: '5N4',
-          tier: 1,
-          title: "Écrire un produit sous forme de puissance",
-          statement: `Écrire le produit suivant sous la forme d'une puissance d'un nombre :\n$$P = ${prod}$$`,
-          type: "mcq",
-          options: opts,
-          answer: correctOpt,
-          correctIndex: opts.indexOf(correctOpt),
-          hint1: `Le nombre $${a}$ est répété en facteur $${exp}$ fois : c'est la notation puissance $${a}^${exp}$.`,
-          solution: `Le facteur $${a}$ apparaît $${exp}$ fois dans la multiplication, donc :\n$$${prod} = ${a}^${exp}$$`
-        };
-      } else {
-        const a = this.randInt(2, 9);
-        const exp = this.randChoice([2, 3, 4]);
-        const isAskingBase = Math.random() < 0.5;
-        const correctAns = isAskingBase ? String(a) : String(exp);
-        return {
-          chapterId: '5N4',
-          tier: 1,
-          title: isAskingBase ? "Identifier la base d'une puissance" : "Identifier l'exposant d'une puissance",
-          statement: isAskingBase
-            ? `Dans l'expression $${a}^${exp}$ :\n**Quelle est la base de cette puissance ?**`
-            : `Dans l'expression $${a}^${exp}$ :\n**Quel est l'exposant de cette puissance ?**`,
-          type: "exact",
-          answer: correctAns,
-          placeholder: `Ex: ${correctAns}`,
-          hint1: isAskingBase
-            ? "La base est le nombre qui est élevé à la puissance (le nombre du bas)."
-            : "L'exposant est le petit nombre situé en haut à droite indiquant combien de fois la base est multipliée par elle-même.",
-          solution: `Dans la notation $a^n$, $a$ est la base et $n$ est l'exposant.\nPour $${a}^${exp}$, la base est **${a}** et l'exposant est **${exp}**.\nLa réponse attendue est donc **${correctAns}**.`
-        };
-      }
-    } else if (t === 2) {
-      // Palier 2 : Guidé (Carré de décimaux, retrouver base/exposant, priorité élémentaire)
-      const subType = this.randChoice(['carre_decimal', 'trouver_base', 'trouver_exposant', 'mult_puissance_10', 'priorite_carre_somme', 'priorite_carre_prod']);
-
-      if (subType === 'carre_decimal') {
-        const decimals = [
-          { val: '0.1', ans: '0.01', disp: '0{,}1' },
-          { val: '0.2', ans: '0.04', disp: '0{,}2' },
-          { val: '0.3', ans: '0.09', disp: '0{,}3' },
-          { val: '0.4', ans: '0.16', disp: '0{,}4' },
-          { val: '0.5', ans: '0.25', disp: '0{,}5' },
-          { val: '0.6', ans: '0.36', disp: '0{,}6' },
-          { val: '0.7', ans: '0.49', disp: '0{,}7' },
-          { val: '0.8', ans: '0.64', disp: '0{,}8' },
-          { val: '0.9', ans: '0.81', disp: '0{,}9' },
-          { val: '1.1', ans: '1.21', disp: '1{,}1' },
-          { val: '1.2', ans: '1.44', disp: '1{,}2' },
-          { val: '1.5', ans: '2.25', disp: '1{,}5' }
+      if (subType === 'ecriture_seule_puissance') {
+        // Ex 1.2 de la fiche de cours : 6x6x6x6, 9x9x9x9x9, 1.5x1.5x1.5, 2x2x2x2x2x2x2
+        const cases = [
+          { base: '6', count: 4, ans: '6^4', str: '6 \\times 6 \\times 6 \\times 6' },
+          { base: '9', count: 5, ans: '9^5', str: '9 \\times 9 \\times 9 \\times 9 \\times 9' },
+          { base: '1,5', count: 3, ans: '1,5^3', str: '1{,}5 \\times 1{,}5 \\times 1{,}5' },
+          { base: '2', count: 7, ans: '2^7', str: '2 \\times 2 \\times 2 \\times 2 \\times 2 \\times 2 \\times 2' },
+          { base: '8', count: 2, ans: '8^2', str: '8 \\times 8' },
+          { base: '10', count: 4, ans: '10^4', str: '10 \\times 10 \\times 10 \\times 10' },
+          { base: '3', count: 3, ans: '3^3', str: '3 \\times 3 \\times 3' },
+          { base: '4', count: 3, ans: '4^3', str: '4 \\times 4 \\times 4' }
         ];
-        const item = this.randChoice(decimals);
+        const item = this.randChoice(cases);
         return {
           chapterId: '5N4',
-          tier: 2,
-          title: "Carré d'un nombre décimal",
-          statement: `Calculer le carré du nombre décimal suivant :\n$$D = (${item.disp})^2$$`,
+          tier: 1,
+          title: "Écrire un produit sous la forme d'une seule puissance",
+          statement: `Écrire le produit suivant sous la forme d'une seule puissance (ex: ${item.ans}) :\n$$P = ${item.str}$$`,
           type: "exact",
           answer: item.ans,
           placeholder: `Ex: ${item.ans}`,
-          hint1: `Multiplie $${item.disp} \\times ${item.disp}$. Attention au nombre de chiffres après la virgule !`,
-          solution: `$$(${item.disp})^2 = ${item.disp} \\times ${item.disp} = ${item.ans.replace('.', ',')}$$`
+          hint1: `Le facteur ${item.base} est répété ${item.count} fois : la notation s'écrit ${item.base}^${item.count}.`,
+          solution: `Le facteur $${item.base}$ apparaît $${item.count}$ fois dans la multiplication, donc :\n$$${item.str} = ${item.ans}$$`
         };
-      } else if (subType === 'trouver_base') {
-        const base = this.randInt(2, 12);
-        const square = base * base;
+      } else if (subType === 'tableau_base_exposant') {
+        // Ex 1.1 de la fiche : identifier la base ou l'exposant dans 5^3, 2^4, 10^3, 7^2, etc.
+        const items = [
+          { base: 5, exp: 3 },
+          { base: 2, exp: 4 },
+          { base: 10, exp: 3 },
+          { base: 7, exp: 2 },
+          { base: 4, exp: 3 },
+          { base: 3, exp: 3 },
+          { base: 8, exp: 2 },
+          { base: 10, exp: 4 }
+        ];
+        const choice = this.randChoice(items);
+        const askBase = Math.random() < 0.5;
+        const ans = askBase ? String(choice.base) : String(choice.exp);
         return {
           chapterId: '5N4',
-          tier: 2,
-          title: "Retrouver la base : carré d'un nombre",
-          statement: `On sait qu'un nombre positif $x$ vérifie l'égalité :\n$$x^2 = ${square}$$\n**Quelle est la valeur de ce nombre $x$ ?**`,
+          tier: 1,
+          title: askBase ? "Identifier la base d'une puissance" : "Identifier l'exposant d'une puissance",
+          statement: askBase
+            ? `Dans l'écriture $${choice.base}^{${choice.exp}}$ :\n**Quelle est la base de cette puissance ?**`
+            : `Dans l'écriture $${choice.base}^{${choice.exp}}$ :\n**Quel est l'exposant de cette puissance ?**`,
           type: "exact",
-          answer: String(base),
-          placeholder: `Ex: ${base}`,
-          hint1: `Quel nombre positif multiplié par lui-même donne $${square}$ ?`,
-          solution: `Puisque $${base} \\times ${base} = ${square}$, on en déduit :\n$$x = ${base}$$`
+          answer: ans,
+          placeholder: `Ex: ${ans}`,
+          hint1: askBase
+            ? "La base est le nombre principal que l'on multiplie par lui-même (en bas)."
+            : "L'exposant est le petit nombre situé en haut à droite indiquant le nombre de répétitions du facteur.",
+          solution: `Dans $${choice.base}^{${choice.exp}}$, la base est **${choice.base}** et l'exposant est **${choice.exp}**.`
         };
-      } else if (subType === 'trouver_exposant') {
-        const exp = this.randInt(2, 6);
-        const zeros = '0'.repeat(exp);
-        const val = '1' + zeros;
+      } else if (subType === 'cas_particuliers_0_1') {
+        // Ex 2 de la fiche : A = 312^0, B = 12^1, C = 7^1, D = 18^0, E = 1^0, F = 2026^0, G = 1^5
+        const items = [
+          { expr: '312^0', ans: '1', rule: 'Pour tout nombre non nul n, n^0 = 1.' },
+          { expr: '12^1', ans: '12', rule: 'Pour tout nombre n, n^1 = n (le nombre reste lui-même).' },
+          { expr: '7^1', ans: '7', rule: 'Pour tout nombre n, n^1 = n.' },
+          { expr: '18^0', ans: '1', rule: 'Tout nombre non nul à la puissance 0 vaut 1.' },
+          { expr: '1^0', ans: '1', rule: '1^0 = 1.' },
+          { expr: '2026^0', ans: '1', rule: '2026^0 = 1.' },
+          { expr: '1^5', ans: '1', rule: '1 élevé à n\'importe quelle puissance vaut 1 (1 x 1 x 1 x 1 x 1 = 1).' },
+          { expr: '1^8', ans: '1', rule: '1 élevé à n\'importe quelle puissance vaut 1.' }
+        ];
+        const choice = this.randChoice(items);
         return {
           chapterId: '5N4',
-          tier: 2,
-          title: "Retrouver l'exposant d'une puissance de 10",
-          statement: `Déterminer l'exposant entier $n$ qui vérifie l'égalité :\n$$10^n = ${val}$$\n**Quelle est la valeur de $n$ ?**`,
+          tier: 1,
+          title: "Cas particuliers : exposants 0 et 1",
+          statement: `Calculer la valeur exacte de l'expression suivante :\n$$V = ${choice.expr}$$`,
           type: "exact",
-          answer: String(exp),
-          placeholder: `Ex: ${exp}`,
-          hint1: `Compte le nombre de zéros après le $1$ dans le nombre $${val}$.`,
-          solution: `Le nombre $${val}$ contient $${exp}$ zéros après le $1$, donc :\n$$10^${exp} = ${val} \\implies n = ${exp}$$`
+          answer: choice.ans,
+          placeholder: `Ex: ${choice.ans}`,
+          hint1: choice.rule,
+          solution: `D'après les conventions du cours :\n$$${choice.expr} = ${choice.ans}$$\n*(${choice.rule})*`
         };
-      } else if (subType === 'mult_puissance_10') {
-        const a = this.randInt(2, 9);
-        const exp = this.randInt(2, 4);
-        const ans = a * Math.pow(10, exp);
+      } else if (subType === 'calcul_puissance_base') {
+        // Ex 3.1 de la fiche : 3^2, 2^3, 4^2, 4^3, 10^2, 10^3, 1^2, 1^3
+        const items = [
+          { b: 3, e: 2, ans: 9, prod: '3 \\times 3' },
+          { b: 2, e: 3, ans: 8, prod: '2 \\times 2 \\times 2' },
+          { b: 4, e: 2, ans: 16, prod: '4 \\times 4' },
+          { b: 4, e: 3, ans: 64, prod: '4 \\times 4 \\times 4' },
+          { b: 10, e: 2, ans: 100, prod: '10 \\times 10' },
+          { b: 10, e: 3, ans: 1000, prod: '10 \\times 10 \\times 10' },
+          { b: 2, e: 4, ans: 16, prod: '2 \\times 2 \\times 2 \\times 2' },
+          { b: 5, e: 2, ans: 25, prod: '5 \\times 5' }
+        ];
+        const choice = this.randChoice(items);
+        return {
+          chapterId: '5N4',
+          tier: 1,
+          title: "Calcul de base d'une puissance",
+          statement: `Calculer la valeur exacte de l'expression suivante :\n$$A = ${choice.b}^{${choice.e}}$$`,
+          type: "exact",
+          answer: String(choice.ans),
+          placeholder: `Ex: ${choice.ans}`,
+          hint1: `Écris la multiplication répétée : $${choice.b}^{${choice.e}} = ${choice.prod}$.`,
+          solution: `$$${choice.b}^{${choice.e}} = ${choice.prod} = ${choice.ans}$$`
+        };
+      } else {
+        // Ex 3.2 de la fiche : « Le carré de 6 », « Le cube de 5 », « Le carré de 9 »
+        const items = [
+          { phrase: "le carré de 6", expr: "6^2", prod: "6 \\times 6", ans: 36 },
+          { phrase: "le cube de 5", expr: "5^3", prod: "5 \\times 5 \\times 5", ans: 125 },
+          { phrase: "le carré de 9", expr: "9^2", prod: "9 \\times 9", ans: 81 },
+          { phrase: "le carré de 7", expr: "7^2", prod: "7 \\times 7", ans: 49 },
+          { phrase: "le cube de 2", expr: "2^3", prod: "2 \\times 2 \\times 2", ans: 8 },
+          { phrase: "le carré de 8", expr: "8^2", prod: "8 \\times 8", ans: 64 },
+          { phrase: "le cube de 3", expr: "3^3", prod: "3 \\times 3 \\times 3", ans: 27 },
+          { phrase: "le carré de 11", expr: "11^2", prod: "11 \\times 11", ans: 121 }
+        ];
+        const choice = this.randChoice(items);
+        return {
+          chapterId: '5N4',
+          tier: 1,
+          title: "Écrire sous forme de puissance puis calculer",
+          statement: `Écrire sous la forme d'une puissance, puis calculer la valeur exacte :\n**Calculer ${choice.phrase} :**`,
+          type: "exact",
+          answer: String(choice.ans),
+          placeholder: `Ex: ${choice.ans}`,
+          hint1: `« Le carré » correspond à l'exposant 2, « le cube » correspond à l'exposant 3 : $${choice.expr} = ${choice.prod}$.`,
+          solution: `1. Écriture : $${choice.expr}$.\n2. Calcul : $${choice.expr} = ${choice.prod} = ${choice.ans}$.`
+        };
+      }
+    } else if (t === 2) {
+      // Palier 2 : Guidé (Fiche Ex 4 & priorités : Table des carrés de 1 à 12, retrouver le nombre positif dont le carré est donné, priorités opératoires)
+      const subType = this.randChoice([
+        'carre_1_a_12',
+        'retrouver_nombre_carre',
+        'priorite_carre_somme',
+        'priorite_puiss2_3'
+      ]);
+
+      if (subType === 'carre_1_a_12') {
+        // Ex 4.1 de la fiche : Compléter la table des carrés de 1 à 12
+        const n = this.randInt(1, 12);
+        const ans = n * n;
         return {
           chapterId: '5N4',
           tier: 2,
-          title: "Produit d'un entier par une puissance de 10",
-          statement: `Calculer la valeur numérique exacte :\n$$E = ${a} \\times 10^${exp}$$`,
+          title: "Table des carrés de 1 à 12 (à connaître par cœur)",
+          statement: `Calculer de tête la valeur exacte du carré de $${n}$ :\n$$C = ${n}^2$$`,
           type: "exact",
           answer: String(ans),
           placeholder: `Ex: ${ans}`,
-          hint1: `$10^${exp} = ${Math.pow(10, exp)}$. Multiplie ensuite par $${a}$.`,
-          solution: `$$E = ${a} \\times 10^${exp} = ${a} \\times ${Math.pow(10, exp)} = ${ans}$$`
+          hint1: `Multiplie $${n}$ par lui-même : $${n} \\times ${n}$.`,
+          solution: `D'après la table des carrés de 1 à 12 :\n$$${n}^2 = ${n} \\times ${n} = ${ans}$$`
+        };
+      } else if (subType === 'retrouver_nombre_carre') {
+        // Ex 4.2 de la fiche : Retrouver le nombre positif dont le carré est 36, 64, 81, 121, 144
+        const cases = [
+          { sq: 36, ans: 6 },
+          { sq: 64, ans: 8 },
+          { sq: 81, ans: 9 },
+          { sq: 121, ans: 11 },
+          { sq: 144, ans: 12 },
+          { sq: 25, ans: 5 },
+          { sq: 49, ans: 7 },
+          { sq: 100, ans: 10 },
+          { sq: 16, ans: 4 },
+          { sq: 9, ans: 3 },
+          { sq: 4, ans: 2 }
+        ];
+        const item = this.randChoice(cases);
+        return {
+          chapterId: '5N4',
+          tier: 2,
+          title: "Retrouver le nombre positif dont le carré est donné",
+          statement: `Retrouver le nombre positif $x$ dont le carré est $${item.sq}$ :\n$$x^2 = ${item.sq} \\implies x = \\dots$$`,
+          type: "exact",
+          answer: String(item.ans),
+          placeholder: `Ex: ${item.ans}`,
+          hint1: `Quel nombre positif multiplié par lui-même donne $${item.sq}$ ? Regarde la table des carrés de 1 à 12.`,
+          solution: `Comme $${item.ans} \\times ${item.ans} = ${item.sq}$, le nombre positif cherché est :\n$$x = ${item.ans}$$`
         };
       } else if (subType === 'priorite_carre_somme') {
-        const a = this.randInt(2, 8);
+        const a = this.randInt(2, 9);
         const b = this.randInt(2, 6);
         const ans = a + b * b;
         return {
           chapterId: '5N4',
           tier: 2,
-          title: "Priorité de la puissance : $a + b^2$",
-          statement: `Calculer la valeur exacte de l'expression suivante :\n$$F = ${a} + ${b}^2$$`,
+          title: "Priorités opératoires avec les puissances : a + b²",
+          statement: `Calculer la valeur exacte de l'expression suivante :\n$$E = ${a} + ${b}^2$$`,
           type: "exact",
           answer: String(ans),
           placeholder: `Ex: ${ans}`,
-          hint1: `La puissance est prioritaire sur l'addition : calcule d'abord $${b}^2 = ${b * b}$, puis ajoute $${a}$.`,
-          solution: `$$F = ${a} + (${b}^2) = ${a} + ${b * b} = ${ans}$$`
+          hint1: `La puissance est prioritaire sur l'addition : calcule d'abord $${b}^2 = ${b * b}$, puis additionne $${a}$.`,
+          solution: `1. Puissance prioritaire : $${b}^2 = ${b * b}$.\n2. Somme : $E = ${a} + ${b * b} = ${ans}$.`
         };
       } else {
-        const a = this.randInt(2, 5);
-        const b = this.randInt(2, 6);
-        const ans = a * (b * b);
+        const k = this.randInt(2, 5);
+        const exp = this.randChoice([2, 3]);
+        const pVal = Math.pow(2, exp);
+        const ans = k * pVal;
         return {
           chapterId: '5N4',
           tier: 2,
-          title: "Priorité de la puissance : $a \\times b^2$",
-          statement: `Calculer la valeur exacte de l'expression suivante :\n$$G = ${a} \\times ${b}^2$$`,
+          title: "Priorités : produit avec une puissance de 2",
+          statement: `Calculer la valeur exacte de l'expression suivante :\n$$P = ${k} \\times 2^${exp}$$`,
           type: "exact",
           answer: String(ans),
           placeholder: `Ex: ${ans}`,
-          hint1: `Attention : seul $${b}$ est élevé au carré ! Calcule d'abord $${b}^2 = ${b * b}$, puis multiplie par $${a}$.`,
-          solution: `$$G = ${a} \\times (${b}^2) = ${a} \\times ${b * b} = ${ans}$$`
+          hint1: `Attention : la puissance s'applique avant la multiplication ! Calcule d'abord $2^${exp} = ${pVal}$, puis multiplie par $${k}$.`,
+          solution: `$$P = ${k} \\times (2^${exp}) = ${k} \\times ${pVal} = ${ans}$$`
         };
       }
     } else if (t === 3) {
-      // Palier 3 : Brevet / Approfondissement 5e (Décompositions, calculs mixtes, géométrie)
-      const subType = this.randChoice(['decomp_base10', 'diff_carres', 'somme_carre_cube', 'aire_carre', 'volume_cube', 'produit_puissances_10']);
+      // Palier 3 : Approfondissement (Fiche Ex 5 : Comparaisons avec <, >, =, Vrai ou Faux justifié par le calcul, calculs combinés)
+      const subType = this.randChoice([
+        'comparaison_puissances',
+        'vrai_faux_puissances',
+        'calcul_combine_puissances'
+      ]);
 
-      if (subType === 'decomp_base10') {
-        const m = this.randInt(1, 9);
-        const c = this.randInt(0, 9);
-        const d = this.randInt(0, 9);
-        const u = this.randInt(1, 9);
-        const num = m * 1000 + c * 100 + d * 10 + u;
+      if (subType === 'comparaison_puissances') {
+        // Ex 5.1 de la fiche :
+        // a) 2^3 .... 3^2 (8 < 9)
+        // b) 4^2 .... 2^4 (16 = 16)
+        // c) 5^2 .... 2 x 5 (25 > 10)
+        // d) 10^2 .... 100 (100 = 100)
+        // e) 6^1 .... 6^0 (6 > 1)
+        const cases = [
+          { leftExpr: '2^3', leftVal: 8, rightExpr: '3^2', rightVal: 9, comp: '<' },
+          { leftExpr: '4^2', leftVal: 16, rightExpr: '2^4', rightVal: 16, comp: '=' },
+          { leftExpr: '5^2', leftVal: 25, rightExpr: '2 \\times 5', rightVal: 10, comp: '>' },
+          { leftExpr: '10^2', leftVal: 100, rightExpr: '100', rightVal: 100, comp: '=' },
+          { leftExpr: '6^1', leftVal: 6, rightExpr: '6^0', rightVal: 1, comp: '>' },
+          { leftExpr: '3^3', leftVal: 27, rightExpr: '3 \\times 3', rightVal: 9, comp: '>' },
+          { leftExpr: '2^5', leftVal: 32, rightExpr: '5^2', rightVal: 25, comp: '>' },
+          { leftExpr: '1^{10}', leftVal: 1, rightExpr: '10^0', rightVal: 1, comp: '=' }
+        ];
+        const item = this.randChoice(cases);
         return {
           chapterId: '5N4',
           tier: 3,
-          title: "Décomposition polynomiale en puissances de 10",
-          statement: `Donner l'écriture décimale du nombre suivant :\n$$H = ${m} \\times 10^3 + ${c} \\times 10^2 + ${d} \\times 10^1 + ${u}$$`,
+          title: "Comparer deux puissances avec <, > ou =",
+          statement: `Comparer les deux nombres suivants. Compléter par le bon symbole ($<$, $>$ ou $=) :\n$$${item.leftExpr} \\dots ${item.rightExpr}$$`,
           type: "exact",
-          answer: String(num),
-          placeholder: `Ex: ${num}`,
-          hint1: `$10^3 = 1\\,000$, $10^2 = 100$ et $10^1 = 10$. Calcule chaque produit puis additionne.`,
-          solution: `$$H = ${m} \\times 1\\,000 + ${c} \\times 100 + ${d} \\times 10 + ${u} = ${m * 1000} + ${c * 100} + ${d * 10} + ${u} = ${num}$$`
+          answer: item.comp,
+          placeholder: "<, > ou =",
+          hint1: `Calcule la valeur de gauche ($${item.leftExpr}$) et la valeur de droite ($${item.rightExpr}$) séparément.`,
+          solution: `1. Membre de gauche : $${item.leftExpr} = ${item.leftVal}$.\n2. Membre de droite : $${item.rightExpr} = ${item.rightVal}$.\nComme $${item.leftVal} ${item.comp} ${item.rightVal}$, on a : **$${item.leftExpr} ${item.comp} ${item.rightExpr}$**.`
         };
-      } else if (subType === 'diff_carres') {
-        const a = this.randInt(6, 12);
-        const b = this.randInt(2, a - 1);
-        const ans = a * a - b * b;
+      } else if (subType === 'vrai_faux_puissances') {
+        // Ex 5.2 de la fiche : Vrai ou Faux ? Justifier par un calcul :
+        // 1: 2^3 = 6 (Faux, 2^3 = 8)
+        // 2: 0^2 = 0 (Vrai, 0 x 0 = 0)
+        // 3: Le carré de 8 est égal au double de 8 (Faux, 8^2 = 64 != 16)
+        const cases = [
+          {
+            aff: "« $2^3 = 6$ »",
+            ans: "faux",
+            just: "$2^3 = 2 \\times 2 \\times 2 = 8 \\neq 6$ (on ne multiplie pas la base par l'exposant !)."
+          },
+          {
+            aff: "« $0^2 = 0$ »",
+            ans: "vrai",
+            just: "$0^2 = 0 \\times 0 = 0$."
+          },
+          {
+            aff: "« Le carré de 8 est égal au double de 8 »",
+            ans: "faux",
+            just: "Le carré de 8 vaut $8^2 = 64$, alors que le double de 8 vaut $2 \\times 8 = 16$. Or $64 \\neq 16$."
+          },
+          {
+            aff: "« $5^0 = 1$ »",
+            ans: "vrai",
+            just: "Tout nombre non nul élevé à la puissance 0 est égal à 1."
+          },
+          {
+            aff: "« $3^2 = 6$ »",
+            ans: "faux",
+            just: "$3^2 = 3 \\times 3 = 9 \\neq 6$."
+          },
+          {
+            aff: "« Le cube de 4 vaut 64 »",
+            ans: "vrai",
+            just: "$4^3 = 4 \\times 4 \\times 4 = 64$."
+          }
+        ];
+        const item = this.randChoice(cases);
         return {
           chapterId: '5N4',
           tier: 3,
-          title: "Différence de deux carrés : $a^2 - b^2$",
-          statement: `Calculer la valeur exacte de l'expression :\n$$K = ${a}^2 - ${b}^2$$`,
+          title: "Vrai ou Faux ? (Justification par le calcul)",
+          statement: `L'affirmation suivante est-elle vraie ou fausse ? (Répondre par **vrai** ou **faux**) :\n${item.aff}`,
           type: "exact",
-          answer: String(ans),
-          placeholder: `Ex: ${ans}`,
-          hint1: `Calcule séparément $${a}^2 = ${a * a}$ et $${b}^2 = ${b * b}$, puis effectue la soustraction.`,
-          solution: `$$K = ${a * a} - ${b * b} = ${ans}$$`
-        };
-      } else if (subType === 'somme_carre_cube') {
-        const a = this.randInt(3, 8);
-        const b = this.randChoice([2, 3, 4]);
-        const ans = a * a + b * b * b;
-        return {
-          chapterId: '5N4',
-          tier: 3,
-          title: "Calcul combiné : carré et cube",
-          statement: `Calculer la valeur exacte de l'expression :\n$$L = ${a}^2 + ${b}^3$$`,
-          type: "exact",
-          answer: String(ans),
-          placeholder: `Ex: ${ans}`,
-          hint1: `$${a}^2 = ${a * a}$ et $${b}^3 = ${b} \\times ${b} \\times ${b} = ${b * b * b}$.`,
-          solution: `$$L = (${a}^2) + (${b}^3) = ${a * a} + ${b * b * b} = ${ans}$$`
-        };
-      } else if (subType === 'aire_carre') {
-        const c = this.randInt(4, 15);
-        const ans = c * c;
-        return {
-          chapterId: '5N4',
-          tier: 3,
-          title: "Application géométrique : Aire d'un carré",
-          statement: `Un carré a pour côté $c = ${c}\\text{ cm}$.\n**Quelle est l'aire exacte de ce carré en $\\text{cm}^2$ ?**`,
-          type: "exact",
-          answer: String(ans),
-          placeholder: `Ex: ${ans}`,
-          hint1: `La formule de l'aire d'un carré est $\\mathcal{A} = c^2 = c \\times c$.`,
-          solution: `$$\\mathcal{A} = c^2 = ${c}^2 = ${c} \\times ${c} = ${ans}\\text{ cm}^2$$`
-        };
-      } else if (subType === 'volume_cube') {
-        const c = this.randChoice([2, 3, 4, 5, 10]);
-        const ans = c * c * c;
-        return {
-          chapterId: '5N4',
-          tier: 3,
-          title: "Application géométrique : Volume d'un cube",
-          statement: `Un cube a pour arête $a = ${c}\\text{ cm}$.\n**Quel est le volume exact de ce cube en $\\text{cm}^3$ ?**`,
-          type: "exact",
-          answer: String(ans),
-          placeholder: `Ex: ${ans}`,
-          hint1: `La formule du volume d'un cube est $\\mathcal{V} = a^3 = a \\times a \\times a$.`,
-          solution: `$$\\mathcal{V} = a^3 = ${c}^3 = ${c} \\times ${c} \\times ${c} = ${ans}\\text{ cm}^3$$`
+          answer: item.ans,
+          placeholder: "vrai ou faux",
+          hint1: "Effectue le calcul exact au brouillon avant de répondre.",
+          solution: `L'affirmation est **${item.ans.toUpperCase()}**.\n*Justification* : ${item.just}`
         };
       } else {
-        const p = this.randInt(2, 4);
-        const q = this.randInt(2, 4);
-        const totalZeros = p + q;
-        const ans = '1' + '0'.repeat(totalZeros);
+        // Calculs combinés de puissances : 2^4 + 3^2, 5^2 - 4^2, 2^3 x 5 - 10^1
+        const cases = [
+          { expr: '2^4 + 3^2', step: '16 + 9', ans: 25 },
+          { expr: '5^2 - 4^2', step: '25 - 16', ans: 9 },
+          { expr: '2^3 \\times 5 - 10^1', step: '8 \\times 5 - 10 = 40 - 10', ans: 30 },
+          { expr: '3^3 - 2^4', step: '27 - 16', ans: 11 },
+          { expr: '10^2 - 6^2', step: '100 - 36', ans: 64 },
+          { expr: '2^5 - 5^2', step: '32 - 25', ans: 7 }
+        ];
+        const item = this.randChoice(cases);
         return {
           chapterId: '5N4',
           tier: 3,
-          title: "Produit de deux puissances de 10",
-          statement: `Donner l'écriture décimale du produit suivant :\n$$M = 10^${p} \\times 10^${q}$$`,
+          title: "Calcul combiné avec des puissances",
+          statement: `Calculer la valeur exacte de l'expression suivante :\n$$C = ${item.expr}$$`,
           type: "exact",
-          answer: ans,
-          placeholder: `Ex: ${ans}`,
-          hint1: `$10^${p}$ a $${p}$ zéros et $10^${q}$ a $${q}$ zéros. Le produit aura $${p} + ${q} = ${totalZeros}$ zéros.`,
-          solution: `$$10^${p} \\times 10^${q} = 10^{${p} + ${q}} = 10^${totalZeros} = ${ans}$$`
+          answer: String(item.ans),
+          placeholder: `Ex: ${item.ans}`,
+          hint1: "Calcule chaque puissance en priorité, puis effectue les multiplications/additions/soustractions.",
+          solution: `1. Calcul des puissances : ${item.step}.\n2. Résultat final : $$C = ${item.ans}$$`
         };
       }
     } else {
-      // Palier 4 : Défi 4ème (Calculs complexes avec crochets, comparaisons de puissances)
-      const subType = this.randChoice(['defi_crochet', 'defi_comparaison', 'defi_retro_carre', 'defi_somme_base10']);
+      // Palier 4 : Défi / Enchaînements complexes avec puissances et priorités opératoires
+      const subType = this.randChoice([
+        'priorite_parentheses_carre',
+        'priorite_double_produit',
+        'priorite_quotient_fraction',
+        'priorite_imbriquee'
+      ]);
 
-      if (subType === 'defi_crochet') {
-        const a = this.randInt(2, 5);
-        const b = this.randInt(2, 4);
-        const sum = a + b;
-        const c = this.randInt(2, 5);
-        const inside = sum * sum - c * c;
-        const possibleDivs = [2, 3, 4, 5, 6].filter(d => inside % d === 0);
-        const d = possibleDivs.length > 0 ? this.randChoice(possibleDivs) : 1;
-        const divPart = inside / d;
-        const k = this.randInt(2, 4);
-        const p = this.randInt(2, 3);
-        const ans = divPart + k * (p * p);
-
-        return {
-          chapterId: '5N4',
-          tier: 4,
-          title: "Défi 4ème : Expression complexe avec puissances et crochets",
-          statement: `Calculer la valeur exacte de l'expression suivante :\n$$E = [(${a} + ${b})^2 - ${c}^2] \\div ${d} + ${k} \\times ${p}^2$$`,
-          type: "exact",
-          answer: String(ans),
-          placeholder: `Ex: ${ans}`,
-          hint1: `1. Calcule la parenthèse intérieure : $(${a} + ${b}) = ${sum}$.\n2. Calcule les carrés : $${sum}^2 = ${sum * sum}$ et $${c}^2 = ${c * c}$.\n3. Calcule le crochet, effectue la division par ${d}, puis ajoute le produit $${k} \\times ${p * p}$.`,
-          solution: `1. Parenthèse : $(${a} + ${b})^2 = ${sum}^2 = ${sum * sum}$.\n2. Intérieur du crochet : $${sum * sum} - ${c * c} = ${inside}$.\n3. Division : $${inside} \\div ${d} = ${divPart}$.\n4. Terme de droite : $${k} \\times ${p}^2 = ${k} \\times ${p * p} = ${k * p * p}$.\n5. Résultat final :\n$$E = ${divPart} + ${k * p * p} = ${ans}$$`
-        };
-      } else if (subType === 'defi_comparaison') {
-        const pairs = [
-          { p1: '2^5', v1: 32, p2: '5^2', v2: 25 },
-          { p1: '3^4', v1: 81, p2: '4^3', v2: 64 },
-          { p1: '2^6', v1: 64, p2: '3^4', v2: 81 },
-          { p1: '2^7', v1: 128, p2: '11^2', v2: 121 },
-          { p1: '5^3', v1: 125, p2: '2^7', v2: 128 }
+      if (subType === 'priorite_parentheses_carre') {
+        const cases = [
+          {
+            expr: '(15 - 3^2)^2 + 2 \\times 4^2',
+            ans: 68,
+            steps: [
+              "Puissance intérieure : $3^2 = 9$.",
+              "Parenthèses : $15 - 9 = 6$.",
+              "Puissances : $6^2 = 36$ et $4^2 = 16$.",
+              "Multiplication : $2 \\times 16 = 32$.",
+              "Addition finale : $36 + 32 = 68$."
+            ]
+          },
+          {
+            expr: '(10 - 2^3)^3 + 5 \\times 3^2',
+            ans: 53,
+            steps: [
+              "Puissance intérieure : $2^3 = 8$.",
+              "Parenthèses : $10 - 8 = 2$.",
+              "Puissances : $2^3 = 8$ et $3^2 = 9$.",
+              "Multiplication : $5 \\times 9 = 45$.",
+              "Addition finale : $8 + 45 = 53$."
+            ]
+          },
+          {
+            expr: '4 \\times (2 + 3)^2 - 3 \\times 2^4',
+            ans: 52,
+            steps: [
+              "Parenthèses : $2 + 3 = 5$.",
+              "Puissances : $5^2 = 25$ et $2^4 = 16$.",
+              "Multiplications : $4 \\times 25 = 100$ et $3 \\times 16 = 48$.",
+              "Soustraction finale : $100 - 48 = 52$."
+            ]
+          },
+          {
+            expr: '(7 - 2^2)^3 - 2 \\times 3^2',
+            ans: 9,
+            steps: [
+              "Puissance intérieure : $2^2 = 4$.",
+              "Parenthèses : $7 - 4 = 3$.",
+              "Puissances : $3^3 = 27$ et $3^2 = 9$.",
+              "Multiplication : $2 \\times 9 = 18$.",
+              "Soustraction finale : $27 - 18 = 9$."
+            ]
+          }
         ];
-        const item = this.randChoice(pairs);
-        const symbol = item.v1 > item.v2 ? '>' : '<';
+        const item = this.randChoice(cases);
         return {
           chapterId: '5N4',
           tier: 4,
-          title: "Défi 4ème : Comparaison de deux puissances",
-          statement: `Comparer les deux nombres suivants en utilisant le symbole $<$ ou $>$ :\n$$${item.p1} \\quad \\text{...} \\quad ${item.p2}$$`,
-          type: "mcq",
-          options: [`$${item.p1} > ${item.p2}$`, `$${item.p1} < ${item.p2}$`, `$${item.p1} = ${item.p2}$`],
-          answer: `$${item.p1} ${symbol} ${item.p2}$`,
-          correctIndex: item.v1 > item.v2 ? 0 : 1,
-          hint1: `Calcule séparément la valeur de $${item.p1}$ et celle de $${item.p2}$.`,
-          solution: `• $${item.p1} = ${item.v1}$\n• $${item.p2} = ${item.v2}$\nComme $${item.v1} ${symbol} ${item.v2}$, on en déduit que **$${item.p1} ${symbol} ${item.p2}$**.`
-        };
-      } else if (subType === 'defi_retro_carre') {
-        const a = this.randInt(5, 12);
-        const a2 = a * a;
-        const b = this.randInt(2, 6);
-        const b2 = b * b;
-        const sum = a2 + b2;
-        return {
-          chapterId: '5N4',
-          tier: 4,
-          title: "Défi 4ème : Somme de deux carrés parfaits",
-          statement: `On sait que $x$ et $y$ sont deux nombres entiers positifs tels que :\n$$x^2 + y^2 = ${sum} \\quad \\text{avec } x = ${a}$$\n**Quelle est la valeur de l'entier $y$ ?**`,
+          title: "Priorités opératoires : parenthèses et puissances",
+          statement: `Calculer la valeur exacte de l'expression suivante en respectant scrupuleusement les priorités opératoires :\n$$A = ${item.expr}$$`,
           type: "exact",
-          answer: String(b),
-          placeholder: `Ex: ${b}`,
-          hint1: `Remplace $x$ par ${a} : on a $${a}^2 + y^2 = ${sum}$. Calcule $${a}^2 = ${a2}$, puis déduis-en $y^2 = ${sum} - ${a2}$.`,
-          solution: `$$${a}^2 + y^2 = ${sum} \\implies ${a2} + y^2 = ${sum} \\implies y^2 = ${sum} - ${a2} = ${b2}$$\nPuisque $y$ est positif et $y^2 = ${b2}$, on a **$y = ${b}$**.`
+          answer: String(item.ans),
+          placeholder: `Ex: ${item.ans}`,
+          hint1: "Rappel des priorités : 1) Parenthèses (en calculant les puissances à l'intérieur), 2) Puissances extérieures, 3) Multiplications, 4) Additions/Soustractions.",
+          solution: `Détail étape par étape :\n${item.steps.map((s, idx) => `${idx + 1}. ${s}`).join('\n')}\n**Résultat final : $A = ${item.ans}$**`
+        };
+      } else if (subType === 'priorite_double_produit') {
+        const cases = [
+          {
+            expr: '5 \\times 2^4 - 3 \\times 4^2',
+            ans: 32,
+            steps: "1. Puissances prioritaires : $2^4 = 16$ et $4^2 = 16$.\n2. Multiplications : $5 \\times 16 = 80$ et $3 \\times 16 = 48$.\n3. Soustraction : $80 - 48 = 32$."
+          },
+          {
+            expr: '4 \\times 3^3 - 2 \\times 5^2',
+            ans: 58,
+            steps: "1. Puissances prioritaires : $3^3 = 27$ et $5^2 = 25$.\n2. Multiplications : $4 \\times 27 = 108$ et $2 \\times 25 = 50$.\n3. Soustraction : $108 - 50 = 58$."
+          },
+          {
+            expr: '2^3 \\times 3^2 - 4 \\times 2^3',
+            ans: 40,
+            steps: "1. Puissances prioritaires : $2^3 = 8$ et $3^2 = 9$.\n2. Multiplications : $8 \\times 9 = 72$ et $4 \\times 8 = 32$.\n3. Soustraction : $72 - 32 = 40$."
+          },
+          {
+            expr: '7 \\times 2^3 + 3 \\times 4^2',
+            ans: 104,
+            steps: "1. Puissances prioritaires : $2^3 = 8$ et $4^2 = 16$.\n2. Multiplications : $7 \\times 8 = 56$ et $3 \\times 16 = 48$.\n3. Addition : $56 + 48 = 104$."
+          },
+          {
+            expr: '10^3 - 4 \\times 5^3',
+            ans: 500,
+            steps: "1. Puissances prioritaires : $10^3 = 1\,000$ et $5^3 = 125$.\n2. Multiplication : $4 \\times 125 = 500$.\n3. Soustraction : $1\,000 - 500 = 500$."
+          },
+          {
+            expr: '3 \\times 10^2 - 2 \\times 4^3',
+            ans: 172,
+            steps: "1. Puissances prioritaires : $10^2 = 100$ et $4^3 = 64$.\n2. Multiplications : $3 \\times 100 = 300$ et $2 \\times 64 = 128$.\n3. Soustraction : $300 - 128 = 172$."
+          }
+        ];
+        const item = this.randChoice(cases);
+        return {
+          chapterId: '5N4',
+          tier: 4,
+          title: "Priorités opératoires : produits de puissances",
+          statement: `Calculer la valeur exacte de l'expression suivante :\n$$B = ${item.expr}$$`,
+          type: "exact",
+          answer: String(item.ans),
+          placeholder: `Ex: ${item.ans}`,
+          hint1: "Calcule d'abord TOUTES les puissances, puis effectue les multiplications, et termine par la soustraction ou l'addition.",
+          solution: `${item.steps}\n**Résultat final : $B = ${item.ans}$**`
+        };
+      } else if (subType === 'priorite_quotient_fraction') {
+        const cases = [
+          {
+            expr: '\\frac{6^2 + 8^2}{5 \\times 2^2}',
+            ans: 5,
+            steps: "1. Numérateur : $6^2 + 8^2 = 36 + 64 = 100$.\n2. Dénominateur : $5 \\times 2^2 = 5 \\times 4 = 20$.\n3. Quotient : $\\frac{100}{20} = 5$."
+          },
+          {
+            expr: '\\frac{5^2 - 3^2}{2^3}',
+            ans: 2,
+            steps: "1. Numérateur : $5^2 - 3^2 = 25 - 9 = 16$.\n2. Dénominateur : $2^3 = 8$.\n3. Quotient : $\\frac{16}{8} = 2$."
+          },
+          {
+            expr: '\\frac{10^2 - 2^6}{3 \\times 2^2}',
+            ans: 3,
+            steps: "1. Numérateur : $10^2 - 2^6 = 100 - 64 = 36$.\n2. Dénominateur : $3 \\times 2^2 = 3 \\times 4 = 12$.\n3. Quotient : $\\frac{36}{12} = 3$."
+          },
+          {
+            expr: '\\frac{7^2 - 1}{2^4}',
+            ans: 3,
+            steps: "1. Numérateur : $7^2 - 1 = 49 - 1 = 48$.\n2. Dénominateur : $2^4 = 16$.\n3. Quotient : $\\frac{48}{16} = 3$."
+          },
+          {
+            expr: '\\frac{3^4 - 1}{2 \\times 5}',
+            ans: 8,
+            steps: "1. Numérateur : $3^4 - 1 = 81 - 1 = 80$.\n2. Dénominateur : $2 \\times 5 = 10$.\n3. Quotient : $\\frac{80}{10} = 8$."
+          },
+          {
+            expr: '\\frac{4^3 - 4}{2 \\times 3}',
+            ans: 10,
+            steps: "1. Numérateur : $4^3 - 4 = 64 - 4 = 60$.\n2. Dénominateur : $2 \\times 3 = 6$.\n3. Quotient : $\\frac{60}{6} = 10$."
+          }
+        ];
+        const item = this.randChoice(cases);
+        return {
+          chapterId: '5N4',
+          tier: 4,
+          title: "Écriture fractionnaire et puissances",
+          statement: `Calculer la valeur exacte du quotient suivant :\n$$C = ${item.expr}$$`,
+          type: "exact",
+          answer: String(item.ans),
+          placeholder: `Ex: ${item.ans}`,
+          hint1: "Le trait de fraction agit comme des parenthèses : calcule séparément le numérateur et le dénominateur avant de diviser.",
+          solution: `${item.steps}\n**Résultat final : $C = ${item.ans}$**`
         };
       } else {
-        const n = this.randInt(3, 6);
-        const zeros = '0'.repeat(n);
-        const val = '1' + zeros;
-        const coef = this.randInt(2, 8);
-        const ans = coef * Math.pow(10, n);
+        const cases = [
+          {
+            expr: '100 - 2 \\times (5^2 - 3^2) + 3 \\times 2^3',
+            ans: 92,
+            steps: "1. Parenthèses : $(5^2 - 3^2) = (25 - 9) = 16$.\n2. Puissance isolée : $2^3 = 8$.\n3. Multiplications : $2 \\times 16 = 32$ et $3 \\times 8 = 24$.\n4. Calcul de gauche à droite : $100 - 32 + 24 = 68 + 24 = 92$."
+          },
+          {
+            expr: '4 \\times (4^2 - 2^3) - (3^2 - 2^2)^2',
+            ans: 7,
+            steps: "1. Première parenthèse : $4^2 - 2^3 = 16 - 8 = 8$.\n2. Seconde parenthèse : $3^2 - 2^2 = 9 - 4 = 5$, puis au carré : $5^2 = 25$.\n3. Multiplication : $4 \\times 8 = 32$.\n4. Soustraction : $32 - 25 = 7$."
+          },
+          {
+            expr: '(2^4 - 6) \\times (3^3 - 5^2)',
+            ans: 20,
+            steps: "1. Première parenthèse : $2^4 - 6 = 16 - 6 = 10$.\n2. Deuxième parenthèse : $3^3 - 5^2 = 27 - 25 = 2$.\n3. Multiplication : $10 \\times 2 = 20$."
+          },
+          {
+            expr: '2 \\times (11^2 - 10^2) - 3 \\times 2^3',
+            ans: 18,
+            steps: "1. Parenthèses : $11^2 - 10^2 = 121 - 100 = 21$.\n2. Puissance isolée : $2^3 = 8$.\n3. Multiplications : $2 \\times 21 = 42$ et $3 \\times 8 = 24$.\n4. Soustraction : $42 - 24 = 18$."
+          },
+          {
+            expr: '5 \\times (2^3 + 1) - 2 \\times (3^2 + 1)',
+            ans: 25,
+            steps: "1. Parenthèses : $(2^3 + 1) = (8 + 1) = 9$ et $(3^2 + 1) = (9 + 1) = 10$.\n2. Multiplications : $5 \\times 9 = 45$ et $2 \\times 10 = 20$.\n3. Soustraction : $45 - 20 = 25$."
+          },
+          {
+            expr: '(10^2 - 6^2) \\div (2^3 - 4) + 5^2',
+            ans: 41,
+            steps: "1. Parenthèses : $10^2 - 6^2 = 100 - 36 = 64$ et $2^3 - 4 = 8 - 4 = 4$.\n2. Division prioritaire : $64 \\div 4 = 16$.\n3. Puissance : $5^2 = 25$.\n4. Addition : $16 + 25 = 41$."
+          }
+        ];
+        const item = this.randChoice(cases);
         return {
           chapterId: '5N4',
           tier: 4,
-          title: "Défi 4ème : Écriture scientifique préliminaire",
-          statement: `Écrire sous la forme d'un nombre entier en écriture décimale :\n$$S = ${coef} \\times 10^${n}$$`,
+          title: "Enchaînement complexe avec puissances et parenthèses",
+          statement: `Calculer la valeur exacte de l'expression suivante :\n$$D = ${item.expr}$$`,
           type: "exact",
-          answer: String(ans),
-          placeholder: `Ex: ${ans}`,
-          hint1: `$10^${n}$ correspond au nombre $1$ suivi de $${n}$ zéros ($${val}$).`,
-          solution: `$$S = ${coef} \\times 10^${n} = ${coef} \\times ${val} = ${ans}$$`
+          answer: String(item.ans),
+          placeholder: `Ex: ${item.ans}`,
+          hint1: "Respecte l'ordre : 1) Parenthèses, 2) Puissances, 3) Multiplications et Divisions, 4) Additions et Soustractions de gauche à droite.",
+          solution: `${item.steps}\n**Résultat final : $D = ${item.ans}$**`
         };
       }
     }
   },
 
-  // --- 5P1 : Proportionnalité 5ème (tableaux, pourcentages, échelles) ---
   generate5P1(tier = 1, mastery = 0) {
     const t = this.resolveTier(tier);
 
@@ -7053,8 +7328,8 @@ window.MathsGenerators = {
         };
       }
     } else if (t === 2) {
-      // Palier 2 : Guidé (Droites remarquables : médiatrices, hauteurs, médianes)
-      const subType = this.randChoice(['mediatrice_def', 'cercle_circonscrit', 'hauteur_def', 'mediane_def']);
+      // Palier 2 : Guidé (Droites remarquables : médiatrices, hauteurs, médianes et points de concours)
+      const subType = this.randChoice(['mediatrice_def', 'cercle_circonscrit', 'hauteur_def', 'orthocentre_def', 'mediane_def', 'centre_gravite_def']);
 
       if (subType === 'mediatrice_def') {
         return {
@@ -7110,7 +7385,25 @@ window.MathsGenerators = {
           hint1: "Une hauteur forme un angle droit ($90^\\circ$) avec le côté opposé.",
           solution: "La **hauteur** issue d'un sommet dans un triangle est la droite qui passe par ce sommet et qui est perpendiculaire à la droite portant le côté opposé."
         };
-      } else {
+      } else if (subType === 'orthocentre_def') {
+        return {
+          chapterId: '5G4',
+          tier: 2,
+          title: "Point de concours des hauteurs (5ème)",
+          statement: `Dans un triangle, les trois hauteurs sont concourantes en un point remarquable. Comment s'appelle ce point ?`,
+          type: "mcq",
+          options: [
+            "L'orthocentre du triangle",
+            "Le centre du cercle circonscrit",
+            "Le centre de gravité",
+            "Le centre du cercle inscrit"
+          ],
+          answer: "L'orthocentre du triangle",
+          correctIndex: 0,
+          hint1: "Règle du cours : le point d'intersection des 3 hauteurs s'appelle l'orthocentre.",
+          solution: "Dans un triangle, les trois hauteurs se coupent en un point unique appelé l'**orthocentre**."
+        };
+      } else if (subType === 'mediane_def') {
         return {
           chapterId: '5G4',
           tier: 2,
@@ -7127,6 +7420,24 @@ window.MathsGenerators = {
           correctIndex: 0,
           hint1: "Le mot « médiane » est relié à « milieu ».",
           solution: "Une **médiane** d'un triangle est une droite qui passe par un sommet et par le milieu du côté opposé."
+        };
+      } else {
+        return {
+          chapterId: '5G4',
+          tier: 2,
+          title: "Point de concours des médianes (5ème)",
+          statement: `Dans un triangle, les trois médianes sont concourantes en un point remarquable. Comment s'appelle ce point ?`,
+          type: "mcq",
+          options: [
+            "Le centre de gravité du triangle",
+            "L'orthocentre du triangle",
+            "Le centre du cercle circonscrit",
+            "Le centre du cercle inscrit"
+          ],
+          answer: "Le centre de gravité du triangle",
+          correctIndex: 0,
+          hint1: "Ce point remarquable d'intersection des médianes est aussi le centre d'équilibre physique de la plaque triangulaire.",
+          solution: "Dans un triangle, les trois médianes se coupent en un point unique appelé le **centre de gravité** du triangle. Propriété remarquable : une médiane partage un triangle en deux triangles d'aires égales !"
         };
       }
     } else if (t === 3) {
@@ -7211,8 +7522,8 @@ window.MathsGenerators = {
     const t = this.resolveTier(tier);
 
     if (t === 1) {
-      // Palier 1 : Socle (Aire/périmètre rectangle et carré)
-      const subType = this.randChoice(['rect_area', 'rect_perim', 'square_area', 'square_perim']);
+      // Palier 1 : Socle (Aire/périmètre rectangle/carré, volume pavé droit, faces prisme)
+      const subType = this.randChoice(['rect_area', 'rect_perim', 'square_area', 'square_perim', 'volume_pave', 'prisme_faces']);
 
       if (subType === 'rect_area') {
         const L = this.randInt(5, 11);
@@ -7258,7 +7569,7 @@ window.MathsGenerators = {
           hint1: "Formule : $\\mathcal{A} = c^2 = c \\times c$.",
           solution: `$$\\mathcal{A} = ${c} \\times ${c} = ${aire}\\text{ cm}^2$$`
         };
-      } else {
+      } else if (subType === 'square_perim') {
         const c = this.randInt(3, 12);
         const perim = 4 * c;
         return {
@@ -7272,10 +7583,40 @@ window.MathsGenerators = {
           hint1: "Formule : $\\mathcal{P} = 4 \\times c$.",
           solution: `$$\\mathcal{P} = 4 \\times ${c} = ${perim}\\text{ cm}$$`
         };
+      } else if (subType === 'volume_pave') {
+        const L = this.randInt(4, 9);
+        const l = this.randInt(2, 5);
+        const h = this.randInt(2, 6);
+        const vol = L * l * h;
+        return {
+          chapterId: '5G6',
+          tier: 1,
+          title: "Volume d'un pavé droit",
+          statement: `Calculer le volume d'un pavé droit (boîte rectangulaire) de longueur $L = ${L}\\text{ cm}$, largeur $l = ${l}\\text{ cm}$ et hauteur $h = ${h}\\text{ cm}$ (en $\\text{cm}^3$).`,
+          type: "exact",
+          answer: String(vol),
+          placeholder: `Ex: ${vol}`,
+          hint1: "La formule du volume d'un pavé droit est $V = L \\times l \\times h$.",
+          solution: `$$V = ${L} \\times ${l} \\times ${h} = ${vol}\\text{ cm}^3$$`
+        };
+      } else {
+        const sides = this.randChoice([3, 4, 5, 6]);
+        const polyName = { 3: 'triangle', 4: 'quadrilatère', 5: 'pentagone (5 côtés)', 6: 'hexagone (6 côtés)' }[sides];
+        return {
+          chapterId: '5G6',
+          tier: 1,
+          title: "Faces latérales d'un prisme droit",
+          statement: `Un prisme droit a pour base un ${polyName}.\n**Combien de faces latérales rectangulaires possède-t-il ?**`,
+          type: "exact",
+          answer: String(sides),
+          placeholder: `Ex: ${sides}`,
+          hint1: "Un prisme droit a autant de faces latérales que sa base compte de côtés.",
+          solution: `La base a ${sides} côtés, donc le prisme possède exactement **${sides}** faces latérales rectangulaires (et 2 bases identiques, soit ${sides + 2} faces au total).`
+        };
       }
     } else if (t === 2) {
-      // Palier 2 : Guidé (Aire triangle rectangle, triangle quelconque, rétro-calcul)
-      const subType = this.randChoice(['triangle_right', 'triangle_any', 'square_from_perim', 'rect_width']);
+      // Palier 2 : Guidé (Aire triangle, rétro-calcul, volume prisme droit V = B x h)
+      const subType = this.randChoice(['triangle_right', 'triangle_any', 'square_from_perim', 'rect_width', 'volume_prisme']);
 
       if (subType === 'triangle_right') {
         const a = this.randInt(4, 10);
@@ -7321,6 +7662,21 @@ window.MathsGenerators = {
           hint1: "Un carré a 4 côtés de même longueur : $c = \\frac{\\mathcal{P}}{4}$.",
           solution: `$$c = \\frac{${perim}}{4} = ${c}\\text{ cm}$$`
         };
+      } else if (subType === 'volume_prisme') {
+        const B = this.randInt(12, 35);
+        const h = this.randInt(4, 12);
+        const vol = B * h;
+        return {
+          chapterId: '5G6',
+          tier: 2,
+          title: "Volume d'un prisme droit : V = B × h",
+          statement: `Un prisme droit a une base d'aire $\\mathcal{B} = ${B}\\text{ cm}^2$ et une hauteur $h = ${h}\\text{ cm}$.\n**Calculer le volume de ce prisme droit en $\\text{cm}^3$ :**`,
+          type: "exact",
+          answer: String(vol),
+          placeholder: `Ex: ${vol}`,
+          hint1: "Formule générale du prisme droit : $V = \\text{Aire de la base} \\times \\text{hauteur} = \\mathcal{B} \\times h$.",
+          solution: `$$V = \\mathcal{B} \\times h = ${B} \\times ${h} = ${vol}\\text{ cm}^3$$`
+        };
       } else {
         const l = this.randInt(3, 6);
         const L = this.randInt(7, 12);
@@ -7338,8 +7694,8 @@ window.MathsGenerators = {
         };
       }
     } else if (t === 3) {
-      // Palier 3 : Brevet / 5e (Aire d'un disque pi*R^2 ou Périmètre 2*pi*R)
-      const subType = this.randChoice(['disk_area', 'circle_perim_r', 'circle_perim_d']);
+      // Palier 3 : Brevet / 5e (Disque/Cercle, Volume cylindre, Conversions dm³ et Litres)
+      const subType = this.randChoice(['disk_area', 'circle_perim_r', 'circle_perim_d', 'volume_cylindre', 'conversion_volume']);
 
       if (subType === 'disk_area') {
         const r = this.randInt(3, 9);
@@ -7369,6 +7725,51 @@ window.MathsGenerators = {
           hint1: "Formule : $\\mathcal{P} = 2 \\times \\pi \\times R = (2 \\times R)\\pi$.",
           solution: `$$\\mathcal{P} = 2 \\times \\pi \\times ${r} = ${coeff}\\pi\\text{ cm}$$`
         };
+      } else if (subType === 'volume_cylindre') {
+        const r = this.randInt(2, 6);
+        const h = this.randInt(3, 10);
+        const coeff = r * r * h;
+        return {
+          chapterId: '5G6',
+          tier: 3,
+          title: "Volume exact d'un cylindre de révolution",
+          statement: `Calculer le volume exact d'un cylindre de révolution de rayon $R = ${r}\\text{ cm}$ et de hauteur $h = ${h}\\text{ cm}$.\nDonner la réponse sous la forme $k\\pi\\text{ cm}^3$ (saisir uniquement le nombre $k$).`,
+          type: "exact",
+          answer: String(coeff),
+          placeholder: `Ex: ${coeff}`,
+          hint1: "Formule : $V = \\pi \\times R^2 \\times h$. Calcule $R^2 \\times h$.",
+          solution: `$$V = \\pi \\times ${r}^2 \\times ${h} = \\pi \\times ${r * r} \\times ${h} = ${coeff}\\pi\\text{ cm}^3$$`
+        };
+      } else if (subType === 'conversion_volume') {
+        const isLitreToDm3 = Math.random() < 0.5;
+        if (isLitreToDm3) {
+          const val = this.randChoice([3, 7, 12, 25, 50, 120]);
+          return {
+            chapterId: '5G6',
+            tier: 3,
+            title: "Conversion de volume : dm³ et Litres",
+            statement: `Combien de litres ($\\text{L}$) contient un volume de $${val}\\text{ dm}^3$ ?`,
+            type: "exact",
+            answer: String(val),
+            placeholder: `Ex: ${val}`,
+            hint1: "Rappel fondamental : $1\\text{ dm}^3 = 1\\text{ L}$.",
+            solution: `Comme $1\\text{ dm}^3 = 1\\text{ L}$, alors $${val}\\text{ dm}^3 = ${val}\\text{ L}$.`
+          };
+        } else {
+          const m3 = this.randInt(2, 8);
+          const ans = m3 * 1000;
+          return {
+            chapterId: '5G6',
+            tier: 3,
+            title: "Conversion de volume : m³ en Litres",
+            statement: `Un réservoir a une contenance de $${m3}\\text{ m}^3$.\n**Combien de litres ($\\text{L}$) cela représente-t-il ?**`,
+            type: "exact",
+            answer: String(ans),
+            placeholder: `Ex: ${ans}`,
+            hint1: "Rappel : $1\\text{ m}^3 = 1000\\text{ dm}^3 = 1000\\text{ L}$.",
+            solution: `$$${m3}\\text{ m}^3 = ${m3} \\times 1000\\text{ L} = ${ans}\\text{ L}$$`
+          };
+        }
       } else {
         const d = this.randInt(4, 14);
         return {

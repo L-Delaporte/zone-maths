@@ -15,8 +15,8 @@ window.MATHS_COURSES_5E = {
     ],
     "keyPoints": [
       {
-        "title": "1. Priorités opératoires",
-        "content": "• Dans une expression sans parenthèses, **la multiplication et la division sont prioritaires** sur l'addition et la soustraction.\n• Dans une expression avec parenthèses, on effectue **d'abord les calculs entre parenthèses**, en commençant par les plus intérieures.\n• Pour des opérations de même priorité consécutives (+ et -, ou × et ÷), on calcule **de gauche à droite**."
+        "title": "1. Priorités opératoires et règle du nom d'un calcul",
+        "content": "• Dans une expression sans parenthèses, **la multiplication et la division sont prioritaires** sur l'addition et la soustraction.\n• Dans une expression avec parenthèses, on effectue **d'abord les calculs entre parenthèses**, en commençant par les plus intérieures.\n• Pour des opérations de même priorité consécutives (+ et -, ou × et ÷), on calcule **de gauche à droite**.\n• **Vocabulaire clé** : On nomme toujours un calcul par **l'opération effectuée en dernier**. Par exemple, $50 - 80 \\div 2$ est une **différence** (car la division $80 \\div 2$ est prioritaire, la soustraction est faite en dernier)."
       },
       {
         "title": "2. Distributivité simple",
@@ -48,32 +48,40 @@ window.MATHS_COURSES_5E = {
         "a": "La multiplication $3 \\times 4 = 12$, donc le résultat est $7 + 12 = 19$."
       },
       {
+        "q": "Comment nomme-t-on l'expression $50 - 80 \\div 2$ (somme, différence, produit ou quotient) ?",
+        "a": "Une différence, car on nomme toujours un calcul par l'opération effectuée en dernier (la division est prioritaire, on soustrait en dernier)."
+      },
+      {
+        "q": "Comment s'appelle le résultat d'une multiplication ? Et d'une division ?",
+        "a": "Le résultat d'une multiplication est un **produit**. Le résultat d'une division est un **quotient**."
+      },
+      {
         "q": "Comment reconnaître si 471 est divisible par 3 ?",
         "a": "On calcule la somme des chiffres : $4 + 7 + 1 = 12$. Comme 12 est un multiple de 3, 471 est divisible par 3."
       }
     ]
   },
   "5N2": {
-    "title": "5N2 : Nombres relatifs : découverte et opérations",
+    "title": "5N2 : Nombres relatifs : repérage, comparaison et calculs",
     "domain": "Nombres et Calculs",
     "objectives": [
-      "Définir les nombres relatifs (positifs, négatifs, opposés, distance à zéro).",
-      "Lire et placer des abscisses sur une droite graduée.",
+      "Définir les nombres relatifs (positifs, négatifs, opposés, distance à zéro / valeur absolue).",
+      "Lire et placer des abscisses sur une droite graduée et repérer des points dans le plan.",
       "Comparer et ranger des nombres décimaux relatifs.",
-      "Additionner et soustraire deux nombres relatifs."
+      "Additionner et soustraire deux nombres relatifs avec ou sans parenthèses."
     ],
     "keyPoints": [
       {
-        "title": "1. Définition et comparaison",
-        "content": "Un nombre relatif est formé d'un **signe** (+ ou -) et d'une **distance à zéro** (valeur absolue).\n• Entre deux nombres négatifs, le plus grand est celui qui a la **plus petite distance à zéro** (le plus proche de zéro) : $-3 > -7$ car $3 < 7$."
+        "title": "1. Définition, repérage et comparaison",
+        "content": "• Un nombre positif est $\\ge 0$ ; un nombre négatif est $\\le 0$.\n• **Cas particulier** : $0$ est le seul nombre à la fois positif ET négatif !\n• Deux nombres sont **opposés** s'ils ont des signes contraires et la même distance à zéro (leur somme vaut 0 : $(-5) + (+5) = 0$).\n• **Comparaison** : Tout nombre positif est supérieur à tout nombre négatif. Entre deux nombres négatifs, le plus grand est celui qui a la **plus petite distance à zéro** (le plus proche de zéro : $-3 > -7$ car $3 < 7$)."
       },
       {
-        "title": "2. Addition de relatifs",
-        "content": "• **Même signe** : on garde le signe commun et on additionne les distances à zéro :\n$$(+3) + (+5) = +8 \\quad \\text{et} \\quad (-4) + (-6) = -10$$\n• **Signes contraires** : on prend le signe de celui qui a la plus grande distance à zéro et on soustrait les distances :\n$$(-9) + (+4) = -5 \\quad \\text{car } 9 > 4$$"
+        "title": "2. Calcul sans parenthèse (Gains et Pertes)",
+        "content": "Effectuer un calcul sans parenthèse revient à faire le bilan d'un jeu d'argent :\n• $-12 + 6$ : je perds 12€ et je gagne 6€. J'ai plus perdu que gagné, le résultat est négatif : $-6$.\n• Pour savoir si le résultat est positif ou négatif, on se demande si l'on a plus gagné ou plus perdu."
       },
       {
-        "title": "3. Soustraction de relatifs",
-        "content": "**Règle d'or** : Soustraire un nombre relatif revient à **ajouter son opposé** :\n$$a - b = a + (-b)$$\nExemples :\n$$5 - (-3) = 5 + 3 = 8 \\quad \\text{et} \\quad -4 - (+7) = -4 + (-7) = -11$$"
+        "title": "3. Calcul avec parenthèses et règles des signes",
+        "content": "Quand deux signes se suivent, on applique les règles :\n• $+ (+a) = +a$ (l'ami de mon ami est mon ami)\n• $+ (-a) = -a$ (l'ami de mon ennemi est mon ennemi)\n• $- (+a) = -a$ (l'ennemi de mon ami est mon ennemi)\n• $- (-a) = +a$ (l'ennemi de mon ennemi est mon ami)\n**Règle d'or** : Soustraire un nombre relatif revient à **ajouter son opposé** : $a - (-b) = a + b$."
       }
     ],
     "methods": [
@@ -83,7 +91,7 @@ window.MATHS_COURSES_5E = {
         "steps": [
           "**Étape 1** : On transforme la soustraction en addition de l'opposé : $-(-12)$ devient $+12$.",
           "**Étape 2** : L'expression devient $B = -8 + 12$.",
-          "**Étape 3** : Les signes sont contraires, $12 > 8$, donc le résultat est positif : $B = +(12 - 8) = 4$."
+          "**Étape 3** : Gain de 12 et perte de 8 : on a plus gagné que perdu, donc $B = +(12 - 8) = 4$."
         ]
       }
     ],
@@ -93,12 +101,20 @@ window.MATHS_COURSES_5E = {
     ],
     "flashcards": [
       {
+        "q": "Quel nombre est à la fois positif ET négatif ?",
+        "a": "Le nombre **0** est le seul nombre à la fois positif et négatif."
+      },
+      {
         "q": "Quel est le résultat de $(-5) + (-7)$ ?",
-        "a": "$-12$ (même signe négatif, on additionne $5 + 7 = 12$)."
+        "a": "$-12$ (perte de 5 et perte de 7, le bilan est une perte de $5 + 7 = 12$)."
       },
       {
         "q": "Comment calculer $3 - (-8)$ ?",
-        "a": "On ajoute l'opposé : $3 + 8 = 11$."
+        "a": "On ajoute l'opposé : $3 + 8 = 11$ (l'ennemi de mon ennemi est mon ami : $-(-8) = +8$)."
+      },
+      {
+        "q": "Entre $-9$ et $-4$, quel est le plus grand nombre ?",
+        "a": "$-4$, car entre deux négatifs, le plus grand est celui qui a la plus petite distance à zéro (le plus proche de 0)."
       }
     ]
   },
@@ -148,6 +164,18 @@ window.MATHS_COURSES_5E = {
       {
         "q": "Simplifier la fraction $\\frac{20}{25}$.",
         "a": "On divise par 5 : $\\frac{20 \\div 5}{25 \\div 5} = \\frac{4}{5}$."
+      },
+      {
+        "q": "Comment additionne-t-on deux fractions ayant le même dénominateur ?",
+        "a": "On additionne les numérateurs et on **garde le dénominateur commun** : $$\\frac{a}{d} + \\frac{b}{d} = \\frac{a+b}{d}$$"
+      },
+      {
+        "q": "Pourquoi la fraction $\\frac{8}{12}$ est-elle égale à $\\frac{2}{3}$ ?",
+        "a": "Parce qu'on divise le numérateur et le dénominateur par un même nombre ($4$) : $$\\frac{8 \\div 4}{12 \\div 4} = \\frac{2}{3}$$"
+      },
+      {
+        "q": "Entre $\\frac{5}{9}$ et $\\frac{7}{9}$, quelle fraction est la plus grande ?",
+        "a": "$\\frac{7}{9}$, car deux fractions ayant le même dénominateur positif sont rangées dans l'ordre de leurs numérateurs ($7 > 5$)."
       }
     ]
   },
@@ -167,6 +195,10 @@ window.MATHS_COURSES_5E = {
       {
         "title": "2. Repère orthogonal du plan",
         "content": "Dans un repère orthogonal, la position d'un point $M$ est donnée par un couple de nombres noté $M(x ; y)$ :\n• $x$ est l'**abscisse** (axe horizontal, orienté de gauche à droite).\n• $y$ est l'**ordonnée** (axe vertical, orienté de bas en haut).\nAstuce mnémotechnique : Ordre alphabétique ($x$ puis $y$)."
+      },
+      {
+        "title": "3. Milieu d'un segment dans un repère",
+        "content": "• Sur une droite graduée, l'abscisse du milieu $M$ de $[AB]$ est la demi-somme des abscisses :\n$$x_M = \\frac{x_A + x_B}{2}$$\n• Dans le repère du plan, les coordonnées du milieu $M$ de $[AB]$ sont :\n$$M\\left(\\frac{x_A + x_B}{2} ; \\frac{y_A + y_B}{2}\\right)$$"
       }
     ],
     "methods": [
@@ -187,6 +219,22 @@ window.MATHS_COURSES_5E = {
       {
         "q": "Quelles sont les coordonnées de l'origine d'un repère ?",
         "a": "$O(0 ; 0)$ : abscisse 0 et ordonnée 0."
+      },
+      {
+        "q": "Dans les coordonnées d'un point $M(3 ; -4)$, quel nombre est l'abscisse ?",
+        "a": "$3$ est l'**abscisse** (lu sur l'axe horizontal) et $-4$ est l'**ordonnée** (lu sur l'axe vertical)."
+      },
+      {
+        "q": "Quelles sont les coordonnées de l'origine d'un repère orthogonal ?",
+        "a": "Le point origine $O$ a pour coordonnées **$(0 ; 0)$**."
+      },
+      {
+        "q": "Sur une droite graduée, où se situent les nombres négatifs par rapport à zéro ?",
+        "a": "À **gauche** de l'origine 0 (ou vers le bas si la graduation est verticale)."
+      },
+      {
+        "q": "Que peut-on dire de l'abscisse du milieu $M$ d'un segment $[AB]$ ?",
+        "a": "L'abscisse de $M$ est la **moyenne** des abscisses de $A$ et $B$ : $$x_M = \\frac{x_A + x_B}{2}$$"
       }
     ]
   },
@@ -206,6 +254,10 @@ window.MATHS_COURSES_5E = {
       {
         "title": "2. Propriétés de conservation",
         "content": "La symétrie centrale conserve :\n• Les longueurs : $A'B' = AB$.\n• Les mesures d'angles : $\\widehat{A'B'C'} = \\widehat{ABC}$.\n• Le parallélisme : l'image d'une droite $(d)$ est une droite $(d')$ **parallèle** à $(d)$.\n• Les aires et les périmètres."
+      },
+      {
+        "title": "3. Propriétés de conservation de la symétrie centrale",
+        "content": "La symétrie centrale conserve toutes les propriétés géométriques :\n• Les longueurs ($A'B' = AB$) et le parallélisme ($(A'B') // (AB)$).\n• Les mesures d'angles : l'image d'un angle de $45^\\circ$ est un angle de $45^\\circ$.\n• Les aires et périmètres : la figure symétrique est superposable à la figure initiale par demi-tour."
       }
     ],
     "methods": [
@@ -226,6 +278,22 @@ window.MATHS_COURSES_5E = {
       {
         "q": "Si $A'$ est le symétrique de $A$ par rapport à $O$, que vaut la distance $OA'$ ?",
         "a": "$OA' = OA$ car $O$ est le milieu de $[AA']$."
+      },
+      {
+        "q": "Quel rôle joue le centre de symétrie $O$ pour tout point $M$ et son symétrique $M'$ ?",
+        "a": "Le point $O$ est le **milieu du segment $[MM']$**."
+      },
+      {
+        "q": "Quelle est l'image d'un angle de 50° par symétrie centrale ?",
+        "a": "Un angle de **50°** (la symétrie centrale conserve la mesure des angles)."
+      },
+      {
+        "q": "Quelle est l'image d'une droite $(d)$ par une symétrie centrale ?",
+        "a": "Une droite $(d')$ qui est **parallèle** à $(d)$."
+      },
+      {
+        "q": "À quel demi-tour correspond exactement une symétrie centrale ?",
+        "a": "À une rotation d'un demi-tour complet de **180°**."
       }
     ]
   },
@@ -245,6 +313,10 @@ window.MATHS_COURSES_5E = {
       {
         "title": "2. Somme des angles d'un triangle",
         "content": "Dans n'importe quel triangle $ABC$ :\n$$\\widehat{A} + \\widehat{B} + \\widehat{C} = 180^\\circ$$\n• Dans un triangle rectangle, la somme des deux angles aigus vaut $90^\\circ$.\n• Dans un triangle équilatéral, chaque angle mesure $180 \\div 3 = 60^\\circ$."
+      },
+      {
+        "title": "3. Angles des triangles particuliers",
+        "content": "• **Triangle isocèle** : les deux angles à la base ont **la même mesure**.\n• **Triangle équilatéral** : les 3 angles sont égaux et mesurent chacun **$60^\\circ$** ($180^\\circ \\div 3 = 60^\\circ$).\n• **Triangle rectangle** : les deux angles aigus sont **complémentaires** (leur somme vaut $90^\\circ$)."
       }
     ],
     "methods": [
@@ -265,6 +337,22 @@ window.MATHS_COURSES_5E = {
       {
         "q": "Quelle est la somme des 3 angles d'un triangle ?",
         "a": "$180^\\circ$."
+      },
+      {
+        "q": "Que vaut la somme des mesures des trois angles d'un triangle ?",
+        "a": "La somme des angles d'un triangle est **toujours égale à 180°**."
+      },
+      {
+        "q": "Que peut-on dire de deux angles alternes-internes formés par deux droites parallèles coupées par une sécante ?",
+        "a": "Ils ont **la même mesure**."
+      },
+      {
+        "q": "Dans un triangle isocèle en A, l'angle au sommet mesure 40°. Que valent les deux autres angles ?",
+        "a": "$$180 - 40 = 140 \\quad \\implies \\quad 140 \\div 2 = 70^\\circ \\text{ chacun}$$"
+      },
+      {
+        "q": "Que valent les angles d'un triangle équilatéral ?",
+        "a": "Chaque angle mesure exactement **60°** ($180^\\circ \\div 3 = 60^\\circ$)."
       }
     ]
   },
@@ -285,6 +373,10 @@ window.MATHS_COURSES_5E = {
       {
         "title": "2. Pourcentages",
         "content": "Prendre $p\\%$ d'une quantité $Q$, c'est multiplier $Q$ par $\\frac{p}{100}$.\n• 50% revient à diviser par 2.\n• 25% revient à diviser par 4.\n• 10% revient à diviser par 10."
+      },
+      {
+        "title": "3. Échelles sur une carte ou un plan",
+        "content": "L'**échelle** d'une carte est le coefficient de proportionnalité exprimé avec la **même unité** :\n$$\\text{Échelle} = \\frac{\\text{Longueur sur le plan}}{\\text{Longueur réelle}}$$\n*Exemple* : Une échelle de $\\frac{1}{200}$ signifie que $1\\text{ cm}$ sur le plan représente $200\\text{ cm} = 2\\text{ m}$ dans la réalité."
       }
     ],
     "methods": [
@@ -308,431 +400,556 @@ window.MATHS_COURSES_5E = {
       {
         "q": "Calculer 25% de 80 €.",
         "a": "Prendre 25% c'est diviser par 4 : $80 \\div 4 = 20$ €."
+      },
+      {
+        "q": "Comment calcule-t-on 20 % d'une somme de 60 € ?",
+        "a": "$$\\frac{20}{100} \\times 60 = 0,20 \\times 60 = 12 \\text{ €}$$"
+      },
+      {
+        "q": "Comment reconnaît-on graphiquement une situation de proportionnalité ?",
+        "a": "Les points sont **alignés avec l'origine du repère** $(0 ; 0)$ sur une même droite."
+      },
+      {
+        "q": "Que signifie une échelle 1 / 200 sur un plan d'architecte ?",
+        "a": "1 cm sur le plan représente **200 cm (soit 2 m)** dans la réalité."
       }
     ]
   },
   "5N4": {
-  "title": "5N4 : Puissances simples et carrés",
-  "domain": "Nombres et Calculs",
-  "objectives": [
-    "Connaître et utiliser la notation puissance (carré $a^2$, cube $a^3$).",
-    "Calculer des puissances de 10 d'exposant positif ($10^n$).",
-    "Appliquer les règles de priorité relatives aux puissances."
-  ],
-  "keyPoints": [
-    {
-      "title": "1. Le carré et le cube d'un nombre",
-      "content": "• Le carré de $a$ est le produit de $a$ par lui-même : $a^2 = a \\times a$.\n• Le cube de $a$ est le produit de trois facteurs égaux à $a$ : $a^3 = a \\times a \\times a$.\nExemples : $7^2 = 7 \\times 7 = 49$ et $2^3 = 2 \\times 2 \\times 2 = 8$."
-    },
-    {
-      "title": "2. Puissances de 10",
-      "content": "Pour tout entier $n \\ge 1$, $10^n$ s'écrit avec un 1 suivi de $n$ zéros :\n$$10^1 = 10, \\quad 10^2 = 100, \\quad 10^3 = 1000, \\quad 10^6 = 1\\,000\\,000$$\nPar convention : $10^0 = 1$ et pour tout nombre non nul, $a^0 = 1$."
-    },
-    {
-      "title": "3. Priorité des puissances",
-      "content": "Dans une chaîne de calculs, **les puissances sont prioritaires** sur la multiplication, la division, l'addition et la soustraction :\n$$3 \\times 2^3 = 3 \\times 8 = 24 \\quad (\\text{et non } 6^3 = 216)$$"
-    }
-  ],
-  "methods": [
-    {
-      "title": "Méthode : Calculer avec des puissances",
-      "example": "Calculer $A = 5 + 2 \\times 3^2$.",
-      "steps": [
-        "**Étape 1 (Puissance)** : On calcule en priorité la puissance : $3^2 = 9$.",
-        "**Étape 2 (Multiplication)** : On effectue la multiplication : $2 \\times 9 = 18$.",
-        "**Étape 3 (Addition)** : On additionne : $A = 5 + 18 = 23$."
-      ]
-    }
-  ],
-  "traps": [
-    "⚠️ Ne pas confondre $3^2$ et $3 \\times 2$ ! $3^2 = 9$ alors que $3 \\times 2 = 6$.",
-    "⚠️ Attention au signe : $(-4)^2 = (-4) \\times (-4) = 16$ alors que $-4^2 = -(4 \\times 4) = -16$."
-  ],
-  "flashcards": [
-    {
-      "q": "Que vaut $5^3$ ?",
-      "a": "$5 \\times 5 \\times 5 = 125$."
-    },
-    {
-      "q": "Combien de zéros compte le nombre $10^5$ ?",
-      "a": "5 zéros, soit $100\\,000$."
-    }
-  ]
-},
+    "title": "5N4 : Puissances (carrés de 1 à 12, puissances de 2 et 3)",
+    "domain": "Nombres et Calculs",
+    "objectives": [
+      "Connaître de tête par cœur les carrés des nombres entiers de 1 à 12.",
+      "Définir et calculer les puissances de 2 et de 3 ($2^n$ et $3^n$).",
+      "Écrire un produit ou un nombre sous la forme d'une puissance.",
+      "Calculer des expressions numériques comportant des puissances de 2 ou de 3."
+    ],
+    "keyPoints": [
+      {
+        "title": "1. Les 12 carrés à connaître par cœur (de 1 à 12)",
+        "content": "Le carré d'un nombre $a$ est $a^2 = a \\times a$.\n$$\\begin{array}{rclrcl} 1^2 &=& 1 & 7^2 &=& 49 \\\\ 2^2 &=& 4 & 8^2 &=& 64 \\\\ 3^2 &=& 9 & 9^2 &=& 81 \\\\ 4^2 &=& 16 & 10^2 &=& 100 \\\\ 5^2 &=& 25 & 11^2 &=& 121 \\\\ 6^2 &=& 36 & 12^2 &=& 144 \\end{array}$$"
+      },
+      {
+        "title": "2. Puissances de 2 et puissances de 3",
+        "content": "• **Puissances de 2** :\n$$2^1 = 2, \\quad 2^2 = 4, \\quad 2^3 = 8, \\quad 2^4 = 16, \\quad 2^5 = 32$$\n• **Puissances de 3** :\n$$3^1 = 3, \\quad 3^2 = 9, \\quad 3^3 = 27, \\quad 3^4 = 81$$\nPar convention : pour tout nombre non nul, $a^0 = 1$ (donc $2^0 = 1$ et $3^0 = 1$)."
+      },
+      {
+        "title": "3. Priorité des puissances dans un calcul",
+        "content": "Dans une chaîne de calculs, **les puissances sont prioritaires** sur la multiplication, la division, l'addition et la soustraction :\n$$5 + 2 \\times 3^2 = 5 + 2 \\times 9 = 5 + 18 = 23$$\n$$4 \\times 2^3 = 4 \\times 8 = 32 \\quad (\\text{et non } (4 \\times 2)^3 = 8^3)$$"
+      }
+    ],
+    "methods": [
+      {
+        "title": "Méthode : Écrire sous forme de puissance puis calculer",
+        "example": "Calculer $A = 10 - 2^3$ et $B = 3 \\times 2^2 + 4^2$.",
+        "steps": [
+          "**Pour $A$** : On calcule la puissance en premier : $2^3 = 2 \\times 2 \\times 2 = 8$. Donc $A = 10 - 8 = 2$.",
+          "**Pour $B$** : On calcule les puissances d'abord : $2^2 = 4$ et $4^2 = 16$.",
+          "On effectue ensuite la multiplication : $3 \\times 4 = 12$.",
+          "On termine par l'addition : $B = 12 + 16 = 28$."
+        ]
+      }
+    ],
+    "traps": [
+      "⚠️ Ne pas confondre $2^3$ et $2 \\times 3$ ! $2^3 = 2 \\times 2 \\times 2 = 8$, alors que $2 \\times 3 = 6$.",
+      "⚠️ De même, $3^2 = 3 \\times 3 = 9$ (et non 6) !"
+    ],
+    "flashcards": [
+      {
+        "q": "Combien vaut $12^2$ de tête ?",
+        "a": "$12 \\times 12 = 144$."
+      },
+      {
+        "q": "Que vaut $2^4$ ?",
+        "a": "$2 \\times 2 \\times 2 \\times 2 = 16$."
+      },
+      {
+        "q": "Combien vaut $3^3$ ?",
+        "a": "$3 \\times 3 \\times 3 = 27$."
+      },
+      {
+        "q": "Dans $4 + 3 \\times 2^3$, quelle opération effectue-t-on en premier ?",
+        "a": "La puissance $2^3 = 8$, puis la multiplication $3 \\times 8 = 24$, enfin l'addition : $4 + 24 = 28$."
+      }
+    ]
+  },
   "5N5": {
-  "title": "5N5 : Calcul littéral et initiation aux équations",
-  "domain": "Nombres et Calculs",
-  "objectives": [
-    "Simplifier les écritures littérales en omettant le signe $\\times$.",
-    "Substituer un nombre à une lettre pour calculer la valeur d'une expression.",
-    "Tester si une égalité est vraie pour des valeurs numériques données.",
-    "Résoudre des équations simples du type $x + a = b$ et $a \\times x = b$."
-  ],
-  "keyPoints": [
-    {
-      "title": "1. Conventions d'écriture littérale",
-      "content": "On peut supprimer le signe $\\times$ devant une lettre ou une parenthèse :\n• $3 \\times x = 3x$\n• $1 \\times x = x$\n• $x \\times x = x^2$\n• $4 \\times (a + 2) = 4(a + 2)$"
-    },
-    {
-      "title": "2. Substitution numérique",
-      "content": "Pour calculer la valeur d'une expression littérale pour une valeur donnée, on remplace la lettre par ce nombre en rétablissant les signes $\\times$ sous-entendus.\nExemple pour $x = 4$ dans $A = 3x^2 - 5$ :\n$$A = 3 \\times 4^2 - 5 = 3 \\times 16 - 5 = 48 - 5 = 43$$"
-    },
-    {
-      "title": "3. Tester une égalité",
-      "content": "Une égalité est vraie pour une valeur si les deux membres calculés séparément donnent le même résultat."
-    }
-  ],
-  "methods": [
-    {
-      "title": "Méthode : Tester si un nombre est solution d'une équation",
-      "example": "Le nombre 3 est-il solution de l'équation $2x + 5 = 11$ ?",
-      "steps": [
-        "**Membre de gauche** : Pour $x = 3$, $2 \\times 3 + 5 = 6 + 5 = 11$.",
-        "**Membre de droite** : $11$.",
-        "**Conclusion** : Les deux membres sont égaux, donc 3 est bien solution de l'équation."
-      ]
-    }
-  ],
-  "traps": [
-    "⚠️ Attention lors du remplacement : si $x = 3$, $2x$ ne vaut pas $23$, mais bien $2 \\times 3 = 6$ !",
-    "⚠️ On ne peut pas additionner des termes de nature différente : $3x + 5 \\neq 8x$."
-  ],
-  "flashcards": [
-    {
-      "q": "Comment simplifier l'écriture $x \\times 5$ ?",
-      "a": "On écrit $5x$ (le coefficient numérique se place devant la lettre)."
-    },
-    {
-      "q": "Que vaut $2x + 3$ pour $x = 4$ ?",
-      "a": "$2 \\times 4 + 3 = 8 + 3 = 11$."
-    }
-  ]
-},
+    "title": "5N5 : Calcul littéral et initiation aux équations",
+    "domain": "Nombres et Calculs",
+    "objectives": [
+      "Simplifier les écritures littérales en omettant le signe $\\times$.",
+      "Substituer un nombre à une lettre pour calculer la valeur d'une expression.",
+      "Tester si une égalité est vraie pour des valeurs numériques données.",
+      "Résoudre des équations simples du type $x + a = b$ et $a \\times x = b$."
+    ],
+    "keyPoints": [
+      {
+        "title": "1. Conventions d'écriture littérale",
+        "content": "On peut supprimer le signe $\\times$ devant une lettre ou une parenthèse :\n• $3 \\times x = 3x$\n• $1 \\times x = x$\n• $x \\times x = x^2$\n• $4 \\times (a + 2) = 4(a + 2)$"
+      },
+      {
+        "title": "2. Substitution numérique",
+        "content": "Pour calculer la valeur d'une expression littérale pour une valeur donnée, on remplace la lettre par ce nombre en rétablissant les signes $\\times$ sous-entendus.\nExemple pour $x = 4$ dans $A = 3x^2 - 5$ :\n$$A = 3 \\times 4^2 - 5 = 3 \\times 16 - 5 = 48 - 5 = 43$$"
+      },
+      {
+        "title": "3. Tester une égalité",
+        "content": "Une égalité est vraie pour une valeur si les deux membres calculés séparément donnent le même résultat."
+      }
+    ],
+    "methods": [
+      {
+        "title": "Méthode : Tester si un nombre est solution d'une équation",
+        "example": "Le nombre 3 est-il solution de l'équation $2x + 5 = 11$ ?",
+        "steps": [
+          "**Membre de gauche** : Pour $x = 3$, $2 \\times 3 + 5 = 6 + 5 = 11$.",
+          "**Membre de droite** : $11$.",
+          "**Conclusion** : Les deux membres sont égaux, donc 3 est bien solution de l'équation."
+        ]
+      }
+    ],
+    "traps": [
+      "⚠️ Attention lors du remplacement : si $x = 3$, $2x$ ne vaut pas $23$, mais bien $2 \\times 3 = 6$ !",
+      "⚠️ On ne peut pas additionner des termes de nature différente : $3x + 5 \\neq 8x$."
+    ],
+    "flashcards": [
+      {
+        "q": "Comment simplifier l'écriture $x \\times 5$ ?",
+        "a": "On écrit $5x$ (le coefficient numérique se place devant la lettre)."
+      },
+      {
+        "q": "Que vaut $2x + 3$ pour $x = 4$ ?",
+        "a": "$2 \\times 4 + 3 = 8 + 3 = 11$."
+      },
+      {
+        "q": "Comment simplifie-t-on l'écriture $3 \\times x + 5 \\times y$ ?",
+        "a": "$$3x + 5y$$\n*(On omet le signe $\\times$ devant les lettres)*."
+      },
+      {
+        "q": "Développer l'expression $4(x + 7)$.",
+        "a": "$$4 \\times x + 4 \\times 7 = 4x + 28$$"
+      },
+      {
+        "q": "Que signifie tester si $x = 3$ vérifie l'égalité $2x + 1 = 7$ ?",
+        "a": "On remplace $x$ par 3 : $2 \\times 3 + 1 = 6 + 1 = 7$. Les deux membres sont égaux, donc l'égalité est vraie pour $x = 3$."
+      }
+    ]
+  },
   "5G4": {
-  "title": "5G4 : Triangles : constructions, droites remarquables et aire",
-  "domain": "Espace et Géométrie",
-  "objectives": [
-    "Vérifier l'inégalité triangulaire pour savoir si un triangle est constructible.",
-    "Construire un triangle connaissant les longueurs de ses côtés ou ses angles.",
-    "Tracer les médiatrices (cercle circonscrit) et les hauteurs d'un triangle.",
-    "Calculer l'aire d'un triangle : $\\text{Aire} = \\frac{\\text{base} \\times \\text{hauteur}}{2}$."
-  ],
-  "keyPoints": [
-    {
-      "title": "1. Inégalité triangulaire",
-      "content": "Dans un triangle, la longueur de chaque côté est **strictement inférieure à la somme** des deux autres. Pour vérifier la constructibilité, il suffit de tester si le plus grand côté est inférieur à la somme des deux plus petits."
-    },
-    {
-      "title": "2. Droites remarquables",
-      "content": "• **Médiatrice** : droite perpendiculaire à un segment passant par son milieu. Les 3 médiatrices d'un triangle sont concourantes au **centre du cercle circonscrit**.\n• **Hauteur** : droite passant par un sommet et perpendiculaire au côté opposé. Les 3 hauteurs sont concourantes à l'orthocentre."
-    },
-    {
-      "title": "3. Aire d'un triangle",
-      "content": "$$\\text{Aire} = \\frac{b \\times h}{2}$$\noù $h$ est la hauteur relative à la base $b$."
-    }
-  ],
-  "methods": [
-    {
-      "title": "Méthode : Calculer l'aire d'un triangle",
-      "example": "Calculer l'aire d'un triangle dont une base mesure $8\\text{ cm}$ et la hauteur correspondante $5\\text{ cm}$.",
-      "steps": [
-        "**Formule** : $\\text{Aire} = \\frac{b \\times h}{2}$.",
-        "**Calcul** : $\\text{Aire} = \\frac{8 \\times 5}{2} = \\frac{40}{2} = 20\\text{ cm}^2$."
-      ]
-    }
-  ],
-  "traps": [
-    "⚠️ Ne pas oublier de diviser par 2 dans le calcul de l'aire du triangle !",
-    "⚠️ Si le plus grand côté est égal à la somme des deux autres, les points sont alignés et le triangle est plat."
-  ],
-  "flashcards": [
-    {
-      "q": "Un triangle de côtés 3 cm, 4 cm et 8 cm est-il constructible ?",
-      "a": "Non, car $3 + 4 = 7 < 8$ (le plus grand côté est trop long)."
-    },
-    {
-      "q": "Quelle est la formule de l'aire d'un triangle ?",
-      "a": "$\\text{Aire} = \\frac{\\text{base} \\times \\text{hauteur}}{2}$."
-    }
-  ]
-},
+    "title": "5G4 : Triangles : constructions, droites remarquables et aires",
+    "domain": "Espace et Géométrie",
+    "objectives": [
+      "Vérifier l'inégalité triangulaire pour savoir si un triangle est constructible (et cas du triangle plat / points alignés).",
+      "Construire un triangle connaissant longueurs ou angles (règle, compas, rapporteur).",
+      "Définir et tracer les médiatrices, hauteurs et médianes d'un triangle.",
+      "Connaître les points de concours : orthocentre, centre de gravité, centre du cercle circonscrit.",
+      "Calculer le périmètre et l'aire d'un triangle : $\\text{Aire} = \\frac{\\text{base} \\times \\text{hauteur}}{2}$."
+    ],
+    "keyPoints": [
+      {
+        "title": "1. Inégalité triangulaire et constructibilité",
+        "content": "• Dans un triangle, la longueur du plus grand côté doit être **strictement inférieure à la somme des deux autres**.\n• Si $AB + BC = AC$, alors les points $A, B, C$ sont alignés et $B \\in [AC]$ (triangle aplati).\n• Si le plus grand côté est strictement supérieur à la somme des deux autres, le triangle n'est pas constructible."
+      },
+      {
+        "title": "2. Les 3 droites remarquables et leurs points de concours",
+        "content": "• **Médiatrice** : droite perpendiculaire à un segment passant par son milieu. Tout point de la médiatrice est à égale distance des extrémités. Les 3 médiatrices se coupent au **centre du cercle circonscrit** (qui passe par les 3 sommets).\n• **Hauteur** : droite passant par un sommet et perpendiculaire à la droite portant le côté opposé. Les 3 hauteurs se coupent en l'**orthocentre**.\n• **Médiane** : droite passant par un sommet et par le milieu du côté opposé. Les 3 médianes se coupent au **centre de gravité**. Propriété clé : une médiane partage un triangle en deux triangles d'aires égales !"
+      },
+      {
+        "title": "3. Aire et périmètre du triangle",
+        "content": "$$\\mathcal{P} = a + b + c \\quad \\text{et} \\quad \\mathcal{A} = \\frac{b \\times h}{2}$$\noù $h$ est la hauteur relative à la base $b$."
+      }
+    ],
+    "methods": [
+      {
+        "title": "Méthode : Calculer l'aire d'un triangle",
+        "example": "Calculer l'aire d'un triangle dont une base mesure $8\\text{ cm}$ et la hauteur correspondante $5\\text{ cm}$.",
+        "steps": [
+          "**Formule** : $\\text{Aire} = \\frac{b \\times h}{2}$.",
+          "**Calcul** : $\\text{Aire} = \\frac{8 \\times 5}{2} = \\frac{40}{2} = 20\\text{ cm}^2$."
+        ]
+      }
+    ],
+    "traps": [
+      "⚠️ Ne pas oublier de diviser par 2 dans le calcul de l'aire du triangle !",
+      "⚠️ Ne pas confondre médiane (passe par le milieu) et médiatrice (perpendiculaire au milieu)."
+    ],
+    "flashcards": [
+      {
+        "q": "Comment s'appelle le point d'intersection des trois hauteurs d'un triangle ?",
+        "a": "L'**orthocentre**."
+      },
+      {
+        "q": "Comment s'appelle le point de concours des trois médianes d'un triangle ?",
+        "a": "Le **centre de gravité** (la médiane partage aussi le triangle en 2 triangles de même aire)."
+      },
+      {
+        "q": "Que représente le point de concours des trois médiatrices d'un triangle ?",
+        "a": "Le **centre du cercle circonscrit** au triangle (qui passe par les 3 sommets car il est équidistant de ceux-ci)."
+      },
+      {
+        "q": "Un triangle de côtés 3 cm, 4 cm et 8 cm est-il constructible ?",
+        "a": "Non, car $3 + 4 = 7 < 8$ (le plus grand côté est strictement supérieur à la somme des deux autres)."
+      }
+    ]
+  },
   "5G5": {
-  "title": "5G5 : Parallélogrammes et quadrilatères particuliers",
-  "domain": "Espace et Géométrie",
-  "objectives": [
-    "Caractériser le parallélogramme par ses côtés, angles, diagonales et son centre de symétrie.",
-    "Reconnaître et construire les quadrilatères particuliers (rectangle, losange, carré).",
-    "Calculer le périmètre et l'aire d'un parallélogramme : $\\text{Aire} = b \\times h$."
-  ],
-  "keyPoints": [
-    {
-      "title": "1. Propriétés du parallélogramme",
-      "content": "Un parallélogramme est un quadrilatère qui possède un centre de symétrie (l'intersection des diagonales). Ses conséquences :\n• Les côtés opposés sont parallèles et de même longueur.\n• Les diagonales se coupent en leur milieu.\n• Les angles opposés ont la même mesure."
-    },
-    {
-      "title": "2. Quadrilatères particuliers",
-      "content": "• **Rectangle** : parallélogramme avec un angle droit (ou diagonales de même longueur).\n• **Losange** : parallélogramme avec deux côtés consécutifs égaux (ou diagonales perpendiculaires).\n• **Carré** : à la fois rectangle et losange."
-    },
-    {
-      "title": "3. Aire du parallélogramme",
-      "content": "$$\\text{Aire} = b \\times h$$\noù $h$ est la hauteur relative à la base $b$."
-    }
-  ],
-  "methods": [
-    {
-      "title": "Méthode : Prouver qu'un quadrilatère est un parallélogramme",
-      "example": "Démontrer que $ABCD$ est un parallélogramme sachant que ses diagonales se coupent en leur milieu $O$.",
-      "steps": [
-        "**Propriété** : Si les diagonales d'un quadrilatère ont le même milieu, alors c'est un parallélogramme.",
-        "**Données** : Les segments $[AC]$ et $[BD]$ ont pour milieu commun $O$.",
-        "**Conclusion** : Donc $ABCD$ est un parallélogramme."
-      ]
-    }
-  ],
-  "traps": [
-    "⚠️ Attention à l'ordre des lettres : le quadrilatère $ABCD$ a pour diagonales $[AC]$ et $[BD]$ (et non $[AB]$).",
-    "⚠️ L'aire du parallélogramme est $b \\times h$ et NON le produit de deux côtés consécutifs !"
-  ],
-  "flashcards": [
-    {
-      "q": "Quelle est la propriété des diagonales d'un parallélogramme ?",
-      "a": "Elles se coupent en leur milieu."
-    },
-    {
-      "q": "Qu'est-ce qu'un losange ?",
-      "a": "Un parallélogramme qui a ses 4 côtés de même longueur (ou ses diagonales perpendiculaires)."
-    }
-  ]
-},
+    "title": "5G5 : Parallélogrammes et quadrilatères particuliers",
+    "domain": "Espace et Géométrie",
+    "objectives": [
+      "Caractériser le parallélogramme par ses côtés, angles, diagonales et son centre de symétrie.",
+      "Reconnaître et construire les quadrilatères particuliers (rectangle, losange, carré).",
+      "Calculer le périmètre et l'aire d'un parallélogramme : $\\text{Aire} = b \\times h$."
+    ],
+    "keyPoints": [
+      {
+        "title": "1. Propriétés du parallélogramme",
+        "content": "Un parallélogramme est un quadrilatère qui possède un centre de symétrie (l'intersection des diagonales). Ses conséquences :\n• Les côtés opposés sont parallèles et de même longueur.\n• Les diagonales se coupent en leur milieu.\n• Les angles opposés ont la même mesure."
+      },
+      {
+        "title": "2. Quadrilatères particuliers",
+        "content": "• **Rectangle** : parallélogramme avec un angle droit (ou diagonales de même longueur).\n• **Losange** : parallélogramme avec deux côtés consécutifs égaux (ou diagonales perpendiculaires).\n• **Carré** : à la fois rectangle et losange."
+      },
+      {
+        "title": "3. Aire du parallélogramme",
+        "content": "$$\\text{Aire} = b \\times h$$\noù $h$ est la hauteur relative à la base $b$."
+      }
+    ],
+    "methods": [
+      {
+        "title": "Méthode : Prouver qu'un quadrilatère est un parallélogramme",
+        "example": "Démontrer que $ABCD$ est un parallélogramme sachant que ses diagonales se coupent en leur milieu $O$.",
+        "steps": [
+          "**Propriété** : Si les diagonales d'un quadrilatère ont le même milieu, alors c'est un parallélogramme.",
+          "**Données** : Les segments $[AC]$ et $[BD]$ ont pour milieu commun $O$.",
+          "**Conclusion** : Donc $ABCD$ est un parallélogramme."
+        ]
+      }
+    ],
+    "traps": [
+      "⚠️ Attention à l'ordre des lettres : le quadrilatère $ABCD$ a pour diagonales $[AC]$ et $[BD]$ (et non $[AB]$).",
+      "⚠️ L'aire du parallélogramme est $b \\times h$ et NON le produit de deux côtés consécutifs !"
+    ],
+    "flashcards": [
+      {
+        "q": "Quelle est la propriété des diagonales d'un parallélogramme ?",
+        "a": "Elles se coupent en leur milieu."
+      },
+      {
+        "q": "Qu'est-ce qu'un losange ?",
+        "a": "Un parallélogramme qui a ses 4 côtés de même longueur (ou ses diagonales perpendiculaires)."
+      },
+      {
+        "q": "Quelle est la propriété clé des diagonales d'un parallélogramme ?",
+        "a": "Les diagonales d'un parallélogramme **se coupent en leur milieu**."
+      },
+      {
+        "q": "Quelle est la formule de l'aire d'un parallélogramme de base b et de hauteur h ?",
+        "a": "$$\\mathcal{A} = \\text{base} \\times \\text{hauteur} = b \\times h$$"
+      },
+      {
+        "q": "Qu'est-ce qu'un losange par rapport au parallélogramme ?",
+        "a": "Un parallélogramme ayant **4 côtés de même longueur** (et des diagonales perpendiculaires)."
+      }
+    ]
+  },
   "5G6": {
-  "title": "5G6 : Espace : prismes droits, cylindres et volumes",
-  "domain": "Espace et Géométrie",
-  "objectives": [
-    "Identifier et décrire un prisme droit et un cylindre de révolution.",
-    "Dessiner en perspective cavalière et construire des patrons de prismes et cylindres.",
-    "Calculer le volume d'un prisme droit et d'un cylindre : $V = B \\times h$."
-  ],
-  "keyPoints": [
-    {
-      "title": "1. Prisme droit",
-      "content": "Un prisme droit possède :\n• Deux bases parallèles qui sont des polygones superposables.\n• Des faces latérales rectangulaires perpendiculaires aux bases."
-    },
-    {
-      "title": "2. Cylindre de révolution",
-      "content": "Un cylindre possède deux bases en forme de disques superposables et parallèles de rayon $R$, et une surface latérale qui se déroule en un rectangle de longueur $2\\pi R$ et de hauteur $h$."
-    },
-    {
-      "title": "3. Volume d'un prisme ou cylindre",
-      "content": "$$V = \\text{Aire de la base} \\times \\text{hauteur} = B \\times h$$\nPour le cylindre : $V = \\pi \\times R^2 \\times h$."
-    }
-  ],
-  "methods": [
-    {
-      "title": "Méthode : Calculer le volume d'un cylindre",
-      "example": "Calculer le volume d'un cylindre de rayon $R = 3\\text{ cm}$ et de hauteur $h = 10\\text{ cm}$ (valeur approchée au dixième).",
-      "steps": [
-        "**Aire de la base** : $B = \\pi \\times R^2 = \\pi \\times 3^2 = 9\\pi\\text{ cm}^2$.",
-        "**Volume exact** : $V = B \\times h = 9\\pi \\times 10 = 90\\pi\\text{ cm}^3$.",
-        "**Valeur approchée** : $90 \\times 3,1416 \\approx 282,7\\text{ cm}^3$."
-      ]
-    }
-  ],
-  "traps": [
-    "⚠️ Ne pas confondre le rayon $R$ et le diamètre $D$ ($R = D/2$) !",
-    "⚠️ $1\\text{ L} = 1\\text{ dm}^3 = 1000\\text{ cm}^3$ et $1\\text{ m}^3 = 1000\\text{ L}$."
-  ],
-  "flashcards": [
-    {
-      "q": "Quelle est la formule du volume d'un prisme droit ?",
-      "a": "$V = \\text{Aire de la base} \\times \\text{hauteur}$ ($V = B \\times h$)."
-    },
-    {
-      "q": "Quelle est l'aire de la base d'un cylindre de rayon 4 cm ?",
-      "a": "$\\pi \\times 4^2 = 16\\pi\\text{ cm}^2$."
-    }
-  ]
-},
+    "title": "5G6 : Prismes droits, cylindres de révolution et volumes",
+    "domain": "Espace et Géométrie",
+    "objectives": [
+      "Identifier et caractériser un prisme droit et un cylindre de révolution (bases, faces latérales, arêtes, sommets).",
+      "Dessiner en perspective cavalière et construire des patrons de solides.",
+      "Calculer le volume d'un pavé droit, d'un prisme droit et d'un cylindre : $V = \\mathcal{B} \\times h$.",
+      "Convertir des unités de volume et de capacité ($1\\text{ L} = 1\\text{ dm}^3$ et $1\\text{ m}^3 = 1\\,000\\text{ L}$)."
+    ],
+    "keyPoints": [
+      {
+        "title": "1. Le prisme droit",
+        "content": "Un prisme droit possède :\n• Deux bases parallèles qui sont des polygones superposables.\n• Des faces latérales rectangulaires perpendiculaires aux bases (autant de faces latérales que la base a de côtés).\n• Des arêtes latérales toutes de même longueur et parallèles, correspondant à la hauteur du prisme."
+      },
+      {
+        "title": "2. Le cylindre de révolution et perspective cavalière",
+        "content": "• Un cylindre de révolution s'obtient en faisant tourner un rectangle autour d'un de ses côtés. Ses bases sont deux disques superposables et parallèles de rayon $R$. Sa surface latérale se déroule en un rectangle de dimensions $2\\pi R \\times h$.\n• **Perspective cavalière** : les arêtes cachées se tracent en pointillés ; les fuyantes sont inclinées (environ $30^\\circ$ à $45^\\circ$) et réduites."
+      },
+      {
+        "title": "3. Volumes et conversions",
+        "content": "• **Pavé droit** : $V = L \\times l \\times h$\n• **Prisme droit** : $V = \\text{Aire de la base} \\times \\text{hauteur} = \\mathcal{B} \\times h$\n• **Cylindre** : $V = \\pi \\times R^2 \\times h$\n• **Unités et équivalences d'or** :\n$$1\\text{ L} = 1\\text{ dm}^3 = 1\\,000\\text{ cm}^3 \\quad \\text{et} \\quad 1\\text{ m}^3 = 1\\,000\\text{ dm}^3 = 1\\,000\\text{ L}$$"
+      }
+    ],
+    "methods": [
+      {
+        "title": "Méthode : Calculer le volume d'un cylindre",
+        "example": "Calculer le volume d'un cylindre de rayon $R = 3\\text{ cm}$ et de hauteur $h = 10\\text{ cm}$ (valeur exacte et approchée).",
+        "steps": [
+          "**Aire de la base** : $\\mathcal{B} = \\pi \\times R^2 = \\pi \\times 3^2 = 9\\pi\\text{ cm}^2$.",
+          "**Volume exact** : $V = \\mathcal{B} \\times h = 9\\pi \\times 10 = 90\\pi\\text{ cm}^3$.",
+          "**Valeur approchée** : $90 \\times 3,1416 \\approx 282,7\\text{ cm}^3$."
+        ]
+      }
+    ],
+    "traps": [
+      "⚠️ Ne pas confondre le rayon $R$ et le diamètre $D$ ($R = D \\div 2$) !",
+      "⚠️ Toujours vérifier que toutes les dimensions sont dans la même unité avant de calculer un volume.",
+      "⚠️ $1\\text{ L} = 1\\text{ dm}^3$ et $1\\text{ m}^3 = 1\\,000\\text{ L}$ (et non $100\\text{ L}$)."
+    ],
+    "flashcards": [
+      {
+        "q": "Quelle est la formule générale du volume d'un prisme droit ou d'un cylindre ?",
+        "a": "$V = \\text{Aire de la base} \\times \\text{hauteur} = \\mathcal{B} \\times h$."
+      },
+      {
+        "q": "Combien de faces latérales rectangulaires possède un prisme droit à base pentagonale (5 côtés) ?",
+        "a": "5 faces latérales (autant que de côtés sur la base polygonale)."
+      },
+      {
+        "q": "Combien de litres contient un volume de $12\\text{ dm}^3$ ?",
+        "a": "$12\\text{ L}$, car $1\\text{ dm}^3 = 1\\text{ L}$."
+      },
+      {
+        "q": "Comment obtient-on un cylindre de révolution ?",
+        "a": "En faisant tourner un rectangle autour de l'un de ses côtés."
+      },
+      {
+        "q": "Quelle est l'aire de la base d'un cylindre de rayon 4 cm ?",
+        "a": "$\\pi \\times 4^2 = 16\\pi\\text{ cm}^2$."
+      }
+    ]
+  },
   "5D1": {
-  "title": "5D1 : Statistiques : effectifs, fréquences et diagrammes",
-  "domain": "Organisation et Gestion de Données",
-  "objectives": [
-    "Organiser des données en tableau d'effectifs et calculer des fréquences.",
-    "Représenter des données sous forme de diagrammes en bâtons ou circulaires.",
-    "Calculer la moyenne simple d'une série statistique."
-  ],
-  "keyPoints": [
-    {
-      "title": "1. Effectif et fréquence",
-      "content": "• L'**effectif** est le nombre de fois où une valeur apparaît.\n• L'**effectif total** $N$ est la somme de tous les effectifs.\n• La **fréquence** est le quotient de l'effectif par l'effectif total :\n$$\\text{Fréquence} = \\frac{\\text{Effectif}}{\\text{Effectif total}}$$\nElle s'exprime sous forme de fraction, de décimal ou de pourcentage ($f \\times 100$)."
-    },
-    {
-      "title": "2. Moyenne simple",
-      "content": "La moyenne d'une série est égale à la somme de toutes les valeurs divisée par l'effectif total :\n$$\\bar{x} = \\frac{\\text{Somme des valeurs}}{N}$$"
-    }
-  ],
-  "methods": [
-    {
-      "title": "Méthode : Calculer une moyenne simple",
-      "example": "Calculer la moyenne des notes : 12, 15, 14, 11, 18.",
-      "steps": [
-        "**Somme des valeurs** : $12 + 15 + 14 + 11 + 18 = 70$.",
-        "**Nombre de valeurs** : $N = 5$.",
-        "**Moyenne** : $\\bar{x} = \\frac{70}{5} = 14$."
-      ]
-    }
-  ],
-  "traps": [
-    "⚠️ La somme des fréquences en pourcentages doit toujours être égale à 100%.",
-    "⚠️ Dans un diagramme circulaire, les angles sont proportionnels aux effectifs ($360^\\circ$ pour le total)."
-  ],
-  "flashcards": [
-    {
-      "q": "Comment convertir une fréquence de 0,35 en pourcentage ?",
-      "a": "$0,35 \\times 100 = 35\\%$."
-    },
-    {
-      "q": "Quel angle représente 25% dans un diagramme circulaire ?",
-      "a": "$25\\% \\times 360^\\circ = 90^\\circ$ (un quart de cercle)."
-    }
-  ]
-},
+    "title": "5D1 : Statistiques : effectifs, fréquences et diagrammes",
+    "domain": "Organisation et Gestion de Données",
+    "objectives": [
+      "Organiser des données en tableau d'effectifs et calculer des fréquences.",
+      "Représenter des données sous forme de diagrammes en bâtons ou circulaires.",
+      "Calculer la moyenne simple d'une série statistique."
+    ],
+    "keyPoints": [
+      {
+        "title": "1. Effectif et fréquence",
+        "content": "• L'**effectif** est le nombre de fois où une valeur apparaît.\n• L'**effectif total** $N$ est la somme de tous les effectifs.\n• La **fréquence** est le quotient de l'effectif par l'effectif total :\n$$\\text{Fréquence} = \\frac{\\text{Effectif}}{\\text{Effectif total}}$$\nElle s'exprime sous forme de fraction, de décimal ou de pourcentage ($f \\times 100$)."
+      },
+      {
+        "title": "2. Moyenne simple",
+        "content": "La moyenne d'une série est égale à la somme de toutes les valeurs divisée par l'effectif total :\n$$\\bar{x} = \\frac{\\text{Somme des valeurs}}{N}$$"
+      },
+      {
+        "title": "3. Représentations graphiques et diagrammes",
+        "content": "• **Diagramme en bâtons** : la hauteur de chaque bâton est proportionnelle à l'effectif de la valeur.\n• **Diagramme circulaire (camembert)** : l'angle de chaque secteur est proportionnel à l'effectif :\n$$\\text{Angle (en degrés)} = \\text{Fréquence} \\times 360^\\circ$$\nLe disque complet totalise toujours $360^\\circ$ ($100\\%$ des effectifs)."
+      }
+    ],
+    "methods": [
+      {
+        "title": "Méthode : Calculer une moyenne simple",
+        "example": "Calculer la moyenne des notes : 12, 15, 14, 11, 18.",
+        "steps": [
+          "**Somme des valeurs** : $12 + 15 + 14 + 11 + 18 = 70$.",
+          "**Nombre de valeurs** : $N = 5$.",
+          "**Moyenne** : $\\bar{x} = \\frac{70}{5} = 14$."
+        ]
+      }
+    ],
+    "traps": [
+      "⚠️ La somme des fréquences en pourcentages doit toujours être égale à 100%.",
+      "⚠️ Dans un diagramme circulaire, les angles sont proportionnels aux effectifs ($360^\\circ$ pour le total)."
+    ],
+    "flashcards": [
+      {
+        "q": "Comment convertir une fréquence de 0,35 en pourcentage ?",
+        "a": "$0,35 \\times 100 = 35\\%$."
+      },
+      {
+        "q": "Quel angle représente 25% dans un diagramme circulaire ?",
+        "a": "$25\\% \\times 360^\\circ = 90^\\circ$ (un quart de cercle)."
+      },
+      {
+        "q": "Comment calcule-t-on la fréquence d'une valeur en statistique ?",
+        "a": "$$\\text{Fréquence} = \\frac{\\text{Effectif de la valeur}}{\\text{Effectif total}}$$"
+      },
+      {
+        "q": "Que vaut la somme de toutes les fréquences en pourcentage d'une série ?",
+        "a": "Elle est **toujours égale à 100 %** (ou 1 sous forme décimale)."
+      },
+      {
+        "q": "Comment calcule-t-on la moyenne des trois notes : 12, 14 et 16 ?",
+        "a": "$$\\frac{12 + 14 + 16}{3} = \\frac{42}{3} = 14$$"
+      }
+    ]
+  },
   "5D2": {
-  "title": "5D2 : Probabilités : découverte du hasard et événements",
-  "domain": "Organisation et Gestion de Données",
-  "objectives": [
-    "Comprendre la notion d'expérience aléatoire et d'issues possibles.",
-    "Calculer des probabilités dans des situations simples d'équiprobabilité.",
-    "Utiliser le vocabulaire : événement impossible, certain, élémentaire."
-  ],
-  "keyPoints": [
-    {
-      "title": "1. Expérience aléatoire et issues",
-      "content": "Une expérience est dite **aléatoire** si elle dépend du hasard et qu'on ne peut pas prévoir son résultat à l'avance, bien qu'on connaisse la liste de tous les résultats possibles (les **issues**)."
-    },
-    {
-      "title": "2. Probabilité et équiprobabilité",
-      "content": "Dans une situation d'équiprobabilité (toutes les issues ont la même chance de se produire) :\n$$P(\\text{Événement}) = \\frac{\\text{Nombre d'issues favorables}}{\\text{Nombre total d'issues possibles}}$$\nUne probabilité est un nombre compris entre 0 et 1 (souvent exprimé en fraction ou en pourcentage)."
-    },
-    {
-      "title": "3. Événement impossible et certain",
-      "content": "• Un événement impossible a une probabilité égale à 0 ($P = 0$).\n• Un événement certain a une probabilité égale à 1 ($P = 1$)."
-    }
-  ],
-  "methods": [
-    {
-      "title": "Méthode : Calculer une probabilité",
-      "example": "On tire une boule au hasard dans une urne contenant 4 boules bleues et 6 boules rouges. Quelle est la probabilité de tirer une boule bleue ?",
-      "steps": [
-        "**Nombre total d'issues** : $4 + 6 = 10$ boules au total.",
-        "**Issues favorables** : 4 boules bleues.",
-        "**Probabilité** : $P(\\text{Bleue}) = \\frac{4}{10} = \\frac{2}{5} = 0,4 = 40\\%$."
-      ]
-    }
-  ],
-  "traps": [
-    "⚠️ Une probabilité ne peut JAMAIS être supérieure à 1 ni inférieure à 0 !",
-    "⚠️ Le hasard n'a pas de mémoire : si un dé donne 6 trois fois de suite, la probabilité d'avoir 6 au coup suivant reste toujours $\\frac{1}{6}$."
-  ],
-  "flashcards": [
-    {
-      "q": "Quelle est la probabilité d'obtenir un 5 sur un dé équilibré à 6 faces ?",
-      "a": "$\\frac{1}{6}$."
-    },
-    {
-      "q": "Quelle est la probabilité d'un événement impossible ?",
-      "a": "0."
-    }
-  ]
-},
+    "title": "5D2 : Probabilités : découverte du hasard et événements",
+    "domain": "Organisation et Gestion de Données",
+    "objectives": [
+      "Comprendre la notion d'expérience aléatoire et d'issues possibles.",
+      "Calculer des probabilités dans des situations simples d'équiprobabilité.",
+      "Utiliser le vocabulaire : événement impossible, certain, élémentaire."
+    ],
+    "keyPoints": [
+      {
+        "title": "1. Expérience aléatoire et issues",
+        "content": "Une expérience est dite **aléatoire** si elle dépend du hasard et qu'on ne peut pas prévoir son résultat à l'avance, bien qu'on connaisse la liste de tous les résultats possibles (les **issues**)."
+      },
+      {
+        "title": "2. Probabilité et équiprobabilité",
+        "content": "Dans une situation d'équiprobabilité (toutes les issues ont la même chance de se produire) :\n$$P(\\text{Événement}) = \\frac{\\text{Nombre d'issues favorables}}{\\text{Nombre total d'issues possibles}}$$\nUne probabilité est un nombre compris entre 0 et 1 (souvent exprimé en fraction ou en pourcentage)."
+      },
+      {
+        "title": "3. Événement impossible et certain",
+        "content": "• Un événement impossible a une probabilité égale à 0 ($P = 0$).\n• Un événement certain a une probabilité égale à 1 ($P = 1$)."
+      }
+    ],
+    "methods": [
+      {
+        "title": "Méthode : Calculer une probabilité",
+        "example": "On tire une boule au hasard dans une urne contenant 4 boules bleues et 6 boules rouges. Quelle est la probabilité de tirer une boule bleue ?",
+        "steps": [
+          "**Nombre total d'issues** : $4 + 6 = 10$ boules au total.",
+          "**Issues favorables** : 4 boules bleues.",
+          "**Probabilité** : $P(\\text{Bleue}) = \\frac{4}{10} = \\frac{2}{5} = 0,4 = 40\\%$."
+        ]
+      }
+    ],
+    "traps": [
+      "⚠️ Une probabilité ne peut JAMAIS être supérieure à 1 ni inférieure à 0 !",
+      "⚠️ Le hasard n'a pas de mémoire : si un dé donne 6 trois fois de suite, la probabilité d'avoir 6 au coup suivant reste toujours $\\frac{1}{6}$."
+    ],
+    "flashcards": [
+      {
+        "q": "Quelle est la probabilité d'obtenir un 5 sur un dé équilibré à 6 faces ?",
+        "a": "$\\frac{1}{6}$."
+      },
+      {
+        "q": "Quelle est la probabilité d'un événement impossible ?",
+        "a": "0."
+      },
+      {
+        "q": "Quelle est la probabilité d'un événement certain ?",
+        "a": "$1$ (il se produit à coup sûr)."
+      },
+      {
+        "q": "Au lancer d'un dé cubique équilibré à 6 faces, quelle est la probabilité d'obtenir un nombre pair ?",
+        "a": "$$\\frac{3}{6} = \\frac{1}{2} = 0,5 \\quad (\\text{issues favorables : } 2, 4, 6)$$"
+      }
+    ]
+  },
   "5P2": {
-  "title": "5P2 : Dépendance entre grandeurs et formules",
-  "domain": "Organisation et Gestion de Données",
-  "objectives": [
-    "Exprimer une grandeur en fonction d'une autre à l'aide d'une formule.",
-    "Lire, compléter et interpréter un tableau de valeurs liant deux grandeurs.",
-    "Représenter graphiquement une grandeur en fonction d'une autre dans un repère."
-  ],
-  "keyPoints": [
-    {
-      "title": "1. Formules littérales et dépendance",
-      "content": "Dire qu'une grandeur $y$ dépend d'une grandeur $x$ signifie que la connaissance de $x$ permet de déterminer la valeur de $y$.\nExemples de formules courantes :\n• Périmètre d'un carré : $P = 4c$\n• Distance parcourue à vitesse constante : $d = v \\times t$"
-    },
-    {
-      "title": "2. Tableau de valeurs et graphique",
-      "content": "On place en abscisse la grandeur variable choisie ($x$) et en ordonnée la grandeur dépendante ($y$). Les points $(x ; y)$ sont ensuite reliés si la grandeur varie de façon continue."
-    }
-  ],
-  "methods": [
-    {
-      "title": "Méthode : Utiliser la relation distance-vitesse-temps",
-      "example": "Un train roule à la vitesse constante de $120\\text{ km/h}$. Quelle distance parcourt-il en $2\\text{ h } 30\\text{ min}$ ?",
-      "steps": [
-        "**Conversion du temps** : $2\\text{ h } 30\\text{ min} = 2,5\\text{ heures}$.",
-        "**Formule** : $d = v \\times t$.",
-        "**Calcul** : $d = 120 \\times 2,5 = 300\\text{ km}$."
-      ]
-    }
-  ],
-  "traps": [
-    "⚠️ Ne pas écrire $2\\text{ h } 30\\text{ min} = 2,3\\text{ h}$ ! Il faut convertir les minutes en fraction d'heure : $\\frac{30}{60} = 0,5\\text{ h}$, donc $2,5\\text{ h}$.",
-    "⚠️ Une relation de dépendance n'est pas obligatoirement une situation de proportionnalité."
-  ],
-  "flashcards": [
-    {
-      "q": "Quelle est la formule liant distance, vitesse et temps ?",
-      "a": "$d = v \\times t$."
-    },
-    {
-      "q": "Comment convertir 15 minutes en heure décimale ?",
-      "a": "$\\frac{15}{60} = 0,25\\text{ h}$."
-    }
-  ]
-},
+    "title": "5P2 : Dépendance entre grandeurs et formules",
+    "domain": "Organisation et Gestion de Données",
+    "objectives": [
+      "Exprimer une grandeur en fonction d'une autre à l'aide d'une formule.",
+      "Lire, compléter et interpréter un tableau de valeurs liant deux grandeurs.",
+      "Représenter graphiquement une grandeur en fonction d'une autre dans un repère."
+    ],
+    "keyPoints": [
+      {
+        "title": "1. Formules littérales et dépendance",
+        "content": "Dire qu'une grandeur $y$ dépend d'une grandeur $x$ signifie que la connaissance de $x$ permet de déterminer la valeur de $y$.\nExemples de formules courantes :\n• Périmètre d'un carré : $P = 4c$\n• Distance parcourue à vitesse constante : $d = v \\times t$"
+      },
+      {
+        "title": "2. Tableau de valeurs et graphique",
+        "content": "On place en abscisse la grandeur variable choisie ($x$) et en ordonnée la grandeur dépendante ($y$). Les points $(x ; y)$ sont ensuite reliés si la grandeur varie de façon continue."
+      },
+      {
+        "title": "3. Tracé et interprétation d'une courbe représentative",
+        "content": "• Chaque colonne d'un tableau de valeurs donne les coordonnées d'un point : $(x ; y)$.\n• On place ces points dans un repère orthogonal avec précision.\n• On relie les points à main levée par un tracé continu et soigné pour observer les variations de la grandeur (hausse, palier, baisse)."
+      }
+    ],
+    "methods": [
+      {
+        "title": "Méthode : Utiliser la relation distance-vitesse-temps",
+        "example": "Un train roule à la vitesse constante de $120\\text{ km/h}$. Quelle distance parcourt-il en $2\\text{ h } 30\\text{ min}$ ?",
+        "steps": [
+          "**Conversion du temps** : $2\\text{ h } 30\\text{ min} = 2,5\\text{ heures}$.",
+          "**Formule** : $d = v \\times t$.",
+          "**Calcul** : $d = 120 \\times 2,5 = 300\\text{ km}$."
+        ]
+      }
+    ],
+    "traps": [
+      "⚠️ Ne pas écrire $2\\text{ h } 30\\text{ min} = 2,3\\text{ h}$ ! Il faut convertir les minutes en fraction d'heure : $\\frac{30}{60} = 0,5\\text{ h}$, donc $2,5\\text{ h}$.",
+      "⚠️ Une relation de dépendance n'est pas obligatoirement une situation de proportionnalité."
+    ],
+    "flashcards": [
+      {
+        "q": "Quelle est la formule liant distance, vitesse et temps ?",
+        "a": "$d = v \\times t$."
+      },
+      {
+        "q": "Comment convertir 15 minutes en heure décimale ?",
+        "a": "$\\frac{15}{60} = 0,25\\text{ h}$."
+      },
+      {
+        "q": "Que signifie la phrase « la grandeur y dépend de la grandeur x » ?",
+        "a": "Cela signifie qu'à chaque valeur choisie pour $x$, correspond une valeur déterminée pour $y$ (on dit que $y$ est fonction de $x$)."
+      },
+      {
+        "q": "Dans un tableau de valeurs, quelle ligne contient la grandeur de départ ?",
+        "a": "Généralement la **première ligne** (abscisses $x$), la deuxième ligne contient les valeurs dépendantes (ordonnées $y$)."
+      },
+      {
+        "q": "Comment trace-t-on une courbe représentant une grandeur dépendante ?",
+        "a": "On place dans un repère les points $(x ; y)$ issus du tableau de valeurs, puis on les relie à main levée avec un tracé soigné."
+      }
+    ]
+  },
   "5A1": {
-  "title": "5A1 : Algorithmique et pensée informatique avec Scratch",
-  "domain": "Algorithmique et Programmation",
-  "objectives": [
-    "Décomposer un problème en une suite ordonnée d'instructions (algorithme).",
-    "Utiliser les blocs d'action, de déplacement et d'orientation dans Scratch.",
-    "Utiliser une boucle bornée (« répéter n fois ») pour tracer des figures régulières.",
-    "Calculer l'angle de rotation extérieur pour un polygone régulier : $\\frac{360^\\circ}{n}$."
-  ],
-  "keyPoints": [
-    {
-      "title": "1. Les bases de Scratch",
-      "content": "• **Lutin** : personnage qui exécute le script sur la scène.\n• **Stylo** : permet de tracer des motifs lors des déplacements (« stylo en position d'écriture »).\n• **Instructions de base** : « avancer de $x$ pas », « tourner à droite de $\\alpha$ degrés »."
-    },
-    {
-      "title": "2. La boucle « Répéter N fois »",
-      "content": "Permet de condenser l'écriture lorsqu'une même série d'actions doit être répétée plusieurs fois.\nPour un polygone régulier à $n$ côtés de longueur $L$ :\n• Répéter $n$ fois : avancer de $L$, tourner de $\\frac{360^\\circ}{n}$."
-    }
-  ],
-  "methods": [
-    {
-      "title": "Méthode : Déterminer l'angle de rotation d'un polygone régulier",
-      "example": "Quel angle de rotation faut-il programmer pour tracer un pentagone régulier (5 côtés) ?",
-      "steps": [
-        "**Règle** : Pour faire un tour complet et fermer la figure, la somme des rotations extérieures vaut $360^\\circ$.",
-        "**Calcul** : $\\text{Angle} = \\frac{360^\\circ}{5} = 72^\\circ$.",
-        "**Script** : Répéter 5 fois : avancer de $L$, tourner de $72^\\circ$."
-      ]
-    }
-  ],
-  "traps": [
-    "⚠️ Pour tracer un triangle équilatéral, l'angle de rotation dans Scratch est l'angle **extérieur** ($180^\\circ - 60^\\circ = 120^\\circ$) et non l'angle intérieur de $60^\\circ$ !",
-    "⚠️ Bien penser à réinitialiser la position (« aller à x:0, y:0 » et « effacer tout ») au début de chaque script."
-  ],
-  "flashcards": [
-    {
-      "q": "De quel angle doit-on tourner pour tracer un carré dans Scratch ?",
-      "a": "$90^\\circ$ (car $\\frac{360^\\circ}{4} = 90^\\circ$)."
-    },
-    {
-      "q": "De quel angle doit-on tourner pour tracer un triangle équilatéral ?",
-      "a": "$120^\\circ$ (car $\\frac{360^\\circ}{3} = 120^\\circ$)."
-    }
-  ]
-}
+    "title": "5A1 : Algorithmique et pensée informatique avec Scratch",
+    "domain": "Algorithmique et Programmation",
+    "objectives": [
+      "Décomposer un problème en une suite ordonnée d'instructions (algorithme).",
+      "Utiliser les blocs d'action, de déplacement et d'orientation dans Scratch.",
+      "Utiliser une boucle bornée (« répéter n fois ») pour tracer des figures régulières.",
+      "Calculer l'angle de rotation extérieur pour un polygone régulier : $\\frac{360^\\circ}{n}$."
+    ],
+    "keyPoints": [
+      {
+        "title": "1. Les bases de Scratch",
+        "content": "• **Lutin** : personnage qui exécute le script sur la scène.\n• **Stylo** : permet de tracer des motifs lors des déplacements (« stylo en position d'écriture »).\n• **Instructions de base** : « avancer de $x$ pas », « tourner à droite de $\\alpha$ degrés »."
+      },
+      {
+        "title": "2. La boucle « Répéter N fois »",
+        "content": "Permet de condenser l'écriture lorsqu'une même série d'actions doit être répétée plusieurs fois.\nPour un polygone régulier à $n$ côtés de longueur $L$ :\n• Répéter $n$ fois : avancer de $L$, tourner de $\\frac{360^\\circ}{n}$."
+      },
+      {
+        "title": "3. Tracés géométriques et polygones réguliers",
+        "content": "Pour tracer un polygone régulier à $N$ côtés égaux avec le stylo de Scratch :\n• On répète $N$ fois la séquence : « avancer de la longueur du côté » puis « tourner de $(360 / N)$ degrés ».\n• Carré ($N=4$) : tourner de $90^\\circ$ | Triangle équilatéral ($N=3$) : tourner de $120^\\circ$."
+      }
+    ],
+    "methods": [
+      {
+        "title": "Méthode : Déterminer l'angle de rotation d'un polygone régulier",
+        "example": "Quel angle de rotation faut-il programmer pour tracer un pentagone régulier (5 côtés) ?",
+        "steps": [
+          "**Règle** : Pour faire un tour complet et fermer la figure, la somme des rotations extérieures vaut $360^\\circ$.",
+          "**Calcul** : $\\text{Angle} = \\frac{360^\\circ}{5} = 72^\\circ$.",
+          "**Script** : Répéter 5 fois : avancer de $L$, tourner de $72^\\circ$."
+        ]
+      }
+    ],
+    "traps": [
+      "⚠️ Pour tracer un triangle équilatéral, l'angle de rotation dans Scratch est l'angle **extérieur** ($180^\\circ - 60^\\circ = 120^\\circ$) et non l'angle intérieur de $60^\\circ$ !",
+      "⚠️ Bien penser à réinitialiser la position (« aller à x:0, y:0 » et « effacer tout ») au début de chaque script."
+    ],
+    "flashcards": [
+      {
+        "q": "De quel angle doit-on tourner pour tracer un carré dans Scratch ?",
+        "a": "$90^\\circ$ (car $\\frac{360^\\circ}{4} = 90^\\circ$)."
+      },
+      {
+        "q": "De quel angle doit-on tourner pour tracer un triangle équilatéral ?",
+        "a": "$120^\\circ$ (car $\\frac{360^\\circ}{3} = 120^\\circ$)."
+      },
+      {
+        "q": "De quel angle le lutin Scratch doit-il tourner pour tracer un carré ?",
+        "a": "$$360^\\circ \\div 4 = 90^\\circ$$"
+      },
+      {
+        "q": "Combien de fois est exécutée l'instruction située dans un bloc « répéter 5 fois » ?",
+        "a": "Exactement **5 fois** de suite."
+      },
+      {
+        "q": "Que fait le bloc « avancer de 50 » dans Scratch ?",
+        "a": "Il déplace le lutin de 50 pas dans la direction vers laquelle il est orienté."
+      }
+    ]
+  }
 };
 
 window.MATHS_EXERCISES_5E = {
@@ -910,53 +1127,53 @@ window.MATHS_EXERCISES_5E = {
       "id": "5N4-1",
       "chapterId": "5N4",
       "tier": 1,
-      "title": "Division euclidienne (Reste)",
-      "statement": "Dans la division euclidienne de $75$ par $8$, quel est le reste ?",
+      "title": "Écriture sous forme d'une seule puissance",
+      "statement": "Écrire le produit suivant sous la forme d'une seule puissance (ex: 6^4) :\n$$A = 6 \\times 6 \\times 6 \\times 6$$",
       "type": "exact",
-      "answer": "3",
-      "placeholder": "Ex: 3",
-      "hint1": "$8 \\times 9 = 72$. Calcule $75 - 72$.",
-      "solution": "$$75 = 8 \\times 9 + 3 \\implies \\text{Reste} = 3$$",
+      "answer": "6^4",
+      "placeholder": "Ex: 6^4",
+      "hint1": "Le facteur 6 est multiplié par lui-même 4 fois consécutives.",
+      "solution": "$$6 \\times 6 \\times 6 \\times 6 = 6^4$$ (Base 6, exposant 4).",
       "skill": "Calculer"
     },
     {
       "id": "5N4-2",
       "chapterId": "5N4",
       "tier": 2,
-      "title": "Critère de divisibilité par 9",
-      "statement": "Le nombre $423$ est-il divisible par $9$ ? (oui ou non)",
+      "title": "Retrouver le nombre positif dont le carré est donné",
+      "statement": "Retrouver le nombre positif $x$ dont le carré est $81$ :\n$$x^2 = 81 \\implies x = \\dots$$",
       "type": "exact",
-      "answer": "oui",
-      "placeholder": "oui ou non",
-      "hint1": "Additionne les chiffres : $4 + 2 + 3$. Est-ce un multiple de 9 ?",
-      "solution": "$4 + 2 + 3 = 9$. Comme 9 est divisible par 9, 423 est **divisible par 9**.",
+      "answer": "9",
+      "placeholder": "Ex: 9",
+      "hint1": "Quel nombre entier positif multiplié par lui-même donne 81 dans les tables de multiplication ?",
+      "solution": "Comme $9 \\times 9 = 81$, le nombre positif dont le carré est 81 est **9**.",
       "skill": "Raisonner"
     },
     {
       "id": "5N4-3",
       "chapterId": "5N4",
       "tier": 3,
-      "title": "Reconnaissance d'un nombre premier",
-      "statement": "Le nombre $29$ est-il un nombre premier ? (oui ou non)",
+      "title": "Comparaison de deux puissances : 2³ et 3²",
+      "statement": "Comparer $2^3$ et $3^2$. Compléter par le bon symbole ($<$, $>$ ou $=) :\n$$2^3 \\dots 3^2$$",
       "type": "exact",
-      "answer": "oui",
-      "placeholder": "oui ou non",
-      "hint1": "Vérifie s'il admet d'autres diviseurs que 1 et lui-même.",
-      "solution": "29 n'admet que deux diviseurs (1 et 29). C'est un **nombre premier**.",
+      "answer": "<",
+      "placeholder": "<, > ou =",
+      "hint1": "Calcule séparément chaque puissance : $2^3 = 2 \\times 2 \\times 2$ et $3^2 = 3 \\times 3$.",
+      "solution": "1. $2^3 = 2 \\times 2 \\times 2 = 8$.\n2. $3^2 = 3 \\times 3 = 9$.\nComme $8 < 9$, on conclut : **$2^3 < 3^2$**.",
       "skill": "Raisonner"
     },
     {
       "id": "5N4-4",
       "chapterId": "5N4",
       "tier": 4,
-      "title": "Défi 4ème : Partage euclidien et condition d'emballage total",
-      "statement": "Un artisan chocolatier a préparé $148$ chocolats. Il dispose de boîtes pouvant contenir au maximum $12$ chocolats.\n**Combien de boîtes lui faut-il au minimum pour emballer TOUS ses chocolats ?**",
+      "title": "Calcul complexe et priorités opératoires avec puissances",
+      "statement": "Calculer la valeur exacte de l'expression suivante en respectant les priorités opératoires :\n$$A = 4 \\times (2 + 3)^2 - 3 \\times 2^4$$",
       "type": "exact",
-      "answer": "13",
-      "placeholder": "Ex: 13",
-      "hint1": "Division : $148 = 12 \\times 12 + 4$. Il y a 12 boîtes pleines et 4 chocolats restants.",
-      "solution": "1. Division euclidienne : $148 = 12 \\times 12 + 4$.\n2. Il faut 12 boîtes pleines + 1 boîte pour les 4 restants = **13 boîtes**.",
-      "skill": "Résoudre"
+      "answer": "52",
+      "placeholder": "Ex: 52",
+      "hint1": "Rappel des priorités : 1) Calculs entre parenthèses d'abord $(2 + 3) = 5$, 2) Puissances $5^2$ et $2^4$, 3) Multiplications, 4) Soustraction.",
+      "solution": "1. Parenthèses : $(2 + 3) = 5$.\n2. Puissances : $5^2 = 25$ et $2^4 = 16$.\n3. Multiplications : $4 \\times 25 = 100$ et $3 \\times 16 = 48$.\n4. Soustraction : $$A = 100 - 48 = 52$$.",
+      "skill": "Calculer"
     }
   ],
   "5P1": [
