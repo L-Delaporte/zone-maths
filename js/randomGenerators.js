@@ -6527,82 +6527,52 @@ window.MathsGenerators = {
           { p1: '5^3', v1: 125, p2: '2^7', v2: 128 }
         ];
         const item = this.randChoice(pairs);
-          type: "exact",
-          answer: String(item.next),
-          placeholder: `Ex: ${item.next}`,
-          hint1: `Teste un à un les entiers impairs après $${item.from}$ pour trouver le premier nombre qui n'a aucun diviseur autre que 1 et lui-même.`,
-          solution: `La liste des nombres premiers consécutifs est : 2, 3, 5, 7, 11, 13, 17, 19, 23, 29...\nLe premier nombre premier après $${item.from}$ est donc **${item.next}**.`
-        };
-      } else {
-        const decomps = [
-          { n: 12, ans: "2^2 * 3", latex: "2^2 \\times 3", wrong: ["2 * 6", "3 * 4", "2^3"] },
-          { n: 18, ans: "2 * 3^2", latex: "2 \\times 3^2", wrong: ["2 * 9", "3 * 6", "2^2 * 3"] },
-          { n: 20, ans: "2^2 * 5", latex: "2^2 \\times 5", wrong: ["4 * 5", "2 * 10", "2 * 5^2"] },
-          { n: 28, ans: "2^2 * 7", latex: "2^2 \\times 7", wrong: ["4 * 7", "2 * 14", "2 * 7^2"] },
-          { n: 45, ans: "3^2 * 5", latex: "3^2 \\times 5", wrong: ["9 * 5", "3 * 15", "3 * 5^2"] },
-          { n: 50, ans: "2 * 5^2", latex: "2 \\times 5^2", wrong: ["2 * 25", "5 * 10", "2^2 * 5"] }
-        ];
-        const item = this.randChoice(decomps);
-        const correctOpt = `$${item.latex}$`;
-        const options = this.shuffle([
-          correctOpt,
-          `$${item.wrong[0]}$`,
-          `$${item.wrong[1]}$`,
-          `$${item.wrong[2]}$`
-        ]);
-
+        const symbol = item.v1 > item.v2 ? '>' : '<';
         return {
           chapterId: '5N4',
-          tier: 3,
-          title: "Décomposition en produit de facteurs premiers",
-          statement: `Quelle est la décomposition en produit de facteurs premiers du nombre $${item.n}$ ?`,
+          tier: 4,
+          title: "Défi 4ème : Comparaison de deux puissances",
+          statement: `Comparer les deux nombres suivants en utilisant le symbole $<$ ou $>$ :\n$$${item.p1} \\quad \\text{...} \\quad ${item.p2}$$`,
           type: "mcq",
-          options,
-          answer: correctOpt,
-          correctIndex: options.indexOf(correctOpt),
-          hint1: "Tous les facteurs doivent être des nombres premiers (2, 3, 5, 7...). Par exemple, 4 ou 6 ne sont pas premiers.",
-          solution: `$$${item.n} = ${item.latex}$$\nTous les facteurs (2, 3, 5, 7) sont des nombres premiers.`
+          options: [`$${item.p1} > ${item.p2}$`, `$${item.p1} < ${item.p2}$`, `$${item.p1} = ${item.p2}$`],
+          answer: `$${item.p1} ${symbol} ${item.p2}$`,
+          correctIndex: item.v1 > item.v2 ? 0 : 1,
+          hint1: `Calcule séparément la valeur de $${item.p1}$ et celle de $${item.p2}$.`,
+          solution: `• $${item.p1} = ${item.v1}$\n• $${item.p2} = ${item.v2}$\nComme $${item.v1} ${symbol} ${item.v2}$, on en déduit que **$${item.p1} ${symbol} ${item.p2}$**.`
         };
-      }
-    } else {
-      // Palier 4 : Défi 4ème (Problème de répartition avec contrainte d'emballage complet)
-      const problemType = this.randChoice(['chocolats', 'bus']);
-
-      if (problemType === 'chocolats') {
-        const C = this.randChoice([6, 8, 12]);
-        const fullBoxes = this.randInt(12, 25);
-        const remaining = this.randInt(1, C - 1);
-        const N = fullBoxes * C + remaining;
-        const totalBoxes = fullBoxes + 1;
-
+      } else if (subType === 'defi_retro_carre') {
+        const a = this.randInt(5, 12);
+        const a2 = a * a;
+        const b = this.randInt(2, 6);
+        const b2 = b * b;
+        const sum = a2 + b2;
         return {
           chapterId: '5N4',
           tier: 4,
-          title: "Défi 4ème : Problème concret de division euclidienne (Condition d'emballage total)",
-          statement: `Un artisan fabrique $${N}$ chocolats. Il souhaite tous les conditionner dans des boîtes pouvant contenir au maximum $${C}$ chocolats.\n\n**Combien de boîtes lui faudra-t-il au minimum pour que TOUS les chocolats soient rangés ?**`,
+          title: "Défi 4ème : Somme de deux carrés parfaits",
+          statement: `On sait que $x$ et $y$ sont deux nombres entiers positifs tels que :\n$$x^2 + y^2 = ${sum} \\quad \\text{avec } x = ${a}$$\n**Quelle est la valeur de l'entier $y$ ?**`,
           type: "exact",
-          answer: String(totalBoxes),
-          placeholder: `Ex: ${totalBoxes}`,
-          hint1: `Effectue la division euclidienne de $${N}$ par $${C}$. Il y a $${fullBoxes}$ boîtes pleines et un reste de $${remaining}$ chocolats. Attention : ces $${remaining}$ chocolats nécessitent une boîte supplémentaire !`,
-          solution: `1. Division euclidienne :\n$$${N} = ${C} \\times ${fullBoxes} + ${remaining}$$\n2. Analyse :\n- Il y a $${fullBoxes}$ boîtes complètes.\n- Il reste $${remaining}$ chocolats qui nécessitent une boîte supplémentaire.\n3. Nombre total de boîtes au minimum :\n$$N_{\\text{boîtes}} = ${fullBoxes} + 1 = ${totalBoxes}$$`
+          answer: String(b),
+          placeholder: `Ex: ${b}`,
+          hint1: `Remplace $x$ par ${a} : on a $${a}^2 + y^2 = ${sum}$. Calcule $${a}^2 = ${a2}$, puis déduis-en $y^2 = ${sum} - ${a2}$.`,
+          solution: `$$${a}^2 + y^2 = ${sum} \\implies ${a2} + y^2 = ${sum} \\implies y^2 = ${sum} - ${a2} = ${b2}$$\nPuisque $y$ est positif et $y^2 = ${b2}$, on a **$y = ${b}$**.`
         };
       } else {
-        const C = this.randChoice([45, 50, 55]);
-        const fullBuses = this.randInt(4, 8);
-        const remaining = this.randInt(5, C - 1);
-        const N = fullBuses * C + remaining;
-        const totalBuses = fullBuses + 1;
-
+        const n = this.randInt(3, 6);
+        const zeros = '0'.repeat(n);
+        const val = '1' + zeros;
+        const coef = this.randInt(2, 8);
+        const ans = coef * Math.pow(10, n);
         return {
           chapterId: '5N4',
           tier: 4,
-          title: "Défi 4ème : Problème de transport en autocars (Capacité maximale)",
-          statement: `Un collège organise une sortie scolaire pour $${N}$ personnes (élèves et accompagnateurs). Les autocars réservés ont une capacité maximale de $${C}$ places assises.\n\n**Combien d'autocars faut-il réserver au minimum pour transporter tout le monde ?**`,
+          title: "Défi 4ème : Écriture scientifique préliminaire",
+          statement: `Écrire sous la forme d'un nombre entier en écriture décimale :\n$$S = ${coef} \\times 10^${n}$$`,
           type: "exact",
-          answer: String(totalBuses),
-          placeholder: `Ex: ${totalBuses}`,
-          hint1: `Calcule $${N} = ${C} \\times q + r$. Il y a $${fullBuses}$ cars complets et un reste de $${remaining}$ personnes qui nécessitent un car supplémentaire.`,
-          solution: `1. Division euclidienne :\n$$${N} = ${C} \\times ${fullBuses} + ${remaining}$$\n2. Les $${remaining}$ personnes restantes ne peuvent pas rester à quai : il faut donc un car de plus.\n3. Nombre d'autocars au minimum :\n$$N_{\\text{cars}} = ${fullBuses} + 1 = ${totalBuses}$$`
+          answer: String(ans),
+          placeholder: `Ex: ${ans}`,
+          hint1: `$10^${n}$ correspond au nombre $1$ suivi de $${n}$ zéros ($${val}$).`,
+          solution: `$$S = ${coef} \\times 10^${n} = ${coef} \\times ${val} = ${ans}$$`
         };
       }
     }

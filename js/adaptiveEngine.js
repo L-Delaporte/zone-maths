@@ -74,17 +74,17 @@ window.MathsAdaptiveEngine = {
     const successes = progress.successesByTier || {};
     const mastery = progress.mastery || 0;
 
-    // Palier 2 : débloqué si Palier 1 validé (au moins 3 réussites sur P1 ou maîtrise >= 25%)
+    // Palier 2 : débloqué si Palier 1 validé (maîtrise >= 25%)
     if (t === 2) {
-      return valTiers.includes(1) || (successes[1] >= 3) || mastery >= 25;
+      return valTiers.includes(1) || mastery >= 25;
     }
-    // Palier 3 : débloqué si Palier 2 validé
+    // Palier 3 : débloqué si Palier 2 validé (maîtrise >= 50%)
     if (t === 3) {
-      return valTiers.includes(2) || (this.isTierUnlocked(chapterId, 2) && ((successes[2] >= 3) || mastery >= 50));
+      return valTiers.includes(2) || (this.isTierUnlocked(chapterId, 2) && mastery >= 50);
     }
-    // Palier 4 : débloqué si Palier 3 validé
+    // Palier 4 : débloqué si Palier 3 validé (maîtrise >= 75%)
     if (t === 4) {
-      return valTiers.includes(3) || (this.isTierUnlocked(chapterId, 3) && ((successes[3] >= 3) || mastery >= 75));
+      return valTiers.includes(3) || (this.isTierUnlocked(chapterId, 3) && mastery >= 75);
     }
     return false;
   },
@@ -505,23 +505,29 @@ window.MathsAdaptiveEngine = {
         p.successesByTier[exoTier] = (p.successesByTier[exoTier] || 0) + 1;
 
         p.validatedTiers = p.validatedTiers || [];
-        // Palier 1 validé : au moins 3 réussites sur le P1 OU maîtrise >= 25%
-        if (!p.validatedTiers.includes(1) && (p.successesByTier[1] >= 3 || masteryPercent >= 25)) {
+        // Palier 1 validé à 25% (débloque en même temps le Palier 2)
+        if (!p.validatedTiers.includes(1) && masteryPercent >= 25) {
           p.validatedTiers.push(1);
           newlyValidatedTiers.push(1);
         }
-        // Palier 2 validé : Palier 1 validé ET (au moins 3 réussites sur le P2 OU maîtrise >= 50%)
-        if (!p.validatedTiers.includes(2) && p.validatedTiers.includes(1) && (p.successesByTier[2] >= 3 || (masteryPercent >= 50 && (p.successesByTier[2] || 0) >= 1))) {
+        // Palier 2 validé à 50% (débloque en même temps le Palier 3)
+        if (!p.validatedTiers.includes(2) && masteryPercent >= 50) {
+          if (!p.validatedTiers.includes(1)) p.validatedTiers.push(1);
           p.validatedTiers.push(2);
           newlyValidatedTiers.push(2);
         }
-        // Palier 3 validé : Palier 2 validé ET (au moins 3 réussites sur le P3 OU maîtrise >= 75%)
-        if (!p.validatedTiers.includes(3) && p.validatedTiers.includes(2) && (p.successesByTier[3] >= 3 || (masteryPercent >= 75 && (p.successesByTier[3] || 0) >= 1))) {
+        // Palier 3 validé à 75% (débloque en même temps le Palier 4)
+        if (!p.validatedTiers.includes(3) && masteryPercent >= 75) {
+          if (!p.validatedTiers.includes(1)) p.validatedTiers.push(1);
+          if (!p.validatedTiers.includes(2)) p.validatedTiers.push(2);
           p.validatedTiers.push(3);
           newlyValidatedTiers.push(3);
         }
-        // Maître : 100% de la notion requis
-        if (!p.validatedTiers.includes(4) && p.validatedTiers.includes(3) && (masteryPercent >= 100 || (p.successesByTier[4] || 0) >= 3)) {
+        // Palier 4 validé à 100% (Maîtrise totale)
+        if (!p.validatedTiers.includes(4) && masteryPercent >= 100) {
+          if (!p.validatedTiers.includes(1)) p.validatedTiers.push(1);
+          if (!p.validatedTiers.includes(2)) p.validatedTiers.push(2);
+          if (!p.validatedTiers.includes(3)) p.validatedTiers.push(3);
           p.validatedTiers.push(4);
           newlyValidatedTiers.push(4);
         }

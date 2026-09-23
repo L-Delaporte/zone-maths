@@ -173,7 +173,9 @@ window.MathsDiaporama = {
     // Récompense XP pour avoir terminé le rituel
     const xpBonus = this.state.questions.length * 5;
     window.MathsStorage.addXp(xpBonus);
-    window.MathsApp.updateHeaderProfile();
+    if (window.MathsApp && typeof window.MathsApp.updateHeaderProfile === 'function') {
+      window.MathsApp.updateHeaderProfile();
+    }
 
     this.state.xpBonus = xpBonus;
     this.state.recapMode = null; // Afficher l'écran de choix interactif

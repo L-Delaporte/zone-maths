@@ -804,14 +804,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const baseLabel = this.getTierButtonLabel(tier, activeChapLevel);
 
         if (!isUnlocked) {
-          // Palier verrouillé : l'élève doit d'abord terminer le précédent
+          // Palier verrouillé : l'élève doit d'abord atteindre le pourcentage requis
+          const reqPercent = { 2: '25%', 3: '50%', 4: '75%' }[tier] || '25%';
           btn.innerHTML = `<span class="tier-lock-icon">🔒</span> ${baseLabel}`;
           btn.classList.add('tier-locked');
           btn.classList.remove('active', 'tier-validated');
-          btn.title = `Palier ${tier} verrouillé — Termine d'abord le Palier ${tier - 1} pour le débloquer`;
+          btn.title = `Palier ${tier} verrouillé — Atteins ${reqPercent} de maîtrise (validation du Palier ${tier - 1}) pour le débloquer`;
           btn.onclick = () => {
             if (window.MathsAudio) window.MathsAudio.playHint();
-            this.showToast(`🔒 <strong>Palier ${tier} verrouillé</strong><br>Termine d'abord le Palier ${tier - 1} pour débloquer ce palier !`, 3500);
+            this.showToast(`🔒 <strong>Palier ${tier} verrouillé</strong><br>Atteins au moins <strong>${reqPercent}</strong> de maîtrise pour débloquer le Palier ${tier} !`, 3500);
           };
         } else {
           // Palier débloqué : l'élève peut toujours choisir lui-même ce palier
