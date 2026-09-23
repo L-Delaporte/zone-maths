@@ -768,5 +768,23 @@
   <script src="js/flashcardsEngine.js?v=20260923"></script>
   <script src="js/app.js?v=20260923c"></script>
 
+  <!-- Statistiques d'audience anonymes et conformes RGPD (GoatCounter) -->
+  <script>
+    window.goatcounter = {
+      path: function(p) {
+        return location.pathname + location.search + location.hash;
+      }
+    };
+    window.addEventListener('hashchange', function() {
+      if (window.goatcounter && typeof window.goatcounter.count === 'function') {
+        window.goatcounter.count({
+          path: location.pathname + location.search + location.hash
+        });
+      }
+    });
+  </script>
+  <script data-goatcounter="https://etabli-des-maths.goatcounter.com/count"
+          async src="//gc.zgo.at/count.js"></script>
+
 </body>
 </html>
