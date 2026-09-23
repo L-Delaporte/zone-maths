@@ -163,7 +163,7 @@ window.MathsQuizGenerator = {
                   ${q.title ? `<span class="quiz-sol-topic">${q.title}</span>` : ''}
                 </div>
                 <div class="quiz-sol-body">
-                  ${window.MathsRenderer.markdownToHtml(q.solution)}
+                  ${window.MathsRenderer.markdownToHtml((window.MathsAdaptiveEngine && q.statement && q.solution) ? window.MathsAdaptiveEngine.formatSolutionWithInitialExpr(q.statement, q.solution) : q.solution)}
                 </div>
               </div>
             `).join('')}

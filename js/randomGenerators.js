@@ -130,7 +130,7 @@ window.MathsGenerators = {
           answer: ansStr,
           placeholder: "Ex: 4/3",
           hint1: `Le dénominateur commun est déjà ${d}. Additionne les numérateurs $${a} + ${b}$.`,
-          solution: `$$A = \\frac{${a} + ${b}}{${d}} = \\frac{${sum}}{${d}} = ${this.formatFraction(sum, d)}$$`
+          solution: `$$A = \\frac{${a}}{${d}} + \\frac{${b}}{${d}} = \\frac{${a} + ${b}}{${d}} = \\frac{${sum}}{${d}}` + (sum !== sN || d !== sD ? ` = ${this.formatFraction(sum, d)}$$` : `$$`)
         };
       } else if (subType === 'sub_same') {
         const d = this.randInt(3, 9);
@@ -148,7 +148,7 @@ window.MathsGenerators = {
           answer: ansStr,
           placeholder: "Ex: 2/5",
           hint1: `Le dénominateur commun est ${d}. Soustrais les numérateurs $${a} - ${b}$.`,
-          solution: `$$S = \\frac{${a} - ${b}}{${d}} = \\frac{${diff}}{${d}} = ${this.formatFraction(diff, d)}$$`
+          solution: `$$S = \\frac{${a}}{${d}} - \\frac{${b}}{${d}} = \\frac{${a} - ${b}}{${d}} = \\frac{${diff}}{${d}}` + (diff !== sN || d !== sD ? ` = ${this.formatFraction(diff, d)}$$` : `$$`)
         };
       } else if (subType === 'prod_frac') {
         const a = this.randInt(1, 5);
@@ -166,7 +166,7 @@ window.MathsGenerators = {
           answer: ansStr,
           placeholder: "Ex: 3/8",
           hint1: "Multiplie les numérateurs entre eux et les dénominateurs entre eux.",
-          solution: `$$P = \\frac{${a} \\times ${c}}{${b} \\times ${d}} = \\frac{${a * c}}{${b * d}} = ${this.formatFraction(a * c, b * d)}$$`
+          solution: `$$P = \\frac{${a}}{${b}} \\times \\frac{${c}}{${d}} = \\frac{${a} \\times ${c}}{${b} \\times ${d}} = \\frac{${a * c}}{${b * d}}` + (a * c !== sN || b * d !== sD ? ` = ${this.formatFraction(a * c, b * d)}$$` : `$$`)
         };
       } else {
         const k = this.randInt(2, 6);
@@ -183,7 +183,7 @@ window.MathsGenerators = {
           answer: ansStr,
           placeholder: "Ex: 5/2",
           hint1: `Écris l'entier sous forme d'une fraction : $${k} = \\frac{${k}}{1}$. Multiplie ensuite les numérateurs.`,
-          solution: `$$E = \\frac{${k} \\times ${a}}{${b}} = \\frac{${k * a}}{${b}} = ${this.formatFraction(k * a, b)}$$`
+          solution: `$$E = ${k} \\times \\frac{${a}}{${b}} = \\frac{${k} \\times ${a}}{${b}} = \\frac{${k * a}}{${b}}` + (k * a !== sN || b !== sD ? ` = ${this.formatFraction(k * a, b)}$$` : `$$`)
         };
       }
     } else if (t === 2) {
@@ -206,7 +206,7 @@ window.MathsGenerators = {
           answer: ansStr,
           placeholder: "Ex: 6/5",
           hint1: `Diviser par une fraction revient à multiplier par son inverse : $\\frac{${a}}{${b}} \\times \\frac{${d}}{${c}}$.`,
-          solution: `$$D = \\frac{${a}}{${b}} \\times \\frac{${d}}{${c}} = \\frac{${a * d}}{${b * c}} = ${this.formatFraction(a * d, b * c)}$$`
+          solution: `$$D = \\frac{${a}}{${b}} \\div \\frac{${c}}{${d}} = \\frac{${a}}{${b}} \\times \\frac{${d}}{${c}} = \\frac{${a * d}}{${b * c}}` + (a * d !== sN || b * c !== sD ? ` = ${this.formatFraction(a * d, b * c)}$$` : `$$`)
         };
       } else if (subType === 'add_mult_den') {
         const k = this.randChoice([2, 3, 4]);
@@ -226,7 +226,7 @@ window.MathsGenerators = {
           answer: ansStr,
           placeholder: "Ex: 7/6",
           hint1: `Le dénominateur commun est ${d2} (car $${d2} = ${d1} \\times ${k}$).`,
-          solution: `$$B = \\frac{${n1} \\times ${k}}{${d1} \\times ${k}} + \\frac{${n2}}{${d2}} = \\frac{${n1 * k}}{${d2}} + \\frac{${n2}}{${d2}} = \\frac{${sum}}{${d2}} = ${this.formatFraction(sum, d2)}$$`
+          solution: `$$B = \\frac{${n1}}{${d1}} + \\frac{${n2}}{${d2}} = \\frac{${n1} \\times ${k}}{${d1} \\times ${k}} + \\frac{${n2}}{${d2}} = \\frac{${n1 * k}}{${d2}} + \\frac{${n2}}{${d2}} = \\frac{${sum}}{${d2}}` + (sum !== sN || d2 !== sD ? ` = ${this.formatFraction(sum, d2)}$$` : `$$`)
         };
       } else if (subType === 'sub_mult_den') {
         const k = this.randChoice([2, 3, 4]);
@@ -246,7 +246,7 @@ window.MathsGenerators = {
           answer: ansStr,
           placeholder: "Ex: 5/6",
           hint1: `Mets au même dénominateur ${d2} en multipliant la première fraction par ${k}.`,
-          solution: `$$M = \\frac{${n1 * k}}{${d2}} - \\frac{${n2}}{${d2}} = \\frac{${diff}}{${d2}} = ${this.formatFraction(diff, d2)}$$`
+          solution: `$$M = \\frac{${n1}}{${d1}} - \\frac{${n2}}{${d2}} = \\frac{${n1 * k}}{${d2}} - \\frac{${n2}}{${d2}} = \\frac{${diff}}{${d2}}` + (diff !== sN || d2 !== sD ? ` = ${this.formatFraction(diff, d2)}$$` : `$$`)
         };
       } else {
         const a = this.randInt(2, 6);
@@ -263,7 +263,7 @@ window.MathsGenerators = {
           answer: ansStr,
           placeholder: "Ex: 1/6",
           hint1: `Diviser par $${c}$ revient à multiplier par $\\frac{1}{${c}}$.`,
-          solution: `$$Q = \\frac{${a}}{${b}} \\times \\frac{1}{${c}} = \\frac{${a}}{${b * c}} = ${this.formatFraction(a, b * c)}$$`
+          solution: `$$Q = \\frac{${a}}{${b}} \\div ${c} = \\frac{${a}}{${b}} \\times \\frac{1}{${c}} = \\frac{${a}}{${b * c}}` + (a !== sN || b * c !== sD ? ` = ${this.formatFraction(a, b * c)}$$` : `$$`)
         };
       }
     } else if (t === 3) {

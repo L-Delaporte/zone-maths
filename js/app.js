@@ -206,6 +206,16 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       }
 
+      // Bouton Flashcards (Mémorisation active Leitner / Fabien Olicard)
+      const openFlashcardsBtn = document.getElementById('btn-open-flashcards');
+      if (openFlashcardsBtn) {
+        openFlashcardsBtn.addEventListener('click', () => {
+          if (window.MathsFlashcards && typeof window.MathsFlashcards.openModal === 'function') {
+            window.MathsFlashcards.openModal(this.currentChapterId);
+          }
+        });
+      }
+
       // Bouton Partager le lien d'entraînement
       const shareBtn = document.getElementById('btn-share-training');
       if (shareBtn) {
@@ -925,7 +935,7 @@ document.addEventListener('DOMContentLoaded', () => {
           ${result.solution ? `
           <div class="feedback-solution">
             <div class="feedback-solution-title">Explication / Solution détaillée :</div>
-            <div class="feedback-solution-body">${window.MathsRenderer.markdownToHtml(result.solution)}</div>
+            <div class="feedback-solution-body">${window.MathsRenderer.markdownToHtml((window.MathsAdaptiveEngine && exercise && exercise.statement) ? window.MathsAdaptiveEngine.formatSolutionWithInitialExpr(exercise.statement, result.solution) : result.solution)}</div>
           </div>` : ''}
         `;
         window.MathsRenderer.renderElement(feedbackContainer);
@@ -983,7 +993,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ${result.solution ? `
             <div class="feedback-solution">
               <div class="feedback-solution-title">Explication / Solution détaillée :</div>
-              <div class="feedback-solution-body">${window.MathsRenderer.markdownToHtml(result.solution)}</div>
+              <div class="feedback-solution-body">${window.MathsRenderer.markdownToHtml((window.MathsAdaptiveEngine && exercise && exercise.statement) ? window.MathsAdaptiveEngine.formatSolutionWithInitialExpr(exercise.statement, result.solution) : result.solution)}</div>
             </div>` : ''}
             ${result.canStepDown ? `
               <div class="step-down-box">
@@ -1197,8 +1207,13 @@ document.addEventListener('DOMContentLoaded', () => {
         html += `
           <div class="course-flashcards-section">
             <div class="flashcards-header">
-              <h3>🗂️ Mémorisation Active & Flashcards Brevet</h3>
-              <span class="flashcards-subtitle">Teste ta mémoire sur les définitions, formules et théorèmes clés avant de t'entraîner</span>
+              <div>
+                <h3>🗂️ Mémorisation Active & Flashcards de Révision</h3>
+                <span class="flashcards-subtitle">Teste ta mémoire sur les définitions, formules et théorèmes clés avant de t'entraîner</span>
+              </div>
+              <button class="btn-primary btn-sm-flashcards" onclick="window.MathsFlashcards.openModal('${this.currentChapterId}')" style="margin-left:auto;">
+                🚀 Lancer l'entraînement interactif (Boîte Leitner)
+              </button>
             </div>
             <div class="flashcards-grid">
               ${course.flashcards.map((fc, idx) => `
@@ -1289,7 +1304,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
       let solutionMd = `## Corrigé Détaillé et Barème Officiel du Devoir Surveillé (sur 20 points)\n\n`;
       items.forEach(item => {
-        const solContent = item.ex.solution || (item.ex.answer ? `Réponse attendue : **${item.ex.answer}**` : "Voir le cours pour les étapes détaillées.");
+        const rawSol = item.ex.solution || (item.ex.answer ? `Réponse attendue : **${item.ex.answer}**` : "Voir le cours pour les étapes détaillées.");
+        const solContent = (window.MathsAdaptiveEngine && item.ex && item.ex.statement)
+          ? window.MathsAdaptiveEngine.formatSolutionWithInitialExpr(item.ex.statement, rawSol)
+          : rawSol;
         solutionMd += `### Exercice ${item.num} : ${item.ex.title || item.name} (${item.pts} points)\n${solContent}\n\n---\n\n`;
       });
 

@@ -97,22 +97,31 @@
         </div>
         
         <div class="header-actions-row">
-          <!-- Boutons rituels et outils -->
-          <button id="btn-open-diaporama" class="btn-icon-text btn-accent-glow" title="Lancer un rituel chronométré comme sur MathsMentales">
-            ⏱️ <span class="btn-lbl">Rituel</span>
-          </button>
-          <button id="btn-open-quiz" class="btn-icon-text" title="Générer un devoir surveillé blanc d'entraînement">
-            📝 <span class="btn-lbl">Devoir Blanc</span>
-          </button>
-          <button id="passport-btn" class="btn-icon-text" title="Mon passeport de compétences">
-            🎓 <span class="btn-lbl">Bilan</span>
-          </button>
-          <button id="sound-toggle-btn" class="btn-icon-text" title="Activer / Couper les sons" onclick="window.MathsAudio.toggleMute()">
-            🔊 <span class="btn-sound-text btn-lbl">Sons</span>
-          </button>
-          <button id="theme-toggle-btn" class="btn-icon-text" title="Basculer le thème">
-            🌙 <span class="btn-lbl">Mode Sombre</span>
-          </button>
+          <!-- Grille 2x2 des 4 outils pédagogiques principaux -->
+          <div class="header-tools-grid-2x2">
+            <button id="btn-open-diaporama" class="btn-icon-text btn-accent-glow" title="Lancer un rituel chronométré comme sur MathsMentales">
+              ⏱️ <span class="btn-lbl">Rituel</span>
+            </button>
+            <button id="btn-open-quiz" class="btn-icon-text" title="Générer un devoir surveillé blanc d'entraînement">
+              📝 <span class="btn-lbl">Devoir Blanc</span>
+            </button>
+            <button id="btn-open-flashcards" class="btn-icon-text btn-flashcards-glow" title="Mémorisation active : Flashcards & Boîte de Leitner (style Fabien Olicard)">
+              🗂️ <span class="btn-lbl">Flashcards</span>
+            </button>
+            <button id="passport-btn" class="btn-icon-text" title="Mon passeport de compétences">
+              🎓 <span class="btn-lbl">Bilan</span>
+            </button>
+          </div>
+
+          <!-- Outils de confort (Sons et Thème) -->
+          <div class="header-utility-actions">
+            <button id="sound-toggle-btn" class="btn-icon-text btn-utility-action" title="Activer / Couper les sons" onclick="window.MathsAudio.toggleMute()">
+              🔊 <span class="btn-sound-text btn-lbl">Sons</span>
+            </button>
+            <button id="theme-toggle-btn" class="btn-icon-text btn-utility-action" title="Basculer le thème">
+              🌙 <span class="btn-lbl">Mode Sombre</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -573,6 +582,168 @@
     </div>
   </div>
 
+  <!-- =========================================================================
+       MODALE 4 : BOÎTE DE MÉMORISATION FLASHCARDS (LEITNER / FABIEN OLICARD)
+       ========================================================================= -->
+  <div id="flashcards-modal" class="modal-overlay" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="fc-modal-title">
+    <div class="modal-box flashcards-box">
+      
+      <!-- Écran 1 : Configuration et Choix des Chapitres -->
+      <div id="flashcards-config-screen">
+        <div class="modal-header">
+          <div>
+            <h2 id="fc-modal-title">🗂️ L'Établi des Maths — Boîte à Flashcards</h2>
+            <div class="modal-author-badge">Mémorisation Active & Répétition Espacée · Par <strong>Loïc Delaporte</strong></div>
+          </div>
+          <button class="modal-close-btn" onclick="window.MathsFlashcards.closeModal()">✕</button>
+        </div>
+
+        <div class="fc-intro-banner">
+          <div class="fc-intro-text">
+            <strong>Méthode des boîtes de mémorisation (Fabien Olicard / Leitner) :</strong>
+            Chaque notion progresse de boîte en boîte au fil de vos réussites. Si vous vous trompez, la notion retourne en Boîte 1 et vous est re-présentée dans la séance pour être sûr de la maîtriser !
+          </div>
+          <div class="fc-stats-summary" id="fc-global-stats-summary">
+            <!-- Rempli dynamiquement -->
+          </div>
+        </div>
+
+        <div class="diapo-settings-grid">
+          <div class="diapo-setting-item">
+            <label for="fc-count-select">Taille de la session :</label>
+            <select id="fc-count-select" class="form-select">
+              <option value="10" selected>10 flashcards (Session express ~ 3 min)</option>
+              <option value="15">15 flashcards (Session recommandée ~ 5 min)</option>
+              <option value="25">25 flashcards (Entraînement approfondi ~ 8 min)</option>
+              <option value="0">Toutes les notions disponibles</option>
+            </select>
+          </div>
+          <div class="diapo-setting-item">
+            <label for="fc-mode-select">Mode d'interrogation :</label>
+            <select id="fc-mode-select" class="form-select">
+              <option value="smart" selected>🎯 Adaptatif intelligent (Priorité Boîte 1 & Nouvelles notions)</option>
+              <option value="focus_wrong">🔄 Révision urgente (Uniquement Boîte 1)</option>
+              <option value="all">🌟 Révision globale équilibrée</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="diapo-chapters-select-section">
+          <div class="fc-chap-header-row">
+            <label>Chapitres à réviser :</label>
+            <div class="fc-chap-quick-actions">
+              <button type="button" class="btn-text-sm" onclick="window.MathsFlashcards.selectAllChapters(true)">Tout cocher</button>
+              <span class="fc-sep">·</span>
+              <button type="button" class="btn-text-sm" onclick="window.MathsFlashcards.selectAllChapters(false)">Tout décocher</button>
+            </div>
+          </div>
+          <div id="flashcards-chapters-checkboxes" class="diapo-chips-container">
+            <!-- Rempli dynamiquement avec les chapitres du niveau actif -->
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn-secondary" onclick="window.MathsFlashcards.closeModal()">Annuler</button>
+          <button class="btn-primary" onclick="window.MathsFlashcards.startSession()">🚀 Démarrer la session ➔</button>
+        </div>
+      </div>
+
+      <!-- Écran 2 : Session Active de Révision -->
+      <div id="flashcards-play-screen" style="display: none;">
+        <div class="modal-header">
+          <div class="fc-play-header-meta">
+            <span id="fc-card-chap-badge" class="fc-pill-badge">Chapitre</span>
+            <span id="fc-card-box-badge" class="fc-pill-box">📦 Boîte 1</span>
+          </div>
+          <div class="fc-play-header-progress">
+            <span id="fc-progress-text">Carte 1 / 10</span>
+            <button class="modal-close-btn" onclick="window.MathsFlashcards.confirmClose()" title="Quitter la session">✕</button>
+          </div>
+        </div>
+
+        <div class="fc-progress-bar-container">
+          <div id="fc-progress-bar" class="fc-progress-bar" style="width: 10%;"></div>
+        </div>
+
+        <div class="fc-card-stage">
+          <div class="fc-flipper-container" id="fc-flipper" onclick="window.MathsFlashcards.handleCardClick()">
+            <!-- FACE RECTO (QUESTION / NOTION) -->
+            <div class="fc-card-face fc-card-front">
+              <div class="fc-card-kind-tag">❓ Notion & Définition clé</div>
+              <div class="fc-card-body" id="fc-card-front-content">
+                <!-- Rempli dynamiquement -->
+              </div>
+              <div class="fc-card-hint-notice">
+                <span class="fc-reveal-cta">💡 Cliquez sur la carte ou sur le bouton ci-dessous pour révéler la réponse</span>
+              </div>
+            </div>
+
+            <!-- FACE VERSO (RÉPONSE DÉTAILLÉE & MÉTHODE) -->
+            <div class="fc-card-face fc-card-back">
+              <div class="fc-card-kind-tag fc-tag-answer">✅ Réponse & Méthode de cours</div>
+              <div class="fc-card-body" id="fc-card-back-content">
+                <!-- Rempli dynamiquement -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Zone d'action sous la carte -->
+        <div class="fc-actions-dock">
+          <!-- Avant révélation : bouton révéler -->
+          <div id="fc-pre-reveal-actions" class="fc-action-group">
+            <button class="btn-primary btn-reveal-big" onclick="window.MathsFlashcards.revealAnswer()">
+              👁️ Révéler la réponse (Espace)
+            </button>
+          </div>
+
+          <!-- Après révélation : boutons auto-évaluation -->
+          <div id="fc-post-reveal-actions" class="fc-action-group" style="display: none;">
+            <button class="btn-fc-eval btn-fc-wrong" onclick="window.MathsFlashcards.submitEvaluation(false)" title="Raccourci : Touche 1 ou Flèche Gauche">
+              <span class="btn-fc-emoji">❌</span>
+              <div class="btn-fc-text">
+                <span class="btn-fc-main">J'avais faux / À revoir</span>
+                <span class="btn-fc-sub">Retour en Boîte 1 · Répétée dans la séance</span>
+              </div>
+              <span class="btn-fc-shortcut">[1]</span>
+            </button>
+
+            <button class="btn-fc-eval btn-fc-correct" onclick="window.MathsFlashcards.submitEvaluation(true)" title="Raccourci : Touche 2 ou Flèche Droite">
+              <span class="btn-fc-emoji">✅</span>
+              <div class="btn-fc-text">
+                <span class="btn-fc-main">J'avais bon / C'est su !</span>
+                <span class="btn-fc-sub">Monte en boîte supérieure (+10 XP)</span>
+              </div>
+              <span class="btn-fc-shortcut">[2]</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Écran 3 : Résumé / Célébration de la Session -->
+      <div id="flashcards-summary-screen" style="display: none;">
+        <div class="modal-header">
+          <div>
+            <h2>🎉 Bilan de votre session Flashcards</h2>
+            <div class="modal-author-badge">Mémoire active consolidée !</div>
+          </div>
+          <button class="modal-close-btn" onclick="window.MathsFlashcards.closeModal()">✕</button>
+        </div>
+
+        <div class="fc-summary-content" id="fc-summary-container">
+          <!-- Rempli dynamiquement -->
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn-secondary" onclick="window.MathsFlashcards.openModal()">🗂️ Autre sélection</button>
+          <button class="btn-secondary" id="fc-retry-missed-btn" onclick="window.MathsFlashcards.retryMissedOnly()" style="display: none;">🔄 Réviser les notions ratées</button>
+          <button class="btn-primary" onclick="window.MathsFlashcards.closeModal()">Terminer et continuer ➔</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
   <!-- Scripts KaTeX (avec fallback CDN) -->
   <script src="vendor/katex/katex.min.js" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js';"></script>
   <script src="vendor/katex/auto-render.min.js" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js';"></script>
@@ -594,6 +765,7 @@
   <script src="js/randomGenerators.js?v=20260923b"></script>
   <script src="js/diaporamaEngine.js?v=20260923b"></script>
   <script src="js/flashQuizGenerator.js?v=20260923b"></script>
+  <script src="js/flashcardsEngine.js?v=20260923"></script>
   <script src="js/app.js?v=20260923c"></script>
 
 </body>

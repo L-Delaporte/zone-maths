@@ -249,6 +249,10 @@ window.MathsAdaptiveEngine = {
         if (!candidate.options && candidate.choices) candidate.options = candidate.choices;
         this.shuffleMcq(candidate);
       }
+      // Renoter systématiquement l'expression de départ au début du calcul dans la solution
+      if (candidate.solution && candidate.statement) {
+        candidate.solution = this.formatSolutionWithInitialExpr(candidate.statement, candidate.solution);
+      }
     }
 
     this.state.currentExercise = candidate;
@@ -570,7 +574,7 @@ window.MathsAdaptiveEngine = {
         userLevel: xpResult.level,
         leveledUpProfile: xpResult.leveledUp,
         mastery: masteryPercent,
-        solution: exercise.solution,
+        solution: this.formatSolutionWithInitialExpr(exercise.statement, exercise.solution),
         feedback: "Bravo ! Réponse correcte."
       };
     } else {
@@ -638,7 +642,7 @@ window.MathsAdaptiveEngine = {
           isCorrect: false,
           mastery: currentMastery,
           stage: 'solution',
-          solution: exercise.solution,
+          solution: this.formatSolutionWithInitialExpr(exercise.statement, exercise.solution),
           message: "Voici la correction détaillée étape par étape pour bien comprendre le raisonnement.",
           canStepDown,
           stepDownMessage: canStepDown ? "Si cette notion te paraît difficile, tu peux revenir au palier précédent pour consolider tes bases en douceur." : null
@@ -894,5 +898,74 @@ window.MathsAdaptiveEngine = {
     }
 
     return newlyUnlockedBadges;
+  },
+
+  /**
+   * Garantit que l'explication / solution détaillée renote systématiquement l'expression de départ
+   * au tout début de la chaîne de calculs (ex: E = 2 \times 5/7 = (2*5)/7 = 10/7)
+   * et élimine les doublons stricts en fin d'égalités.
+   */
+  formatSolutionWithInitialExpr(statement, solution) {
+    if (!statement || !solution || typeof solution !== 'string') return solution;
+
+    // 1. Nettoyer les doublons stricts en chaîne d'égalités (ex: "= \frac{10}{7} = \frac{10}{7}" ou "= 5 = 5")
+    let cleanedSol = solution;
+    let prev;
+    do {
+      prev = cleanedSol;
+      cleanedSol = cleanedSol.replace(/=\s*(\\frac\{[^{}]+\}\{[^{}]+\}|-?\d+)\s*=\s*\1(?=[\s$])/g, "= $1");
+    } while (cleanedSol !== prev);
+
+    // Fonction d'échappement pour regex
+    const escapeRegex = (s) => s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+
+    // 2. Expression nommée dans l'énoncé : $$E = ...$$ ou $A = ...$ ou $$f(x) = ...$$
+    const namedMatch = statement.match(/(?:\$\$|\$)\s*([A-Za-z](?:\([a-z]\))?|[A-Za-z]{1,3})\s*=\s*([^$\n=]+?)\s*(?:\$\$|\$)/);
+    if (namedMatch) {
+      const varName = namedMatch[1].trim();
+      const initialRHS = namedMatch[2].trim();
+
+      if (initialRHS.length >= 1) {
+        // Trouver la première occurrence de $$varName = ou $varName = dans la solution
+        const solRegex = new RegExp("((?:\\$\\$|\\$)\\s*" + escapeRegex(varName) + "\\s*=\\s*)([^$=]+?)(?=\\s*=|\\s*(?:\\$\\$|\\$))", "");
+        const match = cleanedSol.match(solRegex);
+        if (match) {
+          const fullMatch = match[0];
+          const prefix = match[1];
+          const firstTerm = match[2].trim();
+          const normInitial = initialRHS.replace(/\s+/g, '');
+          const normFirst = firstTerm.replace(/\s+/g, '');
+
+          // Si le premier terme de la solution ne commence pas déjà par l'expression initiale
+          if (!normFirst.startsWith(normInitial) && !normInitial.startsWith(normFirst)) {
+            cleanedSol = cleanedSol.replace(fullMatch, () => {
+              const delim = prefix.startsWith('$$') ? '$$' : '$';
+              return `${delim}${varName} = ${initialRHS} = ${firstTerm}`;
+            });
+          }
+        }
+      }
+      return cleanedSol;
+    }
+
+    // 3. Expression anonyme dans l'énoncé (sans nom de variable) : ex: "Calculer : $$2 + 3 \times 4$$"
+    const anonMatch = statement.match(/\$\$\s*([^$\n=]+?)\s*\$\$/);
+    if (anonMatch) {
+      const initialExpr = anonMatch[1].trim();
+      if (/[\+\-\*\/\\^]/.test(initialExpr) && initialExpr.length > 2) {
+        const solAnonRegex = /^(\s*\$\$\s*)([^$=]+?)(?=\s*=)/;
+        const m = cleanedSol.match(solAnonRegex);
+        if (m) {
+          const firstTerm = m[2].trim();
+          const normInitial = initialExpr.replace(/\s+/g, '');
+          const normFirst = firstTerm.replace(/\s+/g, '');
+          if (!normFirst.startsWith(normInitial) && !normInitial.startsWith(normFirst)) {
+            cleanedSol = cleanedSol.replace(solAnonRegex, () => `$$${initialExpr} = ${firstTerm}`);
+          }
+        }
+      }
+    }
+
+    return cleanedSol;
   }
 };
