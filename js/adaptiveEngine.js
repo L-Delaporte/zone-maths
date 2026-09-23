@@ -478,6 +478,12 @@ window.MathsAdaptiveEngine = {
       let levelUpMessage = '';
       let newlyValidatedTiers = [];
       let unlockedTier = null;
+      let tierCapReached = false;
+      let tierCapMessage = '';
+      let nextTierToAdvance = null;
+
+      const exoTier = parseInt(exercise.tier || this.state.currentTier || 1, 10);
+      const tierCap = { 1: 25, 2: 50, 3: 75, 4: 100 }[exoTier] || 100;
 
       window.MathsStorage.updateChapterProgress(this.state.chapterId, p => {
         if (!p.completed.includes(exercise.id)) {
@@ -500,12 +506,22 @@ window.MathsAdaptiveEngine = {
         const hintPenalty = this.state.usedHintsCount > 0 ? 1 : 0;
         const gain = Math.min(5, Math.max(1, baseGain - hintPenalty));
 
-        masteryPercent = Math.min(100, curMastery + gain);
+        // Plafonnement strict selon le palier de la question :
+        // - Questions du Palier 1 : ne font pas avancer le pourcentage au-delà de 25%
+        // - Questions du Palier 2 : ne font pas avancer le pourcentage au-delà de 50%
+        // - Questions du Palier 3 : ne font pas avancer le pourcentage au-delà de 75%
+        // - Questions du Palier 4 : jusqu'à 100%
+        if (curMastery < tierCap) {
+          masteryPercent = Math.min(tierCap, curMastery + gain);
+        } else {
+          // L'élève est déjà à ou au-delà du plafond pour ce palier : le pourcentage n'augmente plus
+          masteryPercent = curMastery;
+          tierCapReached = (exoTier < 4);
+        }
         p.mastery = masteryPercent;
 
         // Suivi précis par palier
         p.successesByTier = p.successesByTier || { 1: 0, 2: 0, 3: 0, 4: 0 };
-        const exoTier = exercise.tier || this.state.currentTier || 1;
         p.successesByTier[exoTier] = (p.successesByTier[exoTier] || 0) + 1;
 
         p.validatedTiers = p.validatedTiers || [];
@@ -553,6 +569,9 @@ window.MathsAdaptiveEngine = {
             leveledUp = true;
             levelUpMessage = `👑 Félicitations ! Tu as validé tous les paliers et maîtrisé cette notion à 100% !`;
           }
+        } else if (tierCapReached) {
+          nextTierToAdvance = exoTier + 1;
+          tierCapMessage = `Plafond du Palier ${exoTier} atteint (${tierCap}%). Passe au Palier ${nextTierToAdvance} pour continuer à faire progresser ton pourcentage !`;
         }
 
         return p;
@@ -569,13 +588,16 @@ window.MathsAdaptiveEngine = {
         unlockedTier,
         newlyValidatedTiers,
         newlyUnlockedBadges,
+        tierCapReached,
+        tierCapMessage,
+        nextTierToAdvance,
         xpEarned,
         totalXp: xpResult.xp,
         userLevel: xpResult.level,
         leveledUpProfile: xpResult.leveledUp,
         mastery: masteryPercent,
         solution: this.formatSolutionWithInitialExpr(exercise.statement, exercise.solution),
-        feedback: "Bravo ! Réponse correcte."
+        feedback: tierCapMessage ? `Bravo ! Réponse correcte (+${xpEarned} XP). ${tierCapMessage}` : "Bravo ! Réponse correcte."
       };
     } else {
       // --- ERREUR / ÉCHAFAUDAGE BIENVEILLANT ---

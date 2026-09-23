@@ -932,6 +932,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <span class="xp-badge">+${result.xpEarned} XP</span>
           </div>
           ${result.leveledUp ? `<div class="level-up-banner">${result.levelUpMessage}</div>` : ''}
+          ${result.tierCapMessage ? `<div class="level-up-banner" style="background: rgba(37,99,235,0.08); border-color: rgba(37,99,235,0.3); color: var(--primary);">🎯 ${result.tierCapMessage}</div>` : ''}
           ${result.solution ? `
           <div class="feedback-solution">
             <div class="feedback-solution-title">Explication / Solution détaillée :</div>
@@ -947,8 +948,23 @@ document.addEventListener('DOMContentLoaded', () => {
           if (result.newlyValidatedTiers && result.newlyValidatedTiers.length > 0 && result.newTier && result.newTier > (exercise.tier || 1)) {
             const nextTierLabel = this.getTierButtonLabel(result.newTier, this.getCurrentChapterLevel());
             nextBtn.innerHTML = `<span>Passer au ${nextTierLabel}</span> ➔`;
+            nextBtn.onclick = () => {
+              window.MathsAdaptiveEngine.setTier(result.newTier);
+              this.renderTrainingView();
+            };
+          } else if (result.tierCapReached && result.nextTierToAdvance) {
+            const nextTierLabel = this.getTierButtonLabel(result.nextTierToAdvance, this.getCurrentChapterLevel());
+            nextBtn.innerHTML = `<span>Passer au ${nextTierLabel}</span> ➔`;
+            nextBtn.onclick = () => {
+              window.MathsAdaptiveEngine.setTier(result.nextTierToAdvance);
+              this.renderTrainingView();
+            };
           } else {
             nextBtn.innerHTML = `<span>Exercice suivant</span> ➔`;
+            nextBtn.onclick = () => {
+              engine.nextExercise();
+              this.renderTrainingView();
+            };
           }
           // Ne pas appeler focus() automatiquement sur nextBtn : l'élève doit avoir le temps de lire le commentaire
         }
