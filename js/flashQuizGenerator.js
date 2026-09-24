@@ -183,10 +183,6 @@ window.MathsQuizGenerator = {
                   <span>Compétence / notion : ${window.MathsApp.getExerciseCompetency(q, q.chapterId)}</span>
                 </div>
                 <div class="quiz-sol-body">
-                  <div class="quiz-method-cues">
-                    <strong>Méthode à vérifier</strong>
-                    <ul>${window.MathsApp.getMethodChecklist(q.tier, q.chapterId).map(step => `<li>${step}</li>`).join('')}</ul>
-                  </div>
                   ${window.MathsRenderer.markdownToHtml((window.MathsAdaptiveEngine && q.statement && q.solution) ? window.MathsAdaptiveEngine.formatSolutionWithInitialExpr(q.statement, q.solution) : q.solution)}
                 </div>
               </div>

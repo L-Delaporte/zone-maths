@@ -4120,7 +4120,7 @@ window.MathsGenerators = {
           answer: String(ans),
           placeholder: `Ex: ${ans}`,
           hint1: `Calcule séparément chaque racine carrée : $\\sqrt{${a*a}} = ${a}$, $\\sqrt{${b*b}} = ${b}$, $\\sqrt{${c*c}} = ${c}$.`,
-          solution: `$$S = ${a} + ${b} - ${c} = ${ans}$$`
+          solution: `$$S = \\sqrt{${a * a}} + \\sqrt{${b * b}} - \\sqrt{${c * c}} = ${a} + ${b} - ${c} = ${a + b} - ${c} = ${ans}$$`
         };
       } else if (subType === 'mult_roots') {
         const pairs = [
@@ -5461,7 +5461,7 @@ window.MathsGenerators = {
           answer: String(ans),
           placeholder: `Ex: ${ans}`,
           hint1: `Calcule d'abord la soustraction entre parenthèses : $${b} - ${c} = ${b - c}$.`,
-          solution: `$$B = ${a} \\times (${b - c}) = ${ans}$$`
+          solution: `$$B = ${a} \\times (${b} - ${c}) = ${a} \\times (${b - c}) = ${a * (b - c)} = ${ans}$$`
         };
       } else if (subType === 'par_sub') {
         const a = this.randInt(25, 55);
@@ -5534,7 +5534,7 @@ window.MathsGenerators = {
           answer: String(ans),
           placeholder: `Ex: ${ans}`,
           hint1: `Les multiplications sont prioritaires : calcule $${a} \\times ${b} = ${a * b}$ et $${c} \\times ${d} = ${c * d}$.`,
-          solution: `$$C = (${a * b}) ${isPlus ? '+' : '-'} (${c * d}) = ${ans}$$`
+          solution: `$$C = ${a} \\times ${b} ${isPlus ? '+' : '-'} ${c} \\times ${d} = (${a * b}) ${isPlus ? '+' : '-'} (${c * d}) = ${a * b} ${isPlus ? '+' : '-'} ${c * d} = ${ans}$$`
         };
       } else if (subType === 'prod_par_par') {
         const a = this.randInt(12, 25);
@@ -5551,7 +5551,7 @@ window.MathsGenerators = {
           answer: String(ans),
           placeholder: `Ex: ${ans}`,
           hint1: "Calcule séparément l'intérieur de chaque parenthèse avant de multiplier les deux résultats.",
-          solution: `$$C = (${a - b}) \\times (${c + d}) = ${ans}$$`
+          solution: `$$C = (${a} - ${b}) \\times (${c} + ${d}) = (${a - b}) \\times (${c + d}) = ${(a - b) * (c + d)} = ${ans}$$`
         };
       } else if (subType === 'chain_4') {
         const a = this.randInt(30, 65);
@@ -5585,7 +5585,7 @@ window.MathsGenerators = {
           answer: String(ans),
           placeholder: `Ex: ${ans}`,
           hint1: `Effectue d'abord la parenthèse intérieure $(${c} + ${d}) = ${c + d}$, puis le crochet $${b} - ${c + d}$.`,
-          solution: `$$C = ${a} \\times [${b} - ${c + d}] = ${a} \\times ${b - (c + d)} = ${ans}$$`
+          solution: `$$C = ${a} \\times [${b} - (${c} + ${d})] = ${a} \\times [${b} - ${c + d}] = ${a} \\times ${b - (c + d)} = ${a * (b - (c + d))} = ${ans}$$`
         };
       }
     } else {
@@ -5602,6 +5602,9 @@ window.MathsGenerators = {
       const r = this.randInt(2, p - 1);
       const right = p - r;
       const add = this.randInt(8, 60);
+      const bracketValue = bracketStart - inner;
+      const rightProduct = m * right;
+      const subtotal = left + rightProduct;
       const ans = left + m * right + add;
       const cfg = {
         expr: `[${bracketStart} - (${innerMul} \\times ${Math.round((inner + innerSub) / innerMul)} - ${innerSub})] \\div ${d} + ${m} \\times (${p} - ${r}) + ${add}`,
@@ -5622,7 +5625,7 @@ window.MathsGenerators = {
         answer: String(cfg.ans),
         placeholder: `Ex: ${cfg.ans}`,
         hint1: "Règle des priorités imbriquées : on commence par les parenthèses les plus intérieures, puis les crochets, puis les multiplications/divisions, et enfin les additions/soustractions.",
-        solution: `1. Calcule le crochet : $${cfg.step1}$, puis $${cfg.step2}$.\n2. Effectue la division du crochet : $${cfg.step3}$.\n3. Calcule la seconde parenthèse : $${cfg.step4}$, puis termine les multiplications et additions : $${cfg.step5}$.\n4. Résultat final :\n$$E = ${cfg.ans}$$`
+        solution: `1. Calcule la parenthèse intérieure : $${cfg.step1}$.\n2. Effectue la soustraction dans le crochet : $${cfg.step2}$.\n3. Effectue la division : $${cfg.step3}$.\n4. Calcule la seconde parenthèse : $${cfg.step4}$.\n5. Termine les opérations en conservant toute l'expression à chaque étape :\n$$E = [${bracketStart} - (${innerMul} \\times ${Math.round((inner + innerSub) / innerMul)} - ${innerSub})] \\div ${d} + ${m} \\times (${p} - ${r}) + ${add}$$\n$$E = [${bracketStart} - ${inner}] \\div ${d} + ${m} \\times (${p} - ${r}) + ${add}$$\n$$E = ${bracketValue} \\div ${d} + ${m} \\times (${p} - ${r}) + ${add}$$\n$$E = ${left} + ${m} \\times (${p} - ${r}) + ${add}$$\n$$E = ${left} + ${m} \\times ${right} + ${add}$$\n$$E = ${left} + ${rightProduct} + ${add}$$\n$$E = ${subtotal} + ${add} = ${cfg.ans}$$`
       };
     }
   },

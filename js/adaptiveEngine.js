@@ -952,6 +952,17 @@ window.MathsAdaptiveEngine = {
       const varName = namedMatch[1].trim();
       const initialRHS = namedMatch[2].trim();
 
+      // Pour une valeur numérique d'expression littérale, l'expression avec x
+      // n'est pas égale à son calcul après remplacement de x. On rappelle donc
+      // l'expression de départ séparément, puis on garde la chaîne de calcul substituée.
+      const substitutionMatch = statement.match(/\bpour\s+\$?([a-z])\$?\s*=\s*\$?(-?\d+)/i);
+      if (substitutionMatch && new RegExp(`\\b${escapeRegex(substitutionMatch[1])}\\b`).test(initialRHS)) {
+        const startLabel = `**Expression de départ :** $${varName} = ${initialRHS}$.`;
+        return cleanedSol.includes('**Expression de départ :**')
+          ? cleanedSol
+          : `${startLabel}\n\n${cleanedSol}`;
+      }
+
       if (initialRHS.length >= 1) {
         // Trouver la première occurrence de $$varName = ou $varName = dans la solution
         const solRegex = new RegExp("((?:\\$\\$|\\$)\\s*" + escapeRegex(varName) + "\\s*=\\s*)([^$=]+?)(?=\\s*=|\\s*(?:\\$\\$|\\$))", "");
