@@ -66,6 +66,7 @@ window.MATHS_EXERCISES = {
       "hint1": "Le dénominateur commun est 12 (car $12 = 4 \\times 3$). Transforme $\\frac{3}{4}$ en douzièmes.",
       "hint2": "$\\frac{3}{4} = \\frac{3 \\times 3}{4 \\times 3} = \\frac{9}{12}$. Additionne ensuite $\\frac{9}{12} + \\frac{5}{12}$ puis simplifie.",
       "solution": "$$C = \\frac{3 \\times 3}{4 \\times 3} + \\frac{5}{12} = \\frac{9}{12} + \\frac{5}{12} = \\frac{14}{12} = \\frac{14 \\div 2}{12 \\div 2} = \\frac{7}{6}$$",
+      "skill": "Calculer"
     },
     {
       "id": "N1-5",
@@ -978,9 +979,9 @@ window.MATHS_EXERCISES = {
         "Attention, on divise $12$ par $3$, on ne soustrait pas.",
         "On soustrait les exposants lors d'une division, on ne les additionne pas."
       ],
-      "hint1": "Sépare la fraction en deux : $\\frac{12}{3} \\times \\frac{10^5}{10^8}$.",
+      "hint1": "Garde la fraction entière et simplifie chaque facteur : $B = \\frac{12 \\times 10^5}{3 \\times 10^8} = 4 \\times 10^{5-8}$.",
       "hint2": "Règle : $\\frac{10^n}{10^m} = 10^{n-m}$.",
-      "solution": "$$B = \\frac{12}{3} \\times \\frac{10^5}{10^8} = 4 \\times 10^{5-8} = 4 \\times 10^{-3}$$",
+      "solution": "$$B = \\frac{12 \\times 10^5}{3 \\times 10^8} = \\frac{4 \\times 10^5}{10^8} = 4 \\times 10^{5-8} = 4 \\times 10^{-3}$$",
       "skill": "Calculer"
     },
     {

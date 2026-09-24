@@ -10,6 +10,7 @@
  */
 
 window.MathsGenerators = {
+  _recentGeneratedStatements: {},
   // Utilitaires aléatoires et arithmétiques
   randInt(min, max, exclude = []) {
     let val;
@@ -368,9 +369,9 @@ window.MathsGenerators = {
         type: 'exact',
         answer: ansStr,
         placeholder: "Ex: 7/18",
-        hint1: "Calcule séparément le numérateur du haut, puis le dénominateur du bas, avant d'effectuer la division par l'inverse.",
-        hint2: `Haut : $\\frac{${a}}{${b}} - \\frac{${c}}{${d}} = \\frac{${numN}}{${numD}}$. Bas : $\\frac{${e}}{${f}} + \\frac{${g}}{${h}} = \\frac{${denN}}{${denD}}$.`,
-        solution: `1. Calcul du numérateur :\n$$\\text{Numérateur} = \\frac{${a} \\times ${d}}{${b} \\times ${d}} - \\frac{${c} \\times ${b}}{${d} \\times ${b}} = \\frac{${a * d} - ${c * b}}{${numD}} = ${this.formatFraction(numN, numD)}$$\n2. Calcul du dénominateur :\n$$\\text{Dénominateur} = \\frac{${e} \\times ${h}}{${f} \\times ${h}} + \\frac{${g} \\times ${f}}{${h} \\times ${f}} = \\frac{${e * h} + ${g * f}}{${denD}} = ${this.formatFraction(denN, denD)}$$\n3. Division par multiplication par l'inverse :\n$$G = \\frac{${numN}}{${numD}} \\div \\frac{${denN}}{${denD}} = \\frac{${numN}}{${numD}} \\times \\frac{${denD}}{${denN}} = \\frac{${finalNum}}{${finalDen}} = ${this.formatFraction(finalNum, finalDen)}$$`
+        hint1: "Garde la fraction à étages entière et réduis ses deux expressions sous la même égalité.",
+        hint2: `Garde l’égalité complète : $G = \\frac{\\frac{${a * d} - ${c * b}}{${numD}}}{\\frac{${e * h} + ${g * f}}{${denD}}} = \\frac{\\frac{${numN}}{${numD}}}{\\frac{${denN}}{${denD}}}$.` ,
+        solution: `$$G = \\frac{\\frac{${a}}{${b}} - \\frac{${c}}{${d}}}{\\frac{${e}}{${f}} + \\frac{${g}}{${h}}} = \\frac{\\frac{${a * d} - ${c * b}}{${numD}}}{\\frac{${e * h} + ${g * f}}{${denD}}} = \\frac{${numN}}{${numD}} \\div \\frac{${denN}}{${denD}} = \\frac{${numN}}{${numD}} \\times \\frac{${denD}}{${denN}} = \\frac{${finalNum}}{${finalDen}} = ${this.formatFraction(finalNum, finalDen)}$$`
       };
     }
   },
@@ -852,7 +853,7 @@ window.MathsGenerators = {
           type: 'exact',
           answer: `10^${ansExp}`,
           placeholder: `Ex: 10^${ansExp}`,
-          hint1: `Numérateur : $10^{${a} + (${b})} = 10^{${a + b}}$. Puis soustrais le dénominateur : $(${a + b}) - (${c})$.`,
+          hint1: `Garde la fraction entière : $E = \\frac{10^{${a}} \\times 10^{${b}}}{10^{${c}}} = \\frac{10^{${a + b}}}{10^{${c}}} = 10^{${a + b} - (${c})}$.`,
           solution: `$$E = \\frac{10^{${a + b}}}{10^{${c}}} = 10^{${a + b} - (${c})} = 10^{${ansExp}}$$`
         };
       } else if (subType === 'pow_pow_quot') {
@@ -937,8 +938,8 @@ window.MathsGenerators = {
         answer: `10^${finalExp}`,
         placeholder: "Ex: 10^5 ou 10^-3",
         hint1: "Commence par calculer la puissance de puissance : $(10^p)^q = 10^{p \\times q}$.",
-        hint2: `Haut : $10^{${p} \\times ${q}} \\times 10^{${r}} = 10^{${p * q + r}}$. Puis soustrais l'exposant du bas : $(${p * q + r}) - (${s})$.`,
-        solution: `1. Puissance de puissance : $(10^{${p}})^{${q}} = 10^{${p} \\times ${q}} = 10^{${p * q}}$.\n2. Numérateur : $10^{${p * q}} \\times 10^{${r}} = 10^{${p * q + r}}$.\n3. Quotient final :\n$$D = \\frac{10^{${p * q + r}}}{10^{${s}}} = 10^{${p * q + r} - (${s})} = 10^{${finalExp}}$$`
+        hint2: `Garde la fraction complète : $D = \\frac{10^{${p * q}} \\times 10^{${r}}}{10^{${s}}} = \\frac{10^{${p * q + r}}}{10^{${s}}} = 10^{${p * q + r} - (${s})}$.` ,
+        solution: `$$D = \\frac{(10^{${p}})^{${q}} \\times 10^{${r}}}{10^{${s}}} = \\frac{10^{${p * q}} \\times 10^{${r}}}{10^{${s}}} = \\frac{10^{${p * q + r}}}{10^{${s}}} = 10^{${p * q + r} - (${s})} = 10^{${finalExp}}$$`
       };
     }
   },
@@ -3592,45 +3593,33 @@ window.MathsGenerators = {
           type: 'exact',
           answer: sD === 1 ? String(sN) : `${sN}/${sD}`,
           placeholder: "Ex: 1",
-          hint1: `La division est prioritaire : transforme-la en multiplication par l'inverse $\\frac{${a}}{${b}} \\times \\frac{${d}}{${c}}$, puis additionne.`,
-          solution: `1. Division prioritaire :\n$$\\frac{${a}}{${b}} \\div \\frac{${c}}{${d}} = \\frac{${a}}{${b}} \\times \\frac{${d}}{${c}} = \\frac{${divNum}}{${divDen}} = ${this.formatFraction(sDivN, sDivD)}$$\n2. Somme :\n$$D = ${this.formatFraction(sDivN, sDivD)} + \\frac{${e}}{${f}} = ${this.formatFraction(numTotal, denTotal)}$$`
-        };
-      }
+          hint1: `Effectue la division en gardant toute l'expression : $D = \\frac{${a}}{${b}} \\times \\frac{${d}}{${c}} + \\frac{${e}}{${f}}$.`,
+          solution: `$$D = \\frac{${a}}{${b}} \\div \\frac{${c}}{${d}} + \\frac{${e}}{${f}} = \\frac{${a}}{${b}} \\times \\frac{${d}}{${c}} + \\frac{${e}}{${f}} = \\frac{${a * d}}{${b * c}} + \\frac{${e}}{${f}} = \\frac{${a * d * f} + ${e * b * c}}{${b * c * f}} = ${this.formatFraction(numTotal, denTotal)}$$`
+      };
+    }
     } else {
-      // Palier 4 : Défi 3ème (Fraction à étages complexe : quotient de deux parenthèses)
-      // ((a/b) - (c/d)) / ((e/f) + (g/h))
       const configs = [
-        {
-          a: 2, b: 3, c: 1, d: 4, // 2/3 - 1/4 = 5/12
-          e: 5, f: 6, g: 1, h: 2, // 5/6 + 1/2 = 8/6 = 4/3
-          // (5/12) / (4/3) = (5/12) * (3/4) = 15/48 = 5/16
-          ansNum: 5, ansDen: 16
-        },
-        {
-          a: 3, b: 2, c: 1, d: 5, // 3/2 - 1/5 = 13/10
-          e: 1, f: 4, g: 2, h: 5, // 1/4 + 2/5 = 13/20
-          // (13/10) / (13/20) = (13/10) * (20/13) = 2
-          ansNum: 2, ansDen: 1
-        },
-        {
-          a: 4, b: 5, c: 1, d: 2, // 4/5 - 1/2 = 3/10
-          e: 2, f: 3, g: 1, h: 6, // 2/3 + 1/6 = 5/6
-          // (3/10) / (5/6) = (3/10) * (6/5) = 18/50 = 9/25
-          ansNum: 9, ansDen: 25
-        }
+        { a: 2, b: 3, c: 1, d: 4, e: 5, f: 6, g: 1, h: 2, ansNum: 5, ansDen: 16 },
+        { a: 3, b: 2, c: 1, d: 5, e: 1, f: 4, g: 2, h: 5, ansNum: 2, ansDen: 1 },
+        { a: 4, b: 5, c: 1, d: 2, e: 2, f: 3, g: 1, h: 6, ansNum: 9, ansDen: 25 }
       ];
       const cfg = this.randChoice(configs);
-
+      const topN = cfg.a * cfg.d - cfg.c * cfg.b;
+      const topD = cfg.b * cfg.d;
+      const bottomN = cfg.e * cfg.h + cfg.g * cfg.f;
+      const bottomD = cfg.f * cfg.h;
+      const finalN = topN * bottomD;
+      const finalD = topD * bottomN;
       return {
         chapterId: '4N2',
         tier: 4,
         title: "Défi 3ème : Fraction à étages complexe (Quotient composé)",
-        statement: `Calculer la valeur exacte sous forme de fraction irréductible de :\n$$F = \\frac{\\frac{${cfg.a}}{${cfg.b}} - \\frac{${cfg.c}}{${cfg.d}}}{\\frac{${cfg.e}}{${cfg.f}} + \\frac{${cfg.g}}{${cfg.h}}}$$`,
+        statement: "Calculer la valeur exacte sous forme de fraction irréductible de :\n$$F = \\frac{\\frac{" + cfg.a + "}{" + cfg.b + "} - \\frac{" + cfg.c + "}{" + cfg.d + "}}{\\frac{" + cfg.e + "}{" + cfg.f + "} + \\frac{" + cfg.g + "}{" + cfg.h + "}}$$",
         type: 'exact',
-        answer: cfg.ansDen === 1 ? String(cfg.ansNum) : `${cfg.ansNum}/${cfg.ansDen}`,
+        answer: cfg.ansDen === 1 ? String(cfg.ansNum) : cfg.ansNum + "/" + cfg.ansDen,
         placeholder: "Ex: 5/16",
-        hint1: "Calcule séparément le numérateur du grand trait de fraction, puis le dénominateur, et enfin effectue la division.",
-        solution: `1. Calcul du numérateur :\n$$N = \\frac{${cfg.a}}{${cfg.b}} - \\frac{${cfg.c}}{${cfg.d}} = \\frac{${cfg.a * cfg.d} - ${cfg.c * cfg.b}}{${cfg.b * cfg.d}} = \\frac{${cfg.a * cfg.d - cfg.c * cfg.b}}{${cfg.b * cfg.d}}$$\n2. Calcul du dénominateur :\n$$D = \\frac{${cfg.e}}{${cfg.f}} + \\frac{${cfg.g}}{${cfg.h}} = \\frac{${cfg.e * cfg.h} + ${cfg.g * cfg.f}}{${cfg.f * cfg.h}} = \\frac{${cfg.e * cfg.h + cfg.g * cfg.f}}{${cfg.f * cfg.h}}$$\n3. Division finale :\n$$F = N \\div D = ${cfg.ansDen === 1 ? cfg.ansNum : `${cfg.ansNum}/${cfg.ansDen}`}$$`
+        hint1: "Mets les fractions au même dénominateur en gardant l'égalité complète.",
+        solution: "$$F = \\frac{\\frac{" + cfg.a + "}{" + cfg.b + "} - \\frac{" + cfg.c + "}{" + cfg.d + "}}{\\frac{" + cfg.e + "}{" + cfg.f + "} + \\frac{" + cfg.g + "}{" + cfg.h + "}} = \\frac{\\frac{" + (cfg.a * cfg.d) + " - " + (cfg.c * cfg.b) + "}{" + topD + "}}{\\frac{" + (cfg.e * cfg.h) + " + " + (cfg.g * cfg.f) + "}{" + bottomD + "}} = \\frac{\\frac{" + topN + "}{" + topD + "}}{\\frac{" + bottomN + "}{" + bottomD + "}} = \\frac{" + topN + "}{" + topD + "} \\div \\frac{" + bottomN + "}{" + bottomD + "} = \\frac{" + finalN + "}{" + finalD + "} = " + this.formatFraction(finalN, finalD) + "$$"
       };
     }
   },
@@ -3803,7 +3792,7 @@ window.MathsGenerators = {
           type: 'exact',
           answer: String(ansExp),
           placeholder: `Ex: ${ansExp}`,
-          hint1: `Numérateur : $10^{${a} + ${b}} = 10^{${a + b}}$. Puis soustrais l'exposant du dénominateur.`,
+          hint1: `Conserve la fraction dans les étapes : $\frac{10^{${a}} \times 10^{${b}}}{10^{${c}}} = \frac{10^{${a + b}}}{10^{${c}}} = 10^{${a + b} - ${c}}$.`,
           solution: `$$\\frac{10^{${a}} \\times 10^{${b}}}{10^{${c}}} = \\frac{10^{${a + b}}}{10^{${c}}} = 10^{${a + b} - ${c}} = 10^{${ansExp}} \\implies n = ${ansExp}$$`
         };
       } else {
@@ -3916,8 +3905,8 @@ window.MathsGenerators = {
         type: 'exact',
         answer: String(cfg.ansSciExp),
         placeholder: `Ex: ${cfg.ansSciExp}`,
-        hint1: `1. Regroupe les nombres décimaux d'un côté et les puissances de 10 de l'autre.\n2. Utilise $(10^r)^s = 10^{r \\times s}$.\n3. Ajuste la notation finale pour que le premier nombre soit entre 1 et 10.`,
-        solution: `1. Numérateur : $${cfg.calcNum}$\n2. Dénominateur : $${cfg.calcDen}$\n3. Quotient :\n$$C = \\frac{${cfg.calcNum.split(',')[0].trim()}}{${cfg.calcDen.split('\\times')[0].trim()}} \\times \\frac{10^{\\dots}}{10^{\\dots}} = ${cfg.divCoeff} \\times ${cfg.divExp} = ${cfg.finalSci}$$\nL'exposant est donc :\n$$k = ${cfg.ansSciExp}$$`
+        hint1: "Applique les règles des puissances dans la fraction entière, puis écris le résultat en notation scientifique.",
+        solution: `$$C = ${cfg.expr} = ${cfg.finalSci}$$\nL'exposant est donc : $$k = ${cfg.ansSciExp}$$`
       };
     }
   },
@@ -5288,7 +5277,7 @@ window.MathsGenerators = {
     if (t === 1) {
       // Palier 1 : Socle (Multiplication/division prioritaires, vocabulaire et nature d'un calcul)
       const subType = this.randChoice(['add_mult', 'mult_add', 'sub_mult', 'mult_sub', 'add_div', 'sub_div', 'nom_calcul', 'vocabulaire_operation']);
-
+      
       if (subType === 'add_mult') {
         const a = this.randInt(2, 9);
         const b = this.randInt(2, 8);
@@ -5388,11 +5377,19 @@ window.MathsGenerators = {
           solution: `$$A = ${a} - (${b} \\div ${c}) = ${a} - ${q} = ${ans}$$`
         };
       } else if (subType === 'nom_calcul') {
+        const u = this.randInt(12, 96);
+        const div = this.randInt(2, 9);
+        const m1 = this.randInt(2, 9);
+        const m2 = this.randInt(2, 9);
+        const a = this.randInt(8, 75);
+        const b = this.randInt(2, 12);
+        const c = this.randInt(2, 9);
+        const d = this.randInt(2, 9);
         const variants = [
-          { expr: "50 - 80 \\div 2", ans: "Une différence", lastOp: "la soustraction", reason: "la division $80 \\div 2$ est prioritaire, la soustraction est faite en dernier" },
-          { expr: "14 + 3 \\times 5", ans: "Une somme", lastOp: "l'addition", reason: "la multiplication $3 \\times 5$ est prioritaire, l'addition est faite en dernier" },
-          { expr: "(15 - 6) \\times 4", ans: "Un produit", lastOp: "la multiplication", reason: "la parenthèse $(15 - 6)$ est prioritaire, la multiplication par 4 est faite en dernier" },
-          { expr: "(40 + 8) \\div 6", ans: "Un quotient", lastOp: "la division", reason: "la parenthèse $(40 + 8)$ est prioritaire, la division par 6 est faite en dernier" }
+          { expr: `${u} - ${div * this.randInt(2, 10)} \\div ${div}`, ans: "Une différence", lastOp: "la soustraction", reason: "la division est prioritaire, la soustraction est faite en dernier" },
+          { expr: `${a} + ${m1} \\times ${m2}`, ans: "Une somme", lastOp: "l'addition", reason: "la multiplication est prioritaire, l'addition est faite en dernier" },
+          { expr: `(${a} - ${b}) \\times ${c}`, ans: "Un produit", lastOp: "la multiplication", reason: "la parenthèse est prioritaire, la multiplication est faite en dernier" },
+          { expr: `(${c * d} + ${u}) \\div ${c}`, ans: "Un quotient", lastOp: "la division", reason: "la parenthèse est prioritaire, la division est faite en dernier" }
         ];
         const v = this.randChoice(variants);
         const opts = ["Une somme", "Une différence", "Un produit", "Un quotient"];
@@ -5501,9 +5498,9 @@ window.MathsGenerators = {
         };
       } else {
         // Distributivité simple
-        const k = this.randChoice([3, 4, 6, 7, 8]);
-        const a = this.randInt(11, 29);
-        const b = 100 - a > 0 && Math.random() < 0.5 ? 100 - a : (a < 10 ? 10 - a : this.randInt(2, 9));
+        const k = this.randInt(2, 12);
+        const a = this.randInt(11, 89);
+        const b = this.randInt(11, 89);
         const ans = k * (a + b);
         return {
           chapterId: '5N1',
@@ -5593,45 +5590,28 @@ window.MathsGenerators = {
       }
     } else {
       // Palier 4 : Défi 4ème / Difficulté Maximale (Crochets et parenthèses imbriquées)
-      const configs = [
-        {
-          expr: "[48 - (3 \\times 7 - 5)] \\div 4 + 6 \\times (14 - 3 \\times 3)",
-          step1: "3 \\times 7 - 5 = 21 - 5 = 16",
-          step2: "48 - 16 = 32",
-          step3: "32 \\div 4 = 8",
-          step4: "14 - 3 \\times 3 = 14 - 9 = 5",
-          step5: "6 \\times 5 = 30",
-          ans: 38
-        },
-        {
-          expr: "[60 - (4 \\times 8 - 7)] \\div 5 + 7 \\times (18 - 2 \\times 7)",
-          step1: "4 \\times 8 - 7 = 32 - 7 = 25",
-          step2: "60 - 25 = 35",
-          step3: "35 \\div 5 = 7",
-          step4: "18 - 2 \\times 7 = 18 - 14 = 4",
-          step5: "7 \\times 4 = 28",
-          ans: 35
-        },
-        {
-          expr: "[75 - (5 \\times 9 - 10)] \\div 8 + 4 \\times (25 - 4 \\times 5)",
-          step1: "5 \\times 9 - 10 = 45 - 10 = 35",
-          step2: "75 - 35 = 40",
-          step3: "40 \\div 8 = 5",
-          step4: "25 - 4 \\times 5 = 25 - 20 = 5",
-          step5: "4 \\times 5 = 20",
-          ans: 25
-        },
-        {
-          expr: "50 - [3 \\times (8 + 4) - 16] \\div 2 + 5 \\times (7 - 2 \\times 2)",
-          step1: "8 + 4 = 12 \\implies 3 \\times 12 - 16 = 36 - 16 = 20",
-          step2: "20 \\div 2 = 10",
-          step3: "7 - 2 \\times 2 = 7 - 4 = 3",
-          step4: "5 \\times 3 = 15",
-          step5: "50 - 10 + 15 = 55",
-          ans: 55
-        }
-      ];
-      const cfg = this.randChoice(configs);
+      const d = this.randInt(2, 8);
+      const q = this.randInt(5, 18);
+      const innerMul = this.randInt(3, 9);
+      const innerSub = this.randInt(2, 12);
+      const inner = innerMul * this.randInt(2, 6) - innerSub;
+      const bracketStart = inner + d * this.randInt(2, 10);
+      const left = (bracketStart - inner) / d;
+      const m = this.randInt(2, 8);
+      const p = this.randInt(3, 10);
+      const r = this.randInt(2, p - 1);
+      const right = p - r;
+      const add = this.randInt(8, 60);
+      const ans = left + m * right + add;
+      const cfg = {
+        expr: `[${bracketStart} - (${innerMul} \\times ${Math.round((inner + innerSub) / innerMul)} - ${innerSub})] \\div ${d} + ${m} \\times (${p} - ${r}) + ${add}`,
+        step1: `${innerMul} \\times ${Math.round((inner + innerSub) / innerMul)} - ${innerSub} = ${inner}`,
+        step2: `${bracketStart} - ${inner} = ${bracketStart - inner}`,
+        step3: `${bracketStart - inner} \\div ${d} = ${left}`,
+        step4: `${p} - ${r} = ${right}`,
+        step5: `${left} + ${m} \\times ${right} + ${add} = ${ans}`,
+        ans
+      };
 
       return {
         chapterId: '5N1',
@@ -5642,7 +5622,7 @@ window.MathsGenerators = {
         answer: String(cfg.ans),
         placeholder: `Ex: ${cfg.ans}`,
         hint1: "Règle des priorités imbriquées : on commence par les parenthèses les plus intérieures, puis les crochets, puis les multiplications/divisions, et enfin les additions/soustractions.",
-        solution: `1. Intérieur du crochet : $${cfg.step1}$\n2. Division du crochet : $${cfg.step2 || cfg.step3}$\n3. Seconde parenthèse et produit : $${cfg.step4 || cfg.step5}$\n4. Résultat final :\n$$E = ${cfg.ans}$$`
+        solution: `1. Calcule le crochet : $${cfg.step1}$, puis $${cfg.step2}$.\n2. Effectue la division du crochet : $${cfg.step3}$.\n3. Calcule la seconde parenthèse : $${cfg.step4}$, puis termine les multiplications et additions : $${cfg.step5}$.\n4. Résultat final :\n$$E = ${cfg.ans}$$`
       };
     }
   },
@@ -5681,7 +5661,7 @@ window.MathsGenerators = {
           chapterId: '5N2',
           tier: 1,
           title: "Addition d'un nombre positif et d'un nombre négatif",
-          statement: isPosFirst
+          statement: isPosFirst 
             ? `Calculer la somme suivante :\n$$S = ${pos} + (-${neg})$$`
             : `Calculer la somme suivante :\n$$S = (-${neg}) + ${pos}$$`,
           type: "exact",
@@ -5763,8 +5743,8 @@ window.MathsGenerators = {
           type: "exact",
           answer: String(target),
           placeholder: `Ex: ${target}`,
-          hint1: isTwoNeg
-            ? "Entre deux nombres négatifs, le plus grand est celui qui est le plus proche de zéro (la plus petite distance à zéro)."
+          hint1: isTwoNeg 
+            ? "Entre deux nombres négatifs, le plus grand est celui qui est le plus proche de zéro (la plus petite distance à zéro)." 
             : "Tout nombre positif est toujours strictement supérieur à tout nombre négatif.",
           solution: `Sur la droite graduée, $${minVal} < ${maxVal}$.\nLe nombre ${label} est donc **${target}**.`
         };
@@ -6095,7 +6075,7 @@ window.MathsGenerators = {
           answer: correctOpt,
           correctIndex: opts.indexOf(correctOpt),
           hint1: "Si le numérateur est plus petit que le dénominateur, la fraction est < 1. S'ils sont égaux, elle est = 1. Si le numérateur est plus grand, elle est > 1.",
-          solution: `• Numérateur : $${n}$, Dénominateur : $${d}$.\n• Comme $${n} ${n < d ? '<' : (n > d ? '>' : '=')} ${d}$, on en déduit que $\\frac{${n}}{${d}} ${n < d ? '<' : (n > d ? '>' : '=')} 1$.`
+          solution: `On compare les deux termes de la fraction : $${n} ${n < d ? '<' : (n > d ? '>' : '=')} ${d}$, donc $\\frac{${n}}{${d}} ${n < d ? '<' : (n > d ? '>' : '=')} 1$.`
         };
       }
     } else if (t === 2) {
@@ -6765,32 +6745,32 @@ window.MathsGenerators = {
           {
             expr: '\\frac{6^2 + 8^2}{5 \\times 2^2}',
             ans: 5,
-            steps: "1. Numérateur : $6^2 + 8^2 = 36 + 64 = 100$.\n2. Dénominateur : $5 \\times 2^2 = 5 \\times 4 = 20$.\n3. Quotient : $\\frac{100}{20} = 5$."
+            steps: "$$C = \\frac{6^2 + 8^2}{5 \\times 2^2} = \\frac{36 + 64}{5 \\times 4} = \\frac{100}{20} = 5$$"
           },
           {
             expr: '\\frac{5^2 - 3^2}{2^3}',
             ans: 2,
-            steps: "1. Numérateur : $5^2 - 3^2 = 25 - 9 = 16$.\n2. Dénominateur : $2^3 = 8$.\n3. Quotient : $\\frac{16}{8} = 2$."
+            steps: "$$C = \\frac{5^2 - 3^2}{2^3} = \\frac{25 - 9}{8} = \\frac{16}{8} = 2$$"
           },
           {
             expr: '\\frac{10^2 - 2^6}{3 \\times 2^2}',
             ans: 3,
-            steps: "1. Numérateur : $10^2 - 2^6 = 100 - 64 = 36$.\n2. Dénominateur : $3 \\times 2^2 = 3 \\times 4 = 12$.\n3. Quotient : $\\frac{36}{12} = 3$."
+            steps: "$$C = \\frac{10^2 - 2^6}{3 \\times 2^2} = \\frac{100 - 64}{3 \\times 4} = \\frac{36}{12} = 3$$"
           },
           {
             expr: '\\frac{7^2 - 1}{2^4}',
             ans: 3,
-            steps: "1. Numérateur : $7^2 - 1 = 49 - 1 = 48$.\n2. Dénominateur : $2^4 = 16$.\n3. Quotient : $\\frac{48}{16} = 3$."
+            steps: "$$C = \\frac{7^2 - 1}{2^4} = \\frac{49 - 1}{16} = \\frac{48}{16} = 3$$"
           },
           {
             expr: '\\frac{3^4 - 1}{2 \\times 5}',
             ans: 8,
-            steps: "1. Numérateur : $3^4 - 1 = 81 - 1 = 80$.\n2. Dénominateur : $2 \\times 5 = 10$.\n3. Quotient : $\\frac{80}{10} = 8$."
+            steps: "$$C = \\frac{3^4 - 1}{2 \\times 5} = \\frac{81 - 1}{10} = \\frac{80}{10} = 8$$"
           },
           {
             expr: '\\frac{4^3 - 4}{2 \\times 3}',
             ans: 10,
-            steps: "1. Numérateur : $4^3 - 4 = 64 - 4 = 60$.\n2. Dénominateur : $2 \\times 3 = 6$.\n3. Quotient : $\\frac{60}{6} = 10$."
+            steps: "$$C = \\frac{4^3 - 4}{2 \\times 3} = \\frac{64 - 4}{6} = \\frac{60}{6} = 10$$"
           }
         ];
         const item = this.randChoice(cases);
@@ -6802,7 +6782,7 @@ window.MathsGenerators = {
           type: "exact",
           answer: String(item.ans),
           placeholder: `Ex: ${item.ans}`,
-          hint1: "Le trait de fraction agit comme des parenthèses : calcule séparément le numérateur et le dénominateur avant de diviser.",
+          hint1: "Le trait de fraction agit comme des parenthèses : calcule en gardant la fraction entière à chaque étape.",
           solution: `${item.steps}\n**Résultat final : $C = ${item.ans}$**`
         };
       } else {
@@ -9417,43 +9397,22 @@ window.MathsGenerators = {
     const t = this.resolveTier(tier);
     if (t === 1) {
       if (Math.random() < 0.5) {
-        // Programme de calcul simple (1 opération)
+        // Programme de calcul Scratch 5ème
         const x = this.randInt(2, 9);
-        const op = this.randChoice(['add', 'mul', 'sub']);
-        let a, ans, opCode, opExpr, hintText;
-        if (op === 'add') {
-          a = this.randInt(3, 9);
-          ans = x + a;
-          opCode = `mettre [N] à (N + ${a})`;
-          opExpr = `${x} + ${a}`;
-          hintText = `Le script ajoute $${a}$ au nombre de départ : $${x} + ${a}$.`;
-        } else if (op === 'mul') {
-          a = this.randInt(2, 6);
-          ans = x * a;
-          opCode = `mettre [N] à (N * ${a})`;
-          opExpr = `${x} \\times ${a}`;
-          hintText = `Le script multiplie le nombre de départ par $${a}$ : $${x} \\times ${a}$.`;
-        } else {
-          a = this.randInt(1, Math.max(1, x - 1));
-          ans = x - a;
-          opCode = `mettre [N] à (N - ${a})`;
-          opExpr = `${x} - ${a}`;
-          hintText = `Le script soustrait $${a}$ au nombre de départ : $${x} - ${a}$.`;
-        }
+        const a = this.randInt(3, 8);
         return {
           chapterId: '5A1',
           tier: 1,
           title: "Programme de calcul Scratch (5ème)",
-          statement: `Un lutin exécute le script suivant :\n\`\`\`text\nquand drapeau cliqué\ndemander [Choisir un nombre] et attendre\nmettre [N] à réponse\n${opCode}\ndire (N)\n\`\`\`\n**Si le nombre entré au départ est $${x}$, quel nombre affiche le lutin ?**`,
+          statement: `Un lutin exécute le script suivant :\n\`\`\`text\nquand drapeau cliqué\ndemander [Choisir un nombre] et attendre\nmettre [N] à réponse\nmettre [N] à (N + ${a})\ndire (N)\n\`\`\`\n**Si le nombre entré au départ est $${x}$, quel nombre affiche le lutin ?**`,
           type: "exact",
-          answer: String(ans),
-          placeholder: `Ex: ${ans}`,
-          hint1: hintText,
-          hint2: `Calcul : $${opExpr} = ${ans}$.`,
-          solution: `$$N = ${opExpr} = ${ans}$$`
+          answer: String(x + a),
+          placeholder: `Ex: ${x + a}`,
+          hint1: `Le script ajoute $${a}$ au nombre de départ : $${x} + ${a}$.`,
+          hint2: `Calcul simple : $${x} + ${a} = ${x + a}$.`,
+          solution: `$$N = ${x} + ${a} = ${x + a}$$`
         };
       }
-      // Tracé d'un polygone régulier : JAMAIS de mention du nombre de côtés dans l'énoncé !
       const polys = [
         { name: "un carré", reps: 4, angle: 90 },
         { name: "un triangle équilatéral", reps: 3, angle: 120 },
@@ -9461,17 +9420,18 @@ window.MathsGenerators = {
         { name: "un octogone régulier", reps: 8, angle: 45 }
       ];
       const p = this.randChoice(polys);
+      const step = this.randChoice([30, 40, 50, 60]);
       return {
         chapterId: '5A1',
         tier: 1,
-        title: `Angle de rotation pour tracer ${p.name} dans Scratch`,
-        statement: `Dans Scratch, pour faire tracer **${p.name}** à un lutin avec le stylo en répétant une même séquence « avancer puis tourner », **quel angle extérieur de rotation en degrés** doit-on programmer à chaque étape pour fermer la figure ?`,
+        title: `Angle pour tracer ${p.name} dans Scratch (5ème)`,
+        statement: `Dans Scratch, pour tracer ${p.name} avec le bloc « répéter ${p.reps} fois : avancer de ${step}, tourner de ... degrés », quel est l'angle de rotation en degrés ?`,
         type: "exact",
         answer: String(p.angle),
         placeholder: `Ex: ${p.angle}`,
-        hint1: `Combien de côtés possède ${p.name} ? Un tour complet correspond à $360^\\circ$ : divise $360^\\circ$ par le nombre de côtés.`,
-        hint2: `Règle fondamentale : $\\text{Angle} = \\frac{360^\\circ}{\\text{nombre de côtés}}$.`,
-        solution: `Un ${p.name.replace(/^un /, '')} possède $${p.reps}$ côtés. Pour fermer la figure en effectuant un tour complet ($360^\\circ$), l'angle de rotation extérieur est : $$\\text{Angle} = \\frac{360^\\circ}{${p.reps}} = ${p.angle}^\\circ$$`
+        hint1: `La somme des angles extérieurs pour un tour complet est de 360°. Divise 360 par le nombre de côtés (${p.reps}).`,
+        hint2: `Calcul : $\\frac{360^\\circ}{${p.reps}} = ${p.angle}^\\circ$.`,
+        solution: `$$\\text{Angle} = \\frac{360^\\circ}{${p.reps}} = ${p.angle}^\\circ$$`
       };
     } else if (t === 2) {
       if (Math.random() < 0.5) {
@@ -9479,291 +9439,117 @@ window.MathsGenerators = {
         const x = this.randInt(2, 8);
         const a = this.randInt(2, 5);
         const b = this.randInt(2, 9);
-        const isMulFirst = Math.random() < 0.6;
-        if (isMulFirst) {
-          const ans = x * a + b;
-          return {
-            chapterId: '5A1',
-            tier: 2,
-            title: "Programme de calcul à 2 étapes Scratch (5ème)",
-            statement: `Un lutin exécute le script suivant :\n\`\`\`text\nquand drapeau cliqué\ndemander [Choisir un nombre] et attendre\nmettre [N] à réponse\nmettre [N] à (N * ${a})\nmettre [N] à (N + ${b})\ndire (N)\n\`\`\`\n**Si l'on choisit le nombre $${x}$ au départ, quel est le résultat final affiché ?**`,
-            type: "exact",
-            answer: String(ans),
-            placeholder: `Ex: ${ans}`,
-            hint1: `Effectue d'abord la multiplication par $${a}$, puis ajoute $${b}$.`,
-            hint2: `Étape 1 : $${x} \\times ${a} = ${x * a}$. Étape 2 : $${x * a} + ${b} = ${ans}$.`,
-            solution: `$$(${x} \\times ${a}) + ${b} = ${x * a} + ${b} = ${ans}$$`
-          };
-        } else {
-          const ans = (x + b) * a;
-          return {
-            chapterId: '5A1',
-            tier: 2,
-            title: "Programme de calcul à 2 étapes Scratch (5ème)",
-            statement: `Un lutin exécute le script suivant :\n\`\`\`text\nquand drapeau cliqué\ndemander [Choisir un nombre] et attendre\nmettre [N] à réponse\nmettre [N] à (N + ${b})\nmettre [N] à (N * ${a})\ndire (N)\n\`\`\`\n**Si l'on choisit le nombre $${x}$ au départ, quel est le résultat final affiché ?**`,
-            type: "exact",
-            answer: String(ans),
-            placeholder: `Ex: ${ans}`,
-            hint1: `Applique les blocs dans l'ordre : commence par ajouter $${b}$, puis multiplie le résultat par $${a}$.`,
-            hint2: `Étape 1 : $${x} + ${b} = ${x + b}$. Étape 2 : $${x + b} \\times ${a} = ${ans}$.`,
-            solution: `$$(${x} + ${b}) \\times ${a} = ${x + b} \\times ${a} = ${ans}$$`
-          };
-        }
-      }
-      // Distance parcourue (avec nom de polygone sans préciser le nombre de côtés, ou boucle)
-      if (Math.random() < 0.5) {
-        const polysTier2 = [
-          { name: "d'un triangle équilatéral", sides: 3 },
-          { name: "d'un carré", sides: 4 },
-          { name: "d'un pentagone régulier", sides: 5 },
-          { name: "d'un hexagone régulier", sides: 6 },
-          { name: "d'un octogone régulier", sides: 8 }
-        ];
-        const p = this.randChoice(polysTier2);
-        const pas = this.randChoice([12, 15, 20, 25, 30, 40]);
-        const total = p.sides * pas;
         return {
           chapterId: '5A1',
           tier: 2,
-          title: "Périmètre tracé par un lutin (5ème)",
-          statement: `Un lutin trace le contour complet **${p.name}** dont chaque côté mesure $${pas}$ pas.\n**Quelle distance totale en pas le lutin a-t-il parcourue ?**`,
+          title: "Programme de calcul à 2 étapes Scratch (5ème)",
+          statement: `Un lutin exécute le script suivant :\n\`\`\`text\nquand drapeau cliqué\ndemander [Choisir un nombre] et attendre\nmettre [N] à réponse\nmettre [N] à (N * ${a})\nmettre [N] à (N + ${b})\ndire (N)\n\`\`\`\n**Si l'on choisit le nombre $${x}$ au départ, quel est le résultat final affiché ?**`,
           type: "exact",
-          answer: String(total),
-          placeholder: `Ex: ${total}`,
-          hint1: `Combien de côtés possède cette figure ? Multiplie son nombre de côtés par la longueur d'un côté ($${pas}$ pas).`,
-          hint2: `La figure a $${p.sides}$ côtés de même longueur : $${p.sides} \\times ${pas}$.`,
-          solution: `${p.name.charAt(0).toUpperCase() + p.name.slice(1)} possède $${p.sides}$ côtés. La distance totale parcourue est donc son périmètre : $$${p.sides} \\times ${pas} = ${total}\\text{ pas}$$`
-        };
-      } else {
-        const reps = this.randInt(4, 9);
-        const pas = this.randChoice([10, 15, 20, 25, 30]);
-        const total = reps * pas;
-        return {
-          chapterId: '5A1',
-          tier: 2,
-          title: "Distance totale dans une boucle Scratch (5ème)",
-          statement: `Un lutin exécute le script : « répéter ${reps} fois : avancer de ${pas} pas ».\n**Quelle distance totale en pas a-t-il parcourue ?**`,
-          type: "exact",
-          answer: String(total),
-          placeholder: `Ex: ${total}`,
-          hint1: `Multiplie le nombre de répétitions par le nombre de pas : $${reps} \\times ${pas}$.`,
-          hint2: `Calcul : $${reps} \\times ${pas} = ${total}$.`,
-          solution: `$$${reps} \\times ${pas} = ${total}\\text{ pas}$$`
+          answer: String(x * a + b),
+          placeholder: `Ex: ${x * a + b}`,
+          hint1: `Effectue d'abord la multiplication par $${a}$, puis ajoute $${b}$.`,
+          hint2: `Étape 1 : $${x} \\times ${a} = ${x * a}$. Étape 2 : $${x * a} + ${b} = ${x * a + b}$.`,
+          solution: `$$(${x} \\times ${a}) + ${b} = ${x * a} + ${b} = ${x * a + b}$$`
         };
       }
+      const reps = this.randInt(4, 8);
+      const pas = this.randChoice([10, 15, 20, 25]);
+      const total = reps * pas;
+      return {
+        chapterId: '5A1',
+        tier: 2,
+        title: "Distance totale dans une boucle Scratch (5ème)",
+        statement: `Un lutin exécute le script : « répéter ${reps} fois : avancer de ${pas} pas ».\n**Quelle distance totale en pas a-t-il parcourue ?**`,
+        type: "exact",
+        answer: String(total),
+        placeholder: `Ex: ${total}`,
+        hint1: `Multiplie le nombre de répétitions par le nombre de pas : $${reps} \\times ${pas}$.`,
+        hint2: `Calcul : $${reps} \\times ${pas} = ${total}$.`,
+        solution: `$$${reps} \\times ${pas} = ${total}\\text{ pas}$$`
+      };
     } else if (t === 3) {
-      const variant = this.randChoice(['reverse_prog', 'polygon_angle', 'polygon_sides']);
-      if (variant === 'reverse_prog') {
-        // Retrouver le nombre de départ Scratch 5ème (3 opérations)
+      if (Math.random() < 0.5) {
+        // Retrouver le nombre de départ Scratch 5ème
         const start = this.randInt(2, 9);
-        const a = this.randInt(2, 5);
-        const b = this.randInt(2, 8);
-        const c = this.randInt(1, 6);
-        const s1 = start + a;
-        const s2 = s1 * b;
-        const finalVal = s2 - c;
+        const a = this.randInt(2, 4);
+        const b = this.randInt(3, 10);
+        const finalVal = start * a + b;
         return {
           chapterId: '5A1',
           tier: 3,
           title: "Retrouver le nombre de départ dans Scratch (5ème)",
-          statement: `Un lutin exécute le script suivant :\n\`\`\`text\nquand drapeau cliqué\ndemander [Choisir un nombre] et attendre\nmettre [N] à réponse\nmettre [N] à (N + ${a})\nmettre [N] à (N * ${b})\nmettre [N] à (N - ${c})\ndire (N)\n\`\`\`\nÀ la fin de l'exécution, **le lutin annonce $${finalVal}$**.\n**Quel nombre de départ avait été choisi ?**`,
+          statement: `Un lutin exécute le script :\n\`\`\`text\nquand drapeau cliqué\ndemander [Choisir un nombre] et attendre\nmettre [N] à réponse\nmettre [N] à (N * ${a})\nmettre [N] à (N + ${b})\ndire (N)\n\`\`\`\nÀ la fin, **le lutin annonce $${finalVal}$**.\n**Quel nombre de départ avait été choisi ?**`,
           type: "exact",
           answer: String(start),
           placeholder: `Ex: ${start}`,
-          hint1: `Remonte les opérations de bas en haut en effectuant les opérations inverses : commence par ajouter $${c}$ à $${finalVal}$, puis divise par $${b}$, puis soustrais $${a}$.`,
-          hint2: `Étape 1 : $${finalVal} + ${c} = ${s2}$. Étape 2 : $${s2} \\div ${b} = ${s1}$. Étape 3 : $${s1} - ${a} = ${start}$.`,
-          solution: `On effectue les opérations inverses dans l'ordre inverse :\\n1. On ajoute $${c}$ : $${finalVal} + ${c} = ${s2}$\\n2. On divise par $${b}$ : $${s2} \\div ${b} = ${s1}$\\n3. On soustrait $${a}$ : $${s1} - ${a} = ${start}$\\nLe nombre de départ était donc **$${start}$**.`
-        };
-      } else if (variant === 'polygon_angle') {
-        // Angle de rotation sans préciser le nombre de côtés
-        const polys = [
-          { name: "un pentagone régulier", n: 5, angle: 72 },
-          { name: "un décagone régulier", n: 10, angle: 36 },
-          { name: "un octogone régulier", n: 8, angle: 45 },
-          { name: "un hexagone régulier", n: 6, angle: 60 },
-          { name: "un ennéagone régulier", n: 9, angle: 40 },
-          { name: "un dodécagone régulier", n: 12, angle: 30 }
-        ];
-        const p = this.randChoice(polys);
-        return {
-          chapterId: '5A1',
-          tier: 3,
-          title: `Angle de rotation pour ${p.name} (5ème)`,
-          statement: `Pour faire tracer **${p.name}** à un lutin dans Scratch, **quel angle extérieur de rotation en degrés** doit-on programmer à chaque étape pour refermer la figure ?`,
-          type: "exact",
-          answer: String(p.angle),
-          placeholder: `Ex: ${p.angle}`,
-          hint1: `Combien de côtés possède ${p.name} ? Recherche cette information, puis divise $360^\\circ$ par le nombre de côtés pour obtenir l'angle de rotation.`,
-          hint2: `Calcul : $\\frac{360^\\circ}{\\text{nombre de côtés}}$.`,
-          solution: `${p.name.charAt(0).toUpperCase() + p.name.slice(1)} possède $${p.n}$ côtés égaux. Pour faire un tour complet ($360^\\circ$), l'angle de rotation extérieur est : $$\\text{Angle} = \\frac{360^\\circ}{${p.n}} = ${p.angle}^\\circ$$`
-        };
-      } else {
-        // Rétro-calcul : trouver le nombre de côtés à partir de l'angle
-        const polys = [
-          { name: "un pentagone régulier", n: 5, angle: 72 },
-          { name: "un décagone régulier", n: 10, angle: 36 },
-          { name: "un octogone régulier", n: 8, angle: 45 },
-          { name: "un hexagone régulier", n: 6, angle: 60 },
-          { name: "un ennéagone régulier", n: 9, angle: 40 },
-          { name: "un dodécagone régulier", n: 12, angle: 30 }
-        ];
-        const p = this.randChoice(polys);
-        return {
-          chapterId: '5A1',
-          tier: 3,
-          title: "Déterminer le nombre de côtés d'un polygone régulier (5ème)",
-          statement: `Un lutin trace un polygone régulier fermé avec Scratch en tournant toujours dans le même sens d'un angle extérieur de **$${p.angle}^\\circ$** à chaque étape.\n**Combien de côtés possède ce polygone régulier ?**`,
-          type: "exact",
-          answer: String(p.n),
-          placeholder: `Ex: ${p.n}`,
-          hint1: `Pour refermer le polygone, la somme de tous les angles extérieurs fait un tour complet de $360^\\circ$. Combien de fois $${p.angle}^\\circ$ y a-t-il dans $360^\\circ$ ?`,
-          hint2: `Calcul : $360 \\div ${p.angle}$.`,
-          solution: `Pour fermer la figure, le lutin effectue un tour complet ($360^\\circ$). Le nombre de côtés est donc : $$\\text{Nombre de côtés} = \\frac{360^\\circ}{${p.angle}^\\circ} = ${p.n}\\text{ côtés}$$ (${p.name.charAt(0).toUpperCase() + p.name.slice(1)}).`
+          hint1: `Remonte les opérations à l'envers : commence par soustraire $${b}$ à $${finalVal}$, puis divise par $${a}$.`,
+          hint2: `$(${finalVal} - ${b}) \\div ${a} = ${finalVal - b} \\div ${a} = ${start}$.`,
+          solution: `À l'envers : on soustrait $${b}$ ($${finalVal} - ${b} = ${finalVal - b}$), puis on divise par $${a}$ ($${finalVal - b} \\div ${a} = ${start}$).`
         };
       }
+      const polys = [
+        { name: "pentagone régulier (5 côtés)", n: 5, angle: 72 },
+        { name: "décagone régulier (10 côtés)", n: 10, angle: 36 },
+        { name: "octogone régulier (8 côtés)", n: 8, angle: 45 },
+        { name: "hexagone régulier (6 côtés)", n: 6, angle: 60 }
+      ];
+      const p = this.randChoice(polys);
+      return {
+        chapterId: '5A1',
+        tier: 3,
+        title: `Angle de rotation pour un ${p.name} (5ème)`,
+        statement: `Pour faire tracer un ${p.name} dans Scratch avec une boucle répéter ${p.n} fois, de quel angle extérieur en degrés doit-on tourner à chaque étape ?`,
+        type: "exact",
+        answer: String(p.angle),
+        placeholder: `Ex: ${p.angle}`,
+        hint1: `Tour complet : 360° divisé par ${p.n} côtés.`,
+        hint2: `Calcul : $\\frac{360^\\circ}{${p.n}} = ${p.angle}^\\circ$.`,
+        solution: `$$\\text{Angle} = \\frac{360^\\circ}{${p.n}} = ${p.angle}^\\circ$$`
+      };
     } else {
-      // --- PALIER 4 : DÉFIS AVANCÉS ---
-      // Programmes de calcul à plusieurs étapes (4 à 5 étapes) et reconnaissance sans indice
-      const p4Type = this.randChoice(['multi_linear', 'square_multi', 'two_vars', 'reverse_hard', 'loop_calc', 'recon_mcq']);
-
-      if (p4Type === 'multi_linear') {
-        // Programme linéaire à 4 opérations successives
-        const x = this.randInt(3, 8);
-        const a = this.randInt(2, 6);
-        const b = this.randInt(2, 4);
-        const c = this.randInt(3, 10);
-        const d = this.randInt(5, 15);
-        const s1 = x + a;
-        const s2 = s1 * b;
-        const s3 = s2 - c;
-        const finalVal = s3 + d;
-        return {
-          chapterId: '5A1',
-          tier: 4,
-          title: "Défi Scratch : Programme de calcul à 4 étapes (5ème)",
-          statement: `Un lutin exécute le script Scratch suivant :\n\`\`\`text\nquand drapeau cliqué\ndemander [Choisir un nombre] et attendre\nmettre [N] à réponse\nmettre [N] à (N + ${a})\nmettre [N] à (N * ${b})\nmettre [N] à (N - ${c})\nmettre [N] à (N + ${d})\ndire (N)\n\`\`\`\n**Si l'on choisit le nombre $${x}$ au départ, quel nombre affiche le lutin ?**`,
-          type: "exact",
-          answer: String(finalVal),
-          placeholder: `Ex: ${finalVal}`,
-          hint1: `Applique chaque instruction l'une après l'autre : commence par $${x} + ${a}$, puis multiplie par $${b}$, etc.`,
-          hint2: `Étape 1 : $${x} + ${a} = ${s1}$. Étape 2 : $${s1} \\times ${b} = ${s2}$. Étape 3 : $${s2} - ${c} = ${s3}$. Étape 4 : $${s3} + ${d} = ${finalVal}$.`,
-          solution: `Exécution pas à pas des 4 étapes du script :\\n1. **Ajouter $${a}$** : $${x} + ${a} = ${s1}$\\n2. **Multiplier par $${b}$** : $${s1} \\times ${b} = ${s2}$\\n3. **Soustraire $${c}$** : $${s2} - ${c} = ${s3}$\\n4. **Ajouter $${d}$** : $${s3} + ${d} = \\mathbf{${finalVal}}$\\nExpression globale : $$((${x} + ${a}) \\times ${b} - ${c}) + ${d} = (${s1} \\times ${b} - ${c}) + ${d} = (${s2} - ${c}) + ${d} = ${s3} + ${d} = ${finalVal}$$`
-        };
-      } else if (p4Type === 'square_multi') {
-        // Programme avec carré et 4 étapes successives
+      if (Math.random() < 0.5) {
+        // Défi Scratch avec carré
         const x = this.randInt(2, 6);
-        const a = this.randInt(2, 4);
-        const b = this.randInt(4, 15);
-        const c = this.randInt(2, 8);
-        const sq = x * x;
-        const s1 = sq * a;
-        const s2 = s1 + b;
-        const finalVal = s2 - c;
+        const add = this.randInt(1, 9);
+        const res = x * x + add;
         return {
           chapterId: '5A1',
           tier: 4,
-          title: "Défi Scratch : Programme avec carré à 4 étapes (5ème)",
-          statement: `Un lutin exécute le script suivant :\n\`\`\`text\nquand drapeau cliqué\ndemander [Choisir un nombre] et attendre\nmettre [X] à réponse\nmettre [R] à (X * X)\nmettre [R] à (R * ${a})\nmettre [R] à (R + ${b})\nmettre [R] à (R - ${c})\ndire (R)\n\`\`\`\n**Si l'on entre le nombre $${x}$ au départ, quel résultat final annonce le lutin ?**`,
+          title: "Défi Scratch : Programme avec le carré (5ème)",
+          statement: `Soit le script Scratch :\n\`\`\`text\nmettre [R] à (réponse * réponse)\nmettre [R] à (R + ${add})\ndire (R)\n\`\`\`\n**Si le nombre de départ est $${x}$, quel résultat affiche le lutin ?**`,
           type: "exact",
-          answer: String(finalVal),
-          placeholder: `Ex: ${finalVal}`,
-          hint1: `Calcule d'abord le carré du nombre de départ ($${x}^2 = ${x} \\times ${x}$), puis applique les 3 opérations suivantes dans l'ordre.`,
-          hint2: `Étape 1 : $${x} \\times ${x} = ${sq}$. Étape 2 : $${sq} \\times ${a} = ${s1}$. Étape 3 : $${s1} + ${b} = ${s2}$. Étape 4 : $${s2} - ${c} = ${finalVal}$.`,
-          solution: `Calcul pas à pas :\\n1. **Mettre au carré** : $${x}^2 = ${x} \\times ${x} = ${sq}$\\n2. **Multiplier par $${a}$** : $${sq} \\times ${a} = ${s1}$\\n3. **Ajouter $${b}$** : $${s1} + ${b} = ${s2}$\\n4. **Soustraire $${c}$** : $${s2} - ${c} = \\mathbf{${finalVal}}$\\nExpression littérale : $$${a} \\times ${x}^2 + ${b} - ${c} = ${a} \\times ${sq} + ${b} - ${c} = ${s1} + ${b} - ${c} = ${finalVal}$$`
-        };
-      } else if (p4Type === 'two_vars') {
-        // Programme Scratch à deux variables intermédiaires A et B combinées à la fin
-        const x = this.randInt(2, 7);
-        const a = this.randInt(2, 4);
-        const b = this.randInt(3, 8);
-        const c = this.randInt(1, 4);
-        const d = this.randInt(2, 3);
-        const varA = x * a + b;
-        const varB = (x + c) * d;
-        const finalVal = varA + varB;
-        return {
-          chapterId: '5A1',
-          tier: 4,
-          title: "Défi Scratch : Programme à 2 variables A et B (5ème)",
-          statement: `Un lutin exécute le script Scratch suivant utilisant deux variables $A$ et $B$ :\n\`\`\`text\nquand drapeau cliqué\ndemander [Choisir un nombre] et attendre\nmettre [X] à réponse\nmettre [A] à (X * ${a})\nmettre [A] à (A + ${b})\nmettre [B] à (X + ${c})\nmettre [B] à (B * ${d})\nmettre [Résultat] à (A + B)\ndire (Résultat)\n\`\`\`\n**Si le nombre entré au départ est $${x}$, quelle valeur annonce le lutin ?**`,
-          type: "exact",
-          answer: String(finalVal),
-          placeholder: `Ex: ${finalVal}`,
-          hint1: `Calcule séparément la valeur de la variable $A$, puis celle de la variable $B$, puis additionne les deux.`,
-          hint2: `Variable $A$ : $${x} \\times ${a} + ${b} = ${varA}$. Variable $B$ : ($${x} + ${c}) \\times ${d} = ${varB}$. Résultat : $${varA} + ${varB} = ${finalVal}$.`,
-          solution: `Calcul des deux branches du script :\\n1. **Calcul de la variable A** :\\n   • $X \\times ${a} = ${x} \\times ${a} = ${x * a}$\\n   • $A = ${x * a} + ${b} = \\mathbf{${varA}}$\\n2. **Calcul de la variable B** :\\n   • $X + ${c} = ${x} + ${c} = ${x + c}$\\n   • $B = ${x + c} \\times ${d} = \\mathbf{${varB}}$\\n3. **Combinaison finale** :\\n   • $\\text{Résultat} = A + B = ${varA} + ${varB} = \\mathbf{${finalVal}}$`
-        };
-      } else if (p4Type === 'reverse_hard') {
-        // Rétro-ingénierie sur un programme à 4 étapes
-        const secret = this.randInt(2, 7);
-        const a = this.randInt(2, 5);
-        const b = this.randInt(2, 3);
-        const c = this.randInt(2, 8);
-        const d = this.randInt(2, 3);
-        const s1 = secret + a;
-        const s2 = s1 * b;
-        const s3 = s2 - c;
-        const finalVal = s3 * d;
-        return {
-          chapterId: '5A1',
-          tier: 4,
-          title: "Défi Scratch : Retrouver le nombre de départ (4 étapes)",
-          statement: `Un lutin exécute le programme de calcul suivant :\n\`\`\`text\nquand drapeau cliqué\ndemander [Choisir un nombre] et attendre\nmettre [N] à réponse\nmettre [N] à (N + ${a})\nmettre [N] à (N * ${b})\nmettre [N] à (N - ${c})\nmettre [N] à (N * ${d})\ndire (N)\n\`\`\`\nÀ la fin du programme, **le lutin affiche le nombre $${finalVal}$**.\n**Quel nombre de départ avait été choisi ?**`,
-          type: "exact",
-          answer: String(secret),
-          placeholder: `Ex: ${secret}`,
-          hint1: `Remonte les 4 étapes à l'envers en appliquant les opérations inverses : commence par diviser $${finalVal}$ par $${d}$, puis ajoute $${c}$...`,
-          hint2: `Étape 1 : $${finalVal} \\div ${d} = ${s3}$. Étape 2 : $${s3} + ${c} = ${s2}$. Étape 3 : $${s2} \\div ${b} = ${s1}$. Étape 4 : $${s1} - ${a} = ${secret}$.`,
-          solution: `Pour retrouver le nombre de départ, on remonte les opérations à l'envers :\\n1. **Opération inverse de multiplier par $${d}$** : on divise par $${d}$ :\\n   $$${finalVal} \\div ${d} = ${s3}$$\\n2. **Opération inverse de soustraire $${c}$** : on ajoute $${c}$ :\\n   $$${s3} + ${c} = ${s2}$$\\n3. **Opération inverse de multiplier par $${b}$** : on divise par $${b}$ :\\n   $$${s2} \\div ${b} = ${s1}$$\\n4. **Opération inverse d'ajouter $${a}$** : on soustrait $${a}$ :\\n   $$${s1} - ${a} = \\mathbf{${secret}}$$\\nLe nombre choisi au départ était donc **$${secret}$**.`
-        };
-      } else if (p4Type === 'loop_calc') {
-        // Programme Scratch avec boucle de calcul répétée (3 itérations)
-        const x = this.randInt(2, 5);
-        const p = this.randInt(1, 3);
-        const t1 = x * 2 + p;
-        const t2 = t1 * 2 + p;
-        const t3 = t2 * 2 + p;
-        return {
-          chapterId: '5A1',
-          tier: 4,
-          title: "Défi Scratch : Programme avec boucle de calcul (5ème)",
-          statement: `Un lutin exécute le script Scratch suivant avec une boucle :\n\`\`\`text\nquand drapeau cliqué\ndemander [Choisir un nombre] et attendre\nmettre [N] à réponse\nrépéter 3 fois\n    mettre [N] à (N * 2)\n    mettre [N] à (N + ${p})\nfin\ndire (N)\n\`\`\`\n**Si le nombre entré au départ est $${x}$, quelle valeur finale affiche le lutin ?**`,
-          type: "exact",
-          answer: String(t3),
-          placeholder: `Ex: ${t3}`,
-          hint1: `La boucle s'exécute 3 fois d'affilée. Calcule la valeur de $N$ après le 1er tour, puis après le 2e tour, puis après le 3e tour.`,
-          hint2: `Tour 1 : $${x} \\times 2 + ${p} = ${t1}$. Tour 2 : $${t1} \\times 2 + ${p} = ${t2}$. Tour 3 : $${t2} \\times 2 + ${p} = ${t3}$.`,
-          solution: `On applique la boucle pas à pas sur les 3 tours :\\n• **Départ** : $N = ${x}$\\n• **Tour 1** : $N = ${x} \\times 2 + ${p} = ${x * 2} + ${p} = ${t1}$\\n• **Tour 2** : $N = ${t1} \\times 2 + ${p} = ${t1 * 2} + ${p} = ${t2}$\\n• **Tour 3** : $N = ${t2} \\times 2 + ${p} = ${t2 * 2} + ${p} = \\mathbf{${t3}}$\\nÀ la fin des 3 répétitions, le lutin affiche **$${t3}$**.`
-        };
-      } else {
-        // Reconnaissance de figure Scratch SANS précision du nombre de côtés dans les choix !
-        const allPolys = [
-          { name: "Un hexagone régulier", reps: 6, angle: 60 },
-          { name: "Un octogone régulier", reps: 8, angle: 45 },
-          { name: "Un pentagone régulier", reps: 5, angle: 72 },
-          { name: "Un carré", reps: 4, angle: 90 },
-          { name: "Un triangle équilatéral", reps: 3, angle: 120 },
-          { name: "Un décagone régulier", reps: 10, angle: 36 }
-        ];
-        const p = this.randChoice(allPolys);
-        const step = this.randChoice([30, 40, 50, 70]);
-        const otherNames = allPolys.filter(x => x.name !== p.name).map(x => x.name);
-        const shuffledOthers = this.shuffle(otherNames).slice(0, 3);
-        const opts = this.shuffle([p.name, ...shuffledOthers]);
-        return {
-          chapterId: '5A1',
-          tier: 4,
-          title: "Défi : Reconnaissance de figure Scratch (5ème)",
-          statement: `Quel polygone régulier le lutin trace-t-il avec ce script : « répéter ${p.reps} fois : avancer de ${step}, tourner de ${p.angle} degrés » ?`,
-          type: "mcq",
-          options: opts,
-          answer: p.name,
-          correctIndex: opts.indexOf(p.name),
-          hint1: `La boucle comporte ${p.reps} répétitions identiques et tourne de ${p.angle}° (${p.reps} × ${p.angle}° = 360°). Quel est le nom du polygone régulier qui possède ce nombre de côtés ?`,
-          hint2: `Cherche le nom du polygone régulier qui possède ${p.reps} côtés.`,
-          solution: `${p.reps} répétitions avec des rotations de ${p.angle}° forment une figure fermée régulière à ${p.reps} côtés : il s'agit d'**${p.name.toLowerCase()}**.`
+          answer: String(res),
+          placeholder: `Ex: ${res}`,
+          hint1: `Calcule le carré du nombre de départ ($${x} \\times ${x}$), puis ajoute $${add}$.`,
+          hint2: `$${x}^2 + ${add} = ${x * x} + ${add} = ${res}$.`,
+          solution: `$$R = ${x}^2 + ${add} = ${x * x} + ${add} = ${res}$$`
         };
       }
+      const allPolys = [
+        { name: "Un hexagone régulier (6 côtés)", reps: 6, angle: 60 },
+        { name: "Un octogone régulier (8 côtés)", reps: 8, angle: 45 },
+        { name: "Un pentagone régulier (5 côtés)", reps: 5, angle: 72 },
+        { name: "Un carré (4 côtés)", reps: 4, angle: 90 },
+        { name: "Un triangle équilatéral (3 côtés)", reps: 3, angle: 120 }
+      ];
+      const p = this.randChoice(allPolys);
+      const step = this.randChoice([30, 40, 50, 70]);
+      const otherNames = allPolys.filter(x => x.name !== p.name).map(x => x.name);
+      const shuffledOthers = this.shuffle(otherNames).slice(0, 3);
+      const opts = this.shuffle([p.name, ...shuffledOthers]);
+      return {
+        chapterId: '5A1',
+        tier: 4,
+        title: "Défi : Reconnaissance de figure Scratch (5ème)",
+        statement: `Quel polygone régulier le lutin trace-t-il avec ce script : « répéter ${p.reps} fois : avancer de ${step}, tourner de ${p.angle} degrés » ?`,
+        type: "mcq",
+        options: opts,
+        answer: p.name,
+        correctIndex: opts.indexOf(p.name),
+        hint1: `La boucle comporte ${p.reps} répétitions et tourne de ${p.angle}° (${p.reps} × ${p.angle}° = 360°).`,
+        hint2: `La figure fermée à ${p.reps} côtés réguliers est bien ${p.name}.`,
+        solution: `${p.reps} répétitions d'angle ${p.angle}° correspondent à ${p.name}.`
+      };
     }
   },
 
@@ -10600,341 +10386,149 @@ window.MathsGenerators = {
     const t = this.resolveTier(tier);
     if (t === 1) {
       if (Math.random() < 0.5) {
-        // Programme de calcul Scratch 4ème avec variables (1 à 2 étapes simples)
-        const x = this.randInt(2, 12);
-        const m = this.randInt(2, 6);
-        const a = this.randInt(3, 18);
-        const opType = this.randChoice(['mul_then_add', 'mul_then_sub', 'add_then_mul']);
-
-        if (opType === 'mul_then_add') {
-          const res = x * m + a;
-          return {
-            chapterId: '4A1',
-            tier: 1,
-            title: "Programme de calcul Scratch avec variables (4ème)",
-            statement: `On donne le script Scratch suivant :\n\`\`\`text\nquand drapeau cliqué\ndemander [Choisir un nombre] et attendre\nmettre [N] à réponse\nmettre [R] à (N * ${m})\nmettre [R] à (R + ${a})\ndire (R)\n\`\`\`\n**Si le nombre entré au départ est $${x}$, quel résultat affiche le lutin ?**`,
-            type: "exact",
-            answer: String(res),
-            placeholder: `Ex: ${res}`,
-            hint1: `Évalue les variables dans l'ordre : d'abord $N = ${x}$, puis $R = ${x} \\times ${m}$, puis ajoute $${a}$.`,
-            hint2: `Étape 1 : $${x} \\times ${m} = ${x * m}$. Étape 2 : $${x * m} + ${a} = ${res}$.`,
-            solution: `$$R = (${x} \\times ${m}) + ${a} = ${x * m} + ${a} = ${res}$$`
-          };
-        } else if (opType === 'mul_then_sub') {
-          const res = x * m - a;
-          return {
-            chapterId: '4A1',
-            tier: 1,
-            title: "Programme de calcul Scratch avec variables (4ème)",
-            statement: `On donne le script Scratch suivant :\n\`\`\`text\nquand drapeau cliqué\ndemander [Choisir un nombre] et attendre\nmettre [N] à réponse\nmettre [R] à (N * ${m})\nmettre [R] à (R - ${a})\ndire (R)\n\`\`\`\n**Si le nombre entré au départ est $${x}$, quel résultat affiche le lutin ?**`,
-            type: "exact",
-            answer: String(res),
-            placeholder: `Ex: ${res}`,
-            hint1: `Évalue les variables dans l'ordre : d'abord $N = ${x}$, puis $R = ${x} \\times ${m}$, puis soustrais $${a}$.`,
-            hint2: `Étape 1 : $${x} \\times ${m} = ${x * m}$. Étape 2 : $${x * m} - ${a} = ${res}$.`,
-            solution: `$$R = (${x} \\times ${m}) - ${a} = ${x * m} - ${a} = ${res}$$`
-          };
-        } else {
-          const res = (x + a) * m;
-          return {
-            chapterId: '4A1',
-            tier: 1,
-            title: "Programme de calcul Scratch avec variables (4ème)",
-            statement: `On donne le script Scratch suivant :\n\`\`\`text\nquand drapeau cliqué\ndemander [Choisir un nombre] et attendre\nmettre [N] à réponse\nmettre [R] à (N + ${a})\nmettre [R] à (R * ${m})\ndire (R)\n\`\`\`\n**Si le nombre entré au départ est $${x}$, quel résultat affiche le lutin ?**`,
-            type: "exact",
-            answer: String(res),
-            placeholder: `Ex: ${res}`,
-            hint1: `Évalue les variables dans l'ordre : d'abord $N = ${x}$, puis $R = ${x} + ${a}$, puis multiplie par $${m}$.`,
-            hint2: `Étape 1 : $${x} + ${a} = ${x + a}$. Étape 2 : $${x + a} \\times ${m} = ${res}$.`,
-            solution: `$$R = (${x} + ${a}) \\times ${m} = ${x + a} \\times ${m} = ${res}$$`
-          };
-        }
+        // Programme de calcul Scratch 4ème
+        const x = this.randInt(2, 24);
+        const m = this.randInt(2, 9);
+        const a = this.randInt(3, 35);
+        const res = x * m + a;
+        return {
+          chapterId: '4A1',
+          tier: 1,
+          title: "Programme de calcul Scratch avec variables (4ème)",
+          statement: `On donne le script Scratch suivant :\n\`\`\`text\nquand drapeau cliqué\ndemander [Choisir un nombre] et attendre\nmettre [N] à réponse\nmettre [R] à (N * ${m})\nmettre [R] à (R + ${a})\ndire (R)\n\`\`\`\n**Si le nombre entré au départ est $${x}$, quel résultat affiche le lutin ?**`,
+          type: "exact",
+          answer: String(res),
+          placeholder: `Ex: ${res}`,
+          hint1: `Évalue les variables dans l'ordre : d'abord $N = ${x}$, puis $R = ${x} \\times ${m}$, puis ajoute $${a}$.`,
+          hint2: `Étape 1 : $${x} \\times ${m} = ${x * m}$. Étape 2 : $${x * m} + ${a} = ${res}$.`,
+          solution: `$$R = (${x} \\times ${m}) + ${a} = ${x * m} + ${a} = ${res}$$`
+        };
       }
-      // Affectation de variable avec des valeurs très variées
-      const init = this.randInt(-15, 45);
-      const add = this.randChoice([-18, -12, -9, -5, -3, 6, 8, 12, 15, 23, 34]);
-      const res = init + add;
-      const addText = add >= 0 ? `ajouter ${add} à V` : `ajouter (${add}) à V`;
+      const init = this.randInt(5, 60);
+      const add = this.randInt(4, 35);
       return {
         chapterId: '4A1',
         tier: 1,
         title: "Affectation d'une variable dans Scratch (4ème)",
-        statement: `Un script contient : « mettre V à ${init} », puis « ${addText} ».\n**Quelle est la valeur finale de la variable V ?**`,
+        statement: `Un script contient : « mettre V à ${init} », puis « ajouter ${add} à V ».\n**Quelle est la valeur finale de la variable V ?**`,
         type: "exact",
-        answer: String(res),
-        placeholder: `Ex: ${res}`,
-        hint1: `La variable commence à ${init} et varie de ${add}.`,
-        hint2: `Calcul : $${init} + (${add}) = ${res}$.`,
-        solution: `$$V = ${init} + (${add}) = ${res}$$`
+        answer: String(init + add),
+        placeholder: `Ex: ${init + add}`,
+        hint1: `La variable commence à ${init} et augmente de ${add}.`,
+        hint2: `Calcul simple : $${init} + ${add} = ${init + add}$.`,
+        solution: `$$V = ${init} + ${add} = ${init + add}$$`
       };
     } else if (t === 2) {
-      if (Math.random() < 0.55) {
-        // Programme Scratch avec nombre relatif (valeurs positives ou négatives très variées)
-        const x = this.randChoice([-12, -9, -8, -7, -6, -5, -4, -3, -2, 2, 3, 4, 5, 6, 7, 8, 9, 11]);
-        const a = this.randChoice([-5, -4, -3, -2, 2, 3, 4, 5, 6]);
-        const b = this.randInt(3, 20);
-        const op = this.randChoice(['sub', 'add']);
-
-        let res, opScript, opHint, opStep2, opSol;
-        if (op === 'sub') {
-          res = (x * a) - b;
-          opScript = `mettre [Résultat] à (Résultat - ${b})`;
-          opHint = `Multiplie d'abord $${x}$ par $${a}$ (attention à la règle des signes !), puis soustrais $${b}$.`;
-          opStep2 = `$${x * a} - ${b} = ${res}$`;
-          opSol = `$$(${x} \\times (${a})) - ${b} = ${x * a} - ${b} = ${res}$$`;
-        } else {
-          res = (x * a) + b;
-          opScript = `mettre [Résultat] à (Résultat + ${b})`;
-          opHint = `Multiplie d'abord $${x}$ par $${a}$ (attention à la règle des signes !), puis ajoute $${b}$.`;
-          opStep2 = `$${x * a} + ${b} = ${res}$`;
-          opSol = `$$(${x} \\times (${a})) + ${b} = ${x * a} + ${b} = ${res}$$`;
-        }
-
-        const aStr = a < 0 ? `(${a})` : `${a}`;
+      if (Math.random() < 0.5) {
+        // Programme Scratch avec nombre relatif
+        const x = this.randChoice([-24, -18, -13, -9, -5, -2, 2, 3, 7, 11, 16, 23]);
+        const a = this.randInt(2, 12);
+        const b = this.randInt(3, 35);
+        const res = (x * a) - b;
         return {
           chapterId: '4A1',
           tier: 2,
           title: "Programme de calcul Scratch avec un nombre relatif (4ème)",
-          statement: `Un script Scratch contient :\n\`\`\`text\nquand drapeau cliqué\ndemander [Choisir un nombre] et attendre\nmettre [X] à réponse\nmettre [Résultat] à (X * ${aStr})\n${opScript}\ndire (Résultat)\n\`\`\`\n**Si l'on choisit le nombre relatif $${x}$ au départ, quel est le résultat final ?**`,
+          statement: `Un script Scratch contient :\n\`\`\`text\nquand drapeau cliqué\ndemander [Choisir un nombre] et attendre\nmettre [X] à réponse\nmettre [Résultat] à (X * ${a})\nmettre [Résultat] à (Résultat - ${b})\ndire (Résultat)\n\`\`\`\n**Si l'on choisit le nombre relatif $${x}$ au départ, quel est le résultat final ?**`,
           type: "exact",
           answer: String(res),
           placeholder: `Ex: ${res}`,
-          hint1: opHint,
-          hint2: `Étape 1 : $${x} \\times ${aStr} = ${x * a}$. Étape 2 : ${opStep2}.`,
-          solution: opSol
+          hint1: `Multiplie d'abord $${x}$ par $${a}$ (attention à la règle des signes !), puis soustrais $${b}$.`,
+          hint2: `Étape 1 : $${x} \\times ${a} = ${x * a}$. Étape 2 : $${x * a} - ${b} = ${res}$.`,
+          solution: `$$(${x} \\times ${a}) - ${b} = ${x * a} - ${b} = ${res}$$`
         };
       }
-      // Test conditionnel Si / Sinon dans Scratch avec conditions tantôt VRAIES tantôt FAUSSES
-      const limit = this.randChoice([0, 5, 8, 10, 12, 15, 20, 25]);
-      const delta = this.randChoice([-15, -10, -7, -4, -2, -1, 1, 2, 3, 5, 8, 12]);
-      const n = limit + delta; // n peut être > limit ou <= limit
-      const rTrue = this.randChoice([15, 20, 24, 30, 42, 50, 60, 100]);
-      const rFalse = this.randChoice([-10, -5, 0, 3, 6, 8, 12, 18]);
-      const isGreater = n > limit;
-      const expectedR = isGreater ? rTrue : rFalse;
-
+      const limit = this.randInt(8, 45);
+      const n = this.randInt(3, limit + 18);
+      const thenValue = this.randInt(12, 90);
+      const elseValue = this.randInt(2, 55);
+      const result = n > limit ? thenValue : elseValue;
       return {
         chapterId: '4A1',
         tier: 2,
         title: "Test conditionnel Si / Sinon dans Scratch (4ème)",
-        statement: `On considère le bloc Scratch suivant :\n\`\`\`text\nSi <N > ${limit}> alors\n    mettre [R] à ${rTrue}\nsinon\n    mettre [R] à ${rFalse}\nfin\n\`\`\`\n**Si la variable N vaut $${n}$, quelle sera la valeur finale de R ?**`,
+        statement: `Bloc Scratch : « Si N > ${limit} alors mettre R à ${thenValue} sinon mettre R à ${elseValue} ».\nSi la variable N vaut $${n}$, quelle sera la valeur de R ?`,
         type: "exact",
-        answer: String(expectedR),
-        placeholder: `Ex: ${expectedR}`,
-        hint1: `Évalue le test : est-ce que $${n} > ${limit}$ est VRAI ou FAUX ? Si VRAI $\\to$ branche « alors », si FAUX $\\to$ branche « sinon ».`,
-        hint2: isGreater
-          ? `Comme $${n} > ${limit}$ est VRAI, c'est l'instruction de la branche « alors » qui s'exécute : $R = ${rTrue}$.`
-          : `Comme $${n} \\le ${limit}$, le test est FAUX : c'est l'instruction de la branche « sinon » qui s'exécute : $R = ${rFalse}$.`,
-        solution: isGreater
-          ? `La condition $${n} > ${limit}$ est **vraie**, donc le programme exécute la branche « alors » : la variable $R$ prend la valeur **${rTrue}**.`
-          : `La condition $${n} > ${limit}$ est **fausse** (car $${n} \\le ${limit}$), donc le programme exécute la branche « sinon » : la variable $R$ prend la valeur **${rFalse}**.`
+        answer: String(result),
+        placeholder: `Ex: ${result}`,
+        hint1: `Teste la condition $${n} > ${limit}$, puis choisis la valeur de R dans la branche exécutée.`,
+        hint2: `Comme $${n} ${n > limit ? '>' : '\\le'} ${limit}$, c'est la branche « ${n > limit ? 'alors' : 'sinon'} » qui s'exécute.`,
+        solution: `Comme $${n} ${n > limit ? '>' : '\\le'} ${limit}$, la branche ${n > limit ? '« alors »' : '« sinon »'} s'exécute et $R = ${result}$.`
       };
     } else if (t === 3) {
       if (Math.random() < 0.5) {
-        // Retrouver le nombre de départ avec Scratch (valeurs positives et négatives très variées)
-        const start = this.randChoice([-8, -6, -5, -4, -3, -2, 2, 3, 4, 5, 6, 7, 8, 9, 12]);
-        const a = this.randChoice([2, 3, 4, 5]);
-        const b = this.randInt(2, 15);
-        const opOrder = this.randChoice(['add_then_mul', 'mul_then_add', 'mul_then_sub']);
-
-        if (opOrder === 'add_then_mul') {
-          // (x + b) * a = finalVal
-          const finalVal = (start + b) * a;
-          return {
-            chapterId: '4A1',
-            tier: 3,
-            title: "Retrouver le nombre de départ avec Scratch (4ème)",
-            statement: `On considère ce script Scratch :\n\`\`\`text\nquand drapeau cliqué\ndemander [Choisir un nombre] et attendre\nmettre [x] à réponse\nmettre [x] à (x + ${b})\nmettre [x] à (x * ${a})\ndire (x)\n\`\`\`\nLe lutin annonce le résultat final : **$${finalVal}$**.\n**Quel nombre $x$ avait été choisi au départ ?**`,
-            type: "exact",
-            answer: String(start),
-            placeholder: `Ex: ${start}`,
-            hint1: `Remonte les étapes à l'envers : commence par diviser $${finalVal}$ par $${a}$, puis soustrais $${b}$.`,
-            hint2: `$${finalVal} \\div ${a} = ${finalVal / a}$, puis $${finalVal / a} - ${b} = ${start}$.`,
-            solution: `En remontant à l'envers : on divise d'abord par $${a}$ ($${finalVal} \\div ${a} = ${finalVal / a}$), puis on soustrait $${b}$ ($${finalVal / a} - ${b} = ${start}$). Le nombre de départ était bien **$${start}$**.`
-          };
-        } else if (opOrder === 'mul_then_add') {
-          // x * a + b = finalVal
-          const finalVal = start * a + b;
-          return {
-            chapterId: '4A1',
-            tier: 3,
-            title: "Retrouver le nombre de départ avec Scratch (4ème)",
-            statement: `On considère ce script Scratch :\n\`\`\`text\nquand drapeau cliqué\ndemander [Choisir un nombre] et attendre\nmettre [x] à réponse\nmettre [x] à (x * ${a})\nmettre [x] à (x + ${b})\ndire (x)\n\`\`\`\nLe lutin annonce le résultat final : **$${finalVal}$**.\n**Quel nombre $x$ avait été choisi au départ ?**`,
-            type: "exact",
-            answer: String(start),
-            placeholder: `Ex: ${start}`,
-            hint1: `Remonte les étapes à l'envers : commence par soustraire $${b}$ à $${finalVal}$, puis divise par $${a}$.`,
-            hint2: `$${finalVal} - ${b} = ${finalVal - b}$, puis $${finalVal - b} \\div ${a} = ${start}$.`,
-            solution: `En remontant à l'envers : on soustrait $${b}$ ($${finalVal} - ${b} = ${finalVal - b}$), puis on divise par $${a}$ ($${finalVal - b} \\div ${a} = ${start}$). Le nombre de départ était bien **$${start}$**.`
-          };
-        } else {
-          // x * a - b = finalVal
-          const finalVal = start * a - b;
-          return {
-            chapterId: '4A1',
-            tier: 3,
-            title: "Retrouver le nombre de départ avec Scratch (4ème)",
-            statement: `On considère ce script Scratch :\n\`\`\`text\nquand drapeau cliqué\ndemander [Choisir un nombre] et attendre\nmettre [x] à réponse\nmettre [x] à (x * ${a})\nmettre [x] à (x - ${b})\ndire (x)\n\`\`\`\nLe lutin annonce le résultat final : **$${finalVal}$**.\n**Quel nombre $x$ avait été choisi au départ ?**`,
-            type: "exact",
-            answer: String(start),
-            placeholder: `Ex: ${start}`,
-            hint1: `Remonte les étapes à l'envers : commence par ajouter $${b}$ à $${finalVal}$, puis divise par $${a}$.`,
-            hint2: `$${finalVal} + ${b} = ${finalVal + b}$, puis $${finalVal + b} \\div ${a} = ${start}$.`,
-            solution: `En remontant à l'envers : on ajoute $${b}$ ($${finalVal} + ${b} = ${finalVal + b}$), puis on divise par $${a}$ ($${finalVal + b} \\div ${a} = ${start}$). Le nombre de départ était bien **$${start}$**.`
-          };
-        }
+        // Retrouver le nombre de départ 4ème
+        const start = this.randChoice([-18, -11, -7, -4, -2, 2, 3, 6, 9, 14, 21]);
+        const a = this.randInt(2, 9);
+        const b = this.randInt(2, 30);
+        const finalVal = (start + b) * a;
+        return {
+          chapterId: '4A1',
+          tier: 3,
+          title: "Retrouver le nombre de départ avec Scratch (4ème)",
+          statement: `On considère ce script Scratch :\n\`\`\`text\nquand drapeau cliqué\ndemander [Choisir un nombre] et attendre\nmettre [x] à réponse\nmettre [x] à (x + ${b})\nmettre [x] à (x * ${a})\ndire (x)\n\`\`\`\nLe lutin annonce le résultat final : **$${finalVal}$**.\n**Quel nombre $x$ avait été choisi au départ ?**`,
+          type: "exact",
+          answer: String(start),
+          placeholder: `Ex: ${start}`,
+          hint1: `Remonte les étapes à l'envers : commence par diviser $${finalVal}$ par $${a}$, puis soustrais $${b}$.`,
+          hint2: `$(${finalVal} \\div ${a}) - ${b} = ${finalVal / a} - ${b} = ${start}$.`,
+          solution: `En remontant à l'envers : on divise d'abord par $${a}$ ($${finalVal} \\div ${a} = ${finalVal / a}$), puis on soustrait $${b}$ ($${finalVal / a} - ${b} = ${start}$). Le nombre de départ était bien **$${start}$**.`
+        };
       }
-      // Programme avec variable et condition avec calculs dans chaque branche
-      const threshold = this.randChoice([-2, 0, 3, 5, 8]);
-      const x = this.randChoice([threshold - 6, threshold - 4, threshold - 2, threshold - 1, threshold + 1, threshold + 2, threshold + 4, threshold + 7]);
-      const m = this.randChoice([2, 3, 4, 5]);
-      const addVal = this.randChoice([4, 7, 10, 15, 20]);
-      const isGreater = x > threshold;
-      const ans = isGreater ? (m * x) : (x + addVal);
-
+      const x = this.randInt(-18, 28);
+      const threshold = this.randInt(-8, 14);
+      const multiplier = this.randInt(2, 9);
+      const increment = this.randInt(6, 35);
+      const result = x > threshold ? multiplier * x : x + increment;
       return {
         chapterId: '4A1',
         tier: 3,
         title: "Programme avec variable et condition (4ème)",
-        statement: `Un script Scratch contient :\n\`\`\`text\nSi <x > ${threshold}> alors\n    mettre [R] à (${m} * x)\nsinon\n    mettre [R] à (x + ${addVal})\nfin\ndire (R)\n\`\`\`\n**Pour $x = ${x}$, quel résultat affiche le lutin ?**`,
+        statement: `Un script demande un nombre $x$. Si $x > ${threshold}$, il affiche $${multiplier} \\times x$, sinon il affiche $x + ${increment}$.\nPour $x = ${x}$, qu'affiche le lutin ?`,
         type: "exact",
-        answer: String(ans),
-        placeholder: `Ex: ${ans}`,
-        hint1: `Vérifie la condition : est-ce que $${x} > ${threshold}$ ? Si oui, effectue $${m} \\times ${x}$. Sinon, effectue $${x} + ${addVal}$.`,
-        hint2: isGreater
-          ? `La condition $${x} > ${threshold}$ est VRAIE : calcule $${m} \\times ${x} = ${ans}$.`
-          : `La condition $${x} > ${threshold}$ est FAUSSE : calcule $${x} + ${addVal} = ${ans}$.`,
-        solution: isGreater
-          ? `Comme $${x} > ${threshold}$ est vraie, le lutin exécute la branche « alors » : $$R = ${m} \\times ${x} = ${ans}$$`
-          : `Comme $${x} > ${threshold}$ est fausse (car $${x} \\le ${threshold}$), le lutin exécute la branche « sinon » : $$R = ${x} + ${addVal} = ${ans}$$`
+        answer: String(result),
+        placeholder: `Ex: ${result}`,
+        hint1: `Teste la condition $${x} > ${threshold}$ pour déterminer la branche à suivre.`,
+        hint2: x > threshold ? `La condition est vraie : calcule $${multiplier} \\times ${x} = ${result}$.` : `La condition est fausse : calcule $${x} + ${increment} = ${result}$.`,
+        solution: `La condition $${x} > ${threshold}$ est ${x > threshold ? 'vraie' : 'fausse'} ; le lutin affiche ${x > threshold ? `$${multiplier} \\times ${x} = ${result}$` : `$${x} + ${increment} = ${result}$`}.`
       };
     } else {
-      // PALIER 4 : DÉFIS AVANCÉS
-      const p4Type = this.randChoice(['square_prog', 'loop_counter', 'two_vars_rel', 'loop_mult']);
-      if (p4Type === 'square_prog') {
-        // Défi Scratch avec carré et nombre relatif
-        const x = this.randChoice([-6, -5, -4, -3, -2, 2, 3, 4, 5, 6, 7]);
-        const a = this.randChoice([-5, -3, -2, 1, 2, 3, 4, 5]);
-        const sqVariant = this.randChoice(['add_then_sq', 'sq_then_sub', 'sq_mult_add']);
-
-        if (sqVariant === 'add_then_sq') {
-          const inner = x + a;
-          const res = inner * inner;
-          const aText = a >= 0 ? `+ ${a}` : `- ${Math.abs(a)}`;
-          return {
-            chapterId: '4A1',
-            tier: 4,
-            title: "Défi Scratch : Programme avec mise au carré (4ème)",
-            statement: `On considère le script Scratch suivant :\n\`\`\`text\nquand drapeau cliqué\ndemander [Choisir un nombre] et attendre\nmettre [x] à réponse\nmettre [x] à (x ${aText})\nmettre [x] à (x * x)\ndire (x)\n\`\`\`\n**Si le nombre choisi au départ est $${x}$, quel résultat affiche le lutin ?**`,
-            type: "exact",
-            answer: String(res),
-            placeholder: `Ex: ${res}`,
-            hint1: `Calcule d'abord $(x ${aText})$ avec $x = ${x}$, puis élève le résultat au carré.`,
-            hint2: `$${x} ${aText} = ${inner}$, puis $(${inner})^2 = ${res}$.`,
-            solution: `Étape 1 : $${x} ${aText} = ${inner}$. Étape 2 : $(${inner})^2 = ${inner} \\times (${inner}) = ${res}$.`
-          };
-        } else if (sqVariant === 'sq_then_sub') {
-          const b = this.randInt(5, 30);
-          const res = (x * x) - b;
-          return {
-            chapterId: '4A1',
-            tier: 4,
-            title: "Défi Scratch : Programme avec mise au carré (4ème)",
-            statement: `On considère le script Scratch suivant :\n\`\`\`text\nquand drapeau cliqué\ndemander [Choisir un nombre] et attendre\nmettre [x] à réponse\nmettre [R] à (x * x)\nmettre [R] à (R - ${b})\ndire (R)\n\`\`\`\n**Si le nombre choisi au départ est $${x}$, quel résultat affiche le lutin ?**`,
-            type: "exact",
-            answer: String(res),
-            placeholder: `Ex: ${res}`,
-            hint1: `Calcule d'abord le carré de $x = ${x}$ ($(-)\\times(-) = (+)$), puis soustrais $${b}$.`,
-            hint2: `$(${x})^2 = ${x * x}$, puis $${x * x} - ${b} = ${res}$.`,
-            solution: `Étape 1 : $(${x})^2 = ${x * x}$. Étape 2 : $${x * x} - ${b} = ${res}$.`
-          };
-        } else {
-          const m = this.randInt(2, 4);
-          const b = this.randInt(3, 20);
-          const res = (x * x) * m + b;
-          return {
-            chapterId: '4A1',
-            tier: 4,
-            title: "Défi Scratch : Programme avec mise au carré (4ème)",
-            statement: `On considère le script Scratch suivant :\n\`\`\`text\nquand drapeau cliqué\ndemander [Choisir un nombre] et attendre\nmettre [x] à réponse\nmettre [R] à (x * x)\nmettre [R] à (R * ${m})\nmettre [R] à (R + ${b})\ndire (R)\n\`\`\`\n**Si le nombre choisi au départ est $${x}$, quel résultat affiche le lutin ?**`,
-            type: "exact",
-            answer: String(res),
-            placeholder: `Ex: ${res}`,
-            hint1: `Étape 1 : $(x)^2$. Étape 2 : multiplier par $${m}$. Étape 3 : ajouter $${b}$.`,
-            hint2: `$(${x})^2 = ${x * x}$, puis $${x * x} \\times ${m} = ${x * x * m}$, puis $${x * x * m} + ${b} = ${res}$.`,
-            solution: `1. Carré : $(${x})^2 = ${x * x}$\\n2. Multiplication : $${x * x} \\times ${m} = ${x * x * m}$\\n3. Addition : $${x * x * m} + ${b} = ${res}$`
-          };
-        }
-      } else if (p4Type === 'two_vars_rel') {
-        // Programme avec 2 variables et nombres relatifs (brevet 4e/3e)
-        const x = this.randChoice([-6, -5, -4, -3, -2, 2, 3, 4, 5, 6]);
-        const a = this.randChoice([-3, -2, 2, 3, 4]);
-        const b = this.randInt(2, 8);
-        const c = this.randInt(2, 5);
-        const d = this.randChoice([2, 3, 4]);
-        const varA = x * a + b;
-        const varB = (x + c) * d;
-        const res = varA - varB;
-        const aStr = a < 0 ? `(${a})` : `${a}`;
+      if (Math.random() < 0.5) {
+        // Défi Scratch avec carré et distributivité
+        const x = this.randInt(2, 28);
+        const a = this.randInt(1, 18);
+        const res = (x + a) * (x + a);
         return {
           chapterId: '4A1',
           tier: 4,
-          title: "Défi Scratch : Deux variables et nombres relatifs (4ème)",
-          statement: `Un lutin exécute le script Scratch suivant :\n\`\`\`text\nquand drapeau cliqué\ndemander [Choisir un nombre] et attendre\nmettre [x] à réponse\nmettre [A] à (x * ${aStr} + ${b})\nmettre [B] à ((x + ${c}) * ${d})\nmettre [Résultat] à (A - B)\ndire (Résultat)\n\`\`\`\n**Si l'on entre le nombre $${x}$ au départ, quel résultat affiche le lutin ?**`,
+          title: "Défi Scratch : Programme avec mise au carré (4ème)",
+          statement: `Script Scratch :\n\`\`\`text\nquand drapeau cliqué\ndemander [Choisir un nombre] et attendre\nmettre [x] à réponse\nmettre [x] à (x + ${a})\nmettre [x] à (x * x)\ndire (x)\n\`\`\`\n**Si le nombre choisi au départ est $${x}$, quel résultat affiche le lutin ?**`,
           type: "exact",
           answer: String(res),
           placeholder: `Ex: ${res}`,
-          hint1: `Calcule séparément la valeur de $A$, puis celle de $B$, puis effectue $A - B$. Attention à la règle des signes !`,
-          hint2: `Variable $A$ : $${x} \\times ${aStr} + ${b} = ${varA}$. Variable $B$ : ($${x} + ${c}) \\times ${d} = ${varB}$. Résultat : $${varA} - (${varB}) = ${res}$.`,
-          solution: `1. **Valeur de A** : $A = ${x} \\times ${aStr} + ${b} = ${x * a} + ${b} = ${varA}$\\n2. **Valeur de B** : $B = (${x} + ${c}) \\times ${d} = ${x + c} \\times ${d} = ${varB}$\\n3. **Résultat final** : $A - B = ${varA} - (${varB}) = \\mathbf{${res}}$`
-        };
-      } else if (p4Type === 'loop_mult') {
-        // Boucle répéter jusqu'à avec multiplication (croissance rapide)
-        const init = this.randChoice([1, 2, 3, 5]);
-        const mult = this.randChoice([2, 3]);
-        const seuil = this.randChoice([40, 50, 75, 100, 150, 200]);
-        let val = init;
-        let etapes = [val];
-        while (val < seuil) {
-          val *= mult;
-          etapes.push(val);
-        }
-        return {
-          chapterId: '4A1',
-          tier: 4,
-          title: "Défi : Boucle répéter jusqu'à avec produit (4ème)",
-          statement: `On considère l'algorithme Scratch suivant :\n\`\`\`text\nmettre [V] à ${init}\nrépéter jusqu'à <V >= ${seuil}>\n    mettre [V] à (V * ${mult})\nfin\ndire (V)\n\`\`\`\n**Quelle est la valeur finale de la variable V affichée à la fin de la boucle ?**`,
-          type: "exact",
-          answer: String(val),
-          placeholder: `Ex: ${val}`,
-          hint1: `La variable $V$ commence à ${init} et est multipliée par ${mult} à chaque tour. Écris les valeurs successives de $V$ jusqu'à dépasser ${seuil}.`,
-          hint2: `Valeurs successives : ${etapes.slice(0, -1).join(', ')}... Le prochain dépasse ${seuil}.`,
-          solution: `Valeurs successives prises par $V$ :\\n${etapes.map((v, i) => `• Tour ${i} : $V = ${v}$`).join('\\n')}\\nÀ $V = ${val}$, la condition $V \\ge ${seuil}$ devient vraie : la boucle s'arrête et le lutin affiche **${val}**.`
-        };
-      } else {
-        // Boucle répéter jusqu'à avec addition et seuil très varié
-        const start = this.randChoice([0, 2, 5, 10]);
-        const pas = this.randChoice([3, 4, 6, 7, 8, 9, 11, 13]);
-        const seuil = this.randChoice([30, 45, 52, 60, 70, 85, 95]);
-        let val = start;
-        let count = 0;
-        while (val < seuil) {
-          val += pas;
-          count++;
-        }
-        return {
-          chapterId: '4A1',
-          tier: 4,
-          title: "Défi : Boucle répéter jusqu'à dans Scratch (4ème)",
-          statement: `On exécute le script Scratch suivant :\n\`\`\`text\nmettre [Compteur] à ${start}\nrépéter jusqu'à <Compteur >= ${seuil}>\n    ajouter ${pas} à [Compteur]\nfin\ndire (Compteur)\n\`\`\`\n**Quelle est la valeur finale de Compteur affichée par le lutin ?**`,
-          type: "exact",
-          answer: String(val),
-          placeholder: `Ex: ${val}`,
-          hint1: `Compteur commence à ${start} et avance de ${pas} en ${pas}. La boucle s'arrête dès que Compteur atteint ou dépasse ${seuil}.`,
-          hint2: `Combien de fois doit-on ajouter ${pas} à ${start} pour atteindre au moins ${seuil} ?`,
-          solution: `Compteur commence à ${start} et augmente de ${pas} à chaque tour.\\nAprès ${count} répétitions, Compteur atteint $${start} + ${count} \\times ${pas} = ${val}$.\\nComme $${val} \\ge ${seuil}$, la condition d'arrêt est satisfaite et la valeur finale est **${val}**.`
+          hint1: `Calcule d'abord $(x + ${a})$ avec $x = ${x}$, puis élève ce résultat au carré.`,
+          hint2: `$${x} + ${a} = ${x + a}$, puis $(${x + a})^2 = ${res}$.`,
+          solution: `Étape 1 : $${x} + ${a} = ${x + a}$. Étape 2 : $(${x + a})^2 = ${res}$.`
         };
       }
+      const pas = this.randInt(3, 16);
+      const seuil = this.randInt(18, 95);
+      let val = 0;
+      while (val < seuil) {
+        val += pas;
+      }
+      return {
+        chapterId: '4A1',
+        tier: 4,
+        title: "Défi : Boucle répéter jusqu'à dans Scratch (4ème)",
+        statement: `Compteur démarre à 0. Script : « répéter jusqu'à Compteur >= ${seuil} : ajouter ${pas} à Compteur ».\nQuelle est la valeur finale de Compteur ?`,
+        type: "exact",
+        answer: String(val),
+        placeholder: `Ex: ${val}`,
+        hint1: "La boucle s'arrête dès que Compteur atteint ou dépasse " + seuil + ".",
+        hint2: `À chaque tour, on ajoute ${pas} au compteur jusqu'à dépasser ${seuil}.`,
+        solution: `Compteur augmente de ${pas} en ${pas} jusqu'à dépasser ${seuil} : valeur finale = ${val}.`
+      };
     }
   },
 
@@ -10948,7 +10542,7 @@ window.MathsGenerators = {
    * @param {number|null} tier - Palier de difficulté forcé (1 à 4) ou null pour auto-détection
    * @param {number|null} mastery - Taux de maîtrise (0-100%) si disponible
    */
-  generateForChapter(chapterId, tier = null, mastery = null) {
+  generateForChapter(chapterId, tier = null, mastery = null, _variationAttempt = 0) {
     // Résolution du palier cible
     let resolvedTier = 1;
     if (tier !== null && tier !== undefined) {
@@ -11037,6 +10631,19 @@ window.MathsGenerators = {
       }
     }
 
+    if (q && q.statement) {
+      const historyKey = `${chapterId}:${resolvedTier}`;
+      const recent = this._recentGeneratedStatements[historyKey] || [];
+      if (recent.includes(q.statement) && _variationAttempt < 8) {
+        return this.generateForChapter(chapterId, resolvedTier, mastery, _variationAttempt + 1);
+      }
+      if (!recent.includes(q.statement)) {
+        recent.push(q.statement);
+        if (recent.length > 18) recent.shift();
+        this._recentGeneratedStatements[historyKey] = recent;
+      }
+    }
+
     if (q) {
       if (!q.id) {
         q.id = `${chapterId}-gen-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
@@ -11120,4 +10727,3 @@ window.MathsGenerators = {
     return series;
   }
 };
-
