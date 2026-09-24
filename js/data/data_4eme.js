@@ -984,9 +984,9 @@ window.MATHS_EXERCISES_4E = {
       "type": "exact",
       "answer": "20",
       "placeholder": "Ex: 20",
-      "hint1": "Au numérateur : $(-24) + (-16) = -40$. Puis $(-40) \\div (-8) = 5$.",
+      "hint1": "Effectue le quotient sans quitter l'écriture de la fraction : $C = \\frac{(-24) + (-16)}{-8} = \\frac{-40}{-8} = 5$.",
       "hint2": "Ensuite effectue $-3 \\times (-5) = +15$. Enfin $5 + 15$.",
-      "solution": "$$C = \\frac{-40}{-8} - (-15) = 5 + 15 = 20$$",
+      "solution": "$$C = \\frac{(-24) + (-16)}{-8} - 3 \\times (-5) = \\frac{-40}{-8} - (-15) = 5 + 15 = 20$$",
       "skill": "Calculer"
     },
     {
@@ -998,9 +998,9 @@ window.MATHS_EXERCISES_4E = {
       "type": "exact",
       "answer": "13",
       "placeholder": "Ex: 13",
-      "hint1": "1. Numérateur : $(-4) \\times (-6) \\times (-5) = -120$. Dénominateur : $(-2) \\times 15 = -30$.",
+      "hint1": "Calcule le quotient sous forme d'une seule fraction : $\\frac{(-4) \\times (-6) \\times (-5)}{(-2) \\times 15} = \\frac{-120}{-30} = 4$.",
       "hint2": "2. Puissances : $(-3)^2 = 9$ et $(-1)^5 = -1$. Donc $(-3)^2 \\times (-1)^5 = -9$.",
-      "solution": "1. Fraction : $\\frac{-120}{-30} = 4$.\n2. Puissances : $(-3)^2 \\times (-1)^5 = 9 \\times (-1) = -9$.\n3. Résultat : $D = 4 - (-9) = 4 + 9 = 13$.",
+      "solution": "$$D = \\frac{(-4) \\times (-6) \\times (-5)}{(-2) \\times 15} - (-3)^2 \\times (-1)^5 = \\frac{-120}{-30} - 9 \\times (-1) = 4 - (-9) = 4 + 9 = 13$$",
       "skill": "Calculer"
     }
   ],
@@ -1056,9 +1056,9 @@ window.MATHS_EXERCISES_4E = {
       "type": "exact",
       "answer": "5/16",
       "placeholder": "Ex: 5/16",
-      "hint1": "Numérateur : $\\frac{2}{3} - \\frac{1}{4} = \\frac{8 - 3}{12} = \\frac{5}{12}$.",
-      "hint2": "Dénominateur : $\\frac{5}{6} + \\frac{3}{6} = \\frac{8}{6} = \\frac{4}{3}$. Puis $\\frac{5}{12} \\div \\frac{4}{3}$.",
-      "solution": "1. Numérateur : $N = \\frac{8 - 3}{12} = \\frac{5}{12}$.\n2. Dénominateur : $D = \\frac{5 + 3}{6} = \\frac{8}{6} = \\frac{4}{3}$.\n3. Quotient : $F = \\frac{5}{12} \\times \\frac{3}{4} = \\frac{15}{48} = \\frac{5}{16}$.",
+      "hint1": "Mets les fractions au même dénominateur en gardant l’expression entière : $F = \\frac{\\frac{2}{3} - \\frac{1}{4}}{\\frac{5}{6} + \\frac{1}{2}} = \\frac{\\frac{8}{12} - \\frac{3}{12}}{\\frac{5}{6} + \\frac{1}{2}}$.",
+      "hint2": "Poursuis en gardant le quotient complet : $F = \\frac{\\frac{5}{12}}{\\frac{5}{6} + \\frac{3}{6}} = \\frac{\\frac{5}{12}}{\\frac{8}{6}} = \\frac{5}{12} \\div \\frac{4}{3}$.",
+      "solution": "On calcule d'abord les deux expressions de la fraction à étages, puis on conserve le quotient entier :\n$$F = \\frac{\\frac{2}{3} - \\frac{1}{4}}{\\frac{5}{6} + \\frac{1}{2}} = \\frac{\\frac{8}{12} - \\frac{3}{12}}{\\frac{5}{6} + \\frac{3}{6}} = \\frac{\\frac{5}{12}}{\\frac{8}{6}} = \\frac{5}{12} \\div \\frac{4}{3} = \\frac{5}{12} \\times \\frac{3}{4} = \\frac{15}{48} = \\frac{5}{16}.$$",
       "skill": "Calculer"
     }
   ],
@@ -1085,8 +1085,8 @@ window.MATHS_EXERCISES_4E = {
       "type": "exact",
       "answer": "-4",
       "placeholder": "Ex: -4",
-      "hint1": "Au numérateur : $10^5 \\times 10^{-2} = 10^{5 - 2} = 10^3$.",
-      "hint2": "Quotient : $10^3 / 10^7 = 10^{3 - 7} = 10^{-4}$.",
+      "hint1": "Garde toute la fraction dans le calcul : $P = \\frac{10^5 \\times 10^{-2}}{10^7} = \\frac{10^{5 - 2}}{10^7} = \\frac{10^3}{10^7}$.",
+      "hint2": "Poursuis avec la fraction entière : $P = \\frac{10^3}{10^7} = 10^{3 - 7} = 10^{-4}$.",
       "solution": "$$P = \\frac{10^3}{10^7} = 10^{3 - 7} = 10^{-4} \\implies n = -4$$",
       "skill": "Calculer"
     },
@@ -1112,8 +1112,8 @@ window.MATHS_EXERCISES_4E = {
       "type": "exact",
       "answer": "-1",
       "placeholder": "Ex: -1",
-      "hint1": "Numérateur : $4 \\times 15 = 60$ et $10^7 \\times 10^{-3} = 10^4$. Dénominateur : $6 \\times 10^6$.",
-      "hint2": "Quotient : $\\frac{60}{6} \\times \\frac{10^4}{10^6} = 10 \\times 10^{-2} = 10^{-1} = 1 \\times 10^{-1}$.",
+      "hint1": "Réécris toute la fraction en simplifiant les produits : $C = \\frac{4 \\times 10^7 \\times 15 \\times 10^{-3}}{6 \\times (10^2)^3} = \\frac{60 \\times 10^4}{6 \\times 10^6}$.",
+      "hint2": "Poursuis avec la fraction complète : $C = \\frac{60 \\times 10^4}{6 \\times 10^6} = \\frac{10 \\times 10^4}{10^6} = 10 \\times 10^{-2} = 10^{-1} = 1 \\times 10^{-1}$.",
       "solution": "$$C = \\frac{60 \\times 10^4}{6 \\times 10^6} = 10 \\times 10^{-2} = 1 \\times 10^{-1} \\implies k = -1$$",
       "skill": "Calculer"
     }

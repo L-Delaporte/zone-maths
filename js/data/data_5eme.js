@@ -147,9 +147,9 @@ window.MATHS_COURSES_5E = {
         "example": "Calculer $C = \\frac{5}{6} - \\frac{3}{18}$.",
         "steps": [
           "**Étape 1** : On repère que $18 = 6 \\times 3$.",
-          "**Étape 2** : On met $\\frac{5}{6}$ sur 18 : $\\frac{5 \\times 3}{6 \\times 3} = \\frac{15}{18}$.",
-          "**Étape 3** : On soustrait les numérateurs : $\\frac{15 - 3}{18} = \\frac{12}{18}$.",
-          "**Étape 4 (Simplification)** : $\\frac{12 \\div 6}{18 \\div 6} = \\frac{2}{3}$."
+          "**Étape 2** : On met $5/6$ sur 18 et on garde l'expression entière : $C = \\frac{5}{6} - \\frac{3}{18} = \\frac{5 \\times 3}{6 \\times 3} - \\frac{3}{18} = \\frac{15}{18} - \\frac{3}{18}$.",
+          "**Étape 3** : On effectue la soustraction en conservant la fraction : $C = \\frac{15}{18} - \\frac{3}{18} = \\frac{15 - 3}{18} = \\frac{12}{18}$.",
+          "**Étape 4 (Simplification)** : On divise le numérateur et le dénominateur par 6 en conservant l'égalité : $C = \\frac{12}{18} = \\frac{12 \\div 6}{18 \\div 6} = \\frac{2}{3}$",
         ]
       }
     ],
@@ -915,8 +915,9 @@ window.MATHS_COURSES_5E = {
     "methods": [
       {
         "title": "Méthode : Déterminer l'angle de rotation d'un polygone régulier",
-        "example": "Quel angle de rotation faut-il programmer pour tracer un pentagone régulier (5 côtés) ?",
+        "example": "Quel angle de rotation faut-il programmer pour tracer un pentagone régulier ?",
         "steps": [
+          "**Propriété** : Un pentagone régulier possède 5 côtés égaux.",
           "**Règle** : Pour faire un tour complet et fermer la figure, la somme des rotations extérieures vaut $360^\\circ$.",
           "**Calcul** : $\\text{Angle} = \\frac{360^\\circ}{5} = 72^\\circ$.",
           "**Script** : Répéter 5 fois : avancer de $L$, tourner de $72^\\circ$."
@@ -1116,9 +1117,9 @@ window.MATHS_EXERCISES_5E = {
       "type": "exact",
       "answer": "7/8",
       "placeholder": "Ex: 7/8",
-      "hint1": "1. Parenthèse : $\\frac{1}{2} + \\frac{3}{8} = \\frac{4}{8} + \\frac{3}{8} = \\frac{7}{8}$.",
-      "hint2": "2. Soustraction : $\\frac{7}{4} - \\frac{7}{8} = \\frac{14}{8} - \\frac{7}{8}$.",
-      "solution": "1. Parenthèse : $\\frac{4}{8} + \\frac{3}{8} = \\frac{7}{8}$.\n2. Soustraction : $\\frac{14}{8} - \\frac{7}{8} = \\frac{7}{8}$.",
+      "hint1": "Effectue la parenthèse en gardant l’expression complète : $F = \\frac{7}{4} - \\left(\\frac{1}{2} + \\frac{3}{8}\\right) = \\frac{7}{4} - \\left(\\frac{4}{8} + \\frac{3}{8}\\right) = \\frac{7}{4} - \\frac{7}{8}$.",
+      "hint2": "Mets au même dénominateur et poursuis l’égalité complète : $F = \\frac{14}{8} - \\frac{7}{8} = \\frac{7}{8}$.",
+      "solution": "$$F = \\frac{7}{4} - \\left(\\frac{1}{2} + \\frac{3}{8}\\right) = \\frac{7}{4} - \\left(\\frac{4}{8} + \\frac{3}{8}\\right) = \\frac{7}{4} - \\frac{7}{8} = \\frac{14}{8} - \\frac{7}{8} = \\frac{7}{8}.$$",
       "skill": "Calculer"
     }
   ],
@@ -1980,24 +1981,14 @@ window.MATHS_EXERCISES_5E = {
     "id": "5A1-4",
     "chapterId": "5A1",
     "tier": 4,
-    "title": "Défi : Reconnaissance de polygone régulier",
-    "statement": "Quel polygone régulier le lutin trace-t-il avec ce script : « répéter 6 fois : avancer de 40, tourner de 60 degrés » ?",
-    "type": "mcq",
-    "options": [
-      "Un hexagone régulier (6 côtés)",
-      "Un octogone régulier (8 côtés)",
-      "Un pentagone régulier (5 côtés)",
-      "Un carré (4 côtés)"
-    ],
-    "correctIndex": 0,
-    "explanations": [
-      "Exact : la boucle est répétée 6 fois et $6 \\times 60^\\circ = 360^\\circ$, c'est un hexagone régulier.",
-      "Un octogone nécessiterait 8 répétitions.",
-      "Un pentagone a 5 côtés.",
-      "Un carré a 4 côtés."
-    ],
-    "hint1": "Compte le nombre de répétitions de la boucle.",
-    "solution": "Le script effectue 6 côtés identiques et 6 rotations de $60^\\circ$, il s'agit d'un hexagone régulier.",
+    "title": "Défi : Programme de calcul Scratch multi-étapes",
+    "statement": "Un lutin exécute le programme de calcul Scratch suivant :\n```text\nquand drapeau cliqué\ndemander [Choisir un nombre] et attendre\nmettre [N] à réponse\nmettre [N] à (N + 4)\nmettre [N] à (N * 5)\nmettre [N] à (N - 15)\nmettre [N] à (N / 2)\ndire (N)\n```\n**Si l'on choisit le nombre $7$ au départ, quel nombre affiche le lutin à la fin ?**",
+    "type": "exact",
+    "answer": "20",
+    "placeholder": "Ex: 20",
+    "hint1": "Applique chaque bloc l'un après l'autre dans l'ordre : ajoute 4 à 7, puis multiplie le résultat par 5...",
+    "hint2": "Étape 1 : $7 + 4 = 11$. Étape 2 : $11 \\times 5 = 55$. Étape 3 : $55 - 15 = 40$. Étape 4 : $40 \\div 2 = 20$.",
+    "solution": "$$((7 + 4) \\times 5 - 15) \\div 2 = (11 \\times 5 - 15) \\div 2 = (55 - 15) \\div 2 = \\frac{40}{2} = 20$$",
     "skill": "Raisonner"
   }
 ]

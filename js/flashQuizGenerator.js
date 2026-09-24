@@ -1,5 +1,5 @@
 /**
- * Générateur de Devoir Surveillé Blanc d'Entraînement (+ Corrigé Détaillé)
+ * Générateur de devoirs blancs d'entraînement (+ corrigé détaillé)
  * Permet aux élèves de s'entraîner en conditions réelles d'examen
  * avec régénération infinie de nouveaux sujets et auto-évaluation.
  */
@@ -109,7 +109,7 @@ window.MathsQuizGenerator = {
           <div class="quiz-header-box">
             <div class="quiz-title-line">
               <div class="quiz-title-main">
-                <h3>📝 L'ÉTABLI DES MATHS (${levelLabel}) — DEVOIR SURVEILLÉ BLANC D'ENTRAÎNEMENT</h3>
+                <h3>📝 L'ÉTABLI DES MATHS (${levelLabel}) — DEVOIRS BLANCS D'ENTRAÎNEMENT</h3>
                 <span class="quiz-badge-theme">${chapterTitles}</span>
               </div>
               <div class="quiz-header-right">
@@ -136,6 +136,11 @@ window.MathsQuizGenerator = {
                   <span class="quiz-q-pts">(${ptsPerQ} pt${ptsPerQ > 1 ? 's' : ''})</span>
                   ${q.title ? `<span class="quiz-q-topic">${q.title}</span>` : ''}
                 </div>
+                <div class="quiz-learning-meta">
+                  <span class="quiz-stage-pill">${window.MathsApp.getPedagogicalStage(q.tier).label}</span>
+                  <span>Palier ${q.tier || 1}</span>
+                  <span>Compétence / notion : ${window.MathsApp.getExerciseCompetency(q, q.chapterId)}</span>
+                </div>
                 <div class="quiz-q-text">
                   ${window.MathsRenderer.markdownToHtml(q.statement)}
                 </div>
@@ -144,7 +149,7 @@ window.MathsQuizGenerator = {
           </div>
 
           <div class="quiz-footer-credit print-only">
-            <span>L'Établi des Maths • Devoir surveillé blanc ${levelLabel} • Créé par Loïc Delaporte, Professeur de Mathématiques</span>
+            <span>L'Établi des Maths • Devoir blanc ${levelLabel} • Créé par Loïc Delaporte, Professeur de Mathématiques</span>
           </div>
         </div>
 
@@ -173,7 +178,15 @@ window.MathsQuizGenerator = {
                   <strong>Exercice ${idx + 1}</strong> <span class="quiz-q-pts">(${ptsPerQ} pt${ptsPerQ > 1 ? 's' : ''})</span>
                   ${q.title ? `<span class="quiz-sol-topic">${q.title}</span>` : ''}
                 </div>
+                <div class="quiz-learning-meta correction-learning-meta">
+                  <span class="quiz-stage-pill">${window.MathsApp.getPedagogicalStage(q.tier).label}</span>
+                  <span>Compétence / notion : ${window.MathsApp.getExerciseCompetency(q, q.chapterId)}</span>
+                </div>
                 <div class="quiz-sol-body">
+                  <div class="quiz-method-cues">
+                    <strong>Méthode à vérifier</strong>
+                    <ul>${window.MathsApp.getMethodChecklist(q.tier, q.chapterId).map(step => `<li>${step}</li>`).join('')}</ul>
+                  </div>
                   ${window.MathsRenderer.markdownToHtml((window.MathsAdaptiveEngine && q.statement && q.solution) ? window.MathsAdaptiveEngine.formatSolutionWithInitialExpr(q.statement, q.solution) : q.solution)}
                 </div>
               </div>

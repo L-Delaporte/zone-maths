@@ -2438,6 +2438,33 @@ body {
   border-bottom: 1px solid #e5e7eb;
 }
 
+.quiz-learning-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.3rem 0.55rem;
+  margin: 0 0 0.4rem;
+  color: #64748b;
+  font-size: 0.72rem;
+  line-height: 1.35;
+}
+
+.quiz-stage-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 7px;
+  border: 1px solid #bfdbfe;
+  border-radius: 999px;
+  background: #eff6ff;
+  color: #1d4ed8;
+  font-weight: 700;
+}
+
+.correction-learning-meta {
+  margin-top: -0.2rem;
+  margin-bottom: 0.4rem;
+}
+
 .quiz-q-badge {
   font-weight: 800;
   font-size: 0.82rem;
@@ -2545,6 +2572,68 @@ body {
 
 .quiz-sol-body p:last-child {
   margin-bottom: 0;
+}
+
+.quiz-method-cues {
+  margin: 0 0 0.55rem;
+  padding: 0.45rem 0.55rem;
+  border-left: 3px solid #60a5fa;
+  background: #eff6ff;
+  color: #334155;
+  font-size: 0.77rem;
+}
+
+.quiz-method-cues ul {
+  margin: 0.2rem 0 0 1rem;
+  padding: 0;
+}
+
+.quiz-method-cues li {
+  margin: 0.08rem 0;
+}
+
+/* Keep the correction preview inside its cards; print styles remain independent. */
+@media screen {
+  #quiz-preview-content,
+  .quiz-solutions-teacher,
+  .quiz-sol-card,
+  .quiz-sol-body {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .quiz-solutions-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .quiz-sol-header {
+    min-width: 0;
+    flex-wrap: wrap;
+  }
+
+  .quiz-sol-topic,
+  .quiz-sol-body {
+    overflow-wrap: anywhere;
+  }
+
+  .quiz-sol-body .katex-display {
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+
+  .quiz-sol-body pre,
+  .quiz-sol-body code {
+    max-width: 100%;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+
+  @media (max-width: 700px) {
+    .quiz-solutions-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
 }
 
 /* =========================================================================

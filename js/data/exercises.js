@@ -65,8 +65,7 @@ window.MATHS_EXERCISES = {
       "placeholder": "Ex: 7/6",
       "hint1": "Le dénominateur commun est 12 (car $12 = 4 \\times 3$). Transforme $\\frac{3}{4}$ en douzièmes.",
       "hint2": "$\\frac{3}{4} = \\frac{3 \\times 3}{4 \\times 3} = \\frac{9}{12}$. Additionne ensuite $\\frac{9}{12} + \\frac{5}{12}$ puis simplifie.",
-      "solution": "$$C = \\frac{3 \\times 3}{4 \\times 3} + \\frac{5}{12} = \\frac{9}{12} + \\frac{5}{12} = \\frac{14}{12}$$\nEn divisant par 2 le numérateur et le dénominateur :\n$$C = \\frac{7}{6}$$",
-      "skill": "Calculer"
+      "solution": "$$C = \\frac{3 \\times 3}{4 \\times 3} + \\frac{5}{12} = \\frac{9}{12} + \\frac{5}{12} = \\frac{14}{12} = \\frac{14 \\div 2}{12 \\div 2} = \\frac{7}{6}$$",
     },
     {
       "id": "N1-5",
