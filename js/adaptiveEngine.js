@@ -142,10 +142,26 @@ window.MathsAdaptiveEngine = {
     } else if (origIndex === undefined) {
       origIndex = 0;
     }
-    const items = exercise.options.map((opt, i) => ({
+
+    // Déduplication défensive des options
+    const uniqueOptions = [];
+    const uniqueExplanations = [];
+    let newCorrectIdx = 0;
+    exercise.options.forEach((opt, idx) => {
+      const existingIdx = uniqueOptions.indexOf(opt);
+      if (existingIdx === -1) {
+        if (idx === origIndex) newCorrectIdx = uniqueOptions.length;
+        uniqueOptions.push(opt);
+        if (exercise.explanations) uniqueExplanations.push(exercise.explanations[idx]);
+      } else if (idx === origIndex) {
+        newCorrectIdx = existingIdx;
+      }
+    });
+
+    const items = uniqueOptions.map((opt, i) => ({
       opt,
-      exp: exercise.explanations ? exercise.explanations[i] : null,
-      isCorrect: i === origIndex
+      exp: uniqueExplanations[i] !== undefined ? uniqueExplanations[i] : null,
+      isCorrect: i === newCorrectIdx
     }));
 
     for (let i = items.length - 1; i > 0; i--) {

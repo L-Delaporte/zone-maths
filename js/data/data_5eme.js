@@ -1155,10 +1155,15 @@ window.MATHS_EXERCISES_5E = {
       "chapterId": "5N4",
       "tier": 3,
       "title": "Comparaison de deux puissances : 2³ et 3²",
-      "statement": "Comparer $2^3$ et $3^2$. Compléter par le bon symbole ($<$, $>$ ou $=) :\n$$2^3 \\dots 3^2$$",
-      "type": "exact",
-      "answer": "<",
-      "placeholder": "<, > ou =",
+      "statement": "Comparer $2^3$ et $3^2$. Choisir le bon symbole pour compléter :\n$$2^3 \\dots 3^2$$",
+      "type": "mcq",
+      "options": [
+        "$<$",
+        "$>$",
+        "$=$"
+      ],
+      "correctIndex": 0,
+      "answer": "$<$",
       "hint1": "Calcule séparément chaque puissance : $2^3 = 2 \\times 2 \\times 2$ et $3^2 = 3 \\times 3$.",
       "solution": "1. $2^3 = 2 \\times 2 \\times 2 = 8$.\n2. $3^2 = 3 \\times 3 = 9$.\nComme $8 < 9$, on conclut : **$2^3 < 3^2$**.",
       "skill": "Raisonner"
@@ -1263,10 +1268,14 @@ window.MATHS_EXERCISES_5E = {
       "chapterId": "5G3",
       "tier": 3,
       "title": "Inégalité triangulaire (Constructibilité)",
-      "statement": "Peut-on construire un triangle dont les côtés mesurent $4\\text{ cm}$, $6\\text{ cm}$ et $12\\text{ cm}$ ? (oui ou non)",
-      "type": "exact",
-      "answer": "non",
-      "placeholder": "oui ou non",
+      "statement": "Peut-on construire un triangle dont les côtés mesurent $4\\text{ cm}$, $6\\text{ cm}$ et $12\\text{ cm}$ ?",
+      "type": "mcq",
+      "options": [
+        "Non, le triangle n'est pas constructible",
+        "Oui, le triangle est constructible"
+      ],
+      "correctIndex": 0,
+      "answer": "Non, le triangle n'est pas constructible",
       "hint1": "Le plus grand côté (12) doit être strictement inférieur à la somme des deux autres ($4 + 6 = 10$).",
       "solution": "Comme $12 > 4 + 6$, l'inégalité triangulaire n'est pas vérifiée : le triangle **n'est pas constructible**.",
       "skill": "Raisonner"

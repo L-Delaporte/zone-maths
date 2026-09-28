@@ -806,9 +806,15 @@ window.MATHS_EXERCISES = {
       "tier": 1,
       "title": "Règle d'or du Tableur",
       "statement": "Par quel caractère obligatoire doit impérativement débuter toute formule dans une cellule de tableur pour qu'un calcul soit exécuté ?",
-      "type": "exact",
-      "answer": "=",
-      "placeholder": "Ex: =",
+      "type": "mcq",
+      "options": [
+        "Le signe « = » (égal)",
+        "Le signe « + » (plus)",
+        "Le mot « CALC »",
+        "Une parenthèse « ( »"
+      ],
+      "correctIndex": 0,
+      "answer": "Le signe « = » (égal)",
       "hint1": "C'est le symbole d'égalité mathématique.",
       "hint2": "Sans ce signe `=`, le tableur interprète la saisie comme du texte ordinaire !",
       "solution": "Toute formule dans un tableur commence impérativement par le signe égal `=` (ex: `=A1+B1` ou `=SOMME(B2:B10)`).",

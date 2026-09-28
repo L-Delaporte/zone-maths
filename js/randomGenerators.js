@@ -72,6 +72,27 @@ window.MathsGenerators = {
   },
 
   formatPoly(a, b, c) {
+    // Permet d'appeler avec un tableau : formatPoly([a, b]) pour ax + b, ou formatPoly([a, b, c]) pour ax^2 + bx + c
+    if (Array.isArray(a)) {
+      if (a.length === 2) {
+        c = a[1];
+        b = a[0];
+        a = 0;
+      } else if (a.length === 3) {
+        c = a[2];
+        b = a[1];
+        a = a[0];
+      }
+    } else if (c === undefined && b !== undefined) {
+      // Appel avec deux arguments : formatPoly(a, b) -> ax + b
+      c = b;
+      b = a;
+      a = 0;
+    }
+    a = a || 0;
+    b = b || 0;
+    c = c || 0;
+
     const parts = [];
     if (a !== 0) {
       if (a === 1) parts.push('x^2');
@@ -391,6 +412,7 @@ window.MathsGenerators = {
         const bVal = sign === '+' ? b : -b;
         const resA = k * a;
         const resConst = k * bVal;
+        const wrongCoeffA = (k + a === resA) ? (k + a + 1) : (k + a);
         const correctText = `$${resA}x ${this.formatSigned(resConst)}$`;
         return {
           chapterId: 'N2',
@@ -401,7 +423,7 @@ window.MathsGenerators = {
           options: [
             correctText,
             `$${resA}x ${sign} ${b}$`,
-            `$${k + a}x ${sign} ${b}$`,
+            `$${wrongCoeffA}x ${sign} ${b}$`,
             `$${resA}x^2 ${this.formatSigned(resConst)}$`
           ],
           correctIndex: 0,
@@ -651,12 +673,17 @@ window.MathsGenerators = {
       const a = this.randInt(2, 4);
       const b = this.randInt(1, 5);
       const c = this.randInt(2, 4);
-      const d = this.randInt(1, 5);
+      let d = this.randInt(1, 5);
+      // Éviter que coeffX = 0 pour ne pas confondre avec l'option sans terme en x
+      while (b * c === a * d) {
+        d = this.randInt(1, 5);
+      }
       // (ax + b)(cx - d) = (a*c)x^2 + (b*c - a*d)x - b*d
       const coeffX2 = a * c;
       const coeffX = b * c - a * d;
       const coeffConst = -(b * d);
       const correctStr = `$${this.formatPoly(coeffX2, coeffX, coeffConst)}$`;
+      const wrongCoeffX2 = (a + c === coeffX2) ? (coeffX2 + 2) : (a + c);
 
       return {
         chapterId: 'N2',
@@ -668,7 +695,7 @@ window.MathsGenerators = {
           correctStr,
           `$${coeffX2}x^2 ${coeffConst > 0 ? '+' : '-'} ${Math.abs(coeffConst)}$`,
           `$${coeffX2}x^2 + ${(b * c + a * d)}x ${coeffConst > 0 ? '+' : '-'} ${Math.abs(coeffConst)}$`,
-          `$${a + c}x^2 + ${coeffX}x - ${b * d}$`
+          `$${wrongCoeffX2}x^2 + ${coeffX}x - ${b * d}$`
         ],
         correctIndex: 0,
         explanations: [
@@ -1456,14 +1483,17 @@ window.MathsGenerators = {
       const c = isRect ? exactC : exactC + this.randChoice([-1, 1]);
       const actualIsRect = (a * a + b * b === c * c);
 
+      const correctOpt = actualIsRect ? "Oui, le triangle ABC est rectangle" : "Non, le triangle ABC n'est pas rectangle";
+      const opts = ["Oui, le triangle ABC est rectangle", "Non, le triangle ABC n'est pas rectangle"];
       return {
         chapterId: 'G0',
         tier: 3,
         title: "Réciproque du théorème de Pythagore (Test de perpendicularité)",
-        statement: `Un menuisier monte une étagère triangulaire dont les côtés mesurent $AB = ${a}\\text{ cm}$, $AC = ${b}\\text{ cm}$ et $BC = ${c}\\text{ cm}$.\n**Le triangle $ABC$ est-il rectangle ?** (Répondre par 'oui' ou 'non')`,
-        type: 'exact',
-        answer: actualIsRect ? 'oui' : 'non',
-        placeholder: "oui ou non",
+        statement: `Un menuisier monte une étagère triangulaire dont les côtés mesurent $AB = ${a}\\text{ cm}$, $AC = ${b}\\text{ cm}$ et $BC = ${c}\\text{ cm}$.\n**Le triangle $ABC$ est-il rectangle ?**`,
+        type: 'mcq',
+        options: opts,
+        answer: correctOpt,
+        correctIndex: opts.indexOf(correctOpt),
         hint1: `Identifie le plus long côté ($BC = ${c}$). Compare $BC^2$ et $AB^2 + AC^2$.`,
         solution: `D'une part, le plus long côté est $[BC]$ :\n$$BC^2 = ${c}^2 = ${c*c}$$\nD'autre part :\n$$AB^2 + AC^2 = ${a}^2 + ${b}^2 = ${a*a} + ${b*b} = ${a*a + b*b}$$\n${actualIsRect ? `Comme $BC^2 = AB^2 + AC^2$, d'après la réciproque du théorème de Pythagore, le triangle **est rectangle** en $A$.` : `Comme $BC^2 \\neq AB^2 + AC^2$, le triangle **n'est pas rectangle**.`}`
       };
@@ -4573,7 +4603,8 @@ window.MathsGenerators = {
           { name: "RST", right: "R", hyp: "[ST]", other1: "[RS]", other2: "[RT]" }
         ];
         const tri = this.randChoice(triangles);
-        const opts = this.shuffle([tri.hyp, tri.other1, tri.other2, "[AB]"]);
+        const fakeOpt = `[${tri.right}H]`;
+        const opts = this.shuffle([tri.hyp, tri.other1, tri.other2, fakeOpt]);
         return {
           chapterId: '4G1',
           tier: 1,
@@ -5755,18 +5786,21 @@ window.MathsGenerators = {
         const label = askMax ? "le plus grand" : "le plus petit";
         const n1Str = n1 > 0 ? `+${n1}` : `${n1}`;
         const n2Str = n2 > 0 ? `+${n2}` : `${n2}`;
+        const targetStr = target > 0 ? `+${target}` : `${target}`;
+        const opts = [`$${n1Str}$`, `$${n2Str}$`];
         return {
           chapterId: '5N2',
           tier: 1,
           title: `Comparaison de nombres relatifs (${label})`,
           statement: `Entre les deux nombres relatifs $${n1Str}$ et $${n2Str}$ :\n**Quel est le nombre ${label} ?**`,
-          type: "exact",
-          answer: String(target),
-          placeholder: `Ex: ${target}`,
+          type: "mcq",
+          options: opts,
+          answer: `$${targetStr}$`,
+          correctIndex: opts.indexOf(`$${targetStr}$`),
           hint1: isTwoNeg
             ? "Entre deux nombres négatifs, le plus grand est celui qui est le plus proche de zéro (la plus petite distance à zéro)."
             : "Tout nombre positif est toujours strictement supérieur à tout nombre négatif.",
-          solution: `Sur la droite graduée, $${minVal} < ${maxVal}$.\nLe nombre ${label} est donc **${target}**.`
+          solution: `Sur la droite graduée, $${minVal} < ${maxVal}$.\nLe nombre ${label} est donc **$${targetStr}$**.`
         };
       }
     } else if (t === 2) {
@@ -6055,16 +6089,19 @@ window.MathsGenerators = {
         const askMax = Math.random() < 0.5;
         const targetNum = askMax ? Math.max(a, b) : Math.min(a, b);
         const label = askMax ? "la plus grande" : "la plus petite";
+        const correctFrac = `$\\frac{${targetNum}}{${d}}$`;
+        const opts = [`$\\frac{${a}}{${d}}$`, `$\\frac{${b}}{${d}}$`];
         return {
           chapterId: '5N3',
           tier: 1,
           title: `Comparaison de fractions de même dénominateur (${label})`,
-          statement: `Entre les deux fractions $\\frac{${a}}{${d}}$ et $\\frac{${b}}{${d}}$ :\n**Quelle est ${label} fraction ?** (écrire sous la forme a/b)`,
-          type: "exact",
-          answer: `${targetNum}/${d}`,
-          placeholder: `Ex: ${targetNum}/${d}`,
-          hint1: "Deux fractions qui ont le même dénominateur sont rangées dans le même ordre que leurs numérateurs.",
-          solution: `Comme les dénominateurs sont égaux à $${d}$, on compare les numérateurs : $${Math.min(a, b)} < ${Math.max(a, b)}$.\nLa fraction ${label} est donc **\\frac{${targetNum}}{${d}}**.`
+          statement: `Entre les deux fractions $\\frac{${a}}{${d}}$ et $\\frac{${b}}{${d}}$ :\n**Quelle est ${label} fraction ?**`,
+          type: "mcq",
+          options: opts,
+          answer: correctFrac,
+          correctIndex: opts.indexOf(correctFrac),
+          hint1: "Lorsque deux fractions ont le même dénominateur positif, la plus grande est celle qui a le plus grand numérateur.",
+          solution: `Comme $${d} > 0$ et $${Math.min(a, b)} < ${Math.max(a, b)}$, on a $\\frac{${Math.min(a, b)}}{${d}} < \\frac{${Math.max(a, b)}}{${d}}$.\n${label.charAt(0).toUpperCase() + label.slice(1)} fraction est donc **$\\frac{${targetNum}}{${d}}$**.`
         };
       } else {
         const d = this.randInt(3, 11);
@@ -6565,14 +6602,17 @@ window.MathsGenerators = {
           { leftExpr: '1^{10}', leftVal: 1, rightExpr: '10^0', rightVal: 1, comp: '=' }
         ];
         const item = this.randChoice(cases);
+        const correctSymbol = item.comp === '<' ? '$<$' : (item.comp === '>' ? '$>$' : '$=$');
+        const opts = ['$<$', '$>$', '$=$'];
         return {
           chapterId: '5N4',
           tier: 3,
           title: "Comparer deux puissances avec <, > ou =",
-          statement: `Comparer les deux nombres suivants. Compléter par le bon symbole ($<$, $>$ ou $=) :\n$$${item.leftExpr} \\dots ${item.rightExpr}$$`,
-          type: "exact",
-          answer: item.comp,
-          placeholder: "<, > ou =",
+          statement: `Comparer les deux nombres suivants. Choisir le bon symbole pour compléter :\n$$${item.leftExpr} \\dots ${item.rightExpr}$$`,
+          type: "mcq",
+          options: opts,
+          answer: correctSymbol,
+          correctIndex: opts.indexOf(correctSymbol),
           hint1: `Calcule la valeur de gauche ($${item.leftExpr}$) et la valeur de droite ($${item.rightExpr}$) séparément.`,
           solution: `1. Membre de gauche : $${item.leftExpr} = ${item.leftVal}$.\n2. Membre de droite : $${item.rightExpr} = ${item.rightVal}$.\nComme $${item.leftVal} ${item.comp} ${item.rightVal}$, on a : **$${item.leftExpr} ${item.comp} ${item.rightExpr}$**.`
         };
@@ -6614,14 +6654,17 @@ window.MathsGenerators = {
           }
         ];
         const item = this.randChoice(cases);
+        const correctText = item.ans === 'vrai' ? 'Vrai' : 'Faux';
+        const opts = ['Vrai', 'Faux'];
         return {
           chapterId: '5N4',
           tier: 3,
           title: "Vrai ou Faux ? (Justification par le calcul)",
-          statement: `L'affirmation suivante est-elle vraie ou fausse ? (Répondre par **vrai** ou **faux**) :\n${item.aff}`,
-          type: "exact",
-          answer: item.ans,
-          placeholder: "vrai ou faux",
+          statement: `L'affirmation suivante est-elle vraie ou fausse ?\n> **« ${item.aff} »**`,
+          type: "mcq",
+          options: opts,
+          answer: correctText,
+          correctIndex: opts.indexOf(correctText),
           hint1: "Effectue le calcul exact au brouillon avant de répondre.",
           solution: `L'affirmation est **${item.ans.toUpperCase()}**.\n*Justification* : ${item.just}`
         };
@@ -6917,14 +6960,17 @@ window.MathsGenerators = {
         const cross2 = b * c;
         const actualProp = cross1 === cross2;
 
+        const correctOpt = actualProp ? "Oui, c'est un tableau de proportionnalité" : "Non, ce n'est pas un tableau de proportionnalité";
+        const opts = ["Oui, c'est un tableau de proportionnalité", "Non, ce n'est pas un tableau de proportionnalité"];
         return {
           chapterId: '5P1',
           tier: 1,
           title: "Reconnaître un tableau de proportionnalité",
-          statement: `On donne le tableau suivant :\n| Grandeur A | $${a}$ | $${c}$ |\n| Grandeur B | $${b}$ | $${d}$ |\n\n**Ce tableau est-il un tableau de proportionnalité ?** (Répondre par 'oui' ou 'non')`,
-          type: "exact",
-          answer: actualProp ? "oui" : "non",
-          placeholder: "oui ou non",
+          statement: `On donne le tableau suivant :\n| Grandeur A | $${a}$ | $${c}$ |\n| Grandeur B | $${b}$ | $${d}$ |\n\n**Ce tableau est-il un tableau de proportionnalité ?**`,
+          type: "mcq",
+          options: opts,
+          answer: correctOpt,
+          correctIndex: opts.indexOf(correctOpt),
           hint1: `Compare les rapports $\\frac{${b}}{${a}}$ et $\\frac{${d}}{${c}}$, ou teste les produits en croix : $${a} \\times ${d}$ et $${b} \\times ${c}$.`,
           solution: `Calcul des quotients :\n$$\\frac{${b}}{${a}} = ${b / a} \\quad \\text{et} \\quad \\frac{${d}}{${c}} = ${(d / c).toFixed(2)}$$\nComme ces rapports ${actualProp ? 'sont égaux' : 'ne sont pas égaux'}, ce **${actualProp ? 'est' : "n'est pas"} un tableau de proportionnalité**.`
         };
@@ -7213,17 +7259,20 @@ window.MathsGenerators = {
       const sumOthers = a + b + c - maxSide;
       const actualCanBuild = maxSide < sumOthers;
 
-      return {
-        chapterId: '5G3',
-        tier: 3,
-        title: "Inégalité triangulaire (Constructibilité)",
-        statement: `On souhaite construire un triangle de côtés $AB = ${a}\\text{ cm}$, $BC = ${b}\\text{ cm}$ et $AC = ${c}\\text{ cm}$.\n**Ce triangle est-il constructible ?** (Répondre par 'oui' ou 'non')`,
-        type: "exact",
-        answer: actualCanBuild ? "oui" : "non",
-        placeholder: "oui ou non",
-        hint1: `Vérifie l'inégalité triangulaire : le plus grand côté ($${maxSide}\\text{ cm}$) doit être strictement inférieur à la somme des deux autres ($${sumOthers}\\text{ cm}$).`,
-        solution: `Le plus long côté mesure $${maxSide}\\text{ cm}$.\nLa somme des deux autres côtés est $${sumOthers}\\text{ cm}$.\nComme $${maxSide} ${actualCanBuild ? '<' : '\\ge'} ${sumOthers}$, le triangle **${actualCanBuild ? 'est' : "n'est pas"} constructible**.`
-      };
+      const correctOpt = actualCanBuild ? "Oui, le triangle est constructible" : "Non, le triangle n'est pas constructible";
+        const opts = ["Oui, le triangle est constructible", "Non, le triangle n'est pas constructible"];
+        return {
+          chapterId: '5G3',
+          tier: 3,
+          title: "Inégalité triangulaire (Constructibilité)",
+          statement: `On souhaite construire un triangle de côtés $AB = ${a}\\text{ cm}$, $BC = ${b}\\text{ cm}$ et $AC = ${c}\\text{ cm}$.\n**Ce triangle est-il constructible ?**`,
+          type: "mcq",
+          options: opts,
+          answer: correctOpt,
+          correctIndex: opts.indexOf(correctOpt),
+          hint1: `Vérifie l'inégalité triangulaire : le plus grand côté ($${maxSide}\\text{ cm}$) doit être strictement inférieur à la somme des deux autres ($${sumOthers}\\text{ cm}$).`,
+          solution: `Le plus long côté mesure $${maxSide}\\text{ cm}$.\nLa somme des deux autres côtés est $${sumOthers}\\text{ cm}$.\nComme $${maxSide} ${actualCanBuild ? '<' : '\\ge'} ${sumOthers}$, le triangle **${actualCanBuild ? 'est' : "n'est pas"} constructible**.`
+        };
     } else {
       // Palier 4 : Défi 4ème (Figure à deux triangles accolés avec angle plat)
       const angleB = this.randChoice([30, 40, 50]);
@@ -8527,7 +8576,10 @@ window.MathsGenerators = {
       // Palier 3 : Brevet / 5e (Symétrie repère : axe Oy, axe Ox, origine)
       const subType = this.randChoice(['sym_oy', 'sym_ox', 'sym_orig']);
       const x = this.randInt(2, 7);
-      const y = this.randInt(2, 7);
+      let y;
+      do {
+        y = this.randInt(2, 7);
+      } while (y === x);
 
       if (subType === 'sym_oy') {
         return {
@@ -9405,7 +9457,7 @@ window.MathsGenerators = {
           type: "exact",
           answer: String(dist),
           placeholder: `Ex: ${dist}`,
-          hint1: "1 heure et 30 minutes = 1,5 heure. Calcule $d = v \\times t = ${v} \\times 1{,}5$.",
+          hint1: `1 heure et 30 minutes = 1,5 heure. Calcule $d = v \\times t = ${v} \\times 1{,}5$.`,
           solution: `$$d = ${v} \\times 1{,}5 = ${dist}\\text{ km}$$`
         };
       }
@@ -10113,7 +10165,7 @@ window.MathsGenerators = {
           type: "exact",
           answer: String(p),
           placeholder: `Ex: ${p}`,
-          hint1: "La translation conserve les longueurs, donc le périmètre reste inchangé : $${a} + ${b} + ${c}$.",
+          hint1: `La translation conserve les longueurs, donc le périmètre reste inchangé : $${a} + ${b} + ${c}$.`,
           solution: `$$P = ${a} + ${b} + ${c} = ${p}\\text{ cm}$$`
         };
       }
@@ -11070,10 +11122,25 @@ window.MathsGenerators = {
     let correctIdx = (exo.correctIndex !== undefined) ? exo.correctIndex : exo.options.indexOf(exo.answer);
     if (correctIdx === -1) correctIdx = 0;
 
-    const items = exo.options.map((opt, i) => ({
+    // Déduplication défensive des options
+    const uniqueOptions = [];
+    const uniqueExplanations = [];
+    let newCorrectIdx = 0;
+    exo.options.forEach((opt, idx) => {
+      const existingIdx = uniqueOptions.indexOf(opt);
+      if (existingIdx === -1) {
+        if (idx === correctIdx) newCorrectIdx = uniqueOptions.length;
+        uniqueOptions.push(opt);
+        if (exo.explanations) uniqueExplanations.push(exo.explanations[idx]);
+      } else if (idx === correctIdx) {
+        newCorrectIdx = existingIdx;
+      }
+    });
+
+    const items = uniqueOptions.map((opt, i) => ({
       opt,
-      exp: exo.explanations ? exo.explanations[i] : null,
-      isCorrect: i === correctIdx
+      exp: uniqueExplanations[i] !== undefined ? uniqueExplanations[i] : null,
+      isCorrect: i === newCorrectIdx
     }));
 
     for (let i = items.length - 1; i > 0; i--) {

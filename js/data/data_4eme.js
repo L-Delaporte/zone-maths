@@ -1265,10 +1265,14 @@ window.MATHS_EXERCISES_4E = {
       "chapterId": "4G1",
       "tier": 3,
       "title": "Réciproque du théorème de Pythagore",
-      "statement": "Un triangle $MNP$ a pour dimensions : $MN = 9\\text{ cm}$, $MP = 12\\text{ cm}$ et $NP = 15\\text{ cm}$.\nCe triangle est-il rectangle ? (Répondre par 'oui' ou 'non')",
-      "type": "exact",
-      "answer": "oui",
-      "placeholder": "oui ou non",
+      "statement": "Un triangle $MNP$ a pour dimensions : $MN = 9\\text{ cm}$, $MP = 12\\text{ cm}$ et $NP = 15\\text{ cm}$.\n**Ce triangle est-il rectangle ?**",
+      "type": "mcq",
+      "options": [
+        "Oui, le triangle MNP est rectangle",
+        "Non, le triangle MNP n'est pas rectangle"
+      ],
+      "correctIndex": 0,
+      "answer": "Oui, le triangle MNP est rectangle",
       "hint1": "Le plus grand côté est $NP = 15$. Calcule $NP^2$ d'une part, et $MN^2 + MP^2$ d'autre part.",
       "hint2": "$15^2 = 225$ et $9^2 + 12^2 = 81 + 144 = 225$. Conclus avec la réciproque.",
       "solution": "Le plus long côté est $[NP]$ :\n$$NP^2 = 15^2 = 225$$\nD'autre part :\n$$MN^2 + MP^2 = 9^2 + 12^2 = 81 + 144 = 225$$\nComme $NP^2 = MN^2 + MP^2$, d'après la réciproque du théorème de Pythagore, le triangle $MNP$ est **rectangle en $M$**.",
