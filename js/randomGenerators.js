@@ -293,106 +293,285 @@ window.MathsGenerators = {
       const subType = this.randChoice(['mult_prioritaire_sub', 'mult_prioritaire_add', 'parentheses_mult']);
 
       if (subType === 'mult_prioritaire_sub') {
-        const a = this.randInt(2, 5);
-        const b = this.randInt(3, 7);
-        const c = this.randInt(1, 4);
-        const d = this.randInt(2, 5);
-        const e = this.randInt(3, 6);
-        const num = a * e - c * d;
-        const den = b * e;
+        let a, b, c, d, e, num, den;
+        do {
+          a = this.randInt(2, 6);
+          b = this.randInt(3, 7);
+          c = this.randInt(1, 4);
+          d = this.randInt(2, 5);
+          e = this.randInt(3, 6);
+          num = a * e - c * d;
+          den = b * e;
+        } while (num <= 0 || a === b || c === b || d === e);
+
         const [sN, sD] = this.simplifyFraction(num, den);
-        const ansStr = sD === 1 ? `${sN}` : `${sN}/${sD}`;
+        const formatOpt = (n, d) => {
+          const [sn, sd] = this.simplifyFraction(n, d);
+          if (sd === 1) return `$${sn}$`;
+          return `$\\frac{${sn}}{${sd}}$`;
+        };
+
+        const correctAns = formatOpt(sN, sD);
+        const [badSubN, badSubD] = this.simplifyFraction((a - c) * d, b * e);
+        const d1 = formatOpt(badSubN, badSubD);
+        const d2 = formatOpt(a - c * d, b * e);
+        const d3 = formatOpt(sD, sN);
+
+        const options = [correctAns];
+        const explanations = [
+          "Parfait ! Tu as bien respecté la priorité de la multiplication avant la soustraction."
+        ];
+        const addOpt = (cand, exp) => {
+          if (cand && !options.includes(cand)) {
+            options.push(cand);
+            explanations.push(exp);
+          }
+        };
+        addOpt(d1, "Attention : la multiplication est prioritaire sur la soustraction. Tu ne peux pas soustraire en premier !");
+        addOpt(d2, "Attention à la mise au même dénominateur pour la soustraction.");
+        addOpt(d3, "Attention : tu as inversé le numérateur et le dénominateur.");
+        const backups = [
+          [formatOpt(sN + 1, sD), "Attention à une erreur de calcul dans les numérateurs."],
+          [formatOpt(sN, sD + 1), "Attention au dénominateur commun."],
+          [formatOpt(sN + 2, sD), "Attention aux calculs intermédiaires."]
+        ];
+        for (const [cand, exp] of backups) {
+          if (options.length < 4) addOpt(cand, exp);
+        }
+
         return {
           chapterId: 'N1',
           tier: 3,
           title: "Expression type Brevet avec priorités",
           statement: `Calculer l'expression suivante et donner le résultat sous forme d'une fraction irréductible :\n$$C = \\frac{${a}}{${b}} - \\frac{${c}}{${b}} \\times \\frac{${d}}{${e}}$$`,
-          type: 'exact',
-          answer: ansStr,
-          placeholder: "Ex: 11/15",
+          type: 'mcq',
+          options,
+          correctIndex: 0,
+          explanations,
           hint1: `La multiplication $\\frac{${c}}{${b}} \\times \\frac{${d}}{${e}}$ est prioritaire sur la soustraction.`,
-          hint2: `Produit : $\\frac{${c * d}}{${b * e}}$. Ensuite, mets au même dénominateur pour soustraire.`,
-          solution: `1. Multiplication prioritaire :\n$$\\frac{${c}}{${b}} \\times \\frac{${d}}{${e}} = \\frac{${c * d}}{${b * e}}$$\n2. Mise au même dénominateur :\n$$C = \\frac{${a} \\times ${e}}{${b} \\times ${e}} - \\frac{${c * d}}{${b * e}} = \\frac{${a * e} - ${c * d}}{${den}} = \\frac{${num}}{${den}} = ${this.formatFraction(num, den)}$$`
+          hint2: `1. Produit prioritaire : $\\frac{${c}}{${b}} \\times \\frac{${d}}{${e}} = \\frac{${c * d}}{${b * e}}$.\n2. Mets ensuite $\\frac{${a}}{${b}}$ au même dénominateur (${b * e}) en multipliant par ${e}.`,
+          solution: `1. **Multiplication prioritaire** :\n$$\\frac{${c}}{${b}} \\times \\frac{${d}}{${e}} = \\frac{${c * d}}{${b * e}}$$\n2. **Mise au même dénominateur et soustraction** :\n$$C = \\frac{${a} \\times ${e}}{${b} \\times ${e}} - \\frac{${c * d}}{${b * e}} = \\frac{${a * e} - ${c * d}}{${den}} = \\frac{${num}}{${den}} = ${this.formatFraction(num, den)}$$`
         };
       } else if (subType === 'mult_prioritaire_add') {
-        const a = this.randInt(1, 4);
-        const b = this.randInt(2, 5);
-        const c = this.randInt(1, 3);
-        const d = this.randInt(2, 5);
-        const e = this.randInt(1, 3);
-        const f = this.randInt(2, 4);
-        const num = a * (d * f) + (c * e) * b;
-        const den = b * d * f;
+        let a, b, c, d, e, f, num, den;
+        do {
+          a = this.randInt(1, 4);
+          b = this.randInt(2, 5);
+          c = this.randInt(1, 3);
+          d = this.randInt(2, 5);
+          e = this.randInt(1, 3);
+          f = this.randInt(2, 4);
+          num = a * (d * f) + (c * e) * b;
+          den = b * d * f;
+        } while (a === b || c === d || e === f || b === (d * f));
+
         const [sN, sD] = this.simplifyFraction(num, den);
-        const ansStr = sD === 1 ? `${sN}` : `${sN}/${sD}`;
+        const formatOpt = (n, d) => {
+          const [sn, sd] = this.simplifyFraction(n, d);
+          if (sd === 1) return `$${sn}$`;
+          return `$\\frac{${sn}}{${sd}}$`;
+        };
+
+        const correctAns = formatOpt(sN, sD);
+        const [badAddN, badAddD] = this.simplifyFraction((a * d + c * b) * e, b * d * f);
+        const d1 = formatOpt(badAddN, badAddD);
+        const d2 = formatOpt(a + c * e, b + d * f);
+        const d3 = formatOpt(sD, sN);
+
+        const options = [correctAns];
+        const explanations = [
+          "Bravo ! La multiplication a bien été effectuée en premier."
+        ];
+        const addOpt = (cand, exp) => {
+          if (cand && !options.includes(cand)) {
+            options.push(cand);
+            explanations.push(exp);
+          }
+        };
+        addOpt(d1, "Attention : la multiplication est prioritaire sur l'addition. Tu ne peux pas additionner en premier !");
+        addOpt(d2, "Attention : on ne peut pas additionner les dénominateurs entre eux.");
+        addOpt(d3, "Attention : tu as inversé le numérateur et le dénominateur.");
+        const backups = [
+          [formatOpt(sN + 1, sD), "Attention à une petite erreur de calcul."],
+          [formatOpt(sN, sD + 1), "Attention au dénominateur commun."],
+          [formatOpt(sN + 2, sD), "Attention aux calculs intermédiaires."]
+        ];
+        for (const [cand, exp] of backups) {
+          if (options.length < 4) addOpt(cand, exp);
+        }
+
         return {
           chapterId: 'N1',
           tier: 3,
           title: "Priorité de la multiplication sur l'addition",
           statement: `Calculer sous forme irréductible :\n$$H = \\frac{${a}}{${b}} + \\frac{${c}}{${d}} \\times \\frac{${e}}{${f}}$$`,
-          type: 'exact',
-          answer: ansStr,
-          placeholder: "Ex: 7/12",
+          type: 'mcq',
+          options,
+          correctIndex: 0,
+          explanations,
           hint1: `Multiplie d'abord $\\frac{${c}}{${d}} \\times \\frac{${e}}{${f}} = \\frac{${c * e}}{${d * f}}$.`,
-          solution: `$$H = \\frac{${a}}{${b}} + \\frac{${c * e}}{${d * f}} = ${this.formatFraction(num, den)}$$`
+          hint2: `1. Produit : $\\frac{${c}}{${d}} \\times \\frac{${e}}{${f}} = \\frac{${c * e}}{${d * f}}$.\n2. Somme : mets $\\frac{${a}}{${b}}$ et $\\frac{${c * e}}{${d * f}}$ au même dénominateur (${den}).`,
+          solution: `1. **Multiplication prioritaire** :\n$$\\frac{${c}}{${d}} \\times \\frac{${e}}{${f}} = \\frac{${c * e}}{${d * f}}$$\n2. **Addition avec dénominateur commun** :\n$$H = \\frac{${a} \\times ${d * f}}{${b} \\times ${d * f}} + \\frac{${c * e} \\times ${b}}{${d * f} \\times ${b}} = \\frac{${num}}{${den}} = ${this.formatFraction(num, den)}$$`
         };
       } else {
-        const a = this.randInt(1, 3);
-        const b = this.randInt(2, 4);
-        const c = this.randInt(1, 3);
-        const sumNum = a + c;
-        const sumDen = b;
-        const e = this.randInt(2, 5);
-        const f = this.randInt(3, 6);
-        const num = sumNum * e;
-        const den = sumDen * f;
+        let a, b, c, sumNum, sumDen, e, f, num, den;
+        do {
+          a = this.randInt(1, 3);
+          b = this.randInt(2, 4);
+          c = this.randInt(1, 3);
+          sumNum = a + c;
+          sumDen = b;
+          e = this.randInt(2, 5);
+          f = this.randInt(3, 6);
+          num = sumNum * e;
+          den = sumDen * f;
+        } while (a === b || c === b || e === f || this.gcd(sumNum, sumDen) === sumNum);
+
         const [sN, sD] = this.simplifyFraction(num, den);
-        const ansStr = sD === 1 ? `${sN}` : `${sN}/${sD}`;
+        const formatOpt = (n, d) => {
+          const [sn, sd] = this.simplifyFraction(n, d);
+          if (sd === 1) return `$${sn}$`;
+          return `$\\frac{${sn}}{${sd}}$`;
+        };
+
+        const correctAns = formatOpt(sN, sD);
+        const [badPriorN, badPriorD] = this.simplifyFraction(a * f + c * e, b * f);
+        const d1 = formatOpt(badPriorN, badPriorD);
+        const [badDenN, badDenD] = this.simplifyFraction(sumNum * e, 2 * b * f);
+        const d2 = formatOpt(badDenN, badDenD);
+        const d3 = formatOpt(sD, sN);
+
+        const options = [correctAns];
+        const explanations = [
+          "Bravo ! Les parenthèses sont prioritaires sur la multiplication."
+        ];
+        const addOpt = (cand, exp) => {
+          if (cand && !options.includes(cand)) {
+            options.push(cand);
+            explanations.push(exp);
+          }
+        };
+        addOpt(d1, "Attention : les calculs entre parenthèses sont toujours prioritaires sur la multiplication !");
+        addOpt(d2, "Attention : quand on additionne des fractions de même dénominateur, on ne touche pas au dénominateur !");
+        addOpt(d3, "Attention : tu as inversé le numérateur et le dénominateur.");
+        const backups = [
+          [formatOpt(sN + 1, sD), "Attention à une petite erreur de calcul."],
+          [formatOpt(sN, sD + 1), "Attention au dénominateur."],
+          [formatOpt(sN + 2, sD), "Attention aux calculs."]
+        ];
+        for (const [cand, exp] of backups) {
+          if (options.length < 4) addOpt(cand, exp);
+        }
+
         return {
           chapterId: 'N1',
           tier: 3,
           title: "Calcul avec parenthèses prioritaires",
           statement: `Calculer et donner sous forme irréductible :\n$$K = \\left(\\frac{${a}}{${b}} + \\frac{${c}}{${b}}\\right) \\times \\frac{${e}}{${f}}$$`,
-          type: 'exact',
-          answer: ansStr,
-          placeholder: "Ex: 2/3",
+          type: 'mcq',
+          options,
+          correctIndex: 0,
+          explanations,
           hint1: `Calcule d'abord entre parenthèses : $\\frac{${a}}{${b}} + \\frac{${c}}{${b}} = \\frac{${sumNum}}{${sumDen}}$.`,
-          solution: `$$\\text{Parenthèses} = \\frac{${sumNum}}{${sumDen}}$$\n$$K = \\frac{${sumNum}}{${sumDen}} \\times \\frac{${e}}{${f}} = \\frac{${num}}{${den}} = ${this.formatFraction(num, den)}$$`
+          hint2: `1. Parenthèses prioritaires : $\\frac{${a}}{${b}} + \\frac{${c}}{${b}} = \\frac{${sumNum}}{${sumDen}}$.\n2. Multiplication : $\\frac{${sumNum}}{${sumDen}} \\times \\frac{${e}}{${f}} = \\frac{${num}}{${den}}$.`,
+          solution: `1. **Calcul prioritaire entre parenthèses** :\n$$\\frac{${a}}{${b}} + \\frac{${c}}{${b}} = \\frac{${sumNum}}{${sumDen}}$$\n2. **Multiplication et simplification** :\n$$K = \\frac{${sumNum}}{${sumDen}} \\times \\frac{${e}}{${f}} = \\frac{${num}}{${den}} = ${this.formatFraction(num, den)}$$`
         };
       }
     } else {
       // Palier 4 : DÉFI SECONDE / DIFFICULTÉ MAXIMALE (Fraction à étages complexes)
-      const a = this.randInt(1, 3);
-      const b = this.randInt(2, 4);
-      const c = this.randInt(1, 3);
-      const d = this.randChoice([3, 5]);
-      let numN = a * d - c * b;
-      let numD = b * d;
-      if (numN === 0) { numN = 1; }
+      let a, b, c, d, numN, numD;
+      do {
+        b = this.randChoice([2, 3, 4, 5]);
+        d = this.randChoice([2, 3, 4, 5, 6]);
+        a = this.randInt(1, b + 2);
+        c = this.randInt(1, d + 2);
+        numN = a * d - c * b;
+        numD = b * d;
+      } while (
+        b === d ||
+        this.gcd(a, b) !== 1 ||
+        this.gcd(c, d) !== 1 ||
+        a === b ||
+        c === d ||
+        numN <= 0
+      );
 
-      const e = this.randInt(1, 3);
-      const f = this.randChoice([2, 3]);
-      const g = this.randInt(1, 2);
-      const h = this.randChoice([4, 5]);
-      const denN = e * h + g * f;
-      const denD = f * h;
+      let e, f, g, h, denN, denD;
+      do {
+        f = this.randChoice([2, 3, 4, 5]);
+        h = this.randChoice([2, 3, 4, 5, 6]);
+        e = this.randInt(1, f + 2);
+        g = this.randInt(1, h + 2);
+        denN = e * h + g * f;
+        denD = f * h;
+      } while (
+        f === h ||
+        this.gcd(e, f) !== 1 ||
+        this.gcd(g, h) !== 1 ||
+        e === f ||
+        g === h ||
+        denN <= 0
+      );
 
-      const finalNum = numN * denD;
-      const finalDen = numD * denN;
-      const [sN, sD] = this.simplifyFraction(finalNum, finalDen);
-      const ansStr = sD === 1 ? `${sN}` : `${sN}/${sD}`;
+      const [sNumN, sNumD] = this.simplifyFraction(numN, numD);
+      const [sDenN, sDenD] = this.simplifyFraction(denN, denD);
+      const [sN, sD] = this.simplifyFraction(sNumN * sDenD, sNumD * sDenN);
+
+      const formatOpt = (n, d) => {
+        const [sn, sd] = this.simplifyFraction(n, d);
+        if (sd === 1) return `$${sn}$`;
+        return `$\\frac{${sn}}{${sd}}$`;
+      };
+
+      const correctAns = formatOpt(sN, sD);
+      const d1 = formatOpt(sNumN * sDenN, sNumD * sDenD);
+      const d2 = formatOpt(sD, sN);
+      const d3 = formatOpt(numN, denN);
+
+      const options = [correctAns];
+      const explanations = [
+        "Excellent ! Tu as calculé séparément le numérateur et le dénominateur avant de multiplier par l'inverse."
+      ];
+
+      const addOpt = (cand, exp) => {
+        if (cand && !options.includes(cand)) {
+          options.push(cand);
+          explanations.push(exp);
+        }
+      };
+
+      addOpt(d1, "Attention : diviser par une fraction revient à multiplier par son inverse. Ne multiplie pas directement sans inverser !");
+      addOpt(d2, "Attention : tu as inversé le résultat final (confusion entre numérateur et dénominateur).");
+      addOpt(d3, "Attention : n'oublie pas de mettre au même dénominateur le numérateur et le dénominateur.");
+
+      const backups = [
+        [formatOpt(sN + 1, sD), "Attention à une petite erreur de calcul dans les numérateurs."],
+        [formatOpt(sN, sD + 1), "Attention au dénominateur commun."],
+        [formatOpt(sNumN + sDenN, sNumD + sDenD), "Attention, on ne peut pas additionner le haut et le bas en ligne."],
+        [formatOpt(sN + 2, sD), "Attention aux étapes de calcul."]
+      ];
+
+      for (const [cand, exp] of backups) {
+        if (options.length < 4) {
+          addOpt(cand, exp);
+        }
+      }
+
+      const numStr = (numN !== sNumN || numD !== sNumD) ? ` = \\frac{${sNumN}}{${sNumD}}` : '';
+      const denStr = (denN !== sDenN || denD !== sDenD) ? ` = \\frac{${sDenN}}{${sDenD}}` : '';
 
       return {
         chapterId: 'N1',
         tier: 4,
         title: "Défi Seconde : Fraction à étages complexe",
         statement: `Calculer et donner le résultat sous forme d'une fraction irréductible :\n$$G = \\frac{\\dfrac{${a}}{${b}} - \\dfrac{${c}}{${d}}}{\\dfrac{${e}}{${f}} + \\dfrac{${g}}{${h}}}$$`,
-        type: 'exact',
-        answer: ansStr,
-        placeholder: "Ex: 7/18",
-        hint1: "Garde la fraction à étages entière et réduis ses deux expressions sous la même égalité.",
-        hint2: `Garde l’égalité complète : $G = \\frac{\\frac{${a * d} - ${c * b}}{${numD}}}{\\frac{${e * h} + ${g * f}}{${denD}}} = \\frac{\\frac{${numN}}{${numD}}}{\\frac{${denN}}{${denD}}}$.` ,
-        solution: `$$G = \\frac{\\frac{${a}}{${b}} - \\frac{${c}}{${d}}}{\\frac{${e}}{${f}} + \\frac{${g}}{${h}}} = \\frac{\\frac{${a * d} - ${c * b}}{${numD}}}{\\frac{${e * h} + ${g * f}}{${denD}}} = \\frac{${numN}}{${numD}} \\div \\frac{${denN}}{${denD}} = \\frac{${numN}}{${numD}} \\times \\frac{${denD}}{${denN}} = \\frac{${finalNum}}{${finalDen}} = ${this.formatFraction(finalNum, finalDen)}$$`
+        type: 'mcq',
+        options,
+        correctIndex: 0,
+        explanations,
+        hint1: "Calcule séparément l'expression du haut (numérateur) et l'expression du bas (dénominateur) en les mettant chacune au même dénominateur.",
+        hint2: `1. Haut : $\\frac{${a}}{${b}} - \\frac{${c}}{${d}} = \\frac{${a}\\times${d} - ${c}\\times${b}}{${numD}} = \\frac{${numN}}{${numD}}${numStr}.\n2. Bas : $\\frac{${e}}{${f}} + \\frac{${g}}{${h}} = \\frac{${e}\\times${h} + ${g}\\times${f}}{${denD}} = \\frac{${denN}}{${denD}}${denStr}.\n3. On multiplie ensuite le haut par l'inverse du bas.`,
+        solution: `1. **Calcul du numérateur (en haut)** :\n$$\\frac{${a}}{${b}} - \\frac{${c}}{${d}} = \\frac{${a} \\times ${d}}{${b} \\times ${d}} - \\frac{${c} \\times ${b}}{${d} \\times ${b}} = \\frac{${numN}}{${numD}}${numStr}$$\n2. **Calcul du dénominateur (en bas)** :\n$$\\frac{${e}}{${f}} + \\frac{${g}}{${h}} = \\frac{${e} \\times ${h}}{${f} \\times ${h}} + \\frac{${g} \\times ${f}}{${h} \\times ${f}} = \\frac{${denN}}{${denD}}${denStr}$$\n3. **Division par multiplication par l'inverse** :\n$$G = \\frac{${sNumN}}{${sNumD}} \\div \\frac{${sDenN}}{${sDenD}} = \\frac{${sNumN}}{${sNumD}} \\times \\frac{${sDenD}}{${sDenN}} = \\frac{${sNumN * sDenD}}{${sNumD * sDenN}} = ${this.formatFraction(sN, sD)}$$`
       };
     }
   },
@@ -742,8 +921,447 @@ window.MathsGenerators = {
           `N'oublie pas de soustraire le double produit du second carré.`
         ],
         hint1: "Développe $(ax+b)^2$ et $(cx+d)^2$, puis soustrais en faisant très attention aux parenthèses après le signe moins.",
-        solution: `1. Premier carré : $(${a}x + ${b})^2 = ${a*a}x^2 + ${2*a*b}x + ${b*b}$.\n2. Second carré : $(${c}x + ${d})^2 = ${c*c}x^2 + ${2*c*d}x + ${d*d}$.\n3. Soustraction :\n$$F = (${a*a}x^2 + ${2*a*b}x + ${b*b}) - (${c*c}x^2 + ${2*c*d}x + ${d*d})$$\n$$F = ${a*a}x^2 - ${c*c}x^2 + ${2*a*b}x - ${2*c*d}x + ${b*b} - ${d*d} = ${this.formatPoly(coeffX2, coeffX, coeffConst)}$$`
       };
+    }
+  },
+
+  // --- N2bis : Calcul littéral et factorisation (3ème) ---
+  generateN2bis(tier = 1, mastery = 0) {
+    const t = this.resolveTier(tier);
+
+    if (t === 1) {
+      // Palier 1 : Socle (Facteur commun évident : k, x, kx, et piège du 1)
+      const subType = this.randChoice(['facteur_k', 'facteur_x', 'facteur_kx', 'piege_un']);
+
+      if (subType === 'facteur_k') {
+        const k = this.randInt(2, 7);
+        const a = this.randInt(2, 5);
+        let b = this.randInt(1, 8);
+        while (this.gcd(a, b) > 1) { b = this.randInt(1, 8); }
+        const sign = this.randChoice(['+', '-']);
+        const term1 = k * a;
+        const term2 = k * b;
+        const correctStr = `$${k}(${a}x ${sign} ${b})$`;
+        const oppSign = sign === '+' ? '-' : '+';
+        return {
+          chapterId: 'N2bis',
+          tier: 1,
+          title: "Facteur commun numérique évident",
+          statement: `Factoriser au maximum l'expression :\n$$A = ${term1}x ${sign} ${term2}$$`,
+          type: 'mcq',
+          options: [
+            correctStr,
+            `$${k}(${a}x ${oppSign} ${b})$`,
+            `$${k}x(${a} ${sign} ${b})$`,
+            `$${k}(${term1}x ${sign} ${term2})$`
+          ],
+          correctIndex: 0,
+          explanations: [
+            `Exact ! $${k}$ est le plus grand diviseur commun : $${term1}x = ${k} \\times ${a}x$ et $${term2} = ${k} \\times ${b}$.`,
+            `Attention au signe dans la parenthèse : l'expression de départ a un signe « ${sign} ».`,
+            `Le second terme ($${term2}$) ne contient pas de $x$, on ne peut pas factoriser par $x$.`,
+            `Attention, il faut diviser chaque terme par le facteur commun $${k}$.`
+          ],
+          hint1: `Trouve le plus grand nombre qui divise à la fois $${term1}$ et $${term2}$.`,
+          hint2: `$${term1} = ${k} \\times ${a}$ et $${term2} = ${k} \\times ${b}$. Mets $${k}$ en facteur.`,
+          solution: `$$A = ${k} \\times ${a}x ${sign} ${k} \\times ${b} = ${k}(${a}x ${sign} ${b})$$`
+        };
+      } else if (subType === 'facteur_x') {
+        const a = this.randInt(2, 6);
+        let b = this.randInt(1, 9);
+        while (this.gcd(a, b) > 1) { b = this.randInt(1, 9); }
+        const sign = this.randChoice(['+', '-']);
+        const oppSign = sign === '+' ? '-' : '+';
+        const correctStr = `$x(${a}x ${sign} ${b})$`;
+        return {
+          chapterId: 'N2bis',
+          tier: 1,
+          title: "Facteur commun la lettre x",
+          statement: `Factoriser par $x$ l'expression suivante :\n$$B = ${a}x^2 ${sign} ${b}x$$`,
+          type: 'mcq',
+          options: [
+            correctStr,
+            `$x(${a}x ${oppSign} ${b})$`,
+            `$x^2(${a} ${sign} ${b})$`,
+            `$${a}x(x ${sign} ${b})$`
+          ],
+          correctIndex: 0,
+          explanations: [
+            `Parfait ! La lettre $x$ est commune aux deux termes : $${a}x^2 = x \\times ${a}x$ et $${b}x = x \\times ${b}$.`,
+            `Attention au signe, il doit être respecté.`,
+            `Le second terme n'a pas de $x^2$, on ne peut factoriser que par $x$.`,
+            `$${a}$ ne divise pas forcément $${b}$.`
+          ],
+          hint1: "Chaque terme contient au moins la lettre $x$. Mets $x$ devant une parenthèse.",
+          hint2: `$${a}x^2 = x \\times ${a}x$ et $${b}x = x \\times ${b}$.`,
+          solution: `$$B = x \\times ${a}x ${sign} x \\times ${b} = x(${a}x ${sign} ${b})$$`
+        };
+      } else if (subType === 'facteur_kx') {
+        const k = this.randInt(2, 5);
+        const a = this.randInt(2, 4);
+        let b = this.randInt(1, 5);
+        while (this.gcd(a, b) > 1) { b = this.randInt(1, 5); }
+        const sign = this.randChoice(['+', '-']);
+        const term1 = k * a;
+        const term2 = k * b;
+        const correctStr = `$${k}x(${a}x ${sign} ${b})$`;
+        return {
+          chapterId: 'N2bis',
+          tier: 1,
+          title: "Facteur commun monôme kx",
+          statement: `Factoriser au maximum l'expression :\n$$C = ${term1}x^2 ${sign} ${term2}x$$`,
+          type: 'mcq',
+          options: [
+            correctStr,
+            `$${k}(${a}x^2 ${sign} ${b}x)$`,
+            `$x(${term1}x ${sign} ${term2})$`,
+            `$${k}x^2(${a} ${sign} ${b})$`
+          ],
+          correctIndex: 0,
+          explanations: [
+            `Brillant ! $${k}x$ est le facteur commun maximal : $${term1}x^2 = ${k}x \\times ${a}x$ et $${term2}x = ${k}x \\times ${b}$.`,
+            `On peut encore factoriser par $x$ ! La factorisation n'est pas maximale.`,
+            `On peut encore factoriser par $${k}$ ! Il faut extraire le plus grand facteur commun.`,
+            `Le second terme n'est pas en $x^2$, on ne peut pas sortir $x^2$.`
+          ],
+          hint1: `Cherche à la fois le plus grand diviseur commun de $${term1}$ et $${term2}$ et la lettre $x$.`,
+          hint2: `Le facteur commun maximal est $${k}x$.`,
+          solution: `$$C = ${k}x \\times ${a}x ${sign} ${k}x \\times ${b} = ${k}x(${a}x ${sign} ${b})$$`
+        };
+      } else {
+        const a = this.randInt(3, 9);
+        const sign = this.randChoice(['+', '-']);
+        const oppSign = sign === '+' ? '-' : '+';
+        const correctStr = `$${a}(x ${sign} 1)$`;
+        return {
+          chapterId: 'N2bis',
+          tier: 1,
+          title: "Piège fondamental : ne pas oublier le 1",
+          statement: `Factoriser l'expression :\n$$D = ${a}x ${sign} ${a}$$`,
+          type: 'mcq',
+          options: [
+            correctStr,
+            `$${a}x$`,
+            `$${a}(x ${sign} 0)$`,
+            `$${a}(x ${oppSign} 1)$`
+          ],
+          correctIndex: 0,
+          explanations: [
+            `Excellent ! $${a} = ${a} \\times 1$. Lorsqu'on factorise par $${a}$, il reste le terme $+1$ ou $-1$.`,
+            `Erreur classique : si on remplace $${a}$ par rien, on perd un terme ! En redéveloppant $${a}x$, on ne retrouve pas l'expression initiale.`,
+            `$${a} \\times 0 = 0$, ce n'est pas égal à $${a}$.`,
+            `Attention au signe intérieur.`
+          ],
+          hint1: `Rappelle-toi que $${a} = ${a} \\times 1$. Ne fais pas disparaître le deuxième terme !`,
+          solution: `$$D = ${a} \\times x ${sign} ${a} \\times 1 = ${a}(x ${sign} 1)$$`
+        };
+      }
+    } else if (t === 2) {
+      // Palier 2 : Guidé (Différence de deux carrés a² - b² = (a-b)(a+b))
+      const subType = this.randChoice(['carre_x', 'carre_ax', 'carre_inv']);
+
+      if (subType === 'carre_x') {
+        const b = this.randInt(2, 12);
+        const b2 = b * b;
+        const correctStr = `$(x - ${b})(x + ${b})$`;
+        return {
+          chapterId: 'N2bis',
+          tier: 2,
+          title: "Identité remarquable : différence de deux carrés $x^2 - b^2$",
+          statement: `Factoriser à l'aide d'une identité remarquable :\n$$E = x^2 - ${b2}$$`,
+          type: 'mcq',
+          options: [
+            correctStr,
+            `$(x - ${b})^2$`,
+            `$(x + ${b})^2$`,
+            `$(x - ${b2})(x + ${b2})$`
+          ],
+          correctIndex: 0,
+          explanations: [
+            `Parfait ! $x^2 - ${b2} = x^2 - ${b}^2 = (x - ${b})(x + ${b})$.`,
+            `Attention, $(x-${b})^2 = x^2 - ${2*b}x + ${b2}$, il y aurait un double produit !`,
+            `Attention, $(x+${b})^2 = x^2 + ${2*b}x + ${b2}$.`,
+            `Il faut prendre la racine carrée de $${b2}$, qui est $${b}$.`
+          ],
+          hint1: `Reconnais la formule $a^2 - b^2 = (a - b)(a + b)$ avec $a = x$. Que vaut $b$ sachant que $b^2 = ${b2}$ ?`,
+          solution: `$$E = x^2 - ${b}^2 = (x - ${b})(x + ${b})$$`
+        };
+      } else if (subType === 'carre_ax') {
+        const a = this.randInt(2, 5);
+        let b = this.randInt(1, 9);
+        while (this.gcd(a, b) > 1) { b = this.randInt(1, 9); }
+        const a2 = a * a;
+        const b2 = b * b;
+        const correctStr = `$(${a}x - ${b})(${a}x + ${b})$`;
+        return {
+          chapterId: 'N2bis',
+          tier: 2,
+          title: "Différence de deux carrés avec coefficient $(ax)^2 - b^2$",
+          statement: `Factoriser l'expression :\n$$F = ${a2}x^2 - ${b2}$$`,
+          type: 'mcq',
+          options: [
+            correctStr,
+            `$(${a}x - ${b})^2$`,
+            `$(${a2}x - ${b})(${a2}x + ${b})$`,
+            `$(${a}x - ${b2})(${a}x + ${b2})$`
+          ],
+          correctIndex: 0,
+          explanations: [
+            `Exact ! $${a2}x^2 = (${a}x)^2$ et $${b2} = ${b}^2$. D'où $a^2 - b^2 = (${a}x - ${b})(${a}x + ${b})$.`,
+            `Attention, ce n'est pas un carré parfait (pas de double produit ici).`,
+            `Attention : la racine carrée de $${a2}x^2$ est $${a}x$, et non $${a2}x$.`,
+            `N'oublie pas de prendre la racine carrée de $${b2}$ qui vaut $${b}$.`
+          ],
+          hint1: `Écris chaque terme sous la forme d'un carré : $${a2}x^2 = (${a}x)^2$ et $${b2} = ${b}^2$.`,
+          solution: `$$F = (${a}x)^2 - ${b}^2 = (${a}x - ${b})(${a}x + ${b})$$`
+        };
+      } else {
+        const a = this.randInt(2, 5);
+        let b = this.randInt(2, 9);
+        while (this.gcd(a, b) > 1) { b = this.randInt(2, 9); }
+        const a2 = a * a;
+        const b2 = b * b;
+        const correctStr = `$(${b} - ${a}x)(${b} + ${a}x)$`;
+        return {
+          chapterId: 'N2bis',
+          tier: 2,
+          title: "Différence de carrés inversée $b^2 - (ax)^2$",
+          statement: `Factoriser l'expression :\n$$G = ${b2} - ${a2}x^2$$`,
+          type: 'mcq',
+          options: [
+            correctStr,
+            `$(${a}x - ${b})(${a}x + ${b})$`,
+            `$(${b} - ${a}x)^2$`,
+            `$(${b2} - ${a}x)(${b2} + ${a}x)$`
+          ],
+          correctIndex: 0,
+          explanations: [
+            `Bravo ! Le premier terme est $${b2} = ${b}^2$ et le second est $(${a}x)^2$. On respecte l'ordre : $(${b} - ${a}x)(${b} + ${a}x)$.`,
+            `Attention à l'ordre des termes : $b^2 - a^2 = (b-a)(b+a)$, ce n'est pas $(a-b)(a+b)$.`,
+            `Attention au double produit qui n'existe pas ici.`,
+            `La racine de $${b2}$ est $${b}$.`
+          ],
+          hint1: `Applique $u^2 - v^2 = (u - v)(u + v)$ avec $u = ${b}$ et $v = ${a}x$.`,
+          solution: `$$G = ${b}^2 - (${a}x)^2 = (${b} - ${a}x)(${b} + ${a}x)$$`
+        };
+      }
+    } else if (t === 3) {
+      // Palier 3 : Brevet (Facteur commun parenthèse (ax+b))
+      const a = this.randInt(1, 3);
+      const b = this.randInt(1, 5);
+      const signB = this.randChoice(['+', '-']);
+      const bVal = signB === '+' ? b : -b;
+      const commonStr = `${a === 1 ? '' : a}x ${signB} ${b}`;
+
+      const op = this.randChoice(['plus', 'moins', 'carre']);
+
+      if (op === 'plus') {
+        const c = this.randInt(1, 3);
+        const d = this.randInt(1, 5);
+        const signD = this.randChoice(['+', '-']);
+        const dVal = signD === '+' ? d : -d;
+
+        const e = this.randInt(1, 3);
+        const f = this.randInt(1, 5);
+        const signF = this.randChoice(['+', '-']);
+        const fVal = signF === '+' ? f : -f;
+
+        const sumCoeffX = c + e;
+        const sumConst = dVal + fVal;
+        const reducedP2 = `${sumCoeffX === 1 ? '' : sumCoeffX}x ${this.formatSigned(sumConst)}`;
+        const correctStr = `$(${commonStr})(${reducedP2})$`;
+
+        return {
+          chapterId: 'N2bis',
+          tier: 3,
+          title: "Facteur commun parenthèse avec addition (Brevet)",
+          statement: `Factoriser l'expression :\n$$H = (${commonStr})(${c === 1 ? '' : c}x ${signD} ${d}) + (${commonStr})(${e === 1 ? '' : e}x ${signF} ${f})$$`,
+          type: 'mcq',
+          options: [
+            correctStr,
+            `$(${commonStr})^2(${reducedP2})$`,
+            `$(${commonStr})(${c + e}x ${this.formatSigned(dVal - fVal)})$`,
+            `$(${commonStr})(${Math.abs(c - e)}x ${this.formatSigned(sumConst)})$`
+          ],
+          correctIndex: 0,
+          explanations: [
+            `Brillant ! $(${commonStr})$ est le facteur commun. On rassemble dans les crochets : $[ (${c}x ${signD} ${d}) + (${e}x ${signF} ${f}) ] = (${reducedP2})$.`,
+            `Attention, le facteur commun $(${commonStr})$ n'est pas au carré lorsqu'on le met en facteur.`,
+            `Attention au calcul des constantes dans les crochets : $${dVal} + (${fVal}) = ${sumConst}$.`,
+            `Attention au calcul des termes en $x$ : $${c}x + ${e}x = ${sumCoeffX}x$.`
+          ],
+          hint1: `Souligne le bloc commun $(${commonStr})$ présent dans les deux termes, puis ouvre un grand crochet.`,
+          hint2: `Rassemble : $(${commonStr}) [ (${c === 1 ? '' : c}x ${signD} ${d}) + (${e === 1 ? '' : e}x ${signF} ${f}) ]$, puis réduis l'intérieur.`,
+          solution: `$$H = (${commonStr}) [ (${c === 1 ? '' : c}x ${signD} ${d}) + (${e === 1 ? '' : e}x ${signF} ${f}) ]$$\n$$H = (${commonStr}) (${c === 1 ? '' : c}x + ${e === 1 ? '' : e}x ${this.formatSigned(dVal)} ${this.formatSigned(fVal)}) = (${commonStr})(${reducedP2})$$`
+        };
+      } else if (op === 'moins') {
+        const c = this.randInt(3, 5);
+        const d = this.randInt(1, 5);
+        const signD = this.randChoice(['+', '-']);
+        const dVal = signD === '+' ? d : -d;
+
+        const e = this.randInt(1, c - 1);
+        const f = this.randInt(1, 5);
+        const signF = this.randChoice(['+', '-']);
+        const fVal = signF === '+' ? f : -f;
+
+        const diffCoeffX = c - e;
+        const diffConst = dVal - fVal;
+        const reducedP2 = `${diffCoeffX === 1 ? '' : diffCoeffX}x ${this.formatSigned(diffConst)}`;
+        const correctStr = `$(${commonStr})(${reducedP2})$`;
+        // Piège classique : oublier de changer le signe de fVal
+        const wrongConst = dVal + fVal;
+        const wrongP2 = `${diffCoeffX === 1 ? '' : diffCoeffX}x ${this.formatSigned(wrongConst)}`;
+
+        return {
+          chapterId: 'N2bis',
+          tier: 3,
+          title: "Facteur commun parenthèse avec soustraction (Brevet)",
+          statement: `Factoriser l'expression :\n$$I = (${commonStr})(${c}x ${signD} ${d}) - (${commonStr})(${e === 1 ? '' : e}x ${signF} ${f})$$`,
+          type: 'mcq',
+          options: [
+            correctStr,
+            `$(${commonStr})(${wrongP2})$`,
+            `$(${commonStr})^2(${reducedP2})$`,
+            `$(${commonStr})(${c + e}x ${this.formatSigned(diffConst)})$`
+          ],
+          correctIndex: 0,
+          explanations: [
+            `Parfait ! Le signe moins devant la seconde parenthèse inverse tous ses signes à l'intérieur des crochets : $- (${e === 1 ? '' : e}x ${signF} ${f}) = -${e === 1 ? '' : e}x ${signF === '+' ? '-' : '+'} ${f}$.`,
+            `Piège classique du signe moins : $- (${e === 1 ? '' : e}x ${signF} ${f})$ change aussi le signe de la constante !`,
+            `On ne met pas le facteur commun au carré.`,
+            `Attention : on soustrait $${e}x$ de $${c}x$, on ne les additionne pas.`
+          ],
+          hint1: `Mets $(${commonStr})$ en facteur : $(${commonStr}) [ (${c}x ${signD} ${d}) - (${e === 1 ? '' : e}x ${signF} ${f}) ]$.`,
+          hint2: `Attention au signe « - » devant la parenthèse intérieure : il change TOUS les signes intérieurs.`,
+          solution: `$$I = (${commonStr}) [ (${c}x ${signD} ${d}) - (${e === 1 ? '' : e}x ${signF} ${f}) ]$$\n$$I = (${commonStr}) (${c}x ${signD} ${d} - ${e === 1 ? '' : e}x ${signF === '+' ? '-' : '+'} ${f}) = (${commonStr})(${reducedP2})$$`
+        };
+      } else {
+        const c = this.randInt(1, 3);
+        const d = this.randInt(1, 5);
+        const signD = this.randChoice(['+', '-']);
+        const dVal = signD === '+' ? d : -d;
+
+        const sumCoeffX = a + c;
+        const sumConst = bVal + dVal;
+        const reducedP2 = `${sumCoeffX === 1 ? '' : sumCoeffX}x ${this.formatSigned(sumConst)}`;
+        const correctStr = `$(${commonStr})(${reducedP2})$`;
+
+        return {
+          chapterId: 'N2bis',
+          tier: 3,
+          title: "Facteur commun issu d'un carré $(ax+b)^2$",
+          statement: `Factoriser l'expression :\n$$J = (${commonStr})^2 + (${commonStr})(${c === 1 ? '' : c}x ${signD} ${d})$$`,
+          type: 'mcq',
+          options: [
+            correctStr,
+            `$(${commonStr})(${c === 1 ? '' : c}x ${signD} ${d})$`,
+            `$(${commonStr})^2(1 + ${c === 1 ? '' : c}x ${signD} ${d})$`,
+            `$(${commonStr})(${a + c}x ${this.formatSigned(bVal - dVal)})$`
+          ],
+          correctIndex: 0,
+          explanations: [
+            `Bravo ! $(${commonStr})^2 = (${commonStr})(${commonStr})$. En factorisant par $(${commonStr})$, il reste $(${commonStr}) + (${c === 1 ? '' : c}x ${signD} ${d}) = (${reducedP2})$.`,
+            `Attention, il reste aussi une parenthèse $(${commonStr})$ issue du carré !`,
+            `On ne met pas le facteur au carré en factorisant.`,
+            `Attention à l'addition des constantes : $${bVal} + (${dVal}) = ${sumConst}$.`
+          ],
+          hint1: `Écris d'abord $(${commonStr})^2$ sous la forme $(${commonStr})(${commonStr})$.`,
+          solution: `$$J = (${commonStr}) [ (${commonStr}) + (${c === 1 ? '' : c}x ${signD} ${d}) ] = (${commonStr})(${reducedP2})$$`
+        };
+      }
+    } else {
+      // Palier 4 : DÉFI SECONDE (Différence de deux carrés complexe : (ax+b)² - c² ou (ax+b)² - (cx+d)²)
+      const subType = this.randChoice(['carre_moins_const', 'carre_moins_carre']);
+
+      if (subType === 'carre_moins_const') {
+        const a = this.randInt(2, 4);
+        const b = this.randInt(1, 5);
+        const signB = this.randChoice(['+', '-']);
+        const bVal = signB === '+' ? b : -b;
+        const c = this.randInt(2, 7);
+        const c2 = c * c;
+
+        const part1Const = bVal - c;
+        const part2Const = bVal + c;
+        const part1Str = `${a}x ${this.formatSigned(part1Const)}`;
+        const part2Str = `${a}x ${this.formatSigned(part2Const)}`;
+        const correctStr = `$(${part1Str})(${part2Str})$`;
+
+        return {
+          chapterId: 'N2bis',
+          tier: 4,
+          title: "Défi Seconde : Différence de carrés $(ax+b)^2 - c^2$",
+          statement: `Factoriser complètement l'expression :\n$$K = (${a}x ${signB} ${b})^2 - ${c2}$$`,
+          type: 'mcq',
+          options: [
+            correctStr,
+            `$(${a}x ${this.formatSigned(bVal - c2)})(${a}x ${this.formatSigned(bVal + c2)})$`,
+            `$(${a}x ${signB} ${b - c})^2$`,
+            `$${a * a}x^2 ${this.formatSigned(2 * a * bVal)}x ${this.formatSigned(bVal * bVal - c2)}$`
+          ],
+          correctIndex: 0,
+          explanations: [
+            `Brillant ! Forme $u^2 - v^2 = (u - v)(u + v)$ avec $u = (${a}x ${signB} ${b})$ et $v = ${c}$ (car ${c2} = ${c}^2).`,
+            `Attention, $${c2} = ${c}^2$, c'est $${c}$ qu'il faut retrancher et ajouter, pas $${c2}$.`,
+            `Ce n'est pas un carré d'une différence.`,
+            `C'est la forme développée, pas la forme factorisée !`
+          ],
+          hint1: `Reconnais la forme $u^2 - v^2 = (u - v)(u + v)$ avec $u = (${a}x ${signB} ${b})$ et $v = ${c}$.`,
+          hint2: `Écris : $[ (${a}x ${signB} ${b}) - ${c} ][ (${a}x ${signB} ${b}) + ${c} ]$, puis calcule les constantes.`,
+          solution: `$$K = (${a}x ${signB} ${b})^2 - ${c}^2 = [ (${a}x ${signB} ${b}) - ${c} ][ (${a}x ${signB} ${b}) + ${c} ] = (${part1Str})(${part2Str})$$`
+        };
+      } else {
+        const a = this.randInt(3, 5);
+        const b = this.randInt(1, 4);
+        const signB = this.randChoice(['+', '-']);
+        const bVal = signB === '+' ? b : -b;
+
+        const c = this.randInt(1, a - 1);
+        const d = this.randInt(1, 4);
+        const signD = this.randChoice(['+', '-']);
+        const dVal = signD === '+' ? d : -d;
+
+        // u = ax + b, v = cx + d
+        // u - v = (a-c)x + (b - d)
+        // u + v = (a+c)x + (b + d)
+        const part1X = a - c;
+        const part1Const = bVal - dVal;
+        const part2X = a + c;
+        const part2Const = bVal + dVal;
+
+        const part1Str = `${part1X === 1 ? '' : part1X}x ${this.formatSigned(part1Const)}`;
+        const part2Str = `${part2X === 1 ? '' : part2X}x ${this.formatSigned(part2Const)}`;
+        const correctStr = `$(${part1Str})(${part2Str})$`;
+
+        // Distracteur classique : erreur de signe dans u - v
+        const wrongPart1Const = bVal + dVal;
+        const wrongPart1Str = `${part1X === 1 ? '' : part1X}x ${this.formatSigned(wrongPart1Const)}`;
+
+        return {
+          chapterId: 'N2bis',
+          tier: 4,
+          title: "Défi Seconde : Différence de deux carrés $(ax+b)^2 - (cx+d)^2$",
+          statement: `Factoriser au maximum l'expression :\n$$L = (${a}x ${signB} ${b})^2 - (${c === 1 ? '' : c}x ${signD} ${d})^2$$`,
+          type: 'mcq',
+          options: [
+            correctStr,
+            `$(${wrongPart1Str})(${part2Str})$`,
+            `$(${part1Str})^2$`,
+            `$${a * a - c * c}x^2 ${this.formatSigned(bVal * bVal - dVal * dVal)}$`
+          ],
+          correctIndex: 0,
+          explanations: [
+            `Exceptionnel ! $u^2 - v^2 = (u - v)(u + v)$ avec $u = (${a}x ${signB} ${b})$ et $v = (${c === 1 ? '' : c}x ${signD} ${d})$. Attention à bien inverser les signes dans $u - v$ !`,
+            `Piège du signe moins dans $u - v$ : $- (${c === 1 ? '' : c}x ${signD} ${d}) = -${c === 1 ? '' : c}x ${signD === '+' ? '-' : '+'} ${d}$.`,
+            `Ce n'est pas un carré parfait.`,
+            `Attention, $(u-v)(u+v)$ ne se résume pas à soustraire les termes au carré sans double produit.`
+          ],
+          hint1: "Applique $u^2 - v^2 = (u - v)(u + v)$ avec $u = ($ premier terme $)$ et $v = ($ second terme $)$.",
+          hint2: "Fais très attention aux parenthèses dans les crochets : $[ u - v ][ u + v ]$.",
+          solution: `1. Formule : $u^2 - v^2 = (u - v)(u + v)$.\n2. Mise en crochets :\n$$L = [ (${a}x ${signB} ${b}) - (${c === 1 ? '' : c}x ${signD} ${d}) ][ (${a}x ${signB} ${b}) + (${c === 1 ? '' : c}x ${signD} ${d}) ]$$\n3. Suppression des parenthèses intérieures :\n$$L = (${a}x ${signB} ${b} - ${c === 1 ? '' : c}x ${signD === '+' ? '-' : '+'} ${d})(${a}x ${signB} ${b} + ${c === 1 ? '' : c}x ${signD} ${d})$$\n4. Réduction finale :\n$$L = (${part1Str})(${part2Str})$$`
+        };
+      }
     }
   },
 
@@ -10660,6 +11278,7 @@ window.MathsGenerators = {
       // 3ème
       case 'N1': q = this.generateN1(resolvedTier, mastery); break;
       case 'N2': q = this.generateN2(resolvedTier, mastery); break;
+      case 'N2bis': q = this.generateN2bis(resolvedTier, mastery); break;
       case 'N3': q = this.generateN3(resolvedTier, mastery); break;
       case 'N4': q = this.generateN4(resolvedTier, mastery); break;
       case 'N5': q = this.generateN5(resolvedTier, mastery); break;

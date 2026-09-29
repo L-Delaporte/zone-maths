@@ -69,13 +69,13 @@ window.MATHS_COURSES = {
     ]
   },
   "N2": {
-    "title": "N2 : Calcul littéral et Identités remarquables",
+    "title": "N2 : Calcul littéral et développement",
     "domain": "Nombres et Calculs",
     "objectives": [
       "Maîtriser la distributivité simple $k(a+b) = ka+kb$ et la double distributivité $(a+b)(c+d) = ac+ad+bc+bd$.",
-      "Comprendre que « Développer, c'est perdre les parenthèses ».",
-      "Connaître par cœur et savoir appliquer les 3 identités remarquables.",
-      "Savoir factoriser par recherche d'un facteur commun évident ou à l'aide de l'identité $a^2 - b^2 = (a-b)(a+b)$."
+      "Comprendre que « Développer, c'est transformer un produit en somme algébrique (perdre les parenthèses) ».",
+      "Connaître par cœur et savoir appliquer les 3 identités remarquables pour développer.",
+      "Savoir supprimer des parenthèses précédées d'un signe $+$ ou d'un signe $-$ et réduire une expression."
     ],
     "keyPoints": [
       {
@@ -83,27 +83,27 @@ window.MATHS_COURSES = {
         "content": "• **Développer**, c'est transformer un produit en somme ou différence (perdre les parenthèses).\n• **Simple distributivité** : $k(a + b) = ka + kb$ et $k(a - b) = ka - kb$\n• **Double distributivité** : $(a + b)(c + d) = ac + ad + bc + bd$\n• **Règle des signes en produit** : $(+) \\times (+) = +$ ; $(-) \\times (-) = +$ ; $(+) \\times (-) = -$."
       },
       {
-        "title": "2. Les 3 identités remarquables (Formules clés du Brevet)",
-        "content": "Pour tous nombres réels $a$ et $b$ :\n1. Carré d'une somme : $$(a + b)^2 = a^2 + 2ab + b^2$$\n2. Carré d'une différence : $$(a - b)^2 = a^2 - 2ab + b^2$$\n3. Produit de la somme par la différence : $$(a - b)(a + b) = a^2 - b^2$$"
+        "title": "2. Les 3 identités remarquables (Formules de développement du Brevet)",
+        "content": "Pour tous nombres réels $a$ et $b$ :\n1. Carré d'une somme : $$(a + b)^2 = a^2 + 2ab + b^2$$\n2. Carré d'une différence : $$(a - b)^2 = a^2 - 2ab + b^2$$\n3. Produit de la somme par la différence : $$(a - b)(a + b) = a^2 - b^2$$\n*Attention : ne jamais oublier le double produit $2ab$ !*"
       },
       {
-        "title": "3. Factorisation : « Retrouver les parenthèses »",
-        "content": "• **Factoriser**, c'est transformer une somme ou différence en produit.\n• **Méthode 1 (Facteur commun)** : $ka + kb = k(a + b)$ ou $(ax+b)(cx+d) + (ax+b)(ex+f) = (ax+b)[(cx+d)+(ex+f)]$.\n• **Méthode 2 (Différence de deux carrés)** : $$a^2 - b^2 = (a - b)(a + b)$$\n*Exemple* : $4x^2 - 9 = (2x)^2 - 3^2 = (2x - 3)(2x + 3)$."
+        "title": "3. Suppression de parenthèses précédées de + ou -",
+        "content": "• Précédées de $+$ : on retire les parenthèses sans rien modifier : $A + (B - C) = A + B - C$.\n• Précédées de $-$ : **on change TOUS les signes intérieurs** : $A - (B - C) = A - B + C$.\n• Si un produit est précédé d'un signe $-$ : développer d'abord le produit à l'intérieur de **crochets protecteurs**, puis distribuer le signe moins !"
       },
       {
-        "title": "4. Suppression de parenthèses précédées de + ou -",
-        "content": "• Précédées de $+$ : on retire les parenthèses sans rien modifier : $A + (B - C) = A + B - C$.\n• Précédées de $-$ : **on change TOUS les signes intérieurs** : $A - (B - C) = A - B + C$.\n• Si un produit est précédé d'un signe $-$ : développer le produit à l'intérieur de crochets avant de distribuer le signe moins !"
+        "title": "4. Réduction et simplification d'expressions littérales",
+        "content": "• **Réduire**, c'est regrouper les termes de même nature : les termes en $x^2$ ensemble, les termes en $x$ ensemble, et les constantes ensemble.\n• Exemple : $3x^2 + 5x - 7 + 2x^2 - 8x + 4 = (3+2)x^2 + (5-8)x + (-7+4) = 5x^2 - 3x - 3$."
       }
     ],
     "methods": [
       {
-        "title": "Méthode : Factoriser une expression avec facteur commun complexe",
-        "example": "Factoriser $E = (2x - 3)(4x + 1) - (2x - 3)(x - 2)$.",
+        "title": "Méthode : Développer une expression complexe avec crochets protecteurs",
+        "example": "Développer et réduire $E = (3x - 2)^2 - (2x + 1)(x - 4)$.",
         "steps": [
-          "**Étape 1 (Repérer le facteur commun)** : $(2x - 3)$ apparaît dans les deux termes.",
-          "**Étape 2 (Mettre en facteur)** : $E = (2x - 3) [ (4x + 1) - (x - 2) ]$.",
-          "**Étape 3 (Réduire les crochets)** : $E = (2x - 3)(4x + 1 - x + 2) = (2x - 3)(3x + 3)$.",
-          "**Étape 4 (Factorisation maximale)** : Comme $3x+3 = 3(x+1)$, on écrit $E = 3(2x - 3)(x + 1)$."
+          "**Étape 1 (Identité remarquable)** : $(3x - 2)^2 = (3x)^2 - 2 \\times 3x \\times 2 + 2^2 = 9x^2 - 12x + 4$.",
+          "**Étape 2 (Double distributivité entre crochets)** : $(2x + 1)(x - 4) = [ 2x^2 - 8x + x - 4 ] = [ 2x^2 - 7x - 4 ]$.",
+          "**Étape 3 (Distribuer le signe moins)** : $E = (9x^2 - 12x + 4) - [ 2x^2 - 7x - 4 ] = 9x^2 - 12x + 4 - 2x^2 + 7x + 4$.",
+          "**Étape 4 (Réduction finale)** : $E = (9 - 2)x^2 + (-12 + 7)x + (4 + 4) = 7x^2 - 5x + 8$."
         ]
       }
     ],
@@ -122,8 +122,8 @@ window.MATHS_COURSES = {
         "a": "$$(a - b)(a + b) = a^2 - b^2$$"
       },
       {
-        "q": "Comment factorise-t-on $9x^2 - 16$ ?",
-        "a": "$$(3x - 4)(3x + 4) \\quad (\\text{car } (3x)^2 - 4^2)$$"
+        "q": "Que donne le développement de $(2x - 3)^2$ ?",
+        "a": "$$(2x)^2 - 2 \\times 2x \\times 3 + 3^2 = 4x^2 - 12x + 9$$"
       },
       {
         "q": "Que signifie « développer une expression » ?",
@@ -132,6 +132,74 @@ window.MATHS_COURSES = {
       {
         "q": "Que donne le développement de $(x - 5)^2$ ?",
         "a": "$$x^2 - 10x + 25$$"
+      }
+    ]
+  },
+  "N2bis": {
+    "title": "N2 bis : Calcul littéral et factorisation",
+    "domain": "Nombres et Calculs",
+    "objectives": [
+      "Comprendre que « Factoriser, c'est transformer une somme ou différence en produit (faire réapparaître des parenthèses) ».",
+      "Savoir repérer et extraire un facteur commun évident (un nombre, la lettre $x$ ou un monôme $kx$).",
+      "Connaître par cœur l'identité remarquable $a^2 - b^2 = (a-b)(a+b)$ pour factoriser une différence de deux carrés.",
+      "Maîtriser la factorisation par facteur commun parenthèse $(ax+b)$ de type Brevet."
+    ],
+    "keyPoints": [
+      {
+        "title": "1. Qu'est-ce que factoriser ? « Faire réapparaître les parenthèses »",
+        "content": "• **Factoriser**, c'est transformer une somme ou une différence en un produit de facteurs.\n• C'est l'opération inverse du développement.\n• Développé : $6x + 15$ $\\iff$ Factorisé : $3(2x + 5)$."
+      },
+      {
+        "title": "2. Méthode 1 : Recherche d'un facteur commun évident",
+        "content": "• **Facteur numérique** : $12x - 8 = 4 \\times 3x - 4 \\times 2 = 4(3x - 2)$.\n• **Facteur en $x$** : $x^2 + 5x = x \\times x + x \\times 5 = x(x + 5)$.\n• **Facteur monôme $kx$** : $15x^2 - 10x = 5x \\times 3x - 5x \\times 2 = 5x(3x - 2)$.\n• **Règle d'or du 1** : $7x + 7 = 7(x + 1)$ (ne JAMAIS oublier le $+1$ !)."
+      },
+      {
+        "title": "3. Méthode 2 : L'identité remarquable $a^2 - b^2$ (Différence de deux carrés)",
+        "content": "Pour tous nombres $a$ et $b$ :\n$$a^2 - b^2 = (a - b)(a + b)$$\n• Ex 1 : $x^2 - 49 = x^2 - 7^2 = (x - 7)(x + 7)$.\n• Ex 2 : $9x^2 - 16 = (3x)^2 - 4^2 = (3x - 4)(3x + 4)$.\n• Ex 3 : $4x^2 - 25 = (2x)^2 - 5^2 = (2x - 5)(2x + 5)$."
+      },
+      {
+        "title": "4. Méthode 3 (Brevet) : Facteur commun parenthèse",
+        "content": "• Structure : $A = (ax+b)(cx+d) + (ax+b)(ex+f) = (ax+b)[(cx+d)+(ex+f)]$.\n• On souligne le bloc commun $(ax+b)$, on le place devant et on rassemble tout le reste dans des **crochets**.\n• Attention si le deuxième terme est soustrait : distribuer le signe moins dans les crochets !"
+      }
+    ],
+    "methods": [
+      {
+        "title": "Méthode : Factoriser une expression de Brevet avec facteur commun parenthèse",
+        "example": "Factoriser $F = (2x - 3)(4x + 1) - (2x - 3)(x - 2)$.",
+        "steps": [
+          "**Étape 1 (Souligner le facteur commun)** : $(2x - 3)$ est présent dans les deux blocs.",
+          "**Étape 2 (Mettre en facteur devant des crochets)** : $F = (2x - 3) [ (4x + 1) - (x - 2) ]$.",
+          "**Étape 3 (Supprimer les parenthèses intérieures)** : Le signe moins inverse les signes : $F = (2x - 3) [ 4x + 1 - x + 2 ]$.",
+          "**Étape 4 (Réduire les crochets)** : $4x - x = 3x$ et $1 + 2 = 3$. D'où : $F = (2x - 3)(3x + 3)$.",
+          "**Étape 5 (Factorisation maximale)** : Comme $3x + 3 = 3(x + 1)$, le résultat final est : $F = 3(2x - 3)(x + 1)$."
+        ]
+      }
+    ],
+    "traps": [
+      "⚠️ Oublier le 1 lors de la factorisation : $5x + 5 = 5(x + 1)$ et NON $5x$ !",
+      "⚠️ Confondre $a^2 - b^2$ et $(a - b)^2$ : $a^2 - b^2 = (a-b)(a+b)$, alors que $(a-b)^2 = a^2 - 2ab + b^2$.",
+      "⚠️ Signe « - » devant la deuxième parenthèse : $(x+1)(2x+3) - (x+1)(x-4) = (x+1)[(2x+3) - (x-4)] = (x+1)(2x+3-x+4) = (x+1)(x+7)$."
+    ],
+    "flashcards": [
+      {
+        "q": "Que signifie « factoriser une expression » ?",
+        "a": "C'est transformer une somme ou une différence en un **produit de facteurs** (« faire réapparaître les parenthèses »)."
+      },
+      {
+        "q": "Quelle est la formule de factorisation de $a^2 - b^2$ ?",
+        "a": "$$a^2 - b^2 = (a - b)(a + b)$$"
+      },
+      {
+        "q": "Comment factorise-t-on $9x^2 - 16$ ?",
+        "a": "$$(3x - 4)(3x + 4) \\quad (\\text{car } (3x)^2 - 4^2)$$"
+      },
+      {
+        "q": "Quelle est la factorisation de $15x^2 - 10x$ par son facteur commun maximal ?",
+        "a": "$$5x(3x - 2)$$"
+      },
+      {
+        "q": "Que vaut la factorisation de $4x + 4$ ?",
+        "a": "$$4(x + 1)$$\n*(Attention à ne jamais oublier le $+1$ !)*"
       }
     ]
   },

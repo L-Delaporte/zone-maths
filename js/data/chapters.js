@@ -1,4 +1,4 @@
-// Métadonnées des 48 chapitres et domaines du Cycle 4 (5ème, 4ème, 3ème)
+// Métadonnées des 49 chapitres et domaines du Cycle 4 (5ème, 4ème, 3ème)
 // Conforme au Bulletin Officiel de l'Éducation Nationale et à la progression de maths-et-tiques.fr
 window.MATHS_CHAPTERS = [
   {
@@ -597,16 +597,35 @@ window.MATHS_CHAPTERS = [
     "domainName": "Nombres et Calculs",
     "folder": "N2_Calcul_litteral",
     "num": "N2",
-    "title": "Calcul littéral et Identités remarquables",
-    "shortTitle": "Calcul littéral",
+    "title": "Calcul littéral et développement",
+    "shortTitle": "Développement",
     "icon": "variable",
     "badge": "Al-Khwarizmi",
     "color": "#3b82f6",
-    "description": "Distributivité simple et double, 3 identités remarquables, factorisations et réductions.",
+    "description": "Distributivité simple et double, les 3 identités remarquables en développement, suppressions de parenthèses et réductions.",
     "skills": [
-      "Développer et réduire",
-      "Factoriser (facteur commun & identités)",
-      "Calculer la valeur numérique"
+      "Développer par distributivité simple et double",
+      "Développer avec les identités remarquables",
+      "Supprimer les parenthèses et réduire"
+    ],
+    "level": "3eme"
+  },
+  {
+    "id": "N2bis",
+    "domain": "nombres",
+    "domainName": "Nombres et Calculs",
+    "folder": "N2bis_Factorisation",
+    "num": "N2 bis",
+    "title": "Calcul littéral et factorisation",
+    "shortTitle": "Factorisation",
+    "icon": "puzzle",
+    "badge": "Maître de la Factorisation",
+    "color": "#2563eb",
+    "description": "Recherche de facteur commun évident, facteur commun parenthèse (type Brevet), factorisation par identité remarquable a² - b².",
+    "skills": [
+      "Identifier et extraire un facteur commun évident",
+      "Factoriser à l'aide de l'identité remarquable a² - b²",
+      "Factoriser avec un facteur commun parenthèse (Brevet)"
     ],
     "level": "3eme"
   },

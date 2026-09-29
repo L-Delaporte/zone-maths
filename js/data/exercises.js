@@ -230,26 +230,26 @@ window.MATHS_EXERCISES = {
       "id": "N2-5",
       "chapterId": "N2",
       "tier": 2,
-      "title": "Factorisation avec facteur commun évident",
-      "statement": "Factoriser l'expression $E = 15x^2 - 10x$. Quel est le facteur commun maximal ?",
+      "title": "Identité remarquable $(ax - b)^2$",
+      "statement": "Développer à l'aide d'une identité remarquable :\n$$E = (2x - 5)^2$$",
       "type": "mcq",
       "options": [
-        "$5x(3x - 2)$",
-        "$5(3x^2 - 2x)$",
-        "$x(15x - 10)$",
-        "$15x(x - 2)$"
+        "$4x^2 - 20x + 25$",
+        "$4x^2 - 25$",
+        "$4x^2 - 10x + 25$",
+        "$2x^2 - 20x + 25$"
       ],
       "correctIndex": 0,
       "explanations": [
-        "Exactement ! $5x$ est le plus grand facteur commun : $15x^2 = 5x \\times 3x$ et $10x = 5x \\times 2$.",
-        "On peut encore factoriser par $x$. Il faut factoriser au maximum !",
-        "On peut aussi factoriser par 5. Le facteur commun maximal est $5x$.",
-        "15 ne divise pas 10, ce n'est pas un facteur commun entier."
+        "Exact ! $(2x-5)^2 = (2x)^2 - 2 \\times 2x \\times 5 + 5^2 = 4x^2 - 20x + 25$.",
+        "Attention, tu as oublié le double produit $-2ab = -20x$ !",
+        "Attention, le double produit est $2 \\times 2x \\times 5 = 20x$, et non $10x$.",
+        "Attention, $(2x)^2 = 2^2 \\times x^2 = 4x^2$ et non $2x^2$."
       ],
-      "hint1": "Cherche le plus grand diviseur commun de 15 et 10, ainsi que la plus grande puissance de $x$ commune.",
-      "hint2": "$15x^2 = 5x \\times 3x$ et $10x = 5x \\times 2$. Mets $5x$ en facteur.",
-      "solution": "$$E = 5x \\times 3x - 5x \\times 2 = 5x(3x - 2)$$",
-      "skill": "Raisonner"
+      "hint1": "Formule : $(u - v)^2 = u^2 - 2uv + v^2$ avec $u = 2x$ et $v = 5$.",
+      "hint2": "$u^2 = (2x)^2 = 4x^2$, $v^2 = 5^2 = 25$, et le double produit vaut $2 \\times 2x \\times 5 = 20x$.",
+      "solution": "$$E = (2x)^2 - 2 \\times 2x \\times 5 + 5^2 = 4x^2 - 20x + 25$$",
+      "skill": "Calculer"
     },
     {
       "id": "N2-6",
@@ -269,11 +269,113 @@ window.MATHS_EXERCISES = {
       "id": "N2-7",
       "chapterId": "N2",
       "tier": 4,
-      "title": "Défi Seconde : Factorisation complexe",
-      "statement": "Factoriser complètement l'expression :\n$$G = (2x - 3)^2 - 25$$",
+      "title": "Défi Seconde : Enchaînement de développements complexes",
+      "statement": "Développer et réduire au maximum l'expression suivante :\n$$G = (3x + 2)^2 - (2x - 1)(3x + 2)$$",
       "type": "mcq",
       "options": [
-        "$(2x + 2)(2x - 8)$ ou $4(x+1)(x-4)$",
+        "$3x^2 + 11x + 6$",
+        "$3x^2 + 13x + 6$",
+        "$3x^2 + 11x + 2$",
+        "$9x^2 + 11x + 6$"
+      ],
+      "correctIndex": 0,
+      "explanations": [
+        "Brillant ! $(3x+2)^2 = 9x^2 + 12x + 4$ et $(2x-1)(3x+2) = 6x^2 + x - 2$. En soustrayant : $(9-6)x^2 + (12-1)x + (4-(-2)) = 3x^2 + 11x + 6$.",
+        "Attention aux signes lors de la soustraction des termes en $x$ : $12x - x = 11x$ (et non $+13x$).",
+        "Attention au signe de la constante : $4 - (-2) = 4 + 2 = +6$.",
+        "N'oublie pas de soustraire le terme $6x^2$ du second produit : $9x^2 - 6x^2 = 3x^2$."
+      ],
+      "hint1": "Développe $(3x+2)^2$ d'un côté, et développe le produit $(2x-1)(3x+2)$ entre crochets, puis distribue le signe moins.",
+      "hint2": "$(3x+2)^2 = 9x^2 + 12x + 4$. Le second produit vaut $[6x^2 + 4x - 3x - 2] = [6x^2 + x - 2]$. Soustrais : $(9x^2+12x+4) - (6x^2+x-2)$.",
+      "solution": "1. Premier carré : $$(3x + 2)^2 = 9x^2 + 12x + 4$$\n2. Second produit entre crochets :\n$$(2x - 1)(3x + 2) = [ 6x^2 + 4x - 3x - 2 ] = [ 6x^2 + x - 2 ]$$\n3. Soustraction en inversant les signes :\n$$G = (9x^2 + 12x + 4) - [ 6x^2 + x - 2 ] = 9x^2 + 12x + 4 - 6x^2 - x + 2 = 3x^2 + 11x + 6$$",
+      "skill": "Calculer"
+    }
+  ],
+  "N2bis": [
+    {
+      "id": "N2bis-1",
+      "chapterId": "N2bis",
+      "tier": 1,
+      "title": "Facteur commun évident",
+      "statement": "Factoriser l'expression $A = 12x - 8$. Quel est le facteur commun maximal ?",
+      "type": "mcq",
+      "options": [
+        "$4(3x - 2)$",
+        "$2(6x - 4)$",
+        "$4(3x + 2)$",
+        "$4x(3 - 2)$"
+      ],
+      "correctIndex": 0,
+      "explanations": [
+        "Exact ! 4 est le plus grand diviseur commun de 12 et 8 : $12x = 4 \\times 3x$ et $8 = 4 \\times 2$.",
+        "On peut encore factoriser par 2 dans $(6x-4)$. Il faut toujours factoriser au maximum !",
+        "Attention au signe : $12x - 8$ conserve un signe moins : $4(3x - 2)$.",
+        "8 ne contient pas de lettre $x$, on ne peut pas mettre $x$ en facteur."
+      ],
+      "hint1": "Cherche le plus grand diviseur commun entre 12 et 8.",
+      "hint2": "$12 = 4 \\times 3$ et $8 = 4 \\times 2$. Mets 4 en facteur.",
+      "solution": "$$A = 4 \\times 3x - 4 \\times 2 = 4(3x - 2)$$",
+      "skill": "Calculer"
+    },
+    {
+      "id": "N2bis-2",
+      "chapterId": "N2bis",
+      "tier": 2,
+      "title": "Différence de deux carrés $a^2 - b^2$",
+      "statement": "Factoriser l'expression à l'aide d'une identité remarquable :\n$$B = 9x^2 - 25$$",
+      "type": "mcq",
+      "options": [
+        "$(3x - 5)(3x + 5)$",
+        "$(3x - 5)^2$",
+        "$(9x - 5)(9x + 5)$",
+        "$(3x - 25)(3x + 25)$"
+      ],
+      "correctIndex": 0,
+      "explanations": [
+        "Parfait ! $9x^2 - 25 = (3x)^2 - 5^2 = (3x - 5)(3x + 5)$.",
+        "Attention : $(3x-5)^2 = 9x^2 - 30x + 25$, il y aurait un double produit.",
+        "Attention, $9x^2 = (3x)^2$, donc $a = 3x$ et non $9x$.",
+        "Attention, $25 = 5^2$, donc $b = 5$ et non $25$."
+      ],
+      "hint1": "Reconnais la forme $a^2 - b^2 = (a - b)(a + b)$ avec $a^2 = 9x^2$ et $b^2 = 25$.",
+      "hint2": "Comme $9x^2 = (3x)^2$ et $25 = 5^2$, on a $a = 3x$ et $b = 5$.",
+      "solution": "$$B = (3x)^2 - 5^2 = (3x - 5)(3x + 5)$$",
+      "skill": "Calculer"
+    },
+    {
+      "id": "N2bis-3",
+      "chapterId": "N2bis",
+      "tier": 3,
+      "title": "Facteur commun parenthèse (Type Brevet)",
+      "statement": "Factoriser l'expression suivante :\n$$C = (2x - 3)(x + 5) + (2x - 3)(3x - 1)$$",
+      "type": "mcq",
+      "options": [
+        "$(2x - 3)(4x + 4)$ ou $4(2x - 3)(x + 1)$",
+        "$(2x - 3)(4x - 6)$",
+        "$(2x - 3)^2(4x + 4)$",
+        "$(2x - 3)(2x + 6)$"
+      ],
+      "correctIndex": 0,
+      "explanations": [
+        "Brillant ! $(2x-3)$ est le facteur commun. On rassemble : $[(x+5) + (3x-1)] = [4x + 4] = 4(x+1)$.",
+        "Attention au calcul dans les crochets : $5 + (-1) = 4$, et non $-6$.",
+        "Attention, on ne met pas le facteur commun au carré.",
+        "Attention, $x + 3x = 4x$, et non $2x$."
+      ],
+      "hint1": "Souligne le facteur commun $(2x - 3)$ présent dans les deux termes, puis ouvre un grand crochet.",
+      "hint2": "$C = (2x - 3)[ (x + 5) + (3x - 1) ]$. Réduis ensuite l'intérieur des crochets.",
+      "solution": "$$C = (2x - 3)[ (x + 5) + (3x - 1) ] = (2x - 3)(x + 5 + 3x - 1) = (2x - 3)(4x + 4) = 4(2x - 3)(x + 1)$$",
+      "skill": "Raisonner"
+    },
+    {
+      "id": "N2bis-4",
+      "chapterId": "N2bis",
+      "tier": 4,
+      "title": "Défi Seconde : Différence de deux carrés complexe",
+      "statement": "Factoriser complètement l'expression :\n$$D = (2x - 3)^2 - 25$$",
+      "type": "mcq",
+      "options": [
+        "$(2x - 8)(2x + 2)$ ou $4(x - 4)(x + 1)$",
         "$(2x - 28)(2x + 22)$",
         "$(2x - 8)^2$",
         "$4x^2 - 12x - 16$"
@@ -287,7 +389,7 @@ window.MATHS_EXERCISES = {
       ],
       "hint1": "Reconnais la structure $a^2 - b^2 = (a-b)(a+b)$, sachant que $25 = 5^2$.",
       "hint2": "Ici $a = (2x - 3)$ et $b = 5$. Écris $[(2x-3) - 5][(2x-3) + 5]$.",
-      "solution": "$$G = (2x - 3)^2 - 5^2 = [ (2x - 3) - 5 ][ (2x - 3) + 5 ] = (2x - 8)(2x + 2) = 4(x - 4)(x + 1)$$",
+      "solution": "$$D = (2x - 3)^2 - 5^2 = [ (2x - 3) - 5 ][ (2x - 3) + 5 ] = (2x - 8)(2x + 2) = 4(x - 4)(x + 1)$$",
       "skill": "Raisonner"
     }
   ],
