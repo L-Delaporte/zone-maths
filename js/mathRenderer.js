@@ -144,7 +144,8 @@ window.MathsRenderer = {
         b.startsWith('<h4') || b.startsWith('<h5') ||
         b.startsWith('<ul') || b.startsWith('<ol') ||
         b.startsWith('<hr') || b.startsWith('<blockquote') ||
-        b.startsWith('<div') || b.startsWith('<table') || b.startsWith('<pre')
+        b.startsWith('<div') || b.startsWith('<table') || b.startsWith('<pre') ||
+        b.startsWith('<svg')
       ) {
         return b;
       }

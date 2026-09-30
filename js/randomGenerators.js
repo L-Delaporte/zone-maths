@@ -125,6 +125,434 @@ window.MathsGenerators = {
   },
 
   // =========================================================================
+  // UTILITAIRES DE FIGURES GÉOMÉTRIQUES SVG (PYTHAGORE & THALÈS)
+  // =========================================================================
+
+  buildSvgPill(x, y, text, isUnknown = false) {
+    if (text === null || text === undefined || text === '') return '';
+    const str = String(text);
+    const charWidth = 7.5;
+    const width = Math.max(30, str.length * charWidth + 14);
+    const height = 22;
+    const rx = Math.round(x - width / 2);
+    const ry = Math.round(y - height / 2);
+    const bg = isUnknown ? '#fee2e2' : 'var(--bg-surface, #ffffff)';
+    const border = isUnknown ? '#ef4444' : 'var(--border-color, #94a3b8)';
+    const textColor = isUnknown ? '#dc2626' : 'var(--text-main, #0f172a)';
+    const fontWeight = isUnknown ? '700' : '600';
+    const strokeW = isUnknown ? '1.8' : '1';
+
+    return `<g class="geo-pill">
+      <rect x="${rx}" y="${ry}" width="${width}" height="${height}" rx="5" fill="${bg}" stroke="${border}" stroke-width="${strokeW}" />
+      <text x="${x}" y="${y + 4.5}" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="${fontWeight}" fill="${textColor}">${str}</text>
+    </g>`;
+  },
+
+  buildRightTriangleSvg({
+    name = "ABC",
+    right = "A",
+    hyp = "BC",
+    s1 = "AB",
+    s2 = "AC",
+    lenHyp = null,
+    lenS1 = null,
+    lenS2 = null,
+    unknown = null,
+    showRightAngle = true,
+    unit = "cm",
+    orientation = 0
+  }) {
+    let o1 = hyp.replace(right, '')[0] || 'B';
+    let o2 = hyp.replace(right, '').replace(o1, '')[0] || 'C';
+    if (s1 && s1.includes(o2)) {
+      const tmp = o1;
+      o1 = o2;
+      o2 = tmp;
+    }
+
+    const w = 270;
+    const h = 175;
+    const ori = (orientation !== undefined && orientation !== null) ? orientation : this.randInt(0, 3);
+
+    let rPt, o1Pt, o2Pt;
+    let rLabel, o1Label, o2Label;
+    let s1LabelPt, s2LabelPt, hypLabelPt;
+    let raSquare;
+
+    if (ori === 0) {
+      rPt = { x: 50, y: 135 };
+      o1Pt = { x: 220, y: 135 };
+      o2Pt = { x: 50, y: 35 };
+
+      rLabel = { x: 34, y: 152 };
+      o1Label = { x: 236, y: 140 };
+      o2Label = { x: 50, y: 22 };
+
+      s1LabelPt = { x: 135, y: 154 };
+      s2LabelPt = { x: 28, y: 85 };
+      hypLabelPt = { x: 148, y: 75 };
+
+      raSquare = "M 50,123 L 62,123 L 62,135";
+    } else if (ori === 1) {
+      rPt = { x: 220, y: 135 };
+      o1Pt = { x: 50, y: 135 };
+      o2Pt = { x: 220, y: 35 };
+
+      rLabel = { x: 236, y: 152 };
+      o1Label = { x: 34, y: 140 };
+      o2Label = { x: 220, y: 22 };
+
+      s1LabelPt = { x: 135, y: 154 };
+      s2LabelPt = { x: 242, y: 85 };
+      hypLabelPt = { x: 122, y: 75 };
+
+      raSquare = "M 220,123 L 208,123 L 208,135";
+    } else if (ori === 2) {
+      rPt = { x: 50, y: 40 };
+      o1Pt = { x: 220, y: 40 };
+      o2Pt = { x: 50, y: 140 };
+
+      rLabel = { x: 34, y: 28 };
+      o1Label = { x: 236, y: 44 };
+      o2Label = { x: 48, y: 158 };
+
+      s1LabelPt = { x: 135, y: 24 };
+      s2LabelPt = { x: 28, y: 90 };
+      hypLabelPt = { x: 148, y: 104 };
+
+      raSquare = "M 50,52 L 62,52 L 62,40";
+    } else {
+      rPt = { x: 220, y: 40 };
+      o1Pt = { x: 50, y: 40 };
+      o2Pt = { x: 220, y: 140 };
+
+      rLabel = { x: 236, y: 28 };
+      o1Label = { x: 34, y: 44 };
+      o2Label = { x: 220, y: 158 };
+
+      s1LabelPt = { x: 135, y: 24 };
+      s2LabelPt = { x: 242, y: 90 };
+      hypLabelPt = { x: 122, y: 104 };
+
+      raSquare = "M 220,52 L 208,52 L 208,40";
+    }
+
+    const uSuffix = unit ? ` ${unit}` : '';
+    const textHyp = (unknown === 'hyp' || lenHyp === '?') ? `?${uSuffix}` : (lenHyp !== null ? `${lenHyp}${uSuffix}` : '');
+    const textS1 = (unknown === 's1' || lenS1 === '?') ? `?${uSuffix}` : (lenS1 !== null ? `${lenS1}${uSuffix}` : '');
+    const textS2 = (unknown === 's2' || lenS2 === '?') ? `?${uSuffix}` : (lenS2 !== null ? `${lenS2}${uSuffix}` : '');
+
+    let highlightPath = '';
+    if (unknown === 'hyp' || lenHyp === '?') {
+      highlightPath = `<line x1="${o1Pt.x}" y1="${o1Pt.y}" x2="${o2Pt.x}" y2="${o2Pt.y}" stroke="#ef4444" stroke-width="2.6" stroke-linecap="round" />`;
+    } else if (unknown === 's1' || lenS1 === '?') {
+      highlightPath = `<line x1="${rPt.x}" y1="${rPt.y}" x2="${o1Pt.x}" y2="${o1Pt.y}" stroke="#ef4444" stroke-width="2.6" stroke-linecap="round" />`;
+    } else if (unknown === 's2' || lenS2 === '?') {
+      highlightPath = `<line x1="${rPt.x}" y1="${rPt.y}" x2="${o2Pt.x}" y2="${o2Pt.y}" stroke="#ef4444" stroke-width="2.6" stroke-linecap="round" />`;
+    }
+
+    return `<div class="geo-figure-wrapper" style="text-align:center; margin:12px 0;">\n` +
+      `<svg class="geo-svg-figure" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" style="max-width:270px; width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg">\n` +
+      `  <polygon points="${rPt.x},${rPt.y} ${o1Pt.x},${o1Pt.y} ${o2Pt.x},${o2Pt.y}" fill="rgba(59, 130, 246, 0.05)" stroke="var(--text-main, #334155)" stroke-width="2" stroke-linejoin="round" />\n` +
+      (highlightPath ? `  ${highlightPath}\n` : '') +
+      (showRightAngle ? `  <path d="${raSquare}" fill="rgba(37, 99, 235, 0.15)" stroke="var(--primary, #2563eb)" stroke-width="1.8" />\n` : '') +
+      `  <text x="${rLabel.x}" y="${rLabel.y}" font-family="system-ui, sans-serif" font-size="14" font-weight="700" fill="var(--text-main, #0f172a)">${right}</text>\n` +
+      `  <text x="${o1Label.x}" y="${o1Label.y}" font-family="system-ui, sans-serif" font-size="14" font-weight="700" fill="var(--text-main, #0f172a)">${o1}</text>\n` +
+      `  <text x="${o2Label.x}" y="${o2Label.y}" font-family="system-ui, sans-serif" font-size="14" font-weight="700" fill="var(--text-main, #0f172a)">${o2}</text>\n` +
+      (textS1 ? `  ${this.buildSvgPill(s1LabelPt.x, s1LabelPt.y, textS1, unknown === 's1' || lenS1 === '?')}\n` : '') +
+      (textS2 ? `  ${this.buildSvgPill(s2LabelPt.x, s2LabelPt.y, textS2, unknown === 's2' || lenS2 === '?')}\n` : '') +
+      (textHyp ? `  ${this.buildSvgPill(hypLabelPt.x, hypLabelPt.y, textHyp, unknown === 'hyp' || lenHyp === '?')}\n` : '') +
+      `</svg>\n</div>\n\n`;
+  },
+
+  buildThalesEmboiteSvg({
+    A = "A", B = "B", C = "C", M = "M", N = "N",
+    lengths = {},
+    unit = "cm"
+  }) {
+    const w = 290;
+    const h = 195;
+    const uSuffix = unit ? ` ${unit}` : '';
+
+    const pA = { x: 140, y: 26 };
+    const pB = { x: 38, y: 165 };
+    const pC = { x: 252, y: 165 };
+
+    const t = 0.44;
+    const pM = { x: Math.round(pA.x + t * (pB.x - pA.x)), y: Math.round(pA.y + t * (pB.y - pA.y)) };
+    const pN = { x: Math.round(pA.x + t * (pC.x - pA.x)), y: Math.round(pA.y + t * (pC.y - pA.y)) };
+
+    const fmt = (v) => {
+      if (v === null || v === undefined) return null;
+      if (v === '?' || v === '? cm' || v === 'x') return String(v);
+      return `${v}${uSuffix}`;
+    };
+    const isUnk = (v) => v === '?' || v === '? cm' || v === 'x';
+
+    const pills = [];
+    if (lengths.AM !== undefined && lengths.AM !== null) {
+      pills.push(this.buildSvgPill(102, 52, fmt(lengths.AM), isUnk(lengths.AM)));
+    }
+    if (lengths.MB !== undefined && lengths.MB !== null) {
+      pills.push(this.buildSvgPill(54, 126, fmt(lengths.MB), isUnk(lengths.MB)));
+    }
+    if (lengths.AB !== undefined && lengths.AB !== null) {
+      pills.push(`
+        <g>
+          <line x1="22" y1="${pA.y + 4}" x2="22" y2="${pB.y}" stroke="var(--primary, #2563eb)" stroke-width="1.2" stroke-dasharray="2,2" />
+          <line x1="17" y1="${pA.y + 4}" x2="27" y2="${pA.y + 4}" stroke="var(--primary, #2563eb)" stroke-width="1.2" />
+          <line x1="17" y1="${pB.y}" x2="27" y2="${pB.y}" stroke="var(--primary, #2563eb)" stroke-width="1.2" />
+          ${this.buildSvgPill(22, 95, fmt(lengths.AB), isUnk(lengths.AB))}
+        </g>
+      `);
+    }
+    if (lengths.AN !== undefined && lengths.AN !== null) {
+      pills.push(this.buildSvgPill(176, 52, fmt(lengths.AN), isUnk(lengths.AN)));
+    }
+    if (lengths.NC !== undefined && lengths.NC !== null) {
+      pills.push(this.buildSvgPill(228, 126, fmt(lengths.NC), isUnk(lengths.NC)));
+    }
+    if (lengths.AC !== undefined && lengths.AC !== null) {
+      pills.push(`
+        <g>
+          <line x1="268" y1="${pA.y + 4}" x2="268" y2="${pC.y}" stroke="var(--primary, #2563eb)" stroke-width="1.2" stroke-dasharray="2,2" />
+          <line x1="263" y1="${pA.y + 4}" x2="273" y2="${pA.y + 4}" stroke="var(--primary, #2563eb)" stroke-width="1.2" />
+          <line x1="263" y1="${pC.y}" x2="273" y2="${pC.y}" stroke="var(--primary, #2563eb)" stroke-width="1.2" />
+          ${this.buildSvgPill(268, 95, fmt(lengths.AC), isUnk(lengths.AC))}
+        </g>
+      `);
+    }
+    if (lengths.MN !== undefined && lengths.MN !== null) {
+      pills.push(this.buildSvgPill(140, pM.y - 14, fmt(lengths.MN), isUnk(lengths.MN)));
+    }
+    if (lengths.BC !== undefined && lengths.BC !== null) {
+      pills.push(this.buildSvgPill(145, pB.y + 17, fmt(lengths.BC), isUnk(lengths.BC)));
+    }
+
+    return `<div class="geo-figure-wrapper" style="text-align:center; margin:12px 0;">\n` +
+      `<svg class="geo-svg-figure" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" style="max-width:280px; width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg">\n` +
+      `  <polygon points="${pA.x},${pA.y} ${pB.x},${pB.y} ${pC.x},${pC.y}" fill="rgba(59, 130, 246, 0.04)" stroke="var(--text-main, #334155)" stroke-width="2" stroke-linejoin="round" />\n` +
+      `  <line x1="${pM.x}" y1="${pM.y}" x2="${pN.x}" y2="${pN.y}" stroke="var(--primary, #2563eb)" stroke-width="2.2" stroke-linecap="round" />\n` +
+      `  <circle cx="${pA.x}" cy="${pA.y}" r="3" fill="var(--primary, #2563eb)" />\n` +
+      `  <circle cx="${pB.x}" cy="${pB.y}" r="3" fill="var(--primary, #2563eb)" />\n` +
+      `  <circle cx="${pC.x}" cy="${pC.y}" r="3" fill="var(--primary, #2563eb)" />\n` +
+      `  <circle cx="${pM.x}" cy="${pM.y}" r="3" fill="var(--primary, #2563eb)" />\n` +
+      `  <circle cx="${pN.x}" cy="${pN.y}" r="3" fill="var(--primary, #2563eb)" />\n` +
+      `  <text x="${pA.x}" y="${pA.y - 10}" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" font-weight="700" fill="var(--text-main, #0f172a)">${A}</text>\n` +
+      `  <text x="${pB.x - 12}" y="${pB.y + 4}" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" font-weight="700" fill="var(--text-main, #0f172a)">${B}</text>\n` +
+      `  <text x="${pC.x + 12}" y="${pC.y + 4}" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" font-weight="700" fill="var(--text-main, #0f172a)">${C}</text>\n` +
+      `  <text x="${pM.x - 14}" y="${pM.y + 4}" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" font-weight="700" fill="var(--text-main, #0f172a)">${M}</text>\n` +
+      `  <text x="${pN.x + 14}" y="${pN.y + 4}" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" font-weight="700" fill="var(--text-main, #0f172a)">${N}</text>\n` +
+      `  ${pills.join('\n  ')}\n` +
+      `</svg>\n</div>\n\n`;
+  },
+
+  buildThalesPapillonSvg({
+    O = "O", A = "A", B = "B", C = "C", D = "D",
+    sec1 = "AB",
+    sec2 = "CD",
+    par1 = "AC",
+    par2 = "BD",
+    lengths = {},
+    unit = "cm"
+  }) {
+    const w = 290;
+    const h = 185;
+    const uSuffix = unit ? ` ${unit}` : '';
+
+    const pO = { x: 145, y: 95 };
+
+    let pTopLeft, pTopRight, pBottomLeft, pBottomRight;
+    let labelTopLeft, labelTopRight, labelBottomLeft, labelBottomRight;
+
+    if (par1 === 'AC' && par2 === 'BD') {
+      pTopLeft = { x: 65, y: 32 };
+      pTopRight = { x: 225, y: 32 };
+      pBottomLeft = { x: 65, y: 158 };
+      pBottomRight = { x: 225, y: 158 };
+
+      labelTopLeft = A;
+      labelTopRight = C;
+      labelBottomLeft = D;
+      labelBottomRight = B;
+    } else {
+      pTopLeft = { x: 65, y: 32 };
+      pTopRight = { x: 225, y: 32 };
+      pBottomLeft = { x: 65, y: 158 };
+      pBottomRight = { x: 225, y: 158 };
+
+      labelTopLeft = A;
+      labelTopRight = D;
+      labelBottomLeft = C;
+      labelBottomRight = B;
+    }
+
+    const fmt = (v) => {
+      if (v === null || v === undefined) return null;
+      if (v === '?' || v === '? cm' || v === 'x') return String(v);
+      return `${v}${uSuffix}`;
+    };
+    const isUnk = (v) => v === '?' || v === '? cm' || v === 'x';
+
+    const pills = [];
+    if (lengths.OA !== undefined && lengths.OA !== null) {
+      pills.push(this.buildSvgPill(90, 56, fmt(lengths.OA), isUnk(lengths.OA)));
+    }
+    if (lengths.OB !== undefined && lengths.OB !== null) {
+      pills.push(this.buildSvgPill(195, 134, fmt(lengths.OB), isUnk(lengths.OB)));
+    }
+    if (lengths.OC !== undefined && lengths.OC !== null) {
+      const isTopC = (labelTopRight === C);
+      pills.push(this.buildSvgPill(isTopC ? 195 : 90, isTopC ? 56 : 134, fmt(lengths.OC), isUnk(lengths.OC)));
+    }
+    if (lengths.OD !== undefined && lengths.OD !== null) {
+      const isBottomD = (labelBottomLeft === D);
+      pills.push(this.buildSvgPill(isBottomD ? 90 : 195, isBottomD ? 134 : 56, fmt(lengths.OD), isUnk(lengths.OD)));
+    }
+    if (lengths[par1] !== undefined && lengths[par1] !== null) {
+      pills.push(this.buildSvgPill(145, 18, fmt(lengths[par1]), isUnk(lengths[par1])));
+    }
+    if (lengths[par2] !== undefined && lengths[par2] !== null) {
+      pills.push(this.buildSvgPill(145, 172, fmt(lengths[par2]), isUnk(lengths[par2])));
+    }
+
+    return `<div class="geo-figure-wrapper" style="text-align:center; margin:12px 0;">\n` +
+      `<svg class="geo-svg-figure" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" style="max-width:280px; width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg">\n` +
+      `  <line x1="${pTopLeft.x}" y1="${pTopLeft.y}" x2="${pBottomRight.x}" y2="${pBottomRight.y}" stroke="var(--text-main, #334155)" stroke-width="1.8" />\n` +
+      `  <line x1="${pTopRight.x}" y1="${pTopRight.y}" x2="${pBottomLeft.x}" y2="${pBottomLeft.y}" stroke="var(--text-main, #334155)" stroke-width="1.8" />\n` +
+      `  <line x1="${pTopLeft.x}" y1="${pTopLeft.y}" x2="${pTopRight.x}" y2="${pTopRight.y}" stroke="var(--primary, #2563eb)" stroke-width="2.2" stroke-linecap="round" />\n` +
+      `  <line x1="${pBottomLeft.x}" y1="${pBottomLeft.y}" x2="${pBottomRight.x}" y2="${pBottomRight.y}" stroke="var(--primary, #2563eb)" stroke-width="2.2" stroke-linecap="round" />\n` +
+      `  <circle cx="${pO.x}" cy="${pO.y}" r="3" fill="var(--primary, #2563eb)" />\n` +
+      `  <circle cx="${pTopLeft.x}" cy="${pTopLeft.y}" r="3" fill="var(--primary, #2563eb)" />\n` +
+      `  <circle cx="${pTopRight.x}" cy="${pTopRight.y}" r="3" fill="var(--primary, #2563eb)" />\n` +
+      `  <circle cx="${pBottomLeft.x}" cy="${pBottomLeft.y}" r="3" fill="var(--primary, #2563eb)" />\n` +
+      `  <circle cx="${pBottomRight.x}" cy="${pBottomRight.y}" r="3" fill="var(--primary, #2563eb)" />\n` +
+      `  <text x="${pO.x}" y="${pO.y + 18}" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" font-weight="700" fill="var(--text-main, #0f172a)">${O}</text>\n` +
+      `  <text x="${pTopLeft.x - 12}" y="${pTopLeft.y - 4}" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" font-weight="700" fill="var(--text-main, #0f172a)">${labelTopLeft}</text>\n` +
+      `  <text x="${pTopRight.x + 12}" y="${pTopRight.y - 4}" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" font-weight="700" fill="var(--text-main, #0f172a)">${labelTopRight}</text>\n` +
+      `  <text x="${pBottomLeft.x - 12}" y="${pBottomLeft.y + 12}" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" font-weight="700" fill="var(--text-main, #0f172a)">${labelBottomLeft}</text>\n` +
+      `  <text x="${pBottomRight.x + 12}" y="${pBottomRight.y + 12}" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" font-weight="700" fill="var(--text-main, #0f172a)">${labelBottomRight}</text>\n` +
+      `  ${pills.join('\n  ')}\n` +
+      `</svg>\n</div>\n\n`;
+  },
+
+  buildLadderSvg({ L = 10, d = 6, h = '?' }) {
+    const w = 280;
+    const height = 180;
+    const pFoot = { x: 75, y: 145 };
+    const pTop = { x: 210, y: 35 };
+
+    const rungs = [];
+    for (let i = 1; i <= 6; i++) {
+      const t = i / 7;
+      const rx = pFoot.x + t * (pTop.x - pFoot.x);
+      const ry = pFoot.y + t * (pTop.y - pFoot.y);
+      const dx = pTop.x - pFoot.x;
+      const dy = pTop.y - pFoot.y;
+      const len = Math.hypot(dx, dy);
+      const nx = -dy / len * 6;
+      const ny = dx / len * 6;
+      rungs.push(`<line x1="${Math.round(rx - nx)}" y1="${Math.round(ry - ny)}" x2="${Math.round(rx + nx)}" y2="${Math.round(ry + ny)}" stroke="#d97706" stroke-width="1.8" />`);
+    }
+
+    return `<div class="geo-figure-wrapper" style="text-align:center; margin:12px 0;">\n` +
+      `<svg class="geo-svg-figure" viewBox="0 0 ${w} ${height}" width="${w}" height="${height}" style="max-width:270px; width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg">\n` +
+      `  <line x1="20" y1="145" x2="265" y2="145" stroke="var(--text-main, #334155)" stroke-width="2.5" />\n` +
+      `  <path d="M 30,145 L 20,155 M 70,145 L 60,155 M 110,145 L 100,155 M 150,145 L 140,155 M 190,145 L 180,155 M 230,145 L 220,155" stroke="#94a3b8" stroke-width="1.2" />\n` +
+      `  <line x1="210" y1="20" x2="210" y2="145" stroke="#64748b" stroke-width="4" stroke-linecap="round" />\n` +
+      `  <path d="M 210,133 L 198,133 L 198,145" fill="rgba(37, 99, 235, 0.15)" stroke="var(--primary, #2563eb)" stroke-width="1.6" />\n` +
+      `  <line x1="${pFoot.x}" y1="${pFoot.y}" x2="${pTop.x}" y2="${pTop.y}" stroke="#b45309" stroke-width="2.6" stroke-linecap="round" />\n` +
+      `  ${rungs.join('\n  ')}\n` +
+      `  ${this.buildSvgPill(130, 80, `L = ${L} m`, false)}\n` +
+      `  ${this.buildSvgPill(142, 163, `d = ${d} m`, false)}\n` +
+      `  ${this.buildSvgPill(238, 90, `h = ${h} m`, true)}\n` +
+      `</svg>\n</div>\n\n`;
+  },
+
+  buildBoxSvg({ L = 12, l = 4, h = 3, D = '?' }) {
+    const w = 280;
+    const height = 180;
+
+    const A = { x: 50, y: 140 };
+    const B = { x: 170, y: 140 };
+    const F = { x: 170, y: 70 };
+    const E = { x: 50, y: 70 };
+
+    const D_pt = { x: 100, y: 110 };
+    const C = { x: 220, y: 110 };
+    const G = { x: 220, y: 40 };
+    const H = { x: 100, y: 40 };
+
+    return `<div class="geo-figure-wrapper" style="text-align:center; margin:12px 0;">\n` +
+      `<svg class="geo-svg-figure" viewBox="0 0 ${w} ${height}" width="${w}" height="${height}" style="max-width:270px; width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg">\n` +
+      `  <line x1="${A.x}" y1="${A.y}" x2="${D_pt.x}" y2="${D_pt.y}" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="3,3" />\n` +
+      `  <line x1="${D_pt.x}" y1="${D_pt.y}" x2="${C.x}" y2="${C.y}" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="3,3" />\n` +
+      `  <line x1="${D_pt.x}" y1="${D_pt.y}" x2="${H.x}" y2="${H.y}" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="3,3" />\n` +
+      `  <line x1="${A.x}" y1="${A.y}" x2="${G.x}" y2="${G.y}" stroke="#ef4444" stroke-width="2" stroke-dasharray="4,3" />\n` +
+      `  <polygon points="${A.x},${A.y} ${B.x},${B.y} ${F.x},${F.y} ${E.x},${E.y}" fill="rgba(59, 130, 246, 0.05)" stroke="var(--text-main, #334155)" stroke-width="1.8" />\n` +
+      `  <polygon points="${E.x},${E.y} ${F.x},${F.y} ${G.x},${G.y} ${H.x},${H.y}" fill="rgba(59, 130, 246, 0.08)" stroke="var(--text-main, #334155)" stroke-width="1.8" />\n` +
+      `  <polygon points="${B.x},${B.y} ${C.x},${C.y} ${G.x},${G.y} ${F.x},${F.y}" fill="rgba(59, 130, 246, 0.03)" stroke="var(--text-main, #334155)" stroke-width="1.8" />\n` +
+      `  <text x="${A.x - 12}" y="${A.y + 6}" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="var(--text-main, #0f172a)">A</text>\n` +
+      `  <text x="${B.x + 8}" y="${B.y + 6}" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="var(--text-main, #0f172a)">B</text>\n` +
+      `  <text x="${C.x + 8}" y="${C.y + 4}" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="var(--text-main, #0f172a)">C</text>\n` +
+      `  <text x="${G.x + 8}" y="${G.y}" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="var(--text-main, #0f172a)">G</text>\n` +
+      `  ${this.buildSvgPill(110, 155, `L = ${L} cm`, false)}\n` +
+      `  ${this.buildSvgPill(206, 135, `l = ${l} cm`, false)}\n` +
+      `  ${this.buildSvgPill(202, 75, `h = ${h} cm`, false)}\n` +
+      `  ${this.buildSvgPill(130, 95, `AG = ?`, true)}\n` +
+      `</svg>\n</div>\n\n`;
+  },
+
+  buildRectangleDiagonalSvg({ L = 80, H = 60, d = '?', unit = 'cm' }) {
+    const w = 270;
+    const h = 175;
+    const uSuffix = unit ? ` ${unit}` : '';
+    const p1 = { x: 45, y: 135 };
+    const p2 = { x: 225, y: 135 };
+    const p3 = { x: 225, y: 45 };
+    const p4 = { x: 45, y: 45 };
+
+    return `<div class="geo-figure-wrapper" style="text-align:center; margin:12px 0;">\n` +
+      `<svg class="geo-svg-figure" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" style="max-width:270px; width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg">\n` +
+      `  <rect x="${p4.x}" y="${p4.y}" width="${p2.x - p1.x}" height="${p1.y - p4.y}" fill="rgba(59, 130, 246, 0.05)" stroke="var(--text-main, #334155)" stroke-width="2" rx="2" />\n` +
+      `  <line x1="${p1.x}" y1="${p1.y}" x2="${p3.x}" y2="${p3.y}" stroke="#ef4444" stroke-width="2.2" stroke-dasharray="4,3" stroke-linecap="round" />\n` +
+      `  <path d="M ${p2.x - 12},${p2.y} L ${p2.x - 12},${p2.y - 12} L ${p2.x},${p2.y - 12}" fill="rgba(37, 99, 235, 0.15)" stroke="var(--primary, #2563eb)" stroke-width="1.6" />\n` +
+      `  ${this.buildSvgPill(135, 154, `${L}${uSuffix}`, false)}\n` +
+      `  ${this.buildSvgPill(242, 90, `${H}${uSuffix}`, false)}\n` +
+      `  ${this.buildSvgPill(135, 80, `d = ?`, true)}\n` +
+      `</svg>\n</div>\n\n`;
+  },
+
+  buildCubeDiagonalSvg({ a = 4, unit = 'cm' }) {
+    const w = 270;
+    const h = 175;
+    const uSuffix = unit ? ` ${unit}` : '';
+
+    const A = { x: 60, y: 135 };
+    const B = { x: 160, y: 135 };
+    const F = { x: 160, y: 55 };
+    const E = { x: 60, y: 55 };
+
+    const D_pt = { x: 105, y: 110 };
+    const C = { x: 205, y: 110 };
+    const G = { x: 205, y: 30 };
+    const H = { x: 105, y: 30 };
+
+    return `<div class="geo-figure-wrapper" style="text-align:center; margin:12px 0;">\n` +
+      `<svg class="geo-svg-figure" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" style="max-width:270px; width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg">\n` +
+      `  <line x1="${A.x}" y1="${A.y}" x2="${D_pt.x}" y2="${D_pt.y}" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="3,3" />\n` +
+      `  <line x1="${D_pt.x}" y1="${D_pt.y}" x2="${C.x}" y2="${C.y}" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="3,3" />\n` +
+      `  <line x1="${D_pt.x}" y1="${D_pt.y}" x2="${H.x}" y2="${H.y}" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="3,3" />\n` +
+      `  <line x1="${A.x}" y1="${A.y}" x2="${G.x}" y2="${G.y}" stroke="#ef4444" stroke-width="2.2" stroke-dasharray="4,3" />\n` +
+      `  <polygon points="${A.x},${A.y} ${B.x},${B.y} ${F.x},${F.y} ${E.x},${E.y}" fill="rgba(59, 130, 246, 0.05)" stroke="var(--text-main, #334155)" stroke-width="1.8" />\n` +
+      `  <polygon points="${E.x},${E.y} ${F.x},${F.y} ${G.x},${G.y} ${H.x},${H.y}" fill="rgba(59, 130, 246, 0.08)" stroke="var(--text-main, #334155)" stroke-width="1.8" />\n` +
+      `  <polygon points="${B.x},${B.y} ${C.x},${C.y} ${G.x},${G.y} ${F.x},${F.y}" fill="rgba(59, 130, 246, 0.03)" stroke="var(--text-main, #334155)" stroke-width="1.8" />\n` +
+      `  ${this.buildSvgPill(110, 150, `a = ${a}${uSuffix}`, false)}\n` +
+      `  ${this.buildSvgPill(130, 85, `D = ?`, true)}\n` +
+      `</svg>\n</div>\n\n`;
+  },
+
+  // =========================================================================
   // CHAPITRES 3ème (DNB & CYCLE 4) - PALIERS 1 À 4
   // =========================================================================
 
@@ -2065,75 +2493,160 @@ window.MathsGenerators = {
     const t = this.resolveTier(tier);
 
     if (t === 1) {
-      // Palier 1 : Socle (Calcul direct de l'hypoténuse - triplets parfaits)
-      const triplets = [[3, 4, 5], [6, 8, 10], [5, 12, 13]];
-      const [a, b, c] = this.randChoice(triplets);
+      // Palier 1 : Socle (Calcul direct de l'hypoténuse - triplets parfaits variés)
+      const triplets = [
+        [3, 4, 5], [6, 8, 10], [5, 12, 13], [8, 15, 17], [9, 12, 15],
+        [7, 24, 25], [1.5, 2, 2.5], [4.5, 6, 7.5], [2.5, 6, 6.5]
+      ];
+      const trip = this.randChoice(triplets);
+      const swap = Math.random() < 0.5;
+      const a = swap ? trip[1] : trip[0];
+      const b = swap ? trip[0] : trip[1];
+      const c = trip[2];
+
+      const aSq = +(a * a).toFixed(2);
+      const bSq = +(b * b).toFixed(2);
+      const cSq = +(c * c).toFixed(2);
+
+      const figSvg = this.buildRightTriangleSvg({
+        name: "ABC",
+        right: "A",
+        hyp: "BC",
+        s1: "AB",
+        s2: "AC",
+        lenS1: a,
+        lenS2: b,
+        lenHyp: '?',
+        unknown: 'hyp',
+        orientation: this.randInt(0, 3)
+      });
       return {
         chapterId: 'G0',
         tier: 1,
         title: "Calcul de l'hypoténuse (Pythagore direct)",
-        statement: `Soit un triangle $ABC$ rectangle en $A$ tel que $AB = ${a}\\text{ cm}$ et $AC = ${b}\\text{ cm}$.\n**Calculer la longueur de l'hypoténuse $[BC]$.**`,
+        statement: `${figSvg}Soit un triangle $ABC$ rectangle en $A$ tel que $AB = ${a}\\text{ cm}$ et $AC = ${b}\\text{ cm}$.\n**Calculer la longueur de l'hypoténuse $[BC]$.**`,
         type: 'exact',
         answer: String(c),
         placeholder: `Ex: ${c}`,
-        hint1: `Dans le triangle $ABC$ rectangle en $A$, d'après le théorème de Pythagore : $BC^2 = AB^2 + AC^2$.`,
-        solution: `Dans le triangle $ABC$ rectangle en $A$, d'après le théorème de Pythagore :\n$$BC^2 = AB^2 + AC^2$$\n$$BC^2 = ${a}^2 + ${b}^2 = ${a*a} + ${b*b} = ${c*c}$$\n$$BC = \\sqrt{${c*c}} = ${c}\\text{ cm}$$`
+        hint1: `Dans le triangle $ABC$ rectangle en $A$, d'après le théorème de Pythagore : $BC^2 = AB^2 + AC^2 = ${aSq} + ${bSq}$.`,
+        solution: `Dans le triangle $ABC$ rectangle en $A$, d'après le théorème de Pythagore :\n$$BC^2 = AB^2 + AC^2$$\n$$BC^2 = ${a}^2 + ${b}^2 = ${aSq} + ${bSq} = ${cSq}$$\nComme $BC > 0$ :\n$$BC = \\sqrt{${cSq}} = ${c}\\text{ cm}$$`
       };
     } else if (t === 2) {
       // Palier 2 : Guidé (Calcul d'un côté de l'angle droit)
-      const triplets = [[3, 4, 5], [6, 8, 10], [5, 12, 13], [8, 15, 17], [9, 12, 15]];
-      const [a, b, c] = this.randChoice(triplets);
+      const triplets = [
+        [3, 4, 5], [6, 8, 10], [5, 12, 13], [8, 15, 17], [9, 12, 15],
+        [12, 16, 20], [7, 24, 25], [1.5, 2, 2.5], [4.5, 6, 7.5], [2.5, 6, 6.5]
+      ];
+      const trip = this.randChoice(triplets);
+      const a = trip[0];
+      const b = trip[1];
+      const c = trip[2];
+
+      const aSq = +(a * a).toFixed(2);
+      const bSq = +(b * b).toFixed(2);
+      const cSq = +(c * c).toFixed(2);
+
+      const figSvg = this.buildRightTriangleSvg({
+        name: "EFG",
+        right: "E",
+        hyp: "FG",
+        s1: "EF",
+        s2: "EG",
+        lenHyp: c,
+        lenS1: a,
+        lenS2: '?',
+        unknown: 's2',
+        orientation: this.randInt(0, 3)
+      });
       return {
         chapterId: 'G0',
         tier: 2,
         title: "Calcul d'un côté de l'angle droit (Pythagore)",
-        statement: `Soit un triangle $EFG$ rectangle en $E$ tel que l'hypoténuse $FG = ${c}\\text{ cm}$ et $EF = ${a}\\text{ cm}$.\n**Calculer la longueur du côté $[EG]$.**`,
+        statement: `${figSvg}Soit un triangle $EFG$ rectangle en $E$ tel que l'hypoténuse $FG = ${c}\\text{ cm}$ et $EF = ${a}\\text{ cm}$.\n**Calculer la longueur du côté $[EG]$.**`,
         type: 'exact',
         answer: String(b),
         placeholder: `Ex: ${b}`,
-        hint1: `Isoler $EG^2$ dans la formule de Pythagore : $EG^2 = FG^2 - EF^2$.`,
-        solution: `Dans le triangle $EFG$ rectangle en $E$, d'après le théorème de Pythagore :\n$$FG^2 = EF^2 + EG^2 \\implies EG^2 = FG^2 - EF^2$$\n$$EG^2 = ${c}^2 - ${a}^2 = ${c*c} - ${a*a} = ${b*b}$$\n$$EG = \\sqrt{${b*b}} = ${b}\\text{ cm}$$`
+        hint1: `Isoler $EG^2$ dans la formule de Pythagore : $EG^2 = FG^2 - EF^2 = ${cSq} - ${aSq}$.`,
+        solution: `Dans le triangle $EFG$ rectangle en $E$, d'après le théorème de Pythagore :\n$$FG^2 = EF^2 + EG^2 \\implies EG^2 = FG^2 - EF^2$$\n$$EG^2 = ${c}^2 - ${a}^2 = ${cSq} - ${aSq} = ${bSq}$$\nComme $EG > 0$ :\n$$EG = \\sqrt{${bSq}} = ${b}\\text{ cm}$$`
       };
     } else if (t === 3) {
-      // Palier 3 : Brevet (Réciproque de Pythagore ou problème contextualisé)
-      const triplets = [[3, 4, 5], [5, 12, 13], [6, 8, 10], [7, 24, 25], [8, 15, 17]];
-      const isRect = Math.random() > 0.4;
-      const [a, b, exactC] = this.randChoice(triplets);
-      const c = isRect ? exactC : exactC + this.randChoice([-1, 1]);
-      const actualIsRect = (a * a + b * b === c * c);
+      // Palier 3 : Brevet (Réciproque ou Contraposée de Pythagore)
+      const isRect = Math.random() < 0.5;
+
+      let a, b, c;
+      if (isRect) {
+        const triplets = [
+          [3, 4, 5], [5, 12, 13], [6, 8, 10], [7, 24, 25], [8, 15, 17],
+          [9, 12, 15], [1.5, 2, 2.5], [4.5, 6, 7.5], [2.5, 6, 6.5]
+        ];
+        [a, b, c] = this.randChoice(triplets);
+      } else {
+        const nonTriplets = [
+          [5, 6, 8], [6, 7, 9], [4, 7, 8], [6, 8, 11],
+          [5, 7, 9], [7, 9, 12], [8, 10, 13], [3, 5, 6]
+        ];
+        [a, b, c] = this.randChoice(nonTriplets);
+      }
+
+      const aSq = +(a * a).toFixed(2);
+      const bSq = +(b * b).toFixed(2);
+      const sumSq = +(aSq + bSq).toFixed(2);
+      const cSq = +(c * c).toFixed(2);
+      const actualIsRect = (sumSq === cSq);
 
       const correctOpt = actualIsRect ? "Oui, le triangle ABC est rectangle" : "Non, le triangle ABC n'est pas rectangle";
-      const opts = ["Oui, le triangle ABC est rectangle", "Non, le triangle ABC n'est pas rectangle"];
+      const wrongOpt = actualIsRect ? "Non, le triangle ABC n'est pas rectangle" : "Oui, le triangle ABC est rectangle";
+      const opts = this.shuffle([correctOpt, wrongOpt]);
+
+      const figSvg = this.buildRightTriangleSvg({
+        name: "ABC",
+        right: "A",
+        hyp: "BC",
+        s1: "AB",
+        s2: "AC",
+        lenS1: a,
+        lenS2: b,
+        lenHyp: c,
+        unknown: null,
+        showRightAngle: false,
+        orientation: this.randInt(0, 3)
+      });
+
       return {
         chapterId: 'G0',
         tier: 3,
-        title: "Réciproque du théorème de Pythagore (Test de perpendicularité)",
-        statement: `Un menuisier monte une étagère triangulaire dont les côtés mesurent $AB = ${a}\\text{ cm}$, $AC = ${b}\\text{ cm}$ et $BC = ${c}\\text{ cm}$.\n**Le triangle $ABC$ est-il rectangle ?**`,
+        title: actualIsRect ? "Réciproque du théorème de Pythagore" : "Contraposée du théorème de Pythagore",
+        statement: `${figSvg}Un menuisier monte une étagère triangulaire dont les côtés mesurent $AB = ${a}\\text{ cm}$, $AC = ${b}\\text{ cm}$ et $BC = ${c}\\text{ cm}$.\n**Le triangle $ABC$ est-il rectangle ?**`,
         type: 'mcq',
         options: opts,
         answer: correctOpt,
         correctIndex: opts.indexOf(correctOpt),
-        hint1: `Identifie le plus long côté ($BC = ${c}$). Compare $BC^2$ et $AB^2 + AC^2$.`,
-        solution: `D'une part, le plus long côté est $[BC]$ :\n$$BC^2 = ${c}^2 = ${c*c}$$\nD'autre part :\n$$AB^2 + AC^2 = ${a}^2 + ${b}^2 = ${a*a} + ${b*b} = ${a*a + b*b}$$\n${actualIsRect ? `Comme $BC^2 = AB^2 + AC^2$, d'après la réciproque du théorème de Pythagore, le triangle **est rectangle** en $A$.` : `Comme $BC^2 \\neq AB^2 + AC^2$, le triangle **n'est pas rectangle**.`}`
+        hint1: `Identifie le plus long côté ($BC = ${c}\\text{ cm}$). Calcule $BC^2$ d'une part, et $AB^2 + AC^2$ d'autre part.`,
+        solution: `D'une part, le plus long côté est $[BC]$ :\n$$BC^2 = ${c}^2 = ${cSq}$$\nD'autre part :\n$$AB^2 + AC^2 = ${a}^2 + ${b}^2 = ${aSq} + ${bSq} = ${sumSq}$$\n${actualIsRect ? `Comme $BC^2 = AB^2 + AC^2$ ($${cSq} = ${sumSq}$), d'après la **réciproque du théorème de Pythagore**, le triangle $ABC$ **est rectangle en $A$**.` : `Comme $BC^2 \\neq AB^2 + AC^2$ ($${cSq} \\neq ${sumSq}$), d'après la **contraposée du théorème de Pythagore**, le triangle $ABC$ **n'est pas rectangle**.`}`
       };
     } else {
       // Palier 4 : Défi Seconde (Diagonale d'un pavé droit dans l'espace en 2 étapes)
-      // Combinaisons entières (L, l, h, D) où L^2 + l^2 + h^2 = D^2
       const boxes = [
-        { L: 12, l: 4, h: 3, D: 13 },   // 144 + 16 + 9 = 169 = 13^2
-        { L: 8, l: 4, h: 1, D: 9 },     // 64 + 16 + 1 = 81 = 9^2
-        { L: 10, l: 10, h: 5, D: 15 },  // 100 + 100 + 25 = 225 = 15^2
-        { L: 6, l: 6, h: 7, D: 11 },    // 36 + 36 + 49 = 121 = 11^2
-        { L: 12, l: 16, h: 15, D: 25 }  // 144 + 256 + 225 = 625 = 25^2
+        { L: 12, l: 4, h: 3, D: 13 },
+        { L: 8, l: 4, h: 1, D: 9 },
+        { L: 10, l: 10, h: 5, D: 15 },
+        { L: 6, l: 6, h: 7, D: 11 },
+        { L: 12, l: 16, h: 15, D: 25 }
       ];
       const box = this.randChoice(boxes);
       const dBaseSq = box.L * box.L + box.l * box.l;
+      const figSvg = this.buildBoxSvg({
+        L: box.L,
+        l: box.l,
+        h: box.h,
+        D: '?'
+      });
 
       return {
         chapterId: 'G0',
         tier: 4,
         title: "Défi Seconde : Grande diagonale d'un pavé droit dans l'espace",
-        statement: `Une boîte rectangulaire (pavé droit) $ABCDEFGH$ a pour dimensions :\n- Longueur $L = ${box.L}\\text{ cm}$\n- Largeur $l = ${box.l}\\text{ cm}$\n- Hauteur $h = ${box.h}\\text{ cm}$\n\n**Calculer la longueur exacte de la grande diagonale $[AG]$ qui traverse l'espace intérieur de la boîte.**`,
+        statement: `${figSvg}Une boîte rectangulaire (pavé droit) $ABCDEFGH$ a pour dimensions :\n- Longueur $L = ${box.L}\\text{ cm}$\n- Largeur $l = ${box.l}\\text{ cm}$\n- Hauteur $h = ${box.h}\\text{ cm}$\n\n**Calculer la longueur exacte de la grande diagonale $[AG]$ qui traverse l'espace intérieur de la boîte.**`,
         type: 'exact',
         answer: String(box.D),
         placeholder: `Ex: ${box.D}`,
@@ -2149,20 +2662,39 @@ window.MathsGenerators = {
 
     if (t === 1) {
       const vtype = this.randChoice(['find_ac', 'find_an', 'find_bc']);
-      const k = this.randChoice([2, 3, 4]);
-      const am = this.randInt(3, 6);
-      const ab = am * k;
-      const an = this.randInt(4, 7);
-      const ac = an * k;
-      const mn = this.randInt(3, 6);
-      const bc = mn * k;
+      const pairs = [
+        { am: 3, k: 2, an: 4, mn: 2.5 },
+        { am: 4, k: 2.5, an: 6, mn: 3 },
+        { am: 2, k: 3, an: 3.5, mn: 2 },
+        { am: 3.5, k: 2, an: 4.5, mn: 3 },
+        { am: 4, k: 1.5, an: 6, mn: 5 },
+        { am: 2.5, k: 3, an: 4, mn: 3 },
+        { am: 6, k: 1.5, an: 8, mn: 5 },
+        { am: 3, k: 3.5, an: 4, mn: 2 },
+        { am: 4.5, k: 2, an: 5.5, mn: 3.5 },
+        { am: 5, k: 3, an: 7, mn: 4 },
+        { am: 4, k: 4, an: 5, mn: 3 },
+        { am: 2.5, k: 4, an: 3.5, mn: 2 },
+        { am: 6, k: 2.5, an: 4, mn: 5 }
+      ];
+      const p = this.randChoice(pairs);
+      const am = p.am;
+      const ab = +(p.am * p.k).toFixed(2);
+      const an = p.an;
+      const ac = +(p.an * p.k).toFixed(2);
+      const mn = p.mn;
+      const bc = +(p.mn * p.k).toFixed(2);
 
       if (vtype === 'find_ac') {
+        const figSvg = this.buildThalesEmboiteSvg({
+          A: "A", B: "B", C: "C", M: "M", N: "N",
+          lengths: { AM: am, AB: ab, AN: an, AC: '?' }
+        });
         return {
           chapterId: 'G1',
           tier: 1,
           title: "Thalès direct : calcul de AC (Configuration emboîtée)",
-          statement: `Soit un triangle $ABC$ avec $M \\in [AB]$, $N \\in [AC]$ et $(MN) \\parallel (BC)$.\nOn donne $AM = ${am}\\text{ cm}$, $AB = ${ab}\\text{ cm}$ et $AN = ${an}\\text{ cm}$.\n**Calculer la longueur $AC$ en cm.**`,
+          statement: `${figSvg}Soit un triangle $ABC$ avec $M \\in [AB]$, $N \\in [AC]$ et $(MN) \\parallel (BC)$.\nOn donne $AM = ${am}\\text{ cm}$, $AB = ${ab}\\text{ cm}$ et $AN = ${an}\\text{ cm}$.\n**Calculer la longueur $AC$ en cm.**`,
           type: 'exact',
           answer: String(ac),
           placeholder: `Ex: ${ac}`,
@@ -2170,11 +2702,15 @@ window.MathsGenerators = {
           solution: `Les points $A, M, B$ et $A, N, C$ sont alignés dans cet ordre, et $(MN) \\parallel (BC)$.\nD'après le théorème de Thalès :\n$$\\frac{AM}{AB} = \\frac{AN}{AC} \\implies \\frac{${am}}{${ab}} = \\frac{${an}}{AC}$$\n$$AC = \\frac{${ab} \\times ${an}}{${am}} = ${ac}\\text{ cm}$$`
         };
       } else if (vtype === 'find_an') {
+        const figSvg = this.buildThalesEmboiteSvg({
+          A: "A", B: "B", C: "C", M: "M", N: "N",
+          lengths: { AM: am, AB: ab, AC: ac, AN: '?' }
+        });
         return {
           chapterId: 'G1',
           tier: 1,
           title: "Thalès direct : calcul de AN (Configuration emboîtée)",
-          statement: `Dans un triangle $ABC$, $M \\in [AB]$, $N \\in [AC]$ et $(MN) \\parallel (BC)$.\nOn sait que $AM = ${am}\\text{ cm}$, $AB = ${ab}\\text{ cm}$ et $AC = ${ac}\\text{ cm}$.\n**Calculer la longueur $AN$ en cm.**`,
+          statement: `${figSvg}Dans un triangle $ABC$, $M \\in [AB]$, $N \\in [AC]$ et $(MN) \\parallel (BC)$.\nOn sait que $AM = ${am}\\text{ cm}$, $AB = ${ab}\\text{ cm}$ et $AC = ${ac}\\text{ cm}$.\n**Calculer la longueur $AN$ en cm.**`,
           type: 'exact',
           answer: String(an),
           placeholder: `Ex: ${an}`,
@@ -2182,11 +2718,15 @@ window.MathsGenerators = {
           solution: `D'après le théorème de Thalès :\n$$\\frac{AN}{AC} = \\frac{AM}{AB} \\implies AN = \\frac{${am} \\times ${ac}}{${ab}} = ${an}\\text{ cm}$$`
         };
       } else {
+        const figSvg = this.buildThalesEmboiteSvg({
+          A: "A", B: "B", C: "C", M: "M", N: "N",
+          lengths: { AM: am, AB: ab, MN: mn, BC: '?' }
+        });
         return {
           chapterId: 'G1',
           tier: 1,
           title: "Thalès direct : calcul de la base BC",
-          statement: `Dans le triangle $ABC$, $M \\in [AB]$, $N \\in [AC]$ et $(MN) \\parallel (BC)$.\nOn donne $AM = ${am}\\text{ cm}$, $AB = ${ab}\\text{ cm}$ et $MN = ${mn}\\text{ cm}$.\n**Calculer la longueur $BC$ en cm.**`,
+          statement: `${figSvg}Dans le triangle $ABC$, $M \\in [AB]$, $N \\in [AC]$ et $(MN) \\parallel (BC)$.\nOn donne $AM = ${am}\\text{ cm}$, $AB = ${ab}\\text{ cm}$ et $MN = ${mn}\\text{ cm}$.\n**Calculer la longueur $BC$ en cm.**`,
           type: 'exact',
           answer: String(bc),
           placeholder: `Ex: ${bc}`,
@@ -2195,20 +2735,99 @@ window.MathsGenerators = {
         };
       }
     } else if (t === 2) {
-      const vtype = this.randChoice(['sum_segment', 'diff_segment']);
-      const mult = this.randChoice([2, 3]);
-      const trueAm = this.randInt(3, 7);
-      const trueMb = trueAm * (mult - 1);
-      const trueAb = trueAm * mult;
-      const mn = this.randInt(3, 7);
-      const trueBc = mn * mult;
+      const subType = this.randChoice(['reciproque_emboite', 'contraposee_emboite', 'sum_segment', 'diff_segment']);
 
-      if (vtype === 'sum_segment') {
+      if (subType === 'reciproque_emboite') {
+        const recipEmboitePairs = [
+          { am: 3, ab: 7.5, an: 4, ac: 10, rStr: "0{,}4" },
+          { am: 2.5, ab: 5, an: 3.5, ac: 7, rStr: "0{,}5" },
+          { am: 4, ab: 10, an: 6, ac: 15, rStr: "0{,}4" },
+          { am: 3, ab: 12, an: 2.5, ac: 10, rStr: "0{,}25" },
+          { am: 4.5, ab: 9, an: 3, ac: 6, rStr: "0{,}5" },
+          { am: 3.5, ab: 14, an: 2, ac: 8, rStr: "0{,}25" },
+          { am: 5, ab: 8, an: 7.5, ac: 12, rStr: "0{,}625" },
+          { am: 4.8, ab: 12, an: 3.2, ac: 8, rStr: "0{,}4" },
+          { am: 6, ab: 15, an: 4, ac: 10, rStr: "0{,}4" }
+        ];
+        const item = this.randChoice(recipEmboitePairs);
+        const figSvg = this.buildThalesEmboiteSvg({
+          A: "A", B: "B", C: "C", M: "M", N: "N",
+          lengths: { AM: item.am, AB: item.ab, AN: item.an, AC: item.ac }
+        });
+        const correctOpt = "Oui, les droites (MN) et (BC) sont parallèles";
+        const wrongOpt = "Non, les droites (MN) et (BC) ne sont pas parallèles";
+        const opts = this.shuffle([correctOpt, wrongOpt]);
+        return {
+          chapterId: 'G1',
+          tier: 2,
+          title: "Réciproque du théorème de Thalès (Configuration emboîtée)",
+          statement: `${figSvg}Soit un triangle $ABC$. Les points $A, M, B$ d'une part et $A, N, C$ d'autre part sont alignés dans cet ordre.\nOn donne $AM = ${item.am}\\text{ cm}$, $AB = ${item.ab}\\text{ cm}$, $AN = ${item.an}\\text{ cm}$ et $AC = ${item.ac}\\text{ cm}$.\n**Les droites $(MN)$ et $(BC)$ sont-elles parallèles ?**`,
+          type: "mcq",
+          options: opts,
+          answer: correctOpt,
+          correctIndex: opts.indexOf(correctOpt),
+          hint1: `Calcule séparément $\\frac{AM}{AB} = \\frac{${item.am}}{${item.ab}}$ et $\\frac{AN}{AC} = \\frac{${item.an}}{${item.ac}}$. Compare les deux quotients.`,
+          solution: `Les points $A, M, B$ d'une part et $A, N, C$ d'autre part sont alignés dans cet ordre.\n1. D'une part : $$\\frac{AM}{AB} = \\frac{${item.am}}{${item.ab}} = ${item.rStr}$$\n2. D'autre part : $$\\frac{AN}{AC} = \\frac{${item.an}}{${item.ac}} = ${item.rStr}$$\n3. Comme $\\frac{AM}{AB} = \\frac{AN}{AC}$ et que les points sont alignés dans le même ordre, d'après la **réciproque du théorème de Thalès**, les droites $(MN)$ et $(BC)$ sont **parallèles**.`
+        };
+      } else if (subType === 'contraposee_emboite') {
+        const contraEmboitePairs = [
+          { am: 3, ab: 8, an: 4, ac: 10, r1: "0{,}375", r2: "0{,}4", cp1: "3 \\times 10 = 30", cp2: "8 \\times 4 = 32" },
+          { am: 2.5, ab: 6, an: 3, ac: 7, r1: "\\approx 0{,}417", r2: "\\approx 0{,}429", cp1: "2{,}5 \\times 7 = 17{,}5", cp2: "6 \\times 3 = 18" },
+          { am: 4, ab: 9, an: 5, ac: 10, r1: "\\approx 0{,}444", r2: "0{,}5", cp1: "4 \\times 10 = 40", cp2: "9 \\times 5 = 45" },
+          { am: 5, ab: 12, an: 4, ac: 10, r1: "\\approx 0{,}417", r2: "0{,}4", cp1: "5 \\times 10 = 50", cp2: "12 \\times 4 = 48" },
+          { am: 3.5, ab: 8, an: 4, ac: 10, r1: "0{,}4375", r2: "0{,}4", cp1: "3{,}5 \\times 10 = 35", cp2: "8 \\times 4 = 32" },
+          { am: 6, ab: 15, an: 5, ac: 12, r1: "0{,}4", r2: "\\approx 0{,}417", cp1: "6 \\times 12 = 72", cp2: "15 \\times 5 = 75" },
+          { am: 4, ab: 10, an: 5, ac: 11, r1: "0{,}4", r2: "\\approx 0{,}455", cp1: "4 \\times 11 = 44", cp2: "10 \\times 5 = 50" }
+        ];
+        const item = this.randChoice(contraEmboitePairs);
+        const figSvg = this.buildThalesEmboiteSvg({
+          A: "A", B: "B", C: "C", M: "M", N: "N",
+          lengths: { AM: item.am, AB: item.ab, AN: item.an, AC: item.ac }
+        });
+        const correctOpt = "Non, les droites (MN) et (BC) ne sont pas parallèles";
+        const wrongOpt = "Oui, les droites (MN) et (BC) sont parallèles";
+        const opts = this.shuffle([correctOpt, wrongOpt]);
+        return {
+          chapterId: 'G1',
+          tier: 2,
+          title: "Contraposée du théorème de Thalès (Configuration emboîtée)",
+          statement: `${figSvg}Soit un triangle $ABC$. Les points $A, M, B$ d'une part et $A, N, C$ d'autre part sont alignés dans cet ordre.\nOn donne $AM = ${item.am}\\text{ cm}$, $AB = ${item.ab}\\text{ cm}$, $AN = ${item.an}\\text{ cm}$ et $AC = ${item.ac}\\text{ cm}$.\n**Les droites $(MN)$ et $(BC)$ sont-elles parallèles ?**`,
+          type: "mcq",
+          options: opts,
+          answer: correctOpt,
+          correctIndex: opts.indexOf(correctOpt),
+          hint1: `Calcule séparément $\\frac{AM}{AB} = \\frac{${item.am}}{${item.ab}}$ et $\\frac{AN}{AC} = \\frac{${item.an}}{${item.ac}}$. Les quotients sont-ils égaux ?`,
+          solution: `Les points $A, M, B$ d'une part et $A, N, C$ d'autre part sont alignés dans cet ordre.\n1. D'une part : $$\\frac{AM}{AB} = \\frac{${item.am}}{${item.ab}} = ${item.r1}$$\n2. D'autre part : $$\\frac{AN}{AC} = \\frac{${item.an}}{${item.ac}} = ${item.r2}$$\n*(Vérification par produit en croix : $${item.cp1}$ et $${item.cp2}$ ; les produits en croix sont distincts)*.\n3. Comme $\\frac{AM}{AB} \\neq \\frac{AN}{AC}$, d'après la **contraposée du théorème de Thalès**, les droites $(MN)$ et $(BC)$ **ne sont pas parallèles**.`
+        };
+      } else if (subType === 'sum_segment') {
+        const candidates = [
+          { am: 3, mult: 2.5, mn: 4 },
+          { am: 2.5, mult: 3, mn: 3 },
+          { am: 4, mult: 2, mn: 3.5 },
+          { am: 3.5, mult: 2, mn: 4 },
+          { am: 4, mult: 1.5, mn: 5 },
+          { am: 6, mult: 1.5, mn: 4 },
+          { am: 5, mult: 2, mn: 4.5 },
+          { am: 4, mult: 3, mn: 3 },
+          { am: 3, mult: 4, mn: 2.5 },
+          { am: 5, mult: 3, mn: 4 }
+        ];
+        const c = this.randChoice(candidates);
+        const trueAm = c.am;
+        const trueAb = +(c.am * c.mult).toFixed(2);
+        const trueMb = +(trueAb - trueAm).toFixed(2);
+        const mn = c.mn;
+        const trueBc = +(c.mn * c.mult).toFixed(2);
+
+        const figSvg = this.buildThalesEmboiteSvg({
+          A: "A", B: "B", C: "C", M: "M", N: "N",
+          lengths: { AM: trueAm, MB: trueMb, MN: mn, BC: '?' }
+        });
         return {
           chapterId: 'G1',
           tier: 2,
           title: "Thalès avec calcul de longueur totale",
-          statement: `Dans le triangle $ABC$, $M \\in [AB]$, $N \\in [AC]$ et $(MN) \\parallel (BC)$.\nOn donne $AM = ${trueAm}\\text{ cm}$, $MB = ${trueMb}\\text{ cm}$ et $MN = ${mn}\\text{ cm}$.\n**Calculer la longueur de la base $BC$ en cm.**`,
+          statement: `${figSvg}Dans le triangle $ABC$, $M \\in [AB]$, $N \\in [AC]$ et $(MN) \\parallel (BC)$.\nOn donne $AM = ${trueAm}\\text{ cm}$, $MB = ${trueMb}\\text{ cm}$ et $MN = ${mn}\\text{ cm}$.\n**Calculer la longueur de la base $BC$ en cm.**`,
           type: 'exact',
           answer: String(trueBc),
           placeholder: `Ex: ${trueBc}`,
@@ -2216,11 +2835,33 @@ window.MathsGenerators = {
           solution: `1. Calcul de $AB$ : $AB = AM + MB = ${trueAm} + ${trueMb} = ${trueAb}\\text{ cm}$.\n2. D'après le théorème de Thalès :\n$$\\frac{AM}{AB} = \\frac{MN}{BC} \\implies \\frac{${trueAm}}{${trueAb}} = \\frac{${mn}}{BC}$$\n$$BC = \\frac{${trueAb} \\times ${mn}}{${trueAm}} = ${trueBc}\\text{ cm}$$`
         };
       } else {
+        const candidates = [
+          { am: 3, mult: 2.5, mn: 4 },
+          { am: 2.5, mult: 3, mn: 3 },
+          { am: 4, mult: 2, mn: 3.5 },
+          { am: 3.5, mult: 2, mn: 4 },
+          { am: 4, mult: 1.5, mn: 5 },
+          { am: 6, mult: 1.5, mn: 4 },
+          { am: 5, mult: 2, mn: 4.5 },
+          { am: 4, mult: 3, mn: 3 },
+          { am: 3, mult: 4, mn: 2.5 },
+          { am: 5, mult: 3, mn: 4 }
+        ];
+        const c = this.randChoice(candidates);
+        const trueAm = c.am;
+        const trueAb = +(c.am * c.mult).toFixed(2);
+        const mn = c.mn;
+        const trueBc = +(c.mn * c.mult).toFixed(2);
+
+        const figSvg = this.buildThalesEmboiteSvg({
+          A: "A", B: "B", C: "C", M: "M", N: "N",
+          lengths: { AB: trueAb, AM: trueAm, BC: trueBc, MN: '?' }
+        });
         return {
           chapterId: 'G1',
           tier: 2,
           title: "Thalès avec soustraction préalable",
-          statement: `Dans le triangle $ABC$, $M \\in [AB]$, $N \\in [AC]$ et $(MN) \\parallel (BC)$.\nOn donne $AB = ${trueAb}\\text{ cm}$, $AM = ${trueAm}\\text{ cm}$ et $BC = ${trueBc}\\text{ cm}$.\n**Calculer la longueur $MN$ en cm.**`,
+          statement: `${figSvg}Dans le triangle $ABC$, $M \\in [AB]$, $N \\in [AC]$ et $(MN) \\parallel (BC)$.\nOn donne $AB = ${trueAb}\\text{ cm}$, $AM = ${trueAm}\\text{ cm}$ et $BC = ${trueBc}\\text{ cm}$.\n**Calculer la longueur $MN$ en cm.**`,
           type: 'exact',
           answer: String(mn),
           placeholder: `Ex: ${mn}`,
@@ -2229,23 +2870,167 @@ window.MathsGenerators = {
         };
       }
     } else if (t === 3) {
-      const k = this.randChoice([1.5, 2, 2.5, 3]);
-      const oa = this.randInt(2, 6) * 2;
-      const ob = oa * k;
-      const om = this.randInt(2, 5) * 2;
-      const on = om * k;
+      const subType = this.randChoice([
+        'papillon_calc',
+        'reciproque_papillon',
+        'contraposee_papillon',
+        'reciproque_emboite_brevet',
+        'contraposee_emboite_brevet'
+      ]);
 
-      return {
-        chapterId: 'G1',
-        tier: 3,
-        title: "Thalès en configuration papillon (Droites sécantes)",
-        statement: `Les droites $(AB)$ et $(CD)$ sont sécantes en $O$, et $(AC) \\parallel (BD)$.\nOn donne $OA = ${oa}\\text{ cm}$, $OB = ${ob}\\text{ cm}$ et $OC = ${om}\\text{ cm}$.\n**Calculer la longueur $OD$ en cm.**`,
-        type: 'exact',
-        answer: String(on),
-        placeholder: `Ex: ${on}`,
-        hint1: `Dans la configuration papillon de sommet $O$ : $\\frac{OA}{OB} = \\frac{OC}{OD}$.`,
-        solution: `Les droites $(AB)$ et $(CD)$ sont sécantes en $O$, et $(AC) \\parallel (BD)$.\nD'après le théorème de Thalès :\n$$\\frac{OA}{OB} = \\frac{OC}{OD} \\implies \\frac{${oa}}{${ob}} = \\frac{${om}}{OD}$$\n$$OD = \\frac{${ob} \\times ${om}}{${oa}} = ${on}\\text{ cm}$$`
-      };
+      if (subType === 'papillon_calc') {
+        const papPairs = [
+          { oa: 3, k: 2, om: 2 },
+          { oa: 4, k: 1.5, om: 6 },
+          { oa: 4, k: 2.5, om: 2 },
+          { oa: 5, k: 2, om: 3.5 },
+          { oa: 6, k: 1.5, om: 4 },
+          { oa: 3, k: 3, om: 2.5 },
+          { oa: 4.5, k: 2, om: 3 },
+          { oa: 2.5, k: 4, om: 2 },
+          { oa: 6, k: 2.5, om: 4 },
+          { oa: 8, k: 1.5, om: 6 }
+        ];
+        const pp = this.randChoice(papPairs);
+        const oa = pp.oa;
+        const ob = +(pp.oa * pp.k).toFixed(2);
+        const om = pp.om;
+        const on = +(pp.om * pp.k).toFixed(2);
+
+        const figSvg = this.buildThalesPapillonSvg({
+          O: "O", A: "A", B: "B", C: "C", D: "D",
+          par1: "AC", par2: "BD",
+          lengths: { OA: oa, OB: ob, OC: om, OD: '?' }
+        });
+
+        return {
+          chapterId: 'G1',
+          tier: 3,
+          title: "Thalès en configuration papillon (Droites sécantes)",
+          statement: `${figSvg}Les droites $(AB)$ et $(CD)$ sont sécantes en $O$, et $(AC) \\parallel (BD)$.\nOn donne $OA = ${oa}\\text{ cm}$, $OB = ${ob}\\text{ cm}$ et $OC = ${om}\\text{ cm}$.\n**Calculer la longueur $OD$ en cm.**`,
+          type: 'exact',
+          answer: String(on),
+          placeholder: `Ex: ${on}`,
+          hint1: `Dans la configuration papillon de sommet $O$ : $\\frac{OA}{OB} = \\frac{OC}{OD}$.`,
+          solution: `Les droites $(AB)$ et $(CD)$ sont sécantes en $O$, et $(AC) \\parallel (BD)$.\nD'après le théorème de Thalès :\n$$\\frac{OA}{OB} = \\frac{OC}{OD} \\implies \\frac{${oa}}{${ob}} = \\frac{${om}}{OD}$$\n$$OD = \\frac{${ob} \\times ${om}}{${oa}} = ${on}\\text{ cm}$$`
+        };
+      } else if (subType === 'reciproque_papillon') {
+        const recipPapPairs = [
+          { oa: 4, ob: 6, oc: 6, od: 9, rStr: "\\frac{2}{3}" },
+          { oa: 3, ob: 7.5, oc: 4, od: 10, rStr: "0{,}4" },
+          { oa: 5, ob: 10, oc: 3.5, od: 7, rStr: "0{,}5" },
+          { oa: 4, ob: 10, oc: 6, od: 15, rStr: "0{,}4" },
+          { oa: 6, ob: 8, oc: 9, od: 12, rStr: "0{,}75" },
+          { oa: 2.5, ob: 5, oc: 4, od: 8, rStr: "0{,}5" },
+          { oa: 4.5, ob: 9, oc: 3, od: 6, rStr: "0{,}5" }
+        ];
+        const item = this.randChoice(recipPapPairs);
+        const figSvg = this.buildThalesPapillonSvg({
+          O: "O", A: "A", B: "B", C: "C", D: "D",
+          par1: "AC", par2: "BD",
+          lengths: { OA: item.oa, OB: item.ob, OC: item.oc, OD: item.od }
+        });
+        const correctOpt = "Oui, les droites (AC) et (BD) sont parallèles";
+        const wrongOpt = "Non, les droites (AC) et (BD) ne sont pas parallèles";
+        const opts = this.shuffle([correctOpt, wrongOpt]);
+        return {
+          chapterId: 'G1',
+          tier: 3,
+          title: "Réciproque du théorème de Thalès (Configuration papillon)",
+          statement: `${figSvg}Les droites $(AB)$ et $(CD)$ sont sécantes en $O$. Les points $A, O, B$ d'une part et $C, O, D$ d'autre part sont alignés dans cet ordre.\nOn donne $OA = ${item.oa}\\text{ cm}$, $OB = ${item.ob}\\text{ cm}$, $OC = ${item.oc}\\text{ cm}$ et $OD = ${item.od}\\text{ cm}$.\n**Les droites $(AC)$ et $(BD)$ sont-elles parallèles ?**`,
+          type: "mcq",
+          options: opts,
+          answer: correctOpt,
+          correctIndex: opts.indexOf(correctOpt),
+          hint1: `Calcule séparément $\\frac{OA}{OB} = \\frac{${item.oa}}{${item.ob}}$ et $\\frac{OC}{OD} = \\frac{${item.oc}}{${item.od}}$.`,
+          solution: `Les droites $(AB)$ et $(CD)$ sont sécantes en $O$. Les points $A, O, B$ d'une part et $C, O, D$ d'autre part sont alignés dans cet ordre.\n1. D'une part : $$\\frac{OA}{OB} = \\frac{${item.oa}}{${item.ob}} = ${item.rStr}$$\n2. D'autre part : $$\\frac{OC}{OD} = \\frac{${item.oc}}{${item.od}} = ${item.rStr}$$\n3. Comme $\\frac{OA}{OB} = \\frac{OC}{OD}$ et que les points sont alignés dans le même ordre, d'après la **réciproque du théorème de Thalès**, les droites $(AC)$ et $(BD)$ sont **parallèles**.`
+        };
+      } else if (subType === 'contraposee_papillon') {
+        const contraPapPairs = [
+          { oa: 4, ob: 9, oc: 5, od: 10, r1: "\\approx 0{,}444", r2: "0{,}5", cp1: "4 \\times 10 = 40", cp2: "9 \\times 5 = 45" },
+          { oa: 3, ob: 8, oc: 4, od: 10, r1: "0{,}375", r2: "0{,}4", cp1: "3 \\times 10 = 30", cp2: "8 \\times 4 = 32" },
+          { oa: 6, ob: 15, oc: 5, od: 12, r1: "0{,}4", r2: "\\approx 0{,}417", cp1: "6 \\times 12 = 72", cp2: "15 \\times 5 = 75" },
+          { oa: 3.5, ob: 8, oc: 4, od: 10, r1: "0{,}4375", r2: "0{,}4", cp1: "3{,}5 \\times 10 = 35", cp2: "8 \\times 4 = 32" },
+          { oa: 5, ob: 8, oc: 7, od: 11, r1: "0{,}625", r2: "\\approx 0{,}636", cp1: "5 \\times 11 = 55", cp2: "8 \\times 7 = 56" }
+        ];
+        const item = this.randChoice(contraPapPairs);
+        const figSvg = this.buildThalesPapillonSvg({
+          O: "O", A: "A", B: "B", C: "C", D: "D",
+          par1: "AC", par2: "BD",
+          lengths: { OA: item.oa, OB: item.ob, OC: item.oc, OD: item.od }
+        });
+        const correctOpt = "Non, les droites (AC) et (BD) ne sont pas parallèles";
+        const wrongOpt = "Oui, les droites (AC) et (BD) sont parallèles";
+        const opts = this.shuffle([correctOpt, wrongOpt]);
+        return {
+          chapterId: 'G1',
+          tier: 3,
+          title: "Contraposée du théorème de Thalès (Configuration papillon)",
+          statement: `${figSvg}Les droites $(AB)$ et $(CD)$ sont sécantes en $O$. Les points $A, O, B$ d'une part et $C, O, D$ d'autre part sont alignés dans cet ordre.\nOn donne $OA = ${item.oa}\\text{ cm}$, $OB = ${item.ob}\\text{ cm}$, $OC = ${item.oc}\\text{ cm}$ et $OD = ${item.od}\\text{ cm}$.\n**Les droites $(AC)$ et $(BD)$ sont-elles parallèles ?**`,
+          type: "mcq",
+          options: opts,
+          answer: correctOpt,
+          correctIndex: opts.indexOf(correctOpt),
+          hint1: `Calcule séparément $\\frac{OA}{OB} = \\frac{${item.oa}}{${item.ob}}$ et $\\frac{OC}{OD} = \\frac{${item.oc}}{${item.od}}$.`,
+          solution: `Les droites $(AB)$ et $(CD)$ sont sécantes en $O$. Les points $A, O, B$ d'une part et $C, O, D$ d'autre part sont alignés dans cet ordre.\n1. D'une part : $$\\frac{OA}{OB} = \\frac{${item.oa}}{${item.ob}} = ${item.r1}$$\n2. D'autre part : $$\\frac{OC}{OD} = \\frac{${item.oc}}{${item.od}} = ${item.r2}$$\n*(Vérification par produit en croix : $${item.cp1}$ et $${item.cp2}$ ; les produits en croix sont différents)*.\n3. Comme $\\frac{OA}{OB} \\neq \\frac{OC}{OD}$, d'après la **contraposée du théorème de Thalès**, les droites $(AC)$ et $(BD)$ **ne sont pas parallèles**.`
+        };
+      } else if (subType === 'reciproque_emboite_brevet') {
+        const brevetRecipPairs = [
+          { am: 3, mb: 4.5, an: 4, nc: 6, ab: 7.5, ac: 10, rStr: "0{,}4" },
+          { am: 2.5, mb: 2.5, an: 3.5, nc: 3.5, ab: 5, ac: 7, rStr: "0{,}5" },
+          { am: 4, mb: 6, an: 6, nc: 9, ab: 10, ac: 15, rStr: "0{,}4" },
+          { am: 3, mb: 9, an: 2.5, nc: 7.5, ab: 12, ac: 10, rStr: "0{,}25" },
+          { am: 4.5, mb: 4.5, an: 3, nc: 3, ab: 9, ac: 6, rStr: "0{,}5" },
+          { am: 5, mb: 3, an: 7.5, nc: 4.5, ab: 8, ac: 12, rStr: "0{,}625" }
+        ];
+        const item = this.randChoice(brevetRecipPairs);
+        const figSvg = this.buildThalesEmboiteSvg({
+          A: "A", B: "B", C: "C", M: "M", N: "N",
+          lengths: { AM: item.am, MB: item.mb, AN: item.an, AC: item.ac }
+        });
+        const correctOpt = "Oui, les droites (MN) et (BC) sont parallèles";
+        const wrongOpt = "Non, les droites (MN) et (BC) ne sont pas parallèles";
+        const opts = this.shuffle([correctOpt, wrongOpt]);
+        return {
+          chapterId: 'G1',
+          tier: 3,
+          title: "Réciproque de Thalès avec calcul préalable de longueur (Brevet)",
+          statement: `${figSvg}Soit un triangle $ABC$ avec $M \\in [AB]$ et $N \\in [AC]$. Les points $A, M, B$ d'une part et $A, N, C$ d'autre part sont alignés dans cet ordre.\nOn donne $AM = ${item.am}\\text{ cm}$, $MB = ${item.mb}\\text{ cm}$, $AN = ${item.an}\\text{ cm}$ et $AC = ${item.ac}\\text{ cm}$.\n**Les droites $(MN)$ et $(BC)$ sont-elles parallèles ?**`,
+          type: "mcq",
+          options: opts,
+          answer: correctOpt,
+          correctIndex: opts.indexOf(correctOpt),
+          hint1: `Calcule d'abord la longueur totale $AB = AM + MB = ${item.am} + ${item.mb} = ${item.ab}\\text{ cm}$. Puis compare $\\frac{AM}{AB}$ et $\\frac{AN}{AC}$.`,
+          solution: `1. Calcul de la longueur $AB$ : $AB = AM + MB = ${item.am} + ${item.mb} = ${item.ab}\\text{ cm}$.\n2. Les points $A, M, B$ et $A, N, C$ sont alignés dans cet ordre.\n• D'une part : $\\frac{AM}{AB} = \\frac{${item.am}}{${item.ab}} = ${item.rStr}$\n• D'autre part : $\\frac{AN}{AC} = \\frac{${item.an}}{${item.ac}} = ${item.rStr}$\n3. Comme $\\frac{AM}{AB} = \\frac{AN}{AC}$ et que les points sont alignés dans le même ordre, d'après la **réciproque du théorème de Thalès**, les droites $(MN)$ et $(BC)$ sont **parallèles**.`
+        };
+      } else {
+        const brevetContraPairs = [
+          { am: 3, mb: 5, an: 4, nc: 6, ab: 8, ac: 10, r1: "0{,}375", r2: "0{,}4", cp1: "3 \\times 10 = 30", cp2: "8 \\times 4 = 32" },
+          { am: 4, mb: 5, an: 5, nc: 5, ab: 9, ac: 10, r1: "\\approx 0{,}444", r2: "0{,}5", cp1: "4 \\times 10 = 40", cp2: "9 \\times 5 = 45" },
+          { am: 5, mb: 7, an: 4, nc: 6, ab: 12, ac: 10, r1: "\\approx 0{,}417", r2: "0{,}4", cp1: "5 \\times 10 = 50", cp2: "12 \\times 4 = 48" },
+          { am: 3.5, mb: 4.5, an: 4, nc: 6, ab: 8, ac: 10, r1: "0{,}4375", r2: "0{,}4", cp1: "3{,}5 \\times 10 = 35", cp2: "8 \\times 4 = 32" }
+        ];
+        const item = this.randChoice(brevetContraPairs);
+        const figSvg = this.buildThalesEmboiteSvg({
+          A: "A", B: "B", C: "C", M: "M", N: "N",
+          lengths: { AM: item.am, MB: item.mb, AN: item.an, AC: item.ac }
+        });
+        const correctOpt = "Non, les droites (MN) et (BC) ne sont pas parallèles";
+        const wrongOpt = "Oui, les droites (MN) et (BC) sont parallèles";
+        const opts = this.shuffle([correctOpt, wrongOpt]);
+        return {
+          chapterId: 'G1',
+          tier: 3,
+          title: "Contraposée de Thalès avec calcul préalable de longueur (Brevet)",
+          statement: `${figSvg}Soit un triangle $ABC$ avec $M \\in [AB]$ et $N \\in [AC]$. Les points $A, M, B$ d'une part et $A, N, C$ d'autre part sont alignés dans cet ordre.\nOn donne $AM = ${item.am}\\text{ cm}$, $MB = ${item.mb}\\text{ cm}$, $AN = ${item.an}\\text{ cm}$ et $AC = ${item.ac}\\text{ cm}$.\n**Les droites $(MN)$ et $(BC)$ sont-elles parallèles ?**`,
+          type: "mcq",
+          options: opts,
+          answer: correctOpt,
+          correctIndex: opts.indexOf(correctOpt),
+          hint1: `Calcule d'abord $AB = AM + MB = ${item.am} + ${item.mb} = ${item.ab}\\text{ cm}$. Puis compare $\\frac{AM}{AB}$ et $\\frac{AN}{AC}$.`,
+          solution: `1. Calcul de la longueur $AB$ : $AB = AM + MB = ${item.am} + ${item.mb} = ${item.ab}\\text{ cm}$.\n2. Les points $A, M, B$ et $A, N, C$ sont alignés dans cet ordre.\n• D'une part : $\\frac{AM}{AB} = \\frac{${item.am}}{${item.ab}} = ${item.r1}$\n• D'autre part : $\\frac{AN}{AC} = \\frac{${item.an}}{${item.ac}} = ${item.r2}$\n*(Produit en croix : $${item.cp1}$ et $${item.cp2}$ ; les produits en croix sont différents)*.\n3. Comme $\\frac{AM}{AB} \\neq \\frac{AN}{AC}$, d'après la **contraposée du théorème de Thalès**, les droites $(MN)$ et $(BC)$ **ne sont pas parallèles**.`
+        };
+      }
     } else {
       const b = this.randChoice([2, 3, 4]);
       const k = this.randInt(2, 5);
@@ -2255,11 +3040,16 @@ window.MathsGenerators = {
       const abVal = x + c;
       const acVal = a + b;
 
+      const figSvg = this.buildThalesEmboiteSvg({
+        A: "A", B: "B", C: "C", M: "M", N: "N",
+        lengths: { AM: 'x', MB: c, AN: a, NC: b }
+      });
+
       return {
         chapterId: 'G1',
         tier: 4,
         title: "Défi Seconde : Thalès algébrique avec inconnue $x$",
-        statement: `Dans un triangle $ABC$, $M \\in [AB]$, $N \\in [AC]$ et $(MN) \\parallel (BC)$.\nOn note $AM = x$. On sait que $MB = ${c}\\text{ cm}$, $AN = ${a}\\text{ cm}$ et $NC = ${b}\\text{ cm}$.\n*(On a donc $AB = x + ${c}$ et $AC = ${a} + ${b} = ${acVal}$)*\n\n**Résoudre l'égalité de Thalès pour trouver la valeur exacte de $x$.**`,
+        statement: `${figSvg}Dans un triangle $ABC$, $M \\in [AB]$, $N \\in [AC]$ et $(MN) \\parallel (BC)$.\nOn note $AM = x$. On sait que $MB = ${c}\\text{ cm}$, $AN = ${a}\\text{ cm}$ et $NC = ${b}\\text{ cm}$.\n*(On a donc $AB = x + ${c}$ et $AC = ${a} + ${b} = ${acVal}$)*\n\n**Résoudre l'égalité de Thalès pour trouver la valeur exacte de $x$.**`,
         type: 'exact',
         answer: String(x),
         placeholder: `Ex: ${x}`,
@@ -5190,11 +5980,21 @@ window.MathsGenerators = {
         const wrong3 = `${tri.hyp} = ${tri.c1} + ${tri.c2}`;
         const opts = this.shuffle([correct, wrong1, wrong2, wrong3]);
 
+        const figSvg = this.buildRightTriangleSvg({
+          name: tri.name,
+          right: tri.right,
+          hyp: tri.hyp,
+          s1: tri.c1,
+          s2: tri.c2,
+          showRightAngle: true,
+          orientation: this.randInt(0, 3)
+        });
+
         return {
           chapterId: '4G1',
           tier: 1,
           title: "Égalité de Pythagore (Triangle rectangle)",
-          statement: `Soit un triangle $${tri.name}$ rectangle en $${tri.right}$.\nQuelle est la relation de Pythagore correcte ?`,
+          statement: `${figSvg}Soit un triangle $${tri.name}$ rectangle en $${tri.right}$.\nQuelle est la relation de Pythagore correcte ?`,
           type: "mcq",
           answer: correct,
           options: opts,
@@ -5212,11 +6012,22 @@ window.MathsGenerators = {
         const tri = this.randChoice(triangles);
         const fakeOpt = `[${tri.right}H]`;
         const opts = this.shuffle([tri.hyp, tri.other1, tri.other2, fakeOpt]);
+
+        const figSvg = this.buildRightTriangleSvg({
+          name: tri.name,
+          right: tri.right,
+          hyp: tri.hyp.replace(/[\[\]]/g, ''),
+          s1: tri.other1.replace(/[\[\]]/g, ''),
+          s2: tri.other2.replace(/[\[\]]/g, ''),
+          showRightAngle: true,
+          orientation: this.randInt(0, 3)
+        });
+
         return {
           chapterId: '4G1',
           tier: 1,
           title: "Identifier l'hypoténuse d'un triangle rectangle",
-          statement: `Soit un triangle $${tri.name}$ rectangle en $${tri.right}$.\n**Quel est le nom de son hypoténuse ?**`,
+          statement: `${figSvg}Soit un triangle $${tri.name}$ rectangle en $${tri.right}$.\n**Quel est le nom de son hypoténuse ?**`,
           type: "mcq",
           options: opts,
           answer: tri.hyp,
@@ -5248,7 +6059,7 @@ window.MathsGenerators = {
         };
       }
     } else if (t === 2) {
-      // Palier 2 : Guidé (Calcul hypoténuse triplet direct)
+      // Palier 2 : Guidé (Calcul hypoténuse triplets variés)
       const triplets = [
         { a: 3, b: 4, c: 5 },
         { a: 6, b: 8, c: 10 },
@@ -5257,9 +6068,16 @@ window.MathsGenerators = {
         { a: 9, b: 12, c: 15 },
         { a: 12, b: 16, c: 20 },
         { a: 7, b: 24, c: 25 },
-        { a: 10, b: 24, c: 26 }
+        { a: 10, b: 24, c: 26 },
+        { a: 15, b: 20, c: 25 },
+        { a: 1.5, b: 2, c: 2.5 },
+        { a: 4.5, b: 6, c: 7.5 },
+        { a: 2.5, b: 6, c: 6.5 }
       ];
       const trip = this.randChoice(triplets);
+      const swap = Math.random() < 0.5;
+      const leg1 = swap ? trip.b : trip.a;
+      const leg2 = swap ? trip.a : trip.b;
       const names = [
         { tri: "ABC", r: "A", s1: "AB", s2: "AC", hyp: "BC" },
         { tri: "DEF", r: "D", s1: "DE", s2: "DF", hyp: "EF" },
@@ -5268,49 +6086,201 @@ window.MathsGenerators = {
       ];
       const n = this.randChoice(names);
 
+      const figSvg = this.buildRightTriangleSvg({
+        name: n.tri,
+        right: n.r,
+        hyp: n.hyp,
+        s1: n.s1,
+        s2: n.s2,
+        lenS1: leg1,
+        lenS2: leg2,
+        lenHyp: '?',
+        unknown: 'hyp',
+        orientation: this.randInt(0, 3)
+      });
+
+      const leg1Sq = +(leg1 * leg1).toFixed(2);
+      const leg2Sq = +(leg2 * leg2).toFixed(2);
+      const hypSq = +(trip.c * trip.c).toFixed(2);
+
       return {
         chapterId: '4G1',
         tier: 2,
         title: "Calcul de l'hypoténuse",
-        statement: `Dans un triangle $${n.tri}$ rectangle en $${n.r}$, on a $${n.s1} = ${trip.a}\\text{ cm}$ et $${n.s2} = ${trip.b}\\text{ cm}$.\n**Calculer la longueur de l'hypoténuse $${n.hyp}$.**`,
+        statement: `${figSvg}Dans un triangle $${n.tri}$ rectangle en $${n.r}$, on a $${n.s1} = ${leg1}\\text{ cm}$ et $${n.s2} = ${leg2}\\text{ cm}$.\n**Calculer la longueur de l'hypoténuse $${n.hyp}$.**`,
         type: "exact",
         answer: String(trip.c),
         placeholder: `Ex: ${trip.c}`,
-        hint1: `D'après Pythagore : $${n.hyp}^2 = ${n.s1}^2 + ${n.s2}^2 = ${trip.a*trip.a} + ${trip.b*trip.b}$.`,
-        solution: `$$${n.hyp}^2 = ${trip.a}^2 + ${trip.b}^2 = ${trip.a*trip.a} + ${trip.b*trip.b} = ${trip.c*trip.c} \\implies ${n.hyp} = \\sqrt{${trip.c*trip.c}} = ${trip.c}\\text{ cm}$$`
+        hint1: `Dans le triangle $${n.tri}$ rectangle en $${n.r}$, d'après Pythagore : $${n.hyp}^2 = ${n.s1}^2 + ${n.s2}^2 = ${leg1Sq} + ${leg2Sq}$.`,
+        solution: `Dans le triangle $${n.tri}$ rectangle en $${n.r}$, d'après le théorème de Pythagore :\n$$${n.hyp}^2 = ${n.s1}^2 + ${n.s2}^2 = ${leg1}^2 + ${leg2}^2 = ${leg1Sq} + ${leg2Sq} = ${hypSq}$$\nComme $${n.hyp} > 0$ : $$${n.hyp} = \\sqrt{${hypSq}} = ${trip.c}\\text{ cm}$$`
       };
     } else if (t === 3) {
-      // Palier 3 : Brevet / 4e (Calcul d'un côté de l'angle droit)
-      const triplets = [
-        { a: 3, b: 4, c: 5 },
-        { a: 6, b: 8, c: 10 },
-        { a: 5, b: 12, c: 13 },
-        { a: 8, b: 15, c: 17 },
-        { a: 9, b: 12, c: 15 },
-        { a: 12, b: 16, c: 20 },
-        { a: 7, b: 24, c: 25 },
-        { a: 10, b: 24, c: 26 }
-      ];
-      const trip = this.randChoice(triplets);
-      const names = [
-        { tri: "RST", r: "S", hyp: "RT", s1: "RS", s2: "ST" },
-        { tri: "ABC", r: "B", hyp: "AC", s1: "AB", s2: "BC" },
-        { tri: "EFG", r: "F", hyp: "EG", s1: "EF", s2: "FG" },
-        { tri: "MNP", r: "M", hyp: "NP", s1: "MN", s2: "MP" }
-      ];
-      const n = this.randChoice(names);
+      // Palier 3 : Brevet / 4e (Calcul côté de l'angle droit, Réciproque et Contraposée de Pythagore)
+      const subType = this.randChoice(['calc_leg', 'reciproque', 'contraposee']);
 
-      return {
-        chapterId: '4G1',
-        tier: 3,
-        title: "Calcul d'un côté de l'angle droit",
-        statement: `Dans un triangle $${n.tri}$ rectangle en $${n.r}$, l'hypoténuse mesure $${n.hyp} = ${trip.c}\\text{ cm}$ et le côté $${n.s1} = ${trip.a}\\text{ cm}$.\n**Calculer la longueur du côté $${n.s2}$.**`,
-        type: "exact",
-        answer: String(trip.b),
-        placeholder: `Ex: ${trip.b}`,
-        hint1: `Isole $${n.s2}^2 = ${n.hyp}^2 - ${n.s1}^2 = ${trip.c*trip.c} - ${trip.a*trip.a}$.`,
-        solution: `$$${n.s2}^2 = ${n.hyp}^2 - ${n.s1}^2 = ${trip.c}^2 - ${trip.a}^2 = ${trip.c*trip.c} - ${trip.a*trip.a} = ${trip.b*trip.b} \\implies ${n.s2} = ${trip.b}\\text{ cm}$$`
-      };
+      if (subType === 'calc_leg') {
+        const triplets = [
+          { a: 3, b: 4, c: 5 },
+          { a: 6, b: 8, c: 10 },
+          { a: 5, b: 12, c: 13 },
+          { a: 8, b: 15, c: 17 },
+          { a: 9, b: 12, c: 15 },
+          { a: 12, b: 16, c: 20 },
+          { a: 7, b: 24, c: 25 },
+          { a: 10, b: 24, c: 26 },
+          { a: 1.5, b: 2, c: 2.5 },
+          { a: 4.5, b: 6, c: 7.5 },
+          { a: 2.5, b: 6, c: 6.5 }
+        ];
+        const trip = this.randChoice(triplets);
+        const names = [
+          { tri: "RST", r: "S", hyp: "RT", s1: "RS", s2: "ST" },
+          { tri: "ABC", r: "B", hyp: "AC", s1: "AB", s2: "BC" },
+          { tri: "EFG", r: "F", hyp: "EG", s1: "EF", s2: "FG" },
+          { tri: "MNP", r: "M", hyp: "NP", s1: "MN", s2: "MP" }
+        ];
+        const n = this.randChoice(names);
+
+        const figSvg = this.buildRightTriangleSvg({
+          name: n.tri,
+          right: n.r,
+          hyp: n.hyp,
+          s1: n.s1,
+          s2: n.s2,
+          lenHyp: trip.c,
+          lenS1: trip.a,
+          lenS2: '?',
+          unknown: 's2',
+          orientation: this.randInt(0, 3)
+        });
+
+        const hypSq = +(trip.c * trip.c).toFixed(2);
+        const s1Sq = +(trip.a * trip.a).toFixed(2);
+        const s2Sq = +(trip.b * trip.b).toFixed(2);
+
+        return {
+          chapterId: '4G1',
+          tier: 3,
+          title: "Calcul d'un côté de l'angle droit",
+          statement: `${figSvg}Dans un triangle $${n.tri}$ rectangle en $${n.r}$, l'hypoténuse mesure $${n.hyp} = ${trip.c}\\text{ cm}$ et le côté $${n.s1} = ${trip.a}\\text{ cm}$.\n**Calculer la longueur du côté $${n.s2}$.**`,
+          type: "exact",
+          answer: String(trip.b),
+          placeholder: `Ex: ${trip.b}`,
+          hint1: `Dans le triangle $${n.tri}$ rectangle en $${n.r}$, isole $${n.s2}^2 = ${n.hyp}^2 - ${n.s1}^2 = ${hypSq} - ${s1Sq}$.`,
+          solution: `Dans le triangle $${n.tri}$ rectangle en $${n.r}$, d'après le théorème de Pythagore :\n$$${n.hyp}^2 = ${n.s1}^2 + ${n.s2}^2 \\implies ${n.s2}^2 = ${n.hyp}^2 - ${n.s1}^2$$\n$$${n.s2}^2 = ${trip.c}^2 - ${trip.a}^2 = ${hypSq} - ${s1Sq} = ${s2Sq}$$\nComme $${n.s2} > 0$ : $$${n.s2} = \\sqrt{${s2Sq}} = ${trip.b}\\text{ cm}$$`
+        };
+      } else if (subType === 'reciproque') {
+        const triplets = [
+          { a: 3, b: 4, c: 5 },
+          { a: 6, b: 8, c: 10 },
+          { a: 5, b: 12, c: 13 },
+          { a: 8, b: 15, c: 17 },
+          { a: 9, b: 12, c: 15 },
+          { a: 12, b: 16, c: 20 },
+          { a: 7, b: 24, c: 25 },
+          { a: 1.5, b: 2, c: 2.5 },
+          { a: 4.5, b: 6, c: 7.5 },
+          { a: 2.5, b: 6, c: 6.5 }
+        ];
+        const trip = this.randChoice(triplets);
+        const names = [
+          { tri: "ABC", r: "A", s1: "AB", s2: "AC", hyp: "BC" },
+          { tri: "DEF", r: "D", s1: "DE", s2: "DF", hyp: "EF" },
+          { tri: "MNP", r: "M", hyp: "NP", s1: "MN", s2: "MP" },
+          { tri: "RST", r: "S", hyp: "RT", s1: "RS", s2: "ST" }
+        ];
+        const n = this.randChoice(names);
+
+        const figSvg = this.buildRightTriangleSvg({
+          name: n.tri,
+          right: n.r,
+          hyp: n.hyp,
+          s1: n.s1,
+          s2: n.s2,
+          lenHyp: trip.c,
+          lenS1: trip.a,
+          lenS2: trip.b,
+          unknown: null,
+          showRightAngle: false,
+          orientation: this.randInt(0, 3)
+        });
+
+        const hypSq = +(trip.c * trip.c).toFixed(2);
+        const s1Sq = +(trip.a * trip.a).toFixed(2);
+        const s2Sq = +(trip.b * trip.b).toFixed(2);
+
+        const correctOpt = `Oui, le triangle ${n.tri} est rectangle en ${n.r}`;
+        const wrongOpt = `Non, le triangle ${n.tri} n'est pas rectangle`;
+        const opts = this.shuffle([correctOpt, wrongOpt]);
+
+        return {
+          chapterId: '4G1',
+          tier: 3,
+          title: "Réciproque du théorème de Pythagore",
+          statement: `${figSvg}Soit un triangle $${n.tri}$ dont les côtés mesurent $${n.s1} = ${trip.a}\\text{ cm}$, $${n.s2} = ${trip.b}\\text{ cm}$ et $${n.hyp} = ${trip.c}\\text{ cm}$.\n**Ce triangle est-il rectangle ?**`,
+          type: "mcq",
+          options: opts,
+          answer: correctOpt,
+          correctIndex: opts.indexOf(correctOpt),
+          hint1: `Le plus long côté est $[${n.hyp}] = ${trip.c}\\text{ cm}$. Calcule $${n.hyp}^2$ d'une part, et $${n.s1}^2 + ${n.s2}^2$ d'autre part.`,
+          solution: `Dans le triangle $${n.tri}$, le plus long côté est $[${n.hyp}]$ :\n1. D'une part : $$${n.hyp}^2 = ${trip.c}^2 = ${hypSq}$$\n2. D'autre part : $$${n.s1}^2 + ${n.s2}^2 = ${trip.a}^2 + ${trip.b}^2 = ${s1Sq} + ${s2Sq} = ${hypSq}$$\n3. On constate que $${n.hyp}^2 = ${n.s1}^2 + ${n.s2}^2$.\nD'après la **réciproque du théorème de Pythagore**, le triangle $${n.tri}$ est **rectangle en $${n.r}$**.`
+        };
+      } else {
+        const nonTriplets = [
+          { a: 5, b: 6, c: 8 },
+          { a: 6, b: 7, c: 9 },
+          { a: 4, b: 7, c: 8 },
+          { a: 6, b: 8, c: 11 },
+          { a: 5, b: 7, c: 9 },
+          { a: 7, b: 9, c: 12 },
+          { a: 8, b: 10, c: 13 },
+          { a: 3, b: 5, c: 6 }
+        ];
+        const trip = this.randChoice(nonTriplets);
+        const names = [
+          { tri: "ABC", r: "A", s1: "AB", s2: "AC", hyp: "BC" },
+          { tri: "DEF", r: "D", s1: "DE", s2: "DF", hyp: "EF" },
+          { tri: "MNP", r: "M", hyp: "NP", s1: "MN", s2: "MP" },
+          { tri: "RST", r: "S", hyp: "RT", s1: "RS", s2: "ST" }
+        ];
+        const n = this.randChoice(names);
+
+        const figSvg = this.buildRightTriangleSvg({
+          name: n.tri,
+          right: n.r,
+          hyp: n.hyp,
+          s1: n.s1,
+          s2: n.s2,
+          lenHyp: trip.c,
+          lenS1: trip.a,
+          lenS2: trip.b,
+          unknown: null,
+          showRightAngle: false,
+          orientation: this.randInt(0, 3)
+        });
+
+        const hypSq = +(trip.c * trip.c).toFixed(2);
+        const s1Sq = +(trip.a * trip.a).toFixed(2);
+        const s2Sq = +(trip.b * trip.b).toFixed(2);
+        const sumSq = +(s1Sq + s2Sq).toFixed(2);
+
+        const correctOpt = `Non, le triangle ${n.tri} n'est pas rectangle`;
+        const wrongOpt = `Oui, le triangle ${n.tri} est rectangle en ${n.r}`;
+        const opts = this.shuffle([correctOpt, wrongOpt]);
+
+        return {
+          chapterId: '4G1',
+          tier: 3,
+          title: "Contraposée du théorème de Pythagore",
+          statement: `${figSvg}Soit un triangle $${n.tri}$ dont les côtés mesurent $${n.s1} = ${trip.a}\\text{ cm}$, $${n.s2} = ${trip.b}\\text{ cm}$ et $${n.hyp} = ${trip.c}\\text{ cm}$.\n**Ce triangle est-il rectangle ?**`,
+          type: "mcq",
+          options: opts,
+          answer: correctOpt,
+          correctIndex: opts.indexOf(correctOpt),
+          hint1: `Le plus long côté est $[${n.hyp}] = ${trip.c}\\text{ cm}$. Compare $${n.hyp}^2$ et $${n.s1}^2 + ${n.s2}^2$.`,
+          solution: `Dans le triangle $${n.tri}$, le plus long côté est $[${n.hyp}]$ :\n1. D'une part : $$${n.hyp}^2 = ${trip.c}^2 = ${hypSq}$$\n2. D'autre part : $$${n.s1}^2 + ${n.s2}^2 = ${trip.a}^2 + ${trip.b}^2 = ${s1Sq} + ${s2Sq} = ${sumSq}$$\n3. On constate que $${n.hyp}^2 \\neq ${n.s1}^2 + ${n.s2}^2$ ($${hypSq} \\neq ${sumSq}$).\nPar conséquent, d'après la **contraposée du théorème de Pythagore**, le triangle $${n.tri}$ **n'est pas rectangle**.`
+        };
+      }
     } else {
       // Palier 4 : Défi 3ème (Problème concret de modélisation avec triplets pythagoriciens)
       const ladders = [
@@ -5325,11 +6295,17 @@ window.MathsGenerators = {
       const hMur = lad.h;
       const lEchelle = lad.l;
 
+      const figSvg = this.buildLadderSvg({
+        L: lEchelle,
+        d: dSol,
+        h: '?'
+      });
+
       return {
         chapterId: '4G1',
         tier: 4,
         title: "Défi 3ème : Problème concret de modélisation (Pythagore)",
-        statement: `Une échelle de longueur $L = ${lEchelle}\\text{ m}$ est posée contre un mur vertical. Le pied de l'échelle est situé à une distance $d = ${dSol}\\text{ m}$ de la base du mur.\n\n**À quelle hauteur $h$ sur le mur le sommet de l'échelle parvient-il (en mètres) ?**`,
+        statement: `${figSvg}Une échelle de longueur $L = ${lEchelle}\\text{ m}$ est posée contre un mur vertical. Le pied de l'échelle est situé à une distance $d = ${dSol}\\text{ m}$ de la base du mur.\n\n**À quelle hauteur $h$ sur le mur le sommet de l'échelle parvient-il (en mètres) ?**`,
         type: "exact",
         answer: String(hMur),
         placeholder: `Ex: ${hMur}`,

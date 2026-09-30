@@ -1924,6 +1924,41 @@ body {
 }
 
 /* =========================================================================
+   Figures Géométriques SVG (Pythagore & Thalès - style MathsMentales)
+   ========================================================================= */
+
+.geo-figure-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 14px auto 16px auto;
+  padding: 6px;
+  max-width: 100%;
+}
+
+.geo-svg-figure {
+  display: block;
+  max-width: 290px;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.05));
+  transition: transform 0.2s ease;
+}
+
+.geo-svg-figure:hover {
+  transform: scale(1.015);
+}
+
+[data-theme="dark"] .geo-svg-figure {
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.35));
+}
+
+.geo-svg-figure text {
+  user-select: none;
+}
+
+/* =========================================================================
    5. NOUVEAUX COMPOSANTS : DIAPORAMA & DEVOIR FLASH (MathsMentales)
    ========================================================================= */
 
