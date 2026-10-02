@@ -2220,6 +2220,10 @@ body {
   font-weight: 700;
 }
 
+.diapo-stage-title .katex {
+  color: inherit !important;
+}
+
 .diapo-stage-body {
   font-size: 1.7rem;
   line-height: 1.8;
@@ -2236,55 +2240,363 @@ body {
   background-color: var(--bg-subtle);
 }
 
-/* Récapitulatif Diaporama */
-.diapo-recap-container {
-  padding: 1.5rem;
-  overflow-y: auto;
-  max-height: 60vh;
+/* =========================================================================
+   ÉCRAN RÉCAPITULATIF DIAPORAMA / RITUEL (Style MathsMentales pour Notability)
+   ========================================================================= */
+
+.modal-box.diapo-box.diapo-recap-active {
+  max-width: 1050px;
+  width: 96vw;
+  max-height: 94vh;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 8px 10px -6px rgba(0, 0, 0, 0.2);
 }
 
-.diapo-recap-header {
-  margin-bottom: 1.5rem;
-  text-align: center;
+.diapo-screen-mm {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-height: 94vh;
+  overflow: hidden;
 }
 
-.diapo-recap-header h3 {
-  font-size: 1.4rem;
-  color: var(--success-text);
-  margin-bottom: 0.25rem;
+/* Barre supérieure MathsMentales (Onglets & Actions) */
+.diapo-mm-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1rem 0;
+  background-color: #f1f5f9;
+  border-bottom: 2px solid #cbd5e1;
+  gap: 0.75rem;
+  flex-shrink: 0;
 }
 
-.diapo-recap-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.25rem;
-}
-
-.recap-item-card {
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
-  padding: 1.25rem;
-  background-color: var(--bg-surface);
-}
-
-.recap-item-num {
-  font-size: 0.85rem;
+.diapo-mm-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
   font-weight: 700;
-  color: var(--primary);
-  margin-bottom: 0.5rem;
-}
-
-.recap-statement {
-  font-size: 1.1rem;
-  margin-bottom: 0.75rem;
-}
-
-.recap-solution {
-  background-color: var(--bg-subtle);
-  border-left: 3px solid var(--success);
-  padding: 0.75rem 1rem;
-  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
   font-size: 0.95rem;
+  color: #334155;
+  user-select: none;
+}
+
+.diapo-mm-brand-badge {
+  font-size: 1.1rem;
+}
+
+.diapo-mm-tabs {
+  display: flex;
+  gap: 4px;
+  align-items: flex-end;
+}
+
+.diapo-mm-tab {
+  background-color: #e2e8f0;
+  color: #475569;
+  border: 1px solid #cbd5e1;
+  border-bottom: none;
+  padding: 0.55rem 1.35rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: 6px 6px 0 0;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.diapo-mm-tab:hover {
+  background-color: #cbd5e1;
+  color: #1e293b;
+}
+
+.diapo-mm-tab.active {
+  background-color: #93c5fd !important;
+  color: #1e3a8a !important;
+  border-color: #60a5fa !important;
+}
+
+.diapo-mm-topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.diapo-mm-action-btn {
+  background-color: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #334155;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.diapo-mm-action-btn:hover {
+  background-color: #f1f5f9;
+  color: #0f172a;
+}
+
+.diapo-mm-close {
+  background: transparent;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #64748b;
+  padding: 4px 8px;
+}
+
+.diapo-mm-close:hover {
+  color: #0f172a;
+}
+
+/* Enveloppe de la feuille blanche */
+.diapo-mm-sheet-wrapper {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.5rem;
+  background-color: #f8fafc;
+  display: flex;
+  justify-content: center;
+}
+
+/* La Feuille Blanche MathsMentales (Optimisée pour capture Notability) */
+.diapo-mm-sheet {
+  --diapo-font-size: 1.15rem;
+  background-color: #ffffff !important;
+  color: #111827 !important;
+  width: 100%;
+  max-width: 950px;
+  min-height: 480px;
+  padding: 2rem 2.5rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  user-select: text;
+}
+
+/* En-tête de la feuille */
+.diapo-mm-sheet-header {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.diapo-mm-header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.diapo-mm-icon-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #dcfce7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  box-shadow: inset 0 0 0 1px #86efac;
+}
+
+.diapo-mm-zoom-group {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.diapo-mm-zoom-btn {
+  background: transparent;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  padding: 2px 7px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #334155;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.diapo-mm-zoom-btn:hover {
+  background-color: #f1f5f9;
+  border-color: #94a3b8;
+}
+
+.diapo-mm-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #111827;
+  margin: 0;
+}
+
+/* Liste des questions */
+.diapo-mm-questions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.diapo-mm-item {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  font-size: var(--diapo-font-size, 1.15rem);
+  line-height: 1.5;
+  color: #111827;
+}
+
+.diapo-mm-num {
+  font-weight: 800;
+  min-width: 2.2rem;
+  text-align: right;
+  flex-shrink: 0;
+  color: #111827;
+  user-select: none;
+}
+
+.diapo-mm-content {
+  flex: 1;
+}
+
+.diapo-mm-statement {
+  color: #111827;
+}
+
+.diapo-mm-ans-badge {
+  display: inline-block;
+  margin-left: 0.75rem;
+  color: #16a34a !important;
+  font-weight: 700;
+}
+
+.diapo-mm-detail {
+  margin-top: 0.4rem;
+  font-size: 0.9em;
+  color: #475569;
+}
+
+.diapo-mm-detail summary {
+  cursor: pointer;
+  color: #2563eb;
+  font-size: 0.85em;
+  font-weight: 600;
+  user-select: none;
+}
+
+.diapo-mm-sol-text {
+  margin-top: 0.35rem;
+  padding: 0.5rem 0.75rem;
+  background-color: #f8fafc;
+  border-left: 3px solid #3b82f6;
+  border-radius: 4px;
+}
+
+/* Compacité des formules dans la feuille (affichage sur une ligne) */
+.diapo-mm-sheet .katex-display {
+  display: inline-block !important;
+  margin: 0 0.35rem !important;
+  vertical-align: middle !important;
+}
+
+.diapo-mm-sheet p,
+.diapo-mm-sheet .math-p {
+  display: inline !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.diapo-mm-sheet br {
+  display: none !important;
+}
+
+.diapo-mm-sheet * {
+  color: #111827;
+}
+
+.diapo-mm-sheet .katex {
+  color: #111827 !important;
+  font-size: 1.05em;
+}
+
+.diapo-mm-sheet .geo-svg-figure {
+  max-height: 120px;
+  max-width: 200px;
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0.25rem 0.5rem;
+}
+
+/* Isolation stricte du thème sombre pour conserver une feuille 100% blanche pour Notability */
+[data-theme="dark"] .diapo-box.diapo-recap-active {
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+}
+
+[data-theme="dark"] .diapo-mm-topbar {
+  background-color: #f1f5f9 !important;
+  border-bottom-color: #cbd5e1 !important;
+}
+
+[data-theme="dark"] .diapo-mm-brand {
+  color: #334155 !important;
+}
+
+[data-theme="dark"] .diapo-mm-tab {
+  background-color: #e2e8f0 !important;
+  color: #475569 !important;
+  border-color: #cbd5e1 !important;
+}
+
+[data-theme="dark"] .diapo-mm-tab.active {
+  background-color: #93c5fd !important;
+  color: #1e3a8a !important;
+  border-color: #60a5fa !important;
+}
+
+[data-theme="dark"] .diapo-mm-sheet {
+  background-color: #ffffff !important;
+  color: #111827 !important;
+}
+
+[data-theme="dark"] .diapo-mm-sheet * {
+  color: #111827 !important;
+}
+
+[data-theme="dark"] .diapo-mm-sheet .diapo-mm-ans-badge,
+[data-theme="dark"] .diapo-mm-sheet .diapo-mm-ans-badge * {
+  color: #16a34a !important;
+}
+
+[data-theme="dark"] .diapo-mm-sheet .diapo-mm-detail summary {
+  color: #2563eb !important;
+}
+
+[data-theme="dark"] .diapo-mm-zoom-btn {
+  background-color: transparent !important;
+  border-color: #cbd5e1 !important;
+  color: #334155 !important;
+}
+
+[data-theme="dark"] .diapo-mm-action-btn {
+  background-color: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  color: #334155 !important;
+}
+
+[data-theme="dark"] .diapo-mm-close {
+  color: #64748b !important;
 }
 
 /* Toast Notification Moderne */
@@ -3308,6 +3620,23 @@ body {
   }
   body.diapo-modal-open #quiz-modal {
     display: none !important;
+  }
+
+  body.diapo-modal-open .diapo-mm-topbar,
+  body.diapo-modal-open .diapo-mm-zoom-group,
+  body.diapo-modal-open .diapo-mm-action-btn,
+  body.diapo-modal-open .modal-close-btn {
+    display: none !important;
+  }
+  body.diapo-modal-open .diapo-mm-sheet-wrapper {
+    padding: 0 !important;
+    background: transparent !important;
+  }
+  body.diapo-modal-open .diapo-mm-sheet {
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important;
+    max-width: 100% !important;
   }
 
   .printable-quiz-sheet {

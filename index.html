@@ -52,7 +52,7 @@
   <link rel="stylesheet" href="vendor/katex/katex.min.css" onerror="this.onerror=null;this.href='https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css';" />
   
   <!-- Feuilles de style de l'application -->
-  <link rel="stylesheet" href="css/style.css?v=20260930b" />
+  <link rel="stylesheet" href="css/style.css?v=20261002a" />
   <link rel="icon" href="/favicon.ico" sizes="any" />
   <link rel="icon" type="image/png" sizes="48x48" href="assets/favicon-48x48.png" />
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png" />
@@ -437,7 +437,10 @@
             </div>
             <span id="diapo-time-text" class="diapo-time-text">30s</span>
           </div>
-          <button class="modal-close-btn" onclick="window.MathsDiaporama.closeModal()">✕ Quitter</button>
+          <div style="display: flex; gap: 0.5rem; align-items: center;">
+            <button class="btn-secondary btn-sm" onclick="window.MathsDiaporama.finish()" title="Arrêter le compte à rebours et afficher la feuille des énoncés">⏹ Terminer</button>
+            <button class="modal-close-btn" onclick="window.MathsDiaporama.closeModal()" title="Quitter le rituel">✕</button>
+          </div>
         </div>
 
         <div class="diapo-main-stage">
@@ -454,21 +457,50 @@
         </div>
       </div>
 
-      <!-- Écran 3 : Corrigé & Récapitulatif -->
-      <div id="diapo-screen-recap" class="diapo-screen" style="display: none;">
-        <div class="modal-header">
-          <div>
-            <h2>📝 L'Établi des Maths — Corrigé du Rituel Flash</h2>
-            <div class="modal-author-badge">Créé par <strong>Loïc Delaporte</strong>, Professeur de Mathématiques</div>
+      <!-- Écran 3 : Corrigé & Récapitulatif (Style MathsMentales pour capture Notability) -->
+      <div id="diapo-screen-recap" class="diapo-screen diapo-screen-mm" style="display: none;">
+        <!-- Barre supérieure : Onglets MathsMentales + Actions -->
+        <div class="diapo-mm-topbar">
+          <div class="diapo-mm-brand">
+            <span class="diapo-mm-brand-badge">⚡</span>
+            <span class="diapo-mm-brand-text">L'Établi des Maths</span>
           </div>
-          <button class="modal-close-btn" onclick="window.MathsDiaporama.closeModal()">✕</button>
+          <div class="diapo-mm-tabs">
+            <button id="diapo-tab-statements" class="diapo-mm-tab active" onclick="window.MathsDiaporama.setRecapMode('statements')">Énoncés</button>
+            <button id="diapo-tab-solutions" class="diapo-mm-tab" onclick="window.MathsDiaporama.setRecapMode('solutions')">Correction</button>
+            <button id="diapo-tab-config" class="diapo-mm-tab" onclick="window.MathsDiaporama.showScreen('config')">Paramétrer</button>
+          </div>
+          <div class="diapo-mm-topbar-actions">
+            <button class="diapo-mm-action-btn" onclick="window.MathsDiaporama.copyQuestions()" title="Copier les questions dans le presse-papier">📋 Copier</button>
+            <button class="diapo-mm-action-btn" onclick="window.print()" title="Imprimer la feuille">🖨️ Imprimer</button>
+            <button class="modal-close-btn diapo-mm-close" onclick="window.MathsDiaporama.closeModal()" title="Fermer le rituel">✕</button>
+          </div>
         </div>
-        <div id="diapo-recap-list" class="diapo-recap-container">
-          <!-- Rempli dynamiquement -->
-        </div>
-        <div class="modal-footer">
-          <button class="btn-secondary" onclick="window.print()">🖨️ Imprimer le corrigé</button>
-          <button class="btn-primary" onclick="window.MathsDiaporama.closeModal()">Terminer</button>
+
+        <!-- Feuille blanche MathsMentales (Capture Notability) -->
+        <div class="diapo-mm-sheet-wrapper">
+          <div id="diapo-mm-sheet" class="diapo-mm-sheet">
+            <div class="diapo-mm-sheet-header">
+              <div class="diapo-mm-header-left">
+                <div class="diapo-mm-icon-circle" title="Rituel Flash">
+                  <span>✏️</span>
+                </div>
+                <div class="diapo-mm-zoom-group">
+                  <button class="diapo-mm-zoom-btn" onclick="window.MathsDiaporama.zoomOut()" title="Réduire la taille (Zoom −)">🔍−</button>
+                  <button class="diapo-mm-zoom-btn" onclick="window.MathsDiaporama.zoomReset()" title="Taille par défaut">A</button>
+                  <button class="diapo-mm-zoom-btn" onclick="window.MathsDiaporama.zoomIn()" title="Agrandir la taille (Zoom +)">🔍+</button>
+                </div>
+              </div>
+              <div class="diapo-mm-header-center">
+                <h2 id="diapo-mm-sheet-title" class="diapo-mm-title">Diapo 1</h2>
+              </div>
+            </div>
+
+            <!-- Conteneur des questions -->
+            <div id="diapo-mm-questions-list" class="diapo-mm-questions-list">
+              <!-- Rempli dynamiquement -->
+            </div>
+          </div>
         </div>
       </div>
 
@@ -896,7 +928,7 @@
   <script src="js/mathRenderer.js?v=20260930b"></script>
   <script src="js/adaptiveEngine.js?v=20260928a"></script>
   <script src="js/randomGenerators.js?v=20260930c"></script>
-  <script src="js/diaporamaEngine.js?v=20260923k"></script>
+  <script src="js/diaporamaEngine.js?v=20261002a"></script>
   <script src="js/flashQuizGenerator.js?v=20260924b"></script>
   <script src="js/flashcardsEngine.js?v=20260923j"></script>
   <script src="js/app.js?v=20260924b"></script>

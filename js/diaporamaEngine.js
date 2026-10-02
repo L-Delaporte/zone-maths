@@ -1,6 +1,7 @@
 /**
  * Contrôleur du Mode Diaporama / Rituel Chronométré (Inspiré de MathsMentales.net)
  * Permet de projeter ou de s'entraîner avec des questions flash rythmées par un compte à rebours.
+ * Écran récapitulatif optimisé pour capture d'écran Notability sur iPad.
  */
 
 window.MathsDiaporama = {
@@ -12,7 +13,9 @@ window.MathsDiaporama = {
     timePerQuestion: 30, // secondes (15, 30, 45, 60, 0=manuel)
     timeLeft: 30,
     timerInterval: null,
-    answersRecord: []
+    answersRecord: [],
+    recapMode: 'statements', // 'statements' | 'solutions'
+    zoomLevel: 1.15 // taille de police en rem pour Notability
   },
 
   /**
@@ -50,6 +53,8 @@ window.MathsDiaporama = {
     this.stop();
     const modal = document.getElementById('diaporama-modal');
     if (modal) modal.style.display = 'none';
+    const box = document.querySelector('.diapo-box');
+    if (box) box.classList.remove('diapo-recap-active');
     document.body.style.overflow = 'auto';
     document.body.classList.remove('modal-open');
     document.body.classList.remove('diapo-modal-open');
@@ -59,6 +64,15 @@ window.MathsDiaporama = {
     document.querySelectorAll('.diapo-screen').forEach(s => s.style.display = 'none');
     const target = document.getElementById(`diapo-screen-${name}`);
     if (target) target.style.display = 'flex';
+
+    const box = document.querySelector('.diapo-box');
+    if (box) {
+      if (name === 'recap') {
+        box.classList.add('diapo-recap-active');
+      } else {
+        box.classList.remove('diapo-recap-active');
+      }
+    }
   },
 
   /**
@@ -104,7 +118,16 @@ window.MathsDiaporama = {
     const timeText = document.getElementById('diapo-time-text');
 
     if (indexEl) indexEl.textContent = `Question ${this.state.currentIndex + 1} / ${this.state.questions.length}`;
-    if (titleEl) titleEl.textContent = q.title;
+    
+    // Rendu du titre avec prise en charge complète du LaTeX ($...$)
+    if (titleEl) {
+      titleEl.innerHTML = (q.title || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+      window.MathsRenderer.renderElement(titleEl);
+    }
+
     if (bodyEl) {
       bodyEl.innerHTML = window.MathsRenderer.markdownToHtml(q.statement);
       window.MathsRenderer.renderElement(bodyEl);
@@ -180,7 +203,7 @@ window.MathsDiaporama = {
     }
 
     this.state.xpBonus = xpBonus;
-    this.state.recapMode = null; // Afficher l'écran de choix interactif
+    this.state.recapMode = 'statements'; // Affichage direct des énoncés selon l'ergonomie MathsMentales
     this.renderRecapScreen();
   },
 
@@ -194,81 +217,138 @@ window.MathsDiaporama = {
     this.renderRecapScreen();
   },
 
-  toggleQuestionSolution(idx) {
-    const solEl = document.getElementById(`recap-sol-${idx}`);
-    const btn = document.getElementById(`btn-toggle-sol-${idx}`);
-    if (!solEl) return;
-    const isHidden = solEl.style.display === 'none' || !solEl.style.display;
-    solEl.style.display = isHidden ? 'block' : 'none';
-    if (btn) btn.textContent = isHidden ? '🙈 Masquer la réponse' : '👁️ Dévoiler la réponse';
-    if (isHidden) {
-      window.MathsRenderer.renderElement(solEl);
+  // Fonctions de Zoom pour ajuster le cadrage de la capture d'écran Notability
+  zoomIn() {
+    this.state.zoomLevel = Math.min(2.0, +(this.state.zoomLevel + 0.15).toFixed(2));
+    this.applyZoom();
+  },
+
+  zoomOut() {
+    this.state.zoomLevel = Math.max(0.7, +(this.state.zoomLevel - 0.15).toFixed(2));
+    this.applyZoom();
+  },
+
+  zoomReset() {
+    this.state.zoomLevel = 1.15;
+    this.applyZoom();
+  },
+
+  applyZoom() {
+    const sheet = document.getElementById('diapo-mm-sheet');
+    if (sheet && sheet.style) {
+      if (typeof sheet.style.setProperty === 'function') {
+        sheet.style.setProperty('--diapo-font-size', `${this.state.zoomLevel}rem`);
+      } else {
+        sheet.style['--diapo-font-size'] = `${this.state.zoomLevel}rem`;
+      }
     }
   },
 
+  /**
+   * Formate une réponse pour un affichage mathématique propre dans le corrigé
+   */
+  formatAnswerForDisplay(ans) {
+    if (ans === undefined || ans === null) return '';
+    let str = String(ans).trim();
+    if (!str.startsWith('$') && !str.startsWith('\\(') && !str.startsWith('\\[') && !str.startsWith('$$')) {
+      if (/\\[a-zA-Z]+|\^|_|\/|=|<|>/.test(str)) {
+        str = `$${str}$`;
+      }
+    }
+    return window.MathsRenderer.markdownToHtml(str);
+  },
+
+  /**
+   * Copie la liste des énoncés (ou corrigé) au format texte dans le presse-papier
+   */
+  copyQuestions() {
+    const isSolutions = this.state.recapMode === 'solutions';
+    const lines = this.state.questions.map((q, idx) => {
+      let cleanStmt = (q.statement || '')
+        .replace(/\$\$/g, '')
+        .replace(/\$/g, '')
+        .replace(/\r?\n+/g, ' ')
+        .trim();
+      if (isSolutions) {
+        const rawAns = q.options ? q.options[q.correctIndex !== undefined ? q.correctIndex : 0] : (q.answer || '');
+        const cleanAns = String(rawAns).replace(/\$\$/g, '').replace(/\$/g, '').trim();
+        return `${idx + 1}) ${cleanStmt}  ➜  ${cleanAns}`;
+      }
+      return `${idx + 1}) ${cleanStmt}`;
+    });
+    const header = isSolutions ? "Corrigé du Rituel Flash" : "Énoncés du Rituel Flash";
+    const textToCopy = `${header}\n\n${lines.join('\n')}\n\nL'Établi des Maths — Loïc Delaporte`;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(textToCopy).then(() => {
+        if (window.MathsApp && window.MathsApp.showToast) {
+          window.MathsApp.showToast('📋 Questions copiées dans le presse-papier !');
+        } else {
+          alert('Questions copiées dans le presse-papier !');
+        }
+      });
+    }
+  },
+
+  /**
+   * Rendu de la feuille récapitulative au format MathsMentales
+   */
   renderRecapScreen() {
-    const container = document.getElementById('diapo-recap-list');
-    if (!container) return;
+    const listContainer = document.getElementById('diapo-mm-questions-list');
+    const tabStatements = document.getElementById('diapo-tab-statements');
+    const tabSolutions = document.getElementById('diapo-tab-solutions');
+    const sheetTitle = document.getElementById('diapo-mm-sheet-title');
+    const sheetEl = document.getElementById('diapo-mm-sheet');
 
-    const xpBonus = this.state.xpBonus || (this.state.questions.length * 5);
+    if (!listContainer) return;
 
-    // Choix initial demandé à l'utilisateur
-    if (!this.state.recapMode) {
-      container.innerHTML = `
-        <div class="diapo-recap-header">
-          <h3>🎉 Rituel Terminé ! (+${xpBonus} XP)</h3>
-          <p>Bravo pour cette session de questions flash ! Comment souhaitez-vous afficher la fin du rituel ?</p>
-        </div>
-        <div style="display: flex; flex-direction: column; gap: 1rem; max-width: 480px; margin: 2rem auto; text-align: center;">
-          <button class="btn-primary" style="padding: 1.1rem 1.5rem; font-size: 1.05rem; justify-content: center; flex-direction: column; gap: 0.35rem;" onclick="window.MathsDiaporama.setRecapMode('statements')">
-            <span>📋 Afficher les Énoncés seuls</span>
-            <small style="font-size: 0.85rem; font-weight: normal; opacity: 0.9;">Idéal pour la correction interactive avec la classe</small>
-          </button>
-          <button class="btn-secondary" style="padding: 1.1rem 1.5rem; font-size: 1.05rem; justify-content: center; flex-direction: column; gap: 0.35rem;" onclick="window.MathsDiaporama.setRecapMode('solutions')">
-            <span>✅ Afficher le Corrigé complet</span>
-            <small style="font-size: 0.85rem; font-weight: normal; opacity: 0.9;">Afficher immédiatement toutes les solutions détaillées</small>
-          </button>
+    const isSolutions = this.state.recapMode === 'solutions';
+
+    // Mettre à jour les onglets actifs
+    if (tabStatements) tabStatements.classList.toggle('active', !isSolutions);
+    if (tabSolutions) tabSolutions.classList.toggle('active', isSolutions);
+    if (sheetTitle) sheetTitle.textContent = 'Diapo 1';
+
+    // Rendu compact de chaque question
+    const itemsHtml = this.state.questions.map((q, idx) => {
+      // 1. Énoncé compact sur une ligne (remplace les retours à la ligne)
+      const cleanStmt = (q.statement || '').replace(/\r?\n+/g, ' ');
+      const statementHtml = window.MathsRenderer.markdownToHtml(cleanStmt);
+
+      // 2. Réponse en mode correction
+      let ansHtml = '';
+      if (isSolutions) {
+        const rawAns = q.options ? q.options[q.correctIndex !== undefined ? q.correctIndex : 0] : (q.answer || '');
+        ansHtml = this.formatAnswerForDisplay(rawAns);
+      }
+
+      return `
+        <div class="diapo-mm-item">
+          <span class="diapo-mm-num">${idx + 1})</span>
+          <div class="diapo-mm-content">
+            <span class="diapo-mm-statement">${statementHtml}</span>
+            ${isSolutions ? `
+              <span class="diapo-mm-ans-badge">➜ <strong>${ansHtml}</strong></span>
+              ${q.solution ? `
+                <details class="diapo-mm-detail">
+                  <summary>Détail du calcul</summary>
+                  <div class="diapo-mm-sol-text">${window.MathsRenderer.markdownToHtml(q.solution)}</div>
+                </details>
+              ` : ''}
+            ` : ''}
+          </div>
         </div>
       `;
-      return;
+    }).join('');
+
+    listContainer.innerHTML = itemsHtml;
+
+    // Rendre KaTeX sur l'ensemble de la feuille
+    if (sheetEl) {
+      window.MathsRenderer.renderElement(sheetEl);
+    } else {
+      window.MathsRenderer.renderElement(listContainer);
     }
 
-    const isStatementsOnly = this.state.recapMode === 'statements';
-
-    container.innerHTML = `
-      <div class="diapo-recap-header">
-        <h3>🎉 Rituel Terminé ! (+${xpBonus} XP)</h3>
-        <p>Mode actif : <strong>${isStatementsOnly ? '📋 Énoncés seuls (Correction avec la classe)' : '✅ Corrigé complet'}</strong></p>
-        <div style="display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; margin-top: 0.75rem;">
-          <button class="btn-primary btn-sm" onclick="window.MathsDiaporama.toggleRecapMode()">
-            ${isStatementsOnly ? '✅ Passer au Corrigé complet' : '📋 Passer aux Énoncés seuls'}
-          </button>
-          <button class="btn-secondary btn-sm" onclick="window.MathsDiaporama.openModal()">
-            🔄 Relancer un Rituel
-          </button>
-        </div>
-      </div>
-      <div class="diapo-recap-grid">
-        ${this.state.questions.map((q, idx) => `
-          <div class="recap-item-card">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-              <span class="recap-item-num">Question ${idx + 1}</span>
-              ${isStatementsOnly ? `
-                <button id="btn-toggle-sol-${idx}" class="btn-secondary btn-sm" style="font-size: 0.8rem; padding: 4px 8px;" onclick="window.MathsDiaporama.toggleQuestionSolution(${idx})">
-                  👁️ Dévoiler la réponse
-                </button>
-              ` : ''}
-            </div>
-            <div class="recap-statement">${window.MathsRenderer.markdownToHtml(q.statement)}</div>
-            <div id="recap-sol-${idx}" class="recap-solution" style="${isStatementsOnly ? 'display:none;' : 'display:block;'}">
-              <strong>Réponse & Méthode :</strong>
-              <div>${window.MathsRenderer.markdownToHtml(q.solution)}</div>
-            </div>
-          </div>
-        `).join('')}
-      </div>
-    `;
-
-    window.MathsRenderer.renderElement(container);
+    this.applyZoom();
   }
 };
