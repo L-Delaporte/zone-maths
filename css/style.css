@@ -1341,7 +1341,22 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
   margin-bottom: 1.5rem;
+}
+
+.course-print-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 1.15rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: var(--radius-md, 8px);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: var(--transition, all 0.2s ease);
 }
 
 .course-card {
@@ -1522,6 +1537,22 @@ body {
     box-shadow: none !important;
     background: white !important;
     color: black !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+    margin-bottom: 1.5rem !important;
+  }
+  .course-sheet-header {
+    border-bottom: 2px solid black !important;
+    padding-bottom: 0.8rem !important;
+    margin-bottom: 1.5rem !important;
+  }
+  .course-sheet-header h2 {
+    color: black !important;
+    font-size: 1.4rem !important;
+  }
+  .course-author-sub {
+    color: #475569 !important;
+    font-size: 0.85rem !important;
   }
   .sheet-print-header,
   .printable-worksheet .print-only {

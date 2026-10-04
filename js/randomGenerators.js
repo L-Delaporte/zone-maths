@@ -1349,6 +1349,7 @@ window.MathsGenerators = {
           `N'oublie pas de soustraire le double produit du second carré.`
         ],
         hint1: "Développe $(ax+b)^2$ et $(cx+d)^2$, puis soustrais en faisant très attention aux parenthèses après le signe moins.",
+        solution: `$$(${a}x+${b})^2 = ${a*a}x^2 + ${2*a*b}x + ${b*b}$$\n$$(${c}x+${d})^2 = ${c*c}x^2 + ${2*c*d}x + ${d*d}$$\n$$F = (${a*a}x^2 + ${2*a*b}x + ${b*b}) - (${c*c}x^2 + ${2*c*d}x + ${d*d}) = ${this.formatPoly(coeffX2, coeffX, coeffConst)}$$`
       };
     }
   },

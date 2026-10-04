@@ -132,25 +132,39 @@ window.MathsRenderer = {
 
     // 7. Listes à puces • ou -
     html = html.replace(/^[•\-]\s+(.*$)/gim, '<li class="math-bullet">$1</li>');
-    html = html.replace(/(<li class="math-bullet">.*<\/li>\s*)+/g, '<ul class="math-list">$&</ul>');
+    html = html.replace(/(?:^|\n)((?:<li class="math-bullet">.*?<\/li>(?:\n|$))+)/g, (match, listContent) => {
+      return `\n\n<ul class="math-list">\n${listContent.trim()}\n</ul>\n\n`;
+    });
+
+    // Sanctuariser les blocs SVG complets pour empêcher toute injection parasite de balises <p> ou <br/>
+    const svgBlocks = [];
+    html = html.replace(/<svg[\s\S]*?<\/svg>/gi, (match) => {
+      const idx = svgBlocks.length;
+      svgBlocks.push(match);
+      return `%%%MATH_SVG_BLOCK_${idx}%%%`;
+    });
 
     // 8. Paragraphes
-    const blocks = html.split('\n\n');
+    const blocks = html.split(/\n\n+/);
     html = blocks.map(b => {
       b = b.trim();
       if (!b) return '';
       if (
+        b.includes('%%%MATH_SVG_BLOCK_') ||
         b.startsWith('<h1') || b.startsWith('<h2') || b.startsWith('<h3') ||
-        b.startsWith('<h4') || b.startsWith('<h5') ||
+        b.startsWith('<h4') || b.startsWith('<h5') || b.startsWith('<h6') ||
         b.startsWith('<ul') || b.startsWith('<ol') ||
         b.startsWith('<hr') || b.startsWith('<blockquote') ||
         b.startsWith('<div') || b.startsWith('<table') || b.startsWith('<pre') ||
-        b.startsWith('<svg')
+        b.startsWith('</')
       ) {
         return b;
       }
       return `<p class="math-p">${b.replace(/\n/g, '<br/>')}</p>`;
-    }).join('\n');
+    }).filter(Boolean).join('\n');
+
+    // Restaurer les blocs SVG intacts
+    html = html.replace(/%%%MATH_SVG_BLOCK_(\d+)%%%/g, (_, idx) => svgBlocks[Number(idx)]);
 
     return html;
   },

@@ -1303,7 +1303,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <h2>${chMeta.num} : ${chMeta.title}</h2>
                 <div class="course-author-sub">Fiche de synthèse officielle rédigée par <strong>Loïc Delaporte</strong>, Professeur de Mathématiques</div>
               </div>
-              <span class="domain-tag">${chMeta.domainName || chMeta.domain}</span>
+              <button class="btn-secondary no-print course-print-btn" onclick="window.print()" title="Imprimer le cours"><span style="margin-right: 0.35rem;">🖨️</span>Imprimer le cours</button>
             </div>
             <div class="course-card course-objectives">
               <h3>🎯 Attendus officiels du Cycle 4 (${lvlLabel})</h3>
@@ -1341,7 +1341,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <h2>${course.title}</h2>
             <div class="course-author-sub">Fiche de cours rédigée par <strong>Loïc Delaporte</strong>, Professeur de Mathématiques</div>
           </div>
-          <span class="domain-tag">${course.domain}</span>
+          <button class="btn-secondary no-print course-print-btn" onclick="window.print()" title="Imprimer le cours"><span style="margin-right: 0.35rem;">🖨️</span>Imprimer le cours</button>
         </div>
       `;
 
@@ -1375,7 +1375,7 @@ document.addEventListener('DOMContentLoaded', () => {
           html += `
             <div class="course-card course-method">
               <h3>⚡ ${m.title}</h3>
-              <div class="method-example"><strong>Exemple :</strong> ${m.example}</div>
+              <div class="method-example"><strong>Exemple :</strong> ${window.MathsRenderer.markdownToHtml(m.example)}</div>
               <div class="method-steps">
                 ${m.steps.map(s => `<div class="method-step-item">${window.MathsRenderer.markdownToHtml(s)}</div>`).join('')}
               </div>
