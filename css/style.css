@@ -4275,7 +4275,7 @@ body {
 }
 
 /* --- SMARTPHONES & PETITS ÉCRANS (<= 768px) --- */
-@media (max-width: 768px) {
+@media screen and (max-width: 768px) {
   /* Dégagement pour la barre de navigation basse fixe */
   body {
     padding-bottom: calc(68px + env(safe-area-inset-bottom)) !important;
@@ -6238,3 +6238,365 @@ body {
   flex-direction: column;
   gap: 0.35rem;
 }
+
+/* =========================================================================
+   MISE EN PAGE HAUTE PRÉCISION POUR L'IMPRESSION DES COURS (A4)
+   ========================================================================= */
+
+@media print {
+  /* 1. Format A4 et marges régulières */
+  @page {
+    size: A4 portrait;
+    margin: 10mm 12mm 10mm 12mm;
+  }
+
+  /* 2. Neutralisation totale des barres et boutons d'interface web */
+  .app-header,
+  .sidebar-chapters,
+  .tabs-navigation-bar,
+  .chapter-hero-banner,
+  .mobile-chapter-trigger-bar,
+  #mobile-chapter-btn,
+  .no-print,
+  .course-print-btn,
+  .course-cta-box,
+  .btn-sm-flashcards,
+  .flashcard-btn-action,
+  #keyboard-drawer,
+  .virtual-keyboard-wrapper,
+  .audio-indicator,
+  .confetti-canvas,
+  #toast-container,
+  .user-toast,
+  .course-traps-btn {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    overflow: hidden !important;
+  }
+
+  /* 3. Base du document en impression (Fond blanc, texte sombre et contrasté) */
+  html,
+  body,
+  .app-container,
+  .tab-pane,
+  .tab-pane.active,
+  #course-content-container,
+  [data-theme="dark"] html,
+  [data-theme="dark"] body,
+  [data-theme="dark"] .app-container,
+  [data-theme="dark"] .tab-pane,
+  [data-theme="dark"] #course-content-container {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    font-size: 9.5pt !important;
+    line-height: 1.42 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+    height: auto !important;
+    min-height: 0 !important;
+    box-shadow: none !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* 4. Lisibilité absolue des formules mathématiques KaTeX (noir pur) */
+  .katex,
+  .katex *,
+  .math-display,
+  .math-inline,
+  [data-theme="dark"] .katex,
+  [data-theme="dark"] .katex *,
+  [data-theme="dark"] .math-display,
+  [data-theme="dark"] .math-inline {
+    color: #000000 !important;
+    text-shadow: none !important;
+  }
+  .katex .frac-line,
+  .katex .sqrt-line,
+  [data-theme="dark"] .katex .frac-line,
+  [data-theme="dark"] .katex .sqrt-line {
+    border-color: #000000 !important;
+  }
+
+  /* 5. En-tête de la fiche de cours */
+  .course-sheet-header {
+    display: block !important;
+    border-bottom: 2px solid #0f172a !important;
+    padding-bottom: 4px !important;
+    margin-bottom: 8px !important;
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+  }
+
+  .course-sheet-header h2 {
+    font-size: 14pt !important;
+    font-weight: 800 !important;
+    color: #0f172a !important;
+    margin: 0 0 2px 0 !important;
+    line-height: 1.2 !important;
+  }
+
+  .course-author-sub {
+    font-size: 8.5pt !important;
+    color: #475569 !important;
+    font-style: italic !important;
+    margin: 0 !important;
+  }
+
+  /* 6. Cartes de cours & structure générale */
+  .course-card,
+  [data-theme="dark"] .course-card {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin-bottom: 8px !important;
+    color: #0f172a !important;
+    page-break-inside: auto;
+    break-inside: auto;
+  }
+
+  .course-card h3 {
+    font-size: 10.5pt !important;
+    font-weight: 700 !important;
+    color: #1e3a8a !important;
+    margin: 0 0 3px 0 !important;
+    padding-bottom: 1px !important;
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+  }
+
+  .course-card-body {
+    font-size: 9pt !important;
+    line-height: 1.4 !important;
+    color: #1e293b !important;
+  }
+
+  /* 7. Bloc Attendus & Objectifs du cycle */
+  .course-card.course-objectives,
+  [data-theme="dark"] .course-card.course-objectives {
+    background: #f8fafc !important;
+    border: 1px solid #cbd5e1 !important;
+    border-left: 4px solid #2563eb !important;
+    border-radius: 4px !important;
+    padding: 6px 10px !important;
+    margin-bottom: 8px !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  .course-card.course-objectives h3 {
+    color: #1e40af !important;
+    font-size: 9.5pt !important;
+    margin-bottom: 3px !important;
+  }
+
+  .course-card.course-objectives ul {
+    margin: 0 !important;
+    padding-left: 16px !important;
+  }
+
+  .course-card.course-objectives li {
+    font-size: 8.5pt !important;
+    margin-bottom: 1.5px !important;
+    line-height: 1.35 !important;
+    color: #334155 !important;
+  }
+
+  /* 8. Bloc Méthodes pas-à-pas */
+  .course-card.course-method,
+  [data-theme="dark"] .course-card.course-method {
+    background: #f8fafc !important;
+    border: 1px solid #cbd5e1 !important;
+    border-left: 4px solid #0284c7 !important;
+    border-radius: 4px !important;
+    padding: 6px 10px !important;
+    margin-bottom: 8px !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  .course-card.course-method h3 {
+    color: #0369a1 !important;
+    font-size: 10pt !important;
+    margin-bottom: 3px !important;
+  }
+
+  .method-example,
+  [data-theme="dark"] .method-example {
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 3px !important;
+    padding: 4px 8px !important;
+    margin: 3px 0 5px 0 !important;
+    font-size: 8.5pt !important;
+    color: #0f172a !important;
+  }
+
+  .method-steps {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 3px !important;
+  }
+
+  .method-step-item,
+  [data-theme="dark"] .method-step-item {
+    background: #ffffff !important;
+    border-left: 3px solid #38bdf8 !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    padding: 3px 8px !important;
+    font-size: 8.5pt !important;
+    line-height: 1.35 !important;
+    color: #0f172a !important;
+  }
+
+  /* 9. Bloc Pièges fréquents */
+  .course-card.course-traps,
+  [data-theme="dark"] .course-card.course-traps {
+    background: #fffbeb !important;
+    border: 1px solid #fde68a !important;
+    border-left: 4px solid #d97706 !important;
+    border-radius: 4px !important;
+    padding: 6px 10px !important;
+    margin-bottom: 8px !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  .course-card.course-traps h3 {
+    color: #92400e !important;
+    font-size: 9.5pt !important;
+    margin-bottom: 3px !important;
+  }
+
+  .course-card.course-traps ul {
+    margin: 0 !important;
+    padding-left: 16px !important;
+  }
+
+  .course-card.course-traps li {
+    font-size: 8.5pt !important;
+    color: #78350f !important;
+    margin-bottom: 1.5px !important;
+    line-height: 1.35 !important;
+  }
+
+  /* 10. Figures géométriques SVG */
+  .geo-figure-wrapper {
+    margin: 4px 0 !important;
+    text-align: center !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  .geo-svg-figure {
+    max-height: 165px !important;
+    width: auto !important;
+    max-width: 100% !important;
+  }
+
+  .geo-svg-figure text {
+    fill: #000000 !important;
+  }
+
+  /* 11. Section Flashcards & Auto-Évaluation (Questions et Réponses révélées en grille compacte 2 colonnes) */
+  .course-flashcards-section {
+    page-break-before: always !important;
+    break-before: page !important;
+    margin-top: 6px !important;
+    padding-top: 4px !important;
+  }
+
+  .flashcards-header {
+    display: block !important;
+    border-bottom: 2px solid #0f172a !important;
+    padding-bottom: 3px !important;
+    margin-bottom: 6px !important;
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+  }
+
+  .flashcards-header h3 {
+    font-size: 11pt !important;
+    font-weight: 800 !important;
+    color: #0f172a !important;
+    margin: 0 0 1px 0 !important;
+  }
+
+  .flashcards-subtitle {
+    font-size: 8pt !important;
+    color: #475569 !important;
+    font-style: italic !important;
+    display: block !important;
+  }
+
+  .flashcards-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 6px !important;
+    margin-top: 4px !important;
+  }
+
+  .flashcard-card,
+  [data-theme="dark"] .flashcard-card {
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 4px !important;
+    padding: 5px 7px !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    box-shadow: none !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 2px !important;
+    min-height: auto !important;
+  }
+
+  .flashcard-pill {
+    display: inline-block !important;
+    font-size: 7pt !important;
+    font-weight: 700 !important;
+    color: #2563eb !important;
+    background: #eff6ff !important;
+    border: 1px solid #bfdbfe !important;
+    border-radius: 3px !important;
+    padding: 1px 4px !important;
+    width: fit-content !important;
+    margin-bottom: 2px !important;
+    text-transform: uppercase !important;
+  }
+
+  .flashcard-question-text {
+    font-size: 8pt !important;
+    font-weight: 700 !important;
+    color: #0f172a !important;
+    line-height: 1.25 !important;
+  }
+
+  .flashcard-answer-box,
+  [data-theme="dark"] .flashcard-answer-box {
+    display: block !important;
+    background: #f0fdf4 !important;
+    border-left: 3px solid #16a34a !important;
+    border-radius: 3px !important;
+    padding: 2px 5px !important;
+    font-size: 7.8pt !important;
+    line-height: 1.25 !important;
+    color: #14532d !important;
+    margin-top: 2px !important;
+  }
+
+  .flashcard-answer-box strong {
+    color: #166534 !important;
+    font-size: 7.8pt !important;
+  }
+}
+
