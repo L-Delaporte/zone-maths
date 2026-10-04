@@ -1346,6 +1346,20 @@ body {
   margin-bottom: 1.5rem;
 }
 
+.course-header-titles {
+  flex: 1;
+}
+
+.course-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.course-header-logo {
+  display: none;
+}
+
 .course-print-btn {
   display: inline-flex;
   align-items: center;
@@ -1551,8 +1565,7 @@ body {
     font-size: 1.4rem !important;
   }
   .course-author-sub {
-    color: #475569 !important;
-    font-size: 0.85rem !important;
+    display: none !important;
   }
   .sheet-print-header,
   .printable-worksheet .print-only {
@@ -6244,10 +6257,10 @@ body {
    ========================================================================= */
 
 @media print {
-  /* 1. Format A4 et marges régulières */
+  /* 1. Format A4 et suppression de l'en-tête date/heure du navigateur */
   @page {
     size: A4 portrait;
-    margin: 10mm 12mm 10mm 12mm;
+    margin: 0;
   }
 
   /* 2. Neutralisation totale des barres, flashcards et boutons d'interface web */
@@ -6264,6 +6277,7 @@ body {
   .flashcards-header,
   .flashcards-grid,
   .flashcard-card,
+  .course-author-sub,
   .btn-sm-flashcards,
   .flashcard-btn-action,
   #keyboard-drawer,
@@ -6311,6 +6325,11 @@ body {
     print-color-adjust: exact !important;
   }
 
+  body {
+    padding: 8mm 12mm 10mm 12mm !important;
+    box-sizing: border-box !important;
+  }
+
   /* 4. Lisibilité absolue des formules mathématiques KaTeX (noir pur) */
   .katex,
   .katex *,
@@ -6330,29 +6349,55 @@ body {
     border-color: #000000 !important;
   }
 
-  /* 5. En-tête de la fiche de cours */
+  /* 5. En-tête de la fiche de cours avec Titre à gauche et Logo du site en haut à droite */
   .course-sheet-header {
-    display: block !important;
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
     border-bottom: 2px solid #0f172a !important;
-    padding-bottom: 4px !important;
+    padding-bottom: 5px !important;
     margin-bottom: 8px !important;
     page-break-after: avoid !important;
     break-after: avoid !important;
   }
 
+  .course-header-titles {
+    flex: 1 !important;
+  }
+
   .course-sheet-header h2 {
-    font-size: 14pt !important;
+    font-size: 13.5pt !important;
     font-weight: 800 !important;
     color: #0f172a !important;
-    margin: 0 0 2px 0 !important;
+    margin: 0 !important;
     line-height: 1.2 !important;
   }
 
+  .course-header-actions {
+    display: flex !important;
+    align-items: center !important;
+    margin-left: 12px !important;
+  }
+
+  .course-header-logo {
+    display: block !important;
+    width: 13mm !important;
+    height: 13mm !important;
+    max-width: 48px !important;
+    max-height: 48px !important;
+    object-fit: contain !important;
+    border-radius: 4px !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
   .course-author-sub {
-    font-size: 8.5pt !important;
-    color: #475569 !important;
-    font-style: italic !important;
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
     margin: 0 !important;
+    padding: 0 !important;
   }
 
   /* 6. Cartes de cours & structure générale */

@@ -1299,11 +1299,13 @@ document.addEventListener('DOMContentLoaded', () => {
           const niveauSlug = this.currentLevel === '5eme' ? 'cinquieme' : this.currentLevel === '4eme' ? 'quatrieme' : 'troisieme';
           container.innerHTML = `
             <div class="course-sheet-header">
-              <div>
+              <div class="course-header-titles">
                 <h2>${chMeta.num} : ${chMeta.title}</h2>
-                <div class="course-author-sub">Fiche de synthèse officielle rédigée par <strong>Loïc Delaporte</strong>, Professeur de Mathématiques</div>
               </div>
-              <button class="btn-secondary no-print course-print-btn" onclick="window.print()" title="Imprimer le cours"><span style="margin-right: 0.35rem;">🖨️</span>Imprimer le cours</button>
+              <div class="course-header-actions">
+                <button class="btn-secondary no-print course-print-btn" onclick="window.print()" title="Imprimer le cours"><span style="margin-right: 0.35rem;">🖨️</span>Imprimer le cours</button>
+                <img src="assets/logo.png" alt="Logo L'Établi des Maths" class="course-header-logo" width="48" height="48" />
+              </div>
             </div>
             <div class="course-card course-objectives">
               <h3>🎯 Attendus officiels du Cycle 4 (${lvlLabel})</h3>
@@ -1337,11 +1339,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
       let html = `
         <div class="course-sheet-header">
-          <div>
+          <div class="course-header-titles">
             <h2>${course.title}</h2>
-            <div class="course-author-sub">Fiche de cours rédigée par <strong>Loïc Delaporte</strong>, Professeur de Mathématiques</div>
           </div>
-          <button class="btn-secondary no-print course-print-btn" onclick="window.print()" title="Imprimer le cours"><span style="margin-right: 0.35rem;">🖨️</span>Imprimer le cours</button>
+          <div class="course-header-actions">
+            <button class="btn-secondary no-print course-print-btn" onclick="window.print()" title="Imprimer le cours"><span style="margin-right: 0.35rem;">🖨️</span>Imprimer le cours</button>
+            <img src="assets/logo.png" alt="Logo L'Établi des Maths" class="course-header-logo" width="48" height="48" />
+          </div>
         </div>
       `;
 
