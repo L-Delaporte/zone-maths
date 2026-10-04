@@ -1329,6 +1329,10 @@ document.addEventListener('DOMContentLoaded', () => {
               <h3>⚡ Entraînement & Automatismes</h3>
               <p class="math-p">Rendez-vous dans l'onglet <strong>🎯 S'entraîner</strong> pour pratiquer les 4 Paliers ZPD ou lancez un <strong>⏱️ Rituel Flash</strong> !</p>
             </div>
+            <div class="course-print-footer print-only">
+              <span>L'Établi des Maths</span>
+              <span>Créé par Loïc Delaporte</span>
+            </div>
           `;
           window.MathsRenderer.renderElement(container);
           return;
@@ -1436,6 +1440,10 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="course-cta-box">
           <p>Prêt à tester ta compréhension dans ta zone optimale ?</p>
           <button class="btn-primary" onclick="window.MathsApp.switchTab('train')">Lancer l'entraînement adaptatif 🎯</button>
+        </div>
+        <div class="course-print-footer print-only">
+          <span>L'Établi des Maths</span>
+          <span>Créé par Loïc Delaporte</span>
         </div>
       `;
 

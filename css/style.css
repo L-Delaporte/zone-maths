@@ -1356,7 +1356,8 @@ body {
   gap: 0.5rem;
 }
 
-.course-header-logo {
+.course-header-logo,
+.course-print-footer {
   display: none;
 }
 
@@ -6326,7 +6327,7 @@ body {
   }
 
   body {
-    padding: 8mm 12mm 10mm 12mm !important;
+    padding: 12mm 16mm 14mm 16mm !important;
     box-sizing: border-box !important;
   }
 
@@ -6574,6 +6575,21 @@ body {
     padding: 0 !important;
     border: none !important;
     overflow: hidden !important;
+  }
+
+  /* 12. Note de bas de page officielle en impression */
+  .course-print-footer {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    margin-top: 14px !important;
+    padding-top: 4px !important;
+    border-top: 1px solid #cbd5e1 !important;
+    font-size: 8pt !important;
+    color: #475569 !important;
+    font-style: italic !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
   }
 }
 
