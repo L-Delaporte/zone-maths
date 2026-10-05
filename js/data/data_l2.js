@@ -8,89 +8,108 @@ window.MATHS_COURSES_L2 = {
     "title": "L2-RED1 : Réduction des endomorphismes I : Valeurs propres et Diagonalisation",
     "domain": "Algèbre Linéaire Avancée",
     "objectives": [
-      "Définir les notions d'éléments propres : valeur propre, vecteur propre, sous-espace propre $E_\\lambda = \\ker(u - \\lambda \\text{Id}_E)$.",
-      "Calculer le polynôme caractéristique $P_u(X) = \\det(X \\text{Id}_E - u)$ et déterminer son spectre $\\text{Sp}(u)$.",
-      "Énoncer et appliquer le Théorème fondamental de diagonalisabilité : $\\sum \\dim(E_\\lambda) = \\dim(E)$.",
-      "Calculer les puissances de matrices $A^k$ et résoudre des récurrences linéaires par diagonalisation."
+      "Définir les notions de valeur propre, vecteur propre et sous-espace propre d'un endomorphisme.",
+      "Calculer le polynôme caractéristique d'une matrice et déterminer ses racines (spectre).",
+      "Énoncer et démontrer les critères de diagonalisabilité (multiplicités algébrique et géométrique).",
+      "Appliquer la diagonalisation au calcul des puissances de matrices $A^k$ et à la résolution de systèmes récurrents."
     ],
     "keyPoints": [
       {
-        "title": "1. Définition et polynôme caractéristique",
-        "content": "Soit $E$ un $\\mathbb{K}$-espace vectoriel de dimension finie $n$, et $u \\in \\mathcal{L}(E)$ :\n• $\\lambda \\in \\mathbb{K}$ est une **valeur propre** de $u$ s'il existe un vecteur **non nul** $x \\in E$ tel que $u(x) = \\lambda x$.\n• Le **sous-espace propre** associé est $E_\\lambda = \\ker(u - \\lambda \\text{Id}_E)$ (SEV de dimension $\\ge 1$).\n• **Polynôme caractéristique** : $P_u(X) = \\det(X \\text{Id} - u)$. Les valeurs propres sont exactement les racines de $P_u(X)$ dans $\\mathbb{K}$."
+        "title": "1. Éléments propres : Valeurs propres, Vecteurs propres et Spectre",
+        "content": "Soit $E$ un $\\mathbb{K}$-espace vectoriel et $u \\in \\mathcal{L}(E)$ :\n• **Valeur propre** : Un scalaire $\\lambda \\in \\mathbb{K}$ est une valeur propre de $u$ s'il existe un vecteur **non nul** $x \\in E \\setminus \\{0_E\\}$ tel que :\n$$u(x) = \\lambda x$$\n• **Vecteur propre** : Tout vecteur $x \\neq 0_E$ vérifiant $u(x) = \\lambda x$ est un vecteur propre associé à $\\lambda$.\n• **Sous-espace propre** : L'ensemble $E_\\lambda(u) = \\ker(u - \\lambda \\text{Id}_E)$ est un sous-espace vectoriel de $E$ de dimension $\\ge 1$.\n• **Spectre** : L'ensemble des valeurs propres de $u$ est noté $\\text{Sp}(u) = \\{\\lambda \\in \\mathbb{K} \\mid \\ker(u - \\lambda \\text{Id}_E) \\neq \\{0_E\\}\\}$."
       },
       {
-        "title": "2. Critères de diagonalisabilité",
-        "content": "Un endomorphisme $u \\in \\mathcal{L}(E)$ est **diagonalisable** ssi il existe une base de $E$ formée de vecteurs propres de $u$.\n• **Théorème fondamental** : $u$ est diagonalisable ssi :\n1. Le polynôme caractéristique $P_u(X)$ est **scindé** sur $\\mathbb{K}$.\n2. Pour chaque valeur propre $\\lambda$, la multiplicité géométrique est égale à la multiplicité algébrique : $\\dim(E_\\lambda) = m_\\lambda$.\n• **Cas particulier suffisant** : Si $P_u(X)$ admet $n = \\dim(E)$ racines distinctes dans $\\mathbb{K}$, alors $u$ est diagonalisable."
+        "title": "2. Polynôme caractéristique et multiplicités",
+        "content": "Soit $A \\in \\mathcal{M}_n(\\mathbb{K})$ :\n• **Polynôme caractéristique** : $\\chi_A(X) = \\det(X I_n - A)$ (ou $\\det(A - X I_n)$). C'est un polynôme unitaire de degré $n$.\n• **Caractérisation spectrale** : $\\lambda$ est valeur propre de $A$ ssi $\\chi_A(\\lambda) = 0$.\n• **Multiplicité algébrique $m_\\lambda$** : C'est la multiplicité de $\\lambda$ comme racine de $\\chi_A(X)$.\n• **Multiplicité géométrique $d_\\lambda$** : C'est la dimension du sous-espace propre associé : $d_\\lambda = \\dim(E_\\lambda) = n - \\text{rg}(A - \\lambda I_n)$.\n• **Inégalité fondamentale** : Pour toute valeur propre $\\lambda$, on a toujours :\n$$1 \\le d_\\lambda \\le m_\\lambda$$"
+      },
+      {
+        "title": "3. Critères fondamentaux de diagonalisabilité",
+        "content": "Un endomorphisme $u \\in \\mathcal{L}(E)$ (avec $\\dim E = n$) est **diagonalisable** si et seulement si l'une des conditions équivalentes suivantes est vérifiée :\n1. $E$ admet une base de vecteurs propres de $u$.\n2. La somme des dimensions des sous-espaces propres est égale à $n$ : $\\sum_{\\lambda \\in \\text{Sp}(u)} \\dim(E_\\lambda) = n$.\n3. Son polynôme caractéristique $\\chi_u(X)$ est **scindé** sur $\\mathbb{K}$, et pour toute valeur propre $\\lambda$, la multiplicité géométrique est égale à la multiplicité algébrique : $\\dim(E_\\lambda) = m_\\lambda$.\n• **Condition suffisante** : Si $\\chi_u(X)$ admet $n$ racines distinctes dans $\\mathbb{K}$, alors $u$ est diagonalisable (toutes les multiplicités valent 1)."
+      },
+      {
+        "title": "4. Puissances de matrices et calcul explicite",
+        "content": "Si $A$ est diagonalisable, il existe $P \\in GL_n(\\mathbb{K})$ (matrice dont les colonnes sont les vecteurs propres) et $D = \\text{diag}(\\lambda_1, \\dots, \\lambda_n)$ telles que $A = P D P^{-1}$.\n• Pour tout $k \\in \\mathbb{N}$ (et $k \\in \\mathbb{Z}$ si $A$ est inversible) :\n$$A^k = P D^k P^{-1} = P \\begin{pmatrix} \\lambda_1^k & & 0 \\\\ & \\ddots & \\\\ 0 & & \\lambda_n^k \\end{pmatrix} P^{-1}$$\n• Permet d'exprimer explicitement les termes généraux de suites vectorielles récurrentes $X_{k+1} = A X_k$."
       }
     ],
     "methods": [
       {
-        "title": "Méthode : Diagonaliser une matrice $3 \\times 3$",
-        "example": "Soit $A = \\begin{pmatrix} 1 & 1 & 1 \\\\ 0 & 2 & 1 \\\\ 0 & 0 & 3 \\end{pmatrix}$. Est-elle diagonalisable ?",
+        "title": "Méthode : Diagonaliser une matrice 2x2",
+        "example": "Diagonaliser la matrice $A = \\begin{pmatrix} 1 & 2 \\\\ 2 & 1 \\end{pmatrix}$.",
         "steps": [
-          "**Étape 1 (Matrice triangulaire)** : Comme $A$ est triangulaire supérieure, ses valeurs propres sont ses éléments diagonaux : $\\lambda_1 = 1, \\lambda_2 = 2, \\lambda_3 = 3$.",
-          "**Étape 2 (Spectre)** : Le polynôme caractéristique est $P_A(X) = (X-1)(X-2)(X-3)$.",
-          "**Étape 3 (Conclusion)** : $A$ possède 3 valeurs propres deux à deux distinctes en dimension 3. D'après le théorème du cours, la matrice $A$ est diagonalisable."
+          "**Polynôme caractéristique** : $\\chi_A(\\lambda) = \\det(\\lambda I_2 - A) = (\\lambda - 1)^2 - 4 = \\lambda^2 - 2\\lambda - 3 = (\\lambda - 3)(\\lambda + 1)$.",
+          "**Valeurs propres** : $\\lambda_1 = 3$ et $\\lambda_2 = -1$. Deux valeurs propres distinctes en dimension 2 : $A$ est diagonalisable.",
+          "**Sous-espace $E_3$** : $(A - 3I_2)X = 0 \\iff -2x + 2y = 0 \\iff x = y$. Vecteur propre : $v_1(1; 1)$.",
+          "**Sous-espace $E_{-1}$** : $(A + I_2)X = 0 \\iff 2x + 2y = 0 \\iff x = -y$. Vecteur propre : $v_2(1; -1)$.",
+          "**Conclusion** : $P = \\begin{pmatrix} 1 & 1 \\\\ 1 & -1 \\end{pmatrix}$, $D = \\begin{pmatrix} 3 & 0 \\\\ 0 & -1 \\end{pmatrix}$, et $A = P D P^{-1}$."
         ]
       }
     ],
     "traps": [
-      "⚠️ Un vecteur propre ne peut JAMAIS être le vecteur nul $0_E$ par définition !",
-      "⚠️ Une valeur propre peut être nulle ($\\lambda = 0 \\iff \\ker(u) \\neq \\{0\\} \\iff u$ non inversible)."
+      "⚠️ Un vecteur propre ne peut JAMAIS être le vecteur nul $0_E$, par définition !",
+      "⚠️ Avoir un polynôme caractéristique scindé ne suffit pas pour diagonaliser : il faut impérativement que $\\dim(E_\\lambda) = m_\\lambda$ pour chaque racine multiple (ex: la matrice $\\begin{pmatrix} 1 & 1 \\\\ 0 & 1 \\end{pmatrix}$ n'est pas diagonalisable)."
     ],
     "flashcards": [
       {
-        "q": "Quelle est la définition d'un vecteur propre associé à la valeur propre $\\lambda$ ?",
-        "a": "Un vecteur **non nul** $x \\in E$ vérifiant $u(x) = \\lambda x$."
+        "q": "Quelle condition sur les multiplicités algébrique et géométrique caractérise la diagonalisabilité ?",
+        "a": "Le polynôme caractéristique doit être scindé et pour chaque valeur propre, $\\dim(E_\\lambda) = m_\\lambda$."
       },
       {
-        "q": "Une matrice de taille $n \\times n$ possédant $n$ valeurs propres distinctes est-elle toujours diagonalisable ?",
-        "a": "Oui, toujours."
+        "q": "Si une matrice carrée d'ordre n admet n valeurs propres distinctes, est-elle diagonalisable ?",
+        "a": "Oui, c'est une condition suffisante immédiate."
       }
     ]
   },
   "L2-PRE": {
     "title": "L2-PRE : Espaces Préhilbertiens et Euclidiens : Orthogonalité et Gram-Schmidt",
-    "domain": "Espaces Euclidiens",
+    "domain": "Géométrie & Espaces Euclidiens",
     "objectives": [
-      "Définir un produit scalaire réel : forme bilinéaire symétrique définie positive.",
-      "Énoncer et démontrer l'inégalité de Cauchy-Schwarz : $|\\langle x, y \\rangle| \\le \\|x\\| \\|y\\|$ avec cas d'égalité.",
-      "Appliquer l'algorithme d'orthonormalisation de Gram-Schmidt pour construire une base orthonormée (BON).",
-      "Calculer la projection orthogonale sur un sous-espace vectoriel de dimension finie et la distance d'un vecteur à ce sous-espace."
+      "Définir rigoureusement un produit scalaire réel et un espace euclidien.",
+      "Énoncer et démontrer l'Inégalité de Cauchy-Schwarz et l'Inégalité triangulaire de Minkowski.",
+      "Caractériser le supplémentaire orthogonal $E = F \\oplus F^\\perp$ en dimension finie et la projection orthogonale.",
+      "Appliquer le procédé d'orthonormalisation de Gram-Schmidt pour construire des bases orthonormées."
     ],
     "keyPoints": [
       {
-        "title": "1. Inégalité de Cauchy-Schwarz",
-        "content": "Dans tout espace préhilbertien réel $(E, \\langle \\cdot, \\cdot \\rangle)$ :\n$$|\\langle x, y \\rangle| \\le \\|x\\| \\|y\\|$$\navec égalité si et seulement si la famille $(x, y)$ est liée (colinéaire).\n• **Inégalité de Minkowski (triangulaire)** : $\\|x + y\\| \\le \\|x\\| + \\|y\\|$."
+        "title": "1. Définition axiomatique du produit scalaire euclidien",
+        "content": "Soit $E$ un $\\mathbb{R}$-espace vectoriel. Un **produit scalaire** sur $E$ est une application $\\langle \\cdot, \\cdot \\rangle : E \\times E \\to \\mathbb{R}$ qui est :\n1. **Bilinéaire** : linéaire par rapport à chaque variable.\n2. **Symétrique** : $\\forall x, y \\in E, \\langle x, y \\rangle = \\langle y, x \\rangle$.\n3. **Positive** : $\\forall x \\in E, \\langle x, x \\rangle \\ge 0$.\n4. **Définie** : $\\forall x \\in E, \\langle x, x \\rangle = 0 \\implies x = 0_E$.\n• Un espace vectoriel réel de dimension finie muni d'un produit scalaire est un **espace euclidien**.\n• La **norme euclidienne associée** est définie par $\\|x\\| = \\sqrt{\\langle x, x \\rangle}$."
       },
       {
-        "title": "2. Procédé d'orthonormalisation de Gram-Schmidt",
-        "content": "Soit $(v_1, v_2, \\dots, v_p)$ une famille libre de $E$. On construit une famille orthonormée $(e_1, \\dots, e_p)$ engendrant le même sous-espace par récurrence :\n$$u_1 = v_1, \\quad e_1 = \\frac{u_1}{\\|u_1\\|}$$\n$$u_k = v_k - \\sum_{j=1}^{k-1} \\langle v_k, e_j \\rangle e_j, \\quad e_k = \\frac{u_k}{\\|u_k\\|}$$"
+        "title": "2. Inégalités de Cauchy-Schwarz et de Minkowski",
+        "content": "• **Inégalité de Cauchy-Schwarz** : Pour tous vecteurs $x, y \\in E$ :\n$$|\\langle x, y \\rangle| \\le \\|x\\| \\cdot \\|y\\|$$\n  - **Cas d'égalité** : $|\\langle x, y \\rangle| = \\|x\\| \\|y\\| \\iff (x, y)$ est liée (les vecteurs sont colinéaires).\n• **Inégalité triangulaire (Minkowski)** : Pour tous $x, y \\in E$ :\n$$\\|x + y\\| \\le \\|x\\| + \\|y\\|$$\n• **Théorème de Pythagore** : $x \\perp y \\iff \\langle x, y \\rangle = 0 \\iff \\|x + y\\|^2 = \\|x\\|^2 + \\|y\\|^2$."
+      },
+      {
+        "title": "3. Orthogonalité, supplémentaire et projecteur orthogonal",
+        "content": "Soit $F$ un sous-espace vectoriel d'un espace euclidien $E$ :\n• **Orthogonal de $F$** : $F^\\perp = \\{x \\in E \\mid \\forall y \\in F, \\langle x, y \\rangle = 0\\}$.\n• **Supplémentaire orthogonal** : Si $F$ est de dimension finie, alors $E = F \\oplus F^\\perp$, et $\\dim(F^\\perp) = \\dim(E) - \\dim(F)$. De plus, $(F^\\perp)^\\perp = F$.\n• **Projection orthogonale** : Si $(e_1, \\dots, e_p)$ est une base **orthonormée** de $F$, la projection orthogonale $p_F(x)$ s'exprime par :\n$$p_F(x) = \\sum_{i=1}^p \\langle x, e_i \\rangle e_i$$\n• **Distance à un sous-espace** : $\\text{dist}(x, F) = \\|x - p_F(x)\\| = \\min_{y \\in F} \\|x - y\\|$."
+      },
+      {
+        "title": "4. Procédé d'orthonormalisation de Gram-Schmidt",
+        "content": "À partir d'une base $(v_1, \\dots, v_n)$ d'un espace euclidien, on construit une base orthonormée $(e_1, \\dots, e_n)$ vérifiant $\\text{Vect}(e_1, \\dots, e_k) = \\text{Vect}(v_1, \\dots, v_k)$ par récurrence :\n1. $u_1 = v_1$, puis $e_1 = \\frac{u_1}{\\|u_1\\|}$.\n2. Pour $k \\ge 2$ :\n$$u_k = v_k - \\sum_{i=1}^{k-1} \\langle v_k, e_i \\rangle e_i, \\qquad e_k = \\frac{u_k}{\\|u_k\\|}$$"
       }
     ],
     "methods": [
       {
-        "title": "Méthode : Orthogonaliser deux vecteurs par Gram-Schmidt",
-        "example": "Soit $\\mathbb{R}^3$ muni du produit scalaire usuel. Transformer $(v_1(1;1;0), v_2(1;0;1))$ en une base orthonormée.",
+        "title": "Méthode : Calculer la projection orthogonale sur un sous-espace",
+        "example": "Soit $F$ le plan de $\\mathbb{R}^3$ d'équation $x + 2y - z = 0$. Trouver la distance de $A(1; 1; 1)$ à $F$.",
         "steps": [
-          "**Premier vecteur** : $\\|v_1\\| = \\sqrt{1^2 + 1^2 + 0^2} = \\sqrt{2}$. On pose $e_1 = \\frac{v_1}{\\sqrt{2}} = \\left(\\frac{1}{\\sqrt{2}} ; \\frac{1}{\\sqrt{2}} ; 0\\right)$.",
-          "**Projection sur $e_1$** : $\\langle v_2, e_1 \\rangle = 1\\left(\\frac{1}{\\sqrt{2}}\\right) + 0 + 1(0) = \\frac{1}{\\sqrt{2}}$.",
-          "**Deuxième vecteur orthogonal** : $u_2 = v_2 - \\langle v_2, e_1 \\rangle e_1 = (1; 0; 1) - \\frac{1}{\\sqrt{2}}\\left(\\frac{1}{\\sqrt{2}} ; \\frac{1}{\\sqrt{2}} ; 0\\right) = \\left(\\frac{1}{2} ; -\\frac{1}{2} ; 1\\right)$.",
-          "**Normalisation** : $\\|u_2\\| = \\sqrt{\\frac{1}{4} + \\frac{1}{4} + 1} = \\sqrt{\\frac{3}{2}}$. Alors $e_2 = \\frac{u_2}{\\|u_2\\|} = \\left(\\frac{1}{\\sqrt{6}} ; -\\frac{1}{\\sqrt{6}} ; \\frac{2}{\\sqrt{6}}\\right)$."
+          "**Vecteur normal** : $\\vec{n} = (1, 2, -1)$ est orthogonal à $F$. Sa norme est $\\|\\vec{n}\\| = \\sqrt{1^2 + 2^2 + (-1)^2} = \\sqrt{6}$.",
+          "**Vecteur unitaire orthogonal** : $\\vec{u} = \\frac{\\vec{n}}{\\sqrt{6}}$.",
+          "**Projection sur la droite normale $F^\\perp$** : $p_{F^\\perp}(A) = \\langle A, \\vec{u} \\rangle \\vec{u} = \\frac{1(1) + 2(1) - 1(1)}{\\sqrt{6}} \\vec{u} = \\frac{2}{\\sqrt{6}} \\vec{u}$.",
+          "**Distance** : $\\text{dist}(A, F) = \\|p_{F^\\perp}(A)\\| = \\frac{2}{\\sqrt{6}} = \\frac{\\sqrt{6}}{3}$."
         ]
       }
     ],
     "traps": [
-      "⚠️ Dans la formule de Gram-Schmidt, si on n'a pas encore normalisé les vecteurs $u_j$, il faut diviser par $\\|u_j\\|^2$ : $u_k = v_k - \\sum \\frac{\\langle v_k, u_j \\rangle}{\\|u_j\\|^2} u_j$."
+      "⚠️ La formule de projection $p_F(x) = \\sum \\langle x, e_i \\rangle e_i$ n'est valable QUE si la base $(e_i)$ est **orthonormée** (normes égales à 1) !",
+      "⚠️ Dans un espace préhilbertien de dimension infinie, on a seulement $F \\cap F^\\perp = \\{0\\}$, mais $F + F^\\perp$ n'est pas nécessairement égal à $E$ tout entier si $F$ n'est pas complet/fermé."
     ],
     "flashcards": [
       {
-        "q": "Énoncer l'inégalité de Cauchy-Schwarz.",
-        "a": "$|\\langle x, y \\rangle| \\le \\|x\\| \\|y\\|$."
+        "q": "Énoncer l'Inégalité de Cauchy-Schwarz et son cas d'égalité.",
+        "a": "$|\\langle x, y \\rangle| \\le \\|x\\| \\|y\\|$, avec égalité ssi $(x, y)$ est une famille liée."
       },
       {
-        "q": "Quand l'inégalité de Cauchy-Schwarz est-elle une égalité stricte ?",
-        "a": "Si et seulement si les deux vecteurs sont colinéaires (famille liée)."
+        "q": "Quelle est l'expression de la projection orthogonale de x sur F muni d'une base orthonormée (e1, ..., ep) ?",
+        "a": "$p_F(x) = \\sum_{i=1}^p \\langle x, e_i \\rangle e_i$."
       }
     ]
   },
@@ -98,44 +117,52 @@ window.MATHS_COURSES_L2 = {
     "title": "L2-SER : Séries numériques réelles et complexes",
     "domain": "Analyse Réelle & Complexe",
     "objectives": [
-      "Définir la somme d'une série convergente comme la limite de sa suite des sommes partielles $S_n = \\sum_{k=0}^n u_k$.",
-      "Vérifier la condition nécessaire de convergence : $\\lim_{n \\to \\infty} u_n = 0$ (divergence grossière si $u_n \\not\\to 0$).",
-      "Appliquer les règles de comparaison pour séries à termes positifs : équivalents, domination, règles de Riemann $\\sum \\frac{1}{n^\\alpha}$.",
-      "Appliquer la règle de d'Alembert $\\lim \\frac{|u_{n+1}|}{|u_n|}$ et la règle des séries alternées de Leibniz."
+      "Définir la convergence d'une série numérique à l'aide de la suite de ses sommes partielles.",
+      "Maîtriser les théorèmes de comparaison pour les séries à termes positifs (inégalités, équivalents, comparaison intégrale).",
+      "Énoncer les critères de convergence de Riemann, d'Alembert et de Cauchy.",
+      "Définir la convergence absolue et appliquer le Critère Spécial des Séries Alternées (CSSA de Leibniz)."
     ],
     "keyPoints": [
       {
-        "title": "1. Séries de Riemann et règle de d'Alembert",
-        "content": "• **Séries de Riemann** : $\\sum_{n=1}^\\infty \\frac{1}{n^\\alpha}$ converge si et seulement si $\\alpha > 1$.\n• **Règle de d'Alembert** : Soit $\\sum u_n$ une série à termes non nuls telle que $\\lim_{n \\to +\\infty} \\left|\\frac{u_{n+1}}{u_n}\\right| = \\ell$ :\n- Si $\\ell < 1$ : la série est **absolument convergente**.\n- Si $\\ell > 1$ : la série **diverge grossièrement** ($u_n \\not\\to 0$).\n- Si $\\ell = 1$ : cas douteux (utiliser Riemann ou Gauss)."
+        "title": "1. Définition, sommes partielles et divergence grossière",
+        "content": "Soit $(u_n)_{n \\in \\mathbb{N}}$ une suite dans $\\mathbb{K}$ ($\\mathbb{R}$ ou $\\mathbb{C}$) :\n• La **série $\\sum u_n$ converge** si la suite des sommes partielles $S_n = \\sum_{k=0}^n u_k$ admet une limite finie $S \\in \\mathbb{K}$ quand $n \\to +\\infty$. Dans ce cas, la somme est notée $\\sum_{n=0}^{+\\infty} u_n = S$.\n• **Condition nécessaire (Divergence grossière)** :\n$$\\sum u_n \\text{ converge} \\implies \\lim_{n \\to +\\infty} u_n = 0$$\nSi $u_n \\not\\to 0$, la série diverge grossièrement.\n• **Reste d'une série convergente** : $R_n = \\sum_{k=n+1}^{+\\infty} u_k = S - S_n$, avec $\\lim_{n \\to +\\infty} R_n = 0$."
       },
       {
-        "title": "2. Critère spécial des séries alternées (CSSA de Leibniz)",
-        "content": "Une série $\\sum (-1)^n a_n$ avec $a_n \\ge 0$ converge si :\n1. $\\lim_{n \\to +\\infty} a_n = 0$.\n2. La suite $(a_n)$ est décroissante à partir d'un certain rang.\n• **Majoration du reste** : $|R_n| = |S - S_n| \\le a_{n+1}$ (l'erreur est majorée par la valeur absolue du premier terme négligé)."
+        "title": "2. Séries à termes positifs et théorèmes de comparaison",
+        "content": "Pour une série à termes réels positifs ($u_n \\ge 0$) :\n• La suite des sommes partielles $(S_n)$ est croissante : elle converge ssi elle est **majorée**.\n• **Théorème de comparaison par inégalité** : Si $0 \\le u_n \\le v_n$ pour tout $n \\ge n_0$ :\n  - Si $\\sum v_n$ converge, alors $\\sum u_n$ converge.\n  - Si $\\sum u_n$ diverge, alors $\\sum v_n$ diverge.\n• **Théorème de comparaison par équivalence** : Si $u_n, v_n > 0$ et $u_n \\sim v_n$, alors $\\sum u_n$ et $\\sum v_n$ sont de **même nature**."
+      },
+      {
+        "title": "3. Séries de référence et règles classiques",
+        "content": "• **Série géométrique** : $\\sum q^n$ converge ssi $|q| < 1$, de somme $\\frac{1}{1 - q}$.\n• **Série de Riemann** : $\\sum_{n=1}^{+\\infty} \\frac{1}{n^\\alpha}$ converge ssi $\\alpha > 1$.\n• **Règle de d'Alembert** : Si $u_n > 0$ et $\\lim_{n \\to +\\infty} \\frac{u_{n+1}}{u_n} = l$ :\n  - Si $l < 1$, $\\sum u_n$ converge.\n  - Si $l > 1$, $\\sum u_n$ diverge grossièrement.\n  - Si $l = 1$, le test est **inconcluant** (recourir à un développement asymptotique ou Riemann)."
+      },
+      {
+        "title": "4. Séries absolument convergentes et Séries alternées",
+        "content": "• **Convergence absolue** : $\\sum u_n$ est absolument convergente si $\\sum |u_n|$ converge. Par complétude de $\\mathbb{K}$, toute série absolument convergente est convergente, et $\\left|\\sum_{n=0}^{+\\infty} u_n\\right| \\le \\sum_{n=0}^{+\\infty} |u_n|$.\n• **Critère Spécial des Séries Alternées (CSSA de Leibniz)** :\nSoit $\\sum (-1)^n a_n$ avec $a_n \\ge 0$. Si la suite $(a_n)$ est **décroissante** et $\\lim a_n = 0$, alors :\n1. La série $\\sum (-1)^n a_n$ converge.\n2. Le reste est majoré par la valeur absolue du premier terme négligé :\n$$|R_n| = \\left|\\sum_{k=n+1}^{+\\infty} (-1)^k a_k\\right| \\le a_{n+1}$$"
       }
     ],
     "methods": [
       {
-        "title": "Méthode : Étudier la nature d'une série avec factorielles",
-        "example": "Déterminer la nature de la série $\\sum_{n=0}^\\infty \\frac{2^n}{n!}$.",
+        "title": "Méthode : Appliquer la règle de d'Alembert",
+        "example": "Déterminer la nature de la série $\\sum_{n=1}^{+\\infty} \\frac{3^n}{n!}$.",
         "steps": [
-          "**Étape 1 (Règle de d'Alembert)** : On calcule le rapport $\\frac{u_{n+1}}{u_n} = \\frac{2^{n+1}}{(n+1)!} \\times \\frac{n!}{2^n} = \\frac{2}{n+1}$.",
-          "**Étape 2 (Limite)** : $\\lim_{n \\to +\\infty} \\frac{2}{n+1} = 0 = \\ell$.",
-          "**Conclusion** : Comme $\\ell = 0 < 1$, d'après la règle de d'Alembert, la série converge (sa somme vaut $e^2$)."
+          "**Quotient** : $\\frac{u_{n+1}}{u_n} = \\frac{3^{n+1}}{(n+1)!} \\times \\frac{n!}{3^n} = \\frac{3}{n+1}$.",
+          "**Limite** : $\\lim_{n \\to +\\infty} \\frac{3}{n+1} = 0$.",
+          "**Conclusion** : Comme le quotient tend vers $0 < 1$, d'après la règle de d'Alembert, la série converge (vers $e^3 - 1$)."
         ]
       }
     ],
     "traps": [
-      "⚠️ $u_n \\to 0$ est une condition **nécessaire** mais **NON suffisante** pour la convergence ! Exemple : $\\frac{1}{n} \\to 0$ mais $\\sum \\frac{1}{n}$ diverge.",
-      "⚠️ Si $\\ell = 1$ dans la règle de d'Alembert, on ne peut RIEN conclure (ex: $\\sum \\frac{1}{n}$ et $\\sum \\frac{1}{n^2}$ ont toutes deux $\\ell = 1$)."
+      "⚠️ $u_n \\to 0$ est une condition **nécessaire mais non suffisante** : la série harmonique $\\sum \\frac{1}{n}$ a son terme général qui tend vers 0, mais elle diverge !",
+      "⚠️ On ne peut utiliser le critère des équivalents QUE pour des séries dont le terme général garde un **signe constant** au voisinage de $+\\infty$."
     ],
     "flashcards": [
       {
-        "q": "Pour quelles valeurs de $\\alpha$ la série de Riemann $\\sum \\frac{1}{n^\\alpha}$ converge-t-elle ?",
-        "a": "Pour $\\alpha > 1$ (diverge si $\\alpha \\le 1$)."
+        "q": "Pour quelle condition sur l'exposant alpha la série de Riemann sum 1/n^alpha converge-t-elle ?",
+        "a": "Elle converge si et seulement si $\\alpha > 1$."
       },
       {
-        "q": "Que peut-on dire si $\\lim \\frac{|u_{n+1}|}{|u_n|} = 1$ dans le test de d'Alembert ?",
-        "a": "Le test ne permet pas de conclure (cas douteux)."
+        "q": "Quelle majoration fondamentale donne le CSSA de Leibniz sur le reste R_n d'une série alternée ?",
+        "a": "$|R_n| \\le a_{n+1}$ (le reste est majoré en valeur absolue par le premier terme négligé)."
       }
     ]
   },
@@ -143,89 +170,104 @@ window.MATHS_COURSES_L2 = {
     "title": "L2-CAL : Calcul différentiel à plusieurs variables, gradient et extremums",
     "domain": "Calcul Différentiel",
     "objectives": [
-      "Calculer les dérivées partielles d'ordre 1 et 2 d'une fonction de plusieurs variables $f(x, y)$.",
-      "Énoncer le Théorème de Schwarz sur la symétrie des dérivées croisées : $\\frac{\\partial^2 f}{\\partial x \\partial y} = \\frac{\\partial^2 f}{\\partial y \\partial x}$.",
-      "Calculer le vecteur gradient $\\nabla f(a, b)$ et la matrice hessienne $H_f(a, b)$.",
-      "Déterminer les points critiques et caractériser leur nature (minimum local, maximum local, point-selle col)."
+      "Définir la différentiabilité au sens de Fréchet pour une fonction de plusieurs variables.",
+      "Calculer le vecteur gradient et la matrice jacobienne.",
+      "Énoncer et appliquer le Théorème de Schwarz sur la symétrie des dérivées partielles secondes.",
+      "Déterminer et classifier les points critiques d'une fonction à l'aide de la matrice hessienne."
     ],
     "keyPoints": [
       {
-        "title": "1. Gradient et Différentielle",
-        "content": "Pour une fonction $f : \\mathbb{R}^2 \\to \\mathbb{R}$ de classe $\\mathcal{C}^1$ :\n• Le **vecteur gradient** est $\\nabla f(x, y) = \\begin{pmatrix} \\frac{\\partial f}{\\partial x} \\\\ \\frac{\\partial f}{\\partial y} \\end{pmatrix}$.\n• La **différentielle** en un point $A$ est la forme linéaire $df(A)(h, k) = \\frac{\\partial f}{\\partial x}(A) h + \\frac{\\partial f}{\\partial y}(A) k$.\n• **Propriété géométrique** : Le gradient est orthogonal aux lignes de niveau de $f$ et pointe dans la direction de la plus grande pente."
+        "title": "1. Dérivées partielles, différentielle et Gradient",
+        "content": "Soit $U$ un ouvert de $\\mathbb{R}^n$ et $f : U \\to \\mathbb{R}$ :\n• **Dérivée partielle** selon la $i$-ème coordonnée en $a \\in U$ :\n$$\\frac{\\partial f}{\\partial x_i}(a) = \\lim_{t \\to 0} \\frac{f(a + t e_i) - f(a)}{t}$$\n• **Différentiabilité (Fréchet)** : $f$ est différentiable en $a$ s'il existe une application linéaire $df_a \\in \\mathcal{L}(\\mathbb{R}^n, \\mathbb{R})$ telle que :\n$$f(a + h) = f(a) + df_a(h) + o(\\|h\\|)$$\n• **Gradient** : Le gradient $\\nabla f(a)$ est le vecteur de $\\mathbb{R}^n$ représentant $df_a$ pour le produit scalaire standard : $df_a(h) = \\langle \\nabla f(a), h \\rangle = \\sum_{i=1}^n \\frac{\\partial f}{\\partial x_i}(a) h_i$.\n• **Classe $\\mathcal{C}^1$** : Si toutes les dérivées partielles existent et sont continues sur $U$, alors $f$ est différentiable sur $U$."
       },
       {
-        "title": "2. Recherche d'extremums locaux (Matrice hessienne)",
-        "content": "1. On cherche les **points critiques** solutions du système $\\nabla f(x, y) = (0, 0)$.\n2. En un point critique $(x_0, y_0)$, on calcule la **matrice hessienne** :\n$$H = \\begin{pmatrix} r & s \\\\ s & t \\end{pmatrix} = \\begin{pmatrix} \\frac{\\partial^2 f}{\\partial x^2} & \\frac{\\partial^2 f}{\\partial x \\partial y} \\\\ \\frac{\\partial^2 f}{\\partial y \\partial x} & \\frac{\\partial^2 f}{\\partial y^2} \\end{pmatrix}$$\n• Si $\\det(H) = rt - s^2 > 0$ et $r > 0$ : **minimum local strict**.\n• Si $\\det(H) = rt - s^2 > 0$ et $r < 0$ : **maximum local strict**.\n• Si $\\det(H) = rt - s^2 < 0$ : **point selle** (ou col, pas d'extremum).\n• Si $\\det(H) = 0$ : cas douteux (étude d'ordre supérieur requise)."
+        "title": "2. Théorème de Schwarz et dérivées d'ordre supérieur",
+        "content": "• **Théorème de Schwarz (Symétrie des dérivées croisées)** : Si $f : U \\to \\mathbb{R}$ est de **classe $\\mathcal{C}^2$** sur un ouvert $U$, alors pour tous $i, j \\in \\{1, \\dots, n\\}$ :\n$$\\frac{\\partial^2 f}{\\partial x_i \\partial x_j} = \\frac{\\partial^2 f}{\\partial x_j \\partial x_i}$$\n• L'ordre de dérivation par rapport aux variables n'a donc pas d'importance."
+      },
+      {
+        "title": "3. Matrice hessienne et formule de Taylor à l'ordre 2",
+        "content": "Pour $f \\in \\mathcal{C}^2(U, \\mathbb{R})$ et $a \\in U$, la **matrice hessienne** est la matrice symétrique $H_f(a) \\in \\mathcal{M}_n(\\mathbb{R})$ définie par :\n$$H_f(a) = \\left( \\frac{\\partial^2 f}{\\partial x_i \\partial x_j}(a) \\right)_{1 \\le i, j \\le n}$$\n• **Formule de Taylor-Young à l'ordre 2** :\n$$f(a + h) = f(a) + \\nabla f(a)^T h + \\frac{1}{2} h^T H_f(a) h + o(\\|h\\|^2)$$"
+      },
+      {
+        "title": "4. Classification des extremums locaux",
+        "content": "• **Condition nécessaire du premier ordre** : Si $f$ admet un extremum local en $a \\in U$ ouvert, alors $a$ est un **point critique** :\n$$\\nabla f(a) = \\vec{0}$$\n• **Condition suffisante du second ordre** (via les valeurs propres de $H_f(a)$) :\n  - Si toutes les valeurs propres de $H_f(a)$ sont **strictement positives** : $a$ est un **minimum local strict**.\n  - Si toutes les valeurs propres sont **strictement négatives** : $a$ est un **maximum local strict**.\n  - Si $H_f(a)$ admet des valeurs propres de **signes opposés** : $a$ est un **point col (selle)** (pas d'extremum).\n• **En dimension 2 ($n = 2$)** : En posant $r = \\frac{\\partial^2 f}{\\partial x^2}$, $s = \\frac{\\partial^2 f}{\\partial x \\partial y}$, $t = \\frac{\\partial^2 f}{\\partial y^2}$, le déterminant hessien vaut $\\Delta = rt - s^2$ :\n  - $\\Delta > 0$ et $r > 0 \\implies$ minimum local.\n  - $\\Delta > 0$ et $r < 0 \\implies$ maximum local.\n  - $\\Delta < 0 \\implies$ point selle."
       }
     ],
     "methods": [
       {
-        "title": "Méthode : Trouver les extremums locaux d'une fonction de 2 variables",
-        "example": "Soit $f(x, y) = x^2 + y^2 - 2x - 4y + 5$. Trouver les extremums de $f$.",
+        "title": "Méthode : Trouver et classifier les points critiques en dimension 2",
+        "example": "Classifier les points critiques de $f(x, y) = x^3 + y^3 - 3xy$.",
         "steps": [
-          "**Étape 1 (Gradient)** : $\\frac{\\partial f}{\\partial x} = 2x - 2$ et $\\frac{\\partial f}{\\partial y} = 2y - 4$.",
-          "**Étape 2 (Point critique)** : $\\begin{cases} 2x - 2 = 0 \\\\ 2y - 4 = 0 \\end{cases} \\iff (x, y) = (1, 2)$.",
-          "**Étape 3 (Hessienne)** : $r = \\frac{\\partial^2 f}{\\partial x^2} = 2$, $s = \\frac{\\partial^2 f}{\\partial x \\partial y} = 0$, $t = \\frac{\\partial^2 f}{\\partial y^2} = 2$.",
-          "**Étape 4 (Nature)** : $\\det(H) = rt - s^2 = 2(2) - 0 = 4 > 0$ et $r = 2 > 0$. $f$ admet un minimum local strict en $(1, 2)$, valant $f(1, 2) = 0$."
+          "**Gradient** : $\\begin{cases} \\frac{\\partial f}{\\partial x} = 3x^2 - 3y = 0 \\\\ \\frac{\\partial f}{\\partial y} = 3y^2 - 3x = 0 \\end{cases} \\implies y = x^2$ et $x^4 - x = 0 \\implies x(x^3 - 1) = 0$.",
+          "**Points critiques** : $(0, 0)$ et $(1, 1)$.",
+          "**Dérivées secondes** : $r = 6x$, $s = -3$, $t = 6y$. $\\Delta = rt - s^2 = 36xy - 9$.",
+          "**En $(0, 0)$** : $\\Delta = -9 < 0$. C'est un **point selle**.",
+          "**En $(1, 1)$** : $\\Delta = 36(1) - 9 = 27 > 0$ et $r = 6 > 0$. C'est un **minimum local strict** ($f(1, 1) = -1$)."
         ]
       }
     ],
     "traps": [
-      "⚠️ Un point critique où $\\nabla f = 0$ n'est pas obligatoirement un extremum (ex: $f(x,y) = x^2 - y^2$ a un point col en $(0,0)$).",
-      "⚠️ Le théorème de Schwarz exige que la fonction soit de classe $\\mathcal{C}^2$ (dérivées secondes continues)."
+      "⚠️ L'existence des dérivées partielles n'implique PAS la continuité de $f$ (il faut que les dérivées partielles soient continues, c'est-à-dire $\\mathcal{C}^1$) !",
+      "⚠️ Si $\\det H_f(a) = 0$ (ou valeur propre nulle), le test du second ordre est indécis : il faut pousser l'étude locale à un ordre supérieur."
     ],
     "flashcards": [
       {
-        "q": "Énoncer le Théorème de Schwarz pour les dérivées croisées.",
-        "a": "Si $f$ est de classe $\\mathcal{C}^2$, alors $\\frac{\\partial^2 f}{\\partial x \\partial y} = \\frac{\\partial^2 f}{\\partial y \\partial x}$."
+        "q": "Que dit le théorème de Schwarz sur les dérivées partielles secondes d'une fonction C^2 ?",
+        "a": "Elles sont symétriques : $\\frac{\\partial^2 f}{\\partial x_i \\partial x_j} = \\frac{\\partial^2 f}{\\partial x_j \\partial x_i}$."
       },
       {
-        "q": "Quelle est la condition sur $\\det(H)$ pour qu'un point critique soit un point selle ?",
-        "a": "$\\det(H) = rt - s^2 < 0$."
+        "q": "Quelle condition sur les valeurs propres de la matrice hessienne garantit un minimum local strict en un point critique ?",
+        "a": "Toutes ses valeurs propres doivent être strictement positives (matrice définie positive)."
       }
     ]
   },
   "L2-DET": {
     "title": "L2-DET : Déterminants, formes multilinéaires alternées et comatrice",
-    "domain": "Algèbre Linéaire Avancée",
+    "domain": "Algèbre Linéaire",
     "objectives": [
-      "Caractériser le déterminant comme unique forme $n$-linéaire alternée valant 1 sur la base canonique.",
-      "Calculer un déterminant $n \\times n$ par opérations élémentaires sur les lignes/colonnes et développement de Laplace.",
-      "Utiliser la comatrice et la formule $A \\cdot {}^t(\\text{Com } A) = \\det(A) I_n$ pour l'inversion et les systèmes de Cramer."
+      "Définir le déterminant comme l'unique forme multilinéaire alternée valant 1 sur la base canonique.",
+      "Calculer des déterminants par développement selon une ligne/colonne (Laplace) et opérations élémentaires.",
+      "Manipuler la comatrice et la formule d'inversion explicite $A \\cdot (\\text{Com} A)^T = \\det(A) I_n$.",
+      "Résoudre des systèmes linéaires à l'aide des formules de Cramer."
     ],
     "keyPoints": [
       {
-        "title": "1. Propriétés fondamentales du déterminant",
-        "content": "• Le déterminant est linéaire par rapport à chaque colonne (multilinéarité).\n• Si deux colonnes sont identiques, le déterminant est nul (alterné).\n• $\\det(AB) = \\det(A) \\det(B)$ et $\\det({}^tA) = \\det(A)$.\n• $A$ est inversible si et seulement si $\\det(A) \\neq 0$, et $\\det(A^{-1}) = \\frac{1}{\\det(A)}$."
+        "title": "1. Définition axiomatique du déterminant",
+        "content": "Soit $E$ un $\\mathbb{K}$-espace vectoriel de dimension $n$ muni d'une base $\\mathcal{B}$ :\n• L'espace des formes $n$-linéaires alternées sur $E$ est de dimension 1.\n• Le **déterminant dans la base $\\mathcal{B}$** est l'unique forme $n$-linéaire alternée $\\det_\\mathcal{B}$ vérifiant $\\det_\\mathcal{B}(\\mathcal{B}) = 1$.\n• **Formule de Leibniz** : Pour $A = (a_{ij}) \\in \\mathcal{M}_n(\\mathbb{K})$ :\n$$\\det(A) = \\sum_{\\sigma \\in \\mathcal{S}_n} \\varepsilon(\\sigma) \\prod_{i=1}^n a_{\\sigma(i), i}$$\noù $\\mathcal{S}_n$ est le groupe symétrique et $\\varepsilon(\\sigma)$ la signature de la permutation."
       },
       {
-        "title": "2. Formule de la comatrice et inversion",
-        "content": "Pour toute matrice carrée $A \\in \\mathcal{M}_n(\\mathbb{K})$ :\n$$A \\cdot {}^t(\\text{Com } A) = {}^t(\\text{Com } A) \\cdot A = \\det(A) I_n$$\nSi $\\det(A) \\neq 0$, alors $A^{-1} = \\frac{1}{\\det(A)} {}^t(\\text{Com } A)$ où le cofacteur $C_{i,j} = (-1)^{i+j} \\det(A_{i,j})$."
+        "title": "2. Propriétés fondamentales du déterminant",
+        "content": "• **Multiplicativité** : Pour toutes matrices $A, B \\in \\mathcal{M}_n(\\mathbb{K})$, $\\det(AB) = \\det(A) \\cdot \\det(B)$.\n• **Transposition** : $\\det(A^T) = \\det(A)$.\n• **Homogénéité** : Pour tout $\\lambda \\in \\mathbb{K}$, $\\det(\\lambda A) = \\lambda^n \\det(A)$.\n• **Caractérisation de l'inversibilité** : $A$ est inversible ssi $\\det(A) \\neq 0$, et dans ce cas $\\det(A^{-1}) = \\frac{1}{\\det(A)}$.\n• Une famille de $n$ vecteurs est une base ssi son déterminant est non nul."
+      },
+      {
+        "title": "3. Développement de Laplace et Comatrice",
+        "content": "• **Développement selon la $i$-ème ligne** :\n$$\\det(A) = \\sum_{j=1}^n (-1)^{i+j} a_{ij} \\det(A_{ij})$$\noù $A_{ij} \\in \\mathcal{M}_{n-1}(\\mathbb{K})$ est la matrice obtenue en supprimant la ligne $i$ et la colonne $j$.\n• **Comatrice** : C'est la matrice des cofacteurs : $\\text{Com}(A) = \\left((-1)^{i+j} \\det(A_{ij})\\right)_{1 \\le i, j \\le n}$.\n• **Formule de la comatrice et inversion** :\n$$A \\cdot (\\text{Com}(A))^T = (\\text{Com}(A))^T \\cdot A = \\det(A) I_n$$\nSi $\\det(A) \\neq 0$ : $A^{-1} = \\frac{1}{\\det(A)} (\\text{Com}(A))^T$."
       }
     ],
     "methods": [
       {
-        "title": "Méthode : Calculer un déterminant $3 \\times 3$ par développement de Laplace",
-        "example": "Calculer $\\det(A)$ pour $A = \\begin{pmatrix} 1 & 2 & 0 \\\\ 0 & 3 & 1 \\\\ 2 & 1 & 4 \\end{pmatrix}$.",
+        "title": "Méthode : Calculer un déterminant 3x3 par opérations élémentaires",
+        "example": "Calculer $\\det(A)$ pour $A = \\begin{pmatrix} 1 & 2 & 3 \\\\ 2 & 5 & 7 \\\\ 3 & 7 & 11 \\end{pmatrix}$.",
         "steps": [
-          "**Étape 1** : On développe selon la première ligne contenant un zéro :\n$$\\det(A) = 1 \\times \\begin{vmatrix} 3 & 1 \\\\ 1 & 4 \\end{vmatrix} - 2 \\times \\begin{vmatrix} 0 & 1 \\\\ 2 & 4 \\end{vmatrix} + 0$$",
-          "**Étape 2** : $\\begin{vmatrix} 3 & 1 \\\\ 1 & 4 \\end{vmatrix} = 12 - 1 = 11$.",
-          "**Étape 3** : $\\begin{vmatrix} 0 & 1 \\\\ 2 & 4 \\end{vmatrix} = 0 - 2 = -2$.",
-          "**Conclusion** : $\\det(A) = 1(11) - 2(-2) = 11 + 4 = 15$."
+          "**Élimination ligne 2** : $L_2 \\leftarrow L_2 - 2L_1$ : $\\begin{pmatrix} 1 & 2 & 3 \\\\ 0 & 1 & 1 \\\\ 3 & 7 & 11 \\end{pmatrix}$.",
+          "**Élimination ligne 3** : $L_3 \\leftarrow L_3 - 3L_1$ : $\\begin{pmatrix} 1 & 2 & 3 \\\\ 0 & 1 & 1 \\\\ 0 & 1 & 2 \\end{pmatrix}$.",
+          "**Élimination ligne 3 finale** : $L_3 \\leftarrow L_3 - L_2$ : $\\begin{pmatrix} 1 & 2 & 3 \\\\ 0 & 1 & 1 \\\\ 0 & 0 & 1 \\end{pmatrix}$.",
+          "**Conclusion** : Matrice triangulaire supérieure : le déterminant est le produit des éléments diagonaux : $1 \\times 1 \\times 1 = 1$."
         ]
       }
     ],
     "traps": [
-      "⚠️ Pour une matrice $n \\times n$, $\\det(\\lambda A) = \\lambda^n \\det(A)$ et NON $\\lambda \\det(A)$ !"
+      "⚠️ $\\det(\\lambda A) = \\lambda^n \\det(A)$ et NON $\\lambda \\det(A)$ !",
+      "⚠️ Dans la formule d'inversion par la comatrice, il faut obligatoirement prendre la **transposée** de la comatrice $(\\text{Com}(A))^T$."
     ],
     "flashcards": [
       {
-        "q": "Que vaut $\\det(\\lambda A)$ pour $A \\in \\mathcal{M}_n(\\mathbb{K})$ et $\\lambda \\in \\mathbb{K}$ ?",
-        "a": "$\\lambda^n \\det(A)$."
+        "q": "Que vaut det(lambda A) pour une matrice carrée d'ordre n ?",
+        "a": "$\\det(\\lambda A) = \\lambda^n \\det(A)$."
       },
       {
-        "q": "Quelle formule relie une matrice inversible $A$ à sa comatrice ?",
-        "a": "$A^{-1} = \\frac{1}{\\det(A)} {}^t(\\text{Com } A)$."
+        "q": "Quelle formule relie l'inverse d'une matrice à sa comatrice ?",
+        "a": "$A^{-1} = \\frac{1}{\\det(A)} (\\text{Com}(A))^T$."
       }
     ]
   },
@@ -233,346 +275,410 @@ window.MATHS_COURSES_L2 = {
     "title": "L2-RED2 : Réduction des endomorphismes II : Trigonalisation et Cayley-Hamilton",
     "domain": "Algèbre Linéaire Avancée",
     "objectives": [
-      "Énoncer et appliquer le critère fondamental de trigonalisabilité (polynôme caractéristique scindé).",
-      "Énoncer et appliquer le Théorème de Cayley-Hamilton : $P_u(u) = 0$.",
-      "Définir le polynôme minimal $\\mu_u(X)$ et caractériser la diagonalisabilité par scindé à racines simples."
+      "Énoncer et appliquer le critère de trigonalisabilité (polynôme scindé).",
+      "Définir le polynôme minimal $\\pi_u$ d'un endomorphisme et ses liens avec les valeurs propres.",
+      "Énoncer et démontrer le Théorème de Cayley-Hamilton $\\chi_u(u) = 0$.",
+      "Énoncer le Lemme des noyaux et la Décomposition de Dunford $u = d + n$."
     ],
     "keyPoints": [
       {
-        "title": "1. Critère de trigonalisabilité",
-        "content": "Un endomorphisme $u \\in \\mathcal{L}(E)$ est **trigonalisable** si et seulement si son polynôme caractéristique $P_u(X)$ est **scindé** sur $\\mathbb{K}$.\nEn particulier, sur $\\mathbb{C}$, toute matrice est trigonalisable !"
+        "title": "1. Trigonalisation des endomorphismes",
+        "content": "• Un endomorphisme $u \\in \\mathcal{L}(E)$ est **trigonalisable** s'il existe une base $\\mathcal{B}$ de $E$ dans laquelle sa matrice est triangulaire supérieure.\n• **Théorème de trigonalisabilité** : $u$ est trigonalisable si et seulement si son polynôme caractéristique $\\chi_u(X)$ est **scindé** sur $\\mathbb{K}$.\n• **Conséquence sur $\\mathbb{C}$** : Tout endomorphisme d'un espace vectoriel complexe de dimension finie est trigonalisable (théorème de d'Alembert-Gauss)."
       },
       {
-        "title": "2. Théorème de Cayley-Hamilton et polynôme minimal",
-        "content": "• **Théorème de Cayley-Hamilton** : Tout endomorphisme annule son polynôme caractéristique : $P_u(u) = 0_{\\mathcal{L}(E)}$.\n• **Polynôme minimal $\\mu_u$** : L'unique polynôme unitaire annulateur de plus bas degré de $u$. $\\mu_u$ divise $P_u$ et possède les mêmes racines que $P_u$ (qui sont les valeurs propres).\n• **Caractérisation de la diagonalisabilité** : $u$ est diagonalisable ssi son polynôme minimal $\\mu_u$ est scindé à **racines simples**."
+        "title": "2. Polynôme minimal et lemme des noyaux",
+        "content": "Soit $E$ de dimension finie et $u \\in \\mathcal{L}(E)$ :\n• **Polynôme annulateur** : Un polynôme $P \\in \\mathbb{K}[X]$ est annulateur de $u$ si $P(u) = 0$.\n• **Polynôme minimal $\\pi_u$** : C'est l'unique polynôme unitaire générateur de l'idéal des polynômes annulateurs de $u$.\n  - Les racines de $\\pi_u$ sont **exactement les valeurs propres** de $u$.\n  - $u$ est **diagonalisable ssi $\\pi_u$ est scindé à racines simples** sur $\\mathbb{K}$.\n• **Lemme des noyaux** : Si $P_1, \\dots, P_k$ sont des polynômes deux à deux premiers entre eux, et $P = P_1 \\dots P_k$, alors :\n$$\\ker(P(u)) = \\bigoplus_{i=1}^k \\ker(P_i(u))$$"
+      },
+      {
+        "title": "3. Théorème de Cayley-Hamilton et Décomposition de Dunford",
+        "content": "• **Théorème de Cayley-Hamilton** : Tout endomorphisme annule son propre polynôme caractéristique :\n$$\\chi_u(u) = 0$$\nEn particulier, le polynôme minimal $\\pi_u$ divise le polynôme caractéristique $\\chi_u$.\n• **Décomposition de Dunford** : Si $\\chi_u$ est scindé sur $\\mathbb{K}$, il existe un unique couple $(d, n) \\in \\mathcal{L}(E)^2$ tel que :\n1. $u = d + n$\n2. $d$ est diagonalisable et $n$ est nilpotent ($n^p = 0$).\n3. $d$ et $n$ commutent : $d \\circ n = n \\circ d$."
       }
     ],
     "methods": [
       {
-        "title": "Méthode : Calculer $A^{-1}$ avec Cayley-Hamilton",
-        "example": "Soit $A$ telle que $P_A(X) = X^3 - 4X^2 + X - 2$. Exprimer $A^{-1}$.",
+        "title": "Méthode : Calculer les puissances de matrices par Cayley-Hamilton",
+        "example": "Calculer $A^n$ pour $A = \\begin{pmatrix} 2 & 1 \\\\ 0 & 2 \\end{pmatrix}$.",
         "steps": [
-          "**Étape 1 (Cayley-Hamilton)** : $A^3 - 4A^2 + A - 2I = 0$.",
-          "**Étape 2 (Isoler $I$)** : $2I = A^3 - 4A^2 + A = A(A^2 - 4A + I)$.",
-          "**Étape 3 (Multiplier par $1/2$)** : $A \\left( \\frac{1}{2}(A^2 - 4A + I) \\right) = I$.",
-          "**Conclusion** : $A$ est inversible et $A^{-1} = \\frac{1}{2}(A^2 - 4A + I)$."
+          "**Polynôme caractéristique** : $\\chi_A(X) = (X - 2)^2 = X^2 - 4X + 4$.",
+          "**Cayley-Hamilton** : $(A - 2I_2)^2 = 0$. Donc $N = A - 2I_2 = \\begin{pmatrix} 0 & 1 \\\\ 0 & 0 \\end{pmatrix}$ est nilpotente d'ordre 2 ($N^2 = 0$).",
+          "**Binôme de Newton** : Comme $2I_2$ et $N$ commutent, $A^n = (2I_2 + N)^n = 2^n I_2 + n 2^{n-1} N + 0$.",
+          "**Conclusion** : $A^n = \\begin{pmatrix} 2^n & n 2^{n-1} \\\\ 0 & 2^n \\end{pmatrix}$."
         ]
       }
     ],
     "traps": [
-      "⚠️ Ne jamais confondre polynôme caractéristique et minimal : le minimal peut être de degré strictement inférieur (ex: pour $I_n$, $P(X) = (X-1)^n$ mais $\\mu(X) = X-1$)."
+      "⚠️ La « preuve » $\\chi_A(A) = \\det(A - A) = \\det(0) = 0$ est TOTALEMENT FAUSSE (on substitue une matrice dans un polynôme, on ne prend pas le déterminant de $A - A$) !",
+      "⚠️ Dans la décomposition de Dunford, la condition de commutation $d \\circ n = n \\circ d$ est indispensable pour son unicité."
     ],
     "flashcards": [
       {
-        "q": "Énoncer le théorème de Cayley-Hamilton.",
-        "a": "Tout endomorphisme ou matrice carrée annule son polynôme caractéristique : $P_A(A) = 0$."
+        "q": "Énoncer le Théorème de Cayley-Hamilton.",
+        "a": "Tout endomorphisme en dimension finie annule son polynôme caractéristique : $\\chi_u(u) = 0$."
       },
       {
-        "q": "Quelle condition sur le polynôme minimal $\\mu_A$ équivaut à la diagonalisabilité de $A$ ?",
-        "a": "$\\mu_A$ est scindé à racines simples."
+        "q": "À quelle condition sur son polynôme minimal un endomorphisme est-il diagonalisable ?",
+        "a": "Si et seulement si son polynôme minimal $\\pi_u$ est scindé à racines simples sur $\\mathbb{K}$."
       }
     ]
   },
   "L2-DUA": {
     "title": "L2-DUA : Dualité en dimension finie, base duale et orthogonalité",
-    "domain": "Algèbre Linéaire Avancée",
+    "domain": "Algèbre Linéaire",
     "objectives": [
       "Définir l'espace dual $E^* = \\mathcal{L}(E, \\mathbb{K})$ et les formes linéaires.",
-      "Construire la base duale $(e_1^*, \\dots, e_n^*)$ associée à une base $(e_1, \\dots, e_n)$ de $E$ ($e_i^*(e_j) = \\delta_{ij}$).",
-      "Déterminer l'orthogonal $F^\\circ$ d'un sous-espace et utiliser la formule $\\dim(F) + \\dim(F^\\circ) = \\dim(E)$."
+      "Construire la base duale $\\mathcal{B}^* = (e_1^*, \\dots, e_n^*)$ associée à une base $\\mathcal{B}$ de $E$.",
+      "Établir l'isomorphisme canonique entre $E$ et son bidual $E^{**}$.",
+      "Définir l'orthogonalité duale et la transposée d'une application linéaire $u^* \\in \\mathcal{L}(F^*, E^*)$."
     ],
     "keyPoints": [
       {
-        "title": "1. Base duale et coordonnées",
-        "content": "Si $\\mathcal{B} = (e_1, \\dots, e_n)$ est une base de $E$, il existe une unique base $\\mathcal{B}^* = (e_1^*, \\dots, e_n^*)$ de $E^*$ telle que :\n$$e_i^*(e_j) = \\delta_{ij} = \\begin{cases} 1 & \\text{si } i = j \\\\ 0 & \\text{si } i \\neq j \\end{cases}$$\nPour tout vecteur $x \\in E$, $x = \\sum_{i=1}^n e_i^*(x) e_i$. Les formes coordonnées sont les éléments de la base duale."
+        "title": "1. Espace dual et Formes linéaires",
+        "content": "Soit $E$ un $\\mathbb{K}$-espace vectoriel :\n• Une **forme linéaire** sur $E$ est une application linéaire $\\varphi : E \\to \\mathbb{K}$.\n• L'**espace dual** de $E$ est $E^* = \\mathcal{L}(E, \\mathbb{K})$.\n• Si $\\dim(E) = n < +\\infty$, alors $\\dim(E^*) = \\dim(E) = n$.\n• **Hyperplans** : Un sous-espace vectoriel $H \\subset E$ est un hyperplan ssi il existe une forme linéaire non nulle $\\varphi \\in E^*$ telle que $H = \\ker(\\varphi)$. Deux formes définissent le même hyperplan ssi elles sont colinéaires."
       },
       {
-        "title": "2. Orthogonalité au sens de la dualité",
-        "content": "• Pour un sous-espace $F \\subset E$ : $F^\\circ = \\{\\varphi \\in E^* \\mid \\forall x \\in F, \\varphi(x) = 0\\}$.\n• Théorème de dimension : $\\dim(F) + \\dim(F^\\circ) = \\dim(E)$.\n• Tout sous-espace de dimension $p$ est l'intersection de $n-p$ hyperplans (noyaux de formes linéaires indépendantes)."
+        "title": "2. Base duale et coordonnées",
+        "content": "Soit $\\mathcal{B} = (e_1, \\dots, e_n)$ une base de $E$ :\n• Il existe une unique base de $E^*$, notée $\\mathcal{B}^* = (e_1^*, \\dots, e_n^*)$ et appelée **base duale**, vérifiant :\n$$e_i^*(e_j) = \\delta_{ij} = \\begin{cases} 1 & \\text{si } i = j \\\\ 0 & \\text{si } i \\neq j \\end{cases}$$\n• **Décomposition selon la base duale** : Tout $x \\in E$ se décompose en $x = \\sum_{i=1}^n e_i^*(x) e_i$ (la $i$-ème forme duale donne la $i$-ème coordonnée de $x$).\n• Toute forme linéaire $\\varphi \\in E^*$ se décompose en $\\varphi = \\sum_{i=1}^n \\varphi(e_i) e_i^*$."
+      },
+      {
+        "title": "3. Orthogonalité au sens de la dualité et Bidual",
+        "content": "• **Orthogonal d'un sous-espace** : Pour $F \\subset E$, son orthogonal dans $E^*$ est le sous-espace :\n$$F^\\circ = F^\\perp = \\{\\varphi \\in E^* \\mid \\forall x \\in F, \\varphi(x) = 0\\}$$\n• **Dimension de l'orthogonal** : Si $\\dim(E) < +\\infty$, $\\dim(F) + \\dim(F^\\circ) = \\dim(E)$.\n• **Bidual et isomorphisme canonique** : L'application $i : E \\to E^{**}, x \\mapsto \\text{ev}_x$ (où $\\text{ev}_x(\\varphi) = \\varphi(x)$) est un isomorphisme canonique en dimension finie."
+      },
+      {
+        "title": "4. Transposée d'une application linéaire",
+        "content": "Soit $u \\in \\mathcal{L}(E, F)$. L'**application transposée** de $u$ est l'application $u^* : F^* \\to E^*$ définie par :\n$$\\forall \\psi \\in F^*, \\quad u^*(\\psi) = \\psi \\circ u$$\n• Si $\\text{Mat}_{\\mathcal{B}, \\mathcal{C}}(u) = M$, alors $\\text{Mat}_{\\mathcal{C}^*, \\mathcal{B}^*}(u^*) = M^T$.\n• **Propriétés orthogonales** : $\\ker(u^*) = (\\text{Im} u)^\\circ$ et $\\text{Im}(u^*) = (\\ker u)^\\circ$.\n• En particulier, $\\text{rg}(u^*) = \\text{rg}(u)$ (le rang des lignes d'une matrice égale le rang des colonnes)."
       }
     ],
     "methods": [
       {
-        "title": "Méthode : Trouver la base duale de $\\mathbb{R}_2[X]$",
-        "example": "Déterminer la base duale de la base canonique $(1, X, X^2)$ pour l'évaluation en 0.",
+        "title": "Méthode : Déterminer la base duale d'une base de R^2",
+        "example": "Trouver la base duale de $\\mathcal{B} = (e_1, e_2)$ avec $e_1 = (1, 1)$ et $e_2 = (1, -1)$.",
         "steps": [
-          "**Étape 1** : Soit $P(X) = a_0 + a_1 X + a_2 X^2$.",
-          "**Étape 2** : $e_0^*(P) = P(0) = a_0$, $e_1^*(P) = P'(0) = a_1$, $e_2^*(P) = \\frac{P''(0)}{2} = a_2$.",
-          "**Conclusion** : Les formes duales sont les dérivées d'ordre $k$ en 0 divisées par $k!$."
+          "**Formes coordonnées** : On cherche $e_1^*(x, y) = ax + by$ et $e_2^*(x, y) = cx + dy$.",
+          "**Conditions pour $e_1^*$** : $e_1^*(e_1) = a + b = 1$ et $e_1^*(e_2) = a - b = 0 \\implies a = b = 1/2$. Donc $e_1^*(x, y) = \\frac{x + y}{2}$.",
+          "**Conditions pour $e_2^*$** : $e_2^*(e_1) = c + d = 0$ et $e_2^*(e_2) = c - d = 1 \\implies c = 1/2, d = -1/2$. Donc $e_2^*(x, y) = \\frac{x - y}{2}$."
         ]
       }
     ],
     "traps": [
-      "⚠️ Dans un espace de dimension infinie, $E$ et $E^*$ ne sont généralement pas isomorphes ! L'isomorphisme $\\dim(E) = \\dim(E^*)$ n'est vrai qu'en dimension finie."
+      "⚠️ $E$ et $E^*$ sont isomorphes en dimension finie car ils ont la même dimension, mais il n'existe **aucun isomorphisme canonique** entre $E$ et $E^*$ sans choix de base ou de produit scalaire !",
+      "⚠️ L'application transposée $u^*$ va de $F^*$ dans $E^*$ (et non de $E^*$ dans $F^*$) !"
     ],
     "flashcards": [
       {
-        "q": "Comment est définie la base duale $(e_i^*)$ associée à une base $(e_j)$ ?",
-        "a": "$e_i^*(e_j) = \\delta_{ij}$ (symbole de Kronecker)."
+        "q": "Quelle relation de dimension lie un sous-espace F et son orthogonal dual F^circ en dimension finie ?",
+        "a": "$\\dim(F) + \\dim(F^\\circ) = \\dim(E)$."
       },
       {
-        "q": "Quelle relation relie la dimension d'un sous-espace $F$ et celle de son orthogonal dual $F^\\circ$ ?",
-        "a": "$\\dim(F) + \\dim(F^\\circ) = \\dim(E)$."
+        "q": "Quelle matrice représente l'application transposée u* dans les bases duales ?",
+        "a": "La transposée de la matrice de $u$ : $M^T$."
       }
     ]
   },
   "L2-SYM": {
     "title": "L2-SYM : Endomorphismes symétriques, groupe orthogonal et Théorème Spectral",
-    "domain": "Espaces Euclidiens",
+    "domain": "Géométrie & Espaces Euclidiens",
     "objectives": [
-      "Définir les endomorphismes auto-adjoints (symétriques) : $\\langle u(x), y \\rangle = \\langle x, u(y) \\rangle$.",
-      "Énoncer et démontrer le Théorème Spectral dans $\\mathbb{R}^n$ : toute matrice symétrique réelle est diagonalisable dans une BON.",
-      "Classifier les endomorphismes orthogonaux (isométries) en dimensions 2 et 3."
+      "Définir l'adjoint d'un endomorphisme dans un espace euclidien.",
+      "Caractériser les endomorphismes symétriques (auto-adjoints) et antisymétriques.",
+      "Énoncer et démontrer le Théorème Spectral fondamental.",
+      "Étudier le groupe orthogonal $O(E)$ et caractériser les isométries vectorielles."
     ],
     "keyPoints": [
       {
-        "title": "1. Le Théorème Spectral",
-        "content": "Soit $A \\in \\mathcal{S}_n(\\mathbb{R})$ une matrice symétrique réelle ($A = {}^tA$) :\n1. Toutes les valeurs propres de $A$ sont **réelles** ($\\text{Sp}(A) \\subset \\mathbb{R}$).\n2. Les sous-espaces propres associés à des valeurs propres distinctes sont **deux à deux orthogonaux**.\n3. Il existe une matrice orthogonale $P \\in \\mathcal{O}_n(\\mathbb{R})$ (c-à-d ${}^tP P = I_n$) telle que :\n$${}^tP A P = D = \\text{diag}(\\lambda_1, \\dots, \\lambda_n)$$"
+        "title": "1. Adjoint d'un endomorphisme euclidien",
+        "content": "Soit $E$ un espace vectoriel euclidien :\n• Pour tout $u \\in \\mathcal{L}(E)$, il existe un unique endomorphisme noté $u^* \\in \\mathcal{L}(E)$, appelé **adjoint** de $u$, vérifiant :\n$$\\forall x, y \\in E, \\quad \\langle u(x), y \\rangle = \\langle x, u^*(y) \\rangle$$\n• Dans toute base orthonormée $\\mathcal{B}$, la matrice de $u^*$ est la transposée de la matrice de $u$ : $\\text{Mat}_\\mathcal{B}(u^*) = (\\text{Mat}_\\mathcal{B}(u))^T$."
       },
       {
-        "title": "2. Groupe orthogonal et isométries",
-        "content": "• Une matrice $P$ est orthogonale ssi ses colonnes forment une BON de $\\mathbb{R}^n$.\n• $\\det(P) = \\pm 1$. Si $\\det(P) = 1$, $P \\in \\mathcal{SO}_n(\\mathbb{R})$ (rotation)."
+        "title": "2. Endomorphismes symétriques (auto-adjoints)",
+        "content": "• Un endomorphisme $u$ est dit **symétrique (ou auto-adjoint)** si $u^* = u$, soit :\n$$\\forall x, y \\in E, \\quad \\langle u(x), y \\rangle = \\langle x, u(y) \\rangle$$\n• **Propriétés spectrales fondamentales** :\n  1. Toutes les valeurs propres de $u$ sont **réelles** (même si on considère $u$ sur $\\mathbb{C}$).\n  2. Les sous-espaces propres associés à des valeurs propres distinctes sont **deux à deux orthogonaux** : $\\lambda \\neq \\mu \\implies E_\\lambda \\perp E_\\mu$."
+      },
+      {
+        "title": "3. Le Théorème Spectral",
+        "content": "• **Théorème Spectral (Théorème fondamental des endomorphismes symétriques)** :\nTout endomorphisme symétrique d'un espace euclidien $E$ est **diagonalisable dans une base orthonormée** de vecteurs propres.\n• **Version matricielle** : Pour toute matrice symétrique réelle $A \\in \\mathcal{S}_n(\\mathbb{R})$, il existe une matrice orthogonale $P \\in O_n(\\mathbb{R})$ ($P^T P = I_n$) et une matrice diagonale réelle $D$ telles que :\n$$A = P D P^T = P D P^{-1}$$"
+      },
+      {
+        "title": "4. Le Groupe orthogonal et les isométries vectorielles",
+        "content": "• Un endomorphisme $u \\in \\mathcal{L}(E)$ est une **isométrie vectorielle (ou automorphisme orthogonal)** s'il conserve le produit scalaire :\n$$\\forall x, y \\in E, \\quad \\langle u(x), u(y) \\rangle = \\langle x, y \\rangle \\iff \\|u(x)\\| = \\|x\\| \\iff u^* \\circ u = \\text{Id}_E$$\n• L'ensemble des isométries forme le **groupe orthogonal** $O(E)$, isomorphe à $O_n(\\mathbb{R}) = \\{M \\in \\mathcal{M}_n(\\mathbb{R}) \\mid M^T M = I_n\\}$.\n• Si $\\det(u) = 1$, $u$ est une **rotation** (isométrie directe, groupe spécial orthogonal $SO(E)$) ; si $\\det(u) = -1$, c'est une isométrie indirecte (ex: réflexion par rapport à un hyperplan)."
       }
     ],
     "methods": [
       {
         "title": "Méthode : Diagonaliser orthogonalement une matrice symétrique",
-        "example": "Soit $A = \\begin{pmatrix} 1 & 2 \\\\ 2 & 1 \\end{pmatrix}$. Trouver une BON de vecteurs propres.",
+        "example": "Diagonaliser dans une base orthonormée $A = \\begin{pmatrix} 0 & 2 \\\\ 2 & 3 \\end{pmatrix}$.",
         "steps": [
-          "**Étape 1 (Spectre)** : $P_A(X) = (X-1)^2 - 4 = X^2 - 2X - 3 = (X-3)(X+1)$. $\\lambda_1 = 3, \\lambda_2 = -1$.",
-          "**Étape 2 (Vecteurs propres)** : Pour $\\lambda = 3$, $v_1 = (1 ; 1)$. Pour $\\lambda = -1$, $v_2 = (-1 ; 1)$. Remarquer qu'ils sont orthogonaux : $1(-1) + 1(1) = 0$.",
-          "**Étape 3 (Normalisation)** : $e_1 = \\frac{1}{\\sqrt{2}}(1 ; 1)$ et $e_2 = \\frac{1}{\\sqrt{2}}(-1 ; 1)$.",
-          "**Conclusion** : $P = \\frac{1}{\\sqrt{2}} \\begin{pmatrix} 1 & -1 \\\\ 1 & 1 \\end{pmatrix} \\in \\mathcal{SO}_2(\\mathbb{R})$."
+          "**Polynôme caractéristique** : $\\chi_A(\\lambda) = \\lambda(\\lambda - 3) - 4 = \\lambda^2 - 3\\lambda - 4 = (\\lambda - 4)(\\lambda + 1)$.",
+          "**Valeurs propres** : $\\lambda_1 = 4$ et $\\lambda_2 = -1$.",
+          "**Sous-espace $E_4$** : $\\begin{pmatrix} -4 & 2 \\\\ 2 & -1 \\end{pmatrix} \\begin{pmatrix} x \\\\ y \\end{pmatrix} = 0 \\implies 2x - y = 0$. Vecteur unitaire : $u_1 = \\frac{1}{\\sqrt{5}}(1, 2)$.",
+          "**Sous-espace $E_{-1}$** : $\\begin{pmatrix} 1 & 2 \\\\ 2 & 4 \\end{pmatrix} \\begin{pmatrix} x \\\\ y \\end{pmatrix} = 0 \\implies x + 2y = 0$. Vecteur unitaire : $u_2 = \\frac{1}{\\sqrt{5}}(-2, 1)$.",
+          "**Conclusion** : $P = \\frac{1}{\\sqrt{5}}\\begin{pmatrix} 1 & -2 \\\\ 2 & 1 \\end{pmatrix} \\in O_2(\\mathbb{R})$, $D = \\begin{pmatrix} 4 & 0 \\\\ 0 & -1 \\end{pmatrix}$, et $A = P D P^T$."
         ]
       }
     ],
     "traps": [
-      "⚠️ Pour des valeurs propres multiples, les vecteurs propres d'un même sous-espace ne sont pas automatiquement orthogonaux : il faut appliquer Gram-Schmidt dans ce sous-espace propre !"
+      "⚠️ Pour que le Théorème Spectral s'applique, la matrice doit être symétrique **réelle** : une matrice symétrique complexe n'est pas forcément diagonalisable !",
+      "⚠️ Les colonnes de la matrice de passage $P$ doivent impérativement être **normées à 1** pour que $P$ soit orthogonale ($P^{-1} = P^T$)."
     ],
     "flashcards": [
       {
-        "q": "Toute matrice symétrique réelle est-elle diagonalisable ?",
-        "a": "Oui, toujours, et dans une base orthonormée (Théorème spectral)."
+        "q": "Que dit le Théorème Spectral pour une matrice symétrique réelle ?",
+        "a": "Elle est diagonalisable dans une base orthonormée par une matrice orthogonale : $A = P D P^T$."
       },
       {
-        "q": "Que valent les déterminants des matrices orthogonales ?",
-        "a": "$+1$ (isométries directes/rotations) ou $-1$ (isométries indirectes/réflexions)."
+        "q": "Quelle propriété d'orthogonalité vérifient les sous-espaces propres d'un endomorphisme symétrique ?",
+        "a": "Ils sont orthogonaux deux à deux pour le produit scalaire."
       }
     ]
   },
   "L2-RIE": {
     "title": "L2-RIE : Intégrale de Riemann approfondie et fonctions réglées",
-    "domain": "Calcul Intégral",
+    "domain": "Analyse Réelle",
     "objectives": [
-      "Définir les fonctions en escalier et l'espace des fonctions réglées sur un segment $[a ; b]$.",
-      "Construire l'intégrale de Riemann comme prolongement continu de l'intégrale des fonctions en escalier.",
-      "Démontrer l'interversion limite-intégrale sous l'hypothèse de convergence uniforme."
+      "Définir rigoureusement les fonctions en escalier et les fonctions réglées sur un segment.",
+      "Construire l'intégrale des fonctions réglées par complétion pour la norme uniforme.",
+      "Énoncer les théorèmes d'interversion de limite et d'intégrale sous convergence uniforme.",
+      "Intégrer terme à terme une série de fonctions sous convergence normale."
     ],
     "keyPoints": [
       {
-        "title": "1. Fonctions réglées",
-        "content": "• Une fonction $f : [a ; b] \\to \\mathbb{R}$ est **réglée** si elle admet une limite à droite et une limite à gauche en tout point.\n• Théorème : $f$ est réglée ssi elle est **limite uniforme** d'une suite de fonctions en escalier sur $[a ; b]$.\n• Toute fonction continue ou monotone par morceaux sur $[a ; b]$ est réglée."
+        "title": "1. Fonctions en escalier et Fonctions réglées",
+        "content": "Soit $[a, b]$ un segment réel non dégénéré :\n• Une fonction $\\varphi : [a, b] \\to \\mathbb{R}$ est **en escalier** s'il existe une subdivision $\\sigma = (x_0, \\dots, x_n)$ de $[a, b]$ telle que $\\varphi$ soit constante sur chaque intervalle ouvert $]x_{i-1}, x_i[$.\n• L'espace $\\mathcal{E}([a, b])$ des fonctions en escalier est un sous-espace vectoriel de l'espace normé $(\\mathcal{B}([a, b]), \\|\\cdot\\|_\\infty)$.\n• Une fonction $f : [a, b] \\to \\mathbb{R}$ est **réglée** si elle est limite uniforme d'une suite de fonctions en escalier :\n$$f \\in \\overline{\\mathcal{E}([a, b])}^{\\|\\cdot\\|_\\infty}$$\n• **Caractérisation** : $f$ est réglée ssi elle admet une limite finie à droite et une limite finie à gauche en tout point de $[a, b]$ (discontinuités de 1ère espèce uniquement)."
       },
       {
-        "title": "2. Théorème d'interversion sous convergence uniforme",
-        "content": "Si une suite de fonctions continues $(f_n)$ **converge uniformément** vers $f$ sur $[a ; b]$, alors :\n$$\\lim_{n \\to +\\infty} \\int_a^b f_n(t) dt = \\int_a^b \\left( \\lim_{n \\to +\\infty} f_n(t) \\right) dt = \\int_a^b f(t) dt$$"
+        "title": "2. Construction de l'intégrale des fonctions réglées",
+        "content": "• Pour une fonction en escalier $\\varphi$ valant $c_i$ sur $]x_{i-1}, x_i[$, $\\int_a^b \\varphi(t)dt = \\sum_{i=1}^n c_i (x_i - x_{i-1})$.\n• L'application $\\varphi \\mapsto \\int_a^b \\varphi$ est linéaire et vérifie $\\left|\\int_a^b \\varphi\\right| \\le (b - a) \\|\\varphi\\|_\\infty$.\n• Par prolongement des applications lipschitziennes (théorème de prolongement uniforme), cette intégrale s'étend de manière unique en une forme linéaire continue et positive sur l'espace des fonctions réglées."
+      },
+      {
+        "title": "3. Théorème d'interversion limite-intégrale sous convergence uniforme",
+        "content": "Soit $(f_n)$ une suite de fonctions réglées sur $[a, b]$ convergeant **uniformément** vers une fonction $f$ sur $[a, b]$ :\n• Alors $f$ est réglée sur $[a, b]$, et l'on peut intervertir limite et intégrale :\n$$\\lim_{n \\to +\\infty} \\int_a^b f_n(t) \\, dt = \\int_a^b \\left( \\lim_{n \\to +\\infty} f_n(t) \\right) \\, dt = \\int_a^b f(t) \\, dt$$\n• **Preuve** : $\\left| \\int_a^b f_n - \\int_a^b f \\right| \\le \\int_a^b |f_n - f| \\le (b - a) \\|f_n - f\\|_\\infty \\xrightarrow[n \\to +\\infty]{} 0$."
       }
     ],
     "methods": [
       {
-        "title": "Méthode : Montrer la convergence d'une suite d'intégrales",
-        "example": "Calculer $\\lim_{n \\to +\\infty} \\int_0^1 \\frac{x^n}{1+x} dx$.",
+        "title": "Méthode : Justifier l'interversion limite-intégrale sur un segment",
+        "example": "Calculer la limite quand $n \\to +\\infty$ de $I_n = \\int_0^1 \\frac{n e^{-x}}{n + x} \\, dx$.",
         "steps": [
-          "**Étape 1 (Majoration)** : Pour $x \\in [0 ; 1]$, $1+x \\ge 1$, donc $0 \\le \\frac{x^n}{1+x} \\le x^n$.",
-          "**Étape 2 (Intégration de la borne)** : $0 \\le \\int_0^1 \\frac{x^n}{1+x} dx \\le \\int_0^1 x^n dx = \\frac{1}{n+1}$.",
-          "**Conclusion** : Par encadrement, la limite vaut 0."
+          "**Limite simple** : Pour tout $x \\in [0, 1]$, $f_n(x) = \\frac{e^{-x}}{1 + x/n} \\to e^{-x} = f(x)$.",
+          "**Convergence uniforme** : $|f_n(x) - f(x)| = e^{-x} \\left| \\frac{n}{n + x} - 1 \\right| = e^{-x} \\frac{x}{n + x} \\le 1 \\times \\frac{1}{n} = \\frac{1}{n}$.",
+          "**Norme infinie** : $\\|f_n - f\\|_\\infty \\le \\frac{1}{n} \\to 0$. Il y a convergence uniforme sur $[0, 1]$.",
+          "**Conclusion** : $\\lim_{n \\to +\\infty} I_n = \\int_0^1 e^{-x} dx = [-e^{-x}]_0^1 = 1 - e^{-1}$."
         ]
       }
     ],
     "traps": [
-      "⚠️ La convergence simple ne suffit PAS pour intervertir limite et intégrale (contre-exemple des bosses glissantes $f_n(x) = n x^n(1-x)$) !"
+      "⚠️ La convergence simple ne suffit JAMAIS pour intervertir limite et intégrale : ex: $f_n(x) = n^2 x (1 - x)^n$ sur $[0, 1]$ tend simplement vers 0 mais $\\int_0^1 f_n \\to 1 \\neq 0$ !",
+      "⚠️ Ce théorème ne s'applique que sur un **segment borné** $[a, b]$, pas sur un intervalle non borné comme $[0, +\\infty[$."
     ],
     "flashcards": [
       {
-        "q": "Quelle condition sur la convergence d'une suite $(f_n)$ permet d'intervertir limite et intégrale sur un segment ?",
-        "a": "La convergence uniforme sur le segment."
+        "q": "Quelle condition sur une suite de fonctions (fn) sur [a, b] garantit que lim int fn = int lim fn ?",
+        "a": "La convergence uniforme de $(f_n)$ vers $f$ sur le segment $[a, b]$."
       },
       {
-        "q": "Toute fonction continue par morceaux sur un segment est-elle réglée ?",
-        "a": "Oui, toujours."
+        "q": "Qu'est-ce qu'une fonction réglée sur un segment ?",
+        "a": "Une fonction limite uniforme de fonctions en escalier (ou admettant une limite à gauche et à droite en tout point)."
       }
     ]
   },
   "L2-ING": {
     "title": "L2-ING : Intégrales généralisées sur un intervalle quelconque",
-    "domain": "Calcul Intégral",
+    "domain": "Analyse Réelle",
     "objectives": [
-      "Définir la convergence des intégrales impropres comme limites d'intégrales sur des segments.",
-      "Maîtriser les intégrales de référence de Riemann $\\int_1^{+\\infty} \\frac{dt}{t^\\alpha}$ et $\\int_0^1 \\frac{dt}{t^\\alpha}$.",
-      "Appliquer les critères de comparaison, d'équivalence et la convergence absolue."
+      "Définir la convergence des intégrales impropres sur un intervalle non compact.",
+      "Maîtriser les intégrales de référence de Riemann en 0 et en l'infini.",
+      "Appliquer les critères de comparaison pour les fonctions positives (inégalités, équivalents).",
+      "Distinguer convergence absolue et semi-convergence et pratiquer l'intégration par parties impropre."
     ],
     "keyPoints": [
       {
-        "title": "1. Intégrales de référence de Riemann",
-        "content": "• En $+\\infty$ : $\\int_1^{+\\infty} \\frac{1}{t^\\alpha} dt$ converge si et seulement si $\\alpha > 1$.\n• En $0$ : $\\int_0^1 \\frac{1}{t^\\alpha} dt$ converge si et seulement si $\\alpha < 1$."
+        "title": "1. Définition de la convergence d'une intégrale généralisée",
+        "content": "Soit $f : [a, b[ \\to \\mathbb{K}$ ($b \\in \\mathbb{R} \\cup \\{+\\infty\\}$) continue par morceaux :\n• L'intégrale généralisée $\\int_a^b f(t) \\, dt$ est dite **convergente** si la limite suivante existe et est finie :\n$$\\lim_{X \\to b^-} \\int_a^X f(t) \\, dt = I \\in \\mathbb{K}$$\n• Si l'intégrale est impropre aux deux bornes $]a, b[$, on choisit un point intermédiaire $c \\in ]a, b[$ et $\\int_a^b f$ converge ssi $\\int_a^c f$ et $\\int_c^b f$ convergent toutes deux **indépendamment**."
       },
       {
-        "title": "2. Théorèmes de comparaison (fonctions positives)",
-        "content": "Si $0 \\le f(t) \\le g(t)$ au voisinage de la borne critique :\n• Si $\\int g$ converge, alors $\\int f$ converge.\n• Si $\\int f$ diverge, alors $\\int g$ diverge.\n• Si $f(t) \\sim g(t)$ avec $g > 0$, alors $\\int f$ et $\\int g$ sont de même nature."
+        "title": "2. Intégrales de référence de Riemann et Bertrand",
+        "content": "• **Riemann en $+\\infty$** : $\\int_1^{+\\infty} \\frac{dt}{t^\\alpha}$ converge si et seulement si $\\alpha > 1$.\n• **Riemann en $0^+$** : $\\int_0^1 \\frac{dt}{t^\\alpha}$ converge si et seulement si $\\alpha < 1$.\n• **Intégrales exponentielles** : $\\int_0^{+\\infty} e^{-at} \\, dt$ converge ssi $a > 0$ (valeur $1/a$)."
+      },
+      {
+        "title": "3. Théorèmes de comparaison pour fonctions positives",
+        "content": "Soient $f, g$ continues par morceaux et **positives** ($f, g \\ge 0$) sur $[a, b[$ :\n• **Majoration** : Si $f(t) \\le g(t)$ au voisinage de $b$ :\n  - $\\int_a^b g$ converge $\\implies \\int_a^b f$ converge.\n  - $\\int_a^b f$ diverge $\\implies \\int_a^b g$ diverge.\n• **Équivalence** : Si $f(t) \\sim g(t)$ quand $t \\to b^-$, alors $\\int_a^b f$ et $\\int_a^b g$ sont de **même nature**."
+      },
+      {
+        "title": "4. Convergence absolue et semi-convergence",
+        "content": "• **Convergence absolue** : $\\int_a^b f$ est dite absolument convergente si $\\int_a^b |f(t)| \\, dt$ converge.\n• **Théorème fondamental** : Toute intégrale absolument convergente est convergente, et $\\left|\\int_a^b f\\right| \\le \\int_a^b |f|$.\n• **Semi-convergence** : Une intégrale qui converge sans être absolument convergente est dite semi-convergente (ex: $\\int_0^{+\\infty} \\frac{\\sin t}{t}dt = \\frac{\\pi}{2}$ mais $\\int_0^{+\\infty} \\frac{|\\sin t|}{t}dt = +\\infty$)."
       }
     ],
     "methods": [
       {
-        "title": "Méthode : Établir la convergence par équivalence",
-        "example": "Étudier la convergence de $\\int_1^{+\\infty} \\frac{\\ln(t)}{t^2 + 1} dt$.",
+        "title": "Méthode : Établir la convergence d'une intégrale par équivalents",
+        "example": "Étudier la convergence de $I = \\int_0^{+\\infty} \\frac{1}{x^2 + \\sqrt{x}} \\, dx$.",
         "steps": [
-          "**Étape 1 (Signe)** : La fonction est positive et continue sur $[1 ; +\\infty[$.",
-          "**Étape 2 (Comportement en $+\\infty$)** : $\\frac{\\ln(t)}{t^2+1} = o\\left(\\frac{1}{t^{1{,}5}}\\right)$ car $\\frac{t^{1{,}5} \\ln(t)}{t^2+1} \\sim \\frac{\\ln(t)}{t^{0{,}5}} \\to 0$.",
-          "**Conclusion** : Comme $\\int_1^{+\\infty} \\frac{1}{t^{1{,}5}} dt$ converge ($1{,}5 > 1$), l'intégrale converge par comparaison."
+          "**Problème aux deux bornes** : 0 et $+\\infty$. On coupe l'intégrale en $x = 1$.",
+          "**En 0** : $\\frac{1}{x^2 + \\sqrt{x}} \\sim_{0} \\frac{1}{\\sqrt{x}} = \\frac{1}{x^{1/2}}$. Or $\\int_0^1 \\frac{dx}{x^{1/2}}$ converge (Riemann avec $\\alpha = 1/2 < 1$).",
+          "**En $+\\infty$** : $\\frac{1}{x^2 + \\sqrt{x}} \\sim_{+\\infty} \\frac{1}{x^2}$. Or $\\int_1^{+\\infty} \\frac{dx}{x^2}$ converge (Riemann avec $\\alpha = 2 > 1$).",
+          "**Conclusion** : Les deux intégrales convergent, donc $I$ converge."
         ]
       }
     ],
     "traps": [
-      "⚠️ L'équivalence ne s'applique qu'aux fonctions de **signe constant** au voisinage de la borne !"
+      "⚠️ Pour une intégrale impropre sur $\\mathbb{R}$, on ne peut PAS écrire $\\lim_{R \\to +\\infty} \\int_{-R}^R f(t)dt$ (valeur principale de Cauchy) pour définir la convergence : $\\int_{-\\infty}^{+\\infty} t \\, dt$ diverge, alors que $\\int_{-R}^R t \\, dt = 0$ !",
+      "⚠️ Le théorème des équivalents est rigoureusement faux pour des fonctions de signe changeant."
     ],
     "flashcards": [
       {
-        "q": "Pour quelle condition sur $\\alpha$ l'intégrale $\\int_1^{+\\infty} \\frac{1}{t^\\alpha} dt$ converge-t-elle ?",
-        "a": "$\\alpha > 1$."
+        "q": "À quelle condition l'intégrale de Riemann int_1^{+infini} dt / t^alpha converge-t-elle ?",
+        "a": "Si et seulement si $\\alpha > 1$."
       },
       {
-        "q": "Pour quelle condition sur $\\alpha$ l'intégrale $\\int_0^1 \\frac{1}{t^\\alpha} dt$ converge-t-elle ?",
-        "a": "$\\alpha < 1$."
+        "q": "Quelle différence fondamentale distingue convergence absolue et semi-convergence ?",
+        "a": "Une intégrale semi-convergente converge mais son intégrale en valeur absolue $\\int |f|$ diverge."
       }
     ]
   },
   "L2-EDO": {
     "title": "L2-EDO : Équations différentielles linéaires et systèmes différentiels",
-    "domain": "Équations Différentielles",
+    "domain": "Équations Différentielles & Systèmes Dynamiques",
     "objectives": [
-      "Résoudre les équations différentielles linéaires scalaires d'ordre 2 à coefficients constants $a y'' + b y' + c y = f(x)$.",
-      "Utiliser le Wronskien pour tester l'indépendance de deux solutions et appliquer la méthode de variation des constantes.",
-      "Résoudre les systèmes différentiels linéaires $X'(t) = A X(t)$ via l'exponentielle de matrice $e^{tA}$."
+      "Énoncer le Théorème de Cauchy-Lipschitz linéaire pour les équations et systèmes scalaires et vectoriels.",
+      "Résoudre les équations différentielles linéaires d'ordre 2 à coefficients constants avec second membre.",
+      "Résoudre les systèmes différentiels linéaires homogènes $X'(t) = A X(t)$ via l'exponentielle de matrice.",
+      "Appliquer la méthode de variation des constantes pour déterminer les solutions particulières."
     ],
     "keyPoints": [
       {
-        "title": "1. Équations d'ordre 2 à coefficients constants",
-        "content": "Équation homogène $a y'' + b y' + c y = 0$. Équation caractéristique $a r^2 + b r + c = 0$, discriminant $\\Delta$ :\n• Si $\\Delta > 0$ : $y(x) = C_1 e^{r_1 x} + C_2 e^{r_2 x}$.\n• Si $\\Delta = 0$ : $y(x) = (C_1 x + C_2) e^{r_0 x}$.\n• Si $\\Delta < 0$ ($r = \\alpha \\pm i\\beta$) : $y(x) = e^{\\alpha x} (C_1 \\cos(\\beta x) + C_2 \\sin(\\beta x))$."
+        "title": "1. Théorème de Cauchy-Lipschitz linéaire",
+        "content": "Soit $I$ un intervalle ouvert de $\\mathbb{R}$ :\n• **Théorème de Cauchy-Lipschitz** : Soient $A : I \\to \\mathcal{M}_n(\\mathbb{K})$ et $B : I \\to \\mathbb{K}^n$ deux applications continues. Pour tout $(t_0, X_0) \\in I \\times \\mathbb{K}^n$, il existe une **unique solution globale** $X : I \\to \\mathbb{K}^n$ au problème de Cauchy :\n$$\\begin{cases} X'(t) = A(t) X(t) + B(t) \\\\ X(t_0) = X_0 \\end{cases}$$\n• L'ensemble des solutions de l'équation homogène $X' = A(t)X$ est un $\\mathbb{K}$-espace vectoriel de **dimension $n$**."
       },
       {
-        "title": "2. Systèmes différentiels $X'(t) = A X(t)$",
-        "content": "L'unique solution vérifiant $X(0) = X_0$ est donnée par :\n$$X(t) = e^{tA} X_0$$\nSi $A = P D P^{-1}$ est diagonalisable, alors $e^{tA} = P e^{tD} P^{-1}$."
+        "title": "2. Équations d'ordre 2 à coefficients constants",
+        "content": "Pour $a y'' + b y' + c y = 0$ ($a \\neq 0$), l'équation caractéristique est $a r^2 + b r + c = 0$ de discriminant $\\Delta = b^2 - 4ac$ :\n1. **$\\Delta > 0$** : Deux racines réelles $r_1, r_2$ : $y(t) = C_1 e^{r_1 t} + C_2 e^{r_2 t}$.\n2. **$\\Delta = 0$** : Une racine double réelle $r_0$ : $y(t) = (C_1 + C_2 t) e^{r_0 t}$.\n3. **$\\Delta < 0$** : Deux racines complexes conjuguées $\\alpha \\pm i\\beta$ :\n$$y(t) = e^{\\alpha t} (C_1 \\cos(\\beta t) + C_2 \\sin(\\beta t))$$"
+      },
+      {
+        "title": "3. Systèmes différentiels et exponentielle de matrice",
+        "content": "• Pour $A \\in \\mathcal{M}_n(\\mathbb{K})$, l'exponentielle de matrice est la série normalement convergente :\n$$e^A = \\sum_{k=0}^{+\\infty} \\frac{A^k}{k!}$$\n• Les solutions du système différentiel autonome $X'(t) = A X(t)$ avec condition initiale $X(0) = X_0$ sont données par :\n$$X(t) = e^{tA} X_0$$\n• Si $A = P D P^{-1}$ est diagonalisable, alors $e^{tA} = P e^{tD} P^{-1} = P \\text{diag}(e^{\\lambda_1 t}, \\dots, e^{\\lambda_n t}) P^{-1}$."
       }
     ],
     "methods": [
       {
-        "title": "Méthode : Résoudre $y'' + 4y = 0$",
-        "example": "Résoudre $y'' + 4y = 0$ avec $y(0) = 1$ et $y'(0) = 2$.",
+        "title": "Méthode : Résoudre un système différentiel 2x2 par diagonalisation",
+        "example": "Résoudre $X'(t) = \\begin{pmatrix} 1 & 1 \\\\ 4 & 1 \\end{pmatrix} X(t)$.",
         "steps": [
-          "**Équation caractéristique** : $r^2 + 4 = 0 \\iff r = \\pm 2i$ ($\\alpha = 0, \\beta = 2$).",
-          "**Solution générale** : $y(x) = A \\cos(2x) + B \\sin(2x)$.",
-          "**Conditions initiales** : $y(0) = A = 1$. Dérivée : $y'(x) = -2A \\sin(2x) + 2B \\cos(2x) \\implies y'(0) = 2B = 2 \\implies B = 1$.",
-          "**Conclusion** : $y(x) = \\cos(2x) + \\sin(2x)$."
+          "**Valeurs propres** : $\\chi_A(\\lambda) = (\\lambda - 1)^2 - 4 = 0 \\implies \\lambda_1 = 3, \\lambda_2 = -1$.",
+          "**Vecteurs propres** : Pour $\\lambda = 3$ : $v_1 = (1, 2)^T$. Pour $\\lambda = -1$ : $v_2 = (1, -2)^T$.",
+          "**Solution générale** : $X(t) = C_1 e^{3t} \\begin{pmatrix} 1 \\\\ 2 \\end{pmatrix} + C_2 e^{-t} \\begin{pmatrix} 1 \\\\ -2 \\end{pmatrix}$."
         ]
       }
     ],
     "traps": [
-      "⚠️ Pour un second membre de la forme $e^{\\omega x}$, si $\\omega$ est racine de l'équation caractéristique, chercher une solution particulière en $x e^{\\omega x}$ (résonance) !"
+      "⚠️ $e^{A+B} = e^A e^B$ n'est vrai que si les matrices $A$ et $B$ **commutent** ($AB = BA$) !",
+      "⚠️ Ne pas oublier que dans la méthode de variation de la constante d'ordre 2, le système impose la condition auxiliaire $c_1'(t) y_1(t) + c_2'(t) y_2(t) = 0$."
     ],
     "flashcards": [
       {
-        "q": "Quelle est la forme des solutions de $y'' + \\omega^2 y = 0$ ?",
-        "a": "$y(x) = A \\cos(\\omega x) + B \\sin(\\omega x)$."
+        "q": "Quelle est la dimension de l'espace des solutions d'une équation différentielle linéaire scalaire d'ordre n homogène ?",
+        "a": "Elle est de dimension $n$ d'après le théorème de Cauchy-Lipschitz."
       },
       {
-        "q": "Comment s'exprime la solution d'un système $X'(t) = A X(t)$ avec $X(0) = X_0$ ?",
+        "q": "Quelle est la solution générale de X'(t) = A X(t) vérifiant X(0) = X_0 ?",
         "a": "$X(t) = e^{tA} X_0$."
       }
     ]
   },
   "L2-PAR": {
     "title": "L2-PAR : Intégrales dépendant d'un paramètre et convergence dominée",
-    "domain": "Calcul Intégral",
+    "domain": "Analyse Réelle",
     "objectives": [
-      "Étudier les fonctions définies par une intégrale à paramètre $F(x) = \\int_I f(x, t) dt$.",
-      "Énoncer et appliquer le théorème de continuité sous le signe intégrale (hypothèse de domination).",
-      "Énoncer et appliquer le théorème de dérivation sous le signe intégrale (règle de Leibniz)."
+      "Étudier les fonctions définies par une intégrale $F(x) = \\int_I f(x, t) \\, dt$.",
+      "Énoncer et appliquer le théorème de continuité sous le signe intégral avec hypothèse de domination.",
+      "Énoncer et appliquer le théorème de dérivation sous le signe intégral (formule de Leibniz).",
+      "Étudier la fonction Gamma d'Euler et ses propriétés analytiques."
     ],
     "keyPoints": [
       {
-        "title": "1. Continuité sous le signe intégrale",
-        "content": "Soit $F(x) = \\int_I f(x, t) dt$. Si :\n1. Pour tout $x$, $t \\mapsto f(x, t)$ est continue par morceaux intégrable sur $I$.\n2. Pour tout $t$, $x \\mapsto f(x, t)$ est continue sur $J$.\n3. **Hypothèse de domination** : il existe $\\varphi \\ge 0$ intégrable sur $I$ telle que $\\forall x \\in J, \\forall t \\in I, |f(x, t)| \\le \\varphi(t)$.\nAlors $F$ est **continue** sur $J$."
+        "title": "1. Continuité sous le signe intégrale (Théorème de convergence dominée)",
+        "content": "Soit $I$ un intervalle de $\\mathbb{R}$, $A$ une partie de $\\mathbb{R}$ et $f : A \\times I \\to \\mathbb{K}$ telle que $F(x) = \\int_I f(x, t) \\, dt$ :\n• **Théorème de continuité** : Si :\n  1. Pour tout $x \\in A$, $t \\mapsto f(x, t)$ est continue par morceaux et intégrable sur $I$.\n  2. Pour tout $t \\in I$, $x \\mapsto f(x, t)$ est continue sur $A$.\n  3. **Hypothèse de domination** : Il existe $\\varphi : I \\to \\mathbb{R}^+$ continue par morceaux et **intégrable sur $I$** telle que :\n  $$\\forall x \\in A, \\quad \\forall t \\in I, \\quad |f(x, t)| \\le \\varphi(t)$$\n• Alors $F$ est **continue** sur $A$."
       },
       {
-        "title": "2. Dérivation sous le signe intégrale",
-        "content": "Si de plus $\\frac{\\partial f}{\\partial x}$ vérifie une hypothèse de domination $\\left|\\frac{\\partial f}{\\partial x}(x, t)\\right| \\le \\psi(t)$ avec $\\psi$ intégrable sur $I$, alors $F$ est de classe $\\mathcal{C}^1$ et :\n$$F'(x) = \\int_I \\frac{\\partial f}{\\partial x}(x, t) dt$$"
+        "title": "2. Dérivation sous le signe intégrale (Règle de Leibniz)",
+        "content": "Soit $f : J \\times I \\to \\mathbb{K}$ où $J$ est un intervalle ouvert de $\\mathbb{R}$ :\n• **Théorème de dérivation** : Si :\n  1. Pour tout $x \\in J$, $t \\mapsto f(x, t)$ est intégrable sur $I$.\n  2. Pour tout $t \\in I$, $x \\mapsto f(x, t)$ est de classe $\\mathcal{C}^1$ sur $J$.\n  3. **Hypothèse de domination sur la dérivée** : Il existe $\\psi : I \\to \\mathbb{R}^+$ intégrable sur $I$ telle que :\n  $$\\forall x \\in J, \\quad \\forall t \\in I, \\quad \\left| \\frac{\\partial f}{\\partial x}(x, t) \\right| \\le \\psi(t)$$\n• Alors $F$ est de **classe $\\mathcal{C}^1$** sur $J$, et sa dérivée s'obtient en dérivant sous l'intégrale :\n$$F'(x) = \\int_I \\frac{\\partial f}{\\partial x}(x, t) \\, dt$$"
+      },
+      {
+        "title": "3. La fonction Gamma d'Euler",
+        "content": "• Définie pour tout $x > 0$ par l'intégrale généralisée :\n$$\\Gamma(x) = \\int_0^{+\\infty} t^{x-1} e^{-t} \\, dt$$\n• Elle est de classe $\\mathcal{C}^\\infty$ sur $]0, +\\infty[$.\n• **Propriété fondamentale** : $\\Gamma(x + 1) = x \\Gamma(x)$ pour tout $x > 0$.\n• **Lien avec la factorielle** : Pour tout $n \\in \\mathbb{N}$, $\\Gamma(n + 1) = n!$.\n• **Valeur remarquable** : $\\Gamma(1/2) = \\sqrt{\\pi}$."
       }
     ],
     "methods": [
       {
-        "title": "Méthode : Établir l'hypothèse de domination sur tout segment",
-        "example": "Démontrer la continuité de $F(x) = \\int_0^{+\\infty} e^{-t} \\cos(xt) dt$ sur $\\mathbb{R}$.",
+        "title": "Méthode : Établir la classe C^1 d'une intégrale à paramètre",
+        "example": "Démontrer que $F(x) = \\int_0^{+\\infty} \\frac{\\sin(xt)}{t} e^{-t} \\, dt$ est de classe $\\mathcal{C}^1$ sur $\\mathbb{R}$.",
         "steps": [
-          "**Étape 1** : Pour tout $x \\in \\mathbb{R}$ et $t \\ge 0$, $|e^{-t} \\cos(xt)| \\le e^{-t} \\times 1 = e^{-t}$.",
-          "**Étape 2** : La fonction $t \\mapsto e^{-t}$ est continue, positive et intégrable sur $[0 ; +\\infty[$ ($\\int_0^{+\\infty} e^{-t} dt = 1 < +\\infty$).",
-          "**Conclusion** : Par le théorème de continuité dominée, $F$ est continue sur $\\mathbb{R}$."
+          "**Dérivée partielle** : $\\frac{\\partial}{\\partial x}\\left(\\frac{\\sin(xt)}{t} e^{-t}\\right) = \\cos(xt) e^{-t}$.",
+          "**Continuité** : $x \\mapsto \\cos(xt)e^{-t}$ est continue sur $\\mathbb{R}$ pour tout $t > 0$.",
+          "**Domination** : $\\forall x \\in \\mathbb{R}, |\\cos(xt) e^{-t}| \\le e^{-t} = \\psi(t)$. Or $\\int_0^{+\\infty} e^{-t} dt = 1 < +\\infty$ est intégrable.",
+          "**Conclusion** : $F$ est $\\mathcal{C}^1$ sur $\\mathbb{R}$, et $F'(x) = \\int_0^{+\\infty} \\cos(xt) e^{-t} dt = \\frac{1}{1 + x^2}$."
         ]
       }
     ],
     "traps": [
-      "⚠️ La fonction dominatrice $\\varphi(t)$ doit impérativement être **indépendante de $x$** !"
+      "⚠️ La fonction majorante de domination $\\varphi(t)$ ne doit **JAMAIS dépendre de $x$** !",
+      "⚠️ Si la domination globale sur $A$ tout entier échoue, il suffit souvent de dominer localement sur tout segment compact $[a, b] \\subset A$ pour obtenir la continuité ou la dérivabilité sur $A$."
     ],
     "flashcards": [
       {
-        "q": "Quelle condition clé est nécessaire pour dériver une intégrale à paramètre sous le signe somme ?",
-        "a": "L'hypothèse de domination sur la dérivée partielle $\\left|\\frac{\\partial f}{\\partial x}(x, t)\\right| \\le \\psi(t)$ avec $\\psi$ intégrable."
+        "q": "Quelle hypothèse indispensable permet de dériver une intégrale à paramètre sous le signe intégral ?",
+        "a": "Une hypothèse de domination intégrable sur la dérivée partielle : $|\\frac{\\partial f}{\\partial x}(x, t)| \\le \\psi(t)$ avec $\\psi$ intégrable indépendante de $x$."
       },
       {
-        "q": "La fonction chapeau $\\varphi(t)$ de l'hypothèse de domination peut-elle dépendre de $x$ ?",
-        "a": "Non, elle doit être indépendante du paramètre $x$."
+        "q": "Quelle relation fonctionnelle vérifie la fonction Gamma d'Euler pour x > 0 ?",
+        "a": "$\\Gamma(x + 1) = x \\Gamma(x)$."
       }
     ]
   },
   "L2-MUL": {
     "title": "L2-MUL : Intégrales multiples, théorème de Fubini et changements de variables",
-    "domain": "Calcul Intégral",
+    "domain": "Calcul Intégral à Plusieurs Variables",
     "objectives": [
-      "Calculer des intégrales doubles et triples sur des pavés et des domaines simples.",
-      "Appliquer le théorème de Fubini pour intervertir l'ordre d'intégration.",
-      "Calculer le jacobien et effectuer des changements de variables (polaires, cylindriques, sphériques)."
+      "Définir l'intégrale double et triple sur un pavé et sur un domaine régulier de $\\mathbb{R}^n$.",
+      "Énoncer et appliquer le Théorème de Fubini pour calculer des intégrales itérées.",
+      "Calculer la matrice jacobienne et le jacobien d'un changement de variables.",
+      "Passer en coordonnées polaires, cylindriques et sphériques."
     ],
     "keyPoints": [
       {
-        "title": "1. Théorème de Fubini",
-        "content": "Pour une fonction continue $f$ sur un rectangle $[a ; b] \\times [c ; d]$ :\n$$\\iint_D f(x, y) dx dy = \\int_a^b \\left( \\int_c^d f(x, y) dy \\right) dx = \\int_c^d \\left( \\int_a^b f(x, y) dx \\right) dy$$"
+        "title": "1. Intégrale double et Théorème de Fubini",
+        "content": "Soit $f : D \\subset \\mathbb{R}^2 \\to \\mathbb{R}$ continue sur un domaine compact régulier :\n• **Théorème de Fubini (pavé rectangulaire)** : Si $D = [a, b] \\times [c, d]$ :\n$$\\iint_D f(x, y) \\, dxdy = \\int_a^b \\left( \\int_c^d f(x, y) \\, dy \\right) dx = \\int_c^d \\left( \\int_a^b f(x, y) \\, dx \\right) dy$$\n• **Domaine simple du plan** : Si $D = \\{(x, y) \\mid a \\le x \\le b, \\varphi_1(x) \\le y \\le \\varphi_2(x)\\}$ :\n$$\\iint_D f(x, y) \\, dxdy = \\int_a^b \\left( \\int_{\\varphi_1(x)}^{\\varphi_2(x)} f(x, y) \\, dy \\right) dx$$"
       },
       {
-        "title": "2. Changement de variable en coordonnées polaires",
-        "content": "Pour $x = r \\cos\\theta$ et $y = r \\sin\\theta$, la matrice jacobienne a pour déterminant $r$ :\n$$dx dy = r \\, dr \\, d\\theta$$\n$$\\iint_D f(x, y) dx dy = \\iint_{\\Delta} f(r\\cos\\theta, r\\sin\\theta) \\, r \\, dr \\, d\\theta$$"
+        "title": "2. Formule du changement de variables et Jacobien",
+        "content": "Soit $\\Phi : \\Delta \\to D$ un $\\mathcal{C}^1$-difféomorphisme entre deux ouverts de $\\mathbb{R}^2$ :\n• **Matrice jacobienne** : $J_\\Phi(u, v) = \\begin{pmatrix} \\frac{\\partial x}{\\partial u} & \\frac{\\partial x}{\\partial v} \\\\ \\frac{\\partial y}{\\partial u} & \\frac{\\partial y}{\\partial v} \\end{pmatrix}$.\n• **Jacobien** : C'est la valeur absolue du déterminant jacobien : $|\\det J_\\Phi(u, v)|$.\n• **Formule générale** :\n$$\\iint_D f(x, y) \\, dxdy = \\iint_\\Delta f(\\Phi(u, v)) \\cdot |\\det J_\\Phi(u, v)| \\, dudv$$"
+      },
+      {
+        "title": "3. Systèmes de coordonnées usuels",
+        "content": "• **Coordonnées polaires** dans le plan ($x = r\\cos\\theta, y = r\\sin\\theta$) :\n$$dxdy = r \\, drd\\theta$$\n• **Coordonnées cylindriques** dans l'espace ($x = r\\cos\\theta, y = r\\sin\\theta, z = z$) :\n$$dxdydz = r \\, drd\\theta dz$$\n• **Coordonnées sphériques** ($x = r\\sin\\phi\\cos\\theta, y = r\\sin\\phi\\sin\\theta, z = r\\cos\\phi$) :\n$$dxdydz = r^2 \\sin(\\phi) \\, drd\\theta d\\phi$$"
       }
     ],
     "methods": [
       {
-        "title": "Méthode : Calculer l'intégrale de Gauss $\\int_{-\\infty}^{+\\infty} e^{-x^2} dx$",
-        "example": "Calculer $I = \\int_0^{+\\infty} e^{-x^2} dx$ en passant par $I^2$.",
+        "title": "Méthode : Calculer une intégrale double en coordonnées polaires",
+        "example": "Calculer l'intégrale $I = \\iint_D e^{-(x^2 + y^2)} \\, dxdy$ sur le disque unité $D = \\{x^2 + y^2 \\le 1\\}$.",
         "steps": [
-          "**Étape 1** : $I^2 = \\left(\\int_0^{+\\infty} e^{-x^2} dx\\right)\\left(\\int_0^{+\\infty} e^{-y^2} dy\\right) = \\iint_{[0,\\infty[^2} e^{-(x^2+y^2)} dx dy$.",
-          "**Étape 2 (Polaires)** : En posant $x = r\\cos\\theta, y = r\\sin\\theta$, le quart de plan devient $r \\in [0 ; +\\infty[$ et $\\theta \\in [0 ; \\pi/2]$ :\n$$I^2 = \\int_0^{\\pi/2} d\\theta \\int_0^{+\\infty} r e^{-r^2} dr = \\frac{\\pi}{2} \\left[ -\\frac{e^{-r^2}}{2} \\right]_0^{+\\infty} = \\frac{\\pi}{2} \\times \\frac{1}{2} = \\frac{\\pi}{4}$$",
-          "**Conclusion** : $I = \\frac{\\sqrt{\\pi}}{2}$, d'où $\\int_{-\\infty}^{+\\infty} e^{-x^2} dx = \\sqrt{\\pi}$."
+          "**Changement en polaires** : $x^2 + y^2 = r^2$ et $dxdy = r dr d\\theta$.",
+          "**Nouveau domaine** : $\\Delta = [0, 1] \\times [0, 2\\pi]$.",
+          "**Intégrale séparée** : $I = \\int_0^{2\\pi} d\\theta \\times \\int_0^1 r e^{-r^2} dr = 2\\pi \\times \\left[ -\\frac{1}{2} e^{-r^2} \\right]_0^1 = 2\\pi \\left( \\frac{1 - e^{-1}}{2} \\right)$.",
+          "**Conclusion** : $I = \\pi(1 - e^{-1})$."
         ]
       }
     ],
     "traps": [
-      "⚠️ Ne jamais oublier le facteur d'échelle $r$ dans l'élément différentiel polaire : $dx dy = r \\, dr \\, d\\theta$ !"
+      "⚠️ Ne JAMAIS oublier le facteur d'échelle $r$ en coordonnées polaires ($r dr d\\theta$) et $r^2 \\sin\\phi$ en coordonnées sphériques !",
+      "⚠️ Dans le théorème de Fubini sur un domaine non rectangulaire, les bornes de l'intégrale intérieure dépendent de la variable extérieure."
     ],
     "flashcards": [
       {
-        "q": "Que vaut l'élément de surface en coordonnées polaires ?",
-        "a": "$dx dy = r \\, dr \\, d\\theta$."
+        "q": "Quel est l'élément d'aire en coordonnées polaires ?",
+        "a": "$dx dy = r \\, dr d\\theta$ (le jacobien vaut $r$)."
       },
       {
-        "q": "Quelle est la valeur de l'intégrale de Gauss $\\int_{-\\infty}^{+\\infty} e^{-t^2} dt$ ?",
-        "a": "$\\sqrt{\\pi}$."
+        "q": "Quel est l'élément de volume en coordonnées sphériques ?",
+        "a": "$dx dy dz = r^2 \\sin(\\phi) \\, dr d\\theta d\\phi$."
       }
     ]
   },
@@ -580,87 +686,103 @@ window.MATHS_COURSES_L2 = {
     "title": "L2-CRB : Courbes paramétrées, repère de Frenet et courbure",
     "domain": "Géométrie Différentielle",
     "objectives": [
-      "Définir l'abscisse curviligne $s$ et le repère mobile de Frenet $(\\vec{T}, \\vec{N})$.",
-      "Énoncer les formules de Frenet dans le plan et définir la courbure $\\gamma$.",
-      "Calculer le rayon de courbure $R = 1/|\\gamma|$ et le centre de courbure."
+      "Définir la paramétrisation par abscisse curviligne d'un arc régulier.",
+      "Construire le repère mobile de Frenet $(\\vec{T}, \\vec{N})$.",
+      "Énoncer les formules de Frenet et calculer la courbure scalaire $\\kappa$.",
+      "Déterminer le centre et le rayon de courbure et la développée d'une courbe."
     ],
     "keyPoints": [
       {
-        "title": "1. Repère de Frenet et formules de Frenet",
-        "content": "Soit un arc paramétré par son abscisse curviligne $s$ :\n• $\\vec{T}(s) = \\frac{dM}{ds}$ est le vecteur tangent unitaire.\n• $\\vec{N}(s)$ est le vecteur normal unitaire tel que $(\\vec{T}, \\vec{N})$ soit direct.\n• **Formules de Frenet planes** :\n$$\\frac{d\\vec{T}}{ds} = \\gamma \\vec{N} \\quad \\text{et} \\quad \\frac{d\\vec{N}}{ds} = -\\gamma \\vec{T}$$\noù $\\gamma$ est la **courbure algébrique**."
+        "title": "1. Abscisse curviligne et paramétrage normal",
+        "content": "Soit $\\gamma : I \\to \\mathbb{R}^2, t \\mapsto \\vec{r}(t)$ un arc régulier ($\\vec{r}'(t) \\neq \\vec{0}$) de classe $\\mathcal{C}^2$ :\n• **Abscisse curviligne** : C'est la fonction $s(t) = \\int_{t_0}^t \\|\\vec{r}'(u)\\| \\, du$.\n• Comme $\\frac{ds}{dt} = \\|\\vec{r}'(t)\\| > 0$, $s$ est un $\\mathcal{C}^1$-difféomorphisme de $I$ sur son image.\n• Le paramétrage par l'abscisse curviligne $s \\mapsto M(s)$ est dit **normal** : le vecteur vitesse a une norme constamment égale à 1 : $\\left\\|\\frac{dM}{ds}\\right\\| = 1$."
       },
       {
-        "title": "2. Rayon et centre de courbure",
-        "content": "• Le rayon de courbure est $R = \\frac{1}{|\\gamma|}$.\n• Le centre de courbure $C$ est donné par $C = M + R \\vec{N}$. C'est le centre du cercle osculateur à la courbe."
+        "title": "2. Repère de Frenet et Formules de Frenet",
+        "content": "En tout point d'un arc birégulier paramétré par l'abscisse curviligne $s$ :\n• **Vecteur tangent unitaire** : $\\vec{T}(s) = \\frac{dM}{ds}$.\n• **Vecteur normal unitaire** : $\\vec{N}(s)$ est l'unique vecteur unitaire tel que $(\\vec{T}(s), \\vec{N}(s))$ forme une base orthonormée directe du plan.\n• **Première formule de Frenet** :\n$$\\frac{d\\vec{T}}{ds} = \\kappa(s) \\vec{N}(s)$$\noù le scalaire $\\kappa(s)$ est la **courbure algébrique** de l'arc au point $M(s)$.\n• **Deuxième formule de Frenet** : $\\frac{d\\vec{N}}{ds} = -\\kappa(s) \\vec{T}(s)$."
+      },
+      {
+        "title": "3. Calcul de la courbure et Cercle osculateur",
+        "content": "• **Formule pratique de la courbure** pour un paramétrage quelconque $t$ :\n$$\\kappa(t) = \\frac{\\det(\\vec{r}'(t), \\vec{r}''(t))}{\\|\\vec{r}'(t)\\|^3} = \\frac{x'(t)y''(t) - y'(t)x''(t)}{(x'(t)^2 + y'(t)^2)^{3/2}}$$\n• **Rayon de courbure** : $R(t) = \\frac{1}{|\\kappa(t)|}$.\n• **Centre de courbure** : Le point $C(t) = M(t) + \\frac{1}{\\kappa(t)} \\vec{N}(t)$ est le centre du cercle osculateur (cercle qui approche la courbe au second ordre en $M(t)$).\n• Le lieu des centres de courbure est la **développée** de la courbe."
       }
     ],
     "methods": [
       {
-        "title": "Méthode : Calculer la courbure d'un cercle de rayon $r$",
-        "example": "Montrer que la courbure d'un cercle de rayon $r$ est constante égale à $1/r$.",
+        "title": "Méthode : Calculer la courbure d'une parabole",
+        "example": "Calculer la courbure de la parabole $y = x^2$ en son sommet $O(0, 0)$.",
         "steps": [
-          "**Paramétrage** : $M(t) = (r\\cos(t) ; r\\sin(t))$.",
-          "**Vitesse** : $\\vec{v}(t) = (-r\\sin t ; r\\cos t)$, $\\|\\vec{v}(t)\\| = r$. L'abscisse curviligne est $s = rt$, d'où $t = s/r$.",
-          "**Vecteur tangent** : $\\vec{T}(s) = (-\\sin(s/r) ; \\cos(s/r))$.",
-          "**Dérivée** : $\\frac{d\\vec{T}}{ds} = \\left(-\\frac{1}{r}\\cos(s/r) ; -\\frac{1}{r}\\sin(s/r)\\right) = \\frac{1}{r} \\vec{N}$.",
-          "**Conclusion** : La courbure est $\\gamma = \\frac{1}{r}$."
+          "**Paramétrage** : $x(t) = t$, $y(t) = t^2$.",
+          "**Dérivées en 0** : $x'(0) = 1, y'(0) = 0$ et $x''(0) = 0, y''(0) = 2$.",
+          "**Vitesse** : $\\|\\vec{r}'(0)\\| = \\sqrt{1^2 + 0^2} = 1$.",
+          "**Formule** : $\\kappa(0) = \\frac{1(2) - 0(0)}{1^3} = 2$.",
+          "**Rayon de courbure** : $R = 1/2$ (le cercle osculateur est de rayon $1/2$, centré en $(0, 1/2)$)."
         ]
       }
     ],
     "traps": [
-      "⚠️ Les formules de Frenet ne s'appliquent directement que lorsque la dérivation est faite par rapport à l'**abscisse curviligne** $s$ (et non par rapport à un paramètre arbitraire $t$ sans corriger par la vitesse) !"
+      "⚠️ La formule de Frenet $\\frac{d\\vec{T}}{dt} = \\kappa \\vec{N}$ n'est valable que si la dérivation est faite par rapport à l'**abscisse curviligne $s$**, et NON par rapport à un paramètre $t$ quelconque !",
+      "⚠️ Pour un cercle de rayon $R$, la courbure est constante et vaut $\\kappa = 1/R$."
     ],
     "flashcards": [
       {
-        "q": "Que vaut la courbure d'une droite ?",
-        "a": "Elle est nulle en tout point ($\\gamma = 0$)."
+        "q": "Énoncer la première formule de Frenet pour une courbe plane paramétrée par l'abscisse curviligne s.",
+        "a": "$\\frac{d\\vec{T}}{ds} = \\kappa \\vec{N}$."
       },
       {
-        "q": "Quelle relation relie la courbure $\\gamma$ et le rayon de courbure $R$ ?",
-        "a": "$R = \\frac{1}{|\\gamma|}$."
+        "q": "Quelle est la courbure d'un cercle de rayon R ?",
+        "a": "$\\kappa = \\frac{1}{R}$ (constante)."
       }
     ]
   },
   "L2-PRB": {
     "title": "L2-PRB : Espaces probabilisés et variables aléatoires discrètes",
-    "domain": "Probabilités",
+    "domain": "Probabilités & Statistiques",
     "objectives": [
-      "Définir une tribu ($\\sigma$-algèbre) et une mesure de probabilité sur un univers quelconque $\\Omega$.",
-      "Maîtriser les lois usuelles discrètes : uniforme, Bernoulli, binomiale, géométrique, Poisson.",
-      "Calculer espérance, variance et exploiter les fonctions génératrices $G_X(t) = E(t^X)$."
+      "Définir rigoureusement un espace probabilisé $(\\Omega, \\mathcal{A}, P)$ et les probabilités conditionnelles.",
+      "Définir une variable aléatoire discrète, sa loi, son espérance et sa variance.",
+      "Maîtriser les lois discrètes usuelles (Bernoulli, Binomiale, Géométrique, Poisson).",
+      "Calculer la fonction génératrice $G_X(t)$ et l'utiliser pour déterminer les moments et lois de sommes."
     ],
     "keyPoints": [
       {
-        "title": "1. Lois discrètes infinies de référence",
-        "content": "• **Loi géométrique $\\mathcal{G}(p)$** (temps d'attente du premier succès) :\n$$P(X = k) = p(1-p)^{k-1} \\quad (k \\in \\mathbb{N}^*), \\quad E(X) = \\frac{1}{p}, \\quad V(X) = \\frac{1-p}{p^2}$$\n• **Loi de Poisson $\\mathcal{P}(\\lambda)$** (événements rares) :\n$$P(X = k) = e^{-\\lambda} \\frac{\\lambda^k}{k!} \\quad (k \\in \\mathbb{N}), \\quad E(X) = \\lambda, \\quad V(X) = \\lambda$$"
+        "title": "1. Axiomatique de Kolmogorov et Probabilités conditionnelles",
+        "content": "• Un **espace probabilisé** est un triplet $(\\Omega, \\mathcal{A}, P)$ où $\\mathcal{A}$ est une tribu ($\\sigma$-algèbre) sur $\\Omega$ et $P : \\mathcal{A} \\to [0, 1]$ vérifie $P(\\Omega) = 1$ et la **$\\sigma$-additivité** (pour tous événements $A_n$ deux à deux disjoints, $P(\\bigcup A_n) = \\sum P(A_n)$).\n• **Probabilité conditionnelle** : Si $P(B) > 0$, $P(A \\mid B) = \\frac{P(A \\cap B)}{P(B)}$.\n• **Formule des probabilités totales** : Si $(B_n)$ forme un système complet d'événements : $P(A) = \\sum_n P(A \\mid B_n) P(B_n)$."
       },
       {
-        "title": "2. Fonctions génératrices",
-        "content": "Pour $X$ à valeurs dans $\\mathbb{N}$, sa fonction génératrice est $G_X(t) = \\sum_{k=0}^{+\\infty} P(X = k) t^k = E(t^X)$.\n• $G_X(1) = 1$, $G_X'(1) = E(X)$, et $G_X''(1) = E(X(X-1))$.\n• Pour $X, Y$ indépendantes : $G_{X+Y}(t) = G_X(t) \\times G_Y(t)$."
+        "title": "2. Variables aléatoires discrètes, Espérance et Variance",
+        "content": "Une variable aléatoire discrète est une application $X : \\Omega \\to E$ (avec $E \\subset \\mathbb{R}$ fini ou dénombrable) telle que $\\forall x \\in E, X^{-1}(\\{x\\}) \\in \\mathcal{A}$ :\n• **Loi de probabilité** : Donnée par les probabilités $p_k = P(X = x_k)$ avec $\\sum p_k = 1$.\n• **Espérance** : $E(X) = \\sum_{k} x_k P(X = x_k)$ (sous réserve de convergence absolue $\\sum |x_k| p_k < +\\infty$).\n• **Théorème de transfert** : $E[g(X)] = \\sum_k g(x_k) P(X = x_k)$.\n• **Variance** : $V(X) = E[(X - E(X))^2] = E(X^2) - (E(X))^2 \\ge 0$, et écart-type $\\sigma(X) = \\sqrt{V(X)}$."
+      },
+      {
+        "title": "3. Lois discrètes fondamentales",
+        "content": "• **Loi binomiale $\\mathcal{B}(n, p)$** : $P(X = k) = \\binom{n}{k} p^k (1-p)^{n-k}$. $E(X) = np$, $V(X) = np(1-p)$.\n• **Loi géométrique $\\mathcal{G}(p)$** (temps d'attente du 1er succès sur $\\mathbb{N}^*$) :\n$$P(X = k) = (1 - p)^{k-1} p, \\quad E(X) = \\frac{1}{p}, \\quad V(X) = \\frac{1 - p}{p^2}$$\nElle est **sans mémoire** : $P(X > n + k \\mid X > n) = P(X > k)$.\n• **Loi de Poisson $\\mathcal{P}(\\lambda)$** (sur $\\mathbb{N}$, événements rares) :\n$$P(X = k) = e^{-\\lambda} \\frac{\\lambda^k}{k!}, \\quad E(X) = \\lambda, \\quad V(X) = \\lambda$$"
+      },
+      {
+        "title": "4. Fonctions génératrices",
+        "content": "Pour une variable aléatoire $X$ à valeurs dans $\\mathbb{N}$ :\n• **Fonction génératrice** : $G_X(t) = E[t^X] = \\sum_{k=0}^{+\\infty} P(X = k) t^k$, définie au moins pour $|t| \\le 1$.\n• **Calcul des moments** : $G_X(1) = 1$, $E(X) = G_X'(1)$, et $V(X) = G_X''(1) + G_X'(1) - [G_X'(1)]^2$.\n• **Somme de variables indépendantes** : Si $X$ et $Y$ sont indépendantes :\n$$G_{X + Y}(t) = G_X(t) \\cdot G_Y(t)$$"
       }
     ],
     "methods": [
       {
-        "title": "Méthode : Somme de deux variables de Poisson indépendantes",
-        "example": "Soient $X \\sim \\mathcal{P}(\\lambda_1)$ et $Y \\sim \\mathcal{P}(\\lambda_2)$ indépendantes. Déterminer la loi de $X + Y$.",
+        "title": "Méthode : Calculer l'espérance par la fonction génératrice",
+        "example": "Calculer l'espérance d'une loi de Poisson $X \\sim \\mathcal{P}(\\lambda)$.",
         "steps": [
-          "**Étape 1** : La fonction génératrice d'une loi de Poisson est $G(t) = e^{\\lambda(t-1)}$.",
-          "**Étape 2** : Par indépendance, $G_{X+Y}(t) = G_X(t) G_Y(t) = e^{\\lambda_1(t-1)} e^{\\lambda_2(t-1)} = e^{(\\lambda_1 + \\lambda_2)(t-1)}$.",
-          "**Conclusion** : Par injectivité de la transformée génératrice, $X + Y \\sim \\mathcal{P}(\\lambda_1 + \\lambda_2)$."
+          "**Fonction génératrice** : $G_X(t) = \\sum_{k=0}^{+\\infty} e^{-\\lambda} \\frac{\\lambda^k}{k!} t^k = e^{-\\lambda} \\sum_{k=0}^{+\\infty} \\frac{(\\lambda t)^k}{k!} = e^{-\\lambda} e^{\\lambda t} = e^{\\lambda(t - 1)}$.",
+          "**Dérivée** : $G_X'(t) = \\lambda e^{\\lambda(t - 1)}$.",
+          "**En $t = 1$** : $E(X) = G_X'(1) = \\lambda e^0 = \\lambda$."
         ]
       }
     ],
     "traps": [
-      "⚠️ Pour la loi géométrique, vérifier si elle est définie sur $\\mathbb{N}^*$ (rang du 1er succès : $E=1/p$) ou sur $\\mathbb{N}$ (nombre d'échecs avant le 1er succès : $E=(1-p)/p$) !"
+      "⚠️ Pour que $E(X)$ existe pour une variable dénombrable infinie, la série doit converger **absolument** (sinon l'espérance n'est pas définie) !",
+      "⚠️ La formule $V(X + Y) = V(X) + V(Y)$ n'est vraie que si $X$ et $Y$ sont **décorrélées** (notamment si elles sont indépendantes)."
     ],
     "flashcards": [
       {
-        "q": "Que valent l'espérance et la variance d'une loi de Poisson $\\mathcal{P}(\\lambda)$ ?",
-        "a": "$E(X) = \\lambda$ et $V(X) = \\lambda$."
+        "q": "Quelle loi discrète modélise le nombre d'essais jusqu'au premier succès et possède la propriété d'absence de mémoire ?",
+        "a": "La loi géométrique $\\mathcal{G}(p)$."
       },
       {
-        "q": "Pour deux variables indépendantes $X$ et $Y$, comment se calcule la fonction génératrice de $X+Y$ ?",
-        "a": "$G_{X+Y}(t) = G_X(t) \\times G_Y(t)$."
+        "q": "Comment calcule-t-on la fonction génératrice de la somme de deux variables discrètes indépendantes ?",
+        "a": "Par le produit de leurs fonctions génératrices : $G_{X+Y}(t) = G_X(t) \\times G_Y(t)$."
       }
     ]
   }

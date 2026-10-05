@@ -8,19 +8,27 @@ window.MATHS_COURSES_L1 = {
     "title": "L1-LOG : Logique mathématique, quantificateurs et théorie des ensembles",
     "domain": "Algèbre Fondamentale",
     "objectives": [
-      "Maîtriser les connecteurs logiques, tables de vérité, et les quantificateurs universel $\\forall$ et existentiel $\\exists$.",
+      "Maîtriser les connecteurs logiques, tables de vérité et quantificateurs universel $\\forall$ et existentiel $\\exists$.",
       "Mettre en œuvre les modes de raisonnement formels : contraposition, absurde, disjonction des cas, récurrence forte.",
       "Définir rigoureusement les notions d'application, injection, surjection, bijection et image directe/réciproque.",
-      "Définir une relation d'équivalence, classe d'équivalence et ensemble quotient."
+      "Définir une relation d'équivalence, classe d'équivalence, ensemble quotient et relation d'ordre."
     ],
     "keyPoints": [
       {
-        "title": "1. Quantificateurs et négation d'une assertion",
-        "content": "• **Quantificateur universel $\\forall$** (« pour tout ») et **existentiel $\\exists$** (« il existe au moins un »).\n• **Négation d'assertions quantifiées** :\n$$\\neg(\\forall x \\in E, P(x)) \\iff \\exists x \\in E, \\neg P(x)$$\n$$\\neg(\\exists x \\in E, P(x)) \\iff \\forall x \\in E, \\neg P(x)$$\n• **Implication et contraposition** : L'assertion $P \\implies Q$ est logiquement équivalente à sa contraposée $\\neg Q \\implies \\neg P$."
+        "title": "1. Quantificateurs et règles de négation formelle",
+        "content": "• **Quantificateur universel $\\forall$** (« pour tout ») et **existentiel $\\exists$** (« il existe au moins un »).\n• **Négation d'assertions quantifiées** :\n$$\\neg(\\forall x \\in E, P(x)) \\iff \\exists x \\in E, \\neg P(x)$$\n$$\\neg(\\exists x \\in E, P(x)) \\iff \\forall x \\in E, \\neg P(x)$$\n• **Implication et contraposition** : L'assertion $P \\implies Q$ est logiquement équivalente à sa contraposée $\\neg Q \\implies \\neg P$.\n• **Négation de l'implication** : $\\neg(P \\implies Q) \\iff P \\text{ et } \\neg Q$."
       },
       {
-        "title": "2. Applications : Injectivité, Surjectivité, Bijectivité",
-        "content": "Soit $f : E \\to F$ une application :\n• **$f$ est injective** si tout élément de $F$ a au plus un antécédent dans $E$ :\n$$\\forall x, x' \\in E, \\quad f(x) = f(x') \\implies x = x'$$\n• **$f$ est surjective** si tout élément de $F$ a au moins un antécédent dans $E$ :\n$$\\forall y \\in F, \\quad \\exists x \\in E, \\quad y = f(x)$$\n• **$f$ est bijective** si elle est à la fois injective et surjective (tout élément de $F$ a un unique antécédent dans $E$). Il existe alors une bijection réciproque unique $f^{-1} : F \\to E$."
+        "title": "2. Applications : Injectivité, Surjectivité et Bijectivité",
+        "content": "Soit $f : E \\to F$ une application entre deux ensembles :\n• **$f$ est injective** si tout élément du but admet au plus un antécédent dans la source :\n$$\\forall x, x' \\in E, \\quad f(x) = f(x') \\implies x = x'$$\n• **$f$ est surjective** si tout élément du but admet au moins un antécédent :\n$$\\forall y \\in F, \\quad \\exists x \\in E, \\quad y = f(x)$$\n• **$f$ est bijective** si elle est à la fois injective et surjective (tout élément de $F$ a un unique antécédent). Il existe alors une unique application réciproque $f^{-1} : F \\to E$ telle que $f^{-1} \\circ f = \\text{Id}_E$ et $f \\circ f^{-1} = \\text{Id}_F$.\n• **Images directe et réciproque** : Pour $A \\subset E$, $f(A) = \\{f(x) \\mid x \\in A\\}$. Pour $B \\subset F$, $f^{-1}(B) = \\{x \\in E \\mid f(x) \\in B\\}$."
+      },
+      {
+        "title": "3. Relations d'équivalence, classes et ensemble quotient",
+        "content": "Une relation binaire $\\sim$ sur un ensemble $E$ est une **relation d'équivalence** si elle est :\n1. **Réflexive** : $\\forall x \\in E, x \\sim x$.\n2. **Symétrique** : $\\forall x, y \\in E, x \\sim y \\implies y \\sim x$.\n3. **Transitive** : $\\forall x, y, z \\in E, (x \\sim y \\text{ et } y \\sim z) \\implies x \\sim z$.\n\n• **Classe d'équivalence** : Pour $x \\in E$, $\\text{cl}(x) = \\bar{x} = \\{y \\in E \\mid y \\sim x\\}$.\n• **Partition** : Les classes d'équivalence forment une partition de $E$ (deux classes sont soit disjointes, soit confondues, et leur réunion est $E$).\n• **Ensemble quotient** : $E/\\sim$ est l'ensemble des classes d'équivalence."
+      },
+      {
+        "title": "4. Relations d'ordre et bornes",
+        "content": "Une relation $\\le$ sur $E$ est une **relation d'ordre** si elle est réflexive, transitive et **antisymétrique** ($\\forall x, y \\in E, (x \\le y \\text{ et } y \\le x) \\implies x = y$).\n• L'ordre est **total** si $\\forall x, y \\in E$, $x \\le y$ ou $y \\le x$ ; il est **partiel** sinon (ex: l'inclusion $\\subset$ sur $\\mathcal{P}(E)$).\n• Un élément $m \\in A$ est le **plus petit élément** (minimum) si $\\forall x \\in A, m \\le x$."
       }
     ],
     "methods": [
@@ -41,12 +49,12 @@ window.MATHS_COURSES_L1 = {
     ],
     "flashcards": [
       {
-        "q": "Quelle est la négation formelle de « $\\forall \\varepsilon > 0, \\exists \\eta > 0, |x - a| < \\eta \\implies |f(x) - f(a)| < \\varepsilon$ » ?",
-        "a": "$\\exists \\varepsilon > 0, \\forall \\eta > 0, \\exists x, |x - a| < \\eta \\text{ et } |f(x) - f(a)| \\ge \\varepsilon$."
+        "q": "Quelle est la négation formelle de « $\\forall x \\in E, \\exists y \\in F, f(x) = y$ » ?",
+        "a": "$\\exists x \\in E, \\forall y \\in F, f(x) \\neq y$."
       },
       {
-        "q": "Quelle est la définition d'une application injective $f : E \\to F$ ?",
-        "a": "$\\forall x, x' \\in E, f(x) = f(x') \\implies x = x'$."
+        "q": "Quelles sont les trois propriétés définissant une relation d'équivalence ?",
+        "a": "Réflexivité ($x \\sim x$), symétrie ($x \\sim y \\implies y \\sim x$) et transitivité ($x \\sim y$ et $y \\sim z \\implies x \\sim z$)."
       }
     ]
   },
@@ -54,19 +62,23 @@ window.MATHS_COURSES_L1 = {
     "title": "L1-MAT : Calcul matriciel, systèmes linéaires et pivot de Gauss",
     "domain": "Algèbre Linéaire",
     "objectives": [
-      "Maîtriser les opérations sur $\\mathcal{M}_{n,p}(\\mathbb{K})$ (addition, multiplication matricielle non commutative).",
-      "Écrire un système linéaire sous forme matricielle $AX = B$.",
-      "Appliquer l'algorithme du pivot de Gauss pour échelonner une matrice par opérations élémentaires sur les lignes.",
-      "Calculer l'inverse d'une matrice carrée inversible par la méthode de Gauss-Jordan $(A | I_n) \\to (I_n | A^{-1})$."
+      "Maîtriser l'espace vectoriel $\\mathcal{M}_{n,p}(\\mathbb{K})$ et l'anneau $(\\mathcal{M}_n(\\mathbb{K}), +, \\times)$.",
+      "Pratiquer l'algorithme du pivot de Gauss pour échelonner et résoudre tout système linéaire $AX = B$.",
+      "Calculer l'inverse d'une matrice carrée inversible par la méthode de Gauss-Jordan $(A \\mid I_n) \\to (I_n \\mid A^{-1})$.",
+      "Maîtriser la transposition, la trace et le calcul de déterminants $2 \\times 2$ et $3 \\times 3$."
     ],
     "keyPoints": [
       {
-        "title": "1. Opérations élémentaires sur les lignes (Pivot de Gauss)",
-        "content": "Les trois opérations élémentaires qui préservent l'ensemble des solutions d'un système linéaire sont :\n1. Échange de deux lignes : $L_i \\leftrightarrow L_j$\n2. Multiplication d'une ligne par un scalaire non nul : $L_i \\leftarrow \\lambda L_i$ ($\\lambda \\neq 0$)\n3. Ajout à une ligne d'un multiple d'une autre : $L_i \\leftarrow L_i + \\mu L_j$ ($j \\neq i$)\n\n• **Matrice échelonnée** : Le nombre de zéros en début de ligne augmente strictement à chaque ligne."
+        "title": "1. Structure des matrices et opérations fondamentales",
+        "content": "• L'ensemble $\\mathcal{M}_{n,p}(\\mathbb{K})$ est un $\\mathbb{K}$-espace vectoriel de dimension $n \\times p$.\n• Si $n = p$, $(\\mathcal{M}_n(\\mathbb{K}), +, \\times)$ est un anneau unitaire non commutatif pour $n \\ge 2$.\n• **Transposition** : Pour $A \\in \\mathcal{M}_{n,p}(\\mathbb{K})$, sa transposée $A^T \\in \\mathcal{M}_{p,n}(\\mathbb{K})$ vérifie $(AB)^T = B^T A^T$ et $(A^T)^T = A$.\n  - $A$ est **symétrique** si $A^T = A$ ; **antisymétrique** si $A^T = -A$.\n• **Trace** : Pour $A = (a_{ij}) \\in \\mathcal{M}_n(\\mathbb{K})$, $\\text{Tr}(A) = \\sum_{i=1}^n a_{ii}$. La trace est linéaire et vérifie $\\text{Tr}(AB) = \\text{Tr}(BA)$."
       },
       {
-        "title": "2. Inversion de matrices (Algorithme de Gauss-Jordan)",
-        "content": "Pour inverser une matrice carrée $A \\in \\mathcal{M}_n(\\mathbb{K})$ :\nOn forme la matrice augmentée $(A \\mid I_n)$. En appliquant les opérations élémentaires sur les lignes jusqu'à transformer la partie gauche en $I_n$, la partie droite devient l'inverse $A^{-1}$ :\n$$(A \\mid I_n) \\xrightarrow{\\text{Gauss-Jordan}} (I_n \\mid A^{-1})$$"
+        "title": "2. Opérations élémentaires sur les lignes (Pivot de Gauss)",
+        "content": "Les trois opérations élémentaires qui préservent l'ensemble des solutions d'un système linéaire sont :\n1. Échange de deux lignes : $L_i \\leftrightarrow L_j$\n2. Multiplication d'une ligne par un scalaire non nul : $L_i \\leftarrow \\lambda L_i$ ($\\lambda \\neq 0$)\n3. Ajout à une ligne d'un multiple d'une autre : $L_i \\leftarrow L_i + \\mu L_j$ ($j \\neq i$)\n\n• **Matrice échelonnée** : Le nombre de zéros en début de ligne augmente strictement à chaque ligne non nulle. Les premiers coefficients non nuls sont appelés les **pivots**."
+      },
+      {
+        "title": "3. Inversion de matrices (Algorithme de Gauss-Jordan)",
+        "content": "Une matrice carrée $A \\in \\mathcal{M}_n(\\mathbb{K})$ est inversible ssi son rang vaut $n$.\n• **Méthode de Gauss-Jordan** : On forme la matrice augmentée $(A \\mid I_n)$. En appliquant les opérations élémentaires sur les lignes pour transformer la partie gauche en $I_n$, la partie droite devient l'inverse $A^{-1}$ :\n$$(A \\mid I_n) \\xrightarrow{\\text{Gauss-Jordan}} (I_n \\mid A^{-1})$$\n• **Formule explicite $2 \\times 2$** : Si $\\det(A) = ad - bc \\neq 0$, alors :\n$$\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}^{-1} = \\frac{1}{ad - bc} \\begin{pmatrix} d & -b \\\\ -c & a \\end{pmatrix}$$"
       }
     ],
     "methods": [
@@ -92,8 +104,8 @@ window.MATHS_COURSES_L1 = {
         "a": "Non, en général $AB \\neq BA$."
       },
       {
-        "q": "Quelle condition sur une matrice échelonnée garantit que le système linéaire $AX = B$ admet une solution unique ?",
-        "a": "Elle doit comporter un pivot non nul sur chaque ligne et chaque colonne (rang égal à $n$)."
+        "q": "Quelle est la transposée du produit matriciel $(AB)^T$ ?",
+        "a": "$(AB)^T = B^T A^T$ (inversion de l'ordre des facteurs)."
       }
     ]
   },
@@ -101,19 +113,28 @@ window.MATHS_COURSES_L1 = {
     "title": "L1-EV1 : Espaces vectoriels, sous-espaces et bases en dimension finie",
     "domain": "Algèbre Linéaire",
     "objectives": [
+      "Connaître la définition axiomatique complète d'un $\\mathbb{K}$-espace vectoriel.",
       "Vérifier qu'un sous-ensemble est un sous-espace vectoriel (SEV) : non vide, stable par combinaison linéaire.",
-      "Définir et manipuler les notions de famille libre, famille génératrice et base.",
-      "Connaître le Théorème de la base incomplète et le Théorème de la dimension finie.",
+      "Définir et manipuler les notions de famille libre, famille génératrice, base et sous-espace engendré.",
+      "Énoncer le Théorème de la base incomplète et le Théorème de la dimension finie.",
       "Appliquer la formule de Grassmann pour deux sous-espaces : $\\dim(F + G) = \\dim(F) + \\dim(G) - \\dim(F \\cap G)$."
     ],
     "keyPoints": [
       {
-        "title": "1. Caractérisation d'un sous-espace vectoriel",
-        "content": "Soit $E$ un $\\mathbb{K}$-espace vectoriel. Une partie $F \\subset E$ est un **sous-espace vectoriel** ssi :\n1. $0_E \\in F$ (non vide)\n2. Pour tous $u, v \\in F$ et tous $\\lambda, \\mu \\in \\mathbb{K}$, $\\lambda u + \\mu v \\in F$ (stable par combinaisons linéaires)."
+        "title": "1. Définition axiomatique d'un K-espace vectoriel",
+        "content": "Soit $\\mathbb{K}$ un corps commutatif (typiquement $\\mathbb{R}$ ou $\\mathbb{C}$). Un **$\\mathbb{K}$-espace vectoriel** est un ensemble non vide $E$ muni de deux lois :\n• Une loi de composition interne $+ : E \\times E \\to E$ telle que $(E, +)$ est un **groupe commutatif (abélien)** :\n  1. **Associativité** : $\\forall u, v, w \\in E, (u + v) + w = u + (v + w)$.\n  2. **Élément neutre** : $\\exists 0_E \\in E, \\forall u \\in E, u + 0_E = u$.\n  3. **Symétrique (opposé)** : $\\forall u \\in E, \\exists (-u) \\in E, u + (-u) = 0_E$.\n  4. **Commutativité** : $\\forall u, v \\in E, u + v = v + u$.\n• Une loi de composition externe $\\cdot : \\mathbb{K} \\times E \\to E$ vérifiant les 4 axiomes de compatibilité :\n  1. **Distributivité scalaire/vecteurs** : $\\forall \\lambda \\in \\mathbb{K}, \\forall u, v \\in E, \\lambda \\cdot (u + v) = \\lambda \\cdot u + \\lambda \\cdot v$.\n  2. **Distributivité scalaires/vecteur** : $\\forall \\lambda, \\mu \\in \\mathbb{K}, \\forall u \\in E, (\\lambda + \\mu) \\cdot u = \\lambda \\cdot u + \\mu \\cdot u$.\n  3. **Associativité mixte** : $\\forall \\lambda, \\mu \\in \\mathbb{K}, \\forall u \\in E, (\\lambda \\mu) \\cdot u = \\lambda \\cdot (\\mu \\cdot u)$.\n  4. **Neutre du corps** : $\\forall u \\in E, 1_{\\mathbb{K}} \\cdot u = u$."
       },
       {
-        "title": "2. Bases, Dimension et Formule de Grassmann",
-        "content": "• Une famille $\\mathcal{B} = (e_1, \\dots, e_n)$ est une **base** de $E$ si elle est à la fois **libre** et **génératrice**.\n• En dimension finie $n = \\dim(E)$ : toute famille libre de $n$ vecteurs est une base ; toute famille génératrice de $n$ vecteurs est une base.\n• **Formule de Grassmann** : Pour tous sous-espaces vectoriels $F$ et $G$ de dimension finie :\n$$\\dim(F + G) = \\dim(F) + \\dim(G) - \\dim(F \\cap G)$$\n• $F$ et $G$ sont en **somme directe** ($F \\oplus G$) ssi $F \\cap G = \\{0\\} \\iff \\dim(F + G) = \\dim(F) + \\dim(G)$."
+        "title": "2. Sous-espaces vectoriels (SEV) et sous-espace engendré",
+        "content": "Soit $E$ un $\\mathbb{K}$-espace vectoriel. Une partie $F \\subset E$ est un **sous-espace vectoriel** ssi :\n1. $F \\neq \\emptyset$ (ou de façon équivalente $0_E \\in F$).\n2. $F$ est stable par combinaison linéaire : $\\forall u, v \\in F, \\forall \\lambda, \\mu \\in \\mathbb{K}, \\lambda u + \\mu v \\in F$.\n\n• **Sous-espace engendré $\\text{Vect}(\\mathcal{F})$** : Pour toute famille $\\mathcal{F} = (v_1, \\dots, v_p)$ de vecteurs de $E$, le sous-espace engendré $\\text{Vect}(v_1, \\dots, v_p)$ est l'ensemble de toutes les combinaisons linéaires :\n$$\\text{Vect}(v_1, \\dots, v_p) = \\left\\{\\sum_{i=1}^p \\lambda_i v_i \\;\\middle|\\; \\lambda_1, \\dots, \\lambda_p \\in \\mathbb{K}\\right\\}$$\nC'est le plus petit sous-espace vectoriel de $E$ contenant $\\{v_1, \\dots, v_p\\}$."
+      },
+      {
+        "title": "3. Familles libres, génératrices et Bases",
+        "content": "Soit $\\mathcal{F} = (e_1, \\dots, e_p)$ une famille finie de vecteurs de $E$ :\n• **Famille libre** (vecteurs linéairement indépendants) :\n$$\\forall \\lambda_1, \\dots, \\lambda_p \\in \\mathbb{K}, \\quad \\sum_{i=1}^p \\lambda_i e_i = 0_E \\implies \\lambda_1 = \\lambda_2 = \\dots = \\lambda_p = 0$$\n• **Famille génératrice** : $\\text{Vect}(e_1, \\dots, e_p) = E$.\n• **Base** : Une famille est une base si elle est à la fois libre et génératrice. Tout vecteur $x \\in E$ se décompose alors de manière **unique** dans cette base : $x = \\sum_{i=1}^n x_i e_i$.\n• **Théorème de la base incomplète** : De toute famille génératrice, on peut extraire une base. Toute famille libre peut être complétée en une base de $E$."
+      },
+      {
+        "title": "4. Dimension finie et Formule de Grassmann",
+        "content": "• Si $E$ admet une base à $n$ éléments, toutes ses bases ont $n$ éléments, et $\\dim(E) = n$.\n• En dimension finie $n = \\dim(E)$ : toute famille libre de $n$ vecteurs est une base ; toute famille génératrice de $n$ vecteurs est une base.\n• **Formule de Grassmann** : Pour tous sous-espaces vectoriels $F$ et $G$ de dimension finie :\n$$\\dim(F + G) = \\dim(F) + \\dim(G) - \\dim(F \\cap G)$$\n• **Somme directe** : $F$ et $G$ sont en somme directe, notée $F \\oplus G$, ssi $F \\cap G = \\{0_E\\} \\iff \\dim(F + G) = \\dim(F) + \\dim(G)$.\n• Deux sous-espaces sont **supplémentaires** si $E = F \\oplus G$."
       }
     ],
     "methods": [
@@ -134,12 +155,12 @@ window.MATHS_COURSES_L1 = {
     ],
     "flashcards": [
       {
-        "q": "Énoncer la formule de Grassmann pour la dimension de la somme de deux sous-espaces.",
-        "a": "$\\dim(F + G) = \\dim(F) + \\dim(G) - \\dim(F \\cap G)$."
+        "q": "Quels sont les axiomes caractérisant un sous-espace vectoriel F d'un K-ev E ?",
+        "a": "$0_E \\in F$ et $\\forall u, v \\in F, \\forall \\lambda, \\mu \\in \\mathbb{K}, \\lambda u + \\mu v \\in F$ (non vide et stable par combinaisons linéaires)."
       },
       {
-        "q": "À quelle condition deux sous-espaces vectoriels $F$ et $G$ sont-ils supplémentaires dans $E$ ($E = F \\oplus G$) ?",
-        "a": "$F \\cap G = \\{0_E\\}$ et $F + G = E$."
+        "q": "Énoncer la formule de Grassmann pour la dimension de la somme de deux sous-espaces.",
+        "a": "$\\dim(F + G) = \\dim(F) + \\dim(G) - \\dim(F \\cap G)$."
       }
     ]
   },
@@ -147,19 +168,28 @@ window.MATHS_COURSES_L1 = {
     "title": "L1-APP : Applications linéaires et Théorème du Rang",
     "domain": "Algèbre Linéaire",
     "objectives": [
-      "Définir une application linéaire $f : E \\to F$ vérifiant $f(\\lambda u + \\mu v) = \\lambda f(u) + \\mu f(v)$.",
-      "Déterminer le noyau $\\ker(f) = \\{u \\in E \\mid f(u) = 0_F\\}$ et l'image $\\text{Im}(f) = \\{f(u) \\mid u \\in E\\}$.",
-      "Énoncer et appliquer le Théorème du Rang : $\\dim(E) = \\dim(\\ker f) + \\text{rg}(f)$.",
-      "Caractériser les isomorphismes en dimension finie."
+      "Définir rigoureusement une application linéaire $f \\in \\mathcal{L}(E, F)$ et les sous-espaces noyau et image.",
+      "Définir par compréhension le noyau $\\ker(f) = \\{u \\in E \\mid f(u) = 0_F\\}$ et l'image $\\text{Im}(f) = \\{f(u) \\mid u \\in E\\}$.",
+      "Énoncer et appliquer le critère d'injectivité ($\\ker f = \\{0_E\\}$) et de surjectivité ($\\text{Im} f = F$).",
+      "Énoncer et démontrer le Théorème du Rang : $\\dim(E) = \\dim(\\ker f) + \\text{rg}(f)$.",
+      "Représenter une application linéaire par une matrice et appliquer la formule de changement de base."
     ],
     "keyPoints": [
       {
-        "title": "1. Noyau, Image et Injectivité/Surjectivité",
-        "content": "Soit $f \\in \\mathcal{L}(E, F)$ une application linéaire :\n• $\\ker(f)$ est un sous-espace vectoriel de $E$, et $\\text{Im}(f)$ est un sous-espace vectoriel de $F$.\n• **Critère fondamental d'injectivité** :\n$$f \\text{ est injective} \\iff \\ker(f) = \\{0_E\\}$$\n• $f$ est surjective ssi $\\text{Im}(f) = F$ ssi $\\text{rg}(f) = \\dim(F)$."
+        "title": "1. Définition d'une application linéaire",
+        "content": "Soient $E$ et $F$ deux $\\mathbb{K}$-espaces vectoriels. Une application $f : E \\to F$ est dite **linéaire** (ou un **morphisme d'espaces vectoriels**) si elle préserve les combinaisons linéaires :\n$$\\forall u, v \\in E, \\quad \\forall \\lambda, \\mu \\in \\mathbb{K}, \\quad f(\\lambda u + \\mu v) = \\lambda f(u) + \\mu f(v)$$\n• En particulier, $f(0_E) = 0_F$ et $f(-u) = -f(u)$.\n• L'ensemble des applications linéaires de $E$ dans $F$ est noté $\\mathcal{L}(E, F)$. Si $E = F$, on parle d'**endomorphisme**, et $\\mathcal{L}(E)$ est une algèbre associative unitaire.\n• Un morphisme bijectif est un **isomorphisme** (et un **automorphisme** si $E = F$)."
       },
       {
-        "title": "2. Théorème du Rang",
-        "content": "Soit $E$ un $\\mathbb{K}$-espace vectoriel de **dimension finie** et $f : E \\to F$ une application linéaire :\n$$\\dim(E) = \\dim(\\ker f) + \\dim(\\text{Im} f) = \\dim(\\ker f) + \\text{rg}(f)$$\n• **Corollaire fondamental** : Si $\\dim(E) = \\dim(F)$, alors les assertions suivantes sont équivalentes :\n1. $f$ est injective ($\\ker f = \\{0\\}$)\n2. $f$ est surjective ($\\text{rg}(f) = \\dim F$)\n3. $f$ est bijective (isomorphisme)"
+        "title": "2. Définitions formelles du Noyau ker(f) et de l'Image Im(f)",
+        "content": "Soit $f \\in \\mathcal{L}(E, F)$ une application linéaire :\n• **Noyau de $f$** : C'est l'ensemble de tous les vecteurs de $E$ dont l'image par $f$ est le vecteur nul de $F$ :\n$$\\ker(f) = \\{x \\in E \\mid f(x) = 0_F\\} = f^{-1}(\\{0_F\\})$$\n  - $\\ker(f)$ est un sous-espace vectoriel de l'espace de départ $E$.\n• **Image de $f$** : C'est l'ensemble des vecteurs de $F$ qui possèdent au moins un antécédent dans $E$ :\n$$\\text{Im}(f) = \\{y \\in F \\mid \\exists x \\in E, y = f(x)\\} = f(E) = \\text{Vect}(f(e_1), \\dots, f(e_n))$$\n  - $\\text{Im}(f)$ est un sous-espace vectoriel de l'espace d'arrivée $F$.\n  - La dimension de $\\text{Im}(f)$ est appelée le **rang** de $f$, noté $\\text{rg}(f) = \\dim(\\text{Im} f)$."
+      },
+      {
+        "title": "3. Critères d'injectivité, de surjectivité et de bijectivité",
+        "content": "• **Critère fondamental d'injectivité** :\n$$f \\text{ est injective} \\iff \\ker(f) = \\{0_E\\}$$\n*(Preuve : si $\\ker f = \\{0\\}$, alors $f(u) = f(v) \\implies f(u - v) = 0 \\implies u - v \\in \\ker f \\implies u - v = 0 \\implies u = v$)*.\n• **Critère de surjectivité** :\n$$f \\text{ est surjective} \\iff \\text{Im}(f) = F \\iff \\text{rg}(f) = \\dim(F)$$\n• **Isomorphisme** : $f$ est un isomorphisme ssi $\\ker(f) = \\{0_E\\}$ et $\\text{Im}(f) = F$."
+      },
+      {
+        "title": "4. Théorème du Rang et représentation matricielle",
+        "content": "• **Théorème du Rang (Théorème fondamental de l'algèbre linéaire)** :\nSoit $E$ de **dimension finie** et $f \\in \\mathcal{L}(E, F)$ :\n$$\\dim(E) = \\dim(\\ker f) + \\dim(\\text{Im} f) = \\dim(\\ker f) + \\text{rg}(f)$$\n• **Corollaire aux espaces de même dimension** : Si $\\dim(E) = \\dim(F) < +\\infty$, alors :\n$$f \\text{ injective} \\iff f \\text{ surjective} \\iff f \\text{ bijective}$$\n• **Matrice associée** : Si $\\mathcal{B}$ est une base de $E$ et $\\mathcal{C}$ une base de $F$, la $j$-ème colonne de $\\text{Mat}_{\\mathcal{B}, \\mathcal{C}}(f)$ contient les coordonnées de $f(e_j)$ dans la base $\\mathcal{C}$.\n• **Changement de base** : $M' = P^{-1} M P$ pour un endomorphisme ($P$ étant la matrice de passage)."
       }
     ],
     "methods": [
@@ -179,12 +209,12 @@ window.MATHS_COURSES_L1 = {
     ],
     "flashcards": [
       {
-        "q": "Énoncer le Théorème du Rang pour $f \\in \\mathcal{L}(E, F)$ avec $\\dim(E) < +\\infty$.",
-        "a": "$\\dim(E) = \\dim(\\ker f) + \\text{rg}(f)$."
+        "q": "Donner la définition mathématique ensembliste de ker(f) pour f dans L(E, F).",
+        "a": "$\\ker(f) = \\{x \\in E \\mid f(x) = 0_F\\} = f^{-1}(\\{0_F\\})$."
       },
       {
-        "q": "À quelle condition sur son noyau une application linéaire est-elle injective ?",
-        "a": "$\\ker(f) = \\{0_E\\}$ (le noyau est réduit au vecteur nul)."
+        "q": "Énoncer le Théorème du Rang pour f dans L(E, F) avec dim(E) finie.",
+        "a": "$\\dim(E) = \\dim(\\ker f) + \\text{rg}(f)$."
       }
     ]
   },
@@ -192,45 +222,53 @@ window.MATHS_COURSES_L1 = {
     "title": "L1-REL : Corps des nombres réels, propriété de la borne supérieure et topologie de R",
     "domain": "Analyse Réelle",
     "objectives": [
-      "Définir la borne supérieure (sup) et la borne inférieure (inf) d'une partie non vide bornée de $\\mathbb{R}$.",
-      "Énoncer l'axiome de la borne supérieure : toute partie non vide majorée de $\\mathbb{R}$ admet une borne supérieure dans $\\mathbb{R}$.",
+      "Définir la borne supérieure (sup) et la borne inférieure (inf) d'une partie non vide de $\\mathbb{R}$.",
+      "Énoncer l'axiome de la borne supérieure et la propriété d'Archimède.",
       "Démontrer la densité de $\\mathbb{Q}$ et de $\\mathbb{R} \\setminus \\mathbb{Q}$ dans $\\mathbb{R}$.",
-      "Utiliser la propriété d'Archimède : pour tout $x \\in \\mathbb{R}$, il existe $n \\in \\mathbb{N}$ tel que $n > x$."
+      "Définir les notions topologiques fondamentales de $\\mathbb{R}$ : ouverts, fermés, voisinages, adhérence et points d'accumulation."
     ],
     "keyPoints": [
       {
-        "title": "1. Caractérisation de la borne supérieure",
-        "content": "Soit $A$ une partie non vide et majorée de $\\mathbb{R}$. Un réel $M$ est la **borne supérieure** de $A$, noté $M = \\sup(A)$, ssi :\n1. $M$ est un majorant de $A$ : $\\forall x \\in A, x \\le M$.\n2. $M$ est le plus petit des majorants :\n$$\\forall \\varepsilon > 0, \\quad \\exists x \\in A, \\quad M - \\varepsilon < x \\le M$$"
+        "title": "1. Axiome de la borne supérieure et caractérisation epsilonesque",
+        "content": "• **Axiome de la borne supérieure** : Toute partie non vide et majorée de $\\mathbb{R}$ admet une **borne supérieure** réelle (le plus petit des majorants), notée $\\sup(A)$.\n• **Caractérisation en $\\varepsilon$ de $\\sup(A)$** : $M = \\sup(A) \\iff$ :\n  1. $\\forall x \\in A, \\quad x \\le M$ ($M$ est un majorant).\n  2. $\\forall \\varepsilon > 0, \\quad \\exists x \\in A, \\quad M - \\varepsilon < x \\le M$ (aucun réel $< M$ n'est majorant).\n• De même, toute partie non vide et minorée admet une **borne inférieure** $\\inf(A)$ (le plus grand des minorants) vérifiant :\n  $$\\forall \\varepsilon > 0, \\quad \\exists x \\in A, \\quad m \\le x < m + \\varepsilon$$"
       },
       {
-        "title": "2. Densité de $\\mathbb{Q}$ dans $\\mathbb{R}$",
-        "content": "• **Théorème de densité** : Entre deux réels distincts quelconques $a < b$, il existe une infinité de rationnels et une infinité d'irrationnels :\n$$\\forall a, b \\in \\mathbb{R} \\text{ avec } a < b, \\quad \\exists q \\in \\mathbb{Q}, \\quad a < q < b$$"
+        "title": "2. Propriété d'Archimède et conséquences fondamentales",
+        "content": "• **Corps archimédien** : Le corps $\\mathbb{R}$ est archimédien, ce qui signifie :\n$$\\forall x \\in \\mathbb{R}, \\quad \\exists n \\in \\mathbb{N}, \\quad n > x$$\n• **Partie entière** : Pour tout $x \\in \\mathbb{R}$, il existe un unique entier relatif $n = \\lfloor x \\rfloor \\in \\mathbb{Z}$ tel que :\n$$n \\le x < n + 1$$\n• **Caractérisation de la limite nulle** : $\\lim_{n \\to +\\infty} \\frac{1}{n} = 0$ découle immédiatement du caractère archimédien de $\\mathbb{R}$."
+      },
+      {
+        "title": "3. Densité de Q et de R \\ Q dans R",
+        "content": "• Une partie $D \\subset \\mathbb{R}$ est dite **dense dans $\\mathbb{R}$** si tout intervalle ouvert non vide $]a, b[$ contient au moins un élément de $D$ :\n$$\\forall a, b \\in \\mathbb{R} \\text{ avec } a < b, \\quad \\exists d \\in D, \\quad a < d < b$$\n• **Théorème de densité** : $\\mathbb{Q}$ (l'ensemble des rationnels) et $\\mathbb{R} \\setminus \\mathbb{Q}$ (l'ensemble des irrationnels) sont tous deux denses dans $\\mathbb{R}$."
+      },
+      {
+        "title": "4. Éléments de topologie sur la droite réelle",
+        "content": "• **Ouvert** : Une partie $U \\subset \\mathbb{R}$ est un ouvert si pour tout $x \\in U$, il existe $r > 0$ tel que $]x - r, x + r[ \\subset U$.\n• **Fermé** : Une partie $F \\subset \\mathbb{R}$ est un fermé si son complémentaire $\\mathbb{R} \\setminus F$ est un ouvert.\n• **Caractérisation séquentielle des fermés** : $F$ est fermé ssi pour toute suite $(x_n)$ d'éléments de $F$ convergeant vers $l \\in \\mathbb{R}$, on a $l \\in F$.\n• **Segment compact** : Tout intervalle fermé et borné $[a, b]$ est compact (Théorème de Borel-Lebesgue)."
       }
     ],
     "methods": [
       {
-        "title": "Méthode : Déterminer la borne supérieure d'un ensemble de réels",
-        "example": "Déterminer la borne supérieure et la borne inférieure de $A = \\left\\{ 1 - \\frac{1}{n} \\;\\middle|\\; n \\in \\mathbb{N}^* \\right\\}$.",
+        "title": "Méthode : Déterminer la borne supérieure d'un ensemble",
+        "example": "Déterminer la borne supérieure de $A = \\left\\{ 1 - \\frac{1}{n} \\;\\middle|\\; n \\in \\mathbb{N}^* \\right\\}$.",
         "steps": [
-          "**Majorant** : Pour tout $n \\ge 1$, $\\frac{1}{n} > 0 \\implies 1 - \\frac{1}{n} < 1$. Donc 1 est un majorant de $A$.",
-          "**Caractérisation en $\\varepsilon$** : Soit $\\varepsilon > 0$. Par la propriété d'Archimède, il existe $n \\in \\mathbb{N}^*$ tel que $n > \\frac{1}{\\varepsilon} \\iff \\frac{1}{n} < \\varepsilon$.",
-          "Alors $1 - \\frac{1}{n} > 1 - \\varepsilon$. Donc $1 = \\sup(A)$ (cette borne n'est pas un maximum car $1 \\notin A$).",
-          "**Borne inférieure** : Pour $n = 1$, $1 - 1 = 0 \\in A$. Comme $1 - \\frac{1}{n} \\ge 0$ pour tout $n$, $\\inf(A) = \\min(A) = 0$."
+          "**Étape 1 (Majorant)** : Pour tout $n \\ge 1$, $\\frac{1}{n} > 0 \\implies 1 - \\frac{1}{n} < 1$. Donc 1 est un majorant de $A$.",
+          "**Étape 2 (Caractérisation en $\\varepsilon$)** : Soit $\\varepsilon > 0$. On cherche $n \\ge 1$ tel que $1 - \\varepsilon < 1 - \\frac{1}{n} \\iff \\frac{1}{n} < \\varepsilon \\iff n > \\frac{1}{\\varepsilon}$.",
+          "**Étape 3 (Archimède)** : Par la propriété d'Archimède, il existe un tel entier $n$. Donc $1 - \\varepsilon$ n'est pas majorant.",
+          "**Conclusion** : $\\sup(A) = 1$ (cette borne supérieure n'est pas atteinte, donc pas de maximum)."
         ]
       }
     ],
     "traps": [
-      "⚠️ Ne pas confondre borne supérieure (qui n'appartient pas nécessairement à l'ensemble) et maximum (qui doit appartenir à l'ensemble).",
-      "⚠️ L'axiome de la borne supérieure est faux dans $\\mathbb{Q}$ (ex: $A = \\{q \\in \\mathbb{Q} \\mid q^2 < 2\\}$ est majoré dans $\\mathbb{Q}$ mais n'a pas de borne supérieure dans $\\mathbb{Q}$ car $\\sqrt{2} \\notin \\mathbb{Q}$)."
+      "⚠️ Ne pas confondre borne supérieure $\\sup(A)$ et maximum $\\max(A)$ : le maximum n'existe que si $\\sup(A) \\in A$ !",
+      "⚠️ Dans $\\mathbb{Q}$, la partie $\\{x \\in \\mathbb{Q} \\mid x^2 < 2\\}$ est majorée mais n'admet pas de borne supérieure rationnelle ($\\sqrt{2} \\notin \\mathbb{Q}$)."
     ],
     "flashcards": [
       {
-        "q": "Énoncer la caractérisation de la borne supérieure $M = \\sup(A)$ avec $\\varepsilon$.",
-        "a": "$M$ majore $A$ et $\\forall \\varepsilon > 0, \\exists x \\in A, x > M - \\varepsilon$."
+        "q": "Énoncer la caractérisation epsilonesque de M = sup(A).",
+        "a": "$\\forall x \\in A, x \\le M$ et $\\forall \\varepsilon > 0, \\exists x \\in A, M - \\varepsilon < x \\le M$."
       },
       {
-        "q": "Quelle est la différence entre $\\sup(A)$ et $\\max(A)$ ?",
-        "a": "$\\max(A)$ est un élément de $A$ (il est atteint), tandis que $\\sup(A)$ peut ne pas appartenir à $A$."
+        "q": "Quelle propriété fondamentale distingue R de Q sur l'existence des bornes ?",
+        "a": "L'axiome de la borne supérieure : toute partie non vide et majorée admet une borne supérieure dans $\\mathbb{R}$."
       }
     ]
   },
@@ -238,36 +276,45 @@ window.MATHS_COURSES_L1 = {
     "title": "L1-SUI : Suites réelles : limites (ε-N), suites de Cauchy et Bolzano-Weierstrass",
     "domain": "Analyse Réelle",
     "objectives": [
-      "Maîtriser la définition formelle en $\\varepsilon-N$ de la limite d'une suite : $\\forall \\varepsilon > 0, \\exists N \\in \\mathbb{N}, \\forall n \\ge N, |u_n - \\ell| < \\varepsilon$.",
-      "Connaître le Théorème de Bolzano-Weierstrass : de toute suite réelle bornée, on peut extraire une sous-suite convergente.",
-      "Définir une suite de Cauchy et exploiter la complétude de $\\mathbb{R}$ (toute suite de Cauchy de réels converge).",
-      "Utiliser le théorème des suites adjacentes."
+      "Maîtriser la définition formelle en $\\varepsilon - N_0$ de la convergence d'une suite.",
+      "Appliquer les théorèmes de comparaison, d'encadrement (gendarmes) et de convergence monotone.",
+      "Définir les suites adjacentes et prouver leur convergence vers une limite commune.",
+      "Énoncer et appliquer le Théorème de Bolzano-Weierstrass et la notion de suite de Cauchy.",
+      "Manipuler les relations de comparaison asymptotique ($o, O, \\sim$)."
     ],
     "keyPoints": [
       {
-        "title": "1. Définition rigoureuse de la convergence",
-        "content": "• Une suite $(u_n)$ converge vers $\\ell \\in \\mathbb{R}$ si :\n$$\\forall \\varepsilon > 0, \\quad \\exists N \\in \\mathbb{N}, \\quad \\forall n \\ge N, \\quad |u_n - \\ell| < \\varepsilon$$\n• **Théorème de convergence monotone** : Toute suite croissante et majorée converge dans $\\mathbb{R}$ vers $\\sup\\{u_n \\mid n \\in \\mathbb{N}\\}$."
+        "title": "1. Définition rigoureuse en epsilons de la convergence",
+        "content": "• Une suite $(u_n)_{n \\in \\mathbb{N}}$ **converge vers $l \\in \\mathbb{R}$** si :\n$$\\forall \\varepsilon > 0, \\quad \\exists N_0 \\in \\mathbb{N}, \\quad \\forall n \\ge N_0, \\quad |u_n - l| < \\varepsilon$$\n• Toute suite convergente est **bornée** et sa limite est **unique**.\n• **Théorème de convergence monotone** : Toute suite croissante et majorée converge vers $\\sup\\{u_n \\mid n \\in \\mathbb{N}\\}$. Toute suite décroissante et minorée converge vers son $\\inf$."
       },
       {
-        "title": "2. Bolzano-Weierstrass et Suites de Cauchy",
-        "content": "• **Théorème de Bolzano-Weierstrass** : Toute suite réelle **bornée** admet au moins une sous-suite (suite extraite) convergente.\n• **Suite de Cauchy** : Une suite $(u_n)$ est dite de Cauchy si :\n$$\\forall \\varepsilon > 0, \\quad \\exists N \\in \\mathbb{N}, \\quad \\forall p, q \\ge N, \\quad |u_p - u_q| < \\varepsilon$$\n• **Complétude de $\\mathbb{R}$** : Dans $\\mathbb{R}$, une suite converge si et seulement si elle est de Cauchy."
+        "title": "2. Suites adjacentes et Théorème des suites adjacentes",
+        "content": "Deux suites $(u_n)$ et $(v_n)$ sont dites **adjacentes** si :\n1. $(u_n)$ est croissante et $(v_n)$ est décroissante.\n2. Pour tout $n$, $u_n \\le v_n$.\n3. $\\lim_{n \\to +\\infty} (v_n - u_n) = 0$.\n\n• **Théorème** : Si deux suites sont adjacentes, elles convergent vers une **même limite réelle** $l$, et pour tout $n$ :\n$$u_n \\le u_{n+1} \\le l \\le v_{n+1} \\le v_n$$"
+      },
+      {
+        "title": "3. Bolzano-Weierstrass et Suites de Cauchy",
+        "content": "• **Théorème de Bolzano-Weierstrass** : De toute suite réelle **bornée**, on peut extraire une sous-suite (suite valeur d'adhérence) **convergente**.\n• **Suite de Cauchy** : Une suite $(u_n)$ est dite de Cauchy si :\n$$\\forall \\varepsilon > 0, \\quad \\exists N_0 \\in \\mathbb{N}, \\quad \\forall p, q \\ge N_0, \\quad |u_p - u_q| < \\varepsilon$$\n• **Complétude de $\\mathbb{R}$** : Dans $\\mathbb{R}$, une suite converge si et seulement si elle est de Cauchy. On dit que $\\mathbb{R}$ est un espace métrique complet."
+      },
+      {
+        "title": "4. Relations de comparaison asymptotique (o, O, équivalents)",
+        "content": "Soient $(u_n)$ et $(v_n)$ deux suites avec $v_n \\ne 0$ à partir d'un certain rang :\n• **Négligeabilité ($u_n = o(v_n)$)** : $\\lim_{n \\to +\\infty} \\frac{u_n}{v_n} = 0$.\n• **Domination ($u_n = O(v_n)$)** : $\\left(\\frac{u_n}{v_n}\\right)$ est une suite bornée.\n• **Équivalence ($u_n \\sim v_n$)** : $\\lim_{n \\to +\\infty} \\frac{u_n}{v_n} = 1$.\n• **Règle fondamentale** : On peut multiplier et diviser des équivalents, mais on ne peut **JAMAIS** additionner ou soustraire des équivalents sans justification !"
       }
     ],
     "methods": [
       {
-        "title": "Méthode : Démontrer la convergence avec la définition en $\\varepsilon-N$",
-        "example": "Démontrer en revenant à la définition que $\\lim_{n \\to +\\infty} \\frac{2n + 1}{n + 3} = 2$.",
+        "title": "Méthode : Démontrer la convergence avec la définition en $\\varepsilon$",
+        "example": "Démontrer que $\\lim_{n \\to +\\infty} \\frac{2n + 1}{n + 3} = 2$.",
         "steps": [
-          "**Étape 1 (Écart)** : Calculer $|u_n - 2| = \\left|\\frac{2n + 1}{n + 3} - 2\\right| = \\left|\\frac{2n + 1 - 2n - 6}{n + 3}\\right| = \\frac{5}{n + 3}$.",
-          "**Étape 2 (Recherche du rang N)** : On veut $\\frac{5}{n + 3} < \\varepsilon \\iff n + 3 > \\frac{5}{\\varepsilon} \\iff n > \\frac{5}{\\varepsilon} - 3$.",
-          "**Étape 3 (Rédaction)** : Soit $\\varepsilon > 0$. Posons $N = \\max\\left(0, \\left\\lfloor \\frac{5}{\\varepsilon} - 3 \\right\\rfloor + 1\\right)$. Pour tout $n \\ge N$, on a $|u_n - 2| < \\varepsilon$.",
-          "**Conclusion** : La suite converge vers 2."
+          "**Étape 1 (Écart)** : $\\left| \\frac{2n + 1}{n + 3} - 2 \\right| = \\left| \\frac{2n + 1 - 2n - 6}{n + 3} \\right| = \\frac{5}{n + 3}$.",
+          "**Étape 2 (Majoration)** : Pour $n \\ge 1$, $\\frac{5}{n + 3} < \\frac{5}{n}$.",
+          "**Étape 3 (Choix du rang $N_0$)** : Soit $\\varepsilon > 0$. On veut $\\frac{5}{n} < \\varepsilon \\iff n > \\frac{5}{\\varepsilon}$. On pose $N_0 = \\left\\lfloor \\frac{5}{\\varepsilon} \\right\\rfloor + 1$.",
+          "**Conclusion** : Pour tout $n \\ge N_0$, $|u_n - 2| < \\varepsilon$. Donc $\\lim u_n = 2$."
         ]
       }
     ],
     "traps": [
-      "⚠️ Dans $\\mathbb{Q}$, une suite de Cauchy ne converge pas forcément dans $\\mathbb{Q}$ (c'est précisément pour cela qu'on a construit $\\mathbb{R}$ !).",
-      "⚠️ $u_{n+1} - u_n \\to 0$ n'implique PAS que $(u_n)$ converge ! Contre-exemple célèbre : la série harmonique $H_n = \\sum_{k=1}^n \\frac{1}{k} \\to +\\infty$ alors que $H_{n+1} - H_n = \\frac{1}{n+1} \\to 0$."
+      "⚠️ Interdiction formelle d'additionner des équivalents : $u_n \\sim a_n$ et $v_n \\sim b_n \\centernot\\implies u_n + v_n \\sim a_n + b_n$ (risque d'annulation des termes prépondérants) !",
+      "⚠️ Ne pas confondre suite bornée (qui n'a pas nécessairement de limite, ex: $(-1)^n$) et suite convergente."
     ],
     "flashcards": [
       {
@@ -275,8 +322,8 @@ window.MATHS_COURSES_L1 = {
         "a": "De toute suite réelle bornée, on peut extraire une sous-suite convergente."
       },
       {
-        "q": "La condition $u_{n+1} - u_n \\to 0$ suffit-elle à assurer la convergence d'une suite ?",
-        "a": "Non (contre-exemple : $u_n = \\ln(n)$ ou la suite harmonique)."
+        "q": "Que signifie la complétude de R pour les suites de Cauchy ?",
+        "a": "Dans $\\mathbb{R}$, toute suite de Cauchy est convergente (et réciproquement)."
       }
     ]
   },
@@ -284,86 +331,107 @@ window.MATHS_COURSES_L1 = {
     "title": "L1-TAY : Formules de Taylor, développements limités et étude locale",
     "domain": "Analyse Réelle",
     "objectives": [
-      "Connaître les formules de Taylor-Young et Taylor-Lagrange à l'ordre $n$.",
-      "Maîtriser par cœur les développements limités usuels en 0 : $e^x, \\sin x, \\cos x, \\ln(1+x), (1+x)^\\alpha, \\frac{1}{1-x}$.",
-      "Effectuer les opérations sur les DL : somme, produit, quotient, composition.",
-      "Calculer des limites indéterminées et déterminer des équivalents asymptotiques."
+      "Énoncer les trois formules de Taylor : avec reste intégral, Taylor-Lagrange et Taylor-Young.",
+      "Maîtriser les développements limités usuels en 0 à l'ordre $n$.",
+      "Effectuer les opérations sur les DL : somme, produit, quotient, composition et intégration terme à terme.",
+      "Appliquer les DL à la levée d'indéterminations, au calcul de limites et à la recherche d'asymptotes."
     ],
     "keyPoints": [
       {
-        "title": "1. Développements limités usuels en 0 (Ordre $n$)",
-        "content": "• $e^x = 1 + x + \\frac{x^2}{2!} + \\dots + \\frac{x^n}{n!} + o(x^n)$\n• $\\cos(x) = 1 - \\frac{x^2}{2!} + \\frac{x^4}{4!} - \\dots + (-1)^p \\frac{x^{2p}}{(2p)!} + o(x^{2p+1})$\n• $\\sin(x) = x - \\frac{x^3}{3!} + \\frac{x^5}{5!} - \\dots + (-1)^p \\frac{x^{2p+1}}{(2p+1)!} + o(x^{2p+2})$\n• $\\ln(1 + x) = x - \\frac{x^2}{2} + \\frac{x^3}{3} - \\dots + (-1)^{n-1} \\frac{x^n}{n} + o(x^n)$\n• $\\frac{1}{1 - x} = 1 + x + x^2 + \\dots + x^n + o(x^n)$\n• $(1 + x)^\\alpha = 1 + \\alpha x + \\frac{\\alpha(\\alpha - 1)}{2} x^2 + o(x^2)$"
+        "title": "1. Les trois formules fondamentales de Taylor",
+        "content": "Soit $f : I \\to \\mathbb{R}$ de classe $\\mathcal{C}^{n+1}$ sur un intervalle $I$ et $a, x \\in I$ :\n• **Taylor avec reste intégral** :\n$$f(x) = \\sum_{k=0}^n \\frac{f^{(k)}(a)}{k!}(x - a)^k + \\int_a^x \\frac{(x - t)^n}{n!} f^{(n+1)}(t) \\, dt$$\n• **Formule de Taylor-Lagrange** : Il existe $c$ strictement compris entre $a$ et $x$ tel que :\n$$f(x) = \\sum_{k=0}^n \\frac{f^{(k)}(a)}{k!}(x - a)^k + \\frac{f^{(n+1)}(c)}{(n+1)!}(x - a)^{n+1}$$\n• **Formule de Taylor-Young (locale en $a$)** : Si $f$ est de classe $\\mathcal{C}^n$ au voisinage de $a$ :\n$$f(x) = \\sum_{k=0}^n \\frac{f^{(k)}(a)}{k!}(x - a)^k + o((x - a)^n)$$"
+      },
+      {
+        "title": "2. Développements limités usuels en 0 (Ordre n)",
+        "content": "• $e^x = 1 + x + \\frac{x^2}{2!} + \\dots + \\frac{x^n}{n!} + o(x^n)$\n• $\\cos(x) = 1 - \\frac{x^2}{2} + \\frac{x^4}{24} - \\dots + (-1)^p \\frac{x^{2p}}{(2p)!} + o(x^{2p+1})$\n• $\\sin(x) = x - \\frac{x^3}{6} + \\frac{x^5}{120} - \\dots + (-1)^p \\frac{x^{2p+1}}{(2p+1)!} + o(x^{2p+2})$\n• $\\ln(1 + x) = x - \\frac{x^2}{2} + \\frac{x^3}{3} - \\dots + (-1)^{n-1} \\frac{x^n}{n} + o(x^n)$\n• $(1 + x)^\\alpha = 1 + \\alpha x + \\frac{\\alpha(\\alpha - 1)}{2} x^2 + \\dots + \\frac{\\alpha(\\alpha - 1)\\dots(\\alpha - n + 1)}{n!} x^n + o(x^n)$\n• $\\frac{1}{1 - x} = 1 + x + x^2 + \\dots + x^n + o(x^n)$"
+      },
+      {
+        "title": "3. Opérations sur les développements limités",
+        "content": "• **Somme et Produit** : On additionne ou multiplie les parties polynomiales en tronquant les puissances $> n$.\n• **Composition $g(f(x))$** : Valide ssi $f(0) = 0$. On substitue le DL de $f$ dans le DL de $g$ et on tronque à l'ordre $n$.\n• **Intégration terme à terme** : Si $f(x) = P_n(x) + o(x^n)$, alors toute primitive s'écrit $\\int_0^x f(t)dt = \\int_0^x P_n(t)dt + o(x^{n+1})$."
+      },
+      {
+        "title": "4. Applications : Limites et position par rapport aux asymptotes",
+        "content": "• **Levée d'indéterminations** : Remplacer les fonctions par leurs DL à l'ordre minimal non nul pour obtenir immédiatement le terme prépondérant.\n• **Étude de position relative** : Si au voisinage de l'infini $f(x) = ax + b + \\frac{c}{x^p} + o(1/x^p)$, la droite $y = ax + b$ est asymptote oblique. Le signe de $c/x^p$ détermine si la courbe est au-dessus ou en dessous de l'asymptote."
       }
     ],
     "methods": [
       {
-        "title": "Méthode : Lever une forme indéterminée avec les DL",
-        "example": "Calculer la limite $\\lim_{x \\to 0} \\frac{\\sin(x) - x}{x^3}$.",
+        "title": "Méthode : Calculer la limite d'une forme indéterminée 0/0 par DL",
+        "example": "Calculer la limite quand $x \\to 0$ de $L(x) = \\frac{\\sin(x) - x}{\\ln(1 + x^3)}$.",
         "steps": [
-          "**Étape 1 (Ordre nécessaire)** : Le dénominateur est en $x^3$, donc il faut développer le numérateur à l'ordre 3.",
-          "**Étape 2 (DL du numérateur)** : $\\sin(x) = x - \\frac{x^3}{6} + o(x^3)$. Alors $\\sin(x) - x = -\\frac{x^3}{6} + o(x^3)$.",
-          "**Étape 3 (Quotient)** : $\\frac{\\sin(x) - x}{x^3} = \\frac{-\\frac{x^3}{6} + o(x^3)}{x^3} = -\\frac{1}{6} + o(1)$.",
-          "**Conclusion** : $\\lim_{x \\to 0} \\frac{\\sin(x) - x}{x^3} = -\\frac{1}{6}$."
+          "**Étape 1 (Numérateur)** : $\\sin(x) = x - \\frac{x^3}{6} + o(x^3) \\implies \\sin(x) - x = -\\frac{x^3}{6} + o(x^3)$.",
+          "**Étape 2 (Dénominateur)** : $\\ln(1 + u) = u + o(u)$ avec $u = x^3 \\to 0$, donc $\\ln(1 + x^3) = x^3 + o(x^3)$.",
+          "**Étape 3 (Quotient)** : $L(x) = \\frac{-\\frac{x^3}{6} + o(x^3)}{x^3 + o(x^3)} = \\frac{-\\frac{1}{6} + o(1)}{1 + o(1)}$.",
+          "**Conclusion** : $\\lim_{x \\to 0} L(x) = -\\frac{1}{6}$."
         ]
       }
     ],
     "traps": [
-      "⚠️ On n'additionne pas des équivalents ! Si $f \\sim g$ et $u \\sim v$, $f - u$ n'est PAS équivalent à $g - v$. Il faut obligatoirement utiliser les développements limités.",
-      "⚠️ Ne jamais oublier le terme d'erreur $o(x^n)$ dans les étapes intermédiaires."
+      "⚠️ Pour composer $g(f(x))$, la condition essentielle est $\\lim_{x \\to 0} f(x) = 0$ !",
+      "⚠️ On ne peut PAS dériver un développement limité en général : $f(x) = o(x) \\centernot\\implies f'(x) = o(1)$ sans hypothèse de dérivabilité supérieure."
     ],
     "flashcards": [
       {
-        "q": "Quel est le DL de $\\cos(x)$ en 0 à l'ordre 4 ?",
-        "a": "$\\cos(x) = 1 - \\frac{x^2}{2} + \\frac{x^4}{24} + o(x^4)$."
+        "q": "Énoncer la formule de Taylor-Young pour une fonction de classe C^n au voisinage de 0.",
+        "a": "$f(x) = \\sum_{k=0}^n \\frac{f^{(k)}(0)}{k!} x^k + o(x^n)$."
       },
       {
-        "q": "Peut-on sommer des équivalents ?",
-        "a": "Non, jamais ! Il faut utiliser des développements limités."
+        "q": "Quel est le DL en 0 à l'ordre 3 de ln(1 + x) ?",
+        "a": "$\\ln(1 + x) = x - \\frac{x^2}{2} + \\frac{x^3}{3} + o(x^3)$."
       }
     ]
   },
   "L1-INT": {
     "title": "L1-INT : Intégrale de Riemann sur un segment et techniques de primitivation",
-    "domain": "Calcul Intégral",
+    "domain": "Analyse Réelle",
     "objectives": [
-      "Construire l'intégrale de Riemann sur $[a, b]$ via les sommes de Darboux ou les fonctions en escalier.",
-      "Reconnaître et calculer des limites de sommes de Riemann : $\\lim_{n \\to \\infty} \\frac{b-a}{n} \\sum_{k=1}^n f\\left(a + k\\frac{b-a}{n}\\right) = \\int_a^b f(t) dt$.",
-      "Maîtriser les changements de variable réguliers dans une intégrale définie.",
-      "Primitiver des fractions rationnelles par décomposition en éléments simples."
+      "Définir rigoureusement l'intégrabilité au sens de Riemann (subdivisions, sommes de Darboux et de Riemann).",
+      "Énoncer le Théorème Fondamental de l'Analyse reliant dérivation et intégration.",
+      "Maîtriser les deux outils de calcul majeurs : l'intégration par parties et le changement de variable.",
+      "Appliquer les sommes de Riemann au calcul de limites de suites."
     ],
     "keyPoints": [
       {
-        "title": "1. Sommes de Riemann",
-        "content": "Soit $f$ une fonction continue sur $[a ; b]$. En subdivisant $[a ; b]$ en $n$ sous-intervalles de même longueur $\\frac{b-a}{n}$ :\n$$\\lim_{n \\to +\\infty} \\frac{b - a}{n} \\sum_{k=1}^n f\\left(a + k \\frac{b - a}{n}\\right) = \\int_a^b f(x) dx$$\nCas usuel sur $[0 ; 1]$ : $\\lim_{n \\to +\\infty} \\frac{1}{n} \\sum_{k=1}^n f\\left(\\frac{k}{n}\\right) = \\int_0^1 f(x) dx$."
+        "title": "1. Construction de l'intégrale de Riemann",
+        "content": "• **Subdivision d'un segment $[a, b]$** : Une suite finie $\\sigma = (x_0 = a < x_1 < \\dots < x_n = b)$ de pas $\\delta(\\sigma) = \\max (x_{i+1} - x_i)$.\n• **Fonctions intégrables** : Toute fonction continue sur $[a, b]$ (ou continue par morceaux, ou monotone) est intégrable au sens de Riemann.\n• **Sommes de Riemann** : Pour $f$ continue sur $[a, b]$ et $x_k = a + k\\frac{b - a}{n}$ :\n$$\\lim_{n \\to +\\infty} \\frac{b - a}{n} \\sum_{k=1}^n f\\left(a + k\\frac{b - a}{n}\\right) = \\int_a^b f(x) \\, dx$$"
       },
       {
-        "title": "2. Changement de variable",
-        "content": "Soit $\\varphi : [\\alpha ; \\beta] \\to [a ; b]$ une bijection de classe $\\mathcal{C}^1$ telle que $\\varphi(\\alpha) = a$ et $\\varphi(\\beta) = b$. Alors pour toute fonction continue $f$ :\n$$\\int_a^b f(x) dx = \\int_\\alpha^\\beta f(\\varphi(t)) \\varphi'(t) dt$$\n*Règle différentielle* : $x = \\varphi(t) \\implies dx = \\varphi'(t) dt$."
+        "title": "2. Théorèmes Fondamentaux de l'Analyse",
+        "content": "• **Premier Théorème Fondamental** : Soit $f$ continue sur un intervalle $I$ et $a \\in I$. La fonction $F(x) = \\int_a^x f(t) \\, dt$ est de classe $\\mathcal{C}^1$ sur $I$, et sa dérivée est exactement $f$ :\n$$F'(x) = \\frac{d}{dx} \\left(\\int_a^x f(t) \\, dt\\right) = f(x)$$\n• **Second Théorème Fondamental** : Si $F$ est une primitive quelconque de $f$ sur $[a, b]$ :\n$$\\int_a^b f(t) \\, dt = [F(t)]_a^b = F(b) - F(a)$$"
+      },
+      {
+        "title": "3. Intégration par parties et Changement de variable",
+        "content": "• **Intégration par parties (IPP)** : Si $u$ et $v$ sont de classe $\\mathcal{C}^1$ sur $[a, b]$ :\n$$\\int_a^b u'(t) v(t) \\, dt = [u(t) v(t)]_a^b - \\int_a^b u(t) v'(t) \\, dt$$\n• **Changement de variable** : Si $\\varphi : [\\alpha, \\beta] \\to [a, b]$ est une bijection de classe $\\mathcal{C}^1$ avec $\\varphi(\\alpha) = a$ et $\\varphi(\\beta) = b$, et $f$ continue sur $[a, b]$ :\n$$\\int_a^b f(x) \\, dt = \\int_\\alpha^\\beta f(\\varphi(t)) \\cdot \\varphi'(t) \\, dt$$"
+      },
+      {
+        "title": "4. Formules de la moyenne et positivité",
+        "content": "• **Positivité** : Si $f \\ge 0$ sur $[a, b]$ (avec $a \\le b$), alors $\\int_a^b f(t)dt \\ge 0$. Si de plus $f$ est continue et $\\int_a^b f(t)dt = 0$, alors $f$ est identiquement nulle.\n• **Inégalité de la moyenne** : $\\left|\\int_a^b f(t)dt\\right| \\le \\int_a^b |f(t)|dt \\le (b - a) \\sup_{[a,b]} |f|$.\n• **Théorème de la moyenne** : Si $f$ est continue sur $[a, b]$, il existe $c \\in [a, b]$ tel que $\\frac{1}{b - a}\\int_a^b f(t)dt = f(c)$."
       }
     ],
     "methods": [
       {
-        "title": "Méthode : Calculer une limite de somme avec Riemann",
-        "example": "Calculer la limite quand $n \\to +\\infty$ de $S_n = \\sum_{k=1}^n \\frac{n}{n^2 + k^2}$.",
+        "title": "Méthode : Calculer une limite de somme par les sommes de Riemann",
+        "example": "Calculer $S = \\lim_{n \\to +\\infty} \\sum_{k=1}^n \\frac{n}{n^2 + k^2}$.",
         "steps": [
-          "**Étape 1 (Factorisation par $n$)** : $\\frac{n}{n^2 + k^2} = \\frac{n}{n^2(1 + (k/n)^2)} = \\frac{1}{n} \\times \\frac{1}{1 + (k/n)^2}$.",
-          "**Étape 2 (Reconnaissance de la fonction)** : $S_n = \\frac{1}{n} \\sum_{k=1}^n f\\left(\\frac{k}{n}\\right)$ avec $f(x) = \\frac{1}{1 + x^2}$ sur $[0 ; 1]$.",
-          "**Étape 3 (Intégration)** : $\\lim_{n \\to +\\infty} S_n = \\int_0^1 \\frac{1}{1 + x^2} dx = [\\arctan(x)]_0^1 = \\arctan(1) - \\arctan(0) = \\frac{\\pi}{4}$."
+          "**Étape 1 (Mise sous forme canonique)** : $\\sum_{k=1}^n \\frac{n}{n^2(1 + (k/n)^2)} = \\frac{1}{n} \\sum_{k=1}^n \\frac{1}{1 + (k/n)^2}$.",
+          "**Étape 2 (Identification)** : C'est une somme de Riemann pour la fonction $f(x) = \\frac{1}{1 + x^2}$ sur l'intervalle $[0, 1]$.",
+          "**Étape 3 (Intégration)** : $\\int_0^1 \\frac{1}{1 + x^2} \\, dx = [\\arctan(x)]_0^1 = \\arctan(1) - \\arctan(0) = \\frac{\\pi}{4}$.",
+          "**Conclusion** : $S = \\frac{\\pi}{4}$."
         ]
       }
     ],
     "traps": [
-      "⚠️ Dans un changement de variable, ne JAMAIS oublier de remplacer les bornes et de remplacer $dx$ par $\\varphi'(t)dt$ !",
-      "⚠️ Pour décomposer une fraction rationnelle $\\frac{P}{Q}$, si $\\deg(P) \\ge \\deg(Q)$, effectuer d'abord la division euclidienne polynomiale pour extraire la partie entière."
+      "⚠️ Dans un changement de variable, ne JAMAIS oublier de remplacer l'élément différentiel $dx = \\varphi'(t)dt$ et de changer les bornes !",
+      "⚠️ La formule de Chasles $\\int_a^c = \\int_a^b + \\int_b^c$ est toujours vraie, mais pour l'inégalité de positivité, il faut impérativement que la borne inférieure soit inférieure ou égale à la borne supérieure ($a \\le b$)."
     ],
     "flashcards": [
       {
-        "q": "Que vaut $\\lim_{n \\to +\\infty} \\frac{1}{n} \\sum_{k=1}^n \\left(\\frac{k}{n}\\right)^2$ ?",
-        "a": "$\\int_0^1 x^2 dx = \\left[\\frac{x^3}{3}\\right]_0^1 = \\frac{1}{3}$."
+        "q": "Quelle est la dérivée de la fonction F(x) = int_a^x f(t) dt pour f continue ?",
+        "a": "$F'(x) = f(x)$ (Premier Théorème Fondamental de l'Analyse)."
       },
       {
-        "q": "Quelle est la dérivée de $\\arctan(x)$ ?",
-        "a": "$\\frac{1}{1 + x^2}$."
+        "q": "Énoncer la formule d'intégration par parties pour u, v de classe C^1 sur [a, b].",
+        "a": "$\\int_a^b u'(t)v(t)dt = [u(t)v(t)]_a^b - \\int_a^b u(t)v'(t)dt$."
       }
     ]
   },
@@ -371,43 +439,49 @@ window.MATHS_COURSES_L1 = {
     "title": "L1-CMP : Nombres complexes, géométrie et racines n-ièmes de l'unité",
     "domain": "Algèbre Fondamentale",
     "objectives": [
-      "Maîtriser le corps $\\mathbb{C}$, la conjugaison, le module et la forme exponentielle $r e^{i\\theta}$.",
-      "Déterminer les $n$ racines $n$-ièmes d'un nombre complexe et les racines $n$-ièmes de l'unité $\\mathbb{U}_n = \\{e^{2ik\\pi/n}, k \\in \\{0, \\dots, n-1\\}\\}$.",
-      "Factoriser des polynômes dans $\\mathbb{C}[X]$ et $\\mathbb{R}[X]$ (Théorème de d'Alembert-Gauss)."
+      "Maîtriser les représentations algébrique, trigonométrique et exponentielle des nombres complexes.",
+      "Calculer les racines $n$-ièmes d'un nombre complexe et les racines de l'unité $\\mathbb{U}_n$.",
+      "Appliquer les formules d'Euler et de Moivre à la linéarisation trigonométrique.",
+      "Énoncer le Théorème de d'Alembert-Gauss et factoriser les polynômes dans $\\mathbb{C}[X]$ et $\\mathbb{R}[X]$."
     ],
     "keyPoints": [
       {
-        "title": "1. Racines n-ièmes de l'unité",
-        "content": "Pour $n \\ge 1$, l'équation $z^n = 1$ admet exactement $n$ solutions distinctes dans $\\mathbb{C}$ :\n$$\\mathbb{U}_n = \\left\\{ \\omega_k = e^{\\frac{2ik\\pi}{n}}, \\quad k \\in \\{0, 1, \\dots, n-1\\} \\right\\}$$\n• Forme un groupe cyclique multiplicatif d'ordre $n$, engendré par $\\omega_1 = e^{2i\\pi/n}$.\n• Somme des racines $n$-ièmes : pour $n \\ge 2$, $\\sum_{k=0}^{n-1} e^{\\frac{2ik\\pi}{n}} = 0$."
+        "title": "1. Formes algébrique et exponentielle, formules d'Euler et de Moivre",
+        "content": "• Tout $z \\in \\mathbb{C}$ s'écrit de manière unique $z = a + ib$ avec $a = \\text{Re}(z)$ et $b = \\text{Im}(z)$.\n• **Module et conjugué** : $|z| = \\sqrt{a^2 + b^2}$, $\\bar{z} = a - ib$, et $z \\bar{z} = |z|^2$.\n• **Formule d'Euler** : Pour tout $\\theta \\in \\mathbb{R}$, $e^{i\\theta} = \\cos(\\theta) + i\\sin(\\theta)$.\n  $$\\cos(\\theta) = \\frac{e^{i\\theta} + e^{-i\\theta}}{2}, \\qquad \\sin(\\theta) = \\frac{e^{i\\theta} - e^{-i\\theta}}{2i}$$\n• **Formule de Moivre** : Pour tout $n \\in \\mathbb{Z}$, $(\\cos \\theta + i\\sin \\theta)^n = \\cos(n\\theta) + i\\sin(n\\theta) \\iff (e^{i\\theta})^n = e^{in\\theta}$."
       },
       {
-        "title": "2. Théorème fondamental de l'algèbre (d'Alembert-Gauss)",
-        "content": "Tout polynôme non constant $P \\in \\mathbb{C}[X]$ est scindé sur $\\mathbb{C}$ : il admet au moins une racine dans $\\mathbb{C}$, et se factorise en produit de facteurs de degré 1 :\n$$P(X) = a_n \\prod_{j=1}^n (X - z_j)$$\nSur $\\mathbb{R}[X]$, les polynômes irréductibles sont les polynômes de degré 1 et les polynômes de degré 2 de discriminant $\\Delta < 0$."
+        "title": "2. Racines n-ièmes de l'unité",
+        "content": "• L'équation $z^n = 1$ ($n \\in \\mathbb{N}^*$) admet exactement $n$ solutions distinctes dans $\\mathbb{C}$, formant le groupe cyclique $\\mathbb{U}_n$ :\n$$\\omega_k = e^{i \\frac{2k\\pi}{n}}, \\quad k \\in \\{0, 1, \\dots, n - 1\\}$$\n• **Propriété géométrique** : Les images des racines $n$-ièmes forment les sommets d'un polygone régulier à $n$ côtés inscrit dans le cercle unité.\n• **Somme nulle** : Pour $n \\ge 2$, la somme des racines $n$-ièmes est nulle : $\\sum_{k=0}^{n-1} \\omega_k = 0$."
+      },
+      {
+        "title": "3. Théorème de d'Alembert-Gauss et factorisation de polynômes",
+        "content": "• **Théorème fondamental de l'algèbre (d'Alembert-Gauss)** : Le corps $\\mathbb{C}$ est **algébriquement clos** : tout polynôme non constant de $\\mathbb{C}[X]$ admet au moins une racine dans $\\mathbb{C}$.\n• Tout polynôme $P \\in \\mathbb{C}[X]$ de degré $n$ est **scindé** : $P(X) = a_n \\prod_{j=1}^p (X - z_j)^{\\alpha_j}$ avec $\\sum \\alpha_j = n$.\n• **Polynômes à coefficients réels $\\mathbb{R}[X]$** : Les racines non réelles viennent par paires conjuguées ($P(z) = 0 \\iff P(\\bar{z}) = 0$). Tout polynôme de $\\mathbb{R}[X]$ se factorise en produit de polynômes de degré 1 et de degré 2 à discriminant strictement négatif."
       }
     ],
     "methods": [
       {
-        "title": "Méthode : Résoudre $z^n = Z_0$ sous forme trigonométrique",
-        "example": "Déterminer les racines cubiques de $Z_0 = 8i$.",
+        "title": "Méthode : Résoudre une équation du second degré à coefficients complexes",
+        "example": "Résoudre dans $\\mathbb{C}$ l'équation $z^2 - (3 + 2i)z + 5 + i = 0$.",
         "steps": [
-          "**Étape 1 (Forme exponentielle de $Z_0$)** : $8i = 8 e^{i\\pi/2}$.",
-          "**Étape 2 (Poser $z = r e^{i\\theta}$)** : $z^3 = r^3 e^{3i\\theta} = 8 e^{i\\pi/2}$.",
-          "**Étape 3 (Module et arguments)** : $r^3 = 8 \\implies r = 2$. $3\\theta = \\frac{\\pi}{2} + 2k\\pi \\implies \\theta_k = \\frac{\\pi}{6} + \\frac{2k\\pi}{3}$ pour $k \\in \\{0, 1, 2\\}$.",
-          "**Conclusion** : $z_0 = 2 e^{i\\pi/6} = \\sqrt{3} + i$, $z_1 = 2 e^{i5\\pi/6} = -\\sqrt{3} + i$, $z_2 = 2 e^{i3\\pi/2} = -2i$."
+          "**Étape 1 (Discriminant)** : $\\Delta = (3 + 2i)^2 - 4(1)(5 + i) = (9 + 12i - 4) - (20 + 4i) = -15 + 8i$.",
+          "**Étape 2 (Racines carrées de $\\Delta$)** : Posons $\\delta = x + iy$. On résout $\\begin{cases} x^2 - y^2 = -15 \\\\ x^2 + y^2 = |\\Delta| = \\sqrt{(-15)^2 + 8^2} = 17 \\\\ 2xy = 8 > 0 \\end{cases}$.",
+          "**Étape 3 (Valeurs de $x$ et $y$)** : $2x^2 = 2 \\implies x = \\pm 1$ et $2y^2 = 32 \\implies y = \\pm 4$. Comme $xy > 0$, $\\delta = \\pm(1 + 4i)$.",
+          "**Étape 4 (Solutions)** : $z_1 = \\frac{3 + 2i + (1 + 4i)}{2} = 2 + 3i$ et $z_2 = \\frac{3 + 2i - (1 + 4i)}{2} = 1 - i$."
         ]
       }
     ],
     "traps": [
-      "⚠️ Ne jamais écrire $\\sqrt[n]{z}$ avec $z \\in \\mathbb{C}$ non réel : la notation racine n'est définie sans ambiguïté que sur $\\mathbb{R}_+$ !"
+      "⚠️ Ne JAMAIS écrire le symbole $\\sqrt{z}$ pour un complexe non réel (la fonction racine carrée n'a pas de détermination uniforme continue canonique sur $\\mathbb{C}$) !",
+      "⚠️ Dans $\\mathbb{C}$, deux nombres peuvent être différents alors qu'ils ont le même module et la même partie réelle (ils diffèrent par le signe de la partie imaginaire)."
     ],
     "flashcards": [
       {
-        "q": "Que vaut la somme des racines $n$-ièmes de l'unité pour $n \\ge 2$ ?",
-        "a": "$0$, car $\\sum_{k=0}^{n-1} \\omega^k = \\frac{1 - \\omega^n}{1 - \\omega} = 0$."
+        "q": "Quelles sont les n racines n-ièmes de l'unité ?",
+        "a": "$\\omega_k = e^{i \\frac{2k\\pi}{n}}$ pour $k \\in \\{0, 1, \\dots, n - 1\\}$."
       },
       {
-        "q": "Quels sont les polynômes irréductibles de $\\mathbb{R}[X]$ ?",
-        "a": "Les polynômes de degré 1 et les polynômes de degré 2 à discriminant strictement négatif."
+        "q": "Que dit le théorème de d'Alembert-Gauss pour les polynômes de C[X] ?",
+        "a": "Tout polynôme non constant à coefficients complexes est scindé sur $\\mathbb{C}$ (admet au moins une racine)."
       }
     ]
   },
@@ -415,87 +489,98 @@ window.MATHS_COURSES_L1 = {
     "title": "L1-CNT : Continuité, limites et dérivabilité des fonctions d'une variable réelle",
     "domain": "Analyse Réelle",
     "objectives": [
-      "Maîtriser la définition formelle $(\\varepsilon, \\delta)$ de la limite et de la continuité en un point et sur un intervalle.",
-      "Appliquer les grands théorèmes d'analyse globale : TVI, Théorème des bornes atteintes (Weierstrass), Théorème de la bijection.",
-      "Énoncer et démontrer le Théorème de Rolle et le Théorème des Accroissements Finis (TAF)."
+      "Maîtriser les définitions en $\\varepsilon - \\delta$ de la limite et de la continuité locale et globale.",
+      "Énoncer la caractérisation séquentielle de la continuité (Heine).",
+      "Énoncer et démontrer le Théorème des Valeurs Intermédiaires (TVI) et le théorème de la bijection.",
+      "Énoncer le Théorème de Weierstrass (bornes atteintes sur un compact).",
+      "Maîtriser les théorèmes de Rolle et des Accroissements Finis (TAF) et l'égalité de Taylor-Lagrange."
     ],
     "keyPoints": [
       {
-        "title": "1. Définition en $\\varepsilon - \\delta$ et compacité de Weierstrass",
-        "content": "• **Continuité en $x_0$** :\n$$\\forall \\varepsilon > 0, \\quad \\exists \\delta > 0, \\quad \\forall x \\in I, \\quad |x - x_0| < \\delta \\implies |f(x) - f(x_0)| < \\varepsilon$$\n• **Théorème de Weierstrass (Bornes atteintes)** : Toute fonction continue sur un segment $[a ; b]$ est **bornée** et **atteint ses bornes** (il existe $c, d \\in [a ; b]$ tels que $f(c) = \\min_{[a,b]} f$ et $f(d) = \\max_{[a,b]} f$)."
+        "title": "1. Définition locale en epsilons et caractérisation séquentielle",
+        "content": "• **Continuité en un point $x_0$** : $f : I \\to \\mathbb{R}$ est continue en $x_0 \\in I$ si :\n$$\\forall \\varepsilon > 0, \\quad \\exists \\delta > 0, \\quad \\forall x \\in I, \\quad |x - x_0| < \\delta \\implies |f(x) - f(x_0)| < \\varepsilon$$\n• **Caractérisation séquentielle (Heine)** :\n$$f \\text{ est continue en } x_0 \\iff \\forall (x_n) \\in I^\\mathbb{N}, \\quad \\left(\\lim_{n \\to +\\infty} x_n = x_0 \\implies \\lim_{n \\to +\\infty} f(x_n) = f(x_0)\\right)$$"
       },
       {
-        "title": "2. Théorème de Rolle et Accroissements Finis (TAF)",
-        "content": "• **Théorème de Rolle** : Si $f : [a ; b] \\to \\mathbb{R}$ est continue sur $[a ; b]$, dérivable sur $]a ; b[$, et vérifie $f(a) = f(b)$, alors il existe $c \\in ]a ; b[$ tel que $f'(c) = 0$.\n• **Théorème des Accroissements Finis (TAF)** : Sous les mêmes hypothèses de régularité, il existe $c \\in ]a ; b[$ tel que :\n$$f(b) - f(a) = f'(c)(b - a)$$"
+        "title": "2. Théorèmes globaux : TVI, Bijection et Bornes atteintes",
+        "content": "• **Théorème des Valeurs Intermédiaires (TVI)** : Si $f$ est continue sur un intervalle $[a, b]$, alors pour tout réel $k$ compris entre $f(a)$ et $f(b)$, il existe au moins un réel $c \\in [a, b]$ tel que $f(c) = k$.\n• **Corollaire (Théorème de la bijection)** : Si $f$ est continue et **strictement monotone** sur un intervalle $I$, alors $f$ réalise une bijection de $I$ sur l'intervalle $J = f(I)$, et sa réciproque $f^{-1}$ est continue et de même monotonie sur $J$.\n• **Théorème de Weierstrass** : L'image d'un segment compact $[a, b]$ par une fonction continue $f$ est un segment compact $[m, M]$ : $f$ est **bornée** et **atteint ses bornes** (il existe $x_1, x_2$ tels que $f(x_1) = \\inf f$ et $f(x_2) = \\sup f$)."
+      },
+      {
+        "title": "3. Dérivabilité, Théorème de Rolle et Accroissements Finis (TAF)",
+        "content": "• **Théorème de Rolle** : Soit $f$ continue sur $[a, b]$, dérivable sur $]a, b[$, telle que $f(a) = f(b)$. Alors il existe $c \\in ]a, b[$ tel que :\n$$f'(c) = 0$$\n• **Théorème des Accroissements Finis (TAF)** : Soit $f$ continue sur $[a, b]$ et dérivable sur $]a, b[$. Alors il existe $c \\in ]a, b[$ tel que :\n$$f(b) - f(a) = f'(c)(b - a)$$\n• **Inégalité des Accroissements Finis** : Si $|f'(t)| \\le M$ sur $]a, b[$, alors $|f(b) - f(a)| \\le M|b - a|$."
       }
     ],
     "methods": [
       {
-        "title": "Méthode : Établir une inégalité par le TAF ou l'inégalité des accroissements finis (IAF)",
-        "example": "Démontrer que pour tout $x > 0$, $\\frac{x}{1+x} < \\ln(1+x) < x$.",
+        "title": "Méthode : Prouver l'existence d'une solution par le TVI",
+        "example": "Démontrer que l'équation $x^5 - 3x + 1 = 0$ admet au moins une solution sur $]0, 1[$.",
         "steps": [
-          "**Étape 1** : Soit $f(t) = \\ln(1+t)$ sur $[0 ; x]$. $f$ est continue sur $[0 ; x]$ et dérivable sur $]0 ; x[$ avec $f'(t) = \\frac{1}{1+t}$.",
-          "**Étape 2 (TAF)** : Il existe $c \\in ]0 ; x[$ tel que $f(x) - f(0) = f'(c)(x - 0) \\iff \\ln(1+x) = \\frac{x}{1+c}$.",
-          "**Étape 3 (Encadrement)** : Comme $0 < c < x$, on a $1 < 1+c < 1+x \\implies \\frac{1}{1+x} < \\frac{1}{1+c} < 1$.",
-          "**Conclusion** : En multipliant par $x > 0$ : $\\frac{x}{1+x} < \\ln(1+x) < x$."
+          "**Étape 1 (Continuité)** : La fonction polynomiale $f(x) = x^5 - 3x + 1$ est continue sur $[0, 1]$.",
+          "**Étape 2 (Calcul aux bornes)** : $f(0) = 1 > 0$ et $f(1) = 1 - 3 + 1 = -1 < 0$.",
+          "**Étape 3 (Application du TVI)** : Comme $0 \\in [-1, 1]$, d'après le TVI, il existe au moins un réel $c \\in ]0, 1[$ tel que $f(c) = 0$."
         ]
       }
     ],
     "traps": [
-      "⚠️ Pour appliquer Rolle ou le TAF, la continuité est requise sur le **segment fermé** $[a ; b]$, mais la dérivabilité n'est requise que sur l'**ouvert** $]a ; b[$ !"
+      "⚠️ La dérivabilité implique la continuité, mais la **réciproque est fausse** : $x \\mapsto |x|$ est continue en 0 mais non dérivable en 0 !",
+      "⚠️ Pour appliquer le théorème de Rolle ou le TAF, l'intervalle doit impérativement être un segment fermé pour la continuité et ouvert pour la dérivabilité."
     ],
     "flashcards": [
       {
-        "q": "Énoncer le Théorème des Accroissements Finis (TAF).",
-        "a": "Si $f$ est continue sur $[a ; b]$ et dérivable sur $]a ; b[$, il existe $c \\in ]a ; b[$ tel que $f(b) - f(a) = f'(c)(b-a)$."
+        "q": "Que dit le théorème de Weierstrass pour une fonction continue sur un segment [a, b] ?",
+        "a": "Elle est bornée et atteint ses bornes (son image est un segment compact $[m, M]$)."
       },
       {
-        "q": "Que garantit le théorème de Weierstrass pour une fonction continue sur un segment $[a ; b]$ ?",
-        "a": "Elle est bornée et atteint ses bornes (son maximum et son minimum)."
+        "q": "Énoncer le Théorème des Accroissements Finis.",
+        "a": "Si $f$ est continue sur $[a, b]$ et dérivable sur $]a, b[$, il existe $c \\in ]a, b[$ tel que $f(b) - f(a) = f'(c)(b - a)$."
       }
     ]
   },
   "L1-GEO": {
     "title": "L1-GEO : Courbes paramétrées, cinématique et géométrie analytique",
-    "domain": "Géométrie et Applications",
+    "domain": "Géométrie & Cinématique",
     "objectives": [
-      "Étudier une courbe plane paramétrée $t \\mapsto (x(t), y(t))$ (symétries, domaine d'étude, tableau conjoint de variations).",
-      "Déterminer les branches infinies, asymptotes et tangentes (points réguliers et points stationnaires).",
-      "Calculer la longueur d'un arc de courbe et interpréter la vitesse et l'accélération en cinématique."
+      "Étudier un arc paramétré $t \\mapsto \\vec{r}(t) = (x(t), y(t))$ (symétries, périodicité, domaine d'étude réduit).",
+      "Déterminer les points réguliers et la droite tangente via le vecteur dérivé $\\vec{r}'(t)$.",
+      "Étudier la nature locale des points singuliers / stationnaires (points de rebroussement, méplats, inflexions).",
+      "Tracer et étudier des courbes en coordonnées polaires $r = f(\\theta)$ et calculer la longueur d'un arc."
     ],
     "keyPoints": [
       {
         "title": "1. Points réguliers, vecteur vitesse et tangentes",
-        "content": "Soit $\\gamma(t) = (x(t), y(t))$ une courbe paramétrée de classe $\\mathcal{C}^1$ :\n• **Vecteur vitesse** : $\\vec{v}(t) = \\gamma'(t) = (x'(t) ; y'(t))$.\n• Un point est **régulier** si $\\vec{v}(t) \\neq \\vec{0}$. La tangente à la courbe est alors dirigée par $\\vec{v}(t)$ et a pour pente $m = \\frac{y'(t)}{x'(t)}$ si $x'(t) \\neq 0$.\n• Si $\\vec{v}(t) = \\vec{0}$, le point est dit **stationnaire** (ou singulier). Son étude nécessite les dérivées d'ordre supérieur (rebroussement, inflexion)."
+        "content": "Soit $\\gamma : I \\to \\mathbb{R}^2, t \\mapsto (x(t), y(t))$ un arc de classe $\\mathcal{C}^k$ :\n• **Point régulier** : Un point $M(t)$ est régulier si $\\vec{r}'(t) = (x'(t), y'(t)) \\neq (0, 0)$.\n• **Tangente** : En un point régulier, la tangente à la courbe est la droite passant par $M(t)$ dirigée par le vecteur vitesse $\\vec{r}'(t)$. Son coefficient directeur est $\\frac{y'(t)}{x'(t)}$ (si $x'(t) \\neq 0$)."
       },
       {
-        "title": "2. Longueur d'un arc de courbe",
-        "content": "La longueur d'un arc paramétré régulier pour $t \\in [a ; b]$ est donnée par l'intégrale de la norme du vecteur vitesse :\n$$L = \\int_a^b \\|\\gamma'(t)\\| dt = \\int_a^b \\sqrt{x'(t)^2 + y'(t)^2} dt$$"
+        "title": "2. Étude locale des points singuliers (Formule de Taylor)",
+        "content": "• Un point $M(t_0)$ est **stationnaire (ou singulier)** si $\\vec{r}'(t_0) = \\vec{0}$.\n• Pour déterminer la tangente et l'allure locale, on cherche les deux premiers vecteurs dérivés non nuls et non colinéaires :\n$$\\vec{r}(t) = \\vec{r}(t_0) + \\frac{(t - t_0)^p}{p!} \\vec{r}^{(p)}(t_0) + \\frac{(t - t_0)^q}{q!} \\vec{r}^{(q)}(t_0) + o((t - t_0)^q)$$\navec $p < q$, $\\vec{r}^{(p)}(t_0) \\neq \\vec{0}$ et $(\\vec{r}^{(p)}(t_0), \\vec{r}^{(q)}(t_0))$ libre.\n• **Classification géométrique** :\n  - $p$ impair, $q$ pair : **Point ordinaire** (allure standard traversant la tangente).\n  - $p$ pair, $q$ impair : **Point de rebroussement de 1ère espèce**.\n  - $p$ pair, $q$ pair : **Point de rebroussement de 2ème espèce**.\n  - $p$ impair, $q$ impair : **Point d'inflexion**."
+      },
+      {
+        "title": "3. Courbes en coordonnées polaires et longueur d'arc",
+        "content": "• Une courbe polaire $r = f(\\theta)$ a pour coordonnées cartésiennes : $x(\\theta) = f(\\theta)\\cos\\theta$ et $y(\\theta) = f(\\theta)\\sin\\theta$.\n• **Angle de la tangente avec le rayon vecteur** : $\\tan(V) = \\frac{f(\\theta)}{f'(\\theta)}$ (lorsque $f'(\\theta) \\neq 0$).\n• **Longueur d'un arc régulier** : La longueur d'une courbe entre $t_1$ et $t_2$ est donnée par :\n$$L = \\int_{t_1}^{t_2} \\|\\vec{r}'(t)\\| \\, dt = \\int_{t_1}^{t_2} \\sqrt{x'(t)^2 + y'(t)^2} \\, dt$$\nEn polaires : $L = \\int_{\\theta_1}^{\\theta_2} \\sqrt{r(\\theta)^2 + r'(\\theta)^2} \\, d\\theta$."
       }
     ],
     "methods": [
       {
-        "title": "Méthode : Réduire le domaine d'étude par les symétries",
-        "example": "Soit la courbe paramétrée $x(t) = \\cos^3(t)$ et $y(t) = \\sin^3(t)$ (Astroïde).",
+        "title": "Méthode : Calculer la longueur d'un arc paramétré",
+        "example": "Calculer la longueur du cercle paramétré par $x(t) = R\\cos(t), y(t) = R\\sin(t)$ pour $t \\in [0, 2\\pi]$.",
         "steps": [
-          "**Étape 1 (Périodicité)** : $x$ et $y$ sont $2\\pi$-périodiques, on restreint à $[-\\pi ; \\pi]$.",
-          "**Étape 2 (Parité)** : $x(-t) = x(t)$ et $y(-t) = -y(t)$ : symétrie axiale par rapport à l'axe $(Ox)$, on restreint à $[0 ; \\pi]$.",
-          "**Étape 3 (Supplément)** : $x(\\pi - t) = -x(t)$ et $y(\\pi - t) = y(t)$ : symétrie par rapport à $(Oy)$, on restreint à $[0 ; \\pi/2]$.",
-          "**Conclusion** : Il suffit d'étudier la courbe sur $[0 ; \\pi/2]$ et d'appliquer 4 symétries."
+          "**Dérivées** : $x'(t) = -R\\sin(t)$ et $y'(t) = R\\cos(t)$.",
+          "**Norme de la vitesse** : $\\|\\vec{r}'(t)\\| = \\sqrt{(-R\\sin t)^2 + (R\\cos t)^2} = \\sqrt{R^2(\\sin^2 t + \\cos^2 t)} = R$.",
+          "**Intégrale** : $L = \\int_0^{2\\pi} R \\, dt = [Rt]_0^{2\\pi} = 2\\pi R$."
         ]
       }
     ],
     "traps": [
-      "⚠️ Lorsque $x'(t_0) = 0$ et $y'(t_0) \\neq 0$, la tangente n'est pas inexistante : elle est **verticale** !"
+      "⚠️ Si $x'(t_0) = y'(t_0) = 0$, la droite n'est pas sans tangente : il faut chercher la première dérivée non nulle $\\vec{r}^{(p)}(t_0)$ pour obtenir le vecteur directeur !",
+      "⚠️ En coordonnées polaires, $r(\\theta) = 0$ correspond toujours au passage par le pôle (origine $O$)."
     ],
     "flashcards": [
       {
-        "q": "Comment définit-on un point stationnaire pour une courbe paramétrée $\\gamma(t)$ ?",
-        "a": "C'est un point où le vecteur vitesse s'annule : $\\gamma'(t) = \\vec{0}$."
+        "q": "Quelle condition définit un point régulier d'un arc paramétré r(t) ?",
+        "a": "Le vecteur dérivé est non nul : $\\vec{r}'(t) \\neq \\vec{0}$."
       },
       {
-        "q": "Quelle est la formule de la longueur d'arc pour une courbe paramétrée de classe $\\mathcal{C}^1$ ?",
-        "a": "$L = \\int_a^b \\sqrt{x'(t)^2 + y'(t)^2} dt$."
+        "q": "Donner la formule de la longueur d'un arc paramétré entre t1 et t2.",
+        "a": "$L = \\int_{t_1}^{t_2} \\sqrt{x'(t)^2 + y'(t)^2} \\, dt$."
       }
     ]
   }
