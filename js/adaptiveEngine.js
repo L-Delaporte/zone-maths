@@ -261,9 +261,27 @@ window.MathsAdaptiveEngine = {
       // Cloner l'exercice pour isoler les options du catalogue
       candidate = JSON.parse(JSON.stringify(candidate));
       // Normaliser choices -> options si nécessaire et mélanger
-      if (candidate.type === 'mcq') {
+      if (candidate.type === 'mcq' || (!candidate.type && (candidate.options || candidate.choices))) {
+        if (!candidate.type) candidate.type = 'mcq';
         if (!candidate.options && candidate.choices) candidate.options = candidate.choices;
+        if (!candidate.choices && candidate.options) candidate.choices = candidate.options;
+        if (candidate.correctIndex === undefined && candidate.answer && candidate.options) {
+          candidate.correctIndex = candidate.options.indexOf(candidate.answer);
+          if (candidate.correctIndex === -1) candidate.correctIndex = 0;
+        }
         this.shuffleMcq(candidate);
+        if (candidate.correctIndex !== undefined && candidate.options && candidate.options[candidate.correctIndex]) {
+          candidate.answer = candidate.options[candidate.correctIndex];
+        }
+      }
+      if (!candidate.hint1 && candidate.hint) {
+        candidate.hint1 = candidate.hint;
+      }
+      if (!candidate.hint2 && candidate.hint1) {
+        candidate.hint2 = candidate.hint1;
+      }
+      if (!candidate.solution && candidate.explanation) {
+        candidate.solution = candidate.explanation;
       }
       // Renoter systématiquement l'expression de départ au début du calcul dans la solution
       if (candidate.solution && candidate.statement) {
@@ -306,9 +324,18 @@ window.MathsAdaptiveEngine = {
     if (!exercise) return false;
 
     // Type QCM
-    if (exercise.type === 'mcq') {
+    if (exercise.type === 'mcq' || exercise.options || exercise.choices) {
       const chosenIndex = parseInt(userAnswer, 10);
-      return chosenIndex === exercise.correctIndex;
+      if (!isNaN(chosenIndex) && exercise.correctIndex !== undefined) {
+        return chosenIndex === exercise.correctIndex;
+      }
+      if (userAnswer !== undefined && userAnswer !== null && exercise.options && exercise.correctIndex !== undefined) {
+        return String(userAnswer).trim() === String(exercise.options[exercise.correctIndex]).trim();
+      }
+      if (userAnswer !== undefined && userAnswer !== null && exercise.answer) {
+        return String(userAnswer).trim() === String(exercise.answer).trim();
+      }
+      return false;
     }
 
     // Type Saisie Exacte (fraction, nombre ou expression)

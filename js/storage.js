@@ -10,11 +10,12 @@ window.MathsStorage = {
     return {
       version: 1,
       user: {
-        name: 'Élève Cycle 4',
+        name: 'Élève / Étudiant',
         xp: 0,
         level: 1,
         streak: 0,
         bestStreak: 0,
+        currentCycle: 'college',
         currentLevel: '3eme',
         lastActive: new Date().toISOString()
       },
@@ -23,6 +24,26 @@ window.MathsStorage = {
       theme: 'light',
       soundEnabled: true
     };
+  },
+
+  getCycleForLevel(level) {
+    if (['5eme', '4eme', '3eme'].includes(level)) return 'college';
+    if (['2nde', '1ere', 'tale'].includes(level)) return 'lycee';
+    if (['L1', 'L2', 'L3'].includes(level)) return 'licence';
+    return 'college';
+  },
+
+  getCurrentCycle() {
+    const data = this.load();
+    if (data.user && data.user.currentCycle) return data.user.currentCycle;
+    return this.getCycleForLevel(this.getCurrentLevel());
+  },
+
+  setCurrentCycle(cycle) {
+    const data = this.load();
+    if (!data.user) data.user = {};
+    data.user.currentCycle = cycle;
+    this.save(data);
   },
 
   getCurrentLevel() {
@@ -34,6 +55,7 @@ window.MathsStorage = {
     const data = this.load();
     if (!data.user) data.user = {};
     data.user.currentLevel = level;
+    data.user.currentCycle = this.getCycleForLevel(level);
     this.save(data);
   },
 

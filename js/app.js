@@ -15,8 +15,30 @@ document.addEventListener('DOMContentLoaded', () => {
     generatedPracticeSheet: null,
     generatedDsByChapter: {},
 
+    CYCLES: {
+      college: { id: 'college', name: 'Collège', defaultLevel: '3eme', levels: ['5eme', '4eme', '3eme'] },
+      lycee: { id: 'lycee', name: 'Lycée', defaultLevel: '2nde', levels: ['2nde', '1ere', 'tale'] },
+      licence: { id: 'licence', name: 'Licence', defaultLevel: 'L1', levels: ['L1', 'L2', 'L3'] }
+    },
+
+    LEVEL_LABELS: {
+      '5eme': '5ème',
+      '4eme': '4ème',
+      '3eme': '3ème (DNB)',
+      '2nde': 'Seconde',
+      '1ere': '1ère Spécialité',
+      'tale': 'Terminale (Spé/Exp)',
+      'L1': 'Licence 1 (L1)',
+      'L2': 'Licence 2 (L2)',
+      'L3': 'Licence 3 (L3)'
+    },
+
+    getLevelName(level) {
+      return this.LEVEL_LABELS[level] || level || 'Mathématiques';
+    },
+
     init() {
-      console.log('Initialisation de Maths Collège Cycle 4...');
+      console.log('Initialisation de L\'Établi des Maths (Collège, Lycée, Licence)...');
       this.currentLevel = window.MathsStorage.getCurrentLevel() || '3eme';
       this.initTheme();
       if (window.MathsAudio) {
@@ -30,32 +52,69 @@ document.addEventListener('DOMContentLoaded', () => {
       this.updateHeaderProfile();
     },
 
+    switchCycle(cycleId, targetLevel = null) {
+      if (!this.CYCLES[cycleId]) return;
+      window.MathsStorage.setCurrentCycle(cycleId);
+
+      // Met à jour les onglets de cycle
+      document.querySelectorAll('.cycle-tab-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-cycle') === cycleId);
+      });
+
+      // Affiche le groupe de pilules correspondant
+      document.querySelectorAll('.cycle-levels-group').forEach(group => {
+        const isCurrent = group.id === `levels-group-${cycleId}`;
+        group.style.display = isCurrent ? 'flex' : 'none';
+        group.classList.toggle('active', isCurrent);
+      });
+
+      const cycleInfo = this.CYCLES[cycleId];
+      const nextLevel = (targetLevel && cycleInfo.levels.includes(targetLevel))
+        ? targetLevel
+        : (cycleInfo.levels.includes(this.currentLevel) ? this.currentLevel : cycleInfo.defaultLevel);
+
+      this.switchLevel(nextLevel, true);
+    },
+
     switchLevel(level, autoSelectFirst = false) {
-      if (!['5eme', '4eme', '3eme'].includes(level)) return;
+      const validLevels = ['5eme', '4eme', '3eme', '2nde', '1ere', 'tale', 'L1', 'L2', 'L3'];
+      if (!validLevels.includes(level)) return;
+
       this.currentLevel = level;
       window.MathsStorage.setCurrentLevel(level);
+      const currentCycle = window.MathsStorage.getCycleForLevel(level);
+
+      // Met à jour l'onglet du cycle actif
+      document.querySelectorAll('.cycle-tab-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-cycle') === currentCycle);
+      });
+
+      // Affiche le groupe de niveaux correspondant au cycle
+      document.querySelectorAll('.cycle-levels-group').forEach(group => {
+        const isCurrent = group.id === `levels-group-${currentCycle}`;
+        group.style.display = isCurrent ? 'flex' : 'none';
+        group.classList.toggle('active', isCurrent);
+      });
 
       // Met à jour les pilules du sélecteur
       document.querySelectorAll('.level-pill').forEach(btn => {
         btn.classList.toggle('active', btn.getAttribute('data-level') === level);
       });
 
+      const lvlLabel = this.getLevelName(level);
+      const cycleInfo = this.CYCLES[currentCycle];
+      const cycleName = cycleInfo ? cycleInfo.name : 'Maths';
+
       // Titre dynamique dans le header
       const titleEl = document.getElementById('app-main-title');
-      const levelLabels = {
-        '5eme': '5ème',
-        '4eme': '4ème',
-        '3eme': '3ème (DNB)'
-      };
       if (titleEl) {
-        titleEl.innerHTML = `L'Établi des Maths <span class="brand-level-tag">${levelLabels[level] || 'Collège'}</span>`;
+        titleEl.innerHTML = `L'Établi des Maths <span class="brand-level-tag badge-${currentCycle}">${lvlLabel}</span>`;
       }
 
       // Titre dynamique dans la barre latérale
       const sidebarTitle = document.querySelector('.sidebar-title-row h2');
       if (sidebarTitle) {
-        const sideLabels = { '5eme': 'Progression 5ème', '4eme': 'Progression 4ème', '3eme': 'Progression 3ème' };
-        sidebarTitle.textContent = sideLabels[level] || 'Progression';
+        sidebarTitle.textContent = `Progression ${lvlLabel}`;
       }
 
       // Filtrer les chapitres de ce niveau
@@ -73,11 +132,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Titre dynamique dans le footer et titre du document
       const footerTitleEl = document.getElementById('app-footer-title');
-      const lvlLabel = level === '5eme' ? '5ème' : (level === '4eme' ? '4ème' : '3ème');
       if (footerTitleEl) {
-        footerTitleEl.textContent = `L'Établi des Maths (${lvlLabel}) — Outils pour apprendre et pratiquer`;
+        footerTitleEl.textContent = `L'Établi des Maths (${lvlLabel} • ${cycleName}) — Outils pour apprendre et pratiquer`;
       }
-      document.title = `L'Établi des Maths (${lvlLabel}) — Outils pour apprendre et pratiquer | Créé par Loïc Delaporte`;
+      document.title = `L'Établi des Maths (${lvlLabel} • ${cycleName}) — Outils pour apprendre et pratiquer | Créé par Loïc Delaporte`;
 
       this.renderChaptersGrid();
       this.selectChapter(this.currentChapterId);
@@ -239,7 +297,7 @@ document.addEventListener('DOMContentLoaded', () => {
         resetAllBtn.addEventListener('click', (e) => {
           e.stopPropagation();
           const levelChapters = (window.MATHS_CHAPTERS || []).filter(c => !c.level || c.level === this.currentLevel);
-          const levelName = this.currentLevel === '3eme' ? '3ème' : this.currentLevel === '4eme' ? '4ème' : '5ème';
+          const levelName = this.getLevelName(this.currentLevel);
           if (confirm(`⚠️ Souhaitez-vous vraiment remettre à 0% la maîtrise de TOUS les ${levelChapters.length} chapitres de ${levelName} ?`)) {
             levelChapters.forEach(c => window.MathsStorage.resetChapterProgress(c.id));
             window.MathsAdaptiveEngine.state.manualTierSelected = false;
@@ -543,8 +601,10 @@ document.addEventListener('DOMContentLoaded', () => {
         ? levelChapters
         : levelChapters.filter(c => {
             if (c.domain === this.currentFilterDomain) return true;
-            if (this.currentFilterDomain === 'geometrie' && c.domain === 'espace') return true;
-            if (this.currentFilterDomain === 'fonctions' && c.domain === 'gestion') return true;
+            if (this.currentFilterDomain === 'nombres' && (c.domain === 'algebre' || c.domain === 'arithmetique')) return true;
+            if (this.currentFilterDomain === 'geometrie' && (c.domain === 'espace' || c.domain === 'vecteurs' || c.domain === 'trigo')) return true;
+            if (this.currentFilterDomain === 'fonctions' && (c.domain === 'gestion' || c.domain === 'analyse' || c.domain === 'suites' || c.domain === 'calcul')) return true;
+            if (this.currentFilterDomain === 'algo' && (c.domain === 'stats' || c.domain === 'probas' || c.domain === 'numerique' || c.domain === 'python')) return true;
             return false;
           });
 
@@ -607,19 +667,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Synchroniser le niveau actif si nécessaire
       if (chapter.level && chapter.level !== this.currentLevel) {
-        this.currentLevel = chapter.level;
-        window.MathsStorage.setCurrentLevel(chapter.level);
-        document.querySelectorAll('.level-pill').forEach(btn => {
-          btn.classList.toggle('active', btn.getAttribute('data-level') === chapter.level);
-        });
-        const titleEl = document.getElementById('app-main-title');
-        const levelLabels = { '5eme': '5ème', '4eme': '4ème', '3eme': '3ème (DNB)' };
-        if (titleEl) titleEl.innerHTML = `L'Établi des Maths <span class="brand-level-tag">${levelLabels[chapter.level] || 'Collège'}</span>`;
-        
-        const footerTitleEl = document.getElementById('app-footer-title');
-        const lvlLabel = chapter.level === '5eme' ? '5ème' : (chapter.level === '4eme' ? '4ème' : '3ème');
-        if (footerTitleEl) footerTitleEl.textContent = `L'Établi des Maths (${lvlLabel}) — Outils pour apprendre et pratiquer`;
-        document.title = `L'Établi des Maths (${lvlLabel}) — Outils pour apprendre et pratiquer | Créé par Loïc Delaporte`;
+        this.switchLevel(chapter.level, false);
       }
       this.updateTierButtonsUI();
 
@@ -1291,12 +1339,32 @@ document.addEventListener('DOMContentLoaded', () => {
       const container = document.getElementById('course-content-container');
       if (!container) return;
 
-      const lvlLabel = this.currentLevel === '3eme' ? '3ème' : this.currentLevel === '4eme' ? '4ème' : '5ème';
+      const currentCycle = window.MathsStorage.getCycleForLevel(this.currentLevel);
+      const cycleInfo = this.CYCLES[currentCycle] || { name: 'Mathématiques' };
+      const lvlLabel = this.getLevelName(this.currentLevel);
       const course = (window.MATHS_COURSES || {})[this.currentChapterId];
       if (!course) {
         const chMeta = (window.MATHS_CHAPTERS || []).find(c => c.id === this.currentChapterId);
         if (chMeta) {
-          const niveauSlug = this.currentLevel === '5eme' ? 'cinquieme' : this.currentLevel === '4eme' ? 'quatrieme' : 'troisieme';
+          const niveauSlugMap = {
+            '5eme': 'cinquieme',
+            '4eme': 'quatrieme',
+            '3eme': 'troisieme',
+            '2nde': 'seconde',
+            '1ere': 'premiere-spe',
+            'tale': 'terminale-spe'
+          };
+          const niveauSlug = niveauSlugMap[this.currentLevel];
+          const resourceCallout = niveauSlug ? `
+            <div class="callout callout-info" style="margin-top: 1.25rem; padding: 0.9rem; border-radius: 8px; background: var(--bg-hover, #f1f5f9); border-left: 4px solid var(--primary, #2563eb);">
+              💡 <strong>Ressources complémentaires & vidéos :</strong> Cours complets, démonstrations pas-à-pas et vidéos officielles sur 
+              <a href="https://www.maths-et-tiques.fr/index.php/cours-maths/niveau-${niveauSlug}" target="_blank" rel="noopener noreferrer" style="color: var(--primary, #2563eb); font-weight: 600; text-decoration: underline;">
+                maths-et-tiques.fr (Yvan Monka) ↗
+              </a>.
+            </div>` : `
+            <div class="callout callout-info" style="margin-top: 1.25rem; padding: 0.9rem; border-radius: 8px; background: var(--bg-hover, #f1f5f9); border-left: 4px solid var(--primary, #2563eb);">
+              🎓 <strong>Ressources universitaires (${cycleInfo.name}) :</strong> Définitions formelles, théorèmes fondamentaux et méthodologie d'après les enseignements magistraux et TD de Licence de Mathématiques.
+            </div>`;
           container.innerHTML = `
             <div class="course-sheet-header">
               <div class="course-header-titles">
@@ -1308,21 +1376,16 @@ document.addEventListener('DOMContentLoaded', () => {
               </div>
             </div>
             <div class="course-card course-objectives">
-              <h3>🎯 Attendus officiels du Cycle 4 (${lvlLabel})</h3>
+              <h3>🎯 Attendus & Objectifs ${lvlLabel}</h3>
               <ul class="math-list">
                 ${(chMeta.skills || []).map(s => `<li>${s}</li>`).join('')}
               </ul>
             </div>
             <div class="course-card">
-              <h3>📖 Synthèse du chapitre & Compétences clés</h3>
+              <h3>📖 Synthèse du chapitre & Notions clés</h3>
               <div class="course-card-body">
                 <p class="math-p">${chMeta.description}</p>
-                <div class="callout callout-info" style="margin-top: 1.25rem; padding: 0.9rem; border-radius: 8px; background: var(--bg-hover, #f1f5f9); border-left: 4px solid var(--primary, #2563eb);">
-                  💡 <strong>Ressources complémentaires & vidéos :</strong> Cours complets, démonstrations pas-à-pas et vidéos officielles sur 
-                  <a href="https://www.maths-et-tiques.fr/index.php/cours-maths/niveau-${niveauSlug}" target="_blank" rel="noopener noreferrer" style="color: var(--primary, #2563eb); font-weight: 600; text-decoration: underline;">
-                    maths-et-tiques.fr (Yvan Monka) ↗
-                  </a>.
-                </div>
+                ${resourceCallout}
               </div>
             </div>
             <div class="course-card course-method">
@@ -1526,7 +1589,7 @@ document.addEventListener('DOMContentLoaded', () => {
     createDsTypeSheet(chapterId) {
       const ch = (window.MATHS_CHAPTERS || []).find(c => c.id === chapterId);
       const chTitle = ch ? (ch.shortTitle || ch.title) : chapterId;
-      const lvlLabel = this.currentLevel === '5eme' ? '5ème' : (this.currentLevel === '4eme' ? '4ème' : '3ème');
+      const lvlLabel = this.getLevelName(this.currentLevel);
       const staticExos = (window.MATHS_EXERCISES || {})[chapterId] || [];
       const gen = window.MathsGenerators;
       
@@ -1644,7 +1707,9 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!sheets.length) {
         const chMeta = (window.MATHS_CHAPTERS || []).find(c => c.id === this.currentChapterId);
         const exos = (window.MATHS_EXERCISES || {})[this.currentChapterId] || [];
-        const lvlLabel = this.currentLevel === '5eme' ? '5ème' : (this.currentLevel === '4eme' ? '4ème' : '3ème');
+        const currentCycle = window.MathsStorage.getCycleForLevel(this.currentLevel);
+        const cycleName = this.CYCLES[currentCycle] ? this.CYCLES[currentCycle].name : 'Maths';
+        const lvlLabel = this.getLevelName(this.currentLevel);
         
         container.innerHTML = `
           <div class="sheets-nav-bar no-print">
@@ -1659,7 +1724,7 @@ document.addEventListener('DOMContentLoaded', () => {
           </div>
           <div class="printable-worksheet">
             <div class="sheet-print-header">
-              <h1>L'Établi des Maths • Collège — Mathématiques ${lvlLabel}</h1>
+              <h1>L'Établi des Maths • ${cycleName} — Mathématiques ${lvlLabel}</h1>
               <h2>Fiche d'entraînement : ${chMeta ? chMeta.title : this.currentChapterId}</h2>
               <div class="sheet-author-tag">Fiche créée par <strong>Loïc Delaporte</strong>, Professeur de Mathématiques</div>
               <div class="print-meta">Nom : .................................... Prénom : .................................... Classe : .......... Date : ..........</div>
@@ -1685,6 +1750,9 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       const activeSheet = sheets[this.selectedSheetIndex] || sheets[0];
+      const currentCycle = window.MathsStorage.getCycleForLevel(this.currentLevel);
+      const cycleName = this.CYCLES[currentCycle] ? this.CYCLES[currentCycle].name : 'Maths';
+      const lvlLabel = this.getLevelName(this.currentLevel);
 
       let navHtml = `
         <div class="sheets-nav-bar no-print">
@@ -1709,7 +1777,7 @@ document.addEventListener('DOMContentLoaded', () => {
       let sheetBody = `
         <div class="printable-worksheet">
           <div class="sheet-print-header print-only">
-            <h1>L'Établi des Maths • Collège — Mathématiques ${this.currentLevel === '5eme' ? '5ème' : (this.currentLevel === '4eme' ? '4ème' : '3ème')}</h1>
+            <h1>L'Établi des Maths • ${cycleName} — Mathématiques ${lvlLabel}</h1>
             <h2>${activeSheet.title} (${this.currentChapterId})</h2>
             <div class="sheet-author-tag">Fiche d'exercices créée par <strong>Loïc Delaporte</strong>, Professeur de Mathématiques</div>
             <div class="print-meta">Nom : .................................... Prénom : .................................... Classe : .......... Date : ..........</div>
@@ -1761,7 +1829,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const data = window.MathsStorage.load();
       const allChapters = window.MATHS_CHAPTERS || [];
       const levelChapters = allChapters.filter(c => !c.level || c.level === this.currentLevel);
-      const levelName = this.currentLevel === '5eme' ? '5ème' : (this.currentLevel === '4eme' ? '4ème' : '3ème');
+      const levelName = this.getLevelName(this.currentLevel);
 
       // Calcul des stats du niveau
       let totalMastery = 0;

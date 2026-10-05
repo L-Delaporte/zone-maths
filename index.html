@@ -73,13 +73,38 @@
         </div>
       </div>
 
-      <!-- Sélecteur de niveau Collège Cycle 4 -->
-      <div class="cycle4-level-nav" role="tablist" aria-label="Niveau Cycle 4">
-        <span class="cycle4-label">Cycle 4 :</span>
-        <div class="level-pills">
-          <button class="level-pill" id="level-btn-5eme" data-level="5eme" onclick="window.MathsApp.switchLevel('5eme')">5ème</button>
-          <button class="level-pill" id="level-btn-4eme" data-level="4eme" onclick="window.MathsApp.switchLevel('4eme')">4ème</button>
-          <button class="level-pill active" id="level-btn-3eme" data-level="3eme" onclick="window.MathsApp.switchLevel('3eme')">3ème (DNB)</button>
+      <!-- Sélecteur Multi-Cycles (Collège, Lycée, Licence) & Niveaux -->
+      <div class="app-curriculum-nav" role="navigation" aria-label="Cycles et Niveaux d'études">
+        <div class="cycle-tabs-row" role="tablist" aria-label="Cycle d'études">
+          <button class="cycle-tab-btn active" id="cycle-tab-college" data-cycle="college" onclick="window.MathsApp.switchCycle('college')">
+            <span class="cycle-icon">🏫</span> <span class="cycle-name">Collège</span>
+          </button>
+          <button class="cycle-tab-btn" id="cycle-tab-lycee" data-cycle="lycee" onclick="window.MathsApp.switchCycle('lycee')">
+            <span class="cycle-icon">🎒</span> <span class="cycle-name">Lycée</span>
+          </button>
+          <button class="cycle-tab-btn" id="cycle-tab-licence" data-cycle="licence" onclick="window.MathsApp.switchCycle('licence')">
+            <span class="cycle-icon">🎓</span> <span class="cycle-name">Licence</span>
+          </button>
+        </div>
+        <div class="cycle-levels-row">
+          <!-- Niveaux Collège -->
+          <div class="cycle-levels-group active" id="levels-group-college">
+            <button class="level-pill" id="level-btn-5eme" data-level="5eme" onclick="window.MathsApp.switchLevel('5eme')">5ème</button>
+            <button class="level-pill" id="level-btn-4eme" data-level="4eme" onclick="window.MathsApp.switchLevel('4eme')">4ème</button>
+            <button class="level-pill active" id="level-btn-3eme" data-level="3eme" onclick="window.MathsApp.switchLevel('3eme')">3ème (DNB)</button>
+          </div>
+          <!-- Niveaux Lycée -->
+          <div class="cycle-levels-group" id="levels-group-lycee" style="display:none;">
+            <button class="level-pill" id="level-btn-2nde" data-level="2nde" onclick="window.MathsApp.switchLevel('2nde')">2nde</button>
+            <button class="level-pill" id="level-btn-1ere" data-level="1ere" onclick="window.MathsApp.switchLevel('1ere')">1ère Spé</button>
+            <button class="level-pill" id="level-btn-tale" data-level="tale" onclick="window.MathsApp.switchLevel('tale')">Terminale</button>
+          </div>
+          <!-- Niveaux Licence -->
+          <div class="cycle-levels-group" id="levels-group-licence" style="display:none;">
+            <button class="level-pill" id="level-btn-L1" data-level="L1" onclick="window.MathsApp.switchLevel('L1')">L1 (S1/S2)</button>
+            <button class="level-pill" id="level-btn-L2" data-level="L2" onclick="window.MathsApp.switchLevel('L2')">L2 (S3/S4)</button>
+            <button class="level-pill" id="level-btn-L3" data-level="L3" onclick="window.MathsApp.switchLevel('L3')">L3 (S5/S6)</button>
+          </div>
         </div>
       </div>
 
@@ -913,13 +938,21 @@
   <script src="vendor/katex/katex.min.js" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js';"></script>
   <script src="vendor/katex/auto-render.min.js" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js';"></script>
 
-  <!-- Données Mathématiques Multi-Niveaux (Cycle 4 : 5e, 4e, 3e) -->
+  <!-- Données Mathématiques Multi-Niveaux (Cycle 4, Lycée, Licence) -->
   <script src="js/data/chapters.js?v=20260929a"></script>
+  <script src="js/data/chapters_lycee.js?v=20261005a"></script>
+  <script src="js/data/chapters_licence.js?v=20261005a"></script>
   <script src="js/data/courses.js?v=20261004j"></script>
   <script src="js/data/worksheets.js?v=20260929a"></script>
   <script src="js/data/exercises.js?v=20260930c"></script>
   <script src="js/data/data_5eme.js?v=20261004m"></script>
   <script src="js/data/data_4eme.js?v=20261004j"></script>
+  <script src="js/data/data_2nde.js?v=20261005a"></script>
+  <script src="js/data/data_1ere.js?v=20261005a"></script>
+  <script src="js/data/data_terminale.js?v=20261005a"></script>
+  <script src="js/data/data_l1.js?v=20261005a"></script>
+  <script src="js/data/data_l2.js?v=20261005a"></script>
+  <script src="js/data/data_l3.js?v=20261005a"></script>
 
   <!-- Modules Applicatifs & Générateurs Inspirés de MathsMentales -->
   <script src="js/storage.js?v=20260923j"></script>

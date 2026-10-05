@@ -218,46 +218,98 @@ body {
   color: var(--text-muted);
 }
 
-/* Sélecteur de Niveau Cycle 4 (5e, 4e, 3e) */
-.cycle4-level-nav {
+/* Sélecteur Multi-Cycles (Collège, Lycée, Licence) & Niveaux */
+.app-curriculum-nav {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
-  background-color: var(--bg-subtle);
-  padding: 3px 6px;
-  border-radius: var(--radius-full);
-  border: 1px solid var(--border-color);
+  gap: 0.35rem;
 }
 
-.cycle4-label {
-  font-size: 0.72rem;
-  font-weight: 700;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  padding-left: 6px;
-}
-
-.level-pills {
+.cycle-tabs-row {
   display: flex;
   align-items: center;
   gap: 0.25rem;
+  background-color: var(--bg-subtle, #f1f5f9);
+  padding: 3px;
+  border-radius: var(--radius-full, 9999px);
+  border: 1px solid var(--border-color, #e2e8f0);
+}
+
+.cycle-tab-btn {
+  border: none;
+  background: transparent;
+  color: var(--text-muted, #64748b);
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: var(--radius-full, 9999px);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  white-space: nowrap;
+}
+
+.cycle-tab-btn:hover {
+  color: var(--text-main, #0f172a);
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="dark"] .cycle-tab-btn:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.cycle-tab-btn.active[data-cycle="college"] {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: white;
+  box-shadow: 0 2px 4px rgba(37, 99, 235, 0.3);
+}
+
+.cycle-tab-btn.active[data-cycle="lycee"] {
+  background: linear-gradient(135deg, #059669, #0284c7);
+  color: white;
+  box-shadow: 0 2px 4px rgba(5, 150, 105, 0.3);
+}
+
+.cycle-tab-btn.active[data-cycle="licence"] {
+  background: linear-gradient(135deg, #7c3aed, #4f46e5);
+  color: white;
+  box-shadow: 0 2px 4px rgba(124, 58, 237, 0.3);
+}
+
+.cycle-levels-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cycle-levels-group {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  background-color: var(--bg-subtle, #f8fafc);
+  padding: 2px 4px;
+  border-radius: var(--radius-full, 9999px);
+  border: 1px solid var(--border-color, #e2e8f0);
 }
 
 .level-pill {
   border: none;
   background: transparent;
-  color: var(--text-muted);
-  font-size: 0.82rem;
+  color: var(--text-muted, #64748b);
+  font-size: 0.78rem;
   font-weight: 600;
-  padding: 4px 12px;
-  border-radius: var(--radius-full);
+  padding: 3px 10px;
+  border-radius: var(--radius-full, 9999px);
   cursor: pointer;
-  transition: var(--transition);
+  transition: all 0.2s ease;
+  white-space: nowrap;
 }
 
 .level-pill:hover {
-  color: var(--text-main);
+  color: var(--text-main, #0f172a);
   background-color: rgba(0, 0, 0, 0.05);
 }
 
@@ -266,9 +318,36 @@ body {
 }
 
 .level-pill.active {
-  background: var(--primary);
+  background: var(--primary, #2563eb);
   color: white;
   box-shadow: 0 2px 4px rgba(37, 99, 235, 0.25);
+}
+
+/* Badges de Cycle & Niveau pour le titre principal */
+.brand-level-tag.badge-college {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: #fff;
+}
+
+.brand-level-tag.badge-lycee {
+  background: linear-gradient(135deg, #059669, #0284c7);
+  color: #fff;
+}
+
+.brand-level-tag.badge-licence {
+  background: linear-gradient(135deg, #7c3aed, #4f46e5);
+  color: #fff;
+}
+
+/* Rétrocompatibilité sélecteur Cycle 4 */
+.cycle4-level-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--bg-subtle);
+  padding: 3px 6px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-color);
 }
 
 .header-user-status {
@@ -4331,7 +4410,35 @@ body {
     display: none; /* Alléger le header sur mobile */
   }
 
-  /* Sélecteur de niveau Cycle 4 centré et fluide */
+  /* Sélecteur Multi-Cycles et Niveaux centré et fluide */
+  .app-curriculum-nav {
+    width: 100%;
+    gap: 0.3rem;
+  }
+
+  .cycle-tabs-row,
+  .cycle-levels-row,
+  .cycle-levels-group {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .cycle-tab-btn {
+    padding: 3px 8px;
+    font-size: 0.74rem;
+    flex: 1;
+    justify-content: center;
+    min-height: 28px;
+  }
+
+  .level-pill {
+    padding: 3px 6px;
+    font-size: 0.74rem;
+    flex: 1;
+    text-align: center;
+    min-height: 28px;
+  }
+
   .cycle4-level-nav {
     justify-content: center;
     width: 100%;
@@ -4341,14 +4448,6 @@ body {
   .level-pills {
     justify-content: center;
     width: 100%;
-  }
-
-  .level-pill {
-    padding: 4px 8px;
-    font-size: 0.78rem;
-    flex: 1;
-    text-align: center;
-    min-height: 32px;
   }
 
   /* Statut et actions utilisateur compactes */
@@ -4846,13 +4945,21 @@ body {
   border-bottom: 1px solid #283548;
 }
 
+[data-theme="dark"] .cycle-tabs-row,
+[data-theme="dark"] .cycle-levels-group,
 [data-theme="dark"] .cycle4-level-nav {
   background-color: #1e293b;
   border-color: #334155;
 }
 
+[data-theme="dark"] .cycle-tab-btn,
 [data-theme="dark"] .cycle4-label {
   color: #94a3b8;
+}
+
+[data-theme="dark"] .cycle-tab-btn:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #f8fafc;
 }
 
 [data-theme="dark"] .level-pill {
