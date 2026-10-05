@@ -12274,13 +12274,27 @@ window.MathsGenerators = {
       case 'Algo': q = this.generateAlgo(resolvedTier, mastery); break;
 
       default: {
+        // 1. Tenter d'abord la génération procédurale avancée (Licence / Lycée)
+        if (typeof window !== 'undefined' && window.MathsAdvancedGenerators && typeof window.MathsAdvancedGenerators.generate === 'function') {
+          const adv = window.MathsAdvancedGenerators.generate(chapterId, resolvedTier);
+          if (adv) {
+            q = adv;
+            break;
+          }
+        }
+
+        // 2. Sinon, puiser dans la banque d'exercices avec mutation dynamique des paramètres
         const exos = (typeof window !== 'undefined' && window.MATHS_EXERCISES && window.MATHS_EXERCISES[chapterId]) ? window.MATHS_EXERCISES[chapterId] : [];
         if (exos.length) {
           const matchingTierExos = exos.filter(e => e.tier === resolvedTier);
           const pool = matchingTierExos.length > 0 ? matchingTierExos : exos;
           const base = this.randChoice(pool);
-          q = JSON.parse(JSON.stringify(base));
-          q.id = `${base.id}-dyn-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
+          if (typeof window !== 'undefined' && window.MathsAdvancedGenerators && typeof window.MathsAdvancedGenerators.mutateExercise === 'function') {
+            q = window.MathsAdvancedGenerators.mutateExercise(base, resolvedTier);
+          } else {
+            q = JSON.parse(JSON.stringify(base));
+            q.id = `${base.id}-dyn-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
+          }
         } else {
           q = this.generateN1(resolvedTier, mastery);
         }
@@ -12374,17 +12388,28 @@ window.MathsGenerators = {
   /**
    * Génère une série de N questions aléatoires pour un ou plusieurs chapitres
    * avec une progression de difficulté automatique et calibrée (Paliers 1 à 4)
+   * et renouvellement garanti à chaque tirage.
    */
   generateSeries(chapterIds = ['N1'], count = 5) {
     const series = [];
     const usedStatementsInSeries = new Set();
+    const validChaps = (chapterIds && chapterIds.length) ? chapterIds : ['N1'];
+
+    // Répartition équilibrée et aléatoire des chapitres sélectionnés
+    let chapterPlan = [];
+    while (chapterPlan.length < count) {
+      const batch = [...validChaps].sort(() => Math.random() - 0.5);
+      chapterPlan = chapterPlan.concat(batch);
+    }
+    chapterPlan = chapterPlan.slice(0, count);
+
     for (let i = 0; i < count; i++) {
-      const cid = chapterIds[i % chapterIds.length];
+      const cid = chapterPlan[i];
 
       // Progression naturelle sur la série :
       // Premier quart : Palier 1 (Socle)
       // Deuxième quart : Palier 2 (Guidé)
-      // Troisième quart : Palier 3 (Brevet / Bac)
+      // Troisième quart : Palier 3 (Brevet / Bac / Concours)
       // Fin de série : Palier 4 (Défi / Approfondissement)
       let tier = 1;
       const progress = i / Math.max(1, count - 1);
@@ -12394,17 +12419,14 @@ window.MathsGenerators = {
       else tier = 1;
 
       let q = this.generateForChapter(cid, tier);
-      if (q && q.statement && usedStatementsInSeries.has(q.statement)) {
-        // En cas de doublon dans la série pour ce chapitre, tenter les autres paliers
-        for (const altTier of [1, 2, 3, 4]) {
-          if (altTier === tier) continue;
-          const altQ = this.generateForChapter(cid, altTier);
-          if (altQ && altQ.statement && !usedStatementsInSeries.has(altQ.statement)) {
-            q = altQ;
-            break;
-          }
-        }
+      let attempts = 0;
+      while (q && q.statement && usedStatementsInSeries.has(q.statement) && attempts < 12) {
+        // En cas de doublon, tenter soit une nouvelle génération sur ce palier, soit un palier alternatif
+        const altTier = attempts < 4 ? tier : ((attempts % 4) + 1);
+        q = this.generateForChapter(cid, altTier);
+        attempts++;
       }
+
       if (q && q.statement) {
         usedStatementsInSeries.add(q.statement);
       }

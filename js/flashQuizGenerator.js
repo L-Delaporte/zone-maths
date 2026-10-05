@@ -11,6 +11,14 @@ window.MathsQuizGenerator = {
   showSolutions: true,
 
   /**
+   * Coche ou décoche l'ensemble des chapitres du niveau actif
+   */
+  selectAllChapters(checked = true) {
+    const boxes = document.querySelectorAll('input[name="quiz-chap"]');
+    boxes.forEach(cb => { cb.checked = checked; });
+  },
+
+  /**
    * Ouvre la modale de configuration du devoir blanc
    */
   openModal(preselectedChapterId = null) {
@@ -28,18 +36,29 @@ window.MathsQuizGenerator = {
       const currentLevel = (window.MathsApp && window.MathsApp.currentLevel) || '3eme';
       const allChapters = window.MATHS_CHAPTERS || [];
       const chapters = allChapters.filter(c => (c.level || '3eme') === currentLevel);
-      const defaultId = (preselectedChapterId && chapters.some(c => c.id === preselectedChapterId))
-        ? preselectedChapterId
-        : ((window.MathsApp && window.MathsApp.currentChapterId && chapters.some(c => c.id === window.MathsApp.currentChapterId))
-          ? window.MathsApp.currentChapterId
-          : (chapters[0] ? chapters[0].id : 'N1'));
+      const isSingleSelection = !!preselectedChapterId;
+      const defaultId = preselectedChapterId || (chapters[0] ? chapters[0].id : 'N1');
 
-      container.innerHTML = chapters.map(c => `
-        <label class="diapo-chip">
-          <input type="checkbox" name="quiz-chap" value="${c.id}" ${c.id === defaultId ? 'checked' : ''} />
-          <span>${c.num} : ${c.shortTitle || c.title}</span>
-        </label>
-      `).join('');
+      const actionsHtml = `
+        <div class="quiz-select-actions no-print" style="display: flex; gap: 0.5rem; margin-bottom: 0.85rem; flex-wrap: wrap;">
+          <button type="button" class="btn-secondary btn-sm" style="font-size: 0.85rem; padding: 0.35rem 0.75rem;" onclick="window.MathsQuizGenerator.selectAllChapters(true)">✅ Tout sélectionner</button>
+          <button type="button" class="btn-secondary btn-sm" style="font-size: 0.85rem; padding: 0.35rem 0.75rem;" onclick="window.MathsQuizGenerator.selectAllChapters(false)">❌ Tout désélectionner</button>
+        </div>
+      `;
+
+      const chipsHtml = chapters.map(c => {
+        // Si aucun chapitre spécifique n'est pré-sélectionné (ex: clic depuis la barre globale),
+        // on coche l'ensemble des chapitres pour un devoir blanc d'examen complet.
+        const isChecked = isSingleSelection ? (c.id === defaultId) : true;
+        return `
+          <label class="diapo-chip">
+            <input type="checkbox" name="quiz-chap" value="${c.id}" ${isChecked ? 'checked' : ''} />
+            <span>${c.num} : ${c.shortTitle || c.title}</span>
+          </label>
+        `;
+      }).join('');
+
+      container.innerHTML = actionsHtml + chipsHtml;
     }
 
     document.getElementById('quiz-config-screen').style.display = 'block';
@@ -267,6 +286,17 @@ window.MathsQuizGenerator = {
 
     // Feedback visuel lorsque l'utilisateur a cliqué sur Régénérer
     if (isRegenerating) {
+      const cards = previewContainer.querySelectorAll('.quiz-q-card, .quiz-sol-card');
+      cards.forEach((c, idx) => {
+        c.style.opacity = '0';
+        c.style.transform = 'translateY(6px)';
+        c.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
+        setTimeout(() => {
+          c.style.opacity = '1';
+          c.style.transform = 'translateY(0)';
+        }, Math.min(240, 25 * (idx % 10)));
+      });
+
       const banner = document.getElementById('quiz-status-banner');
       if (banner) {
         banner.style.transition = 'all 0.3s ease';
