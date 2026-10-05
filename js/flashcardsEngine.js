@@ -471,9 +471,13 @@
 
       const currentLevel = (window.MathsApp && window.MathsApp.currentLevel) || '3eme';
       const allChapters = window.MATHS_CHAPTERS || [];
-      const chapters = allChapters.filter(c => !c.level || c.level === currentLevel);
+      const chapters = allChapters.filter(c => (c.level || '3eme') === currentLevel);
 
-      const defaultId = preselectedChapterId || (window.MathsApp && window.MathsApp.currentChapterId) || (chapters[0] ? chapters[0].id : 'N1');
+      const defaultId = (preselectedChapterId && chapters.some(c => c.id === preselectedChapterId))
+        ? preselectedChapterId
+        : ((window.MathsApp && window.MathsApp.currentChapterId && chapters.some(c => c.id === window.MathsApp.currentChapterId))
+          ? window.MathsApp.currentChapterId
+          : (chapters[0] ? chapters[0].id : 'N1'));
 
       // Générer les badges de sélection des chapitres
       const container = document.getElementById('flashcards-chapters-checkboxes');

@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       // Filtrer les chapitres de ce niveau
-      const levelChapters = (window.MATHS_CHAPTERS || []).filter(c => !c.level || c.level === level);
+      const levelChapters = (window.MATHS_CHAPTERS || []).filter(c => (c.level || '3eme') === level);
       const countEl = document.querySelector('.chapters-count');
       if (countEl) {
         countEl.textContent = `${levelChapters.length} chapitres`;
@@ -296,7 +296,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (resetAllBtn) {
         resetAllBtn.addEventListener('click', (e) => {
           e.stopPropagation();
-          const levelChapters = (window.MATHS_CHAPTERS || []).filter(c => !c.level || c.level === this.currentLevel);
+          const levelChapters = (window.MATHS_CHAPTERS || []).filter(c => (c.level || '3eme') === this.currentLevel);
           const levelName = this.getLevelName(this.currentLevel);
           if (confirm(`⚠️ Souhaitez-vous vraiment remettre à 0% la maîtrise de TOUS les ${levelChapters.length} chapitres de ${levelName} ?`)) {
             levelChapters.forEach(c => window.MathsStorage.resetChapterProgress(c.id));
@@ -596,7 +596,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!container) return;
 
       const allChapters = window.MATHS_CHAPTERS || [];
-      const levelChapters = allChapters.filter(c => !c.level || c.level === this.currentLevel);
+      const levelChapters = allChapters.filter(c => (c.level || '3eme') === this.currentLevel);
       let filtered = this.currentFilterDomain === 'all'
         ? levelChapters
         : levelChapters.filter(c => {
@@ -1644,6 +1644,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     generatePracticeSheet() {
       const chapterId = this.currentChapterId;
+      if (window.MathsGenerators && window.MathsGenerators._recentGeneratedStatements) {
+        for (let t = 1; t <= 4; t++) {
+          delete window.MathsGenerators._recentGeneratedStatements[`${chapterId}:${t}`];
+        }
+      }
       const ch = (window.MATHS_CHAPTERS || []).find(c => c.id === chapterId);
       const title = ch ? ch.title : chapterId;
       const gen = window.MathsGenerators;
@@ -1690,6 +1695,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     regenerateDs() {
       const chapterId = this.currentChapterId;
+      if (window.MathsGenerators && window.MathsGenerators._recentGeneratedStatements) {
+        for (let t = 1; t <= 4; t++) {
+          delete window.MathsGenerators._recentGeneratedStatements[`${chapterId}:${t}`];
+        }
+      }
       this.generatedDsByChapter[chapterId] = this.createDsTypeSheet(chapterId);
       const sheets = this.getChapterSheets(chapterId);
       this.selectedSheetIndex = Math.max(0, sheets.findIndex(s => s.type === 'ds_type'));
@@ -1828,7 +1838,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const data = window.MathsStorage.load();
       const allChapters = window.MATHS_CHAPTERS || [];
-      const levelChapters = allChapters.filter(c => !c.level || c.level === this.currentLevel);
+      const levelChapters = allChapters.filter(c => (c.level || '3eme') === this.currentLevel);
       const levelName = this.getLevelName(this.currentLevel);
 
       // Calcul des stats du niveau

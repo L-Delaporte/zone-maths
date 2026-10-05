@@ -672,20 +672,77 @@ window.MATHS_EXERCISES_L2 = {
       "id": "L2-DET-1",
       "tier": 1,
       "type": "mcq",
-      "title": "Déterminant et dilatation",
-      "skill": "Propriétés algébriques du déterminant",
-      "statement": "Soit $A \\in \\mathcal{M}_3(\\mathbb{R})$ telle que $\\det(A) = 5$. Que vaut $\\det(2A)$ ?",
+      "title": "Déterminant et dilatation d'une matrice nxn",
+      "skill": "Comprendre l'homogénéité du déterminant",
+      "statement": "Soit $A \\in \\mathcal{M}_n(\\mathbb{R})$ et $\\lambda \\in \\mathbb{R}$. Que vaut $\\det(\\lambda A)$ ?",
       "options": [
-        "$40$",
-        "$10$",
-        "$30$",
-        "$8$"
+        "$\\lambda^n \\det(A)$",
+        "$\\lambda \\det(A)$",
+        "$n\\lambda \\det(A)$",
+        "$\\det(A)$"
       ],
       "correctIndex": 0,
-      "answer": "$40$",
-      "hint1": "Pour une matrice d'ordre $n$, $\\det(\\lambda A) = \\lambda^n \\det(A)$.",
-      "hint2": "Ici $n = 3$ et $\\lambda = 2$, donc $2^3 \\times 5 = 8 \\times 5$.",
-      "solution": "Comme $A \\in \\mathcal{M}_3(\\mathbb{R})$, $\\det(2A) = 2^3 \\det(A) = 8 \\times 5 = 40$."
+      "answer": "$\\lambda^n \\det(A)$",
+      "hint1": "Le déterminant est une forme $n$-linéaire alternée : chaque ligne est multipliée par $\\lambda$.",
+      "hint2": "Il y a $n$ lignes, donc on factorise par $\\lambda$ sur chaque ligne : $\\lambda^n$.",
+      "solution": "Comme le déterminant est $n$-linéaire par rapport aux lignes, multiplier tous les coefficients de la matrice par $\\lambda$ multiplie le déterminant par $\\lambda^n$ : $\\det(\\lambda A) = \\lambda^n \\det(A)$."
+    },
+    {
+      "id": "L2-DET-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Développement d'un déterminant 3x3",
+      "skill": "Calculer un déterminant par développement selon une colonne",
+      "statement": "Quel est le déterminant de $A = \\begin{pmatrix} 2 & 0 & 1 \\\\ 3 & 4 & 5 \\\\ 0 & 0 & 3 \\end{pmatrix}$ ?",
+      "options": [
+        "$24$",
+        "$12$",
+        "$0$",
+        "$6$"
+      ],
+      "correctIndex": 0,
+      "answer": "$24$",
+      "hint1": "Développe par rapport à la dernière ligne qui a deux zéros.",
+      "hint2": "$\\det A = 3 \\times \\det\\begin{pmatrix} 2 & 0 \\\\ 3 & 4 \\end{pmatrix} = 3 \\times (8 - 0) = 24$.",
+      "solution": "En développant selon la 3ème ligne : $\\det(A) = 3 \\times \\det\\begin{pmatrix} 2 & 0 \\\\ 3 & 4 \\end{pmatrix} = 3 \\times (8 - 0) = 24$."
+    },
+    {
+      "id": "L2-DET-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Formule de Cramer pour un système 2x2",
+      "skill": "Résoudre un système linéaire par la méthode de Cramer",
+      "statement": "Pour le système $\\begin{cases} 3x + 2y = 8 \\\\ x + 4y = 6 \\end{cases}$, que vaut la variable $x$ par les formules de Cramer ?",
+      "options": [
+        "$2$",
+        "$1$",
+        "$3$",
+        "$0$"
+      ],
+      "correctIndex": 0,
+      "answer": "$2$",
+      "hint1": "$\\det A = 3(4) - 2(1) = 10$.",
+      "hint2": "$\\det A_x = \\det\\begin{pmatrix} 8 & 2 \\\\ 6 & 4 \\end{pmatrix} = 32 - 12 = 20$. Donc $x = 20/10 = 2$.",
+      "solution": "$\\det(A) = 12 - 2 = 10$. $\\det(A_x) = \\begin{vmatrix} 8 & 2 \\\\ 6 & 4 \\end{vmatrix} = 32 - 12 = 20$. Par la formule de Cramer : $x = \\frac{20}{10} = 2$."
+    },
+    {
+      "id": "L2-DET-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Déterminant de Vandermonde 3x3",
+      "skill": "Calculer et factoriser un déterminant de Vandermonde",
+      "statement": "Que vaut le déterminant de Vandermonde $V(a, b, c) = \\begin{vmatrix} 1 & a & a^2 \\\\ 1 & b & b^2 \\\\ 1 & c & c^2 \\end{vmatrix}$ ?",
+      "options": [
+        "$(c - b)(c - a)(b - a)$",
+        "$(a - b)(b - c)(c - a)$",
+        "$(a + b + c)(ab + bc + ca)$",
+        "$abc$"
+      ],
+      "correctIndex": 0,
+      "answer": "$(c - b)(c - a)(b - a)$",
+      "hint1": "Le déterminant de Vandermonde est le produit $\\prod_{1 \\le i < j \\le n} (x_j - x_i)$.",
+      "hint2": "Pour $n=3$ avec variables $a, b, c$, le produit s'écrit $(b - a)(c - a)(c - b)$.",
+      "solution": "Par les opérations élémentaires sur les lignes ou par racines polynomiales, $V(a, b, c) = (b - a)(c - a)(c - b) = (c - b)(c - a)(b - a)$."
     }
   ],
   "L2-RED1": [
@@ -694,19 +751,76 @@ window.MATHS_EXERCISES_L2 = {
       "tier": 1,
       "type": "mcq",
       "title": "Condition suffisante de diagonalisabilité",
-      "skill": "Tester la diagonalisabilité",
-      "statement": "Une matrice carrée d'ordre 4 ayant 4 valeurs propres réelles distinctes est-elle diagonalisable dans $\\mathcal{M}_4(\\mathbb{R})$ ?",
+      "skill": "Connaître le critère des valeurs propres distinctes",
+      "statement": "Soit $A \\in \\mathcal{M}_n(\\mathbb{R})$. Laquelle de ces conditions garantit à coup sûr que $A$ est diagonalisable sur $\\mathbb{R}$ ?",
       "options": [
-        "Oui, toujours",
-        "Non, jamais",
-        "Seulement si elle est symétrique",
-        "On ne peut pas savoir"
+        "$A$ possède $n$ valeurs propres réelles deux à deux distinctes",
+        "$\\det(A) \\ne 0$",
+        "$\\text{Tr}(A) = 0$",
+        "$A$ est nilpotente"
       ],
       "correctIndex": 0,
-      "answer": "Oui, toujours",
-      "hint1": "Si le nombre de valeurs propres distinctes égale la dimension de l'espace, la matrice est diagonalisable.",
-      "hint2": "Chaque sous-espace propre est au moins de dimension 1, la somme des dimensions vaut 4.",
-      "solution": "Une matrice de taille $n \\times n$ admettant $n$ valeurs propres distinctes est toujours diagonalisable."
+      "answer": "$A$ possède $n$ valeurs propres réelles deux à deux distinctes",
+      "hint1": "Si le polynôme caractéristique a $n$ racines distinctes en dimension $n$, les espaces propres sont tous de dimension 1.",
+      "hint2": "Leur somme directe est alors égale à tout l'espace.",
+      "solution": "Si $A \\in \\mathcal{M}_n(\\mathbb{R})$ admet $n$ valeurs propres réelles distinctes, la somme des dimensions des sous-espaces propres est $n$, donc $A$ est diagonalisable sur $\\mathbb{R}$."
+    },
+    {
+      "id": "L2-RED1-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Valeurs propres d'une matrice 2x2",
+      "skill": "Calculer le polynôme caractéristique et ses racines",
+      "statement": "Quelles sont les valeurs propres de $A = \\begin{pmatrix} 4 & 2 \\\\ 1 & 3 \\end{pmatrix}$ ?",
+      "options": [
+        "$\\lambda_1 = 2$ et $\\lambda_2 = 5$",
+        "$\\lambda_1 = 1$ et $\\lambda_2 = 6$",
+        "$\\lambda_1 = 3$ et $\\lambda_2 = 4$",
+        "$\\lambda_1 = 0$ et $\\lambda_2 = 7$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\lambda_1 = 2$ et $\\lambda_2 = 5$",
+      "hint1": "$\\chi_A(\\lambda) = \\lambda^2 - \\text{Tr}(A)\\lambda + \\det(A)$.",
+      "hint2": "$\\text{Tr}(A) = 7$, $\\det(A) = 12 - 2 = 10$. $\\lambda^2 - 7\\lambda + 10 = (\\lambda - 2)(\\lambda - 5) = 0$.",
+      "solution": "$\\chi_A(\\lambda) = \\lambda^2 - 7\\lambda + 10 = (\\lambda - 2)(\\lambda - 5)$. Les valeurs propres sont donc $2$ et $5$."
+    },
+    {
+      "id": "L2-RED1-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Dimension du sous-espace propre",
+      "skill": "Vérifier la multiplicité géométrique d'une valeur propre",
+      "statement": "Pour $A = \\begin{pmatrix} 2 & 1 \\\\ 0 & 2 \\end{pmatrix}$, quelle est la dimension du sous-espace propre $E_2(A)$ ?",
+      "options": [
+        "$1$",
+        "$2$",
+        "$0$",
+        "$3$"
+      ],
+      "correctIndex": 0,
+      "answer": "$1$",
+      "hint1": "$E_2(A) = \\ker(A - 2I_2)$.",
+      "hint2": "$A - 2I_2 = \\begin{pmatrix} 0 & 1 \\\\ 0 & 0 \\end{pmatrix}$. Son rang est 1, donc par le théorème du rang, le noyau est de dimension $2 - 1 = 1$.",
+      "solution": "$A - 2I_2 = \\begin{pmatrix} 0 & 1 \\\\ 0 & 0 \\end{pmatrix}$, qui est de rang 1. Par le théorème du rang, $\\dim E_2(A) = 2 - 1 = 1 < 2$. La matrice n'est pas diagonalisable."
+    },
+    {
+      "id": "L2-RED1-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Puissance de matrice par diagonalisation",
+      "skill": "Calculer $A^k$ à l'aide de la décomposition $P D P^{-1}$",
+      "statement": "Si $A = P \\begin{pmatrix} 1 & 0 \\\\ 0 & 2 \\end{pmatrix} P^{-1}$, que vaut la trace de $A^k$ pour tout $k \\in \\mathbb{N}^*$ ?",
+      "options": [
+        "$1 + 2^k$",
+        "$3^k$",
+        "$2^k$",
+        "$1 + 2k$"
+      ],
+      "correctIndex": 0,
+      "answer": "$1 + 2^k$",
+      "hint1": "$A^k = P D^k P^{-1}$, donc $A^k$ et $D^k$ sont semblables.",
+      "hint2": "Deux matrices semblables ont la même trace : $\\text{Tr}(A^k) = \\text{Tr}(D^k) = 1^k + 2^k$.",
+      "solution": "Comme $A^k$ est semblable à $D^k = \\begin{pmatrix} 1^k & 0 \\\\ 0 & 2^k \\end{pmatrix}$, la trace est invariante par similitude : $\\text{Tr}(A^k) = 1 + 2^k$."
     }
   ],
   "L2-RED2": [
@@ -715,19 +829,76 @@ window.MATHS_EXERCISES_L2 = {
       "tier": 1,
       "type": "mcq",
       "title": "Théorème de Cayley-Hamilton",
-      "skill": "Appliquer Cayley-Hamilton",
-      "statement": "Si le polynôme caractéristique d'une matrice $A$ est $P(X) = X^2 - 5X + 6$, quelle égalité matricielle vérifie $A$ ?",
+      "skill": "Appliquer l'annulation du polynôme caractéristique",
+      "statement": "Pour toute matrice carrée $A$, que vaut l'évaluation de son polynôme caractéristique $\\chi_A$ en $A$ ?",
       "options": [
-        "$A^2 - 5A + 6I = 0$",
-        "$A^2 - 5A + 6 = 0$",
-        "$A^2 + 5A - 6I = 0$",
-        "$A^2 = 5A$"
+        "La matrice nulle $0$",
+        "La matrice identité $I$",
+        "$\\det(A) I$",
+        "$\\text{Tr}(A) A$"
       ],
       "correctIndex": 0,
-      "answer": "$A^2 - 5A + 6I = 0$",
-      "hint1": "Le théorème de Cayley-Hamilton stipule que $P(A) = 0$.",
-      "hint2": "N'oublie pas de remplacer la constante 6 par $6I$.",
-      "solution": "Par le théorème de Cayley-Hamilton, tout endomorphisme annule son polynôme caractéristique : $A^2 - 5A + 6I_n = 0$."
+      "answer": "La matrice nulle $0$",
+      "hint1": "Théorème de Cayley-Hamilton : tout endomorphisme annule son propre polynôme caractéristique.",
+      "hint2": "$\\chi_A(A) = 0$.",
+      "solution": "D'après le théorème de Cayley-Hamilton, pour toute matrice carrée $A$, on a $\\chi_A(A) = 0$."
+    },
+    {
+      "id": "L2-RED2-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Polynôme minimal et diagonalisabilité",
+      "skill": "Caractériser la diagonalisabilité par le polynôme minimal",
+      "statement": "Une matrice $A \\in \\mathcal{M}_n(K)$ est diagonalisable sur $K$ si et seulement si son polynôme minimal $\\mu_A$ :",
+      "options": [
+        "Est scindé à racines simples sur $K$",
+        "Est de degré $n$",
+        "N'admet que des racines positives",
+        "Est irréductible"
+      ],
+      "correctIndex": 0,
+      "answer": "Est scindé à racines simples sur $K$",
+      "hint1": "Théorème fondamental de réduction : le polynôme minimal n'a pas de racine multiple si et seulement si la matrice est diagonalisable.",
+      "hint2": "Les racines de $\\mu_A$ sont exactement les valeurs propres.",
+      "solution": "Une matrice $A$ est diagonalisable si et seulement si son polynôme minimal est scindé à racines simples sur le corps $K$ considéré."
+    },
+    {
+      "id": "L2-RED2-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Décomposition de Dunford",
+      "skill": "Propriétés de la décomposition $A = D + N$",
+      "statement": "Dans la décomposition de Dunford $A = D + N$ avec $D$ diagonalisable et $N$ nilpotente, quelle condition essentielle doivent vérifier $D$ et $N$ ?",
+      "options": [
+        "$DN = ND$",
+        "$D + N = I$",
+        "$\\det(D) = \\det(N)$",
+        "$N^2 = D$"
+      ],
+      "correctIndex": 0,
+      "answer": "$DN = ND$",
+      "hint1": "Les composantes diagonalisable et nilpotente doivent commuter pour que la décomposition soit unique.",
+      "hint2": "$DN = ND$ permet d'utiliser la formule du binôme de Newton.",
+      "solution": "La décomposition de Dunford assure l'existence et l'unicité du couple $(D, N)$ tel que $A = D + N$, $D$ diagonalisable, $N$ nilpotente, ET $DN = ND$ (ils commutent)."
+    },
+    {
+      "id": "L2-RED2-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Calcul d'exponentielle d'une matrice nilpotente",
+      "skill": "Calculer $\\exp(N)$ pour $N^2 = 0$",
+      "statement": "Soit $N = \\begin{pmatrix} 0 & 3 \\\\ 0 & 0 \\end{pmatrix}$. Que vaut $\\exp(N)$ ?",
+      "options": [
+        "$\\begin{pmatrix} 1 & 3 \\\\ 0 & 1 \\end{pmatrix}$",
+        "$\\begin{pmatrix} 1 & e^3 \\\\ 0 & 1 \\end{pmatrix}$",
+        "$\\begin{pmatrix} 0 & 3 \\\\ 0 & 0 \\end{pmatrix}$",
+        "$\\begin{pmatrix} e & 3e \\\\ 0 & e \\end{pmatrix}$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\begin{pmatrix} 1 & 3 \\\\ 0 & 1 \\end{pmatrix}$",
+      "hint1": "Comme $N^2 = 0$, la série exponentielle $\\sum_{k=0}^\\infty \\frac{N^k}{k!}$ s'arrête à $k=1$.",
+      "hint2": "$\\exp(N) = I_2 + N$.",
+      "solution": "Comme $N^2 = 0$, tous les termes d'ordre $k \\ge 2$ sont nuls. Ainsi $\\exp(N) = I_2 + N = \\begin{pmatrix} 1 & 3 \\\\ 0 & 1 \\end{pmatrix}$."
     }
   ],
   "L2-DUA": [
@@ -735,9 +906,28 @@ window.MATHS_EXERCISES_L2 = {
       "id": "L2-DUA-1",
       "tier": 1,
       "type": "mcq",
-      "title": "Dimension de l'orthogonal dual",
-      "skill": "Appliquer la formule de dimension duale",
-      "statement": "Soit $E$ un espace vectoriel de dimension 5 et $F$ un sous-espace vectoriel de dimension 2. Quelle est la dimension de son orthogonal dual $F^\\circ$ ?",
+      "title": "Dimension du dual d'un espace vectoriel",
+      "skill": "Connaître la dimension de $E^*$",
+      "statement": "Soit $E$ un espace vectoriel de dimension finie $n$. Quelle est la dimension de son espace dual $E^* = \\mathcal{L}(E, K)$ ?",
+      "options": [
+        "$n$",
+        "$n^2$",
+        "$2^n$",
+        "$n - 1$"
+      ],
+      "correctIndex": 0,
+      "answer": "$n$",
+      "hint1": "$E^* = \\mathcal{L}(E, K)$, avec $\\dim(K) = 1$.",
+      "hint2": "$\\dim \\mathcal{L}(E, F) = \\dim E \\times \\dim F = n \\times 1 = n$.",
+      "solution": "En dimension finie, l'espace dual $E^*$ a la même dimension que $E$ : $\\dim(E^*) = \\dim(E) = n$."
+    },
+    {
+      "id": "L2-DUA-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Orthogonal dual d'un sous-espace",
+      "skill": "Calculer la dimension de l'orthogonal dual $F^\\circ$",
+      "statement": "Soit $F$ un sous-espace vectoriel de dimension 2 dans un espace $E$ de dimension 5. Quelle est la dimension de $F^\\circ = \\{\\varphi \\in E^* \\mid \\varphi|_F = 0\\}$ ?",
       "options": [
         "$3$",
         "$2$",
@@ -746,9 +936,47 @@ window.MATHS_EXERCISES_L2 = {
       ],
       "correctIndex": 0,
       "answer": "$3$",
-      "hint1": "Formule : $\\dim(F) + \\dim(F^\\circ) = \\dim(E)$.",
-      "hint2": "$2 + \\dim(F^\\circ) = 5 \\implies \\dim(F^\\circ) = 3$.",
-      "solution": "Par la relation de dimension duale, $\\dim(F^\\circ) = \\dim(E) - \\dim(F) = 5 - 2 = 3$."
+      "hint1": "Formule fondamentale : $\\dim F + \\dim F^\\circ = \\dim E$.",
+      "hint2": "$\\dim F^\\circ = 5 - 2 = 3$.",
+      "solution": "En dimension finie, on a $\\dim(F) + \\dim(F^\\circ) = \\dim(E)$. Donc $\\dim(F^\\circ) = 5 - 2 = 3$."
+    },
+    {
+      "id": "L2-DUA-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Base duale d'une base de R^2",
+      "skill": "Calculer les formes coordonnées de la base duale",
+      "statement": "Soit la base $\\mathcal{B} = (e_1, e_2)$ de $\\mathbb{R}^2$ avec $e_1 = (1, 1)$ et $e_2 = (1, -1)$. Pour $x = (u, v)$, que vaut la forme linéaire $e_1^*(x)$ ?",
+      "options": [
+        "$\\frac{u + v}{2}$",
+        "$\\frac{u - v}{2}$",
+        "$u + v$",
+        "$u$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\frac{u + v}{2}$",
+      "hint1": "Écris $(u, v) = c_1 e_1 + c_2 e_2$. Alors $e_1^*(x) = c_1$.",
+      "hint2": "$c_1 + c_2 = u$ et $c_1 - c_2 = v \\implies 2c_1 = u + v$.",
+      "solution": "On a $(u, v) = c_1(1, 1) + c_2(1, -1) \\iff c_1 + c_2 = u$ et $c_1 - c_2 = v$. En sommant : $2c_1 = u + v \\iff c_1 = \\frac{u+v}{2}$. Donc $e_1^*(x) = \\frac{u+v}{2}$."
+    },
+    {
+      "id": "L2-DUA-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Équation d'un hyperplan vectoriel",
+      "skill": "Caractériser les hyperplans par les formes linéaires",
+      "statement": "Tout hyperplan $H$ d'un espace vectoriel $E$ est le noyau :",
+      "options": [
+        "D'une forme linéaire non nulle $\\varphi \\in E^*$, unique à scalaire non nul près",
+        "D'un projecteur bijectif",
+        "De l'application nulle uniquement",
+        "D'une forme bilinéaire symétrique dégénérée"
+      ],
+      "correctIndex": 0,
+      "answer": "D'une forme linéaire non nulle $\\varphi \\in E^*$, unique à scalaire non nul près",
+      "hint1": "Par définition, $\\text{codim}(H) = 1$, donc par le théorème du rang, son équation provient d'une forme linéaire dans le corps $K$.",
+      "hint2": "$H = \\ker \\varphi$ avec $\\varphi \\ne 0$.",
+      "solution": "Un sous-espace $H$ est un hyperplan si et seulement s'il existe une forme linéaire non nulle $\\varphi$ telle que $H = \\ker(\\varphi)$, deux formes ayant même noyau étant proportionnelles."
     }
   ],
   "L2-PRE": [
@@ -757,19 +985,76 @@ window.MATHS_EXERCISES_L2 = {
       "tier": 1,
       "type": "mcq",
       "title": "Inégalité de Cauchy-Schwarz",
-      "skill": "Appliquer Cauchy-Schwarz",
-      "statement": "Dans un espace préhilbertien réel, si $\\|x\\| = 3$ et $\\|y\\| = 4$, quelle est la valeur maximale possible pour $\\langle x, y \\rangle$ ?",
+      "skill": "Énoncer l'inégalité de Cauchy-Schwarz",
+      "statement": "Pour tous vecteurs $x, y$ d'un espace préhilbertien réel muni du produit scalaire $\\langle \\cdot, \\cdot \\rangle$, que vaut l'inégalité de Cauchy-Schwarz ?",
       "options": [
-        "$12$",
-        "$7$",
-        "$25$",
-        "$1$"
+        "$|\\langle x, y \\rangle| \\le \\|x\\| \\|y\\|$",
+        "$\\langle x, y \\rangle \\ge \\|x\\| + \\|y\\|$",
+        "$\\|x + y\\| = \\|x\\| + \\|y\\|$",
+        "$|\\langle x, y \\rangle| = \\|x\\|^2 \\|y\\|^2$"
       ],
       "correctIndex": 0,
-      "answer": "$12$",
-      "hint1": "L'inégalité de Cauchy-Schwarz donne $|\\langle x, y \\rangle| \\le \\|x\\| \\|y\\|$.",
-      "hint2": "$3 \\times 4 = 12$.",
-      "solution": "Par l'inégalité de Cauchy-Schwarz, $|\\langle x, y \\rangle| \\le \\|x\\| \\|y\\| = 3 \\times 4 = 12$, atteinte lorsque $x$ et $y$ sont colinéaires de même sens."
+      "answer": "$|\\langle x, y \\rangle| \\le \\|x\\| \\|y\\|$",
+      "hint1": "Le produit scalaire est majoré en valeur absolue par le produit des normes.",
+      "hint2": "Cas d'égalité si et seulement si $x$ et $y$ sont colinéaires.",
+      "solution": "L'inégalité fondamentale de Cauchy-Schwarz s'écrit $|\\langle x, y \\rangle| \\le \\|x\\| \\|y\\|$, avec égalité si et seulement si la famille $(x, y)$ est liée."
+    },
+    {
+      "id": "L2-PRE-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Procédé de Gram-Schmidt",
+      "skill": "Orthonormaliser une famille de vecteurs",
+      "statement": "Dans $\\mathbb{R}^2$ muni du produit scalaire usuel, en partant de $v_1 = (1, 0)$ et $v_2 = (1, 1)$, que vaut le deuxième vecteur orthogonal $u_2$ obtenu par Gram-Schmidt ?",
+      "options": [
+        "$(0, 1)$",
+        "$(1, -1)$",
+        "$(-1, 0)$",
+        "$(1, 0)$"
+      ],
+      "correctIndex": 0,
+      "answer": "$(0, 1)$",
+      "hint1": "$u_2 = v_2 - \\frac{\\langle v_2, u_1 \\rangle}{\\|u_1\\|^2} u_1$.",
+      "hint2": "$\\langle v_2, u_1 \\rangle = 1 \\times 1 + 1 \\times 0 = 1$. Donc $u_2 = (1, 1) - 1(1, 0) = (0, 1)$.",
+      "solution": "Par Gram-Schmidt : $u_1 = (1, 0)$ et $u_2 = v_2 - \\langle v_2, u_1 \\rangle u_1 = (1, 1) - 1(1, 0) = (0, 1)$. Les vecteurs sont orthogonaux."
+    },
+    {
+      "id": "L2-PRE-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Distance à un sous-espace et projection",
+      "skill": "Calculer la distance d'un point à un sous-espace vectoriel",
+      "statement": "Si $p_F(x)$ désigne le projeté orthogonal de $x$ sur un sous-espace de dimension finie $F$, quelle relation caractérise la distance $d(x, F)$ ?",
+      "options": [
+        "$d(x, F) = \\|x - p_F(x)\\| = \\min_{y \\in F} \\|x - y\\|$",
+        "$d(x, F) = \\|p_F(x)\\|$",
+        "$d(x, F) = \\|x\\| + \\|p_F(x)\\|$",
+        "$d(x, F) = 0$ pour tout $x$"
+      ],
+      "correctIndex": 0,
+      "answer": "$d(x, F) = \\|x - p_F(x)\\| = \\min_{y \\in F} \\|x - y\\|$",
+      "hint1": "Le projeté orthogonal réalise le minimum de la distance à tout élément du sous-espace.",
+      "hint2": "Théorème de la meilleure approximation en norme euclidienne.",
+      "solution": "D'après le théorème de projection orthogonale, $p_F(x)$ est l'unique élément de $F$ qui minimise la distance à $x$, donc $d(x, F) = \\|x - p_F(x)\\|$."
+    },
+    {
+      "id": "L2-PRE-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Identité du parallélogramme",
+      "skill": "Caractériser les normes issues d'un produit scalaire",
+      "statement": "Une norme $\\|\\cdot\\|$ découle d'un produit scalaire réel si et seulement si elle satisfait l'identité du parallélogramme :",
+      "options": [
+        "$\\|x + y\\|^2 + \\|x - y\\|^2 = 2\\|x\\|^2 + 2\\|y\\|^2$",
+        "$\\|x + y\\| \\le \\|x\\| + \\|y\\|$",
+        "$\\|x - y\\|^2 = \\|x\\|^2 - \\|y\\|^2$",
+        "$\\|x + y\\|^2 = \\|x\\|^2 + \\|y\\|^2$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\|x + y\\|^2 + \\|x - y\\|^2 = 2\\|x\\|^2 + 2\\|y\\|^2$",
+      "hint1": "Théorème de Fréchet-von Neumann-Jordan.",
+      "hint2": "La somme des carrés des diagonales est égale à la somme des carrés des 4 côtés d'un parallélogramme.",
+      "solution": "Le théorème de Jordan-von Neumann stipule qu'une norme est issue d'un produit scalaire si et seulement si elle vérifie l'identité du parallélogramme $\\|x + y\\|^2 + \\|x - y\\|^2 = 2\\|x\\|^2 + 2\\|y\\|^2$."
     }
   ],
   "L2-SYM": [
@@ -777,20 +1062,77 @@ window.MATHS_EXERCISES_L2 = {
       "id": "L2-SYM-1",
       "tier": 1,
       "type": "mcq",
-      "title": "Nature des valeurs propres d'une matrice symétrique réelle",
-      "skill": "Théorème spectral",
-      "statement": "Que peut-on affirmer des valeurs propres d'une matrice symétrique réelle $A \\in \\mathcal{S}_n(\\mathbb{R})$ ?",
+      "title": "Spectre d'une matrice symétrique réelle",
+      "skill": "Propriétés spectrales fondamentales de $\\mathcal{S}_n(\\mathbb{R})$",
+      "statement": "Toute matrice symétrique réelle $A \\in \\mathcal{S}_n(\\mathbb{R})$ a toutes ses valeurs propres :",
       "options": [
-        "Elles sont toutes réelles",
-        "Elles sont toutes strictement positives",
-        "Elles peuvent être complexes non réelles",
-        "Leur somme est toujours nulle"
+        "Réelles",
+        "Strictement positives",
+        "Imaginaires pures",
+        "De module 1"
       ],
       "correctIndex": 0,
-      "answer": "Elles sont toutes réelles",
-      "hint1": "C'est la première assertion du Théorème Spectral.",
-      "hint2": "Si $A = {}^tA$, tout le spectre est contenu dans $\\mathbb{R}$.",
-      "solution": "D'après le Théorème Spectral, toute matrice symétrique réelle n'admet que des valeurs propres réelles."
+      "answer": "Réelles",
+      "hint1": "Théorème spectral fondamental pour les endomorphismes autoadjoints réels.",
+      "hint2": "Si $Ax = \\lambda x$, alors $\\bar{x}^T A x = \\lambda \\bar{x}^T x$ montre que $\\bar{\\lambda} = \\lambda$.",
+      "solution": "Les valeurs propres de toute matrice symétrique à coefficients réels sont toutes réelles, et la matrice est diagonalisable dans une base orthonormée."
+    },
+    {
+      "id": "L2-SYM-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Théorème spectral",
+      "skill": "Diagonalisation dans une base orthonormée",
+      "statement": "D'après le théorème spectral, si $A \\in \\mathcal{S}_n(\\mathbb{R})$, il existe une matrice orthogonale $P \\in \\mathcal{O}_n(\\mathbb{R})$ telle que :",
+      "options": [
+        "$A = P D P^T$ avec $D$ diagonale réelle",
+        "$A = P D P^{-1}$ avec $D$ à diagonale imaginaire",
+        "$A = P + D$",
+        "$A^2 = I_n$"
+      ],
+      "correctIndex": 0,
+      "answer": "$A = P D P^T$ avec $D$ diagonale réelle",
+      "hint1": "Pour une matrice orthogonale, $P^{-1} = P^T$.",
+      "hint2": "Les vecteurs propres associés à des valeurs propres distinctes sont deux à deux orthogonaux.",
+      "solution": "Le théorème spectral garantit que toute matrice symétrique réelle est orthogonalement semblable à une matrice diagonale réelle : $A = P D P^T$ avec $P \\in \\mathcal{O}_n(\\mathbb{R})$."
+    },
+    {
+      "id": "L2-SYM-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Matrices orthogonales et déterminant",
+      "skill": "Propriétés du groupe orthogonal $\\mathcal{O}(n)$",
+      "statement": "Quel est le déterminant possible d'une matrice orthogonale $P \\in \\mathcal{O}_n(\\mathbb{R})$ ?",
+      "options": [
+        "$\\pm 1$",
+        "$1$ uniquement",
+        "$0$",
+        "N'importe quel réel non nul"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\pm 1$",
+      "hint1": "$P^T P = I_n \\implies \\det(P^T P) = \\det(I_n) = 1$.",
+      "hint2": "$\\det(P^T) = \\det(P)$, donc $(\\det P)^2 = 1$.",
+      "solution": "Comme $P^T P = I_n$, on a $\\det(P^T P) = (\\det P)^2 = 1$, d'où $\\det(P) \\in \\{1, -1\\}$."
+    },
+    {
+      "id": "L2-SYM-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Loi d'inertie de Sylvester",
+      "skill": "Comprendre la signature d'une forme quadratique",
+      "statement": "Soit $q(x, y) = x^2 - 4xy + 5y^2$. Quelle est la signature de cette forme quadratique sur $\\mathbb{R}^2$ ?",
+      "options": [
+        "$(2, 0)$",
+        "$(1, 1)$",
+        "$(0, 2)$",
+        "$(1, 0)$"
+      ],
+      "correctIndex": 0,
+      "answer": "$(2, 0)$",
+      "hint1": "Réduis en carrés de Gauss : $x^2 - 4xy + 5y^2 = (x - 2y)^2 - 4y^2 + 5y^2$.",
+      "hint2": "$(x - 2y)^2 + y^2$. Les deux coefficients devant les carrés sont $+1 > 0$.",
+      "solution": "$q(x, y) = (x - 2y)^2 + y^2$. C'est une somme de deux carrés indépendants affectés de coefficients strictement positifs. La signature est $(2, 0)$ : la forme est définie positive."
     }
   ],
   "L2-SER": [
@@ -799,19 +1141,76 @@ window.MATHS_EXERCISES_L2 = {
       "tier": 1,
       "type": "mcq",
       "title": "Série de Riemann",
-      "skill": "Convergence d'une série de Riemann",
-      "statement": "Pour quelle valeur de $\\alpha$ la série numérique $\\sum_{n=1}^{+\\infty} \\frac{1}{n^\\alpha}$ converge-t-elle ?",
+      "skill": "Connaître le critère de convergence de Riemann",
+      "statement": "Pour quelle condition sur le réel $\\alpha$ la série $\\sum_{n=1}^\\infty \\frac{1}{n^\\alpha}$ converge-t-elle ?",
       "options": [
         "$\\alpha > 1$",
         "$\\alpha \\ge 1$",
-        "$\\alpha < 1$",
-        "$\\alpha > 0$"
+        "$\\alpha > 0$",
+        "Pour tout $\\alpha \\in \\mathbb{R}$"
       ],
       "correctIndex": 0,
       "answer": "$\\alpha > 1$",
-      "hint1": "La série harmonique $\\sum 1/n$ (cas $\\alpha=1$) diverge.",
-      "hint2": "La règle de Riemann impose $\\alpha > 1$ pour la convergence.",
-      "solution": "La série de Riemann $\\sum \\frac{1}{n^\\alpha}$ converge si et seulement si $\\alpha > 1$."
+      "hint1": "Pour $\\alpha = 1$, c'est la série harmonique divergente.",
+      "hint2": "La série converge si et seulement si l'exposant est strictement supérieur à 1.",
+      "solution": "D'après la règle de Riemann, la série $\\sum_{n=1}^\\infty \\frac{1}{n^\\alpha}$ converge si et seulement si $\\alpha > 1$."
+    },
+    {
+      "id": "L2-SER-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Règle de d'Alembert pour les séries numériques",
+      "skill": "Appliquer le critère du quotient",
+      "statement": "Pour $u_n = \\frac{2^n}{n!}$, quelle est la limite de $\\frac{u_{n+1}}{u_n}$ quand $n \\to +\\infty$ ?",
+      "options": [
+        "$0$",
+        "$2$",
+        "$1$",
+        "$+\\infty$"
+      ],
+      "correctIndex": 0,
+      "answer": "$0$",
+      "hint1": "$\\frac{u_{n+1}}{u_n} = \\frac{2^{n+1}}{(n+1)!} \\times \\frac{n!}{2^n} = \\frac{2}{n+1}$.",
+      "hint2": "Quand $n \\to +\\infty$, $2/(n+1) \\to 0 < 1$.",
+      "solution": "$\\frac{u_{n+1}}{u_n} = \\frac{2}{n+1} \\to 0 < 1$. Par la règle de d'Alembert, la série $\\sum \\frac{2^n}{n!}$ converge absolument."
+    },
+    {
+      "id": "L2-SER-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Critère des séries alternées de Leibniz",
+      "skill": "Majorer le reste d'une série alternée",
+      "statement": "Pour la série alternée $S = \\sum_{n=1}^\\infty \\frac{(-1)^{n-1}}{n}$, quelle majoration du reste $R_N = \\sum_{n=N+1}^\\infty \\frac{(-1)^{n-1}}{n}$ est garantie ?",
+      "options": [
+        "$|R_N| \\le \\frac{1}{N+1}$",
+        "$|R_N| \\le \\frac{1}{N^2}$",
+        "$|R_N| \\le 1$",
+        "$|R_N| \\le \\frac{1}{N!}$"
+      ],
+      "correctIndex": 0,
+      "answer": "$|R_N| \\le \\frac{1}{N+1}$",
+      "hint1": "D'après le critère de Leibniz, la valeur absolue du reste est majorée par la valeur absolue du premier terme négligé.",
+      "hint2": "Le premier terme négligé est $\\frac{(-1)^N}{N+1}$.",
+      "solution": "Le critère spécial des séries alternées garantit que le reste d'ordre $N$ vérifie $|R_N| \\le |u_{N+1}| = \\frac{1}{N+1}$, et $R_N$ a le même signe que $u_{N+1}$."
+    },
+    {
+      "id": "L2-SER-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Comparaison série-intégrale et constante d'Euler",
+      "skill": "Déterminer un équivalent asymptotique des sommes partielles harmoniques",
+      "statement": "Quel est le comportement asymptotique de $H_n = \\sum_{k=1}^n \\frac{1}{k}$ quand $n \\to +\\infty$ ?",
+      "options": [
+        "$H_n = \\ln(n) + \\gamma + o(1)$",
+        "$H_n = n + o(1)$",
+        "$H_n = \\sqrt{n} + o(1)$",
+        "$H_n = \\frac{\\pi^2}{6} + o(1)$"
+      ],
+      "correctIndex": 0,
+      "answer": "$H_n = \\ln(n) + \\gamma + o(1)$",
+      "hint1": "Compare la somme à l'intégrale $\\int_1^n \\frac{dt}{t} = \\ln(n)$.",
+      "hint2": "$\\gamma \\approx 0.5772$ est la constante d'Euler-Mascheroni.",
+      "solution": "Par comparaison série-intégrale, la série harmonique vérifie le développement asymptotique classique $H_n = \\ln(n) + \\gamma + o(1)$, où $\\gamma$ est la constante d'Euler-Mascheroni."
     }
   ],
   "L2-RIE": [
@@ -819,20 +1218,77 @@ window.MATHS_EXERCISES_L2 = {
       "id": "L2-RIE-1",
       "tier": 1,
       "type": "mcq",
-      "title": "Interversion limite et intégrale",
-      "skill": "Théorème de convergence uniforme",
-      "statement": "Quelle condition sur une suite de fonctions continues $(f_n)$ sur $[a ; b]$ permet d'affirmer que $\\lim \\int_a^b f_n = \\int_a^b \\lim f_n$ ?",
+      "title": "Convergence uniforme et continuité",
+      "skill": "Théorème de continuité de la limite uniforme",
+      "statement": "Soit $(f_n)$ une suite de fonctions continues sur $I$ convergeant uniformément vers $f$ sur $I$. Que peut-on affirmer sur $f$ ?",
       "options": [
-        "La convergence uniforme sur $[a ; b]$",
-        "La convergence simple suffit",
-        "La monotonie des $f_n$ uniquement",
-        "Il n'est jamais possible d'intervertir"
+        "$f$ est continue sur $I$",
+        "$f$ est dérivable sur $I$",
+        "$f$ est constante",
+        "$f$ est bornée uniquement si $I$ est ouvert"
       ],
       "correctIndex": 0,
-      "answer": "La convergence uniforme sur $[a ; b]$",
-      "hint1": "La convergence simple ne conserve pas nécessairement l'intégrale.",
-      "hint2": "La convergence uniforme garantit $\\|f_n - f\\|_\\infty \\to 0$.",
-      "solution": "La convergence uniforme sur le segment $[a ; b]$ garantit l'interversion de la limite et de l'intégrale de Riemann."
+      "answer": "$f$ est continue sur $I$",
+      "hint1": "La convergence uniforme transmet la continuité à la limite.",
+      "hint2": "Ce n'est pas vrai pour la simple convergence ponctuelle (ex: $x^n$ sur $[0, 1]$).",
+      "solution": "D'après le théorème de continuité pour les suites de fonctions, la limite uniforme d'une suite de fonctions continues est continue."
+    },
+    {
+      "id": "L2-RIE-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Règle de Leibniz de dérivation sous le signe intégral",
+      "skill": "Dériver une intégrale à paramètre",
+      "statement": "Pour $F(x) = \\int_0^1 e^{-x t^2} dt$, quelle est l'expression de la dérivée $F'(x)$ ?",
+      "options": [
+        "$-\\int_0^1 t^2 e^{-x t^2} dt$",
+        "$\\int_0^1 e^{-x t^2} dt$",
+        "$-x \\int_0^1 t e^{-x t^2} dt$",
+        "$e^{-x}$"
+      ],
+      "correctIndex": 0,
+      "answer": "$-\\int_0^1 t^2 e^{-x t^2} dt$",
+      "hint1": "Dérive l'intégrande par rapport à $x$ : $\\frac{\\partial}{\\partial x}(e^{-x t^2}) = -t^2 e^{-x t^2}$.",
+      "hint2": "L'intervalle d'intégration est compact, les hypothèses de domination sont trivialement satisfaites.",
+      "solution": "Par le théorème de dérivation sous le signe intégral : $F'(x) = \\int_0^1 \\frac{\\partial}{\\partial x}(e^{-xt^2}) dt = -\\int_0^1 t^2 e^{-xt^2} dt$."
+    },
+    {
+      "id": "L2-RIE-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Convergence normale d'une série de fonctions",
+      "skill": "Vérifier la convergence normale $\\sum \\|u_n\\|_\\infty < \\infty$",
+      "statement": "Pour $u_n(x) = \\frac{\\cos(nx)}{n^2}$ sur $\\mathbb{R}$, la série $\\sum_{n=1}^\\infty u_n(x)$ :",
+      "options": [
+        "Converge normalement sur $\\mathbb{R}$",
+        "Ne converge que ponctuellement",
+        "Diverge pour $x = 0$",
+        "Converge uniformément mais pas normalement"
+      ],
+      "correctIndex": 0,
+      "answer": "Converge normalement sur $\\mathbb{R}$",
+      "hint1": "Majore $|u_n(x)|$ par une constante indépendante de $x$.",
+      "hint2": "$\\sup_{x \\in \\mathbb{R}} |u_n(x)| = \\frac{1}{n^2}$, et $\\sum \\frac{1}{n^2}$ converge.",
+      "solution": "Pour tout $x \\in \\mathbb{R}$, $|u_n(x)| \\le \\frac{1}{n^2}$. Comme la série numérique $\\sum 1/n^2$ converge (série de Riemann avec $\\alpha=2 > 1$), la série de fonctions converge normalement sur $\\mathbb{R}$."
+    },
+    {
+      "id": "L2-RIE-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Théorème de convergence dominée pour intégrales à paramètre",
+      "skill": "Permuter limite et intégrale impropre",
+      "statement": "Quelle est la limite quand $n \\to +\\infty$ de $I_n = \\int_0^{+\\infty} \\frac{n \\sin(x/n)}{x(1 + x^2)} dx$ ?",
+      "options": [
+        "$\\frac{\\pi}{2}$",
+        "$0$",
+        "$1$",
+        "$+\\infty$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\frac{\\pi}{2}$",
+      "hint1": "Pour tout $x > 0$ fixé, quand $n \\to +\\infty$, $n \\sin(x/n) = x \\frac{\\sin(x/n)}{x/n} \\to x$.",
+      "hint2": "La limite de l'intégrande est $\\frac{x}{x(1+x^2)} = \\frac{1}{1+x^2}$, et $\\int_0^{+\\infty} \\frac{dx}{1+x^2} = [\\arctan x]_0^{+\\infty} = \\frac{\\pi}{2}$.",
+      "solution": "La suite de fonctions $f_n(x) = \\frac{n\\sin(x/n)}{x(1+x^2)}$ converge simplement vers $\\frac{1}{1+x^2}$ et est dominée par $\\frac{1}{1+x^2} \\in L^1([0, +\\infty[)$. Par le TCD, $\\lim I_n = \\int_0^{+\\infty} \\frac{dx}{1+x^2} = \\frac{\\pi}{2}$."
     }
   ],
   "L2-ING": [
@@ -840,20 +1296,77 @@ window.MATHS_EXERCISES_L2 = {
       "id": "L2-ING-1",
       "tier": 1,
       "type": "mcq",
-      "title": "Intégrale de Riemann impropre en $+\\infty$",
-      "skill": "Règle de convergence en l'infini",
-      "statement": "L'intégrale $\\int_1^{+\\infty} \\frac{1}{t^3} dt$ est-elle convergente et quelle est sa valeur ?",
+      "title": "Rayon de convergence de l'exponentielle",
+      "skill": "Calculer le rayon de convergence d'une série entière",
+      "statement": "Quel est le rayon de convergence $R$ de la série entière $\\sum_{n=0}^\\infty \\frac{x^n}{n!}$ ?",
       "options": [
-        "Convergente et vaut $1/2$",
-        "Convergente et vaut $1/3$",
-        "Divergente",
-        "Convergente et vaut 1"
+        "$+\\infty$",
+        "$1$",
+        "$0$",
+        "$e$"
       ],
       "correctIndex": 0,
-      "answer": "Convergente et vaut $1/2$",
-      "hint1": "L'exposant $3 > 1$, donc elle converge.",
-      "hint2": "Primitive : $\\left[ -\\frac{1}{2t^2} \\right]_1^{+\\infty} = 0 - (-1/2) = 1/2$.",
-      "solution": "Comme $3 > 1$, l'intégrale converge. $\\int_1^{+\\infty} t^{-3} dt = \\left[ -\\frac{1}{2t^2} \\right]_1^{+\\infty} = \\frac{1}{2}$."
+      "answer": "$+\\infty$",
+      "hint1": "Par la règle de d'Alembert : $\\frac{a_{n+1}}{a_n} = \\frac{n!}{(n+1)!} = \\frac{1}{n+1} \\to 0$.",
+      "hint2": "$R = 1 / \\lim |a_{n+1}/a_n| = 1/0 = +\\infty$.",
+      "solution": "Comme $\\frac{a_{n+1}}{a_n} = \\frac{1}{n+1} \\to 0$, le rayon de convergence de la série entière de l'exponentielle est $R = +\\infty$."
+    },
+    {
+      "id": "L2-ING-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Développement en série entière de 1/(1-x)",
+      "skill": "Connaître le DSE de la série géométrique",
+      "statement": "Pour tout $x \\in ]-1, 1[$, que vaut la somme $\\sum_{n=0}^\\infty x^n$ ?",
+      "options": [
+        "$\\frac{1}{1 - x}$",
+        "$\\frac{1}{1 + x}$",
+        "$\\ln(1 - x)$",
+        "$e^x$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\frac{1}{1 - x}$",
+      "hint1": "C'est la somme d'une série géométrique de premier terme 1 et de raison $x$.",
+      "hint2": "$S = \\frac{1}{1 - x}$.",
+      "solution": "Pour tout $|x| < 1$, la série géométrique $\\sum_{n=0}^\\infty x^n$ converge et sa somme vaut $\\frac{1}{1 - x}$."
+    },
+    {
+      "id": "L2-ING-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Dérivation terme à terme d'une série entière",
+      "skill": "Calculer la somme d'une série entière dérivée",
+      "statement": "Pour $x \\in ]-1, 1[$, que vaut la somme $\\sum_{n=1}^\\infty n x^{n-1}$ ?",
+      "options": [
+        "$\\frac{1}{(1 - x)^2}$",
+        "$\\frac{1}{1 - x}$",
+        "$\\frac{x}{(1 - x)^2}$",
+        "$\\ln(1 - x)$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\frac{1}{(1 - x)^2}$",
+      "hint1": "C'est la dérivée terme à terme de $\\sum_{n=0}^\\infty x^n = \\frac{1}{1-x}$.",
+      "hint2": "$(\\frac{1}{1-x})' = \\frac{1}{(1-x)^2}$.",
+      "solution": "Sur le disque ouvert de convergence, on peut dériver terme à terme : $\\sum_{n=1}^\\infty n x^{n-1} = \\left( \\sum_{n=0}^\\infty x^n \\right)' = \\left( \\frac{1}{1-x} \\right)' = \\frac{1}{(1-x)^2}$."
+    },
+    {
+      "id": "L2-ING-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Somme d'une série entière via équation différentielle",
+      "skill": "Identifier la fonction somme par son équation différentielle",
+      "statement": "Soit $S(x) = \\sum_{n=0}^\\infty \\frac{x^{2n}}{(2n)!}$. Quelle équation différentielle simple vérifie $S$ sur $\\mathbb{R}$ ?",
+      "options": [
+        "$S''(x) - S(x) = 0$ avec $S(0)=1, S'(0)=0$",
+        "$S''(x) + S(x) = 0$",
+        "$S'(x) + S(x) = 0$",
+        "$x S'(x) - S(x) = 0$"
+      ],
+      "correctIndex": 0,
+      "answer": "$S''(x) - S(x) = 0$ avec $S(0)=1, S'(0)=0$",
+      "hint1": "$S(x) = \\cosh(x) = \\frac{e^x + e^{-x}}{2}$.",
+      "hint2": "$\\cosh''(x) = \\cosh(x)$, donc $S'' - S = 0$.",
+      "solution": "En dérivant deux fois terme à terme, $S''(x) = \\sum_{n=1}^\\infty \\frac{2n(2n-1)x^{2n-2}}{(2n)!} = \\sum_{m=0}^\\infty \\frac{x^{2m}}{(2m)!} = S(x)$. Comme $S(0)=1$ et $S'(0)=0$, $S(x) = \\cosh(x)$."
     }
   ],
   "L2-EDO": [
@@ -861,20 +1374,77 @@ window.MATHS_EXERCISES_L2 = {
       "id": "L2-EDO-1",
       "tier": 1,
       "type": "mcq",
-      "title": "Équation caractéristique",
-      "skill": "Résoudre une EDO d'ordre 2",
-      "statement": "Quelles sont les solutions réelles de l'équation $y'' + 9y = 0$ ?",
+      "title": "Équation caractéristique du second ordre",
+      "skill": "Résoudre une EDO linéaire homogène à coefficients constants",
+      "statement": "Quelle est la forme générale des solutions réelles de $y'' - 5y' + 6y = 0$ ?",
       "options": [
-        "$y(x) = C_1 \\cos(3x) + C_2 \\sin(3x)$",
-        "$y(x) = C_1 e^{3x} + C_2 e^{-3x}$",
-        "$y(x) = (C_1 x + C_2) e^{3x}$",
-        "$y(x) = C_1 \\cos(9x) + C_2 \\sin(9x)$"
+        "$y(x) = A e^{2x} + B e^{3x}$",
+        "$y(x) = (A + Bx)e^{2x}$",
+        "$y(x) = A \\cos(2x) + B \\sin(3x)$",
+        "$y(x) = A e^{-2x} + B e^{-3x}$"
       ],
       "correctIndex": 0,
-      "answer": "$y(x) = C_1 \\cos(3x) + C_2 \\sin(3x)$",
-      "hint1": "L'équation caractéristique est $r^2 + 9 = 0 \\iff r = \\pm 3i$.",
-      "hint2": "Les racines sont imaginaires pures : solutions harmoniques en $\\cos(3x)$ et $\\sin(3x)$.",
-      "solution": "Les racines caractéristiques sont $\\pm 3i$. Les solutions sont donc $y(x) = C_1 \\cos(3x) + C_2 \\sin(3x)$."
+      "answer": "$y(x) = A e^{2x} + B e^{3x}$",
+      "hint1": "L'équation caractéristique est $r^2 - 5r + 6 = 0$.",
+      "hint2": "$r^2 - 5r + 6 = (r - 2)(r - 3) = 0 \\implies r_1 = 2, r_2 = 3$.",
+      "solution": "L'équation caractéristique $r^2 - 5r + 6 = 0$ a pour racines distinctes $r_1 = 2$ et $r_2 = 3$. Les solutions réelles sont $y(x) = A e^{2x} + B e^{3x}$ avec $A, B \\in \\mathbb{R}$."
+    },
+    {
+      "id": "L2-EDO-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Variation de la constante pour EDO d'ordre 1",
+      "skill": "Résoudre une équation avec second membre",
+      "statement": "Quelle est la solution générale de $y' - 2y = 4$ sur $\\mathbb{R}$ ?",
+      "options": [
+        "$y(x) = C e^{2x} - 2$",
+        "$y(x) = C e^{2x} + 2$",
+        "$y(x) = C e^{-2x} - 2$",
+        "$y(x) = 2x + C$"
+      ],
+      "correctIndex": 0,
+      "answer": "$y(x) = C e^{2x} - 2$",
+      "hint1": "La solution homogène est $y_h(x) = C e^{2x}$.",
+      "hint2": "Une solution particulière constante $y_p = k$ donne $-2k = 4 \\implies k = -2$.",
+      "solution": "Solution homogène : $y_h(x) = C e^{2x}$. Solution particulière constante : $y_p(x) = -2$ car $0 - 2(-2) = 4$. Solution générale : $y(x) = C e^{2x} - 2$."
+    },
+    {
+      "id": "L2-EDO-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Oscillateur harmonique et résonance",
+      "skill": "Identifier la solution d'une équation différentielle oscillante",
+      "statement": "Quelle est l'unique solution du problème de Cauchy $y'' + 4y = 0$ avec $y(0) = 1$ et $y'(0) = 2$ ?",
+      "options": [
+        "$y(x) = \\cos(2x) + \\sin(2x)$",
+        "$y(x) = \\cos(4x) + 2\\sin(4x)$",
+        "$y(x) = e^{2x} + e^{-2x}$",
+        "$y(x) = \\cos(2x) + 2\\sin(2x)$"
+      ],
+      "correctIndex": 0,
+      "answer": "$y(x) = \\cos(2x) + \\sin(2x)$",
+      "hint1": "$y(x) = A \\cos(2x) + B \\sin(2x)$.",
+      "hint2": "$y(0) = A = 1$ et $y'(0) = 2B = 2 \\implies B = 1$.",
+      "solution": "L'équation caractéristique $r^2 + 4 = 0$ donne $r = \\pm 2i$. La solution est $y(x) = A\\cos(2x) + B\\sin(2x)$. $y(0)=1 \\implies A=1$. $y'(x) = -2A\\sin(2x) + 2B\\cos(2x) \\implies y'(0) = 2B = 2 \\implies B=1$. D'où $y(x) = \\cos(2x) + \\sin(2x)$."
+    },
+    {
+      "id": "L2-EDO-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Système différentiel linéaire et exponentielle de matrice",
+      "skill": "Résoudre $X' = AX$",
+      "statement": "Pour le système $X' = \\begin{pmatrix} 0 & 1 \\\\ -1 & 0 \\end{pmatrix} X$, que vaut la matrice de transition $\\exp(tA)$ ?",
+      "options": [
+        "$\\begin{pmatrix} \\cos t & \\sin t \\\\ -\\sin t & \\cos t \\end{pmatrix}$",
+        "$\\begin{pmatrix} e^t & 0 \\\\ 0 & e^{-t} \\end{pmatrix}$",
+        "$\\begin{pmatrix} 1 & t \\\\ -t & 1 \\end{pmatrix}$",
+        "$\\begin{pmatrix} \\cosh t & \\sinh t \\\\ \\sinh t & \\cosh t \\end{pmatrix}$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\begin{pmatrix} \\cos t & \\sin t \\\\ -\\sin t & \\cos t \\end{pmatrix}$",
+      "hint1": "Remarque que $A^2 = -I_2$. $A$ joue le rôle de $i$.",
+      "hint2": "Par la formule d'Euler pour les matrices : $\\exp(tA) = \\cos(t) I_2 + \\sin(t) A$.",
+      "solution": "Comme $A^2 = -I_2$, on a $\\exp(tA) = \\sum_{k=0}^\\infty \\frac{t^k A^k}{k!} = \\cos(t) I_2 + \\sin(t) A = \\begin{pmatrix} \\cos t & \\sin t \\\\ -\\sin t & \\cos t \\end{pmatrix}$."
     }
   ],
   "L2-PAR": [
@@ -882,20 +1452,77 @@ window.MATHS_EXERCISES_L2 = {
       "id": "L2-PAR-1",
       "tier": 1,
       "type": "mcq",
-      "title": "Hypothèse de domination",
-      "skill": "Comprendre le théorème de domination",
-      "statement": "Dans le théorème de continuité d'une intégrale à paramètre $\\int_I f(x, t) dt$, que doit vérifier la fonction dominante $\\varphi(t)$ ?",
+      "title": "Calcul de gradient",
+      "skill": "Calculer les dérivées partielles premières d'une fonction de deux variables",
+      "statement": "Pour $f(x, y) = x^2 y + 3xy^2$, que vaut le gradient $\\nabla f(1, 2)$ ?",
       "options": [
-        "$|f(x, t)| \\le \\varphi(t)$ avec $\\varphi$ intégrable et indépendante de $x$",
-        "$\\varphi$ peut dépendre de $x$ tant qu'elle est bornée",
-        "$\\varphi(t) = f(x, t)$",
-        "$\\varphi$ doit être constante"
+        "$(16, 13)$",
+        "$(12, 14)$",
+        "$(10, 8)$",
+        "$(15, 12)$"
       ],
       "correctIndex": 0,
-      "answer": "$|f(x, t)| \\le \\varphi(t)$ avec $\\varphi$ intégrable et indépendante de $x$",
-      "hint1": "La domination doit être uniforme par rapport au paramètre $x$.",
-      "hint2": "La fonction $\\varphi$ ne doit dépendre que de la variable d'intégration $t$.",
-      "solution": "L'hypothèse de domination exige l'existence d'une fonction $\\varphi$ intégrable sur $I$ indépendante de $x$ majorant $|f(x,t)|$."
+      "answer": "$(16, 13)$",
+      "hint1": "$\\frac{\\partial f}{\\partial x} = 2xy + 3y^2$ et $\\frac{\\partial f}{\\partial y} = x^2 + 6xy$.",
+      "hint2": "En $(1, 2)$ : $\\partial_x f = 2(2) + 3(4) = 4 + 12 = 16$. $\\partial_y f = 1 + 6(2) = 13$.",
+      "solution": "$\\frac{\\partial f}{\\partial x}(1, 2) = 2(1)(2) + 3(2^2) = 4 + 12 = 16$. $\\frac{\\partial f}{\\partial y}(1, 2) = 1^2 + 6(1)(2) = 13$. Donc $\\nabla f(1, 2) = (16, 13)$."
+    },
+    {
+      "id": "L2-PAR-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Règle de la chaîne",
+      "skill": "Dériver une fonction composée multivariable",
+      "statement": "Soit $f(x, y) = x^2 + y^2$ et $\\gamma(t) = (\\cos t, \\sin t)$. Que vaut la dérivée $\\frac{d}{dt}[f(\\gamma(t))]$ ?",
+      "options": [
+        "$0$",
+        "$2\\cos t \\sin t$",
+        "$2$",
+        "$-\\sin t + \\cos t$"
+      ],
+      "correctIndex": 0,
+      "answer": "$0$",
+      "hint1": "$f(\\gamma(t)) = \\cos^2 t + \\sin^2 t = 1$.",
+      "hint2": "La dérivée d'une constante est nulle.",
+      "solution": "$f(\\gamma(t)) = \\cos^2(t) + \\sin^2(t) = 1$ pour tout $t$. Sa dérivée par rapport à $t$ est donc identiquement nulle : $0$."
+    },
+    {
+      "id": "L2-PAR-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Matrice hessienne et point critique",
+      "skill": "Déterminer la nature d'un point critique",
+      "statement": "Pour $f(x, y) = x^2 - y^2$, le point $(0, 0)$ est un point critique. Quelle est sa nature ?",
+      "options": [
+        "Point col (point selle)",
+        "Minimum local strict",
+        "Maximum local strict",
+        "Extremum global"
+      ],
+      "correctIndex": 0,
+      "answer": "Point col (point selle)",
+      "hint1": "La matrice hessienne est $H = \\begin{pmatrix} 2 & 0 \\\\ 0 & -2 \\end{pmatrix}$.",
+      "hint2": "Les valeurs propres sont $2 > 0$ et $-2 < 0$ : signes opposés.",
+      "solution": "La hessienne en $(0,0)$ admet pour valeurs propres $2$ et $-2$. Comme elles sont de signes opposés, $(0,0)$ est un point col (point selle)."
+    },
+    {
+      "id": "L2-PAR-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Théorème de Schwarz",
+      "skill": "Symétrie des dérivées partielles secondes croisées",
+      "statement": "Que garantit le théorème de Schwarz pour une fonction $f : U \\subset \\mathbb{R}^2 \\to \\mathbb{R}$ de classe $\\mathcal{C}^2$ ?",
+      "options": [
+        "$\\frac{\\partial^2 f}{\\partial x \\partial y} = \\frac{\\partial^2 f}{\\partial y \\partial x}$",
+        "$\\Delta f = 0$",
+        "$\\frac{\\partial f}{\\partial x} = \\frac{\\partial f}{\\partial y}$",
+        "La matrice hessienne est de trace nulle"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\frac{\\partial^2 f}{\\partial x \\partial y} = \\frac{\\partial^2 f}{\\partial y \\partial x}$",
+      "hint1": "L'ordre des dérivations partielles peut être interverti si la fonction est $\\mathcal{C}^2$.",
+      "hint2": "La matrice hessienne d'une fonction $\\mathcal{C}^2$ est symétrique.",
+      "solution": "Le théorème de Schwarz affirme que pour toute fonction de classe $\\mathcal{C}^2$, les dérivées partielles croisées sont égales : $\\frac{\\partial^2 f}{\\partial x \\partial y} = \\frac{\\partial^2 f}{\\partial y \\partial x}$."
     }
   ],
   "L2-MUL": [
@@ -903,20 +1530,77 @@ window.MATHS_EXERCISES_L2 = {
       "id": "L2-MUL-1",
       "tier": 1,
       "type": "mcq",
-      "title": "Jacobien du passage en coordonnées polaires",
-      "skill": "Changement de variable polaire",
-      "statement": "Quel est le facteur jacobien apparaissant dans l'élément différentiel lors du passage en coordonnées polaires ?",
+      "title": "Théorème de Fubini sur un rectangle",
+      "skill": "Calculer une intégrale double par produit d'intégrales",
+      "statement": "Que vaut l'intégrale double $I = \\iint_{[0, 1] \\times [0, 2]} x y^2 dx dy$ ?",
+      "options": [
+        "$\\frac{4}{3}$",
+        "$\\frac{2}{3}$",
+        "$2$",
+        "$4$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\frac{4}{3}$",
+      "hint1": "Par Fubini, $I = \\left( \\int_0^1 x dx \\right) \\times \\left( \\int_0^2 y^2 dy \\right)$.",
+      "hint2": "$[x^2/2]_0^1 = 1/2$ et $[y^3/3]_0^2 = 8/3$. $1/2 \\times 8/3 = 4/3$.",
+      "solution": "Par séparation des variables : $I = \\left[ \\frac{x^2}{2} \\right]_0^1 \\times \\left[ \\frac{y^3}{3} \\right]_0^2 = \\frac{1}{2} \\times \\frac{8}{3} = \\frac{4}{3}$."
+    },
+    {
+      "id": "L2-MUL-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Passage en coordonnées polaires",
+      "skill": "Appliquer le changement de variables avec jacobien",
+      "statement": "Quel est le jacobien $J$ de la transformation en coordonnées polaires $(x, y) = (r\\cos\\theta, r\\sin\\theta)$ ?",
       "options": [
         "$r$",
         "$r^2$",
         "$1$",
-        "$\\frac{1}{r}$"
+        "$r\\cos\\theta$"
       ],
       "correctIndex": 0,
       "answer": "$r$",
-      "hint1": "Le déterminant de la matrice jacobienne $\\begin{pmatrix} \\cos\\theta & -r\\sin\\theta \\\\ \\sin\\theta & r\\cos\\theta \\end{pmatrix}$ vaut $r(\\cos^2\\theta + \\sin^2\\theta)$.",
-      "hint2": "$dx dy = r \\, dr \\, d\\theta$.",
-      "solution": "Le jacobien de la transformation polaire est $r$, d'où $dx dy = r \\, dr \\, d\\theta$."
+      "hint1": "$dx dy = |J| dr d\\theta$.",
+      "hint2": "Le déterminant de la matrice jacobienne vaut $r\\cos^2\\theta + r\\sin^2\\theta = r$.",
+      "solution": "La matrice jacobienne est $\\begin{pmatrix} \\cos\\theta & -r\\sin\\theta \\\\ \\sin\\theta & r\\cos\\theta \\end{pmatrix}$. Son déterminant vaut $r(\\cos^2\\theta + \\sin^2\\theta) = r$."
+    },
+    {
+      "id": "L2-MUL-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Intégrale de Gauss",
+      "skill": "Calculer l'intégrale de Gauss par passage au plan",
+      "statement": "Quelle est la valeur exacte de l'intégrale $I = \\int_{-\\infty}^{+\\infty} e^{-x^2} dx$ ?",
+      "options": [
+        "$\\sqrt{\\pi}$",
+        "$\\pi$",
+        "$\\frac{\\sqrt{\\pi}}{2}$",
+        "$1$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\sqrt{\\pi}$",
+      "hint1": "Calcule $I^2 = \\iint_{\\mathbb{R}^2} e^{-(x^2+y^2)} dx dy$ en coordonnées polaires.",
+      "hint2": "$I^2 = \\int_0^{2\\pi} d\\theta \\int_0^{+\\infty} r e^{-r^2} dr = 2\\pi \\times \\frac{1}{2} = \\pi$.",
+      "solution": "$I^2 = \\int_0^{2\\pi} d\\theta \\int_0^{+\\infty} r e^{-r^2} dr = 2\\pi \\left[ -\\frac{e^{-r^2}}{2} \\right]_0^{+\\infty} = 2\\pi \\left(0 - \\left(-\\frac{1}{2}\\right)\\right) = \\pi$. Donc $I = \\sqrt{\\pi}$."
+    },
+    {
+      "id": "L2-MUL-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Volume d'une sphère en coordonnées sphériques",
+      "skill": "Calculer un volume par intégrale triple",
+      "statement": "Quel est l'élément de volume $dV$ en coordonnées sphériques $(r, \\theta, \\varphi)$ ?",
+      "options": [
+        "$r^2 \\sin\\theta \\, dr d\\theta d\\varphi$",
+        "$r \\sin\\theta \\, dr d\\theta d\\varphi$",
+        "$r^2 \\, dr d\\theta d\\varphi$",
+        "$r^3 \\cos\\theta \\, dr d\\theta d\\varphi$"
+      ],
+      "correctIndex": 0,
+      "answer": "$r^2 \\sin\\theta \\, dr d\\theta d\\varphi$",
+      "hint1": "Le jacobien du passage en sphériques comporte un facteur $r^2 \\sin\\theta$.",
+      "hint2": "L'intégration sur la boule de rayon $R$ donne $\\frac{4}{3}\\pi R^3$.",
+      "solution": "Le jacobien de la transformation sphérique $(x=r\\sin\\theta\\cos\\varphi, y=r\\sin\\theta\\sin\\varphi, z=r\\cos\\theta)$ est $r^2 \\sin\\theta$, d'où $dV = r^2 \\sin\\theta \\, dr d\\theta d\\varphi$."
     }
   ],
   "L2-CRB": [
@@ -924,20 +1608,77 @@ window.MATHS_EXERCISES_L2 = {
       "id": "L2-CRB-1",
       "tier": 1,
       "type": "mcq",
-      "title": "Formule de Frenet pour le vecteur tangent",
-      "skill": "Formules de Frenet planes",
-      "statement": "Soit un arc paramétré par son abscisse curviligne $s$. Que vaut $\\frac{d\\vec{T}}{ds}$ selon la première formule de Frenet ?",
+      "title": "Circulation d'un champ de vecteurs",
+      "skill": "Définition de l'intégrale curviligne",
+      "statement": "La circulation d'un champ de vecteurs $\\vec{V}$ le long d'une courbe orientée $\\gamma$ paramétrée par $t \\in [a, b]$ est donnée par :",
       "options": [
-        "$\\gamma \\vec{N}$",
-        "$-\\gamma \\vec{N}$",
-        "$\\vec{0}$",
-        "$\\frac{1}{\\gamma} \\vec{N}$"
+        "$\\int_a^b \\vec{V}(\\gamma(t)) \\cdot \\gamma'(t) dt$",
+        "$\\int_a^b \\|\\vec{V}(\\gamma(t))\\| dt$",
+        "$\\int_a^b \\vec{V}(\\gamma(t)) \\times \\gamma'(t) dt$",
+        "$\\vec{V}(b) - \\vec{V}(a)$"
       ],
       "correctIndex": 0,
-      "answer": "$\\gamma \\vec{N}$",
-      "hint1": "La variation du vecteur tangent unitaire est proportionnelle au vecteur normal $\\vec{N}$.",
-      "hint2": "Le coefficient de proportionnalité est la courbure algébrique $\\gamma$.",
-      "solution": "La première formule de Frenet plane est $\\frac{d\\vec{T}}{ds} = \\gamma \\vec{N}$."
+      "answer": "$\\int_a^b \\vec{V}(\\gamma(t)) \\cdot \\gamma'(t) dt$",
+      "hint1": "C'est le produit scalaire du champ par le vecteur vitesse tangentiel.",
+      "hint2": "Formule du travail élémentaire $dW = \\vec{F} \\cdot d\\vec{r}$.",
+      "solution": "La circulation d'un champ $\\vec{V}$ le long de l'arc paramétré $\\gamma$ est l'intégrale du produit scalaire $\\int_a^b \\vec{V}(\\gamma(t)) \\cdot \\gamma'(t) dt$."
+    },
+    {
+      "id": "L2-CRB-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Forme différentielle exacte et potentiel",
+      "skill": "Vérifier si une forme différentielle dérive d'un potentiel",
+      "statement": "La forme différentielle $\\omega = 2xy dx + x^2 dy$ est-elle exacte sur $\\mathbb{R}^2$ ?",
+      "options": [
+        "Oui, elle dérive du potentiel $f(x, y) = x^2 y$",
+        "Non, car elle n'est pas fermée",
+        "Non, car son intégrale est toujours non nulle",
+        "Oui, avec $f(x, y) = 2xy$"
+      ],
+      "correctIndex": 0,
+      "answer": "Oui, elle dérive du potentiel $f(x, y) = x^2 y$",
+      "hint1": "Calcule $df = \\frac{\\partial f}{\\partial x}dx + \\frac{\\partial f}{\\partial y}dy$.",
+      "hint2": "Pour $f(x, y) = x^2 y$, $\\partial_x f = 2xy$ et $\\partial_y f = x^2$.",
+      "solution": "Pour $f(x, y) = x^2 y$, on a $df = 2xy dx + x^2 dy = \\omega$. Comme $\\omega = df$, la forme est exacte sur $\\mathbb{R}^2$."
+    },
+    {
+      "id": "L2-CRB-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Formule de Green-Riemann",
+      "skill": "Relier une intégrale curviligne fermée à une intégrale double",
+      "statement": "Pour un lacet orienté positivement bordant un domaine $D$, que stipule la formule de Green-Riemann ?",
+      "options": [
+        "$\\oint_{\\partial D} P dx + Q dy = \\iint_D \\left( \\frac{\\partial Q}{\\partial x} - \\frac{\\partial P}{\\partial y} \\right) dx dy$",
+        "$\\oint_{\\partial D} P dx + Q dy = \\iint_D (P + Q) dx dy$",
+        "$\\oint_{\\partial D} P dx + Q dy = 0$ toujours",
+        "$\\oint_{\\partial D} P dx + Q dy = \\text{Aire}(D)$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\oint_{\\partial D} P dx + Q dy = \\iint_D \\left( \\frac{\\partial Q}{\\partial x} - \\frac{\\partial P}{\\partial y} \\right) dx dy$",
+      "hint1": "C'est la version bidimensionnelle du théorème de Stokes.",
+      "hint2": "Elle fait intervenir le rotationnel scalaire $\\frac{\\partial Q}{\\partial x} - \\frac{\\partial P}{\\partial y}$.",
+      "solution": "La formule de Green-Riemann établit l'égalité $\\oint_{\\partial D} P dx + Q dy = \\iint_D \\left( \\frac{\\partial Q}{\\partial x} - \\frac{\\partial P}{\\partial y} \\right) dx dy$."
+    },
+    {
+      "id": "L2-CRB-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Lemme de Poincaré sur un ouvert étoilé",
+      "skill": "Conditions d'équivalence entre forme fermée et forme exacte",
+      "statement": "Que garantit le lemme de Poincaré sur un ouvert étoilé $U \\subset \\mathbb{R}^n$ ?",
+      "options": [
+        "Toute forme différentielle fermée sur $U$ est exacte",
+        "Toute fonction dérivable est constante",
+        "Tout ouvert étoilé est compact",
+        "Les intégrales curvilignes sont nulles sur tout chemin"
+      ],
+      "correctIndex": 0,
+      "answer": "Toute forme différentielle fermée sur $U$ est exacte",
+      "hint1": "Sur un ouvert contractile ou étoilé, la cohomologie de de Rham d'ordre 1 est triviale.",
+      "hint2": "Fermée ($d\\omega = 0$) $\\implies$ exacte ($\\omega = df$).",
+      "solution": "Le lemme de Poincaré affirme que sur tout ouvert étoilé (ou simplement connexe) de $\\mathbb{R}^n$, toute forme différentielle fermée ($d\\omega = 0$) est exacte (il existe $\\alpha$ telle que $\\omega = d\\alpha$)."
     }
   ],
   "L2-PRB": [
@@ -946,8 +1687,8 @@ window.MATHS_EXERCISES_L2 = {
       "tier": 1,
       "type": "mcq",
       "title": "Espérance d'une loi géométrique",
-      "skill": "Loi géométrique sur $\\mathbb{N}^*$",
-      "statement": "Soit $X \\sim \\mathcal{G}(p)$ le rang du premier succès dans des tirages de Bernoulli de paramètre $p \\in ]0 ; 1]$. Quelle est l'espérance de $X$ ?",
+      "skill": "Connaître les moments d'une loi discrète usuelle",
+      "statement": "Soit $X \\sim \\mathcal{G}(p)$ une variable aléatoire suivant une loi géométrique de paramètre $p \\in ]0, 1]$. Quelle est son espérance $\\mathbb{E}[X]$ ?",
       "options": [
         "$\\frac{1}{p}$",
         "$\\frac{1-p}{p}$",
@@ -956,9 +1697,66 @@ window.MATHS_EXERCISES_L2 = {
       ],
       "correctIndex": 0,
       "answer": "$\\frac{1}{p}$",
-      "hint1": "Pour une pièce équilibrée ($p=1/2$), on attend en moyenne 2 lancers.",
-      "hint2": "$E(X) = \\sum_{k=1}^{+\\infty} k p (1-p)^{k-1} = \\frac{1}{p}$.",
-      "solution": "Pour une variable géométrique à valeurs dans $\\mathbb{N}^*$, l'espérance est $E(X) = \\frac{1}{p}$."
+      "hint1": "La loi géométrique modélise le rang du premier succès dans une suite d'épreuves indépendantes.",
+      "hint2": "$\\mathbb{E}[X] = \\sum_{k=1}^\\infty k p (1-p)^{k-1} = 1/p$.",
+      "solution": "Pour une loi géométrique sur $\\mathbb{N}^*$, l'espérance est $\\mathbb{E}[X] = \\frac{1}{p}$ et la variance est $\\text{Var}(X) = \\frac{1-p}{p^2}$."
+    },
+    {
+      "id": "L2-PRB-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Formule des probabilités totales",
+      "skill": "Décomposer une probabilité sur un système complet d'événements",
+      "statement": "Soit $(A_1, A_2)$ une partition de l'univers avec $\\mathbb{P}(A_1) = 0.4$, $\\mathbb{P}(A_2) = 0.6$. Si $\\mathbb{P}(B \\mid A_1) = 0.5$ et $\\mathbb{P}(B \\mid A_2) = 0.1$, que vaut $\\mathbb{P}(B)$ ?",
+      "options": [
+        "$0.26$",
+        "$0.30$",
+        "$0.20$",
+        "$0.36$"
+      ],
+      "correctIndex": 0,
+      "answer": "$0.26$",
+      "hint1": "$\\mathbb{P}(B) = \\mathbb{P}(B \\mid A_1)\\mathbb{P}(A_1) + \\mathbb{P}(B \\mid A_2)\\mathbb{P}(A_2)$.",
+      "hint2": "$0.5 \\times 0.4 + 0.1 \\times 0.6 = 0.20 + 0.06 = 0.26$.",
+      "solution": "Par la formule des probabilités totales : $\\mathbb{P}(B) = 0.5(0.4) + 0.1(0.6) = 0.20 + 0.06 = 0.26$."
+    },
+    {
+      "id": "L2-PRB-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Approximation de Poisson",
+      "skill": "Convergence de la loi binomiale vers la loi de Poisson",
+      "statement": "Quand $n \\to +\\infty$ avec $np = \\lambda$ constant, la loi binomiale $\\mathcal{B}(n, p)$ converge en loi vers :",
+      "options": [
+        "La loi de Poisson $\\mathcal{P}(\\lambda)$",
+        "La loi normale $\\mathcal{N}(0, 1)$",
+        "La loi exponentielle $\\mathcal{E}(\\lambda)$",
+        "La loi géométrique $\\mathcal{G}(\\lambda)$"
+      ],
+      "correctIndex": 0,
+      "answer": "La loi de Poisson $\\mathcal{P}(\\lambda)$",
+      "hint1": "Théorème des événements rares de Poisson.",
+      "hint2": "$\\binom{n}{k} p^k (1-p)^{n-k} \\to e^{-\\lambda} \\frac{\\lambda^k}{k!}$.",
+      "solution": "D'après la loi des événements rares, si $n \\to +\\infty$ et $p \\to 0$ avec $np \\to \\lambda$, alors $\\mathcal{B}(n, p) \\xrightarrow{\\mathcal{L}} \\mathcal{P}(\\lambda)$."
+    },
+    {
+      "id": "L2-PRB-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Formule de Bayes",
+      "skill": "Calculer une probabilité a posteriori",
+      "statement": "Un test médical a une sensibilité de 99% et une spécificité de 99%. Une maladie touche 1 personne sur 1000 ($p = 0.001$). Si un patient est testé positif, quelle est la probabilité approximative qu'il soit réellement malade ?",
+      "options": [
+        "$\\approx 9\\%$",
+        "$\\approx 99\\%$",
+        "$\\approx 50\\%$",
+        "$\\approx 1\\%$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\approx 9\\%$",
+      "hint1": "Applique la formule de Bayes : $\\mathbb{P}(M \\mid +) = \\frac{\\mathbb{P}(+ \\mid M)\\mathbb{P}(M)}{\\mathbb{P}(+)}$.",
+      "hint2": "Numérateur : $0.99 \\times 0.001 = 0.00099$. Dénominateur : $0.00099 + 0.01 \\times 0.999 \\approx 0.01098$. Rapport : $\\approx 0.09$.",
+      "solution": "Par la formule de Bayes : $\\mathbb{P}(M \\mid +) = \\frac{0.99 \\times 0.001}{0.99 \\times 0.001 + 0.01 \\times 0.999} = \\frac{0.00099}{0.00099 + 0.00999} = \\frac{0.00099}{0.01098} \\approx 0.0901$, soit environ $9\\%$."
     }
   ],
   "L2-CAL": [
@@ -966,20 +1764,77 @@ window.MATHS_EXERCISES_L2 = {
       "id": "L2-CAL-1",
       "tier": 1,
       "type": "mcq",
-      "title": "Gradient et dérivées partielles",
-      "skill": "Calculer le vecteur gradient $\\nabla f$",
-      "statement": "Pour $f(x, y) = x^2 y + 3y^2$, quel est le gradient $\\nabla f(1 ; 2)$ ?",
+      "title": "Inégalité de Markov",
+      "skill": "Appliquer l'inégalité de concentration de Markov",
+      "statement": "Pour une variable aléatoire $X$ positive d'espérance $\\mathbb{E}[X] = 10$, quelle est la majoration de $\\mathbb{P}(X \\ge 50)$ fournie par l'inégalité de Markov ?",
       "options": [
-        "$(4 ; 13)$",
-        "$(2 ; 12)$",
-        "$(4 ; 12)$",
-        "$(2 ; 13)$"
+        "$\\le 0.2$",
+        "$\\le 0.5$",
+        "$\\le 0.04$",
+        "$\\le 0.1$"
       ],
       "correctIndex": 0,
-      "answer": "$(4 ; 13)$",
-      "hint1": "$\\frac{\\partial f}{\\partial x} = 2xy$ et $\\frac{\\partial f}{\\partial y} = x^2 + 6y$.",
-      "hint2": "En $(1 ; 2)$ : $2(1)(2) = 4$ et $1^2 + 6(2) = 1 + 12 = 13$.",
-      "solution": "$\\frac{\\partial f}{\\partial x}(1,2) = 2(1)(2) = 4$ et $\\frac{\\partial f}{\\partial y}(1,2) = 1^2 + 6(2) = 13$. Donc $\\nabla f(1,2) = (4 ; 13)$."
+      "answer": "$\\le 0.2$",
+      "hint1": "L'inégalité de Markov s'écrit $\\mathbb{P}(X \\ge a) \\le \\frac{\\mathbb{E}[X]}{a}$.",
+      "hint2": "$\\frac{10}{50} = \\frac{1}{5} = 0.2$.",
+      "solution": "Pour toute variable positive, $\\mathbb{P}(X \\ge a) \\le \\frac{\\mathbb{E}[X]}{a}$. Ici $\\mathbb{P}(X \\ge 50) \\le \\frac{10}{50} = 0.2$."
+    },
+    {
+      "id": "L2-CAL-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Inégalité de Bienaymé-Tchebychev",
+      "skill": "Estimer la dispersion autour de la moyenne",
+      "statement": "Soit $X$ de moyenne $\\mu$ et de variance $\\sigma^2$. Que vaut la majoration de $\\mathbb{P}(|X - \\mu| \\ge 3\\sigma)$ ?",
+      "options": [
+        "$\\le \\frac{1}{9}$",
+        "$\\le \\frac{1}{3}$",
+        "$\\le \\frac{1}{27}$",
+        "$\\le 0.05$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\le \\frac{1}{9}$",
+      "hint1": "Bienaymé-Tchebychev : $\\mathbb{P}(|X - \\mu| \\ge k\\sigma) \\le \\frac{1}{k^2}$.",
+      "hint2": "Ici $k = 3$, donc $1/3^2 = 1/9$.",
+      "solution": "Par l'inégalité de Bienaymé-Tchebychev avec $\\varepsilon = 3\\sigma$ : $\\mathbb{P}(|X - \\mu| \\ge 3\\sigma) \\le \\frac{\\sigma^2}{(3\\sigma)^2} = \\frac{1}{9}$."
+    },
+    {
+      "id": "L2-CAL-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Covariance et variables indépendantes",
+      "skill": "Propriétés de la covariance de deux variables",
+      "statement": "Si deux variables aléatoires réelles $X$ et $Y$ sont indépendantes et admettent un moment d'ordre 2, que vaut leur covariance $\\text{Cov}(X, Y)$ ?",
+      "options": [
+        "$0$",
+        "$1$",
+        "$\\text{Var}(X) \\text{Var}(Y)$",
+        "$\\mathbb{E}[X] \\mathbb{E}[Y]$"
+      ],
+      "correctIndex": 0,
+      "answer": "$0$",
+      "hint1": "$\\text{Cov}(X, Y) = \\mathbb{E}[XY] - \\mathbb{E}[X]\\mathbb{E}[Y]$.",
+      "hint2": "Par indépendance, $\\mathbb{E}[XY] = \\mathbb{E}[X]\\mathbb{E}[Y]$.",
+      "solution": "Si $X$ et $Y$ sont indépendantes, alors $\\mathbb{E}[XY] = \\mathbb{E}[X]\\mathbb{E}[Y]$, donc $\\text{Cov}(X, Y) = \\mathbb{E}[XY] - \\mathbb{E}[X]\\mathbb{E}[Y] = 0$."
+    },
+    {
+      "id": "L2-CAL-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Loi faible des grands nombres",
+      "skill": "Comprendre la convergence en probabilité de la moyenne empirique",
+      "statement": "Soit $(X_n)$ une suite de variables i.i.d. d'espérance $\\mu$ et de variance finie $\\sigma^2$. Que stipule la Loi Faible des Grands Nombres pour $\\bar{X}_n = \\frac{1}{n}\\sum_{i=1}^n X_i$ ?",
+      "options": [
+        "$\\bar{X}_n$ converge en probabilité vers $\\mu$",
+        "$\\bar{X}_n$ converge uniformément vers $\\sigma$",
+        "$\\text{Var}(\\bar{X}_n) \\to \\sigma^2$",
+        "$\\bar{X}_n = \\mu$ pour tout $n$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\bar{X}_n$ converge en probabilité vers $\\mu$",
+      "hint1": "$\\mathbb{P}(|\\bar{X}_n - \\mu| \\ge \\varepsilon) \\le \\frac{\\sigma^2}{n\\varepsilon^2} \\to 0$.",
+      "hint2": "La moyenne empirique se concentre autour de la moyenne théorique.",
+      "solution": "La loi faible des grands nombres garantit que la moyenne empirique $\\bar{X}_n$ converge en probabilité vers l'espérance théorique $\\mu$ : $\\forall \\varepsilon > 0, \\lim_{n \\to \\infty} \\mathbb{P}(|\\bar{X}_n - \\mu| \\ge \\varepsilon) = 0$."
     }
   ]
 };

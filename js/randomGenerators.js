@@ -12279,7 +12279,8 @@ window.MathsGenerators = {
           const matchingTierExos = exos.filter(e => e.tier === resolvedTier);
           const pool = matchingTierExos.length > 0 ? matchingTierExos : exos;
           const base = this.randChoice(pool);
-          q = Object.assign({}, base, { id: `${base.id}-dyn-${Date.now()}` });
+          q = JSON.parse(JSON.stringify(base));
+          q.id = `${base.id}-dyn-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
         } else {
           q = this.generateN1(resolvedTier, mastery);
         }
@@ -12376,14 +12377,15 @@ window.MathsGenerators = {
    */
   generateSeries(chapterIds = ['N1'], count = 5) {
     const series = [];
+    const usedStatementsInSeries = new Set();
     for (let i = 0; i < count; i++) {
       const cid = chapterIds[i % chapterIds.length];
 
       // Progression naturelle sur la série :
       // Premier quart : Palier 1 (Socle)
       // Deuxième quart : Palier 2 (Guidé)
-      // Troisième quart : Palier 3 (Brevet)
-      // Fin de série : Palier 4 (Défi Seconde / Difficulté Maximale)
+      // Troisième quart : Palier 3 (Brevet / Bac)
+      // Fin de série : Palier 4 (Défi / Approfondissement)
       let tier = 1;
       const progress = i / Math.max(1, count - 1);
       if (progress >= 0.8) tier = 4;
@@ -12391,9 +12393,25 @@ window.MathsGenerators = {
       else if (progress >= 0.25) tier = 2;
       else tier = 1;
 
-      const q = this.generateForChapter(cid, tier);
-      q.seriesIndex = i + 1;
-      series.push(q);
+      let q = this.generateForChapter(cid, tier);
+      if (q && q.statement && usedStatementsInSeries.has(q.statement)) {
+        // En cas de doublon dans la série pour ce chapitre, tenter les autres paliers
+        for (const altTier of [1, 2, 3, 4]) {
+          if (altTier === tier) continue;
+          const altQ = this.generateForChapter(cid, altTier);
+          if (altQ && altQ.statement && !usedStatementsInSeries.has(altQ.statement)) {
+            q = altQ;
+            break;
+          }
+        }
+      }
+      if (q && q.statement) {
+        usedStatementsInSeries.add(q.statement);
+      }
+      if (q) {
+        q.seriesIndex = i + 1;
+        series.push(q);
+      }
     }
     return series;
   }

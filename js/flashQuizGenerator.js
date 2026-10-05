@@ -2,10 +2,11 @@
  * Générateur de devoirs blancs d'entraînement (+ corrigé détaillé)
  * Permet aux élèves de s'entraîner en conditions réelles d'examen
  * avec régénération infinie de nouveaux sujets et auto-évaluation.
+ * Multi-niveaux : Collège (5e, 4e, 3e), Lycée (2nde, 1ère, Tale), Licence (L1, L2, L3)
  */
 
 window.MathsQuizGenerator = {
-  lastChapters: ['N1'],
+  lastChapters: [],
   lastCount: 10,
   showSolutions: true,
 
@@ -26,8 +27,13 @@ window.MathsQuizGenerator = {
     if (container) {
       const currentLevel = (window.MathsApp && window.MathsApp.currentLevel) || '3eme';
       const allChapters = window.MATHS_CHAPTERS || [];
-      const chapters = allChapters.filter(c => !c.level || c.level === currentLevel);
-      const defaultId = preselectedChapterId || (window.MathsApp && window.MathsApp.currentChapterId) || (chapters[0] ? chapters[0].id : 'N1');
+      const chapters = allChapters.filter(c => (c.level || '3eme') === currentLevel);
+      const defaultId = (preselectedChapterId && chapters.some(c => c.id === preselectedChapterId))
+        ? preselectedChapterId
+        : ((window.MathsApp && window.MathsApp.currentChapterId && chapters.some(c => c.id === window.MathsApp.currentChapterId))
+          ? window.MathsApp.currentChapterId
+          : (chapters[0] ? chapters[0].id : 'N1'));
+
       container.innerHTML = chapters.map(c => `
         <label class="diapo-chip">
           <input type="checkbox" name="quiz-chap" value="${c.id}" ${c.id === defaultId ? 'checked' : ''} />
@@ -68,9 +74,37 @@ window.MathsQuizGenerator = {
    * Génère un nouveau sujet blanc complet avec corrigé détaillé
    */
   generate() {
+    const previewScreen = document.getElementById('quiz-preview-screen');
+    const isRegenerating = previewScreen && previewScreen.style.display === 'block';
+
+    const currentLevel = (window.MathsApp && window.MathsApp.currentLevel) || '3eme';
+    const validLevelChapters = (window.MATHS_CHAPTERS || []).filter(c => (c.level || '3eme') === currentLevel).map(c => c.id);
+
     const checkedBoxes = Array.from(document.querySelectorAll('input[name="quiz-chap"]:checked')).map(cb => cb.value);
-    const chapters = checkedBoxes.length ? checkedBoxes : (this.lastChapters.length ? this.lastChapters : [window.MathsApp.currentChapterId || 'N1']);
+    let chapters = checkedBoxes.filter(id => validLevelChapters.includes(id));
+    if (!chapters.length) {
+      chapters = (this.lastChapters || []).filter(id => validLevelChapters.includes(id));
+    }
+    if (!chapters.length) {
+      const activeId = window.MathsApp && window.MathsApp.currentChapterId;
+      if (activeId && validLevelChapters.includes(activeId)) {
+        chapters = [activeId];
+      } else if (validLevelChapters.length) {
+        chapters = [validLevelChapters[0]];
+      } else {
+        chapters = ['N1'];
+      }
+    }
     this.lastChapters = chapters;
+
+    // Réinitialiser le cache des énoncés récents pour ces chapitres afin de garantir un renouvellement complet
+    if (window.MathsGenerators && window.MathsGenerators._recentGeneratedStatements) {
+      chapters.forEach(cid => {
+        for (let t = 1; t <= 4; t++) {
+          delete window.MathsGenerators._recentGeneratedStatements[`${cid}:${t}`];
+        }
+      });
+    }
 
     const countSelect = document.getElementById('quiz-count-select');
     const count = countSelect ? parseInt(countSelect.value, 10) : (this.lastCount || 10);
@@ -91,8 +125,9 @@ window.MathsQuizGenerator = {
       return c ? `${c.num} (${c.shortTitle || c.title})` : cid;
     }).join(', ');
 
-    const currentLevel = (window.MathsApp && window.MathsApp.currentLevel) || '3eme';
-    const levelLabel = currentLevel === '5eme' ? '5ème' : (currentLevel === '4eme' ? '4ème' : '3ème');
+    const levelLabel = (window.MathsApp && typeof window.MathsApp.getLevelName === 'function')
+      ? window.MathsApp.getLevelName(currentLevel)
+      : (currentLevel === '5eme' ? '5ème' : (currentLevel === '4eme' ? '4ème' : (currentLevel === '3eme' ? '3ème' : currentLevel)));
 
     let html = `
       <div class="printable-quiz-sheet">
@@ -100,7 +135,7 @@ window.MathsQuizGenerator = {
         <!-- SUJET BLANC -->
         <div class="quiz-single-subject">
           
-          <div class="quiz-banner-notice no-print">
+          <div class="quiz-banner-notice no-print" id="quiz-status-banner">
             💡 <strong>Sujet Blanc d'Entraînement (${levelLabel}) :</strong> Ce sujet a été généré aléatoirement pour vous entraîner en conditions réelles d'examen. 
             Prenez une feuille, rédigez soigneusement vos calculs et vos justifications, puis comparez avec le <strong>corrigé détaillé</strong> ci-dessous.
             Vous pouvez cliquer sur <strong>« 🔄 Régénérer un nouveau devoir »</strong> à tout moment pour en faire d'autres !
@@ -129,23 +164,31 @@ window.MathsQuizGenerator = {
           </div>
 
           <div class="quiz-questions-grid">
-            ${questions.map((q, idx) => `
-              <div class="quiz-q-card">
-                <div class="quiz-q-header">
-                  <span class="quiz-q-badge">Exercice ${idx + 1}</span>
-                  <span class="quiz-q-pts">(${ptsPerQ} pt${ptsPerQ > 1 ? 's' : ''})</span>
-                  ${q.title ? `<span class="quiz-q-topic">${q.title}</span>` : ''}
+            ${questions.map((q, idx) => {
+              const stage = (window.MathsApp && typeof window.MathsApp.getPedagogicalStage === 'function')
+                ? window.MathsApp.getPedagogicalStage(q.tier)
+                : { label: `Palier ${q.tier || 1}` };
+              const comp = (window.MathsApp && typeof window.MathsApp.getExerciseCompetency === 'function')
+                ? window.MathsApp.getExerciseCompetency(q, q.chapterId)
+                : (q.skill || q.title || q.chapterId);
+              return `
+                <div class="quiz-q-card">
+                  <div class="quiz-q-header">
+                    <span class="quiz-q-badge">Exercice ${idx + 1}</span>
+                    <span class="quiz-q-pts">(${ptsPerQ} pt${ptsPerQ > 1 ? 's' : ''})</span>
+                    ${q.title ? `<span class="quiz-q-topic">${q.title}</span>` : ''}
+                  </div>
+                  <div class="quiz-learning-meta">
+                    <span class="quiz-stage-pill">${stage.label}</span>
+                    <span>Palier ${q.tier || 1}</span>
+                    <span>Compétence / notion : ${comp}</span>
+                  </div>
+                  <div class="quiz-q-text">
+                    ${window.MathsRenderer.markdownToHtml(q.statement)}
+                  </div>
                 </div>
-                <div class="quiz-learning-meta">
-                  <span class="quiz-stage-pill">${window.MathsApp.getPedagogicalStage(q.tier).label}</span>
-                  <span>Palier ${q.tier || 1}</span>
-                  <span>Compétence / notion : ${window.MathsApp.getExerciseCompetency(q, q.chapterId)}</span>
-                </div>
-                <div class="quiz-q-text">
-                  ${window.MathsRenderer.markdownToHtml(q.statement)}
-                </div>
-              </div>
-            `).join('')}
+              `;
+            }).join('')}
           </div>
 
           <div class="quiz-footer-credit print-only">
@@ -172,21 +215,33 @@ window.MathsQuizGenerator = {
             </div>
           </div>
           <div class="quiz-solutions-grid">
-            ${questions.map((q, idx) => `
-              <div class="quiz-sol-card">
-                <div class="quiz-sol-header">
-                  <strong>Exercice ${idx + 1}</strong> <span class="quiz-q-pts">(${ptsPerQ} pt${ptsPerQ > 1 ? 's' : ''})</span>
-                  ${q.title ? `<span class="quiz-sol-topic">${q.title}</span>` : ''}
+            ${questions.map((q, idx) => {
+              const stage = (window.MathsApp && typeof window.MathsApp.getPedagogicalStage === 'function')
+                ? window.MathsApp.getPedagogicalStage(q.tier)
+                : { label: `Palier ${q.tier || 1}` };
+              const comp = (window.MathsApp && typeof window.MathsApp.getExerciseCompetency === 'function')
+                ? window.MathsApp.getExerciseCompetency(q, q.chapterId)
+                : (q.skill || q.title || q.chapterId);
+              const rawSol = q.solution || (q.answer ? `Réponse attendue : **${q.answer}**` : "Voir le cours pour les étapes détaillées.");
+              const solFormatted = (window.MathsAdaptiveEngine && q.statement && rawSol)
+                ? window.MathsAdaptiveEngine.formatSolutionWithInitialExpr(q.statement, rawSol)
+                : rawSol;
+              return `
+                <div class="quiz-sol-card">
+                  <div class="quiz-sol-header">
+                    <strong>Exercice ${idx + 1}</strong> <span class="quiz-q-pts">(${ptsPerQ} pt${ptsPerQ > 1 ? 's' : ''})</span>
+                    ${q.title ? `<span class="quiz-sol-topic">${q.title}</span>` : ''}
+                  </div>
+                  <div class="quiz-learning-meta correction-learning-meta">
+                    <span class="quiz-stage-pill">${stage.label}</span>
+                    <span>Compétence / notion : ${comp}</span>
+                  </div>
+                  <div class="quiz-sol-body">
+                    ${window.MathsRenderer.markdownToHtml(solFormatted)}
+                  </div>
                 </div>
-                <div class="quiz-learning-meta correction-learning-meta">
-                  <span class="quiz-stage-pill">${window.MathsApp.getPedagogicalStage(q.tier).label}</span>
-                  <span>Compétence / notion : ${window.MathsApp.getExerciseCompetency(q, q.chapterId)}</span>
-                </div>
-                <div class="quiz-sol-body">
-                  ${window.MathsRenderer.markdownToHtml((window.MathsAdaptiveEngine && q.statement && q.solution) ? window.MathsAdaptiveEngine.formatSolutionWithInitialExpr(q.statement, q.solution) : q.solution)}
-                </div>
-              </div>
-            `).join('')}
+              `;
+            }).join('')}
           </div>
 
           <div class="quiz-footer-credit print-only">
@@ -209,5 +264,21 @@ window.MathsQuizGenerator = {
 
     // Défiler vers le haut de la prévisualisation
     previewContainer.scrollTop = 0;
+
+    // Feedback visuel lorsque l'utilisateur a cliqué sur Régénérer
+    if (isRegenerating) {
+      const banner = document.getElementById('quiz-status-banner');
+      if (banner) {
+        banner.style.transition = 'all 0.3s ease';
+        banner.style.boxShadow = '0 0 15px rgba(37, 99, 235, 0.45)';
+        banner.style.borderColor = 'var(--primary, #2563eb)';
+        banner.innerHTML = `✨ <strong>Nouveau sujet généré avec succès (${levelLabel}) !</strong> De nouvelles valeurs et questions ont été tirées au sort. Bon entraînement !`;
+        setTimeout(() => {
+          if (banner) {
+            banner.style.boxShadow = 'none';
+          }
+        }, 2500);
+      }
+    }
   }
 };

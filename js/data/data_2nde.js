@@ -596,12 +596,17 @@ window.MATHS_EXERCISES_2NDE = {
       "title": "Ensemble d'appartenance",
       "skill": "Identifier les ensembles de nombres",
       "statement": "Quel est le plus petit ensemble de nombres auquel appartient le nombre $A = -\\frac{18}{6}$ ?",
-      "options": ["$\\mathbb{N}$", "$\\mathbb{Z}$", "$\\mathbb{D}$", "$\\mathbb{Q}$"],
+      "options": [
+        "$\\mathbb{N}$",
+        "$\\mathbb{Z}$",
+        "$\\mathbb{D}$",
+        "$\\mathbb{Q}$"
+      ],
       "correctIndex": 1,
       "answer": "$\\mathbb{Z}$",
       "hint1": "Simplifie d'abord la fraction.",
-      "hint2": "$-\\frac{18}{6} = -3$. C'est un entier négatif.",
-      "solution": "$-\\frac{18}{6} = -3$. C'est un entier négatif, donc il appartient à $\\mathbb{Z}$."
+      "hint2": "$-\\frac{18}{6} = -3$. C'est un entier relatif négatif.",
+      "solution": "$-\\frac{18}{6} = -3 \\in \\mathbb{Z}$ mais $-3 \\notin \\mathbb{N}$. Le plus petit ensemble est donc $\\mathbb{Z}$."
     },
     {
       "id": "2N1-2",
@@ -610,12 +615,55 @@ window.MATHS_EXERCISES_2NDE = {
       "title": "Simplification de racines carrées",
       "skill": "Décomposition en facteurs premiers",
       "statement": "Sous quelle forme simplifiée peut-on écrire $\\sqrt{108}$ ?",
-      "options": ["$3\\sqrt{12}$", "$6\\sqrt{3}$", "$18\\sqrt{3}$", "$36\\sqrt{3}$"],
+      "options": [
+        "$3\\sqrt{12}$",
+        "$6\\sqrt{3}$",
+        "$18\\sqrt{3}$",
+        "$36\\sqrt{3}$"
+      ],
       "correctIndex": 1,
       "answer": "$6\\sqrt{3}$",
       "hint1": "Remarque que $108 = 36 \\times 3$.",
-      "hint2": "$\\sqrt{36 \\times 3} = \\sqrt{36} \\times \\sqrt{3}$.",
+      "hint2": "$\\sqrt{36 \\times 3} = \\sqrt{36} \\times \\sqrt{3} = 6\\sqrt{3}$.",
       "solution": "$108 = 36 \\times 3 = 6^2 \\times 3$, donc $\\sqrt{108} = 6\\sqrt{3}$."
+    },
+    {
+      "id": "2N1-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Nombres décimaux et fractions",
+      "skill": "Caractériser les nombres décimaux",
+      "statement": "Laquelle de ces fractions représente un nombre décimal (élément de $\\mathbb{D}$) ?",
+      "options": [
+        "$\\frac{7}{12}$",
+        "$\\frac{9}{40}$",
+        "$\\frac{5}{14}$",
+        "$\\frac{1}{6}$"
+      ],
+      "correctIndex": 1,
+      "answer": "$\\frac{9}{40}$",
+      "hint1": "Une fraction irréductible est décimale si son dénominateur est de la forme $2^p \\times 5^q$.",
+      "hint2": "$40 = 2^3 \\times 5$, tandis que 12, 14 et 6 ont des facteurs premiers autres que 2 et 5 (3 ou 7).",
+      "solution": "$40 = 2^3 \\times 5^1$. Le dénominateur ne contient que les facteurs 2 et 5. $\\frac{9}{40} = 0{,}225 \\in \\mathbb{D}$."
+    },
+    {
+      "id": "2N1-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Irrationnalité et parité",
+      "skill": "Raisonnement par l'absurde sur les réels",
+      "statement": "Soit $p$ et $q$ deux entiers non nuls tels que $(p/q)^2 = 2$. Que peut-on déduire immédiatement sur la parité de $p$ ?",
+      "options": [
+        "$p$ est obligatoirement pair",
+        "$p$ est obligatoirement impair",
+        "$p$ est premier",
+        "$p$ est un multiple de 4"
+      ],
+      "correctIndex": 0,
+      "answer": "$p$ est obligatoirement pair",
+      "hint1": "$p^2 = 2q^2$, ce qui signifie que $p^2$ est pair.",
+      "hint2": "Si le carré d'un entier est pair, alors cet entier lui-même est pair.",
+      "solution": "De $p^2 = 2q^2$, on déduit que $p^2$ est divisible par 2, donc pair. Le carré d'un nombre impair étant impair, $p$ est nécessairement pair."
     }
   ],
   "2N2": [
@@ -623,15 +671,77 @@ window.MATHS_EXERCISES_2NDE = {
       "id": "2N2-1",
       "tier": 1,
       "type": "mcq",
-      "title": "Identité remarquable",
-      "skill": "Développer une expression",
-      "statement": "Développer $(3x - 4)^2$.",
-      "options": ["$9x^2 - 16$", "$9x^2 - 12x + 16$", "$9x^2 - 24x + 16$", "$3x^2 - 24x + 16$"],
-      "correctIndex": 2,
-      "answer": "$9x^2 - 24x + 16$",
-      "hint1": "$(a-b)^2 = a^2 - 2ab + b^2$.",
-      "hint2": "Ici $a = 3x$ et $b = 4$, donc $2ab = 2(3x)(4) = 24x$.",
-      "solution": "$(3x)^2 - 2(3x)(4) + 4^2 = 9x^2 - 24x + 16$."
+      "title": "Identité remarquable élémentaire",
+      "skill": "Développer une expression avec $(a-b)^2$",
+      "statement": "Développer l'expression $A(x) = (2x - 5)^2$.",
+      "options": [
+        "$4x^2 - 20x + 25$",
+        "$4x^2 - 25$",
+        "$4x^2 + 20x + 25$",
+        "$2x^2 - 10x + 25$"
+      ],
+      "correctIndex": 0,
+      "answer": "$4x^2 - 20x + 25$",
+      "hint1": "$(a - b)^2 = a^2 - 2ab + b^2$ avec $a=2x$ et $b=5$.",
+      "hint2": "$a^2 = 4x^2$, $2ab = 2 \\times 2x \\times 5 = 20x$, $b^2 = 25$.",
+      "solution": "$(2x - 5)^2 = (2x)^2 - 2(2x)(5) + 5^2 = 4x^2 - 20x + 25$."
+    },
+    {
+      "id": "2N2-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Factorisation avec facteur commun",
+      "skill": "Factoriser une somme algébrique",
+      "statement": "Factoriser l'expression $B(x) = (3x + 1)(x - 4) + (3x + 1)(2x + 7)$.",
+      "options": [
+        "$(3x + 1)(3x + 3)$",
+        "$(3x + 1)(x + 11)$",
+        "$(3x + 1)(-x - 11)$",
+        "$3(3x + 1)(x + 1)$"
+      ],
+      "correctIndex": 3,
+      "answer": "$3(3x + 1)(x + 1)$",
+      "hint1": "Le facteur commun évident est $(3x + 1)$.",
+      "hint2": "$(3x + 1)[(x - 4) + (2x + 7)] = (3x + 1)(3x + 3) = 3(3x + 1)(x + 1)$.",
+      "solution": "$B(x) = (3x + 1)[(x - 4) + (2x + 7)] = (3x + 1)(3x + 3) = 3(3x + 1)(x + 1)$."
+    },
+    {
+      "id": "2N2-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Différence de deux carrés",
+      "skill": "Factoriser avec $a^2 - b^2$",
+      "statement": "Factoriser complètement $C(x) = (2x - 3)^2 - (x + 4)^2$.",
+      "options": [
+        "$(3x + 1)(x - 7)$",
+        "$(x - 7)(3x - 1)$",
+        "$(3x + 1)(x + 1)$",
+        "$(x - 1)(3x + 7)$"
+      ],
+      "correctIndex": 0,
+      "answer": "$(3x + 1)(x - 7)$",
+      "hint1": "Utiliser $a^2 - b^2 = (a + b)(a - b)$ avec $a = 2x-3$ et $b = x+4$.",
+      "hint2": "$a+b = (2x-3)+(x+4) = 3x+1$ et $a-b = (2x-3)-(x+4) = x-7$.",
+      "solution": "$a^2 - b^2 = [(2x - 3) + (x + 4)][(2x - 3) - (x + 4)] = (3x + 1)(x - 7)$."
+    },
+    {
+      "id": "2N2-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Forme canonique et extremum",
+      "skill": "Mettre sous forme canonique",
+      "statement": "Quelle est la forme canonique de $f(x) = 2x^2 - 12x + 10$ ?",
+      "options": [
+        "$2(x - 3)^2 - 8$",
+        "$2(x - 3)^2 + 10$",
+        "$2(x + 3)^2 - 8$",
+        "$(2x - 6)^2 - 26$"
+      ],
+      "correctIndex": 0,
+      "answer": "$2(x - 3)^2 - 8$",
+      "hint1": "Factorise d'abord par 2 : $2[x^2 - 6x + 5]$.",
+      "hint2": "$x^2 - 6x = (x - 3)^2 - 9$.",
+      "solution": "$2(x^2 - 6x + 5) = 2[(x - 3)^2 - 9 + 5] = 2[(x - 3)^2 - 4] = 2(x - 3)^2 - 8$."
     }
   ],
   "2N3": [
@@ -640,30 +750,76 @@ window.MATHS_EXERCISES_2NDE = {
       "tier": 1,
       "type": "mcq",
       "title": "Inéquation avec valeur absolue",
-      "skill": "Résoudre une inéquation de distance",
-      "statement": "Résoudre dans $\\mathbb{R}$ l'inéquation $|x - 4| \\le 3$.",
-      "options": ["$[-1 ; 7]$", "$[1 ; 7]$", "$[-7 ; 1]$", "$[1 ; 3]$"],
-      "correctIndex": 1,
-      "answer": "$[1 ; 7]$",
-      "hint1": "Le centre est 4 et le rayon est 3 : $x \\in [4-3 ; 4+3]$.",
-      "hint2": "$-3 \\le x - 4 \\le 3 \\iff 1 \\le x \\le 7$.",
-      "solution": "$|x - 4| \\le 3 \\iff 4 - 3 \\le x \\le 4 + 3 \\iff x \\in [1 ; 7]$."
-    }
-  ],
-  "2G1": [
-    {
-      "id": "2G1-1",
-      "tier": 1,
-      "type": "mcq",
-      "title": "Coordonnées du milieu",
-      "skill": "Calculer le milieu d'un segment",
-      "statement": "Soient $A(-3 ; 5)$ et $B(7 ; -1)$. Quelles sont les coordonnées du milieu $M$ de $[AB]$ ?",
-      "options": ["$(2 ; 2)$", "$(5 ; 3)$", "$(4 ; 4)$", "$(2 ; 3)$"],
+      "skill": "Interpréter la distance sur la droite réelle",
+      "statement": "Résoudre dans $\\mathbb{R}$ l'inéquation $|x - 3| \\le 2$.",
+      "options": [
+        "$x \\in [1 ; 5]$",
+        "$x \\in [-5 ; -1]$",
+        "$x \\in ]1 ; 5[$",
+        "$x \\in [2 ; 3]$"
+      ],
       "correctIndex": 0,
-      "answer": "$(2 ; 2)$",
-      "hint1": "$x_M = \\frac{x_A+x_B}{2}$ et $y_M = \\frac{y_A+y_B}{2}$.",
-      "hint2": "Calcule $(-3+7)/2 = 2$ et $(5+(-1))/2 = 2$.",
-      "solution": "$x_M = \\frac{-3 + 7}{2} = 2$ et $y_M = \\frac{5 + (-1)}{2} = 2$, d'où $M(2 ; 2)$."
+      "answer": "$x \\in [1 ; 5]$",
+      "hint1": "$|x - a| \\le r \\iff x \\in [a - r ; a + r]$.",
+      "hint2": "Ici $a = 3$ et $r = 2$, d'où $[3 - 2 ; 3 + 2]$.",
+      "solution": "La distance de $x$ à 3 est inférieure ou égale à 2 : $3 - 2 \\le x \\le 3 + 2 \\iff 1 \\le x \\le 5$, soit $S = [1 ; 5]$."
+    },
+    {
+      "id": "2N3-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Intersection et réunion d'intervalles",
+      "skill": "Manipuler les intervalles de réels",
+      "statement": "Déterminer l'intersection $I \\cap J$ où $I = ]-4 ; 3]$ et $J = [-1 ; 7[$.",
+      "options": [
+        "$[-1 ; 3]$",
+        "$]-4 ; 7[$",
+        "$]-1 ; 3[$",
+        "$[3 ; 7[$"
+      ],
+      "correctIndex": 0,
+      "answer": "$[-1 ; 3]$",
+      "hint1": "L'intersection contient les réels qui appartiennent à la fois à $I$ et à $J$.",
+      "hint2": "$-1 \\in I$ et $3 \\in J$, donc l'intervalle commun va de $-1$ inclus à $3$ inclus.",
+      "solution": "$x \\in I \\iff -4 < x \\le 3$ et $x \\in J \\iff -1 \\le x < 7$. Les deux conditions sont satisfaites pour $-1 \\le x \\le 3$, soit $[-1 ; 3]$."
+    },
+    {
+      "id": "2N3-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Encadrement et inverse",
+      "skill": "Encadrer une fonction inverse",
+      "statement": "Si $x \\in [2 ; 5]$, quel est l'encadrement exact de $\\frac{1}{x}$ ?",
+      "options": [
+        "$\\left[\\frac{1}{5} ; \\frac{1}{2}\\right]$",
+        "$\\left[\\frac{1}{2} ; \\frac{1}{5}\\right]$",
+        "$[0{,}2 ; 0{,}4]$",
+        "$[-5 ; -2]$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\left[\\frac{1}{5} ; \\frac{1}{2}\\right]$",
+      "hint1": "La fonction inverse $x \\mapsto 1/x$ est strictement décroissante sur $]0 ; +\\infty[$.",
+      "hint2": "Elle inverse donc le sens des inégalités : $2 \\le x \\le 5 \\implies 1/5 \\le 1/x \\le 1/2$.",
+      "solution": "Comme la fonction inverse est strictement décroissante sur $]0 ; +\\infty[$, $2 \\le x \\le 5 \\iff \\frac{1}{5} \\le \\frac{1}{x} \\le \\frac{1}{2}$."
+    },
+    {
+      "id": "2N3-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Inégalité triangulaire",
+      "skill": "Appliquer l'inégalité triangulaire",
+      "statement": "Pour tous réels $a$ et $b$, quelle inégalité est toujours vérifiée ?",
+      "options": [
+        "$|a + b| \\le |a| + |b|$",
+        "$|a + b| = |a| + |b|$",
+        "$|a - b| \\ge |a| + |b|$",
+        "$|ab| < |a| \\times |b|$"
+      ],
+      "correctIndex": 0,
+      "answer": "$|a + b| \\le |a| + |b|$",
+      "hint1": "C'est l'inégalité triangulaire classique pour les normes et valeurs absolues.",
+      "hint2": "L'égalité n'a lieu que lorsque $a$ et $b$ sont de même signe.",
+      "solution": "D'après l'inégalité triangulaire, pour tous réels $a$ et $b$, $|a + b| \\le |a| + |b|$."
     }
   ],
   "2N4": [
@@ -672,14 +828,76 @@ window.MATHS_EXERCISES_2NDE = {
       "tier": 1,
       "type": "mcq",
       "title": "Résolution d'équation du premier degré",
-      "skill": "Résoudre une équation linéaire",
-      "statement": "Résoudre dans $\\mathbb{R}$ l'équation : $4x - 7 = 2x + 9$.",
-      "options": ["$x = 8$", "$x = 1$", "$x = -8$", "$x = 16$"],
+      "skill": "Résoudre une équation linéaire $ax+b = cx+d$",
+      "statement": "Résoudre dans $\\mathbb{R}$ l'équation $4x - 7 = 2x + 9$.",
+      "options": [
+        "$x = 8$",
+        "$x = 1$",
+        "$x = 16$",
+        "$x = -8$"
+      ],
       "correctIndex": 0,
       "answer": "$x = 8$",
       "hint1": "Regroupe les termes en $x$ à gauche et les constantes à droite.",
-      "hint2": "$4x - 2x = 9 + 7 \\iff 2x = 16$.",
-      "solution": "$4x - 2x = 9 + 7 \\iff 2x = 16 \\iff x = 8$. L'ensemble des solutions est $S = \\{8\\}$."
+      "hint2": "$4x - 2x = 9 + 7 \\implies 2x = 16$.",
+      "solution": "$4x - 2x = 9 + 7 \\iff 2x = 16 \\iff x = 8$."
+    },
+    {
+      "id": "2N4-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Équation produit-nul",
+      "skill": "Résoudre $(ax+b)(cx+d) = 0$",
+      "statement": "Quelles sont les solutions de $(2x - 3)(5 - x) = 0$ ?",
+      "options": [
+        "$S = \\left\\{\\frac{3}{2} ; 5\\right\\}$",
+        "$S = \\left\\{-\\frac{3}{2} ; 5\\right\\}$",
+        "$S = \\{3 ; 5\\}$",
+        "$S = \\left\\{\\frac{2}{3} ; -5\\right\\}$"
+      ],
+      "correctIndex": 0,
+      "answer": "$S = \\left\\{\\frac{3}{2} ; 5\\right\\}$",
+      "hint1": "Un produit est nul si et seulement si au moins un des facteurs est nul.",
+      "hint2": "$2x - 3 = 0 \\implies x = 3/2$ ; $5 - x = 0 \\implies x = 5$.",
+      "solution": "$2x - 3 = 0 \\iff x = \\frac{3}{2}$ ou $5 - x = 0 \\iff x = 5$. $S = \\{3/2 ; 5\\}$."
+    },
+    {
+      "id": "2N4-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Tableau de signes d'un produit",
+      "skill": "Résoudre une inéquation produit",
+      "statement": "Résoudre dans $\\mathbb{R}$ l'inéquation $(3 - x)(2x + 4) \\ge 0$.",
+      "options": [
+        "$x \\in [-2 ; 3]$",
+        "$x \\in ]-\\infty ; -2] \\cup [3 ; +\\infty[$",
+        "$x \\in [-3 ; 2]$",
+        "$x \\in ]-2 ; 3[$"
+      ],
+      "correctIndex": 0,
+      "answer": "$x \\in [-2 ; 3]$",
+      "hint1": "Les racines sont $x = 3$ et $x = -2$.",
+      "hint2": "Le coefficient dominant du produit développé vaut $-2 < 0$. Le produit est donc positif entre les racines.",
+      "solution": "Les zéros sont $-2$ et $3$. Pour $x < -2$ : $(+)(-) = -$. Pour $-2 \\le x \\le 3$ : $(+)(+) = +$. Pour $x > 3$ : $(-)(+) = -$. Donc $S = [-2 ; 3]$."
+    },
+    {
+      "id": "2N4-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Inéquation quotient et valeur interdite",
+      "skill": "Résoudre une inéquation quotient",
+      "statement": "Résoudre dans $\\mathbb{R}$ : $\\frac{2x - 6}{x + 1} \\le 0$.",
+      "options": [
+        "$x \\in ]-1 ; 3]$",
+        "$x \\in [-1 ; 3]$",
+        "$x \\in ]-\\infty ; -1[ \\cup [3 ; +\\infty[$",
+        "$x \\in ]-1 ; 3[$"
+      ],
+      "correctIndex": 0,
+      "answer": "$x \\in ]-1 ; 3]$",
+      "hint1": "Attention à la valeur interdite qui annule le dénominateur : $x = -1$.",
+      "hint2": "$x = -1$ doit être exclu (crochet ouvert). Le numérateur s'annule en $x = 3$ (crochet fermé).",
+      "solution": "Valeur interdite : $x = -1$. Numérateur nul pour $x = 3$. Le quotient est négatif pour $x \\in ]-1 ; 3]$."
     }
   ],
   "2A1": [
@@ -688,14 +906,76 @@ window.MATHS_EXERCISES_2NDE = {
       "tier": 1,
       "type": "mcq",
       "title": "Calcul d'image par une fonction",
-      "skill": "Calculer l'image d'un réel",
-      "statement": "Soit $f$ la fonction définie sur $\\mathbb{R}$ par $f(x) = 2x^2 - 3x + 1$. Quelle est l'image de $-2$ par $f$ ?",
-      "options": ["$15$", "$3$", "$-13$", "$7$"],
+      "skill": "Évaluer une fonction en un point",
+      "statement": "Soit $f(x) = 3x^2 - 4x + 1$. Quelle est l'image de $-2$ par $f$ ?",
+      "options": [
+        "$21$",
+        "$5$",
+        "$-3$",
+        "$17$"
+      ],
       "correctIndex": 0,
-      "answer": "$15$",
-      "hint1": "Remplace $x$ par $-2$ dans l'expression en faisant attention aux parenthèses.",
-      "hint2": "$(-2)^2 = +4$ et $-3 \\times (-2) = +6$.",
-      "solution": "$f(-2) = 2(-2)^2 - 3(-2) + 1 = 2(4) + 6 + 1 = 8 + 6 + 1 = 15$."
+      "answer": "$21$",
+      "hint1": "Remplace $x$ par $(-2)$ dans l'expression.",
+      "hint2": "$3(-2)^2 - 4(-2) + 1 = 3(4) + 8 + 1$.",
+      "solution": "$f(-2) = 3(-2)^2 - 4(-2) + 1 = 12 + 8 + 1 = 21$."
+    },
+    {
+      "id": "2A1-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Détermination des antécédents",
+      "skill": "Résoudre $f(x) = k$",
+      "statement": "Quels sont les antécédents de $5$ par la fonction $g(x) = x^2 + 1$ ?",
+      "options": [
+        "$-2$ et $2$",
+        "Seulement $2$",
+        "$\\sqrt{6}$",
+        "Aucun antécédent"
+      ],
+      "correctIndex": 0,
+      "answer": "$-2$ et $2$",
+      "hint1": "Résoudre $g(x) = 5 \\iff x^2 + 1 = 5$.",
+      "hint2": "$x^2 = 4 \\iff x = 2$ ou $x = -2$.",
+      "solution": "$x^2 + 1 = 5 \\iff x^2 = 4 \\iff x = 2$ ou $x = -2$."
+    },
+    {
+      "id": "2A1-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Ensemble de définition avec radical et quotient",
+      "skill": "Déterminer le domaine de validité d'une fonction",
+      "statement": "Quel est l'ensemble de définition de $h(x) = \\frac{\\sqrt{x - 3}}{x - 7}$ ?",
+      "options": [
+        "$[3 ; 7[ \\cup ]7 ; +\\infty[$",
+        "$[3 ; +\\infty[$",
+        "$]3 ; 7[ \\cup ]7 ; +\\infty[$",
+        "$[0 ; +\\infty[ \\setminus \\{7\\}$"
+      ],
+      "correctIndex": 0,
+      "answer": "$[3 ; 7[ \\cup ]7 ; +\\infty[$",
+      "hint1": "Deux contraintes : l'expression sous la racine doit être positive ou nulle, et le dénominateur non nul.",
+      "hint2": "$x - 3 \\ge 0 \\implies x \\ge 3$ et $x - 7 \\ne 0 \\implies x \\ne 7$.",
+      "solution": "Condition racine : $x \\ge 3$. Condition quotient : $x \\ne 7$. D'où $D_h = [3 ; 7[ \\cup ]7 ; +\\infty[$."
+    },
+    {
+      "id": "2A1-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Parité et symétrie",
+      "skill": "Démontrer la parité d'une fonction",
+      "statement": "Soit $f(x) = \\frac{x^3}{x^2 + 1}$ définie sur $\\mathbb{R}$. Que peut-on affirmer ?",
+      "options": [
+        "$f$ est impaire (courbe symétrique par rapport à l'origine)",
+        "$f$ est paire (courbe symétrique par rapport à l'axe des ordonnées)",
+        "$f$ n'est ni paire ni impaire",
+        "$f$ est périodique"
+      ],
+      "correctIndex": 0,
+      "answer": "$f$ est impaire (courbe symétrique par rapport à l'origine)",
+      "hint1": "Calcule $f(-x)$ en remplaçant $x$ par $-x$.",
+      "hint2": "$(-x)^3 = -x^3$ et $(-x)^2 + 1 = x^2 + 1$, donc $f(-x) = -f(x)$.",
+      "solution": "$f(-x) = \\frac{(-x)^3}{(-x)^2 + 1} = \\frac{-x^3}{x^2 + 1} = -f(x)$. $f$ est impaire, sa courbe admet $O$ pour centre de symétrie."
     }
   ],
   "2A2": [
@@ -704,14 +984,76 @@ window.MATHS_EXERCISES_2NDE = {
       "tier": 1,
       "type": "mcq",
       "title": "Sens de variation d'une fonction affine",
-      "skill": "Déterminer le sens de variation",
-      "statement": "Quel est le sens de variation de la fonction $g(x) = -5x + 12$ sur $\\mathbb{R}$ ?",
-      "options": ["Strictement décroissante", "Strictement croissante", "Constante", "Non monotone"],
+      "skill": "Interpréter le coefficient directeur",
+      "statement": "Quel est le sens de variation de la fonction affine $f(x) = -3x + 8$ sur $\\mathbb{R}$ ?",
+      "options": [
+        "Strictement décroissante",
+        "Strictement croissante",
+        "Constante",
+        "D'abord croissante puis décroissante"
+      ],
       "correctIndex": 0,
       "answer": "Strictement décroissante",
-      "hint1": "Regarde le signe du coefficient directeur $m$ dans $g(x) = mx + p$.",
-      "hint2": "Le coefficient directeur est $m = -5$. Comme $-5 < 0$, la droite descend.",
-      "solution": "Pour une fonction affine $g(x) = mx+p$, si $m < 0$, alors la fonction est strictement décroissante sur $\\mathbb{R}$. Ici $m = -5 < 0$."
+      "hint1": "Le coefficient directeur est $m = -3$.",
+      "hint2": "Comme $m < 0$, la fonction est strictement décroissante.",
+      "solution": "$m = -3 < 0$, donc la fonction est strictement décroissante sur $\\mathbb{R}$."
+    },
+    {
+      "id": "2A2-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Recherche de l'expression affine",
+      "skill": "Déterminer $m$ et $p$ à partir de deux points",
+      "statement": "Une fonction affine vérifie $g(2) = 1$ et $g(5) = 7$. Quelle est son expression ?",
+      "options": [
+        "$g(x) = 2x - 3$",
+        "$g(x) = 2x + 1$",
+        "$g(x) = 3x - 5$",
+        "$g(x) = -2x + 5$"
+      ],
+      "correctIndex": 0,
+      "answer": "$g(x) = 2x - 3$",
+      "hint1": "Pente $m = \\frac{g(5) - g(2)}{5 - 2}$.",
+      "hint2": "$m = \\frac{7 - 1}{3} = 2$. Puis $g(2) = 2(2) + p = 1 \\implies p = -3$.",
+      "solution": "$m = \\frac{7 - 1}{5 - 2} = \\frac{6}{3} = 2$. $g(2) = 2(2) + p = 1 \\implies p = 1 - 4 = -3$. Donc $g(x) = 2x - 3$."
+    },
+    {
+      "id": "2A2-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Signe d'une fonction affine",
+      "skill": "Résoudre $ax+b \\ge 0$",
+      "statement": "Sur quel intervalle la fonction $h(x) = 4 - 2x$ est-elle strictement positive ?",
+      "options": [
+        "$]-\\infty ; 2[$",
+        "$]2 ; +\\infty[$",
+        "$]-\\infty ; -2[$",
+        "$[2 ; +\\infty[$"
+      ],
+      "correctIndex": 0,
+      "answer": "$]-\\infty ; 2[$",
+      "hint1": "Résous $4 - 2x > 0$.",
+      "hint2": "$4 > 2x \\iff 2 > x \\iff x < 2$.",
+      "solution": "$4 - 2x > 0 \\iff 4 > 2x \\iff x < 2$, soit $]-\\infty ; 2[$."
+    },
+    {
+      "id": "2A2-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Point d'intersection de deux droites",
+      "skill": "Résoudre un système linéaire par les fonctions affines",
+      "statement": "Quelles sont les coordonnées du point d'intersection des droites d'équations $y = 3x - 4$ et $y = -2x + 6$ ?",
+      "options": [
+        "$(2 ; 2)$",
+        "$(1 ; -1)$",
+        "$(2 ; 0)$",
+        "$(3 ; 5)$"
+      ],
+      "correctIndex": 0,
+      "answer": "$(2 ; 2)$",
+      "hint1": "Égale les deux expressions : $3x - 4 = -2x + 6$.",
+      "hint2": "$5x = 10 \\implies x = 2$. Puis $y = 3(2) - 4 = 2$.",
+      "solution": "$3x - 4 = -2x + 6 \\iff 5x = 10 \\iff x = 2$. Alors $y = 3(2) - 4 = 2$. Le point est $(2 ; 2)$."
     }
   ],
   "2A3": [
@@ -720,14 +1062,154 @@ window.MATHS_EXERCISES_2NDE = {
       "tier": 1,
       "type": "mcq",
       "title": "Ordre et fonction carré",
-      "skill": "Utiliser les fonctions de référence",
-      "statement": "Sachant que $-4 \\le x \\le -1$, quel est l'encadrement de $x^2$ ?",
-      "options": ["$1 \\le x^2 \\le 16$", "$-16 \\le x^2 \\le -1$", "$0 \\le x^2 \\le 16$", "$1 \\le x^2 \\le 4$"],
+      "skill": "Comparer des carrés de nombres de même signe",
+      "statement": "Sachant que $-5 < x < -2$, quel est l'encadrement de $x^2$ ?",
+      "options": [
+        "$4 < x^2 < 25$",
+        "$25 < x^2 < 4$",
+        "$-25 < x^2 < -4$",
+        "$0 \\le x^2 < 25$"
+      ],
       "correctIndex": 0,
-      "answer": "$1 \\le x^2 \\le 16$",
-      "hint1": "Sur $]-\\infty ; 0]$, la fonction carré inverse l'ordre car elle est strictement décroissante.",
-      "hint2": "$-4 \\le x \\le -1 \\implies (-1)^2 \\le x^2 \\le (-4)^2$.",
-      "solution": "La fonction carré $x \\mapsto x^2$ est strictement décroissante sur $]-\\infty ; 0]$. Donc l'ordre s'inverse : $(-1)^2 \\le x^2 \\le (-4)^2 \\iff 1 \\le x^2 \\le 16$."
+      "answer": "$4 < x^2 < 25$",
+      "hint1": "La fonction carré est strictement décroissante sur $]-\\infty ; 0]$.",
+      "hint2": "$-5 < x < -2 \\implies (-2)^2 < x^2 < (-5)^2$, soit $4 < x^2 < 25$.",
+      "solution": "La fonction carré inverse l'ordre pour les réels négatifs : $(-2)^2 = 4 < x^2 < (-5)^2 = 25$."
+    },
+    {
+      "id": "2A3-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Fonction racine carrée et comparaison",
+      "skill": "Appliquer la croissance de la racine carrée",
+      "statement": "Classer dans l'ordre croissant : $\\sqrt{7}$, $\\sqrt{5}$ et $2$.",
+      "options": [
+        "$2 < \\sqrt{5} < \\sqrt{7}$",
+        "$\\sqrt{5} < 2 < \\sqrt{7}$",
+        "$2 < \\sqrt{7} < \\sqrt{5}$",
+        "$\\sqrt{7} < \\sqrt{5} < 2$"
+      ],
+      "correctIndex": 0,
+      "answer": "$2 < \\sqrt{5} < \\sqrt{7}$",
+      "hint1": "Écris 2 sous forme de racine carrée : $2 = \\sqrt{4}$.",
+      "hint2": "Comme $4 < 5 < 7$ et que la fonction racine est croissante, $\\sqrt{4} < \\sqrt{5} < \\sqrt{7}$.",
+      "solution": "$2 = \\sqrt{4}$. Par stricte croissance de $x \\mapsto \\sqrt{x}$, $4 < 5 < 7 \\implies 2 < \\sqrt{5} < \\sqrt{7}$."
+    },
+    {
+      "id": "2A3-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Position relative de $x, x^2, x^3$",
+      "skill": "Comparer $x, x^2, x^3$ selon l'intervalle",
+      "statement": "Pour $x \\in ]0 ; 1[$, quel est le rangement correct ?",
+      "options": [
+        "$x^3 < x^2 < x$",
+        "$x < x^2 < x^3$",
+        "$x^2 < x^3 < x$",
+        "$x^2 < x < x^3$"
+      ],
+      "correctIndex": 0,
+      "answer": "$x^3 < x^2 < x$",
+      "hint1": "Teste avec $x = 0{,}5$ : $x^2 = 0{,}25$ et $x^3 = 0{,}125$.",
+      "hint2": "Pour tout $x \\in ]0 ; 1[$, multiplier par $x$ diminue la valeur.",
+      "solution": "Sur $]0 ; 1[$, on a $x^3 < x^2 < x$. (À l'inverse, sur $]1 ; +\\infty[$, on a $x < x^2 < x^3$)."
+    },
+    {
+      "id": "2A3-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Fonction inverse et encadrement contenant 0",
+      "skill": "Analyser les variations de l'inverse sur deux intervalles",
+      "statement": "Si $x \\in [-3 ; 4] \\setminus \\{0\\}$, quel est l'ensemble des valeurs prises par $\\frac{1}{x}$ ?",
+      "options": [
+        "$\\left]-\\infty ; -\\frac{1}{3}\\right] \\cup \\left[\\frac{1}{4} ; +\\infty\\right[$",
+        "$\\left[-\\frac{1}{3} ; \\frac{1}{4}\\right]$",
+        "$]-\\infty ; +\\infty[$",
+        "$[-3 ; 4]$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\left]-\\infty ; -\\frac{1}{3}\\right] \\cup \\left[\\frac{1}{4} ; +\\infty\\right[$",
+      "hint1": "Sépare en deux intervalles : $[-3 ; 0[$ et $]0 ; 4]$.",
+      "hint2": "Pour $x \\in [-3 ; 0[$, $1/x \\le -1/3$. Pour $x \\in ]0 ; 4]$, $1/x \\ge 1/4$.",
+      "solution": "Pour $x \\in [-3 ; 0[$, $1/x \\in ]-\\infty ; -1/3]$. Pour $x \\in ]0 ; 4]$, $1/x \\in [1/4 ; +\\infty[$. L'image est donc $]-\\infty ; -1/3] \\cup [1/4 ; +\\infty[$."
+    }
+  ],
+  "2G1": [
+    {
+      "id": "2G1-1",
+      "tier": 1,
+      "type": "mcq",
+      "title": "Coordonnées du milieu",
+      "skill": "Calculer les coordonnées d'un milieu dans un repère",
+      "statement": "Dans un repère, on donne $A(2 ; -4)$ et $B(6 ; 8)$. Quelles sont les coordonnées du milieu $M$ du segment $[AB]$ ?",
+      "options": [
+        "$M(4 ; 2)$",
+        "$M(8 ; 4)$",
+        "$M(2 ; 6)$",
+        "$M(4 ; 6)$"
+      ],
+      "correctIndex": 0,
+      "answer": "$M(4 ; 2)$",
+      "hint1": "$x_M = \\frac{x_A + x_B}{2}$ et $y_M = \\frac{y_A + y_B}{2}$.",
+      "hint2": "$x_M = \\frac{2+6}{2} = 4$ et $y_M = \\frac{-4+8}{2} = 2$.",
+      "solution": "$M\\left(\\frac{2+6}{2} ; \\frac{-4+8}{2}\\right) = M(4 ; 2)$."
+    },
+    {
+      "id": "2G1-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Distance entre deux points",
+      "skill": "Calculer une distance dans un repère orthonormé",
+      "statement": "Dans un repère orthonormé, on donne $E(-1 ; 3)$ et $F(2 ; -1)$. Quelle est la longueur $EF$ ?",
+      "options": [
+        "$5$",
+        "$\\sqrt{7}$",
+        "$25$",
+        "$\\sqrt{13}$"
+      ],
+      "correctIndex": 0,
+      "answer": "$5$",
+      "hint1": "$EF = \\sqrt{(x_F - x_E)^2 + (y_F - y_E)^2}$.",
+      "hint2": "$(2 - (-1))^2 + (-1 - 3)^2 = 3^2 + (-4)^2 = 9 + 16 = 25$.",
+      "solution": "$EF = \\sqrt{(2 - (-1))^2 + (-1 - 3)^2} = \\sqrt{3^2 + (-4)^2} = \\sqrt{9 + 16} = \\sqrt{25} = 5$."
+    },
+    {
+      "id": "2G1-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Nature d'un triangle par les longueurs",
+      "skill": "Appliquer la réciproque de Pythagore dans un repère",
+      "statement": "Soit $A(1 ; 2)$, $B(4 ; 6)$ et $C(-3 ; 5)$. Quelle est la nature exacte du triangle $ABC$ ?",
+      "options": [
+        "Rectangle en $A$",
+        "Rectangle en $B$",
+        "Équilatéral",
+        "Isocèle non rectangle"
+      ],
+      "correctIndex": 0,
+      "answer": "Rectangle en $A$",
+      "hint1": "Calcule $AB^2$, $AC^2$ et $BC^2$.",
+      "hint2": "$AB^2 = 3^2 + 4^2 = 25$, $AC^2 = (-4)^2 + 3^2 = 25$, $BC^2 = (-7)^2 + (-1)^2 = 50$.",
+      "solution": "$AB^2 = 25$, $AC^2 = 25$ et $BC^2 = 50$. Comme $AB^2 + AC^2 = 50 = BC^2$, le triangle est rectangle (et isocèle) en $A$."
+    },
+    {
+      "id": "2G1-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Quatrième sommet d'un parallélogramme",
+      "skill": "Caractériser un parallélogramme par les milieux des diagonales",
+      "statement": "Soit $A(1 ; 3)$, $B(4 ; 5)$ et $C(2 ; 8)$. Quelles sont les coordonnées du point $D$ pour que $ABCD$ soit un parallélogramme ?",
+      "options": [
+        "$D(-1 ; 6)$",
+        "$D(5 ; 10)$",
+        "$D(3 ; 6)$",
+        "$D(1 ; 10)$"
+      ],
+      "correctIndex": 0,
+      "answer": "$D(-1 ; 6)$",
+      "hint1": "$ABCD$ est un parallélogramme $\\iff [AC]$ et $[BD]$ ont le même milieu.",
+      "hint2": "$x_A + x_C = x_B + x_D \\implies 1 + 2 = 4 + x_D \\implies x_D = -1$. De même $y_D = 3+8-5 = 6$.",
+      "solution": "Les diagonales $[AC]$ et $[BD]$ ont le même milieu : $x_D = x_A + x_C - x_B = 1 + 2 - 4 = -1$ et $y_D = y_A + y_C - y_B = 3 + 8 - 5 = 6$. D'où $D(-1 ; 6)$."
     }
   ],
   "2G2": [
@@ -735,15 +1217,77 @@ window.MATHS_EXERCISES_2NDE = {
       "id": "2G2-1",
       "tier": 1,
       "type": "mcq",
-      "title": "Colinéarité de deux vecteurs",
-      "skill": "Calculer un déterminant de vecteurs",
-      "statement": "Les vecteurs $\\vec{u}(4 ; -6)$ et $\\vec{v}(-6 ; 9)$ sont-ils colinéaires ?",
-      "options": ["Oui, car $\\det(\\vec{u}, \\vec{v}) = 0$", "Non, car $\\det(\\vec{u}, \\vec{v}) \\ne 0$", "Non, car ils n'ont pas la même norme", "On ne peut pas savoir"],
+      "title": "Coordonnées d'un vecteur",
+      "skill": "Calculer les coordonnées du vecteur AB",
+      "statement": "Soit $A(3 ; -2)$ et $B(-1 ; 5)$. Quelles sont les coordonnées de $\\vec{AB}$ ?",
+      "options": [
+        "$\\vec{AB}(-4 ; 7)$",
+        "$\\vec{AB}(2 ; 3)$",
+        "$\\vec{AB}(4 ; -7)$",
+        "$\\vec{AB}(-4 ; 3)$"
+      ],
       "correctIndex": 0,
-      "answer": "Oui, car $\\det(\\vec{u}, \\vec{v}) = 0$",
-      "hint1": "Calcule le déterminant : $\\det(\\vec{u}, \\vec{v}) = x y' - x' y$.",
-      "hint2": "$4 \\times 9 - (-6) \\times (-6) = 36 - 36 = 0$.",
-      "solution": "$\\det(\\vec{u}, \\vec{v}) = 4 \\times 9 - (-6) \\times (-6) = 36 - 36 = 0$. Le déterminant est nul, donc les vecteurs $\\vec{u}$ et $\\vec{v}$ sont colinéaires (on a aussi $\\vec{v} = -1{,}5 \\vec{u}$)."
+      "answer": "$\\vec{AB}(-4 ; 7)$",
+      "hint1": "$\\vec{AB}(x_B - x_A ; y_B - y_A)$.",
+      "hint2": "$x_B - x_A = -1 - 3 = -4$ et $y_B - y_A = 5 - (-2) = 7$.",
+      "solution": "$\\vec{AB}(-1 - 3 ; 5 - (-2)) = \\vec{AB}(-4 ; 7)$."
+    },
+    {
+      "id": "2G2-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Colinéarité de deux vecteurs",
+      "skill": "Appliquer la condition de colinéarité $xy' - x'y = 0$",
+      "statement": "Les vecteurs $\\vec{u}(4 ; -6)$ et $\\vec{v}(k ; 9)$ sont colinéaires. Quelle est la valeur de $k$ ?",
+      "options": [
+        "$k = -6$",
+        "$k = 6$",
+        "$k = -4$",
+        "$k = 13{,}5$"
+      ],
+      "correctIndex": 0,
+      "answer": "$k = -6$",
+      "hint1": "Condition de colinéarité : $x y' - x' y = 0$.",
+      "hint2": "$4 \\times 9 - (-6) \\times k = 0 \\iff 36 + 6k = 0$.",
+      "solution": "$4(9) - (-6)(k) = 0 \\iff 36 + 6k = 0 \\iff 6k = -36 \\iff k = -6$."
+    },
+    {
+      "id": "2G2-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Combinaison linéaire de vecteurs",
+      "skill": "Calculer les coordonnées de a.u + b.v",
+      "statement": "On donne $\\vec{u}(2 ; -1)$ et $\\vec{v}(-3 ; 4)$. Quelles sont les coordonnées du vecteur $\\vec{w} = 3\\vec{u} - 2\\vec{v}$ ?",
+      "options": [
+        "$\\vec{w}(12 ; -11)$",
+        "$\\vec{w}(0 ; 5)$",
+        "$\\vec{w}(12 ; 5)$",
+        "$\\vec{w}(-12 ; 11)$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\vec{w}(12 ; -11)$",
+      "hint1": "$x_w = 3(2) - 2(-3)$ et $y_w = 3(-1) - 2(4)$.",
+      "hint2": "$x_w = 6 + 6 = 12$ et $y_w = -3 - 8 = -11$.",
+      "solution": "$\\vec{w}(3 \\times 2 - 2(-3) ; 3(-1) - 2(4)) = \\vec{w}(6 + 6 ; -3 - 8) = \\vec{w}(12 ; -11)$."
+    },
+    {
+      "id": "2G2-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Alignement de trois points",
+      "skill": "Démontrer l'alignement de points via la colinéarité",
+      "statement": "Soit $A(-2 ; 1)$, $B(2 ; 3)$ et $C(8 ; y)$. Pour quelle valeur de $y$ les points $A, B$ et $C$ sont-ils alignés ?",
+      "options": [
+        "$y = 6$",
+        "$y = 5$",
+        "$y = 7$",
+        "$y = 4$"
+      ],
+      "correctIndex": 0,
+      "answer": "$y = 6$",
+      "hint1": "$A, B, C$ alignés $\\iff \\vec{AB}$ et $\\vec{AC}$ colinéaires.",
+      "hint2": "$\\vec{AB}(4 ; 2)$ et $\\vec{AC}(10 ; y - 1)$. On applique $xy' - x'y = 0$.",
+      "solution": "$\\vec{AB}(4 ; 2)$ et $\\vec{AC}(10 ; y - 1)$. Colinéarité : $4(y - 1) - 2(10) = 0 \\iff 4y - 4 - 20 = 0 \\iff 4y = 24 \\iff y = 6$."
     }
   ],
   "2G3": [
@@ -752,14 +1296,76 @@ window.MATHS_EXERCISES_2NDE = {
       "tier": 1,
       "type": "mcq",
       "title": "Coefficient directeur d'une droite",
-      "skill": "Déterminer la pente d'une sécante",
-      "statement": "Quel est le coefficient directeur de la droite passant par $A(1 ; 2)$ et $B(4 ; 11)$ ?",
-      "options": ["$3$", "$9$", "$\\frac{1}{3}$", "$2$"],
+      "skill": "Calculer la pente d'une droite passant par deux points",
+      "statement": "Quel est le coefficient directeur de la droite passant par $A(1 ; 3)$ et $B(5 ; 11)$ ?",
+      "options": [
+        "$2$",
+        "$\\frac{1}{2}$",
+        "$4$",
+        "$-2$"
+      ],
       "correctIndex": 0,
-      "answer": "$3$",
-      "hint1": "La formule du coefficient directeur est $m = \\frac{y_B - y_A}{x_B - x_A}$.",
-      "hint2": "$m = \\frac{11 - 2}{4 - 1} = \\frac{9}{3}$.",
-      "solution": "$m = \\frac{y_B - y_A}{x_B - x_A} = \\frac{11 - 2}{4 - 1} = \\frac{9}{3} = 3$."
+      "answer": "$2$",
+      "hint1": "$m = \\frac{y_B - y_A}{x_B - x_A}$.",
+      "hint2": "$m = \\frac{11 - 3}{5 - 1} = \\frac{8}{4} = 2$.",
+      "solution": "$m = \\frac{11 - 3}{5 - 1} = \\frac{8}{4} = 2$."
+    },
+    {
+      "id": "2G3-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Vecteur directeur d'une équation cartésienne",
+      "skill": "Lire un vecteur directeur de ax + by + c = 0",
+      "statement": "Un vecteur directeur de la droite d'équation $3x - 5y + 7 = 0$ est :",
+      "options": [
+        "$\\vec{u}(5 ; 3)$",
+        "$\\vec{u}(-5 ; 3)$",
+        "$\\vec{u}(3 ; -5)$",
+        "$\\vec{u}(3 ; 5)$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\vec{u}(5 ; 3)$",
+      "hint1": "Pour une droite $ax + by + c = 0$, un vecteur directeur est $\\vec{u}(-b ; a)$.",
+      "hint2": "Ici $a = 3$ et $b = -5$, donc $-b = 5$ et $a = 3$.",
+      "solution": "Pour $ax + by + c = 0$, un vecteur directeur est $\\vec{u}(-b ; a) = \\vec{u}(5 ; 3)$."
+    },
+    {
+      "id": "2G3-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Équation réduite et point donné",
+      "skill": "Déterminer l'équation d'une droite avec point et pente",
+      "statement": "Quelle est l'équation réduite de la droite $d$ passant par $A(3 ; -1)$ et de coefficient directeur $-2$ ?",
+      "options": [
+        "$y = -2x + 5$",
+        "$y = -2x - 7$",
+        "$y = -2x - 1$",
+        "$y = 2x - 7$"
+      ],
+      "correctIndex": 0,
+      "answer": "$y = -2x + 5$",
+      "hint1": "$y = -2x + p$. Remplace $(x, y)$ par les coordonnées de $A$.",
+      "hint2": "$-1 = -2(3) + p \\implies -1 = -6 + p \\implies p = 5$.",
+      "solution": "$y = -2x + p$. En $A(3 ; -1)$ : $-1 = -2(3) + p \\iff p = 5$. Donc $y = -2x + 5$."
+    },
+    {
+      "id": "2G3-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Droites parallèles et paramètres",
+      "skill": "Appliquer la condition de parallélisme",
+      "statement": "La droite $d_1 : 2x - 3y + 1 = 0$ est parallèle à $d_2 : kx + 6y - 5 = 0$. Que vaut $k$ ?",
+      "options": [
+        "$k = -4$",
+        "$k = 4$",
+        "$k = -1$",
+        "$k = 9$"
+      ],
+      "correctIndex": 0,
+      "answer": "$k = -4$",
+      "hint1": "Deux droites sont parallèles si leurs vecteurs directeurs sont colinéaires.",
+      "hint2": "$\\vec{u}_1(3 ; 2)$ et $\\vec{u}_2(-6 ; k)$. Colinéarité : $3k - 2(-6) = 0$.",
+      "solution": "$\\vec{u}_1(3 ; 2)$ et $\\vec{u}_2(-6 ; k)$. Colinéarité : $3k - 2(-6) = 0 \\iff 3k + 12 = 0 \\iff k = -4$."
     }
   ],
   "2S1": [
@@ -768,14 +1374,76 @@ window.MATHS_EXERCISES_2NDE = {
       "tier": 1,
       "type": "mcq",
       "title": "Médiane d'une série statistique",
-      "skill": "Calculer la médiane",
-      "statement": "Quelle est la médiane de la série de valeurs : $3, 7, 8, 12, 14, 19, 21$ ?",
-      "options": ["$12$", "$10$", "$8$", "$14$"],
+      "skill": "Déterminer la médiane d'une série discrète",
+      "statement": "Quelle est la médiane de la série ordonnée de notes : 7 ; 9 ; 11 ; 12 ; 15 ; 18 ; 20 ?",
+      "options": [
+        "$12$",
+        "$11$",
+        "$13{,}1$",
+        "$11{,}5$"
+      ],
       "correctIndex": 0,
       "answer": "$12$",
-      "hint1": "La série compte $N = 7$ valeurs (effectif impair déjà ordonné).",
-      "hint2": "La médiane correspond au rang $\\frac{N+1}{2} = \\frac{7+1}{2} = 4$.",
-      "solution": "L'effectif total est $7$. La médiane est la $4^e$ valeur de la série ordonnée, soit $12$."
+      "hint1": "L'effectif total est $N = 7$ (impair).",
+      "hint2": "La médiane est la 4ème valeur : $\\frac{7+1}{2} = 4$.",
+      "solution": "L'effectif est 7 (impair). La médiane est la $(7+1)/2 = 4$ème valeur, soit 12."
+    },
+    {
+      "id": "2S1-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Moyenne pondérée",
+      "skill": "Calculer la moyenne d'une série avec effectifs",
+      "statement": "Un élève a obtenu les notes 10 (coef 2), 14 (coef 3) et 18 (coef 1). Quelle est sa moyenne pondérée ?",
+      "options": [
+        "$13{,}33$",
+        "$14{,}00$",
+        "$13{,}00$",
+        "$12{,}50$"
+      ],
+      "correctIndex": 0,
+      "answer": "$13{,}33$",
+      "hint1": "Somme des coefficients $= 2 + 3 + 1 = 6$.",
+      "hint2": "$\\frac{10 \\times 2 + 14 \\times 3 + 18 \\times 1}{6} = \\frac{20 + 42 + 18}{6} = \\frac{80}{6} \\approx 13{,}33$.",
+      "solution": "Moyenne $= \\frac{20 + 42 + 18}{6} = \\frac{80}{6} \\approx 13{,}33$."
+    },
+    {
+      "id": "2S1-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Quartiles et écart interquartile",
+      "skill": "Calculer Q1, Q3 et l'écart interquartile",
+      "statement": "Pour une série d'effectif $N = 20$, à quels rangs se situent le premier quartile $Q_1$ et le troisième quartile $Q_3$ ?",
+      "options": [
+        "5ème et 15ème valeurs",
+        "5ème et 16ème valeurs",
+        "4ème et 15ème valeurs",
+        "6ème et 14ème valeurs"
+      ],
+      "correctIndex": 0,
+      "answer": "5ème et 15ème valeurs",
+      "hint1": "$N/4 = 20/4 = 5$ et $3N/4 = 60/4 = 15$.",
+      "hint2": "Comme ces quotients sont des entiers, on prend exactement ces rangs.",
+      "solution": "$N/4 = 5$ donc $Q_1$ est la 5ème valeur ordonnée. $3N/4 = 15$ donc $Q_3$ est la 15ème valeur ordonnée."
+    },
+    {
+      "id": "2S1-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Effet d'une transformation affine sur moyenne et écart-type",
+      "skill": "Comprendre les propriétés de la moyenne et de la dispersion",
+      "statement": "Si toutes les notes d'une classe sont multipliées par 1,1 puis augmentées de 2, que devient l'écart-type $\\sigma$ ?",
+      "options": [
+        "Il est multiplié par 1,1 (inchangé par le +2)",
+        "Il est multiplié par 1,1 et augmenté de 2",
+        "Il reste inchangé",
+        "Il est augmenté de 2"
+      ],
+      "correctIndex": 0,
+      "answer": "Il est multiplié par 1,1 (inchangé par le +2)",
+      "hint1": "L'écart-type mesure la dispersion, il n'est pas affecté par une translation ($+b$).",
+      "hint2": "Pour $Y = aX + b$, $\\sigma(Y) = |a| \\sigma(X)$.",
+      "solution": "Pour une transformation $Y = aX + b$, $\\sigma(Y) = |a| \\sigma(X)$. L'écart-type est multiplié par 1,1 et n'est pas affecté par l'ajout constant de 2."
     }
   ],
   "2S2": [
@@ -784,14 +1452,76 @@ window.MATHS_EXERCISES_2NDE = {
       "tier": 1,
       "type": "mcq",
       "title": "Formule de la réunion de probabilités",
-      "skill": "Calculer $P(A \\cup B)$",
-      "statement": "Sachant que $P(A) = 0{,}6$, $P(B) = 0{,}5$ et $P(A \\cap B) = 0{,}3$, que vaut $P(A \\cup B)$ ?",
-      "options": ["$0{,}8$", "$1{,}1$", "$0{,}7$", "$0{,}4$"],
+      "skill": "Calculer P(A U B) avec P(A) + P(B) - P(A inter B)",
+      "statement": "On donne $P(A) = 0{,}4$, $P(B) = 0{,}5$ et $P(A \\cap B) = 0{,}2$. Que vaut $P(A \\cup B)$ ?",
+      "options": [
+        "$0{,}7$",
+        "$0{,}9$",
+        "$0{,}3$",
+        "$0{,}1$"
+      ],
       "correctIndex": 0,
-      "answer": "$0{,}8$",
-      "hint1": "Utilise la formule fondamentale : $P(A \\cup B) = P(A) + P(B) - P(A \\cap B)$.",
-      "hint2": "$0{,}6 + 0{,}5 - 0{,}3 = 1{,}1 - 0{,}3$.",
-      "solution": "$P(A \\cup B) = P(A) + P(B) - P(A \\cap B) = 0{,}6 + 0{,}5 - 0{,}3 = 0{,}8$."
+      "answer": "$0{,}7$",
+      "hint1": "$P(A \\cup B) = P(A) + P(B) - P(A \\cap B)$.",
+      "hint2": "$0{,}4 + 0{,}5 - 0{,}2 = 0{,}7$.",
+      "solution": "$P(A \\cup B) = 0{,}4 + 0{,}5 - 0{,}2 = 0{,}7$."
+    },
+    {
+      "id": "2S2-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Événement contraire",
+      "skill": "Utiliser P(non A) = 1 - P(A)",
+      "statement": "On lance un dé équilibré à 6 faces. Quelle est la probabilité d'obtenir au moins une fois un 6 en deux lancers ?",
+      "options": [
+        "$\\frac{11}{36}$",
+        "$\\frac{1}{36}$",
+        "$\\frac{25}{36}$",
+        "$\\frac{1}{3}$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\frac{11}{36}$",
+      "hint1": "Pense à l'événement contraire : « n'obtenir aucun 6 en deux lancers ».",
+      "hint2": "$P(\\text{aucun 6}) = \\frac{5}{6} \\times \\frac{5}{6} = \\frac{25}{36}$. Donc $1 - \\frac{25}{36} = \\frac{11}{36}$.",
+      "solution": "L'événement contraire est « obtenir aucun 6 » dont la probabilité est $(5/6)^2 = 25/36$. La probabilité cherchée est $1 - 25/36 = 11/36$."
+    },
+    {
+      "id": "2S2-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Tableau croisé d'effectifs et probabilités",
+      "skill": "Calculer des probabilités à partir d'un tableau à double entrée",
+      "statement": "Dans un club de 100 membres, 60 font du tennis, 50 de la natation et 20 pratiquent les deux. Quelle est la probabilité qu'un membre choisi au hasard ne pratique aucun de ces deux sports ?",
+      "options": [
+        "$0{,}10$",
+        "$0{,}20$",
+        "$0{,}30$",
+        "$0{,}40$"
+      ],
+      "correctIndex": 0,
+      "answer": "$0{,}10$",
+      "hint1": "Calcule d'abord le nombre de membres qui pratiquent au moins un sport : $T \\cup N$.",
+      "hint2": "$60 + 50 - 20 = 90$. Il reste donc $100 - 90 = 10$ membres.",
+      "solution": "$P(T \\cup N) = \\frac{60 + 50 - 20}{100} = 0{,}90$. La probabilité de ne pratiquer aucun des deux est $1 - 0{,}90 = 0{,}10$."
+    },
+    {
+      "id": "2S2-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Événements incompatibles et partition",
+      "skill": "Caractériser des événements disjoints",
+      "statement": "Soit $A$ et $B$ deux événements tels que $P(A) = 0{,}6$ et $P(B) = 0{,}5$. Les événements $A$ et $B$ peuvent-ils être incompatibles ?",
+      "options": [
+        "Non, car leur somme $0{,}6 + 0{,}5 = 1{,}1 > 1$",
+        "Oui, si $A \\cap B = \\emptyset$",
+        "Oui, si l'univers a plus de 100 éléments",
+        "On ne peut pas savoir"
+      ],
+      "correctIndex": 0,
+      "answer": "Non, car leur somme $0{,}6 + 0{,}5 = 1{,}1 > 1$",
+      "hint1": "Si $A$ et $B$ sont incompatibles, $P(A \\cup B) = P(A) + P(B)$.",
+      "hint2": "Une probabilité ne peut jamais dépasser 1.",
+      "solution": "Si $A$ et $B$ étaient incompatibles, on aurait $P(A \\cup B) = P(A) + P(B) = 1{,}1$, ce qui est impossible car une probabilité est $\\le 1$. Donc $A \\cap B \\ne \\emptyset$."
     }
   ],
   "2S3": [
@@ -799,15 +1529,77 @@ window.MATHS_EXERCISES_2NDE = {
       "id": "2S3-1",
       "tier": 1,
       "type": "mcq",
-      "title": "Échantillonnage et règle des $1/\\sqrt{n}$",
-      "skill": "Déterminer la précision d'un échantillon",
-      "statement": "Pour un échantillon de taille $n = 400$, quelle est l'amplitude approximative de l'intervalle de fluctuation au seuil de 95% ($2/\\sqrt{n}$) ?",
-      "options": ["$0{,}10$", "$0{,}05$", "$0{,}01$", "$0{,}20$"],
+      "title": "Échantillonnage et règle des 1/racine(n)",
+      "skill": "Calculer l'amplitude de l'intervalle de fluctuation en Seconde",
+      "statement": "Quelle est l'amplitude de l'intervalle de fluctuation au seuil de 95% pour un échantillon de taille $n = 400$ ?",
+      "options": [
+        "$0{,}10$",
+        "$0{,}05$",
+        "$0{,}20$",
+        "$0{,}025$"
+      ],
       "correctIndex": 0,
       "answer": "$0{,}10$",
-      "hint1": "Calcule d'abord $\\sqrt{400} = 20$.",
-      "hint2": "L'amplitude vaut $\\frac{2}{\\sqrt{n}} = \\frac{2}{20} = 0{,}10$.",
+      "hint1": "L'intervalle en Seconde est $\\left[p - \\frac{1}{\\sqrt{n}} ; p + \\frac{1}{\\sqrt{n}}\\right]$. Son amplitude est $\\frac{2}{\\sqrt{n}}$.",
+      "hint2": "$\\frac{2}{\\sqrt{400}} = \\frac{2}{20} = 0{,}10$.",
       "solution": "Comme $\\sqrt{400} = 20$, la demi-amplitude est $\\frac{1}{\\sqrt{n}} = 0{,}05$ et l'amplitude totale vaut $\\frac{2}{\\sqrt{400}} = \\frac{2}{20} = 0{,}10$."
+    },
+    {
+      "id": "2S3-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Intervalle de fluctuation et prise de décision",
+      "skill": "Tester une hypothèse avec un intervalle de fluctuation",
+      "statement": "Une pièce est supposée équilibrée ($p = 0{,}5$). Sur 100 lancers, on obtient 63 « Pile ». L'intervalle de fluctuation est $[0{,}4 ; 0{,}6]$. Que conclut-on au seuil de 95% ?",
+      "options": [
+        "On rejette l'hypothèse de pièce équilibrée car $0{,}63 \\notin [0{,}4 ; 0{,}6]$",
+        "On accepte que la pièce est équilibrée car $0{,}63 \\approx 0{,}6$",
+        "Le test n'est pas valide car $n < 30$",
+        "On ne peut rien conclure"
+      ],
+      "correctIndex": 0,
+      "answer": "On rejette l'hypothèse de pièce équilibrée car $0{,}63 \\notin [0{,}4 ; 0{,}6]$",
+      "hint1": "La fréquence observée est $f = 63/100 = 0{,}63$.",
+      "hint2": "Vérifie si $f$ appartient à l'intervalle de fluctuation.",
+      "solution": "La fréquence observée est $f = 0{,}63$. Comme $0{,}63 > 0{,}6$, la fréquence observée est hors de l'intervalle de fluctuation au seuil de 95% : on rejette l'hypothèse d'équilibre."
+    },
+    {
+      "id": "2S3-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Taille d'échantillon pour une précision donnée",
+      "skill": "Déterminer la taille n nécessaire",
+      "statement": "Quelle taille d'échantillon $n$ minimale doit-on choisir pour que la demi-amplitude de l'intervalle soit inférieure ou égale à $0{,}02$ ?",
+      "options": [
+        "$n = 2\\,500$",
+        "$n = 500$",
+        "$n = 1\\,000$",
+        "$n = 10\\,000$"
+      ],
+      "correctIndex": 0,
+      "answer": "$n = 2\\,500$",
+      "hint1": "La demi-amplitude est $\\frac{1}{\\sqrt{n}}$. On veut $\\frac{1}{\\sqrt{n}} \\le 0{,}02$.",
+      "hint2": "$\\sqrt{n} \\ge \\frac{1}{0{,}02} = 50 \\implies n \\ge 50^2 = 2500$.",
+      "solution": "$\\frac{1}{\\sqrt{n}} \\le 0{,}02 \\iff \\sqrt{n} \\ge \\frac{1}{0{,}02} = 50 \\iff n \\ge 50^2 = 2\\,500$."
+    },
+    {
+      "id": "2S3-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Fluctuation d'échantillonnage et loi des grands nombres",
+      "skill": "Interpréter la convergence des fréquences",
+      "statement": "Lorsque la taille $n$ de l'échantillon est multipliée par 4, par combien la largeur de l'intervalle de fluctuation est-elle divisée ?",
+      "options": [
+        "Par 2",
+        "Par 4",
+        "Par 16",
+        "Par $\\sqrt{2}$"
+      ],
+      "correctIndex": 0,
+      "answer": "Par 2",
+      "hint1": "L'amplitude dépend de $\\frac{1}{\\sqrt{n}}$.",
+      "hint2": "$\\sqrt{4n} = 2\\sqrt{n}$. L'amplitude est donc divisée par 2.",
+      "solution": "L'amplitude vaut $\\frac{2}{\\sqrt{n}}$. Si on remplace $n$ par $4n$, $\\sqrt{4n} = 2\\sqrt{n}$, la largeur est donc divisée par 2."
     }
   ]
 };

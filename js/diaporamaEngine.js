@@ -35,8 +35,12 @@ window.MathsDiaporama = {
     if (selectorContainer) {
       const currentLevel = (window.MathsApp && window.MathsApp.currentLevel) || '3eme';
       const allChapters = window.MATHS_CHAPTERS || [];
-      const chapters = allChapters.filter(c => !c.level || c.level === currentLevel);
-      const defaultId = preselectedChapterId || (window.MathsApp && window.MathsApp.currentChapterId) || (chapters[0] ? chapters[0].id : 'N1');
+      const chapters = allChapters.filter(c => (c.level || '3eme') === currentLevel);
+      const defaultId = (preselectedChapterId && chapters.some(c => c.id === preselectedChapterId))
+        ? preselectedChapterId
+        : ((window.MathsApp && window.MathsApp.currentChapterId && chapters.some(c => c.id === window.MathsApp.currentChapterId))
+          ? window.MathsApp.currentChapterId
+          : (chapters[0] ? chapters[0].id : 'N1'));
       selectorContainer.innerHTML = chapters.map(c => `
         <label class="diapo-chip">
           <input type="checkbox" name="diapo-chap" value="${c.id}" ${c.id === defaultId ? 'checked' : ''} />
@@ -79,11 +83,20 @@ window.MathsDiaporama = {
    * Démarre une session de diaporama
    */
   start() {
-    // 1. Récupérer les options
     const currentLevel = (window.MathsApp && window.MathsApp.currentLevel) || '3eme';
-    const fallbackId = currentLevel === '5eme' ? '5N1' : (currentLevel === '4eme' ? '4N1' : 'N1');
+    const validLevelChapters = (window.MATHS_CHAPTERS || []).filter(c => (c.level || '3eme') === currentLevel).map(c => c.id);
     const checkedBoxes = Array.from(document.querySelectorAll('input[name="diapo-chap"]:checked')).map(cb => cb.value);
-    const chapters = checkedBoxes.length ? checkedBoxes : [window.MathsApp.currentChapterId || fallbackId];
+    let chapters = checkedBoxes.filter(id => validLevelChapters.includes(id));
+    if (!chapters.length) {
+      const activeId = window.MathsApp && window.MathsApp.currentChapterId;
+      if (activeId && validLevelChapters.includes(activeId)) {
+        chapters = [activeId];
+      } else if (validLevelChapters.length) {
+        chapters = [validLevelChapters[0]];
+      } else {
+        chapters = ['N1'];
+      }
+    }
 
     const countSelect = document.getElementById('diapo-count-select');
     const count = countSelect ? parseInt(countSelect.value, 10) : 5;

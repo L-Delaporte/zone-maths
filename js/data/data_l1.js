@@ -508,7 +508,7 @@ window.MATHS_EXERCISES_L1 = {
       "tier": 1,
       "type": "mcq",
       "title": "Négation d'une assertion quantifiée",
-      "skill": "Manipuler les quantificateurs logiques",
+      "skill": "Manipuler les quantificateurs universel et existentiel",
       "statement": "Quelle est la négation logique exacte de l'assertion : « $\\forall x \\in \\mathbb{R}, \\exists y \\in \\mathbb{R}, x + y > 0$ » ?",
       "options": [
         "$\\exists x \\in \\mathbb{R}, \\forall y \\in \\mathbb{R}, x + y \\le 0$",
@@ -521,6 +521,141 @@ window.MATHS_EXERCISES_L1 = {
       "hint1": "La négation échange $\\forall$ et $\\exists$ et inverse l'inégalité stricte en inégalité large.",
       "hint2": "$\\neg(\\forall x, P(x)) \\iff \\exists x, \\neg P(x)$.",
       "solution": "La négation de $\\forall x, \\exists y, P(x, y)$ est $\\exists x, \\forall y, \\neg P(x, y)$, soit ici $\\exists x \\in \\mathbb{R}, \\forall y \\in \\mathbb{R}, x + y \\le 0$."
+    },
+    {
+      "id": "L1-LOG-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Injectivité d'une fonction rationnelle",
+      "skill": "Appliquer la définition de l'injectivité",
+      "statement": "Soit $f : \\mathbb{R} \\setminus \\{1\\} \\to \\mathbb{R}$ définie par $f(x) = \\frac{2x + 3}{x - 1}$. $f$ est-elle injective ?",
+      "options": [
+        "Oui, car $f(x) = f(x') \\implies x = x'$",
+        "Non, car $f(0) = f(-1)$",
+        "Non, car elle n'est pas définie en 1",
+        "Oui, car elle est bornée"
+      ],
+      "correctIndex": 0,
+      "answer": "Oui, car $f(x) = f(x') \\implies x = x'$",
+      "hint1": "Pars de l'égalité $f(x) = f(x')$ et fais le produit en croix.",
+      "hint2": "$(2x+3)(x'-1) = (2x'+3)(x-1) \\iff -2x + 3x' = -2x' + 3x \\iff 5x' = 5x$.",
+      "solution": "$f(x) = f(x') \\iff (2x+3)(x'-1) = (2x'+3)(x-1) \\iff 5x' = 5x \\iff x = x'$. L'application est donc injective."
+    },
+    {
+      "id": "L1-LOG-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Relation d'équivalence et ensemble quotient",
+      "skill": "Calculer le cardinal d'un ensemble quotient",
+      "statement": "Sur $\\mathbb{Z}$, la relation $x \\mathcal{R} y \\iff x \\equiv y \\pmod 5$ est une relation d'équivalence. Combien y a-t-il d'éléments dans le quotient $\\mathbb{Z}/5\\mathbb{Z}$ ?",
+      "options": [
+        "$5$",
+        "$4$",
+        "Une infinité",
+        "$1$"
+      ],
+      "correctIndex": 0,
+      "answer": "$5$",
+      "hint1": "Le reste de la division euclidienne par 5 ne prend que 5 valeurs distinctes.",
+      "hint2": "Les classes sont $\\bar{0}, \\bar{1}, \\bar{2}, \\bar{3}, \\bar{4}$.",
+      "solution": "Chaque entier a un unique reste $r \\in \\{0, 1, 2, 3, 4\\}$ modulo 5. Il y a donc 5 classes d'équivalence disjointes, d'où $|\\mathbb{Z}/5\\mathbb{Z}| = 5$."
+    },
+    {
+      "id": "L1-LOG-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Image réciproque et intersection ensembliste",
+      "skill": "Démontrer des identités ensemblistes formelles",
+      "statement": "Soit $f : E \\to F$ une application, et $A, B \\subset F$. Que vaut l'image réciproque $f^{-1}(A \\cap B)$ ?",
+      "options": [
+        "$f^{-1}(A) \\cap f^{-1}(B)$",
+        "$f^{-1}(A) \\cup f^{-1}(B)$",
+        "$f^{-1}(A) \\setminus f^{-1}(B)$",
+        "$\\emptyset$"
+      ],
+      "correctIndex": 0,
+      "answer": "$f^{-1}(A) \\cap f^{-1}(B)$",
+      "hint1": "$x \\in f^{-1}(A \\cap B) \\iff f(x) \\in A \\cap B$.",
+      "hint2": "$f(x) \\in A \\text{ et } f(x) \\in B \\iff x \\in f^{-1}(A) \\text{ et } x \\in f^{-1}(B)$.",
+      "solution": "$x \\in f^{-1}(A \\cap B) \\iff f(x) \\in A \\cap B \\iff f(x) \\in A \\text{ et } f(x) \\in B \\iff x \\in f^{-1}(A) \\cap f^{-1}(B)$."
+    }
+  ],
+  "L1-CMP": [
+    {
+      "id": "L1-CMP-1",
+      "tier": 1,
+      "type": "mcq",
+      "title": "Somme des racines n-ièmes de l'unité",
+      "skill": "Propriétés algébriques de $\\mathbb{U}_n$",
+      "statement": "Pour tout $n \\ge 2$, que vaut la somme des $n$ racines $n$-ièmes de l'unité $\\sum_{k=0}^{n-1} e^{i \\frac{2k\\pi}{n}}$ ?",
+      "options": [
+        "$0$",
+        "$1$",
+        "$n$",
+        "$-1$"
+      ],
+      "correctIndex": 0,
+      "answer": "$0$",
+      "hint1": "Somme des termes d'une suite géométrique de raison $\\omega = e^{i 2\\pi / n} \\ne 1$.",
+      "hint2": "$\\sum_{k=0}^{n-1} \\omega^k = \\frac{1 - \\omega^n}{1 - \\omega} = 0$.",
+      "solution": "Posons $\\omega = e^{i \\frac{2\\pi}{n}}$. Comme $\\omega \\ne 1$ et $\\omega^n = 1$, la somme vaut $\\frac{1-\\omega^n}{1-\\omega} = 0$."
+    },
+    {
+      "id": "L1-CMP-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Division euclidienne de polynômes",
+      "skill": "Calculer le reste de division euclidienne dans $K[X]$",
+      "statement": "Quel est le reste de la division euclidienne de $P(X) = X^4 + 2X^3 - X + 1$ par $X^2 + 1$ ?",
+      "options": [
+        "$-2X + 2$",
+        "$2X - 2$",
+        "$-X + 3$",
+        "$0$"
+      ],
+      "correctIndex": 0,
+      "answer": "$-2X + 2$",
+      "hint1": "$X^4 = (X^2+1)(X^2-1) + 1$.",
+      "hint2": "$P(X) = (X^2 + 2X - 1)(X^2 + 1) + (-2X + 2)$.",
+      "solution": "En effectuant la division posée, on obtient $P(X) = (X^2 + 2X - 1)(X^2 + 1) + (-2X + 2)$ avec $\\deg(-2X+2) = 1 < 2$."
+    },
+    {
+      "id": "L1-CMP-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Factorisation en irréductibles dans R[X]",
+      "skill": "Décomposer un polynôme sans racine réelle",
+      "statement": "Quelle est la factorisation de $X^4 + 1$ en produit de polynômes irréductibles dans $\\mathbb{R}[X]$ ?",
+      "options": [
+        "$(X^2 - \\sqrt{2}X + 1)(X^2 + \\sqrt{2}X + 1)$",
+        "$(X^2 + 1)^2$",
+        "$(X^2 - 1)(X^2 + 1)$",
+        "$(X^2 + \\sqrt{2}X - 1)(X^2 - \\sqrt{2}X - 1)$"
+      ],
+      "correctIndex": 0,
+      "answer": "$(X^2 - \\sqrt{2}X + 1)(X^2 + \\sqrt{2}X + 1)$",
+      "hint1": "$X^4 + 1 = (X^2+1)^2 - 2X^2$.",
+      "hint2": "Identité $A^2 - B^2$ avec $A = X^2+1$ et $B = \\sqrt{2}X$.",
+      "solution": "$X^4 + 1 = (X^2+1)^2 - (\\sqrt{2}X)^2 = (X^2 - \\sqrt{2}X + 1)(X^2 + \\sqrt{2}X + 1)$. Discriminants $\\Delta = -2 < 0$, donc irréductibles sur $\\mathbb{R}$."
+    },
+    {
+      "id": "L1-CMP-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Relations coefficients-racines de Viète",
+      "skill": "Utiliser les fonctions symétriques élémentaires",
+      "statement": "Soient $x_1, x_2, x_3$ les racines de $X^3 - 3X^2 + 4X - 5$. Que vaut $x_1^2 + x_2^2 + x_3^2$ ?",
+      "options": [
+        "$1$",
+        "$9$",
+        "$-1$",
+        "$5$"
+      ],
+      "correctIndex": 0,
+      "answer": "$1$",
+      "hint1": "$\\sum x_i^2 = (\\sum x_i)^2 - 2 \\sum_{i<j} x_i x_j$.",
+      "hint2": "Par Viète, $\\sigma_1 = 3$ et $\\sigma_2 = 4$.",
+      "solution": "$\\sigma_1 = 3$, $\\sigma_2 = 4$. Donc $\\sum x_i^2 = \\sigma_1^2 - 2\\sigma_2 = 3^2 - 2(4) = 9 - 8 = 1$."
     }
   ],
   "L1-MAT": [
@@ -528,9 +663,9 @@ window.MATHS_EXERCISES_L1 = {
       "id": "L1-MAT-1",
       "tier": 1,
       "type": "mcq",
-      "title": "Déterminant et inversibilité",
-      "skill": "Calculer le déterminant d'une matrice $2 \\times 2$",
-      "statement": "Pour quelle valeur du réel $\\lambda$ la matrice $A = \\begin{pmatrix} \\lambda & 3 \\\\ 2 & 6 \\end{pmatrix}$ n'est-elle pas inversible ?",
+      "title": "Déterminant 2x2 et inversibilité",
+      "skill": "Condition d'inversibilité d'une matrice carrée",
+      "statement": "Pour quelle valeur de $\\lambda \\in \\mathbb{R}$ la matrice $\\begin{pmatrix} \\lambda & 3 \\\\ 2 & 6 \\end{pmatrix}$ n'est-elle pas inversible ?",
       "options": [
         "$\\lambda = 1$",
         "$\\lambda = 0$",
@@ -539,30 +674,66 @@ window.MATHS_EXERCISES_L1 = {
       ],
       "correctIndex": 0,
       "answer": "$\\lambda = 1$",
-      "hint1": "Une matrice carrée n'est pas inversible si et seulement si son déterminant est nul.",
-      "hint2": "$\\det(A) = 6\\lambda - 6 = 0 \\iff \\lambda = 1$.",
-      "solution": "$\\det(A) = \\lambda \\times 6 - 3 \\times 2 = 6\\lambda - 6$. $A$ est non inversible $\\iff \\det(A) = 0 \\iff 6\\lambda = 6 \\iff \\lambda = 1$."
-    }
-  ],
-  "L1-CMP": [
+      "hint1": "Le déterminant doit être nul : $\\det(A) = 0$.",
+      "hint2": "$6\\lambda - 6 = 0 \\iff \\lambda = 1$.",
+      "solution": "$\\det(A) = 6\\lambda - 6 = 0 \\iff \\lambda = 1$."
+    },
     {
-      "id": "L1-CMP-1",
-      "tier": 1,
+      "id": "L1-MAT-2",
+      "tier": 2,
       "type": "mcq",
-      "title": "Racines n-ièmes de l'unité",
-      "skill": "Identifier les éléments de $\\mathbb{U}_n$",
-      "statement": "Combien l'équation $z^5 = 1$ admet-elle de solutions distinctes dans $\\mathbb{C}$ ?",
+      "title": "Produit matriciel",
+      "skill": "Calculer le produit de deux matrices $2 \\times 2$",
+      "statement": "Pour $A = \\begin{pmatrix} 1 & 2 \\\\ 0 & 1 \\end{pmatrix}$ et $B = \\begin{pmatrix} 0 & 1 \\\\ 1 & 0 \\end{pmatrix}$, que vaut $AB$ ?",
       "options": [
-        "$5$",
-        "$1$",
-        "$4$",
-        "Une infinité"
+        "$\\begin{pmatrix} 2 & 1 \\\\ 1 & 0 \\end{pmatrix}$",
+        "$\\begin{pmatrix} 1 & 2 \\\\ 1 & 0 \\end{pmatrix}$",
+        "$\\begin{pmatrix} 0 & 2 \\\\ 1 & 1 \\end{pmatrix}$",
+        "$\\begin{pmatrix} 1 & 0 \\\\ 0 & 1 \\end{pmatrix}$"
       ],
       "correctIndex": 0,
-      "answer": "$5$",
-      "hint1": "C'est l'ensemble $\\mathbb{U}_5$ des racines 5-ièmes de l'unité.",
-      "hint2": "Les solutions sont de la forme $e^{2ik\\pi/5}$ pour $k \\in \\{0, 1, 2, 3, 4\\}$.",
-      "solution": "Dans $\\mathbb{C}$, tout polynôme de degré $n$ à racines simples admet $n$ racines. $z^5 = 1$ admet exactement 5 solutions distinctes réparties régulièrement sur le cercle unité."
+      "answer": "$\\begin{pmatrix} 2 & 1 \\\\ 1 & 0 \\end{pmatrix}$",
+      "hint1": "Ligne 1 par colonne 1 : $1 \\times 0 + 2 \\times 1 = 2$.",
+      "hint2": "Ligne 1 par colonne 2 : $1 \\times 1 + 2 \\times 0 = 1$.",
+      "solution": "$AB = \\begin{pmatrix} 1 \\times 0 + 2 \\times 1 & 1 \\times 1 + 2 \\times 0 \\\\ 0 \\times 0 + 1 \\times 1 & 0 \\times 1 + 1 \\times 0 \\end{pmatrix} = \\begin{pmatrix} 2 & 1 \\\\ 1 & 0 \\end{pmatrix}$."
+    },
+    {
+      "id": "L1-MAT-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Résolution de système échelonné",
+      "skill": "Résoudre un système linéaire échelonné en lignes",
+      "statement": "Quelle est l'unique solution du système $\\begin{cases} x + y + z = 6 \\\\ 2y + z = 7 \\\\ 3z = 9 \\end{cases}$ ?",
+      "options": [
+        "$(x, y, z) = (1, 2, 3)$",
+        "$(x, y, z) = (2, 1, 3)$",
+        "$(x, y, z) = (3, 2, 1)$",
+        "$(x, y, z) = (0, 3, 3)$"
+      ],
+      "correctIndex": 0,
+      "answer": "$(x, y, z) = (1, 2, 3)$",
+      "hint1": "Commence par $3z = 9 \\implies z = 3$.",
+      "hint2": "$2y + 3 = 7 \\implies y = 2$, puis $x + 2 + 3 = 6 \\implies x = 1$.",
+      "solution": "$3z = 9 \\implies z = 3$. Puis $2y + 3 = 7 \\implies y = 2$. Enfin $x + 2 + 3 = 6 \\implies x = 1$."
+    },
+    {
+      "id": "L1-MAT-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Inversion par élimination de Gauss-Jordan",
+      "skill": "Calculer l'inverse d'une matrice $3 \\times 3$",
+      "statement": "Quelle est la matrice inverse de $A = \\begin{pmatrix} 1 & 0 & 0 \\\\ 2 & 1 & 0 \\\\ 4 & 3 & 1 \\end{pmatrix}$ ?",
+      "options": [
+        "$\\begin{pmatrix} 1 & 0 & 0 \\\\ -2 & 1 & 0 \\\\ 2 & -3 & 1 \\end{pmatrix}$",
+        "$\\begin{pmatrix} 1 & 0 & 0 \\\\ 2 & 1 & 0 \\\\ -4 & -3 & 1 \\end{pmatrix}$",
+        "$\\begin{pmatrix} 1 & 2 & 4 \\\\ 0 & 1 & 3 \\\\ 0 & 0 & 1 \\end{pmatrix}$",
+        "$\\begin{pmatrix} -1 & 0 & 0 \\\\ 2 & -1 & 0 \\\\ -2 & 3 & -1 \\end{pmatrix}$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\begin{pmatrix} 1 & 0 & 0 \\\\ -2 & 1 & 0 \\\\ 2 & -3 & 1 \\end{pmatrix}$",
+      "hint1": "Opérations : $L_2 \\leftarrow L_2 - 2L_1$ puis $L_3 \\leftarrow L_3 - 3L_2 - 4L_1$.",
+      "hint2": "Le coefficient en position $(3,1)$ vaut $-4 - 3(-2) = 2$.",
+      "solution": "Par élimination de Gauss-Jordan sur $(A | I_3)$, on trouve $A^{-1} = \\begin{pmatrix} 1 & 0 & 0 \\\\ -2 & 1 & 0 \\\\ 2 & -3 & 1 \\end{pmatrix}$."
     }
   ],
   "L1-EV1": [
@@ -570,20 +741,77 @@ window.MATHS_EXERCISES_L1 = {
       "id": "L1-EV1-1",
       "tier": 1,
       "type": "mcq",
-      "title": "Sous-espace vectoriel",
-      "skill": "Caractériser un sous-espace vectoriel",
-      "statement": "Lequel des sous-ensembles suivants de $\\mathbb{R}^2$ est un sous-espace vectoriel ?",
+      "title": "Caractérisation d'un sous-espace vectoriel",
+      "skill": "Vérifier la stabilité par combinaison linéaire",
+      "statement": "Lequel des ensembles suivants est un sous-espace vectoriel de $\\mathbb{R}^3$ ?",
       "options": [
-        "$F = \\{(x, y) \\in \\mathbb{R}^2 \\mid 2x - 3y = 0\\}$",
-        "$G = \\{(x, y) \\in \\mathbb{R}^2 \\mid x + y = 1\\}$",
-        "$H = \\{(x, y) \\in \\mathbb{R}^2 \\mid xy = 0\\}$",
-        "$K = \\{(x, y) \\in \\mathbb{R}^2 \\mid x^2 + y^2 \\le 1\\}$"
+        "$F = \\{(x, y, z) \\in \\mathbb{R}^3 \\mid 2x - 3y + z = 0\\}$",
+        "$G = \\{(x, y, z) \\in \\mathbb{R}^3 \\mid x + y + z = 1\\}$",
+        "$H = \\{(x, y, z) \\in \\mathbb{R}^3 \\mid x^2 + y^2 = z^2\\}$",
+        "$K = \\{(x, y, z) \\in \\mathbb{R}^3 \\mid xy \\ge 0\\}$"
       ],
       "correctIndex": 0,
-      "answer": "$F = \\{(x, y) \\in \\mathbb{R}^2 \\mid 2x - 3y = 0\\}$",
-      "hint1": "Un sous-espace vectoriel doit contenir le vecteur nul $(0,0)$ et être stable par combinaison linéaire.",
-      "hint2": "Une droite vectorielle passant par l'origine est définie par une équation linéaire homogène.",
-      "solution": "$F$ contient $(0,0)$ et est le noyau d'une forme linéaire non nulle, c'est donc une droite vectorielle (sev de dimension 1)."
+      "answer": "$F = \\{(x, y, z) \\in \\mathbb{R}^3 \\mid 2x - 3y + z = 0\\}$",
+      "hint1": "Un s.e.v. doit contenir $(0,0,0)$ et être défini par une équation linéaire homogène.",
+      "hint2": "$F$ est le noyau de la forme linéaire $(x,y,z) \\mapsto 2x-3y+z$.",
+      "solution": "$F$ contient le vecteur nul et est défini par une équation linéaire sans second membre. C'est un hyperplan vectoriel de $\\mathbb{R}^3$."
+    },
+    {
+      "id": "L1-EV1-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Famille libre vs liée dans R^3",
+      "skill": "Tester l'indépendance linéaire",
+      "statement": "La famille $(u, v, w)$ avec $u=(1, 0, 1)$, $v=(0, 1, 1)$, $w=(1, 1, 2)$ est-elle libre dans $\\mathbb{R}^3$ ?",
+      "options": [
+        "Non, car $w = u + v$",
+        "Oui, car aucun vecteur n'est nul",
+        "Oui, car le déterminant vaut 1",
+        "Non, car ils ont tous des coordonnées positives"
+      ],
+      "correctIndex": 0,
+      "answer": "Non, car $w = u + v$",
+      "hint1": "$u + v = (1, 0, 1) + (0, 1, 1) = (1, 1, 2)$.",
+      "hint2": "Il existe une combinaison linéaire non triviale : $u + v - w = 0$.",
+      "solution": "Comme $w = u + v$, les trois vecteurs sont liés (dépendants linéairement)."
+    },
+    {
+      "id": "L1-EV1-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Dimension d'un sous-espace vectoriel",
+      "skill": "Trouver la dimension d'un sous-espace engendré",
+      "statement": "Quelle est la dimension du sous-espace $F = \\text{Vect}((1, 2, 0), (2, 4, 0), (0, 0, 3))$ de $\\mathbb{R}^3$ ?",
+      "options": [
+        "$2$",
+        "$3$",
+        "$1$",
+        "$0$"
+      ],
+      "correctIndex": 0,
+      "answer": "$2$",
+      "hint1": "$(2, 4, 0) = 2(1, 2, 0)$ est redondant.",
+      "hint2": "Il reste deux vecteurs non colinéaires : $(1, 2, 0)$ et $(0, 0, 3)$.",
+      "solution": "Le deuxième vecteur est colinéaire au premier. Les deux autres sont linéairement indépendants, donc $\\dim F = 2$."
+    },
+    {
+      "id": "L1-EV1-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Formule de Grassmann",
+      "skill": "Calculer la dimension d'une intersection de sous-espaces",
+      "statement": "Soient $F$ et $G$ deux plans vectoriels distincts de $\\mathbb{R}^3$. Quelle est la dimension de $F \\cap G$ ?",
+      "options": [
+        "$1$",
+        "$0$",
+        "$2$",
+        "$3$"
+      ],
+      "correctIndex": 0,
+      "answer": "$1$",
+      "hint1": "$\\dim F = 2$, $\\dim G = 2$, et $\\dim(F+G) = 3$.",
+      "hint2": "$\\dim(F \\cap G) = \\dim F + \\dim G - \\dim(F+G) = 2 + 2 - 3$.",
+      "solution": "Par la formule de Grassmann : $\\dim(F \\cap G) = 2 + 2 - 3 = 1$. L'intersection est une droite vectorielle."
     }
   ],
   "L1-APP": [
@@ -592,19 +820,76 @@ window.MATHS_EXERCISES_L1 = {
       "tier": 1,
       "type": "mcq",
       "title": "Théorème du rang",
-      "skill": "Appliquer la relation $\\dim(E) = \\dim(\\ker f) + \\text{rg}(f)$",
-      "statement": "Soit $f : \\mathbb{R}^5 \\to \\mathbb{R}^3$ une application linéaire telle que $\\dim(\\ker f) = 2$. Quel est le rang de $f$ ?",
+      "skill": "Appliquer la relation $\\dim E = \\dim \\ker f + \\text{rg}(f)$",
+      "statement": "Soit $f : \\mathbb{R}^5 \\to \\mathbb{R}^3$ une application linéaire surjective. Quelle est la dimension de $\\ker(f)$ ?",
       "options": [
-        "$3$",
         "$2$",
+        "$3$",
         "$5$",
-        "$1$"
+        "$0$"
       ],
       "correctIndex": 0,
-      "answer": "$3$",
-      "hint1": "Théorème du rang : $\\dim(E) = \\dim(\\ker f) + \\text{rg}(f)$.",
-      "hint2": "Ici $\\dim(E) = 5$ et $\\dim(\\ker f) = 2$, d'où $\\text{rg}(f) = 5 - 2$.",
-      "solution": "Par le théorème du rang, $\\dim(E) = \\dim(\\ker f) + \\text{rg}(f) \\implies 5 = 2 + \\text{rg}(f) \\implies \\text{rg}(f) = 3$ (donc $f$ est surjective)."
+      "answer": "$2$",
+      "hint1": "Surjective $\\implies \\text{rg}(f) = \\dim(\\mathbb{R}^3) = 3$.",
+      "hint2": "$\\dim \\ker(f) = 5 - 3 = 2$.",
+      "solution": "D'après le théorème du rang : $\\dim \\ker(f) = \\dim(\\mathbb{R}^5) - \\text{rg}(f) = 5 - 3 = 2$."
+    },
+    {
+      "id": "L1-APP-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Noyau d'un endomorphisme",
+      "skill": "Déterminer la dimension du noyau",
+      "statement": "Soit $f : \\mathbb{R}^3 \\to \\mathbb{R}^3, (x, y, z) \\mapsto (x - y, y - z, z - x)$. Quelle est la dimension de $\\ker(f)$ ?",
+      "options": [
+        "$1$",
+        "$0$",
+        "$2$",
+        "$3$"
+      ],
+      "correctIndex": 0,
+      "answer": "$1$",
+      "hint1": "$x - y = 0, y - z = 0, z - x = 0 \\iff x = y = z$.",
+      "hint2": "$\\ker(f) = \\text{Vect}((1, 1, 1))$.",
+      "solution": "$(x, y, z) \\in \\ker(f) \\iff x = y = z$. C'est la droite dirigée par $(1, 1, 1)$, donc $\\dim \\ker(f) = 1$."
+    },
+    {
+      "id": "L1-APP-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Matrice de dérivation dans une base de polynômes",
+      "skill": "Représenter un opérateur dans une base",
+      "statement": "Pour $D : \\mathbb{R}_2[X] \\to \\mathbb{R}_2[X], P \\mapsto P'$, quelle est la trace de sa matrice dans la base $(1, X, X^2)$ ?",
+      "options": [
+        "$0$",
+        "$1$",
+        "$2$",
+        "$3$"
+      ],
+      "correctIndex": 0,
+      "answer": "$0$",
+      "hint1": "$D(1) = 0$, $D(X) = 1$, $D(X^2) = 2X$.",
+      "hint2": "La matrice est triangulaire supérieure stricte avec des zéros sur la diagonale.",
+      "solution": "La matrice est $\\begin{pmatrix} 0 & 1 & 0 \\\\ 0 & 0 & 2 \\\\ 0 & 0 & 0 \\end{pmatrix}$. Sa diagonale est nulle, donc sa trace vaut 0."
+    },
+    {
+      "id": "L1-APP-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Propriétés d'un projecteur",
+      "skill": "Caractériser les projecteurs $p^2 = p$",
+      "statement": "Soit $p \\in \\mathcal{L}(E)$ tel que $p^2 = p$. Que peut-on toujours affirmer ?",
+      "options": [
+        "$E = \\ker(p) \\oplus \\text{im}(p)$",
+        "$p$ est toujours injectif",
+        "$\\text{im}(p) \\subset \\ker(p)$",
+        "$p = \\text{Id}_E$"
+      ],
+      "correctIndex": 0,
+      "answer": "$E = \\ker(p) \\oplus \\text{im}(p)$",
+      "hint1": "Tout vecteur s'écrit $x = (x - p(x)) + p(x)$.",
+      "hint2": "$p(x - p(x)) = p(x) - p^2(x) = 0$.",
+      "solution": "Pour tout projecteur $p^2 = p$, l'espace se décompose en somme directe du noyau et de l'image : $E = \\ker(p) \\oplus \\text{im}(p)$."
     }
   ],
   "L1-REL": [
@@ -612,20 +897,77 @@ window.MATHS_EXERCISES_L1 = {
       "id": "L1-REL-1",
       "tier": 1,
       "type": "mcq",
-      "title": "Borne supérieure",
-      "skill": "Déterminer $\\sup(A)$",
-      "statement": "Que vaut la borne supérieure de l'ensemble $A = \\left\\{ 1 - \\frac{1}{n} \\;\\middle|\\; n \\in \\mathbb{N}^* \\right\\}$ dans $\\mathbb{R}$ ?",
+      "title": "Borne supérieure d'une partie de R",
+      "skill": "Déterminer la borne supérieure d'un ensemble",
+      "statement": "Quelle est la borne supérieure dans $\\mathbb{R}$ de $A = \\{ 1 - 1/n \\mid n \\in \\mathbb{N}^* \\}$ ?",
       "options": [
-        "$\\sup(A) = 1$",
-        "$\\sup(A) = 0$",
-        "$A$ n'admet pas de borne supérieure",
-        "$\\sup(A) = 2$"
+        "$1$",
+        "$0$",
+        "$1/2$",
+        "Aucune"
       ],
       "correctIndex": 0,
-      "answer": "$\\sup(A) = 1$",
-      "hint1": "Pour tout $n \\ge 1$, $1 - 1/n < 1$. 1 est un majorant.",
-      "hint2": "Quand $n \\to +\\infty$, $1 - 1/n \\to 1$. C'est donc le plus petit des majorants.",
-      "solution": "1 est un majorant de $A$, et c'est la limite d'une suite d'éléments de $A$. Par la caractérisation de la borne supérieure, $\\sup(A) = 1$ (bien que $1 \\notin A$)."
+      "answer": "$1$",
+      "hint1": "Pour tout $n \\ge 1$, $1 - 1/n < 1$.",
+      "hint2": "La suite $1 - 1/n$ converge vers 1.",
+      "solution": "$1$ est le plus petit des majorants de $A$. Bien qu'il n'appartienne pas à $A$, $\\sup(A) = 1$."
+    },
+    {
+      "id": "L1-REL-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Nombre de sous-ensembles à 2 éléments",
+      "skill": "Calculer le cardinal d'une combinaison",
+      "statement": "Combien de parties à 2 éléments possède un ensemble à $n$ éléments ?",
+      "options": [
+        "$\\frac{n(n-1)}{2}$",
+        "$n^2$",
+        "$2^n$",
+        "$n(n-1)$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\frac{n(n-1)}{2}$",
+      "hint1": "C'est le coefficient binomial $\\binom{n}{2}$.",
+      "hint2": "$\\binom{n}{2} = \\frac{n!}{2!(n-2)!}$.",
+      "solution": "Le nombre de sous-ensembles à 2 éléments est $\\binom{n}{2} = \\frac{n(n-1)}{2}$."
+    },
+    {
+      "id": "L1-REL-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Relation d'ordre de divisibilité",
+      "skill": "Classifier un ordre partiel vs total",
+      "statement": "La relation de divisibilité sur $\\mathbb{N}^*$ est :",
+      "options": [
+        "Un ordre partiel",
+        "Un ordre total",
+        "Une relation d'équivalence",
+        "Une bijection"
+      ],
+      "correctIndex": 0,
+      "answer": "Un ordre partiel",
+      "hint1": "$2$ divise-t-il $3$ ? $3$ divise-t-il $2$ ?",
+      "hint2": "Tous les éléments ne sont pas comparables, donc l'ordre n'est pas total.",
+      "solution": "La divisibilité est réflexive, antisymétrique et transitive sur $\\mathbb{N}^*$, mais $2$ et $3$ ne sont pas comparables : c'est un ordre partiel."
+    },
+    {
+      "id": "L1-REL-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Principe d'inclusion-exclusion",
+      "skill": "Appliquer la formule du crible de Poincaré",
+      "statement": "Combien d'entiers dans $\\{1, \\dots, 100\\}$ sont divisibles par 2 ou par 5 ?",
+      "options": [
+        "$60$",
+        "$70$",
+        "$50$",
+        "$65$"
+      ],
+      "correctIndex": 0,
+      "answer": "$60$",
+      "hint1": "$|A \\cup B| = |A| + |B| - |A \\cap B|$.",
+      "hint2": "Multiples de 2 : 50. Multiples de 5 : 20. Multiples de 10 : 10.",
+      "solution": "$50 + 20 - 10 = 60$ entiers sont divisibles par 2 ou par 5."
     }
   ],
   "L1-SUI": [
@@ -633,20 +975,77 @@ window.MATHS_EXERCISES_L1 = {
       "id": "L1-SUI-1",
       "tier": 1,
       "type": "mcq",
-      "title": "Suite de Cauchy et complétude",
-      "skill": "Comprendre la complétude de $\\mathbb{R}$",
-      "statement": "Dans le corps des nombres réels $\\mathbb{R}$, toute suite de Cauchy est :",
+      "title": "Complétude et suites de Cauchy",
+      "skill": "Connaître la définition d'un espace métrique complet",
+      "statement": "Un espace métrique dans lequel toute suite de Cauchy converge est dit :",
       "options": [
-        "Convergente dans $\\mathbb{R}$ (complétude)",
-        "Nécessairement constante à partir d'un certain rang",
-        "Divergente vers $+\\infty$",
-        "Non bornée"
+        "Complet",
+        "Compact",
+        "Connexe",
+        "Séparable"
       ],
       "correctIndex": 0,
-      "answer": "Convergente dans $\\mathbb{R}$ (complétude)",
-      "hint1": "$\\mathbb{R}$ est un espace métrique complet.",
-      "hint2": "Dans un espace complet, suite de Cauchy équivaut à suite convergente.",
-      "solution": "Par définition de la complétude du corps des réels, toute suite de Cauchy d'éléments de $\\mathbb{R}$ converge vers une limite réelle dans $\\mathbb{R}$."
+      "answer": "Complet",
+      "hint1": "Propriété fondamentale de $\\mathbb{R}$ qui le distingue de $\\mathbb{Q}$.",
+      "hint2": "C'est la définition même de la complétude.",
+      "solution": "Par définition, un espace métrique est complet si toute suite de Cauchy y est convergente."
+    },
+    {
+      "id": "L1-SUI-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Point fixe d'une suite récurrente",
+      "skill": "Calculer la limite d'une suite arithmético-géométrique",
+      "statement": "Soit $u_0 = 4$ et $u_{n+1} = \\frac{1}{2}u_n + 3$. Quelle est la limite de $(u_n)$ ?",
+      "options": [
+        "$6$",
+        "$3$",
+        "$4$",
+        "$+\\infty$"
+      ],
+      "correctIndex": 0,
+      "answer": "$6$",
+      "hint1": "Résous l'équation du point fixe $\\ell = \\frac{1}{2}\\ell + 3$.",
+      "hint2": "$\\ell / 2 = 3 \\implies \\ell = 6$.",
+      "solution": "Comme $|1/2| < 1$, la suite converge vers l'unique point fixe $\\ell = \\frac{1}{2}\\ell + 3 \\iff \\ell = 6$."
+    },
+    {
+      "id": "L1-SUI-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Théorème des suites adjacentes",
+      "skill": "Appliquer le critère de convergence des suites adjacentes",
+      "statement": "Si $(u_n)$ croît, $(v_n)$ décroît et $\\lim (v_n - u_n) = 0$, alors :",
+      "options": [
+        "$(u_n)$ et $(v_n)$ convergent vers une même limite",
+        "$(u_n)$ tend vers $+\\infty$",
+        "Les suites divergent",
+        "$\\lim u_n < \\lim v_n$"
+      ],
+      "correctIndex": 0,
+      "answer": "$(u_n)$ et $(v_n)$ convergent vers une même limite",
+      "hint1": "Théorème fondamental de l'analyse réelle.",
+      "hint2": "Pour tout $n$, $u_n \\le v_n$ et elles encadrent leur limite commune.",
+      "solution": "D'après le théorème des suites adjacentes, les deux suites convergent et ont exactement la même limite réelle."
+    },
+    {
+      "id": "L1-SUI-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Théorème de Bolzano-Weierstrass",
+      "skill": "Propriété de compacité séquentielle de $\\mathbb{R}$",
+      "statement": "Que garantit le théorème de Bolzano-Weierstrass pour toute suite réelle bornée ?",
+      "options": [
+        "L'existence d'au moins une sous-suite convergente",
+        "La convergence de la suite",
+        "La monotonie à partir d'un certain rang",
+        "L'absence de points d'accumulation"
+      ],
+      "correctIndex": 0,
+      "answer": "L'existence d'au moins une sous-suite convergente",
+      "hint1": "Pense à $u_n = (-1)^n$, qui ne converge pas mais admet des sous-suites convergentes.",
+      "hint2": "De toute suite bornée, on peut extraire une suite convergente.",
+      "solution": "Le théorème de Bolzano-Weierstrass affirme que de toute suite réelle bornée, on peut extraire une sous-suite convergente."
     }
   ],
   "L1-CNT": [
@@ -655,19 +1054,76 @@ window.MATHS_EXERCISES_L1 = {
       "tier": 1,
       "type": "mcq",
       "title": "Théorème de Rolle",
-      "skill": "Identifier les hypothèses du théorème de Rolle",
-      "statement": "Quelles sont les hypothèses exactes pour appliquer le théorème de Rolle à une fonction $f$ sur $[a ; b]$ ?",
+      "skill": "Énoncer le théorème de Rolle",
+      "statement": "Soit $f$ continue sur $[a, b]$, dérivable sur $]a, b[$ avec $f(a) = f(b)$. Que garantit le théorème de Rolle ?",
       "options": [
-        "$f$ continue sur $[a ; b]$, dérivable sur $]a ; b[$ et $f(a) = f(b)$",
-        "$f$ dérivable sur $[a ; b]$ et $f(a) = 0$",
-        "$f$ continue sur $]a ; b[$ et strictement croissante",
-        "$f$ deux fois dérivable sur $[a ; b]$"
+        "$\\exists c \\in ]a, b[, f'(c) = 0$",
+        "$f$ est constante sur $[a, b]$",
+        "$f'(x) > 0$ partout",
+        "$\\exists c \\in [a, b], f(c) = 0$"
       ],
       "correctIndex": 0,
-      "answer": "$f$ continue sur $[a ; b]$, dérivable sur $]a ; b[$ et $f(a) = f(b)$",
-      "hint1": "La continuité est sur le fermé, la dérivabilité sur l'ouvert, avec égalité aux bornes.",
-      "hint2": "Rolle affirme alors qu'il existe $c \\in ]a ; b[$ avec $f'(c) = 0$.",
-      "solution": "Le théorème de Rolle stipule que si $f$ est continue sur $[a ; b]$, dérivable sur $]a ; b[$ et vérifie $f(a) = f(b)$, alors $\\exists c \\in ]a ; b[, f'(c) = 0$."
+      "answer": "$\\exists c \\in ]a, b[, f'(c) = 0$",
+      "hint1": "La dérivée s'annule en au moins un point intermédiaire.",
+      "hint2": "Tangente horizontale au point d'abscisse $c$.",
+      "solution": "Le théorème de Rolle assure qu'il existe au moins un point $c \\in ]a, b[$ tel que $f'(c) = 0$."
+    },
+    {
+      "id": "L1-CNT-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Théorème des Valeurs Intermédiaires",
+      "skill": "Localiser une racine d'une fonction continue",
+      "statement": "L'équation $x^3 + 3x - 1 = 0$ admet-elle une solution sur $[0, 1]$ ?",
+      "options": [
+        "Oui, car $f$ est continue et $f(0)f(1) < 0$",
+        "Non, car $f(0) \\ne 0$",
+        "Non, car le discriminant est négatif",
+        "Impossible à savoir"
+      ],
+      "correctIndex": 0,
+      "answer": "Oui, car $f$ est continue et $f(0)f(1) < 0$",
+      "hint1": "$f(0) = -1 < 0$ et $f(1) = 3 > 0$.",
+      "hint2": "Par le TVI, la fonction s'annule au moins une fois entre 0 et 1.",
+      "solution": "$f(0) = -1$ et $f(1) = 3$. Comme $f$ est continue sur $[0, 1]$, le TVI garantit l'existence d'une racine dans $]0, 1[$."
+    },
+    {
+      "id": "L1-CNT-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Règle de L'Hôpital",
+      "skill": "Calculer une limite indéterminée 0/0",
+      "statement": "Quelle est la limite quand $x \\to 0$ de $\\frac{e^{2x} - 1}{\\sin(3x)}$ ?",
+      "options": [
+        "$\\frac{2}{3}$",
+        "$\\frac{3}{2}$",
+        "$0$",
+        "$1$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\frac{2}{3}$",
+      "hint1": "Forme indéterminée 0/0 : dérive en haut et en bas.",
+      "hint2": "$\\lim \\frac{2e^{2x}}{3\\cos(3x)} = \\frac{2}{3}$.",
+      "solution": "Par la règle de L'Hôpital : $\\lim_{x \\to 0} \\frac{e^{2x}-1}{\\sin(3x)} = \\lim_{x \\to 0} \\frac{2e^{2x}}{3\\cos(3x)} = \\frac{2}{3}$."
+    },
+    {
+      "id": "L1-CNT-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Théorème de Heine",
+      "skill": "Continuité uniforme sur un compact",
+      "statement": "Que garantit le théorème de Heine pour une fonction continue $f : [a, b] \\to \\mathbb{R}$ ?",
+      "options": [
+        "$f$ est uniformément continue sur $[a, b]$",
+        "$f$ est dérivable sur $[a, b]$",
+        "$f$ est strictement monotone",
+        "$f$ est lipschitzienne"
+      ],
+      "correctIndex": 0,
+      "answer": "$f$ est uniformément continue sur $[a, b]$",
+      "hint1": "Sur un compact, la continuité locale devient uniforme.",
+      "hint2": "$\\forall \\varepsilon > 0, \\exists \\eta > 0, |x-y| < \\eta \\implies |f(x)-f(y)| < \\varepsilon$.",
+      "solution": "Le théorème de Heine stipule que toute fonction continue sur un espace métrique compact (comme $[a, b]$) y est uniformément continue."
     }
   ],
   "L1-TAY": [
@@ -675,20 +1131,77 @@ window.MATHS_EXERCISES_L1 = {
       "id": "L1-TAY-1",
       "tier": 1,
       "type": "mcq",
-      "title": "Développement limité usuel",
-      "skill": "Connaître le DL de $\\ln(1+x)$ en 0",
-      "statement": "Quel est le développement limité à l'ordre 3 en 0 de $\\ln(1+x)$ ?",
+      "title": "Développement limité usuel de cosinus",
+      "skill": "Connaître les DL usuels en 0",
+      "statement": "Quel est le DL à l'ordre 4 en 0 de $\\cos(x)$ ?",
       "options": [
-        "$x - \\frac{x^2}{2} + \\frac{x^3}{3} + o(x^3)$",
-        "$x + \\frac{x^2}{2} + \\frac{x^3}{3} + o(x^3)$",
-        "$1 + x - \\frac{x^2}{2} + \\frac{x^3}{6} + o(x^3)$",
-        "$x - \\frac{x^3}{6} + o(x^3)$"
+        "$1 - \\frac{x^2}{2} + \\frac{x^4}{24} + o(x^4)$",
+        "$1 - x + \\frac{x^2}{2} + o(x^4)$",
+        "$x - \\frac{x^3}{6} + o(x^4)$",
+        "$1 + \\frac{x^2}{2} + o(x^4)$"
       ],
       "correctIndex": 0,
-      "answer": "$x - \\frac{x^2}{2} + \\frac{x^3}{3} + o(x^3)$",
-      "hint1": "Les signes alternent : $+ - + - \\dots$, et les dénominateurs sont $1, 2, 3$ (sans factorielle).",
-      "hint2": "$\\ln(1+x) = \\sum_{k=1}^n (-1)^{k-1} \\frac{x^k}{k} + o(x^n)$.",
-      "solution": "Le DL usuel en 0 est $\\ln(1+x) = x - \\frac{x^2}{2} + \\frac{x^3}{3} + o(x^3)$."
+      "answer": "$1 - \\frac{x^2}{2} + \\frac{x^4}{24} + o(x^4)$",
+      "hint1": "Fonction paire : uniquement des puissances paires.",
+      "hint2": "$4! = 24$.",
+      "solution": "$\\cos(x) = 1 - \\frac{x^2}{2!} + \\frac{x^4}{4!} + o(x^4) = 1 - \\frac{x^2}{2} + \\frac{x^4}{24} + o(x^4)$."
+    },
+    {
+      "id": "L1-TAY-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Limite par développement limité",
+      "skill": "Lever une indétermination à l'aide des DL",
+      "statement": "Quelle est la limite quand $x \\to 0$ de $\\frac{\\ln(1 + x) - x}{x^2}$ ?",
+      "options": [
+        "$-\\frac{1}{2}$",
+        "$\\frac{1}{2}$",
+        "$0$",
+        "$-1$"
+      ],
+      "correctIndex": 0,
+      "answer": "$-\\frac{1}{2}$",
+      "hint1": "$\\ln(1+x) = x - \\frac{x^2}{2} + o(x^2)$.",
+      "hint2": "Le quotient vaut $-\\frac{1}{2} + o(1)$.",
+      "solution": "Comme $\\ln(1+x) - x = -\\frac{x^2}{2} + o(x^2)$, le quotient par $x^2$ tend vers $-\\frac{1}{2}$."
+    },
+    {
+      "id": "L1-TAY-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Reste de Taylor-Lagrange",
+      "skill": "Estimer l'erreur dans la formule de Taylor",
+      "statement": "Pour $f(x) = e^x$ sur $[0, 1]$ à l'ordre 1, l'erreur $e - 2$ s'écrit :",
+      "options": [
+        "$\\frac{e^c}{2}$ avec $c \\in ]0, 1[$",
+        "$\\frac{1}{6}$",
+        "$e$",
+        "$0$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\frac{e^c}{2}$ avec $c \\in ]0, 1[$",
+      "hint1": "Le reste d'ordre 1 est $\\frac{f''(c)}{2!}(1-0)^2$.",
+      "hint2": "$f''(t) = e^t$, d'où $e^c/2$.",
+      "solution": "Par Taylor-Lagrange à l'ordre 1 : $e = 1 + 1 + \\frac{e^c}{2} \\implies e - 2 = \\frac{e^c}{2}$ avec $c \\in ]0, 1[$."
+    },
+    {
+      "id": "L1-TAY-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Position relative par rapport à l'asymptote",
+      "skill": "Étudier la position d'une courbe par DL à l'infini",
+      "statement": "Au voisinage de $+\\infty$, $f(x) = x + 1 - \\frac{1}{2x} + o(1/x)$. Comment se situe la courbe par rapport à l'asymptote $y = x + 1$ ?",
+      "options": [
+        "Strictement en dessous",
+        "Strictement au-dessus",
+        "Elle la traverse une infinité de fois",
+        "Confondue"
+      ],
+      "correctIndex": 0,
+      "answer": "Strictement en dessous",
+      "hint1": "Le signe de $f(x) - (x+1) \\sim -\\frac{1}{2x}$ est négatif quand $x \\to +\\infty$.",
+      "hint2": "Différence négative $\\implies$ en dessous.",
+      "solution": "$f(x) - (x+1) = -\\frac{1}{2x} + o(1/x) < 0$ pour $x$ assez grand, donc la courbe est strictement en dessous."
     }
   ],
   "L1-INT": [
@@ -696,9 +1209,9 @@ window.MATHS_EXERCISES_L1 = {
       "id": "L1-INT-1",
       "tier": 1,
       "type": "mcq",
-      "title": "Somme de Riemann",
-      "skill": "Reconnaître la limite d'une somme de Riemann",
-      "statement": "Quelle est la limite quand $n \\to +\\infty$ de $S_n = \\frac{1}{n} \\sum_{k=1}^n \\left(\\frac{k}{n}\\right)^2$ ?",
+      "title": "Somme de Riemann élémentaire",
+      "skill": "Calculer la limite d'une somme de Riemann",
+      "statement": "Quelle est la limite quand $n \\to +\\infty$ de $\\frac{1}{n}\\sum_{k=1}^n (k/n)^2$ ?",
       "options": [
         "$\\frac{1}{3}$",
         "$\\frac{1}{2}$",
@@ -707,9 +1220,66 @@ window.MATHS_EXERCISES_L1 = {
       ],
       "correctIndex": 0,
       "answer": "$\\frac{1}{3}$",
-      "hint1": "C'est la somme de Riemann de $f(x) = x^2$ sur $[0 ; 1]$.",
-      "hint2": "$\\lim S_n = \\int_0^1 x^2 dx = \\left[ \\frac{x^3}{3} \\right]_0^1$.",
-      "solution": "Par le théorème des sommes de Riemann, $\\lim_{n \\to +\\infty} S_n = \\int_0^1 x^2 dx = \\left[\\frac{x^3}{3}\\right]_0^1 = \\frac{1}{3}$."
+      "hint1": "C'est l'intégrale $\\int_0^1 x^2 dx$.",
+      "hint2": "$[x^3/3]_0^1 = 1/3$.",
+      "solution": "Par le théorème des sommes de Riemann, $\\lim S_n = \\int_0^1 x^2 dx = [x^3/3]_0^1 = 1/3$."
+    },
+    {
+      "id": "L1-INT-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Intégration par parties",
+      "skill": "Calculer $\\int_1^e x \\ln x dx$",
+      "statement": "Que vaut l'intégrale $\\int_1^e x \\ln(x) dx$ ?",
+      "options": [
+        "$\\frac{e^2 + 1}{4}$",
+        "$\\frac{e^2 - 1}{4}$",
+        "$\\frac{e^2}{2}$",
+        "$1$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\frac{e^2 + 1}{4}$",
+      "hint1": "Pose $u = \\ln x$ et $v' = x$.",
+      "hint2": "$[x^2 \\ln x / 2]_1^e - \\int_1^e x/2 dx = e^2/2 - (e^2-1)/4$.",
+      "solution": "Par IPP : $[x^2 \\ln(x)/2]_1^e - [x^2/4]_1^e = e^2/2 - (e^2-1)/4 = \\frac{e^2+1}{4}$."
+    },
+    {
+      "id": "L1-INT-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Changement de variable",
+      "skill": "Calculer une intégrale trigonométrique par substitution",
+      "statement": "Que vaut $\\int_0^{\\pi/2} \\cos(x) \\sin^3(x) dx$ ?",
+      "options": [
+        "$\\frac{1}{4}$",
+        "$\\frac{1}{3}$",
+        "$1$",
+        "$0$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\frac{1}{4}$",
+      "hint1": "Pose $u = \\sin(x)$, alors $du = \\cos(x)dx$.",
+      "hint2": "L'intégrale devient $\\int_0^1 u^3 du = [u^4/4]_0^1$.",
+      "solution": "Avec $u = \\sin(x)$, $\\int_0^1 u^3 du = [u^4/4]_0^1 = 1/4$."
+    },
+    {
+      "id": "L1-INT-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Dérivation d'une intégrale à borne variable",
+      "skill": "Appliquer le théorème fondamental de l'analyse avec composition",
+      "statement": "Pour $F(x) = \\int_0^{x^2} e^{-t^2} dt$, quelle est la dérivée $F'(x)$ ?",
+      "options": [
+        "$2x e^{-x^4}$",
+        "$e^{-x^4}$",
+        "$2x e^{-x^2}$",
+        "$-2x^3 e^{-x^4}$"
+      ],
+      "correctIndex": 0,
+      "answer": "$2x e^{-x^4}$",
+      "hint1": "Dérivée de $G(u(x))$ : $u'(x) G'(u(x))$.",
+      "hint2": "$(x^2)' = 2x$ et $G'(t) = e^{-t^2}$.",
+      "solution": "$F'(x) = (x^2)' \\cdot e^{-(x^2)^2} = 2x e^{-x^4}$."
     }
   ],
   "L1-GEO": [
@@ -717,8 +1287,8 @@ window.MATHS_EXERCISES_L1 = {
       "id": "L1-GEO-1",
       "tier": 1,
       "type": "mcq",
-      "title": "Vecteur vitesse d'une courbe paramétrée",
-      "skill": "Calculer le vecteur vitesse $\\gamma'(t)$",
+      "title": "Vecteur vitesse d'un arc paramétré",
+      "skill": "Calculer le vecteur dérivé $\\gamma'(t)$",
       "statement": "Pour $\\gamma(t) = (t^2 - 1 ; 2t^3)$, quel est le vecteur tangent en $t = 1$ ?",
       "options": [
         "$(2 ; 6)$",
@@ -728,9 +1298,66 @@ window.MATHS_EXERCISES_L1 = {
       ],
       "correctIndex": 0,
       "answer": "$(2 ; 6)$",
-      "hint1": "$\\gamma'(t) = (x'(t) ; y'(t)) = (2t ; 6t^2)$.",
+      "hint1": "$\\gamma'(t) = (2t, 6t^2)$.",
       "hint2": "Évalue en $t = 1$.",
-      "solution": "$x'(t) = 2t$ et $y'(t) = 6t^2$. En $t = 1$, le vecteur tangent est $\\gamma'(1) = (2 ; 6)$."
+      "solution": "$\\gamma'(1) = (2(1), 6(1)^2) = (2, 6)$."
+    },
+    {
+      "id": "L1-GEO-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Vecteur normal à un plan",
+      "skill": "Identifier un vecteur normal à partir de l'équation cartésienne",
+      "statement": "Quel est un vecteur normal au plan $3x - 2y + 5z - 7 = 0$ ?",
+      "options": [
+        "$\\vec{n} = (3, -2, 5)$",
+        "$\\vec{n} = (3, 2, 5)$",
+        "$\\vec{n} = (-3, 2, 7)$",
+        "$\\vec{n} = (1, 1, 1)$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\vec{n} = (3, -2, 5)$",
+      "hint1": "Les composantes sont les coefficients devant $x, y, z$.",
+      "hint2": "$a = 3$, $b = -2$, $c = 5$.",
+      "solution": "L'équation $ax + by + cz + d = 0$ donne directement $\\vec{n} = (a, b, c) = (3, -2, 5)$."
+    },
+    {
+      "id": "L1-GEO-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Courbure d'un cercle",
+      "skill": "Calculer la courbure géométrique",
+      "statement": "Quelle est la courbure $\\kappa$ en tout point d'un cercle de rayon $R > 0$ ?",
+      "options": [
+        "$\\frac{1}{R}$",
+        "$R$",
+        "$\\frac{1}{R^2}$",
+        "$0$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\frac{1}{R}$",
+      "hint1": "La courbure est l'inverse du rayon de courbure.",
+      "hint2": "Pour un cercle de rayon $R$, $\\kappa = 1/R$.",
+      "solution": "Par définition, pour un cercle de rayon $R$, la courbure est constante et vaut $\\kappa = 1/R$."
+    },
+    {
+      "id": "L1-GEO-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Point de rebroussement de première espèce",
+      "skill": "Classifier un point stationnaire",
+      "statement": "Pour $\\gamma(t) = (t^2, t^3)$, $\\gamma'(0)=(0,0)$, $\\gamma''(0)=(2,0)$ et $\\gamma'''(0)=(0,6)$. Quel est le type de ce point singulier ?",
+      "options": [
+        "Point de rebroussement de première espèce",
+        "Point d'inflexion",
+        "Point ordinaire",
+        "Point méplat"
+      ],
+      "correctIndex": 0,
+      "answer": "Point de rebroussement de première espèce",
+      "hint1": "Ordres dérivés : $p=2$ (pair) et $q=3$ (impair).",
+      "hint2": "$(p, q) = (\\text{pair}, \\text{impair}) \\implies$ rebroussement 1ère espèce.",
+      "solution": "Les premiers ordres non nuls et indépendants sont $p=2$ (pair) et $q=3$ (impair). Il s'agit donc d'un point de rebroussement de première espèce."
     }
   ]
 };

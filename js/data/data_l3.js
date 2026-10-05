@@ -677,20 +677,77 @@ window.MATHS_EXERCISES_L3 = {
       "id": "L3-GRP1-1",
       "tier": 1,
       "type": "mcq",
-      "title": "Théorème de Lagrange",
-      "skill": "Ordre d'un sous-groupe",
-      "statement": "Soit $G$ un groupe fini d'ordre 24. Quel ordre un sous-groupe $H$ de $G$ NE peut-il PAS avoir ?",
+      "title": "Théorème de Lagrange pour les groupes finis",
+      "skill": "Appliquer la divisibilité des ordres",
+      "statement": "Soit $G$ un groupe fini d'ordre 24 et $H$ un sous-groupe de $G$. Lequel des entiers suivants NE PEUT PAS être l'ordre de $H$ ?",
       "options": [
-        "$5$",
+        "$7$",
         "$6$",
         "$8$",
         "$12$"
       ],
       "correctIndex": 0,
-      "answer": "$5$",
-      "hint1": "D'après le théorème de Lagrange, l'ordre d'un sous-groupe doit diviser l'ordre du groupe.",
-      "hint2": "5 ne divise pas 24 car $24 = 5 \\times 4 + 4$.",
-      "solution": "D'après le théorème de Lagrange, $|H|$ divise $|G| = 24$. Comme 5 ne divise pas 24, un tel sous-groupe ne peut pas exister."
+      "answer": "$7$",
+      "hint1": "D'après le théorème de Lagrange, l'ordre d'un sous-groupe divise l'ordre du groupe.",
+      "hint2": "7 ne divise pas 24.",
+      "solution": "Le théorème de Lagrange impose que $|H|$ divise $|G| = 24$. Comme 7 ne divise pas 24, $G$ ne peut pas contenir de sous-groupe d'ordre 7."
+    },
+    {
+      "id": "L3-GRP1-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Sous-groupes distingués et quotient",
+      "skill": "Condition pour munir $G/H$ d'une structure de groupe",
+      "statement": "Pour qu'un ensemble quotient $G/H$ puisse être muni d'une loi de groupe canonique rendant la projection $\\pi : G \\to G/H$ morphisme, il faut et il suffit que $H$ soit :",
+      "options": [
+        "Un sous-groupe distingué (normal) de $G$",
+        "Un groupe abélien",
+        "D'ordre premier",
+        "D'indice 1"
+      ],
+      "correctIndex": 0,
+      "answer": "Un sous-groupe distingué (normal) de $G$",
+      "hint1": "La loi quotient $(xH)(yH) = (xy)H$ doit être bien définie indépendamment des représentants.",
+      "hint2": "Cela équivaut à $g H g^{-1} = H$ pour tout $g \\in G$.",
+      "solution": "L'ensemble des classes à gauche $G/H$ hérite d'une structure de groupe quotient si et seulement si $H$ est distingué dans $G$ (noté $H \\triangleleft G$)."
+    },
+    {
+      "id": "L3-GRP1-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Premier théorème d'isomorphisme",
+      "skill": "Identifier le quotient $G / \\ker \\varphi$",
+      "statement": "Si $\\varphi : G \\to G'$ est un morphisme de groupes, alors le premier théorème d'isomorphisme établit que :",
+      "options": [
+        "$G / \\ker(\\varphi) \\simeq \\text{im}(\\varphi)$",
+        "$G / \\text{im}(\\varphi) \\simeq \\ker(\\varphi)$",
+        "$G \\simeq \\ker(\\varphi) \\times \\text{im}(\\varphi)$",
+        "$\\ker(\\varphi) = \\text{im}(\\varphi)$"
+      ],
+      "correctIndex": 0,
+      "answer": "$G / \\ker(\\varphi) \\simeq \\text{im}(\\varphi)$",
+      "hint1": "Le morphisme induit $\\bar{\\varphi} : x \\ker \\varphi \\mapsto \\varphi(x)$ est un isomorphisme.",
+      "hint2": "Résultat fondamental de factorisation des morphismes.",
+      "solution": "Le premier théorème d'isomorphisme affirme que pour tout morphisme $\\varphi$, la projection au quotient induit un isomorphisme canonique $G / \\ker(\\varphi) \\simeq \\text{im}(\\varphi)$."
+    },
+    {
+      "id": "L3-GRP1-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Groupes d'ordre premier",
+      "skill": "Classifier les groupes finis simples d'ordre premier",
+      "statement": "Tout groupe $G$ dont le cardinal est un nombre premier $p$ est nécessairement :",
+      "options": [
+        "Cyclique et isomorphe à $\\mathbb{Z}/p\\mathbb{Z}$",
+        "Non commutatif",
+        "Infini",
+        "Dépourvu de sous-groupes propres"
+      ],
+      "correctIndex": 0,
+      "answer": "Cyclique et isomorphe à $\\mathbb{Z}/p\\mathbb{Z}$",
+      "hint1": "Prends un élément $x \\ne e$. L'ordre du sous-groupe $\\langle x \\rangle$ divise $p$.",
+      "hint2": "Comme $p$ est premier et $x \\ne e$, l'ordre est $p$, donc $\\langle x \\rangle = G$.",
+      "solution": "Pour tout élément $x \\ne e$, l'ordre de $x$ divise $p$ et est $>1$. Comme $p$ est premier, l'ordre est exactement $p$, donc $x$ engendre $G$. $G$ est cyclique isomorphe à $\\mathbb{Z}/p\\mathbb{Z}$."
     }
   ],
   "L3-GRP2": [
@@ -700,18 +757,75 @@ window.MATHS_EXERCISES_L3 = {
       "type": "mcq",
       "title": "Formule orbite-stabilisateur",
       "skill": "Calculer le cardinal d'une orbite",
-      "statement": "Un groupe $G$ d'ordre 60 agit sur un ensemble $X$. Si le stabilisateur d'un point $x$ est d'ordre 12, quel est le cardinal de son orbite ?",
+      "statement": "Lorsqu'un groupe fini $G$ agit sur un ensemble $X$, pour tout $x \\in X$, la formule orbite-stabilisateur stipule que :",
       "options": [
-        "$5$",
-        "$12$",
-        "$60$",
-        "$720$"
+        "$|G| = |\\text{Orb}(x)| \\times |\\text{Stab}(x)|$",
+        "$|G| = |\\text{Orb}(x)| + |\\text{Stab}(x)|$",
+        "$|\\text{Orb}(x)| = |G| - |\\text{Stab}(x)|$",
+        "$|\\text{Stab}(x)| = 1$"
       ],
       "correctIndex": 0,
-      "answer": "$5$",
-      "hint1": "Formule orbite-stabilisateur : $|\\text{Orb}(x)| \\times |\\text{Stab}(x)| = |G|$.",
-      "hint2": "$|\\text{Orb}(x)| = 60 / 12 = 5$.",
-      "solution": "Par la relation orbite-stabilisateur, $|\\text{Orb}(x)| = \\frac{|G|}{|\\text{Stab}(x)|} = \\frac{60}{12} = 5$."
+      "answer": "$|G| = |\\text{Orb}(x)| \\times |\\text{Stab}(x)|$",
+      "hint1": "L'orbite est en bijection avec l'ensemble des classes à gauche modulo le stabilisateur : $\\text{Orb}(x) \\simeq G / \\text{Stab}(x)$.",
+      "hint2": "Par Lagrange, $|G / \\text{Stab}(x)| = |G| / |\\text{Stab}(x)|$.",
+      "solution": "La formule orbite-stabilisateur affirme que pour toute action d'un groupe fini, $|G| = |\\text{Orb}(x)| \\times |\\text{Stab}(x)|$."
+    },
+    {
+      "id": "L3-GRP2-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Action par conjugaison et centre d'un p-groupe",
+      "skill": "Propriétés du centre d'un $p$-groupe",
+      "statement": "Si $G$ est un groupe d'ordre $p^k$ (avec $p$ premier et $k \\ge 1$), que peut-on affirmer sur son centre $Z(G)$ ?",
+      "options": [
+        "Son centre est non trivial ($|Z(G)| \\ge p$)",
+        "$Z(G) = \\{e\\}$",
+        "$Z(G) = G$ toujours",
+        "$Z(G)$ est d'ordre infini"
+      ],
+      "correctIndex": 0,
+      "answer": "Son centre est non trivial ($|Z(G)| \\ge p$)",
+      "hint1": "Applique la formule des classes : $|G| = |Z(G)| + \\sum |\\text{Orb}(x_i)|$.",
+      "hint2": "Chaque orbite non ponctuelle a une taille divisible par $p$, donc $p \\mid |Z(G)|$.",
+      "solution": "Par la formule des classes, $|G| = |Z(G)| + \\sum [G : \\text{Stab}(x)]$. Comme $p$ divise $|G|$ et chaque terme de la somme, $p$ divise $|Z(G)|$. Donc $|Z(G)| \\ge p > 1$ : le centre d'un $p$-groupe n'est jamais trivial."
+    },
+    {
+      "id": "L3-GRP2-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Formule de Burnside",
+      "skill": "Compter le nombre d'orbites d'une action",
+      "statement": "La formule de Burnside (ou lemme de Cauchy-Frobenius) donne le nombre d'orbites $N$ d'un groupe fini $G$ agissant sur $X$ :",
+      "options": [
+        "$N = \\frac{1}{|G|} \\sum_{g \\in G} |\\text{Fix}(g)|$",
+        "$N = \\sum_{g \\in G} |\\text{Fix}(g)|$",
+        "$N = \\frac{|X|}{|G|}$",
+        "$N = \\max_{g} |\\text{Fix}(g)|$"
+      ],
+      "correctIndex": 0,
+      "answer": "$N = \\frac{1}{|G|} \\sum_{g \\in G} |\\text{Fix}(g)|$",
+      "hint1": "Le nombre d'orbites est la moyenne du nombre de points fixes sous chaque élément du groupe.",
+      "hint2": "$\\text{Fix}(g) = \\{x \\in X \\mid g \\cdot x = x\\}$.",
+      "solution": "D'après la formule de Burnside, le nombre d'orbites est égal à la moyenne arithmétique des cardinaux des ensembles de points fixes : $N = \\frac{1}{|G|} \\sum_{g \\in G} |\\text{Fix}(g)|$."
+    },
+    {
+      "id": "L3-GRP2-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Théorèmes de Sylow",
+      "skill": "Existence et propriétés des $p$-sous-groupes de Sylow",
+      "statement": "Si $|G| = p^k m$ avec $p$ premier ne divisant pas $m$, que garantit le premier théorème de Sylow ?",
+      "options": [
+        "Il existe au moins un sous-groupe d'ordre $p^k$ (appelé $p$-Sylow)",
+        "Tous les sous-groupes sont distingués",
+        "$G$ est abélien",
+        "Il existe un sous-groupe d'ordre $m$"
+      ],
+      "correctIndex": 0,
+      "answer": "Il existe au moins un sous-groupe d'ordre $p^k$ (appelé $p$-Sylow)",
+      "hint1": "C'est l'un des théorèmes les plus puissants pour analyser la structure des groupes finis.",
+      "hint2": "Un $p$-Sylow est un sous-groupe d'ordre la plus grande puissance de $p$ divisant $|G|$.",
+      "solution": "Le premier théorème de Sylow garantit l'existence d'au moins un sous-groupe d'ordre $p^k$, appelé $p$-sous-groupe de Sylow de $G$."
     }
   ],
   "L3-ANN": [
@@ -719,20 +833,77 @@ window.MATHS_EXERCISES_L3 = {
       "id": "L3-ANN-1",
       "tier": 1,
       "type": "mcq",
-      "title": "Quotient par un idéal maximal",
-      "skill": "Propriétés des anneaux quotients",
-      "statement": "Si $A$ est un anneau commutatif unitaire et $I$ un idéal maximal de $A$, quelle est la nature de l'anneau quotient $A/I$ ?",
+      "title": "Idéal maximal et corps quotient",
+      "skill": "Caractériser les idéaux maximaux d'un anneau commutatif unitaire",
+      "statement": "Soit $A$ un anneau commutatif unitaire et $I$ un idéal de $A$. L'anneau quotient $A/I$ est un corps si et seulement si $I$ est :",
       "options": [
-        "Un corps",
-        "Un anneau non intègre",
-        "Un espace vectoriel de dimension 0",
-        "Un groupe cyclique"
+        "Un idéal maximal",
+        "Un idéal premier",
+        "L'idéal nul $\\{0\\}$",
+        "Principal"
       ],
       "correctIndex": 0,
-      "answer": "Un corps",
-      "hint1": "Un idéal est maximal si et seulement si tout élément non nul du quotient est inversible.",
-      "hint2": "C'est un théorème fondamental d'algèbre générale.",
-      "solution": "Un idéal $I$ d'un anneau commutatif unitaire est maximal si et seulement si l'anneau quotient $A/I$ est un corps."
+      "answer": "Un idéal maximal",
+      "hint1": "Si $I$ est maximal, il n'y a aucun idéal intermédiaire entre $I$ et $A$.",
+      "hint2": "Dans le quotient, cela signifie que tout élément non nul engendre l'anneau entier, donc est inversible.",
+      "solution": "Dans un anneau commutatif unitaire, $A/I$ est un corps si et seulement si $I$ est un idéal maximal de $A$ (tandis que $A/I$ est intègre si et seulement si $I$ est premier)."
+    },
+    {
+      "id": "L3-ANN-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Construction des nombres complexes par quotient",
+      "skill": "Identifier un corps quotient de polynômes",
+      "statement": "À quel corps bien connu l'anneau quotient $\\mathbb{R}[X] / (X^2 + 1)$ est-il isomorphe ?",
+      "options": [
+        "$\\mathbb{C}$",
+        "$\\mathbb{R} \\times \\mathbb{R}$",
+        "$\\mathbb{R}$",
+        "$\\mathbb{H}$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\mathbb{C}$",
+      "hint1": "$X^2 + 1$ est irréductible sur $\\mathbb{R}$, donc l'idéal $(X^2 + 1)$ est maximal.",
+      "hint2": "La classe de $X$ vérifie $X^2 = -1$, jouant le rôle de $i$.",
+      "solution": "Comme $X^2 + 1$ est irréductible dans $\\mathbb{R}[X]$, le quotient est un corps. Le morphisme d'évaluation $P \\mapsto P(i)$ induit un isomorphisme canonique $\\mathbb{R}[X]/(X^2+1) \\simeq \\mathbb{C}$."
+    },
+    {
+      "id": "L3-ANN-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Anneaux principaux et bezoutiens",
+      "skill": "Propriétés des anneaux principaux",
+      "statement": "Dans un anneau principal (comme $\\mathbb{Z}$ ou $K[X]$), tout idéal $I$ :",
+      "options": [
+        "Est engendré par un unique élément ($I = (a)$)",
+        "Est un corps",
+        "Est maximal",
+        "Est nul"
+      ],
+      "correctIndex": 0,
+      "answer": "Est engendré par un unique élément ($I = (a)$)",
+      "hint1": "C'est la définition d'un anneau principal : intègre et tous ses idéaux sont principaux.",
+      "hint2": "Le générateur est le pgcd des éléments de l'idéal.",
+      "solution": "Par définition, un anneau est principal s'il est intègre et si chacun de ses idéaux est engendré par un seul élément : $\\forall I, \\exists a \\in A, I = aA = (a)$."
+    },
+    {
+      "id": "L3-ANN-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Théorème des restes chinois",
+      "skill": "Isomorphisme d'anneaux pour des idéaux comaximaux",
+      "statement": "Si $m$ et $n$ sont deux entiers premiers entre eux, que garantit le théorème des restes chinois ?",
+      "options": [
+        "$\\mathbb{Z}/(mn)\\mathbb{Z} \\simeq \\mathbb{Z}/m\\mathbb{Z} \\times \\mathbb{Z}/n\\mathbb{Z}$",
+        "$\\mathbb{Z}/(mn)\\mathbb{Z} \\simeq \\mathbb{Z}/(m+n)\\mathbb{Z}$",
+        "$mn = m + n$",
+        "$\\mathbb{Z}/m\\mathbb{Z}$ est un sous-anneau de $\\mathbb{Z}/n\\mathbb{Z}$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\mathbb{Z}/(mn)\\mathbb{Z} \\simeq \\mathbb{Z}/m\\mathbb{Z} \\times \\mathbb{Z}/n\\mathbb{Z}$",
+      "hint1": "Deux idéaux comaximaux $I + J = A$ vérifient $A/(I \\cap J) \\simeq A/I \\times A/J$.",
+      "hint2": "Pour $\\text{pgcd}(m, n) = 1$, $(m) \\cap (n) = (mn)$.",
+      "solution": "Le théorème des restes chinois établit l'isomorphisme d'anneaux $\\mathbb{Z}/(mn)\\mathbb{Z} \\simeq \\mathbb{Z}/m\\mathbb{Z} \\times \\mathbb{Z}/n\\mathbb{Z}$ dès lors que $\\text{pgcd}(m, n) = 1$."
     }
   ],
   "L3-MET": [
@@ -741,19 +912,76 @@ window.MATHS_EXERCISES_L3 = {
       "tier": 1,
       "type": "mcq",
       "title": "Équivalence des normes en dimension finie",
-      "skill": "Topologie des EVN",
-      "statement": "Soit $E$ un $\\mathbb{R}$-espace vectoriel de dimension finie $n$. Que peut-on affirmer de deux normes quelconques $N_1$ et $N_2$ sur $E$ ?",
+      "skill": "Théorème fondamental de topologie vectorielle",
+      "statement": "Sur un espace vectoriel réel de dimension finie $E$, que peut-on affirmer sur les normes ?",
       "options": [
-        "Elles sont toujours équivalentes",
-        "Elles ne sont équivalentes que si $n \\le 2$",
-        "Elles ne sont jamais équivalentes",
-        "Elles sont égales"
+        "Toutes les normes sont équivalentes",
+        "Seules les normes euclidiennes sont équivalentes",
+        "Aucune norme n'est équivalente",
+        "Elles sont équivalentes uniquement si $\\dim E \\le 2$"
       ],
       "correctIndex": 0,
-      "answer": "Elles sont toujours équivalentes",
-      "hint1": "C'est le grand théorème de topologie vectorielle en dimension finie.",
-      "hint2": "La sphère unité est compacte en dimension finie.",
-      "solution": "Sur tout espace vectoriel de dimension finie, toutes les normes sont équivalentes et induisent la même topologie."
+      "answer": "Toutes les normes sont équivalentes",
+      "hint1": "Théorème de compacité de la sphère unité.",
+      "hint2": "Deux normes $N_1, N_2$ vérifient toujours $\\alpha N_1 \\le N_2 \\le \\beta N_1$.",
+      "solution": "Sur tout espace vectoriel réel ou complexe de dimension finie, toutes les normes définissent la même topologie et sont deux à deux équivalentes."
+    },
+    {
+      "id": "L3-MET-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Intérieur et adhérence d'un ensemble",
+      "skill": "Calculer l'intérieur et l'adhérence dans $\\mathbb{R}$",
+      "statement": "Dans $\\mathbb{R}$ muni de la topologie usuelle, que valent respectivement l'intérieur $\\overset{\\circ}{\\mathbb{Q}}$ et l'adhérence $\\overline{\\mathbb{Q}}$ de $\\mathbb{Q}$ ?",
+      "options": [
+        "$\\overset{\\circ}{\\mathbb{Q}} = \\emptyset$ et $\\overline{\\mathbb{Q}} = \\mathbb{R}$",
+        "$\\overset{\\circ}{\\mathbb{Q}} = \\mathbb{Q}$ et $\\overline{\\mathbb{Q}} = \\mathbb{R}$",
+        "$\\overset{\\circ}{\\mathbb{Q}} = \\emptyset$ et $\\overline{\\mathbb{Q}} = \\mathbb{Q}$",
+        "$\\overset{\\circ}{\\mathbb{Q}} = \\mathbb{R}$ et $\\overline{\\mathbb{Q}} = \\mathbb{R}$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\overset{\\circ}{\\mathbb{Q}} = \\emptyset$ et $\\overline{\\mathbb{Q}} = \\mathbb{R}$",
+      "hint1": "Tout intervalle ouvert non vide contient des irrationnels, donc $\\mathbb{Q}$ ne contient aucun ouvert non vide.",
+      "hint2": "$\\mathbb{Q}$ est dense dans $\\mathbb{R}$.",
+      "solution": "Comme $\\mathbb{Q}$ et $\\mathbb{R} \\setminus \\mathbb{Q}$ sont denses dans $\\mathbb{R}$, $\\mathbb{Q}$ est d'intérieur vide et d'adhérence $\\mathbb{R}$ tout entier."
+    },
+    {
+      "id": "L3-MET-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Ensembles compacts dans R^n",
+      "skill": "Théorème de Borel-Lebesgue",
+      "statement": "Dans $\\mathbb{R}^n$ muni de sa topologie usuelle, une partie $K$ est compacte si et seulement si :",
+      "options": [
+        "$K$ est fermée et bornée",
+        "$K$ est ouverte et bornée",
+        "$K$ est convexe",
+        "$K$ est dénombrable"
+      ],
+      "correctIndex": 0,
+      "answer": "$K$ est fermée et bornée",
+      "hint1": "Théorème de Borel-Lebesgue (ou Heine-Borel).",
+      "hint2": "Attention : ce critère n'est vrai qu'en dimension finie !",
+      "solution": "D'après le théorème de Borel-Lebesgue, en dimension finie, la compacité équivaut à être fermé et borné."
+    },
+    {
+      "id": "L3-MET-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Applications lipschitziennes et complétude",
+      "skill": "Continuité uniforme et conservation des suites de Cauchy",
+      "statement": "Si $f : E \\to F$ est une application $k$-lipschitzienne entre deux espaces métriques, alors $f$ transforme :",
+      "options": [
+        "Toute suite de Cauchy de $E$ en une suite de Cauchy de $F$",
+        "Tout fermé de $E$ en un fermé de $F$",
+        "Tout ouvert de $E$ en un ouvert de $F$",
+        "Toute suite bornée en une suite convergente"
+      ],
+      "correctIndex": 0,
+      "answer": "Toute suite de Cauchy de $E$ en une suite de Cauchy de $F$",
+      "hint1": "$d_F(f(x_p), f(x_q)) \\le k d_E(x_p, x_q)$.",
+      "hint2": "Si $(x_n)$ est de Cauchy, $d_E(x_p, x_q) \\to 0$, d'où $d_F(f(x_p), f(x_q)) \\to 0$.",
+      "solution": "Puisque $d_F(f(x_p), f(x_q)) \\le k \\cdot d_E(x_p, x_q)$, l'image d'une suite de Cauchy est immédiatement une suite de Cauchy."
     }
   ],
   "L3-BAN": [
@@ -762,19 +990,76 @@ window.MATHS_EXERCISES_L3 = {
       "tier": 1,
       "type": "mcq",
       "title": "Théorème du point fixe de Picard-Banach",
-      "skill": "Applications contractantes",
-      "statement": "Quelles sont les deux hypothèses requises pour appliquer le théorème du point fixe de Banach à $f : E \\to E$ ?",
+      "skill": "Énoncer le théorème de point fixe contractant",
+      "statement": "Soit $(E, d)$ un espace métrique complet et $f : E \\to E$ une application strictement contractante ($k < 1$). Que garantit le théorème de Banach ?",
       "options": [
-        "$E$ complet et $f$ strictement contractante ($k < 1$)",
-        "$E$ borné et $f$ continue",
-        "$E$ de dimension finie et $f$ dérivable",
-        "$E$ compact et $f$ linéaire"
+        "$f$ admet un unique point fixe",
+        "$f$ admet une infinité de points fixes",
+        "$f$ est surjective mais n'a pas de point fixe",
+        "$f$ est bornée"
       ],
       "correctIndex": 0,
-      "answer": "$E$ complet et $f$ strictement contractante ($k < 1$)",
-      "hint1": "L'espace métrique doit être complet pour assurer la convergence de la suite de Cauchy.",
-      "hint2": "Le rapport de contraction $k$ doit être strictement inférieur à 1.",
-      "solution": "Le théorème du point fixe de Banach requiert que l'espace soit complet et que l'application soit strictement contractante."
+      "answer": "$f$ admet un unique point fixe",
+      "hint1": "Théorème fondamental d'analyse appliqué aux suites d'approximations successives $x_{n+1} = f(x_n)$.",
+      "hint2": "L'existence et l'unicité sont garanties dans tout espace complet.",
+      "solution": "Le théorème du point fixe de Banach affirme que toute application strictement contractante d'un espace métrique complet dans lui-même possède un unique point fixe."
+    },
+    {
+      "id": "L3-BAN-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Espace de Banach",
+      "skill": "Connaître la définition d'un espace de Banach",
+      "statement": "Un espace vectoriel normé $(E, \\|\\cdot\\|)$ est appelé un espace de Banach lorsqu'il est :",
+      "options": [
+        "Complet pour la distance induite par la norme",
+        "De dimension finie",
+        "Muni d'un produit scalaire",
+        "Séparable"
+      ],
+      "correctIndex": 0,
+      "answer": "Complet pour la distance induite par la norme",
+      "hint1": "Un espace de Banach est un evn complet.",
+      "hint2": "S'il possède en plus un produit scalaire, c'est un espace de Hilbert.",
+      "solution": "Par définition, un espace de Banach est un espace vectoriel normé complet pour la métrique issue de sa norme."
+    },
+    {
+      "id": "L3-BAN-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Connexité et théorème des valeurs intermédiaires",
+      "skill": "Propriétés topologiques des espaces connexes",
+      "statement": "Soit $E$ un espace topologique connexe et $f : E \\to \\mathbb{R}$ continue. Que peut-on affirmer sur $f(E)$ ?",
+      "options": [
+        "$f(E)$ est un intervalle de $\\mathbb{R}$",
+        "$f(E)$ est un ensemble fini",
+        "$f(E)$ est un ouvert de $\\mathbb{R}$",
+        "$f(E)$ est borné"
+      ],
+      "correctIndex": 0,
+      "answer": "$f(E)$ est un intervalle de $\\mathbb{R}$",
+      "hint1": "L'image continue d'un connexe est connexe.",
+      "hint2": "Les seuls connexes de $\\mathbb{R}$ sont les intervalles.",
+      "solution": "Comme l'image continue d'un espace connexe est connexe, et que les parties connexes de $\\mathbb{R}$ sont exactement les intervalles, $f(E)$ est un intervalle de $\\mathbb{R}$."
+    },
+    {
+      "id": "L3-BAN-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Théorème de Baire",
+      "skill": "Propriétés des espaces de Baire",
+      "statement": "Dans un espace métrique complet $(E, d)$, que stipule le théorème de Baire pour toute suite $(O_n)$ d'ouverts denses ?",
+      "options": [
+        "L'intersection $\\bigcap_{n=1}^\\infty O_n$ est dense dans $E$",
+        "L'intersection est vide",
+        "L'intersection est compacte",
+        "L'union est fermée"
+      ],
+      "correctIndex": 0,
+      "answer": "L'intersection $\\bigcap_{n=1}^\\infty O_n$ est dense dans $E$",
+      "hint1": "Théorème de catégorie de Baire.",
+      "hint2": "Une intersection dénombrable d'ouverts denses reste dense dans un espace complet.",
+      "solution": "Le théorème de Baire énonce que dans tout espace métrique complet (ou localement compact), toute intersection dénombrable d'ouverts denses est dense."
     }
   ],
   "L3-CMP": [
@@ -782,20 +1067,77 @@ window.MATHS_EXERCISES_L3 = {
       "id": "L3-CMP-1",
       "tier": 1,
       "type": "mcq",
-      "title": "Théorème de Borel-Lebesgue (Compacité)",
-      "skill": "Compacité dans $\\mathbb{R}^n$",
-      "statement": "Dans $\\mathbb{R}^n$ muni de sa topologie usuelle, une partie $K$ est compacte si et seulement si :",
+      "title": "Équations de Cauchy-Riemann",
+      "skill": "Caractériser les fonctions holomorphes",
+      "statement": "Pour $f(x + iy) = u(x, y) + i v(x, y)$, quelles sont les équations de Cauchy-Riemann exprimant l'holomorphie ?",
       "options": [
-        "$K$ est fermée et bornée",
-        "$K$ est ouverte et bornée",
-        "$K$ est connexe",
-        "$K$ est dénombrable"
+        "$\\frac{\\partial u}{\\partial x} = \\frac{\\partial v}{\\partial y}$ et $\\frac{\\partial u}{\\partial y} = -\\frac{\\partial v}{\\partial x}$",
+        "$\\frac{\\partial u}{\\partial x} = \\frac{\\partial u}{\\partial y}$ et $\\frac{\\partial v}{\\partial x} = \\frac{\\partial v}{\\partial y}$",
+        "$\\Delta u + \\Delta v = 0$",
+        "$\\frac{\\partial u}{\\partial x} = -\\frac{\\partial v}{\\partial y}$"
       ],
       "correctIndex": 0,
-      "answer": "$K$ est fermée et bornée",
-      "hint1": "C'est le théorème de Borel-Lebesgue (ou Bolzano-Weierstrass) en dimension finie.",
-      "hint2": "Fermé + Borné $\\iff$ Compact.",
-      "solution": "Dans $\\mathbb{R}^n$ (dimension finie), les parties compactes sont exactement les sous-ensembles fermés et bornés."
+      "answer": "$\\frac{\\partial u}{\\partial x} = \\frac{\\partial v}{\\partial y}$ et $\\frac{\\partial u}{\\partial y} = -\\frac{\\partial v}{\\partial x}$",
+      "hint1": "La différentielle doit être $\\mathbb{C}$-linéaire (multiplication par un nombre complexe).",
+      "hint2": "La matrice jacobienne est de la forme $\\begin{pmatrix} a & -b \\\\ b & a \\end{pmatrix}$.",
+      "solution": "La $\\mathbb{C}$-dérivabilité équivaut aux équations de Cauchy-Riemann : $\\partial_x u = \\partial_y v$ et $\\partial_y u = -\\partial_x v$."
+    },
+    {
+      "id": "L3-CMP-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Formule intégrale de Cauchy",
+      "skill": "Évaluer une intégrale de contour",
+      "statement": "Soit $\\gamma$ le cercle unité orienté positivement. Que vaut l'intégrale $\\oint_\\gamma \\frac{e^z}{z} dz$ ?",
+      "options": [
+        "$2i\\pi$",
+        "$0$",
+        "$1$",
+        "$\\pi$"
+      ],
+      "correctIndex": 0,
+      "answer": "$2i\\pi$",
+      "hint1": "Applique la formule intégrale de Cauchy : $\\oint \\frac{f(z)}{z - z_0} dz = 2i\\pi f(z_0)$.",
+      "hint2": "Ici $f(z) = e^z$ et $z_0 = 0$. $f(0) = 1$.",
+      "solution": "Par la formule intégrale de Cauchy, $\\oint_\\gamma \\frac{e^z}{z} dz = 2i\\pi e^0 = 2i\\pi$."
+    },
+    {
+      "id": "L3-CMP-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Théorème des résidus",
+      "skill": "Calculer une intégrale de contour par les résidus",
+      "statement": "Quel est le résidu de $f(z) = \\frac{1}{z^2 + 1}$ au pôle simple $z = i$ ?",
+      "options": [
+        "$-\\frac{i}{2}$",
+        "$\\frac{1}{2}$",
+        "$i$",
+        "$0$"
+      ],
+      "correctIndex": 0,
+      "answer": "$-\\frac{i}{2}$",
+      "hint1": "$\\text{Res}(f, i) = \\lim_{z \\to i} (z - i) f(z)$.",
+      "hint2": "$\\lim_{z \\to i} \\frac{z - i}{(z - i)(z + i)} = \\frac{1}{2i} = -\\frac{i}{2}$.",
+      "solution": "Comme $i$ est un pôle simple, $\\text{Res}(f, i) = \\lim_{z \\to i} \\frac{1}{z + i} = \\frac{1}{2i} = -\\frac{i}{2}$."
+    },
+    {
+      "id": "L3-CMP-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Théorème de Liouville",
+      "skill": "Propriétés des fonctions entières",
+      "statement": "D'après le théorème de Liouville, toute fonction holomorphe sur $\\mathbb{C}$ tout entier (entière) et bornée est :",
+      "options": [
+        "Constante",
+        "Identiquement nulle",
+        "Périodique",
+        "De carré sommable"
+      ],
+      "correctIndex": 0,
+      "answer": "Constante",
+      "hint1": "Théorème de Liouville : si $f$ est holomorphe sur $\\mathbb{C}$ et $|f(z)| \\le M$, alors $f'$ est nulle.",
+      "hint2": "Ce théorème fournit une démonstration élégante du théorème de d'Alembert-Gauss.",
+      "solution": "Le théorème de Liouville affirme que les seules fonctions entières bornées sont les fonctions constantes."
     }
   ],
   "L3-SDF": [
@@ -803,20 +1145,77 @@ window.MATHS_EXERCISES_L3 = {
       "id": "L3-SDF-1",
       "tier": 1,
       "type": "mcq",
-      "title": "Critère de Weierstrass pour les séries de fonctions",
-      "skill": "Convergence normale",
-      "statement": "Si pour tout $n$, $\\|f_n\\|_\\infty \\le M_n$ avec la série numérique $\\sum M_n$ convergente, alors la série $\\sum f_n$ :",
+      "title": "Identité du parallélogramme en espace de Hilbert",
+      "skill": "Propriété métrique d'un espace hilbertien",
+      "statement": "Dans un espace de Hilbert $H$, que vaut $\\|x + y\\|^2 + \\|x - y\\|^2$ ?",
       "options": [
-        "Converge normalement, donc uniformément",
-        "Converge simplement mais pas uniformément",
-        "Ne converge pas forcément",
-        "Est constante"
+        "$2\\|x\\|^2 + 2\\|y\\|^2$",
+        "$\\|x\\|^2 + \\|y\\|^2$",
+        "$4\\langle x, y \\rangle$",
+        "$(\\|x\\| + \\|y\\|)^2$"
       ],
       "correctIndex": 0,
-      "answer": "Converge normalement, donc uniformément",
-      "hint1": "C'est le critère de Weierstrass (convergence normale).",
-      "hint2": "La convergence normale entraîne la convergence uniforme et la continuité de la somme.",
-      "solution": "La majoration par une série numérique convergente assure la convergence normale, qui implique la convergence uniforme."
+      "answer": "$2\\|x\\|^2 + 2\\|y\\|^2$",
+      "hint1": "Développe $\\langle x+y, x+y \\rangle + \\langle x-y, x-y \\rangle$.",
+      "hint2": "Les termes croisés se simplifient.",
+      "solution": "$\\langle x+y, x+y \\rangle + \\langle x-y, x-y \\rangle = (\\|x\\|^2 + 2\\text{Re}\\langle x, y \\rangle + \\|y\\|^2) + (\\|x\\|^2 - 2\\text{Re}\\langle x, y \\rangle + \\|y\\|^2) = 2\\|x\\|^2 + 2\\|y\\|^2$."
+    },
+    {
+      "id": "L3-SDF-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Projection sur un convexe fermé",
+      "skill": "Théorème de projection hilbertienne",
+      "statement": "Soit $C$ un convexe fermé non vide d'un espace de Hilbert $H$ et $x \\in H$. Que garantit le théorème de projection ?",
+      "options": [
+        "Il existe un unique point $p_C(x) \\in C$ réalisant la distance $d(x, C)$",
+        "Il existe une infinité de points réalisant le minimum",
+        "La projection n'existe que si $C$ est un sous-espace vectoriel",
+        "La distance est toujours nulle"
+      ],
+      "correctIndex": 0,
+      "answer": "Il existe un unique point $p_C(x) \\in C$ réalisant la distance $d(x, C)$",
+      "hint1": "Théorème de projection sur un convexe fermé dans un espace de Hilbert.",
+      "hint2": "La stricte convexité de la norme garantit l'unicité.",
+      "solution": "Dans un espace de Hilbert, pour tout convexe fermé non vide $C$, il existe un unique élément $p_C(x) \\in C$ tel que $\\|x - p_C(x)\\| = \\inf_{y \\in C} \\|x - y\\|$."
+    },
+    {
+      "id": "L3-SDF-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Théorème de représentation de Riesz",
+      "skill": "Identifier le dual topologique d'un espace de Hilbert",
+      "statement": "Pour toute forme linéaire continue $\\varphi \\in H^*$ sur un espace de Hilbert $H$, que garantit le théorème de Riesz ?",
+      "options": [
+        "Il existe un unique vecteur $y \\in H$ tel que $\\forall x \\in H, \\varphi(x) = \\langle x, y \\rangle$",
+        "$\\ker(\\varphi) = \\{0\\}$",
+        "$\\varphi$ est surjective sur $H$",
+        "$\\|\\varphi\\| = 1$"
+      ],
+      "correctIndex": 0,
+      "answer": "Il existe un unique vecteur $y \\in H$ tel que $\\forall x \\in H, \\varphi(x) = \\langle x, y \\rangle$",
+      "hint1": "Tout élément du dual s'identifie au produit scalaire avec un vecteur fixé.",
+      "hint2": "De plus, $\\|\\varphi\\|_{H^*} = \\|y\\|_H$.",
+      "solution": "Le théorème de représentation de Riesz établit un isomorphisme isométrique entre $H$ et son dual topologique $H^*$ via $x \\mapsto \\langle x, y \\rangle$."
+    },
+    {
+      "id": "L3-SDF-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Identité de Parseval",
+      "skill": "Décomposition sur une base hilbertienne",
+      "statement": "Soit $(e_n)_{n \\in \\mathbb{N}}$ une base hilbertienne de $H$. Quelle relation caractérise la norme de tout vecteur $x \\in H$ ?",
+      "options": [
+        "$\\|x\\|^2 = \\sum_{n=0}^\\infty |\\langle x, e_n \\rangle|^2$",
+        "$\\|x\\| = \\sum_{n=0}^\\infty |\\langle x, e_n \\rangle|$",
+        "$\\langle x, e_n \\rangle = 0$ pour tout $n$",
+        "$\\|x\\|^2 = \\prod_{n=0}^\\infty |\\langle x, e_n \\rangle|^2$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\|x\\|^2 = \\sum_{n=0}^\\infty |\\langle x, e_n \\rangle|^2$",
+      "hint1": "C'est l'identité de Parseval, généralisation infinie du théorème de Pythagore.",
+      "hint2": "Les coefficients de Fourier hilbertiens sont $c_n = \\langle x, e_n \\rangle$.",
+      "solution": "Pour toute base hilbertienne orthonormale complète, l'égalité de Parseval affirme que $\\|x\\|^2 = \\sum_{n=0}^\\infty |\\langle x, e_n \\rangle|^2$."
     }
   ],
   "L3-SER": [
@@ -824,20 +1223,77 @@ window.MATHS_EXERCISES_L3 = {
       "id": "L3-SER-1",
       "tier": 1,
       "type": "mcq",
-      "title": "Rayon de convergence de l'exponentielle",
-      "skill": "Calculer un rayon de convergence",
-      "statement": "Quel est le rayon de convergence $R$ de la série entière de l'exponentielle $\\sum_{n=0}^{+\\infty} \\frac{z^n}{n!}$ ?",
+      "title": "Norme subordonnée d'une matrice",
+      "skill": "Définition de la norme d'opérateur",
+      "statement": "Pour $A \\in \\mathcal{M}_n(K)$, comment est définie la norme subordonnée à une norme vectorielle $\\|\\cdot\\|$ ?",
       "options": [
-        "$R = +\\infty$",
-        "$R = 1$",
-        "$R = e$",
-        "$R = 0$"
+        "$\\|\\|A\\|\\| = \\sup_{x \\ne 0} \\frac{\\|Ax\\|}{\\|x\\|} = \\sup_{\\|x\\|=1} \\|Ax\\|$",
+        "$\\|\\|A\\|\\| = \\sum_{i,j} |a_{i,j}|$",
+        "$\\|\\|A\\|\\| = \\det(A)$",
+        "$\\|\\|A\\|\\| = \\max_{i,j} |a_{i,j}|$"
       ],
       "correctIndex": 0,
-      "answer": "$R = +\\infty$",
-      "hint1": "Règle de d'Alembert : $\\left|\\frac{a_{n+1}}{a_n}\\right| = \\frac{1}{n+1} \\to 0$.",
-      "hint2": "$R = 1/0 = +\\infty$.",
-      "solution": "$\\left|\\frac{a_{n+1}}{a_n}\\right| = \\frac{1}{n+1} \\to 0$, d'où le rayon de convergence $R = +\\infty$."
+      "answer": "$\\|\\|A\\|\\| = \\sup_{x \\ne 0} \\frac{\\|Ax\\|}{\\|x\\|} = \\sup_{\\|x\\|=1} \\|Ax\\|$",
+      "hint1": "C'est la borne supérieure du facteur d'amplification d'un vecteur unitaire.",
+      "hint2": "Elle vérifie $\\|Ax\\| \\le \\|A\\| \\|x\\|$.",
+      "solution": "Par définition, la norme subordonnée est la norme d'opérateur $\\|A\\| = \\sup_{\\|x\\|=1} \\|Ax\\|$."
+    },
+    {
+      "id": "L3-SER-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Rayon spectral et formule de Gelfand",
+      "skill": "Calculer le rayon spectral $\\rho(A)$",
+      "statement": "Le rayon spectral $\\rho(A)$ d'une matrice $A \\in \\mathcal{M}_n(\\mathbb{C})$ est défini par :",
+      "options": [
+        "$\\rho(A) = \\max \\{|\\lambda| \\mid \\lambda \\in \\text{Sp}(A)\\}$",
+        "$\\rho(A) = \\text{Tr}(A)$",
+        "$\\rho(A) = \\|A\\|$",
+        "$\\rho(A) = \\det(A)$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\rho(A) = \\max \\{|\\lambda| \\mid \\lambda \\in \\text{Sp}(A)\\}$",
+      "hint1": "C'est le module maximal des valeurs propres complexes de la matrice.",
+      "hint2": "La formule de Gelfand assure que $\\rho(A) = \\lim_{k \\to \\infty} \\|A^k\\|^{1/k}$.",
+      "solution": "Le rayon spectral est le plus grand module des valeurs propres : $\\rho(A) = \\max \\{|\\lambda| \\mid \\lambda \\in \\text{Sp}(A)\\}$."
+    },
+    {
+      "id": "L3-SER-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Déterminant de l'exponentielle de matrice",
+      "skill": "Formule $\\det(\\exp A) = e^{\\text{Tr}(A)}$",
+      "statement": "Pour toute matrice carrée $A \\in \\mathcal{M}_n(\\mathbb{C})$, que vaut $\\det(\\exp(A))$ ?",
+      "options": [
+        "$e^{\\text{Tr}(A)}$",
+        "$\\exp(\\det A)$",
+        "$\\text{Tr}(\\exp A)$",
+        "$1$"
+      ],
+      "correctIndex": 0,
+      "answer": "$e^{\\text{Tr}(A)}$",
+      "hint1": "Par trigonalisation de $A$, les valeurs propres de $\\exp(A)$ sont $e^{\\lambda_i}$.",
+      "hint2": "Le produit des $e^{\\lambda_i}$ est $e^{\\sum \\lambda_i} = e^{\\text{Tr}(A)}$.",
+      "solution": "Les valeurs propres de $\\exp(A)$ sont les $e^{\\lambda_i}$, donc $\\det(\\exp A) = \\prod e^{\\lambda_i} = e^{\\sum \\lambda_i} = e^{\\text{Tr}(A)}$."
+    },
+    {
+      "id": "L3-SER-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Densité des matrices diagonalisables",
+      "skill": "Topologie de $\\mathcal{M}_n(\\mathbb{C})$",
+      "statement": "Dans $\\mathcal{M}_n(\\mathbb{C})$ muni de sa topologie usuelle, le sous-ensemble $\\mathcal{D}_n(\\mathbb{C})$ des matrices diagonalisables est :",
+      "options": [
+        "Dense et ouvert",
+        "Fermé",
+        "Compact",
+        "D'intérieur vide"
+      ],
+      "correctIndex": 0,
+      "answer": "Dense et ouvert",
+      "hint1": "Toute matrice est limite de matrices à valeurs propres distinctes (discriminant non nul).",
+      "hint2": "Le discriminant de $\\chi_A$ est un polynôme non nul en les coefficients.",
+      "solution": "L'ensemble des matrices à valeurs propres distinctes est un ouvert dense (complémentaire des zéros du discriminant). Comme elles sont diagonalisables, $\\mathcal{D}_n(\\mathbb{C})$ est dense dans $\\mathcal{M}_n(\\mathbb{C})$."
     }
   ],
   "L3-FOU": [
@@ -845,20 +1301,77 @@ window.MATHS_EXERCISES_L3 = {
       "id": "L3-FOU-1",
       "tier": 1,
       "type": "mcq",
-      "title": "Théorème de Dirichlet",
-      "skill": "Convergence de Fourier en un point de discontinuité",
-      "statement": "Pour une fonction $f$ continue par morceaux et $\\mathcal{C}^1$ par morceaux, vers quelle valeur converge sa série de Fourier en $x_0$ ?",
+      "title": "Théorème de Dirichlet pour les séries de Fourier",
+      "skill": "Convergence ponctuelle de la série de Fourier",
+      "statement": "Soit $f$ une fonction $2\\pi$-périodique, continue par morceaux et de classe $\\mathcal{C}^1$ par morceaux. Vers quoi converge sa série de Fourier en tout point $x$ ?",
       "options": [
-        "$\\frac{f(x_0^+) + f(x_0^-)}{2}$",
-        "$f(x_0^+)$",
+        "$\\frac{f(x^+) + f(x^-)}{2}$",
+        "$f'(x)$",
         "$0$",
-        "Elle diverge toujours en un point de discontinuité"
+        "$\\int_{-\\pi}^\\pi f(t) dt$"
       ],
       "correctIndex": 0,
-      "answer": "$\\frac{f(x_0^+) + f(x_0^-)}{2}$",
-      "hint1": "Elle converge vers la demi-somme des limites à gauche et à droite.",
-      "hint2": "C'est la régularisée de Dirichlet.",
-      "solution": "D'après le Théorème de Dirichlet, la série de Fourier converge vers la moyenne $\\frac{f(x_0^+) + f(x_0^-)}{2}$."
+      "answer": "$\\frac{f(x^+) + f(x^-)}{2}$",
+      "hint1": "Théorème classique de Dirichlet.",
+      "hint2": "En un point de continuité, la série converge simplement vers $f(x)$. En un saut, vers la demi-somme des limites à gauche et à droite.",
+      "solution": "D'après le théorème de Dirichlet, sous ces hypothèses de régularité, la série de Fourier converge en tout point $x$ vers la moyenne des limites à droite et à gauche : $\\frac{f(x^+) + f(x^-)}{2}$."
+    },
+    {
+      "id": "L3-FOU-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Coefficients de Fourier d'une fonction paire",
+      "skill": "Propriétés de parité des coefficients de Fourier",
+      "statement": "Si $f$ est une fonction $2\\pi$-périodique et paire, que valent ses coefficients de Fourier $b_n = \\frac{1}{\\pi} \\int_{-\\pi}^\\pi f(t) \\sin(nt) dt$ ?",
+      "options": [
+        "$b_n = 0$ pour tout $n \\ge 1$",
+        "$b_n = a_n$",
+        "$b_n = 1$",
+        "$b_n = \\frac{1}{n}$"
+      ],
+      "correctIndex": 0,
+      "answer": "$b_n = 0$ pour tout $n \\ge 1$",
+      "hint1": "Le produit d'une fonction paire par une fonction impaire ($\\sin(nt)$) est une fonction impaire.",
+      "hint2": "L'intégrale d'une fonction impaire sur un intervalle symétrique $[-\\pi, \\pi]$ est nulle.",
+      "solution": "Comme $t \\mapsto f(t)\\sin(nt)$ est impaire, son intégrale sur $[-\\pi, \\pi]$ est nulle. Ainsi $b_n = 0$ pour tout $n \\ge 1$."
+    },
+    {
+      "id": "L3-FOU-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Formule de Parseval pour séries de Fourier",
+      "skill": "Calculer la somme de séries d'inverses de carrés via Parseval",
+      "statement": "L'égalité de Parseval relie l'énergie de $f$ aux coefficients de Fourier réels selon :",
+      "options": [
+        "$\\frac{1}{2\\pi} \\int_{-\\pi}^\\pi |f(t)|^2 dt = \\frac{a_0^2}{4} + \\frac{1}{2} \\sum_{n=1}^\\infty (a_n^2 + b_n^2)$",
+        "$\\int_{-\\pi}^\\pi |f(t)|^2 dt = \\sum_{n=1}^\\infty a_n b_n$",
+        "$\\frac{1}{\\pi} \\int_{-\\pi}^\\pi f(t) dt = a_0$",
+        "$\\sum (a_n + b_n) = 0$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\frac{1}{2\\pi} \\int_{-\\pi}^\\pi |f(t)|^2 dt = \\frac{a_0^2}{4} + \\frac{1}{2} \\sum_{n=1}^\\infty (a_n^2 + b_n^2)$",
+      "hint1": "Théorème de Parseval exprimant l'isométrie de l'espace de Hilbert $L^2$.",
+      "hint2": "Permet de calculer des sommes comme $\\sum 1/n^2 = \\pi^2/6$.",
+      "solution": "La formule de Parseval assure l'égalité des normes $L^2$ et $\\ell^2$ : $\\frac{1}{2\\pi}\\int_{-\\pi}^\\pi |f(t)|^2 dt = \\frac{a_0^2}{4} + \\frac{1}{2}\\sum_{n=1}^\\infty (a_n^2 + b_n^2)$."
+    },
+    {
+      "id": "L3-FOU-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Lemme de Riemann-Lebesgue",
+      "skill": "Comportement asymptotique des coefficients de Fourier",
+      "statement": "Pour toute fonction $f \\in L^1([-\\pi, \\pi])$, quelle est la limite quand $n \\to +\\infty$ de $\\int_{-\\pi}^\\pi f(t) e^{-int} dt$ ?",
+      "options": [
+        "$0$",
+        "$1$",
+        "$+\\infty$",
+        "$f(0)$"
+      ],
+      "correctIndex": 0,
+      "answer": "$0$",
+      "hint1": "C'est l'énoncé du lemme de Riemann-Lebesgue.",
+      "hint2": "Les oscillations à haute fréquence provoquent une annulation par interférences.",
+      "solution": "D'après le lemme de Riemann-Lebesgue, les coefficients de Fourier de toute fonction intégrable tendent vers zéro à l'infini : $\\lim_{n \\to \\pm\\infty} c_n(f) = 0$."
     }
   ],
   "L3-GPR": [
@@ -866,20 +1379,77 @@ window.MATHS_EXERCISES_L3 = {
       "id": "L3-GPR-1",
       "tier": 1,
       "type": "mcq",
-      "title": "Intersection de deux droites projectives",
-      "skill": "Propriétés du plan projectif",
-      "statement": "Dans le plan projectif $\\mathbb{P}^2(\\mathbb{R})$, combien de points d'intersection possèdent deux droites projectives distinctes ?",
+      "title": "Coordonnées homogènes dans le plan projectif",
+      "skill": "Manipuler les points du plan projectif $\\mathbb{P}^2(K)$",
+      "statement": "Dans $\\mathbb{P}^2(\\mathbb{R})$, les coordonnées homogènes $(2 : 4 : 6)$ et $(1 : 2 : 3)$ représentent :",
       "options": [
-        "Exactement 1",
-        "0 si elles sont parallèles",
-        "Une infinité",
-        "2 points"
+        "Le même point projectif",
+        "Deux points distincts",
+        "Une droite projective",
+        "Le point à l'infini uniquement"
       ],
       "correctIndex": 0,
-      "answer": "Exactement 1",
-      "hint1": "Dans le plan projectif, deux droites quelconques se coupent toujours (au point à l'infini si elles sont parallèles dans le plan affine).",
-      "hint2": "Il n'y a pas de parallélisme strict dans $\\mathbb{P}^2$.",
-      "solution": "Dans le plan projectif $\\mathbb{P}^2$, deux droites distinctes se coupent toujours en exactement un point."
+      "answer": "Le même point projectif",
+      "hint1": "Dans l'espace projectif, deux triplets non nuls proportionnels définissent la même droite vectorielle.",
+      "hint2": "$(2, 4, 6) = 2(1, 2, 3)$.",
+      "solution": "Les coordonnées homogènes sont définies à un scalaire non nul près : $(2 : 4 : 6) = 2 \\cdot (1 : 2 : 3) = (1 : 2 : 3)$. Il s'agit du même point projectif."
+    },
+    {
+      "id": "L3-GPR-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Intersection de deux droites projectives",
+      "skill": "Propriété fondamentale du plan projectif",
+      "statement": "Dans le plan projectif $\\mathbb{P}^2(K)$, deux droites projectives distinctes :",
+      "options": [
+        "Se coupent toujours en exactement un point",
+        "Peuvent être strictement parallèles",
+        "Ne se coupent jamais",
+        "Ont une infinité de points communs"
+      ],
+      "correctIndex": 0,
+      "answer": "Se coupent toujours en exactement un point",
+      "hint1": "Dans le plan projectif, les droites affines parallèles se coupent en un point à l'infini.",
+      "hint2": "Deux plans vectoriels distincts de $K^3$ s'intersectent selon une droite vectorielle.",
+      "solution": "Contrairement au plan affine, dans le plan projectif, deux droites distinctes se coupent toujours en un point unique (les droites parallèles s'y coupent sur la droite de l'infini)."
+    },
+    {
+      "id": "L3-GPR-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Birapport de quatre points alignés",
+      "skill": "Calculer le birapport $[A, B, C, D]$",
+      "statement": "Pour quatre points d'abscisses respectives $a=0, b=1, c=2, d=3$, que vaut le birapport $[a, b, c, d] = \\frac{c - a}{c - b} : \\frac{d - a}{d - b}$ ?",
+      "options": [
+        "$\\frac{4}{3}$",
+        "$\\frac{3}{4}$",
+        "$-1$",
+        "$2$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\frac{4}{3}$",
+      "hint1": "$\\frac{c - a}{c - b} = \\frac{2 - 0}{2 - 1} = 2$.",
+      "hint2": "$\\frac{d - a}{d - b} = \\frac{3 - 0}{3 - 1} = \\frac{3}{2}$. Le rapport vaut $2 / (3/2) = 4/3$.",
+      "solution": "$[a, b, c, d] = \\frac{2 - 0}{2 - 1} / \\frac{3 - 0}{3 - 1} = \\frac{2}{1} / \\frac{3}{2} = \\frac{4}{3}$."
+    },
+    {
+      "id": "L3-GPR-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Théorème de Desargues",
+      "skill": "Homologie et perspective projective",
+      "statement": "Le théorème de Desargues énonce que deux triangles sont en perspective depuis un point si et seulement si :",
+      "options": [
+        "Les points d'intersection de leurs côtés correspondants sont alignés",
+        "Ils sont isométriques",
+        "Leurs aires sont égales",
+        "Ils sont inscrits dans une même conique"
+      ],
+      "correctIndex": 0,
+      "answer": "Les points d'intersection de leurs côtés correspondants sont alignés",
+      "hint1": "Perspective depuis un point (centre d'homologie) équivaut à perspective depuis une droite (axe d'homologie).",
+      "hint2": "Théorème fondateur de la géométrie projective.",
+      "solution": "Le théorème de Desargues affirme l'équivalence entre la perspective ponctuelle (droites reliant les sommets concourantes) et la perspective axiale (intersections des côtés homologues alignées)."
     }
   ],
   "L3-GDF": [
@@ -887,20 +1457,77 @@ window.MATHS_EXERCISES_L3 = {
       "id": "L3-GDF-1",
       "tier": 1,
       "type": "mcq",
-      "title": "Dimension d'une sous-variété définie par submersion",
-      "skill": "Submersion et dimension",
-      "statement": "Soit $f : \\mathbb{R}^5 \\to \\mathbb{R}^2$ une submersion en tout point de $M = f^{-1}(\\{0\\})$. Quelle est la dimension de la sous-variété $M$ ?",
+      "title": "Sous-variété définie par submersion",
+      "skill": "Théorème des sous-variétés implicites",
+      "statement": "Soit $f : \\mathbb{R}^n \\to \\mathbb{R}^p$ ($p < n$) une application de classe $\\mathcal{C}^1$ et $0$ une valeur régulière de $f$. Quelle est la dimension de la sous-variété $M = f^{-1}(\\{0\\})$ ?",
       "options": [
-        "$3$",
-        "$2$",
-        "$5$",
-        "$7$"
+        "$n - p$",
+        "$p$",
+        "$n$",
+        "$n + p$"
       ],
       "correctIndex": 0,
-      "answer": "$3$",
-      "hint1": "Formule : $\\dim(M) = n - p = 5 - 2$.",
-      "hint2": "L'espace tangent est de dimension $\\dim(\\ker df) = 5 - 2$.",
-      "solution": "La codimension d'une submersion à valeurs dans $\\mathbb{R}^2$ est 2, d'où $\\dim(M) = 5 - 2 = 3$."
+      "answer": "$n - p$",
+      "hint1": "Chaque équation indépendante réduit la dimension de 1.",
+      "hint2": "Par le théorème des fonctions implicites, $\\dim M = n - p$.",
+      "solution": "D'après le théorème de la submersion, l'image réciproque d'une valeur régulière par une application $\\mathcal{C}^1$ de $\\mathbb{R}^n$ dans $\\mathbb{R}^p$ est une sous-variété de dimension $n - p$."
+    },
+    {
+      "id": "L3-GDF-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Espace tangent à la sphère unité",
+      "skill": "Calculer l'espace tangent $T_x M$",
+      "statement": "Pour la sphère unité $S^2 = \\{x \\in \\mathbb{R}^3 \\mid \\|x\\|^2 = 1\\}$, quel est l'espace tangent $T_x S^2$ au point $x$ ?",
+      "options": [
+        "L'orthogonal du vecteur $x$ : $x^\\perp = \\{v \\in \\mathbb{R}^3 \\mid \\langle x, v \\rangle = 0\\}$",
+        "La droite $\\mathbb{R} x$",
+        "$\\mathbb{R}^3$ tout entier",
+        "Le point $x$ uniquement"
+      ],
+      "correctIndex": 0,
+      "answer": "L'orthogonal du vecteur $x$ : $x^\\perp = \\{v \\in \\mathbb{R}^3 \\mid \\langle x, v \\rangle = 0\\}$",
+      "hint1": "$S^2 = f^{-1}(\\{1\\})$ avec $f(x) = \\|x\\|^2$. $df_x(v) = 2\\langle x, v \\rangle$.",
+      "hint2": "$T_x S^2 = \\ker(df_x) = \\{v \\mid \\langle x, v \\rangle = 0\\}$.",
+      "solution": "Comme $f(x) = \\langle x, x \\rangle$, la différentielle est $df_x(v) = 2\\langle x, v \\rangle$. L'espace tangent est son noyau, soit le plan orthogonal $x^\\perp$."
+    },
+    {
+      "id": "L3-GDF-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Crochet de Lie de deux champs de vecteurs",
+      "skill": "Propriétés du crochet de Lie $[X, Y]$",
+      "statement": "Le crochet de Lie $[X, Y]$ de deux champs de vecteurs lisses sur une variété $M$ est :",
+      "options": [
+        "Un champ de vecteurs dérivant de l'opérateur $XY - YX$",
+        "Une fonction scalaire",
+        "Toujours nul",
+        "Une 1-forme différentielle"
+      ],
+      "correctIndex": 0,
+      "answer": "Un champ de vecteurs dérivant de l'opérateur $XY - YX$",
+      "hint1": "Bien que la composition de deux dérivations ne soit pas une dérivation d'ordre 1, leur commutateur en est une.",
+      "hint2": "$[X, Y](f) = X(Y(f)) - Y(X(f))$.",
+      "solution": "Le commutateur $XY - YX$ de deux dérivations d'ordre 1 est encore une dérivation d'ordre 1, définissant un unique champ de vecteurs appelé crochet de Lie $[X, Y]$."
+    },
+    {
+      "id": "L3-GDF-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Théorème de Stokes général",
+      "skill": "Formule d'intégration sur les variétés à bord",
+      "statement": "Pour toute forme différentielle $\\omega$ de degré $k-1$ à support compact sur une variété orientée à bord $M$ de dimension $k$, que stipule la formule de Stokes ?",
+      "options": [
+        "$\\int_M d\\omega = \\int_{\\partial M} \\omega$",
+        "$\\int_M \\omega = \\int_{\\partial M} d\\omega$",
+        "$\\int_M d\\omega = 0$",
+        "$\\int_{\\partial M} \\omega = 0$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\int_M d\\omega = \\int_{\\partial M} \\omega$",
+      "hint1": "Généralisation unifiée des théorèmes fondamentaux de l'analyse, Green-Riemann, Ostrogradski et Stokes classique.",
+      "hint2": "L'intégrale de la dérivée extérieure sur $M$ égale l'intégrale de la forme sur le bord $\\partial M$.",
+      "solution": "La formule de Stokes générale s'écrit $\\int_M d\\omega = \\int_{\\partial M} \\omega$, unifiant tous les théorèmes d'intégration par parties multidimensionnels."
     }
   ],
   "L3-NUM": [
@@ -909,19 +1536,76 @@ window.MATHS_EXERCISES_L3 = {
       "tier": 1,
       "type": "mcq",
       "title": "Décomposition de Cholesky",
-      "skill": "Factorisation matricielle numérique",
-      "statement": "Sous quelle condition une matrice réelle $A$ admet-elle une factorisation de Cholesky $A = L {}^tL$ avec $L$ triangulaire inférieure à éléments diagonaux strictement positifs ?",
+      "skill": "Conditions d'application de la factorisation $A = L L^T$",
+      "statement": "Une matrice réelle $A \\in \\mathcal{M}_n(\\mathbb{R})$ admet une factorisation de Cholesky $A = L L^T$ (avec $L$ triangulaire inférieure à diagonale strictement positive) si et seulement si $A$ est :",
       "options": [
-        "$A$ est symétrique définie positive",
-        "$A$ est quelconque inversible",
-        "$A$ est orthogonale",
-        "$\\det(A) > 0$"
+        "Symétrique définie positive",
+        "Inversible quelconque",
+        "Orthogonale",
+        "Diagonale"
       ],
       "correctIndex": 0,
-      "answer": "$A$ est symétrique définie positive",
-      "hint1": "La matrice doit être symétrique et toutes ses valeurs propres doivent être strictement positives.",
-      "hint2": "C'est l'analogue matriciel de la racine carrée d'un réel strictement positif.",
-      "solution": "Une matrice admet une factorisation de Cholesky si et seulement si elle est symétrique définie positive."
+      "answer": "Symétrique définie positive",
+      "hint1": "Théorème fondamental d'analyse numérique matricielle.",
+      "hint2": "$A \\in \\mathcal{S}_n^{++}(\\mathbb{R})$.",
+      "solution": "La factorisation de Cholesky $A = LL^T$ existe de façon unique si et seulement si la matrice $A$ est symétrique définie positive."
+    },
+    {
+      "id": "L3-NUM-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Conditionnement d'un système linéaire",
+      "skill": "Estimer la sensibilité d'un système numérique $Ax = b$",
+      "statement": "Le conditionnement $\\text{cond}(A) = \\|A\\| \\cdot \\|A^{-1}\\|$ d'une matrice inversible vérifie toujours :",
+      "options": [
+        "$\\text{cond}(A) \\ge 1$",
+        "$\\text{cond}(A) \\le 1$",
+        "$\\text{cond}(A) = 0$",
+        "$\\text{cond}(A) < 0$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\text{cond}(A) \\ge 1$",
+      "hint1": "$\\|I_n\\| = \\|A A^{-1}\\| \\le \\|A\\| \\|A^{-1}\\|$. Pour une norme subordonnée, $\\|I_n\\| = 1$.",
+      "hint2": "Plus le conditionnement est proche de 1, plus le système est bien conditionné.",
+      "solution": "Comme $1 = \\|I_n\\| = \\|A A^{-1}\\| \\le \\|A\\| \\|A^{-1}\\| = \\text{cond}(A)$, le conditionnement est toujours supérieur ou égal à 1."
+    },
+    {
+      "id": "L3-NUM-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Méthode de Gauss-Seidel",
+      "skill": "Convergence d'une méthode itérative",
+      "statement": "Pour résoudre $Ax = b$, la méthode itérative de Gauss-Seidel converge pour tout vecteur initial $x_0$ si la matrice $A$ est :",
+      "options": [
+        "Symétrique définie positive (ou à diagonale strictement dominante)",
+        "Nilpotente",
+        "Orthogonale",
+        "Anti-symétrique"
+      ],
+      "correctIndex": 0,
+      "answer": "Symétrique définie positive (ou à diagonale strictement dominante)",
+      "hint1": "Théorème de convergence de Gauss-Seidel.",
+      "hint2": "La matrice d'itération a alors un rayon spectral strictement inférieur à 1.",
+      "solution": "La méthode de Gauss-Seidel converge inconditionnellement dès que la matrice $A$ est symétrique définie positive ou à diagonale strictement dominante."
+    },
+    {
+      "id": "L3-NUM-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Décomposition en valeurs singulières (SVD)",
+      "skill": "Factorisation $A = U \\Sigma V^T$",
+      "statement": "Pour toute matrice rectangulaire $A \\in \\mathcal{M}_{m,n}(\\mathbb{R})$, les valeurs singulières de $A$ sont :",
+      "options": [
+        "Les racines carrées des valeurs propres positives de $A^T A$",
+        "Les valeurs propres de $A$",
+        "Les éléments diagonaux de $A$",
+        "Les déterminants des blocs de $A$"
+      ],
+      "correctIndex": 0,
+      "answer": "Les racines carrées des valeurs propres positives de $A^T A$",
+      "hint1": "$A^T A$ est une matrice symétrique semi-définie positive.",
+      "hint2": "Ses valeurs propres sont réelles positives : $\\sigma_i = \\sqrt{\\lambda_i(A^T A)}$.",
+      "solution": "Par définition, les valeurs singulières de $A$ sont les racines carrées des valeurs propres de la matrice symétrique semi-définie positive $A^T A$."
     }
   ],
   "L3-PROG": [
@@ -929,20 +1613,77 @@ window.MATHS_EXERCISES_L3 = {
       "id": "L3-PROG-1",
       "tier": 1,
       "type": "mcq",
-      "title": "Dualité forte en programmation linéaire",
-      "skill": "Relation primal-dual",
-      "statement": "Si le problème primal linéaire admet une valeur optimale finie $z^*$, quelle relation vérifie la valeur optimale $w^*$ du problème dual ?",
+      "title": "Caractérisation de la convexité par la hessienne",
+      "skill": "Identifier une fonction convexe de classe $\\mathcal{C}^2$",
+      "statement": "Une fonction $f : U \\to \\mathbb{R}$ de classe $\\mathcal{C}^2$ sur un ouvert convexe $U$ est convexe si et seulement si sa matrice hessienne $\\nabla^2 f(x)$ est partout :",
       "options": [
-        "$z^* = w^*$ (égalité parfaite)",
-        "$z^* < w^*$",
-        "$z^* > w^*$",
-        "$w^* = 0$"
+        "Semi-définie positive",
+        "Définie négative",
+        "De trace nulle",
+        "Inversible"
       ],
       "correctIndex": 0,
-      "answer": "$z^* = w^*$ (égalité parfaite)",
-      "hint1": "C'est le Théorème de Dualité Forte de Von Neumann.",
-      "hint2": "L'écart de dualité à l'optimum est nul.",
-      "solution": "Par le Théorème de Dualité Forte, la valeur optimale du problème primal coïncide exactement avec celle du problème dual."
+      "answer": "Semi-définie positive",
+      "hint1": "En dimension 1, la dérivée seconde doit être positive : $f''(x) \\ge 0$.",
+      "hint2": "En dimension supérieure, pour tout vecteur $v$, $v^T \\nabla^2 f(x) v \\ge 0$.",
+      "solution": "Une fonction $\\mathcal{C}^2$ sur un ouvert convexe est convexe si et seulement si sa matrice hessienne est semi-définie positive en tout point."
+    },
+    {
+      "id": "L3-PROG-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Multiplicateurs de Lagrange",
+      "skill": "Optimisation sous contraintes d'égalité",
+      "statement": "Pour minimiser $f(x)$ sous la contrainte $g(x) = 0$ avec $\\nabla g(x^*) \\ne 0$, la condition nécessaire du premier ordre stipule qu'il existe $\\lambda \\in \\mathbb{R}$ tel que :",
+      "options": [
+        "$\\nabla f(x^*) + \\lambda \\nabla g(x^*) = 0$",
+        "$\\nabla f(x^*) \\cdot \\nabla g(x^*) = 1$",
+        "$\\nabla f(x^*) = 0$",
+        "$\\lambda = 0$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\nabla f(x^*) + \\lambda \\nabla g(x^*) = 0$",
+      "hint1": "Le gradient de la fonction objectif doit être colinéaire au gradient de la contrainte.",
+      "hint2": "C'est l'annulation du gradient du Lagrangien $\\mathcal{L}(x, \\lambda) = f(x) + \\lambda g(x)$.",
+      "solution": "Au point optimal $x^*$, $\\nabla f(x^*)$ est orthogonal à l'espace tangent à la contrainte, donc colinéaire à $\\nabla g(x^*)$ : $\\nabla f(x^*) + \\lambda \\nabla g(x^*) = 0$."
+    },
+    {
+      "id": "L3-PROG-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Conditions de Karush-Kuhn-Tucker (KKT)",
+      "skill": "Comprendre les conditions de complémentarité",
+      "statement": "Dans les conditions KKT pour minimiser $f(x)$ sous la contrainte d'inégalité $g(x) \\le 0$, quelle condition lie le multiplicateur $\\mu$ et la contrainte $g(x)$ ?",
+      "options": [
+        "$\\mu \\ge 0$ et $\\mu g(x) = 0$ (complémentarité)",
+        "$\\mu < 0$",
+        "$\\mu + g(x) = 0$",
+        "$g(x) = 0$ obligatoirement"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\mu \\ge 0$ et $\\mu g(x) = 0$ (complémentarité)",
+      "hint1": "Si la contrainte est inactive ($g(x) < 0$), son multiplicateur doit être nul $\\mu = 0$.",
+      "hint2": "Si la contrainte est active ($g(x) = 0$), son multiplicateur peut être strictement positif.",
+      "solution": "Les conditions d'exclusion ou de complémentarité imposent $\\mu \\ge 0$, $g(x) \\le 0$ et $\\mu \\cdot g(x) = 0$."
+    },
+    {
+      "id": "L3-PROG-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Algorithme de descente de gradient",
+      "skill": "Convergence du gradient à pas fixe",
+      "statement": "Pour une fonction $L$-gradient lipschitzienne, l'algorithme de descente de gradient $x_{k+1} = x_k - \\alpha \\nabla f(x_k)$ converge dès que le pas $\\alpha$ vérifie :",
+      "options": [
+        "$0 < \\alpha < \\frac{2}{L}$",
+        "$\\alpha > L$",
+        "$\\alpha = 1$",
+        "$\\alpha \\ge 2L$"
+      ],
+      "correctIndex": 0,
+      "answer": "$0 < \\alpha < \\frac{2}{L}$",
+      "hint1": "Le pas optimal garantissant la décroissance stricte de l'énergie vérifie $\\alpha < 2/L$.",
+      "hint2": "Au-delà de $2/L$, l'algorithme oscille et diverge.",
+      "solution": "D'après le lemme de descente, le pas de gradient doit vérifier $0 < \\alpha < 2/L$ pour assurer la convergence de la suite vers un point critique."
     }
   ],
   "L3-MES": [
@@ -951,19 +1692,76 @@ window.MATHS_EXERCISES_L3 = {
       "tier": 1,
       "type": "mcq",
       "title": "Théorème de convergence dominée de Lebesgue",
-      "skill": "Interversion intégrale de Lebesgue",
-      "statement": "Sous quelle hypothèse majeure peut-on intervertir la limite et l'intégrale pour une suite de fonctions mesurables $(f_n)$ convergeant presque partout vers $f$ ?",
+      "skill": "Énoncer le théorème de convergence dominée",
+      "statement": "Soit $(f_n)$ une suite de fonctions mesurables convergeant presque partout vers $f$. Quelle hypothèse garantit $\\lim \\int f_n = \\int f$ ?",
       "options": [
-        "Il existe $g \\in L^1$ telle que $|f_n| \\le g$ presque partout (domination)",
-        "Les fonctions $f_n$ doivent être bornées par une constante",
-        "La convergence doit être uniforme",
-        "Les fonctions doivent être des polynômes"
+        "Il existe $g \\in L^1$ positive telle que $|f_n| \\le g$ presque partout",
+        "$f_n$ est continue",
+        "$f_n$ est strictement positive",
+        "L'espace de mesure est borné"
       ],
       "correctIndex": 0,
-      "answer": "Il existe $g \\in L^1$ telle que $|f_n| \\le g$ presque partout (domination)",
-      "hint1": "C'est le cœur du Théorème de Convergence Dominée de Lebesgue.",
-      "hint2": "L'existence d'une fonction chapeau intégrable indépendante de $n$.",
-      "solution": "Le Théorème de Convergence Dominée exige l'existence d'une fonction $g$ intégrable dominant la suite $|f_n| \\le g$ p.p."
+      "answer": "Il existe $g \\in L^1$ positive telle que $|f_n| \\le g$ presque partout",
+      "hint1": "C'est l'hypothèse de domination intégrable.",
+      "hint2": "Elle remplace avantageusement la convergence uniforme de l'intégrale de Riemann.",
+      "solution": "Le théorème de convergence dominée de Lebesgue requiert l'existence d'une fonction intégrant dominante $g \\in L^1$ telle que $|f_n| \\le g$ p.p."
+    },
+    {
+      "id": "L3-MES-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Lemme de Fatou",
+      "skill": "Appliquer l'inégalité de Fatou",
+      "statement": "Pour toute suite $(f_n)$ de fonctions mesurables positives, le lemme de Fatou établit que :",
+      "options": [
+        "$\\int \\liminf_{n \\to \\infty} f_n \\le \\liminf_{n \\to \\infty} \\int f_n$",
+        "$\\int \\liminf f_n = \\lim \\int f_n$",
+        "$\\int f_n$ converge obligatoirement",
+        "$\\liminf f_n = 0$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\int \\liminf_{n \\to \\infty} f_n \\le \\liminf_{n \\to \\infty} \\int f_n$",
+      "hint1": "L'intégrale de la limite inférieure est inférieure ou égale à la limite inférieure des intégrales.",
+      "hint2": "Inégalité fondamentale pour les fonctions positives sans hypothèse de domination.",
+      "solution": "Le lemme de Fatou énonce l'inégalité $\\int \\liminf f_n \\, d\\mu \\le \\liminf \\int f_n \\, d\\mu$ pour toute suite de fonctions mesurables positives."
+    },
+    {
+      "id": "L3-MES-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Théorème de convergence monotone de Beppo Levi",
+      "skill": "Permutation limite et intégrale pour suite croissante positive",
+      "statement": "Pour une suite croissante $(f_n)$ de fonctions mesurables positives tendant vers $f$, que garantit le théorème de Beppo Levi ?",
+      "options": [
+        "$\\lim_{n \\to \\infty} \\int f_n = \\int f$",
+        "$f$ est bornée",
+        "$\\int f = 0$",
+        "La suite des intégrales oscille"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\lim_{n \\to \\infty} \\int f_n = \\int f$",
+      "hint1": "Croissance + positivité $\\implies$ permutation exacte limite et intégrale.",
+      "hint2": "Valable même si l'intégrale limite vaut $+\\infty$.",
+      "solution": "Le théorème de Beppo Levi (ou de la convergence monotone) garantit que pour toute suite croissante de fonctions mesurables positives, on a $\\int \\lim f_n = \\lim \\int f_n$."
+    },
+    {
+      "id": "L3-MES-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Inégalité de Hölder pour les espaces Lp",
+      "skill": "Relation entre exposants conjugués",
+      "statement": "Pour $1 < p, q < \\infty$ vérifiant $\\frac{1}{p} + \\frac{1}{q} = 1$, l'inégalité de Hölder assure que :",
+      "options": [
+        "$\\|fg\\|_1 \\le \\|f\\|_p \\|g\\|_q$",
+        "$\\|fg\\|_1 = \\|f\\|_p + \\|g\\|_q$",
+        "$\\|f + g\\|_p \\le \\|f\\|_p + \\|g\\|_p$",
+        "$\\|fg\\|_p \\le \\|f\\|_p \\|g\\|_p$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\|fg\\|_1 \\le \\|f\\|_p \\|g\\|_q$",
+      "hint1": "Généralisation de Cauchy-Schwarz pour $p=q=2$.",
+      "hint2": "Permet ensuite de démontrer l'inégalité de Minkowski (l'inégalité triangulaire de $L^p$).",
+      "solution": "L'inégalité de Hölder établit que pour deux exposants conjugués $\\frac{1}{p} + \\frac{1}{q} = 1$, on a $\\int |fg| \\, d\\mu \\le \\left(\\int |f|^p\\right)^{1/p} \\left(\\int |g|^q\\right)^{1/q}$."
     }
   ],
   "L3-PRC": [
@@ -972,19 +1770,76 @@ window.MATHS_EXERCISES_L3 = {
       "tier": 1,
       "type": "mcq",
       "title": "Théorème Central Limite (TCL)",
-      "skill": "Convergence en loi vers la loi normale",
-      "statement": "Soient $(X_n)$ des variables aléatoires i.i.d. d'espérance $\\mu$ et de variance finie $\\sigma^2 > 0$. Vers quelle loi converge la suite $\\frac{\\sum_{i=1}^n X_i - n\\mu}{\\sigma\\sqrt{n}}$ ?",
+      "skill": "Énoncer la convergence en loi vers la loi normale",
+      "statement": "Soit $(X_n)$ une suite de variables i.i.d. d'espérance $\\mu$ et de variance $\\sigma^2 > 0$. Vers quelle loi converge $Z_n = \\frac{\\sum_{i=1}^n X_i - n\\mu}{\\sigma \\sqrt{n}}$ ?",
       "options": [
         "La loi normale centrée réduite $\\mathcal{N}(0, 1)$",
-        "La loi uniforme $\\mathcal{U}([0, 1])$",
         "La loi de Cauchy",
-        "La loi exponentielle $\\mathcal{E}(1)$"
+        "La loi uniforme $\\mathcal{U}(0, 1)$",
+        "La constante $\\mu$"
       ],
       "correctIndex": 0,
       "answer": "La loi normale centrée réduite $\\mathcal{N}(0, 1)$",
-      "hint1": "C'est l'un des théorèmes les plus célèbres de toute la théorie des probabilités.",
-      "hint2": "La distribution de la somme convenablement centrée et réduite devient gaussienne.",
-      "solution": "D'après le Théorème Central Limite, la somme centrée et réduite converge en loi vers $\\mathcal{N}(0, 1)$."
+      "hint1": "C'est le résultat majeur des probabilités modernes.",
+      "hint2": "Convergence en loi vers la gaussienne standard.",
+      "solution": "D'après le Théorème Central Limite, la somme renormalisée $Z_n$ converge en loi vers la loi gaussienne $\\mathcal{N}(0, 1)$."
+    },
+    {
+      "id": "L3-PRC-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Fonction caractéristique d'une gaussienne",
+      "skill": "Connaître la transformée de Fourier probabiliste d'une loi normale",
+      "statement": "Si $X \\sim \\mathcal{N}(0, \\sigma^2)$, quelle est sa fonction caractéristique $\\phi_X(t) = \\mathbb{E}[e^{itX}]$ ?",
+      "options": [
+        "$e^{-\\frac{\\sigma^2 t^2}{2}}$",
+        "$e^{it\\sigma}$",
+        "$\\frac{1}{1 + \\sigma^2 t^2}$",
+        "$\\cos(\\sigma t)$"
+      ],
+      "correctIndex": 0,
+      "answer": "$e^{-\\frac{\\sigma^2 t^2}{2}}$",
+      "hint1": "La transformée de Fourier d'une gaussienne est encore une gaussienne.",
+      "hint2": "Pour la loi centrée de variance $\\sigma^2$, $\\phi(t) = e^{-\\sigma^2 t^2 / 2}$.",
+      "solution": "Par calcul intégral ou équation différentielle, la fonction caractéristique d'une variable normale $X \\sim \\mathcal{N}(0, \\sigma^2)$ est $\\phi_X(t) = e^{-\\frac{\\sigma^2 t^2}{2}}$."
+    },
+    {
+      "id": "L3-PRC-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Vecteurs gaussiens et indépendance",
+      "skill": "Propriété d'indépendance pour les variables conjointement gaussiennes",
+      "statement": "Si $(X, Y)$ forme un vecteur gaussien dans $\\mathbb{R}^2$, la condition nécessaire et suffisante pour que $X$ et $Y$ soient indépendantes est :",
+      "options": [
+        "$\\text{Cov}(X, Y) = 0$",
+        "$\\mathbb{E}[X] = \\mathbb{E}[Y]$",
+        "$\\text{Var}(X) = \\text{Var}(Y)$",
+        "$X$ et $Y$ sont positives"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\text{Cov}(X, Y) = 0$",
+      "hint1": "Pour des variables quelconques, non-corrélation n'implique pas indépendance.",
+      "hint2": "Mais pour un couple CONJOINTEMENT gaussien, non-corrélation ÉQUIVAUT à indépendance !",
+      "solution": "Dans le cas particulier fondamental des vecteurs gaussiens, deux composantes sont indépendantes si et seulement si leur covariance est nulle : $\\text{Cov}(X, Y) = 0$."
+    },
+    {
+      "id": "L3-PRC-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Loi forte des grands nombres",
+      "skill": "Convergence presque sûre de la moyenne empirique",
+      "statement": "Soit $(X_n)$ une suite de variables i.i.d. intégrables d'espérance $\\mu$. Quel type de convergence garantit la Loi Forte des Grands Nombres (Kolmogorov) pour $\\bar{X}_n = \\frac{1}{n}\\sum_{i=1}^n X_i$ ?",
+      "options": [
+        "Convergence presque sûre vers $\\mu$ ($\\bar{X}_n \\xrightarrow{p.s.} \\mu$)",
+        "Convergence en loi uniquement",
+        "Convergence uniforme",
+        "Convergence vers une variable aléatoire gaussienne"
+      ],
+      "correctIndex": 0,
+      "answer": "Convergence presque sûre vers $\\mu$ ($\\bar{X}_n \\xrightarrow{p.s.} \\mu$)",
+      "hint1": "La loi forte garantit une convergence presque sûre, ce qui est strictement plus fort que la loi faible.",
+      "hint2": "$\\mathbb{P}(\\lim_{n \\to \\infty} \\bar{X}_n = \\mu) = 1$.",
+      "solution": "La loi forte des grands nombres de Kolmogorov établit que si $\\mathbb{E}[|X_1|] < \\infty$, la moyenne empirique converge presque sûrement vers $\\mu$ : $\\mathbb{P}\\left(\\lim_{n \\to \\infty} \\frac{1}{n}\\sum_{i=1}^n X_i = \\mu\\right) = 1$."
     }
   ]
 };

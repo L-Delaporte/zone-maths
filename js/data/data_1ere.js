@@ -512,12 +512,74 @@ window.MATHS_EXERCISES_1ERE = {
       "title": "Calcul du discriminant",
       "skill": "Résoudre une équation du second degré",
       "statement": "Calculer le discriminant $\\Delta$ du trinôme $P(x) = 3x^2 - 5x + 2$.",
-      "options": ["$\\Delta = 1$", "$\\Delta = -1$", "$\\Delta = 49$", "$\\Delta = 25$"],
+      "options": [
+        "$\\Delta = 1$",
+        "$\\Delta = -1$",
+        "$\\Delta = 49$",
+        "$\\Delta = 25$"
+      ],
       "correctIndex": 0,
       "answer": "$\\Delta = 1$",
       "hint1": "$\\Delta = b^2 - 4ac$ avec $a=3, b=-5, c=2$.",
       "hint2": "$(-5)^2 - 4(3)(2) = 25 - 24 = 1$.",
       "solution": "$\\Delta = (-5)^2 - 4(3)(2) = 25 - 24 = 1$. Comme $\\Delta > 0$, l'équation admet deux racines réelles distinctes."
+    },
+    {
+      "id": "1A1-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Racines et factorisation",
+      "skill": "Factoriser un trinôme du second degré",
+      "statement": "Quelle est la factorisation du trinôme $2x^2 - 7x + 3$ ?",
+      "options": [
+        "$(2x - 1)(x - 3)$",
+        "$(2x + 1)(x - 3)$",
+        "$2(x + 1)(x - 3)$",
+        "$(x - 1)(2x - 3)$"
+      ],
+      "correctIndex": 0,
+      "answer": "$(2x - 1)(x - 3)$",
+      "hint1": "$\\Delta = (-7)^2 - 4(2)(3) = 49 - 24 = 25 = 5^2$.",
+      "hint2": "Racines : $x_1 = \\frac{7-5}{4} = \\frac{1}{2}$ et $x_2 = \\frac{7+5}{4} = 3$. La forme est $a(x-x_1)(x-x_2)$.",
+      "solution": "Les racines sont $1/2$ et $3$. Factorisation : $2(x - 1/2)(x - 3) = (2x - 1)(x - 3)$."
+    },
+    {
+      "id": "1A1-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Signe d'un trinôme et inéquation",
+      "skill": "Dresser le tableau de signes d'un trinôme",
+      "statement": "Résoudre dans $\\mathbb{R}$ l'inéquation $-x^2 + 4x - 3 > 0$.",
+      "options": [
+        "$x \\in ]1 ; 3[$",
+        "$x \\in ]-\\infty ; 1[ \\cup ]3 ; +\\infty[$",
+        "$x \\in [1 ; 3]$",
+        "$x \\in ]-3 ; -1[$"
+      ],
+      "correctIndex": 0,
+      "answer": "$x \\in ]1 ; 3[$",
+      "hint1": "Les racines de $-x^2 + 4x - 3 = 0$ sont $x = 1$ et $x = 3$.",
+      "hint2": "Le coefficient $a = -1 < 0$ : le trinôme est du signe de $-a$ (donc positif) entre les racines.",
+      "solution": "Le trinôme s'annule en 1 et 3. Comme $a = -1 < 0$, la parabole est tournée vers le bas : elle est strictement positive à l'intérieur des racines, soit $]1 ; 3[$."
+    },
+    {
+      "id": "1A1-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Nombre de solutions selon un paramètre",
+      "skill": "Discuter du nombre de solutions selon un paramètre réel",
+      "statement": "Pour quelle(s) valeur(s) de $m$ l'équation $x^2 - mx + 4 = 0$ admet-elle une unique solution réelle ?",
+      "options": [
+        "$m = -4$ ou $m = 4$",
+        "$m = 0$",
+        "$m = 2$ ou $m = -2$",
+        "$m = 16$"
+      ],
+      "correctIndex": 0,
+      "answer": "$m = -4$ ou $m = 4$",
+      "hint1": "Une unique solution réelle $\\iff \\Delta = 0$.",
+      "hint2": "$\\Delta = (-m)^2 - 4(1)(4) = m^2 - 16 = 0 \\iff m^2 = 16$.",
+      "solution": "$\\Delta = m^2 - 16$. L'équation admet une unique racine double si et seulement si $\\Delta = 0 \\iff m^2 = 16 \\iff m = 4$ ou $m = -4$."
     }
   ],
   "1A2": [
@@ -526,14 +588,76 @@ window.MATHS_EXERCISES_1ERE = {
       "tier": 1,
       "type": "mcq",
       "title": "Nombre dérivé et tangente",
-      "skill": "Calculer un nombre dérivé",
-      "statement": "Soit $f(x) = x^2 + 3x - 1$. Quel est le coefficient directeur de la tangente à la courbe de $f$ au point d'abscisse $x = 2$ ?",
-      "options": ["$7$", "$9$", "$4$", "$5$"],
+      "skill": "Calculer l'équation de la tangente à une courbe",
+      "statement": "Soit $f$ une fonction dérivable en 2 telle que $f(2) = 5$ et $f'(2) = -3$. Quelle est l'équation de la tangente à $\\mathcal{C}_f$ au point d'abscisse 2 ?",
+      "options": [
+        "$y = -3x + 11$",
+        "$y = -3x + 5$",
+        "$y = 5x - 3$",
+        "$y = -3x - 1$"
+      ],
       "correctIndex": 0,
-      "answer": "$7$",
-      "hint1": "Le coefficient directeur de la tangente en $a$ est donné par le nombre dérivé $f'(a)$.",
-      "hint2": "$f'(x) = 2x + 3$. Calcule $f'(2)$.",
-      "solution": "$f'(x) = 2x + 3$. Pour $x = 2$, on a $f'(2) = 2(2) + 3 = 7$. La tangente au point d'abscisse 2 a donc pour pente 7."
+      "answer": "$y = -3x + 11$",
+      "hint1": "Équation de la tangente : $y = f'(a)(x - a) + f(a)$.",
+      "hint2": "$y = -3(x - 2) + 5 = -3x + 6 + 5 = -3x + 11$.",
+      "solution": "$y = f'(2)(x - 2) + f(2) = -3(x - 2) + 5 = -3x + 6 + 5 = -3x + 11$."
+    },
+    {
+      "id": "1A2-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Taux de variation et limite",
+      "skill": "Calculer le nombre dérivé comme limite du taux d'accroissement",
+      "statement": "Pour $f(x) = x^2$, calculer la limite quand $h \\to 0$ du taux $\\frac{f(3+h) - f(3)}{h}$.",
+      "options": [
+        "$6$",
+        "$9$",
+        "$3$",
+        "$0$"
+      ],
+      "correctIndex": 0,
+      "answer": "$6$",
+      "hint1": "Le taux d'accroissement tend vers $f'(3)$.",
+      "hint2": "Comme $f'(x) = 2x$, $f'(3) = 2 \\times 3 = 6$.",
+      "solution": "Par définition, $\\lim_{h \\to 0} \\frac{(3+h)^2 - 9}{h} = \\lim_{h \\to 0} \\frac{6h + h^2}{h} = \\lim_{h \\to 0} (6 + h) = 6 = f'(3)$."
+    },
+    {
+      "id": "1A2-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Tangente horizontale",
+      "skill": "Trouver les abscisses où la dérivée s'annule",
+      "statement": "En quel(s) point(s) la courbe de $f(x) = \\frac{1}{3}x^3 - 4x + 1$ admet-elle une tangente horizontale ?",
+      "options": [
+        "En $x = -2$ et $x = 2$",
+        "En $x = 0$",
+        "En $x = 4$",
+        "En $x = -4$ et $x = 4$"
+      ],
+      "correctIndex": 0,
+      "answer": "En $x = -2$ et $x = 2$",
+      "hint1": "Une tangente horizontale correspond à un coefficient directeur nul, soit $f'(x) = 0$.",
+      "hint2": "$f'(x) = x^2 - 4 = 0 \\iff x = 2$ ou $x = -2$.",
+      "solution": "$f'(x) = x^2 - 4$. Tangente horizontale $\\iff f'(x) = 0 \\iff x^2 = 4 \\iff x = 2$ ou $x = -2$."
+    },
+    {
+      "id": "1A2-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Tangente parallèle à une droite donnée",
+      "skill": "Déterminer un point de contact de tangente par parallélisme",
+      "statement": "En quel point de la parabole d'équation $y = x^2 - 2x + 3$ la tangente est-elle parallèle à la droite d'équation $y = 4x - 1$ ?",
+      "options": [
+        "$(3 ; 6)$",
+        "$(2 ; 3)$",
+        "$(1 ; 2)$",
+        "$(4 ; 11)$"
+      ],
+      "correctIndex": 0,
+      "answer": "$(3 ; 6)$",
+      "hint1": "Deux droites sont parallèles si elles ont la même pente : $f'(x) = 4$.",
+      "hint2": "$2x - 2 = 4 \\implies 2x = 6 \\implies x = 3$. Puis calcule $f(3)$.",
+      "solution": "$f'(x) = 2x - 2 = 4 \\iff 2x = 6 \\iff x = 3$. L'ordonnée est $y = 3^2 - 2(3) + 3 = 9 - 6 + 3 = 6$. Le point est $(3 ; 6)$."
     }
   ],
   "1A3": [
@@ -542,14 +666,76 @@ window.MATHS_EXERCISES_1ERE = {
       "tier": 1,
       "type": "mcq",
       "title": "Dérivée d'un quotient",
-      "skill": "Appliquer la formule $(u/v)'$",
-      "statement": "Déterminer la dérivée de la fonction $f(x) = \\frac{2x - 1}{x + 3}$ sur $]-3 ; +\\infty[$.",
-      "options": ["$f'(x) = \\frac{7}{(x+3)^2}$", "$f'(x) = 2$", "$f'(x) = \\frac{-7}{(x+3)^2}$", "$f'(x) = \\frac{5}{(x+3)^2}$"],
+      "skill": "Appliquer la formule de dérivation $(u/v)'$",
+      "statement": "Quelle est la dérivée de $f(x) = \\frac{2x + 1}{x - 3}$ sur $\\mathbb{R} \\setminus \\{3\\}$ ?",
+      "options": [
+        "$-\\frac{7}{(x - 3)^2}$",
+        "$\\frac{7}{(x - 3)^2}$",
+        "$\\frac{2}{(x - 3)^2}$",
+        "$-7$"
+      ],
       "correctIndex": 0,
-      "answer": "$f'(x) = \\frac{7}{(x+3)^2}$",
-      "hint1": "Formule : $\\left(\\frac{u}{v}\\right)' = \\frac{u'v - uv'}{v^2}$ avec $u(x)=2x-1$ et $v(x)=x+3$.",
-      "hint2": "$u'(x)=2$ et $v'(x)=1$. Donc $u'v - uv' = 2(x+3) - 1(2x-1) = 2x+6-2x+1 = 7$.",
-      "solution": "$f'(x) = \\frac{2(x+3) - (2x-1)(1)}{(x+3)^2} = \\frac{2x + 6 - 2x + 1}{(x+3)^2} = \\frac{7}{(x+3)^2}$."
+      "answer": "$-\\frac{7}{(x - 3)^2}$",
+      "hint1": "Formule : $(u/v)' = \\frac{u'v - uv'}{v^2}$ avec $u=2x+1$ et $v=x-3$.",
+      "hint2": "$u'v - uv' = 2(x - 3) - (2x + 1)(1) = 2x - 6 - 2x - 1 = -7$.",
+      "solution": "$f'(x) = \\frac{2(x - 3) - 1(2x + 1)}{(x - 3)^2} = \\frac{2x - 6 - 2x - 1}{(x - 3)^2} = -\\frac{7}{(x - 3)^2}$."
+    },
+    {
+      "id": "1A3-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Dérivée d'un produit",
+      "skill": "Appliquer $(uv)' = u'v + uv'$",
+      "statement": "Dériver la fonction $g(x) = (3x - 2)\\sqrt{x}$ pour $x > 0$.",
+      "options": [
+        "$\\frac{9x - 2}{2\\sqrt{x}}$",
+        "$3\\sqrt{x} + \\frac{1}{2\\sqrt{x}}$",
+        "$\\frac{3x - 2}{2\\sqrt{x}}$",
+        "$\\frac{6x - 2}{\\sqrt{x}}$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\frac{9x - 2}{2\\sqrt{x}}$",
+      "hint1": "$g'(x) = 3\\sqrt{x} + (3x - 2)\\frac{1}{2\\sqrt{x}}$.",
+      "hint2": "Mets au même dénominateur $2\\sqrt{x}$ : $\\frac{6x + 3x - 2}{2\\sqrt{x}} = \\frac{9x - 2}{2\\sqrt{x}}$.",
+      "solution": "$g'(x) = 3\\sqrt{x} + \\frac{3x - 2}{2\\sqrt{x}} = \\frac{3\\sqrt{x}(2\\sqrt{x}) + (3x - 2)}{2\\sqrt{x}} = \\frac{6x + 3x - 2}{2\\sqrt{x}} = \\frac{9x - 2}{2\\sqrt{x}}$."
+    },
+    {
+      "id": "1A3-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Tableau de variations et extremum",
+      "skill": "Déterminer les extrema d'une fonction polynôme du 3ème degré",
+      "statement": "Pour $f(x) = 2x^3 - 9x^2 + 12x + 1$ sur $[0 ; 3]$, quel est le maximum local ?",
+      "options": [
+        "$6$ (atteint en $x = 1$)",
+        "$5$ (atteint en $x = 2$)",
+        "$10$ (atteint en $x = 3$)",
+        "$1$ (atteint en $x = 0$)"
+      ],
+      "correctIndex": 0,
+      "answer": "$6$ (atteint en $x = 1$)",
+      "hint1": "$f'(x) = 6x^2 - 18x + 12 = 6(x^2 - 3x + 2) = 6(x - 1)(x - 2)$.",
+      "hint2": "$f'$ est positive sur $[0 ; 1]$, négative sur $[1 ; 2]$, positive sur $[2 ; 3]$. Le maximum local est en $x=1$.",
+      "solution": "$f'(x) = 6(x - 1)(x - 2)$. $f'$ passe de $+$ à $-$ en $x = 1$, donc $f(1) = 2(1) - 9(1) + 12(1) + 1 = 6$ est un maximum local."
+    },
+    {
+      "id": "1A3-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Problème d'optimisation",
+      "skill": "Modéliser et optimiser une grandeur géométrique",
+      "statement": "On dispose d'un grillage de 40 m pour entourer un enclos rectangulaire contre un mur (3 côtés à grillager). Quelle aire maximale peut-on obtenir ?",
+      "options": [
+        "$200\\text{ m}^2$",
+        "$100\\text{ m}^2$",
+        "$400\\text{ m}^2$",
+        "$150\\text{ m}^2$"
+      ],
+      "correctIndex": 0,
+      "answer": "$200\\text{ m}^2$",
+      "hint1": "Si la largeur est $x$, la longueur est $40 - 2x$. L'aire est $A(x) = x(40 - 2x) = 40x - 2x^2$.",
+      "hint2": "$A'(x) = 40 - 4x = 0 \\implies x = 10$. Aire : $A(10) = 10 \\times 20 = 200$.",
+      "solution": "Périmètre grillagé : $2x + y = 40 \\implies y = 40 - 2x$. L'aire est $A(x) = x(40 - 2x) = -2x^2 + 40x$. Dérivée : $A'(x) = -4x + 40 = 0 \\iff x = 10$. Aire max $= 10 \\times 20 = 200\\text{ m}^2$."
     }
   ],
   "1A4": [
@@ -558,14 +744,76 @@ window.MATHS_EXERCISES_1ERE = {
       "tier": 1,
       "type": "mcq",
       "title": "Simplification d'exponentielles",
-      "skill": "Propriétés algébriques de l'exponentielle",
-      "statement": "Simplifier l'expression $A = \\frac{e^3 \\times e^{-1}}{e^4}$.",
-      "options": ["$e^{-2}$", "$e^2$", "$e^{-6}$", "$e^0$"],
+      "skill": "Appliquer les propriétés algébriques de la fonction exponentielle",
+      "statement": "Simplifier l'expression $A = \\frac{e^{3x+1} \\times e^{-x+2}}{e^{2x-4}}$.",
+      "options": [
+        "$e^7$",
+        "$e^{4x+7}$",
+        "$e^{-1}$",
+        "$e^{2x-1}$"
+      ],
       "correctIndex": 0,
-      "answer": "$e^{-2}$",
-      "hint1": "$e^a e^b = e^{a+b}$ et $e^u / e^v = e^{u-v}$.",
-      "hint2": "$e^3 e^{-1} = e^2$, puis $e^2 / e^4 = e^{2-4} = e^{-2}$.",
-      "solution": "$A = \\frac{e^{3-1}}{e^4} = \\frac{e^2}{e^4} = e^{2-4} = e^{-2}$."
+      "answer": "$e^7$",
+      "hint1": "Utilise $e^a \\times e^b = e^{a+b}$ et $e^u / e^v = e^{u-v}$.",
+      "hint2": "Numérateur : $(3x+1) + (-x+2) = 2x + 3$. Puis $(2x+3) - (2x-4) = 7$.",
+      "solution": "$A = \\frac{e^{(3x+1)+(-x+2)}}{e^{2x-4}} = \\frac{e^{2x+3}}{e^{2x-4}} = e^{(2x+3)-(2x-4)} = e^7$."
+    },
+    {
+      "id": "1A4-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Dérivée avec exponentielle $e^{u(x)}$",
+      "skill": "Dériver une fonction de la forme $e^{u(x)}$",
+      "statement": "Quelle est la dérivée de $f(x) = e^{-3x^2 + 2x}$ ?",
+      "options": [
+        "$(-6x + 2)e^{-3x^2 + 2x}$",
+        "$-6x e^{-3x^2 + 2x}$",
+        "$e^{-6x + 2}$",
+        "$(6x - 2)e^{-3x^2 + 2x}$"
+      ],
+      "correctIndex": 0,
+      "answer": "$(-6x + 2)e^{-3x^2 + 2x}$",
+      "hint1": "Formule : $(e^u)' = u' e^u$.",
+      "hint2": "Ici $u(x) = -3x^2 + 2x$, donc $u'(x) = -6x + 2$.",
+      "solution": "$(e^u)' = u' e^u$. Avec $u(x) = -3x^2 + 2x$, on a $u'(x) = -6x + 2$, donc $f'(x) = (-6x + 2)e^{-3x^2 + 2x}$."
+    },
+    {
+      "id": "1A4-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Étude de fonction avec exponentielle",
+      "skill": "Dresser les variations de $(ax+b)e^x$",
+      "statement": "Soit $g(x) = (x - 2)e^x$. Quel est le minimum de $g$ sur $\\mathbb{R}$ ?",
+      "options": [
+        "$-e$ (atteint en $x = 1$)",
+        "$-2$ (atteint en $x = 0$)",
+        "$0$ (atteint en $x = 2$)",
+        "$-e^2$ (atteint en $x = -1$)"
+      ],
+      "correctIndex": 0,
+      "answer": "$-e$ (atteint en $x = 1$)",
+      "hint1": "Dérive en utilisant $(uv)' = u'v + uv'$ : $g'(x) = 1 \\cdot e^x + (x - 2)e^x = (x - 1)e^x$.",
+      "hint2": "Comme $e^x > 0$, le signe de $g'$ est celui de $x - 1$. Le minimum est en $x = 1$.",
+      "solution": "$g'(x) = 1 \\cdot e^x + (x - 2)e^x = (x - 1)e^x$. Comme $e^x > 0$, $g'(x) = 0 \\iff x = 1$. $g(1) = (1 - 2)e^1 = -e$."
+    },
+    {
+      "id": "1A4-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Équation se ramenant au second degré",
+      "skill": "Résoudre une équation avec changement de variable $X = e^x$",
+      "statement": "Résoudre dans $\\mathbb{R}$ l'équation $e^{2x} - 5e^x + 6 = 0$.",
+      "options": [
+        "$x = \\ln(2)$ ou $x = \\ln(3)$",
+        "$x = 2$ ou $x = 3$",
+        "$x = e^2$ ou $x = e^3$",
+        "Pas de solution réelle"
+      ],
+      "correctIndex": 0,
+      "answer": "$x = \\ln(2)$ ou $x = \\ln(3)$",
+      "hint1": "Pose $X = e^x > 0$. L'équation devient $X^2 - 5X + 6 = 0$.",
+      "hint2": "Les racines sont $X = 2$ et $X = 3$, donc $e^x = 2 \\iff x = \\ln(2)$ et $e^x = 3 \\iff x = \\ln(3)$.",
+      "solution": "Posons $X = e^x$. Alors $X^2 - 5X + 6 = 0 \\iff (X - 2)(X - 3) = 0 \\iff X = 2$ ou $X = 3$. Comme $X > 0$, $x = \\ln(2)$ ou $x = \\ln(3)$."
     }
   ],
   "1A5": [
@@ -574,14 +822,76 @@ window.MATHS_EXERCISES_1ERE = {
       "tier": 1,
       "type": "mcq",
       "title": "Sens de variation d'une suite",
-      "skill": "Étudier le signe de $u_{n+1} - u_n$",
-      "statement": "Soit la suite $(u_n)$ définie par $u_n = 3n^2 + 5$ pour tout $n \\in \\mathbb{N}$. Quel est son sens de variation ?",
-      "options": ["Strictement croissante", "Strictement décroissante", "Constante", "Non monotone"],
+      "skill": "Étudier le signe de u_{n+1} - u_n",
+      "statement": "Soit la suite $(u_n)$ définie par $u_n = 3n^2 - 2n + 5$. Quel est son sens de variation pour $n \\ge 1$ ?",
+      "options": [
+        "Strictement croissante",
+        "Strictement décroissante",
+        "Constante",
+        "Non monotone"
+      ],
       "correctIndex": 0,
       "answer": "Strictement croissante",
-      "hint1": "Calcule la différence $u_{n+1} - u_n$.",
-      "hint2": "$u_{n+1} - u_n = [3(n+1)^2+5] - [3n^2+5] = 3(2n+1) = 6n+3 > 0$.",
-      "solution": "Pour tout $n \\ge 0$, $u_{n+1} - u_n = 3(n+1)^2 - 3n^2 = 3(2n+1) = 6n + 3 > 0$. La suite est donc strictement croissante."
+      "hint1": "Calcule $u_{n+1} - u_n$.",
+      "hint2": "$u_{n+1} - u_n = 3(n+1)^2 - 2(n+1) + 5 - (3n^2 - 2n + 5) = 6n + 1 > 0$.",
+      "solution": "$u_{n+1} - u_n = 3(n^2 + 2n + 1) - 2n - 2 + 5 - 3n^2 + 2n - 5 = 6n + 1$. Pour tout $n \\ge 1$, $6n + 1 > 0$, donc la suite est strictement croissante."
+    },
+    {
+      "id": "1A5-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Suite arithmétique et terme général",
+      "skill": "Calculer un terme d'une suite arithmétique",
+      "statement": "Soit $(u_n)$ une suite arithmétique de premier terme $u_0 = 4$ et de raison $r = -3$. Que vaut $u_{20}$ ?",
+      "options": [
+        "$-56$",
+        "$-60$",
+        "$-53$",
+        "$64$"
+      ],
+      "correctIndex": 0,
+      "answer": "$-56$",
+      "hint1": "Formule : $u_n = u_0 + n \\times r$.",
+      "hint2": "$u_{20} = 4 + 20 \\times (-3) = 4 - 60 = -56$.",
+      "solution": "$u_{20} = u_0 + 20r = 4 + 20(-3) = 4 - 60 = -56$."
+    },
+    {
+      "id": "1A5-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Somme des termes d'une suite arithmétique",
+      "skill": "Appliquer la formule de la somme des termes consécutifs",
+      "statement": "Calculer la somme $S = 5 + 8 + 11 + \\dots + 62$.",
+      "options": [
+        "$670$",
+        "$603$",
+        "$1340$",
+        "$700$"
+      ],
+      "correctIndex": 0,
+      "answer": "$670$",
+      "hint1": "C'est une suite arithmétique de raison $r = 3$. Trouve le nombre de termes $N$ : $62 = 5 + (N - 1) \\times 3$.",
+      "hint2": "$3(N - 1) = 57 \\implies N - 1 = 19 \\implies N = 20$. Puis $S = 20 \\times \\frac{5 + 62}{2}$.",
+      "solution": "$u_n = 5 + 3n$. $62 = 5 + 3n \\iff 3n = 57 \\iff n = 19$, donc 20 termes de 0 à 19. $S = 20 \\times \\frac{5 + 62}{2} = 10 \\times 67 = 670$."
+    },
+    {
+      "id": "1A5-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Suite arithmético-géométrique et suite auxiliaire",
+      "skill": "Étudier une suite récurrente u_{n+1} = a u_n + b",
+      "statement": "Soit $u_0 = 2$ et $u_{n+1} = 0{,}5 u_n + 3$. En posant $v_n = u_n - 6$, quelle est la nature de $(v_n)$ et la limite de $u_n$ ?",
+      "options": [
+        "$(v_n)$ est géométrique de raison $0{,}5$ et $\\lim u_n = 6$",
+        "$(v_n)$ est arithmétique de raison $3$ et $\\lim u_n = +\\infty$",
+        "$(v_n)$ est géométrique de raison $3$ et $\\lim u_n = 0$",
+        "$(v_n)$ n'a pas de limite"
+      ],
+      "correctIndex": 0,
+      "answer": "$(v_n)$ est géométrique de raison $0{,}5$ et $\\lim u_n = 6$",
+      "hint1": "$v_{n+1} = u_{n+1} - 6 = 0{,}5 u_n + 3 - 6 = 0{,}5(u_n - 6) = 0{,}5 v_n$.",
+      "hint2": "Comme $|0{,}5| < 1$, $\\lim v_n = 0$, donc $\\lim u_n = 6$.",
+      "solution": "$v_{n+1} = 0{,}5 u_n + 3 - 6 = 0{,}5(u_n - 6) = 0{,}5 v_n$. $(v_n)$ est géométrique de raison $0{,}5$. Comme $|0{,}5| < 1$, $\\lim v_n = 0 \\implies \\lim u_n = 6$."
     }
   ],
   "1A6": [
@@ -590,14 +900,76 @@ window.MATHS_EXERCISES_1ERE = {
       "tier": 1,
       "type": "mcq",
       "title": "Somme d'une suite géométrique",
-      "skill": "Appliquer la formule de la somme géométrique",
-      "statement": "Quelle est la valeur de la somme $S = 1 + 2 + 4 + 8 + \\dots + 2^7$ ?",
-      "options": ["$255$", "$127$", "$256$", "$511$"],
+      "skill": "Calculer la somme 1 + q + q^2 + ... + q^n",
+      "statement": "Calculer la somme $S = 1 + 2 + 4 + 8 + 16 + 32 + 64$.",
+      "options": [
+        "$127$",
+        "$128$",
+        "$63$",
+        "$255$"
+      ],
       "correctIndex": 0,
-      "answer": "$255$",
-      "hint1": "C'est la somme des $n+1 = 8$ premiers termes d'une suite géométrique de premier terme 1 et de raison $q = 2$.",
-      "hint2": "Formule : $S = \\frac{1 - q^{n+1}}{1 - q} = \\frac{1 - 2^8}{1 - 2} = 2^8 - 1$.",
-      "solution": "$S = \\frac{1 - 2^8}{1 - 2} = \\frac{1 - 256}{-1} = 255$."
+      "answer": "$127$",
+      "hint1": "Formule : $\\frac{1 - q^{n+1}}{1 - q}$ avec $q = 2$.",
+      "hint2": "Il y a 7 termes : $2^0$ à $2^6$. $\\frac{1 - 2^7}{1 - 2} = \\frac{1 - 128}{-1} = 127$.",
+      "solution": "$S = \\sum_{k=0}^6 2^k = \\frac{1 - 2^7}{1 - 2} = \\frac{1 - 128}{-1} = 127$."
+    },
+    {
+      "id": "1A6-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Terme général d'une suite géométrique",
+      "skill": "Calculer un terme lointain d'une suite géométrique",
+      "statement": "Soit $(v_n)$ une suite géométrique de premier terme $v_1 = 3$ et de raison $q = \\frac{1}{2}$. Que vaut $v_5$ ?",
+      "options": [
+        "$\\frac{3}{16}$",
+        "$\\frac{3}{32}$",
+        "$\\frac{3}{8}$",
+        "$\\frac{1}{16}$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\frac{3}{16}$",
+      "hint1": "$v_n = v_1 \\times q^{n-1}$.",
+      "hint2": "$v_5 = 3 \\times (1/2)^4 = 3 \\times \\frac{1}{16} = \\frac{3}{16}$.",
+      "solution": "$v_5 = v_1 \\times q^{5-1} = 3 \\times \\left(\\frac{1}{2}\\right)^4 = \\frac{3}{16}$."
+    },
+    {
+      "id": "1A6-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Modélisation par une suite géométrique",
+      "skill": "Appliquer un taux d'évolution répété",
+      "statement": "Une ville compte 50 000 habitants en 2020. Sa population diminue de 2% chaque année. Quelle formule donne la population $P_n$ en $2020 + n$ ?",
+      "options": [
+        "$P_n = 50\\,000 \\times (0{,}98)^n$",
+        "$P_n = 50\\,000 \\times (1{,}02)^n$",
+        "$P_n = 50\\,000 - 1000n$",
+        "$P_n = 50\\,000 \\times (0{,}02)^n$"
+      ],
+      "correctIndex": 0,
+      "answer": "$P_n = 50\\,000 \\times (0{,}98)^n$",
+      "hint1": "Une baisse de 2% correspond à multiplier par le coefficient multiplicateur $1 - 0{,}02 = 0{,}98$.",
+      "hint2": "Il s'agit donc d'une suite géométrique de raison $q = 0{,}98$.",
+      "solution": "Le coefficient multiplicateur associé à une baisse de 2% est $1 - 2/100 = 0{,}98$. D'où $P_n = 50\\,000 \\times (0{,}98)^n$."
+    },
+    {
+      "id": "1A6-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Limite de la somme d'une suite géométrique",
+      "skill": "Calculer la limite d'une série géométrique convergente",
+      "statement": "Quelle est la limite quand $n \\to +\\infty$ de $S_n = \\sum_{k=0}^n \\left(\\frac{1}{3}\\right)^k$ ?",
+      "options": [
+        "$\\frac{3}{2}$",
+        "$3$",
+        "$1$",
+        "$\\frac{2}{3}$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\frac{3}{2}$",
+      "hint1": "$S_n = \\frac{1 - (1/3)^{n+1}}{1 - 1/3}$.",
+      "hint2": "Comme $|1/3| < 1$, $(1/3)^{n+1} \\to 0$. La limite est $\\frac{1}{2/3} = \\frac{3}{2}$.",
+      "solution": "Comme $|1/3| < 1$, $\\lim_{n \\to +\\infty} (1/3)^{n+1} = 0$. Donc $\\lim S_n = \\frac{1}{1 - 1/3} = \\frac{1}{2/3} = \\frac{3}{2}$."
     }
   ],
   "1G1": [
@@ -606,14 +978,76 @@ window.MATHS_EXERCISES_1ERE = {
       "tier": 1,
       "type": "mcq",
       "title": "Valeur trigonométrique remarquable",
-      "skill": "Lire sur le cercle trigonométrique",
-      "statement": "Quelle est la valeur exacte de $\\cos\\left(\\frac{2\\pi}{3}\\right)$ ?",
-      "options": ["$-\\frac{1}{2}$", "$\\frac{1}{2}$", "$-\\frac{\\sqrt{3}}{2}$", "$\\frac{\\sqrt{3}}{2}$"],
+      "skill": "Connaître le cosinus et le sinus des angles remarquables",
+      "statement": "Quelle est la valeur exacte de $\\cos\\left(\\frac{5\\pi}{6}\\right)$ ?",
+      "options": [
+        "$-\\frac{\\sqrt{3}}{2}$",
+        "$\\frac{\\sqrt{3}}{2}$",
+        "$-\\frac{1}{2}$",
+        "$\\frac{1}{2}$"
+      ],
       "correctIndex": 0,
-      "answer": "$-\\frac{1}{2}$",
-      "hint1": "Remarque que $\\frac{2\\pi}{3} = \\pi - \\frac{\\pi}{3}$.",
-      "hint2": "$\\cos(\\pi - x) = -\\cos(x)$. Sachant que $\\cos(\\pi/3) = 1/2$.",
-      "solution": "$\\cos\\left(\\frac{2\\pi}{3}\\right) = \\cos\\left(\\pi - \\frac{\\pi}{3}\\right) = -\\cos\\left(\\frac{\\pi}{3}\\right) = -\\frac{1}{2}$."
+      "answer": "$-\\frac{\\sqrt{3}}{2}$",
+      "hint1": "$\\frac{5\\pi}{6} = \\pi - \\frac{\\pi}{6}$.",
+      "hint2": "$\\cos(\\pi - x) = -\\cos(x)$, or $\\cos(\\pi/6) = \\frac{\\sqrt{3}}{2}$.",
+      "solution": "$\\cos(5\\pi/6) = \\cos(\\pi - \\pi/6) = -\\cos(\\pi/6) = -\\frac{\\sqrt{3}}{2}$."
+    },
+    {
+      "id": "1G1-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Relation fondamentale de la trigonométrie",
+      "skill": "Utiliser cos^2(x) + sin^2(x) = 1",
+      "statement": "Sachant que $\\sin(x) = \\frac{3}{5}$ et que $x \\in \\left[\\frac{\\pi}{2} ; \\pi\\right]$, que vaut $\\cos(x)$ ?",
+      "options": [
+        "$-\\frac{4}{5}$",
+        "$\\frac{4}{5}$",
+        "$-\\frac{2}{5}$",
+        "$\\frac{16}{25}$"
+      ],
+      "correctIndex": 0,
+      "answer": "$-\\frac{4}{5}$",
+      "hint1": "$\\cos^2(x) = 1 - \\sin^2(x) = 1 - 9/25 = 16/25$.",
+      "hint2": "Sur $[\\pi/2 ; \\pi]$, le cosinus est négatif.",
+      "solution": "$\\cos^2(x) = 1 - (3/5)^2 = 16/25$. Comme $x \\in [\\pi/2 ; \\pi]$, $\\cos(x) \\le 0$, donc $\\cos(x) = -\\sqrt{16/25} = -\\frac{4}{5}$."
+    },
+    {
+      "id": "1G1-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Résolution d'équation trigonométrique",
+      "skill": "Résoudre cos(x) = a sur [-pi ; pi]",
+      "statement": "Quelles sont les solutions dans $]-\\pi ; \\pi]$ de $\\cos(x) = -\\frac{1}{2}$ ?",
+      "options": [
+        "$S = \\left\\{-\\frac{2\\pi}{3} ; \\frac{2\\pi}{3}\\right\\}$",
+        "$S = \\left\\{-\\frac{\\pi}{3} ; \\frac{\\pi}{3}\\right\\}$",
+        "$S = \\left\\{\\frac{2\\pi}{3} ; \\frac{4\\pi}{3}\\right\\}$",
+        "$S = \\left\\{-\\frac{5\\pi}{6} ; \\frac{5\\pi}{6}\\right\\}$"
+      ],
+      "correctIndex": 0,
+      "answer": "$S = \\left\\{-\\frac{2\\pi}{3} ; \\frac{2\\pi}{3}\\right\\}$",
+      "hint1": "$\\cos(x) = -\\cos(\\pi/3) = \\cos(\\pi - \\pi/3) = \\cos(2\\pi/3)$.",
+      "hint2": "Les deux solutions sur $]-\\pi ; \\pi]$ sont $\\alpha$ et $-\\alpha$.",
+      "solution": "$\\cos(x) = \\cos(2\\pi/3) \\iff x = \\frac{2\\pi}{3}$ ou $x = -\\frac{2\\pi}{3}$ dans l'intervalle $]-\\pi ; \\pi]$."
+    },
+    {
+      "id": "1G1-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Formule de duplication",
+      "skill": "Appliquer cos(2x) = 2 cos^2(x) - 1",
+      "statement": "Exprimer $\\cos(2x)$ en fonction de $\\cos(x)$ pour tout réel $x$.",
+      "options": [
+        "$2\\cos^2(x) - 1$",
+        "$2\\cos(x) - 1$",
+        "$\\cos^2(x) + \\sin^2(x)$",
+        "$1 - \\cos^2(x)$"
+      ],
+      "correctIndex": 0,
+      "answer": "$2\\cos^2(x) - 1$",
+      "hint1": "$\\cos(2x) = \\cos^2(x) - \\sin^2(x)$.",
+      "hint2": "Remplace $\\sin^2(x)$ par $1 - \\cos^2(x)$.",
+      "solution": "$\\cos(2x) = \\cos^2(x) - \\sin^2(x) = \\cos^2(x) - (1 - \\cos^2(x)) = 2\\cos^2(x) - 1$."
     }
   ],
   "1G2": [
@@ -622,14 +1056,76 @@ window.MATHS_EXERCISES_1ERE = {
       "tier": 1,
       "type": "mcq",
       "title": "Produit scalaire analytique",
-      "skill": "Calculer $\\vec{u} \\cdot \\vec{v}$ dans un repère orthonormé",
-      "statement": "Dans un repère orthonormé, on donne $\\vec{u}(3 ; -2)$ et $\\vec{v}(4 ; 5)$. Que vaut $\\vec{u} \\cdot \\vec{v}$ ?",
-      "options": ["$2$", "$22$", "$-2$", "$\\sqrt{13}$"],
+      "skill": "Calculer u.v dans un repère orthonormé avec xx' + yy'",
+      "statement": "Dans un repère orthonormé, soit $\\vec{u}(3 ; -4)$ et $\\vec{v}(2 ; 5)$. Calculer le produit scalaire $\\vec{u} \\cdot \\vec{v}$.",
+      "options": [
+        "$-14$",
+        "$26$",
+        "$-13$",
+        "$14$"
+      ],
       "correctIndex": 0,
-      "answer": "$2$",
-      "hint1": "Formule analytique : $\\vec{u} \\cdot \\vec{v} = x x' + y y'$.",
-      "hint2": "$3 \\times 4 + (-2) \\times 5 = 12 - 10$.",
-      "solution": "$\\vec{u} \\cdot \\vec{v} = 3 \\times 4 + (-2) \\times 5 = 12 - 10 = 2$."
+      "answer": "$-14$",
+      "hint1": "$\\vec{u} \\cdot \\vec{v} = x x' + y y'$.",
+      "hint2": "$3 \\times 2 + (-4) \\times 5 = 6 - 20 = -14$.",
+      "solution": "$\\vec{u} \\cdot \\vec{v} = 3(2) + (-4)(5) = 6 - 20 = -14$."
+    },
+    {
+      "id": "1G2-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Produit scalaire géométrique",
+      "skill": "Calculer ||u|| ||v|| cos(theta)",
+      "statement": "Soit deux vecteurs de normes $\\|\\vec{u}\\| = 4$, $\\|\\vec{v}\\| = 5$ formant un angle de $\\frac{\\pi}{3}$. Que vaut $\\vec{u} \\cdot \\vec{v}$ ?",
+      "options": [
+        "$10$",
+        "$10\\sqrt{3}$",
+        "$20$",
+        "$5$"
+      ],
+      "correctIndex": 0,
+      "answer": "$10$",
+      "hint1": "$\\vec{u} \\cdot \\vec{v} = \\|\\vec{u}\\| \\times \\|\\vec{v}\\| \\times \\cos(\\theta)$.",
+      "hint2": "$\\cos(\\pi/3) = \\frac{1}{2}$. Donc $4 \\times 5 \\times \\frac{1}{2} = 10$.",
+      "solution": "$\\vec{u} \\cdot \\vec{v} = 4 \\times 5 \\times \\cos(\\pi/3) = 20 \\times \\frac{1}{2} = 10$."
+    },
+    {
+      "id": "1G2-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Orthogonalité et paramètre",
+      "skill": "Appliquer la condition d'orthogonalité u.v = 0",
+      "statement": "Pour quelle valeur de $k$ les vecteurs $\\vec{u}(2 ; k)$ et $\\vec{v}(k - 1 ; -3)$ sont-ils orthogonaux ?",
+      "options": [
+        "$k = -2$",
+        "$k = 2$",
+        "$k = 1$",
+        "$k = -1$"
+      ],
+      "correctIndex": 0,
+      "answer": "$k = -2$",
+      "hint1": "$\\vec{u} \\perp \\vec{v} \\iff \\vec{u} \\cdot \\vec{v} = 0$.",
+      "hint2": "$2(k - 1) + k(-3) = 0 \\iff 2k - 2 - 3k = 0$.",
+      "solution": "$\\vec{u} \\cdot \\vec{v} = 2(k - 1) - 3k = -k - 2 = 0 \\iff k = -2$."
+    },
+    {
+      "id": "1G2-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Théorème d'Al-Kashi",
+      "skill": "Calculer une longueur dans un triangle quelconque avec Al-Kashi",
+      "statement": "Dans un triangle $ABC$, on donne $AB = 5$, $AC = 8$ et $\\widehat{BAC} = 60^\\circ$. Que vaut $BC$ ?",
+      "options": [
+        "$7$",
+        "$\\sqrt{89}$",
+        "$\\sqrt{49} = 7$",
+        "$3\\sqrt{5}$"
+      ],
+      "correctIndex": 0,
+      "answer": "$7$",
+      "hint1": "Formule d'Al-Kashi : $BC^2 = AB^2 + AC^2 - 2 AB \\times AC \\cos(\\widehat{A})$.",
+      "hint2": "$BC^2 = 25 + 64 - 2(5)(8)(0{,}5) = 89 - 40 = 49$.",
+      "solution": "$BC^2 = 5^2 + 8^2 - 2(5)(8)\\cos(60^\\circ) = 25 + 64 - 40 = 49$, donc $BC = \\sqrt{49} = 7$."
     }
   ],
   "1G3": [
@@ -639,13 +1135,75 @@ window.MATHS_EXERCISES_1ERE = {
       "type": "mcq",
       "title": "Vecteur normal et droite",
       "skill": "Identifier un vecteur normal d'une droite",
-      "statement": "Quel est un vecteur normal à la droite $(d)$ d'équation cartésienne $3x - 4y + 7 = 0$ ?",
-      "options": ["$\\vec{n}(3 ; -4)$", "$\\vec{n}(4 ; 3)$", "$\\vec{n}(-4 ; 3)$", "$\\vec{n}(3 ; 4)$"],
+      "statement": "Un vecteur normal à la droite d'équation cartésienne $4x - 7y + 1 = 0$ est :",
+      "options": [
+        "$\\vec{n}(4 ; -7)$",
+        "$\\vec{n}(7 ; 4)$",
+        "$\\vec{n}(-7 ; 4)$",
+        "$\\vec{n}(4 ; 7)$"
+      ],
       "correctIndex": 0,
-      "answer": "$\\vec{n}(3 ; -4)$",
+      "answer": "$\\vec{n}(4 ; -7)$",
       "hint1": "Pour une droite d'équation $ax + by + c = 0$, un vecteur normal est $\\vec{n}(a ; b)$.",
-      "hint2": "Ici $a = 3$ et $b = -4$.",
-      "solution": "L'équation cartésienne étant $3x - 4y + 7 = 0$, un vecteur normal est directement $\\vec{n}(3 ; -4)$."
+      "hint2": "Ici $a = 4$ et $b = -7$.",
+      "solution": "D'après le cours, les coefficients de $x$ et $y$ donnent les coordonnées d'un vecteur normal : $\\vec{n}(a ; b) = \\vec{n}(4 ; -7)$."
+    },
+    {
+      "id": "1G3-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Équation cartésienne de cercle",
+      "skill": "Écrire l'équation d'un cercle connaissant centre et rayon",
+      "statement": "Quelle est l'équation du cercle de centre $\\Omega(2 ; -3)$ et de rayon $R = 4$ ?",
+      "options": [
+        "$(x - 2)^2 + (y + 3)^2 = 16$",
+        "$(x + 2)^2 + (y - 3)^2 = 16$",
+        "$(x - 2)^2 + (y + 3)^2 = 4$",
+        "$x^2 + y^2 = 16$"
+      ],
+      "correctIndex": 0,
+      "answer": "$(x - 2)^2 + (y + 3)^2 = 16$",
+      "hint1": "L'équation d'un cercle de centre $(x_0, y_0)$ et de rayon $R$ est $(x - x_0)^2 + (y - y_0)^2 = R^2$.",
+      "hint2": "$R^2 = 4^2 = 16$.",
+      "solution": "$(x - 2)^2 + (y - (-3))^2 = 4^2 \\iff (x - 2)^2 + (y + 3)^2 = 16$."
+    },
+    {
+      "id": "1G3-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Équation d'une droite perpendiculaire",
+      "skill": "Déterminer la perpendiculaire à une droite passant par un point",
+      "statement": "Quelle est l'équation cartésienne de la droite passant par $A(1 ; 2)$ et perpendiculaire à la droite d'équation $2x + 3y - 5 = 0$ ?",
+      "options": [
+        "$3x - 2y + 1 = 0$",
+        "$2x + 3y - 8 = 0$",
+        "$3x + 2y - 7 = 0$",
+        "$-2x + 3y - 4 = 0$"
+      ],
+      "correctIndex": 0,
+      "answer": "$3x - 2y + 1 = 0$",
+      "hint1": "Un vecteur normal à la première droite est $(2 ; 3)$. Il sert de vecteur directeur à la droite perpendiculaire.",
+      "hint2": "Un vecteur normal à la nouvelle droite est $(3 ; -2)$. Son équation est $3x - 2y + c = 0$.",
+      "solution": "La droite cherchée a pour vecteur normal un vecteur orthogonal à $(2 ; 3)$, par exemple $(3 ; -2)$. Équation : $3x - 2y + c = 0$. En $A(1 ; 2)$ : $3(1) - 2(2) + c = 0 \\iff c = 1$. Donc $3x - 2y + 1 = 0$."
+    },
+    {
+      "id": "1G3-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Cercle défini par un diamètre",
+      "skill": "Caractériser un cercle par le produit scalaire MA.MB = 0",
+      "statement": "Soit $A(-1 ; 2)$ et $B(3 ; 6)$. Le cercle de diamètre $[AB]$ a pour équation :",
+      "options": [
+        "$(x - 1)^2 + (y - 4)^2 = 8$",
+        "$(x + 1)^2 + (y + 4)^2 = 8$",
+        "$(x - 1)^2 + (y - 4)^2 = 32$",
+        "$(x - 2)^2 + (y - 3)^2 = 8$"
+      ],
+      "correctIndex": 0,
+      "answer": "$(x - 1)^2 + (y - 4)^2 = 8$",
+      "hint1": "Le centre $\\Omega$ est le milieu de $[AB]$ : $\\Omega(1 ; 4)$.",
+      "hint2": "Le rayon au carré est $\\Omega A^2 = (-1 - 1)^2 + (2 - 4)^2 = (-2)^2 + (-2)^2 = 8$.",
+      "solution": "Milieu $\\Omega\\left(\\frac{-1+3}{2} ; \\frac{2+6}{2}\\right) = \\Omega(1 ; 4)$. Rayon $R^2 = \\Omega A^2 = (-2)^2 + (-2)^2 = 8$. Équation : $(x - 1)^2 + (y - 4)^2 = 8$."
     }
   ],
   "1S1": [
@@ -654,14 +1212,76 @@ window.MATHS_EXERCISES_1ERE = {
       "tier": 1,
       "type": "mcq",
       "title": "Formule des probabilités totales",
-      "skill": "Appliquer la formule des probabilités totales",
-      "statement": "Soit une partition $\\{A ; \\overline{A}\\}$. Sachant que $P(A) = 0{,}4$, $P_A(B) = 0{,}8$ et $P_{\\overline{A}}(B) = 0{,}3$, que vaut $P(B)$ ?",
-      "options": ["$0{,}50$", "$0{,}32$", "$0{,}18$", "$0{,}44$"],
+      "skill": "Calculer une probabilité totale avec un arbre pondéré",
+      "statement": "On donne $P(A) = 0{,}3$, $P_A(B) = 0{,}8$ et $P_{\\overline{A}}(B) = 0{,}2$. Que vaut $P(B)$ ?",
+      "options": [
+        "$0{,}38$",
+        "$0{,}50$",
+        "$0{,}24$",
+        "$0{,}42$"
+      ],
       "correctIndex": 0,
-      "answer": "$0{,}50$",
+      "answer": "$0{,}38$",
       "hint1": "Formule : $P(B) = P(A) \\times P_A(B) + P(\\overline{A}) \\times P_{\\overline{A}}(B)$.",
-      "hint2": "$P(\\overline{A}) = 1 - 0{,}4 = 0{,}6$. Calcule $0{,}4 \\times 0{,}8 + 0{,}6 \\times 0{,}3 = 0{,}32 + 0{,}18$.",
-      "solution": "$P(B) = 0{,}4 \\times 0{,}8 + 0{,}6 \\times 0{,}3 = 0{,}32 + 0{,}18 = 0{,}50$."
+      "hint2": "$P(\\overline{A}) = 1 - 0{,}3 = 0{,}7$. Alors $0{,}3 \\times 0{,}8 + 0{,}7 \\times 0{,}2 = 0{,}24 + 0{,}14 = 0{,}38$.",
+      "solution": "$P(B) = P(A \\cap B) + P(\\overline{A} \\cap B) = 0{,}3(0{,}8) + (1 - 0{,}3)(0{,}2) = 0{,}24 + 0{,}14 = 0{,}38$."
+    },
+    {
+      "id": "1S1-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Probabilité conditionnelle inverse",
+      "skill": "Calculer P_B(A) avec P(A inter B) / P(B)",
+      "statement": "Sachant que $P(A \\cap B) = 0{,}12$ et que $P(B) = 0{,}40$, calculer $P_B(A)$.",
+      "options": [
+        "$0{,}30$",
+        "$0{,}048$",
+        "$0{,}28$",
+        "$0{,}52$"
+      ],
+      "correctIndex": 0,
+      "answer": "$0{,}30$",
+      "hint1": "$P_B(A) = \\frac{P(A \\cap B)}{P(B)}$.",
+      "hint2": "$\\frac{0{,}12}{0{,}40} = \\frac{12}{40} = 0{,}30$.",
+      "solution": "$P_B(A) = \\frac{P(A \\cap B)}{P(B)} = \\frac{0{,}12}{0{,}40} = 0{,}30$."
+    },
+    {
+      "id": "1S1-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Test d'indépendance de deux événements",
+      "skill": "Vérifier si P(A inter B) = P(A) x P(B)",
+      "statement": "On donne $P(A) = 0{,}4$ et $P(B) = 0{,}5$. Si $A$ et $B$ sont indépendants, que vaut $P(A \\cup B)$ ?",
+      "options": [
+        "$0{,}70$",
+        "$0{,}90$",
+        "$0{,}20$",
+        "$0{,}80$"
+      ],
+      "correctIndex": 0,
+      "answer": "$0{,}70$",
+      "hint1": "Si $A$ et $B$ sont indépendants, $P(A \\cap B) = P(A) \\times P(B) = 0{,}20$.",
+      "hint2": "$P(A \\cup B) = P(A) + P(B) - P(A \\cap B) = 0{,}4 + 0{,}5 - 0{,}20 = 0{,}70$.",
+      "solution": "Par indépendance, $P(A \\cap B) = 0{,}4 \\times 0{,}5 = 0{,}20$. Alors $P(A \\cup B) = 0{,}4 + 0{,}5 - 0{,}20 = 0{,}70$."
+    },
+    {
+      "id": "1S1-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Diagnostic médical et formule de Bayes",
+      "skill": "Appliquer la formule de Bayes en situation concrète",
+      "statement": "Une maladie touche 1% d'une population ($P(M) = 0{,}01$). Un test est positif à 99% chez les malades ($P_M(T) = 0{,}99$) et faux positif à 2% chez les non-malades ($P_{\\overline{M}}(T) = 0{,}02$). Que vaut $P_T(M)$ ?",
+      "options": [
+        "Environ $33\\%$",
+        "Environ $99\\%$",
+        "Environ $1\\%$",
+        "Environ $50\\%$"
+      ],
+      "correctIndex": 0,
+      "answer": "Environ $33\\%$",
+      "hint1": "$P(T) = 0{,}01 \\times 0{,}99 + 0{,}99 \\times 0{,}02 = 0{,}0099 + 0{,}0198 = 0{,}0297$.",
+      "hint2": "$P_T(M) = \\frac{0{,}0099}{0{,}0297} = \\frac{1}{3} \\approx 33{,}3\\%$.",
+      "solution": "$P(T) = 0{,}01(0{,}99) + 0{,}99(0{,}02) = 0{,}0297$. $P_T(M) = \\frac{0{,}0099}{0{,}0297} = \\frac{1}{3} \\approx 33{,}3\\%$. Un résultat contre-intuitif classique !"
     }
   ],
   "1S2": [
@@ -670,14 +1290,76 @@ window.MATHS_EXERCISES_1ERE = {
       "tier": 1,
       "type": "mcq",
       "title": "Espérance d'une variable aléatoire",
-      "skill": "Calculer l'espérance $E(X)$",
-      "statement": "Soit $X$ prenant les valeurs $-2, 1, 4$ avec probabilités respectives $0{,}2 ; 0{,}5 ; 0{,}3$. Calculer $E(X)$.",
-      "options": ["$1{,}3$", "$1{,}0$", "$0{,}9$", "$1{,}8$"],
+      "skill": "Calculer l'espérance E(X) = sum x_i p_i",
+      "statement": "Soit $X$ prenant les valeurs $-2$ ($p = 0{,}2$), $1$ ($p = 0{,}5$) et $4$ ($p = 0{,}3$). Quelle est son espérance $E(X)$ ?",
+      "options": [
+        "$1{,}3$",
+        "$1{,}0$",
+        "$0{,}9$",
+        "$2{,}1$"
+      ],
       "correctIndex": 0,
       "answer": "$1{,}3$",
-      "hint1": "Formule de l'espérance : $E(X) = \\sum x_i P(X = x_i)$.",
-      "hint2": "$(-2)(0{,}2) + (1)(0{,}5) + (4)(0{,}3) = -0{,}4 + 0{,}5 + 1{,}2$.",
+      "hint1": "$E(X) = \\sum x_i P(X = x_i)$.",
+      "hint2": "$-2(0{,}2) + 1(0{,}5) + 4(0{,}3) = -0{,}4 + 0{,}5 + 1{,}2 = 1{,}3$.",
       "solution": "$E(X) = (-2)(0{,}2) + 1(0{,}5) + 4(0{,}3) = -0{,}4 + 0{,}5 + 1{,}2 = 1{,}3$."
+    },
+    {
+      "id": "1S2-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Transformation affine de variable aléatoire",
+      "skill": "Appliquer E(aX+b) et V(aX+b)",
+      "statement": "Sachant que $E(X) = 4$ et $V(X) = 9$, que valent l'espérance et l'écart-type de $Y = 3X - 5$ ?",
+      "options": [
+        "$E(Y) = 7$ et $\\sigma(Y) = 9$",
+        "$E(Y) = 7$ et $\\sigma(Y) = 27$",
+        "$E(Y) = 12$ et $\\sigma(Y) = 9$",
+        "$E(Y) = 7$ et $\\sigma(Y) = 3$"
+      ],
+      "correctIndex": 0,
+      "answer": "$E(Y) = 7$ et $\\sigma(Y) = 9$",
+      "hint1": "$E(aX+b) = aE(X) + b = 3(4) - 5 = 7$.",
+      "hint2": "$\\sigma(aX+b) = |a|\\sigma(X)$. Or $\\sigma(X) = \\sqrt{9} = 3$, donc $\\sigma(Y) = 3 \\times 3 = 9$.",
+      "solution": "$E(3X - 5) = 3(4) - 5 = 7$. $\\sigma(X) = \\sqrt{9} = 3 \\implies \\sigma(3X - 5) = 3 \\times 3 = 9$."
+    },
+    {
+      "id": "1S2-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Calcul de variance par Koenig-Huygens",
+      "skill": "Utiliser V(X) = E(X^2) - (E(X))^2",
+      "statement": "On donne $E(X) = 3$ et $E(X^2) = 13$. Quelle est la variance $V(X)$ ?",
+      "options": [
+        "$4$",
+        "$10$",
+        "$22$",
+        "$2$"
+      ],
+      "correctIndex": 0,
+      "answer": "$4$",
+      "hint1": "Formule de Koenig-Huygens : $V(X) = E(X^2) - [E(X)]^2$.",
+      "hint2": "$13 - 3^2 = 13 - 9 = 4$.",
+      "solution": "$V(X) = E(X^2) - (E(X))^2 = 13 - 9 = 4$."
+    },
+    {
+      "id": "1S2-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Jeu équitable et mise d'un jeu de hasard",
+      "skill": "Déterminer la mise pour rendre un jeu équitable",
+      "statement": "On tire une carte dans un jeu de 32 cartes. On gagne 10 € si c'est un as (4 as), 5 € si c'est un roi (4 rois), et rien sinon. Quelle mise $m$ rend le jeu équitable ($E(\\text{gain net}) = 0$) ?",
+      "options": [
+        "$m = 1{,}875\\text{ €}$",
+        "$m = 2{,}50\\text{ €}$",
+        "$m = 1{,}50\\text{ €}$",
+        "$m = 3{,}00\\text{ €}$"
+      ],
+      "correctIndex": 0,
+      "answer": "$m = 1{,}875\\text{ €}$",
+      "hint1": "L'espérance du gain brut doit être égale à la mise : $m = E(G)$.",
+      "hint2": "$E(G) = 10 \\times \\frac{4}{32} + 5 \\times \\frac{4}{32} = \\frac{40 + 20}{32} = \\frac{60}{32} = 1{,}875$.",
+      "solution": "Le gain brut moyen est $10 \\times \\frac{1}{8} + 5 \\times \\frac{1}{8} = \\frac{15}{8} = 1{,}875\\text{ €}$. Pour que le jeu soit équitable, la mise doit être égale à l'espérance du gain brut, soit $1{,}875\\text{ €}$."
     }
   ]
 };
