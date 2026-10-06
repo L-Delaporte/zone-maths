@@ -33,6 +33,41 @@ window.MathsStorage = {
     return 'college';
   },
 
+  /**
+   * Vérifie si un cycle d'études est verrouillé par mot de passe enseignant
+   * Le collège reste toujours accessible sans code. Lycée et Licence requièrent le code PROF2026.
+   */
+  isCycleLocked(cycle) {
+    if (cycle === 'college') return false;
+    try {
+      return localStorage.getItem('maths_cycles_unlocked') !== 'true';
+    } catch (e) {
+      return true;
+    }
+  },
+
+  isLevelLocked(level) {
+    const cycle = this.getCycleForLevel(level);
+    return this.isCycleLocked(cycle);
+  },
+
+  unlockCycles(code) {
+    const cleanCode = String(code || '').trim().toUpperCase();
+    if (cleanCode === 'PROF2026') {
+      try {
+        localStorage.setItem('maths_cycles_unlocked', 'true');
+      } catch (e) {}
+      return true;
+    }
+    return false;
+  },
+
+  lockCycles() {
+    try {
+      localStorage.removeItem('maths_cycles_unlocked');
+    } catch (e) {}
+  },
+
   getCurrentCycle() {
     const data = this.load();
     if (data.user && data.user.currentCycle) return data.user.currentCycle;

@@ -80,11 +80,12 @@
             <span class="cycle-icon">🏫</span> <span class="cycle-name">Collège</span>
           </button>
           <button class="cycle-tab-btn" id="cycle-tab-lycee" data-cycle="lycee" onclick="window.MathsApp.switchCycle('lycee')">
-            <span class="cycle-icon">🎒</span> <span class="cycle-name">Lycée</span>
+            <span class="cycle-icon">🎒</span> <span class="cycle-name">Lycée</span> <span class="cycle-lock-badge" id="lock-badge-lycee" title="Section protégée par code enseignant" style="display:none;">🔒</span>
           </button>
           <button class="cycle-tab-btn" id="cycle-tab-licence" data-cycle="licence" onclick="window.MathsApp.switchCycle('licence')">
-            <span class="cycle-icon">🎓</span> <span class="cycle-name">Licence</span>
+            <span class="cycle-icon">🎓</span> <span class="cycle-name">Licence</span> <span class="cycle-lock-badge" id="lock-badge-licence" title="Section protégée par code enseignant" style="display:none;">🔒</span>
           </button>
+          <button class="btn-relock-cycles" id="btn-relock-cycles" onclick="window.MathsApp.relockCycles()" title="Re-verrouiller l'accès Lycée et Licence pour tester la vue élève" style="display:none;">🔒 Re-verrouiller</button>
         </div>
         <div class="cycle-levels-row">
           <!-- Niveaux Collège -->
@@ -937,6 +938,38 @@
 
       <div class="modal-footer" style="justify-content: center; padding: 1rem 1.5rem 1.25rem;">
         <button type="button" class="btn-primary" onclick="window.MathsApp.closeLevelModal()">Continuer l'entraînement 🚀</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODALE DE VÉROUILLAGE / CODE D'ACCÈS ENSEIGNANT (Lycée & Licence)
+       ========================================================================= -->
+  <div id="lock-cycle-modal" class="modal-overlay" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="lock-modal-title" onclick="if (event.target === this) window.MathsApp.closeLockModal();">
+    <div class="modal-box lock-modal-box" style="text-align: center;">
+      <div class="modal-header" style="justify-content: flex-end; padding-bottom: 0;">
+        <button class="modal-close-btn" type="button" onclick="window.MathsApp.closeLockModal()" aria-label="Fermer">✕</button>
+      </div>
+      <div style="padding: 0.5rem 1.5rem 1.5rem;">
+        <div style="font-size: 3rem; margin-bottom: 0.5rem;">🔒</div>
+        <h2 id="lock-modal-title" style="margin-bottom: 0.5rem; font-size: 1.35rem;">Accès Enseignant Protégé</h2>
+        <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.25rem; line-height: 1.5;">
+          Les sections <strong>Lycée</strong> et <strong>Licence</strong> sont temporairement réservées à la vérification pédagogique. La partie <strong>Collège</strong> reste en libre accès direct.
+        </p>
+
+        <form id="lock-code-form" onsubmit="event.preventDefault(); window.MathsApp.submitUnlockCode();" style="display: flex; flex-direction: column; gap: 0.75rem;">
+          <div style="position: relative; display: flex; align-items: center;">
+            <input type="password" id="lock-code-input" class="form-input" placeholder="Entrez le code d'accès" autocomplete="off" style="width: 100%; padding: 0.75rem 2.75rem 0.75rem 1rem; font-size: 1.1rem; text-align: center; letter-spacing: 0.1em; border-radius: var(--radius-md);" />
+            <button type="button" id="lock-code-toggle-btn" onclick="window.MathsApp.toggleLockCodeVisibility()" style="position: absolute; right: 0.75rem; background: none; border: none; font-size: 1.2rem; cursor: pointer; color: var(--text-muted);" title="Afficher/Masquer le code">👁️</button>
+          </div>
+          <div id="lock-code-error" style="color: #ef4444; font-size: 0.85rem; display: none; font-weight: 500;">
+            ❌ Code incorrect. Veuillez réessayer.
+          </div>
+          <div style="display: flex; gap: 0.75rem; margin-top: 0.5rem;">
+            <button type="button" class="btn-secondary" onclick="window.MathsApp.closeLockModal()" style="flex: 1;">Rester au Collège</button>
+            <button type="submit" class="btn-primary" style="flex: 1;">Déverrouiller 🔓</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>

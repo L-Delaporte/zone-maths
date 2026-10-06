@@ -39,7 +39,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     init() {
       console.log('Initialisation de L\'Établi des Maths (Collège, Lycée, Licence)...');
-      this.currentLevel = window.MathsStorage.getCurrentLevel() || '3eme';
+      let savedLevel = window.MathsStorage.getCurrentLevel() || '3eme';
+      if (window.MathsStorage.isLevelLocked(savedLevel)) {
+        savedLevel = '3eme';
+        window.MathsStorage.setCurrentLevel('3eme');
+      }
+      this.currentLevel = savedLevel;
       this.initTheme();
       if (window.MathsAudio) {
         window.MathsAudio.updateToggleButton();
@@ -48,12 +53,20 @@ document.addEventListener('DOMContentLoaded', () => {
       this.bindKeyboardShortcuts();
       this.renderDomainNav();
       this.switchLevel(this.currentLevel, false);
+      this.updateLockUI();
       this.checkUrlShareParams();
       this.updateHeaderProfile();
     },
 
     switchCycle(cycleId, targetLevel = null) {
       if (!this.CYCLES[cycleId]) return;
+
+      // Protection enseignant : Lycée et Licence sont verrouillés par défaut
+      if (window.MathsStorage.isCycleLocked(cycleId)) {
+        this.openLockModal(cycleId, targetLevel);
+        return;
+      }
+
       window.MathsStorage.setCurrentCycle(cycleId);
 
       // Met à jour les onglets de cycle
@@ -79,6 +92,13 @@ document.addEventListener('DOMContentLoaded', () => {
     switchLevel(level, autoSelectFirst = false) {
       const validLevels = ['5eme', '4eme', '3eme', '2nde', '1ere', 'tale', 'L1', 'L2', 'L3'];
       if (!validLevels.includes(level)) return;
+
+      // Protection enseignant : vérification si le niveau appartient à un cycle verrouillé
+      if (window.MathsStorage.isLevelLocked(level)) {
+        const cycle = window.MathsStorage.getCycleForLevel(level);
+        this.openLockModal(cycle, level);
+        return;
+      }
 
       this.currentLevel = level;
       window.MathsStorage.setCurrentLevel(level);
@@ -383,6 +403,11 @@ document.addEventListener('DOMContentLoaded', () => {
             this.closeLevelModal();
             return;
           }
+          const lockModal = document.getElementById('lock-cycle-modal');
+          if (lockModal && lockModal.style.display !== 'none') {
+            this.closeLockModal();
+            return;
+          }
         }
 
         const activeTag = document.activeElement ? document.activeElement.tagName.toLowerCase() : '';
@@ -587,6 +612,106 @@ document.addEventListener('DOMContentLoaded', () => {
       if (modal) modal.style.display = 'none';
     },
 
+    openLockModal(targetCycle = 'lycee', targetLevel = null, targetChapterId = null) {
+      this.pendingUnlock = { cycle: targetCycle, level: targetLevel, chapterId: targetChapterId };
+      const modal = document.getElementById('lock-cycle-modal');
+      const input = document.getElementById('lock-code-input');
+      const errorEl = document.getElementById('lock-code-error');
+      if (errorEl) errorEl.style.display = 'none';
+      if (input) {
+        input.value = '';
+        input.classList.remove('input-error');
+      }
+      if (modal) {
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+        document.body.classList.add('modal-open');
+        setTimeout(() => { if (input) input.focus(); }, 100);
+      }
+    },
+
+    closeLockModal() {
+      const modal = document.getElementById('lock-cycle-modal');
+      if (modal) modal.style.display = 'none';
+      document.body.style.overflow = 'auto';
+      document.body.classList.remove('modal-open');
+      this.pendingUnlock = null;
+    },
+
+    toggleLockCodeVisibility() {
+      const input = document.getElementById('lock-code-input');
+      const btn = document.getElementById('lock-code-toggle-btn');
+      if (!input) return;
+      if (input.type === 'password') {
+        input.type = 'text';
+        if (btn) btn.textContent = '🔒';
+      } else {
+        input.type = 'password';
+        if (btn) btn.textContent = '👁️';
+      }
+    },
+
+    submitUnlockCode() {
+      const input = document.getElementById('lock-code-input');
+      const errorEl = document.getElementById('lock-code-error');
+      const code = input ? input.value : '';
+
+      const isSuccess = window.MathsStorage.unlockCycles(code);
+      if (isSuccess) {
+        if (errorEl) errorEl.style.display = 'none';
+        const modal = document.getElementById('lock-cycle-modal');
+        if (modal) modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+        document.body.classList.remove('modal-open');
+
+        this.updateLockUI();
+        this.showToast('🔓 Accès Enseignant déverrouillé (Lycée & Licence)');
+
+        const pending = this.pendingUnlock;
+        this.pendingUnlock = null;
+
+        if (pending) {
+          if (pending.chapterId) {
+            this.selectChapter(pending.chapterId);
+          } else if (pending.level) {
+            this.switchLevel(pending.level, true);
+          } else if (pending.cycle) {
+            this.switchCycle(pending.cycle);
+          }
+        } else {
+          this.switchCycle('lycee');
+        }
+      } else {
+        if (errorEl) errorEl.style.display = 'block';
+        if (input) {
+          input.classList.add('input-error');
+          input.focus();
+          input.select();
+        }
+      }
+    },
+
+    relockCycles() {
+      window.MathsStorage.lockCycles();
+      this.updateLockUI();
+      // Si on était dans un cycle verrouillé, revenir au collège (3ème)
+      if (this.currentLevel && window.MathsStorage.isLevelLocked(this.currentLevel)) {
+        this.switchCycle('college', '3eme');
+      }
+      this.showToast('🔒 Sections Lycée et Licence re-verrouillées.');
+    },
+
+    updateLockUI() {
+      const isLocked = window.MathsStorage.isCycleLocked('lycee');
+      const badgeLycee = document.getElementById('lock-badge-lycee');
+      const badgeLicence = document.getElementById('lock-badge-licence');
+      const btnRelock = document.getElementById('btn-relock-cycles');
+
+      if (badgeLycee) badgeLycee.style.display = isLocked ? 'inline-block' : 'none';
+      if (badgeLicence) badgeLicence.style.display = isLocked ? 'inline-block' : 'none';
+      if (btnRelock) btnRelock.style.display = isLocked ? 'none' : 'inline-flex';
+    },
+
     renderDomainNav() {
       // Déjà pré-câblé dans HTML
     },
@@ -664,6 +789,13 @@ document.addEventListener('DOMContentLoaded', () => {
       this.currentChapterId = chapterId;
       const chapter = (window.MATHS_CHAPTERS || []).find(c => c.id === chapterId);
       if (!chapter) return;
+
+      // Protection enseignant : si le chapitre appartient à un niveau verrouillé
+      if (chapter.level && window.MathsStorage.isLevelLocked(chapter.level)) {
+        const cycle = window.MathsStorage.getCycleForLevel(chapter.level);
+        this.openLockModal(cycle, chapter.level, chapter.id);
+        return;
+      }
 
       // Synchroniser le niveau actif si nécessaire
       if (chapter.level && chapter.level !== this.currentLevel) {
@@ -2131,6 +2263,11 @@ document.addEventListener('DOMContentLoaded', () => {
           const allChapters = window.MATHS_CHAPTERS || [];
           const targetChap = allChapters.find(c => c.id.toLowerCase() === chapParam.toLowerCase());
           if (targetChap) {
+            if (targetChap.level && window.MathsStorage.isLevelLocked(targetChap.level)) {
+              const cycle = window.MathsStorage.getCycleForLevel(targetChap.level);
+              this.openLockModal(cycle, targetChap.level, targetChap.id);
+              return;
+            }
             if (targetChap.level && targetChap.level !== this.currentLevel) {
               this.switchLevel(targetChap.level, false);
             }
