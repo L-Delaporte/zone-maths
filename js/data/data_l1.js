@@ -41,16 +41,32 @@ window.MATHS_COURSES_L1 = {
           "**Étape 3 (Simplification)** : $3xx' - 6x - x' + 2 = 3x'x - 6x' - x + 2 \\iff -6x - x' = -6x' - x \\iff -5x = -5x' \\iff x = x'$.",
           "**Conclusion** : L'application $f$ est injective."
         ]
+      },
+      {
+        "title": "Méthode : Démontrer la surjectivité d'une application",
+        "example": "Soit $f : \\mathbb{R} \\setminus \\{2\\} \\to \\mathbb{R} \\setminus \\{3\\}$ définie par $f(x) = \\frac{3x - 1}{x - 2}$. Démontrer que $f$ est surjective.",
+        "steps": [
+          "**Étape 1 (Fixer l'élément d'arrivée)** : Soit $y \\in \\mathbb{R} \\setminus \\{3\\}$ un élément quelconque fixé. On cherche s'il existe au moins un antécédent $x \\in \\mathbb{R} \\setminus \\{2\\}$ tel que $f(x) = y$.",
+          "**Étape 2 (Résoudre l'équation $f(x) = y$)** : $\\frac{3x - 1}{x - 2} = y \\iff 3x - 1 = y(x - 2) \\iff 3x - 1 = yx - 2y \\iff 3x - yx = 1 - 2y \\iff x(3 - y) = 1 - 2y$.",
+          "**Étape 3 (Isoler l'inconnue $x$)** : Comme $y \\in \\mathbb{R} \\setminus \\{3\\}$, on a $y \\neq 3$, donc $3 - y \\neq 0$. On peut diviser par $3 - y$ :\n$$x = \\frac{1 - 2y}{3 - y} = \\frac{2y - 1}{y - 3}$$",
+          "**Étape 4 (Vérifier l'appartenance à l'ensemble de départ)** : On vérifie que $x \\in \\mathbb{R} \\setminus \\{2\\}$, c'est-à-dire que $x \\neq 2$. Par l'absurde, si $x = 2$, alors $\\frac{2y - 1}{y - 3} = 2 \\iff 2y - 1 = 2(y - 3) = 2y - 6 \\iff -1 = -6$, ce qui est absurde. Donc $x \\neq 2$.",
+          "**Conclusion** : Pour tout $y \\in \\mathbb{R} \\setminus \\{3\\}$, il existe bien un antécédent $x = \\frac{2y - 1}{y - 3} \\in \\mathbb{R} \\setminus \\{2\\}$ tel que $f(x) = y$. L'application $f$ est donc surjective (et comme cet antécédent est unique, $f$ est bijective avec $f^{-1}(y) = \\frac{2y - 1}{y - 3}$)."
+        ]
       }
     ],
     "traps": [
       "⚠️ L'ordre des quantificateurs est crucial : $\\forall x, \\exists y, P(x, y)$ n'est PAS équivalent à $\\exists y, \\forall x, P(x, y)$ !",
-      "⚠️ La négation de $P \\implies Q$ est $P \\text{ et } \\neg Q$ (et non $\\neg P \\implies \\neg Q$)."
+      "⚠️ La négation de $P \\implies Q$ est $P \\text{ et } \\neg Q$ (et non $\\neg P \\implies \\neg Q$).",
+      "⚠️ Pour la surjectivité, ne jamais oublier de vérifier que la solution $x$ trouvée appartient bien à l'ensemble de départ $E$ (par exemple $x \\neq 2$) !"
     ],
     "flashcards": [
       {
         "q": "Quelle est la négation formelle de « $\\forall x \\in E, \\exists y \\in F, f(x) = y$ » ?",
         "a": "$\\exists x \\in E, \\forall y \\in F, f(x) \\neq y$."
+      },
+      {
+        "q": "Comment démontrer qu'une application $f : E \\to F$ est surjective ?",
+        "a": "On fixe un élément quelconque $y \\in F$ (ensemble d'arrivée), puis on résout l'équation $f(x) = y$ d'inconnue $x$ et on démontre qu'elle admet au moins une solution $x \\in E$ (ensemble de départ)."
       },
       {
         "q": "Quelles sont les trois propriétés définissant une relation d'équivalence ?",
