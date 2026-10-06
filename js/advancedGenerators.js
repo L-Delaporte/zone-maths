@@ -1177,6 +1177,12 @@ window.MathsAdvancedGenerators = {
   // =========================================================================
 
   generateLycee2nde(chapterId, tier) {
+    if (typeof window !== 'undefined' && window.MATHS_EXERCISES && window.MATHS_EXERCISES[chapterId] && window.MATHS_EXERCISES[chapterId].length) {
+      const exos = window.MATHS_EXERCISES[chapterId];
+      const matchTier = exos.filter(e => e.tier === tier);
+      const pool = matchTier.length ? matchTier : exos;
+      return this.mutateExercise(this.randChoice(pool), tier);
+    }
     const a = this.randInt(2, 6);
     const b = this.randInt(-5, 5);
     return this.makeMcq(
@@ -1192,6 +1198,12 @@ window.MathsAdvancedGenerators = {
   },
 
   generateLycee1ere(chapterId, tier) {
+    if (typeof window !== 'undefined' && window.MATHS_EXERCISES && window.MATHS_EXERCISES[chapterId] && window.MATHS_EXERCISES[chapterId].length) {
+      const exos = window.MATHS_EXERCISES[chapterId];
+      const matchTier = exos.filter(e => e.tier === tier);
+      const pool = matchTier.length ? matchTier : exos;
+      return this.mutateExercise(this.randChoice(pool), tier);
+    }
     const a = 1;
     const x1 = this.randInt(-4, 4);
     const x2 = this.randInt(x1 + 1, 6);
@@ -1215,6 +1227,12 @@ window.MathsAdvancedGenerators = {
   },
 
   generateLyceeTale(chapterId, tier) {
+    if (typeof window !== 'undefined' && window.MATHS_EXERCISES && window.MATHS_EXERCISES[chapterId] && window.MATHS_EXERCISES[chapterId].length) {
+      const exos = window.MATHS_EXERCISES[chapterId];
+      const matchTier = exos.filter(e => e.tier === tier);
+      const pool = matchTier.length ? matchTier : exos;
+      return this.mutateExercise(this.randChoice(pool), tier);
+    }
     const a = this.randInt(2, 5);
     return this.makeMcq(
       chapterId, tier, "Dérivée de la fonction exponentielle composée",

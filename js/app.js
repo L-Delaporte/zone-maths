@@ -617,8 +617,14 @@ document.addEventListener('DOMContentLoaded', () => {
       if (modal) modal.style.display = 'none';
     },
 
-    openLockModal(targetCycle = 'lycee', targetLevel = null, targetChapterId = null) {
-      this.pendingUnlock = { cycle: targetCycle, level: targetLevel, chapterId: targetChapterId };
+    openLockModal(targetCycle = 'lycee', targetLevel = null, targetChapterId = null, targetMode = null, autoGenerate = false) {
+      this.pendingUnlock = {
+        cycle: targetCycle,
+        level: targetLevel,
+        chapterId: targetChapterId,
+        mode: targetMode,
+        autoGenerate: autoGenerate
+      };
       const modal = document.getElementById('lock-cycle-modal');
       const input = document.getElementById('lock-code-input');
       const errorEl = document.getElementById('lock-code-error');
@@ -670,18 +676,32 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.classList.remove('modal-open');
 
         this.updateLockUI();
-        this.showToast('🔓 Accès Enseignant déverrouillé (Lycée & Licence)');
+        this.showToast('🔓 Accès déverrouillé');
 
         const pending = this.pendingUnlock;
         this.pendingUnlock = null;
 
         if (pending) {
-          if (pending.chapterId) {
-            this.selectChapter(pending.chapterId);
-          } else if (pending.level) {
+          if (pending.level) {
             this.switchLevel(pending.level, true);
           } else if (pending.cycle) {
             this.switchCycle(pending.cycle);
+          }
+          if (pending.chapterId) {
+            this.selectChapter(pending.chapterId);
+          }
+          if (pending.mode === 'quiz' || pending.mode === 'devoir') {
+            setTimeout(() => {
+              this.openQuizModal(pending.chapterId, pending.autoGenerate);
+            }, 150);
+          } else if (pending.mode === 'rituel' || pending.mode === 'diaporama') {
+            setTimeout(() => {
+              this.openDiaporamaModal(pending.chapterId, false);
+            }, 150);
+          } else if (pending.mode === 'flashcards' || pending.mode === 'flashcard') {
+            setTimeout(() => {
+              this.openFlashcardsModal(pending.chapterId);
+            }, 150);
           }
         } else {
           this.switchCycle('lycee');
@@ -827,6 +847,43 @@ document.addEventListener('DOMContentLoaded', () => {
         window.MathsAdaptiveEngine.setTier(target.tier);
       }
       this.switchTab('train');
+    },
+
+    openDiaporamaModal(chapterId = null, autoStart = false) {
+      this.hideHomeView();
+      const targetId = chapterId || this.currentChapterId;
+      if (window.MathsDiaporama && typeof window.MathsDiaporama.openModal === 'function') {
+        window.MathsDiaporama.openModal(targetId);
+        if (autoStart && typeof window.MathsDiaporama.start === 'function') {
+          setTimeout(() => {
+            window.MathsDiaporama.start();
+          }, 80);
+        }
+      }
+    },
+
+    openQuizModal(chapterId = null, autoGenerate = false) {
+      this.hideHomeView();
+      const targetId = chapterId || this.currentChapterId;
+      if (window.MathsQuizGenerator && typeof window.MathsQuizGenerator.openModal === 'function') {
+        window.MathsQuizGenerator.openModal(targetId);
+        if (autoGenerate && typeof window.MathsQuizGenerator.generate === 'function') {
+          setTimeout(() => {
+            if (typeof window.MathsQuizGenerator.selectAllChapters === 'function') {
+              window.MathsQuizGenerator.selectAllChapters(true);
+            }
+            window.MathsQuizGenerator.generate();
+          }, 120);
+        }
+      }
+    },
+
+    openFlashcardsModal(chapterId = null) {
+      this.hideHomeView();
+      const targetId = chapterId || this.currentChapterId;
+      if (window.MathsFlashcards && typeof window.MathsFlashcards.openModal === 'function') {
+        window.MathsFlashcards.openModal(targetId);
+      }
     },
 
     renderDomainNav() {
@@ -2382,6 +2439,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const levelParam = params.get('level') || params.get('niveau');
         const modeParam = (params.get('mode') || params.get('tool') || '').toLowerCase();
 
+        const autoGen = params.get('generate') === '1' || (modeParam === 'quiz' || modeParam === 'devoir');
+
         let handled = false;
 
         if (levelParam) {
@@ -2389,7 +2448,7 @@ document.addEventListener('DOMContentLoaded', () => {
           if (validLevels.includes(levelParam)) {
             if (window.MathsStorage && window.MathsStorage.isLevelLocked && window.MathsStorage.isLevelLocked(levelParam)) {
               const cycle = window.MathsStorage.getCycleForLevel(levelParam);
-              this.openLockModal(cycle, levelParam);
+              this.openLockModal(cycle, levelParam, chapParam, modeParam, autoGen);
               return true;
             } else {
               this.switchLevel(levelParam, true);
@@ -2405,7 +2464,7 @@ document.addEventListener('DOMContentLoaded', () => {
           if (targetChap) {
             if (targetChap.level && window.MathsStorage.isLevelLocked(targetChap.level)) {
               const cycle = window.MathsStorage.getCycleForLevel(targetChap.level);
-              this.openLockModal(cycle, targetChap.level, targetChap.id);
+              this.openLockModal(cycle, targetChap.level, targetChap.id, modeParam, autoGen);
               return true;
             }
             if (targetChap.level && targetChap.level !== this.currentLevel) {
@@ -2434,16 +2493,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (modeParam) {
+          this.hideHomeView();
           setTimeout(() => {
             if (modeParam === 'rituel' || modeParam === 'diaporama') {
-              this.openDiaporamaModal();
+              this.openDiaporamaModal(null, false);
             } else if (modeParam === 'quiz' || modeParam === 'devoir') {
-              this.openQuizModal();
+              this.openQuizModal(null, autoGen);
             } else if (modeParam === 'flashcards' || modeParam === 'flashcard') {
-              this.openFlashcardsModal();
+              this.openFlashcardsModal(null);
             }
-          }, 300);
-          this.hideHomeView();
+          }, 200);
           handled = true;
         }
 
