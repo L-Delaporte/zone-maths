@@ -467,7 +467,7 @@ window.MATHS_COURSES_L1 = {
       },
       {
         "title": "2. Racines n-ièmes de l'unité",
-        "content": "• L'équation $z^n = 1$ ($n \\in \\mathbb{N}^*$) admet exactement $n$ solutions distinctes dans $\\mathbb{C}$, formant le groupe cyclique $\\mathbb{U}_n$ :\n$$\\omega_k = e^{i \\frac{2k\\pi}{n}}, \\quad k \\in \\{0, 1, \\dots, n - 1\\}$$\n• **Propriété géométrique** : Les images des racines $n$-ièmes forment les sommets d'un polygone régulier à $n$ côtés inscrit dans le cercle unité.\n• **Somme nulle** : Pour $n \\ge 2$, la somme des racines $n$-ièmes est nulle : $\\sum_{k=0}^{n-1} \\omega_k = 0$."
+        "content": "• L'équation $z^n = 1$ ($n \\in \\mathbb{N}^*$) admet exactement $n$ solutions distinctes dans $\\mathbb{C}$, formant le groupe cyclique $\\mathbb{U}_n$ :\n$$\\LARGE \\omega_k = \\mathrm{e}^{i \\frac{2k\\pi}{n}}, \\quad k \\in \\{0, 1, \\dots, n - 1\\}$$\n• **Propriété géométrique** : Les images des racines $n$-ièmes forment les sommets d'un polygone régulier à $n$ côtés inscrit dans le cercle unité.\n• **Somme nulle** : Pour $n \\ge 2$, la somme des racines $n$-ièmes est nulle : $\\displaystyle \\sum_{k=0}^{n-1} \\omega_k = 0$."
       },
       {
         "title": "3. Théorème de d'Alembert-Gauss et factorisation de polynômes",
@@ -493,7 +493,7 @@ window.MATHS_COURSES_L1 = {
     "flashcards": [
       {
         "q": "Quelles sont les n racines n-ièmes de l'unité ?",
-        "a": "$\\omega_k = e^{i \\frac{2k\\pi}{n}}$ pour $k \\in \\{0, 1, \\dots, n - 1\\}$."
+        "a": "$\\Large \\omega_k = \\mathrm{e}^{i \\frac{2k\\pi}{n}}$ pour $k \\in \\{0, 1, \\dots, n - 1\\}$."
       },
       {
         "q": "Que dit le théorème de d'Alembert-Gauss pour les polynômes de C[X] ?",
