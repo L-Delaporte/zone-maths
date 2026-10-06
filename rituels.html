@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="author" content="Loïc Delaporte, Professeur de Mathématiques" />
+  <meta name="description" content="Rituels de mathématiques prêts à projeter pour les 5 premières minutes de cours (5e, 4e, 3e, 2nde). Questions aléatoires, chronomètre configurable, calcul mental et correction étape par étape. 100 % gratuit et sans pub." />
+  <meta name="keywords" content="rituel maths, rituels mathématiques, questions flash maths, calcul mental collège, automatismes maths collège, rituel vidéoprojection, mathsmentales, fv maths, début de cours maths" />
+  <link rel="canonical" href="https://etabli-des-maths.fr/rituels.html" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Rituels de Maths & Questions Flash à Vidéoprojeter — L'Établi des Maths" />
+  <meta property="og:description" content="Rituels clés en main pour démarrer les cours de maths : calcul mental, automatismes, chronomètre et correction immédiate." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://etabli-des-maths.fr/rituels.html" />
+  <meta property="og:image" content="https://etabli-des-maths.fr/assets/logo.jpg" />
+
+  <title>Rituels de Maths & Questions Flash à Vidéoprojeter — L'Établi des Maths</title>
+
+  <link rel="stylesheet" href="css/style.css?v=20261006a" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png" />
+  <link rel="apple-touch-icon" href="assets/favicon.png" />
+
+  <style>
+    .landing-wrapper {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+    .landing-hero {
+      background: linear-gradient(135deg, var(--bg-surface) 0%, var(--bg-subtle) 100%);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem 2rem;
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+    }
+    .landing-tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 4px 12px;
+      border-radius: var(--radius-full);
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.12), rgba(16, 185, 129, 0.16));
+      color: var(--primary);
+      margin-bottom: 1rem;
+    }
+    .landing-title {
+      font-size: 2.1rem;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.25;
+      margin-bottom: 1rem;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .landing-subtitle {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      max-width: 680px;
+      margin: 0 auto 1.75rem;
+      line-height: 1.5;
+    }
+    .landing-cta-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0.85rem;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+    .landing-cta-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.85rem 1.25rem;
+      font-size: 0.95rem;
+      font-weight: 700;
+      border-radius: var(--radius-md);
+      text-decoration: none;
+      transition: var(--transition);
+      cursor: pointer;
+    }
+    .landing-features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.25rem;
+    }
+    .landing-feature-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      box-shadow: var(--shadow-sm);
+    }
+    .landing-feature-icon {
+      font-size: 2rem;
+      margin-bottom: 0.75rem;
+      line-height: 1;
+    }
+    .landing-feature-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 0.5rem;
+    }
+    .landing-feature-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    .landing-faq-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+    }
+    .landing-faq-title {
+      font-size: 1.35rem;
+      font-weight: 800;
+      margin-bottom: 1.25rem;
+      color: var(--text-main);
+    }
+    .landing-faq-item {
+      border-bottom: 1px solid var(--border-color);
+      padding: 1rem 0;
+    }
+    .landing-faq-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+    .landing-faq-q {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 0.35rem;
+    }
+    .landing-faq-a {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    .nav-portal-links {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .nav-portal-btn {
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      text-decoration: none;
+      color: var(--text-muted);
+      border: 1px solid var(--border-color);
+      background: var(--bg-surface);
+      transition: var(--transition);
+    }
+    .nav-portal-btn:hover, .nav-portal-btn.active {
+      background: var(--primary-subtle);
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header Uniformisé -->
+  <header class="app-header">
+    <div class="header-inner">
+      <a href="index.html" class="brand-container" style="text-decoration: none;">
+        <img src="assets/logo.png" alt="L'Établi des Maths" class="brand-logo-img" width="44" height="44" />
+        <div class="brand-text">
+          <h1>L'Établi des Maths <span class="brand-level-tag">Rituels & Flash</span></h1>
+          <span class="brand-tagline">Outils pour apprendre et pratiquer</span>
+        </div>
+      </a>
+
+      <!-- Navigation entre Portails -->
+      <nav class="nav-portal-links" aria-label="Portails thématiques">
+        <a href="index.html" class="nav-portal-btn">🏠 Accueil</a>
+        <a href="rituels.html" class="nav-portal-btn active">⏱️ Rituels</a>
+        <a href="brevet.html" class="nav-portal-btn">📝 Brevet 3e</a>
+        <a href="bac.html" class="nav-portal-btn">🎓 Baccalauréat</a>
+        <a href="enseignants.html" class="nav-portal-btn">👨‍🏫 Enseignants</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Contenu Principal -->
+  <main class="landing-wrapper">
+    <!-- Hero Section -->
+    <section class="landing-hero">
+      <span class="landing-tag">⏱️ Outil Clé en Main pour la Classe</span>
+      <h1 class="landing-title">Rituels de Mathématiques & Questions Flash à Vidéoprojeter</h1>
+      <p class="landing-subtitle">
+        Dynamisez les 5 premières minutes de vos cours du collège au lycée. Tirages aléatoires infinis, calcul mental, chronomètre ajustable et correction étape par étape pour ancrer les automatismes.
+      </p>
+
+      <div class="landing-cta-grid">
+        <a href="index.html?mode=rituel&level=5eme" class="btn-primary landing-cta-btn">
+          <span>5ème</span> Lancer le Rituel ⏱️
+        </a>
+        <a href="index.html?mode=rituel&level=4eme" class="btn-primary landing-cta-btn">
+          <span>4ème</span> Lancer le Rituel ⏱️
+        </a>
+        <a href="index.html?mode=rituel&level=3eme" class="btn-primary landing-cta-btn">
+          <span>3ème (DNB)</span> Lancer le Rituel ⏱️
+        </a>
+        <a href="index.html?mode=rituel&level=2nde" class="btn-secondary landing-cta-btn">
+          <span>Seconde 🔒</span> Lancer le Rituel ⏱️
+        </a>
+      </div>
+    </section>
+
+    <!-- Atouts pédagogiques -->
+    <section>
+      <h2 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 1rem; color: var(--text-main);">
+        Pourquoi ritualiser le début de chaque séance ?
+      </h2>
+      <div class="landing-features-grid">
+        <div class="landing-feature-card">
+          <div class="landing-feature-icon">🧠</div>
+          <h3 class="landing-feature-title">Ancrage mémoriel et réflexes</h3>
+          <p class="landing-feature-desc">
+            Selon les sciences cognitives, la répétition espacée d'automatismes (fractions, relatifs, calcul littéral, conversions) libère la mémoire de travail des élèves pour les problèmes complexes.
+          </p>
+        </div>
+        <div class="landing-feature-card">
+          <div class="landing-feature-icon">📽️</div>
+          <h3 class="landing-feature-title">Conçu pour le vidéoprojecteur & TBI</h3>
+          <p class="landing-feature-desc">
+            Typographie agrandie ultra-lisible depuis le fond de la classe, mode sombre contrasté, affichage plein écran sans publicité ni menu parasite.
+          </p>
+        </div>
+        <div class="landing-feature-card">
+          <div class="landing-feature-icon">🎲</div>
+          <h3 class="landing-feature-title">Génération procédurale infinie</h3>
+          <p class="landing-feature-desc">
+            Grâce aux générateurs procéduraux de L'Établi des Maths, deux séances successives ne proposent jamais les mêmes nombres : impossible pour les élèves d'apprendre par cœur les résultats !
+          </p>
+        </div>
+        <div class="landing-feature-card">
+          <div class="landing-feature-icon">✅</div>
+          <h3 class="landing-feature-title">Correction animée pas à pas</h3>
+          <p class="landing-feature-desc">
+            Un clic suffit pour projeter la correction détaillée avec les étapes intermédiaires, favorisant l'auto-correction immédiate sur ardoise ou cahier de brouillon.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Enseignants -->
+    <section class="landing-faq-box">
+      <h2 class="landing-faq-title">Questions fréquentes des professeurs</h2>
+      <div class="landing-faq-item">
+        <h3 class="landing-faq-q">Faut-il installer un logiciel ou créer un compte ?</h3>
+        <p class="landing-faq-a">
+          Non. L'outil fonctionne directement dans votre navigateur web habituel (Chrome, Firefox, Safari, Edge). Aucun compte n'est nécessaire pour projeter en classe.
+        </p>
+      </div>
+      <div class="landing-faq-item">
+        <h3 class="landing-faq-q">Peut-on régler le temps par question ?</h3>
+        <p class="landing-faq-a">
+          Oui, vous pouvez ajuster la durée du compte à rebours ou passer en défilement manuel selon le rythme de votre classe.
+        </p>
+      </div>
+      <div class="landing-faq-item">
+        <h3 class="landing-faq-q">L'outil est-il gratuit ?</h3>
+        <p class="landing-faq-a">
+          Oui, L'Établi des Maths est un projet pédagogique 100 % libre et gratuit, créé par un professeur de mathématiques pour ses collègues et les élèves.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer style="text-align: center; padding: 2rem; border-top: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.85rem;">
+    <p>L'Établi des Maths — Conçu par Loïc Delaporte, Professeur de Mathématiques • 100 % Libre & Conforme aux Programmes</p>
+  </footer>
+
+</body>
+</html>

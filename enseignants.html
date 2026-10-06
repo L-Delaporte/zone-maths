@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="author" content="Loïc Delaporte, Professeur de Mathématiques" />
+  <meta name="description" content="L'Établi des Maths pour les professeurs de mathématiques du Collège et Lycée : rituels flash à vidéoprojeter, différenciation ZPD par paliers, devoirs blancs générés et respect strict du RGPD. 100 % gratuit et sans inscription." />
+  <meta name="keywords" content="outil maths professeur, ressource enseignant maths collège, différenciation pédagogique maths, rituels début de cours maths, devoirs blancs maths collège lycée, Loïc Delaporte, APMEP IREM maths" />
+  <link rel="canonical" href="https://etabli-des-maths.fr/enseignants.html" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Espace Enseignants — L'Établi des Maths" />
+  <meta property="og:description" content="Boîte à outils numérique pour les professeurs de maths : rituels à projeter, différenciation par paliers ZPD, devoirs blancs et respect strict du RGPD." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://etabli-des-maths.fr/enseignants.html" />
+  <meta property="og:image" content="https://etabli-des-maths.fr/assets/logo.jpg" />
+
+  <title>Espace Enseignants — Différenciation, Rituels & Devoirs — L'Établi des Maths</title>
+
+  <link rel="stylesheet" href="css/style.css?v=20261006a" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png" />
+  <link rel="apple-touch-icon" href="assets/favicon.png" />
+
+  <style>
+    .landing-wrapper {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2.25rem;
+    }
+    .landing-hero {
+      background: linear-gradient(135deg, var(--bg-surface) 0%, var(--bg-subtle) 100%);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem 2rem;
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+    }
+    .landing-tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 4px 12px;
+      border-radius: var(--radius-full);
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.12), rgba(16, 185, 129, 0.16));
+      color: var(--primary);
+      margin-bottom: 1rem;
+    }
+    .landing-title {
+      font-size: 2.1rem;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.25;
+      margin-bottom: 1rem;
+      max-width: 820px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .landing-subtitle {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      max-width: 720px;
+      margin: 0 auto 1.75rem;
+      line-height: 1.5;
+    }
+    .landing-cta-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 0.85rem;
+      max-width: 780px;
+      margin: 0 auto;
+    }
+    .landing-cta-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.85rem 1.25rem;
+      font-size: 0.95rem;
+      font-weight: 700;
+      border-radius: var(--radius-md);
+      text-decoration: none;
+      transition: var(--transition);
+      cursor: pointer;
+    }
+    .usage-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.25rem;
+    }
+    .usage-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      box-shadow: var(--shadow-sm);
+    }
+    .usage-badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: var(--radius-full);
+      margin-bottom: 0.75rem;
+    }
+    .usage-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 0.5rem;
+    }
+    .usage-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    .ethics-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+    }
+    .ethics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.25rem;
+      margin-top: 1rem;
+    }
+    .ethics-item {
+      display: flex;
+      gap: 0.75rem;
+    }
+    .ethics-icon {
+      font-size: 1.8rem;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+    .ethics-item h4 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 0.25rem;
+    }
+    .ethics-item p {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+    .nav-portal-links {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .nav-portal-btn {
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      text-decoration: none;
+      color: var(--text-muted);
+      border: 1px solid var(--border-color);
+      background: var(--bg-surface);
+      transition: var(--transition);
+    }
+    .nav-portal-btn:hover, .nav-portal-btn.active {
+      background: var(--primary-subtle);
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="app-header">
+    <div class="header-inner">
+      <a href="index.html" class="brand-container" style="text-decoration: none;">
+        <img src="assets/logo.png" alt="L'Établi des Maths" class="brand-logo-img" width="44" height="44" />
+        <div class="brand-text">
+          <h1>L'Établi des Maths <span class="brand-level-tag">Enseignants</span></h1>
+          <span class="brand-tagline">Outils pour apprendre et pratiquer</span>
+        </div>
+      </a>
+
+      <nav class="nav-portal-links" aria-label="Portails thématiques">
+        <a href="index.html" class="nav-portal-btn">🏠 Accueil</a>
+        <a href="rituels.html" class="nav-portal-btn">⏱️ Rituels</a>
+        <a href="brevet.html" class="nav-portal-btn">📝 Brevet 3e</a>
+        <a href="bac.html" class="nav-portal-btn">🎓 Baccalauréat</a>
+        <a href="enseignants.html" class="nav-portal-btn active">👨‍🏫 Enseignants</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Contenu Principal -->
+  <main class="landing-wrapper">
+    <section class="landing-hero">
+      <span class="landing-tag">👨‍🏫 Conçu par un Enseignant pour les Enseignants</span>
+      <h1 class="landing-title">L'Établi des Maths au Service de Votre Pratique de Classe</h1>
+      <p class="landing-subtitle">
+        Une plateforme libre et indépendante conçue pour faciliter le quotidien du professeur de mathématiques : rituels prêts à projeter, différenciation par paliers ZPD, devoirs blancs renouvelables et respect strict de la vie privée.
+      </p>
+
+      <div class="landing-cta-grid">
+        <a href="index.html" class="btn-primary landing-cta-btn">
+          🚀 Accéder à l'Application
+        </a>
+        <a href="rituels.html" class="btn-secondary landing-cta-btn">
+          ⏱️ Découvrir les Rituels
+        </a>
+        <a href="brevet.html" class="btn-secondary landing-cta-btn">
+          📝 Espace Brevet (DNB)
+        </a>
+      </div>
+    </section>
+
+    <!-- 4 Usages en classe -->
+    <section>
+      <h2 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 0.5rem; color: var(--text-main);">
+        Les 4 Grands Usages Pédagogiques
+      </h2>
+      <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.25rem;">
+        Comment intégrer L'Établi des Maths dans vos séquences d'enseignement au collège et au lycée :
+      </p>
+
+      <div class="usage-grid">
+        <div class="usage-card">
+          <span class="usage-badge" style="background: rgba(37, 99, 235, 0.12); color: #2563eb;">Usage 1 • Début d'heure</span>
+          <h3 class="usage-title">Rituels & Questions Flash (5 min)</h3>
+          <p class="usage-desc">
+            Vidéoprojetez en un clic une série de questions d'automatismes avec compte à rebours réglable. Déclenchez la correction animée pas à pas pour favoriser l'auto-positionnement sur ardoise.
+          </p>
+        </div>
+
+        <div class="usage-card">
+          <span class="usage-badge" style="background: rgba(16, 185, 129, 0.15); color: #059669;">Usage 2 • Différenciation & AP</span>
+          <h3 class="usage-title">La Progression par Paliers ZPD</h3>
+          <p class="usage-desc">
+            En salle informatique ou sur tablettes, chaque élève avance à son rythme : le <em>Palier 1 (Socle)</em> débloque les bases sans stress, tandis que les <em>Paliers 3 et 4</em> stimulent les élèves avancés avec des défis et des démonstrations.
+          </p>
+        </div>
+
+        <div class="usage-card">
+          <span class="usage-badge" style="background: rgba(124, 58, 237, 0.12); color: #7c3aed;">Usage 3 • Devoirs & Révisions</span>
+          <h3 class="usage-title">Générateur de Devoirs Blancs</h3>
+          <p class="usage-desc">
+            Générez des sujets d'entraînement ou d'évaluation formateurs (format Brevet sur 100 points ou format Bac) avec barème détaillé, idéaux pour les devoirs maison ou l'auto-évaluation guidée.
+          </p>
+        </div>
+
+        <div class="usage-card">
+          <span class="usage-badge" style="background: rgba(245, 158, 11, 0.15); color: #d97706;">Usage 4 • Cahier de Texte & ENT</span>
+          <h3 class="usage-title">Partage de Liens Ciblés</h3>
+          <p class="usage-desc">
+            Chaque chapitre et chaque palier possède son lien direct (ex : <code>?chapitre=4G1&palier=2</code>). Collez simplement l'adresse dans Pronote ou votre ENT pour cibler précisément le travail demandé.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Engagements Déontologiques -->
+    <section class="ethics-box">
+      <h2 style="font-size: 1.35rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.5rem;">
+        Nos Engagements Déontologiques & Éthiques
+      </h2>
+      <p style="color: var(--text-muted); font-size: 0.92rem;">
+        Pour vous permettre d'utiliser la plateforme en toute sérénité vis-à-vis des familles et de l'institution :
+      </p>
+
+      <div class="ethics-grid">
+        <div class="ethics-item">
+          <div class="ethics-icon">🛡️</div>
+          <div>
+            <h4>Conformité RGPD stricte</h4>
+            <p>Aucun compte élève requis, aucun mot de passe, aucun traçage. Les progrès sont mémorisés localement sur la machine de l'élève (localStorage).</p>
+          </div>
+        </div>
+
+        <div class="ethics-item">
+          <div class="ethics-icon">🆓</div>
+          <div>
+            <h4>100 % Gratuit & Sans Publicité</h4>
+            <p>Pas de modèle freemium déguisé, pas de bannières publicitaires ni de pièges pour les élèves. Un outil purement pédagogique au service du service public.</p>
+          </div>
+        </div>
+
+        <div class="ethics-item">
+          <div class="ethics-icon">🏛️</div>
+          <div>
+            <h4>Conforme aux Programmes</h4>
+            <p>Respect scrupuleux des repères de progression du ministère de l'Éducation Nationale (Cycle 4, Seconde et Spécialité Mathématiques).</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer style="text-align: center; padding: 2rem; border-top: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.85rem;">
+    <p>L'Établi des Maths — Conçu par Loïc Delaporte, Professeur de Mathématiques • 100 % Libre & Conforme aux Programmes</p>
+  </footer>
+
+</body>
+</html>

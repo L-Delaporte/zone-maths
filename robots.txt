@@ -1,4 +1,8 @@
+# robots.txt pour L'Établi des Maths
+# https://etabli-des-maths.fr/
+
 User-agent: *
 Allow: /
 
+# Sitemap officiel pour Google, Bing et moteurs de recherche
 Sitemap: https://etabli-des-maths.fr/sitemap.xml

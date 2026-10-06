@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="author" content="Loïc Delaporte, Professeur de Mathématiques" />
+  <meta name="description" content="Prépare l'épreuve de spécialité mathématiques du Baccalauréat (Première & Terminale). Devoirs types Bac, exercices par paliers (suites, dérivées, probabilités, géométrie dans l'espace) et flashcards de formules." />
+  <meta name="keywords" content="bac maths, baccalauréat spécialité maths, révisions bac maths terminale, devoir type bac maths, suites récurrence bac, dérivation exponentielle bac, géométrie espace bac, probabilités loi binomiale bac" />
+  <link rel="canonical" href="https://etabli-des-maths.fr/bac.html" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Révisions Bac Maths — Spécialité Première & Terminale — L'Établi des Maths" />
+  <meta property="og:description" content="Devoirs types Bac, révisions par paliers ZPD et fiches de mémorisation pour réussir l'épreuve de spécialité mathématiques." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://etabli-des-maths.fr/bac.html" />
+  <meta property="og:image" content="https://etabli-des-maths.fr/assets/logo.jpg" />
+
+  <title>Révisions Bac Maths — Spécialité Première & Terminale — L'Établi des Maths</title>
+
+  <link rel="stylesheet" href="css/style.css?v=20261006a" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png" />
+  <link rel="apple-touch-icon" href="assets/favicon.png" />
+
+  <style>
+    .landing-wrapper {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+    .landing-hero {
+      background: linear-gradient(135deg, var(--bg-surface) 0%, var(--bg-subtle) 100%);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem 2rem;
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+    }
+    .landing-tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 4px 12px;
+      border-radius: var(--radius-full);
+      background: linear-gradient(135deg, rgba(5, 150, 105, 0.15), rgba(2, 132, 199, 0.15));
+      color: #059669;
+      margin-bottom: 1rem;
+    }
+    .landing-title {
+      font-size: 2.1rem;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.25;
+      margin-bottom: 1rem;
+      max-width: 820px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .landing-subtitle {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      max-width: 700px;
+      margin: 0 auto 1.75rem;
+      line-height: 1.5;
+    }
+    .landing-cta-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 0.85rem;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+    .landing-cta-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.85rem 1.25rem;
+      font-size: 0.95rem;
+      font-weight: 700;
+      border-radius: var(--radius-md);
+      text-decoration: none;
+      transition: var(--transition);
+      cursor: pointer;
+    }
+    .topics-grid-bac {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 0.85rem;
+    }
+    .topic-pill-card-bac {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 0.85rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--text-main);
+      transition: var(--transition);
+    }
+    .topic-pill-card-bac:hover {
+      border-color: #059669;
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-sm);
+    }
+    .topic-num-bac {
+      font-weight: 800;
+      font-size: 0.85rem;
+      padding: 3px 8px;
+      border-radius: var(--radius-sm);
+      background: rgba(5, 150, 105, 0.12);
+      color: #059669;
+      flex-shrink: 0;
+    }
+    .landing-features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.25rem;
+    }
+    .landing-feature-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      box-shadow: var(--shadow-sm);
+    }
+    .landing-feature-icon {
+      font-size: 2rem;
+      margin-bottom: 0.75rem;
+      line-height: 1;
+    }
+    .landing-feature-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 0.5rem;
+    }
+    .landing-feature-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    .notice-box {
+      background: rgba(2, 132, 199, 0.08);
+      border: 1px solid rgba(2, 132, 199, 0.25);
+      border-radius: var(--radius-md);
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .nav-portal-links {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .nav-portal-btn {
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      text-decoration: none;
+      color: var(--text-muted);
+      border: 1px solid var(--border-color);
+      background: var(--bg-surface);
+      transition: var(--transition);
+    }
+    .nav-portal-btn:hover, .nav-portal-btn.active {
+      background: var(--primary-subtle);
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="app-header">
+    <div class="header-inner">
+      <a href="index.html" class="brand-container" style="text-decoration: none;">
+        <img src="assets/logo.png" alt="L'Établi des Maths" class="brand-logo-img" width="44" height="44" />
+        <div class="brand-text">
+          <h1>L'Établi des Maths <span class="brand-level-tag">Baccalauréat</span></h1>
+          <span class="brand-tagline">Outils pour apprendre et pratiquer</span>
+        </div>
+      </a>
+
+      <nav class="nav-portal-links" aria-label="Portails thématiques">
+        <a href="index.html" class="nav-portal-btn">🏠 Accueil</a>
+        <a href="rituels.html" class="nav-portal-btn">⏱️ Rituels</a>
+        <a href="brevet.html" class="nav-portal-btn">📝 Brevet 3e</a>
+        <a href="bac.html" class="nav-portal-btn active">🎓 Baccalauréat</a>
+        <a href="enseignants.html" class="nav-portal-btn">👨‍🏫 Enseignants</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Contenu Principal -->
+  <main class="landing-wrapper">
+    <section class="landing-hero">
+      <span class="landing-tag">🎓 Épreuve de Spécialité Mathématiques</span>
+      <h1 class="landing-title">Réussir l'Épreuve du Baccalauréat Spé Maths</h1>
+      <p class="landing-subtitle">
+        Devoirs types Bac complets avec barème détaillé, fiches de révision et entraînement rigoureux sur l'ensemble des grands thèmes de Première et Terminale.
+      </p>
+
+      <div class="landing-cta-grid">
+        <a href="index.html?mode=quiz&level=tale" class="btn-primary landing-cta-btn" style="background: linear-gradient(135deg, #059669, #0284c7);">
+          📝 Générer un Devoir Type Bac (Terminale)
+        </a>
+        <a href="index.html?level=tale" class="btn-secondary landing-cta-btn">
+          🎯 Spécialité Terminale
+        </a>
+        <a href="index.html?mode=flashcards&level=tale" class="btn-secondary landing-cta-btn">
+          🗂️ Flashcards des Démonstrations
+        </a>
+      </div>
+    </section>
+
+    <!-- Information d'accès -->
+    <div class="notice-box">
+      <div style="font-size: 1.8rem;">🔒</div>
+      <div style="font-size: 0.9rem; color: var(--text-main); line-height: 1.4;">
+        <strong>Information pédagogique :</strong> Les sections Lycée (Seconde, 1ère Spé, Terminale Spé) font actuellement l'objet de consolidations et vérifications pédagogiques par l'équipe d'enseignants. L'accès en ligne complet est temporairement conditionné au code d'accès enseignant.
+      </div>
+    </div>
+
+    <!-- Les Notions Piliers du Bac Spécialité -->
+    <section>
+      <h2 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 0.5rem; color: var(--text-main);">
+        Les Thèmes Majeurs de l'Épreuve Écrite
+      </h2>
+      <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.25rem;">
+        Entraînez-vous sur les chapitres fondamentaux de l'épreuve écrite du Baccalauréat :
+      </p>
+
+      <div class="topics-grid-bac">
+        <a href="index.html?chapitre=TS-SUI" class="topic-pill-card-bac">
+          <span class="topic-num-bac">Suites</span>
+          <span>Récurrence, Limites & Théorèmes</span>
+        </a>
+        <a href="index.html?chapitre=TS-DER" class="topic-pill-card-bac">
+          <span class="topic-num-bac">Dérivation</span>
+          <span>Convexité, Point d'inflexion, TVI</span>
+        </a>
+        <a href="index.html?chapitre=TS-EXP" class="topic-pill-card-bac">
+          <span class="topic-num-bac">Exponentielle</span>
+          <span>Fonctions exponentielle & Logarithme</span>
+        </a>
+        <a href="index.html?chapitre=TS-INT" class="topic-pill-card-bac">
+          <span class="topic-num-bac">Intégration</span>
+          <span>Primitives, Calcul intégral & Aires</span>
+        </a>
+        <a href="index.html?chapitre=TS-PRO" class="topic-pill-card-bac">
+          <span class="topic-num-bac">Probabilités</span>
+          <span>Loi binomiale, Formule totale</span>
+        </a>
+        <a href="index.html?chapitre=TS-ESP" class="topic-pill-card-bac">
+          <span class="topic-num-bac">Espace</span>
+          <span>Produit scalaire, Plans, Droites 3D</span>
+        </a>
+        <a href="index.html?chapitre=TS-TRI" class="topic-pill-card-bac">
+          <span class="topic-num-bac">Trigonométrie</span>
+          <span>Cercle, Fonctions Cosinus & Sinus</span>
+        </a>
+        <a href="index.html?chapitre=TS-EQU" class="topic-pill-card-bac">
+          <span class="topic-num-bac">Équations Diff.</span>
+          <span>Équations $y' = ay$ et applications</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- Atouts Bac -->
+    <section>
+      <h2 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 1rem; color: var(--text-main);">
+        Les Exigences de l'Épreuve du Baccalauréat
+      </h2>
+      <div class="landing-features-grid">
+        <div class="landing-feature-card">
+          <div class="landing-feature-icon">✍️</div>
+          <h3 class="landing-feature-title">Rigueur et Rédaction Mathématique</h3>
+          <p class="landing-feature-desc">
+            Au Bac, le résultat seul ne rapporte presque rien : tout réside dans la clarté du raisonnement (hypothèses du TVI vérifiées, initialisation et hérédité soignées pour la récurrence).
+          </p>
+        </div>
+        <div class="landing-feature-card">
+          <div class="landing-feature-icon">🎲</div>
+          <h3 class="landing-feature-title">Devoirs Types Bac Renouvelables</h3>
+          <p class="landing-feature-desc">
+            Chaque devoir généré propose 4 exercices complets conformes à la structure officielle du sujet de spécialité, accompagnés de leur corrigé détaillé.
+          </p>
+        </div>
+        <div class="landing-feature-card">
+          <div class="landing-feature-icon">🧠</div>
+          <h3 class="landing-feature-title">Mémorisation Active des Formules</h3>
+          <p class="landing-feature-desc">
+            Formules de dérivation, propriétés de la fonction $\ln$, formules de probabilités : révisez vos réflexes avec les flashcards avant le jour J.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer style="text-align: center; padding: 2rem; border-top: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.85rem;">
+    <p>L'Établi des Maths — Conçu par Loïc Delaporte, Professeur de Mathématiques • 100 % Libre & Conforme aux Programmes</p>
+  </footer>
+
+</body>
+</html>

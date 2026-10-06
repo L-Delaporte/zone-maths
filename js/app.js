@@ -2379,6 +2379,25 @@ document.addEventListener('DOMContentLoaded', () => {
         const params = new URLSearchParams(window.location.search);
         const chapParam = params.get('chapitre') || params.get('chapter') || params.get('chap');
         const tierParam = parseInt(params.get('palier') || params.get('tier'), 10);
+        const levelParam = params.get('level') || params.get('niveau');
+        const modeParam = (params.get('mode') || params.get('tool') || '').toLowerCase();
+
+        let handled = false;
+
+        if (levelParam) {
+          const validLevels = ['5eme', '4eme', '3eme', '2nde', '1ere', 'tale', 'L1', 'L2', 'L3'];
+          if (validLevels.includes(levelParam)) {
+            if (window.MathsStorage && window.MathsStorage.isLevelLocked && window.MathsStorage.isLevelLocked(levelParam)) {
+              const cycle = window.MathsStorage.getCycleForLevel(levelParam);
+              this.openLockModal(cycle, levelParam);
+              return true;
+            } else {
+              this.switchLevel(levelParam, true);
+              this.hideHomeView();
+              handled = true;
+            }
+          }
+        }
 
         if (chapParam) {
           const allChapters = window.MATHS_CHAPTERS || [];
@@ -2387,7 +2406,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (targetChap.level && window.MathsStorage.isLevelLocked(targetChap.level)) {
               const cycle = window.MathsStorage.getCycleForLevel(targetChap.level);
               this.openLockModal(cycle, targetChap.level, targetChap.id);
-              return;
+              return true;
             }
             if (targetChap.level && targetChap.level !== this.currentLevel) {
               this.switchLevel(targetChap.level, false);
@@ -2410,9 +2429,25 @@ document.addEventListener('DOMContentLoaded', () => {
                 this.showToast(`🎯 <strong>Entraînement ciblé :</strong> ${targetChap.shortTitle || targetChap.title} (Palier ${tierParam})`, 4000);
               }, 250);
             }
-            return true;
+            handled = true;
           }
         }
+
+        if (modeParam) {
+          setTimeout(() => {
+            if (modeParam === 'rituel' || modeParam === 'diaporama') {
+              this.openDiaporamaModal();
+            } else if (modeParam === 'quiz' || modeParam === 'devoir') {
+              this.openQuizModal();
+            } else if (modeParam === 'flashcards' || modeParam === 'flashcard') {
+              this.openFlashcardsModal();
+            }
+          }, 300);
+          this.hideHomeView();
+          handled = true;
+        }
+
+        return handled;
       } catch (err) {
         console.warn('Erreur lecture paramètres URL :', err);
       }

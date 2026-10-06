@@ -1,27 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- 1. Page d'Accueil & Application Principale -->
   <url>
     <loc>https://etabli-des-maths.fr/</loc>
-    <lastmod>2026-09-22</lastmod>
-    <changefreq>daily</changefreq>
+    <lastmod>2026-10-06</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
+
+  <!-- 2. Porte d'Entrée Rituels & Questions Flash à Vidéoprojeter -->
   <url>
-    <loc>https://etabli-des-maths.fr/?level=5eme</loc>
-    <lastmod>2026-09-22</lastmod>
-    <changefreq>weekly</changefreq>
+    <loc>https://etabli-des-maths.fr/rituels.html</loc>
+    <lastmod>2026-10-06</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
+
+  <!-- 3. Porte d'Entrée Préparation Brevet des Collèges 3ème (DNB) -->
   <url>
-    <loc>https://etabli-des-maths.fr/?level=4eme</loc>
-    <lastmod>2026-09-22</lastmod>
-    <changefreq>weekly</changefreq>
+    <loc>https://etabli-des-maths.fr/brevet.html</loc>
+    <lastmod>2026-10-06</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
+
+  <!-- 4. Porte d'Entrée Préparation Baccalauréat Spécialité Mathématiques -->
   <url>
-    <loc>https://etabli-des-maths.fr/?level=3eme</loc>
-    <lastmod>2026-09-22</lastmod>
-    <changefreq>weekly</changefreq>
+    <loc>https://etabli-des-maths.fr/bac.html</loc>
+    <lastmod>2026-10-06</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.9</priority>
+  </url>
+
+  <!-- 5. Porte d'Entrée Espace Enseignants & Guide Pédagogique -->
+  <url>
+    <loc>https://etabli-des-maths.fr/enseignants.html</loc>
+    <lastmod>2026-10-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
   </url>
 </urlset>
