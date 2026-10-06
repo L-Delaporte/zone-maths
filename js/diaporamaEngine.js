@@ -53,6 +53,11 @@ window.MathsDiaporama = {
     this.showScreen('config');
   },
 
+  selectAllChapters(select = true) {
+    const checkboxes = document.querySelectorAll('input[name="diapo-chap"]');
+    checkboxes.forEach(cb => { cb.checked = !!select; });
+  },
+
   closeModal() {
     this.stop();
     const modal = document.getElementById('diaporama-modal');
@@ -115,6 +120,14 @@ window.MathsDiaporama = {
     // 3. Basculer sur l'écran diaporama
     this.showScreen('run');
     this.presentCurrentQuestion();
+  },
+
+  /**
+   * Relance une nouvelle session de diaporama avec de nouvelles valeurs
+   */
+  restart() {
+    this.stop();
+    this.start();
   },
 
   presentCurrentQuestion() {

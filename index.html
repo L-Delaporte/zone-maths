@@ -440,7 +440,13 @@
         </div>
 
         <div class="diapo-chapters-select-section">
-          <label>Chapitres à inclure dans le rituel :</label>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.5rem;">
+            <label style="margin-bottom: 0;">Chapitres à inclure dans le rituel :</label>
+            <div style="display: flex; gap: 0.5rem;">
+              <button type="button" class="btn-secondary btn-sm" onclick="window.MathsDiaporama.selectAllChapters(true)" style="padding: 0.25rem 0.6rem; font-size: 0.8rem; cursor: pointer;">✅ Tout cocher</button>
+              <button type="button" class="btn-secondary btn-sm" onclick="window.MathsDiaporama.selectAllChapters(false)" style="padding: 0.25rem 0.6rem; font-size: 0.8rem; cursor: pointer;">❌ Tout décocher</button>
+            </div>
+          </div>
           <div id="diaporama-chapters-checkboxes" class="diapo-chips-container">
             <!-- Rempli dynamiquement -->
           </div>
@@ -496,6 +502,7 @@
             <button id="diapo-tab-config" class="diapo-mm-tab" onclick="window.MathsDiaporama.showScreen('config')">Paramétrer</button>
           </div>
           <div class="diapo-mm-topbar-actions">
+            <button class="diapo-mm-action-btn" onclick="window.MathsDiaporama.restart()" title="Relancer immédiatement un nouveau rituel avec de nouvelles valeurs numériques">🔄 Nouveau rituel</button>
             <button class="diapo-mm-action-btn" onclick="window.MathsDiaporama.copyQuestions()" title="Copier les questions dans le presse-papier">📋 Copier</button>
             <button class="diapo-mm-action-btn" onclick="window.print()" title="Imprimer la feuille">🖨️ Imprimer</button>
             <button class="modal-close-btn diapo-mm-close" onclick="window.MathsDiaporama.closeModal()" title="Fermer le rituel">✕</button>

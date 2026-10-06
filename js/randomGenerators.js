@@ -11,6 +11,70 @@
 
 window.MathsGenerators = {
   _recentGeneratedStatements: {},
+  _recentStorageKey: 'maths_recent_rituel_statements_v2',
+
+  _getRecentHistory(chapterId) {
+    if (!this._recentGeneratedStatements) this._recentGeneratedStatements = {};
+    if (!this._recentGeneratedStatements[chapterId]) {
+      try {
+        if (typeof window !== 'undefined' && window.localStorage) {
+          const raw = window.localStorage.getItem(this._recentStorageKey);
+          if (raw) {
+            const parsed = JSON.parse(raw);
+            if (parsed && typeof parsed === 'object') {
+              this._recentGeneratedStatements = parsed;
+            }
+          }
+        }
+      } catch (e) {}
+      if (!this._recentGeneratedStatements[chapterId]) {
+        this._recentGeneratedStatements[chapterId] = [];
+      }
+    }
+    return this._recentGeneratedStatements[chapterId] || [];
+  },
+
+  _saveRecentStatement(chapterId, statement) {
+    if (!statement) return;
+    const list = this._getRecentHistory(chapterId);
+    if (!list.includes(statement)) {
+      list.push(statement);
+      if (list.length > 50) list.shift();
+      this._recentGeneratedStatements[chapterId] = list;
+      try {
+        if (typeof window !== 'undefined' && window.localStorage) {
+          window.localStorage.setItem(this._recentStorageKey, JSON.stringify(this._recentGeneratedStatements));
+        }
+      } catch (e) {}
+    }
+  },
+
+  clearRecentHistory() {
+    this._recentGeneratedStatements = {};
+    try {
+      if (typeof window !== 'undefined' && window.localStorage) {
+        window.localStorage.removeItem(this._recentStorageKey);
+      }
+    } catch (e) {}
+  },
+
+  getPythagoreanTriple(allowDecimals = true) {
+    const primitiveTriples = [
+      [3, 4, 5], [5, 12, 13], [8, 15, 17], [7, 24, 25],
+      [9, 40, 41], [11, 60, 61], [12, 35, 37], [20, 21, 29],
+      [16, 63, 65], [28, 45, 53], [33, 56, 65], [36, 77, 85]
+    ];
+    const scales = allowDecimals 
+      ? [0.5, 1, 1.5, 2, 2.5, 3, 4, 5] 
+      : [1, 2, 3, 4, 5];
+    const base = this.randChoice(primitiveTriples);
+    const k = this.randChoice(scales);
+    const a = +(base[0] * k).toFixed(2);
+    const b = +(base[1] * k).toFixed(2);
+    const c = +(base[2] * k).toFixed(2);
+    return { a, b, c };
+  },
+
   // Utilitaires aléatoires et arithmétiques
   randInt(min, max, exclude = []) {
     let val;
@@ -565,9 +629,9 @@ window.MathsGenerators = {
       const subType = this.randChoice(['add_same', 'sub_same', 'prod_frac', 'int_mult_frac']);
 
       if (subType === 'add_same') {
-        const d = this.randInt(3, 9);
-        const a = this.randInt(1, 8);
-        const b = this.randInt(1, 8);
+        const d = this.randChoice([3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 20]);
+        const a = this.randInt(1, 15);
+        const b = this.randInt(1, 15);
         const sum = a + b;
         const [sN, sD] = this.simplifyFraction(sum, d);
         const ansStr = sD === 1 ? `${sN}` : `${sN}/${sD}`;
@@ -583,8 +647,8 @@ window.MathsGenerators = {
           solution: `$$A = \\frac{${a}}{${d}} + \\frac{${b}}{${d}} = \\frac{${a} + ${b}}{${d}} = \\frac{${sum}}{${d}}` + (sum !== sN || d !== sD ? ` = ${this.formatFraction(sum, d)}$$` : `$$`)
         };
       } else if (subType === 'sub_same') {
-        const d = this.randInt(3, 9);
-        const a = this.randInt(4, 12);
+        const d = this.randChoice([3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 20]);
+        const a = this.randInt(5, 25);
         const b = this.randInt(1, a - 1);
         const diff = a - b;
         const [sN, sD] = this.simplifyFraction(diff, d);
@@ -601,10 +665,10 @@ window.MathsGenerators = {
           solution: `$$S = \\frac{${a}}{${d}} - \\frac{${b}}{${d}} = \\frac{${a} - ${b}}{${d}} = \\frac{${diff}}{${d}}` + (diff !== sN || d !== sD ? ` = ${this.formatFraction(diff, d)}$$` : `$$`)
         };
       } else if (subType === 'prod_frac') {
-        const a = this.randInt(1, 5);
-        const b = this.randInt(2, 6);
-        const c = this.randInt(1, 5);
-        const d = this.randInt(2, 6);
+        const a = this.randInt(1, 9);
+        const b = this.randChoice([2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
+        const c = this.randInt(1, 9);
+        const d = this.randChoice([2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
         const [sN, sD] = this.simplifyFraction(a * c, b * d);
         const ansStr = sD === 1 ? `${sN}` : `${sN}/${sD}`;
         return {
@@ -619,9 +683,9 @@ window.MathsGenerators = {
           solution: `$$P = \\frac{${a}}{${b}} \\times \\frac{${c}}{${d}} = \\frac{${a} \\times ${c}}{${b} \\times ${d}} = \\frac{${a * c}}{${b * d}}` + (a * c !== sN || b * d !== sD ? ` = ${this.formatFraction(a * c, b * d)}$$` : `$$`)
         };
       } else {
-        const k = this.randInt(2, 6);
-        const a = this.randInt(1, 5);
-        const b = this.randInt(2, 7);
+        const k = this.randInt(2, 12);
+        const a = this.randInt(1, 9);
+        const b = this.randChoice([2, 3, 4, 5, 6, 7, 8, 9, 11, 13]);
         const [sN, sD] = this.simplifyFraction(k * a, b);
         const ansStr = sD === 1 ? `${sN}` : `${sN}/${sD}`;
         return {
@@ -641,10 +705,10 @@ window.MathsGenerators = {
       const subType = this.randChoice(['div_frac', 'add_mult_den', 'sub_mult_den', 'div_by_int']);
 
       if (subType === 'div_frac') {
-        const a = this.randInt(2, 6);
-        const b = this.randInt(3, 7);
-        const c = this.randInt(2, 5);
-        const d = this.randInt(3, 7);
+        const a = this.randInt(2, 9);
+        const b = this.randChoice([3, 4, 5, 6, 7, 8, 9, 10, 11]);
+        const c = this.randInt(2, 9);
+        const d = this.randChoice([3, 4, 5, 6, 7, 8, 9, 10, 11]);
         const [sN, sD] = this.simplifyFraction(a * d, b * c);
         const ansStr = sD === 1 ? `${sN}` : `${sN}/${sD}`;
         return {
@@ -659,11 +723,11 @@ window.MathsGenerators = {
           solution: `$$D = \\frac{${a}}{${b}} \\div \\frac{${c}}{${d}} = \\frac{${a}}{${b}} \\times \\frac{${d}}{${c}} = \\frac{${a * d}}{${b * c}}` + (a * d !== sN || b * c !== sD ? ` = ${this.formatFraction(a * d, b * c)}$$` : `$$`)
         };
       } else if (subType === 'add_mult_den') {
-        const k = this.randChoice([2, 3, 4]);
-        const d1 = this.randInt(2, 5);
+        const k = this.randChoice([2, 3, 4, 5, 6]);
+        const d1 = this.randChoice([2, 3, 4, 5, 6, 7, 8, 9]);
         const d2 = d1 * k;
-        const n1 = this.randInt(1, 6);
-        const n2 = this.randInt(1, 6);
+        const n1 = this.randInt(1, 9);
+        const n2 = this.randInt(1, 14);
         const sum = (n1 * k) + n2;
         const [sN, sD] = this.simplifyFraction(sum, d2);
         const ansStr = sD === 1 ? `${sN}` : `${sN}/${sD}`;
@@ -679,10 +743,10 @@ window.MathsGenerators = {
           solution: `$$B = \\frac{${n1}}{${d1}} + \\frac{${n2}}{${d2}} = \\frac{${n1} \\times ${k}}{${d1} \\times ${k}} + \\frac{${n2}}{${d2}} = \\frac{${n1 * k}}{${d2}} + \\frac{${n2}}{${d2}} = \\frac{${sum}}{${d2}}` + (sum !== sN || d2 !== sD ? ` = ${this.formatFraction(sum, d2)}$$` : `$$`)
         };
       } else if (subType === 'sub_mult_den') {
-        const k = this.randChoice([2, 3, 4]);
-        const d1 = this.randInt(2, 5);
+        const k = this.randChoice([2, 3, 4, 5, 6]);
+        const d1 = this.randChoice([2, 3, 4, 5, 6, 7, 8, 9]);
         const d2 = d1 * k;
-        const n1 = this.randInt(3, 7);
+        const n1 = this.randInt(3, 12);
         const n2 = this.randInt(1, n1 * k - 1);
         const diff = (n1 * k) - n2;
         const [sN, sD] = this.simplifyFraction(diff, d2);
@@ -699,9 +763,9 @@ window.MathsGenerators = {
           solution: `$$M = \\frac{${n1}}{${d1}} - \\frac{${n2}}{${d2}} = \\frac{${n1 * k}}{${d2}} - \\frac{${n2}}{${d2}} = \\frac{${diff}}{${d2}}` + (diff !== sN || d2 !== sD ? ` = ${this.formatFraction(diff, d2)}$$` : `$$`)
         };
       } else {
-        const a = this.randInt(2, 6);
-        const b = this.randInt(3, 7);
-        const c = this.randInt(2, 5);
+        const a = this.randInt(2, 9);
+        const b = this.randChoice([3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
+        const c = this.randInt(2, 8);
         const [sN, sD] = this.simplifyFraction(a, b * c);
         const ansStr = sD === 1 ? `${sN}` : `${sN}/${sD}`;
         return {
@@ -723,11 +787,11 @@ window.MathsGenerators = {
       if (subType === 'mult_prioritaire_sub') {
         let a, b, c, d, e, num, den;
         do {
-          a = this.randInt(2, 6);
-          b = this.randInt(3, 7);
-          c = this.randInt(1, 4);
-          d = this.randInt(2, 5);
-          e = this.randInt(3, 6);
+          a = this.randInt(2, 9);
+          b = this.randChoice([3, 4, 5, 6, 7, 8, 9, 10]);
+          c = this.randInt(1, 6);
+          d = this.randInt(2, 7);
+          e = this.randChoice([3, 4, 5, 6, 7, 8, 9]);
           num = a * e - c * d;
           den = b * e;
         } while (num <= 0 || a === b || c === b || d === e);
@@ -783,12 +847,12 @@ window.MathsGenerators = {
       } else if (subType === 'mult_prioritaire_add') {
         let a, b, c, d, e, f, num, den;
         do {
-          a = this.randInt(1, 4);
-          b = this.randInt(2, 5);
-          c = this.randInt(1, 3);
-          d = this.randInt(2, 5);
-          e = this.randInt(1, 3);
-          f = this.randInt(2, 4);
+          a = this.randInt(1, 7);
+          b = this.randChoice([2, 3, 4, 5, 6, 7]);
+          c = this.randInt(1, 5);
+          d = this.randChoice([2, 3, 4, 5, 6, 7]);
+          e = this.randInt(1, 5);
+          f = this.randChoice([2, 3, 4, 5, 6]);
           num = a * (d * f) + (c * e) * b;
           den = b * d * f;
         } while (a === b || c === d || e === f || b === (d * f));
@@ -844,13 +908,13 @@ window.MathsGenerators = {
       } else {
         let a, b, c, sumNum, sumDen, e, f, num, den;
         do {
-          a = this.randInt(1, 3);
-          b = this.randInt(2, 4);
-          c = this.randInt(1, 3);
+          a = this.randInt(1, 6);
+          b = this.randChoice([2, 3, 4, 5, 6, 7, 8]);
+          c = this.randInt(1, 6);
           sumNum = a + c;
           sumDen = b;
-          e = this.randInt(2, 5);
-          f = this.randInt(3, 6);
+          e = this.randInt(2, 7);
+          f = this.randChoice([3, 4, 5, 6, 7, 8, 9]);
           num = sumNum * e;
           den = sumDen * f;
         } while (a === b || c === b || e === f || this.gcd(sumNum, sumDen) === sumNum);
@@ -909,10 +973,10 @@ window.MathsGenerators = {
       // Palier 4 : DÉFI SECONDE / DIFFICULTÉ MAXIMALE (Fraction à étages complexes)
       let a, b, c, d, numN, numD;
       do {
-        b = this.randChoice([2, 3, 4, 5]);
-        d = this.randChoice([2, 3, 4, 5, 6]);
-        a = this.randInt(1, b + 2);
-        c = this.randInt(1, d + 2);
+        b = this.randChoice([2, 3, 4, 5, 6, 7]);
+        d = this.randChoice([2, 3, 4, 5, 6, 7, 8]);
+        a = this.randInt(1, b + 3);
+        c = this.randInt(1, d + 3);
         numN = a * d - c * b;
         numD = b * d;
       } while (
@@ -926,10 +990,10 @@ window.MathsGenerators = {
 
       let e, f, g, h, denN, denD;
       do {
-        f = this.randChoice([2, 3, 4, 5]);
-        h = this.randChoice([2, 3, 4, 5, 6]);
-        e = this.randInt(1, f + 2);
-        g = this.randInt(1, h + 2);
+        f = this.randChoice([2, 3, 4, 5, 6, 7]);
+        h = this.randChoice([2, 3, 4, 5, 6, 7, 8]);
+        e = this.randInt(1, f + 3);
+        g = this.randInt(1, h + 3);
         denN = e * h + g * f;
         denD = f * h;
       } while (
@@ -1013,9 +1077,9 @@ window.MathsGenerators = {
       const subType = this.randChoice(['distrib_pos', 'distrib_neg', 'reduc_sum', 'reduc_diff', 'eval_num']);
 
       if (subType === 'distrib_pos') {
-        const k = this.randInt(2, 6);
-        const a = this.randInt(2, 4);
-        const b = this.randInt(1, 8);
+        const k = this.randInt(2, 9);
+        const a = this.randInt(2, 9);
+        const b = this.randInt(1, 15);
         const sign = this.randChoice(['+', '-']);
         const bVal = sign === '+' ? b : -b;
         const resA = k * a;
@@ -1045,9 +1109,9 @@ window.MathsGenerators = {
           solution: `$$A = ${k} \\times ${a}x + ${k} \\times (${bVal}) = ${resA}x ${this.formatSigned(resConst)}$$`
         };
       } else if (subType === 'distrib_neg') {
-        const k = this.randInt(2, 5);
-        const a = this.randInt(2, 4);
-        const b = this.randInt(1, 6);
+        const k = this.randInt(2, 9);
+        const a = this.randInt(2, 9);
+        const b = this.randInt(1, 15);
         const sign = this.randChoice(['+', '-']);
         const bVal = sign === '+' ? b : -b;
         const resA = -k * a;
@@ -1076,10 +1140,10 @@ window.MathsGenerators = {
           solution: `$$B = (-${k}) \\times ${a}x + (-${k}) \\times (${bVal}) = ${resA}x ${this.formatSigned(resConst)}$$`
         };
       } else if (subType === 'reduc_sum') {
-        const a = this.randInt(2, 5);
-        const b = this.randInt(1, 6);
-        const c = this.randInt(1, 4);
-        const d = this.randInt(1, 6);
+        const a = this.randInt(2, 9);
+        const b = this.randInt(1, 15);
+        const c = this.randInt(1, 9);
+        const d = this.randInt(1, 15);
         const resA = a + c;
         const resConst = b + d;
         const correctText = `$${resA}x + ${resConst}$`;
@@ -1106,10 +1170,10 @@ window.MathsGenerators = {
           solution: `$$C = ${a}x + ${b} + ${c}x + ${d} = (${a} + ${c})x + (${b} + ${d}) = ${resA}x + ${resConst}$$`
         };
       } else if (subType === 'reduc_diff') {
-        const a = this.randInt(4, 8);
-        const b = this.randInt(3, 8);
-        const c = this.randInt(1, 3);
-        const d = this.randInt(1, 4);
+        const a = this.randInt(4, 12);
+        const b = this.randInt(3, 15);
+        const c = this.randInt(1, a - 1);
+        const d = this.randInt(1, 15);
         const resA = a - c;
         const resConst = b - d;
         const correctText = `$${resA}x ${this.formatSigned(resConst)}$`;
@@ -1136,11 +1200,11 @@ window.MathsGenerators = {
           solution: `$$D = ${a}x + ${b} - ${c}x - ${d} = (${a} - ${c})x + (${b} - ${d}) = ${resA}x ${this.formatSigned(resConst)}$$`
         };
       } else {
-        const a = this.randInt(2, 5);
-        const b = this.randInt(1, 7);
+        const a = this.randInt(2, 9);
+        const b = this.randInt(1, 15);
         const sign = this.randChoice(['+', '-']);
         const bVal = sign === '+' ? b : -b;
-        const xVal = this.randChoice([0, 2, -1]);
+        const xVal = this.randChoice([0, 1, 2, 3, -1, -2, -3]);
         const ans = a * xVal + bVal;
         return {
           chapterId: 'N2',
@@ -1157,13 +1221,13 @@ window.MathsGenerators = {
     } else if (t === 2) {
       // Palier 2 : Guidé (Identités remarquables (x+a)^2, (x-a)^2, (x-a)(x+a), (ax+b)^2)
       const type = this.randChoice(['id1', 'id2', 'id3', 'id1_coeff', 'id3_coeff']);
-      const b = this.randInt(2, 8);
+      const b = this.randInt(2, 15);
       const b2 = b * b;
       const twoB = 2 * b;
 
       if (type === 'id1_coeff') {
-        const a = this.randInt(2, 3);
-        const cConst = this.randInt(1, 4);
+        const a = this.randInt(2, 6);
+        const cConst = this.randInt(1, 9);
         const a2 = a * a;
         const c2 = cConst * cConst;
         const doubleProd = 2 * a * cConst;
@@ -1185,8 +1249,8 @@ window.MathsGenerators = {
           solution: `$$B = (${a}x)^2 + 2 \\times (${a}x) \\times ${cConst} + ${cConst}^2 = ${a2}x^2 + ${doubleProd}x + ${c2}$$`
         };
       } else if (type === 'id3_coeff') {
-        const a = this.randInt(2, 4);
-        const cConst = this.randInt(2, 5);
+        const a = this.randInt(2, 7);
+        const cConst = this.randInt(2, 9);
         const a2 = a * a;
         const c2 = cConst * cConst;
         const correctText = `$${a2}x^2 - ${c2}$`;
@@ -1278,13 +1342,13 @@ window.MathsGenerators = {
       }
     } else if (t === 3) {
       // Palier 3 : Brevet (Double distributivité ou (ax+b)^2 avec a >= 2)
-      const a = this.randInt(2, 4);
-      const b = this.randInt(1, 5);
-      const c = this.randInt(2, 4);
-      let d = this.randInt(1, 5);
+      const a = this.randInt(2, 7);
+      const b = this.randInt(1, 9);
+      const c = this.randInt(2, 7);
+      let d = this.randInt(1, 9);
       // Éviter que coeffX = 0 pour ne pas confondre avec l'option sans terme en x
       while (b * c === a * d) {
-        d = this.randInt(1, 5);
+        d = this.randInt(1, 9);
       }
       // (ax + b)(cx - d) = (a*c)x^2 + (b*c - a*d)x - b*d
       const coeffX2 = a * c;
@@ -1317,10 +1381,10 @@ window.MathsGenerators = {
       };
     } else {
       // Palier 4 : DÉFI SECONDE / DIFFICULTÉ MAXIMALE (Différence de deux carrés complète (ax+b)^2 - (cx+d)^2)
-      const a = this.randInt(2, 4);
-      const b = this.randInt(1, 4);
+      const a = this.randInt(2, 6);
+      const b = this.randInt(1, 8);
       const c = this.randInt(1, a - 1); // garantit a > c pour x^2 > 0
-      const d = this.randInt(1, 4);
+      const d = this.randInt(1, 8);
 
       // A = (ax + b)^2 - (cx + d)^2
       // = (a^2 - c^2)x^2 + 2(a*b - c*d)x + (b^2 - d^2)
@@ -1363,10 +1427,10 @@ window.MathsGenerators = {
       const subType = this.randChoice(['facteur_k', 'facteur_x', 'facteur_kx', 'piege_un']);
 
       if (subType === 'facteur_k') {
-        const k = this.randInt(2, 7);
-        const a = this.randInt(2, 5);
-        let b = this.randInt(1, 8);
-        while (this.gcd(a, b) > 1) { b = this.randInt(1, 8); }
+        const k = this.randInt(2, 12);
+        const a = this.randInt(2, 9);
+        let b = this.randInt(1, 15);
+        while (this.gcd(a, b) > 1) { b = this.randInt(1, 15); }
         const sign = this.randChoice(['+', '-']);
         const term1 = k * a;
         const term2 = k * b;
@@ -1396,9 +1460,9 @@ window.MathsGenerators = {
           solution: `$$A = ${k} \\times ${a}x ${sign} ${k} \\times ${b} = ${k}(${a}x ${sign} ${b})$$`
         };
       } else if (subType === 'facteur_x') {
-        const a = this.randInt(2, 6);
-        let b = this.randInt(1, 9);
-        while (this.gcd(a, b) > 1) { b = this.randInt(1, 9); }
+        const a = this.randInt(2, 12);
+        let b = this.randInt(1, 18);
+        while (this.gcd(a, b) > 1) { b = this.randInt(1, 18); }
         const sign = this.randChoice(['+', '-']);
         const oppSign = sign === '+' ? '-' : '+';
         const correctStr = `$x(${a}x ${sign} ${b})$`;
@@ -1426,10 +1490,10 @@ window.MathsGenerators = {
           solution: `$$B = x \\times ${a}x ${sign} x \\times ${b} = x(${a}x ${sign} ${b})$$`
         };
       } else if (subType === 'facteur_kx') {
-        const k = this.randInt(2, 5);
-        const a = this.randInt(2, 4);
-        let b = this.randInt(1, 5);
-        while (this.gcd(a, b) > 1) { b = this.randInt(1, 5); }
+        const k = this.randInt(2, 9);
+        const a = this.randInt(2, 7);
+        let b = this.randInt(1, 12);
+        while (this.gcd(a, b) > 1) { b = this.randInt(1, 12); }
         const sign = this.randChoice(['+', '-']);
         const term1 = k * a;
         const term2 = k * b;
@@ -1458,7 +1522,7 @@ window.MathsGenerators = {
           solution: `$$C = ${k}x \\times ${a}x ${sign} ${k}x \\times ${b} = ${k}x(${a}x ${sign} ${b})$$`
         };
       } else {
-        const a = this.randInt(3, 9);
+        const a = this.randInt(2, 15);
         const sign = this.randChoice(['+', '-']);
         const oppSign = sign === '+' ? '-' : '+';
         const correctStr = `$${a}(x ${sign} 1)$`;
@@ -1490,7 +1554,7 @@ window.MathsGenerators = {
       const subType = this.randChoice(['carre_x', 'carre_ax', 'carre_inv']);
 
       if (subType === 'carre_x') {
-        const b = this.randInt(2, 12);
+        const b = this.randInt(2, 16);
         const b2 = b * b;
         const correctStr = `$(x - ${b})(x + ${b})$`;
         return {
@@ -1516,9 +1580,9 @@ window.MathsGenerators = {
           solution: `$$E = x^2 - ${b}^2 = (x - ${b})(x + ${b})$$`
         };
       } else if (subType === 'carre_ax') {
-        const a = this.randInt(2, 5);
-        let b = this.randInt(1, 9);
-        while (this.gcd(a, b) > 1) { b = this.randInt(1, 9); }
+        const a = this.randInt(2, 9);
+        let b = this.randInt(1, 15);
+        while (this.gcd(a, b) > 1) { b = this.randInt(1, 15); }
         const a2 = a * a;
         const b2 = b * b;
         const correctStr = `$(${a}x - ${b})(${a}x + ${b})$`;
@@ -1545,9 +1609,9 @@ window.MathsGenerators = {
           solution: `$$F = (${a}x)^2 - ${b}^2 = (${a}x - ${b})(${a}x + ${b})$$`
         };
       } else {
-        const a = this.randInt(2, 5);
-        let b = this.randInt(2, 9);
-        while (this.gcd(a, b) > 1) { b = this.randInt(2, 9); }
+        const a = this.randInt(2, 9);
+        let b = this.randInt(2, 15);
+        while (this.gcd(a, b) > 1) { b = this.randInt(2, 15); }
         const a2 = a * a;
         const b2 = b * b;
         const correctStr = `$(${b} - ${a}x)(${b} + ${a}x)$`;
@@ -1576,8 +1640,8 @@ window.MathsGenerators = {
       }
     } else if (t === 3) {
       // Palier 3 : Brevet (Facteur commun parenthèse (ax+b))
-      const a = this.randInt(1, 3);
-      const b = this.randInt(1, 5);
+      const a = this.randInt(1, 6);
+      const b = this.randInt(1, 9);
       const signB = this.randChoice(['+', '-']);
       const bVal = signB === '+' ? b : -b;
       const commonStr = `${a === 1 ? '' : a}x ${signB} ${b}`;
@@ -1585,13 +1649,13 @@ window.MathsGenerators = {
       const op = this.randChoice(['plus', 'moins', 'carre']);
 
       if (op === 'plus') {
-        const c = this.randInt(1, 3);
-        const d = this.randInt(1, 5);
+        const c = this.randInt(1, 6);
+        const d = this.randInt(1, 9);
         const signD = this.randChoice(['+', '-']);
         const dVal = signD === '+' ? d : -d;
 
-        const e = this.randInt(1, 3);
-        const f = this.randInt(1, 5);
+        const e = this.randInt(1, 6);
+        const f = this.randInt(1, 9);
         const signF = this.randChoice(['+', '-']);
         const fVal = signF === '+' ? f : -f;
 
@@ -1624,13 +1688,13 @@ window.MathsGenerators = {
           solution: `$$H = (${commonStr}) [ (${c === 1 ? '' : c}x ${signD} ${d}) + (${e === 1 ? '' : e}x ${signF} ${f}) ]$$\n$$H = (${commonStr}) (${c === 1 ? '' : c}x + ${e === 1 ? '' : e}x ${this.formatSigned(dVal)} ${this.formatSigned(fVal)}) = (${commonStr})(${reducedP2})$$`
         };
       } else if (op === 'moins') {
-        const c = this.randInt(3, 5);
-        const d = this.randInt(1, 5);
+        const c = this.randInt(3, 7);
+        const d = this.randInt(1, 9);
         const signD = this.randChoice(['+', '-']);
         const dVal = signD === '+' ? d : -d;
 
         const e = this.randInt(1, c - 1);
-        const f = this.randInt(1, 5);
+        const f = this.randInt(1, 9);
         const signF = this.randChoice(['+', '-']);
         const fVal = signF === '+' ? f : -f;
 
@@ -1666,8 +1730,8 @@ window.MathsGenerators = {
           solution: `$$I = (${commonStr}) [ (${c}x ${signD} ${d}) - (${e === 1 ? '' : e}x ${signF} ${f}) ]$$\n$$I = (${commonStr}) (${c}x ${signD} ${d} - ${e === 1 ? '' : e}x ${signF === '+' ? '-' : '+'} ${f}) = (${commonStr})(${reducedP2})$$`
         };
       } else {
-        const c = this.randInt(1, 3);
-        const d = this.randInt(1, 5);
+        const c = this.randInt(1, 6);
+        const d = this.randInt(1, 9);
         const signD = this.randChoice(['+', '-']);
         const dVal = signD === '+' ? d : -d;
 
@@ -1704,11 +1768,11 @@ window.MathsGenerators = {
       const subType = this.randChoice(['carre_moins_const', 'carre_moins_carre']);
 
       if (subType === 'carre_moins_const') {
-        const a = this.randInt(2, 4);
-        const b = this.randInt(1, 5);
+        const a = this.randInt(2, 7);
+        const b = this.randInt(1, 9);
         const signB = this.randChoice(['+', '-']);
         const bVal = signB === '+' ? b : -b;
-        const c = this.randInt(2, 7);
+        const c = this.randInt(2, 12);
         const c2 = c * c;
 
         const part1Const = bVal - c;
@@ -1741,13 +1805,13 @@ window.MathsGenerators = {
           solution: `$$K = (${a}x ${signB} ${b})^2 - ${c}^2 = [ (${a}x ${signB} ${b}) - ${c} ][ (${a}x ${signB} ${b}) + ${c} ] = (${part1Str})(${part2Str})$$`
         };
       } else {
-        const a = this.randInt(3, 5);
-        const b = this.randInt(1, 4);
+        const a = this.randInt(3, 8);
+        const b = this.randInt(1, 9);
         const signB = this.randChoice(['+', '-']);
         const bVal = signB === '+' ? b : -b;
 
         const c = this.randInt(1, a - 1);
-        const d = this.randInt(1, 4);
+        const d = this.randInt(1, 9);
         const signD = this.randChoice(['+', '-']);
         const dVal = signD === '+' ? d : -d;
 
@@ -2027,8 +2091,8 @@ window.MathsGenerators = {
       const subType = this.randChoice(['ax_eq_b', 'x_plus_a', 'x_minus_a', 'minus_x', 'a_minus_x']);
 
       if (subType === 'ax_eq_b') {
-        const a = this.randInt(2, 8);
-        const xSol = this.randInt(-8, 9, [0]);
+        const a = this.randInt(2, 12);
+        const xSol = this.randInt(-12, 15, [0]);
         const b = a * xSol;
         return {
           chapterId: 'N4',
@@ -2042,8 +2106,8 @@ window.MathsGenerators = {
           solution: `$$${a}x = ${b} \\implies x = \\frac{${b}}{${a}} = ${xSol}$$`
         };
       } else if (subType === 'x_plus_a') {
-        const a = this.randInt(3, 15);
-        const b = this.randInt(-10, 20);
+        const a = this.randInt(2, 25);
+        const b = this.randInt(-15, 30);
         const xSol = b - a;
         return {
           chapterId: 'N4',
@@ -2057,8 +2121,8 @@ window.MathsGenerators = {
           solution: `$$x + ${a} = ${b} \\implies x = ${b} - ${a} = ${xSol}$$`
         };
       } else if (subType === 'x_minus_a') {
-        const a = this.randInt(2, 14);
-        const b = this.randInt(-8, 15);
+        const a = this.randInt(2, 25);
+        const b = this.randInt(-15, 30);
         const xSol = b + a;
         return {
           chapterId: 'N4',
@@ -2072,7 +2136,7 @@ window.MathsGenerators = {
           solution: `$$x - ${a} = ${b} \\implies x = ${b} + ${a} = ${xSol}$$`
         };
       } else if (subType === 'minus_x') {
-        const a = this.randInt(-12, 15, [0]);
+        const a = this.randInt(-20, 25, [0]);
         const xSol = -a;
         return {
           chapterId: 'N4',
@@ -2086,8 +2150,8 @@ window.MathsGenerators = {
           solution: `$$-x = ${a} \\implies x = -(${a}) = ${xSol}$$`
         };
       } else {
-        const a = this.randInt(5, 20);
-        const b = this.randInt(-5, a - 1);
+        const a = this.randInt(5, 30);
+        const b = this.randInt(-10, a - 1);
         const xSol = a - b;
         return {
           chapterId: 'N4',
@@ -2106,9 +2170,9 @@ window.MathsGenerators = {
       const subType = this.randChoice(['ax_plus_c', 'ax_minus_c', 'c_minus_ax', 'x_square', 'x_div_a']);
 
       if (subType === 'ax_plus_c') {
-        const a = this.randInt(2, 6);
-        const xSol = this.randInt(2, 8);
-        const c = this.randInt(1, 9);
+        const a = this.randInt(2, 9);
+        const xSol = this.randInt(-6, 12, [0]);
+        const c = this.randInt(1, 20);
         const b = a * xSol + c;
         return {
           chapterId: 'N4',
@@ -2122,9 +2186,9 @@ window.MathsGenerators = {
           solution: `$$${a}x + ${c} = ${b} \\implies ${a}x = ${b - c} \\implies x = \\frac{${b - c}}{${a}} = ${xSol}$$`
         };
       } else if (subType === 'ax_minus_c') {
-        const a = this.randInt(2, 6);
-        const xSol = this.randInt(-5, 7);
-        const c = this.randInt(2, 10);
+        const a = this.randInt(2, 9);
+        const xSol = this.randInt(-8, 12, [0]);
+        const c = this.randInt(2, 20);
         const b = a * xSol - c;
         return {
           chapterId: 'N4',
@@ -2138,9 +2202,9 @@ window.MathsGenerators = {
           solution: `$$${a}x - ${c} = ${b} \\implies ${a}x = ${b + c} \\implies x = \\frac{${b + c}}{${a}} = ${xSol}$$`
         };
       } else if (subType === 'c_minus_ax') {
-        const a = this.randInt(2, 5);
-        const xSol = this.randInt(1, 7);
-        const c = this.randInt(15, 30);
+        const a = this.randInt(2, 8);
+        const xSol = this.randInt(-6, 10, [0]);
+        const c = this.randInt(10, 40);
         const b = c - a * xSol;
         return {
           chapterId: 'N4',
@@ -2154,7 +2218,7 @@ window.MathsGenerators = {
           solution: `$$-${a}x = ${b} - ${c} = ${b - c} \\implies x = \\frac{${b - c}}{-${a}} = ${xSol}$$`
         };
       } else if (subType === 'x_square') {
-        const r = this.randInt(3, 12);
+        const r = this.randInt(2, 20);
         const sq = r * r;
         return {
           chapterId: 'N4',
@@ -2168,10 +2232,11 @@ window.MathsGenerators = {
           solution: `$$x^2 = ${sq} \\implies x = \\sqrt{${sq}} = ${r} \\quad \\text{(ou } x = -${r}\\text{)}$$\nLa solution positive est **${r}**.`
         };
       } else {
-        const a = this.randInt(2, 5);
-        const xSol = this.randInt(2, 8) * a;
-        const b = this.randInt(1, 8);
-        const c = (xSol / a) + b;
+        const a = this.randInt(2, 8);
+        const step = this.randInt(-6, 12, [0]);
+        const xSol = step * a;
+        const b = this.randInt(1, 15);
+        const c = step + b;
         return {
           chapterId: 'N4',
           tier: 2,
@@ -2189,8 +2254,8 @@ window.MathsGenerators = {
       const subType = this.randChoice(['prod_nul_simple', 'prod_nul_coeff', 'two_sides_std', 'two_sides_neg']);
 
       if (subType === 'prod_nul_simple') {
-        const u = this.randInt(1, 8);
-        const v = this.randInt(1, 8, [u]);
+        const u = this.randInt(1, 15);
+        const v = this.randInt(1, 15, [u]);
         return {
           chapterId: 'N4',
           tier: 3,
@@ -2214,9 +2279,9 @@ window.MathsGenerators = {
           solution: `$$x - ${u} = 0 \\implies x = ${u} \\quad \\text{ou} \\quad x + ${v} = 0 \\implies x = -${v}$$`
         };
       } else if (subType === 'prod_nul_coeff') {
-        const a = this.randInt(2, 4);
-        const b = this.randInt(1, 5);
-        const c = this.randInt(1, 7);
+        const a = this.randInt(2, 7);
+        const b = this.randInt(1, 15);
+        const c = this.randInt(1, 15);
         const [sN, sD] = this.simplifyFraction(b, a);
         const fracStr = this.formatFraction(sN, sD);
         return {
@@ -2236,10 +2301,10 @@ window.MathsGenerators = {
           solution: `$$${a}x - ${b} = 0 \\implies x = ${fracStr} \\quad \\text{ou} \\quad x + ${c} = 0 \\implies x = -${c}$$`
         };
       } else if (subType === 'two_sides_std') {
-        const a = this.randInt(4, 7);
+        const a = this.randInt(4, 12);
         const c = this.randInt(1, a - 1);
-        const xSol = this.randInt(1, 6);
-        const d = this.randInt(1, 8);
+        const xSol = this.randInt(-8, 12);
+        const d = this.randInt(1, 20);
         const b = d - (a - c) * xSol;
         return {
           chapterId: 'N4',
@@ -2253,10 +2318,10 @@ window.MathsGenerators = {
           solution: `$$${a}x - ${c}x = ${d} ${this.formatSigned(-b)} \\implies ${a - c}x = ${d - b} \\implies x = \\frac{${d - b}}{${a - c}} = ${xSol}$$`
         };
       } else {
-        const c = this.randInt(5, 8);
+        const c = this.randInt(5, 14);
         const a = this.randInt(2, c - 1);
-        const xSol = this.randInt(-4, 4);
-        const d = this.randInt(1, 7);
+        const xSol = this.randInt(-8, 10);
+        const d = this.randInt(1, 20);
         const b = (c - a) * xSol + d;
         return {
           chapterId: 'N4',
@@ -2272,17 +2337,17 @@ window.MathsGenerators = {
       }
     } else {
       // Palier 4 : DÉFI SECONDE / DIFFICULTÉ MAXIMALE (Équation produit-nul avec factorisation préalable)
-      const a = this.randInt(2, 3);
-      const b = this.randInt(1, 4);
-      const c = this.randInt(3, 5);
-      const d = this.randInt(1, 3);
-      const e = this.randInt(1, 2);
-      const f = this.randInt(4, 6);
+      const a = this.randInt(2, 6);
+      const b = this.randInt(1, 9);
+      const c = this.randInt(3, 8);
+      const d = this.randInt(1, 7);
+      const e = this.randInt(1, c - 1);
+      const f = this.randInt(4, 12);
       // (ax + b)(cx + d) - (ax + b)(ex + f) = 0
       // <=> (ax + b)[(c - e)x + (d - f)] = 0
       const cPrime = c - e;
-      const dPrime = d - f; // négatif
-      // solutions: x1 = -b/a, x2 = -dPrime/cPrime = (f-d)/(c-e)
+      const dPrime = d - f;
+      // solutions: x1 = -b/a, x2 = (f-d)/(c-e)
       const [sN1, sD1] = this.simplifyFraction(-b, a);
       const sol1Str = this.formatFraction(sN1, sD1);
       const [sN2, sD2] = this.simplifyFraction(f - d, c - e);
@@ -2320,9 +2385,9 @@ window.MathsGenerators = {
     if (t === 1) {
       const vtype = this.randChoice(['is_prime', 'not_prime', 'divisibility_rule']);
       if (vtype === 'is_prime') {
-        const primes = [13, 17, 19, 23, 29, 31, 37, 41, 43, 47];
+        const primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97];
         const p = this.randChoice(primes);
-        const comps = [21, 25, 27, 33, 35, 39, 45, 49, 51, 55];
+        const comps = [15, 21, 25, 27, 33, 35, 39, 45, 49, 51, 55, 57, 63, 65, 69, 75, 77, 81, 85, 87, 91, 93, 95];
         const shuffledComps = this.shuffle(comps).slice(0, 2);
         const correct = `$${p}$`;
         const allOpts = this.shuffle([correct, `$${shuffledComps[0]}$`, `$${shuffledComps[1]}$`, `$1$`]);
@@ -2345,10 +2410,16 @@ window.MathsGenerators = {
           { n: 35, div: "5 et 7" },
           { n: 39, div: "3 et 13" },
           { n: 49, div: "7" },
-          { n: 51, div: "3 et 17" }
+          { n: 51, div: "3 et 17" },
+          { n: 57, div: "3 et 19" },
+          { n: 65, div: "5 et 13" },
+          { n: 77, div: "7 et 11" },
+          { n: 85, div: "5 et 17" },
+          { n: 91, div: "7 et 13" },
+          { n: 93, div: "3 et 31" }
         ];
         const c = this.randChoice(comps);
-        const primes = this.shuffle([11, 13, 17, 19, 23, 29, 31, 37, 41]).slice(0, 3);
+        const primes = this.shuffle([11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71]).slice(0, 3);
         const correct = `$${c.n}$`;
         const allOpts = this.shuffle([correct, ...primes.map(p => `$${p}$`)]);
         return {
@@ -2368,7 +2439,12 @@ window.MathsGenerators = {
           { n: 234, div: "9", why: "la somme de ses chiffres (2+3+4 = 9) est un multiple de 9" },
           { n: 315, div: "5", why: "son chiffre des unités est 5" },
           { n: 426, div: "3", why: "la somme de ses chiffres (4+2+6 = 12) est un multiple de 3" },
-          { n: 520, div: "10", why: "son chiffre des unités est 0" }
+          { n: 520, div: "10", why: "son chiffre des unités est 0" },
+          { n: 738, div: "9", why: "la somme de ses chiffres (7+3+8 = 18) est un multiple de 9" },
+          { n: 645, div: "5", why: "son chiffre des unités est 5" },
+          { n: 812, div: "2", why: "son chiffre des unités est pair (2)" },
+          { n: 531, div: "3", why: "la somme de ses chiffres (5+3+1 = 9) est un multiple de 3" },
+          { n: 950, div: "10", why: "son chiffre des unités est 0" }
         ];
         const r = this.randChoice(rules);
         const wrongDivs = ["7", "11", "13"].filter(d => d !== r.div);
@@ -2389,16 +2465,31 @@ window.MathsGenerators = {
     } else if (t === 2) {
       const list = [
         { n: 24, decomp: "2^3 \\times 3", wrong: ["2^2 \\times 6", "2 \\times 12", "3 \\times 8"] },
+        { n: 28, decomp: "2^2 \\times 7", wrong: ["4 \\times 7", "2 \\times 14", "2^3 \\times 7"] },
+        { n: 30, decomp: "2 \\times 3 \\times 5", wrong: ["6 \\times 5", "3 \\times 10", "2 \\times 15"] },
         { n: 36, decomp: "2^2 \\times 3^2", wrong: ["4 \\times 9", "2^3 \\times 3", "6^2"] },
         { n: 40, decomp: "2^3 \\times 5", wrong: ["2^2 \\times 10", "4 \\times 10", "5 \\times 8"] },
+        { n: 42, decomp: "2 \\times 3 \\times 7", wrong: ["6 \\times 7", "2 \\times 21", "3 \\times 14"] },
+        { n: 45, decomp: "3^2 \\times 5", wrong: ["9 \\times 5", "3 \\times 15", "3^3 \\times 5"] },
         { n: 48, decomp: "2^4 \\times 3", wrong: ["2^3 \\times 6", "16 \\times 3", "2^2 \\times 12"] },
+        { n: 50, decomp: "2 \\times 5^2", wrong: ["2 \\times 25", "10 \\times 5", "4 \\times 25"] },
+        { n: 54, decomp: "2 \\times 3^3", wrong: ["6 \\times 9", "2 \\times 27", "2^2 \\times 3^2"] },
         { n: 56, decomp: "2^3 \\times 7", wrong: ["4 \\times 14", "2^2 \\times 14", "8 \\times 7"] },
         { n: 60, decomp: "2^2 \\times 3 \\times 5", wrong: ["4 \\times 15", "6 \\times 10", "2 \\times 30"] },
         { n: 72, decomp: "2^3 \\times 3^2", wrong: ["8 \\times 9", "2^4 \\times 3", "6 \\times 12"] },
+        { n: 75, decomp: "3 \\times 5^2", wrong: ["3 \\times 25", "15 \\times 5", "9 \\times 5"] },
+        { n: 80, decomp: "2^4 \\times 5", wrong: ["16 \\times 5", "2^3 \\times 10", "4 \\times 20"] },
         { n: 84, decomp: "2^2 \\times 3 \\times 7", wrong: ["4 \\times 21", "2 \\times 42", "6 \\times 14"] },
         { n: 90, decomp: "2 \\times 3^2 \\times 5", wrong: ["9 \\times 10", "2 \\times 45", "3 \\times 30"] },
+        { n: 96, decomp: "2^5 \\times 3", wrong: ["32 \\times 3", "2^4 \\times 6", "4 \\times 24"] },
         { n: 100, decomp: "2^2 \\times 5^2", wrong: ["4 \\times 25", "10^2", "2 \\times 50"] },
-        { n: 120, decomp: "2^3 \\times 3 \\times 5", wrong: ["8 \\times 15", "4 \\times 30", "2^2 \\times 30"] }
+        { n: 108, decomp: "2^2 \\times 3^3", wrong: ["4 \\times 27", "2 \\times 54", "6 \\times 18"] },
+        { n: 120, decomp: "2^3 \\times 3 \\times 5", wrong: ["8 \\times 15", "4 \\times 30", "2^2 \\times 30"] },
+        { n: 140, decomp: "2^2 \\times 5 \\times 7", wrong: ["4 \\times 35", "10 \\times 14", "2 \\times 70"] },
+        { n: 144, decomp: "2^4 \\times 3^2", wrong: ["16 \\times 9", "12^2", "2^3 \\times 3^3"] },
+        { n: 150, decomp: "2 \\times 3 \\times 5^2", wrong: ["6 \\times 25", "10 \\times 15", "2 \\times 75"] },
+        { n: 180, decomp: "2^2 \\times 3^2 \\times 5", wrong: ["4 \\times 45", "9 \\times 20", "6 \\times 30"] },
+        { n: 200, decomp: "2^3 \\times 5^2", wrong: ["8 \\times 25", "4 \\times 50", "2 \\times 100"] }
       ];
       const item = this.randChoice(list);
       const correct = `$${item.decomp}$`;
@@ -2416,37 +2507,35 @@ window.MathsGenerators = {
         solution: `$$${item.n} = ${item.decomp}$$`
       };
     } else if (t === 3) {
-      const pairs = [
-        { n: 120, d: 180, sN: 2, sD: 3, pgcd: 60 },
-        { n: 168, d: 252, sN: 2, sD: 3, pgcd: 84 },
-        { n: 140, d: 210, sN: 2, sD: 3, pgcd: 70 },
-        { n: 210, d: 315, sN: 2, sD: 3, pgcd: 105 },
-        { n: 126, d: 210, sN: 3, sD: 5, pgcd: 42 },
-        { n: 84, d: 126, sN: 2, sD: 3, pgcd: 42 },
-        { n: 105, d: 135, sN: 7, sD: 9, pgcd: 15 },
-        { n: 75, d: 120, sN: 5, sD: 8, pgcd: 15 },
-        { n: 90, d: 126, sN: 5, sD: 7, pgcd: 18 },
-        { n: 132, d: 165, sN: 4, sD: 5, pgcd: 33 }
+      // Génération procédurale d'une fraction simplifiable via PGCD
+      const coprimePairs = [
+        [2, 3], [3, 4], [2, 5], [3, 5], [4, 5],
+        [3, 7], [4, 7], [5, 7], [3, 8], [5, 8],
+        [4, 9], [5, 9], [7, 9], [5, 11], [7, 11]
       ];
-      const item = this.randChoice(pairs);
+      const [sN, sD] = this.randChoice(coprimePairs);
+      const pgcd = this.randChoice([12, 14, 15, 18, 20, 24, 28, 30, 36, 42, 45, 50, 60]);
+      const num = sN * pgcd;
+      const den = sD * pgcd;
+
       return {
         chapterId: 'N5',
         tier: 3,
         title: "Fraction irréductible via décomposition",
-        statement: `Rendre irréductible la fraction suivante en décomposant en facteurs premiers :\n$$F = \\frac{${item.n}}{${item.d}}$$`,
+        statement: `Rendre irréductible la fraction suivante en décomposant en facteurs premiers :\n$$F = \\frac{${num}}{${den}}$$`,
         type: 'exact',
-        answer: `${item.sN}/${item.sD}`,
+        answer: `${sN}/${sD}`,
         placeholder: "Ex: 2/3",
-        hint1: `Décompose ${item.n} et ${item.d} en facteurs premiers puis simplifie les facteurs communs (ou divise par le PGCD = ${item.pgcd}).`,
-        solution: `$$\\text{PGCD}(${item.n}, ${item.d}) = ${item.pgcd}$$\n$$F = \\frac{${item.n} \\div ${item.pgcd}}{${item.d} \\div ${item.pgcd}} = \\frac{${item.sN}}{${item.sD}}$$`
+        hint1: `Décompose ${num} et ${den} en facteurs premiers puis simplifie les facteurs communs (ou divise par le PGCD = ${pgcd}).`,
+        solution: `$$\\text{PGCD}(${num}, ${den}) = ${pgcd}$$\n$$F = \\frac{${num} \\div ${pgcd}}{${den} \\div ${pgcd}} = \\frac{${sN}}{${sD}}$$`
       };
     } else {
       const vtype = this.randChoice(['pavage', 'fleuriste']);
       if (vtype === 'pavage') {
-        const mults = [12, 15, 18, 20, 24];
+        const mults = [12, 14, 15, 18, 20, 24, 25, 30, 36];
         const g = this.randChoice(mults);
-        const a = this.randInt(3, 7);
-        const b = this.randInt(4, 9, [a]);
+        const a = this.randInt(3, 8);
+        const b = this.randInt(4, 11, [a]);
         const L = a * g;
         const l = b * g;
         const tilesCount = a * b;
@@ -2463,9 +2552,9 @@ window.MathsGenerators = {
           solution: `1. Côté d'une dalle : $\\text{PGCD}(${L}, ${l}) = ${g}\\text{ cm}$.\n2. Nombre de dalles : $\\frac{${L}}{${g}} \\times \\frac{${l}}{${g}} = ${a} \\times ${b} = ${tilesCount}\\text{ dalles}$.`
         };
       } else {
-        const g = this.randChoice([12, 14, 15, 18, 20]);
-        const a = this.randInt(3, 6);
-        const b = this.randInt(4, 7, [a]);
+        const g = this.randChoice([12, 14, 15, 18, 20, 24, 28, 30]);
+        const a = this.randInt(3, 8);
+        const b = this.randInt(4, 9, [a]);
         const nRoses = a * g;
         const nTulipes = b * g;
 
@@ -2495,15 +2584,11 @@ window.MathsGenerators = {
 
     if (t === 1) {
       // Palier 1 : Socle (Calcul direct de l'hypoténuse - triplets parfaits variés)
-      const triplets = [
-        [3, 4, 5], [6, 8, 10], [5, 12, 13], [8, 15, 17], [9, 12, 15],
-        [7, 24, 25], [1.5, 2, 2.5], [4.5, 6, 7.5], [2.5, 6, 6.5]
-      ];
-      const trip = this.randChoice(triplets);
+      const trip = this.getPythagoreanTriple(true);
       const swap = Math.random() < 0.5;
-      const a = swap ? trip[1] : trip[0];
-      const b = swap ? trip[0] : trip[1];
-      const c = trip[2];
+      const a = swap ? trip.b : trip.a;
+      const b = swap ? trip.a : trip.b;
+      const c = trip.c;
 
       const aSq = +(a * a).toFixed(2);
       const bSq = +(b * b).toFixed(2);
@@ -2534,14 +2619,10 @@ window.MathsGenerators = {
       };
     } else if (t === 2) {
       // Palier 2 : Guidé (Calcul d'un côté de l'angle droit)
-      const triplets = [
-        [3, 4, 5], [6, 8, 10], [5, 12, 13], [8, 15, 17], [9, 12, 15],
-        [12, 16, 20], [7, 24, 25], [1.5, 2, 2.5], [4.5, 6, 7.5], [2.5, 6, 6.5]
-      ];
-      const trip = this.randChoice(triplets);
-      const a = trip[0];
-      const b = trip[1];
-      const c = trip[2];
+      const trip = this.getPythagoreanTriple(true);
+      const a = trip.a;
+      const b = trip.b;
+      const c = trip.c;
 
       const aSq = +(a * a).toFixed(2);
       const bSq = +(b * b).toFixed(2);
@@ -2576,15 +2657,16 @@ window.MathsGenerators = {
 
       let a, b, c;
       if (isRect) {
-        const triplets = [
-          [3, 4, 5], [5, 12, 13], [6, 8, 10], [7, 24, 25], [8, 15, 17],
-          [9, 12, 15], [1.5, 2, 2.5], [4.5, 6, 7.5], [2.5, 6, 6.5]
-        ];
-        [a, b, c] = this.randChoice(triplets);
+        const trip = this.getPythagoreanTriple(true);
+        a = trip.a;
+        b = trip.b;
+        c = trip.c;
       } else {
         const nonTriplets = [
           [5, 6, 8], [6, 7, 9], [4, 7, 8], [6, 8, 11],
-          [5, 7, 9], [7, 9, 12], [8, 10, 13], [3, 5, 6]
+          [5, 7, 9], [7, 9, 12], [8, 10, 13], [3, 5, 6],
+          [5, 9, 11], [6, 10, 12], [7, 11, 14], [8, 12, 15],
+          [2.5, 4, 5], [3.5, 5, 6.5], [4.5, 7, 8.5]
         ];
         [a, b, c] = this.randChoice(nonTriplets);
       }
@@ -2632,7 +2714,20 @@ window.MathsGenerators = {
         { L: 8, l: 4, h: 1, D: 9 },
         { L: 10, l: 10, h: 5, D: 15 },
         { L: 6, l: 6, h: 7, D: 11 },
-        { L: 12, l: 16, h: 15, D: 25 }
+        { L: 12, l: 16, h: 15, D: 25 },
+        { L: 2, l: 3, h: 6, D: 7 },
+        { L: 1, l: 4, h: 8, D: 9 },
+        { L: 2, l: 6, h: 9, D: 11 },
+        { L: 4, l: 12, h: 3, D: 13 },
+        { L: 2, l: 10, h: 11, D: 15 },
+        { L: 1, l: 12, h: 12, D: 17 },
+        { L: 8, l: 9, h: 12, D: 17 },
+        { L: 6, l: 10, h: 15, D: 19 },
+        { L: 3, l: 4, h: 12, D: 13 },
+        { L: 4, l: 7, h: 4, D: 9 },
+        { L: 4, l: 8, h: 8, D: 12 },
+        { L: 3, l: 6, h: 6, D: 9 },
+        { L: 6, l: 12, h: 12, D: 18 }
       ];
       const box = this.randChoice(boxes);
       const dBaseSq = box.L * box.L + box.l * box.l;
@@ -2663,28 +2758,13 @@ window.MathsGenerators = {
 
     if (t === 1) {
       const vtype = this.randChoice(['find_ac', 'find_an', 'find_bc']);
-      const pairs = [
-        { am: 3, k: 2, an: 4, mn: 2.5 },
-        { am: 4, k: 2.5, an: 6, mn: 3 },
-        { am: 2, k: 3, an: 3.5, mn: 2 },
-        { am: 3.5, k: 2, an: 4.5, mn: 3 },
-        { am: 4, k: 1.5, an: 6, mn: 5 },
-        { am: 2.5, k: 3, an: 4, mn: 3 },
-        { am: 6, k: 1.5, an: 8, mn: 5 },
-        { am: 3, k: 3.5, an: 4, mn: 2 },
-        { am: 4.5, k: 2, an: 5.5, mn: 3.5 },
-        { am: 5, k: 3, an: 7, mn: 4 },
-        { am: 4, k: 4, an: 5, mn: 3 },
-        { am: 2.5, k: 4, an: 3.5, mn: 2 },
-        { am: 6, k: 2.5, an: 4, mn: 5 }
-      ];
-      const p = this.randChoice(pairs);
-      const am = p.am;
-      const ab = +(p.am * p.k).toFixed(2);
-      const an = p.an;
-      const ac = +(p.an * p.k).toFixed(2);
-      const mn = p.mn;
-      const bc = +(p.mn * p.k).toFixed(2);
+      const am = this.randChoice([2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 7, 8]);
+      const k = this.randChoice([1.5, 2, 2.5, 3, 3.5, 4]);
+      const an = this.randChoice([2, 2.5, 3, 3.5, 4, 4.5, 5, 6, 7]);
+      const mn = this.randChoice([2, 2.5, 3, 3.5, 4, 4.5, 5]);
+      const ab = +(am * k).toFixed(2);
+      const ac = +(an * k).toFixed(2);
+      const bc = +(mn * k).toFixed(2);
 
       if (vtype === 'find_ac') {
         const figSvg = this.buildThalesEmboiteSvg({
@@ -2801,24 +2881,12 @@ window.MathsGenerators = {
           solution: `Les points $A, M, B$ d'une part et $A, N, C$ d'autre part sont alignés dans cet ordre.\n1. D'une part : $$\\frac{AM}{AB} = \\frac{${item.am}}{${item.ab}} = ${item.r1}$$\n2. D'autre part : $$\\frac{AN}{AC} = \\frac{${item.an}}{${item.ac}} = ${item.r2}$$\n*(Vérification par produit en croix : $${item.cp1}$ et $${item.cp2}$ ; les produits en croix sont distincts)*.\n3. Comme $\\frac{AM}{AB} \\neq \\frac{AN}{AC}$, d'après la **contraposée du théorème de Thalès**, les droites $(MN)$ et $(BC)$ **ne sont pas parallèles**.`
         };
       } else if (subType === 'sum_segment') {
-        const candidates = [
-          { am: 3, mult: 2.5, mn: 4 },
-          { am: 2.5, mult: 3, mn: 3 },
-          { am: 4, mult: 2, mn: 3.5 },
-          { am: 3.5, mult: 2, mn: 4 },
-          { am: 4, mult: 1.5, mn: 5 },
-          { am: 6, mult: 1.5, mn: 4 },
-          { am: 5, mult: 2, mn: 4.5 },
-          { am: 4, mult: 3, mn: 3 },
-          { am: 3, mult: 4, mn: 2.5 },
-          { am: 5, mult: 3, mn: 4 }
-        ];
-        const c = this.randChoice(candidates);
-        const trueAm = c.am;
-        const trueAb = +(c.am * c.mult).toFixed(2);
+        const trueAm = this.randChoice([2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6]);
+        const mult = this.randChoice([1.5, 2, 2.5, 3, 3.5, 4]);
+        const mn = this.randChoice([2, 2.5, 3, 3.5, 4, 4.5, 5]);
+        const trueAb = +(trueAm * mult).toFixed(2);
         const trueMb = +(trueAb - trueAm).toFixed(2);
-        const mn = c.mn;
-        const trueBc = +(c.mn * c.mult).toFixed(2);
+        const trueBc = +(mn * mult).toFixed(2);
 
         const figSvg = this.buildThalesEmboiteSvg({
           A: "A", B: "B", C: "C", M: "M", N: "N",
@@ -2836,23 +2904,11 @@ window.MathsGenerators = {
           solution: `1. Calcul de $AB$ : $AB = AM + MB = ${trueAm} + ${trueMb} = ${trueAb}\\text{ cm}$.\n2. D'après le théorème de Thalès :\n$$\\frac{AM}{AB} = \\frac{MN}{BC} \\implies \\frac{${trueAm}}{${trueAb}} = \\frac{${mn}}{BC}$$\n$$BC = \\frac{${trueAb} \\times ${mn}}{${trueAm}} = ${trueBc}\\text{ cm}$$`
         };
       } else {
-        const candidates = [
-          { am: 3, mult: 2.5, mn: 4 },
-          { am: 2.5, mult: 3, mn: 3 },
-          { am: 4, mult: 2, mn: 3.5 },
-          { am: 3.5, mult: 2, mn: 4 },
-          { am: 4, mult: 1.5, mn: 5 },
-          { am: 6, mult: 1.5, mn: 4 },
-          { am: 5, mult: 2, mn: 4.5 },
-          { am: 4, mult: 3, mn: 3 },
-          { am: 3, mult: 4, mn: 2.5 },
-          { am: 5, mult: 3, mn: 4 }
-        ];
-        const c = this.randChoice(candidates);
-        const trueAm = c.am;
-        const trueAb = +(c.am * c.mult).toFixed(2);
-        const mn = c.mn;
-        const trueBc = +(c.mn * c.mult).toFixed(2);
+        const trueAm = this.randChoice([2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6]);
+        const mult = this.randChoice([1.5, 2, 2.5, 3, 3.5, 4]);
+        const mn = this.randChoice([2, 2.5, 3, 3.5, 4, 4.5, 5]);
+        const trueAb = +(trueAm * mult).toFixed(2);
+        const trueBc = +(mn * mult).toFixed(2);
 
         const figSvg = this.buildThalesEmboiteSvg({
           A: "A", B: "B", C: "C", M: "M", N: "N",
@@ -2880,23 +2936,11 @@ window.MathsGenerators = {
       ]);
 
       if (subType === 'papillon_calc') {
-        const papPairs = [
-          { oa: 3, k: 2, om: 2 },
-          { oa: 4, k: 1.5, om: 6 },
-          { oa: 4, k: 2.5, om: 2 },
-          { oa: 5, k: 2, om: 3.5 },
-          { oa: 6, k: 1.5, om: 4 },
-          { oa: 3, k: 3, om: 2.5 },
-          { oa: 4.5, k: 2, om: 3 },
-          { oa: 2.5, k: 4, om: 2 },
-          { oa: 6, k: 2.5, om: 4 },
-          { oa: 8, k: 1.5, om: 6 }
-        ];
-        const pp = this.randChoice(papPairs);
-        const oa = pp.oa;
-        const ob = +(pp.oa * pp.k).toFixed(2);
-        const om = pp.om;
-        const on = +(pp.om * pp.k).toFixed(2);
+        const oa = this.randChoice([2, 2.5, 3, 3.5, 4, 4.5, 5, 6, 7, 8]);
+        const k = this.randChoice([1.5, 2, 2.5, 3, 3.5, 4]);
+        const om = this.randChoice([2, 2.5, 3, 3.5, 4, 5, 6]);
+        const ob = +(oa * k).toFixed(2);
+        const on = +(om * k).toFixed(2);
 
         const figSvg = this.buildThalesPapillonSvg({
           O: "O", A: "A", B: "B", C: "C", D: "D",
@@ -3168,49 +3212,39 @@ window.MathsGenerators = {
         };
       }
     } else if (t === 3) {
-      const triplets = [
-        { a: 3, b: 4, c: 5, angle: 53 },
-        { a: 4, b: 3, c: 5, angle: 37 },
-        { a: 5, b: 12, c: 13, angle: 67 },
-        { a: 12, b: 5, c: 13, angle: 23 },
-        { a: 8, b: 15, c: 17, angle: 62 },
-        { a: 15, b: 8, c: 17, angle: 28 }
-      ];
-      const trip = this.randChoice(triplets);
+      const a = this.randInt(3, 22);
+      const b = this.randInt(3, 22, [a]);
+      const angle = Math.round(Math.atan(b / a) * 180 / Math.PI);
 
       return {
         chapterId: 'G2',
         tier: 3,
         title: "Calcul d'un angle au degré près (Brevet)",
-        statement: `Dans un triangle $ABC$ rectangle en $A$, on donne $AB = ${trip.a}\\text{ cm}$ (côté adjacent) et $AC = ${trip.b}\\text{ cm}$ (côté opposé).\n**Calculer la mesure de l'angle $\\widehat{ABC}$ arrondie au degré près.**`,
+        statement: `Dans un triangle $ABC$ rectangle en $A$, on donne $AB = ${a}\\text{ cm}$ (côté adjacent) et $AC = ${b}\\text{ cm}$ (côté opposé).\n**Calculer la mesure de l'angle $\\widehat{ABC}$ arrondie au degré près.**`,
         type: 'exact',
-        answer: String(trip.angle),
-        placeholder: `Ex: ${trip.angle}`,
-        hint1: `Utilise la tangente : $\\tan(\\widehat{B}) = \\frac{AC}{AB} = \\frac{${trip.b}}{${trip.a}}$. Puis applique $\\arctan$.`,
-        solution: `Dans le triangle $ABC$ rectangle en $A$ :\n$$\\tan(\\widehat{ABC}) = \\frac{\\text{opposé}}{\\text{adjacent}} = \\frac{AC}{AB} = \\frac{${trip.b}}{${trip.a}} \\approx ${(trip.b/trip.a).toFixed(3)}$$\n$$\\widehat{ABC} = \\arctan\\left(\\frac{${trip.b}}{${trip.a}}\\right) \\approx ${trip.angle}^\\circ$$`
+        answer: String(angle),
+        placeholder: `Ex: ${angle}`,
+        hint1: `Utilise la tangente : $\\tan(\\widehat{B}) = \\frac{AC}{AB} = \\frac{${b}}{${a}}$. Puis applique $\\arctan$.`,
+        solution: `Dans le triangle $ABC$ rectangle en $A$ :\n$$\\tan(\\widehat{ABC}) = \\frac{\\text{opposé}}{\\text{adjacent}} = \\frac{AC}{AB} = \\frac{${b}}{${a}} \\approx ${(b / a).toFixed(3)}$$\n$$\\widehat{ABC} = \\arctan\\left(\\frac{${b}}{${a}}\\right) \\approx ${angle}^\\circ$$`
       };
     } else {
-      const pairs = [
-        { numCos: 3, den: 5, numSin: 4 },
-        { numCos: 5, den: 13, numSin: 12 },
-        { numCos: 8, den: 17, numSin: 15 },
-        { numCos: 7, den: 25, numSin: 24 },
-        { numCos: 9, den: 41, numSin: 40 },
-        { numCos: 12, den: 37, numSin: 35 }
-      ];
-      const p = this.randChoice(pairs);
+      const trip = this.getPythagoreanTriple(false);
+      const swap = Math.random() < 0.5;
+      const numCos = swap ? trip.a : trip.b;
+      const numSin = swap ? trip.b : trip.a;
+      const den = trip.c;
 
       return {
         chapterId: 'G2',
         tier: 4,
         title: "Défi Seconde : Relation trigonométrique fondamentale $\\cos^2(x) + \\sin^2(x) = 1$",
-        statement: `Soit $\\alpha$ la mesure d'un angle aigu tel que $\\cos(\\alpha) = \\frac{${p.numCos}}{${p.den}}$.\n\n**Calculer la valeur exacte de $\\sin(\\alpha)$ sous forme de fraction irréductible.**`,
+        statement: `Soit $\\alpha$ la mesure d'un angle aigu tel que $\\cos(\\alpha) = \\frac{${numCos}}{${den}}$.\n\n**Calculer la valeur exacte de $\\sin(\\alpha)$ sous forme de fraction irréductible.**`,
         type: 'exact',
-        answer: `${p.numSin}/${p.den}`,
+        answer: `${numSin}/${den}`,
         placeholder: "Ex: 4/5",
         hint1: `Pour tout angle aigu, $\\cos^2(\\alpha) + \\sin^2(\\alpha) = 1$. Donc $\\sin^2(\\alpha) = 1 - \\cos^2(\\alpha)$.`,
-        hint2: `$\\sin^2(\\alpha) = 1 - \\left(\\frac{${p.numCos}}{${p.den}}\\right)^2 = 1 - \\frac{${p.numCos*p.numCos}}{${p.den*p.den}} = \\frac{${p.den*p.den - p.numCos*p.numCos}}{${p.den*p.den}}$.`,
-        solution: `D'après la relation fondamentale de la trigonométrie :\n$$\\cos^2(\\alpha) + \\sin^2(\\alpha) = 1$$\n$$\\sin^2(\\alpha) = 1 - \\cos^2(\\alpha) = 1 - \\left(\\frac{${p.numCos}}{${p.den}}\\right)^2 = 1 - \\frac{${p.numCos*p.numCos}}{${p.den*p.den}} = \\frac{${p.numSin*p.numSin}}{${p.den*p.den}}$$\nComme $\\alpha$ est aigu, $\\sin(\\alpha) > 0$ :\n$$\\sin(\\alpha) = \\frac{${p.numSin}}{${p.den}}$$`
+        hint2: `$\\sin^2(\\alpha) = 1 - \\left(\\frac{${numCos}}{${den}}\\right)^2 = 1 - \\frac{${numCos*numCos}}{${den*den}} = \\frac{${den*den - numCos*numCos}}{${den*den}}$.`,
+        solution: `D'après la relation fondamentale de la trigonométrie :\n$$\\cos^2(\\alpha) + \\sin^2(\\alpha) = 1$$\n$$\\sin^2(\\alpha) = 1 - \\cos^2(\\alpha) = 1 - \\left(\\frac{${numCos}}{${den}}\\right)^2 = 1 - \\frac{${numCos*numCos}}{${den*den}} = \\frac{${numSin*numSin}}{${den*den}}$$\nComme $\\alpha$ est aigu, $\\sin(\\alpha) > 0$ :\n$$\\sin(\\alpha) = \\frac{${numSin}}{${den}}$$`
       };
     }
   },
@@ -3327,7 +3361,7 @@ window.MathsGenerators = {
 
     if (t === 1) {
       // Palier 1 : Socle (Aire d'une sphère A = 4 * pi * R²)
-      const r = this.randChoice([2, 3, 5, 10]);
+      const r = this.randInt(2, 15);
       const coeff = 4 * r * r;
 
       return {
@@ -3343,7 +3377,7 @@ window.MathsGenerators = {
       };
     } else if (t === 2) {
       // Palier 2 : Guidé (Volume d'une boule V = 4/3 * pi * R³)
-      const r = this.randChoice([3, 6]); // R multiple de 3 pour simplification exacte avec 4/3
+      const r = this.randChoice([3, 6, 9, 12]); // R multiple de 3 pour coefficient entier exact
       const coeff = (4 * r * r * r) / 3;
 
       return {
@@ -3359,8 +3393,10 @@ window.MathsGenerators = {
       };
     } else if (t === 3) {
       // Palier 3 : Brevet (Section d'une sphère par un plan)
-      const triplets = [[3, 4, 5], [6, 8, 10], [5, 12, 13]];
-      const [d, rSection, rSphere] = this.randChoice(triplets);
+      const trip = this.getPythagoreanTriple(false);
+      const d = trip.a;
+      const rSection = trip.b;
+      const rSphere = trip.c;
 
       return {
         chapterId: 'G4',
@@ -3375,24 +3411,22 @@ window.MathsGenerators = {
       };
     } else {
       // Palier 4 : Défi Seconde (Solide composé : Cylindre + demi-sphère)
-      // Cylindre de rayon R = 3, hauteur H, + demi-sphère de rayon R = 3
-      // V_cyl = pi * R² * H = 9*H*pi. V_demi = (1/2)*(4/3)*pi*R³ = (2/3)*27*pi = 18*pi.
-      const r = 3;
-      const h = this.randInt(5, 12);
-      const vCylCoeff = r * r * h; // 9 * h
-      const vDemiCoeff = (2 * r * r * r) / 3; // 18
+      const r = this.randChoice([3, 6]);
+      const h = this.randInt(5, 20);
+      const vCylCoeff = r * r * h;
+      const vDemiCoeff = (2 * r * r * r) / 3;
       const totalCoeff = vCylCoeff + vDemiCoeff;
 
       return {
         chapterId: 'G4',
         tier: 4,
         title: "Défi Seconde : Volume d'un solide composite (Cylindre + Demi-sphère)",
-        statement: `Un réservoir métallique est composé d'un cylindre de hauteur $h = ${h}\\text{ cm}$ et de rayon $R = 3\\text{ cm}$, surmonté à l'une de ses bases d'une demi-sphère de même rayon $R = 3\\text{ cm}$.\n\n**Donner la valeur exacte du volume total du réservoir sous la forme $n\\pi\\text{ cm}^3$ (saisir le nombre $n$).**`,
+        statement: `Un réservoir métallique est composé d'un cylindre de hauteur $h = ${h}\\text{ cm}$ et de rayon $R = ${r}\\text{ cm}$, surmonté à l'une de ses bases d'une demi-sphère de même rayon $R = ${r}\\text{ cm}$.\n\n**Donner la valeur exacte du volume total du réservoir sous la forme $n\\pi\\text{ cm}^3$ (saisir le nombre $n$).**`,
         type: 'exact',
         answer: String(totalCoeff),
         placeholder: `Ex: ${totalCoeff}`,
-        hint1: `1. Volume du cylindre : $\\mathcal{V}_1 = \\pi R^2 h = \\pi \\times 3^2 \\times ${h} = ${vCylCoeff}\\pi$.\n2. Volume de la demi-sphère : $\\mathcal{V}_2 = \\frac{1}{2} \\times \\left(\\frac{4}{3}\\pi R^3\\right) = \\frac{2}{3}\\pi \\times 27 = ${vDemiCoeff}\\pi$.\n3. Additionne les deux coefficients.`,
-        solution: `1. Volume du cylindre :\n$$\\mathcal{V}_{\\text{cylindre}} = \\pi \\times R^2 \\times h = \\pi \\times 3^2 \\times ${h} = ${vCylCoeff}\\pi\\text{ cm}^3$$\n2. Volume de la demi-sphère :\n$$\\mathcal{V}_{\\text{demi-sphère}} = \\frac{1}{2} \\times \\left(\\frac{4}{3}\\pi R^3\\right) = \\frac{2}{3}\\pi \\times 27 = ${vDemiCoeff}\\pi\\text{ cm}^3$$\n3. Volume total :\n$$\\mathcal{V}_{\\text{total}} = ${vCylCoeff}\\pi + ${vDemiCoeff}\\pi = ${totalCoeff}\\pi\\text{ cm}^3$$`
+        hint1: `1. Volume du cylindre : $\\mathcal{V}_1 = \\pi R^2 h = \\pi \\times ${r}^2 \\times ${h} = ${vCylCoeff}\\pi$.\n2. Volume de la demi-sphère : $\\mathcal{V}_2 = \\frac{1}{2} \\times \\left(\\frac{4}{3}\\pi R^3\\right) = \\frac{2}{3}\\pi \\times ${r*r*r} = ${vDemiCoeff}\\pi$.\n3. Additionne les deux coefficients.`,
+        solution: `1. Volume du cylindre :\n$$\\mathcal{V}_{\\text{cylindre}} = \\pi \\times R^2 \\times h = \\pi \\times ${r}^2 \\times ${h} = ${vCylCoeff}\\pi\\text{ cm}^2$$\n2. Volume de la demi-sphère :\n$$\\mathcal{V}_{\\text{demi-sphère}} = \\frac{1}{2} \\times \\left(\\frac{4}{3}\\pi R^3\\right) = \\frac{2}{3}\\pi \\times ${r*r*r} = ${vDemiCoeff}\\pi\\text{ cm}^3$$\n3. Volume total :\n$$\\mathcal{V}_{\\text{total}} = ${vCylCoeff}\\pi + ${vDemiCoeff}\\pi = ${totalCoeff}\\pi\\text{ cm}^3$$`
       };
     }
   },
@@ -3402,43 +3436,71 @@ window.MathsGenerators = {
     const t = this.resolveTier(tier);
 
     if (t === 1) {
-      // Palier 1 : Socle (Angle au centre et angle inscrit)
-      const inscrit = this.randInt(25, 55);
-      const centre = inscrit * 2;
-
-      return {
-        chapterId: 'G5',
-        tier: 1,
-        title: "Angle au centre et angle inscrit",
-        statement: `Dans un cercle de centre $O$, l'angle inscrit $\\widehat{AMB}$ intercepte le même arc que l'angle au centre $\\widehat{AOB}$.\nOn sait que $\\widehat{AMB} = ${inscrit}^\\circ$.\n**Calculer la mesure de l'angle au centre $\\widehat{AOB}$.**`,
-        type: 'exact',
-        answer: String(centre),
-        placeholder: `Ex: ${centre}`,
-        hint1: `Dans un cercle, la mesure d'un angle au centre est le double de celle de l'angle inscrit qui intercepte le même arc.`,
-        solution: `$$\\widehat{AOB} = 2 \\times \\widehat{AMB} = 2 \\times ${inscrit}^\\circ = ${centre}^\\circ$$`
-      };
+      // Palier 1 : Socle (Angle au centre et angle inscrit dans les deux sens)
+      const toCentre = Math.random() < 0.5;
+      if (toCentre) {
+        const inscrit = this.randInt(20, 75);
+        const centre = inscrit * 2;
+        return {
+          chapterId: 'G5',
+          tier: 1,
+          title: "Angle au centre et angle inscrit",
+          statement: `Dans un cercle de centre $O$, l'angle inscrit $\\widehat{AMB}$ intercepte le même arc que l'angle au centre $\\widehat{AOB}$.\nOn sait que $\\widehat{AMB} = ${inscrit}^\\circ$.\n**Calculer la mesure de l'angle au centre $\\widehat{AOB}$.**`,
+          type: 'exact',
+          answer: String(centre),
+          placeholder: `Ex: ${centre}`,
+          hint1: `Dans un cercle, la mesure d'un angle au centre est le double de celle de l'angle inscrit qui intercepte le même arc.`,
+          solution: `$$\\widehat{AOB} = 2 \\times \\widehat{AMB} = 2 \\times ${inscrit}^\\circ = ${centre}^\\circ$$`
+        };
+      } else {
+        const inscrit = this.randInt(20, 75);
+        const centre = inscrit * 2;
+        return {
+          chapterId: 'G5',
+          tier: 1,
+          title: "Calcul de l'angle inscrit à partir de l'angle au centre",
+          statement: `Dans un cercle de centre $O$, l'angle au centre $\\widehat{AOB}$ mesure $${centre}^\\circ$.\nL'angle inscrit $\\widehat{AMB}$ intercepte le même arc $\\overset{\\frown}{AB}$.\n**Calculer la mesure de l'angle inscrit $\\widehat{AMB}$ en degrés.**`,
+          type: 'exact',
+          answer: String(inscrit),
+          placeholder: `Ex: ${inscrit}`,
+          hint1: `La mesure de l'angle inscrit est la moitié de celle de l'angle au centre qui intercepte le même arc : $\\frac{${centre}^\\circ}{2}$.`,
+          solution: `$$\\widehat{AMB} = \\frac{\\widehat{AOB}}{2} = \\frac{${centre}^\\circ}{2} = ${inscrit}^\\circ$$`
+        };
+      }
     } else if (t === 2) {
       // Palier 2 : Guidé (Deux angles inscrits interceptant le même arc)
-      const angle = this.randInt(30, 65);
+      const angle = this.randInt(25, 75);
+      const points = this.randChoice([
+        { arc: 'AB', p1: 'M', p2: 'N' },
+        { arc: 'EF', p1: 'P', p2: 'Q' },
+        { arc: 'CD', p1: 'R', p2: 'S' }
+      ]);
 
       return {
         chapterId: 'G5',
         tier: 2,
         title: "Deux angles inscrits interceptant le même arc",
-        statement: `Dans un cercle de centre $O$, les angles inscrits $\\widehat{AMB}$ et $\\widehat{ANB}$ interceptent tous les deux le même arc de cercle $\\overset{\\frown}{AB}$.\nOn donne $\\widehat{AMB} = ${angle}^\\circ$.\n**Quelle est la mesure de l'angle $\\widehat{ANB}$ ?**`,
+        statement: `Dans un cercle de centre $O$, les angles inscrits $\\widehat{A${points.p1}B}$ et $\\widehat{A${points.p2}B}$ interceptent tous les deux le même arc de cercle $\\overset{\\frown}{AB}$.\nOn donne $\\widehat{A${points.p1}B} = ${angle}^\\circ$.\n**Quelle est la mesure de l'angle $\\widehat{A${points.p2}B}$ ?**`,
         type: 'exact',
         answer: String(angle),
         placeholder: `Ex: ${angle}`,
         hint1: `Deux angles inscrits dans un même cercle qui interceptent le même arc ont la même mesure.`,
-        solution: `Comme les angles $\\widehat{AMB}$ et $\\widehat{ANB}$ interceptent le même arc $\\overset{\\frown}{AB}$ :\n$$\\widehat{ANB} = \\widehat{AMB} = ${angle}^\\circ$$`
+        solution: `Comme les angles $\\widehat{A${points.p1}B}$ et $\\widehat{A${points.p2}B}$ interceptent le même arc $\\overset{\\frown}{AB}$ :\n$$\\widehat{A${points.p2}B} = \\widehat{A${points.p1}B} = ${angle}^\\circ$$`
       };
     } else if (t === 3) {
       // Palier 3 : Brevet (Angle au centre d'un polygone régulier)
       const sides = [
+        { n: 3, name: "triangle équilatéral", angle: 120 },
+        { n: 4, name: "carré", angle: 90 },
         { n: 5, name: "pentagone régulier", angle: 72 },
         { n: 6, name: "hexagone régulier", angle: 60 },
         { n: 8, name: "octogone régulier", angle: 45 },
-        { n: 10, name: "décagone régulier", angle: 36 }
+        { n: 9, name: "ennéagone régulier", angle: 40 },
+        { n: 10, name: "décagone régulier", angle: 36 },
+        { n: 12, name: "dodécagone régulier", angle: 30 },
+        { n: 15, name: "polygone régulier à 15 côtés", angle: 24 },
+        { n: 18, name: "polygone régulier à 18 côtés", angle: 20 },
+        { n: 20, name: "icosagone régulier (20 côtés)", angle: 18 }
       ];
       const poly = this.randChoice(sides);
 
@@ -3446,7 +3508,7 @@ window.MathsGenerators = {
         chapterId: 'G5',
         tier: 3,
         title: `Angle au centre d'un polygone régulier (${poly.name})`,
-        statement: `Soit un ${poly.name} inscrit dans un cercle de centre $O$.\n**Quelle est la mesure en degrés de l'angle au centre sous-tendu par chaque côté ?**`,
+        statement: `Soit un ${poly.name} ($n = ${poly.n}$ côtés égaux) inscrit dans un cercle de centre $O$.\n**Quelle est la mesure en degrés de l'angle au centre sous-tendu par chaque côté ?**`,
         type: 'exact',
         answer: String(poly.angle),
         placeholder: `Ex: ${poly.angle}`,
@@ -3456,9 +3518,14 @@ window.MathsGenerators = {
     } else {
       // Palier 4 : Défi Seconde (Angle intérieur d'un polygone régulier via triangle isocèle)
       const sides = [
+        { n: 3, name: "triangle équilatéral", centre: 120, interior: 60 },
+        { n: 4, name: "carré", centre: 90, interior: 90 },
         { n: 5, name: "pentagone régulier", centre: 72, interior: 108 },
         { n: 6, name: "hexagone régulier", centre: 60, interior: 120 },
-        { n: 8, name: "octogone régulier", centre: 45, interior: 135 }
+        { n: 8, name: "octogone régulier", centre: 45, interior: 135 },
+        { n: 9, name: "ennéagone régulier", centre: 40, interior: 140 },
+        { n: 10, name: "décagone régulier", centre: 36, interior: 144 },
+        { n: 12, name: "dodécagone régulier", centre: 30, interior: 150 }
       ];
       const poly = this.randChoice(sides);
 
@@ -3466,12 +3533,12 @@ window.MathsGenerators = {
         chapterId: 'G5',
         tier: 4,
         title: `Défi Seconde : Angle intérieur d'un ${poly.name}`,
-        statement: `Dans un ${poly.name} régulier de centre $O$, deux sommets consécutifs $A$ et $B$ et le sommet suivant $C$ forment un angle intérieur $\\widehat{ABC}$.\n\n**Calculer la mesure exacte de l'angle intérieur $\\widehat{ABC}$ en degrés.**`,
+        statement: `Dans un ${poly.name} régulier de centre $O$, deux côtés consécutifs forment un angle intérieur $\\widehat{ABC}$.\n\n**Calculer la mesure exacte de l'angle intérieur $\\widehat{ABC}$ en degrés.**`,
         type: 'exact',
         answer: String(poly.interior),
         placeholder: `Ex: ${poly.interior}`,
-        hint1: `Méthode 1 : L'angle au centre vaut $\\frac{360^\\circ}{${poly.n}} = ${poly.centre}^\\circ$. Dans le triangle isocèle $OAB$, les angles à la base valent $\\frac{180^\\circ - ${poly.centre}^\\circ}{2}$. L'angle intérieur vaut le double de cet angle à la base.\nMéthode 2 : Formule générale $\\frac{(${poly.n} - 2) \\times 180^\\circ}{${poly.n}}$.`,
-        solution: `Dans le triangle isocèle $OAB$ de sommet $O$ :\n- Angle au centre : $\\widehat{AOB} = \\frac{360^\\circ}{${poly.n}} = ${poly.centre}^\\circ$\n- Angles à la base : $\\widehat{OBA} = \\frac{180^\\circ - ${poly.centre}^\\circ}{2} = ${(180 - poly.centre)/2}^\\circ$\nPar symétrie, l'angle intérieur complet $\\widehat{ABC} = 2 \\times \\widehat{OBA}$ :\n$$\\widehat{ABC} = 2 \\times ${(180 - poly.centre)/2}^\\circ = ${poly.interior}^\\circ$$`
+        hint1: `Formule générale : $\\frac{(${poly.n} - 2) \\times 180^\\circ}{${poly.n}}$.`,
+        solution: `Dans un ${poly.name} ($n = ${poly.n}$) :\n$$\\text{Angle intérieur} = \\frac{(${poly.n} - 2) \\times 180^\\circ}{${poly.n}} = \\frac{${poly.n - 2} \\times 180^\\circ}{${poly.n}} = ${poly.interior}^\\circ$$`
       };
     }
   },
@@ -4208,48 +4275,117 @@ window.MathsGenerators = {
     const t = this.resolveTier(tier);
 
     if (t === 1) {
-      // Palier 1 : Socle (Événement élémentaire simple : dé à 6 faces, boule dans une urne)
-      const subType = this.randChoice(['die_faces', 'urn_simple']);
+      // Palier 1 : Socle (Événement élémentaire simple : dé ou urne multicolore)
+      const subType = this.randChoice(['die_faces', 'die_condition', 'urn_simple']);
 
       if (subType === 'die_faces') {
-        const target = this.randInt(1, 5);
-        const count = target;
+        const mode = this.randChoice(['leq', 'geq', 'gt']);
+        if (mode === 'leq') {
+          const target = this.randInt(1, 5);
+          const count = target;
+          const [sN, sD] = this.simplifyFraction(count, 6);
+          return {
+            chapterId: 'Org4',
+            tier: 1,
+            title: "Probabilité d'un événement simple (Dé à 6 faces)",
+            statement: `On lance un dé équilibré à 6 faces numérotées de 1 à 6.\n**Quelle est la probabilité d'obtenir un nombre inférieur ou égal à $${target}$ ?**\n*(Donner le résultat sous forme de fraction irréductible)*`,
+            type: 'exact',
+            answer: sD === 1 ? String(sN) : `${sN}/${sD}`,
+            placeholder: "Ex: 1/2",
+            hint1: `Le nombre d'issues favorables est $${count}$ (les nombres de 1 à $${target}$). Total d'issues : 6. Forme la fraction $${count}/6$ et simplifie.`,
+            solution: `$$P = \\frac{\\text{Issues favorables}}{\\text{Total issues}} = \\frac{${count}}{6} = ${this.formatFraction(count, 6)}$$`
+          };
+        } else if (mode === 'geq') {
+          const target = this.randInt(2, 6);
+          const count = 7 - target;
+          const [sN, sD] = this.simplifyFraction(count, 6);
+          return {
+            chapterId: 'Org4',
+            tier: 1,
+            title: "Probabilité d'un événement simple (Dé à 6 faces)",
+            statement: `On lance un dé équilibré à 6 faces numérotées de 1 à 6.\n**Quelle est la probabilité d'obtenir un nombre supérieur ou égal à $${target}$ ?**\n*(Donner le résultat sous forme de fraction irréductible)*`,
+            type: 'exact',
+            answer: sD === 1 ? String(sN) : `${sN}/${sD}`,
+            placeholder: "Ex: 1/2",
+            hint1: `Les issues favorables sont les nombres de $${target}$ à 6, soit $${count}$ issue(s). Total : 6.`,
+            solution: `$$P = \\frac{${count}}{6} = ${this.formatFraction(count, 6)}$$`
+          };
+        } else {
+          const target = this.randInt(1, 5);
+          const count = 6 - target;
+          const [sN, sD] = this.simplifyFraction(count, 6);
+          return {
+            chapterId: 'Org4',
+            tier: 1,
+            title: "Probabilité d'un événement simple (Dé à 6 faces)",
+            statement: `On lance un dé équilibré à 6 faces numérotées de 1 à 6.\n**Quelle est la probabilité d'obtenir un nombre strictement supérieur à $${target}$ ?**\n*(Fraction irréductible)*`,
+            type: 'exact',
+            answer: sD === 1 ? String(sN) : `${sN}/${sD}`,
+            placeholder: "Ex: 1/3",
+            hint1: `Les issues strictement supérieures à $${target}$ sont au nombre de $${count}$ sur 6.`,
+            solution: `$$P = \\frac{${count}}{6} = ${this.formatFraction(count, 6)}$$`
+          };
+        }
+      } else if (subType === 'die_condition') {
+        const condType = this.randChoice(['pair', 'impair', 'multiple3', 'premier']);
+        let count = 3;
+        let condText = "un nombre pair";
+        let issuesList = "2, 4, 6";
+        if (condType === 'impair') {
+          count = 3;
+          condText = "un nombre impair";
+          issuesList = "1, 3, 5";
+        } else if (condType === 'multiple3') {
+          count = 2;
+          condText = "un multiple de 3";
+          issuesList = "3, 6";
+        } else if (condType === 'premier') {
+          count = 3;
+          condText = "un nombre premier";
+          issuesList = "2, 3, 5 (1 n'est pas premier)";
+        }
         const [sN, sD] = this.simplifyFraction(count, 6);
-
         return {
           chapterId: 'Org4',
           tier: 1,
-          title: "Probabilité d'un événement simple (Dé à 6 faces)",
-          statement: `On lance un dé équilibré à 6 faces numérotées de 1 à 6.\n**Quelle est la probabilité d'obtenir un nombre inférieur ou égal à $${target}$ ?**\n*(Donner le résultat sous forme de fraction irréductible)*`,
+          title: "Probabilité d'un événement au dé à 6 faces",
+          statement: `On lance un dé équilibré standard à 6 faces numérotées de 1 à 6.\n**Quelle est la probabilité d'obtenir ${condText} ?**\n*(Fraction irréductible)*`,
           type: 'exact',
           answer: sD === 1 ? String(sN) : `${sN}/${sD}`,
           placeholder: "Ex: 1/2",
-          hint1: `Le nombre d'issues favorables est $${count}$ (les nombres de 1 à $${target}$). Le total d'issues est 6. Forme la fraction $${count}/6$ et simplifie.`,
-          solution: `$$P = \\frac{\\text{Issues favorables}}{\\text{Total issues}} = \\frac{${count}}{6} = ${this.formatFraction(count, 6)}$$`
+          hint1: `Identifie les faces qui conviennent : ${issuesList}. Il y en a $${count}$ sur 6 faces.`,
+          solution: `Les issues favorables sont $\{${issuesList}\}$, soit $${count}$ issue(s) sur 6 au total :\\n$$P = \\frac{${count}}{6} = ${this.formatFraction(count, 6)}$$`
         };
       } else {
-        const rouges = this.randInt(3, 6);
-        const bleues = this.randInt(2, 5);
-        const vertes = this.randInt(1, 4);
-        const total = rouges + bleues + vertes;
-        const [sN, sD] = this.simplifyFraction(rouges, total);
+        const colors = [
+          { name: 'rouges', single: 'rouge', count: this.randInt(3, 10) },
+          { name: 'bleues', single: 'bleue', count: this.randInt(2, 9) },
+          { name: 'vertes', single: 'verte', count: this.randInt(2, 8) }
+        ];
+        if (Math.random() < 0.4) {
+          colors.push({ name: 'jaunes', single: 'jaune', count: this.randInt(2, 7) });
+        }
+        const total = colors.reduce((acc, c) => acc + c.count, 0);
+        const targetColor = this.randChoice(colors);
+        const [sN, sD] = this.simplifyFraction(targetColor.count, total);
+        const descList = colors.map(c => `$${c.count}$ boules ${c.name}`).join(', ');
 
         return {
           chapterId: 'Org4',
           tier: 1,
           title: "Probabilité d'un tirage dans une urne",
-          statement: `Une urne contient $${rouges}$ boules rouges, $${bleues}$ boules bleues et $${vertes}$ boules vertes (soit $${total}$ boules au total).\nOn tire une boule au hasard.\n**Quelle est la probabilité de tirer une boule rouge ?**\n*(Fraction irréductible)*`,
+          statement: `Une urne contient ${descList} (soit $${total}$ boules au total).\nOn tire une boule au hasard.\n**Quelle est la probabilité de tirer une boule ${targetColor.single} ?**\n*(Fraction irréductible)*`,
           type: 'exact',
           answer: sD === 1 ? String(sN) : `${sN}/${sD}`,
           placeholder: "Ex: 1/3",
-          hint1: `Nombre de boules rouges : $${rouges}$. Total de boules : $${rouges} + ${bleues} + ${vertes} = ${total}$. Forme le quotient.`,
-          solution: `$$P(\\text{Rouge}) = \\frac{${rouges}}{${total}} = ${this.formatFraction(rouges, total)}$$`
+          hint1: `Nombre de boules ${targetColor.name} : $${targetColor.count}$. Total de boules : $${total}$. Forme le quotient $\\frac{${targetColor.count}}{${total}}$.`,
+          solution: `$$P(\\text{${targetColor.single}}) = \\frac{${targetColor.count}}{${total}} = ${this.formatFraction(targetColor.count, total)}$$`
         };
       }
     } else if (t === 2) {
       // Palier 2 : Guidé (Événement contraire P(non A) = 1 - P(A))
-      const nTotal = this.randChoice([10, 20, 25]);
-      const nFav = this.randInt(3, nTotal - 3);
+      const nTotal = this.randChoice([10, 12, 15, 16, 20, 24, 25, 30, 40, 50, 60, 100]);
+      const nFav = this.randInt(2, nTotal - 2);
       const nContraire = nTotal - nFav;
       const [sN, sD] = this.simplifyFraction(nContraire, nTotal);
 
@@ -4266,46 +4402,108 @@ window.MathsGenerators = {
       };
     } else if (t === 3) {
       // Palier 3 : Brevet (Arbre pondéré à deux épreuves indépendantes avec remise)
-      const r = this.randChoice([2, 3]);
-      const v = this.randChoice([3, 4]);
+      const r = this.randInt(2, 6);
+      const v = this.randInt(2, 6);
       const tot = r + v;
-      const pNum = r * r;
-      const pDen = tot * tot;
-      const [sN, sD] = this.simplifyFraction(pNum, pDen);
+      const subType = this.randChoice(['two_red', 'two_green', 'one_each']);
 
-      return {
-        chapterId: 'Org4',
-        tier: 3,
-        title: "Arbre de probabilités à deux épreuves avec remise",
-        statement: `Un sac contient $${r}$ billes rouges et $${v}$ billes vertes (soit $${tot}$ billes au total).\nOn tire une première bille au hasard, on note sa couleur, puis on la **remet** dans le sac avant de tirer une seconde bille.\n\n**Quelle est la probabilité d'obtenir deux billes rouges consécutives ?**\n*(Fraction irréductible)*`,
-        type: 'exact',
-        answer: `${sN}/${sD}`,
-        placeholder: "Ex: 4/25",
-        hint1: `Le tirage s'effectue avec remise : les deux tirages sont indépendants. Multiplie les probabilités : $\\frac{${r}}{${tot}} \\times \\frac{${r}}{${tot}}$.`,
-        solution: `À chaque tirage, la probabilité d'obtenir une bille rouge est $P(R) = \\frac{${r}}{${tot}}$.\nComme il y a remise, les tirages sont indépendants :\n$$P(R \\cap R) = P(R) \\times P(R) = \\frac{${r}}{${tot}} \\times \\frac{${r}}{${tot}} = \\frac{${pNum}}{${pDen}} = ${this.formatFraction(pNum, pDen)}$$`
-      };
+      if (subType === 'two_red') {
+        const pNum = r * r;
+        const pDen = tot * tot;
+        const [sN, sD] = this.simplifyFraction(pNum, pDen);
+        return {
+          chapterId: 'Org4',
+          tier: 3,
+          title: "Arbre de probabilités à deux épreuves avec remise",
+          statement: `Un sac contient $${r}$ billes rouges et $${v}$ billes vertes (soit $${tot}$ billes au total).\nOn tire une première bille au hasard, on note sa couleur, puis on la **remet** dans le sac avant de tirer une seconde bille.\n\n**Quelle est la probabilité d'obtenir deux billes rouges consécutives ?**\n*(Fraction irréductible)*`,
+          type: 'exact',
+          answer: `${sN}/${sD}`,
+          placeholder: "Ex: 4/25",
+          hint1: `Le tirage s'effectue avec remise : les deux tirages sont indépendants. Multiplie les probabilités : $\\frac{${r}}{${tot}} \\times \\frac{${r}}{${tot}}$.`,
+          solution: `À chaque tirage, la probabilité d'obtenir une bille rouge est $P(R) = \\frac{${r}}{${tot}}$.\nComme il y a remise, les tirages sont indépendants :\n$$P(R \\cap R) = P(R) \\times P(R) = \\frac{${r}}{${tot}} \\times \\frac{${r}}{${tot}} = \\frac{${pNum}}{${pDen}} = ${this.formatFraction(pNum, pDen)}$$`
+        };
+      } else if (subType === 'two_green') {
+        const pNum = v * v;
+        const pDen = tot * tot;
+        const [sN, sD] = this.simplifyFraction(pNum, pDen);
+        return {
+          chapterId: 'Org4',
+          tier: 3,
+          title: "Arbre de probabilités à deux épreuves avec remise",
+          statement: `Un sac contient $${r}$ billes rouges et $${v}$ billes vertes (soit $${tot}$ billes au total).\nOn tire une première bille au hasard, on note sa couleur, puis on la **remet** dans le sac avant de tirer une seconde bille.\n\n**Quelle est la probabilité d'obtenir deux billes vertes consécutives ?**\n*(Fraction irréductible)*`,
+          type: 'exact',
+          answer: `${sN}/${sD}`,
+          placeholder: "Ex: 9/25",
+          hint1: `Tirage avec remise : multiplie les probabilités $\\frac{${v}}{${tot}} \\times \\frac{${v}}{${tot}}$.`,
+          solution: `$$P(V \\cap V) = \\frac{${v}}{${tot}} \\times \\frac{${v}}{${tot}} = \\frac{${pNum}}{${pDen}} = ${this.formatFraction(pNum, pDen)}$$`
+        };
+      } else {
+        const pNum = 2 * r * v;
+        const pDen = tot * tot;
+        const [sN, sD] = this.simplifyFraction(pNum, pDen);
+        return {
+          chapterId: 'Org4',
+          tier: 3,
+          title: "Arbre de probabilités avec remise : deux couleurs différentes",
+          statement: `Un sac contient $${r}$ billes rouges et $${v}$ billes vertes (soit $${tot}$ billes au total).\nOn tire une bille avec remise, puis une seconde.\n\n**Quelle est la probabilité d'obtenir deux billes de couleurs différentes (une rouge et une verte, peu importe l'ordre) ?**\n*(Fraction irréductible)*`,
+          type: 'exact',
+          answer: `${sN}/${sD}`,
+          placeholder: "Ex: 12/25",
+          hint1: `Il y a 2 chemins possibles sur l'arbre : $(R, V)$ et $(V, R)$. Calcule la probabilité de chacun puis additionne : $2 \\times \\left(\\frac{${r}}{${tot}} \\times \\frac{${v}}{${tot}}\\right)$.`,
+          solution: `Deux issues réalisent l'événement : $(R, V)$ et $(V, R)$ :\n$$P = \\left(\\frac{${r}}{${tot}} \\times \\frac{${v}}{${tot}}\\right) + \\left(\\frac{${v}}{${tot}} \\times \\frac{${r}}{${tot}}\\right) = 2 \\times \\frac{${r * v}}{${pDen}} = \\frac{${pNum}}{${pDen}} = ${this.formatFraction(pNum, pDen)}$$`
+        };
+      }
     } else {
-      // Palier 4 : Défi Seconde (Tirage SANS remise de deux boules : même couleur)
-      const configs = [
-        { r: 4, v: 6, tot: 10, num: 4*3 + 6*5, den: 10*9 },
-        { r: 3, v: 5, tot: 8, num: 3*2 + 5*4, den: 8*7 },
-        { r: 5, v: 5, tot: 10, num: 5*4 + 5*4, den: 10*9 },
-        { r: 2, v: 4, tot: 6, num: 2*1 + 4*3, den: 6*5 }
-      ];
-      const cfg = this.randChoice(configs);
-      const [sN, sD] = this.simplifyFraction(cfg.num, cfg.den);
+      // Palier 4 : Défi Seconde (Tirage SANS remise de deux boules)
+      const r = this.randInt(2, 7);
+      const v = this.randInt(2, 7);
+      const tot = r + v;
+      const den = tot * (tot - 1);
+      const targetType = this.randChoice(['same_color', 'two_red', 'diff_color']);
 
-      return {
-        chapterId: 'Org4',
-        tier: 4,
-        title: "Défi Seconde : Probabilité composée SANS remise (Même couleur)",
-        statement: `Une urne opaque contient $${cfg.r}$ boules rouges et $${cfg.v}$ boules vertes (soit $${cfg.tot}$ boules au total).\nOn tire successivement et **SANS remise** deux boules au hasard dans l'urne.\n\n**Calculer la probabilité que les deux boules tirées soient de la même couleur (deux rouges OU deux vertes).**\n*(Donner la réponse sous forme de fraction irréductible)*`,
-        type: 'exact',
-        answer: `${sN}/${sD}`,
-        placeholder: "Ex: 7/15",
-        hint1: `Sans remise, au second tirage il ne reste que $${cfg.tot - 1}$ boules dans l'urne.\n1. $P(R_1 \\cap R_2) = \\frac{${cfg.r}}{${cfg.tot}} \\times \\frac{${cfg.r - 1}}{${cfg.tot - 1}}$.\n2. $P(V_1 \\cap V_2) = \\frac{${cfg.v}}{${cfg.tot}} \\times \\frac{${cfg.v - 1}}{${cfg.tot - 1}}$.\n3. Additionne les deux probabilités.`,
-        solution: `L'événement "obtenir deux boules de même couleur" est l'union de deux événements disjoints :\\n1. Deux rouges :\\n$$P(R_1 \\cap R_2) = \\frac{${cfg.r}}{${cfg.tot}} \\times \\frac{${cfg.r-1}}{${cfg.tot-1}} = \\frac{${cfg.r*(cfg.r-1)}}{${cfg.den}}$$\\n2. Deux vertes :\\n$$P(V_1 \\cap V_2) = \\frac{${cfg.v}}{${cfg.tot}} \\times \\frac{${cfg.v-1}}{${cfg.tot-1}} = \\frac{${cfg.v*(cfg.v-1)}}{${cfg.den}}$$\\n3. Probabilité totale :\\n$$P = \\frac{${cfg.r*(cfg.r-1)}}{${cfg.den}} + \\frac{${cfg.v*(cfg.v-1)}}{${cfg.den}} = \\frac{${cfg.num}}{${cfg.den}} = ${this.formatFraction(cfg.num, cfg.den)}$$`
-      };
+      if (targetType === 'same_color') {
+        const num = r * (r - 1) + v * (v - 1);
+        const [sN, sD] = this.simplifyFraction(num, den);
+        return {
+          chapterId: 'Org4',
+          tier: 4,
+          title: "Défi Seconde : Tirage SANS remise (Même couleur)",
+          statement: `Une urne opaque contient $${r}$ boules rouges et $${v}$ boules vertes (soit $${tot}$ boules au total).\nOn tire successivement et **SANS remise** deux boules au hasard dans l'urne.\n\n**Calculer la probabilité que les deux boules tirées soient de la même couleur (deux rouges OU deux vertes).**\n*(Fraction irréductible)*`,
+          type: 'exact',
+          answer: `${sN}/${sD}`,
+          placeholder: "Ex: 7/15",
+          hint1: `Sans remise, au 2e tirage il reste $${tot - 1}$ boules.\n1. $P(R_1 \\cap R_2) = \\frac{${r}}{${tot}} \\times \\frac{${r - 1}}{${tot - 1}}$.\n2. $P(V_1 \\cap V_2) = \\frac{${v}}{${tot}} \\times \\frac{${v - 1}}{${tot - 1}}$.\n3. Additionne les deux.`,
+          solution: `L'événement "obtenir deux boules de même couleur" est l'union de deux événements disjoints :\n1. Deux rouges : $P(R_1 \\cap R_2) = \\frac{${r}}{${tot}} \\times \\frac{${r - 1}}{${tot - 1}} = \\frac{${r * (r - 1)}}{${den}}$\n2. Deux vertes : $P(V_1 \\cap V_2) = \\frac{${v}}{${tot}} \\times \\frac{${v - 1}}{${tot - 1}} = \\frac{${v * (v - 1)}}{${den}}$\n$$P = \\frac{${r * (r - 1)} + ${v * (v - 1)}}{${den}} = \\frac{${num}}{${den}} = ${this.formatFraction(num, den)}$$`
+        };
+      } else if (targetType === 'two_red') {
+        const num = r * (r - 1);
+        const [sN, sD] = this.simplifyFraction(num, den);
+        return {
+          chapterId: 'Org4',
+          tier: 4,
+          title: "Défi Seconde : Tirage SANS remise (Deux rouges)",
+          statement: `Une urne opaque contient $${r}$ boules rouges et $${v}$ boules vertes (soit $${tot}$ boules au total).\nOn tire successivement et **SANS remise** deux boules au hasard.\n\n**Calculer la probabilité de tirer deux boules rouges consécutives.**\n*(Fraction irréductible)*`,
+          type: 'exact',
+          answer: `${sN}/${sD}`,
+          placeholder: "Ex: 2/15",
+          hint1: `Au premier tirage : $\\frac{${r}}{${tot}}$. Au second tirage sans remise : $\\frac{${r - 1}}{${tot - 1}}$. Multiplie.`,
+          solution: `$$P(R_1 \\cap R_2) = \\frac{${r}}{${tot}} \\times \\frac{${r - 1}}{${tot - 1}} = \\frac{${num}}{${den}} = ${this.formatFraction(num, den)}$$`
+        };
+      } else {
+        const num = 2 * r * v;
+        const [sN, sD] = this.simplifyFraction(num, den);
+        return {
+          chapterId: 'Org4',
+          tier: 4,
+          title: "Défi Seconde : Tirage SANS remise (Couleurs différentes)",
+          statement: `Une urne opaque contient $${r}$ boules rouges et $${v}$ boules vertes (soit $${tot}$ boules au total).\nOn tire successivement et **SANS remise** deux boules au hasard.\n\n**Calculer la probabilité de tirer deux boules de couleurs différentes (une rouge et une verte).**\n*(Fraction irréductible)*`,
+          type: 'exact',
+          answer: `${sN}/${sD}`,
+          placeholder: "Ex: 8/15",
+          hint1: `Deux cas possibles : $(R_1 \\text{ puis } V_2)$ ou $(V_1 \\text{ puis } R_2)$.\n$P = \\left(\\frac{${r}}{${tot}} \\times \\frac{${v}}{${tot - 1}}\\right) + \\left(\\frac{${v}}{${tot}} \\times \\frac{${r}}{${tot - 1}}\\right)$.`,
+          solution: `$$P = \\left(\\frac{${r}}{${tot}} \\times \\frac{${v}}{${tot - 1}}\\right) + \\left(\\frac{${v}}{${tot}} \\times \\frac{${r}}{${tot - 1}}\\right) = 2 \\times \\frac{${r * v}}{${den}} = \\frac{${num}}{${den}} = ${this.formatFraction(num, den)}$$`
+        };
+      }
     }
   },
 
@@ -4787,10 +4985,10 @@ window.MathsGenerators = {
       const subType = this.randChoice(['prod_two', 'prod_int_frac', 'cross_simplify', 'prod_three']);
 
       if (subType === 'prod_two') {
-        const a = this.randInt(2, 5);
-        const b = this.randInt(3, 7);
-        const c = this.randInt(2, 5);
-        const d = this.randInt(3, 7);
+        const a = this.randInt(2, 9);
+        const b = this.randInt(3, 12);
+        const c = this.randInt(2, 9);
+        const d = this.randInt(3, 12);
         const num = a * c;
         const den = b * d;
         const [sN, sD] = this.simplifyFraction(num, den);
@@ -4806,9 +5004,9 @@ window.MathsGenerators = {
           solution: `$$P = \\frac{${a} \\times ${c}}{${b} \\times ${d}} = \\frac{${num}}{${den}} = ${this.formatFraction(num, den)}$$`
         };
       } else if (subType === 'prod_int_frac') {
-        const k = this.randInt(2, 6);
-        const a = this.randInt(1, 5);
-        const b = this.randInt(3, 7);
+        const k = this.randInt(2, 10);
+        const a = this.randInt(1, 8);
+        const b = this.randInt(3, 12);
         const num = k * a;
         const [sN, sD] = this.simplifyFraction(num, b);
         return {
@@ -4823,9 +5021,9 @@ window.MathsGenerators = {
           solution: `$$P = \\frac{${k} \\times ${a}}{${b}} = \\frac{${num}}{${b}} = ${this.formatFraction(num, b)}$$`
         };
       } else if (subType === 'cross_simplify') {
-        const a = this.randInt(2, 5);
-        const b = this.randChoice([3, 5, 7]);
-        const c = this.randChoice([4, 6, 8]);
+        const a = this.randInt(2, 9);
+        const b = this.randInt(3, 15);
+        const c = this.randInt(4, 15, [a, b]);
         const num = a * b;
         const den = b * c;
         const [sN, sD] = this.simplifyFraction(a, c);
@@ -4841,23 +5039,20 @@ window.MathsGenerators = {
           solution: `$$P = \\frac{${a} \\times ${b}}{${b} \\times ${c}} = \\frac{${a}}{${c}} = ${this.formatFraction(sN, sD)}$$`
         };
       } else {
-        const a = 1;
-        const b = 2;
-        const c = 2;
-        const d = 3;
-        const e = 3;
-        const f = this.randChoice([4, 5]);
+        const b = this.randInt(2, 5);
+        const c = this.randInt(b + 1, 9);
+        const f = this.randInt(c + 1, 15);
         const [sN, sD] = this.simplifyFraction(1, f);
         return {
           chapterId: '4N2',
           tier: 1,
           title: "Produit de trois fractions en cascade",
-          statement: `Calculer sous forme de fraction irréductible :\n$$P = \\frac{1}{2} \\times \\frac{2}{3} \\times \\frac{3}{${f}}$$`,
+          statement: `Calculer sous forme de fraction irréductible :\n$$P = \\frac{1}{${b}} \\times \\frac{${b}}{${c}} \\times \\frac{${c}}{${f}}$$`,
           type: 'exact',
-          answer: `${sN}/${sD}`,
+          answer: sD === 1 ? String(sN) : `${sN}/${sD}`,
           placeholder: `Ex: 1/${f}`,
-          hint1: "Simplifie les 2 et les 3 qui apparaissent à la fois en haut et en bas avant de calculer.",
-          solution: `En simplifiant les facteurs communs 2 et 3 :\n$$P = \\frac{1 \\times \\cancel{2} \\times \\cancel{3}}{\\cancel{2} \\times \\cancel{3} \\times ${f}} = \\frac{1}{${f}}$$`
+          hint1: `Simplifie les $${b}$ et les $${c}$ qui apparaissent à la fois en haut et en bas avant de calculer.`,
+          solution: `En simplifiant les facteurs communs $${b}$ et $${c}$ :\n$$P = \\frac{1 \\times \\cancel{${b}} \\times \\cancel{${c}}}{\\cancel{${b}} \\times \\cancel{${c}} \\times ${f}} = \\frac{1}{${f}}$$`
         };
       }
     } else if (t === 2) {
@@ -5090,52 +5285,48 @@ window.MathsGenerators = {
           solution: `$$10^{${actualExp}} = ${ansStr}$$`
         };
       } else if (subType === 'power_small_int') {
-        const cases = [
-          { a: 2, n: 3, ans: 8 },
-          { a: 2, n: 4, ans: 16 },
-          { a: 2, n: 5, ans: 32 },
-          { a: 3, n: 2, ans: 9 },
-          { a: 3, n: 3, ans: 27 },
-          { a: 3, n: 4, ans: 81 },
-          { a: 4, n: 2, ans: 16 },
-          { a: 4, n: 3, ans: 64 },
-          { a: 5, n: 2, ans: 25 },
-          { a: 5, n: 3, ans: 125 }
+        const pairs = [
+          { a: 2, n: this.randInt(2, 6) },
+          { a: 3, n: this.randInt(2, 4) },
+          { a: 4, n: this.randInt(2, 3) },
+          { a: 5, n: this.randInt(2, 3) },
+          { a: 6, n: 2 },
+          { a: 7, n: 2 },
+          { a: 8, n: 2 },
+          { a: 9, n: 2 },
+          { a: 10, n: this.randInt(2, 4) },
+          { a: 11, n: 2 },
+          { a: 12, n: 2 },
+          { a: 15, n: 2 }
         ];
-        const c = this.randChoice(cases);
+        const c = this.randChoice(pairs);
+        const ans = Math.pow(c.a, c.n);
         return {
           chapterId: '4N3',
           tier: 1,
           title: "Puissance d'un nombre entier",
           statement: `Calculer la valeur du nombre suivant :\n$$A = ${c.a}^{${c.n}}$$`,
           type: 'exact',
-          answer: String(c.ans),
-          placeholder: `Ex: ${c.ans}`,
+          answer: String(ans),
+          placeholder: `Ex: ${ans}`,
           hint1: `$${c.a}^{${c.n}}$ est le produit de ${c.n} facteurs tous égaux à ${c.a}.`,
-          solution: `$$${c.a}^{${c.n}} = ${Array(c.n).fill(c.a).join(' \\times ')} = ${c.ans}$$`
+          solution: `$$${c.a}^{${c.n}} = ${Array(c.n).fill(c.a).join(' \\times ')} = ${ans}$$`
         };
       } else if (subType === 'power_neg_base') {
-        const cases = [
-          { a: -2, n: 3, ans: -8 },
-          { a: -2, n: 4, ans: 16 },
-          { a: -3, n: 2, ans: 9 },
-          { a: -3, n: 3, ans: -27 },
-          { a: -5, n: 2, ans: 25 },
-          { a: -4, n: 2, ans: 16 },
-          { a: -10, n: 3, ans: -1000 }
-        ];
-        const c = this.randChoice(cases);
-        const isOdd = c.n % 2 !== 0;
+        const base = this.randChoice([-2, -3, -4, -5, -6, -7, -10]);
+        const n = (Math.abs(base) === 2) ? this.randInt(2, 5) : ((Math.abs(base) === 3) ? this.randInt(2, 4) : 2);
+        const ans = Math.pow(base, n);
+        const isOdd = n % 2 !== 0;
         return {
           chapterId: '4N3',
           tier: 1,
           title: "Puissance d'un nombre négatif",
-          statement: `Calculer la valeur de :\n$$B = (${c.a})^{${c.n}}$$`,
+          statement: `Calculer la valeur de :\n$$B = (${base})^{${n}}$$`,
           type: 'exact',
-          answer: String(c.ans),
-          placeholder: `Ex: ${c.ans}`,
-          hint1: `L'exposant est ${c.n} (${isOdd ? 'impair' : 'pair'}), donc le résultat est ${isOdd ? 'négatif' : 'positif'}.`,
-          solution: `$$(${c.a})^{${c.n}} = ${Array(c.n).fill(`(${c.a})`).join(' \\times ')} = ${c.ans}$$`
+          answer: String(ans),
+          placeholder: `Ex: ${ans}`,
+          hint1: `L'exposant est ${n} (${isOdd ? 'impair' : 'pair'}), donc le résultat est ${isOdd ? 'négatif' : 'positif'}.`,
+          solution: `$$(${base})^{${n}} = ${Array(n).fill(`(${base})`).join(' \\times ')} = ${ans}$$`
         };
       } else if (subType === 'power_one_zero') {
         const a = this.randInt(3, 19);
@@ -5480,14 +5671,7 @@ window.MathsGenerators = {
           solution: `Comme $${c.ans}^2 = ${c.sq}$, on a :\n$$\\sqrt{${c.sq}} = ${c.ans}$$`
         };
       } else if (subType === 'sqrt_pythagorean') {
-        const triplets = [
-          { a: 3, b: 4, c: 5 },
-          { a: 6, b: 8, c: 10 },
-          { a: 5, b: 12, c: 13 },
-          { a: 8, b: 15, c: 17 },
-          { a: 9, b: 12, c: 15 }
-        ];
-        const trip = this.randChoice(triplets);
+        const trip = this.getPythagoreanTriple(false);
         return {
           chapterId: '4N4',
           tier: 2,
@@ -5500,7 +5684,7 @@ window.MathsGenerators = {
           solution: `$$H = \\sqrt{${trip.a * trip.a} + ${trip.b * trip.b}} = \\sqrt{${trip.c * trip.c}} = ${trip.c}$$`
         };
       } else if (subType === 'sqrt_equation') {
-        const r = this.randInt(4, 14);
+        const r = this.randInt(3, 25);
         const sq = r * r;
         return {
           chapterId: '4N4',
@@ -5514,30 +5698,28 @@ window.MathsGenerators = {
           solution: `L'équation $x^2 = ${sq}$ admet pour solution positive $x = \\sqrt{${sq}} = ${r}$ (et pour solution négative $x = -${r}$).`
         };
       } else {
-        const cases = [
-          { val: 10, low: 3, high: 4 },
-          { val: 19, low: 4, high: 5 },
-          { val: 30, low: 5, high: 6 },
-          { val: 50, low: 7, high: 8 },
-          { val: 70, low: 8, high: 9 }
-        ];
-        const c = this.randChoice(cases);
-        const correct = `Entre ${c.low} et ${c.high}`;
-        const wrong1 = `Entre ${c.low - 1} et ${c.low}`;
-        const wrong2 = `Entre ${c.high} et ${c.high + 1}`;
-        const wrong3 = `Entre ${c.low + 2} et ${c.high + 2}`;
+        let val = this.randInt(5, 120);
+        while (Number.isInteger(Math.sqrt(val))) {
+          val = this.randInt(5, 120);
+        }
+        const low = Math.floor(Math.sqrt(val));
+        const high = low + 1;
+        const correct = `Entre ${low} et ${high}`;
+        const wrong1 = `Entre ${low - 1} et ${low}`;
+        const wrong2 = `Entre ${high} et ${high + 1}`;
+        const wrong3 = `Entre ${low + 2} et ${high + 2}`;
         const opts = this.shuffle([correct, wrong1, wrong2, wrong3]);
         return {
           chapterId: '4N4',
           tier: 2,
           title: "Encadrement d'une racine carrée",
-          statement: `Entre quels entiers consécutifs se situe le nombre $\\sqrt{${c.val}}$ ?`,
+          statement: `Entre quels entiers consécutifs se situe le nombre $\\sqrt{${val}}$ ?`,
           type: "mcq",
           options: opts,
           answer: correct,
           correctIndex: opts.indexOf(correct),
-          hint1: `Trouve les carrés parfaits encadrant ${c.val} : $${c.low}^2 = ${c.low*c.low} < ${c.val} < ${c.high*c.high} = ${c.high}^2$.`,
-          solution: `Comme $${c.low}^2 = ${c.low*c.low} < ${c.val} < ${c.high*c.high} = ${c.high}^2$, on en déduit que $${c.low} < \\sqrt{${c.val}} < ${c.high}$.`
+          hint1: `Trouve les carrés parfaits encadrant ${val} : $${low}^2 = ${low * low} < ${val} < ${high * high} = ${high}^2$.`,
+          solution: `Comme $${low}^2 = ${low * low} < ${val} < ${high * high} = ${high}^2$, on en déduit que $${low} < \\sqrt{${val}} < ${high}$.`
         };
       }
     } else if (t === 3) {
@@ -5545,20 +5727,20 @@ window.MathsGenerators = {
       const subType = this.randChoice(['sum_diff', 'mult_roots', 'quot_roots', 'diff_under_root']);
 
       if (subType === 'sum_diff') {
-        const a = this.randChoice([3, 4, 5, 6]);
-        const b = this.randChoice([7, 8, 9, 10]);
-        const c = this.randChoice([2, 3]);
+        const a = this.randInt(2, 12);
+        const b = this.randInt(3, 15);
+        const c = this.randInt(1, a + b - 1);
         const ans = a + b - c;
 
         return {
           chapterId: '4N4',
           tier: 3,
           title: "Somme et différence de racines carrées",
-          statement: `Calculer la valeur exacte de l'expression :\n$$S = \\sqrt{${a*a}} + \\sqrt{${b*b}} - \\sqrt{${c*c}}$$`,
+          statement: `Calculer la valeur exacte de l'expression :\n$$S = \\sqrt{${a * a}} + \\sqrt{${b * b}} - \\sqrt{${c * c}}$$`,
           type: "exact",
           answer: String(ans),
           placeholder: `Ex: ${ans}`,
-          hint1: `Calcule séparément chaque racine carrée : $\\sqrt{${a*a}} = ${a}$, $\\sqrt{${b*b}} = ${b}$, $\\sqrt{${c*c}} = ${c}$.`,
+          hint1: `Calcule séparément chaque racine carrée : $\\sqrt{${a * a}} = ${a}$, $\\sqrt{${b * b}} = ${b}$, $\\sqrt{${c * c}} = ${c}$.`,
           solution: `$$S = \\sqrt{${a * a}} + \\sqrt{${b * b}} - \\sqrt{${c * c}} = ${a} + ${b} - ${c} = ${a + b} - ${c} = ${ans}$$`
         };
       } else if (subType === 'mult_roots') {
@@ -5568,7 +5750,13 @@ window.MathsGenerators = {
           { a: 2, b: 18, prod: 36, root: 6 },
           { a: 5, b: 20, prod: 100, root: 10 },
           { a: 2, b: 32, prod: 64, root: 8 },
-          { a: 2, b: 50, prod: 100, root: 10 }
+          { a: 2, b: 50, prod: 100, root: 10 },
+          { a: 3, b: 27, prod: 81, root: 9 },
+          { a: 6, b: 24, prod: 144, root: 12 },
+          { a: 7, b: 28, prod: 196, root: 14 },
+          { a: 8, b: 18, prod: 144, root: 12 },
+          { a: 5, b: 45, prod: 225, root: 15 },
+          { a: 8, b: 32, prod: 256, root: 16 }
         ];
         const p = this.randChoice(pairs);
         return {
@@ -5589,7 +5777,12 @@ window.MathsGenerators = {
           { a: 75, b: 3, quot: 25, root: 5 },
           { a: 48, b: 3, quot: 16, root: 4 },
           { a: 98, b: 2, quot: 49, root: 7 },
-          { a: 200, b: 2, quot: 100, root: 10 }
+          { a: 200, b: 2, quot: 100, root: 10 },
+          { a: 108, b: 3, quot: 36, root: 6 },
+          { a: 147, b: 3, quot: 49, root: 7 },
+          { a: 180, b: 5, quot: 36, root: 6 },
+          { a: 242, b: 2, quot: 121, root: 11 },
+          { a: 288, b: 2, quot: 144, root: 12 }
         ];
         const p = this.randChoice(pairs);
         return {
@@ -5604,24 +5797,17 @@ window.MathsGenerators = {
           solution: `$$Q = \\sqrt{\\frac{${p.a}}{${p.b}}} = \\sqrt{${p.quot}} = ${p.root}$$`
         };
       } else {
-        const triplets = [
-          { c: 5, a: 3, b: 4 },
-          { c: 10, a: 6, b: 8 },
-          { c: 13, a: 5, b: 12 },
-          { c: 17, a: 8, b: 15 },
-          { c: 25, a: 7, b: 24 }
-        ];
-        const t = this.randChoice(triplets);
+        const trip = this.getPythagoreanTriple(false);
         return {
           chapterId: '4N4',
           tier: 3,
           title: "Racine carrée d'une différence de carrés",
-          statement: `Calculer la valeur exacte de :\n$$D = \\sqrt{${t.c}^2 - ${t.a}^2}$$`,
+          statement: `Calculer la valeur exacte de l'expression :\n$$D = \\sqrt{${trip.c}^2 - ${trip.a}^2}$$`,
           type: "exact",
-          answer: String(t.b),
-          placeholder: `Ex: ${t.b}`,
-          hint1: `Calcule d'abord $${t.c}^2 - ${t.a}^2 = ${t.c * t.c} - ${t.a * t.a}$ sous la racine.`,
-          solution: `$$D = \\sqrt{${t.c * t.c} - ${t.a * t.a}} = \\sqrt{${t.b * t.b}} = ${t.b}$$`
+          answer: String(trip.b),
+          placeholder: `Ex: ${trip.b}`,
+          hint1: `Calcule $${trip.c}^2 = ${trip.c * trip.c}$ et $${trip.a}^2 = ${trip.a * trip.a}$, puis la différence sous la racine.`,
+          solution: `$$D = \\sqrt{${trip.c * trip.c} - ${trip.a * trip.a}} = \\sqrt{${trip.b * trip.b}} = ${trip.b}$$`
         };
       }
     } else {
@@ -6061,21 +6247,7 @@ window.MathsGenerators = {
       }
     } else if (t === 2) {
       // Palier 2 : Guidé (Calcul hypoténuse triplets variés)
-      const triplets = [
-        { a: 3, b: 4, c: 5 },
-        { a: 6, b: 8, c: 10 },
-        { a: 5, b: 12, c: 13 },
-        { a: 8, b: 15, c: 17 },
-        { a: 9, b: 12, c: 15 },
-        { a: 12, b: 16, c: 20 },
-        { a: 7, b: 24, c: 25 },
-        { a: 10, b: 24, c: 26 },
-        { a: 15, b: 20, c: 25 },
-        { a: 1.5, b: 2, c: 2.5 },
-        { a: 4.5, b: 6, c: 7.5 },
-        { a: 2.5, b: 6, c: 6.5 }
-      ];
-      const trip = this.randChoice(triplets);
+      const trip = this.getPythagoreanTriple(true);
       const swap = Math.random() < 0.5;
       const leg1 = swap ? trip.b : trip.a;
       const leg2 = swap ? trip.a : trip.b;
@@ -6120,20 +6292,7 @@ window.MathsGenerators = {
       const subType = this.randChoice(['calc_leg', 'reciproque', 'contraposee']);
 
       if (subType === 'calc_leg') {
-        const triplets = [
-          { a: 3, b: 4, c: 5 },
-          { a: 6, b: 8, c: 10 },
-          { a: 5, b: 12, c: 13 },
-          { a: 8, b: 15, c: 17 },
-          { a: 9, b: 12, c: 15 },
-          { a: 12, b: 16, c: 20 },
-          { a: 7, b: 24, c: 25 },
-          { a: 10, b: 24, c: 26 },
-          { a: 1.5, b: 2, c: 2.5 },
-          { a: 4.5, b: 6, c: 7.5 },
-          { a: 2.5, b: 6, c: 6.5 }
-        ];
-        const trip = this.randChoice(triplets);
+        const trip = this.getPythagoreanTriple(true);
         const names = [
           { tri: "RST", r: "S", hyp: "RT", s1: "RS", s2: "ST" },
           { tri: "ABC", r: "B", hyp: "AC", s1: "AB", s2: "BC" },
@@ -6171,19 +6330,7 @@ window.MathsGenerators = {
           solution: `Dans le triangle $${n.tri}$ rectangle en $${n.r}$, d'après le théorème de Pythagore :\n$$${n.hyp}^2 = ${n.s1}^2 + ${n.s2}^2 \\implies ${n.s2}^2 = ${n.hyp}^2 - ${n.s1}^2$$\n$$${n.s2}^2 = ${trip.c}^2 - ${trip.a}^2 = ${hypSq} - ${s1Sq} = ${s2Sq}$$\nComme $${n.s2} > 0$ : $$${n.s2} = \\sqrt{${s2Sq}} = ${trip.b}\\text{ cm}$$`
         };
       } else if (subType === 'reciproque') {
-        const triplets = [
-          { a: 3, b: 4, c: 5 },
-          { a: 6, b: 8, c: 10 },
-          { a: 5, b: 12, c: 13 },
-          { a: 8, b: 15, c: 17 },
-          { a: 9, b: 12, c: 15 },
-          { a: 12, b: 16, c: 20 },
-          { a: 7, b: 24, c: 25 },
-          { a: 1.5, b: 2, c: 2.5 },
-          { a: 4.5, b: 6, c: 7.5 },
-          { a: 2.5, b: 6, c: 6.5 }
-        ];
-        const trip = this.randChoice(triplets);
+        const trip = this.getPythagoreanTriple(true);
         const names = [
           { tri: "ABC", r: "A", s1: "AB", s2: "AC", hyp: "BC" },
           { tri: "DEF", r: "D", s1: "DE", s2: "DF", hyp: "EF" },
@@ -6905,9 +7052,9 @@ window.MathsGenerators = {
       const subType = this.randChoice(['add_mult', 'mult_add', 'sub_mult', 'mult_sub', 'add_div', 'sub_div', 'nom_calcul', 'vocabulaire_operation']);
       
       if (subType === 'add_mult') {
-        const a = this.randInt(2, 9);
-        const b = this.randInt(2, 8);
-        const c = this.randInt(3, 9);
+        const a = this.randInt(2, 25);
+        const b = this.randInt(2, 12);
+        const c = this.randInt(2, 12);
         const ans = a + b * c;
         return {
           chapterId: '5N1',
@@ -6921,9 +7068,9 @@ window.MathsGenerators = {
           solution: `$$A = ${a} + (${b} \\times ${c}) = ${a} + ${b * c} = ${ans}$$`
         };
       } else if (subType === 'mult_add') {
-        const a = this.randInt(3, 8);
-        const b = this.randInt(3, 9);
-        const c = this.randInt(2, 15);
+        const a = this.randInt(2, 12);
+        const b = this.randInt(2, 12);
+        const c = this.randInt(2, 35);
         const ans = a * b + c;
         return {
           chapterId: '5N1',
@@ -6937,9 +7084,9 @@ window.MathsGenerators = {
           solution: `$$A = (${a} \\times ${b}) + ${c} = ${a * b} + ${c} = ${ans}$$`
         };
       } else if (subType === 'sub_mult') {
-        const b = this.randInt(2, 6);
-        const c = this.randInt(2, 7);
-        const a = b * c + this.randInt(3, 15);
+        const b = this.randInt(2, 12);
+        const c = this.randInt(2, 12);
+        const a = b * c + this.randInt(3, 30);
         const ans = a - b * c;
         return {
           chapterId: '5N1',
@@ -6953,9 +7100,9 @@ window.MathsGenerators = {
           solution: `$$A = ${a} - (${b} \\times ${c}) = ${a} - ${b * c} = ${ans}$$`
         };
       } else if (subType === 'mult_sub') {
-        const a = this.randInt(4, 9);
-        const b = this.randInt(3, 8);
-        const c = this.randInt(2, a * b - 5);
+        const a = this.randInt(3, 12);
+        const b = this.randInt(3, 12);
+        const c = this.randInt(2, a * b - 3);
         const ans = a * b - c;
         return {
           chapterId: '5N1',
@@ -6969,10 +7116,10 @@ window.MathsGenerators = {
           solution: `$$A = (${a} \\times ${b}) - ${c} = ${a * b} - ${c} = ${ans}$$`
         };
       } else if (subType === 'add_div') {
-        const c = this.randInt(2, 6);
-        const q = this.randInt(2, 9);
+        const c = this.randInt(2, 9);
+        const q = this.randInt(2, 15);
         const b = c * q;
-        const a = this.randInt(3, 20);
+        const a = this.randInt(2, 35);
         const ans = a + q;
         return {
           chapterId: '5N1',
@@ -6986,10 +7133,10 @@ window.MathsGenerators = {
           solution: `$$A = ${a} + (${b} \\div ${c}) = ${a} + ${q} = ${ans}$$`
         };
       } else if (subType === 'sub_div') {
-        const c = this.randInt(2, 5);
-        const q = this.randInt(2, 8);
+        const c = this.randInt(2, 9);
+        const q = this.randInt(2, 15);
         const b = c * q;
-        const a = q + this.randInt(4, 15);
+        const a = q + this.randInt(3, 30);
         const ans = a - q;
         return {
           chapterId: '5N1',
@@ -7058,9 +7205,9 @@ window.MathsGenerators = {
       const subType = this.randChoice(['par_mult', 'mult_par', 'par_sub', 'par_div', 'distrib']);
 
       if (subType === 'par_mult') {
-        const a = this.randInt(3, 9);
-        const b = this.randInt(2, 8);
-        const c = this.randInt(3, 6);
+        const a = this.randInt(2, 15);
+        const b = this.randInt(2, 15);
+        const c = this.randInt(2, 9);
         const ans = (a + b) * c;
         return {
           chapterId: '5N1',
@@ -7074,8 +7221,8 @@ window.MathsGenerators = {
           solution: `$$B = (${a + b}) \\times ${c} = ${ans}$$`
         };
       } else if (subType === 'mult_par') {
-        const a = this.randInt(3, 7);
-        const b = this.randInt(8, 16);
+        const a = this.randInt(2, 9);
+        const b = this.randInt(8, 25);
         const c = this.randInt(2, b - 2);
         const ans = a * (b - c);
         return {
@@ -7090,9 +7237,9 @@ window.MathsGenerators = {
           solution: `$$B = ${a} \\times (${b} - ${c}) = ${a} \\times (${b - c}) = ${a * (b - c)} = ${ans}$$`
         };
       } else if (subType === 'par_sub') {
-        const a = this.randInt(25, 55);
-        const b = this.randInt(3, 8);
-        const c = this.randInt(2, 6);
+        const a = this.randInt(25, 95);
+        const b = this.randInt(2, 12);
+        const c = this.randInt(2, 9);
         const ans = a - (b * c);
         return {
           chapterId: '5N1',
@@ -7106,8 +7253,8 @@ window.MathsGenerators = {
           solution: `$$B = ${a} - ${b * c} = ${ans}$$`
         };
       } else if (subType === 'par_div') {
-        const c = this.randInt(2, 6);
-        const q = this.randInt(3, 9);
+        const c = this.randInt(2, 9);
+        const q = this.randInt(3, 15);
         const total = c * q;
         const a = this.randInt(2, total - 2);
         const b = total - a;
@@ -7124,9 +7271,9 @@ window.MathsGenerators = {
         };
       } else {
         // Distributivité simple
-        const k = this.randInt(2, 12);
-        const a = this.randInt(11, 89);
-        const b = this.randInt(11, 89);
+        const k = this.randInt(2, 15);
+        const a = this.randInt(11, 99);
+        const b = this.randInt(11, 99);
         const ans = k * (a + b);
         return {
           chapterId: '5N1',
@@ -7145,10 +7292,10 @@ window.MathsGenerators = {
       const subType = this.randChoice(['prod_prod', 'prod_par_par', 'chain_4', 'bracket_simple']);
 
       if (subType === 'prod_prod') {
-        const a = this.randInt(3, 8);
-        const b = this.randInt(4, 9);
-        const c = this.randInt(2, 6);
-        const d = this.randInt(3, 7);
+        const a = this.randInt(2, 12);
+        const b = this.randInt(2, 12);
+        const c = this.randInt(2, 12);
+        const d = this.randInt(2, 12);
         const isPlus = Math.random() < 0.5;
         const ans = isPlus ? (a * b + c * d) : (a * b - c * d);
         return {
@@ -7163,10 +7310,10 @@ window.MathsGenerators = {
           solution: `$$C = ${a} \\times ${b} ${isPlus ? '+' : '-'} ${c} \\times ${d} = (${a * b}) ${isPlus ? '+' : '-'} (${c * d}) = ${a * b} ${isPlus ? '+' : '-'} ${c * d} = ${ans}$$`
         };
       } else if (subType === 'prod_par_par') {
-        const a = this.randInt(12, 25);
-        const b = this.randInt(2, 8);
-        const c = this.randInt(3, 7);
-        const d = this.randInt(2, 5);
+        const a = this.randInt(12, 35);
+        const b = this.randInt(2, 12);
+        const c = this.randInt(2, 12);
+        const d = this.randInt(2, 12);
         const ans = (a - b) * (c + d);
         return {
           chapterId: '5N1',
@@ -7180,10 +7327,10 @@ window.MathsGenerators = {
           solution: `$$C = (${a} - ${b}) \\times (${c} + ${d}) = (${a - b}) \\times (${c + d}) = ${(a - b) * (c + d)} = ${ans}$$`
         };
       } else if (subType === 'chain_4') {
-        const a = this.randInt(30, 65);
-        const b = this.randInt(2, 5);
-        const c = this.randInt(3, 6);
-        const d = this.randInt(2, 9);
+        const a = this.randInt(30, 95);
+        const b = this.randInt(2, 9);
+        const c = this.randInt(2, 9);
+        const d = this.randInt(2, 20);
         const ans = a - b * c + d;
         return {
           chapterId: '5N1',
@@ -7197,10 +7344,10 @@ window.MathsGenerators = {
           solution: `1. Multiplication prioritaire : $${b} \\times ${c} = ${b * c}$.\n2. De gauche à droite :\n$$C = ${a} - ${b * c} + ${d} = ${a - b * c} + ${d} = ${ans}$$`
         };
       } else {
-        const c = this.randInt(2, 5);
-        const d = this.randInt(2, 5);
-        const b = c + d + this.randInt(2, 6);
-        const a = this.randInt(3, 7);
+        const c = this.randInt(2, 9);
+        const d = this.randInt(2, 9);
+        const b = c + d + this.randInt(2, 12);
+        const a = this.randInt(2, 9);
         const ans = a * (b - (c + d));
         return {
           chapterId: '5N1',
@@ -7266,8 +7413,8 @@ window.MathsGenerators = {
 
       if (subType === 'two_neg') {
         // Addition de 2 relatifs négatifs : (-a) + (-b)
-        const a = this.randInt(2, 9);
-        const b = this.randInt(2, 9);
+        const a = this.randInt(2, 25);
+        const b = this.randInt(2, 25);
         const ans = -(a + b);
         return {
           chapterId: '5N2',
@@ -7281,10 +7428,10 @@ window.MathsGenerators = {
           solution: `$$S = -(${a} + ${b}) = ${ans}$$`
         };
       } else if (subType === 'pos_neg_easy') {
-        // Somme d'un positif et d'un négatif simple (ex: 7 + (-3) ou (-4) + 9)
+        // Somme d'un positif et d'un négatif simple
         const isPosFirst = Math.random() < 0.5;
-        const pos = this.randInt(5, 14);
-        const neg = this.randInt(2, 6);
+        const pos = this.randInt(5, 30);
+        const neg = this.randInt(2, 25);
         const ans = pos - neg;
         return {
           chapterId: '5N2',
@@ -7303,7 +7450,7 @@ window.MathsGenerators = {
         };
       } else if (subType === 'opposites') {
         // Somme de deux nombres opposés (-a) + (+a) = 0
-        const a = this.randInt(3, 15);
+        const a = this.randInt(3, 40);
         return {
           chapterId: '5N2',
           tier: 1,
@@ -7318,7 +7465,7 @@ window.MathsGenerators = {
       } else if (subType === 'opp_def') {
         // Notion d'opposé
         const isNeg = Math.random() < 0.5;
-        const n = this.randInt(3, 25);
+        const n = this.randInt(3, 50);
         const numStr = isNeg ? `-${n}` : `+${n}`;
         const ans = isNeg ? String(n) : `-${n}`;
         return {
@@ -7334,7 +7481,7 @@ window.MathsGenerators = {
         };
       } else if (subType === 'zero_dist') {
         // Distance à zéro
-        const n = this.randInt(4, 25);
+        const n = this.randInt(4, 60);
         return {
           chapterId: '5N2',
           tier: 1,
@@ -7351,11 +7498,11 @@ window.MathsGenerators = {
         const isTwoNeg = Math.random() < 0.6;
         let n1, n2;
         if (isTwoNeg) {
-          n1 = -this.randInt(2, 20);
-          do { n2 = -this.randInt(2, 20); } while (n1 === n2);
+          n1 = -this.randInt(2, 35);
+          do { n2 = -this.randInt(2, 35); } while (n1 === n2);
         } else {
-          n1 = -this.randInt(1, 15);
-          n2 = this.randInt(1, 15);
+          n1 = -this.randInt(1, 30);
+          n2 = this.randInt(1, 30);
         }
         const maxVal = Math.max(n1, n2);
         const minVal = Math.min(n1, n2);
@@ -7386,7 +7533,7 @@ window.MathsGenerators = {
       const subType = this.randChoice(['neg_dominant', 'pos_dominant', 'sub_easy', 'trou']);
 
       if (subType === 'neg_dominant') {
-        const a = this.randInt(7, 18);
+        const a = this.randInt(7, 35);
         const b = this.randInt(2, a - 1);
         const ans = -a + b;
         return {
@@ -7401,8 +7548,8 @@ window.MathsGenerators = {
           solution: `$$(-${a}) + ${b} = -(${a} - ${b}) = ${ans}$$`
         };
       } else if (subType === 'pos_dominant') {
-        const a = this.randInt(3, 9);
-        const b = a + this.randInt(3, 11);
+        const a = this.randInt(3, 25);
+        const b = a + this.randInt(3, 25);
         const ans = -a + b;
         return {
           chapterId: '5N2',
@@ -7416,8 +7563,8 @@ window.MathsGenerators = {
           solution: `$$(-${a}) + ${b} = ${b} - ${a} = ${ans}$$`
         };
       } else if (subType === 'sub_easy') {
-        const a = this.randInt(2, 9);
-        const diff = this.randInt(3, 8);
+        const a = this.randInt(2, 25);
+        const diff = this.randInt(3, 25);
         const b = a + diff;
         const ans = -diff;
         return {
@@ -7432,8 +7579,8 @@ window.MathsGenerators = {
           solution: `$$D = ${a} - ${b} = -(${b} - ${a}) = ${ans}$$`
         };
       } else {
-        const a = this.randInt(3, 9);
-        const ans = this.randInt(2, 8);
+        const a = this.randInt(3, 25);
+        const ans = this.randInt(-15, 25);
         const b = -a + ans;
         return {
           chapterId: '5N2',
@@ -7452,8 +7599,8 @@ window.MathsGenerators = {
       const subType = this.randChoice(['sub_neg', 'sub_pos_from_neg', 'sub_two_neg', 'sum_three']);
 
       if (subType === 'sub_neg') {
-        const a = this.randInt(2, 14);
-        const b = this.randInt(3, 14);
+        const a = this.randInt(2, 30);
+        const b = this.randInt(3, 30);
         const ans = a + b;
         return {
           chapterId: '5N2',
@@ -7467,8 +7614,8 @@ window.MathsGenerators = {
           solution: `$$D = ${a} - (-${b}) = ${a} + ${b} = ${ans}$$`
         };
       } else if (subType === 'sub_pos_from_neg') {
-        const a = this.randInt(3, 12);
-        const b = this.randInt(4, 12);
+        const a = this.randInt(3, 25);
+        const b = this.randInt(4, 25);
         const ans = -a - b;
         return {
           chapterId: '5N2',
@@ -7482,8 +7629,8 @@ window.MathsGenerators = {
           solution: `$$D = (-${a}) - ${b} = (-${a}) + (-${b}) = -(${a} + ${b}) = ${ans}$$`
         };
       } else if (subType === 'sub_two_neg') {
-        const a = this.randInt(5, 15);
-        const b = this.randInt(3, 14);
+        const a = this.randInt(3, 30);
+        const b = this.randInt(3, 30);
         const ans = -a + b;
         return {
           chapterId: '5N2',
@@ -7497,9 +7644,9 @@ window.MathsGenerators = {
           solution: `$$D = (-${a}) - (-${b}) = (-${a}) + ${b} = ${ans}$$`
         };
       } else {
-        const a = this.randInt(2, 9);
-        const b = this.randInt(3, 9);
-        const c = this.randInt(2, 8);
+        const a = this.randInt(2, 25);
+        const b = this.randInt(2, 25);
+        const c = this.randInt(2, 25);
         const ans = -a + b - c;
         return {
           chapterId: '5N2',
@@ -7514,45 +7661,29 @@ window.MathsGenerators = {
         };
       }
     } else {
-      // Palier 4 : Défi 4ème / Difficulté Maximale (Chaîne avec crochets et multiples relatifs)
-      const configs = [
-        {
-          expr: "(-25) - [(-14) + 8 - (-6)] + (-11)",
-          stepCrochet: "(-14) + 8 + 6 = 0",
-          stepFinal: "(-25) - 0 + (-11) = -36",
-          ans: -36
-        },
-        {
-          expr: "18 - [(-7) - 12 + (-5)] - (-14)",
-          stepCrochet: "(-7) - 12 - 5 = -24",
-          stepFinal: "18 - (-24) + 14 = 18 + 24 + 14 = 56",
-          ans: 56
-        },
-        {
-          expr: "(-30) + [15 - (-10) + (-20)] - 12",
-          stepCrochet: "15 + 10 - 20 = 5",
-          stepFinal: "(-30) + 5 - 12 = -37",
-          ans: -37
-        },
-        {
-          expr: "40 - [(-18) + 12 - (-10)] + [(-15) - (-5)]",
-          stepCrochet: "(-18) + 12 + 10 = 4 \\quad\\text{et}\\quad (-15) + 5 = -10",
-          stepFinal: "40 - 4 + (-10) = 26",
-          ans: 26
-        }
-      ];
-      const cfg = this.randChoice(configs);
+      // Palier 4 : Défi 4ème / Difficulté Maximale (Chaîne procédurale avec crochets et multiples relatifs)
+      const a = this.randChoice([-30, -25, -20, -15, 15, 20, 25, 30, 35, 40]);
+      const x1 = this.randInt(5, 22);
+      const x2 = this.randInt(4, 20);
+      const x3 = this.randInt(3, 18);
+      const valCrochet = -x1 + x2 + x3;
+      const c = this.randChoice([-20, -15, -12, -10, 10, 12, 15, 20]);
+      const ans = a - valCrochet + c;
+      const cStr = c < 0 ? `+ (${c})` : `- (-${c})`;
+      const expr = `${a < 0 ? `(${a})` : a} - [(-${x1}) + ${x2} - (-${x3})] ${cStr}`;
+      const stepCrochet = `(-${x1}) + ${x2} + ${x3} = ${valCrochet}`;
+      const stepFinal = `${a < 0 ? `(${a})` : a} - (${valCrochet}) ${cStr} = ${ans}`;
 
       return {
         chapterId: '5N2',
         tier: 4,
         title: "Défi 4ème : Chaîne de calculs de relatifs avec crochets",
-        statement: `Calculer la valeur exacte de l'expression algébrique :\n$$A = ${cfg.expr}$$`,
+        statement: `Calculer la valeur exacte de l'expression algébrique :\n$$A = ${expr}$$`,
         type: "exact",
-        answer: String(cfg.ans),
-        placeholder: `Ex: ${cfg.ans}`,
+        answer: String(ans),
+        placeholder: `Ex: ${ans}`,
         hint1: "Étape 1 : Calcule d'abord la valeur entre crochets en transformant toutes les soustractions en additions d'opposés.\nÉtape 2 : Effectue la suite d'additions de gauche à droite.",
-        solution: `1. Calcul de l'intérieur des crochets :\n$$${cfg.stepCrochet}$$\n2. Remplacement et calcul final :\n$$A = ${cfg.stepFinal}$$`
+        solution: `1. Calcul de l'intérieur des crochets :\n$$${stepCrochet}$$\n2. Remplacement et calcul final :\n$$A = ${stepFinal}$$`
       };
     }
   },
@@ -8883,10 +9014,10 @@ window.MathsGenerators = {
       const subType = this.randChoice(['constructible', 'perimetre', 'points_alignes']);
 
       if (subType === 'constructible') {
-        const a = this.randInt(4, 9);
-        const b = this.randInt(4, 9);
+        const a = this.randInt(4, 18);
+        const b = this.randInt(4, 18);
         const canBuild = Math.random() < 0.5;
-        const c = canBuild ? this.randInt(Math.abs(a - b) + 1, a + b - 1) : a + b + this.randInt(1, 4);
+        const c = canBuild ? this.randInt(Math.abs(a - b) + 1, a + b - 1) : a + b + this.randInt(1, 6);
         const maxSide = Math.max(a, b, c);
         const sumOthers = a + b + c - maxSide;
         const actualCan = maxSide < sumOthers;
@@ -8917,8 +9048,8 @@ window.MathsGenerators = {
           solution: `• Le plus grand côté mesure $${maxSide}\\text{ cm}$.\\n• La somme des deux autres mesure $${sumOthers}\\text{ cm}$.\\n• Comme $${maxSide} ${actualCan ? '<' : '\\ge'} ${sumOthers}$, le triangle **${actualCan ? 'est' : "n'est pas"} constructible**.`
         };
       } else if (subType === 'perimetre') {
-        const a = this.randInt(4, 10);
-        const b = this.randInt(4, 10);
+        const a = this.randInt(4, 25);
+        const b = this.randInt(4, 25);
         const c = this.randInt(Math.abs(a - b) + 1, a + b - 1);
         const perim = a + b + c;
         return {
@@ -8933,8 +9064,8 @@ window.MathsGenerators = {
           solution: `$$\\mathcal{P} = ${a} + ${b} + ${c} = ${perim}\\text{ cm}$$`
         };
       } else {
-        const d1 = this.randInt(3, 8);
-        const d2 = this.randInt(3, 8);
+        const d1 = this.randInt(3, 20);
+        const d2 = this.randInt(3, 20);
         const total = d1 + d2;
         return {
           chapterId: '5G4',
@@ -9072,8 +9203,8 @@ window.MathsGenerators = {
       const subType = this.randChoice(['aire_std', 'aire_rectangle', 'retro_calcul']);
 
       if (subType === 'aire_std') {
-        const b = this.randChoice([6, 8, 10, 12, 14]);
-        const h = this.randInt(3, 9);
+        const b = this.randChoice([6, 8, 10, 12, 14, 16, 18, 20, 22, 24]);
+        const h = this.randInt(3, 15);
         const aire = (b * h) / 2;
         return {
           chapterId: '5G4',
@@ -9087,8 +9218,8 @@ window.MathsGenerators = {
           solution: `$$\\mathcal{A} = \\frac{b \\times h}{2} = \\frac{${b} \\times ${h}}{2} = \\frac{${b * h}}{2} = ${aire}\\text{ cm}^2$$`
         };
       } else if (subType === 'aire_rectangle') {
-        const a = this.randInt(4, 12);
-        const b = this.randChoice([3, 5, 6, 8]);
+        const a = this.randInt(4, 20);
+        const b = this.randChoice([3, 4, 5, 6, 8, 10, 12]);
         const aire = (a * b) / 2;
         return {
           chapterId: '5G4',
@@ -9102,8 +9233,8 @@ window.MathsGenerators = {
           solution: `$$\\mathcal{A} = \\frac{a \\times b}{2} = \\frac{${a} \\times ${b}}{2} = \\frac{${a * b}}{2} = ${aire}\\text{ cm}^2$$`
         };
       } else {
-        const b = this.randChoice([4, 6, 8, 10]);
-        const h = this.randInt(3, 9);
+        const b = this.randChoice([4, 6, 8, 10, 12, 14, 16, 18, 20]);
+        const h = this.randInt(3, 15);
         const aire = (b * h) / 2;
         return {
           chapterId: '5G4',
@@ -9125,7 +9256,20 @@ window.MathsGenerators = {
         { b1: 8, h1: 9, b2: 12, h2: 6 },
         { b1: 15, h1: 4, b2: 10, h2: 6 },
         { b1: 12, h1: 7, b2: 14, h2: 6 },
-        { b1: 16, h1: 6, b2: 12, h2: 8 }
+        { b1: 16, h1: 6, b2: 12, h2: 8 },
+        { b1: 18, h1: 4, b2: 12, h2: 6 },
+        { b1: 20, h1: 6, b2: 15, h2: 8 },
+        { b1: 14, h1: 6, b2: 21, h2: 4 },
+        { b1: 24, h1: 5, b2: 20, h2: 6 },
+        { b1: 16, h1: 9, b2: 18, h2: 8 },
+        { b1: 20, h1: 9, b2: 15, h2: 12 },
+        { b1: 25, h1: 6, b2: 15, h2: 10 },
+        { b1: 28, h1: 6, b2: 21, h2: 8 },
+        { b1: 30, h1: 8, b2: 24, h2: 10 },
+        { b1: 32, h1: 9, b2: 24, h2: 12 },
+        { b1: 18, h1: 10, b2: 15, h2: 12 },
+        { b1: 22, h1: 6, b2: 33, h2: 4 },
+        { b1: 35, h1: 6, b2: 21, h2: 10 }
       ];
       const cfg = this.randChoice(configs);
       const aire = (cfg.b1 * cfg.h1) / 2;
@@ -10395,27 +10539,35 @@ window.MathsGenerators = {
       const subType = this.randChoice(['opp_side', 'perimeter', 'opp_angle', 'consec_angle']);
 
       if (subType === 'opp_side') {
-        const L = this.randInt(5, 12);
+        const L = this.randInt(4, 28);
+        const quadSet = this.randChoice([
+          { name: 'ABCD', side1: 'AB', side2: 'CD' },
+          { name: 'ABCD', side1: 'BC', side2: 'AD' },
+          { name: 'EFGH', side1: 'EF', side2: 'GH' },
+          { name: 'KLMN', side1: 'KL', side2: 'MN' },
+          { name: 'PQRS', side1: 'PQ', side2: 'RS' }
+        ]);
         return {
           chapterId: '5G5',
           tier: 1,
           title: "Côtés opposés d'un parallélogramme",
-          statement: `Dans un parallélogramme $ABCD$, on donne $AB = ${L}\\text{ cm}$.\n**Quelle est la longueur du côté opposé $CD$ en cm ?**`,
+          statement: `Dans un parallélogramme $${quadSet.name}$, on donne $${quadSet.side1} = ${L}\\text{ cm}$.\n**Quelle est la longueur du côté opposé $${quadSet.side2}$ en cm ?**`,
           type: "exact",
           answer: String(L),
           placeholder: `Ex: ${L}`,
           hint1: "Dans un parallélogramme, les côtés opposés ont la même longueur.",
-          solution: `Les côtés opposés d'un parallélogramme sont de même longueur : $CD = AB = ${L}\\text{ cm}$.`
+          solution: `Les côtés opposés d'un parallélogramme sont de même longueur : $${quadSet.side2} = ${quadSet.side1} = ${L}\\text{ cm}$.`
         };
       } else if (subType === 'perimeter') {
-        const a = this.randInt(4, 9);
-        const b = this.randInt(2, 5);
+        const a = this.randInt(4, 25);
+        let b = this.randInt(3, 20);
+        if (b === a) b = a + 3;
         const perim = 2 * (a + b);
         return {
           chapterId: '5G5',
           tier: 1,
           title: "Périmètre d'un parallélogramme",
-          statement: `Dans un parallélogramme $EFGH$, les côtés mesurent $EF = ${a}\\text{ cm}$ et $FG = ${b}\\text{ cm}$.\n**Quel est le périmètre du parallélogramme en cm ?**`,
+          statement: `Dans un parallélogramme $EFGH$, les côtés consécutifs mesurent $EF = ${a}\\text{ cm}$ et $FG = ${b}\\text{ cm}$.\n**Quel est le périmètre du parallélogramme en cm ?**`,
           type: "exact",
           answer: String(perim),
           placeholder: `Ex: ${perim}`,
@@ -10423,7 +10575,8 @@ window.MathsGenerators = {
           solution: `$$\\mathcal{P} = 2 \\times (${a} + ${b}) = 2 \\times ${a + b} = ${perim}\\text{ cm}$$`
         };
       } else if (subType === 'opp_angle') {
-        const angleA = this.randChoice([45, 55, 65, 75, 105, 115, 125]);
+        let angleA = this.randInt(25, 155);
+        if (angleA === 90) angleA = 85;
         return {
           chapterId: '5G5',
           tier: 1,
@@ -10436,7 +10589,8 @@ window.MathsGenerators = {
           solution: `Les angles opposés sont égaux : $\\widehat{C} = \\widehat{A} = ${angleA}^\\circ$.`
         };
       } else {
-        const angleA = this.randChoice([40, 50, 60, 70, 80, 110, 120]);
+        let angleA = this.randInt(25, 155);
+        if (angleA === 90) angleA = 75;
         const angleB = 180 - angleA;
         return {
           chapterId: '5G5',
@@ -10453,8 +10607,8 @@ window.MathsGenerators = {
     } else if (t === 2) {
       // Palier 2 : Guidé (Aire, retrouver hauteur, retrouver base)
       const subType = this.randChoice(['area_direct', 'height_from_area', 'base_from_area']);
-      const b = this.randInt(5, 11);
-      const h = this.randInt(3, 8);
+      const b = this.randInt(4, 25);
+      const h = this.randInt(3, 16);
       const aire = b * h;
 
       if (subType === 'area_direct') {
@@ -10519,10 +10673,28 @@ window.MathsGenerators = {
           answer: "Rectangle",
           hint: "Un seul angle droit suffit pour qu'un parallélogramme soit un rectangle.",
           solution: "Un parallélogramme ayant un angle droit a ses 4 angles droits : c'est un rectangle."
+        },
+        {
+          statement: "Un parallélogramme dont les diagonales sont à la fois perpendiculaires ET de même longueur est un...",
+          answer: "Carré",
+          hint: "Réunit à la fois les propriétés du losange et du rectangle.",
+          solution: "Diagonales perpendiculaires (losange) + diagonales égales (rectangle) = Carré."
+        },
+        {
+          statement: "Un rectangle qui possède deux côtés consécutifs de même longueur est un...",
+          answer: "Carré",
+          hint: "Un rectangle avec des côtés consécutifs égaux a ses 4 côtés égaux.",
+          solution: "Un rectangle aux côtés consécutifs égaux possède 4 angles droits et 4 côtés égaux : c'est un carré."
+        },
+        {
+          statement: "Un losange qui possède un angle droit est un...",
+          answer: "Carré",
+          hint: "Un losange avec un angle droit possède 4 côtés égaux et 4 angles droits.",
+          solution: "Un losange avec un angle droit a tous ses angles droits : c'est un carré."
         }
       ];
       const q = this.randChoice(questions);
-      const allChoices = ["Losange", "Rectangle", "Trapèze", "Carré obligatoire"];
+      const allChoices = ["Losange", "Rectangle", "Carré", "Trapèze"];
       const opts = this.shuffle(allChoices);
       return {
         chapterId: '5G5',
@@ -10537,18 +10709,62 @@ window.MathsGenerators = {
         solution: q.solution
       };
     } else {
-      const d = this.randInt(8, 16) * 2;
-      return {
-        chapterId: '5G5',
-        tier: 4,
-        title: "Défi : Diagonales d'un rectangle (5ème)",
-        statement: `Dans un rectangle $ABCD$ de centre $O$, la diagonale $[AC]$ mesure $${d}\\text{ cm}$.\n**Quelle est la longueur $OB$ en cm ?**`,
-        type: "exact",
-        answer: String(d / 2),
-        placeholder: `Ex: ${d / 2}`,
-        hint1: "Les diagonales d'un rectangle ont la même longueur et se coupent en leur milieu.",
-        solution: `$$OB = \\frac{BD}{2} = \\frac{AC}{2} = \\frac{${d}}{2} = ${d / 2}\\text{ cm}$$`
-      };
+      const challengeType = this.randChoice(['rect_half_diag', 'rect_full_diag', 'rhombus_diag_angle', 'rhombus_perim']);
+
+      if (challengeType === 'rect_half_diag') {
+        const d = this.randInt(5, 25) * 2;
+        return {
+          chapterId: '5G5',
+          tier: 4,
+          title: "Défi : Diagonales d'un rectangle (5ème)",
+          statement: `Dans un rectangle $ABCD$ de centre $O$, la diagonale $[AC]$ mesure $${d}\\text{ cm}$.\n**Quelle est la longueur du segment $[OB]$ en cm ?**`,
+          type: "exact",
+          answer: String(d / 2),
+          placeholder: `Ex: ${d / 2}`,
+          hint1: "Les diagonales d'un rectangle ont la même longueur et se coupent en leur milieu.",
+          solution: `Dans un rectangle, les diagonales sont égales ($BD = AC = ${d}\\text{ cm}$) et se coupent en leur milieu $O$ :\n$$OB = \\frac{BD}{2} = \\frac{${d}}{2} = ${d / 2}\\text{ cm}$$`
+        };
+      } else if (challengeType === 'rect_full_diag') {
+        const half = this.randInt(4, 20);
+        const full = 2 * half;
+        return {
+          chapterId: '5G5',
+          tier: 4,
+          title: "Défi : Diagonales d'un rectangle (5ème)",
+          statement: `Dans un rectangle $EFGH$ de centre $O$, on a $OE = ${half}\\text{ cm}$.\n**Quelle est la longueur de la diagonale $[HF]$ en cm ?**`,
+          type: "exact",
+          answer: String(full),
+          placeholder: `Ex: ${full}`,
+          hint1: "Les diagonales ont la même longueur et se coupent en leur milieu, donc $HF = EG = 2 \\times OE$.",
+          solution: `$$HF = EG = 2 \\times OE = 2 \\times ${half} = ${full}\\text{ cm}$$`
+        };
+      } else if (challengeType === 'rhombus_diag_angle') {
+        return {
+          chapterId: '5G5',
+          tier: 4,
+          title: "Défi : Diagonales d'un losange (5ème)",
+          statement: `Soit $ABCD$ un losange de centre $O$.\n**Quelle est la mesure de l'angle $\\widehat{AOB}$ en degrés ?**`,
+          type: "exact",
+          answer: "90",
+          placeholder: "Ex: 90",
+          hint1: "Les diagonales d'un losange sont perpendiculaires.",
+          solution: "Les diagonales d'un losange se coupent perpendiculairement, donc $\\widehat{AOB} = 90^\\circ$."
+        };
+      } else {
+        const c = this.randInt(5, 30);
+        const perim = 4 * c;
+        return {
+          chapterId: '5G5',
+          tier: 4,
+          title: "Défi : Périmètre d'un losange (5ème)",
+          statement: `Un losange $KLMN$ a des côtés de longueur $KL = ${c}\\text{ cm}$.\n**Quel est son périmètre en cm ?**`,
+          type: "exact",
+          answer: String(perim),
+          placeholder: `Ex: ${perim}`,
+          hint1: "Un losange a 4 côtés de même longueur : $\\mathcal{P} = 4 \\times c$.",
+          solution: `$$\\mathcal{P} = 4 \\times ${c} = ${perim}\\text{ cm}$$`
+        };
+      }
     }
   },
 
@@ -11612,21 +11828,22 @@ window.MathsGenerators = {
     if (t === 1) {
       const vtype = this.randChoice(['contrary_dec', 'contrary_frac', 'sum_probs']);
       if (vtype === 'contrary_dec') {
-        const p = this.randChoice([0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.65, 0.75]);
-        const ans = (1 - p).toFixed(2).replace(/\.?0+$/, "");
+        const pStep = this.randInt(1, 19);
+        const p = +(pStep * 0.05).toFixed(2);
+        const ans = +(1 - p).toFixed(2);
         return {
           chapterId: '4D2',
           tier: 1,
           title: "Calcul de l'événement contraire (4ème)",
           statement: `La probabilité d'un événement $A$ est $P(A) = ${p}$.\n**Quelle est la probabilité de l'événement contraire $\\bar{A}$ ?**`,
           type: "exact",
-          answer: ans,
+          answer: String(ans),
           placeholder: `Ex: ${ans}`,
           hint1: "Formule fondamentale : $P(\\bar{A}) = 1 - P(A)$.",
           solution: `$$P(\\bar{A}) = 1 - ${p} = ${ans}$$`
         };
       } else if (vtype === 'contrary_frac') {
-        const den = this.randChoice([5, 7, 8, 9, 10]);
+        const den = this.randInt(3, 15);
         const num = this.randInt(1, den - 1);
         const ansNum = den - num;
         const [sN, sD] = this.simplifyFraction(ansNum, den);
@@ -11663,55 +11880,67 @@ window.MathsGenerators = {
     } else if (t === 2) {
       const vtype = this.randChoice(['lottery_loss', 'not_red_urn', 'die_not_value']);
       if (vtype === 'lottery_loss') {
-        const tot = 100;
-        const gag = this.randInt(5, 30);
-        const perd = (tot - gag) / tot;
+        const tot = this.randChoice([100, 1000]);
+        const gag = tot === 100 ? this.randInt(5, 45) : this.randInt(20, 250);
+        const perd = +((tot - gag) / tot).toFixed(3);
         return {
           chapterId: '4D2',
           tier: 2,
           title: "Tirage sans succès (4ème)",
-          statement: `Une loterie compte $100$ billets dont $${gag}$ sont gagnants. Quelle est la probabilité de tirer un billet perdant sous forme décimale ?`,
+          statement: `Une loterie compte $${tot}$ billets dont $${gag}$ sont gagnants. Quelle est la probabilité de tirer un billet perdant sous forme décimale ?`,
           type: "exact",
           answer: String(perd),
           placeholder: `Ex: ${perd}`,
-          hint1: `Il y a $100 - ${gag}$ billets perdants.`,
-          solution: `$$P(\\text{Perdant}) = 1 - \\frac{${gag}}{100} = ${perd}$$`
+          hint1: `Il y a $${tot} - ${gag}$ billets perdants sur $${tot}$.`,
+          solution: `$$P(\\text{Perdant}) = 1 - \\frac{${gag}}{${tot}} = \\frac{${tot - gag}}{${tot}} = ${perd}$$`
         };
       } else if (vtype === 'not_red_urn') {
-        const r = this.randInt(2, 5);
-        const v = this.randInt(3, 6);
-        const b = this.randInt(2, 5);
-        const tot = r + v + b;
-        const notR = v + b;
-        const [sN, sD] = this.simplifyFraction(notR, tot);
+        const colors = [
+          { name: 'rouges', single: 'rouge', count: this.randInt(2, 8) },
+          { name: 'vertes', single: 'verte', count: this.randInt(2, 8) },
+          { name: 'bleues', single: 'bleue', count: this.randInt(2, 8) }
+        ];
+        if (Math.random() < 0.35) {
+          colors.push({ name: 'jaunes', single: 'jaune', count: this.randInt(2, 6) });
+        }
+        const tot = colors.reduce((acc, c) => acc + c.count, 0);
+        const targetColor = this.randChoice(colors);
+        const notCount = tot - targetColor.count;
+        const [sN, sD] = this.simplifyFraction(notCount, tot);
         const ans = `${sN}/${sD}`;
+        const descList = colors.map(c => `$${c.count}$ boules ${c.name}`).join(', ');
+
         return {
           chapterId: '4D2',
           tier: 2,
           title: "Probabilité de ne pas tirer une couleur (4ème)",
-          statement: `Une boîte contient $${r}$ boules rouges, $${v}$ boules vertes et $${b}$ boules bleues (soit $${tot}$ boules au total).\n**Quelle est la probabilité de tirer une boule qui NE soit PAS rouge ?**\n*(Fraction irréductible)*`,
+          statement: `Une boîte contient ${descList} (soit $${tot}$ boules au total).\n**Quelle est la probabilité de tirer une boule qui NE soit PAS ${targetColor.single} ?**\n*(Fraction irréductible)*`,
           type: "exact",
           answer: ans,
           placeholder: `Ex: ${ans}`,
-          hint1: `Les boules non rouges sont les vertes et les bleues : $${v} + ${b} = ${notR}$ boules sur $${tot}$.`,
-          solution: `$$P(\\text{non rouge}) = \\frac{${v} + ${b}}{${tot}} = \\frac{${notR}}{${tot}} = ${ans}$$`
+          hint1: `Les boules non ${targetColor.name} sont au nombre de $${tot} - ${targetColor.count} = ${notCount}$ boules sur $${tot}$.`,
+          solution: `$$P(\\text{non ${targetColor.single}}) = \\frac{${tot} - ${targetColor.count}}{${tot}} = \\frac{${notCount}}{${tot}} = ${this.formatFraction(notCount, tot)}$$`
         };
       } else {
-        const target = this.randInt(1, 6);
+        const faces = this.randChoice([6, 8, 10, 12]);
+        const target = this.randInt(1, faces);
+        const notCount = faces - 1;
+        const [sN, sD] = this.simplifyFraction(notCount, faces);
+        const ans = `${sN}/${sD}`;
         return {
           chapterId: '4D2',
           tier: 2,
           title: "Ne pas obtenir un résultat donné au dé (4ème)",
-          statement: `On lance un dé équilibré à 6 faces.\n**Quelle est la probabilité de NE PAS obtenir le nombre ${target} ?**\n*(Donner sous la forme a/b)*`,
+          statement: `On lance un dé équilibré à $${faces}$ faces numérotées de 1 à $${faces}$.\n**Quelle est la probabilité de NE PAS obtenir le nombre ${target} ?**\n*(Fraction irréductible)*`,
           type: "exact",
-          answer: "5/6",
-          placeholder: "Ex: 5/6",
-          hint1: `Il y a 5 faces différentes de ${target} sur 6 faces au total.`,
-          solution: `$$P(\\text{non } ${target}) = 1 - P(${target}) = 1 - \\frac{1}{6} = \\frac{5}{6}$$`
+          answer: ans,
+          placeholder: `Ex: ${ans}`,
+          hint1: `Il y a $${faces} - 1 = ${notCount}$ faces différentes de ${target} sur ${faces} faces au total.`,
+          solution: `$$P(\\text{non } ${target}) = 1 - P(${target}) = 1 - \\frac{1}{${faces}} = \\frac{${notCount}}{${faces}} = ${this.formatFraction(notCount, faces)}$$`
         };
       }
     } else if (t === 3) {
-      const vtype = this.randChoice(['two_coins', 'spinner_die']);
+      const vtype = this.randChoice(['two_coins', 'coin_and_die']);
       if (vtype === 'two_coins') {
         const cases = [
           {
@@ -11719,6 +11948,12 @@ window.MathsGenerators = {
             ans: "1/4",
             hint: "Il y a 4 issues équiprobables : (P,P), (P,F), (F,P), (F,F). Seule (P,P) convient.",
             sol: "$$P(\\text{Pile, Pile}) = \\frac{1}{2} \\times \\frac{1}{2} = \\frac{1}{4}$$"
+          },
+          {
+            statement: "On lance consécutivement deux pièces de monnaie équilibrées. Quelle est la probabilité d'obtenir 2 fois « Face » ?",
+            ans: "1/4",
+            hint: "Seule l'issue (F,F) convient sur les 4 issues possibles.",
+            sol: "$$P(\\text{Face, Face}) = \\frac{1}{2} \\times \\frac{1}{2} = \\frac{1}{4}$$"
           },
           {
             statement: "On lance consécutivement deux pièces de monnaie équilibrées. Quelle est la probabilité d'obtenir exactement 1 Pile et 1 Face (dans n'importe quel ordre) ?",
@@ -11749,27 +11984,61 @@ window.MathsGenerators = {
           solution: c.sol
         };
       } else {
-        const opts = this.shuffle(["1/4", "1/2", "1/3", "1/6"]);
+        const subEvents = [
+          {
+            cond: "« Pile » ET un nombre pair",
+            pDieNum: 3,
+            pDieDen: 6,
+            dieExplain: "un nombre pair (2, 4, 6) : $3/6 = 1/2$",
+            ans: "1/4"
+          },
+          {
+            cond: "« Face » ET un multiple de 3",
+            pDieNum: 2,
+            pDieDen: 6,
+            dieExplain: "un multiple de 3 (3, 6) : $2/6 = 1/3$",
+            ans: "1/6"
+          },
+          {
+            cond: "« Pile » ET le chiffre 6",
+            pDieNum: 1,
+            pDieDen: 6,
+            dieExplain: "le chiffre 6 : $1/6$",
+            ans: "1/12"
+          },
+          {
+            cond: "« Face » ET un nombre supérieur ou égal à 5",
+            pDieNum: 2,
+            pDieDen: 6,
+            dieExplain: "supérieur ou égal à 5 (5, 6) : $2/6 = 1/3$",
+            ans: "1/6"
+          }
+        ];
+        const ev = this.randChoice(subEvents);
+        const allChoices = Array.from(new Set([ev.ans, "1/4", "1/6", "1/12", "1/2"])).slice(0, 4);
+        const opts = this.shuffle(allChoices);
         return {
           chapterId: '4D2',
           tier: 3,
           title: "Événement à deux épreuves successives (4ème)",
-          statement: `On lance une pièce de monnaie puis un dé à 6 faces. Quelle est la probabilité d'obtenir « Pile » ET un « nombre pair » ?`,
+          statement: `On lance une pièce de monnaie équilibrée puis un dé à 6 faces. Quelle est la probabilité d'obtenir ${ev.cond} ?`,
           type: "mcq",
           options: opts,
-          answer: "1/4",
-          correctIndex: opts.indexOf("1/4"),
-          hint1: "$P(\\text{Pile}) = \\frac{1}{2}$ et $P(\\text{pair}) = \\frac{3}{6} = \\frac{1}{2}$. Multiplie les probabilités.",
-          solution: `Les deux épreuves étant indépendantes :\n$$P(\\text{Pile et pair}) = \\frac{1}{2} \\times \\frac{1}{2} = \\frac{1}{4}$$`
+          answer: ev.ans,
+          correctIndex: opts.indexOf(ev.ans),
+          hint1: `Les épreuves sont indépendantes : multiplie la probabilité de la pièce ($1/2$) par celle du dé (${ev.dieExplain}).`,
+          solution: `Les deux épreuves étant indépendantes :\n$$P = \\frac{1}{2} \\times \\frac{${ev.pDieNum}}{${ev.pDieDen}} = ${ev.ans}$$`
         };
       }
     } else {
       const vtype = this.randChoice(['same_color_replace', 'diff_color_replace']);
+      const c1 = this.randInt(2, 7);
+      const c2 = this.randInt(2, 7);
+      const tot = c1 + c2;
+
       if (vtype === 'same_color_replace') {
-        const v = this.randInt(2, 5);
-        const r = this.randInt(2, 5);
-        const tot = v + r;
-        const num = v * v;
+        const colorName = this.randChoice(['vertes', 'rouges', 'blanches', 'bleues']);
+        const num = c1 * c1;
         const den = tot * tot;
         const [sN, sD] = this.simplifyFraction(num, den);
         const ansStr = sD === 1 ? `${sN}` : `${sN}/${sD}`;
@@ -11777,31 +12046,28 @@ window.MathsGenerators = {
           chapterId: '4D2',
           tier: 4,
           title: "Défi : Tirage successif avec remise (4ème)",
-          statement: `Dans une urne contenant $${v}$ boules vertes et $${r}$ boules rouges (soit $${tot}$ boules au total), on tire $2$ boules successivement avec remise.\n**Quelle est la probabilité de tirer $2$ boules vertes ?**\n*(Donner le résultat sous forme d'une fraction irréductible)*`,
+          statement: `Dans une urne contenant $${c1}$ boules ${colorName} et $${c2}$ boules noires (soit $${tot}$ boules au total), on tire $2$ boules successivement **avec remise**.\n**Quelle est la probabilité de tirer $2$ boules ${colorName} ?**\n*(Fraction irréductible)*`,
           type: "exact",
           answer: ansStr,
           placeholder: `Ex: ${ansStr}`,
-          hint1: `À chaque tirage, la probabilité de tirer une boule verte est $\\frac{${v}}{${tot}}$. Les deux tirages étant indépendants, on multiplie les probabilités.`,
-          solution: `$$P = \\frac{${v}}{${tot}} \\times \\frac{${v}}{${tot}} = \\frac{${num}}{${den}} = ${ansStr}$$`
+          hint1: `À chaque tirage, la probabilité est $\\frac{${c1}}{${tot}}$. Les deux tirages étant indépendants avec remise, multiplie les probabilités.`,
+          solution: `$$P = \\frac{${c1}}{${tot}} \\times \\frac{${c1}}{${tot}} = \\frac{${num}}{${den}} = ${this.formatFraction(num, den)}$$`
         };
       } else {
-        const b = this.randInt(2, 4);
-        const n = this.randInt(2, 4);
-        const tot = b + n;
-        const num = b * b;
+        const num = 2 * c1 * c2;
         const den = tot * tot;
         const [sN, sD] = this.simplifyFraction(num, den);
         const ansStr = sD === 1 ? `${sN}` : `${sN}/${sD}`;
         return {
           chapterId: '4D2',
           tier: 4,
-          title: "Défi : Deux boules blanches avec remise (4ème)",
-          statement: `Une boîte contient $${b}$ boules blanches et $${n}$ boules noires ($${tot}$ au total). On tire deux boules successivement avec remise.\n**Quelle est la probabilité de tirer deux boules blanches ?**\n*(Fraction irréductible)*`,
+          title: "Défi : Deux boules de couleurs distinctes avec remise (4ème)",
+          statement: `Une boîte contient $${c1}$ boules blanches et $${c2}$ boules noires ($${tot}$ au total). On tire deux boules successivement **avec remise**.\n**Quelle est la probabilité de tirer une boule blanche et une boule noire (dans n'importe quel ordre) ?**\n*(Fraction irréductible)*`,
           type: "exact",
           answer: ansStr,
           placeholder: `Ex: ${ansStr}`,
-          hint1: `À chaque tirage, $P(B) = \\frac{${b}}{${tot}}$. Multiplie par elle-même.`,
-          solution: `$$P(B, B) = \\frac{${b}}{${tot}} \\times \\frac{${b}}{${tot}} = \\frac{${num}}{${den}} = ${ansStr}$$`
+          hint1: `Deux chemins réalisent cet événement : $(B, N)$ et $(N, B)$. Calcule $2 \\times \\left(\\frac{${c1}}{${tot}} \\times \\frac{${c2}}{${tot}}\\right)$.`,
+          solution: `$$P = 2 \\times \\left(\\frac{${c1}}{${tot}} \\times \\frac{${c2}}{${tot}}\\right) = \\frac{${num}}{${den}} = ${this.formatFraction(num, den)}$$`
         };
       }
     }
@@ -12303,16 +12569,11 @@ window.MathsGenerators = {
     }
 
     if (q && q.statement) {
-      const historyKey = `${chapterId}:${resolvedTier}`;
-      const recent = this._recentGeneratedStatements[historyKey] || [];
-      if (recent.includes(q.statement) && _variationAttempt < 8) {
+      const recent = this._getRecentHistory(chapterId);
+      if (recent.includes(q.statement) && _variationAttempt < 15) {
         return this.generateForChapter(chapterId, resolvedTier, mastery, _variationAttempt + 1);
       }
-      if (!recent.includes(q.statement)) {
-        recent.push(q.statement);
-        if (recent.length > 18) recent.shift();
-        this._recentGeneratedStatements[historyKey] = recent;
-      }
+      this._saveRecentStatement(chapterId, q.statement);
     }
 
     if (q) {
@@ -12418,17 +12679,24 @@ window.MathsGenerators = {
       else if (progress >= 0.25) tier = 2;
       else tier = 1;
 
+      // Jitter pédagogique : 35% de chance de varier d'un palier pour renouveler les types de questions
+      if (Math.random() < 0.35) {
+        const delta = Math.random() < 0.5 ? -1 : 1;
+        tier = Math.max(1, Math.min(4, tier + delta));
+      }
+
       let q = this.generateForChapter(cid, tier);
       let attempts = 0;
-      while (q && q.statement && usedStatementsInSeries.has(q.statement) && attempts < 12) {
+      while (q && q.statement && usedStatementsInSeries.has(q.statement) && attempts < 16) {
         // En cas de doublon, tenter soit une nouvelle génération sur ce palier, soit un palier alternatif
-        const altTier = attempts < 4 ? tier : ((attempts % 4) + 1);
+        const altTier = attempts < 5 ? tier : ((attempts % 4) + 1);
         q = this.generateForChapter(cid, altTier);
         attempts++;
       }
 
       if (q && q.statement) {
         usedStatementsInSeries.add(q.statement);
+        this._saveRecentStatement(cid, q.statement);
       }
       if (q) {
         q.seriesIndex = i + 1;
