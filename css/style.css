@@ -499,6 +499,455 @@ body {
   width: 100%;
 }
 
+.app-container.home-active {
+  display: block;
+}
+
+/* ==========================================================================
+   Page d'Accueil / Tableau de Bord (Hub d'Apprentissage ZPD)
+   ========================================================================== */
+.home-view {
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  animation: fadeIn 0.25s ease-out;
+}
+
+.home-hero-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.35rem 1.75rem;
+}
+
+.home-streak-card {
+  text-align: right;
+  min-width: 140px;
+  background: rgba(234, 88, 12, 0.08);
+  border: 1px solid rgba(234, 88, 12, 0.25);
+  border-radius: var(--radius-md);
+  padding: 0.65rem 1rem;
+  flex-shrink: 0;
+}
+
+.home-streak-val {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #ea580c;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.35rem;
+  line-height: 1.2;
+}
+
+.home-streak-lbl {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+/* Zone Continuité / Échauffement (Effet Zeigarnik) */
+.home-resume-box {
+  display: grid;
+  grid-template-columns: 1.7fr 1fr;
+  gap: 1rem;
+}
+
+.home-resume-card {
+  background: var(--bg-surface);
+  border: 1px solid #bfdbfe;
+  border-left: 5px solid var(--primary);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.08);
+  transition: var(--transition);
+}
+
+.home-resume-card:hover {
+  border-color: var(--primary);
+  box-shadow: var(--shadow-md);
+}
+
+.home-resume-left {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  min-width: 0;
+}
+
+.home-resume-badge {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
+  background: var(--primary-subtle);
+  color: var(--primary);
+  font-weight: 800;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 1px solid var(--primary-border);
+}
+
+.home-resume-info {
+  min-width: 0;
+}
+
+.home-resume-tag {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: 0.3px;
+}
+
+.home-resume-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-main);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 1px;
+}
+
+.home-resume-tier-pill {
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 1px 7px;
+  border-radius: var(--radius-full);
+  background: rgba(2, 132, 199, 0.12);
+  color: #0284c7;
+  border: 1px solid rgba(2, 132, 199, 0.3);
+  display: inline-block;
+  margin-left: 0.4rem;
+  vertical-align: middle;
+}
+
+.home-resume-sub {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.home-resume-btn {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.home-warmup-card {
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  border-left: 5px solid #f59e0b;
+  border-radius: var(--radius-md);
+  padding: 1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.home-warmup-card:hover {
+  background: #fef3c7;
+  border-color: #f59e0b;
+  box-shadow: var(--shadow-sm);
+  transform: translateY(-1px);
+}
+
+.home-warmup-info {
+  min-width: 0;
+}
+
+.home-warmup-tag {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #b45309;
+  letter-spacing: 0.3px;
+}
+
+.home-warmup-title {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-top: 1px;
+}
+
+.home-warmup-sub {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.home-warmup-btn {
+  flex-shrink: 0;
+  background: #ffffff;
+  border-color: #fde68a;
+  color: #b45309;
+  font-weight: 600;
+}
+
+.home-warmup-btn:hover {
+  background: #fffbeb;
+  border-color: #f59e0b;
+}
+
+/* En-têtes de section Accueil */
+.home-section-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+  margin-bottom: -0.25rem;
+}
+
+.home-section-title {
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.home-section-subtitle {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* Grille des 3 cycles d'études */
+.home-cycles-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.home-cycle-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 1.15rem;
+  cursor: pointer;
+  transition: var(--transition);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.home-cycle-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--border-focus);
+}
+
+.home-cycle-card.college-card {
+  border-top: 4px solid #2563eb;
+}
+
+.home-cycle-card.lycee-card {
+  border-top: 4px solid #059669;
+}
+
+.home-cycle-card.licence-card {
+  border-top: 4px solid #7c3aed;
+}
+
+.home-cycle-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.home-cycle-icon {
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.home-cycle-status-badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: var(--radius-full);
+}
+
+.home-cycle-status-badge.badge-open {
+  background: var(--success-bg);
+  color: var(--success-text);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+}
+
+.home-cycle-status-badge.badge-lock {
+  background: #fef2f2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+}
+
+.home-cycle-name {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin-bottom: 0.25rem;
+}
+
+.home-cycle-desc {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+  margin-bottom: 0.85rem;
+  flex: 1;
+}
+
+.home-cycle-levels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.level-pill-mini {
+  border: 1px solid var(--border-color);
+  background: var(--bg-subtle);
+  color: var(--text-main);
+  font-size: 0.74rem;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.level-pill-mini:hover {
+  background: var(--bg-surface);
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.level-pill-mini.highlight {
+  background: rgba(37, 99, 235, 0.12);
+  border-color: var(--primary);
+  color: var(--primary);
+  font-weight: 700;
+}
+
+/* Grille des 4 outils pédagogiques */
+.home-tools-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.85rem;
+}
+
+.home-tool-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+}
+
+.home-tool-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--border-focus);
+  background: var(--bg-subtle);
+  box-shadow: var(--shadow-sm);
+}
+
+.home-tool-icon {
+  font-size: 1.5rem;
+  margin-bottom: 0.4rem;
+  line-height: 1;
+}
+
+.home-tool-title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 0.25rem;
+}
+
+.home-tool-desc {
+  font-size: 0.73rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+/* Mode sombre */
+[data-theme="dark"] .home-streak-card {
+  background: rgba(234, 88, 12, 0.15);
+  border-color: rgba(234, 88, 12, 0.35);
+}
+
+[data-theme="dark"] .home-resume-card {
+  border-color: rgba(59, 130, 246, 0.4);
+  background: var(--bg-card);
+}
+
+[data-theme="dark"] .home-warmup-card {
+  background: rgba(245, 158, 11, 0.12);
+  border-color: rgba(245, 158, 11, 0.35);
+}
+
+[data-theme="dark"] .home-warmup-tag {
+  color: #fde68a;
+}
+
+[data-theme="dark"] .home-warmup-btn {
+  background: var(--bg-surface-elevated);
+  border-color: rgba(245, 158, 11, 0.4);
+  color: #fde68a;
+}
+
+[data-theme="dark"] .home-cycle-status-badge.badge-lock {
+  background: rgba(239, 68, 68, 0.18);
+  color: #fca5a5;
+  border-color: rgba(239, 68, 68, 0.4);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .home-resume-box {
+    grid-template-columns: 1fr;
+  }
+  .home-cycles-grid {
+    grid-template-columns: 1fr;
+  }
+  .home-tools-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .home-hero-banner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .home-streak-card {
+    text-align: left;
+    width: 100%;
+  }
+  .home-streak-val {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 600px) {
+  .home-tools-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* Déclencheur Mobile du Volet Chapitres */
 .mobile-chapter-trigger-bar {
   display: none;

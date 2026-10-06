@@ -65,7 +65,7 @@
   <!-- En-tête de l'application -->
   <header class="app-header">
     <div class="header-inner">
-      <div class="brand-container">
+      <div class="brand-container" id="brand-home-link" onclick="window.MathsApp.showHomeView()" title="Retourner à la page d'accueil" style="cursor: pointer;">
         <img src="assets/logo.png" alt="L'Établi des Maths" class="brand-logo-img" width="44" height="44" />
         <div class="brand-text">
           <h1 id="app-main-title">L'Établi des Maths <span class="brand-level-tag">3ème (DNB)</span></h1>
@@ -76,6 +76,9 @@
       <!-- Sélecteur Multi-Cycles (Collège, Lycée, Licence) & Niveaux -->
       <div class="app-curriculum-nav" role="navigation" aria-label="Cycles et Niveaux d'études">
         <div class="cycle-tabs-row" role="tablist" aria-label="Cycle d'études">
+          <button class="cycle-tab-btn" id="cycle-tab-home" onclick="window.MathsApp.showHomeView()" title="Page d'accueil et tableau de bord">
+            <span class="cycle-icon">🏠</span> <span class="cycle-name">Accueil</span>
+          </button>
           <button class="cycle-tab-btn active" id="cycle-tab-college" data-cycle="college" onclick="window.MathsApp.switchCycle('college')">
             <span class="cycle-icon">🏫</span> <span class="cycle-name">Collège</span>
           </button>
@@ -169,6 +172,139 @@
 
   <!-- Contenu Principal -->
   <div class="app-container">
+
+    <!-- =========================================================================
+         PAGE D'ACCUEIL / TABLEAU DE BORD (HUB D'APPRENTISSAGE ZPD)
+         ========================================================================= -->
+    <section id="home-view" class="home-view" style="display: none;">
+      <!-- Hero Bannière d'Accueil -->
+      <div class="chapter-hero-banner home-hero-banner">
+        <div class="hero-text-zone">
+          <span class="app-badge-zpd">✨ Zone Optimale d'Apprentissage (ZPD)</span>
+          <h2 class="hero-title" id="home-greeting-title">Bonjour ! Prêt pour ta séance de maths ?</h2>
+          <p class="hero-desc">
+            Pratique à ton rythme par paliers de difficulté adaptatifs, consolide tes automatismes et valide tes compétences en toute autonomie.
+          </p>
+        </div>
+        <div class="home-streak-card" id="home-streak-card">
+          <div class="home-streak-val" id="home-streak-val">🔥 <span id="home-streak-days">0</span></div>
+          <div class="home-streak-lbl">Série quotidienne active</div>
+        </div>
+      </div>
+
+      <!-- Zone de Continuité & Échauffement (Effet Zeigarnik) -->
+      <div class="home-resume-box">
+        <div class="home-resume-card" id="home-resume-card">
+          <div class="home-resume-left">
+            <div class="home-resume-badge" id="home-resume-badge">3N1</div>
+            <div class="home-resume-info">
+              <div class="home-resume-tag">🎯 Reprendre où tu t'es arrêté</div>
+              <div class="home-resume-title" id="home-resume-title">
+                <span id="home-resume-chap-name">Ensemble de nombres et fractions</span>
+                <span class="home-resume-tier-pill" id="home-resume-tier-pill">Palier 1 : Socle</span>
+              </div>
+              <div class="home-resume-sub" id="home-resume-sub">
+                Maîtrise : <strong id="home-resume-percent">0%</strong>
+              </div>
+            </div>
+          </div>
+          <button class="btn-primary home-resume-btn" id="home-resume-btn" onclick="window.MathsApp.resumeLastActivity()">
+            Continuer ➔
+          </button>
+        </div>
+
+        <div class="home-warmup-card" onclick="window.MathsApp.openDiaporamaModal()" title="Lancer une session d'échauffement de calcul mental">
+          <div class="home-warmup-info">
+            <div class="home-warmup-tag">⚡ Échauffement du jour</div>
+            <div class="home-warmup-title">Rituel Flash 3 min</div>
+            <div class="home-warmup-sub">Calcul mental & automatismes</div>
+          </div>
+          <button class="btn-secondary home-warmup-btn" type="button" title="Lancer une séance chronométrée">
+            Lancer ⏱️
+          </button>
+        </div>
+      </div>
+
+      <!-- Section Cycles d'études -->
+      <div class="home-section-header">
+        <h3 class="home-section-title">📚 Choisir un cycle d'études</h3>
+        <span class="home-section-subtitle">Collège en libre accès • Lycée et Licence avec code</span>
+      </div>
+      <div class="home-cycles-grid">
+        <!-- Collège -->
+        <div class="home-cycle-card college-card" onclick="window.MathsApp.switchCycle('college')">
+          <div class="home-cycle-card-top">
+            <span class="home-cycle-icon">🏫</span>
+            <span class="home-cycle-status-badge badge-open">Libre Accès</span>
+          </div>
+          <div class="home-cycle-name">Collège</div>
+          <div class="home-cycle-desc">Cycles 3 & 4 • Fondations, automatismes et préparation au Brevet</div>
+          <div class="home-cycle-levels">
+            <button class="level-pill-mini" onclick="event.stopPropagation(); window.MathsApp.switchLevel('5eme')">5ème</button>
+            <button class="level-pill-mini" onclick="event.stopPropagation(); window.MathsApp.switchLevel('4eme')">4ème</button>
+            <button class="level-pill-mini highlight" onclick="event.stopPropagation(); window.MathsApp.switchLevel('3eme')">3ème (DNB)</button>
+          </div>
+        </div>
+
+        <!-- Lycée -->
+        <div class="home-cycle-card lycee-card" onclick="window.MathsApp.switchCycle('lycee')">
+          <div class="home-cycle-card-top">
+            <span class="home-cycle-icon">🎒</span>
+            <span class="home-cycle-status-badge badge-lock" id="home-badge-lycee">🔒 Code requis</span>
+          </div>
+          <div class="home-cycle-name">Lycée</div>
+          <div class="home-cycle-desc">Voie Générale • Spécialités mathématiques et préparation au Baccalauréat</div>
+          <div class="home-cycle-levels">
+            <button class="level-pill-mini" onclick="event.stopPropagation(); window.MathsApp.switchLevel('2nde')">2nde</button>
+            <button class="level-pill-mini" onclick="event.stopPropagation(); window.MathsApp.switchLevel('1ere')">1ère Spé</button>
+            <button class="level-pill-mini" onclick="event.stopPropagation(); window.MathsApp.switchLevel('tale')">Terminale</button>
+          </div>
+        </div>
+
+        <!-- Licence -->
+        <div class="home-cycle-card licence-card" onclick="window.MathsApp.switchCycle('licence')">
+          <div class="home-cycle-card-top">
+            <span class="home-cycle-icon">🎓</span>
+            <span class="home-cycle-status-badge badge-lock" id="home-badge-licence">🔒 Code requis</span>
+          </div>
+          <div class="home-cycle-name">Licence</div>
+          <div class="home-cycle-desc">Universitaire & CPGE • Algèbre, Analyse réelle et Rigueur axiomatique</div>
+          <div class="home-cycle-levels">
+            <button class="level-pill-mini" onclick="event.stopPropagation(); window.MathsApp.switchLevel('L1')">L1</button>
+            <button class="level-pill-mini" onclick="event.stopPropagation(); window.MathsApp.switchLevel('L2')">L2</button>
+            <button class="level-pill-mini" onclick="event.stopPropagation(); window.MathsApp.switchLevel('L3')">L3</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section Outils Pédagogiques -->
+      <div class="home-section-header">
+        <h3 class="home-section-title">⚡ Les 4 modes d'apprentissage</h3>
+        <span class="home-section-subtitle">Outils intégrés pour s'entraîner, mémoriser et s'évaluer</span>
+      </div>
+      <div class="home-tools-grid">
+        <div class="home-tool-card" onclick="window.MathsApp.hideHomeView(); window.MathsApp.switchTab('train')">
+          <div class="home-tool-icon">🎯</div>
+          <div class="home-tool-title">Entraînement Adaptatif</div>
+          <div class="home-tool-desc">4 paliers de difficulté ZPD pour progresser sans blocage et monter de niveau.</div>
+        </div>
+        <div class="home-tool-card" onclick="window.MathsApp.openDiaporamaModal()">
+          <div class="home-tool-icon">⏱️</div>
+          <div class="home-tool-title">Rituels Flash</div>
+          <div class="home-tool-desc">Questions chronométrées façon MathsMentales pour ancrer les réflexes.</div>
+        </div>
+        <div class="home-tool-card" onclick="window.MathsApp.openQuizModal()">
+          <div class="home-tool-icon">📝</div>
+          <div class="home-tool-title">Devoirs Blancs</div>
+          <div class="home-tool-desc">Générateur d'évaluations et d'annales types avec barème officiel et corrigé.</div>
+        </div>
+        <div class="home-tool-card" onclick="window.MathsApp.openFlashcardsModal()">
+          <div class="home-tool-icon">🗂️</div>
+          <div class="home-tool-title">Boîte de Leitner</div>
+          <div class="home-tool-desc">Flashcards et répétition espacée des théorèmes, formules et définitions.</div>
+        </div>
+      </div>
+    </section>
 
     <!-- Volet Latéral : Sélection des 18 Chapitres -->
     <aside id="sidebar-chapters" class="sidebar-chapters">

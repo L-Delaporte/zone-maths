@@ -54,7 +54,10 @@ document.addEventListener('DOMContentLoaded', () => {
       this.renderDomainNav();
       this.switchLevel(this.currentLevel, false);
       this.updateLockUI();
-      this.checkUrlShareParams();
+      const hasUrlParams = this.checkUrlShareParams();
+      if (!hasUrlParams) {
+        this.showHomeView();
+      }
       this.updateHeaderProfile();
     },
 
@@ -67,6 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
+      this.hideHomeView();
       window.MathsStorage.setCurrentCycle(cycleId);
 
       // Met à jour les onglets de cycle
@@ -100,6 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
+      this.hideHomeView();
       this.currentLevel = level;
       window.MathsStorage.setCurrentLevel(level);
       const currentCycle = window.MathsStorage.getCycleForLevel(level);
@@ -710,6 +715,118 @@ document.addEventListener('DOMContentLoaded', () => {
       if (badgeLycee) badgeLycee.style.display = isLocked ? 'inline-block' : 'none';
       if (badgeLicence) badgeLicence.style.display = isLocked ? 'inline-block' : 'none';
       if (btnRelock) btnRelock.style.display = isLocked ? 'none' : 'inline-flex';
+
+      if (this.isHomeView) {
+        this.renderHomeView();
+      }
+    },
+
+    showHomeView() {
+      this.isHomeView = true;
+      const homeView = document.getElementById('home-view');
+      const sidebar = document.getElementById('sidebar-chapters');
+      const workspace = document.querySelector('.main-workspace');
+      const mobileBar = document.getElementById('mobile-chapter-trigger-bar');
+      const appContainer = document.querySelector('.app-container');
+
+      if (homeView) homeView.style.display = 'flex';
+      if (sidebar) sidebar.style.display = 'none';
+      if (workspace) workspace.style.display = 'none';
+      if (mobileBar) mobileBar.style.display = 'none';
+      if (appContainer) appContainer.classList.add('home-active');
+
+      // Mettre en surbrillance l'onglet Accueil dans le header
+      document.querySelectorAll('.cycle-tab-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.id === 'cycle-tab-home');
+      });
+
+      this.renderHomeView();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    },
+
+    hideHomeView() {
+      if (!this.isHomeView) return;
+      this.isHomeView = false;
+      const homeView = document.getElementById('home-view');
+      const sidebar = document.getElementById('sidebar-chapters');
+      const workspace = document.querySelector('.main-workspace');
+      const mobileBar = document.getElementById('mobile-chapter-trigger-bar');
+      const appContainer = document.querySelector('.app-container');
+
+      if (homeView) homeView.style.display = 'none';
+      if (sidebar) sidebar.style.display = 'flex';
+      if (workspace) workspace.style.display = 'flex';
+      if (mobileBar) mobileBar.style.display = '';
+      if (appContainer) appContainer.classList.remove('home-active');
+
+      const homeTab = document.getElementById('cycle-tab-home');
+      if (homeTab) homeTab.classList.remove('active');
+
+      const currentCycle = window.MathsStorage.getCycleForLevel(this.currentLevel);
+      document.querySelectorAll('.cycle-tab-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-cycle') === currentCycle);
+      });
+    },
+
+    renderHomeView() {
+      // 1. Mise à jour de la flamme / série quotidienne
+      const streakStatus = window.MathsStorage && window.MathsStorage.getStreakStatus ? window.MathsStorage.getStreakStatus() : null;
+      const streakDays = streakStatus ? streakStatus.streak : ((window.MathsStorage.load().user || {}).streak || 0);
+      const streakDaysEl = document.getElementById('home-streak-days');
+      if (streakDaysEl) streakDaysEl.textContent = streakDays;
+
+      // 2. Mise à jour de la carte de reprise d'activité (Effet Zeigarnik)
+      const lastActive = window.MathsStorage && window.MathsStorage.getLastActiveChapter ? window.MathsStorage.getLastActiveChapter() : { chapterId: 'N1', tier: 1 };
+      const allChapters = window.MATHS_CHAPTERS || [];
+      const chap = allChapters.find(c => c.id === lastActive.chapterId) || allChapters.find(c => c.level === this.currentLevel) || allChapters[0];
+
+      if (chap) {
+        this.homeResumeTarget = { chapterId: chap.id, tier: lastActive.tier || 1 };
+        const badgeEl = document.getElementById('home-resume-badge');
+        const nameEl = document.getElementById('home-resume-chap-name');
+        const tierEl = document.getElementById('home-resume-tier-pill');
+        const percentEl = document.getElementById('home-resume-percent');
+
+        if (badgeEl) badgeEl.textContent = chap.id;
+        if (nameEl) nameEl.textContent = chap.shortTitle || chap.title;
+        const tierNames = { 1: 'Socle', 2: 'Guidé', 3: 'Brevet', 4: 'Défi' };
+        if (tierEl) tierEl.textContent = `Palier ${lastActive.tier || 1} : ${tierNames[lastActive.tier] || 'Socle'}`;
+
+        const progress = window.MathsStorage.getChapterProgress(chap.id);
+        const mastery = progress ? (progress.mastery || 0) : 0;
+        if (percentEl) percentEl.textContent = `${mastery}%`;
+      }
+
+      // 3. Mise à jour des badges cadenas (Code requis)
+      const isLyceeLocked = window.MathsStorage.isCycleLocked('lycee');
+      const isLicenceLocked = window.MathsStorage.isCycleLocked('licence');
+
+      const badgeLycee = document.getElementById('home-badge-lycee');
+      if (badgeLycee) {
+        badgeLycee.textContent = isLyceeLocked ? '🔒 Code requis' : '🔓 Déverrouillé';
+        badgeLycee.className = `home-cycle-status-badge ${isLyceeLocked ? 'badge-lock' : 'badge-open'}`;
+      }
+
+      const badgeLicence = document.getElementById('home-badge-licence');
+      if (badgeLicence) {
+        badgeLicence.textContent = isLicenceLocked ? '🔒 Code requis' : '🔓 Déverrouillé';
+        badgeLicence.className = `home-cycle-status-badge ${isLicenceLocked ? 'badge-lock' : 'badge-open'}`;
+      }
+    },
+
+    resumeLastActivity() {
+      const target = this.homeResumeTarget || { chapterId: 'N1', tier: 1 };
+      this.hideHomeView();
+      const allChapters = window.MATHS_CHAPTERS || [];
+      const chap = allChapters.find(c => c.id === target.chapterId);
+      if (chap && chap.level && chap.level !== this.currentLevel) {
+        this.switchLevel(chap.level, false);
+      }
+      this.selectChapter(target.chapterId);
+      if (window.MathsAdaptiveEngine && target.tier) {
+        window.MathsAdaptiveEngine.setTier(target.tier);
+      }
+      this.switchTab('train');
     },
 
     renderDomainNav() {
@@ -800,6 +917,10 @@ document.addEventListener('DOMContentLoaded', () => {
       // Synchroniser le niveau actif si nécessaire
       if (chapter.level && chapter.level !== this.currentLevel) {
         this.switchLevel(chapter.level, false);
+      }
+      this.hideHomeView();
+      if (window.MathsStorage && window.MathsStorage.setLastActiveChapter) {
+        window.MathsStorage.setLastActiveChapter(chapter.id, window.MathsAdaptiveEngine ? window.MathsAdaptiveEngine.currentTier : 1);
       }
       this.updateTierButtonsUI();
 
@@ -2273,6 +2394,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             this.selectChapter(targetChap.id);
             this.switchTab('train');
+            this.hideHomeView();
             if (tierParam && tierParam >= 1 && tierParam <= 4) {
               setTimeout(() => {
                 // Si l'enseignant partage un palier précis pour une IE, s'assurer que le palier est accessible
@@ -2288,11 +2410,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 this.showToast(`🎯 <strong>Entraînement ciblé :</strong> ${targetChap.shortTitle || targetChap.title} (Palier ${tierParam})`, 4000);
               }, 250);
             }
+            return true;
           }
         }
       } catch (err) {
         console.warn('Erreur lecture paramètres URL :', err);
       }
+      return false;
     },
 
     /**

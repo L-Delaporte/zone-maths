@@ -94,6 +94,40 @@ window.MathsStorage = {
     this.save(data);
   },
 
+  getLastActiveChapter() {
+    const data = this.load();
+    if (data.user && data.user.lastActiveChapter) {
+      return {
+        chapterId: data.user.lastActiveChapter,
+        tier: data.user.lastActiveTier || 1
+      };
+    }
+    // Trouver le chapitre le plus actif dans les données
+    if (data.chapters) {
+      const activeIds = Object.keys(data.chapters).filter(id => {
+        const c = data.chapters[id];
+        return c && (c.attempts > 0 || c.mastery > 0);
+      });
+      if (activeIds.length > 0) {
+        const lastId = activeIds[activeIds.length - 1];
+        return {
+          chapterId: lastId,
+          tier: data.chapters[lastId].currentTier || 1
+        };
+      }
+    }
+    return { chapterId: 'N1', tier: 1 };
+  },
+
+  setLastActiveChapter(chapterId, tier = 1) {
+    if (!chapterId) return;
+    const data = this.load();
+    if (!data.user) data.user = {};
+    data.user.lastActiveChapter = chapterId;
+    if (tier) data.user.lastActiveTier = tier;
+    this.save(data);
+  },
+
   load() {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
