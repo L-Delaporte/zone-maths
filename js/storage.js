@@ -116,7 +116,7 @@ window.MathsStorage = {
         };
       }
     }
-    return { chapterId: 'N1', tier: 1 };
+    return null;
   },
 
   setLastActiveChapter(chapterId, tier = 1) {

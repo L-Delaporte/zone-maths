@@ -76,10 +76,10 @@
       <!-- Sélecteur Multi-Cycles (Collège, Lycée, Licence) & Niveaux -->
       <div class="app-curriculum-nav" role="navigation" aria-label="Cycles et Niveaux d'études">
         <div class="cycle-tabs-row" role="tablist" aria-label="Cycle d'études">
-          <button class="cycle-tab-btn" id="cycle-tab-home" onclick="window.MathsApp.showHomeView()" title="Page d'accueil et tableau de bord">
+          <button class="cycle-tab-btn active" id="cycle-tab-home" onclick="window.MathsApp.showHomeView()" title="Page d'accueil et tableau de bord">
             <span class="cycle-icon">🏠</span> <span class="cycle-name">Accueil</span>
           </button>
-          <button class="cycle-tab-btn active" id="cycle-tab-college" data-cycle="college" onclick="window.MathsApp.switchCycle('college')">
+          <button class="cycle-tab-btn" id="cycle-tab-college" data-cycle="college" onclick="window.MathsApp.switchCycle('college')">
             <span class="cycle-icon">🏫</span> <span class="cycle-name">Collège</span>
           </button>
           <button class="cycle-tab-btn" id="cycle-tab-lycee" data-cycle="lycee" onclick="window.MathsApp.switchCycle('lycee')">
@@ -92,10 +92,10 @@
         </div>
         <div class="cycle-levels-row">
           <!-- Niveaux Collège -->
-          <div class="cycle-levels-group active" id="levels-group-college">
+          <div class="cycle-levels-group" id="levels-group-college">
             <button class="level-pill" id="level-btn-5eme" data-level="5eme" onclick="window.MathsApp.switchLevel('5eme')">5ème</button>
             <button class="level-pill" id="level-btn-4eme" data-level="4eme" onclick="window.MathsApp.switchLevel('4eme')">4ème</button>
-            <button class="level-pill active" id="level-btn-3eme" data-level="3eme" onclick="window.MathsApp.switchLevel('3eme')">3ème (DNB)</button>
+            <button class="level-pill" id="level-btn-3eme" data-level="3eme" onclick="window.MathsApp.switchLevel('3eme')">3ème (DNB)</button>
           </div>
           <!-- Niveaux Lycée -->
           <div class="cycle-levels-group" id="levels-group-lycee" style="display:none;">
@@ -194,22 +194,22 @@
 
       <!-- Zone de Continuité & Échauffement (Effet Zeigarnik) -->
       <div class="home-resume-box">
-        <div class="home-resume-card" id="home-resume-card">
+        <div class="home-resume-card" id="home-resume-card" onclick="window.MathsApp.handleResumeOrStart()" style="cursor: pointer;">
           <div class="home-resume-left">
-            <div class="home-resume-badge" id="home-resume-badge">3N1</div>
+            <div class="home-resume-badge" id="home-resume-badge">🚀</div>
             <div class="home-resume-info">
-              <div class="home-resume-tag">🎯 Reprendre où tu t'es arrêté</div>
+              <div class="home-resume-tag" id="home-resume-tag">🎯 Démarrage Rapide</div>
               <div class="home-resume-title" id="home-resume-title">
-                <span id="home-resume-chap-name">Ensemble de nombres et fractions</span>
-                <span class="home-resume-tier-pill" id="home-resume-tier-pill">Palier 1 : Socle</span>
+                <span id="home-resume-chap-name">Choisis ton cycle pour démarrer</span>
+                <span class="home-resume-tier-pill" id="home-resume-tier-pill" style="display: none;">Palier 1 : Socle</span>
               </div>
               <div class="home-resume-sub" id="home-resume-sub">
-                Maîtrise : <strong id="home-resume-percent">0%</strong>
+                Collège, Lycée ou prépare ton Brevet / Bac
               </div>
             </div>
           </div>
-          <button class="btn-primary home-resume-btn" id="home-resume-btn" onclick="window.MathsApp.resumeLastActivity()">
-            Continuer ➔
+          <button class="btn-primary home-resume-btn" id="home-resume-btn" onclick="event.stopPropagation(); window.MathsApp.handleResumeOrStart()">
+            Découvrir les cycles ▾
           </button>
         </div>
 
@@ -242,7 +242,7 @@
           <div class="home-cycle-levels">
             <button class="level-pill-mini" onclick="event.stopPropagation(); window.MathsApp.switchLevel('5eme')">5ème</button>
             <button class="level-pill-mini" onclick="event.stopPropagation(); window.MathsApp.switchLevel('4eme')">4ème</button>
-            <button class="level-pill-mini highlight" onclick="event.stopPropagation(); window.MathsApp.switchLevel('3eme')">3ème (DNB)</button>
+            <button class="level-pill-mini" onclick="event.stopPropagation(); window.MathsApp.switchLevel('3eme')">3ème (DNB)</button>
           </div>
         </div>
 
@@ -283,25 +283,29 @@
         <span class="home-section-subtitle">Outils intégrés pour s'entraîner, mémoriser et s'évaluer</span>
       </div>
       <div class="home-tools-grid">
-        <div class="home-tool-card" onclick="window.MathsApp.hideHomeView(); window.MathsApp.switchTab('train')">
+        <div class="home-tool-card" onclick="window.MathsApp.showModeExplainer('adaptive')" role="button" tabindex="0" title="Découvrir le mode Entraînement Adaptatif">
           <div class="home-tool-icon">🎯</div>
           <div class="home-tool-title">Entraînement Adaptatif</div>
           <div class="home-tool-desc">4 paliers de difficulté ZPD pour progresser sans blocage et monter de niveau.</div>
+          <span class="home-tool-action-hint">💡 Voir le principe & un exemple</span>
         </div>
-        <div class="home-tool-card" onclick="window.MathsApp.openDiaporamaModal()">
+        <div class="home-tool-card" onclick="window.MathsApp.showModeExplainer('rituel')" role="button" tabindex="0" title="Découvrir le mode Rituels Flash">
           <div class="home-tool-icon">⏱️</div>
           <div class="home-tool-title">Rituels Flash</div>
           <div class="home-tool-desc">Questions chronométrées façon MathsMentales pour ancrer les réflexes.</div>
+          <span class="home-tool-action-hint">💡 Voir le principe & un exemple</span>
         </div>
-        <div class="home-tool-card" onclick="window.MathsApp.openQuizModal()">
+        <div class="home-tool-card" onclick="window.MathsApp.showModeExplainer('quiz')" role="button" tabindex="0" title="Découvrir le mode Devoirs Blancs">
           <div class="home-tool-icon">📝</div>
           <div class="home-tool-title">Devoirs Blancs</div>
           <div class="home-tool-desc">Générateur d'évaluations et d'annales types avec barème officiel et corrigé.</div>
+          <span class="home-tool-action-hint">💡 Voir le principe & un exemple</span>
         </div>
-        <div class="home-tool-card" onclick="window.MathsApp.openFlashcardsModal()">
+        <div class="home-tool-card" onclick="window.MathsApp.showModeExplainer('flashcards')" role="button" tabindex="0" title="Découvrir la Boîte de Leitner">
           <div class="home-tool-icon">🗂️</div>
           <div class="home-tool-title">Boîte de Leitner</div>
           <div class="home-tool-desc">Flashcards et répétition espacée des théorèmes, formules et définitions.</div>
+          <span class="home-tool-action-hint">💡 Voir le principe & un exemple</span>
         </div>
       </div>
 
@@ -1117,6 +1121,33 @@
             <button type="submit" class="btn-primary" style="flex: 1;">Déverrouiller 🔓</button>
           </div>
         </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODALE EXPLICATIVE DES 4 MODES D'APPRENTISSAGE (Page d'accueil)
+       ========================================================================= -->
+  <div id="mode-explainer-modal" class="modal-overlay" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="mode-explainer-title" onclick="if (event.target === this) window.MathsApp.closeModeExplainer();">
+    <div class="modal-box mode-explainer-box">
+      <div class="modal-header">
+        <div class="mode-explainer-header-left">
+          <span class="mode-explainer-icon" id="mode-explainer-icon">🎯</span>
+          <div>
+            <h2 id="mode-explainer-title" class="modal-title">Entraînement Adaptatif</h2>
+            <div id="mode-explainer-subtitle" class="mode-explainer-subtitle">Progression par paliers ZPD</div>
+          </div>
+        </div>
+        <button class="modal-close-btn" type="button" onclick="window.MathsApp.closeModeExplainer()" aria-label="Fermer">✕</button>
+      </div>
+      <div class="modal-body mode-explainer-body" id="mode-explainer-body">
+        <!-- Contenu dynamique injecté par MathsApp.showModeExplainer() -->
+      </div>
+      <div class="modal-footer mode-explainer-footer">
+        <button type="button" class="btn-secondary" onclick="window.MathsApp.closeModeExplainer()">Fermer</button>
+        <button type="button" class="btn-primary" id="mode-explainer-action-btn" onclick="window.MathsApp.launchCurrentExplainerMode()">
+          Tester ce mode ➔
+        </button>
       </div>
     </div>
   </div>

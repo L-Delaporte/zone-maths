@@ -33,6 +33,239 @@ document.addEventListener('DOMContentLoaded', () => {
       'L3': 'Licence 3 (L3)'
     },
 
+    currentExplainerMode: 'adaptive',
+
+    MODE_EXPLAINERS: {
+      adaptive: {
+        icon: '🎯',
+        title: "Entraînement Adaptatif",
+        subtitle: "Zone Proximale de Développement (ZPD) & 4 Paliers",
+        actionLabel: "Tester l'entraînement 🎯",
+        contentHtml: `
+          <div class="mode-explainer-concept">
+            L'algorithme s'adapte en continu à ton niveau grâce aux <strong>4 paliers de difficulté calibrés</strong>. Tu progresses à ton rythme, sans blocage ni frustration, en consolidant chaque étape avant de passer au palier supérieur.
+          </div>
+
+          <div class="mode-explainer-example-card">
+            <div class="mode-explainer-example-header">
+              <span>Exemple concret : Résolution d'équations</span>
+              <span class="mode-explainer-example-badge">Progression ZPD</span>
+            </div>
+            <div class="mode-explainer-tiers-list">
+              <div class="mode-explainer-tier-item tier-1">
+                <div class="mode-explainer-tier-head">
+                  <span>Palier 1 : Socle & Automatismes</span>
+                  <span class="mode-explainer-tier-tag">Niveau 1</span>
+                </div>
+                <div class="mode-explainer-tier-math">
+                  Résoudre $2x = 8$. Solution immédiate : $x = \\frac{8}{2} = 4$.
+                </div>
+              </div>
+              <div class="mode-explainer-tier-item tier-2">
+                <div class="mode-explainer-tier-head">
+                  <span>Palier 2 : Entraînement Guidé</span>
+                  <span class="mode-explainer-tier-tag">Niveau 2</span>
+                </div>
+                <div class="mode-explainer-tier-math">
+                  Résoudre $3x + 5 = 20$. Étapes : $3x = 15$ puis $x = 5$.
+                </div>
+              </div>
+              <div class="mode-explainer-tier-item tier-3">
+                <div class="mode-explainer-tier-head">
+                  <span>Palier 3 : Niveau Examen Officiel</span>
+                  <span class="mode-explainer-tier-tag">Brevet / Bac</span>
+                </div>
+                <div class="mode-explainer-tier-math">
+                  Résoudre $5(x - 2) = 2x + 8$. Développement et regroupement : $3x = 18 \\implies x = 6$.
+                </div>
+              </div>
+              <div class="mode-explainer-tier-item tier-4">
+                <div class="mode-explainer-tier-head">
+                  <span>Palier 4 : Défis & Dépassement</span>
+                  <span class="mode-explainer-tier-tag">Expert</span>
+                </div>
+                <div class="mode-explainer-tier-math">
+                  Mise en équation d'un problème concret avec calcul de coût ou optimisation géométrique.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mode-explainer-benefits-grid">
+            <div class="mode-explainer-benefit-pill">
+              <span>⚡</span>
+              <div><strong>Feedback immédiat :</strong> Explication détaillée à chaque réponse pour comprendre ses erreurs.</div>
+            </div>
+            <div class="mode-explainer-benefit-pill">
+              <span>🛡️</span>
+              <div><strong>Zéro note sanction :</strong> Seule la maîtrise compte. Tu peux retenter jusqu'à la réussite.</div>
+            </div>
+            <div class="mode-explainer-benefit-pill">
+              <span>🚀</span>
+              <div><strong>Autonomie complète :</strong> Choix libre du palier ou guidage intelligent par le moteur adaptatif.</div>
+            </div>
+          </div>
+        `
+      },
+
+      rituel: {
+        icon: '⏱️',
+        title: "Rituels Flash Chronométrés",
+        subtitle: "Calcul mental & Automatismes façon MathsMentales",
+        actionLabel: "Lancer un Rituel Flash ⏱️",
+        contentHtml: `
+          <div class="mode-explainer-concept">
+            Inspiré du célèbre outil pédagogique <strong>MathsMentales</strong>, le rituel flash est idéal pour démarrer chaque séance : une série courte de questions défilant avec un <strong>compte à rebours dynamique</strong>, parfaite pour la vidéoprojection en classe ou l'échauffement individuel.
+          </div>
+
+          <div class="mode-explainer-example-card">
+            <div class="mode-explainer-example-header">
+              <span>Exemple d'une question projetée</span>
+              <span class="mode-explainer-example-badge">⏱️ 15 secondes</span>
+            </div>
+            <div class="mode-explainer-tier-item tier-2">
+              <div class="mode-explainer-tier-head">
+                <span>Énoncé flash à l'écran</span>
+                <span class="mode-explainer-tier-tag">Calcul Mental</span>
+              </div>
+              <div class="mode-explainer-tier-math" style="font-size: 1.05rem; font-weight: 600; color: var(--text-main); margin: 0.25rem 0;">
+                Calculer : $(-7) + (-5) \\times 3$
+              </div>
+              <div class="mode-explainer-tier-math" style="border-top: 1px dashed var(--border-color); padding-top: 0.4rem; margin-top: 0.4rem;">
+                <strong>Phase de correction pas à pas :</strong><br/>
+                1. Priorité opératoire : $(-5) \\times 3 = -15$<br/>
+                2. Somme de nombres négatifs : $(-7) + (-15) = \\mathbf{-22}$
+              </div>
+            </div>
+          </div>
+
+          <div class="mode-explainer-benefits-grid">
+            <div class="mode-explainer-benefit-pill">
+              <span>🧠</span>
+              <div><strong>Mémoire de travail :</strong> Automatiser les calculs simples libère l'esprit pour raisonner sur les problèmes complexes.</div>
+            </div>
+            <div class="mode-explainer-benefit-pill">
+              <span>📽️</span>
+              <div><strong>Vidéoprojection 1 clic :</strong> Mode plein écran sans pub, adapté aux vidéoprojecteurs et TNI en classe.</div>
+            </div>
+            <div class="mode-explainer-benefit-pill">
+              <span>⚙️</span>
+              <div><strong>100% Paramétrable :</strong> Règle le nombre de questions (5, 10, 15) et le temps par question (10s à 60s).</div>
+            </div>
+          </div>
+        `
+      },
+
+      quiz: {
+        icon: '📝',
+        title: "Devoirs Blancs & Évaluations",
+        subtitle: "Sujets complets avec barèmes officiels et corrigés rédigés",
+        actionLabel: "Générer un Devoir Blanc 📝",
+        contentHtml: `
+          <div class="mode-explainer-concept">
+            Génère en un clic une évaluation complète et équilibrée couvrant le programme. Chaque devoir est calibré sur un <strong>barème officiel</strong> (ex : 100 points pour le Brevet des Collèges, épreuve type Bac au Lycée) avec un corrigé rédigé prêt pour l'auto-évaluation ou l'impression.
+          </div>
+
+          <div class="mode-explainer-example-card">
+            <div class="mode-explainer-example-header">
+              <span>Structure type d'un devoir Brevet</span>
+              <span class="mode-explainer-example-badge">Sur 100 points</span>
+            </div>
+            <div class="mode-explainer-tiers-list">
+              <div class="mode-explainer-tier-item tier-1">
+                <div class="mode-explainer-tier-head">
+                  <span>Exercice 1 : QCM d'automatismes</span>
+                  <span class="mode-explainer-tier-tag">20 pts</span>
+                </div>
+                <div class="mode-explainer-tier-math">Fractions, puissances, décomposition en facteurs premiers.</div>
+              </div>
+              <div class="mode-explainer-tier-item tier-2">
+                <div class="mode-explainer-tier-head">
+                  <span>Exercice 2 : Géométrie & Trigonométrie</span>
+                  <span class="mode-explainer-tier-tag">25 pts</span>
+                </div>
+                <div class="mode-explainer-tier-math">Théorème de Thalès et calcul d'angles dans un repère réel.</div>
+              </div>
+              <div class="mode-explainer-tier-item tier-3">
+                <div class="mode-explainer-tier-head">
+                  <span>Exercice 3 : Fonctions & Modélisation</span>
+                  <span class="mode-explainer-tier-tag">20 pts</span>
+                </div>
+                <div class="mode-explainer-tier-math">Comparaison graphique de formules tarifaires et lectures d'images/antécédents.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mode-explainer-benefits-grid">
+            <div class="mode-explainer-benefit-pill">
+              <span>🎯</span>
+              <div><strong>Conditions réelles :</strong> Apprends à gérer ton temps et la longueur d'une épreuve officielle.</div>
+            </div>
+            <div class="mode-explainer-benefit-pill">
+              <span>📖</span>
+              <div><strong>Corrigé rédigé :</strong> Modèle de rédaction mathématique soignée avec justification des théorèmes.</div>
+            </div>
+            <div class="mode-explainer-benefit-pill">
+              <span>🖨️</span>
+              <div><strong>Format papier & PDF :</strong> Bouton d'impression optimisé pour les élèves et les enseignants.</div>
+            </div>
+          </div>
+        `
+      },
+
+      flashcards: {
+        icon: '🗂️',
+        title: "Boîte de Leitner (Flashcards)",
+        subtitle: "Mémorisation active & Répétition espacée à long terme",
+        actionLabel: "Ouvrir les Flashcards 🗂️",
+        contentHtml: `
+          <div class="mode-explainer-concept">
+            Basée sur la méthode scientifique de Sebastian Leitner et la courbe de l'oubli, la <strong>Boîte de Leitner</strong> permet d'ancrer durablement les théorèmes, formules et définitions grâce au principe de la <strong>répétition espacée</strong>.
+          </div>
+
+          <div class="mode-explainer-example-card">
+            <div class="mode-explainer-example-header">
+              <span>Exemple d'une carte d'ancrage</span>
+              <span class="mode-explainer-example-badge">Recto / Verso</span>
+            </div>
+            <div class="mode-explainer-tier-item tier-3">
+              <div class="mode-explainer-tier-head">
+                <span>🔲 Recto (Question / Défi)</span>
+                <span class="mode-explainer-tier-tag">Évocation active</span>
+              </div>
+              <div class="mode-explainer-tier-math" style="font-size: 0.95rem; font-weight: 600; color: var(--text-main); margin: 0.25rem 0;">
+                « Théorème de Pythagore : Énoncé précis et formule dans un triangle rectangle. »
+              </div>
+              <div class="mode-explainer-tier-head" style="margin-top: 0.5rem;">
+                <span>🔄 Verso (Réponse mémorisée)</span>
+                <span class="mode-explainer-tier-tag">Validation</span>
+              </div>
+              <div class="mode-explainer-tier-math" style="margin-top: 0.2rem;">
+                Si un triangle $ABC$ est rectangle en $A$, alors :<br/>
+                $$BC^2 = AB^2 + AC^2$$
+                <em>(Le carré de l'hypoténuse est égal à la somme des carrés des deux autres côtés.)</em>
+              </div>
+            </div>
+          </div>
+
+          <div class="mode-explainer-benefits-grid">
+            <div class="mode-explainer-benefit-pill">
+              <span>📈</span>
+              <div><strong>Système 5 boîtes :</strong> Une carte réussie monte de boîte (révisée moins souvent), une carte ratée redescend en Boîte 1.</div>
+            </div>
+            <div class="mode-explainer-benefit-pill">
+              <span>⏱️</span>
+              <div><strong>5 min par jour :</strong> Infiniment plus efficace que le bachotage de dernière minute la veille du contrôle.</div>
+            </div>
+            <div class="mode-explainer-benefit-pill">
+              <span>💾</span>
+              <div><strong>Sauvegarde locale :</strong> Ta progression est conservée dans ton navigateur sans création de compte.</div>
+            </div>
+          </div>
+        `
+      }
+    },
+
     getLevelName(level) {
       return this.LEVEL_LABELS[level] || level || 'Mathématiques';
     },
@@ -396,8 +629,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     bindKeyboardShortcuts() {
       document.addEventListener('keydown', (e) => {
-        // Touche Échap pour fermer les modales streak et level
+        // Touche Échap pour fermer les modales streak, level, lock et explainer
         if (e.key === 'Escape') {
+          const explainerModal = document.getElementById('mode-explainer-modal');
+          if (explainerModal && explainerModal.style.display !== 'none') {
+            this.closeModeExplainer();
+            return;
+          }
           const streakModal = document.getElementById('streak-modal');
           if (streakModal && streakModal.style.display !== 'none') {
             this.closeStreakModal();
@@ -743,6 +981,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     showHomeView() {
       this.isHomeView = true;
+      document.body.classList.add('home-view-active');
       const homeView = document.getElementById('home-view');
       const sidebar = document.getElementById('sidebar-chapters');
       const workspace = document.querySelector('.main-workspace');
@@ -755,10 +994,12 @@ document.addEventListener('DOMContentLoaded', () => {
       if (mobileBar) mobileBar.style.display = 'none';
       if (appContainer) appContainer.classList.add('home-active');
 
-      // Mettre en surbrillance l'onglet Accueil dans le header
+      // Mettre en surbrillance l'onglet Accueil dans le header et désactiver les autres
       document.querySelectorAll('.cycle-tab-btn').forEach(btn => {
         btn.classList.toggle('active', btn.id === 'cycle-tab-home');
       });
+      // Retirer la sélection active des pilules de niveaux sur la page d'accueil
+      document.querySelectorAll('.level-pill').forEach(pill => pill.classList.remove('active'));
 
       this.renderHomeView();
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -767,6 +1008,7 @@ document.addEventListener('DOMContentLoaded', () => {
     hideHomeView() {
       if (!this.isHomeView) return;
       this.isHomeView = false;
+      document.body.classList.remove('home-view-active');
       const homeView = document.getElementById('home-view');
       const sidebar = document.getElementById('sidebar-chapters');
       const workspace = document.querySelector('.main-workspace');
@@ -795,26 +1037,40 @@ document.addEventListener('DOMContentLoaded', () => {
       const streakDaysEl = document.getElementById('home-streak-days');
       if (streakDaysEl) streakDaysEl.textContent = streakDays;
 
-      // 2. Mise à jour de la carte de reprise d'activité (Effet Zeigarnik)
-      const lastActive = window.MathsStorage && window.MathsStorage.getLastActiveChapter ? window.MathsStorage.getLastActiveChapter() : { chapterId: 'N1', tier: 1 };
+      // 2. Mise à jour de la carte de reprise d'activité (Effet Zeigarnik ou Accueil Neutre)
+      const lastActive = window.MathsStorage && window.MathsStorage.getLastActiveChapter ? window.MathsStorage.getLastActiveChapter() : null;
       const allChapters = window.MATHS_CHAPTERS || [];
-      const chap = allChapters.find(c => c.id === lastActive.chapterId) || allChapters.find(c => c.level === this.currentLevel) || allChapters[0];
+      const chap = (lastActive && lastActive.chapterId) ? allChapters.find(c => c.id === lastActive.chapterId) : null;
 
-      if (chap) {
+      const badgeEl = document.getElementById('home-resume-badge');
+      const tagEl = document.getElementById('home-resume-tag');
+      const nameEl = document.getElementById('home-resume-chap-name');
+      const tierEl = document.getElementById('home-resume-tier-pill');
+      const subEl = document.getElementById('home-resume-sub');
+      const btnEl = document.getElementById('home-resume-btn');
+
+      if (chap && lastActive) {
         this.homeResumeTarget = { chapterId: chap.id, tier: lastActive.tier || 1 };
-        const badgeEl = document.getElementById('home-resume-badge');
-        const nameEl = document.getElementById('home-resume-chap-name');
-        const tierEl = document.getElementById('home-resume-tier-pill');
-        const percentEl = document.getElementById('home-resume-percent');
-
         if (badgeEl) badgeEl.textContent = chap.id;
+        if (tagEl) tagEl.textContent = "🎯 Reprendre où tu t'es arrêté";
         if (nameEl) nameEl.textContent = chap.shortTitle || chap.title;
         const tierNames = { 1: 'Socle', 2: 'Guidé', 3: 'Brevet', 4: 'Défi' };
-        if (tierEl) tierEl.textContent = `Palier ${lastActive.tier || 1} : ${tierNames[lastActive.tier] || 'Socle'}`;
-
+        if (tierEl) {
+          tierEl.style.display = 'inline-block';
+          tierEl.textContent = `Palier ${lastActive.tier || 1} : ${tierNames[lastActive.tier] || 'Socle'}`;
+        }
         const progress = window.MathsStorage.getChapterProgress(chap.id);
         const mastery = progress ? (progress.mastery || 0) : 0;
-        if (percentEl) percentEl.textContent = `${mastery}%`;
+        if (subEl) subEl.innerHTML = `Maîtrise : <strong id="home-resume-percent">${mastery}%</strong>`;
+        if (btnEl) btnEl.innerHTML = 'Continuer ➔';
+      } else {
+        this.homeResumeTarget = null;
+        if (badgeEl) badgeEl.textContent = '🚀';
+        if (tagEl) tagEl.textContent = '🎯 Démarrage Rapide';
+        if (nameEl) nameEl.textContent = 'Choisis ton cycle pour démarrer';
+        if (tierEl) tierEl.style.display = 'none';
+        if (subEl) subEl.textContent = 'Collège, Lycée ou prépare ton Brevet / Bac';
+        if (btnEl) btnEl.innerHTML = 'Découvrir les cycles ▾';
       }
 
       // 3. Mise à jour des badges cadenas (Code requis)
@@ -834,6 +1090,21 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     },
 
+    handleResumeOrStart() {
+      if (this.homeResumeTarget) {
+        this.resumeLastActivity();
+      } else {
+        this.scrollToCycles();
+      }
+    },
+
+    scrollToCycles() {
+      const el = document.querySelector('.home-cycles-grid') || document.querySelector('.home-section-header');
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    },
+
     resumeLastActivity() {
       const target = this.homeResumeTarget || { chapterId: 'N1', tier: 1 };
       this.hideHomeView();
@@ -847,6 +1118,59 @@ document.addEventListener('DOMContentLoaded', () => {
         window.MathsAdaptiveEngine.setTier(target.tier);
       }
       this.switchTab('train');
+    },
+
+    showModeExplainer(modeKey) {
+      const explainer = this.MODE_EXPLAINERS[modeKey];
+      if (!explainer) return;
+
+      this.currentExplainerMode = modeKey;
+      const modal = document.getElementById('mode-explainer-modal');
+      const iconEl = document.getElementById('mode-explainer-icon');
+      const titleEl = document.getElementById('mode-explainer-title');
+      const subEl = document.getElementById('mode-explainer-subtitle');
+      const bodyEl = document.getElementById('mode-explainer-body');
+      const actionBtn = document.getElementById('mode-explainer-action-btn');
+
+      if (iconEl) iconEl.textContent = explainer.icon;
+      if (titleEl) titleEl.textContent = explainer.title;
+      if (subEl) subEl.textContent = explainer.subtitle;
+      if (bodyEl) {
+        bodyEl.innerHTML = explainer.contentHtml;
+        if (window.MathsRenderer && typeof window.MathsRenderer.renderElement === 'function') {
+          window.MathsRenderer.renderElement(bodyEl);
+        }
+      }
+      if (actionBtn) {
+        actionBtn.innerHTML = explainer.actionLabel;
+      }
+
+      if (modal) {
+        modal.style.display = 'flex';
+        modal.scrollTop = 0;
+      }
+    },
+
+    closeModeExplainer() {
+      const modal = document.getElementById('mode-explainer-modal');
+      if (modal) {
+        modal.style.display = 'none';
+      }
+    },
+
+    launchCurrentExplainerMode() {
+      const mode = this.currentExplainerMode || 'adaptive';
+      this.closeModeExplainer();
+      if (mode === 'adaptive') {
+        this.hideHomeView();
+        this.switchTab('train');
+      } else if (mode === 'rituel') {
+        this.openDiaporamaModal();
+      } else if (mode === 'quiz') {
+        this.openQuizModal();
+      } else if (mode === 'flashcards') {
+        this.openFlashcardsModal();
+      }
     },
 
     openDiaporamaModal(chapterId = null, autoStart = false) {
