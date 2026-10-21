@@ -1939,121 +1939,565 @@ window.MathsAdvancedGenerators = {
         );
       }
     } else if (tier === 3) {
-      // Palier 3 : Polynômes de degré supérieur à 2 avec racines doubles et DES
+      // Palier 3 : Polynômes de degré supérieur à 2 avec racines doubles, complétion du carré et DES
       const p3Variant = this.randChoice(['td_deg3_double', 'td_deg4_bicarre', 'td_deg4_double_double', 'td_deg4_sophie_germain', 'td_deg6', 'td_des_pole_double']);
       if (p3Variant === 'td_deg3_double') {
-        // X^3 - 5X^2 + 3X + 9
+        const deg3DoubleCases = [
+          {
+            poly: "X^3 - 5X^2 + 3X + 9",
+            doubleRoot: 3,
+            simpleRoot: -1,
+            factor: "(X - 3)^2 (X + 1)",
+            distractors: [
+              "$(X - 3)(X + 1)^2$",
+              "$(X + 3)^2 (X - 1)$",
+              "$(X - 3)(X^2 - 2X - 3)$"
+            ],
+            hint1: "Calcule la dérivée $P'(X) = 3X^2 - 10X + 3$ et teste la racine candidate $X = 3$ dans $P$ et $P'$.",
+            hint2: "Comme $P(3) = 0$ et $P'(3) = 0$, $3$ est racine au moins double : effectue la division euclidienne de $P(X)$ par $(X - 3)^2 = X^2 - 6X + 9$.",
+            sol: "On teste $X = 3$ : $P(3) = 27 - 45 + 9 + 9 = 0$. Dérivée : $P'(X) = 3X^2 - 10X + 3 \\implies P'(3) = 27 - 30 + 3 = 0$. Donc $3$ est une racine au moins double. La division euclidienne de $P(X)$ par $(X - 3)^2 = X^2 - 6X + 9$ donne le quotient $X + 1$. D'où $P(X) = (X - 3)^2 (X + 1)$."
+          },
+          {
+            poly: "X^3 - 4X^2 + 5X - 2",
+            doubleRoot: 1,
+            simpleRoot: 2,
+            factor: "(X - 1)^2 (X - 2)",
+            distractors: [
+              "$(X - 1)(X - 2)^2$",
+              "$(X + 1)^2 (X + 2)$",
+              "$(X - 1)^3$"
+            ],
+            hint1: "Calcule la dérivée $P'(X) = 3X^2 - 8X + 5$ et teste la racine candidate $X = 1$ dans $P$ et $P'$.",
+            hint2: "Comme $P(1) = 0$ et $P'(1) = 0$, $1$ est racine au moins double : effectue la division de $P(X)$ par $(X - 1)^2 = X^2 - 2X + 1$.",
+            sol: "On teste $X = 1$ : $P(1) = 1 - 4 + 5 - 2 = 0$. Dérivée : $P'(X) = 3X^2 - 8X + 5 \\implies P'(1) = 3 - 8 + 5 = 0$. Donc $1$ est racine double. La division par $(X - 1)^2 = X^2 - 2X + 1$ donne pour quotient $X - 2$. D'où $P(X) = (X - 1)^2 (X - 2)$."
+          },
+          {
+            poly: "X^3 - X^2 - X + 1",
+            doubleRoot: 1,
+            simpleRoot: -1,
+            factor: "(X - 1)^2 (X + 1)",
+            distractors: [
+              "$(X - 1)(X + 1)^2$",
+              "$(X^2 - 1)(X + 1)$",
+              "$(X - 1)^3$"
+            ],
+            hint1: "Calcule la dérivée $P'(X) = 3X^2 - 2X - 1$ et teste $X = 1$.",
+            hint2: "Puisque $P(1) = 0$ et $P'(1) = 0$, divise par $(X - 1)^2 = X^2 - 2X + 1$.",
+            sol: "On a $P(1) = 0$ et $P'(1) = 3 - 2 - 1 = 0$, donc $1$ est racine double. De plus $P(X) = X^2(X - 1) - (X - 1) = (X - 1)(X^2 - 1) = (X - 1)^2 (X + 1)$."
+          },
+          {
+            poly: "X^3 + 4X^2 - 3X - 18",
+            doubleRoot: -3,
+            simpleRoot: 2,
+            factor: "(X + 3)^2 (X - 2)",
+            distractors: [
+              "$(X + 3)(X - 2)^2$",
+              "$(X - 3)^2 (X + 2)$",
+              "$(X + 3)(X^2 + X - 6)$"
+            ],
+            hint1: "Calcule la dérivée $P'(X) = 3X^2 + 8X - 3$ et teste la racine candidate $X = -3$ dans $P$ et $P'$.",
+            hint2: "Comme $P(-3) = 0$ et $P'(-3) = 0$, divise par $(X + 3)^2 = X^2 + 6X + 9$.",
+            sol: "On a $P(-3) = -27 + 36 + 9 - 18 = 0$ et $P'(-3) = 27 - 24 - 3 = 0$, donc $-3$ est racine double. La division de $P(X)$ par $(X + 3)^2 = X^2 + 6X + 9$ donne le quotient $X - 2$. D'où $P(X) = (X + 3)^2 (X - 2)$."
+          },
+          {
+            poly: "X^3 - X^2 - 8X + 12",
+            doubleRoot: 2,
+            simpleRoot: -3,
+            factor: "(X - 2)^2 (X + 3)",
+            distractors: [
+              "$(X - 2)(X + 3)^2$",
+              "$(X + 2)^2 (X - 3)$",
+              "$(X - 2)^3$"
+            ],
+            hint1: "Calcule la dérivée $P'(X) = 3X^2 - 2X - 8$ et teste la racine $X = 2$ dans $P$ et $P'$.",
+            hint2: "Comme $P(2) = 0$ et $P'(2) = 0$, divise $P(X)$ par $(X - 2)^2 = X^2 - 4X + 4$.",
+            sol: "On a $P(2) = 8 - 4 - 16 + 12 = 0$ et $P'(2) = 12 - 4 - 8 = 0$, donc $2$ est racine double. La division de $P(X)$ par $(X - 2)^2 = X^2 - 4X + 4$ donne $X + 3$. D'où $P(X) = (X - 2)^2 (X + 3)$."
+          },
+          {
+            poly: "X^3 + 5X^2 + 8X + 4",
+            doubleRoot: -2,
+            simpleRoot: -1,
+            factor: "(X + 2)^2 (X + 1)",
+            distractors: [
+              "$(X + 2)(X + 1)^2$",
+              "$(X - 2)^2 (X - 1)$",
+              "$(X + 2)^3$"
+            ],
+            hint1: "Calcule la dérivée $P'(X) = 3X^2 + 10X + 8$ et teste $X = -2$ dans $P$ et $P'$.",
+            hint2: "Comme $P(-2) = 0$ et $P'(-2) = 0$, divise par $(X + 2)^2 = X^2 + 4X + 4$.",
+            sol: "On a $P(-2) = -8 + 20 - 16 + 4 = 0$ et $P'(-2) = 12 - 20 + 8 = 0$, donc $-2$ est racine double. La division par $(X + 2)^2$ donne $X + 1$. D'où $P(X) = (X + 2)^2 (X + 1)$."
+          }
+        ];
+        const c = this.randChoice(deg3DoubleCases);
         return this.makeMcq(
           'L1-CMP', 3, "Factorisation de degré 3 à racine double",
           "Détecter une racine double et factoriser un polynôme de degré 3",
-          "Factoriser dans $\\mathbb{R}[X]$ le polynôme $P(X) = X^3 - 5X^2 + 3X + 9$ :",
-          "$(X - 3)^2 (X + 1)$",
-          [
-            "$(X - 3)(X + 1)^2$",
-            "$(X + 3)^2 (X - 1)$",
-            "$(X - 3)(X^2 - 2X - 3)$"
-          ],
-          "Calcule la dérivée $P'(X) = 3X^2 - 10X + 3$ et teste la racine candidate $X = 3$ dans $P$ et $P'$.",
-          "Comme $P(3) = 0$ et $P'(3) = 0$, $3$ est racine au moins double : effectue la division euclidienne de $P(X)$ par $(X - 3)^2 = X^2 - 6X + 9$.",
-          "On teste $X = 3$ : $P(3) = 27 - 45 + 9 + 9 = 0$. Dérivée : $P'(X) = 3X^2 - 10X + 3 \\implies P'(3) = 27 - 30 + 3 = 0$. Donc $3$ est une racine au moins double. La division euclidienne de $P(X)$ par $(X - 3)^2 = X^2 - 6X + 9$ donne le quotient $X + 1$. D'où $P(X) = (X - 3)^2 (X + 1)$."
+          `Factoriser dans $\\mathbb{R}[X]$ le polynôme $P(X) = ${c.poly}$ :`,
+          `$${c.factor}$`,
+          c.distractors,
+          c.hint1,
+          c.hint2,
+          c.sol
         );
       } else if (p3Variant === 'td_deg4_bicarre') {
-        // X^4 - 16
+        const deg4BicarreCases = [
+          {
+            poly: "X^4 - 16",
+            root: 2,
+            sqRoot: 4,
+            distractors: [
+              "Dans $\\mathbb{R}[X]$ : $(X - 2)^2 (X + 2)^2$ ; Dans $\\mathbb{C}[X]$ : $(X - 2)^4$",
+              "Dans $\\mathbb{R}[X]$ : $(X^2 - 4)^2$ ; Dans $\\mathbb{C}[X]$ : $(X - 2)(X + 2)(X^2 + 4)$",
+              "Dans $\\mathbb{R}[X]$ : $(X - 4)(X + 4)(X^2 + 4)$ ; Dans $\\mathbb{C}[X]$ : $(X - 4)(X + 4)(X - 4i)(X + 4i)$"
+            ]
+          },
+          {
+            poly: "X^4 - 1",
+            root: 1,
+            sqRoot: 1,
+            distractors: [
+              "Dans $\\mathbb{R}[X]$ : $(X - 1)^2 (X + 1)^2$ ; Dans $\\mathbb{C}[X]$ : $(X - 1)^4$",
+              "Dans $\\mathbb{R}[X]$ : $(X^2 - 1)^2$ ; Dans $\\mathbb{C}[X]$ : $(X - 1)(X + 1)(X^2 + 1)$",
+              "Dans $\\mathbb{R}[X]$ : $(X - 1)(X + 1)(X^2 - 1)$ ; Dans $\\mathbb{C}[X]$ : $(X - 1)^2 (X + 1)^2$"
+            ]
+          },
+          {
+            poly: "X^4 - 81",
+            root: 3,
+            sqRoot: 9,
+            distractors: [
+              "Dans $\\mathbb{R}[X]$ : $(X - 3)^2 (X + 3)^2$ ; Dans $\\mathbb{C}[X]$ : $(X - 3)^4$",
+              "Dans $\\mathbb{R}[X]$ : $(X^2 - 9)^2$ ; Dans $\\mathbb{C}[X]$ : $(X - 3)(X + 3)(X^2 + 9)$",
+              "Dans $\\mathbb{R}[X]$ : $(X - 9)(X + 9)(X^2 + 9)$ ; Dans $\\mathbb{C}[X]$ : $(X - 9)(X + 9)(X - 9i)(X + 9i)$"
+            ]
+          },
+          {
+            poly: "X^4 - 256",
+            root: 4,
+            sqRoot: 16,
+            distractors: [
+              "Dans $\\mathbb{R}[X]$ : $(X - 4)^2 (X + 4)^2$ ; Dans $\\mathbb{C}[X]$ : $(X - 4)^4$",
+              "Dans $\\mathbb{R}[X]$ : $(X^2 - 16)^2$ ; Dans $\\mathbb{C}[X]$ : $(X - 4)(X + 4)(X^2 + 16)$",
+              "Dans $\\mathbb{R}[X]$ : $(X - 16)(X + 16)(X^2 + 16)$ ; Dans $\\mathbb{C}[X]$ : $(X - 16)(X + 16)(X - 16i)(X + 16i)$"
+            ]
+          },
+          {
+            poly: "X^4 - 625",
+            root: 5,
+            sqRoot: 25,
+            distractors: [
+              "Dans $\\mathbb{R}[X]$ : $(X - 5)^2 (X + 5)^2$ ; Dans $\\mathbb{C}[X]$ : $(X - 5)^4$",
+              "Dans $\\mathbb{R}[X]$ : $(X^2 - 25)^2$ ; Dans $\\mathbb{C}[X]$ : $(X - 5)(X + 5)(X^2 + 25)$",
+              "Dans $\\mathbb{R}[X]$ : $(X - 25)(X + 25)(X^2 + 25)$ ; Dans $\\mathbb{C}[X]$ : $(X - 25)(X + 25)(X - 25i)(X + 25i)$"
+            ]
+          }
+        ];
+        const c = this.randChoice(deg4BicarreCases);
+        const realSol = `(X - ${c.root})(X + ${c.root})(X^2 + ${c.sqRoot})`;
+        const cplxSol = `(X - ${c.root})(X + ${c.root})(X - ${c.root}i)(X + ${c.root}i)`;
         return this.makeMcq(
           'L1-CMP', 3, "Factorisation de degré 4 dans $\\mathbb{R}[X]$ et $\\mathbb{C}[X]$",
           "Comparer la factorisation en irréductibles dans $\\mathbb{R}[X]$ et $\\mathbb{C}[X]$",
-          "Quelle est la décomposition en facteurs irréductibles de $P(X) = X^4 - 16$ dans $\\mathbb{R}[X]$ et dans $\\mathbb{C}[X]$ ?",
-          "Dans $\\mathbb{R}[X]$ : $(X - 2)(X + 2)(X^2 + 4)$ ; Dans $\\mathbb{C}[X]$ : $(X - 2)(X + 2)(X - 2i)(X + 2i)$",
-          [
-            "Dans $\\mathbb{R}[X]$ : $(X - 2)^2 (X + 2)^2$ ; Dans $\\mathbb{C}[X]$ : $(X - 2)^4$",
-            "Dans $\\mathbb{R}[X]$ : $(X^2 - 4)^2$ ; Dans $\\mathbb{C}[X]$ : $(X - 2)(X + 2)(X^2 + 4)$",
-            "Dans $\\mathbb{R}[X]$ : $(X - 4)(X + 4)(X^2 + 4)$ ; Dans $\\mathbb{C}[X]$ : $(X - 4)(X + 4)(X - 4i)(X + 4i)$"
-          ],
-          "Remarque que $X^4 - 16 = (X^2)^2 - 4^2$, puis applique la différence de deux carrés : $(X^2 - 4)(X^2 + 4)$.",
-          "Dans $\\mathbb{R}[X]$, factorise $X^2 - 4 = (X - 2)(X + 2)$ et conserve $X^2 + 4$ qui est irréductible ($\\Delta < 0$). Dans $\\mathbb{C}[X]$, factorise $X^2 + 4 = (X - 2i)(X + 2i)$.",
-          "$X^4 - 16 = (X^2 - 4)(X^2 + 4) = (X - 2)(X + 2)(X^2 + 4)$. Le facteur $X^2 + 4$ n'a aucune racine réelle ($\\Delta = -16 < 0$), donc il est irréductible dans $\\mathbb{R}[X]$. Dans $\\mathbb{C}[X]$, il se factorise en $(X - 2i)(X + 2i)$."
+          `Quelle est la décomposition en facteurs irréductibles de $P(X) = ${c.poly}$ dans $\\mathbb{R}[X]$ et dans $\\mathbb{C}[X]$ ?`,
+          `Dans $\\mathbb{R}[X]$ : $${realSol}$ ; Dans $\\mathbb{C}[X]$ : $${cplxSol}$`,
+          c.distractors,
+          `Remarque que $${c.poly} = (X^2)^2 - ${c.sqRoot}^2$, puis applique la différence de deux carrés : $(X^2 - ${c.sqRoot})(X^2 + ${c.sqRoot})$.`,
+          `Dans $\\mathbb{R}[X]$, factorise $X^2 - ${c.sqRoot} = (X - ${c.root})(X + ${c.root})$ et conserve $X^2 + ${c.sqRoot}$ qui est irréductible ($\\Delta < 0$). Dans $\\mathbb{C}[X]$, factorise $X^2 + ${c.sqRoot} = (X - ${c.root}i)(X + ${c.root}i)$.`,
+          `$${c.poly} = (X^2 - ${c.sqRoot})(X^2 + ${c.sqRoot}) = ${realSol}$. Le facteur $X^2 + ${c.sqRoot}$ n'a aucune racine réelle ($\\Delta = -4(${c.sqRoot}) < 0$), donc il est irréductible dans $\\mathbb{R}[X]$. Dans $\\mathbb{C}[X]$, il se factorise en $(X - ${c.root}i)(X + ${c.root}i)$.`
         );
       } else if (p3Variant === 'td_deg4_double_double') {
+        const deg4DoubleDoubleCases = [
+          {
+            poly: "X^4 - 2X^2 + 1",
+            root: 1,
+            factor: "(X - 1)^2 (X + 1)^2",
+            distractors: [
+              "$(X^2 - 1)^2$ (deux racines simples)",
+              "$(X - 1)^4$ (une unique racine d'ordre 4)",
+              "$(X - 1)(X + 1)(X^2 + 1)$ (racines simples)"
+            ]
+          },
+          {
+            poly: "X^4 - 8X^2 + 16",
+            root: 2,
+            factor: "(X - 2)^2 (X + 2)^2",
+            distractors: [
+              "$(X^2 - 4)^2$ (deux racines simples)",
+              "$(X - 2)^4$ (une unique racine d'ordre 4)",
+              "$(X - 2)(X + 2)(X^2 + 4)$ (racines simples)"
+            ]
+          },
+          {
+            poly: "X^4 - 18X^2 + 81",
+            root: 3,
+            factor: "(X - 3)^2 (X + 3)^2",
+            distractors: [
+              "$(X^2 - 9)^2$ (deux racines simples)",
+              "$(X - 3)^4$ (une unique racine d'ordre 4)",
+              "$(X - 3)(X + 3)(X^2 + 9)$ (racines simples)"
+            ]
+          },
+          {
+            poly: "X^4 - 32X^2 + 256",
+            root: 4,
+            factor: "(X - 4)^2 (X + 4)^2",
+            distractors: [
+              "$(X^2 - 16)^2$ (deux racines simples)",
+              "$(X - 4)^4$ (une unique racine d'ordre 4)",
+              "$(X - 4)(X + 4)(X^2 + 16)$ (racines simples)"
+            ]
+          },
+          {
+            poly: "X^4 - 50X^2 + 625",
+            root: 5,
+            factor: "(X - 5)^2 (X + 5)^2",
+            distractors: [
+              "$(X^2 - 25)^2$ (deux racines simples)",
+              "$(X - 5)^4$ (une unique racine d'ordre 4)",
+              "$(X - 5)(X + 5)(X^2 + 25)$ (racines simples)"
+            ]
+          }
+        ];
+        const c = this.randChoice(deg4DoubleDoubleCases);
         return this.makeMcq(
           'L1-CMP', 3, "Polynôme de degré 4 à racines doubles multiples",
           "Identifier des racines doubles dans un polynôme de degré 4",
-          "Factoriser le polynôme $P(X) = X^4 - 2X^2 + 1$ dans $\\mathbb{R}[X]$ et préciser la multiplicité de ses racines :",
-          "$(X - 1)^2 (X + 1)^2$ (deux racines doubles : $1$ et $-1$)",
-          [
-            "$(X^2 - 1)^2$ (deux racines simples)",
-            "$(X - 1)^4$ (une unique racine d'ordre 4)",
-            "$(X - 1)(X + 1)(X^2 + 1)$ (racines simples)"
-          ],
-          "Reconnais une identité remarquable de la forme $(X^2 - a)^2$.",
+          `Factoriser le polynôme $P(X) = ${c.poly}$ dans $\\mathbb{R}[X]$ et préciser la multiplicité de ses racines :`,
+          `$${c.factor}$ (deux racines doubles : $${c.root}$ et $-${c.root}$)`,
+          c.distractors,
+          "Reconnais une identité remarquable de la forme $(X^2 - a^2)^2$.",
           "Factorise ensuite la différence de carrés à l'intérieur de la puissance.",
-          "On reconnaît $X^4 - 2X^2 + 1 = (X^2 - 1)^2 = [(X - 1)(X + 1)]^2 = (X - 1)^2 (X + 1)^2$. Les racines $1$ et $-1$ sont donc toutes les deux des racines de multiplicité 2 (racines doubles)."
+          `On reconnaît $${c.poly} = (X^2 - ${c.root * c.root})^2 = [(X - ${c.root})(X + ${c.root})]^2 = ${c.factor}$. Les racines $${c.root}$ et $-${c.root}$ sont donc toutes les deux des racines de multiplicité 2 (racines doubles).`
         );
       } else if (p3Variant === 'td_deg4_sophie_germain') {
-        // X^4 + X^2 + 1
+        const sophieGermainCases = [
+          {
+            poly: "X^4 + X^2 + 1",
+            completion: "X^4 + X^2 + 1 = (X^4 + 2X^2 + 1) - X^2 = (X^2 + 1)^2 - X^2",
+            ans: "$(X^2 - X + 1)(X^2 + X + 1)$",
+            distractors: [
+              "$(X^2 + 1)^2$",
+              "$(X^2 + X - 1)(X^2 - X - 1)$",
+              "Irréductible dans $\\mathbb{R}[X]$"
+            ],
+            hint1: "Complète le carré en écrivant : $X^4 + X^2 + 1 = (X^4 + 2X^2 + 1) - X^2 = (X^2 + 1)^2 - X^2$.",
+            hint2: "Applique ensuite l'identité remarquable $A^2 - B^2 = (A - B)(A + B)$ avec $A = X^2 + 1$ et $B = X$, puis vérifie que les discriminants $\\Delta$ des deux trinômes sont strictement négatifs.",
+            sol: "On écrit $X^4 + X^2 + 1 = (X^2 + 1)^2 - X^2 = (X^2 + 1 - X)(X^2 + 1 + X) = (X^2 - X + 1)(X^2 + X + 1)$. Pour les deux trinômes, le discriminant est $\\Delta = 1 - 4 = -3 < 0$, ce qui garantit leur irréductibilité dans $\\mathbb{R}[X]$."
+          },
+          {
+            poly: "X^4 + 4",
+            completion: "X^4 + 4 = (X^4 + 4X^2 + 4) - 4X^2 = (X^2 + 2)^2 - (2X)^2",
+            ans: "$(X^2 - 2X + 2)(X^2 + 2X + 2)$",
+            distractors: [
+              "$(X^2 + 2)^2$",
+              "$(X^2 - 2)(X^2 + 2)$",
+              "Irréductible dans $\\mathbb{R}[X]$"
+            ],
+            hint1: "Complète le carré en écrivant : $X^4 + 4 = (X^4 + 4X^2 + 4) - 4X^2 = (X^2 + 2)^2 - (2X)^2$.",
+            hint2: "Applique l'identité remarquable $A^2 - B^2 = (A - B)(A + B)$ avec $A = X^2 + 2$ et $B = 2X$, puis vérifie que les discriminants $\\Delta$ sont strictement négatifs.",
+            sol: "On applique l'identité de Sophie Germain : $X^4 + 4 = (X^2 + 2)^2 - (2X)^2 = (X^2 - 2X + 2)(X^2 + 2X + 2)$. Pour chaque trinôme, $\\Delta = 4 - 8 = -4 < 0$, donc ils sont tous deux irréductibles dans $\\mathbb{R}[X]$."
+          },
+          {
+            poly: "X^4 + 64",
+            completion: "X^4 + 64 = (X^4 + 16X^2 + 64) - 16X^2 = (X^2 + 8)^2 - (4X)^2",
+            ans: "$(X^2 - 4X + 8)(X^2 + 4X + 8)$",
+            distractors: [
+              "$(X^2 + 8)^2$",
+              "$(X^2 - 8)(X^2 + 8)$",
+              "Irréductible dans $\\mathbb{R}[X]$"
+            ],
+            hint1: "Complète le carré en écrivant : $X^4 + 64 = (X^4 + 16X^2 + 64) - 16X^2 = (X^2 + 8)^2 - (4X)^2$.",
+            hint2: "Applique $A^2 - B^2 = (A - B)(A + B)$ avec $A = X^2 + 8$ et $B = 4X$, puis vérifie que les discriminants $\\Delta$ sont strictement négatifs.",
+            sol: "On écrit $X^4 + 64 = (X^2 + 8)^2 - (4X)^2 = (X^2 - 4X + 8)(X^2 + 4X + 8)$. Les deux facteurs du second degré ont pour discriminant $\\Delta = 16 - 32 = -16 < 0$, donc ils sont irréductibles dans $\\mathbb{R}[X]$."
+          },
+          {
+            poly: "X^4 + 4X^2 + 16",
+            completion: "X^4 + 4X^2 + 16 = (X^4 + 8X^2 + 16) - 4X^2 = (X^2 + 4)^2 - (2X)^2",
+            ans: "$(X^2 - 2X + 4)(X^2 + 2X + 4)$",
+            distractors: [
+              "$(X^2 + 4)^2$",
+              "$(X^2 + 2X - 4)(X^2 - 2X - 4)$",
+              "Irréductible dans $\\mathbb{R}[X]$"
+            ],
+            hint1: "Complète le carré en écrivant : $X^4 + 4X^2 + 16 = (X^4 + 8X^2 + 16) - 4X^2 = (X^2 + 4)^2 - (2X)^2$.",
+            hint2: "Applique $A^2 - B^2 = (A - B)(A + B)$ avec $A = X^2 + 4$ et $B = 2X$, puis étudie le signe des discriminants.",
+            sol: "On complète le carré : $X^4 + 4X^2 + 16 = (X^2 + 4)^2 - 4X^2 = (X^2 - 2X + 4)(X^2 + 2X + 4)$. Le discriminant de chacun des deux trinômes est $\\Delta = 4 - 16 = -12 < 0$, donc ils sont irréductibles dans $\\mathbb{R}[X]$."
+          },
+          {
+            poly: "X^4 + 2X^2 + 9",
+            completion: "X^4 + 2X^2 + 9 = (X^4 + 6X^2 + 9) - 4X^2 = (X^2 + 3)^2 - (2X)^2",
+            ans: "$(X^2 - 2X + 3)(X^2 + 2X + 3)$",
+            distractors: [
+              "$(X^2 + 3)^2$",
+              "$(X^2 + 2X - 3)(X^2 - 2X - 3)$",
+              "Irréductible dans $\\mathbb{R}[X]$"
+            ],
+            hint1: "Complète le carré en écrivant : $X^4 + 2X^2 + 9 = (X^4 + 6X^2 + 9) - 4X^2 = (X^2 + 3)^2 - (2X)^2$.",
+            hint2: "Applique $A^2 - B^2 = (A - B)(A + B)$ avec $A = X^2 + 3$ et $B = 2X$.",
+            sol: "On a $X^4 + 2X^2 + 9 = (X^2 + 3)^2 - (2X)^2 = (X^2 - 2X + 3)(X^2 + 2X + 3)$. Les deux facteurs ont $\\Delta = 4 - 12 = -8 < 0$, ce qui assure leur irréductibilité dans $\\mathbb{R}[X]$."
+          },
+          {
+            poly: "X^4 + 5X^2 + 9",
+            completion: "X^4 + 5X^2 + 9 = (X^4 + 6X^2 + 9) - X^2 = (X^2 + 3)^2 - X^2",
+            ans: "$(X^2 - X + 3)(X^2 + X + 3)$",
+            distractors: [
+              "$(X^2 + 3)^2$",
+              "$(X^2 + X - 3)(X^2 - X - 3)$",
+              "Irréductible dans $\\mathbb{R}[X]$"
+            ],
+            hint1: "Complète le carré en écrivant : $X^4 + 5X^2 + 9 = (X^4 + 6X^2 + 9) - X^2 = (X^2 + 3)^2 - X^2$.",
+            hint2: "Applique $A^2 - B^2 = (A - B)(A + B)$ avec $A = X^2 + 3$ et $B = X$.",
+            sol: "On a $X^4 + 5X^2 + 9 = (X^2 + 3)^2 - X^2 = (X^2 - X + 3)(X^2 + X + 3)$. Pour les deux trinômes, $\\Delta = 1 - 12 = -11 < 0$, donc ils sont irréductibles dans $\\mathbb{R}[X]$."
+          },
+          {
+            poly: "X^4 - X^2 + 16",
+            completion: "X^4 - X^2 + 16 = (X^4 + 8X^2 + 16) - 9X^2 = (X^2 + 4)^2 - (3X)^2",
+            ans: "$(X^2 - 3X + 4)(X^2 + 3X + 4)$",
+            distractors: [
+              "$(X^2 + 4)^2$",
+              "$(X^2 + 3X - 4)(X^2 - 3X - 4)$",
+              "Irréductible dans $\\mathbb{R}[X]$"
+            ],
+            hint1: "Complète le carré en écrivant : $X^4 - X^2 + 16 = (X^4 + 8X^2 + 16) - 9X^2 = (X^2 + 4)^2 - (3X)^2$.",
+            hint2: "Applique $A^2 - B^2 = (A - B)(A + B)$ avec $A = X^2 + 4$ et $B = 3X$.",
+            sol: "On a $X^4 - X^2 + 16 = (X^2 + 4)^2 - (3X)^2 = (X^2 - 3X + 4)(X^2 + 3X + 4)$. Pour les deux trinômes, $\\Delta = 9 - 16 = -7 < 0$, ils sont donc irréductibles dans $\\mathbb{R}[X]$."
+          },
+          {
+            poly: "X^4 + 7X^2 + 16",
+            completion: "X^4 + 7X^2 + 16 = (X^4 + 8X^2 + 16) - X^2 = (X^2 + 4)^2 - X^2",
+            ans: "$(X^2 - X + 4)(X^2 + X + 4)$",
+            distractors: [
+              "$(X^2 + 4)^2$",
+              "$(X^2 + X - 4)(X^2 - X - 4)$",
+              "Irréductible dans $\\mathbb{R}[X]$"
+            ],
+            hint1: "Complète le carré en écrivant : $X^4 + 7X^2 + 16 = (X^4 + 8X^2 + 16) - X^2 = (X^2 + 4)^2 - X^2$.",
+            hint2: "Applique $A^2 - B^2 = (A - B)(A + B)$ avec $A = X^2 + 4$ et $B = X$.",
+            sol: "On a $X^4 + 7X^2 + 16 = (X^2 + 4)^2 - X^2 = (X^2 - X + 4)(X^2 + X + 4)$. Pour les deux trinômes, $\\Delta = 1 - 16 = -15 < 0$, ils sont donc irréductibles dans $\\mathbb{R}[X]$."
+          },
+          {
+            poly: "X^4 + 1",
+            completion: "X^4 + 1 = (X^4 + 2X^2 + 1) - 2X^2 = (X^2 + 1)^2 - (\\sqrt{2}X)^2",
+            ans: "$(X^2 - \\sqrt{2}X + 1)(X^2 + \\sqrt{2}X + 1)$",
+            distractors: [
+              "$(X^2 + 1)^2$",
+              "$(X^2 - 1)^2$",
+              "Irréductible dans $\\mathbb{R}[X]$"
+            ],
+            hint1: "Complète le carré en écrivant : $X^4 + 1 = (X^4 + 2X^2 + 1) - 2X^2 = (X^2 + 1)^2 - (\\sqrt{2}X)^2$.",
+            hint2: "Applique $A^2 - B^2 = (A - B)(A + B)$ avec $A = X^2 + 1$ et $B = \\sqrt{2}X$, puis vérifie que les discriminants sont strictement négatifs.",
+            sol: "On a $X^4 + 1 = (X^2 + 1)^2 - 2X^2 = (X^2 - \\sqrt{2}X + 1)(X^2 + \\sqrt{2}X + 1)$. Pour ces deux trinômes, $\\Delta = (-\\sqrt{2})^2 - 4(1)(1) = 2 - 4 = -2 < 0$, ils sont donc irréductibles dans $\\mathbb{R}[X]$."
+          }
+        ];
+        const c = this.randChoice(sophieGermainCases);
         return this.makeMcq(
           'L1-CMP', 3, "Factorisation dans R[X] d'un polynôme de degré 4 sans racine réelle",
           "Factoriser par la méthode de complétion du carré",
-          "Quelle est la factorisation en produit de polynômes irréductibles dans $\\mathbb{R}[X]$ du polynôme $Q(X) = X^4 + X^2 + 1$ ?",
-          "$(X^2 - X + 1)(X^2 + X + 1)$",
-          [
-            "$(X^2 + 1)^2$",
-            "$(X^2 + X - 1)(X^2 - X - 1)$",
-            "Irréductible dans $\\mathbb{R}[X]$"
-          ],
-          "Complète le carré en écrivant : $X^4 + X^2 + 1 = (X^4 + 2X^2 + 1) - X^2 = (X^2 + 1)^2 - X^2$.",
-          "Applique ensuite l'identité remarquable $A^2 - B^2 = (A - B)(A + B)$ avec $A = X^2 + 1$ et $B = X$, puis vérifie que les discriminants $\\Delta$ des deux trinômes sont strictement négatifs.",
-          "On écrit $X^4 + X^2 + 1 = (X^2 + 1)^2 - X^2 = (X^2 + 1 - X)(X^2 + 1 + X) = (X^2 - X + 1)(X^2 + X + 1)$. Pour les deux trinômes, le discriminant est $\\Delta = 1 - 4 = -3 < 0$, ce qui garantit leur irréductibilité dans $\\mathbb{R}[X]$."
+          `Quelle est la factorisation en produit de polynômes irréductibles dans $\\mathbb{R}[X]$ du polynôme $Q(X) = ${c.poly}$ ?`,
+          c.ans,
+          c.distractors,
+          c.hint1,
+          c.hint2,
+          c.sol
         );
       } else if (p3Variant === 'td_deg6') {
-        // X^6 - 9X^3 + 8
+        const deg6Cases = [
+          {
+            poly: "X^6 - 9X^3 + 8",
+            yTrinome: "Y^2 - 9Y + 8 = (Y - 1)(Y - 8)",
+            ans: "$(X - 1)(X^2 + X + 1)(X - 2)(X^2 + 2X + 4)$",
+            distractors: [
+              "$(X^3 - 1)(X^3 - 8)$",
+              "$(X - 1)^3 (X - 2)^3$",
+              "$(X - 1)(X + 1)(X - 2)(X + 2)(X^2 + 1)$"
+            ],
+            hint1: "Effectue le changement de variable $Y = X^3$ pour factoriser le trinôme $Y^2 - 9Y + 8 = (Y - 1)(Y - 8)$.",
+            hint2: "Réinjecte $Y = X^3$, puis factorise $X^3 - 1$ et $X^3 - 8$ à l'aide de l'identité $A^3 - B^3 = (A - B)(A^2 + AB + B^2)$.",
+            sol: "En posant $Y = X^3$, le polynôme devient $Y^2 - 9Y + 8 = (Y - 1)(Y - 8) = (X^3 - 1)(X^3 - 8)$. Or $X^3 - 1 = (X - 1)(X^2 + X + 1)$ et $X^3 - 8 = (X - 2)(X^2 + 2X + 4)$. Comme $\\Delta_1 = 1 - 4 = -3 < 0$ et $\\Delta_2 = 4 - 16 = -12 < 0$, les deux facteurs de degré 2 sont irréductibles dans $\\mathbb{R}[X]$."
+          },
+          {
+            poly: "X^6 - 28X^3 + 27",
+            yTrinome: "Y^2 - 28Y + 27 = (Y - 1)(Y - 27)",
+            ans: "$(X - 1)(X^2 + X + 1)(X - 3)(X^2 + 3X + 9)$",
+            distractors: [
+              "$(X^3 - 1)(X^3 - 27)$",
+              "$(X - 1)^3 (X - 3)^3$",
+              "$(X - 1)(X + 1)(X - 3)(X + 3)(X^2 + 1)$"
+            ],
+            hint1: "Effectue le changement de variable $Y = X^3$ pour factoriser le trinôme $Y^2 - 28Y + 27 = (Y - 1)(Y - 27)$.",
+            hint2: "Factorise $X^3 - 1$ et $X^3 - 27 = X^3 - 3^3$ avec $A^3 - B^3 = (A - B)(A^2 + AB + B^2)$.",
+            sol: "En posant $Y = X^3$, on a $Y^2 - 28Y + 27 = (Y - 1)(Y - 27) = (X^3 - 1)(X^3 - 27)$. Avec l'identité cubique : $X^3 - 1 = (X - 1)(X^2 + X + 1)$ et $X^3 - 27 = (X - 3)(X^2 + 3X + 9)$. Les discriminants sont $\\Delta_1 = 1 - 4 = -3 < 0$ et $\\Delta_2 = 9 - 36 = -27 < 0$, donc ces deux facteurs quadratiques sont irréductibles dans $\\mathbb{R}[X]$."
+          },
+          {
+            poly: "X^6 - 35X^3 + 216",
+            yTrinome: "Y^2 - 35Y + 216 = (Y - 8)(Y - 27)",
+            ans: "$(X - 2)(X^2 + 2X + 4)(X - 3)(X^2 + 3X + 9)$",
+            distractors: [
+              "$(X^3 - 8)(X^3 - 27)$",
+              "$(X - 2)^3 (X - 3)^3$",
+              "$(X - 2)(X + 2)(X - 3)(X + 3)(X^2 + 4)$"
+            ],
+            hint1: "Effectue le changement de variable $Y = X^3$ : les racines de $Y^2 - 35Y + 216$ sont $8$ et $27$.",
+            hint2: "Factorise $X^3 - 8 = X^3 - 2^3$ et $X^3 - 27 = X^3 - 3^3$ avec $A^3 - B^3$.",
+            sol: "En posant $Y = X^3$, le trinôme est $(Y - 8)(Y - 27) = (X^3 - 8)(X^3 - 27)$. Or $X^3 - 8 = (X - 2)(X^2 + 2X + 4)$ et $X^3 - 27 = (X - 3)(X^2 + 3X + 9)$. Les deux trinômes ont des discriminants négatifs ($-12$ et $-27$), ils sont donc irréductibles dans $\\mathbb{R}[X]$."
+          },
+          {
+            poly: "X^6 - 65X^3 + 64",
+            yTrinome: "Y^2 - 65Y + 64 = (Y - 1)(Y - 64)",
+            ans: "$(X - 1)(X^2 + X + 1)(X - 4)(X^2 + 4X + 16)$",
+            distractors: [
+              "$(X^3 - 1)(X^3 - 64)$",
+              "$(X - 1)^3 (X - 4)^3$",
+              "$(X - 1)(X + 1)(X - 4)(X + 4)(X^2 + 1)$"
+            ],
+            hint1: "Pose $Y = X^3$ pour obtenir $Y^2 - 65Y + 64 = (Y - 1)(Y - 64)$.",
+            hint2: "Factorise ensuite $X^3 - 1$ et $X^3 - 64 = X^3 - 4^3$.",
+            sol: "En posant $Y = X^3$, le polynôme devient $(Y - 1)(Y - 64) = (X^3 - 1)(X^3 - 64) = (X - 1)(X^2 + X + 1)(X - 4)(X^2 + 4X + 16)$. Les deux facteurs de degré 2 sont irréductibles dans $\\mathbb{R}[X]$ car leurs discriminants respectifs sont $-3 < 0$ et $-48 < 0$."
+          },
+          {
+            poly: "X^6 - 7X^3 - 8",
+            yTrinome: "Y^2 - 7Y - 8 = (Y + 1)(Y - 8)",
+            ans: "$(X + 1)(X^2 - X + 1)(X - 2)(X^2 + 2X + 4)$",
+            distractors: [
+              "$(X^3 + 1)(X^3 - 8)$",
+              "$(X + 1)^3 (X - 2)^3$",
+              "$(X - 1)(X^2 + X + 1)(X + 2)(X^2 - 2X + 4)$"
+            ],
+            hint1: "Pose $Y = X^3$ : les racines de $Y^2 - 7Y - 8$ sont $-1$ et $8$.",
+            hint2: "Factorise $X^3 + 1 = (X + 1)(X^2 - X + 1)$ et $X^3 - 8 = (X - 2)(X^2 + 2X + 4)$.",
+            sol: "En posant $Y = X^3$, on a $Y^2 - 7Y - 8 = (Y + 1)(Y - 8) = (X^3 + 1)(X^3 - 8)$. Avec la somme et différence de cubes : $X^3 + 1 = (X + 1)(X^2 - X + 1)$ et $X^3 - 8 = (X - 2)(X^2 + 2X + 4)$. Les deux trinômes sont irréductibles dans $\\mathbb{R}[X]$ (discriminants $-3$ et $-12$)."
+          }
+        ];
+        const c = this.randChoice(deg6Cases);
         return this.makeMcq(
           'L1-CMP', 3, "Factorisation d'un polynôme de degré 6 dans $\\mathbb{R}[X]$",
           "Factoriser un polynôme réductible de degré 6 par changement de variable",
-          "Quelle est la factorisation en produit de polynômes irréductibles dans $\\mathbb{R}[X]$ du polynôme $P(X) = X^6 - 9X^3 + 8$ ?",
-          "$(X - 1)(X^2 + X + 1)(X - 2)(X^2 + 2X + 4)$",
-          [
-            "$(X^3 - 1)(X^3 - 8)$",
-            "$(X - 1)^3 (X - 2)^3$",
-            "$(X - 1)(X + 1)(X - 2)(X + 2)(X^2 + 1)$"
-          ],
-          "Effectue le changement de variable $Y = X^3$ pour factoriser le trinôme $Y^2 - 9Y + 8 = (Y - 1)(Y - 8)$.",
-          "Réinjecte $Y = X^3$, puis factorise $X^3 - 1$ et $X^3 - 8$ à l'aide de l'identité $A^3 - B^3 = (A - B)(A^2 + AB + B^2)$.",
-          "En posant $Y = X^3$, le polynôme devient $Y^2 - 9Y + 8 = (Y - 1)(Y - 8) = (X^3 - 1)(X^3 - 8)$. Or $X^3 - 1 = (X - 1)(X^2 + X + 1)$ et $X^3 - 8 = (X - 2)(X^2 + 2X + 4)$. Comme $\\Delta_1 = 1 - 4 = -3 < 0$ et $\\Delta_2 = 4 - 16 = -12 < 0$, les deux facteurs de degré 2 sont irréductibles dans $\\mathbb{R}[X]$."
+          `Quelle est la factorisation en produit de polynômes irréductibles dans $\\mathbb{R}[X]$ du polynôme $P(X) = ${c.poly}$ ?`,
+          c.ans,
+          c.distractors,
+          c.hint1,
+          c.hint2,
+          c.sol
         );
       } else {
-        // DES avec pôle double
+        const desPoleDoubleCases = [
+          {
+            fraction: "\\frac{1}{(X - 1)(X + 1)^2}",
+            ans: "$\\frac{a}{X - 1} + \\frac{b}{(X + 1)^2} + \\frac{c}{X + 1}$",
+            distractors: [
+              "$\\frac{a}{X - 1} + \\frac{b}{(X + 1)^2}$",
+              "$\\frac{a}{X - 1} + \\frac{bX + c}{(X + 1)^2}$",
+              "$\\frac{a}{X - 1} + \\frac{b}{X + 1}$"
+            ],
+            poleSimple: "1",
+            poleDouble: "-1"
+          },
+          {
+            fraction: "\\frac{1}{(X - 2)(X + 3)^2}",
+            ans: "$\\frac{a}{X - 2} + \\frac{b}{(X + 3)^2} + \\frac{c}{X + 3}$",
+            distractors: [
+              "$\\frac{a}{X - 2} + \\frac{b}{(X + 3)^2}$",
+              "$\\frac{a}{X - 2} + \\frac{bX + c}{(X + 3)^2}$",
+              "$\\frac{a}{X - 2} + \\frac{b}{X + 3}$"
+            ],
+            poleSimple: "2",
+            poleDouble: "-3"
+          },
+          {
+            fraction: "\\frac{X}{(X + 2)(X - 1)^2}",
+            ans: "$\\frac{a}{X + 2} + \\frac{b}{(X - 1)^2} + \\frac{c}{X - 1}$",
+            distractors: [
+              "$\\frac{a}{X + 2} + \\frac{b}{(X - 1)^2}$",
+              "$\\frac{a}{X + 2} + \\frac{bX + c}{(X - 1)^2}$",
+              "$\\frac{a}{X + 2} + \\frac{b}{X - 1}$"
+            ],
+            poleSimple: "-2",
+            poleDouble: "1"
+          },
+          {
+            fraction: "\\frac{1}{(X + 4)(X - 3)^2}",
+            ans: "$\\frac{a}{X + 4} + \\frac{b}{(X - 3)^2} + \\frac{c}{X - 3}$",
+            distractors: [
+              "$\\frac{a}{X + 4} + \\frac{b}{(X - 3)^2}$",
+              "$\\frac{a}{X + 4} + \\frac{bX + c}{(X - 3)^2}$",
+              "$\\frac{a}{X + 4} + \\frac{b}{X - 3}$"
+            ],
+            poleSimple: "-4",
+            poleDouble: "3"
+          },
+          {
+            fraction: "\\frac{2X + 1}{X^2(X - 1)}",
+            ans: "$\\frac{a}{X^2} + \\frac{b}{X} + \\frac{c}{X - 1}$",
+            distractors: [
+              "$\\frac{a}{X^2} + \\frac{b}{X - 1}$",
+              "$\\frac{aX + b}{X^2} + \\frac{c}{X - 1}$",
+              "$\\frac{a}{X} + \\frac{b}{X - 1}$"
+            ],
+            poleSimple: "1",
+            poleDouble: "0"
+          }
+        ];
+        const c = this.randChoice(desPoleDoubleCases);
         return this.makeMcq(
           'L1-CMP', 3, "Décomposition en éléments simples avec pôle double",
           "Identifier la forme de la DES pour un dénominateur à racine multiple",
-          "Quelle est la forme générale théorique de la décomposition en éléments simples dans $\\mathbb{R}(X)$ de $F(X) = \\frac{1}{(X - 1)(X + 1)^2}$ ?",
-          "$\\frac{a}{X - 1} + \\frac{b}{(X + 1)^2} + \\frac{c}{X + 1}$",
-          [
-            "$\\frac{a}{X - 1} + \\frac{b}{(X + 1)^2}$",
-            "$\\frac{a}{X - 1} + \\frac{bX + c}{(X + 1)^2}$",
-            "$\\frac{a}{X - 1} + \\frac{b}{X + 1}$"
-          ],
-          "Le pôle $-1$ est de multiplicité 2 (pôle double).",
+          `Quelle est la forme générale théorique de la décomposition en éléments simples dans $\\mathbb{R}(X)$ de $F(X) = ${c.fraction}$ ?`,
+          c.ans,
+          c.distractors,
+          `Le pôle $${c.poleDouble}$ est de multiplicité 2 (pôle double).`,
           "Chaque pôle multiple de multiplicité $m$ génère une somme de fractions $\\sum_{k=1}^m \\frac{\\alpha_k}{(X - a)^k}$.",
-          "Le dénominateur admet le pôle simple $1$ et le pôle double $-1$. D'après le théorème fondamental de décomposition en éléments simples, le pôle double contribue par les deux termes $\\frac{b}{(X + 1)^2} + \\frac{c}{X + 1}$. D'où la forme $\\frac{a}{X - 1} + \\frac{b}{(X + 1)^2} + \\frac{c}{X + 1}$."
+          `Le dénominateur admet le pôle simple $${c.poleSimple}$ et le pôle double $${c.poleDouble}$. D'après le théorème fondamental de décomposition en éléments simples, le pôle double contribue par deux termes successifs. D'où la forme $${c.ans.replace(/\\$/g, '')}$.`
         );
       }
     } else {
       // Palier 4 : Niveau Rigueur & Examen universitaire
       const p4Variant = this.randChoice(['td_deg6_racine_double_i', 'td_division_carre', 'td_pgcd_racines_multiples', 'td_des_partie_entiere', 'taylor_multiplicite']);
       if (p4Variant === 'td_deg6_racine_double_i') {
+        const deg6ComplexDoubleCases = [
+          {
+            poly: "X^6 + X^5 + 3X^4 + 2X^3 + 3X^2 + X + 1",
+            factor: "(X^2 + 1)^2 (X^2 + X + 1)",
+            quotient: "X^2 + X + 1",
+            delta: "1 - 4 = -3 < 0",
+            distractors: [
+              "$(X^2 + 1)(X^4 + X^3 + 2X^2 + X + 1)$",
+              "$(X^2 + 1)^3$",
+              "$(X^2 + 1)^2 (X - 1)(X + 1)$"
+            ]
+          },
+          {
+            poly: "X^6 - X^5 + 3X^4 - 2X^3 + 3X^2 - X + 1",
+            factor: "(X^2 + 1)^2 (X^2 - X + 1)",
+            quotient: "X^2 - X + 1",
+            delta: "1 - 4 = -3 < 0",
+            distractors: [
+              "$(X^2 + 1)(X^4 - X^3 + 2X^2 - X + 1)$",
+              "$(X^2 + 1)^3$",
+              "$(X^2 + 1)^2 (X - 1)^2$"
+            ]
+          },
+          {
+            poly: "X^6 + 2X^5 + 4X^4 + 4X^3 + 5X^2 + 2X + 2",
+            factor: "(X^2 + 1)^2 (X^2 + 2X + 2)",
+            quotient: "X^2 + 2X + 2",
+            delta: "4 - 8 = -4 < 0",
+            distractors: [
+              "$(X^2 + 1)(X^4 + 2X^3 + 3X^2 + 2X + 2)$",
+              "$(X^2 + 1)^2 (X + 1)^2$",
+              "$(X^2 + 1)^3$"
+            ]
+          }
+        ];
+        const c = this.randChoice(deg6ComplexDoubleCases);
         return this.makeMcq(
           'L1-CMP', 4, "Polynôme de degré 6 admettant $i$ comme racine double",
           "Factoriser un polynôme réel connaissant une racine double complexe",
-          "Soit le polynôme $P(X) = X^6 + X^5 + 3X^4 + 2X^3 + 3X^2 + X + 1 \\in \\mathbb{R}[X]$. Sachant que $i$ est racine double de $P$, quelle est sa factorisation en irréductibles dans $\\mathbb{R}[X]$ ?",
-          "$(X^2 + 1)^2 (X^2 + X + 1)$",
-          [
-            "$(X^2 + 1)(X^4 + X^3 + 2X^2 + X + 1)$",
-            "$(X^2 + 1)^3$",
-            "$(X^2 + 1)^2 (X - 1)(X + 1)$"
-          ],
+          `Soit le polynôme $P(X) = ${c.poly} \\in \\mathbb{R}[X]$. Sachant que $i$ est racine double de $P$, quelle est sa factorisation en irréductibles dans $\\mathbb{R}[X]$ ?`,
+          `$${c.factor}$`,
+          c.distractors,
           "Comme $P$ est à coefficients réels, si $i$ est racine double, alors son conjugué $-i$ est également racine double.",
           "Le produit $(X - i)^2 (X + i)^2 = [(X - i)(X + i)]^2 = (X^2 + 1)^2 = X^4 + 2X^2 + 1$ divise donc $P(X)$ dans $\\mathbb{R}[X]$. Effectue la division euclidienne.",
-          "Comme $P \\in \\mathbb{R}[X]$, la conjugaison assure que $-i$ est également racine double de $P$. Ainsi, le polynôme $[(X - i)(X + i)]^2 = (X^2 + 1)^2 = X^4 + 2X^2 + 1$ divise $P(X)$. La division euclidienne de $P(X)$ par $X^4 + 2X^2 + 1$ donne pour quotient $X^2 + X + 1$. Ce trinôme ayant $\\Delta = 1 - 4 = -3 < 0$, il est irréductible dans $\\mathbb{R}[X]$. D'où $P(X) = (X^2 + 1)^2 (X^2 + X + 1)$."
+          `Comme $P \\in \\mathbb{R}[X]$, la conjugaison assure que $-i$ est également racine double de $P$. Ainsi, le polynôme $[(X - i)(X + i)]^2 = (X^2 + 1)^2 = X^4 + 2X^2 + 1$ divise $P(X)$. La division euclidienne de $P(X)$ par $X^4 + 2X^2 + 1$ donne pour quotient $${c.quotient}$. Ce trinôme ayant $\\Delta = ${c.delta}$, il est irréductible dans $\\mathbb{R}[X]$. D'où $P(X) = ${c.factor}$.`
         );
       } else if (p4Variant === 'td_division_carre') {
         const n = this.randChoice([3, 4, 5, 7, 'n']);
@@ -2073,34 +2517,120 @@ window.MathsAdvancedGenerators = {
           `Comme $\\deg((X - 1)^2) = 2$, le reste est de la forme $R(X) = aX + b$. On a $X^{${nStr}} = Q(X)(X - 1)^2 + aX + b$. En évaluant en $X = 1$ : $1 = a + b$. En dérivant : $${nStr} X^{${nStr === 'n' ? 'n-1' : n-1}} = Q'(X)(X - 1)^2 + 2Q(X)(X - 1) + a$, d'où en $X = 1$ : $a = ${nStr}$. On en déduit $b = 1 - ${nStr} = -(${nStr} - 1)$, soit $R(X) = ${nStr}X - (${nStr} - 1)$.`
         );
       } else if (p4Variant === 'td_pgcd_racines_multiples') {
+        const pgcdCases = [
+          {
+            poly: "X^3 - 3X + 2",
+            pgcd: "X - 1",
+            root: "1",
+            deriv: "3X^2 - 3 = 3(X - 1)(X + 1)",
+            distractors: [
+              "$\\text{pgcd}(P, P') = 1$ ; $P$ ne possède aucune racine multiple",
+              "$\\text{pgcd}(P, P') = X + 1$ ; $-1$ est racine double de $P$",
+              "$\\text{pgcd}(P, P') = (X - 1)^2$ ; $1$ est racine triple de $P$"
+            ]
+          },
+          {
+            poly: "X^3 - 3X - 2",
+            pgcd: "X + 1",
+            root: "-1",
+            deriv: "3X^2 - 3 = 3(X - 1)(X + 1)",
+            distractors: [
+              "$\\text{pgcd}(P, P') = 1$ ; $P$ ne possède aucune racine multiple",
+              "$\\text{pgcd}(P, P') = X - 1$ ; $1$ est racine double de $P$",
+              "$\\text{pgcd}(P, P') = (X + 1)^2$ ; $-1$ est racine triple de $P$"
+            ]
+          },
+          {
+            poly: "X^3 - 12X + 16",
+            pgcd: "X - 2",
+            root: "2",
+            deriv: "3X^2 - 12 = 3(X - 2)(X + 2)",
+            distractors: [
+              "$\\text{pgcd}(P, P') = 1$ ; $P$ ne possède aucune racine multiple",
+              "$\\text{pgcd}(P, P') = X + 2$ ; $-2$ est racine double de $P$",
+              "$\\text{pgcd}(P, P') = (X - 2)^2$ ; $2$ est racine triple de $P$"
+            ]
+          },
+          {
+            poly: "X^3 - 12X - 16",
+            pgcd: "X + 2",
+            root: "-2",
+            deriv: "3X^2 - 12 = 3(X - 2)(X + 2)",
+            distractors: [
+              "$\\text{pgcd}(P, P') = 1$ ; $P$ ne possède aucune racine multiple",
+              "$\\text{pgcd}(P, P') = X - 2$ ; $2$ est racine double de $P$",
+              "$\\text{pgcd}(P, P') = (X + 2)^2$ ; $-2$ est racine triple de $P$"
+            ]
+          },
+          {
+            poly: "X^3 - 7X^2 + 15X - 9",
+            pgcd: "X - 3",
+            root: "3",
+            deriv: "3X^2 - 14X + 15 = (X - 3)(3X - 5)",
+            distractors: [
+              "$\\text{pgcd}(P, P') = 1$ ; $P$ ne possède aucune racine multiple",
+              "$\\text{pgcd}(P, P') = 3X - 5$ ; $5/3$ est racine double de $P$",
+              "$\\text{pgcd}(P, P') = (X - 3)^2$ ; $3$ est racine triple de $P$"
+            ]
+          }
+        ];
+        const c = this.randChoice(pgcdCases);
         return this.makeMcq(
           'L1-CMP', 4, "Détection des racines multiples par le PGCD(P, P')",
           "Relier les racines multiples au PGCD du polynôme et de sa dérivée",
-          "Calculer $\\text{pgcd}(P, P')$ pour $P(X) = X^3 - 3X + 2$. Qu'en déduit-on rigoureusement sur les racines multiples de $P$ ?",
-          "$\\text{pgcd}(P, P') = X - 1$ ; $1$ est racine double de $P$",
-          [
-            "$\\text{pgcd}(P, P') = 1$ ; $P$ ne possède aucune racine multiple",
-            "$\\text{pgcd}(P, P') = X + 1$ ; $-1$ est racine double de $P$",
-            "$\\text{pgcd}(P, P') = (X - 1)^2$ ; $1$ est racine triple de $P$"
-          ],
-          "Dérive $P$ : $P'(X) = 3X^2 - 3 = 3(X - 1)(X + 1)$.",
+          `Calculer $\\text{pgcd}(P, P')$ pour $P(X) = ${c.poly}$. Qu'en déduit-on rigoureusement sur les racines multiples de $P$ ?`,
+          `$\\text{pgcd}(P, P') = ${c.pgcd}$ ; $${c.root}$ est racine double de $P$`,
+          c.distractors,
+          `Dérive $P$ : $P'(X) = ${c.deriv}$.`,
           "Applique le théorème : les racines de $\\text{pgcd}(P, P')$ sont les racines multiples de $P$, avec multiplicité diminuée de 1.",
-          "On a $P'(X) = 3(X^2 - 1) = 3(X - 1)(X + 1)$. Comme $P(1) = 1 - 3 + 2 = 0$ et $P(-1) = -1 + 3 + 2 = 4 \\neq 0$, le seul facteur commun unitaire est $\\text{pgcd}(P, P') = X - 1$. La racine $1$ est donc de multiplicité $1 + 1 = 2$ (racine double) pour $P$."
+          `On a $P'(X) = ${c.deriv}$. En évaluant les racines candidates dans $P$, le seul facteur unitaire commun annulant $P$ et $P'$ est $\\text{pgcd}(P, P') = ${c.pgcd}$. La racine $${c.root}$ est donc de multiplicité $1 + 1 = 2$ (racine double) pour $P$.`
         );
       } else if (p4Variant === 'td_des_partie_entiere') {
+        const desEntiereCases = [
+          {
+            frac: "\\frac{X^3 + 2}{(X - 1)^2 (X + 2)}",
+            e: "1",
+            alpha: "1",
+            evalStep: "\\lim_{X \\to 1} (X - 1)^2 G(X) = \\left[\\frac{X^3 + 2}{X + 2}\\right]_{X=1} = \\frac{1 + 2}{1 + 2} = 1",
+            distractors: [
+              "$E(X) = 0$ et $\\alpha = 1$",
+              "$E(X) = 1$ et $\\alpha = 3$",
+              "$E(X) = X$ et $\\alpha = 2$"
+            ]
+          },
+          {
+            frac: "\\frac{2X^3 + 4}{(X - 1)^2 (X + 1)}",
+            e: "2",
+            alpha: "3",
+            evalStep: "\\lim_{X \\to 1} (X - 1)^2 G(X) = \\left[\\frac{2X^3 + 4}{X + 1}\\right]_{X=1} = \\frac{2 + 4}{1 + 1} = 3",
+            distractors: [
+              "$E(X) = 2$ et $\\alpha = 1$",
+              "$E(X) = 0$ et $\\alpha = 3$",
+              "$E(X) = 2X$ et $\\alpha = 3$"
+            ]
+          },
+          {
+            frac: "\\frac{X^3 + 5}{(X - 2)^2 (X + 1)}",
+            e: "1",
+            alpha: "\\frac{13}{3}",
+            evalStep: "\\lim_{X \\to 2} (X - 2)^2 G(X) = \\left[\\frac{X^3 + 5}{X + 1}\\right]_{X=2} = \\frac{8 + 5}{2 + 1} = \\frac{13}{3}",
+            distractors: [
+              "$E(X) = 1$ et $\\alpha = 13$",
+              "$E(X) = 0$ et $\\alpha = \\frac{13}{3}$",
+              "$E(X) = 1$ et $\\alpha = 1$"
+            ]
+          }
+        ];
+        const c = this.randChoice(desEntiereCases);
         return this.makeMcq(
           'L1-CMP', 4, "DES avec partie entière et pôle double",
           "Déterminer la partie entière et le coefficient dominant d'un pôle double",
-          "Pour la fraction rationnelle $G(X) = \\frac{X^3 + 2}{(X - 1)^2 (X + 2)}$, quelle est sa partie entière $E(X)$ et le coefficient $\\alpha$ du terme $\\frac{\\alpha}{(X - 1)^2}$ ?",
-          "$E(X) = 1$ et $\\alpha = 1$",
-          [
-            "$E(X) = 0$ et $\\alpha = 1$",
-            "$E(X) = 1$ et $\\alpha = 3$",
-            "$E(X) = X$ et $\\alpha = 2$"
-          ],
-          "Comme le numérateur $X^3 + 2$ et le dénominateur $(X - 1)^2(X + 2)$ sont tous deux de degré 3, la partie entière est la constante $E(X) = 1/1 = 1$.",
-          "Pour isoler $\\alpha$, multiplie $G(X)$ par $(X - 1)^2$ puis évalue l'expression restante en $X = 1$.",
-          "On a $\\deg(X^3 + 2) = 3$ et $\\deg((X - 1)^2(X + 2)) = 3$. Le quotient des coefficients dominants vaut $1/1 = 1$, donc la partie entière est $E(X) = 1$. Pour trouver $\\alpha$, on calcule $\\lim_{X \\to 1} (X - 1)^2 G(X) = \\left[\\frac{X^3 + 2}{X + 2}\\right]_{X=1} = \\frac{1 + 2}{1 + 2} = 1$. D'où $E(X) = 1$ et $\\alpha = 1$."
+          `Pour la fraction rationnelle $G(X) = ${c.frac}$, quelle est sa partie entière $E(X)$ et le coefficient $\\alpha$ du terme dominant au pôle double ?`,
+          `$E(X) = ${c.e}$ et $\\alpha = ${c.alpha}$`,
+          c.distractors,
+          `Le numérateur et le dénominateur sont tous deux de degré 3 : la partie entière est le quotient des coefficients dominants $E(X) = ${c.e}$.`,
+          "Pour isoler $\\alpha$, multiplie $G(X)$ par le facteur au carré du pôle puis évalue l'expression en la racine correspondante.",
+          `Comme le degré du numérateur égale celui du dénominateur (degré 3), la partie entière est la constante $E(X) = ${c.e}$. Pour $\\alpha$, on calcule $${c.evalStep}$. D'où $E(X) = ${c.e}$ et $\\alpha = ${c.alpha}$.`
         );
       } else {
         const n = this.randChoice([3, 4, 5]);

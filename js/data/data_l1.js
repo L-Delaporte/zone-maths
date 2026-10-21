@@ -1005,6 +1005,63 @@ window.MATHS_EXERCISES_L1 = {
       "solution": "On écrit $X^4 + X^2 + 1 = (X^2 + 1)^2 - X^2$. C'est une différence de carrés $A^2 - B^2 = (A - B)(A + B)$ avec $A = X^2 + 1$ et $B = X$, soit $(X^2 + 1 - X)(X^2 + 1 + X) = (X^2 - X + 1)(X^2 + X + 1)$. Pour ces deux facteurs de degré 2, $\\Delta = 1 - 4 = -3 < 0$, ils sont donc irréductibles dans $\\mathbb{R}[X]$."
     },
     {
+      "id": "L1-CMP-3g",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Factorisation d'un polynôme de degré 4 sans racine réelle",
+      "skill": "Factoriser par complétion du carré (identité de Sophie Germain)",
+      "statement": "Quelle est la factorisation en produit de polynômes irréductibles dans $\\mathbb{R}[X]$ du polynôme $Q(X) = X^4 + 4$ ?",
+      "options": [
+        "$(X^2 - 2X + 2)(X^2 + 2X + 2)$",
+        "$(X^2 + 2)^2$",
+        "$(X^2 - 2)(X^2 + 2)$",
+        "Irréductible dans $\\mathbb{R}[X]$"
+      ],
+      "correctIndex": 0,
+      "answer": "$(X^2 - 2X + 2)(X^2 + 2X + 2)$",
+      "hint1": "Complète le carré en écrivant : $X^4 + 4 = (X^4 + 4X^2 + 4) - 4X^2 = (X^2 + 2)^2 - (2X)^2$.",
+      "hint2": "Applique ensuite l'identité remarquable $A^2 - B^2 = (A - B)(A + B)$ avec $A = X^2 + 2$ et $B = 2X$, puis vérifie que les discriminants $\\Delta$ sont strictement négatifs.",
+      "solution": "On applique l'identité de Sophie Germain : $X^4 + 4 = (X^2 + 2)^2 - (2X)^2 = (X^2 - 2X + 2)(X^2 + 2X + 2)$. Pour chaque trinôme, $\\Delta = 4 - 8 = -4 < 0$, donc ils sont tous deux irréductibles dans $\\mathbb{R}[X]$."
+    },
+    {
+      "id": "L1-CMP-3h",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Factorisation d'un polynôme de degré 4 sans racine réelle",
+      "skill": "Factoriser par complétion du carré",
+      "statement": "Quelle est la décomposition en facteurs irréductibles dans $\\mathbb{R}[X]$ du polynôme $Q(X) = X^4 + 4X^2 + 16$ ?",
+      "options": [
+        "$(X^2 - 2X + 4)(X^2 + 2X + 4)$",
+        "$(X^2 + 4)^2$",
+        "$(X^2 + 2X - 4)(X^2 - 2X - 4)$",
+        "Irréductible dans $\\mathbb{R}[X]$"
+      ],
+      "correctIndex": 0,
+      "answer": "$(X^2 - 2X + 4)(X^2 + 2X + 4)$",
+      "hint1": "Complète le carré en écrivant : $X^4 + 4X^2 + 16 = (X^4 + 8X^2 + 16) - 4X^2 = (X^2 + 4)^2 - (2X)^2$.",
+      "hint2": "Applique $A^2 - B^2 = (A - B)(A + B)$ avec $A = X^2 + 4$ et $B = 2X$, puis étudie le signe des discriminants.",
+      "solution": "On complète le carré : $X^4 + 4X^2 + 16 = (X^2 + 4)^2 - 4X^2 = (X^2 - 2X + 4)(X^2 + 2X + 4)$. Le discriminant de chacun des deux trinômes est $\\Delta = 4 - 16 = -12 < 0$, donc ils sont irréductibles dans $\\mathbb{R}[X]$."
+    },
+    {
+      "id": "L1-CMP-3i",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Factorisation d'un polynôme de degré 4 sans racine réelle",
+      "skill": "Factoriser par complétion du carré",
+      "statement": "Quelle est la décomposition en facteurs irréductibles dans $\\mathbb{R}[X]$ du polynôme $Q(X) = X^4 + 1$ ?",
+      "options": [
+        "$(X^2 - \\sqrt{2}X + 1)(X^2 + \\sqrt{2}X + 1)$",
+        "$(X^2 + 1)^2$",
+        "$(X^2 - 1)^2$",
+        "Irréductible dans $\\mathbb{R}[X]$"
+      ],
+      "correctIndex": 0,
+      "answer": "$(X^2 - \\sqrt{2}X + 1)(X^2 + \\sqrt{2}X + 1)$",
+      "hint1": "Complète le carré en écrivant : $X^4 + 1 = (X^4 + 2X^2 + 1) - 2X^2 = (X^2 + 1)^2 - (\\sqrt{2}X)^2$.",
+      "hint2": "Applique $A^2 - B^2 = (A - B)(A + B)$ avec $A = X^2 + 1$ et $B = \\sqrt{2}X$, puis vérifie que les discriminants sont strictement négatifs.",
+      "solution": "On a $X^4 + 1 = (X^2 + 1)^2 - 2X^2 = (X^2 - \\sqrt{2}X + 1)(X^2 + \\sqrt{2}X + 1)$. Pour ces deux trinômes, $\\Delta = (-\\sqrt{2})^2 - 4(1)(1) = 2 - 4 = -2 < 0$, ils sont donc irréductibles dans $\\mathbb{R}[X]$."
+    },
+    {
       "id": "L1-CMP-4",
       "tier": 4,
       "type": "mcq",
