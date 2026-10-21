@@ -216,7 +216,7 @@ window.MathsAdvancedGenerators = {
         ],
         "Pars de l'égalité $f(x) = f(x')$ et effectue le produit en croix.",
         "Vérifie si les termes en $x x'$ se simplifient.",
-        `En posant $f(x) = f(x')$, le produit en croix donne $(${a}x + ${b})(${c}x' - ${d}) = (${a}x' + ${b})(${c}x - ${d})$. Les termes ${a*c}xx'$ s'annulent, ce qui conduit à $(${a*d + b*c})x = (${a*d + b*c})x'$, d'où $x = x'$. L'application est donc injective.`
+        `En posant $f(x) = f(x')$, le produit en croix donne $(${a}x + ${b})(${c}x' - ${d}) = (${a}x' + ${b})(${c}x - ${d})$. Les termes en $${a*c}xx'$ s'annulent, ce qui conduit à $(${a*d + b*c})x = (${a*d + b*c})x'$, d'où $x = x'$. L'application est donc injective.`
       );
     } else if (tier === 3) {
       // Palier 3 : Relation d'équivalence et ensemble quotient
@@ -229,7 +229,7 @@ window.MathsAdvancedGenerators = {
         [`$${n - 1}$`, "Une infinité", "$1$"],
         `Le reste de la division euclidienne par ${n} ne prend qu'un nombre fini de valeurs.`,
         `Les classes sont $\\bar{0}, \\bar{1}, \\dots, \\overline{${n-1}}$.`,
-        `Tout entier admet un unique reste $r \\in \\{0, 1, \\dots, ${n-1}\\}$ modulo ${n}$. Il y a donc exactement $${n}$ classes d'équivalence disjointes, d'où $|\\mathbb{Z}/${n}\\mathbb{Z}| = ${n}$.`
+        `Tout entier admet un unique reste $r \\in \\{0, 1, \\dots, ${n-1}\\}$ modulo $${n}$. Il y a donc exactement $${n}$ classes d'équivalence disjointes, d'où $|\\mathbb{Z}/${n}\\mathbb{Z}| = ${n}$.`
       );
     } else {
       // Palier 4 : Image réciproque et intersection / union ensembliste
@@ -380,9 +380,9 @@ window.MathsAdvancedGenerators = {
           "Non, car il contient une infinité de points"
         ],
         "Teste d'abord si le vecteur nul $(0, 0, 0)$ appartient à $F$.",
-        `Évalue l'équation avec $x=0, y=0, z=0$ : ${a}(0) - ${b}(0) + 0 = 0 \\neq ${constant}$.`,
+        `Évalue l'équation avec $x=0, y=0, z=0$ : $${a}(0) - ${b}(0) + 0 = 0 \\neq ${constant}$.`,
         isSev
-          ? `Pour $x=y=z=0$, ${a}(0) - ${b}(0) + 0 = 0$, donc $0_{\\mathbb{R}^3} \\in F$. De plus, toute combinaison linéaire de solutions reste solution. $F$ est donc un SEV.`
+          ? `Pour $x=y=z=0$, $${a}(0) - ${b}(0) + 0 = 0$, donc $0_{\\mathbb{R}^3} \\in F$. De plus, toute combinaison linéaire de solutions reste solution. $F$ est donc un SEV.`
           : `Le vecteur nul $(0, 0, 0)$ ne vérifie pas l'équation car $0 - 0 + 0 = 0 \\neq ${constant}$. $F$ ne contient pas $0_E$, ce n'est donc PAS un sous-espace vectoriel.`
       );
     } else if (tier === 2) {
@@ -443,7 +443,7 @@ window.MathsAdvancedGenerators = {
         [
           `$\\dim(F + G) = ${dimF + dimG}$`,
           `$\\dim(F + G) = ${dimSum + 1}$`,
-          `$\\dim(F + G) = ${Math.abs(dimF - dimG)}`
+          `$\\dim(F + G) = ${Math.abs(dimF - dimG)}$`
         ],
         "Formule de Grassmann : $\\dim(F + G) = \\dim(F) + \\dim(G) - \\dim(F \\cap G)$.",
         `Remplace par les valeurs numériques : ${dimF} + ${dimG} - ${dimInter}.`,
@@ -463,7 +463,7 @@ window.MathsAdvancedGenerators = {
         "Appliquer la relation $\\dim(E) = \\dim(\\ker f) + \\text{rg}(f)$",
         `Soit $f : E \\to F$ une application linéaire avec $\\dim(E) = ${dimE}$ et $\\dim(\\ker f) = ${dimKer}$. Que vaut le rang $\\text{rg}(f) = \\dim(\\text{Im} f)$ ?`,
         `$\\text{rg}(f) = ${rg}$`,
-        [`$\\text{rg}(f) = ${dimE}$`, `$\\text{rg}(f) = ${rg + 1}$`, `$\\text{rg}(f) = ${dimKer}`],
+        [`$\\text{rg}(f) = ${dimE}$`, `$\\text{rg}(f) = ${rg + 1}$`, `$\\text{rg}(f) = ${dimKer}$`],
         "Théorème du rang : la dimension de l'espace de départ $E$ est la somme de la dimension du noyau et du rang.",
         `$\\dim(E) = \\dim(\\ker f) + \\text{rg}(f) \\implies \\text{rg}(f) = ${dimE} - ${dimKer}$.`,
         `D'après le Théorème du Rang : $\\text{rg}(f) = \\dim(E) - \\dim(\\ker f) = ${dimE} - ${dimKer} = ${rg}$.`
@@ -500,7 +500,7 @@ window.MathsAdvancedGenerators = {
         ],
         `La dimension de $\\mathbb{R}_n[X]$ est $n + 1$.`,
         `Comme $\\deg(P') < \\deg(P)$, $D$ est un endomorphisme nilpotent.`,
-        `$\\dim(\\mathbb{R}_{${deg}}[X]) = ${dimPoly}$, donc la matrice est carrée d'ordre ${dimPoly}$. Comme $D(X^k) = k X^{k-1}$, les éléments diagonaux sont tous nuls : elle est nilpotente et triangulaire supérieure stricte.`
+        `$\\dim(\\mathbb{R}_{${deg}}[X]) = ${dimPoly}$, donc la matrice est carrée d'ordre $${dimPoly}$. Comme $D(X^k) = k X^{k-1}$, les éléments diagonaux sont tous nuls : elle est nilpotente et triangulaire supérieure stricte.`
       );
     } else {
       // Projecteur
@@ -742,7 +742,7 @@ window.MathsAdvancedGenerators = {
       [
         `$\\det(${k} A) = ${k * 3}$`,
         `$\\det(${k} A) = ${Math.pow(k, n)}$`,
-        `$\\det(${k} A) = 3`
+        `$\\det(${k} A) = 3$`
       ],
       "Le déterminant est une forme $n$-linéaire par rapport aux colonnes.",
       `$\\det(\\lambda A) = \\lambda^n \\det(A)$ pour une matrice d'ordre $n$.`,
@@ -935,7 +935,7 @@ window.MathsAdvancedGenerators = {
       "Relier l'ordre d'un groupe, l'ordre d'un sous-groupe et son indice",
       `Soit $G$ un groupe fini d'ordre $|G| = ${cardG}$ et $H \\le G$ un sous-groupe d'ordre $|H| = ${cardH}$. Quel est l'indice $[G : H]$ de $H$ dans $G$ ?`,
       `$[G : H] = ${index}$`,
-      [`$[G : H] = ${cardG - cardH}$`, `$[G : H] = ${cardH}$`, `$[G : H] = ${cardG}`],
+      [`$[G : H] = ${cardG - cardH}$`, `$[G : H] = ${cardH}$`, `$[G : H] = ${cardG}$`],
       "Théorème de Lagrange : $|G| = |H| \\times [G : H]$.",
       `Divise l'ordre du groupe par l'ordre du sous-groupe : ${cardG} / ${cardH}.`,
       `D'après le Théorème de Lagrange, pour tout sous-groupe $H$ d'un groupe fini $G$, on a $|G| = |H| \\times [G : H]$, d'où $[G : H] = \\frac{|G|}{|H|} = \\frac{${cardG}}{${cardH}} = ${index}$.`
@@ -1190,7 +1190,7 @@ window.MathsAdvancedGenerators = {
       "Déterminer les propriétés d'une fonction affine",
       `Soit la fonction affine $f(x) = ${a}x ${b >= 0 ? '+ ' + b : '- ' + Math.abs(b)}$. Quelle est la racine de $f$ (valeur où $f(x) = 0$) ?`,
       `$x = ${-b / a === Math.round(-b / a) ? -b / a : -b + '/' + a}$`,
-      [`$x = ${b / a === Math.round(b / a) ? b / a : b + '/' + a}$`, `$x = ${a}$`, `$x = ${b}`],
+      [`$x = ${b / a === Math.round(b / a) ? b / a : b + '/' + a}$`, `$x = ${a}$`, `$x = ${b}$`],
       "Résous l'équation du premier degré : ax + b = 0.",
       `$${a}x = ${-b} \\implies x = ${-b}/${a}$.`,
       `$${a}x ${b >= 0 ? '+ ' + b : '- ' + Math.abs(b)} = 0 \\iff ${a}x = ${-b} \\iff x = ${-b / a === Math.round(-b / a) ? -b / a : -b + '/' + a}$.`

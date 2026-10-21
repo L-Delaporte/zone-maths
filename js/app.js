@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
             <div class="mode-explainer-benefit-pill">
               <span>🛡️</span>
-              <div><strong>Zéro note sanction :</strong> Seule la maîtrise compte. Tu peux retenter jusqu'à la réussite.</div>
+              <div><strong>Ni note ni sanction :</strong> Seule la maîtrise compte. Tu avances sans stress et peux retenter jusqu'à la réussite.</div>
             </div>
             <div class="mode-explainer-benefit-pill">
               <span>🚀</span>
