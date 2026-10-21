@@ -739,6 +739,18 @@ window.MATHS_COURSES_L3 = {
           "**Étape 3 (Contraintes duales ${}^t A y \\ge c$)** :\n- Pour $x_1$ : $1 y_1 + 2 y_2 \\ge 3$.\n- Pour $x_2$ : $2 y_1 + 1 y_2 \\ge 2$.",
           "**Conclusion** : Le dual est : $\\min 4y_1 + 5y_2$ sous $y_1 + 2y_2 \\ge 3$, $2y_1 + y_2 \\ge 2$, et $y_1, y_2 \\ge 0$."
         ]
+      },
+      {
+        "title": "Méthode : Dérouler une itération de l'algorithme du simplexe",
+        "example": "Résoudre par le simplexe : $\\max Z = 3x_1 + 2x_2$ sous $x_1 + 2x_2 \\le 4$, $2x_1 + x_2 \\le 5$, avec $x_1, x_2 \\ge 0$.",
+        "steps": [
+          "**Étape 1 (Forme standard)** : On introduit deux variables d'écart positives $s_1, s_2 \\ge 0$ :\n$x_1 + 2x_2 + s_1 = 4$\n$2x_1 + x_2 + s_2 = 5$\nBase initiale $B = (s_1, s_2)$, avec $(x_1, x_2) = (0, 0)$, $s_1 = 4, s_2 = 5$ et $Z = 0$.",
+          "**Étape 2 (Choix de la variable entrante)** : Les coûts réduits actuels sont $\\bar{c}_1 = 3 > 0$ et $\\bar{c}_2 = 2 > 0$. Le maximum est $\\bar{c}_1 = 3$, donc $x_1$ entre en base.",
+          "**Étape 3 (Test du ratio minimum pour la variable sortante)** :\n- Ligne 1 : $4 / 1 = 4$.\n- Ligne 2 : $5 / 2 = 2.5$.\nLe ratio minimal est $2.5$ sur la ligne 2. Donc $s_2$ quitte la base. Le pivot est l'élément $a_{2, 1} = 2$.",
+          "**Étape 4 (Pivot de Gauss)** : On normalise la ligne 2 : $L_2 \\leftarrow \\frac{1}{2} L_2 \\implies x_1 + 0.5 x_2 + 0.5 s_2 = 2.5$.\nPuis on élimine $x_1$ de la ligne 1 : $L_1 \\leftarrow L_1 - L_2 \\implies 1.5 x_2 + s_1 - 0.5 s_2 = 1.5$.\nLa fonction objectif devient : $Z = 3(2.5 - 0.5 x_2 - 0.5 s_2) + 2x_2 = 7.5 + 0.5 x_2 - 1.5 s_2$.",
+          "**Étape 5 (Deuxième itération)** : Le coût réduit de $x_2$ est $0.5 > 0$, donc $x_2$ entre. Ratio ligne 1 : $1.5 / 1.5 = 1 \\implies s_1$ sort. Pivot $1.5$.\nAprès pivotage : $x_2 = 1$, $x_1 = 2$, et $Z = 7.5 + 0.5(1) = 8$. Tous les coûts réduits sont désormais négatifs ($\\le 0$).",
+          "**Conclusion** : La solution optimale unique est $(x_1^*, x_2^*) = (2, 1)$ avec pour valeur optimale $Z^* = 8$."
+        ]
       }
     ],
     "traps": [
@@ -1208,77 +1220,77 @@ window.MATHS_EXERCISES_L3 = {
       "id": "L3-CMP-1",
       "tier": 1,
       "type": "mcq",
-      "title": "Équations de Cauchy-Riemann",
-      "skill": "Caractériser les fonctions holomorphes",
-      "statement": "Pour $f(x + iy) = u(x, y) + i v(x, y)$, quelles sont les équations de Cauchy-Riemann exprimant l'holomorphie ?",
+      "title": "Théorème de Heine-Borel en dimension finie",
+      "skill": "Caractériser les compacts de $\\mathbb{R}^n$",
+      "statement": "Dans l'espace euclidien $\\mathbb{R}^n$ muni de sa topologie usuelle, une partie $K$ est compacte si et seulement si elle est :",
       "options": [
-        "$\\frac{\\partial u}{\\partial x} = \\frac{\\partial v}{\\partial y}$ et $\\frac{\\partial u}{\\partial y} = -\\frac{\\partial v}{\\partial x}$",
-        "$\\frac{\\partial u}{\\partial x} = \\frac{\\partial u}{\\partial y}$ et $\\frac{\\partial v}{\\partial x} = \\frac{\\partial v}{\\partial y}$",
-        "$\\Delta u + \\Delta v = 0$",
-        "$\\frac{\\partial u}{\\partial x} = -\\frac{\\partial v}{\\partial y}$"
+        "Fermée et bornée",
+        "Ouverte et bornée",
+        "Convexe et fermée",
+        "Dénombrable"
       ],
       "correctIndex": 0,
-      "answer": "$\\frac{\\partial u}{\\partial x} = \\frac{\\partial v}{\\partial y}$ et $\\frac{\\partial u}{\\partial y} = -\\frac{\\partial v}{\\partial x}$",
-      "hint1": "La différentielle doit être $\\mathbb{C}$-linéaire (multiplication par un nombre complexe).",
-      "hint2": "La matrice jacobienne est de la forme $\\begin{pmatrix} a & -b \\\\ b & a \\end{pmatrix}$.",
-      "solution": "La $\\mathbb{C}$-dérivabilité équivaut aux équations de Cauchy-Riemann : $\\partial_x u = \\partial_y v$ et $\\partial_y u = -\\partial_x v$."
+      "answer": "Fermée et bornée",
+      "hint1": "C'est le théorème de Borel-Lebesgue (ou Heine-Borel) en dimension finie.",
+      "hint2": "Attention : cette équivalence est fausse en dimension infinie d'après le théorème de Riesz !",
+      "solution": "D'après le théorème de Heine-Borel, dans $\\mathbb{R}^n$ (ou tout EVN de dimension finie), une partie est compacte si et seulement si elle est fermée et bornée."
     },
     {
       "id": "L3-CMP-2",
       "tier": 2,
       "type": "mcq",
-      "title": "Formule intégrale de Cauchy",
-      "skill": "Évaluer une intégrale de contour",
-      "statement": "Soit $\\gamma$ le cercle unité orienté positivement. Que vaut l'intégrale $\\oint_\\gamma \\frac{e^z}{z} dz$ ?",
+      "title": "Théorème de Heine et continuité uniforme",
+      "skill": "Déduire la continuité uniforme sur un compact",
+      "statement": "Que garantit le théorème de Heine pour une fonction $f : K \\to \\mathbb{R}$ continue sur un espace métrique compact $K$ ?",
       "options": [
-        "$2i\\pi$",
-        "$0$",
-        "$1$",
-        "$\\pi$"
+        "$f$ est uniformément continue sur $K$",
+        "$f$ est dérivable sur $K$",
+        "$f$ est lipschitzienne sur $K$",
+        "$f$ est une fonction constante"
       ],
       "correctIndex": 0,
-      "answer": "$2i\\pi$",
-      "hint1": "Applique la formule intégrale de Cauchy : $\\oint \\frac{f(z)}{z - z_0} dz = 2i\\pi f(z_0)$.",
-      "hint2": "Ici $f(z) = e^z$ et $z_0 = 0$. $f(0) = 1$.",
-      "solution": "Par la formule intégrale de Cauchy, $\\oint_\\gamma \\frac{e^z}{z} dz = 2i\\pi e^0 = 2i\\pi$."
+      "answer": "$f$ est uniformément continue sur $K$",
+      "hint1": "Le pas $\\delta$ dans la définition de la continuité dépend-il du point $x$ sur un compact ?",
+      "hint2": "La compacité permet d'extraire un sous-recouvrement fini de boules et de choisir un $\\delta$ global uniforme.",
+      "solution": "Le théorème de Heine énonce que toute application continue définie sur un espace métrique compact est uniformément continue."
     },
     {
       "id": "L3-CMP-3",
       "tier": 3,
       "type": "mcq",
-      "title": "Théorème des résidus",
-      "skill": "Calculer une intégrale de contour par les résidus",
-      "statement": "Quel est le résidu de $f(z) = \\frac{1}{z^2 + 1}$ au pôle simple $z = i$ ?",
+      "title": "Propriété de Bolzano-Weierstrass",
+      "skill": "Caractériser la compacité séquentielle",
+      "statement": "Soit $K$ un sous-ensemble d'un espace métrique $(E, d)$. Quelle propriété séquentielle équivaut à la compacité de $K$ ?",
       "options": [
-        "$-\\frac{i}{2}$",
-        "$\\frac{1}{2}$",
-        "$i$",
-        "$0$"
+        "Toute suite d'éléments de $K$ admet une valeur d'adhérence dans $K$ (sous-suite convergente)",
+        "Toute suite d'éléments de $K$ est monotone",
+        "Toute suite de Cauchy dans $K$ est bornée",
+        "Toute suite d'éléments de $K$ est convergente"
       ],
       "correctIndex": 0,
-      "answer": "$-\\frac{i}{2}$",
-      "hint1": "$\\text{Res}(f, i) = \\lim_{z \\to i} (z - i) f(z)$.",
-      "hint2": "$\\lim_{z \\to i} \\frac{z - i}{(z - i)(z + i)} = \\frac{1}{2i} = -\\frac{i}{2}$.",
-      "solution": "Comme $i$ est un pôle simple, $\\text{Res}(f, i) = \\lim_{z \\to i} \\frac{1}{z + i} = \\frac{1}{2i} = -\\frac{i}{2}$."
+      "answer": "Toute suite d'éléments de $K$ admet une valeur d'adhérence dans $K$ (sous-suite convergente)",
+      "hint1": "C'est la propriété de Bolzano-Weierstrass.",
+      "hint2": "De toute suite $(x_n)_{n\\in\\mathbb{N}}$ à valeurs dans $K$, on peut extraire une sous-suite $(x_{\\varphi(n)})$ convergeant vers $\\ell \\in K$.",
+      "solution": "Dans un espace métrique, un ensemble est compact si et seulement s'il vérifie la propriété de Bolzano-Weierstrass : toute suite d'éléments de $K$ admet une sous-suite convergente dont la limite appartient à $K$."
     },
     {
       "id": "L3-CMP-4",
       "tier": 4,
       "type": "mcq",
-      "title": "Théorème de Liouville",
-      "skill": "Propriétés des fonctions entières",
-      "statement": "D'après le théorème de Liouville, toute fonction holomorphe sur $\\mathbb{C}$ tout entier (entière) et bornée est :",
+      "title": "Connexité et TVI généralisé",
+      "skill": "Comprendre l'image continue d'un espace connexe",
+      "statement": "Soit $E$ un espace topologique connexe et $f : E \\to \\mathbb{R}$ une application continue. Quelle est la nature de l'image directe $f(E)$ ?",
       "options": [
-        "Constante",
-        "Identiquement nulle",
-        "Périodique",
-        "De carré sommable"
+        "$f(E)$ est un intervalle de $\\mathbb{R}$",
+        "$f(E)$ est un ensemble fini",
+        "$f(E)$ est obligatoirement un segment fermé $[a, b]$",
+        "$f(E)$ est un ouvert de $\\mathbb{R}$"
       ],
       "correctIndex": 0,
-      "answer": "Constante",
-      "hint1": "Théorème de Liouville : si $f$ est holomorphe sur $\\mathbb{C}$ et $|f(z)| \\le M$, alors $f'$ est nulle.",
-      "hint2": "Ce théorème fournit une démonstration élégante du théorème de d'Alembert-Gauss.",
-      "solution": "Le théorème de Liouville affirme que les seules fonctions entières bornées sont les fonctions constantes."
+      "answer": "$f(E)$ est un intervalle de $\\mathbb{R}$",
+      "hint1": "L'image continue d'un connexe est connexe.",
+      "hint2": "Quelles sont les seules parties connexes de la droite réelle $\\mathbb{R}$ ?",
+      "solution": "L'image continue d'un espace connexe est connexe. Comme les seules parties connexes de $\\mathbb{R}$ sont les intervalles, $f(E)$ est nécessairement un intervalle de $\\mathbb{R}$ (généralisation du Théorème des Valeurs Intermédiaires)."
     }
   ],
   "L3-SDF": [
@@ -1286,77 +1298,77 @@ window.MATHS_EXERCISES_L3 = {
       "id": "L3-SDF-1",
       "tier": 1,
       "type": "mcq",
-      "title": "Identité du parallélogramme en espace de Hilbert",
-      "skill": "Propriété métrique d'un espace hilbertien",
-      "statement": "Dans un espace de Hilbert $H$, que vaut $\\|x + y\\|^2 + \\|x - y\\|^2$ ?",
+      "title": "Convergence simple vs uniforme",
+      "skill": "Distinguer les modes de convergence d'une suite de fonctions",
+      "statement": "Soit la suite de fonctions $f_n(x) = x^n$ définies sur $[0, 1]$. Quelle affirmation est exacte ?",
       "options": [
-        "$2\\|x\\|^2 + 2\\|y\\|^2$",
-        "$\\|x\\|^2 + \\|y\\|^2$",
-        "$4\\langle x, y \\rangle$",
-        "$(\\|x\\| + \\|y\\|)^2$"
+        "$(f_n)$ converge simplement sur $[0, 1]$, mais pas uniformément car la limite est discontinue",
+        "$(f_n)$ converge uniformément sur $[0, 1]$ vers la fonction nulle",
+        "$(f_n)$ converge normalement sur $[0, 1]$",
+        "$(f_n)$ ne converge simplement en aucun point de $[0, 1]$"
       ],
       "correctIndex": 0,
-      "answer": "$2\\|x\\|^2 + 2\\|y\\|^2$",
-      "hint1": "Développe $\\langle x+y, x+y \\rangle + \\langle x-y, x-y \\rangle$.",
-      "hint2": "Les termes croisés se simplifient.",
-      "solution": "$\\langle x+y, x+y \\rangle + \\langle x-y, x-y \\rangle = (\\|x\\|^2 + 2\\text{Re}\\langle x, y \\rangle + \\|y\\|^2) + (\\|x\\|^2 - 2\\text{Re}\\langle x, y \\rangle + \\|y\\|^2) = 2\\|x\\|^2 + 2\\|y\\|^2$."
+      "answer": "$(f_n)$ converge simplement sur $[0, 1]$, mais pas uniformément car la limite est discontinue",
+      "hint1": "Calcule la limite simple pour $x \\in [0, 1[$ puis pour $x = 1$.",
+      "hint2": "Si la convergence était uniforme, la limite d'une suite de fonctions continues serait continue.",
+      "solution": "La limite simple est $f(x) = 0$ si $x \\in [0, 1[$ et $f(1) = 1$. Comme les $f_n$ sont continues et la limite $f$ est discontinue en 1, la convergence ne peut pas être uniforme sur $[0, 1]$."
     },
     {
       "id": "L3-SDF-2",
       "tier": 2,
       "type": "mcq",
-      "title": "Projection sur un convexe fermé",
-      "skill": "Théorème de projection hilbertienne",
-      "statement": "Soit $C$ un convexe fermé non vide d'un espace de Hilbert $H$ et $x \\in H$. Que garantit le théorème de projection ?",
+      "title": "Critère de convergence normale",
+      "skill": "Montrer la convergence normale d'une série de fonctions",
+      "statement": "La série de fonctions $\\sum_{n=1}^\\infty \\frac{\\cos(nx)}{n^2}$ converge-t-elle normalement sur $\\mathbb{R}$ ?",
       "options": [
-        "Il existe un unique point $p_C(x) \\in C$ réalisant la distance $d(x, C)$",
-        "Il existe une infinité de points réalisant le minimum",
-        "La projection n'existe que si $C$ est un sous-espace vectoriel",
-        "La distance est toujours nulle"
+        "Oui, car $\\|u_n\\|_\\infty = \\frac{1}{n^2}$ et $\\sum \\frac{1}{n^2}$ converge (Riemann $\\alpha=2$)",
+        "Non, elle converge seulement simplement",
+        "Non, le cosinus oscille donc la série diverge",
+        "Oui, mais uniquement sur $[-1, 1]$"
       ],
       "correctIndex": 0,
-      "answer": "Il existe un unique point $p_C(x) \\in C$ réalisant la distance $d(x, C)$",
-      "hint1": "Théorème de projection sur un convexe fermé dans un espace de Hilbert.",
-      "hint2": "La stricte convexité de la norme garantit l'unicité.",
-      "solution": "Dans un espace de Hilbert, pour tout convexe fermé non vide $C$, il existe un unique élément $p_C(x) \\in C$ tel que $\\|x - p_C(x)\\| = \\inf_{y \\in C} \\|x - y\\|$."
+      "answer": "Oui, car $\\|u_n\\|_\\infty = \\frac{1}{n^2}$ et $\\sum \\frac{1}{n^2}$ converge (Riemann $\\alpha=2$)",
+      "hint1": "Majore $|u_n(x)|$ indépendamment de $x$.",
+      "hint2": "$|\\cos(nx)| \\le 1$ pour tout $x \\in \\mathbb{R}$.",
+      "solution": "Pour tout $x \\in \\mathbb{R}$, $|u_n(x)| \\le \\frac{1}{n^2}$, donc $\\|u_n\\|_\\infty = \\frac{1}{n^2}$. Comme la série de Riemann $\\sum \\frac{1}{n^2}$ converge ($\\alpha = 2 > 1$), la série converge normalement sur $\\mathbb{R}$."
     },
     {
       "id": "L3-SDF-3",
       "tier": 3,
       "type": "mcq",
-      "title": "Théorème de représentation de Riesz",
-      "skill": "Identifier le dual topologique d'un espace de Hilbert",
-      "statement": "Pour toute forme linéaire continue $\\varphi \\in H^*$ sur un espace de Hilbert $H$, que garantit le théorème de Riesz ?",
+      "title": "Continuité de la somme d'une série de fonctions",
+      "skill": "Appliquer le théorème de continuité sous convergence uniforme",
+      "statement": "Soit $\\sum u_n$ une série de fonctions continues sur un intervalle $I$. Quelle condition garantit que la somme $S(x) = \\sum_{n=0}^\\infty u_n(x)$ est continue sur $I$ ?",
       "options": [
-        "Il existe un unique vecteur $y \\in H$ tel que $\\forall x \\in H, \\varphi(x) = \\langle x, y \\rangle$",
-        "$\\text{Ker}(\\varphi) = \\{0\\}$",
-        "$\\varphi$ est surjective sur $H$",
-        "$\\|\\varphi\\| = 1$"
+        "La convergence uniforme de $\\sum u_n$ sur tout segment compact de $I$",
+        "La convergence simple de $\\sum u_n$ en tout point de $I$",
+        "L'intégrabilité de chaque $u_n$",
+        "La décroissance de la suite $(u_n)$"
       ],
       "correctIndex": 0,
-      "answer": "Il existe un unique vecteur $y \\in H$ tel que $\\forall x \\in H, \\varphi(x) = \\langle x, y \\rangle$",
-      "hint1": "Tout élément du dual s'identifie au produit scalaire avec un vecteur fixé.",
-      "hint2": "De plus, $\\|\\varphi\\|_{H^*} = \\|y\\|_H$.",
-      "solution": "Le théorème de représentation de Riesz établit un isomorphisme isométrique entre $H$ et son dual topologique $H^*$ via $x \\mapsto \\langle x, y \\rangle$."
+      "answer": "La convergence uniforme de $\\sum u_n$ sur tout segment compact de $I$",
+      "hint1": "La continuité étant une propriété locale, la convergence uniforme sur tout compact suffit.",
+      "hint2": "La convergence simple ne conserve pas la continuité.",
+      "solution": "D'après le théorème de continuité, si chaque $u_n$ est continue et si la série converge uniformément sur tout segment inclus dans $I$, alors la somme $S$ est continue sur $I$."
     },
     {
       "id": "L3-SDF-4",
       "tier": 4,
       "type": "mcq",
-      "title": "Identité de Parseval",
-      "skill": "Décomposition sur une base hilbertienne",
-      "statement": "Soit $(e_n)_{n \\in \\mathbb{N}}$ une base hilbertienne de $H$. Quelle relation caractérise la norme de tout vecteur $x \\in H$ ?",
+      "title": "Dérivation terme à terme",
+      "skill": "Vérifier les hypothèses du théorème de dérivation terme à terme",
+      "statement": "Pour affirmer que $\\left(\\sum_{n=0}^\\infty u_n(x)\\right)' = \\sum_{n=0}^\\infty u_n'(x)$ sur un intervalle $I$ pour des fonctions $\\mathcal{C}^1$, quelle condition fondamentale doit vérifier la série des dérivées $\\sum u_n'$ ?",
       "options": [
-        "$\\|x\\|^2 = \\sum_{n=0}^\\infty |\\langle x, e_n \\rangle|^2$",
-        "$\\|x\\| = \\sum_{n=0}^\\infty |\\langle x, e_n \\rangle|$",
-        "$\\langle x, e_n \\rangle = 0$ pour tout $n$",
-        "$\\|x\\|^2 = \\prod_{n=0}^\\infty |\\langle x, e_n \\rangle|^2$"
+        "Converger uniformément sur tout segment compact de $I$",
+        "Converger simplement en au moins un point",
+        "Avoir des termes tous positifs",
+        "Être bornée par 1"
       ],
       "correctIndex": 0,
-      "answer": "$\\|x\\|^2 = \\sum_{n=0}^\\infty |\\langle x, e_n \\rangle|^2$",
-      "hint1": "C'est l'identité de Parseval, généralisation infinie du théorème de Pythagore.",
-      "hint2": "Les coefficients de Fourier hilbertiens sont $c_n = \\langle x, e_n \\rangle$.",
-      "solution": "Pour toute base hilbertienne orthonormale complète, l'égalité de Parseval affirme que $\\|x\\|^2 = \\sum_{n=0}^\\infty |\\langle x, e_n \\rangle|^2$."
+      "answer": "Converger uniformément sur tout segment compact de $I$",
+      "hint1": "C'est la série dérivée $\\sum u_n'$ qui doit converger uniformément.",
+      "hint2": "La série initiale $\\sum u_n$ n'a besoin de converger qu'en un seul point $x_0$.",
+      "solution": "Le théorème de dérivation terme à terme requiert que chaque $u_n$ soit $\\mathcal{C}^1$, que $\\sum u_n(x_0)$ converge en un point, et que la série des dérivées $\\sum u_n'$ converge uniformément sur tout segment compact de $I$."
     }
   ],
   "L3-SER": [
@@ -1364,77 +1376,77 @@ window.MATHS_EXERCISES_L3 = {
       "id": "L3-SER-1",
       "tier": 1,
       "type": "mcq",
-      "title": "Norme subordonnée d'une matrice",
-      "skill": "Définition de la norme d'opérateur",
-      "statement": "Pour $A \\in \\mathcal{M}_n(K)$, comment est définie la norme subordonnée à une norme vectorielle $\\|\\cdot\\|$ ?",
+      "title": "Rayon de convergence par la règle de d'Alembert",
+      "skill": "Calculer le rayon de convergence d'une série entière",
+      "statement": "Quel est le rayon de convergence $R$ de la série entière $\\sum_{n=1}^\\infty \\frac{n}{3^n} z^n$ ?",
       "options": [
-        "$\\|\\|A\\|\\| = \\sup_{x \\ne 0} \\frac{\\|Ax\\|}{\\|x\\|} = \\sup_{\\|x\\|=1} \\|Ax\\|$",
-        "$\\|\\|A\\|\\| = \\sum_{i,j} |a_{i,j}|$",
-        "$\\|\\|A\\|\\| = \\det(A)$",
-        "$\\|\\|A\\|\\| = \\max_{i,j} |a_{i,j}|$"
+        "$R = 3$",
+        "$R = \\frac{1}{3}$",
+        "$R = +\\infty$",
+        "$R = 1$"
       ],
       "correctIndex": 0,
-      "answer": "$\\|\\|A\\|\\| = \\sup_{x \\ne 0} \\frac{\\|Ax\\|}{\\|x\\|} = \\sup_{\\|x\\|=1} \\|Ax\\|$",
-      "hint1": "C'est la borne supérieure du facteur d'amplification d'un vecteur unitaire.",
-      "hint2": "Elle vérifie $\\|Ax\\| \\le \\|A\\| \\|x\\|$.",
-      "solution": "Par définition, la norme subordonnée est la norme d'opérateur $\\|A\\| = \\sup_{\\|x\\|=1} \\|Ax\\|$."
+      "answer": "$R = 3$",
+      "hint1": "Calcule le rapport $|a_{n+1}/a_n|$ avec $a_n = \\frac{n}{3^n}$.",
+      "hint2": "$\\frac{a_{n+1}}{a_n} = \\frac{n+1}{3^{n+1}} \\frac{3^n}{n} = \\frac{n+1}{3n} \\to \\frac{1}{3}$. Le rayon est l'inverse de la limite.",
+      "solution": "On pose $a_n = \\frac{n}{3^n}$. Alors $\\left|\\frac{a_{n+1}}{a_n}\\right| = \\frac{n+1}{n} \\cdot \\frac{1}{3} \\xrightarrow[n\\to+\\infty]{} \\frac{1}{3} = \\ell$. Par la règle de d'Alembert, le rayon de convergence est $R = \\frac{1}{\\ell} = 3$."
     },
     {
       "id": "L3-SER-2",
       "tier": 2,
       "type": "mcq",
-      "title": "Rayon spectral et formule de Gelfand",
-      "skill": "Calculer le rayon spectral $\\rho(A)$",
-      "statement": "Le rayon spectral $\\rho(A)$ d'une matrice $A \\in \\mathcal{M}_n(\\mathbb{C})$ est défini par :",
+      "title": "Développement en série entière géométrique",
+      "skill": "Déterminer la somme d'une série entière géométrique dérivée",
+      "statement": "Pour tout $x \\in ]-1, 1[$, que vaut la somme de la série entière $\\sum_{n=1}^\\infty n x^{n-1}$ ?",
       "options": [
-        "$\\rho(A) = \\max \\{|\\lambda| \\mid \\lambda \\in \\text{Sp}(A)\\}$",
-        "$\\rho(A) = \\text{Tr}(A)$",
-        "$\\rho(A) = \\|A\\|$",
-        "$\\rho(A) = \\det(A)$"
+        "$\\frac{1}{(1-x)^2}$",
+        "$\\frac{1}{1-x}$",
+        "$\\ln(1-x)$",
+        "$\\frac{x}{(1-x)^2}$"
       ],
       "correctIndex": 0,
-      "answer": "$\\rho(A) = \\max \\{|\\lambda| \\mid \\lambda \\in \\text{Sp}(A)\\}$",
-      "hint1": "C'est le module maximal des valeurs propres complexes de la matrice.",
-      "hint2": "La formule de Gelfand assure que $\\rho(A) = \\lim_{k \\to \\infty} \\|A^k\\|^{1/k}$.",
-      "solution": "Le rayon spectral est le plus grand module des valeurs propres : $\\rho(A) = \\max \\{|\\lambda| \\mid \\lambda \\in \\text{Sp}(A)\\}$."
+      "answer": "$\\frac{1}{(1-x)^2}$",
+      "hint1": "Remarque que $n x^{n-1} = (x^n)'$.",
+      "hint2": "Dérive terme à terme la série géométrique $\\sum_{n=0}^\\infty x^n = \\frac{1}{1-x}$.",
+      "solution": "Sur $]-1, 1[$, $\\sum_{n=0}^\\infty x^n = \\frac{1}{1-x}$. Par dérivation terme à terme d'une série entière sur son disque ouvert de convergence : $\\sum_{n=1}^\\infty n x^{n-1} = \\left(\\frac{1}{1-x}\\right)' = \\frac{1}{(1-x)^2}$."
     },
     {
       "id": "L3-SER-3",
       "tier": 3,
       "type": "mcq",
-      "title": "Déterminant de l'exponentielle de matrice",
-      "skill": "Formule $\\det(\\exp A) = e^{\\text{Tr}(A)}$",
-      "statement": "Pour toute matrice carrée $A \\in \\mathcal{M}_n(\\mathbb{C})$, que vaut $\\det(\\exp(A))$ ?",
+      "title": "Théorème de la limite radiale d'Abel",
+      "skill": "Étudier le comportement d'une série entière au bord du disque",
+      "statement": "Soit $f(x) = \\sum_{n=0}^\\infty a_n x^n$ de rayon de convergence $R = 1$. Si la série numérique $\\sum a_n$ converge, que garantit le théorème radial d'Abel ?",
       "options": [
-        "$e^{\\text{Tr}(A)}$",
-        "$\\exp(\\det A)$",
-        "$\\text{Tr}(\\exp A)$",
-        "$1$"
+        "$\\lim_{x \\to 1^-} f(x) = \\sum_{n=0}^\\infty a_n$",
+        "$f$ est prolongeable par continuité sur $\\mathbb{R}$ tout entier",
+        "$\\sum a_n$ est absolument convergente",
+        "$\\lim_{x \\to 1^-} f'(x) = 0$"
       ],
       "correctIndex": 0,
-      "answer": "$e^{\\text{Tr}(A)}$",
-      "hint1": "Par trigonalisation de $A$, les valeurs propres de $\\exp(A)$ sont $e^{\\lambda_i}$.",
-      "hint2": "Le produit des $e^{\\lambda_i}$ est $e^{\\sum \\lambda_i} = e^{\\text{Tr}(A)}$.",
-      "solution": "Les valeurs propres de $\\exp(A)$ sont les $e^{\\lambda_i}$, donc $\\det(\\exp A) = \\prod e^{\\lambda_i} = e^{\\sum \\lambda_i} = e^{\\text{Tr}(A)}$."
+      "answer": "$\\lim_{x \\to 1^-} f(x) = \\sum_{n=0}^\\infty a_n$",
+      "hint1": "La somme de la série entière est continue jusqu'au bord où la série converge.",
+      "hint2": "La limite à gauche en 1 de la fonction coïncide avec la somme de la série au point 1.",
+      "solution": "Le théorème de la limite radiale d'Abel affirme que si $\\sum a_n R^n$ converge, alors la fonction somme $f(x)$ est continue à gauche en $R$, de sorte que $\\lim_{x \\to R^-} f(x) = \\sum_{n=0}^\\infty a_n R^n$."
     },
     {
       "id": "L3-SER-4",
       "tier": 4,
       "type": "mcq",
-      "title": "Densité des matrices diagonalisables",
-      "skill": "Topologie de $\\mathcal{M}_n(\\mathbb{C})$",
-      "statement": "Dans $\\mathcal{M}_n(\\mathbb{C})$ muni de sa topologie usuelle, le sous-ensemble $\\mathcal{D}_n(\\mathbb{C})$ des matrices diagonalisables est :",
+      "title": "Produit de Cauchy de deux séries entières",
+      "skill": "Déterminer les coefficients du produit de séries entières",
+      "statement": "Si $f(z) = \\sum a_n z^n$ (rayon $R_a$) et $g(z) = \\sum b_n z^n$ (rayon $R_b$), quel est le coefficient $c_n$ de la série produit $f(z)g(z) = \\sum c_n z^n$ ?",
       "options": [
-        "Dense et ouvert",
-        "Fermé",
-        "Compact",
-        "D'intérieur vide"
+        "$c_n = \\sum_{k=0}^n a_k b_{n-k}$",
+        "$c_n = a_n b_n$",
+        "$c_n = \\sum_{k=0}^n a_k + b_{n-k}$",
+        "$c_n = \\frac{a_n + b_n}{2}$"
       ],
       "correctIndex": 0,
-      "answer": "Dense et ouvert",
-      "hint1": "Toute matrice est limite de matrices à valeurs propres distinctes (discriminant non nul).",
-      "hint2": "Le discriminant de $\\chi_A$ est un polynôme non nul en les coefficients.",
-      "solution": "L'ensemble des matrices à valeurs propres distinctes est un ouvert dense (complémentaire des zéros du discriminant). Comme elles sont diagonalisables, $\\mathcal{D}_n(\\mathbb{C})$ est dense dans $\\mathcal{M}_n(\\mathbb{C})$."
+      "answer": "$c_n = \\sum_{k=0}^n a_k b_{n-k}$",
+      "hint1": "Formule du produit de convolution discret ou produit de Cauchy.",
+      "hint2": "Le terme en $z^n$ est la somme des produits $a_k z^k \\cdot b_{n-k} z^{n-k}$ pour $k$ allant de 0 à $n$.",
+      "solution": "Le produit de Cauchy de deux séries entières a pour terme général $c_n = \\sum_{k=0}^n a_k b_{n-k}$, et son rayon de convergence vérifie $R_c \\ge \\min(R_a, R_b)$."
     }
   ],
   "L3-FOU": [
@@ -1754,77 +1766,77 @@ window.MATHS_EXERCISES_L3 = {
       "id": "L3-PROG-1",
       "tier": 1,
       "type": "mcq",
-      "title": "Caractérisation de la convexité par la hessienne",
-      "skill": "Identifier une fonction convexe de classe $\\mathcal{C}^2$",
-      "statement": "Une fonction $f : U \\to \\mathbb{R}$ de classe $\\mathcal{C}^2$ sur un ouvert convexe $U$ est convexe si et seulement si sa matrice hessienne $\\nabla^2 f(x)$ est partout :",
+      "title": "Forme standard d'un programme linéaire et variables d'écart",
+      "skill": "Mettre un programme linéaire sous forme standard",
+      "statement": "Pour mettre la contrainte d'inégalité $2x_1 + 3x_2 \\le 12$ sous forme standard d'égalité avec des variables positives, quelle transformation effectue-t-on ?",
       "options": [
-        "Semi-définie positive",
-        "Définie négative",
-        "De trace nulle",
-        "Inversible"
+        "On introduit une variable d'écart $s \\ge 0$ telle que $2x_1 + 3x_2 + s = 12$",
+        "On remplace simplement $\\le$ par $=$ sans rien ajouter",
+        "On introduit une variable $s \\le 0$ telle que $2x_1 + 3x_2 = 12 + s$",
+        "On élève la contrainte au carré"
       ],
       "correctIndex": 0,
-      "answer": "Semi-définie positive",
-      "hint1": "En dimension 1, la dérivée seconde doit être positive : $f''(x) \\ge 0$.",
-      "hint2": "En dimension supérieure, pour tout vecteur $v$, ${}^t v \\, \\nabla^2 f(x) \\, v \\ge 0$.",
-      "solution": "Une fonction $\\mathcal{C}^2$ sur un ouvert convexe est convexe si et seulement si sa matrice hessienne est semi-définie positive en tout point."
+      "answer": "On introduit une variable d'écart $s \\ge 0$ telle que $2x_1 + 3x_2 + s = 12$",
+      "hint1": "Une contrainte $\\le$ signifie que le membre de gauche est inférieur au membre de droite.",
+      "hint2": "On ajoute le déficit positif $s = 12 - (2x_1 + 3x_2) \\ge 0$ pour obtenir une égalité stricte.",
+      "solution": "Dans la mise sous forme standard, toute contrainte d'inégalité $\\le$ est transformée en égalité par l'addition d'une variable d'écart positive ($s \\ge 0$) : $2x_1 + 3x_2 + s = 12$."
     },
     {
       "id": "L3-PROG-2",
       "tier": 2,
       "type": "mcq",
-      "title": "Multiplicateurs de Lagrange",
-      "skill": "Optimisation sous contraintes d'égalité",
-      "statement": "Pour minimiser $f(x)$ sous la contrainte $g(x) = 0$ avec $\\nabla g(x^*) \\ne 0$, la condition nécessaire du premier ordre stipule qu'il existe $\\lambda \\in \\mathbb{R}$ tel que :",
+      "title": "Règle de la variable entrante dans le simplexe",
+      "skill": "Appliquer le critère de Dantzig sur les coûts réduits",
+      "statement": "Dans l'algorithme du simplexe en maximisation, comment choisit-on la variable hors-base entrante selon la règle de Dantzig ?",
       "options": [
-        "$\\nabla f(x^*) + \\lambda \\nabla g(x^*) = 0$",
-        "$\\nabla f(x^*) \\cdot \\nabla g(x^*) = 1$",
-        "$\\nabla f(x^*) = 0$",
-        "$\\lambda = 0$"
+        "On choisit la variable ayant le coût réduit strictement positif le plus grand ($\\bar{c}_e = \\max_{j} \\bar{c}_j > 0$)",
+        "On choisit la variable ayant le coût réduit le plus négatif",
+        "On choisit la variable ayant la plus grande valeur dans le vecteur $b$",
+        "On choisit arbitrairement n'importe quelle variable de base"
       ],
       "correctIndex": 0,
-      "answer": "$\\nabla f(x^*) + \\lambda \\nabla g(x^*) = 0$",
-      "hint1": "Le gradient de la fonction objectif doit être colinéaire au gradient de la contrainte.",
-      "hint2": "C'est l'annulation du gradient du Lagrangien $\\mathcal{L}(x, \\lambda) = f(x) + \\lambda g(x)$.",
-      "solution": "Au point optimal $x^*$, $\\nabla f(x^*)$ est orthogonal à l'espace tangent à la contrainte, donc colinéaire à $\\nabla g(x^*)$ : $\\nabla f(x^*) + \\lambda \\nabla g(x^*) = 0$."
+      "answer": "On choisit la variable ayant le coût réduit strictement positif le plus grand ($\\bar{c}_e = \\max_{j} \\bar{c}_j > 0$)",
+      "hint1": "Un coût réduit positif $\\bar{c}_j > 0$ indique que faire croître $x_j$ augmentera la fonction objectif.",
+      "hint2": "La règle de Dantzig choisit la pente ascendante marginale maximale.",
+      "solution": "En maximisation, le critère de Dantzig prescrit de faire entrer en base la variable hors-base $x_e$ dont le coût réduit est le plus grand strictement positif : $\\bar{c}_e = \\max_{j \\in N} \\bar{c}_j > 0$. Si tous les coûts réduits sont $\\le 0$, la solution actuelle est optimale."
     },
     {
       "id": "L3-PROG-3",
       "tier": 3,
       "type": "mcq",
-      "title": "Conditions de Karush-Kuhn-Tucker (KKT)",
-      "skill": "Comprendre les conditions de complémentarité",
-      "statement": "Dans les conditions KKT pour minimiser $f(x)$ sous la contrainte d'inégalité $g(x) \\le 0$, quelle condition lie le multiplicateur $\\mu$ et la contrainte $g(x)$ ?",
+      "title": "Test du ratio minimum et variable sortante",
+      "skill": "Déterminer la variable qui quitte la base pour préserver l'admissibilité",
+      "statement": "Lors d'une itération du simplexe avec colonne pivot $A_e$, la variable de base sortante est déterminée par :",
       "options": [
-        "$\\mu \\ge 0$ et $\\mu g(x) = 0$ (complémentarité)",
-        "$\\mu < 0$",
-        "$\\mu + g(x) = 0$",
-        "$g(x) = 0$ obligatoirement"
+        "Le minimum des ratios $\\frac{\\bar{b}_i}{\\bar{a}_{i, e}}$ pour les lignes où $\\bar{a}_{i, e} > 0$",
+        "Le maximum des ratios $\\frac{\\bar{b}_i}{\\bar{a}_{i, e}}$",
+        "La ligne où $\\bar{a}_{i, e}$ est le plus proche de 0",
+        "La ligne où le terme indépendant $\\bar{b}_i$ est négatif"
       ],
       "correctIndex": 0,
-      "answer": "$\\mu \\ge 0$ et $\\mu g(x) = 0$ (complémentarité)",
-      "hint1": "Si la contrainte est inactive ($g(x) < 0$), son multiplicateur doit être nul $\\mu = 0$.",
-      "hint2": "Si la contrainte est active ($g(x) = 0$), son multiplicateur peut être strictement positif.",
-      "solution": "Les conditions d'exclusion ou de complémentarité imposent $\\mu \\ge 0$, $g(x) \\le 0$ et $\\mu \\cdot g(x) = 0$."
+      "answer": "Le minimum des ratios $\\frac{\\bar{b}_i}{\\bar{a}_{i, e}}$ pour les lignes où $\\bar{a}_{i, e} > 0$",
+      "hint1": "En augmentant la variable entrante $x_e$, les composantes de base deviennent $x_{B(i)} = \\bar{b}_i - \\bar{a}_{i, e} x_e$.",
+      "hint2": "Pour que toutes les variables restent $\\ge 0$, la première variable de base qui s'annule est celle du plus petit ratio positif.",
+      "solution": "Pour préserver la positivité de toutes les variables (admissibilité), la variable de base qui quitte la base est celle dont la valeur s'annule en premier : $i^* = \\arg \\min \\{ \\frac{\\bar{b}_i}{\\bar{a}_{i,e}} \\mid \\bar{a}_{i,e} > 0 \\}$."
     },
     {
       "id": "L3-PROG-4",
       "tier": 4,
       "type": "mcq",
-      "title": "Algorithme de descente de gradient",
-      "skill": "Convergence du gradient à pas fixe",
-      "statement": "Pour une fonction $L$-gradient lipschitzienne, l'algorithme de descente de gradient $x_{k+1} = x_k - \\alpha \\nabla f(x_k)$ converge dès que le pas $\\alpha$ vérifie :",
+      "title": "Théorème des écarts complémentaires",
+      "skill": "Vérifier l'optimalité conjointe primale/duale",
+      "statement": "Soient $x^*$ et $y^*$ des solutions admissibles respectives du problème primal ($\\max {}^t c x$ sous $Ax \\le b, x \\ge 0$) et dual ($\\min {}^t b y$ sous ${}^t A y \\ge c, y \\ge 0$). Quelle condition caractérise leur optimalité conjointe ?",
       "options": [
-        "$0 < \\alpha < \\frac{2}{L}$",
-        "$\\alpha > L$",
-        "$\\alpha = 1$",
-        "$\\alpha \\ge 2L$"
+        "$y_i^* (b - Ax^*)_i = 0$ pour tout $i$ et $x_j^* ({}^t A y^* - c)_j = 0$ pour tout $j$",
+        "$x^* = y^*$ obligatoirement",
+        "${}^t c x^* < {}^t b y^*$, strictement",
+        "$\\det(A) = 0$"
       ],
       "correctIndex": 0,
-      "answer": "$0 < \\alpha < \\frac{2}{L}$",
-      "hint1": "Le pas optimal garantissant la décroissance stricte de l'énergie vérifie $\\alpha < 2/L$.",
-      "hint2": "Au-delà de $2/L$, l'algorithme oscille et diverge.",
-      "solution": "D'après le lemme de descente, le pas de gradient doit vérifier $0 < \\alpha < 2/L$ pour assurer la convergence de la suite vers un point critique."
+      "answer": "$y_i^* (b - Ax^*)_i = 0$ pour tout $i$ et $x_j^* ({}^t A y^* - c)_j = 0$ pour tout $j$",
+      "hint1": "C'est le théorème des relations d'exclusion ou écarts complémentaires.",
+      "hint2": "Si une contrainte primale n'est pas saturée ($(b - Ax^*)_i > 0$), la variable duale associée doit être nulle ($y_i^* = 0$).",
+      "solution": "D'après le théorème des écarts complémentaires, deux solutions admissibles sont optimales si et seulement si pour tout $i$, $y_i^*(b_i - (Ax^*)_i) = 0$ (le produit du multiplicateur par la variable d'écart est nul) et pour tout $j$, $x_j^*(({}^t A y^*)_j - c_j) = 0$."
     }
   ],
   "L3-MES": [
@@ -2003,6 +2015,188 @@ Tout élément $x \\in G$ s'écrit $x = a^n z_1$ avec $n \\in \\mathbb{Z}$ et $z
 De même, $y \\in G$ s'écrit $y = a^m z_2$.
 Alors $xy = (a^n z_1)(a^m z_2) = a^n a^m z_1 z_2 = a^{n+m} z_1 z_2 = a^{m+n} z_2 z_1 = yx$.
 Le groupe $G$ est abélien.`
+    }
+  ],
+  "L3-MET": [
+    {
+      "title": "Feuille de TD L3 : Topologie des Espaces Métriques et Normés",
+      "filename": "TD_L3_Topologie_Metrique.md",
+      "statement": `## Travaux Dirigés L3 : Topologie des Espaces Métriques et Normés
+
+### Exercice 1 : Équivalence des normes en dimension finie et contre-exemple (8 points)
+1. Énoncer le théorème d'équivalence des normes sur un espace vectoriel de dimension finie.
+2. Soit $E = \\mathcal{C}([0, 1], \\mathbb{R})$. On considère les normes $\\|f\\|_1 = \\int_0^1 |f(t)| dt$ et $\\|f\\|_\\infty = \\sup_{t \\in [0, 1]} |f(t)|$.
+   a. Montrer que $\\|f\\|_1 \\le \\|f\\|_\\infty$ pour tout $f \\in E$.
+   b. En considérant la suite de fonctions $f_n(t) = t^n$ pour $n \\ge 1$, montrer que ces deux normes ne sont pas équivalentes sur $E$.
+   c. En déduire que $E$ est de dimension infinie.
+
+### Exercice 2 : Compacité et Théorème de Heine (12 points)
+Soit $(K, d_K)$ un espace métrique compact et $(F, d_F)$ un espace métrique quelconque. Soit $f : K \\to F$ une application continue.
+1. Rappeler la définition de la compacité par la propriété de Borel-Lebesgue (recouvrement d'ouverts).
+2. Pour $\\varepsilon > 0$ fixé, et pour chaque $x \\in K$, justifier qu'il existe $r_x > 0$ tel que :
+$$\\forall y \\in B(x, r_x), \\quad d_F(f(x), f(y)) < \\frac{\\varepsilon}{2}$$
+3. En considérant le recouvrement ouvert $K \\subset \\bigcup_{x \\in K} B(x, \\frac{r_x}{2})$, démontrer que $f$ est uniformément continue sur $K$ (Théorème de Heine).`,
+      "solution": `### Correction Exercice 1
+1. Sur un $\\mathbb{R}$-espace vectoriel de dimension finie, toutes les normes sont équivalentes : pour toutes normes $N_1, N_2$, $\\exists \\alpha, \\beta > 0$ tels que $\\alpha N_1(x) \\le N_2(x) \\le \\beta N_1(x)$.
+2. a. Pour tout $t \\in [0, 1]$, $|f(t)| \\le \\|f\\|_\\infty$, d'où en intégrant : $\\|f\\|_1 = \\int_0^1 |f(t)| dt \\le \\int_0^1 \\|f\\|_\\infty dt = \\|f\\|_\\infty$.
+b. Pour $f_n(t) = t^n$ : $\\|f_n\\|_\\infty = \\sup_{t \\in [0, 1]} t^n = 1$.
+En revanche, $\\|f_n\\|_1 = \\int_0^1 t^n dt = \\left[ \\frac{t^{n+1}}{n+1} \\right]_0^1 = \\frac{1}{n+1}$.
+S'il existait $C > 0$ tel que $\\|f\\|_\\infty \\le C \\|f\\|_1$ pour tout $f$, on aurait $1 \\le \\frac{C}{n+1}$ pour tout $n \\ge 1$, ce qui est absurde quand $n \\to \\infty$. Les normes ne sont pas équivalentes.
+c. Comme deux normes ne sont pas équivalentes sur $E$, d'après le théorème d'équivalence en dimension finie, $E$ est nécessairement de dimension infinie.
+
+### Correction Exercice 2
+1. Un espace métrique $K$ est compact ssi de tout recouvrement ouvert $K = \\bigcup_{i \\in I} U_i$, on peut extraire un sous-recouvrement fini : $\\exists i_1, \\dots, i_N \\in I$ tels que $K = \\bigcup_{k=1}^N U_{i_k}$.
+2. Par continuité de $f$ en $x$, pour tout $\\varepsilon' = \\frac{\\varepsilon}{2} > 0$, il existe $r_x > 0$ tel que $d_K(x, y) < r_x \\implies d_F(f(x), f(y)) < \\frac{\\varepsilon}{2}$.
+3. La famille des boules ouvertes $\\left( B(x, \\frac{r_x}{2}) \\right)_{x \\in K}$ forme un recouvrement ouvert du compact $K$.
+Par compacité, il existe un nombre fini de points $x_1, \\dots, x_N \\in K$ tels que :
+$$K \\subset \\bigcup_{k=1}^N B\\left(x_k, \\frac{r_{x_k}}{2}\\right)$$
+Posons $\\delta = \\min_{1 \\le k \\le N} \\frac{r_{x_k}}{2} > 0$.
+Soient $y, z \\in K$ tels que $d_K(y, z) < \\delta$.
+Comme $y \\in K$, il existe un indice $k \\in \\{1, \\dots, N\\}$ tel que $y \\in B(x_k, \\frac{r_{x_k}}{2})$, c'est-à-dire $d_K(y, x_k) < \\frac{r_{x_k}}{2}$.
+Alors par inégalité triangulaire :
+$$d_K(z, x_k) \\le d_K(z, y) + d_K(y, x_k) < \\delta + \\frac{r_{x_k}}{2} \\le \\frac{r_{x_k}}{2} + \\frac{r_{x_k}}{2} = r_{x_k}$$
+Ainsi, $y \\in B(x_k, r_{x_k})$ et $z \\in B(x_k, r_{x_k})$.
+Il en résulte :
+$$d_F(f(y), f(z)) \\le d_F(f(y), f(x_k)) + d_F(f(x_k), f(z)) < \\frac{\\varepsilon}{2} + \\frac{\\varepsilon}{2} = \\varepsilon$$
+Le réel $\\delta > 0$ ne dépend que de $\\varepsilon$ et non des points choisis : $f$ est uniformément continue sur $K$.`
+    }
+  ],
+  "L3-PROG": [
+    {
+      "title": "Feuille de TD L3 : Programmation Linéaire, Simplexe et Dualité",
+      "filename": "TD_L3_Simplexe_Dualite.md",
+      "statement": `## Travaux Dirigés L3 : Programmation Linéaire et Dualité
+
+### Exercice 1 : Résolution complète par l'Algorithme du Simplexe (12 points)
+On considère le problème linéaire suivant :
+$$\\max Z = 5 x_1 + 4 x_2$$
+sous les contraintes :
+$$\\begin{cases} x_1 + 2 x_2 \\le 6 \\\\ 3 x_1 + 2 x_2 \\le 12 \\\\ x_1 \\ge 0, \\; x_2 \\ge 0 \\end{cases}$$
+1. Mettre le problème sous forme standard en introduisant des variables d'écart positives $s_1, s_2 \\ge 0$.
+2. Identifier la solution de base admissible (SBA) initiale et la valeur de la fonction objectif correspondante.
+3. Déterminer la variable entrante selon la règle de Dantzig.
+4. Effectuer le test du ratio minimum pour déterminer la variable sortante et le pivot.
+5. Effectuer l'opération de pivotage de Gauss-Jordan.
+6. Effectuer la deuxième itération du simplexe jusqu'à ce que tous les coûts réduits soient négatifs ou nuls.
+7. Conclure sur la solution optimale $(x_1^*, x_2^*)$ et la valeur optimale $Z^*$.
+
+### Exercice 2 : Problème Dual et Écarts Complémentaires (8 points)
+1. Écrire le problème dual $(D)$ associé au programme linéaire précédent.
+2. En utilisant le théorème des écarts complémentaires et la solution optimale trouvée à l'exercice 1, déterminer la solution optimale duale $(y_1^*, y_2^*)$.
+3. Vérifier que la valeur optimale du dual coïncide avec la valeur optimale du primal (Théorème de Dualité Forte).`,
+      "solution": `### Correction Exercice 1
+1. Forme standard avec $s_1, s_2 \\ge 0$ :
+$$\\max Z = 5x_1 + 4x_2 + 0s_1 + 0s_2$$
+sous :
+$$\\begin{cases} x_1 + 2x_2 + s_1 = 6 \\\\ 3x_1 + 2x_2 + s_2 = 12 \\end{cases}$$
+2. Base initiale $B = (s_1, s_2)$. Variables hors-base : $x_1 = 0, x_2 = 0$.
+Valeurs de base : $s_1 = 6, s_2 = 12$. La solution est admissible car $s_1, s_2 \\ge 0$. Valeur initiale $Z = 0$.
+3. Coûts réduits : $\\bar{c}_1 = 5$ et $\\bar{c}_2 = 4$. Comme $\\max(5, 4) = 5 > 0$, la variable $x_1$ entre en base.
+4. Ratios $\\frac{b_i}{a_{i, 1}}$ :
+- Ligne 1 ($s_1$) : $6 / 1 = 6$.
+- Ligne 2 ($s_2$) : $12 / 3 = 4$.
+Le ratio minimal est $4$ sur la ligne 2. Donc $s_2$ quitte la base. Le pivot est $a_{2, 1} = 3$.
+5. Pivotage :
+Nouvelle ligne 2 : $L_2 \\leftarrow \\frac{1}{3} L_2 \\iff x_1 + \\frac{2}{3} x_2 + \\frac{1}{3} s_2 = 4$.
+Nouvelle ligne 1 : $L_1 \\leftarrow L_1 - L_2' \\iff \\frac{4}{3} x_2 + s_1 - \\frac{1}{3} s_2 = 2$.
+Fonction objectif : $Z = 5(4 - \\frac{2}{3} x_2 - \\frac{1}{3} s_2) + 4 x_2 = 20 + \\frac{2}{3} x_2 - \\frac{5}{3} s_2$.
+Nouvelle base $B = (s_1, x_1)$ avec $x_1 = 4, s_1 = 2, Z = 20$.
+6. Deuxième itération :
+Le coût réduit de $x_2$ est $\\bar{c}_2 = \\frac{2}{3} > 0$. Donc $x_2$ entre en base.
+Test des ratios :
+- Ligne 1 ($s_1$) : $\\frac{2}{4/3} = \\frac{3}{2} = 1.5$.
+- Ligne 2 ($x_1$) : $\\frac{4}{2/3} = 6$.
+Le ratio minimal est $1.5$ sur la ligne 1. Donc $s_1$ sort de la base. Le pivot est $\\frac{4}{3}$.
+Nouvelle ligne 1 : $L_1 \\leftarrow \\frac{3}{4} L_1 \\iff x_2 + \\frac{3}{4} s_1 - \\frac{1}{4} s_2 = \\frac{3}{2}$.
+Nouvelle ligne 2 : $L_2 \\leftarrow L_2 - \\frac{2}{3} L_1' \\iff x_1 - \\frac{1}{2} s_1 + \\frac{1}{2} s_2 = 3$.
+Fonction objectif : $Z = 20 + \\frac{2}{3}\\left(\\frac{3}{2} - \\frac{3}{4} s_1 + \\frac{1}{4} s_2\\right) - \\frac{5}{3} s_2 = 21 - \\frac{1}{2} s_1 - \\frac{3}{2} s_2$.
+7. Les coûts réduits sont désormais $-\\frac{1}{2} \\le 0$ et $-\\frac{3}{2} \\le 0$. L'algorithme s'arrête à l'optimum :
+$x_1^* = 3, \\; x_2^* = \\frac{3}{2} = 1.5, \\quad Z^* = 5(3) + 4(1.5) = 21$.
+
+### Correction Exercice 2
+1. Problème dual $(D)$ :
+$$\\min W = 6 y_1 + 12 y_2$$
+sous les contraintes :
+$$\\begin{cases} y_1 + 3 y_2 \\ge 5 \\\\ 2 y_1 + 2 y_2 \\ge 4 \\\\ y_1 \\ge 0, \\; y_2 \\ge 0 \\end{cases}$$
+2. Écarts complémentaires :
+À l'optimum primal, les variables d'écart sont $s_1^* = 0$ et $s_2^* = 0$ (les deux contraintes primales sont saturées : $3 + 2(1.5) = 6$ et $3(3) + 2(1.5) = 12$).
+De plus, les variables de décision sont strictement positives : $x_1^* = 3 > 0$ et $x_2^* = 1.5 > 0$.
+D'après les relations d'exclusion :
+$x_1^* > 0 \\implies y_1^* + 3 y_2^* = 5$
+$x_2^* > 0 \\implies 2 y_1^* + 2 y_2^* = 4 \\iff y_1^* + y_2^* = 2$.
+Soustraction des équations : $2 y_2^* = 3 \\implies y_2^* = \\frac{3}{2} = 1.5$.
+Puis $y_1^* = 2 - 1.5 = 0.5 = \\frac{1}{2}$.
+Comme $y_1^* \\ge 0$ et $y_2^* \\ge 0$, la solution duale admissible et optimale est $(y_1^*, y_2^*) = (\\frac{1}{2}, \\frac{3}{2})$.
+Remarque remarquable : les valeurs optimales des variables duales coïncident exactement avec l'opposé des coefficients des variables d'écart dans la ligne de coût optimal du simplexe ($Z = 21 - \\frac{1}{2} s_1 - \\frac{3}{2} s_2$) !
+3. Valeur duale optimale :
+$W^* = 6 y_1^* + 12 y_2^* = 6(0.5) + 12(1.5) = 3 + 18 = 21 = Z^*$.
+La dualité forte est parfaitement vérifiée : $\\max (P) = \\min (D) = 21$.`
+    }
+  ],
+  "L3-NUM": [
+    {
+      "title": "Feuille de TD L3 : Analyse Numérique Matricielle et Interpolation",
+      "filename": "TD_L3_Analyse_Numerique.md",
+      "statement": `## Travaux Dirigés L3 : Analyse Numérique Matricielle et Interpolation
+
+### Exercice 1 : Factorisation de Cholesky $A = L L^T$ (10 points)
+Soit la matrice symétrique réelle suivante :
+$$A = \\begin{pmatrix} 4 & 2 & -2 \\\\ 2 & 10 & 5 \\\\ -2 & 5 & 14 \\end{pmatrix}$$
+1. Rappeler la définition d'une matrice symétrique définie positive et énoncer le critère de Sylvester (mineurs dominants).
+2. Vérifier que $A$ est symétrique définie positive à l'aide des déterminants de ses mineurs principaux de Gauss.
+3. Calculer pas à pas les coefficients de la matrice triangulaire inférieure $L = \\begin{pmatrix} \\ell_{11} & 0 & 0 \\\\ \\ell_{21} & \\ell_{22} & 0 \\\\ \\ell_{31} & \\ell_{32} & \\ell_{33} \\end{pmatrix}$ à diagonale strictement positive telle que $A = L L^T$.
+4. Expliquer comment cette factorisation permet de résoudre efficacement le système linéaire $A x = b$.
+
+### Exercice 2 : Interpolation Polynomiale de Lagrange et Erreur (10 points)
+Soient trois points d'interpolation distincts $x_0 = 0, x_1 = 1, x_2 = 2$ et les valeurs associées $y_0 = 1, y_1 = 3, y_2 = 2$.
+1. Écrire les trois polynômes élémentaires de Lagrange $L_0(x), L_1(x), L_2(x)$ associés à ces nœuds.
+2. En déduire le polynôme d'interpolation de Lagrange $P_2(x) = \\sum_{i=0}^2 y_i L_i(x)$ sous forme développée.
+3. On suppose que ces données proviennent d'une fonction $f$ de classe $\\mathcal{C}^3([0, 2])$ vérifiant $|f^{(3)}(t)| \\le M_3$ pour tout $t \\in [0, 2]$.
+   Rappeler la formule de l'erreur d'interpolation et donner une majoration uniforme de $|f(x) - P_2(x)|$ sur $[0, 2]$ en fonction de $M_3$.`,
+      "solution": `### Correction Exercice 1
+1. Une matrice symétrique $A \\in \\mathcal{S}_n(\\mathbb{R})$ est définie positive si pour tout $x \\in \\mathbb{R}^n \\setminus \\{0\\}$, $x^T A x > 0$.
+Critère de Sylvester : $A$ est définie positive ssi tous ses mineurs principaux dominants $\\Delta_k = \\det(A_{1..k, 1..k})$ sont strictement positifs pour $k = 1, \\dots, n$.
+2. Mineurs dominants :
+$\\Delta_1 = 4 > 0$.
+$\\Delta_2 = \\begin{vmatrix} 4 & 2 \\\\ 2 & 10 \\end{vmatrix} = 40 - 4 = 36 > 0$.
+$\\Delta_3 = \\det(A) = 4(140 - 25) - 2(28 - (-10)) + (-2)(10 - (-20)) = 4(115) - 2(38) - 2(30) = 460 - 76 - 60 = 324 > 0$.
+Tous les mineurs étant strictement positifs, $A$ est symétrique définie positive.
+3. Formules de Cholesky :
+- Colonne 1 :
+  $\\ell_{11} = \\sqrt{a_{11}} = \\sqrt{4} = 2$.
+  $\\ell_{21} = \\frac{a_{21}}{\\ell_{11}} = \\frac{2}{2} = 1$.
+  $\\ell_{31} = \\frac{a_{31}}{\\ell_{11}} = \\frac{-2}{2} = -1$.
+- Colonne 2 :
+  $\\ell_{22} = \\sqrt{a_{22} - \\ell_{21}^2} = \\sqrt{10 - 1} = \\sqrt{9} = 3$.
+  $\\ell_{32} = \\frac{a_{32} - \\ell_{31}\\ell_{21}}{\\ell_{22}} = \\frac{5 - (-1)(1)}{3} = \\frac{6}{3} = 2$.
+- Colonne 3 :
+  $\\ell_{33} = \\sqrt{a_{33} - (\\ell_{31}^2 + \\ell_{32}^2)} = \\sqrt{14 - (1 + 4)} = \\sqrt{9} = 3$.
+D'où la matrice $L = \\begin{pmatrix} 2 & 0 & 0 \\\\ 1 & 3 & 0 \\\\ -1 & 2 & 3 \\end{pmatrix}$.
+Vérification : $L L^T = \\begin{pmatrix} 2 & 0 & 0 \\\\ 1 & 3 & 0 \\\\ -1 & 2 & 3 \\end{pmatrix} \\begin{pmatrix} 2 & 1 & -1 \\\\ 0 & 3 & 2 \\\\ 0 & 0 & 3 \\end{pmatrix} = \\begin{pmatrix} 4 & 2 & -2 \\\\ 2 & 10 & 5 \\\\ -2 & 5 & 14 \\end{pmatrix} = A$.
+4. Résolution de $Ax = b \\iff L (L^T x) = b$ :
+- Résolution du système triangulaire inférieur par descente : $L y = b$ (coût en $O(n^2/2)$).
+- Résolution du système triangulaire supérieur par remontée : $L^T x = y$ (coût en $O(n^2/2)$).
+Cette méthode évite le calcul d'inverse et ne requiert pas de pivotage car les pivots de Cholesky sont garantis stables.
+
+### Correction Exercice 2
+1. Base de Lagrange :
+$L_0(x) = \\frac{(x-1)(x-2)}{(0-1)(0-2)} = \\frac{(x-1)(x-2)}{2} = \\frac{x^2 - 3x + 2}{2}$.
+$L_1(x) = \\frac{(x-0)(x-2)}{(1-0)(1-2)} = \\frac{x(x-2)}{-1} = -x^2 + 2x$.
+$L_2(x) = \\frac{(x-0)(x-1)}{(2-0)(2-1)} = \\frac{x(x-1)}{2} = \\frac{x^2 - x}{2}$.
+2. Polynôme interpolateur :
+$P_2(x) = 1 \\cdot L_0(x) + 3 \\cdot L_1(x) + 2 \\cdot L_2(x)$
+$P_2(x) = \\frac{x^2 - 3x + 2}{2} + 3(-x^2 + 2x) + 2\\frac{x^2 - x}{2} = \\left(\\frac{1}{2} - 3 + 1\\right) x^2 + \\left(-\\frac{3}{2} + 6 - 1\\right) x + 1 = -\\frac{3}{2} x^2 + \\frac{7}{2} x + 1$.
+Vérification : $P_2(0) = 1$, $P_2(1) = -1.5 + 3.5 + 1 = 3$, $P_2(2) = -6 + 7 + 1 = 2$.
+3. Formule d'erreur de Cauchy :
+Pour tout $x \\in [0, 2]$, il existe $\\xi_x \\in ]0, 2[$ tel que :
+$$f(x) - P_2(x) = \\frac{f^{(3)}(\\xi_x)}{3!} (x-0)(x-1)(x-2)$$
+Posons $\\omega(x) = x(x-1)(x-2) = x^3 - 3x^2 + 2x$.
+Sa dérivée $\\omega'(x) = 3x^2 - 6x + 2$ s'annule pour $x = \\frac{6 \\pm \\sqrt{12}}{6} = 1 \\pm \\frac{\\sqrt{3}}{3}$.
+Pour $x = 1 - \\frac{1}{\\sqrt{3}}$ :
+$\\omega(x) = \\left(1 - \\frac{1}{\\sqrt{3}}\\right)\\left(-\\frac{1}{\\sqrt{3}}\\right)\\left(-1 - \\frac{1}{\\sqrt{3}}\\right) = -\\frac{1}{\\sqrt{3}}\\left(\\frac{1}{3} - 1\\right) = \\frac{2}{3\\sqrt{3}}$.
+Donc $\\max_{x \\in [0, 2]} |\\omega(x)| = \\frac{2}{3\\sqrt{3}} = \\frac{2\\sqrt{3}}{9} \\approx 0.385$.
+D'où la majoration uniforme sur $[0, 2]$ :
+$$\\sup_{x \\in [0, 2]} |f(x) - P_2(x)| \\le \\frac{M_3}{6} \\cdot \\frac{2\\sqrt{3}}{9} = \\frac{M_3 \\sqrt{3}}{27}$$`
     }
   ]
 };

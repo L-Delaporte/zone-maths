@@ -537,225 +537,1119 @@ window.MathsAdvancedGenerators = {
 
   generateL1_MAT(tier) {
     if (tier === 1) {
-      // Déterminant 2x2 et inversibilité
-      const a = this.randInt(1, 5);
-      const b = this.randInt(1, 4);
-      const c = this.randInt(1, 4);
-      const d = this.randInt(1, 6);
-      const det = a * d - b * c;
-      const isInv = det !== 0;
-      return this.makeMcq(
-        'L1-MAT', 1, "Déterminant 2x2 et condition d'inversibilité",
-        "Calculer le déterminant d'une matrice 2x2 et tester son inversibilité",
-        `Calculer le déterminant de la matrice $A = \\begin{pmatrix} ${a} & ${b} \\\\ ${c} & ${d} \\end{pmatrix}$. $A$ est-elle inversible ?`,
-        `$\\det(A) = ${det}$, ${isInv ? 'inversible' : 'non inversible'}`,
-        [
-          `$\\det(A) = ${a * d + b * c}$, ${a * d + b * c !== 0 ? 'inversible' : 'non inversible'}`,
-          `$\\det(A) = ${det + 2}$, inversible`,
-          `$\\det(A) = ${-det}$, ${det === 0 ? 'inversible' : 'non inversible'}`
-        ],
-        "Formule du déterminant 2x2 : $\\det = ad - bc$.",
-        "Une matrice carrée est inversible si et seulement si son déterminant est non nul.",
-        `$\\det(A) = (${a})(${d}) - (${b})(${c}) = ${a * d} - ${b * c} = ${det}$. Comme $\\det(A) ${isInv ? '\\neq 0' : '= 0'}$, la matrice est ${isInv ? 'inversible' : 'non inversible'}.`
-      );
+      // Palier 1 : Inversibilité, Déterminant, et Inversion de matrices (2x2 et 3x3 avec det != 1)
+      const variant = this.randChoice(['inv_2x2_det_varie', 'inv_2x2_det_varie', 'inv_3x3_diag', 'inv_3x3_triang', 'det_2x2', 'param_lambda', 'triang_3x3']);
+
+      if (variant === 'inv_2x2_det_varie') {
+        // Demande explicite : Calculer l'inverse avec déterminants variés non réduits à 1
+        const cases = [
+          { a: 3, b: 1, c: 4, d: 2, det: 2, detStr: "\\frac{1}{2}", invFull: "\\frac{1}{2} \\begin{pmatrix} 2 & -1 \\\\ -4 & 3 \\end{pmatrix}" },
+          { a: 1, b: 2, c: 2, d: 2, det: -2, detStr: "-\\frac{1}{2}", invFull: "-\\frac{1}{2} \\begin{pmatrix} 2 & -2 \\\\ -2 & 1 \\end{pmatrix}" },
+          { a: 4, b: 1, c: 1, d: 1, det: 3, detStr: "\\frac{1}{3}", invFull: "\\frac{1}{3} \\begin{pmatrix} 1 & -1 \\\\ -1 & 4 \\end{pmatrix}" },
+          { a: 2, b: 3, c: 1, d: 1, det: -1, detStr: "-", invFull: "\\begin{pmatrix} -1 & 3 \\\\ 1 & -2 \\end{pmatrix}" },
+          { a: 2, b: 1, c: 1, d: 3, det: 5, detStr: "\\frac{1}{5}", invFull: "\\frac{1}{5} \\begin{pmatrix} 3 & -1 \\\\ -1 & 2 \\end{pmatrix}" },
+          { a: 3, b: 2, c: 1, d: 2, det: 4, detStr: "\\frac{1}{4}", invFull: "\\frac{1}{4} \\begin{pmatrix} 2 & -2 \\\\ -1 & 3 \\end{pmatrix}" }
+        ];
+        const item = this.randChoice(cases);
+        const correctStr = `$A^{-1} = ${item.invFull}$`;
+        const distractors = [
+          `$A^{-1} = \\begin{pmatrix} ${item.d} & ${-item.b} \\\\ ${-item.c} & ${item.a} \\end{pmatrix}$`,
+          `$A^{-1} = ${item.detStr} \\begin{pmatrix} ${item.a} & ${-item.b} \\\\ ${-item.c} & ${item.d} \\end{pmatrix}$`,
+          `$A^{-1} = ${item.detStr} \\begin{pmatrix} ${item.d} & ${item.b} \\\\ ${item.c} & ${item.a} \\end{pmatrix}$`,
+          `$A^{-1} = \\frac{1}{${item.det === -1 ? 1 : item.det + 1}} \\begin{pmatrix} ${item.d} & ${-item.b} \\\\ ${-item.c} & ${item.a} \\end{pmatrix}$`
+        ];
+        return this.makeMcq(
+          'L1-MAT', 1, "Calcul de l'inverse d'une matrice 2x2",
+          "Calculer l'inverse par la formule explicite $A^{-1} = \\frac{1}{\\det(A)} \\begin{pmatrix} d & -b \\\\ -c & a \\end{pmatrix}$",
+          `Calculer l'inverse de la matrice $A = \\begin{pmatrix} ${item.a} & ${item.b} \\\\ ${item.c} & ${item.d} \\end{pmatrix}$.`,
+          correctStr,
+          distractors,
+          "Formule générale 2x2 : $A^{-1} = \\frac{1}{ad - bc} \\begin{pmatrix} d & -b \\\\ -c & a \\end{pmatrix}$.",
+          `Calcule d'abord le déterminant : $\\det(A) = (${item.a})(${item.d}) - (${item.b})(${item.c}) = ${item.det}$.`,
+          `On a $\\det(A) = ${item.a} \\times ${item.d} - ${item.b} \\times ${item.c} = ${item.det} \\neq 0$. Par la formule de la comatrice en dimension 2, $A^{-1} = \\frac{1}{${item.det}} \\begin{pmatrix} ${item.d} & ${-item.b} \\\\ ${-item.c} & ${item.a} \\end{pmatrix} = ${item.invFull}$.`
+        );
+      } else if (variant === 'inv_3x3_diag') {
+        // Demande explicite : Inversion sur des matrices 3x3 (matrice diagonale)
+        const d1 = this.randChoice([2, 3, 4, -2]);
+        const d2 = this.randChoice([2, 3, 5, -1]);
+        const d3 = this.randChoice([3, 4, 2, -3]);
+        const s1 = d1 < 0 ? `-\\frac{1}{${Math.abs(d1)}}` : `\\frac{1}{${d1}}`;
+        const s2 = d2 === -1 ? `-1` : (d2 < 0 ? `-\\frac{1}{${Math.abs(d2)}}` : `\\frac{1}{${d2}}`);
+        const s3 = d3 < 0 ? `-\\frac{1}{${Math.abs(d3)}}` : `\\frac{1}{${d3}}`;
+
+        const correctStr = `$D^{-1} = \\begin{pmatrix} ${s1} & 0 & 0 \\\\ 0 & ${s2} & 0 \\\\ 0 & 0 & ${s3} \\end{pmatrix}$`;
+        const distractors = [
+          `$D^{-1} = \\begin{pmatrix} -${d1} & 0 & 0 \\\\ 0 & -${d2} & 0 \\\\ 0 & 0 & -${d3} \\end{pmatrix}$`,
+          `$D^{-1} = \\frac{1}{${d1*d2*d3}} \\begin{pmatrix} ${d1} & 0 & 0 \\\\ 0 & ${d2} & 0 \\\\ 0 & 0 & ${d3} \\end{pmatrix}$`,
+          `$D^{-1} = \\begin{pmatrix} 1 & 0 & 0 \\\\ 0 & 1 & 0 \\\\ 0 & 0 & 1 \\end{pmatrix}$`,
+          `$D^{-1} = \\begin{pmatrix} 0 & 0 & ${s1} \\\\ 0 & ${s2} & 0 \\\\ ${s3} & 0 & 0 \\end{pmatrix}$`
+        ];
+        return this.makeMcq(
+          'L1-MAT', 1, "Inverse d'une matrice diagonale 3x3",
+          "Inverser une matrice diagonale en prenant l'inverse de chaque pivot diagonal",
+          `Déterminer l'inverse de la matrice diagonale $D = \\begin{pmatrix} ${d1} & 0 & 0 \\\\ 0 & ${d2} & 0 \\\\ 0 & 0 & ${d3} \\end{pmatrix}$.`,
+          correctStr,
+          distractors,
+          "Pour une matrice diagonale inversible, l'inverse est la matrice diagonale des inverses des coefficients.",
+          "Chaque terme diagonal $d_i$ donne $1/d_i$ dans la matrice inverse.",
+          `Une matrice diagonale est inversible ssi aucun élément diagonal n'est nul. Son inverse est obtenue en remplaçant chaque coefficient diagonal $d_{ii}$ par $\\frac{1}{d_{ii}}$. D'où $D^{-1} = \\begin{pmatrix} ${s1} & 0 & 0 \\\\ 0 & ${s2} & 0 \\\\ 0 & 0 & ${s3} \\end{pmatrix}$.`
+        );
+      } else if (variant === 'inv_3x3_triang') {
+        // Demande explicite : Inverse d'une matrice triangulaire 3x3 par Gauss-Jordan
+        const a = this.randChoice([1, 2, 3]);
+        const b = this.randChoice([1, 2, -1]);
+        const prod = a * b;
+        const correctStr = `$T^{-1} = \\begin{pmatrix} 1 & ${-a} & ${prod} \\\\ 0 & 1 & ${-b} \\\\ 0 & 0 & 1 \\end{pmatrix}$`;
+        const distractors = [
+          `$T^{-1} = \\begin{pmatrix} 1 & ${-a} & 0 \\\\ 0 & 1 & ${-b} \\\\ 0 & 0 & 1 \\end{pmatrix}$`,
+          `$T^{-1} = \\begin{pmatrix} 1 & ${a} & ${-prod} \\\\ 0 & 1 & ${b} \\\\ 0 & 0 & 1 \\end{pmatrix}$`,
+          `$T^{-1} = \\begin{pmatrix} 1 & ${-b} & ${prod} \\\\ 0 & 1 & ${-a} \\\\ 0 & 0 & 1 \\end{pmatrix}$`,
+          `$T^{-1} = \\begin{pmatrix} -1 & ${-a} & ${prod} \\\\ 0 & -1 & ${-b} \\\\ 0 & 0 & -1 \\end{pmatrix}$`
+        ];
+        return this.makeMcq(
+          'L1-MAT', 1, "Inverse d'une matrice triangulaire unipotente 3x3",
+          "Calculer l'inverse par élimination de Gauss-Jordan $(T \\mid I_3)$",
+          `Calculer l'inverse de la matrice triangulaire $T = \\begin{pmatrix} 1 & ${a} & 0 \\\\ 0 & 1 & ${b} \\\\ 0 & 0 & 1 \\end{pmatrix}$.`,
+          correctStr,
+          distractors,
+          "Applique les opérations élémentaires sur les lignes : $L_2 \\leftarrow L_2 - b L_3$ puis $L_1 \\leftarrow L_1 - a L_2$.",
+          "Attention au terme en position (1,3) qui résulte de l'élimination : $-a(-b) = ab$.",
+          `Par l'algorithme de Gauss-Jordan sur $(T \\mid I_3)$ : $L_2 \\leftarrow L_2 - ${b}L_3$ donne en position $(2,3)$ de l'inverse $-${b}$. Puis $L_1 \\leftarrow L_1 - ${a}L_2$ produit le coefficient $(-${a})(-${b}) = ${prod}$ en position $(1, 3)$. D'où $T^{-1} = \\begin{pmatrix} 1 & ${-a} & ${prod} \\\\ 0 & 1 & ${-b} \\\\ 0 & 0 & 1 \\end{pmatrix}$.`
+        );
+      } else if (variant === 'det_2x2') {
+        // Déterminant 2x2 et inversibilité : 50% inversible, 50% non inversible
+        const wantInvertible = this.randChoice([true, false]);
+        let a, b, c, d, det;
+
+        if (wantInvertible) {
+          a = this.randInt(1, 5);
+          b = this.randInt(1, 4);
+          c = this.randInt(1, 4);
+          d = this.randInt(1, 6);
+          while (a * d - b * c === 0) {
+            d = this.randInt(1, 6);
+          }
+          det = a * d - b * c;
+        } else {
+          const k = this.randChoice([2, 3, -1, -2]);
+          const base1 = this.randInt(1, 4);
+          const base2 = this.randInt(1, 4);
+          if (this.randChoice([true, false])) {
+            a = base1; b = base2; c = k * base1; d = k * base2;
+          } else {
+            a = base1; c = base2; b = k * base1; d = k * base2;
+          }
+          det = 0;
+        }
+
+        const isInv = (det !== 0);
+        const correctStr = `$\\det(A) = ${det}$, ${isInv ? 'inversible' : 'non inversible'}`;
+        const distractors = [];
+
+        if (isInv) {
+          distractors.push(`$\\det(A) = ${det}$, non inversible`);
+          const detPlus = a * d + b * c;
+          distractors.push(`$\\det(A) = ${detPlus}$, inversible`);
+          distractors.push(`$\\det(A) = ${-det}$, inversible`);
+          distractors.push(`$\\det(A) = 0$, non inversible`);
+          distractors.push(`$\\det(A) = ${a * d}$, inversible`);
+        } else {
+          distractors.push(`$\\det(A) = 0$, inversible`);
+          const detPlus = Math.abs(a * d) + Math.abs(b * c);
+          distractors.push(`$\\det(A) = ${detPlus}$, inversible`);
+          const prodDiag = Math.abs(a * d) || 4;
+          distractors.push(`$\\det(A) = ${prodDiag}$, inversible`);
+          distractors.push(`$\\det(A) = ${prodDiag}$, non inversible`);
+          distractors.push(`$\\det(A) = ${prodDiag + 2}$, inversible`);
+        }
+
+        const justification = isInv
+          ? `$\\det(A) = (${a})(${d}) - (${b})(${c}) = ${a * d} - ${b * c} = ${det}$. Comme $\\det(A) \\neq 0$, la matrice est inversible.`
+          : `$\\det(A) = (${a})(${d}) - (${b})(${c}) = ${a * d} - ${b * c} = 0$. Comme son déterminant est nul (les lignes ou colonnes sont liées), la matrice n'est pas inversible.`;
+
+        return this.makeMcq(
+          'L1-MAT', 1, "Déterminant 2x2 et condition d'inversibilité",
+          "Calculer le déterminant d'une matrice 2x2 et tester son inversibilité",
+          `Calculer le déterminant de la matrice $A = \\begin{pmatrix} ${a} & ${b} \\\\ ${c} & ${d} \\end{pmatrix}$. $A$ est-elle inversible ?`,
+          correctStr,
+          distractors,
+          "Formule du déterminant 2x2 : $\\det = ad - bc$.",
+          "Une matrice carrée est inversible si et seulement si son déterminant est non nul.",
+          justification
+        );
+      } else if (variant === 'param_lambda') {
+        const dVal = this.randChoice([2, 3, 4]);
+        const l0 = this.randChoice([-3, -2, -1, 1, 2, 3, 4]);
+        const bVal = l0 * dVal;
+        return this.makeMcq(
+          'L1-MAT', 1, "Paramètre d'inversibilité d'une matrice 2x2",
+          "Trouver les valeurs d'un paramètre annulant le déterminant",
+          `Pour quelle valeur du réel $\\lambda$ la matrice $A = \\begin{pmatrix} \\lambda & ${bVal} \\\\ 1 & ${dVal} \\end{pmatrix}$ n'est-elle PAS inversible ?`,
+          `$\\lambda = ${l0}$`,
+          [
+            `$\\lambda = ${-l0}$`,
+            "$\\lambda = 0$",
+            `$\\lambda = ${l0 + 2}$`,
+            `$\\lambda = ${l0 - 1}$`
+          ],
+          "Une matrice est non inversible si et seulement si son déterminant est nul : $\\det(A) = 0$.",
+          `$\\det(A) = \\lambda \\times (${dVal}) - (${bVal}) \\times 1 = ${dVal}\\lambda - ${bVal} = 0$.`,
+          `On calcule le déterminant : $\\det(A) = \\lambda(${dVal}) - ${bVal} = ${dVal}\\lambda - ${bVal}$. La matrice est non inversible ssi $\\det(A) = 0 \\iff ${dVal}\\lambda = ${bVal} \\iff \\lambda = ${l0}$.`
+        );
+      } else {
+        const isNullPivot = this.randChoice([true, false]);
+        const d1 = this.randInt(1, 4);
+        const d2 = isNullPivot ? 0 : this.randInt(1, 3);
+        const d3 = this.randInt(1, 4);
+        const det3 = d1 * d2 * d3;
+        const isInv3 = det3 !== 0;
+        const b12 = this.randInt(-3, 3);
+        const b13 = this.randInt(-3, 3);
+        const b23 = this.randInt(-3, 3);
+
+        const correctStr = `$\\det(T) = ${det3}$, ${isInv3 ? 'inversible' : 'non inversible'}`;
+        const distractors = [
+          `$\\det(T) = ${det3}$, ${isInv3 ? 'non inversible' : 'inversible'}`,
+          `$\\det(T) = ${det3 === 0 ? 12 : 0}$, ${det3 === 0 ? 'inversible' : 'non inversible'}`,
+          `$\\det(T) = ${d1 + d2 + d3 + 2}$, ${d1 + d2 + d3 + 2 !== 0 ? 'inversible' : 'non inversible'}`,
+          `$\\det(T) = ${d1 * d3 + (d2 || 1)}$, inversible`,
+          `$\\det(T) = ${(d1 || 1) * (d2 || 2)}$, ${isInv3 ? 'inversible' : 'non inversible'}`
+        ];
+
+        return this.makeMcq(
+          'L1-MAT', 1, "Déterminant d'une matrice triangulaire 3x3",
+          "Calculer le déterminant d'une matrice triangulaire comme produit des pivots",
+          `Calculer le déterminant de la matrice triangulaire supérieure $T = \\begin{pmatrix} ${d1} & ${b12} & ${b13} \\\\ 0 & ${d2} & ${b23} \\\\ 0 & 0 & ${d3} \\end{pmatrix}$. $T$ est-elle inversible ?`,
+          correctStr,
+          distractors,
+          "Le déterminant d'une matrice triangulaire est le produit de ses éléments diagonaux.",
+          "$\\det(T) = d_1 \\times d_2 \\times d_3$.",
+          `Pour une matrice triangulaire, le déterminant est le produit des termes diagonaux : $\\det(T) = (${d1}) \\times (${d2}) \\times (${d3}) = ${det3}$. Comme le déterminant est ${isInv3 ? 'non nul, la matrice est inversible' : 'nul, la matrice n\'est pas inversible'}.`
+        );
+      }
     } else if (tier === 2) {
-      // Produit matriciel 2x2
-      const a1 = this.randInt(1, 3), b1 = this.randInt(0, 3);
-      const c1 = this.randInt(0, 2), d1 = this.randInt(1, 3);
-      const a2 = this.randInt(1, 3), b2 = this.randInt(0, 2);
-      const c2 = this.randInt(0, 3), d2 = this.randInt(1, 2);
+      // Palier 2 : Multiplication dans les deux sens (AB et BA), matrices 3x3 et matrices non carrées
+      const p2Variant = this.randChoice(['prod_2x2_sens', 'prod_3x3', 'prod_non_carre_calcul', 'prod_non_carre_taille', 'prod_mat_vect']);
 
-      const r11 = a1 * a2 + b1 * c2;
-      const r12 = a1 * b2 + b1 * d2;
-      const r21 = c1 * a2 + d1 * c2;
-      const r22 = c1 * b2 + d1 * d2;
+      if (p2Variant === 'prod_2x2_sens') {
+        // Demande explicite : Produit dans les 2 sens AB et BA (non-commutativité)
+        const a1 = this.randChoice([1, 2]);
+        const b1 = this.randChoice([2, 3]);
+        const c1 = this.randChoice([0, 1]);
+        const d1 = this.randChoice([1, 2]);
 
-      return this.makeMcq(
-        'L1-MAT', 2, "Produit matriciel 2x2",
-        "Effectuer le produit ligne par colonne de matrices carrées",
-        `Calculer le produit matriciel $AB$ où $A = \\begin{pmatrix} ${a1} & ${b1} \\\\ ${c1} & ${d1} \\end{pmatrix}$ et $B = \\begin{pmatrix} ${a2} & ${b2} \\\\ ${c2} & ${d2} \\end{pmatrix}$.`,
-        `$\\begin{pmatrix} ${r11} & ${r12} \\\\ ${r21} & ${r22} \\end{pmatrix}$`,
-        [
-          `$\\begin{pmatrix} ${a1*a2} & ${b1*b2} \\\\ ${c1*c2} & ${d1*d2} \\end{pmatrix}$`,
-          `$\\begin{pmatrix} ${r12} & ${r11} \\\\ ${r22} & ${r21} \\end{pmatrix}$`,
-          `$\\begin{pmatrix} ${r11 + 1} & ${r12} \\\\ ${r21} & ${r22 - 1} \\end{pmatrix}$`
-        ],
-        "Règle ligne par colonne : le terme $c_{i,j}$ est le produit scalaire de la ligne $i$ de $A$ par la colonne $j$ de $B$.",
-        "Attention : le produit matriciel n'est PAS le produit terme à terme !",
-        `$c_{11} = ${a1}\\times${a2} + ${b1}\\times${c2} = ${r11}$, $c_{12} = ${a1}\\times${b2} + ${b1}\\times${d2} = ${r12}$, $c_{21} = ${c1}\\times${a2} + ${d1}\\times${c2} = ${r21}$, $c_{22} = ${c1}\\times${b2} + ${d1}\\times${d2} = ${r22}$.`
-      );
+        const a2 = this.randChoice([2, 1]);
+        const b2 = this.randChoice([0, 1]);
+        const c2 = this.randChoice([1, 3]);
+        const d2 = this.randChoice([2, 1]);
+
+        // Calcul de AB
+        const ab11 = a1 * a2 + b1 * c2;
+        const ab12 = a1 * b2 + b1 * d2;
+        const ab21 = c1 * a2 + d1 * c2;
+        const ab22 = c1 * b2 + d1 * d2;
+
+        // Calcul de BA
+        const ba11 = a2 * a1 + b2 * c1;
+        const ba12 = a2 * b1 + b2 * d1;
+        const ba21 = c2 * a1 + d2 * c1;
+        const ba22 = c2 * b1 + d2 * d1;
+
+        const askBA = this.randChoice([true, false]);
+        const targetName = askBA ? "BA" : "AB";
+        const otherName = askBA ? "AB" : "BA";
+        const ansR11 = askBA ? ba11 : ab11;
+        const ansR12 = askBA ? ba12 : ab12;
+        const ansR21 = askBA ? ba21 : ab21;
+        const ansR22 = askBA ? ba22 : ab22;
+
+        const wrongR11 = askBA ? ab11 : ba11;
+        const wrongR12 = askBA ? ab12 : ba12;
+        const wrongR21 = askBA ? ab21 : ba21;
+        const wrongR22 = askBA ? ab22 : ba22;
+
+        return this.makeMcq(
+          'L1-MAT', 2, `Multiplication matricielle non commutative ($${targetName}$)`,
+          "Calculer un produit matriciel dans un ordre précis et constater la non-commutativité",
+          `Soient $A = \\begin{pmatrix} ${a1} & ${b1} \\\\ ${c1} & ${d1} \\end{pmatrix}$ et $B = \\begin{pmatrix} ${a2} & ${b2} \\\\ ${c2} & ${d2} \\end{pmatrix}$. Calculer le produit $${targetName}$ (attention à l'ordre des facteurs !) :`,
+          `$${targetName} = \\begin{pmatrix} ${ansR11} & ${ansR12} \\\\ ${ansR21} & ${ansR22} \\end{pmatrix}$`,
+          [
+            `$${targetName} = \\begin{pmatrix} ${wrongR11} & ${wrongR12} \\\\ ${wrongR21} & ${wrongR22} \\end{pmatrix}$`, // Piège classique : produit dans l'autre sens
+            `$${targetName} = \\begin{pmatrix} ${a1*a2} & ${b1*b2} \\\\ ${c1*c2} & ${d1*d2} \\end{pmatrix}$`, // Produit terme à terme faux
+            `$${targetName} = \\begin{pmatrix} ${ansR12} & ${ansR11} \\\\ ${ansR22} & ${ansR21} \\end{pmatrix}$`
+          ],
+          `Attention à l'ordre des facteurs : pour $${targetName}$, la matrice ${askBA ? 'B' : 'A'} est à gauche et ${askBA ? 'A' : 'B'} est à droite.`,
+          "Règle ligne par colonne : chaque coefficient est le produit scalaire d'une ligne de la matrice de gauche par une colonne de la matrice de droite.",
+          `En calculant ligne par colonne pour $${targetName}$ : on trouve $\\begin{pmatrix} ${ansR11} & ${ansR12} \\\\ ${ansR21} & ${ansR22} \\end{pmatrix}$. Note bien que $${otherName} = \\begin{pmatrix} ${wrongR11} & ${wrongR12} \\\\ ${wrongR21} & ${wrongR22} \\end{pmatrix} \\neq ${targetName}$, illustrant la non-commutativité du produit matriciel.`
+        );
+      } else if (p2Variant === 'prod_3x3') {
+        // Demande explicite : Produit de matrices 3x3
+        const A = [[1, 0, 2], [0, 1, 1], [1, 0, 1]];
+        const B = [[2, 1, 0], [1, 0, 1], [0, 2, 1]];
+        // AB = [[2, 5, 2], [1, 2, 2], [2, 1, 1]]
+        // L1: 1*2+0+2*0=2, 1*1+0+2*2=5, 1*0+0+2*1=2
+        // L2: 0*2+1*1+1*0=1, 0*1+1*0+1*2=2, 0*0+1*1+1*1=2
+        // L3: 1*2+0+1*0=2, 1*1+0+1*2=3, 1*0+0+1*1=1 -> [2, 3, 1]
+        return this.makeMcq(
+          'L1-MAT', 2, "Produit de matrices carrées 3x3",
+          "Calculer le produit de deux matrices carrées d'ordre 3",
+          "Calculer le produit matriciel $AB$ où $A = \\begin{pmatrix} 1 & 0 & 2 \\\\ 0 & 1 & 1 \\\\ 1 & 0 & 1 \\end{pmatrix}$ et $B = \\begin{pmatrix} 2 & 1 & 0 \\\\ 1 & 0 & 1 \\\\ 0 & 2 & 1 \\end{pmatrix}$.",
+          "$AB = \\begin{pmatrix} 2 & 5 & 2 \\\\ 1 & 2 & 2 \\\\ 2 & 3 & 1 \\end{pmatrix}$",
+          [
+            "$AB = \\begin{pmatrix} 2 & 0 & 0 \\\\ 0 & 0 & 1 \\\\ 0 & 0 & 1 \\end{pmatrix}$",
+            "$AB = \\begin{pmatrix} 5 & 2 & 2 \\\\ 2 & 1 & 2 \\\\ 3 & 2 & 1 \\end{pmatrix}$",
+            "$AB = \\begin{pmatrix} 3 & 1 & 2 \\\\ 1 & 1 & 2 \\\\ 1 & 2 & 2 \\end{pmatrix}$"
+          ],
+          "Applique la règle ligne par colonne : le coefficient $c_{ij} = \\sum_{k=1}^3 a_{ik} b_{kj}$.",
+          "Ligne 1 de A par Colonne 2 de B : $1 \\times 1 + 0 \\times 0 + 2 \\times 2 = 5$.",
+          "On calcule chaque coefficient : $c_{11} = 1(2)+0(1)+2(0)=2$, $c_{12} = 1(1)+0(0)+2(2)=5$, $c_{13} = 1(0)+0(1)+2(1)=2$ ; $c_{21} = 0(2)+1(1)+1(0)=1$, $c_{22} = 0(1)+1(0)+1(2)=2$, $c_{23} = 0(0)+1(1)+1(1)=2$ ; $c_{31} = 1(2)+0(1)+1(0)=2$, $c_{32} = 1(1)+0(0)+1(2)=3$, $c_{33} = 1(0)+0(1)+1(1)=1$."
+        );
+      } else if (p2Variant === 'prod_non_carre_calcul') {
+        // Demande explicite : Produit sur des matrices non carrées (2x3 par 3x2 -> 2x2)
+        return this.makeMcq(
+          'L1-MAT', 2, "Produit de matrices rectangulaires non carrées",
+          "Calculer le produit d'une matrice 2x3 par une matrice 3x2",
+          "Calculer le produit matriciel $AB$ où $A = \\begin{pmatrix} 1 & 2 & 0 \\\\ 0 & 1 & 3 \\end{pmatrix} \\in \\mathcal{M}_{2,3}(\\mathbb{R})$ et $B = \\begin{pmatrix} 2 & 1 \\\\ 0 & 2 \\\\ 1 & 0 \\end{pmatrix} \\in \\mathcal{M}_{3,2}(\\mathbb{R})$.",
+          "$AB = \\begin{pmatrix} 2 & 5 \\\\ 3 & 2 \\end{pmatrix}$",
+          [
+            "$AB = \\begin{pmatrix} 2 & 3 \\\\ 5 & 2 \\end{pmatrix}$",
+            "$AB = \\begin{pmatrix} 2 & 1 & 0 \\\\ 0 & 2 & 0 \\end{pmatrix}$",
+            "$AB = \\begin{pmatrix} 3 & 5 \\\\ 2 & 2 \\end{pmatrix}$"
+          ],
+          "Une matrice de taille $(2 \\times 3)$ multipliée par une matrice de taille $(3 \\times 2)$ donne une matrice $(2 \\times 2)$.",
+          "Ligne 1 de A par Colonne 2 de B : $1(1) + 2(2) + 0(0) = 5$.",
+          "Le produit $AB$ est de format $(2 \\times 2)$ : $c_{11} = 1(2)+2(0)+0(1) = 2$, $c_{12} = 1(1)+2(2)+0(0) = 5$, $c_{21} = 0(2)+1(0)+3(1) = 3$, $c_{22} = 0(1)+1(2)+3(0) = 2$. D'où $AB = \\begin{pmatrix} 2 & 5 \\\\ 3 & 2 \\end{pmatrix}$."
+        );
+      } else if (p2Variant === 'prod_non_carre_taille') {
+        // Format et compatibilité de matrices rectangulaires
+        return this.makeMcq(
+          'L1-MAT', 2, "Compatibilité et format des produits matriciels",
+          "Déterminer si un produit matriciel est défini et sa taille résultante",
+          "Soient deux matrices $A \\in \\mathcal{M}_{3,4}(\\mathbb{R})$ et $B \\in \\mathcal{M}_{4,2}(\\mathbb{R})$. Quel produit est bien défini et quelle est sa taille ?",
+          "$AB$ est défini et appartient à $\\mathcal{M}_{3,2}(\\mathbb{R})$ ; $BA$ n'est pas défini",
+          [
+            "Les deux produits $AB$ et $BA$ sont bien définis et sont carrés",
+            "$BA$ est défini et appartient à $\\mathcal{M}_{4,4}(\\mathbb{R})$ ; $AB$ n'est pas défini",
+            "$AB$ est défini et appartient à $\\mathcal{M}_{4,3}(\\mathbb{R})$"
+          ],
+          "Pour que le produit $MN$ soit défini, le nombre de colonnes de $M$ doit être égal au nombre de lignes de $N$.",
+          "Si $M \\in \\mathcal{M}_{n,p}$ et $N \\in \\mathcal{M}_{p,q}$, alors $MN \\in \\mathcal{M}_{n,q}$.",
+          "Pour $AB$, $A$ a 4 colonnes et $B$ a 4 lignes : le produit est bien défini et sa taille est $(3 \\times 2)$. Pour $BA$, $B$ a 2 colonnes et $A$ a 3 lignes : $2 \\neq 3$, donc $BA$ n'est pas défini."
+        );
+      } else {
+        // Produit matrice 3x2 par vecteur 2x1 -> vecteur 3x1
+        const a = this.randChoice([1, 2]);
+        const b = this.randChoice([2, 3]);
+        const c = this.randChoice([0, 1]);
+        const d = this.randChoice([2, 1]);
+        const e = this.randChoice([3, 1]);
+        const f = this.randChoice([1, 0]);
+
+        const x = 2, y = -1;
+        const r1 = a * x + b * y;
+        const r2 = c * x + d * y;
+        const r3 = e * x + f * y;
+
+        return this.makeMcq(
+          'L1-MAT', 2, "Produit matrice-vecteur (format rectangulaire)",
+          "Multiplier une matrice $3 \\times 2$ par un vecteur colonne $2 \\times 1$",
+          `Calculer le vecteur $AX$ où $A = \\begin{pmatrix} ${a} & ${b} \\\\ ${c} & ${d} \\\\ ${e} & ${f} \\end{pmatrix}$ et $X = \\begin{pmatrix} ${x} \\\\ ${y} \\end{pmatrix}$ :`,
+          `$AX = \\begin{pmatrix} ${r1} \\\\ ${r2} \\\\ ${r3} \\end{pmatrix}$`,
+          [
+            `$AX = \\begin{pmatrix} ${r1 + 2} \\\\ ${r2} \\\\ ${r3 - 1} \\end{pmatrix}$`,
+            `$AX = \\begin{pmatrix} ${r2} \\\\ ${r1} \\\\ ${r3} \\end{pmatrix}$`,
+            `$AX = \\begin{pmatrix} ${a*x} & ${b*y} \\\\ ${c*x} & ${d*y} \\end{pmatrix}$`
+          ],
+          "Chaque ligne de $A$ est multipliée par le vecteur colonne $X$.",
+          `$(3 \\times 2) \\times (2 \\times 1) = (3 \\times 1)$.`,
+          `On effectue le produit ligne par colonne : ligne 1 : $${a}(${x}) + ${b}(${y}) = ${r1}$, ligne 2 : $${c}(${x}) + ${d}(${y}) = ${r2}$, ligne 3 : $${e}(${x}) + ${f}(${y}) = ${r3}$. D'où $AX = \\begin{pmatrix} ${r1} \\\\ ${r2} \\\\ ${r3} \\end{pmatrix}$.`
+        );
+      }
     } else if (tier === 3) {
-      // Trace et propriétés
-      const a = this.randInt(2, 6);
-      const d = this.randInt(-4, 4);
-      const tr = a + d;
-      return this.makeMcq(
-        'L1-MAT', 3, "Trace d'une matrice et invariance par produit commuté",
-        "Utiliser la linéarité et la cyclicité de la trace",
-        `Soit $A = \\begin{pmatrix} ${a} & 5 \\\\ 3 & ${d} \\end{pmatrix}$. Que vaut $\\text{Tr}(A)$, et que peut-on affirmer sur $\\text{Tr}(AB - BA)$ pour toute matrice $B \\in \\mathcal{M}_2(\\mathbb{R})$ ?`,
-        `$\\text{Tr}(A) = ${tr}$ et $\\text{Tr}(AB - BA) = 0$`,
-        [
-          `$\\text{Tr}(A) = ${tr}$ et $\\text{Tr}(AB - BA) = 2$`,
-          `$\\text{Tr}(A) = ${a * d - 15}$ et $\\text{Tr}(AB - BA) = 0$`,
-          `$\\text{Tr}(A) = ${tr + 1}$ et $\\text{Tr}(AB - BA) \\neq 0$`
-        ],
-        "La trace est la somme des coefficients diagonaux.",
-        "Rappelle-toi de la propriété fondamentale : $\\text{Tr}(AB) = \\text{Tr}(BA)$.",
-        `$\\text{Tr}(A) = ${a} + (${d}) = ${tr}$. Par linéarité et commutativité sous la trace : $\\text{Tr}(AB - BA) = \\text{Tr}(AB) - \\text{Tr}(BA) = 0$.`
-      );
+      // Palier 3 : Variété de questions (Pivot de Gauss, Puissances, Trace, Transposition, Rang)
+      const p3Variant = this.randChoice(['systeme_3x3_echelonne', 'puissance_nilpotente', 'puissance_diagonale', 'transposition_symetrie', 'trace_commutateur', 'rang_echelonnee']);
+
+      if (p3Variant === 'systeme_3x3_echelonne') {
+        // Résolution d'un système triangulaire échelonné 3x3 par substitution remontante
+        const z = this.randChoice([2, 3, -1]);
+        const y = this.randChoice([1, 2, -2]);
+        const x = this.randChoice([1, 3, 2]);
+
+        const eq3 = 2 * z;
+        const eq2 = y + 2 * z;
+        const eq1 = x + 2 * y - z;
+
+        return this.makeMcq(
+          'L1-MAT', 3, "Résolution d'un système échelonné (Substitution remontante)",
+          "Résoudre un système linéaire triangulaire par remontée des pivots",
+          `Résoudre le système linéaire échelonné suivant dans $\\mathbb{R}^3$ :\n$$\\begin{cases} x + 2y - z = ${eq1} \\\\ y + 2z = ${eq2} \\\\ 2z = ${eq3} \\end{cases}$$`,
+          `$(x, y, z) = (${x}, ${y}, ${z})$`,
+          [
+            `$(x, y, z) = (${y}, ${x}, ${z})$`,
+            `$(x, y, z) = (${x + 1}, ${y}, ${z - 1})$`,
+            `$(x, y, z) = (${x}, ${-y}, ${z})$`
+          ],
+          "Résous d'abord la dernière équation pour trouver $z$, puis remonte vers $y$ puis $x$.",
+          `$2z = ${eq3} \\implies z = ${z}$. Puis $y + 2(${z}) = ${eq2} \\implies y = ${y}$.`,
+          `1. Dernière ligne : $2z = ${eq3} \\implies z = ${z}$.\n2. Deuxième ligne : $y + 2(${z}) = ${eq2} \\implies y = ${eq2} - ${2*z} = ${y}$.\n3. Première ligne : $x + 2(${y}) - (${z}) = ${eq1} \\implies x = ${eq1} - ${2*y} + ${z} = ${x}$. Conclusion : $(x, y, z) = (${x}, ${y}, ${z})$.`
+        );
+      } else if (p3Variant === 'puissance_nilpotente') {
+        const a = this.randChoice([2, 3, -1]);
+        return this.makeMcq(
+          'L1-MAT', 3, "Puissance n-ième d'une matrice triangulaire unipotente",
+          "Calculer $A^n$ par décomposition $A = I_2 + N$ avec matrice nilpotente",
+          `Soit $A = \\begin{pmatrix} 1 & ${a} \\\\ 0 & 1 \\end{pmatrix}$. Pour tout entier $n \\ge 1$, que vaut la puissance $A^n$ ?`,
+          `$A^n = \\begin{pmatrix} 1 & ${a}n \\\\ 0 & 1 \\end{pmatrix}$`,
+          [
+            `$A^n = \\begin{pmatrix} 1 & ${a}^n \\\\ 0 & 1 \\end{pmatrix}$`,
+            `$A^n = \\begin{pmatrix} n & ${a}n \\\\ 0 & n \\end{pmatrix}$`,
+            `$A^n = \\begin{pmatrix} 1 & n \\\\ 0 & 1 \\end{pmatrix}$`
+          ],
+          "Décompose $A = I_2 + N$ où $N = \\begin{pmatrix} 0 & a \\\\ 0 & 0 \\end{pmatrix}$ et calcule $N^2$.",
+          "Comme $I_2$ et $N$ commutent et $N^2 = 0$, la formule du binôme se réduit à $A^n = I_2 + nN$.",
+          `On écrit $A = I_2 + N$ avec $N = \\begin{pmatrix} 0 & ${a} \\\\ 0 & 0 \\end{pmatrix}$. On a $N^2 = \\begin{pmatrix} 0 & 0 \\\\ 0 & 0 \\end{pmatrix}$. Comme $I_2 N = N I_2$, par le binôme de Newton : $A^n = (I_2 + N)^n = I_2 + nN + 0 = \\begin{pmatrix} 1 & ${a}n \\\\ 0 & 1 \\end{pmatrix}$.`
+        );
+      } else if (p3Variant === 'puissance_diagonale') {
+        const a = this.randChoice([2, 3]);
+        const b = this.randChoice([4, 5]);
+        return this.makeMcq(
+          'L1-MAT', 3, "Puissance n-ième d'une matrice diagonale",
+          "Élever une matrice diagonale à la puissance n",
+          `Pour la matrice diagonale $D = \\begin{pmatrix} ${a} & 0 \\\\ 0 & ${b} \\end{pmatrix}$, quelle est l'expression de $D^n$ pour tout $n \\in \\mathbb{N}^*$ ?`,
+          `$D^n = \\begin{pmatrix} ${a}^n & 0 \\\\ 0 & ${b}^n \\end{pmatrix}$`,
+          [
+            `$D^n = \\begin{pmatrix} ${a}n & 0 \\\\ 0 & ${b}n \\end{pmatrix}$`,
+            `$D^n = (${a*b})^n \\begin{pmatrix} 1 & 0 \\\\ 0 & 1 \\end{pmatrix}$`,
+            `$D^n = \\begin{pmatrix} ${a}^n & n \\\\ 0 & ${b}^n \\end{pmatrix}$`
+          ],
+          "Le produit de matrices diagonales s'effectue terme à terme sur la diagonale.",
+          "Par récurrence immédiate, chaque terme diagonal est élevé à la puissance $n$.",
+          `Pour toute matrice diagonale, le produit matriciel conserve la structure diagonale : $D^n = \\begin{pmatrix} ${a}^n & 0 \\\\ 0 & ${b}^n \\end{pmatrix}$.`
+        );
+      } else if (p3Variant === 'transposition_symetrie') {
+        return this.makeMcq(
+          'L1-MAT', 3, "Propriétés de la transposition et matrices symétriques",
+          "Reconnaître qu'une matrice de la forme $^{\\mathrm{t}}A A$ est toujours symétrique",
+          "Pour toute matrice rectangulaire $A \\in \\mathcal{M}_{n,p}(\\mathbb{R})$, quelle affirmation est TOUJOURS vraie ?",
+          "La matrice $^{\\mathrm{t}}A A$ est carrée d'ordre $p$ et symétrique",
+          [
+            "La matrice $A \\, ^{\\mathrm{t}}A$ est égale à $^{\\mathrm{t}}A A$",
+            "La matrice $^{\\mathrm{t}}A A$ est antisymétrique",
+            "La transposée vérifie $^{\\mathrm{t}}(AB) = ^{\\mathrm{t}}A \\, ^{\\mathrm{t}}B$"
+          ],
+          "Calcule la transposée de $^{\\mathrm{t}}A A$ en appliquant $^{\\mathrm{t}}(MN) = ^{\\mathrm{t}}N \\, ^{\\mathrm{t}}M$.",
+          "$^{\\mathrm{t}}(^{\\mathrm{t}}A A) = ^{\\mathrm{t}}A \\, ^{\\mathrm{t}}(^{\\mathrm{t}}A) = ^{\\mathrm{t}}A A$.",
+          "On a $^{\\mathrm{t}}A \\in \\mathcal{M}_{p,n}$ et $A \\in \\mathcal{M}_{n,p}$, donc le produit $^{\\mathrm{t}}A A$ est carré de taille $p \\times p$. De plus, $^{\\mathrm{t}}(^{\\mathrm{t}}A A) = ^{\\mathrm{t}}A \\, ^{\\mathrm{t}}(^{\\mathrm{t}}A) = ^{\\mathrm{t}}A A$. La matrice est donc symétrique."
+        );
+      } else if (p3Variant === 'trace_commutateur') {
+        const a = this.randInt(2, 6);
+        const d = this.randInt(-4, 4);
+        const tr = a + d;
+        return this.makeMcq(
+          'L1-MAT', 3, "Trace d'une matrice et invariance par produit commuté",
+          "Utiliser la linéarité et la cyclicité de la trace",
+          `Soit $A = \\begin{pmatrix} ${a} & 5 \\\\ 3 & ${d} \\end{pmatrix}$. Que vaut $\\text{Tr}(A)$, et que peut-on affirmer sur $\\text{Tr}(AB - BA)$ pour toute matrice $B \\in \\mathcal{M}_2(\\mathbb{R})$ ?`,
+          `$\\text{Tr}(A) = ${tr}$ et $\\text{Tr}(AB - BA) = 0$`,
+          [
+            `$\\text{Tr}(A) = ${tr}$ et $\\text{Tr}(AB - BA) = 2$`,
+            `$\\text{Tr}(A) = ${a * d - 15}$ et $\\text{Tr}(AB - BA) = 0$`,
+            `$\\text{Tr}(A) = ${tr + 1}$ et $\\text{Tr}(AB - BA) \\neq 0$`
+          ],
+          "La trace est la somme des coefficients diagonaux.",
+          "Rappelle-toi de la propriété fondamentale : $\\text{Tr}(AB) = \\text{Tr}(BA)$.",
+          `$\\text{Tr}(A) = ${a} + (${d}) = ${tr}$. Par linéarité et commutativité sous la trace : $\\text{Tr}(AB - BA) = \\text{Tr}(AB) - \\text{Tr}(BA) = 0$.`
+        );
+      } else {
+        return this.makeMcq(
+          'L1-MAT', 3, "Rang d'une matrice échelonnée en lignes",
+          "Déterminer le rang à partir du nombre de pivots non nuls",
+          "Quel est le rang dans $\\mathbb{R}$ de la matrice échelonnée $M = \\begin{pmatrix} 2 & 1 & -1 & 3 \\\\ 0 & 3 & 4 & 1 \\\\ 0 & 0 & 0 & 5 \\\\ 0 & 0 & 0 & 0 \\end{pmatrix}$ ?",
+          "$\\text{rg}(M) = 3$",
+          [
+            "$\\text{rg}(M) = 4$",
+            "$\\text{rg}(M) = 2$",
+            "$\\text{rg}(M) = 1$"
+          ],
+          "Le rang d'une matrice échelonnée en lignes est égal au nombre de ses lignes non nulles (ou nombre de pivots).",
+          "Compte les pivots non nuls : 2 sur la ligne 1, 3 sur la ligne 2, 5 sur la ligne 3.",
+          "La matrice possède 3 pivots non nuls (sur les trois premières lignes). La quatrième ligne est entièrement nulle. Le rang de la matrice est donc égal à 3."
+        );
+      }
     } else {
-      // Inverse par Gauss-Jordan
-      const det = 1; // choisir matrice à déterminant 1
-      const a = this.randChoice([2, 3]);
-      const d = this.randChoice([2, 3]);
-      const prod = a * d - 1; // bc = prod
-      const b = prod;
-      const c = 1;
-      return this.makeMcq(
-        'L1-MAT', 4, "Formule de la comatrice et inverse 2x2",
-        "Calculer l'inverse explicite d'une matrice carrée 2x2",
-        `Déterminer l'inverse de la matrice $A = \\begin{pmatrix} ${a} & ${b} \\\\ ${c} & ${d} \\end{pmatrix}$.`,
-        `$A^{-1} = \\begin{pmatrix} ${d} & ${-b} \\\\ ${-c} & ${a} \\end{pmatrix}$`,
-        [
-          `$A^{-1} = \\begin{pmatrix} ${a} & ${-b} \\\\ ${-c} & ${d} \\end{pmatrix}$`,
-          `$A^{-1} = \\begin{pmatrix} ${-d} & ${b} \\\\ ${c} & ${-a} \\end{pmatrix}$`,
-          `$A^{-1} = \\begin{pmatrix} 1/${a} & 1/${b} \\\\ 1/${c} & 1/${d} \\end{pmatrix}$`
-        ],
-        "Pour une matrice 2x2, $A^{-1} = \\frac{1}{\\det(A)} \\begin{pmatrix} d & -b \\\\ -c & a \\end{pmatrix}$.",
-        "Ici $\\det(A) = ad - bc = 1$.",
-        `$\\det(A) = (${a})(${d}) - (${b})(${c}) = 1$. D'où $A^{-1} = \\frac{1}{1} \\begin{pmatrix} ${d} & ${-b} \\\\ ${-c} & ${a} \\end{pmatrix}$.`
-      );
+      // Palier 4 : Grand Bilan Universitaire (Inversion 3x3 Gauss-Jordan, Inverse det != 1, Polynôme annulateur, Système avec paramètre m, Binôme de Newton)
+      const p4Variant = this.randChoice(['bilan_inverse_3x3_gauss', 'bilan_inverse_2x2_det', 'bilan_polynome_annulateur', 'bilan_systeme_parametre', 'bilan_puissance_binome']);
+
+      if (p4Variant === 'bilan_inverse_3x3_gauss') {
+        // Inversion 3x3 complète par Gauss-Jordan
+        return this.makeMcq(
+          'L1-MAT', 4, "Inversion complète d'une matrice 3x3 (Gauss-Jordan)",
+          "Appliquer l'algorithme complet de Gauss-Jordan $(A \\mid I_3) \\to (I_3 \\mid A^{-1})$",
+          "Quelle est la matrice inverse de $A = \\begin{pmatrix} 1 & 0 & 0 \\\\ 2 & 1 & 0 \\\\ 1 & 1 & 1 \\end{pmatrix}$ obtenue par élimination de Gauss-Jordan ?",
+          "$A^{-1} = \\begin{pmatrix} 1 & 0 & 0 \\\\ -2 & 1 & 0 \\\\ 1 & -1 & 1 \\end{pmatrix}$",
+          [
+            "$A^{-1} = \\begin{pmatrix} 1 & 0 & 0 \\\\ 2 & 1 & 0 \\\\ 1 & 1 & 1 \\end{pmatrix}$",
+            "$A^{-1} = \\begin{pmatrix} 1 & 0 & 0 \\\\ -2 & 1 & 0 \\\\ -1 & -1 & 1 \\end{pmatrix}$",
+            "$A^{-1} = \\begin{pmatrix} 1 & -2 & 1 \\\\ 0 & 1 & -1 \\\\ 0 & 0 & 1 \\end{pmatrix}$"
+          ],
+          "Applique les opérations élémentaires : $L_2 \\leftarrow L_2 - 2L_1$, puis $L_3 \\leftarrow L_3 - L_1$, puis $L_3 \\leftarrow L_3 - L_2$.",
+          "Sur la partie droite $I_3$, $L_3 \\leftarrow (L_3 - L_1) - (L_2 - 2L_1) = L_3 - L_2 + L_1$.",
+          "On forme $(A \\mid I_3)$. Opérations élémentaires :\n1. $L_2 \\leftarrow L_2 - 2L_1 \\implies$ ligne 2 de droite : $(-2, 1, 0)$.\n2. $L_3 \\leftarrow L_3 - L_1 \\implies$ ligne 3 de droite devient $(-1, 0, 1)$.\n3. $L_3 \\leftarrow L_3 - L_2 \\implies$ ligne 3 de droite devient $(-1 - (-2), 0 - 1, 1) = (1, -1, 1)$.\nD'où $A^{-1} = \\begin{pmatrix} 1 & 0 & 0 \\\\ -2 & 1 & 0 \\\\ 1 & -1 & 1 \\end{pmatrix}$."
+        );
+      } else if (p4Variant === 'bilan_inverse_2x2_det') {
+        return this.makeMcq(
+          'L1-MAT', 4, "Inversion 2x2 avec déterminant non unitaire",
+          "Calculer l'inverse avec un déterminant non égal à 1",
+          "Déterminer l'inverse de la matrice $A = \\begin{pmatrix} 5 & 3 \\\\ 3 & 2 \\end{pmatrix}$ et de la matrice $B = \\begin{pmatrix} 2 & 1 \\\\ 4 & 5 \\end{pmatrix}$ : que vaut $\\det(B)$ et $B^{-1}$ ?",
+          "$\\det(B) = 6$ et $B^{-1} = \\frac{1}{6} \\begin{pmatrix} 5 & -1 \\\\ -4 & 2 \\end{pmatrix}$",
+          [
+            "$\\det(B) = 6$ et $B^{-1} = \\begin{pmatrix} 5 & -1 \\\\ -4 & 2 \\end{pmatrix}$",
+            "$\\det(B) = -6$ et $B^{-1} = -\\frac{1}{6} \\begin{pmatrix} 2 & -1 \\\\ -4 & 5 \\end{pmatrix}$",
+            "$\\det(B) = 14$ et $B^{-1} = \\frac{1}{14} \\begin{pmatrix} 5 & -1 \\\\ -4 & 2 \\end{pmatrix}$"
+          ],
+          "$\\det(B) = 2(5) - 1(4) = 6$.",
+          "$B^{-1} = \\frac{1}{\\det(B)} \\begin{pmatrix} d & -b \\\\ -c & a \\end{pmatrix}$.",
+          "Pour la matrice $B$ : $\\det(B) = 2 \\times 5 - 1 \\times 4 = 10 - 4 = 6 \\neq 0$. L'inverse est donc $B^{-1} = \\frac{1}{6} \\begin{pmatrix} 5 & -1 \\\\ -4 & 2 \\end{pmatrix}$."
+        );
+      } else if (p4Variant === 'bilan_polynome_annulateur') {
+        return this.makeMcq(
+          'L1-MAT', 4, "Inverse matriciel via un polynôme annulateur",
+          "Déduire l'inversibilité et l'expression de l'inverse à partir d'une relation polynomiale",
+          "Soit $A \\in \\mathcal{M}_n(\\mathbb{R})$ vérifiant la relation matricielle $A^2 - 4A + 3I_n = 0$. Prouver que $A$ est inversible et donner son inverse :",
+          "$A$ est inversible et $A^{-1} = \\frac{1}{3}(4I_n - A)$",
+          [
+            "$A$ est inversible et $A^{-1} = 4I_n - A$",
+            "$A$ n'est pas nécessairement inversible",
+            "$A$ est inversible et $A^{-1} = \\frac{1}{3}(A - 4I_n)$"
+          ],
+          "Isole la matrice identité : $A^2 - 4A = -3I_n \\iff A(4I_n - A) = 3I_n$.",
+          "Divise par 3 pour obtenir $A B = I_n$, alors $A^{-1} = B$.",
+          "On factorise par $A$ : $A^2 - 4A = -3I_n \\iff A(A - 4I_n) = -3I_n \\iff A \\left[\\frac{1}{3}(4I_n - A)\\right] = I_n$. Par définition de l'inverse, $A$ est inversible et son inverse est $A^{-1} = \\frac{1}{3}(4I_n - A)$."
+        );
+      } else if (p4Variant === 'bilan_systeme_parametre') {
+        const m0 = this.randChoice([2, 3]);
+        const m0sq = m0 * m0;
+        return this.makeMcq(
+          'L1-MAT', 4, "Système linéaire avec paramètre (Système de Cramer)",
+          "Déterminer les conditions sur un paramètre pour l'existence et l'unicité de la solution",
+          `Pour quelles valeurs du paramètre réel $m$ le système linéaire $\\begin{cases} mx + ${m0}y = 1 \\\\ ${m0}x + my = 3 \\end{cases}$ admet-il une unique solution dans $\\mathbb{R}^2$ ?`,
+          `$m \\in \\mathbb{R} \\setminus \\{-${m0}, ${m0}\\}$`,
+          [
+            `$m = ${m0}$ uniquement`,
+            `$m \\in \\mathbb{R} \\setminus \\{0\\}$`,
+            `$m = -${m0}$ uniquement`
+          ],
+          "Un système carré admet une unique solution ssi le déterminant de sa matrice est non nul (système de Cramer).",
+          `$\\det(A_m) = m^2 - (${m0})^2 = m^2 - ${m0sq}$.`,
+          `Le déterminant de la matrice associée est $\\det(A_m) = m \\times m - ${m0} \\times ${m0} = m^2 - ${m0sq}$. Le système est de Cramer (solution unique) si et seulement si $\\det(A_m) \\neq 0 \\iff m^2 \\neq ${m0sq} \\iff m \\neq \\pm ${m0}$. D'où $m \\in \\mathbb{R} \\setminus \\{-${m0}, ${m0}\\}$.`
+        );
+      } else {
+        return this.makeMcq(
+          'L1-MAT', 4, "Puissance n-ième par le binôme de Newton",
+          "Calculer $A^n$ par décomposition $A = \\lambda I + N$ avec matrice nilpotente",
+          "Soit $A = \\begin{pmatrix} 2 & 1 \\\\ 0 & 2 \\end{pmatrix}$. Quelle est l'expression de $A^n$ pour tout $n \\ge 1$ ?",
+          "$A^n = \\begin{pmatrix} 2^n & n 2^{n-1} \\\\ 0 & 2^n \\end{pmatrix}$",
+          [
+            "$A^n = \\begin{pmatrix} 2^n & 1 \\\\ 0 & 2^n \\end{pmatrix}$",
+            "$A^n = \\begin{pmatrix} 2^n & n \\\\ 0 & 2^n \\end{pmatrix}$",
+            "$A^n = \\begin{pmatrix} 2^n & 2^{n-1} \\\\ 0 & 2^n \\end{pmatrix}$"
+          ],
+          "Décompose $A = 2I_2 + N$ avec $N = \\begin{pmatrix} 0 & 1 \\\\ 0 & 0 \\end{pmatrix}$. Remarque que $N^2 = 0$.",
+          "Applique le binôme de Newton : $(2I_2 + N)^n = \\sum_{k=0}^n \\binom{n}{k} (2I_2)^{n-k} N^k = 2^n I_2 + n 2^{n-1} N$.",
+          "Comme $2I_2$ et $N$ commutent et $N^2 = 0$, la formule du binôme donne directement $A^n = (2I_2 + N)^n = \\binom{n}{0} 2^n I_2 + \\binom{n}{1} 2^{n-1} N = 2^n I_2 + n 2^{n-1} N = \\begin{pmatrix} 2^n & n 2^{n-1} \\\\ 0 & 2^n \\end{pmatrix}$."
+        );
+      }
     }
   },
 
   generateL1_EV1(tier) {
     if (tier === 1) {
-      // Sous-espace vectoriel
-      const constant = this.randChoice([0, 1, -2, 3]);
-      const isSev = constant === 0;
-      const a = this.randInt(2, 5);
-      const b = this.randInt(2, 4);
-      return this.makeMcq(
-        'L1-EV1', 1, "Caractérisation d'un sous-espace vectoriel (SEV)",
-        "Vérifier si une partie contenant ou non le vecteur nul est un sous-espace vectoriel",
-        `L'ensemble $F = \\{(x, y, z) \\in \\mathbb{R}^3 \\mid ${a}x - ${b}y + z = ${constant}\\}$ est-il un sous-espace vectoriel de $\\mathbb{R}^3$ ?`,
-        isSev ? "Oui, car c'est un hyperplan vectoriel ($0_{\\mathbb{R}^3} \\in F$ et stabilité par combinaison linéaire)" : "Non, car le vecteur nul $(0, 0, 0) \\notin F$",
-        isSev ? [
-          "Non, car il est de dimension 2",
-          "Non, car il n'est pas borné",
-          "Oui, uniquement pour $x, y, z > 0$"
-        ] : [
-          "Oui, car l'équation est linéaire",
-          "Oui, car c'est un plan affine",
-          "Non, car il contient une infinité de points"
-        ],
-        "Teste d'abord si le vecteur nul $(0, 0, 0)$ appartient à $F$.",
-        `Évalue l'équation avec $x=0, y=0, z=0$ : $${a}(0) - ${b}(0) + 0 = 0 \\neq ${constant}$.`,
-        isSev
-          ? `Pour $x=y=z=0$, $${a}(0) - ${b}(0) + 0 = 0$, donc $0_{\\mathbb{R}^3} \\in F$. De plus, toute combinaison linéaire de solutions reste solution. $F$ est donc un SEV.`
-          : `Le vecteur nul $(0, 0, 0)$ ne vérifie pas l'équation car $0 - 0 + 0 = 0 \\neq ${constant}$. $F$ ne contient pas $0_E$, ce n'est donc PAS un sous-espace vectoriel.`
-      );
+      // Palier 1 : Sous-espaces vectoriels (SEV) - Varier les types d'ensembles
+      const p1Variant = this.randChoice(['affine_non_sev', 'hyperplan_sev', 'cone_quadratique', 'quadrant_positif', 'systeme_homogene', 'espace_fonctions']);
+
+      if (p1Variant === 'affine_non_sev') {
+        const a = this.randChoice([2, 3, 4]);
+        const b = this.randChoice([1, 2, 5]);
+        const c = this.randChoice([1, 3]);
+        const d = this.randChoice([1, 2, -3, 4]);
+        return this.makeMcq(
+          'L1-EV1', 1, "Caractérisation d'un SEV : Plan affine ne passant pas par l'origine",
+          "Tester l'appartenance du vecteur nul $0_E$",
+          `L'ensemble $F = \\{(x, y, z) \\in \\mathbb{R}^3 \\mid ${a}x - ${b}y + ${c}z = ${d}\\}$ est-il un sous-espace vectoriel de $\\mathbb{R}^3$ ?`,
+          "Non, car le vecteur nul $(0, 0, 0) \\notin F$",
+          [
+            "Oui, car l'équation est de degré 1",
+            "Oui, car c'est un plan de dimension 2",
+            "Non, car il contient une infinité de points"
+          ],
+          "La première condition nécessaire pour qu'une partie soit un sous-espace vectoriel est de contenir le vecteur nul $0_E$.",
+          `Teste avec $(0, 0, 0)$ : $${a}(0) - ${b}(0) + ${c}(0) = 0 \\neq ${d}$.`,
+          `Pour $x=y=z=0$, le premier membre vaut $0$, alors que le second membre vaut $${d} \\neq 0$. Ainsi, $(0, 0, 0) \\notin F$. La condition nécessaire $0_E \\in F$ n'étant pas satisfaite, $F$ n'est PAS un sous-espace vectoriel.`
+        );
+      } else if (p1Variant === 'hyperplan_sev') {
+        const a = this.randChoice([2, 3, 5]);
+        const b = this.randChoice([1, 4]);
+        const c = this.randChoice([2, 3]);
+        return this.makeMcq(
+          'L1-EV1', 1, "Caractérisation d'un SEV : Hyperplan vectoriel",
+          "Démontrer qu'une équation linéaire homogène définit un sous-espace vectoriel",
+          `L'ensemble $F = \\{(x, y, z) \\in \\mathbb{R}^3 \\mid ${a}x - ${b}y + ${c}z = 0\\}$ est-il un sous-espace vectoriel de $\\mathbb{R}^3$ ?`,
+          "Oui, car c'est le noyau d'une forme linéaire non nulle (hyperplan vectoriel)",
+          [
+            "Non, car il ne contient que des vecteurs à composantes entières",
+            "Non, car il est de dimension 2 et non 3",
+            "Oui, mais uniquement pour des scalaires positifs"
+          ],
+          "Vérifie les 3 conditions : $0_E \\in F$, stabilité par addition et par multiplication par un scalaire.",
+          "Remarque que $F = \\text{Ker}(\\phi)$ où $\\phi(x, y, z) = " + a + "x - " + b + "y + " + c + "z$ est une forme linéaire.",
+          `1. Pour $(0,0,0)$ : $${a}(0) - ${b}(0) + ${c}(0) = 0$, donc $0_{\\mathbb{R}^3} \\in F$.\n2. Pour tous $u, v \\in F$ et $\\lambda, \\mu \\in \\mathbb{R}$, par linéarité de l'équation, $\\lambda u + \\mu v \\in F$.\n$F$ est le noyau de la forme linéaire non nulle $\\phi : (x,y,z) \\mapsto ${a}x - ${b}y + ${c}z$. C'est donc un sous-espace vectoriel (hyperplan de dimension 2) de $\\mathbb{R}^3$.`
+        );
+      } else if (p1Variant === 'cone_quadratique') {
+        return this.makeMcq(
+          'L1-EV1', 1, "Caractérisation d'un SEV : Condition quadratique",
+          "Tester la stabilité par addition sur un cône ou une réunion de droites",
+          "L'ensemble $F = \\{(x, y) \\in \\mathbb{R}^2 \\mid x^2 - y^2 = 0\\}$ est-il un sous-espace vectoriel de $\\mathbb{R}^2$ ?",
+          "Non, car $F$ n'est pas stable par addition (bien qu'il contienne $(0, 0)$)",
+          [
+            "Oui, car $(0, 0) \\in F$",
+            "Oui, car $x^2 - y^2 = (x - y)(x + y)$ est un produit de facteurs linéaires",
+            "Non, car $(0, 0) \\notin F$"
+          ],
+          "Vérifie si la somme de deux éléments de $F$ reste toujours dans $F$.",
+          "Prends $u = (1, 1) \\in F$ et $v = (1, -1) \\in F$. Calcule $u + v$.",
+          "$F$ est la réunion des deux droites $y = x$ et $y = -x$. On a $(0, 0) \\in F$. Cependant, pour $u = (1, 1) \\in F$ et $v = (1, -1) \\in F$, la somme $u + v = (2, 0)$ ne vérifie pas $2^2 - 0^2 = 0$ ($4 \\neq 0$). $F$ n'est pas stable par addition, ce n'est donc PAS un sous-espace vectoriel."
+        );
+      } else if (p1Variant === 'quadrant_positif') {
+        return this.makeMcq(
+          'L1-EV1', 1, "Caractérisation d'un SEV : Inégalités et scalaires négatifs",
+          "Tester la stabilité par multiplication par un scalaire réel quelconque",
+          "L'ensemble $F = \\{(x, y) \\in \\mathbb{R}^2 \\mid x \\ge 0 \\text{ et } y \\ge 0\\}$ est-il un sous-espace vectoriel de $\\mathbb{R}^2$ ?",
+          "Non, car $F$ n'est pas stable par multiplication par un scalaire négatif",
+          [
+            "Oui, car il contient l'origine $(0, 0)$ et est stable par addition",
+            "Non, car $(0, 0) \\notin F$",
+            "Oui, c'est un sous-espace vectoriel fermé"
+          ],
+          "Un sous-espace vectoriel sur $\\mathbb{R}$ doit être stable par produit par TOUT scalaire $\\lambda \\in \\mathbb{R}$, positif ou négatif.",
+          "Prends $u = (1, 1) \\in F$ et multiplie par $\\lambda = -1$.",
+          "Bien que $(0, 0) \\in F$ et que $F$ soit stable par addition, pour $u = (1, 1) \\in F$ et le scalaire $\\lambda = -1 \\in \\mathbb{R}$, le vecteur $(-1) \\cdot u = (-1, -1) \\notin F$. $F$ n'est pas stable par multiplication externe, ce n'est donc PAS un SEV."
+        );
+      } else if (p1Variant === 'systeme_homogene') {
+        return this.makeMcq(
+          'L1-EV1', 1, "Caractérisation d'un SEV : Intersection de deux hyperplans",
+          "Reconnaître l'ensemble des solutions d'un système linéaire homogène",
+          "L'ensemble $F = \\{(x, y, z) \\in \\mathbb{R}^3 \\mid x - 2y = 0 \\text{ et } y + 3z = 0\\}$ est-il un sous-espace vectoriel de $\\mathbb{R}^3$ ?",
+          "Oui, car c'est l'intersection de deux sous-espaces vectoriels (droite vectorielle)",
+          [
+            "Non, car il y a deux équations pour trois inconnues",
+            "Non, car une droite n'est jamais un sous-espace vectoriel",
+            "Oui, mais uniquement si on ajoute la condition $x + y + z = 0$"
+          ],
+          "L'intersection de deux sous-espaces vectoriels est TOUJOURS un sous-espace vectoriel.",
+          "Chaque équation linéaire sans second membre définit un SEV de dimension 2 (plan vectoriel).",
+          "Chaque équation $x - 2y = 0$ et $y + 3z = 0$ définit un plan vectoriel passant par l'origine. L'ensemble des solutions communes est l'intersection de ces deux sous-espaces vectoriels, c'est donc un sous-espace vectoriel (une droite vectorielle de dimension 1 dans $\\mathbb{R}^3$)."
+        );
+      } else {
+        return this.makeMcq(
+          'L1-EV1', 1, "Caractérisation d'un SEV : Espace de fonctions dérivables",
+          "Vérifier qu'une condition d'annulation de dérivée définit un SEV",
+          "Soit $E = \\mathcal{C}^1(\\mathbb{R}, \\mathbb{R})$ l'espace vectoriel des fonctions de classe $\\mathcal{C}^1$. L'ensemble $F = \\{f \\in E \\mid f'(0) = 0\\}$ est-il un sous-espace vectoriel de $E$ ?",
+          "Oui, car la fonction nulle vérifie $0'(0) = 0$ et la dérivation est linéaire",
+          [
+            "Non, car une fonction dérivable n'est pas un vecteur",
+            "Non, car il manque la condition $f(0) = 0$",
+            "Oui, mais seulement pour les fonctions polynomiales"
+          ],
+          "Vérifie si la fonction nulle est dans $F$, puis si $(\\lambda f + \\mu g)'(0) = 0$.",
+          "La linéarité de l'opération de dérivation garantit la stabilité par combinaison linéaire.",
+          "La fonction nulle vérifie bien $0'(0) = 0$. De plus, pour toutes fonctions $f, g \\in F$ et scalaires $\\lambda, \\mu \\in \\mathbb{R}$ : $(\\lambda f + \\mu g)'(0) = \\lambda f'(0) + \\mu g'(0) = \\lambda(0) + \\mu(0) = 0$. Donc $\\lambda f + \\mu g \\in F$. $F$ est le noyau de la forme linéaire $f \\mapsto f'(0)$, c'est donc un SEV de $E$."
+        );
+      }
     } else if (tier === 2) {
-      // Famille libre vs liée
-      const k = this.randChoice([2, 3, -1]);
-      const isLibe = this.randChoice([true, false]);
-      const v1 = `(1, 0, 1)`;
-      const v2 = `(0, 1, ${k})`;
-      const v3 = isLibe ? `(1, 1, 0)` : `(1, 1, ${k + 1})`; // si lié : v3 = v1 + v2
-      return this.makeMcq(
-        'L1-EV1', 2, "Liberté d'une famille de vecteurs dans $\\mathbb{R}^3$",
-        "Tester l'indépendance linéaire par échelonnement ou déterminant",
-        `Dans $\\mathbb{R}^3$, la famille $\\mathcal{F} = \\{u = ${v1}, v = ${v2}, w = ${v3}\\}$ est-elle libre ou liée ?`,
-        isLibe ? "Libre, car $\\det(u, v, w) \\neq 0$" : "Liée, car $w = u + v$",
-        isLibe ? [
-          "Liée, car ce sont 3 vecteurs",
-          "Liée, car le déterminant vaut 0",
-          "Ni libre ni liée"
-        ] : [
-          "Libre, car aucun vecteur n'est nul",
-          "Libre, car la dimension est 3",
-          "Génératrice sans être libre"
-        ],
-        "Forme la matrice des 3 vecteurs colonnes et calcule son déterminant.",
-        "Si un vecteur est combinaison linéaire évidente des deux autres, la famille est liée.",
-        isLibe
-          ? `Le déterminant de la matrice des 3 vecteurs est non nul (valeur $\\neq 0$), donc les 3 vecteurs sont linéairement indépendants : la famille est libre.`
-          : `On observe directement que $u + v = (1+0, 0+1, 1+${k}) = ${v3} = w$. Un vecteur est combinaison linéaire des deux autres, donc la famille est liée.`
-      );
+      // Palier 2 : Familles libres et liées, familles génératrices et matrices associées (MOINS DE ZÉROS)
+      // L'utilisateur a explicitement demandé : "varie plus les valeurs dans les matrices et dans les familles avec moins de vecteurs contenant des 0"
+      const p2Variant = this.randChoice(['famille_r3_sans_zero_liee', 'famille_r3_sans_zero_libre', 'famille_4_vecteurs_r3', 'famille_r2_sans_zero', 'rang_matrice_sans_zero']);
+
+      if (p2Variant === 'famille_r3_sans_zero_liee') {
+        // Famille liée de 3 vecteurs dans R^3 SANS AUCUN ZÉRO
+        const tripletsLies = [
+          { u: "(1, 2, -1)", v: "(2, -1, 3)", w: "(3, 1, 2)", rel: "w = u + v" },
+          { u: "(2, 1, 3)", v: "(1, 3, -2)", w: "(3, 4, 1)", rel: "w = u + v" },
+          { u: "(1, -2, 3)", v: "(3, 1, -1)", w: "(4, -1, 2)", rel: "w = u + v" },
+          { u: "(2, -1, 2)", v: "(1, 3, 1)", w: "(3, 2, 3)", rel: "w = u + v" },
+          { u: "(1, 1, 2)", v: "(2, -1, 1)", w: "(3, 0, 3)", rel: "w = u + v" } // non retenu car 0
+        ].filter(t => !t.u.includes('0') && !t.v.includes('0') && !t.w.includes('0'));
+
+        const choice = this.randChoice(tripletsLies);
+        return this.makeMcq(
+          'L1-EV1', 2, "Liberté d'une famille de vecteurs sans composante nulle dans $\\mathbb{R}^3$",
+          "Détecter une dépendance linéaire sans composante nulle",
+          `Dans $\\mathbb{R}^3$, la famille $\\mathcal{F} = \\{u = ${choice.u}, v = ${choice.v}, w = ${choice.w}\\}$ est-elle libre ou liée ?`,
+          `Liée, car $${choice.rel}$ (combinaison linéaire non triviale)`,
+          [
+            "Libre, car aucun des vecteurs ne contient de coordonnée nulle",
+            "Libre, car le déterminant de la famille vaut 1",
+            "Génératrice de $\\mathbb{R}^3$ car elle comporte 3 vecteurs"
+          ],
+          "Vérifie si l'un des vecteurs est somme ou combinaison linéaire des deux autres.",
+          `Additionne les composantes de $u$ et $v$ : $${choice.u} + ${choice.v}$.`,
+          `On constate directement que pour chaque coordonnée, $u + v = ${choice.w} = w$. Comme $u + v - w = 0_{\\mathbb{R}^3}$ avec des coefficients non tous nuls $(1, 1, -1)$, les vecteurs sont linéairement dépendants : la famille $\\mathcal{F}$ est donc liée (et son déterminant est nul).`
+        );
+      } else if (p2Variant === 'famille_r3_sans_zero_libre') {
+        // Famille libre de 3 vecteurs dans R^3 SANS AUCUN ZÉRO
+        const tripletsLibres = [
+          { u: "(1, 1, 2)", v: "(2, -1, 1)", w: "(1, 3, 1)", det: "9" },
+          { u: "(1, 2, 1)", v: "(2, 1, -1)", w: "(1, -1, 2)", det: "-12" },
+          { u: "(2, 1, 1)", v: "(1, 2, -1)", w: "(-1, 1, 2)", det: "12" },
+          { u: "(1, -1, 2)", v: "(2, 1, 1)", w: "(3, 2, -1)", det: "-6" },
+          { u: "(1, 2, 3)", v: "(2, 1, 1)", w: "(1, 1, 1)", det: "-1" }
+        ];
+
+        const choice = this.randChoice(tripletsLibres);
+        return this.makeMcq(
+          'L1-EV1', 2, "Base de $\\mathbb{R}^3$ et liberté sans composante nulle",
+          "Calculer le déterminant d'une famille de 3 vecteurs dans $\\mathbb{R}^3$",
+          `Dans $\\mathbb{R}^3$, la famille $\\mathcal{F} = \\{u = ${choice.u}, v = ${choice.v}, w = ${choice.w}\\}$ forme-t-elle une base de $\\mathbb{R}^3$ ?`,
+          `Oui, c'est une famille libre (car $\\det(u, v, w) = ${choice.det} \\neq 0$) de 3 vecteurs dans un espace de dimension 3`,
+          [
+            "Non, car 3 vecteurs ne peuvent jamais engendrer $\\mathbb{R}^3$",
+            `Non, elle est liée car $\\det(u, v, w) = 0$`,
+            "Génératrice mais non libre"
+          ],
+          "Forme la matrice des coordonnées colonnes et calcule son déterminant.",
+          "Dans un espace de dimension $n$, toute famille libre de $n$ vecteurs est une base.",
+          `On calcule le déterminant de la matrice formée par ces trois vecteurs colonnes : $\\det(u, v, w) = ${choice.det} \\neq 0$. Les vecteurs sont linéairement indépendants : la famille est libre. Comme $\\text{Card}(\\mathcal{F}) = 3 = \\dim(\\mathbb{R}^3)$, c'est une base de $\\mathbb{R}^3$.`
+        );
+      } else if (p2Variant === 'famille_4_vecteurs_r3') {
+        const u1 = "(1, 2, -1)";
+        const u2 = "(2, 1, 3)";
+        const u3 = "(3, -2, 1)";
+        const u4 = "(1, 3, 2)";
+        return this.makeMcq(
+          'L1-EV1', 2, "Théorème du cardinal : Famille de 4 vecteurs dans $\\mathbb{R}^3$",
+          "Appliquer le théorème stipulant que toute famille de plus de $n$ vecteurs dans $\\mathbb{R}^n$ est liée",
+          `Soit la famille de 4 vecteurs $\\mathcal{F} = \\{${u1}, ${u2}, ${u3}, ${u4}\\}$ dans $\\mathbb{R}^3$. Sans aucun calcul, que peut-on affirmer sur la liberté de $\\mathcal{F}$ ?`,
+          "Elle est obligatoirement liée, car $\\text{Card}(\\mathcal{F}) = 4 > \\dim(\\mathbb{R}^3) = 3$",
+          [
+            "Elle est libre car tous les vecteurs sont non nuls et distincts",
+            "Elle peut être libre ou liée selon les coefficients",
+            "C'est une base de $\\mathbb{R}^3$"
+          ],
+          "Compare le nombre de vecteurs dans la famille au cardinal maximal d'une famille libre dans $\\mathbb{R}^3$.",
+          "Dans un espace vectoriel de dimension finie $n$, toute famille contenant strictement plus de $n$ vecteurs est liée.",
+          "La dimension de $\\mathbb{R}^3$ est 3. Le nombre de vecteurs dans une famille libre ne peut jamais dépasser la dimension de l'espace. Comme $\\text{Card}(\\mathcal{F}) = 4 > 3$, la famille $\\mathcal{F}$ est nécessairement liée."
+        );
+      } else if (p2Variant === 'famille_r2_sans_zero') {
+        const isLibre = this.randChoice([true, false]);
+        let u, v, detVal, justif;
+        if (isLibre) {
+          const a = this.randChoice([2, 3]);
+          const b = this.randChoice([1, -2]);
+          const c = this.randChoice([1, 2]);
+          const d = this.randChoice([4, 5]);
+          u = `(${a}, ${b})`;
+          v = `(${c}, ${d})`;
+          const det = a * d - b * c;
+          detVal = det;
+          justif = `Libre et forme une base de $\\mathbb{R}^2$ car $\\det(u, v) = ${det} \\neq 0$`;
+        } else {
+          const a = this.randChoice([2, 3]);
+          const b = this.randChoice([1, -2]);
+          const k = this.randChoice([-2, 2, -3]);
+          u = `(${a}, ${b})`;
+          v = `(${a * k}, ${b * k})`;
+          detVal = 0;
+          justif = `Liée car les deux vecteurs sont colinéaires ($v = ${k}u$)`;
+        }
+        return this.makeMcq(
+          'L1-EV1', 2, "Liberté de deux vecteurs dans $\\mathbb{R}^2$ sans coordonnées nulles",
+          "Tester la colinéarité et le déterminant dans $\\mathbb{R}^2$",
+          `Dans $\\mathbb{R}^2$, la famille $\\mathcal{F} = \\{u = ${u}, v = ${v}\\}$ est-elle libre ou liée ?`,
+          justif,
+          isLibre ? [
+            "Liée, car $u$ et $v$ ne contiennent aucun zéro",
+            "Liée, car le produit scalaire est non nul",
+            "Génératrice sans être libre"
+          ] : [
+            "Libre, car aucun des vecteurs n'est nul",
+            "Libre, car ils appartiennent au plan $\\mathbb{R}^2$",
+            "Base orthonormée de $\\mathbb{R}^2$"
+          ],
+          "Dans $\\mathbb{R}^2$, deux vecteurs sont liés si et seulement s'ils sont colinéaires (l'un multiple de l'autre).",
+          "Calcule le déterminant $ad - bc$.",
+          isLibre
+            ? `Le déterminant est $\\det(u, v) = ${detVal} \\neq 0$. Les vecteurs ne sont pas colinéaires : la famille est libre. Comme $\\text{Card} = 2 = \\dim(\\mathbb{R}^2)$, c'est une base.`
+            : `On a directement $v = ${u} \\times k$, donc les deux vecteurs sont colinéaires : $\\det(u, v) = 0$. La famille est donc liée.`
+        );
+      } else {
+        // Rang d'une matrice 3x3 sans aucun zéro
+        return this.makeMcq(
+          'L1-EV1', 2, "Rang d'une matrice $3 \\times 3$ sans coefficients nuls",
+          "Déterminer le rang par combinaison de lignes",
+          "Quel est le rang dans $\\mathbb{R}$ de la matrice sans aucun zéro $M = \\begin{pmatrix} 1 & 2 & 1 \\\\ 2 & 1 & 3 \\\\ 3 & 3 & 4 \\end{pmatrix}$ ?",
+          "$\\text{rg}(M) = 2$ car la ligne 3 est égale à $L_1 + L_2$",
+          [
+            "$\\text{rg}(M) = 3$ car tous les coefficients sont non nuls",
+            "$\\text{rg}(M) = 1$",
+            "$\\text{rg}(M) = 0$"
+          ],
+          "Observe les lignes : y a-t-il une relation linéaire directe entre elles ?",
+          "$L_1 + L_2 = (1+2, 2+1, 1+3) = (3, 3, 4) = L_3$.",
+          "On remarque immédiatement que $L_3 = L_1 + L_2$. La troisième ligne est donc superflue. Comme $L_1$ et $L_2$ ne sont pas proportionnelles, le sous-espace engendré par les lignes est de dimension 2. Ainsi, $\\text{rg}(M) = 2$."
+        );
+      }
     } else if (tier === 3) {
-      // Dimension d'un SEV
-      const eqCount = this.randChoice([1, 2]);
-      const dim = 3 - eqCount;
-      return this.makeMcq(
-        'L1-EV1', 3, "Dimension d'un sous-espace vectoriel défini par des équations",
-        "Relier le nombre d'équations cartésiennes indépendantes à la dimension",
-        eqCount === 1
-          ? "Quelle est la dimension du sous-espace $F = \\{(x, y, z) \\in \\mathbb{R}^3 \\mid x + 2y - z = 0\\}$ ?"
-          : "Quelle est la dimension du sous-espace $F = \\{(x, y, z) \\in \\mathbb{R}^3 \\mid x + y - z = 0 \\text{ et } x - y = 0\\}$ ?",
-        `$\\dim(F) = ${dim}$`,
-        [`$\\dim(F) = ${dim + 1}$`, `$\\dim(F) = ${dim === 1 ? 3 : 1}$`, "$\\dim(F) = 0$"],
-        "Dans $\\mathbb{R}^n$, chaque équation cartésienne linéaire indépendante diminue la dimension de 1.",
-        `Ici $n = 3$ et il y a ${eqCount} équation(s) indépendante(s).`,
-        `D'après le théorème du rang appliqué aux formes linéaires, $\\dim(F) = 3 - ${eqCount} = ${dim}$.`
-      );
+      // Palier 3 : Bases, Dimension et Sous-espaces supplémentaires (Grande variété de questions)
+      // L'utilisateur a explicitement demandé : "Palier 3 varie plus les questions"
+      const p3Variant = this.randChoice(['base_hyperplan', 'base_droite_inter', 'supplementaire_somme_directe', 'dimension_vect_poly', 'intersection_plans_distincts']);
+
+      if (p3Variant === 'base_hyperplan') {
+        const a = this.randChoice([2, 3]);
+        const b = this.randChoice([1, -1]);
+        return this.makeMcq(
+          'L1-EV1', 3, "Base et dimension d'un plan vectoriel de $\\mathbb{R}^3$",
+          "Déterminer une base et la dimension d'un sous-espace défini par une équation",
+          `Quelle est la dimension et une base du sous-espace $F = \\{(x, y, z) \\in \\mathbb{R}^3 \\mid x - ${a}y + z = 0\\}$ ?`,
+          `$\\dim(F) = 2$, de base $\\mathcal{B} = \\{(${a}, 1, 0), (-1, 0, 1)\\}$`,
+          [
+            `$\\dim(F) = 1$, de base $\\mathcal{B} = \\{(1, -${a}, 1)\\}$`,
+            `$\\dim(F) = 3$, de base canonique de $\\mathbb{R}^3$`,
+            `$\\dim(F) = 2$, de base $\\mathcal{B} = \\{(1, 1, 1), (0, 0, 0)\\}$`
+          ],
+          "Exprime l'une des variables en fonction des deux autres : $x = " + a + "y - z$.",
+          "Décompose le vecteur générique $(x, y, z) = y(" + a + ", 1, 0) + z(-1, 0, 1)$.",
+          `Tout vecteur de $F$ vérifie $x = ${a}y - z$. Ainsi $(x, y, z) = (${a}y - z, y, z) = y(${a}, 1, 0) + z(-1, 0, 1)$. Les deux vecteurs générateurs ne sont pas colinéaires, ils forment une famille libre. Donc $\\dim(F) = 2$ et $\\mathcal{B} = \\{(${a}, 1, 0), (-1, 0, 1)\\}$ est une base de $F$.`
+        );
+      } else if (p3Variant === 'base_droite_inter') {
+        return this.makeMcq(
+          'L1-EV1', 3, "Dimension d'une intersection de deux plans indépendants",
+          "Résoudre un système homogène de deux équations dans $\\mathbb{R}^3$",
+          "Quelle est la dimension et un vecteur directeur de la droite $D = \\{(x, y, z) \\in \\mathbb{R}^3 \\mid x + y - z = 0 \\text{ et } 2x - y + z = 0\\}$ ?",
+          "$\\dim(D) = 1$, dirigée par le vecteur $(0, 1, 1)$",
+          [
+            "$\\dim(D) = 2$, engendrée par deux plans",
+            "$\\dim(D) = 1$, dirigée par $(1, 1, 1)$",
+            "$\\dim(D) = 0$, réduite au singleton $\{(0, 0, 0)\}$"
+          ],
+          "Additionne les deux équations pour éliminer $y$ et $z$ : $(x+y-z) + (2x-y+z) = 3x = 0$.",
+          "En déduire $x = 0$, puis $y = z$.",
+          "En sommant les deux équations, on obtient $3x = 0 \\implies x = 0$. En injectant $x=0$ dans la première équation, il vient $y = z$. Ainsi tout vecteur s'écrit $(0, y, y) = y(0, 1, 1)$. L'espace $D$ est la droite vectorielle $\\text{Vect}((0, 1, 1))$, de dimension $3 - 2 = 1$."
+        );
+      } else if (p3Variant === 'supplementaire_somme_directe') {
+        return this.makeMcq(
+          'L1-EV1', 3, "Sous-espaces supplémentaires et somme directe dans $\\mathbb{R}^3$",
+          "Vérifier la condition $F \\oplus D = \\mathbb{R}^3$ via $\\dim F + \\dim D = 3$ et $F \\cap D = \\{0\\}$",
+          "Soit le plan vectoriel $F = \\{(x, y, z) \\in \\mathbb{R}^3 \\mid x + y + z = 0\\}$. Pour quelle droite vectorielle $D = \\text{Vect}(u)$ a-t-on $F \\oplus D = \\mathbb{R}^3$ ?",
+          "Pour $u = (1, 1, 1)$, car $(1, 1, 1) \\notin F$",
+          [
+            "Pour $u = (1, -1, 0)$, car $(1, -1, 0) \\in F$",
+            "Pour $u = (2, -1, -1)$, car $2 + (-1) + (-1) = 0$",
+            "Pour aucun vecteur, car un plan n'a pas de supplémentaire"
+          ],
+          "Pour qu'une droite $D = \\text{Vect}(u)$ soit supplémentaire d'un plan $F$ dans $\\mathbb{R}^3$, il faut et suffit que $u \\notin F$.",
+          "Teste les équations : $1 + 1 + 1 = 3 \\neq 0$, donc $(1, 1, 1) \\notin F$.",
+          "Comme $\\dim(F) = 2$ et $\\dim(D) = 1$, $\\dim(F) + \\dim(D) = 3 = \\dim(\\mathbb{R}^3)$. Pour que la somme soit directe, il faut et suffit que $F \\cap D = \\{0\\}$, ce qui équivaut à ce que le vecteur directeur $u$ n'appartienne pas à $F$. Pour $u = (1, 1, 1)$, $1+1+1 = 3 \\neq 0$, donc $u \\notin F$. Ainsi $F \\oplus \\text{Vect}((1, 1, 1)) = \\mathbb{R}^3$."
+        );
+      } else if (p3Variant === 'dimension_vect_poly') {
+        return this.makeMcq(
+          'L1-EV1', 3, "Dimension d'un sous-espace de polynômes $\\mathbb{R}_n[X]$",
+          "Calculer la dimension d'un sous-espace engendré par des polynômes",
+          "Dans l'espace $\\mathbb{R}_2[X]$, quelle est la dimension du sous-espace $G = \\text{Vect}(X^2 - 1, \\, X + 1, \\, X^2 + X)$ ?",
+          "$\\dim(G) = 2$, car $X^2 + X = (X^2 - 1) + (X + 1)$",
+          [
+            "$\\dim(G) = 3$, car il y a 3 polynômes non nuls",
+            "$\\dim(G) = 1$",
+            "$\\dim(G) = 4$"
+          ],
+          "Examine si l'un des polynômes est combinaison linéaire des deux autres.",
+          "$(X^2 - 1) + (X + 1) = X^2 + X$.",
+          "On observe que le troisième polynôme est la somme exacte des deux premiers : $(X^2 - 1) + (X + 1) = X^2 + X$. La famille est liée. Les deux premiers polynômes $X^2 - 1$ et $X + 1$ ne sont pas proportionnels (degrés différents 2 et 1), ils forment donc une famille libre. D'où $\\dim(G) = 2$."
+        );
+      } else {
+        return this.makeMcq(
+          'L1-EV1', 3, "Intersection de deux plans vectoriels distincts",
+          "Relier la formule de Grassmann à l'intersection de sous-espaces",
+          "Soient $P_1$ et $P_2$ deux plans vectoriels distincts de $\\mathbb{R}^3$. Quelle est la dimension de leur intersection $P_1 \\cap P_2$ ?",
+          "$\\dim(P_1 \\cap P_2) = 1$ (droite vectorielle)",
+          [
+            "$\\dim(P_1 \\cap P_2) = 0$ (réduite au vecteur nul)",
+            "$\\dim(P_1 \\cap P_2) = 2$",
+            "$\\dim(P_1 \\cap P_2) = 3$"
+          ],
+          "Utilise la formule de Grassmann : $\\dim(P_1 \\cap P_2) = \\dim(P_1) + \\dim(P_2) - \\dim(P_1 + P_2)$.",
+          "Comme $P_1 \\neq P_2$ et $P_1 \\subset P_1 + P_2 \\subset \\mathbb{R}^3$, $\\dim(P_1 + P_2) = 3$.",
+          "Comme les plans sont distincts, la somme $P_1 + P_2$ contient strictement un plan, donc $\\dim(P_1 + P_2) = 3$. D'après la formule de Grassmann : $\\dim(P_1 \\cap P_2) = 2 + 2 - 3 = 1$. L'intersection de deux plans vectoriels distincts dans $\\mathbb{R}^3$ est toujours une droite vectorielle."
+        );
+      }
     } else {
-      // Formule de Grassmann
-      const dimE = this.randInt(5, 7);
-      const dimF = this.randInt(3, 4);
-      const dimG = this.randInt(3, 4);
-      const dimInter = this.randInt(1, 2);
-      const dimSum = dimF + dimG - dimInter;
-      return this.makeMcq(
-        'L1-EV1', 4, "Formule de Grassmann",
-        "Calculer la dimension d'une somme de sous-espaces",
-        `Soient $F$ et $G$ deux sous-espaces vectoriels d'un espace $E$ avec $\\dim(F) = ${dimF}$, $\\dim(G) = ${dimG}$ et $\\dim(F \\cap G) = ${dimInter}$. Que vaut $\\dim(F + G)$ ?`,
-        `$\\dim(F + G) = ${dimSum}$`,
-        [
-          `$\\dim(F + G) = ${dimF + dimG}$`,
-          `$\\dim(F + G) = ${dimSum + 1}$`,
-          `$\\dim(F + G) = ${Math.abs(dimF - dimG)}$`
-        ],
-        "Formule de Grassmann : $\\dim(F + G) = \\dim(F) + \\dim(G) - \\dim(F \\cap G)$.",
-        `Remplace par les valeurs numériques : ${dimF} + ${dimG} - ${dimInter}.`,
-        `D'après la formule de Grassmann : $\\dim(F + G) = ${dimF} + ${dimG} - ${dimInter} = ${dimSum}$.`
-      );
+      // Palier 4 : Grassmann, Hyperplans, Sommes directes et Espaces de matrices (Bilan universitaire approfondi)
+      // L'utilisateur a explicitement demandé : "idem pour le palier 4"
+      const p4Variant = this.randChoice(['grassmann_r4', 'hyperplans_inter_codim', 'matrices_sym_antisym', 'somme_directe_3_sev', 'degres_echelonnes']);
+
+      if (p4Variant === 'grassmann_r4') {
+        return this.makeMcq(
+          'L1-EV1', 4, "Formule de Grassmann dans $\\mathbb{R}^4$",
+          "Déterminer la dimension d'une intersection de deux hyperplans dans $\\mathbb{R}^4$",
+          "Soient $F$ et $G$ deux sous-espaces vectoriels distincts de dimension 3 dans $\\mathbb{R}^4$. Que vaut la dimension de $F \\cap G$ ?",
+          "$\\dim(F \\cap G) = 2$",
+          [
+            "$\\dim(F \\cap G) = 3$",
+            "$\\dim(F \\cap G) = 1$",
+            "$\\dim(F \\cap G) = 0$"
+          ],
+          "Applique Grassmann : $\\dim(F \\cap G) = \\dim(F) + \\dim(G) - \\dim(F + G)$.",
+          "Comme $F \\neq G$ et $\\dim(F) = 3$, la somme $F + G$ est de dimension strictement supérieure à 3, donc $\\dim(F + G) = 4$.",
+          "Puisque $F \\neq G$ et $\\dim(F) = 3$, l'espace somme $F + G$ contient strictement $F$, donc $\\dim(F + G) > 3$. Comme $F + G \\subset \\mathbb{R}^4$, on a nécessairement $\\dim(F + G) = 4$. D'après la formule de Grassmann : $\\dim(F \\cap G) = 3 + 3 - 4 = 2$."
+        );
+      } else if (p4Variant === 'hyperplans_inter_codim') {
+        return this.makeMcq(
+          'L1-EV1', 4, "Intersection de deux hyperplans distincts en dimension $n$",
+          "Généraliser la codimension d'un hyperplan vectoriel",
+          "Soit $E$ un espace vectoriel de dimension finie $n \\ge 3$. Si $H_1$ et $H_2$ sont deux hyperplans distincts de $E$, quelle est la dimension de $H_1 \\cap H_2$ ?",
+          "$\\dim(H_1 \\cap H_2) = n - 2$",
+          [
+            "$\\dim(H_1 \\cap H_2) = n - 1$",
+            "$\\dim(H_1 \\cap H_2) = 1$",
+            "$\\dim(H_1 \\cap H_2) = 0$"
+          ],
+          "Par définition, un hyperplan dans un espace de dimension $n$ a pour dimension $n - 1$.",
+          "Applique la formule de Grassmann avec $\\dim(H_1 + H_2) = n$.",
+          "Un hyperplan a pour dimension $n - 1$. Comme $H_1 \\neq H_2$, la somme $H_1 + H_2$ est un sous-espace contenant strictement $H_1$, donc $\\dim(H_1 + H_2) = n$. Par la formule de Grassmann : $\\dim(H_1 \\cap H_2) = (n - 1) + (n - 1) - n = n - 2$."
+        );
+      } else if (p4Variant === 'matrices_sym_antisym') {
+        return this.makeMcq(
+          'L1-EV1', 4, "Somme directe des matrices symétriques et antisymétriques",
+          "Démontrer que $\\mathcal{M}_n(\\mathbb{R}) = \\mathcal{S}_n(\\mathbb{R}) \\oplus \\mathcal{A}_n(\\mathbb{R})$",
+          "Dans $\\mathcal{M}_n(\\mathbb{R})$, quelles sont les dimensions respectives de l'espace des matrices symétriques $\\mathcal{S}_n(\\mathbb{R})$ et antisymétriques $\\mathcal{A}_n(\\mathbb{R})$ ?",
+          "$\\dim \\mathcal{S}_n = \\frac{n(n+1)}{2}$ et $\\dim \\mathcal{A}_n = \\frac{n(n-1)}{2}$, avec $\\mathcal{S}_n \\oplus \\mathcal{A}_n = \\mathcal{M}_n(\\mathbb{R})$",
+          [
+            "$\\dim \\mathcal{S}_n = n^2 - n$ et $\\dim \\mathcal{A}_n = n$",
+            "$\\dim \\mathcal{S}_n = \\frac{n^2}{2}$ et $\\dim \\mathcal{A}_n = \\frac{n^2}{2}$",
+            "$\\dim \\mathcal{S}_n = n$ et $\\dim \\mathcal{A}_n = n - 1$"
+          ],
+          "Une matrice symétrique est déterminée par ses éléments diagonaux ($n$) et ses éléments strictement au-dessus ($\\frac{n(n-1)}{2}$).",
+          "Pour une matrice antisymétrique, la diagonale est obligatoirement nulle.",
+          "Pour une matrice symétrique, on choisit librement la diagonale ($n$ valeurs) et la partie triangulaire supérieure stricte ($\\frac{n(n-1)}{2}$), soit $n + \\frac{n(n-1)}{2} = \\frac{n(n+1)}{2}$. Pour une matrice antisymétrique, la diagonale est nulle et il reste $\\frac{n(n-1)}{2}$ coefficients. La somme de leurs dimensions vaut bien $\\frac{n(n+1)}{2} + \\frac{n(n-1)}{2} = n^2 = \\dim \\mathcal{M}_n(\\mathbb{R})$ et $\\mathcal{S}_n \\cap \\mathcal{A}_n = \\{0\\}$."
+        );
+      } else if (p4Variant === 'somme_directe_3_sev') {
+        return this.makeMcq(
+          'L1-EV1', 4, "Somme directe de 3 sous-espaces vectoriels",
+          "Comprendre le piège classique des intersections deux à deux",
+          "Soient $F_1, F_2, F_3$ trois sous-espaces vectoriels d'un espace $E$. Laquelle des conditions suivantes garantit que la somme $F_1 + F_2 + F_3$ est directe ?",
+          "$\\forall (x_1, x_2, x_3) \\in F_1 \\times F_2 \\times F_3, \\quad x_1 + x_2 + x_3 = 0 \\implies x_1 = x_2 = x_3 = 0$",
+          [
+            "$F_1 \\cap F_2 = \\{0\\}$, $F_2 \\cap F_3 = \\{0\\}$ et $F_1 \\cap F_3 = \\{0\\}$ (intersection deux à deux nulle)",
+            "$F_1 \\cap F_2 \\cap F_3 = \\{0\\}$",
+            "$\\dim(F_1) + \\dim(F_2) + \\dim(F_3) = \\dim(E)$ sans condition sur l'intersection"
+          ],
+          "Attention : pour 3 sous-espaces ou plus, la nullité des intersections deux à deux $F_i \\cap F_j = \\{0\\}$ est INSUFFISANTE !",
+          "Pense à trois droites coplanaires distinctes dans le plan : elles se coupent deux à deux en $\{0\}$, mais leur somme n'est pas directe car leur somme est de dimension 2 et non $1+1+1=3$.",
+          "La condition $F_i \\cap F_j = \\{0\\}$ est un piège classique : 3 droites coplanaires distinctes dans $\\mathbb{R}^2$ ont des intersections deux à deux réduites à $\{0\}$, mais leur somme n'est pas directe. La seule condition nécessaire et suffisante est l'unicité de la décomposition du vecteur nul : $x_1 + x_2 + x_3 = 0 \\implies x_1 = x_2 = x_3 = 0$."
+        );
+      } else {
+        return this.makeMcq(
+          'L1-EV1', 4, "Base de polynômes à degrés échelonnés",
+          "Justifier la liberté d'une famille de polynômes de degrés distincts",
+          "Soit $\\mathcal{P} = (P_0, P_1, \\dots, P_n)$ une famille de polynômes non nuls de $\\mathbb{R}_n[X]$ tels que $\\deg(P_k) = k$ pour tout $k \\in \\{0, 1, \\dots, n\\}$. Que peut-on affirmer ?",
+          "$\\mathcal{P}$ est toujours libre, et forme une base de $\\mathbb{R}_n[X]$",
+          [
+            "$\\mathcal{P}$ est toujours liée si $n \\ge 2$",
+            "$\\mathcal{P}$ est génératrice mais peut être liée selon les coefficients",
+            "$\\mathcal{P}$ est une base uniquement si tous les polynômes sont unitaires"
+          ],
+          "Considère une combinaison linéaire nulle $\\sum_{k=0}^n \\lambda_k P_k = 0$ et examine le terme de plus haut degré.",
+          "Si les $\\lambda_k$ n'étaient pas tous nuls, le terme de degré maximal ne pourrait pas s'annuler.",
+          "Soit $\\sum_{k=0}^n \\lambda_k P_k = 0$. Si les coefficients n'étaient pas tous nuls, soit $m = \\max\\{k \\mid \\lambda_k \\neq 0\\}$. Alors $\\deg\\left(\\sum_{k=0}^n \\lambda_k P_k\\right) = \\deg(\\lambda_m P_m) = m$, ce qui contredit que la somme est le polynôme nul. La famille est donc libre. Comme elle compte $n+1$ polynômes et que $\\dim \\mathbb{R}_n[X] = n+1$, c'est une base."
+        );
+      }
     }
   },
 
   generateL1_APP(tier) {
     if (tier === 1) {
-      // Théorème du rang
-      const dimE = this.randInt(4, 9);
-      const dimKer = this.randInt(1, dimE - 2);
-      const rg = dimE - dimKer;
-      return this.makeMcq(
-        'L1-APP', 1, "Théorème du rang pour une application linéaire",
-        "Appliquer la relation $\\dim(E) = \\dim(\\text{Ker} f) + \\text{rg}(f)$",
-        `Soit $f : E \\to F$ une application linéaire avec $\\dim(E) = ${dimE}$ et $\\dim(\\text{Ker} f) = ${dimKer}$. Que vaut le rang $\\text{rg}(f) = \\dim(\\text{Im} f)$ ?`,
-        `$\\text{rg}(f) = ${rg}$`,
-        [`$\\text{rg}(f) = ${dimE}$`, `$\\text{rg}(f) = ${rg + 1}$`, `$\\text{rg}(f) = ${dimKer}$`],
-        "Théorème du rang : la dimension de l'espace de départ $E$ est la somme de la dimension du noyau et du rang.",
-        `$\\dim(E) = \\dim(\\text{Ker} f) + \\text{rg}(f) \\implies \\text{rg}(f) = ${dimE} - ${dimKer}$.`,
-        `D'après le Théorème du Rang : $\\text{rg}(f) = \\dim(E) - \\dim(\\text{Ker} f) = ${dimE} - ${dimKer} = ${rg}$.`
-      );
+      // Palier 1 : Applications linéaires avec exemples CONCRETS
+      // L'utilisateur a explicitement demandé : "L1-05 Palier 1 varie davantage les questions avec des questions avec des exemples concrets"
+      const p1Variant = this.randChoice(['image_vecteur_concret', 'image_polynome_concret', 'projection_concrete', 'test_non_linearite_concret', 'theoreme_rang_concret']);
+
+      if (p1Variant === 'image_vecteur_concret') {
+        const a = this.randChoice([2, 3]);
+        const b = this.randChoice([1, -2, -3]);
+        const c = this.randChoice([1, -1, 4]);
+        const d = this.randChoice([2, 5]);
+        const x = this.randChoice([1, 2, -1]);
+        const y = this.randChoice([2, -2, 3]);
+        const fx = a * x + b * y;
+        const fy = c * x + d * y;
+
+        return this.makeMcq(
+          'L1-APP', 1, "Calcul concret de l'image d'un vecteur par une application linéaire",
+          "Évaluer une application linéaire définie sur $\\mathbb{R}^2$",
+          `Soit $f : \\mathbb{R}^2 \\to \\mathbb{R}^2$ définie par $f(x, y) = (${a}x + (${b})y, \\, ${c}x + ${d}y)$. Quelle est l'image du vecteur $u = (${x}, ${y})$ par $f$ ?`,
+          `$f(${x}, ${y}) = (${fx}, ${fy})$`,
+          [
+            `$f(${x}, ${y}) = (${fx + 1}, ${fy - 1})$`,
+            `$f(${x}, ${y}) = (${fy}, ${fx})$`,
+            `$f(${x}, ${y}) = (${a * x}, ${d * y})$`
+          ],
+          `Remplace $x$ par ${x} et $y$ par ${y} dans chaque composante de la formule.`,
+          `Première composante : ${a}(${x}) + (${b})(${y}) = ${fx}. Seconde composante : ${c}(${x}) + ${d}(${y}) = ${fy}.`,
+          `On applique directement la formule : $f(${x}, ${y}) = (${a} \\times (${x}) + (${b}) \\times (${y}), \\, ${c} \\times (${x}) + ${d} \\times (${y})) = (${fx}, ${fy})$.`
+        );
+      } else if (p1Variant === 'image_polynome_concret') {
+        const a = this.randChoice([2, 3, 4]);
+        const b = this.randChoice([3, 5, -4]);
+        const c = this.randChoice([1, 2, -7]);
+        return this.makeMcq(
+          'L1-APP', 1, "Application de dérivation concrète sur $\\mathbb{R}_2[X]$",
+          "Calculer l'image d'un polynôme par l'opérateur de dérivation linéaire",
+          `Soit l'application de dérivation $D : \\mathbb{R}_2[X] \\to \\mathbb{R}_1[X]$ définie par $D(P) = P'$. Quelle est l'image du polynôme $P(X) = ${a}X^2 + (${b})X + (${c})$ ?`,
+          `$D(P) = ${2 * a}X + (${b})$`,
+          [
+            `$D(P) = ${a}X + (${b})$`,
+            `$D(P) = ${2 * a}X^2 + (${b})X$`,
+            `$D(P) = ${2 * a}X + (${b}) + (${c})$`
+          ],
+          "Dérive terme à terme : $(a X^2)' = 2a X$, $(b X)' = b$, et $(c)' = 0$.",
+          `$(X^2)' = 2X$, donc $(${a}X^2)' = ${2 * a}X$.`,
+          `Par linéarité de la dérivation : $D(${a}X^2 + (${b})X + (${c})) = ${a}(2X) + (${b})(1) + 0 = ${2 * a}X + (${b})$.`
+        );
+      } else if (p1Variant === 'projection_concrete') {
+        const x = this.randChoice([3, 5, -4]);
+        const y = this.randChoice([2, -6, 7]);
+        return this.makeMcq(
+          'L1-APP', 1, "Projecteur géométrique concret sur l'axe des abscisses",
+          "Identifier l'action et les propriétés d'un projecteur dans le plan",
+          `Soit $p : \\mathbb{R}^2 \\to \\mathbb{R}^2$ définie par $p(x, y) = (x, 0)$ (projection sur l'axe $(Ox)$ parallèlement à $(Oy)$). Que vaut $p(${x}, ${y})$ et quelle relation caractérise cette projection ?`,
+          `$p(${x}, ${y}) = (${x}, 0)$ et $p \\circ p = p$`,
+          [
+            `$p(${x}, ${y}) = (0, ${y})$ et $p \\circ p = 0$`,
+            `$p(${x}, ${y}) = (${x}, 0)$ et $p \\circ p = \\text{Id}$`,
+            `$p(${x}, ${y}) = (${x}, ${y})$ et $p$ est bijective`
+          ],
+          "La projection sur l'axe des abscisses annule la coordonnée $y$ et conserve $x$.",
+          "Calculer $p(p(x, y)) = p(x, 0) = (x, 0) = p(x, y)$ prouve l'idempotence $p^2 = p$.",
+          `$p(${x}, ${y}) = (${x}, 0)$. De plus, en réappliquant $p$, $p(p(x, y)) = p(x, 0) = (x, 0) = p(x, y)$, d'où $p \\circ p = p$ : $p$ est bien un projecteur vectoriel.`
+        );
+      } else if (p1Variant === 'test_non_linearite_concret') {
+        return this.makeMcq(
+          'L1-APP', 1, "Détection concrète de non-linéarité",
+          "Repérer les pièges de non-linéarité (termes constants, produits de variables)",
+          "Parmi les applications suivantes de $\\mathbb{R}^2$ dans $\\mathbb{R}$, laquelle n'est PAS linéaire ?",
+          "$f(x, y) = 2x - 3y + 1$ (car $f(0, 0) = 1 \\neq 0$)",
+          [
+            "$g(x, y) = 3x - 5y$",
+            "$h(x, y) = -x + 4y$",
+            "$k(x, y) = 7x$"
+          ],
+          "Pour toute application linéaire, l'image du vecteur nul DOIT être le vecteur nul ($f(0_E) = 0_F$).",
+          "Calcule $f(0, 0)$ pour chaque fonction.",
+          "Pour que $f$ soit linéaire, il est indispensable que $f(0, 0) = 0$. Or ici, $f(0, 0) = 2(0) - 3(0) + 1 = 1 \\neq 0$. $f$ est une fonction affine mais PAS linéaire."
+        );
+      } else {
+        const dimE = this.randChoice([4, 5]);
+        const dimF = 3;
+        const dimKer = this.randChoice([1, 2]);
+        const rg = dimE - dimKer;
+        const isSurj = rg === dimF;
+        const surjText = isSurj ? "est surjective (car rang = 3)" : "n'est pas surjective (car rang < 3)";
+        const surjExpl = isSurj ? "Comme $\\text{rg}(f) = 3$, $f$ est bien surjective." : "Comme $\\text{rg}(f) < 3$, $f$ n'est pas surjective.";
+        return this.makeMcq(
+          'L1-APP', 1, "Théorème du rang appliqué à un exemple concret",
+          "Calculer le rang et déterminer la surjectivité",
+          `Soit une application linéaire $f : \\mathbb{R}^{${dimE}} \\to \\mathbb{R}^{${dimF}}$ telle que $\\dim(\\text{Ker} f) = ${dimKer}$. Que vaut $\\text{rg}(f)$ et $f$ est-elle surjective ?`,
+          `$\\text{rg}(f) = ${rg}$ et $f$ ${surjText}`,
+          [
+            `$\\text{rg}(f) = ${dimE}$ et $f$ est bijective`,
+            `$\\text{rg}(f) = ${dimKer}$ et $f$ est injective`,
+            `$\\text{rg}(f) = ${rg + 1}$ et $f$ n'est pas surjective`
+          ],
+          "Applique le théorème du rang : $\\dim(E) = \\dim(\\text{Ker} f) + \\text{rg}(f)$.",
+          `Ici $\\dim(E) = ${dimE}$, donc $\\text{rg}(f) = ${dimE} - ${dimKer} = ${rg}$. Compare au dimensionnement de l'espace d'arrivée $\\mathbb{R}^{${dimF}}$.`,
+          `D'après le Théorème du Rang : $\\text{rg}(f) = \\dim(\\mathbb{R}^{${dimE}}) - \\dim(\\text{Ker} f) = ${dimE} - ${dimKer} = ${rg}$. L'application est surjective si et seulement si $\\text{rg}(f) = \\dim(\\mathbb{R}^{${dimF}}) = ${dimF}$. ${surjExpl}`
+        );
+      }
     } else if (tier === 2) {
-      // Définition formelle de Ker(f) et injectivité
-      return this.makeMcq(
-        'L1-APP', 2, "Définition formelle du Noyau et critère d'injectivité",
-        "Caractériser le noyau $\\text{Ker}(f)$ et l'injectivité",
-        "Pour une application linéaire $f \\in \\mathcal{L}(E, F)$, quelle est la définition ensembliste exacte du noyau $\\text{Ker}(f)$ et la condition nécessaire et suffisante pour que $f$ soit injective ?",
-        "$\\text{Ker}(f) = \\{x \\in E \\mid f(x) = 0_F\\}$ et $f$ injective $\\iff \\text{Ker}(f) = \\{0_E\\}$",
-        [
-          "$\\text{Ker}(f) = \\{f(x) \\mid x \\in E\\}$ et $f$ injective $\\iff \\text{Ker}(f) = F$",
-          "$\\text{Ker}(f) = \\{x \\in E \\mid f(x) = 0_F\\}$ et $f$ injective $\\iff \\text{Ker}(f) = \\emptyset$",
-          "$\\text{Ker}(f) = \\{x \\in F \\mid f(x) = 0_E\\}$ et $f$ injective $\\iff \\text{rg}(f) = 0$"
-        ],
-        "Le noyau est l'ensemble des antécédents du vecteur nul de l'espace d'arrivée.",
-        "Une application linéaire est injective si et seulement si son noyau est réduit au vecteur nul $\{0_E\}$.",
-        "Par définition, $\\text{Ker}(f) = f^{-1}(\\{0_F\\}) = \\{x \\in E \\mid f(x) = 0_F\\}$. De plus, $f(x) = f(y) \\iff f(x - y) = 0_F \\iff x - y \\in \\text{Ker}(f)$, donc $f$ est injective $\\iff \\text{Ker}(f) = \\{0_E\\}$."
-      );
+      // Palier 2 : Noyau, Image, Injectivité et Surjectivité sur des APPLICATIONS CONCRÈTES
+      // L'utilisateur a explicitement demandé : "en donnant des applications concrètes où il faut donner le noyau, déterminer si elle est injective, déterminer l'image / rang et déterminer si elle est surjective."
+      const p2Variant = this.randChoice(['concret_r3_r2_noyau_surj', 'concret_r2_r3_noyau_inj', 'concret_r2_r2_endomorphisme_lie', 'concret_r2_r2_isomorphisme', 'concret_derivation_r2_poly']);
+
+      if (p2Variant === 'concret_r3_r2_noyau_surj') {
+        return this.makeMcq(
+          'L1-APP', 2, "Noyau, image et surjectivité concrète : $\\mathbb{R}^3 \\to \\mathbb{R}^2$",
+          "Déterminer explicitement le noyau et déduire le rang et la surjectivité",
+          "Soit l'application linéaire $f : \\mathbb{R}^3 \\to \\mathbb{R}^2$ définie par $f(x, y, z) = (x + y, \\, y - z)$. Quel est son noyau $\\text{Ker}(f)$, et $f$ est-elle injective ou surjective ?",
+          "$\\text{Ker}(f) = \\text{Vect}((-1, 1, 1))$ : $f$ n'est pas injective, mais elle est surjective (rang = 2)",
+          [
+            "$\\text{Ker}(f) = \\{(0, 0, 0)\\}$ : $f$ est injective et surjective (isomorphisme)",
+            "$\\text{Ker}(f) = \\text{Vect}((1, 1, 1))$ : $f$ est injective mais non surjective",
+            "$\\text{Ker}(f) = \\mathbb{R}^3$ : $f$ est l'application nulle"
+          ],
+          "Résous le système linéaire homogène définissant le noyau : $x + y = 0$ et $y - z = 0$.",
+          "En déduire $x = -y$ et $z = y$. Exprime le vecteur sous la forme $y(-1, 1, 1)$.",
+          "On cherche les $(x, y, z)$ tels que $f(x, y, z) = (0, 0)$ :\n$\\begin{cases} x + y = 0 \\\\ y - z = 0 \\end{cases} \\iff \\begin{cases} x = -y \\\\ z = y \\end{cases}$. Ainsi $(x, y, z) = (-y, y, y) = y(-1, 1, 1)$. Donc $\\text{Ker}(f) = \\text{Vect}((-1, 1, 1))$ (droite de dimension 1). Comme $\\text{Ker}(f) \\neq \\{0\\}$, $f$ n'est pas injective. Par le théorème du rang, $\\text{rg}(f) = 3 - 1 = 2 = \\dim(\\mathbb{R}^2)$, donc $f$ est surjective."
+        );
+      } else if (p2Variant === 'concret_r2_r3_noyau_inj') {
+        return this.makeMcq(
+          'L1-APP', 2, "Noyau, image et injectivité concrète : $\\mathbb{R}^2 \\to \\mathbb{R}^3$",
+          "Calculer le noyau, prouver l'injectivité et déterminer l'image",
+          "Soit l'application linéaire $g : \\mathbb{R}^2 \\to \\mathbb{R}^3$ définie par $g(x, y) = (x, \\, y, \\, x + y)$. Quel est son noyau $\\text{Ker}(g)$, et $g$ est-elle injective ou surjective ?",
+          "$\\text{Ker}(g) = \\{(0, 0)\\}$ : $g$ est injective mais n'est pas surjective (rang = 2 < 3)",
+          [
+            "$\\text{Ker}(g) = \\text{Vect}((1, -1))$ : $g$ n'est pas injective mais est surjective",
+            "$\\text{Ker}(g) = \\{(0, 0)\\}$ : $g$ est bijective (isomorphisme)",
+            "$\\text{Ker}(g) = \\mathbb{R}^2$ : le rang vaut 0"
+          ],
+          "Résous $g(x, y) = (0, 0, 0) \\implies x = 0$ et $y = 0$.",
+          "Le rang vaut $\\dim(\\mathbb{R}^2) - \\dim(\\text{Ker} g) = 2 - 0 = 2$. Compare à la dimension de $\\mathbb{R}^3$.",
+          "$g(x, y) = (0, 0, 0) \\iff x = 0, y = 0, x+y = 0 \\iff (x, y) = (0, 0)$. Le noyau est réduit au vecteur nul : $\\text{Ker}(g) = \\{(0, 0)\\}$, donc $g$ est injective. Par le théorème du rang, $\\text{rg}(g) = 2 - 0 = 2$. L'espace d'arrivée $\\mathbb{R}^3$ est de dimension 3, donc $\\text{rg}(g) < 3$ : $g$ n'est pas surjective."
+        );
+      } else if (p2Variant === 'concret_r2_r2_endomorphisme_lie') {
+        return this.makeMcq(
+          'L1-APP', 2, "Noyau et image d'un endomorphisme non injectif de $\\mathbb{R}^2$",
+          "Déterminer le noyau d'un endomorphisme de rang 1",
+          "Soit l'endomorphisme $h : \\mathbb{R}^2 \\to \\mathbb{R}^2$ défini par $h(x, y) = (x - 2y, \\, -2x + 4y)$. Quel est son noyau et sa dimension ?",
+          "$\\text{Ker}(h) = \\text{Vect}((2, 1))$, de dimension 1 (donc $h$ n'est ni injective ni surjective)",
+          [
+            "$\\text{Ker}(h) = \\{(0, 0)\\}$, de dimension 0 ($h$ est un automorphisme)",
+            "$\\text{Ker}(h) = \\text{Vect}((1, -2))$, de dimension 1",
+            "$\\text{Ker}(h) = \\mathbb{R}^2$, de dimension 2"
+          ],
+          "Résous $x - 2y = 0$ et $-2x + 4y = 0$.",
+          "Les deux équations sont proportionnelles ($L_2 = -2L_1$). On en déduit $x = 2y$.",
+          "$h(x, y) = (0, 0) \\iff x - 2y = 0 \\iff x = 2y$. Ainsi $(x, y) = (2y, y) = y(2, 1)$. Le noyau est la droite vectorielle $\\text{Vect}((2, 1))$, de dimension 1. Comme $\\dim(\\text{Ker} h) = 1 > 0$, $h$ n'est pas injective. Par le théorème du rang, $\\text{rg}(h) = 2 - 1 = 1 < 2$, donc $h$ n'est pas non plus surjective."
+        );
+      } else if (p2Variant === 'concret_r2_r2_isomorphisme') {
+        return this.makeMcq(
+          'L1-APP', 2, "Isomorphisme concret dans $\\mathbb{R}^2$",
+          "Vérifier qu'un déterminant non nul confère l'injectivité et la surjectivité",
+          "Soit l'application linéaire $f : \\mathbb{R}^2 \\to \\mathbb{R}^2$ définie par $f(x, y) = (2x + y, \\, x + 3y)$. Quelle est la nature de $f$ ?",
+          "$f$ est un isomorphisme (bijective) car $\\text{Ker}(f) = \\{(0, 0)\\}$ et $\\text{rg}(f) = 2$",
+          [
+            "$f$ n'est ni injective ni surjective",
+            "$f$ est seulement injective mais non surjective",
+            "$f$ est un projecteur car $f \\circ f = f$"
+          ],
+          "La matrice associée dans la base canonique est $A = \\begin{pmatrix} 2 & 1 \\\\ 1 & 3 \\end{pmatrix}$. Calcule son déterminant.",
+          "$\\det(A) = 2 \\times 3 - 1 \\times 1 = 5 \\neq 0$.",
+          "Le système $f(x, y) = (0, 0)$ admet pour matrice $A = \\begin{pmatrix} 2 & 1 \\\\ 1 & 3 \\end{pmatrix}$. Son déterminant est $\\det(A) = 6 - 1 = 5 \\neq 0$. La matrice est donc inversible : le système n'admet que la solution triviale $(x, y) = (0, 0)$. Ainsi $\\text{Ker}(f) = \\{(0, 0)\\}$ (injective) et $\\text{rg}(f) = 2$ (surjective). En dimension finie, c'est un automorphisme (isomorphisme de $\\mathbb{R}^2$ dans lui-même)."
+        );
+      } else {
+        return this.makeMcq(
+          'L1-APP', 2, "Noyau et image de la dérivation dans $\\mathbb{R}_2[X]$",
+          "Déterminer noyau et image pour un opérateur polynomial concret",
+          "Soit l'endomorphisme de dérivation $D : \\mathbb{R}_2[X] \\to \\mathbb{R}_2[X]$ défini par $D(P) = P'$. Quel est son noyau $\\text{Ker}(D)$ et son image $\\text{Im}(D)$ ?",
+          "$\\text{Ker}(D) = \\mathbb{R}_0[X] = \\text{Vect}(1)$ et $\\text{Im}(D) = \\mathbb{R}_1[X] = \\text{Vect}(1, X)$",
+          [
+            "$\\text{Ker}(D) = \\{0\\}$ et $\\text{Im}(D) = \\mathbb{R}_2[X]$ (automorphisme)",
+            "$\\text{Ker}(D) = \\text{Vect}(X)$ et $\\text{Im}(D) = \\text{Vect}(X^2)$",
+            "$\\text{Ker}(D) = \\mathbb{R}_1[X]$ et $\\text{Im}(D) = \\mathbb{R}_0[X]$"
+          ],
+          "Quels sont les polynômes dont la dérivée est le polynôme nul ?",
+          "Ce sont les polynômes constants : $\\text{Ker}(D) = \\mathbb{R}_0[X]$.",
+          "$P' = 0 \\iff P$ est constant, c'est-à-dire $P \\in \\mathbb{R}_0[X] = \\text{Vect}(1)$. Donc $\\dim(\\text{Ker} D) = 1$ : $D$ n'est pas injectif. De plus, la dérivée d'un polynôme de degré $\\le 2$ est un polynôme de degré $\\le 1$, donc $\\text{Im}(D) = \\mathbb{R}_1[X] = \\text{Vect}(1, X)$, de dimension $\\text{rg}(D) = 2 < 3$. $D$ n'est donc pas non plus surjectif."
+        );
+      }
     } else if (tier === 3) {
-      // Matrice d'endomorphisme
+      // Palier 3 : Matrice d'endomorphisme, changements de base et rang
       const deg = this.randChoice([2, 3]);
       const dimPoly = deg + 1;
       return this.makeMcq(
@@ -773,56 +1667,461 @@ window.MathsAdvancedGenerators = {
         `$\\dim(\\mathbb{R}_{${deg}}[X]) = ${dimPoly}$, donc la matrice est carrée d'ordre $${dimPoly}$. Comme $D(X^k) = k X^{k-1}$, les éléments diagonaux sont tous nuls : elle est nilpotente et triangulaire supérieure stricte.`
       );
     } else {
-      // Projecteur
-      return this.makeMcq(
-        'L1-APP', 4, "Caractérisation algébrique des projecteurs",
-        "Identifier un projecteur par la relation $p^2 = p$ et la décomposition de l'espace",
-        "Soit $p \\in \\mathcal{L}(E)$. Quelle relation algébrique caractérise le fait que $p$ est un projecteur, et quelle est la décomposition associée de $E$ ?",
-        "$p^2 = p$ et $E = \\text{Ker}(p) \\oplus \\text{Im}(p)$",
-        [
-          "$p^2 = \\text{Id}_E$ et $E = \\text{Ker}(p) \\oplus \\text{Im}(p)$",
-          "$p^2 = 0$ et $E = \\text{Ker}(p) + \\text{Im}(p)$",
-          "$p^3 = p$ et $\\text{Ker}(p) = \\text{Im}(p)$"
-        ],
-        "Un projecteur vérifie $p \\circ p = p$ (idempotence).",
-        "Pour tout $x \\in E$, $x = (x - p(x)) + p(x)$ avec $x - p(x) \\in \\text{Ker}(p)$ et $p(x) \\in \\text{Im}(p)$.",
-        "Un endomorphisme est un projecteur ssi $p^2 = p$. On a alors immédiatement $E = \\text{Ker}(p) \\oplus \\text{Im}(p)$, la projection se faisant sur $\\text{Im}(p)$ parallèlement à $\\text{Ker}(p)$."
-      );
+      // Palier 4 : Projecteurs, Symétries, Isomorphismes et Bilans avancés
+      const p4Variant = this.randChoice(['carac_projecteur', 'carac_symetrie', 'equivalence_dim_finie', 'nilpotent_indice']);
+
+      if (p4Variant === 'carac_projecteur') {
+        return this.makeMcq(
+          'L1-APP', 4, "Caractérisation algébrique des projecteurs",
+          "Identifier un projecteur par la relation $p^2 = p$ et la décomposition de l'espace",
+          "Soit $p \\in \\mathcal{L}(E)$. Quelle relation algébrique caractérise le fait que $p$ est un projecteur, et quelle est la décomposition associée de $E$ ?",
+          "$p^2 = p$ et $E = \\text{Ker}(p) \\oplus \\text{Im}(p)$",
+          [
+            "$p^2 = \\text{Id}_E$ et $E = \\text{Ker}(p) \\oplus \\text{Im}(p)$",
+            "$p^2 = 0$ et $E = \\text{Ker}(p) + \\text{Im}(p)$",
+            "$p^3 = p$ et $\\text{Ker}(p) = \\text{Im}(p)$"
+          ],
+          "Un projecteur vérifie $p \\circ p = p$ (idempotence).",
+          "Pour tout $x \\in E$, $x = (x - p(x)) + p(x)$ avec $x - p(x) \\in \\text{Ker}(p)$ et $p(x) \\in \\text{Im}(p)$.",
+          "Un endomorphisme est un projecteur ssi $p^2 = p$. On a alors immédiatement $E = \\text{Ker}(p) \\oplus \\text{Im}(p)$, la projection se faisant sur $\\text{Im}(p)$ parallèlement à $\\text{Ker}(p)$."
+        );
+      } else if (p4Variant === 'carac_symetrie') {
+        return this.makeMcq(
+          'L1-APP', 4, "Caractérisation algébrique des symétries vectorielles",
+          "Identifier une symétrie par la relation $s^2 = \\text{Id}$ et ses espaces propres",
+          "Soit $s \\in \\mathcal{L}(E)$. Quelle relation algébrique caractérise une symétrie vectorielle, et quelle est la décomposition associée de $E$ ?",
+          "$s^2 = \\text{Id}_E$ et $E = \\text{Ker}(s - \\text{Id}) \\oplus \\text{Ker}(s + \\text{Id})$",
+          [
+            "$s^2 = -\\text{Id}_E$ et $E = \\text{Ker}(s) \\oplus \\text{Im}(s)$",
+            "$s^2 = s$ et $E = \\text{Ker}(s) \\oplus \\text{Im}(s)$",
+            "$s = -s$ et $\\text{Ker}(s) = E$"
+          ],
+          "Une symétrie est une involution : $s \\circ s = \\text{Id}_E$.",
+          "Décompose $x = \\frac{x + s(x)}{2} + \\frac{x - s(x)}{2}$.",
+          "Une symétrie vérifie $s^2 = \\text{Id}_E$. Les valeurs propres possibles sont $+1$ et $-1$. Pour tout $x \\in E$, $x = \\frac{x + s(x)}{2} + \\frac{x - s(x)}{2}$ avec le premier terme invariant par $s$ (espace des points fixes $\\text{Ker}(s - \\text{Id})$) et le second inversé par $s$ ($\\text{Ker}(s + \\text{Id})$). La somme est directe."
+        );
+      } else if (p4Variant === 'equivalence_dim_finie') {
+        return this.makeMcq(
+          'L1-APP', 4, "Équivalences fondamentales en dimension finie",
+          "Maîtriser le théorème reliant injectivité, surjectivité et bijectivité",
+          "Soit $E$ un espace vectoriel de dimension FINIE $n$, et $f \\in \\mathcal{L}(E)$ un endomorphisme. Laquelle des équivalences est TOUJOURS vraie ?",
+          "$f \\text{ est injectif} \\iff f \\text{ est surjectif} \\iff f \\text{ est bijectif}$",
+          [
+            "$f \\text{ injectif} \\implies f = \\text{Id}_E$",
+            "L'équivalence entre injectivité et surjectivité reste vraie même en dimension infinie",
+            "$f \\text{ surjectif} \\implies \\text{Ker}(f) = E$"
+          ],
+          "Utilise le théorème du rang : $\\dim(E) = \\dim(\\text{Ker} f) + \\text{rg}(f)$.",
+          "Si $\\text{Ker}(f) = \\{0\\}$, alors $\\text{rg}(f) = \\dim(E)$, donc $f$ est surjectif.",
+          "D'après le Théorème du Rang : $\\dim(E) = \\dim(\\text{Ker} f) + \\text{rg}(f)$. Comme l'espace de départ et d'arrivée ont la même dimension finie : $\\text{Ker}(f) = \\{0\\} \\iff \\text{rg}(f) = \\dim(E)$. L'injectivité et la surjectivité sont donc strictement équivalentes en dimension finie. Attention : ceci est faux en dimension infinie (ex: la dérivation des polynômes est surjective mais non injective)."
+        );
+      } else {
+        return this.makeMcq(
+          'L1-APP', 4, "Endomorphisme nilpotent et indice de nilpotence",
+          "Démontrer la liberté de la famille générée par une puissance d'endomorphisme",
+          "Soit $u \\in \\mathcal{L}(E)$ avec $\\dim(E) = n$. S'il existe un vecteur $x_0 \\in E$ tel que $u^{n-1}(x_0) \\neq 0$ et $u^n = 0$, que peut-on affirmer ?",
+          "La famille $(x_0, u(x_0), u^2(x_0), \\dots, u^{n-1}(x_0))$ est libre et forme une base de $E$",
+          [
+            "La famille est liée car $u^n = 0$",
+            "$u$ est un isomorphisme de $E$",
+            "La dimension de $\\text{Ker}(u)$ est obligatoirement égale à $n$"
+          ],
+          "Applique $u^{n-1}$ à une combinaison linéaire nulle $\\sum_{k=0}^{n-1} \\lambda_k u^k(x_0) = 0$ pour isoler le premier coefficient.",
+          "En composant successivement par les puissances de $u$, on montre que tous les coefficients sont nuls.",
+          "Soit $\\sum_{k=0}^{n-1} \\lambda_k u^k(x_0) = 0$. En composant par $u^{n-1}$, tous les termes avec $k \\ge 1$ s'annulent ($u^n = 0$), et il reste $\\lambda_0 u^{n-1}(x_0) = 0$, donc $\\lambda_0 = 0$. Par récurrence, tous les coefficients sont nuls. La famille de $n$ vecteurs est libre dans un espace de dimension $n$, c'est donc une base de $E$."
+        );
+      }
     }
   },
 
   generateL1_CMP(tier) {
     if (tier === 1) {
-      // Somme des racines n-ièmes de l'unité
-      const n = this.randInt(3, 8);
-      return this.makeMcq(
-        'L1-CMP', 1, "Somme des racines n-ièmes de l'unité",
-        "Calculer la somme des éléments du groupe $\\mathbb{U}_n$",
-        `Pour $n = ${n}$, que vaut la somme des $${n}$ racines $${n}$-ièmes de l'unité : $S = \\sum_{k=0}^{${n-1}} e^{i \\frac{2k\\pi}{${n}}}$ ?`,
-        "$0$",
-        ["$1$", `$${n}$`, "$-1$"],
-        "C'est la somme des termes d'une suite géométrique de raison $\\omega = e^{i 2\\pi / n} \\neq 1$.",
-        "$\\sum_{k=0}^{n-1} \\omega^k = \\frac{1 - \\omega^n}{1 - \\omega}$.",
-        `En posant $\\omega = e^{i \\frac{2\\pi}{${n}}}$, on a $\\omega \\neq 1$ et $\\omega^{${n}} = 1$. D'où $S = \\frac{1 - \\omega^{${n}}}{1 - \\omega} = \\frac{1 - 1}{1 - \\omega} = 0$.`
-      );
+      // Palier 1 : Racines n-ièmes de l'unité (calculs explicites, ensemble U_n, somme, produit)
+      const variant = this.randChoice(['u5', 'u4_alg', 'u3_alg', 'u6_exp', 'sum_without_1', 'prod_all', 'sum_all']);
+      if (variant === 'u5') {
+        // Demande explicite : donner les racines 5-ièmes de l'unité
+        return this.makeMcq(
+          'L1-CMP', 1, "Racines 5-ièmes de l'unité (groupe $\\mathbb{U}_5$)",
+          "Déterminer les racines n-ièmes de l'unité dans $\\mathbb{C}$",
+          "Quelles sont les 5 racines 5-ièmes de l'unité dans $\\mathbb{C}$ (éléments du sous-groupe $\\mathbb{U}_5$) ?",
+          "$\\left\\{ e^{i \\frac{2k\\pi}{5}} \\;\\middle|\\; k \\in \\{0, 1, 2, 3, 4\\} \\right\\}$",
+          [
+            "$\\left\\{ e^{i \\frac{k\\pi}{5}} \\;\\middle|\\; k \\in \\{0, 1, 2, 3, 4\\} \\right\\}$",
+            "$\\left\\{ e^{i \\frac{2k\\pi}{5}} \\;\\middle|\\; k \\in \\{1, 2, 3, 4, 5\\} \\right\\} \\cup \\{0\\}$",
+            "$\\{1, -1, i, -i, 0\\}$"
+          ],
+          "Les racines $n$-ièmes de l'unité sont les solutions de l'équation $z^n = 1$.",
+          "Elles s'écrivent sous forme exponentielle $\\omega_k = e^{i \\frac{2k\\pi}{n}}$ pour $k \\in \\{0, 1, \\dots, n-1\\}$.",
+          "L'équation $z^5 = 1$ admet dans $\\mathbb{C}$ exactement 5 solutions distinctes données par $\\omega_k = e^{i \\frac{2k\\pi}{5}}$ pour $k \\in \\{0, 1, 2, 3, 4\\}$. Elles forment les sommets d'un pentagone régulier inscrit dans le cercle trigonométrique."
+        );
+      } else if (variant === 'u4_alg') {
+        return this.makeMcq(
+          'L1-CMP', 1, "Racines 4-ièmes de l'unité sous forme algébrique",
+          "Calculer les éléments du groupe $\\mathbb{U}_4$",
+          "Quel est l'ensemble $\\mathbb{U}_4$ des racines 4-ièmes de l'unité sous forme algébrique ?",
+          "$\\{1, i, -1, -i\\}$",
+          [
+            "$\\{1, -1\\}$",
+            "$\\{1, i, -1\\}$",
+            "$\\{1, i, -1, -i, 0\\}$"
+          ],
+          "Résous l'équation $z^4 = 1$ en factorisant $z^4 - 1 = (z^2 - 1)(z^2 + 1)$.",
+          "$z^2 = 1 \\implies z = \\pm 1$ et $z^2 = -1 \\implies z = \\pm i$.",
+          "On a $z^4 - 1 = (z^2 - 1)(z^2 + 1) = (z - 1)(z + 1)(z - i)(z + i)$. Les 4 racines sont donc $1, i, -1, -i$."
+        );
+      } else if (variant === 'u3_alg') {
+        return this.makeMcq(
+          'L1-CMP', 1, "Racines cubiques de l'unité et nombre j",
+          "Calculer les racines 3-ièmes de l'unité",
+          "Quelles sont les trois racines cubiques de l'unité (groupe $\\mathbb{U}_3$) sous forme algébrique, avec $j = e^{i \\frac{2\\pi}{3}}$ ?",
+          "$\\left\\{1, -\\frac{1}{2} + i\\frac{\\sqrt{3}}{2}, -\\frac{1}{2} - i\\frac{\\sqrt{3}}{2}\\right\\}$",
+          [
+            "$\\left\\{1, \\frac{1}{2} + i\\frac{\\sqrt{3}}{2}, \\frac{1}{2} - i\\frac{\\sqrt{3}}{2}\\right\\}$",
+            "$\\{1, -1, i\\}$",
+            "$\\left\\{-1, -\\frac{1}{2} + i\\frac{\\sqrt{3}}{2}, -\\frac{1}{2} - i\\frac{\\sqrt{3}}{2}\\right\\}$"
+          ],
+          "Factorise $z^3 - 1 = (z - 1)(z^2 + z + 1)$.",
+          "Résous l'équation du second degré $z^2 + z + 1 = 0$ de discriminant $\\Delta = -3$.",
+          "Les racines de $z^3 = 1$ sont $1$, $j = e^{i \\frac{2\\pi}{3}} = -\\frac{1}{2} + i\\frac{\\sqrt{3}}{2}$ et $j^2 = \\bar{j} = -\\frac{1}{2} - i\\frac{\\sqrt{3}}{2}$."
+        );
+      } else if (variant === 'u6_exp') {
+        return this.makeMcq(
+          'L1-CMP', 1, "Racines 6-ièmes de l'unité",
+          "Déterminer les éléments du groupe $\\mathbb{U}_6$",
+          "Quelles sont les 6 racines 6-ièmes de l'unité dans $\\mathbb{C}$ sous forme exponentielle ?",
+          "$\\left\\{ e^{i \\frac{k\\pi}{3}} \\;\\middle|\\; k \\in \\{0, 1, 2, 3, 4, 5\\} \\right\\}$",
+          [
+            "$\\left\\{ e^{i \\frac{2k\\pi}{3}} \\;\\middle|\\; k \\in \\{0, 1, 2\\} \\right\\}$",
+            "$\\left\\{ e^{i \\frac{k\\pi}{6}} \\;\\middle|\\; k \\in \\{0, 1, 2, 3, 4, 5\\} \\right\\}$",
+            "$\\{1, -1, i, -i, j, j^2\\}$"
+          ],
+          "Applique la formule générale $\\omega_k = e^{i \\frac{2k\\pi}{n}}$ pour $n = 6$.",
+          "Remarque que $\\frac{2k\\pi}{6} = \\frac{k\\pi}{3}$.",
+          "Pour $n = 6$, les racines sont $\\omega_k = e^{i \\frac{2k\\pi}{6}} = e^{i \\frac{k\\pi}{3}}$ pour $k \\in \\{0, 1, 2, 3, 4, 5\\}$."
+        );
+      } else if (variant === 'sum_without_1') {
+        const n = this.randInt(3, 8);
+        return this.makeMcq(
+          'L1-CMP', 1, "Somme des racines n-ièmes privées de 1",
+          "Calculer une somme géométrique sur $\\mathbb{U}_n$",
+          `Pour $n = ${n}$, que vaut la somme des racines $${n}$-ièmes de l'unité différentes de 1 : $S' = \\sum_{k=1}^{${n-1}} e^{i \\frac{2k\\pi}{${n}}}$ ?`,
+          "$-1$",
+          ["$0$", "$1$", `$${n-1}$`],
+          "La somme de toutes les racines $n$-ièmes (y compris pour $k=0$) est nulle.",
+          "Ici, la somme commence à $k=1$, donc le terme pour $k=0$ ($e^0 = 1$) est retiré.",
+          `On a $\\sum_{k=0}^{${n-1}} e^{i \\frac{2k\\pi}{${n}}} = 0 \\iff 1 + \\sum_{k=1}^{${n-1}} e^{i \\frac{2k\\pi}{${n}}} = 0 \\iff S' = -1$.`
+        );
+      } else if (variant === 'prod_all') {
+        const n = this.randChoice([3, 4, 5, 6, 7]);
+        const prod = (n % 2 === 0) ? -1 : 1;
+        return this.makeMcq(
+          'L1-CMP', 1, "Produit des racines n-ièmes de l'unité",
+          "Propriétés multiplicatives de $\\mathbb{U}_n$",
+          `Pour $n = ${n}$, que vaut le produit des $${n}$ racines $${n}$-ièmes de l'unité : $P = \\prod_{k=0}^{${n-1}} e^{i \\frac{2k\\pi}{${n}}}$ ?`,
+          `$${prod}$`,
+          [`$${-prod}$`, "$0$", `$${n}$`],
+          "Additionne les exposants dans le produit d'exponentielles.",
+          "$\\sum_{k=0}^{n-1} k = \\frac{n(n-1)}{2}$.",
+          `Le produit vaut $P = e^{i \\frac{2\\pi}{${n}} \\sum_{k=0}^{${n-1}} k} = e^{i \\frac{2\\pi}{${n}} \\frac{${n}(${n-1})}{2}} = e^{i (${n-1})\\pi} = (-1)^{${n-1}} = ${prod}$.`
+        );
+      } else {
+        const n = this.randInt(3, 8);
+        return this.makeMcq(
+          'L1-CMP', 1, "Somme totale des racines n-ièmes de l'unité",
+          "Calculer la somme des éléments du groupe $\\mathbb{U}_n$",
+          `Pour $n = ${n}$, que vaut la somme totale des $${n}$ racines $${n}$-ièmes de l'unité : $S = \\sum_{k=0}^{${n-1}} e^{i \\frac{2k\\pi}{${n}}}$ ?`,
+          "$0$",
+          ["$1$", `$${n}$`, "$-1$"],
+          "C'est la somme des termes d'une suite géométrique de raison $\\omega = e^{i 2\\pi / n} \\neq 1$.",
+          "$\\sum_{k=0}^{n-1} \\omega^k = \\frac{1 - \\omega^n}{1 - \\omega}$.",
+          `En posant $\\omega = e^{i \\frac{2\\pi}{${n}}}$, on a $\\omega \\neq 1$ et $\\omega^{${n}} = 1$. D'où $S = \\frac{1 - \\omega^{${n}}}{1 - \\omega} = \\frac{1 - 1}{1 - \\omega} = 0$.`
+        );
+      }
+    } else if (tier === 2) {
+      // Palier 2 : Variété de styles de polynômes (degrés 2 et 3) avec racines doubles et caractérisation
+      const style = this.randChoice(['quad_double_root', 'deg3_double_root', 'charac_double_root', 'deg3_simple_roots', 'quad_complex']);
+      if (style === 'quad_double_root') {
+        const a = this.randChoice([-4, -3, -2, 2, 3, 4, 5]);
+        const b = -2 * a;
+        const c = a * a;
+        const signB = b >= 0 ? `+ ${b}` : `- ${Math.abs(b)}`;
+        const factor = (a > 0) ? `(X - ${a})^2` : `(X + ${Math.abs(a)})^2`;
+        const wrongFactor = (a > 0) ? `(X - ${a})(X + ${a})` : `(X + ${Math.abs(a)})(X - ${Math.abs(a)})`;
+        return this.makeMcq(
+          'L1-CMP', 2, "Polynôme du second degré à racine double",
+          "Identifier une racine double et factoriser un carré parfait",
+          `Quelle est la factorisation dans $\\mathbb{R}[X]$ du polynôme $P(X) = X^2 ${signB}X + ${c}$, et quelle est la multiplicité de sa racine ?`,
+          `$${factor}$ ; $${a}$ est une racine double (multiplicité 2)`,
+          [
+            `$${wrongFactor}$ ; deux racines simples distinctes`,
+            `$${factor}$ ; $${a}$ est une racine simple`,
+            "Irréductible dans $\\mathbb{R}[X]$"
+          ],
+          "Calcule le discriminant $\\Delta = b^2 - 4ac$ du trinôme.",
+          "Si $\\Delta = 0$, le polynôme admet une unique racine réelle de multiplicité 2.",
+          `Le discriminant est $\\Delta = (${b})^2 - 4(1)(${c}) = ${b*b} - ${4*c} = 0$. Il y a donc une unique racine réelle $x_0 = -\\frac{b}{2a} = ${a}$, qui est de multiplicité 2 (racine double). Le polynôme se factorise en $${factor}$.`
+        );
+      } else if (style === 'deg3_double_root') {
+        const cases = [
+          { a: 1, b: -2, poly: "X^3 - 3X + 2", factor: "(X - 1)^2 (X + 2)", doubleRoot: 1, simpleRoot: -2, testDeriv: "P(1) = 0 \\text{ et } P'(1) = 3(1)^2 - 3 = 0" },
+          { a: -1, b: 2, poly: "X^3 - 3X - 2", factor: "(X + 1)^2 (X - 2)", doubleRoot: -1, simpleRoot: 2, testDeriv: "P(-1) = 0 \\text{ et } P'(-1) = 3(-1)^2 - 3 = 0" },
+          { a: 2, b: -1, poly: "X^3 - 3X^2 + 4", factor: "(X - 2)^2 (X + 1)", doubleRoot: 2, simpleRoot: -1, testDeriv: "P(2) = 0 \\text{ et } P'(2) = 3(4) - 6(2) = 0" },
+          { a: -2, b: 1, poly: "X^3 + 3X^2 - 4", factor: "(X + 2)^2 (X - 1)", doubleRoot: -2, simpleRoot: 1, testDeriv: "P(-2) = 0 \\text{ et } P'(-2) = 3(4) + 6(-2) = 0" },
+          { a: 3, b: 1, poly: "X^3 - 7X^2 + 15X - 9", factor: "(X - 3)^2 (X - 1)", doubleRoot: 3, simpleRoot: 1, testDeriv: "P(3) = 0 \\text{ et } P'(3) = 3(9) - 14(3) + 15 = 0" }
+        ];
+        const c = this.randChoice(cases);
+        return this.makeMcq(
+          'L1-CMP', 2, "Polynôme de degré 3 avec racine double",
+          "Détecter une racine double dans un polynôme de degré 3",
+          `Déterminer les racines et la factorisation dans $\\mathbb{R}[X]$ du polynôme de degré 3 : $P(X) = ${c.poly}$.`,
+          `$${c.factor}$ avec $${c.doubleRoot}$ racine double et $${c.simpleRoot}$ racine simple`,
+          [
+            `$(X - ${c.doubleRoot})(X - ${c.simpleRoot})^2$ avec $${c.simpleRoot}$ racine double`,
+            `$(X - ${c.doubleRoot})(X + ${c.doubleRoot})(X - ${c.simpleRoot})$`,
+            `$(X - ${c.doubleRoot})^3$`
+          ],
+          "Vérifie si la racine candidate annule à la fois $P$ et son polynôme dérivé $P'$.",
+          "$a$ est racine multiple ssi $P(a) = 0$ et $P'(a) = 0$.",
+          `On a $${c.testDeriv}$, ce qui prouve que $${c.doubleRoot}$ est une racine au moins double. En divisant $P(X)$ par $(X - ${c.doubleRoot})^2$, on trouve le quotient $X - (${c.simpleRoot})$, d'où la factorisation $P(X) = ${c.factor}$.`
+        );
+      } else if (style === 'charac_double_root') {
+        return this.makeMcq(
+          'L1-CMP', 2, "Caractérisation différentielle d'une racine double",
+          "Reconnaître les conditions sur les dérivées pour une racine double",
+          "Soit $P \\in \\mathbb{K}[X]$ et $a \\in \\mathbb{K}$. Quelle condition nécessaire et suffisante caractérise le fait que $a$ soit une racine de multiplicité exactement 2 (racine double) de $P$ ?",
+          "$P(a) = 0$, $P'(a) = 0$ et $P''(a) \\neq 0$",
+          [
+            "$P(a) = 0$ et $P'(a) = 0$ seulement",
+            "$P(a) = 0$ et $P''(a) = 0$",
+            "$P'(a) = 0$ et $P''(a) \\neq 0$"
+          ],
+          "Pense au développement de Taylor du polynôme $P$ en $a$ : $P(X) = \\sum_{k=0}^n \\frac{P^{(k)}(a)}{k!} (X - a)^k$.",
+          "Pour que $(X - a)^2$ divise $P$ sans que $(X - a)^3$ ne le divise, les deux premiers termes doivent s'annuler mais pas le troisième.",
+          "D'après la formule de Taylor pour les polynômes, $(X - a)^2$ factorise $P$ avec multiplicité exacte 2 si et seulement si $P(a) = 0$, $P'(a) = 0$ et $P''(a) \\neq 0$."
+        );
+      } else if (style === 'deg3_simple_roots') {
+        const r1 = this.randChoice([1, 2]);
+        const r2 = r1 + 1;
+        const r3 = -(r1 + r2);
+        const p = -(r1 * r2 + r1 * r3 + r2 * r3);
+        const q = r1 * r2 * r3;
+        const polyStr = `X^3 - ${p}X ${q >= 0 ? '- ' + q : '+ ' + Math.abs(q)}`;
+        return this.makeMcq(
+          'L1-CMP', 2, "Factorisation d'un polynôme de degré 3 scindé",
+          "Factoriser un polynôme de degré 3 à racines entières",
+          `Factoriser dans $\\mathbb{R}[X]$ le polynôme $P(X) = ${polyStr}$, sachant que $${r1}$ est une racine évidente.`,
+          `$(X - ${r1})(X - ${r2})(X + ${Math.abs(r3)})$`,
+          [
+            `$(X - ${r1})^2 (X - ${r2})$`,
+            `$(X - ${r1})(X^2 + ${p})$`,
+            `$(X + ${r1})(X + ${r2})(X - ${Math.abs(r3)})$`
+          ],
+          `Effectue la division euclidienne de $P(X)$ par $X - ${r1}$.`,
+          "Puis factorise le quotient du second degré obtenu à l'aide de son discriminant.",
+          `La division euclidienne de $P(X)$ par $X - ${r1}$ donne $P(X) = (X - ${r1})(X^2 + ${r1}X - ${r2 * Math.abs(r3)})$. Les racines du quotient sont $${r2}$ et $${r3}$, d'où $P(X) = (X - ${r1})(X - ${r2})(X + ${Math.abs(r3)})$.`
+        );
+      } else {
+        const a = this.randChoice([1, 4, 9, 16, 25]);
+        const sqrtA = Math.sqrt(a);
+        return this.makeMcq(
+          'L1-CMP', 2, "Factorisation dans $\\mathbb{C}[X]$ vs $\\mathbb{R}[X]$",
+          "Factoriser un polynôme quadratique sans racine réelle",
+          `Quelle est la décomposition en facteurs irréductibles de $P(X) = X^2 + ${a}$ dans $\\mathbb{C}[X]$ ?`,
+          `$(X - ${sqrtA}i)(X + ${sqrtA}i)$`,
+          [
+            `$(X - ${sqrtA})(X + ${sqrtA})$`,
+            `$(X + ${sqrtA}i)^2$`,
+            "Irréductible dans $\\mathbb{C}[X]$"
+          ],
+          "Dans $\\mathbb{C}$, tout polynôme est scindé (théorème de d'Alembert-Gauss).",
+          `$X^2 + ${a} = X^2 - (${sqrtA}i)^2$.`,
+          `Dans $\\mathbb{R}[X]$, $X^2 + ${a}$ est irréductible car $\\Delta = -4(${a}) < 0$. Dans $\\mathbb{C}[X]$, il se scinde en $X^2 - (${sqrtA}i)^2 = (X - ${sqrtA}i)(X + ${sqrtA}i)$.`
+        );
+      }
+    } else if (tier === 3) {
+      // Palier 3 : Polynômes de degré supérieur à 2 issus de la fiche de TD avec racines doubles et DES
+      const p3Variant = this.randChoice(['td_deg3_double', 'td_deg4_bicarre', 'td_deg4_double_double', 'td_deg4_sophie_germain', 'td_deg6', 'td_des_pole_double']);
+      if (p3Variant === 'td_deg3_double') {
+        // Issu du TD Chapitre 2 Exercice 4.a : X^3 - 5X^2 + 3X + 9
+        return this.makeMcq(
+          'L1-CMP', 3, "Factorisation de degré 3 à racine double (TD Univ)",
+          "Détecter une racine double et factoriser un polynôme de degré 3",
+          "Factoriser dans $\\mathbb{R}[X]$ le polynôme $P(X) = X^3 - 5X^2 + 3X + 9$ (issu de la fiche de TD de Licence).",
+          "$(X - 3)^2 (X + 1)$",
+          [
+            "$(X - 3)(X + 1)^2$",
+            "$(X + 3)^2 (X - 1)$",
+            "$(X - 3)(X^2 - 2X - 3)$"
+          ],
+          "Calcule $P(3)$ et $P'(3)$ pour vérifier si 3 est racine multiple.",
+          "Si $P(3) = 0$ et $P'(3) = 0$, alors $(X - 3)^2$ divise $P(X)$.",
+          "On teste $X = 3$ : $P(3) = 27 - 45 + 9 + 9 = 0$. Dérivée : $P'(X) = 3X^2 - 10X + 3 \\implies P'(3) = 27 - 30 + 3 = 0$. Donc $3$ est une racine au moins double. La division euclidienne de $P(X)$ par $(X - 3)^2 = X^2 - 6X + 9$ donne le quotient $X + 1$. D'où $P(X) = (X - 3)^2 (X + 1)$."
+        );
+      } else if (p3Variant === 'td_deg4_bicarre') {
+        // Issu du TD Fiche 1 Exercice 1.1 : X^4 - 16
+        return this.makeMcq(
+          'L1-CMP', 3, "Factorisation de degré 4 dans R[X] et C[X] (TD Univ)",
+          "Comparer la factorisation en irréductibles dans $\\mathbb{R}[X]$ et $\\mathbb{C}[X]$",
+          "Quelle est la décomposition en facteurs irréductibles de $P(X) = X^4 - 16$ dans $\\mathbb{R}[X]$ et dans $\\mathbb{C}[X]$ (issu de la fiche de TD) ?",
+          "Dans $\\mathbb{R}[X]$ : $(X - 2)(X + 2)(X^2 + 4)$ ; Dans $\\mathbb{C}[X]$ : $(X - 2)(X + 2)(X - 2i)(X + 2i)$",
+          [
+            "Dans $\\mathbb{R}[X]$ : $(X - 2)^2 (X + 2)^2$ ; Dans $\\mathbb{C}[X]$ : $(X - 2)^4$",
+            "Dans $\\mathbb{R}[X]$ : $(X^2 - 4)^2$ ; Dans $\\mathbb{C}[X]$ : $(X - 2)(X + 2)(X^2 + 4)$",
+            "Dans $\\mathbb{R}[X]$ : $(X - 4)(X + 4)(X^2 + 4)$ ; Dans $\\mathbb{C}[X]$ : $(X - 4)(X + 4)(X - 4i)(X + 4i)$"
+          ],
+          "Utilise l'identité $A^2 - B^2$ avec $A = X^2$ et $B = 4$.",
+          "$X^2 + 4$ est-il irréductible dans $\\mathbb{R}[X]$ ? Et dans $\\mathbb{C}[X]$ ?",
+          "$X^4 - 16 = (X^2 - 4)(X^2 + 4) = (X - 2)(X + 2)(X^2 + 4)$. Le facteur $X^2 + 4$ n'a aucune racine réelle ($\\Delta = -16 < 0$), donc il est irréductible dans $\\mathbb{R}[X]$. Dans $\\mathbb{C}[X]$, il se factorise en $(X - 2i)(X + 2i)$."
+        );
+      } else if (p3Variant === 'td_deg4_double_double') {
+        return this.makeMcq(
+          'L1-CMP', 3, "Polynôme de degré 4 à racines doubles multiples",
+          "Identifier des racines doubles dans un polynôme de degré 4",
+          "Factoriser le polynôme $P(X) = X^4 - 2X^2 + 1$ dans $\\mathbb{R}[X]$ et préciser la multiplicité de ses racines :",
+          "$(X - 1)^2 (X + 1)^2$ (deux racines doubles : $1$ et $-1$)",
+          [
+            "$(X^2 - 1)^2$ (deux racines simples)",
+            "$(X - 1)^4$ (une unique racine d'ordre 4)",
+            "$(X - 1)(X + 1)(X^2 + 1)$ (racines simples)"
+          ],
+          "Reconnais une identité remarquable de la forme $(X^2 - a)^2$.",
+          "Factorise ensuite la différence de carrés à l'intérieur de la puissance.",
+          "On reconnaît $X^4 - 2X^2 + 1 = (X^2 - 1)^2 = [(X - 1)(X + 1)]^2 = (X - 1)^2 (X + 1)^2$. Les racines $1$ et $-1$ sont donc toutes les deux des racines de multiplicité 2 (racines doubles)."
+        );
+      } else if (p3Variant === 'td_deg4_sophie_germain') {
+        // Issu du TD Fiche 1 Exercice 1.2 : X^4 + X^2 + 1
+        return this.makeMcq(
+          'L1-CMP', 3, "Factorisation dans R[X] d'un polynôme de degré 4 sans racine réelle",
+          "Factoriser par la méthode de complétion du carré",
+          "Factoriser dans $\\mathbb{R}[X]$ le polynôme $Q(X) = X^4 + X^2 + 1$ à l'aide de l'identité $(X^2 + 1)^2 - X^2$ (issu de la fiche de TD).",
+          "$(X^2 - X + 1)(X^2 + X + 1)$",
+          [
+            "$(X^2 + 1)^2$",
+            "$(X^2 + X - 1)(X^2 - X - 1)$",
+            "Irréductible dans $\\mathbb{R}[X]$"
+          ],
+          "Applique l'identité remarquable $A^2 - B^2 = (A - B)(A + B)$ avec $A = X^2 + 1$ et $B = X$.",
+          "Vérifie que les discriminants des deux trinômes obtenus sont strictement négatifs.",
+          "On écrit $X^4 + X^2 + 1 = (X^2 + 1)^2 - X^2 = (X^2 + 1 - X)(X^2 + 1 + X) = (X^2 - X + 1)(X^2 + X + 1)$. Pour les deux trinômes, le discriminant est $\\Delta = 1 - 4 = -3 < 0$, ce qui garantit leur irréductibilité dans $\\mathbb{R}[X]$."
+        );
+      } else if (p3Variant === 'td_deg6') {
+        // Issu du TD Chapitre 2 Exercice 4.b : X^6 - 9X^3 + 8
+        return this.makeMcq(
+          'L1-CMP', 3, "Factorisation d'un polynôme de degré 6 dans R[X] (TD Univ)",
+          "Factoriser un polynôme réductible de degré 6 par changement de variable",
+          "Quelle est la factorisation en produit de polynômes irréductibles dans $\\mathbb{R}[X]$ du polynôme $P(X) = X^6 - 9X^3 + 8$ (issu de la fiche de TD) ?",
+          "$(X - 1)(X^2 + X + 1)(X - 2)(X^2 + 2X + 4)$",
+          [
+            "$(X^3 - 1)(X^3 - 8)$",
+            "$(X - 1)^3 (X - 2)^3$",
+            "$(X - 1)(X + 1)(X - 2)(X + 2)(X^2 + 1)$"
+          ],
+          "Pose le changement de variable $Y = X^3$ pour obtenir une équation du second degré.",
+          "Factorise ensuite $X^3 - 1$ et $X^3 - 8$ à l'aide de la formule $A^3 - B^3 = (A - B)(A^2 + AB + B^2)$.",
+          "En posant $Y = X^3$, le polynôme devient $Y^2 - 9Y + 8 = (Y - 1)(Y - 8) = (X^3 - 1)(X^3 - 8)$. Or $X^3 - 1 = (X - 1)(X^2 + X + 1)$ et $X^3 - 8 = (X - 2)(X^2 + 2X + 4)$. Comme $\\Delta_1 = 1 - 4 = -3 < 0$ et $\\Delta_2 = 4 - 16 = -12 < 0$, les deux facteurs de degré 2 sont irréductibles dans $\\mathbb{R}[X]$."
+        );
+      } else {
+        // Issu du TD Chapitre 3 Exercice 1 : DES avec pôle double
+        return this.makeMcq(
+          'L1-CMP', 3, "Décomposition en éléments simples avec pôle double (TD Univ)",
+          "Identifier la forme de la DES pour un dénominateur à racine multiple",
+          "Quelle est la forme générale théorique de la décomposition en éléments simples dans $\\mathbb{R}(X)$ de $F(X) = \\frac{1}{(X - 1)(X + 1)^2}$ (issue de la fiche de TD) ?",
+          "$\\frac{a}{X - 1} + \\frac{b}{(X + 1)^2} + \\frac{c}{X + 1}$",
+          [
+            "$\\frac{a}{X - 1} + \\frac{b}{(X + 1)^2}$",
+            "$\\frac{a}{X - 1} + \\frac{bX + c}{(X + 1)^2}$",
+            "$\\frac{a}{X - 1} + \\frac{b}{X + 1}$"
+          ],
+          "Le pôle $-1$ est de multiplicité 2 (pôle double).",
+          "Chaque pôle multiple de multiplicité $m$ génère une somme de fractions $\\sum_{k=1}^m \\frac{\\alpha_k}{(X - a)^k}$.",
+          "Le dénominateur admet le pôle simple $1$ et le pôle double $-1$. D'après le théorème fondamental de décomposition en éléments simples, le pôle double contribue par les deux termes $\\frac{b}{(X + 1)^2} + \\frac{c}{X + 1}$. D'où la forme $\\frac{a}{X - 1} + \\frac{b}{(X + 1)^2} + \\frac{c}{X + 1}$."
+        );
+      }
     } else {
-      // Factorisation ou division
-      const a = this.randChoice([1, 4, 9, 16]);
-      const sqrtA = Math.sqrt(a);
-      return this.makeMcq(
-        'L1-CMP', tier, "Factorisation dans $\\mathbb{C}[X]$ vs $\\mathbb{R}[X]$",
-        "Factoriser un polynôme quadratique en facteurs irréductibles",
-        `Quelle est la décomposition en facteurs irréductibles de $P(X) = X^2 + ${a}$ dans $\\mathbb{C}[X]$ ?`,
-        `$(X - ${sqrtA}i)(X + ${sqrtA}i)$`,
-        [
-          `$(X - ${sqrtA})(X + ${sqrtA})$`,
-          `$(X + ${sqrtA}i)^2$`,
-          "Irreductible dans $\\mathbb{C}[X]$"
-        ],
-        "Dans $\\mathbb{C}$, tout polynôme est scindé (théorème de d'Alembert-Gauss).",
-        `$X^2 + ${a} = X^2 - (${sqrtA}i)^2$.`,
-        `$X^2 + ${a} = X^2 - (${sqrtA}i)^2 = (X - ${sqrtA}i)(X + ${sqrtA}i)$.`
-      );
+      // Palier 4 : Niveau Rigueur & Examen universitaire
+      const p4Variant = this.randChoice(['td_deg6_racine_double_i', 'td_division_carre', 'td_pgcd_racines_multiples', 'td_des_partie_entiere', 'taylor_multiplicite']);
+      if (p4Variant === 'td_deg6_racine_double_i') {
+        // Issu du grand Exercice 6 de la Fiche TD n°2
+        return this.makeMcq(
+          'L1-CMP', 4, "Polynôme de degré 6 admettant i comme racine double (TD Univ)",
+          "Factoriser un polynôme réel connaissant une racine double complexe",
+          "Soit le polynôme $P(X) = X^6 + X^5 + 3X^4 + 2X^3 + 3X^2 + X + 1 \\in \\mathbb{R}[X]$. Sachant que $i$ est racine double de $P$, quelle est sa factorisation en irréductibles dans $\\mathbb{R}[X]$ (issu de la fiche de TD) ?",
+          "$(X^2 + 1)^2 (X^2 + X + 1)$",
+          [
+            "$(X^2 + 1)(X^4 + X^3 + 2X^2 + X + 1)$",
+            "$(X^2 + 1)^3$",
+            "$(X^2 + 1)^2 (X - 1)(X + 1)$"
+          ],
+          "Puisque $P$ est à coefficients réels, si $i$ est racine double, alors $-i = \\bar{i}$ est aussi racine double.",
+          "En déduire que $(X - i)^2 (X + i)^2 = (X^2 + 1)^2 = X^4 + 2X^2 + 1$ divise $P(X)$.",
+          "Comme $P \\in \\mathbb{R}[X]$, la conjugaison assure que $-i$ est également racine double de $P$. Ainsi, le polynôme $[(X - i)(X + i)]^2 = (X^2 + 1)^2 = X^4 + 2X^2 + 1$ divise $P(X)$. La division euclidienne de $P(X)$ par $X^4 + 2X^2 + 1$ donne pour quotient $X^2 + X + 1$. Ce trinôme ayant $\\Delta = 1 - 4 = -3 < 0$, il est irréductible dans $\\mathbb{R}[X]$. D'où $P(X) = (X^2 + 1)^2 (X^2 + X + 1)$."
+        );
+      } else if (p4Variant === 'td_division_carre') {
+        // Issu du TD Fiche 2 Exercice 3.b
+        const n = this.randChoice([3, 4, 5, 7, 'n']);
+        const nStr = (n === 'n') ? 'n' : `${n}`;
+        return this.makeMcq(
+          'L1-CMP', 4, "Reste de division euclidienne par un carré (X - 1)^2 (TD Univ)",
+          "Calculer le reste par dérivation ou formule de Taylor",
+          `Quel est le reste de la division euclidienne de $A(X) = X^{${nStr}}$ par $B(X) = (X - 1)^2$ dans $\\mathbb{R}[X]$ (issu de la fiche de TD) ?`,
+          `$${nStr}X - (${nStr} - 1)$`,
+          [
+            `$${nStr}X + 1$`,
+            `$${nStr}(X - 1)^2$`,
+            `$X - ${nStr}$`
+          ],
+          "Le reste $R(X)$ est de degré strictement inférieur à 2, donc $R(X) = aX + b$.",
+          "Évalue l'égalité $X^n = Q(X)(X - 1)^2 + aX + b$ et sa dérivée en $X = 1$.",
+          `Comme $\\deg((X - 1)^2) = 2$, le reste est de la forme $R(X) = aX + b$. On a $X^{${nStr}} = Q(X)(X - 1)^2 + aX + b$. En évaluant en $X = 1$ : $1 = a + b$. En dérivant : $${nStr} X^{${nStr === 'n' ? 'n-1' : n-1}} = Q'(X)(X - 1)^2 + 2Q(X)(X - 1) + a$, d'où en $X = 1$ : $a = ${nStr}$. On en déduit $b = 1 - ${nStr} = -(${nStr} - 1)$, soit $R(X) = ${nStr}X - (${nStr} - 1)$.`
+        );
+      } else if (p4Variant === 'td_pgcd_racines_multiples') {
+        return this.makeMcq(
+          'L1-CMP', 4, "Détection des racines multiples par le PGCD(P, P')",
+          "Relier les racines multiples au PGCD du polynôme et de sa dérivée",
+          "Calculer $\\text{pgcd}(P, P')$ pour $P(X) = X^3 - 3X + 2$. Qu'en déduit-on rigoureusement sur les racines multiples de $P$ ?",
+          "$\\text{pgcd}(P, P') = X - 1$ ; $1$ est racine double de $P$",
+          [
+            "$\\text{pgcd}(P, P') = 1$ ; $P$ ne possède aucune racine multiple",
+            "$\\text{pgcd}(P, P') = X + 1$ ; $-1$ est racine double de $P$",
+            "$\\text{pgcd}(P, P') = (X - 1)^2$ ; $1$ est racine triple de $P$"
+          ],
+          "Dérive $P$ : $P'(X) = 3X^2 - 3 = 3(X - 1)(X + 1)$.",
+          "Applique le théorème : les racines de $\\text{pgcd}(P, P')$ sont les racines multiples de $P$, avec multiplicité diminuée de 1.",
+          "On a $P'(X) = 3(X^2 - 1) = 3(X - 1)(X + 1)$. Comme $P(1) = 1 - 3 + 2 = 0$ et $P(-1) = -1 + 3 + 2 = 4 \\neq 0$, le seul facteur commun unitaire est $\\text{pgcd}(P, P') = X - 1$. La racine $1$ est donc de multiplicité $1 + 1 = 2$ (racine double) pour $P$."
+        );
+      } else if (p4Variant === 'td_des_partie_entiere') {
+        // Issu de la fiche de TD n°3 Exercice 3
+        return this.makeMcq(
+          'L1-CMP', 4, "DES avec partie entière et pôle double (TD Univ)",
+          "Déterminer la partie entière et le coefficient dominant d'un pôle double",
+          "Pour la fraction rationnelle $G(X) = \\frac{X^3 + 2}{(X - 1)^2 (X + 2)}$ (issue de la fiche de TD), quelle est sa partie entière $E(X)$ et le coefficient $\\alpha$ du terme $\\frac{\\alpha}{(X - 1)^2}$ ?",
+          "$E(X) = 1$ et $\\alpha = 1$",
+          [
+            "$E(X) = 0$ et $\\alpha = 1$",
+            "$E(X) = 1$ et $\\alpha = 3$",
+            "$E(X) = X$ et $\\alpha = 2$"
+          ],
+          "Compare les degrés du numérateur et du dénominateur pour trouver la partie entière.",
+          "Pour $\\alpha$, multiplie par $(X - 1)^2$ et évalue en $X = 1$.",
+          "On a $\\deg(X^3 + 2) = 3$ et $\\deg((X - 1)^2(X + 2)) = 3$. Le quotient des coefficients dominants vaut $1/1 = 1$, donc la partie entière est $E(X) = 1$. Pour trouver $\\alpha$, on calcule $\\lim_{X \\to 1} (X - 1)^2 G(X) = \\left[\\frac{X^3 + 2}{X + 2}\\right]_{X=1} = \\frac{1 + 2}{1 + 2} = 1$. D'où $E(X) = 1$ et $\\alpha = 1$."
+        );
+      } else {
+        const n = this.randChoice([3, 4, 5]);
+        return this.makeMcq(
+          'L1-CMP', 4, "Ordre de multiplicité via les dérivées successives",
+          "Appliquer la caractérisation de Taylor pour les racines multiples",
+          `Pour le polynôme $P(X) = X^{${n}} - ${n}X + ${n - 1}$, quel est l'ordre de multiplicité exact de la racine $x_0 = 1$ ?`,
+          "Racine de multiplicité 2 (racine double)",
+          [
+            "Racine simple (multiplicité 1)",
+            `Racine de multiplicité ${n}`,
+            "1 n'est pas racine de ce polynôme"
+          ],
+          "Calcule $P(1)$, $P'(1)$ et $P''(1)$.",
+          "La multiplicité est $m$ si $P(1) = \\dots = P^{(m-1)}(1) = 0$ et $P^{(m)}(1) \\neq 0$.",
+          `$P(1) = 1 - ${n} + ${n-1} = 0$. $P'(X) = ${n}X^{${n-1}} - ${n} \\implies P'(1) = ${n} - ${n} = 0$. $P''(X) = ${n}(${n-1})X^{${n-2}} \\implies P''(1) = ${n*(n-1)} \\neq 0$. Par la caractérisation de Taylor, $1$ est une racine de multiplicité exactement 2 (racine double).`
+        );
+      }
     }
   },
 

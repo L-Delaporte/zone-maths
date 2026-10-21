@@ -155,6 +155,18 @@ window.MATHS_COURSES_L1 = {
     ],
     "methods": [
       {
+        "title": "Méthode : Démontrer qu'un ensemble est un espace vectoriel ou un sous-espace vectoriel (SEV)",
+        "example": "Soit $F = \\{(x, y, z) \\in \\mathbb{R}^3 \\mid 2x - y + 3z = 0\\}$. Montrer que $F$ est un sous-espace vectoriel de $\\mathbb{R}^3$, puis vérifier si $G = \\{(x, y, z) \\in \\mathbb{R}^3 \\mid 2x - y + 3z = 4\\}$ est un SEV.",
+        "steps": [
+          "**Voie prioritaire (Caractérisation d'un SEV)** : Pour montrer qu'un ensemble $F$ est un $\\mathbb{K}$-espace vectoriel, on démontre presque toujours que c'est un sous-espace vectoriel d'un espace vectoriel de référence déjà connu ($E = \\mathbb{R}^n, \\mathcal{M}_{n,p}(\\mathbb{K}), \\mathbb{K}[X]$, etc.).",
+          "**Étape 1 (Inclusion)** : Vérifier que $F$ est une partie de l'espace vectoriel ambiant : ici $F \\subset \\mathbb{R}^3$.",
+          "**Étape 2 (Vecteur nul non vide)** : Tester si le vecteur nul appartient à $F$ : pour $(x, y, z) = (0, 0, 0)$, on a $2(0) - 0 + 3(0) = 0$, donc $0_{\\mathbb{R}^3} \\in F$. L'ensemble est non vide.",
+          "**Étape 3 (Stabilité par combinaison linéaire)** : Soient $u = (x_1, y_1, z_1) \\in F$, $v = (x_2, y_2, z_2) \\in F$ et $\\lambda, \\mu \\in \\mathbb{R}$. Posons $w = \\lambda u + \\mu v = (\\lambda x_1 + \\mu x_2, \\lambda y_1 + \\mu y_2, \\lambda z_1 + \\mu z_2)$.\nOn calcule : $2(\\lambda x_1 + \\mu x_2) - (\\lambda y_1 + \\mu y_2) + 3(\\lambda z_1 + \\mu z_2) = \\lambda(2x_1 - y_1 + 3z_1) + \\mu(2x_2 - y_2 + 3z_2) = \\lambda(0) + \\mu(0) = 0$. Donc $w \\in F$. $F$ est un SEV de $\\mathbb{R}^3$.",
+          "**Contre-exemple (Le test du vecteur nul élimine $G$)** : Pour $G$, $2(0) - 0 + 3(0) = 0 \\neq 4$, donc $0_{\\mathbb{R}^3} \\notin G$. $G$ n'est PAS un sous-espace vectoriel (c'est un plan affine ne passant pas par l'origine).",
+          "**Voie alternative (Noyau ou sous-espace engendré)** : Reconnaitre $F = \\text{Ker}(\\varphi)$ où $\\varphi : (x, y, z) \\mapsto 2x - y + 3z$ est une forme linéaire (donc $F$ est un SEV en tant que noyau d'un morphisme), ou écrire $F = \\text{Vect}(v_1, \\dots, v_p)$."
+        ]
+      },
+      {
         "title": "Méthode : Démontrer qu'une famille de 3 vecteurs est libre",
         "example": "Soit $E = \\mathbb{R}^3$. La famille $\\mathcal{F} = (u_1, u_2, u_3)$ avec $u_1(1;1;0), u_2(0;1;1), u_3(1;0;1)$ est-elle libre ?",
         "steps": [
@@ -452,13 +464,14 @@ window.MATHS_COURSES_L1 = {
     ]
   },
   "L1-CMP": {
-    "title": "L1-CMP : Nombres complexes, géométrie et racines n-ièmes de l'unité",
+    "title": "L1-CMP : Nombres complexes, arithmétique des polynômes et fractions rationnelles",
     "domain": "Algèbre Fondamentale",
     "objectives": [
       "Maîtriser les représentations algébrique, trigonométrique et exponentielle des nombres complexes.",
       "Calculer les racines $n$-ièmes d'un nombre complexe et les racines de l'unité $\\mathbb{U}_n$.",
       "Appliquer les formules d'Euler et de Moivre à la linéarisation trigonométrique.",
-      "Énoncer le Théorème de d'Alembert-Gauss et factoriser les polynômes dans $\\mathbb{C}[X]$ et $\\mathbb{R}[X]$."
+      "Énoncer le Théorème de d'Alembert-Gauss et factoriser les polynômes dans $\\mathbb{C}[X]$ et $\\mathbb{R}[X]$.",
+      "Effectuer la décomposition en éléments simples (DES) d'une fraction rationnelle dans $\\mathbb{R}(X)$ et $\\mathbb{C}(X)$."
     ],
     "keyPoints": [
       {
@@ -471,7 +484,11 @@ window.MATHS_COURSES_L1 = {
       },
       {
         "title": "3. Théorème de d'Alembert-Gauss et factorisation de polynômes",
-        "content": "• **Théorème fondamental de l'algèbre (d'Alembert-Gauss)** : Le corps $\\mathbb{C}$ est **algébriquement clos** : tout polynôme non constant de $\\mathbb{C}[X]$ admet au moins une racine dans $\\mathbb{C}$.\n• Tout polynôme $P \\in \\mathbb{C}[X]$ de degré $n$ est **scindé** : $P(X) = a_n \\prod_{j=1}^p (X - z_j)^{\\alpha_j}$ avec $\\sum \\alpha_j = n$.\n• **Polynômes à coefficients réels $\\mathbb{R}[X]$** : Les racines non réelles viennent par paires conjuguées ($P(z) = 0 \\iff P(\\bar{z}) = 0$). Tout polynôme de $\\mathbb{R}[X]$ se factorise en produit de polynômes de degré 1 et de degré 2 à discriminant strictement négatif."
+        "content": "• **Théorème fondamental de l'algèbre (d'Alembert-Gauss)** : Le corps $\\mathbb{C}$ est **algébriquement clos** : tout polynôme non constant de $\\mathbb{C}[X]$ admet au moins une racine dans $\\mathbb{C}$.\n• Tout polynôme $P \\in \\mathbb{C}[X]$ de degré $n$ est **scindé** : $P(X) = a_n \\prod_{j=1}^p (X - z_j)^{\\alpha_j}$ avec $\\sum \\alpha_j = n$.\n• **Polynômes à coefficients réels $\\mathbb{R}[X]$** : Les racines non réelles viennent par paires conjuguées ($P(z) = 0 \\iff P(\\bar{z}) = 0$). Tout polynôme de $\\mathbb{R}[X]$ se factorise en produit de facteurs de degré 1 et de facteurs quadratiques irréductibles de degré 2 (discriminant $\\Delta < 0$)."
+      },
+      {
+        "title": "4. Fractions rationnelles et Décomposition en éléments simples (DES)",
+        "content": "• **Fraction rationnelle** : $F = \\frac{N}{D} \\in \\mathbb{K}(X)$ avec $D \\ne 0_{\\mathbb{K}[X]}$. Les zéros du dénominateur $D$ sont appelés les **pôles** de $F$.\n• **Partie entière** : Par division euclidienne de $N$ par $D$, il existe un unique couple $(E, R) \\in \\mathbb{K}[X]^2$ tel que $N = ED + R$ avec $\\deg(R) < \\deg(D)$. Le polynôme $E$ est la **partie entière** de $F$ ($E = 0$ si $\\deg(N) < \\deg(D)$).\n• **Théorème de décomposition dans $\\mathbb{R}(X)$** : Toute fraction rationnelle $F = \\frac{N}{D}$ s'écrit de manière unique sous la forme :\n$$F(X) = E(X) + \\sum_{\\text{pôles réels } \\alpha_i} \\sum_{j=1}^{m_i} \\frac{\\lambda_{i,j}}{(X - \\alpha_i)^j} + \\sum_{\\text{facteurs quadratiques}} \\sum_{k=1}^{n_l} \\frac{a_{l,k} X + b_{l,k}}{(X^2 + p_l X + q_l)^k}$$\n• **Méthode des pôles simples** : Si $\\alpha$ est un pôle simple de $F = \\frac{N}{D}$, le coefficient associé vaut :\n$$a_\\alpha = \\lim_{x \\to \\alpha} (x - \\alpha) F(x) = \\frac{N(\\alpha)}{D'(\\alpha)}$$"
       }
     ],
     "methods": [
@@ -484,11 +501,22 @@ window.MATHS_COURSES_L1 = {
           "**Étape 3 (Valeurs de $x$ et $y$)** : $2x^2 = 2 \\implies x = \\pm 1$ et $2y^2 = 32 \\implies y = \\pm 4$. Comme $xy > 0$, $\\delta = \\pm(1 + 4i)$.",
           "**Étape 4 (Solutions)** : $z_1 = \\frac{3 + 2i + (1 + 4i)}{2} = 2 + 3i$ et $z_2 = \\frac{3 + 2i - (1 + 4i)}{2} = 1 - i$."
         ]
+      },
+      {
+        "title": "Méthode : Décomposer une fraction rationnelle en éléments simples dans $\\mathbb{R}(X)$",
+        "example": "Décomposer dans $\\mathbb{R}(X)$ la fraction rationnelle $F(X) = \\frac{X^3 + 2}{X(X-1)(X+1)}$.",
+        "steps": [
+          "**Étape 1 (Partie entière)** : $\\deg(X^3 + 2) = 3$ et $\\deg(X^3 - X) = 3$. La division euclidienne donne $X^3 + 2 = 1 \\cdot (X^3 - X) + (X + 2)$. La partie entière est donc $E = 1$.",
+          "**Étape 2 (Forme de la décomposition)** : Les pôles sont $0, 1, -1$, tous réels et simples : $F(X) = 1 + \\frac{a}{X} + \\frac{b}{X-1} + \\frac{c}{X+1}$.",
+          "**Étape 3 (Calcul des coefficients par multiplication-évaluation)** :\n• Pour $a$ : on multiplie par $X$ et on pose $X = 0$ : $a = \\frac{0^3 + 2}{(0 - 1)(0 + 1)} = \\frac{2}{-1} = -2$.\n• Pour $b$ : on multiplie par $X - 1$ et on pose $X = 1$ : $b = \\frac{1^3 + 2}{1(1 + 1)} = \\frac{3}{2}$.\n• Pour $c$ : on multiplie par $X + 1$ et on pose $X = -1$ : $c = \\frac{(-1)^3 + 2}{(-1)(-1 - 1)} = \\frac{1}{2}$.",
+          "**Conclusion** : $F(X) = 1 - \\frac{2}{X} + \\frac{3}{2(X - 1)} + \\frac{1}{2(X + 1)}$."
+        ]
       }
     ],
     "traps": [
+      "⚠️ Ne JAMAIS oublier la **partie entière** $E(X)$ lorsque le degré du numérateur est supérieur ou égal à celui du dénominateur ($\\\\deg(N) \\ge \\deg(D)$) !",
       "⚠️ Ne JAMAIS écrire le symbole $\\sqrt{z}$ pour un complexe non réel (la fonction racine carrée n'a pas de détermination uniforme continue canonique sur $\\mathbb{C}$) !",
-      "⚠️ Dans $\\mathbb{C}$, deux nombres peuvent être différents alors qu'ils ont le même module et la même partie réelle (ils diffèrent par le signe de la partie imaginaire)."
+      "⚠️ Pour un pôle multiple $(X - \\alpha)^m$, il y a $m$ éléments simples imbriqués de puissances $1, 2, \\dots, m$."
     ],
     "flashcards": [
       {
@@ -498,6 +526,10 @@ window.MATHS_COURSES_L1 = {
       {
         "q": "Que dit le théorème de d'Alembert-Gauss pour les polynômes de C[X] ?",
         "a": "Tout polynôme non constant à coefficients complexes est scindé sur $\\mathbb{C}$ (admet au moins une racine)."
+      },
+      {
+        "q": "Comment calcule-t-on le coefficient d'un pôle simple alpha dans une fraction F = N/D sans partie entière ?",
+        "a": "$a_\\alpha = \\frac{N(\\alpha)}{D'(\\alpha)}$ ou en évaluant $(X - \\alpha)F(X)$ en $X = \\alpha$."
       }
     ]
   },
@@ -552,51 +584,56 @@ window.MATHS_COURSES_L1 = {
     ]
   },
   "L1-GEO": {
-    "title": "L1-GEO : Courbes paramétrées, cinématique et géométrie analytique",
-    "domain": "Géométrie & Cinématique",
+    "title": "L1-GEO : Géométrie euclidienne plane, repères orthonormés et coniques",
+    "domain": "Géométrie Fondamentale",
     "objectives": [
-      "Étudier un arc paramétré $t \\mapsto \\vec{r}(t) = (x(t), y(t))$ (symétries, périodicité, domaine d'étude réduit).",
-      "Déterminer les points réguliers et la droite tangente via le vecteur dérivé $\\vec{r}'(t)$.",
-      "Étudier la nature locale des points singuliers / stationnaires (points de rebroussement, méplats, inflexions).",
-      "Tracer et étudier des courbes en coordonnées polaires $r = f(\\theta)$ et calculer la longueur d'un arc."
+      "Maîtriser le produit scalaire canonique, l'orthogonalité, la norme et la distance dans le plan euclidien $\\mathbb{R}^2$.",
+      "Déterminer les équations cartésiennes et polaires de droites et de cercles.",
+      "Définir géométriquement les coniques propres (ellipse, parabole, hyperbole) par foyer, directrice et excentricité $e$.",
+      "Établir les équations réduites des coniques et caractériser leurs éléments géométriques (sommets, foyers, directrices, asymptotes)."
     ],
     "keyPoints": [
       {
-        "title": "1. Points réguliers, vecteur vitesse et tangentes",
-        "content": "Soit $\\gamma : I \\to \\mathbb{R}^2, t \\mapsto (x(t), y(t))$ un arc de classe $\\mathcal{C}^k$ :\n• **Point régulier** : Un point $M(t)$ est régulier si $\\vec{r}'(t) = (x'(t), y'(t)) \\neq (0, 0)$.\n• **Tangente** : En un point régulier, la tangente à la courbe est la droite passant par $M(t)$ dirigée par le vecteur vitesse $\\vec{r}'(t)$. Son coefficient directeur est $\\frac{y'(t)}{x'(t)}$ (si $x'(t) \\neq 0$)."
+        "title": "1. Produit scalaire, orthogonalité et repères orthonormés",
+        "content": "Dans le plan vectoriel $\\mathbb{R}^2$ muni du produit scalaire canonique $\\langle u, v \\rangle = x x' + y y'$ :\n• **Norme euclidienne** : $\\|u\\| = \\sqrt{x^2 + y^2}$. Deux vecteurs sont **orthogonaux** si $\\langle u, v \\rangle = 0$.\n• **Inégalité de Cauchy-Schwarz** : $|\\langle u, v \\rangle| \\le \\|u\\| \\|v\\|$, avec égalité ssi $u$ et $v$ sont colinéaires.\n• **Équation de droite** : Toute droite affine $\\mathcal{D}$ admet une équation cartésienne $ax + by + c = 0$ avec $(a, b) \\ne (0, 0)$. Le vecteur $\\vec{n}(a, b)$ est normal à $\\mathcal{D}$.\n• **Distance d'un point à une droite** : Pour $A(x_A, y_A)$, $d(A, \\mathcal{D}) = \\frac{|a x_A + b y_A + c|}{\\sqrt{a^2 + b^2}}$."
       },
       {
-        "title": "2. Étude locale des points singuliers (Formule de Taylor)",
-        "content": "• Un point $M(t_0)$ est **stationnaire (ou singulier)** si $\\vec{r}'(t_0) = \\vec{0}$.\n• Pour déterminer la tangente et l'allure locale, on cherche les deux premiers vecteurs dérivés non nuls et non colinéaires :\n$$\\vec{r}(t) = \\vec{r}(t_0) + \\frac{(t - t_0)^p}{p!} \\vec{r}^{(p)}(t_0) + \\frac{(t - t_0)^q}{q!} \\vec{r}^{(q)}(t_0) + o((t - t_0)^q)$$\navec $p < q$, $\\vec{r}^{(p)}(t_0) \\neq \\vec{0}$ et $(\\vec{r}^{(p)}(t_0), \\vec{r}^{(q)}(t_0))$ libre.\n• **Classification géométrique** :\n  - $p$ impair, $q$ pair : **Point ordinaire** (allure standard traversant la tangente).\n  - $p$ pair, $q$ impair : **Point de rebroussement de 1ère espèce**.\n  - $p$ pair, $q$ pair : **Point de rebroussement de 2ème espèce**.\n  - $p$ impair, $q$ impair : **Point d'inflexion**."
+        "title": "2. Cercles et puissance d'un point",
+        "content": "• **Équation cartésienne d'un cercle** : Le cercle $\\mathcal{C}$ de centre $\\Omega(x_0, y_0)$ et de rayon $R > 0$ a pour équation :\n$$(x - x_0)^2 + (y - y_0)^2 = R^2 \\iff x^2 + y^2 - 2x_0 x - 2y_0 y + (x_0^2 + y_0^2 - R^2) = 0$$\n• **Position relative droite/cercle** : Soit $d = d(\\Omega, \\mathcal{D})$. Si $d < R$, la droite est sécante en 2 points ; si $d = R$, elle est tangente ; si $d > R$, elle est disjointe."
       },
       {
-        "title": "3. Courbes en coordonnées polaires et longueur d'arc",
-        "content": "• Une courbe polaire $r = f(\\theta)$ a pour coordonnées cartésiennes : $x(\\theta) = f(\\theta)\\cos\\theta$ et $y(\\theta) = f(\\theta)\\sin\\theta$.\n• **Angle de la tangente avec le rayon vecteur** : $\\tan(V) = \\frac{f(\\theta)}{f'(\\theta)}$ (lorsque $f'(\\theta) \\neq 0$).\n• **Longueur d'un arc régulier** : La longueur d'une courbe entre $t_1$ et $t_2$ est donnée par :\n$$L = \\int_{t_1}^{t_2} \\|\\vec{r}'(t)\\| \\, dt = \\int_{t_1}^{t_2} \\sqrt{x'(t)^2 + y'(t)^2} \\, dt$$\nEn polaires : $L = \\int_{\\theta_1}^{\\theta_2} \\sqrt{r(\\theta)^2 + r'(\\theta)^2} \\, d\\theta$."
+        "title": "3. Coniques : Définitions monofocale et bifocale",
+        "content": "Soit un point $F$ (foyer), une droite $\\mathcal{D}$ ne passant pas par $F$ (directrice) et $e > 0$ (excentricité) :\n• Une conique propre $\\mathcal{C}$ est l'ensemble des points $M$ tels que $\\frac{MF}{d(M, \\mathcal{D})} = e$.\n  - Si $0 < e < 1$ : la conique est une **ellipse** (courbe fermée bornée).\n  - Si $e = 1$ : la conique est une **parabole** (une seule branche infinie).\n  - Si $e > 1$ : la conique est une **hyperbole** (deux branches infinies, deux asymptotes).\n• **Équations réduites en repère orthonormal adapté** :\n  - **Ellipse** : $\\frac{x^2}{a^2} + \\frac{y^2}{b^2} = 1$ avec $a > b > 0$, $c^2 = a^2 - b^2$, $e = \\frac{c}{a} < 1$, foyers $F(\\pm c, 0)$.\n  - **Parabole** : $y^2 = 2px$ avec paramètre $p > 0$, foyer $F(p/2, 0)$, directrice $x = -p/2$.\n  - **Hyperbole** : $\\frac{x^2}{a^2} - \\frac{y^2}{b^2} = 1$ avec $c^2 = a^2 + b^2$, $e = \\frac{c}{a} > 1$, asymptotes $y = \\pm \\frac{b}{a} x$."
       }
     ],
     "methods": [
       {
-        "title": "Méthode : Calculer la longueur d'un arc paramétré",
-        "example": "Calculer la longueur du cercle paramétré par $x(t) = R\\cos(t), y(t) = R\\sin(t)$ pour $t \\in [0, 2\\pi]$.",
+        "title": "Méthode : Déterminer la nature et les éléments d'une conique à partir de son équation",
+        "example": "Identifier la conique d'équation $9x^2 + 25y^2 - 225 = 0$.",
         "steps": [
-          "**Dérivées** : $x'(t) = -R\\sin(t)$ et $y'(t) = R\\cos(t)$.",
-          "**Norme de la vitesse** : $\\|\\vec{r}'(t)\\| = \\sqrt{(-R\\sin t)^2 + (R\\cos t)^2} = \\sqrt{R^2(\\sin^2 t + \\cos^2 t)} = R$.",
-          "**Intégrale** : $L = \\int_0^{2\\pi} R \\, dt = [Rt]_0^{2\\pi} = 2\\pi R$."
+          "**Étape 1 (Forme réduite)** : On divise par 225 : $\\frac{9x^2}{225} + \\frac{25y^2}{225} = 1 \\iff \\frac{x^2}{25} + \\frac{y^2}{9} = 1$.",
+          "**Étape 2 (Nature)** : C'est une ellipse de demi-grand axe $a = \\sqrt{25} = 5$ et de demi-petit axe $b = \\sqrt{9} = 3$.",
+          "**Étape 3 (Distance focale et excentricité)** : $c^2 = a^2 - b^2 = 25 - 9 = 16 \\implies c = 4$. L'excentricité vaut $e = \\frac{c}{a} = \\frac{4}{5} = 0,8 < 1$.",
+          "**Conclusion** : Les foyers sont $F(4, 0)$ et $F'(-4, 0)$, et les sommets sont $(\\pm 5, 0)$ et $(0, \\pm 3)$."
         ]
       }
     ],
     "traps": [
-      "⚠️ Si $x'(t_0) = y'(t_0) = 0$, la droite n'est pas sans tangente : il faut chercher la première dérivée non nulle $\\vec{r}^{(p)}(t_0)$ pour obtenir le vecteur directeur !",
-      "⚠️ En coordonnées polaires, $r(\\theta) = 0$ correspond toujours au passage par le pôle (origine $O$)."
+      "⚠️ Pour l'ellipse, la relation entre axes et distance focale est $a^2 = b^2 + c^2$, alors que pour l'hyperbole c'est $c^2 = a^2 + b^2$ !",
+      "⚠️ Une conique définie par foyer et directrice n'est un cercle pour aucune valeur finie (le cercle correspond formellement à $e = 0$, foyer confondu avec le centre, directrice rejetée à l'infini)."
     ],
     "flashcards": [
       {
-        "q": "Quelle condition définit un point régulier d'un arc paramétré r(t) ?",
-        "a": "Le vecteur dérivé est non nul : $\\vec{r}'(t) \\neq \\vec{0}$."
+        "q": "Quelle est la condition sur l'excentricité e pour qu'une conique soit une ellipse ?",
+        "a": "$0 < e < 1$ (courbe fermée)."
       },
       {
-        "q": "Donner la formule de la longueur d'un arc paramétré entre t1 et t2.",
-        "a": "$L = \\int_{t_1}^{t_2} \\sqrt{x'(t)^2 + y'(t)^2} \\, dt$."
+        "q": "Quelle est la formule de la distance d'un point A(xA, yA) à la droite ax + by + c = 0 ?",
+        "a": "$d = \\frac{|a x_A + b y_A + c|}{\\sqrt{a^2 + b^2}}$."
+      },
+      {
+        "q": "Quelles sont les asymptotes de l'hyperbole x^2/a^2 - y^2/b^2 = 1 ?",
+        "a": "Les droites d'équations $y = \\frac{b}{a} x$ et $y = -\\frac{b}{a} x$."
       }
     ]
   }
@@ -743,9 +780,47 @@ window.MATHS_EXERCISES_L1 = {
       "id": "L1-CMP-1",
       "tier": 1,
       "type": "mcq",
+      "title": "Racines 5-ièmes de l'unité",
+      "skill": "Déterminer les racines n-ièmes de l'unité dans $\\mathbb{C}$",
+      "statement": "Quelles sont les 5 racines 5-ièmes de l'unité dans $\\mathbb{C}$ (solutions de l'équation $z^5 = 1$) ?",
+      "options": [
+        "$\\left\\{ e^{i \\frac{2k\\pi}{5}} \\;\\middle|\\; k \\in \\{0, 1, 2, 3, 4\\} \\right\\}$",
+        "$\\left\\{ e^{i \\frac{k\\pi}{5}} \\;\\middle|\\; k \\in \\{0, 1, 2, 3, 4\\} \\right\\}$",
+        "$\\left\\{ e^{i \\frac{2k\\pi}{5}} \\;\\middle|\\; k \\in \\{1, 2, 3, 4, 5\\} \\right\\} \\cup \\{0\\}$",
+        "$\\{1, -1, i, -i, 0\\}$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\left\\{ e^{i \\frac{2k\\pi}{5}} \\;\\middle|\\; k \\in \\{0, 1, 2, 3, 4\\} \\right\\}$",
+      "hint1": "Les racines $n$-ièmes de l'unité s'écrivent $\\omega_k = e^{i \\frac{2k\\pi}{n}}$ avec $k \\in \\{0, 1, \\dots, n-1\\}$.",
+      "hint2": "Pour $n = 5$, il y a exactement 5 racines distinctes formant un pentagone régulier sur le cercle trigonométrique.",
+      "solution": "L'équation $z^5 = 1$ admet dans $\\mathbb{C}$ exactement 5 solutions distinctes données par $\\omega_k = e^{i \\frac{2k\\pi}{5}}$ pour $k \\in \\{0, 1, 2, 3, 4\\}$. Elles forment les éléments du groupe cyclique $\\mathbb{U}_5$."
+    },
+    {
+      "id": "L1-CMP-1b",
+      "tier": 1,
+      "type": "mcq",
+      "title": "Racines 4-ièmes de l'unité sous forme algébrique",
+      "skill": "Calculer les éléments du groupe $\\mathbb{U}_4$",
+      "statement": "Quel est l'ensemble $\\mathbb{U}_4$ des racines 4-ièmes de l'unité sous forme algébrique dans $\\mathbb{C}$ ?",
+      "options": [
+        "$\\{1, i, -1, -i\\}$",
+        "$\\{1, -1\\}$",
+        "$\\{1, i, -1\\}$",
+        "$\\{1, i, -1, -i, 0\\}$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\{1, i, -1, -i\\}$",
+      "hint1": "Résous l'équation $z^4 = 1$ en factorisant $z^4 - 1 = (z^2 - 1)(z^2 + 1) = 0$.",
+      "hint2": "$z^2 = 1 \\implies z = \\pm 1$ et $z^2 = -1 \\implies z = \\pm i$.",
+      "solution": "On a $z^4 - 1 = (z^2 - 1)(z^2 + 1) = (z - 1)(z + 1)(z - i)(z + i)$. Les 4 racines sont donc $1, i, -1, -i$."
+    },
+    {
+      "id": "L1-CMP-1c",
+      "tier": 1,
+      "type": "mcq",
       "title": "Somme des racines n-ièmes de l'unité",
       "skill": "Propriétés algébriques de $\\mathbb{U}_n$",
-      "statement": "Pour tout $n \\ge 2$, que vaut la somme des $n$ racines $n$-ièmes de l'unité $\\sum_{k=0}^{n-1} e^{i \\frac{2k\\pi}{n}}$ ?",
+      "statement": "Pour tout entier $n \\ge 2$, que vaut la somme totale des $n$ racines $n$-ièmes de l'unité $S = \\sum_{k=0}^{n-1} e^{i \\frac{2k\\pi}{n}}$ ?",
       "options": [
         "$0$",
         "$1$",
@@ -756,64 +831,235 @@ window.MATHS_EXERCISES_L1 = {
       "answer": "$0$",
       "hint1": "Somme des termes d'une suite géométrique de raison $\\omega = e^{i 2\\pi / n} \\ne 1$.",
       "hint2": "$\\sum_{k=0}^{n-1} \\omega^k = \\frac{1 - \\omega^n}{1 - \\omega} = 0$.",
-      "solution": "Posons $\\omega = e^{i \\frac{2\\pi}{n}}$. Comme $\\omega \\ne 1$ et $\\omega^n = 1$, la somme vaut $\\frac{1-\\omega^n}{1-\\omega} = 0$."
+      "solution": "Posons $\\omega = e^{i \\frac{2\\pi}{n}}$. Comme $\\omega \\ne 1$ et $\\omega^n = 1$, la somme vaut $\\frac{1-\\omega^n}{1-\\omega} = \\frac{1-1}{1-\\omega} = 0$."
     },
     {
       "id": "L1-CMP-2",
       "tier": 2,
       "type": "mcq",
-      "title": "Division euclidienne de polynômes",
-      "skill": "Calculer le reste de division euclidienne dans $K[X]$",
-      "statement": "Quel est le reste de la division euclidienne de $P(X) = X^4 + 2X^3 - X + 1$ par $X^2 + 1$ ?",
+      "title": "Polynôme du second degré à racine double",
+      "skill": "Identifier une racine double et factoriser un carré parfait",
+      "statement": "Quelle est la factorisation dans $\\mathbb{R}[X]$ du trinôme $P(X) = X^2 - 6X + 9$, et quelle est la multiplicité de sa racine ?",
       "options": [
-        "$-2X + 2$",
-        "$2X - 2$",
-        "$-X + 3$",
-        "$0$"
+        "$(X - 3)^2$ ; $3$ est racine double (multiplicité 2)",
+        "$(X - 3)(X + 3)$ ; deux racines simples distinctes",
+        "$(X - 3)^2$ ; $3$ est racine simple",
+        "Irréductible dans $\\mathbb{R}[X]$"
       ],
       "correctIndex": 0,
-      "answer": "$-2X + 2$",
-      "hint1": "$X^4 = (X^2+1)(X^2-1) + 1$.",
-      "hint2": "$P(X) = (X^2 + 2X - 1)(X^2 + 1) + (-2X + 2)$.",
-      "solution": "En effectuant la division posée, on obtient $P(X) = (X^2 + 2X - 1)(X^2 + 1) + (-2X + 2)$ avec $\\deg(-2X+2) = 1 < 2$."
+      "answer": "$(X - 3)^2$ ; $3$ est racine double (multiplicité 2)",
+      "hint1": "Calcule le discriminant $\\Delta = b^2 - 4ac$ du trinôme.",
+      "hint2": "Si $\\Delta = 0$, la racine $x_0 = -\\frac{b}{2a}$ est de multiplicité 2.",
+      "solution": "Le discriminant est $\\Delta = (-6)^2 - 4(1)(9) = 36 - 36 = 0$. Il y a donc une unique racine réelle $x_0 = -\\frac{-6}{2} = 3$, de multiplicité 2 (racine double). D'où $P(X) = (X - 3)^2$."
+    },
+    {
+      "id": "L1-CMP-2b",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Polynôme de degré 3 avec racine double",
+      "skill": "Détecter une racine double dans un polynôme de degré 3",
+      "statement": "Déterminer les racines et la factorisation dans $\\mathbb{R}[X]$ du polynôme de degré 3 : $P(X) = X^3 - 3X + 2$.",
+      "options": [
+        "$(X - 1)^2 (X + 2)$ avec $1$ racine double et $-2$ racine simple",
+        "$(X - 1)(X + 2)^2$ avec $-2$ racine double",
+        "$(X - 1)(X + 1)(X - 2)$",
+        "$(X - 1)^3$"
+      ],
+      "correctIndex": 0,
+      "answer": "$(X - 1)^2 (X + 2)$ avec $1$ racine double et $-2$ racine simple",
+      "hint1": "Vérifie si $1$ annule à la fois $P(X)$ et sa dérivée $P'(X) = 3X^2 - 3$.",
+      "hint2": "Si $P(a) = 0$ et $P'(a) = 0$, alors $a$ est racine au moins double de $P$.",
+      "solution": "On a $P(1) = 1 - 3 + 2 = 0$ et $P'(1) = 3(1)^2 - 3 = 0$. Donc $1$ est racine double de $P$. En effectuant la division euclidienne de $P(X)$ par $(X - 1)^2 = X^2 - 2X + 1$, on trouve le quotient $X + 2$. D'où $P(X) = (X - 1)^2 (X + 2)$."
+    },
+    {
+      "id": "L1-CMP-2c",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Factorisation dans C[X] vs R[X]",
+      "skill": "Factoriser un polynôme quadratique sans racine réelle",
+      "statement": "Quelle est la décomposition en facteurs irréductibles de $P(X) = X^2 + 16$ dans $\\mathbb{C}[X]$ et dans $\\mathbb{R}[X]$ ?",
+      "options": [
+        "Dans $\\mathbb{C}[X]$ : $(X - 4i)(X + 4i)$ ; dans $\\mathbb{R}[X]$ : $X^2 + 16$ (irréductible)",
+        "Dans $\\mathbb{C}[X]$ : $(X - 4)^2$ ; dans $\\mathbb{R}[X]$ : $(X - 4)(X + 4)$",
+        "Dans $\\mathbb{C}[X]$ : $(X + 4i)^2$ ; dans $\\mathbb{R}[X]$ : $X^2 + 16$",
+        "Irréductible à la fois dans $\\mathbb{C}[X]$ et dans $\\mathbb{R}[X]$"
+      ],
+      "correctIndex": 0,
+      "answer": "Dans $\\mathbb{C}[X]$ : $(X - 4i)(X + 4i)$ ; dans $\\mathbb{R}[X]$ : $X^2 + 16$ (irréductible)",
+      "hint1": "Dans $\\mathbb{R}$, le discriminant $\\Delta = -64 < 0$ : aucune racine réelle.",
+      "hint2": "Dans $\\mathbb{C}$, écris $X^2 + 16 = X^2 - (4i)^2$.",
+      "solution": "Dans $\\mathbb{R}[X]$, $X^2 + 16$ est irréductible car de degré 2 avec discriminant strictement négatif. Dans $\\mathbb{C}[X]$, il se scinde en facteurs de degré 1 : $X^2 - (4i)^2 = (X - 4i)(X + 4i)$."
     },
     {
       "id": "L1-CMP-3",
       "tier": 3,
       "type": "mcq",
-      "title": "Factorisation en irréductibles dans R[X]",
-      "skill": "Décomposer un polynôme sans racine réelle",
-      "statement": "Quelle est la factorisation de $X^4 + 1$ en produit de polynômes irréductibles dans $\\mathbb{R}[X]$ ?",
+      "title": "Polynôme de degré 3 à racine double (TD Univ)",
+      "skill": "Détecter une racine double et factoriser un polynôme de degré 3",
+      "statement": "Factoriser dans $\\mathbb{R}[X]$ le polynôme $P(X) = X^3 - 5X^2 + 3X + 9$ (issu de la fiche de TD de Licence).",
       "options": [
-        "$(X^2 - \\sqrt{2}X + 1)(X^2 + \\sqrt{2}X + 1)$",
-        "$(X^2 + 1)^2$",
-        "$(X^2 - 1)(X^2 + 1)$",
-        "$(X^2 + \\sqrt{2}X - 1)(X^2 - \\sqrt{2}X - 1)$"
+        "$(X - 3)^2 (X + 1)$",
+        "$(X - 3)(X + 1)^2$",
+        "$(X + 3)^2 (X - 1)$",
+        "$(X - 3)(X^2 - 2X - 3)$"
       ],
       "correctIndex": 0,
-      "answer": "$(X^2 - \\sqrt{2}X + 1)(X^2 + \\sqrt{2}X + 1)$",
-      "hint1": "$X^4 + 1 = (X^2+1)^2 - 2X^2$.",
-      "hint2": "Identité $A^2 - B^2$ avec $A = X^2+1$ et $B = \\sqrt{2}X$.",
-      "solution": "$X^4 + 1 = (X^2+1)^2 - (\\sqrt{2}X)^2 = (X^2 - \\sqrt{2}X + 1)(X^2 + \\sqrt{2}X + 1)$. Discriminants $\\Delta = -2 < 0$, donc irréductibles sur $\\mathbb{R}$."
+      "answer": "$(X - 3)^2 (X + 1)$",
+      "hint1": "Calcule $P(3)$ et $P'(3)$ pour vérifier si 3 est racine multiple.",
+      "hint2": "Si $P(3) = 0$ et $P'(3) = 0$, alors $(X - 3)^2$ divise $P(X)$.",
+      "solution": "On teste $X = 3$ : $P(3) = 27 - 45 + 9 + 9 = 0$. Dérivée : $P'(X) = 3X^2 - 10X + 3 \\implies P'(3) = 27 - 30 + 3 = 0$. Donc $3$ est une racine au moins double. La division euclidienne de $P(X)$ par $(X - 3)^2 = X^2 - 6X + 9$ donne le quotient $X + 1$. D'où $P(X) = (X - 3)^2 (X + 1)$."
+    },
+    {
+      "id": "L1-CMP-3b",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Factorisation de degré 4 dans R[X] et C[X] (TD Univ)",
+      "skill": "Comparer la décomposition en irréductibles dans $\\mathbb{R}[X]$ et $\\mathbb{C}[X]$",
+      "statement": "Quelle est la décomposition en facteurs irréductibles de $P(X) = X^4 - 16$ dans $\\mathbb{R}[X]$ et dans $\\mathbb{C}[X]$ (issu de la fiche de TD) ?",
+      "options": [
+        "Dans $\\mathbb{R}[X]$ : $(X - 2)(X + 2)(X^2 + 4)$ ; Dans $\\mathbb{C}[X]$ : $(X - 2)(X + 2)(X - 2i)(X + 2i)$",
+        "Dans $\\mathbb{R}[X]$ : $(X - 2)^2 (X + 2)^2$ ; Dans $\\mathbb{C}[X]$ : $(X - 2)^4$",
+        "Dans $\\mathbb{R}[X]$ : $(X^2 - 4)^2$ ; Dans $\\mathbb{C}[X]$ : $(X - 2)(X + 2)(X^2 + 4)$",
+        "Dans $\\mathbb{R}[X]$ : $(X - 4)(X + 4)(X^2 + 4)$ ; Dans $\\mathbb{C}[X]$ : $(X - 4)(X + 4)(X - 4i)(X + 4i)$"
+      ],
+      "correctIndex": 0,
+      "answer": "Dans $\\mathbb{R}[X]$ : $(X - 2)(X + 2)(X^2 + 4)$ ; Dans $\\mathbb{C}[X]$ : $(X - 2)(X + 2)(X - 2i)(X + 2i)$",
+      "hint1": "Utilise l'identité $A^2 - B^2$ avec $A = X^2$ et $B = 4$.",
+      "hint2": "$X^2 + 4$ est-il irréductible dans $\\mathbb{R}[X]$ ? Et dans $\\mathbb{C}[X]$ ?",
+      "solution": "$X^4 - 16 = (X^2 - 4)(X^2 + 4) = (X - 2)(X + 2)(X^2 + 4)$. Le facteur $X^2 + 4$ n'a aucune racine réelle ($\\Delta = -16 < 0$), donc il est irréductible dans $\\mathbb{R}[X]$. Dans $\\mathbb{C}[X]$, il se factorise en $(X - 2i)(X + 2i)$."
+    },
+    {
+      "id": "L1-CMP-3c",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Polynôme de degré 4 à deux racines doubles",
+      "skill": "Identifier deux racines doubles dans un polynôme de degré 4",
+      "statement": "Factoriser le polynôme $P(X) = X^4 - 2X^2 + 1$ dans $\\mathbb{R}[X]$ et préciser la multiplicité de ses racines :",
+      "options": [
+        "$(X - 1)^2 (X + 1)^2$ (deux racines doubles : $1$ et $-1$)",
+        "$(X^2 - 1)^2$ (deux racines simples)",
+        "$(X - 1)^4$ (une unique racine d'ordre 4)",
+        "$(X - 1)(X + 1)(X^2 + 1)$ (racines simples)"
+      ],
+      "correctIndex": 0,
+      "answer": "$(X - 1)^2 (X + 1)^2$ (deux racines doubles : $1$ et $-1$)",
+      "hint1": "Reconnais une identité remarquable $(X^2 - 1)^2$.",
+      "hint2": "Puis factorise la différence de carrés à l'intérieur du carré.",
+      "solution": "On reconnaît $X^4 - 2X^2 + 1 = (X^2 - 1)^2 = [(X - 1)(X + 1)]^2 = (X - 1)^2 (X + 1)^2$. Les racines $1$ et $-1$ sont donc toutes les deux des racines de multiplicité 2 (racines doubles)."
+    },
+    {
+      "id": "L1-CMP-3d",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Factorisation d'un polynôme de degré 6 dans R[X] (TD Univ)",
+      "skill": "Factoriser un polynôme de degré 6 par changement de variable",
+      "statement": "Quelle est la factorisation en produit de polynômes irréductibles dans $\\mathbb{R}[X]$ du polynôme $P(X) = X^6 - 9X^3 + 8$ (issu de la fiche de TD) ?",
+      "options": [
+        "$(X - 1)(X^2 + X + 1)(X - 2)(X^2 + 2X + 4)$",
+        "$(X^3 - 1)(X^3 - 8)$",
+        "$(X - 1)^3 (X - 2)^3$",
+        "$(X - 1)(X + 1)(X - 2)(X + 2)(X^2 + 1)$"
+      ],
+      "correctIndex": 0,
+      "answer": "$(X - 1)(X^2 + X + 1)(X - 2)(X^2 + 2X + 4)$",
+      "hint1": "Pose le changement de variable $Y = X^3$ pour obtenir une équation du second degré.",
+      "hint2": "Factorise ensuite $X^3 - 1$ et $X^3 - 8$ à l'aide de l'identité $A^3 - B^3 = (A - B)(A^2 + AB + B^2)$.",
+      "solution": "En posant $Y = X^3$, le polynôme devient $Y^2 - 9Y + 8 = (Y - 1)(Y - 8) = (X^3 - 1)(X^3 - 8)$. Or $X^3 - 1 = (X - 1)(X^2 + X + 1)$ et $X^3 - 8 = (X - 2)(X^2 + 2X + 4)$. Comme $\\Delta_1 = 1 - 4 = -3 < 0$ et $\\Delta_2 = 4 - 16 = -12 < 0$, les deux facteurs de degré 2 sont irréductibles dans $\\mathbb{R}[X]$."
+    },
+    {
+      "id": "L1-CMP-3e",
+      "tier": 3,
+      "type": "mcq",
+      "title": "DES avec pôle double (TD Univ)",
+      "skill": "Identifier la forme générale d'une DES à pôle double",
+      "statement": "Quelle est la forme générale théorique de la décomposition en éléments simples dans $\\mathbb{R}(X)$ de $F(X) = \\frac{1}{(X - 1)(X + 1)^2}$ (issue de la fiche de TD) ?",
+      "options": [
+        "$\\frac{a}{X - 1} + \\frac{b}{(X + 1)^2} + \\frac{c}{X + 1}$",
+        "$\\frac{a}{X - 1} + \\frac{b}{(X + 1)^2}$",
+        "$\\frac{a}{X - 1} + \\frac{bX + c}{(X + 1)^2}$",
+        "$\\frac{a}{X - 1} + \\frac{b}{X + 1}$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\frac{a}{X - 1} + \\frac{b}{(X + 1)^2} + \\frac{c}{X + 1}$",
+      "hint1": "Le pôle $-1$ est de multiplicité 2 (pôle double).",
+      "hint2": "Chaque pôle multiple de multiplicité $m$ génère une somme de fractions $\\sum_{k=1}^m \\frac{\\alpha_k}{(X - a)^k}$.",
+      "solution": "Le dénominateur admet le pôle simple $1$ et le pôle double $-1$. D'après le théorème fondamental de décomposition en éléments simples, le pôle double contribue par les deux termes $\\frac{b}{(X + 1)^2} + \\frac{c}{X + 1}$. D'où la forme $\\frac{a}{X - 1} + \\frac{b}{(X + 1)^2} + \\frac{c}{X + 1}$."
     },
     {
       "id": "L1-CMP-4",
       "tier": 4,
       "type": "mcq",
-      "title": "Relations coefficients-racines de Viète",
-      "skill": "Utiliser les fonctions symétriques élémentaires",
-      "statement": "Soient $x_1, x_2, x_3$ les racines de $X^3 - 3X^2 + 4X - 5$. Que vaut $x_1^2 + x_2^2 + x_3^2$ ?",
+      "title": "Polynôme de degré 6 admettant i comme racine double (TD Univ)",
+      "skill": "Factoriser un polynôme réel connaissant une racine double complexe",
+      "statement": "Soit le polynôme $P(X) = X^6 + X^5 + 3X^4 + 2X^3 + 3X^2 + X + 1 \\in \\mathbb{R}[X]$. Sachant que $i$ est racine double de $P$, quelle est sa factorisation en irréductibles dans $\\mathbb{R}[X]$ (issu de la fiche de TD) ?",
       "options": [
-        "$1$",
-        "$9$",
-        "$-1$",
-        "$5$"
+        "$(X^2 + 1)^2 (X^2 + X + 1)$",
+        "$(X^2 + 1)(X^4 + X^3 + 2X^2 + X + 1)$",
+        "$(X^2 + 1)^3$",
+        "$(X^2 + 1)^2 (X - 1)(X + 1)$"
       ],
       "correctIndex": 0,
-      "answer": "$1$",
-      "hint1": "$\\sum x_i^2 = (\\sum x_i)^2 - 2 \\sum_{i<j} x_i x_j$.",
-      "hint2": "Par Viète, $\\sigma_1 = 3$ et $\\sigma_2 = 4$.",
-      "solution": "$\\sigma_1 = 3$, $\\sigma_2 = 4$. Donc $\\sum x_i^2 = \\sigma_1^2 - 2\\sigma_2 = 3^2 - 2(4) = 9 - 8 = 1$."
+      "answer": "$(X^2 + 1)^2 (X^2 + X + 1)$",
+      "hint1": "Puisque $P$ est à coefficients réels, si $i$ est racine double, alors $-i = \\bar{i}$ est aussi racine double.",
+      "hint2": "En déduire que $(X - i)^2 (X + i)^2 = (X^2 + 1)^2 = X^4 + 2X^2 + 1$ divise $P(X)$.",
+      "solution": "Comme $P \\in \\mathbb{R}[X]$, la conjugaison assure que $-i$ est également racine double de $P$. Ainsi, le polynôme $[(X - i)(X + i)]^2 = (X^2 + 1)^2 = X^4 + 2X^2 + 1$ divise $P(X)$. La division euclidienne de $P(X)$ par $X^4 + 2X^2 + 1$ donne pour quotient $X^2 + X + 1$. Ce trinôme ayant $\\Delta = 1 - 4 = -3 < 0$, il est irréductible dans $\\mathbb{R}[X]$. D'où $P(X) = (X^2 + 1)^2 (X^2 + X + 1)$."
+    },
+    {
+      "id": "L1-CMP-4b",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Reste de division euclidienne par un carré (X - 1)^2 (TD Univ)",
+      "skill": "Calculer le reste par dérivation ou formule de Taylor",
+      "statement": "Pour tout entier $n \\ge 2$, quel est le reste de la division euclidienne de $A(X) = X^n$ par $B(X) = (X - 1)^2$ dans $\\mathbb{R}[X]$ (issu de la fiche de TD) ?",
+      "options": [
+        "$nX - (n - 1)$",
+        "$nX + 1$",
+        "$n(X - 1)^2$",
+        "$X - n$"
+      ],
+      "correctIndex": 0,
+      "answer": "$nX - (n - 1)$",
+      "hint1": "Le reste $R(X)$ est de degré strictement inférieur à 2, donc $R(X) = aX + b$.",
+      "hint2": "Évalue l'égalité $X^n = Q(X)(X - 1)^2 + aX + b$ et sa dérivée en $X = 1$.",
+      "solution": "Comme $\\deg((X - 1)^2) = 2$, le reste est de la forme $R(X) = aX + b$. On a $X^n = Q(X)(X - 1)^2 + aX + b$. En évaluant en $X = 1$ : $1 = a + b$. En dérivant : $n X^{n-1} = Q'(X)(X - 1)^2 + 2Q(X)(X - 1) + a$, d'où en $X = 1$ : $a = n$. On en déduit $b = 1 - n = -(n - 1)$, soit $R(X) = nX - (n - 1)$."
+    },
+    {
+      "id": "L1-CMP-4c",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Détection des racines multiples par le PGCD(P, P')",
+      "skill": "Relier les racines multiples au PGCD du polynôme et de sa dérivée",
+      "statement": "Calculer $\\text{pgcd}(P, P')$ pour $P(X) = X^3 - 3X + 2$. Qu'en déduit-on rigoureusement sur les racines multiples de $P$ ?",
+      "options": [
+        "$\\text{pgcd}(P, P') = X - 1$ ; $1$ est racine double de $P$",
+        "$\\text{pgcd}(P, P') = 1$ ; $P$ ne possède aucune racine multiple",
+        "$\\text{pgcd}(P, P') = X + 1$ ; $-1$ est racine double de $P$",
+        "$\\text{pgcd}(P, P') = (X - 1)^2$ ; $1$ est racine triple de $P$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\text{pgcd}(P, P') = X - 1$ ; $1$ est racine double de $P$",
+      "hint1": "Dérive $P$ : $P'(X) = 3X^2 - 3 = 3(X - 1)(X + 1)$.",
+      "hint2": "Applique le théorème : les racines de $\\text{pgcd}(P, P')$ sont les racines multiples de $P$, avec multiplicité diminuée de 1.",
+      "solution": "On a $P'(X) = 3(X^2 - 1) = 3(X - 1)(X + 1)$. Comme $P(1) = 1 - 3 + 2 = 0$ et $P(-1) = -1 + 3 + 2 = 4 \\neq 0$, le seul facteur commun unitaire est $\\text{pgcd}(P, P') = X - 1$. La racine $1$ est donc de multiplicité $1 + 1 = 2$ (racine double) pour $P$."
+    },
+    {
+      "id": "L1-CMP-4d",
+      "tier": 4,
+      "type": "mcq",
+      "title": "DES avec partie entière et pôle double (TD Univ)",
+      "skill": "Déterminer la partie entière et le coefficient dominant d'un pôle double",
+      "statement": "Pour la fraction rationnelle $G(X) = \\frac{X^3 + 2}{(X - 1)^2 (X + 2)}$ (issue de la fiche de TD), quelle est sa partie entière $E(X)$ et le coefficient $\\alpha$ du terme $\\frac{\\alpha}{(X - 1)^2}$ ?",
+      "options": [
+        "$E(X) = 1$ et $\\alpha = 1$",
+        "$E(X) = 0$ et $\\alpha = 1$",
+        "$E(X) = 1$ et $\\alpha = 3$",
+        "$E(X) = X$ et $\\alpha = 2$"
+      ],
+      "correctIndex": 0,
+      "answer": "$E(X) = 1$ et $\\alpha = 1$",
+      "hint1": "Compare les degrés du numérateur et du dénominateur pour trouver la partie entière.",
+      "hint2": "Pour $\\alpha$, multiplie par $(X - 1)^2$ et évalue en $X = 1$.",
+      "solution": "On a $\\deg(X^3 + 2) = 3$ et $\\deg((X - 1)^2(X + 2)) = 3$. Le quotient des coefficients dominants vaut $1/1 = 1$, donc la partie entière est $E(X) = 1$. Pour trouver $\\alpha$, on calcule $\\lim_{X \\to 1} (X - 1)^2 G(X) = \\left[\\frac{X^3 + 2}{X + 2}\\right]_{X=1} = \\frac{1 + 2}{1 + 2} = 1$. D'où $E(X) = 1$ et $\\alpha = 1$."
     }
   ],
   "L1-MAT": [
@@ -821,9 +1067,9 @@ window.MATHS_EXERCISES_L1 = {
       "id": "L1-MAT-1",
       "tier": 1,
       "type": "mcq",
-      "title": "Déterminant 2x2 et inversibilité",
+      "title": "Condition d'inversibilité avec paramètre",
       "skill": "Condition d'inversibilité d'une matrice carrée",
-      "statement": "Pour quelle valeur de $\\lambda \\in \\mathbb{R}$ la matrice $\\begin{pmatrix} \\lambda & 3 \\\\ 2 & 6 \\end{pmatrix}$ n'est-elle pas inversible ?",
+      "statement": "Pour quelle valeur de $\\lambda \\in \\mathbb{R}$ la matrice $\\begin{pmatrix} \\lambda & 3 \\\\ 2 & 6 \\end{pmatrix}$ n'est-elle PAS inversible ?",
       "options": [
         "$\\lambda = 1$",
         "$\\lambda = 0$",
@@ -832,9 +1078,66 @@ window.MATHS_EXERCISES_L1 = {
       ],
       "correctIndex": 0,
       "answer": "$\\lambda = 1$",
-      "hint1": "Le déterminant doit être nul : $\\det(A) = 0$.",
-      "hint2": "$6\\lambda - 6 = 0 \\iff \\lambda = 1$.",
-      "solution": "$\\det(A) = 6\\lambda - 6 = 0 \\iff \\lambda = 1$."
+      "hint1": "Une matrice carrée n'est pas inversible si et seulement si son déterminant est nul : $\\det(A) = 0$.",
+      "hint2": "$\\det(A) = 6\\lambda - 6 = 0 \\iff \\lambda = 1$.",
+      "solution": "Le déterminant de la matrice est $\\det(A) = 6\\lambda - 3 \\times 2 = 6\\lambda - 6$. La matrice est non inversible si et seulement si $\\det(A) = 0 \\iff 6\\lambda = 6 \\iff \\lambda = 1$."
+    },
+    {
+      "id": "L1-MAT-1b",
+      "tier": 1,
+      "type": "mcq",
+      "title": "Déterminant 2x2 et matrice inversible",
+      "skill": "Calculer le déterminant d'une matrice 2x2 et tester son inversibilité",
+      "statement": "Calculer le déterminant de la matrice $A = \\begin{pmatrix} 3 & 4 \\\\ 2 & 2 \\end{pmatrix}$. $A$ est-elle inversible ?",
+      "options": [
+        "$\\det(A) = -2$, inversible",
+        "$\\det(A) = -2$, non inversible",
+        "$\\det(A) = 14$, inversible",
+        "$\\det(A) = 2$, inversible"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\det(A) = -2$, inversible",
+      "hint1": "Formule du déterminant 2x2 : $\\det = ad - bc$.",
+      "hint2": "Une matrice carrée est inversible si et seulement si son déterminant est non nul ($\\det(A) \\neq 0$).",
+      "solution": "$\\det(A) = 3 \\times 2 - 4 \\times 2 = 6 - 8 = -2$. Comme $\\det(A) = -2 \\neq 0$, la matrice est inversible."
+    },
+    {
+      "id": "L1-MAT-1c",
+      "tier": 1,
+      "type": "mcq",
+      "title": "Déterminant 2x2 et matrice non inversible",
+      "skill": "Identifier une matrice non inversible par son déterminant nul",
+      "statement": "Calculer le déterminant de la matrice $A = \\begin{pmatrix} 2 & 6 \\\\ 1 & 3 \\end{pmatrix}$. $A$ est-elle inversible ?",
+      "options": [
+        "$\\det(A) = 0$, non inversible",
+        "$\\det(A) = 0$, inversible",
+        "$\\det(A) = 12$, inversible",
+        "$\\det(A) = 6$, non inversible"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\det(A) = 0$, non inversible",
+      "hint1": "Formule du déterminant 2x2 : $\\det(A) = ad - bc$.",
+      "hint2": "Remarque que la première ligne est le double de la seconde ($L_1 = 2L_2$).",
+      "solution": "$\\det(A) = 2 \\times 3 - 6 \\times 1 = 6 - 6 = 0$. Comme son déterminant est nul (les lignes sont liées), la matrice n'est pas inversible."
+    },
+    {
+      "id": "L1-MAT-1d",
+      "tier": 1,
+      "type": "mcq",
+      "title": "Déterminant d'une matrice triangulaire",
+      "skill": "Calculer le déterminant par produit des pivots",
+      "statement": "Calculer le déterminant de la matrice triangulaire supérieure $T = \\begin{pmatrix} 3 & -2 & 1 \\\\ 0 & 2 & 5 \\\\ 0 & 0 & 0 \\end{pmatrix}$. $T$ est-elle inversible ?",
+      "options": [
+        "$\\det(T) = 0$, non inversible",
+        "$\\det(T) = 0$, inversible",
+        "$\\det(T) = 6$, inversible",
+        "$\\det(T) = 5$, non inversible"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\det(T) = 0$, non inversible",
+      "hint1": "Pour toute matrice triangulaire, le déterminant est le produit de ses éléments diagonaux.",
+      "hint2": "L'un des éléments diagonaux vaut 0 : que vaut le produit ?",
+      "solution": "Pour une matrice triangulaire, $\\det(T) = 3 \\times 2 \\times 0 = 0$. Comme $\\det(T) = 0$, la matrice n'est pas inversible."
     },
     {
       "id": "L1-MAT-2",
@@ -899,8 +1202,8 @@ window.MATHS_EXERCISES_L1 = {
       "id": "L1-EV1-1",
       "tier": 1,
       "type": "mcq",
-      "title": "Caractérisation d'un sous-espace vectoriel",
-      "skill": "Vérifier la stabilité par combinaison linéaire",
+      "title": "Caractérisation d'un sous-espace vectoriel (SEV)",
+      "skill": "Vérifier la condition $0_E \\in F$ et la stabilité par combinaison linéaire",
       "statement": "Lequel des ensembles suivants est un sous-espace vectoriel de $\\mathbb{R}^3$ ?",
       "options": [
         "$F = \\{(x, y, z) \\in \\mathbb{R}^3 \\mid 2x - 3y + z = 0\\}$",
@@ -910,66 +1213,123 @@ window.MATHS_EXERCISES_L1 = {
       ],
       "correctIndex": 0,
       "answer": "$F = \\{(x, y, z) \\in \\mathbb{R}^3 \\mid 2x - 3y + z = 0\\}$",
-      "hint1": "Un s.e.v. doit contenir $(0,0,0)$ et être défini par une équation linéaire homogène.",
-      "hint2": "$F$ est le noyau de la forme linéaire $(x,y,z) \\mapsto 2x-3y+z$.",
-      "solution": "$F$ contient le vecteur nul et est défini par une équation linéaire sans second membre. C'est un hyperplan vectoriel de $\\mathbb{R}^3$."
+      "hint1": "Un s.e.v. doit contenir $(0,0,0)$ et être stable par combinaison linéaire.",
+      "hint2": "$F$ est le noyau de la forme linéaire non nulle $(x,y,z) \\mapsto 2x - 3y + z$.",
+      "solution": "$F$ contient le vecteur nul $(0,0,0)$ et est défini par une équation linéaire homogène (forme linéaire). Pour $G$, $(0,0,0) \\notin G$. Pour $H$, la condition quadratique n'est pas stable par addition. Pour $K$, ce n'est pas stable par multiplication par un scalaire négatif. Seul $F$ est un SEV (hyperplan vectoriel de dimension 2)."
     },
     {
       "id": "L1-EV1-2",
       "tier": 2,
       "type": "mcq",
-      "title": "Famille libre vs liée dans R^3",
-      "skill": "Tester l'indépendance linéaire",
-      "statement": "La famille $(u, v, w)$ avec $u=(1, 0, 1)$, $v=(0, 1, 1)$, $w=(1, 1, 2)$ est-elle libre dans $\\mathbb{R}^3$ ?",
+      "title": "Famille de vecteurs sans composante nulle dans $\\mathbb{R}^3$",
+      "skill": "Tester l'indépendance linéaire de vecteurs sans coefficients nuls",
+      "statement": "Dans $\\mathbb{R}^3$, la famille $\\mathcal{F} = \\{u = (1, 2, -1), \\, v = (2, -1, 3), \\, w = (3, 1, 2)\\}$ est-elle libre ou liée ?",
       "options": [
-        "Non, car $w = u + v$",
-        "Oui, car aucun vecteur n'est nul",
-        "Oui, car le déterminant vaut 1",
-        "Non, car ils ont tous des coordonnées positives"
+        "Liée, car $w = u + v$",
+        "Libre, car aucun vecteur ne contient de coordonnée nulle",
+        "Libre, car le déterminant de la famille vaut 1",
+        "Génératrice sans être liée"
       ],
       "correctIndex": 0,
-      "answer": "Non, car $w = u + v$",
-      "hint1": "$u + v = (1, 0, 1) + (0, 1, 1) = (1, 1, 2)$.",
-      "hint2": "Il existe une combinaison linéaire non triviale : $u + v - w = 0$.",
-      "solution": "Comme $w = u + v$, les trois vecteurs sont liés (dépendants linéairement)."
+      "answer": "Liée, car $w = u + v$",
+      "hint1": "Somme terme à terme les composantes de $u$ et $v$ : $1+2=3, 2-1=1, -1+3=2$.",
+      "hint2": "Une famille est liée dès qu'un vecteur s'exprime comme combinaison linéaire des autres.",
+      "solution": "On a immédiatement $u + v = (1+2, \\, 2-1, \\, -1+3) = (3, 1, 2) = w$. La relation $u + v - w = 0_{\\mathbb{R}^3}$ fournit une combinaison linéaire non triviale à coefficients non nuls. La famille est donc liée (et son déterminant est nul)."
+    },
+    {
+      "id": "L1-EV1-2b",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Base de $\\mathbb{R}^3$ sans coordonnée nulle",
+      "skill": "Vérifier la liberté par calcul de déterminant non nul",
+      "statement": "Dans $\\mathbb{R}^3$, la famille $\\mathcal{B} = \\{u = (1, 1, 2), \\, v = (2, -1, 1), \\, w = (1, 3, 1)\\}$ forme-t-elle une base de $\\mathbb{R}^3$ ?",
+      "options": [
+        "Oui, car c'est une famille libre (déterminant non nul égal à 9) de 3 vecteurs dans $\\mathbb{R}^3$",
+        "Non, car 3 vecteurs sans composante nulle sont toujours liés",
+        "Non, car le déterminant vaut 0",
+        "Génératrice mais non libre"
+      ],
+      "correctIndex": 0,
+      "answer": "Oui, car c'est une famille libre (déterminant non nul égal à 9) de 3 vecteurs dans $\\mathbb{R}^3$",
+      "hint1": "Calcule le déterminant de la matrice formée par les trois vecteurs colonnes.",
+      "hint2": "Dans un espace de dimension 3, 3 vecteurs libres forment automatiquement une base.",
+      "solution": "Le déterminant de la matrice formée par ces vecteurs est $\\det(u, v, w) = 1((-1)(1) - (1)(3)) - 1((2)(1) - (1)(1)) + 2((2)(3) - (-1)(1)) = -4 - 1 + 14 = 9 \\neq 0$. La famille est donc libre. Comme $\\text{Card}(\\mathcal{B}) = 3 = \\dim(\\mathbb{R}^3)$, $\\mathcal{B}$ est une base de $\\mathbb{R}^3$."
     },
     {
       "id": "L1-EV1-3",
       "tier": 3,
       "type": "mcq",
-      "title": "Dimension d'un sous-espace vectoriel",
-      "skill": "Trouver la dimension d'un sous-espace engendré",
-      "statement": "Quelle est la dimension du sous-espace $F = \\text{Vect}((1, 2, 0), (2, 4, 0), (0, 0, 3))$ de $\\mathbb{R}^3$ ?",
+      "title": "Base et dimension d'un plan vectoriel de $\\mathbb{R}^3$",
+      "skill": "Déterminer une base et la dimension d'un sous-espace cartésien",
+      "statement": "Quelle est la dimension et une base du sous-espace $F = \\{(x, y, z) \\in \\mathbb{R}^3 \\mid x - 2y + z = 0\\}$ ?",
       "options": [
-        "$2$",
-        "$3$",
-        "$1$",
-        "$0$"
+        "$\\dim(F) = 2$, de base $\\mathcal{B} = \\{(2, 1, 0), \\, (-1, 0, 1)\\}$",
+        "$\\dim(F) = 1$, de base $\\mathcal{B} = \\{(1, -2, 1)\\}$",
+        "$\\dim(F) = 3$, de base canonique de $\\mathbb{R}^3$",
+        "$\\dim(F) = 2$, de base $\\mathcal{B} = \\{(1, 1, 1), \\, (0, 0, 0)\\}$"
       ],
       "correctIndex": 0,
-      "answer": "$2$",
-      "hint1": "$(2, 4, 0) = 2(1, 2, 0)$ est redondant.",
-      "hint2": "Il reste deux vecteurs non colinéaires : $(1, 2, 0)$ et $(0, 0, 3)$.",
-      "solution": "Le deuxième vecteur est colinéaire au premier. Les deux autres sont linéairement indépendants, donc $\\dim F = 2$."
+      "answer": "$\\dim(F) = 2$, de base $\\mathcal{B} = \\{(2, 1, 0), \\, (-1, 0, 1)\\}$",
+      "hint1": "Isole $x$ dans l'équation : $x = 2y - z$.",
+      "hint2": "Décompose le vecteur $(x, y, z) = y(2, 1, 0) + z(-1, 0, 1)$.",
+      "solution": "Un vecteur $(x, y, z)$ appartient à $F$ ssi $x = 2y - z$. Donc $(x, y, z) = (2y - z, y, z) = y(2, 1, 0) + z(-1, 0, 1)$. Les deux vecteurs $(2, 1, 0)$ et $(-1, 0, 1)$ ne sont pas colinéaires, ils sont libres et engendrent $F$. Ainsi, $\\dim(F) = 2$ et $\{(2, 1, 0), (-1, 0, 1)\}$ est une base de $F$."
+    },
+    {
+      "id": "L1-EV1-3b",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Sous-espaces supplémentaires et somme directe dans $\\mathbb{R}^3$",
+      "skill": "Vérifier la condition de supplémentarité $F \\oplus D = \\mathbb{R}^3$",
+      "statement": "Soit le plan vectoriel $F = \\{(x, y, z) \\in \\mathbb{R}^3 \\mid x + y + z = 0\\}$. Pour quelle droite vectorielle $D = \\text{Vect}(u)$ a-t-on $F \\oplus D = \\mathbb{R}^3$ ?",
+      "options": [
+        "Pour $u = (1, 1, 1)$, car $(1, 1, 1) \\notin F$",
+        "Pour $u = (1, -1, 0)$, car $(1, -1, 0) \\in F$",
+        "Pour $u = (2, -1, -1)$, car $2 + (-1) + (-1) = 0$",
+        "Pour aucun vecteur, car un plan n'a pas de supplémentaire"
+      ],
+      "correctIndex": 0,
+      "answer": "Pour $u = (1, 1, 1)$, car $(1, 1, 1) \\notin F$",
+      "hint1": "$\\dim(F) + \\dim(D) = 2 + 1 = 3$. La somme est directe ssi $F \\cap D = \\{0\\}$.",
+      "hint2": "La condition $F \\cap D = \\{0\\}$ équivaut au fait que le vecteur directeur $u$ n'appartient pas au plan $F$.",
+      "solution": "Comme $\\dim(F) = 2$ et $\\dim(D) = 1$, la somme des dimensions vaut 3. Pour que la somme soit directe, il faut et suffit que le vecteur directeur $u$ n'appartienne pas à $F$. Pour $u = (1, 1, 1)$, $1+1+1 = 3 \\neq 0$, donc $u \\notin F$. Ainsi $F \\cap D = \\{0\\}$ et $F \\oplus D = \\mathbb{R}^3$."
     },
     {
       "id": "L1-EV1-4",
       "tier": 4,
       "type": "mcq",
-      "title": "Formule de Grassmann",
+      "title": "Formule de Grassmann et intersection d'hyperplans dans $\\mathbb{R}^4$",
       "skill": "Calculer la dimension d'une intersection de sous-espaces",
-      "statement": "Soient $F$ et $G$ deux plans vectoriels distincts de $\\mathbb{R}^3$. Quelle est la dimension de $F \\cap G$ ?",
+      "statement": "Soient $F$ et $G$ deux sous-espaces vectoriels distincts de dimension 3 dans $\\mathbb{R}^4$. Que vaut la dimension de $F \\cap G$ ?",
       "options": [
-        "$1$",
-        "$0$",
-        "$2$",
-        "$3$"
+        "$\\dim(F \\cap G) = 2$",
+        "$\\dim(F \\cap G) = 3$",
+        "$\\dim(F \\cap G) = 1$",
+        "$\\dim(F \\cap G) = 0$"
       ],
       "correctIndex": 0,
-      "answer": "$1$",
-      "hint1": "$\\dim F = 2$, $\\dim G = 2$, et $\\dim(F+G) = 3$.",
-      "hint2": "$\\dim(F \\cap G) = \\dim F + \\dim G - \\dim(F+G) = 2 + 2 - 3$.",
-      "solution": "Par la formule de Grassmann : $\\dim(F \\cap G) = 2 + 2 - 3 = 1$. L'intersection est une droite vectorielle."
+      "answer": "$\\dim(F \\cap G) = 2$",
+      "hint1": "Formule de Grassmann : $\\dim(F \\cap G) = \\dim F + \\dim G - \\dim(F+G)$.",
+      "hint2": "Comme $F \\neq G$ et $\\dim F = 3$, l'espace somme $F + G$ est de dimension 4.",
+      "solution": "Comme $F \\neq G$ et $F \\subset F + G \\subset \\mathbb{R}^4$, la dimension de $F+G$ est strictement supérieure à 3, donc $\\dim(F+G) = 4$. D'après la formule de Grassmann : $\\dim(F \\cap G) = \\dim(F) + \\dim(G) - \\dim(F + G) = 3 + 3 - 4 = 2$."
+    },
+    {
+      "id": "L1-EV1-4b",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Somme directe des matrices symétriques et antisymétriques",
+      "skill": "Maîtriser la décomposition $\\mathcal{M}_n(\\mathbb{R}) = \\mathcal{S}_n(\\mathbb{R}) \\oplus \\mathcal{A}_n(\\mathbb{R})$",
+      "statement": "Dans l'espace $\\mathcal{M}_n(\\mathbb{R})$, quelles sont les dimensions respectives des sous-espaces $\\mathcal{S}_n(\\mathbb{R})$ (symétriques) et $\\mathcal{A}_n(\\mathbb{R})$ (antisymétriques) ?",
+      "options": [
+        "$\\dim \\mathcal{S}_n = \\frac{n(n+1)}{2}$ et $\\dim \\mathcal{A}_n = \\frac{n(n-1)}{2}$, avec $\\mathcal{S}_n \\oplus \\mathcal{A}_n = \\mathcal{M}_n(\\mathbb{R})$",
+        "$\\dim \\mathcal{S}_n = n^2 - n$ et $\\dim \\mathcal{A}_n = n$",
+        "$\\dim \\mathcal{S}_n = \\frac{n^2}{2}$ et $\\dim \\mathcal{A}_n = \\frac{n^2}{2}$",
+        "$\\dim \\mathcal{S}_n = n$ et $\\dim \\mathcal{A}_n = n - 1$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\dim \\mathcal{S}_n = \\frac{n(n+1)}{2}$ et $\\dim \\mathcal{A}_n = \\frac{n(n-1)}{2}$, avec $\\mathcal{S}_n \\oplus \\mathcal{A}_n = \\mathcal{M}_n(\\mathbb{R})$",
+      "hint1": "Une matrice symétrique a $n$ termes diagonaux et $\\frac{n(n-1)}{2}$ termes au-dessus.",
+      "hint2": "Pour une matrice antisymétrique, la diagonale est obligatoirement nulle.",
+      "solution": "Pour une matrice symétrique, les coefficients sous la diagonale sont déterminés par ceux du dessus : il y a $n + \\frac{n(n-1)}{2} = \\frac{n(n+1)}{2}$ paramètres libres. Pour une matrice antisymétrique, la diagonale est nulle et il y a $\\frac{n(n-1)}{2}$ paramètres libres. La somme de leurs dimensions donne bien $\\frac{n(n+1)}{2} + \\frac{n(n-1)}{2} = n^2 = \\dim \\mathcal{M}_n(\\mathbb{R})$ et leur intersection est réduite à la matrice nulle."
     }
   ],
   "L1-APP": [
@@ -977,77 +1337,134 @@ window.MATHS_EXERCISES_L1 = {
       "id": "L1-APP-1",
       "tier": 1,
       "type": "mcq",
-      "title": "Théorème du rang",
-      "skill": "Appliquer la relation $\\dim E = \\dim \\text{Ker} f + \\text{rg}(f)$",
-      "statement": "Soit $f : \\mathbb{R}^5 \\to \\mathbb{R}^3$ une application linéaire surjective. Quelle est la dimension de $\\text{Ker}(f)$ ?",
+      "title": "Calcul concret de l'image d'un vecteur par une application linéaire",
+      "skill": "Évaluer une application linéaire définie sur $\\mathbb{R}^2$",
+      "statement": "Soit $f : \\mathbb{R}^2 \\to \\mathbb{R}^2$ définie par $f(x, y) = (2x - 3y, \\, x + 4y)$. Quelle est l'image du vecteur $u = (1, -2)$ par $f$ ?",
       "options": [
-        "$2$",
-        "$3$",
-        "$5$",
-        "$0$"
+        "$f(1, -2) = (8, -7)$",
+        "$f(1, -2) = (-4, -7)$",
+        "$f(1, -2) = (8, 9)$",
+        "$f(1, -2) = (2, -8)$"
       ],
       "correctIndex": 0,
-      "answer": "$2$",
-      "hint1": "Surjective $\\implies \\text{rg}(f) = \\dim(\\mathbb{R}^3) = 3$.",
-      "hint2": "$\\dim \\text{Ker}(f) = 5 - 3 = 2$.",
-      "solution": "D'après le théorème du rang : $\\dim \\text{Ker}(f) = \\dim(\\mathbb{R}^5) - \\text{rg}(f) = 5 - 3 = 2$."
+      "answer": "$f(1, -2) = (8, -7)$",
+      "hint1": "Remplace $x$ par 1 et $y$ par -2 dans chaque composante de la formule.",
+      "hint2": "Première composante : $2(1) - 3(-2) = 2 + 6 = 8$. Seconde composante : $1 + 4(-2) = 1 - 8 = -7$.",
+      "solution": "On applique la définition de l'application : $f(1, -2) = (2(1) - 3(-2), \\, 1 + 4(-2)) = (2 + 6, \\, 1 - 8) = (8, -7)$."
+    },
+    {
+      "id": "L1-APP-1b",
+      "tier": 1,
+      "type": "mcq",
+      "title": "Dérivation linéaire concrète dans $\\mathbb{R}_2[X]$",
+      "skill": "Appliquer un opérateur linéaire sur des polynômes",
+      "statement": "Soit l'application linéaire de dérivation $D : \\mathbb{R}_2[X] \\to \\mathbb{R}_1[X]$ définie par $D(P) = P'$. Quelle est l'image de $P(X) = 3X^2 - 5X + 4$ ?",
+      "options": [
+        "$D(P) = 6X - 5$",
+        "$D(P) = 3X - 5$",
+        "$D(P) = 6X^2 - 5X$",
+        "$D(P) = 6X - 1$"
+      ],
+      "correctIndex": 0,
+      "answer": "$D(P) = 6X - 5$",
+      "hint1": "Dérive terme à terme par linéarité : $(3X^2)' = 6X$, $(-5X)' = -5$, $(4)' = 0$.",
+      "hint2": "La constante disparaît lors de la dérivation.",
+      "solution": "Par linéarité de la dérivation : $D(3X^2 - 5X + 4) = 3(X^2)' - 5(X)' + (4)' = 3(2X) - 5(1) + 0 = 6X - 5$."
     },
     {
       "id": "L1-APP-2",
       "tier": 2,
       "type": "mcq",
-      "title": "Noyau d'un endomorphisme",
-      "skill": "Déterminer la dimension du noyau",
-      "statement": "Soit $f : \\mathbb{R}^3 \\to \\mathbb{R}^3, (x, y, z) \\mapsto (x - y, y - z, z - x)$. Quelle est la dimension de $\\text{Ker}(f)$ ?",
+      "title": "Noyau, image et surjectivité concrète : $\\mathbb{R}^3 \\to \\mathbb{R}^2$",
+      "skill": "Déterminer explicitement le noyau et déduire rang et surjectivité",
+      "statement": "Soit l'application linéaire $f : \\mathbb{R}^3 \\to \\mathbb{R}^2$ définie par $f(x, y, z) = (x + y, \\, y - z)$. Quel est son noyau $\\text{Ker}(f)$, et $f$ est-elle injective ou surjective ?",
       "options": [
-        "$1$",
-        "$0$",
-        "$2$",
-        "$3$"
+        "$\\text{Ker}(f) = \\text{Vect}((-1, 1, 1))$ : $f$ n'est pas injective, mais elle est surjective (rang = 2)",
+        "$\\text{Ker}(f) = \\{(0, 0, 0)\\}$ : $f$ est injective et surjective (isomorphisme)",
+        "$\\text{Ker}(f) = \\text{Vect}((1, 1, 1))$ : $f$ est injective mais non surjective",
+        "$\\text{Ker}(f) = \\mathbb{R}^3$ : $f$ est l'application nulle"
       ],
       "correctIndex": 0,
-      "answer": "$1$",
-      "hint1": "$x - y = 0, y - z = 0, z - x = 0 \\iff x = y = z$.",
-      "hint2": "$\\text{Ker}(f) = \\text{Vect}((1, 1, 1))$.",
-      "solution": "$(x, y, z) \\in \\text{Ker}(f) \\iff x = y = z$. C'est la droite dirigée par $(1, 1, 1)$, donc $\\dim \\text{Ker}(f) = 1$."
+      "answer": "$\\text{Ker}(f) = \\text{Vect}((-1, 1, 1))$ : $f$ n'est pas injective, mais elle est surjective (rang = 2)",
+      "hint1": "Résous $f(x, y, z) = (0, 0) \\iff x + y = 0$ et $y - z = 0$.",
+      "hint2": "On obtient $x = -y$ et $z = y$. Le vecteur $(x, y, z)$ s'écrit $y(-1, 1, 1)$.",
+      "solution": "On résout $f(x, y, z) = (0, 0)$ :\n$\\begin{cases} x + y = 0 \\\\ y - z = 0 \\end{cases} \\iff \\begin{cases} x = -y \\\\ z = y \\end{cases}$. Ainsi $(x, y, z) = (-y, y, y) = y(-1, 1, 1)$.\nLe noyau est la droite vectorielle $\\text{Ker}(f) = \\text{Vect}((-1, 1, 1))$, de dimension 1. Comme $\\text{Ker}(f) \\neq \\{0\\}$, $f$ n'est pas injective. Par le théorème du rang, $\\text{rg}(f) = \\dim(\\mathbb{R}^3) - \\dim(\\text{Ker} f) = 3 - 1 = 2 = \\dim(\\mathbb{R}^2)$, donc $f$ est surjective."
+    },
+    {
+      "id": "L1-APP-2b",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Noyau, image et injectivité concrète : $\\mathbb{R}^2 \\to \\mathbb{R}^3$",
+      "skill": "Prouver l'injectivité d'une application de rang 2",
+      "statement": "Soit l'application linéaire $g : \\mathbb{R}^2 \\to \\mathbb{R}^3$ définie par $g(x, y) = (x, \\, y, \\, x + y)$. Quel est son noyau $\\text{Ker}(g)$, et $g$ est-elle injective ou surjective ?",
+      "options": [
+        "$\\text{Ker}(g) = \\{(0, 0)\\}$ : $g$ est injective mais n'est pas surjective (rang = 2 < 3)",
+        "$\\text{Ker}(g) = \\text{Vect}((1, -1))$ : $g$ n'est pas injective mais est surjective",
+        "$\\text{Ker}(g) = \\{(0, 0)\\}$ : $g$ est bijective (isomorphisme)",
+        "$\\text{Ker}(g) = \\mathbb{R}^2$ : le rang vaut 0"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\text{Ker}(g) = \\{(0, 0)\\}$ : $g$ est injective mais n'est pas surjective (rang = 2 < 3)",
+      "hint1": "$g(x, y) = (0, 0, 0) \\implies x = 0$ et $y = 0$.",
+      "hint2": "Par le théorème du rang : $\\text{rg}(g) = 2 - 0 = 2 < \\dim(\\mathbb{R}^3) = 3$.",
+      "solution": "On a $g(x, y) = (0, 0, 0) \\iff x=0, y=0, x+y=0 \\iff (x, y) = (0, 0)$. Le noyau est réduit à l'origine : $\\text{Ker}(g) = \\{(0, 0)\\}$, donc $g$ est injective. Par le théorème du rang, $\\text{rg}(g) = 2 - 0 = 2$. Comme l'espace d'arrivée $\\mathbb{R}^3$ est de dimension 3, $\\text{rg}(g) < 3$, donc $g$ n'est pas surjective."
     },
     {
       "id": "L1-APP-3",
       "tier": 3,
       "type": "mcq",
       "title": "Matrice de dérivation dans une base de polynômes",
-      "skill": "Représenter un opérateur dans une base",
-      "statement": "Pour $D : \\mathbb{R}_2[X] \\to \\mathbb{R}_2[X], P \\mapsto P'$, quelle est la trace de sa matrice dans la base $(1, X, X^2)$ ?",
+      "skill": "Représenter un opérateur linéaire dans une base",
+      "statement": "Pour $D : \\mathbb{R}_2[X] \\to \\mathbb{R}_2[X], P \\mapsto P'$, quelle est la trace et la structure de sa matrice dans la base $(1, X, X^2)$ ?",
       "options": [
-        "$0$",
-        "$1$",
-        "$2$",
-        "$3$"
+        "Trace nulle et matrice triangulaire supérieure stricte nilpotente",
+        "Trace égale à 3 et matrice inversible",
+        "Trace égale à 2 et matrice diagonale",
+        "Trace nulle et matrice orthogonale"
       ],
       "correctIndex": 0,
-      "answer": "$0$",
+      "answer": "Trace nulle et matrice triangulaire supérieure stricte nilpotente",
       "hint1": "$D(1) = 0$, $D(X) = 1$, $D(X^2) = 2X$.",
-      "hint2": "La matrice est triangulaire supérieure stricte avec des zéros sur la diagonale.",
-      "solution": "La matrice est $\\begin{pmatrix} 0 & 1 & 0 \\\\ 0 & 0 & 2 \\\\ 0 & 0 & 0 \\end{pmatrix}$. Sa diagonale est nulle, donc sa trace vaut 0."
+      "hint2": "La matrice est $\\begin{pmatrix} 0 & 1 & 0 \\\\ 0 & 0 & 2 \\\\ 0 & 0 & 0 \\end{pmatrix}$. Les éléments diagonaux sont tous nuls.",
+      "solution": "Dans la base canonique $(1, X, X^2)$ :\n$D(1) = 0$, $D(X) = 1$, $D(X^2) = 2X$.\nLa matrice est donc $M = \\begin{pmatrix} 0 & 1 & 0 \\\\ 0 & 0 & 2 \\\\ 0 & 0 & 0 \\end{pmatrix}$. C'est une matrice triangulaire supérieure stricte : sa diagonale est nulle, sa trace vaut 0, et elle est nilpotente d'indice 3 ($M^3 = 0$)."
     },
     {
       "id": "L1-APP-4",
       "tier": 4,
       "type": "mcq",
-      "title": "Propriétés d'un projecteur",
-      "skill": "Caractériser les projecteurs $p^2 = p$",
-      "statement": "Soit $p \\in \\mathcal{L}(E)$ tel que $p^2 = p$. Que peut-on toujours affirmer ?",
+      "title": "Caractérisation algébrique des projecteurs",
+      "skill": "Caractériser les projecteurs $p^2 = p$ et la décomposition de l'espace",
+      "statement": "Soit $p \\in \\mathcal{L}(E)$. Quelle relation caractérise le fait que $p$ est un projecteur, et quelle est la décomposition associée de $E$ ?",
       "options": [
-        "$E = \\text{Ker}(p) \\oplus \\text{Im}(p)$",
-        "$p$ est toujours injectif",
-        "$\\text{Im}(p) \\subset \\text{Ker}(p)$",
-        "$p = \\text{Id}_E$"
+        "$p^2 = p$ et $E = \\text{Ker}(p) \\oplus \\text{Im}(p)$",
+        "$p^2 = \\text{Id}_E$ et $E = \\text{Ker}(p) \\oplus \\text{Im}(p)$",
+        "$p^2 = 0$ et $E = \\text{Ker}(p) + \\text{Im}(p)$",
+        "$p^3 = p$ et $\\text{Ker}(p) = \\text{Im}(p)$"
       ],
       "correctIndex": 0,
-      "answer": "$E = \\text{Ker}(p) \\oplus \\text{Im}(p)$",
-      "hint1": "Tout vecteur s'écrit $x = (x - p(x)) + p(x)$.",
-      "hint2": "$p(x - p(x)) = p(x) - p^2(x) = 0$.",
-      "solution": "Pour tout projecteur $p^2 = p$, l'espace se décompose en somme directe du noyau et de l'image : $E = \\text{Ker}(p) \\oplus \\text{Im}(p)$."
+      "answer": "$p^2 = p$ et $E = \\text{Ker}(p) \\oplus \\text{Im}(p)$",
+      "hint1": "Un projecteur vérifie $p \\circ p = p$ (idempotence).",
+      "hint2": "Tout vecteur s'écrit de façon unique $x = (x - p(x)) + p(x)$.",
+      "solution": "Un endomorphisme est un projecteur ssi $p^2 = p$. On a alors immédiatement $E = \\text{Ker}(p) \\oplus \\text{Im}(p)$, la projection se faisant sur $\\text{Im}(p)$ parallèlement à $\\text{Ker}(p)$. La relation $s^2 = \\text{Id}_E$ caractérise quant à elle les symétries vectorielles."
+    },
+    {
+      "id": "L1-APP-4b",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Équivalences fondamentales en dimension finie",
+      "skill": "Maîtriser le théorème reliant injectivité, surjectivité et bijectivité",
+      "statement": "Soit $E$ un espace vectoriel de dimension FINIE $n$, et $f \\in \\mathcal{L}(E)$ un endomorphisme. Laquelle des affirmations suivantes est TOUJOURS vraie ?",
+      "options": [
+        "$f \\text{ est injectif} \\iff f \\text{ est surjectif} \\iff f \\text{ est bijectif}$",
+        "$f \\text{ injectif} \\implies f = \\text{Id}_E$",
+        "L'équivalence entre injectivité et surjectivité reste vraie même en dimension infinie",
+        "$f \\text{ surjectif} \\implies \\text{Ker}(f) = E$"
+      ],
+      "correctIndex": 0,
+      "answer": "$f \\text{ est injectif} \\iff f \\text{ est surjectif} \\iff f \\text{ est bijectif}$",
+      "hint1": "Utilise le théorème du rang : $\\dim(E) = \\dim(\\text{Ker} f) + \\text{rg}(f)$.",
+      "hint2": "Comme l'espace de départ et d'arrivée ont la même dimension finie : $\\dim(\\text{Ker} f) = 0 \\iff \\text{rg}(f) = \\dim(E)$.",
+      "solution": "D'après le Théorème du Rang : $\\dim(E) = \\dim(\\text{Ker} f) + \\text{rg}(f)$. Comme départ et arrivée ont la même dimension finie $n$ : $f$ injectif $\\iff \\text{Ker}(f) = \\{0\\} \\iff \\text{rg}(f) = n = \\dim(E) \\iff f$ surjectif. Attention : ceci est faux en dimension infinie (par exemple l'opérateur de dérivation sur $\\mathbb{R}[X]$ est surjectif mais non injectif)."
     }
   ],
   "L1-REL": [
@@ -1074,58 +1491,58 @@ window.MATHS_EXERCISES_L1 = {
       "id": "L1-REL-2",
       "tier": 2,
       "type": "mcq",
-      "title": "Nombre de sous-ensembles à 2 éléments",
-      "skill": "Calculer le cardinal d'une combinaison",
-      "statement": "Combien de parties à 2 éléments possède un ensemble à $n$ éléments ?",
+      "title": "Densité de Q et D dans R",
+      "skill": "Comprendre et appliquer la densité des rationnels et décimaux dans R",
+      "statement": "Soient deux réels $x, y \\in \\mathbb{R}$ tels que $x < y$. L'existence prouvée d'un rationnel $r \\in \\mathbb{Q}$ (et d'un décimal $d \\in \\mathbb{D}$) vérifiant $x < r < y$ caractérise :",
       "options": [
-        "$\\frac{n(n-1)}{2}$",
-        "$n^2$",
-        "$2^n$",
-        "$n(n-1)$"
+        "La densité de $\\mathbb{Q}$ et $\\mathbb{D}$ dans $\\mathbb{R}$",
+        "La compacité du segment $[x, y]$",
+        "La dénombrabilité du corps $\\mathbb{R}$",
+        "L'absence de borne supérieure"
       ],
       "correctIndex": 0,
-      "answer": "$\\frac{n(n-1)}{2}$",
-      "hint1": "C'est le coefficient binomial $\\binom{n}{2}$.",
-      "hint2": "$\\binom{n}{2} = \\frac{n!}{2!(n-2)!}$.",
-      "solution": "Le nombre de sous-ensembles à 2 éléments est $\\binom{n}{2} = \\frac{n(n-1)}{2}$."
+      "answer": "La densité de $\\mathbb{Q}$ et $\\mathbb{D}$ dans $\\mathbb{R}$",
+      "hint1": "Tout intervalle ouvert non vide $]x, y[$ rencontre $\\mathbb{Q}$ et $\\mathbb{D}$.",
+      "hint2": "Par la propriété d'Archimède, il existe $q \\in \\mathbb{N}^*$ tel que $q(y - x) > 1$, puis $p = \\lfloor qx \\rfloor + 1$ donne $x < p/q < y$.",
+      "solution": "Une partie $A \\subset \\mathbb{R}$ est dense dans $\\mathbb{R}$ si tout intervalle ouvert non vide contient au moins un élément de $A$. C'est le cas pour $\\mathbb{Q}$ et pour l'ensemble des nombres décimaux $\\mathbb{D} = \\{p/10^q \\mid p \\in \\mathbb{Z}, q \\in \\mathbb{N}\\}$."
     },
     {
       "id": "L1-REL-3",
       "tier": 3,
       "type": "mcq",
-      "title": "Relation d'ordre de divisibilité",
-      "skill": "Classifier un ordre partiel vs total",
-      "statement": "La relation de divisibilité sur $\\mathbb{N}^*$ est :",
+      "title": "Propriété d'Archimède dans R",
+      "skill": "Formaliser et manipuler le caractère archimédien de R",
+      "statement": "Quelle est l'énoncé quantifié exact de la propriété d'Archimède dans $\\mathbb{R}$ ?",
       "options": [
-        "Un ordre partiel",
-        "Un ordre total",
-        "Une relation d'équivalence",
-        "Une bijection"
+        "$\\forall x \\in \\mathbb{R}_+^*, \\quad \\forall y \\in \\mathbb{R}, \\quad \\exists n \\in \\mathbb{N}, \\quad n x > y$",
+        "$\\forall x, y \\in \\mathbb{R}, \\quad x < y \\implies x^2 < y^2$",
+        "$\\forall x \\in \\mathbb{R}, \\quad \\exists n \\in \\mathbb{N}, \\quad n \\le x < n+1$",
+        "$\\forall x \\in \\mathbb{R}, \\quad |x| \\ge 0$"
       ],
       "correctIndex": 0,
-      "answer": "Un ordre partiel",
-      "hint1": "$2$ divise-t-il $3$ ? $3$ divise-t-il $2$ ?",
-      "hint2": "Tous les éléments ne sont pas comparables, donc l'ordre n'est pas total.",
-      "solution": "La divisibilité est réflexive, antisymétrique et transitive sur $\\mathbb{N}^*$, mais $2$ et $3$ ne sont pas comparables : c'est un ordre partiel."
+      "answer": "$\\forall x \\in \\mathbb{R}_+^*, \\quad \\forall y \\in \\mathbb{R}, \\quad \\exists n \\in \\mathbb{N}, \\quad n x > y$",
+      "hint1": "Elle signifie que l'ensemble $\\mathbb{N}$ n'est pas majoré dans $\\mathbb{R}$.",
+      "hint2": "Pour tout pas $x > 0$ aussi petit soit-il, en faisant suffisamment de pas $n$, on dépasse tout réel $y$.",
+      "solution": "Le corps $\\mathbb{R}$ est archimédien : $\\forall x > 0, \\forall y \\in \\mathbb{R}, \\exists n \\in \\mathbb{N}, nx > y$. C'est ce qui garantit l'existence de la partie entière $\\lfloor x \\rfloor$ pour tout réel."
     },
     {
       "id": "L1-REL-4",
       "tier": 4,
       "type": "mcq",
-      "title": "Principe d'inclusion-exclusion",
-      "skill": "Appliquer la formule du crible de Poincaré",
-      "statement": "Combien d'entiers dans $\\{1, \\dots, 100\\}$ sont divisibles par 2 ou par 5 ?",
+      "title": "Borne supérieure dans R d'une partie de Q",
+      "skill": "Prouver la valeur d'une borne supérieure et l'absence de maximum",
+      "statement": "Soit la partie $A = \\{x \\in \\mathbb{Q} \\mid x < \\sqrt{2}\\}$. Que vaut $\\sup(A)$ dans $\\mathbb{R}$, et $A$ admet-il un plus grand élément ?",
       "options": [
-        "$60$",
-        "$70$",
-        "$50$",
-        "$65$"
+        "$\\sup(A) = \\sqrt{2}$ et $A$ n'admet aucun plus grand élément",
+        "$\\sup(A) = \\sqrt{2}$ et $\\max(A) = \\sqrt{2}$",
+        "$\\sup(A) = 1,414$ et $\\max(A)$ n'existe pas",
+        "$A$ n'est pas majorée dans $\\mathbb{R}$"
       ],
       "correctIndex": 0,
-      "answer": "$60$",
-      "hint1": "$|A \\cup B| = |A| + |B| - |A \\cap B|$.",
-      "hint2": "Multiples de 2 : 50. Multiples de 5 : 20. Multiples de 10 : 10.",
-      "solution": "$50 + 20 - 10 = 60$ entiers sont divisibles par 2 ou par 5."
+      "answer": "$\\sup(A) = \\sqrt{2}$ et $A$ n'admet aucun plus grand élément",
+      "hint1": "Par définition, $\\sqrt{2}$ majore $A$.",
+      "hint2": "Par densité de $\\mathbb{Q}$ dans $\\mathbb{R}$, pour tout $\\varepsilon > 0$, il existe un rationnel dans $]\\sqrt{2}-\\varepsilon, \\sqrt{2}[$. Comme $\\sqrt{2} \\notin \\mathbb{Q}$, $\\sqrt{2} \\notin A$.",
+      "solution": "L'ensemble $A$ est majoré par $\\sqrt{2}$. Par densité de $\\mathbb{Q}$ dans $\\mathbb{R}$, pour tout $\\varepsilon > 0$, il existe $r \\in \\mathbb{Q}$ tel que $\\sqrt{2} - \\varepsilon < r < \\sqrt{2}$. Comme $r < \\sqrt{2}$, $r \\in A$. Donc $\\sup(A) = \\sqrt{2}$. Comme $\\sqrt{2} \\notin \\mathbb{Q}$, $\\sqrt{2} \\notin A$, d'où $A$ n'admet pas de plus grand élément."
     }
   ],
   "L1-SUI": [
@@ -1445,77 +1862,77 @@ window.MATHS_EXERCISES_L1 = {
       "id": "L1-GEO-1",
       "tier": 1,
       "type": "mcq",
-      "title": "Vecteur vitesse d'un arc paramétré",
-      "skill": "Calculer le vecteur dérivé $\\gamma'(t)$",
-      "statement": "Pour $\\gamma(t) = (t^2 - 1 ; 2t^3)$, quel est le vecteur tangent en $t = 1$ ?",
+      "title": "Produit scalaire et vecteur normal à une droite",
+      "skill": "Déterminer un vecteur normal à partir de l'équation cartésienne dans R²",
+      "statement": "Dans le plan muni d'un repère orthonormé, quel est un vecteur normal à la droite d'équation $3x - 4y + 7 = 0$ ?",
       "options": [
-        "$(2 ; 6)$",
-        "$(0 ; 2)$",
-        "$(1 ; 6)$",
-        "$(2 ; 3)$"
+        "$\\vec{n}(3; -4)$",
+        "$\\vec{n}(4; 3)$",
+        "$\\vec{n}(-4; 3)$",
+        "$\\vec{n}(3; 4)$"
       ],
       "correctIndex": 0,
-      "answer": "$(2 ; 6)$",
-      "hint1": "$\\gamma'(t) = (2t, 6t^2)$.",
-      "hint2": "Évalue en $t = 1$.",
-      "solution": "$\\gamma'(1) = (2(1), 6(1)^2) = (2, 6)$."
+      "answer": "$\\vec{n}(3; -4)$",
+      "hint1": "Dans l'équation $ax + by + c = 0$, les coefficients $a$ et $b$ donnent un vecteur normal.",
+      "hint2": "Le vecteur normal est $\\vec{n}(a; b) = (3; -4)$.",
+      "solution": "Une droite d'équation cartésienne $ax + by + c = 0$ admet pour vecteur normal le vecteur $\\vec{n}(a; b)$. Ici, $a = 3$ et $b = -4$, donc $\\vec{n}(3; -4)$ est normal à la droite."
     },
     {
       "id": "L1-GEO-2",
       "tier": 2,
       "type": "mcq",
-      "title": "Vecteur normal à un plan",
-      "skill": "Identifier un vecteur normal à partir de l'équation cartésienne",
-      "statement": "Quel est un vecteur normal au plan $3x - 2y + 5z - 7 = 0$ ?",
+      "title": "Équation cartésienne et éléments d'un cercle",
+      "skill": "Identifier le centre et le rayon d'un cercle dans le plan",
+      "statement": "Quelle est la nature géométrique et les éléments caractéristiques de l'ensemble d'équation $x^2 + y^2 - 4x + 6y + 4 = 0$ ?",
       "options": [
-        "$\\vec{n} = (3, -2, 5)$",
-        "$\\vec{n} = (3, 2, 5)$",
-        "$\\vec{n} = (-3, 2, 7)$",
-        "$\\vec{n} = (1, 1, 1)$"
+        "Un cercle de centre $\\Omega(2; -3)$ et de rayon $R = 3$",
+        "Un cercle de centre $\\Omega(-2; 3)$ et de rayon $R = 3$",
+        "Un cercle de centre $\\Omega(2; -3)$ et de rayon $R = 9$",
+        "L'ensemble vide $\\emptyset$"
       ],
       "correctIndex": 0,
-      "answer": "$\\vec{n} = (3, -2, 5)$",
-      "hint1": "Les composantes sont les coefficients devant $x, y, z$.",
-      "hint2": "$a = 3$, $b = -2$, $c = 5$.",
-      "solution": "L'équation $ax + by + cz + d = 0$ donne directement $\\vec{n} = (a, b, c) = (3, -2, 5)$."
+      "answer": "Un cercle de centre $\\Omega(2; -3)$ et de rayon $R = 3$",
+      "hint1": "Mettre sous forme canonique : $(x - 2)^2 - 4 + (y + 3)^2 - 9 + 4 = 0$.",
+      "hint2": "$(x - 2)^2 + (y + 3)^2 = 9 = 3^2$.",
+      "solution": "En regroupant les termes : $(x - 2)^2 - 4 + (y + 3)^2 - 9 + 4 = 0 \\iff (x - 2)^2 + (y + 3)^2 = 9 = 3^2$. Il s'agit du cercle de centre $\\Omega(2; -3)$ et de rayon $R = 3$."
     },
     {
       "id": "L1-GEO-3",
       "tier": 3,
       "type": "mcq",
-      "title": "Courbure d'un cercle",
-      "skill": "Calculer la courbure géométrique",
-      "statement": "Quelle est la courbure $\\kappa$ en tout point d'un cercle de rayon $R > 0$ ?",
+      "title": "Conique monofocale et excentricité",
+      "skill": "Déterminer la nature d'une conique selon son excentricité",
+      "statement": "Soit une conique propre de foyer $F$, de directrice $\\mathcal{D}$ et d'excentricité $e = 0,75$. Quelle est sa nature géométrique ?",
       "options": [
-        "$\\frac{1}{R}$",
-        "$R$",
-        "$\\frac{1}{R^2}$",
-        "$0$"
+        "Une ellipse",
+        "Une parabole",
+        "Une hyperbole",
+        "Un cercle"
       ],
       "correctIndex": 0,
-      "answer": "$\\frac{1}{R}$",
-      "hint1": "La courbure est l'inverse du rayon de courbure.",
-      "hint2": "Pour un cercle de rayon $R$, $\\kappa = 1/R$.",
-      "solution": "Par définition, pour un cercle de rayon $R$, la courbure est constante et vaut $\\kappa = 1/R$."
+      "answer": "Une ellipse",
+      "hint1": "Comparer l'excentricité $e$ à 1.",
+      "hint2": "Si $0 < e < 1$, la conique est une ellipse.",
+      "solution": "Par définition monofocale d'une conique propre, si $0 < e < 1$, la courbe est une ellipse (courbe fermée bornée). Pour $e = 1$ c'est une parabole, et pour $e > 1$ une hyperbole."
     },
     {
       "id": "L1-GEO-4",
       "tier": 4,
       "type": "mcq",
-      "title": "Point de rebroussement de première espèce",
-      "skill": "Classifier un point stationnaire",
-      "statement": "Pour $\\gamma(t) = (t^2, t^3)$, $\\gamma'(0)=(0,0)$, $\\gamma''(0)=(2,0)$ et $\\gamma'''(0)=(0,6)$. Quel est le type de ce point singulier ?",
+      "title": "Équation réduite d'une ellipse et distance focale",
+      "skill": "Calculer la distance focale 2c et l'excentricité d'une ellipse",
+      "statement": "Soit l'ellipse d'équation réduite $\\frac{x^2}{25} + \\frac{y^2}{9} = 1$. Que vaut sa distance focale $2c$ (distance entre ses deux foyers) ?",
       "options": [
-        "Point de rebroussement de première espèce",
-        "Point d'inflexion",
-        "Point ordinaire",
-        "Point méplat"
+        "$8$",
+        "$4$",
+        "$16$",
+        "$2\\sqrt{34}$"
       ],
       "correctIndex": 0,
-      "answer": "Point de rebroussement de première espèce",
-      "hint1": "Ordres dérivés : $p=2$ (pair) et $q=3$ (impair).",
-      "hint2": "$(p, q) = (\\text{pair}, \\text{impair}) \\implies$ rebroussement 1ère espèce.",
-      "solution": "Les premiers ordres non nuls et indépendants sont $p=2$ (pair) et $q=3$ (impair). Il s'agit donc d'un point de rebroussement de première espèce."
+      "answer": "$8$",
+      "hint1": "$a^2 = 25$ donc $a = 5$, et $b^2 = 9$ donc $b = 3$.",
+      "hint2": "Dans l'ellipse avec $a > b$, $c^2 = a^2 - b^2 = 25 - 9 = 16$.",
+      "solution": "On a $a = 5$ et $b = 3$. La relation fondamentale de l'ellipse donne $c^2 = a^2 - b^2 = 25 - 9 = 16$, d'où $c = 4$. La distance focale est $2c = 2 \\times 4 = 8$ (les foyers sont $F(-4; 0)$ et $F'(4; 0)$)."
     }
   ]
 };
@@ -1545,6 +1962,123 @@ $\\begin{pmatrix} 1 & 2 & -1 & \\mid & 3 \\\\ 0 & 1 & 3 & \\mid & 5 \\\\ 0 & 0 &
 $y + 3(5/3) = 5 \\implies y = 0$.
 $x + 2(0) - 5/3 = 3 \\implies x = 3 + 5/3 = \\frac{14}{3}$.
 Conclusion : $S = \\left\\{\\left(\\frac{14}{3} ; 0 ; \\frac{5}{3}\\right)\\right\\}$.`
+    }
+  ],
+  "L1-CMP": [
+    {
+      "title": "Feuille de TD L1 : Polynômes et Décomposition en Éléments Simples (DES)",
+      "filename": "TD_L1_Polynomes_DES.md",
+      "statement": `## Travaux Dirigés L1 : Polynômes et Décomposition en Éléments Simples
+
+### Exercice 1 : Factorisation de polynômes (5 points)
+1. Factoriser $P(X) = X^4 - 16$ en produit de polynômes irréductibles dans $\\mathbb{C}[X]$, puis dans $\\mathbb{R}[X]$.
+2. Factoriser $Q(X) = X^4 + X^2 + 1$ dans $\\mathbb{R}[X]$ à l'aide de l'identité $X^4 + X^2 + 1 = (X^2 + 1)^2 - X^2$.
+
+### Exercice 2 : DES à pôles simples réels (7 points)
+Soit la fraction rationnelle $F(X) = \\frac{2X + 5}{(X - 1)(X + 2)(X + 3)}$.
+1. Justifier que la partie entière de $F$ est nulle.
+2. Donner la forme générale de la décomposition en éléments simples de $F$ dans $\\mathbb{R}(X)$.
+3. Déterminer les trois coefficients réels par la méthode des pôles simples.
+
+### Exercice 3 : Pôle multiple et partie entière (8 points)
+On considère la fraction rationnelle $G(X) = \\frac{X^3 + 2}{(X - 1)^2 (X + 2)}$.
+1. Déterminer la partie entière de $G$.
+2. Donner la forme théorique de la décomposition en éléments simples de $G$ dans $\\mathbb{R}(X)$.
+3. Calculer l'ensemble des coefficients associés et en déduire l'écriture finale de $G(X)$.`,
+      "solution": `### Correction Exercice 1 : Factorisation (5 points)
+1. $P(X) = X^4 - 16 = (X^2 - 4)(X^2 + 4) = (X - 2)(X + 2)(X^2 + 4)$.
+• Dans $\\mathbb{R}[X]$ : $X^2 + 4$ a un discriminant négatif $\\Delta = -16 < 0$, donc la factorisation en irréductibles est $(X - 2)(X + 2)(X^2 + 4)$. *(1,5 pt)*
+• Dans $\\mathbb{C}[X]$ : $X^2 + 4 = (X - 2i)(X + 2i)$, d'où $P(X) = (X - 2)(X + 2)(X - 2i)(X + 2i)$. *(1 pt)*
+2. $Q(X) = (X^2 + 1)^2 - X^2 = (X^2 - X + 1)(X^2 + X + 1)$.
+Pour ces deux trinômes, $\\Delta = 1 - 4 = -3 < 0$, ils sont donc irréductibles dans $\\mathbb{R}[X]$. *(2,5 pts)*
+
+### Correction Exercice 2 : DES à pôles simples (7 points)
+1. $\\deg(N) = 1$ et $\\deg(D) = 3$. Comme $\\deg(N) < \\deg(D)$, la division euclidienne donne un quotient nul : la partie entière est $E = 0$. *(1,5 pt)*
+2. Les pôles du dénominateur sont $1, -2, -3$, tous réels et simples. La décomposition s'écrit :
+$$F(X) = \\frac{a}{X - 1} + \\frac{b}{X + 2} + \\frac{c}{X + 3}$$ *(1,5 pt)*
+3. Calcul des coefficients :
+• $a = \\lim_{X \\to 1} (X - 1)F(X) = \\frac{2(1) + 5}{(1 + 2)(1 + 3)} = \\frac{7}{3 \\times 4} = \\frac{7}{12}$. *(1,5 pt)*
+• $b = \\lim_{X \\to -2} (X + 2)F(X) = \\frac{2(-2) + 5}{(-2 - 1)(-2 + 3)} = \\frac{1}{(-3)(1)} = -\\frac{1}{3} = -\\frac{4}{12}$. *(1,5 pt)*
+• $c = \\lim_{X \\to -3} (X + 3)F(X) = \\frac{2(-3) + 5}{(-3 - 1)(-3 + 2)} = \\frac{-1}{(-4)(-1)} = -\\frac{1}{4} = -\\frac{3}{12}$. *(1 pt)*
+Conclusion : $F(X) = \\frac{7}{12(X - 1)} - \\frac{1}{3(X + 2)} - \\frac{1}{4(X + 3)}$.
+
+### Correction Exercice 3 : Pôle multiple et partie entière (8 points)
+1. $\\deg(X^3 + 2) = 3$ et $\\deg(D) = \\deg((X^2 - 2X + 1)(X + 2)) = \\deg(X^3 - 3X + 2) = 3$.
+Le rapport des coefficients dominants est $1/1 = 1$, donc la partie entière est $E(X) = 1$. *(2 pts)*
+2. Le pôle $1$ est double et le pôle $-2$ est simple :
+$$G(X) = 1 + \\frac{\\alpha}{(X - 1)^2} + \\frac{\\beta}{X - 1} + \\frac{\\gamma}{X + 2}$$ *(2 pts)*
+3. Calcul des coefficients :
+• Multiplions par $(X - 1)^2$ et posons $X = 1$ :
+$\\alpha = \\frac{1^3 + 2}{1 + 2} = \\frac{3}{3} = 1$. *(1,5 pt)*
+• Multiplions par $X + 2$ et posons $X = -2$ :
+$\\gamma = \\frac{(-2)^3 + 2}{(-2 - 1)^2} = \\frac{-8 + 2}{9} = -\\frac{6}{9} = -\\frac{2}{3}$. *(1,5 pt)*
+• Pour obtenir $\\beta$, évaluons en $X = 0$ :
+$G(0) = \\frac{2}{(-1)^2 \\times 2} = 1$.
+Or $G(0) = 1 + \\frac{1}{1} - \\beta - \\frac{2/3}{2} = 2 - \\beta - \\frac{1}{3} = \\frac{5}{3} - \\beta$.
+Donc $1 = \\frac{5}{3} - \\beta \\implies \\beta = \\frac{2}{3}$. *(1 pt)*
+Conclusion finale : $G(X) = 1 + \\frac{1}{(X - 1)^2} + \\frac{2}{3(X - 1)} - \\frac{2}{3(X + 2)}$.`
+    }
+  ],
+  "L1-REL": [
+    {
+      "title": "Feuille de TD L1 : Nombres Réels, Borne Supérieure et Densité",
+      "filename": "TD_L1_Reels_Borne_Sup_Densite.md",
+      "statement": `## Travaux Dirigés L1 : Propriétés des Nombres Réels et Topologie de R
+
+### Exercice 1 : Caractérisation de la borne supérieure (6 points)
+Soit la partie $A = \\left\\{ \\frac{2n - 1}{n + 1} \\;\\middle|\\; n \\in \\mathbb{N}^* \\right\\}$.
+1. Montrer que $A$ est bornée.
+2. Déterminer $\\inf(A)$ et préciser s'il s'agit d'un minimum.
+3. À l'aide de la caractérisation par $\\varepsilon$, démontrer que $\\sup(A) = 2$.
+4. Le nombre $2$ est-il un maximum de $A$ ? Justifier.
+
+### Exercice 2 : Densité des nombres décimaux D dans R (8 points)
+On note $\\mathbb{D} = \\left\\{ \\frac{p}{10^q} \\;\\middle|\\; p \\in \\mathbb{Z}, q \\in \\mathbb{N} \\right\\}$ l'ensemble des décimaux.
+1. Soit $z \\in \\mathbb{R}$. Pour tout $n \\in \\mathbb{N}$, on pose $u_n = \\frac{\\lfloor 10^n z \\rfloor}{10^n}$.
+   Démontrer que la suite $(u_n)_{n \\in \\mathbb{N}}$ est à valeurs dans $\\mathbb{D}$ et converge vers $z$.
+2. Soient deux réels $x$ et $y$ tels que $x < y$. On pose $z = \\frac{x + y}{2}$ et $\\varepsilon = \\frac{y - x}{2} > 0$.
+   En utilisant la question 1, prouver qu'il existe un entier $q \\in \\mathbb{N}$ tel que $x < u_q < y$.
+3. En déduire que $\\mathbb{D}$ est dense dans $\\mathbb{R}$, puis que $\\mathbb{Q}$ est dense dans $\\mathbb{R}$.
+
+### Exercice 3 : Borne supérieure sans maximum (6 points)
+Soit la partie $B = \\{ x \\in \\mathbb{Q} \\mid x < \\sqrt{2} \\}$.
+1. Justifier rigoureusement que $B$ admet une borne supérieure dans $\\mathbb{R}$, notée $M$.
+2. Montrer que $M \\le \\sqrt{2}$.
+3. Par un raisonnement par l'absurde et en exploitant la densité de $\\mathbb{Q}$ dans $\\mathbb{R}$, démontrer que $M = \\sqrt{2}$.
+4. Pourquoi $B$ n'admet-il aucun plus grand élément ?`,
+      "solution": `### Correction Exercice 1 : Borne supérieure (6 points)
+1. Pour tout $n \\ge 1$, $\\frac{2n - 1}{n + 1} = \\frac{2(n + 1) - 3}{n + 1} = 2 - \\frac{3}{n + 1}$.
+Comme $n \\ge 1$, on a $n + 1 \\ge 2$, donc $0 < \\frac{3}{n + 1} \\le \\frac{3}{2}$.
+Ainsi : $2 - \\frac{3}{2} \\le \\frac{2n - 1}{n + 1} < 2 \\iff \\frac{1}{2} \\le \\frac{2n - 1}{n + 1} < 2$. La partie $A$ est minorée par $1/2$ et majorée par $2$, donc $A$ est bornée. *(1,5 pt)*
+2. Pour $n = 1$, $\\frac{2(1) - 1}{1 + 1} = \\frac{1}{2} \\in A$. Comme $\\forall x \\in A, x \\ge 1/2$, on a $\\inf(A) = \\min(A) = \\frac{1}{2}$. *(1,5 pt)*
+3. $2$ est un majorant de $A$. Soit $\\varepsilon > 0$. On cherche $n \\in \\mathbb{N}^*$ tel que $2 - \\varepsilon < 2 - \\frac{3}{n + 1} \\iff \\frac{3}{n + 1} < \\varepsilon \\iff n + 1 > \\frac{3}{\\varepsilon}$.
+D'après la propriété d'Archimède, un tel entier $n$ existe toujours.
+Par la caractérisation par $\\varepsilon$, $\\sup(A) = 2$. *(2 pts)*
+4. Si $2 \\in A$, il existerait $n \\in \\mathbb{N}^*$ tel que $2 - \\frac{3}{n + 1} = 2 \\iff -\\frac{3}{n + 1} = 0$, impossible. Donc $2 \\notin A$, et $A$ n'admet pas de maximum. *(1 pt)*
+
+### Correction Exercice 2 : Densité des décimaux (8 points)
+1. Par définition de la partie entière, pour tout réel $t$, on a $t - 1 < \\lfloor t \\rfloor \\le t$.
+En appliquant avec $t = 10^n z$ et en divisant par $10^n > 0$ :
+$$z - \\frac{1}{10^n} < \\frac{\\lfloor 10^n z \\rfloor}{10^n} \\le z \\iff z - 10^{-n} < u_n \\le z$$
+Comme $\\lim_{n \\to +\\infty} 10^{-n} = 0$, le théorème des gendarmes assure que $\\lim_{n \\to +\\infty} u_n = z$.
+De plus, $p = \\lfloor 10^n z \\rfloor \\in \\mathbb{Z}$ et $10^n = 10^q$ avec $q = n \\in \\mathbb{N}$, donc $u_n \\in \\mathbb{D}$. *(3 pts)*
+2. L'intervalle $]x, y[$ est centré en $z = \\frac{x+y}{2}$ de rayon $\\varepsilon = \\frac{y-x}{2} > 0$, c'est-à-dire $]x, y[ = ]z - \\varepsilon, z + \\varepsilon[$.
+Comme $u_n \\to z$, par définition de la limite pour $\\varepsilon > 0$, il existe un rang $q \\in \\mathbb{N}$ tel que pour tout $n \\ge q$, $|u_n - z| < \\varepsilon$.
+En particulier pour $n = q$, $z - \\varepsilon < u_q < z + \\varepsilon$, ce qui équivaut exactement à $x < u_q < y$. *(3 pts)*
+3. Pour tous réels $x < y$, il existe un décimal $d = u_q \\in \\mathbb{D}$ tel que $x < d < y$. Donc $\\mathbb{D}$ est dense dans $\\mathbb{R}$.
+Comme tout décimal est un rationnel ($\\\\mathbb{D} \\subset \\mathbb{Q}$), on a également $x < d < y$ avec $d \\in \\mathbb{Q}$, ce qui prouve la densité de $\\mathbb{Q}$ dans $\\mathbb{R}$. *(2 pts)*
+
+### Correction Exercice 3 : Borne supérieure sans max (6 points)
+1. $B$ est non vide (par exemple $0 \\in B$) et $B$ est majoré par $\\sqrt{2}$ (car tout $x \\in B$ vérifie $x < \\sqrt{2}$).
+Par l'axiome de la borne supérieure, toute partie non vide et majorée de $\\mathbb{R}$ admet une borne supérieure dans $\\mathbb{R}$. Donc $M = \\sup(B)$ existe. *(1,5 pt)*
+2. Comme $\\sqrt{2}$ est un majorant de $B$ et que $M$ est le plus petit des majorants, on a $M \\le \\sqrt{2}$. *(1 pt)*
+3. Supposons par l'absurde que $M < \\sqrt{2}$.
+Par densité de $\\mathbb{Q}$ dans $\\mathbb{R}$, il existe un rationnel $r \\in \\mathbb{Q}$ tel que $M < r < \\sqrt{2}$.
+Puisque $r \\in \\mathbb{Q}$ et $r < \\sqrt{2}$, par définition de $B$, on a $r \\in B$.
+Mais alors $r \\in B$ et $r > M$, ce qui contredit le fait que $M$ majore $B$ !
+Cette contradiction prouve que $M = \\sqrt{2}$. *(2,5 pts)*
+4. Si $B$ admettait un plus grand élément, ce serait $\\max(B) = \\sup(B) = \\sqrt{2}$.
+Or $\\sqrt{2} \\notin \\mathbb{Q}$, donc $\\sqrt{2} \\notin B$. Par conséquent, $B$ n'a pas de maximum. *(1 pt)*`
     }
   ]
 };

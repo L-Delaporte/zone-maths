@@ -304,6 +304,16 @@ window.MATHS_COURSES_L2 = {
           "**Binôme de Newton** : Comme $2I_2$ et $N$ commutent, $A^n = (2I_2 + N)^n = 2^n I_2 + n 2^{n-1} N + 0$.",
           "**Conclusion** : $A^n = \\begin{pmatrix} 2^n & n 2^{n-1} \\\\ 0 & 2^n \\end{pmatrix}$."
         ]
+      },
+      {
+        "title": "Méthode : Décomposition de Dunford $A = D + N$ et calcul de l'exponentielle $\\exp(tA)$",
+        "example": "Calculer $\\exp(tA)$ pour $A = \\begin{pmatrix} 3 & 2 \\\\ 0 & 3 \\end{pmatrix}$.",
+        "steps": [
+          "**Étape 1 (Décomposition $D + N$)** : On pose $D = \\begin{pmatrix} 3 & 0 \\\\ 0 & 3 \\end{pmatrix} = 3I_2$ (diagonale) et $N = A - D = \\begin{pmatrix} 0 & 2 \\\\ 0 & 0 \\end{pmatrix}$.",
+          "**Étape 2 (Vérifications)** : $D$ est diagonalisable, $N^2 = 0$ (nilpotente d'indice 2), et $D$ commute avec $N$ ($3I_2 N = N 3I_2$). La décomposition de Dunford est donc $A = D + N$.",
+          "**Étape 3 (Exponentielle)** : Comme $tD$ et $tN$ commutent, $\\exp(tA) = \\exp(tD) \\exp(tN) = \\exp(3t I_2)(I_2 + tN + 0) = e^{3t} \\begin{pmatrix} 1 & 2t \\\\ 0 & 1 \\end{pmatrix}$.",
+          "**Conclusion** : $\\exp(tA) = \\begin{pmatrix} e^{3t} & 2t e^{3t} \\\\ 0 & e^{3t} \\end{pmatrix}$."
+        ]
       }
     ],
     "traps": [
@@ -1340,77 +1350,77 @@ window.MATHS_EXERCISES_L2 = {
       "id": "L2-RIE-1",
       "tier": 1,
       "type": "mcq",
-      "title": "Convergence uniforme et continuité",
-      "skill": "Théorème de continuité de la limite uniforme",
-      "statement": "Soit $(f_n)$ une suite de fonctions continues sur $I$ convergeant uniformément vers $f$ sur $I$. Que peut-on affirmer sur $f$ ?",
+      "title": "Somme de Riemann et calcul de limite de suite",
+      "skill": "Calculer la limite d'une suite à l'aide d'une somme de Riemann",
+      "statement": "Quelle est la limite quand $n \\to +\\infty$ de la suite $S_n = \\frac{1}{n} \\sum_{k=1}^n \\sqrt{\\frac{k}{n}}$ ?",
       "options": [
-        "$f$ est continue sur $I$",
-        "$f$ est dérivable sur $I$",
-        "$f$ est constante",
-        "$f$ est bornée uniquement si $I$ est ouvert"
+        "$\\frac{2}{3}$",
+        "$\\frac{1}{2}$",
+        "$1$",
+        "$\\frac{3}{4}$"
       ],
       "correctIndex": 0,
-      "answer": "$f$ est continue sur $I$",
-      "hint1": "La convergence uniforme transmet la continuité à la limite.",
-      "hint2": "Ce n'est pas vrai pour la simple convergence ponctuelle (ex: $x^n$ sur $[0, 1]$).",
-      "solution": "D'après le théorème de continuité pour les suites de fonctions, la limite uniforme d'une suite de fonctions continues est continue."
+      "answer": "$\\frac{2}{3}$",
+      "hint1": "$S_n$ est une somme de Riemann pour la fonction $f(x) = \\sqrt{x}$ sur $[0, 1]$.",
+      "hint2": "$\\lim S_n = \\int_0^1 \\sqrt{x} dx = [\\frac{2}{3} x^{3/2}]_0^1$.",
+      "solution": "$S_n$ est la somme de Riemann associée à la fonction continue $f(x) = \\sqrt{x}$ sur $[0, 1]$ avec un pas de $1/n$. Par le théorème des sommes de Riemann, $\\lim_{n \\to +\\infty} S_n = \\int_0^1 \\sqrt{x} \\, dx = \\left[\\frac{2}{3} x^{3/2}\\right]_0^1 = \\frac{2}{3}$."
     },
     {
       "id": "L2-RIE-2",
       "tier": 2,
       "type": "mcq",
-      "title": "Règle de Leibniz de dérivation sous le signe intégral",
-      "skill": "Dériver une intégrale à paramètre",
-      "statement": "Pour $F(x) = \\int_0^1 e^{-x t^2} dt$, quelle est l'expression de la dérivée $F'(x)$ ?",
+      "title": "Sommes de Darboux et critère d'intégrabilité",
+      "skill": "Caractériser l'intégrabilité de Riemann par les sommes de Darboux",
+      "statement": "Soit $f : [a, b] \\to \\mathbb{R}$ une fonction bornée. $f$ est intégrable au sens de Riemann sur $[a, b]$ si et seulement si :",
       "options": [
-        "$-\\int_0^1 t^2 e^{-x t^2} dt$",
-        "$\\int_0^1 e^{-x t^2} dt$",
-        "$-x \\int_0^1 t e^{-x t^2} dt$",
-        "$e^{-x}$"
+        "$\\forall \\varepsilon > 0$, il existe une subdivision $\\sigma$ telle que $S(f, \\sigma) - s(f, \\sigma) < \\varepsilon$",
+        "$f$ est strictement croissante sur $[a, b]$",
+        "$f$ est de classe $\\mathcal{C}^1$",
+        "L'ensemble des points de discontinuité de $f$ est vide"
       ],
       "correctIndex": 0,
-      "answer": "$-\\int_0^1 t^2 e^{-x t^2} dt$",
-      "hint1": "Dérive l'intégrande par rapport à $x$ : $\\frac{\\partial}{\\partial x}(e^{-x t^2}) = -t^2 e^{-x t^2}$.",
-      "hint2": "L'intervalle d'intégration est compact, les hypothèses de domination sont trivialement satisfaites.",
-      "solution": "Par le théorème de dérivation sous le signe intégral : $F'(x) = \\int_0^1 \\frac{\\partial}{\\partial x}(e^{-xt^2}) dt = -\\int_0^1 t^2 e^{-xt^2} dt$."
+      "answer": "$\\forall \\varepsilon > 0$, il existe une subdivision $\\sigma$ telle que $S(f, \\sigma) - s(f, \\sigma) < \\varepsilon$",
+      "hint1": "$s(f, \\sigma)$ est la somme de Darboux inférieure et $S(f, \\sigma)$ est la somme supérieure.",
+      "hint2": "Le critère de Darboux équivaut à l'égalité de l'intégrale inférieure et de l'intégrale supérieure.",
+      "solution": "D'après le critère d'intégrabilité de Darboux-Riemann, une fonction bornée est intégrable ssi l'écart entre sa somme supérieure et sa somme inférieure peut être rendu arbitrairement petit : $\\forall \\varepsilon > 0, \\exists \\sigma, S(f, \\sigma) - s(f, \\sigma) < \\varepsilon$."
     },
     {
       "id": "L2-RIE-3",
       "tier": 3,
       "type": "mcq",
-      "title": "Convergence normale d'une série de fonctions",
-      "skill": "Vérifier la convergence normale $\\sum \\|u_n\\|_\\infty < \\infty$",
-      "statement": "Pour $u_n(x) = \\frac{\\cos(nx)}{n^2}$ sur $\\mathbb{R}$, la série $\\sum_{n=1}^\\infty u_n(x)$ :",
+      "title": "Intégration des fonctions réglées",
+      "skill": "Propriétés des fonctions réglées et continues par morceaux",
+      "statement": "Dans l'espace vectoriel $\\mathcal{B}([a, b], \\mathbb{R})$ muni de la norme uniforme $\\|\\cdot\\|_\\infty$, quelle est la caractérisation fondamentale des fonctions réglées ?",
       "options": [
-        "Converge normalement sur $\\mathbb{R}$",
-        "Ne converge que ponctuellement",
-        "Diverge pour $x = 0$",
-        "Converge uniformément mais pas normalement"
+        "Elles forment l'adhérence de l'ensemble des fonctions en escalier",
+        "Elles sont toutes dérivables sauf en un nombre fini de points",
+        "Elles sont toutes lipschitziennes",
+        "Leur intégrale de Riemann est toujours nulle"
       ],
       "correctIndex": 0,
-      "answer": "Converge normalement sur $\\mathbb{R}$",
-      "hint1": "Majore $|u_n(x)|$ par une constante indépendante de $x$.",
-      "hint2": "$\\sup_{x \\in \\mathbb{R}} |u_n(x)| = \\frac{1}{n^2}$, et $\\sum \\frac{1}{n^2}$ converge.",
-      "solution": "Pour tout $x \\in \\mathbb{R}$, $|u_n(x)| \\le \\frac{1}{n^2}$. Comme la série numérique $\\sum 1/n^2$ converge (série de Riemann avec $\\alpha=2 > 1$), la série de fonctions converge normalement sur $\\mathbb{R}$."
+      "answer": "Elles forment l'adhérence de l'ensemble des fonctions en escalier",
+      "hint1": "Toute fonction réglée est limite uniforme de fonctions en escalier.",
+      "hint2": "Elle admet en tout point une limite à gauche et une limite à droite finies.",
+      "solution": "Une fonction est réglée sur un segment $[a, b]$ ssi elle est limite uniforme d'une suite de fonctions en escalier. Toute fonction continue par morceaux est réglée, et toute fonction réglée est intégrable au sens de Riemann."
     },
     {
       "id": "L2-RIE-4",
       "tier": 4,
       "type": "mcq",
-      "title": "Théorème de convergence dominée pour intégrales à paramètre",
-      "skill": "Permuter limite et intégrale impropre",
-      "statement": "Quelle est la limite quand $n \\to +\\infty$ de $I_n = \\int_0^{+\\infty} \\frac{n \\sin(x/n)}{x(1 + x^2)} dx$ ?",
+      "title": "Première formule de la moyenne",
+      "skill": "Appliquer la formule de la moyenne pour les intégrales",
+      "statement": "Soient $f, g : [a, b] \\to \\mathbb{R}$ continues avec $g \\ge 0$ ne s'annulant pas identiquement. Que garantit la première formule de la moyenne ?",
       "options": [
-        "$\\frac{\\pi}{2}$",
-        "$0$",
-        "$1$",
-        "$+\\infty$"
+        "$\\exists c \\in [a, b], \\quad \\int_a^b f(t) g(t) \\, dt = f(c) \\int_a^b g(t) \\, dt$",
+        "$\\int_a^b f(t) g(t) \\, dt = \\left(\\int_a^b f(t) dt\\right) \\left(\\int_a^b g(t) dt\\right)$",
+        "$\\exists c \\in [a, b], \\quad f(c) = g(c)$",
+        "$\\int_a^b f(t) g(t) \\, dt \\le \\frac{f(a) + f(b)}{2}$"
       ],
       "correctIndex": 0,
-      "answer": "$\\frac{\\pi}{2}$",
-      "hint1": "Pour tout $x > 0$ fixé, quand $n \\to +\\infty$, $n \\sin(x/n) = x \\frac{\\sin(x/n)}{x/n} \\to x$.",
-      "hint2": "La limite de l'intégrande est $\\frac{x}{x(1+x^2)} = \\frac{1}{1+x^2}$, et $\\int_0^{+\\infty} \\frac{dx}{1+x^2} = [\\arctan x]_0^{+\\infty} = \\frac{\\pi}{2}$.",
-      "solution": "La suite de fonctions $f_n(x) = \\frac{n\\sin(x/n)}{x(1+x^2)}$ converge simplement vers $\\frac{1}{1+x^2}$ et est dominée par $\\frac{1}{1+x^2} \\in L^1([0, +\\infty[)$. Par le TCD, $\\lim I_n = \\int_0^{+\\infty} \\frac{dx}{1+x^2} = \\frac{\\pi}{2}$."
+      "answer": "$\\exists c \\in [a, b], \\quad \\int_a^b f(t) g(t) \\, dt = f(c) \\int_a^b g(t) \\, dt$",
+      "hint1": "Comme $m \\le f(t) \\le M$, en multipliant par $g(t) \\ge 0$, on encadre l'intégrale.",
+      "hint2": "Par le TVI, $f$ atteint la valeur moyenne $\\frac{\\int_a^b fg}{\\int_a^b g}$.",
+      "solution": "Comme $g \\ge 0$, on a $m \\int_a^b g \\le \\int_a^b fg \\le M \\int_a^b g$ où $m = \\min f$ et $M = \\max f$. Par le théorème des valeurs intermédiaires appliqué à la fonction continue $f$, il existe $c \\in [a, b]$ tel que $\\int_a^b f(t)g(t)dt = f(c)\\int_a^b g(t)dt$."
     }
   ],
   "L2-ING": [
@@ -1418,77 +1428,77 @@ window.MATHS_EXERCISES_L2 = {
       "id": "L2-ING-1",
       "tier": 1,
       "type": "mcq",
-      "title": "Rayon de convergence de l'exponentielle",
-      "skill": "Calculer le rayon de convergence d'une série entière",
-      "statement": "Quel est le rayon de convergence $R$ de la série entière $\\sum_{n=0}^\\infty \\frac{x^n}{n!}$ ?",
+      "title": "Critère de convergence des intégrales de Riemann en +l'infini",
+      "skill": "Maîtriser les intégrales de référence de Riemann en l'infini",
+      "statement": "Pour quelle condition sur le paramètre réel $\\alpha$ l'intégrale impropre $\\int_1^{+\\infty} \\frac{dt}{t^\\alpha}$ converge-t-elle ?",
       "options": [
-        "$+\\infty$",
-        "$1$",
-        "$0$",
-        "$e$"
+        "$\\alpha > 1$",
+        "$\\alpha \\ge 1$",
+        "$\\alpha < 1$",
+        "$\\alpha > 0$"
       ],
       "correctIndex": 0,
-      "answer": "$+\\infty$",
-      "hint1": "Par la règle de d'Alembert : $\\frac{a_{n+1}}{a_n} = \\frac{n!}{(n+1)!} = \\frac{1}{n+1} \\to 0$.",
-      "hint2": "$R = 1 / \\lim |a_{n+1}/a_n| = 1/0 = +\\infty$.",
-      "solution": "Comme $\\frac{a_{n+1}}{a_n} = \\frac{1}{n+1} \\to 0$, le rayon de convergence de la série entière de l'exponentielle est $R = +\\infty$."
+      "answer": "$\\alpha > 1$",
+      "hint1": "Calculer la primitive pour $\\alpha \\ne 1$ : $[\\frac{t^{1-\\alpha}}{1-\\alpha}]_1^X$.",
+      "hint2": "Pour que $X^{1-\\alpha}$ admette une limite finie quand $X \\to +\\infty$, il faut $1 - \\alpha < 0$.",
+      "solution": "Pour $\\alpha \\ne 1$, $\\int_1^X t^{-\\alpha} dt = \\frac{X^{1-\\alpha} - 1}{1 - \\alpha}$. Cette quantité admet une limite finie quand $X \\to +\\infty$ si et seulement si $1 - \\alpha < 0 \\iff \\alpha > 1$. Pour $\\alpha = 1$, l'intégrale vaut $\\ln(X) \\to +\\infty$ (divergence)."
     },
     {
       "id": "L2-ING-2",
       "tier": 2,
       "type": "mcq",
-      "title": "Développement en série entière de 1/(1-x)",
-      "skill": "Connaître le DSE de la série géométrique",
-      "statement": "Pour tout $x \\in ]-1, 1[$, que vaut la somme $\\sum_{n=0}^\\infty x^n$ ?",
+      "title": "Convergence par équivalence au voisinage de +l'infini",
+      "skill": "Appliquer la règle des équivalents pour fonctions positives",
+      "statement": "Quelle est la nature de l'intégrale impropre $I = \\int_1^{+\\infty} \\frac{1}{\\sqrt{t^3 + 2t + 5}} \\, dt$ ?",
       "options": [
-        "$\\frac{1}{1 - x}$",
-        "$\\frac{1}{1 + x}$",
-        "$\\ln(1 - x)$",
-        "$e^x$"
+        "Elle converge car l'intégrande est équivalent à $\\frac{1}{t^{3/2}}$ avec $\\frac{3}{2} > 1$",
+        "Elle diverge car l'intégrande est équivalent à $\\frac{1}{t^3}$",
+        "Elle diverge car $\\sqrt{t^3} \\to +\\infty$",
+        "Elle est semi-convergente mais pas absolument convergente"
       ],
       "correctIndex": 0,
-      "answer": "$\\frac{1}{1 - x}$",
-      "hint1": "C'est la somme d'une série géométrique de premier terme 1 et de raison $x$.",
-      "hint2": "$S = \\frac{1}{1 - x}$.",
-      "solution": "Pour tout $|x| < 1$, la série géométrique $\\sum_{n=0}^\\infty x^n$ converge et sa somme vaut $\\frac{1}{1 - x}$."
+      "answer": "Elle converge car l'intégrande est équivalent à $\\frac{1}{t^{3/2}}$ avec $\\frac{3}{2} > 1$",
+      "hint1": "En $+\\infty$, $\\sqrt{t^3 + 2t + 5} \\sim \\sqrt{t^3} = t^{3/2}$.",
+      "hint2": "L'intégrale de Riemann $\\int_1^{+\\infty} \\frac{dt}{t^{3/2}}$ converge car $\\alpha = 1,5 > 1$.",
+      "solution": "La fonction $t \\mapsto \\frac{1}{\\sqrt{t^3 + 2t + 5}}$ est continue et strictement positive sur $[1, +\\infty[$. Au voisinage de $+\\infty$, $\\frac{1}{\\sqrt{t^3 + 2t + 5}} \\sim \\frac{1}{t^{3/2}}$. Comme l'intégrale de Riemann de référence $\\int_1^{+\\infty} \\frac{dt}{t^{3/2}}$ converge ($\\\\alpha = 3/2 > 1$), l'intégrale $I$ converge."
     },
     {
       "id": "L2-ING-3",
       "tier": 3,
       "type": "mcq",
-      "title": "Dérivation terme à terme d'une série entière",
-      "skill": "Calculer la somme d'une série entière dérivée",
-      "statement": "Pour $x \\in ]-1, 1[$, que vaut la somme $\\sum_{n=1}^\\infty n x^{n-1}$ ?",
+      "title": "Intégrales de Bertrand",
+      "skill": "Maîtriser les critères d'intégrabilité de Bertrand",
+      "statement": "À quelle condition sur le couple $(\\alpha, \\beta) \\in \\mathbb{R}^2$ l'intégrale de Bertrand $\\int_2^{+\\infty} \\frac{dt}{t^\\alpha (\\ln t)^\\beta}$ converge-t-elle ?",
       "options": [
-        "$\\frac{1}{(1 - x)^2}$",
-        "$\\frac{1}{1 - x}$",
-        "$\\frac{x}{(1 - x)^2}$",
-        "$\\ln(1 - x)$"
+        "$\\alpha > 1$, ou ($\\alpha = 1$ et $\\beta > 1$)",
+        "$\\alpha > 1$ et $\\beta > 1$",
+        "$\\alpha + \\beta > 1$",
+        "$\\alpha \\ge 1$ pour tout $\\beta$"
       ],
       "correctIndex": 0,
-      "answer": "$\\frac{1}{(1 - x)^2}$",
-      "hint1": "C'est la dérivée terme à terme de $\\sum_{n=0}^\\infty x^n = \\frac{1}{1-x}$.",
-      "hint2": "$(\\frac{1}{1-x})' = \\frac{1}{(1-x)^2}$.",
-      "solution": "Sur le disque ouvert de convergence, on peut dériver terme à terme : $\\sum_{n=1}^\\infty n x^{n-1} = \\left( \\sum_{n=0}^\\infty x^n \\right)' = \\left( \\frac{1}{1-x} \\right)' = \\frac{1}{(1-x)^2}$."
+      "answer": "$\\alpha > 1$, ou ($\\alpha = 1$ et $\\beta > 1$)",
+      "hint1": "Si $\\alpha > 1$, la puissance $t^\\alpha$ suffit à faire converger l'intégrale.",
+      "hint2": "Si $\\alpha = 1$, le changement de variable $u = \\ln t$ ramène à $\\int \\frac{du}{u^\\beta}$.",
+      "solution": "Pour $\\alpha > 1$, $t^\\alpha (\\ln t)^\\beta$ croît plus vite que $t^{\\frac{\\alpha + 1}{2}}$ donc l'intégrale converge pour tout $\\beta$. Pour $\\alpha = 1$, par le changement de variable $u = \\ln t$, $\\int_2^X \\frac{dt}{t(\\ln t)^\\beta} = \\int_{\\ln 2}^{\\ln X} \\frac{du}{u^\\beta}$ converge ssi $\\beta > 1$."
     },
     {
       "id": "L2-ING-4",
       "tier": 4,
       "type": "mcq",
-      "title": "Somme d'une série entière via équation différentielle",
-      "skill": "Identifier la fonction somme par son équation différentielle",
-      "statement": "Soit $S(x) = \\sum_{n=0}^\\infty \\frac{x^{2n}}{(2n)!}$. Quelle équation différentielle simple vérifie $S$ sur $\\mathbb{R}$ ?",
+      "title": "Intégrale semi-convergente de Dirichlet",
+      "skill": "Démontrer la convergence non absolue par intégration par parties",
+      "statement": "Que peut-on affirmer au sujet de l'intégrale impropre $\\int_0^{+\\infty} \\frac{\\sin t}{t} \\, dt$ ?",
       "options": [
-        "$S''(x) - S(x) = 0$ avec $S(0)=1, S'(0)=0$",
-        "$S''(x) + S(x) = 0$",
-        "$S'(x) + S(x) = 0$",
-        "$x S'(x) - S(x) = 0$"
+        "Elle est semi-convergente (convergente mais non absolument convergente)",
+        "Elle est absolument convergente",
+        "Elle diverge grossièrement vers $+\\infty$",
+        "Elle n'est pas prolongeable par continuité en $0$"
       ],
       "correctIndex": 0,
-      "answer": "$S''(x) - S(x) = 0$ avec $S(0)=1, S'(0)=0$",
-      "hint1": "$S(x) = \\cosh(x) = \\frac{e^x + e^{-x}}{2}$.",
-      "hint2": "$\\cosh''(x) = \\cosh(x)$, donc $S'' - S = 0$.",
-      "solution": "En dérivant deux fois terme à terme, $S''(x) = \\sum_{n=1}^\\infty \\frac{2n(2n-1)x^{2n-2}}{(2n)!} = \\sum_{m=0}^\\infty \\frac{x^{2m}}{(2m)!} = S(x)$. Comme $S(0)=1$ et $S'(0)=0$, $S(x) = \\cosh(x)$."
+      "answer": "Elle est semi-convergente (convergente mais non absolument convergente)",
+      "hint1": "En 0, $\\lim_{t \\to 0} \\frac{\\sin t}{t} = 1$, pas de problème d'intégrabilité en 0.",
+      "hint2": "En $+\\infty$, intégrer par parties : $\\int_1^X \\frac{\\sin t}{t} dt = [-\\frac{\\cos t}{t}]_1^X - \\int_1^X \\frac{\\cos t}{t^2} dt$.",
+      "solution": "En $0$, la fonction se prolonge par continuité par $1$. En $+\\infty$, une intégration par parties montre que $\\int_1^X \\frac{\\sin t}{t} dt = -\\frac{\\cos X}{X} + \\cos(1) - \\int_1^X \\frac{\\cos t}{t^2} dt$, qui converge car $\\frac{|\\cos t|}{t^2} \\le \\frac{1}{t^2}$ intégrable. Cependant, $\\int_0^{+\\infty} \\frac{|\\sin t|}{t} dt = +\\infty$, l'intégrale est donc semi-convergente."
     }
   ],
   "L2-EDO": [
@@ -1574,77 +1584,77 @@ window.MATHS_EXERCISES_L2 = {
       "id": "L2-PAR-1",
       "tier": 1,
       "type": "mcq",
-      "title": "Calcul de gradient",
-      "skill": "Calculer les dérivées partielles premières d'une fonction de deux variables",
-      "statement": "Pour $f(x, y) = x^2 y + 3xy^2$, que vaut le gradient $\\nabla f(1, 2)$ ?",
+      "title": "Continuité sous le signe intégral et domination",
+      "skill": "Vérifier l'hypothèse de domination intégrable pour la continuité",
+      "statement": "Soit $F(x) = \\int_0^{+\\infty} \\frac{\\sin(xt)}{1 + t^2} \\, dt$. Pour prouver la continuité de $F$ sur $\\mathbb{R}$, quelle hypothèse de domination intégrable utilise-t-on ?",
       "options": [
-        "$(16, 13)$",
-        "$(12, 14)$",
-        "$(10, 8)$",
-        "$(15, 12)$"
+        "$\\forall x \\in \\mathbb{R}, \\forall t \\ge 0, \\quad \\left|\\frac{\\sin(xt)}{1 + t^2}\\right| \\le \\frac{1}{1 + t^2}$ avec $\\int_0^{+\\infty} \\frac{dt}{1 + t^2} = \\frac{\\pi}{2} < +\\infty$",
+        "$\\forall x \\in \\mathbb{R}, \\quad \\lim_{t \\to +\\infty} \\frac{\\sin(xt)}{1 + t^2} = 0$",
+        "$\\forall t \\ge 0, \\quad x \\mapsto \\sin(xt)$ est bornée par $x$",
+        "Il n'est pas nécessaire d'avoir une fonction dominante indépendante de $x$"
       ],
       "correctIndex": 0,
-      "answer": "$(16, 13)$",
-      "hint1": "$\\frac{\\partial f}{\\partial x} = 2xy + 3y^2$ et $\\frac{\\partial f}{\\partial y} = x^2 + 6xy$.",
-      "hint2": "En $(1, 2)$ : $\\partial_x f = 2(2) + 3(4) = 4 + 12 = 16$. $\\partial_y f = 1 + 6(2) = 13$.",
-      "solution": "$\\frac{\\partial f}{\\partial x}(1, 2) = 2(1)(2) + 3(2^2) = 4 + 12 = 16$. $\\frac{\\partial f}{\\partial y}(1, 2) = 1^2 + 6(1)(2) = 13$. Donc $\\nabla f(1, 2) = (16, 13)$."
+      "answer": "$\\forall x \\in \\mathbb{R}, \\forall t \\ge 0, \\quad \\left|\\frac{\\sin(xt)}{1 + t^2}\\right| \\le \\frac{1}{1 + t^2}$ avec $\\int_0^{+\\infty} \\frac{dt}{1 + t^2} = \\frac{\\pi}{2} < +\\infty$",
+      "hint1": "Pour tout $u \\in \\mathbb{R}$, $|\sin u| \\le 1$.",
+      "hint2": "La fonction $\\varphi(t) = \\frac{1}{1+t^2}$ est intégrable sur $[0, +\\infty[$ et ne dépend pas de $x$.",
+      "solution": "Comme $|\sin(xt)| \\le 1$, l'intégrande est dominé par $\\varphi(t) = \\frac{1}{1+t^2}$ qui est indépendante de $x$ et intégrable sur $[0, +\\infty[$. D'après le théorème de continuité sous le signe intégral, $F$ est continue sur $\\mathbb{R}$."
     },
     {
       "id": "L2-PAR-2",
       "tier": 2,
       "type": "mcq",
-      "title": "Règle de la chaîne",
-      "skill": "Dériver une fonction composée multivariable",
-      "statement": "Soit $f(x, y) = x^2 + y^2$ et $\\gamma(t) = (\\cos t, \\sin t)$. Que vaut la dérivée $\\frac{d}{dt}[f(\\gamma(t))]$ ?",
+      "title": "Règle de Leibniz de dérivation sous le signe intégral",
+      "skill": "Dériver une intégrale à paramètre",
+      "statement": "Pour $F(x) = \\int_0^1 e^{-x t^2} \\, dt$ ($x \\in \\mathbb{R}$), quelle est l'expression exacte de la dérivée $F'(x)$ ?",
       "options": [
-        "$0$",
-        "$2\\cos t \\sin t$",
-        "$2$",
-        "$-\\sin t + \\cos t$"
+        "$-\\int_0^1 t^2 e^{-x t^2} \\, dt$",
+        "$\\int_0^1 e^{-x t^2} \\, dt$",
+        "$-x \\int_0^1 t e^{-x t^2} \\, dt$",
+        "$e^{-x} - 1$"
       ],
       "correctIndex": 0,
-      "answer": "$0$",
-      "hint1": "$f(\\gamma(t)) = \\cos^2 t + \\sin^2 t = 1$.",
-      "hint2": "La dérivée d'une constante est nulle.",
-      "solution": "$f(\\gamma(t)) = \\cos^2(t) + \\sin^2(t) = 1$ pour tout $t$. Sa dérivée par rapport à $t$ est donc identiquement nulle : $0$."
+      "answer": "$-\\int_0^1 t^2 e^{-x t^2} \\, dt$",
+      "hint1": "Dérive l'intégrande par rapport à $x$ : $\\frac{\\partial}{\\partial x}(e^{-x t^2}) = -t^2 e^{-x t^2}$.",
+      "hint2": "L'intervalle d'intégration $[0, 1]$ est compact, la domination est directe sur tout segment.",
+      "solution": "Par le théorème de dérivation sous le signe intégral (règle de Leibniz) : $F'(x) = \\int_0^1 \\frac{\\partial}{\\partial x}(e^{-xt^2}) \\, dt = -\\int_0^1 t^2 e^{-xt^2} \\, dt$."
     },
     {
       "id": "L2-PAR-3",
       "tier": 3,
       "type": "mcq",
-      "title": "Matrice hessienne et point critique",
-      "skill": "Déterminer la nature d'un point critique",
-      "statement": "Pour $f(x, y) = x^2 - y^2$, le point $(0, 0)$ est un point critique. Quelle est sa nature ?",
+      "title": "Propriétés de la fonction Gamma d'Euler",
+      "skill": "Maîtriser la fonction Gamma $\\Gamma(x) = \\int_0^\\infty t^{x-1} e^{-t} dt$",
+      "statement": "Que vaut $\\Gamma(5)$ pour la fonction Gamma d'Euler $\\Gamma(x) = \\int_0^{+\\infty} t^{x-1} e^{-t} \\, dt$ ?",
       "options": [
-        "Point col (point selle)",
-        "Minimum local strict",
-        "Maximum local strict",
-        "Extremum global"
+        "$24$",
+        "$120$",
+        "$5$",
+        "$\\frac{\\sqrt{\\pi}}{2}$"
       ],
       "correctIndex": 0,
-      "answer": "Point col (point selle)",
-      "hint1": "La matrice hessienne est $H = \\begin{pmatrix} 2 & 0 \\\\ 0 & -2 \\end{pmatrix}$.",
-      "hint2": "Les valeurs propres sont $2 > 0$ et $-2 < 0$ : signes opposés.",
-      "solution": "La hessienne en $(0,0)$ admet pour valeurs propres $2$ et $-2$. Comme elles sont de signes opposés, $(0,0)$ est un point col (point selle)."
+      "answer": "$24$",
+      "hint1": "Pour tout entier naturel $n$, $\\Gamma(n+1) = n!$.",
+      "hint2": "Ici $x = 5 = 4 + 1$, donc $\\Gamma(5) = 4!$.",
+      "solution": "Par intégration par parties, $\\Gamma(x+1) = x \\Gamma(x)$ pour tout $x > 0$. Pour tout entier $n \\ge 1$, $\\Gamma(n) = (n-1)!$. En particulier, $\\Gamma(5) = 4! = 4 \\times 3 \\times 2 \\times 1 = 24$."
     },
     {
       "id": "L2-PAR-4",
       "tier": 4,
       "type": "mcq",
-      "title": "Théorème de Schwarz",
-      "skill": "Symétrie des dérivées partielles secondes croisées",
-      "statement": "Que garantit le théorème de Schwarz pour une fonction $f : U \\subset \\mathbb{R}^2 \\to \\mathbb{R}$ de classe $\\mathcal{C}^2$ ?",
+      "title": "Calcul d'intégrale par dérivation sous le signe intégral",
+      "skill": "Résoudre une intégrale à paramètre en dérivant par rapport au paramètre",
+      "statement": "Soit $F(x) = \\int_0^{+\\infty} \\frac{e^{-t} - e^{-xt}}{t} \\, dt$ pour $x > 0$. Sachant que $F(1) = 0$ et $F'(x) = \\frac{1}{x}$, que vaut $F(x)$ ?",
       "options": [
-        "$\\frac{\\partial^2 f}{\\partial x \\partial y} = \\frac{\\partial^2 f}{\\partial y \\partial x}$",
-        "$\\Delta f = 0$",
-        "$\\frac{\\partial f}{\\partial x} = \\frac{\\partial f}{\\partial y}$",
-        "La matrice hessienne est de trace nulle"
+        "$\\ln(x)$",
+        "$\\frac{1}{x^2}$",
+        "$e^{-x}$",
+        "$\\arctan(x)$"
       ],
       "correctIndex": 0,
-      "answer": "$\\frac{\\partial^2 f}{\\partial x \\partial y} = \\frac{\\partial^2 f}{\\partial y \\partial x}$",
-      "hint1": "L'ordre des dérivations partielles peut être interverti si la fonction est $\\mathcal{C}^2$.",
-      "hint2": "La matrice hessienne d'une fonction $\\mathcal{C}^2$ est symétrique.",
-      "solution": "Le théorème de Schwarz affirme que pour toute fonction de classe $\\mathcal{C}^2$, les dérivées partielles croisées sont égales : $\\frac{\\partial^2 f}{\\partial x \\partial y} = \\frac{\\partial^2 f}{\\partial y \\partial x}$."
+      "answer": "$\\ln(x)$",
+      "hint1": "Intégrer $F'(x) = 1/x$ donne $F(x) = \\ln(x) + C$.",
+      "hint2": "Comme $F(1) = \\int_0^{+\\infty} 0 \\, dt = 0$, la constante $C$ vaut $0$.",
+      "solution": "En dérivant sous l'intégrale, $F'(x) = \\int_0^{+\\infty} e^{-xt} dt = \\left[-\\frac{e^{-xt}}{x}\\right]_0^{+\\infty} = \\frac{1}{x}$. En intégrant, $F(x) = \\ln(x) + C$. Comme $F(1) = 0$, on en déduit $C = 0$, soit $F(x) = \\ln(x)$ (intégrale de Frullani)."
     }
   ],
   "L2-MUL": [
@@ -1730,77 +1740,77 @@ window.MATHS_EXERCISES_L2 = {
       "id": "L2-CRB-1",
       "tier": 1,
       "type": "mcq",
-      "title": "Circulation d'un champ de vecteurs",
-      "skill": "Définition de l'intégrale curviligne",
-      "statement": "La circulation d'un champ de vecteurs $\\vec{V}$ le long d'une courbe orientée $\\gamma$ paramétrée par $t \\in [a, b]$ est donnée par :",
+      "title": "Vecteur vitesse et point régulier",
+      "skill": "Caractériser la régularité d'un point sur un arc paramétré",
+      "statement": "Soit une courbe paramétrée $\\vec{r}(t) = (x(t), y(t))$ de classe $\\mathcal{C}^1$. À quelle condition le point $M(t_0)$ est-il dit régulier ?",
       "options": [
-        "$\\int_a^b \\vec{V}(\\gamma(t)) \\cdot \\gamma'(t) dt$",
-        "$\\int_a^b \\|\\vec{V}(\\gamma(t))\\| dt$",
-        "$\\int_a^b \\vec{V}(\\gamma(t)) \\times \\gamma'(t) dt$",
-        "$\\vec{V}(b) - \\vec{V}(a)$"
+        "$\\vec{r}'(t_0) \\neq \\vec{0}$",
+        "$\\vec{r}''(t_0) = \\vec{0}$",
+        "$\\vec{r}(t_0) = \\vec{0}$",
+        "$\\|\\vec{r}'(t_0)\\| = 1$"
       ],
       "correctIndex": 0,
-      "answer": "$\\int_a^b \\vec{V}(\\gamma(t)) \\cdot \\gamma'(t) dt$",
-      "hint1": "C'est le produit scalaire du champ par le vecteur vitesse tangentiel.",
-      "hint2": "Formule du travail élémentaire $dW = \\vec{F} \\cdot d\\vec{r}$.",
-      "solution": "La circulation d'un champ $\\vec{V}$ le long de l'arc paramétré $\\gamma$ est l'intégrale du produit scalaire $\\int_a^b \\vec{V}(\\gamma(t)) \\cdot \\gamma'(t) dt$."
+      "answer": "$\\vec{r}'(t_0) \\neq \\vec{0}$",
+      "hint1": "Le vecteur dérivé ne doit pas s'annuler.",
+      "hint2": "Si le vecteur dérivé est non nul, la droite tangente est bien définie et portée par ce vecteur.",
+      "solution": "Un point $M(t_0)$ d'un arc paramétré est régulier si le vecteur vitesse $\\vec{r}'(t_0) = (x'(t_0), y'(t_0)) \\neq \\vec{0}$. La tangente à la courbe en ce point est alors dirigée par $\\vec{r}'(t_0)$."
     },
     {
       "id": "L2-CRB-2",
       "tier": 2,
       "type": "mcq",
-      "title": "Forme différentielle exacte et potentiel",
-      "skill": "Vérifier si une forme différentielle dérive d'un potentiel",
-      "statement": "La forme différentielle $\\omega = 2xy dx + x^2 dy$ est-elle exacte sur $\\mathbb{R}^2$ ?",
+      "title": "Repère de Frenet et première formule de dérivation",
+      "skill": "Connaître les formules de Frenet dans le plan",
+      "statement": "Pour une courbe plane orientée paramétrée par son abscisse curviligne $s$, munie du repère mobile orthonormé direct $(\\vec{T}(s), \\vec{N}(s))$, quelle est l'expression de $\\frac{d\\vec{T}}{ds}$ en fonction de la courbure $\\kappa(s)$ ?",
       "options": [
-        "Oui, elle dérive du potentiel $f(x, y) = x^2 y$",
-        "Non, car elle n'est pas fermée",
-        "Non, car son intégrale est toujours non nulle",
-        "Oui, avec $f(x, y) = 2xy$"
+        "$\\frac{d\\vec{T}}{ds} = \\kappa(s) \\vec{N}(s)$",
+        "$\\frac{d\\vec{T}}{ds} = -\\kappa(s) \\vec{N}(s)$",
+        "$\\frac{d\\vec{T}}{ds} = \\kappa(s) \\vec{T}(s)$",
+        "$\\frac{d\\vec{T}}{ds} = \\vec{0}$"
       ],
       "correctIndex": 0,
-      "answer": "Oui, elle dérive du potentiel $f(x, y) = x^2 y$",
-      "hint1": "Calcule $df = \\frac{\\partial f}{\\partial x}dx + \\frac{\\partial f}{\\partial y}dy$.",
-      "hint2": "Pour $f(x, y) = x^2 y$, $\\partial_x f = 2xy$ et $\\partial_y f = x^2$.",
-      "solution": "Pour $f(x, y) = x^2 y$, on a $df = 2xy dx + x^2 dy = \\omega$. Comme $\\omega = df$, la forme est exacte sur $\\mathbb{R}^2$."
+      "answer": "$\\frac{d\\vec{T}}{ds} = \\kappa(s) \\vec{N}(s)$",
+      "hint1": "Comme $\\|\\vec{T}\\| = 1$, sa dérivée est orthogonale à $\\vec{T}$, donc colinéaire à $\\vec{N}$.",
+      "hint2": "La première formule de Frenet relie la variation de la tangente au vecteur normal unitaire.",
+      "solution": "Les formules de Frenet pour une courbe plane sont $\\frac{d\\vec{T}}{ds} = \\kappa(s) \\vec{N}(s)$ et $\\frac{d\\vec{N}}{ds} = -\\kappa(s) \\vec{T}(s)$, où $\\kappa(s)$ est la courbure algébrique."
     },
     {
       "id": "L2-CRB-3",
       "tier": 3,
       "type": "mcq",
-      "title": "Formule de Green-Riemann",
-      "skill": "Relier une intégrale curviligne fermée à une intégrale double",
-      "statement": "Pour un lacet orienté positivement bordant un domaine $D$, que stipule la formule de Green-Riemann ?",
+      "title": "Calcul de la courbure d'un cercle",
+      "skill": "Appliquer la formule de la courbure $\\kappa = \\frac{|x'y'' - x''y'|}{(x'^2 + y'^2)^{3/2}}$",
+      "statement": "Quelle est la courbure $\\kappa(t)$ en tout point d'un cercle de rayon $R > 0$ paramétré par $x(t) = R\\cos t$, $y(t) = R\\sin t$ ?",
       "options": [
-        "$\\oint_{\\partial D} P dx + Q dy = \\iint_D \\left( \\frac{\\partial Q}{\\partial x} - \\frac{\\partial P}{\\partial y} \\right) dx dy$",
-        "$\\oint_{\\partial D} P dx + Q dy = \\iint_D (P + Q) dx dy$",
-        "$\\oint_{\\partial D} P dx + Q dy = 0$ toujours",
-        "$\\oint_{\\partial D} P dx + Q dy = \\text{Aire}(D)$"
+        "$\\kappa = \\frac{1}{R}$",
+        "$\\kappa = R$",
+        "$\\kappa = \\frac{1}{R^2}$",
+        "$\\kappa = 2\\pi R$"
       ],
       "correctIndex": 0,
-      "answer": "$\\oint_{\\partial D} P dx + Q dy = \\iint_D \\left( \\frac{\\partial Q}{\\partial x} - \\frac{\\partial P}{\\partial y} \\right) dx dy$",
-      "hint1": "C'est la version bidimensionnelle du théorème de Stokes.",
-      "hint2": "Elle fait intervenir le rotationnel scalaire $\\frac{\\partial Q}{\\partial x} - \\frac{\\partial P}{\\partial y}$.",
-      "solution": "La formule de Green-Riemann établit l'égalité $\\oint_{\\partial D} P dx + Q dy = \\iint_D \\left( \\frac{\\partial Q}{\\partial x} - \\frac{\\partial P}{\\partial y} \\right) dx dy$."
+      "answer": "$\\kappa = \\frac{1}{R}$",
+      "hint1": "Calcule $x', y'$ puis $x'', y''$.",
+      "hint2": "$x'^2 + y'^2 = R^2$, et la vitesse est $\|\\vec{r}'(t)\| = R$.",
+      "solution": "On a $x'(t) = -R\\sin t, y'(t) = R\\cos t \\implies (x'^2 + y'^2)^{3/2} = R^3$. De plus, $x''(t) = -R\\cos t, y''(t) = -R\\sin t$, donc $x'y'' - x''y' = R^2\\sin^2 t + R^2\\cos^2 t = R^2$. Par conséquent, $\\kappa = \\frac{R^2}{R^3} = \\frac{1}{R}$. Le rayon de courbure associé est $R_c = \\frac{1}{\\kappa} = R$."
     },
     {
       "id": "L2-CRB-4",
       "tier": 4,
       "type": "mcq",
-      "title": "Lemme de Poincaré sur un ouvert étoilé",
-      "skill": "Conditions d'équivalence entre forme fermée et forme exacte",
-      "statement": "Que garantit le lemme de Poincaré sur un ouvert étoilé $U \\subset \\mathbb{R}^n$ ?",
+      "title": "Classification locale d'un point stationnaire",
+      "skill": "Déterminer la nature d'un point singulier via les ordres des premières dérivées non nulles et indépendantes",
+      "statement": "Soit la courbe paramétrée par $x(t) = t^2$ et $y(t) = t^3$. En $t=0$, le point est singulier car $\\vec{r}'(0) = (0,0)$. Quelle est sa nature géométrique ?",
       "options": [
-        "Toute forme différentielle fermée sur $U$ est exacte",
-        "Toute fonction dérivable est constante",
-        "Tout ouvert étoilé est compact",
-        "Les intégrales curvilignes sont nulles sur tout chemin"
+        "Point de rebroussement de première espèce",
+        "Point ordinaire",
+        "Point d'inflexion",
+        "Point de rebroussement de deuxième espèce"
       ],
       "correctIndex": 0,
-      "answer": "Toute forme différentielle fermée sur $U$ est exacte",
-      "hint1": "Sur un ouvert contractile ou étoilé, la cohomologie de de Rham d'ordre 1 est triviale.",
-      "hint2": "Fermée ($d\\omega = 0$) $\\implies$ exacte ($\\omega = df$).",
-      "solution": "Le lemme de Poincaré affirme que sur tout ouvert étoilé (ou simplement connexe) de $\\mathbb{R}^n$, toute forme différentielle fermée ($d\\omega = 0$) est exacte (il existe $\\alpha$ telle que $\\omega = d\\alpha$)."
+      "answer": "Point de rebroussement de première espèce",
+      "hint1": "Calcule les dérivées successives $\\vec{r}''(0)$ et $\\vec{r}'''(0)$.",
+      "hint2": "Trouve les ordres $p$ (premier vecteur non nul) et $q$ (premier vecteur indépendant de $\\vec{r}^{(p)}$).",
+      "solution": "On a $\\vec{r}'(t) = (2t, 3t^2) \\implies \\vec{r}'(0) = (0,0)$. Ensuite, $\\vec{r}''(t) = (2, 6t) \\implies \\vec{r}''(0) = (2, 0) \\neq \\vec{0}$, donc $p = 2$ (ordre pair). Enfin, $\\vec{r}^{(3)}(t) = (0, 6) \\implies \\vec{r}^{(3)}(0) = (0, 6)$, qui est linéairement indépendant de $\\vec{r}''(0)$, donc $q = 3$ (ordre impair). Le couple $(p=2 \\text{ pair}, q=3 \\text{ impair})$ définit un point de rebroussement de première espèce."
     }
   ],
   "L2-PRB": [
@@ -1886,77 +1896,77 @@ window.MATHS_EXERCISES_L2 = {
       "id": "L2-CAL-1",
       "tier": 1,
       "type": "mcq",
-      "title": "Inégalité de Markov",
-      "skill": "Appliquer l'inégalité de concentration de Markov",
-      "statement": "Pour une variable aléatoire $X$ positive d'espérance $\\mathbb{E}[X] = 10$, quelle est la majoration de $\\mathbb{P}(X \\ge 50)$ fournie par l'inégalité de Markov ?",
+      "title": "Calcul de gradient et dérivées partielles",
+      "skill": "Calculer les dérivées partielles premières d'une fonction de deux variables",
+      "statement": "Pour $f(x, y) = x^2 y + 3xy^2$, que vaut le gradient $\\nabla f(1, 2)$ ?",
       "options": [
-        "$\\le 0.2$",
-        "$\\le 0.5$",
-        "$\\le 0.04$",
-        "$\\le 0.1$"
+        "$(16, 13)$",
+        "$(12, 14)$",
+        "$(10, 8)$",
+        "$(15, 12)$"
       ],
       "correctIndex": 0,
-      "answer": "$\\le 0.2$",
-      "hint1": "L'inégalité de Markov s'écrit $\\mathbb{P}(X \\ge a) \\le \\frac{\\mathbb{E}[X]}{a}$.",
-      "hint2": "$\\frac{10}{50} = \\frac{1}{5} = 0.2$.",
-      "solution": "Pour toute variable positive, $\\mathbb{P}(X \\ge a) \\le \\frac{\\mathbb{E}[X]}{a}$. Ici $\\mathbb{P}(X \\ge 50) \\le \\frac{10}{50} = 0.2$."
+      "answer": "$(16, 13)$",
+      "hint1": "$\\frac{\\partial f}{\\partial x} = 2xy + 3y^2$ et $\\frac{\\partial f}{\\partial y} = x^2 + 6xy$.",
+      "hint2": "En $(1, 2)$ : $\\partial_x f = 2(2) + 3(4) = 4 + 12 = 16$. $\\partial_y f = 1 + 6(2) = 13$.",
+      "solution": "$\\frac{\\partial f}{\\partial x}(1, 2) = 2(1)(2) + 3(2^2) = 4 + 12 = 16$. $\\frac{\\partial f}{\\partial y}(1, 2) = 1^2 + 6(1)(2) = 13$. Donc $\\nabla f(1, 2) = (16, 13)$."
     },
     {
       "id": "L2-CAL-2",
       "tier": 2,
       "type": "mcq",
-      "title": "Inégalité de Bienaymé-Tchebychev",
-      "skill": "Estimer la dispersion autour de la moyenne",
-      "statement": "Soit $X$ de moyenne $\\mu$ et de variance $\\sigma^2$. Que vaut la majoration de $\\mathbb{P}(|X - \\mu| \\ge 3\\sigma)$ ?",
+      "title": "Règle de la chaîne pour une fonction composée",
+      "skill": "Dériver une fonction composée multivariable le long d'un arc",
+      "statement": "Soit $f(x, y) = x^2 + y^2$ et $\\gamma(t) = (\\cos t, \\sin t)$. Que vaut la dérivée $\\frac{d}{dt}[f(\\gamma(t))]$ ?",
       "options": [
-        "$\\le \\frac{1}{9}$",
-        "$\\le \\frac{1}{3}$",
-        "$\\le \\frac{1}{27}$",
-        "$\\le 0.05$"
+        "$0$",
+        "$2\\cos t \\sin t$",
+        "$2$",
+        "$-\\sin t + \\cos t$"
       ],
       "correctIndex": 0,
-      "answer": "$\\le \\frac{1}{9}$",
-      "hint1": "Bienaymé-Tchebychev : $\\mathbb{P}(|X - \\mu| \\ge k\\sigma) \\le \\frac{1}{k^2}$.",
-      "hint2": "Ici $k = 3$, donc $1/3^2 = 1/9$.",
-      "solution": "Par l'inégalité de Bienaymé-Tchebychev avec $\\varepsilon = 3\\sigma$ : $\\mathbb{P}(|X - \\mu| \\ge 3\\sigma) \\le \\frac{\\sigma^2}{(3\\sigma)^2} = \\frac{1}{9}$."
+      "answer": "$0$",
+      "hint1": "$f(\\gamma(t)) = \\cos^2 t + \\sin^2 t = 1$.",
+      "hint2": "La dérivée d'une constante est nulle.",
+      "solution": "$f(\\gamma(t)) = \\cos^2(t) + \\sin^2(t) = 1$ pour tout $t$. Sa dérivée par rapport à $t$ est donc identiquement nulle : $0$."
     },
     {
       "id": "L2-CAL-3",
       "tier": 3,
       "type": "mcq",
-      "title": "Covariance et variables indépendantes",
-      "skill": "Propriétés de la covariance de deux variables",
-      "statement": "Si deux variables aléatoires réelles $X$ et $Y$ sont indépendantes et admettent un moment d'ordre 2, que vaut leur covariance $\\text{Cov}(X, Y)$ ?",
+      "title": "Matrice hessienne et nature d'un point critique",
+      "skill": "Classifier un point critique à l'aide des valeurs propres de la hessienne",
+      "statement": "Pour $f(x, y) = x^2 - y^2$, le point $(0, 0)$ est un point critique. Quelle est sa nature géométrique ?",
       "options": [
-        "$0$",
-        "$1$",
-        "$\\text{Var}(X) \\text{Var}(Y)$",
-        "$\\mathbb{E}[X] \\mathbb{E}[Y]$"
+        "Point col (point selle)",
+        "Minimum local strict",
+        "Maximum local strict",
+        "Extremum global"
       ],
       "correctIndex": 0,
-      "answer": "$0$",
-      "hint1": "$\\text{Cov}(X, Y) = \\mathbb{E}[XY] - \\mathbb{E}[X]\\mathbb{E}[Y]$.",
-      "hint2": "Par indépendance, $\\mathbb{E}[XY] = \\mathbb{E}[X]\\mathbb{E}[Y]$.",
-      "solution": "Si $X$ et $Y$ sont indépendantes, alors $\\mathbb{E}[XY] = \\mathbb{E}[X]\\mathbb{E}[Y]$, donc $\\text{Cov}(X, Y) = \\mathbb{E}[XY] - \\mathbb{E}[X]\\mathbb{E}[Y] = 0$."
+      "answer": "Point col (point selle)",
+      "hint1": "La matrice hessienne est $H = \\begin{pmatrix} 2 & 0 \\\\ 0 & -2 \\end{pmatrix}$.",
+      "hint2": "Les valeurs propres sont $2 > 0$ et $-2 < 0$ : signes opposés.",
+      "solution": "La hessienne en $(0,0)$ admet pour valeurs propres $2$ et $-2$. Comme elles sont de signes strictement opposés, $(0,0)$ est un point col (point selle)."
     },
     {
       "id": "L2-CAL-4",
       "tier": 4,
       "type": "mcq",
-      "title": "Loi faible des grands nombres",
-      "skill": "Comprendre la convergence en probabilité de la moyenne empirique",
-      "statement": "Soit $(X_n)$ une suite de variables i.i.d. d'espérance $\\mu$ et de variance finie $\\sigma^2$. Que stipule la Loi Faible des Grands Nombres pour $\\bar{X}_n = \\frac{1}{n}\\sum_{i=1}^n X_i$ ?",
+      "title": "Théorème de Schwarz et symétrie hessienne",
+      "skill": "Appliquer le théorème de Schwarz aux dérivées partielles croisées",
+      "statement": "Que garantit le théorème de Schwarz pour une fonction $f : U \\subset \\mathbb{R}^2 \\to \\mathbb{R}$ de classe $\\mathcal{C}^2$ ?",
       "options": [
-        "$\\bar{X}_n$ converge en probabilité vers $\\mu$",
-        "$\\bar{X}_n$ converge uniformément vers $\\sigma$",
-        "$\\text{Var}(\\bar{X}_n) \\to \\sigma^2$",
-        "$\\bar{X}_n = \\mu$ pour tout $n$"
+        "$\\frac{\\partial^2 f}{\\partial x \\partial y} = \\frac{\\partial^2 f}{\\partial y \\partial x}$",
+        "$\\Delta f = 0$",
+        "$\\frac{\\partial f}{\\partial x} = \\frac{\\partial f}{\\partial y}$",
+        "La matrice hessienne est toujours de trace nulle"
       ],
       "correctIndex": 0,
-      "answer": "$\\bar{X}_n$ converge en probabilité vers $\\mu$",
-      "hint1": "$\\mathbb{P}(|\\bar{X}_n - \\mu| \\ge \\varepsilon) \\le \\frac{\\sigma^2}{n\\varepsilon^2} \\to 0$.",
-      "hint2": "La moyenne empirique se concentre autour de la moyenne théorique.",
-      "solution": "La loi faible des grands nombres garantit que la moyenne empirique $\\bar{X}_n$ converge en probabilité vers l'espérance théorique $\\mu$ : $\\forall \\varepsilon > 0, \\lim_{n \\to \\infty} \\mathbb{P}(|\\bar{X}_n - \\mu| \\ge \\varepsilon) = 0$."
+      "answer": "$\\frac{\\partial^2 f}{\\partial x \\partial y} = \\frac{\\partial^2 f}{\\partial y \\partial x}$",
+      "hint1": "L'ordre des dérivations partielles peut être interverti si la fonction est $\\mathcal{C}^2$.",
+      "hint2": "La matrice hessienne d'une fonction $\\mathcal{C}^2$ est symétrique.",
+      "solution": "Le théorème de Schwarz affirme que pour toute fonction de classe $\\mathcal{C}^2$, les dérivées partielles croisées sont égales : $\\frac{\\partial^2 f}{\\partial x \\partial y} = \\frac{\\partial^2 f}{\\partial y \\partial x}$."
     }
   ]
 };
@@ -1988,6 +1998,156 @@ Pour $\\lambda = 4$ : $A - 4I_3$ donne $x = y = z$, base $u_3(1; 1; 1)$. $\\dim(
 4. $\\dim(E_1) + \\dim(E_4) = 3 = \\dim(\\mathbb{R}^3)$, donc $A$ est diagonalisable avec :
 $P = \\begin{pmatrix} 1 & 1 & 1 \\\\ -1 & 0 & 1 \\\\ 0 & -1 & 1 \\end{pmatrix}$ et $D = \\begin{pmatrix} 1 & 0 & 0 \\\\ 0 & 1 & 0 \\\\ 0 & 0 & 4 \\end{pmatrix}$.
 5. $A^n = P D^n P^{-1}$ avec $D^n = \\text{diag}(1, 1, 4^n)$.`
+    }
+  ],
+  "L2-DET": [
+    {
+      "title": "Feuille de TD L2 : Déterminants, Comatrice et Systèmes Linéaires",
+      "filename": "TD_L2_Determinants.md",
+      "statement": `## Travaux Dirigés L2 : Déterminants et Systèmes Linéaires
+
+### Exercice 1 : Calcul de déterminants par opérations élémentaires (10 points)
+Soit la matrice $M_a \\in \\mathcal{M}_3(\\mathbb{R})$ dépendant d'un paramètre $a \\in \\mathbb{R}$ :
+$$M_a = \\begin{pmatrix} 1 & a & a^2 \\\\ 1 & 2 & 4 \\\\ 1 & 3 & 9 \\end{pmatrix}$$
+1. Reconnaître le déterminant de Vandermonde. Exprimer $\\det(M_a)$ sous forme entièrement factorisée en effectuant des opérations élémentaires sur les lignes et colonnes.
+2. Pour quelles valeurs du paramètre $a$ la matrice $M_a$ est-elle inversible ?
+3. Calculer la matrice des cofacteurs $\\text{Com}(M_0)$ pour $a = 0$.
+4. En déduire la matrice inverse $M_0^{-1}$ à l'aide de la formule de la comatrice.
+
+### Exercice 2 : Règle de Cramer et résolution de système (10 points)
+Considérons le système linéaire suivant à inconnues réelles $(x, y, z)$ :
+$$\\begin{cases} x + y + z = 1 \\\\ 2x + 3y + z = 2 \\\\ x - y + 2z = 3 \\end{cases}$$
+1. Déterminer la matrice du système $A$ et calculer son déterminant $\\det(A)$.
+2. Vérifier que le système est de Cramer.
+3. Résoudre le système par les formules de Cramer en explicitant $\\det(A_x)$, $\\det(A_y)$ et $\\det(A_z)$.`,
+      "solution": `### Correction Exercice 1
+1. Opérations élémentaires sur les lignes : $L_2 \\leftarrow L_2 - L_1$ et $L_3 \\leftarrow L_3 - L_1$ :
+$$\\det(M_a) = \\begin{vmatrix} 1 & a & a^2 \\\\ 0 & 2-a & 4-a^2 \\\\ 0 & 3-a & 9-a^2 \\end{vmatrix} = \\begin{vmatrix} 2-a & (2-a)(2+a) \\\\ 3-a & (3-a)(3+a) \\end{vmatrix}$$
+En factorisant $(2-a)$ sur la première ligne et $(3-a)$ sur la deuxième :
+$$\\det(M_a) = (2-a)(3-a) \\begin{vmatrix} 1 & 2+a \\\\ 1 & 3+a \\end{vmatrix} = (2-a)(3-a)((3+a) - (2+a)) = (2-a)(3-a) = (a-2)(a-3)$$
+2. La matrice $M_a$ est inversible si et seulement si son déterminant est non nul, soit $a \\in \\mathbb{R} \\setminus \\{2, 3\\}$.
+3. Pour $a=0$, $\\det(M_0) = 6$.
+La matrice est $M_0 = \\begin{pmatrix} 1 & 0 & 0 \\\\ 1 & 2 & 4 \\\\ 1 & 3 & 9 \\end{pmatrix}$.
+Calcul des cofacteurs $C_{i,j} = (-1)^{i+j} M_{i,j}$ :
+$C_{1,1} = +(18 - 12) = 6$, $C_{1,2} = -(9 - 4) = -5$, $C_{1,3} = +(3 - 2) = 1$.
+$C_{2,1} = -(0) = 0$, $C_{2,2} = +(9) = 9$, $C_{2,3} = -(3) = -3$.
+$C_{3,1} = +(0) = 0$, $C_{3,2} = -(4) = -4$, $C_{3,3} = +(2) = 2$.
+D'où $\\text{Com}(M_0) = \\begin{pmatrix} 6 & -5 & 1 \\\\ 0 & 9 & -3 \\\\ 0 & -4 & 2 \\end{pmatrix}$.
+4. D'après la formule de la comatrice :
+$$M_0^{-1} = \\frac{1}{\\det(M_0)} {}^t\\text{Com}(M_0) = \\frac{1}{6} \\begin{pmatrix} 6 & 0 & 0 \\\\ -5 & 9 & -4 \\\\ 1 & -3 & 2 \\end{pmatrix}$$
+
+### Correction Exercice 2
+1. Matrice associée : $A = \\begin{pmatrix} 1 & 1 & 1 \\\\ 2 & 3 & 1 \\\\ 1 & -1 & 2 \\end{pmatrix}$.
+Développement suivant la première ligne :
+$$\\det(A) = 1(6 - (-1)) - 1(4 - 1) + 1(-2 - 3) = 7 - 3 - 5 = -1$$
+2. Comme $\\det(A) = -1 \\neq 0$, le système est de Cramer et admet une unique solution.
+3. Formules de Cramer :
+$$\\det(A_x) = \\begin{vmatrix} 1 & 1 & 1 \\\\ 2 & 3 & 1 \\\\ 3 & -1 & 2 \\end{vmatrix} = 1(6+1) - 1(4-3) + 1(-2-9) = 7 - 1 - 11 = -5 \\implies x = \\frac{-5}{-1} = 5$$
+$$\\det(A_y) = \\begin{vmatrix} 1 & 1 & 1 \\\\ 2 & 2 & 1 \\\\ 1 & 3 & 2 \\end{vmatrix} = 1(4-3) - 1(4-1) + 1(6-2) = 1 - 3 + 4 = 2 \\implies y = \\frac{2}{-1} = -2$$
+$$\\det(A_z) = \\begin{vmatrix} 1 & 1 & 1 \\\\ 2 & 3 & 2 \\\\ 1 & -1 & 3 \\end{vmatrix} = 1(9+2) - 1(6-2) + 1(-2-3) = 11 - 4 - 5 = 2 \\implies z = \\frac{2}{-1} = -2$$
+La solution unique est $(x, y, z) = (5, -2, -2)$.`
+    }
+  ],
+  "L2-SER": [
+    {
+      "title": "Feuille de TD L2 : Séries numériques réelles et complexes",
+      "filename": "TD_L2_Series_Numeriques.md",
+      "statement": `## Travaux Dirigés L2 : Séries Numériques
+
+### Exercice 1 : Séries à termes positifs et critères de convergence (10 points)
+Étudier la nature (convergence ou divergence) des séries numériques de terme général :
+1. $u_n = \\frac{n^2 + 1}{2^n}$ pour $n \\ge 1$.
+2. $v_n = \\left(\\frac{2n+1}{3n-1}\\right)^n$ pour $n \\ge 1$.
+3. $w_n = \\frac{1}{n \\ln(n)}$ pour $n \\ge 2$.
+4. $z_n = \\ln\\left(1 + \\frac{1}{n}\\right) - \\frac{1}{n}$ pour $n \\ge 1$.
+
+### Exercice 2 : Séries alternées et pièges d'équivalents (10 points)
+Soit la série de terme général $a_n = \\frac{(-1)^n}{\\sqrt{n} + (-1)^n}$ pour $n \\ge 2$.
+1. Rappeler le critère spécial des séries alternées (CSSA).
+2. Vérifier que $b_n = \\frac{(-1)^n}{\\sqrt{n}}$ satisfait le CSSA et préciser si $\\sum b_n$ est absolument convergente.
+3. Établir le développement asymptotique : $a_n = \\frac{(-1)^n}{\\sqrt{n}} - \\frac{1}{n} + O\\left(\\frac{1}{n^{3/2}}\\right)$.
+4. En déduire la nature de la série $\\sum a_n$. Quel enseignement fondamental en tire-t-on concernant les équivalents ?`,
+      "solution": `### Correction Exercice 1
+1. Pour $u_n = \\frac{n^2+1}{2^n} > 0$, règle de d'Alembert :
+$$\\frac{u_{n+1}}{u_n} = \\frac{(n+1)^2+1}{n^2+1} \\frac{2^n}{2^{n+1}} \\xrightarrow[n\\to+\\infty]{} 1 \\times \\frac{1}{2} = \\frac{1}{2} < 1$$
+La série $\\sum u_n$ converge.
+2. Pour $v_n = \\left(\\frac{2n+1}{3n-1}\\right)^n > 0$, règle de Cauchy :
+$$\\sqrt[n]{v_n} = \\frac{2n+1}{3n-1} \\xrightarrow[n\\to+\\infty]{} \\frac{2}{3} < 1$$
+La série $\\sum v_n$ converge.
+3. Pour $w_n = \\frac{1}{n\\ln n} > 0$, la fonction $f(t) = \\frac{1}{t\\ln t}$ est continue, décroissante et positive sur $[2, +\\infty[$.
+Par comparaison série-intégrale :
+$$\\int_2^X \\frac{dt}{t\\ln t} = [\\ln(\\ln t)]_2^X \\xrightarrow[X\\to+\\infty]{} +\\infty$$
+L'intégrale divergeant, la série de Bertrand $\\sum w_n$ diverge.
+4. Développement asymptotique en $0$ : $\\ln(1+u) = u - \\frac{u^2}{2} + o(u^2)$ avec $u = \\frac{1}{n}$ :
+$$z_n = \\left(\\frac{1}{n} - \\frac{1}{2n^2} + o\\left(\\frac{1}{n^2}\\right)\\right) - \\frac{1}{n} = -\\frac{1}{2n^2} + o\\left(\\frac{1}{n^2}\\right)$$
+Le terme général est de signe constant négatif pour $n$ grand et $-z_n \\sim \\frac{1}{2n^2}$. Par comparaison à une série de Riemann convergente ($\\alpha = 2 > 1$), $\\sum z_n$ converge absolument.
+
+### Correction Exercice 2
+1. Si $(c_n)$ est une suite positive décroissante tendant vers $0$, alors la série alternée $\\sum (-1)^n c_n$ converge et le reste vérifie $|R_n| \\le c_{n+1}$.
+2. Avec $c_n = \\frac{1}{\\sqrt{n}}$, $(c_n)$ est strictement décroissante et tend vers $0$, donc $\\sum b_n$ converge d'après le CSSA. Cependant, $|b_n| = \\frac{1}{n^{1/2}}$ est une série de Riemann divergente ($\\alpha = 1/2 \\le 1$), donc $\\sum b_n$ est semi-convergente.
+3. On factorise le dénominateur :
+$$a_n = \\frac{(-1)^n}{\\sqrt{n}\\left(1 + \\frac{(-1)^n}{\\sqrt{n}}\\right)} = \\frac{(-1)^n}{\\sqrt{n}} \\left(1 - \\frac{(-1)^n}{\\sqrt{n}} + \\frac{1}{n} + O\\left(\\frac{1}{n^{3/2}}\\right)\\right) = \\frac{(-1)^n}{\\sqrt{n}} - \\frac{1}{n} + O\\left(\\frac{1}{n^{3/2}}\\right)$$
+4. $\\sum \\frac{(-1)^n}{\\sqrt{n}}$ converge (CSSA) et $\\sum O\\left(\\frac{1}{n^{3/2}}\\right)$ converge absolument (Riemann $\\alpha = 3/2 > 1$). Mais $-\\sum \\frac{1}{n}$ diverge vers $-\\infty$ (série harmonique).
+Donc la série $\\sum a_n$ diverge vers $-\\infty$.
+Bien que $a_n \\sim \\frac{(-1)^n}{\\sqrt{n}}$, elles n'ont pas la même nature : on ne peut jamais sommer des équivalents si les termes ne sont pas de signe constant !`
+    }
+  ],
+  "L2-EDO": [
+    {
+      "title": "Feuille de TD L2 : Équations Différentielles Ordinaires et Systèmes Linéaires",
+      "filename": "TD_L2_Equations_Differentielles.md",
+      "statement": `## Travaux Dirigés L2 : Équations Différentielles Ordinaires
+
+### Exercice 1 : Équation différentielle scalaire d'ordre 1 et raccordement (8 points)
+On considère l'équation différentielle :
+$$(E_1) \\quad x y' - 2 y = x^3 \\cos(x)$$
+1. Résoudre $(E_1)$ sur $]0, +\\infty[$ puis sur $]-\\infty, 0[$.
+2. Existe-t-il des solutions de classe $\\mathcal{C}^1$ sur $\\mathbb{R}$ tout entier ? Si oui, les expliciter.
+
+### Exercice 2 : Oscillateur harmonique et résonance (6 points)
+Résoudre sur $\\mathbb{R}$ l'équation du second ordre :
+$$(E_2) \\quad y'' + 4 y = \\cos(2x)$$
+avec les conditions initiales $y(0) = 0$ et $y'(0) = 1$.
+
+### Exercice 3 : Système différentiel linéaire et exponentielle de matrice (6 points)
+On considère le système différentiel $\\vec{X}'(t) = A \\vec{X}(t)$ où $\\vec{X}(t) = \\begin{pmatrix} x(t) \\\\ y(t) \\end{pmatrix}$ et :
+$$A = \\begin{pmatrix} 1 & 1 \\\\ 4 & -2 \\end{pmatrix}$$
+1. Déterminer les valeurs propres et les sous-espaces propres de $A$.
+2. Calculer l'exponentielle de matrice $\\exp(tA)$.
+3. Donner la solution générale du système, puis la solution spécifique satisfaisant $x(0) = 1$ et $y(0) = 0$.`,
+      "solution": `### Correction Exercice 1
+1. Sur un intervalle $I \\subset \\mathbb{R}^*$, l'équation normalisée s'écrit $y' - \\frac{2}{x}y = x^2\\cos x$.
+L'équation homogène $y' - \\frac{2}{x}y = 0$ donne $y_h(x) = C x^2$.
+Par la méthode de variation de la constante avec $y(x) = C(x) x^2$ :
+$$x(C'(x)x^2 + 2x C(x)) - 2C(x)x^2 = x^3 \\cos x \\iff C'(x) x^3 = x^3 \\cos x \\iff C'(x) = \\cos x$$
+D'où $C(x) = \\sin x + K$.
+Sur $]0, +\\infty[$, $y_+(x) = (\\sin x + K_1)x^2$, et sur $]-\\infty, 0[$, $y_-(x) = (\\sin x + K_2)x^2$.
+2. En $x=0$, $y_+(0) = y_-(0) = 0$.
+Taux d'accroissement en $0$ : $\\frac{y(x) - 0}{x} = x(\\sin x + K) \\xrightarrow[x\\to 0]{} 0$, donc $y'(0) = 0$.
+Dérivée pour $x \\neq 0$ : $y'(x) = x^2 \\cos x + 2x(\\sin x + K) \\xrightarrow[x\\to 0]{} 0 = y'(0)$.
+La dérivée est continue en 0 pour tout choix de $(K_1, K_2) \\in \\mathbb{R}^2$.
+Les solutions $\\mathcal{C}^1$ sur $\\mathbb{R}$ sont de la forme $y(x) = (\\sin x + K_1)x^2$ si $x > 0$, $y(0) = 0$, et $y(x) = (\\sin x + K_2)x^2$ si $x < 0$.
+
+### Correction Exercice 2
+1. Équation homogène $y'' + 4y = 0$ : équation caractéristique $r^2 + 4 = 0 \\implies r = \\pm 2i$.
+Solution homogène : $y_h(x) = c_1 \\cos(2x) + c_2 \\sin(2x)$.
+2. Second membre résonant : $2i$ est racine de l'équation caractéristique. On cherche une solution particulière sous la forme $y_p(x) = x(A\\cos(2x) + B\\sin(2x))$.
+En calculant $y_p'' + 4y_p = -4A\\sin(2x) + 4B\\cos(2x)$, on identifie avec $\\cos(2x)$ :
+$$-4A = 0 \\implies A = 0 \\quad \\text{et} \\quad 4B = 1 \\implies B = \\frac{1}{4}$$
+D'où $y_p(x) = \\frac{x}{4}\\sin(2x)$.
+3. Solution générale : $y(x) = c_1\\cos(2x) + c_2\\sin(2x) + \\frac{x}{4}\\sin(2x)$.
+Conditions initiales : $y(0) = c_1 = 0$.
+$y'(x) = 2c_2\\cos(2x) + \\frac{1}{4}\\sin(2x) + \\frac{x}{2}\\cos(2x) \\implies y'(0) = 2c_2 = 1 \\implies c_2 = \\frac{1}{2}$.
+Solution unique : $y(x) = \\left(\\frac{1}{2} + \\frac{x}{4}\\right)\\sin(2x)$.
+
+### Correction Exercice 3
+1. Polynôme caractéristique : $P_A(X) = \\det(X I_2 - A) = (X-1)(X+2) - 4 = X^2 + X - 6 = (X-2)(X+3)$.
+Valeurs propres distinctes : $\\lambda_1 = 2$ et $\\lambda_2 = -3$.
+Vecteurs propres associés : $V_1 = \\begin{pmatrix} 1 \\\\ 1 \\end{pmatrix}$ pour $\\lambda_1=2$, et $V_2 = \\begin{pmatrix} 1 \\\\ -4 \\end{pmatrix}$ pour $\\lambda_2=-3$.
+2. Matrice de passage $P = \\begin{pmatrix} 1 & 1 \\\\ 1 & -4 \\end{pmatrix}$ et son inverse $P^{-1} = \\frac{1}{5} \\begin{pmatrix} 4 & 1 \\\\ 1 & -1 \\end{pmatrix}$.
+$$\\exp(tA) = P \\begin{pmatrix} e^{2t} & 0 \\\\ 0 & e^{-3t} \\end{pmatrix} P^{-1} = \\frac{1}{5} \\begin{pmatrix} 4e^{2t} + e^{-3t} & e^{2t} - e^{-3t} \\\\ 4e^{2t} - 4e^{-3t} & e^{2t} + 4e^{-3t} \\end{pmatrix}$$
+3. Solution générale : $\\vec{X}(t) = \\alpha e^{2t} \\begin{pmatrix} 1 \\\\ 1 \\end{pmatrix} + \\beta e^{-3t} \\begin{pmatrix} 1 \\\\ -4 \\end{pmatrix}$.
+Pour $\\vec{X}(0) = \\begin{pmatrix} 1 \\\\ 0 \\end{pmatrix}$, on a $\\vec{X}(t) = \\exp(tA)\\vec{X}(0) = \\frac{1}{5} \\begin{pmatrix} 4e^{2t} + e^{-3t} \\\\ 4e^{2t} - 4e^{-3t} \\end{pmatrix}$.`
     }
   ]
 };
