@@ -16,11 +16,11 @@ window.MATHS_COURSES_L2 = {
     "keyPoints": [
       {
         "title": "1. Éléments propres : Valeurs propres, Vecteurs propres et Spectre",
-        "content": "Soit $E$ un $\\mathbb{K}$-espace vectoriel et $u \\in \\mathcal{L}(E)$ :\n• **Valeur propre** : Un scalaire $\\lambda \\in \\mathbb{K}$ est une valeur propre de $u$ s'il existe un vecteur **non nul** $x \\in E \\setminus \\{0_E\\}$ tel que :\n$$u(x) = \\lambda x$$\n• **Vecteur propre** : Tout vecteur $x \\neq 0_E$ vérifiant $u(x) = \\lambda x$ est un vecteur propre associé à $\\lambda$.\n• **Sous-espace propre** : L'ensemble $E_\\lambda(u) = \\ker(u - \\lambda \\text{Id}_E)$ est un sous-espace vectoriel de $E$ de dimension $\\ge 1$.\n• **Spectre** : L'ensemble des valeurs propres de $u$ est noté $\\text{Sp}(u) = \\{\\lambda \\in \\mathbb{K} \\mid \\ker(u - \\lambda \\text{Id}_E) \\neq \\{0_E\\}\\}$."
+        "content": "Soit $E$ un $\\mathbb{K}$-espace vectoriel et $u \\in \\mathcal{L}(E)$ :\n• **Valeur propre** : Un scalaire $\\lambda \\in \\mathbb{K}$ est une valeur propre de $u$ s'il existe un vecteur **non nul** $x \\in E \\setminus \\{0_E\\}$ tel que :\n$$u(x) = \\lambda x$$\n• **Vecteur propre** : Tout vecteur $x \\neq 0_E$ vérifiant $u(x) = \\lambda x$ est un vecteur propre associé à $\\lambda$.\n• **Sous-espace propre** : L'ensemble $E_\\lambda(u) = \\text{Ker}(u - \\lambda\\,\\text{Id}_E)$ est un sous-espace vectoriel de $E$ de dimension $\\ge 1$.\n• **Spectre** : L'ensemble des valeurs propres de $u$ est noté $\\text{spec}(u) = \\{\\lambda \\in \\mathbb{K} \\mid \\text{Ker}(u - \\lambda\\,\\text{Id}_E) \\neq \\{0_E\\}\\}$."
       },
       {
         "title": "2. Polynôme caractéristique et multiplicités",
-        "content": "Soit $A \\in \\mathcal{M}_n(\\mathbb{K})$ :\n• **Polynôme caractéristique** : $\\chi_A(X) = \\det(X I_n - A)$ (ou $\\det(A - X I_n)$). C'est un polynôme unitaire de degré $n$.\n• **Caractérisation spectrale** : $\\lambda$ est valeur propre de $A$ ssi $\\chi_A(\\lambda) = 0$.\n• **Multiplicité algébrique $m_\\lambda$** : C'est la multiplicité de $\\lambda$ comme racine de $\\chi_A(X)$.\n• **Multiplicité géométrique $d_\\lambda$** : C'est la dimension du sous-espace propre associé : $d_\\lambda = \\dim(E_\\lambda) = n - \\text{rg}(A - \\lambda I_n)$.\n• **Inégalité fondamentale** : Pour toute valeur propre $\\lambda$, on a toujours :\n$$1 \\le d_\\lambda \\le m_\\lambda$$"
+        "content": "Soit $A \\in \\mathcal{M}_n(\\mathbb{K})$ :\n• **Polynôme caractéristique** : $\\chi_A(X) = \\det(A - X I_n)$ (ou $(-1)^n \\det(X I_n - A)$). C'est un polynôme de degré $n$.\n• **Caractérisation spectrale** : $\\lambda$ est valeur propre de $A$ ssi $\\chi_A(\\lambda) = 0$.\n• **Multiplicité algébrique $m_\\lambda$** : C'est la multiplicité de $\\lambda$ comme racine de $\\chi_A(X)$.\n• **Multiplicité géométrique $d_\\lambda$** : C'est la dimension du sous-espace propre associé : $d_\\lambda = \\dim(E_\\lambda) = n - \\text{rg}(A - \\lambda I_n)$.\n• **Inégalité fondamentale** : Pour toute valeur propre $\\lambda$, on a toujours :\n$$1 \\le d_\\lambda \\le m_\\lambda$$"
       },
       {
         "title": "3. Critères fondamentaux de diagonalisabilité",
@@ -186,7 +186,7 @@ window.MATHS_COURSES_L2 = {
       },
       {
         "title": "3. Matrice hessienne et formule de Taylor à l'ordre 2",
-        "content": "Pour $f \\in \\mathcal{C}^2(U, \\mathbb{R})$ et $a \\in U$, la **matrice hessienne** est la matrice symétrique $H_f(a) \\in \\mathcal{M}_n(\\mathbb{R})$ définie par :\n$$H_f(a) = \\left( \\frac{\\partial^2 f}{\\partial x_i \\partial x_j}(a) \\right)_{1 \\le i, j \\le n}$$\n• **Formule de Taylor-Young à l'ordre 2** :\n$$f(a + h) = f(a) + \\nabla f(a)^T h + \\frac{1}{2} h^T H_f(a) h + o(\\|h\\|^2)$$"
+        "content": "Pour $f \\in \\mathcal{C}^2(U, \\mathbb{R})$ et $a \\in U$, la **matrice hessienne** est la matrice symétrique $H_f(a) \\in \\mathcal{M}_n(\\mathbb{R})$ définie par :\n$$H_f(a) = \\left( \\frac{\\partial^2 f}{\\partial x_i \\partial x_j}(a) \\right)_{1 \\le i, j \\le n}$$\n• **Formule de Taylor-Young à l'ordre 2** :\n$$f(a + h) = f(a) + {}^t \\nabla f(a) \\, h + \\frac{1}{2} {}^t h \\, H_f(a) \\, h + o(\\|h\\|^2)$$"
       },
       {
         "title": "4. Classification des extremums locaux",
@@ -227,7 +227,7 @@ window.MATHS_COURSES_L2 = {
     "objectives": [
       "Définir le déterminant comme l'unique forme multilinéaire alternée valant 1 sur la base canonique.",
       "Calculer des déterminants par développement selon une ligne/colonne (Laplace) et opérations élémentaires.",
-      "Manipuler la comatrice et la formule d'inversion explicite $A \\cdot (\\text{Com} A)^T = \\det(A) I_n$.",
+      "Manipuler la comatrice et la formule d'inversion explicite $A \\cdot {}^t(\\text{Com}\\,A) = \\det(A) I_n$.",
       "Résoudre des systèmes linéaires à l'aide des formules de Cramer."
     ],
     "keyPoints": [
@@ -237,11 +237,11 @@ window.MATHS_COURSES_L2 = {
       },
       {
         "title": "2. Propriétés fondamentales du déterminant",
-        "content": "• **Multiplicativité** : Pour toutes matrices $A, B \\in \\mathcal{M}_n(\\mathbb{K})$, $\\det(AB) = \\det(A) \\cdot \\det(B)$.\n• **Transposition** : $\\det(A^T) = \\det(A)$.\n• **Homogénéité** : Pour tout $\\lambda \\in \\mathbb{K}$, $\\det(\\lambda A) = \\lambda^n \\det(A)$.\n• **Caractérisation de l'inversibilité** : $A$ est inversible ssi $\\det(A) \\neq 0$, et dans ce cas $\\det(A^{-1}) = \\frac{1}{\\det(A)}$.\n• Une famille de $n$ vecteurs est une base ssi son déterminant est non nul."
+        "content": "• **Multiplicativité** : Pour toutes matrices $A, B \\in \\mathcal{M}_n(\\mathbb{K})$, $\\det(AB) = \\det(A) \\cdot \\det(B)$.\n• **Transposition** : $\\det({}^t A) = \\det(A)$.\n• **Homogénéité** : Pour tout $\\lambda \\in \\mathbb{K}$, $\\det(\\lambda A) = \\lambda^n \\det(A)$.\n• **Caractérisation de l'inversibilité** : $A$ est inversible ssi $\\det(A) \\neq 0$, et dans ce cas $\\det(A^{-1}) = \\frac{1}{\\det(A)}$.\n• Une famille de $n$ vecteurs est une base ssi son déterminant est non nul."
       },
       {
         "title": "3. Développement de Laplace et Comatrice",
-        "content": "• **Développement selon la $i$-ème ligne** :\n$$\\det(A) = \\sum_{j=1}^n (-1)^{i+j} a_{ij} \\det(A_{ij})$$\noù $A_{ij} \\in \\mathcal{M}_{n-1}(\\mathbb{K})$ est la matrice obtenue en supprimant la ligne $i$ et la colonne $j$.\n• **Comatrice** : C'est la matrice des cofacteurs : $\\text{Com}(A) = \\left((-1)^{i+j} \\det(A_{ij})\\right)_{1 \\le i, j \\le n}$.\n• **Formule de la comatrice et inversion** :\n$$A \\cdot (\\text{Com}(A))^T = (\\text{Com}(A))^T \\cdot A = \\det(A) I_n$$\nSi $\\det(A) \\neq 0$ : $A^{-1} = \\frac{1}{\\det(A)} (\\text{Com}(A))^T$."
+        "content": "• **Développement selon la $i$-ème ligne** :\n$$\\det(A) = \\sum_{j=1}^n (-1)^{i+j} a_{ij} \\det(A_{ij})$$\noù $A_{ij} \\in \\mathcal{M}_{n-1}(\\mathbb{K})$ est la matrice obtenue en supprimant la ligne $i$ et la colonne $j$.\n• **Comatrice** : C'est la matrice des cofacteurs : $\\text{Com}(A) = \\left((-1)^{i+j} \\det(A_{ij})\\right)_{1 \\le i, j \\le n}$.\n• **Formule de la comatrice et inversion** :\n$$A \\cdot {}^t(\\text{Com}(A)) = {}^t(\\text{Com}(A)) \\cdot A = \\det(A) I_n$$\nSi $\\det(A) \\neq 0$ : $A^{-1} = \\frac{1}{\\det(A)} {}^t(\\text{Com}(A))$."
       }
     ],
     "methods": [
@@ -258,7 +258,7 @@ window.MATHS_COURSES_L2 = {
     ],
     "traps": [
       "⚠️ $\\det(\\lambda A) = \\lambda^n \\det(A)$ et NON $\\lambda \\det(A)$ !",
-      "⚠️ Dans la formule d'inversion par la comatrice, il faut obligatoirement prendre la **transposée** de la comatrice $(\\text{Com}(A))^T$."
+      "⚠️ Dans la formule d'inversion par la comatrice, il faut obligatoirement prendre la **transposée** de la comatrice ${}^t(\\text{Com}(A))$."
     ],
     "flashcards": [
       {
@@ -267,7 +267,7 @@ window.MATHS_COURSES_L2 = {
       },
       {
         "q": "Quelle formule relie l'inverse d'une matrice à sa comatrice ?",
-        "a": "$A^{-1} = \\frac{1}{\\det(A)} (\\text{Com}(A))^T$."
+        "a": "$A^{-1} = \\frac{1}{\\det(A)} {}^t(\\text{Com}(A))$."
       }
     ]
   },
@@ -287,7 +287,7 @@ window.MATHS_COURSES_L2 = {
       },
       {
         "title": "2. Polynôme minimal et lemme des noyaux",
-        "content": "Soit $E$ de dimension finie et $u \\in \\mathcal{L}(E)$ :\n• **Polynôme annulateur** : Un polynôme $P \\in \\mathbb{K}[X]$ est annulateur de $u$ si $P(u) = 0$.\n• **Polynôme minimal $\\pi_u$** : C'est l'unique polynôme unitaire générateur de l'idéal des polynômes annulateurs de $u$.\n  - Les racines de $\\pi_u$ sont **exactement les valeurs propres** de $u$.\n  - $u$ est **diagonalisable ssi $\\pi_u$ est scindé à racines simples** sur $\\mathbb{K}$.\n• **Lemme des noyaux** : Si $P_1, \\dots, P_k$ sont des polynômes deux à deux premiers entre eux, et $P = P_1 \\dots P_k$, alors :\n$$\\ker(P(u)) = \\bigoplus_{i=1}^k \\ker(P_i(u))$$"
+        "content": "Soit $E$ de dimension finie et $u \\in \\mathcal{L}(E)$ :\n• **Polynôme annulateur** : Un polynôme $P \\in \\mathbb{K}[X]$ est annulateur de $u$ si $P(u) = 0$.\n• **Polynôme minimal $\\pi_u$** : C'est l'unique polynôme unitaire générateur de l'idéal des polynômes annulateurs de $u$.\n  - Les racines de $\\pi_u$ sont **exactement les valeurs propres** de $u$.\n  - $u$ est **diagonalisable ssi $\\pi_u$ est scindé à racines simples** sur $\\mathbb{K}$.\n• **Lemme des noyaux** : Si $P_1, \\dots, P_k$ sont des polynômes deux à deux premiers entre eux, et $P = P_1 \\dots P_k$, alors :\n$$\\text{Ker}(P(u)) = \\bigoplus_{i=1}^k \\text{Ker}(P_i(u))$$"
       },
       {
         "title": "3. Théorème de Cayley-Hamilton et Décomposition de Dunford",
@@ -333,7 +333,7 @@ window.MATHS_COURSES_L2 = {
     "keyPoints": [
       {
         "title": "1. Espace dual et Formes linéaires",
-        "content": "Soit $E$ un $\\mathbb{K}$-espace vectoriel :\n• Une **forme linéaire** sur $E$ est une application linéaire $\\varphi : E \\to \\mathbb{K}$.\n• L'**espace dual** de $E$ est $E^* = \\mathcal{L}(E, \\mathbb{K})$.\n• Si $\\dim(E) = n < +\\infty$, alors $\\dim(E^*) = \\dim(E) = n$.\n• **Hyperplans** : Un sous-espace vectoriel $H \\subset E$ est un hyperplan ssi il existe une forme linéaire non nulle $\\varphi \\in E^*$ telle que $H = \\ker(\\varphi)$. Deux formes définissent le même hyperplan ssi elles sont colinéaires."
+        "content": "Soit $E$ un $\\mathbb{K}$-espace vectoriel :\n• Une **forme linéaire** sur $E$ est une application linéaire $\\varphi : E \\to \\mathbb{K}$.\n• L'**espace dual** de $E$ est $E^* = \\mathcal{L}(E, \\mathbb{K})$.\n• Si $\\dim(E) = n < +\\infty$, alors $\\dim(E^*) = \\dim(E) = n$.\n• **Hyperplans** : Un sous-espace vectoriel $H \\subset E$ est un hyperplan ssi il existe une forme linéaire non nulle $\\varphi \\in E^*$ telle que $H = \\text{Ker}(\\varphi)$. Deux formes définissent le même hyperplan ssi elles sont colinéaires."
       },
       {
         "title": "2. Base duale et coordonnées",
@@ -345,7 +345,7 @@ window.MATHS_COURSES_L2 = {
       },
       {
         "title": "4. Transposée d'une application linéaire",
-        "content": "Soit $u \\in \\mathcal{L}(E, F)$. L'**application transposée** de $u$ est l'application $u^* : F^* \\to E^*$ définie par :\n$$\\forall \\psi \\in F^*, \\quad u^*(\\psi) = \\psi \\circ u$$\n• Si $\\text{Mat}_{\\mathcal{B}, \\mathcal{C}}(u) = M$, alors $\\text{Mat}_{\\mathcal{C}^*, \\mathcal{B}^*}(u^*) = M^T$.\n• **Propriétés orthogonales** : $\\ker(u^*) = (\\text{Im} u)^\\circ$ et $\\text{Im}(u^*) = (\\ker u)^\\circ$.\n• En particulier, $\\text{rg}(u^*) = \\text{rg}(u)$ (le rang des lignes d'une matrice égale le rang des colonnes)."
+        "content": "Soit $u \\in \\mathcal{L}(E, F)$. L'**application transposée** de $u$ est l'application $u^* : F^* \\to E^*$ définie par :\n$$\\forall \\psi \\in F^*, \\quad u^*(\\psi) = \\psi \\circ u$$\n• Si $\\text{Mat}_{\\mathcal{B}, \\mathcal{C}}(u) = M$, alors $\\text{Mat}_{\\mathcal{C}^*, \\mathcal{B}^*}(u^*) = {}^t M$.\n• **Propriétés orthogonales** : $\\text{Ker}(u^*) = (\\text{Im}\\,u)^\\circ$ et $\\text{Im}(u^*) = (\\text{Ker}\\,u)^\\circ$.\n• En particulier, $\\text{rg}(u^*) = \\text{rg}(u)$ (le rang des lignes d'une matrice égale le rang des colonnes)."
       }
     ],
     "methods": [
@@ -370,7 +370,7 @@ window.MATHS_COURSES_L2 = {
       },
       {
         "q": "Quelle matrice représente l'application transposée u* dans les bases duales ?",
-        "a": "La transposée de la matrice de $u$ : $M^T$."
+        "a": "La transposée de la matrice de $u$ : ${}^t M$."
       }
     ]
   },
@@ -386,7 +386,7 @@ window.MATHS_COURSES_L2 = {
     "keyPoints": [
       {
         "title": "1. Adjoint d'un endomorphisme euclidien",
-        "content": "Soit $E$ un espace vectoriel euclidien :\n• Pour tout $u \\in \\mathcal{L}(E)$, il existe un unique endomorphisme noté $u^* \\in \\mathcal{L}(E)$, appelé **adjoint** de $u$, vérifiant :\n$$\\forall x, y \\in E, \\quad \\langle u(x), y \\rangle = \\langle x, u^*(y) \\rangle$$\n• Dans toute base orthonormée $\\mathcal{B}$, la matrice de $u^*$ est la transposée de la matrice de $u$ : $\\text{Mat}_\\mathcal{B}(u^*) = (\\text{Mat}_\\mathcal{B}(u))^T$."
+        "content": "Soit $E$ un espace vectoriel euclidien :\n• Pour tout $u \\in \\mathcal{L}(E)$, il existe un unique endomorphisme noté $u^* \\in \\mathcal{L}(E)$, appelé **adjoint** de $u$, vérifiant :\n$$\\forall x, y \\in E, \\quad \\langle u(x), y \\rangle = \\langle x, u^*(y) \\rangle$$\n• Dans toute base orthonormée $\\mathcal{B}$, la matrice de $u^*$ est la transposée de la matrice de $u$ : $\\text{Mat}_\\mathcal{B}(u^*) = {}^t(\\text{Mat}_\\mathcal{B}(u))$."
       },
       {
         "title": "2. Endomorphismes symétriques (auto-adjoints)",
@@ -394,11 +394,11 @@ window.MATHS_COURSES_L2 = {
       },
       {
         "title": "3. Le Théorème Spectral",
-        "content": "• **Théorème Spectral (Théorème fondamental des endomorphismes symétriques)** :\nTout endomorphisme symétrique d'un espace euclidien $E$ est **diagonalisable dans une base orthonormée** de vecteurs propres.\n• **Version matricielle** : Pour toute matrice symétrique réelle $A \\in \\mathcal{S}_n(\\mathbb{R})$, il existe une matrice orthogonale $P \\in O_n(\\mathbb{R})$ ($P^T P = I_n$) et une matrice diagonale réelle $D$ telles que :\n$$A = P D P^T = P D P^{-1}$$"
+        "content": "• **Théorème Spectral (Théorème fondamental des endomorphismes symétriques)** :\nTout endomorphisme symétrique d'un espace euclidien $E$ est **diagonalisable dans une base orthonormée** de vecteurs propres.\n• **Version matricielle** : Pour toute matrice symétrique réelle $A \\in \\mathcal{S}_n(\\mathbb{R})$, il existe une matrice orthogonale $P \\in O_n(\\mathbb{R})$ (${}^t P P = I_n$) et une matrice diagonale réelle $D$ telles que :\n$$A = P D \\,{}^t P = P D P^{-1}$$"
       },
       {
         "title": "4. Le Groupe orthogonal et les isométries vectorielles",
-        "content": "• Un endomorphisme $u \\in \\mathcal{L}(E)$ est une **isométrie vectorielle (ou automorphisme orthogonal)** s'il conserve le produit scalaire :\n$$\\forall x, y \\in E, \\quad \\langle u(x), u(y) \\rangle = \\langle x, y \\rangle \\iff \\|u(x)\\| = \\|x\\| \\iff u^* \\circ u = \\text{Id}_E$$\n• L'ensemble des isométries forme le **groupe orthogonal** $O(E)$, isomorphe à $O_n(\\mathbb{R}) = \\{M \\in \\mathcal{M}_n(\\mathbb{R}) \\mid M^T M = I_n\\}$.\n• Si $\\det(u) = 1$, $u$ est une **rotation** (isométrie directe, groupe spécial orthogonal $SO(E)$) ; si $\\det(u) = -1$, c'est une isométrie indirecte (ex: réflexion par rapport à un hyperplan)."
+        "content": "• Un endomorphisme $u \\in \\mathcal{L}(E)$ est une **isométrie vectorielle (ou automorphisme orthogonal)** s'il conserve le produit scalaire :\n$$\\forall x, y \\in E, \\quad \\langle u(x), u(y) \\rangle = \\langle x, y \\rangle \\iff \\|u(x)\\| = \\|x\\| \\iff u^* \\circ u = \\text{Id}_E$$\n• L'ensemble des isométries forme le **groupe orthogonal** $O(E)$, isomorphe à $O_n(\\mathbb{R}) = \\{M \\in \\mathcal{M}_n(\\mathbb{R}) \\mid {}^t M M = I_n\\}$.\n• Si $\\det(u) = 1$, $u$ est une **rotation** (isométrie directe, groupe spécial orthogonal $SO(E)$) ; si $\\det(u) = -1$, c'est une isométrie indirecte (ex: réflexion par rapport à un hyperplan)."
       }
     ],
     "methods": [
@@ -410,18 +410,18 @@ window.MATHS_COURSES_L2 = {
           "**Valeurs propres** : $\\lambda_1 = 4$ et $\\lambda_2 = -1$.",
           "**Sous-espace $E_4$** : $\\begin{pmatrix} -4 & 2 \\\\ 2 & -1 \\end{pmatrix} \\begin{pmatrix} x \\\\ y \\end{pmatrix} = 0 \\implies 2x - y = 0$. Vecteur unitaire : $u_1 = \\frac{1}{\\sqrt{5}}(1, 2)$.",
           "**Sous-espace $E_{-1}$** : $\\begin{pmatrix} 1 & 2 \\\\ 2 & 4 \\end{pmatrix} \\begin{pmatrix} x \\\\ y \\end{pmatrix} = 0 \\implies x + 2y = 0$. Vecteur unitaire : $u_2 = \\frac{1}{\\sqrt{5}}(-2, 1)$.",
-          "**Conclusion** : $P = \\frac{1}{\\sqrt{5}}\\begin{pmatrix} 1 & -2 \\\\ 2 & 1 \\end{pmatrix} \\in O_2(\\mathbb{R})$, $D = \\begin{pmatrix} 4 & 0 \\\\ 0 & -1 \\end{pmatrix}$, et $A = P D P^T$."
+          "**Conclusion** : $P = \\frac{1}{\\sqrt{5}}\\begin{pmatrix} 1 & -2 \\\\ 2 & 1 \\end{pmatrix} \\in O_2(\\mathbb{R})$, $D = \\begin{pmatrix} 4 & 0 \\\\ 0 & -1 \\end{pmatrix}$, et $A = P D \\,{}^t P$."
         ]
       }
     ],
     "traps": [
       "⚠️ Pour que le Théorème Spectral s'applique, la matrice doit être symétrique **réelle** : une matrice symétrique complexe n'est pas forcément diagonalisable !",
-      "⚠️ Les colonnes de la matrice de passage $P$ doivent impérativement être **normées à 1** pour que $P$ soit orthogonale ($P^{-1} = P^T$)."
+      "⚠️ Les colonnes de la matrice de passage $P$ doivent impérativement être **normées à 1** pour que $P$ soit orthogonale ($P^{-1} = {}^t P$)."
     ],
     "flashcards": [
       {
         "q": "Que dit le Théorème Spectral pour une matrice symétrique réelle ?",
-        "a": "Elle est diagonalisable dans une base orthonormée par une matrice orthogonale : $A = P D P^T$."
+        "a": "Elle est diagonalisable dans une base orthonormée par une matrice orthogonale : $A = P D \\,{}^t P$."
       },
       {
         "q": "Quelle propriété d'orthogonalité vérifient les sous-espaces propres d'un endomorphisme symétrique ?",
@@ -562,7 +562,7 @@ window.MATHS_COURSES_L2 = {
         "example": "Résoudre $X'(t) = \\begin{pmatrix} 1 & 1 \\\\ 4 & 1 \\end{pmatrix} X(t)$.",
         "steps": [
           "**Valeurs propres** : $\\chi_A(\\lambda) = (\\lambda - 1)^2 - 4 = 0 \\implies \\lambda_1 = 3, \\lambda_2 = -1$.",
-          "**Vecteurs propres** : Pour $\\lambda = 3$ : $v_1 = (1, 2)^T$. Pour $\\lambda = -1$ : $v_2 = (1, -2)^T$.",
+          "**Vecteurs propres** : Pour $\\lambda = 3$ : $v_1 = {}^t(1, 2)$. Pour $\\lambda = -1$ : $v_2 = {}^t(1, -2)$.",
           "**Solution générale** : $X(t) = C_1 e^{3t} \\begin{pmatrix} 1 \\\\ 2 \\end{pmatrix} + C_2 e^{-t} \\begin{pmatrix} 1 \\\\ -2 \\end{pmatrix}$."
         ]
       }
@@ -921,7 +921,7 @@ window.MATHS_EXERCISES_L2 = {
       ],
       "correctIndex": 0,
       "answer": "$1$",
-      "hint1": "$E_2(A) = \\ker(A - 2I_2)$.",
+      "hint1": "$E_2(A) = \\text{Ker}(A - 2I_2)$.",
       "hint2": "$A - 2I_2 = \\begin{pmatrix} 0 & 1 \\\\ 0 & 0 \\end{pmatrix}$. Son rang est 1, donc par le théorème du rang, le noyau est de dimension $2 - 1 = 1$.",
       "solution": "$A - 2I_2 = \\begin{pmatrix} 0 & 1 \\\\ 0 & 0 \\end{pmatrix}$, qui est de rang 1. Par le théorème du rang, $\\dim E_2(A) = 2 - 1 = 1 < 2$. La matrice n'est pas diagonalisable."
     },
@@ -1097,8 +1097,8 @@ window.MATHS_EXERCISES_L2 = {
       "correctIndex": 0,
       "answer": "D'une forme linéaire non nulle $\\varphi \\in E^*$, unique à scalaire non nul près",
       "hint1": "Par définition, $\\text{codim}(H) = 1$, donc par le théorème du rang, son équation provient d'une forme linéaire dans le corps $K$.",
-      "hint2": "$H = \\ker \\varphi$ avec $\\varphi \\ne 0$.",
-      "solution": "Un sous-espace $H$ est un hyperplan si et seulement s'il existe une forme linéaire non nulle $\\varphi$ telle que $H = \\ker(\\varphi)$, deux formes ayant même noyau étant proportionnelles."
+      "hint2": "$H = \\text{Ker}\\,\\varphi$ avec $\\varphi \\ne 0$.",
+      "solution": "Un sous-espace $H$ est un hyperplan si et seulement s'il existe une forme linéaire non nulle $\\varphi$ telle que $H = \\text{Ker}(\\varphi)$, deux formes ayant même noyau étant proportionnelles."
     }
   ],
   "L2-PRE": [
@@ -1196,7 +1196,7 @@ window.MATHS_EXERCISES_L2 = {
       "correctIndex": 0,
       "answer": "Réelles",
       "hint1": "Théorème spectral fondamental pour les endomorphismes autoadjoints réels.",
-      "hint2": "Si $Ax = \\lambda x$, alors $\\bar{x}^T A x = \\lambda \\bar{x}^T x$ montre que $\\bar{\\lambda} = \\lambda$.",
+      "hint2": "Si $Ax = \\lambda x$, alors ${}^t\\bar{x} A x = \\lambda \\,{}^t\\bar{x} x$ montre que $\\bar{\\lambda} = \\lambda$.",
       "solution": "Les valeurs propres de toute matrice symétrique à coefficients réels sont toutes réelles, et la matrice est diagonalisable dans une base orthonormée."
     },
     {
@@ -1207,16 +1207,16 @@ window.MATHS_EXERCISES_L2 = {
       "skill": "Diagonalisation dans une base orthonormée",
       "statement": "D'après le théorème spectral, si $A \\in \\mathcal{S}_n(\\mathbb{R})$, il existe une matrice orthogonale $P \\in \\mathcal{O}_n(\\mathbb{R})$ telle que :",
       "options": [
-        "$A = P D P^T$ avec $D$ diagonale réelle",
+        "$A = P D \\,{}^t P$ avec $D$ diagonale réelle",
         "$A = P D P^{-1}$ avec $D$ à diagonale imaginaire",
         "$A = P + D$",
         "$A^2 = I_n$"
       ],
       "correctIndex": 0,
-      "answer": "$A = P D P^T$ avec $D$ diagonale réelle",
-      "hint1": "Pour une matrice orthogonale, $P^{-1} = P^T$.",
+      "answer": "$A = P D \\,{}^t P$ avec $D$ diagonale réelle",
+      "hint1": "Pour une matrice orthogonale, $P^{-1} = {}^t P$.",
       "hint2": "Les vecteurs propres associés à des valeurs propres distinctes sont deux à deux orthogonaux.",
-      "solution": "Le théorème spectral garantit que toute matrice symétrique réelle est orthogonalement semblable à une matrice diagonale réelle : $A = P D P^T$ avec $P \\in \\mathcal{O}_n(\\mathbb{R})$."
+      "solution": "Le théorème spectral garantit que toute matrice symétrique réelle est orthogonalement semblable à une matrice diagonale réelle : $A = P D \\,{}^t P$ avec $P \\in \\mathcal{O}_n(\\mathbb{R})$."
     },
     {
       "id": "L2-SYM-3",
@@ -1233,9 +1233,9 @@ window.MATHS_EXERCISES_L2 = {
       ],
       "correctIndex": 0,
       "answer": "$\\pm 1$",
-      "hint1": "$P^T P = I_n \\implies \\det(P^T P) = \\det(I_n) = 1$.",
-      "hint2": "$\\det(P^T) = \\det(P)$, donc $(\\det P)^2 = 1$.",
-      "solution": "Comme $P^T P = I_n$, on a $\\det(P^T P) = (\\det P)^2 = 1$, d'où $\\det(P) \\in \\{1, -1\\}$."
+      "hint1": "${}^t P P = I_n \\implies \\det({}^t P P) = \\det(I_n) = 1$.",
+      "hint2": "$\\det({}^t P) = \\det(P)$, donc $(\\det P)^2 = 1$.",
+      "solution": "Comme ${}^t P P = I_n$, on a $\\det({}^t P P) = (\\det P)^2 = 1$, d'où $\\det(P) \\in \\{1, -1\\}$."
     },
     {
       "id": "L2-SYM-4",

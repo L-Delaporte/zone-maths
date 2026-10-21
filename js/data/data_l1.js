@@ -86,7 +86,7 @@ window.MATHS_COURSES_L1 = {
     "keyPoints": [
       {
         "title": "1. Structure des matrices et opérations fondamentales",
-        "content": "• L'ensemble $\\mathcal{M}_{n,p}(\\mathbb{K})$ est un $\\mathbb{K}$-espace vectoriel de dimension $n \\times p$.\n• Si $n = p$, $(\\mathcal{M}_n(\\mathbb{K}), +, \\times)$ est un anneau unitaire non commutatif pour $n \\ge 2$.\n• **Transposition** : Pour $A \\in \\mathcal{M}_{n,p}(\\mathbb{K})$, sa transposée $A^T \\in \\mathcal{M}_{p,n}(\\mathbb{K})$ vérifie $(AB)^T = B^T A^T$ et $(A^T)^T = A$.\n  - $A$ est **symétrique** si $A^T = A$ ; **antisymétrique** si $A^T = -A$.\n• **Trace** : Pour $A = (a_{ij}) \\in \\mathcal{M}_n(\\mathbb{K})$, $\\text{Tr}(A) = \\sum_{i=1}^n a_{ii}$. La trace est linéaire et vérifie $\\text{Tr}(AB) = \\text{Tr}(BA)$."
+        "content": "• L'ensemble $\\mathcal{M}_{n,p}(\\mathbb{K})$ est un $\\mathbb{K}$-espace vectoriel de dimension $n \\times p$.\n• Si $n = p$, $(\\mathcal{M}_n(\\mathbb{K}), +, \\times)$ est un anneau unitaire non commutatif pour $n \\ge 2$.\n• **Transposition** : Pour $A \\in \\mathcal{M}_{n,p}(\\mathbb{K})$, sa transposée ${}^t A \\in \\mathcal{M}_{p,n}(\\mathbb{K})$ vérifie ${}^t(AB) = {}^t B \\, {}^t A$ et ${}^t({}^t A) = A$.\n  - $A$ est **symétrique** si ${}^t A = A$ ; **antisymétrique** si ${}^t A = -A$.\n• **Trace** : Pour $A = (a_{ij}) \\in \\mathcal{M}_n(\\mathbb{K})$, $\\text{Tr}(A) = \\sum_{i=1}^n a_{ii}$. La trace est linéaire et vérifie $\\text{Tr}(AB) = \\text{Tr}(BA)$."
       },
       {
         "title": "2. Opérations élémentaires sur les lignes (Pivot de Gauss)",
@@ -120,8 +120,8 @@ window.MATHS_COURSES_L1 = {
         "a": "Non, en général $AB \\neq BA$."
       },
       {
-        "q": "Quelle est la transposée du produit matriciel $(AB)^T$ ?",
-        "a": "$(AB)^T = B^T A^T$ (inversion de l'ordre des facteurs)."
+        "q": "Quelle est la transposée du produit matriciel ${}^t(AB)$ ?",
+        "a": "${}^t(AB) = {}^t B \\, {}^t A$ (inversion de l'ordre des facteurs)."
       }
     ]
   },
@@ -185,9 +185,9 @@ window.MATHS_COURSES_L1 = {
     "domain": "Algèbre Linéaire",
     "objectives": [
       "Définir rigoureusement une application linéaire $f \\in \\mathcal{L}(E, F)$ et les sous-espaces noyau et image.",
-      "Définir par compréhension le noyau $\\ker(f) = \\{u \\in E \\mid f(u) = 0_F\\}$ et l'image $\\text{Im}(f) = \\{f(u) \\mid u \\in E\\}$.",
-      "Énoncer et appliquer le critère d'injectivité ($\\ker f = \\{0_E\\}$) et de surjectivité ($\\text{Im} f = F$).",
-      "Énoncer et démontrer le Théorème du Rang : $\\dim(E) = \\dim(\\ker f) + \\text{rg}(f)$.",
+      "Définir par compréhension le noyau $\\text{Ker}(f) = \\{u \\in E \\mid f(u) = 0_F\\}$ et l'image $\\text{Im}(f) = \\{f(u) \\mid u \\in E\\}$.",
+      "Énoncer et appliquer le critère d'injectivité ($\\text{Ker}(f) = \\{0_E\\}$) et de surjectivité ($\\text{Im}(f) = F$).",
+      "Énoncer et démontrer le Théorème du Rang : $\\dim(E) = \\dim(\\text{Ker} f) + \\text{rg}(f)$.",
       "Représenter une application linéaire par une matrice et appliquer la formule de changement de base."
     ],
     "keyPoints": [
@@ -196,16 +196,16 @@ window.MATHS_COURSES_L1 = {
         "content": "Soient $E$ et $F$ deux $\\mathbb{K}$-espaces vectoriels. Une application $f : E \\to F$ est dite **linéaire** (ou un **morphisme d'espaces vectoriels**) si elle préserve les combinaisons linéaires :\n$$\\forall u, v \\in E, \\quad \\forall \\lambda, \\mu \\in \\mathbb{K}, \\quad f(\\lambda u + \\mu v) = \\lambda f(u) + \\mu f(v)$$\n• En particulier, $f(0_E) = 0_F$ et $f(-u) = -f(u)$.\n• L'ensemble des applications linéaires de $E$ dans $F$ est noté $\\mathcal{L}(E, F)$. Si $E = F$, on parle d'**endomorphisme**, et $\\mathcal{L}(E)$ est une algèbre associative unitaire.\n• Un morphisme bijectif est un **isomorphisme** (et un **automorphisme** si $E = F$)."
       },
       {
-        "title": "2. Définitions formelles du Noyau ker(f) et de l'Image Im(f)",
-        "content": "Soit $f \\in \\mathcal{L}(E, F)$ une application linéaire :\n• **Noyau de $f$** : C'est l'ensemble de tous les vecteurs de $E$ dont l'image par $f$ est le vecteur nul de $F$ :\n$$\\ker(f) = \\{x \\in E \\mid f(x) = 0_F\\} = f^{-1}(\\{0_F\\})$$\n  - $\\ker(f)$ est un sous-espace vectoriel de l'espace de départ $E$.\n• **Image de $f$** : C'est l'ensemble des vecteurs de $F$ qui possèdent au moins un antécédent dans $E$ :\n$$\\text{Im}(f) = \\{y \\in F \\mid \\exists x \\in E, y = f(x)\\} = f(E) = \\text{Vect}(f(e_1), \\dots, f(e_n))$$\n  - $\\text{Im}(f)$ est un sous-espace vectoriel de l'espace d'arrivée $F$.\n  - La dimension de $\\text{Im}(f)$ est appelée le **rang** de $f$, noté $\\text{rg}(f) = \\dim(\\text{Im} f)$."
+        "title": "2. Définitions formelles du Noyau Ker(f) et de l'Image Im(f)",
+        "content": "Soit $f \\in \\mathcal{L}(E, F)$ une application linéaire :\n• **Noyau de $f$** : C'est l'ensemble de tous les vecteurs de $E$ dont l'image par $f$ est le vecteur nul de $F$ :\n$$\\text{Ker}(f) = \\{x \\in E \\mid f(x) = 0_F\\} = f^{-1}(\\{0_F\\})$$\n  - $\\text{Ker}(f)$ est un sous-espace vectoriel de l'espace de départ $E$.\n• **Image de $f$** : C'est l'ensemble des vecteurs de $F$ qui possèdent au moins un antécédent dans $E$ :\n$$\\text{Im}(f) = \\{y \\in F \\mid \\exists x \\in E, y = f(x)\\} = f(E) = \\text{Vect}(f(e_1), \\dots, f(e_n))$$\n  - $\\text{Im}(f)$ est un sous-espace vectoriel de l'espace d'arrivée $F$.\n  - La dimension de $\\text{Im}(f)$ est appelée le **rang** de $f$, noté $\\text{rg}(f) = \\dim(\\text{Im} f)$."
       },
       {
         "title": "3. Critères d'injectivité, de surjectivité et de bijectivité",
-        "content": "• **Critère fondamental d'injectivité** :\n$$f \\text{ est injective} \\iff \\ker(f) = \\{0_E\\}$$\n*(Preuve : si $\\ker f = \\{0\\}$, alors $f(u) = f(v) \\implies f(u - v) = 0 \\implies u - v \\in \\ker f \\implies u - v = 0 \\implies u = v$)*.\n• **Critère de surjectivité** :\n$$f \\text{ est surjective} \\iff \\text{Im}(f) = F \\iff \\text{rg}(f) = \\dim(F)$$\n• **Isomorphisme** : $f$ est un isomorphisme ssi $\\ker(f) = \\{0_E\\}$ et $\\text{Im}(f) = F$."
+        "content": "• **Critère fondamental d'injectivité** :\n$$f \\text{ est injective} \\iff \\text{Ker}(f) = \\{0_E\\}$$\n*(Preuve : si $\\text{Ker} f = \\{0\\}$, alors $f(u) = f(v) \\implies f(u - v) = 0 \\implies u - v \\in \\text{Ker} f \\implies u - v = 0 \\implies u = v$)*.\n• **Critère de surjectivité** :\n$$f \\text{ est surjective} \\iff \\text{Im}(f) = F \\iff \\text{rg}(f) = \\dim(F)$$\n• **Isomorphisme** : $f$ est un isomorphisme ssi $\\text{Ker}(f) = \\{0_E\\}$ et $\\text{Im}(f) = F$."
       },
       {
         "title": "4. Théorème du Rang et représentation matricielle",
-        "content": "• **Théorème du Rang (Théorème fondamental de l'algèbre linéaire)** :\nSoit $E$ de **dimension finie** et $f \\in \\mathcal{L}(E, F)$ :\n$$\\dim(E) = \\dim(\\ker f) + \\dim(\\text{Im} f) = \\dim(\\ker f) + \\text{rg}(f)$$\n• **Corollaire aux espaces de même dimension** : Si $\\dim(E) = \\dim(F) < +\\infty$, alors :\n$$f \\text{ injective} \\iff f \\text{ surjective} \\iff f \\text{ bijective}$$\n• **Matrice associée** : Si $\\mathcal{B}$ est une base de $E$ et $\\mathcal{C}$ une base de $F$, la $j$-ème colonne de $\\text{Mat}_{\\mathcal{B}, \\mathcal{C}}(f)$ contient les coordonnées de $f(e_j)$ dans la base $\\mathcal{C}$.\n• **Changement de base** : $M' = P^{-1} M P$ pour un endomorphisme ($P$ étant la matrice de passage)."
+        "content": "• **Théorème du Rang (Théorème fondamental de l'algèbre linéaire)** :\nSoit $E$ de **dimension finie** et $f \\in \\mathcal{L}(E, F)$ :\n$$\\dim(E) = \\dim(\\text{Ker} f) + \\dim(\\text{Im} f) = \\dim(\\text{Ker} f) + \\text{rg}(f)$$\n• **Corollaire aux espaces de même dimension** : Si $\\dim(E) = \\dim(F) < +\\infty$, alors :\n$$f \\text{ injective} \\iff f \\text{ surjective} \\iff f \\text{ bijective}$$\n• **Matrice associée** : Si $\\mathcal{B}$ est une base de $E$ et $\\mathcal{C}$ une base de $F$, la $j$-ème colonne de $\\text{Mat}_{\\mathcal{B}, \\mathcal{C}}(f)$ contient les coordonnées de $f(e_j)$ dans la base $\\mathcal{C}$.\n• **Changement de base** : $M' = P^{-1} M P$ pour un endomorphisme ($P$ étant la matrice de passage)."
       }
     ],
     "methods": [
@@ -213,8 +213,8 @@ window.MATHS_COURSES_L1 = {
         "title": "Méthode : Trouver une base du noyau et de l'image",
         "example": "Soit $f : \\mathbb{R}^3 \\to \\mathbb{R}^2$ définie par $f(x, y, z) = (x - y, y - z)$.",
         "steps": [
-          "**Noyau** : $(x, y, z) \\in \\ker(f) \\iff \\begin{cases} x - y = 0 \\\\ y - z = 0 \\end{cases} \\iff x = y = z$. Donc $\\ker(f) = \\text{Vect}((1, 1, 1))$. $\\dim(\\ker f) = 1$.",
-          "**Théorème du rang** : $\\dim(\\text{Im} f) = \\dim(\\mathbb{R}^3) - \\dim(\\ker f) = 3 - 1 = 2$.",
+          "**Noyau** : $(x, y, z) \\in \\text{Ker}(f) \\iff \\begin{cases} x - y = 0 \\\\ y - z = 0 \\end{cases} \\iff x = y = z$. Donc $\\text{Ker}(f) = \\text{Vect}((1, 1, 1))$. $\\dim(\\text{Ker} f) = 1$.",
+          "**Théorème du rang** : $\\dim(\\text{Im} f) = \\dim(\\mathbb{R}^3) - \\dim(\\text{Ker} f) = 3 - 1 = 2$.",
           "**Conclusion** : Comme $\\dim(\\text{Im} f) = 2 = \\dim(\\mathbb{R}^2)$, $f$ est surjective et $\\text{Im}(f) = \\mathbb{R}^2$."
         ]
       }
@@ -225,12 +225,12 @@ window.MATHS_COURSES_L1 = {
     ],
     "flashcards": [
       {
-        "q": "Donner la définition mathématique ensembliste de ker(f) pour f dans L(E, F).",
-        "a": "$\\ker(f) = \\{x \\in E \\mid f(x) = 0_F\\} = f^{-1}(\\{0_F\\})$."
+        "q": "Donner la définition mathématique ensembliste de Ker(f) pour f dans L(E, F).",
+        "a": "$\\text{Ker}(f) = \\{x \\in E \\mid f(x) = 0_F\\} = f^{-1}(\\{0_F\\})$."
       },
       {
         "q": "Énoncer le Théorème du Rang pour f dans L(E, F) avec dim(E) finie.",
-        "a": "$\\dim(E) = \\dim(\\ker f) + \\text{rg}(f)$."
+        "a": "$\\dim(E) = \\dim(\\text{Ker} f) + \\text{rg}(f)$."
       }
     ]
   },
@@ -978,8 +978,8 @@ window.MATHS_EXERCISES_L1 = {
       "tier": 1,
       "type": "mcq",
       "title": "Théorème du rang",
-      "skill": "Appliquer la relation $\\dim E = \\dim \\ker f + \\text{rg}(f)$",
-      "statement": "Soit $f : \\mathbb{R}^5 \\to \\mathbb{R}^3$ une application linéaire surjective. Quelle est la dimension de $\\ker(f)$ ?",
+      "skill": "Appliquer la relation $\\dim E = \\dim \\text{Ker} f + \\text{rg}(f)$",
+      "statement": "Soit $f : \\mathbb{R}^5 \\to \\mathbb{R}^3$ une application linéaire surjective. Quelle est la dimension de $\\text{Ker}(f)$ ?",
       "options": [
         "$2$",
         "$3$",
@@ -989,8 +989,8 @@ window.MATHS_EXERCISES_L1 = {
       "correctIndex": 0,
       "answer": "$2$",
       "hint1": "Surjective $\\implies \\text{rg}(f) = \\dim(\\mathbb{R}^3) = 3$.",
-      "hint2": "$\\dim \\ker(f) = 5 - 3 = 2$.",
-      "solution": "D'après le théorème du rang : $\\dim \\ker(f) = \\dim(\\mathbb{R}^5) - \\text{rg}(f) = 5 - 3 = 2$."
+      "hint2": "$\\dim \\text{Ker}(f) = 5 - 3 = 2$.",
+      "solution": "D'après le théorème du rang : $\\dim \\text{Ker}(f) = \\dim(\\mathbb{R}^5) - \\text{rg}(f) = 5 - 3 = 2$."
     },
     {
       "id": "L1-APP-2",
@@ -998,7 +998,7 @@ window.MATHS_EXERCISES_L1 = {
       "type": "mcq",
       "title": "Noyau d'un endomorphisme",
       "skill": "Déterminer la dimension du noyau",
-      "statement": "Soit $f : \\mathbb{R}^3 \\to \\mathbb{R}^3, (x, y, z) \\mapsto (x - y, y - z, z - x)$. Quelle est la dimension de $\\ker(f)$ ?",
+      "statement": "Soit $f : \\mathbb{R}^3 \\to \\mathbb{R}^3, (x, y, z) \\mapsto (x - y, y - z, z - x)$. Quelle est la dimension de $\\text{Ker}(f)$ ?",
       "options": [
         "$1$",
         "$0$",
@@ -1008,8 +1008,8 @@ window.MATHS_EXERCISES_L1 = {
       "correctIndex": 0,
       "answer": "$1$",
       "hint1": "$x - y = 0, y - z = 0, z - x = 0 \\iff x = y = z$.",
-      "hint2": "$\\ker(f) = \\text{Vect}((1, 1, 1))$.",
-      "solution": "$(x, y, z) \\in \\ker(f) \\iff x = y = z$. C'est la droite dirigée par $(1, 1, 1)$, donc $\\dim \\ker(f) = 1$."
+      "hint2": "$\\text{Ker}(f) = \\text{Vect}((1, 1, 1))$.",
+      "solution": "$(x, y, z) \\in \\text{Ker}(f) \\iff x = y = z$. C'est la droite dirigée par $(1, 1, 1)$, donc $\\dim \\text{Ker}(f) = 1$."
     },
     {
       "id": "L1-APP-3",
@@ -1038,16 +1038,16 @@ window.MATHS_EXERCISES_L1 = {
       "skill": "Caractériser les projecteurs $p^2 = p$",
       "statement": "Soit $p \\in \\mathcal{L}(E)$ tel que $p^2 = p$. Que peut-on toujours affirmer ?",
       "options": [
-        "$E = \\ker(p) \\oplus \\text{im}(p)$",
+        "$E = \\text{Ker}(p) \\oplus \\text{Im}(p)$",
         "$p$ est toujours injectif",
-        "$\\text{im}(p) \\subset \\ker(p)$",
+        "$\\text{Im}(p) \\subset \\text{Ker}(p)$",
         "$p = \\text{Id}_E$"
       ],
       "correctIndex": 0,
-      "answer": "$E = \\ker(p) \\oplus \\text{im}(p)$",
+      "answer": "$E = \\text{Ker}(p) \\oplus \\text{Im}(p)$",
       "hint1": "Tout vecteur s'écrit $x = (x - p(x)) + p(x)$.",
       "hint2": "$p(x - p(x)) = p(x) - p^2(x) = 0$.",
-      "solution": "Pour tout projecteur $p^2 = p$, l'espace se décompose en somme directe du noyau et de l'image : $E = \\ker(p) \\oplus \\text{im}(p)$."
+      "solution": "Pour tout projecteur $p^2 = p$, l'espace se décompose en somme directe du noyau et de l'image : $E = \\text{Ker}(p) \\oplus \\text{Im}(p)$."
     }
   ],
   "L1-REL": [

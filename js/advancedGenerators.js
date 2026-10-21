@@ -730,29 +730,29 @@ window.MathsAdvancedGenerators = {
       const rg = dimE - dimKer;
       return this.makeMcq(
         'L1-APP', 1, "Théorème du rang pour une application linéaire",
-        "Appliquer la relation $\\dim(E) = \\dim(\\ker f) + \\text{rg}(f)$",
-        `Soit $f : E \\to F$ une application linéaire avec $\\dim(E) = ${dimE}$ et $\\dim(\\ker f) = ${dimKer}$. Que vaut le rang $\\text{rg}(f) = \\dim(\\text{Im} f)$ ?`,
+        "Appliquer la relation $\\dim(E) = \\dim(\\text{Ker} f) + \\text{rg}(f)$",
+        `Soit $f : E \\to F$ une application linéaire avec $\\dim(E) = ${dimE}$ et $\\dim(\\text{Ker} f) = ${dimKer}$. Que vaut le rang $\\text{rg}(f) = \\dim(\\text{Im} f)$ ?`,
         `$\\text{rg}(f) = ${rg}$`,
         [`$\\text{rg}(f) = ${dimE}$`, `$\\text{rg}(f) = ${rg + 1}$`, `$\\text{rg}(f) = ${dimKer}$`],
         "Théorème du rang : la dimension de l'espace de départ $E$ est la somme de la dimension du noyau et du rang.",
-        `$\\dim(E) = \\dim(\\ker f) + \\text{rg}(f) \\implies \\text{rg}(f) = ${dimE} - ${dimKer}$.`,
-        `D'après le Théorème du Rang : $\\text{rg}(f) = \\dim(E) - \\dim(\\ker f) = ${dimE} - ${dimKer} = ${rg}$.`
+        `$\\dim(E) = \\dim(\\text{Ker} f) + \\text{rg}(f) \\implies \\text{rg}(f) = ${dimE} - ${dimKer}$.`,
+        `D'après le Théorème du Rang : $\\text{rg}(f) = \\dim(E) - \\dim(\\text{Ker} f) = ${dimE} - ${dimKer} = ${rg}$.`
       );
     } else if (tier === 2) {
-      // Définition formelle de ker(f) et injectivité
+      // Définition formelle de Ker(f) et injectivité
       return this.makeMcq(
         'L1-APP', 2, "Définition formelle du Noyau et critère d'injectivité",
-        "Caractériser le noyau $\\ker(f)$ et l'injectivité",
-        "Pour une application linéaire $f \\in \\mathcal{L}(E, F)$, quelle est la définition ensembliste exacte du noyau $\\ker(f)$ et la condition nécessaire et suffisante pour que $f$ soit injective ?",
-        "$\\ker(f) = \\{x \\in E \\mid f(x) = 0_F\\}$ et $f$ injective $\\iff \\ker(f) = \\{0_E\\}$",
+        "Caractériser le noyau $\\text{Ker}(f)$ et l'injectivité",
+        "Pour une application linéaire $f \\in \\mathcal{L}(E, F)$, quelle est la définition ensembliste exacte du noyau $\\text{Ker}(f)$ et la condition nécessaire et suffisante pour que $f$ soit injective ?",
+        "$\\text{Ker}(f) = \\{x \\in E \\mid f(x) = 0_F\\}$ et $f$ injective $\\iff \\text{Ker}(f) = \\{0_E\\}$",
         [
-          "$\\ker(f) = \\{f(x) \\mid x \\in E\\}$ et $f$ injective $\\iff \\ker(f) = F$",
-          "$\\ker(f) = \\{x \\in E \\mid f(x) = 0_F\\}$ et $f$ injective $\\iff \\ker(f) = \\emptyset$",
-          "$\\ker(f) = \\{x \\in F \\mid f(x) = 0_E\\}$ et $f$ injective $\\iff \\text{rg}(f) = 0$"
+          "$\\text{Ker}(f) = \\{f(x) \\mid x \\in E\\}$ et $f$ injective $\\iff \\text{Ker}(f) = F$",
+          "$\\text{Ker}(f) = \\{x \\in E \\mid f(x) = 0_F\\}$ et $f$ injective $\\iff \\text{Ker}(f) = \\emptyset$",
+          "$\\text{Ker}(f) = \\{x \\in F \\mid f(x) = 0_E\\}$ et $f$ injective $\\iff \\text{rg}(f) = 0$"
         ],
         "Le noyau est l'ensemble des antécédents du vecteur nul de l'espace d'arrivée.",
         "Une application linéaire est injective si et seulement si son noyau est réduit au vecteur nul $\{0_E\}$.",
-        "Par définition, $\\ker(f) = f^{-1}(\\{0_F\\}) = \\{x \\in E \\mid f(x) = 0_F\\}$. De plus, $f(x) = f(y) \\iff f(x - y) = 0_F \\iff x - y \\in \\ker(f)$, donc $f$ est injective $\\iff \\ker(f) = \\{0_E\\}$."
+        "Par définition, $\\text{Ker}(f) = f^{-1}(\\{0_F\\}) = \\{x \\in E \\mid f(x) = 0_F\\}$. De plus, $f(x) = f(y) \\iff f(x - y) = 0_F \\iff x - y \\in \\text{Ker}(f)$, donc $f$ est injective $\\iff \\text{Ker}(f) = \\{0_E\\}$."
       );
     } else if (tier === 3) {
       // Matrice d'endomorphisme
@@ -778,15 +778,15 @@ window.MathsAdvancedGenerators = {
         'L1-APP', 4, "Caractérisation algébrique des projecteurs",
         "Identifier un projecteur par la relation $p^2 = p$ et la décomposition de l'espace",
         "Soit $p \\in \\mathcal{L}(E)$. Quelle relation algébrique caractérise le fait que $p$ est un projecteur, et quelle est la décomposition associée de $E$ ?",
-        "$p^2 = p$ et $E = \\ker(p) \\oplus \\text{Im}(p)$",
+        "$p^2 = p$ et $E = \\text{Ker}(p) \\oplus \\text{Im}(p)$",
         [
-          "$p^2 = \\text{Id}_E$ et $E = \\ker(p) \\oplus \\text{Im}(p)$",
-          "$p^2 = 0$ et $E = \\ker(p) + \\text{Im}(p)$",
-          "$p^3 = p$ et $\\ker(p) = \\text{Im}(p)$"
+          "$p^2 = \\text{Id}_E$ et $E = \\text{Ker}(p) \\oplus \\text{Im}(p)$",
+          "$p^2 = 0$ et $E = \\text{Ker}(p) + \\text{Im}(p)$",
+          "$p^3 = p$ et $\\text{Ker}(p) = \\text{Im}(p)$"
         ],
         "Un projecteur vérifie $p \\circ p = p$ (idempotence).",
-        "Pour tout $x \\in E$, $x = (x - p(x)) + p(x)$ avec $x - p(x) \\in \\ker(p)$ et $p(x) \\in \\text{Im}(p)$.",
-        "Un endomorphisme est un projecteur ssi $p^2 = p$. On a alors immédiatement $E = \\ker(p) \\oplus \\text{Im}(p)$, la projection se faisant sur $\\text{Im}(p)$ parallèlement à $\\ker(p)$."
+        "Pour tout $x \\in E$, $x = (x - p(x)) + p(x)$ avec $x - p(x) \\in \\text{Ker}(p)$ et $p(x) \\in \\text{Im}(p)$.",
+        "Un endomorphisme est un projecteur ssi $p^2 = p$. On a alors immédiatement $E = \\text{Ker}(p) \\oplus \\text{Im}(p)$, la projection se faisant sur $\\text{Im}(p)$ parallèlement à $\\text{Ker}(p)$."
       );
     }
   },
@@ -1066,8 +1066,8 @@ window.MathsAdvancedGenerators = {
         "Son déterminant est toujours strictement positif"
       ],
       "Les sous-espaces propres d'une matrice symétrique réelle sont orthogonaux deux à deux.",
-      "Il existe une matrice orthogonale $P \\in O_n(\\mathbb{R})$ telle que $S = P D P^T$.",
-      "Le Théorème Spectral affirme que toute matrice symétrique réelle possède un spectre entièrement réel et admet une décomposition orthogonale $S = P D P^T$ avec $P$ orthogonale."
+      "Il existe une matrice orthogonale $P \\in O_n(\\mathbb{R})$ telle que $S = P D \\,{}^t P$.",
+      "Le Théorème Spectral affirme que toute matrice symétrique réelle possède un spectre entièrement réel et admet une décomposition orthogonale $S = P D \\,{}^t P$ avec $P$ orthogonale."
     );
   },
 
@@ -1379,15 +1379,15 @@ window.MathsAdvancedGenerators = {
       'L3-GDF', tier, "Espace tangent à une sous-variété implicite",
       "Déterminer l'espace tangent par le noyau de la différentielle",
       "Pour une sous-variété $M = f^{-1}(\\{0\\}) \\subset \\mathbb{R}^n$ définie par une submersion $f : \\mathbb{R}^n \\to \\mathbb{R}^k$, comment s'exprime l'espace tangent $T_x M$ en tout point $x \\in M$ ?",
-      "$T_x M = \\ker(df(x))$",
+      "$T_x M = \\text{Ker}(df(x))$",
       [
         "$T_x M = \\text{Im}(df(x))$",
-        "$T_x M = (\\ker(df(x)))^\\perp$",
+        "$T_x M = (\\text{Ker}(df(x)))^\\perp$",
         "$T_x M = \\nabla f(x)$"
       ],
       "Les vecteurs tangents annulent la dérivée le long des contraintes.",
       "La codimension est $k$, donc l'espace tangent est de dimension $n - k$.",
-      "D'après le théorème des fonctions implicites, l'espace tangent à une sous-variété définie par une submersion $f$ est exactement le noyau de sa différentielle : $T_x M = \\ker(df(x))$."
+      "D'après le théorème des fonctions implicites, l'espace tangent à une sous-variété définie par une submersion $f$ est exactement le noyau de sa différentielle : $T_x M = \\text{Ker}(df(x))$."
     );
   },
 
@@ -1412,7 +1412,7 @@ window.MathsAdvancedGenerators = {
     return this.makeMcq(
       'L3-PROG', tier, "Théorème Fondamental de la Programmation Linéaire",
       "Localiser les solutions optimales d'un programme linéaire",
-      "Que garantit le Théorème Fondamental de la Programmation Linéaire pour un problème sous forme standard $\\max c^T x$ sous $Ax = b, x \\ge 0$ admettant un optimum ?",
+      "Que garantit le Théorème Fondamental de la Programmation Linéaire pour un problème sous forme standard $\\max {}^t c x$ sous $Ax = b, x \\ge 0$ admettant un optimum ?",
       "L'optimum est atteint en au moins un point extrême (sommet ou solution de base admissible)",
       [
         "L'optimum est toujours strictement à l'intérieur du polyèdre",

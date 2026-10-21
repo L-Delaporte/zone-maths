@@ -11,7 +11,7 @@ window.MATHS_COURSES_L3 = {
       "Définir axiomatiquement un groupe $(G, \\cdot)$ et caractériser les sous-groupes $H \\le G$.",
       "Énoncer et démontrer le Théorème de Lagrange : pour tout sous-groupe $H \\le G$ fini, $|G| = |H| \\times [G : H]$.",
       "Définir les sous-groupes distingués (normaux) $H \\trianglelefteq G$ et construire le groupe quotient $G/H$.",
-      "Formuler et appliquer le Premier Théorème d'Isomorphisme de Noether : $G/\\ker(f) \\simeq \\text{Im}(f)$."
+      "Formuler et appliquer le Premier Théorème d'Isomorphisme de Noether : $G/\\text{Ker}(f) \\simeq \\text{Im}(f)$."
     ],
     "keyPoints": [
       {
@@ -20,7 +20,7 @@ window.MATHS_COURSES_L3 = {
       },
       {
         "title": "2. Morphismes de Groupes, Noyau et Image",
-        "content": "• Soient $(G, \\cdot)$ et $(G', *)$ deux groupes. Une application $f : G \\to G'$ est un **morphisme de groupes** si :\n$$\\forall x, y \\in G, \\quad f(x \\cdot y) = f(x) * f(y)$$\n• Propriétés immédiates : $f(e_G) = e_{G'}$ et $\\forall x \\in G, f(x^{-1}) = (f(x))^{-1}$.\n• **Noyau de $f$** : $\\ker(f) = \\{x \\in G \\mid f(x) = e_{G'}\\} = f^{-1}(\\{e_{G'}\\})$. C'est un sous-groupe de $G$.\n  - **Critère d'injectivité** : $f$ est injectif $\\iff \\ker(f) = \\{e_G\\}$.\n• **Image de $f$** : $\\text{Im}(f) = f(G) = \\{f(x) \\mid x \\in G\\}$. C'est un sous-groupe de $G'$."
+        "content": "• Soient $(G, \\cdot)$ et $(G', *)$ deux groupes. Une application $f : G \\to G'$ est un **morphisme de groupes** si :\n$$\\forall x, y \\in G, \\quad f(x \\cdot y) = f(x) * f(y)$$\n• Propriétés immédiates : $f(e_G) = e_{G'}$ et $\\forall x \\in G, f(x^{-1}) = (f(x))^{-1}$.\n• **Noyau de $f$** : $\\text{Ker}(f) = \\{x \\in G \\mid f(x) = e_{G'}\\} = f^{-1}(\\{e_{G'}\\})$. C'est un sous-groupe de $G$.\n  - **Critère d'injectivité** : $f$ est injectif $\\iff \\text{Ker}(f) = \\{e_G\\}$.\n• **Image de $f$** : $\\text{Im}(f) = f(G) = \\{f(x) \\mid x \\in G\\}$. C'est un sous-groupe de $G'$."
       },
       {
         "title": "3. Théorème de Lagrange et Ordre d'un élément",
@@ -28,7 +28,7 @@ window.MATHS_COURSES_L3 = {
       },
       {
         "title": "4. Sous-groupes distingués et Premier Théorème d'Isomorphisme",
-        "content": "• Un sous-groupe $H \\le G$ est dit **distingué** (ou normal), noté $H \\trianglelefteq G$, si :\n$$\\forall g \\in G, \\quad g H g^{-1} = H \\quad (\\text{ou } \\forall g \\in G, \\forall h \\in H, \\; ghg^{-1} \\in H)$$\n• **Groupe quotient** : Si $H \\trianglelefteq G$, la relation $x \\sim y \\iff x^{-1}y \\in H$ est compatible avec la loi de groupe. L'ensemble quotient $G/H$ est muni d'une loi de groupe canonique : $(xH)(yH) = (xy)H$.\n• **Premier Théorème d'Isomorphisme de Noether** : Pour tout morphisme de groupes $f : G \\to G'$ :\n$$\\ker(f) \\trianglelefteq G \\quad \\text{et} \\quad G/\\ker(f) \\simeq \\text{Im}(f)$$\nL'isomorphisme canonique $\\bar{f} : G/\\ker(f) \\to \\text{Im}(f)$ est défini par $\\bar{f}(x \\ker(f)) = f(x)$."
+        "content": "• Un sous-groupe $H \\le G$ est dit **distingué** (ou normal), noté $H \\trianglelefteq G$, si :\n$$\\forall g \\in G, \\quad g H g^{-1} = H \\quad (\\text{ou } \\forall g \\in G, \\forall h \\in H, \\; ghg^{-1} \\in H)$$\n• **Groupe quotient** : Si $H \\trianglelefteq G$, la relation $x \\sim y \\iff x^{-1}y \\in H$ est compatible avec la loi de groupe. L'ensemble quotient $G/H$ est muni d'une loi de groupe canonique : $(xH)(yH) = (xy)H$.\n• **Premier Théorème d'Isomorphisme de Noether** : Pour tout morphisme de groupes $f : G \\to G'$ :\n$$\\text{Ker}(f) \\trianglelefteq G \\quad \\text{et} \\quad G/\\text{Ker}(f) \\simeq \\text{Im}(f)$$\nL'isomorphisme canonique $\\bar{f} : G/\\text{Ker}(f) \\to \\text{Im}(f)$ est défini par $\\bar{f}(x \\,\\text{Ker}(f)) = f(x)$."
       }
     ],
     "methods": [
@@ -54,7 +54,7 @@ window.MATHS_COURSES_L3 = {
       },
       {
         "q": "Énoncer le premier théorème d'isomorphisme de Noether.",
-        "a": "Pour tout morphisme de groupes $f : G \\to G'$, $G/\\ker(f) \\simeq \\text{Im}(f)$."
+        "a": "Pour tout morphisme de groupes $f : G \\to G'$, $G/\\text{Ker}(f) \\simeq \\text{Im}(f)$."
       }
     ]
   },
@@ -228,7 +228,7 @@ window.MATHS_COURSES_L3 = {
     "keyPoints": [
       {
         "title": "1. Actions de Groupes et Représentation par Permutations",
-        "content": "• **Action de groupe** : Une action à gauche d'un groupe $G$ sur un ensemble $X$ est une application $\\cdot : G \\times X \\to X$ telle que :\n  1. $\\forall x \\in X, \\quad e \\cdot x = x$.\n  2. $\\forall g, h \\in G, \\forall x \\in X, \\quad g \\cdot (h \\cdot x) = (gh) \\cdot x$.\n• **Morphisme associé** : Toute action équivaut à la donnée d'un morphisme de groupes $\\rho : G \\to \\mathfrak{S}(X)$ défini par $\\rho(g)(x) = g \\cdot x$.\n• **Vocabulaire** :\n  - L'action est **fidèle** si $\\ker \\rho = \\{e\\}$ (i.e. $\\forall g \\neq e, \\exists x \\in X, g \\cdot x \\neq x$).\n  - L'action est **transitive** s'il n'y a qu'une seule orbite ($\\forall x, y \\in X, \\exists g \\in G, g \\cdot x = y$)."
+        "content": "• **Action de groupe** : Une action à gauche d'un groupe $G$ sur un ensemble $X$ est une application $\\cdot : G \\times X \\to X$ telle que :\n  1. $\\forall x \\in X, \\quad e \\cdot x = x$.\n  2. $\\forall g, h \\in G, \\forall x \\in X, \\quad g \\cdot (h \\cdot x) = (gh) \\cdot x$.\n• **Morphisme associé** : Toute action équivaut à la donnée d'un morphisme de groupes $\\rho : G \\to \\mathfrak{S}(X)$ défini par $\\rho(g)(x) = g \\cdot x$.\n• **Vocabulaire** :\n  - L'action est **fidèle** si $\\text{Ker}\\,\\rho = \\{e\\}$ (i.e. $\\forall g \\neq e, \\exists x \\in X, g \\cdot x \\neq x$).\n  - L'action est **transitive** s'il n'y a qu'une seule orbite ($\\forall x, y \\in X, \\exists g \\in G, g \\cdot x = y$)."
       },
       {
         "title": "2. Orbites, Stabilisateurs et Théorème Fondamental",
@@ -282,7 +282,7 @@ window.MATHS_COURSES_L3 = {
     "keyPoints": [
       {
         "title": "1. Anneaux, Idéaux et Anneaux Quotients",
-        "content": "• **Axiomatique d'un anneau** : $(A, +, \\cdot)$ est un **anneau unitaire** si $(A, +)$ est un groupe abélien, $\\cdot$ est associatif, possède un élément neutre $1_A \\neq 0_A$, et est distributif par rapport à $+$.\n• **Idéal** : Un sous-ensemble $I \\subset A$ est un **idéal** (bilatère) de $A$ si :\n  1. $(I, +)$ est un sous-groupe de $(A, +)$.\n  2. $\\forall a \\in A, \\forall x \\in I, \\quad ax \\in I \\quad \\text{et} \\quad xa \\in I$ (absorption).\n• **Anneau quotient $A/I$** : Si $I$ est un idéal de $A$, la relation $x \\sim y \\iff x - y \\in I$ est compatible avec l'addition et la multiplication. L'ensemble quotient $A/I$ est muni d'une structure canonique d'anneau.\n• **Premier Théorème d'Isomorphisme pour les anneaux** : Pour tout morphisme d'anneaux $\\varphi : A \\to B$, $\\ker(\\varphi)$ est un idéal de $A$ et $A/\\ker(\\varphi) \\simeq \\text{Im}(\\varphi)$."
+        "content": "• **Axiomatique d'un anneau** : $(A, +, \\cdot)$ est un **anneau unitaire** si $(A, +)$ est un groupe abélien, $\\cdot$ est associatif, possède un élément neutre $1_A \\neq 0_A$, et est distributif par rapport à $+$.\n• **Idéal** : Un sous-ensemble $I \\subset A$ est un **idéal** (bilatère) de $A$ si :\n  1. $(I, +)$ est un sous-groupe de $(A, +)$.\n  2. $\\forall a \\in A, \\forall x \\in I, \\quad ax \\in I \\quad \\text{et} \\quad xa \\in I$ (absorption).\n• **Anneau quotient $A/I$** : Si $I$ est un idéal de $A$, la relation $x \\sim y \\iff x - y \\in I$ est compatible avec l'addition et la multiplication. L'ensemble quotient $A/I$ est muni d'une structure canonique d'anneau.\n• **Premier Théorème d'Isomorphisme pour les anneaux** : Pour tout morphisme d'anneaux $\\varphi : A \\to B$, $\\text{Ker}(\\varphi)$ est un idéal de $A$ et $A/\\text{Ker}(\\varphi) \\simeq \\text{Im}(\\varphi)$."
       },
       {
         "title": "2. Idéaux Premiers et Idéaux Maximaux",
@@ -610,7 +610,7 @@ window.MATHS_COURSES_L3 = {
       },
       {
         "title": "2. Espace Tangent et Espace Normal",
-        "content": "Soit $M$ une sous-variété de classe $\\mathcal{C}^1$ et $x \\in M$.\n• **Vecteur tangent** : Un vecteur $v \\in \\mathbb{R}^n$ est tangent à $M$ en $x$ s'il existe une courbe différentiable $\\gamma : ]-\\varepsilon, \\varepsilon[ \\to M$ telle que $\\gamma(0) = x$ et $\\gamma'(0) = v$.\n• **Espace tangent $T_x M$** : L'ensemble de ces vecteurs forme un sous-espace vectoriel de $\\mathbb{R}^n$ de dimension $d$.\n• **Formule implicite** : Si $M$ est définie localement par la submersion $f = (f_1, \\dots, f_k) : U \\to \\mathbb{R}^k$, alors :\n$$T_x M = \\ker(df(x)) = \\{v \\in \\mathbb{R}^n \\mid \\nabla f_i(x) \\cdot v = 0, \\; \\forall i = 1, \\dots, k\\}$$\n• **Espace normal $N_x M$** : Le sous-espace orthogonal de dimension $k$ :\n$$N_x M = (T_x M)^\\perp = \\text{Vect}(\\nabla f_1(x), \\dots, \\nabla f_k(x))$$\n• **Espace tangent affine** : $T_x^{\\text{aff}} M = x + T_x M$."
+        "content": "Soit $M$ une sous-variété de classe $\\mathcal{C}^1$ et $x \\in M$.\n• **Vecteur tangent** : Un vecteur $v \\in \\mathbb{R}^n$ est tangent à $M$ en $x$ s'il existe une courbe différentiable $\\gamma : ]-\\varepsilon, \\varepsilon[ \\to M$ telle que $\\gamma(0) = x$ et $\\gamma'(0) = v$.\n• **Espace tangent $T_x M$** : L'ensemble de ces vecteurs forme un sous-espace vectoriel de $\\mathbb{R}^n$ de dimension $d$.\n• **Formule implicite** : Si $M$ est définie localement par la submersion $f = (f_1, \\dots, f_k) : U \\to \\mathbb{R}^k$, alors :\n$$T_x M = \\text{Ker}(df(x)) = \\{v \\in \\mathbb{R}^n \\mid \\nabla f_i(x) \\cdot v = 0, \\; \\forall i = 1, \\dots, k\\}$$\n• **Espace normal $N_x M$** : Le sous-espace orthogonal de dimension $k$ :\n$$N_x M = (T_x M)^\\perp = \\text{Vect}(\\nabla f_1(x), \\dots, \\nabla f_k(x))$$\n• **Espace tangent affine** : $T_x^{\\text{aff}} M = x + T_x M$."
       },
       {
         "title": "3. Optimisation sous Contraintes et Multiplicateurs de Lagrange",
@@ -629,18 +629,18 @@ window.MATHS_COURSES_L3 = {
           "**Étape 1 (Définition par submersion)** : Poser $f(y) = \\sum_{i=1}^n y_i^2 - 1$. L'ensemble $\\mathbb{S}^{n-1}$ est $f^{-1}(\\{0\\})$.",
           "**Étape 2 (Calcul du gradient)** : $\\nabla f(y) = 2y$. Pour tout $x \\in \\mathbb{S}^{n-1}$, $\\nabla f(x) = 2x \\neq 0$ car $\\|x\\| = 1$. Donc 0 est une valeur régulière.",
           "**Étape 3 (Noyau de la différentielle)** : Pour tout $v \\in \\mathbb{R}^n$, $df(x)(v) = \\nabla f(x) \\cdot v = 2 \\langle x, v \\rangle$.",
-          "**Conclusion** : $T_x \\mathbb{S}^{n-1} = \\ker(df(x)) = \\{v \\in \\mathbb{R}^n \\mid \\langle x, v \\rangle = 0\\} = x^\\perp$. L'espace tangent en $x$ est l'hyperplan orthogonal au vecteur position $x$."
+          "**Conclusion** : $T_x \\mathbb{S}^{n-1} = \\text{Ker}(df(x)) = \\{v \\in \\mathbb{R}^n \\mid \\langle x, v \\rangle = 0\\} = x^\\perp$. L'espace tangent en $x$ est l'hyperplan orthogonal au vecteur position $x$."
         ]
       }
     ],
     "traps": [
-      "⚠️ Pour utiliser la formule $T_x M = \\ker(df(x))$, il faut impérativement vérifier que $df(x)$ est surjective (rg = codimension), sinon l'ensemble peut présenter des singularités (ex. cône au sommet).",
+      "⚠️ Pour utiliser la formule $T_x M = \\text{Ker}(df(x))$, il faut impérativement vérifier que $df(x)$ est surjective (rg = codimension), sinon l'ensemble peut présenter des singularités (ex. cône au sommet).",
       "⚠️ Les multiplicateurs de Lagrange fournissent une condition **nécessaire** du premier ordre (point critique), mais ne garantissent pas à eux seuls qu'il s'agit d'un extremum (analyser le hessien bordé)."
     ],
     "flashcards": [
       {
         "q": "Quelle est l'expression de l'espace tangent pour $M = f^{-1}(\\{0\\})$ où $f$ est une submersion ?",
-        "a": "$T_x M = \\ker(df(x))$."
+        "a": "$T_x M = \\text{Ker}(df(x))$."
       },
       {
         "q": "Énoncer la formule de Stokes générale.",
@@ -660,11 +660,11 @@ window.MATHS_COURSES_L3 = {
     "keyPoints": [
       {
         "title": "1. Résolution de Systèmes Linéaires $Ax = b$ et Conditionnement",
-        "content": "• **Conditionnement matriciel** : Pour $A \\in \\text{GL}_n(\\mathbb{R})$, $\\kappa(A) = \\|A\\| \\cdot \\|A^{-1}\\| \\ge 1$. Sensibilité aux perturbations de données :\n$$\\frac{\\|\\delta x\\|}{\\|x\\|} \\le \\kappa(A) \\frac{\\|\\delta b\\|}{\\|b\\|}$$\n• **Décompositions directes** :\n  - **Décomposition LU** : $A = LU$ ($L$ triangulaire inférieure à diagonale unité, $U$ triangulaire supérieure). Existe si tous les mineurs principaux dominants sont non nuls.\n  - **Décomposition de Cholesky** : Si $A$ est symétrique définie positive, $A = L L^T$ avec $L$ triangulaire inférieure à coefficients diagonaux strictement positifs.\n  - **Factorisation QR** : $A = QR$ avec $Q$ orthogonale ($Q^T Q = I$) et $R$ triangulaire supérieure (via Gram-Schmidt ou réflexions de Householder).\n• **Méthodes itératives $x_{k+1} = M^{-1}N x_k + M^{-1}b$** : Converge ssi le rayon spectral $\\rho(M^{-1}N) < 1$. Méthode de Jacobi ($M = \\text{diag}(A)$), Gauss-Seidel ($M = D - E$ triangulaire inférieure)."
+        "content": "• **Conditionnement matriciel** : Pour $A \\in \\text{GL}_n(\\mathbb{R})$, $\\kappa(A) = \\|A\\| \\cdot \\|A^{-1}\\| \\ge 1$. Sensibilité aux perturbations de données :\n$$\\frac{\\|\\delta x\\|}{\\|x\\|} \\le \\kappa(A) \\frac{\\|\\delta b\\|}{\\|b\\|}$$\n• **Décompositions directes** :\n  - **Décomposition LU** : $A = LU$ ($L$ triangulaire inférieure à diagonale unité, $U$ triangulaire supérieure). Existe si tous les mineurs principaux dominants sont non nuls.\n  - **Décomposition de Cholesky** : Si $A$ est symétrique définie positive, $A = L \\,{}^t L$ avec $L$ triangulaire inférieure à coefficients diagonaux strictement positifs.\n  - **Factorisation QR** : $A = QR$ avec $Q$ orthogonale (${}^t Q Q = I$) et $R$ triangulaire supérieure (via Gram-Schmidt ou réflexions de Householder).\n• **Méthodes itératives $x_{k+1} = M^{-1}N x_k + M^{-1}b$** : Converge ssi le rayon spectral $\\rho(M^{-1}N) < 1$. Méthode de Jacobi ($M = \\text{diag}(A)$), Gauss-Seidel ($M = D - E$ triangulaire inférieure)."
       },
       {
         "title": "2. Interpolation Polynomiale de Lagrange et Erreur",
-        "content": "• **Polynôme d'interpolation** : Pour $n+1$ points distincts $(x_i, y_i)_{0 \\le i \\le n}$, il existe un unique polynôme $P_n \\in \\mathbb{R}_n[X]$ tel que $P_n(x_i) = y_i$ :\n$$P_n(x) = \\sum_{i=0}^n y_i L_i(x) \\quad \\text{avec} \\quad L_i(x) = \\prod_{j \\neq i} \\frac{x - x_j}{x_i - x_j}$$\n• **Formule de l'erreur d'interpolation** : Si $f \\in \\mathcal{C}^{n+1}([a, b])$, alors pour tout $x \\in [a, b]$, il existe $\\xi_x \\in ]\\min(x_i, x), \\max(x_i, x)[$ tel que :\n$$f(x) - P_n(x) = \\frac{f^{(n+1)}(\\xi_x)}{(n+1)!} \\prod_{i=0}^n (x - x_i)$$\n• **Phénomène de Runge** : Pour des nœuds équirépartis, l'erreur peut diverger vers l'infini sur les bords (ex. $f(x) = \\frac{1}{1 + 25x^2}$). Pour pallier ce problème, on utilise les **nœuds de Tchebychev** : $x_k = \\cos\\left(\\frac{2k+1}{2n+2}\\pi\\right)$ sur $[-1, 1]$."
+        "content": "• **Polynôme d'interpolation** : Pour $n+1$ points distincts $(x_i, y_i)_{0 \\le i \\le n}$, il existe un unique polynôme $P_n \\in \\mathbb{R}_n[X]$ tel que $P_n(x_i) = y_i$ :\n$$P_n(x) = \\sum_{i=0}^n y_i L_i(x) \\quad \\text{avec} \\quad L_i(x) = \\prod_{j \\neq i} \\frac{x - x_j}{x_i - x_j}$$\n• **Formule de l'erreur d'interpolation** : Si $f \\in \\mathcal{C}^{n+1}([a, b])$, alors pour tout $x \\in [a, b]$, il existe $\\xi_x \\in ]\\min(x_i, x), \\max(x_i, x)[$ tel que :\n$$f(x) - P_n(x) = \\frac{f^{(n+1)}(\\xi_x)}{(n+1)!} \\ prod_{i=0}^n (x - x_i)$$\n• **Phénomène de Runge** : Pour des nœuds équirépartis, l'erreur peut diverger vers l'infini sur les bords (ex. $f(x) = \\frac{1}{1 + 25x^2}$). Pour pallier ce problème, on utilise les **nœuds de Tchebychev** : $x_k = \\cos\\left(\\frac{2k+1}{2n+2}\\pi\\right)$ sur $[-1, 1]$."
       },
       {
         "title": "3. Intégration Numérique (Quadratures)",
@@ -677,12 +677,12 @@ window.MATHS_COURSES_L3 = {
     ],
     "methods": [
       {
-        "title": "Méthode : Résoudre un système par décomposition de Cholesky $A = LL^T$",
+        "title": "Méthode : Résoudre un système par décomposition de Cholesky $A = L \\,{}^t L$",
         "example": "Résoudre $Ax = b$ avec $A = \\begin{pmatrix} 4 & 2 \\\\ 2 & 10 \\end{pmatrix}$ et $b = \\begin{pmatrix} 6 \\\\ 18 \\end{pmatrix}$.",
         "steps": [
           "**Étape 1 (Calcul de $L$)** : On cherche $L = \\begin{pmatrix} l_{11} & 0 \\\\ l_{21} & l_{22} \\end{pmatrix}$.\n- $l_{11}^2 = 4 \\implies l_{11} = 2$.\n- $l_{11} l_{21} = 2 \\implies 2 l_{21} = 2 \\implies l_{21} = 1$.\n- $l_{21}^2 + l_{22}^2 = 10 \\implies 1 + l_{22}^2 = 10 \\implies l_{22} = 3$.\nDonc $L = \\begin{pmatrix} 2 & 0 \\\\ 1 & 3 \\end{pmatrix}$.",
           "**Étape 2 (Résolution de $Ly = b$)** : $\\begin{pmatrix} 2 & 0 \\\\ 1 & 3 \\end{pmatrix} \\begin{pmatrix} y_1 \\\\ y_2 \\end{pmatrix} = \\begin{pmatrix} 6 \\\\ 18 \\end{pmatrix} \\implies y_1 = 3, \\; y_2 = \\frac{18 - 3}{3} = 5$.",
-          "**Étape 3 (Résolution de $L^T x = y$)** : $\\begin{pmatrix} 2 & 1 \\\\ 0 & 3 \\end{pmatrix} \\begin{pmatrix} x_1 \\\\ x_2 \\end{pmatrix} = \\begin{pmatrix} 3 \\\\ 5 \\end{pmatrix} \\implies x_2 = 5/3, \\; 2x_1 = 3 - 5/3 = 4/3 \\implies x_1 = 2/3$.",
+          "**Étape 3 (Résolution de ${}^t L x = y$)** : $\\begin{pmatrix} 2 & 1 \\\\ 0 & 3 \\end{pmatrix} \\begin{pmatrix} x_1 \\\\ x_2 \\end{pmatrix} = \\begin{pmatrix} 3 \\\\ 5 \\end{pmatrix} \\implies x_2 = 5/3, \\; 2x_1 = 3 - 5/3 = 4/3 \\implies x_1 = 2/3$.",
           "**Conclusion** : L'unique solution est $x = \\begin{pmatrix} 2/3 \\\\ 5/3 \\end{pmatrix}$."
         ]
       }
@@ -714,7 +714,7 @@ window.MATHS_COURSES_L3 = {
     "keyPoints": [
       {
         "title": "1. Polyèdres Convexes et Forme Standard",
-        "content": "• **Polyèdre** : Intersection finie de demi-espaces affines fermés : $P = \\{x \\in \\mathbb{R}^n \\mid Ax \\le b\\}$. S'il est borné, on l'appelle un **polytope**.\n• **Point extrême (sommet)** : $x \\in P$ est un point extrême s'il ne peut s'écrire comme combinaison convexe stricte de deux points distincts de $P$.\n• **Forme standard d'un programme linéaire** :\n$$\\max_{x \\in \\mathbb{R}^n} \\; c^T x \\quad \\text{sous les contraintes} \\quad A x = b \\quad \\text{et} \\quad x \\ge 0$$\noù $A \\in \\mathcal{M}_{m, n}(\\mathbb{R})$ de rang plein $m \\le n$, et $b \\ge 0$.\n(Toute inégalité $a_i^T x \\le b_i$ est convertie en égalité en introduisant une variable d'écart positive $s_i \\ge 0$ : $a_i^T x + s_i = b_i$)."
+        "content": "• **Polyèdre** : Intersection finie de demi-espaces affines fermés : $P = \\{x \\in \\mathbb{R}^n \\mid Ax \\le b\\}$. S'il est borné, on l'appelle un **polytope**.\n• **Point extrême (sommet)** : $x \\in P$ est un point extrême s'il ne peut s'écrire comme combinaison convexe stricte de deux points distincts de $P$.\n• **Forme standard d'un programme linéaire** :\n$$\\max_{x \\in \\mathbb{R}^n} \\; {}^t c x \\quad \\text{sous les contraintes} \\quad A x = b \\quad \\text{et} \\quad x \\ge 0$$\noù $A \\in \\mathcal{M}_{m, n}(\\mathbb{R})$ de rang plein $m \\le n$, et $b \\ge 0$.\n(Toute inégalité ${}^t a_i x \\le b_i$ est convertie en égalité en introduisant une variable d'écart positive $s_i \\ge 0$ : ${}^t a_i x + s_i = b_i$)."
       },
       {
         "title": "2. Solutions de Base Admissibles et Théorème Fondamental",
@@ -722,11 +722,11 @@ window.MATHS_COURSES_L3 = {
       },
       {
         "title": "3. Algorithme du Simplexe",
-        "content": "Partant d'une solution de base admissible initiale :\n• **Coûts réduits** : $\\bar{c}_N^T = c_N^T - c_B^T A_B^{-1} A_N$.\n  - **Critère d'optimalité** : Si pour tout $j \\in N$, $\\bar{c}_j \\le 0$ (en maximisation), la base actuelle est **optimale**.\n• **Variable entrante** : Si certains $\\bar{c}_j > 0$, on choisit une variable $x_e$ avec $\\bar{c}_e > 0$ (règle de Dantzig : le plus grand coût réduit positif).\n• **Variable sortante (Test du ratio minimum)** : On calcule pour les lignes où la colonne pivot $\\bar{a}_{i, e} > 0$ :\n$$i^* = \\arg \\min_{i \\mid \\bar{a}_{i, e} > 0} \\frac{\\bar{b}_i}{\\bar{a}_{i, e}}$$\nLa variable de base correspondante $x_{s}$ quitte la base.\n• **Pivot de Gauss** : Mise à jour du tableau et répétition jusqu'à l'optimalité ou détection d'un problème non borné."
+        "content": "Partant d'une solution de base admissible initiale :\n• **Coûts réduits** : ${}^t\\bar{c}_N = {}^t c_N - {}^t c_B A_B^{-1} A_N$.\n  - **Critère d'optimalité** : Si pour tout $j \\in N$, $\\bar{c}_j \\le 0$ (en maximisation), la base actuelle est **optimale**.\n• **Variable entrante** : Si certains $\\bar{c}_j > 0$, on choisit une variable $x_e$ avec $\\bar{c}_e > 0$ (règle de Dantzig : le plus grand coût réduit positif).\n• **Variable sortante (Test du ratio minimum)** : On calcule pour les lignes où la colonne pivot $\\bar{a}_{i, e} > 0$ :\n$$i^* = \\arg \\min_{i \\mid \\bar{a}_{i, e} > 0} \\frac{\\bar{b}_i}{\\bar{a}_{i, e}}$$\nLa variable de base correspondante $x_{s}$ quitte la base.\n• **Pivot de Gauss** : Mise à jour du tableau et répétition jusqu'à l'optimalité ou détection d'un problème non borné."
       },
       {
         "title": "4. Dualité et Conditions d'Écarts Complémentaires",
-        "content": "• **Problème Primal ($P$)** : $\\max c^T x$ sous $Ax \\le b$ et $x \\ge 0$.\n• **Problème Dual ($D$)** : $\\min b^T y$ sous $A^T y \\ge c$ et $y \\ge 0$.\n• **Théorème de Dualité Faible** : Pour tout $x$ admissible pour $(P)$ et tout $y$ admissible pour $(D)$ :\n$$c^T x \\le b^T y$$\n• **Théorème de Dualité Forte** : Si $(P)$ ou $(D)$ admet une solution optimale finie, alors les deux problèmes admettent une solution optimale et les valeurs optimales coïncident :\n$$\\max (P) = \\min (D)$$\n• **Théorème des écarts complémentaires** : $x^*$ et $y^*$ admissibles sont optimaux ssi :\n$$\\forall j \\in \\{1, \\dots, n\\}, \\; x_j^* (A^T y^* - c)_j = 0 \\quad \\text{et} \\quad \\forall i \\in \\{1, \\dots, m\\}, \\; y_i^* (b - A x^*)_i = 0$$"
+        "content": "• **Problème Primal ($P$)** : $\\max {}^t c x$ sous $Ax \\le b$ et $x \\ge 0$.\n• **Problème Dual ($D$)** : $\\min {}^t b y$ sous ${}^t A y \\ge c$ et $y \\ge 0$.\n• **Théorème de Dualité Faible** : Pour tout $x$ admissible pour $(P)$ et tout $y$ admissible pour $(D)$ :\n$${}^t c x \\le {}^t b y$$\n• **Théorème de Dualité Forte** : Si $(P)$ ou $(D)$ admet une solution optimale finie, alors les deux problèmes admettent une solution optimale et les valeurs optimales coïncident :\n$$\\max (P) = \\min (D)$$\n• **Théorème des écarts complémentaires** : $x^*$ et $y^*$ admissibles sont optimaux ssi :\n$$\\forall j \\in \\{1, \\dots, n\\}, \\; x_j^* ({}^t A y^* - c)_j = 0 \\quad \\text{et} \\quad \\forall i \\in \\{1, \\dots, m\\}, \\; y_i^* (b - A x^*)_i = 0$$"
       }
     ],
     "methods": [
@@ -735,20 +735,20 @@ window.MATHS_COURSES_L3 = {
         "example": "Former le dual de : $\\max 3x_1 + 2x_2$ sous $x_1 + 2x_2 \\le 4$, $2x_1 + x_2 \\le 5$, avec $x_1, x_2 \\ge 0$.",
         "steps": [
           "**Étape 1 (Identification des vecteurs et matrices)** : $c = \\begin{pmatrix} 3 \\\\ 2 \\end{pmatrix}$, $b = \\begin{pmatrix} 4 \\\\ 5 \\end{pmatrix}$, $A = \\begin{pmatrix} 1 & 2 \\\\ 2 & 1 \\end{pmatrix}$.",
-          "**Étape 2 (Structure du dual)** : Minimisation de $b^T y = 4y_1 + 5y_2$ avec $y_1, y_2 \\ge 0$.",
-          "**Étape 3 (Contraintes duales $A^T y \\ge c$)** :\n- Pour $x_1$ : $1 y_1 + 2 y_2 \\ge 3$.\n- Pour $x_2$ : $2 y_1 + 1 y_2 \\ge 2$.",
+          "**Étape 2 (Structure du dual)** : Minimisation de ${}^t b y = 4y_1 + 5y_2$ avec $y_1, y_2 \\ge 0$.",
+          "**Étape 3 (Contraintes duales ${}^t A y \\ge c$)** :\n- Pour $x_1$ : $1 y_1 + 2 y_2 \\ge 3$.\n- Pour $x_2$ : $2 y_1 + 1 y_2 \\ge 2$.",
           "**Conclusion** : Le dual est : $\\min 4y_1 + 5y_2$ sous $y_1 + 2y_2 \\ge 3$, $2y_1 + y_2 \\ge 2$, et $y_1, y_2 \\ge 0$."
         ]
       }
     ],
     "traps": [
-      "⚠️ Dans le simplexe, si tous les coefficients de la colonne pivot sont négatifs ou nuls ($\bar{a}_{i, e} \\le 0$), le problème est **non borné** ($+\\infty$) !",
+      "⚠️ Dans le simplexe, si tous les coefficients de la colonne pivot sont négatifs ou nuls ($\\bar{a}_{i, e} \\le 0$), le problème est **non borné** ($+\\infty$) !",
       "⚠️ Attention aux sens des inégalités lors du passage au dual : maximisation avec contraintes $\\le$ donne un dual en minimisation avec contraintes $\\ge$."
     ],
     "flashcards": [
       {
         "q": "Énoncer le Théorème de Dualité Forte en programmation linéaire.",
-        "a": "Si le problème primal ou dual admet une solution optimale, alors les deux en admettent et $\\max (c^T x) = \\min (b^T y)$."
+        "a": "Si le problème primal ou dual admet une solution optimale, alors les deux en admettent et $\\max ({}^t c x) = \\min ({}^t b y)$."
       },
       {
         "q": "Quel critère géométrique caractérise les solutions de base admissibles (SBA) ?",
@@ -857,19 +857,19 @@ window.MATHS_EXERCISES_L3 = {
       "tier": 3,
       "type": "mcq",
       "title": "Premier théorème d'isomorphisme",
-      "skill": "Identifier le quotient $G / \\ker \\varphi$",
+      "skill": "Identifier le quotient $G / \\text{Ker}\\,\\varphi$",
       "statement": "Si $\\varphi : G \\to G'$ est un morphisme de groupes, alors le premier théorème d'isomorphisme établit que :",
       "options": [
-        "$G / \\ker(\\varphi) \\simeq \\text{im}(\\varphi)$",
-        "$G / \\text{im}(\\varphi) \\simeq \\ker(\\varphi)$",
-        "$G \\simeq \\ker(\\varphi) \\times \\text{im}(\\varphi)$",
-        "$\\ker(\\varphi) = \\text{im}(\\varphi)$"
+        "$G / \\text{Ker}(\\varphi) \\simeq \\text{Im}(\\varphi)$",
+        "$G / \\text{Im}(\\varphi) \\simeq \\text{Ker}(\\varphi)$",
+        "$G \\simeq \\text{Ker}(\\varphi) \\times \\text{Im}(\\varphi)$",
+        "$\\text{Ker}(\\varphi) = \\text{Im}(\\varphi)$"
       ],
       "correctIndex": 0,
-      "answer": "$G / \\ker(\\varphi) \\simeq \\text{im}(\\varphi)$",
-      "hint1": "Le morphisme induit $\\bar{\\varphi} : x \\ker \\varphi \\mapsto \\varphi(x)$ est un isomorphisme.",
+      "answer": "$G / \\text{Ker}(\\varphi) \\simeq \\text{Im}(\\varphi)$",
+      "hint1": "Le morphisme induit $\\bar{\\varphi} : x \\,\\text{Ker}\\,\\varphi \\mapsto \\varphi(x)$ est un isomorphisme.",
       "hint2": "Résultat fondamental de factorisation des morphismes.",
-      "solution": "Le premier théorème d'isomorphisme affirme que pour tout morphisme $\\varphi$, la projection au quotient induit un isomorphisme canonique $G / \\ker(\\varphi) \\simeq \\text{im}(\\varphi)$."
+      "solution": "Le premier théorème d'isomorphisme affirme que pour tout morphisme $\\varphi$, la projection au quotient induit un isomorphisme canonique $G / \\text{Ker}(\\varphi) \\simeq \\text{Im}(\\varphi)$."
     },
     {
       "id": "L3-GRP1-4",
@@ -1329,7 +1329,7 @@ window.MATHS_EXERCISES_L3 = {
       "statement": "Pour toute forme linéaire continue $\\varphi \\in H^*$ sur un espace de Hilbert $H$, que garantit le théorème de Riesz ?",
       "options": [
         "Il existe un unique vecteur $y \\in H$ tel que $\\forall x \\in H, \\varphi(x) = \\langle x, y \\rangle$",
-        "$\\ker(\\varphi) = \\{0\\}$",
+        "$\\text{Ker}(\\varphi) = \\{0\\}$",
         "$\\varphi$ est surjective sur $H$",
         "$\\|\\varphi\\| = 1$"
       ],
@@ -1629,7 +1629,7 @@ window.MATHS_EXERCISES_L3 = {
       "correctIndex": 0,
       "answer": "L'orthogonal du vecteur $x$ : $x^\\perp = \\{v \\in \\mathbb{R}^3 \\mid \\langle x, v \\rangle = 0\\}$",
       "hint1": "$S^2 = f^{-1}(\\{1\\})$ avec $f(x) = \\|x\\|^2$. $df_x(v) = 2\\langle x, v \\rangle$.",
-      "hint2": "$T_x S^2 = \\ker(df_x) = \\{v \\mid \\langle x, v \\rangle = 0\\}$.",
+      "hint2": "$T_x S^2 = \\text{Ker}(df_x) = \\{v \\mid \\langle x, v \\rangle = 0\\}$.",
       "solution": "Comme $f(x) = \\langle x, x \\rangle$, la différentielle est $df_x(v) = 2\\langle x, v \\rangle$. L'espace tangent est son noyau, soit le plan orthogonal $x^\\perp$."
     },
     {
@@ -1677,8 +1677,8 @@ window.MATHS_EXERCISES_L3 = {
       "tier": 1,
       "type": "mcq",
       "title": "Décomposition de Cholesky",
-      "skill": "Conditions d'application de la factorisation $A = L L^T$",
-      "statement": "Une matrice réelle $A \\in \\mathcal{M}_n(\\mathbb{R})$ admet une factorisation de Cholesky $A = L L^T$ (avec $L$ triangulaire inférieure à diagonale strictement positive) si et seulement si $A$ est :",
+      "skill": "Conditions d'application de la factorisation $A = L \\,{}^t L$",
+      "statement": "Une matrice réelle $A \\in \\mathcal{M}_n(\\mathbb{R})$ admet une factorisation de Cholesky $A = L \\,{}^t L$ (avec $L$ triangulaire inférieure à diagonale strictement positive) si et seulement si $A$ est :",
       "options": [
         "Symétrique définie positive",
         "Inversible quelconque",
@@ -1689,7 +1689,7 @@ window.MATHS_EXERCISES_L3 = {
       "answer": "Symétrique définie positive",
       "hint1": "Théorème fondamental d'analyse numérique matricielle.",
       "hint2": "$A \\in \\mathcal{S}_n^{++}(\\mathbb{R})$.",
-      "solution": "La factorisation de Cholesky $A = LL^T$ existe de façon unique si et seulement si la matrice $A$ est symétrique définie positive."
+      "solution": "La factorisation de Cholesky $A = L \\,{}^t L$ existe de façon unique si et seulement si la matrice $A$ est symétrique définie positive."
     },
     {
       "id": "L3-NUM-2",
@@ -1734,19 +1734,19 @@ window.MATHS_EXERCISES_L3 = {
       "tier": 4,
       "type": "mcq",
       "title": "Décomposition en valeurs singulières (SVD)",
-      "skill": "Factorisation $A = U \\Sigma V^T$",
+      "skill": "Factorisation $A = U \\Sigma \\,{}^t V$",
       "statement": "Pour toute matrice rectangulaire $A \\in \\mathcal{M}_{m,n}(\\mathbb{R})$, les valeurs singulières de $A$ sont :",
       "options": [
-        "Les racines carrées des valeurs propres positives de $A^T A$",
+        "Les racines carrées des valeurs propres positives de ${}^t A A$",
         "Les valeurs propres de $A$",
         "Les éléments diagonaux de $A$",
         "Les déterminants des blocs de $A$"
       ],
       "correctIndex": 0,
-      "answer": "Les racines carrées des valeurs propres positives de $A^T A$",
-      "hint1": "$A^T A$ est une matrice symétrique semi-définie positive.",
-      "hint2": "Ses valeurs propres sont réelles positives : $\\sigma_i = \\sqrt{\\lambda_i(A^T A)}$.",
-      "solution": "Par définition, les valeurs singulières de $A$ sont les racines carrées des valeurs propres de la matrice symétrique semi-définie positive $A^T A$."
+      "answer": "Les racines carrées des valeurs propres positives de ${}^t A A$",
+      "hint1": "${}^t A A$ est une matrice symétrique semi-définie positive.",
+      "hint2": "Ses valeurs propres sont réelles positives : $\\sigma_i = \\sqrt{\\lambda_i({}^t A A)}$.",
+      "solution": "Par définition, les valeurs singulières de $A$ sont les racines carrées des valeurs propres de la matrice symétrique semi-définie positive ${}^t A A$."
     }
   ],
   "L3-PROG": [
@@ -1766,7 +1766,7 @@ window.MATHS_EXERCISES_L3 = {
       "correctIndex": 0,
       "answer": "Semi-définie positive",
       "hint1": "En dimension 1, la dérivée seconde doit être positive : $f''(x) \\ge 0$.",
-      "hint2": "En dimension supérieure, pour tout vecteur $v$, $v^T \\nabla^2 f(x) v \\ge 0$.",
+      "hint2": "En dimension supérieure, pour tout vecteur $v$, ${}^t v \\, \\nabla^2 f(x) \\, v \\ge 0$.",
       "solution": "Une fonction $\\mathcal{C}^2$ sur un ouvert convexe est convexe si et seulement si sa matrice hessienne est semi-définie positive en tout point."
     },
     {

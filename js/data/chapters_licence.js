@@ -730,7 +730,7 @@ const MATHS_CHAPTERS_LICENCE = [
     "icon": "cpu",
     "badge": "Algorithmicien Numérique",
     "color": "#059669",
-    "description": "Normes matricielles subordonnées, conditionnement d'un système linéaire cond(A), factorisation LU, décomposition de Cholesky A = BB^t, méthodes itératives (Jacobi, Gauss-Seidel, relaxation SOR), méthode de descente de gradient.",
+    "description": "Normes matricielles subordonnées, conditionnement d'un système linéaire cond(A), factorisation LU, décomposition de Cholesky $A = B\\,{}^t B$, méthodes itératives (Jacobi, Gauss-Seidel, relaxation SOR), méthode de descente de gradient.",
     "skills": [
       "Évaluer le conditionnement d'une matrice et quantifier la propagation des erreurs d'arrondi",
       "Calculer la factorisation LU et Cholesky d'une matrice symétrique définie positive",
