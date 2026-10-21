@@ -643,6 +643,63 @@ window.MATHS_EXERCISES_L1 = {
       "solution": "$f(x) = f(x') \\iff (2x+3)(x'-1) = (2x'+3)(x-1) \\iff 5x' = 5x \\iff x = x'$. L'application est donc injective."
     },
     {
+      "id": "L1-LOG-2b",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Non-injectivité et contre-exemple",
+      "skill": "Démontrer la non-injectivité à l'aide d'un contre-exemple",
+      "statement": "Soit $f : \\mathbb{R} \\to \\mathbb{R}$ définie par $f(x) = x^2 - 4x$. L'application $f$ est-elle injective ?",
+      "options": [
+        "Non, car $f(0) = f(4) = 0$ avec $0 \\neq 4$",
+        "Oui, car sa courbe représentative est une parabole",
+        "Oui, car son discriminant est strictement positif",
+        "Non, car elle n'est pas monotone sur $\\mathbb{R}^+$"
+      ],
+      "correctIndex": 0,
+      "answer": "Non, car $f(0) = f(4) = 0$ avec $0 \\neq 4$",
+      "hint1": "Cherche deux réels distincts ayant la même image par $f$.",
+      "hint2": "Résous l'équation $f(x) = 0 \\iff x(x - 4) = 0$.",
+      "solution": "On a $f(0) = 0$ et $f(4) = 4^2 - 16 = 0$. Deux réels distincts $0$ et $4$ ont la même image $0$. L'application n'est donc pas injective."
+    },
+    {
+      "id": "L1-LOG-2c",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Surjectivité et ensemble image",
+      "skill": "Réfuter la surjectivité par l'absence d'antécédent",
+      "statement": "Soit $f : \\mathbb{R} \\to \\mathbb{R}$ définie par $f(x) = e^x$. L'application $f$ est-elle surjective ?",
+      "options": [
+        "Non, car aucun réel négatif ou nul (par ex. $-1$) n'a d'antécédent",
+        "Oui, car tout $y > 0$ admet pour antécédent $\\ln(y)$",
+        "Oui, car l'exponentielle est strictement croissante",
+        "Non, car $f(0) = 1 \\neq 0$"
+      ],
+      "correctIndex": 0,
+      "answer": "Non, car aucun réel négatif ou nul (par ex. $-1$) n'a d'antécédent",
+      "hint1": "L'ensemble d'arrivée est $\\mathbb{R}$ tout entier.",
+      "hint2": "Quel est le signe de $e^x$ pour tout réel $x$ ?",
+      "solution": "Pour tout $x \\in \\mathbb{R}$, $e^x > 0$. Les réels négatifs ou nuls dans le codomaine $\\mathbb{R}$ (comme $-1$) n'ont aucun antécédent dans $\\mathbb{R}$. $f$ n'est donc pas surjective."
+    },
+    {
+      "id": "L1-LOG-2d",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Surjectivité d'une fonction affine",
+      "skill": "Prouver la surjectivité en calculant l'antécédent",
+      "statement": "Soit $f : \\mathbb{R} \\to \\mathbb{R}$ définie par $f(x) = 3x - 5$. L'application $f$ est-elle surjective ?",
+      "options": [
+        "Oui, car pour tout $y \\in \\mathbb{R}$, $x = \\frac{y+5}{3} \\in \\mathbb{R}$ est un antécédent",
+        "Non, car elle ne s'annule qu'en un seul point",
+        "Non, car la pente est non nulle",
+        "Oui, mais uniquement pour les réels $y \\ge 0$"
+      ],
+      "correctIndex": 0,
+      "answer": "Oui, car pour tout $y \\in \\mathbb{R}$, $x = \\frac{y+5}{3} \\in \\mathbb{R}$ est un antécédent",
+      "hint1": "Soit $y \\in \\mathbb{R}$. Résous $y = 3x - 5$ d'inconnue $x$.",
+      "hint2": "Isole $x$ : $3x = y + 5 \\iff x = \\frac{y+5}{3}$.",
+      "solution": "Pour tout $y \\in \\mathbb{R}$, l'équation $3x - 5 = y$ admet la solution $x = \\frac{y+5}{3}$, qui appartient bien à $\\mathbb{R}$. Tout élément du codomaine possède donc un antécédent : $f$ est surjective."
+    },
+    {
       "id": "L1-LOG-3",
       "tier": 3,
       "type": "mcq",

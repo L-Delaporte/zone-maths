@@ -17,9 +17,19 @@ window.MathsAdaptiveEngine = {
   },
 
   getCurrentLevel() {
-    if (this.state.chapterId) {
-      if (this.state.chapterId.startsWith('5')) return '5eme';
-      if (this.state.chapterId.startsWith('4')) return '4eme';
+    const targetCid = this.state.chapterId || (window.MathsApp && window.MathsApp.currentChapterId);
+    if (targetCid) {
+      const ch = (window.MATHS_CHAPTERS || []).find(c => c.id === targetCid);
+      if (ch && ch.level) return ch.level;
+      if (targetCid.startsWith('5')) return '5eme';
+      if (targetCid.startsWith('4')) return '4eme';
+      if (targetCid.startsWith('3')) return '3eme';
+      if (targetCid.startsWith('2')) return '2nde';
+      if (targetCid.startsWith('1')) return '1ere';
+      if (targetCid.startsWith('T')) return 'tale';
+      if (targetCid.startsWith('L1')) return 'L1';
+      if (targetCid.startsWith('L2')) return 'L2';
+      if (targetCid.startsWith('L3')) return 'L3';
     }
     if (window.MathsApp && window.MathsApp.currentLevel) {
       return window.MathsApp.currentLevel;
@@ -30,8 +40,9 @@ window.MathsAdaptiveEngine = {
     return '3eme';
   },
 
-  getTierDisplayName(tier) {
-    const lvl = this.getCurrentLevel();
+  getTierDisplayName(tier, level = null) {
+    const lvl = level || this.getCurrentLevel();
+    const t = parseInt(tier, 10);
     if (lvl === '5eme') {
       const names = {
         1: "Palier 1 : Socle & Automatismes",
@@ -39,7 +50,7 @@ window.MathsAdaptiveEngine = {
         3: "Palier 3 : Approfondissement",
         4: "Palier 4 : Défi 4ème"
       };
-      return names[tier] || `Palier ${tier}`;
+      return names[t] || `Palier ${t}`;
     } else if (lvl === '4eme') {
       const names = {
         1: "Palier 1 : Socle & Automatismes",
@@ -47,7 +58,31 @@ window.MathsAdaptiveEngine = {
         3: "Palier 3 : Approfondissement",
         4: "Palier 4 : Défi 3ème"
       };
-      return names[tier] || `Palier ${tier}`;
+      return names[t] || `Palier ${t}`;
+    } else if (lvl === '2nde') {
+      const names = {
+        1: "Palier 1 : Socle & Automatismes",
+        2: "Palier 2 : Entraînement Guidé",
+        3: "Palier 3 : Approfondissement",
+        4: "Palier 4 : Défi 1ère Spé"
+      };
+      return names[t] || `Palier ${t}`;
+    } else if (lvl === '1ere' || lvl === 'tale' || lvl === 'lycee') {
+      const names = {
+        1: "Palier 1 : Socle & Automatismes",
+        2: "Palier 2 : Entraînement Guidé",
+        3: "Palier 3 : Objectif Bac",
+        4: "Palier 4 : Défi & Approfondissement"
+      };
+      return names[t] || `Palier ${t}`;
+    } else if (['L1', 'L2', 'L3', 'licence'].includes(lvl)) {
+      const names = {
+        1: "Palier 1 : Socle & Définitions",
+        2: "Palier 2 : Entraînement & Méthodes",
+        3: "Palier 3 : Niveau Examen",
+        4: "Palier 4 : Démonstrations & Rigueur"
+      };
+      return names[t] || `Palier ${t}`;
     } else {
       const names = {
         1: "Palier 1 : Socle & Automatismes",
@@ -55,7 +90,7 @@ window.MathsAdaptiveEngine = {
         3: "Palier 3 : Objectif Brevet",
         4: "Palier 4 : Défi Seconde"
       };
-      return names[tier] || `Palier ${tier}`;
+      return names[t] || `Palier ${t}`;
     }
   },
 
@@ -901,8 +936,24 @@ window.MathsAdaptiveEngine = {
 
     if (this.state.currentTier === 4) {
       const lvl = this.getCurrentLevel();
-      const tier4Title = lvl === '5eme' ? 'Cap vers la 4ème' : (lvl === '4eme' ? 'Cap vers la 3ème' : 'Cap vers la Seconde');
-      const tier4Desc = lvl === '5eme' ? 'Avoir débloqué le palier 4 (Défi 4ème).' : (lvl === '4eme' ? 'Avoir débloqué le palier 4 (Défi 3ème).' : 'Avoir débloqué le palier 4 (Défi Seconde).');
+      let tier4Title = 'Cap vers la Seconde';
+      let tier4Desc = 'Avoir débloqué le palier 4 (Défi Seconde).';
+      if (lvl === '5eme') {
+        tier4Title = 'Cap vers la 4ème';
+        tier4Desc = 'Avoir débloqué le palier 4 (Défi 4ème).';
+      } else if (lvl === '4eme') {
+        tier4Title = 'Cap vers la 3ème';
+        tier4Desc = 'Avoir débloqué le palier 4 (Défi 3ème).';
+      } else if (lvl === '2nde') {
+        tier4Title = 'Cap vers la 1ère Spé';
+        tier4Desc = 'Avoir débloqué le palier 4 (Défi 1ère Spé).';
+      } else if (lvl === '1ere' || lvl === 'tale' || lvl === 'lycee') {
+        tier4Title = 'Excellence Baccalauréat';
+        tier4Desc = 'Avoir débloqué le palier 4 (Défi & Approfondissement).';
+      } else if (['L1', 'L2', 'L3', 'licence'].includes(lvl)) {
+        tier4Title = 'Rigueur Universitaire';
+        tier4Desc = 'Avoir débloqué le palier 4 (Démonstrations & Rigueur).';
+      }
       if (window.MathsStorage.unlockBadge('tier_4_unlocked', tier4Title, tier4Desc, '🚀')) {
         newlyUnlockedBadges.push({ kind: 'tier', tier: 4, id: 'tier_4_unlocked', title: tier4Title, desc: tier4Desc, icon: '🚀', chapter });
       }

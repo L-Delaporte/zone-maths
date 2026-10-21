@@ -196,28 +196,298 @@ window.MathsAdvancedGenerators = {
         `La négation est : ${pick.ans}. ${pick.exp}`
       );
     } else if (tier === 2) {
-      // Palier 2 : Injectivité d'une fonction
-      const a = this.randChoice([2, 3, 4, 5]);
-      const b = this.randChoice([1, 2, 3, 5]);
-      const c = this.randChoice([1, 2]);
-      const d = this.randChoice([1, 2, 3]);
-      // det = -ad - bc != 0
-      const expr = `f(x) = \\frac{${a}x + ${b}}{${c === 1 ? '' : c}x - ${d}}`;
-      const domain = `\\mathbb{R} \\setminus \\{${d}${c > 1 ? '/' + c : ''}\\}`;
-      return this.makeMcq(
-        'L1-LOG', 2, "Injectivité d'une fonction homographique",
-        "Appliquer formellement la définition de l'injectivité",
-        `Soit $f : ${domain} \\to \\mathbb{R}$ définie par $${expr}$. L'application $f$ est-elle injective ?`,
-        "Oui, car $\\forall x, x', f(x) = f(x') \\implies x = x'$",
-        [
-          "Non, car $f(0) = f(1)$",
-          "Non, car le dénominateur s'annule",
-          "Oui, car la fonction est bornée sur son domaine"
-        ],
-        "Pars de l'égalité $f(x) = f(x')$ et effectue le produit en croix.",
-        "Vérifie si les termes en $x x'$ se simplifient.",
-        `En posant $f(x) = f(x')$, le produit en croix donne $(${a}x + ${b})(${c}x' - ${d}) = (${a}x' + ${b})(${c}x - ${d})$. Les termes en $${a*c}xx'$ s'annulent, ce qui conduit à $(${a*d + b*c})x = (${a*d + b*c})x'$, d'où $x = x'$. L'application est donc injective.`
-      );
+      // Palier 2 : Injectivité, Surjectivité et Bijectivité (diversité des familles de fonctions)
+      const problemKind = this.randChoice([
+        'inj_false_quad',    // f: R -> R, f(x) = x^2 - a^2 (non injective)
+        'inj_false_poly',    // f: R -> R, f(x) = x^2 - 2kx (non injective)
+        'inj_false_abs',     // f: R -> R, f(x) = |x - c| (non injective)
+        'inj_true_affine',   // f: R -> R, f(x) = ax + b (injective)
+        'inj_true_quad_pos', // f: [0, +inf[ -> R, f(x) = x^2 + c (injective)
+        'inj_true_exp',      // f: R -> R, f(x) = exp(kx + 1) (injective)
+        'inj_true_homo',     // f: R \ {d} -> R, f(x) = (ax+b)/(cx-d) (injective)
+        'surj_false_quad',   // f: R -> R, f(x) = x^2 + c (non surjective)
+        'surj_false_exp',    // f: R -> R, f(x) = exp(x) (non surjective)
+        'surj_false_homo',   // f: R \ {1} -> R, f(x) = (ax+b)/(x-1) (non surjective)
+        'surj_false_trig',   // f: R -> R, f(x) = cos(x) (non surjective)
+        'surj_true_affine',  // f: R -> R, f(x) = ax + b (surjective)
+        'surj_true_exp_pos', // f: R -> ]0, +inf[, f(x) = exp(x) (surjective)
+        'surj_true_cube',    // f: R -> R, f(x) = x^3 - c (surjective)
+        'bij_affine',        // f: R -> R, f(x) = ax + b (bijective)
+        'bij_false_quad'     // f: R -> R, f(x) = x^2 (ni injective ni surjective)
+      ]);
+
+      if (problemKind === 'inj_false_quad') {
+        const a = this.randChoice([2, 3, 4, 5]);
+        const a2 = a * a;
+        return this.makeMcq(
+          'L1-LOG', 2, "Injectivité d'un polynôme du second degré",
+          "Démontrer la non-injectivité à l'aide d'un contre-exemple",
+          `Soit l'application $f : \\mathbb{R} \\to \\mathbb{R}$ définie par $f(x) = x^2 - ${a2}$. L'application $f$ est-elle injective ?`,
+          `Non, car $f(-${a}) = f(${a}) = 0$ avec $-${a} \\neq ${a}$`,
+          [
+            `Oui, car $\\forall x \\in \\mathbb{R}, f(x) \\ge -${a2}$`,
+            `Non, car la fonction ne s'annule pas sur $\\mathbb{R}$`,
+            `Oui, car tout réel admet au moins un antécédent`
+          ],
+          "Rappel : $f$ est injective si $\\forall x, x' \\in \\mathbb{R}, f(x) = f(x') \\implies x = x'$.",
+          `Calcule les images de $${a}$ et de $-${a}$ par $f$.`,
+          `Pour prouver qu'une application n'est pas injective, il suffit d'exhiber deux antécédents distincts ayant la même image (contre-exemple). Ici, $f(-${a}) = (-${a})^2 - ${a2} = 0$ et $f(${a}) = ${a}^2 - ${a2} = 0$. Comme $-${a} \\neq ${a}$ et $f(-${a}) = f(${a})$, l'application $f$ n'est pas injective.`
+        );
+      } else if (problemKind === 'inj_false_poly') {
+        const k = this.randChoice([1, 2, 3]);
+        const twoK = 2 * k;
+        return this.makeMcq(
+          'L1-LOG', 2, "Injectivité d'une fonction polynomiale",
+          "Rechercher deux antécédents distincts pour une même image",
+          `Soit l'application $f : \\mathbb{R} \\to \\mathbb{R}$ définie par $f(x) = x^2 - ${twoK}x$. L'application $f$ est-elle injective ?`,
+          `Non, car $f(0) = f(${twoK}) = 0$ avec $0 \\neq ${twoK}$`,
+          [
+            `Oui, car pour tout $x \\neq x'$, $f(x) \\neq f(x')$`,
+            `Oui, car le discriminant $\\Delta > 0$`,
+            `Non, car la dérivée ne s'annule jamais`
+          ],
+          "Résous l'équation $f(x) = 0$ pour chercher plusieurs antécédents de $0$.",
+          `Factorise par $x$ : $x(x - ${twoK}) = 0$.`,
+          `On a $f(x) = x(x - ${twoK})$. Les réels $0$ et $${twoK}$ sont deux antécédents distincts de $0$ ($f(0) = f(${twoK}) = 0$). Comme $0 \\neq ${twoK}$, l'application n'est pas injective.`
+        );
+      } else if (problemKind === 'inj_false_abs') {
+        const c = this.randChoice([1, 2, 3, 4]);
+        const x1 = c - 1;
+        const x2 = c + 1;
+        return this.makeMcq(
+          'L1-LOG', 2, "Injectivité et valeur absolue",
+          "Tester l'injectivité d'une fonction avec valeur absolue",
+          `Soit l'application $f : \\mathbb{R} \\to \\mathbb{R}$ définie par $f(x) = |x - ${c}|$. L'application $f$ est-elle injective ?`,
+          `Non, car $f(${x1}) = f(${x2}) = 1$ avec $${x1} \\neq ${x2}$`,
+          [
+            `Oui, car une valeur absolue est toujours positive ou nulle`,
+            `Oui, car $f(x) = 0 \\implies x = ${c}$`,
+            `Non, car $f$ n'est pas dérivable en $x = ${c}$`
+          ],
+          `Évalue la fonction $f$ pour deux réels situés symétriquement par rapport à ${c}.`,
+          `Compare les valeurs de $f(${x1})$ et $f(${x2})$.`,
+          `On a $f(${x1}) = |${x1} - ${c}| = |-1| = 1$ et $f(${x2}) = |${x2} - ${c}| = |1| = 1$. Deux éléments distincts (${x1} et ${x2}) ont la même image $1$ : l'application n'est donc pas injective.`
+        );
+      } else if (problemKind === 'inj_true_affine') {
+        const a = this.randChoice([2, 3, 4, 5]);
+        const b = this.randChoice([-5, -3, 1, 3, 7]);
+        const sign = b >= 0 ? `+ ${b}` : `- ${Math.abs(b)}`;
+        return this.makeMcq(
+          'L1-LOG', 2, "Injectivité d'une fonction affine",
+          "Appliquer la définition formelle de l'injectivité",
+          `Soit l'application $f : \\mathbb{R} \\to \\mathbb{R}$ définie par $f(x) = ${a}x ${sign}$. L'application $f$ est-elle injective ?`,
+          `Oui, car $\\forall x, x' \\in \\mathbb{R}, f(x) = f(x') \\implies ${a}x = ${a}x' \\implies x = x'$`,
+          [
+            `Non, car $f(0) = ${b}$`,
+            `Non, car sa droite représentative coupe les axes de coordonnées`,
+            `Oui, car elle ne prend que des valeurs positives`
+          ],
+          "Pars de l'égalité $f(x) = f(x')$ et résous en isolant $x$ et $x'$.",
+          `Simplifie la constante des deux côtés, puis divise par le coefficient directeur $${a} \\neq 0$.`,
+          `Soient $x, x' \\in \\mathbb{R}$ tels que $f(x) = f(x')$. Alors $${a}x ${sign} = ${a}x' ${sign} \\iff ${a}x = ${a}x'$. Comme $${a} \\neq 0$, on obtient directement $x = x'$. L'application est donc injective.`
+        );
+      } else if (problemKind === 'inj_true_quad_pos') {
+        const c = this.randChoice([1, 2, 4]);
+        return this.makeMcq(
+          'L1-LOG', 2, "Injectivité sur un domaine restreint",
+          "Vérifier l'injectivité en tenant compte de l'ensemble de départ",
+          `Soit l'application $f : [0, +\\infty[ \\to \\mathbb{R}$ définie par $f(x) = x^2 + ${c}$. L'application $f$ est-elle injective ?`,
+          `Oui, car sur $[0, +\\infty[$, $x^2 + ${c} = x'^2 + ${c} \\implies x^2 = x'^2 \\implies x = x'$`,
+          [
+            `Non, car $f(-1) = f(1)$`,
+            `Non, car $f(x) \\ge ${c}$ pour tout $x$`,
+            `Non, car la dérivée s'annule en $x = 0$`
+          ],
+          "Attention à l'ensemble de départ : les antécédents doivent appartenir à $[0, +\\infty[$ !",
+          "Sur $\\mathbb{R}_+$, deux réels qui ont le même carré sont nécessairement égaux.",
+          `Soient $x, x' \\in [0, +\\infty[$ tels que $f(x) = f(x')$. Alors $x^2 + ${c} = x'^2 + ${c} \\iff x^2 = x'^2$. Comme $x \\ge 0$ et $x' \\ge 0$, la seule solution est $x = x'$ (la solution négative $-x'$ n'appartient pas au domaine $[0, +\\infty[$). L'application est donc injective sur son domaine de définition.`
+        );
+      } else if (problemKind === 'inj_true_exp') {
+        const k = this.randChoice([2, 3]);
+        return this.makeMcq(
+          'L1-LOG', 2, "Injectivité de la fonction exponentielle",
+          "Exploiter la stricte monotonie pour établir l'injectivité",
+          `Soit l'application $f : \\mathbb{R} \\to \\mathbb{R}$ définie par $f(x) = e^{${k}x + 1}$. L'application $f$ est-elle injective ?`,
+          `Oui, car $e^{${k}x+1} = e^{${k}x'+1} \\implies ${k}x+1 = ${k}x'+1 \\implies x = x'$`,
+          [
+            `Non, car $e^x > 0$ pour tout réel $x$`,
+            `Non, car $f(0) = e \\neq 0$`,
+            `Oui, car l'image réciproque de $\\mathbb{R}$ est vide`
+          ],
+          "Applique la fonction logarithme népérien $\\ln$ de part et d'autre de l'égalité $f(x) = f(x')$.",
+          "La fonction exponentielle est strictement croissante sur $\\mathbb{R}$.",
+          `Soient $x, x' \\in \\mathbb{R}$ tels que $f(x) = f(x')$. Alors $e^{${k}x+1} = e^{${k}x'+1}$. En appliquant $\\ln$ (strictement croissante sur $\\mathbb{R}_+^*$) : $${k}x+1 = ${k}x'+1 \\iff ${k}x = ${k}x' \\iff x = x'$. L'application est donc injective.`
+        );
+      } else if (problemKind === 'inj_true_homo') {
+        const a = this.randChoice([2, 3, 5]);
+        const b = this.randChoice([1, 2, 4]);
+        const d = this.randChoice([1, 2, 3]);
+        const expr = `f(x) = \\frac{${a}x + ${b}}{x - ${d}}`;
+        return this.makeMcq(
+          'L1-LOG', 2, "Injectivité d'une fonction rationnelle",
+          "Démontrer l'injectivité par produit en croix",
+          `Soit l'application $f : \\mathbb{R} \\setminus \\{${d}\\} \\to \\mathbb{R}$ définie par $${expr}$. L'application $f$ est-elle injective ?`,
+          `Oui, car $f(x) = f(x') \\implies (${a}x + ${b})(x' - ${d}) = (${a}x' + ${b})(x - ${d}) \\implies x = x'$`,
+          [
+            `Non, car le dénominateur s'annule en $x = ${d}$`,
+            `Non, car $f(0) = -${b}/${d}$`,
+            `Oui, car la fonction est bornée sur son domaine`
+          ],
+          "Pars de l'égalité $f(x) = f(x')$ et effectue le produit en croix.",
+          "Développe et simplifie les termes de plus haut degré $xx'$.",
+          `En posant $f(x) = f(x')$, le produit en croix donne $(${a}x + ${b})(x' - ${d}) = (${a}x' + ${b})(x - ${d})$. En développant : $${a}xx' - ${a*d}x + ${b}x' - ${b*d} = ${a}xx' - ${a*d}x' + ${b}x - ${b*d}$. Les termes $${a}xx'$ et $-${b*d}$ s'annulent : $(${a*d + b})x' = (${a*d + b})x$. Comme $${a*d + b} \\neq 0$, on obtient $x = x'$. L'application est donc injective.`
+        );
+      } else if (problemKind === 'surj_false_quad') {
+        const c = this.randChoice([0, 1, 2]);
+        const y0 = c - 1;
+        const expr = c === 0 ? 'x^2' : `x^2 + ${c}`;
+        return this.makeMcq(
+          'L1-LOG', 2, "Surjectivité d'un polynôme du second degré",
+          "Identifier un élément de l'ensemble d'arrivée sans antécédent",
+          `Soit l'application $f : \\mathbb{R} \\to \\mathbb{R}$ définie par $f(x) = ${expr}$. L'application $f$ est-elle surjective ?`,
+          `Non, car le réel $${y0}$ n'admet aucun antécédent par $f$ dans $\\mathbb{R}$`,
+          [
+            `Oui, car $f(0) = ${c}$`,
+            `Oui, car l'ensemble de départ est $\\mathbb{R}$ tout entier`,
+            `Non, car la fonction n'est pas continue`
+          ],
+          "Rappel : $f : E \\to F$ est surjective si $\\forall y \\in F, \\exists x \\in E, y = f(x)$.",
+          `Regarde les valeurs possibles de $x^2$ : un carré dans $\\mathbb{R}$ est toujours positif ou nul.`,
+          `Pour tout $x \\in \\mathbb{R}$, $x^2 \\ge 0$, donc $f(x) \\ge ${c}$. L'équation $f(x) = ${y0}$ équivaut à $x^2 = ${y0 - c} < 0$, ce qui n'admet aucune solution réelle. Le réel $${y0} \\in \\mathbb{R}$ n'a donc aucun antécédent par $f$. L'application n'est pas surjective.`
+        );
+      } else if (problemKind === 'surj_false_exp') {
+        return this.makeMcq(
+          'L1-LOG', 2, "Surjectivité de la fonction exponentielle",
+          "Comparer l'image de la fonction à l'ensemble d'arrivée",
+          "Soit l'application $f : \\mathbb{R} \\to \\mathbb{R}$ définie par $f(x) = e^x$. L'application $f$ est-elle surjective ?",
+          "Non, car aucun réel négatif ou nul (par exemple $-1$) n'a d'antécédent dans $\\mathbb{R}$",
+          [
+            "Oui, car pour tout réel $y > 0$, $\\ln(y)$ est un antécédent",
+            "Oui, car la fonction exponentielle est strictement croissante",
+            "Non, car $f(0) = 1 \\neq 0$"
+          ],
+          "Vérifie si tous les éléments de l'ensemble d'arrivée $\\mathbb{R}$ peuvent être atteints par $e^x$.",
+          "Quel est le signe de $e^x$ pour n'importe quel réel $x$ ?",
+          "L'ensemble d'arrivée spécifié est $\\mathbb{R}$. Or pour tout $x \\in \\mathbb{R}$, $e^x > 0$. Les réels $y \\le 0$ (comme $y = -1$) ne possèdent aucun antécédent dans $\\mathbb{R}$ car l'équation $e^x = -1$ n'a pas de solution. L'ensemble image est $f(\\mathbb{R}) = ]0, +\\infty[ \\neq \\mathbb{R}$, donc $f$ n'est pas surjective."
+        );
+      } else if (problemKind === 'surj_false_homo') {
+        const a = this.randChoice([2, 3, 4]);
+        const b = this.randChoice([1, 3, 5]);
+        return this.makeMcq(
+          'L1-LOG', 2, "Surjectivité d'une fonction homographique",
+          "Trouver la valeur interdite de l'ensemble image",
+          `Soit l'application $f : \\mathbb{R} \\setminus \\{1\\} \\to \\mathbb{R}$ définie par $f(x) = \\frac{${a}x + ${b}}{x - 1}$. L'application $f$ est-elle surjective ?`,
+          `Non, car le réel $${a}$ n'admet aucun antécédent par $f$ dans $\\mathbb{R} \\setminus \\{1\\}$`,
+          [
+            "Oui, car la fonction est injective",
+            "Oui, car le numérateur ne s'annule pas en $1$",
+            "Non, car $1$ n'appartient pas à l'ensemble de départ"
+          ],
+          `Tente de résoudre l'équation $f(x) = ${a}$ pour trouver un antécédent éventuel.`,
+          `Que devient l'égalité en multipliant par $(x - 1)$ ?`,
+          `Pour tout $x \\neq 1$, $f(x) = ${a} \\iff \\frac{${a}x + ${b}}{x - 1} = ${a} \\iff ${a}x + ${b} = ${a}x - ${a} \\iff ${b} = -${a}$. Comme $${b} \\neq -${a}$, cette équation n'a aucune solution. Ainsi le réel $${a} \\in \\mathbb{R}$ n'admet aucun antécédent par $f$. L'image de $f$ est $\\mathbb{R} \\setminus \\{${a}\\}$, donc $f$ n'est pas surjective de $\\mathbb{R} \\setminus \\{1\\}$ dans $\\mathbb{R}$.`
+        );
+      } else if (problemKind === 'surj_false_trig') {
+        return this.makeMcq(
+          'L1-LOG', 2, "Surjectivité d'une fonction trigonométrique",
+          "Déterminer si l'ensemble image recouvre le codomaine",
+          "Soit l'application $f : \\mathbb{R} \\to \\mathbb{R}$ définie par $f(x) = \\cos(x)$. L'application $f$ est-elle surjective ?",
+          "Non, car tout réel strictement supérieur à $1$ (par exemple $2$) n'a aucun antécédent",
+          [
+            "Oui, car la fonction cosinus est périodique de période $2\\pi$",
+            "Oui, car $\\cos(0) = 1$",
+            "Non, car la fonction cosinus est paire"
+          ],
+          "Quelles sont les bornes de la fonction cosinus sur $\\mathbb{R}$ ?",
+          "L'image de $\\mathbb{R}$ par la fonction cosinus est le segment $[-1, 1]$.",
+          "Pour tout $x \\in \\mathbb{R}$, on a $-1 \\le \\cos(x) \\le 1$. L'ensemble d'arrivée est $\\mathbb{R}$. Un élément tel que $y = 2$ n'a aucun antécédent réel car l'équation $\\cos(x) = 2$ n'admet aucune solution dans $\\mathbb{R}$. L'application n'est donc pas surjective."
+        );
+      } else if (problemKind === 'surj_true_affine') {
+        const a = this.randChoice([2, 3, 4, 5]);
+        const b = this.randChoice([-4, -2, 3, 5]);
+        const sign = b >= 0 ? `+ ${b}` : `- ${Math.abs(b)}`;
+        const invSign = b >= 0 ? `- ${b}` : `+ ${Math.abs(b)}`;
+        return this.makeMcq(
+          'L1-LOG', 2, "Surjectivité d'une application affine",
+          "Résoudre formellement l'équation $y = f(x)$",
+          `Soit l'application $f : \\mathbb{R} \\to \\mathbb{R}$ définie par $f(x) = ${a}x ${sign}$. L'application $f$ est-elle surjective ?`,
+          `Oui, car pour tout $y \\in \\mathbb{R}$, $x = \\frac{y ${invSign}}{${a}} \\in \\mathbb{R}$ est un antécédent de $y$`,
+          [
+            "Non, car la fonction n'est pas bornée",
+            "Oui, mais uniquement pour les réels $y > 0$",
+            `Non, car $f(0) = ${b} \\neq 0$`
+          ],
+          "Soit $y \\in \\mathbb{R}$. Résous l'équation $y = f(x)$ d'inconnue $x$.",
+          `Isole $x$ : $${a}x = y ${invSign}$.`,
+          `Soit $y \\in \\mathbb{R}$ quelconque. On résout $y = ${a}x ${sign} \\iff ${a}x = y ${invSign} \\iff x = \\frac{y ${invSign}}{${a}}$. Comme $${a} \\neq 0$, ce réel $x$ existe toujours et appartient bien à l'ensemble de départ $\\mathbb{R}$. Tout réel de l'ensemble d'arrivée admet donc au moins un antécédent : $f$ est surjective.`
+        );
+      } else if (problemKind === 'surj_true_exp_pos') {
+        return this.makeMcq(
+          'L1-LOG', 2, "Surjectivité sur un codomaine restreint",
+          "Calculer un antécédent explicite selon le codomaine",
+          "Soit l'application $f : \\mathbb{R} \\to ]0, +\\infty[$ définie par $f(x) = e^x$. L'application $f$ est-elle surjective ?",
+          "Oui, car tout réel $y \\in ]0, +\\infty[$ admet pour antécédent $x = \\ln(y) \\in \\mathbb{R}$",
+          [
+            "Non, car $-1$ n'a pas d'antécédent",
+            "Non, car la fonction exponentielle ne s'annule jamais",
+            "Oui, uniquement pour $y \\ge 1$"
+          ],
+          "Prends garde à l'ensemble d'arrivée : il s'agit ici de $]0, +\\infty[$, et non de $\\mathbb{R}$ !",
+          "Pour tout $y > 0$, quelle fonction permet de résoudre $e^x = y$ ?",
+          "L'ensemble d'arrivée est $]0, +\\infty[$. Pour tout $y \\in ]0, +\\infty[$, l'équation $e^x = y$ admet pour unique solution $x = \\ln(y)$. Comme la fonction $\\ln$ est définie sur tout $]0, +\\infty[$, tout élément de l'ensemble d'arrivée possède un antécédent bien défini dans $\\mathbb{R}$. L'application est donc surjective."
+        );
+      } else if (problemKind === 'surj_true_cube') {
+        const c = this.randChoice([1, 2, 7]);
+        return this.makeMcq(
+          'L1-LOG', 2, "Surjectivité de la fonction cube",
+          "Justifier l'existence d'antécédents sur $\\mathbb{R}$ tout entier",
+          `Soit l'application $f : \\mathbb{R} \\to \\mathbb{R}$ définie par $f(x) = x^3 - ${c}$. L'application $f$ est-elle surjective ?`,
+          `Oui, car tout réel $y \\in \\mathbb{R}$ admet pour antécédent $x = \\sqrt[3]{y + ${c}} \\in \\mathbb{R}$`,
+          [
+            "Non, car un cube ne peut pas être strictement négatif",
+            "Non, car la dérivée de $f$ s'annule en $0$",
+            `Oui, uniquement pour les réels $y \\ge ${c}$`
+          ],
+          `Soit $y \\in \\mathbb{R}$. Résous l'équation $y = x^3 - ${c}$ d'inconnue $x$.`,
+          "La fonction racine cubique est définie sur $\\mathbb{R}$ tout entier (y compris pour les réels négatifs).",
+          `Soit $y \\in \\mathbb{R}$. L'équation $x^3 - ${c} = y$ équivaut à $x^3 = y + ${c}$. Tout réel admet une unique racine cubique dans $\\mathbb{R}$ : $x = \\sqrt[3]{y + ${c}}$. Ce réel $x$ existe toujours dans $\\mathbb{R}$. Tout élément de l'ensemble d'arrivée admet donc au moins un antécédent : $f$ est surjective.`
+        );
+      } else if (problemKind === 'bij_affine') {
+        const a = this.randChoice([2, 3, 5]);
+        const b = this.randChoice([-3, 1, 4]);
+        const sign = b >= 0 ? `+ ${b}` : `- ${Math.abs(b)}`;
+        const invSign = b >= 0 ? `- ${b}` : `+ ${Math.abs(b)}`;
+        return this.makeMcq(
+          'L1-LOG', 2, "Bijectivité d'une application",
+          "Vérifier conjointement l'injectivité et la surjectivité",
+          `Soit l'application $f : \\mathbb{R} \\to \\mathbb{R}$ définie par $f(x) = ${a}x ${sign}$. L'application $f$ est-elle bijective ?`,
+          "Oui, car elle est à la fois injective et surjective (chaque réel admet un unique antécédent)",
+          [
+            "Non, car elle est injective mais non surjective",
+            "Non, car elle est surjective mais non injective",
+            `Non, car $f(0) = ${b} \\neq 0$`
+          ],
+          "Une application est bijective si et seulement si tout élément du codomaine admet exactement un antécédent.",
+          "Vérifie si l'équation $f(x) = y$ possède une unique solution pour tout $y \\in \\mathbb{R}$.",
+          `Pour tout $y \\in \\mathbb{R}$, l'équation $${a}x ${sign} = y$ admet pour unique solution $x = \\frac{y ${invSign}}{${a}} \\in \\mathbb{R}$. Comme tout élément de l'ensemble d'arrivée admet un unique antécédent dans l'ensemble de départ, l'application $f$ est bijective.`
+        );
+      } else {
+        // bij_false_quad
+        return this.makeMcq(
+          'L1-LOG', 2, "Bijectivité et contre-exemples",
+          "Tester les conditions d'injectivité et de surjectivité",
+          "Soit l'application $f : \\mathbb{R} \\to \\mathbb{R}$ définie par $f(x) = x^2$. L'application $f$ est-elle bijective ?",
+          "Non, car elle n'est ni injective (ex: $f(-1) = f(1)$) ni surjective ($-1$ n'a pas d'antécédent)",
+          [
+            "Oui, car $\\forall x \\in \\mathbb{R}, f(x) \\ge 0$",
+            "Elle est injective mais non surjective",
+            "Elle est surjective mais non injective"
+          ],
+          "Vérifie l'injectivité avec $1$ et $-1$, et vérifie la surjectivité avec $-1$.",
+          "Pour être bijective, l'application doit satisfaire les deux propriétés simultanément.",
+          "D'une part, $f(-1) = 1$ et $f(1) = 1$ avec $-1 \\neq 1$, donc $f$ n'est pas injective. D'autre part, pour $y = -1$, l'équation $x^2 = -1$ n'a aucune solution réelle, donc $f$ n'est pas surjective. Comme elle n'est ni injective ni surjective, elle n'est pas bijective."
+        );
+      }
     } else if (tier === 3) {
       // Palier 3 : Relation d'équivalence et ensemble quotient
       const n = this.randChoice([3, 4, 5, 6, 7, 8, 9, 11]);

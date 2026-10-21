@@ -1054,10 +1054,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (badgeEl) badgeEl.textContent = chap.id;
         if (tagEl) tagEl.textContent = "🎯 Reprendre où tu t'es arrêté";
         if (nameEl) nameEl.textContent = chap.shortTitle || chap.title;
-        const tierNames = { 1: 'Socle', 2: 'Guidé', 3: 'Brevet', 4: 'Défi' };
+        let tierLabel = 'Socle';
+        if (lastActive.tier) {
+          tierLabel = this.getTierButtonLabel(lastActive.tier, chap.level).replace(/^Palier \d+\s*:\s*/, '');
+        }
         if (tierEl) {
           tierEl.style.display = 'inline-block';
-          tierEl.textContent = `Palier ${lastActive.tier || 1} : ${tierNames[lastActive.tier] || 'Socle'}`;
+          tierEl.textContent = `Palier ${lastActive.tier || 1} : ${tierLabel}`;
         }
         const progress = window.MathsStorage.getChapterProgress(chap.id);
         const mastery = progress ? (progress.mastery || 0) : 0;
@@ -1596,14 +1599,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     getCurrentChapterLevel() {
       if (this.currentChapterId) {
+        const ch = (window.MATHS_CHAPTERS || []).find(c => c.id === this.currentChapterId);
+        if (ch && ch.level) return ch.level;
         if (this.currentChapterId.startsWith('5')) return '5eme';
         if (this.currentChapterId.startsWith('4')) return '4eme';
+        if (this.currentChapterId.startsWith('3')) return '3eme';
+        if (this.currentChapterId.startsWith('2')) return '2nde';
+        if (this.currentChapterId.startsWith('1')) return '1ere';
+        if (this.currentChapterId.startsWith('T')) return 'tale';
+        if (this.currentChapterId.startsWith('L1')) return 'L1';
+        if (this.currentChapterId.startsWith('L2')) return 'L2';
+        if (this.currentChapterId.startsWith('L3')) return 'L3';
       }
       return this.currentLevel || '3eme';
     },
 
     getTierButtonLabel(tier, level = null) {
       const lvl = level || this.getCurrentChapterLevel();
+      const t = parseInt(tier, 10);
       if (lvl === '5eme') {
         const labels = {
           1: "Palier 1 : Socle",
@@ -1611,7 +1624,7 @@ document.addEventListener('DOMContentLoaded', () => {
           3: "Palier 3 : Approfondissement",
           4: "Palier 4 : Défi 4ème"
         };
-        return labels[tier] || `Palier ${tier}`;
+        return labels[t] || `Palier ${t}`;
       } else if (lvl === '4eme') {
         const labels = {
           1: "Palier 1 : Socle",
@@ -1619,7 +1632,31 @@ document.addEventListener('DOMContentLoaded', () => {
           3: "Palier 3 : Approfondissement",
           4: "Palier 4 : Défi 3ème"
         };
-        return labels[tier] || `Palier ${tier}`;
+        return labels[t] || `Palier ${t}`;
+      } else if (lvl === '2nde') {
+        const labels = {
+          1: "Palier 1 : Socle",
+          2: "Palier 2 : Guidé",
+          3: "Palier 3 : Approfondissement",
+          4: "Palier 4 : Défi 1ère Spé"
+        };
+        return labels[t] || `Palier ${t}`;
+      } else if (lvl === '1ere' || lvl === 'tale' || lvl === 'lycee') {
+        const labels = {
+          1: "Palier 1 : Socle",
+          2: "Palier 2 : Guidé",
+          3: "Palier 3 : Bac",
+          4: "Palier 4 : Approfondissement"
+        };
+        return labels[t] || `Palier ${t}`;
+      } else if (['L1', 'L2', 'L3', 'licence'].includes(lvl)) {
+        const labels = {
+          1: "Palier 1 : Socle",
+          2: "Palier 2 : Méthodes",
+          3: "Palier 3 : Examen",
+          4: "Palier 4 : Rigueur"
+        };
+        return labels[t] || `Palier ${t}`;
       } else {
         const labels = {
           1: "Palier 1 : Socle",
@@ -1627,12 +1664,13 @@ document.addEventListener('DOMContentLoaded', () => {
           3: "Palier 3 : Brevet",
           4: "Palier 4 : Défi Seconde"
         };
-        return labels[tier] || `Palier ${tier}`;
+        return labels[t] || `Palier ${t}`;
       }
     },
 
     getTierName(tier, level = null) {
       const lvl = level || this.getCurrentChapterLevel();
+      const t = parseInt(tier, 10);
       if (lvl === '5eme') {
         const names = {
           1: "Socle & Automatismes",
@@ -1640,7 +1678,7 @@ document.addEventListener('DOMContentLoaded', () => {
           3: "Approfondissement 5e",
           4: "Défi 4ème (Expert)"
         };
-        return names[tier] || `Niveau ${tier}`;
+        return names[t] || `Niveau ${t}`;
       } else if (lvl === '4eme') {
         const names = {
           1: "Socle & Automatismes",
@@ -1648,7 +1686,31 @@ document.addEventListener('DOMContentLoaded', () => {
           3: "Approfondissement 4e",
           4: "Défi 3ème (Expert)"
         };
-        return names[tier] || `Niveau ${tier}`;
+        return names[t] || `Niveau ${t}`;
+      } else if (lvl === '2nde') {
+        const names = {
+          1: "Socle & Automatismes",
+          2: "Entraînement Guidé",
+          3: "Approfondissement 2nde",
+          4: "Défi 1ère Spé (Expert)"
+        };
+        return names[t] || `Niveau ${t}`;
+      } else if (lvl === '1ere' || lvl === 'tale' || lvl === 'lycee') {
+        const names = {
+          1: "Socle & Automatismes",
+          2: "Entraînement Guidé",
+          3: "Objectif Bac (Épreuve)",
+          4: lvl === 'tale' ? "Défi Post-Bac & Approfondissement" : "Défi & Approfondissement"
+        };
+        return names[t] || `Niveau ${t}`;
+      } else if (['L1', 'L2', 'L3', 'licence'].includes(lvl)) {
+        const names = {
+          1: "Socle & Définitions",
+          2: "Entraînement & Méthodes",
+          3: "Niveau Examen (Partiel)",
+          4: "Démonstrations & Rigueur"
+        };
+        return names[t] || `Niveau ${t}`;
       } else {
         const names = {
           1: "Socle & Automatismes",
@@ -1656,7 +1718,7 @@ document.addEventListener('DOMContentLoaded', () => {
           3: "Objectif Brevet (DNB)",
           4: "Défi Seconde (Lycée)"
         };
-        return names[tier] || `Niveau ${tier}`;
+        return names[t] || `Niveau ${t}`;
       }
     },
 
@@ -2588,8 +2650,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     renderBadgesHtml(unlockedBadges = []) {
       const lvl = this.getCurrentChapterLevel();
-      const tier4Title = lvl === '5eme' ? 'Cap vers la 4ème' : (lvl === '4eme' ? 'Cap vers la 3ème' : 'Cap vers la Seconde');
-      const tier4Desc = lvl === '5eme' ? 'Débloquer le palier 4 (Défi 4ème)' : (lvl === '4eme' ? 'Débloquer le palier 4 (Défi 3ème)' : 'Débloquer le palier 4 (Défi Seconde)');
+      let tier4Title = 'Cap vers la Seconde';
+      let tier4Desc = 'Débloquer le palier 4 (Défi Seconde)';
+      if (lvl === '5eme') {
+        tier4Title = 'Cap vers la 4ème';
+        tier4Desc = 'Débloquer le palier 4 (Défi 4ème)';
+      } else if (lvl === '4eme') {
+        tier4Title = 'Cap vers la 3ème';
+        tier4Desc = 'Débloquer le palier 4 (Défi 3ème)';
+      } else if (lvl === '2nde') {
+        tier4Title = 'Cap vers la 1ère Spé';
+        tier4Desc = 'Débloquer le palier 4 (Défi 1ère Spé)';
+      } else if (lvl === '1ere' || lvl === 'tale' || lvl === 'lycee') {
+        tier4Title = 'Excellence Baccalauréat';
+        tier4Desc = 'Débloquer le palier 4 (Défi & Approfondissement)';
+      } else if (['L1', 'L2', 'L3', 'licence'].includes(lvl)) {
+        tier4Title = 'Rigueur Universitaire';
+        tier4Desc = 'Débloquer le palier 4 (Démonstrations & Rigueur)';
+      }
       const unlockedTier4 = (unlockedBadges || []).find(ub => ub.id === 'tier_4_unlocked');
 
       const allPossibleBadges = [
