@@ -2500,21 +2500,41 @@ window.MathsAdvancedGenerators = {
           `Comme $P \\in \\mathbb{R}[X]$, la conjugaison assure que $-i$ est également racine double de $P$. Ainsi, le polynôme $[(X - i)(X + i)]^2 = (X^2 + 1)^2 = X^4 + 2X^2 + 1$ divise $P(X)$. La division euclidienne de $P(X)$ par $X^4 + 2X^2 + 1$ donne pour quotient $${c.quotient}$. Ce trinôme ayant $\\Delta = ${c.delta}$, il est irréductible dans $\\mathbb{R}[X]$. D'où $P(X) = ${c.factor}$.`
         );
       } else if (p4Variant === 'td_division_carre') {
-        const n = this.randChoice([3, 4, 5, 7, 'n']);
-        const nStr = (n === 'n') ? 'n' : `${n}`;
+        const n = this.randChoice([3, 4, 5, 6, 'n']);
+        let correctAns = "";
+        let distractors = [];
+        let solDetail = "";
+        let nStr = "";
+        if (n === 'n') {
+          nStr = 'n';
+          correctAns = "$nX - (n - 1)$";
+          distractors = [
+            "$nX + (n - 1)$",
+            "$nX + 1$",
+            "$n(X - 1)^2$"
+          ];
+          solDetail = "Comme $\\deg((X - 1)^2) = 2$, le reste est de la forme $R(X) = aX + b$. On a $X^n = Q(X)(X - 1)^2 + aX + b$. En évaluant en $X = 1$ : $1 = a + b$. En dérivant : $n X^{n-1} = Q'(X)(X - 1)^2 + 2Q(X)(X - 1) + a$, d'où en $X = 1$ : $a = n$. On en déduit $b = 1 - n = -(n - 1)$, soit $R(X) = nX - (n - 1)$.";
+        } else {
+          const numN = Number(n);
+          nStr = `${numN}`;
+          const c = numN - 1;
+          correctAns = `$${numN}X - ${c}$`;
+          distractors = [
+            `$${numN}X + ${c}$`,
+            `$${numN}X + 1$`,
+            `$${c}X - ${numN}$`
+          ];
+          solDetail = `Comme $\\deg((X - 1)^2) = 2$, le reste est de la forme $R(X) = aX + b$. On a $X^{${numN}} = Q(X)(X - 1)^2 + aX + b$. En évaluant en $X = 1$ : $1 = a + b$. En dérivant : $${numN} X^{${numN - 1}} = Q'(X)(X - 1)^2 + 2Q(X)(X - 1) + a$, d'où en $X = 1$ : $a = ${numN}$. On en déduit $b = 1 - ${numN} = -${c}$, soit $R(X) = ${numN}X - ${c}$.`;
+        }
         return this.makeMcq(
           'L1-CMP', 4, "Reste de division euclidienne par un carré $(X - 1)^2$",
           "Calculer le reste par dérivation ou formule de Taylor",
           `Quel est le reste de la division euclidienne de $A(X) = X^{${nStr}}$ par $B(X) = (X - 1)^2$ dans $\\mathbb{R}[X]$ ?`,
-          `$${nStr}X - (${nStr} - 1)$`,
-          [
-            `$${nStr}X + 1$`,
-            `$${nStr}(X - 1)^2$`,
-            `$X - ${nStr}$`
-          ],
+          correctAns,
+          distractors,
           "Le diviseur $B(X) = (X - 1)^2$ étant de degré 2, le reste $R(X)$ est de degré inférieur ou égal à 1, donc de la forme $R(X) = aX + b$.",
           `Écris l'égalité euclidienne $X^{${nStr}} = Q(X)(X - 1)^2 + aX + b$. Évalue cette égalité puis sa dérivée en $X = 1$ pour déterminer $a$ et $b$.`,
-          `Comme $\\deg((X - 1)^2) = 2$, le reste est de la forme $R(X) = aX + b$. On a $X^{${nStr}} = Q(X)(X - 1)^2 + aX + b$. En évaluant en $X = 1$ : $1 = a + b$. En dérivant : $${nStr} X^{${nStr === 'n' ? 'n-1' : n-1}} = Q'(X)(X - 1)^2 + 2Q(X)(X - 1) + a$, d'où en $X = 1$ : $a = ${nStr}$. On en déduit $b = 1 - ${nStr} = -(${nStr} - 1)$, soit $R(X) = ${nStr}X - (${nStr} - 1)$.`
+          solDetail
         );
       } else if (p4Variant === 'td_pgcd_racines_multiples') {
         const pgcdCases = [
