@@ -1880,8 +1880,8 @@ window.MathsAdvancedGenerators = {
             `$(X - ${c.doubleRoot})(X + ${c.doubleRoot})(X - ${c.simpleRoot})$`,
             `$(X - ${c.doubleRoot})^3$`
           ],
-          "Vérifie si la racine candidate annule à la fois $P$ et son polynôme dérivé $P'$.",
-          "$a$ est racine multiple ssi $P(a) = 0$ et $P'(a) = 0$.",
+          `Cherche d'abord une racine évidente parmi les diviseurs du terme constant (teste $x = ${c.doubleRoot}$), puis calcule la dérivée $P'(${c.doubleRoot})$.`,
+          "Une racine $a$ est au moins double si $P(a) = 0$ et $P'(a) = 0$. Effectue ensuite la division euclidienne de $P(X)$ par $(X - a)^2$.",
           `On a $${c.testDeriv}$, ce qui prouve que $${c.doubleRoot}$ est une racine au moins double. En divisant $P(X)$ par $(X - ${c.doubleRoot})^2$, on trouve le quotient $X - (${c.simpleRoot})$, d'où la factorisation $P(X) = ${c.factor}$.`
         );
       } else if (style === 'charac_double_root') {
@@ -1953,8 +1953,8 @@ window.MathsAdvancedGenerators = {
             "$(X + 3)^2 (X - 1)$",
             "$(X - 3)(X^2 - 2X - 3)$"
           ],
-          "Calcule $P(3)$ et $P'(3)$ pour vérifier si 3 est racine multiple.",
-          "Si $P(3) = 0$ et $P'(3) = 0$, alors $(X - 3)^2$ divise $P(X)$.",
+          "Calcule la dérivée $P'(X) = 3X^2 - 10X + 3$ et teste la racine candidate $X = 3$ dans $P$ et $P'$.",
+          "Comme $P(3) = 0$ et $P'(3) = 0$, $3$ est racine au moins double : effectue la division euclidienne de $P(X)$ par $(X - 3)^2 = X^2 - 6X + 9$.",
           "On teste $X = 3$ : $P(3) = 27 - 45 + 9 + 9 = 0$. Dérivée : $P'(X) = 3X^2 - 10X + 3 \\implies P'(3) = 27 - 30 + 3 = 0$. Donc $3$ est une racine au moins double. La division euclidienne de $P(X)$ par $(X - 3)^2 = X^2 - 6X + 9$ donne le quotient $X + 1$. D'où $P(X) = (X - 3)^2 (X + 1)$."
         );
       } else if (p3Variant === 'td_deg4_bicarre') {
@@ -1969,8 +1969,8 @@ window.MathsAdvancedGenerators = {
             "Dans $\\mathbb{R}[X]$ : $(X^2 - 4)^2$ ; Dans $\\mathbb{C}[X]$ : $(X - 2)(X + 2)(X^2 + 4)$",
             "Dans $\\mathbb{R}[X]$ : $(X - 4)(X + 4)(X^2 + 4)$ ; Dans $\\mathbb{C}[X]$ : $(X - 4)(X + 4)(X - 4i)(X + 4i)$"
           ],
-          "Utilise l'identité $A^2 - B^2$ avec $A = X^2$ et $B = 4$.",
-          "$X^2 + 4$ est-il irréductible dans $\\mathbb{R}[X]$ ? Et dans $\\mathbb{C}[X]$ ?",
+          "Remarque que $X^4 - 16 = (X^2)^2 - 4^2$, puis applique la différence de deux carrés : $(X^2 - 4)(X^2 + 4)$.",
+          "Dans $\\mathbb{R}[X]$, factorise $X^2 - 4 = (X - 2)(X + 2)$ et conserve $X^2 + 4$ qui est irréductible ($\\Delta < 0$). Dans $\\mathbb{C}[X]$, factorise $X^2 + 4 = (X - 2i)(X + 2i)$.",
           "$X^4 - 16 = (X^2 - 4)(X^2 + 4) = (X - 2)(X + 2)(X^2 + 4)$. Le facteur $X^2 + 4$ n'a aucune racine réelle ($\\Delta = -16 < 0$), donc il est irréductible dans $\\mathbb{R}[X]$. Dans $\\mathbb{C}[X]$, il se factorise en $(X - 2i)(X + 2i)$."
         );
       } else if (p3Variant === 'td_deg4_double_double') {
@@ -1993,15 +1993,15 @@ window.MathsAdvancedGenerators = {
         return this.makeMcq(
           'L1-CMP', 3, "Factorisation dans R[X] d'un polynôme de degré 4 sans racine réelle",
           "Factoriser par la méthode de complétion du carré",
-          "Factoriser dans $\\mathbb{R}[X]$ le polynôme $Q(X) = X^4 + X^2 + 1$ à l'aide de l'identité $(X^2 + 1)^2 - X^2$ :",
+          "Quelle est la factorisation en produit de polynômes irréductibles dans $\\mathbb{R}[X]$ du polynôme $Q(X) = X^4 + X^2 + 1$ ?",
           "$(X^2 - X + 1)(X^2 + X + 1)$",
           [
             "$(X^2 + 1)^2$",
             "$(X^2 + X - 1)(X^2 - X - 1)$",
             "Irréductible dans $\\mathbb{R}[X]$"
           ],
-          "Applique l'identité remarquable $A^2 - B^2 = (A - B)(A + B)$ avec $A = X^2 + 1$ et $B = X$.",
-          "Vérifie que les discriminants des deux trinômes obtenus sont strictement négatifs.",
+          "Complète le carré en écrivant : $X^4 + X^2 + 1 = (X^4 + 2X^2 + 1) - X^2 = (X^2 + 1)^2 - X^2$.",
+          "Applique ensuite l'identité remarquable $A^2 - B^2 = (A - B)(A + B)$ avec $A = X^2 + 1$ et $B = X$, puis vérifie que les discriminants $\\Delta$ des deux trinômes sont strictement négatifs.",
           "On écrit $X^4 + X^2 + 1 = (X^2 + 1)^2 - X^2 = (X^2 + 1 - X)(X^2 + 1 + X) = (X^2 - X + 1)(X^2 + X + 1)$. Pour les deux trinômes, le discriminant est $\\Delta = 1 - 4 = -3 < 0$, ce qui garantit leur irréductibilité dans $\\mathbb{R}[X]$."
         );
       } else if (p3Variant === 'td_deg6') {
@@ -2016,8 +2016,8 @@ window.MathsAdvancedGenerators = {
             "$(X - 1)^3 (X - 2)^3$",
             "$(X - 1)(X + 1)(X - 2)(X + 2)(X^2 + 1)$"
           ],
-          "Pose le changement de variable $Y = X^3$ pour obtenir une équation du second degré.",
-          "Factorise ensuite $X^3 - 1$ et $X^3 - 8$ à l'aide de la formule $A^3 - B^3 = (A - B)(A^2 + AB + B^2)$.",
+          "Effectue le changement de variable $Y = X^3$ pour factoriser le trinôme $Y^2 - 9Y + 8 = (Y - 1)(Y - 8)$.",
+          "Réinjecte $Y = X^3$, puis factorise $X^3 - 1$ et $X^3 - 8$ à l'aide de l'identité $A^3 - B^3 = (A - B)(A^2 + AB + B^2)$.",
           "En posant $Y = X^3$, le polynôme devient $Y^2 - 9Y + 8 = (Y - 1)(Y - 8) = (X^3 - 1)(X^3 - 8)$. Or $X^3 - 1 = (X - 1)(X^2 + X + 1)$ et $X^3 - 8 = (X - 2)(X^2 + 2X + 4)$. Comme $\\Delta_1 = 1 - 4 = -3 < 0$ et $\\Delta_2 = 4 - 16 = -12 < 0$, les deux facteurs de degré 2 sont irréductibles dans $\\mathbb{R}[X]$."
         );
       } else {
@@ -2051,8 +2051,8 @@ window.MathsAdvancedGenerators = {
             "$(X^2 + 1)^3$",
             "$(X^2 + 1)^2 (X - 1)(X + 1)$"
           ],
-          "Puisque $P$ est à coefficients réels, si $i$ est racine double, alors $-i = \\bar{i}$ est aussi racine double.",
-          "En déduire que $(X - i)^2 (X + i)^2 = (X^2 + 1)^2 = X^4 + 2X^2 + 1$ divise $P(X)$.",
+          "Comme $P$ est à coefficients réels, si $i$ est racine double, alors son conjugué $-i$ est également racine double.",
+          "Le produit $(X - i)^2 (X + i)^2 = [(X - i)(X + i)]^2 = (X^2 + 1)^2 = X^4 + 2X^2 + 1$ divise donc $P(X)$ dans $\\mathbb{R}[X]$. Effectue la division euclidienne.",
           "Comme $P \\in \\mathbb{R}[X]$, la conjugaison assure que $-i$ est également racine double de $P$. Ainsi, le polynôme $[(X - i)(X + i)]^2 = (X^2 + 1)^2 = X^4 + 2X^2 + 1$ divise $P(X)$. La division euclidienne de $P(X)$ par $X^4 + 2X^2 + 1$ donne pour quotient $X^2 + X + 1$. Ce trinôme ayant $\\Delta = 1 - 4 = -3 < 0$, il est irréductible dans $\\mathbb{R}[X]$. D'où $P(X) = (X^2 + 1)^2 (X^2 + X + 1)$."
         );
       } else if (p4Variant === 'td_division_carre') {
@@ -2068,8 +2068,8 @@ window.MathsAdvancedGenerators = {
             `$${nStr}(X - 1)^2$`,
             `$X - ${nStr}$`
           ],
-          "Le reste $R(X)$ est de degré strictement inférieur à 2, donc $R(X) = aX + b$.",
-          "Évalue l'égalité $X^n = Q(X)(X - 1)^2 + aX + b$ et sa dérivée en $X = 1$.",
+          "Le diviseur $B(X) = (X - 1)^2$ étant de degré 2, le reste $R(X)$ est de degré inférieur ou égal à 1, donc de la forme $R(X) = aX + b$.",
+          `Écris l'égalité euclidienne $X^{${nStr}} = Q(X)(X - 1)^2 + aX + b$. Évalue cette égalité puis sa dérivée en $X = 1$ pour déterminer $a$ et $b$.`,
           `Comme $\\deg((X - 1)^2) = 2$, le reste est de la forme $R(X) = aX + b$. On a $X^{${nStr}} = Q(X)(X - 1)^2 + aX + b$. En évaluant en $X = 1$ : $1 = a + b$. En dérivant : $${nStr} X^{${nStr === 'n' ? 'n-1' : n-1}} = Q'(X)(X - 1)^2 + 2Q(X)(X - 1) + a$, d'où en $X = 1$ : $a = ${nStr}$. On en déduit $b = 1 - ${nStr} = -(${nStr} - 1)$, soit $R(X) = ${nStr}X - (${nStr} - 1)$.`
         );
       } else if (p4Variant === 'td_pgcd_racines_multiples') {
@@ -2098,8 +2098,8 @@ window.MathsAdvancedGenerators = {
             "$E(X) = 1$ et $\\alpha = 3$",
             "$E(X) = X$ et $\\alpha = 2$"
           ],
-          "Compare les degrés du numérateur et du dénominateur pour trouver la partie entière.",
-          "Pour $\\alpha$, multiplie par $(X - 1)^2$ et évalue en $X = 1$.",
+          "Comme le numérateur $X^3 + 2$ et le dénominateur $(X - 1)^2(X + 2)$ sont tous deux de degré 3, la partie entière est la constante $E(X) = 1/1 = 1$.",
+          "Pour isoler $\\alpha$, multiplie $G(X)$ par $(X - 1)^2$ puis évalue l'expression restante en $X = 1$.",
           "On a $\\deg(X^3 + 2) = 3$ et $\\deg((X - 1)^2(X + 2)) = 3$. Le quotient des coefficients dominants vaut $1/1 = 1$, donc la partie entière est $E(X) = 1$. Pour trouver $\\alpha$, on calcule $\\lim_{X \\to 1} (X - 1)^2 G(X) = \\left[\\frac{X^3 + 2}{X + 2}\\right]_{X=1} = \\frac{1 + 2}{1 + 2} = 1$. D'où $E(X) = 1$ et $\\alpha = 1$."
         );
       } else {

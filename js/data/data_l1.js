@@ -905,8 +905,8 @@ window.MATHS_EXERCISES_L1 = {
       ],
       "correctIndex": 0,
       "answer": "$(X - 3)^2 (X + 1)$",
-      "hint1": "Calcule $P(3)$ et $P'(3)$ pour vérifier si 3 est racine multiple.",
-      "hint2": "Si $P(3) = 0$ et $P'(3) = 0$, alors $(X - 3)^2$ divise $P(X)$.",
+      "hint1": "Calcule la dérivée $P'(X) = 3X^2 - 10X + 3$ et teste la racine candidate $X = 3$ dans $P$ et $P'$.",
+      "hint2": "Comme $P(3) = 0$ et $P'(3) = 0$, $3$ est racine au moins double : effectue la division euclidienne de $P(X)$ par $(X - 3)^2 = X^2 - 6X + 9$.",
       "solution": "On teste $X = 3$ : $P(3) = 27 - 45 + 9 + 9 = 0$. Dérivée : $P'(X) = 3X^2 - 10X + 3 \\implies P'(3) = 27 - 30 + 3 = 0$. Donc $3$ est une racine au moins double. La division euclidienne de $P(X)$ par $(X - 3)^2 = X^2 - 6X + 9$ donne le quotient $X + 1$. D'où $P(X) = (X - 3)^2 (X + 1)$."
     },
     {
@@ -924,8 +924,8 @@ window.MATHS_EXERCISES_L1 = {
       ],
       "correctIndex": 0,
       "answer": "Dans $\\mathbb{R}[X]$ : $(X - 2)(X + 2)(X^2 + 4)$ ; Dans $\\mathbb{C}[X]$ : $(X - 2)(X + 2)(X - 2i)(X + 2i)$",
-      "hint1": "Utilise l'identité $A^2 - B^2$ avec $A = X^2$ et $B = 4$.",
-      "hint2": "$X^2 + 4$ est-il irréductible dans $\\mathbb{R}[X]$ ? Et dans $\\mathbb{C}[X]$ ?",
+      "hint1": "Remarque que $X^4 - 16 = (X^2)^2 - 4^2$, puis applique la différence de deux carrés : $(X^2 - 4)(X^2 + 4)$.",
+      "hint2": "Dans $\\mathbb{R}[X]$, factorise $X^2 - 4 = (X - 2)(X + 2)$ et conserve $X^2 + 4$ qui est irréductible ($\\Delta < 0$). Dans $\\mathbb{C}[X]$, factorise $X^2 + 4 = (X - 2i)(X + 2i)$.",
       "solution": "$X^4 - 16 = (X^2 - 4)(X^2 + 4) = (X - 2)(X + 2)(X^2 + 4)$. Le facteur $X^2 + 4$ n'a aucune racine réelle ($\\Delta = -16 < 0$), donc il est irréductible dans $\\mathbb{R}[X]$. Dans $\\mathbb{C}[X]$, il se factorise en $(X - 2i)(X + 2i)$."
     },
     {
@@ -962,8 +962,8 @@ window.MATHS_EXERCISES_L1 = {
       ],
       "correctIndex": 0,
       "answer": "$(X - 1)(X^2 + X + 1)(X - 2)(X^2 + 2X + 4)$",
-      "hint1": "Pose le changement de variable $Y = X^3$ pour obtenir une équation du second degré.",
-      "hint2": "Factorise ensuite $X^3 - 1$ et $X^3 - 8$ à l'aide de l'identité $A^3 - B^3 = (A - B)(A^2 + AB + B^2)$.",
+      "hint1": "Effectue le changement de variable $Y = X^3$ pour factoriser le trinôme $Y^2 - 9Y + 8 = (Y - 1)(Y - 8)$.",
+      "hint2": "Réinjecte $Y = X^3$, puis factorise $X^3 - 1$ et $X^3 - 8$ à l'aide de l'identité $A^3 - B^3 = (A - B)(A^2 + AB + B^2)$.",
       "solution": "En posant $Y = X^3$, le polynôme devient $Y^2 - 9Y + 8 = (Y - 1)(Y - 8) = (X^3 - 1)(X^3 - 8)$. Or $X^3 - 1 = (X - 1)(X^2 + X + 1)$ et $X^3 - 8 = (X - 2)(X^2 + 2X + 4)$. Comme $\\Delta_1 = 1 - 4 = -3 < 0$ et $\\Delta_2 = 4 - 16 = -12 < 0$, les deux facteurs de degré 2 sont irréductibles dans $\\mathbb{R}[X]$."
     },
     {
@@ -986,6 +986,25 @@ window.MATHS_EXERCISES_L1 = {
       "solution": "Le dénominateur admet le pôle simple $1$ et le pôle double $-1$. D'après le théorème fondamental de décomposition en éléments simples, le pôle double contribue par les deux termes $\\frac{b}{(X + 1)^2} + \\frac{c}{X + 1}$. D'où la forme $\\frac{a}{X - 1} + \\frac{b}{(X + 1)^2} + \\frac{c}{X + 1}$."
     },
     {
+      "id": "L1-CMP-3f",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Factorisation d'un polynôme de degré 4 sans racine réelle",
+      "skill": "Factoriser par complétion du carré (méthode de Sophie Germain)",
+      "statement": "Quelle est la décomposition en facteurs irréductibles dans $\\mathbb{R}[X]$ du polynôme $Q(X) = X^4 + X^2 + 1$ ?",
+      "options": [
+        "$(X^2 - X + 1)(X^2 + X + 1)$",
+        "$(X^2 + 1)^2$",
+        "$(X^2 + X - 1)(X^2 - X - 1)$",
+        "Irréductible dans $\\mathbb{R}[X]$"
+      ],
+      "correctIndex": 0,
+      "answer": "$(X^2 - X + 1)(X^2 + X + 1)$",
+      "hint1": "Complète le carré en écrivant : $X^4 + X^2 + 1 = (X^4 + 2X^2 + 1) - X^2 = (X^2 + 1)^2 - X^2$.",
+      "hint2": "Applique ensuite l'identité remarquable $A^2 - B^2 = (A - B)(A + B)$ avec $A = X^2 + 1$ et $B = X$, puis vérifie que les discriminants $\\Delta$ des deux trinômes sont strictement négatifs.",
+      "solution": "On écrit $X^4 + X^2 + 1 = (X^2 + 1)^2 - X^2$. C'est une différence de carrés $A^2 - B^2 = (A - B)(A + B)$ avec $A = X^2 + 1$ et $B = X$, soit $(X^2 + 1 - X)(X^2 + 1 + X) = (X^2 - X + 1)(X^2 + X + 1)$. Pour ces deux facteurs de degré 2, $\\Delta = 1 - 4 = -3 < 0$, ils sont donc irréductibles dans $\\mathbb{R}[X]$."
+    },
+    {
       "id": "L1-CMP-4",
       "tier": 4,
       "type": "mcq",
@@ -1000,8 +1019,8 @@ window.MATHS_EXERCISES_L1 = {
       ],
       "correctIndex": 0,
       "answer": "$(X^2 + 1)^2 (X^2 + X + 1)$",
-      "hint1": "Puisque $P$ est à coefficients réels, si $i$ est racine double, alors $-i = \\bar{i}$ est aussi racine double.",
-      "hint2": "En déduire que $(X - i)^2 (X + i)^2 = (X^2 + 1)^2 = X^4 + 2X^2 + 1$ divise $P(X)$.",
+      "hint1": "Comme $P$ est à coefficients réels, si $i$ est racine double, alors son conjugué $-i$ est également racine double.",
+      "hint2": "Le produit $(X - i)^2 (X + i)^2 = [(X - i)(X + i)]^2 = (X^2 + 1)^2 = X^4 + 2X^2 + 1$ divise donc $P(X)$ dans $\\mathbb{R}[X]$. Effectue la division euclidienne.",
       "solution": "Comme $P \\in \\mathbb{R}[X]$, la conjugaison assure que $-i$ est également racine double de $P$. Ainsi, le polynôme $[(X - i)(X + i)]^2 = (X^2 + 1)^2 = X^4 + 2X^2 + 1$ divise $P(X)$. La division euclidienne de $P(X)$ par $X^4 + 2X^2 + 1$ donne pour quotient $X^2 + X + 1$. Ce trinôme ayant $\\Delta = 1 - 4 = -3 < 0$, il est irréductible dans $\\mathbb{R}[X]$. D'où $P(X) = (X^2 + 1)^2 (X^2 + X + 1)$."
     },
     {
@@ -1019,8 +1038,8 @@ window.MATHS_EXERCISES_L1 = {
       ],
       "correctIndex": 0,
       "answer": "$nX - (n - 1)$",
-      "hint1": "Le reste $R(X)$ est de degré strictement inférieur à 2, donc $R(X) = aX + b$.",
-      "hint2": "Évalue l'égalité $X^n = Q(X)(X - 1)^2 + aX + b$ et sa dérivée en $X = 1$.",
+      "hint1": "Le diviseur $B(X) = (X - 1)^2$ étant de degré 2, le reste $R(X)$ est de degré inférieur ou égal à 1, donc de la forme $R(X) = aX + b$.",
+      "hint2": "Écris l'égalité euclidienne $X^n = Q(X)(X - 1)^2 + aX + b$. Évalue cette égalité puis sa dérivée en $X = 1$ pour déterminer $a$ et $b$.",
       "solution": "Comme $\\deg((X - 1)^2) = 2$, le reste est de la forme $R(X) = aX + b$. On a $X^n = Q(X)(X - 1)^2 + aX + b$. En évaluant en $X = 1$ : $1 = a + b$. En dérivant : $n X^{n-1} = Q'(X)(X - 1)^2 + 2Q(X)(X - 1) + a$, d'où en $X = 1$ : $a = n$. On en déduit $b = 1 - n = -(n - 1)$, soit $R(X) = nX - (n - 1)$."
     },
     {
@@ -1057,8 +1076,8 @@ window.MATHS_EXERCISES_L1 = {
       ],
       "correctIndex": 0,
       "answer": "$E(X) = 1$ et $\\alpha = 1$",
-      "hint1": "Compare les degrés du numérateur et du dénominateur pour trouver la partie entière.",
-      "hint2": "Pour $\\alpha$, multiplie par $(X - 1)^2$ et évalue en $X = 1$.",
+      "hint1": "Comme le numérateur $X^3 + 2$ et le dénominateur $(X - 1)^2(X + 2)$ sont tous deux de degré 3, la partie entière est la constante $E(X) = 1/1 = 1$.",
+      "hint2": "Pour isoler $\\alpha$, multiplie $G(X)$ par $(X - 1)^2$ puis évalue l'expression restante en $X = 1$.",
       "solution": "On a $\\deg(X^3 + 2) = 3$ et $\\deg((X - 1)^2(X + 2)) = 3$. Le quotient des coefficients dominants vaut $1/1 = 1$, donc la partie entière est $E(X) = 1$. Pour trouver $\\alpha$, on calcule $\\lim_{X \\to 1} (X - 1)^2 G(X) = \\left[\\frac{X^3 + 2}{X + 2}\\right]_{X=1} = \\frac{1 + 2}{1 + 2} = 1$. D'où $E(X) = 1$ et $\\alpha = 1$."
     }
   ],
