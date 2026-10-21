@@ -1939,14 +1939,14 @@ window.MathsAdvancedGenerators = {
         );
       }
     } else if (tier === 3) {
-      // Palier 3 : Polynômes de degré supérieur à 2 issus de la fiche de TD avec racines doubles et DES
+      // Palier 3 : Polynômes de degré supérieur à 2 avec racines doubles et DES
       const p3Variant = this.randChoice(['td_deg3_double', 'td_deg4_bicarre', 'td_deg4_double_double', 'td_deg4_sophie_germain', 'td_deg6', 'td_des_pole_double']);
       if (p3Variant === 'td_deg3_double') {
-        // Issu du TD Chapitre 2 Exercice 4.a : X^3 - 5X^2 + 3X + 9
+        // X^3 - 5X^2 + 3X + 9
         return this.makeMcq(
-          'L1-CMP', 3, "Factorisation de degré 3 à racine double (TD Univ)",
+          'L1-CMP', 3, "Factorisation de degré 3 à racine double",
           "Détecter une racine double et factoriser un polynôme de degré 3",
-          "Factoriser dans $\\mathbb{R}[X]$ le polynôme $P(X) = X^3 - 5X^2 + 3X + 9$ (issu de la fiche de TD de Licence).",
+          "Factoriser dans $\\mathbb{R}[X]$ le polynôme $P(X) = X^3 - 5X^2 + 3X + 9$ :",
           "$(X - 3)^2 (X + 1)$",
           [
             "$(X - 3)(X + 1)^2$",
@@ -1958,11 +1958,11 @@ window.MathsAdvancedGenerators = {
           "On teste $X = 3$ : $P(3) = 27 - 45 + 9 + 9 = 0$. Dérivée : $P'(X) = 3X^2 - 10X + 3 \\implies P'(3) = 27 - 30 + 3 = 0$. Donc $3$ est une racine au moins double. La division euclidienne de $P(X)$ par $(X - 3)^2 = X^2 - 6X + 9$ donne le quotient $X + 1$. D'où $P(X) = (X - 3)^2 (X + 1)$."
         );
       } else if (p3Variant === 'td_deg4_bicarre') {
-        // Issu du TD Fiche 1 Exercice 1.1 : X^4 - 16
+        // X^4 - 16
         return this.makeMcq(
-          'L1-CMP', 3, "Factorisation de degré 4 dans R[X] et C[X] (TD Univ)",
+          'L1-CMP', 3, "Factorisation de degré 4 dans $\\mathbb{R}[X]$ et $\\mathbb{C}[X]$",
           "Comparer la factorisation en irréductibles dans $\\mathbb{R}[X]$ et $\\mathbb{C}[X]$",
-          "Quelle est la décomposition en facteurs irréductibles de $P(X) = X^4 - 16$ dans $\\mathbb{R}[X]$ et dans $\\mathbb{C}[X]$ (issu de la fiche de TD) ?",
+          "Quelle est la décomposition en facteurs irréductibles de $P(X) = X^4 - 16$ dans $\\mathbb{R}[X]$ et dans $\\mathbb{C}[X]$ ?",
           "Dans $\\mathbb{R}[X]$ : $(X - 2)(X + 2)(X^2 + 4)$ ; Dans $\\mathbb{C}[X]$ : $(X - 2)(X + 2)(X - 2i)(X + 2i)$",
           [
             "Dans $\\mathbb{R}[X]$ : $(X - 2)^2 (X + 2)^2$ ; Dans $\\mathbb{C}[X]$ : $(X - 2)^4$",
@@ -1989,11 +1989,11 @@ window.MathsAdvancedGenerators = {
           "On reconnaît $X^4 - 2X^2 + 1 = (X^2 - 1)^2 = [(X - 1)(X + 1)]^2 = (X - 1)^2 (X + 1)^2$. Les racines $1$ et $-1$ sont donc toutes les deux des racines de multiplicité 2 (racines doubles)."
         );
       } else if (p3Variant === 'td_deg4_sophie_germain') {
-        // Issu du TD Fiche 1 Exercice 1.2 : X^4 + X^2 + 1
+        // X^4 + X^2 + 1
         return this.makeMcq(
           'L1-CMP', 3, "Factorisation dans R[X] d'un polynôme de degré 4 sans racine réelle",
           "Factoriser par la méthode de complétion du carré",
-          "Factoriser dans $\\mathbb{R}[X]$ le polynôme $Q(X) = X^4 + X^2 + 1$ à l'aide de l'identité $(X^2 + 1)^2 - X^2$ (issu de la fiche de TD).",
+          "Factoriser dans $\\mathbb{R}[X]$ le polynôme $Q(X) = X^4 + X^2 + 1$ à l'aide de l'identité $(X^2 + 1)^2 - X^2$ :",
           "$(X^2 - X + 1)(X^2 + X + 1)$",
           [
             "$(X^2 + 1)^2$",
@@ -2005,11 +2005,11 @@ window.MathsAdvancedGenerators = {
           "On écrit $X^4 + X^2 + 1 = (X^2 + 1)^2 - X^2 = (X^2 + 1 - X)(X^2 + 1 + X) = (X^2 - X + 1)(X^2 + X + 1)$. Pour les deux trinômes, le discriminant est $\\Delta = 1 - 4 = -3 < 0$, ce qui garantit leur irréductibilité dans $\\mathbb{R}[X]$."
         );
       } else if (p3Variant === 'td_deg6') {
-        // Issu du TD Chapitre 2 Exercice 4.b : X^6 - 9X^3 + 8
+        // X^6 - 9X^3 + 8
         return this.makeMcq(
-          'L1-CMP', 3, "Factorisation d'un polynôme de degré 6 dans R[X] (TD Univ)",
+          'L1-CMP', 3, "Factorisation d'un polynôme de degré 6 dans $\\mathbb{R}[X]$",
           "Factoriser un polynôme réductible de degré 6 par changement de variable",
-          "Quelle est la factorisation en produit de polynômes irréductibles dans $\\mathbb{R}[X]$ du polynôme $P(X) = X^6 - 9X^3 + 8$ (issu de la fiche de TD) ?",
+          "Quelle est la factorisation en produit de polynômes irréductibles dans $\\mathbb{R}[X]$ du polynôme $P(X) = X^6 - 9X^3 + 8$ ?",
           "$(X - 1)(X^2 + X + 1)(X - 2)(X^2 + 2X + 4)$",
           [
             "$(X^3 - 1)(X^3 - 8)$",
@@ -2021,11 +2021,11 @@ window.MathsAdvancedGenerators = {
           "En posant $Y = X^3$, le polynôme devient $Y^2 - 9Y + 8 = (Y - 1)(Y - 8) = (X^3 - 1)(X^3 - 8)$. Or $X^3 - 1 = (X - 1)(X^2 + X + 1)$ et $X^3 - 8 = (X - 2)(X^2 + 2X + 4)$. Comme $\\Delta_1 = 1 - 4 = -3 < 0$ et $\\Delta_2 = 4 - 16 = -12 < 0$, les deux facteurs de degré 2 sont irréductibles dans $\\mathbb{R}[X]$."
         );
       } else {
-        // Issu du TD Chapitre 3 Exercice 1 : DES avec pôle double
+        // DES avec pôle double
         return this.makeMcq(
-          'L1-CMP', 3, "Décomposition en éléments simples avec pôle double (TD Univ)",
+          'L1-CMP', 3, "Décomposition en éléments simples avec pôle double",
           "Identifier la forme de la DES pour un dénominateur à racine multiple",
-          "Quelle est la forme générale théorique de la décomposition en éléments simples dans $\\mathbb{R}(X)$ de $F(X) = \\frac{1}{(X - 1)(X + 1)^2}$ (issue de la fiche de TD) ?",
+          "Quelle est la forme générale théorique de la décomposition en éléments simples dans $\\mathbb{R}(X)$ de $F(X) = \\frac{1}{(X - 1)(X + 1)^2}$ ?",
           "$\\frac{a}{X - 1} + \\frac{b}{(X + 1)^2} + \\frac{c}{X + 1}$",
           [
             "$\\frac{a}{X - 1} + \\frac{b}{(X + 1)^2}$",
@@ -2041,11 +2041,10 @@ window.MathsAdvancedGenerators = {
       // Palier 4 : Niveau Rigueur & Examen universitaire
       const p4Variant = this.randChoice(['td_deg6_racine_double_i', 'td_division_carre', 'td_pgcd_racines_multiples', 'td_des_partie_entiere', 'taylor_multiplicite']);
       if (p4Variant === 'td_deg6_racine_double_i') {
-        // Issu du grand Exercice 6 de la Fiche TD n°2
         return this.makeMcq(
-          'L1-CMP', 4, "Polynôme de degré 6 admettant i comme racine double (TD Univ)",
+          'L1-CMP', 4, "Polynôme de degré 6 admettant $i$ comme racine double",
           "Factoriser un polynôme réel connaissant une racine double complexe",
-          "Soit le polynôme $P(X) = X^6 + X^5 + 3X^4 + 2X^3 + 3X^2 + X + 1 \\in \\mathbb{R}[X]$. Sachant que $i$ est racine double de $P$, quelle est sa factorisation en irréductibles dans $\\mathbb{R}[X]$ (issu de la fiche de TD) ?",
+          "Soit le polynôme $P(X) = X^6 + X^5 + 3X^4 + 2X^3 + 3X^2 + X + 1 \\in \\mathbb{R}[X]$. Sachant que $i$ est racine double de $P$, quelle est sa factorisation en irréductibles dans $\\mathbb{R}[X]$ ?",
           "$(X^2 + 1)^2 (X^2 + X + 1)$",
           [
             "$(X^2 + 1)(X^4 + X^3 + 2X^2 + X + 1)$",
@@ -2057,13 +2056,12 @@ window.MathsAdvancedGenerators = {
           "Comme $P \\in \\mathbb{R}[X]$, la conjugaison assure que $-i$ est également racine double de $P$. Ainsi, le polynôme $[(X - i)(X + i)]^2 = (X^2 + 1)^2 = X^4 + 2X^2 + 1$ divise $P(X)$. La division euclidienne de $P(X)$ par $X^4 + 2X^2 + 1$ donne pour quotient $X^2 + X + 1$. Ce trinôme ayant $\\Delta = 1 - 4 = -3 < 0$, il est irréductible dans $\\mathbb{R}[X]$. D'où $P(X) = (X^2 + 1)^2 (X^2 + X + 1)$."
         );
       } else if (p4Variant === 'td_division_carre') {
-        // Issu du TD Fiche 2 Exercice 3.b
         const n = this.randChoice([3, 4, 5, 7, 'n']);
         const nStr = (n === 'n') ? 'n' : `${n}`;
         return this.makeMcq(
-          'L1-CMP', 4, "Reste de division euclidienne par un carré (X - 1)^2 (TD Univ)",
+          'L1-CMP', 4, "Reste de division euclidienne par un carré $(X - 1)^2$",
           "Calculer le reste par dérivation ou formule de Taylor",
-          `Quel est le reste de la division euclidienne de $A(X) = X^{${nStr}}$ par $B(X) = (X - 1)^2$ dans $\\mathbb{R}[X]$ (issu de la fiche de TD) ?`,
+          `Quel est le reste de la division euclidienne de $A(X) = X^{${nStr}}$ par $B(X) = (X - 1)^2$ dans $\\mathbb{R}[X]$ ?`,
           `$${nStr}X - (${nStr} - 1)$`,
           [
             `$${nStr}X + 1$`,
@@ -2090,11 +2088,10 @@ window.MathsAdvancedGenerators = {
           "On a $P'(X) = 3(X^2 - 1) = 3(X - 1)(X + 1)$. Comme $P(1) = 1 - 3 + 2 = 0$ et $P(-1) = -1 + 3 + 2 = 4 \\neq 0$, le seul facteur commun unitaire est $\\text{pgcd}(P, P') = X - 1$. La racine $1$ est donc de multiplicité $1 + 1 = 2$ (racine double) pour $P$."
         );
       } else if (p4Variant === 'td_des_partie_entiere') {
-        // Issu de la fiche de TD n°3 Exercice 3
         return this.makeMcq(
-          'L1-CMP', 4, "DES avec partie entière et pôle double (TD Univ)",
+          'L1-CMP', 4, "DES avec partie entière et pôle double",
           "Déterminer la partie entière et le coefficient dominant d'un pôle double",
-          "Pour la fraction rationnelle $G(X) = \\frac{X^3 + 2}{(X - 1)^2 (X + 2)}$ (issue de la fiche de TD), quelle est sa partie entière $E(X)$ et le coefficient $\\alpha$ du terme $\\frac{\\alpha}{(X - 1)^2}$ ?",
+          "Pour la fraction rationnelle $G(X) = \\frac{X^3 + 2}{(X - 1)^2 (X + 2)}$, quelle est sa partie entière $E(X)$ et le coefficient $\\alpha$ du terme $\\frac{\\alpha}{(X - 1)^2}$ ?",
           "$E(X) = 1$ et $\\alpha = 1$",
           [
             "$E(X) = 0$ et $\\alpha = 1$",
