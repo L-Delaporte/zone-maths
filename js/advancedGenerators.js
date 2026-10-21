@@ -499,7 +499,7 @@ window.MathsAdvancedGenerators = {
         [`$${n - 1}$`, "Une infinité", "$1$"],
         `Le reste de la division euclidienne par ${n} ne prend qu'un nombre fini de valeurs.`,
         `Les classes sont $\\bar{0}, \\bar{1}, \\dots, \\overline{${n-1}}$.`,
-        `Tout entier admet un unique reste $r \\in \\{0, 1, \\dots, ${n-1}\\}$ modulo $${n}$. Il y a donc exactement $${n}$ classes d'équivalence disjointes, d'où $|\\mathbb{Z}/${n}\\mathbb{Z}| = ${n}$.`
+        `Tout entier admet un unique reste $r \\in \\{0, 1, \\dots, ${n-1}\\}$ modulo ${n}. Il y a donc exactement ${n} classes d'équivalence disjointes, d'où $|\\mathbb{Z}/${n}\\mathbb{Z}| = ${n}$.`
       );
     } else {
       // Palier 4 : Image réciproque et intersection / union ensembliste
