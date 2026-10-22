@@ -267,9 +267,18 @@ window.MathsAdaptiveEngine = {
     let candidate = null;
 
     // 1. PRIORITÉ ABSOLUE : Génération procédurale continue (style MathsMentales)
-    // Garantit que chaque question a de nouvelles valeurs aléatoires différentes à chaque tirage
+    // Garantit que chaque question a de nouvelles valeurs aléatoires et évite les répétitions immédiates
     if (window.MathsGenerators && typeof window.MathsGenerators.generateForChapter === 'function') {
-      const randExo = window.MathsGenerators.generateForChapter(this.state.chapterId, this.state.currentTier, mastery);
+      let randExo = null;
+      const prevStatement = (this.state.currentExercise && this.state.currentExercise.statement) ? this.state.currentExercise.statement : null;
+      for (let attempt = 0; attempt < 8; attempt++) {
+        const candidateExo = window.MathsGenerators.generateForChapter(this.state.chapterId, this.state.currentTier, mastery);
+        if (!candidateExo) break;
+        randExo = candidateExo;
+        if (!prevStatement || candidateExo.statement !== prevStatement) {
+          break;
+        }
+      }
       if (randExo) {
         randExo.tier = this.state.currentTier;
         randExo.id = `${this.state.chapterId}-dyn-t${this.state.currentTier}-${Date.now()}-${Math.floor(Math.random() * 100000)}`;

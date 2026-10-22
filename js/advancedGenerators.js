@@ -960,19 +960,39 @@ window.MathsAdvancedGenerators = {
           `$\\text{Tr}(A) = ${a} + (${d}) = ${tr}$. Par linéarité et commutativité sous la trace : $\\text{Tr}(AB - BA) = \\text{Tr}(AB) - \\text{Tr}(BA) = 0$.`
         );
       } else {
+        const rangCases = [
+          {
+            mat: "\\begin{pmatrix} 2 & 1 & -1 & 3 \\\\ 0 & 3 & 4 & 1 \\\\ 0 & 0 & 0 & 5 \\\\ 0 & 0 & 0 & 0 \\end{pmatrix}",
+            rg: 3,
+            distractors: ["$\\text{rg}(M) = 4$", "$\\text{rg}(M) = 2$", "$\\text{rg}(M) = 1$"],
+            pivotsText: "Compte les pivots non nuls : 2 sur la ligne 1, 3 sur la ligne 2, 5 sur la ligne 3.",
+            justif: "La matrice possède 3 pivots non nuls (sur les trois premières lignes). La quatrième ligne est entièrement nulle. Le rang de la matrice est donc égal à 3."
+          },
+          {
+            mat: "\\begin{pmatrix} 1 & -2 & 0 & 4 \\\\ 0 & 0 & 2 & 1 \\\\ 0 & 0 & 0 & 0 \\end{pmatrix}",
+            rg: 2,
+            distractors: ["$\\text{rg}(M) = 3$", "$\\text{rg}(M) = 1$", "$\\text{rg}(M) = 4$"],
+            pivotsText: "Compte les pivots non nuls : 1 sur la ligne 1, 2 sur la ligne 2.",
+            justif: "La matrice possède 2 pivots non nuls (colonnes 1 et 3). La troisième ligne est entièrement nulle. Le rang de la matrice est donc égal à 2."
+          },
+          {
+            mat: "\\begin{pmatrix} 1 & 3 & 0 \\\\ 0 & 1 & -1 \\\\ 0 & 0 & 2 \\\\ 0 & 0 & 0 \\end{pmatrix}",
+            rg: 3,
+            distractors: ["$\\text{rg}(M) = 4$", "$\\text{rg}(M) = 2$", "$\\text{rg}(M) = 1$"],
+            pivotsText: "Compte les pivots non nuls : 1 sur la ligne 1, 1 sur la ligne 2, 2 sur la ligne 3.",
+            justif: "La matrice a 3 pivots non nuls sur ses 3 premières lignes, et une ligne nulle. Le rang de la matrice est donc égal à 3."
+          }
+        ];
+        const rc = this.randChoice(rangCases);
         return this.makeMcq(
           'L1-MAT', 3, "Rang d'une matrice échelonnée en lignes",
           "Déterminer le rang à partir du nombre de pivots non nuls",
-          "Quel est le rang dans $\\mathbb{R}$ de la matrice échelonnée $M = \\begin{pmatrix} 2 & 1 & -1 & 3 \\\\ 0 & 3 & 4 & 1 \\\\ 0 & 0 & 0 & 5 \\\\ 0 & 0 & 0 & 0 \\end{pmatrix}$ ?",
-          "$\\text{rg}(M) = 3$",
-          [
-            "$\\text{rg}(M) = 4$",
-            "$\\text{rg}(M) = 2$",
-            "$\\text{rg}(M) = 1$"
-          ],
+          `Quel est le rang dans $\\mathbb{R}$ de la matrice échelonnée $M = ${rc.mat}$ ?`,
+          `$\\text{rg}(M) = ${rc.rg}$`,
+          rc.distractors,
           "Le rang d'une matrice échelonnée en lignes est égal au nombre de ses lignes non nulles (ou nombre de pivots).",
-          "Compte les pivots non nuls : 2 sur la ligne 1, 3 sur la ligne 2, 5 sur la ligne 3.",
-          "La matrice possède 3 pivots non nuls (sur les trois premières lignes). La quatrième ligne est entièrement nulle. Le rang de la matrice est donc égal à 3."
+          rc.pivotsText,
+          rc.justif
         );
       }
     } else {
@@ -980,20 +1000,91 @@ window.MathsAdvancedGenerators = {
       const p4Variant = this.randChoice(['bilan_inverse_3x3_gauss', 'bilan_inverse_2x2_det', 'bilan_polynome_annulateur', 'bilan_systeme_parametre', 'bilan_puissance_binome']);
 
       if (p4Variant === 'bilan_inverse_3x3_gauss') {
-        // Inversion 3x3 complète par Gauss-Jordan
+        // Inversion 3x3 complète par Gauss-Jordan avec 6 matrices diverses (triangulaires supérieures et inférieures)
+        const inv3x3Cases = [
+          {
+            mat: "\\begin{pmatrix} 1 & 0 & 0 \\\\ 2 & 1 & 0 \\\\ 1 & 1 & 1 \\end{pmatrix}",
+            inv: "\\begin{pmatrix} 1 & 0 & 0 \\\\ -2 & 1 & 0 \\\\ 1 & -1 & 1 \\end{pmatrix}",
+            distractors: [
+              "$A^{-1} = \\begin{pmatrix} 1 & 0 & 0 \\\\ 2 & 1 & 0 \\\\ 1 & 1 & 1 \\end{pmatrix}$",
+              "$A^{-1} = \\begin{pmatrix} 1 & 0 & 0 \\\\ -2 & 1 & 0 \\\\ -1 & -1 & 1 \\end{pmatrix}$",
+              "$A^{-1} = \\begin{pmatrix} 1 & -2 & 1 \\\\ 0 & 1 & -1 \\\\ 0 & 0 & 1 \\end{pmatrix}$"
+            ],
+            hint1: "Applique les opérations élémentaires : $L_2 \\leftarrow L_2 - 2L_1$, puis $L_3 \\leftarrow L_3 - L_1$, puis $L_3 \\leftarrow L_3 - L_2$.",
+            hint2: "Sur la partie droite $I_3$, $L_3 \\leftarrow (L_3 - L_1) - (L_2 - 2L_1) = L_3 - L_2 + L_1$.",
+            justification: "On forme $(A \\mid I_3)$. Opérations élémentaires :\n1. $L_2 \\leftarrow L_2 - 2L_1 \\implies$ ligne 2 de droite : $(-2, 1, 0)$.\n2. $L_3 \\leftarrow L_3 - L_1 \\implies$ ligne 3 de droite devient $(-1, 0, 1)$.\n3. $L_3 \\leftarrow L_3 - L_2 \\implies$ ligne 3 de droite devient $(-1 - (-2), 0 - 1, 1) = (1, -1, 1)$.\nD'où $A^{-1} = \\begin{pmatrix} 1 & 0 & 0 \\\\ -2 & 1 & 0 \\\\ 1 & -1 & 1 \\end{pmatrix}$."
+          },
+          {
+            mat: "\\begin{pmatrix} 1 & 0 & 0 \\\\ 3 & 1 & 0 \\\\ 2 & 1 & 1 \\end{pmatrix}",
+            inv: "\\begin{pmatrix} 1 & 0 & 0 \\\\ -3 & 1 & 0 \\\\ 1 & -1 & 1 \\end{pmatrix}",
+            distractors: [
+              "$A^{-1} = \\begin{pmatrix} 1 & 0 & 0 \\\\ -3 & 1 & 0 \\\\ 2 & -1 & 1 \\end{pmatrix}$",
+              "$A^{-1} = \\begin{pmatrix} 1 & 0 & 0 \\\\ 3 & 1 & 0 \\\\ 2 & 1 & 1 \\end{pmatrix}$",
+              "$A^{-1} = \\begin{pmatrix} 1 & -3 & 1 \\\\ 0 & 1 & -1 \\\\ 0 & 0 & 1 \\end{pmatrix}$"
+            ],
+            hint1: "Applique les opérations élémentaires : $L_2 \\leftarrow L_2 - 3L_1$, $L_3 \\leftarrow L_3 - 2L_1$, puis $L_3 \\leftarrow L_3 - L_2$.",
+            hint2: "Sur la partie droite $I_3$, $L_3 \\leftarrow (L_3 - 2L_1) - (L_2 - 3L_1) = L_3 - L_2 + L_1$.",
+            justification: "On forme $(A \\mid I_3)$ :\n1. $L_2 \\leftarrow L_2 - 3L_1 \\implies$ ligne 2 : $(-3, 1, 0)$.\n2. $L_3 \\leftarrow L_3 - 2L_1 \\implies$ ligne 3 : $(-2, 0, 1)$.\n3. $L_3 \\leftarrow L_3 - L_2 \\implies$ ligne 3 devient $(-2 - (-3), 0 - 1, 1) = (1, -1, 1)$.\nD'où $A^{-1} = \\begin{pmatrix} 1 & 0 & 0 \\\\ -3 & 1 & 0 \\\\ 1 & -1 & 1 \\end{pmatrix}$."
+          },
+          {
+            mat: "\\begin{pmatrix} 1 & 2 & 1 \\\\ 0 & 1 & 3 \\\\ 0 & 0 & 1 \\end{pmatrix}",
+            inv: "\\begin{pmatrix} 1 & -2 & 5 \\\\ 0 & 1 & -3 \\\\ 0 & 0 & 1 \\end{pmatrix}",
+            distractors: [
+              "$A^{-1} = \\begin{pmatrix} 1 & -2 & -1 \\\\ 0 & 1 & -3 \\\\ 0 & 0 & 1 \\end{pmatrix}$",
+              "$A^{-1} = \\begin{pmatrix} 1 & 2 & 1 \\\\ 0 & 1 & 3 \\\\ 0 & 0 & 1 \\end{pmatrix}$",
+              "$A^{-1} = \\begin{pmatrix} 1 & 0 & 0 \\\\ -2 & 1 & 0 \\\\ 5 & -3 & 1 \\end{pmatrix}$"
+            ],
+            hint1: "La matrice est triangulaire supérieure : remonte depuis le bas avec $L_2 \\leftarrow L_2 - 3L_3$, $L_1 \\leftarrow L_1 - L_3$, puis $L_1 \\leftarrow L_1 - 2L_2$.",
+            hint2: "En position (1,3), l'opération donne $-1 - 2(-3) = 5$.",
+            justification: "On forme $(A \\mid I_3)$ :\n1. $L_2 \\leftarrow L_2 - 3L_3 \\implies$ ligne 2 droite : $(0, 1, -3)$.\n2. $L_1 \\leftarrow L_1 - L_3 \\implies$ ligne 1 droite : $(1, 0, -1)$.\n3. $L_1 \\leftarrow L_1 - 2L_2 \\implies$ ligne 1 droite : $(1 - 0, 0 - 2, -1 - 2(-3)) = (1, -2, 5)$.\nD'où $A^{-1} = \\begin{pmatrix} 1 & -2 & 5 \\\\ 0 & 1 & -3 \\\\ 0 & 0 & 1 \\end{pmatrix}$."
+          },
+          {
+            mat: "\\begin{pmatrix} 1 & 1 & 0 \\\\ 0 & 1 & 2 \\\\ 0 & 0 & 1 \\end{pmatrix}",
+            inv: "\\begin{pmatrix} 1 & -1 & 2 \\\\ 0 & 1 & -2 \\\\ 0 & 0 & 1 \\end{pmatrix}",
+            distractors: [
+              "$A^{-1} = \\begin{pmatrix} 1 & -1 & 0 \\\\ 0 & 1 & -2 \\\\ 0 & 0 & 1 \\end{pmatrix}$",
+              "$A^{-1} = \\begin{pmatrix} 1 & -1 & -2 \\\\ 0 & 1 & -2 \\\\ 0 & 0 & 1 \\end{pmatrix}$",
+              "$A^{-1} = \\begin{pmatrix} 1 & 1 & 0 \\\\ 0 & 1 & 2 \\\\ 0 & 0 & 1 \\end{pmatrix}$"
+            ],
+            hint1: "Élimine vers le haut : $L_2 \\leftarrow L_2 - 2L_3$, puis $L_1 \\leftarrow L_1 - L_2$.",
+            hint2: "Sur $I_3$, $L_1$ reçoit $-(-2) = 2$ en troisième position.",
+            justification: "On forme $(A \\mid I_3)$ :\n1. $L_2 \\leftarrow L_2 - 2L_3 \\implies (0, 1, -2)$.\n2. $L_1 \\leftarrow L_1 - L_2 \\implies (1 - 0, 0 - 1, 0 - (-2)) = (1, -1, 2)$.\nD'où $A^{-1} = \\begin{pmatrix} 1 & -1 & 2 \\\\ 0 & 1 & -2 \\\\ 0 & 0 & 1 \\end{pmatrix}$."
+          },
+          {
+            mat: "\\begin{pmatrix} 1 & 0 & 0 \\\\ 1 & 1 & 0 \\\\ 2 & 3 & 1 \\end{pmatrix}",
+            inv: "\\begin{pmatrix} 1 & 0 & 0 \\\\ -1 & 1 & 0 \\\\ 1 & -3 & 1 \\end{pmatrix}",
+            distractors: [
+              "$A^{-1} = \\begin{pmatrix} 1 & 0 & 0 \\\\ -1 & 1 & 0 \\\\ -2 & -3 & 1 \\end{pmatrix}$",
+              "$A^{-1} = \\begin{pmatrix} 1 & -1 & 1 \\\\ 0 & 1 & -3 \\\\ 0 & 0 & 1 \\end{pmatrix}$",
+              "$A^{-1} = \\begin{pmatrix} 1 & 0 & 0 \\\\ 1 & 1 & 0 \\\\ 2 & 3 & 1 \\end{pmatrix}$"
+            ],
+            hint1: "$L_2 \\leftarrow L_2 - L_1$, $L_3 \\leftarrow L_3 - 2L_1$, puis $L_3 \\leftarrow L_3 - 3L_2$.",
+            hint2: "Sur la ligne 3 : $(-2) - 3(-1) = 1$, et $0 - 3(1) = -3$.",
+            justification: "On forme $(A \\mid I_3)$ :\n1. $L_2 \\leftarrow L_2 - L_1 \\implies (-1, 1, 0)$.\n2. $L_3 \\leftarrow L_3 - 2L_1 \\implies (-2, 0, 1)$.\n3. $L_3 \\leftarrow L_3 - 3L_2 \\implies (-2 - 3(-1), 0 - 3(1), 1) = (1, -3, 1)$.\nD'où $A^{-1} = \\begin{pmatrix} 1 & 0 & 0 \\\\ -1 & 1 & 0 \\\\ 1 & -3 & 1 \\end{pmatrix}$."
+          },
+          {
+            mat: "\\begin{pmatrix} 1 & 0 & 2 \\\\ 0 & 1 & 1 \\\\ 0 & 0 & 1 \\end{pmatrix}",
+            inv: "\\begin{pmatrix} 1 & 0 & -2 \\\\ 0 & 1 & -1 \\\\ 0 & 0 & 1 \\end{pmatrix}",
+            distractors: [
+              "$A^{-1} = \\begin{pmatrix} 1 & 0 & 2 \\\\ 0 & 1 & 1 \\\\ 0 & 0 & 1 \\end{pmatrix}$",
+              "$A^{-1} = \\begin{pmatrix} 1 & 0 & -2 \\\\ 0 & 1 & 1 \\\\ 0 & 0 & 1 \\end{pmatrix}$",
+              "$A^{-1} = \\begin{pmatrix} -1 & 0 & 2 \\\\ 0 & -1 & 1 \\\\ 0 & 0 & -1 \\end{pmatrix}$"
+            ],
+            hint1: "Matrice triangulaire supérieure : $L_1 \\leftarrow L_1 - 2L_3$ et $L_2 \\leftarrow L_2 - L_3$.",
+            hint2: "Comme il n'y a pas de terme en position (1,2), les deux éliminations sont directes.",
+            justification: "Sur $(A \\mid I_3)$ :\n1. $L_1 \\leftarrow L_1 - 2L_3 \\implies (1, 0, -2)$.\n2. $L_2 \\leftarrow L_2 - L_3 \\implies (0, 1, -1)$.\nD'où $A^{-1} = \\begin{pmatrix} 1 & 0 & -2 \\\\ 0 & 1 & -1 \\\\ 0 & 0 & 1 \\end{pmatrix}$."
+          }
+        ];
+        const c = this.randChoice(inv3x3Cases);
         return this.makeMcq(
           'L1-MAT', 4, "Inversion complète d'une matrice 3x3 (Gauss-Jordan)",
           "Appliquer l'algorithme complet de Gauss-Jordan $(A \\mid I_3) \\to (I_3 \\mid A^{-1})$",
-          "Quelle est la matrice inverse de $A = \\begin{pmatrix} 1 & 0 & 0 \\\\ 2 & 1 & 0 \\\\ 1 & 1 & 1 \\end{pmatrix}$ obtenue par élimination de Gauss-Jordan ?",
-          "$A^{-1} = \\begin{pmatrix} 1 & 0 & 0 \\\\ -2 & 1 & 0 \\\\ 1 & -1 & 1 \\end{pmatrix}$",
-          [
-            "$A^{-1} = \\begin{pmatrix} 1 & 0 & 0 \\\\ 2 & 1 & 0 \\\\ 1 & 1 & 1 \\end{pmatrix}$",
-            "$A^{-1} = \\begin{pmatrix} 1 & 0 & 0 \\\\ -2 & 1 & 0 \\\\ -1 & -1 & 1 \\end{pmatrix}$",
-            "$A^{-1} = \\begin{pmatrix} 1 & -2 & 1 \\\\ 0 & 1 & -1 \\\\ 0 & 0 & 1 \\end{pmatrix}$"
-          ],
-          "Applique les opérations élémentaires : $L_2 \\leftarrow L_2 - 2L_1$, puis $L_3 \\leftarrow L_3 - L_1$, puis $L_3 \\leftarrow L_3 - L_2$.",
-          "Sur la partie droite $I_3$, $L_3 \\leftarrow (L_3 - L_1) - (L_2 - 2L_1) = L_3 - L_2 + L_1$.",
-          "On forme $(A \\mid I_3)$. Opérations élémentaires :\n1. $L_2 \\leftarrow L_2 - 2L_1 \\implies$ ligne 2 de droite : $(-2, 1, 0)$.\n2. $L_3 \\leftarrow L_3 - L_1 \\implies$ ligne 3 de droite devient $(-1, 0, 1)$.\n3. $L_3 \\leftarrow L_3 - L_2 \\implies$ ligne 3 de droite devient $(-1 - (-2), 0 - 1, 1) = (1, -1, 1)$.\nD'où $A^{-1} = \\begin{pmatrix} 1 & 0 & 0 \\\\ -2 & 1 & 0 \\\\ 1 & -1 & 1 \\end{pmatrix}$."
+          `Quelle est la matrice inverse de $A = ${c.mat}$ obtenue par élimination de Gauss-Jordan ?`,
+          `$A^{-1} = ${c.inv}$`,
+          c.distractors,
+          c.hint1,
+          c.hint2,
+          c.justification
         );
       } else if (p4Variant === 'bilan_inverse_2x2_det') {
         const invCases = [
@@ -1072,22 +1163,81 @@ window.MathsAdvancedGenerators = {
           `On calcule $\\det(A) = ${c.a} \\times ${c.d} - ${c.b} \\times ${c.c} = ${c.a * c.d} - ${c.b * c.c} = ${c.det} \\neq 0$. La comatrice transposée donne $\\begin{pmatrix} d & -b \\\\ -c & a \\end{pmatrix} = ${c.invMat}$. L'inverse est donc $A^{-1} = \\frac{1}{${c.det}} ${c.invMat}$.`
         );
       } else if (p4Variant === 'bilan_polynome_annulateur') {
+        const polyCases = [
+          {
+            relation: "A^2 - 4A + 3I_n = 0",
+            invExpr: "\\frac{1}{3}(4I_n - A)",
+            distractors: [
+              "$A$ est inversible et $A^{-1} = 4I_n - A$",
+              "$A$ n'est pas nécessairement inversible",
+              "$A$ est inversible et $A^{-1} = \\frac{1}{3}(A - 4I_n)$"
+            ],
+            hint1: "Isole la matrice identité : $A^2 - 4A = -3I_n \\iff A(4I_n - A) = 3I_n$.",
+            hint2: "Divise par 3 pour obtenir $A B = I_n$, alors $A^{-1} = B$.",
+            sol: "On factorise par $A$ : $A^2 - 4A = -3I_n \\iff A(A - 4I_n) = -3I_n \\iff A \\left[\\frac{1}{3}(4I_n - A)\\right] = I_n$. Par définition de l'inverse, $A$ est inversible et son inverse est $A^{-1} = \\frac{1}{3}(4I_n - A)$."
+          },
+          {
+            relation: "A^2 - 5A + 2I_n = 0",
+            invExpr: "\\frac{1}{2}(5I_n - A)",
+            distractors: [
+              "$A$ est inversible et $A^{-1} = 5I_n - A$",
+              "$A$ n'est pas nécessairement inversible",
+              "$A$ est inversible et $A^{-1} = \\frac{1}{2}(A - 5I_n)$"
+            ],
+            hint1: "Isole la matrice identité : $A^2 - 5A = -2I_n \\iff A(5I_n - A) = 2I_n$.",
+            hint2: "Divise par 2 pour obtenir $A B = I_n$, alors $A^{-1} = B$.",
+            sol: "On factorise : $A(5I_n - A) = 2I_n \\iff A \\left[\\frac{1}{2}(5I_n - A)\\right] = I_n$. Donc $A$ est inversible et $A^{-1} = \\frac{1}{2}(5I_n - A)$."
+          },
+          {
+            relation: "A^3 - 2A^2 + A - 4I_n = 0",
+            invExpr: "\\frac{1}{4}(A^2 - 2A + I_n)",
+            distractors: [
+              "$A$ est inversible et $A^{-1} = \\frac{1}{4}(A^2 + 2A - I_n)$",
+              "$A$ est inversible et $A^{-1} = A^2 - 2A + I_n$",
+              "$A$ n'est pas nécessairement inversible"
+            ],
+            hint1: "Isole $4I_n$ puis factorise $A$ dans les termes de degrés $\\ge 1$ : $A(A^2 - 2A + I_n) = 4I_n$.",
+            hint2: "Divise par 4 : $A \\left[\\frac{1}{4}(A^2 - 2A + I_n)\\right] = I_n$.",
+            sol: "On factorise $A$ dans les termes de degrés $\\ge 1$ : $A(A^2 - 2A + I_n) = 4I_n \\iff A \\left[\\frac{1}{4}(A^2 - 2A + I_n)\\right] = I_n$. Ainsi $A$ est inversible et $A^{-1} = \\frac{1}{4}(A^2 - 2A + I_n)$."
+          },
+          {
+            relation: "A^2 + 3A - 2I_n = 0",
+            invExpr: "\\frac{1}{2}(A + 3I_n)",
+            distractors: [
+              "$A$ est inversible et $A^{-1} = A + 3I_n$",
+              "$A$ n'est pas nécessairement inversible",
+              "$A$ est inversible et $A^{-1} = -\\frac{1}{2}(A + 3I_n)$"
+            ],
+            hint1: "Isole $2I_n$ : $A^2 + 3A = 2I_n \\iff A(A + 3I_n) = 2I_n$.",
+            hint2: "Divise par 2 pour identifier $A^{-1}$.",
+            sol: "On a $A^2 + 3A = 2I_n \\iff A(A + 3I_n) = 2I_n \\iff A \\left[\\frac{1}{2}(A + 3I_n)\\right] = I_n$. Donc $A$ est inversible et $A^{-1} = \\frac{1}{2}(A + 3I_n)$."
+          },
+          {
+            relation: "A^3 - 3A + 5I_n = 0",
+            invExpr: "\\frac{1}{5}(3I_n - A^2)",
+            distractors: [
+              "$A$ est inversible et $A^{-1} = \\frac{1}{5}(A^2 - 3I_n)$",
+              "$A$ est inversible et $A^{-1} = 3I_n - A^2$",
+              "$A$ n'est pas nécessairement inversible"
+            ],
+            hint1: "Isole $5I_n$ : $5I_n = 3A - A^3 = A(3I_n - A^2)$.",
+            hint2: "Divise par 5 : $A \\left[\\frac{1}{5}(3I_n - A^2)\\right] = I_n$.",
+            sol: "On réécrit $5I_n = 3A - A^3 = A(3I_n - A^2) \\iff A \\left[\\frac{1}{5}(3I_n - A^2)\\right] = I_n$. Donc $A$ est inversible et $A^{-1} = \\frac{1}{5}(3I_n - A^2)$."
+          }
+        ];
+        const pc = this.randChoice(polyCases);
         return this.makeMcq(
           'L1-MAT', 4, "Inverse matriciel via un polynôme annulateur",
           "Déduire l'inversibilité et l'expression de l'inverse à partir d'une relation polynomiale",
-          "Soit $A \\in \\mathcal{M}_n(\\mathbb{R})$ vérifiant la relation matricielle $A^2 - 4A + 3I_n = 0$. Prouver que $A$ est inversible et donner son inverse :",
-          "$A$ est inversible et $A^{-1} = \\frac{1}{3}(4I_n - A)$",
-          [
-            "$A$ est inversible et $A^{-1} = 4I_n - A$",
-            "$A$ n'est pas nécessairement inversible",
-            "$A$ est inversible et $A^{-1} = \\frac{1}{3}(A - 4I_n)$"
-          ],
-          "Isole la matrice identité : $A^2 - 4A = -3I_n \\iff A(4I_n - A) = 3I_n$.",
-          "Divise par 3 pour obtenir $A B = I_n$, alors $A^{-1} = B$.",
-          "On factorise par $A$ : $A^2 - 4A = -3I_n \\iff A(A - 4I_n) = -3I_n \\iff A \\left[\\frac{1}{3}(4I_n - A)\\right] = I_n$. Par définition de l'inverse, $A$ est inversible et son inverse est $A^{-1} = \\frac{1}{3}(4I_n - A)$."
+          `Soit $A \\in \\mathcal{M}_n(\\mathbb{R})$ vérifiant la relation matricielle $${pc.relation}$. Prouver que $A$ est inversible et donner son inverse :`,
+          `$A$ est inversible et $A^{-1} = ${pc.invExpr}$`,
+          pc.distractors,
+          pc.hint1,
+          pc.hint2,
+          pc.sol
         );
       } else if (p4Variant === 'bilan_systeme_parametre') {
-        const m0 = this.randChoice([2, 3]);
+        const m0 = this.randChoice([2, 3, 4, 5]);
         const m0sq = m0 * m0;
         return this.makeMcq(
           'L1-MAT', 4, "Système linéaire avec paramètre (Système de Cramer)",
@@ -1104,19 +1254,66 @@ window.MathsAdvancedGenerators = {
           `Le déterminant de la matrice associée est $\\det(A_m) = m \\times m - ${m0} \\times ${m0} = m^2 - ${m0sq}$. Le système est de Cramer (solution unique) si et seulement si $\\det(A_m) \\neq 0 \\iff m^2 \\neq ${m0sq} \\iff m \\neq \\pm ${m0}$. D'où $m \\in \\mathbb{R} \\setminus \\{-${m0}, ${m0}\\}$.`
         );
       } else {
+        const binomeCases = [
+          {
+            mat: "\\begin{pmatrix} 2 & 1 \\\\ 0 & 2 \\end{pmatrix}",
+            ans: "$A^n = \\begin{pmatrix} 2^n & n 2^{n-1} \\\\ 0 & 2^n \\end{pmatrix}$",
+            distractors: [
+              "$A^n = \\begin{pmatrix} 2^n & 1 \\\\ 0 & 2^n \\end{pmatrix}$",
+              "$A^n = \\begin{pmatrix} 2^n & n \\\\ 0 & 2^n \\end{pmatrix}$",
+              "$A^n = \\begin{pmatrix} 2^n & 2^{n-1} \\\\ 0 & 2^n \\end{pmatrix}$"
+            ],
+            hint1: "Décompose $A = 2I_2 + N$ avec $N = \\begin{pmatrix} 0 & 1 \\\\ 0 & 0 \\end{pmatrix}$. Remarque que $N^2 = 0$.",
+            hint2: "Applique le binôme de Newton : $(2I_2 + N)^n = \\sum_{k=0}^n \\binom{n}{k} (2I_2)^{n-k} N^k = 2^n I_2 + n 2^{n-1} N$.",
+            sol: "Comme $2I_2$ et $N$ commutent et $N^2 = 0$, la formule du binôme donne directement $A^n = (2I_2 + N)^n = \\binom{n}{0} 2^n I_2 + \\binom{n}{1} 2^{n-1} N = 2^n I_2 + n 2^{n-1} N = \\begin{pmatrix} 2^n & n 2^{n-1} \\\\ 0 & 2^n \\end{pmatrix}$."
+          },
+          {
+            mat: "\\begin{pmatrix} 3 & 1 \\\\ 0 & 3 \\end{pmatrix}",
+            ans: "$A^n = \\begin{pmatrix} 3^n & n 3^{n-1} \\\\ 0 & 3^n \\end{pmatrix}$",
+            distractors: [
+              "$A^n = \\begin{pmatrix} 3^n & 1 \\\\ 0 & 3^n \\end{pmatrix}$",
+              "$A^n = \\begin{pmatrix} 3^n & n \\\\ 0 & 3^n \\end{pmatrix}$",
+              "$A^n = \\begin{pmatrix} 3^n & 3^{n-1} \\\\ 0 & 3^n \\end{pmatrix}$"
+            ],
+            hint1: "Décompose $A = 3I_2 + N$ avec $N = \\begin{pmatrix} 0 & 1 \\\\ 0 & 0 \\end{pmatrix}$. Remarque que $N^2 = 0$.",
+            hint2: "Applique le binôme de Newton : $(3I_2 + N)^n = 3^n I_2 + n 3^{n-1} N$.",
+            sol: "On pose $A = 3I_2 + N$ avec $N = \\begin{pmatrix} 0 & 1 \\\\ 0 & 0 \\end{pmatrix}$. $N^2 = 0$ et $3I_2 N = N (3I_2)$. Par le binôme de Newton : $A^n = (3I_2 + N)^n = 3^n I_2 + n 3^{n-1} N = \\begin{pmatrix} 3^n & n 3^{n-1} \\\\ 0 & 3^n \\end{pmatrix}$."
+          },
+          {
+            mat: "\\begin{pmatrix} 1 & 2 \\\\ 0 & 1 \\end{pmatrix}",
+            ans: "$A^n = \\begin{pmatrix} 1 & 2n \\\\ 0 & 1 \\end{pmatrix}$",
+            distractors: [
+              "$A^n = \\begin{pmatrix} 1 & 2^n \\\\ 0 & 1 \\end{pmatrix}$",
+              "$A^n = \\begin{pmatrix} 1 & 2 \\\\ 0 & 1 \\end{pmatrix}$",
+              "$A^n = \\begin{pmatrix} n & 2n \\\\ 0 & n \\end{pmatrix}$"
+            ],
+            hint1: "Décompose $A = I_2 + N$ avec $N = \\begin{pmatrix} 0 & 2 \\\\ 0 & 0 \\end{pmatrix}$. Remarque que $N^2 = 0$.",
+            hint2: "Applique le binôme de Newton : $(I_2 + N)^n = I_2 + n N$.",
+            sol: "On décompose $A = I_2 + N$ avec $N = \\begin{pmatrix} 0 & 2 \\\\ 0 & 0 \\end{pmatrix}$. Comme $N^2 = 0$, $A^n = I_2 + n N = \\begin{pmatrix} 1 & 2n \\\\ 0 & 1 \\end{pmatrix}$."
+          },
+          {
+            mat: "\\begin{pmatrix} 2 & 0 \\\\ 1 & 2 \\end{pmatrix}",
+            ans: "$A^n = \\begin{pmatrix} 2^n & 0 \\\\ n 2^{n-1} & 2^n \\end{pmatrix}$",
+            distractors: [
+              "$A^n = \\begin{pmatrix} 2^n & 0 \\\\ 1 & 2^n \\end{pmatrix}$",
+              "$A^n = \\begin{pmatrix} 2^n & 0 \\\\ n & 2^n \\end{pmatrix}$",
+              "$A^n = \\begin{pmatrix} 2^n & 0 \\\\ 2^{n-1} & 2^n \\end{pmatrix}$"
+            ],
+            hint1: "Décompose $A = 2I_2 + N$ avec $N = \\begin{pmatrix} 0 & 0 \\\\ 1 & 0 \\end{pmatrix}$. Remarque que $N^2 = 0$.",
+            hint2: "Applique le binôme de Newton : $(2I_2 + N)^n = 2^n I_2 + n 2^{n-1} N$.",
+            sol: "On a $A = 2I_2 + N$ avec $N = \\begin{pmatrix} 0 & 0 \\\\ 1 & 0 \\end{pmatrix}$. $N^2 = 0$. Par la formule du binôme : $A^n = 2^n I_2 + n 2^{n-1} N = \\begin{pmatrix} 2^n & 0 \\\\ n 2^{n-1} & 2^n \\end{pmatrix}$."
+          }
+        ];
+        const bc = this.randChoice(binomeCases);
         return this.makeMcq(
           'L1-MAT', 4, "Puissance n-ième par le binôme de Newton",
           "Calculer $A^n$ par décomposition $A = \\lambda I + N$ avec matrice nilpotente",
-          "Soit $A = \\begin{pmatrix} 2 & 1 \\\\ 0 & 2 \\end{pmatrix}$. Quelle est l'expression de $A^n$ pour tout $n \\ge 1$ ?",
-          "$A^n = \\begin{pmatrix} 2^n & n 2^{n-1} \\\\ 0 & 2^n \\end{pmatrix}$",
-          [
-            "$A^n = \\begin{pmatrix} 2^n & 1 \\\\ 0 & 2^n \\end{pmatrix}$",
-            "$A^n = \\begin{pmatrix} 2^n & n \\\\ 0 & 2^n \\end{pmatrix}$",
-            "$A^n = \\begin{pmatrix} 2^n & 2^{n-1} \\\\ 0 & 2^n \\end{pmatrix}$"
-          ],
-          "Décompose $A = 2I_2 + N$ avec $N = \\begin{pmatrix} 0 & 1 \\\\ 0 & 0 \\end{pmatrix}$. Remarque que $N^2 = 0$.",
-          "Applique le binôme de Newton : $(2I_2 + N)^n = \\sum_{k=0}^n \\binom{n}{k} (2I_2)^{n-k} N^k = 2^n I_2 + n 2^{n-1} N$.",
-          "Comme $2I_2$ et $N$ commutent et $N^2 = 0$, la formule du binôme donne directement $A^n = (2I_2 + N)^n = \\binom{n}{0} 2^n I_2 + \\binom{n}{1} 2^{n-1} N = 2^n I_2 + n 2^{n-1} N = \\begin{pmatrix} 2^n & n 2^{n-1} \\\\ 0 & 2^n \\end{pmatrix}$."
+          `Soit $A = ${bc.mat}$. Quelle est l'expression de $A^n$ pour tout $n \\ge 1$ ?`,
+          bc.ans,
+          bc.distractors,
+          bc.hint1,
+          bc.hint2,
+          bc.sol
         );
       }
     }
@@ -1710,23 +1907,105 @@ window.MathsAdvancedGenerators = {
         );
       }
     } else if (tier === 3) {
-      // Palier 3 : Matrice d'endomorphisme, changements de base et rang
-      const deg = this.randChoice([2, 3]);
-      const dimPoly = deg + 1;
-      return this.makeMcq(
-        'L1-APP', 3, "Représentation matricielle de la dérivation dans $\\mathbb{R}_n[X]$",
-        "Construire la matrice d'un endomorphisme dans la base canonique",
-        `Dans l'espace $\\mathbb{R}_{${deg}}[X]$ muni de la base canonique $(1, X${deg === 3 ? ', X^2, X^3' : ', X^2'})$, quelle est la taille de la matrice représentative de l'opérateur de dérivation $D : P \\mapsto P'$ ?`,
-        `Taille $${dimPoly} \\times ${dimPoly}$, triangulaire supérieure stricte`,
-        [
-          `Taille $${deg} \\times ${deg}$, inversible`,
-          `Taille $${dimPoly} \\times ${dimPoly}$, diagonale`,
-          `Taille $${deg} \\times ${dimPoly}$, inversible`
-        ],
-        `La dimension de $\\mathbb{R}_n[X]$ est $n + 1$.`,
-        `Comme $\\deg(P') < \\deg(P)$, $D$ est un endomorphisme nilpotent.`,
-        `$\\dim(\\mathbb{R}_{${deg}}[X]) = ${dimPoly}$, donc la matrice est carrée d'ordre $${dimPoly}$. Comme $D(X^k) = k X^{k-1}$, les éléments diagonaux sont tous nuls : elle est nilpotente et triangulaire supérieure stricte.`
-      );
+      // Palier 3 : Matrice d'endomorphisme, changements de base, théorème du rang et composition
+      const p3Variant = this.randChoice(['matrice_derivation_poly', 'matrice_canonique_r2', 'theoreme_du_rang_calcul', 'matrice_passage_changement_base', 'composition_matrices']);
+
+      if (p3Variant === 'matrice_derivation_poly') {
+        const deg = this.randChoice([2, 3, 4]);
+        const dimPoly = deg + 1;
+        const baseCan = deg === 4 ? '(1, X, X^2, X^3, X^4)' : (deg === 3 ? '(1, X, X^2, X^3)' : '(1, X, X^2)');
+        return this.makeMcq(
+          'L1-APP', 3, "Représentation matricielle de la dérivation dans $\\mathbb{R}_n[X]$",
+          "Construire la matrice d'un endomorphisme dans la base canonique",
+          `Dans l'espace $\\mathbb{R}_{${deg}}[X]$ muni de la base canonique $${baseCan}$, quelle est la taille et la nature de la matrice représentative de l'opérateur de dérivation $D : P \\mapsto P'$ ?`,
+          `Taille $${dimPoly} \\times ${dimPoly}$, triangulaire supérieure stricte (nilpotente)`,
+          [
+            `Taille $${deg} \\times ${deg}$, inversible`,
+            `Taille $${dimPoly} \\times ${dimPoly}$, diagonale`,
+            `Taille $${deg} \\times ${dimPoly}$, triangulaire inférieure`
+          ],
+          `La dimension de $\\mathbb{R}_n[X]$ est $n + 1$.`,
+          `Comme $\\deg(P') < \\deg(P)$, la dérivation abaisse le degré d'au moins 1, d'où la nilpotence.`,
+          `On a $\\dim(\\mathbb{R}_{${deg}}[X]) = ${dimPoly}$, donc la matrice est carrée d'ordre $${dimPoly} \\times ${dimPoly}$. Comme $D(1) = 0$ et $D(X^k) = k X^{k-1}$, les éléments diagonaux sont tous nuls : la matrice est nilpotente d'indice ${dimPoly} et triangulaire supérieure stricte.`
+        );
+      } else if (p3Variant === 'matrice_canonique_r2') {
+        const a = this.randChoice([2, 3, -1, 4]);
+        const b = this.randChoice([1, -2, 5]);
+        const c = this.randChoice([3, 1, -3]);
+        const d = this.randChoice([-1, 2, 4]);
+        return this.makeMcq(
+          'L1-APP', 3, "Matrice d'un endomorphisme dans la base canonique de $\\mathbb{R}^2$",
+          "Exprimer les images des vecteurs de base en colonnes de la matrice",
+          `Soit $f \\in \\mathcal{L}(\\mathbb{R}^2)$ défini par $f(x, y) = (${a}x + (${b})y, \\, ${c}x + (${d})y)$. Quelle est la matrice $\\text{Mat}_{\\mathcal{B}_c}(f)$ dans la base canonique $\\mathcal{B}_c = (e_1, e_2)$ ?`,
+          `$\\begin{pmatrix} ${a} & ${b} \\\\ ${c} & ${d} \\end{pmatrix}$`,
+          [
+            `$\\begin{pmatrix} ${a} & ${c} \\\\ ${b} & ${d} \\end{pmatrix}$`,
+            `$\\begin{pmatrix} ${b} & ${a} \\\\ ${d} & ${c} \\end{pmatrix}$`,
+            `$\\begin{pmatrix} ${a} & 0 \\\\ 0 & ${d} \\end{pmatrix}$`
+          ],
+          "Calcule $f(e_1) = f(1, 0)$ et $f(e_2) = f(0, 1)$.",
+          "Les coordonnées de $f(e_1)$ forment la première colonne, celles de $f(e_2)$ la seconde colonne.",
+          `On évalue $f$ sur la base canonique : $f(1, 0) = (${a}, ${c})$ forme la première colonne, et $f(0, 1) = (${b}, ${d})$ forme la seconde colonne. D'où $\\text{Mat}_{\\mathcal{B}_c}(f) = \\begin{pmatrix} ${a} & ${b} \\\\ ${c} & ${d} \\end{pmatrix}$.`
+        );
+      } else if (p3Variant === 'theoreme_du_rang_calcul') {
+        const dimE = this.randChoice([4, 5, 6]);
+        const dimF = this.randChoice([3, 4]);
+        const dimKer = this.randChoice([1, 2]);
+        const rg = dimE - dimKer;
+        return this.makeMcq(
+          'L1-APP', 3, "Théorème du rang : Dimension du noyau et de l'image",
+          "Appliquer $\\dim E = \\dim \\text{Ker}(f) + \\text{rg}(f)$",
+          `Soit une application linéaire $f : E \\to F$ où $\\dim(E) = ${dimE}$ et $\\dim(F) = ${dimF}$. Si $\\dim(\\text{Ker} f) = ${dimKer}$, que vaut le rang $\\text{rg}(f)$ de $f$, et $f$ peut-elle être injective ?`,
+          `$\\text{rg}(f) = ${rg}$, et $f$ n'est pas injective (car $\\dim \\text{Ker} f = ${dimKer} \\neq 0$)`,
+          [
+            `$\\text{rg}(f) = ${dimE + dimKer}$, et $f$ est injective`,
+            `$\\text{rg}(f) = ${dimF - dimKer}$, et $f$ est injective`,
+            `$\\text{rg}(f) = ${dimKer}$, et $f$ est surjective`
+          ],
+          "Applique la relation fondamentale : $\\dim(E) = \\dim(\\text{Ker} f) + \\text{rg}(f)$.",
+          "Une application linéaire est injective si et seulement si son noyau est réduit au vecteur nul ($\\dim \\text{Ker} f = 0$).",
+          `D'après le théorème du rang : $\\text{rg}(f) = \\dim(E) - \\dim(\\text{Ker} f) = ${dimE} - ${dimKer} = ${rg}$. Comme $\\dim(\\text{Ker} f) = ${dimKer} > 0$, $\\text{Ker}(f) \\neq \\{0_E\\}$ : l'application n'est pas injective.`
+        );
+      } else if (p3Variant === 'matrice_passage_changement_base') {
+        const u1 = this.randChoice([1, 2]);
+        const u2 = this.randChoice([1, 3]);
+        const v1 = this.randChoice([0, 1]);
+        const v2 = this.randChoice([1, 2]);
+        let finalV1 = v1, finalV2 = v2;
+        if (u1 * v2 - u2 * v1 === 0) {
+          finalV1 = 1;
+          finalV2 = 0;
+        }
+        return this.makeMcq(
+          'L1-APP', 3, "Matrice de passage entre deux bases",
+          "Construire la matrice de passage $P_{\\mathcal{B} \\to \\mathcal{B}'}$",
+          `Dans $\\mathbb{R}^2$, on considère la base canonique $\\mathcal{B} = (e_1, e_2)$ et la nouvelle base $\\mathcal{B}' = (u, v)$ où $u = (${u1}, ${u2})$ et $v = (${finalV1}, ${finalV2})$. Quelle est la matrice de passage $P$ de $\\mathcal{B}$ vers $\\mathcal{B}'$ ?`,
+          `$P = \\begin{pmatrix} ${u1} & ${finalV1} \\\\ ${u2} & ${finalV2} \\end{pmatrix}$`,
+          [
+            `$P = \\begin{pmatrix} ${u1} & ${u2} \\\\ ${finalV1} & ${finalV2} \\end{pmatrix}$`,
+            `$P = \\begin{pmatrix} ${finalV1} & ${u1} \\\\ ${finalV2} & ${u2} \\end{pmatrix}$`,
+            `$P = \\begin{pmatrix} 1 & 0 \\\\ 0 & 1 \\end{pmatrix}$`
+          ],
+          "Par définition, les colonnes de la matrice de passage $P_{\\mathcal{B} \\to \\mathcal{B}'}$ sont les composantes des vecteurs de la NOUVELLE base $\\mathcal{B}'$ exprimés dans l'ancienne base $\\mathcal{B}$.",
+          "La première colonne est le vecteur $u$, la seconde colonne est le vecteur $v$.",
+          `La matrice de passage $P_{\\mathcal{B} \\to \\mathcal{B}'}$ est constituée en colonnes des coordonnées des vecteurs de la nouvelle base $\\mathcal{B}'$ dans l'ancienne base $\\mathcal{B}$ : colonne 1 = $u = \\begin{pmatrix} ${u1} \\\\ ${u2} \\end{pmatrix}$, colonne 2 = $v = \\begin{pmatrix} ${finalV1} \\\\ ${finalV2} \\end{pmatrix}$. Donc $P = \\begin{pmatrix} ${u1} & ${finalV1} \\\\ ${u2} & ${finalV2} \\end{pmatrix}$.`
+        );
+      } else {
+        return this.makeMcq(
+          'L1-APP', 3, "Matrice de la composée de deux applications linéaires",
+          "Relier la composition $g \\circ f$ au produit matriciel $M(g) \\times M(f)$",
+          "Soient $f, g \\in \\mathcal{L}(E)$ deux endomorphismes ayant pour matrices respectives $A$ et $B$ dans une base $\\mathcal{B}$. Quelle est la matrice de la composée $g \\circ f$ dans cette base ?",
+          "$\\text{Mat}_{\\mathcal{B}}(g \\circ f) = B \\times A$",
+          [
+            "$\\text{Mat}_{\\mathcal{B}}(g \\circ f) = A \\times B$",
+            "$\\text{Mat}_{\\mathcal{B}}(g \\circ f) = A + B$",
+            "$\\text{Mat}_{\\mathcal{B}}(g \\circ f) = {}^t A \\times B$"
+          ],
+          "Attention à l'ordre d'application : pour tout vecteur $x$, $(g \\circ f)(x) = g(f(x))$.",
+          "En écriture matricielle : $Y = B(AX) = (BA)X$.",
+          "Comme $(g \\circ f)(x) = g(f(x))$, en calcul vectoriel matriciel on applique d'abord $A$ à $X$, puis $B$ au résultat : $Y = B(AX) = (BA)X$. La matrice de $g \\circ f$ est donc le produit $B \\times A$ (ordre inversé par rapport à l'écriture de composition)."
+        );
+      }
     } else {
       // Palier 4 : Projecteurs, Symétries, Isomorphismes et Bilans avancés
       const p4Variant = this.randChoice(['carac_projecteur', 'carac_symetrie', 'equivalence_dim_finie', 'nilpotent_indice']);
@@ -2734,16 +3013,50 @@ window.MathsAdvancedGenerators = {
   },
 
   generateL1_REL(tier) {
-    const n = this.randInt(3, 7);
+    const cases = [
+      {
+        setExpr: "\\left\\{ 1 - \\frac{1}{n} \\;\\middle|\\; n \\in \\mathbb{N}^* \\right\\}",
+        sup: "1",
+        distractors: ["$\\sup(A) = 0$", "$\\sup(A) = 2$", "$\\sup(A) = +\\infty$"],
+        hint1: "Pour tout $n \\ge 1$, $1 - 1/n < 1$.",
+        hint2: "Quand $n \\to +\\infty$, $1 - 1/n \\to 1$.",
+        justif: "1 est un majorant de $A$, et c'est la limite d'une suite d'éléments de $A$. Par la caractérisation de la borne supérieure, $\\sup(A) = 1$."
+      },
+      {
+        setExpr: "\\left\\{ \\frac{1}{n} \\;\\middle|\\; n \\in \\mathbb{N}^* \\right\\}",
+        sup: "1",
+        distractors: ["$\\sup(A) = 0$", "$\\sup(A) = +\\infty$", "$\\sup(A) = \\frac{1}{2}$"],
+        hint1: "Pour $n=1$, l'élément vaut 1, et pour $n > 1$, $1/n < 1$.",
+        hint2: "Le plus grand élément est atteint pour $n=1$, donc c'est un maximum.",
+        justif: "Pour $n=1$, $1/1 = 1 \\in A$. Pour tout $n \\ge 1$, $1/n \\le 1$. Donc 1 est le plus grand élément (maximum), d'où $\\sup(A) = \\max(A) = 1$."
+      },
+      {
+        setExpr: "\\left\\{ \\frac{n}{n+1} \\;\\middle|\\; n \\in \\mathbb{N} \\right\\}",
+        sup: "1",
+        distractors: ["$\\sup(A) = 0$", "$\\sup(A) = 2$", "$\\sup(A) = +\\infty$"],
+        hint1: "Remarque que $\\frac{n}{n+1} = 1 - \\frac{1}{n+1}$.",
+        hint2: "La suite est strictement croissante et tend vers 1.",
+        justif: "On a $\\frac{n}{n+1} = 1 - \\frac{1}{n+1} < 1$ pour tout $n \\ge 0$, et la suite tend vers 1 quand $n \\to +\\infty$. Donc $\\sup(A) = 1$."
+      },
+      {
+        setExpr: "\\left\\{ (-1)^n + \\frac{1}{n} \\;\\middle|\\; n \\in \\mathbb{N}^* \\right\\}",
+        sup: "\\frac{3}{2}",
+        distractors: ["$\\sup(A) = 1$", "$\\sup(A) = 2$", "$\\sup(A) = 0$"],
+        hint1: "Distingue les entiers pairs $n = 2k$ et impairs.",
+        hint2: "Pour les pairs : $1 + 1/(2k)$, maximal pour $k=1$ (donc $n=2$).",
+        justif: "Pour $n$ pair ($n = 2k$), le terme vaut $1 + \\frac{1}{2k}$, qui est décroissant et atteint son maximum en $n=2$ avec la valeur $1 + 1/2 = 3/2$. Pour $n$ impair, les termes sont négatifs. Donc $\\sup(A) = \\max(A) = \\frac{3}{2}$."
+      }
+    ];
+    const c = this.randChoice(cases);
     return this.makeMcq(
       'L1-REL', tier, "Borne supérieure et ensembles bornés",
       "Déterminer la borne supérieure d'un ensemble de réels",
-      `Déterminer la borne supérieure de la partie $A = \\left\\{ 1 - \\frac{1}{n} \\;\\middle|\\; n \\in \\mathbb{N}^* \\right\\}$ dans $\\mathbb{R}$.`,
-      "$\\sup(A) = 1$",
-      ["$\\sup(A) = 0$", "$\\sup(A) = 2$", "$\\sup(A) = +\\infty$"],
-      "Pour tout $n \\ge 1$, $1 - 1/n < 1$.",
-      "Quand $n \\to +\\infty$, $1 - 1/n \\to 1$.",
-      "1 est un majorant de $A$, et c'est la limite d'une suite d'éléments de $A$. Par la caractérisation de la borne supérieure, $\\sup(A) = 1$."
+      `Déterminer la borne supérieure de la partie $A = ${c.setExpr}$ dans $\\mathbb{R}$.`,
+      `$\\sup(A) = ${c.sup}$`,
+      c.distractors,
+      c.hint1,
+      c.hint2,
+      c.justif
     );
   },
 
