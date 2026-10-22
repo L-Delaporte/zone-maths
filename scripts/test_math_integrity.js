@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const vm = require('vm');
 
 // Set up browser-like environment for Node
 global.window = global;
@@ -8,6 +9,15 @@ global.localStorage = {
   setItem: () => {},
   removeItem: () => {}
 };
+
+// Charger le véritable KaTeX depuis vendor/
+let katex = null;
+const katexPath = path.join(__dirname, '../vendor/katex/katex.min.js');
+if (fs.existsSync(katexPath)) {
+  const kCtx = {};
+  vm.runInNewContext(fs.readFileSync(katexPath, 'utf8'), kCtx);
+  katex = kCtx.katex;
+}
 
 // Check function for KaTeX delimiter integrity and LaTeX syntax
 function checkMath(str, context) {
@@ -87,14 +97,14 @@ function checkMath(str, context) {
     }
   }
 
-  // French words inside math mode (renders without spaces in KaTeX)
-  const suspiciousFrenchInMath = /\b(dans|avec|pour|alors|donc|soit|cette|entre|tout|tous|toute|toutes|admet|unique|reste|classes|classe|équivalence|relation|ensemble|modulo|vérifie|forme|solution|calculer|déterminer|montrer|prouver|puisque|comme|notamment|d'où|d'un|d'une)\b/i;
-  
-  for (const chunk of mathChunks) {
-    let stripped = chunk.content.replace(/\\(text|mathrm|operatorname|textbf|intertext)\{[^}]*\}/g, '');
-    const match = stripped.match(suspiciousFrenchInMath);
-    if (match) {
-      errors.push(`French word '${match[1]}' found directly inside ${chunk.type} math mode in: "$...${stripped.substring(Math.max(0, match.index - 15), Math.min(stripped.length, match.index + 25))}...$"`);
+  // Validation syntaxique réelle avec KaTeX
+  if (katex) {
+    for (const chunk of mathChunks) {
+      try {
+        katex.renderToString(chunk.content, { throwOnError: true, displayMode: chunk.type === 'display' });
+      } catch (err) {
+        errors.push(`KaTeX syntax error in ${chunk.type} math ("${chunk.content}"): ${err.message}`);
+      }
     }
   }
 

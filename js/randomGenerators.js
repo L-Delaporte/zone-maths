@@ -5422,7 +5422,7 @@ window.MathsGenerators = {
           type: 'exact',
           answer: String(ansExp),
           placeholder: `Ex: ${ansExp}`,
-          hint1: `Conserve la fraction dans les étapes : $\frac{10^{${a}} \times 10^{${b}}}{10^{${c}}} = \frac{10^{${a + b}}}{10^{${c}}} = 10^{${a + b} - ${c}}$.`,
+          hint1: `Conserve la fraction dans les étapes : $\\frac{10^{${a}} \\times 10^{${b}}}{10^{${c}}} = \\frac{10^{${a + b}}}{10^{${c}}} = 10^{${a + b} - ${c}}$.`,
           solution: `$$\\frac{10^{${a}} \\times 10^{${b}}}{10^{${c}}} = \\frac{10^{${a + b}}}{10^{${c}}} = 10^{${a + b} - ${c}} = 10^{${ansExp}} \\implies n = ${ansExp}$$`
         };
       } else {

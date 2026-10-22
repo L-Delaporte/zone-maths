@@ -929,17 +929,17 @@ window.MathsAdvancedGenerators = {
       } else if (p3Variant === 'transposition_symetrie') {
         return this.makeMcq(
           'L1-MAT', 3, "Propriétés de la transposition et matrices symétriques",
-          "Reconnaître qu'une matrice de la forme $^{\\mathrm{t}}A A$ est toujours symétrique",
+          "Reconnaître qu'une matrice de la forme ${}^t A A$ est toujours symétrique",
           "Pour toute matrice rectangulaire $A \\in \\mathcal{M}_{n,p}(\\mathbb{R})$, quelle affirmation est TOUJOURS vraie ?",
-          "La matrice $^{\\mathrm{t}}A A$ est carrée d'ordre $p$ et symétrique",
+          "La matrice ${}^t A A$ est carrée d'ordre $p$ et symétrique",
           [
-            "La matrice $A \\, ^{\\mathrm{t}}A$ est égale à $^{\\mathrm{t}}A A$",
-            "La matrice $^{\\mathrm{t}}A A$ est antisymétrique",
-            "La transposée vérifie $^{\\mathrm{t}}(AB) = ^{\\mathrm{t}}A \\, ^{\\mathrm{t}}B$"
+            "La matrice $A \\, {}^t A$ est égale à ${}^t A A$",
+            "La matrice ${}^t A A$ est antisymétrique",
+            "La transposée vérifie ${}^t(AB) = {}^t A \\, {}^t B$"
           ],
-          "Calcule la transposée de $^{\\mathrm{t}}A A$ en appliquant $^{\\mathrm{t}}(MN) = ^{\\mathrm{t}}N \\, ^{\\mathrm{t}}M$.",
-          "$^{\\mathrm{t}}(^{\\mathrm{t}}A A) = ^{\\mathrm{t}}A \\, ^{\\mathrm{t}}(^{\\mathrm{t}}A) = ^{\\mathrm{t}}A A$.",
-          "On a $^{\\mathrm{t}}A \\in \\mathcal{M}_{p,n}$ et $A \\in \\mathcal{M}_{n,p}$, donc le produit $^{\\mathrm{t}}A A$ est carré de taille $p \\times p$. De plus, $^{\\mathrm{t}}(^{\\mathrm{t}}A A) = ^{\\mathrm{t}}A \\, ^{\\mathrm{t}}(^{\\mathrm{t}}A) = ^{\\mathrm{t}}A A$. La matrice est donc symétrique."
+          "Calcule la transposée de ${}^t A A$ en appliquant ${}^t(MN) = {}^t N \\, {}^t M$.",
+          "${}^t({}^t A A) = {}^t A \\, {}^t({}^t A) = {}^t A A$.",
+          "On a ${}^t A \\in \\mathcal{M}_{p,n}$ et $A \\in \\mathcal{M}_{n,p}$, donc le produit ${}^t A A$ est carré de taille $p \\times p$. De plus, ${}^t({}^t A A) = {}^t A \\, {}^t({}^t A) = {}^t A A$. La matrice est donc symétrique."
         );
       } else if (p3Variant === 'trace_commutateur') {
         const a = this.randInt(2, 6);
