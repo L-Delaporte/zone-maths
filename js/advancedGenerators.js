@@ -996,19 +996,80 @@ window.MathsAdvancedGenerators = {
           "On forme $(A \\mid I_3)$. Opérations élémentaires :\n1. $L_2 \\leftarrow L_2 - 2L_1 \\implies$ ligne 2 de droite : $(-2, 1, 0)$.\n2. $L_3 \\leftarrow L_3 - L_1 \\implies$ ligne 3 de droite devient $(-1, 0, 1)$.\n3. $L_3 \\leftarrow L_3 - L_2 \\implies$ ligne 3 de droite devient $(-1 - (-2), 0 - 1, 1) = (1, -1, 1)$.\nD'où $A^{-1} = \\begin{pmatrix} 1 & 0 & 0 \\\\ -2 & 1 & 0 \\\\ 1 & -1 & 1 \\end{pmatrix}$."
         );
       } else if (p4Variant === 'bilan_inverse_2x2_det') {
+        const invCases = [
+          {
+            a: 2, b: 1, c: 4, d: 5,
+            det: 6,
+            invMat: "\\begin{pmatrix} 5 & -1 \\\\ -4 & 2 \\end{pmatrix}",
+            wrongDet1: 14,
+            wrongDet2: -6,
+            wrongMat: "\\begin{pmatrix} 2 & -1 \\\\ -4 & 5 \\end{pmatrix}"
+          },
+          {
+            a: 3, b: 2, c: 1, d: 4,
+            det: 10,
+            invMat: "\\begin{pmatrix} 4 & -2 \\\\ -1 & 3 \\end{pmatrix}",
+            wrongDet1: 14,
+            wrongDet2: -10,
+            wrongMat: "\\begin{pmatrix} 3 & -2 \\\\ -1 & 4 \\end{pmatrix}"
+          },
+          {
+            a: 4, b: 1, c: 2, d: 3,
+            det: 10,
+            invMat: "\\begin{pmatrix} 3 & -1 \\\\ -2 & 4 \\end{pmatrix}",
+            wrongDet1: 14,
+            wrongDet2: -10,
+            wrongMat: "\\begin{pmatrix} 4 & -1 \\\\ -2 & 3 \\end{pmatrix}"
+          },
+          {
+            a: 5, b: 2, c: 2, d: 2,
+            det: 6,
+            invMat: "\\begin{pmatrix} 2 & -2 \\\\ -2 & 5 \\end{pmatrix}",
+            wrongDet1: 14,
+            wrongDet2: -6,
+            wrongMat: "\\begin{pmatrix} 5 & -2 \\\\ -2 & 2 \\end{pmatrix}"
+          },
+          {
+            a: 3, b: 1, c: 1, d: 3,
+            det: 8,
+            invMat: "\\begin{pmatrix} 3 & -1 \\\\ -1 & 3 \\end{pmatrix}",
+            wrongDet1: 10,
+            wrongDet2: -8,
+            wrongMat: "\\begin{pmatrix} 1 & -3 \\\\ -3 & 1 \\end{pmatrix}"
+          },
+          {
+            a: 4, b: 3, c: 1, d: 2,
+            det: 5,
+            invMat: "\\begin{pmatrix} 2 & -3 \\\\ -1 & 4 \\end{pmatrix}",
+            wrongDet1: 11,
+            wrongDet2: -5,
+            wrongMat: "\\begin{pmatrix} 4 & -3 \\\\ -1 & 2 \\end{pmatrix}"
+          },
+          {
+            a: 2, b: 3, c: 1, d: 4,
+            det: 5,
+            invMat: "\\begin{pmatrix} 4 & -3 \\\\ -1 & 2 \\end{pmatrix}",
+            wrongDet1: 11,
+            wrongDet2: -5,
+            wrongMat: "\\begin{pmatrix} 2 & -3 \\\\ -1 & 4 \\end{pmatrix}"
+          }
+        ];
+        const c = this.randChoice(invCases);
+        const correctAns = `$\\det(A) = ${c.det}$ et $A^{-1} = \\frac{1}{${c.det}} ${c.invMat}$`;
+        const distractors = [
+          `$\\det(A) = ${c.det}$ et $A^{-1} = ${c.invMat}$`,
+          `$\\det(A) = ${c.wrongDet2}$ et $A^{-1} = -\\frac{1}{${Math.abs(c.wrongDet2)}} ${c.wrongMat}$`,
+          `$\\det(A) = ${c.wrongDet1}$ et $A^{-1} = \\frac{1}{${c.wrongDet1}} ${c.invMat}$`
+        ];
         return this.makeMcq(
           'L1-MAT', 4, "Inversion 2x2 avec déterminant non unitaire",
-          "Calculer l'inverse avec un déterminant non égal à 1",
-          "Déterminer l'inverse de la matrice $A = \\begin{pmatrix} 5 & 3 \\\\ 3 & 2 \\end{pmatrix}$ et de la matrice $B = \\begin{pmatrix} 2 & 1 \\\\ 4 & 5 \\end{pmatrix}$ : que vaut $\\det(B)$ et $B^{-1}$ ?",
-          "$\\det(B) = 6$ et $B^{-1} = \\frac{1}{6} \\begin{pmatrix} 5 & -1 \\\\ -4 & 2 \\end{pmatrix}$",
-          [
-            "$\\det(B) = 6$ et $B^{-1} = \\begin{pmatrix} 5 & -1 \\\\ -4 & 2 \\end{pmatrix}$",
-            "$\\det(B) = -6$ et $B^{-1} = -\\frac{1}{6} \\begin{pmatrix} 2 & -1 \\\\ -4 & 5 \\end{pmatrix}$",
-            "$\\det(B) = 14$ et $B^{-1} = \\frac{1}{14} \\begin{pmatrix} 5 & -1 \\\\ -4 & 2 \\end{pmatrix}$"
-          ],
-          "$\\det(B) = 2(5) - 1(4) = 6$.",
-          "$B^{-1} = \\frac{1}{\\det(B)} \\begin{pmatrix} d & -b \\\\ -c & a \\end{pmatrix}$.",
-          "Pour la matrice $B$ : $\\det(B) = 2 \\times 5 - 1 \\times 4 = 10 - 4 = 6 \\neq 0$. L'inverse est donc $B^{-1} = \\frac{1}{6} \\begin{pmatrix} 5 & -1 \\\\ -4 & 2 \\end{pmatrix}$."
+          "Calculer l'inverse d'une matrice 2x2 avec déterminant différent de 1",
+          `Calculer le déterminant et l'inverse de la matrice $A = \\begin{pmatrix} ${c.a} & ${c.b} \\\\ ${c.c} & ${c.d} \\end{pmatrix}$ : que vaut $\\det(A)$ et $A^{-1}$ ?`,
+          correctAns,
+          distractors,
+          `Applique la formule du déterminant : $\\det(A) = ad - bc = ${c.a}(${c.d}) - ${c.b}(${c.c}) = ${c.det}$.`,
+          `Pour $A = \\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}$, $A^{-1} = \\frac{1}{\\det(A)} \\begin{pmatrix} d & -b \\\\ -c & a \\end{pmatrix}$.`,
+          `On calcule $\\det(A) = ${c.a} \\times ${c.d} - ${c.b} \\times ${c.c} = ${c.a * c.d} - ${c.b * c.c} = ${c.det} \\neq 0$. La comatrice transposée donne $\\begin{pmatrix} d & -b \\\\ -c & a \\end{pmatrix} = ${c.invMat}$. L'inverse est donc $A^{-1} = \\frac{1}{${c.det}} ${c.invMat}$.`
         );
       } else if (p4Variant === 'bilan_polynome_annulateur') {
         return this.makeMcq(
