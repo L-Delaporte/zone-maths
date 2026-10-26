@@ -1545,26 +1545,102 @@ window.MATHS_EXERCISES_L1 = {
   ],
   "L1-REL": [
     {
-      "id": "L1-REL-1",
+      "id": "L1-REL-1a",
       "tier": 1,
       "type": "mcq",
-      "title": "Borne supérieure d'une partie de R",
-      "skill": "Déterminer la borne supérieure d'un ensemble",
-      "statement": "Quelle est la borne supérieure dans $\\mathbb{R}$ de $A = \\{ 1 - 1/n \\mid n \\in \\mathbb{N}^* \\}$ ?",
+      "title": "Borne supérieure et absence de maximum",
+      "skill": "Déterminer la borne supérieure d'un ensemble de réels et vérifier l'existence du maximum",
+      "statement": "Quelle est la borne supérieure dans $\\mathbb{R}$ de l'ensemble $A = \\left\\{ 1 - \\frac{1}{n} \\;\\middle|\\; n \\in \\mathbb{N}^* \\right\\}$, et $A$ admet-il un maximum ?",
       "options": [
-        "$1$",
-        "$0$",
-        "$1/2$",
-        "Aucune"
+        "$\\sup(A) = 1$ et $\\max(A)$ n'existe pas",
+        "$\\sup(A) = 1$ et $\\max(A) = 1$",
+        "$\\sup(A) = 0$ et $\\max(A) = 0$",
+        "$\\sup(A) = +\\infty$"
       ],
       "correctIndex": 0,
-      "answer": "$1$",
-      "hint1": "Pour tout $n \\ge 1$, $1 - 1/n < 1$.",
-      "hint2": "La suite $1 - 1/n$ converge vers 1.",
-      "solution": "$1$ est le plus petit des majorants de $A$. Bien qu'il n'appartienne pas à $A$, $\\sup(A) = 1$."
+      "answer": "$\\sup(A) = 1$ et $\\max(A)$ n'existe pas",
+      "hint1": "Pour tout $n \\ge 1$, $1 - 1/n < 1$, donc 1 majore strictement $A$.",
+      "hint2": "La suite converge vers 1, mais la valeur 1 n'est jamais atteinte pour un $n$ fini.",
+      "solution": "1 est le plus petit des majorants de $A$, donc $\\sup(A) = 1$. Comme $1 \\notin A$ (l'équation $1 - 1/n = 1$ n'a pas de solution dans $\\mathbb{N}^*$), le plus grand élément $\\max(A)$ n'existe pas."
     },
     {
-      "id": "L1-REL-2",
+      "id": "L1-REL-1b",
+      "tier": 1,
+      "type": "mcq",
+      "title": "Borne inférieure et minimum d'un intervalle",
+      "skill": "Distinguer borne inférieure et minimum sur un intervalle semi-ouvert",
+      "statement": "Soit l'intervalle $I = ]-2, 5]$. Quelles sont les bornes $\\inf(I)$, $\\sup(I)$ et les extrema $\\min(I)$, $\\max(I)$ ?",
+      "options": [
+        "$\\inf(I) = -2$ (pas de min), et $\\sup(I) = \\max(I) = 5$",
+        "$\\inf(I) = \\min(I) = -2$, et $\\sup(I) = \\max(I) = 5$",
+        "$\\inf(I) = -2$ (pas de min), et $\\sup(I) = 5$ (pas de max)",
+        "$\\inf(I) = -1$ et $\\sup(I) = 4$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\inf(I) = -2$ (pas de min), et $\\sup(I) = \\max(I) = 5$",
+      "hint1": "Regarde si les bornes appartiennent à l'intervalle selon l'orientation des crochets.",
+      "hint2": "Le crochet est ouvert en $-2$ (donc $-2 \\notin I$) et fermé en $5$ (donc $5 \\in I$).",
+      "solution": "$-2$ est le plus grand minorant de $I$ : $\\inf(I) = -2$. Comme $-2 \\notin I$, $\\min(I)$ n'existe pas. En revanche, $5$ est un majorant et $5 \\in I$, donc $\\sup(I) = \\max(I) = 5$."
+    },
+    {
+      "id": "L1-REL-1c",
+      "tier": 1,
+      "type": "mcq",
+      "title": "Borne inférieure et absence de minimum",
+      "skill": "Déterminer la borne inférieure d'une suite strictement positive tendant vers 0",
+      "statement": "Soit la partie $A = \\left\\{ \\frac{1}{n} \\;\\middle|\\; n \\in \\mathbb{N}^* \\right\\}$. Quelles sont les bornes et extrema de $A$ ?",
+      "options": [
+        "$\\sup(A) = \\max(A) = 1$ et $\\inf(A) = 0$ (aucun minimum)",
+        "$\\sup(A) = 1$ et $\\inf(A) = \\min(A) = 0$",
+        "$\\sup(A) = +\\infty$ et $\\inf(A) = 0$",
+        "$\\sup(A) = 1$ et $\\inf(A) = -\\infty$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\sup(A) = \\max(A) = 1$ et $\\inf(A) = 0$ (aucun minimum)",
+      "hint1": "Pour $n=1$, $1/1 = 1 \\in A$ et tous les autres termes sont plus petits.",
+      "hint2": "Pour tout $n \\ge 1$, $1/n > 0$, donc 0 n'est jamais atteint.",
+      "solution": "Pour tout $n \\ge 1$, $0 < 1/n \\le 1$. La valeur 1 est atteinte pour $n=1$, d'où $\\sup(A) = \\max(A) = 1$. La suite tend vers 0, d'où $\\inf(A) = 0$. Mais $0 \\notin A$, donc $A$ n'admet aucun minimum."
+    },
+    {
+      "id": "L1-REL-1d",
+      "tier": 1,
+      "type": "mcq",
+      "title": "Condition d'existence du maximum",
+      "skill": "Comprendre le lien fondamental entre borne supérieure et plus grand élément",
+      "statement": "Soit $A \\subset \\mathbb{R}$ une partie non vide et majorée. Sous quelle condition nécessaire et suffisante le plus grand élément $\\max(A)$ existe-t-il ?",
+      "options": [
+        "$\\sup(A) \\in A$",
+        "$A$ est un intervalle fermé",
+        "$A$ est un ensemble fini",
+        "$\\sup(A) > 0$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\sup(A) \\in A$",
+      "hint1": "Par définition, le maximum doit appartenir à l'ensemble et être supérieur ou égal à tous ses éléments.",
+      "hint2": "La borne supérieure $\\sup(A)$ est le plus petit des majorants.",
+      "solution": "Par définition, $M = \\max(A) \\iff (M \\in A \\text{ et } \\forall x \\in A, x \\le M)$. Comme $\\sup(A)$ est un majorant de $A$, si $\\sup(A) \\in A$, c'est un élément de $A$ qui majore $A$, donc c'est le maximum $\\max(A)$. La condition est $\\sup(A) \\in A$."
+    },
+    {
+      "id": "L1-REL-2a",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Caractérisation en epsilon de la borne supérieure",
+      "skill": "Formaliser et manipuler la définition en $\\varepsilon$ de $\\sup(A)$",
+      "statement": "Soit $A \\subset \\mathbb{R}$ une partie non vide et majorée. Quelle est la caractérisation en $\\varepsilon$ exacte de $M = \\sup(A)$ ?",
+      "options": [
+        "$(\\forall x \\in A, x \\le M) \\quad \\text{et} \\quad (\\forall \\varepsilon > 0, \\exists x \\in A, M - \\varepsilon < x \\le M)$",
+        "$(\\forall x \\in A, x < M) \\quad \\text{et} \\quad (\\forall \\varepsilon > 0, \\exists x \\in A, M - \\varepsilon < x < M)$",
+        "$\\forall \\varepsilon > 0, \\forall x \\in A, M - \\varepsilon < x \\le M$",
+        "$(\\forall x \\in A, x \\le M) \\quad \\text{et} \\quad (\\exists \\varepsilon > 0, \\exists x \\in A, M - \\varepsilon < x)$"
+      ],
+      "correctIndex": 0,
+      "answer": "$(\\forall x \\in A, x \\le M) \\quad \\text{et} \\quad (\\forall \\varepsilon > 0, \\exists x \\in A, M - \\varepsilon < x \\le M)$",
+      "hint1": "1. $M$ doit être un majorant de $A$.",
+      "hint2": "2. Aucun réel strictement inférieur à $M$ ne peut être un majorant de $A$.",
+      "solution": "$M = \\sup(A)$ est le plus petit des majorants : $M$ majore $A$ ($\\forall x \\in A, x \\le M$), et dès qu'on soustrait un réel arbitraire $\\varepsilon > 0$, $M - \\varepsilon$ n'est plus un majorant, ce qui assure l'existence d'un $x \\in A$ tel que $M - \\varepsilon < x$."
+    },
+    {
+      "id": "L1-REL-2b",
       "tier": 2,
       "type": "mcq",
       "title": "Densité de Q et D dans R",
@@ -1583,7 +1659,26 @@ window.MATHS_EXERCISES_L1 = {
       "solution": "Une partie $A \\subset \\mathbb{R}$ est dense dans $\\mathbb{R}$ si tout intervalle ouvert non vide contient au moins un élément de $A$. C'est le cas pour $\\mathbb{Q}$ et pour l'ensemble des nombres décimaux $\\mathbb{D} = \\{p/10^q \\mid p \\in \\mathbb{Z}, q \\in \\mathbb{N}\\}$."
     },
     {
-      "id": "L1-REL-3",
+      "id": "L1-REL-2c",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Propriétés algébriques : Borne supérieure de la somme A + B",
+      "skill": "Appliquer la relation $\\sup(A + B) = \\sup(A) + \\sup(B)$",
+      "statement": "Soient $A$ et $B$ deux parties non vides et majorées de $\\mathbb{R}$. Que vaut la borne supérieure de $A + B = \\{a + b \\mid a \\in A, b \\in B\\}$ ?",
+      "options": [
+        "$\\sup(A + B) = \\sup(A) + \\sup(B)$",
+        "$\\sup(A + B) = \\max(\\sup A, \\sup B)$",
+        "$\\sup(A + B) \\le \\sup(A) + \\sup(B)$ avec inégalité stricte possible",
+        "$\\sup(A + B) = \\sup(A) \\times \\sup(B)$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\sup(A + B) = \\sup(A) + \\sup(B)$",
+      "hint1": "Pour tout $a \\in A$ et $b \\in B$, $a + b \\le \\sup(A) + \\sup(B)$.",
+      "hint2": "Pour tout $\\varepsilon > 0$, approche $\\sup(A)$ à $\\varepsilon/2$ près et $\\sup(B)$ à $\\varepsilon/2$ près.",
+      "solution": "$\\sup(A) + \\sup(B)$ est un majorant de $A + B$. De plus, pour tout $\\varepsilon > 0$, il existe $a \\in A$ et $b \\in B$ tels que $a > \\sup(A) - \\varepsilon/2$ et $b > \\sup(B) - \\varepsilon/2$, d'où $a + b > \\sup(A) + \\sup(B) - \\varepsilon$. Ainsi $\\sup(A + B) = \\sup(A) + \\sup(B)$."
+    },
+    {
+      "id": "L1-REL-3a",
       "tier": 3,
       "type": "mcq",
       "title": "Propriété d'Archimède dans R",
@@ -1602,11 +1697,49 @@ window.MATHS_EXERCISES_L1 = {
       "solution": "Le corps $\\mathbb{R}$ est archimédien : $\\forall x > 0, \\forall y \\in \\mathbb{R}, \\exists n \\in \\mathbb{N}, nx > y$. C'est ce qui garantit l'existence de la partie entière $\\lfloor x \\rfloor$ pour tout réel."
     },
     {
-      "id": "L1-REL-4",
+      "id": "L1-REL-3b",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Ensemble à deux indices : Bornes de { 1/n - 1/m }",
+      "skill": "Calculer la borne supérieure et inférieure d'un ensemble indexé par deux entiers",
+      "statement": "Soit la partie $A = \\left\\{ \\frac{1}{n} - \\frac{1}{m} \\;\\middle|\\; n, m \\in \\mathbb{N}^* \\right\\}$. Quelles sont les bornes et extrema de $A$ ?",
+      "options": [
+        "$\\sup(A) = 1$ (aucun maximum) et $\\inf(A) = -1$ (aucun minimum)",
+        "$\\sup(A) = \\max(A) = 1$ et $\\inf(A) = \\min(A) = -1$",
+        "$\\sup(A) = 0$ et $\\inf(A) = 0$",
+        "$\\sup(A) = 1$ et $\\inf(A) = 0$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\sup(A) = 1$ (aucun maximum) et $\\inf(A) = -1$ (aucun minimum)",
+      "hint1": "Pour maximiser la différence, fais $n=1$ et fais tendre $m \\to +\\infty$.",
+      "hint2": "Vérifie si la valeur 1 peut être atteinte pour des entiers $n, m \\ge 1$.",
+      "solution": "Pour tout $n, m \\ge 1$, $-1 < -1/m < 1/n - 1/m < 1/n \\le 1$. En fixant $n=1$ et en faisant tendre $m \\to +\\infty$, $1 - 1/m \\to 1$, donc $\\sup(A) = 1$. L'égalité $1/n - 1/m = 1$ exigerait $1/n > 1$, impossible, donc pas de max. De même pour $m=1, n \\to +\\infty$, $\\inf(A) = -1$ sans minimum."
+    },
+    {
+      "id": "L1-REL-3c",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Densité des irrationnels dans R",
+      "skill": "Prouver que l'ensemble des irrationnels est dense dans R",
+      "statement": "Soient deux réels $x < y$. Comment prouve-t-on l'existence d'un nombre irrationnel dans l'intervalle $]x, y[$ ?",
+      "options": [
+        "En prenant un rationnel non nul $r \\in \\left]\\frac{x}{\\sqrt{2}}, \\frac{y}{\\sqrt{2}}\\right[$, puis $r\\sqrt{2} \\in ]x, y[$ est irrationnel",
+        "En constatant que le milieu $(x + y)/2$ est toujours un irrationnel",
+        "Parce que tout intervalle de réels est un ensemble fini",
+        "Cette propriété n'est vraie que pour des intervalles de longueur $> 1$"
+      ],
+      "correctIndex": 0,
+      "answer": "En prenant un rationnel non nul $r \\in \\left]\\frac{x}{\\sqrt{2}}, \\frac{y}{\\sqrt{2}}\\right[$, puis $r\\sqrt{2} \\in ]x, y[$ est irrationnel",
+      "hint1": "Pense à multiplier un rationnel par un irrationnel comme $\\sqrt{2}$.",
+      "hint2": "Si $r \\in \\mathbb{Q}^*$, alors $r\\sqrt{2} \\notin \\mathbb{Q}$.",
+      "solution": "Par densité de $\\mathbb{Q}$, il existe $r \\in \\mathbb{Q}^*$ tel que $\\frac{x}{\\sqrt{2}} < r < \\frac{y}{\\sqrt{2}}$. En multipliant par $\\sqrt{2} > 0$, $x < r\\sqrt{2} < y$. Comme $r \\in \\mathbb{Q}^*$ et $\\sqrt{2} \\notin \\mathbb{Q}$, le produit $r\\sqrt{2}$ est irrationnel."
+    },
+    {
+      "id": "L1-REL-4a",
       "tier": 4,
       "type": "mcq",
-      "title": "Borne supérieure dans R d'une partie de Q",
-      "skill": "Prouver la valeur d'une borne supérieure et l'absence de maximum",
+      "title": "Complétude de Dedekind : Q vs R",
+      "skill": "Prouver la valeur d'une borne supérieure et l'absence de maximum dans Q",
       "statement": "Soit la partie $A = \\{x \\in \\mathbb{Q} \\mid x < \\sqrt{2}\\}$. Que vaut $\\sup(A)$ dans $\\mathbb{R}$, et $A$ admet-il un plus grand élément ?",
       "options": [
         "$\\sup(A) = \\sqrt{2}$ et $A$ n'admet aucun plus grand élément",
@@ -1619,6 +1752,44 @@ window.MATHS_EXERCISES_L1 = {
       "hint1": "Par définition, $\\sqrt{2}$ majore $A$.",
       "hint2": "Par densité de $\\mathbb{Q}$ dans $\\mathbb{R}$, pour tout $\\varepsilon > 0$, il existe un rationnel dans $]\\sqrt{2}-\\varepsilon, \\sqrt{2}[$. Comme $\\sqrt{2} \\notin \\mathbb{Q}$, $\\sqrt{2} \\notin A$.",
       "solution": "L'ensemble $A$ est majoré par $\\sqrt{2}$. Par densité de $\\mathbb{Q}$ dans $\\mathbb{R}$, pour tout $\\varepsilon > 0$, il existe $r \\in \\mathbb{Q}$ tel que $\\sqrt{2} - \\varepsilon < r < \\sqrt{2}$. Comme $r < \\sqrt{2}$, $r \\in A$. Donc $\\sup(A) = \\sqrt{2}$. Comme $\\sqrt{2} \\notin \\mathbb{Q}$, $\\sqrt{2} \\notin A$, d'où $A$ n'admet pas de plus grand élément."
+    },
+    {
+      "id": "L1-REL-4b",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Théorème des segments emboîtés de Cantor",
+      "skill": "Démontrer l'existence d'un point d'intersection par les suites adjacentes et la complétude",
+      "statement": "Soit $([a_n, b_n])_{n \\in \\mathbb{N}}$ une suite décroissante pour l'inclusion de segments fermés telle que $\\lim_{n \\to +\\infty} (b_n - a_n) = 0$. Que vaut l'intersection $\\bigcap_{n \\in \\mathbb{N}} [a_n, b_n]$ ?",
+      "options": [
+        "C'est un singleton $\\{\\ell\\}$ où $\\ell = \\sup(a_n) = \\inf(b_n)$",
+        "C'est l'ensemble vide $\\emptyset$",
+        "C'est le segment $[a_0, b_0]$",
+        "C'est un intervalle ouvert $]\\ell - \\varepsilon, \\ell + \\varepsilon[$"
+      ],
+      "correctIndex": 0,
+      "answer": "C'est un singleton $\\{\\ell\\}$ où $\\ell = \\sup(a_n) = \\inf(b_n)$",
+      "hint1": "$(a_n)$ est croissante et majorée par $b_0$, $(b_n)$ est décroissante et minorée par $a_0$.",
+      "hint2": "Comme $b_n - a_n \\to 0$, les deux suites sont adjacentes et convergent vers une même limite $\\ell$.",
+      "solution": "Les suites $(a_n)$ et $(b_n)$ sont adjacentes : $(a_n)$ croît vers $\\ell = \\sup(a_n)$ et $(b_n)$ décroît vers $\\ell = \\inf(b_n)$. Pour tout $n$, $\\ell \\in [a_n, b_n]$, donc $\\ell \\in \\bigcap_n [a_n, b_n]$. De plus, si $x, y$ appartenaient à l'intersection, $|x - y| \\le b_n - a_n \\to 0$, donc $x = y = \\ell$. L'intersection est le singleton $\\{\\ell\\}$."
+    },
+    {
+      "id": "L1-REL-4c",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Sous-groupes additifs de R : Discrets vs Denses",
+      "skill": "Classer les sous-groupes de $(\\mathbb{R}, +)$ et caractériser la densité",
+      "statement": "D'après le théorème de classification des sous-groupes additifs de $(\\mathbb{R}, +)$, quelle alternative est TOUJOURS vraie pour tout sous-groupe $G \\subset \\mathbb{R}$ ?",
+      "options": [
+        "Soit $G = a\\mathbb{Z}$ avec $a \\ge 0$ (discret), soit $G$ est dense dans $\\mathbb{R}$",
+        "Soit $G$ est fini, soit $G = \\mathbb{R}$",
+        "$G$ est obligatoirement un sous-espace vectoriel de $\\mathbb{R}$",
+        "Tout sous-groupe infini de $\\mathbb{R}$ est égal à $\\mathbb{R}$"
+      ],
+      "correctIndex": 0,
+      "answer": "Soit $G = a\\mathbb{Z}$ avec $a \\ge 0$ (discret), soit $G$ est dense dans $\\mathbb{R}$",
+      "hint1": "On pose $a = \\inf(G \\cap \\mathbb{R}_+^*)$.",
+      "hint2": "Si $a > 0$, alors $G = a\\mathbb{Z}$. Si $a = 0$, $G$ est dense dans $\\mathbb{R}$.",
+      "solution": "En posant $a = \\inf(G \\cap \\mathbb{R}_+^*)$ : si $a > 0$, alors $a \\in G$ et $G = a\\mathbb{Z}$ (sous-groupe monogène/discret). Si $a = 0$, pour tout $\\varepsilon > 0$, il existe $g \\in G$ tel que $0 < g < \\varepsilon$. Comme les multiples entiers de $g$ parcourent la droite avec un pas $< \\varepsilon$, $G$ est dense dans $\\mathbb{R}$."
     }
   ],
   "L1-SUI": [

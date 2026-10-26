@@ -3013,51 +3013,693 @@ window.MathsAdvancedGenerators = {
   },
 
   generateL1_REL(tier) {
-    const cases = [
-      {
-        setExpr: "\\left\\{ 1 - \\frac{1}{n} \\;\\middle|\\; n \\in \\mathbb{N}^* \\right\\}",
-        sup: "1",
-        distractors: ["$\\sup(A) = 0$", "$\\sup(A) = 2$", "$\\sup(A) = +\\infty$"],
-        hint1: "Pour tout $n \\ge 1$, $1 - 1/n < 1$.",
-        hint2: "Quand $n \\to +\\infty$, $1 - 1/n \\to 1$.",
-        justif: "1 est un majorant de $A$, et c'est la limite d'une suite d'éléments de $A$. Par la caractérisation de la borne supérieure, $\\sup(A) = 1$."
-      },
-      {
-        setExpr: "\\left\\{ \\frac{1}{n} \\;\\middle|\\; n \\in \\mathbb{N}^* \\right\\}",
-        sup: "1",
-        distractors: ["$\\sup(A) = 0$", "$\\sup(A) = +\\infty$", "$\\sup(A) = \\frac{1}{2}$"],
-        hint1: "Pour $n=1$, l'élément vaut 1, et pour $n > 1$, $1/n < 1$.",
-        hint2: "Le plus grand élément est atteint pour $n=1$, donc c'est un maximum.",
-        justif: "Pour $n=1$, $1/1 = 1 \\in A$. Pour tout $n \\ge 1$, $1/n \\le 1$. Donc 1 est le plus grand élément (maximum), d'où $\\sup(A) = \\max(A) = 1$."
-      },
-      {
-        setExpr: "\\left\\{ \\frac{n}{n+1} \\;\\middle|\\; n \\in \\mathbb{N} \\right\\}",
-        sup: "1",
-        distractors: ["$\\sup(A) = 0$", "$\\sup(A) = 2$", "$\\sup(A) = +\\infty$"],
-        hint1: "Remarque que $\\frac{n}{n+1} = 1 - \\frac{1}{n+1}$.",
-        hint2: "La suite est strictement croissante et tend vers 1.",
-        justif: "On a $\\frac{n}{n+1} = 1 - \\frac{1}{n+1} < 1$ pour tout $n \\ge 0$, et la suite tend vers 1 quand $n \\to +\\infty$. Donc $\\sup(A) = 1$."
-      },
-      {
-        setExpr: "\\left\\{ (-1)^n + \\frac{1}{n} \\;\\middle|\\; n \\in \\mathbb{N}^* \\right\\}",
-        sup: "\\frac{3}{2}",
-        distractors: ["$\\sup(A) = 1$", "$\\sup(A) = 2$", "$\\sup(A) = 0$"],
-        hint1: "Distingue les entiers pairs $n = 2k$ et impairs.",
-        hint2: "Pour les pairs : $1 + 1/(2k)$, maximal pour $k=1$ (donc $n=2$).",
-        justif: "Pour $n$ pair ($n = 2k$), le terme vaut $1 + \\frac{1}{2k}$, qui est décroissant et atteint son maximum en $n=2$ avec la valeur $1 + 1/2 = 3/2$. Pour $n$ impair, les termes sont négatifs. Donc $\\sup(A) = \\max(A) = \\frac{3}{2}$."
+    if (tier === 1) {
+      // Palier 1 : Socle & Définitions - Borne supérieure ET inférieure, distinction sup/max et inf/min, intervalles et suites
+      const p1Variant = this.randChoice(['intervalles_bornes', 'fractions_sup_inf_max_min', 'suites_alternees', 'theorie_sup_vs_max', 'parties_non_bornees']);
+
+      if (p1Variant === 'intervalles_bornes') {
+        const a = this.randChoice([-3, -2, -1, 0, 1, 2]);
+        const len = this.randChoice([2, 3, 4, 5]);
+        const b = a + len;
+        const type = this.randChoice(['open_closed', 'closed_open', 'open_open', 'closed_closed']);
+        const askMode = this.randChoice(['sup_max', 'inf_min']);
+
+        let intervalStr = '';
+        let correctAns = '';
+        let distractors = [];
+        let justif = '';
+
+        if (type === 'open_closed') {
+          intervalStr = `]${a}, ${b}]`;
+          if (askMode === 'sup_max') {
+            correctAns = `$\\sup(I) = ${b}$ et $\\max(I) = ${b}$`;
+            distractors = [
+              `$\\sup(I) = ${b}$ mais $\\max(I)$ n'existe pas`,
+              `$\\sup(I) = ${b - 1}$ et $\\max(I) = ${b - 1}$`,
+              `$\\sup(I) = +\\infty$ et $\\max(I)$ n'existe pas`
+            ];
+            justif = `Pour $I = ]${a}, ${b}]$, le réel $${b}$ est un majorant et $${b} \\in I$. Donc la borne supérieure est atteinte : $\\sup(I) = \\max(I) = ${b}$.`;
+          } else {
+            correctAns = `$\\inf(I) = ${a}$ et $\\min(I)$ n'existe pas`;
+            distractors = [
+              `$\\inf(I) = ${a}$ et $\\min(I) = ${a}$`,
+              `$\\inf(I) = ${a + 1}$ et $\\min(I) = ${a + 1}$`,
+              `$\\inf(I) = -\\infty$ et $\\min(I)$ n'existe pas`
+            ];
+            justif = `Pour $I = ]${a}, ${b}]$, le réel $${a}$ est le plus grand minorant, donc $\\inf(I) = ${a}$. Mais comme le crochet est ouvert en $${a}$, on a $${a} \\notin I$ : le minimum $\\min(I)$ n'existe pas.`;
+          }
+        } else if (type === 'closed_open') {
+          intervalStr = `[${a}, ${b}[`;
+          if (askMode === 'sup_max') {
+            correctAns = `$\\sup(I) = ${b}$ et $\\max(I)$ n'existe pas`;
+            distractors = [
+              `$\\sup(I) = ${b}$ et $\\max(I) = ${b}$`,
+              `$\\sup(I) = ${b - 1}$ et $\\max(I) = ${b - 1}$`,
+              `$\\sup(I) = +\\infty$ et $\\max(I)$ n'existe pas`
+            ];
+            justif = `Pour $I = [${a}, ${b}[$, le réel $${b}$ est le plus petit des majorants : $\\sup(I) = ${b}$. Cependant, comme le crochet est ouvert en $${b}$, on a $${b} \\notin I$ : $I$ n'admet aucun plus grand élément (pas de maximum).`;
+          } else {
+            correctAns = `$\\inf(I) = ${a}$ et $\\min(I) = ${a}$`;
+            distractors = [
+              `$\\inf(I) = ${a}$ mais $\\min(I)$ n'existe pas`,
+              `$\\inf(I) = ${a + 1}$ et $\\min(I) = ${a + 1}$`,
+              `$\\inf(I) = 0$ et $\\min(I) = 0$`
+            ];
+            justif = `Pour $I = [${a}, ${b}[$, le réel $${a}$ est un minorant et $${a} \\in I$. Donc la borne inférieure est atteinte : $\\inf(I) = \\min(I) = ${a}$.`;
+          }
+        } else if (type === 'open_open') {
+          intervalStr = `]${a}, ${b}[`;
+          if (askMode === 'sup_max') {
+            correctAns = `$\\sup(I) = ${b}$ et $\\max(I)$ n'existe pas`;
+            distractors = [
+              `$\\sup(I) = ${b}$ et $\\max(I) = ${b}$`,
+              `$\\sup(I) = ${b - 1}$ et $\\max(I) = ${b - 1}$`,
+              `$\\sup(I) = +\\infty$`
+            ];
+            justif = `L'intervalle ouvert $]${a}, ${b}[$ a pour plus petit majorant $${b}$, d'où $\\sup(I) = ${b}$. Mais $${b} \\notin I$, donc le maximum n'existe pas.`;
+          } else {
+            correctAns = `$\\inf(I) = ${a}$ et $\\min(I)$ n'existe pas`;
+            distractors = [
+              `$\\inf(I) = ${a}$ et $\\min(I) = ${a}$`,
+              `$\\inf(I) = ${a + 1}$ et $\\min(I) = ${a + 1}$`,
+              `$\\inf(I) = -\\infty$`
+            ];
+            justif = `L'intervalle ouvert $]${a}, ${b}[$ est minoré par $${a}$, d'où $\\inf(I) = ${a}$. Mais comme $${a} \\notin I$, le minimum n'existe pas.`;
+          }
+        } else {
+          intervalStr = `[${a}, ${b}]`;
+          if (askMode === 'sup_max') {
+            correctAns = `$\\sup(I) = ${b}$ et $\\max(I) = ${b}$`;
+            distractors = [
+              `$\\sup(I) = ${b}$ mais $\\max(I)$ n'existe pas`,
+              `$\\sup(I) = ${b + 1}$ et $\\max(I) = ${b + 1}$`,
+              `$\\sup(I) = +\\infty$`
+            ];
+            justif = `Le segment $[${a}, ${b}]$ contient sa borne supérieure : $\\sup(I) = \\max(I) = ${b}$.`;
+          } else {
+            correctAns = `$\\inf(I) = ${a}$ et $\\min(I) = ${a}$`;
+            distractors = [
+              `$\\inf(I) = ${a}$ mais $\\min(I)$ n'existe pas`,
+              `$\\inf(I) = ${a - 1}$ et $\\min(I) = ${a - 1}$`,
+              `$\\inf(I) = 0$ et $\\min(I) = 0$`
+            ];
+            justif = `Le segment $[${a}, ${b}]$ contient sa borne inférieure : $\\inf(I) = \\min(I) = ${a}$.`;
+          }
+        }
+
+        const questionText = askMode === 'sup_max'
+          ? `Soit l'intervalle $I = ${intervalStr}$. Que vaut sa borne supérieure $\\sup(I)$ et le maximum $\\max(I)$ existe-t-il ?`
+          : `Soit l'intervalle $I = ${intervalStr}$. Que vaut sa borne inférieure $\\inf(I)$ et le minimum $\\min(I)$ existe-t-il ?`;
+
+        return this.makeMcq(
+          'L1-REL', 1, "Bornes et extrema d'un intervalle de réels",
+          "Distinguer borne supérieure/inférieure et maximum/minimum sur un intervalle",
+          questionText,
+          correctAns,
+          distractors,
+          "Rappelle-toi : le maximum (resp. minimum) n'existe que si la borne supérieure (resp. inférieure) appartient à l'ensemble.",
+          `Regarde si le crochet est ouvert ou fermé en $${askMode === 'sup_max' ? b : a}$.`,
+          justif
+        );
+      } else if (p1Variant === 'fractions_sup_inf_max_min') {
+        const fractionCases = [
+          {
+            setStr: "\\left\\{ 1 - \\frac{1}{n} \\;\\middle|\\; n \\in \\mathbb{N}^* \\right\\}",
+            ask: "sup",
+            ans: "$\\sup(A) = 1$ et $\\max(A)$ n'existe pas",
+            distractors: [
+              "$\\sup(A) = 1$ et $\\max(A) = 1$",
+              "$\\sup(A) = 0$ et $\\max(A) = 0$",
+              "$\\sup(A) = +\\infty$ et pas de maximum"
+            ],
+            hint1: "Pour tout $n \\ge 1$, $1 - 1/n < 1$, donc 1 est un majorant strict.",
+            hint2: "Quand $n \\to +\\infty$, $1 - 1/n \\to 1$. Mais 1 n'est jamais atteint.",
+            justif: "Pour tout $n \\in \\mathbb{N}^*$, $1 - 1/n < 1$, et $\\lim_{n \\to +\\infty} (1 - 1/n) = 1$. Donc $\\sup(A) = 1$. Comme $1 \\notin A$, le plus grand élément $\\max(A)$ n'existe pas."
+          },
+          {
+            setStr: "\\left\\{ 1 - \\frac{1}{n} \\;\\middle|\\; n \\in \\mathbb{N}^* \\right\\}",
+            ask: "inf",
+            ans: "$\\inf(A) = 0$ et $\\min(A) = 0$",
+            distractors: [
+              "$\\inf(A) = 0$ mais $\\min(A)$ n'existe pas",
+              "$\\inf(A) = -1$ et $\\min(A) = -1$",
+              "$\\inf(A) = 1$ et $\\min(A) = 1$"
+            ],
+            hint1: "La suite $n \\mapsto 1 - 1/n$ est strictement croissante.",
+            hint2: "Le premier terme pour $n=1$ vaut $1 - 1/1 = 0$.",
+            justif: "Pour $n=1$, $1 - 1/1 = 0 \\in A$. Comme la suite est croissante, $\\forall x \\in A, x \\ge 0$. Donc $\\inf(A) = \\min(A) = 0$."
+          },
+          {
+            setStr: "\\left\\{ \\frac{1}{n} \\;\\middle|\\; n \\in \\mathbb{N}^* \\right\\}",
+            ask: "sup",
+            ans: "$\\sup(A) = 1$ et $\\max(A) = 1$",
+            distractors: [
+              "$\\sup(A) = 1$ mais $\\max(A)$ n'existe pas",
+              "$\\sup(A) = +\\infty$ et $\\max(A)$ n'existe pas",
+              "$\\sup(A) = 0$ et $\\max(A) = 0$"
+            ],
+            hint1: "La suite $n \\mapsto 1/n$ est strictement décroissante.",
+            hint2: "Pour $n=1$, le terme vaut 1 et appartient à $A$.",
+            justif: "Pour tout $n \\ge 1$, $1/n \\le 1$ et pour $n=1$, $1/1 = 1 \\in A$. Le majorant 1 appartient à l'ensemble, donc $\\sup(A) = \\max(A) = 1$."
+          },
+          {
+            setStr: "\\left\\{ \\frac{1}{n} \\;\\middle|\\; n \\in \\mathbb{N}^* \\right\\}",
+            ask: "inf",
+            ans: "$\\inf(A) = 0$ et $\\min(A)$ n'existe pas",
+            distractors: [
+              "$\\inf(A) = 0$ et $\\min(A) = 0$",
+              "$\\inf(A) = -\\infty$ et pas de minimum",
+              "$\\inf(A) = 1$ et $\\min(A) = 1$"
+            ],
+            hint1: "Pour tout $n \\ge 1$, $1/n > 0$.",
+            hint2: "Quand $n \\to +\\infty$, $1/n \\to 0$. Mais $0 \\notin A$.",
+            justif: "Tous les éléments sont strictement positifs ($1/n > 0$) et $\\lim_{n \\to +\\infty} 1/n = 0$. Donc $\\inf(A) = 0$. Comme $0 \\notin A$ (il n'existe aucun $n$ tel que $1/n = 0$), $A$ n'admet aucun minimum."
+          },
+          {
+            setStr: "\\left\\{ 2 + \\frac{1}{n} \\;\\middle|\\; n \\in \\mathbb{N}^* \\right\\}",
+            ask: "inf",
+            ans: "$\\inf(A) = 2$ et $\\min(A)$ n'existe pas",
+            distractors: [
+              "$\\inf(A) = 2$ et $\\min(A) = 2$",
+              "$\\inf(A) = 3$ et $\\min(A) = 3$",
+              "$\\inf(A) = 0$ et $\\min(A)$ n'existe pas"
+            ],
+            hint1: "Pour tout $n \\ge 1$, $2 + 1/n > 2$.",
+            hint2: "Quand $n \\to +\\infty$, $2 + 1/n \\to 2$, mais $2 \\notin A$.",
+            justif: "Pour tout $n \\in \\mathbb{N}^*$, $2 + 1/n > 2$. De plus $\\lim_{n \\to +\\infty} (2 + 1/n) = 2$. Donc $\\inf(A) = 2$. Comme $2 \\notin A$, le minimum n'existe pas."
+          },
+          {
+            setStr: "\\left\\{ \\frac{n}{n+1} \\;\\middle|\\; n \\in \\mathbb{N} \\right\\}",
+            ask: "sup",
+            ans: "$\\sup(A) = 1$ et $\\max(A)$ n'existe pas",
+            distractors: [
+              "$\\sup(A) = 1$ et $\\max(A) = 1$",
+              "$\\sup(A) = 0$ et $\\max(A) = 0$",
+              "$\\sup(A) = +\\infty$"
+            ],
+            hint1: "Écris $\\frac{n}{n+1} = 1 - \\frac{1}{n+1}$.",
+            hint2: "Pour tout $n \\ge 0$, $\\frac{n}{n+1} < 1$, et la suite tend vers 1.",
+            justif: "On a $\\frac{n}{n+1} = 1 - \\frac{1}{n+1} < 1$ pour tout $n \\in \\mathbb{N}$, et la suite tend vers 1 quand $n \\to +\\infty$. Donc $\\sup(A) = 1$. Comme $1 \\notin A$, $\\max(A)$ n'existe pas."
+          },
+          {
+            setStr: "\\left\\{ \\frac{2n+1}{n+1} \\;\\middle|\\; n \\in \\mathbb{N} \\right\\}",
+            ask: "inf",
+            ans: "$\\inf(A) = 1$ et $\\min(A) = 1$",
+            distractors: [
+              "$\\inf(A) = 1$ mais $\\min(A)$ n'existe pas",
+              "$\\inf(A) = 2$ et $\\min(A) = 2$",
+              "$\\inf(A) = 0$ et $\\min(A) = 0$"
+            ],
+            hint1: "Écris $\\frac{2n+1}{n+1} = 2 - \\frac{1}{n+1}$.",
+            hint2: "Pour $n=0$, l'élément vaut $(0+1)/(0+1) = 1 \\in A$.",
+            justif: "On a $\\frac{2n+1}{n+1} = 2 - \\frac{1}{n+1}$. Pour $n=0$, la valeur est $1 \\in A$. Pour tout $n \\ge 0$, $2 - \\frac{1}{n+1} \\ge 2 - 1 = 1$. Donc $\\inf(A) = \\min(A) = 1$."
+          }
+        ];
+
+        const fc = this.randChoice(fractionCases);
+        const qTitle = fc.ask === 'sup'
+          ? `Soit $A = ${fc.setStr}$. Que vaut la borne supérieure $\\sup(A)$ et l'ensemble admet-il un plus grand élément $\\max(A)$ ?`
+          : `Soit $A = ${fc.setStr}$. Que vaut la borne inférieure $\\inf(A)$ et l'ensemble admet-il un plus petit élément $\\min(A)$ ?`;
+
+        return this.makeMcq(
+          'L1-REL', 1, "Borne supérieure, inférieure et extrema de fractions réelles",
+          "Déterminer sup/inf et vérifier l'appartenance pour l'existence de max/min",
+          qTitle,
+          fc.ans,
+          fc.distractors,
+          fc.hint1,
+          fc.hint2,
+          fc.justif
+        );
+      } else if (p1Variant === 'suites_alternees') {
+        const altCases = [
+          {
+            setStr: "\\left\\{ \\frac{(-1)^n}{n} \\;\\middle|\\; n \\in \\mathbb{N}^* \\right\\}",
+            ask: "inf",
+            ans: "$\\inf(A) = -1$ et $\\min(A) = -1$",
+            distractors: [
+              "$\\inf(A) = -1$ mais $\\min(A)$ n'existe pas",
+              "$\\inf(A) = 0$ et $\\min(A) = 0$",
+              "$\\inf(A) = -\\infty$"
+            ],
+            hint1: "Pour $n$ impair, les termes sont négatifs : $-1, -1/3, -1/5, \\dots$.",
+            hint2: "Le plus petit terme est atteint dès $n=1$ avec $(-1)^1/1 = -1$.",
+            justif: "Pour tout $n \\ge 1$, $\\frac{(-1)^n}{n} \\ge -1$. Pour $n=1$, le terme vaut $-1 \\in A$. Donc $\\inf(A) = \\min(A) = -1$."
+          },
+          {
+            setStr: "\\left\\{ \\frac{(-1)^n}{n} \\;\\middle|\\; n \\in \\mathbb{N}^* \\right\\}",
+            ask: "sup",
+            ans: "$\\sup(A) = \\frac{1}{2}$ et $\\max(A) = \\frac{1}{2}$",
+            distractors: [
+              "$\\sup(A) = 1$ et $\\max(A) = 1$",
+              "$\\sup(A) = 0$ et $\\max(A) = 0$",
+              "$\\sup(A) = \\frac{1}{2}$ mais $\\max(A)$ n'existe pas"
+            ],
+            hint1: "Pour $n$ pair ($n=2k$), les termes sont positifs : $1/2, 1/4, 1/6, \\dots$.",
+            hint2: "Le maximum de ces termes positifs est atteint en $n=2$ : $1/2$.",
+            justif: "Les termes positifs sont obtenus pour les entiers pairs $n = 2k$ ($k \\ge 1$) : $\\frac{1}{2k} \\le \\frac{1}{2}$. La valeur $1/2$ est atteinte pour $n=2 \\in \\mathbb{N}^*$. Donc $\\sup(A) = \\max(A) = \\frac{1}{2}$."
+          },
+          {
+            setStr: "\\left\\{ 1 + \\frac{(-1)^n}{n} \\;\\middle|\\; n \\in \\mathbb{N}^* \\right\\}",
+            ask: "inf",
+            ans: "$\\inf(A) = 0$ et $\\min(A) = 0$",
+            distractors: [
+              "$\\inf(A) = 0$ mais $\\min(A)$ n'existe pas",
+              "$\\inf(A) = 1$ et $\\min(A) = 1$",
+              "$\\inf(A) = -1$ et $\\min(A) = -1$"
+            ],
+            hint1: "Pour $n=1$, $1 + (-1)^1/1 = 1 - 1 = 0$.",
+            hint2: "Pour tout $n \\ge 1$, $1 + (-1)^n/n \\ge 1 - 1/n \\ge 0$.",
+            justif: "Pour tout $n \\ge 1$, $1 + \\frac{(-1)^n}{n} \\ge 1 - \\frac{1}{n} \\ge 0$. Pour $n=1$, la valeur $0$ est atteinte. Donc $\\inf(A) = \\min(A) = 0$."
+          },
+          {
+            setStr: "\\left\\{ 1 + \\frac{(-1)^n}{n} \\;\\middle|\\; n \\in \\mathbb{N}^* \\right\\}",
+            ask: "sup",
+            ans: "$\\sup(A) = \\frac{3}{2}$ et $\\max(A) = \\frac{3}{2}$",
+            distractors: [
+              "$\\sup(A) = 2$ et $\\max(A) = 2$",
+              "$\\sup(A) = 1$ et $\\max(A) = 1$",
+              "$\\sup(A) = \\frac{3}{2}$ mais $\\max(A)$ n'existe pas"
+            ],
+            hint1: "Les termes $> 1$ sont ceux avec $n$ pair : $1 + 1/2, 1 + 1/4, \\dots$.",
+            hint2: "Le plus grand est obtenu pour $n=2$ : $1 + 1/2 = 3/2$.",
+            justif: "Pour $n$ pair ($n = 2k$), $1 + \\frac{1}{2k} \\le 1 + \\frac{1}{2} = \\frac{3}{2}$. Cette valeur est atteinte pour $n=2 \\in A$. Pour $n$ impair, les termes sont $\\le 1$. Donc $\\sup(A) = \\max(A) = \\frac{3}{2}$."
+          }
+        ];
+
+        const ac = this.randChoice(altCases);
+        const qTitle = ac.ask === 'sup'
+          ? `Soit la partie $A = ${ac.setStr}$. Que vaut la borne supérieure $\\sup(A)$ et l'ensemble admet-il un maximum ?`
+          : `Soit la partie $A = ${ac.setStr}$. Que vaut la borne inférieure $\\inf(A)$ et l'ensemble admet-il un minimum ?`;
+
+        return this.makeMcq(
+          'L1-REL', 1, "Bornes et extrema d'ensembles à termes alternés",
+          "Séparer indices pairs et impairs pour trouver les bornes sup/inf et extrema",
+          qTitle,
+          ac.ans,
+          ac.distractors,
+          ac.hint1,
+          ac.hint2,
+          ac.justif
+        );
+      } else if (p1Variant === 'theorie_sup_vs_max') {
+        const isSup = this.randChoice([true, false]);
+        if (isSup) {
+          return this.makeMcq(
+            'L1-REL', 1, "Distinction théorique fondamentale : Borne supérieure vs Maximum",
+            "Comprendre que le maximum est la borne supérieure lorsqu'elle appartient à l'ensemble",
+            "Pour une partie non vide et majorée $A \\subset \\mathbb{R}$, sous quelle condition nécessaire et suffisante le plus grand élément $\\max(A)$ existe-t-il ?",
+            "$\\max(A)$ existe si et seulement si $\\sup(A) \\in A$, et dans ce cas $\\max(A) = \\sup(A)$",
+            [
+              "$\\max(A)$ existe toujours dès lors que $A$ est majorée",
+              "$\\max(A)$ existe si et seulement si $A$ est un ensemble fini",
+              "$\\max(A)$ existe si et seulement si $\\sup(A) > 0$"
+            ],
+            "Rappelle-toi la définition du maximum : c'est un élément de $A$ qui est supérieur ou égal à tous les autres.",
+            "La borne supérieure $\\sup(A)$ majore toujours $A$. Si elle est dans $A$, elle en est le plus grand élément.",
+            "Par définition, $M = \\max(A) \\iff (M \\in A \\text{ et } \\forall x \\in A, x \\le M)$. Comme $\\sup(A)$ est le plus petit des majorants, si $\\sup(A) \\in A$, c'est un élément de $A$ qui majore $A$, donc c'est le maximum. Réciproquement, si un maximum existe, il est nécessairement égal à $\\sup(A)$."
+          );
+        } else {
+          return this.makeMcq(
+            'L1-REL', 1, "Distinction théorique fondamentale : Borne inférieure vs Minimum",
+            "Comprendre que le minimum est la borne inférieure lorsqu'elle appartient à l'ensemble",
+            "Pour une partie non vide et minorée $A \\subset \\mathbb{R}$, sous quelle condition nécessaire et suffisante le plus petit élément $\\min(A)$ existe-t-il ?",
+            "$\\min(A)$ existe si et seulement si $\\inf(A) \\in A$, et dans ce cas $\\min(A) = \\inf(A)$",
+            [
+              "$\\min(A)$ existe toujours dès lors que $A$ est minorée",
+              "$\\min(A)$ n'existe que si tous les éléments de $A$ sont entiers",
+              "$\\min(A)$ existe si et seulement si $\\inf(A) = 0$"
+            ],
+            "Le plus petit élément $\\min(A)$ doit obligatoirement être un élément de $A$.",
+            "Si le plus grand des minorants $\\inf(A)$ est dans $A$, c'est le minimum.",
+            "Par définition, $m = \\min(A) \\iff (m \\in A \\text{ et } \\forall x \\in A, m \\le x)$. Comme $\\inf(A)$ est le plus grand minorant de $A$, si $\\inf(A) \\in A$, il appartient à $A$ et minore $A$, d'où $\\min(A) = \\inf(A)$. Si $\\inf(A) \\notin A$ (comme dans $]0, 1]$ où $\\inf = 0 \\notin A$), alors $\\min(A)$ n'existe pas."
+          );
+        }
+      } else {
+        // parties_non_bornees
+        const unbCases = [
+          {
+            setStr: "\\{ n^2 - 4n \\mid n \\in \\mathbb{N} \\}",
+            ans: "$\\inf(A) = \\min(A) = -4$, et $A$ n'est pas majorée ($\\sup(A) = +\\infty$)",
+            distractors: [
+              "$\\inf(A) = 0$ et $\\sup(A) = 4$",
+              "$\\inf(A) = -4$ et $\\sup(A) = 16$",
+              "$A$ est bornée avec $\\inf(A) = -4$ et $\\sup(A) = 0$"
+            ],
+            hint1: "Étudie la fonction ou suite $f(n) = n^2 - 4n = (n - 2)^2 - 4$.",
+            hint2: "Le minimum est atteint pour $n=2$. Que se passe-t-il quand $n \\to +\\infty$ ?",
+            justif: "On écrit $n^2 - 4n = (n-2)^2 - 4 \\ge -4$. Pour $n=2 \\in \\mathbb{N}$, la valeur $-4$ est atteinte, donc $\\inf(A) = \\min(A) = -4$. Quand $n \\to +\\infty$, $n^2 - 4n \\to +\\infty$, donc $A$ n'est pas majorée dans $\\mathbb{R}$."
+          },
+          {
+            setStr: "\\{ 5 - n^2 \\mid n \\in \\mathbb{N} \\}",
+            ans: "$\\sup(A) = \\max(A) = 5$, et $A$ n'est pas minorée ($\\inf(A) = -\\infty$)",
+            distractors: [
+              "$\\sup(A) = 5$ et $\\inf(A) = 0$",
+              "$\\sup(A) = +\\infty$ et $\\inf(A) = -\\infty$",
+              "$\\sup(A) = 5$ et $\\min(A) = -5$"
+            ],
+            hint1: "Pour $n=0$, $5 - 0^2 = 5$.",
+            hint2: "Comme $n^2 \\ge 0$, $5 - n^2 \\le 5$. Que fait $5 - n^2$ quand $n \\to +\\infty$ ?",
+            justif: "Pour tout $n \\in \\mathbb{N}$, $5 - n^2 \\le 5$, et cette valeur est atteinte en $n=0 \\in \\mathbb{N}$, donc $\\sup(A) = \\max(A) = 5$. Comme $\\lim_{n \\to +\\infty} (5 - n^2) = -\\infty$, l'ensemble n'est pas minoré (pas de borne inférieure finie)."
+          },
+          {
+            setStr: "]2, +\\infty[",
+            ans: "$\\inf(A) = 2$ (pas de minimum), et $A$ n'est pas majorée",
+            distractors: [
+              "$\\inf(A) = 2$ et $\\min(A) = 2$",
+              "$\\inf(A) = 0$ et $\\sup(A) = +\\infty$",
+              "$\\inf(A)$ n'existe pas"
+            ],
+            hint1: "Le réel 2 est le plus grand minorant, mais $2 \\notin ]2, +\\infty[$.",
+            hint2: "L'ensemble contient des nombres arbitrairement grands.",
+            justif: "L'intervalle $]2, +\\infty[$ est minoré par 2, d'où $\\inf(A) = 2$. Comme $2 \\notin A$, il n'y a pas de minimum. De plus, $A$ contient des réels arbitrairement grands, il n'est donc pas majoré."
+          }
+        ];
+        const uc = this.randChoice(unbCases);
+        return this.makeMcq(
+          'L1-REL', 1, "Ensembles non bornés : Borne sup ou inf infinie",
+          "Identifier si une partie est majorée, minorée ou non bornée",
+          `Soit la partie $A = ${uc.setStr}$. Quelles sont les bornes et extrema de $A$ ?`,
+          uc.ans,
+          uc.distractors,
+          uc.hint1,
+          uc.hint2,
+          uc.justif
+        );
       }
-    ];
-    const c = this.randChoice(cases);
-    return this.makeMcq(
-      'L1-REL', tier, "Borne supérieure et ensembles bornés",
-      "Déterminer la borne supérieure d'un ensemble de réels",
-      `Déterminer la borne supérieure de la partie $A = ${c.setExpr}$ dans $\\mathbb{R}$.`,
-      `$\\sup(A) = ${c.sup}$`,
-      c.distractors,
-      c.hint1,
-      c.hint2,
-      c.justif
-    );
+    } else if (tier === 2) {
+      // Palier 2 : Entraînement & Méthodes - Caractérisation par epsilon, caractérisation séquentielle, opérations algébriques
+      const p2Variant = this.randChoice(['caracterisation_epsilon_sup', 'caracterisation_epsilon_inf', 'caracterisation_sequentielle', 'algebre_des_bornes', 'densite_q_d_methode']);
+
+      if (p2Variant === 'caracterisation_epsilon_sup') {
+        return this.makeMcq(
+          'L1-REL', 2, "Caractérisation en $\\varepsilon$ de la borne supérieure",
+          "Formaliser la propriété fondamentale caractérisant le plus petit des majorants",
+          "Soit $A \\subset \\mathbb{R}$ une partie non vide et majorée. Laquelle des propositions caractérise EXACTEMENT le fait que $M = \\sup(A)$ ?",
+          "$(\\forall x \\in A, \\ x \\le M) \\quad \\text{et} \\quad (\\forall \\varepsilon > 0, \\ \\exists x \\in A, \\ M - \\varepsilon < x \\le M)$",
+          [
+            "$(\\forall x \\in A, \\ x < M) \\quad \\text{et} \\quad (\\forall \\varepsilon > 0, \\ \\exists x \\in A, \\ M - \\varepsilon < x < M)$",
+            "$\\forall \\varepsilon > 0, \\ \\forall x \\in A, \\ M - \\varepsilon < x \\le M$",
+            "$(\\forall x \\in A, \\ x \\le M) \\quad \\text{et} \\quad (\\exists \\varepsilon > 0, \\ \\exists x \\in A, \\ M - \\varepsilon < x)$"
+          ],
+          "La première condition assure que $M$ est un majorant de $A$.",
+          "La deuxième condition garantit qu'aucun réel strictement inférieur à $M$ (de la forme $M - \\varepsilon$) ne peut être un majorant de $A$.",
+          "$M = \\sup(A)$ signifie que $M$ est le plus petit des majorants : 1. $M$ majore $A$ ($\\forall x \\in A, x \\le M$) ; 2. Dès qu'on retranche un réel arbitrairement petit $\\varepsilon > 0$, $M - \\varepsilon$ n'est plus majorant, ce qui se traduit par l'existence d'au moins un élément $x \\in A$ tel que $M - \\varepsilon < x$."
+        );
+      } else if (p2Variant === 'caracterisation_epsilon_inf') {
+        return this.makeMcq(
+          'L1-REL', 2, "Caractérisation en $\\varepsilon$ de la borne inférieure",
+          "Formaliser la propriété fondamentale caractérisant le plus grand des minorants",
+          "Soit $A \\subset \\mathbb{R}$ une partie non vide et minorée. Laquelle des propositions caractérise EXACTEMENT le fait que $m = \\inf(A)$ ?",
+          "$(\\forall x \\in A, \\ m \\le x) \\quad \\text{et} \\quad (\\forall \\varepsilon > 0, \\ \\exists x \\in A, \\ m \\le x < m + \\varepsilon)$",
+          [
+            "$(\\forall x \\in A, \\ m < x) \\quad \\text{et} \\quad (\\forall \\varepsilon > 0, \\ \\exists x \\in A, \\ m < x < m + \\varepsilon)$",
+            "$\\forall \\varepsilon > 0, \\ \\forall x \\in A, \\ m \\le x < m + \\varepsilon$",
+            "$(\\forall x \\in A, \\ m \\le x) \\quad \\text{et} \\quad (\\exists \\varepsilon > 0, \\ \\forall x \\in A, \\ x < m + \\varepsilon)$"
+          ],
+          "La première condition assure que $m$ minore $A$.",
+          "La seconde condition garantit qu'aucun réel strictement supérieur à $m$ ($m + \\varepsilon$) ne peut minorer $A$.",
+          "$m = \\inf(A)$ signifie que $m$ est le plus grand des minorants : 1. $\\forall x \\in A, m \\le x$ ; 2. Pour tout $\\varepsilon > 0$, $m + \\varepsilon$ n'est plus un minorant de $A$, donc il existe $x \\in A$ vérifiant $x < m + \\varepsilon$."
+        );
+      } else if (p2Variant === 'caracterisation_sequentielle') {
+        return this.makeMcq(
+          'L1-REL', 2, "Caractérisation séquentielle de la borne supérieure",
+          "Relier la borne supérieure à la limite d'une suite d'éléments de l'ensemble",
+          "Soit $A \\subset \\mathbb{R}$ une partie non vide et majorée par $M$. Laquelle des propriétés caractérise le fait que $M = \\sup(A)$ ?",
+          "Il existe une suite $(x_n)_{n \\in \\mathbb{N}}$ d'éléments de $A$ telle que $\\lim_{n \\to +\\infty} x_n = M$",
+          [
+            "Toute suite d'éléments de $A$ converge vers $M$",
+            "$M \\in A$ et $M$ est la limite de toute suite croissante de $A$",
+            "Il existe une suite strictement décroissante d'éléments de $A$ convergeant vers $M$"
+          ],
+          "Prends $\\varepsilon_n = \\frac{1}{n+1}$ dans la caractérisation en $\\varepsilon$ pour construire la suite.",
+          "Par le théorème des gendarmes : $M - \\frac{1}{n+1} < x_n \\le M \\implies x_n \\to M$.",
+          "En posant $\\varepsilon = \\frac{1}{n+1} > 0$ dans la caractérisation de la borne supérieure, il existe $x_n \\in A$ tel que $M - \\frac{1}{n+1} < x_n \\le M$. D'après le théorème d'encadrement, la suite $(x_n)$ converge vers $M$. Réciproquement, la limite d'éléments de $A$ est inférieure ou égale à $\\sup(A)$ si $M$ majore $A$, ce qui prouve l'équivalence."
+        );
+      } else if (p2Variant === 'algebre_des_bornes') {
+        const subMode = this.randChoice(['somme', 'oppose', 'inclusion']);
+        if (subMode === 'somme') {
+          return this.makeMcq(
+            'L1-REL', 2, "Propriétés algébriques : Borne supérieure d'une somme d'ensembles",
+            "Établir la relation entre $\\sup(A + B)$ et les bornes de $A$ et de $B$",
+            "Soient $A$ et $B$ deux parties non vides et majorées de $\\mathbb{R}$. On note $A + B = \\{a + b \\mid a \\in A, \\, b \\in B\\}$. Que vaut $\\sup(A + B)$ ?",
+            "$\\sup(A + B) = \\sup(A) + \\sup(B)$",
+            [
+              "$\\sup(A + B) = \\max(\\sup A, \\sup B)$",
+              "$\\sup(A + B) \\le \\sup(A) + \\sup(B)$ avec inégalité stricte possible",
+              "$\\sup(A + B) = \\sup(A) \\times \\sup(B)$"
+            ],
+            "Pour tous $a \\in A$ et $b \\in B$, $a \\le \\sup(A)$ et $b \\le \\sup(B)$.",
+            "Pour $\\varepsilon > 0$, écris $a + b > (\\sup A - \\varepsilon/2) + (\\sup B - \\varepsilon/2)$.",
+            "1. Pour tout $x = a + b \\in A + B$, $a + b \\le \\sup(A) + \\sup(B)$, donc $\\sup(A) + \\sup(B)$ est un majorant de $A + B$.\n2. Soit $\\varepsilon > 0$. Il existe $a \\in A$ tel que $a > \\sup(A) - \\varepsilon/2$, et $b \\in B$ tel que $b > \\sup(B) - \\varepsilon/2$. Alors $a + b > \\sup(A) + \\sup(B) - \\varepsilon$. Ainsi $\\sup(A + B) = \\sup(A) + \\sup(B)$."
+          );
+        } else if (subMode === 'oppose') {
+          return this.makeMcq(
+            'L1-REL', 2, "Propriétés algébriques : Borne inférieure de l'ensemble opposé",
+            "Relier $\\inf(-A)$ et $\\sup(A)$",
+            "Soit $A \\subset \\mathbb{R}$ une partie non vide et bornée. On note $-A = \\{-x \\mid x \\in A\\}$. Quelle relation relie $\\inf(-A)$ et $\\sup(A)$ ?",
+            "$\\inf(-A) = -\\sup(A) \\quad \\text{et} \\quad \\sup(-A) = -\\inf(A)$",
+            [
+              "$\\inf(-A) = \\sup(A)$",
+              "$\\inf(-A) = -\\inf(A)$",
+              "$\\inf(-A) = \\frac{1}{\\sup(A)}$"
+            ],
+            "Multiplier une inégalité par $-1$ inverse son sens : $x \\le M \\iff -x \\ge -M$.",
+            "Un majorant de $A$ devient un minorant de $-A$ lorsqu'on le multiplie par $-1$.",
+            "Pour tout $x \\in A$, $x \\le \\sup(A) \\iff -x \\ge -\\sup(A)$. Donc $-\\sup(A)$ minore $-A$. Réciproquement, si $m$ minore $-A$, alors pour tout $x \\in A$, $-x \\ge m \\iff x \\le -m$, donc $-m \\ge \\sup(A) \\iff m \\le -\\sup(A)$. Le plus grand minorant est donc $-\\sup(A)$ : $\\inf(-A) = -\\sup(A)$."
+          );
+        } else {
+          return this.makeMcq(
+            'L1-REL', 2, "Propriétés algébriques : Monotonie des bornes par inclusion",
+            "Comparer les bornes de deux ensembles emboîtés $A \\subset B$",
+            "Soient $A$ et $B$ deux parties non vides de $\\mathbb{R}$ telles que $A \\subset B$ et $B$ est bornée. Quelle relation d'ordre est TOUJOURS vérifiée ?",
+            "$\\inf(B) \\le \\inf(A) \\le \\sup(A) \\le \\sup(B)$",
+            [
+              "$\\inf(A) \\le \\inf(B) \\le \\sup(B) \\le \\sup(A)$",
+              "$\\sup(A) + \\sup(B) \\le \\inf(A) + \\inf(B)$",
+              "$\\sup(A) = \\sup(B)$ et $\\inf(A) = \\inf(B)$"
+            ],
+            "Un majorant de $B$ majore aussi tous les éléments de $A$ puisque $A \\subset B$.",
+            "De même, un minorant de $B$ minore nécessairement $A$.",
+            "Tout majorant de $B$ majore a fortiori $A$. Comme $\\sup(B)$ majore $B$, il majore $A$, donc $\\sup(A) \\le \\sup(B)$ (la borne supérieure de $A$ est le plus petit des majorants de $A$). Par un raisonnement similaire sur les minorants, $\\inf(B) \\le \\inf(A)$. D'où : $\\inf(B) \\le \\inf(A) \\le \\sup(A) \\le \\sup(B)$."
+          );
+        }
+      } else {
+        return this.makeMcq(
+          'L1-REL', 2, "Méthode : Densité des nombres décimaux D et rationnels Q dans R",
+          "Construire explicitement un élément décimal dans un intervalle ouvert non vide",
+          "Soient deux réels $x, y \\in \\mathbb{R}$ tels que $x < y$. Comment justifie-t-on l'existence d'un décimal $d \\in \\mathbb{D} = \\left\\{\\frac{p}{10^k} \\;\\middle|\\; p \\in \\mathbb{Z}, k \\in \\mathbb{N}\\right\\}$ vérifiant $x < d < y$ ?",
+          "On choisit $k \\in \\mathbb{N}$ tel que $10^k(y - x) > 1$, puis $d = \\frac{\\lfloor 10^k x \\rfloor + 1}{10^k}$ vérifie $x < d < y$",
+          [
+            "On prend toujours le milieu $d = \\frac{x+y}{2}$, qui est automatiquement un décimal",
+            "On prend $d = \\lfloor y - x \\rfloor$, qui est toujours entre $x$ et $y$",
+            "Ce résultat n'est vrai que si $x$ et $y$ sont eux-mêmes des nombres rationnels"
+          ],
+          "Par Archimède, l'écart $y - x > 0$ devient supérieur à $10^{-k}$ pour $k$ assez grand.",
+          "Entre deux réels séparés d'au moins $10^{-k}$, il y a toujours un multiple entier de $10^{-k}$.",
+          "Comme $y - x > 0$, il existe $k \\in \\mathbb{N}$ tel que $10^k(y - x) > 1 \\iff 10^k y - 10^k x > 1$. L'entier $p = \\lfloor 10^k x \\rfloor + 1$ vérifie alors $10^k x < p \\le 10^k x + 1 < 10^k y$. En divisant par $10^k$, le décimal $d = \\frac{p}{10^k}$ satisfait rigoureusement $x < d < y$."
+        );
+      }
+    } else if (tier === 3) {
+      // Palier 3 : Niveau Examen - Archimède, ensembles à 2 variables, densité des irrationnels, convexité
+      const p3Variant = this.randChoice(['archimede_partie_entiere', 'bornes_deux_variables', 'densite_irrationnels', 'convexite_intervalles']);
+
+      if (p3Variant === 'archimede_partie_entiere') {
+        const sub = this.randChoice(['enonce', 'limite']);
+        if (sub === 'enonce') {
+          return this.makeMcq(
+            'L1-REL', 3, "Propriété d'Archimède et conséquences sur R",
+            "Énoncer et exploiter le caractère archimédien du corps des réels",
+            "Quelle est la formulation quantifiée exacte de la propriété d'Archimède dans $\\mathbb{R}$ ?",
+            "$\\forall x \\in \\mathbb{R}_+^*, \\quad \\forall y \\in \\mathbb{R}, \\quad \\exists n \\in \\mathbb{N}, \\quad n x > y$",
+            [
+              "$\\forall x, y \\in \\mathbb{R}, \\quad x < y \\implies \\exists n \\in \\mathbb{N}, \\quad n(x + y) = 1$",
+              "$\\forall x \\in \\mathbb{R}, \\quad \\exists n \\in \\mathbb{N}, \\quad n \\le x < n + 1$",
+              "$\\forall x \\in \\mathbb{R}, \\quad |x| \\ge 0$"
+            ],
+            "Elle exprime que l'ensemble des entiers naturels $\\mathbb{N}$ n'est pas majoré dans $\\mathbb{R}$.",
+            "Avec des pas de longueur $x > 0$, on dépasse n'importe quelle distance $y$.",
+            "La propriété d'Archimède stipule que pour tout pas élémentaire strictement positif $x > 0$ et pour tout réel $y$, il existe un entier $n \\in \\mathbb{N}$ tel que $n x > y$. Cela équivaut au fait que $\\mathbb{N}$ n'est pas majoré dans $\\mathbb{R}$, et garantit l'existence de la partie entière."
+          );
+        } else {
+          return this.makeMcq(
+            'L1-REL', 3, "Application d'Archimède : Limite avec la partie entière",
+            "Encadrer la partie entière et calculer une limite fondamentale",
+            "Pour tout réel $x \\in \\mathbb{R}$, que vaut la limite $\\lim_{n \\to +\\infty} \\frac{\\lfloor n x \\rfloor}{n}$ ?",
+            "$x$",
+            [
+              "$\\lfloor x \\rfloor$",
+              "$0$",
+              "$+\\infty$"
+            ],
+            "Utilise l'encadrement universel de la partie entière : $y - 1 < \\lfloor y \\rfloor \\le y$.",
+            "Applique cet encadrement à $y = nx$, puis divise par $n > 0$.",
+            "Par définition de la partie entière, pour tout $n \\in \\mathbb{N}^*$ : $n x - 1 < \\lfloor n x \\rfloor \\le n x$. En divisant par $n > 0$, on obtient : $x - \\frac{1}{n} < \\frac{\\lfloor n x \\rfloor}{n} \\le x$. Comme $\\lim_{n \\to +\\infty} \\frac{1}{n} = 0$, le théorème d'encadrement donne immédiatement $\\lim_{n \\to +\\infty} \\frac{\\lfloor n x \\rfloor}{n} = x$."
+          );
+        }
+      } else if (p3Variant === 'bornes_deux_variables') {
+        const twoVarCases = [
+          {
+            setStr: "\\left\\{ \\frac{1}{n} - \\frac{1}{m} \\;\\middle|\\; n, m \\in \\mathbb{N}^* \\right\\}",
+            ans: "$\\sup(A) = 1$ (pas de max) et $\\inf(A) = -1$ (pas de min)",
+            distractors: [
+              "$\\sup(A) = 1$ et $\\max(A) = 1$, $\\inf(A) = -1$ et $\\min(A) = -1$",
+              "$\\sup(A) = 0$ et $\\inf(A) = 0$",
+              "$\\sup(A) = +\\infty$ et $\\inf(A) = -\\infty$"
+            ],
+            hint1: "Pour maximiser la différence, rends $1/n$ le plus grand possible et $1/m$ le plus petit possible.",
+            hint2: "Prends $n=1$ et fais tendre $m \\to +\\infty$ : $1 - 1/m \\to 1$. Mais $1/m > 0$, donc $1 - 1/m < 1$.",
+            justif: "Pour tout $n, m \\in \\mathbb{N}^*$, $-1 < -\\frac{1}{m} < \\frac{1}{n} - \\frac{1}{m} < \\frac{1}{n} \\le 1$. En fixant $n=1$ et en faisant tendre $m \\to +\\infty$, $1 - 1/m \\to 1$, donc $\\sup(A) = 1$. Mais $1/n - 1/m = 1 \\implies 1/n = 1 + 1/m > 1$, impossible pour $n \\ge 1$, donc pas de max. De même en fixant $m=1$ et $n \\to +\\infty$, $\\inf(A) = -1$ sans minimum."
+          },
+          {
+            setStr: "\\left\\{ \\frac{n - m}{n + m} \\;\\middle|\\; n, m \\in \\mathbb{N}^* \\right\\}",
+            ans: "$\\sup(A) = 1$ (pas de max) et $\\inf(A) = -1$ (pas de min)",
+            distractors: [
+              "$\\sup(A) = 1 = \\max(A)$ et $\\inf(A) = -1 = \\min(A)$",
+              "$\\sup(A) = 0$ et $\\inf(A) = 0$",
+              "$\\sup(A) = +\\infty$ et $\\inf(A) = -\\infty$"
+            ],
+            hint1: "Écris $\\frac{n - m}{n + m} = \\frac{n + m - 2m}{n + m} = 1 - \\frac{2m}{n + m}$.",
+            hint2: "Pour tout $n, m \\ge 1$, $-1 < \\frac{n-m}{n+m} < 1$. Prends $m=1$ et $n \\to +\\infty$.",
+            justif: "Comme $n, m \\ge 1$, $-1 < \\frac{n-m}{n+m} < 1$. En fixant $m=1$ et en faisant tendre $n \\to +\\infty$, $\\frac{n-1}{n+1} \\to 1$, d'où $\\sup(A) = 1$. L'égalité à 1 nécessiterait $n-m = n+m \\implies 2m = 0$, impossible pour $m \\in \\mathbb{N}^*$. Par symétrie ($n=1, m \\to +\\infty$), $\\inf(A) = -1$ sans minimum."
+          },
+          {
+            setStr: "\\left\\{ \\frac{1}{n} + \\frac{1}{m} \\;\\middle|\\; n, m \\in \\mathbb{N}^* \\right\\}",
+            ans: "$\\sup(A) = 2 = \\max(A)$ et $\\inf(A) = 0$ (pas de min)",
+            distractors: [
+              "$\\sup(A) = 2$ (pas de max) et $\\inf(A) = 0$ (pas de min)",
+              "$\\sup(A) = 1$ et $\\inf(A) = 0$",
+              "$\\sup(A) = +\\infty$ et $\\inf(A) = 0$"
+            ],
+            hint1: "La somme $1/n + 1/m$ est maximale lorsque chaque terme est maximal.",
+            hint2: "Pour $n=1$ et $m=1$, la valeur $1/1 + 1/1 = 2$ est atteinte.",
+            justif: "Pour tout $n, m \\ge 1$, $1/n \\le 1$ et $1/m \\le 1$, donc $1/n + 1/m \\le 2$. Pour $n=m=1$, $1/1 + 1/1 = 2 \\in A$, donc $\\sup(A) = \\max(A) = 2$. Comme $1/n + 1/m > 0$ et tend vers 0 quand $n, m \\to +\\infty$, $\\inf(A) = 0$ mais $0 \\notin A$ (pas de minimum)."
+          }
+        ];
+
+        const tc = this.randChoice(twoVarCases);
+        return this.makeMcq(
+          'L1-REL', 3, "Bornes et extrema d'un ensemble à deux indices",
+          "Calculer $\\sup$ et $\\inf$ pour une famille indexée par $(n, m) \\in \\mathbb{N}^* \\times \\mathbb{N}^*$",
+          `Soit la partie $A = ${tc.setStr}$. Quelles sont les bornes et extrema de $A$ ?`,
+          tc.ans,
+          tc.distractors,
+          tc.hint1,
+          tc.hint2,
+          tc.justif
+        );
+      } else if (p3Variant === 'densite_irrationnels') {
+        return this.makeMcq(
+          'L1-REL', 3, "Densité des nombres irrationnels dans R",
+          "Démontrer que tout intervalle ouvert non vide contient au moins un irrationnel",
+          "Soient deux réels distincts $x, y \\in \\mathbb{R}$ avec $x < y$. Comment démontre-t-on l'existence d'un nombre irrationnel $z \\in \\mathbb{R} \\setminus \\mathbb{Q}$ dans $]x, y[$ ?",
+          "Par densité de $\\mathbb{Q}$, il existe un rationnel non nul $r \\in \\left]\\frac{x}{\\sqrt{2}}, \\frac{y}{\\sqrt{2}}\\right[$, puis $z = r\\sqrt{2} \\in \\mathbb{R} \\setminus \\mathbb{Q}$ vérifie $x < z < y$",
+          [
+            "En constatant que le milieu $\\frac{x+y}{2}$ est toujours un irrationnel",
+            "Par l'absurde, en supposant que tous les réels sont rationnels",
+            "La densité des irrationnels n'est vraie que sur l'intervalle $]0, 1[$"
+          ],
+          "Pense à diviser l'intervalle par un irrationnel fixe comme $\\sqrt{2} > 0$.",
+          "Le produit d'un rationnel non nul par un irrationnel est toujours irrationnel.",
+          "On considère les réels $\\frac{x}{\\sqrt{2}} < \\frac{y}{\\sqrt{2}}$. Par densité de $\\mathbb{Q}$ dans $\\mathbb{R}$, il existe un rationnel non nul $r \\in \\mathbb{Q}^*$ tel que $\\frac{x}{\\sqrt{2}} < r < \\frac{y}{\\sqrt{2}}$. En multipliant par $\\sqrt{2} > 0$, on obtient $x < r\\sqrt{2} < y$. Or le produit d'un rationnel non nul par l'irrationnel $\\sqrt{2}$ est irrationnel : $z = r\\sqrt{2} \\in \\mathbb{R} \\setminus \\mathbb{Q}$."
+        );
+      } else {
+        return this.makeMcq(
+          'L1-REL', 3, "Caractérisation géométrique des intervalles de R",
+          "Démontrer l'équivalence entre intervalle et partie convexe de R",
+          "Quelle propriété géométrique fondamentale caractérise exactement les intervalles de $\\mathbb{R}$ parmi toutes les parties de la droite réelle ?",
+          "Une partie non vide $I \\subset \\mathbb{R}$ est un intervalle si et seulement si elle est convexe : $\\forall x, y \\in I, \\ \\forall t \\in [0, 1], \\ (1-t)x + ty \\in I$",
+          [
+            "Une partie $I$ est un intervalle si et seulement si elle est bornée",
+            "Une partie $I$ est un intervalle si et seulement si elle ne contient que des rationnels",
+            "Une partie $I$ est un intervalle si et seulement si $\\sup(I)$ et $\\inf(I)$ sont finis"
+          ],
+          "Un ensemble est convexe si le segment reliant deux points quelconques de l'ensemble est entièrement inclus dans cet ensemble.",
+          "Dans $\\mathbb{R}$, le segment reliant $x$ et $y$ est $[\\min(x,y), \\max(x,y)]$.",
+          "Un sous-ensemble $I$ de $\\mathbb{R}$ est un intervalle ssi : $\\forall x, y \\in I$ avec $x \\le y$, on a $[x, y] \\subset I$. En écriture barycentrique, cela s'écrit $\\forall t \\in [0, 1], (1-t)x + ty \\in I$. C'est exactement la définition de la convexité. Les intervalles sont les seules parties convexes de $\\mathbb{R}$."
+        );
+      }
+    } else {
+      // Palier 4 : Démonstrations & Rigueur Universitaire - Dedekind, Cantor (segments emboîtés), sous-groupes de (R, +), Weierstrass
+      const p4Variant = this.randChoice(['completude_dedekind', 'segments_emboites_cantor', 'sous_groupes_additifs', 'weierstrass_bornes_atteintes', 'densite_adherence']);
+
+      if (p4Variant === 'completude_dedekind') {
+        return this.makeMcq(
+          'L1-REL', 4, "Complétude de Dedekind : Comparaison fondamentale entre Q et R",
+          "Comprendre pourquoi l'axiome de la borne supérieure est faux dans Q mais vrai dans R",
+          "Soit l'ensemble $A = \\{x \\in \\mathbb{Q} \\mid x^2 < 2\\}$. Laquelle des propositions décrit rigoureusement la situation dans $\\mathbb{Q}$ et dans $\\mathbb{R}$ ?",
+          "$A$ est non vide et majorée dans $\\mathbb{Q}$, mais n'a pas de borne supérieure dans $\\mathbb{Q}$. En revanche dans $\\mathbb{R}$, $\\sup_{\\mathbb{R}}(A) = \\sqrt{2}$",
+          [
+            "$\\sup_{\\mathbb{Q}}(A) = 1,414$ et $\\sup_{\\mathbb{R}}(A) = 1,4142$",
+            "$A$ admet $\\sqrt{2}$ pour borne supérieure dans $\\mathbb{Q}$",
+            "$A$ n'est pas majorée dans $\\mathbb{Q}$"
+          ],
+          "Rappelle-toi que $\\sqrt{2} \\notin \\mathbb{Q}$.",
+          "La borne supérieure dans un ensemble ordonné $(E, \\le)$ doit appartenir à $E$.",
+          "Dans le corps ordonné $\\mathbb{Q}$, $A$ est majorée (par exemple par 2). Si $A$ admettait une borne supérieure $M \\in \\mathbb{Q}$, on démontrerait que $M^2 = 2$, ce qui contredit le fait classique que $\\sqrt{2} \\notin \\mathbb{Q}$. Donc $\\mathbb{Q}$ n'est pas complet au sens de Dedekind. En revanche, dans $\\mathbb{R}$, par l'axiome de la borne supérieure, $\\sup(A)$ existe et vaut $\\sqrt{2}$."
+        );
+      } else if (p4Variant === 'segments_emboites_cantor') {
+        return this.makeMcq(
+          'L1-REL', 4, "Théorème des segments emboîtés de Cantor",
+          "Démontrer l'existence et l'unicité du point d'intersection par les bornes sup/inf",
+          "Soit $([a_n, b_n])_{n \\in \\mathbb{N}}$ une suite de segments emboîtés ($[a_{n+1}, b_{n+1}] \\subset [a_n, b_n]$ pour tout $n$) telle que $\\lim_{n \\to +\\infty} (b_n - a_n) = 0$. Que vaut $\\bigcap_{n \\in \\mathbb{N}} [a_n, b_n]$ ?",
+          "C'est un singleton $\\{\\ell\\}$ où $\\ell = \\sup(a_n) = \\inf(b_n) = \\lim a_n = \\lim b_n$",
+          [
+            "C'est l'ensemble vide $\\emptyset$ car la longueur tend vers 0",
+            "C'est le segment $[a_0, b_0]$",
+            "C'est un intervalle ouvert non vide $]\\ell - \\varepsilon, \\ell + \\varepsilon[$"
+          ],
+          "$(a_n)$ est une suite croissante et majorée (par $b_0$), $(b_n)$ est décroissante et minorée.",
+          "Les suites $(a_n)$ et $(b_n)$ sont adjacentes.",
+          "L'inclusion $[a_{n+1}, b_{n+1}] \\subset [a_n, b_n]$ implique $a_n \\le a_{n+1} \\le b_{n+1} \\le b_n$. La suite $(a_n)$ est croissante et majorée par n'importe quel $b_k$, donc elle converge vers $\\ell = \\sup(a_n)$. De même, $(b_n)$ décroît vers $\\ell' = \\inf(b_n)$. Comme $b_n - a_n \\to 0$, $\\ell = \\ell'$. Tout élément de l'intersection doit être compris entre tous les $a_n$ et tous les $b_n$, donc égal à $\\ell$. L'intersection est le singleton $\\{\\ell\\}$."
+        );
+      } else if (p4Variant === 'sous_groupes_additifs') {
+        return this.makeMcq(
+          'L1-REL', 4, "Classification des sous-groupes de (R, +) : Discrets vs Denses",
+          "Reconnaître l'alternative fondamentale pour les sous-groupes additifs de R",
+          "D'après le théorème de classification des sous-groupes additifs de $(\\mathbb{R}, +)$, quelle alternative est TOUJOURS vraie pour tout sous-groupe $G$ de $(\\mathbb{R}, +)$ ?",
+          "Soit $G$ est de la forme $a\\mathbb{Z}$ avec $a \\ge 0$ (sous-groupe discret), soit $G$ est dense dans $\\mathbb{R}$",
+          [
+            "Soit $G$ est fini, soit $G = \\mathbb{R}$",
+            "$G$ est obligatoirement un sous-espace vectoriel de $\\mathbb{R}$",
+            "$G$ est toujours isomorphe à $\\mathbb{Z} \\times \\mathbb{Z}$"
+          ],
+          "Considère $a = \\inf(G \\cap \\mathbb{R}_+^*)$.",
+          "Si $a > 0$, alors $G = a\\mathbb{Z}$. Si $a = 0$, $G$ est dense dans $\\mathbb{R}$.",
+          "On pose $a = \\inf(G \\cap \\mathbb{R}_+^*)$ : \n1. Si $a > 0$, on démontre que $a \\in G$ et que $G = a\\mathbb{Z}$ (le sous-groupe est discret, formé des multiples de $a$).\n2. Si $a = 0$, pour tout $\\varepsilon > 0$, il existe $g \\in G$ tel que $0 < g < \\varepsilon$. Comme les multiples entiers de $g$ parcourent $\\mathbb{R}$ par pas $< \\varepsilon$, tout intervalle ouvert rencontre $G$ : $G$ est dense dans $\\mathbb{R}$. C'est le cas pour $G = \\mathbb{Z} + \\alpha \\mathbb{Z}$ dès que $\\alpha \\notin \\mathbb{Q}$."
+        );
+      } else if (p4Variant === 'weierstrass_bornes_atteintes') {
+        return this.makeMcq(
+          'L1-REL', 4, "Théorème des bornes atteintes (Weierstrass)",
+          "Appliquer le théorème assurant que sup et inf sont des extrema pour une fonction continue sur un compact",
+          "Soit $f : [a, b] \\to \\mathbb{R}$ une fonction continue sur un segment fermé et borné $[a, b]$. Que garantit le théorème de Weierstrass sur les bornes de l'ensemble image $f([a, b])$ ?",
+          "$f([a, b])$ est borné et ses bornes sup et inf sont atteintes : $\\sup f([a, b]) = \\max f$ et $\\inf f([a, b]) = \\min f$",
+          [
+            "$f([a, b])$ est borné mais les extrema ne sont jamais atteints sur les bords",
+            "$f([a, b])$ est un intervalle ouvert $]m, M[$",
+            "La borne supérieure existe si et seulement si $f$ est dérivable"
+          ],
+          "L'image d'un compact par une fonction continue est un compact.",
+          "Dans $\\mathbb{R}$, un compact est une partie fermée et bornée.",
+          "D'après le théorème de Heine-Borel et la continuité de $f$, l'image $f([a, b])$ d'un segment compact est un compact de $\\mathbb{R}$, donc un ensemble fermé et borné. Comme il est fermé et borné, il contient sa borne supérieure et sa borne inférieure : $\\sup f = \\max f$ et $\\inf f = \\min f$. La fonction est donc bornée et atteint ses bornes (théorème des bornes atteintes)."
+        );
+      } else {
+        return this.makeMcq(
+          'L1-REL', 4, "Caractérisation topologique de la densité via l'adhérence",
+          "Relier la notion de partie dense à l'adhérence et aux suites",
+          "Soit $D$ une partie de $\\mathbb{R}$. Laquelle des affirmations est équivalente à : « $D$ est dense dans $\\mathbb{R}$ » ?",
+          "L'adhérence de $D$ est égale à $\\mathbb{R}$ ($\\overline{D} = \\mathbb{R}$), c'est-à-dire que tout réel est limite d'une suite d'éléments de $D$",
+          [
+            "L'intérieur de $D$ est égal à $\\mathbb{R}$ ($\\overset{\\circ}{D} = \\mathbb{R}$)",
+            "$D$ est un ensemble indénombrable",
+            "Le complémentaire $\\mathbb{R} \\setminus D$ est fini"
+          ],
+          "L'adhérence $\\overline{D}$ est l'ensemble de tous les points adhérents (limites de suites d'éléments de $D$).",
+          "Dense signifie que tout ouvert non vide rencontre $D$, ce qui équivaut à dire qu'aucun point n'est isolé de $D$.",
+          "Par définition, $D$ est dense dans $\\mathbb{R}$ si tout intervalle ouvert non vide rencontre $D$. Cela équivaut à dire que pour tout $x \\in \\mathbb{R}$ et tout $r > 0$, $]x - r, x + r[ \\cap D \\neq \\emptyset$, c'est-à-dire que $x$ est adhérent à $D$. Ainsi $\\overline{D} = \\mathbb{R}$, ou encore tout réel est limite d'une suite d'éléments de $D$."
+        );
+      }
+    }
   },
 
   generateL1_SUI(tier) {
