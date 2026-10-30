@@ -5159,7 +5159,7 @@ body.home-view-active .cycle-levels-row {
 
   /* En-tête mobile aéré, élégant et ultra-compact */
   .app-header {
-    padding: max(0.5rem, env(safe-area-inset-top)) 0.75rem 0.4rem;
+    padding: max(0.35rem, env(safe-area-inset-top)) 0.65rem 0.3rem;
     position: relative;
     z-index: 50;
   }
@@ -5167,7 +5167,7 @@ body.home-view-active .cycle-levels-row {
   .header-inner {
     flex-direction: column;
     align-items: stretch;
-    gap: 0.4rem;
+    gap: 0.28rem;
     padding: 0;
   }
 
@@ -5240,33 +5240,43 @@ body.home-view-active .cycle-levels-row {
 
   .cycle-levels-row {
     width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
     overflow-x: auto !important;
     scrollbar-width: none !important;
     -webkit-overflow-scrolling: touch !important;
+    padding: 2px 4px !important;
   }
 
   .cycle-levels-row::-webkit-scrollbar {
     display: none !important;
   }
 
+  /* Seul le groupe de niveaux actif s'affiche sur mobile (évite tout chevauchement des cycles) */
   .cycle-levels-group {
-    display: flex !important;
+    display: none !important;
     align-items: center !important;
     justify-content: center !important;
     gap: 0.35rem !important;
-    width: 100% !important;
+    width: auto !important;
+    max-width: 100% !important;
     overflow-x: auto !important;
     scrollbar-width: none !important;
     padding: 2px 0 !important;
   }
 
+  .cycle-levels-group.active {
+    display: flex !important;
+  }
+
   .level-pill {
     flex: 0 0 auto !important;
-    min-width: 60px !important;
-    padding: 4px 11px !important;
+    min-width: 52px !important;
+    padding: 4px 10px !important;
     font-size: 0.76rem !important;
     font-weight: 700 !important;
-    min-height: 30px !important;
+    min-height: 28px !important;
     border-radius: var(--radius-full) !important;
     white-space: nowrap !important;
     text-align: center !important;
@@ -5276,7 +5286,7 @@ body.home-view-active .cycle-levels-row {
   .header-user-status {
     flex-direction: column !important;
     align-items: center !important;
-    gap: 0.35rem !important;
+    gap: 0.3rem !important;
     width: 100% !important;
   }
 
@@ -5284,15 +5294,15 @@ body.home-view-active .cycle-levels-row {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: 0.35rem !important;
+    gap: 0.3rem !important;
     width: 100% !important;
     overflow-x: auto !important;
     scrollbar-width: none !important;
   }
 
   .status-pill {
-    padding: 2px 9px !important;
-    font-size: 0.74rem !important;
+    padding: 2px 8px !important;
+    font-size: 0.72rem !important;
     font-weight: 700 !important;
     border-radius: var(--radius-full) !important;
     white-space: nowrap !important;
@@ -5305,12 +5315,12 @@ body.home-view-active .cycle-levels-row {
     flex-direction: row !important;
     align-items: center !important;
     justify-content: flex-start !important;
-    gap: 0.35rem !important;
+    gap: 0.25rem !important;
     width: 100% !important;
     overflow-x: auto !important;
     scrollbar-width: none !important;
     -webkit-overflow-scrolling: touch !important;
-    padding: 2px 2px !important;
+    padding: 2px 4px !important;
     box-sizing: border-box !important;
   }
 
@@ -5321,26 +5331,79 @@ body.home-view-active .cycle-levels-row {
   .header-tools-grid-2x2 {
     display: flex !important;
     flex-direction: row !important;
-    gap: 0.35rem !important;
+    gap: 0.25rem !important;
     flex-shrink: 0 !important;
   }
 
   .header-utility-actions {
     display: flex !important;
     flex-direction: row !important;
-    gap: 0.35rem !important;
+    gap: 0.25rem !important;
     flex-shrink: 0 !important;
+    margin-left: 0.2rem !important;
+    padding-right: 8px !important;
   }
 
   .header-tools-grid-2x2 .btn-icon-text,
   .header-utility-actions .btn-utility-action {
-    padding: 4px 11px !important;
-    font-size: 0.75rem !important;
+    padding: 4px 8px !important;
+    font-size: 0.72rem !important;
     font-weight: 600 !important;
-    min-height: 29px !important;
+    min-height: 28px !important;
     border-radius: var(--radius-full) !important;
     white-space: nowrap !important;
     flex-shrink: 0 !important;
+  }
+
+  /* Filtres de domaines en chips horizontaux défilables sans retour à la ligne */
+  .domain-filters-scroll {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    scrollbar-width: none !important;
+    -webkit-overflow-scrolling: touch !important;
+    gap: 0.35rem !important;
+    padding: 2px 2px 4px 2px !important;
+  }
+
+  .domain-filters-scroll::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  .domain-filter-btn {
+    flex: 0 0 auto !important;
+    white-space: nowrap !important;
+    font-size: 0.74rem !important;
+    padding: 4px 10px !important;
+  }
+
+  /* Amélioration ergonomique des cartes de chapitres sur mobile */
+  .chapter-card {
+    padding: 0.55rem 0.7rem !important;
+    gap: 0.65rem !important;
+  }
+
+  .chapter-card:active {
+    transform: scale(0.99);
+  }
+
+  .chap-badge-id {
+    width: 34px !important;
+    height: 34px !important;
+    font-size: 0.82rem !important;
+  }
+
+  .chap-title {
+    font-size: 0.88rem !important;
+    line-height: 1.25 !important;
+  }
+
+  .chap-domain {
+    font-size: 0.72rem !important;
+  }
+
+  .chap-mastery {
+    font-size: 0.76rem !important;
   }
 
   /* =========================================================================

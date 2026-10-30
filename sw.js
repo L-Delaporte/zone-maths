@@ -4,7 +4,7 @@
  * Permet un fonctionnement autonome sans connexion Internet.
  */
 
-const CACHE_NAME = 'etabli-des-maths-v20261030e';
+const CACHE_NAME = 'etabli-des-maths-v20261030f';
 
 const PRECACHE_URLS = [
   './',
