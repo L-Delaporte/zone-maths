@@ -23,13 +23,95 @@
 
   <title>Rituels de Maths & Questions Flash à Vidéoprojeter — L'Établi des Maths</title>
 
-  <link rel="stylesheet" href="css/style.css?v=20261030f" />
-  <link rel="stylesheet" href="css/landing.css" />
+  <link rel="stylesheet" href="css/style.css?v=6f2c8ac842" />
+  <link rel="stylesheet" href="css/landing.css?v=afa2c99131" />
   <link rel="icon" href="favicon.ico" sizes="any" />
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png" />
   <link rel="apple-touch-icon" href="assets/favicon.png" />
   <link rel="manifest" href="manifest.json" />
   <meta name="theme-color" content="#2563eb" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Rituels de Maths & Questions Flash à Vidéoprojeter — L'Établi des Maths",
+  "description": "Rituels de mathématiques prêts à projeter pour les 5 premières minutes de cours (5e, 4e, 3e, 2nde). Questions aléatoires, chronomètre configurable, calcul mental et correction étape par étape. 100 % gratuit et sans pub.",
+  "url": "https://etabli-des-maths.fr/rituels.html",
+  "inLanguage": "fr",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "L'Établi des Maths",
+    "url": "https://etabli-des-maths.fr/"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Loïc Delaporte",
+    "jobTitle": "Professeur de mathématiques"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "L'Établi des Maths",
+    "url": "https://etabli-des-maths.fr/",
+    "logo": "https://etabli-des-maths.fr/assets/logo.png"
+  },
+  "audience": {
+    "@type": "EducationalAudience",
+    "educationalRole": "teacher"
+  }
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Accueil",
+      "item": "https://etabli-des-maths.fr/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Rituels",
+      "item": "https://etabli-des-maths.fr/rituels.html"
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Faut-il installer un logiciel ou créer un compte ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Non. L'outil fonctionne directement dans votre navigateur web habituel (Chrome, Firefox, Safari, Edge). Aucun compte n'est nécessaire pour projeter en classe."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Peut-on régler le temps par question ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Oui, vous pouvez ajuster la durée du compte à rebours ou passer en défilement manuel selon le rythme de votre classe."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "L'outil est-il gratuit ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Oui, L'Établi des Maths est un projet pédagogique 100 % libre et gratuit, créé par un professeur de mathématiques pour ses collègues et les élèves."
+      }
+    }
+  ]
+}
+  </script>
 </head>
 <body>
 
@@ -47,6 +129,7 @@
       <!-- Navigation entre Portails -->
       <nav class="nav-portal-links" aria-label="Portails thématiques">
         <a href="index.html" class="nav-portal-btn">🏠 Accueil</a>
+        <a href="cours/" class="nav-portal-btn">📚 Cours</a>
         <a href="rituels.html" class="nav-portal-btn active">⏱️ Rituels</a>
         <a href="brevet.html" class="nav-portal-btn">📝 Brevet 3e</a>
         <a href="bac.html" class="nav-portal-btn">🎓 Baccalauréat</a>
@@ -66,6 +149,9 @@
       </p>
 
       <div class="landing-cta-grid">
+        <a href="index.html?mode=rituel&level=6eme" class="btn-primary landing-cta-btn">
+          <span>6ème</span> Lancer le Rituel ⏱️
+        </a>
         <a href="index.html?mode=rituel&level=5eme" class="btn-primary landing-cta-btn">
           <span>5ème</span> Lancer le Rituel ⏱️
         </a>
@@ -153,5 +239,7 @@
     <p>L'Établi des Maths — Conçu par Loïc Delaporte, Professeur de Mathématiques • 100 % Libre & Conforme aux Programmes</p>
   </footer>
 
+  <!-- Statistiques d'audience anonymes et conformes RGPD (GoatCounter) -->
+  <script data-goatcounter="https://etabli-des-maths.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>

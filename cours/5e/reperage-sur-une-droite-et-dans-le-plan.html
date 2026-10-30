@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <script>
+    // Applique le thème (clair/sombre) choisi dans l'application, avant l'affichage
+    try {
+      document.documentElement.setAttribute('data-theme', JSON.parse(localStorage.getItem('maths_3e_progress_v1') || '{}').theme || 'light');
+    } catch (e) {}
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Repérage sur une droite et dans le plan — cours de 5e</title>
+  <meta name="description" content="Cours de 5e — Repérage sur une droite et dans le plan : lire et placer des abscisses sur une droite graduée, lire les coordonnées d'un point dans le plan muni…" />
+  <meta name="author" content="Loïc Delaporte, professeur de mathématiques" />
+  <link rel="canonical" href="https://etabli-des-maths.fr/cours/5e/reperage-sur-une-droite-et-dans-le-plan.html" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Repérage sur une droite et dans le plan — cours de 5e" />
+  <meta property="og:description" content="Cours de 5e — Repérage sur une droite et dans le plan : lire et placer des abscisses sur une droite graduée, lire les coordonnées d'un point dans le plan muni…" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://etabli-des-maths.fr/cours/5e/reperage-sur-une-droite-et-dans-le-plan.html" />
+  <meta property="og:image" content="https://etabli-des-maths.fr/assets/logo.jpg" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta property="og:site_name" content="L'Établi des Maths" />
+
+  <link rel="stylesheet" href="../../css/style.css" />
+  <link rel="stylesheet" href="../../css/landing.css" />
+  <link rel="stylesheet" href="../../vendor/katex/katex.min.css" />
+  <link rel="stylesheet" href="../../css/cours.css" />
+  <link rel="icon" href="../../favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../../assets/favicon-32x32.png" />
+  <link rel="apple-touch-icon" href="../../assets/favicon.png" />
+  <link rel="manifest" href="../../manifest.json" />
+  <meta name="theme-color" content="#2563eb" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LearningResource",
+    "name": "Repérage sur une droite et dans le plan — cours de 5e",
+    "headline": "Repérage sur une droite et dans le plan",
+    "description": "Cours de 5e — Repérage sur une droite et dans le plan : lire et placer des abscisses sur une droite graduée, lire les coordonnées d'un point dans le plan muni…",
+    "url": "https://etabli-des-maths.fr/cours/5e/reperage-sur-une-droite-et-dans-le-plan.html",
+    "inLanguage": "fr",
+    "educationalLevel": "Collège — classe de 5e (cycle 4)",
+    "learningResourceType": [
+      "Cours",
+      "Exercices corrigés"
+    ],
+    "teaches": [
+      "Lire et placer des abscisses sur une droite graduée.",
+      "Lire les coordonnées d'un point dans le plan muni d'un repère orthogonal.",
+      "Placer un point de coordonnées relatives données.",
+      "Calculer les coordonnées du milieu d'un segment."
+    ],
+    "about": {
+      "@type": "Thing",
+      "name": "Espace et Géométrie"
+    },
+    "isAccessibleForFree": true,
+    "dateModified": "2026-10-30",
+    "author": {
+      "@type": "Person",
+      "name": "Loïc Delaporte",
+      "jobTitle": "Professeur de mathématiques"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "L'Établi des Maths",
+      "url": "https://etabli-des-maths.fr/",
+      "logo": "https://etabli-des-maths.fr/assets/logo.png"
+    },
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "L'Établi des Maths",
+      "url": "https://etabli-des-maths.fr/"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Accueil",
+        "item": "https://etabli-des-maths.fr/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Cours",
+        "item": "https://etabli-des-maths.fr/cours/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "5e",
+        "item": "https://etabli-des-maths.fr/cours/5e/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Repérage droite & plan",
+        "item": "https://etabli-des-maths.fr/cours/5e/reperage-sur-une-droite-et-dans-le-plan.html"
+      }
+    ]
+  }
+  </script>
+</head>
+<body class="cours-page">
+  <a class="cours-skip" href="#contenu">Aller au contenu</a>
+
+  <!-- Header Uniformisé -->
+  <header class="app-header">
+    <div class="header-inner">
+      <a href="../../index.html" class="brand-container" style="text-decoration: none;">
+        <img src="../../assets/logo-96.png" alt="L'Établi des Maths" class="brand-logo-img" width="44" height="44" />
+        <div class="brand-text">
+          <p class="brand-title">L'Établi des Maths <span class="brand-level-tag">Cours</span></p>
+          <span class="brand-tagline">Outils pour apprendre et pratiquer</span>
+        </div>
+      </a>
+
+      <!-- Navigation entre Portails -->
+      <nav class="nav-portal-links" aria-label="Portails thématiques">
+        <a href="../../index.html" class="nav-portal-btn">🏠 Accueil</a>
+        <a href="../../cours/" class="nav-portal-btn active" aria-current="true">📚 Cours</a>
+        <a href="../../rituels.html" class="nav-portal-btn">⏱️ Rituels</a>
+        <a href="../../brevet.html" class="nav-portal-btn">📝 Brevet 3e</a>
+        <a href="../../bac.html" class="nav-portal-btn">🎓 Baccalauréat</a>
+        <a href="../../enseignants.html" class="nav-portal-btn">👨‍🏫 Enseignants</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="landing-wrapper cours-wrapper" id="contenu">
+    <nav class="cours-breadcrumb" aria-label="Fil d'Ariane">
+      <ol>
+        <li><a href="../../index.html">Accueil</a></li>
+        <li><a href="../">Cours</a></li>
+        <li><a href="./">5e</a></li>
+        <li><span aria-current="page">Repérage droite &amp; plan</span></li>
+      </ol>
+    </nav>
+
+    <header class="cours-hero">
+      <p class="landing-tag">5e · Espace et Géométrie · 5G1</p>
+      <h1 class="cours-title">Repérage sur une droite et dans le plan — cours de 5e</h1>
+      <p class="cours-lead">Abscisse d'un point sur une droite graduée, repère orthogonal du plan (abscisse et ordonnée positives et négatives).</p>
+      <div class="cours-cta">
+        <a class="btn-primary cours-cta-main" href="../../index.html?chapitre=5G1">🎯 S'entraîner sur ce chapitre</a>
+        <a class="btn-secondary cours-cta-alt" href="../../index.html?mode=rituel&amp;chapitre=5G1">⏱️ Rituel flash</a>
+        <a class="btn-secondary cours-cta-alt" href="../../index.html?mode=flashcards&amp;chapitre=5G1">🗂️ Flashcards</a>
+      </div>
+    </header>
+
+    <nav class="cours-toc" aria-label="Sommaire du chapitre">
+      <p class="cours-toc-title">Sommaire</p>
+      <ol><li><a href="#objectifs">Objectifs du chapitre</a></li><li><a href="#cours">Le cours</a></li><li><a href="#methodes">Méthodes et exemples rédigés</a></li><li><a href="#pieges">Pièges fréquents</a></li><li><a href="#revision">Questions de révision</a></li><li><a href="#exercices">Exercices corrigés</a></li></ol>
+    </nav>
+
+    <section class="cours-section " id="objectifs" aria-labelledby="objectifs-titre">
+      <h2 id="objectifs-titre">Objectifs du chapitre</h2>
+<ul class="cours-list"><li>Lire et placer des abscisses sur une droite graduée.</li><li>Lire les coordonnées d'un point dans le plan muni d'un repère orthogonal.</li><li>Placer un point de coordonnées relatives données.</li><li>Calculer les coordonnées du milieu d'un segment.</li></ul>
+    </section>
+
+    <section class="cours-section " id="cours" aria-labelledby="cours-titre">
+      <h2 id="cours-titre">Le cours</h2>
+<article class="cours-card"><h3>1. Droite graduée</h3><p class="math-p">Chaque point d'une droite graduée est repéré par un nombre relatif appelé son <strong>abscisse</strong>. L'origine <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi></mrow><annotation encoding="application/x-tex">O</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span></span></span></span> a pour abscisse 0.</p>
+<ul class="math-list">
+<li class="math-bullet">Les nombres positifs se trouvent à droite de l'origine.</li>
+<li class="math-bullet">Les nombres négatifs se trouvent à gauche de l'origine.</li>
+</ul>
+<div class="geo-figure-wrapper" style="text-align:center; margin:1rem 0;">
+  <svg class="geo-svg-figure" viewBox="0 0 320 90" width="320" height="90" style="max-width:320px; width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <marker id="arrow-axis" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--text-main, #334155)" />
+      </marker>
+    </defs>
+    <line x1="20" y1="50" x2="305" y2="50" stroke="var(--text-main, #334155)" stroke-width="2" marker-end="url(#arrow-axis)" />
+    <!-- Graduations -->
+    <line x1="40" y1="45" x2="40" y2="55" stroke="var(--text-main, #334155)" stroke-width="1.5" />
+    <text x="40" y="70" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="var(--text-muted, #64748b)">-3</text>
+    <line x1="80" y1="45" x2="80" y2="55" stroke="var(--text-main, #334155)" stroke-width="1.5" />
+    <text x="80" y="70" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="var(--text-muted, #64748b)">-2</text>
+    <line x1="120" y1="45" x2="120" y2="55" stroke="var(--text-main, #334155)" stroke-width="1.5" />
+    <text x="120" y="70" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="var(--text-muted, #64748b)">-1</text>
+    <line x1="160" y1="42" x2="160" y2="58" stroke="#dc2626" stroke-width="2" />
+    <text x="160" y="72" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#dc2626">0</text>
+    <text x="160" y="35" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#dc2626">O</text>
+    <line x1="200" y1="45" x2="200" y2="55" stroke="var(--text-main, #334155)" stroke-width="1.5" />
+    <text x="200" y="70" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="var(--text-muted, #64748b)">+1</text>
+    <line x1="240" y1="45" x2="240" y2="55" stroke="var(--text-main, #334155)" stroke-width="1.5" />
+    <text x="240" y="70" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="var(--text-muted, #64748b)">+2</text>
+    <line x1="280" y1="45" x2="280" y2="55" stroke="var(--text-main, #334155)" stroke-width="1.5" />
+    <text x="280" y="70" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="var(--text-muted, #64748b)">+3</text>
+    <!-- Points repérés -->
+    <circle cx="80" cy="50" r="3.5" fill="#dc2626" />
+    <text x="80" y="35" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#dc2626">A(-2)</text>
+    <circle cx="240" cy="50" r="3.5" fill="var(--primary, #2563eb)" />
+    <text x="240" y="35" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="var(--primary, #2563eb)">B(+2)</text>
+    <text x="75" y="18" font-family="system-ui, sans-serif" font-size="10" fill="#dc2626">← Négatifs</text>
+    <text x="215" y="18" font-family="system-ui, sans-serif" font-size="10" fill="#10b981">Positifs →</text>
+  </svg>
+</div></article>
+<article class="cours-card"><h3>2. Repère orthogonal du plan</h3><p class="math-p">Dans un repère orthogonal, la position d'un point <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi></mrow><annotation encoding="application/x-tex">M</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span></span></span></span> est donnée par un couple de nombres noté <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi><mo stretchy="false">(</mo><mi>x</mi><mo separator="true">;</mo><mi>y</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">M(x ; y)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mpunct">;</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mclose">)</span></span></span></span> :</p>
+<ul class="math-list">
+<li class="math-bullet"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span></span></span></span> est l'<strong>abscisse</strong> (axe horizontal, orienté de gauche à droite).</li>
+<li class="math-bullet"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi></mrow><annotation encoding="application/x-tex">y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span></span></span></span> est l'<strong>ordonnée</strong> (axe vertical, orienté de bas en haut).</li>
+</ul>
+<p class="math-p">Astuce mnémotechnique : Ordre alphabétique (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span></span></span></span> puis <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi></mrow><annotation encoding="application/x-tex">y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span></span></span></span>).</p>
+<div class="geo-figure-wrapper" style="text-align:center; margin:1rem 0;">
+  <svg class="geo-svg-figure" viewBox="0 0 300 220" width="300" height="220" style="max-width:300px; width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <marker id="arrow-rep" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--text-main, #334155)" />
+      </marker>
+    </defs>
+    <!-- Grille légère -->
+    <g stroke="rgba(148, 163, 184, 0.2)" stroke-width="1">
+      <line x1="30" y1="35" x2="30" y2="195" />
+      <line x1="65" y1="35" x2="65" y2="195" />
+      <line x1="100" y1="35" x2="100" y2="195" />
+      <line x1="170" y1="35" x2="170" y2="195" />
+      <line x1="205" y1="35" x2="205" y2="195" />
+      <line x1="240" y1="35" x2="240" y2="195" />
+      <line x1="275" y1="35" x2="275" y2="195" />
+      <line x1="20" y1="45" x2="285" y2="45" />
+      <line x1="20" y1="80" x2="285" y2="80" />
+      <line x1="20" y1="150" x2="285" y2="150" />
+      <line x1="20" y1="185" x2="285" y2="185" />
+    </g>
+    <!-- Axes -->
+    <line x1="20" y1="115" x2="290" y2="115" stroke="var(--text-main, #334155)" stroke-width="2" marker-end="url(#arrow-rep)" />
+    <line x1="135" y1="205" x2="135" y2="25" stroke="var(--text-main, #334155)" stroke-width="2" marker-end="url(#arrow-rep)" />
+    <text x="285" y="132" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="var(--text-main, #0f172a)">x (abscisses)</text>
+    <text x="142" y="22" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="var(--text-main, #0f172a)">y (ordonnées)</text>
+    <text x="122" y="130" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="var(--text-main, #0f172a)">O</text>
+    <!-- Point M(3;2) : x = 135 + 3*35 = 240, y = 115 - 2*35 = 45 -->
+    <line x1="240" y1="115" x2="240" y2="45" stroke="var(--primary, #2563eb)" stroke-width="1.5" stroke-dasharray="3 3" />
+    <line x1="135" y1="45" x2="240" y2="45" stroke="var(--primary, #2563eb)" stroke-width="1.5" stroke-dasharray="3 3" />
+    <circle cx="240" cy="45" r="4" fill="var(--primary, #2563eb)" />
+    <text x="246" y="42" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="var(--primary, #2563eb)">M(3 ; 2)</text>
+    <!-- Point N(-2;-1) : x = 135 - 2*35 = 65, y = 115 + 1*35 = 150 -->
+    <line x1="65" y1="115" x2="65" y2="150" stroke="#10b981" stroke-width="1.5" stroke-dasharray="3 3" />
+    <line x1="135" y1="150" x2="65" y2="150" stroke="#10b981" stroke-width="1.5" stroke-dasharray="3 3" />
+    <circle cx="65" cy="150" r="4" fill="#10b981" />
+    <text x="20" y="165" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#10b981">N(-2 ; -1)</text>
+  </svg>
+</div></article>
+<article class="cours-card"><h3>3. Milieu d'un segment dans un repère</h3><ul class="math-list">
+<li class="math-bullet">Sur une droite graduée, l'abscisse du milieu <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi></mrow><annotation encoding="application/x-tex">M</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span></span></span></span> de <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mi>A</mi><mi>B</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[AB]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord mathnormal">A</span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mclose">]</span></span></span></span> est la demi-somme des abscisses :</li>
+</ul>
+<p class="math-p"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>x</mi><mi>M</mi></msub><mo>=</mo><mfrac><mrow><msub><mi>x</mi><mi>A</mi></msub><mo>+</mo><msub><mi>x</mi><mi>B</mi></msub></mrow><mn>2</mn></mfrac></mrow><annotation encoding="application/x-tex">x_M = \frac{x_A + x_B}{2}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.10903em;">M</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.9463em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.2603em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">2</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">A</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.05017em;">B</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></p>
+<ul class="math-list">
+<li class="math-bullet">Dans le repère du plan, les coordonnées du milieu <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi></mrow><annotation encoding="application/x-tex">M</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span></span></span></span> de <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mi>A</mi><mi>B</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[AB]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord mathnormal">A</span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mclose">]</span></span></span></span> sont :</li>
+</ul>
+<p class="math-p"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>M</mi><mrow><mo fence="true">(</mo><mfrac><mrow><msub><mi>x</mi><mi>A</mi></msub><mo>+</mo><msub><mi>x</mi><mi>B</mi></msub></mrow><mn>2</mn></mfrac><mo separator="true">;</mo><mfrac><mrow><msub><mi>y</mi><mi>A</mi></msub><mo>+</mo><msub><mi>y</mi><mi>B</mi></msub></mrow><mn>2</mn></mfrac><mo fence="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">M\left(\frac{x_A + x_B}{2} ; \frac{y_A + y_B}{2}\right)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:2.4em;vertical-align:-0.95em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size3">(</span></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.2603em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">2</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">A</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.05017em;">B</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mpunct">;</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.2603em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">2</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">A</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.05017em;">B</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mclose delimcenter" style="top:0em;"><span class="delimsizing size3">)</span></span></span></span></span></span></span></p></article>
+    </section>
+
+    <section class="cours-section " id="methodes" aria-labelledby="methodes-titre">
+      <h2 id="methodes-titre">Méthodes et exemples rédigés</h2>
+<article class="cours-card cours-method"><h3>Méthode : Placer un point dans un repère</h3>
+<div class="cours-example"><p class="cours-example-label">Exemple</p><p class="math-p">Placer le point <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo stretchy="false">(</mo><mo>−</mo><mn>4</mn><mo separator="true">;</mo><mn>3</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">A(-4 ; 3)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">A</span><span class="mopen">(</span><span class="mord">−</span><span class="mord">4</span><span class="mpunct">;</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">3</span><span class="mclose">)</span></span></span></span> dans un repère orthogonal.</p>
+<div class="geo-figure-wrapper" style="text-align:center; margin:0.8rem 0;">
+  <svg class="geo-svg-figure" viewBox="0 0 260 160" width="260" height="160" style="max-width:260px; width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <marker id="arrow-step" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="#dc2626" />
+      </marker>
+    </defs>
+    <line x1="20" y1="120" x2="245" y2="120" stroke="var(--text-main, #334155)" stroke-width="1.8" />
+    <line x1="180" y1="150" x2="180" y2="20" stroke="var(--text-main, #334155)" stroke-width="1.8" />
+    <circle cx="180" cy="120" r="3" fill="var(--text-main, #334155)" />
+    <text x="185" y="135" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="var(--text-main, #0f172a)">O(0;0)</text>
+    <!-- Flèche horizontale : x = -4 vers la gauche -->
+    <line x1="180" y1="120" x2="60" y2="120" stroke="var(--primary, #2563eb)" stroke-width="2.5" marker-end="url(#arrow-step)" />
+    <text x="120" y="112" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="var(--primary, #2563eb)">-4 vers la gauche</text>
+    <!-- Flèche verticale : y = +3 vers le haut -->
+    <line x1="60" y1="120" x2="60" y2="40" stroke="#10b981" stroke-width="2.5" marker-end="url(#arrow-step)" />
+    <text x="45" y="75" text-anchor="end" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#10b981">+3 vers le haut</text>
+    <!-- Point A -->
+    <circle cx="60" cy="40" r="4.5" fill="#dc2626" />
+    <text x="68" y="38" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#dc2626">A(-4 ; 3)</text>
+  </svg>
+</div></div>
+<ol class="cours-steps"><li><p class="math-p"><strong>Étape 1</strong> : Partir de l'origine <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mn>0</mn><mo separator="true">;</mo><mn>0</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(0;0)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord">0</span><span class="mpunct">;</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">0</span><span class="mclose">)</span></span></span></span>.</p></li><li><p class="math-p"><strong>Étape 2</strong> : Se déplacer de 4 unités vers la gauche sur l'axe des abscisses (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>=</mo><mo>−</mo><mn>4</mn></mrow><annotation encoding="application/x-tex">x = -4</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">−</span><span class="mord">4</span></span></span></span>).</p></li><li><p class="math-p"><strong>Étape 3</strong> : Monter de 3 unités sur l'axe des ordonnées (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi><mo>=</mo><mo>+</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">y = +3</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">+</span><span class="mord">3</span></span></span></span>) et placer <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi></mrow><annotation encoding="application/x-tex">A</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">A</span></span></span></span>.</p></li></ol></article>
+    </section>
+
+    <section class="cours-section " id="pieges" aria-labelledby="pieges-titre">
+      <h2 id="pieges-titre">Pièges fréquents</h2>
+<ul class="cours-list cours-traps"><li>Ne pas intervertir l'abscisse et l'ordonnée : le premier nombre est toujours horizontal, le deuxième vertical !</li></ul>
+    </section>
+
+    <section class="cours-section " id="revision" aria-labelledby="revision-titre">
+      <h2 id="revision-titre">Questions de révision</h2>
+<p class="cours-note">Essaie de répondre de tête avant d'afficher la réponse.</p>
+<div class="cours-flashcards"><details class="cours-flash"><summary>Quelles sont les coordonnées de l'origine d'un repère ?</summary><div class="cours-flash-a"><p class="math-p"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mn>0</mn><mo separator="true">;</mo><mn>0</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(0 ; 0)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord">0</span><span class="mpunct">;</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">0</span><span class="mclose">)</span></span></span></span> : abscisse 0 et ordonnée 0.</p></div></details>
+<details class="cours-flash"><summary>Dans les coordonnées d'un point <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi><mo stretchy="false">(</mo><mn>3</mn><mo separator="true">;</mo><mo>−</mo><mn>4</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">M(3 ; -4)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="mopen">(</span><span class="mord">3</span><span class="mpunct">;</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">−</span><span class="mord">4</span><span class="mclose">)</span></span></span></span>, quel nombre est l'abscisse ?</summary><div class="cours-flash-a"><p class="math-p"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn></mrow><annotation encoding="application/x-tex">3</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">3</span></span></span></span> est l'<strong>abscisse</strong> (lu sur l'axe horizontal) et <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>4</mn></mrow><annotation encoding="application/x-tex">-4</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">−</span><span class="mord">4</span></span></span></span> est l'<strong>ordonnée</strong> (lu sur l'axe vertical).</p></div></details>
+<details class="cours-flash"><summary>Sur une droite graduée, où se situent les nombres négatifs par rapport à zéro ?</summary><div class="cours-flash-a"><p class="math-p">À <strong>gauche</strong> de l'origine 0 (ou vers le bas si la graduation est verticale).</p></div></details>
+<details class="cours-flash"><summary>Que peut-on dire de l'abscisse du milieu <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi></mrow><annotation encoding="application/x-tex">M</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span></span></span></span> d'un segment <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mi>A</mi><mi>B</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[AB]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord mathnormal">A</span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mclose">]</span></span></span></span> ?</summary><div class="cours-flash-a"><p class="math-p">L'abscisse de <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi></mrow><annotation encoding="application/x-tex">M</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span></span></span></span> est la <strong>moyenne</strong> des abscisses de <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi></mrow><annotation encoding="application/x-tex">A</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">A</span></span></span></span> et <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi></mrow><annotation encoding="application/x-tex">B</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span></span></span></span> : <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>x</mi><mi>M</mi></msub><mo>=</mo><mfrac><mrow><msub><mi>x</mi><mi>A</mi></msub><mo>+</mo><msub><mi>x</mi><mi>B</mi></msub></mrow><mn>2</mn></mfrac></mrow><annotation encoding="application/x-tex">x_M = \frac{x_A + x_B}{2}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.10903em;">M</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.9463em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.2603em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">2</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">A</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.05017em;">B</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></p></div></details></div>
+    </section>
+
+    <section class="cours-section " id="exercices" aria-labelledby="exercices-titre">
+      <h2 id="exercices-titre">Exercices corrigés</h2>
+<article class="cours-card cours-exo">
+<h3><span class="cours-exo-num">Exercice 1</span> Abscisse sur une droite graduée</h3>
+<p class="cours-tier cours-tier-1">Palier 1 · découverte</p>
+<p class="math-p">Sur une droite graduée d'origine <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi></mrow><annotation encoding="application/x-tex">O</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span></span></span></span>, le point <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi></mrow><annotation encoding="application/x-tex">A</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">A</span></span></span></span> a pour abscisse <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>4</mn></mrow><annotation encoding="application/x-tex">-4</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">−</span><span class="mord">4</span></span></span></span>. Quelle est la distance <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mi>A</mi></mrow><annotation encoding="application/x-tex">OA</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mord mathnormal">A</span></span></span></span> ?</p>
+
+<details class="cours-hint"><summary>Un indice</summary><div><p class="math-p">La distance à zéro d'un nombre est toujours positive.</p></div></details>
+<details class="cours-solution"><summary>Voir la correction</summary><div class="cours-solution-body"><p class="cours-answer"><strong>Réponse attendue :</strong> 4</p><p class="math-p">La distance entre l'origine et le point d'abscisse <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>4</mn></mrow><annotation encoding="application/x-tex">-4</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">−</span><span class="mord">4</span></span></span></span> est égale à <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn></mrow><annotation encoding="application/x-tex">4</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">4</span></span></span></span> unités.</p></div></details>
+</article>
+<article class="cours-card cours-exo">
+<h3><span class="cours-exo-num">Exercice 2</span> Lecture de coordonnées dans le plan</h3>
+<p class="cours-tier cours-tier-2">Palier 2 · application</p>
+<p class="math-p">Dans un repère orthogonal, le point <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi></mrow><annotation encoding="application/x-tex">M</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span></span></span></span> a pour coordonnées <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mn>3</mn><mo separator="true">;</mo><mo>−</mo><mn>5</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(3 ; -5)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">3</span><span class="mpunct">;</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">−</span><span class="mord">5</span><span class="mclose">)</span></span></span></span>. Quelle est l'ordonnée de ce point ?</p>
+
+<details class="cours-hint"><summary>Un indice</summary><div><p class="math-p">Les coordonnées s'écrivent sous la forme <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mtext>abscisse</mtext><mo separator="true">;</mo><mrow><mtext>ordonn</mtext><mover accent="true"><mtext>e</mtext><mo>ˊ</mo></mover><mtext>e</mtext></mrow><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(\text{abscisse} ; \text{ordonnée})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord text"><span class="mord">abscisse</span></span><span class="mpunct">;</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord text"><span class="mord">ordonn</span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6944em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord">e</span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.25em;"><span class="mord">ˊ</span></span></span></span></span></span></span><span class="mord">e</span></span><span class="mclose">)</span></span></span></span>.</p></div></details>
+<details class="cours-solution"><summary>Voir la correction</summary><div class="cours-solution-body"><p class="cours-answer"><strong>Réponse attendue :</strong> -5</p><p class="math-p">L'abscisse est 3 (axe horizontal) et l'ordonnée est <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>5</mn></mrow><annotation encoding="application/x-tex">-5</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">−</span><span class="mord">5</span></span></span></span> (axe vertical).</p></div></details>
+</article>
+<article class="cours-card cours-exo">
+<h3><span class="cours-exo-num">Exercice 3</span> Symétrie par rapport aux axes</h3>
+<p class="cours-tier cours-tier-3">Palier 3 · approfondissement</p>
+<p class="math-p">Dans un repère orthogonal, le point <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi></mrow><annotation encoding="application/x-tex">A</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">A</span></span></span></span> a pour coordonnées <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mn>2</mn><mo separator="true">;</mo><mn>5</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(2 ; 5)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">2</span><span class="mpunct">;</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">5</span><span class="mclose">)</span></span></span></span>. Quelles sont les coordonnées de son symétrique <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>A</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup></mrow><annotation encoding="application/x-tex">A&#x27;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7519em;"></span><span class="mord"><span class="mord mathnormal">A</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7519em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span> par rapport à l'axe des abscisses ?</p>
+<ol class="cours-mcq" type="A"><li>(2 ; -5)</li><li>(-2 ; 5)</li><li>(-2 ; -5)</li><li>(5 ; 2)</li></ol>
+<details class="cours-hint"><summary>Un indice</summary><div><p class="math-p">Le point reste au même niveau horizontal mais passe de l'autre côté de l'axe des abscisses.</p></div></details>
+<details class="cours-solution"><summary>Voir la correction</summary><div class="cours-solution-body"><p class="cours-answer"><strong>Bonne réponse :</strong> A. (2 ; -5)</p><div><p class="math-p">Exact : la symétrie par rapport à l'axe des abscisses conserve l'abscisse et change le signe de l'ordonnée.</p></div><p class="math-p">L'abscisse reste <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">x = 2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">2</span></span></span></span> et l'ordonnée devient l'opposée : <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi><mo>=</mo><mo>−</mo><mn>5</mn></mrow><annotation encoding="application/x-tex">y = -5</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">−</span><span class="mord">5</span></span></span></span>, donc <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>A</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo stretchy="false">(</mo><mn>2</mn><mo separator="true">;</mo><mo>−</mo><mn>5</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">A&#x27;(2 ; -5)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0019em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal">A</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7519em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord">2</span><span class="mpunct">;</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">−</span><span class="mord">5</span><span class="mclose">)</span></span></span></span>.</p></div></details>
+</article>
+<article class="cours-card cours-exo">
+<h3><span class="cours-exo-num">Exercice 4</span> Défi 4ème : Milieu d'un segment</h3>
+<p class="cours-tier cours-tier-4">Palier 4 · défi</p>
+<p class="math-p">Dans un repère, on donne <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo stretchy="false">(</mo><mn>2</mn><mo separator="true">;</mo><mn>4</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">A(2 ; 4)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">A</span><span class="mopen">(</span><span class="mord">2</span><span class="mpunct">;</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">4</span><span class="mclose">)</span></span></span></span> et <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><mo stretchy="false">(</mo><mn>8</mn><mo separator="true">;</mo><mn>10</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">B(8 ; 10)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mopen">(</span><span class="mord">8</span><span class="mpunct">;</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">10</span><span class="mclose">)</span></span></span></span>. Quelle est l'abscisse du milieu <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi></mrow><annotation encoding="application/x-tex">I</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span></span></span></span> du segment <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mi>A</mi><mi>B</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[AB]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord mathnormal">A</span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mclose">]</span></span></span></span> ?</p>
+
+<details class="cours-hint"><summary>Un indice</summary><div><p class="math-p">L'abscisse du milieu est la moyenne des abscisses : <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mrow><msub><mi>x</mi><mi>A</mi></msub><mo>+</mo><msub><mi>x</mi><mi>B</mi></msub></mrow><mn>2</mn></mfrac></mrow><annotation encoding="application/x-tex">\frac{x_A + x_B}{2}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1636em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8186em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.4103em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathnormal mtight">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.3567em;margin-left:0em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight">A</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1433em;"><span></span></span></span></span></span></span><span class="mbin mtight">+</span><span class="mord mtight"><span class="mord mathnormal mtight">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.3567em;margin-left:0em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight" style="margin-right:0.05017em;">B</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1433em;"><span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span>.</p></div></details>
+<details class="cours-solution"><summary>Voir la correction</summary><div class="cours-solution-body"><p class="cours-answer"><strong>Réponse attendue :</strong> 5</p><p class="math-p"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>x</mi><mi>I</mi></msub><mo>=</mo><mfrac><mrow><mn>2</mn><mo>+</mo><mn>8</mn></mrow><mn>2</mn></mfrac><mo>=</mo><mfrac><mn>10</mn><mn>2</mn></mfrac><mo>=</mo><mn>5</mn></mrow><annotation encoding="application/x-tex">x_I = \frac{2 + 8}{2} = \frac{10}{2} = 5</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.07847em;">I</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.0074em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3214em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">2</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">2</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord">8</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.0074em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3214em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">2</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">10</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">5</span></span></span></span></span></p></div></details>
+</article>
+    </section>
+
+    <aside class="cours-cta-box" aria-label="Entraînement">
+      <p class="cours-cta-box-title">Prêt à t'entraîner ?</p>
+      <p>Exercices générés à l'infini, corrigés pas à pas et classés en quatre paliers de difficulté, gratuitement et sans inscription.</p>
+      <div class="cours-cta">
+        <a class="btn-primary cours-cta-main" href="../../index.html?chapitre=5G1">🎯 S'entraîner sur ce chapitre</a>
+        <a class="btn-secondary cours-cta-alt" href="../../index.html?mode=rituel&amp;chapitre=5G1">⏱️ Rituel flash</a>
+        <a class="btn-secondary cours-cta-alt" href="../../index.html?mode=flashcards&amp;chapitre=5G1">🗂️ Flashcards</a>
+      </div>
+    </aside>
+
+    <nav class="cours-pager" aria-label="Chapitres voisins">
+      <a class="cours-pager-link cours-pager-prev" href="calcul-litteral-et-equations.html" rel="prev"><span>← Chapitre précédent</span><strong>Calcul littéral et équations</strong></a>
+      <a class="cours-pager-link cours-pager-up" href="./"><span>Tous les chapitres</span><strong>5e</strong></a>
+      <a class="cours-pager-link cours-pager-next" href="symetrie-centrale.html" rel="next"><span>Chapitre suivant →</span><strong>Symétrie centrale : constructions et propriétés</strong></a>
+    </nav>
+  </main>
+
+  <footer class="cours-footer">
+    <p>L'Établi des Maths — Conçu par Loïc Delaporte, professeur de mathématiques • 100 % libre et gratuit, conforme aux programmes</p>
+    <p><a href="../../cours/">Tous les cours</a> · <a href="../../index.html">Ouvrir l'application</a> · <a href="../../enseignants.html">Espace enseignants</a></p>
+  </footer>
+  <!-- Statistiques d'audience anonymes et conformes RGPD (GoatCounter) -->
+  <script data-goatcounter="https://etabli-des-maths.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

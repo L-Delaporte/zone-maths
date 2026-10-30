@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <script>
+    // Applique le thème (clair/sombre) choisi dans l'application, avant l'affichage
+    try {
+      document.documentElement.setAttribute('data-theme', JSON.parse(localStorage.getItem('maths_3e_progress_v1') || '{}').theme || 'light');
+    } catch (e) {}
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Initiation à la pensée informatique — cours de 6e</title>
+  <meta name="description" content="Cours de 6e — Initiation à la pensée informatique : instructions, séquences et boucles : identifier une instruction et une séquence d'instructions, produire…" />
+  <meta name="author" content="Loïc Delaporte, professeur de mathématiques" />
+  <link rel="canonical" href="https://etabli-des-maths.fr/cours/6e/initiation-a-la-pensee-informatique.html" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Initiation à la pensée informatique — cours de 6e" />
+  <meta property="og:description" content="Cours de 6e — Initiation à la pensée informatique : instructions, séquences et boucles : identifier une instruction et une séquence d'instructions, produire…" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://etabli-des-maths.fr/cours/6e/initiation-a-la-pensee-informatique.html" />
+  <meta property="og:image" content="https://etabli-des-maths.fr/assets/logo.jpg" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta property="og:site_name" content="L'Établi des Maths" />
+
+  <link rel="stylesheet" href="../../css/style.css" />
+  <link rel="stylesheet" href="../../css/landing.css" />
+  <link rel="stylesheet" href="../../vendor/katex/katex.min.css" />
+  <link rel="stylesheet" href="../../css/cours.css" />
+  <link rel="icon" href="../../favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../../assets/favicon-32x32.png" />
+  <link rel="apple-touch-icon" href="../../assets/favicon.png" />
+  <link rel="manifest" href="../../manifest.json" />
+  <meta name="theme-color" content="#2563eb" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LearningResource",
+    "name": "Initiation à la pensée informatique : instructions, séquences et boucles — cours de 6e",
+    "headline": "Initiation à la pensée informatique : instructions, séquences et boucles",
+    "description": "Cours de 6e — Initiation à la pensée informatique : instructions, séquences et boucles : identifier une instruction et une séquence d'instructions, produire…",
+    "url": "https://etabli-des-maths.fr/cours/6e/initiation-a-la-pensee-informatique.html",
+    "inLanguage": "fr",
+    "educationalLevel": "Collège — classe de 6e (cycle 3)",
+    "learningResourceType": [
+      "Cours",
+      "Exercices corrigés"
+    ],
+    "teaches": [
+      "Identifier une instruction et une séquence d'instructions.",
+      "Produire et exécuter (à la main) une séquence d'instructions.",
+      "Répéter une séquence d'instructions à l'aide d'une boucle « répéter ».",
+      "Programmer le déplacement d'un robot ou d'un lutin sur un quadrillage ou dans Scratch."
+    ],
+    "about": {
+      "@type": "Thing",
+      "name": "Pensée Informatique"
+    },
+    "isAccessibleForFree": true,
+    "dateModified": "2026-10-30",
+    "author": {
+      "@type": "Person",
+      "name": "Loïc Delaporte",
+      "jobTitle": "Professeur de mathématiques"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "L'Établi des Maths",
+      "url": "https://etabli-des-maths.fr/",
+      "logo": "https://etabli-des-maths.fr/assets/logo.png"
+    },
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "L'Établi des Maths",
+      "url": "https://etabli-des-maths.fr/"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Accueil",
+        "item": "https://etabli-des-maths.fr/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Cours",
+        "item": "https://etabli-des-maths.fr/cours/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "6e",
+        "item": "https://etabli-des-maths.fr/cours/6e/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Pensée informatique",
+        "item": "https://etabli-des-maths.fr/cours/6e/initiation-a-la-pensee-informatique.html"
+      }
+    ]
+  }
+  </script>
+</head>
+<body class="cours-page">
+  <a class="cours-skip" href="#contenu">Aller au contenu</a>
+
+  <!-- Header Uniformisé -->
+  <header class="app-header">
+    <div class="header-inner">
+      <a href="../../index.html" class="brand-container" style="text-decoration: none;">
+        <img src="../../assets/logo-96.png" alt="L'Établi des Maths" class="brand-logo-img" width="44" height="44" />
+        <div class="brand-text">
+          <p class="brand-title">L'Établi des Maths <span class="brand-level-tag">Cours</span></p>
+          <span class="brand-tagline">Outils pour apprendre et pratiquer</span>
+        </div>
+      </a>
+
+      <!-- Navigation entre Portails -->
+      <nav class="nav-portal-links" aria-label="Portails thématiques">
+        <a href="../../index.html" class="nav-portal-btn">🏠 Accueil</a>
+        <a href="../../cours/" class="nav-portal-btn active" aria-current="true">📚 Cours</a>
+        <a href="../../rituels.html" class="nav-portal-btn">⏱️ Rituels</a>
+        <a href="../../brevet.html" class="nav-portal-btn">📝 Brevet 3e</a>
+        <a href="../../bac.html" class="nav-portal-btn">🎓 Baccalauréat</a>
+        <a href="../../enseignants.html" class="nav-portal-btn">👨‍🏫 Enseignants</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="landing-wrapper cours-wrapper" id="contenu">
+    <nav class="cours-breadcrumb" aria-label="Fil d'Ariane">
+      <ol>
+        <li><a href="../../index.html">Accueil</a></li>
+        <li><a href="../">Cours</a></li>
+        <li><a href="./">6e</a></li>
+        <li><span aria-current="page">Pensée informatique</span></li>
+      </ol>
+    </nav>
+
+    <header class="cours-hero">
+      <p class="landing-tag">6e · Pensée Informatique · 6A1</p>
+      <h1 class="cours-title">Initiation à la pensée informatique : instructions, séquences et boucles — cours de 6e</h1>
+      <p class="cours-lead">Identifier une instruction, produire et exécuter une séquence d'instructions, répéter une séquence (boucle), programmer un déplacement simple sur un quadrillage et dans Scratch.</p>
+      <div class="cours-cta">
+        <a class="btn-primary cours-cta-main" href="../../index.html?chapitre=6A1">🎯 S'entraîner sur ce chapitre</a>
+        <a class="btn-secondary cours-cta-alt" href="../../index.html?mode=rituel&amp;chapitre=6A1">⏱️ Rituel flash</a>
+        <a class="btn-secondary cours-cta-alt" href="../../index.html?mode=flashcards&amp;chapitre=6A1">🗂️ Flashcards</a>
+      </div>
+    </header>
+
+    <nav class="cours-toc" aria-label="Sommaire du chapitre">
+      <p class="cours-toc-title">Sommaire</p>
+      <ol><li><a href="#objectifs">Objectifs du chapitre</a></li><li><a href="#cours">Le cours</a></li><li><a href="#methodes">Méthodes et exemples rédigés</a></li><li><a href="#pieges">Pièges fréquents</a></li><li><a href="#revision">Questions de révision</a></li><li><a href="#exercices">Exercices corrigés</a></li></ol>
+    </nav>
+
+    <section class="cours-section " id="objectifs" aria-labelledby="objectifs-titre">
+      <h2 id="objectifs-titre">Objectifs du chapitre</h2>
+<ul class="cours-list"><li>Identifier une instruction et une séquence d'instructions.</li><li>Produire et exécuter (à la main) une séquence d'instructions.</li><li>Répéter une séquence d'instructions à l'aide d'une boucle « répéter ».</li><li>Programmer le déplacement d'un robot ou d'un lutin sur un quadrillage ou dans Scratch.</li></ul>
+    </section>
+
+    <section class="cours-section " id="cours" aria-labelledby="cours-titre">
+      <h2 id="cours-titre">Le cours</h2>
+<article class="cours-card"><h3>1. Instructions et séquences</h3><ul class="math-list">
+<li class="math-bullet">Une <strong>instruction</strong> est un ordre élémentaire donné à une machine (un robot, un lutin) : « avancer d'une case », « tourner à droite »…</li>
+<li class="math-bullet">Une <strong>séquence</strong> est une suite d'instructions exécutées <strong>les unes après les autres, dans l'ordre</strong>. Changer l'ordre peut changer le résultat.</li>
+<li class="math-bullet">Un <strong>programme</strong> (ou script) est une séquence d'instructions écrite pour réaliser une tâche.</li>
+</ul></article>
+<article class="cours-card"><h3>2. Déplacements sur un quadrillage</h3><p class="math-p">On code souvent un déplacement case par case avec des flèches :</p>
+<ul class="math-list">
+<li class="math-bullet">→ : une case vers la droite ; ← : une case vers la gauche ;</li>
+<li class="math-bullet">↑ : une case vers le haut ; ↓ : une case vers le bas.</li>
+</ul>
+<p class="math-p">Exemple : le programme « → → ↑ → ↓ ↓ » amène le robot <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn></mrow><annotation encoding="application/x-tex">3</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">3</span></span></span></span> cases à droite et <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn></mrow><annotation encoding="application/x-tex">1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span> case vers le bas par rapport à son départ (car <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn></mrow><annotation encoding="application/x-tex">2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">2</span></span></span></span> ↓ et <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn></mrow><annotation encoding="application/x-tex">1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span> ↑).</p></article>
+<article class="cours-card"><h3>3. La boucle « répéter »</h3><p class="math-p">Quand une séquence se répète, on utilise une <strong>boucle</strong> : « répéter <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span> fois [ … ] ».<br/><div class="math-code-container" data-lang="text"><pre class="math-code-block"><code>répéter 4 fois<br/>    avancer de 50 pas<br/>    tourner de 90 degrés<br/></code></pre></div><br/>Ce script trace un <strong>carré</strong> de côté <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>50</mn></mrow><annotation encoding="application/x-tex">50</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">50</span></span></span></span> pas : il est plus court que d'écrire <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>8</mn></mrow><annotation encoding="application/x-tex">8</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">8</span></span></span></span> instructions à la suite.</p></article>
+<article class="cours-card"><h3>4. Premiers pas dans Scratch</h3><p class="math-p">Dans Scratch, un <strong>lutin</strong> exécute des <strong>blocs</strong> emboîtés :</p>
+<ul class="math-list">
+<li class="math-bullet">un bloc <strong>événement</strong> lance le script (« quand le drapeau vert est cliqué ») ;</li>
+<li class="math-bullet">des blocs <strong>mouvement</strong> (« avancer de 10 pas », « tourner de 90 degrés ») ;</li>
+<li class="math-bullet">des blocs <strong>contrôle</strong> (« répéter 10 fois ») ;</li>
+<li class="math-bullet">une <strong>variable</strong> (par exemple « score ») permet de mémoriser un nombre qui peut changer.</li>
+</ul></article>
+    </section>
+
+    <section class="cours-section " id="methodes" aria-labelledby="methodes-titre">
+      <h2 id="methodes-titre">Méthodes et exemples rédigés</h2>
+<article class="cours-card cours-method"><h3>Méthode : Exécuter un programme à la main</h3>
+<div class="cours-example"><p class="cours-example-label">Exemple</p><p class="math-p">Le robot part de la case de départ et exécute : → → → ↑ ↑ ←. Où arrive-t-il ?</p></div>
+<ol class="cours-steps"><li><p class="math-p"><strong>Étape 1</strong> : On suit les instructions une par une, dans l'ordre, en notant la position.</p></li><li><p class="math-p"><strong>Étape 2</strong> : Horizontalement : <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn></mrow><annotation encoding="application/x-tex">3</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">3</span></span></span></span> cases à droite puis <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn></mrow><annotation encoding="application/x-tex">1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span> à gauche, soit <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn></mrow><annotation encoding="application/x-tex">2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">2</span></span></span></span> cases à droite.</p></li><li><p class="math-p"><strong>Étape 3</strong> : Verticalement : <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn></mrow><annotation encoding="application/x-tex">2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">2</span></span></span></span> cases vers le haut. Le robot finit <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn></mrow><annotation encoding="application/x-tex">2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">2</span></span></span></span> cases à droite et <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn></mrow><annotation encoding="application/x-tex">2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">2</span></span></span></span> cases au-dessus du départ.</p></li></ol></article>
+<article class="cours-card cours-method"><h3>Méthode : Écrire une boucle</h3>
+<div class="cours-example"><p class="cours-example-label">Exemple</p><p class="math-p">Écrire un script court qui trace un rectangle de <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>80</mn></mrow><annotation encoding="application/x-tex">80</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">80</span></span></span></span> pas sur <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>30</mn></mrow><annotation encoding="application/x-tex">30</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">30</span></span></span></span> pas.</p></div>
+<ol class="cours-steps"><li><p class="math-p"><strong>Étape 1</strong> : On repère le motif qui se répète : « avancer de <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>80</mn></mrow><annotation encoding="application/x-tex">80</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">80</span></span></span></span>, tourner de <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>90</mn></mrow><annotation encoding="application/x-tex">90</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">90</span></span></span></span>, avancer de <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>30</mn></mrow><annotation encoding="application/x-tex">30</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">30</span></span></span></span>, tourner de <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>90</mn></mrow><annotation encoding="application/x-tex">90</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">90</span></span></span></span> ».</p></li><li><p class="math-p"><strong>Étape 2</strong> : Ce motif doit être exécuté <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn></mrow><annotation encoding="application/x-tex">2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">2</span></span></span></span> fois pour fermer le rectangle.</p></li><li><p class="math-p"><strong>Étape 3</strong> : Script : « répéter <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn></mrow><annotation encoding="application/x-tex">2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">2</span></span></span></span> fois [avancer de <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>80</mn></mrow><annotation encoding="application/x-tex">80</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">80</span></span></span></span> ; tourner de <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>90</mn></mrow><annotation encoding="application/x-tex">90</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">90</span></span></span></span> ; avancer de <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>30</mn></mrow><annotation encoding="application/x-tex">30</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">30</span></span></span></span> ; tourner de <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>90</mn></mrow><annotation encoding="application/x-tex">90</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">90</span></span></span></span>] ».</p></li></ol></article>
+    </section>
+
+    <section class="cours-section " id="pieges" aria-labelledby="pieges-titre">
+      <h2 id="pieges-titre">Pièges fréquents</h2>
+<ul class="cours-list cours-traps"><li>L'ordre des instructions compte : « tourner puis avancer » ne donne pas le même trajet que « avancer puis tourner ».</li><li>Dans une boucle « répéter 4 fois », toutes les instructions à l'intérieur sont exécutées 4 fois, pas seulement la première.</li><li>Tourner « à droite » dépend de l'orientation du robot : un robot tourné vers le bas qui tourne à droite part vers la gauche de l'écran.</li></ul>
+    </section>
+
+    <section class="cours-section " id="revision" aria-labelledby="revision-titre">
+      <h2 id="revision-titre">Questions de révision</h2>
+<p class="cours-note">Essaie de répondre de tête avant d'afficher la réponse.</p>
+<div class="cours-flashcards"><details class="cours-flash"><summary>Qu'est-ce qu'une séquence d'instructions ?</summary><div class="cours-flash-a"><p class="math-p">Une suite d'instructions exécutées les unes après les autres, dans l'ordre.</p></div></details>
+<details class="cours-flash"><summary>À quoi sert une boucle « répéter » ?</summary><div class="cours-flash-a"><p class="math-p">À exécuter plusieurs fois la même séquence d'instructions sans la réécrire.</p></div></details>
+<details class="cours-flash"><summary>Quel angle utiliser dans « répéter 4 fois [avancer de 50 ; tourner de … degrés] » pour tracer un carré ?</summary><div class="cours-flash-a"><p class="math-p"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>90</mn></mrow><annotation encoding="application/x-tex">90</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">90</span></span></span></span> degrés.</p></div></details>
+<details class="cours-flash"><summary>Un script répète <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn></mrow><annotation encoding="application/x-tex">5</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">5</span></span></span></span> fois « avancer de <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>20</mn></mrow><annotation encoding="application/x-tex">20</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">20</span></span></span></span> pas ». Quelle distance parcourt le lutin ?</summary><div class="cours-flash-a"><p class="math-p"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mo>×</mo><mn>20</mn><mo>=</mo><mn>100</mn></mrow><annotation encoding="application/x-tex">5 \times 20 = 100</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">5</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">20</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">100</span></span></span></span> pas.</p></div></details>
+<details class="cours-flash"><summary>Quel bloc démarre souvent un script Scratch ?</summary><div class="cours-flash-a"><p class="math-p">« Quand le drapeau vert est cliqué ».</p></div></details></div>
+    </section>
+
+    <section class="cours-section " id="exercices" aria-labelledby="exercices-titre">
+      <h2 id="exercices-titre">Exercices corrigés</h2>
+<article class="cours-card cours-exo">
+<h3><span class="cours-exo-num">Exercice 1</span> Déplacement sur un quadrillage</h3>
+<p class="cours-tier cours-tier-1">Palier 1 · découverte</p>
+<p class="math-p">Un robot se déplace d'une case à chaque flèche. Il exécute le programme :<br/><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mo>→</mo><mtext> </mtext><mo>→</mo><mtext> </mtext><mo>→</mo><mtext> </mtext><mo>↑</mo><mtext> </mtext><mo>↑</mo><mtext> </mtext><mo>←</mo></mrow><annotation encoding="application/x-tex">\rightarrow \ \rightarrow \ \rightarrow \ \uparrow \ \uparrow \ \leftarrow</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span><span class="mspace"> </span></span><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span><span class="mspace"> </span></span><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span><span class="mspace"> </span></span><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mrel">↑</span><span class="mspace"> </span></span><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mrel">↑</span><span class="mspace"> </span></span><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">←</span></span></span></span></span><br/><strong>À la fin, de combien de cases se trouve-t-il à droite de sa case de départ ?</strong></p>
+
+<details class="cours-hint"><summary>Un indice</summary><div><p class="math-p">Ne regarde que les flèches horizontales.</p></div></details>
+<details class="cours-solution"><summary>Voir la correction</summary><div class="cours-solution-body"><p class="cours-answer"><strong>Réponse attendue :</strong> 2</p><p class="math-p">Flèches horizontales : <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn></mrow><annotation encoding="application/x-tex">3</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">3</span></span></span></span> vers la droite, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn></mrow><annotation encoding="application/x-tex">1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span> vers la gauche : <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mo>−</mo><mn>1</mn><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">3 - 1 = 2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">3</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">2</span></span></span></span>.<br/>Le robot est <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn></mrow><annotation encoding="application/x-tex">2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">2</span></span></span></span> cases à droite (et <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn></mrow><annotation encoding="application/x-tex">2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">2</span></span></span></span> cases au-dessus) de son départ.</p></div></details>
+</article>
+<article class="cours-card cours-exo">
+<h3><span class="cours-exo-num">Exercice 2</span> Distance parcourue avec une boucle</h3>
+<p class="cours-tier cours-tier-2">Palier 2 · application</p>
+<p class="math-p">Un lutin exécute le script suivant :<br/><div class="math-code-container" data-lang="text"><pre class="math-code-block"><code>quand le drapeau vert est cliqué<br/>répéter 5 fois<br/>    avancer de 30 pas<br/></code></pre></div><br/><strong>Combien de pas le lutin a-t-il parcourus au total ?</strong></p>
+
+<details class="cours-hint"><summary>Un indice</summary><div><p class="math-p">L'instruction « avancer de <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>30</mn></mrow><annotation encoding="application/x-tex">30</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">30</span></span></span></span> pas » est exécutée <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn></mrow><annotation encoding="application/x-tex">5</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">5</span></span></span></span> fois.</p></div></details>
+<details class="cours-solution"><summary>Voir la correction</summary><div class="cours-solution-body"><p class="cours-answer"><strong>Réponse attendue :</strong> 150</p><p class="math-p"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mn>5</mn><mo>×</mo><mn>30</mn><mo>=</mo><mn>150</mn></mrow><annotation encoding="application/x-tex">5 \times 30 = 150</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">5</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">30</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">150</span></span></span></span></span><br/>Le lutin a parcouru <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>150</mn></mrow><annotation encoding="application/x-tex">150</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">150</span></span></span></span> pas.</p></div></details>
+</article>
+<article class="cours-card cours-exo">
+<h3><span class="cours-exo-num">Exercice 3</span> Tracer un rectangle</h3>
+<p class="cours-tier cours-tier-3">Palier 3 · approfondissement</p>
+<p class="math-p">Un lutin (stylo en position d'écriture) exécute le script suivant :<br/><div class="math-code-container" data-lang="text"><pre class="math-code-block"><code>répéter 2 fois<br/>    avancer de 80 pas<br/>    tourner de 90 degrés<br/>    avancer de 30 pas<br/>    tourner de 90 degrés<br/></code></pre></div><br/><strong>Quelle est la longueur totale du trait tracé, en pas ?</strong></p>
+
+<details class="cours-hint"><summary>Un indice</summary><div><p class="math-p">Pendant un passage dans la boucle, le lutin avance de <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>80</mn><mo>+</mo><mn>30</mn></mrow><annotation encoding="application/x-tex">80 + 30</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">80</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">30</span></span></span></span> pas.</p></div></details>
+<details class="cours-solution"><summary>Voir la correction</summary><div class="cours-solution-body"><p class="cours-answer"><strong>Réponse attendue :</strong> 220</p><p class="math-p">Un passage dans la boucle : <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>80</mn><mo>+</mo><mn>30</mn><mo>=</mo><mn>110</mn></mrow><annotation encoding="application/x-tex">80 + 30 = 110</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">80</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">30</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">110</span></span></span></span> pas. Deux passages :<br/><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mn>2</mn><mo>×</mo><mn>110</mn><mo>=</mo><mn>220</mn></mrow><annotation encoding="application/x-tex">2 \times 110 = 220</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">110</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">220</span></span></span></span></span><br/>Le lutin trace un rectangle de périmètre <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>220</mn></mrow><annotation encoding="application/x-tex">220</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">220</span></span></span></span> pas.</p></div></details>
+</article>
+<article class="cours-card cours-exo">
+<h3><span class="cours-exo-num">Exercice 4</span> Défi 5ème : Une variable qui double</h3>
+<p class="cours-tier cours-tier-4">Palier 4 · défi</p>
+<p class="math-p">On exécute le script suivant :<br/><div class="math-code-container" data-lang="text"><pre class="math-code-block"><code>mettre N à 2<br/>répéter 4 fois<br/>    mettre N à N × 2<br/>dire N<br/></code></pre></div><br/><strong>Quel nombre le lutin dit-il à la fin ?</strong></p>
+
+<details class="cours-hint"><summary>Un indice</summary><div><p class="math-p">Au départ <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">N = 2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">2</span></span></span></span> ; à chaque passage dans la boucle, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span></span></span></span> est multiplié par <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn></mrow><annotation encoding="application/x-tex">2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">2</span></span></span></span>.</p></div></details>
+<details class="cours-solution"><summary>Voir la correction</summary><div class="cours-solution-body"><p class="cours-answer"><strong>Réponse attendue :</strong> 32</p><p class="math-p">Valeurs successives de <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span></span></span></span> : <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn></mrow><annotation encoding="application/x-tex">2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">2</span></span></span></span>, puis <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn></mrow><annotation encoding="application/x-tex">4</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">4</span></span></span></span>, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>8</mn></mrow><annotation encoding="application/x-tex">8</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">8</span></span></span></span>, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>16</mn></mrow><annotation encoding="application/x-tex">16</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">16</span></span></span></span>, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>32</mn></mrow><annotation encoding="application/x-tex">32</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">32</span></span></span></span> après les <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn></mrow><annotation encoding="application/x-tex">4</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">4</span></span></span></span> passages.<br/>Le lutin dit <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>32</mn></mrow><annotation encoding="application/x-tex">32</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">32</span></span></span></span>.</p></div></details>
+</article>
+    </section>
+
+    <aside class="cours-cta-box" aria-label="Entraînement">
+      <p class="cours-cta-box-title">Prêt à t'entraîner ?</p>
+      <p>Exercices générés à l'infini, corrigés pas à pas et classés en quatre paliers de difficulté, gratuitement et sans inscription.</p>
+      <div class="cours-cta">
+        <a class="btn-primary cours-cta-main" href="../../index.html?chapitre=6A1">🎯 S'entraîner sur ce chapitre</a>
+        <a class="btn-secondary cours-cta-alt" href="../../index.html?mode=rituel&amp;chapitre=6A1">⏱️ Rituel flash</a>
+        <a class="btn-secondary cours-cta-alt" href="../../index.html?mode=flashcards&amp;chapitre=6A1">🗂️ Flashcards</a>
+      </div>
+    </aside>
+
+    <nav class="cours-pager" aria-label="Chapitres voisins">
+      <a class="cours-pager-link cours-pager-prev" href="probabilites-hasard-et-premieres-probabilites.html" rel="prev"><span>← Chapitre précédent</span><strong>Probabilités : hasard et premières probabilités</strong></a>
+      <a class="cours-pager-link cours-pager-up" href="./"><span>Tous les chapitres</span><strong>6e</strong></a>
+      <span></span>
+    </nav>
+  </main>
+
+  <footer class="cours-footer">
+    <p>L'Établi des Maths — Conçu par Loïc Delaporte, professeur de mathématiques • 100 % libre et gratuit, conforme aux programmes</p>
+    <p><a href="../../cours/">Tous les cours</a> · <a href="../../index.html">Ouvrir l'application</a> · <a href="../../enseignants.html">Espace enseignants</a></p>
+  </footer>
+  <!-- Statistiques d'audience anonymes et conformes RGPD (GoatCounter) -->
+  <script data-goatcounter="https://etabli-des-maths.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

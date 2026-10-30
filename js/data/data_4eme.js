@@ -1,6 +1,6 @@
 /**
  * Données pédagogiques officielles de la classe de 4ème (Cycle 4, 2ème année)
- * Conforme au Bulletin Officiel de l'Éducation Nationale et à la progression de maths-et-tiques.fr
+ * Conforme aux programmes officiels de l'Éducation nationale
  * Enrichi avec les fiches de cours, méthodes, pièges et évaluations réelles d'archives
  */
 
@@ -1440,26 +1440,28 @@ window.MATHS_EXERCISES_4E = {
       "id": "4D1-3",
       "chapterId": "4D1",
       "tier": 3,
-      "title": "Probabilité dans une urne opaque",
-      "statement": "Une urne contient 3 boules rouges, 4 boules bleues et 5 boules vertes.\nQuelle est la probabilité de tirer une boule rouge ? (Fraction irréductible)",
+      "title": "Médiane d'une série d'effectif pair",
+      "statement": "Voici les temps (en minutes) mis par six élèves pour venir au collège :\n$$8 ~;~ 12 ~;~ 5 ~;~ 15 ~;~ 9 ~;~ 11$$\nDéterminer la médiane de cette série.",
       "type": "exact",
-      "answer": "1/4",
-      "placeholder": "Ex: 1/4",
-      "hint1": "Nombre total de boules : $3 + 4 + 5 = 12$. Fraction : $3/12$.",
-      "solution": "$$P = \\frac{3}{12} = \\frac{1}{4}$$",
+      "answer": "10",
+      "placeholder": "Ex: 10",
+      "hint1": "Commence par ranger les valeurs dans l'ordre croissant.",
+      "hint2": "L'effectif est pair (6 valeurs) : la médiane est la moyenne des 3e et 4e valeurs.",
+      "solution": "1. Série rangée : $5 ~;~ 8 ~;~ 9 ~;~ 11 ~;~ 12 ~;~ 15$.\n2. L'effectif $N = 6$ est pair : la médiane est la moyenne des valeurs de rang 3 et 4.\n$$\\text{Médiane} = \\frac{9 + 11}{2} = 10\\text{ min}$$\nAu moins la moitié des élèves mettent 10 minutes ou moins.",
       "skill": "Calculer"
     },
     {
       "id": "4D1-4",
       "chapterId": "4D1",
       "tier": 4,
-      "title": "Défi 3ème : Rétro-calcul de l'effectif total à partir d'un pourcentage",
-      "statement": "Dans une association sportive, 30 adhérents pratiquent la natation, ce qui représente $20\\%$ de tous les membres.\n**Quel est le nombre total d'adhérents de l'association ?**",
+      "title": "Défi 3ème : Note nécessaire pour atteindre une moyenne",
+      "statement": "Léa a obtenu $11$, $14$ et $9$ à ses trois premiers contrôles (tous de même coefficient).\n**Quelle note doit-elle obtenir au quatrième contrôle pour avoir exactement $12$ de moyenne ?**",
       "type": "exact",
-      "answer": "150",
-      "placeholder": "Ex: 150",
-      "hint1": "Si $20\\%$ vaut 30, alors $100\\%$ vaut $\\frac{30 \\times 100}{20}$.",
-      "solution": "$$N = \\frac{30 \\times 100}{20} = 150\\text{ adhérents}$$",
+      "answer": "14",
+      "placeholder": "Ex: 14",
+      "hint1": "Avec 4 notes et une moyenne de 12, la somme des 4 notes doit valoir $4 \\times 12$.",
+      "hint2": "$4 \\times 12 = 48$ et $11 + 14 + 9 = 34$.",
+      "solution": "1. Pour une moyenne de $12$ sur $4$ contrôles, la somme des notes doit être $4 \\times 12 = 48$.\n2. Somme des trois premières notes : $11 + 14 + 9 = 34$.\n3. Note nécessaire : $x = 48 - 34 = 14$.\nVérification : $\\dfrac{11 + 14 + 9 + 14}{4} = \\dfrac{48}{4} = 12$.",
       "skill": "Résoudre"
     }
   ],
@@ -1469,12 +1471,12 @@ window.MATHS_EXERCISES_4E = {
       "chapterId": "4P1",
       "tier": 1,
       "title": "Quatrième proportionnelle",
-      "statement": "Si 3 stylos coûtent $4{,}50\\text{ €}$, combien coûtent 5 stylos identiques ?",
+      "statement": "Si 3 stylos coûtent $4{,}50$ €, combien coûtent 5 stylos identiques ?",
       "type": "exact",
       "answer": "7.5",
       "placeholder": "Ex: 7.5",
-      "hint1": "Prix d'un stylo : $4{,}50 \\div 3 = 1{,}50\\text{ €}$. Multiplie par 5.",
-      "solution": "$$x = \\frac{4{,}50 \\times 5}{3} = 7{,}50\\text{ €}$$",
+      "hint1": "Prix d'un stylo : $4{,}50 \\div 3 = 1{,}50$ €. Multiplie par 5.",
+      "solution": "$$x = \\frac{4{,}50 \\times 5}{3} = 7{,}50\\text{ euros}$$",
       "skill": "Calculer"
     },
     {
@@ -1482,12 +1484,12 @@ window.MATHS_EXERCISES_4E = {
       "chapterId": "4P1",
       "tier": 2,
       "title": "Calcul du montant d'une réduction",
-      "statement": "Un manteau coûte $150\\text{ €}$. Il bénéficie d'une remise de $20\\%$.\nQuel est le montant de la remise en euros ?",
+      "statement": "Un manteau coûte $150$ €. Il bénéficie d'une remise de $20\\%$.\nQuel est le montant de la remise en euros ?",
       "type": "exact",
       "answer": "30",
       "placeholder": "Ex: 30",
       "hint1": "Calcule $\\frac{20}{100} \\times 150$.",
-      "solution": "$$\\text{Remise} = 150 \\times 0{,}20 = 30\\text{ €}$$",
+      "solution": "$$\\text{Remise} = 150 \\times 0{,}20 = 30\\text{ euros}$$",
       "skill": "Calculer"
     },
     {
@@ -1849,115 +1851,34 @@ window.MATHS_EXERCISES_4E = {
 window.MATHS_WORKSHEETS_4E = {
   "4G1": [
     {
-        "id": "4G1-devoir_pythagore",
-        "filename": "Fiche_4e_Theoreme_Pythagore.md",
-        "type": "devoir_entrainement",
-        "title": "Fiche 4ème : Le Théorème de Pythagore & Applications",
-        "statement": `# Classe de 4ème — Mathématiques
-## Fiche d'entraînement : Théorème de Pythagore et Réciproque
-
-### Exercice 1 : Calculs de longueurs (6 points)
-1. Soit $ABC$ un triangle rectangle en $B$ tel que $AB = 4{,}8\\text{ cm}$ et $BC = 6{,}4\\text{ cm}$. Calculer $AC$.
-2. Soit $MNP$ rectangle en $M$ tel que $NP = 15\\text{ cm}$ et $MN = 9\\text{ cm}$. Calculer $MP$.
-
-### Exercice 2 : Réciproque et contraposée (4 points)
-Un maçon veut vérifier si l'angle d'un mur est bien droit. Il mesure une distance de $60\\text{ cm}$ sur un mur, $80\\text{ cm}$ sur l'autre mur, et constate que la diagonale mesure $100\\text{ cm}$.
-L'angle est-il parfaitement droit ? Rédiger la démonstration avec rigueur.
-
----
-## Corrigé détaillé
-
-### Exercice 1
-1. Le triangle $ABC$ est rectangle en $B$. D'après le théorème de Pythagore :
-$$AC^2 = AB^2 + BC^2 = 4{,}8^2 + 6{,}4^2 = 23{,}04 + 40{,}96 = 64$$
-Comme $AC > 0$, $AC = \\sqrt{64} = 8\\text{ cm}$.
-
-2. Le triangle $MNP$ est rectangle en $M$ :
-$$NP^2 = MN^2 + MP^2 \\implies MP^2 = NP^2 - MN^2 = 15^2 - 9^2 = 225 - 81 = 144$$
-Comme $MP > 0$, $MP = \\sqrt{144} = 12\\text{ cm}$.
-
-### Exercice 2
-Le plus grand côté est $100\\text{ cm}$.
-• $100^2 = 10\\,000$
-• $60^2 + 80^2 = 3\\,600 + 6\\,400 = 10\\,000$
-On constate que $100^2 = 60^2 + 80^2$. D'après la réciproque du théorème de Pythagore, le triangle formé est rectangle. Le mur forme bien un angle droit.`,
-        "solution": ""
+      "id": "4G1-devoir_pythagore",
+      "filename": "Fiche_4e_Theoreme_Pythagore.md",
+      "type": "devoir_entrainement",
+      "title": "Fiche 4ème : Le Théorème de Pythagore & Applications",
+      "statement": "# Classe de 4ème — Mathématiques\n## Fiche d'entraînement : Théorème de Pythagore et Réciproque\n\n### Exercice 1 : Calculs de longueurs (6 points)\n1. Soit $ABC$ un triangle rectangle en $B$ tel que $AB = 4{,}8\\text{ cm}$ et $BC = 6{,}4\\text{ cm}$. Calculer $AC$.\n2. Soit $MNP$ rectangle en $M$ tel que $NP = 15\\text{ cm}$ et $MN = 9\\text{ cm}$. Calculer $MP$.\n\n### Exercice 2 : Réciproque et contraposée (4 points)\nUn maçon veut vérifier si l'angle d'un mur est bien droit. Il mesure une distance de $60\\text{ cm}$ sur un mur, $80\\text{ cm}$ sur l'autre mur, et constate que la diagonale mesure $100\\text{ cm}$.\nL'angle est-il parfaitement droit ? Rédiger la démonstration avec rigueur.\n",
+      "solution": "## Corrigé détaillé\n\n### Exercice 1\n1. Le triangle $ABC$ est rectangle en $B$. D'après le théorème de Pythagore :\n$$AC^2 = AB^2 + BC^2 = 4{,}8^2 + 6{,}4^2 = 23{,}04 + 40{,}96 = 64$$\nComme $AC > 0$, $AC = \\sqrt{64} = 8\\text{ cm}$.\n\n2. Le triangle $MNP$ est rectangle en $M$ :\n$$NP^2 = MN^2 + MP^2 \\implies MP^2 = NP^2 - MN^2 = 15^2 - 9^2 = 225 - 81 = 144$$\nComme $MP > 0$, $MP = \\sqrt{144} = 12\\text{ cm}$.\n\n### Exercice 2\nLe plus grand côté est $100\\text{ cm}$.\n• $100^2 = 10\\,000$\n• $60^2 + 80^2 = 3\\,600 + 6\\,400 = 10\\,000$\nOn constate que $100^2 = 60^2 + 80^2$. D'après la réciproque du théorème de Pythagore, le triangle formé est rectangle. Le mur forme bien un angle droit."
     }
-],
+  ],
   "4N1": [
     {
-        "id": "4N1-devoir_relatifs",
-        "filename": "Fiche_4e_Relatifs_Operations.md",
-        "type": "devoir_entrainement",
-        "title": "Fiche 4ème : Multiplication et division des relatifs",
-        "statement": `# Classe de 4ème — Mathématiques
-## Fiche d'entraînement : Règle des signes et priorités
-
-### Exercice 1 : Calculs directs (5 points)
-Calculer les produits et quotients suivants :
-1. $A = (-6) \\times (-7)$
-2. $B = (-8) \\times (+5)$
-3. $C = \\frac{-36}{-4}$
-4. $D = \\frac{42}{-7}$
-5. $E = (-2) \\times (-3) \\times (-5)$
-
-### Exercice 2 : Enchaînement d'opérations (5 points)
-Calculer en respectant les priorités opératoires :
-1. $F = 15 - 4 \\times (-3)$
-2. $G = (-5) \\times [12 - (-3) \\times 4]$
-
----
-## Corrigé détaillé
-
-### Exercice 1
-1. $A = +42$ (produit de deux négatifs = positif).
-2. $B = -40$ (signes contraires = négatif).
-3. $C = +9$.
-4. $D = -6$.
-5. $E = (-2 \\times -3) \\times -5 = 6 \\times -5 = -30$ (3 facteurs négatifs = résultat négatif).
-
-### Exercice 2
-1. $F = 15 - (-12) = 15 + 12 = 27$.
-2. Intérieur du crochet : $12 - (-12) = 12 + 12 = 24$.
-$G = (-5) \\times 24 = -120$.`,
-        "solution": ""
+      "id": "4N1-devoir_relatifs",
+      "filename": "Fiche_4e_Relatifs_Operations.md",
+      "type": "devoir_entrainement",
+      "title": "Fiche 4ème : Multiplication et division des relatifs",
+      "statement": "# Classe de 4ème — Mathématiques\n## Fiche d'entraînement : Règle des signes et priorités\n\n### Exercice 1 : Calculs directs (5 points)\nCalculer les produits et quotients suivants :\n1. $A = (-6) \\times (-7)$\n2. $B = (-8) \\times (+5)$\n3. $C = \\frac{-36}{-4}$\n4. $D = \\frac{42}{-7}$\n5. $E = (-2) \\times (-3) \\times (-5)$\n\n### Exercice 2 : Enchaînement d'opérations (5 points)\nCalculer en respectant les priorités opératoires :\n1. $F = 15 - 4 \\times (-3)$\n2. $G = (-5) \\times [12 - (-3) \\times 4]$\n",
+      "solution": "## Corrigé détaillé\n\n### Exercice 1\n1. $A = +42$ (produit de deux négatifs = positif).\n2. $B = -40$ (signes contraires = négatif).\n3. $C = +9$.\n4. $D = -6$.\n5. $E = (-2 \\times -3) \\times -5 = 6 \\times -5 = -30$ (3 facteurs négatifs = résultat négatif).\n\n### Exercice 2\n1. $F = 15 - (-12) = 15 + 12 = 27$.\n2. Intérieur du crochet : $12 - (-12) = 12 + 12 = 24$.\n$G = (-5) \\times 24 = -120$."
     }
-],
+  ],
   "4N5": [
     {
-        "id": "4N5-devoir_equations",
-        "filename": "Fiche_4e_Equations.md",
-        "type": "devoir_entrainement",
-        "title": "Fiche 4ème : Calcul littéral et équations",
-        "statement": `# Classe de 4ème — Mathématiques
-## Fiche d'entraînement : Équations du premier degré
-
-### Exercice 1 : Résolutions d'équations (6 points)
-Résoudre les équations suivantes d'inconnue $x$ :
-1. $3x + 7 = 22$
-2. $5x - 8 = -23$
-3. $7x + 2 = 4x + 17$
-
-### Exercice 2 : Problème à mettre en équation (4 points)
-Le triple d'un nombre augmenté de 5 est égal à ce nombre augmenté de 19.
-1. Traduire cette situation par une équation.
-2. Déterminer la valeur de ce nombre.
-
----
-## Corrigé détaillé
-
-### Exercice 1
-1. $3x + 7 = 22 \\implies 3x = 22 - 7 = 15 \\implies x = \\frac{15}{3} = 5$.
-2. $5x - 8 = -23 \\implies 5x = -23 + 8 = -15 \\implies x = \\frac{-15}{5} = -3$.
-3. $7x - 4x = 17 - 2 \\implies 3x = 15 \\implies x = 5$.
-
-### Exercice 2
-1. Soit $x$ le nombre cherché : $3x + 5 = x + 19$.
-2. $3x - x = 19 - 5 \\implies 2x = 14 \\implies x = 7$.
-Le nombre cherché est 7.`,
-        "solution": ""
+      "id": "4N5-devoir_equations",
+      "filename": "Fiche_4e_Equations.md",
+      "type": "devoir_entrainement",
+      "title": "Fiche 4ème : Calcul littéral et équations",
+      "statement": "# Classe de 4ème — Mathématiques\n## Fiche d'entraînement : Équations du premier degré\n\n### Exercice 1 : Résolutions d'équations (6 points)\nRésoudre les équations suivantes d'inconnue $x$ :\n1. $3x + 7 = 22$\n2. $5x - 8 = -23$\n3. $7x + 2 = 4x + 17$\n\n### Exercice 2 : Problème à mettre en équation (4 points)\nLe triple d'un nombre augmenté de 5 est égal à ce nombre augmenté de 19.\n1. Traduire cette situation par une équation.\n2. Déterminer la valeur de ce nombre.\n",
+      "solution": "## Corrigé détaillé\n\n### Exercice 1\n1. $3x + 7 = 22 \\implies 3x = 22 - 7 = 15 \\implies x = \\frac{15}{3} = 5$.\n2. $5x - 8 = -23 \\implies 5x = -23 + 8 = -15 \\implies x = \\frac{-15}{5} = -3$.\n3. $7x - 4x = 17 - 2 \\implies 3x = 15 \\implies x = 5$.\n\n### Exercice 2\n1. Soit $x$ le nombre cherché : $3x + 5 = x + 19$.\n2. $3x - x = 19 - 5 \\implies 2x = 14 \\implies x = 7$.\nLe nombre cherché est 7."
     }
-]
+  ]
 };
 
 // Fusion automatique dans les registres globaux

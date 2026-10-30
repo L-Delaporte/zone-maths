@@ -1,6 +1,406 @@
-// Métadonnées des 49 chapitres et domaines du Cycle 4 (5ème, 4ème, 3ème)
-// Conforme au Bulletin Officiel de l'Éducation Nationale et à la progression de maths-et-tiques.fr
+// Métadonnées des chapitres et domaines du collège : 6ème (cycle 3) puis 5ème, 4ème, 3ème (cycle 4)
+// Conformes aux programmes officiels publiés au Bulletin officiel de l'Éducation nationale
+// (6ème : programme du cycle 3, arrêté du 10 avril 2025, BO n° 16 du 17 avril 2025).
 window.MATHS_CHAPTERS = [
+  {
+    "id": "6N1",
+    "level": "6eme",
+    "domain": "nombres",
+    "domainName": "Nombres et Calculs",
+    "folder": "6N1_Entiers_et_decimaux",
+    "num": "6N1",
+    "title": "Nombres entiers et décimaux : écritures et valeur des chiffres",
+    "shortTitle": "Entiers & décimaux",
+    "icon": "hash",
+    "badge": "Maître des Rangs",
+    "color": "#2563eb",
+    "description": "Valeur des chiffres selon leur rang (jusqu'au millième), grands nombres jusqu'au milliard, fractions décimales, nombres mixtes et pourcentages : passer d'une écriture à une autre.",
+    "skills": [
+      "Donner la valeur d'un chiffre selon son rang",
+      "Lire et écrire des grands nombres et des décimaux",
+      "Passer d'une écriture décimale à une fraction décimale ou un pourcentage"
+    ]
+  },
+  {
+    "id": "6N2",
+    "level": "6eme",
+    "domain": "nombres",
+    "domainName": "Nombres et Calculs",
+    "folder": "6N2_Comparer_ranger_arrondir",
+    "num": "6N2",
+    "title": "Comparer, ranger, encadrer et arrondir des nombres décimaux",
+    "shortTitle": "Comparer & arrondir",
+    "icon": "ruler",
+    "badge": "Rangeur Décimal",
+    "color": "#3b82f6",
+    "description": "Repérer des décimaux sur une demi-droite graduée, comparer et ranger des nombres décimaux, intercaler, encadrer et arrondir à l'unité, au dixième ou au centième.",
+    "skills": [
+      "Lire et placer un décimal sur une demi-droite graduée",
+      "Comparer et ranger des nombres décimaux",
+      "Encadrer, intercaler et arrondir un décimal"
+    ]
+  },
+  {
+    "id": "6N3",
+    "level": "6eme",
+    "domain": "nombres",
+    "domainName": "Nombres et Calculs",
+    "folder": "6N3_Addition_soustraction",
+    "num": "6N3",
+    "title": "Addition et soustraction de nombres décimaux",
+    "shortTitle": "Additions & soustractions",
+    "icon": "plus",
+    "badge": "Calculateur Agile",
+    "color": "#1d4ed8",
+    "description": "Poser et effectuer additions et soustractions de décimaux, calcul mental, ordre de grandeur pour contrôler un résultat et problèmes additifs.",
+    "skills": [
+      "Additionner et soustraire des décimaux",
+      "Calculer mentalement avec des décimaux",
+      "Contrôler un résultat par un ordre de grandeur"
+    ]
+  },
+  {
+    "id": "6N4",
+    "level": "6eme",
+    "domain": "nombres",
+    "domainName": "Nombres et Calculs",
+    "folder": "6N4_Multiplication_decimaux",
+    "num": "6N4",
+    "title": "Multiplication de nombres décimaux",
+    "shortTitle": "Multiplication",
+    "icon": "x",
+    "badge": "Multiplicateur Expert",
+    "color": "#1e40af",
+    "description": "Multiplier par 10, 100, 1 000 et par 0,1 ; 0,01 ; 0,001, multiplier deux décimaux, estimer un produit par un ordre de grandeur et résoudre des problèmes.",
+    "skills": [
+      "Multiplier et diviser par 10, 100, 1 000",
+      "Multiplier par 0,1 ; 0,01 ; 0,001",
+      "Calculer le produit de deux décimaux"
+    ]
+  },
+  {
+    "id": "6N5",
+    "level": "6eme",
+    "domain": "nombres",
+    "domainName": "Nombres et Calculs",
+    "folder": "6N5_Division_multiples_diviseurs",
+    "num": "6N5",
+    "title": "Division euclidienne, division décimale, multiples et diviseurs",
+    "shortTitle": "Divisions",
+    "icon": "divide",
+    "badge": "As de la Division",
+    "color": "#2563eb",
+    "description": "Division euclidienne (quotient et reste), multiples et diviseurs, critères de divisibilité, division d'un décimal par un entier inférieur à 10 et problèmes de partage.",
+    "skills": [
+      "Effectuer une division euclidienne",
+      "Reconnaître multiples et diviseurs",
+      "Diviser un décimal par un entier"
+    ]
+  },
+  {
+    "id": "6N6",
+    "level": "6eme",
+    "domain": "nombres",
+    "domainName": "Nombres et Calculs",
+    "folder": "6N6_Fractions_sens",
+    "num": "6N6",
+    "title": "Fractions : quotient, repérage, égalité et comparaison",
+    "shortTitle": "Fractions (sens)",
+    "icon": "fraction",
+    "badge": "Partageur Équitable",
+    "color": "#3b82f6",
+    "description": "La fraction comme quotient, placer une fraction sur une demi-droite graduée, fractions égales, simplification, nombres mixtes, comparer et encadrer des fractions.",
+    "skills": [
+      "Interpréter une fraction comme un quotient",
+      "Placer une fraction sur une demi-droite graduée",
+      "Reconnaître des fractions égales et comparer des fractions"
+    ]
+  },
+  {
+    "id": "6N7",
+    "level": "6eme",
+    "domain": "nombres",
+    "domainName": "Nombres et Calculs",
+    "folder": "6N7_Fractions_calculs",
+    "num": "6N7",
+    "title": "Calculs avec les fractions",
+    "shortTitle": "Calculs de fractions",
+    "icon": "pie-chart",
+    "badge": "Chef des Fractions",
+    "color": "#1d4ed8",
+    "description": "Additionner et soustraire des fractions (dénominateurs égaux ou multiples), multiplier une fraction par un entier, prendre une fraction d'une quantité et résoudre des problèmes.",
+    "skills": [
+      "Additionner et soustraire des fractions",
+      "Multiplier une fraction par un entier",
+      "Calculer une fraction d'une quantité"
+    ]
+  },
+  {
+    "id": "6N8",
+    "level": "6eme",
+    "domain": "nombres",
+    "domainName": "Nombres et Calculs",
+    "folder": "6N8_Pensee_algebrique",
+    "num": "6N8",
+    "title": "Pensée algébrique : nombres inconnus, égalités à trou et motifs",
+    "shortTitle": "Pensée algébrique",
+    "icon": "variable",
+    "badge": "Détective des Inconnues",
+    "color": "#1e40af",
+    "description": "Résoudre des problèmes à nombre inconnu, compléter des égalités à trou, programmes de calcul, modéliser avec des schémas en barres et trouver la régularité d'un motif évolutif.",
+    "skills": [
+      "Trouver un nombre inconnu dans une égalité",
+      "Utiliser un programme de calcul",
+      "Repérer la régularité d'un motif évolutif"
+    ]
+  },
+  {
+    "id": "6P1",
+    "level": "6eme",
+    "domain": "fonctions",
+    "domainName": "Proportionnalité",
+    "folder": "6P1_Proportionnalite",
+    "num": "6P1",
+    "title": "Proportionnalité : linéarité, retour à l'unité et échelles",
+    "shortTitle": "Proportionnalité",
+    "icon": "percent",
+    "badge": "Maître des Proportions",
+    "color": "#c2410c",
+    "description": "Reconnaître une situation de proportionnalité, compléter un tableau par linéarité ou retour à l'unité, appliquer un pourcentage simple et utiliser une échelle.",
+    "skills": [
+      "Reconnaître une situation de proportionnalité",
+      "Calculer une quatrième proportionnelle",
+      "Utiliser une échelle ou un pourcentage simple"
+    ]
+  },
+  {
+    "id": "6M1",
+    "level": "6eme",
+    "domain": "geometrie",
+    "domainName": "Grandeurs et Mesures",
+    "folder": "6M1_Longueurs_perimetres",
+    "num": "6M1",
+    "title": "Longueurs et périmètres (polygones et cercle)",
+    "shortTitle": "Longueurs & périmètres",
+    "icon": "ruler",
+    "badge": "Arpenteur",
+    "color": "#059669",
+    "description": "Conversions d'unités de longueur, périmètre d'un polygone, formules du carré et du rectangle, périmètre d'un cercle et de figures composées.",
+    "skills": [
+      "Convertir des longueurs",
+      "Calculer le périmètre d'un polygone",
+      "Calculer la longueur d'un cercle"
+    ]
+  },
+  {
+    "id": "6M2",
+    "level": "6eme",
+    "domain": "geometrie",
+    "domainName": "Grandeurs et Mesures",
+    "folder": "6M2_Aires",
+    "num": "6M2",
+    "title": "Aires : unités, carré, rectangle et figures composées",
+    "shortTitle": "Aires",
+    "icon": "square",
+    "badge": "Géomètre des Surfaces",
+    "color": "#10b981",
+    "description": "Distinguer aire et périmètre, convertir des unités d'aire, calculer l'aire d'un carré, d'un rectangle et de figures composées par découpage.",
+    "skills": [
+      "Distinguer aire et périmètre",
+      "Calculer l'aire d'un carré et d'un rectangle",
+      "Convertir des unités d'aire"
+    ]
+  },
+  {
+    "id": "6M3",
+    "level": "6eme",
+    "domain": "geometrie",
+    "domainName": "Grandeurs et Mesures",
+    "folder": "6M3_Volumes",
+    "num": "6M3",
+    "title": "Volumes : centimètre cube, pavés et cubes",
+    "shortTitle": "Volumes",
+    "icon": "box",
+    "badge": "Bâtisseur de Cubes",
+    "color": "#047857",
+    "description": "Mesurer un volume en comptant des cubes unités, connaître le centimètre cube, calculer le volume d'un pavé droit et d'un cube, lien avec les contenances.",
+    "skills": [
+      "Compter des cubes unités",
+      "Calculer le volume d'un pavé droit",
+      "Relier cm³ et litres"
+    ]
+  },
+  {
+    "id": "6M4",
+    "level": "6eme",
+    "domain": "geometrie",
+    "domainName": "Grandeurs et Mesures",
+    "folder": "6M4_Durees",
+    "num": "6M4",
+    "title": "Repérage dans le temps et durées",
+    "shortTitle": "Durées",
+    "icon": "clock",
+    "badge": "Maître du Temps",
+    "color": "#065f46",
+    "description": "Lire et calculer des horaires, convertir des durées (h, min, s), calculer une durée, un horaire de début ou de fin, et résoudre des problèmes de temps.",
+    "skills": [
+      "Convertir des durées",
+      "Calculer une durée entre deux horaires",
+      "Résoudre un problème d'horaires"
+    ]
+  },
+  {
+    "id": "6G1",
+    "level": "6eme",
+    "domain": "geometrie",
+    "domainName": "Espace et Géométrie",
+    "folder": "6G1_Droites_segments_cercles",
+    "num": "6G1",
+    "title": "Droites, segments, distances, milieu et cercle",
+    "shortTitle": "Droites & cercle",
+    "icon": "compass",
+    "badge": "Traceur Précis",
+    "color": "#0f766e",
+    "description": "Notations (droite, demi-droite, segment), distance entre deux points, milieu d'un segment, droites perpendiculaires et parallèles, cercle : centre, rayon, diamètre, corde.",
+    "skills": [
+      "Utiliser les notations de géométrie",
+      "Utiliser milieu et distance",
+      "Utiliser le vocabulaire du cercle"
+    ]
+  },
+  {
+    "id": "6G2",
+    "level": "6eme",
+    "domain": "geometrie",
+    "domainName": "Espace et Géométrie",
+    "folder": "6G2_Mediatrice_symetrie",
+    "num": "6G2",
+    "title": "Médiatrice et symétrie axiale",
+    "shortTitle": "Médiatrice & symétrie",
+    "icon": "flip-horizontal",
+    "badge": "Gardien du Miroir",
+    "color": "#115e59",
+    "description": "Définition et propriété caractéristique de la médiatrice, symétrique d'un point par rapport à une droite, propriétés de conservation de la symétrie axiale, axes de symétrie.",
+    "skills": [
+      "Connaître et utiliser la médiatrice",
+      "Construire le symétrique d'une figure",
+      "Utiliser les propriétés de la symétrie axiale"
+    ]
+  },
+  {
+    "id": "6G3",
+    "level": "6eme",
+    "domain": "geometrie",
+    "domainName": "Espace et Géométrie",
+    "folder": "6G3_Angles",
+    "num": "6G3",
+    "title": "Angles : vocabulaire, mesure et bissectrice",
+    "shortTitle": "Angles",
+    "icon": "angle",
+    "badge": "Rapporteur d'Or",
+    "color": "#059669",
+    "description": "Vocabulaire des angles (aigu, droit, obtus, plat, nul, plein, adjacents, opposés par le sommet, supplémentaires), mesure au rapporteur, construction et bissectrice.",
+    "skills": [
+      "Nommer et classer un angle",
+      "Mesurer et construire un angle",
+      "Utiliser angles supplémentaires, opposés et bissectrice"
+    ]
+  },
+  {
+    "id": "6G4",
+    "level": "6eme",
+    "domain": "geometrie",
+    "domainName": "Espace et Géométrie",
+    "folder": "6G4_Triangles",
+    "num": "6G4",
+    "title": "Triangles : constructions, triangles particuliers et somme des angles",
+    "shortTitle": "Triangles",
+    "icon": "triangle",
+    "badge": "Architecte des Triangles",
+    "color": "#10b981",
+    "description": "Construire des triangles, triangles rectangles, isocèles et équilatéraux, somme des angles d'un triangle (180°), médiatrices et cercle circonscrit.",
+    "skills": [
+      "Construire un triangle",
+      "Utiliser les propriétés des triangles particuliers",
+      "Utiliser la somme des angles d'un triangle"
+    ]
+  },
+  {
+    "id": "6G5",
+    "level": "6eme",
+    "domain": "geometrie",
+    "domainName": "Espace et Géométrie",
+    "folder": "6G5_Vision_espace",
+    "num": "6G5",
+    "title": "Vision dans l'espace : assemblages de cubes et solides",
+    "shortTitle": "Vision dans l'espace",
+    "icon": "cube",
+    "badge": "Explorateur 3D",
+    "color": "#047857",
+    "description": "Décrire et dénombrer des assemblages de cubes, vues de dessus, de face et de côté, reconnaître cube et pavé droit (faces, arêtes, sommets) et leurs patrons.",
+    "skills": [
+      "Dénombrer les cubes d'un assemblage",
+      "Associer un assemblage à ses vues",
+      "Décrire cube et pavé droit"
+    ]
+  },
+  {
+    "id": "6D1",
+    "level": "6eme",
+    "domain": "fonctions",
+    "domainName": "Organisation et Gestion de Données",
+    "folder": "6D1_Gestion_donnees",
+    "num": "6D1",
+    "title": "Organisation et gestion de données : tableaux et diagrammes",
+    "shortTitle": "Tableaux & données",
+    "icon": "bar-chart",
+    "badge": "Analyste en Herbe",
+    "color": "#d97706",
+    "description": "Recueillir et organiser des données, lire et construire un tableau, filtrer des données selon un critère, lire des diagrammes en barres et des graphiques.",
+    "skills": [
+      "Lire et compléter un tableau",
+      "Filtrer des données selon un critère",
+      "Lire un diagramme en barres"
+    ]
+  },
+  {
+    "id": "6D2",
+    "level": "6eme",
+    "domain": "fonctions",
+    "domainName": "Organisation et Gestion de Données",
+    "folder": "6D2_Probabilites",
+    "num": "6D2",
+    "title": "Probabilités : hasard et premières probabilités",
+    "shortTitle": "Probabilités",
+    "icon": "dices",
+    "badge": "Apprenti du Hasard",
+    "color": "#b45309",
+    "description": "Vocabulaire du hasard (certain, impossible, probable), une probabilité est un nombre entre 0 et 1, calcul en situation d'équiprobabilité, comparaison avec des fréquences observées.",
+    "skills": [
+      "Utiliser le vocabulaire du hasard",
+      "Calculer une probabilité simple",
+      "Comparer fréquence observée et probabilité"
+    ]
+  },
+  {
+    "id": "6A1",
+    "level": "6eme",
+    "domain": "algo",
+    "domainName": "Pensée Informatique",
+    "folder": "6A1_Pensee_informatique",
+    "num": "6A1",
+    "title": "Initiation à la pensée informatique : instructions, séquences et boucles",
+    "shortTitle": "Pensée informatique",
+    "icon": "terminal",
+    "badge": "Codeur Débutant",
+    "color": "#7c3aed",
+    "description": "Identifier une instruction, produire et exécuter une séquence d'instructions, répéter une séquence (boucle), programmer un déplacement simple sur un quadrillage et dans Scratch.",
+    "skills": [
+      "Exécuter une séquence d'instructions",
+      "Utiliser une boucle « répéter »",
+      "Programmer un déplacement sur quadrillage"
+    ]
+  },
   {
     "id": "5N1",
     "level": "5eme",

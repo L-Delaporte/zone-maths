@@ -296,6 +296,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!hasUrlParams) {
           this.showHomeView();
         }
+        // L'URL ne reflète la navigation qu'une fois le lien d'arrivée lu (sinon la sélection
+        // du chapitre par défaut écraserait ?chapitre=… avant sa lecture)
+        this._urlSyncReady = true;
       });
     },
 
@@ -747,7 +750,7 @@ document.addEventListener('DOMContentLoaded', () => {
      * « Retour » du navigateur et pages explorables par les moteurs de recherche.
      */
     syncUrl(params) {
-      if (this._restoringFromHistory || !window.history || !history.pushState) return;
+      if (!this._urlSyncReady || this._restoringFromHistory || !window.history || !history.pushState) return;
       const current = new URLSearchParams(location.search);
       // Les paramètres d'outil d'un lien partagé (mode, palier…) restent tant qu'on ne change pas de vue
       const sameView = (params.chapitre || null) === (current.get('chapitre') || current.get('chapter') || current.get('chap'));
@@ -1356,7 +1359,7 @@ document.addEventListener('DOMContentLoaded', () => {
           { domain: 'all', label: 'Tous' },
           { domain: 'nombres', label: '🔢 Nombres' },
           { domain: 'geometrie', label: '📐 Géométrie' },
-          { domain: 'fonctions', label: '📈 Fonctions' },
+          { domain: 'fonctions', label: this.currentLevel === '6eme' ? '📊 Données & proportionnalité' : '📈 Fonctions' },
           { domain: 'algo', label: '💻 Algo' }
         ];
       }
@@ -2265,6 +2268,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderCourseView() {
       const container = document.getElementById('course-content-container');
       if (!container) return;
+      const lvlLabel = this.getLevelName(this.currentLevel);
 
       const currentCycle = window.MathsStorage.getCycleForLevel(this.currentLevel);
       const cycleInfo = this.CYCLES[currentCycle] || { name: 'Mathématiques' };

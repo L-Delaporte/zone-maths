@@ -1544,7 +1544,7 @@ window.MATHS_EXERCISES_L2 = {
       "id": "L2-EDO-3",
       "tier": 3,
       "type": "mcq",
-      "title": "Oscillateur harmonique et résonance",
+      "title": "Oscillateur harmonique libre",
       "skill": "Identifier la solution d'une équation différentielle oscillante",
       "statement": "Quelle est l'unique solution du problème de Cauchy $y'' + 4y = 0$ avec $y(0) = 1$ et $y'(0) = 2$ ?",
       "options": [
@@ -1974,6 +1974,7 @@ window.MATHS_EXERCISES_L2 = {
 window.MATHS_WORKSHEETS_L2 = {
   "L2-RED1": [
     {
+      "id": "L2-RED1-fiche_td",
       "title": "Feuille de TD L2 : Réduction des endomorphismes et Diagonalisation",
       "filename": "TD_L2_Diagonalisation.md",
       "statement": `## Travaux Dirigés L2 : Réduction des Endomorphismes
@@ -2002,6 +2003,7 @@ $P = \\begin{pmatrix} 1 & 1 & 1 \\\\ -1 & 0 & 1 \\\\ 0 & -1 & 1 \\end{pmatrix}$ 
   ],
   "L2-DET": [
     {
+      "id": "L2-DET-fiche_td",
       "title": "Feuille de TD L2 : Déterminants, Comatrice et Systèmes Linéaires",
       "filename": "TD_L2_Determinants.md",
       "statement": `## Travaux Dirigés L2 : Déterminants et Systèmes Linéaires
@@ -2050,6 +2052,7 @@ La solution unique est $(x, y, z) = (5, -2, -2)$.`
   ],
   "L2-SER": [
     {
+      "id": "L2-SER-fiche_td",
       "title": "Feuille de TD L2 : Séries numériques réelles et complexes",
       "filename": "TD_L2_Series_Numeriques.md",
       "statement": `## Travaux Dirigés L2 : Séries Numériques
@@ -2094,6 +2097,7 @@ Bien que $a_n \\sim \\frac{(-1)^n}{\\sqrt{n}}$, elles n'ont pas la même nature 
   ],
   "L2-EDO": [
     {
+      "id": "L2-EDO-fiche_td",
       "title": "Feuille de TD L2 : Équations Différentielles Ordinaires et Systèmes Linéaires",
       "filename": "TD_L2_Equations_Differentielles.md",
       "statement": `## Travaux Dirigés L2 : Équations Différentielles Ordinaires

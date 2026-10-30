@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <script>
+    // Applique le thème (clair/sombre) choisi dans l'application, avant l'affichage
+    try {
+      document.documentElement.setAttribute('data-theme', JSON.parse(localStorage.getItem('maths_3e_progress_v1') || '{}').theme || 'light');
+    } catch (e) {}
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Algorithmique : instructions conditionnelles — cours de 4e</title>
+  <meta name="description" content="Cours de 4e — Algorithmique : instructions conditionnelles et variables Scratch : créer, nommer et initialiser une variable informatique dans Scratch…" />
+  <meta name="author" content="Loïc Delaporte, professeur de mathématiques" />
+  <link rel="canonical" href="https://etabli-des-maths.fr/cours/4e/algorithmique-instructions-conditionnelles-et-variables.html" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Algorithmique : instructions conditionnelles — cours de 4e" />
+  <meta property="og:description" content="Cours de 4e — Algorithmique : instructions conditionnelles et variables Scratch : créer, nommer et initialiser une variable informatique dans Scratch…" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://etabli-des-maths.fr/cours/4e/algorithmique-instructions-conditionnelles-et-variables.html" />
+  <meta property="og:image" content="https://etabli-des-maths.fr/assets/logo.jpg" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta property="og:site_name" content="L'Établi des Maths" />
+
+  <link rel="stylesheet" href="../../css/style.css" />
+  <link rel="stylesheet" href="../../css/landing.css" />
+  <link rel="stylesheet" href="../../vendor/katex/katex.min.css" />
+  <link rel="stylesheet" href="../../css/cours.css" />
+  <link rel="icon" href="../../favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../../assets/favicon-32x32.png" />
+  <link rel="apple-touch-icon" href="../../assets/favicon.png" />
+  <link rel="manifest" href="../../manifest.json" />
+  <meta name="theme-color" content="#2563eb" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LearningResource",
+    "name": "Algorithmique : instructions conditionnelles et variables Scratch — cours de 4e",
+    "headline": "Algorithmique : instructions conditionnelles et variables Scratch",
+    "description": "Cours de 4e — Algorithmique : instructions conditionnelles et variables Scratch : créer, nommer et initialiser une variable informatique dans Scratch…",
+    "url": "https://etabli-des-maths.fr/cours/4e/algorithmique-instructions-conditionnelles-et-variables.html",
+    "inLanguage": "fr",
+    "educationalLevel": "Collège — classe de 4e (cycle 4)",
+    "learningResourceType": [
+      "Cours",
+      "Exercices corrigés"
+    ],
+    "teaches": [
+      "Créer, nommer et initialiser une variable informatique dans Scratch.",
+      "Distinguer l'affectation (« mettre la variable à ... ») de l'incrémentation (« ajouter ... à la variable »).",
+      "Programmer des structures conditionnelles « Si alors ... Sinon ... ».",
+      "Utiliser les capteurs de saisie (« demander ... et attendre ») et le bloc « réponse ».",
+      "Analyser et prévoir le comportement d'un script pas à pas avec un tableau de suivi des variables."
+    ],
+    "about": {
+      "@type": "Thing",
+      "name": "Pensée Informatique"
+    },
+    "isAccessibleForFree": true,
+    "dateModified": "2026-10-30",
+    "author": {
+      "@type": "Person",
+      "name": "Loïc Delaporte",
+      "jobTitle": "Professeur de mathématiques"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "L'Établi des Maths",
+      "url": "https://etabli-des-maths.fr/",
+      "logo": "https://etabli-des-maths.fr/assets/logo.png"
+    },
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "L'Établi des Maths",
+      "url": "https://etabli-des-maths.fr/"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Accueil",
+        "item": "https://etabli-des-maths.fr/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Cours",
+        "item": "https://etabli-des-maths.fr/cours/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "4e",
+        "item": "https://etabli-des-maths.fr/cours/4e/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Algorithmique 4e",
+        "item": "https://etabli-des-maths.fr/cours/4e/algorithmique-instructions-conditionnelles-et-variables.html"
+      }
+    ]
+  }
+  </script>
+</head>
+<body class="cours-page">
+  <a class="cours-skip" href="#contenu">Aller au contenu</a>
+
+  <!-- Header Uniformisé -->
+  <header class="app-header">
+    <div class="header-inner">
+      <a href="../../index.html" class="brand-container" style="text-decoration: none;">
+        <img src="../../assets/logo-96.png" alt="L'Établi des Maths" class="brand-logo-img" width="44" height="44" />
+        <div class="brand-text">
+          <p class="brand-title">L'Établi des Maths <span class="brand-level-tag">Cours</span></p>
+          <span class="brand-tagline">Outils pour apprendre et pratiquer</span>
+        </div>
+      </a>
+
+      <!-- Navigation entre Portails -->
+      <nav class="nav-portal-links" aria-label="Portails thématiques">
+        <a href="../../index.html" class="nav-portal-btn">🏠 Accueil</a>
+        <a href="../../cours/" class="nav-portal-btn active" aria-current="true">📚 Cours</a>
+        <a href="../../rituels.html" class="nav-portal-btn">⏱️ Rituels</a>
+        <a href="../../brevet.html" class="nav-portal-btn">📝 Brevet 3e</a>
+        <a href="../../bac.html" class="nav-portal-btn">🎓 Baccalauréat</a>
+        <a href="../../enseignants.html" class="nav-portal-btn">👨‍🏫 Enseignants</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="landing-wrapper cours-wrapper" id="contenu">
+    <nav class="cours-breadcrumb" aria-label="Fil d'Ariane">
+      <ol>
+        <li><a href="../../index.html">Accueil</a></li>
+        <li><a href="../">Cours</a></li>
+        <li><a href="./">4e</a></li>
+        <li><span aria-current="page">Algorithmique 4e</span></li>
+      </ol>
+    </nav>
+
+    <header class="cours-hero">
+      <p class="landing-tag">4e · Pensée Informatique · 4A1</p>
+      <h1 class="cours-title">Algorithmique : instructions conditionnelles et variables Scratch — cours de 4e</h1>
+      <p class="cours-lead">Structures conditionnelles « si alors sinon », création et modification de variables numériques dans Scratch, résolution de défis géométriques.</p>
+      <div class="cours-cta">
+        <a class="btn-primary cours-cta-main" href="../../index.html?chapitre=4A1">🎯 S'entraîner sur ce chapitre</a>
+        <a class="btn-secondary cours-cta-alt" href="../../index.html?mode=rituel&amp;chapitre=4A1">⏱️ Rituel flash</a>
+        <a class="btn-secondary cours-cta-alt" href="../../index.html?mode=flashcards&amp;chapitre=4A1">🗂️ Flashcards</a>
+      </div>
+    </header>
+
+    <nav class="cours-toc" aria-label="Sommaire du chapitre">
+      <p class="cours-toc-title">Sommaire</p>
+      <ol><li><a href="#objectifs">Objectifs du chapitre</a></li><li><a href="#cours">Le cours</a></li><li><a href="#methodes">Méthodes et exemples rédigés</a></li><li><a href="#pieges">Pièges fréquents</a></li><li><a href="#revision">Questions de révision</a></li><li><a href="#exercices">Exercices corrigés</a></li></ol>
+    </nav>
+
+    <section class="cours-section " id="objectifs" aria-labelledby="objectifs-titre">
+      <h2 id="objectifs-titre">Objectifs du chapitre</h2>
+<ul class="cours-list"><li>Créer, nommer et initialiser une variable informatique dans Scratch.</li><li>Distinguer l'affectation (« mettre la variable à ... ») de l'incrémentation (« ajouter ... à la variable »).</li><li>Programmer des structures conditionnelles « Si <condition> alors ... Sinon ... ».</li><li>Utiliser les capteurs de saisie (« demander ... et attendre ») et le bloc « réponse ».</li><li>Analyser et prévoir le comportement d'un script pas à pas avec un tableau de suivi des variables.</li></ul>
+    </section>
+
+    <section class="cours-section " id="cours" aria-labelledby="cours-titre">
+      <h2 id="cours-titre">Le cours</h2>
+<article class="cours-card"><h3>1. Les Variables dans Scratch</h3><p class="math-p">Une variable est une case mémoire étiquetée qui stocke une valeur (un nombre ou un texte) pouvant changer au cours de l'exécution du programme.</p>
+<ul class="math-list">
+<li class="math-bullet"><strong>« mettre [Score] à 0 »</strong> : écrase la valeur précédente et stocke 0 (initialisation).</li>
+<li class="math-bullet"><strong>« ajouter 1 à [Score] »</strong> : prend l'ancienne valeur du score et lui ajoute 1 (incrémentation : <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>←</mo><mi>x</mi><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">x \leftarrow x + 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">←</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span>).</li>
+</ul>
+<p class="math-p"><em>Exemple</em> : si Score vaut 5, « ajouter 2 à Score » donne 7. « mettre Score à 2 » donnerait 2 !</p></article>
+<article class="cours-card"><h3>2. Structures conditionnelles « Si ... alors ... sinon »</h3><p class="math-p">Le bloc conditionnel teste une condition booléenne (Vraie ou Fausse) :</p>
+<ul class="math-list">
+<li class="math-bullet">Si la condition est VRAIE, le programme exécute le premier bloc d'instructions.</li>
+<li class="math-bullet">Si la condition est FAUSSE, le programme exécute le bloc situé sous le « sinon ».</li>
+</ul>
+<p class="math-p"><em>Opérateurs de comparaison fréquents</em> : <code class="math-inline-code"><</code> (inférieur strict), <code class="math-inline-code">></code> (supérieur strict), <code class="math-inline-code">=</code> (égal).</p></article>
+<article class="cours-card"><h3>3. Interaction utilisateur : Demander et Réponse</h3><ul class="math-list">
+<li class="math-bullet">Le bloc <strong>« demander [Quel est ton âge ?] et attendre »</strong> affiche une boîte de saisie à l'écran et met le programme en pause jusqu'à validation par l'utilisateur.</li>
+<li class="math-bullet">Le bloc bleu ciel <strong>« réponse »</strong> contient la valeur tapée par l'utilisateur. On la stocke généralement immédiatement dans une variable dédiée : « mettre [Age] à (réponse) ».</li>
+</ul></article>
+<article class="cours-card"><h3>4. Répétitions et tracés géométriques</h3><p class="math-p">Pour tracer un polygone régulier à <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span></span></span></span> côtés égaux avec le stylo de Scratch :</p>
+<ul class="math-list">
+<li class="math-bullet">On répète <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span></span></span></span> fois : « avancer de côté » puis « tourner de <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mn>360</mn><mi mathvariant="normal">/</mi><mi>N</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(360 / N)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">360/</span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="mclose">)</span></span></span></span> degrés ».</li>
+<li class="math-bullet">Pour un triangle équilatéral (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">N=3</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">3</span></span></span></span>) : tourner de <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mn>360</mn><mn>3</mn></mfrac><mo>=</mo><mn>12</mn><msup><mn>0</mn><mo>∘</mo></msup></mrow><annotation encoding="application/x-tex">\frac{360}{3} = 120^\circ</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1901em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8451em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">3</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">360</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6741em;"></span><span class="mord">12</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6741em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">∘</span></span></span></span></span></span></span></span></span></span></span>.</li>
+<li class="math-bullet">Pour un carré (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><mn>4</mn></mrow><annotation encoding="application/x-tex">N=4</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">4</span></span></span></span>) : tourner de <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mn>360</mn><mn>4</mn></mfrac><mo>=</mo><mn>9</mn><msup><mn>0</mn><mo>∘</mo></msup></mrow><annotation encoding="application/x-tex">\frac{360}{4} = 90^\circ</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1901em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8451em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">4</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">360</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6741em;"></span><span class="mord">9</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6741em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">∘</span></span></span></span></span></span></span></span></span></span></span>.</li>
+<li class="math-bullet">Pour un hexagone (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><mn>6</mn></mrow><annotation encoding="application/x-tex">N=6</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">6</span></span></span></span>) : tourner de <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mn>360</mn><mn>6</mn></mfrac><mo>=</mo><mn>6</mn><msup><mn>0</mn><mo>∘</mo></msup></mrow><annotation encoding="application/x-tex">\frac{360}{6} = 60^\circ</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1901em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8451em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">6</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">360</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6741em;"></span><span class="mord">6</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6741em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">∘</span></span></span></span></span></span></span></span></span></span></span>.</li>
+</ul></article>
+    </section>
+
+    <section class="cours-section " id="methodes" aria-labelledby="methodes-titre">
+      <h2 id="methodes-titre">Méthodes et exemples rédigés</h2>
+<article class="cours-card cours-method"><h3>Méthode : Suivre pas à pas l'évolution d'une variable dans un script</h3>
+<div class="cours-example"><p class="cours-example-label">Exemple</p><p class="math-p">Soit le script : mettre [x] à 5 ; ajouter 3 à [x] ; mettre [y] à 2 * x ; si y > 15 alors ajouter 1 à [x] sinon ajouter 2 à [y]. Quelles sont les valeurs finales ?</p></div>
+<ol class="cours-steps"><li><p class="math-p"><strong>Ligne 1</strong> : <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>=</mo><mn>5</mn></mrow><annotation encoding="application/x-tex">x = 5</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">5</span></span></span></span>.</p></li><li><p class="math-p"><strong>Ligne 2</strong> : <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>=</mo><mn>5</mn><mo>+</mo><mn>3</mn><mo>=</mo><mn>8</mn></mrow><annotation encoding="application/x-tex">x = 5 + 3 = 8</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">5</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">3</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">8</span></span></span></span>.</p></li><li><p class="math-p"><strong>Ligne 3</strong> : <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi><mo>=</mo><mn>2</mn><mo>×</mo><mn>8</mn><mo>=</mo><mn>16</mn></mrow><annotation encoding="application/x-tex">y = 2 \times 8 = 16</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">8</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">16</span></span></span></span>.</p></li><li><p class="math-p"><strong>Ligne 4 (Test conditionnel)</strong> : Est-ce que <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi><mo>&gt;</mo><mn>15</mn></mrow><annotation encoding="application/x-tex">y &gt; 15</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7335em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">15</span></span></span></span> ? Oui car <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>16</mn><mo>&gt;</mo><mn>15</mn></mrow><annotation encoding="application/x-tex">16 &gt; 15</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6835em;vertical-align:-0.0391em;"></span><span class="mord">16</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">15</span></span></span></span> (VRAI).</p></li><li><p class="math-p"><strong>Ligne 5 (Exécution bloc 'alors')</strong> : <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>=</mo><mn>8</mn><mo>+</mo><mn>1</mn><mo>=</mo><mn>9</mn></mrow><annotation encoding="application/x-tex">x = 8 + 1 = 9</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">8</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">9</span></span></span></span>. Le bloc 'sinon' est ignoré.</p></li><li><p class="math-p"><strong>Valeurs finales</strong> : <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>=</mo><mn>9</mn></mrow><annotation encoding="application/x-tex">x = 9</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">9</span></span></span></span> et <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi><mo>=</mo><mn>16</mn></mrow><annotation encoding="application/x-tex">y = 16</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">16</span></span></span></span>.</p></li></ol></article>
+    </section>
+
+    <section class="cours-section " id="pieges" aria-labelledby="pieges-titre">
+      <h2 id="pieges-titre">Pièges fréquents</h2>
+<ul class="cours-list cours-traps"><li>Confondre « mettre ma variable à 1 » (qui fixe la valeur à 1) et « ajouter 1 à ma variable » (qui incrémente la valeur existante de 1).</li><li>Dans les tracés géométriques, l'angle de rotation du lutin est l'angle <strong>extérieur</strong> (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>36</mn><msup><mn>0</mn><mo>∘</mo></msup><mi mathvariant="normal">/</mi><mi>N</mi></mrow><annotation encoding="application/x-tex">360^\circ / N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">36</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6741em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">∘</span></span></span></span></span></span></span></span><span class="mord">/</span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span></span></span></span>) et NON l'angle intérieur du polygone (ex: pour un triangle équilatéral, l'angle intérieur vaut <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>6</mn><msup><mn>0</mn><mo>∘</mo></msup></mrow><annotation encoding="application/x-tex">60^\circ</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6741em;"></span><span class="mord">6</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6741em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">∘</span></span></span></span></span></span></span></span></span></span></span>, mais le lutin doit tourner de <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>180</mn><mo>−</mo><mn>60</mn><mo>=</mo><mn>12</mn><msup><mn>0</mn><mo>∘</mo></msup></mrow><annotation encoding="application/x-tex">180 - 60 = 120^\circ</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">180</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">60</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6741em;"></span><span class="mord">12</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6741em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">∘</span></span></span></span></span></span></span></span></span></span></span>) !</li></ul>
+    </section>
+
+    <section class="cours-section " id="revision" aria-labelledby="revision-titre">
+      <h2 id="revision-titre">Questions de révision</h2>
+<p class="cours-note">Essaie de répondre de tête avant d'afficher la réponse.</p>
+<div class="cours-flashcards"><details class="cours-flash"><summary>Quelle est la différence entre « mettre x à 10 » et « ajouter 10 à x » ?</summary><div class="cours-flash-a"><p class="math-p">« Mettre à 10 » donne la valeur 10 à <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span></span></span></span>. « Ajouter 10 » additionne 10 à la valeur déjà contenue dans <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span></span></span></span>.</p></div></details>
+<details class="cours-flash"><summary>De quel angle doit tourner le lutin pour tracer un hexagone régulier (6 côtés) ?</summary><div class="cours-flash-a"><p class="math-p"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mn>36</mn><msup><mn>0</mn><mo>∘</mo></msup><mo>÷</mo><mn>6</mn><mo>=</mo><mn>6</mn><msup><mn>0</mn><mo>∘</mo></msup></mrow><annotation encoding="application/x-tex">360^\circ \div 6 = 60^\circ</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8074em;vertical-align:-0.0833em;"></span><span class="mord">36</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7241em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">∘</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">÷</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">6</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7241em;"></span><span class="mord">6</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7241em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">∘</span></span></span></span></span></span></span></span></span></span></span></span></p></div></details>
+<details class="cours-flash"><summary>Où est stockée la saisie de l'utilisateur après le bloc « demander ... et attendre » ?</summary><div class="cours-flash-a"><p class="math-p">Dans la bulle de capteur bleue <strong>« réponse »</strong>.</p></div></details>
+<details class="cours-flash"><summary>Si x = 7, que vaut x après l'instruction : Si x < 5 alors ajouter 2 à x sinon mettre x à 20 ?</summary><div class="cours-flash-a"><p class="math-p"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>=</mo><mn>20</mn></mrow><annotation encoding="application/x-tex">x = 20</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">20</span></span></span></span> (car la condition <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>7</mn><mo>&lt;</mo><mn>5</mn></mrow><annotation encoding="application/x-tex">7 &lt; 5</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6835em;vertical-align:-0.0391em;"></span><span class="mord">7</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">5</span></span></span></span> est fausse, donc on exécute la branche 'sinon').</p></div></details>
+<details class="cours-flash"><summary>Quelle boucle utilise-t-on quand on ne connaît pas à l'avance le nombre d'itérations ?</summary><div class="cours-flash-a"><p class="math-p">La boucle conditionnelle <strong>« répéter jusqu'à <condition> »</strong>.</p></div></details></div>
+    </section>
+
+    <section class="cours-section " id="exercices" aria-labelledby="exercices-titre">
+      <h2 id="exercices-titre">Exercices corrigés</h2>
+<article class="cours-card cours-exo">
+<h3><span class="cours-exo-num">Exercice 1</span> Valeur d'une variable après affectation</h3>
+<p class="cours-tier cours-tier-1">Palier 1 · découverte</p>
+<p class="math-p">Dans un script Scratch : « mettre V à 8 », puis « ajouter 7 à V ». Quelle est la valeur finale de la variable V ?</p>
+
+<details class="cours-hint"><summary>Un indice</summary><div><p class="math-p">La variable commence à 8 puis augmente de 7.</p></div></details>
+<details class="cours-solution"><summary>Voir la correction</summary><div class="cours-solution-body"><p class="cours-answer"><strong>Réponse attendue :</strong> 15</p><p class="math-p"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>V</mi><mo>=</mo><mn>8</mn><mo>+</mo><mn>7</mn><mo>=</mo><mn>15</mn></mrow><annotation encoding="application/x-tex">V = 8 + 7 = 15</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">8</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">7</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">15</span></span></span></span></span></p></div></details>
+</article>
+<article class="cours-card cours-exo">
+<h3><span class="cours-exo-num">Exercice 2</span> Instruction conditionnelle « Si ... alors ... sinon »</h3>
+<p class="cours-tier cours-tier-2">Palier 2 · application</p>
+<p class="math-p">On exécute le bloc : « Si N > 10 alors mettre R à 20 sinon mettre R à 5 ». Si la variable N vaut 7, quelle sera la valeur de R ?</p>
+
+<details class="cours-hint"><summary>Un indice</summary><div><p class="math-p">Le test 7 > 10 est FAUX, donc on exécute la branche « sinon ».</p></div></details>
+<details class="cours-solution"><summary>Voir la correction</summary><div class="cours-solution-body"><p class="cours-answer"><strong>Réponse attendue :</strong> 5</p><p class="math-p">Comme 7 n'est pas supérieur à 10, la condition est fausse et la variable <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi></mrow><annotation encoding="application/x-tex">R</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.00773em;">R</span></span></span></span> prend la valeur 5.</p></div></details>
+</article>
+<article class="cours-card cours-exo">
+<h3><span class="cours-exo-num">Exercice 3</span> Programme de calcul Scratch</h3>
+<p class="cours-tier cours-tier-3">Palier 3 · approfondissement</p>
+<p class="math-p">Un script Scratch demande un nombre <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span></span></span></span>. Si <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>≥</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">x \ge 0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7719em;vertical-align:-0.136em;"></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span>, il calcule <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mi>x</mi></mrow><annotation encoding="application/x-tex">2x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">2</span><span class="mord mathnormal">x</span></span></span></span>, sinon il calcule <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>+</mo><mn>10</mn></mrow><annotation encoding="application/x-tex">x + 10</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">10</span></span></span></span>. Quelle est la valeur de sortie pour <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>=</mo><mo>−</mo><mn>4</mn></mrow><annotation encoding="application/x-tex">x = -4</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">−</span><span class="mord">4</span></span></span></span> ?</p>
+
+<details class="cours-hint"><summary>Un indice</summary><div><p class="math-p"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>4</mn><mo>&lt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">-4 &lt; 0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">−</span><span class="mord">4</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span>, donc la condition <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>≥</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">x \ge 0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7719em;vertical-align:-0.136em;"></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span> est fausse. Calcule <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>4</mn><mo>+</mo><mn>10</mn></mrow><annotation encoding="application/x-tex">-4 + 10</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">−</span><span class="mord">4</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">10</span></span></span></span>.</p></div></details>
+<details class="cours-solution"><summary>Voir la correction</summary><div class="cours-solution-body"><p class="cours-answer"><strong>Réponse attendue :</strong> 6</p><p class="math-p">Comme <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>4</mn><mo>&lt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">-4 &lt; 0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">−</span><span class="mord">4</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span>, on effectue le calcul de la branche sinon : <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>4</mn><mo>+</mo><mn>10</mn><mo>=</mo><mn>6</mn></mrow><annotation encoding="application/x-tex">-4 + 10 = 6</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">−</span><span class="mord">4</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">10</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">6</span></span></span></span>.</p></div></details>
+</article>
+<article class="cours-card cours-exo">
+<h3><span class="cours-exo-num">Exercice 4</span> Défi : Boucle conditionnelle avec compteur</h3>
+<p class="cours-tier cours-tier-4">Palier 4 · défi</p>
+<p class="math-p">Compteur commence à 0. On exécute : « répéter jusqu'à Compteur >= 25 : ajouter 6 à Compteur ». Quelle est la valeur finale de Compteur à la fin de la boucle ?</p>
+
+<details class="cours-hint"><summary>Un indice</summary><div><p class="math-p">Valeurs successives : 0, 6, 12, 18, 24, 30. La boucle s'arrête dès que la condition est vraie.</p></div></details>
+<details class="cours-solution"><summary>Voir la correction</summary><div class="cours-solution-body"><p class="cours-answer"><strong>Réponse attendue :</strong> 30</p><p class="math-p">À 24, la condition <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>24</mn><mo>≥</mo><mn>25</mn></mrow><annotation encoding="application/x-tex">24 \ge 25</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7804em;vertical-align:-0.136em;"></span><span class="mord">24</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">25</span></span></span></span> est fausse, on ajoute encore 6 : Compteur passe à 30 (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>30</mn><mo>≥</mo><mn>25</mn></mrow><annotation encoding="application/x-tex">30 \ge 25</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7804em;vertical-align:-0.136em;"></span><span class="mord">30</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">25</span></span></span></span> est vrai, la boucle s'arrête).</p></div></details>
+</article>
+    </section>
+
+    <aside class="cours-cta-box" aria-label="Entraînement">
+      <p class="cours-cta-box-title">Prêt à t'entraîner ?</p>
+      <p>Exercices générés à l'infini, corrigés pas à pas et classés en quatre paliers de difficulté, gratuitement et sans inscription.</p>
+      <div class="cours-cta">
+        <a class="btn-primary cours-cta-main" href="../../index.html?chapitre=4A1">🎯 S'entraîner sur ce chapitre</a>
+        <a class="btn-secondary cours-cta-alt" href="../../index.html?mode=rituel&amp;chapitre=4A1">⏱️ Rituel flash</a>
+        <a class="btn-secondary cours-cta-alt" href="../../index.html?mode=flashcards&amp;chapitre=4A1">🗂️ Flashcards</a>
+      </div>
+    </aside>
+
+    <nav class="cours-pager" aria-label="Chapitres voisins">
+      <a class="cours-pager-link cours-pager-prev" href="notion-de-fonction-et-programmes-de-calcul.html" rel="prev"><span>← Chapitre précédent</span><strong>Notion de fonction et programmes de calcul</strong></a>
+      <a class="cours-pager-link cours-pager-up" href="./"><span>Tous les chapitres</span><strong>4e</strong></a>
+      <span></span>
+    </nav>
+  </main>
+
+  <footer class="cours-footer">
+    <p>L'Établi des Maths — Conçu par Loïc Delaporte, professeur de mathématiques • 100 % libre et gratuit, conforme aux programmes</p>
+    <p><a href="../../cours/">Tous les cours</a> · <a href="../../index.html">Ouvrir l'application</a> · <a href="../../enseignants.html">Espace enseignants</a></p>
+  </footer>
+  <!-- Statistiques d'audience anonymes et conformes RGPD (GoatCounter) -->
+  <script data-goatcounter="https://etabli-des-maths.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <script>
+    // Applique le thème (clair/sombre) choisi dans l'application, avant l'affichage
+    try {
+      document.documentElement.setAttribute('data-theme', JSON.parse(localStorage.getItem('maths_3e_progress_v1') || '{}').theme || 'light');
+    } catch (e) {}
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Épreuve d'entretien — préparation CAPES | L'Établi des Maths</title>
+  <meta name="description" content="Leçon de CAPES — Épreuve d'entretien : Éthique professionnelle, laïcité et valeurs de la République : cadre constitutionnel, légal et principes républicains…" />
+  <meta name="author" content="Loïc Delaporte, professeur de mathématiques" />
+  <link rel="canonical" href="https://etabli-des-maths.fr/cours/capes/epreuve-d-entretien.html" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Épreuve d'entretien — préparation CAPES | L'Établi des Maths" />
+  <meta property="og:description" content="Leçon de CAPES — Épreuve d'entretien : Éthique professionnelle, laïcité et valeurs de la République : cadre constitutionnel, légal et principes républicains…" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://etabli-des-maths.fr/cours/capes/epreuve-d-entretien.html" />
+  <meta property="og:image" content="https://etabli-des-maths.fr/assets/logo.jpg" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta property="og:site_name" content="L'Établi des Maths" />
+
+  <link rel="stylesheet" href="../../css/style.css" />
+  <link rel="stylesheet" href="../../css/landing.css" />
+  <link rel="stylesheet" href="../../vendor/katex/katex.min.css" />
+  <link rel="stylesheet" href="../../css/cours.css" />
+  <link rel="icon" href="../../favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../../assets/favicon-32x32.png" />
+  <link rel="apple-touch-icon" href="../../assets/favicon.png" />
+  <link rel="manifest" href="../../manifest.json" />
+  <meta name="theme-color" content="#2563eb" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LearningResource",
+    "name": "Épreuve d'entretien : Éthique professionnelle, laïcité et valeurs de la République — leçon de CAPES",
+    "headline": "Épreuve d'entretien : Éthique professionnelle, laïcité et valeurs de la République",
+    "description": "Leçon de CAPES — Épreuve d'entretien : Éthique professionnelle, laïcité et valeurs de la République : cadre constitutionnel, légal et principes républicains…",
+    "url": "https://etabli-des-maths.fr/cours/capes/epreuve-d-entretien.html",
+    "inLanguage": "fr",
+    "educationalLevel": "Concours — CAPES et agrégation de mathématiques",
+    "learningResourceType": [
+      "Cours",
+      "Exercices corrigés"
+    ],
+    "teaches": [
+      "I. Cadre constitutionnel, légal et principes républicains",
+      "II. Statuts juridiques et obligations des acteurs de la communauté éducative",
+      "III. Gestion des contestations d'enseignements et cas de vie scolaire",
+      "IV. Posture professionnelle et chaîne institutionnelle de signalement"
+    ],
+    "about": {
+      "@type": "Thing",
+      "name": "Éthique & Laïcité"
+    },
+    "isAccessibleForFree": true,
+    "dateModified": "2026-10-30",
+    "author": {
+      "@type": "Person",
+      "name": "Loïc Delaporte",
+      "jobTitle": "Professeur de mathématiques"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "L'Établi des Maths",
+      "url": "https://etabli-des-maths.fr/",
+      "logo": "https://etabli-des-maths.fr/assets/logo.png"
+    },
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "L'Établi des Maths",
+      "url": "https://etabli-des-maths.fr/"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Accueil",
+        "item": "https://etabli-des-maths.fr/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Cours",
+        "item": "https://etabli-des-maths.fr/cours/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "CAPES",
+        "item": "https://etabli-des-maths.fr/cours/capes/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Épreuve d'entretien",
+        "item": "https://etabli-des-maths.fr/cours/capes/epreuve-d-entretien.html"
+      }
+    ]
+  }
+  </script>
+</head>
+<body class="cours-page">
+  <a class="cours-skip" href="#contenu">Aller au contenu</a>
+
+  <!-- Header Uniformisé -->
+  <header class="app-header">
+    <div class="header-inner">
+      <a href="../../index.html" class="brand-container" style="text-decoration: none;">
+        <img src="../../assets/logo-96.png" alt="L'Établi des Maths" class="brand-logo-img" width="44" height="44" />
+        <div class="brand-text">
+          <p class="brand-title">L'Établi des Maths <span class="brand-level-tag">Cours</span></p>
+          <span class="brand-tagline">Outils pour apprendre et pratiquer</span>
+        </div>
+      </a>
+
+      <!-- Navigation entre Portails -->
+      <nav class="nav-portal-links" aria-label="Portails thématiques">
+        <a href="../../index.html" class="nav-portal-btn">🏠 Accueil</a>
+        <a href="../../cours/" class="nav-portal-btn active" aria-current="true">📚 Cours</a>
+        <a href="../../rituels.html" class="nav-portal-btn">⏱️ Rituels</a>
+        <a href="../../brevet.html" class="nav-portal-btn">📝 Brevet 3e</a>
+        <a href="../../bac.html" class="nav-portal-btn">🎓 Baccalauréat</a>
+        <a href="../../enseignants.html" class="nav-portal-btn">👨‍🏫 Enseignants</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="landing-wrapper cours-wrapper" id="contenu">
+    <nav class="cours-breadcrumb" aria-label="Fil d'Ariane">
+      <ol>
+        <li><a href="../../index.html">Accueil</a></li>
+        <li><a href="../">Cours</a></li>
+        <li><a href="./">CAPES</a></li>
+        <li><span aria-current="page">Épreuve d'entretien</span></li>
+      </ol>
+    </nav>
+
+    <header class="cours-hero">
+      <p class="landing-tag">CAPES · Éthique &amp; Laïcité · Oral 2</p>
+      <h1 class="cours-title">Épreuve d'entretien : Éthique professionnelle, laïcité et valeurs de la République — leçon de CAPES</h1>
+      <p class="cours-lead">I. Cadre constitutionnel, légal et principes républicains • II. Statuts juridiques et obligations des acteurs de la communauté éducative • III. Gestion des contestations d'enseignements et cas de vie scolaire • IV. Posture professionnelle et chaîne institutionnelle de signalement</p>
+      <div class="cours-cta">
+        <a class="btn-primary cours-cta-main" href="../../index.html?chapitre=capes-oral2">🎯 S'entraîner sur ce chapitre</a>
+      </div>
+    </header>
+
+    <nav class="cours-toc" aria-label="Sommaire du chapitre">
+      <p class="cours-toc-title">Sommaire</p>
+      <ol><li><a href="#objectifs">Textes officiels et cadre institutionnel</a></li><li><a href="#cours">Plan et synthèse thématique</a></li><li><a href="#theoreme">Cadre juridique et jurisprudences de référence</a></li><li><a href="#developpements">Études de cas</a></li><li><a href="#pieges">Remarques et questions du jury</a></li><li><a href="#exercices">Exercices corrigés</a></li></ol>
+    </nav>
+
+    <section class="cours-section " id="objectifs" aria-labelledby="objectifs-titre">
+      <h2 id="objectifs-titre">Textes officiels et cadre institutionnel</h2>
+<ul class="cours-list"><li>Vademecum « La laïcité à l'école » (Conseil des sages de la laïcité, Éduscol)</li><li>Loi du 9 décembre 1905 concernant la séparation des Églises et de l'État</li><li>Loi n° 2004-228 du 15 mars 2004 (art. L. 141-5-1 du Code de l'éducation)</li><li>Loi n° 83-634 (art. 25) portant droits et obligations des fonctionnaires</li><li>Arrêté du 1er juillet 2013 (Référentiel des compétences professionnelles du professorat)</li></ul>
+    </section>
+
+    <section class="cours-section " id="cours" aria-labelledby="cours-titre">
+      <h2 id="cours-titre">Plan et synthèse thématique</h2>
+<article class="cours-card"><h3>I. Cadre constitutionnel, légal et principes républicains</h3><p class="math-p">Principe républicain d'indivisibilité, de laïcité, de démocratie et d'égalité (Constitution de 1958, art. 1). Loi de 1905 : séparation des Églises et de l'État, liberté de conscience et neutralité de la puissance publique. Loi du 15 mars 2004 (art. L. 141-5-1 du Code de l'éducation) : interdiction pour les élèves des écoles, collèges et lycées publics de porter des signes ou tenues manifestant ostensiblement une appartenance religieuse. Loi de 2019 pour une École de la confiance (art. L. 141-5-2) : protection contre les pressions et le prosélytisme aux abords des établissements.</p></article>
+<article class="cours-card"><h3>II. Statuts juridiques et obligations des acteurs de la communauté éducative</h3><p class="math-p">1. Enseignants et agents publics : stricte obligation de neutralité religieuse, politique et commerciale dans l'exercice de leurs fonctions (jurisprudence constante CE avis Marteaux 2000, CEDH Dahlab et Ebrahimian). Devoir d'impartialité, de réserve, de probité et d'obéissance hiérarchique. Interdiction absolue du prosélytisme.<br/>2. Élèves : liberté de conscience absolue, apprentissage de l'esprit critique et distinction des savoirs et des croyances (art. 6 et 12 de la Charte de la laïcité). Obligation d'assiduité (art. L. 511-1). Respect des programmes nationaux obligatoires (art. R. 511-11).<br/>3. Parents d'élèves : usagers du service public non soumis au devoir de neutralité dans l'enceinte pour chercher leur enfant. En revanche, obligation de neutralité dès lors qu'ils animent ou encadrent des activités pédagogiques en classe (CAA Lyon 2019) et devoir de réserve/respect du vivre-ensemble lors des sorties scolaires.</p></article>
+<article class="cours-card"><h3>III. Gestion des contestations d'enseignements et cas de vie scolaire</h3><p class="math-p">Contestations de contenus disciplinaires (sciences, histoire, probabilités/hasard, représentations figurées en géométrie) : fermeté sur les programmes, distinction fondamentale entre la rigueur du savoir scientifique démontrable et la liberté des croyances intimes. Refus d'activités scolaires ou d'EPS : aucune dispense pour motif religieux (CEDH arrêt Osmanoglu c. Suisse 2017). Restauration scolaire : compétence des collectivités, absence de droit aux repas confessionnels, interdiction des PAI pour convenance religieuse (strictement réservés aux troubles de santé invalidants).</p></article>
+<article class="cours-card"><h3>IV. Posture professionnelle et chaîne institutionnelle de signalement</h3><p class="math-p">La démarche de résolution en 3 temps devant le jury : 1. Réponse immédiate et posée dans la classe (désamorcer, rappeler la règle sans débat théologique, ne pas stigmatiser l'élève). 2. Dialogue éducatif avec l'élève et la famille mené par le chef d'établissement (dialogue qui n'est pas une négociation de la règle). 3. Concertation en équipe et recours institutionnel : signalement sur l'application « Faits établissement », saisine de l'Équipe Académique Valeurs de la République (EAVR), information préoccupante si santé d'un mineur compromise (art. 375 Code civil).</p></article>
+    </section>
+
+    <section class="cours-section " id="theoreme" aria-labelledby="theoreme-titre">
+      <h2 id="theoreme-titre">Cadre juridique et jurisprudences de référence</h2>
+<article class="cours-card cours-theorem"><h3>Principe fondamental de neutralité du fonctionnaire et liberté de conscience</h3><p class="math-p">« Le fonctionnaire exerce ses fonctions dans le respect du principe de laïcité. À ce titre, il s'abstient notamment de manifester, dans l'exercice de ses fonctions, ses opinions religieuses. Le fonctionnaire traite de façon égale toutes les personnes et respecte leur liberté de conscience et leur dignité. » (Loi n° 83-634, art. 25 modifié par la loi du 20 avril 2016)</p>
+<h4 class="cours-subhead">Fondements juridiques</h4><ul class="math-list">
+<li class="math-bullet"><strong>Jurisprudence constante du Conseil d'État (Avis Marteaux, 3 mai 2000, n° 217017)</strong> :</li>
+</ul>
+<p class="math-p">Le principe de laïcité de l'enseignement public, élément de la laïcité de l'État et de la neutralité des services publics, fait obstacle à ce que les agents du service public de l'enseignement disposent, dans le cadre du service public, du droit de manifester leurs croyances religieuses, notamment par le port d'un signe destiné à marquer leur appartenance confessionnelle.</p>
+<ul class="math-list">
+<li class="math-bullet"><strong>Jurisprudence de la Cour Européenne des Droits de l'Homme (CEDH, 26 février 2016, Ebrahimian c. France)</strong> :</li>
+</ul>
+<p class="math-p">La CEDH a validé la primauté absolue de l'exigence de neutralité et d'impartialité de l'État sur la manifestation des convictions religieuses de ses agents, constatant l'absence de conciliation possible entre celles-ci et l'exercice d'une fonction publique.</p></article>
+    </section>
+
+    <section class="cours-section " id="developpements" aria-labelledby="developpements-titre">
+      <h2 id="developpements-titre">Études de cas</h2>
+<ul class="cours-list"><li>Analyse de la jurisprudence sur les signes religieux ostensibles par nature (voile, kippa, grande croix) vs signes devenus ostensibles par le comportement de l'élève (bandana, jupes longues portées de manière systématique et revendicative - CE 2007 et CAA Paris 2017).</li><li>Régime juridique des parents d'élèves accompagnateurs de sorties scolaires (Étude du CE de 2013, jugements TA Nice/Amiens 2015, arrêt CAA de Lyon du 23 juillet 2019 sur la neutralité en classe).</li></ul>
+    </section>
+
+    <section class="cours-section " id="pieges" aria-labelledby="pieges-titre">
+      <h2 id="pieges-titre">Remarques et questions du jury</h2>
+<ul class="cours-list cours-traps"><li>Ne jamais opposer laïcité et liberté : la laïcité n'est pas une opinion ni une interdiction des religions, c'est le cadre républicain protecteur qui garantit la liberté de conscience de chacun, l'égalité de tous et la neutralité de l'État.</li><li>Devant le jury du CAPES, structurer impérativement sa réponse en 3 niveaux : 1° Le cadre juridique et réglementaire (textes officiels) ; 2° L'action pédagogique immédiate (fermeté bienveillante, pas d'escalade ni d'humiliation) ; 3° Le travail en équipe et l'alerte institutionnelle (CPE, chef d'établissement, signalement Faits établissement, équipe académique Valeurs de la République).</li><li>Rappeler fermement que le dialogue avec l'élève et la famille, obligatoire avant toute mesure disciplinaire, n'est JAMAIS une négociation de la règle républicaine.</li></ul>
+    </section>
+
+    <section class="cours-section " id="exercices" aria-labelledby="exercices-titre">
+      <h2 id="exercices-titre">Exercices corrigés</h2>
+<article class="cours-card cours-exo">
+<h3><span class="cours-exo-num">Exercice 1</span> Devoir de stricte neutralité de l'enseignant en classe</h3>
+<p class="cours-tier cours-tier-1">Palier 1 · découverte</p>
+<p class="math-p">Un enseignant stagiaire de mathématiques porte une médaille religieuse autour du cou. Avant d'entrer en classe, la médaille ressort de son col de façon visible. Un élève l'interroge : « Monsieur, vous êtes croyant ? Quelle est votre religion ? ». Que doit faire l'enseignant au regard du cadre déontologique ?</p>
+<ol class="cours-mcq" type="A"><li>Replacer immédiatement la médaille sous son vêtement pour qu'elle ne soit pas visible, rappeler avec courtoisie que le professeur représente l'école laïque et est soumis à un strict devoir de neutralité, puis recentrer la classe sur le cours de mathématiques sans exprimer ses convictions personnelles</li><li>Expliquer en détail ses convictions personnelles aux élèves au nom de la liberté d'expression garantie par la Constitution</li><li>Confisquer le carnet de correspondance de l'élève pour insolence</li><li>Autoriser un débat de 20 minutes en classe sur les religions respectives des élèves</li></ol>
+<details class="cours-hint"><summary>Un indice</summary><div><p class="math-p">Consulter la fiche 19 du Vademecum : le fonctionnaire est astreint à une stricte obligation de neutralité religieuse et politique (Avis CE Marteaux 2000 et loi du 20 avril 2016).</p></div></details>
+<details class="cours-solution"><summary>Voir la correction</summary><div class="cours-solution-body"><p class="cours-answer"><strong>Bonne réponse :</strong> A. Replacer immédiatement la médaille sous son vêtement pour qu'elle ne soit pas visible, rappeler avec courtoisie que le professeur représente l'école laïque et est soumis à un strict devoir de neutralité, puis recentrer la classe sur le cours de mathématiques sans exprimer ses convictions personnelles</p><p class="math-p">1. Cadre juridique : L'article 25 de la loi du 13 juillet 1983 modifiée en 2016 et l'avis du Conseil d'État Marteaux (3 mai 2000) imposent une stricte obligation de neutralité religieuse aux agents du service public de l'enseignement. Ils ne doivent manifester aucune opinion religieuse ou philosophique dans l'exercice de leurs fonctions.<br/>2. Posture professionnelle : L'enseignant replace son signe sous son vêtement, ne fait pas état de ses croyances intimes, explicite avec calme et bienveillance que l'École laïque garantit la neutralité de l'enseignement pour protéger la liberté de conscience de tous les élèves, et reprend le cours de mathématiques sans polémique.</p></div></details>
+</article>
+<article class="cours-card cours-exo">
+<h3><span class="cours-exo-num">Exercice 2</span> Contestation d'un cours de mathématiques (Probabilités et hasard)</h3>
+<p class="cours-tier cours-tier-2">Palier 2 · application</p>
+<p class="math-p">En classe de 3ème, lors d'une activité introduisant les probabilités avec des dés à six faces, un élève refuse de participer et déclare : « Les jeux de hasard sont interdits par ma religion, et le hasard n'existe pas car tout est écrit d'avance ». Quelle est la réaction professionnelle attendue ?</p>
+<ol class="cours-mcq" type="A"><li>Rappeler posément que l'activité mathématique n'est pas un jeu d'argent mais une modélisation scientifique de l'incertitude et des fréquences, réaffirmer l'obligation légale d'assiduité à tous les cours (art. L. 511-1), distinguer savoir scientifique et croyance personnelle, faire effectuer l'exercice et avertir le professeur principal et la direction si le refus persiste</li><li>Remplacer immédiatement l'exercice pour cet élève par un coloriage magique pour éviter tout conflit</li><li>Se lancer dans un débat théologique devant toute la classe pour prouver que les mathématiques sont compatibles avec sa foi</li><li>Exclure l'élève définitivement de l'établissement sans en référer au chef d'établissement</li></ol>
+<details class="cours-hint"><summary>Un indice</summary><div><p class="math-p">Vademecum fiches 8 et 9 : aucune question n'est exclue du questionnement scientifique (Charte art. 12), l'obligation de suivre l'intégralité des enseignements s'impose à tous.</p></div></details>
+<details class="cours-solution"><summary>Voir la correction</summary><div class="cours-solution-body"><p class="cours-answer"><strong>Bonne réponse :</strong> A. Rappeler posément que l'activité mathématique n'est pas un jeu d'argent mais une modélisation scientifique de l'incertitude et des fréquences, réaffirmer l'obligation légale d'assiduité à tous les cours (art. L. 511-1), distinguer savoir scientifique et croyance personnelle, faire effectuer l'exercice et avertir le professeur principal et la direction si le refus persiste</p><p class="math-p">1. Cadre juridique : D'après les articles L. 511-1 et R. 511-11 du Code de l'éducation, les élèves sont soumis à l'obligation d'assiduité et doivent accomplir tous les travaux demandés. Aucun motif religieux ne permet de se soustraire aux programmes nationaux.<br/>2. Gestion pédagogique : L'enseignant désamorce l'incident sans agressivité : il explique la différence entre un jeu d'argent et l'étude des lois de probabilités (fréquences, fluctuations d'échantillonnage). Il rappelle que l'École instruit sans juger la foi personnelle.<br/>3. Suivi : Si l'élève refuse d'obtempérer, l'enseignant ne s'enferme pas dans un bras de fer en classe, consigne l'incident, en informe le professeur principal, le CPE et la direction pour un rappel à la loi avec la famille.</p></div></details>
+</article>
+<article class="cours-card cours-exo">
+<h3><span class="cours-exo-num">Exercice 3</span> Parents d'élèves accompagnateurs lors d'une sortie scolaire</h3>
+<p class="cours-tier cours-tier-3">Palier 3 · approfondissement</p>
+<p class="math-p">Lors d'une sortie scolaire au Palais de la Découverte organisée par l'équipe de mathématiques, une mère d'élève volontaire pour accompagner le groupe se présente coiffée d'un foulard religieux. Peut-elle accompagner la classe ?</p>
+<ol class="cours-mcq" type="A"><li>Oui, les parents accompagnateurs sont des usagers du service public et ne sont pas soumis à la loi de 2004 ; le port du foulard ne peut justifier un refus que s'il s'accompagne d'actes de prosélytisme ou de troubles à l'ordre public</li><li>Non, la loi du 15 mars 2004 s'applique à toute personne franchissant le portail du collège, y compris les parents d'élèves</li><li>Non, seuls les parents titulaires d'une agrégation de mathématiques peuvent accompagner les sorties</li><li>Oui, mais la mère doit obligatoirement signer un serment d'abjuration religieuse avant de monter dans le bus</li></ol>
+<details class="cours-hint"><summary>Un indice</summary><div><p class="math-p">Vademecum fiche 22 : Étude du Conseil d'État du 19 décembre 2013 et jugements des TA de Nice et Amiens (2015).</p></div></details>
+<details class="cours-solution"><summary>Voir la correction</summary><div class="cours-solution-body"><p class="cours-answer"><strong>Bonne réponse :</strong> A. Oui, les parents accompagnateurs sont des usagers du service public et ne sont pas soumis à la loi de 2004 ; le port du foulard ne peut justifier un refus que s'il s'accompagne d'actes de prosélytisme ou de troubles à l'ordre public</p><p class="math-p">Selon l'étude du Conseil d'État de décembre 2013, les parents accompagnateurs ne sont pas des agents publics mais des collaborateurs occasionnels du service public gardant leur qualité d'usagers. La loi de 2004 ne leur est pas applicable. Une interdiction de principe est illégale. Toutefois, ils sont tenus à un devoir de neutralité dans leurs propos et comportements (interdiction absolue de tout prosélytisme devant les élèves) et doivent respecter les consignes de sécurité.</p></div></details>
+</article>
+<article class="cours-card cours-exo">
+<h3><span class="cours-exo-num">Exercice 4</span> Élève en danger de santé lié à un jeûne imposé et Information Préoccupante</h3>
+<p class="cours-tier cours-tier-4">Palier 4 · défi</p>
+<p class="math-p">En classe de mathématiques, un élève de 11 ans est victime de malaises répétés dus à un jeûne strict et à un refus d'hydratation. La famille prévenue exige qu'on ne lui donne ni eau ni sucre à l'infirmerie pour respecter le jeûne. Quelle est l'obligation de l'équipe éducative ?</p>
+<ol class="cours-mcq" type="A"><li>Secourir immédiatement l'enfant (l'urgence vitale prime), faire appel aux services médicaux (SAMU, infirmière), et si la santé du mineur est compromise de façon durable, transmettre une Information Préoccupante (IP) au président du conseil départemental (art. 375 Code civil et art. L. 226-2-1 CASF)</li><li>Respecter la volonté parentale et laisser l'enfant sans soin dans le couloir</li><li>Donner une punition collective à la classe de mathématiques</li><li>Exclure l'élève pour perturbation de cours</li></ol>
+<details class="cours-hint"><summary>Un indice</summary><div><p class="math-p">Vademecum fiche 13 : protection des mineurs en danger (art. 375 du Code civil et art. L. 226-2-1 du CASF).</p></div></details>
+<details class="cours-solution"><summary>Voir la correction</summary><div class="cours-solution-body"><p class="cours-answer"><strong>Bonne réponse :</strong> A. Secourir immédiatement l'enfant (l'urgence vitale prime), faire appel aux services médicaux (SAMU, infirmière), et si la santé du mineur est compromise de façon durable, transmettre une Information Préoccupante (IP) au président du conseil départemental (art. 375 Code civil et art. L. 226-2-1 CASF)</p><p class="math-p">1. Priorité absolue à la santé de l'élève : L'assistance à personne en péril s'impose. L'élève est pris en charge par l'infirmière ou les secours d'urgence, qui lui administrent les soins nécessaires nonobstant les consignes parentales.<br/>2. Volet protection de l'enfance : Si des pratiques imposées mettent en danger la santé, la sécurité ou le développement physique d'un mineur, tout personnel a le devoir de rédiger une Information Préoccupante (IP) adressée à la cellule départementale (CRIP).</p></div></details>
+</article>
+    </section>
+
+    <aside class="cours-cta-box" aria-label="Entraînement">
+      <p class="cours-cta-box-title">Prêt à t'entraîner ?</p>
+      <p>Exercices générés à l'infini, corrigés pas à pas et classés en quatre paliers de difficulté, gratuitement et sans inscription.</p>
+      <div class="cours-cta">
+        <a class="btn-primary cours-cta-main" href="../../index.html?chapitre=capes-oral2">🎯 S'entraîner sur ce chapitre</a>
+      </div>
+    </aside>
+
+    <nav class="cours-pager" aria-label="Chapitres voisins">
+      <a class="cours-pager-link cours-pager-prev" href="arithmetique-dans-z.html" rel="prev"><span>← Chapitre précédent</span><strong>Arithmétique dans Z : divisibilité, pgcd, congruences et cryptographie RSA</strong></a>
+      <a class="cours-pager-link cours-pager-up" href="./"><span>Tous les chapitres</span><strong>CAPES</strong></a>
+      <span></span>
+    </nav>
+  </main>
+
+  <footer class="cours-footer">
+    <p>L'Établi des Maths — Conçu par Loïc Delaporte, professeur de mathématiques • 100 % libre et gratuit, conforme aux programmes</p>
+    <p><a href="../../cours/">Tous les cours</a> · <a href="../../index.html">Ouvrir l'application</a> · <a href="../../enseignants.html">Espace enseignants</a></p>
+  </footer>
+  <!-- Statistiques d'audience anonymes et conformes RGPD (GoatCounter) -->
+  <script data-goatcounter="https://etabli-des-maths.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

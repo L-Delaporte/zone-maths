@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <script>
+    // Applique le thème (clair/sombre) choisi dans l'application, avant l'affichage
+    try {
+      document.documentElement.setAttribute('data-theme', JSON.parse(localStorage.getItem('maths_3e_progress_v1') || '{}').theme || 'light');
+    } catch (e) {}
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Cours de maths de 4e : chapitres et exercices</title>
+  <meta name="description" content="Les chapitres de 4e (cycle 4) : relatifs, fractions, puissances, calcul littéral, équations, théorème de Pythagore, Thalès, statistiques et probabilités. 14…" />
+  <meta name="author" content="Loïc Delaporte, professeur de mathématiques" />
+  <link rel="canonical" href="https://etabli-des-maths.fr/cours/4e/" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Cours de maths de 4e : chapitres et exercices" />
+  <meta property="og:description" content="Les chapitres de 4e (cycle 4) : relatifs, fractions, puissances, calcul littéral, équations, théorème de Pythagore, Thalès, statistiques et probabilités. 14…" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://etabli-des-maths.fr/cours/4e/" />
+  <meta property="og:image" content="https://etabli-des-maths.fr/assets/logo.jpg" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta property="og:site_name" content="L'Établi des Maths" />
+
+  <link rel="stylesheet" href="../../css/style.css" />
+  <link rel="stylesheet" href="../../css/landing.css" />
+  <link rel="stylesheet" href="../../vendor/katex/katex.min.css" />
+  <link rel="stylesheet" href="../../css/cours.css" />
+  <link rel="icon" href="../../favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../../assets/favicon-32x32.png" />
+  <link rel="apple-touch-icon" href="../../assets/favicon.png" />
+  <link rel="manifest" href="../../manifest.json" />
+  <meta name="theme-color" content="#2563eb" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Cours de mathématiques de 4e — 14 chapitres",
+    "description": "Les chapitres de 4e (cycle 4) : relatifs, fractions, puissances, calcul littéral, équations, théorème de Pythagore, Thalès, statistiques et probabilités. 14…",
+    "url": "https://etabli-des-maths.fr/cours/4e/",
+    "inLanguage": "fr",
+    "educationalLevel": "Collège — classe de 4e (cycle 4)",
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "L'Établi des Maths",
+      "url": "https://etabli-des-maths.fr/"
+    },
+    "mainEntity": {
+      "@type": "ItemList",
+      "numberOfItems": 14,
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Opérations sur les nombres relatifs (règle des signes)",
+          "url": "https://etabli-des-maths.fr/cours/4e/operations-sur-les-nombres-relatifs.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Fractions et nombres rationnels : 4 opérations",
+          "url": "https://etabli-des-maths.fr/cours/4e/fractions-et-nombres-rationnels.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Puissances d'un nombre et puissances de 10",
+          "url": "https://etabli-des-maths.fr/cours/4e/puissances-d-un-nombre-et-puissances-de-10.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Racines carrées et carrés parfaits",
+          "url": "https://etabli-des-maths.fr/cours/4e/racines-carrees-et-carres-parfaits.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 5,
+          "name": "Calcul littéral et résolution d'équations du premier degré",
+          "url": "https://etabli-des-maths.fr/cours/4e/calcul-litteral-et-resolution-d-equations-du-premier.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 6,
+          "name": "Théorème de Pythagore, réciproque et contraposée",
+          "url": "https://etabli-des-maths.fr/cours/4e/theoreme-de-pythagore.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 7,
+          "name": "Triangle rectangle, cercle circonscrit et droite des milieux",
+          "url": "https://etabli-des-maths.fr/cours/4e/triangle-rectangle.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 8,
+          "name": "Translations et propriétés de conservation",
+          "url": "https://etabli-des-maths.fr/cours/4e/translations-et-proprietes-de-conservation.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 9,
+          "name": "Espace : pyramides, cônes de révolution et volumes",
+          "url": "https://etabli-des-maths.fr/cours/4e/espace-pyramides-cones-de-revolution-et-volumes.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 10,
+          "name": "Statistiques : moyenne pondérée, médiane et étendue",
+          "url": "https://etabli-des-maths.fr/cours/4e/statistiques-moyenne-ponderee-mediane-et-etendue.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 11,
+          "name": "Probabilités : événements contraires et expériences à deux épreuves",
+          "url": "https://etabli-des-maths.fr/cours/4e/probabilites-evenements-contraires-et-experiences.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 12,
+          "name": "Proportionnalité, ratios et pourcentages (coefficients)",
+          "url": "https://etabli-des-maths.fr/cours/4e/proportionnalite-ratios-et-pourcentages.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 13,
+          "name": "Notion de fonction et programmes de calcul",
+          "url": "https://etabli-des-maths.fr/cours/4e/notion-de-fonction-et-programmes-de-calcul.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 14,
+          "name": "Algorithmique : instructions conditionnelles et variables Scratch",
+          "url": "https://etabli-des-maths.fr/cours/4e/algorithmique-instructions-conditionnelles-et-variables.html"
+        }
+      ]
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Accueil",
+        "item": "https://etabli-des-maths.fr/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Cours",
+        "item": "https://etabli-des-maths.fr/cours/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "4e",
+        "item": "https://etabli-des-maths.fr/cours/4e/"
+      }
+    ]
+  }
+  </script>
+</head>
+<body class="cours-page">
+  <a class="cours-skip" href="#contenu">Aller au contenu</a>
+
+  <!-- Header Uniformisé -->
+  <header class="app-header">
+    <div class="header-inner">
+      <a href="../../index.html" class="brand-container" style="text-decoration: none;">
+        <img src="../../assets/logo-96.png" alt="L'Établi des Maths" class="brand-logo-img" width="44" height="44" />
+        <div class="brand-text">
+          <p class="brand-title">L'Établi des Maths <span class="brand-level-tag">Cours</span></p>
+          <span class="brand-tagline">Outils pour apprendre et pratiquer</span>
+        </div>
+      </a>
+
+      <!-- Navigation entre Portails -->
+      <nav class="nav-portal-links" aria-label="Portails thématiques">
+        <a href="../../index.html" class="nav-portal-btn">🏠 Accueil</a>
+        <a href="../../cours/" class="nav-portal-btn active" aria-current="true">📚 Cours</a>
+        <a href="../../rituels.html" class="nav-portal-btn">⏱️ Rituels</a>
+        <a href="../../brevet.html" class="nav-portal-btn">📝 Brevet 3e</a>
+        <a href="../../bac.html" class="nav-portal-btn">🎓 Baccalauréat</a>
+        <a href="../../enseignants.html" class="nav-portal-btn">👨‍🏫 Enseignants</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="landing-wrapper cours-wrapper" id="contenu">
+    <nav class="cours-breadcrumb" aria-label="Fil d'Ariane">
+      <ol>
+        <li><a href="../../index.html">Accueil</a></li>
+        <li><a href="../">Cours</a></li>
+        <li><span aria-current="page">4e</span></li>
+      </ol>
+    </nav>
+
+    <header class="cours-hero">
+      <p class="landing-tag">Collège · 4e</p>
+      <h1 class="cours-title">Cours de mathématiques de 4e — 14 chapitres</h1>
+      <p class="cours-lead">Les chapitres de 4e (cycle 4) : relatifs, fractions, puissances, calcul littéral, équations, théorème de Pythagore, Thalès, statistiques et probabilités. Chaque chapitre contient le cours complet, des méthodes rédigées et des exercices corrigés.</p>
+      <div class="cours-cta">
+        <a class="btn-primary cours-cta-main" href="../../index.html?level=4eme">🎯 S'entraîner en 4e</a>
+      </div>
+    </header>
+
+    <section class="cours-section" id="domaine-1" aria-labelledby="domaine-1-titre">
+      <h2 id="domaine-1-titre">Nombres et Calculs</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="operations-sur-les-nombres-relatifs.html">
+          <span class="topic-num">4N1</span>
+          <span class="cours-chapter-text"><strong>Opérations sur les nombres relatifs (règle des signes)</strong><span>Multiplication et division de deux nombres relatifs, règle des signes, enchaînements d'opérations et respect des priorités opératoires.</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="fractions-et-nombres-rationnels.html">
+          <span class="topic-num">4N2</span>
+          <span class="cours-chapter-text"><strong>Fractions et nombres rationnels : 4 opérations</strong><span>Nombres rationnels relatifs, multiplication de fractions, définition de l'inverse d'un nombre non nul, division de fractions, simplification.</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="puissances-d-un-nombre-et-puissances-de-10.html">
+          <span class="topic-num">4N3</span>
+          <span class="cours-chapter-text"><strong>Puissances d'un nombre et puissances de 10</strong><span>Définition de a^n pour un exposant entier positif, règles de calcul sur les puissances d'un même nombre, puissances de 10 et notation décimale.</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="racines-carrees-et-carres-parfaits.html">
+          <span class="topic-num">4N4</span>
+          <span class="cours-chapter-text"><strong>Racines carrées et carrés parfaits</strong><span>Définition de la racine carrée d'un nombre positif, carrés parfaits des entiers de 0 à 12, encadrement d'une racine carrée par deux entiers…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="calcul-litteral-et-resolution-d-equations-du-premier.html">
+          <span class="topic-num">4N5</span>
+          <span class="cours-chapter-text"><strong>Calcul littéral et résolution d'équations du premier degré</strong><span>Développer avec distributivité simple, réduire des expressions, résoudre des équations ax+b=c et ax+b=cx+d, mise en équation d'un problème.</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-2" aria-labelledby="domaine-2-titre">
+      <h2 id="domaine-2-titre">Espace et Géométrie</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="theoreme-de-pythagore.html">
+          <span class="topic-num">4G1</span>
+          <span class="cours-chapter-text"><strong>Théorème de Pythagore, réciproque et contraposée</strong><span>Calcul de l'hypoténuse ou d'un côté de l'angle droit, réciproque pour prouver qu'un triangle est rectangle, contraposée pour prouver qu'il ne l'est…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="triangle-rectangle.html">
+          <span class="topic-num">4G2</span>
+          <span class="cours-chapter-text"><strong>Triangle rectangle, cercle circonscrit et droite des milieux</strong><span>Caractérisation du triangle rectangle inscrit dans un demi-cercle, théorèmes de la droite des milieux dans un triangle quelconque.</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="translations-et-proprietes-de-conservation.html">
+          <span class="topic-num">4G3</span>
+          <span class="cours-chapter-text"><strong>Translations et propriétés de conservation</strong><span>Notion de translation (direction, sens, distance), lien direct avec les parallélogrammes, propriétés de conservation des longueurs, angles et aires.</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="espace-pyramides-cones-de-revolution-et-volumes.html">
+          <span class="topic-num">4G4</span>
+          <span class="cours-chapter-text"><strong>Espace : pyramides, cônes de révolution et volumes</strong><span>Pyramides régulières et cônes de révolution, représentations en perspective cavalière, patrons, calcul du volume V = (1/3) × Base × h.</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-3" aria-labelledby="domaine-3-titre">
+      <h2 id="domaine-3-titre">Organisation et Fonctions</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="statistiques-moyenne-ponderee-mediane-et-etendue.html">
+          <span class="topic-num">4D1</span>
+          <span class="cours-chapter-text"><strong>Statistiques : moyenne pondérée, médiane et étendue</strong><span>Calcul et interprétation de la moyenne pondérée, détermination de la médiane d'une série statistique discrète, calcul de l'étendue.</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="probabilites-evenements-contraires-et-experiences.html">
+          <span class="topic-num">4D2</span>
+          <span class="cours-chapter-text"><strong>Probabilités : événements contraires et expériences à deux épreuves</strong><span>Notations ensemblistes (événement contraire, intersection, réunion), calcul de P(non A) = 1 - P(A), expériences aléatoires simples à deux épreuves.</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-4" aria-labelledby="domaine-4-titre">
+      <h2 id="domaine-4-titre">Proportionnalité</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="proportionnalite-ratios-et-pourcentages.html">
+          <span class="topic-num">4P1</span>
+          <span class="cours-chapter-text"><strong>Proportionnalité, ratios et pourcentages (coefficients)</strong><span>Grandeurs quotients (vitesse km/h, masse volumique), partage selon un ratio a:b, coefficient multiplicateur d'augmentation ou réduction (1 ± t/100).</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-5" aria-labelledby="domaine-5-titre">
+      <h2 id="domaine-5-titre">Fonctions</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="notion-de-fonction-et-programmes-de-calcul.html">
+          <span class="topic-num">4P2</span>
+          <span class="cours-chapter-text"><strong>Notion de fonction et programmes de calcul</strong><span>Programmes de calcul avec une variable x, expression littérale traduisant la dépendance, calcul d'images numériques, tableau et courbe.</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-6" aria-labelledby="domaine-6-titre">
+      <h2 id="domaine-6-titre">Pensée Informatique</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="algorithmique-instructions-conditionnelles-et-variables.html">
+          <span class="topic-num">4A1</span>
+          <span class="cours-chapter-text"><strong>Algorithmique : instructions conditionnelles et variables Scratch</strong><span>Structures conditionnelles « si alors sinon », création et modification de variables numériques dans Scratch, résolution de défis géométriques.</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <nav class="cours-pager" aria-label="Autres niveaux">
+      <a class="nav-portal-btn" href="../6e/">6e</a>
+      <a class="nav-portal-btn" href="../5e/">5e</a>
+      <a class="nav-portal-btn active" href="../4e/" aria-current="page">4e</a>
+      <a class="nav-portal-btn" href="../3e/">3e</a>
+      <a class="nav-portal-btn" href="../seconde/">Seconde</a>
+      <a class="nav-portal-btn" href="../premiere/">Première</a>
+      <a class="nav-portal-btn" href="../terminale/">Terminale</a>
+      <a class="nav-portal-btn" href="../l1/">Licence 1</a>
+      <a class="nav-portal-btn" href="../l2/">Licence 2</a>
+      <a class="nav-portal-btn" href="../l3/">Licence 3</a>
+      <a class="nav-portal-btn" href="../capes/">CAPES</a>
+    </nav>
+  </main>
+
+  <footer class="cours-footer">
+    <p>L'Établi des Maths — Conçu par Loïc Delaporte, professeur de mathématiques • 100 % libre et gratuit, conforme aux programmes</p>
+    <p><a href="../../cours/">Tous les cours</a> · <a href="../../index.html">Ouvrir l'application</a> · <a href="../../enseignants.html">Espace enseignants</a></p>
+  </footer>
+  <!-- Statistiques d'audience anonymes et conformes RGPD (GoatCounter) -->
+  <script data-goatcounter="https://etabli-des-maths.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

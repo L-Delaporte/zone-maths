@@ -1,6 +1,6 @@
 /**
  * Données pédagogiques officielles de la classe de 5ème (Cycle 4, 1ère année)
- * Conforme au Bulletin Officiel de l'Éducation Nationale et à la progression de maths-et-tiques.fr
+ * Conforme aux programmes officiels de l'Éducation nationale
  */
 
 window.MATHS_COURSES_5E = {
@@ -393,7 +393,7 @@ window.MATHS_COURSES_5E = {
       },
       {
         "q": "Comment calcule-t-on 20 % d'une somme de 60 € ?",
-        "a": "$$\\frac{20}{100} \\times 60 = 0,20 \\times 60 = 12 \\text{ €}$$"
+        "a": "$$\\frac{20}{100} \\times 60 = 0,20 \\times 60 = 12 \\text{ euros}$$"
       },
       {
         "q": "Comment reconnaît-on graphiquement une situation de proportionnalité ?",
@@ -1183,12 +1183,12 @@ window.MATHS_EXERCISES_5E = {
       "chapterId": "5P1",
       "tier": 2,
       "title": "Quatrième proportionnelle",
-      "statement": "Le prix de $3\\text{ kg}$ de fruits est de $6\\text{ €}$.\nQuel est le prix de $7\\text{ kg}$ de ces mêmes fruits ?",
+      "statement": "Le prix de $3\\text{ kg}$ de fruits est de $6$ €.\nQuel est le prix de $7\\text{ kg}$ de ces mêmes fruits ?",
       "type": "exact",
       "answer": "14",
       "placeholder": "Ex: 14",
-      "hint1": "Prix d'un kg : $6 \\div 3 = 2\\text{ €}$. Multiplie par 7.",
-      "solution": "$$x = \\frac{6 \\times 7}{3} = 14\\text{ €}$$",
+      "hint1": "Prix d'un kg : $6 \\div 3 = 2$ €. Multiplie par 7.",
+      "solution": "$$x = \\frac{6 \\times 7}{3} = 14\\text{ euros}$$",
       "skill": "Calculer"
     },
     {
@@ -1249,17 +1249,25 @@ window.MATHS_EXERCISES_5E = {
       "id": "5G3-3",
       "chapterId": "5G3",
       "tier": 3,
-      "title": "Inégalité triangulaire (Constructibilité)",
-      "statement": "Peut-on construire un triangle dont les côtés mesurent $4\\text{ cm}$, $6\\text{ cm}$ et $12\\text{ cm}$ ?",
+      "title": "Angles alternes-internes et parallélisme",
+      "statement": "Deux droites $(d)$ et $(d')$ sont coupées par une sécante $(s)$. Les deux angles alternes-internes ainsi formés mesurent $72^\\circ$ et $74^\\circ$.\nLes droites $(d)$ et $(d')$ sont-elles parallèles ?",
       "type": "mcq",
       "options": [
-        "Non, le triangle n'est pas constructible",
-        "Oui, le triangle est constructible"
+        "Non, car si elles étaient parallèles, ces angles alternes-internes seraient égaux",
+        "Oui, car $72^\\circ$ et $74^\\circ$ sont presque égaux",
+        "Oui, car deux angles alternes-internes sont toujours égaux",
+        "On ne peut rien conclure sans connaître les angles correspondants"
       ],
       "correctIndex": 0,
-      "answer": "Non, le triangle n'est pas constructible",
-      "hint1": "Le plus grand côté (12) doit être strictement inférieur à la somme des deux autres ($4 + 6 = 10$).",
-      "solution": "Comme $12 > 4 + 6$, l'inégalité triangulaire n'est pas vérifiée : le triangle **n'est pas constructible**.",
+      "explanations": [
+        "Exact ! Si deux droites parallèles sont coupées par une sécante, les angles alternes-internes ont la même mesure. Ici $72^\\circ \\neq 74^\\circ$ : les droites ne sont donc pas parallèles.",
+        "Non : en mathématiques, « presque égaux » ne suffit pas. Une différence de $2^\\circ$ suffit à prouver que les droites ne sont pas parallèles.",
+        "Non : les angles alternes-internes ne sont égaux que lorsque les droites sont parallèles.",
+        "Non : les angles alternes-internes suffisent pour conclure."
+      ],
+      "hint1": "Propriété : si deux droites parallèles sont coupées par une sécante, alors les angles alternes-internes ont la même mesure.",
+      "hint2": "Ici les deux angles n'ont pas la même mesure : que peut-on en déduire ?",
+      "solution": "On sait que : si deux droites parallèles sont coupées par une sécante, alors elles forment des angles alternes-internes de même mesure.\nOr ici $72^\\circ \\neq 74^\\circ$. Donc les droites $(d)$ et $(d')$ **ne sont pas parallèles**.",
       "skill": "Raisonner"
     },
     {
@@ -1281,59 +1289,79 @@ window.MATHS_EXERCISES_5E = {
       "id": "5G4-1",
       "chapterId": "5G4",
       "tier": 1,
-      "title": "Conservation des longueurs par symétrie centrale",
-      "statement": "Le segment $[A'B']$ est le symétrique de $[AB]$ par rapport à un point $O$.\nSi $AB = 8\\text{ cm}$, quelle est la longueur de $[A'B']$ ?",
+      "title": "Aire d'un triangle (base et hauteur)",
+      "statement": "Dans un triangle $ABC$, le côté $[BC]$ mesure $10\\text{ cm}$ et la hauteur issue de $A$ mesure $6\\text{ cm}$.\nCalculer l'aire du triangle $ABC$ en $\\text{cm}^2$.",
       "type": "exact",
-      "answer": "8",
-      "placeholder": "Ex: 8",
-      "hint1": "La symétrie centrale est une isométrie : elle conserve les longueurs.",
-      "solution": "$$A'B' = AB = 8\\text{ cm}$$",
-      "skill": "Raisonner"
+      "answer": "30",
+      "placeholder": "Ex: 30",
+      "hint1": "Aire d'un triangle : $\\mathcal{A} = \\dfrac{\\text{base} \\times \\text{hauteur relative à cette base}}{2}$.",
+      "hint2": "Ici la base est $BC = 10\\text{ cm}$ et la hauteur relative à $[BC]$ mesure $6\\text{ cm}$.",
+      "solution": "$$\\mathcal{A} = \\frac{BC \\times h}{2} = \\frac{10 \\times 6}{2} = \\frac{60}{2} = 30\\text{ cm}^2$$",
+      "skill": "Calculer"
     },
     {
       "id": "5G4-2",
       "chapterId": "5G4",
       "tier": 2,
-      "title": "Centre de symétrie comme milieu",
-      "statement": "Le point $A'$ est le symétrique de $A$ par rapport à $O$. Sachant que $OA = 6\\text{ cm}$, quelle est la longueur totale de $[AA']$ ?",
-      "type": "exact",
-      "answer": "12",
-      "placeholder": "Ex: 12",
-      "hint1": "$O$ est le milieu de $[AA']$, donc $AA' = 2 \\times OA$.",
-      "solution": "$$AA' = 2 \\times 6 = 12\\text{ cm}$$",
-      "skill": "Calculer"
+      "title": "Droites remarquables : les médiatrices",
+      "statement": "Dans un triangle, les trois médiatrices des côtés sont concourantes. Que représente leur point de concours ?",
+      "type": "mcq",
+      "options": [
+        "Le centre du cercle circonscrit au triangle",
+        "Le centre de gravité du triangle",
+        "L'orthocentre du triangle",
+        "Le milieu du plus grand côté"
+      ],
+      "correctIndex": 0,
+      "explanations": [
+        "Exact ! Chaque point de la médiatrice de $[AB]$ est à égale distance de $A$ et de $B$ : le point de concours est à la même distance des trois sommets, c'est le centre du cercle qui passe par $A$, $B$ et $C$.",
+        "Non : le centre de gravité est le point de concours des trois médianes.",
+        "Non : l'orthocentre est le point de concours des trois hauteurs.",
+        "Non : ce n'est vrai que dans un triangle rectangle (le centre du cercle circonscrit est alors le milieu de l'hypoténuse)."
+      ],
+      "hint1": "La médiatrice d'un segment est l'ensemble des points situés à égale distance de ses deux extrémités.",
+      "hint2": "Un point situé sur les trois médiatrices est donc à la même distance des trois sommets.",
+      "solution": "Le point $O$ de concours des médiatrices vérifie $OA = OB$ (médiatrice de $[AB]$) et $OB = OC$ (médiatrice de $[BC]$). Donc $OA = OB = OC$ : $O$ est le **centre du cercle circonscrit** au triangle.\nÀ retenir : médiatrices → cercle circonscrit ; médianes → centre de gravité ; hauteurs → orthocentre ; bissectrices → cercle inscrit.",
+      "skill": "Raisonner"
     },
     {
       "id": "5G4-3",
       "chapterId": "5G4",
       "tier": 3,
-      "title": "Diagonales d'un parallélogramme",
-      "statement": "Dans un parallélogramme $ABCD$ de centre $O$, la diagonale $[AC]$ mesure $14\\text{ cm}$.\nQuelle est la longueur de $[OA]$ ?",
-      "type": "exact",
-      "answer": "7",
-      "placeholder": "Ex: 7",
-      "hint1": "Les diagonales d'un parallélogramme se coupent en leur milieu.",
-      "solution": "$$OA = 14 \\div 2 = 7\\text{ cm}$$",
-      "skill": "Calculer"
+      "title": "Construction d'un triangle : cas limite de l'inégalité triangulaire",
+      "statement": "On veut construire un triangle $ABC$ tel que $AB = 4\\text{ cm}$, $BC = 6\\text{ cm}$ et $AC = 10\\text{ cm}$. Que peut-on affirmer ?",
+      "type": "mcq",
+      "options": [
+        "Le triangle est « aplati » : $AC = AB + BC$, donc $B$ appartient au segment $[AC]$",
+        "On obtient un vrai triangle car $10 < 4 + 6 + 10$",
+        "On obtient un vrai triangle car le plus grand côté est $[AC]$",
+        "Aucune figure n'est possible car $10 > 4 + 6$"
+      ],
+      "correctIndex": 0,
+      "explanations": [
+        "Exact ! Comme $AB + BC = 4 + 6 = 10 = AC$, les points $A$, $B$, $C$ sont alignés, avec $B$ sur le segment $[AC]$.",
+        "Non : il faut comparer le plus grand côté à la somme des **deux autres** côtés seulement.",
+        "Non : connaître le plus grand côté ne suffit pas, il faut le comparer à la somme des deux autres.",
+        "Non : $4 + 6 = 10$, il y a égalité et non inégalité stricte."
+      ],
+      "hint1": "Compare la plus grande longueur ($10\\text{ cm}$) à la somme des deux autres.",
+      "hint2": "$4 + 6 = 10$ : que se passe-t-il quand il y a égalité ?",
+      "solution": "Le plus grand côté mesure $AC = 10\\text{ cm}$ et $AB + BC = 4 + 6 = 10\\text{ cm}$.\nPuisque $AC = AB + BC$, le point $B$ appartient au segment $[AC]$ : les trois points sont alignés et le triangle est **aplati**.\nRappel (inégalité triangulaire) : on peut construire un vrai triangle si et seulement si la plus grande longueur est **strictement** inférieure à la somme des deux autres.",
+      "skill": "Raisonner"
     },
     {
       "id": "5G4-4",
       "chapterId": "5G4",
       "tier": 4,
-      "title": "Défi 4ème : Nature d'un parallélogramme particulier",
-      "statement": "Quelle est la nature précise d'un parallélogramme dont les diagonales sont de même longueur et perpendiculaires ?",
-      "type": "mcq",
-      "answer": "Carré",
-      "options": [
-        "Carré",
-        "Losange non carré",
-        "Rectangle non carré",
-        "Trapèze"
-      ],
-      "correctIndex": 0,
-      "hint1": "Diagonales égales => rectangle. Diagonales perpendiculaires => losange. Un quadrilatère qui est les deux est un...",
-      "solution": "Un quadrilatère à la fois rectangle et losange est un **carré**.",
-      "skill": "Raisonner"
+      "title": "Défi 4ème : Calculer une hauteur grâce à l'aire",
+      "statement": "Dans un triangle $ABC$, on a $BC = 12\\text{ cm}$ et la hauteur issue de $A$ mesure $5\\text{ cm}$. De plus, $AC = 10\\text{ cm}$.\n**Quelle est la longueur, en cm, de la hauteur issue de $B$ (relative au côté $[AC]$) ?**",
+      "type": "exact",
+      "answer": "6",
+      "placeholder": "Ex: 6",
+      "hint1": "Calcule d'abord l'aire du triangle avec la base $[BC]$ : $\\dfrac{12 \\times 5}{2}$.",
+      "hint2": "L'aire est la même quelle que soit la base choisie : $\\dfrac{AC \\times h_B}{2} = 30$.",
+      "solution": "1. Avec la base $[BC]$ : $\\mathcal{A} = \\dfrac{12 \\times 5}{2} = 30\\text{ cm}^2$.\n2. Avec la base $[AC]$ et la hauteur $h_B$ issue de $B$ : $\\dfrac{10 \\times h_B}{2} = 30$, donc $5 \\times h_B = 30$.\n3. $h_B = 30 \\div 5 = 6\\text{ cm}$.",
+      "skill": "Résoudre"
     }
   ],
   "5G6": [
@@ -1341,52 +1369,55 @@ window.MATHS_EXERCISES_5E = {
       "id": "5G6-1",
       "chapterId": "5G6",
       "tier": 1,
-      "title": "Aire d'un rectangle",
-      "statement": "Calculer l'aire d'un rectangle de longueur $L = 8\\text{ cm}$ et de largeur $l = 5\\text{ cm}$.",
+      "title": "Volume d'un prisme droit (aire de base donnée)",
+      "statement": "Un prisme droit a une base d'aire $15\\text{ cm}^2$ et une hauteur de $8\\text{ cm}$.\nCalculer son volume en $\\text{cm}^3$.",
       "type": "exact",
-      "answer": "40",
-      "placeholder": "Ex: 40",
-      "hint1": "Formule : $\\mathcal{A} = L \\times l$.",
-      "solution": "$$\\mathcal{A} = 8 \\times 5 = 40\\text{ cm}^2$$",
+      "answer": "120",
+      "placeholder": "Ex: 120",
+      "hint1": "Volume d'un prisme droit : $\\mathcal{V} = \\mathcal{A}_{\\text{base}} \\times h$.",
+      "solution": "$$\\mathcal{V} = \\mathcal{A}_{\\text{base}} \\times h = 15 \\times 8 = 120\\text{ cm}^3$$",
       "skill": "Calculer"
     },
     {
       "id": "5G6-2",
       "chapterId": "5G6",
       "tier": 2,
-      "title": "Aire d'un triangle rectangle",
-      "statement": "Calculer l'aire d'un triangle rectangle dont les côtés de l'angle droit mesurent $6\\text{ cm}$ et $7\\text{ cm}$.",
+      "title": "Volume d'un prisme à base triangulaire",
+      "statement": "Un prisme droit a pour base un triangle rectangle dont les côtés de l'angle droit mesurent $3\\text{ cm}$ et $4\\text{ cm}$. Sa hauteur mesure $10\\text{ cm}$.\nCalculer son volume en $\\text{cm}^3$.",
       "type": "exact",
-      "answer": "21",
-      "placeholder": "Ex: 21",
-      "hint1": "Formule : $\\mathcal{A} = (a \\times b) / 2$.",
-      "solution": "$$\\mathcal{A} = \\frac{6 \\times 7}{2} = \\frac{42}{2} = 21\\text{ cm}^2$$",
+      "answer": "60",
+      "placeholder": "Ex: 60",
+      "hint1": "Commence par l'aire de la base : c'est un triangle rectangle, $\\mathcal{A} = \\dfrac{3 \\times 4}{2}$.",
+      "hint2": "Multiplie ensuite l'aire de la base par la hauteur du prisme ($10\\text{ cm}$).",
+      "solution": "1. Aire de la base : $\\mathcal{A}_{\\text{base}} = \\dfrac{3 \\times 4}{2} = 6\\text{ cm}^2$.\n2. Volume : $\\mathcal{V} = 6 \\times 10 = 60\\text{ cm}^3$.",
       "skill": "Calculer"
     },
     {
       "id": "5G6-3",
       "chapterId": "5G6",
       "tier": 3,
-      "title": "Aire d'un disque",
-      "statement": "Calculer la valeur exacte de l'aire d'un disque de rayon $R = 5\\text{ cm}$.\nDonner la réponse sous la forme $n\\pi\\text{ cm}^2$ (saisir le nombre $n$).",
+      "title": "Volume d'un cylindre de révolution (valeur exacte)",
+      "statement": "Un cylindre de révolution a un rayon de base $r = 3\\text{ cm}$ et une hauteur $h = 10\\text{ cm}$.\nDonner la valeur exacte de son volume sous la forme $n\\pi\\text{ cm}^3$ (saisir le nombre $n$).",
       "type": "exact",
-      "answer": "25",
-      "placeholder": "Ex: 25",
-      "hint1": "Formule : $\\mathcal{A} = \\pi R^2 = \\pi \\times 5^2$.",
-      "solution": "$$\\mathcal{A} = \\pi \\times 25 = 25\\pi\\text{ cm}^2$$",
+      "answer": "90",
+      "placeholder": "Ex: 90",
+      "hint1": "Volume d'un cylindre : $\\mathcal{V} = \\pi r^2 \\times h$ (aire du disque de base × hauteur).",
+      "hint2": "$r^2 = 3^2 = 9$, puis multiplie par la hauteur.",
+      "solution": "$$\\mathcal{V} = \\pi \\times r^2 \\times h = \\pi \\times 3^2 \\times 10 = \\pi \\times 9 \\times 10 = 90\\pi\\text{ cm}^3$$\n(soit environ $282,7\\text{ cm}^3$).",
       "skill": "Calculer"
     },
     {
       "id": "5G6-4",
       "chapterId": "5G6",
       "tier": 4,
-      "title": "Défi 4ème : Aire d'une surface composée par soustraction",
-      "statement": "Une plaque métallique a la forme d'un rectangle de $12\\text{ cm} \\times 8\\text{ cm}$. On découpe à l'un de ses coins un triangle rectangle de côtés $4\\text{ cm}$ et $6\\text{ cm}$.\n\n**Quelle est l'aire restante de la plaque en $\\text{cm}^2$ ?**",
+      "title": "Défi 4ème : Contenance d'une citerne en litres",
+      "statement": "Une citerne a la forme d'un cylindre de révolution de rayon $0,5\\text{ m}$ et de hauteur $2\\text{ m}$.\n**Quelle est sa contenance en litres, arrondie au litre ?**\n(Rappel : $1\\text{ m}^3 = 1\\,000\\text{ L}$.)",
       "type": "exact",
-      "answer": "84",
-      "placeholder": "Ex: 84",
-      "hint1": "Aire rectangle : $12 \\times 8 = 96$. Aire coin découpé : $(4 \\times 6)/2 = 12$.",
-      "solution": "$$\\mathcal{A} = 96 - 12 = 84\\text{ cm}^2$$",
+      "answer": "1571",
+      "placeholder": "Ex: 1571",
+      "hint1": "Calcule le volume en $\\text{m}^3$ : $\\mathcal{V} = \\pi \\times 0,5^2 \\times 2$.",
+      "hint2": "$\\mathcal{V} = 0,5\\pi\\text{ m}^3 \\approx 1,5708\\text{ m}^3$. Convertis ensuite en litres.",
+      "solution": "1. Volume : $\\mathcal{V} = \\pi \\times 0,5^2 \\times 2 = \\pi \\times 0,25 \\times 2 = 0,5\\pi\\text{ m}^3 \\approx 1,5708\\text{ m}^3$.\n2. Conversion : $1\\text{ m}^3 = 1\\,000\\text{ dm}^3 = 1\\,000\\text{ L}$, donc $\\mathcal{V} \\approx 1,5708 \\times 1\\,000 = 1\\,570,8\\text{ L}$.\n3. La citerne contient environ **1 571 litres**.",
       "skill": "Résoudre"
     }
   ],
@@ -1475,7 +1506,7 @@ window.MATHS_EXERCISES_5E = {
     "id": "5N5-3",
     "chapterId": "5N5",
     "tier": 3,
-    "title": "Tester une égalité",
+    "title": "Tester une égalité : $2x + 7 = 19$",
     "statement": "On considère l'égalité $2x + 7 = 19$. Le nombre 6 est-il solution de cette équation ?",
     "type": "mcq",
     "options": [
@@ -1499,7 +1530,7 @@ window.MATHS_EXERCISES_5E = {
     "id": "5N5-3b",
     "chapterId": "5N5",
     "tier": 3,
-    "title": "Tester une égalité",
+    "title": "Tester une égalité : $4x - 5 = 11$",
     "statement": "On considère l'égalité $4x - 5 = 11$. Le nombre 3 est-il solution de cette équation ?",
     "type": "mcq",
     "options": [
@@ -1523,7 +1554,7 @@ window.MATHS_EXERCISES_5E = {
     "id": "5N5-3c",
     "chapterId": "5N5",
     "tier": 3,
-    "title": "Tester une égalité",
+    "title": "Tester une égalité : $3x + 4 = 25$",
     "statement": "On considère l'égalité $3x + 4 = 25$. Le nombre 6 est-il solution de cette équation ?",
     "type": "mcq",
     "options": [
@@ -1547,7 +1578,7 @@ window.MATHS_EXERCISES_5E = {
     "id": "5N5-3d",
     "chapterId": "5N5",
     "tier": 3,
-    "title": "Tester une égalité",
+    "title": "Tester une égalité : $5x - 8 = 27$",
     "statement": "On considère l'égalité $5x - 8 = 27$. Le nombre 7 est-il solution de cette équation ?",
     "type": "mcq",
     "options": [
@@ -1906,12 +1937,12 @@ window.MATHS_EXERCISES_5E = {
     "chapterId": "5P2",
     "tier": 3,
     "title": "Tarif avec partie fixe et variable",
-    "statement": "Un artisan facture un forfait fixe de déplacement de $30\\text{ €}$ plus $25\\text{ €}$ par heure travaillée $t$. Quel est le montant de la facture en € pour une intervention de $4\\text{ heures}$ ?",
+    "statement": "Un artisan facture un forfait fixe de déplacement de $30$ € plus $25$ € par heure travaillée $t$. Quel est le montant de la facture en € pour une intervention de $4\\text{ heures}$ ?",
     "type": "exact",
     "answer": "130",
     "placeholder": "Ex: 130",
     "hint1": "Prix $= 30 + 25 \\times t$.",
-    "solution": "$$\\text{Prix} = 30 + 25 \\times 4 = 30 + 100 = 130\\text{ €}$$",
+    "solution": "$$\\text{Prix} = 30 + 25 \\times 4 = 30 + 100 = 130\\text{ euros}$$",
     "skill": "Calculer"
   },
   {
@@ -1988,106 +2019,34 @@ window.MATHS_EXERCISES_5E = {
 window.MATHS_WORKSHEETS_5E = {
   "5N1": [
     {
-        "id": "5N1-devoir_maison",
-        "filename": "Fiche_5e_Priorites_Operatoires.md",
-        "type": "devoir_entrainement",
-        "title": "Fiche 5ème : Priorités opératoires & Nombres entiers",
-        "statement": `# Classe de 5ème — Mathématiques
-## Fiche d'entraînement : Priorités opératoires et divisibilité
-
-### Exercice 1 : Calculs sans calculatrice (6 points)
-Calculer en détaillant les étapes :
-1. $A = 12 + 3 \\times 7$
-2. $B = 35 - 5 \\times (4 + 2)$
-3. $C = 48 \\div 6 + 3 \\times 4 - 2$
-
-### Exercice 2 : Problème concret (4 points)
-Lucas achète 3 classeurs à 4,50 € l'un et 5 stylos à 1,20 € l'un. Il paye avec un billet de 50 €.
-1. Écrire une seule expression numérique permettant de calculer la monnaie rendue à Lucas.
-2. Effectuer le calcul.
-
----
-## Corrigé détaillé
-
-### Exercice 1
-1. $A = 12 + 21 = 33$.
-2. $B = 35 - 5 \\times 6 = 35 - 30 = 5$.
-3. $C = 8 + 12 - 2 = 20 - 2 = 18$.
-
-### Exercice 2
-1. Expression : $M = 50 - (3 \\times 4,50 + 5 \\times 1,20)$.
-2. $M = 50 - (13,50 + 6,00) = 50 - 19,50 = 30,50$ €.`,
-        "solution": ""
+      "id": "5N1-devoir_maison",
+      "filename": "Fiche_5e_Priorites_Operatoires.md",
+      "type": "devoir_entrainement",
+      "title": "Fiche 5ème : Priorités opératoires",
+      "statement": "# Classe de 5ème — Mathématiques\n## Fiche d'entraînement : Priorités opératoires et divisibilité\n\n### Exercice 1 : Calculs sans calculatrice (6 points)\nCalculer en détaillant les étapes :\n1. $A = 12 + 3 \\times 7$\n2. $B = 35 - 5 \\times (4 + 2)$\n3. $C = 48 \\div 6 + 3 \\times 4 - 2$\n\n### Exercice 2 : Problème concret (4 points)\nLucas achète 3 classeurs à 4,50 € l'un et 5 stylos à 1,20 € l'un. Il paye avec un billet de 50 €.\n1. Écrire une seule expression numérique permettant de calculer la monnaie rendue à Lucas.\n2. Effectuer le calcul.\n",
+      "solution": "## Corrigé détaillé\n\n### Exercice 1\n1. $A = 12 + 21 = 33$.\n2. $B = 35 - 5 \\times 6 = 35 - 30 = 5$.\n3. $C = 8 + 12 - 2 = 20 - 2 = 18$.\n\n### Exercice 2\n1. Expression : $M = 50 - (3 \\times 4{,}50 + 5 \\times 1{,}20)$.\n2. $M = 50 - (13{,}50 + 6{,}00) = 50 - 19{,}50 = 30{,}50$ €."
     }
-],
+  ],
   "5N2": [
     {
-        "id": "5N2-devoir_relatifs",
-        "filename": "Fiche_5e_Nombres_Relatifs.md",
-        "type": "devoir_entrainement",
-        "title": "Fiche 5ème : Nombres relatifs et repérage",
-        "statement": `# Classe de 5ème — Mathématiques
-## Fiche d'entraînement : Nombres relatifs et opérations
-
-### Exercice 1 : Comparaison et repérage (4 points)
-1. Ranger par ordre croissant : $-5 \\quad ; \\quad +3{,}2 \\quad ; \\quad -8{,}5 \\quad ; \\quad 0 \\quad ; \\quad -1{,}2 \\quad ; \\quad +4$.
-2. Donner l'opposé et la distance à zéro de chacun des nombres : $-7{,}4$ et $+5$.
-
-### Exercice 2 : Additions et soustractions (6 points)
-Calculer en détaillant les étapes de calcul :
-1. $A = (-8) + (+15)$
-2. $B = (-12) + (-9)$
-3. $C = (+7) - (-11)$
-4. $D = (-14) - (+6)$
-
----
-## Corrigé détaillé
-
-### Exercice 1
-1. Ordre croissant : $-8{,}5 < -5 < -1{,}2 < 0 < +3{,}2 < +4$.
-2. Pour $-7{,}4$ : opposé $= +7{,}4$, distance à zéro $= 7{,}4$.
-Pour $+5$ : opposé $= -5$, distance à zéro $= 5$.
-
-### Exercice 2
-1. $A = +(15 - 8) = 7$.
-2. $B = -(12 + 9) = -21$.
-3. $C = 7 + 11 = 18$.
-4. $D = -14 + (-6) = -20$.`,
-        "solution": ""
+      "id": "5N2-devoir_relatifs",
+      "filename": "Fiche_5e_Nombres_Relatifs.md",
+      "type": "devoir_entrainement",
+      "title": "Fiche 5ème : Nombres relatifs et repérage",
+      "statement": "# Classe de 5ème — Mathématiques\n## Fiche d'entraînement : Nombres relatifs et opérations\n\n### Exercice 1 : Comparaison et repérage (4 points)\n1. Ranger par ordre croissant : $-5 \\quad ; \\quad +3{,}2 \\quad ; \\quad -8{,}5 \\quad ; \\quad 0 \\quad ; \\quad -1{,}2 \\quad ; \\quad +4$.\n2. Donner l'opposé et la distance à zéro de chacun des nombres : $-7{,}4$ et $+5$.\n\n### Exercice 2 : Additions et soustractions (6 points)\nCalculer en détaillant les étapes de calcul :\n1. $A = (-8) + (+15)$\n2. $B = (-12) + (-9)$\n3. $C = (+7) - (-11)$\n4. $D = (-14) - (+6)$\n",
+      "solution": "## Corrigé détaillé\n\n### Exercice 1\n1. Ordre croissant : $-8{,}5 < -5 < -1{,}2 < 0 < +3{,}2 < +4$.\n2. Pour $-7{,}4$ : opposé $= +7{,}4$, distance à zéro $= 7{,}4$.\nPour $+5$ : opposé $= -5$, distance à zéro $= 5$.\n\n### Exercice 2\n1. $A = +(15 - 8) = 7$.\n2. $B = -(12 + 9) = -21$.\n3. $C = 7 + 11 = 18$.\n4. $D = -14 + (-6) = -20$."
     }
-],
+  ],
   "5G3": [
     {
-        "id": "5G3-devoir_angles",
-        "filename": "Fiche_5e_Angles_Triangles.md",
-        "type": "devoir_entrainement",
-        "title": "Fiche 5ème : Angles et triangles",
-        "statement": `# Classe de 5ème — Mathématiques
-## Fiche d'entraînement : Angles, parallélisme et triangles
-
-### Exercice 1 : Somme des angles d'un triangle (5 points)
-1. Dans un triangle $ABC$, on donne $\\widehat{A} = 48^\\circ$ et $\\widehat{B} = 72^\\circ$. Calculer la mesure de $\\widehat{C}$.
-2. Un triangle peut-il avoir des angles de $65^\\circ$, $45^\\circ$ et $75^\\circ$ ? Justifier soigneusement.
-
-### Exercice 2 : Angles alternes-internes (5 points)
-Deux droites parallèles $(d_1)$ et $(d_2)$ sont coupées par une sécante $(d)$. Un des angles alternes-internes mesure $56^\\circ$.
-1. Quelle est la mesure de l'autre angle alterne-interne ?
-2. Énoncer la propriété du cours qui justifie votre réponse.
-
----
-## Corrigé détaillé
-
-### Exercice 1
-1. Dans un triangle, la somme des trois angles vaut $180^\\circ$ :
-$$\\widehat{C} = 180^\\circ - (48^\\circ + 72^\\circ) = 180^\\circ - 120^\\circ = 60^\\circ$$
-2. Somme des angles proposés : $65^\\circ + 45^\\circ + 75^\\circ = 185^\\circ \\neq 180^\\circ$. Ce triangle ne peut pas être construit.
-
-### Exercice 2
-1. L'autre angle alterne-interne mesure également $56^\\circ$.
-2. Propriété : Si deux droites parallèles sont coupées par une sécante, alors les angles alternes-internes qu'elles forment ont la même mesure.`,
-        "solution": ""
+      "id": "5G3-devoir_angles",
+      "filename": "Fiche_5e_Angles_Triangles.md",
+      "type": "devoir_entrainement",
+      "title": "Fiche 5ème : Angles et triangles",
+      "statement": "# Classe de 5ème — Mathématiques\n## Fiche d'entraînement : Angles, parallélisme et triangles\n\n### Exercice 1 : Somme des angles d'un triangle (5 points)\n1. Dans un triangle $ABC$, on donne $\\widehat{A} = 48^\\circ$ et $\\widehat{B} = 72^\\circ$. Calculer la mesure de $\\widehat{C}$.\n2. Un triangle peut-il avoir des angles de $65^\\circ$, $45^\\circ$ et $75^\\circ$ ? Justifier soigneusement.\n\n### Exercice 2 : Angles alternes-internes (5 points)\nDeux droites parallèles $(d_1)$ et $(d_2)$ sont coupées par une sécante $(d)$. Un des angles alternes-internes mesure $56^\\circ$.\n1. Quelle est la mesure de l'autre angle alterne-interne ?\n2. Énoncer la propriété du cours qui justifie votre réponse.\n",
+      "solution": "## Corrigé détaillé\n\n### Exercice 1\n1. Dans un triangle, la somme des trois angles vaut $180^\\circ$ :\n$$\\widehat{C} = 180^\\circ - (48^\\circ + 72^\\circ) = 180^\\circ - 120^\\circ = 60^\\circ$$\n2. Somme des angles proposés : $65^\\circ + 45^\\circ + 75^\\circ = 185^\\circ \\neq 180^\\circ$. Ce triangle ne peut pas être construit.\n\n### Exercice 2\n1. L'autre angle alterne-interne mesure également $56^\\circ$.\n2. Propriété : Si deux droites parallèles sont coupées par une sécante, alors les angles alternes-internes qu'elles forment ont la même mesure."
     }
-]
+  ]
 };
 
 // Fusion automatique dans les registres globaux

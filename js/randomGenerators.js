@@ -49,26 +49,25 @@ window.MathsGenerators = {
     }
   },
 
-  clearRecentHistory() {
-    this._recentGeneratedStatements = {};
-    try {
-      if (typeof window !== 'undefined' && window.localStorage) {
-        window.localStorage.removeItem(this._recentStorageKey);
-      }
-    } catch (e) {}
-  },
-
   getPythagoreanTriple(allowDecimals = true) {
+    // Triplets « raisonnables » pour le collège : hypoténuse ≤ 60 (≤ 30 avec un facteur décimal),
+    // carrés calculables sans calculatrice lourde.
     const primitiveTriples = [
-      [3, 4, 5], [5, 12, 13], [8, 15, 17], [7, 24, 25],
-      [9, 40, 41], [11, 60, 61], [12, 35, 37], [20, 21, 29],
-      [16, 63, 65], [28, 45, 53], [33, 56, 65], [36, 77, 85]
+      [3, 4, 5], [5, 12, 13], [8, 15, 17], [7, 24, 25], [20, 21, 29], [9, 40, 41], [12, 35, 37]
     ];
-    const scales = allowDecimals 
-      ? [0.5, 1, 1.5, 2, 2.5, 3, 4, 5] 
-      : [1, 2, 3, 4, 5];
-    const base = this.randChoice(primitiveTriples);
-    const k = this.randChoice(scales);
+    const scales = allowDecimals
+      ? [0.5, 1, 1.5, 2, 2.5, 3, 4, 5, 6, 8, 10]
+      : [1, 2, 3, 4, 5, 6, 8, 10];
+    const pool = [];
+    for (const base of primitiveTriples) {
+      for (const k of scales) {
+        const c = base[2] * k;
+        if (c > 60) continue;
+        if (!Number.isInteger(k) && c > 30) continue;
+        pool.push([base, k]);
+      }
+    }
+    const [base, k] = this.randChoice(pool);
     const a = +(base[0] * k).toFixed(2);
     const b = +(base[1] * k).toFixed(2);
     const c = +(base[2] * k).toFixed(2);
@@ -186,6 +185,129 @@ window.MathsGenerators = {
     return parts.length ? parts.join(' ') : '0';
   },
 
+  /**
+   * Coefficient devant une lettre en tête d'expression : 1 → "", -1 → "-", 3 → "3".
+   * (formatCoef(1) + 'x' = "x", formatCoef(-1) + 'x' = "-x")
+   */
+  formatCoef(a) {
+    if (a === 1) return '';
+    if (a === -1) return '-';
+    return this.formatDecimal(a);
+  },
+
+  /**
+   * Arrondit un flottant pour supprimer le bruit binaire (0.1 + 0.2 → 0.3).
+   */
+  roundNum(x, digits = 10) {
+    if (!Number.isFinite(x)) return x;
+    return +(+x).toFixed(digits);
+  },
+
+  /**
+   * Écriture décimale française : virgule en LaTeX (`{,}`) ou en texte (`,`).
+   * formatDecimal(2.5) → "2{,}5" ; formatDecimal(2.5, { text: true }) → "2,5" ;
+   * maxDecimals arrondit (sans zéros inutiles).
+   */
+  formatDecimal(x, opts = {}) {
+    const { text = false, maxDecimals = 10 } = opts;
+    if (typeof x === 'string') x = parseFloat(x.replace(',', '.'));
+    if (!Number.isFinite(x)) return String(x);
+    const v = +x.toFixed(maxDecimals);
+    const s = String(Object.is(v, -0) ? 0 : v);
+    if (/e/i.test(s)) return s;
+    return s.replace('.', text ? ',' : '{,}');
+  },
+
+  /**
+   * Résultat d'une division pour un calcul affiché : "= 2{,}5" si le quotient est décimal exact
+   * (au plus `dec` décimales), sinon "\\approx 2{,}33" (arrondi au centième par défaut).
+   */
+  eqOrApprox(num, den, dec = 2) {
+    const v = num / den;
+    const r = this.roundNum(v, dec);
+    return Math.abs(r - v) < 1e-9 ? `= ${this.formatDecimal(r)}` : `\\approx ${this.formatDecimal(r)}`;
+  },
+
+  /**
+   * Entier avec séparateur de milliers LaTeX : 40000 → "40\\,000".
+   */
+  formatThousands(n) {
+    const sign = n < 0 ? '-' : '';
+    return sign + String(Math.abs(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '\\,');
+  },
+
+  /**
+   * Réponse attendue (saisie élève) pour une fraction : forme irréductible "n/d" ou entier "n".
+   */
+  fracAnswer(num, den) {
+    const [n, d] = this.simplifyFraction(num, den);
+    return d === 1 ? `${n}` : `${n}/${d}`;
+  },
+
+  /**
+   * Filet de sécurité typographique appliqué à toutes les questions générées :
+   *  - dans les formules ($…$) : "+ -3" → "- 3", "- -3" → "+ 3", "1x" → "x", "x^1" → "x", "2.5" → "2{,}5" ;
+   *  - dans le texte : "2.5" → "2,5" (les balises HTML/SVG ne sont pas modifiées).
+   * Le champ `answer` des questions à saisie n'est pas converti en virgule (le validateur accepte les deux).
+   */
+  _polishMath(tex) {
+    let s = tex;
+    // Signes consécutifs (hors flèches "-->")
+    s = s.replace(/\+\s*-\s*(?!>)/g, '- ').replace(/-\s*-\s*(?!>)/g, '+ ').replace(/\+\s*\+\s*/g, '+ ').replace(/-\s*\+\s*/g, '- ');
+    // Coefficient 1 devant une variable
+    s = s.replace(/(^|[\s(\[=+\-])1([xyn])(?![a-zA-Z])/g, '$1$2');
+    // Exposant 1 sur une lettre
+    s = s.replace(/([a-zA-Z])\^\{1\}(?![\d])/g, '$1').replace(/([a-zA-Z])\^1(?![\d{])/g, '$1');
+    // Point décimal → virgule française
+    s = s.replace(/(\d)\.(\d)/g, '$1{,}$2');
+    return s;
+  },
+
+  _polishText(str) {
+    if (typeof str !== 'string' || !str) return str;
+    const re = /(<svg[\s\S]*?<\/svg>)|(<[^>]*>|```[\s\S]*?```|`[^`\n]*`)|(\$\$[\s\S]*?\$\$)|(\$[^$]*?\$)/g;
+    let out = '';
+    let last = 0;
+    let m;
+    const fixText = (t) => t.replace(/(\d)\.(\d)/g, '$1,$2');
+    while ((m = re.exec(str))) {
+      out += fixText(str.slice(last, m.index));
+      if (m[1]) {
+        // SVG : on ne corrige que les nœuds texte
+        out += m[1].replace(/>([^<]*)</g, (mm, txt) => '>' + fixText(txt) + '<');
+      } else if (m[2]) {
+        // balise HTML ou bloc de code (Python…) : inchangé
+        out += m[2];
+      } else if (m[3]) {
+        out += '$$' + this._polishMath(m[3].slice(2, -2)) + '$$';
+      } else {
+        out += '$' + this._polishMath(m[4].slice(1, -1)) + '$';
+      }
+      last = m.index + m[0].length;
+    }
+    out += fixText(str.slice(last));
+    return out;
+  },
+
+  _polishQuestion(q) {
+    if (!q || typeof q !== 'object') return q;
+    for (const f of ['statement', 'solution', 'hint1', 'hint2', 'hint3', 'title']) {
+      if (typeof q[f] === 'string') q[f] = this._polishText(q[f]);
+    }
+    if (Array.isArray(q.hints)) q.hints = q.hints.map(h => this._polishText(h));
+    if (Array.isArray(q.explanations)) q.explanations = q.explanations.map(e => this._polishText(e));
+    if (Array.isArray(q.options)) {
+      const ans = q.answer;
+      const ci = (q.correctIndex !== undefined) ? q.correctIndex : q.options.indexOf(ans);
+      q.options = q.options.map(o => this._polishText(o));
+      if (q.choices) q.choices = q.options;
+      if (q.type === 'mcq' && ci >= 0 && ans !== undefined) q.answer = q.options[ci];
+    } else if (typeof q.answer === 'string' && q.answer.includes('$')) {
+      q.answer = this._polishText(q.answer);
+    }
+    return q;
+  },
+
   resolveTier(tier) {
     const t = parseInt(tier, 10);
     return (t >= 1 && t <= 4) ? t : 1;
@@ -229,22 +351,6 @@ window.MathsGenerators = {
       return gf.drawTrigTriangle(opts);
     }
     return '';
-  },
-
-  renderRightTriangle(opts = {}) {
-    const gf = (typeof window !== 'undefined' && window.GeometryFigures) || (typeof GeometryFigures !== 'undefined' ? GeometryFigures : null);
-    if (gf && typeof gf.drawRightTriangle === 'function') {
-      return gf.drawRightTriangle(opts);
-    }
-    return this.buildRightTriangleSvg(opts);
-  },
-
-  renderThalesFigure(opts = {}) {
-    const gf = (typeof window !== 'undefined' && window.GeometryFigures) || (typeof GeometryFigures !== 'undefined' ? GeometryFigures : null);
-    if (gf && typeof gf.drawThalesFigure === 'function') {
-      return gf.drawThalesFigure(opts);
-    }
-    return this.buildThalesEmboiteSvg(opts);
   },
 
   buildRightTriangleSvg({
@@ -610,55 +716,6 @@ window.MathsGenerators = {
       `  ${this.buildSvgPill(206, 135, `l = ${l} cm`, false)}\n` +
       `  ${this.buildSvgPill(202, 75, `h = ${h} cm`, false)}\n` +
       `  ${this.buildSvgPill(130, 95, `AG = ?`, true)}\n` +
-      `</svg>\n</div>\n\n`;
-  },
-
-  buildRectangleDiagonalSvg({ L = 80, H = 60, d = '?', unit = 'cm' }) {
-    const w = 270;
-    const h = 175;
-    const uSuffix = unit ? ` ${unit}` : '';
-    const p1 = { x: 45, y: 135 };
-    const p2 = { x: 225, y: 135 };
-    const p3 = { x: 225, y: 45 };
-    const p4 = { x: 45, y: 45 };
-
-    return `<div class="geo-figure-wrapper" style="text-align:center; margin:12px 0;">\n` +
-      `<svg class="geo-svg-figure" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" style="max-width:270px; width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg">\n` +
-      `  <rect x="${p4.x}" y="${p4.y}" width="${p2.x - p1.x}" height="${p1.y - p4.y}" fill="rgba(59, 130, 246, 0.05)" stroke="var(--text-main, #334155)" stroke-width="2" rx="2" />\n` +
-      `  <line x1="${p1.x}" y1="${p1.y}" x2="${p3.x}" y2="${p3.y}" stroke="#ef4444" stroke-width="2.2" stroke-dasharray="4,3" stroke-linecap="round" />\n` +
-      `  <path d="M ${p2.x - 12},${p2.y} L ${p2.x - 12},${p2.y - 12} L ${p2.x},${p2.y - 12}" fill="rgba(37, 99, 235, 0.15)" stroke="var(--primary, #2563eb)" stroke-width="1.6" />\n` +
-      `  ${this.buildSvgPill(135, 154, `${L}${uSuffix}`, false)}\n` +
-      `  ${this.buildSvgPill(242, 90, `${H}${uSuffix}`, false)}\n` +
-      `  ${this.buildSvgPill(135, 80, `d = ?`, true)}\n` +
-      `</svg>\n</div>\n\n`;
-  },
-
-  buildCubeDiagonalSvg({ a = 4, unit = 'cm' }) {
-    const w = 270;
-    const h = 175;
-    const uSuffix = unit ? ` ${unit}` : '';
-
-    const A = { x: 60, y: 135 };
-    const B = { x: 160, y: 135 };
-    const F = { x: 160, y: 55 };
-    const E = { x: 60, y: 55 };
-
-    const D_pt = { x: 105, y: 110 };
-    const C = { x: 205, y: 110 };
-    const G = { x: 205, y: 30 };
-    const H = { x: 105, y: 30 };
-
-    return `<div class="geo-figure-wrapper" style="text-align:center; margin:12px 0;">\n` +
-      `<svg class="geo-svg-figure" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" style="max-width:270px; width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg">\n` +
-      `  <line x1="${A.x}" y1="${A.y}" x2="${D_pt.x}" y2="${D_pt.y}" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="3,3" />\n` +
-      `  <line x1="${D_pt.x}" y1="${D_pt.y}" x2="${C.x}" y2="${C.y}" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="3,3" />\n` +
-      `  <line x1="${D_pt.x}" y1="${D_pt.y}" x2="${H.x}" y2="${H.y}" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="3,3" />\n` +
-      `  <line x1="${A.x}" y1="${A.y}" x2="${G.x}" y2="${G.y}" stroke="#ef4444" stroke-width="2.2" stroke-dasharray="4,3" />\n` +
-      `  <polygon points="${A.x},${A.y} ${B.x},${B.y} ${F.x},${F.y} ${E.x},${E.y}" fill="rgba(59, 130, 246, 0.05)" stroke="var(--text-main, #334155)" stroke-width="1.8" />\n` +
-      `  <polygon points="${E.x},${E.y} ${F.x},${F.y} ${G.x},${G.y} ${H.x},${H.y}" fill="rgba(59, 130, 246, 0.08)" stroke="var(--text-main, #334155)" stroke-width="1.8" />\n` +
-      `  <polygon points="${B.x},${B.y} ${C.x},${C.y} ${G.x},${G.y} ${F.x},${F.y}" fill="rgba(59, 130, 246, 0.03)" stroke="var(--text-main, #334155)" stroke-width="1.8" />\n` +
-      `  ${this.buildSvgPill(110, 150, `a = ${a}${uSuffix}`, false)}\n` +
-      `  ${this.buildSvgPill(130, 85, `D = ?`, true)}\n` +
       `</svg>\n</div>\n\n`;
   },
 
@@ -1131,7 +1188,7 @@ window.MathsGenerators = {
         const resA = k * a;
         const resConst = k * bVal;
         const wrongCoeffA = (k + a === resA) ? (k + a + 1) : (k + a);
-        const correctText = `$${resA}x ${this.formatSigned(resConst)}$`;
+        const correctText = `$${this.formatPoly([resA, resConst])}$`;
         return {
           chapterId: 'N2',
           tier: 1,
@@ -1152,7 +1209,7 @@ window.MathsGenerators = {
             `Il n'y a pas de terme au carré $x^2$ ici.`
           ],
           hint1: `Distribue le facteur $${k}$ sur chacun des deux termes dans la parenthèse.`,
-          solution: `$$A = ${k} \\times ${a}x + ${k} \\times (${bVal}) = ${resA}x ${this.formatSigned(resConst)}$$`
+          solution: `$$A = ${k} \\times ${a}x + ${k} \\times (${bVal}) = ${this.formatPoly([resA, resConst])}$$`
         };
       } else if (subType === 'distrib_neg') {
         const k = this.randInt(2, 9);
@@ -1162,7 +1219,7 @@ window.MathsGenerators = {
         const bVal = sign === '+' ? b : -b;
         const resA = -k * a;
         const resConst = -k * bVal;
-        const correctText = `$${resA}x ${this.formatSigned(resConst)}$`;
+        const correctText = `$${this.formatPoly([resA, resConst])}$`;
         return {
           chapterId: 'N2',
           tier: 1,
@@ -1172,7 +1229,7 @@ window.MathsGenerators = {
           options: [
             correctText,
             `$${resA}x ${sign} ${b}$`,
-            `$${k * a}x ${this.formatSigned(-resConst)}$`,
+            `$${this.formatPoly([k * a, -resConst])}$`,
             `$${resA}x^2 ${this.formatSigned(resConst)}$`
           ],
           correctIndex: 0,
@@ -1183,7 +1240,7 @@ window.MathsGenerators = {
             `Pas de $x^2$ ici.`
           ],
           hint1: `Distribue le nombre négatif $-${k}$ sur chaque terme en faisant attention aux signes.`,
-          solution: `$$B = (-${k}) \\times ${a}x + (-${k}) \\times (${bVal}) = ${resA}x ${this.formatSigned(resConst)}$$`
+          solution: `$$B = (-${k}) \\times ${a}x + (-${k}) \\times (${bVal}) = ${this.formatPoly([resA, resConst])}$$`
         };
       } else if (subType === 'reduc_sum') {
         const a = this.randInt(2, 9);
@@ -1222,7 +1279,7 @@ window.MathsGenerators = {
         const d = this.randInt(1, 15);
         const resA = a - c;
         const resConst = b - d;
-        const correctText = `$${resA}x ${this.formatSigned(resConst)}$`;
+        const correctText = `$${this.formatPoly([resA, resConst])}$`;
         return {
           chapterId: 'N2',
           tier: 1,
@@ -1232,7 +1289,7 @@ window.MathsGenerators = {
           options: [
             correctText,
             `$${resA}x + ${b + d}$`,
-            `$${a + c}x ${this.formatSigned(resConst)}$`,
+            `$${this.formatPoly([a + c, resConst])}$`,
             `$${resA}x - ${d}$`
           ],
           correctIndex: 0,
@@ -1243,7 +1300,7 @@ window.MathsGenerators = {
             `N'oublie pas le terme $${b}$.`
           ],
           hint1: "Le signe moins devant une parenthèse inverse tous les signes à l'intérieur de celle-ci.",
-          solution: `$$D = ${a}x + ${b} - ${c}x - ${d} = (${a} - ${c})x + (${b} - ${d}) = ${resA}x ${this.formatSigned(resConst)}$$`
+          solution: `$$D = ${a}x + ${b} - ${c}x - ${d} = (${a} - ${c})x + (${b} - ${d}) = ${this.formatPoly([resA, resConst])}$$`
         };
       } else {
         const a = this.randInt(2, 9);
@@ -1259,7 +1316,6 @@ window.MathsGenerators = {
           statement: `On donne l'expression $E = ${a}x ${sign} ${b}$.\n**Calculer la valeur de $E$ pour $x = ${xVal}$ :**`,
           type: 'exact',
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: `Remplace $x$ par $${xVal}$ dans l'expression : $${a} \\times (${xVal}) ${sign} ${b}$.`,
           solution: `$$E = ${a} \\times (${xVal}) ${sign} ${b} = ${a * xVal} ${bVal >= 0 ? '+ ' + bVal : '- ' + Math.abs(bVal)} = ${ans}$$`
         };
@@ -1427,10 +1483,13 @@ window.MathsGenerators = {
       };
     } else {
       // Palier 4 : DÉFI SECONDE / DIFFICULTÉ MAXIMALE (Différence de deux carrés complète (ax+b)^2 - (cx+d)^2)
-      const a = this.randInt(2, 6);
-      const b = this.randInt(1, 8);
-      const c = this.randInt(1, a - 1); // garantit a > c pour x^2 > 0
-      const d = this.randInt(1, 8);
+      let a, b, c, d;
+      do {
+        a = this.randInt(2, 6);
+        b = this.randInt(1, 8);
+        c = this.randInt(1, a - 1); // garantit a > c pour x^2 > 0
+        d = this.randInt(1, 8);
+      } while (a * b === c * d || b === d); // termes en x et constant non nuls (options distinctes)
 
       // A = (ax + b)^2 - (cx + d)^2
       // = (a^2 - c^2)x^2 + 2(a*b - c*d)x + (b^2 - d^2)
@@ -1447,9 +1506,9 @@ window.MathsGenerators = {
         type: 'mcq',
         options: [
           correctStr,
-          `$${coeffX2}x^2 + ${coeffConst}$`,
-          `$${a * a + c * c}x^2 + ${2 * (a * b + c * d)}x + ${b * b + d * d}$`,
-          `$${coeffX2}x^2 + ${2 * a * b}x + ${b * b - d * d}$`
+          `$${this.formatPoly([coeffX2, 0, coeffConst])}$`,
+          `$${this.formatPoly([a * a + c * c, 2 * (a * b + c * d), b * b + d * d])}$`,
+          `$${this.formatPoly([coeffX2, 2 * a * b, b * b - d * d])}$`
         ],
         correctIndex: 0,
         explanations: [
@@ -1581,14 +1640,14 @@ window.MathsGenerators = {
           options: [
             correctStr,
             `$${a}x$`,
-            `$${a}(x ${sign} 0)$`,
+            `$${a}(x ${sign} ${a})$`,
             `$${a}(x ${oppSign} 1)$`
           ],
           correctIndex: 0,
           explanations: [
             `Excellent ! $${a} = ${a} \\times 1$. Lorsqu'on factorise par $${a}$, il reste le terme $+1$ ou $-1$.`,
             `Erreur classique : si on remplace $${a}$ par rien, on perd un terme ! En redéveloppant $${a}x$, on ne retrouve pas l'expression initiale.`,
-            `$${a} \\times 0 = 0$, ce n'est pas égal à $${a}$.`,
+            `En développant, on obtiendrait $${a}x ${sign} ${a * a}$ : il faut diviser chaque terme par $${a}$, et $${a} \\div ${a} = 1$.`,
             `Attention au signe intérieur.`
           ],
           hint1: `Rappelle-toi que $${a} = ${a} \\times 1$. Ne fais pas disparaître le deuxième terme !`,
@@ -1627,8 +1686,8 @@ window.MathsGenerators = {
         };
       } else if (subType === 'carre_ax') {
         const a = this.randInt(2, 9);
-        let b = this.randInt(1, 15);
-        while (this.gcd(a, b) > 1) { b = this.randInt(1, 15); }
+        let b = this.randInt(2, 15);
+        while (this.gcd(a, b) > 1) { b = this.randInt(2, 15); }
         const a2 = a * a;
         const b2 = b * b;
         const correctStr = `$(${a}x - ${b})(${a}x + ${b})$`;
@@ -1707,7 +1766,7 @@ window.MathsGenerators = {
 
         const sumCoeffX = c + e;
         const sumConst = dVal + fVal;
-        const reducedP2 = `${sumCoeffX === 1 ? '' : sumCoeffX}x ${this.formatSigned(sumConst)}`;
+        const reducedP2 = `${this.formatPoly([sumCoeffX, sumConst])}`;
         const correctStr = `$(${commonStr})(${reducedP2})$`;
 
         return {
@@ -1719,8 +1778,8 @@ window.MathsGenerators = {
           options: [
             correctStr,
             `$(${commonStr})^2(${reducedP2})$`,
-            `$(${commonStr})(${c + e}x ${this.formatSigned(dVal - fVal)})$`,
-            `$(${commonStr})(${Math.abs(c - e)}x ${this.formatSigned(sumConst)})$`
+            `$(${commonStr})(${this.formatPoly([c + e, dVal - fVal])})$`,
+            `$(${commonStr})(${this.formatPoly([Math.abs(c - e) || c + e + 1, sumConst])})$`
           ],
           correctIndex: 0,
           explanations: [
@@ -1731,7 +1790,7 @@ window.MathsGenerators = {
           ],
           hint1: `Souligne le bloc commun $(${commonStr})$ présent dans les deux termes, puis ouvre un grand crochet.`,
           hint2: `Rassemble : $(${commonStr}) [ (${c === 1 ? '' : c}x ${signD} ${d}) + (${e === 1 ? '' : e}x ${signF} ${f}) ]$, puis réduis l'intérieur.`,
-          solution: `$$H = (${commonStr}) [ (${c === 1 ? '' : c}x ${signD} ${d}) + (${e === 1 ? '' : e}x ${signF} ${f}) ]$$\n$$H = (${commonStr}) (${c === 1 ? '' : c}x + ${e === 1 ? '' : e}x ${this.formatSigned(dVal)} ${this.formatSigned(fVal)}) = (${commonStr})(${reducedP2})$$`
+          solution: `$$H = (${commonStr}) [ (${c === 1 ? '' : c}x ${signD} ${d}) + (${e === 1 ? '' : e}x ${signF} ${f}) ]$$\n$$H = (${commonStr}) (${c === 1 ? '' : c}x + ${this.formatPoly([e, dVal])} ${this.formatSigned(fVal)}) = (${commonStr})(${reducedP2})$$`
         };
       } else if (op === 'moins') {
         const c = this.randInt(3, 7);
@@ -1746,11 +1805,11 @@ window.MathsGenerators = {
 
         const diffCoeffX = c - e;
         const diffConst = dVal - fVal;
-        const reducedP2 = `${diffCoeffX === 1 ? '' : diffCoeffX}x ${this.formatSigned(diffConst)}`;
+        const reducedP2 = `${this.formatPoly([diffCoeffX, diffConst])}`;
         const correctStr = `$(${commonStr})(${reducedP2})$`;
         // Piège classique : oublier de changer le signe de fVal
         const wrongConst = dVal + fVal;
-        const wrongP2 = `${diffCoeffX === 1 ? '' : diffCoeffX}x ${this.formatSigned(wrongConst)}`;
+        const wrongP2 = `${this.formatPoly([diffCoeffX, wrongConst])}`;
 
         return {
           chapterId: 'N2bis',
@@ -1762,7 +1821,7 @@ window.MathsGenerators = {
             correctStr,
             `$(${commonStr})(${wrongP2})$`,
             `$(${commonStr})^2(${reducedP2})$`,
-            `$(${commonStr})(${c + e}x ${this.formatSigned(diffConst)})$`
+            `$(${commonStr})(${this.formatPoly([c + e, diffConst])})$`
           ],
           correctIndex: 0,
           explanations: [
@@ -1783,7 +1842,7 @@ window.MathsGenerators = {
 
         const sumCoeffX = a + c;
         const sumConst = bVal + dVal;
-        const reducedP2 = `${sumCoeffX === 1 ? '' : sumCoeffX}x ${this.formatSigned(sumConst)}`;
+        const reducedP2 = `${this.formatPoly([sumCoeffX, sumConst])}`;
         const correctStr = `$(${commonStr})(${reducedP2})$`;
 
         return {
@@ -1796,7 +1855,7 @@ window.MathsGenerators = {
             correctStr,
             `$(${commonStr})(${c === 1 ? '' : c}x ${signD} ${d})$`,
             `$(${commonStr})^2(1 + ${c === 1 ? '' : c}x ${signD} ${d})$`,
-            `$(${commonStr})(${a + c}x ${this.formatSigned(bVal - dVal)})$`
+            `$(${commonStr})(${this.formatPoly([a + c, bVal - dVal])})$`
           ],
           correctIndex: 0,
           explanations: [
@@ -1823,8 +1882,8 @@ window.MathsGenerators = {
 
         const part1Const = bVal - c;
         const part2Const = bVal + c;
-        const part1Str = `${a}x ${this.formatSigned(part1Const)}`;
-        const part2Str = `${a}x ${this.formatSigned(part2Const)}`;
+        const part1Str = `${this.formatPoly([a, part1Const])}`;
+        const part2Str = `${this.formatPoly([a, part2Const])}`;
         const correctStr = `$(${part1Str})(${part2Str})$`;
 
         return {
@@ -1835,13 +1894,13 @@ window.MathsGenerators = {
           type: 'mcq',
           options: [
             correctStr,
-            `$(${a}x ${this.formatSigned(bVal - c2)})(${a}x ${this.formatSigned(bVal + c2)})$`,
-            `$(${a}x ${signB} ${b - c})^2$`,
-            `$${a * a}x^2 ${this.formatSigned(2 * a * bVal)}x ${this.formatSigned(bVal * bVal - c2)}$`
+            `$(${this.formatPoly([a, bVal - c2])})(${this.formatPoly([a, bVal + c2])})$`,
+            `$(${this.formatPoly([a, bVal - c])})^2$`,
+            `$${this.formatPoly([a * a, 2 * a * bVal, bVal * bVal - c2])}$`
           ],
           correctIndex: 0,
           explanations: [
-            `Brillant ! Forme $u^2 - v^2 = (u - v)(u + v)$ avec $u = (${a}x ${signB} ${b})$ et $v = ${c}$ (car ${c2} = ${c}^2).`,
+            `Brillant ! Forme $u^2 - v^2 = (u - v)(u + v)$ avec $u = (${a}x ${signB} ${b})$ et $v = ${c}$ (car $${c2} = ${c}^2$).`,
             `Attention, $${c2} = ${c}^2$, c'est $${c}$ qu'il faut retrancher et ajouter, pas $${c2}$.`,
             `Ce n'est pas un carré d'une différence.`,
             `C'est la forme développée, pas la forme factorisée !`
@@ -1869,13 +1928,13 @@ window.MathsGenerators = {
         const part2X = a + c;
         const part2Const = bVal + dVal;
 
-        const part1Str = `${part1X === 1 ? '' : part1X}x ${this.formatSigned(part1Const)}`;
-        const part2Str = `${part2X === 1 ? '' : part2X}x ${this.formatSigned(part2Const)}`;
+        const part1Str = `${this.formatPoly([part1X, part1Const])}`;
+        const part2Str = `${this.formatPoly([part2X, part2Const])}`;
         const correctStr = `$(${part1Str})(${part2Str})$`;
 
         // Distracteur classique : erreur de signe dans u - v
         const wrongPart1Const = bVal + dVal;
-        const wrongPart1Str = `${part1X === 1 ? '' : part1X}x ${this.formatSigned(wrongPart1Const)}`;
+        const wrongPart1Str = `${this.formatPoly([part1X, wrongPart1Const])}`;
 
         return {
           chapterId: 'N2bis',
@@ -1887,7 +1946,7 @@ window.MathsGenerators = {
             correctStr,
             `$(${wrongPart1Str})(${part2Str})$`,
             `$(${part1Str})^2$`,
-            `$${a * a - c * c}x^2 ${this.formatSigned(bVal * bVal - dVal * dVal)}$`
+            `$${this.formatPoly([a * a - c * c, 0, bVal * bVal - dVal * dVal])}$`
           ],
           correctIndex: 0,
           explanations: [
@@ -1976,22 +2035,23 @@ window.MathsGenerators = {
           statement: `Calculer la valeur exacte du nombre :\n$$N = (${c.a})^{${c.n}}$$`,
           type: 'exact',
           answer: String(c.ans),
-          placeholder: `Ex: ${c.ans}`,
           hint1: `Élève $${c.a}$ à la puissance ${c.n} ($${c.n}$ facteurs égaux à $${c.a}$).`,
           solution: `$$(${c.a})^{${c.n}} = ${c.ans}$$`
         };
       } else {
         const prefixes = [
-          { name: "kilo (k)", exp: "10^3" },
-          { name: "méga (M)", exp: "10^6" },
-          { name: "giga (G)", exp: "10^9" },
-          { name: "milli (m)", exp: "10^-3" },
-          { name: "micro (µ)", exp: "10^-6" },
-          { name: "nano (n)", exp: "10^-9" }
+          { name: "kilo (k)", e: 3 },
+          { name: "méga (M)", e: 6 },
+          { name: "giga (G)", e: 9 },
+          { name: "milli (m)", e: -3 },
+          { name: "micro (µ)", e: -6 },
+          { name: "nano (n)", e: -9 }
         ];
         const p = this.randChoice(prefixes);
-        const wrongChoices = prefixes.filter(x => x.name !== p.name).map(x => x.exp);
-        const opts = this.shuffle([p.exp, ...this.shuffle(wrongChoices).slice(0, 3)]);
+        const texOf = (e) => `$10^{${e}}$`;
+        const good = texOf(p.e);
+        const wrongChoices = prefixes.filter(x => x.name !== p.name).map(x => texOf(x.e));
+        const opts = this.shuffle([good, ...this.shuffle(wrongChoices).slice(0, 3)]);
         return {
           chapterId: 'N3',
           tier: 1,
@@ -1999,10 +2059,10 @@ window.MathsGenerators = {
           statement: `À quelle puissance de 10 correspond le préfixe **${p.name}** ?`,
           type: 'mcq',
           options: opts,
-          answer: p.exp,
-          correctIndex: opts.indexOf(p.exp),
+          answer: good,
+          correctIndex: opts.indexOf(good),
           hint1: "Rappel : kilo = mille ($10^3$), méga = million ($10^6$), milli = millième ($10^{-3}$)...",
-          solution: `Le préfixe **${p.name}** correspond à **$${p.exp}$**.`
+          solution: `Le préfixe **${p.name}** correspond à **${good}**.`
         };
       }
     } else if (t === 2) {
@@ -2036,7 +2096,6 @@ window.MathsGenerators = {
           statement: `Écrire sous la forme d'une seule puissance de 10 : $10^n$ :\n$$E = \\frac{10^{${a}} \\times 10^{${b}}}{10^{${c}}}$$`,
           type: 'exact',
           answer: `10^${ansExp}`,
-          placeholder: `Ex: 10^${ansExp}`,
           hint1: `Garde la fraction entière : $E = \\frac{10^{${a}} \\times 10^{${b}}}{10^{${c}}} = \\frac{10^{${a + b}}}{10^{${c}}} = 10^{${a + b} - (${c})}$.`,
           solution: `$$E = \\frac{10^{${a + b}}}{10^{${c}}} = 10^{${a + b} - (${c})} = 10^{${ansExp}}$$`
         };
@@ -2052,7 +2111,6 @@ window.MathsGenerators = {
           statement: `Écrire sous la forme $10^k$ :\n$$F = \\frac{(10^{${a}})^{${b}}}{10^{${c}}}$$`,
           type: 'exact',
           answer: `10^${ansExp}`,
-          placeholder: `Ex: 10^${ansExp}`,
           hint1: `Calcule $(10^{${a}})^{${b}} = 10^{${a} \\times ${b}} = 10^{${a * b}}$, puis soustrais ${c}.`,
           solution: `$$F = \\frac{10^{${a * b}}}{10^{${c}}} = 10^{${a * b} - ${c}} = 10^{${ansExp}}$$`
         };
@@ -2068,36 +2126,44 @@ window.MathsGenerators = {
           statement: `Écrire sous la forme $${base}^k$.\n**Quelle est la valeur de l'exposant $k$ pour le calcul :**\n$$${base}^{${a}} \\times ${base}^{${b}}$$`,
           type: 'exact',
           answer: String(sum),
-          placeholder: `Ex: ${sum}`,
           hint1: "Règle : pour tout nombre $a$ non nul, $a^n \\times a^m = a^{n + m}$.",
           solution: `$$${base}^{${a}} \\times ${base}^{${b}} = ${base}^{${a} + ${b}} = ${base}^{${sum}} \\implies k = ${sum}$$`
         };
       }
     } else if (t === 3) {
-      // Palier 3 : Brevet (Calcul scientifique type DNB)
-      const a = this.randChoice([3, 4, 6]);
-      const b = this.randChoice([5, 8, 15]);
-      const c = this.randChoice([2, 3, 6]);
+      // Palier 3 : Brevet (Calcul scientifique type DNB) — mantisse finale exacte dans [1 ; 10[
+      let a, b, c, m;
+      do {
+        a = this.randInt(2, 9);
+        b = this.randChoice([2, 3, 4, 5, 6, 7, 8, 9, 12, 15]);
+        c = this.randChoice([2, 4, 5, 8]);
+        m = a * b / c;
+      } while (Number.isInteger(m) && m % 10 === 0 || Math.round(m * 1000) / 1000 !== m || String(m).replace('.', '').replace(/^0+/, '').length > 4);
       const p = this.randInt(2, 6);
-      const q = this.randInt(-4, 2, [0]);
-      const r = this.randInt(1, 4);
-
-      const coeffNum = a * b;
-      const [sN, sD] = this.simplifyFraction(coeffNum, c);
-      const coeffVal = sN / sD;
+      const q = this.randInt(-5, 2, [0]);
+      const r = this.randInt(-3, 4, [0, 1]);
       const exp10 = (p + q) - r;
-
+      // Normalisation : m = M × 10^k avec 1 ≤ M < 10
+      let k = 0;
+      let M = m;
+      while (M >= 10) { M = this.roundNum(M / 10); k++; }
+      while (M < 1) { M = this.roundNum(M * 10); k--; }
+      const finalExp = exp10 + k;
+      const fd = (x) => this.formatDecimal(x);
+      const pow = (e) => `10^{${e}}`;
+      const normStep = k === 0
+        ? ''
+        : ` = ${fd(M)} \\times ${pow(k)} \\times ${pow(exp10)}`;
       return {
         chapterId: 'N3',
         tier: 3,
         title: "Calcul scientifique type Brevet",
-        statement: `Donner la notation scientifique de :\n$$C = \\frac{${a} \\times 10^{${p}} \\times ${b} \\times 10^{${q}}}{${c} \\times 10^{${r}}}$$`,
+        statement: `Donner la notation scientifique de :\n$$C = \\frac{${a} \\times ${pow(p)} \\times ${b} \\times ${pow(q)}}{${c} \\times ${pow(r)}}$$\n*(Réponse sous la forme $a \\times 10^n$ avec $1 \\leq a < 10$ ; saisir par exemple \`2,5*10^-3\`.)*`,
         type: 'exact',
-        answer: `${coeffVal}*10^${exp10}`,
-        placeholder: `Ex: ${coeffVal}*10^${exp10}`,
+        answer: `${M}*10^${finalExp}`,
         hint1: "Regroupe d'une part les nombres décimaux et d'autre part les puissances de 10.",
-        hint2: `Nombres : $\\frac{${a} \\times ${b}}{${c}} = ${coeffVal}$. Puissances : $\\frac{10^{${p}} \\times 10^{${q}}}{10^{${r}}} = 10^{${p}+(${q})-(${r})}$.`,
-        solution: `$$C = \\left(\\frac{${a} \\times ${b}}{${c}}\\right) \\times \\left(\\frac{10^{${p}} \\times 10^{${q}}}{10^{${r}}}\\right) = ${coeffVal} \\times 10^{${exp10}}$$`
+        hint2: `Nombres : $\\frac{${a} \\times ${b}}{${c}} = ${fd(m)}$. Puissances : $\\frac{${pow(p)} \\times ${pow(q)}}{${pow(r)}} = 10^{${p} + (${q}) - (${r})} = ${pow(exp10)}$. Vérifie enfin que le premier facteur est compris entre 1 et 10.`,
+        solution: `$$C = \\left(\\frac{${a} \\times ${b}}{${c}}\\right) \\times \\left(\\frac{${pow(p)} \\times ${pow(q)}}{${pow(r)}}\\right) = ${fd(m)} \\times ${pow(exp10)}${normStep} = ${fd(M)} \\times ${pow(finalExp)}$$`
       };
     } else {
       // Palier 4 : DÉFI SECONDE / DIFFICULTÉ MAXIMALE (Puissances de puissances imbriquées et exposants négatifs)
@@ -2147,7 +2213,6 @@ window.MathsGenerators = {
           statement: `Résoudre l'équation :\n$$${a}x = ${b}$$\nQuelle est la valeur de $x$ ?`,
           type: 'exact',
           answer: String(xSol),
-          placeholder: `Ex: ${xSol}`,
           hint1: `Divise les deux membres par ${a}.`,
           solution: `$$${a}x = ${b} \\implies x = \\frac{${b}}{${a}} = ${xSol}$$`
         };
@@ -2162,7 +2227,6 @@ window.MathsGenerators = {
           statement: `Résoudre dans $\\mathbb{R}$ l'équation :\n$$x + ${a} = ${b}$$`,
           type: 'exact',
           answer: String(xSol),
-          placeholder: `Ex: ${xSol}`,
           hint1: `Soustrais $${a}$ des deux côtés de l'égalité : $x = ${b} - ${a}$.`,
           solution: `$$x + ${a} = ${b} \\implies x = ${b} - ${a} = ${xSol}$$`
         };
@@ -2177,7 +2241,6 @@ window.MathsGenerators = {
           statement: `Résoudre dans $\\mathbb{R}$ l'équation :\n$$x - ${a} = ${b}$$`,
           type: 'exact',
           answer: String(xSol),
-          placeholder: `Ex: ${xSol}`,
           hint1: `Ajoute $${a}$ des deux côtés de l'égalité : $x = ${b} + ${a}$.`,
           solution: `$$x - ${a} = ${b} \\implies x = ${b} + ${a} = ${xSol}$$`
         };
@@ -2191,7 +2254,6 @@ window.MathsGenerators = {
           statement: `Résoudre dans $\\mathbb{R}$ l'équation :\n$$-x = ${a}$$`,
           type: 'exact',
           answer: String(xSol),
-          placeholder: `Ex: ${xSol}`,
           hint1: "Multiplie ou divise par $-1$ pour trouver $x$.",
           solution: `$$-x = ${a} \\implies x = -(${a}) = ${xSol}$$`
         };
@@ -2206,7 +2268,6 @@ window.MathsGenerators = {
           statement: `Résoudre dans $\\mathbb{R}$ l'équation :\n$$${a} - x = ${b}$$`,
           type: 'exact',
           answer: String(xSol),
-          placeholder: `Ex: ${xSol}`,
           hint1: `Isole $-x = ${b} - ${a} = ${b - a}$, donc $x = ${a} - ${b}$.`,
           solution: `$$${a} - x = ${b} \\implies -x = ${b} - ${a} = ${b - a} \\implies x = ${xSol}$$`
         };
@@ -2227,7 +2288,6 @@ window.MathsGenerators = {
           statement: `Résoudre l'équation :\n$$${a}x + ${c} = ${b}$$`,
           type: 'exact',
           answer: String(xSol),
-          placeholder: `Ex: ${xSol}`,
           hint1: `Isole $${a}x$ en soustrayant $${c}$ de chaque côté : $${a}x = ${b} - ${c}$.`,
           solution: `$$${a}x + ${c} = ${b} \\implies ${a}x = ${b - c} \\implies x = \\frac{${b - c}}{${a}} = ${xSol}$$`
         };
@@ -2243,7 +2303,6 @@ window.MathsGenerators = {
           statement: `Résoudre l'équation :\n$$${a}x - ${c} = ${b}$$`,
           type: 'exact',
           answer: String(xSol),
-          placeholder: `Ex: ${xSol}`,
           hint1: `Ajoute $${c}$ des deux côtés : $${a}x = ${b} + ${c}$. Puis divise par $${a}$.`,
           solution: `$$${a}x - ${c} = ${b} \\implies ${a}x = ${b + c} \\implies x = \\frac{${b + c}}{${a}} = ${xSol}$$`
         };
@@ -2259,7 +2318,6 @@ window.MathsGenerators = {
           statement: `Résoudre dans $\\mathbb{R}$ l'équation :\n$$${c} - ${a}x = ${b}$$`,
           type: 'exact',
           answer: String(xSol),
-          placeholder: `Ex: ${xSol}`,
           hint1: `Isole $-${a}x = ${b} - ${c} = ${b - c}$, puis divise par $-${a}$.`,
           solution: `$$-${a}x = ${b} - ${c} = ${b - c} \\implies x = \\frac{${b - c}}{-${a}} = ${xSol}$$`
         };
@@ -2273,7 +2331,6 @@ window.MathsGenerators = {
           statement: `On considère l'équation $x^2 = ${sq}$.\n**Quelle est sa solution positive ?**`,
           type: 'exact',
           answer: String(r),
-          placeholder: `Ex: ${r}`,
           hint1: `Les solutions de $x^2 = k$ ($k > 0$) sont $\\sqrt{k}$ et $-\\sqrt{k}$.`,
           solution: `$$x^2 = ${sq} \\implies x = \\sqrt{${sq}} = ${r} \\quad \\text{(ou } x = -${r}\\text{)}$$\nLa solution positive est **${r}**.`
         };
@@ -2290,7 +2347,6 @@ window.MathsGenerators = {
           statement: `Résoudre l'équation :\n$$\\frac{x}{${a}} + ${b} = ${c}$$`,
           type: 'exact',
           answer: String(xSol),
-          placeholder: `Ex: ${xSol}`,
           hint1: `Isole $\\frac{x}{${a}} = ${c} - ${b} = ${c - b}$, puis multiplie par $${a}$.`,
           solution: `$$\\frac{x}{${a}} = ${c} - ${b} = ${c - b} \\implies x = ${c - b} \\times ${a} = ${xSol}$$`
         };
@@ -2349,36 +2405,40 @@ window.MathsGenerators = {
       } else if (subType === 'two_sides_std') {
         const a = this.randInt(4, 12);
         const c = this.randInt(1, a - 1);
-        const xSol = this.randInt(-8, 12);
-        const d = this.randInt(1, 20);
-        const b = d - (a - c) * xSol;
+        let xSol, d, b;
+        do {
+          xSol = this.randInt(-8, 12);
+          d = this.randInt(1, 20);
+          b = d - (a - c) * xSol;
+        } while (b === 0);
         return {
           chapterId: 'N4',
           tier: 3,
           title: "Équation avec $x$ des deux côtés",
-          statement: `Résoudre dans $\\mathbb{R}$ l'équation :\n$$${a}x ${this.formatSigned(b)} = ${c}x + ${d}$$`,
+          statement: `Résoudre dans $\\mathbb{R}$ l'équation :\n$$${this.formatPoly([a, b])} = ${c}x + ${d}$$`,
           type: 'exact',
           answer: String(xSol),
-          placeholder: `Ex: ${xSol}`,
           hint1: `Regroupe les termes en $x$ à gauche (en soustrayant $${c}x$) et les constantes à droite.`,
           solution: `$$${a}x - ${c}x = ${d} ${this.formatSigned(-b)} \\implies ${a - c}x = ${d - b} \\implies x = \\frac{${d - b}}{${a - c}} = ${xSol}$$`
         };
       } else {
         const c = this.randInt(5, 14);
         const a = this.randInt(2, c - 1);
-        const xSol = this.randInt(-8, 10);
-        const d = this.randInt(1, 20);
-        const b = (c - a) * xSol + d;
+        let xSol, d, b;
+        do {
+          xSol = this.randInt(-8, 10);
+          d = this.randInt(1, 20);
+          b = (c - a) * xSol + d;
+        } while (b === 0);
         return {
           chapterId: 'N4',
           tier: 3,
           title: "Équation avec l'inconnue des deux côtés (terme en $x$ négatif)",
-          statement: `Résoudre l'équation :\n$$${a}x + ${b} = ${c}x + ${d}$$`,
+          statement: `Résoudre l'équation :\n$$${this.formatPoly([a, b])} = ${c}x + ${d}$$`,
           type: 'exact',
           answer: String(xSol),
-          placeholder: `Ex: ${xSol}`,
-          hint1: `Regroupe les $x$ à gauche : $${a}x - ${c}x = ${a - c}x$, et les nombres à droite : $${d} - ${b}$.`,
-          solution: `$$${a}x - ${c}x = ${d} - ${b} \\implies ${a - c}x = ${d - b} \\implies x = \\frac{${d - b}}{${a - c}} = ${xSol}$$`
+          hint1: `Regroupe les $x$ à gauche : $${a}x - ${c}x = ${a - c}x$, et les nombres à droite : $${d} ${this.formatSigned(-b)}$.`,
+          solution: `$$${a}x - ${c}x = ${d} ${this.formatSigned(-b)} \\implies ${a - c}x = ${d - b} \\implies x = \\frac{${d - b}}{${a - c}} = ${xSol}$$`
         };
       }
     } else {
@@ -2388,7 +2448,7 @@ window.MathsGenerators = {
       const c = this.randInt(3, 8);
       const d = this.randInt(1, 7);
       const e = this.randInt(1, c - 1);
-      const f = this.randInt(4, 12);
+      const f = this.randInt(d + 1, d + 8); // f > d : seconde solution strictement positive (≠ 0 et ≠ -b/a)
       // (ax + b)(cx + d) - (ax + b)(ex + f) = 0
       // <=> (ax + b)[(c - e)x + (d - f)] = 0
       const cPrime = c - e;
@@ -2419,7 +2479,7 @@ window.MathsGenerators = {
           `$x = 0$ n'est pas solution ici.`
         ],
         hint1: "Ne développe surtout pas ! Factorise par le facteur commun $(ax + b)$ pour te ramener à une équation produit nul.",
-        solution: `1. Factorisation par $(${a}x + ${b})$ :\n$$(${a}x + ${b})[(${c}x + ${d}) - (${e}x + ${f})] = 0$$\n$$(${a}x + ${b})[${c - e}x ${this.formatSigned(d - f)}] = 0$$\n2. Résolution du produit nul :\n$$${a}x + ${b} = 0 \\implies x = ${sol1Str} \\quad \\text{ou} \\quad ${c - e}x - ${f - d} = 0 \\implies x = ${sol2Str}$$`
+        solution: `1. Factorisation par $(${a}x + ${b})$ :\n$$(${a}x + ${b})[(${c}x + ${d}) - (${e}x + ${f})] = 0$$\n$$(${a}x + ${b})[${this.formatPoly([c - e, d - f])}] = 0$$\n2. Résolution du produit nul :\n$$${a}x + ${b} = 0 \\implies x = ${sol1Str} \\quad \\text{ou} \\quad ${this.formatPoly([c - e, d - f])} = 0 \\implies x = ${sol2Str}$$`
       };
     }
   },
@@ -2593,7 +2653,6 @@ window.MathsGenerators = {
           statement: `Une pièce rectangulaire de dimensions $L = ${Math.max(L, l)}\\text{ cm}$ et $l = ${Math.min(L, l)}\\text{ cm}$ doit être pavée entièrement avec des dalles carrées identiques les plus grandes possibles, sans découpe.\n1. Le côté maximal d'une dalle est $\\text{PGCD}(${L}, ${l}) = ${g}\\text{ cm}$.\n**Question : Combien de dalles faudra-t-il au total pour couvrir toute la pièce ?**`,
           type: 'exact',
           answer: String(tilesCount),
-          placeholder: `Ex: ${tilesCount}`,
           hint1: `En longueur, on place $\\frac{${Math.max(L, l)}}{${g}} = ${Math.max(a, b)}$ dalles. En largeur, on place $\\frac{${Math.min(L, l)}}{${g}} = ${Math.min(a, b)}$ dalles. Multiplie les deux.`,
           solution: `1. Côté d'une dalle : $\\text{PGCD}(${L}, ${l}) = ${g}\\text{ cm}$.\n2. Nombre de dalles : $\\frac{${L}}{${g}} \\times \\frac{${l}}{${g}} = ${a} \\times ${b} = ${tilesCount}\\text{ dalles}$.`
         };
@@ -2611,7 +2670,6 @@ window.MathsGenerators = {
           statement: `Un fleuriste dispose de $${nRoses}$ roses et $${nTulipes}$ tulipes. Il souhaite composer le plus grand nombre possible de bouquets identiques en utilisant toutes les fleurs.\n**Quel est le nombre maximal de bouquets qu'il peut réaliser ?**`,
           type: 'exact',
           answer: String(g),
-          placeholder: `Ex: ${g}`,
           hint1: `Le nombre de bouquets doit diviser à la fois $${nRoses}$ et $${nTulipes}$. C'est le plus grand diviseur commun (PGCD).`,
           solution: `Le nombre maximal de bouquets est le $\\text{PGCD}(${nRoses}, ${nTulipes}) = ${g}$.\nChaque bouquet contiendra alors $${a}$ roses et $${b}$ tulipes.`
         };
@@ -2659,7 +2717,6 @@ window.MathsGenerators = {
         statement: `${figSvg}Soit un triangle $ABC$ rectangle en $A$ tel que $AB = ${a}\\text{ cm}$ et $AC = ${b}\\text{ cm}$.\n**Calculer la longueur de l'hypoténuse $[BC]$.**`,
         type: 'exact',
         answer: String(c),
-        placeholder: `Ex: ${c}`,
         hint1: `Dans le triangle $ABC$ rectangle en $A$, d'après le théorème de Pythagore : $BC^2 = AB^2 + AC^2 = ${aSq} + ${bSq}$.`,
         solution: `Dans le triangle $ABC$ rectangle en $A$, d'après le théorème de Pythagore :\n$$BC^2 = AB^2 + AC^2$$\n$$BC^2 = ${a}^2 + ${b}^2 = ${aSq} + ${bSq} = ${cSq}$$\nComme $BC > 0$ :\n$$BC = \\sqrt{${cSq}} = ${c}\\text{ cm}$$`
       };
@@ -2693,7 +2750,6 @@ window.MathsGenerators = {
         statement: `${figSvg}Soit un triangle $EFG$ rectangle en $E$ tel que l'hypoténuse $FG = ${c}\\text{ cm}$ et $EF = ${a}\\text{ cm}$.\n**Calculer la longueur du côté $[EG]$.**`,
         type: 'exact',
         answer: String(b),
-        placeholder: `Ex: ${b}`,
         hint1: `Isoler $EG^2$ dans la formule de Pythagore : $EG^2 = FG^2 - EF^2 = ${cSq} - ${aSq}$.`,
         solution: `Dans le triangle $EFG$ rectangle en $E$, d'après le théorème de Pythagore :\n$$FG^2 = EF^2 + EG^2 \\implies EG^2 = FG^2 - EF^2$$\n$$EG^2 = ${c}^2 - ${a}^2 = ${cSq} - ${aSq} = ${bSq}$$\nComme $EG > 0$ :\n$$EG = \\sqrt{${bSq}} = ${b}\\text{ cm}$$`
       };
@@ -2791,7 +2847,6 @@ window.MathsGenerators = {
         statement: `${figSvg}Une boîte rectangulaire (pavé droit) $ABCDEFGH$ a pour dimensions :\n- Longueur $L = ${box.L}\\text{ cm}$\n- Largeur $l = ${box.l}\\text{ cm}$\n- Hauteur $h = ${box.h}\\text{ cm}$\n\n**Calculer la longueur exacte de la grande diagonale $[AG]$ qui traverse l'espace intérieur de la boîte.**`,
         type: 'exact',
         answer: String(box.D),
-        placeholder: `Ex: ${box.D}`,
         hint1: `Étape 1 : Calcule la diagonale de la base $AC$ avec Pythagore dans le triangle $ABC$ : $AC^2 = L^2 + l^2$.\nÉtape 2 : Calcule $AG$ avec Pythagore dans le triangle rectangle $ACG$ : $AG^2 = AC^2 + CG^2$.`,
         solution: `1. Dans le triangle $ABC$ rectangle en $B$ (base) :\n$$AC^2 = AB^2 + BC^2 = ${box.L}^2 + ${box.l}^2 = ${box.L*box.L} + ${box.l*box.l} = ${dBaseSq}$$\n2. L'arête $[CG]$ est perpendiculaire à la base, donc le triangle $ACG$ est rectangle en $C$ :\n$$AG^2 = AC^2 + CG^2 = ${dBaseSq} + ${box.h}^2 = ${dBaseSq} + ${box.h*box.h} = ${box.D*box.D}$$\n$$AG = \\sqrt{${box.D*box.D}} = ${box.D}\\text{ cm}$$\n*(Formule directe de Seconde : $AG = \\sqrt{L^2 + l^2 + h^2} = \\sqrt{${box.D*box.D}} = ${box.D}\\text{ cm}$)*`
       };
@@ -2824,7 +2879,6 @@ window.MathsGenerators = {
           statement: `${figSvg}Soit un triangle $ABC$ avec $M \\in [AB]$, $N \\in [AC]$ et $(MN) \\parallel (BC)$.\nOn donne $AM = ${am}\\text{ cm}$, $AB = ${ab}\\text{ cm}$ et $AN = ${an}\\text{ cm}$.\n**Calculer la longueur $AC$ en cm.**`,
           type: 'exact',
           answer: String(ac),
-          placeholder: `Ex: ${ac}`,
           hint1: `D'après le théorème de Thalès : $\\frac{AM}{AB} = \\frac{AN}{AC}$. Utilise le produit en croix.`,
           solution: `Les points $A, M, B$ et $A, N, C$ sont alignés dans cet ordre, et $(MN) \\parallel (BC)$.\nD'après le théorème de Thalès :\n$$\\frac{AM}{AB} = \\frac{AN}{AC} \\implies \\frac{${am}}{${ab}} = \\frac{${an}}{AC}$$\n$$AC = \\frac{${ab} \\times ${an}}{${am}} = ${ac}\\text{ cm}$$`
         };
@@ -2840,7 +2894,6 @@ window.MathsGenerators = {
           statement: `${figSvg}Dans un triangle $ABC$, $M \\in [AB]$, $N \\in [AC]$ et $(MN) \\parallel (BC)$.\nOn sait que $AM = ${am}\\text{ cm}$, $AB = ${ab}\\text{ cm}$ et $AC = ${ac}\\text{ cm}$.\n**Calculer la longueur $AN$ en cm.**`,
           type: 'exact',
           answer: String(an),
-          placeholder: `Ex: ${an}`,
           hint1: `$\\frac{AM}{AB} = \\frac{AN}{AC} \\implies AN = \\frac{AM \\times AC}{AB}$.`,
           solution: `D'après le théorème de Thalès :\n$$\\frac{AN}{AC} = \\frac{AM}{AB} \\implies AN = \\frac{${am} \\times ${ac}}{${ab}} = ${an}\\text{ cm}$$`
         };
@@ -2856,7 +2909,6 @@ window.MathsGenerators = {
           statement: `${figSvg}Dans le triangle $ABC$, $M \\in [AB]$, $N \\in [AC]$ et $(MN) \\parallel (BC)$.\nOn donne $AM = ${am}\\text{ cm}$, $AB = ${ab}\\text{ cm}$ et $MN = ${mn}\\text{ cm}$.\n**Calculer la longueur $BC$ en cm.**`,
           type: 'exact',
           answer: String(bc),
-          placeholder: `Ex: ${bc}`,
           hint1: `$\\frac{AM}{AB} = \\frac{MN}{BC} \\implies BC = \\frac{AB \\times MN}{AM}$.`,
           solution: `D'après le théorème de Thalès :\n$$\\frac{AM}{AB} = \\frac{MN}{BC} \\implies BC = \\frac{${ab} \\times ${mn}}{${am}} = ${bc}\\text{ cm}$$`
         };
@@ -2945,7 +2997,6 @@ window.MathsGenerators = {
           statement: `${figSvg}Dans le triangle $ABC$, $M \\in [AB]$, $N \\in [AC]$ et $(MN) \\parallel (BC)$.\nOn donne $AM = ${trueAm}\\text{ cm}$, $MB = ${trueMb}\\text{ cm}$ et $MN = ${mn}\\text{ cm}$.\n**Calculer la longueur de la base $BC$ en cm.**`,
           type: 'exact',
           answer: String(trueBc),
-          placeholder: `Ex: ${trueBc}`,
           hint1: `Calcule d'abord la longueur totale $AB = AM + MB = ${trueAm} + ${trueMb} = ${trueAb}\\text{ cm}$. Puis applique Thalès.`,
           solution: `1. Calcul de $AB$ : $AB = AM + MB = ${trueAm} + ${trueMb} = ${trueAb}\\text{ cm}$.\n2. D'après le théorème de Thalès :\n$$\\frac{AM}{AB} = \\frac{MN}{BC} \\implies \\frac{${trueAm}}{${trueAb}} = \\frac{${mn}}{BC}$$\n$$BC = \\frac{${trueAb} \\times ${mn}}{${trueAm}} = ${trueBc}\\text{ cm}$$`
         };
@@ -2967,7 +3018,6 @@ window.MathsGenerators = {
           statement: `${figSvg}Dans le triangle $ABC$, $M \\in [AB]$, $N \\in [AC]$ et $(MN) \\parallel (BC)$.\nOn donne $AB = ${trueAb}\\text{ cm}$, $AM = ${trueAm}\\text{ cm}$ et $BC = ${trueBc}\\text{ cm}$.\n**Calculer la longueur $MN$ en cm.**`,
           type: 'exact',
           answer: String(mn),
-          placeholder: `Ex: ${mn}`,
           hint1: `Applique Thalès : $\\frac{AM}{AB} = \\frac{MN}{BC}$.`,
           solution: `D'après le théorème de Thalès :\n$$\\frac{AM}{AB} = \\frac{MN}{BC} \\implies MN = \\frac{${trueAm} \\times ${trueBc}}{${trueAb}} = ${mn}\\text{ cm}$$`
         };
@@ -3001,7 +3051,6 @@ window.MathsGenerators = {
           statement: `${figSvg}Les droites $(AB)$ et $(CD)$ sont sécantes en $O$, et $(AC) \\parallel (BD)$.\nOn donne $OA = ${oa}\\text{ cm}$, $OB = ${ob}\\text{ cm}$ et $OC = ${om}\\text{ cm}$.\n**Calculer la longueur $OD$ en cm.**`,
           type: 'exact',
           answer: String(on),
-          placeholder: `Ex: ${on}`,
           hint1: `Dans la configuration papillon de sommet $O$ : $\\frac{OA}{OB} = \\frac{OC}{OD}$.`,
           solution: `Les droites $(AB)$ et $(CD)$ sont sécantes en $O$, et $(AC) \\parallel (BD)$.\nD'après le théorème de Thalès :\n$$\\frac{OA}{OB} = \\frac{OC}{OD} \\implies \\frac{${oa}}{${ob}} = \\frac{${om}}{OD}$$\n$$OD = \\frac{${ob} \\times ${om}}{${oa}} = ${on}\\text{ cm}$$`
         };
@@ -3143,7 +3192,6 @@ window.MathsGenerators = {
         statement: `${figSvg}Dans un triangle $ABC$, $M \\in [AB]$, $N \\in [AC]$ et $(MN) \\parallel (BC)$.\nOn note $AM = x$. On sait que $MB = ${c}\\text{ cm}$, $AN = ${a}\\text{ cm}$ et $NC = ${b}\\text{ cm}$.\n*(On a donc $AB = x + ${c}$ et $AC = ${a} + ${b} = ${acVal}$)*\n\n**Résoudre l'égalité de Thalès pour trouver la valeur exacte de $x$.**`,
         type: 'exact',
         answer: String(x),
-        placeholder: `Ex: ${x}`,
         hint1: `Écris l'égalité de Thalès : $\\frac{AM}{AB} = \\frac{AN}{AC}$, c'est-à-dire $\\frac{x}{x + ${c}} = \\frac{${a}}{${acVal}}$. Fais le produit en croix pour former une équation en $x$.`,
         hint2: `Produit en croix : $${acVal} \\times x = ${a} \\times (x + ${c}) \\implies ${acVal}x = ${a}x + ${a*c}$. Soustrais $${a}x$.`,
         solution: `D'après le théorème de Thalès :\n$$\\frac{AM}{AB} = \\frac{AN}{AC} \\implies \\frac{x}{x + ${c}} = \\frac{${a}}{${acVal}}$$\nProduit en croix :\n$$${acVal} \\times x = ${a}(x + ${c})$$\n$$${acVal}x = ${a}x + ${a*c}$$\n$$${acVal}x - ${a}x = ${a*c}$$\n$$${b}x = ${a*c} \\implies x = \\frac{${a*c}}{${b}} = ${x}\\text{ cm}$$`
@@ -3156,48 +3204,56 @@ window.MathsGenerators = {
     const t = this.resolveTier(tier);
 
     if (t === 1) {
-      const items = [
-        {
-          fn: "cosinus",
-          symb: "\\cos(\\alpha)",
-          ans: "Côté adjacent / Hypoténuse",
-          memo: "CAH : Cosinus = Adjacent / Hypoténuse",
-          formula: "\\cos(\\alpha) = \\frac{\\text{côté adjacent}}{\\text{hypoténuse}}"
-        },
-        {
-          fn: "sinus",
-          symb: "\\sin(\\alpha)",
-          ans: "Côté opposé / Hypoténuse",
-          memo: "SOH : Sinus = Opposé / Hypoténuse",
-          formula: "\\sin(\\alpha) = \\frac{\\text{côté opposé}}{\\text{hypoténuse}}"
-        },
-        {
-          fn: "tangente",
-          symb: "\\tan(\\alpha)",
-          ans: "Côté opposé / Côté adjacent",
-          memo: "TOA : Tangente = Opposé / Adjacent",
-          formula: "\\tan(\\alpha) = \\frac{\\text{côté opposé}}{\\text{côté adjacent}}"
-        }
+      const fns = [
+        { fn: "cosinus", art: "le", cmd: "\\cos", memo: "CAH : Cosinus = Adjacent / Hypoténuse", num: 'adj', den: 'hyp' },
+        { fn: "sinus", art: "le", cmd: "\\sin", memo: "SOH : Sinus = Opposé / Hypoténuse", num: 'opp', den: 'hyp' },
+        { fn: "tangente", art: "la", cmd: "\\tan", memo: "TOA : Tangente = Opposé / Adjacent", num: 'opp', den: 'adj' }
       ];
-      const it = this.randChoice(items);
-      const allOpts = [
-        "Côté adjacent / Hypoténuse",
-        "Côté opposé / Hypoténuse",
-        "Côté opposé / Côté adjacent",
-        "Hypoténuse / Côté opposé"
-      ];
-      const opts = this.shuffle(allOpts);
+      const it = this.randChoice(fns);
+      if (Math.random() < 0.25) {
+        // Formule générale (vocabulaire)
+        const label = { adj: 'Côté adjacent', opp: 'Côté opposé', hyp: 'Hypoténuse' };
+        const good = `${label[it.num]} / ${label[it.den]}`.replace('/ Côté', '/ côté');
+        const allOpts = ["Côté adjacent / Hypoténuse", "Côté opposé / Hypoténuse", "Côté opposé / côté adjacent", "Hypoténuse / Côté opposé"];
+        const opts = this.shuffle(allOpts);
+        return {
+          chapterId: 'G2',
+          tier: 1,
+          title: "Formules trigonométriques (SOH CAH TOA)",
+          statement: `Dans un triangle rectangle, quelle est la formule correcte définissant ${it.art} **${it.fn}** d'un angle aigu $\\alpha$ ?`,
+          type: 'mcq',
+          options: opts,
+          answer: good,
+          correctIndex: opts.indexOf(good),
+          hint1: `Pense au moyen mnémotechnique : ${it.memo}.`,
+          solution: `Dans un triangle rectangle :\n$$${it.cmd}(\\alpha) = \\frac{\\text{${label[it.num].toLowerCase()}}}{\\text{${label[it.den].toLowerCase()}}}$$`
+        };
+      }
+      // Application à un triangle nommé : rectangle en R, angle étudié en P, troisième sommet Q
+      const names = this.randChoice([['A', 'B', 'C'], ['D', 'E', 'F'], ['M', 'N', 'P'], ['R', 'S', 'T'], ['I', 'J', 'K'], ['E', 'F', 'G'], ['L', 'M', 'N'], ['U', 'V', 'W']]);
+      const [R, P, Q] = this.shuffle(names);
+      const tri = names.join('');
+      const seg = (x, y) => [x, y].sort().join('');
+      const side = { adj: seg(R, P), opp: seg(R, Q), hyp: seg(P, Q) };
+      const frac = (n, d) => `$\\frac{${n}}{${d}}$`;
+      const good = frac(side[it.num], side[it.den]);
+      const pool = [
+        frac(side.adj, side.hyp), frac(side.opp, side.hyp), frac(side.opp, side.adj),
+        frac(side.hyp, side.adj), frac(side.adj, side.opp), frac(side.hyp, side.opp)
+      ].filter(o => o !== good);
+      const opts = this.shuffle([good, ...this.shuffle(pool).slice(0, 3)]);
+      const angle = `\\widehat{${Q}${P}${R}}`;
       return {
         chapterId: 'G2',
         tier: 1,
-        title: "Formules trigonométriques (SOH CAH TOA)",
-        statement: `Dans un triangle rectangle, quelle est la formule correcte définissant le **${it.fn}** d'un angle aigu $\\alpha$ ?`,
+        title: "Écrire un rapport trigonométrique",
+        statement: `Le triangle $${tri}$ est rectangle en $${R}$.\n**Quelle égalité donne ${it.art} ${it.fn} de l'angle $${angle}$ ?**\n$$${it.cmd}(${angle}) = \\, ?$$`,
         type: 'mcq',
         options: opts,
-        answer: it.ans,
-        correctIndex: opts.indexOf(it.ans),
-        hint1: `Pense au mot mnémotechnique : ${it.memo}.`,
-        solution: `Dans un triangle rectangle :\n$$${it.formula}$$`
+        answer: good,
+        correctIndex: opts.indexOf(good),
+        hint1: `L'hypoténuse est le côté opposé à l'angle droit : $[${side.hyp}]$. Pour l'angle $${angle}$, le côté adjacent est $[${side.adj}]$ et le côté opposé est $[${side.opp}]$. ${it.memo}.`,
+        solution: `Dans le triangle $${tri}$ rectangle en $${R}$ : hypoténuse $[${side.hyp}]$, côté adjacent à $${angle}$ : $[${side.adj}]$, côté opposé : $[${side.opp}]$.\n$$${it.cmd}(${angle}) = \\frac{${side[it.num]}}{${side[it.den]}}$$`
       };
     } else if (t === 2) {
       const vtype = this.randChoice(['cos60', 'sin30', 'tan45', 'cos60_hyp']);
@@ -3219,7 +3275,6 @@ window.MathsGenerators = {
           statement: `${figSvg}Soit $ABC$ un triangle rectangle en $A$ tel que $\\widehat{B} = 60^\\circ$ et l'hypoténuse $BC = ${hyp}\\text{ cm}$.\n*(On rappelle que $\\cos(60^\\circ) = 0{,}5$)*\n\n**Calculer la longueur du côté adjacent $AB$ en cm.**`,
           type: 'exact',
           answer: String(adj),
-          placeholder: `Ex: ${adj}`,
           hint1: `$\\cos(\\widehat{B}) = \\frac{AB}{BC} \\implies AB = BC \\times \\cos(60^\\circ)$.`,
           solution: `Dans le triangle $ABC$ rectangle en $A$ :\n$$\\cos(\\widehat{B}) = \\frac{AB}{BC} \\implies AB = BC \\times \\cos(60^\\circ) = ${hyp} \\times 0{,}5 = ${adj}\\text{ cm}$$`
         };
@@ -3241,7 +3296,6 @@ window.MathsGenerators = {
           statement: `${figSvg}Soit $ABC$ un triangle rectangle en $A$ tel que $\\widehat{B} = 30^\\circ$ et l'hypoténuse $BC = ${hyp}\\text{ cm}$.\n*(On rappelle que $\\sin(30^\\circ) = 0{,}5$)*\n\n**Calculer la longueur du côté opposé $AC$ en cm.**`,
           type: 'exact',
           answer: String(opp),
-          placeholder: `Ex: ${opp}`,
           hint1: `$\\sin(\\widehat{B}) = \\frac{AC}{BC} \\implies AC = BC \\times \\sin(30^\\circ)$.`,
           solution: `Dans le triangle $ABC$ rectangle en $A$ :\n$$\\sin(\\widehat{B}) = \\frac{AC}{BC} \\implies AC = BC \\times \\sin(30^\\circ) = ${hyp} \\times 0{,}5 = ${opp}\\text{ cm}$$`
         };
@@ -3262,7 +3316,6 @@ window.MathsGenerators = {
           statement: `${figSvg}Dans un triangle $ABC$ rectangle en $A$, $\\widehat{B} = 45^\\circ$ et le côté adjacent $AB = ${side}\\text{ cm}$.\n*(On rappelle que $\\tan(45^\\circ) = 1$)*\n\n**Calculer la longueur du côté opposé $AC$ en cm.**`,
           type: 'exact',
           answer: String(side),
-          placeholder: `Ex: ${side}`,
           hint1: `$\\tan(45^\\circ) = \\frac{AC}{AB} = 1 \\implies AC = AB$.`,
           solution: `$$\\tan(45^\\circ) = \\frac{AC}{AB} \\implies AC = AB \\times 1 = ${side}\\text{ cm}$$`
         };
@@ -3284,7 +3337,6 @@ window.MathsGenerators = {
           statement: `${figSvg}Soit $ABC$ un triangle rectangle en $A$ tel que $\\widehat{B} = 60^\\circ$ et le côté adjacent $AB = ${adj}\\text{ cm}$.\n*(On rappelle que $\\cos(60^\\circ) = 0{,}5$)*\n\n**Calculer la longueur de l'hypoténuse $BC$ en cm.**`,
           type: 'exact',
           answer: String(hyp),
-          placeholder: `Ex: ${hyp}`,
           hint1: `$\\cos(\\widehat{B}) = \\frac{AB}{BC} \\implies BC = \\frac{AB}{\\cos(60^\\circ)}$.`,
           solution: `$$BC = \\frac{AB}{\\cos(60^\\circ)} = \\frac{${adj}}{0{,}5} = ${hyp}\\text{ cm}$$`
         };
@@ -3309,28 +3361,31 @@ window.MathsGenerators = {
         statement: `${figSvg}Dans un triangle $ABC$ rectangle en $A$, on donne $AB = ${a}\\text{ cm}$ (côté adjacent) et $AC = ${b}\\text{ cm}$ (côté opposé).\n**Calculer la mesure de l'angle $\\widehat{ABC}$ arrondie au degré près.**`,
         type: 'exact',
         answer: String(angle),
-        placeholder: `Ex: ${angle}`,
         hint1: `Utilise la tangente : $\\tan(\\widehat{B}) = \\frac{AC}{AB} = \\frac{${b}}{${a}}$. Puis applique $\\arctan$.`,
         solution: `Dans le triangle $ABC$ rectangle en $A$ :\n$$\\tan(\\widehat{ABC}) = \\frac{\\text{opposé}}{\\text{adjacent}} = \\frac{AC}{AB} = \\frac{${b}}{${a}} \\approx ${(b / a).toFixed(3)}$$\n$$\\widehat{ABC} = \\arctan\\left(\\frac{${b}}{${a}}\\right) \\approx ${angle}^\\circ$$`
       };
     } else {
-      const trip = this.getPythagoreanTriple(false);
+      // Triplets pythagoriciens primitifs : les deux rapports sont déjà irréductibles
+      const prims = [[3, 4, 5], [5, 12, 13], [8, 15, 17], [7, 24, 25], [20, 21, 29], [12, 35, 37], [9, 40, 41], [28, 45, 53],
+        [11, 60, 61], [33, 56, 65], [16, 63, 65], [48, 55, 73], [13, 84, 85], [36, 77, 85], [39, 80, 89], [65, 72, 97]];
+      const [p1, p2, den] = this.randChoice(prims);
       const swap = Math.random() < 0.5;
-      const numCos = swap ? trip.a : trip.b;
-      const numSin = swap ? trip.b : trip.a;
-      const den = trip.c;
+      const given = swap ? p1 : p2;
+      const sought = swap ? p2 : p1;
+      const givenIsCos = Math.random() < 0.5;
+      const gFn = givenIsCos ? '\\cos' : '\\sin';
+      const sFn = givenIsCos ? '\\sin' : '\\cos';
 
       return {
         chapterId: 'G2',
         tier: 4,
-        title: "Défi Seconde : Relation trigonométrique fondamentale $\\cos^2(x) + \\sin^2(x) = 1$",
-        statement: `Soit $\\alpha$ la mesure d'un angle aigu tel que $\\cos(\\alpha) = \\frac{${numCos}}{${den}}$.\n\n**Calculer la valeur exacte de $\\sin(\\alpha)$ sous forme de fraction irréductible.**`,
+        title: "Défi Seconde : Relation trigonométrique fondamentale",
+        statement: `Soit $\\alpha$ la mesure d'un angle aigu tel que $${gFn}(\\alpha) = \\frac{${given}}{${den}}$.\n\n**Calculer la valeur exacte de $${sFn}(\\alpha)$ sous forme de fraction irréductible.**\n*(On rappelle que $\\cos^2(\\alpha) + \\sin^2(\\alpha) = 1$.)*`,
         type: 'exact',
-        answer: `${numSin}/${den}`,
-        placeholder: "Ex: 4/5",
-        hint1: `Pour tout angle aigu, $\\cos^2(\\alpha) + \\sin^2(\\alpha) = 1$. Donc $\\sin^2(\\alpha) = 1 - \\cos^2(\\alpha)$.`,
-        hint2: `$\\sin^2(\\alpha) = 1 - \\left(\\frac{${numCos}}{${den}}\\right)^2 = 1 - \\frac{${numCos*numCos}}{${den*den}} = \\frac{${den*den - numCos*numCos}}{${den*den}}$.`,
-        solution: `D'après la relation fondamentale de la trigonométrie :\n$$\\cos^2(\\alpha) + \\sin^2(\\alpha) = 1$$\n$$\\sin^2(\\alpha) = 1 - \\cos^2(\\alpha) = 1 - \\left(\\frac{${numCos}}{${den}}\\right)^2 = 1 - \\frac{${numCos*numCos}}{${den*den}} = \\frac{${numSin*numSin}}{${den*den}}$$\nComme $\\alpha$ est aigu, $\\sin(\\alpha) > 0$ :\n$$\\sin(\\alpha) = \\frac{${numSin}}{${den}}$$`
+        answer: `${sought}/${den}`,
+        hint1: `Pour tout angle aigu, $\\cos^2(\\alpha) + \\sin^2(\\alpha) = 1$. Donc $${sFn}^2(\\alpha) = 1 - ${gFn}^2(\\alpha)$.`,
+        hint2: `$${sFn}^2(\\alpha) = 1 - \\left(\\frac{${given}}{${den}}\\right)^2 = 1 - \\frac{${given * given}}{${den * den}} = \\frac{${den * den - given * given}}{${den * den}}$.`,
+        solution: `D'après la relation fondamentale de la trigonométrie :\n$$\\cos^2(\\alpha) + \\sin^2(\\alpha) = 1$$\n$$${sFn}^2(\\alpha) = 1 - ${gFn}^2(\\alpha) = 1 - \\left(\\frac{${given}}{${den}}\\right)^2 = 1 - \\frac{${given * given}}{${den * den}} = \\frac{${sought * sought}}{${den * den}}$$\nComme $\\alpha$ est aigu, $${sFn}(\\alpha) > 0$ et $\\sqrt{${sought * sought}} = ${sought}$, $\\sqrt{${den * den}} = ${den}$ :\n$$${sFn}(\\alpha) = \\frac{${sought}}{${den}}$$`
       };
     }
   },
@@ -3352,7 +3407,6 @@ window.MathsGenerators = {
           statement: `Une homothétie de centre $O$ et de rapport $k = ${k}$ transforme un segment $[AB]$ de longueur $AB = ${l}\\text{ cm}$ en un segment $[A'B']$.\n**Quelle est la longueur du segment $[A'B']$ en cm ?**`,
           type: 'exact',
           answer: String(lPrime),
-          placeholder: `Ex: ${lPrime}`,
           hint1: `Dans une homothétie de rapport $k$, toutes les longueurs sont multipliées par $|k| = ${k}$.`,
           solution: `$$A'B' = k \\times AB = ${k} \\times ${l} = ${lPrime}\\text{ cm}$$`
         };
@@ -3367,7 +3421,6 @@ window.MathsGenerators = {
           statement: `Une homothétie de centre $O$ et de rapport $k = 0{,}5$ transforme un segment $[AB]$ de longueur $AB = ${l}\\text{ cm}$ en un segment $[A'B']$.\n**Quelle est la longueur du segment $[A'B']$ en cm ?**`,
           type: 'exact',
           answer: String(lPrime),
-          placeholder: `Ex: ${lPrime}`,
           hint1: `Comme $0 < k < 1$, il s'agit d'une réduction : multiplie la longueur par $0{,}5$ (divise par 2).`,
           solution: `$$A'B' = 0{,}5 \\times ${l} = ${lPrime}\\text{ cm}$$`
         };
@@ -3384,7 +3437,6 @@ window.MathsGenerators = {
         statement: `Soit une homothétie de centre $O$ et de rapport $k = ${k}$.\nUn point $M$ est situé à une distance $OM = ${dist}\\text{ cm}$ du centre.\n**À quelle distance du centre $O$ se trouve le point image $M'$ en cm ?**`,
         type: 'exact',
         answer: String(imgDist),
-        placeholder: `Ex: ${imgDist}`,
         hint1: `Attention : une distance est toujours positive ! La distance est multipliée par $|k| = ${Math.abs(k)}$. (Le signe '-' indique seulement que $M'$ est situé de l'autre côté de $O$).`,
         solution: `Pour une homothétie de rapport $k = ${k}$ :\n$$OM' = |k| \\times OM = ${Math.abs(k)} \\times ${dist} = ${imgDist}\\text{ cm}$$`
       };
@@ -3401,7 +3453,6 @@ window.MathsGenerators = {
           statement: `Une figure géométrique a une aire $\\mathcal{A} = ${aire}\\text{ cm}^2$.\nOn effectue un agrandissement de rapport $k = ${k}$.\n**Quelle est l'aire $\\mathcal{A}'$ de la figure agrandie en $\\text{cm}^2$ ?**`,
           type: 'exact',
           answer: String(airePrime),
-          placeholder: `Ex: ${airePrime}`,
           hint1: `Règle fondamentale : si les longueurs sont multipliées par $k$, les aires sont multipliées par $k^2 = ${k}^2 = ${k*k}$.`,
           solution: `$$\\mathcal{A}' = k^2 \\times \\mathcal{A} = ${k}^2 \\times ${aire} = ${k*k} \\times ${aire} = ${airePrime}\\text{ cm}^2$$`
         };
@@ -3416,7 +3467,6 @@ window.MathsGenerators = {
           statement: `Une figure géométrique a une aire $\\mathcal{A} = ${aireInitiale}\\text{ cm}^2$. On lui applique une réduction de rapport $k = 0{,}5$.\n**Quelle est l'aire de la figure réduite en $\\text{cm}^2$ ?**`,
           type: 'exact',
           answer: String(aireReduite),
-          placeholder: `Ex: ${aireReduite}`,
           hint1: `L'aire est multipliée par $k^2 = 0{,}5^2 = 0{,}25 = \\frac{1}{4}$.`,
           solution: `$$\\mathcal{A}' = 0{,}5^2 \\times ${aireInitiale} = 0{,}25 \\times ${aireInitiale} = ${aireReduite}\\text{ cm}^2$$`
         };
@@ -3434,7 +3484,6 @@ window.MathsGenerators = {
         statement: `Une petite pyramide de volume $\\mathcal{V}_1 = ${vInitial}\\text{ cm}^3$ est agrandie d'un rapport $k = ${k}$ pour former une grande pyramide de volume $\\mathcal{V}_2$.\nOn retire ensuite la petite pyramide du sommet pour ne conserver que le tronc de pyramide restant.\n\n**Calculer le volume $\\mathcal{V}_{\\text{tronc}}$ de ce tronc de pyramide en $\\text{cm}^3$.**`,
         type: 'exact',
         answer: String(vTronc),
-        placeholder: `Ex: ${vTronc}`,
         hint1: `1. Les volumes sont multipliés par $k^3 = ${k}^3 = ${k*k*k}$. Calcule $\\mathcal{V}_2 = ${k*k*k} \\times ${vInitial}$.\n2. Le volume du tronc est la différence : $\\mathcal{V}_{\\text{tronc}} = \\mathcal{V}_2 - \\mathcal{V}_1$.`,
         solution: `1. Volume agrandi :\n$$\\mathcal{V}_2 = k^3 \\times \\mathcal{V}_1 = 2^3 \\times ${vInitial} = 8 \\times ${vInitial} = ${vTotal}\\text{ cm}^3$$\n2. Volume du tronc restant :\n$$\\mathcal{V}_{\\text{tronc}} = ${vTotal} - ${vInitial} = ${vTronc}\\text{ cm}^3$$`
       };
@@ -3446,36 +3495,42 @@ window.MathsGenerators = {
     const t = this.resolveTier(tier);
 
     if (t === 1) {
-      // Palier 1 : Socle (Aire d'une sphère A = 4 * pi * R²)
+      // Palier 1 : Socle (Aire d'une sphère A = 4 * pi * R²) — rayon ou diamètre donné
       const r = this.randInt(2, 15);
       const coeff = 4 * r * r;
+      const giveDiameter = Math.random() < 0.4;
+      const obj = this.randChoice(['une sphère', 'un ballon sphérique', 'une boule', 'un globe sphérique']);
+      const data = giveDiameter ? `de diamètre $D = ${2 * r}\\text{ cm}$` : `de rayon $R = ${r}\\text{ cm}$`;
+      const step = giveDiameter ? `Le rayon vaut $R = \\frac{D}{2} = \\frac{${2 * r}}{2} = ${r}\\text{ cm}$.\n` : '';
 
       return {
         chapterId: 'G4',
         tier: 1,
         title: "Aire d'une sphère (Valeur exacte)",
-        statement: `Soit une sphère de rayon $R = ${r}\\text{ cm}$.\n*(Formule de l'aire : $\\mathcal{A} = 4\\pi R^2$)*\n\n**Donner la valeur exacte de son aire sous la forme $n\\pi$ (saisir le nombre $n$).**`,
+        statement: `Soit ${obj} ${data}.\n*(Formule de l'aire : $\\mathcal{A} = 4\\pi R^2$)*\n\n**Donner la valeur exacte de son aire sous la forme $n\\pi$ (saisir le nombre $n$).**`,
         type: 'exact',
         answer: String(coeff),
-        placeholder: `Ex: ${coeff}`,
-        hint1: `Calcule $4 \\times R^2 = 4 \\times ${r}^2 = 4 \\times ${r*r}$.`,
-        solution: `$$\\mathcal{A} = 4 \\times \\pi \\times R^2 = 4 \\times \\pi \\times ${r}^2 = 4 \\times ${r*r} \\times \\pi = ${coeff}\\pi\\text{ cm}^2$$`
+        hint1: `${giveDiameter ? 'Attention : la formule utilise le rayon, moitié du diamètre. ' : ''}Calcule $4 \\times R^2 = 4 \\times ${r}^2 = 4 \\times ${r * r}$.`,
+        solution: `${step}$$\\mathcal{A} = 4 \\times \\pi \\times R^2 = 4 \\times \\pi \\times ${r}^2 = 4 \\times ${r * r} \\times \\pi = ${coeff}\\pi\\text{ cm}^2$$`
       };
     } else if (t === 2) {
-      // Palier 2 : Guidé (Volume d'une boule V = 4/3 * pi * R³)
-      const r = this.randChoice([3, 6, 9, 12]); // R multiple de 3 pour coefficient entier exact
-      const coeff = (4 * r * r * r) / 3;
+      // Palier 2 : Guidé (Volume d'une boule V = 4/3 * pi * R³), n entier ou fraction irréductible
+      const r = this.randInt(1, 12);
+      const giveDiameter = Math.random() < 0.4;
+      const obj = this.randChoice(['une boule', 'une bille', 'un ballon', 'une sphère pleine']);
+      const data = giveDiameter ? `de diamètre $D = ${2 * r}\\text{ cm}$` : `de rayon $R = ${r}\\text{ cm}$`;
+      const nTex = this.formatFraction(4 * r * r * r, 3);
+      const step = giveDiameter ? `Le rayon vaut $R = \\frac{${2 * r}}{2} = ${r}\\text{ cm}$.\n` : '';
 
       return {
         chapterId: 'G4',
         tier: 2,
         title: "Volume d'une boule (Valeur exacte)",
-        statement: `Soit une boule de rayon $R = ${r}\\text{ cm}$.\n*(Formule du volume : $\\mathcal{V} = \\frac{4}{3}\\pi R^3$)*\n\n**Donner la valeur exacte du volume sous la forme $n\\pi$ (saisir le nombre $n$).**`,
+        statement: `Soit ${obj} ${data}.\n*(Formule du volume : $\\mathcal{V} = \\frac{4}{3}\\pi R^3$)*\n\n**Donner la valeur exacte du volume sous la forme $n\\pi$ (saisir le nombre $n$, éventuellement sous forme de fraction irréductible).**`,
         type: 'exact',
-        answer: String(coeff),
-        placeholder: `Ex: ${coeff}`,
-        hint1: `Calcule $R^3 = ${r}^3 = ${r*r*r}$, puis multiplie par $4/3$.`,
-        solution: `$$\\mathcal{V} = \\frac{4}{3} \\times \\pi \\times ${r}^3 = \\frac{4 \\times ${r*r*r}}{3} \\times \\pi = ${coeff}\\pi\\text{ cm}^3$$`
+        answer: this.fracAnswer(4 * r * r * r, 3),
+        hint1: `${giveDiameter ? 'Commence par calculer le rayon. ' : ''}Calcule $R^3 = ${r}^3 = ${r * r * r}$, puis multiplie par $\\frac{4}{3}$.`,
+        solution: `${step}$$\\mathcal{V} = \\frac{4}{3} \\times \\pi \\times ${r}^3 = \\frac{4 \\times ${r * r * r}}{3} \\times \\pi = ${nTex}\\pi\\text{ cm}^3$$`
       };
     } else if (t === 3) {
       // Palier 3 : Brevet (Section d'une sphère par un plan)
@@ -3491,7 +3546,6 @@ window.MathsGenerators = {
         statement: `Une sphère de centre $O$ et de rayon $R = ${rSphere}\\text{ cm}$ est coupée par un plan $\\mathcal{P}$ situé à une distance $OH = ${d}\\text{ cm}$ du centre.\nLa section obtenue est un cercle de centre $H$ et de rayon $r$.\n\n**Calculer le rayon $r$ de ce cercle de section.**`,
         type: 'exact',
         answer: String(rSection),
-        placeholder: `Ex: ${rSection}`,
         hint1: `Le triangle $OHM$ formé par le centre de la sphère, le centre du cercle de section et un point du cercle est rectangle en $H$. D'après Pythagore : $R^2 = OH^2 + r^2$.`,
         solution: `Dans le triangle $OHM$ rectangle en $H$ :\n$$OM^2 = OH^2 + r^2 \\implies r^2 = OM^2 - OH^2$$\n$$r^2 = ${rSphere}^2 - ${d}^2 = ${rSphere*rSphere} - ${d*d} = ${rSection*rSection}$$\n$$r = \\sqrt{${rSection*rSection}} = ${rSection}\\text{ cm}$$`
       };
@@ -3510,9 +3564,8 @@ window.MathsGenerators = {
         statement: `Un réservoir métallique est composé d'un cylindre de hauteur $h = ${h}\\text{ cm}$ et de rayon $R = ${r}\\text{ cm}$, surmonté à l'une de ses bases d'une demi-sphère de même rayon $R = ${r}\\text{ cm}$.\n\n**Donner la valeur exacte du volume total du réservoir sous la forme $n\\pi\\text{ cm}^3$ (saisir le nombre $n$).**`,
         type: 'exact',
         answer: String(totalCoeff),
-        placeholder: `Ex: ${totalCoeff}`,
         hint1: `1. Volume du cylindre : $\\mathcal{V}_1 = \\pi R^2 h = \\pi \\times ${r}^2 \\times ${h} = ${vCylCoeff}\\pi$.\n2. Volume de la demi-sphère : $\\mathcal{V}_2 = \\frac{1}{2} \\times \\left(\\frac{4}{3}\\pi R^3\\right) = \\frac{2}{3}\\pi \\times ${r*r*r} = ${vDemiCoeff}\\pi$.\n3. Additionne les deux coefficients.`,
-        solution: `1. Volume du cylindre :\n$$\\mathcal{V}_{\\text{cylindre}} = \\pi \\times R^2 \\times h = \\pi \\times ${r}^2 \\times ${h} = ${vCylCoeff}\\pi\\text{ cm}^2$$\n2. Volume de la demi-sphère :\n$$\\mathcal{V}_{\\text{demi-sphère}} = \\frac{1}{2} \\times \\left(\\frac{4}{3}\\pi R^3\\right) = \\frac{2}{3}\\pi \\times ${r*r*r} = ${vDemiCoeff}\\pi\\text{ cm}^3$$\n3. Volume total :\n$$\\mathcal{V}_{\\text{total}} = ${vCylCoeff}\\pi + ${vDemiCoeff}\\pi = ${totalCoeff}\\pi\\text{ cm}^3$$`
+        solution: `1. Volume du cylindre :\n$$\\mathcal{V}_{\\text{cylindre}} = \\pi \\times R^2 \\times h = \\pi \\times ${r}^2 \\times ${h} = ${vCylCoeff}\\pi\\text{ cm}^3$$\n2. Volume de la demi-sphère :\n$$\\mathcal{V}_{\\text{demi-sphère}} = \\frac{1}{2} \\times \\left(\\frac{4}{3}\\pi R^3\\right) = \\frac{2}{3}\\pi \\times ${r*r*r} = ${vDemiCoeff}\\pi\\text{ cm}^3$$\n3. Volume total :\n$$\\mathcal{V}_{\\text{total}} = ${vCylCoeff}\\pi + ${vDemiCoeff}\\pi = ${totalCoeff}\\pi\\text{ cm}^3$$`
       };
     }
   },
@@ -3534,7 +3587,6 @@ window.MathsGenerators = {
           statement: `Dans un cercle de centre $O$, l'angle inscrit $\\widehat{AMB}$ intercepte le même arc que l'angle au centre $\\widehat{AOB}$.\nOn sait que $\\widehat{AMB} = ${inscrit}^\\circ$.\n**Calculer la mesure de l'angle au centre $\\widehat{AOB}$.**`,
           type: 'exact',
           answer: String(centre),
-          placeholder: `Ex: ${centre}`,
           hint1: `Dans un cercle, la mesure d'un angle au centre est le double de celle de l'angle inscrit qui intercepte le même arc.`,
           solution: `$$\\widehat{AOB} = 2 \\times \\widehat{AMB} = 2 \\times ${inscrit}^\\circ = ${centre}^\\circ$$`
         };
@@ -3548,7 +3600,6 @@ window.MathsGenerators = {
           statement: `Dans un cercle de centre $O$, l'angle au centre $\\widehat{AOB}$ mesure $${centre}^\\circ$.\nL'angle inscrit $\\widehat{AMB}$ intercepte le même arc $\\overset{\\frown}{AB}$.\n**Calculer la mesure de l'angle inscrit $\\widehat{AMB}$ en degrés.**`,
           type: 'exact',
           answer: String(inscrit),
-          placeholder: `Ex: ${inscrit}`,
           hint1: `La mesure de l'angle inscrit est la moitié de celle de l'angle au centre qui intercepte le même arc : $\\frac{${centre}^\\circ}{2}$.`,
           solution: `$$\\widehat{AMB} = \\frac{\\widehat{AOB}}{2} = \\frac{${centre}^\\circ}{2} = ${inscrit}^\\circ$$`
         };
@@ -3569,7 +3620,6 @@ window.MathsGenerators = {
         statement: `Dans un cercle de centre $O$, les angles inscrits $\\widehat{A${points.p1}B}$ et $\\widehat{A${points.p2}B}$ interceptent tous les deux le même arc de cercle $\\overset{\\frown}{AB}$.\nOn donne $\\widehat{A${points.p1}B} = ${angle}^\\circ$.\n**Quelle est la mesure de l'angle $\\widehat{A${points.p2}B}$ ?**`,
         type: 'exact',
         answer: String(angle),
-        placeholder: `Ex: ${angle}`,
         hint1: `Deux angles inscrits dans un même cercle qui interceptent le même arc ont la même mesure.`,
         solution: `Comme les angles $\\widehat{A${points.p1}B}$ et $\\widehat{A${points.p2}B}$ interceptent le même arc $\\overset{\\frown}{AB}$ :\n$$\\widehat{A${points.p2}B} = \\widehat{A${points.p1}B} = ${angle}^\\circ$$`
       };
@@ -3597,7 +3647,6 @@ window.MathsGenerators = {
         statement: `Soit un ${poly.name} ($n = ${poly.n}$ côtés égaux) inscrit dans un cercle de centre $O$.\n**Quelle est la mesure en degrés de l'angle au centre sous-tendu par chaque côté ?**`,
         type: 'exact',
         answer: String(poly.angle),
-        placeholder: `Ex: ${poly.angle}`,
         hint1: `Le tour complet du cercle mesure $360^\\circ$. Un polygone à $n$ côtés égaux partage le cercle en $n$ angles au centre identiques : $\\frac{360^\\circ}{n}$.`,
         solution: `Pour un ${poly.name} ($n = ${poly.n}$ côtés) :\n$$\\text{Angle au centre} = \\frac{360^\\circ}{${poly.n}} = ${poly.angle}^\\circ$$`
       };
@@ -3622,7 +3671,6 @@ window.MathsGenerators = {
         statement: `Dans un ${poly.name} régulier de centre $O$, deux côtés consécutifs forment un angle intérieur $\\widehat{ABC}$.\n\n**Calculer la mesure exacte de l'angle intérieur $\\widehat{ABC}$ en degrés.**`,
         type: 'exact',
         answer: String(poly.interior),
-        placeholder: `Ex: ${poly.interior}`,
         hint1: `Formule générale : $\\frac{(${poly.n} - 2) \\times 180^\\circ}{${poly.n}}$.`,
         solution: `Dans un ${poly.name} ($n = ${poly.n}$) :\n$$\\text{Angle intérieur} = \\frac{(${poly.n} - 2) \\times 180^\\circ}{${poly.n}} = \\frac{${poly.n - 2} \\times 180^\\circ}{${poly.n}} = ${poly.interior}^\\circ$$`
       };
@@ -3643,10 +3691,9 @@ window.MathsGenerators = {
         chapterId: 'G6',
         tier: 1,
         title: "Coordonnées d'un point dans l'espace $(x, y, z)$",
-        statement: `Dans un repère $(O; I, J, K)$ de l'espace, un point $M$ est obtenu en partant de l'origine $O$, en avançant de $x = ${x}$ unités sur l'axe $(OI)$, de $y = ${y}$ unités sur l'axe $(OJ)$, et en montant de $z = ${z}$ unités sur l'axe $(OK)$.\n\n**Quelles sont les coordonnées de $M$ ?** (Format: x;y;z)`,
+        statement: `Dans un repère $(O; I, J, K)$ de l'espace, un point $M$ est obtenu en partant de l'origine $O$, en avançant de $x = ${x}$ unités sur l'axe $(OI)$, de $y = ${y}$ unités sur l'axe $(OJ)$, et en montant de $z = ${z}$ unités sur l'axe $(OK)$.\n\n**Quelles sont les coordonnées de $M$ ?** (format : x;y;z)`,
         type: 'exact',
         answer: `${x};${y};${z}`,
-        placeholder: `${x};${y};${z}`,
         hint1: `Dans l'espace, les coordonnées s'écrivent dans l'ordre $(x ; y ; z)$ : abscisse, ordonnée, altitude.`,
         solution: `Le point $M$ a pour coordonnées :\n$$M(${x} ; ${y} ; ${z})$$`
       };
@@ -3667,10 +3714,9 @@ window.MathsGenerators = {
         chapterId: 'G6',
         tier: 2,
         title: "Milieu d'un segment dans l'espace",
-        statement: `Soient les points $A(${xA} ; ${yA} ; ${zA})$ et $B(${xB} ; ${yB} ; ${zB})$ dans l'espace.\n**Quelles sont les coordonnées du milieu $M$ du segment $[AB]$ ?** (Format: x;y;z)`,
+        statement: `Soient les points $A(${xA} ; ${yA} ; ${zA})$ et $B(${xB} ; ${yB} ; ${zB})$ dans l'espace.\n**Quelles sont les coordonnées du milieu $M$ du segment $[AB]$ ?** (format : x;y;z)`,
         type: 'exact',
         answer: `${xM};${yM};${zM}`,
-        placeholder: `${xM};${yM};${zM}`,
         hint1: `Formule du milieu : $x_M = \\frac{x_A + x_B}{2}$, $y_M = \\frac{y_A + y_B}{2}$, $z_M = \\frac{z_A + z_B}{2}$.`,
         solution: `$$x_M = \\frac{${xA} + ${xB}}{2} = ${xM},\\quad y_M = \\frac{${yA} + ${yB}}{2} = ${yM},\\quad z_M = \\frac{${zA} + ${zB}}{2} = ${zM}$$\n$$M(${xM} ; ${yM} ; ${zM})$$`
       };
@@ -3700,7 +3746,6 @@ window.MathsGenerators = {
         statement: `Sur le globe terrestre, la ville $A$ a pour coordonnées $(${lat1}^\\circ\\text{ ${hem1}} ; ${long}^\\circ\\text{ E})$ et la ville $B$ a pour coordonnées $(${lat2}^\\circ\\text{ ${hem2}} ; ${long}^\\circ\\text{ E})$.\n**Quelle est la différence angulaire en latitude entre ces deux villes le long de leur méridien commun (en degrés) ?**`,
         type: 'exact',
         answer: String(diff),
-        placeholder: `Ex: ${diff}`,
         hint1: hem1 !== hem2
           ? `La ville $A$ est dans l'hémisphère Nord ($+${lat1}^\\circ$) et la ville $B$ dans l'hémisphère Sud ($-${lat2}^\\circ$). L'écart angulaire est $${lat1}^\\circ - (-${lat2}^\\circ) = ${lat1}^\\circ + ${lat2}^\\circ$.`
           : `Les deux villes sont dans le même hémisphère Nord. L'écart angulaire est simplement $${lat1}^\\circ - ${lat2}^\\circ$.`,
@@ -3713,24 +3758,33 @@ window.MathsGenerators = {
       // Circonférence Terre = 40 000 km => 1° de méridien = 40000 / 360 = 111.11 km
       // Choisissons un écart angulaire propre : 9° => (9/360)*40000 = 1000 km !
       // Ou 18° => 2000 km ! Ou 36° => 4000 km ! Ou 45° => 5000 km !
-      const angles = [
-        { deg: 9, dist: 1000 },
-        { deg: 18, dist: 2000 },
-        { deg: 36, dist: 4000 },
-        { deg: 45, dist: 5000 }
-      ];
-      const a = this.randChoice(angles);
+      // Écart angulaire multiple de 9° : d = Δθ × 40 000 / 360 est entier
+      const deg = 9 * this.randInt(1, 20);
+      const dist = (deg * 40000) / 360;
+      const askAngle = Math.random() < 0.4;
+      const [P, Q] = this.randChoice([['P', 'Q'], ['A', 'B'], ['M', 'N'], ['E', 'F']]);
+      if (askAngle) {
+        return {
+          chapterId: 'G6',
+          tier: 4,
+          title: "Défi Seconde : Écart de latitude à partir d'une distance",
+          statement: `On modélise la Terre comme une sphère dont un méridien a une longueur de $C = 40\\,000\\text{ km}$.\nDeux villes $${P}$ et $${Q}$ sont situées sur le même méridien, à une distance de $${this.formatThousands(dist)}\\text{ km}$ l'une de l'autre le long de ce méridien.\n\n**Calculer l'écart de latitude $\\Delta \\theta$ (en degrés) entre ces deux villes.**`,
+          type: 'exact',
+          answer: String(deg),
+          hint1: `La longueur d'un arc est proportionnelle à l'angle : $360^\\circ$ correspondent à $40\\,000\\text{ km}$. Donc $\\Delta \\theta = \\frac{d}{40\\,000} \\times 360$.`,
+          solution: `$$\\Delta \\theta = \\frac{d}{C} \\times 360^\\circ = \\frac{${this.formatThousands(dist)}}{40\\,000} \\times 360^\\circ = ${deg}^\\circ$$`
+        };
+      }
 
       return {
         chapterId: 'G6',
         tier: 4,
         title: "Défi Seconde : Distance le long d'un méridien terrestre",
-        statement: `On modélise la Terre comme une sphère de circonférence équatoriale et méridienne égale à $C = 40\\,000\\text{ km}$.\nDeux villes $P$ et $Q$ sont situées sur le même méridien et présentent un écart de latitude de $\\Delta \\theta = ${a.deg}^\\circ$.\n\n**Calculer la distance réelle $d$ en kilomètres séparant ces deux villes à la surface de la Terre le long du méridien.**`,
+        statement: `On modélise la Terre comme une sphère dont un méridien a une longueur de $C = 40\\,000\\text{ km}$.\nDeux villes $${P}$ et $${Q}$ sont situées sur le même méridien et présentent un écart de latitude de $\\Delta \\theta = ${deg}^\\circ$.\n\n**Calculer la distance réelle $d$ en kilomètres séparant ces deux villes à la surface de la Terre le long du méridien.**`,
         type: 'exact',
-        answer: String(a.dist),
-        placeholder: `Ex: ${a.dist}`,
+        answer: String(dist),
         hint1: `La circonférence totale de $40\\,000\\text{ km}$ correspond à un angle de $360^\\circ$. Utilise la proportionnalité : $d = \\frac{\\Delta \\theta}{360} \\times 40\\,000$.`,
-        solution: `La longueur d'un arc de cercle est proportionnelle à l'angle au centre :\n$$d = \\frac{\\Delta \\theta}{360^\\circ} \\times C = \\frac{${a.deg}}{360} \\times 40\\,000 = ${a.dist}\\text{ km}$$`
+        solution: `La longueur d'un arc de cercle est proportionnelle à l'angle au centre :\n$$d = \\frac{\\Delta \\theta}{360^\\circ} \\times C = \\frac{${deg}}{360} \\times 40\\,000 = ${this.formatThousands(dist)}\\text{ km}$$`
       };
     }
   },
@@ -3750,7 +3804,6 @@ window.MathsGenerators = {
           statement: `Un segment $[AB]$ mesure $AB = ${l}\\text{ cm}$. On applique une translation qui transforme $A$ en $A'$ et $B$ en $B'$.\n**Quelle est la longueur du segment $[A'B']$ en cm ?**`,
           type: 'exact',
           answer: String(l),
-          placeholder: `Ex: ${l}`,
           hint1: `Une translation conserve les longueurs (c'est une isométrie). Le segment transformé a donc exactement la même longueur.`,
           solution: `Une translation est un déplacement sans déformation qui conserve les longueurs :\n$$A'B' = AB = ${l}\\text{ cm}$$`
         };
@@ -3763,7 +3816,6 @@ window.MathsGenerators = {
           statement: `Un angle $\\widehat{ABC}$ mesure $${ang}^\\circ$. On lui fait subir une rotation de centre $O$ et d'angle $70^\\circ$.\n**Quelle est la mesure de son angle image en degrés ?**`,
           type: 'exact',
           answer: String(ang),
-          placeholder: `Ex: ${ang}`,
           hint1: "La rotation est une isométrie qui conserve les mesures des angles.",
           solution: `La rotation conserve les angles, l'angle transformé mesure donc toujours $${ang}^\\circ$.`
         };
@@ -3776,7 +3828,6 @@ window.MathsGenerators = {
           statement: `Une figure $F$ a une aire de $${aire}\\text{ cm}^2$. Quelle est l'aire de sa figure symétrique par rapport à une droite en $\\text{cm}^2$ ?`,
           type: 'exact',
           answer: String(aire),
-          placeholder: `Ex: ${aire}`,
           hint1: "La symétrie axiale conserve les aires.",
           solution: `La symétrie axiale conserve les aires, l'aire reste donc égale à $${aire}\\text{ cm}^2$.`
         };
@@ -3792,7 +3843,6 @@ window.MathsGenerators = {
           statement: `Une rotation de centre $O$ et d'angle $${ang}^\\circ$ dans le sens horaire transforme une figure $F_1$ en $F_2$.\nQuelle doit être la valeur de l'angle (en degrés) d'une rotation de centre $O$ effectuant la transformation inverse (ramenant $F_2$ sur $F_1$) dans le sens antihoraire ?`,
           type: 'exact',
           answer: String(ang),
-          placeholder: `Ex: ${ang}`,
           hint1: `La rotation inverse s'effectue dans le sens opposé avec exactement la même mesure d'angle de $${ang}^\\circ$.`,
           solution: `Pour inverser une rotation d'angle $${ang}^\\circ$ dans le sens horaire, il suffit d'appliquer une rotation de même angle $${ang}^\\circ$ en sens inverse (antihoraire).`
         };
@@ -3807,7 +3857,6 @@ window.MathsGenerators = {
           statement: `Deux triangles $ABC$ et $DEF$ sont semblables. Dans le triangle $ABC$, deux angles mesurent $${a1}^\\circ$ et $${a2}^\\circ$.\n**Quelle est la mesure du troisième angle dans le triangle $DEF$ en degrés ?**`,
           type: 'exact',
           answer: String(a3),
-          placeholder: `Ex: ${a3}`,
           hint1: "Deux triangles semblables ont leurs angles deux à deux de même mesure. La somme des angles d'un triangle vaut 180°.",
           solution: `La somme des angles vaut $180^\\circ$ :\n$$\\text{Angle} = 180^\\circ - (${a1}^\\circ + ${a2}^\\circ) = 180^\\circ - ${a1 + a2}^\\circ = ${a3}^\\circ$$\nLes triangles étant semblables, le triangle $DEF$ possède les mêmes angles.`
         };
@@ -3828,7 +3877,6 @@ window.MathsGenerators = {
           statement: `Deux triangles $ABC$ et $DEF$ sont semblables. Le côté $[AB] = ${a}\\text{ cm}$ correspond au côté $[DE] = ${aPrime}\\text{ cm}$.\nSachant que le côté $[BC] = ${b}\\text{ cm}$, **calculer la longueur de son côté homologue $[EF]$ en cm.**`,
           type: 'exact',
           answer: String(bPrime),
-          placeholder: `Ex: ${bPrime}`,
           hint1: `Dans deux triangles semblables, les longueurs des côtés homologues sont proportionnelles : $k = \\frac{DE}{AB} = \\frac{${aPrime}}{${a}} = ${k}$.`,
           solution: `Le coefficient de proportionnalité est :\n$$k = \\frac{DE}{AB} = \\frac{${aPrime}}{${a}} = ${k}$$\n$$EF = k \\times BC = ${k} \\times ${b} = ${bPrime}\\text{ cm}$$`
         };
@@ -3840,7 +3888,6 @@ window.MathsGenerators = {
           statement: `Deux triangles $ABC$ et $DEF$ sont semblables. Le côté $[DE] = ${aPrime}\\text{ cm}$ correspond à $[AB] = ${a}\\text{ cm}$.\nSachant que $[EF] = ${bPrime}\\text{ cm}$, **calculer la longueur du côté correspondant $[BC]$ en cm.**`,
           type: 'exact',
           answer: String(b),
-          placeholder: `Ex: ${b}`,
           hint1: `Le rapport de réduction est $\\frac{${a}}{${aPrime}} = \\frac{1}{${k}}$. Calcule $\\frac{${bPrime}}{${k}}$.`,
           solution: `$$BC = \\frac{EF}{k} = \\frac{${bPrime}}{${k}} = ${b}\\text{ cm}$$`
         };
@@ -3859,7 +3906,6 @@ window.MathsGenerators = {
           statement: `Deux triangles semblables $T_1$ et $T_2$ ont pour rapport d'agrandissement $k = ${k}$ (les longueurs de $T_2$ sont ${k} fois plus grandes que celles de $T_1$).\nL'aire du petit triangle $T_1$ est $\\mathcal{A}_1 = ${aire1}\\text{ cm}^2$.\n\n**Calculer l'aire $\\mathcal{A}_2$ du triangle $T_2$ en $\\text{cm}^2$.**`,
           type: 'exact',
           answer: String(aire2),
-          placeholder: `Ex: ${aire2}`,
           hint1: `Règle fondamentale : si les longueurs d'une figure sont multipliées par $k$, l'aire est multipliée par $k^2 = ${k}^2 = ${k*k}$.`,
           solution: `Les triangles étant semblables de rapport $k = ${k}$ :\n$$\\mathcal{A}_2 = k^2 \\times \\mathcal{A}_1 = ${k}^2 \\times ${aire1} = ${k*k} \\times ${aire1} = ${aire2}\\text{ cm}^2$$`
         };
@@ -3874,7 +3920,6 @@ window.MathsGenerators = {
           statement: `Deux solides semblables ont un rapport d'agrandissement de leurs dimensions égal à $k = ${k}$.\nLe volume du petit solide est $\\mathcal{V}_1 = ${v1}\\text{ cm}^3$.\n\n**Quel est le volume $\\mathcal{V}_2$ du grand solide en $\\text{cm}^3$ ?**`,
           type: 'exact',
           answer: String(v2),
-          placeholder: `Ex: ${v2}`,
           hint1: `Si les longueurs sont multipliées par $k$, le volume est multiplié par $k^3 = ${k}^3 = ${k*k*k}$.`,
           solution: `$$\\mathcal{V}_2 = k^3 \\times \\mathcal{V}_1 = ${k}^3 \\times ${v1} = ${k*k*k} \\times ${v1} = ${v2}\\text{ cm}^3$$`
         };
@@ -3908,7 +3953,6 @@ window.MathsGenerators = {
           statement: `Soit la fonction affine $f$ définie par $f(x) = ${a}x ${sign} ${b}$.\n**Calculer l'image de $${x}$ par la fonction $f$ (c'est-à-dire $f(${x})$).**`,
           type: 'exact',
           answer: String(img),
-          placeholder: `Ex: ${img}`,
           hint1: `Remplace $x$ par $${x}$ dans la formule : $f(${x}) = ${a} \\times ${x} ${sign} ${b}$.`,
           solution: `$$f(${x}) = ${a} \\times ${x} ${sign} ${b} = ${a*x} ${sign} ${b} = ${img}$$`
         };
@@ -3923,7 +3967,6 @@ window.MathsGenerators = {
           statement: `Soit la fonction linéaire $g$ définie par $g(x) = ${a}x$.\n**Calculer l'image de $${x}$ par la fonction $g$.**`,
           type: 'exact',
           answer: String(img),
-          placeholder: `Ex: ${img}`,
           hint1: `Une fonction linéaire modélise la proportionnalité : $g(${x}) = ${a} \\times ${x}$.`,
           solution: `$$g(${x}) = ${a} \\times ${x} = ${img}$$`
         };
@@ -3939,7 +3982,6 @@ window.MathsGenerators = {
           statement: `Soit la fonction affine $h(x) = ${a}x + ${b}$.\n**Calculer la valeur de $h(${x})$ :**`,
           type: 'exact',
           answer: String(img),
-          placeholder: `Ex: ${img}`,
           hint1: `Attention au produit : $${a} \\times (${x}) = ${a * x}$, puis ajoute $${b}$.`,
           solution: `$$h(${x}) = ${a} \\times (${x}) + ${b} = ${a * x} + ${b} = ${img}$$`
         };
@@ -3961,7 +4003,6 @@ window.MathsGenerators = {
           statement: `Soit la fonction $g(x) = ${a}x ${sign} ${b}$.\n**Déterminer l'antécédent de $${y}$ par la fonction $g$.**`,
           type: 'exact',
           answer: String(x),
-          placeholder: `Ex: ${x}`,
           hint1: `Chercher l'antécédent de $${y}$, c'est résoudre l'équation $g(x) = ${y}$, soit $${a}x ${sign} ${b} = ${y}$.`,
           solution: `Pour trouver l'antécédent de $${y}$, on résout l'équation :\n$$${a}x ${sign} ${b} = ${y}$$\n$$${a}x = ${y} ${sign === '+' ? '-' : '+'} ${b} = ${y - bVal}$$\n$$x = \\frac{${y - bVal}}{${a}} = ${x}$$`
         };
@@ -3976,7 +4017,6 @@ window.MathsGenerators = {
           statement: `Soit la fonction $f(x) = ${a}x - ${b}$.\n**Quel est l'antécédent de $0$ par la fonction $f$ ?**`,
           type: 'exact',
           answer: String(x),
-          placeholder: `Ex: ${x}`,
           hint1: `Résous l'équation $f(x) = 0 \\iff ${a}x - ${b} = 0$.`,
           solution: `$$${a}x - ${b} = 0 \\iff ${a}x = ${b} \\iff x = \\frac{${b}}{${a}} = ${x}$$`
         };
@@ -3998,7 +4038,6 @@ window.MathsGenerators = {
           statement: `La représentation graphique d'une fonction affine $f(x) = ax + b$ passe par les points $A(${x1} ; ${y1})$ et $B(${x2} ; ${y2})$.\n\n**Calculer la valeur exacte du coefficient directeur $a$.**`,
           type: 'exact',
           answer: String(a),
-          placeholder: `Ex: ${a}`,
           hint1: `Formule du coefficient directeur : $a = \\frac{y_B - y_A}{x_B - x_A} = \\frac{${y2} - (${y1})}{${x2} - ${x1}}$.`,
           solution: `Le coefficient directeur $a$ (ou pente) se calcule par le taux d'accroissement :\n$$a = \\frac{y_B - y_A}{x_B - x_A} = \\frac{${y2} - (${y1})}{${x2} - ${x1}} = \\frac{${y2 - y1}}{${x2 - x1}} = ${a}$$`
         };
@@ -4014,7 +4053,6 @@ window.MathsGenerators = {
           statement: `Une droite représentant une fonction affine $f(x) = ax + b$ a pour coefficient directeur $a = ${a}$ et passe par le point $A(${x1} ; ${y1})$.\n**Quelle est l'ordonnée à l'origine $b$ de cette droite ?**`,
           type: 'exact',
           answer: String(b),
-          placeholder: `Ex: ${b}`,
           hint1: `Comme $f(${x1}) = ${y1}$, on a : $${a} \\times ${x1} + b = ${y1} \\implies b = ${y1} - ${a * x1}$.`,
           solution: `$$f(${x1}) = ${y1} \\implies ${a} \\times ${x1} + b = ${y1} \\implies ${a * x1} + b = ${y1} \\implies b = ${y1} - ${a * x1} = ${b}$$`
         };
@@ -4034,7 +4072,6 @@ window.MathsGenerators = {
         statement: `On considère deux fonctions affines :\n- $f(x) = ${this.formatPoly([a1, b1])}$\n- $g(x) = ${this.formatPoly([a2, b2])}$\n\nLeurs droites représentatives $d_f$ et $d_g$ se coupent en un point $K(x ; y)$.\n**Quelle est l'abscisse $x$ de ce point d'intersection ?**`,
         type: 'exact',
         answer: String(xInt),
-        placeholder: `Ex: ${xInt}`,
         hint1: `Au point d'intersection, les deux fonctions ont la même valeur : $f(x) = g(x)$.\nRésous l'équation : $${this.formatPoly([a1, b1])} = ${this.formatPoly([a2, b2])}$.`,
         solution: `Au point d'intersection $K$, $f(x) = g(x)$ :\n$$${this.formatPoly([a1, b1])} = ${this.formatPoly([a2, b2])}$$\n$$${a1}x - (${a2}x) = ${b2} - (${b1})$$\n$$${a1 - a2}x = ${b2 - b1}$$\n$$x = \\frac{${b2 - b1}}{${a1 - a2}} = ${xInt}$$\n*(L'ordonnée vaut alors $y = f(${xInt}) = ${yInt}$, donc $K(${xInt} ; ${yInt})$)*`
       };
@@ -4066,7 +4103,6 @@ window.MathsGenerators = {
           statement: `Voici la liste des notes obtenues par un élève : $${vals.join('~;~')}$.\n**Calculer la note moyenne de cet élève.**`,
           type: 'exact',
           answer: String(target),
-          placeholder: `Ex: ${target}`,
           hint1: `Calcule la somme des 4 notes ($${vals.join(' + ')}$) puis divise par le nombre total de notes ($4$).`,
           solution: `$$\\bar{x} = \\frac{${vals.join(' + ')}}{4} = \\frac{${vals.reduce((a, b) => a + b, 0)}}{4} = ${target}$$`
         };
@@ -4085,7 +4121,6 @@ window.MathsGenerators = {
           statement: `Voici les températures relevées au cours d'une semaine : $${vals.join('^\\circ\\text{C}~;~')}^\\circ\\text{C}$.\n**Quelle est l'étendue de cette série statistique ?**`,
           type: 'exact',
           answer: String(etendue),
-          placeholder: `Ex: ${etendue}`,
           hint1: "L'étendue est la différence entre la plus grande valeur et la plus petite valeur de la série.",
           solution: `$$\\text{Étendue} = \\text{Valeur maximale} - \\text{Valeur minimale} = ${maxVal} - ${minVal} = ${etendue}$$`
         };
@@ -4103,7 +4138,6 @@ window.MathsGenerators = {
           statement: `On a ordonné une série de 5 valeurs dans l'ordre croissant :\n$$${vals.join(' \\le ')}$$\n**Quelle est la valeur médiane de cette série statistique ?**`,
           type: 'exact',
           answer: String(base),
-          placeholder: `Ex: ${base}`,
           hint1: `L'effectif total est impair ($N = 5$). La médiane est la 3ème valeur : $\\frac{5 + 1}{2} = 3$.`,
           solution: `L'effectif total est $N = 5$.\nLa médiane est la 3ème valeur :\n$$\\text{Médiane} = ${base}$$`
         };
@@ -4119,23 +4153,23 @@ window.MathsGenerators = {
           statement: `Voici une série ordonnée de 6 valeurs :\n$$${vals.join(' \\le ')}$$\n**Quelle est la médiane de cette série ?**`,
           type: 'exact',
           answer: String(med),
-          placeholder: `Ex: ${med}`,
           hint1: `L'effectif total est pair ($N = 6$). La médiane est la moyenne de la 3ème ($${m1}$) et de la 4ème ($${m2}$) valeur.`,
           solution: `L'effectif est $N = 6$ (pair). La médiane est la moyenne des 3e et 4e valeurs :\n$$\\text{Médiane} = \\frac{${m1} + ${m2}}{2} = \\frac{${m1 + m2}}{2} = ${med}$$`
         };
       }
     } else if (t === 3) {
-      // Palier 3 : Brevet (Moyenne pondérée avec coefficients)
-      const c1 = 1, c2 = 2, c3 = 3;
-      const totalCoeff = c1 + c2 + c3; // 6
-      const n1 = this.randInt(8, 16);
-      const n2 = this.randInt(8, 16);
-      // Choisir n3 pour que le total soit divisible par 6
-      const targetMoy = this.randInt(10, 15);
-      const targetSum = targetMoy * totalCoeff;
-      const n3 = Math.round((targetSum - n1 * c1 - n2 * c2) / c3);
-      const actualSum = n1 * c1 + n2 * c2 + n3 * c3;
-      const actualMoy = (actualSum / totalCoeff).toFixed(1).replace('.0', '');
+      // Palier 3 : Brevet (Moyenne pondérée avec coefficients) — moyenne exacte (au plus 1 décimale), notes dans [0 ; 20]
+      let c1, c2, c3, n1, n2, n3, totalCoeff, actualSum;
+      do {
+        [c1, c2, c3] = this.shuffle([1, 2, 3, 4, 5]).slice(0, 3);
+        n1 = this.randInt(6, 20);
+        n2 = this.randInt(6, 20);
+        n3 = this.randInt(6, 20);
+        totalCoeff = c1 + c2 + c3;
+        actualSum = n1 * c1 + n2 * c2 + n3 * c3;
+      } while ((actualSum * 10) % totalCoeff !== 0);
+      const moy = this.roundNum(actualSum / totalCoeff);
+      const moyTex = this.formatDecimal(moy);
 
       return {
         chapterId: 'Org2',
@@ -4143,37 +4177,37 @@ window.MathsGenerators = {
         title: "Moyenne pondérée avec coefficients",
         statement: `Un élève a obtenu :\n- Note $${n1}/20$ (coefficient $${c1}$)\n- Note $${n2}/20$ (coefficient $${c2}$)\n- Note $${n3}/20$ (coefficient $${c3}$)\n\n**Calculer sa moyenne générale pondérée.**`,
         type: 'exact',
-        answer: String(actualMoy),
-        placeholder: `Ex: ${actualMoy}`,
+        answer: String(moy),
         hint1: `Multiplie chaque note par son coefficient, fais la somme, puis divise par la somme des coefficients ($${c1} + ${c2} + ${c3} = ${totalCoeff}$).`,
-        solution: `$$\\bar{x} = \\frac{${n1} \\times ${c1} + ${n2} \\times ${c2} + ${n3} \\times ${c3}}{${c1} + ${c2} + ${c3}} = \\frac{${actualSum}}{${totalCoeff}} = ${actualMoy}$$`
+        solution: `$$\\bar{x} = \\frac{${n1} \\times ${c1} + ${n2} \\times ${c2} + ${n3} \\times ${c3}}{${c1} + ${c2} + ${c3}} = \\frac{${actualSum}}{${totalCoeff}} = ${moyTex}$$`
       };
     } else {
       // Palier 4 : Défi Seconde (Rétro-calcul de note pour atteindre une moyenne cible)
-      // Notes déjà obtenues : n1 (coeff c1), n2 (coeff c2), n3 (coeff c3). Note x inconnue (coeff cx).
-      const c1 = 2, c2 = 1, c3 = 3, cx = 4;
-      const totalCoeff = c1 + c2 + c3 + cx; // 10
-      const targetMoy = this.randInt(12, 15); // ex 14 => total points = 140
-      const n1 = this.randInt(10, 15);
-      const n2 = this.randInt(9, 14);
-      const n3 = this.randInt(11, 16);
-      const currentPoints = n1 * c1 + n2 * c2 + n3 * c3;
-      const targetPoints = targetMoy * totalCoeff;
-      const requiredPointsForX = targetPoints - currentPoints;
-      // Il faut que requiredPointsForX soit divisible par cx et compris entre 5 et 20
-      const xVal = Math.round(requiredPointsForX / cx);
-      const adjustedTargetMoy = (currentPoints + xVal * cx) / totalCoeff;
+      // Notes déjà obtenues : n1 (coeff c1), n2 (coeff c2), n3 (coeff c3). Note x inconnue (coeff cx), x entier de [0 ; 20].
+      let c1, c2, c3, cx, n1, n2, n3, xVal, totalCoeff, currentPoints, targetPoints;
+      do {
+        [c1, c2, c3] = [this.randInt(1, 3), this.randInt(1, 3), this.randInt(1, 3)];
+        cx = this.randInt(2, 5);
+        n1 = this.randInt(7, 18);
+        n2 = this.randInt(7, 18);
+        n3 = this.randInt(7, 18);
+        xVal = this.randInt(5, 20);
+        totalCoeff = c1 + c2 + c3 + cx;
+        currentPoints = n1 * c1 + n2 * c2 + n3 * c3;
+        targetPoints = currentPoints + xVal * cx;
+      } while ((targetPoints * 10) % totalCoeff !== 0);
+      const target = this.roundNum(targetPoints / totalCoeff);
+      const targetTex = this.formatDecimal(target);
 
       return {
         chapterId: 'Org2',
         tier: 4,
         title: "Défi Seconde : Rétro-calcul statistique (Équation de moyenne cible)",
-        statement: `Un étudiant a obtenu 3 notes ce trimestre :\n- $${n1}/20$ (coeff $${c1}$)\n- $${n2}/20$ (coeff $${c2}$)\n- $${n3}/20$ (coeff $${c3}$)\n\nIl lui reste un examen final de coefficient $${cx}$.\n**Quelle note $x$ (sur 20) doit-il obtenir à cet examen final pour que sa moyenne générale pondérée atteigne exactement $${adjustedTargetMoy}/20$ ?**`,
+        statement: `Un étudiant a obtenu 3 notes ce trimestre :\n- $${n1}/20$ (coeff $${c1}$)\n- $${n2}/20$ (coeff $${c2}$)\n- $${n3}/20$ (coeff $${c3}$)\n\nIl lui reste un examen final de coefficient $${cx}$.\n**Quelle note $x$ (sur 20) doit-il obtenir à cet examen final pour que sa moyenne générale pondérée soit exactement $${targetTex}/20$ ?**`,
         type: 'exact',
         answer: String(xVal),
-        placeholder: `Ex: ${xVal}`,
-        hint1: `Total des coefficients : $${c1} + ${c2} + ${c3} + ${cx} = ${totalCoeff}$.\nPour avoir une moyenne de $${adjustedTargetMoy}$, le total des points doit être : $${totalCoeff} \\times ${adjustedTargetMoy} = ${totalCoeff * adjustedTargetMoy}$.\nPose l'équation : $${currentPoints} + ${cx}x = ${totalCoeff * adjustedTargetMoy}$.`,
-        solution: `1. Somme des coefficients :\n$$C = ${c1} + ${c2} + ${c3} + ${cx} = ${totalCoeff}$$\n2. Total des points requis pour une moyenne de $${adjustedTargetMoy}$ :\n$$P_{\\text{total}} = ${totalCoeff} \\times ${adjustedTargetMoy} = ${totalCoeff * adjustedTargetMoy}$$\n3. Points déjà cumulés :\n$$P_{\\text{actuel}} = ${n1}\\times${c1} + ${n2}\\times${c2} + ${n3}\\times${c3} = ${currentPoints}$$\n4. Résolution pour la note $x$ :\n$$${currentPoints} + ${cx}x = ${totalCoeff * adjustedTargetMoy} \\implies ${cx}x = ${totalCoeff * adjustedTargetMoy - currentPoints} \\implies x = \\frac{${totalCoeff * adjustedTargetMoy - currentPoints}}{${cx}} = ${xVal}$$`
+        hint1: `Total des coefficients : $${c1} + ${c2} + ${c3} + ${cx} = ${totalCoeff}$.\nPour avoir une moyenne de $${targetTex}$, le total des points doit être : $${totalCoeff} \\times ${targetTex} = ${targetPoints}$.\nPose l'équation : $${currentPoints} + ${cx}x = ${targetPoints}$.`,
+        solution: `1. Somme des coefficients :\n$$C = ${c1} + ${c2} + ${c3} + ${cx} = ${totalCoeff}$$\n2. Total des points requis pour une moyenne de $${targetTex}$ :\n$$P_{\\text{total}} = ${totalCoeff} \\times ${targetTex} = ${targetPoints}$$\n3. Points déjà cumulés :\n$$P_{\\text{actuel}} = ${n1} \\times ${c1} + ${n2} \\times ${c2} + ${n3} \\times ${c3} = ${currentPoints}$$\n4. Résolution pour la note $x$ :\n$$${currentPoints} + ${cx}x = ${targetPoints} \\implies ${cx}x = ${targetPoints - currentPoints} \\implies x = \\frac{${targetPoints - currentPoints}}{${cx}} = ${xVal}$$`
       };
     }
   },
@@ -4197,7 +4231,6 @@ window.MathsGenerators = {
           statement: `Soit la fonction linéaire $f(x) = ${a}x$.\n**Calculer l'image de $${x}$ par $f$ :**`,
           type: "exact",
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: `Remplace $x$ par $${x}$ dans l'expression de $f$ : $f(${x}) = ${a} \\times (${x})$.`,
           solution: `$$f(${x}) = ${a} \\times (${x}) = ${ans}$$`
         };
@@ -4214,7 +4247,6 @@ window.MathsGenerators = {
           statement: `Soit la fonction affine $f(x) = ${a}x ${bStr}$.\n**Calculer l'image de $${x}$ par $f$ :**`,
           type: "exact",
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: `Remplace $x$ par $${x}$ : effectue la multiplication $${a} \\times (${x})$, puis ajoute ${b}.`,
           solution: `$$f(${x}) = ${a} \\times (${x}) ${bStr} = ${a * x} ${bStr} = ${ans}$$`
         };
@@ -4230,7 +4262,6 @@ window.MathsGenerators = {
           statement: `On considère la fonction affine $f(x) = ${aStr} ${bStr}$.\n**Quelle est l'ordonnée à l'origine de sa droite représentative ?**`,
           type: "exact",
           answer: String(b),
-          placeholder: `Ex: ${b}`,
           hint1: `Pour une fonction affine $f(x) = ax + b$, l'ordonnée à l'origine est le nombre constant $b$ (valeur en $x = 0$).`,
           solution: `L'ordonnée à l'origine est la valeur de $f(0)$ :\n$$b = ${b}$$`
         };
@@ -4269,7 +4300,6 @@ window.MathsGenerators = {
           statement: `Soit la fonction linéaire $f(x) = ${a}x$.\n**Déterminer l'antécédent de $${y}$ par $f$ :**`,
           type: "exact",
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: `Résous l'équation $f(x) = ${y}$, c'est-à-dire $${a}x = ${y}$. Divise par $${a}$.`,
           solution: `$$f(x) = ${y} \\iff ${a}x = ${y} \\iff x = \\frac{${y}}{${a}} = ${ans}$$`
         };
@@ -4285,13 +4315,12 @@ window.MathsGenerators = {
           statement: `Soit la fonction affine $f(x) = ${a}x + ${b}$.\n**Déterminer l'antécédent du nombre $${y}$ par $f$ :**`,
           type: "exact",
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: `Résous l'équation $${a}x + ${b} = ${y}$ : commence par soustraire $${b}$, puis divise par $${a}$.`,
           solution: `$$${a}x + ${b} = ${y} \\iff ${a}x = ${y} - ${b} = ${y - b} \\iff x = \\frac{${y - b}}{${a}} = ${ans}$$`
         };
       } else {
         const a = this.randChoice([-5, -4, -3, -2, 2, 3, 4, 5]);
-        const b = this.randInt(-8, 8);
+        const b = this.randInt(-8, 8, [0]);
         const bStr = b >= 0 ? `+ ${b}` : `- ${Math.abs(b)}`;
         const isCroissante = a > 0;
         const correct = isCroissante ? "Strictement croissante (la droite monte)" : "Strictement décroissante (la droite descend)";
@@ -4331,7 +4360,6 @@ window.MathsGenerators = {
         statement: `La représentation graphique d'une fonction affine passe par les points $A(${xA} ; ${yA})$ et $B(${xB} ; ${yB})$.\n\n**Calculer le coefficient directeur $a$ de cette droite :**`,
         type: "exact",
         answer: String(a),
-        placeholder: `Ex: ${a}`,
         hint1: `Utilise la formule du taux d'accroissement : $a = \\frac{y_B - y_A}{x_B - x_A} = \\frac{${yB} - (${yA})}{${xB} - (${xA})}$.`,
         solution: `$$a = \\frac{y_B - y_A}{x_B - x_A} = \\frac{${yB} - (${yA})}{${xB} - (${xA})} = \\frac{${yB - yA}}{${xB - xA}} = ${a}$$`
       };
@@ -4349,7 +4377,6 @@ window.MathsGenerators = {
         statement: `Soit une fonction affine $f(x) = ax + b$.\nOn sait que son coefficient directeur vaut $a = ${a}$ et que sa droite représentative passe par le point $A(${x0} ; ${y0})$.\n\n**Calculer la valeur exacte de l'ordonnée à l'origine $b$ :**`,
         type: "exact",
         answer: String(b),
-        placeholder: `Ex: ${b}`,
         hint1: `Comme $A(${x0} ; ${y0})$ est sur la droite, on a $f(${x0}) = ${y0}$, soit $${a} \\times (${x0}) + b = ${y0}$. Isole $b$.`,
         solution: `$$f(${x0}) = ${y0} \\implies ${a} \\times (${x0}) + b = ${y0} \\implies ${a * x0} + b = ${y0}$$\n$$b = ${y0} - (${a * x0}) = ${b}$$\nL'expression complète de la fonction est donc $f(x) = ${a}x ${b > 0 ? '+ ' + b : '- ' + Math.abs(b)}$.`
       };
@@ -4428,7 +4455,7 @@ window.MathsGenerators = {
         } else if (condType === 'premier') {
           count = 3;
           condText = "un nombre premier";
-          issuesList = "2, 3, 5 (1 n'est pas premier)";
+          issuesList = "2, 3, 5";
         }
         const [sN, sD] = this.simplifyFraction(count, 6);
         return {
@@ -4440,7 +4467,7 @@ window.MathsGenerators = {
           answer: sD === 1 ? String(sN) : `${sN}/${sD}`,
           placeholder: "Ex: 1/2",
           hint1: `Identifie les faces qui conviennent : ${issuesList}. Il y en a $${count}$ sur 6 faces.`,
-          solution: `Les issues favorables sont $\{${issuesList}\}$, soit $${count}$ issue(s) sur 6 au total :\\n$$P = \\frac{${count}}{6} = ${this.formatFraction(count, 6)}$$`
+          solution: `Les issues favorables sont $\\{${issuesList.replace(/, /g, '~;~')}\\}$${condType === 'premier' ? " (1 n'est pas premier)" : ''}, soit $${count}$ issues sur 6 au total :\n$$P = \\frac{${count}}{6} = ${this.formatFraction(count, 6)}$$`
         };
       } else {
         const colors = [
@@ -4619,7 +4646,6 @@ window.MathsGenerators = {
           statement: `On considère le script Scratch suivant :\n${scratchHtml}\n**Si le nombre choisi au départ est $${x}$, quel résultat affiche le lutin ?**`,
           type: 'exact',
           answer: String(res),
-          placeholder: `Ex: ${res}`,
           hint1: `Applique les instructions dans l'ordre : d'abord multiplier $${x}$ par $${m}$, puis ajouter $${a}$.`,
           hint2: `Étape 1 : $${x} \\times ${m} = ${x * m}$. Étape 2 : $${x * m} + ${a} = ${res}$.`,
           solution: `$$(${x} \\times ${m}) + ${a} = ${x * m} + ${a} = ${res}$$`
@@ -4642,7 +4668,6 @@ window.MathsGenerators = {
         statement: `On considère le script suivant :\n${scratchHtml}\n**Quelle sera la valeur finale de la variable $X$ à la fin du script ?**`,
         type: 'exact',
         answer: String(total),
-        placeholder: `Ex: ${total}`,
         hint1: `La variable $X$ part de 0 et on lui ajoute $${step}$ un nombre de $${n}$ fois : $X = ${n} \\times ${step}$.`,
         hint2: `C'est une addition itérée : $X = ${n} \\times ${step} = ${total}$.`,
         solution: `$$X = ${n} \\times ${step} = ${total}$$`
@@ -4669,7 +4694,6 @@ window.MathsGenerators = {
           statement: `On considère le script Scratch suivant :\n${scratchHtml}\n**Si le nombre choisi est $${x}$, quel résultat affiche le lutin ?**`,
           type: 'exact',
           answer: String(res),
-          placeholder: `Ex: ${res}`,
           hint1: `Calcule d'abord l'opération $(x - ${a})$ avec $x = ${x}$, puis multiplie le résultat par $${b}$.`,
           hint2: `Étape 1 : $${x} - ${a} = ${x - a}$. Étape 2 : $(${x - a}) \\times ${b} = ${res}$. Attention à la règle des signes !`,
           solution: `$$(${x} - ${a}) \\times ${b} = (${x - a}) \\times ${b} = ${res}$$`
@@ -4688,7 +4712,6 @@ window.MathsGenerators = {
         statement: `Soit le programme suivant :\n\`\`\`text\nvariable A = ${vInitial}\nsi A > ${threshold} alors :\n    A = A * 2\nsinon :\n    A = A + 10\n\`\`\`\n**Quelle est la valeur de $A$ à la fin de l'exécution ?**`,
         type: 'exact',
         answer: String(finalVal),
-        placeholder: `Ex: ${finalVal}`,
         hint1: `Teste la condition : est-ce que $${vInitial} > ${threshold}$ ? Si oui, calcule $${vInitial} \\times 2$, sinon calcule $${vInitial} + 10$.`,
         hint2: `$${vInitial} ${isGreater ? '>' : '\\le'} ${threshold}$ : on applique la branche ${isGreater ? 'alors' : 'sinon'}.`,
         solution: `Comme $${vInitial} ${isGreater ? '>' : '\\le'} ${threshold}$, c'est la branche **${isGreater ? 'ALORS' : 'SINON'}** qui s'exécute :\n$$A = ${isGreater ? `${vInitial} \\times 2 = ${finalVal}` : `${vInitial} + 10 = ${finalVal}`}$$`
@@ -4715,7 +4738,6 @@ window.MathsGenerators = {
           statement: `On considère le script Scratch suivant :\n${scratchHtml}\nÀ la fin du programme, **le lutin annonce $${finalVal}$**.\n**Quel nombre de départ avait été choisi ?**`,
           type: 'exact',
           answer: String(start),
-          placeholder: `Ex: ${start}`,
           hint1: `Remonte le programme de calcul à l'envers : effectue les opérations inverses dans l'ordre chronologique inverse.`,
           hint2: `À l'envers : commence par soustraire $${a}$ à $${finalVal}$ (${finalVal} - ${a} = ${finalVal - a}), puis divise le résultat par $${m}$.`,
           solution: `On remonte les étapes à l'envers ou on résout l'équation :\n$$${m}x + ${a} = ${finalVal} \\iff ${m}x = ${finalVal} - ${a} = ${finalVal - a} \\iff x = \\frac{${finalVal - a}}{${m}} = ${start}$$\nLe nombre de départ choisi était donc **$${start}$**.`
@@ -4736,7 +4758,6 @@ window.MathsGenerators = {
         statement: `On exécute le script Python suivant :\n\`\`\`python\nx = 1\nfor k in range(${iters}):\n    x = x * ${mult}\nprint(x)\n\`\`\`\n**Quelle valeur sera affichée par ce programme ?**`,
         type: 'exact',
         answer: String(val),
-        placeholder: `Ex: ${val}`,
         hint1: `La boucle s'exécute $${iters}$ fois. À chaque passage, la variable $x$ est multipliée par $${mult}$. C'est le calcul de $${mult}^{${iters}}$.`,
         hint2: `Rappel : $${mult}^{${iters}} = ${val}$.`,
         solution: `La variable $x$ est initialisée à 1, puis multipliée $${iters}$ fois par $${mult}$ :\n$$x = 1 \\times \\underbrace{${mult} \\times \\dots \\times ${mult}}_{${iters}\\text{ fois}} = ${mult}^{${iters}} = ${val}$$`
@@ -4744,11 +4765,15 @@ window.MathsGenerators = {
     } else {
       if (Math.random() < 0.5) {
         // Palier 4 : Comparaison de deux programmes Scratch (Équation)
-        const xSol = this.randInt(2, 7);
-        const a1 = 5;
-        const a2 = 2;
-        const b1 = this.randInt(1, 5);
-        const b2 = (a1 - a2) * xSol + b1;
+        // A : a1·x − b1 ; B : a2·x + b2 ; égalité ⇔ (a1 − a2)x = b1 + b2 ⇒ b2 = (a1 − a2)·xSol − b1
+        let xSol, a1, a2, b1, b2;
+        do {
+          xSol = this.randInt(2, 9);
+          a1 = this.randInt(3, 8);
+          a2 = this.randInt(2, a1 - 1);
+          b1 = this.randInt(1, 9);
+          b2 = (a1 - a2) * xSol - b1;
+        } while (b2 < 1);
         return {
           chapterId: 'Algo',
           tier: 4,
@@ -4756,7 +4781,6 @@ window.MathsGenerators = {
           statement: `On compare deux programmes Scratch :\n- **Programme A** : Multiplier par ${a1}, puis soustraire ${b1} (résultat : $${a1}x - ${b1}$)\n- **Programme B** : Multiplier par ${a2}, puis ajouter ${b2} (résultat : $${a2}x + ${b2}$)\n\n**Pour quel nombre de départ $x$ les deux programmes donnent-ils exactement le même résultat ?**`,
           type: 'exact',
           answer: String(xSol),
-          placeholder: `Ex: ${xSol}`,
           hint1: `Résous l'équation correspondante : $${a1}x - ${b1} = ${a2}x + ${b2}$.`,
           hint2: `Isole les termes en $x$ d'un côté et les nombres de l'autre : $${a1}x - ${a2}x = ${b2} + ${b1}$, donc $${a1 - a2}x = ${b2 + b1}$.`,
           solution: `On résout l'équation de comparaison :\n$$${a1}x - ${b1} = ${a2}x + ${b2} \\iff ${a1 - a2}x = ${b2 + b1} \\iff x = \\frac{${b2 + b1}}{${a1 - a2}} = ${xSol}$$\nPour $x = ${xSol}$, les deux programmes affichent tous les deux le résultat $${a1 * xSol - b1}$.`
@@ -4780,7 +4804,6 @@ window.MathsGenerators = {
         statement: `On considère l'algorithme suivant :\n\`\`\`python\nA = ${startA}\nB = 0\nwhile A < ${target}:\n    A = A * 2\n    B = B + 1\nprint(B)\n\`\`\`\n\n**Quelle sera la valeur affichée pour la variable $B$ lorsque la boucle s'arrêtera ?**`,
         type: 'exact',
         answer: String(bCur),
-        placeholder: `Ex: ${bCur}`,
         hint1: `Fais un tableau d'état des variables $A$ et $B$ après chaque tour de boucle jusqu'à ce que $A \\ge ${target}$.`,
         hint2: `À chaque tour, $A$ est multiplié par 2 et $B$ est incrémenté de 1.`,
         solution: `Tableau d'exécution pas à pas :\n- Début : $A = ${startA}$, $B = 0$\n${(() => {
@@ -4790,7 +4813,7 @@ window.MathsGenerators = {
           while (aTmp < target) {
             aTmp *= 2;
             bTmp += 1;
-            str += `- Tour ${bTmp} : $A = ${aTmp}$, $B = ${bTmp}$ (Condition $A < ${target}$ : ${aTmp < target ? 'Vraie' : 'Fausse'})\\n`;
+            str += `- Tour ${bTmp} : $A = ${aTmp}$, $B = ${bTmp}$ (Condition $A < ${target}$ : ${aTmp < target ? 'Vraie' : 'Fausse'})\n`;
           }
           return str;
         })()}\nLa boucle s'arrête car la condition $A < ${target}$ n'est plus vérifiée. La valeur finale affichée est donc :\n$$B = ${bCur}$$`
@@ -4822,7 +4845,6 @@ window.MathsGenerators = {
           statement: `Calculer le produit suivant :\n$$P = (-${a}) \\times (-${b})$$`,
           type: "exact",
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: "Règle des signes : le produit de deux nombres de même signe est TOUJOURS positif ($-$ par $-$ donne $+$).",
           solution: `$$(-${a}) \\times (-${b}) = +(${a} \\times ${b}) = ${ans}$$`
         };
@@ -4839,7 +4861,6 @@ window.MathsGenerators = {
           statement: `Calculer le produit suivant :\n$$P = ${expr}$$`,
           type: "exact",
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: "Règle des signes : le produit de deux nombres de signes différents est TOUJOURS négatif.",
           solution: `$$${expr} = -(${a} \\times ${b}) = ${ans}$$`
         };
@@ -4858,7 +4879,6 @@ window.MathsGenerators = {
           statement: `Calculer le quotient suivant :\n$$Q = \\frac{${num}}{${den}}$$`,
           type: "exact",
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: `La règle des signes pour la division est la même que pour la multiplication : ${bothNeg ? 'deux signes moins donnent un résultat positif' : 'un seul signe moins donne un résultat négatif'}.`,
           solution: `$$Q = \\frac{${num}}{${den}} = ${ans}$$`
         };
@@ -4874,7 +4894,6 @@ window.MathsGenerators = {
           statement: `Calculer la valeur exacte du nombre suivant :\n$$C = ${expr}$$`,
           type: "exact",
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: hasParentheses ? `$(-${a})^2 = (-${a}) \\times (-${a}) = +${a * a}$.` : `Attention à la priorité : $-${a}^2 = -(${a} \\times ${a}) = -${a * a}$.`,
           solution: hasParentheses ?
             `$$(-${a})^2 = (-${a}) \\times (-${a}) = ${ans}$$` :
@@ -4891,7 +4910,6 @@ window.MathsGenerators = {
           statement: `Trouver le nombre relatif $x$ vérifiant l'égalité :\n$$(-${a}) \\times x = ${b}$$`,
           type: "exact",
           answer: String(xVal),
-          placeholder: `Ex: ${xVal}`,
           hint1: `Divise le résultat par $-${a}$ : $x = \\frac{${b}}{-${a}}$.`,
           solution: `$$x = \\frac{${b}}{-${a}} = ${xVal}$$`
         };
@@ -4913,7 +4931,6 @@ window.MathsGenerators = {
           statement: `Calculer le produit suivant :\n$$P = (${a}) \\times (${b}) \\times (${c})$$`,
           type: "exact",
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: `Compte le nombre de facteurs négatifs ($${negCount}$). Comme ce nombre est ${negCount % 2 === 1 ? 'impair, le résultat est négatif' : 'pair, le résultat est positif'}.`,
           solution: `1. Signe : il y a $${negCount}$ facteurs négatifs (${negCount % 2 === 1 ? 'impair $\\implies -$' : 'pair $\\implies +$'}).\n2. Valeur absolue : $${Math.abs(a)} \\times ${Math.abs(b)} \\times ${Math.abs(c)} = ${Math.abs(ans)}$.\n$$P = ${ans}$$`
         };
@@ -4931,7 +4948,6 @@ window.MathsGenerators = {
           statement: `Calculer le produit suivant :\n$$P = (${a}) \\times (${b}) \\times (${c}) \\times (${d})$$`,
           type: "exact",
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: `Il y a $${negCount}$ facteurs négatifs. Un nombre ${negCount % 2 === 0 ? 'pair de facteurs négatifs donne un signe +' : 'impair donne un signe -'}.`,
           solution: `Il y a $${negCount}$ facteurs négatifs (${negCount % 2 === 0 ? 'pair $\\implies +$' : 'impair $\\implies -$'}).\n$$P = ${ans}$$`
         };
@@ -4989,7 +5005,6 @@ window.MathsGenerators = {
           statement: `Calculer l'expression numérique suivante :\n$$E = (${a}) \\times ${b} - (${c}) \\times (${d})$$`,
           type: "exact",
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: "La multiplication est prioritaire sur la soustraction. Calcule d'abord les deux produits séparément.",
           solution: `1. Premier produit : $(${a}) \\times ${b} = ${prod1}$.\n2. Deuxième produit : $(${c}) \\times (${d}) = ${prod2}$.\n3. Différence finale :\n$$E = ${prod1} - (${prod2}) = ${ans}$$`
         };
@@ -5005,7 +5020,6 @@ window.MathsGenerators = {
           statement: `Calculer l'expression numérique suivante :\n$$F = ${a} + (${b}) \\times (${c})$$`,
           type: "exact",
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: `La multiplication est prioritaire : calcule d'abord $(${b}) \\times (${c}) = ${b * c}$.`,
           solution: `$$F = ${a} + (${b * c}) = ${ans}$$`
         };
@@ -5022,7 +5036,6 @@ window.MathsGenerators = {
           statement: `Calculer l'expression numérique suivante :\n$$G = (${a} - ${b}) \\times (${c})$$`,
           type: "exact",
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: `Calcule d'abord l'opération entre parenthèses : $${a} - ${b} = ${parVal}$.`,
           solution: `1. Parenthèse : $${a} - ${b} = ${parVal}$.\n2. Produit : $(${parVal}) \\times (${c}) = ${ans}$.`
         };
@@ -5039,56 +5052,46 @@ window.MathsGenerators = {
           statement: `Calculer l'expression numérique suivante :\n$$H = (${a}) \\times (${b}) + (${c}) \\times ${d}$$`,
           type: "exact",
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: `Calcule les deux produits : $(${a}) \\times (${b}) = ${a * b}$ et $(${c}) \\times ${d} = ${c * d}$.`,
           solution: `$$H = (${a * b}) + (${c * d}) = ${ans}$$`
         };
       }
     } else {
       // Palier 4 : Défi 3ème / Difficulté Maximale (Quotient avec puissances et crochets)
-      const configs = [
-        {
-          numStr: "(-4) \\times (-6) \\times (-5)",
-          denStr: "(-2) \\times 15",
-          numVal: -120, denVal: -30, qVal: 4, operation: "-",
-          powerPart: "(-3)^2 \\times (-1)^5",
-          powerVal: 9 * (-1),
-          ans: 13,
-          textExpr: "\\frac{(-4) \\times (-6) \\times (-5)}{(-2) \\times 15} - (-3)^2 \\times (-1)^5"
-        },
-        {
-          numStr: "(-8) \\times 9 \\times (-2)",
-          denStr: "(-6) \\times (-4)",
-          numVal: 144, denVal: 24, qVal: 6, operation: "+",
-          powerPart: "(-2)^3 \\times (-2)",
-          powerVal: -8 * (-2),
-          ans: 22,
-          textExpr: "\\frac{(-8) \\times 9 \\times (-2)}{(-6) \\times (-4)} + (-2)^3 \\times (-2)"
-        },
-        {
-          numStr: "(-10) \\times (-7) \\times (-3)",
-          denStr: "(-5) \\times 6",
-          numVal: -210, denVal: -30, qVal: 7, operation: "-",
-          powerPart: "(-4)^2 \\times (-1)^3",
-          powerVal: 16 * (-1),
-          ans: 23,
-          textExpr: "\\frac{(-10) \\times (-7) \\times (-3)}{(-5) \\times 6} - (-4)^2 \\times (-1)^3"
-        }
-      ];
-      const cfg = this.randChoice(configs);
+      // Quotient de produits de relatifs ± puissance de relatif (paramétré)
+      const rel = (v) => (v < 0 ? `(${v})` : `${v}`);
+      let q1, q2, p1, p2, p3, Q;
+      do {
+        Q = this.randInt(-9, 9, [0, 1, -1]);
+        q1 = this.randChoice([-6, -5, -4, -3, -2, 2, 3, 4, 5, 6]);
+        q2 = this.randChoice([-6, -5, -4, -3, -2, 2, 3, 4, 5, 6, 10, 15]);
+        p1 = this.randChoice([-10, -9, -8, -6, -5, -4, -3, -2, 2, 3, 4, 5, 6, 8, 9, 10]);
+        p2 = this.randChoice([-9, -8, -7, -6, -5, -4, -3, -2, 2, 3, 4, 5, 6, 7, 8, 9]);
+        p3 = (Q * q1 * q2) / (p1 * p2);
+      } while (!Number.isInteger(p3) || Math.abs(p3) < 2 || Math.abs(p3) > 15 || (p1 < 0) + (p2 < 0) + (p3 < 0) === 0);
+      const numVal = p1 * p2 * p3;
+      const denVal = q1 * q2;
+      const base = this.randChoice([-4, -3, -2, 2, 3]);
+      const n = base === -4 || base === 3 ? 2 : this.randChoice([2, 3]);
+      const m = this.randInt(2, 5);
+      const powerVal = Math.pow(base, n) * Math.pow(-1, m);
+      const op = this.randChoice(['+', '-']);
+      const ans = op === '+' ? Q + powerVal : Q - powerVal;
+      const numStr = `${rel(p1)} \\times ${rel(p2)} \\times ${rel(p3)}`;
+      const denStr = `${rel(q1)} \\times ${rel(q2)}`;
+      const powerPart = `${rel(base)}^${n} \\times (-1)^${m}`;
+      const textExpr = `\\frac{${numStr}}{${denStr}} ${op} ${powerPart}`;
 
       return {
         chapterId: '4N1',
         tier: 4,
         title: "Défi 3ème : Chaîne complexe de relatifs avec puissances et quotient",
-        statement: `Calculer la valeur exacte de l'expression suivante :\n$$A = ${cfg.textExpr}$$`,
+        statement: `Calculer la valeur exacte de l'expression suivante :\n$$A = ${textExpr}$$`,
         type: "exact",
-        answer: String(cfg.ans),
-        placeholder: `Ex: ${cfg.ans}`,
-        hint1: `Calcule la fraction en conservant l'égalité complète : $\\frac{${cfg.numStr}}{${cfg.denStr}} = \\frac{${cfg.numVal}}{${cfg.denVal}} = ${cfg.qVal}$. Puis calcule le terme avec puissances.`,
-        solution: `$$A = \\frac{${cfg.numStr}}{${cfg.denStr}} ${cfg.operation} ${cfg.powerPart} = \\frac{${cfg.numVal}}{${cfg.denVal}} ${cfg.operation} (${cfg.powerVal}) = ${cfg.qVal} ${cfg.operation} (${cfg.powerVal}) = ${cfg.ans}$$`
-      };
-    }
+        answer: String(ans),
+        hint1: `Calcule la fraction en conservant l'égalité complète : $\\frac{${numStr}}{${denStr}} = \\frac{${numVal}}{${denVal}} = ${Q}$. Puis calcule le terme avec puissances : $${powerPart} = ${powerVal}$.`,
+        solution: `$$A = ${textExpr} = \\frac{${numVal}}{${denVal}} ${op} ${rel(powerVal)} = ${Q} ${op} ${rel(powerVal)} = ${ans}$$`
+      };    }
   },
 
   // --- 4N2 : Fractions 4ème (multiplication, division, 4 opérations combinées) ---
@@ -5165,7 +5168,6 @@ window.MathsGenerators = {
           statement: `Calculer sous forme de fraction irréductible :\n$$P = \\frac{1}{${b}} \\times \\frac{${b}}{${c}} \\times \\frac{${c}}{${f}}$$`,
           type: 'exact',
           answer: sD === 1 ? String(sN) : `${sN}/${sD}`,
-          placeholder: `Ex: 1/${f}`,
           hint1: `Simplifie les $${b}$ et les $${c}$ qui apparaissent à la fois en haut et en bas avant de calculer.`,
           solution: `En simplifiant les facteurs communs $${b}$ et $${c}$ :\n$$P = \\frac{1 \\times \\cancel{${b}} \\times \\cancel{${c}}}{\\cancel{${b}} \\times \\cancel{${c}} \\times ${f}} = \\frac{1}{${f}}$$`
         };
@@ -5175,10 +5177,13 @@ window.MathsGenerators = {
       const subType = this.randChoice(['div_two', 'inverse_def', 'div_int_frac', 'div_frac_int']);
 
       if (subType === 'div_two') {
-        const a = this.randInt(2, 6);
-        const b = this.randInt(3, 7);
-        const c = this.randInt(2, 6);
-        const d = this.randInt(3, 7);
+        let a, b, c, d;
+        do {
+          a = this.randInt(2, 9);
+          b = this.randInt(2, 9, [a]);
+          c = this.randInt(2, 9);
+          d = this.randInt(2, 9, [c]);
+        } while (this.gcd(a, b) !== 1 || this.gcd(c, d) !== 1);
         const num = a * d;
         const den = b * c;
         const [sN, sD] = this.simplifyFraction(num, den);
@@ -5194,8 +5199,9 @@ window.MathsGenerators = {
           solution: `$$Q = \\frac{${a}}{${b}} \\times \\frac{${d}}{${c}} = \\frac{${a} \\times ${d}}{${b} \\times ${c}} = \\frac{${num}}{${den}} = ${this.formatFraction(num, den)}$$`
         };
       } else if (subType === 'inverse_def') {
-        const a = this.randInt(2, 9);
-        const b = this.randInt(2, 9, [a]);
+        const a = this.randInt(2, 12);
+        let b = this.randInt(2, 12, [a]);
+        while (this.gcd(a, b) !== 1) b = this.randInt(2, 12, [a]);
         return {
           chapterId: '4N2',
           tier: 2,
@@ -5203,14 +5209,14 @@ window.MathsGenerators = {
           statement: `Quel est l'inverse de la fraction $\\frac{${a}}{${b}}$ ? (Donner sous la forme a/b)`,
           type: 'exact',
           answer: `${b}/${a}`,
-          placeholder: `Ex: ${b}/${a}`,
           hint1: "L'inverse d'une fraction non nulle $\\frac{a}{b}$ est $\\frac{b}{a}$.",
           solution: `L'inverse de $\\frac{${a}}{${b}}$ est :\n$$\\frac{1}{\\frac{${a}}{${b}}} = \\frac{${b}}{${a}}$$`
         };
       } else if (subType === 'div_int_frac') {
-        const k = this.randInt(2, 5);
-        const a = this.randInt(1, 4);
-        const b = this.randInt(3, 7);
+        const k = this.randInt(2, 9);
+        const a = this.randInt(1, 6);
+        let b = this.randInt(2, 9, [a]);
+        while (this.gcd(a, b) !== 1) b = this.randInt(2, 9, [a]);
         const num = k * b;
         const den = a;
         const [sN, sD] = this.simplifyFraction(num, den);
@@ -5226,9 +5232,10 @@ window.MathsGenerators = {
           solution: `$$D = ${k} \\times \\frac{${b}}{${a}} = \\frac{${k * b}}{${a}} = ${this.formatFraction(num, den)}$$`
         };
       } else {
-        const a = this.randInt(2, 6);
-        const b = this.randInt(3, 7);
-        const k = this.randInt(2, 5);
+        const a = this.randInt(2, 9);
+        let b = this.randInt(2, 9, [a]);
+        while (this.gcd(a, b) !== 1) b = this.randInt(2, 9, [a]);
+        const k = this.randInt(2, 6);
         const num = a;
         const den = b * k;
         const [sN, sD] = this.simplifyFraction(num, den);
@@ -5347,30 +5354,34 @@ window.MathsGenerators = {
       };
     }
     } else {
-      const configs = [
-        { a: 2, b: 3, c: 1, d: 4, e: 5, f: 6, g: 1, h: 2, ansNum: 5, ansDen: 16 },
-        { a: 3, b: 2, c: 1, d: 5, e: 1, f: 4, g: 2, h: 5, ansNum: 2, ansDen: 1 },
-        { a: 4, b: 5, c: 1, d: 2, e: 2, f: 3, g: 1, h: 6, ansNum: 9, ansDen: 25 }
-      ];
-      const cfg = this.randChoice(configs);
-      const topN = cfg.a * cfg.d - cfg.c * cfg.b;
-      const topD = cfg.b * cfg.d;
-      const bottomN = cfg.e * cfg.h + cfg.g * cfg.f;
-      const bottomD = cfg.f * cfg.h;
+      // F = (a/b − c/d) / (e/f + g/h), fractions irréductibles, numérateur du haut positif
+      let a, b, c, d, e, f, g, h;
+      const frac = () => {
+        let n, den;
+        do { den = this.randInt(2, 7); n = this.randInt(1, 6); } while (this.gcd(n, den) !== 1);
+        return [n, den];
+      };
+      do {
+        [a, b] = frac(); [c, d] = frac(); [e, f] = frac(); [g, h] = frac();
+      } while (a * d - c * b <= 0 || b === d || f === h);
+      const topN = a * d - c * b;
+      const topD = b * d;
+      const bottomN = e * h + g * f;
+      const bottomD = f * h;
       const finalN = topN * bottomD;
       const finalD = topD * bottomN;
+      const fr = (x, y) => `\\frac{${x}}{${y}}`;
+      const expr = `\\frac{${fr(a, b)} - ${fr(c, d)}}{${fr(e, f)} + ${fr(g, h)}}`;
       return {
         chapterId: '4N2',
         tier: 4,
         title: "Défi 3ème : Fraction à étages complexe (Quotient composé)",
-        statement: "Calculer la valeur exacte sous forme de fraction irréductible de :\n$$F = \\frac{\\frac{" + cfg.a + "}{" + cfg.b + "} - \\frac{" + cfg.c + "}{" + cfg.d + "}}{\\frac{" + cfg.e + "}{" + cfg.f + "} + \\frac{" + cfg.g + "}{" + cfg.h + "}}$$",
+        statement: `Calculer la valeur exacte sous forme de fraction irréductible de :\n$$F = ${expr}$$`,
         type: 'exact',
-        answer: cfg.ansDen === 1 ? String(cfg.ansNum) : cfg.ansNum + "/" + cfg.ansDen,
-        placeholder: "Ex: 5/16",
-        hint1: "Mets les fractions au même dénominateur en gardant l'égalité complète.",
-        solution: "$$F = \\frac{\\frac{" + cfg.a + "}{" + cfg.b + "} - \\frac{" + cfg.c + "}{" + cfg.d + "}}{\\frac{" + cfg.e + "}{" + cfg.f + "} + \\frac{" + cfg.g + "}{" + cfg.h + "}} = \\frac{\\frac{" + (cfg.a * cfg.d) + " - " + (cfg.c * cfg.b) + "}{" + topD + "}}{\\frac{" + (cfg.e * cfg.h) + " + " + (cfg.g * cfg.f) + "}{" + bottomD + "}} = \\frac{\\frac{" + topN + "}{" + topD + "}}{\\frac{" + bottomN + "}{" + bottomD + "}} = \\frac{" + topN + "}{" + topD + "} \\div \\frac{" + bottomN + "}{" + bottomD + "} = \\frac{" + finalN + "}{" + finalD + "} = " + this.formatFraction(finalN, finalD) + "$$"
-      };
-    }
+        answer: this.fracAnswer(finalN, finalD),
+        hint1: "Calcule séparément le numérateur et le dénominateur (même dénominateur), puis divise en multipliant par l'inverse.",
+        solution: `$$F = ${expr} = \\frac{\\frac{${a * d} - ${c * b}}{${topD}}}{\\frac{${e * h} + ${g * f}}{${bottomD}}} = \\frac{${fr(topN, topD)}}{${fr(bottomN, bottomD)}} = ${fr(topN, topD)} \\times ${fr(bottomD, bottomN)} = ${fr(finalN, finalD)} = ${this.formatFraction(finalN, finalD)}$$`
+      };    }
   },
 
   // --- 4N3 : Puissances de 10 et puissances d'un nombre ---
@@ -5423,7 +5434,6 @@ window.MathsGenerators = {
           statement: `Calculer la valeur du nombre suivant :\n$$A = ${c.a}^{${c.n}}$$`,
           type: 'exact',
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: `$${c.a}^{${c.n}}$ est le produit de ${c.n} facteurs tous égaux à ${c.a}.`,
           solution: `$$${c.a}^{${c.n}} = ${Array(c.n).fill(c.a).join(' \\times ')} = ${ans}$$`
         };
@@ -5439,7 +5449,6 @@ window.MathsGenerators = {
           statement: `Calculer la valeur de :\n$$B = (${base})^{${n}}$$`,
           type: 'exact',
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: `L'exposant est ${n} (${isOdd ? 'impair' : 'pair'}), donc le résultat est ${isOdd ? 'négatif' : 'positif'}.`,
           solution: `$$(${base})^{${n}} = ${Array(n).fill(`(${base})`).join(' \\times ')} = ${ans}$$`
         };
@@ -5455,7 +5464,6 @@ window.MathsGenerators = {
           statement: `Calculer la valeur de :\n$$C = ${a}^{${exp}}$$`,
           type: 'exact',
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: isZero ? "Règle : pour tout nombre non nul $a$, on a $a^0 = 1$." : "Règle : pour tout nombre $a$, on a $a^1 = a$.",
           solution: `$$${a}^{${exp}} = ${ans}$$`
         };
@@ -5468,7 +5476,6 @@ window.MathsGenerators = {
           statement: `Combien de zéros comporte l'écriture décimale du nombre $10^{${exp}}$ ?`,
           type: 'exact',
           answer: String(exp),
-          placeholder: `Ex: ${exp}`,
           hint1: "Pour $n > 0$, $10^n$ s'écrit avec un 1 suivi de $n$ zéros.",
           solution: `$$10^{${exp}} = 1\\underbrace{00\\dots0}_{${exp}\\text{ zéros}}$$ Il y a donc **${exp}** zéros.`
         };
@@ -5488,7 +5495,6 @@ window.MathsGenerators = {
           statement: `Écrire sous la forme d'une seule puissance de 10 : $10^n$.\n**Donner la valeur de l'exposant $n$** pour :\n$$10^{${a}} \\times 10^{${b}}$$`,
           type: 'exact',
           answer: String(ansExp),
-          placeholder: `Ex: ${ansExp}`,
           hint1: "Formule : $10^a \\times 10^b = 10^{a + b}$.",
           solution: `$$10^{${a}} \\times 10^{${b}} = 10^{${a} + (${b})} = 10^{${ansExp}} \\implies n = ${ansExp}$$`
         };
@@ -5503,7 +5509,6 @@ window.MathsGenerators = {
           statement: `Écrire sous la forme d'une seule puissance de 10 : $10^n$.\n**Donner la valeur de l'exposant $n$** pour :\n$$\\frac{10^{${a}}}{10^{${b}}}$$`,
           type: 'exact',
           answer: String(ansExp),
-          placeholder: `Ex: ${ansExp}`,
           hint1: "Formule : $\\frac{10^a}{10^b} = 10^{a - b}$.",
           solution: `$$\\frac{10^{${a}}}{10^{${b}}} = 10^{${a} - (${b})} = 10^{${ansExp}} \\implies n = ${ansExp}$$`
         };
@@ -5520,7 +5525,6 @@ window.MathsGenerators = {
           statement: `Écrire sous la forme $10^n$.\n**Donner la valeur de l'exposant $n$** pour :\n$$(10^{${actualA}})^{${b}}$$`,
           type: 'exact',
           answer: String(ansExp),
-          placeholder: `Ex: ${ansExp}`,
           hint1: "Formule : $(10^a)^b = 10^{a \\times b}$.",
           solution: `$$(10^{${actualA}})^{${b}} = 10^{${actualA} \\times ${b}} = 10^{${ansExp}} \\implies n = ${ansExp}$$`
         };
@@ -5536,7 +5540,6 @@ window.MathsGenerators = {
           statement: `Écrire sous la forme $10^n$ et donner la valeur de l'exposant $n$ pour :\n$$\\frac{10^{${a}} \\times 10^{${b}}}{10^{${c}}}$$`,
           type: 'exact',
           answer: String(ansExp),
-          placeholder: `Ex: ${ansExp}`,
           hint1: `Conserve la fraction dans les étapes : $\\frac{10^{${a}} \\times 10^{${b}}}{10^{${c}}} = \\frac{10^{${a + b}}}{10^{${c}}} = 10^{${a + b} - ${c}}$.`,
           solution: `$$\\frac{10^{${a}} \\times 10^{${b}}}{10^{${c}}} = \\frac{10^{${a + b}}}{10^{${c}}} = 10^{${a + b} - ${c}} = 10^{${ansExp}} \\implies n = ${ansExp}$$`
         };
@@ -5549,7 +5552,6 @@ window.MathsGenerators = {
           statement: `Écrire sous la forme d'une puissance de 10 : $10^k$.\n**Quelle est la valeur de l'exposant $k$** pour le produit :\n$$2^{${n}} \\times 5^{${n}}$$`,
           type: 'exact',
           answer: String(n),
-          placeholder: `Ex: ${n}`,
           hint1: "Formule : $a^n \\times b^n = (a \\times b)^n$. Or $2 \\times 5 = 10$.",
           solution: `$$2^{${n}} \\times 5^{${n}} = (2 \\times 5)^{${n}} = 10^{${n}} \\implies k = ${n}$$`
         };
@@ -5569,7 +5571,6 @@ window.MathsGenerators = {
           statement: `Donner l'écriture scientifique du nombre $N = ${val}$.\nQuelle est la valeur de l'exposant $k$ dans l'écriture $${a} \\times 10^k$ ?`,
           type: 'exact',
           answer: String(exp),
-          placeholder: `Ex: ${exp}`,
           hint1: "La notation scientifique s'écrit $a \\times 10^k$ avec $1 \\le a < 10$. Compte de combien de rangs on décale la virgule.",
           solution: `$$${val} = ${a} \\times 10^{${exp}} \\implies k = ${exp}$$`
         };
@@ -5584,7 +5585,6 @@ window.MathsGenerators = {
           statement: `Donner l'écriture scientifique du nombre $M = ${val}$.\nQuelle est la valeur de l'exposant $k$ dans l'écriture $${a} \\times 10^k$ ?`,
           type: 'exact',
           answer: String(exp),
-          placeholder: `Ex: ${exp}`,
           hint1: "Déplace la virgule vers la droite jusqu'au premier chiffre non nul. L'exposant sera négatif.",
           solution: `$$${val} = ${a} \\times 10^{${exp}} \\implies k = ${exp}$$`
         };
@@ -5599,7 +5599,6 @@ window.MathsGenerators = {
           statement: `Écrire sous forme décimale entière le nombre :\n$$S = ${a} \\times 10^{${exp}}$$`,
           type: 'exact',
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: `Multiplie $${a}$ par $10^{${exp}} = ${Math.pow(10, exp)}$.`,
           solution: `$$${a} \\times 10^{${exp}} = ${a} \\times ${Math.pow(10, exp)} = ${ans}$$`
         };
@@ -5608,52 +5607,39 @@ window.MathsGenerators = {
       // Palier 4 : Défi 3ème (Calcul lourd de quotient type Brevet / Seconde)
       // A = (4 * 10^7 * 15 * 10^-3) / (6 * (10^2)^3)
       // = (60 * 10^4) / (6 * 10^6) = 10 * 10^-2 = 10^-1 = 0.1
-      const configs = [
-        {
-          expr: "\\frac{4 \\times 10^7 \\times 15 \\times 10^{-3}}{6 \\times (10^2)^3}",
-          calcNum: "4 \\times 15 = 60,\\quad 10^7 \\times 10^{-3} = 10^4",
-          calcDen: "6 \\times 10^{2 \\times 3} = 6 \\times 10^6",
-          divCoeff: "60 / 6 = 10",
-          divExp: "10^4 / 10^6 = 10^{-2}",
-          finalSci: "1 \\times 10^{-1}",
-          ans: "0.1",
-          ansSciExp: -1
-        },
-        {
-          expr: "\\frac{3 \\times 10^5 \\times 8 \\times 10^{-2}}{12 \\times (10^3)^2}",
-          calcNum: "3 \\times 8 = 24,\\quad 10^5 \\times 10^{-2} = 10^3",
-          calcDen: "12 \\times 10^6",
-          divCoeff: "24 / 12 = 2",
-          divExp: "10^3 / 10^6 = 10^{-3}",
-          finalSci: "2 \\times 10^{-3}",
-          ans: "0.002",
-          ansSciExp: -3
-        },
-        {
-          expr: "\\frac{5 \\times 10^4 \\times 12 \\times 10^3}{2 \\times (10^{-1})^2}",
-          calcNum: "5 \\times 12 = 60,\\quad 10^4 \\times 10^3 = 10^7",
-          calcDen: "2 \\times 10^{-2}",
-          divCoeff: "60 / 2 = 30",
-          divExp: "10^7 / 10^{-2} = 10^9",
-          finalSci: "3 \\times 10^{10}",
-          ans: "30000000000",
-          ansSciExp: 10
-        }
-      ];
-      const cfg = this.randChoice(configs);
-
+      // C = (a × 10^p × b × 10^q) / (c × (10^r)^s) ; on demande l'exposant de l'écriture scientifique
+      let a, b, c, m;
+      do {
+        a = this.randInt(2, 9);
+        b = this.randChoice([2, 3, 4, 5, 6, 8, 12, 15, 25]);
+        c = this.randChoice([2, 3, 4, 5, 6, 8, 12]);
+        m = a * b / c;
+      } while (Math.round(m * 100) / 100 !== m || m === 1);
+      const p = this.randInt(2, 8);
+      const q = this.randInt(-6, 4, [0, 1]);
+      const r = this.randChoice([-2, -1, 2, 3]);
+      const sExp = this.randChoice([2, 3]);
+      const e10 = p + q - r * sExp;
+      let k = 0;
+      let M = m;
+      while (M >= 10) { M = this.roundNum(M / 10); k++; }
+      while (M < 1) { M = this.roundNum(M * 10); k--; }
+      const finalExp = e10 + k;
+      const pw = (x) => `10^{${x}}`;
+      const fd = (x) => this.formatDecimal(x);
+      const expr = `\\frac{${a} \\times ${pw(p)} \\times ${b} \\times ${pw(q)}}{${c} \\times (${pw(r)})^{${sExp}}}`;
+      const norm = k === 0 ? '' : ` = ${fd(M)} \\times ${pw(k)} \\times ${pw(e10)}`;
       return {
         chapterId: '4N3',
         tier: 4,
         title: "Défi 3ème : Grand quotient de puissances (Notation scientifique)",
-        statement: `On donne l'expression suivante :\n$$C = ${cfg.expr}$$\n\nL'écriture scientifique de $C$ est de la forme $a \\times 10^k$ avec $1 \\le a < 10$.\n**Donner la valeur de l'exposant entier $k$.**`,
+        statement: `On donne l'expression suivante :\n$$C = ${expr}$$\n\nL'écriture scientifique de $C$ est de la forme $a \\times 10^k$ avec $1 \\le a < 10$.\n**Donner la valeur de l'exposant entier $k$.**`,
         type: 'exact',
-        answer: String(cfg.ansSciExp),
-        placeholder: `Ex: ${cfg.ansSciExp}`,
-        hint1: "Applique les règles des puissances dans la fraction entière, puis écris le résultat en notation scientifique.",
-        solution: `$$C = ${cfg.expr} = ${cfg.finalSci}$$\nL'exposant est donc : $$k = ${cfg.ansSciExp}$$`
-      };
-    }
+        answer: String(finalExp),
+        hint1: "Regroupe les nombres d'un côté et les puissances de 10 de l'autre, puis écris le résultat en notation scientifique.",
+        hint2: `Nombres : $\\frac{${a} \\times ${b}}{${c}} = ${fd(m)}$. Puissances : $\\frac{${pw(p)} \\times ${pw(q)}}{${pw(r * sExp)}} = ${pw(e10)}$.`,
+        solution: `$$C = \\frac{${a} \\times ${b}}{${c}} \\times \\frac{${pw(p)} \\times ${pw(q)}}{${pw(r * sExp)}} = ${fd(m)} \\times ${pw(e10)}${norm} = ${fd(M)} \\times ${pw(finalExp)}$$\nL'exposant est donc : $$k = ${finalExp}$$`
+      };    }
   },
 
   // --- 4N4 : Racines carrées & carrés parfaits ---
@@ -5673,7 +5659,6 @@ window.MathsGenerators = {
           statement: `Calculer le carré du nombre $${a}$ :\n$$C = ${a}^2$$`,
           type: "exact",
           answer: String(a * a),
-          placeholder: `Ex: ${a * a}`,
           hint1: `Le carré d'un nombre est le produit de ce nombre par lui-même : $${a} \\times ${a}$.`,
           solution: `$$${a}^2 = ${a} \\times ${a} = ${a * a}$$`
         };
@@ -5686,7 +5671,6 @@ window.MathsGenerators = {
           statement: `Calculer le carré du nombre $${k}$ :\n$$D = ${k}^2$$`,
           type: "exact",
           answer: String(k * k),
-          placeholder: `Ex: ${k * k}`,
           hint1: `Calcule $(${k / 10})^2$ puis ajoute deux zéros ($10^2 = 100$).`,
           solution: `$$${k}^2 = (${k / 10} \\times 10)^2 = ${k / 10}^2 \\times 100 = ${(k / 10) ** 2} \\times 100 = ${k * k}$$`
         };
@@ -5699,7 +5683,6 @@ window.MathsGenerators = {
           statement: `Calculer le nombre suivant (attention aux parenthèses) :\n$$N = (-${a})^2$$`,
           type: "exact",
           answer: String(a * a),
-          placeholder: `Ex: ${a * a}`,
           hint1: "Le carré d'un nombre réel est toujours positif : $(-a)^2 = (-a) \\times (-a) = +a^2$.",
           solution: `$$(-${a})^2 = (-${a}) \\times (-${a}) = +${a * a}$$`
         };
@@ -5724,7 +5707,6 @@ window.MathsGenerators = {
           statement: `Calculer la valeur exacte de :\n$$M = (${c.val})^2$$`,
           type: "exact",
           answer: String(c.ans),
-          placeholder: `Ex: ${c.ans}`,
           hint1: `Multiplie $${c.val} \\times ${c.val}$. Compte le nombre de décimales (2 chiffres après la virgule).`,
           solution: `$$(${c.val})^2 = ${c.val} \\times ${c.val} = ${c.ans}$$`
         };
@@ -5737,7 +5719,6 @@ window.MathsGenerators = {
           statement: `Calculer la valeur exacte du nombre suivant :\n$$P = (\\sqrt{${a}})^2$$`,
           type: "exact",
           answer: String(a),
-          placeholder: `Ex: ${a}`,
           hint1: "Pour tout nombre positif $a$, la racine carrée $\\sqrt{a}$ au carré redonne $a$ : $(\\sqrt{a})^2 = a$.",
           solution: `$$(\\sqrt{${a}})^2 = ${a}$$`
         };
@@ -5757,7 +5738,6 @@ window.MathsGenerators = {
           statement: `Calculer la racine carrée exacte suivante :\n$$R = \\sqrt{${sq}}$$`,
           type: "exact",
           answer: String(r),
-          placeholder: `Ex: ${r}`,
           hint1: `Trouve le nombre positif dont le carré vaut ${sq} : $?^2 = ${sq}$.`,
           solution: `Comme $${r}^2 = ${sq}$, on a :\n$$\\sqrt{${sq}} = ${r}$$`
         };
@@ -5781,7 +5761,6 @@ window.MathsGenerators = {
           statement: `Calculer la racine carrée exacte :\n$$K = \\sqrt{${c.sq}}$$`,
           type: "exact",
           answer: String(c.ans),
-          placeholder: `Ex: ${c.ans}`,
           hint1: `Pense au nombre terminé par un zéro dont le carré est ${c.sq}.`,
           solution: `Comme $${c.ans}^2 = ${c.sq}$, on a :\n$$\\sqrt{${c.sq}} = ${c.ans}$$`
         };
@@ -5794,7 +5773,6 @@ window.MathsGenerators = {
           statement: `Calculer la valeur exacte de l'expression :\n$$H = \\sqrt{${trip.a}^2 + ${trip.b}^2}$$`,
           type: "exact",
           answer: String(trip.c),
-          placeholder: `Ex: ${trip.c}`,
           hint1: `Calcule d'abord chaque carré sous la racine : $${trip.a}^2 = ${trip.a * trip.a}$ et $${trip.b}^2 = ${trip.b * trip.b}$, puis additionne.`,
           solution: `$$H = \\sqrt{${trip.a * trip.a} + ${trip.b * trip.b}} = \\sqrt{${trip.c * trip.c}} = ${trip.c}$$`
         };
@@ -5808,7 +5786,6 @@ window.MathsGenerators = {
           statement: `On considère l'équation $x^2 = ${sq}$.\n**Quelle est la solution positive de cette équation ?**`,
           type: "exact",
           answer: String(r),
-          placeholder: `Ex: ${r}`,
           hint1: `La solution positive de $x^2 = a$ est $x = \\sqrt{a}$.`,
           solution: `L'équation $x^2 = ${sq}$ admet pour solution positive $x = \\sqrt{${sq}} = ${r}$ (et pour solution négative $x = -${r}$).`
         };
@@ -5854,7 +5831,6 @@ window.MathsGenerators = {
           statement: `Calculer la valeur exacte de l'expression :\n$$S = \\sqrt{${a * a}} + \\sqrt{${b * b}} - \\sqrt{${c * c}}$$`,
           type: "exact",
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: `Calcule séparément chaque racine carrée : $\\sqrt{${a * a}} = ${a}$, $\\sqrt{${b * b}} = ${b}$, $\\sqrt{${c * c}} = ${c}$.`,
           solution: `$$S = \\sqrt{${a * a}} + \\sqrt{${b * b}} - \\sqrt{${c * c}} = ${a} + ${b} - ${c} = ${a + b} - ${c} = ${ans}$$`
         };
@@ -5881,7 +5857,6 @@ window.MathsGenerators = {
           statement: `Calculer la valeur exacte du produit suivant :\n$$P = \\sqrt{${p.a}} \\times \\sqrt{${p.b}}$$`,
           type: "exact",
           answer: String(p.root),
-          placeholder: `Ex: ${p.root}`,
           hint1: "Règle : pour $a, b \\ge 0$, $\\sqrt{a} \\times \\sqrt{b} = \\sqrt{a \\times b}$.",
           solution: `$$P = \\sqrt{${p.a} \\times ${p.b}} = \\sqrt{${p.prod}} = ${p.root}$$`
         };
@@ -5907,7 +5882,6 @@ window.MathsGenerators = {
           statement: `Calculer la valeur exacte du quotient :\n$$Q = \\frac{\\sqrt{${p.a}}}{\\sqrt{${p.b}}}$$`,
           type: "exact",
           answer: String(p.root),
-          placeholder: `Ex: ${p.root}`,
           hint1: "Règle : $\\frac{\\sqrt{a}}{\\sqrt{b}} = \\sqrt{\\frac{a}{b}}$.",
           solution: `$$Q = \\sqrt{\\frac{${p.a}}{${p.b}}} = \\sqrt{${p.quot}} = ${p.root}$$`
         };
@@ -5920,7 +5894,6 @@ window.MathsGenerators = {
           statement: `Calculer la valeur exacte de l'expression :\n$$D = \\sqrt{${trip.c}^2 - ${trip.a}^2}$$`,
           type: "exact",
           answer: String(trip.b),
-          placeholder: `Ex: ${trip.b}`,
           hint1: `Calcule $${trip.c}^2 = ${trip.c * trip.c}$ et $${trip.a}^2 = ${trip.a * trip.a}$, puis la différence sous la racine.`,
           solution: `$$D = \\sqrt{${trip.c * trip.c} - ${trip.a * trip.a}} = \\sqrt{${trip.b * trip.b}} = ${trip.b}$$`
         };
@@ -5928,40 +5901,34 @@ window.MathsGenerators = {
     } else {
       // Palier 4 : Défi 3ème (Opérations imbriquées sous le radical)
       // Ex: sqrt(10^2 - 8^2) + sqrt(144) - 2*sqrt(49) = sqrt(36) + 12 - 14 = 6 + 12 - 14 = 4
-      const configs = [
-        {
-          expr: "\\sqrt{10^2 - 8^2} + \\sqrt{144} - 2\\sqrt{49}",
-          radVal: 36, radRoot: 6,
-          sq2: 12, sq3: 14,
-          ans: 4
-        },
-        {
-          expr: "\\sqrt{13^2 - 12^2} + 3\\sqrt{81} - \\sqrt{169}",
-          radVal: 25, radRoot: 5,
-          sq2: 27, sq3: 13,
-          ans: 19 // 5 + 27 - 13 = 19
-        },
-        {
-          expr: "\\sqrt{15^2 - 9^2} + \\sqrt{225} - 4\\sqrt{36}",
-          radVal: 144, radRoot: 12,
-          sq2: 15, sq3: 24,
-          ans: 3 // 12 + 15 - 24 = 3
-        }
-      ];
-      const cfg = this.randChoice(configs);
-
+      // E = √(A² − B²) ± k1·√(s1²) ± k2·√(s2²) avec A² − B² carré parfait
+      const triples = [[3, 4, 5], [6, 8, 10], [5, 12, 13], [9, 12, 15], [8, 15, 17], [12, 16, 20], [15, 20, 25], [7, 24, 25], [10, 24, 26]];
+      const [l1, l2, A] = this.randChoice(triples);
+      const swap = Math.random() < 0.5;
+      const R = swap ? l1 : l2;
+      const B = swap ? l2 : l1;
+      const s1 = this.randInt(2, 15);
+      const s2 = this.randInt(2, 15, [s1]);
+      const k1 = this.randInt(1, 3);
+      const k2 = this.randInt(2, 4);
+      const op1 = this.randChoice(['+', '-']);
+      const op2 = this.randChoice(['+', '-']);
+      const t1 = k1 * s1;
+      const t2 = k2 * s2;
+      const ans = R + (op1 === '+' ? t1 : -t1) + (op2 === '+' ? t2 : -t2);
+      const kStr = (k) => (k === 1 ? '' : `${k}`);
+      const expr = `\\sqrt{${A}^2 - ${B}^2} ${op1} ${kStr(k1)}\\sqrt{${s1 * s1}} ${op2} ${kStr(k2)}\\sqrt{${s2 * s2}}`;
+      const t1Str = k1 === 1 ? `${s1}` : `${k1} \\times ${s1}`;
       return {
         chapterId: '4N4',
         tier: 4,
         title: "Défi 3ème : Opérations combinées sous le radical et priorités",
-        statement: `Calculer la valeur exacte du nombre :\n$$E = ${cfg.expr}$$`,
+        statement: `Calculer la valeur exacte du nombre :\n$$E = ${expr}$$`,
         type: "exact",
-        answer: String(cfg.ans),
-        placeholder: `Ex: ${cfg.ans}`,
-        hint1: "Calcule d'abord l'opération à l'intérieur du radical sous la racine avant d'en extraire la racine.",
-        solution: `1. Calcul sous le premier radical :\n$$\\sqrt{${cfg.radVal}} = ${cfg.radRoot}$$\n2. Autres termes :\n$$E = ${cfg.radRoot} + ${cfg.sq2} - ${cfg.sq3} = ${cfg.ans}$$`
-      };
-    }
+        answer: String(ans),
+        hint1: "Calcule d'abord l'opération à l'intérieur du premier radical avant d'en extraire la racine carrée.",
+        solution: `1. Calcul sous le premier radical :\n$$\\sqrt{${A}^2 - ${B}^2} = \\sqrt{${A * A} - ${B * B}} = \\sqrt{${R * R}} = ${R}$$\n2. Autres termes : $\\sqrt{${s1 * s1}} = ${s1}$ et $\\sqrt{${s2 * s2}} = ${s2}$.\n$$E = ${R} ${op1} ${t1Str} ${op2} ${k2} \\times ${s2} = ${R} ${op1} ${t1} ${op2} ${t2} = ${ans}$$`
+      };    }
   },
 
   // --- 4N5 : Calcul littéral & équations du 1er degré ---
@@ -5988,7 +5955,6 @@ window.MathsGenerators = {
           statement: `Développer et réduire l'expression :\n$$D = ${k}(${a}x ${sign} ${b})$$\n**Quel est le coefficient de $x$ dans l'expression développée ?**`,
           type: "exact",
           answer: String(ka),
-          placeholder: `Ex: ${ka}`,
           hint1: `Distribue $${k}$ sur chaque terme dans la parenthèse : $${k} \\times ${a}x ${sign} ${k} \\times ${b}$.`,
           solution: `$$D = ${k} \\times ${a}x ${sign} ${k} \\times ${b} = ${ka}x ${kb >= 0 ? '+ ' + kb : '- ' + Math.abs(kb)}$$\nLe coefficient de $x$ est $${ka}$.`
         };
@@ -6005,7 +5971,6 @@ window.MathsGenerators = {
           statement: `On développe l'expression :\n$$E = ${k}(${a}x ${sign} ${b})$$\n**Quel est le terme constant (sans $x$) du résultat ?**`,
           type: "exact",
           answer: String(constTerm),
-          placeholder: `Ex: ${constTerm}`,
           hint1: `Le terme constant s'obtient en multipliant $${k}$ par $(${sign}${b})$.`,
           solution: `$$${k} \\times (${sign === '+' ? '+' : '-'}${b}) = ${constTerm}$$`
         };
@@ -6024,7 +5989,6 @@ window.MathsGenerators = {
           statement: `Développer l'expression :\n$$F = -${k}(${a}x ${sign} ${b})$$\n**Quel est le coefficient de $x$ dans le résultat développé ?**`,
           type: "exact",
           answer: String(resX),
-          placeholder: `Ex: ${resX}`,
           hint1: `Distribue $-${k}$ : $(-${k}) \\times ${a}x = ${resX}x$. Attention aux signes !`,
           solution: `$$F = (-${k}) \\times (${a}x) + (-${k}) \\times (${bSigned}) = ${resX}x ${resConst >= 0 ? '+ ' + resConst : '- ' + Math.abs(resConst)}$$\nLe coefficient de $x$ est $${resX}$.`
         };
@@ -6042,7 +6006,6 @@ window.MathsGenerators = {
           statement: `Développer et réduire l'expression :\n$$G = ${k}(${a}x + ${b}) + ${c}$$\n**Quelle est la valeur du terme constant (le nombre sans $x$) ?**`,
           type: "exact",
           answer: String(totalConst),
-          placeholder: `Ex: ${totalConst}`,
           hint1: `Développe d'abord $${k}(${a}x + ${b}) = ${ka}x + ${k * b}$, puis ajoute $${c}$.`,
           solution: `$$G = ${ka}x + ${k * b} + ${c} = ${ka}x + ${totalConst}$$\nLe terme constant est $${totalConst}$.`
         };
@@ -6057,7 +6020,6 @@ window.MathsGenerators = {
           statement: `Compléter la factorisation par $${k}$ de l'expression suivante :\n$$${k}x + ${kb} = ${k}(x + ?)$$\n**Quel est le nombre qui remplace le point d'interrogation ?**`,
           type: "exact",
           answer: String(b),
-          placeholder: `Ex: ${b}`,
           hint1: `Divise $${kb}$ par $${k}$ pour trouver le nombre manquant.`,
           solution: `$$${k}x + ${kb} = ${k} \\times x + ${k} \\times ${b} = ${k}(x + ${b})$$\nLe nombre manquant est **${b}**.`
         };
@@ -6079,7 +6041,6 @@ window.MathsGenerators = {
           statement: `Résoudre dans $\\mathbb{R}$ l'équation :\n$$${a}x + ${b} = ${c}$$`,
           type: "exact",
           answer: String(x),
-          placeholder: `Ex: ${x}`,
           hint1: `Isole $${a}x$ en soustrayant $${b}$ des deux côtés, puis divise par $${a}$.`,
           solution: `$$${a}x = ${c} - ${b} = ${c - b}$$\n$$x = \\frac{${c - b}}{${a}} = ${x}$$`
         };
@@ -6096,7 +6057,6 @@ window.MathsGenerators = {
           statement: `Résoudre dans $\\mathbb{R}$ l'équation :\n$$${a}x - ${b} = ${c}$$`,
           type: "exact",
           answer: String(x),
-          placeholder: `Ex: ${x}`,
           hint1: `Ajoute $${b}$ des deux côtés : $${a}x = ${c} + ${b}$. Puis divise par $${a}$.`,
           solution: `$$${a}x = ${c} + ${b} = ${c + b}$$\n$$x = \\frac{${c + b}}{${a}} = ${x}$$`
         };
@@ -6113,7 +6073,6 @@ window.MathsGenerators = {
           statement: `Résoudre dans $\\mathbb{R}$ l'équation :\n$$${b} - ${a}x = ${c}$$`,
           type: "exact",
           answer: String(x),
-          placeholder: `Ex: ${x}`,
           hint1: `Isole $-${a}x = ${c} - ${b} = ${c - b}$, puis divise par $-${a}$.`,
           solution: `$$-${a}x = ${c} - ${b} = ${c - b}$$\n$$x = \\frac{${c - b}}{-${a}} = ${x}$$`
         };
@@ -6130,7 +6089,6 @@ window.MathsGenerators = {
           statement: `Résoudre l'équation :\n$$\\frac{x}{${a}} + ${b} = ${c}$$`,
           type: "exact",
           answer: String(x),
-          placeholder: `Ex: ${x}`,
           hint1: `Commence par soustraire $${b}$ : $\\frac{x}{${a}} = ${c - b}$. Puis multiplie par $${a}$.`,
           solution: `$$\\frac{x}{${a}} = ${c} - ${b} = ${c - b}$$\n$$x = ${c - b} \\times ${a} = ${x}$$`
         };
@@ -6154,7 +6112,7 @@ window.MathsGenerators = {
           answer: correct,
           correctIndex: 0,
           hint1: `Remplace $x$ par $${testVal}$ dans le membre de gauche : $${a} \\times ${testVal} + ${b} = ${a * testVal + b}$. Compare avec $${rightVal}$.`,
-          solution: `Pour $x = ${testVal}$ :\n$$${a} \\times ${testVal} + ${b} = ${a * testVal + b}$$\nComme ${a * testVal + b} ${isGood ? '=' : '\\ne'} ${rightVal}, la réponse est **${correct}**.`
+          solution: `Pour $x = ${testVal}$ :\n$$${a} \\times ${testVal} + ${b} = ${a * testVal + b}$$\nComme $${a * testVal + b} ${isGood ? '=' : '\\neq'} ${rightVal}$, la réponse est **${correct}**.`
         };
       }
     } else if (t === 3) {
@@ -6164,38 +6122,42 @@ window.MathsGenerators = {
       if (subType === 'two_sides_std') {
         const a = this.randInt(4, 8);
         const c = this.randInt(1, a - 1);
-        const x = this.randInt(-4, 6);
-        const b = this.randInt(-9, 9);
-        const d = (a - c) * x + b;
+        let x, b, d;
+        do {
+          x = this.randInt(-4, 6);
+          b = this.randInt(-9, 9, [0]);
+          d = (a - c) * x + b;
+        } while (d === 0);
 
         return {
           chapterId: '4N5',
           tier: 3,
           title: "Équation avec l'inconnue des deux côtés",
-          statement: `Résoudre l'équation suivante :\n$$${a}x ${b >= 0 ? '+ ' + b : '- ' + Math.abs(b)} = ${c}x ${d >= 0 ? '+ ' + d : '- ' + Math.abs(d)}$$`,
+          statement: `Résoudre l'équation suivante :\n$$${this.formatPoly([a, b])} = ${this.formatPoly([c, d])}$$`,
           type: "exact",
           answer: String(x),
-          placeholder: `Ex: ${x}`,
           hint1: `Regroupe les termes en $x$ à gauche (en soustrayant $${c}x$) et les constantes à droite.`,
           solution: `$$${a}x - ${c}x = ${d} - (${b})$$\n$$${a - c}x = ${d - b}$$\n$$x = \\frac{${d - b}}{${a - c}} = ${x}$$`
         };
       } else if (subType === 'two_sides_inv') {
         const c = this.randInt(5, 9);
         const a = this.randInt(2, c - 1);
-        const x = this.randInt(-5, 5);
-        const d = this.randInt(1, 8);
-        const b = (c - a) * x + d;
+        let x, d, b;
+        do {
+          x = this.randInt(-5, 5);
+          d = this.randInt(1, 8);
+          b = (c - a) * x + d;
+        } while (b === 0);
 
         return {
           chapterId: '4N5',
           tier: 3,
           title: "Équation avec inconnue des deux côtés (terme en x négatif)",
-          statement: `Résoudre l'équation :\n$$${a}x + ${b} = ${c}x + ${d}$$`,
+          statement: `Résoudre l'équation :\n$$${this.formatPoly([a, b])} = ${c}x + ${d}$$`,
           type: "exact",
           answer: String(x),
-          placeholder: `Ex: ${x}`,
-          hint1: `Regroupe les $x$ à gauche : $${a}x - ${c}x = ${a - c}x$, et les nombres à droite : $${d} - ${b} = ${d - b}$.`,
-          solution: `$$${a}x - ${c}x = ${d} - ${b}$$\n$$${a - c}x = ${d - b}$$\n$$x = \\frac{${d - b}}{${a - c}} = ${x}$$`
+          hint1: `Regroupe les $x$ à gauche : $${a}x - ${c}x = ${a - c}x$, et les nombres à droite : $${d} ${this.formatSigned(-b)} = ${d - b}$.`,
+          solution: `$$${a}x - ${c}x = ${d} ${this.formatSigned(-b)}$$\n$$${a - c}x = ${d - b}$$\n$$x = \\frac{${d - b}}{${a - c}} = ${x}$$`
         };
       } else if (subType === 'par_equation') {
         const k = this.randInt(2, 4);
@@ -6210,7 +6172,6 @@ window.MathsGenerators = {
           statement: `Résoudre dans $\\mathbb{R}$ l'équation :\n$$${k}(x + ${a}) = ${rhs}$$`,
           type: "exact",
           answer: String(x),
-          placeholder: `Ex: ${x}`,
           hint1: `Méthode 1 : développe $${k}x + ${k * a} = ${rhs}$. Méthode 2 : divise d'abord par $${k}$.`,
           solution: `$$${k}x + ${k * a} = ${rhs}$$\n$$${k}x = ${rhs} - ${k * a} = ${rhs - k * a}$$\n$$x = \\frac{${rhs - k * a}}{${k}} = ${x}$$`
         };
@@ -6228,7 +6189,6 @@ window.MathsGenerators = {
           statement: `Résoudre l'équation :\n$$${a}x - (${b}x + ${c}) = ${rhs}$$`,
           type: "exact",
           answer: String(x),
-          placeholder: `Ex: ${x}`,
           hint1: `Supprime les parenthèses en changeant les signes à l'intérieur : $${a}x - ${b}x - ${c} = ${rhs}$.`,
           solution: `$$${a}x - ${b}x - ${c} = ${rhs}$$\n$$${a - b}x - ${c} = ${rhs}$$\n$$${a - b}x = ${rhs + c}$$\n$$x = \\frac{${rhs + c}}{${a - b}} = ${x}$$`
         };
@@ -6240,9 +6200,12 @@ window.MathsGenerators = {
         do {
           c = this.randInt(1, 9);
         } while (c === ka);
-        const x = this.randInt(-5, 6, [0]);
-        const b = this.randInt(-5, 5, [0]);
-        const d = (ka - c) * x + k * b;
+        let x, b, d;
+        do {
+          x = this.randInt(-5, 6, [0]);
+          b = this.randInt(-5, 5, [0]);
+          d = (ka - c) * x + k * b;
+        } while (d === 0);
         const bFormatted = b >= 0 ? `+ ${b}` : `- ${Math.abs(b)}`;
         const dFormatted = d >= 0 ? `+ ${d}` : `- ${Math.abs(d)}`;
 
@@ -6253,9 +6216,8 @@ window.MathsGenerators = {
           statement: `Résoudre dans $\\mathbb{R}$ l'équation :\n$$${k}(${a === 1 ? 'x' : `${a}x`} ${bFormatted}) = ${c === 1 ? 'x' : `${c}x`} ${dFormatted}$$`,
           type: "exact",
           answer: String(x),
-          placeholder: `Ex: ${x}`,
           hint1: `Commence par développer le membre de gauche : $${k} \\times ${a === 1 ? 'x' : `${a}x`} ${b >= 0 ? '+' : '-'} ${k} \\times ${Math.abs(b)}$. Puis regroupe les $x$ à gauche et les nombres à droite.`,
-          solution: `1. Développer à gauche :\n$$${ka}x ${this.formatSigned(k * b)} = ${c === 1 ? 'x' : `${c}x`} ${dFormatted}$$\n2. Transposer les termes :\n$$${ka}x - (${c === 1 ? 'x' : `${c}x`}) = ${d} - (${k * b})$$\n$$${ka - c}x = ${d - k * b}$$\n$$x = \\frac{${d - k * b}}{${ka - c}} = ${x}$$`
+          solution: `1. Développer à gauche :\n$$${this.formatPoly([ka, k * b])} = ${c === 1 ? 'x' : `${c}x`} ${dFormatted}$$\n2. Transposer les termes :\n$$${ka}x - (${c === 1 ? 'x' : `${c}x`}) = ${d} - (${k * b})$$\n$$${ka - c}x = ${d - k * b}$$\n$$x = \\frac{${d - k * b}}{${ka - c}} = ${x}$$`
         };
       } else if (subType === 'fraction_simple') {
         const c = this.randInt(2, 5);
@@ -6275,8 +6237,7 @@ window.MathsGenerators = {
           statement: `Résoudre dans $\\mathbb{R}$ l'équation :\n$$\\frac{${this.formatPoly([a, b])}}{${c}} = ${d}$$`,
           type: "exact",
           answer: String(x),
-          placeholder: `Ex: ${x}`,
-          hint1: `Multiplie d'abord les deux membres par $${c}$ pour éliminer le dénominateur : $${a}x ${this.formatSigned(b)} = ${d} \\times ${c} = ${c * d}$.`,
+          hint1: `Multiplie d'abord les deux membres par $${c}$ pour éliminer le dénominateur : $${this.formatPoly([a, b])} = ${d} \\times ${c} = ${c * d}$.`,
           solution: `1. Multiplier chaque membre par $${c}$ :\n$$${this.formatPoly([a, b])} = ${d} \\times ${c} = ${c * d}$$\n2. Isoler le terme en $x$ :\n$$${a}x = ${c * d} - (${b}) = ${c * d - b}$$\n3. Diviser par $${a}$ :\n$$x = \\frac{${c * d - b}}{${a}} = ${x}$$`
         };
       } else {
@@ -6296,9 +6257,8 @@ window.MathsGenerators = {
           statement: `Résoudre dans $\\mathbb{R}$ l'équation :\n$$${a}(x ${bStr}) + ${c}(x ${dStr}) = ${e}$$`,
           type: "exact",
           answer: String(x),
-          placeholder: `Ex: ${x}`,
           hint1: `Développe chaque terme séparément : $${a}(x ${bStr})$ et $${c}(x ${dStr})$, puis réduis le membre de gauche avant d'isoler $x$.`,
-          solution: `1. Développer :\n$$(${a}x ${this.formatSigned(a * b)}) + (${c}x ${this.formatSigned(c * d)}) = ${e}$$\n2. Réduire le membre de gauche :\n$$${a + c}x ${this.formatSigned(a * b + c * d)} = ${e}$$\n3. Isoler $x$ :\n$$${a + c}x = ${e} - (${a * b + c * d}) = ${e - (a * b + c * d)}$$\n$$x = \\frac{${e - (a * b + c * d)}}{${a + c}} = ${x}$$`
+          solution: `1. Développer :\n$$(${this.formatPoly([a, a * b])}) + (${this.formatPoly([c, c * d])}) = ${e}$$\n2. Réduire le membre de gauche :\n$$${this.formatPoly([a + c, a * b + c * d])} = ${e}$$\n3. Isoler $x$ :\n$$${a + c}x = ${e} - (${a * b + c * d}) = ${e - (a * b + c * d)}$$\n$$x = \\frac{${e - (a * b + c * d)}}{${a + c}} = ${x}$$`
         };
       }
     } else {
@@ -6332,7 +6292,6 @@ window.MathsGenerators = {
           statement: `Développer et réduire l'expression algébrique :\n$$E = (${this.formatPoly([a, b])})(${this.formatPoly([c, d])})$$\n\n**Quel est le coefficient du terme en $x$ (le terme du 1er degré) ?**`,
           type: "exact",
           answer: String(coeffX),
-          placeholder: `Ex: ${coeffX}`,
           hint1: `Formule de la double distributivité : $(ax + b)(cx + d) = ax \\times cx + ax \\times d + b \\times cx + b \\times d$.\nLe terme en $x$ provient de $(a \\times d + b \\times c)x$.`,
           solution: `Développement pas à pas :\n$$E = (${a}x) \\times (${c}x) + (${a}x) \\times (${d}) + (${b}) \\times (${c}x) + (${b}) \\times (${d})$$\n$$E = ${coeffX2}x^2 + (${a * d})x + (${b * c})x + (${constTerm})$$\n$$E = ${this.formatPoly([coeffX2, coeffX, constTerm])}$$\nLe coefficient de $x$ (degré 1) est donc :\n$$${coeffX}$$`
         };
@@ -6352,7 +6311,6 @@ window.MathsGenerators = {
             statement: `Développer et réduire l'expression algébrique :\n$$E = (${this.formatPoly([a, b])})^2$$\n\n**Quel est le coefficient du terme en $x^2$ (le terme du 2nd degré) ?**`,
             type: "exact",
             answer: String(coeffX2),
-            placeholder: `Ex: ${coeffX2}`,
             hint1: `$(ax + b)^2 = (ax + b)(ax + b) = (ax)^2 + 2 \\times (ax) \\times b + b^2$. Le terme de degré 2 est $(ax)^2$.`,
             solution: `On développe le carré :\n$$E = (${a}x)^2 + 2 \\times (${a}x) \\times (${b}) + (${b})^2$$\n$$E = ${coeffX2}x^2 ${this.formatSignedTerm(coeffX, 'x')} + ${coeffConst}$$\nLe coefficient du terme en $x^2$ (degré 2) est donc **$${coeffX2}$**.`
           };
@@ -6372,7 +6330,6 @@ window.MathsGenerators = {
             statement: `Développer et réduire l'expression algébrique :\n$$E = (${this.formatPoly([a, b])})(${this.formatPoly([c, d])})$$\n\n**Quel est le coefficient du terme en $x^2$ (le terme du 2nd degré) ?**`,
             type: "exact",
             answer: String(coeffX2),
-            placeholder: `Ex: ${coeffX2}`,
             hint1: `Le terme en $x^2$ s'obtient en multipliant les termes contenant $x$ entre eux : $(ax) \\times (cx) = (a \\times c)x^2$.`,
             solution: `Par double distributivité :\n$$E = (${a}x) \\times (${c}x) + (${a}x) \\times (${d}) + (${b}) \\times (${c}x) + (${b}) \\times (${d})$$\n$$E = ${coeffX2}x^2 ${this.formatSignedTerm(coeffX, 'x')} ${this.formatSigned(constTerm)}$$\nLe coefficient du terme en $x^2$ (degré 2) est donc **$${coeffX2}$**.`
           };
@@ -6391,7 +6348,6 @@ window.MathsGenerators = {
           statement: `Développer et réduire l'expression algébrique :\n$$E = (${this.formatPoly([a, b])})(${this.formatPoly([c, d])})$$\n\n**Quelle est la valeur du terme constant (le nombre sans $x$, de degré 0) ?**`,
           type: "exact",
           answer: String(constTerm),
-          placeholder: `Ex: ${constTerm}`,
           hint1: `Le terme constant s'obtient en multipliant les deux nombres sans $x$ : $(${b}) \\times (${d})$. Attention aux signes !`,
           solution: `Par double distributivité, les termes contenant $x$ se réduisent et le terme constant est le produit des deux constantes :\n$$(${b}) \\times (${d}) = ${constTerm}$$\nLe terme constant est donc **$${constTerm}$**.`
         };
@@ -6415,7 +6371,6 @@ window.MathsGenerators = {
             statement: `Développer et réduire l'expression algébrique :\n$$E = ${kStr}(${this.formatPoly([a, b])})(${this.formatPoly([c, d])})$$\n\n**Quel est le coefficient du terme en $x^3$ (le terme de degré 3) ?**`,
             type: "exact",
             answer: String(coeffX3),
-            placeholder: `Ex: ${coeffX3}`,
             hint1: `Multiplie d'abord les deux parenthèses pour trouver le terme en $x^2$ : $(${a}x) \\times (${c}x) = ${a * c}x^2$. Multiplie ensuite par $${kStr}$ pour obtenir le terme en $x^3$.`,
             solution: `1. Double distributivité des parenthèses :\n$$(${this.formatPoly([a, b])})(${this.formatPoly([c, d])}) = ${a * c}x^2 ${this.formatSignedTerm(a * d + b * c, 'x')} ${this.formatSigned(b * d)}$$\n2. Multiplication par $${kStr}$ :\n$$E = ${kStr} \\times (${a * c}x^2 ${this.formatSignedTerm(a * d + b * c, 'x')} ${this.formatSigned(b * d)}) = ${this.formatPoly([coeffX3, coeffX2, coeffX, 0])}$$\nLe coefficient du terme en $x^3$ (degré 3) est donc **$${coeffX3}$**.`
           };
@@ -6437,7 +6392,6 @@ window.MathsGenerators = {
             statement: `Développer l'expression algébrique :\n$$E = (${this.formatPoly([a, b])})(${this.formatPoly([c, d, e])})$$\n\n**Quel est le coefficient du terme en $x^3$ (le terme de degré 3) ?**`,
             type: "exact",
             answer: String(coeffX3),
-            placeholder: `Ex: ${coeffX3}`,
             hint1: `Par distributivité, le terme en $x^3$ s'obtient uniquement par le produit du terme en $x$ de la 1ère parenthèse avec le terme en $x^2$ de la 2nde parenthèse.`,
             solution: `Le seul produit donnant une puissance de 3 est :\n$$(${a}x) \\times (${c === 1 ? 'x^2' : `${c}x^2`}) = ${coeffX3}x^3$$\nEn développant entièrement :\n$$E = ${this.formatPoly([coeffX3, coeffX2, coeffX, coeffConst])}$$\nLe coefficient du terme en $x^3$ (degré 3) est **$${coeffX3}$**.`
           };
@@ -6460,7 +6414,6 @@ window.MathsGenerators = {
             statement: `Développer et réduire l'expression algébrique :\n$$E = (${this.formatPoly([a, 0, b])})(${this.formatPoly([c, 0, d])})$$\n\n**Quel est le coefficient du terme en $x^4$ (le terme de degré 4) ?**`,
             type: "exact",
             answer: String(coeffX4),
-            placeholder: `Ex: ${coeffX4}`,
             hint1: `Distribue chaque terme : $(ax^2) \\times (cx^2) = (a \\times c)x^4$. Rappel : $x^2 \\times x^2 = x^4$.`,
             solution: `Par double distributivité :\n$$E = (${a}x^2) \\times (${c}x^2) + (${a}x^2) \\times (${d}) + (${b}) \\times (${c}x^2) + (${b}) \\times (${d})$$\n$$E = ${coeffX4}x^4 ${this.formatSignedTerm(coeffX2, 'x^2')} ${this.formatSigned(constTerm)}$$\nLe coefficient du terme en $x^4$ (degré 4) est donc **$${coeffX4}$**.`
           };
@@ -6482,7 +6435,6 @@ window.MathsGenerators = {
             statement: `Développer et réduire l'expression algébrique :\n$$E = ${kStr}(${this.formatPoly([a, b])})(${this.formatPoly([c, d])})$$\n\n**Quel est le coefficient du terme en $x^4$ (le terme de degré 4) ?**`,
             type: "exact",
             answer: String(coeffX4),
-            placeholder: `Ex: ${coeffX4}`,
             hint1: `Calcule d'abord le produit des parenthèses qui commence par $(ax)(cx) = (ac)x^2$, puis multiplie par $${kStr}$ devant.`,
             solution: `1. Produit des parenthèses :\n$$(${this.formatPoly([a, b])})(${this.formatPoly([c, d])}) = ${a * c}x^2 ${this.formatSignedTerm(a * d + b * c, 'x')} ${this.formatSigned(b * d)}$$\n2. Distribution de $${kStr}$ :\n$$E = ${kStr} \\times (${a * c}x^2) + \\dots = ${coeffX4}x^4 ${this.formatSignedTerm(coeffX3, 'x^3')} ${this.formatSignedTerm(coeffX2, 'x^2')}$$\nLe coefficient du terme en $x^4$ (degré 4) est donc **$${coeffX4}$**.`
           };
@@ -6507,9 +6459,8 @@ window.MathsGenerators = {
           statement: `Résoudre dans $\\mathbb{R}$ l'équation :\n$$${a}(x ${bStr}) = ${c}(x ${dStr})$$`,
           type: "exact",
           answer: String(xSol),
-          placeholder: `Ex: ${xSol}`,
-          hint1: `Étape 1 : développe chaque membre de l'équation : $${a}x ${this.formatSigned(a * b)} = ${c}x ${this.formatSigned(c * d)}$.\nÉtape 2 : regroupe les termes en $x$ à gauche et les nombres à droite.`,
-          solution: `1. Développer les deux membres :\n$$${a}x ${this.formatSigned(a * b)} = ${c}x ${this.formatSigned(c * d)}$$\n2. Transposer les termes en $x$ et les constantes :\n$$${a}x - (${c}x) = ${c * d} - (${a * b})$$\n$$${a - c}x = ${c * d - a * b}$$\n$$x = \\frac{${c * d - a * b}}{${a - c}} = ${xSol}$$`
+          hint1: `Étape 1 : développe chaque membre de l'équation : $${this.formatPoly([a, a * b])} = ${this.formatPoly([c, c * d])}$.\nÉtape 2 : regroupe les termes en $x$ à gauche et les nombres à droite.`,
+          solution: `1. Développer les deux membres :\n$$${this.formatPoly([a, a * b])} = ${this.formatPoly([c, c * d])}$$\n2. Transposer les termes en $x$ et les constantes :\n$$${a}x - (${c}x) = ${c * d} - (${a * b})$$\n$$${a - c}x = ${c * d - a * b}$$\n$$x = \\frac{${c * d - a * b}}{${a - c}} = ${xSol}$$`
         };
       } else if (subType === 'eq_cancelling_squares') {
         let a, b, xSol;
@@ -6517,7 +6468,7 @@ window.MathsGenerators = {
           a = this.randInt(-5, 5, [0]);
           b = this.randInt(-5, 5, [0, -a]);
           xSol = this.randInt(-6, 6, [0]);
-        } while (a === b && Math.random() > 0.5);
+        } while ((a === b && Math.random() > 0.5) || (a + b) * xSol + a * b === 0);
 
         const sumAB = a + b;
         const prodAB = a * b;
@@ -6530,7 +6481,6 @@ window.MathsGenerators = {
           statement: `Résoudre dans $\\mathbb{R}$ l'équation :\n$$(${this.formatPoly([1, a])})(${this.formatPoly([1, b])}) = x^2 ${this.formatSigned(c)}$$`,
           type: "exact",
           answer: String(xSol),
-          placeholder: `Ex: ${xSol}`,
           hint1: `Développe le membre de gauche par double distributivité : $(x + a)(x + b) = x^2 + (a+b)x + ab$. Que remarques-tu pour les termes en $x^2$ des deux côtés ?`,
           solution: `1. Développer le membre de gauche :\n$$x^2 ${this.formatSignedTerm(sumAB, 'x')} ${this.formatSigned(prodAB)} = x^2 ${this.formatSigned(c)}$$\n2. Soustraire $x^2$ des deux membres (les termes au carré s'annulent) :\n$$${sumAB === 1 ? 'x' : (sumAB === -1 ? '-x' : `${sumAB}x`)} ${this.formatSigned(prodAB)} = ${c}$$\n3. Isoler $x$ :\n$$${sumAB}x = ${c} - (${prodAB}) = ${c - prodAB}$$\n$$x = \\frac{${c - prodAB}}{${sumAB}} = ${xSol}$$`
         };
@@ -6551,9 +6501,8 @@ window.MathsGenerators = {
           statement: `Résoudre dans $\\mathbb{R}$ l'équation :\n$$\\frac{${this.formatPoly([1, a])}}{${b}} = \\frac{${this.formatPoly([1, c])}}{${d}}$$`,
           type: "exact",
           answer: String(xSol),
-          placeholder: `Ex: ${xSol}`,
           hint1: `Utilise la règle de l'égalité des produits en croix (au programme de 4ème) : $\\frac{A}{B} = \\frac{C}{D} \\iff A \\times D = B \\times C$.`,
-          solution: `1. Égalité des produits en croix :\n$$${d}(${this.formatPoly([1, a])}) = ${b}(${this.formatPoly([1, c])})$$\n2. Développer les deux côtés :\n$$${d}x ${this.formatSigned(d * a)} = ${b}x ${this.formatSigned(b * c)}$$\n3. Regrouper les termes en $x$ et résoudre :\n$$${d}x - ${b}x = ${b * c} - (${d * a})$$\n$$${d - b}x = ${b * c - d * a}$$\n$$x = \\frac{${b * c - d * a}}{${d - b}} = ${xSol}$$`
+          solution: `1. Égalité des produits en croix :\n$$${d}(${this.formatPoly([1, a])}) = ${b}(${this.formatPoly([1, c])})$$\n2. Développer les deux côtés :\n$$${this.formatPoly([d, d * a])} = ${this.formatPoly([b, b * c])}$$\n3. Regrouper les termes en $x$ et résoudre :\n$$${d}x - ${b}x = ${b * c} - (${d * a})$$\n$$${d - b}x = ${b * c - d * a}$$\n$$x = \\frac{${b * c - d * a}}{${d - b}} = ${xSol}$$`
         };
       } else {
         const a = this.randInt(3, 5);
@@ -6570,9 +6519,8 @@ window.MathsGenerators = {
           statement: `Résoudre dans $\\mathbb{R}$ l'équation :\n$$${a}(${this.formatPoly([1, b])}) - (${this.formatPoly([c, d])}) = ${e}$$`,
           type: "exact",
           answer: String(xSol),
-          placeholder: `Ex: ${xSol}`,
           hint1: `Attention au signe « - » devant la seconde parenthèse : il change les signes de tous les termes à l'intérieur !`,
-          solution: `1. Développer et supprimer les parenthèses :\n$$${a}x ${this.formatSigned(a * b)} - ${c === 1 ? 'x' : `${c}x`} ${this.formatSigned(-d)} = ${e}$$\n2. Réduire les termes semblables :\n$$${a - c}x ${this.formatSigned(a * b - d)} = ${e}$$\n3. Isoler $x$ :\n$$${a - c}x = ${e} - (${a * b - d}) = ${e - (a * b - d)}$$\n$$x = \\frac{${e - (a * b - d)}}{${a - c}} = ${xSol}$$`
+          solution: `1. Développer et supprimer les parenthèses :\n$$${this.formatPoly([a, a * b])} - ${c === 1 ? 'x' : `${c}x`} ${this.formatSigned(-d)} = ${e}$$\n2. Réduire les termes semblables :\n$$${this.formatPoly([a - c, a * b - d])} = ${e}$$\n3. Isoler $x$ :\n$$${a - c}x = ${e} - (${a * b - d}) = ${e - (a * b - d)}$$\n$$x = \\frac{${e - (a * b - d)}}{${a - c}} = ${xSol}$$`
         };
       }
     }
@@ -6717,7 +6665,6 @@ window.MathsGenerators = {
         statement: `${figSvg}Dans un triangle $${n.tri}$ rectangle en $${n.r}$, on a $${n.s1} = ${leg1}\\text{ cm}$ et $${n.s2} = ${leg2}\\text{ cm}$.\n**Calculer la longueur de l'hypoténuse $${n.hyp}$.**`,
         type: "exact",
         answer: String(trip.c),
-        placeholder: `Ex: ${trip.c}`,
         hint1: `Dans le triangle $${n.tri}$ rectangle en $${n.r}$, d'après Pythagore : $${n.hyp}^2 = ${n.s1}^2 + ${n.s2}^2 = ${leg1Sq} + ${leg2Sq}$.`,
         solution: `Dans le triangle $${n.tri}$ rectangle en $${n.r}$, d'après le théorème de Pythagore :\n$$${n.hyp}^2 = ${n.s1}^2 + ${n.s2}^2 = ${leg1}^2 + ${leg2}^2 = ${leg1Sq} + ${leg2Sq} = ${hypSq}$$\nComme $${n.hyp} > 0$ : $$${n.hyp} = \\sqrt{${hypSq}} = ${trip.c}\\text{ cm}$$`
       };
@@ -6759,7 +6706,6 @@ window.MathsGenerators = {
           statement: `${figSvg}Dans un triangle $${n.tri}$ rectangle en $${n.r}$, l'hypoténuse mesure $${n.hyp} = ${trip.c}\\text{ cm}$ et le côté $${n.s1} = ${trip.a}\\text{ cm}$.\n**Calculer la longueur du côté $${n.s2}$.**`,
           type: "exact",
           answer: String(trip.b),
-          placeholder: `Ex: ${trip.b}`,
           hint1: `Dans le triangle $${n.tri}$ rectangle en $${n.r}$, isole $${n.s2}^2 = ${n.hyp}^2 - ${n.s1}^2 = ${hypSq} - ${s1Sq}$.`,
           solution: `Dans le triangle $${n.tri}$ rectangle en $${n.r}$, d'après le théorème de Pythagore :\n$$${n.hyp}^2 = ${n.s1}^2 + ${n.s2}^2 \\implies ${n.s2}^2 = ${n.hyp}^2 - ${n.s1}^2$$\n$$${n.s2}^2 = ${trip.c}^2 - ${trip.a}^2 = ${hypSq} - ${s1Sq} = ${s2Sq}$$\nComme $${n.s2} > 0$ : $$${n.s2} = \\sqrt{${s2Sq}} = ${trip.b}\\text{ cm}$$`
         };
@@ -6899,7 +6845,6 @@ window.MathsGenerators = {
           statement: `${figSvg}Une échelle de longueur $L = ${lEchelle}\\text{ m}$ est posée contre un mur vertical. Le pied de l'échelle est situé à une distance $d = ${dSol}\\text{ m}$ de la base du mur.\n\n**À quelle hauteur $h$ sur le mur le sommet de l'échelle parvient-il (en mètres) ?**`,
           type: "exact",
           answer: String(hMur),
-          placeholder: `Ex: ${hMur}`,
           hint1: "Le mur vertical et le sol horizontal forment un angle droit. L'échelle correspond à l'hypoténuse.",
           hint2: `D'après le théorème de Pythagore : $L^2 = d^2 + h^2 \\implies h^2 = L^2 - d^2 = ${lEchelle}^2 - ${dSol}^2$.`,
           solution: `Dans le triangle rectangle formé par le mur vertical, le sol horizontal et l'échelle (hypoténuse) :\n$$L^2 = d^2 + h^2 \\implies h^2 = L^2 - d^2$$\n$$h^2 = ${lEchelle}^2 - ${dSol}^2 = ${lEchelle*lEchelle} - ${dSol*dSol} = ${hMur*hMur}$$\nComme une hauteur est positive ($h > 0$) :\n$$h = \\sqrt{${hMur*hMur}} = ${hMur}\\text{ m}$$`
@@ -6920,7 +6865,6 @@ window.MathsGenerators = {
           statement: `${figSvg}Pour atteindre une hauteur $h = ${hMur}\\text{ m}$ sur un mur vertical, on place le pied d'une échelle à une distance $d = ${dSol}\\text{ m}$ de la base du mur.\n\n**Quelle doit être la longueur $L$ de l'échelle pour atteindre cette hauteur (en mètres) ?**`,
           type: "exact",
           answer: String(lEchelle),
-          placeholder: `Ex: ${lEchelle}`,
           hint1: "Le mur vertical et le sol horizontal forment un angle droit. L'échelle correspond à l'hypoténuse.",
           hint2: `D'après le théorème de Pythagore : $L^2 = d^2 + h^2 = ${dSol}^2 + ${hMur}^2$.`,
           solution: `Dans le triangle rectangle formé par le mur vertical, le sol horizontal et l'échelle (qui joue le rôle de l'hypoténuse) :\n$$L^2 = d^2 + h^2$$\n$$L^2 = ${dSol}^2 + ${hMur}^2 = ${dSol*dSol} + ${hMur*hMur} = ${lEchelle*lEchelle}$$\nComme une longueur est positive ($L > 0$) :\n$$L = \\sqrt{${lEchelle*lEchelle}} = ${lEchelle}\\text{ m}$$`
@@ -6950,7 +6894,6 @@ window.MathsGenerators = {
           statement: `Calculer le volume d'un pavé droit de longueur $L = ${L}\\text{ cm}$, de largeur $l = ${l}\\text{ cm}$ et de hauteur $h = ${h}\\text{ cm}$.`,
           type: "exact",
           answer: String(v),
-          placeholder: `Ex: ${v}`,
           hint1: "Formule : $\\mathcal{V} = L \\times l \\times h$.",
           solution: `$$\\mathcal{V} = ${L} \\times ${l} \\times ${h} = ${v}\\text{ cm}^3$$`
         };
@@ -6964,7 +6907,6 @@ window.MathsGenerators = {
           statement: `Calculer le volume d'un cube d'arête $c = ${c}\\text{ cm}$ :`,
           type: "exact",
           answer: String(v),
-          placeholder: `Ex: ${v}`,
           hint1: "Formule du cube : $\\mathcal{V} = c^3 = c \\times c \\times c$.",
           solution: `$$\\mathcal{V} = ${c}^3 = ${c} \\times ${c} \\times ${c} = ${v}\\text{ cm}^3$$`
         };
@@ -6981,7 +6923,6 @@ window.MathsGenerators = {
           statement: `Un prisme droit a pour base un triangle rectangle de côtés de l'angle droit $a = ${a}\\text{ cm}$ et $b = ${b}\\text{ cm}$, et une hauteur $h = ${h}\\text{ cm}$.\n**Calculer son volume en $\\text{cm}^3$ :**`,
           type: "exact",
           answer: String(v),
-          placeholder: `Ex: ${v}`,
           hint1: `1. Aire de la base : $\\mathcal{B} = \\frac{${a} \\times ${b}}{2} = ${aireBase}\\text{ cm}^2$.\n2. Volume : $\\mathcal{V} = \\mathcal{B} \\times h$.`,
           solution: `$$\\mathcal{B} = \\frac{${a} \\times ${b}}{2} = ${aireBase}\\text{ cm}^2$$\n$$\\mathcal{V} = \\mathcal{B} \\times h = ${aireBase} \\times ${h} = ${v}\\text{ cm}^3$$`
         };
@@ -7002,7 +6943,6 @@ window.MathsGenerators = {
           statement: `Un cylindre a pour rayon de base $R = ${r}\\text{ cm}$ et pour hauteur $h = ${h}\\text{ cm}$.\nDonner la valeur exacte de son volume sous la forme $n\\pi\\text{ cm}^3$ (saisir le nombre $n$).`,
           type: "exact",
           answer: String(coeff),
-          placeholder: `Ex: ${coeff}`,
           hint1: "Formule : $\\mathcal{V} = \\pi R^2 h$. Calcule $R^2 \\times h$.",
           solution: `$$\\mathcal{V} = \\pi \\times ${r}^2 \\times ${h} = ${r*r} \\times ${h} \\times \\pi = ${coeff}\\pi\\text{ cm}^3$$`
         };
@@ -7017,7 +6957,6 @@ window.MathsGenerators = {
           statement: `Un cylindre de rayon $R = ${r}\\text{ cm}$ a un volume de $${coeff}\\pi\\text{ cm}^3$.\n**Quelle est sa hauteur $h$ en cm ?**`,
           type: "exact",
           answer: String(h),
-          placeholder: `Ex: ${h}`,
           hint1: `L'aire de base est $\\mathcal{B} = \\pi \\times ${r}^2 = ${r*r}\\pi$. La hauteur vaut $\\frac{\\mathcal{V}}{\\mathcal{B}}$.`,
           solution: `$$\\mathcal{B} = \\pi \\times ${r}^2 = ${r*r}\\pi\\text{ cm}^2$$\n$$h = \\frac{${coeff}\\pi}{${r*r}\\pi} = ${h}\\text{ cm}$$`
         };
@@ -7031,7 +6970,6 @@ window.MathsGenerators = {
           statement: `La base d'un cylindre est un disque de rayon $R = ${r}\\text{ cm}$.\nDonner la valeur exacte de son aire sous la forme $n\\pi\\text{ cm}^2$ (saisir le nombre $n$) :`,
           type: "exact",
           answer: String(aire),
-          placeholder: `Ex: ${aire}`,
           hint1: "Formule de l'aire d'un disque : $\\mathcal{A} = \\pi R^2$.",
           solution: `$$\\mathcal{A} = \\pi \\times ${r}^2 = ${aire}\\pi\\text{ cm}^2$$`
         };
@@ -7052,7 +6990,6 @@ window.MathsGenerators = {
           statement: `Un cône de révolution a un rayon de base $R = ${r}\\text{ cm}$ et une hauteur $h = ${h}\\text{ cm}$.\nDonner la valeur exacte de son volume sous la forme $n\\pi\\text{ cm}^3$ (saisir le nombre $n$).`,
           type: "exact",
           answer: String(coeff),
-          placeholder: `Ex: ${coeff}`,
           hint1: "Formule du cône : $\\mathcal{V} = \\frac{1}{3}\\pi R^2 h$.",
           solution: `$$\\mathcal{V} = \\frac{1}{3} \\times \\pi \\times ${r}^2 \\times ${h} = \\frac{${r*r * h}}{3}\\pi = ${coeff}\\pi\\text{ cm}^3$$`
         };
@@ -7068,7 +7005,6 @@ window.MathsGenerators = {
           statement: `Une pyramide a pour base un carré de côté $c = ${c}\\text{ cm}$ et pour hauteur $h = ${h}\\text{ cm}$.\n**Calculer son volume en $\\text{cm}^3$ :**`,
           type: "exact",
           answer: String(v),
-          placeholder: `Ex: ${v}`,
           hint1: "Formule de la pyramide : $\\mathcal{V} = \\frac{1}{3} \\times \\text{Aire de base} \\times h = \\frac{c^2 \\times h}{3}$.",
           solution: `$$\\mathcal{V} = \\frac{${c}^2 \\times ${h}}{3} = \\frac{${c*c} \\times ${h}}{3} = ${v}\\text{ cm}^3$$`
         };
@@ -7091,7 +7027,6 @@ window.MathsGenerators = {
         statement: `Un bac d'eau a la forme d'un prisme droit à base triangulaire rectangle.\nLes côtés de l'angle droit de la base mesurent $a = ${a}\\text{ cm}$ et $b = ${b}\\text{ cm}$.\nLa hauteur du bac est de $h = ${h}\\text{ cm}$.\n\n**Quelle est la capacité maximale de ce bac en Litres ?**\n*(Rappel : $1\\text{ L} = 1\\text{ dm}^3$)*`,
         type: "exact",
         answer: String(vLitre),
-        placeholder: `Ex: ${vLitre}`,
         hint1: `1. Convertis les dimensions en décimètres : $a = ${aDm}\\text{ dm}$, $b = ${bDm}\\text{ dm}$, $h = ${hDm}\\text{ dm}$.\n2. Aire de la base : $\\mathcal{B} = \\frac{a \\times b}{2}$.\n3. Volume : $\\mathcal{V} = \\mathcal{B} \\times h$ en $\\text{dm}^3$ (Litres).`,
         solution: `1. En décimètres : $a = ${aDm}\\text{ dm}$, $b = ${bDm}\\text{ dm}$, $h = ${hDm}\\text{ dm}$.\n2. Aire de la base triangulaire :\n$$\\mathcal{B} = \\frac{${aDm} \\times ${bDm}}{2} = ${(aDm * bDm)/2}\\text{ dm}^2$$\n3. Volume en litres :\n$$\\mathcal{V} = \\mathcal{B} \\times h = ${(aDm * bDm)/2} \\times ${hDm} = ${vLitre}\\text{ dm}^3 = ${vLitre}\\text{ L}$$`
       };
@@ -7117,7 +7052,6 @@ window.MathsGenerators = {
           statement: `Calculer la moyenne de la série statistique suivante :\n$$${vals.join('~;~')}$$`,
           type: "exact",
           answer: String(avg),
-          placeholder: `Ex: ${avg}`,
           hint1: "Additionne les 4 valeurs puis divise le résultat par 4.",
           solution: `$$\\bar{x} = \\frac{${vals.join(' + ')}}{4} = \\frac{${vals.reduce((a,b)=>a+b,0)}}{4} = ${avg}$$`
         };
@@ -7131,17 +7065,19 @@ window.MathsGenerators = {
           statement: `Calculer la moyenne des 5 notes suivantes :\n$$${vals.join('~;~')}$$`,
           type: "exact",
           answer: String(avg),
-          placeholder: `Ex: ${avg}`,
           hint1: "Fais la somme des 5 notes puis divise par 5.",
           solution: `$$\\bar{x} = \\frac{${vals.join(' + ')}}{5} = \\frac{${vals.reduce((a,b)=>a+b,0)}}{5} = ${avg}$$`
         };
       } else {
-        const target = this.randInt(12, 15);
-        const n1 = this.randInt(target - 4, target - 1);
-        const n2 = this.randInt(target, target + 3);
-        const n3 = this.randInt(target - 3, target + 2);
-        // (n1 + n2 + n3 + x) / 4 = target => x = 4*target - (n1+n2+n3)
-        const x = 4 * target - (n1 + n2 + n3);
+        let target, n1, n2, n3, x;
+        do {
+          target = this.randInt(10, 15);
+          n1 = this.randInt(target - 4, target - 1);
+          n2 = this.randInt(target, target + 3);
+          n3 = this.randInt(target - 3, target + 2);
+          // (n1 + n2 + n3 + x) / 4 = target => x = 4*target - (n1+n2+n3), note comprise entre 0 et 20
+          x = 4 * target - (n1 + n2 + n3);
+        } while (x < 0 || x > 20 || Math.max(n1, n2, n3) > 20);
         return {
           chapterId: '4D1',
           tier: 1,
@@ -7149,7 +7085,6 @@ window.MathsGenerators = {
           statement: `Un élève a obtenu les notes $${n1}$, $${n2}$ et $${n3}$ aux trois premiers devoirs.\n**Quelle note doit-il obtenir au 4ème devoir pour avoir exactement $${target}$ de moyenne ?**`,
           type: "exact",
           answer: String(x),
-          placeholder: `Ex: ${x}`,
           hint1: `Le total des 4 notes doit être de $4 \\times ${target} = ${4 * target}$. Calcule ce total moins la somme des 3 premières notes.`,
           solution: `Total requis : $4 \\times ${target} = ${4 * target}$.\nSomme actuelle : $${n1} + ${n2} + ${n3} = ${n1 + n2 + n3}$.\nNote nécessaire : $${4 * target} - ${n1 + n2 + n3} = ${x}$.`
         };
@@ -7175,7 +7110,6 @@ window.MathsGenerators = {
           statement: `Dans une classe, les notes à un devoir sont réparties ainsi :\n- Note ${n1} : ${e1} élèves\n- Note ${n2} : ${e2} élèves\n- Note ${n3} : ${e3} élèves\n\n**Calculer la moyenne de la classe à ce devoir.**`,
           type: "exact",
           answer: String(avg),
-          placeholder: `Ex: ${avg}`,
           hint1: `Calcule l'effectif total ($${e1} + ${e2} + ${e3} = 10$), puis la somme pondérée des notes divisée par 10.`,
           solution: `$$\\bar{x} = \\frac{${n1} \\times ${e1} + ${n2} \\times ${e2} + ${n3} \\times ${e3}}{${e1} + ${e2} + ${e3}} = \\frac{${totalPoints}}{10} = ${avg}$$`
         };
@@ -7196,7 +7130,6 @@ window.MathsGenerators = {
           statement: `Un élève a obtenu les notes suivantes :\n- Devoir maison (coef 1) : $${note1}$\n- Interrogation (coef 2) : $${note2}$\n- Contrôle bilan (coef 2) : $${note3}$\n\n**Calculer sa moyenne pondérée (somme des coefficients = 5).**`,
           type: "exact",
           answer: String(avg),
-          placeholder: `Ex: ${avg}`,
           hint1: `Multiplie chaque note par son coefficient : $(${note1} \\times 1 + ${note2} \\times 2 + ${note3} \\times 2)$, puis divise par 5.`,
           solution: `$$\\bar{x} = \\frac{${note1} \\times 1 + ${note2} \\times 2 + ${note3} \\times 2}{1 + 2 + 2} = \\frac{${totalPoints}}{5} = ${avg}$$`
         };
@@ -7225,10 +7158,10 @@ window.MathsGenerators = {
         };
       } else if (subType === 'de_6') {
         const cases = [
-          { q: "d'obtenir un nombre pair", num: 3, den: 6, fav: "{2, 4, 6}" },
-          { q: "d'obtenir un multiple de 3", num: 2, den: 6, fav: "{3, 6}" },
-          { q: "d'obtenir un nombre strictement supérieur à 4", num: 2, den: 6, fav: "{5, 6}" },
-          { q: "d'obtenir un diviseur de 6", num: 4, den: 6, fav: "{1, 2, 3, 6}" }
+          { q: "d'obtenir un nombre pair", num: 3, den: 6, fav: "\\{2~;~4~;~6\\}" },
+          { q: "d'obtenir un multiple de 3", num: 2, den: 6, fav: "\\{3~;~6\\}" },
+          { q: "d'obtenir un nombre strictement supérieur à 4", num: 2, den: 6, fav: "\\{5~;~6\\}" },
+          { q: "d'obtenir un diviseur de 6", num: 4, den: 6, fav: "\\{1~;~2~;~3~;~6\\}" }
         ];
         const c = this.randChoice(cases);
         const [sN, sD] = this.simplifyFraction(c.num, c.den);
@@ -7263,24 +7196,27 @@ window.MathsGenerators = {
           answer: ansStr,
           placeholder: "Ex: 1/4",
           hint1: `Compte le nombre d'issues favorables dans un jeu de 32 cartes (${c.label}).`,
-          solution: `Il y a $${c.label}$ :\n$$P = \\frac{${c.num}}{32} = ${ansStr}$$`
+          solution: `Il y a ${c.label} :\n$$P = \\frac{${c.num}}{32} = ${ansStr}$$`
         };
       }
     } else {
       // Palier 4 : Défi 3ème (Fréquence en pourcentage et effectif total manquant)
       // Un groupe a N personnes au total. Il y a E sportifs, ce qui représente P%.
-      const N = this.randChoice([80, 120, 150, 200]);
-      const P = this.randChoice([20, 25, 30, 40]);
+      let N, P;
+      do {
+        P = this.randChoice([5, 10, 12, 15, 20, 25, 30, 35, 40, 45, 60, 75]);
+        N = 20 * this.randInt(2, 20);
+      } while ((N * P) % 100 !== 0);
       const E = (N * P) / 100;
+      const club = this.randChoice(['natation', 'football', 'basket', 'judo', 'tennis de table', 'athlétisme', 'escalade', 'handball']);
 
       return {
         chapterId: '4D1',
         tier: 4,
         title: "Défi 3ème : Rétro-calcul de l'effectif total à partir d'un pourcentage",
-        statement: `Dans une association sportive, il y a $${E}$ adhérents inscrits au club de natation.\nCe nombre représente exactement $${P}\\%$ de l'ensemble des adhérents de l'association.\n\n**Quel est le nombre total d'adhérents de l'association ?**`,
+        statement: `Dans une association sportive, il y a $${E}$ adhérents inscrits à la section ${club}.\nCe nombre représente exactement $${P}\\%$ de l'ensemble des adhérents de l'association.\n\n**Quel est le nombre total d'adhérents de l'association ?**`,
         type: "exact",
         answer: String(N),
-        placeholder: `Ex: ${N}`,
         hint1: `Si $${P}\\%$ correspond à $${E}$ personnes, alors $100\\%$ correspond à : $\\frac{${E} \\times 100}{${P}}$.`,
         solution: `Par proportionnalité :\n$$N = \\frac{${E} \\times 100}{${P}} = ${N}\\text{ adhérents}$$`
       };
@@ -7309,7 +7245,6 @@ window.MathsGenerators = {
           statement: `Dans un tableau de proportionnalité :\n$${a}$ correspond à $${b}$.\n**Quelle valeur correspond à $${c}$ ?**`,
           type: "exact",
           answer: String(d),
-          placeholder: `Ex: ${d}`,
           hint1: `Le coefficient de proportionnalité est $\\frac{${b}}{${a}} = ${mult}$. Multiplie $${c}$ par ce coefficient.`,
           solution: `$$x = \\frac{${b} \\times ${c}}{${a}} = ${d}$$`
         };
@@ -7325,7 +7260,6 @@ window.MathsGenerators = {
           statement: `Une recette de gâteau pour $${persInit}$ personnes nécessite $${farineBase}\\text{ g}$ de farine.\n**Quelle quantité de farine en grammes faut-il pour $${persFinal}$ personnes ?**`,
           type: "exact",
           answer: String(farineAns),
-          placeholder: `Ex: ${farineAns}`,
           hint1: `Calcule la quantité pour 1 personne : $\\frac{${farineBase}}{${persInit}} = ${farineBase / persInit}\\text{ g}$, puis multiplie par $${persFinal}$.`,
           solution: `Quantité pour 1 personne : $\\frac{${farineBase}}{${persInit}} = ${farineBase / persInit}\\text{ g}$.\nPour $${persFinal}$ personnes : $${farineBase / persInit} \\times ${persFinal} = ${farineAns}\\text{ g}$.`
         };
@@ -7342,7 +7276,6 @@ window.MathsGenerators = {
           statement: `$${kg}\\text{ kg}$ de pommes coûtent $${total}\\text{ €}$.\n**Combien coûtent $${targetKg}\\text{ kg}$ de ces mêmes pommes en euros ?**`,
           type: "exact",
           answer: String(targetPrix),
-          placeholder: `Ex: ${targetPrix}`,
           hint1: `Prix au kilo : $\\frac{${total}}{${kg}} = ${prixUnitaire}\\text{ €/kg}$. Multiplie par $${targetKg}$.`,
           solution: `Prix au kilo : $${total} \\div ${kg} = ${prixUnitaire}\\text{ €/kg}$.\nPrix pour $${targetKg}\\text{ kg}$ : $${targetKg} \\times ${prixUnitaire} = ${targetPrix}\\text{ €}$.`
         };
@@ -7363,7 +7296,6 @@ window.MathsGenerators = {
           statement: `Un article coûte $${prix}\\text{ €}$. Le magasin offre une remise de $${p}\\%$.\n**Quel est le montant de la remise en euros ?**`,
           type: "exact",
           answer: String(remise),
-          placeholder: `Ex: ${remise}`,
           hint1: `Calcule $\\frac{${p}}{100} \\times ${prix}$.`,
           solution: `$$\\text{Remise} = ${prix} \\times \\frac{${p}}{100} = ${remise}\\text{ €}$$`
         };
@@ -7379,7 +7311,6 @@ window.MathsGenerators = {
           statement: `Une veste affichée à $${prix}\\text{ €}$ bénéficie d'une réduction de $${p}\\%$.\n**Quel est son nouveau prix en euros après réduction ?**`,
           type: "exact",
           answer: String(prixFinal),
-          placeholder: `Ex: ${prixFinal}`,
           hint1: `Montant de la réduction : $\\frac{${p}}{100} \\times ${prix} = ${remise}\\text{ €}$. Nouveau prix = $${prix} - ${remise}$.`,
           solution: `$$\\text{Réduction} = ${prix} \\times \\frac{${p}}{100} = ${remise}\\text{ €}$$\n$$\\text{Prix final} = ${prix} - ${remise} = ${prixFinal}\\text{ €}$$`
         };
@@ -7394,7 +7325,6 @@ window.MathsGenerators = {
           statement: `Un loyer de $${loyer}\\text{ €}$ augmente de $${p}\\%$.\n**Quel est le montant de l'augmentation en euros ?**`,
           type: "exact",
           answer: String(hausse),
-          placeholder: `Ex: ${hausse}`,
           hint1: `Calcule $\\frac{${p}}{100} \\times ${loyer}$.`,
           solution: `$$\\text{Augmentation} = ${loyer} \\times \\frac{${p}}{100} = ${hausse}\\text{ €}$$`
         };
@@ -7409,7 +7339,6 @@ window.MathsGenerators = {
           statement: `Dans une classe de $${total}$ élèves, $${count}$ élèves sont demi-pensionnaires.\n**Quel est le pourcentage d'élèves demi-pensionnaires ?**`,
           type: "exact",
           answer: String(pct),
-          placeholder: `Ex: ${pct}`,
           hint1: `Formule : $\\frac{${count}}{${total}} \\times 100$.`,
           solution: `$$\\text{Pourcentage} = \\frac{${count}}{${total}} \\times 100 = ${pct}\\%$$`
         };
@@ -7429,7 +7358,6 @@ window.MathsGenerators = {
           statement: `Un automobiliste parcourt une distance de $d = ${dist}\\text{ km}$ en une durée de $1\\text{ h } 30\\text{ min}$.\n**Quelle est sa vitesse moyenne en km/h ?**`,
           type: "exact",
           answer: String(speed),
-          placeholder: `Ex: ${speed}`,
           hint1: "Convertis la durée en heures décimales : $1\\text{ h } 30\\text{ min} = 1{,}5\\text{ h}$. Formule : $v = d / t$.",
           solution: `$$t = 1{,}5\\text{ h}$$\n$$v = \\frac{d}{t} = \\frac{${dist}}{1{,}5} = ${speed}\\text{ km/h}$$`
         };
@@ -7443,7 +7371,6 @@ window.MathsGenerators = {
           statement: `Un train effectue un trajet de $d = ${dist}\\text{ km}$ en une durée de $45\\text{ minutes}$.\n**Quelle est sa vitesse moyenne en km/h ?**`,
           type: "exact",
           answer: String(speed),
-          placeholder: `Ex: ${speed}`,
           hint1: "$45\\text{ min} = \\frac{45}{60}\\text{ h} = 0{,}75\\text{ h}$. Formule : $v = \\frac{d}{t}$.",
           solution: `$$t = 0{,}75\\text{ h}$$\n$$v = \\frac{${dist}}{0{,}75} = ${speed}\\text{ km/h}$$`
         };
@@ -7458,48 +7385,54 @@ window.MathsGenerators = {
           statement: `Une voiture roule à une vitesse constante de $${speed}\\text{ km/h}$ pendant $2\\text{ h } 30\\text{ min}$.\n**Quelle distance parcourt-elle en km ?**`,
           type: "exact",
           answer: String(dist),
-          placeholder: `Ex: ${dist}`,
           hint1: "Convertis la durée en heures : $2\\text{ h } 30\\text{ min} = 2{,}5\\text{ h}$. Formule : $d = v \\times t$.",
           solution: `$$d = ${speed} \\times 2{,}5 = ${dist}\\text{ km}$$`
         };
       } else {
-        const speed = this.randChoice([60, 90, 120]);
-        const minutes = this.randChoice([20, 30, 40]);
+        const speed = this.randChoice([30, 45, 60, 75, 90, 120]);
+        const minutes = this.randChoice([10, 12, 15, 20, 30, 36, 40, 45, 48, 50]);
         const dist = (speed * minutes) / 60;
         return {
           chapterId: '4P1',
           tier: 3,
           title: "Durée d'un trajet en minutes",
-          statement: `Un motard roule à une vitesse moyenne de $${speed}\\text{ km/h}$ et parcourt une distance de $${dist}\\text{ km}$.\n**Combien de minutes a duré son trajet ?**`,
+          statement: `Un motard roule à une vitesse moyenne de $${speed}\\text{ km/h}$ et parcourt une distance de $${this.formatDecimal(dist)}\\text{ km}$.\n**Combien de minutes a duré son trajet ?**`,
           type: "exact",
           answer: String(minutes),
-          placeholder: `Ex: ${minutes}`,
-          hint1: `Temps en heures : $t = \\frac{d}{v} = \\frac{${dist}}{${speed}}\\text{ h}$. Multiplie par 60 pour obtenir les minutes.`,
-          solution: `$$t = \\frac{${dist}}{${speed}} = ${dist / speed}\\text{ h} = ${dist / speed} \\times 60 = ${minutes}\\text{ minutes}$$`
+          hint1: `Temps en heures : $t = \\frac{d}{v} = \\frac{${this.formatDecimal(dist)}}{${speed}}\\text{ h}$. Multiplie par 60 pour obtenir les minutes.`,
+          solution: `$$t = \\frac{${this.formatDecimal(dist)}}{${speed}}\\text{ h} = \\frac{${this.formatDecimal(dist)}}{${speed}} \\times 60\\text{ min} = \\frac{${this.formatDecimal(dist)} \\times 60}{${speed}}\\text{ min} = ${minutes}\\text{ minutes}$$`
         };
       }
     } else {
       // Palier 4 : Défi 3ème (Vitesse moyenne sur deux étapes successives)
-      const configs = [
-        { d: 60, v1: 60, v2: 30, t1: 1, t2: 2, vMoy: 40 },
-        { d: 120, v1: 120, v2: 60, t1: 1, t2: 2, vMoy: 80 },
-        { d: 90, v1: 90, v2: 45, t1: 1, t2: 2, vMoy: 60 },
-        { d: 30, v1: 30, v2: 15, t1: 1, t2: 2, vMoy: 20 },
-        { d: 120, v1: 60, v2: 40, t1: 2, t2: 3, vMoy: 48 },
-        { d: 150, v1: 75, v2: 50, t1: 2, t2: 3, vMoy: 60 }
-      ];
-      const cfg = this.randChoice(configs);
+      // Deux tronçons de même longueur d à des vitesses v1 ≠ v2 ; durées « rondes » en heures
+      const who = this.randChoice([
+        { name: 'Un cycliste', vmin: 10, vmax: 45 },
+        { name: 'Un automobiliste', vmin: 40, vmax: 130 },
+        { name: 'Un motard', vmin: 30, vmax: 110 },
+        { name: 'Un coureur à pied', vmin: 6, vmax: 18 }
+      ]);
+      let d, v1, v2, t1, t2, vMoy;
+      do {
+        t1 = this.randChoice([0.5, 1, 1.5, 2, 2.5, 3]);
+        t2 = this.randChoice([0.5, 1, 1.5, 2, 2.5, 3, 4]);
+        v1 = this.randInt(who.vmin, who.vmax);
+        d = v1 * t1;
+        v2 = d / t2;
+        vMoy = this.roundNum((2 * d) / (t1 + t2));
+      } while (t1 === t2 || !Number.isInteger(d) || !Number.isInteger(v2) || v2 < who.vmin || v2 > who.vmax || Math.round(vMoy * 10) / 10 !== vMoy);
+      const fd = (x) => this.formatDecimal(x);
+      const tt = this.roundNum(t1 + t2);
 
       return {
         chapterId: '4P1',
         tier: 4,
         title: "Défi 3ème : Vitesse moyenne sur deux étapes (Le piège de la moyenne)",
-        statement: `Un cycliste parcourt un trajet de $${cfg.d * 2}\\text{ km}$ en deux tronçons égaux :\n- Il parcourt les premiers $${cfg.d}\\text{ km}$ à la vitesse de $${cfg.v1}\\text{ km/h}$.\n- Il parcourt les $${cfg.d}\\text{ km}$ restants à la vitesse de $${cfg.v2}\\text{ km/h}$.\n\n**Quelle est sa vitesse moyenne sur l'ensemble des $${cfg.d * 2}\\text{ km}$ en km/h ?**`,
+        statement: `${who.name} parcourt un trajet de $${2 * d}\\text{ km}$ en deux tronçons égaux :\n- Il parcourt les premiers $${d}\\text{ km}$ à la vitesse de $${v1}\\text{ km/h}$.\n- Il parcourt les $${d}\\text{ km}$ restants à la vitesse de $${v2}\\text{ km/h}$.\n\n**Quelle est sa vitesse moyenne sur l'ensemble des $${2 * d}\\text{ km}$ en km/h ?**`,
         type: "exact",
-        answer: String(cfg.vMoy),
-        placeholder: `Ex: ${cfg.vMoy}`,
-        hint1: `Attention : la vitesse moyenne n'est PAS la moyenne de ${cfg.v1} et ${cfg.v2} !\nCalcule le temps passé sur chaque tronçon : $t_1 = ${cfg.d} / ${cfg.v1} = ${cfg.t1}\\text{ h}$ et $t_2 = ${cfg.d} / ${cfg.v2} = ${cfg.t2}\\text{ h}$. Puis applique $v = \\frac{d_{\\text{total}}}{t_{\\text{total}}}$.`,
-        solution: `1. Durée du premier tronçon :\n$$t_1 = \\frac{${cfg.d}\\text{ km}}{${cfg.v1}\\text{ km/h}} = ${cfg.t1}\\text{ h}$$\n2. Durée du second tronçon :\n$$t_2 = \\frac{${cfg.d}\\text{ km}}{${cfg.v2}\\text{ km/h}} = ${cfg.t2}\\text{ h}$$\n3. Durée totale : $t_{\\text{total}} = ${cfg.t1} + ${cfg.t2} = ${cfg.t1 + cfg.t2}\\text{ h}$.\n4. Vitesse moyenne globale :\n$$v_{\\text{moy}} = \\frac{${cfg.d * 2}\\text{ km}}{${cfg.t1 + cfg.t2}\\text{ h}} = ${cfg.vMoy}\\text{ km/h}$$`
+        answer: String(vMoy),
+        hint1: `Attention : la vitesse moyenne n'est PAS la moyenne de $${v1}$ et $${v2}$ !\nCalcule le temps passé sur chaque tronçon : $t_1 = \\frac{${d}}{${v1}} = ${fd(t1)}\\text{ h}$ et $t_2 = \\frac{${d}}{${v2}} = ${fd(t2)}\\text{ h}$. Puis applique $v = \\frac{d_{\\text{total}}}{t_{\\text{total}}}$.`,
+        solution: `1. Durée du premier tronçon :\n$$t_1 = \\frac{${d}\\text{ km}}{${v1}\\text{ km/h}} = ${fd(t1)}\\text{ h}$$\n2. Durée du second tronçon :\n$$t_2 = \\frac{${d}\\text{ km}}{${v2}\\text{ km/h}} = ${fd(t2)}\\text{ h}$$\n3. Durée totale : $t_{\\text{total}} = ${fd(t1)} + ${fd(t2)} = ${fd(tt)}\\text{ h}$.\n4. Vitesse moyenne globale :\n$$v_{\\text{moy}} = \\frac{${2 * d}\\text{ km}}{${fd(tt)}\\text{ h}} = ${fd(vMoy)}\\text{ km/h}$$`
       };
     }
   },
@@ -7529,7 +7462,6 @@ window.MathsGenerators = {
           statement: `Calculer la valeur de l'expression numérique :\n$$A = ${a} + ${b} \\times ${c}$$`,
           type: "exact",
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: "La multiplication est prioritaire sur l'addition : calcule d'abord le produit.",
           solution: `$$A = ${a} + (${b} \\times ${c}) = ${a} + ${b * c} = ${ans}$$`
         };
@@ -7545,7 +7477,6 @@ window.MathsGenerators = {
           statement: `Calculer la valeur de l'expression numérique :\n$$A = ${a} \\times ${b} + ${c}$$`,
           type: "exact",
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: "Effectue d'abord la multiplication, puis ajoute le terme final.",
           solution: `$$A = (${a} \\times ${b}) + ${c} = ${a * b} + ${c} = ${ans}$$`
         };
@@ -7561,7 +7492,6 @@ window.MathsGenerators = {
           statement: `Calculer la valeur de l'expression numérique :\n$$A = ${a} - ${b} \\times ${c}$$`,
           type: "exact",
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: `Calcule d'abord le produit $${b} \\times ${c} = ${b * c}$, puis soustrais-le de $${a}$.`,
           solution: `$$A = ${a} - (${b} \\times ${c}) = ${a} - ${b * c} = ${ans}$$`
         };
@@ -7577,7 +7507,6 @@ window.MathsGenerators = {
           statement: `Calculer la valeur de l'expression numérique :\n$$A = ${a} \\times ${b} - ${c}$$`,
           type: "exact",
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: `Effectue d'abord la multiplication $${a} \\times ${b}$, puis soustrais $${c}$.`,
           solution: `$$A = (${a} \\times ${b}) - ${c} = ${a * b} - ${c} = ${ans}$$`
         };
@@ -7594,7 +7523,6 @@ window.MathsGenerators = {
           statement: `Calculer la valeur de l'expression numérique :\n$$A = ${a} + ${b} \\div ${c}$$`,
           type: "exact",
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: `La division est prioritaire sur l'addition : effectue d'abord $${b} \\div ${c}$.`,
           solution: `$$A = ${a} + (${b} \\div ${c}) = ${a} + ${q} = ${ans}$$`
         };
@@ -7611,7 +7539,6 @@ window.MathsGenerators = {
           statement: `Calculer la valeur de l'expression numérique :\n$$A = ${a} - ${b} \\div ${c}$$`,
           type: "exact",
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: `La division est prioritaire : calcule $${b} \\div ${c} = ${q}$, puis effectue la soustraction.`,
           solution: `$$A = ${a} - (${b} \\div ${c}) = ${a} - ${q} = ${ans}$$`
         };
@@ -7682,7 +7609,6 @@ window.MathsGenerators = {
           statement: `Calculer la valeur de l'expression suivante :\n$$B = (${a} + ${b}) \\times ${c}$$`,
           type: "exact",
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: "Les calculs entre parenthèses sont prioritaires sur toutes les autres opérations.",
           solution: `$$B = (${a + b}) \\times ${c} = ${ans}$$`
         };
@@ -7698,7 +7624,6 @@ window.MathsGenerators = {
           statement: `Calculer la valeur de l'expression suivante :\n$$B = ${a} \\times (${b} - ${c})$$`,
           type: "exact",
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: `Calcule d'abord la soustraction entre parenthèses : $${b} - ${c} = ${b - c}$.`,
           solution: `$$B = ${a} \\times (${b} - ${c}) = ${a} \\times (${b - c}) = ${a * (b - c)} = ${ans}$$`
         };
@@ -7714,7 +7639,6 @@ window.MathsGenerators = {
           statement: `Calculer la valeur de l'expression suivante :\n$$B = ${a} - (${b} \\times ${c})$$`,
           type: "exact",
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: `Effectue le calcul entre parenthèses en premier : $${b} \\times ${c} = ${b * c}$.`,
           solution: `$$B = ${a} - ${b * c} = ${ans}$$`
         };
@@ -7731,7 +7655,6 @@ window.MathsGenerators = {
           statement: `Calculer la valeur de l'expression suivante :\n$$B = (${a} + ${b}) \\div ${c}$$`,
           type: "exact",
           answer: String(q),
-          placeholder: `Ex: ${q}`,
           hint1: `Calcule la somme entre parenthèses en premier : $${a} + ${b} = ${total}$.`,
           solution: `$$B = (${total}) \\div ${c} = ${q}$$`
         };
@@ -7748,7 +7671,6 @@ window.MathsGenerators = {
           statement: `Calculer astucieusement en factorisant par $${k}$ :\n$$B = ${k} \\times ${a} + ${k} \\times ${b}$$`,
           type: "exact",
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: `Formule de factorisation : $k \\times a + k \\times b = k \\times (a + b) = ${k} \\times (${a} + ${b})$.`,
           solution: `$$B = ${k} \\times (${a} + ${b}) = ${k} \\times ${a + b} = ${ans}$$`
         };
@@ -7771,7 +7693,6 @@ window.MathsGenerators = {
           statement: `Calculer la valeur exacte de l'expression :\n$$C = ${a} \\times ${b} ${isPlus ? '+' : '-'} ${c} \\times ${d}$$`,
           type: "exact",
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: `Les multiplications sont prioritaires : calcule $${a} \\times ${b} = ${a * b}$ et $${c} \\times ${d} = ${c * d}$.`,
           solution: `$$C = ${a} \\times ${b} ${isPlus ? '+' : '-'} ${c} \\times ${d} = (${a * b}) ${isPlus ? '+' : '-'} (${c * d}) = ${a * b} ${isPlus ? '+' : '-'} ${c * d} = ${ans}$$`
         };
@@ -7788,7 +7709,6 @@ window.MathsGenerators = {
           statement: `Calculer la valeur de l'expression :\n$$C = (${a} - ${b}) \\times (${c} + ${d})$$`,
           type: "exact",
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: "Calcule séparément l'intérieur de chaque parenthèse avant de multiplier les deux résultats.",
           solution: `$$C = (${a} - ${b}) \\times (${c} + ${d}) = (${a - b}) \\times (${c + d}) = ${(a - b) * (c + d)} = ${ans}$$`
         };
@@ -7805,7 +7725,6 @@ window.MathsGenerators = {
           statement: `Calculer la valeur de l'expression numérique :\n$$C = ${a} - ${b} \\times ${c} + ${d}$$`,
           type: "exact",
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: `Effectue d'abord la multiplication $${b} \\times ${c} = ${b * c}$, puis les additions/soustractions de gauche à droite.`,
           solution: `1. Multiplication prioritaire : $${b} \\times ${c} = ${b * c}$.\n2. De gauche à droite :\n$$C = ${a} - ${b * c} + ${d} = ${a - b * c} + ${d} = ${ans}$$`
         };
@@ -7822,7 +7741,6 @@ window.MathsGenerators = {
           statement: `Calculer la valeur de l'expression :\n$$C = ${a} \\times [${b} - (${c} + ${d})]$$`,
           type: "exact",
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: `Effectue d'abord la parenthèse intérieure $(${c} + ${d}) = ${c + d}$, puis le crochet $${b} - ${c + d}$.`,
           solution: `$$C = ${a} \\times [${b} - (${c} + ${d})] = ${a} \\times [${b} - ${c + d}] = ${a} \\times ${b - (c + d)} = ${a * (b - (c + d))} = ${ans}$$`
         };
@@ -7862,7 +7780,6 @@ window.MathsGenerators = {
         statement: `Calculer la valeur exacte de l'expression :\n$$E = ${cfg.expr}$$`,
         type: "exact",
         answer: String(cfg.ans),
-        placeholder: `Ex: ${cfg.ans}`,
         hint1: "Règle des priorités imbriquées : on commence par les parenthèses les plus intérieures, puis les crochets, puis les multiplications/divisions, et enfin les additions/soustractions.",
         solution: `1. Calcule la parenthèse intérieure : $${cfg.step1}$.\n2. Effectue la soustraction dans le crochet : $${cfg.step2}$.\n3. Effectue la division : $${cfg.step3}$.\n4. Calcule la seconde parenthèse : $${cfg.step4}$.\n5. Termine les opérations en conservant toute l'expression à chaque étape :\n$$E = [${bracketStart} - (${innerMul} \\times ${Math.round((inner + innerSub) / innerMul)} - ${innerSub})] \\div ${d} + ${m} \\times (${p} - ${r}) + ${add}$$\n$$E = [${bracketStart} - ${inner}] \\div ${d} + ${m} \\times (${p} - ${r}) + ${add}$$\n$$E = ${bracketValue} \\div ${d} + ${m} \\times (${p} - ${r}) + ${add}$$\n$$E = ${left} + ${m} \\times (${p} - ${r}) + ${add}$$\n$$E = ${left} + ${m} \\times ${right} + ${add}$$\n$$E = ${left} + ${rightProduct} + ${add}$$\n$$E = ${subtotal} + ${add} = ${cfg.ans}$$`
       };
@@ -7889,7 +7806,6 @@ window.MathsGenerators = {
           statement: `Calculer la somme de deux nombres de même signe :\n$$S = (-${a}) + (-${b})$$`,
           type: "exact",
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: "Pour additionner deux nombres négatifs, on garde le signe '-' et on additionne les distances à zéro.",
           solution: `$$S = -(${a} + ${b}) = ${ans}$$`
         };
@@ -7908,7 +7824,6 @@ window.MathsGenerators = {
             : `Calculer la somme suivante :\n$$S = (-${neg}) + ${pos}$$`,
           type: "exact",
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: "Ajouter un nombre négatif revient à reculer sur la droite graduée : cela équivaut à soustraire sa distance à zéro.",
           solution: isPosFirst
             ? `$$S = ${pos} - ${neg} = ${ans}$$`
@@ -7941,7 +7856,6 @@ window.MathsGenerators = {
           statement: `**Quel est l'opposé du nombre relatif $${numStr}$ ?**`,
           type: "exact",
           answer: ans,
-          placeholder: isNeg ? `Ex: ${n}` : `Ex: -${n}`,
           hint1: "Deux nombres opposés ont la même distance à zéro mais des signes contraires.",
           solution: `L'opposé de $${numStr}$ est **$${ans}$** car $(${numStr}) + (${ans}) = 0$.`
         };
@@ -7955,7 +7869,6 @@ window.MathsGenerators = {
           statement: `**Quelle est la distance à zéro du nombre relatif $-${n}$ ?**`,
           type: "exact",
           answer: String(n),
-          placeholder: `Ex: ${n}`,
           hint1: "La distance à zéro d'un nombre est toujours un nombre positif : c'est le nombre sans son signe.",
           solution: `La distance à zéro de $-${n}$ est le nombre positif **$${n}$** (noté $|-${n}| = ${n}$).`
         };
@@ -8009,7 +7922,6 @@ window.MathsGenerators = {
           statement: `Calculer la somme suivante :\n$$S = (-${a}) + ${b}$$`,
           type: "exact",
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: `Le nombre négatif ($-${a}$) a la plus grande distance à zéro ($${a} > ${b}$). Le résultat est donc négatif : $-(${a} - ${b})$.`,
           solution: `$$(-${a}) + ${b} = -(${a} - ${b}) = ${ans}$$`
         };
@@ -8024,7 +7936,6 @@ window.MathsGenerators = {
           statement: `Calculer la somme suivante :\n$$S = (-${a}) + ${b}$$`,
           type: "exact",
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: `Le nombre positif ($${b}$) a la plus grande distance à zéro ($${b} > ${a}$). Le résultat est positif : $${b} - ${a}$.`,
           solution: `$$(-${a}) + ${b} = ${b} - ${a} = ${ans}$$`
         };
@@ -8040,7 +7951,6 @@ window.MathsGenerators = {
           statement: `Calculer la différence suivante :\n$$D = ${a} - ${b}$$`,
           type: "exact",
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: `Comme $${a} < ${b}$, le résultat est négatif : $-(${b} - ${a})$.`,
           solution: `$$D = ${a} - ${b} = -(${b} - ${a}) = ${ans}$$`
         };
@@ -8055,7 +7965,6 @@ window.MathsGenerators = {
           statement: `Trouver le nombre manquant $x$ qui vérifie l'égalité :\n$$(-${a}) + x = ${b}$$`,
           type: "exact",
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: `Pour trouver $x$, calcule $${b} - (-${a}) = ${b} + ${a}$.`,
           solution: `$$x = ${b} - (-${a}) = ${b} + ${a} = ${ans}$$`
         };
@@ -8075,7 +7984,6 @@ window.MathsGenerators = {
           statement: `Calculer la différence suivante :\n$$D = ${a} - (-${b})$$`,
           type: "exact",
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: "Soustraire un nombre relatif revient à ajouter son opposé : $a - (-b) = a + b$.",
           solution: `$$D = ${a} - (-${b}) = ${a} + ${b} = ${ans}$$`
         };
@@ -8090,7 +7998,6 @@ window.MathsGenerators = {
           statement: `Calculer la différence suivante :\n$$D = (-${a}) - ${b}$$`,
           type: "exact",
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: `Soustraire $${b}$ revient à ajouter $-${b}$ : $(-${a}) + (-${b})$.`,
           solution: `$$D = (-${a}) - ${b} = (-${a}) + (-${b}) = -(${a} + ${b}) = ${ans}$$`
         };
@@ -8105,7 +8012,6 @@ window.MathsGenerators = {
           statement: `Calculer la différence suivante :\n$$D = (-${a}) - (-${b})$$`,
           type: "exact",
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: `Transforme la soustraction en addition de l'opposé : $(-${a}) + (+${b})$.`,
           solution: `$$D = (-${a}) - (-${b}) = (-${a}) + ${b} = ${ans}$$`
         };
@@ -8121,7 +8027,6 @@ window.MathsGenerators = {
           statement: `Calculer la valeur de la somme algébrique :\n$$E = (-${a}) + ${b} - (+${c})$$`,
           type: "exact",
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: `Effectue les calculs de gauche à droite : commence par $(-${a}) + ${b} = ${-a + b}$.`,
           solution: `1. Première somme : $(-${a}) + ${b} = ${-a + b}$.\n2. Soustraction finale :\n$$E = (${-a + b}) - ${c} = ${ans}$$`
         };
@@ -8147,7 +8052,6 @@ window.MathsGenerators = {
         statement: `Calculer la valeur exacte de l'expression algébrique :\n$$A = ${expr}$$`,
         type: "exact",
         answer: String(ans),
-        placeholder: `Ex: ${ans}`,
         hint1: "Étape 1 : Calcule d'abord la valeur entre crochets en transformant toutes les soustractions en additions d'opposés.\nÉtape 2 : Effectue la suite d'additions de gauche à droite.",
         solution: `1. Calcul de l'intérieur des crochets :\n$$${stepCrochet}$$\n2. Remplacement et calcul final :\n$$A = ${stepFinal}$$`
       };
@@ -8175,7 +8079,6 @@ window.MathsGenerators = {
           statement: `Compléter l'égalité de fractions pour trouver le nombre manquant $x$ :\n$$\\frac{${num}}{${den}} = \\frac{x}{${bigDen}}$$`,
           type: "exact",
           answer: String(bigNum),
-          placeholder: `Ex: ${bigNum}`,
           hint1: `Remarque que le dénominateur est multiplié par $${k}$ ($${den} \\times ${k} = ${bigDen}$). Multiplie aussi le numérateur par $${k}$.`,
           solution: `$$\\frac{${num} \\times ${k}}{${den} \\times ${k}} = \\frac{${bigNum}}{${bigDen}} \\implies x = ${bigNum}$$`
         };
@@ -8192,7 +8095,6 @@ window.MathsGenerators = {
           statement: `Compléter l'égalité de fractions pour trouver le nombre manquant $x$ :\n$$\\frac{${num}}{${den}} = \\frac{${bigNum}}{x}$$`,
           type: "exact",
           answer: String(bigDen),
-          placeholder: `Ex: ${bigDen}`,
           hint1: `Remarque que le numérateur a été multiplié par $${k}$ ($${num} \\times ${k} = ${bigNum}$). Multiplie aussi le dénominateur par $${k}$.`,
           solution: `$$\\frac{${num} \\times ${k}}{${den} \\times ${k}} = \\frac{${bigNum}}{${bigDen}} \\implies x = ${bigDen}$$`
         };
@@ -8209,7 +8111,6 @@ window.MathsGenerators = {
           statement: `Simplifier au maximum la fraction suivante pour la rendre irréductible :\n$$F = \\frac{${bigNum}}{${bigDen}}$$`,
           type: "exact",
           answer: `${a}/${b}`,
-          placeholder: `Ex: ${a}/${b}`,
           hint1: `Trouve un diviseur commun au numérateur et au dénominateur (ici $${k}$). Divise en haut et en bas par $${k}$.`,
           solution: `$$F = \\frac{${bigNum} \\div ${k}}{${bigDen} \\div ${k}} = \\frac{${a}}{${b}}$$`
         };
@@ -8235,7 +8136,6 @@ window.MathsGenerators = {
           statement: `Donner l'écriture décimale exacte du quotient :\n$$Q = \\frac{${item.num}}{${item.den}}$$`,
           type: "exact",
           answer: item.ans,
-          placeholder: `Ex: ${item.ans}`,
           hint1: `Effectue la division décimale de $${item.num}$ par $${item.den}$ ($${item.num} \\div ${item.den}$).`,
           solution: `$$Q = \\frac{${item.num}}{${item.den}} = ${item.num} \\div ${item.den} = ${item.ans}$$`
         };
@@ -8252,7 +8152,6 @@ window.MathsGenerators = {
           statement: `Par quel nombre $k$ a-t-on multiplié le numérateur et le dénominateur de $\\frac{${num}}{${den}}$ pour obtenir $\\frac{${bigNum}}{${bigDen}}$ ?`,
           type: "exact",
           answer: String(k),
-          placeholder: `Ex: ${k}`,
           hint1: `Calcule $${bigNum} \\div ${num}$ ou $${bigDen} \\div ${den}$.`,
           solution: `$$${num} \\times ${k} = ${bigNum} \\quad \\text{et} \\quad ${den} \\times ${k} = ${bigDen} \\implies k = ${k}$$`
         };
@@ -8360,7 +8259,6 @@ window.MathsGenerators = {
           statement: `Trouver la valeur du numérateur manquant $x$ pour vérifier l'égalité :\n$$\\frac{${a}}{${d}} + \\frac{x}{${d}} = \\frac{${total}}{${d}}$$`,
           type: "exact",
           answer: String(missing),
-          placeholder: `Ex: ${missing}`,
           hint1: `Les dénominateurs sont tous égaux à $${d}$. Il suffit de résoudre $${a} + x = ${total}$.`,
           solution: `$$${a} + x = ${total} \\implies x = ${total} - ${a} = ${missing}$$`
         };
@@ -8383,8 +8281,9 @@ window.MathsGenerators = {
           solution: `$$T = \\frac{${a} + ${b} + ${c}}{${d}} = \\frac{${sum}}{${d}} = ${this.formatFraction(sum, d)}$$`
         };
       } else {
-        const d = this.randInt(3, 8);
-        const a = this.randInt(1, d - 1);
+        const d = this.randInt(3, 12);
+        let a = this.randInt(1, d - 1);
+        while (this.gcd(a, d) !== 1) a = this.randInt(1, d - 1);
         const numTotal = d + a;
         return {
           chapterId: '5N3',
@@ -8393,7 +8292,6 @@ window.MathsGenerators = {
           statement: `Écrire sous la forme d'une seule fraction irréductible :\n$$A = 1 + \\frac{${a}}{${d}}$$`,
           type: "exact",
           answer: `${numTotal}/${d}`,
-          placeholder: `Ex: ${numTotal}/${d}`,
           hint1: `Écris $1$ sous la forme d'une fraction de dénominateur $${d}$ : $1 = \\frac{${d}}{${d}}$.`,
           solution: `$$A = \\frac{${d}}{${d}} + \\frac{${a}}{${d}} = \\frac{${d} + ${a}}{${d}} = \\frac{${numTotal}}{${d}}$$`
         };
@@ -8472,57 +8370,63 @@ window.MathsGenerators = {
           statement: `Calculer sous forme de fraction irréductible :\n$$C = ${n} - \\frac{${a}}{${d}}$$`,
           type: "exact",
           answer: sD === 1 ? String(sN) : `${sN}/${sD}`,
-          placeholder: `Ex: ${sN}/${sD}`,
           hint1: `Écris $${n}$ sous forme de fraction de dénominateur $${d}$ : $${n} = \\frac{${n} \\times ${d}}{${d}} = \\frac{${n * d}}{${d}}$.`,
           solution: `$$C = \\frac{${n * d}}{${d}} - \\frac{${a}}{${d}} = \\frac{${n * d} - ${a}}{${d}} = \\frac{${numTotal}}{${d}} = ${this.formatFraction(numTotal, d)}$$`
         };
       }
     } else {
       // Palier 4 : Défi 4ème (Chaîne de 3 fractions avec parenthèses et dénominateurs multiples)
-      const configs = [
-        {
-          expr: "\\frac{7}{4} - \\left(\\frac{1}{2} + \\frac{3}{8}\\right)",
-          stepPar: "\\frac{1 \\times 4}{2 \\times 4} + \\frac{3}{8} = \\frac{4 + 3}{8} = \\frac{7}{8}",
-          stepSub: "\\frac{7 \\times 2}{4 \\times 2} - \\frac{7}{8} = \\frac{14 - 7}{8} = \\frac{7}{8}",
-          ansNum: 7, ansDen: 8
-        },
-        {
-          expr: "\\frac{5}{3} - \\left(\\frac{1}{6} + \\frac{5}{12}\\right)",
-          stepPar: "\\frac{1 \\times 2}{6 \\times 2} + \\frac{5}{12} = \\frac{2 + 5}{12} = \\frac{7}{12}",
-          stepSub: "\\frac{5 \\times 4}{3 \\times 4} - \\frac{7}{12} = \\frac{20 - 7}{12} = \\frac{13}{12}",
-          ansNum: 13, ansDen: 12
-        },
-        {
-          expr: "\\left(\\frac{3}{5} + \\frac{7}{10}\\right) - \\frac{9}{20}",
-          stepPar: "\\frac{3 \\times 2}{5 \\times 2} + \\frac{7}{10} = \\frac{6 + 7}{10} = \\frac{13}{10}",
-          stepSub: "\\frac{13 \\times 2}{10 \\times 2} - \\frac{9}{20} = \\frac{26 - 9}{20} = \\frac{17}{20}",
-          ansNum: 17, ansDen: 20
-        },
-        {
-          expr: "\\left(\\frac{5}{6} - \\frac{1}{3}\\right) + \\frac{7}{12}",
-          stepPar: "\\frac{5}{6} - \\frac{2}{6} = \\frac{3}{6} = \\frac{1}{2}",
-          stepSub: "\\frac{1 \\times 6}{2 \\times 6} + \\frac{7}{12} = \\frac{6 + 7}{12} = \\frac{13}{12}",
-          ansNum: 13, ansDen: 12
-        },
-        {
-          expr: "\\frac{11}{8} - \\left(\\frac{1}{4} + \\frac{3}{16}\\right)",
-          stepPar: "\\frac{4}{16} + \\frac{3}{16} = \\frac{7}{16}",
-          stepSub: "\\frac{22}{16} - \\frac{7}{16} = \\frac{15}{16}",
-          ansNum: 15, ansDen: 16
-        }
-      ];
-      const cfg = this.randChoice(configs);
+      // Trois fractions, dénominateurs multiples les uns des autres, une parenthèse prioritaire
+      const lcm = (x, y) => (x * y) / this.gcd(x, y);
+      const fr = (n, d) => `\\frac{${n}}{${d}}`;
+      // Somme/différence de deux fractions avec étapes ; renvoie { tex, n, d } (résultat irréductible)
+      const combine = (n1, d1, op, n2, d2) => {
+        const L = lcm(d1, d2);
+        const m1 = L / d1;
+        const m2 = L / d2;
+        const num = op === '+' ? n1 * m1 + n2 * m2 : n1 * m1 - n2 * m2;
+        const a1 = m1 === 1 ? fr(n1, d1) : fr(`${n1} \\times ${m1}`, `${d1} \\times ${m1}`);
+        const a2 = m2 === 1 ? fr(n2, d2) : fr(`${n2} \\times ${m2}`, `${d2} \\times ${m2}`);
+        const [sn, sd] = this.simplifyFraction(num, L);
+        let tex = `${fr(n1, d1)} ${op} ${fr(n2, d2)} = ${a1} ${op} ${a2} = ${fr(`${n1 * m1} ${op} ${n2 * m2}`, L)} = ${fr(num, L)}`;
+        if (sd !== L) tex += ` = ${this.formatFraction(num, L)}`;
+        return { tex, n: sn, d: sd };
+      };
+      const pickFrac = (d) => {
+        let n = this.randInt(1, 2 * d - 1);
+        while (this.gcd(n, d) !== 1 || n === d) n = this.randInt(1, 2 * d - 1);
+        return n;
+      };
+      let form, d1, d2, d3, n1, n2, n3, par, fin;
+      do {
+        const D = this.randChoice([2, 3, 4, 5, 6]);
+        const k = this.randChoice([2, 3, 4]);
+        const dens = this.shuffle([D, D * k, this.randChoice([D, D * k, D * k * 2])]);
+        [d1, d2, d3] = dens;
+        n1 = pickFrac(d1); n2 = pickFrac(d2); n3 = pickFrac(d3);
+        form = this.randChoice(['a-(b+c)', '(a+b)-c', '(a-b)+c', 'a+(b-c)']);
+        if (form === 'a-(b+c)') { par = combine(n2, d2, '+', n3, d3); fin = combine(n1, d1, '-', par.n, par.d); }
+        else if (form === '(a+b)-c') { par = combine(n1, d1, '+', n2, d2); fin = combine(par.n, par.d, '-', n3, d3); }
+        else if (form === '(a-b)+c') { par = combine(n1, d1, '-', n2, d2); fin = combine(par.n, par.d, '+', n3, d3); }
+        else { par = combine(n2, d2, '-', n3, d3); fin = combine(n1, d1, '+', par.n, par.d); }
+      } while (par.n <= 0 || fin.n <= 0 || fin.d === 1 || fin.d > 60);
+      const F1 = fr(n1, d1), F2 = fr(n2, d2), F3 = fr(n3, d3);
+      const expr = {
+        'a-(b+c)': `${F1} - \\left(${F2} + ${F3}\\right)`,
+        '(a+b)-c': `\\left(${F1} + ${F2}\\right) - ${F3}`,
+        '(a-b)+c': `\\left(${F1} - ${F2}\\right) + ${F3}`,
+        'a+(b-c)': `${F1} + \\left(${F2} - ${F3}\\right)`
+      }[form];
 
       return {
         chapterId: '5N3',
         tier: 4,
         title: "Défi 4ème : Enchaînement de 3 fractions avec parenthèses",
-        statement: `Calculer et donner le résultat sous forme de fraction irréductible :\n$$E = ${cfg.expr}$$`,
+        statement: `Calculer et donner le résultat sous forme de fraction irréductible :\n$$E = ${expr}$$`,
         type: "exact",
-        answer: `${cfg.ansNum}/${cfg.ansDen}`,
-        placeholder: `Ex: ${cfg.ansNum}/${cfg.ansDen}`,
-        hint1: "Calcule d'abord l'opération entre parenthèses avec leur dénominateur commun, puis soustrais avec le dénominateur commun global.",
-        solution: `1. Calcul de la parenthèse :\n$$${cfg.stepPar}$$\n2. Calcul de la différence avec dénominateur commun :\n$$${cfg.stepSub}$$\n$$E = \\frac{${cfg.ansNum}}{${cfg.ansDen}}$$`
+        answer: `${fin.n}/${fin.d}`,
+        hint1: "Calcule d'abord l'opération entre parenthèses (même dénominateur), puis termine le calcul avec un dénominateur commun.",
+        solution: `1. Calcul de la parenthèse :\n$$${par.tex}$$\n2. Calcul final avec un dénominateur commun :\n$$${fin.tex}$$\n$$E = ${fr(fin.n, fin.d)}$$`
       };
     }
   },
@@ -8558,12 +8462,11 @@ window.MathsGenerators = {
           chapterId: '5N4',
           tier: 1,
           title: "Écrire un produit sous la forme d'une seule puissance",
-          statement: `Écrire le produit suivant sous la forme d'une seule puissance (ex: ${item.ans}) :\n$$P = ${item.str}$$`,
+          statement: `Écrire le produit suivant sous la forme d'une seule puissance (saisir par exemple \`7^4\` pour $7^4$) :\n$$P = ${item.str}$$`,
           type: "exact",
           answer: item.ans,
-          placeholder: `Ex: ${item.ans}`,
-          hint1: `Le facteur ${item.base} est répété ${item.count} fois : la notation s'écrit ${item.base}^${item.count}.`,
-          solution: `Le facteur $${item.base}$ apparaît $${item.count}$ fois dans la multiplication, donc :\n$$${item.str} = ${item.ans}$$`
+          hint1: `Le facteur $${item.base.replace(',', '{,}')}$ est répété $${item.count}$ fois : la notation s'écrit $${item.base.replace(',', '{,}')}^{${item.count}}$.`,
+          solution: `Le facteur $${item.base.replace(',', '{,}')}$ apparaît $${item.count}$ fois dans la multiplication, donc :\n$$${item.str} = ${item.ans}$$`
         };
       } else if (subType === 'tableau_base_exposant') {
         // Ex 1.1 de la fiche : identifier la base ou l'exposant dans 5^3, 2^4, 10^3, 7^2, etc.
@@ -8589,7 +8492,6 @@ window.MathsGenerators = {
             : `Dans l'écriture $${choice.base}^{${choice.exp}}$ :\n**Quel est l'exposant de cette puissance ?**`,
           type: "exact",
           answer: ans,
-          placeholder: `Ex: ${ans}`,
           hint1: askBase
             ? "La base est le nombre principal que l'on multiplie par lui-même (en bas)."
             : "L'exposant est le petit nombre situé en haut à droite indiquant le nombre de répétitions du facteur.",
@@ -8598,13 +8500,13 @@ window.MathsGenerators = {
       } else if (subType === 'cas_particuliers_0_1') {
         // Ex 2 de la fiche : A = 312^0, B = 12^1, C = 7^1, D = 18^0, E = 1^0, F = 2026^0, G = 1^5
         const items = [
-          { expr: '312^0', ans: '1', rule: 'Pour tout nombre non nul n, n^0 = 1.' },
-          { expr: '12^1', ans: '12', rule: 'Pour tout nombre n, n^1 = n (le nombre reste lui-même).' },
-          { expr: '7^1', ans: '7', rule: 'Pour tout nombre n, n^1 = n.' },
+          { expr: '312^0', ans: '1', rule: 'Pour tout nombre $n$ non nul, $n^0 = 1$.' },
+          { expr: '12^1', ans: '12', rule: 'Pour tout nombre $n$, $n^1 = n$ (le nombre reste lui-même).' },
+          { expr: '7^1', ans: '7', rule: 'Pour tout nombre $n$, $n^1 = n$.' },
           { expr: '18^0', ans: '1', rule: 'Tout nombre non nul à la puissance 0 vaut 1.' },
-          { expr: '1^0', ans: '1', rule: '1^0 = 1.' },
-          { expr: '2026^0', ans: '1', rule: '2026^0 = 1.' },
-          { expr: '1^5', ans: '1', rule: '1 élevé à n\'importe quelle puissance vaut 1 (1 x 1 x 1 x 1 x 1 = 1).' },
+          { expr: '1^0', ans: '1', rule: 'Tout nombre non nul à la puissance 0 vaut 1 : $1^0 = 1$.' },
+          { expr: '2026^0', ans: '1', rule: 'Tout nombre non nul à la puissance 0 vaut 1 : $2026^0 = 1$.' },
+          { expr: '1^5', ans: '1', rule: '1 élevé à n\'importe quelle puissance vaut 1 ($1 \\times 1 \\times 1 \\times 1 \\times 1 = 1$).' },
           { expr: '1^8', ans: '1', rule: '1 élevé à n\'importe quelle puissance vaut 1.' }
         ];
         const choice = this.randChoice(items);
@@ -8615,7 +8517,6 @@ window.MathsGenerators = {
           statement: `Calculer la valeur exacte de l'expression suivante :\n$$V = ${choice.expr}$$`,
           type: "exact",
           answer: choice.ans,
-          placeholder: `Ex: ${choice.ans}`,
           hint1: choice.rule,
           solution: `D'après les conventions du cours :\n$$${choice.expr} = ${choice.ans}$$\n*(${choice.rule})*`
         };
@@ -8639,7 +8540,6 @@ window.MathsGenerators = {
           statement: `Calculer la valeur exacte de l'expression suivante :\n$$A = ${choice.b}^{${choice.e}}$$`,
           type: "exact",
           answer: String(choice.ans),
-          placeholder: `Ex: ${choice.ans}`,
           hint1: `Écris la multiplication répétée : $${choice.b}^{${choice.e}} = ${choice.prod}$.`,
           solution: `$$${choice.b}^{${choice.e}} = ${choice.prod} = ${choice.ans}$$`
         };
@@ -8663,7 +8563,6 @@ window.MathsGenerators = {
           statement: `Écrire sous la forme d'une puissance, puis calculer la valeur exacte :\n**Calculer ${choice.phrase} :**`,
           type: "exact",
           answer: String(choice.ans),
-          placeholder: `Ex: ${choice.ans}`,
           hint1: `« Le carré » correspond à l'exposant 2, « le cube » correspond à l'exposant 3 : $${choice.expr} = ${choice.prod}$.`,
           solution: `1. Écriture : $${choice.expr}$.\n2. Calcul : $${choice.expr} = ${choice.prod} = ${choice.ans}$.`
         };
@@ -8688,7 +8587,6 @@ window.MathsGenerators = {
           statement: `Calculer de tête la valeur exacte du carré de $${n}$ :\n$$C = ${n}^2$$`,
           type: "exact",
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: `Multiplie $${n}$ par lui-même : $${n} \\times ${n}$.`,
           solution: `D'après la table des carrés de 1 à 12 :\n$$${n}^2 = ${n} \\times ${n} = ${ans}$$`
         };
@@ -8715,7 +8613,6 @@ window.MathsGenerators = {
           statement: `Retrouver le nombre positif $x$ dont le carré est $${item.sq}$ :\n$$x^2 = ${item.sq} \\implies x = \\dots$$`,
           type: "exact",
           answer: String(item.ans),
-          placeholder: `Ex: ${item.ans}`,
           hint1: `Quel nombre positif multiplié par lui-même donne $${item.sq}$ ? Regarde la table des carrés de 1 à 12.`,
           solution: `Comme $${item.ans} \\times ${item.ans} = ${item.sq}$, le nombre positif cherché est :\n$$x = ${item.ans}$$`
         };
@@ -8730,7 +8627,6 @@ window.MathsGenerators = {
           statement: `Calculer la valeur exacte de l'expression suivante :\n$$E = ${a} + ${b}^2$$`,
           type: "exact",
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: `La puissance est prioritaire sur l'addition : calcule d'abord $${b}^2 = ${b * b}$, puis additionne $${a}$.`,
           solution: `1. Puissance prioritaire : $${b}^2 = ${b * b}$.\n2. Somme : $E = ${a} + ${b * b} = ${ans}$.`
         };
@@ -8746,7 +8642,6 @@ window.MathsGenerators = {
           statement: `Calculer la valeur exacte de l'expression suivante :\n$$P = ${k} \\times 2^${exp}$$`,
           type: "exact",
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: `Attention : la puissance s'applique avant la multiplication ! Calcule d'abord $2^${exp} = ${pVal}$, puis multiplie par $${k}$.`,
           solution: `$$P = ${k} \\times (2^${exp}) = ${k} \\times ${pVal} = ${ans}$$`
         };
@@ -8861,9 +8756,8 @@ window.MathsGenerators = {
           statement: `Calculer la valeur exacte de l'expression suivante :\n$$C = ${item.expr}$$`,
           type: "exact",
           answer: String(item.ans),
-          placeholder: `Ex: ${item.ans}`,
           hint1: "Calcule chaque puissance en priorité, puis effectue les multiplications/additions/soustractions.",
-          solution: `1. Calcul des puissances : ${item.step}.\n2. Résultat final : $$C = ${item.ans}$$`
+          solution: `1. Calcul des puissances : $${item.step}$.\n2. Résultat final : $$C = ${item.ans}$$`
         };
       }
     } else {
@@ -8929,7 +8823,6 @@ window.MathsGenerators = {
           statement: `Calculer la valeur exacte de l'expression suivante en respectant scrupuleusement les priorités opératoires :\n$$A = ${item.expr}$$`,
           type: "exact",
           answer: String(item.ans),
-          placeholder: `Ex: ${item.ans}`,
           hint1: "Rappel des priorités : 1) Parenthèses (en calculant les puissances à l'intérieur), 2) Puissances extérieures, 3) Multiplications, 4) Additions/Soustractions.",
           solution: `Détail étape par étape :\n${item.steps.map((s, idx) => `${idx + 1}. ${s}`).join('\n')}\n**Résultat final : $A = ${item.ans}$**`
         };
@@ -8958,7 +8851,7 @@ window.MathsGenerators = {
           {
             expr: '10^3 - 4 \\times 5^3',
             ans: 500,
-            steps: "1. Puissances prioritaires : $10^3 = 1\,000$ et $5^3 = 125$.\n2. Multiplication : $4 \\times 125 = 500$.\n3. Soustraction : $1\,000 - 500 = 500$."
+            steps: "1. Puissances prioritaires : $10^3 = 1\\,000$ et $5^3 = 125$.\n2. Multiplication : $4 \\times 125 = 500$.\n3. Soustraction : $1\\,000 - 500 = 500$."
           },
           {
             expr: '3 \\times 10^2 - 2 \\times 4^3',
@@ -8974,7 +8867,6 @@ window.MathsGenerators = {
           statement: `Calculer la valeur exacte de l'expression suivante :\n$$B = ${item.expr}$$`,
           type: "exact",
           answer: String(item.ans),
-          placeholder: `Ex: ${item.ans}`,
           hint1: "Calcule d'abord TOUTES les puissances, puis effectue les multiplications, et termine par la soustraction ou l'addition.",
           solution: `${item.steps}\n**Résultat final : $B = ${item.ans}$**`
         };
@@ -9019,7 +8911,6 @@ window.MathsGenerators = {
           statement: `Calculer la valeur exacte du quotient suivant :\n$$C = ${item.expr}$$`,
           type: "exact",
           answer: String(item.ans),
-          placeholder: `Ex: ${item.ans}`,
           hint1: "Le trait de fraction agit comme des parenthèses : calcule en gardant la fraction entière à chaque étape.",
           solution: `${item.steps}\n**Résultat final : $C = ${item.ans}$**`
         };
@@ -9064,7 +8955,6 @@ window.MathsGenerators = {
           statement: `Calculer la valeur exacte de l'expression suivante :\n$$D = ${item.expr}$$`,
           type: "exact",
           answer: String(item.ans),
-          placeholder: `Ex: ${item.ans}`,
           hint1: "Respecte l'ordre : 1) Parenthèses, 2) Puissances, 3) Multiplications et Divisions, 4) Additions et Soustractions de gauche à droite.",
           solution: `${item.steps}\n**Résultat final : $D = ${item.ans}$**`
         };
@@ -9090,7 +8980,6 @@ window.MathsGenerators = {
           statement: `Dans un tableau de proportionnalité, la grandeur de la 1ère ligne vaut $${x}$ et celle de la 2ème ligne vaut $${y}$.\n**Quel est le coefficient de proportionnalité multiplicatif pour passer de la ligne 1 à la ligne 2 ?**`,
           type: "exact",
           answer: String(k),
-          placeholder: `Ex: ${k}`,
           hint1: `Divise le nombre de la 2ème ligne par celui de la 1ère ligne : $\\frac{${y}}{${x}}$.`,
           solution: `$$k = \\frac{${y}}{${x}} = ${k}$$`
         };
@@ -9105,7 +8994,6 @@ window.MathsGenerators = {
           statement: `Le coefficient de proportionnalité pour passer de la ligne 1 à la ligne 2 est de $\\times ${k}$.\nSi la valeur sur la 1ère ligne est $${x}$, **quelle est la valeur sur la 2ème ligne ?**`,
           type: "exact",
           answer: String(y),
-          placeholder: `Ex: ${y}`,
           hint1: `Multiplie la valeur de la première ligne par le coefficient : $${x} \\times ${k}$.`,
           solution: `$$y = ${x} \\times ${k} = ${y}$$`
         };
@@ -9120,7 +9008,6 @@ window.MathsGenerators = {
           statement: `Le coefficient multiplicateur pour passer de la ligne 1 à la ligne 2 est de $\\times ${k}$.\nLa valeur sur la 2ème ligne est $${y}$. **Quelle est la valeur sur la 1ère ligne ?**`,
           type: "exact",
           answer: String(x),
-          placeholder: `Ex: ${x}`,
           hint1: `Pour remonter de la 2ème ligne à la 1ère, divise par le coefficient : $${y} \\div ${k}$.`,
           solution: `$$x = \\frac{${y}}{${k}} = ${x}$$`
         };
@@ -9128,7 +9015,7 @@ window.MathsGenerators = {
         const a = this.randInt(2, 5);
         const k = this.randInt(3, 6);
         const b = a * k;
-        const c = this.randInt(3, 7);
+        const c = this.randInt(3, 7, [a]);
         const isProp = Math.random() > 0.5;
         const d = isProp ? c * k : c * k + this.randChoice([-2, -1, 1, 2]);
         const cross1 = a * d;
@@ -9147,7 +9034,7 @@ window.MathsGenerators = {
           answer: correctOpt,
           correctIndex: opts.indexOf(correctOpt),
           hint1: `Compare les rapports $\\frac{${b}}{${a}}$ et $\\frac{${d}}{${c}}$, ou teste les produits en croix : $${a} \\times ${d}$ et $${b} \\times ${c}$.`,
-          solution: `Calcul des quotients :\n$$\\frac{${b}}{${a}} = ${b / a} \\quad \\text{et} \\quad \\frac{${d}}{${c}} = ${(d / c).toFixed(2)}$$\nComme ces rapports ${actualProp ? 'sont égaux' : 'ne sont pas égaux'}, ce **${actualProp ? 'est' : "n'est pas"} un tableau de proportionnalité**.`
+          solution: `Calcul des quotients :\n$$\\frac{${b}}{${a}} ${this.eqOrApprox(b, a)} \\quad \\text{et} \\quad \\frac{${d}}{${c}} ${this.eqOrApprox(d, c)}$$\nComme ces quotients ${actualProp ? 'sont égaux' : 'ne sont pas égaux'}, **il ${actualProp ? "s'agit bien" : "ne s'agit pas"} d'un tableau de proportionnalité**.`
         };
       }
     } else if (t === 2) {
@@ -9166,7 +9053,6 @@ window.MathsGenerators = {
           statement: `Le prix de $${a}\\text{ kg}$ de pommes est de $${b}\\text{ €}$.\n**Quel est le prix de $${c}\\text{ kg}$ de ces mêmes pommes ?**`,
           type: "exact",
           answer: String(d),
-          placeholder: `Ex: ${d}`,
           hint1: `Utilise le coefficient de proportionnalité ou le produit en croix : $\\frac{${b} \\times ${c}}{${a}}$.`,
           solution: `$$x = \\frac{${b} \\times ${c}}{${a}} = ${d}\\text{ €}$$`
         };
@@ -9182,7 +9068,6 @@ window.MathsGenerators = {
           statement: `Une recette de gâteau pour $${p1}\\text{ personnes}$ nécessite $${g1}\\text{ g}$ de farine.\n**Quelle masse de farine (en grammes) faut-il pour $${p2}\\text{ personnes}$ ?**`,
           type: "exact",
           answer: String(g2),
-          placeholder: `Ex: ${g2}`,
           hint1: `Trouve la quantité pour 1 personne ($${g1} \\div ${p1}$), puis multiplie par $${p2}$.`,
           solution: `Quantité par personne : $${g1} \\div ${p1} = ${g1 / p1}\\text{ g}$.\nPour $${p2}$ personnes :\n$$m = ${g1 / p1} \\times ${p2} = ${g2}\\text{ g}$$`
         };
@@ -9197,7 +9082,6 @@ window.MathsGenerators = {
           statement: `Une voiture consomme en moyenne $${conso100}\\text{ L}$ d'essence pour $100\\text{ km}$.\n**Combien de litres de carburant consommera-t-elle pour un trajet de $${dist}\\text{ km}$ ?**`,
           type: "exact",
           answer: String(totalFuel),
-          placeholder: `Ex: ${totalFuel}`,
           hint1: `Utilise le produit en croix : $\\frac{${conso100} \\times ${dist}}{100}$.`,
           solution: `$$\\text{Consommation} = \\frac{${conso100} \\times ${dist}}{100} = ${totalFuel}\\text{ L}$$`
         };
@@ -9212,7 +9096,6 @@ window.MathsGenerators = {
           statement: `Sur le plan d'une maison, $1\\text{ cm}$ représente $${ech}\\text{ mètres}$ dans la réalité.\n**Quelle distance réelle en mètres est représentée par une longueur de $${cm}\\text{ cm}$ sur le plan ?**`,
           type: "exact",
           answer: String(distM),
-          placeholder: `Ex: ${distM}`,
           hint1: `Multiplie la distance sur le plan par la distance réelle correspondant à 1 cm : $${cm} \\times ${ech}$.`,
           solution: `$$D_{\\text{réelle}} = ${cm} \\times ${ech} = ${distM}\\text{ m}$$`
         };
@@ -9232,7 +9115,6 @@ window.MathsGenerators = {
           statement: `Dans un collège de $${total}$ élèves, $${p}\\%$ des élèves sont inscrits à l'association sportive.\n**Combien d'élèves sont inscrits à l'association sportive ?**`,
           type: "exact",
           answer: String(val),
-          placeholder: `Ex: ${val}`,
           hint1: `Multiplie le total par le pourcentage : $\\frac{${p}}{100} \\times ${total}$.`,
           solution: `$$N = \\frac{${p}}{100} \\times ${total} = ${val}\\text{ élèves}$$`
         };
@@ -9248,7 +9130,6 @@ window.MathsGenerators = {
           statement: `Un manteau coûte initialement $${prix}\\text{ €}$. Pendant les soldes, il bénéficie d'une réduction de $${p}\\%$.\n**Quel est le nouveau prix soldé du manteau en euros ?**`,
           type: "exact",
           answer: String(nouveauPrix),
-          placeholder: `Ex: ${nouveauPrix}`,
           hint1: `1. Calcule le montant de la remise : $\\frac{${p}}{100} \\times ${prix} = ${remise}\\text{ €}$.\n2. Soustrais la remise au prix initial : $${prix} - ${remise}$.`,
           solution: `1. Remise : $${prix} \\times \\frac{${p}}{100} = ${remise}\\text{ €}$.\n2. Nouveau prix :\n$$P = ${prix} - ${remise} = ${nouveauPrix}\\text{ €}$$`
         };
@@ -9266,10 +9147,9 @@ window.MathsGenerators = {
           chapterId: '5P1',
           tier: 3,
           title: "Calculer un pourcentage",
-          statement: `Dans un club de sport comptant $${item.total}$ adhérents, $${item.num}$ pratiquent l'athlétisme.\n**Quel est le pourcentage d'adhérents pratiquant l'athlétisme ?** (Saisir uniquement le nombre, ex: 25)`,
+          statement: `Dans un club de sport comptant $${item.total}$ adhérents, $${item.num}$ pratiquent l'athlétisme.\n**Quel est le pourcentage d'adhérents pratiquant l'athlétisme ?** (Saisir uniquement le nombre, par exemple 25)`,
           type: "exact",
           answer: String(item.pct),
-          placeholder: `Ex: ${item.pct}`,
           hint1: `Calcule le rapport et multiplie par 100 : $\\frac{${item.num}}{${item.total}} \\times 100$.`,
           solution: `$$\\text{Pourcentage} = \\frac{${item.num}}{${item.total}} \\times 100 = ${item.pct}\\%$$`
         };
@@ -9285,32 +9165,46 @@ window.MathsGenerators = {
           statement: `Un abonnement coûte $${prix}\\text{ €}$ par an. Son tarif augmente de $${p}\\%$.\n**Quel est le nouveau tarif de l'abonnement en euros ?**`,
           type: "exact",
           answer: String(nouveauPrix),
-          placeholder: `Ex: ${nouveauPrix}`,
           hint1: `Calcule le montant de l'augmentation : $\\frac{${p}}{100} \\times ${prix} = ${hausse}\\text{ €}$, puis ajoute-le au prix initial.`,
           solution: `1. Augmentation : $${prix} \\times \\frac{${p}}{100} = ${hausse}\\text{ €}$.\n2. Nouveau tarif :\n$$P = ${prix} + ${hausse} = ${nouveauPrix}\\text{ €}$$`
         };
       }
     } else {
       // Palier 4 : Défi 4ème (Échelle de carte complexe 1:25 000 ou 1:50 000)
-      const echelles = [
-        { denom: 25000, cm: 8, km: 2 },
-        { denom: 25000, cm: 12, km: 3 },
-        { denom: 50000, cm: 6, km: 3 },
-        { denom: 50000, cm: 10, km: 5 },
-        { denom: 100000, cm: 7, km: 7 }
-      ];
-      const ech = this.randChoice(echelles);
+      // Échelle 1/denom : distance réelle (km) ↔ distance sur la carte (cm), résultats décimaux exacts
+      const denom = this.randChoice([10000, 20000, 25000, 50000, 100000, 200000]);
+      let cm, km;
+      do {
+        cm = this.randChoice([2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 14, 15, 16, 18, 20, 2.5, 3.5, 4.5, 7.5]);
+        km = this.roundNum(cm * denom / 100000);
+      } while (Math.round(km * 100) / 100 !== km || km < 0.5);
+      const fd = (x) => this.formatDecimal(x);
+      const T = (x) => this.formatThousands(x);
+      const realCm = this.roundNum(cm * denom);
+      const scaleTex = `1 / ${T(denom)}`;
+      const lieux = this.randChoice(['deux refuges', 'deux villages', 'deux phares', 'deux sommets', 'deux gares']);
+      if (Math.random() < 0.4) {
+        return {
+          chapterId: '5P1',
+          tier: 4,
+          title: "Défi 4ème : Distance sur la carte à partir d'une distance réelle",
+          statement: `Une carte est à l'échelle $${scaleTex}$. Sur le terrain, ${lieux} sont distants de $${fd(km)}\\text{ km}$.\n\n**Quelle distance (en cm) les sépare sur la carte ?**`,
+          type: "exact",
+          answer: String(cm),
+          hint1: `1. Convertis la distance réelle en centimètres : $1\\text{ km} = 100\\,000\\text{ cm}$.\n2. Divise par $${T(denom)}$ : $1\\text{ cm}$ sur la carte représente $${T(denom)}\\text{ cm}$ en réalité.`,
+          solution: `1. Distance réelle en centimètres :\n$$${fd(km)} \\times 100\\,000 = ${T(realCm)}\\text{ cm}$$\n2. Distance sur la carte :\n$$d = \\frac{${T(realCm)}}{${T(denom)}} = ${fd(cm)}\\text{ cm}$$`
+        };
+      }
 
       return {
         chapterId: '5P1',
         tier: 4,
         title: "Défi 4ème : Calcul de distance réelle à partir d'une échelle",
-        statement: `Sur une carte de randonnée à l'échelle $1 / ${ech.denom.toLocaleString('fr-FR')}$, la distance mesurée à la règle entre deux refuges est de $d = ${ech.cm}\\text{ cm}$.\n\n**Quelle est la distance réelle sur le terrain en kilomètres (km) ?**`,
+        statement: `Sur une carte de randonnée à l'échelle $${scaleTex}$, la distance mesurée à la règle entre ${lieux} est de $d = ${fd(cm)}\\text{ cm}$.\n\n**Quelle est la distance réelle sur le terrain en kilomètres (km) ?**`,
         type: "exact",
-        answer: String(ech.km),
-        placeholder: `Ex: ${ech.km}`,
-        hint1: `1. Calcule la distance réelle en centimètres : $${ech.cm} \\times ${ech.denom} = ${ech.cm * ech.denom}\\text{ cm}$.\n2. Convertis les cm en km : $1\\text{ km} = 100\\,000\\text{ cm}$.`,
-        solution: `1. Distance en centimètres :\n$$D = ${ech.cm} \\times ${ech.denom} = ${(ech.cm * ech.denom).toLocaleString('fr-FR')}\\text{ cm}$$\n2. Conversion en kilomètres :\n$$D = \\frac{${ech.cm * ech.denom}}{100\\,000} = ${ech.km}\\text{ km}$$`
+        answer: String(km),
+        hint1: `1. Calcule la distance réelle en centimètres : $${fd(cm)} \\times ${T(denom)}$.\n2. Convertis les cm en km : $1\\text{ km} = 100\\,000\\text{ cm}$.`,
+        solution: `1. Distance en centimètres :\n$$D = ${fd(cm)} \\times ${T(denom)} = ${T(realCm)}\\text{ cm}$$\n2. Conversion en kilomètres :\n$$D = \\frac{${T(realCm)}}{100\\,000} = ${fd(km)}\\text{ km}$$`
       };
     }
   },
@@ -9334,7 +9228,6 @@ window.MathsGenerators = {
           statement: `Dans un triangle $ABC$, la mesure de l'angle $\\widehat{A} = ${a}^\\circ$ et celle de $\\widehat{B} = ${b}^\\circ$.\n**Quelle est la mesure de l'angle $\\widehat{C}$ en degrés ?**`,
           type: "exact",
           answer: String(c),
-          placeholder: `Ex: ${c}`,
           hint1: "La somme des trois angles dans n'importe quel triangle est toujours égale à $180^\\circ$.",
           solution: `$$\\widehat{C} = 180^\\circ - (${a}^\\circ + ${b}^\\circ) = 180^\\circ - ${a + b}^\\circ = ${c}^\\circ$$`
         };
@@ -9348,7 +9241,6 @@ window.MathsGenerators = {
           statement: `Soit un triangle $MNP$ rectangle en $M$. L'angle aigu $\\widehat{N}$ mesure $${a}^\\circ$.\n**Quelle est la mesure de l'autre angle aigu $\\widehat{P}$ en degrés ?**`,
           type: "exact",
           answer: String(b),
-          placeholder: `Ex: ${b}`,
           hint1: "Dans un triangle rectangle, les deux angles aigus sont complémentaires (leur somme vaut $90^\\circ$).",
           solution: `$$\\widehat{P} = 90^\\circ - \\widehat{N} = 90^\\circ - ${a}^\\circ = ${b}^\\circ$$`
         };
@@ -9391,7 +9283,6 @@ window.MathsGenerators = {
           statement: `Soit un triangle $EFG$ isocèle en $E$. L'angle au sommet principal mesure $\\widehat{E} = ${sommet}^\\circ$.\n**Quelle est la mesure de l'angle à la base $\\widehat{EFG}$ en degrés ?**`,
           type: "exact",
           answer: String(base),
-          placeholder: `Ex: ${base}`,
           hint1: `Dans un triangle isocèle, les deux angles à la base sont égaux : $\\frac{180^\\circ - ${sommet}^\\circ}{2}$.`,
           solution: `$$\\widehat{EFG} = \\frac{180^\\circ - ${sommet}^\\circ}{2} = \\frac{${180 - sommet}^\\circ}{2} = ${base}^\\circ$$`
         };
@@ -9405,7 +9296,6 @@ window.MathsGenerators = {
           statement: `Soit un triangle $EFG$ isocèle en $E$. L'un des angles à la base mesure $\\widehat{EFG} = ${base}^\\circ$.\n**Quelle est la mesure de l'angle au sommet principal $\\widehat{E}$ en degrés ?**`,
           type: "exact",
           answer: String(sommet),
-          placeholder: `Ex: ${sommet}`,
           hint1: `Les deux angles à la base sont égaux à $${base}^\\circ$. Soustrais deux fois cet angle à $180^\\circ$ : $180 - 2 \\times ${base}$.`,
           solution: `$$\\widehat{E} = 180^\\circ - 2 \\times ${base}^\\circ = 180^\\circ - ${2 * base}^\\circ = ${sommet}^\\circ$$`
         };
@@ -9419,7 +9309,6 @@ window.MathsGenerators = {
           statement: `Sur une droite, deux angles adjacents forment un angle plat ($180^\\circ$). L'un des angles mesure $${alpha}^\\circ$.\n**Quelle est la mesure de l'autre angle en degrés ?**`,
           type: "exact",
           answer: String(adj),
-          placeholder: `Ex: ${adj}`,
           hint1: "Deux angles supplémentaires ont une somme égale à $180^\\circ$.",
           solution: `$$\\text{Mesure} = 180^\\circ - ${alpha}^\\circ = ${adj}^\\circ$$`
         };
@@ -9450,23 +9339,27 @@ window.MathsGenerators = {
         };
     } else {
       // Palier 4 : Défi 4ème (Figure à deux triangles accolés avec angle plat)
-      const angleB = this.randChoice([30, 40, 50]);
-      const angleC1 = 90 - angleB;
-      const angleInter = this.randChoice([45, 60]);
-      const angleC2 = 180 - angleC1 - angleInter;
-      const angleD = 50;
-      const angleFinal = 180 - angleC2 - angleD;
+      // Points B, C, E alignés dans cet ordre ; A et D du même côté de (BE), [CA) entre [CB) et [CD).
+      let beta, gamma, delta, angleACB, angleDCE, angleFinal;
+      do {
+        beta = this.randInt(4, 14) * 5;
+        gamma = this.randInt(6, 18) * 5;
+        delta = this.randInt(5, 20) * 5;
+        angleACB = 90 - beta;
+        angleDCE = 180 - angleACB - gamma;
+        angleFinal = 180 - angleDCE - delta;
+      } while (angleDCE < 20 || angleFinal < 15);
 
       return {
         chapterId: '5G3',
         tier: 4,
         title: "Défi 4ème : Déduction d'angle sur figure combinée en 2 étapes",
-        statement: `Dans une figure à deux triangles adjacents :\n- Dans le premier triangle $ABC$ rectangle en $A$, on a $\\widehat{B} = ${angleB}^\\circ$, d'où $\\widehat{BCA} = ${angleC1}^\\circ$.\n- Les points $B, C, D$ ne sont pas alignés, mais l'angle plat en $C$ est partagé : l'angle adjacent dans le second triangle $CDE$ mesure $\\widehat{DCE} = ${angleC2}^\\circ$.\n- Dans ce triangle $CDE$, l'angle $\\widehat{CDE} = ${angleD}^\\circ$.\n\n**Calculer la mesure exacte de l'angle $\\widehat{CED}$ en degrés.**`,
+        statement: `Les points $B$, $C$ et $E$ sont alignés dans cet ordre. Les points $A$ et $D$ sont situés du même côté de la droite $(BE)$, et l'angle $\\widehat{ACD}$ est compris entre $\\widehat{BCA}$ et $\\widehat{DCE}$.\n- Le triangle $ABC$ est rectangle en $A$ et $\\widehat{ABC} = ${beta}^\\circ$.\n- $\\widehat{ACD} = ${gamma}^\\circ$.\n- Dans le triangle $CDE$, $\\widehat{CDE} = ${delta}^\\circ$.\n\n**Calculer la mesure de l'angle $\\widehat{CED}$ en degrés.**`,
         type: "exact",
         answer: String(angleFinal),
-        placeholder: `Ex: ${angleFinal}`,
-        hint1: `Dans le triangle $CDE$, la somme des 3 angles vaut $180^\\circ$. Tu connais déjà $\\widehat{DCE} = ${angleC2}^\\circ$ et $\\widehat{CDE} = ${angleD}^\\circ$.`,
-        solution: `Dans le triangle $CDE$ :\n$$\\widehat{CED} = 180^\\circ - (\\widehat{DCE} + \\widehat{CDE}) = 180^\\circ - (${angleC2}^\\circ + ${angleD}^\\circ) = 180^\\circ - ${angleC2 + angleD}^\\circ = ${angleFinal}^\\circ$$`
+        hint1: `1. Dans le triangle $ABC$ rectangle en $A$, calcule $\\widehat{BCA}$.\n2. Les angles $\\widehat{BCA}$, $\\widehat{ACD}$ et $\\widehat{DCE}$ forment un angle plat ($180^\\circ$) : déduis $\\widehat{DCE}$.`,
+        hint2: `3. Dans le triangle $CDE$, la somme des 3 angles vaut $180^\\circ$.`,
+        solution: `1. Dans le triangle $ABC$ rectangle en $A$ :\n$$\\widehat{BCA} = 90^\\circ - ${beta}^\\circ = ${angleACB}^\\circ$$\n2. $B$, $C$, $E$ sont alignés, donc $\\widehat{BCA} + \\widehat{ACD} + \\widehat{DCE} = 180^\\circ$ :\n$$\\widehat{DCE} = 180^\\circ - ${angleACB}^\\circ - ${gamma}^\\circ = ${angleDCE}^\\circ$$\n3. Dans le triangle $CDE$ :\n$$\\widehat{CED} = 180^\\circ - (${angleDCE}^\\circ + ${delta}^\\circ) = ${angleFinal}^\\circ$$`
       };
     }
   },
@@ -9511,7 +9404,7 @@ window.MathsGenerators = {
           answer: options[0],
           correctIndex: 0,
           hint1: `Le plus grand côté (${maxSide} cm) doit être strictement inférieur à la somme des deux autres (${sumOthers} cm).`,
-          solution: `• Le plus grand côté mesure $${maxSide}\\text{ cm}$.\\n• La somme des deux autres mesure $${sumOthers}\\text{ cm}$.\\n• Comme $${maxSide} ${actualCan ? '<' : '\\ge'} ${sumOthers}$, le triangle **${actualCan ? 'est' : "n'est pas"} constructible**.`
+          solution: `• Le plus grand côté mesure $${maxSide}\\text{ cm}$.\n• La somme des deux autres mesure $${sumOthers}\\text{ cm}$.\n• Comme $${maxSide} ${actualCan ? '<' : '\\ge'} ${sumOthers}$, le triangle **${actualCan ? 'est' : "n'est pas"} constructible**.`
         };
       } else if (subType === 'perimetre') {
         const a = this.randInt(4, 25);
@@ -9525,7 +9418,6 @@ window.MathsGenerators = {
           statement: `Calculer le périmètre d'un triangle dont les côtés mesurent $a = ${a}\\text{ cm}$, $b = ${b}\\text{ cm}$ et $c = ${c}\\text{ cm}$ (en cm).`,
           type: "exact",
           answer: String(perim),
-          placeholder: `Ex: ${perim}`,
           hint1: "Le périmètre d'un triangle est la somme des longueurs de ses 3 côtés : $P = a + b + c$.",
           solution: `$$\\mathcal{P} = ${a} + ${b} + ${c} = ${perim}\\text{ cm}$$`
         };
@@ -9679,7 +9571,6 @@ window.MathsGenerators = {
           statement: `Calculer l'aire d'un triangle dont la base mesure $b = ${b}\\text{ cm}$ et la hauteur correspondante mesure $h = ${h}\\text{ cm}$ (en $\\text{cm}^2$).`,
           type: "exact",
           answer: String(aire),
-          placeholder: `Ex: ${aire}`,
           hint1: "Formule : $\\mathcal{A} = \\frac{\\text{base} \\times \\text{hauteur}}{2}$.",
           solution: `$$\\mathcal{A} = \\frac{b \\times h}{2} = \\frac{${b} \\times ${h}}{2} = \\frac{${b * h}}{2} = ${aire}\\text{ cm}^2$$`
         };
@@ -9694,7 +9585,6 @@ window.MathsGenerators = {
           statement: `Dans un triangle rectangle, les deux côtés de l'angle droit mesurent $a = ${a}\\text{ cm}$ et $b = ${b}\\text{ cm}$.\n**Quelle est l'aire de ce triangle en $\\text{cm}^2$ ?**`,
           type: "exact",
           answer: String(aire),
-          placeholder: `Ex: ${aire}`,
           hint1: "Dans un triangle rectangle, chaque côté de l'angle droit est la hauteur relative à l'autre côté : $\\mathcal{A} = \\frac{a \\times b}{2}$.",
           solution: `$$\\mathcal{A} = \\frac{a \\times b}{2} = \\frac{${a} \\times ${b}}{2} = \\frac{${a * b}}{2} = ${aire}\\text{ cm}^2$$`
         };
@@ -9709,7 +9599,6 @@ window.MathsGenerators = {
           statement: `Un triangle a une aire de $\\mathcal{A} = ${aire}\\text{ cm}^2$ et une base relative $b = ${b}\\text{ cm}$.\n**Quelle est la hauteur $h$ relative à cette base en cm ?**`,
           type: "exact",
           answer: String(h),
-          placeholder: `Ex: ${h}`,
           hint1: "Formule inverse : comme $\\mathcal{A} = \\frac{b \\times h}{2}$, alors $h = \\frac{2 \\times \\mathcal{A}}{b}$.",
           solution: `$$h = \\frac{2 \\times \\mathcal{A}}{b} = \\frac{2 \\times ${aire}}{${b}} = \\frac{${2 * aire}}{${b}} = ${h}\\text{ cm}$$`
         };
@@ -9747,9 +9636,8 @@ window.MathsGenerators = {
         statement: `Dans un triangle $ABC$ :\n- Le côté $[BC]$ mesure $${cfg.b1}\\text{ cm}$ et la hauteur issue de $A$ mesure $h_A = ${cfg.h1}\\text{ cm}$.\n- Un autre côté $[AB]$ mesure $${cfg.b2}\\text{ cm}$.\n\n**Calculer la longueur de la hauteur $h_C$ issue du sommet $C$ relative au côté $[AB]$ (en cm).**`,
         type: "exact",
         answer: String(cfg.h2),
-        placeholder: `Ex: ${cfg.h2}`,
         hint1: `1. Calcule l'aire du triangle avec la première base et sa hauteur : $\\mathcal{A} = \\frac{${cfg.b1} \\times ${cfg.h1}}{2}$.\n2. Exprime cette même aire avec le côté $[AB]$ et la hauteur $h_C$ : $\\mathcal{A} = \\frac{${cfg.b2} \\times h_C}{2}$, puis déduis $h_C$.`,
-        solution: `1. Calcul de l'aire du triangle $ABC$ :\\n$$\\mathcal{A} = \\frac{BC \\times h_A}{2} = \\frac{${cfg.b1} \\times ${cfg.h1}}{2} = ${aire}\\text{ cm}^2$$\\n2. Cette même aire s'écrit aussi :\\n$$\\mathcal{A} = \\frac{AB \\times h_C}{2} \\implies ${aire} = \\frac{${cfg.b2} \\times h_C}{2}$$\\n3. On en déduit :\\n$$h_C = \\frac{2 \\times ${aire}}{${cfg.b2}} = \\frac{${2 * aire}}{${cfg.b2}} = ${cfg.h2}\\text{ cm}$$`
+        solution: `1. Calcul de l'aire du triangle $ABC$ :\n$$\\mathcal{A} = \\frac{BC \\times h_A}{2} = \\frac{${cfg.b1} \\times ${cfg.h1}}{2} = ${aire}\\text{ cm}^2$$\n2. Cette même aire s'écrit aussi :\n$$\\mathcal{A} = \\frac{AB \\times h_C}{2} \\implies ${aire} = \\frac{${cfg.b2} \\times h_C}{2}$$\n3. On en déduit :\n$$h_C = \\frac{2 \\times ${aire}}{${cfg.b2}} = \\frac{${2 * aire}}{${cfg.b2}} = ${cfg.h2}\\text{ cm}$$`
       };
     }
   },
@@ -9773,7 +9661,6 @@ window.MathsGenerators = {
           statement: `Calculer l'aire d'un rectangle de longueur $L = ${L}\\text{ cm}$ et de largeur $l = ${l}\\text{ cm}$ (en $\\text{cm}^2$).`,
           type: "exact",
           answer: String(aire),
-          placeholder: `Ex: ${aire}`,
           hint1: "Formule : $\\mathcal{A} = L \\times l$.",
           solution: `$$\\mathcal{A} = ${L} \\times ${l} = ${aire}\\text{ cm}^2$$`
         };
@@ -9788,7 +9675,6 @@ window.MathsGenerators = {
           statement: `Calculer le périmètre d'un rectangle de longueur $L = ${L}\\text{ cm}$ et de largeur $l = ${l}\\text{ cm}$ (en cm).`,
           type: "exact",
           answer: String(perim),
-          placeholder: `Ex: ${perim}`,
           hint1: "Formule : $\\mathcal{P} = 2 \\times (L + l)$.",
           solution: `$$\\mathcal{P} = 2 \\times (${L} + ${l}) = 2 \\times ${L + l} = ${perim}\\text{ cm}$$`
         };
@@ -9802,7 +9688,6 @@ window.MathsGenerators = {
           statement: `Calculer l'aire d'un carré dont le côté mesure $c = ${c}\\text{ cm}$ (en $\\text{cm}^2$).`,
           type: "exact",
           answer: String(aire),
-          placeholder: `Ex: ${aire}`,
           hint1: "Formule : $\\mathcal{A} = c^2 = c \\times c$.",
           solution: `$$\\mathcal{A} = ${c} \\times ${c} = ${aire}\\text{ cm}^2$$`
         };
@@ -9816,7 +9701,6 @@ window.MathsGenerators = {
           statement: `Calculer le périmètre d'un carré dont le côté mesure $c = ${c}\\text{ cm}$ (en cm).`,
           type: "exact",
           answer: String(perim),
-          placeholder: `Ex: ${perim}`,
           hint1: "Formule : $\\mathcal{P} = 4 \\times c$.",
           solution: `$$\\mathcal{P} = 4 \\times ${c} = ${perim}\\text{ cm}$$`
         };
@@ -9832,7 +9716,6 @@ window.MathsGenerators = {
           statement: `Calculer le volume d'un pavé droit (boîte rectangulaire) de longueur $L = ${L}\\text{ cm}$, largeur $l = ${l}\\text{ cm}$ et hauteur $h = ${h}\\text{ cm}$ (en $\\text{cm}^3$).`,
           type: "exact",
           answer: String(vol),
-          placeholder: `Ex: ${vol}`,
           hint1: "La formule du volume d'un pavé droit est $V = L \\times l \\times h$.",
           solution: `$$V = ${L} \\times ${l} \\times ${h} = ${vol}\\text{ cm}^3$$`
         };
@@ -9846,7 +9729,6 @@ window.MathsGenerators = {
           statement: `Un prisme droit a pour base un ${polyName}.\n**Combien de faces latérales rectangulaires possède-t-il ?**`,
           type: "exact",
           answer: String(sides),
-          placeholder: `Ex: ${sides}`,
           hint1: "Un prisme droit a autant de faces latérales que sa base compte de côtés.",
           solution: `La base a ${sides} côtés, donc le prisme possède exactement **${sides}** faces latérales rectangulaires (et 2 bases identiques, soit ${sides + 2} faces au total).`
         };
@@ -9866,7 +9748,6 @@ window.MathsGenerators = {
           statement: `Calculer l'aire d'un triangle rectangle dont les côtés de l'angle droit mesurent $a = ${a}\\text{ cm}$ et $b = ${b}\\text{ cm}$ (en $\\text{cm}^2$).`,
           type: "exact",
           answer: String(aire),
-          placeholder: `Ex: ${aire}`,
           hint1: "Formule : $\\mathcal{A} = \\frac{a \\times b}{2}$.",
           solution: `$$\\mathcal{A} = \\frac{${a} \\times ${b}}{2} = \\frac{${a * b}}{2} = ${aire}\\text{ cm}^2$$`
         };
@@ -9881,7 +9762,6 @@ window.MathsGenerators = {
           statement: `Calculer l'aire d'un triangle de base $b = ${b}\\text{ cm}$ et de hauteur relative $h = ${h}\\text{ cm}$ (en $\\text{cm}^2$).`,
           type: "exact",
           answer: String(aire),
-          placeholder: `Ex: ${aire}`,
           hint1: "Formule : $\\mathcal{A} = \\frac{\\text{base} \\times \\text{hauteur}}{2}$.",
           solution: `$$\\mathcal{A} = \\frac{${b} \\times ${h}}{2} = \\frac{${b * h}}{2} = ${aire}\\text{ cm}^2$$`
         };
@@ -9895,7 +9775,6 @@ window.MathsGenerators = {
           statement: `Le périmètre d'un carré mesure $\\mathcal{P} = ${perim}\\text{ cm}$.\n**Quelle est la longueur de son côté en cm ?**`,
           type: "exact",
           answer: String(c),
-          placeholder: `Ex: ${c}`,
           hint1: "Un carré a 4 côtés de même longueur : $c = \\frac{\\mathcal{P}}{4}$.",
           solution: `$$c = \\frac{${perim}}{4} = ${c}\\text{ cm}$$`
         };
@@ -9910,7 +9789,6 @@ window.MathsGenerators = {
           statement: `Un prisme droit a une base d'aire $\\mathcal{B} = ${B}\\text{ cm}^2$ et une hauteur $h = ${h}\\text{ cm}$.\n**Calculer le volume de ce prisme droit en $\\text{cm}^3$ :**`,
           type: "exact",
           answer: String(vol),
-          placeholder: `Ex: ${vol}`,
           hint1: "Formule générale du prisme droit : $V = \\text{Aire de la base} \\times \\text{hauteur} = \\mathcal{B} \\times h$.",
           solution: `$$V = \\mathcal{B} \\times h = ${B} \\times ${h} = ${vol}\\text{ cm}^3$$`
         };
@@ -9925,7 +9803,6 @@ window.MathsGenerators = {
           statement: `Un rectangle a une aire de $\\mathcal{A} = ${aire}\\text{ cm}^2$ et une longueur $L = ${L}\\text{ cm}$.\n**Quelle est sa largeur $l$ en cm ?**`,
           type: "exact",
           answer: String(l),
-          placeholder: `Ex: ${l}`,
           hint1: "Formule inverse : $l = \\frac{\\mathcal{A}}{L}$.",
           solution: `$$l = \\frac{${aire}}{${L}} = ${l}\\text{ cm}$$`
         };
@@ -9944,7 +9821,6 @@ window.MathsGenerators = {
           statement: `Calculer la valeur exacte de l'aire d'un disque de rayon $R = ${r}\\text{ cm}$.\nDonner la réponse sous la forme $n\\pi\\text{ cm}^2$ (saisir uniquement le nombre $n$).`,
           type: "exact",
           answer: String(coeff),
-          placeholder: `Ex: ${coeff}`,
           hint1: "Formule : $\\mathcal{A} = \\pi \\times R^2$. Calcule $R^2$.",
           solution: `$$\\mathcal{A} = \\pi \\times ${r}^2 = ${coeff}\\pi\\text{ cm}^2$$`
         };
@@ -9958,7 +9834,6 @@ window.MathsGenerators = {
           statement: `Calculer la valeur exacte du périmètre d'un cercle de rayon $R = ${r}\\text{ cm}$.\nDonner la réponse sous la forme $k\\pi\\text{ cm}$ (saisir uniquement le nombre $k$).`,
           type: "exact",
           answer: String(coeff),
-          placeholder: `Ex: ${coeff}`,
           hint1: "Formule : $\\mathcal{P} = 2 \\times \\pi \\times R = (2 \\times R)\\pi$.",
           solution: `$$\\mathcal{P} = 2 \\times \\pi \\times ${r} = ${coeff}\\pi\\text{ cm}$$`
         };
@@ -9973,7 +9848,6 @@ window.MathsGenerators = {
           statement: `Calculer le volume exact d'un cylindre de révolution de rayon $R = ${r}\\text{ cm}$ et de hauteur $h = ${h}\\text{ cm}$.\nDonner la réponse sous la forme $k\\pi\\text{ cm}^3$ (saisir uniquement le nombre $k$).`,
           type: "exact",
           answer: String(coeff),
-          placeholder: `Ex: ${coeff}`,
           hint1: "Formule : $V = \\pi \\times R^2 \\times h$. Calcule $R^2 \\times h$.",
           solution: `$$V = \\pi \\times ${r}^2 \\times ${h} = \\pi \\times ${r * r} \\times ${h} = ${coeff}\\pi\\text{ cm}^3$$`
         };
@@ -9988,7 +9862,6 @@ window.MathsGenerators = {
             statement: `Combien de litres ($\\text{L}$) contient un volume de $${val}\\text{ dm}^3$ ?`,
             type: "exact",
             answer: String(val),
-            placeholder: `Ex: ${val}`,
             hint1: "Rappel fondamental : $1\\text{ dm}^3 = 1\\text{ L}$.",
             solution: `Comme $1\\text{ dm}^3 = 1\\text{ L}$, alors $${val}\\text{ dm}^3 = ${val}\\text{ L}$.`
           };
@@ -10002,7 +9875,6 @@ window.MathsGenerators = {
             statement: `Un réservoir a une contenance de $${m3}\\text{ m}^3$.\n**Combien de litres ($\\text{L}$) cela représente-t-il ?**`,
             type: "exact",
             answer: String(ans),
-            placeholder: `Ex: ${ans}`,
             hint1: "Rappel : $1\\text{ m}^3 = 1000\\text{ dm}^3 = 1000\\text{ L}$.",
             solution: `$$${m3}\\text{ m}^3 = ${m3} \\times 1000\\text{ L} = ${ans}\\text{ L}$$`
           };
@@ -10016,7 +9888,6 @@ window.MathsGenerators = {
           statement: `Calculer la valeur exacte du périmètre d'un cercle de diamètre $D = ${d}\\text{ cm}$.\nDonner la réponse sous la forme $k\\pi\\text{ cm}$ (saisir uniquement le nombre $k$).`,
           type: "exact",
           answer: String(d),
-          placeholder: `Ex: ${d}`,
           hint1: "Formule avec le diamètre : $\\mathcal{P} = \\pi \\times D = D\\pi$.",
           solution: `$$\\mathcal{P} = \\pi \\times ${d} = ${d}\\pi\\text{ cm}$$`
         };
@@ -10038,7 +9909,6 @@ window.MathsGenerators = {
         statement: `Une plaque métallique a la forme d'un rectangle de dimensions $L = ${L}\\text{ cm}$ et $l = ${l}\\text{ cm}$.\nOn découpe à l'un de ses angles un coin triangulaire rectangle dont les côtés de l'angle droit mesurent $${aCoin}\\text{ cm}$ et $${bCoin}\\text{ cm}$.\n\n**Calculer l'aire restante de la plaque métallique en $\\text{cm}^2$.**`,
         type: "exact",
         answer: String(aireRestante),
-        placeholder: `Ex: ${aireRestante}`,
         hint1: `1. Calcule l'aire du rectangle plein : $${L} \\times ${l} = ${aireRect}\\text{ cm}^2$.\n2. Calcule l'aire du coin découpé : $\\frac{${aCoin} \\times ${bCoin}}{2} = ${aireCoin}\\text{ cm}^2$.\n3. Fais la soustraction.`,
         solution: `1. Aire du rectangle initial :\n$$\\mathcal{A}_{\\text{rectangle}} = ${L} \\times ${l} = ${aireRect}\\text{ cm}^2$$\n2. Aire du triangle découpé :\n$$\\mathcal{A}_{\\text{triangle}} = \\frac{${aCoin} \\times ${bCoin}}{2} = ${aireCoin}\\text{ cm}^2$$\n3. Aire finale restante :\n$$\\mathcal{A}_{\\text{restante}} = ${aireRect} - ${aireCoin} = ${aireRestante}\\text{ cm}^2$$`
       };
@@ -10065,7 +9935,6 @@ window.MathsGenerators = {
           statement: `Dans un club de sport, il y a $${e1}$ benjamins, $${e2}$ minimes et $${e3}$ cadets.\n**Quel est l'effectif total d'adhérents de ce club ?**`,
           type: "exact",
           answer: String(total),
-          placeholder: `Ex: ${total}`,
           hint1: "L'effectif total est la somme de tous les effectifs.",
           solution: `$$N_{\\text{total}} = ${e1} + ${e2} + ${e3} = ${total}$$`
         };
@@ -10081,7 +9950,6 @@ window.MathsGenerators = {
           statement: `Dans une classe de $${total}$ élèves, $${e1}$ étudient l'espagnol, $${e2}$ étudient l'allemand et le reste étudie l'italien.\n**Combien d'élèves étudient l'italien ?**`,
           type: "exact",
           answer: String(e3),
-          placeholder: `Ex: ${e3}`,
           hint1: `Soustrais les effectifs connus à l'effectif total : $${total} - ${e1} - ${e2}$.`,
           solution: `$$N_{\\text{italien}} = ${total} - (${e1} + ${e2}) = ${total} - ${e1 + e2} = ${e3}$$`
         };
@@ -10097,7 +9965,6 @@ window.MathsGenerators = {
           statement: `Voici la répartition des élèves selon leur sport favori :\n- Football : $${counts[0]}$\n- Basketball : $${counts[1]}$\n- Natation : $${counts[2]}$\n- Tennis : $${counts[3]}$\n\n**Quel est l'effectif du sport le plus pratiqué ?**`,
           type: "exact",
           answer: String(counts[maxIdx]),
-          placeholder: `Ex: ${counts[maxIdx]}`,
           hint1: `Repère le plus grand nombre dans la liste (c'est le sport « ${maxSport} »).`,
           solution: `Le sport le plus pratiqué est le ${maxSport} avec un effectif maximal de **${counts[maxIdx]}** élèves.`
         };
@@ -10138,7 +10005,6 @@ window.MathsGenerators = {
           statement: `Dans un groupe de $${item.total}$ personnes, $${item.eff}$ ont les yeux bleus.\n**Donner la fréquence de ce caractère sous forme décimale.**`,
           type: "exact",
           answer: item.dec,
-          placeholder: `Ex: ${item.dec}`,
           hint1: `Calcule le quotient décimal : $${item.eff} \\div ${item.total}$.`,
           solution: `$$\\text{Fréquence} = \\frac{${item.eff}}{${item.total}} = ${item.eff} \\div ${item.total} = ${item.dec}$$`
         };
@@ -10153,7 +10019,6 @@ window.MathsGenerators = {
           statement: `Dans une classe de $${total}$ élèves, la fréquence des demi-pensionnaires est de $${String(dec).replace('.', ',')}$.\n**Combien d'élèves sont demi-pensionnaires ?**`,
           type: "exact",
           answer: String(count),
-          placeholder: `Ex: ${count}`,
           hint1: `Multiplie l'effectif total par la fréquence : $${total} \\times ${dec}$.`,
           solution: `$$\\text{Effectif} = ${total} \\times ${dec} = ${count}\\text{ élèves}$$`
         };
@@ -10170,10 +10035,9 @@ window.MathsGenerators = {
           chapterId: '5D1',
           tier: 3,
           title: "Fréquence exprimée en pourcentage",
-          statement: `Dans une classe de $${total}$ élèves, $${eff}$ portent des lunettes.\n**Quel est le pourcentage d'élèves portant des lunettes ?** (Saisir uniquement le nombre, ex: 25)`,
+          statement: `Dans une classe de $${total}$ élèves, $${eff}$ portent des lunettes.\n**Quel est le pourcentage d'élèves portant des lunettes ?** (Saisir uniquement le nombre, par exemple 25)`,
           type: "exact",
           answer: String(pct),
-          placeholder: `Ex: ${pct}`,
           hint1: `Calcule $\\frac{${eff}}{${total}} \\times 100$.`,
           solution: `$$\\text{Fréquence} = \\frac{${eff}}{${total}} \\times 100 = ${pct}\\%$$`
         };
@@ -10185,35 +10049,48 @@ window.MathsGenerators = {
           chapterId: '5D1',
           tier: 3,
           title: "Pourcentage complémentaire d'une série",
-          statement: `Dans une enquête, les personnes interrogées ont voté pour trois options :\n- Option A : $${p1}\\%$\n- Option B : $${p2}\\%$\n- Option C : le reste\n\n**Quel est le pourcentage de personnes ayant choisi l'option C ?** (Saisir uniquement le nombre, ex: ${p3})`,
+          statement: `Dans une enquête, les personnes interrogées ont voté pour trois options :\n- Option A : $${p1}\\%$\n- Option B : $${p2}\\%$\n- Option C : le reste\n\n**Quel est le pourcentage de personnes ayant choisi l'option C ?** (Saisir uniquement le nombre, par exemple ${p3})`,
           type: "exact",
           answer: String(p3),
-          placeholder: `Ex: ${p3}`,
           hint1: `La somme de tous les pourcentages d'une population vaut toujours $100\\%$. Soustrais $${p1}$ et $${p2}$ à 100.`,
           solution: `$$\\text{Option C} = 100\\% - (${p1}\\% + ${p2}\\%) = 100\\% - ${p1 + p2}\\% = ${p3}\\%$$`
         };
       }
     } else {
       // Palier 4 : Défi 4ème (Angle dans un diagramme circulaire)
-      const configs = [
-        { tot: 20, eff: 5, deg: 90 },
-        { tot: 30, eff: 5, deg: 60 },
-        { tot: 24, eff: 8, deg: 120 },
-        { tot: 36, eff: 4, deg: 40 },
-        { tot: 40, eff: 10, deg: 90 }
-      ];
-      const cfg = this.randChoice(configs);
+      // Angle d'un secteur = effectif / total × 360°, entier
+      let tot, eff;
+      do {
+        tot = this.randChoice([12, 15, 18, 20, 24, 30, 36, 40, 45, 60, 72, 90, 120]);
+        eff = this.randInt(1, Math.floor(tot * 0.6));
+      } while ((360 * eff) % tot !== 0);
+      const deg = (360 * eff) / tot;
+      const [groupe, pop] = this.randChoice([
+        ['qui viennent à vélo', 'élèves'], ['qui viennent en bus', 'élèves'], ['qui viennent à pied', 'élèves'],
+        ['qui pratiquent le football', 'adhérents'], ['qui ont choisi l\'option théâtre', 'élèves'], ['qui préfèrent le chocolat noir', 'personnes interrogées']
+      ]);
+      if (Math.random() < 0.4) {
+        return {
+          chapterId: '5D1',
+          tier: 4,
+          title: "Défi 4ème : Effectif à partir d'un angle de diagramme circulaire",
+          statement: `Un diagramme circulaire représente la répartition de $${tot}$ ${pop}. Le secteur correspondant au groupe de ceux ${groupe} a un angle de $${deg}^\\circ$.\n\n**Combien de ${pop} compte ce groupe ?**`,
+          type: "exact",
+          answer: String(eff),
+          hint1: `Le disque complet ($360^\\circ$) représente les $${tot}$ ${pop}. Utilise la proportionnalité : $\\text{Effectif} = \\frac{${deg}}{360} \\times ${tot}$.`,
+          solution: `Par proportionnalité avec les $360^\\circ$ du disque complet :\n$$\\text{Effectif} = \\frac{${deg}}{360} \\times ${tot} = ${eff}$$`
+        };
+      }
 
       return {
         chapterId: '5D1',
         tier: 4,
         title: "Défi 4ème : Angle dans un diagramme circulaire (Proportionnalité à 360°)",
-        statement: `Pour représenter la répartition des $${cfg.tot}$ élèves d'une classe dans un diagramme circulaire, on s'intéresse au groupe des $${cfg.eff}$ élèves qui viennent à vélo.\n\n**Quelle doit être la mesure en degrés de l'angle du secteur circulaire représentant ce groupe ?**`,
+        statement: `Pour représenter la répartition de $${tot}$ ${pop} dans un diagramme circulaire, on s'intéresse au groupe des $${eff}$ ${pop} ${groupe}.\n\n**Quelle doit être la mesure en degrés de l'angle du secteur circulaire représentant ce groupe ?**`,
         type: "exact",
-        answer: String(cfg.deg),
-        placeholder: `Ex: ${cfg.deg}`,
-        hint1: `Le disque complet représente $360^\\circ$ pour les $${cfg.tot}$ élèves. Utilise la proportionnalité : $\\text{Angle} = \\frac{${cfg.eff}}{${cfg.tot}} \\times 360^\\circ$.`,
-        solution: `Par proportionnalité avec les $360^\\circ$ du cercle complet :\n$$\\text{Angle} = \\frac{${cfg.eff}}{${cfg.tot}} \\times 360^\\circ = ${cfg.deg}^\\circ$$`
+        answer: String(deg),
+        hint1: `Le disque complet représente $360^\\circ$ pour les $${tot}$ ${pop}. Utilise la proportionnalité : $\\text{Angle} = \\frac{${eff}}{${tot}} \\times 360^\\circ$.`,
+        solution: `Par proportionnalité avec les $360^\\circ$ du cercle complet :\n$$\\text{Angle} = \\frac{${eff}}{${tot}} \\times 360^\\circ = ${deg}^\\circ$$`
       };
     }
   },
@@ -10237,7 +10114,6 @@ window.MathsGenerators = {
           statement: `Réduire l'expression littérale suivante :\n$$A = ${a}x + ${b}x$$`,
           type: "exact",
           answer: `${sum}x`,
-          placeholder: `Ex: ${sum}x`,
           hint1: `Factorise par $x$ : $(${a} + ${b})x$.`,
           solution: `$$A = (${a} + ${b})x = ${sum}x$$`
         };
@@ -10253,7 +10129,6 @@ window.MathsGenerators = {
           statement: `Réduire l'expression littérale suivante :\n$$B = ${a}x - ${b}x$$`,
           type: "exact",
           answer: ans,
-          placeholder: `Ex: ${ans}`,
           hint1: `Soustrais les coefficients : $(${a} - ${b})x$.`,
           solution: `$$B = (${a} - ${b})x = ${ans}$$`
         };
@@ -10268,7 +10143,6 @@ window.MathsGenerators = {
             statement: `Réduire l'expression littérale suivante :\n$$C = x + ${a}x$$`,
             type: "exact",
             answer: `${1 + a}x`,
-            placeholder: `Ex: ${1 + a}x`,
             hint1: `Rappelle-toi que $x$ s'écrit aussi $1x$. Donc $1x + ${a}x = (1 + ${a})x$.`,
             solution: `$$C = 1x + ${a}x = (1 + ${a})x = ${1 + a}x$$`
           };
@@ -10280,7 +10154,6 @@ window.MathsGenerators = {
             statement: `Réduire l'expression littérale suivante :\n$$C = ${a}x - x$$`,
             type: "exact",
             answer: `${a - 1}x`,
-            placeholder: `Ex: ${a - 1}x`,
             hint1: `Rappelle-toi que $x$ s'écrit aussi $1x$. Donc $${a}x - 1x = (${a} - 1)x$.`,
             solution: `$$C = ${a}x - 1x = (${a} - 1)x = ${a - 1}x$$`
           };
@@ -10297,7 +10170,6 @@ window.MathsGenerators = {
           statement: `Réduire l'expression littérale suivante :\n$$D = ${a}x + ${b}x + ${c}x$$`,
           type: "exact",
           answer: `${sum}x`,
-          placeholder: `Ex: ${sum}x`,
           hint1: `Additionne les trois coefficients ensemble : $(${a} + ${b} + ${c})x$.`,
           solution: `$$D = (${a} + ${b} + ${c})x = ${sum}x$$`
         };
@@ -10312,7 +10184,6 @@ window.MathsGenerators = {
           statement: `Simplifier l'expression littérale suivante :\n$$E = ${a} \\times (${b}x)$$`,
           type: "exact",
           answer: `${prod}x`,
-          placeholder: `Ex: ${prod}x`,
           hint1: `Multiplie les deux nombres ensemble : $(${a} \\times ${b}) \\times x$.`,
           solution: `$$E = (${a} \\times ${b})x = ${prod}x$$`
         };
@@ -10333,7 +10204,6 @@ window.MathsGenerators = {
           statement: `Calculer la valeur numérique de $B = ${a}x + ${b}$ pour $x = ${x}$ :`,
           type: "exact",
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: `Remplace $x$ par ${x} : calcule $${a} \\times ${x} + ${b}$.`,
           solution: `$$B = ${a} \\times ${x} + ${b} = ${a * x} + ${b} = ${ans}$$`
         };
@@ -10349,7 +10219,6 @@ window.MathsGenerators = {
           statement: `Calculer la valeur numérique de $C = ${a}x - ${b}$ pour $x = ${x}$ :`,
           type: "exact",
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: `Remplace $x$ par ${x} : effectue d'abord la multiplication $${a} \\times ${x}$, puis soustrais ${b}.`,
           solution: `$$C = ${a} \\times ${x} - ${b} = ${a * x} - ${b} = ${ans}$$`
         };
@@ -10365,7 +10234,6 @@ window.MathsGenerators = {
           statement: `Calculer la valeur numérique de $D = ${b} - ${a}x$ pour $x = ${x}$ :`,
           type: "exact",
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: `Attention aux priorités : calcule d'abord le produit $${a} \\times ${x}$, puis soustrais-le à $${b}$.`,
           solution: `$$D = ${b} - (${a} \\times ${x}) = ${b} - ${a * x} = ${ans}$$`
         };
@@ -10381,7 +10249,6 @@ window.MathsGenerators = {
           statement: `Calculer la valeur numérique de $E = ${a}(x + ${b})$ pour $x = ${x}$ :`,
           type: "exact",
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: `Calcule d'abord l'opération entre parenthèses : $(${x} + ${b})$, puis multiplie par $${a}$.`,
           solution: `$$E = ${a} \\times (${x} + ${b}) = ${a} \\times ${x + b} = ${ans}$$`
         };
@@ -10396,7 +10263,6 @@ window.MathsGenerators = {
           statement: `Calculer la valeur numérique de $F = x^2 + ${a}$ pour $x = ${x}$ :`,
           type: "exact",
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: `Calcule d'abord le carré $${x}^2 = ${x} \\times ${x}$, puis ajoute $${a}$.`,
           solution: `$$F = ${x}^2 + ${a} = ${x * x} + ${a} = ${ans}$$`
         };
@@ -10427,7 +10293,7 @@ window.MathsGenerators = {
             `Non, car $${x}$ n'est pas un multiple de $${a}$`,
             `On ne peut pas savoir sans résoudre l'équation`
           ];
-          solution = `• Pour $x = ${x}$, calculons le membre de gauche :\\n$$${a} \\times ${x} + ${b} = ${a * x} + ${b} = ${leftVal}$$\\n• Le membre de droite vaut $${c}$.\\n• Comme les deux membres sont égaux ($${leftVal} = ${c}$), le nombre **${x} est bien solution** de l'équation.`;
+          solution = `• Pour $x = ${x}$, calculons le membre de gauche :\n$$${a} \\times ${x} + ${b} = ${a * x} + ${b} = ${leftVal}$$\n• Le membre de droite vaut $${c}$.\n• Comme les deux membres sont égaux ($${leftVal} = ${c}$), le nombre **${x} est bien solution** de l'équation.`;
         } else {
           correctOption = `Non, car pour $x = ${x}$, $${a} \\times ${x} + ${b} = ${leftVal} \\neq ${c}$`;
           options = [
@@ -10436,7 +10302,7 @@ window.MathsGenerators = {
             `Oui, car $${x}$ est un nombre positif`,
             `On ne peut pas savoir sans résoudre l'équation`
           ];
-          solution = `• Pour $x = ${x}$, calculons le membre de gauche :\\n$$${a} \\times ${x} + ${b} = ${a * x} + ${b} = ${leftVal}$$\\n• Le membre de droite vaut $${c}$.\\n• Comme $${leftVal} \\neq ${c}$, l'égalité n'est pas vérifiée : le nombre **${x} n'est pas solution** de l'équation.`;
+          solution = `• Pour $x = ${x}$, calculons le membre de gauche :\n$$${a} \\times ${x} + ${b} = ${a * x} + ${b} = ${leftVal}$$\n• Le membre de droite vaut $${c}$.\n• Comme $${leftVal} \\neq ${c}$, l'égalité n'est pas vérifiée : le nombre **${x} n'est pas solution** de l'équation.`;
         }
 
         return {
@@ -10472,7 +10338,7 @@ window.MathsGenerators = {
             `Non, car le membre de gauche vaut $${a * x + b}$`,
             `On ne peut pas savoir sans résoudre l'équation`
           ];
-          solution = `• Pour $x = ${x}$, calculons le membre de gauche :\\n$$${a} \\times ${x} - ${b} = ${a * x} - ${b} = ${leftVal}$$\\n• Le membre de droite vaut $${c}$.\\n• Comme les deux membres sont égaux ($${leftVal} = ${c}$), le nombre **${x} est bien solution** de l'équation.`;
+          solution = `• Pour $x = ${x}$, calculons le membre de gauche :\n$$${a} \\times ${x} - ${b} = ${a * x} - ${b} = ${leftVal}$$\n• Le membre de droite vaut $${c}$.\n• Comme les deux membres sont égaux ($${leftVal} = ${c}$), le nombre **${x} est bien solution** de l'équation.`;
         } else {
           correctOption = `Non, car pour $x = ${x}$, $${a} \\times ${x} - ${b} = ${leftVal} \\neq ${c}$`;
           options = [
@@ -10481,7 +10347,7 @@ window.MathsGenerators = {
             `Oui, car $${x}$ divise $${c}$`,
             `On ne peut pas savoir sans résoudre l'équation`
           ];
-          solution = `• Pour $x = ${x}$, calculons le membre de gauche :\\n$$${a} \\times ${x} - ${b} = ${a * x} - ${b} = ${leftVal}$$\\n• Le membre de droite vaut $${c}$.\\n• Comme $${leftVal} \\neq ${c}$, l'égalité n'est pas vérifiée : le nombre **${x} n'est pas solution** de l'équation.`;
+          solution = `• Pour $x = ${x}$, calculons le membre de gauche :\n$$${a} \\times ${x} - ${b} = ${a * x} - ${b} = ${leftVal}$$\n• Le membre de droite vaut $${c}$.\n• Comme $${leftVal} \\neq ${c}$, l'égalité n'est pas vérifiée : le nombre **${x} n'est pas solution** de l'équation.`;
         }
 
         return {
@@ -10517,7 +10383,7 @@ window.MathsGenerators = {
             `Non, car il faut d'abord développer l'expression`,
             `On ne peut pas savoir`
           ];
-          solution = `• Pour $x = ${x}$, calculons le membre de gauche :\\n$$${a}(${x} + ${b}) = ${a} \\times ${x + b} = ${leftVal}$$\\n• Le membre de droite vaut $${c}$.\\n• Comme les deux membres sont égaux ($${leftVal} = ${c}$), le nombre **${x} est bien solution**.`;
+          solution = `• Pour $x = ${x}$, calculons le membre de gauche :\n$$${a}(${x} + ${b}) = ${a} \\times ${x + b} = ${leftVal}$$\n• Le membre de droite vaut $${c}$.\n• Comme les deux membres sont égaux ($${leftVal} = ${c}$), le nombre **${x} est bien solution**.`;
         } else {
           correctOption = `Non, car pour $x = ${x}$, $${a} \\times (${x} + ${b}) = ${leftVal} \\neq ${c}$`;
           options = [
@@ -10526,7 +10392,7 @@ window.MathsGenerators = {
             `Oui, car $${x}$ est un entier`,
             `On ne peut pas savoir sans développer`
           ];
-          solution = `• Pour $x = ${x}$, calculons le membre de gauche :\\n$$${a}(${x} + ${b}) = ${a} \\times ${x + b} = ${leftVal}$$\\n• Le membre de droite vaut $${c}$.\\n• Comme $${leftVal} \\neq ${c}$, l'égalité n'est pas vérifiée : le nombre **${x} n'est pas solution**.`;
+          solution = `• Pour $x = ${x}$, calculons le membre de gauche :\n$$${a}(${x} + ${b}) = ${a} \\times ${x + b} = ${leftVal}$$\n• Le membre de droite vaut $${c}$.\n• Comme $${leftVal} \\neq ${c}$, l'égalité n'est pas vérifiée : le nombre **${x} n'est pas solution**.`;
         }
 
         return {
@@ -10564,7 +10430,7 @@ window.MathsGenerators = {
             `Non, car il y a des $x$ des deux côtés`,
             `On ne peut pas savoir sans résoudre`
           ];
-          solution = `• Membre de gauche pour $x = ${x}$ :\\n$$${a} \\times ${x} + ${b} = ${a * x} + ${b} = ${leftVal}$$\\n• Membre de droite pour $x = ${x}$ :\\n$$${cCoeff} \\times ${x} + ${d} = ${cCoeff * x} + ${d} = ${rightVal}$$\\n• Comme $${leftVal} = ${rightVal}$, l'égalité est vérifiée : **${x} est solution**.`;
+          solution = `• Membre de gauche pour $x = ${x}$ :\n$$${a} \\times ${x} + ${b} = ${a * x} + ${b} = ${leftVal}$$\n• Membre de droite pour $x = ${x}$ :\n$$${cCoeff} \\times ${x} + ${d} = ${cCoeff * x} + ${d} = ${rightVal}$$\n• Comme $${leftVal} = ${rightVal}$, l'égalité est vérifiée : **${x} est solution**.`;
         } else {
           correctOption = `Non, car le membre de gauche vaut $${leftVal}$ et celui de droite vaut $${rightVal}$`;
           options = [
@@ -10573,7 +10439,7 @@ window.MathsGenerators = {
             `Oui, car toute égalité a une solution`,
             `On ne peut pas savoir sans résoudre`
           ];
-          solution = `• Membre de gauche pour $x = ${x}$ :\\n$$${a} \\times ${x} + ${b} = ${a * x} + ${b} = ${leftVal}$$\\n• Membre de droite pour $x = ${x}$ :\\n$$${cCoeff} \\times ${x} + ${d} = ${cCoeff * x} + ${d} = ${rightVal}$$\\n• Comme $${leftVal} \\neq ${rightVal}$, l'égalité n'est pas vérifiée : **${x} n'est pas solution**.`;
+          solution = `• Membre de gauche pour $x = ${x}$ :\n$$${a} \\times ${x} + ${b} = ${a * x} + ${b} = ${leftVal}$$\n• Membre de droite pour $x = ${x}$ :\n$$${cCoeff} \\times ${x} + ${d} = ${cCoeff * x} + ${d} = ${rightVal}$$\n• Comme $${leftVal} \\neq ${rightVal}$, l'égalité n'est pas vérifiée : **${x} n'est pas solution**.`;
         }
 
         return {
@@ -10604,7 +10470,6 @@ window.MathsGenerators = {
           statement: `Résoudre l'équation d'inconnue $x$ :\n$$${a}x = ${b}$$`,
           type: "exact",
           answer: String(x),
-          placeholder: `Ex: ${x}`,
           hint1: `Divise les deux membres par ${a} : $x = \\frac{${b}}{${a}}$.`,
           solution: `$$x = \\frac{${b}}{${a}} = ${x}$$`
         };
@@ -10620,7 +10485,6 @@ window.MathsGenerators = {
           statement: `Résoudre l'équation d'inconnue $x$ :\n$$${a}x + ${b} = ${c}$$`,
           type: "exact",
           answer: String(x),
-          placeholder: `Ex: ${x}`,
           hint1: `Isole le terme en $x$ en soustrayant $${b}$ de chaque côté, puis divise par $${a}$.`,
           solution: `$$${a}x = ${c} - ${b} = ${c - b} \\implies x = \\frac{${c - b}}{${a}} = ${x}$$`
         };
@@ -10635,7 +10499,6 @@ window.MathsGenerators = {
           statement: `Résoudre l'équation d'inconnue $x$ :\n$$\\frac{x}{${a}} = ${b}$$`,
           type: "exact",
           answer: String(x),
-          placeholder: `Ex: ${x}`,
           hint1: `Multiplie les deux membres par ${a} : $x = ${b} \\times ${a}$.`,
           solution: `$$x = ${b} \\times ${a} = ${x}$$`
         };
@@ -10660,7 +10523,6 @@ window.MathsGenerators = {
           statement: `Sur un axe gradué d'origine $O$, le point $A$ a pour abscisse $x_A = ${abs}$.\n**Quelle est la distance $OA$ ?**`,
           type: "exact",
           answer: String(Math.abs(abs)),
-          placeholder: `Ex: ${Math.abs(abs)}`,
           hint1: "La distance à zéro est toujours un nombre positif.",
           solution: `La distance d'un point d'abscisse ${abs} à l'origine est $|${abs}| = ${Math.abs(abs)}$.`
         };
@@ -10673,7 +10535,6 @@ window.MathsGenerators = {
           statement: `Sur un axe gradué d'origine $O$, le point $B$ a pour abscisse $x_B = +${abs}$.\n**Quelle est la distance $OB$ ?**`,
           type: "exact",
           answer: String(abs),
-          placeholder: `Ex: ${abs}`,
           hint1: "La distance à zéro d'un nombre positif est égale à ce nombre lui-même.",
           solution: `La distance du point $B(+${abs})$ à l'origine est $OB = ${abs}$.`
         };
@@ -10687,7 +10548,6 @@ window.MathsGenerators = {
           statement: `Sur un axe gradué d'origine $O$, le point $A$ a pour abscisse $x_A = ${abs}$.\nLe point $A'$ est le symétrique de $A$ par rapport à l'origine $O$.\n**Quelle est l'abscisse du point $A'$ ?**`,
           type: "exact",
           answer: String(opp),
-          placeholder: `Ex: ${opp}`,
           hint1: "Deux points symétriques par rapport à l'origine ont des abscisses opposées.",
           solution: `L'abscisse de $A'$ est l'opposé de $x_A$ :\n$$x_{A'} = -(${abs}) = ${opp}$$`
         };
@@ -10702,7 +10562,6 @@ window.MathsGenerators = {
           statement: `Sur un axe gradué, le point $A$ a pour abscisse $x_A = ${xA}$ et le point $B$ a pour abscisse $x_B = ${xB}$.\n**Quelle est la distance $AB$ ?**`,
           type: "exact",
           answer: String(dist),
-          placeholder: `Ex: ${dist}`,
           hint1: `La distance est toujours la plus grande abscisse moins la plus petite : $x_B - x_A = ${xB} - (${xA})$.`,
           solution: `$$AB = x_B - x_A = ${xB} - (${xA}) = ${xB} + ${Math.abs(xA)} = ${dist}$$`
         };
@@ -10721,7 +10580,6 @@ window.MathsGenerators = {
           statement: `Dans un repère orthogonal, le point $M$ a pour coordonnées $(${x} ; ${y})$.\n**Quelle est l'ordonnée de ce point ?**`,
           type: "exact",
           answer: String(y),
-          placeholder: `Ex: ${y}`,
           hint1: "Dans les coordonnées $(x ; y)$, $x$ est l'abscisse (axe horizontal) et $y$ est l'ordonnée (axe vertical).",
           solution: `Le point $M(${x} ; ${y})$ a pour ordonnée $y = ${y}$.`
         };
@@ -10735,7 +10593,6 @@ window.MathsGenerators = {
           statement: `Dans un repère orthogonal, le point $P$ a pour coordonnées $(${x} ; ${y})$.\n**Quelle est l'abscisse de ce point ?**`,
           type: "exact",
           answer: String(x),
-          placeholder: `Ex: ${x}`,
           hint1: "Dans les coordonnées $(x ; y)$, $x$ est l'abscisse et $y$ est l'ordonnée.",
           solution: `Le point $P(${x} ; ${y})$ a pour abscisse $x = ${x}$.`
         };
@@ -10832,7 +10689,6 @@ window.MathsGenerators = {
         statement: `Sur une droite graduée, $A$ a pour abscisse $x_A = ${xA}$ et $B$ a pour abscisse $x_B = ${xB}$.\n**Quelle est l'abscisse du milieu $M$ du segment $[AB]$ ?**`,
         type: "exact",
         answer: String(xM),
-        placeholder: `Ex: ${xM}`,
         hint1: "Formule du milieu : $x_M = \\frac{x_A + x_B}{2}$.",
         solution: `$$x_M = \\frac{${xA} + ${xB}}{2} = \\frac{${xA + xB}}{2} = ${xM}$$`
       };
@@ -10896,7 +10752,6 @@ window.MathsGenerators = {
           statement: `Le segment $[A'B']$ est le symétrique du segment $[AB]$ par rapport à un point $O$. Sachant que $AB = ${L}\\text{ cm}$, quelle est la longueur de $[A'B']$ en cm ?`,
           type: "exact",
           answer: String(L),
-          placeholder: `Ex: ${L}`,
           hint1: "La symétrie centrale conserve les longueurs des segments.",
           solution: `Comme la symétrie centrale conserve les longueurs, on a $A'B' = AB = ${L}\\text{ cm}$.`
         };
@@ -10914,7 +10769,6 @@ window.MathsGenerators = {
           statement: `Un segment $[AB]$ mesure $${L}\\text{ cm}$.\n**Quelle est la longueur de son image $[A'B']$ par une symétrie centrale ?**`,
           type: "exact",
           answer: String(L),
-          placeholder: `Ex: ${L}`,
           hint1: "La symétrie centrale est un demi-tour qui conserve les distances.",
           solution: `La symétrie centrale conserve les longueurs, donc $A'B' = AB = ${L}\\text{ cm}$.`
         };
@@ -10930,7 +10784,6 @@ window.MathsGenerators = {
           statement: `Un triangle $ABC$ a pour côtés $AB = ${a}\\text{ cm}$, $BC = ${b}\\text{ cm}$ et $AC = ${c}\\text{ cm}$.\n**Quel est le périmètre en cm de son triangle symétrique $A'B'C'$ ?**`,
           type: "exact",
           answer: String(perim),
-          placeholder: `Ex: ${perim}`,
           hint1: `Calcule le périmètre du triangle $ABC$ : $${a} + ${b} + ${c}$. La symétrie centrale conserve les périmètres.`,
           solution: `$$\\mathcal{P} = ${a} + ${b} + ${c} = ${perim}\\text{ cm}$$\nLa symétrie centrale conservant les distances, le périmètre reste de **${perim} cm**.`
         };
@@ -10943,7 +10796,6 @@ window.MathsGenerators = {
           statement: `Le point $A'$ est le symétrique de $A$ par rapport à $O$. On sait que la distance $OA = ${d}\\text{ cm}$.\n**Quelle est la longueur totale du segment $[AA']$ en cm ?**`,
           type: "exact",
           answer: String(d * 2),
-          placeholder: `Ex: ${d * 2}`,
           hint1: `$O$ est le milieu de $[AA']$, donc $AA' = 2 \\times OA$.`,
           solution: `$$AA' = 2 \\times OA = 2 \\times ${d} = ${d * 2}\\text{ cm}$$`
         };
@@ -10961,7 +10813,6 @@ window.MathsGenerators = {
           statement: `Un angle $\\widehat{ABC}$ mesure $${deg}^\\circ$. Par une symétrie centrale, quelle est la mesure de son angle image en degrés ?`,
           type: "exact",
           answer: String(deg),
-          placeholder: `Ex: ${deg}`,
           hint1: "La symétrie centrale conserve les mesures d'angles.",
           solution: `La symétrie centrale conserve les angles, donc l'angle image mesure également $${deg}^\\circ$.`
         };
@@ -10989,7 +10840,6 @@ window.MathsGenerators = {
         statement: `Un polygone a une aire de $${aire}\\text{ cm}^2$. Quelle est l'aire de son symétrique par rapport à un point $O$ en $\\text{cm}^2$ ?`,
         type: "exact",
         answer: String(aire),
-        placeholder: `Ex: ${aire}`,
         hint1: "La symétrie centrale conserve les aires (les figures sont superposables).",
         solution: `La symétrie centrale conserve les aires : l'aire de la figure image est de $${aire}\\text{ cm}^2$.`
       };
@@ -11020,7 +10870,6 @@ window.MathsGenerators = {
           statement: `Dans un parallélogramme $${quadSet.name}$, on donne $${quadSet.side1} = ${L}\\text{ cm}$.\n**Quelle est la longueur du côté opposé $${quadSet.side2}$ en cm ?**`,
           type: "exact",
           answer: String(L),
-          placeholder: `Ex: ${L}`,
           hint1: "Dans un parallélogramme, les côtés opposés ont la même longueur.",
           solution: `Les côtés opposés d'un parallélogramme sont de même longueur : $${quadSet.side2} = ${quadSet.side1} = ${L}\\text{ cm}$.`
         };
@@ -11036,7 +10885,6 @@ window.MathsGenerators = {
           statement: `Dans un parallélogramme $EFGH$, les côtés consécutifs mesurent $EF = ${a}\\text{ cm}$ et $FG = ${b}\\text{ cm}$.\n**Quel est le périmètre du parallélogramme en cm ?**`,
           type: "exact",
           answer: String(perim),
-          placeholder: `Ex: ${perim}`,
           hint1: "Formule : $\\mathcal{P} = 2 \\times (\\text{longueur} + \\text{largeur})$.",
           solution: `$$\\mathcal{P} = 2 \\times (${a} + ${b}) = 2 \\times ${a + b} = ${perim}\\text{ cm}$$`
         };
@@ -11050,7 +10898,6 @@ window.MathsGenerators = {
           statement: `Dans un parallélogramme $ABCD$, l'angle $\\widehat{A}$ mesure $${angleA}^\\circ$.\n**Quelle est la mesure de l'angle opposé $\\widehat{C}$ en degrés ?**`,
           type: "exact",
           answer: String(angleA),
-          placeholder: `Ex: ${angleA}`,
           hint1: "Dans un parallélogramme, les angles opposés ont la même mesure.",
           solution: `Les angles opposés sont égaux : $\\widehat{C} = \\widehat{A} = ${angleA}^\\circ$.`
         };
@@ -11065,7 +10912,6 @@ window.MathsGenerators = {
           statement: `Dans un parallélogramme $ABCD$, l'angle $\\widehat{A}$ mesure $${angleA}^\\circ$.\n**Quelle est la mesure de l'angle consécutif $\\widehat{B}$ en degrés ?**`,
           type: "exact",
           answer: String(angleB),
-          placeholder: `Ex: ${angleB}`,
           hint1: "Dans un parallélogramme, deux angles consécutifs sont supplémentaires ($180^\\circ$).",
           solution: `$$\\widehat{B} = 180^\\circ - ${angleA}^\\circ = ${angleB}^\\circ$$`
         };
@@ -11085,7 +10931,6 @@ window.MathsGenerators = {
           statement: `Un parallélogramme a pour base $b = ${b}\\text{ cm}$ et pour hauteur correspondante $h = ${h}\\text{ cm}$.\n**Calculer son aire en $\\text{cm}^2$ :**`,
           type: "exact",
           answer: String(aire),
-          placeholder: `Ex: ${aire}`,
           hint1: "Formule : $\\text{Aire} = \\text{base} \\times \\text{hauteur}$.",
           solution: `$$\\text{Aire} = b \\times h = ${b} \\times ${h} = ${aire}\\text{ cm}^2$$`
         };
@@ -11097,7 +10942,6 @@ window.MathsGenerators = {
           statement: `Un parallélogramme a une aire de $${aire}\\text{ cm}^2$ et une base $b = ${b}\\text{ cm}$.\n**Quelle est sa hauteur relative $h$ en cm ?**`,
           type: "exact",
           answer: String(h),
-          placeholder: `Ex: ${h}`,
           hint1: "Formule inverse : $h = \\frac{\\text{Aire}}{\\text{base}}$.",
           solution: `$$h = \\frac{${aire}}{${b}} = ${h}\\text{ cm}$$`
         };
@@ -11109,7 +10953,6 @@ window.MathsGenerators = {
           statement: `Un parallélogramme a une aire de $${aire}\\text{ cm}^2$ et une hauteur $h = ${h}\\text{ cm}$.\n**Quelle est la longueur de sa base $b$ en cm ?**`,
           type: "exact",
           answer: String(b),
-          placeholder: `Ex: ${b}`,
           hint1: "Formule inverse : $b = \\frac{\\text{Aire}}{\\text{hauteur}}$.",
           solution: `$$b = \\frac{${aire}}{${h}} = ${b}\\text{ cm}$$`
         };
@@ -11186,7 +11029,6 @@ window.MathsGenerators = {
           statement: `Dans un rectangle $ABCD$ de centre $O$, la diagonale $[AC]$ mesure $${d}\\text{ cm}$.\n**Quelle est la longueur du segment $[OB]$ en cm ?**`,
           type: "exact",
           answer: String(d / 2),
-          placeholder: `Ex: ${d / 2}`,
           hint1: "Les diagonales d'un rectangle ont la même longueur et se coupent en leur milieu.",
           solution: `Dans un rectangle, les diagonales sont égales ($BD = AC = ${d}\\text{ cm}$) et se coupent en leur milieu $O$ :\n$$OB = \\frac{BD}{2} = \\frac{${d}}{2} = ${d / 2}\\text{ cm}$$`
         };
@@ -11200,7 +11042,6 @@ window.MathsGenerators = {
           statement: `Dans un rectangle $EFGH$ de centre $O$, on a $OE = ${half}\\text{ cm}$.\n**Quelle est la longueur de la diagonale $[HF]$ en cm ?**`,
           type: "exact",
           answer: String(full),
-          placeholder: `Ex: ${full}`,
           hint1: "Les diagonales ont la même longueur et se coupent en leur milieu, donc $HF = EG = 2 \\times OE$.",
           solution: `$$HF = EG = 2 \\times OE = 2 \\times ${half} = ${full}\\text{ cm}$$`
         };
@@ -11226,7 +11067,6 @@ window.MathsGenerators = {
           statement: `Un losange $KLMN$ a des côtés de longueur $KL = ${c}\\text{ cm}$.\n**Quel est son périmètre en cm ?**`,
           type: "exact",
           answer: String(perim),
-          placeholder: `Ex: ${perim}`,
           hint1: "Un losange a 4 côtés de même longueur : $\\mathcal{P} = 4 \\times c$.",
           solution: `$$\\mathcal{P} = 4 \\times ${c} = ${perim}\\text{ cm}$$`
         };
@@ -11241,7 +11081,7 @@ window.MathsGenerators = {
       const vtype = this.randChoice(['face_unique', 'face_even', 'face_multiple3', 'face_at_least_5', 'card_color']);
       if (vtype === 'face_unique') {
         const face = this.randInt(1, 6);
-        const wrongChoice = `${face}/6` === "1/6" ? "2/6" : `${face}/6`;
+        const wrongChoice = this.randChoice(["1/5", "5/6", "1/4", "2/3"]);
         const opts = this.shuffle(["1/6", "1/3", "1/2", wrongChoice]);
         return {
           chapterId: '5D2',
@@ -11325,7 +11165,6 @@ window.MathsGenerators = {
           statement: `Une boîte contient $${r}$ boules rouges et $${v}$ boules vertes (soit 10 boules au total).\n**Quelle est la probabilité en pourcentage de tirer une boule rouge ?** *(Indiquer uniquement le nombre)*`,
           type: "exact",
           answer: String(pct),
-          placeholder: `Ex: ${pct}`,
           hint1: `Fraction : $\\frac{${r}}{10}$. Multiplie par 10 pour l'écrire sur 100.`,
           solution: `$$P(\\text{Rouge}) = \\frac{${r}}{10} = \\frac{${pct}}{100} = ${pct}\\%$$`
         };
@@ -11340,7 +11179,6 @@ window.MathsGenerators = {
           statement: `Un sac contient $${b}$ jetons bleus et $${j}$ jetons jaunes (soit $20$ jetons au total).\n**Quelle est la probabilité en pourcentage de tirer un jeton bleu ?** *(Indiquer uniquement le nombre)*`,
           type: "exact",
           answer: String(pct),
-          placeholder: `Ex: ${pct}`,
           hint1: `Fraction : $\\frac{${b}}{20}$. Pour passer sur 100, multiplie le numérateur et le dénominateur par 5.`,
           solution: `$$P(\\text{Bleu}) = \\frac{${b}}{20} = \\frac{${b} \\times 5}{100} = \\frac{${pct}}{100} = ${pct}\\%$$`
         };
@@ -11356,7 +11194,6 @@ window.MathsGenerators = {
           statement: `Une roue de loterie est partagée en $8$ secteurs identiques, dont $${win}$ secteurs gagnants.\n**Quelle est la probabilité de tomber sur un secteur gagnant ?**\n*(Donner le résultat sous forme d'une fraction irréductible)*`,
           type: "exact",
           answer: ans,
-          placeholder: `Ex: ${ans}`,
           hint1: `Il y a $${win}$ secteurs favorables sur $8$. Simplifie la fraction $\\frac{${win}}{8}$.`,
           solution: `$$P = \\frac{${win}}{8} = ${ans}$$`
         };
@@ -11389,7 +11226,6 @@ window.MathsGenerators = {
           statement: qText,
           type: "exact",
           answer: ans,
-          placeholder: `Ex: ${ans}`,
           hint1: isCertain ? "Un événement certain se produit à coup sûr (100% ou 1)." : "Un événement impossible ne peut jamais se produire (0).",
           solution: isCertain
             ? "La probabilité d'un événement certain est égale à 1."
@@ -11405,7 +11241,6 @@ window.MathsGenerators = {
           statement: `La probabilité qu'il pleuve demain est estimée à $P = ${p}$.\n**Quelle est la probabilité qu'il ne pleuve pas ?** *(forme décimale)*`,
           type: "exact",
           answer: ans,
-          placeholder: `Ex: ${ans}`,
           hint1: "La somme des probabilités d'un événement et de son contraire vaut 1 : $P(\\text{non E}) = 1 - P(E)$.",
           solution: `$$P(\\text{non pluie}) = 1 - ${p} = ${ans}$$`
         };
@@ -11419,7 +11254,6 @@ window.MathsGenerators = {
           statement: `Lors d'une tombola, la probabilité de gagner un lot est de $${pPct}\\%$.\n**Quelle est la probabilité en pourcentage de ne rien gagner (billet perdant) ?** *(Indiquer uniquement le nombre)*`,
           type: "exact",
           answer: ans,
-          placeholder: `Ex: ${ans}`,
           hint1: `Le total des pourcentages fait 100%. Calcule $100 - ${pPct}$.`,
           solution: `$$P(\\text{perdant}) = 100\\% - ${pPct}\\% = ${ans}\\%$$`
         };
@@ -11439,7 +11273,6 @@ window.MathsGenerators = {
           statement: `On lance un dé équilibré à $${facesCount}$ faces numérotées de $1$ à $${facesCount}$.\n**Quelle est la probabilité d'obtenir un nombre strictement supérieur à $${seuil}$ ?**\n*(Donner le résultat sous forme d'une fraction irréductible)*`,
           type: "exact",
           answer: ansStr,
-          placeholder: `Ex: ${ansStr}`,
           hint1: `Les issues favorables vont de ${seuil + 1} à ${facesCount}, soit $${facesCount} - ${seuil} = ${nbIssues}$ issues sur $${facesCount}$.`,
           solution: `Il y a $${nbIssues}$ issues favorables sur $${facesCount}$ issues possibles :\n$$P = \\frac{${nbIssues}}{${facesCount}} = ${ansStr}$$`
         };
@@ -11456,7 +11289,6 @@ window.MathsGenerators = {
           statement: `On lance un dé à $12$ faces numérotées de 1 à 12.\n**Quelle est la probabilité d'obtenir un multiple de $${div}$ ?**\n*(Donner le résultat sous forme d'une fraction irréductible)*`,
           type: "exact",
           answer: ansStr,
-          placeholder: `Ex: ${ansStr}`,
           hint1: `Liste les multiples de ${div} inférieurs ou égaux à 12, puis compte combien il y en a sur 12.`,
           solution: `Les multiples de $${div}$ entre 1 et 12 sont : ${Array.from({length: count}, (_, i) => (i+1)*div).join(', ')} ($${count}$ issues).\n$$P = \\frac{${count}}{12} = ${ansStr}$$`
         };
@@ -11480,7 +11312,6 @@ window.MathsGenerators = {
           statement: `Un véhicule roule à la vitesse constante de $v = ${v}\\text{ km/h}$.\n**Quelle distance parcourt-il en $${temps}\\text{ heures}$ en km ?**`,
           type: "exact",
           answer: String(dist),
-          placeholder: `Ex: ${dist}`,
           hint1: "Formule fondamentale : $d = v \\times t$.",
           solution: `$$d = ${v} \\times ${temps} = ${dist}\\text{ km}$$`
         };
@@ -11495,7 +11326,6 @@ window.MathsGenerators = {
           statement: `Un motard parcourt une distance de $${dist}\\text{ km}$ en une durée de $${temps}\\text{ heures}$.\n**Quelle est sa vitesse moyenne en km/h ?**`,
           type: "exact",
           answer: String(speed),
-          placeholder: `Ex: ${speed}`,
           hint1: "Formule : $v = \\frac{d}{t}$.",
           solution: `$$v = \\frac{${dist}}{${temps}} = ${speed}\\text{ km/h}$$`
         };
@@ -11510,7 +11340,6 @@ window.MathsGenerators = {
           statement: `Un camion roule à une vitesse moyenne de $${v}\\text{ km/h}$ pour effectuer un trajet de $${dist}\\text{ km}$.\n**Combien d'heures dure ce trajet ?**`,
           type: "exact",
           answer: String(temps),
-          placeholder: `Ex: ${temps}`,
           hint1: "Formule : $t = \\frac{d}{v}$.",
           solution: `$$t = \\frac{${dist}}{${v}} = ${temps}\\text{ h}$$`
         };
@@ -11526,7 +11355,6 @@ window.MathsGenerators = {
           statement: `Une voiture consomme en moyenne $${conso}\\text{ litres}$ d'essence pour $100\\text{ km}$.\n**Combien de litres consommera-t-elle pour parcourir $${dist}\\text{ km}$ ?**`,
           type: "exact",
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: `$${dist}\\text{ km}$ correspond à $${k} \\times 100\\text{ km}$. Multiplie la consommation par $${k}$.`,
           solution: `$$\\text{Consommation} = ${conso} \\times \\frac{${dist}}{100} = ${conso} \\times ${k} = ${ans}\\text{ litres}$$`
         };
@@ -11535,12 +11363,12 @@ window.MathsGenerators = {
       const vtype = this.randChoice(['perim_rect', 'area_rect', 'perim_square', 'tank_flow']);
       if (vtype === 'perim_rect') {
         const larg = this.randInt(3, 9);
-        const correct = `2x + ${larg * 2}`;
+        const correct = `$2x + ${larg * 2}$`;
         const opts = this.shuffle([
           correct,
-          `${larg}x`,
-          `x + ${larg * 2}`,
-          `2x + ${larg}`
+          `$${larg}x$`,
+          `$x + ${larg * 2}$`,
+          `$2x + ${larg}$`
         ]);
         return {
           chapterId: '5P2',
@@ -11556,12 +11384,12 @@ window.MathsGenerators = {
         };
       } else if (vtype === 'area_rect') {
         const larg = this.randInt(3, 9);
-        const correct = `${larg}x`;
+        const correct = `$${larg}x$`;
         const opts = this.shuffle([
           correct,
-          `2x + ${larg * 2}`,
-          `x + ${larg}`,
-          `${larg} + x`
+          `$2x + ${larg * 2}$`,
+          `$x + ${larg}$`,
+          `$${larg}x^2$`
         ]);
         return {
           chapterId: '5P2',
@@ -11579,8 +11407,8 @@ window.MathsGenerators = {
         const isTri = Math.random() > 0.5;
         const shape = isTri ? "triangle équilatéral" : "carré";
         const nSides = isTri ? 3 : 4;
-        const correct = `${nSides}x`;
-        const opts = this.shuffle([correct, `x + ${nSides}`, `${nSides * 2}x`, `x^${nSides}`]);
+        const correct = `$${nSides}x$`;
+        const opts = this.shuffle([correct, `$x + ${nSides}$`, `$${nSides * 2}x$`, `$x^${nSides}$`]);
         return {
           chapterId: '5P2',
           tier: 2,
@@ -11595,8 +11423,8 @@ window.MathsGenerators = {
         };
       } else {
         const debit = this.randInt(3, 8);
-        const correct = `${debit}t`;
-        const opts = this.shuffle([correct, `t + ${debit}`, `${debit * 2}t`, `${debit} / t`]);
+        const correct = `$${debit}t$`;
+        const opts = this.shuffle([correct, `$t + ${debit}$`, `$${debit * 2}t$`, `$\\frac{${debit}}{t}$`]);
         return {
           chapterId: '5P2',
           tier: 2,
@@ -11624,7 +11452,6 @@ window.MathsGenerators = {
           statement: `Une location de matériel coûte un forfait fixe de $${fixe}\\text{ €}$ plus $${taux}\\text{ €}$ par jour d'utilisation.\n**Quel est le coût total en euros pour $${j}\\text{ jours}$ ?**`,
           type: "exact",
           answer: String(total),
-          placeholder: `Ex: ${total}`,
           hint1: `Calcule $${fixe} + ${taux} \\times ${j}$.`,
           solution: `$$\\text{Coût} = ${fixe} + ${taux} \\times ${j} = ${fixe} + ${taux * j} = ${total}\\text{ €}$$`
         };
@@ -11640,7 +11467,6 @@ window.MathsGenerators = {
           statement: `Un taxi facture une prise en charge forfaitaire de $${priseEnCharge}\\text{ €}$ puis $${prixKm}\\text{ €}$ par kilomètre parcouru.\n**Quel est le montant total de la course pour un trajet de $${km}\\text{ km}$ ?**`,
           type: "exact",
           answer: String(total),
-          placeholder: `Ex: ${total}`,
           hint1: `Ajoute la prise en charge au coût kilométrique : $${priseEnCharge} + ${prixKm} \\times ${km}$.`,
           solution: `$$\\text{Total} = ${priseEnCharge} + (${prixKm} \\times ${km}) = ${priseEnCharge} + ${prixKm * km} = ${total}\\text{ €}$$`
         };
@@ -11656,7 +11482,6 @@ window.MathsGenerators = {
           statement: `Une carte d'abonnement au cinéma coûte $${abonnement}\\text{ €}$ par an. Avec cette carte, la place ne coûte que $${prixSeance}\\text{ €}$ par séance.\n**Combien dépense un abonné qui assiste à $${nbSeances}\\text{ séances}$ dans l'année ?**`,
           type: "exact",
           answer: String(total),
-          placeholder: `Ex: ${total}`,
           hint1: `Calcule le prix de l'abonnement plus les ${nbSeances} places : $${abonnement} + ${prixSeance} \\times ${nbSeances}$.`,
           solution: `$$\\text{Total} = ${abonnement} + (${prixSeance} \\times ${nbSeances}) = ${abonnement} + ${prixSeance * nbSeances} = ${total}\\text{ €}$$`
         };
@@ -11673,7 +11498,6 @@ window.MathsGenerators = {
           statement: `Un train parcourt $${dist}\\text{ km}$ en 30 minutes.\n**Quelle est sa vitesse moyenne en km/h ?**`,
           type: "exact",
           answer: String(v),
-          placeholder: `Ex: ${v}`,
           hint1: "30 minutes correspondent à 0,5 heure (la moitié d'une heure). En 1 heure entière, il parcourt le double.",
           solution: `$$v = \\frac{${dist}}{0{,}5} = ${dist} \\times 2 = ${v}\\text{ km/h}$$`
         };
@@ -11687,7 +11511,6 @@ window.MathsGenerators = {
           statement: `Un automobiliste parcourt $${dist}\\text{ km}$ en 15 minutes.\n**Quelle est sa vitesse moyenne en km/h ?**`,
           type: "exact",
           answer: String(v),
-          placeholder: `Ex: ${v}`,
           hint1: "15 minutes correspondent à un quart d'heure (0,25 h). En 1 heure (4 quarts d'heure), il parcourt 4 fois plus.",
           solution: `$$v = ${dist} \\times 4 = ${v}\\text{ km/h}\\quad\\left(\\text{ou } \\frac{${dist}}{0{,}25} = ${v}\\right)$$`
         };
@@ -11702,7 +11525,6 @@ window.MathsGenerators = {
           statement: `Un cycliste parcourt $${dist}\\text{ km}$ en 45 minutes.\n**Quelle est sa vitesse moyenne en km/h ?**`,
           type: "exact",
           answer: String(v),
-          placeholder: `Ex: ${v}`,
           hint1: "45 minutes = 3/4 d'heure = 0,75 heure. $v = d / t$.",
           solution: `$$v = \\frac{${dist}}{0{,}75} = \\frac{${dist} \\times 4}{3} = ${v}\\text{ km/h}$$`
         };
@@ -11716,7 +11538,6 @@ window.MathsGenerators = {
           statement: `Une voiture roule à $${v}\\text{ km/h}$ pendant 1 heure et 30 minutes.\n**Quelle distance a-t-elle parcourue en km ?**`,
           type: "exact",
           answer: String(dist),
-          placeholder: `Ex: ${dist}`,
           hint1: `1 heure et 30 minutes = 1,5 heure. Calcule $d = v \\times t = ${v} \\times 1{,}5$.`,
           solution: `$$d = ${v} \\times 1{,}5 = ${dist}\\text{ km}$$`
         };
@@ -11746,7 +11567,6 @@ window.MathsGenerators = {
           statement: `Un lutin exécute le script suivant :\n${scratchHtml}\n**Si le nombre entré au départ est $${x}$, quel nombre affiche le lutin ?**`,
           type: "exact",
           answer: String(x + a),
-          placeholder: `Ex: ${x + a}`,
           hint1: `Le script ajoute $${a}$ au nombre de départ : $${x} + ${a}$.`,
           hint2: `Calcul simple : $${x} + ${a} = ${x + a}$.`,
           solution: `$$N = ${x} + ${a} = ${x + a}$$`
@@ -11767,7 +11587,6 @@ window.MathsGenerators = {
         statement: `Dans Scratch, pour tracer ${p.name} avec le bloc « répéter ${p.reps} fois : avancer de ${step}, tourner de ... degrés », quel est l'angle de rotation en degrés ?`,
         type: "exact",
         answer: String(p.angle),
-        placeholder: `Ex: ${p.angle}`,
         hint1: `La somme des angles extérieurs pour un tour complet est de 360°. Divise 360 par le nombre de côtés (${p.reps}).`,
         hint2: `Calcul : $\\frac{360^\\circ}{${p.reps}} = ${p.angle}^\\circ$.`,
         solution: `$$\\text{Angle} = \\frac{360^\\circ}{${p.reps}} = ${p.angle}^\\circ$$`
@@ -11793,7 +11612,6 @@ window.MathsGenerators = {
           statement: `Un lutin exécute le script suivant :\n${scratchHtml}\n**Si l'on choisit le nombre $${x}$ au départ, quel est le résultat final affiché ?**`,
           type: "exact",
           answer: String(x * a + b),
-          placeholder: `Ex: ${x * a + b}`,
           hint1: `Effectue d'abord la multiplication par $${a}$, puis ajoute $${b}$.`,
           hint2: `Étape 1 : $${x} \\times ${a} = ${x * a}$. Étape 2 : $${x * a} + ${b} = ${x * a + b}$.`,
           solution: `$$(${x} \\times ${a}) + ${b} = ${x * a} + ${b} = ${x * a + b}$$`
@@ -11809,7 +11627,6 @@ window.MathsGenerators = {
         statement: `Un lutin exécute le script : « répéter ${reps} fois : avancer de ${pas} pas ».\n**Quelle distance totale en pas a-t-il parcourue ?**`,
         type: "exact",
         answer: String(total),
-        placeholder: `Ex: ${total}`,
         hint1: `Multiplie le nombre de répétitions par le nombre de pas : $${reps} \\times ${pas}$.`,
         hint2: `Calcul : $${reps} \\times ${pas} = ${total}$.`,
         solution: `$$${reps} \\times ${pas} = ${total}\\text{ pas}$$`
@@ -11836,7 +11653,6 @@ window.MathsGenerators = {
           statement: `Un lutin exécute le script suivant :\n${scratchHtml}\nÀ la fin, **le lutin annonce $${finalVal}$**.\n**Quel nombre de départ avait été choisi ?**`,
           type: "exact",
           answer: String(start),
-          placeholder: `Ex: ${start}`,
           hint1: `Remonte les opérations à l'envers : commence par soustraire $${b}$ à $${finalVal}$, puis divise par $${a}$.`,
           hint2: `$(${finalVal} - ${b}) \\div ${a} = ${finalVal - b} \\div ${a} = ${start}$.`,
           solution: `À l'envers : on soustrait $${b}$ ($${finalVal} - ${b} = ${finalVal - b}$), puis on divise par $${a}$ ($${finalVal - b} \\div ${a} = ${start}$).`
@@ -11856,7 +11672,6 @@ window.MathsGenerators = {
         statement: `Pour faire tracer un ${p.name} dans Scratch avec une boucle répéter ${p.n} fois, de quel angle extérieur en degrés doit-on tourner à chaque étape ?`,
         type: "exact",
         answer: String(p.angle),
-        placeholder: `Ex: ${p.angle}`,
         hint1: `Tour complet : 360° divisé par ${p.n} côtés.`,
         hint2: `Calcul : $\\frac{360^\\circ}{${p.n}} = ${p.angle}^\\circ$.`,
         solution: `$$\\text{Angle} = \\frac{360^\\circ}{${p.n}} = ${p.angle}^\\circ$$`
@@ -11874,7 +11689,6 @@ window.MathsGenerators = {
           statement: `Soit le script Scratch :\n\`\`\`text\nmettre [R] à (réponse * réponse)\nmettre [R] à (R + ${add})\ndire (R)\n\`\`\`\n**Si le nombre de départ est $${x}$, quel résultat affiche le lutin ?**`,
           type: "exact",
           answer: String(res),
-          placeholder: `Ex: ${res}`,
           hint1: `Calcule le carré du nombre de départ ($${x} \\times ${x}$), puis ajoute $${add}$.`,
           hint2: `$${x}^2 + ${add} = ${x * x} + ${add} = ${res}$.`,
           solution: `$$R = ${x}^2 + ${add} = ${x * x} + ${add} = ${res}$$`
@@ -11922,7 +11736,6 @@ window.MathsGenerators = {
           statement: `Un triangle rectangle a une hypoténuse de longueur $${hyp}\\text{ cm}$.\n**Quel est le rayon de son cercle circonscrit en cm ?**`,
           type: "exact",
           answer: String(hyp / 2),
-          placeholder: `Ex: ${hyp / 2}`,
           hint1: "Dans un triangle rectangle, l'hypoténuse est un diamètre du cercle circonscrit. Le rayon vaut la moitié de l'hypoténuse.",
           solution: `$$R = \\frac{\\text{Hypoténuse}}{2} = \\frac{${hyp}}{2} = ${hyp / 2}\\text{ cm}$$`
         };
@@ -11936,7 +11749,6 @@ window.MathsGenerators = {
           statement: `Le cercle circonscrit à un triangle rectangle a un rayon $R = ${r}\\text{ cm}$.\n**Quelle est la longueur de l'hypoténuse de ce triangle en cm ?**`,
           type: "exact",
           answer: String(hyp),
-          placeholder: `Ex: ${hyp}`,
           hint1: "L'hypoténuse est le diamètre du cercle circonscrit ($D = 2 \\times R$).",
           solution: `$$\\text{Hypoténuse} = 2 \\times R = 2 \\times ${r} = ${hyp}\\text{ cm}$$`
         };
@@ -11976,7 +11788,6 @@ window.MathsGenerators = {
           statement: `Dans un triangle $${triName.t}$ rectangle en $${triName.right}$, l'hypoténuse $[${triName.hyp}]$ mesure $${hyp}\\text{ cm}$.\n**Quelle est la longueur de la médiane issue de $${triName.right}$ en cm ?**`,
           type: "exact",
           answer: String(hyp / 2),
-          placeholder: `Ex: ${hyp / 2}`,
           hint1: "Dans un triangle rectangle, la médiane relative à l'hypoténuse mesure la moitié de l'hypoténuse.",
           solution: `$$m = \\frac{${triName.hyp}}{2} = \\frac{${hyp}}{2} = ${hyp / 2}\\text{ cm}$$`
         };
@@ -12010,7 +11821,6 @@ window.MathsGenerators = {
           statement: `Dans un triangle $ABC$ rectangle en $A$, l'hypoténuse mesure $BC = ${r * 2}\\text{ cm}$ et $O$ est le milieu de $[BC]$.\n**Quelle est la distance $OA$ en cm ?**`,
           type: "exact",
           answer: String(r),
-          placeholder: `Ex: ${r}`,
           hint1: "$O$ est le centre du cercle circonscrit, donc $OA = OB = OC = R$.",
           solution: `$$OA = \\frac{BC}{2} = \\frac{${r * 2}}{2} = ${r}\\text{ cm}$$`
         };
@@ -12026,7 +11836,6 @@ window.MathsGenerators = {
           statement: `Dans un triangle $ABC$, $I$ et $J$ sont les milieux respectifs de $[AB]$ et $[AC]$. Sachant que $BC = ${bc}\\text{ cm}$, calculer la longueur $IJ$ en cm :`,
           type: "exact",
           answer: String(bc / 2),
-          placeholder: `Ex: ${bc / 2}`,
           hint1: "D'après le théorème des milieux, la longueur du segment joignant les milieux de deux côtés est égale à la moitié de la longueur du troisième côté.",
           solution: `$$IJ = \\frac{BC}{2} = \\frac{${bc}}{2} = ${bc / 2}\\text{ cm}$$`
         };
@@ -12040,7 +11849,6 @@ window.MathsGenerators = {
           statement: `Dans un triangle $ABC$, $I$ est le milieu de $[AB]$ et $J$ est le milieu de $[AC]$. On sait que $IJ = ${ij}\\text{ cm}$.\n**Quelle est la longueur de la base $BC$ en cm ?**`,
           type: "exact",
           answer: String(bc),
-          placeholder: `Ex: ${bc}`,
           hint1: "D'après le théorème des milieux : $BC = 2 \\times IJ$.",
           solution: `$$BC = 2 \\times IJ = 2 \\times ${ij} = ${bc}\\text{ cm}$$`
         };
@@ -12053,7 +11861,6 @@ window.MathsGenerators = {
           statement: `Un triangle $ABC$ a un périmètre de $${pGrand}\\text{ cm}$. On relie les milieux de ses trois côtés pour former un petit triangle.\n**Quel est le périmètre de ce petit triangle en cm ?**`,
           type: "exact",
           answer: String(pGrand / 2),
-          placeholder: `Ex: ${pGrand / 2}`,
           hint1: "Chaque côté du petit triangle mesure la moitié du côté correspondant du grand triangle.",
           solution: `$$P_{\\text{petit}} = \\frac{P_{\\text{grand}}}{2} = \\frac{${pGrand}}{2} = ${pGrand / 2}\\text{ cm}$$`
         };
@@ -12094,7 +11901,6 @@ window.MathsGenerators = {
           statement: `Un triangle $ABC$ est inscrit dans un cercle dont un diamètre est $[BC]$. L'angle $\\widehat{ABC}$ mesure $${angleAigu}^\\circ$.\n**Quelle est la mesure de l'angle $\\widehat{ACB}$ en degrés ?**`,
           type: "exact",
           answer: String(secondAngle),
-          placeholder: `Ex: ${secondAngle}`,
           hint1: "Le triangle $ABC$ est rectangle en $A$ (car $[BC]$ est un diamètre). La somme des deux angles aigus vaut $90^\\circ$.",
           solution: `1. $[BC]$ étant un diamètre, le triangle $ABC$ est rectangle en $A$ (donc $\\widehat{BAC} = 90^\\circ$).\n2. Dans un triangle rectangle, les deux angles aigus sont complémentaires :\n$$\\widehat{ACB} = 90^\\circ - ${angleAigu}^\\circ = ${secondAngle}^\\circ$$`
         };
@@ -12116,7 +11922,6 @@ window.MathsGenerators = {
           statement: `Un segment mesure $${L}\\text{ cm}$. Par une translation, quelle est la longueur de son segment image en cm ?`,
           type: "exact",
           answer: String(L),
-          placeholder: `Ex: ${L}`,
           hint1: "La translation est un glissement qui conserve les longueurs.",
           solution: `La translation conserve les longueurs, donc le segment image mesure aussi $${L}\\text{ cm}$.`
         };
@@ -12129,7 +11934,6 @@ window.MathsGenerators = {
           statement: `Un angle mesure $${ang}^\\circ$. Par une translation, quelle est la mesure de son angle image en degrés ?`,
           type: "exact",
           answer: String(ang),
-          placeholder: `Ex: ${ang}`,
           hint1: "La translation conserve les mesures d'angles.",
           solution: `La translation conserve les mesures d'angles, donc l'angle image mesure aussi $${ang}^\\circ$.`
         };
@@ -12142,14 +11946,33 @@ window.MathsGenerators = {
           statement: `Une figure géométrique a une aire de $${aire}\\text{ cm}^2$. On lui applique une translation.\n**Quelle est l'aire de la figure transformée en $\\text{cm}^2$ ?**`,
           type: "exact",
           answer: String(aire),
-          placeholder: `Ex: ${aire}`,
           hint1: "La translation conserve les aires.",
           solution: `La translation ne modifie pas les dimensions de la figure, son aire reste de $${aire}\\text{ cm}^2$.`
         };
       }
     } else if (t === 2) {
-      const vtype = this.randChoice(['quad_parall', 'parallel_lines', 'vector_chars']);
-      if (vtype === 'quad_parall') {
+      const vtype = this.randChoice(['coords', 'coords', 'quad_parall', 'parallel_lines', 'vector_chars']);
+      if (vtype === 'coords') {
+        // Image d'un point par la translation qui transforme A en B (coordonnées entières)
+        const [P1, P2, P3, P4] = this.randChoice([['A', 'B', 'C', 'D'], ['E', 'F', 'G', 'H'], ['M', 'N', 'P', 'Q'], ['R', 'S', 'T', 'U']]);
+        const xa = this.randInt(-6, 6), ya = this.randInt(-6, 6);
+        let dx, dy;
+        do { dx = this.randInt(-7, 7); dy = this.randInt(-7, 7); } while (dx === 0 && dy === 0);
+        const xc = this.randInt(-6, 6), yc = this.randInt(-6, 6);
+        const xd = xc + dx, yd = yc + dy;
+        const pt = (x, y) => `(${x}~;~${y})`;
+        const rel = (v) => (v < 0 ? `(${v})` : `${v}`);
+        return {
+          chapterId: '4G3',
+          tier: 2,
+          title: "Image d'un point par une translation (repère)",
+          statement: `Dans un repère, on donne $${P1}${pt(xa, ya)}$, $${P2}${pt(xa + dx, ya + dy)}$ et $${P3}${pt(xc, yc)}$.\nLe point $${P4}$ est l'image de $${P3}$ par la translation qui transforme $${P1}$ en $${P2}$.\n**Quelles sont les coordonnées de $${P4}$ ?** (format : x;y)`,
+          type: "exact",
+          answer: `(${xd};${yd})`,
+          hint1: `Pour aller de $${P1}$ à $${P2}$, on se déplace de $${dx}$ en abscisse et de $${dy}$ en ordonnée. Applique le même déplacement à $${P3}$.`,
+          solution: `Déplacement de $${P1}$ vers $${P2}$ : $${xa + dx} - ${rel(xa)} = ${dx}$ en abscisse et $${ya + dy} - ${rel(ya)} = ${dy}$ en ordonnée.\nOn applique ce déplacement à $${P3}$ :\n$$x_{${P4}} = ${xc} + ${rel(dx)} = ${xd} \\quad \\text{et} \\quad y_{${P4}} = ${yc} + ${rel(dy)} = ${yd}$$\nDonc $${P4}${pt(xd, yd)}$.`
+        };
+      } else if (vtype === 'quad_parall') {
         const quad = this.randChoice([
           { a: 'A', b: 'B', c: 'C', d: 'D', name: 'ABDC' },
           { a: 'E', b: 'F', c: 'G', d: 'H', name: 'EFHG' },
@@ -12224,7 +12047,6 @@ window.MathsGenerators = {
           statement: `Un cercle de rayon $${r}\\text{ cm}$ subit une translation. Quel est le rayon du cercle image en cm ?`,
           type: "exact",
           answer: String(r),
-          placeholder: `Ex: ${r}`,
           hint1: "La translation conserve les rayons et les formes géométriques.",
           solution: `La translation ne déforme pas les figures, le rayon reste de $${r}\\text{ cm}$.`
         };
@@ -12237,7 +12059,6 @@ window.MathsGenerators = {
           statement: `Soit un segment $[AB]$ de longueur $${l}\\text{ cm}$ et $I$ son milieu. Par une translation, $[AB]$ a pour image $[A'B']$ et $I$ a pour image $I'$.\n**Quelle est la longueur $A'I'$ en cm ?**`,
           type: "exact",
           answer: String(l / 2),
-          placeholder: `Ex: ${l / 2}`,
           hint1: "La translation conserve le milieu : $I'$ est le milieu de $[A'B']$.",
           solution: `La translation conserve le milieu, donc $A'I' = AI = \\frac{${l}}{2} = ${l / 2}\\text{ cm}$.`
         };
@@ -12253,7 +12074,6 @@ window.MathsGenerators = {
           statement: `Un triangle a pour côtés $${a}\\text{ cm}$, $${b}\\text{ cm}$ et $${c}\\text{ cm}$.\n**Quel est le périmètre de son image par une translation en cm ?**`,
           type: "exact",
           answer: String(p),
-          placeholder: `Ex: ${p}`,
           hint1: `La translation conserve les longueurs, donc le périmètre reste inchangé : $${a} + ${b} + ${c}$.`,
           solution: `$$P = ${a} + ${b} + ${c} = ${p}\\text{ cm}$$`
         };
@@ -12274,7 +12094,6 @@ window.MathsGenerators = {
           statement: `Dans un repère, une translation décale les points de $+${dx}$ en abscisse et $+${dy}$ en ordonnée.\n\n**Quelles sont les coordonnées du point image $M'$ de $M(${x} ; ${y})$ ?** *(Format attendu : $(x ; y)$)*`,
           type: "exact",
           answer: `(${xImg};${yImg})`,
-          placeholder: `(${xImg};${yImg})`,
           hint1: "On applique chaque décalage à l'abscisse et à l'ordonnée : $x' = x + dx$ et $y' = y + dy$.",
           hint2: `Pour l'abscisse : $${x} + ${dx} = ${xImg}$. Pour l'ordonnée : $${y} + ${dy} = ${yImg}$. Note ta réponse sous la forme $(${xImg} ; ${yImg})$.`,
           solution: `On applique les décalages de la translation aux coordonnées de $M(${x} ; ${y})$ :\n- Abscisse : $$x' = ${x} + ${dx} = ${xImg}$$\n- Ordonnée : $$y' = ${y} + ${dy} = ${yImg}$$\nLes coordonnées du point image sont donc **$M'(${xImg} ; ${yImg})$**.`
@@ -12293,7 +12112,6 @@ window.MathsGenerators = {
           statement: `Dans un repère, une translation décale les points de $-${dx}$ en abscisse et $+${dy}$ en ordonnée.\n\n**Quelles sont les coordonnées du point image $A'$ de $A(${x} ; ${y})$ ?** *(Format attendu : $(x ; y)$)*`,
           type: "exact",
           answer: `(${xImg};${yImg})`,
-          placeholder: `(${xImg};${yImg})`,
           hint1: "On retranche le décalage à l'abscisse et on ajoute le décalage à l'ordonnée.",
           hint2: `Pour l'abscisse : $${x} - ${dx} = ${xImg}$. Pour l'ordonnée : $${y} + ${dy} = ${yImg}$. Écris ta réponse sous la forme $(${xImg} ; ${yImg})$.`,
           solution: `On applique les décalages de la translation aux coordonnées de $A(${x} ; ${y})$ :\n- Abscisse : $$x' = ${x} - ${dx} = ${xImg}$$\n- Ordonnée : $$y' = ${y} + ${dy} = ${yImg}$$\nLes coordonnées du point image sont donc **$A'(${xImg} ; ${yImg})$**.`
@@ -12314,7 +12132,6 @@ window.MathsGenerators = {
           statement: `Dans un repère, une translation décale les points de $${dxStr}$ en abscisse et $${dyStr}$ en ordonnée.\n\n**Quelles sont les coordonnées du point image $B'$ de $B(${x} ; ${y})$ ?** *(Format attendu : $(x ; y)$)*`,
           type: "exact",
           answer: `(${xImg};${yImg})`,
-          placeholder: `(${xImg};${yImg})`,
           hint1: "Ajoute algébriquement chaque décalage (attention aux signes des relatifs).",
           hint2: `Pour l'abscisse : $${x} + (${dx}) = ${xImg}$. Pour l'ordonnée : $${y} + (${dy}) = ${yImg}$. Réponds sous la forme $(${xImg} ; ${yImg})$.`,
           solution: `On applique les règles d'addition des nombres relatifs aux coordonnées de $B(${x} ; ${y})$ :\n- Abscisse : $$x' = ${x} + (${dx}) = ${xImg}$$\n- Ordonnée : $$y' = ${y} + (${dy}) = ${yImg}$$\nLe point image est donc **$B'(${xImg} ; ${yImg})$**.`
@@ -12333,7 +12150,6 @@ window.MathsGenerators = {
           statement: `Une translation décale les points de $+${dx}$ en abscisse et $+${dy}$ en ordonnée. L'image d'un point $P$ par cette translation est le point $P'(${xFinal} ; ${yFinal})$.\n\n**Quelles étaient les coordonnées initiales du point $P$ ?** *(Format attendu : $(x ; y)$)*`,
           type: "exact",
           answer: `(${xStart};${yStart})`,
-          placeholder: `(${xStart};${yStart})`,
           hint1: "Pour retrouver le point de départ, effectue la transformation inverse en soustrayant chaque décalage.",
           hint2: `Abscisse de départ : $${xFinal} - ${dx} = ${xStart}$. Ordonnée de départ : $${yFinal} - ${dy} = ${yStart}$.`,
           solution: `Pour retrouver le point initial $P$, on applique la transformation inverse (en retranchant les décalages de la translation) :\n- Abscisse : $$x = ${xFinal} - ${dx} = ${xStart}$$\n- Ordonnée : $$y = ${yFinal} - ${dy} = ${yStart}$$\nLes coordonnées initiales du point étaient donc **$P(${xStart} ; ${yStart})$**.`
@@ -12358,7 +12174,6 @@ window.MathsGenerators = {
           statement: `La probabilité d'un événement $A$ est $P(A) = ${p}$.\n**Quelle est la probabilité de l'événement contraire $\\bar{A}$ ?**`,
           type: "exact",
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: "Formule fondamentale : $P(\\bar{A}) = 1 - P(A)$.",
           solution: `$$P(\\bar{A}) = 1 - ${p} = ${ans}$$`
         };
@@ -12376,7 +12191,6 @@ window.MathsGenerators = {
           statement: `La probabilité d'un événement $E$ est $P(E) = \\frac{${num}}{${den}}$.\n**Quelle est la probabilité de l'événement contraire $\\bar{E}$ ?**\n*(Fraction irréductible)*`,
           type: "exact",
           answer: ans,
-          placeholder: `Ex: ${ans}`,
           hint1: `Calcule $1 - \\frac{${num}}{${den}} = \\frac{${den}}{${den}} - \\frac{${num}}{${den}}$.`,
           solution: needSimp
             ? `$$P(\\bar{E}) = 1 - \\frac{${num}}{${den}} = \\frac{${den} - ${num}}{${den}} = \\frac{${ansNum}}{${den}} = ${ans}$$`
@@ -12410,7 +12224,6 @@ window.MathsGenerators = {
           statement: `Une loterie compte $${tot}$ billets dont $${gag}$ sont gagnants. Quelle est la probabilité de tirer un billet perdant sous forme décimale ?`,
           type: "exact",
           answer: String(perd),
-          placeholder: `Ex: ${perd}`,
           hint1: `Il y a $${tot} - ${gag}$ billets perdants sur $${tot}$.`,
           solution: `$$P(\\text{Perdant}) = 1 - \\frac{${gag}}{${tot}} = \\frac{${tot - gag}}{${tot}} = ${perd}$$`
         };
@@ -12437,7 +12250,6 @@ window.MathsGenerators = {
           statement: `Une boîte contient ${descList} (soit $${tot}$ boules au total).\n**Quelle est la probabilité de tirer une boule qui NE soit PAS ${targetColor.single} ?**\n*(Fraction irréductible)*`,
           type: "exact",
           answer: ans,
-          placeholder: `Ex: ${ans}`,
           hint1: `Les boules non ${targetColor.name} sont au nombre de $${tot} - ${targetColor.count} = ${notCount}$ boules sur $${tot}$.`,
           solution: `$$P(\\text{non ${targetColor.single}}) = \\frac{${tot} - ${targetColor.count}}{${tot}} = \\frac{${notCount}}{${tot}} = ${this.formatFraction(notCount, tot)}$$`
         };
@@ -12454,7 +12266,6 @@ window.MathsGenerators = {
           statement: `On lance un dé équilibré à $${faces}$ faces numérotées de 1 à $${faces}$.\n**Quelle est la probabilité de NE PAS obtenir le nombre ${target} ?**\n*(Fraction irréductible)*`,
           type: "exact",
           answer: ans,
-          placeholder: `Ex: ${ans}`,
           hint1: `Il y a $${faces} - 1 = ${notCount}$ faces différentes de ${target} sur ${faces} faces au total.`,
           solution: `$$P(\\text{non } ${target}) = 1 - P(${target}) = 1 - \\frac{1}{${faces}} = \\frac{${notCount}}{${faces}} = ${this.formatFraction(notCount, faces)}$$`
         };
@@ -12569,7 +12380,6 @@ window.MathsGenerators = {
           statement: `Dans une urne contenant $${c1}$ boules ${colorName} et $${c2}$ boules noires (soit $${tot}$ boules au total), on tire $2$ boules successivement **avec remise**.\n**Quelle est la probabilité de tirer $2$ boules ${colorName} ?**\n*(Fraction irréductible)*`,
           type: "exact",
           answer: ansStr,
-          placeholder: `Ex: ${ansStr}`,
           hint1: `À chaque tirage, la probabilité est $\\frac{${c1}}{${tot}}$. Les deux tirages étant indépendants avec remise, multiplie les probabilités.`,
           solution: `$$P = \\frac{${c1}}{${tot}} \\times \\frac{${c1}}{${tot}} = \\frac{${num}}{${den}} = ${this.formatFraction(num, den)}$$`
         };
@@ -12585,7 +12395,6 @@ window.MathsGenerators = {
           statement: `Une boîte contient $${c1}$ boules blanches et $${c2}$ boules noires ($${tot}$ au total). On tire deux boules successivement **avec remise**.\n**Quelle est la probabilité de tirer une boule blanche et une boule noire (dans n'importe quel ordre) ?**\n*(Fraction irréductible)*`,
           type: "exact",
           answer: ansStr,
-          placeholder: `Ex: ${ansStr}`,
           hint1: `Deux chemins réalisent cet événement : $(B, N)$ et $(N, B)$. Calcule $2 \\times \\left(\\frac{${c1}}{${tot}} \\times \\frac{${c2}}{${tot}}\\right)$.`,
           solution: `$$P = 2 \\times \\left(\\frac{${c1}}{${tot}} \\times \\frac{${c2}}{${tot}}\\right) = \\frac{${num}}{${den}} = ${this.formatFraction(num, den)}$$`
         };
@@ -12610,7 +12419,6 @@ window.MathsGenerators = {
           statement: `Soit la fonction définie par $f(x) = ${a}x + ${b}$.\n**Calculer l'image de $${x}$ par la fonction $f$ :**`,
           type: "exact",
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: `Remplace $x$ par ${x} dans $f(x)$ : $${a} \\times ${x} + ${b}$.`,
           solution: `$$f(${x}) = ${a} \\times ${x} + ${b} = ${ans}$$`
         };
@@ -12626,7 +12434,6 @@ window.MathsGenerators = {
           statement: `Soit la fonction $g(x) = ${a}x - ${b}$.\n**Calculer la valeur de $g(${x})$ :**`,
           type: "exact",
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: `Calcule d'abord $${a} \\times ${x}$, puis soustrais $${b}$.`,
           solution: `$$g(${x}) = ${a} \\times ${x} - ${b} = ${a * x} - ${b} = ${ans}$$`
         };
@@ -12642,7 +12449,6 @@ window.MathsGenerators = {
           statement: `Soit la fonction $h(x) = ${a}x + ${b}$.\n**Calculer l'image de $${x}$ par la fonction $h$ :**`,
           type: "exact",
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: `Multiplie d'abord $${a}$ par $(${x})$ (attention à la règle des signes), puis ajoute $${b}$.`,
           solution: `$$h(${x}) = ${a} \\times (${x}) + ${b} = ${a * x} + ${b} = ${ans}$$`
         };
@@ -12657,7 +12463,6 @@ window.MathsGenerators = {
           statement: `Soit la fonction notée $k : x \\mapsto ${a}x^2$.\n**Quelle est l'image de $${x}$ par cette fonction ?**`,
           type: "exact",
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: `Calcule d'abord le carré de $${x}$ ($${x}^2 = ${x * x}$), puis multiplie par $${a}$.`,
           solution: `$$k(${x}) = ${a} \\times ${x}^2 = ${a} \\times ${x * x} = ${ans}$$`
         };
@@ -12676,7 +12481,6 @@ window.MathsGenerators = {
           statement: `On donne le programme : « Choisir un nombre, ajouter $${b}$, multiplier le résultat par $${a}$ ».\n**Quel résultat obtient-on pour le nombre de départ $${x}$ ?**`,
           type: "exact",
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: `Calcul : $(${x} + ${b}) \\times ${a}$.`,
           solution: `$$(${x} + ${b}) \\times ${a} = ${x + b} \\times ${a} = ${ans}$$`
         };
@@ -12692,7 +12496,6 @@ window.MathsGenerators = {
           statement: `Programme de calcul : « Prendre un nombre, le multiplier par $${a}$, puis soustraire $${b}$ ».\n**Si le nombre choisi est $${x}$, quel résultat fournit le programme ?**`,
           type: "exact",
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: `Calcul : $${a} \\times ${x} - ${b}$.`,
           solution: `$$${a} \\times ${x} - ${b} = ${a * x} - ${b} = ${ans}$$`
         };
@@ -12711,7 +12514,6 @@ window.MathsGenerators = {
           statement: `Voici un extrait du tableau de valeurs d'une fonction $f$ :\n\n| $x$ | ${xList.join(' | ')} |\n|---|${xList.map(() => '---').join('|')}|\n| $f(x)$ | ${yList.join(' | ')} |\n\n**Quelle est l'image du nombre $${xTarget}$ par la fonction $f$ ?**`,
           type: "exact",
           answer: String(yTarget),
-          placeholder: `Ex: ${yTarget}`,
           hint1: `Repère la colonne où $x = ${xTarget}$ et lis la valeur correspondante sur la ligne $f(x)$.`,
           solution: `Dans le tableau, sous $x = ${xTarget}$, on lit $f(${xTarget}) = ${yTarget}$.`
         };
@@ -12730,7 +12532,6 @@ window.MathsGenerators = {
           statement: `Soit la fonction $g(x) = ${a}x + ${b}$.\n**Déterminer l'antécédent de $${res}$ par la fonction $g$ :**`,
           type: "exact",
           answer: String(x),
-          placeholder: `Ex: ${x}`,
           hint1: `Résous l'équation : $${a}x + ${b} = ${res}$.`,
           solution: `$$${a}x + ${b} = ${res} \\implies ${a}x = ${res - b} \\implies x = \\frac{${res - b}}{${a}} = ${x}$$`
         };
@@ -12746,7 +12547,6 @@ window.MathsGenerators = {
           statement: `Soit la fonction $f(x) = ${a}x - ${b}$.\n**Quel est l'antécédent de $${res}$ par la fonction $f$ ?**`,
           type: "exact",
           answer: String(x),
-          placeholder: `Ex: ${x}`,
           hint1: `Résous l'équation : $${a}x - ${b} = ${res} \\iff ${a}x = ${res} + ${b}$.`,
           solution: `$$${a}x - ${b} = ${res} \\implies ${a}x = ${res + b} \\implies x = \\frac{${res + b}}{${a}} = ${x}$$`
         };
@@ -12765,7 +12565,6 @@ window.MathsGenerators = {
           statement: `On donne le tableau de valeurs d'une fonction $g$ :\n\n| $x$ | ${xList.join(' | ')} |\n|---|${xList.map(() => '---').join('|')}|\n| $g(x)$ | ${yList.join(' | ')} |\n\n**Quel est l'antécédent de $${yTarget}$ par la fonction $g$ ?**`,
           type: "exact",
           answer: String(xTarget),
-          placeholder: `Ex: ${xTarget}`,
           hint1: `Cherche la valeur $${yTarget}$ sur la ligne $g(x)$, puis lis la valeur de $x$ au-dessus.`,
           solution: `Dans la ligne $g(x)$, on repère la valeur $${yTarget}$. La valeur correspondante au-dessus est $x = ${xTarget}$.`
         };
@@ -12783,7 +12582,6 @@ window.MathsGenerators = {
           statement: `Soit $h(x) = x^2 - ${c}$. Calculer la valeur de $h(${x})$ :`,
           type: "exact",
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: `Attention au carré : $(${x})^2 = ${x * x}$.`,
           solution: `$$h(${x}) = (${x})^2 - ${c} = ${x * x} - ${c} = ${ans}$$`
         };
@@ -12799,7 +12597,6 @@ window.MathsGenerators = {
           statement: `Soit la fonction $f(x) = (x + ${a})^2 + ${b}$.\n**Calculer l'image de $${x}$ par cette fonction $f$ :**`,
           type: "exact",
           answer: String(ans),
-          placeholder: `Ex: ${ans}`,
           hint1: `Calcule d'abord l'intérieur de la parenthèse : $${x} + ${a} = ${x + a}$. Élève au carré, puis ajoute $${b}$.`,
           solution: `$$f(${x}) = (${x} + ${a})^2 + ${b} = (${x + a})^2 + ${b} = ${(x + a) * (x + a)} + ${b} = ${ans}$$`
         };
@@ -12814,7 +12611,6 @@ window.MathsGenerators = {
           statement: `Soit la fonction $g(x) = ${a}x - ${b}$.\n**Déterminer l'antécédent de $0$ par la fonction $g$ :**`,
           type: "exact",
           answer: String(sol),
-          placeholder: `Ex: ${sol}`,
           hint1: `Chercher l'antécédent de 0 revient à résoudre l'équation $g(x) = 0$, soit $${a}x - ${b} = 0$.`,
           solution: `$$${a}x - ${b} = 0 \\implies ${a}x = ${b} \\implies x = \\frac{${b}}{${a}} = ${sol}$$`
         };
@@ -12839,7 +12635,6 @@ window.MathsGenerators = {
           statement: `On donne le script Scratch suivant :\n\`\`\`text\nquand drapeau cliqué\ndemander [Choisir un nombre] et attendre\nmettre [N] à réponse\nmettre [R] à (N * ${m})\nmettre [R] à (R + ${a})\ndire (R)\n\`\`\`\n**Si le nombre entré au départ est $${x}$, quel résultat affiche le lutin ?**`,
           type: "exact",
           answer: String(res),
-          placeholder: `Ex: ${res}`,
           hint1: `Évalue les variables dans l'ordre : d'abord $N = ${x}$, puis $R = ${x} \\times ${m}$, puis ajoute $${a}$.`,
           hint2: `Étape 1 : $${x} \\times ${m} = ${x * m}$. Étape 2 : $${x * m} + ${a} = ${res}$.`,
           solution: `$$R = (${x} \\times ${m}) + ${a} = ${x * m} + ${a} = ${res}$$`
@@ -12854,7 +12649,6 @@ window.MathsGenerators = {
         statement: `Un script contient : « mettre V à ${init} », puis « ajouter ${add} à V ».\n**Quelle est la valeur finale de la variable V ?**`,
         type: "exact",
         answer: String(init + add),
-        placeholder: `Ex: ${init + add}`,
         hint1: `La variable commence à ${init} et augmente de ${add}.`,
         hint2: `Calcul simple : $${init} + ${add} = ${init + add}$.`,
         solution: `$$V = ${init} + ${add} = ${init + add}$$`
@@ -12873,7 +12667,6 @@ window.MathsGenerators = {
           statement: `Un script Scratch contient :\n\`\`\`text\nquand drapeau cliqué\ndemander [Choisir un nombre] et attendre\nmettre [X] à réponse\nmettre [Résultat] à (X * ${a})\nmettre [Résultat] à (Résultat - ${b})\ndire (Résultat)\n\`\`\`\n**Si l'on choisit le nombre relatif $${x}$ au départ, quel est le résultat final ?**`,
           type: "exact",
           answer: String(res),
-          placeholder: `Ex: ${res}`,
           hint1: `Multiplie d'abord $${x}$ par $${a}$ (attention à la règle des signes !), puis soustrais $${b}$.`,
           hint2: `Étape 1 : $${x} \\times ${a} = ${x * a}$. Étape 2 : $${x * a} - ${b} = ${res}$.`,
           solution: `$$(${x} \\times ${a}) - ${b} = ${x * a} - ${b} = ${res}$$`
@@ -12891,7 +12684,6 @@ window.MathsGenerators = {
         statement: `Bloc Scratch : « Si N > ${limit} alors mettre R à ${thenValue} sinon mettre R à ${elseValue} ».\nSi la variable N vaut $${n}$, quelle sera la valeur de R ?`,
         type: "exact",
         answer: String(result),
-        placeholder: `Ex: ${result}`,
         hint1: `Teste la condition $${n} > ${limit}$, puis choisis la valeur de R dans la branche exécutée.`,
         hint2: `Comme $${n} ${n > limit ? '>' : '\\le'} ${limit}$, c'est la branche « ${n > limit ? 'alors' : 'sinon'} » qui s'exécute.`,
         solution: `Comme $${n} ${n > limit ? '>' : '\\le'} ${limit}$, la branche ${n > limit ? '« alors »' : '« sinon »'} s'exécute et $R = ${result}$.`
@@ -12910,7 +12702,6 @@ window.MathsGenerators = {
           statement: `On considère ce script Scratch :\n\`\`\`text\nquand drapeau cliqué\ndemander [Choisir un nombre] et attendre\nmettre [x] à réponse\nmettre [x] à (x + ${b})\nmettre [x] à (x * ${a})\ndire (x)\n\`\`\`\nLe lutin annonce le résultat final : **$${finalVal}$**.\n**Quel nombre $x$ avait été choisi au départ ?**`,
           type: "exact",
           answer: String(start),
-          placeholder: `Ex: ${start}`,
           hint1: `Remonte les étapes à l'envers : commence par diviser $${finalVal}$ par $${a}$, puis soustrais $${b}$.`,
           hint2: `$(${finalVal} \\div ${a}) - ${b} = ${finalVal / a} - ${b} = ${start}$.`,
           solution: `En remontant à l'envers : on divise d'abord par $${a}$ ($${finalVal} \\div ${a} = ${finalVal / a}$), puis on soustrait $${b}$ ($${finalVal / a} - ${b} = ${start}$). Le nombre de départ était bien **$${start}$**.`
@@ -12928,7 +12719,6 @@ window.MathsGenerators = {
         statement: `Un script demande un nombre $x$. Si $x > ${threshold}$, il affiche $${multiplier} \\times x$, sinon il affiche $x + ${increment}$.\nPour $x = ${x}$, qu'affiche le lutin ?`,
         type: "exact",
         answer: String(result),
-        placeholder: `Ex: ${result}`,
         hint1: `Teste la condition $${x} > ${threshold}$ pour déterminer la branche à suivre.`,
         hint2: x > threshold ? `La condition est vraie : calcule $${multiplier} \\times ${x} = ${result}$.` : `La condition est fausse : calcule $${x} + ${increment} = ${result}$.`,
         solution: `La condition $${x} > ${threshold}$ est ${x > threshold ? 'vraie' : 'fausse'} ; le lutin affiche ${x > threshold ? `$${multiplier} \\times ${x} = ${result}$` : `$${x} + ${increment} = ${result}$`}.`
@@ -12946,7 +12736,6 @@ window.MathsGenerators = {
           statement: `Script Scratch :\n\`\`\`text\nquand drapeau cliqué\ndemander [Choisir un nombre] et attendre\nmettre [x] à réponse\nmettre [x] à (x + ${a})\nmettre [x] à (x * x)\ndire (x)\n\`\`\`\n**Si le nombre choisi au départ est $${x}$, quel résultat affiche le lutin ?**`,
           type: "exact",
           answer: String(res),
-          placeholder: `Ex: ${res}`,
           hint1: `Calcule d'abord $(x + ${a})$ avec $x = ${x}$, puis élève ce résultat au carré.`,
           hint2: `$${x} + ${a} = ${x + a}$, puis $(${x + a})^2 = ${res}$.`,
           solution: `Étape 1 : $${x} + ${a} = ${x + a}$. Étape 2 : $(${x + a})^2 = ${res}$.`
@@ -12965,7 +12754,6 @@ window.MathsGenerators = {
         statement: `Compteur démarre à 0. Script : « répéter jusqu'à Compteur >= ${seuil} : ajouter ${pas} à Compteur ».\nQuelle est la valeur finale de Compteur ?`,
         type: "exact",
         answer: String(val),
-        placeholder: `Ex: ${val}`,
         hint1: "La boucle s'arrête dès que Compteur atteint ou dépasse " + seuil + ".",
         hint2: `À chaque tour, on ajoute ${pas} au compteur jusqu'à dépasser ${seuil}.`,
         solution: `Compteur augmente de ${pas} en ${pas} jusqu'à dépasser ${seuil} : valeur finale = ${val}.`
@@ -12983,6 +12771,13 @@ window.MathsGenerators = {
    * @param {number|null} tier - Palier de difficulté forcé (1 à 4) ou null pour auto-détection
    * @param {number|null} mastery - Taux de maîtrise (0-100%) si disponible
    */
+  /**
+   * Alias utilisé par js/diaporamaEngine.js (mode différencié) : MathsGenerators.generate(chapitre, palier).
+   */
+  generate(chapterId, tier = null) {
+    return this.generateForChapter(chapterId, tier);
+  },
+
   generateForChapter(chapterId, tier = null, mastery = null, _variationAttempt = 0) {
     // Résolution du palier cible
     let resolvedTier = 1;
@@ -13060,6 +12855,17 @@ window.MathsGenerators = {
       case 'Algo': q = this.generateAlgo(resolvedTier, mastery); break;
 
       default: {
+        // 0. Repli générique : générateur nommé generate<chapterId> (ex. generate6N1 ajouté par js/generators6e.js
+        //    via Object.assign(window.MathsGenerators, {...})).
+        const dynName = 'generate' + chapterId;
+        if (chapterId && chapterId !== 'ForChapter' && chapterId !== 'Series' && typeof this[dynName] === 'function') {
+          const dyn = this._polishQuestion(this[dynName](resolvedTier, mastery));
+          if (dyn) {
+            q = dyn;
+            break;
+          }
+        }
+
         // 1. Tenter d'abord la génération procédurale avancée (Licence / Lycée)
         if (typeof window !== 'undefined' && window.MathsAdvancedGenerators && typeof window.MathsAdvancedGenerators.generate === 'function') {
           const adv = window.MathsAdvancedGenerators.generate(chapterId, resolvedTier);
@@ -13252,3 +13058,16 @@ window.MathsGenerators = {
     return series;
   }
 };
+
+// Filet de sécurité typographique : chaque générateur collège passe par _polishQuestion
+// (signes « + - », coefficient 1, exposant 1, virgule décimale française).
+(function wrapCollegeGenerators() {
+  const G = window.MathsGenerators;
+  Object.keys(G).forEach((key) => {
+    if (!/^generate(?!ForChapter$|Series$)\w+$/.test(key) || typeof G[key] !== 'function') return;
+    const original = G[key];
+    G[key] = function (...args) {
+      return G._polishQuestion(original.apply(this, args));
+    };
+  });
+})();

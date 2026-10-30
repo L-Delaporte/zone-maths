@@ -1102,20 +1102,20 @@ window.MATHS_EXERCISES_L3 = {
       "id": "L3-MET-3",
       "tier": 3,
       "type": "mcq",
-      "title": "Ensembles compacts dans R^n",
-      "skill": "Théorème de Borel-Lebesgue",
-      "statement": "Dans $\\mathbb{R}^n$ muni de sa topologie usuelle, une partie $K$ est compacte si et seulement si :",
+      "title": "Intérieur, adhérence et frontière de Q",
+      "skill": "Calculer adhérence, intérieur et frontière d'une partie",
+      "statement": "Dans $\\mathbb{R}$ muni de sa topologie usuelle, quelle est la frontière $\\mathrm{Fr}(\\mathbb{Q}) = \\overline{\\mathbb{Q}} \\setminus \\mathring{\\mathbb{Q}}$ de l'ensemble des rationnels ?",
       "options": [
-        "$K$ est fermée et bornée",
-        "$K$ est ouverte et bornée",
-        "$K$ est convexe",
-        "$K$ est dénombrable"
+        "$\\mathbb{R}$",
+        "$\\emptyset$",
+        "$\\mathbb{Q}$",
+        "$\\mathbb{R} \\setminus \\mathbb{Q}$"
       ],
       "correctIndex": 0,
-      "answer": "$K$ est fermée et bornée",
-      "hint1": "Théorème de Borel-Lebesgue (ou Heine-Borel).",
-      "hint2": "Attention : ce critère n'est vrai qu'en dimension finie !",
-      "solution": "D'après le théorème de Borel-Lebesgue, en dimension finie, la compacité équivaut à être fermé et borné."
+      "answer": "$\\mathbb{R}$",
+      "hint1": "$\\mathbb{Q}$ est dense dans $\\mathbb{R}$ : que vaut son adhérence ?",
+      "hint2": "Tout intervalle ouvert non vide contient des irrationnels : que vaut l'intérieur de $\\mathbb{Q}$ ?",
+      "solution": "1. Adhérence : tout intervalle $]x - \\varepsilon, x + \\varepsilon[$ contient un rationnel (densité de $\\mathbb{Q}$), donc $\\overline{\\mathbb{Q}} = \\mathbb{R}$.\n2. Intérieur : aucun intervalle ouvert non vide n'est inclus dans $\\mathbb{Q}$ (il contient des irrationnels, par densité de $\\mathbb{R} \\setminus \\mathbb{Q}$), donc $\\mathring{\\mathbb{Q}} = \\emptyset$.\n3. Frontière : $\\mathrm{Fr}(\\mathbb{Q}) = \\mathbb{R} \\setminus \\emptyset = \\mathbb{R}$.\n$\\mathbb{Q}$ n'est donc ni ouvert ni fermé dans $\\mathbb{R}$."
     },
     {
       "id": "L3-MET-4",
@@ -1180,20 +1180,20 @@ window.MATHS_EXERCISES_L3 = {
       "id": "L3-BAN-3",
       "tier": 3,
       "type": "mcq",
-      "title": "Connexité et théorème des valeurs intermédiaires",
-      "skill": "Propriétés topologiques des espaces connexes",
-      "statement": "Soit $E$ un espace topologique connexe et $f : E \\to \\mathbb{R}$ continue. Que peut-on affirmer sur $f(E)$ ?",
+      "title": "Un espace vectoriel normé non complet",
+      "skill": "Montrer qu'un espace normé n'est pas complet",
+      "statement": "On munit $E = \\mathcal{C}([0,1], \\mathbb{R})$ de la norme $\\|f\\|_1 = \\int_0^1 |f(t)|\\,dt$. L'espace $(E, \\|\\cdot\\|_1)$ est-il un espace de Banach ?",
       "options": [
-        "$f(E)$ est un intervalle de $\\mathbb{R}$",
-        "$f(E)$ est un ensemble fini",
-        "$f(E)$ est un ouvert de $\\mathbb{R}$",
-        "$f(E)$ est borné"
+        "Non : une suite de fonctions continues qui approche une fonction échelon est de Cauchy pour $\\|\\cdot\\|_1$ mais n'a pas de limite continue",
+        "Oui : $\\mathcal{C}([0,1], \\mathbb{R})$ est complet pour toute norme",
+        "Oui : car $[0,1]$ est compact",
+        "Non : car $\\|\\cdot\\|_1$ n'est pas une norme sur $E$"
       ],
       "correctIndex": 0,
-      "answer": "$f(E)$ est un intervalle de $\\mathbb{R}$",
-      "hint1": "L'image continue d'un connexe est connexe.",
-      "hint2": "Les seuls connexes de $\\mathbb{R}$ sont les intervalles.",
-      "solution": "Comme l'image continue d'un espace connexe est connexe, et que les parties connexes de $\\mathbb{R}$ sont exactement les intervalles, $f(E)$ est un intervalle de $\\mathbb{R}$."
+      "answer": "Non : une suite de fonctions continues qui approche une fonction échelon est de Cauchy pour $\\|\\cdot\\|_1$ mais n'a pas de limite continue",
+      "hint1": "Pense à $f_n$ valant $0$ sur $[0, \\frac12]$, $1$ sur $[\\frac12 + \\frac1n, 1]$ et affine entre les deux.",
+      "hint2": "Majore $\\|f_n - f_m\\|_1$ par l'aire d'un petit triangle, puis montre qu'une limite continue $f$ devrait valoir $0$ sur $[0,\\frac12]$ et $1$ sur $]\\frac12, 1]$.",
+      "solution": "Soit $f_n$ nulle sur $[0, \\frac12]$, égale à $1$ sur $[\\frac12 + \\frac1n, 1]$ et affine sur $[\\frac12, \\frac12 + \\frac1n]$. Pour $m \\ge n$, $f_n$ et $f_m$ ne diffèrent que sur $[\\frac12, \\frac12 + \\frac1n]$, où $|f_n - f_m| \\le 1$ : donc $\\|f_n - f_m\\|_1 \\le \\frac1n$, et la suite est de Cauchy.\nSi $f_n \\to f$ dans $(E, \\|\\cdot\\|_1)$ avec $f$ continue, alors $\\int_0^{1/2} |f| \\le \\|f_n - f\\|_1 \\to 0$, donc $f = 0$ sur $[0, \\frac12]$ ; et pour tout $a > \\frac12$, $\\int_a^1 |f - 1| \\le \\|f_n - f\\|_1$ dès que $\\frac12 + \\frac1n \\le a$, donc $f = 1$ sur $]\\frac12, 1]$. C'est incompatible avec la continuité de $f$ en $\\frac12$.\nConclusion : $(E, \\|\\cdot\\|_1)$ n'est pas complet (son complété est $L^1([0,1])$). En revanche, $(E, \\|\\cdot\\|_\\infty)$ est un Banach : la complétude dépend de la norme, ce qui n'est pas contradictoire car en dimension infinie les normes ne sont pas toutes équivalentes."
     },
     {
       "id": "L3-BAN-4",
@@ -1648,39 +1648,39 @@ window.MATHS_EXERCISES_L3 = {
       "id": "L3-GDF-3",
       "tier": 3,
       "type": "mcq",
-      "title": "Crochet de Lie de deux champs de vecteurs",
-      "skill": "Propriétés du crochet de Lie $[X, Y]$",
-      "statement": "Le crochet de Lie $[X, Y]$ de deux champs de vecteurs lisses sur une variété $M$ est :",
+      "title": "Première forme fondamentale d'un cylindre",
+      "skill": "Calculer la première forme fondamentale d'une surface paramétrée",
+      "statement": "On paramètre le cylindre de révolution de rayon $R > 0$ par $\\varphi(\\theta, z) = (R\\cos\\theta, R\\sin\\theta, z)$. Quelle est sa première forme fondamentale $I = E\\,d\\theta^2 + 2F\\,d\\theta\\,dz + G\\,dz^2$ ?",
       "options": [
-        "Un champ de vecteurs dérivant de l'opérateur $XY - YX$",
-        "Une fonction scalaire",
-        "Toujours nul",
-        "Une 1-forme différentielle"
+        "$I = R^2\\,d\\theta^2 + dz^2$",
+        "$I = d\\theta^2 + dz^2$",
+        "$I = R\\,d\\theta^2 + dz^2$",
+        "$I = R^2\\,d\\theta^2 + R^2\\,dz^2$"
       ],
       "correctIndex": 0,
-      "answer": "Un champ de vecteurs dérivant de l'opérateur $XY - YX$",
-      "hint1": "Bien que la composition de deux dérivations ne soit pas une dérivation d'ordre 1, leur commutateur en est une.",
-      "hint2": "$[X, Y](f) = X(Y(f)) - Y(X(f))$.",
-      "solution": "Le commutateur $XY - YX$ de deux dérivations d'ordre 1 est encore une dérivation d'ordre 1, définissant un unique champ de vecteurs appelé crochet de Lie $[X, Y]$."
+      "answer": "$I = R^2\\,d\\theta^2 + dz^2$",
+      "hint1": "$E = \\|\\varphi_\\theta\\|^2$, $F = \\langle \\varphi_\\theta, \\varphi_z \\rangle$, $G = \\|\\varphi_z\\|^2$.",
+      "hint2": "$\\varphi_\\theta = (-R\\sin\\theta, R\\cos\\theta, 0)$ et $\\varphi_z = (0, 0, 1)$.",
+      "solution": "$\\varphi_\\theta = (-R\\sin\\theta, R\\cos\\theta, 0)$ et $\\varphi_z = (0,0,1)$, donc $E = R^2$, $F = 0$, $G = 1$ : $I = R^2\\,d\\theta^2 + dz^2$.\nAvec $u = R\\theta$, on obtient $I = du^2 + dz^2$ : c'est la métrique du plan. Le cylindre est donc localement isométrique au plan (on peut le « dérouler »), et sa courbure de Gauss est nulle, conformément au Theorema Egregium."
     },
     {
       "id": "L3-GDF-4",
       "tier": 4,
       "type": "mcq",
-      "title": "Théorème de Stokes général",
-      "skill": "Formule d'intégration sur les variétés à bord",
-      "statement": "Pour toute forme différentielle $\\omega$ de degré $k-1$ à support compact sur une variété orientée à bord $M$ de dimension $k$, que stipule la formule de Stokes ?",
+      "title": "Courbure de Gauss de la sphère et Theorema Egregium",
+      "skill": "Calculer une courbure de Gauss et utiliser le Theorema Egregium",
+      "statement": "Soit $S$ la sphère de centre $O$ et de rayon $R > 0$ dans $\\mathbb{R}^3$. Quelle est sa courbure de Gauss $K$, et qu'en déduit-on grâce au Theorema Egregium de Gauss ?",
       "options": [
-        "$\\int_M d\\omega = \\int_{\\partial M} \\omega$",
-        "$\\int_M \\omega = \\int_{\\partial M} d\\omega$",
-        "$\\int_M d\\omega = 0$",
-        "$\\int_{\\partial M} \\omega = 0$"
+        "$K = \\frac{1}{R^2}$ en tout point ; aucun ouvert de la sphère n'est isométrique à un ouvert du plan",
+        "$K = \\frac{1}{R}$ en tout point ; la sphère est localement isométrique au plan",
+        "$K = 0$ car la sphère est une surface de révolution",
+        "$K = R^2$ ; une carte plane conservant les distances existe"
       ],
       "correctIndex": 0,
-      "answer": "$\\int_M d\\omega = \\int_{\\partial M} \\omega$",
-      "hint1": "Généralisation unifiée des théorèmes fondamentaux de l'analyse, Green-Riemann, Ostrogradski et Stokes classique.",
-      "hint2": "L'intégrale de la dérivée extérieure sur $M$ égale l'intégrale de la forme sur le bord $\\partial M$.",
-      "solution": "La formule de Stokes générale s'écrit $\\int_M d\\omega = \\int_{\\partial M} \\omega$, unifiant tous les théorèmes d'intégration par parties multidimensionnels."
+      "answer": "$K = \\frac{1}{R^2}$ en tout point ; aucun ouvert de la sphère n'est isométrique à un ouvert du plan",
+      "hint1": "La normale unitaire sortante est $N(p) = \\frac{p}{R}$ : calcule sa différentielle (l'application de Weingarten).",
+      "hint2": "$dN_p = \\frac{1}{R}\\,\\mathrm{Id}$ : les deux courbures principales valent $\\frac1R$ (au signe près selon l'orientation), et $K = k_1 k_2$.",
+      "solution": "La normale unitaire est $N(p) = \\frac{p}{R}$, donc $dN_p = \\frac1R \\mathrm{Id}_{T_pS}$ : tous les points sont ombilics, de courbures principales $k_1 = k_2 = \\frac1R$ (au signe près, qui disparaît dans le produit). D'où $K = k_1 k_2 = \\frac{1}{R^2} > 0$.\nLe Theorema Egregium affirme que $K$ ne dépend que de la première forme fondamentale : elle est conservée par isométrie locale. Le plan ayant $K = 0$, aucun ouvert de la sphère n'est isométrique à un ouvert du plan : il n'existe pas de carte géographique plane respectant toutes les distances."
     }
   ],
   "L3-NUM": [
@@ -2000,6 +2000,7 @@ window.MATHS_EXERCISES_L3 = {
 window.MATHS_WORKSHEETS_L3 = {
   "L3-GRP1": [
     {
+      "id": "L3-GRP1-fiche_td",
       "title": "Feuille de TD L3 : Morphismes de groupes et Théorèmes d'isomorphisme",
       "filename": "TD_L3_Groupes_Quotients.md",
       "statement": `## Travaux Dirigés L3 : Théorie des Groupes et Sous-groupes Distingués
@@ -2019,6 +2020,7 @@ Le groupe $G$ est abélien.`
   ],
   "L3-MET": [
     {
+      "id": "L3-MET-fiche_td",
       "title": "Feuille de TD L3 : Topologie des Espaces Métriques et Normés",
       "filename": "TD_L3_Topologie_Metrique.md",
       "statement": `## Travaux Dirigés L3 : Topologie des Espaces Métriques et Normés
@@ -2063,6 +2065,7 @@ Le réel $\\delta > 0$ ne dépend que de $\\varepsilon$ et non des points choisi
   ],
   "L3-PROG": [
     {
+      "id": "L3-PROG-fiche_td",
       "title": "Feuille de TD L3 : Programmation Linéaire, Simplexe et Dualité",
       "filename": "TD_L3_Simplexe_Dualite.md",
       "statement": `## Travaux Dirigés L3 : Programmation Linéaire et Dualité
@@ -2135,6 +2138,7 @@ La dualité forte est parfaitement vérifiée : $\\max (P) = \\min (D) = 21$.`
   ],
   "L3-NUM": [
     {
+      "id": "L3-NUM-fiche_td",
       "title": "Feuille de TD L3 : Analyse Numérique Matricielle et Interpolation",
       "filename": "TD_L3_Analyse_Numerique.md",
       "statement": `## Travaux Dirigés L3 : Analyse Numérique Matricielle et Interpolation

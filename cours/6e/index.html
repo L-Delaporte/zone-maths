@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <script>
+    // Applique le thème (clair/sombre) choisi dans l'application, avant l'affichage
+    try {
+      document.documentElement.setAttribute('data-theme', JSON.parse(localStorage.getItem('maths_3e_progress_v1') || '{}').theme || 'light');
+    } catch (e) {}
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Cours de maths de 6e : chapitres et exercices</title>
+  <meta name="description" content="Tous les chapitres du programme de mathématiques de 6e (cycle 3) : nombres entiers et décimaux, fractions, calcul, grandeurs et mesures, géométrie et données…" />
+  <meta name="author" content="Loïc Delaporte, professeur de mathématiques" />
+  <link rel="canonical" href="https://etabli-des-maths.fr/cours/6e/" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Cours de maths de 6e : chapitres et exercices" />
+  <meta property="og:description" content="Tous les chapitres du programme de mathématiques de 6e (cycle 3) : nombres entiers et décimaux, fractions, calcul, grandeurs et mesures, géométrie et données…" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://etabli-des-maths.fr/cours/6e/" />
+  <meta property="og:image" content="https://etabli-des-maths.fr/assets/logo.jpg" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta property="og:site_name" content="L'Établi des Maths" />
+
+  <link rel="stylesheet" href="../../css/style.css" />
+  <link rel="stylesheet" href="../../css/landing.css" />
+  <link rel="stylesheet" href="../../vendor/katex/katex.min.css" />
+  <link rel="stylesheet" href="../../css/cours.css" />
+  <link rel="icon" href="../../favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../../assets/favicon-32x32.png" />
+  <link rel="apple-touch-icon" href="../../assets/favicon.png" />
+  <link rel="manifest" href="../../manifest.json" />
+  <meta name="theme-color" content="#2563eb" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Cours de mathématiques de 6e — 21 chapitres",
+    "description": "Tous les chapitres du programme de mathématiques de 6e (cycle 3) : nombres entiers et décimaux, fractions, calcul, grandeurs et mesures, géométrie et données…",
+    "url": "https://etabli-des-maths.fr/cours/6e/",
+    "inLanguage": "fr",
+    "educationalLevel": "Collège — classe de 6e (cycle 3)",
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "L'Établi des Maths",
+      "url": "https://etabli-des-maths.fr/"
+    },
+    "mainEntity": {
+      "@type": "ItemList",
+      "numberOfItems": 21,
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Nombres entiers et décimaux : écritures et valeur des chiffres",
+          "url": "https://etabli-des-maths.fr/cours/6e/nombres-entiers-et-decimaux.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Comparer, ranger, encadrer et arrondir des nombres décimaux",
+          "url": "https://etabli-des-maths.fr/cours/6e/comparer-ranger-encadrer-et-arrondir-des-nombres.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Addition et soustraction de nombres décimaux",
+          "url": "https://etabli-des-maths.fr/cours/6e/addition-et-soustraction-de-nombres-decimaux.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Multiplication de nombres décimaux",
+          "url": "https://etabli-des-maths.fr/cours/6e/multiplication-de-nombres-decimaux.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 5,
+          "name": "Division euclidienne, division décimale, multiples et diviseurs",
+          "url": "https://etabli-des-maths.fr/cours/6e/division-euclidienne.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 6,
+          "name": "Fractions : quotient, repérage, égalité et comparaison",
+          "url": "https://etabli-des-maths.fr/cours/6e/fractions-quotient-reperage-egalite-et-comparaison.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 7,
+          "name": "Calculs avec les fractions",
+          "url": "https://etabli-des-maths.fr/cours/6e/calculs-avec-les-fractions.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 8,
+          "name": "Pensée algébrique : nombres inconnus, égalités à trou et motifs",
+          "url": "https://etabli-des-maths.fr/cours/6e/pensee-algebrique.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 9,
+          "name": "Proportionnalité : linéarité, retour à l'unité et échelles",
+          "url": "https://etabli-des-maths.fr/cours/6e/proportionnalite-linearite-retour-a-l-unite-et-echelles.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 10,
+          "name": "Longueurs et périmètres (polygones et cercle)",
+          "url": "https://etabli-des-maths.fr/cours/6e/longueurs-et-perimetres.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 11,
+          "name": "Aires : unités, carré, rectangle et figures composées",
+          "url": "https://etabli-des-maths.fr/cours/6e/aires-unites-carre-rectangle-et-figures-composees.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 12,
+          "name": "Volumes : centimètre cube, pavés et cubes",
+          "url": "https://etabli-des-maths.fr/cours/6e/volumes-centimetre-cube-paves-et-cubes.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 13,
+          "name": "Repérage dans le temps et durées",
+          "url": "https://etabli-des-maths.fr/cours/6e/reperage-dans-le-temps-et-durees.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 14,
+          "name": "Droites, segments, distances, milieu et cercle",
+          "url": "https://etabli-des-maths.fr/cours/6e/droites-segments-distances-milieu-et-cercle.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 15,
+          "name": "Médiatrice et symétrie axiale",
+          "url": "https://etabli-des-maths.fr/cours/6e/mediatrice-et-symetrie-axiale.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 16,
+          "name": "Angles : vocabulaire, mesure et bissectrice",
+          "url": "https://etabli-des-maths.fr/cours/6e/angles-vocabulaire-mesure-et-bissectrice.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 17,
+          "name": "Triangles : constructions, triangles particuliers et somme des angles",
+          "url": "https://etabli-des-maths.fr/cours/6e/triangles-constructions-triangles-particuliers-et-somme.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 18,
+          "name": "Vision dans l'espace : assemblages de cubes et solides",
+          "url": "https://etabli-des-maths.fr/cours/6e/vision-dans-l-espace.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 19,
+          "name": "Organisation et gestion de données : tableaux et diagrammes",
+          "url": "https://etabli-des-maths.fr/cours/6e/organisation-et-gestion-de-donnees.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 20,
+          "name": "Probabilités : hasard et premières probabilités",
+          "url": "https://etabli-des-maths.fr/cours/6e/probabilites-hasard-et-premieres-probabilites.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 21,
+          "name": "Initiation à la pensée informatique : instructions, séquences et boucles",
+          "url": "https://etabli-des-maths.fr/cours/6e/initiation-a-la-pensee-informatique.html"
+        }
+      ]
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Accueil",
+        "item": "https://etabli-des-maths.fr/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Cours",
+        "item": "https://etabli-des-maths.fr/cours/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "6e",
+        "item": "https://etabli-des-maths.fr/cours/6e/"
+      }
+    ]
+  }
+  </script>
+</head>
+<body class="cours-page">
+  <a class="cours-skip" href="#contenu">Aller au contenu</a>
+
+  <!-- Header Uniformisé -->
+  <header class="app-header">
+    <div class="header-inner">
+      <a href="../../index.html" class="brand-container" style="text-decoration: none;">
+        <img src="../../assets/logo-96.png" alt="L'Établi des Maths" class="brand-logo-img" width="44" height="44" />
+        <div class="brand-text">
+          <p class="brand-title">L'Établi des Maths <span class="brand-level-tag">Cours</span></p>
+          <span class="brand-tagline">Outils pour apprendre et pratiquer</span>
+        </div>
+      </a>
+
+      <!-- Navigation entre Portails -->
+      <nav class="nav-portal-links" aria-label="Portails thématiques">
+        <a href="../../index.html" class="nav-portal-btn">🏠 Accueil</a>
+        <a href="../../cours/" class="nav-portal-btn active" aria-current="true">📚 Cours</a>
+        <a href="../../rituels.html" class="nav-portal-btn">⏱️ Rituels</a>
+        <a href="../../brevet.html" class="nav-portal-btn">📝 Brevet 3e</a>
+        <a href="../../bac.html" class="nav-portal-btn">🎓 Baccalauréat</a>
+        <a href="../../enseignants.html" class="nav-portal-btn">👨‍🏫 Enseignants</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="landing-wrapper cours-wrapper" id="contenu">
+    <nav class="cours-breadcrumb" aria-label="Fil d'Ariane">
+      <ol>
+        <li><a href="../../index.html">Accueil</a></li>
+        <li><a href="../">Cours</a></li>
+        <li><span aria-current="page">6e</span></li>
+      </ol>
+    </nav>
+
+    <header class="cours-hero">
+      <p class="landing-tag">Collège · 6e</p>
+      <h1 class="cours-title">Cours de mathématiques de 6e — 21 chapitres</h1>
+      <p class="cours-lead">Tous les chapitres du programme de mathématiques de 6e (cycle 3) : nombres entiers et décimaux, fractions, calcul, grandeurs et mesures, géométrie et données. Chaque chapitre contient le cours complet, des méthodes rédigées et des exercices corrigés.</p>
+      <div class="cours-cta">
+        <a class="btn-primary cours-cta-main" href="../../index.html?level=6eme">🎯 S'entraîner en 6e</a>
+      </div>
+    </header>
+
+    <section class="cours-section" id="domaine-1" aria-labelledby="domaine-1-titre">
+      <h2 id="domaine-1-titre">Nombres et Calculs</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="nombres-entiers-et-decimaux.html">
+          <span class="topic-num">6N1</span>
+          <span class="cours-chapter-text"><strong>Nombres entiers et décimaux : écritures et valeur des chiffres</strong><span>Valeur des chiffres selon leur rang (jusqu'au millième), grands nombres jusqu'au milliard, fractions décimales, nombres mixtes et pourcentages…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="comparer-ranger-encadrer-et-arrondir-des-nombres.html">
+          <span class="topic-num">6N2</span>
+          <span class="cours-chapter-text"><strong>Comparer, ranger, encadrer et arrondir des nombres décimaux</strong><span>Repérer des décimaux sur une demi-droite graduée, comparer et ranger des nombres décimaux, intercaler, encadrer et arrondir à l'unité, au dixième ou…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="addition-et-soustraction-de-nombres-decimaux.html">
+          <span class="topic-num">6N3</span>
+          <span class="cours-chapter-text"><strong>Addition et soustraction de nombres décimaux</strong><span>Poser et effectuer additions et soustractions de décimaux, calcul mental, ordre de grandeur pour contrôler un résultat et problèmes additifs.</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="multiplication-de-nombres-decimaux.html">
+          <span class="topic-num">6N4</span>
+          <span class="cours-chapter-text"><strong>Multiplication de nombres décimaux</strong><span>Multiplier par 10, 100, 1 000 et par 0,1 ; 0,01 ; 0,001, multiplier deux décimaux, estimer un produit par un ordre de grandeur et résoudre…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="division-euclidienne.html">
+          <span class="topic-num">6N5</span>
+          <span class="cours-chapter-text"><strong>Division euclidienne, division décimale, multiples et diviseurs</strong><span>Division euclidienne (quotient et reste), multiples et diviseurs, critères de divisibilité, division d'un décimal par un entier inférieur à 10…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="fractions-quotient-reperage-egalite-et-comparaison.html">
+          <span class="topic-num">6N6</span>
+          <span class="cours-chapter-text"><strong>Fractions : quotient, repérage, égalité et comparaison</strong><span>La fraction comme quotient, placer une fraction sur une demi-droite graduée, fractions égales, simplification, nombres mixtes, comparer et encadrer…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="calculs-avec-les-fractions.html">
+          <span class="topic-num">6N7</span>
+          <span class="cours-chapter-text"><strong>Calculs avec les fractions</strong><span>Additionner et soustraire des fractions (dénominateurs égaux ou multiples), multiplier une fraction par un entier, prendre une fraction d'une…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="pensee-algebrique.html">
+          <span class="topic-num">6N8</span>
+          <span class="cours-chapter-text"><strong>Pensée algébrique : nombres inconnus, égalités à trou et motifs</strong><span>Résoudre des problèmes à nombre inconnu, compléter des égalités à trou, programmes de calcul, modéliser avec des schémas en barres et trouver…</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-2" aria-labelledby="domaine-2-titre">
+      <h2 id="domaine-2-titre">Proportionnalité</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="proportionnalite-linearite-retour-a-l-unite-et-echelles.html">
+          <span class="topic-num">6P1</span>
+          <span class="cours-chapter-text"><strong>Proportionnalité : linéarité, retour à l'unité et échelles</strong><span>Reconnaître une situation de proportionnalité, compléter un tableau par linéarité ou retour à l'unité, appliquer un pourcentage simple et utiliser…</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-3" aria-labelledby="domaine-3-titre">
+      <h2 id="domaine-3-titre">Grandeurs et Mesures</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="longueurs-et-perimetres.html">
+          <span class="topic-num">6M1</span>
+          <span class="cours-chapter-text"><strong>Longueurs et périmètres (polygones et cercle)</strong><span>Conversions d'unités de longueur, périmètre d'un polygone, formules du carré et du rectangle, périmètre d'un cercle et de figures composées.</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="aires-unites-carre-rectangle-et-figures-composees.html">
+          <span class="topic-num">6M2</span>
+          <span class="cours-chapter-text"><strong>Aires : unités, carré, rectangle et figures composées</strong><span>Distinguer aire et périmètre, convertir des unités d'aire, calculer l'aire d'un carré, d'un rectangle et de figures composées par découpage.</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="volumes-centimetre-cube-paves-et-cubes.html">
+          <span class="topic-num">6M3</span>
+          <span class="cours-chapter-text"><strong>Volumes : centimètre cube, pavés et cubes</strong><span>Mesurer un volume en comptant des cubes unités, connaître le centimètre cube, calculer le volume d'un pavé droit et d'un cube, lien…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="reperage-dans-le-temps-et-durees.html">
+          <span class="topic-num">6M4</span>
+          <span class="cours-chapter-text"><strong>Repérage dans le temps et durées</strong><span>Lire et calculer des horaires, convertir des durées (h, min, s), calculer une durée, un horaire de début ou de fin, et résoudre des problèmes…</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-4" aria-labelledby="domaine-4-titre">
+      <h2 id="domaine-4-titre">Espace et Géométrie</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="droites-segments-distances-milieu-et-cercle.html">
+          <span class="topic-num">6G1</span>
+          <span class="cours-chapter-text"><strong>Droites, segments, distances, milieu et cercle</strong><span>Notations (droite, demi-droite, segment), distance entre deux points, milieu d'un segment, droites perpendiculaires et parallèles, cercle : centre…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="mediatrice-et-symetrie-axiale.html">
+          <span class="topic-num">6G2</span>
+          <span class="cours-chapter-text"><strong>Médiatrice et symétrie axiale</strong><span>Définition et propriété caractéristique de la médiatrice, symétrique d'un point par rapport à une droite, propriétés de conservation de la symétrie…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="angles-vocabulaire-mesure-et-bissectrice.html">
+          <span class="topic-num">6G3</span>
+          <span class="cours-chapter-text"><strong>Angles : vocabulaire, mesure et bissectrice</strong><span>Vocabulaire des angles (aigu, droit, obtus, plat, nul, plein, adjacents, opposés par le sommet, supplémentaires), mesure au rapporteur, construction…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="triangles-constructions-triangles-particuliers-et-somme.html">
+          <span class="topic-num">6G4</span>
+          <span class="cours-chapter-text"><strong>Triangles : constructions, triangles particuliers et somme des angles</strong><span>Construire des triangles, triangles rectangles, isocèles et équilatéraux, somme des angles d'un triangle (180°), médiatrices et cercle circonscrit.</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="vision-dans-l-espace.html">
+          <span class="topic-num">6G5</span>
+          <span class="cours-chapter-text"><strong>Vision dans l'espace : assemblages de cubes et solides</strong><span>Décrire et dénombrer des assemblages de cubes, vues de dessus, de face et de côté, reconnaître cube et pavé droit (faces, arêtes, sommets) et leurs…</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-5" aria-labelledby="domaine-5-titre">
+      <h2 id="domaine-5-titre">Organisation et Gestion de Données</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="organisation-et-gestion-de-donnees.html">
+          <span class="topic-num">6D1</span>
+          <span class="cours-chapter-text"><strong>Organisation et gestion de données : tableaux et diagrammes</strong><span>Recueillir et organiser des données, lire et construire un tableau, filtrer des données selon un critère, lire des diagrammes en barres…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="probabilites-hasard-et-premieres-probabilites.html">
+          <span class="topic-num">6D2</span>
+          <span class="cours-chapter-text"><strong>Probabilités : hasard et premières probabilités</strong><span>Vocabulaire du hasard (certain, impossible, probable), une probabilité est un nombre entre 0 et 1, calcul en situation d'équiprobabilité, comparaison…</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-6" aria-labelledby="domaine-6-titre">
+      <h2 id="domaine-6-titre">Pensée Informatique</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="initiation-a-la-pensee-informatique.html">
+          <span class="topic-num">6A1</span>
+          <span class="cours-chapter-text"><strong>Initiation à la pensée informatique : instructions, séquences et boucles</strong><span>Identifier une instruction, produire et exécuter une séquence d'instructions, répéter une séquence (boucle), programmer un déplacement simple…</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <nav class="cours-pager" aria-label="Autres niveaux">
+      <a class="nav-portal-btn active" href="../6e/" aria-current="page">6e</a>
+      <a class="nav-portal-btn" href="../5e/">5e</a>
+      <a class="nav-portal-btn" href="../4e/">4e</a>
+      <a class="nav-portal-btn" href="../3e/">3e</a>
+      <a class="nav-portal-btn" href="../seconde/">Seconde</a>
+      <a class="nav-portal-btn" href="../premiere/">Première</a>
+      <a class="nav-portal-btn" href="../terminale/">Terminale</a>
+      <a class="nav-portal-btn" href="../l1/">Licence 1</a>
+      <a class="nav-portal-btn" href="../l2/">Licence 2</a>
+      <a class="nav-portal-btn" href="../l3/">Licence 3</a>
+      <a class="nav-portal-btn" href="../capes/">CAPES</a>
+    </nav>
+  </main>
+
+  <footer class="cours-footer">
+    <p>L'Établi des Maths — Conçu par Loïc Delaporte, professeur de mathématiques • 100 % libre et gratuit, conforme aux programmes</p>
+    <p><a href="../../cours/">Tous les cours</a> · <a href="../../index.html">Ouvrir l'application</a> · <a href="../../enseignants.html">Espace enseignants</a></p>
+  </footer>
+  <!-- Statistiques d'audience anonymes et conformes RGPD (GoatCounter) -->
+  <script data-goatcounter="https://etabli-des-maths.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

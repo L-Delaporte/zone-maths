@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <script>
+    // Applique le thème (clair/sombre) choisi dans l'application, avant l'affichage
+    try {
+      document.documentElement.setAttribute('data-theme', JSON.parse(localStorage.getItem('maths_3e_progress_v1') || '{}').theme || 'light');
+    } catch (e) {}
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Cours de maths de seconde : chapitres et exercices</title>
+  <meta name="description" content="Le programme de mathématiques de seconde : nombres réels, calcul littéral, fonctions de référence, vecteurs, géométrie repérée, statistiques et probabilités…" />
+  <meta name="author" content="Loïc Delaporte, professeur de mathématiques" />
+  <link rel="canonical" href="https://etabli-des-maths.fr/cours/seconde/" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Cours de maths de seconde : chapitres et exercices" />
+  <meta property="og:description" content="Le programme de mathématiques de seconde : nombres réels, calcul littéral, fonctions de référence, vecteurs, géométrie repérée, statistiques et probabilités…" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://etabli-des-maths.fr/cours/seconde/" />
+  <meta property="og:image" content="https://etabli-des-maths.fr/assets/logo.jpg" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta property="og:site_name" content="L'Établi des Maths" />
+
+  <link rel="stylesheet" href="../../css/style.css" />
+  <link rel="stylesheet" href="../../css/landing.css" />
+  <link rel="stylesheet" href="../../vendor/katex/katex.min.css" />
+  <link rel="stylesheet" href="../../css/cours.css" />
+  <link rel="icon" href="../../favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../../assets/favicon-32x32.png" />
+  <link rel="apple-touch-icon" href="../../assets/favicon.png" />
+  <link rel="manifest" href="../../manifest.json" />
+  <meta name="theme-color" content="#2563eb" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Cours de mathématiques de seconde — 13 chapitres",
+    "description": "Le programme de mathématiques de seconde : nombres réels, calcul littéral, fonctions de référence, vecteurs, géométrie repérée, statistiques et probabilités…",
+    "url": "https://etabli-des-maths.fr/cours/seconde/",
+    "inLanguage": "fr",
+    "educationalLevel": "Lycée — classe de seconde générale et technologique",
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "L'Établi des Maths",
+      "url": "https://etabli-des-maths.fr/"
+    },
+    "mainEntity": {
+      "@type": "ItemList",
+      "numberOfItems": 13,
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Ensembles de nombres, arithmétique et nombres réels",
+          "url": "https://etabli-des-maths.fr/cours/seconde/ensembles-de-nombres.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Calcul littéral, identités remarquables et factorisation",
+          "url": "https://etabli-des-maths.fr/cours/seconde/calcul-litteral.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Ordre, intervalles et valeur absolue",
+          "url": "https://etabli-des-maths.fr/cours/seconde/ordre-intervalles-et-valeur-absolue.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Équations, inéquations du premier degré et tableaux de signes",
+          "url": "https://etabli-des-maths.fr/cours/seconde/equations-inequations-du-premier-degre-et-tableaux.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 5,
+          "name": "Notion générale de fonction, ensemble de définition et courbes",
+          "url": "https://etabli-des-maths.fr/cours/seconde/notion-generale-de-fonction.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 6,
+          "name": "Variations et extremums d'une fonction",
+          "url": "https://etabli-des-maths.fr/cours/seconde/variations-et-extremums-d-une-fonction.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 7,
+          "name": "Fonctions de référence : carré, inverse, racine carrée, cube et affines",
+          "url": "https://etabli-des-maths.fr/cours/seconde/fonctions-de-reference.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 8,
+          "name": "Repérage cartésien, milieu d'un segment et distance dans le plan",
+          "url": "https://etabli-des-maths.fr/cours/seconde/reperage-cartesien.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 9,
+          "name": "Vecteurs du plan, translation et déterminant (colinéarité)",
+          "url": "https://etabli-des-maths.fr/cours/seconde/vecteurs-du-plan.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 10,
+          "name": "Droites du plan, équations cartésiennes et réduites",
+          "url": "https://etabli-des-maths.fr/cours/seconde/droites-du-plan.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 11,
+          "name": "Statistiques descriptives : moyenne, médiane, quartiles et dispersion",
+          "url": "https://etabli-des-maths.fr/cours/seconde/statistiques-descriptives.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 12,
+          "name": "Probabilités sur un ensemble fini : événements, réunion et intersection",
+          "url": "https://etabli-des-maths.fr/cours/seconde/probabilites-sur-un-ensemble-fini.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 13,
+          "name": "Échantillonnage, fluctuation et algorithmique en Python",
+          "url": "https://etabli-des-maths.fr/cours/seconde/echantillonnage-fluctuation-et-algorithmique-en-python.html"
+        }
+      ]
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Accueil",
+        "item": "https://etabli-des-maths.fr/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Cours",
+        "item": "https://etabli-des-maths.fr/cours/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Seconde",
+        "item": "https://etabli-des-maths.fr/cours/seconde/"
+      }
+    ]
+  }
+  </script>
+</head>
+<body class="cours-page">
+  <a class="cours-skip" href="#contenu">Aller au contenu</a>
+
+  <!-- Header Uniformisé -->
+  <header class="app-header">
+    <div class="header-inner">
+      <a href="../../index.html" class="brand-container" style="text-decoration: none;">
+        <img src="../../assets/logo-96.png" alt="L'Établi des Maths" class="brand-logo-img" width="44" height="44" />
+        <div class="brand-text">
+          <p class="brand-title">L'Établi des Maths <span class="brand-level-tag">Cours</span></p>
+          <span class="brand-tagline">Outils pour apprendre et pratiquer</span>
+        </div>
+      </a>
+
+      <!-- Navigation entre Portails -->
+      <nav class="nav-portal-links" aria-label="Portails thématiques">
+        <a href="../../index.html" class="nav-portal-btn">🏠 Accueil</a>
+        <a href="../../cours/" class="nav-portal-btn active" aria-current="true">📚 Cours</a>
+        <a href="../../rituels.html" class="nav-portal-btn">⏱️ Rituels</a>
+        <a href="../../brevet.html" class="nav-portal-btn">📝 Brevet 3e</a>
+        <a href="../../bac.html" class="nav-portal-btn">🎓 Baccalauréat</a>
+        <a href="../../enseignants.html" class="nav-portal-btn">👨‍🏫 Enseignants</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="landing-wrapper cours-wrapper" id="contenu">
+    <nav class="cours-breadcrumb" aria-label="Fil d'Ariane">
+      <ol>
+        <li><a href="../../index.html">Accueil</a></li>
+        <li><a href="../">Cours</a></li>
+        <li><span aria-current="page">Seconde</span></li>
+      </ol>
+    </nav>
+
+    <header class="cours-hero">
+      <p class="landing-tag">Lycée · Seconde</p>
+      <h1 class="cours-title">Cours de mathématiques de seconde — 13 chapitres</h1>
+      <p class="cours-lead">Le programme de mathématiques de seconde : nombres réels, calcul littéral, fonctions de référence, vecteurs, géométrie repérée, statistiques et probabilités. Chaque chapitre contient le cours complet, des méthodes rédigées et des exercices corrigés.</p>
+      <div class="cours-cta">
+        <a class="btn-primary cours-cta-main" href="../../index.html?level=2nde">🎯 S'entraîner en Seconde</a>
+      </div>
+    </header>
+
+    <section class="cours-section" id="domaine-1" aria-labelledby="domaine-1-titre">
+      <h2 id="domaine-1-titre">Nombres et Calculs</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="ensembles-de-nombres.html">
+          <span class="topic-num">2N1</span>
+          <span class="cours-chapter-text"><strong>Ensembles de nombres, arithmétique et nombres réels</strong><span>Ensembles fondamentaux (N, Z, D, Q, R), inclusions, nombres premiers, décomposition en facteurs premiers, pgcd, irrationnalité de racine de 2.</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="calcul-litteral.html">
+          <span class="topic-num">2N2</span>
+          <span class="cours-chapter-text"><strong>Calcul littéral, identités remarquables et factorisation</strong><span>Développement, factorisation, identités remarquables (a+b)², (a-b)², a²-b², quotient de fractions et expressions algébriques.</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="ordre-intervalles-et-valeur-absolue.html">
+          <span class="topic-num">2N3</span>
+          <span class="cours-chapter-text"><strong>Ordre, intervalles et valeur absolue</strong><span>Notation des intervalles [a; b], intersection et réunion, encadrements, définition et interprétation géométrique de la valeur absolue |x - a| ≤ r.</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="equations-inequations-du-premier-degre-et-tableaux.html">
+          <span class="topic-num">2N4</span>
+          <span class="cours-chapter-text"><strong>Équations, inéquations du premier degré et tableaux de signes</strong><span>Équations produits nuls, signe d'une fonction affine ax+b, tableaux de signes d'un produit et d'un quotient, inéquations rationnelles.</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-2" aria-labelledby="domaine-2-titre">
+      <h2 id="domaine-2-titre">Analyse et Fonctions</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="notion-generale-de-fonction.html">
+          <span class="topic-num">2A1</span>
+          <span class="cours-chapter-text"><strong>Notion générale de fonction, ensemble de définition et courbes</strong><span>Ensemble de définition, image, antécédent(s), courbe représentative, résolution graphique d'équations f(x) = k et inéquations f(x) &lt; g(x).</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="variations-et-extremums-d-une-fonction.html">
+          <span class="topic-num">2A2</span>
+          <span class="cours-chapter-text"><strong>Variations et extremums d'une fonction</strong><span>Définition formelle de la croissance et décroissance, tableau de variations, maximum et minimum sur un intervalle, encadrement d'images.</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="fonctions-de-reference.html">
+          <span class="topic-num">2A3</span>
+          <span class="cours-chapter-text"><strong>Fonctions de référence : carré, inverse, racine carrée, cube et affines</strong><span>Propriétés, courbes (parabole, hyperbole), variations et parité des fonctions carré x², inverse 1/x, racine √x et cube x³.</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-3" aria-labelledby="domaine-3-titre">
+      <h2 id="domaine-3-titre">Géométrie</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="reperage-cartesien.html">
+          <span class="topic-num">2G1</span>
+          <span class="cours-chapter-text"><strong>Repérage cartésien, milieu d'un segment et distance dans le plan</strong><span>Repère orthonormé, coordonnées du milieu d'un segment, formule de la distance euclidienne entre deux points, démonstrations géométriques.</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="vecteurs-du-plan.html">
+          <span class="topic-num">2G2</span>
+          <span class="cours-chapter-text"><strong>Vecteurs du plan, translation et déterminant (colinéarité)</strong><span>Définition géométrique d'un vecteur, égalité, somme (relation de Chasles), coordonnées, norme, critère de colinéarité xy' - yx' = 0.</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="droites-du-plan.html">
+          <span class="topic-num">2G3</span>
+          <span class="cours-chapter-text"><strong>Droites du plan, équations cartésiennes et réduites</strong><span>Vecteur directeur, équation cartésienne ax+by+c=0, équation réduite y=mx+p, pente/coefficient directeur, parallélisme et intersection de droites.</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-4" aria-labelledby="domaine-4-titre">
+      <h2 id="domaine-4-titre">Probabilités et Statistiques</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="statistiques-descriptives.html">
+          <span class="topic-num">2S1</span>
+          <span class="cours-chapter-text"><strong>Statistiques descriptives : moyenne, médiane, quartiles et dispersion</strong><span>Moyenne pondérée, médiane, premier et troisième quartiles (Q1, Q3), écart interquartile, diagramme en boîte (boîte à moustaches).</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="probabilites-sur-un-ensemble-fini.html">
+          <span class="topic-num">2S2</span>
+          <span class="cours-chapter-text"><strong>Probabilités sur un ensemble fini : événements, réunion et intersection</strong><span>Univers fini, loi de probabilité, équiprobabilité, événements contraires, formule P(A ∪ B) = P(A) + P(B) - P(A ∩ B), arbres et tableaux.</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-5" aria-labelledby="domaine-5-titre">
+      <h2 id="domaine-5-titre">Algorithmique et Programmation</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="echantillonnage-fluctuation-et-algorithmique-en-python.html">
+          <span class="topic-num">2S3</span>
+          <span class="cours-chapter-text"><strong>Échantillonnage, fluctuation et algorithmique en Python</strong><span>Principe de l'échantillonnage, intervalle de fluctuation, simulation de tirages aléatoires en Python avec random, boucles for et while.</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <nav class="cours-pager" aria-label="Autres niveaux">
+      <a class="nav-portal-btn" href="../6e/">6e</a>
+      <a class="nav-portal-btn" href="../5e/">5e</a>
+      <a class="nav-portal-btn" href="../4e/">4e</a>
+      <a class="nav-portal-btn" href="../3e/">3e</a>
+      <a class="nav-portal-btn active" href="../seconde/" aria-current="page">Seconde</a>
+      <a class="nav-portal-btn" href="../premiere/">Première</a>
+      <a class="nav-portal-btn" href="../terminale/">Terminale</a>
+      <a class="nav-portal-btn" href="../l1/">Licence 1</a>
+      <a class="nav-portal-btn" href="../l2/">Licence 2</a>
+      <a class="nav-portal-btn" href="../l3/">Licence 3</a>
+      <a class="nav-portal-btn" href="../capes/">CAPES</a>
+    </nav>
+  </main>
+
+  <footer class="cours-footer">
+    <p>L'Établi des Maths — Conçu par Loïc Delaporte, professeur de mathématiques • 100 % libre et gratuit, conforme aux programmes</p>
+    <p><a href="../../cours/">Tous les cours</a> · <a href="../../index.html">Ouvrir l'application</a> · <a href="../../enseignants.html">Espace enseignants</a></p>
+  </footer>
+  <!-- Statistiques d'audience anonymes et conformes RGPD (GoatCounter) -->
+  <script data-goatcounter="https://etabli-des-maths.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

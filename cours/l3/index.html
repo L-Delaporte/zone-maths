@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <script>
+    // Applique le thème (clair/sombre) choisi dans l'application, avant l'affichage
+    try {
+      document.documentElement.setAttribute('data-theme', JSON.parse(localStorage.getItem('maths_3e_progress_v1') || '{}').theme || 'light');
+    } catch (e) {}
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Cours de maths de L3 : chapitres et exercices</title>
+  <meta name="description" content="Troisième année de licence : théorie des groupes, anneaux, topologie des espaces métriques, espaces de Banach, séries de Fourier, théorie de la mesure…" />
+  <meta name="author" content="Loïc Delaporte, professeur de mathématiques" />
+  <link rel="canonical" href="https://etabli-des-maths.fr/cours/l3/" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Cours de maths de L3 : chapitres et exercices" />
+  <meta property="og:description" content="Troisième année de licence : théorie des groupes, anneaux, topologie des espaces métriques, espaces de Banach, séries de Fourier, théorie de la mesure…" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://etabli-des-maths.fr/cours/l3/" />
+  <meta property="og:image" content="https://etabli-des-maths.fr/assets/logo.jpg" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta property="og:site_name" content="L'Établi des Maths" />
+
+  <link rel="stylesheet" href="../../css/style.css" />
+  <link rel="stylesheet" href="../../css/landing.css" />
+  <link rel="stylesheet" href="../../vendor/katex/katex.min.css" />
+  <link rel="stylesheet" href="../../css/cours.css" />
+  <link rel="icon" href="../../favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../../assets/favicon-32x32.png" />
+  <link rel="apple-touch-icon" href="../../assets/favicon.png" />
+  <link rel="manifest" href="../../manifest.json" />
+  <meta name="theme-color" content="#2563eb" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Cours de mathématiques de L3 — 16 chapitres",
+    "description": "Troisième année de licence : théorie des groupes, anneaux, topologie des espaces métriques, espaces de Banach, séries de Fourier, théorie de la mesure…",
+    "url": "https://etabli-des-maths.fr/cours/l3/",
+    "inLanguage": "fr",
+    "educationalLevel": "Université — licence de mathématiques, 3e année (L3)",
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "L'Établi des Maths",
+      "url": "https://etabli-des-maths.fr/"
+    },
+    "mainEntity": {
+      "@type": "ItemList",
+      "numberOfItems": 16,
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Théorie des Groupes I : Morphismes, sous-groupes distingués et quotients",
+          "url": "https://etabli-des-maths.fr/cours/l3/theorie-des-groupes-i.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Théorie des Groupes II : Actions de groupes, théorèmes de Sylow et groupes symétriques",
+          "url": "https://etabli-des-maths.fr/cours/l3/theorie-des-groupes-ii.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Théorie des Anneaux et des Corps : Anneaux principaux, euclidiens et corps finis",
+          "url": "https://etabli-des-maths.fr/cours/l3/theorie-des-anneaux-et-des-corps.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Espaces métriques et Espaces vectoriels normés : Ouverts, fermés et adhérence",
+          "url": "https://etabli-des-maths.fr/cours/l3/espaces-metriques-et-espaces-vectoriels-normes.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 5,
+          "name": "Complétude, Espaces de Banach et Théorème du Point Fixe de Picard",
+          "url": "https://etabli-des-maths.fr/cours/l3/completude-espaces-de-banach-et-theoreme-du-point.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 6,
+          "name": "Compacité, Connexité et Théorème de Heine",
+          "url": "https://etabli-des-maths.fr/cours/l3/compacite-connexite-et-theoreme-de-heine.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 7,
+          "name": "Suites et séries de fonctions : Convergences simple, uniforme et normale",
+          "url": "https://etabli-des-maths.fr/cours/l3/suites-et-series-de-fonctions.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 8,
+          "name": "Séries entières, rayon de convergence et fonctions analytiques",
+          "url": "https://etabli-des-maths.fr/cours/l3/series-entieres.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 9,
+          "name": "Séries de Fourier, polynômes trigonométriques et convergence L²",
+          "url": "https://etabli-des-maths.fr/cours/l3/series-de-fourier.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 10,
+          "name": "Géométrie affine, projective et groupe d'inversion",
+          "url": "https://etabli-des-maths.fr/cours/l3/geometrie-affine.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 11,
+          "name": "Géométrie différentielle des surfaces : Formes fondamentales et Théorème Egregium",
+          "url": "https://etabli-des-maths.fr/cours/l3/geometrie-differentielle-des-surfaces.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 12,
+          "name": "Analyse numérique matricielle : Conditionnement, factorisation LU/Cholesky et gradient",
+          "url": "https://etabli-des-maths.fr/cours/l3/analyse-numerique-matricielle.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 13,
+          "name": "Programmation linéaire, algorithme du Simplexe et dualité",
+          "url": "https://etabli-des-maths.fr/cours/l3/programmation-lineaire.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 14,
+          "name": "Théorie de la Mesure et Intégration de Lebesgue",
+          "url": "https://etabli-des-maths.fr/cours/l3/theorie-de-la-mesure-et-integration-de-lebesgue.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 15,
+          "name": "Probabilités continues, vecteurs gaussiens et Théorème Central Limite",
+          "url": "https://etabli-des-maths.fr/cours/l3/probabilites-continues.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 16,
+          "name": "Démonstrations fondamentales de L3 : Lebesgue, Banach et Sylow",
+          "url": "https://etabli-des-maths.fr/cours/l3/demonstrations-fondamentales-de-l3.html"
+        }
+      ]
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Accueil",
+        "item": "https://etabli-des-maths.fr/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Cours",
+        "item": "https://etabli-des-maths.fr/cours/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Licence 3",
+        "item": "https://etabli-des-maths.fr/cours/l3/"
+      }
+    ]
+  }
+  </script>
+</head>
+<body class="cours-page">
+  <a class="cours-skip" href="#contenu">Aller au contenu</a>
+
+  <!-- Header Uniformisé -->
+  <header class="app-header">
+    <div class="header-inner">
+      <a href="../../index.html" class="brand-container" style="text-decoration: none;">
+        <img src="../../assets/logo-96.png" alt="L'Établi des Maths" class="brand-logo-img" width="44" height="44" />
+        <div class="brand-text">
+          <p class="brand-title">L'Établi des Maths <span class="brand-level-tag">Cours</span></p>
+          <span class="brand-tagline">Outils pour apprendre et pratiquer</span>
+        </div>
+      </a>
+
+      <!-- Navigation entre Portails -->
+      <nav class="nav-portal-links" aria-label="Portails thématiques">
+        <a href="../../index.html" class="nav-portal-btn">🏠 Accueil</a>
+        <a href="../../cours/" class="nav-portal-btn active" aria-current="true">📚 Cours</a>
+        <a href="../../rituels.html" class="nav-portal-btn">⏱️ Rituels</a>
+        <a href="../../brevet.html" class="nav-portal-btn">📝 Brevet 3e</a>
+        <a href="../../bac.html" class="nav-portal-btn">🎓 Baccalauréat</a>
+        <a href="../../enseignants.html" class="nav-portal-btn">👨‍🏫 Enseignants</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="landing-wrapper cours-wrapper" id="contenu">
+    <nav class="cours-breadcrumb" aria-label="Fil d'Ariane">
+      <ol>
+        <li><a href="../../index.html">Accueil</a></li>
+        <li><a href="../">Cours</a></li>
+        <li><span aria-current="page">Licence 3</span></li>
+      </ol>
+    </nav>
+
+    <header class="cours-hero">
+      <p class="landing-tag">Licence de mathématiques · Licence 3</p>
+      <h1 class="cours-title">Cours de mathématiques de L3 — 16 chapitres</h1>
+      <p class="cours-lead">Troisième année de licence : théorie des groupes, anneaux, topologie des espaces métriques, espaces de Banach, séries de Fourier, théorie de la mesure, probabilités et analyse numérique. Chaque chapitre contient le cours complet, des méthodes rédigées et des exercices corrigés.</p>
+      <div class="cours-cta">
+        <a class="btn-primary cours-cta-main" href="../../index.html?level=L3">🎯 S'entraîner en Licence 3</a>
+      </div>
+    </header>
+
+    <section class="cours-section" id="domaine-1" aria-labelledby="domaine-1-titre">
+      <h2 id="domaine-1-titre">Théorie des Groupes</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="theorie-des-groupes-i.html">
+          <span class="topic-num">L3-01</span>
+          <span class="cours-chapter-text"><strong>Théorie des Groupes I : Morphismes, sous-groupes distingués et quotients</strong><span>Sous-groupes, théorème de Lagrange, sous-groupes normaux (distingués) H ⊲ G, groupe quotient G/H, théorèmes d'isomorphisme de Noether, centre d'un…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="theorie-des-groupes-ii.html">
+          <span class="topic-num">L3-02</span>
+          <span class="cours-chapter-text"><strong>Théorie des Groupes II : Actions de groupes, théorèmes de Sylow et groupes symétriques</strong><span>Action d'un groupe sur un ensemble, orbites, stabilisateurs, formule des classes, p-groupes, théorèmes de Sylow (existence, conjugaison et nombre…</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-2" aria-labelledby="domaine-2-titre">
+      <h2 id="domaine-2-titre">Anneaux et Corps</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="theorie-des-anneaux-et-des-corps.html">
+          <span class="topic-num">L3-03</span>
+          <span class="cours-chapter-text"><strong>Théorie des Anneaux et des Corps : Anneaux principaux, euclidiens et corps finis</strong><span>Anneaux commutatifs unitaires, idéaux (premiers, maximaux), anneaux intègres, anneaux euclidiens, principaux et factoriels, corps des fractions…</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-3" aria-labelledby="domaine-3-titre">
+      <h2 id="domaine-3-titre">Topologie Générale</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="espaces-metriques-et-espaces-vectoriels-normes.html">
+          <span class="topic-num">L3-04</span>
+          <span class="cours-chapter-text"><strong>Espaces métriques et Espaces vectoriels normés : Ouverts, fermés et adhérence</strong><span>Définition d'une distance, boules ouvertes/fermées, espaces vectoriels normés (EVN), équivalence des normes en dimension finie, topologie métrique…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="compacite-connexite-et-theoreme-de-heine.html">
+          <span class="topic-num">L3-06</span>
+          <span class="cours-chapter-text"><strong>Compacité, Connexité et Théorème de Heine</strong><span>Propriété de Borel-Lebesgue (recouvrement fini d'ouverts), caractérisation séquentielle de Bolzano-Weierstrass, compacité dans R^n (fermés bornés)…</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-4" aria-labelledby="domaine-4-titre">
+      <h2 id="domaine-4-titre">Analyse Fonctionnelle</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="completude-espaces-de-banach-et-theoreme-du-point.html">
+          <span class="topic-num">L3-05</span>
+          <span class="cours-chapter-text"><strong>Complétude, Espaces de Banach et Théorème du Point Fixe de Picard</strong><span>Suites de Cauchy, espaces métriques complets, espaces de Banach (EVN complets), prolongement des applications uniformément continues, théorème…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="suites-et-series-de-fonctions.html">
+          <span class="topic-num">L3-07</span>
+          <span class="cours-chapter-text"><strong>Suites et séries de fonctions : Convergences simple, uniforme et normale</strong><span>Convergence simple, uniforme (norme infinie ||·||_∞) et normale, théorèmes d'interversion : continuité de la limite, dérivation terme à terme…</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-5" aria-labelledby="domaine-5-titre">
+      <h2 id="domaine-5-titre">Analyse Complexe</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="series-entieres.html">
+          <span class="topic-num">L3-08</span>
+          <span class="cours-chapter-text"><strong>Séries entières, rayon de convergence et fonctions analytiques</strong><span>Lemme d'Abel, rayon de convergence R, disque de convergence, règle de d'Alembert et formule de Hadamard, propriétés de la somme (continuité…</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-6" aria-labelledby="domaine-6-titre">
+      <h2 id="domaine-6-titre">Analyse Harmonique</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="series-de-fourier.html">
+          <span class="topic-num">L3-09</span>
+          <span class="cours-chapter-text"><strong>Séries de Fourier, polynômes trigonométriques et convergence L²</strong><span>Coefficients de Fourier réels et complexes d'une fonction périodique, théorème de Dirichlet (convergence ponctuelle), convergence normale, formule…</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-7" aria-labelledby="domaine-7-titre">
+      <h2 id="domaine-7-titre">Géométrie Avancée</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="geometrie-affine.html">
+          <span class="topic-num">L3-10</span>
+          <span class="cours-chapter-text"><strong>Géométrie affine, projective et groupe d'inversion</strong><span>Espaces projectifs P(E), coordonnées homogènes, droites et plans projectifs, complétion projective d'un espace affine, birapport de quatre points…</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-8" aria-labelledby="domaine-8-titre">
+      <h2 id="domaine-8-titre">Géométrie Différentielle</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="geometrie-differentielle-des-surfaces.html">
+          <span class="topic-num">L3-11</span>
+          <span class="cours-chapter-text"><strong>Géométrie différentielle des surfaces : Formes fondamentales et Théorème Egregium</strong><span>Nappes paramétrées et surfaces régulières dans R³, plan tangent, première forme fondamentale (métrique induite), deuxième forme fondamentale…</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-9" aria-labelledby="domaine-9-titre">
+      <h2 id="domaine-9-titre">Analyse Numérique</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="analyse-numerique-matricielle.html">
+          <span class="topic-num">L3-12</span>
+          <span class="cours-chapter-text"><strong>Analyse numérique matricielle : Conditionnement, factorisation LU/Cholesky et gradient</strong><span>Normes matricielles subordonnées, conditionnement d'un système linéaire cond(A), factorisation LU, décomposition de Cholesky A = B t B, méthodes…</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-10" aria-labelledby="domaine-10-titre">
+      <h2 id="domaine-10-titre">Optimisation</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="programmation-lineaire.html">
+          <span class="topic-num">L3-13</span>
+          <span class="cours-chapter-text"><strong>Programmation linéaire, algorithme du Simplexe et dualité</strong><span>Problèmes d'optimisation sous contraintes, forme standard de la programmation linéaire, polyèdres convexes et sommets extrêmes, algorithme…</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-11" aria-labelledby="domaine-11-titre">
+      <h2 id="domaine-11-titre">Théorie de la Mesure</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="theorie-de-la-mesure-et-integration-de-lebesgue.html">
+          <span class="topic-num">L3-14</span>
+          <span class="cours-chapter-text"><strong>Théorie de la Mesure et Intégration de Lebesgue</strong><span>Tribus boréliennes, mesure positive sur un espace mesurable, mesure de Lebesgue sur R^n, fonctions étagées, intégrale de Lebesgue, lemme de Fatou…</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-12" aria-labelledby="domaine-12-titre">
+      <h2 id="domaine-12-titre">Probabilités Avancées</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="probabilites-continues.html">
+          <span class="topic-num">L3-15</span>
+          <span class="cours-chapter-text"><strong>Probabilités continues, vecteurs gaussiens et Théorème Central Limite</strong><span>Variables aléatoires à densité de probabilité, fonction de répartition, moments, fonction caractéristique d'une variable aléatoire, vecteurs…</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-13" aria-labelledby="domaine-13-titre">
+      <h2 id="domaine-13-titre">Démonstrations Fondamentales</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="demonstrations-fondamentales-de-l3.html">
+          <span class="topic-num">L3-16</span>
+          <span class="cours-chapter-text"><strong>Démonstrations fondamentales de L3 : Lebesgue, Banach et Sylow</strong><span>Démonstrations majeures de L3 : Théorème de convergence dominée de Lebesgue, Théorème de Baire et Banach-Steinhaus, Théorème d'Inversion Locale…</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <nav class="cours-pager" aria-label="Autres niveaux">
+      <a class="nav-portal-btn" href="../6e/">6e</a>
+      <a class="nav-portal-btn" href="../5e/">5e</a>
+      <a class="nav-portal-btn" href="../4e/">4e</a>
+      <a class="nav-portal-btn" href="../3e/">3e</a>
+      <a class="nav-portal-btn" href="../seconde/">Seconde</a>
+      <a class="nav-portal-btn" href="../premiere/">Première</a>
+      <a class="nav-portal-btn" href="../terminale/">Terminale</a>
+      <a class="nav-portal-btn" href="../l1/">Licence 1</a>
+      <a class="nav-portal-btn" href="../l2/">Licence 2</a>
+      <a class="nav-portal-btn active" href="../l3/" aria-current="page">Licence 3</a>
+      <a class="nav-portal-btn" href="../capes/">CAPES</a>
+    </nav>
+  </main>
+
+  <footer class="cours-footer">
+    <p>L'Établi des Maths — Conçu par Loïc Delaporte, professeur de mathématiques • 100 % libre et gratuit, conforme aux programmes</p>
+    <p><a href="../../cours/">Tous les cours</a> · <a href="../../index.html">Ouvrir l'application</a> · <a href="../../enseignants.html">Espace enseignants</a></p>
+  </footer>
+  <!-- Statistiques d'audience anonymes et conformes RGPD (GoatCounter) -->
+  <script data-goatcounter="https://etabli-des-maths.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

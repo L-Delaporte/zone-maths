@@ -56,10 +56,10 @@
   </script>
   
   <!-- KaTeX pour le rendu des formules mathématiques (avec fallback CDN) -->
-  <link rel="stylesheet" href="vendor/katex/katex.min.css" onerror="this.onerror=null;this.href='https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css';" />
+  <link rel="stylesheet" href="vendor/katex/katex.min.css?v=000b7545e1" onerror="this.onerror=null;this.href='https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css';" />
   
   <!-- Feuilles de style de l'application -->
-  <link rel="stylesheet" href="css/style.css?v=20261030f" />
+  <link rel="stylesheet" href="css/style.css?v=6f2c8ac842" />
   <link rel="icon" href="/favicon.ico" sizes="any" />
   <link rel="icon" type="image/png" sizes="48x48" href="assets/favicon-48x48.png" />
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png" />
@@ -1287,45 +1287,52 @@
   </div>
 
   <!-- Scripts KaTeX (avec fallback CDN) -->
-  <script src="vendor/katex/katex.min.js" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js';"></script>
-  <script src="vendor/katex/auto-render.min.js" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js';"></script>
+  <script src="vendor/katex/katex.min.js?v=9616b6e2a7" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js';"></script>
+  <script src="vendor/katex/auto-render.min.js?v=491616b8c9" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js';"></script>
 
-  <!-- Données Mathématiques Multi-Niveaux (Cycle 4, Lycée, Licence, Concours) -->
-  <script src="js/data/chapters.js?v=20260929a"></script>
-  <script src="js/data/chapters_lycee.js?v=20261005a"></script>
-  <script src="js/data/chapters_licence.js?v=20261005a"></script>
-  <script src="js/data/courses.js?v=20261004j"></script>
-  <script src="js/data/worksheets.js?v=20260929a"></script>
-  <script src="js/data/exercises.js?v=20261030b"></script>
-  <script src="js/data/data_5eme.js?v=20261004m"></script>
-  <script src="js/data/data_4eme.js?v=20261004j"></script>
-  <script src="js/data/data_2nde.js?v=20261005a"></script>
-  <script src="js/data/data_1ere.js?v=20261005a"></script>
-  <script src="js/data/data_terminale.js?v=20261005a"></script>
-  <script src="js/data/data_l1.js?v=20261005a"></script>
-  <script src="js/data/data_l2.js?v=20261005a"></script>
-  <script src="js/data/data_l3.js?v=20261005a"></script>
-  <script src="js/data/data_capes.js?v=20261030b"></script>
-  <script src="js/data/data_proofs.js?v=20261030b"></script>
+  <!-- Données communes : la liste des chapitres de tous les niveaux (navigation, recherche, bilan) -->
+  <script src="js/data/chapters.js?v=c4d084203e"></script>
+  <script src="js/data/chapters_lycee.js?v=fbbdc8065d"></script>
+  <script src="js/data/chapters_licence.js?v=862554015c"></script>
+  <script src="js/data/data_capes.js?v=5ce35bd63a"></script>
 
-  <!-- Modules Applicatifs & Générateurs Dynamiques -->
-  <script src="js/storage.js?v=20260923j"></script>
-  <script src="js/audioEffects.js"></script>
-  <script src="js/confetti.js"></script>
-  <script src="js/mathRenderer.js?v=20261004b"></script>
-  <script src="js/geometryFigures.js?v=20261030a"></script>
-  <script src="js/scratchRenderer.js?v=20261030a"></script>
-  <script src="js/adaptiveEngine.js?v=20261030b"></script>
-  <script src="js/advancedGenerators.js?v=20261005a"></script>
-  <script src="js/lyceeGenerators.js?v=20261030a"></script>
-  <script src="js/randomGenerators.js?v=20261030b"></script>
-  <script src="js/proofEngine.js?v=20261030a"></script>
-  <script src="js/mathVisualizer.js?v=20261030b"></script>
-  <script src="js/diaporamaEngine.js?v=20261002a"></script>
-  <script src="js/flashQuizGenerator.js?v=20260924b"></script>
-  <script src="js/flashcardsEngine.js?v=20260923j"></script>
-  <script src="js/app.js?v=20261030b"></script>
-  <script src="js/pwaManager.js?v=20261030a"></script>
+  <!--
+    Données chargées À LA DEMANDE, niveau par niveau (js/dataLoader.js) : cours, exercices,
+    fiches et générateurs. Les empreintes ?v= sont tenues à jour par scripts/build_versions.js.
+  -->
+  <script id="level-bundles" type="application/json">
+  {
+    "6eme": ["js/data/data_6eme.js?v=8173ac8522", "js/generators6e.js?v=01e9337c19"],
+    "5eme": ["js/data/data_5eme.js?v=e8c9d8504d"],
+    "4eme": ["js/data/data_4eme.js?v=82f7987e93"],
+    "3eme": ["js/data/courses.js?v=ee6da61112", "js/data/exercises.js?v=3fd352d4c1", "js/data/worksheets.js?v=617c760ac9"],
+    "2nde": ["js/data/data_2nde.js?v=53c9c3f2fd", "js/advancedGenerators.js?v=a8b5bbf977", "js/lyceeGenerators.js?v=7289d5d2f2"],
+    "1ere": ["js/data/data_1ere.js?v=9aaf7f9914", "js/advancedGenerators.js?v=a8b5bbf977", "js/lyceeGenerators.js?v=7289d5d2f2"],
+    "tale": ["js/data/data_terminale.js?v=31f1d5d0c7", "js/advancedGenerators.js?v=a8b5bbf977", "js/lyceeGenerators.js?v=7289d5d2f2"],
+    "L1": ["js/data/data_l1.js?v=2acc8470fe", "js/data/data_proofs.js?v=35f92b490b", "js/advancedGenerators.js?v=a8b5bbf977", "js/lyceeGenerators.js?v=7289d5d2f2"],
+    "L2": ["js/data/data_l2.js?v=11c8e0a66c", "js/data/data_proofs.js?v=35f92b490b", "js/advancedGenerators.js?v=a8b5bbf977", "js/lyceeGenerators.js?v=7289d5d2f2"],
+    "L3": ["js/data/data_l3.js?v=b4ba138881", "js/data/data_proofs.js?v=35f92b490b", "js/advancedGenerators.js?v=a8b5bbf977", "js/lyceeGenerators.js?v=7289d5d2f2"],
+    "capes": ["js/data/data_proofs.js?v=35f92b490b", "js/advancedGenerators.js?v=a8b5bbf977", "js/lyceeGenerators.js?v=7289d5d2f2"]
+  }
+  </script>
+
+  <!-- Modules applicatifs -->
+  <script src="js/storage.js?v=974eea8078"></script>
+  <script src="js/audioEffects.js?v=61af5bd9de"></script>
+  <script src="js/confetti.js?v=a25de2b7fe"></script>
+  <script src="js/mathRenderer.js?v=a79ff2ff2a"></script>
+  <script src="js/geometryFigures.js?v=656295f7c5"></script>
+  <script src="js/scratchRenderer.js?v=ed1e43916b"></script>
+  <script src="js/adaptiveEngine.js?v=793550908c"></script>
+  <script src="js/randomGenerators.js?v=9178902e23"></script>
+  <script src="js/proofEngine.js?v=f99d384bfd"></script>
+  <script src="js/mathVisualizer.js?v=96becc2c77"></script>
+  <script src="js/diaporamaEngine.js?v=eba71f5370"></script>
+  <script src="js/flashQuizGenerator.js?v=1d7f5812d4"></script>
+  <script src="js/flashcardsEngine.js?v=3bcc67a07f"></script>
+  <script src="js/dataLoader.js?v=828f7fa67d"></script>
+  <script src="js/app.js?v=a54c87a8aa"></script>
+  <script src="js/pwaManager.js?v=0a3ce1177d"></script>
 
   <!-- Statistiques d'audience anonymes et conformes RGPD (GoatCounter) -->
   <script>

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <script>
+    // Applique le thème (clair/sombre) choisi dans l'application, avant l'affichage
+    try {
+      document.documentElement.setAttribute('data-theme', JSON.parse(localStorage.getItem('maths_3e_progress_v1') || '{}').theme || 'light');
+    } catch (e) {}
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Symétrie centrale — cours de 5e | L'Établi des Maths</title>
+  <meta name="description" content="Cours de 5e — Symétrie centrale : constructions et propriétés : comprendre la symétrie centrale comme un demi-tour de 180° autour d'un point, construire…" />
+  <meta name="author" content="Loïc Delaporte, professeur de mathématiques" />
+  <link rel="canonical" href="https://etabli-des-maths.fr/cours/5e/symetrie-centrale.html" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Symétrie centrale — cours de 5e | L'Établi des Maths" />
+  <meta property="og:description" content="Cours de 5e — Symétrie centrale : constructions et propriétés : comprendre la symétrie centrale comme un demi-tour de 180° autour d'un point, construire…" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://etabli-des-maths.fr/cours/5e/symetrie-centrale.html" />
+  <meta property="og:image" content="https://etabli-des-maths.fr/assets/logo.jpg" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta property="og:site_name" content="L'Établi des Maths" />
+
+  <link rel="stylesheet" href="../../css/style.css" />
+  <link rel="stylesheet" href="../../css/landing.css" />
+  <link rel="stylesheet" href="../../vendor/katex/katex.min.css" />
+  <link rel="stylesheet" href="../../css/cours.css" />
+  <link rel="icon" href="../../favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../../assets/favicon-32x32.png" />
+  <link rel="apple-touch-icon" href="../../assets/favicon.png" />
+  <link rel="manifest" href="../../manifest.json" />
+  <meta name="theme-color" content="#2563eb" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LearningResource",
+    "name": "Symétrie centrale : constructions et propriétés — cours de 5e",
+    "headline": "Symétrie centrale : constructions et propriétés",
+    "description": "Cours de 5e — Symétrie centrale : constructions et propriétés : comprendre la symétrie centrale comme un demi-tour de 180° autour d'un point, construire…",
+    "url": "https://etabli-des-maths.fr/cours/5e/symetrie-centrale.html",
+    "inLanguage": "fr",
+    "educationalLevel": "Collège — classe de 5e (cycle 4)",
+    "learningResourceType": [
+      "Cours",
+      "Exercices corrigés"
+    ],
+    "teaches": [
+      "Comprendre la symétrie centrale comme un demi-tour de 180° autour d'un point.",
+      "Construire le symétrique d'un point, segment, droite et cercle.",
+      "Utiliser les propriétés de conservation de la symétrie centrale."
+    ],
+    "about": {
+      "@type": "Thing",
+      "name": "Espace et Géométrie"
+    },
+    "isAccessibleForFree": true,
+    "dateModified": "2026-10-30",
+    "author": {
+      "@type": "Person",
+      "name": "Loïc Delaporte",
+      "jobTitle": "Professeur de mathématiques"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "L'Établi des Maths",
+      "url": "https://etabli-des-maths.fr/",
+      "logo": "https://etabli-des-maths.fr/assets/logo.png"
+    },
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "L'Établi des Maths",
+      "url": "https://etabli-des-maths.fr/"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Accueil",
+        "item": "https://etabli-des-maths.fr/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Cours",
+        "item": "https://etabli-des-maths.fr/cours/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "5e",
+        "item": "https://etabli-des-maths.fr/cours/5e/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Symétrie centrale",
+        "item": "https://etabli-des-maths.fr/cours/5e/symetrie-centrale.html"
+      }
+    ]
+  }
+  </script>
+</head>
+<body class="cours-page">
+  <a class="cours-skip" href="#contenu">Aller au contenu</a>
+
+  <!-- Header Uniformisé -->
+  <header class="app-header">
+    <div class="header-inner">
+      <a href="../../index.html" class="brand-container" style="text-decoration: none;">
+        <img src="../../assets/logo-96.png" alt="L'Établi des Maths" class="brand-logo-img" width="44" height="44" />
+        <div class="brand-text">
+          <p class="brand-title">L'Établi des Maths <span class="brand-level-tag">Cours</span></p>
+          <span class="brand-tagline">Outils pour apprendre et pratiquer</span>
+        </div>
+      </a>
+
+      <!-- Navigation entre Portails -->
+      <nav class="nav-portal-links" aria-label="Portails thématiques">
+        <a href="../../index.html" class="nav-portal-btn">🏠 Accueil</a>
+        <a href="../../cours/" class="nav-portal-btn active" aria-current="true">📚 Cours</a>
+        <a href="../../rituels.html" class="nav-portal-btn">⏱️ Rituels</a>
+        <a href="../../brevet.html" class="nav-portal-btn">📝 Brevet 3e</a>
+        <a href="../../bac.html" class="nav-portal-btn">🎓 Baccalauréat</a>
+        <a href="../../enseignants.html" class="nav-portal-btn">👨‍🏫 Enseignants</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="landing-wrapper cours-wrapper" id="contenu">
+    <nav class="cours-breadcrumb" aria-label="Fil d'Ariane">
+      <ol>
+        <li><a href="../../index.html">Accueil</a></li>
+        <li><a href="../">Cours</a></li>
+        <li><a href="./">5e</a></li>
+        <li><span aria-current="page">Symétrie centrale</span></li>
+      </ol>
+    </nav>
+
+    <header class="cours-hero">
+      <p class="landing-tag">5e · Espace et Géométrie · 5G2</p>
+      <h1 class="cours-title">Symétrie centrale : constructions et propriétés — cours de 5e</h1>
+      <p class="cours-lead">Rappel symétrie axiale, définition du centre de symétrie, constructions de symétriques et propriétés de conservation (longueurs, angles, parallélisme, aires).</p>
+      <div class="cours-cta">
+        <a class="btn-primary cours-cta-main" href="../../index.html?chapitre=5G2">🎯 S'entraîner sur ce chapitre</a>
+        <a class="btn-secondary cours-cta-alt" href="../../index.html?mode=rituel&amp;chapitre=5G2">⏱️ Rituel flash</a>
+        <a class="btn-secondary cours-cta-alt" href="../../index.html?mode=flashcards&amp;chapitre=5G2">🗂️ Flashcards</a>
+      </div>
+    </header>
+
+    <nav class="cours-toc" aria-label="Sommaire du chapitre">
+      <p class="cours-toc-title">Sommaire</p>
+      <ol><li><a href="#objectifs">Objectifs du chapitre</a></li><li><a href="#cours">Le cours</a></li><li><a href="#methodes">Méthodes et exemples rédigés</a></li><li><a href="#pieges">Pièges fréquents</a></li><li><a href="#revision">Questions de révision</a></li><li><a href="#exercices">Exercices corrigés</a></li></ol>
+    </nav>
+
+    <section class="cours-section " id="objectifs" aria-labelledby="objectifs-titre">
+      <h2 id="objectifs-titre">Objectifs du chapitre</h2>
+<ul class="cours-list"><li>Comprendre la symétrie centrale comme un demi-tour de 180° autour d'un point.</li><li>Construire le symétrique d'un point, segment, droite et cercle.</li><li>Utiliser les propriétés de conservation de la symétrie centrale.</li></ul>
+    </section>
+
+    <section class="cours-section " id="cours" aria-labelledby="cours-titre">
+      <h2 id="cours-titre">Le cours</h2>
+<article class="cours-card"><h3>1. Définition</h3><p class="math-p">Dire que <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>A</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup></mrow><annotation encoding="application/x-tex">A&#x27;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7519em;"></span><span class="mord"><span class="mord mathnormal">A</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7519em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span> est le symétrique de <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi></mrow><annotation encoding="application/x-tex">A</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">A</span></span></span></span> par rapport à <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi></mrow><annotation encoding="application/x-tex">O</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span></span></span></span> signifie que <strong><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi></mrow><annotation encoding="application/x-tex">O</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span></span></span></span> est le milieu du segment <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mi>A</mi><msup><mi>A</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[AA&#x27;]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0019em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord mathnormal">A</span><span class="mord"><span class="mord mathnormal">A</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7519em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mclose">]</span></span></span></span></strong>.</p>
+<div class="geo-figure-wrapper" style="text-align:center; margin:1rem 0;">
+  <svg class="geo-svg-figure" viewBox="0 0 280 120" width="280" height="120" style="max-width:280px; width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <marker id="arrow-turn" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="#8b5cf6" />
+      </marker>
+    </defs>
+    <line x1="45" y1="50" x2="235" y2="90" stroke="var(--text-main, #334155)" stroke-width="2" />
+    <circle cx="45" cy="50" r="3.5" fill="var(--primary, #2563eb)" />
+    <circle cx="235" cy="90" r="3.5" fill="#10b981" />
+    <circle cx="140" cy="70" r="4" fill="#dc2626" />
+    <text x="32" y="48" font-family="system-ui, sans-serif" font-size="13" font-weight="700" fill="var(--primary, #2563eb)">A</text>
+    <text x="245" y="94" font-family="system-ui, sans-serif" font-size="13" font-weight="700" fill="#10b981">A'</text>
+    <text x="136" y="90" font-family="system-ui, sans-serif" font-size="13" font-weight="700" fill="#dc2626">O</text>
+    <!-- Codage égalité OA = OA' -->
+    <line x1="89" y1="55" x2="95" y2="65" stroke="#dc2626" stroke-width="1.8" />
+    <line x1="93" y1="55" x2="99" y2="65" stroke="#dc2626" stroke-width="1.8" />
+    <line x1="184" y1="75" x2="190" y2="85" stroke="#dc2626" stroke-width="1.8" />
+    <line x1="188" y1="75" x2="194" y2="85" stroke="#dc2626" stroke-width="1.8" />
+    <!-- Arc de demi-tour -->
+    <path d="M 65 35 A 80 40 0 0 1 215 65" fill="none" stroke="#8b5cf6" stroke-width="1.8" stroke-dasharray="3 3" marker-end="url(#arrow-turn)" />
+    <text x="140" y="28" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#8b5cf6">Demi-tour de 180°</text>
+    <text x="140" y="110" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#dc2626">O est le milieu de [AA']</text>
+  </svg>
+</div></article>
+<article class="cours-card"><h3>2. Propriétés de conservation</h3><p class="math-p">La symétrie centrale conserve toutes les propriétés géométriques :</p>
+<ul class="math-list">
+<li class="math-bullet">Les longueurs (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>A</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><msup><mi>B</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo>=</mo><mi>A</mi><mi>B</mi></mrow><annotation encoding="application/x-tex">A&#x27;B&#x27; = AB</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7519em;"></span><span class="mord"><span class="mord mathnormal">A</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7519em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7519em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">A</span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span></span></span></span>) et le parallélisme (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><msup><mi>A</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><msup><mi>B</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo stretchy="false">)</mo><mi mathvariant="normal">/</mi><mi mathvariant="normal">/</mi><mo stretchy="false">(</mo><mi>A</mi><mi>B</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(A&#x27;B&#x27;) // (AB)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0019em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">A</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7519em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7519em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mclose">)</span><span class="mord">//</span><span class="mopen">(</span><span class="mord mathnormal">A</span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mclose">)</span></span></span></span>).</li>
+<li class="math-bullet">Les mesures d'angles : l'image d'un angle de <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><msup><mn>5</mn><mo>∘</mo></msup></mrow><annotation encoding="application/x-tex">45^\circ</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6741em;"></span><span class="mord">4</span><span class="mord"><span class="mord">5</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6741em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">∘</span></span></span></span></span></span></span></span></span></span></span> est un angle de <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><msup><mn>5</mn><mo>∘</mo></msup></mrow><annotation encoding="application/x-tex">45^\circ</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6741em;"></span><span class="mord">4</span><span class="mord"><span class="mord">5</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6741em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">∘</span></span></span></span></span></span></span></span></span></span></span>.</li>
+<li class="math-bullet">Les aires et périmètres : la figure symétrique est superposable à la figure initiale par demi-tour (« tête en bas »).</li>
+</ul>
+<div class="geo-figure-wrapper" style="text-align:center; margin:1rem 0;">
+  <svg class="geo-svg-figure" viewBox="0 0 300 170" width="300" height="170" style="max-width:300px; width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg">
+    <!-- Triangle ABC -->
+    <polygon points="55,35 25,95 85,95" fill="rgba(37, 99, 235, 0.1)" stroke="var(--primary, #2563eb)" stroke-width="2" stroke-linejoin="round" />
+    <text x="52" y="26" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="var(--primary, #2563eb)">A</text>
+    <text x="12" y="102" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="var(--primary, #2563eb)">B</text>
+    <text x="90" y="102" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="var(--primary, #2563eb)">C</text>
+    <!-- Centre O -->
+    <circle cx="150" cy="85" r="4" fill="#dc2626" />
+    <text x="146" y="102" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#dc2626">O</text>
+    <!-- Lignes de symétrie passant par O -->
+    <line x1="55" y1="35" x2="245" y2="135" stroke="var(--text-muted, #64748b)" stroke-width="1.2" stroke-dasharray="3 3" />
+    <line x1="25" y1="95" x2="275" y2="75" stroke="var(--text-muted, #64748b)" stroke-width="1.2" stroke-dasharray="3 3" />
+    <line x1="85" y1="95" x2="215" y2="75" stroke="var(--text-muted, #64748b)" stroke-width="1.2" stroke-dasharray="3 3" />
+    <!-- Triangle A'B'C' (inversé) -->
+    <polygon points="245,135 275,75 215,75" fill="rgba(16, 185, 129, 0.1)" stroke="#10b981" stroke-width="2" stroke-linejoin="round" />
+    <text x="245" y="150" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#10b981">A'</text>
+    <text x="280" y="75" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#10b981">B'</text>
+    <text x="200" y="75" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#10b981">C'</text>
+    <text x="150" y="160" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="var(--text-muted, #64748b)">(AB) // (A'B') et AB = A'B'</text>
+  </svg>
+</div></article>
+    </section>
+
+    <section class="cours-section " id="methodes" aria-labelledby="methodes-titre">
+      <h2 id="methodes-titre">Méthodes et exemples rédigés</h2>
+<article class="cours-card cours-method"><h3>Méthode : Construire le symétrique d'un point A</h3>
+<div class="cours-example"><p class="cours-example-label">Exemple</p><p class="math-p">Construire A' symétrique de A par rapport à O.</p>
+<div class="geo-figure-wrapper" style="text-align:center; margin:0.8rem 0;">
+  <svg class="geo-svg-figure" viewBox="0 0 270 100" width="270" height="100" style="max-width:270px; width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg">
+    <!-- Demi-droite [AO) prolongée au-delà de A' -->
+    <line x1="35" y1="50" x2="130" y2="50" stroke="var(--text-main, #334155)" stroke-width="2" />
+    <line x1="130" y1="50" x2="250" y2="50" stroke="var(--text-main, #334155)" stroke-width="1.8" stroke-dasharray="4 3" />
+    <!-- Points A et O -->
+    <circle cx="40" cy="50" r="3.5" fill="var(--primary, #2563eb)" />
+    <circle cx="130" cy="50" r="3.5" fill="#dc2626" />
+    <!-- Arc de compas centré en O de rayon OA = 90 coupant exactement en A'(220, 50) -->
+    <path d="M 218 31 A 90 90 0 0 1 218 69" fill="none" stroke="#10b981" stroke-width="2.2" />
+    <!-- Point A' à l'intersection exacte -->
+    <circle cx="220" cy="50" r="3.5" fill="#10b981" />
+    <!-- Labels -->
+    <text x="26" y="54" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="var(--primary, #2563eb)">A</text>
+    <text x="126" y="70" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#dc2626">O</text>
+    <text x="228" y="44" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#10b981">A'</text>
+    <!-- Codage égalité OA = OA' -->
+    <line x1="83" y1="44" x2="87" y2="56" stroke="#dc2626" stroke-width="1.8" />
+    <line x1="173" y1="44" x2="177" y2="56" stroke="#dc2626" stroke-width="1.8" />
+    <text x="130" y="24" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" fill="var(--text-muted, #64748b)">Report au compas : OA = OA'</text>
+  </svg>
+</div></div>
+<ol class="cours-steps"><li><p class="math-p"><strong>Étape 1</strong> : Tracer la demi-droite <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mi>A</mi><mi>O</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">[AO)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord mathnormal">A</span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mclose">)</span></span></span></span>.</p></li><li><p class="math-p"><strong>Étape 2</strong> : Reporter la longueur <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mi>A</mi></mrow><annotation encoding="application/x-tex">OA</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mord mathnormal">A</span></span></span></span> de l'autre côté de <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi></mrow><annotation encoding="application/x-tex">O</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span></span></span></span> au compas.</p></li><li><p class="math-p"><strong>Étape 3</strong> : Coder les longueurs égales <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mi>A</mi><mo>=</mo><mi>O</mi><msup><mi>A</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup></mrow><annotation encoding="application/x-tex">OA = OA&#x27;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mord mathnormal">A</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7519em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mord"><span class="mord mathnormal">A</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7519em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span>.</p></li></ol></article>
+    </section>
+
+    <section class="cours-section " id="pieges" aria-labelledby="pieges-titre">
+      <h2 id="pieges-titre">Pièges fréquents</h2>
+<ul class="cours-list cours-traps"><li>Ne pas confondre la symétrie axiale (pliage) et la symétrie centrale (demi-tour).</li></ul>
+    </section>
+
+    <section class="cours-section " id="revision" aria-labelledby="revision-titre">
+      <h2 id="revision-titre">Questions de révision</h2>
+<p class="cours-note">Essaie de répondre de tête avant d'afficher la réponse.</p>
+<div class="cours-flashcards"><details class="cours-flash"><summary>Si <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>A</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup></mrow><annotation encoding="application/x-tex">A&#x27;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7519em;"></span><span class="mord"><span class="mord mathnormal">A</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7519em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span> est le symétrique de <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi></mrow><annotation encoding="application/x-tex">A</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">A</span></span></span></span> par rapport à <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi></mrow><annotation encoding="application/x-tex">O</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span></span></span></span>, que vaut la distance <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><msup><mi>A</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup></mrow><annotation encoding="application/x-tex">OA&#x27;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7519em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mord"><span class="mord mathnormal">A</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7519em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span> ?</summary><div class="cours-flash-a"><p class="math-p"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><msup><mi>A</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo>=</mo><mi>O</mi><mi>A</mi></mrow><annotation encoding="application/x-tex">OA&#x27; = OA</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7519em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mord"><span class="mord mathnormal">A</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7519em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mord mathnormal">A</span></span></span></span> car <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi></mrow><annotation encoding="application/x-tex">O</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span></span></span></span> est le milieu de <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mi>A</mi><msup><mi>A</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[AA&#x27;]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0019em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord mathnormal">A</span><span class="mord"><span class="mord mathnormal">A</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7519em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mclose">]</span></span></span></span>.</p></div></details>
+<details class="cours-flash"><summary>Quel rôle joue le centre de symétrie <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi></mrow><annotation encoding="application/x-tex">O</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span></span></span></span> pour tout point <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi></mrow><annotation encoding="application/x-tex">M</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span></span></span></span> et son symétrique <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>M</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup></mrow><annotation encoding="application/x-tex">M&#x27;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7519em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7519em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span> ?</summary><div class="cours-flash-a"><p class="math-p">Le point <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi></mrow><annotation encoding="application/x-tex">O</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span></span></span></span> est le <strong>milieu du segment <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mi>M</mi><msup><mi>M</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[MM&#x27;]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0019em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7519em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mclose">]</span></span></span></span></strong>.</p></div></details>
+<details class="cours-flash"><summary>Quelle est l'image d'un angle de 50° par symétrie centrale ?</summary><div class="cours-flash-a"><p class="math-p">Un angle de <strong>50°</strong> (la symétrie centrale conserve la mesure des angles).</p></div></details>
+<details class="cours-flash"><summary>Quelle est l'image d'une droite <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>d</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(d)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">d</span><span class="mclose">)</span></span></span></span> par une symétrie centrale ?</summary><div class="cours-flash-a"><p class="math-p">Une droite <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><msup><mi>d</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(d&#x27;)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0019em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">d</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7519em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span> qui est <strong>parallèle</strong> à <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>d</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(d)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">d</span><span class="mclose">)</span></span></span></span>.</p></div></details>
+<details class="cours-flash"><summary>À quel demi-tour correspond exactement une symétrie centrale ?</summary><div class="cours-flash-a"><p class="math-p">À une rotation d'un demi-tour complet de <strong>180°</strong>.</p></div></details></div>
+    </section>
+
+    <section class="cours-section " id="exercices" aria-labelledby="exercices-titre">
+      <h2 id="exercices-titre">Exercices corrigés</h2>
+<article class="cours-card cours-exo">
+<h3><span class="cours-exo-num">Exercice 1</span> Définition de la symétrie centrale</h3>
+<p class="cours-tier cours-tier-1">Palier 1 · découverte</p>
+<p class="math-p">Si le point <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi></mrow><annotation encoding="application/x-tex">B</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span></span></span></span> est le symétrique du point <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi></mrow><annotation encoding="application/x-tex">A</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">A</span></span></span></span> par rapport au point <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi></mrow><annotation encoding="application/x-tex">O</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span></span></span></span>, que peut-on affirmer ?</p>
+<ol class="cours-mcq" type="A"><li>Le point O est le milieu du segment [AB]</li><li>Le point A est le milieu du segment [OB]</li><li>Les droites (AB) et (AO) sont perpendiculaires</li><li>Le segment [AB] mesure la moitié de [OA]</li></ol>
+<details class="cours-hint"><summary>Un indice</summary><div><p class="math-p">La symétrie centrale est un demi-tour autour du centre O.</p></div></details>
+<details class="cours-solution"><summary>Voir la correction</summary><div class="cours-solution-body"><p class="cours-answer"><strong>Bonne réponse :</strong> A. Le point O est le milieu du segment [AB]</p><div><p class="math-p">Exact : par définition de la symétrie de centre O, O est le milieu du segment formé par le point et son image.</p></div><p class="math-p">Par définition, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi></mrow><annotation encoding="application/x-tex">O</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span></span></span></span> est le milieu du segment <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mi>A</mi><mi>B</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[AB]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord mathnormal">A</span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mclose">]</span></span></span></span>.</p></div></details>
+</article>
+<article class="cours-card cours-exo">
+<h3><span class="cours-exo-num">Exercice 2</span> Conservation des longueurs</h3>
+<p class="cours-tier cours-tier-2">Palier 2 · application</p>
+<p class="math-p">Un segment <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mi>A</mi><mi>B</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[AB]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord mathnormal">A</span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mclose">]</span></span></span></span> mesure <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>7</mn><mo separator="true">,</mo><mn>5</mn><mtext> cm</mtext></mrow><annotation encoding="application/x-tex">7,5\text{ cm}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8389em;vertical-align:-0.1944em;"></span><span class="mord">7</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">5</span><span class="mord text"><span class="mord"> cm</span></span></span></span></span>. Par la symétrie centrale de centre <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi></mrow><annotation encoding="application/x-tex">O</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span></span></span></span>, quelle est la longueur de son symétrique <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><msup><mi>A</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><msup><mi>B</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[A&#x27;B&#x27;]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0019em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord"><span class="mord mathnormal">A</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7519em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7519em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mclose">]</span></span></span></span> en cm ?</p>
+
+<details class="cours-hint"><summary>Un indice</summary><div><p class="math-p">La symétrie centrale conserve les longueurs.</p></div></details>
+<details class="cours-solution"><summary>Voir la correction</summary><div class="cours-solution-body"><p class="cours-answer"><strong>Réponse attendue :</strong> 7.5</p><p class="math-p">La symétrie centrale est une isométrie : elle conserve les distances, donc <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>A</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><msup><mi>B</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo>=</mo><mi>A</mi><mi>B</mi><mo>=</mo><mn>7</mn><mo separator="true">,</mo><mn>5</mn><mtext> cm</mtext></mrow><annotation encoding="application/x-tex">A&#x27;B&#x27; = AB = 7,5\text{ cm}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7519em;"></span><span class="mord"><span class="mord mathnormal">A</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7519em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7519em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">A</span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8389em;vertical-align:-0.1944em;"></span><span class="mord">7</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">5</span><span class="mord text"><span class="mord"> cm</span></span></span></span></span>.</p></div></details>
+</article>
+<article class="cours-card cours-exo">
+<h3><span class="cours-exo-num">Exercice 3</span> Conservation des angles et des aires</h3>
+<p class="cours-tier cours-tier-3">Palier 3 · approfondissement</p>
+<p class="math-p">Un triangle a une aire de <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>18</mn><msup><mtext> cm</mtext><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">18\text{ cm}^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">18</span><span class="mord"><span class="mord text"><span class="mord"> cm</span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span> et possède un angle de <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><msup><mn>2</mn><mo>∘</mo></msup></mrow><annotation encoding="application/x-tex">52^\circ</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6741em;"></span><span class="mord">5</span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6741em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">∘</span></span></span></span></span></span></span></span></span></span></span>. Quelles sont l'aire et la mesure de l'angle homologue dans le triangle symétrique ?</p>
+<ol class="cours-mcq" type="A"><li>Aire = 18 cm² et angle = 52°</li><li>Aire = 36 cm² et angle = 104°</li><li>Aire = 9 cm² et angle = 26°</li><li>Aire = 18 cm² et angle = 128°</li></ol>
+<details class="cours-hint"><summary>Un indice</summary><div><p class="math-p">La symétrie centrale ne déforme pas les figures.</p></div></details>
+<details class="cours-solution"><summary>Voir la correction</summary><div class="cours-solution-body"><p class="cours-answer"><strong>Bonne réponse :</strong> A. Aire = 18 cm² et angle = 52°</p><div><p class="math-p">Exact : la symétrie centrale conserve les angles et les aires.</p></div><p class="math-p">La symétrie centrale conserve les mesures d'angles et les aires, donc l'aire reste <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>18</mn><msup><mtext> cm</mtext><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">18\text{ cm}^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">18</span><span class="mord"><span class="mord text"><span class="mord"> cm</span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span> et l'angle <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><msup><mn>2</mn><mo>∘</mo></msup></mrow><annotation encoding="application/x-tex">52^\circ</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6741em;"></span><span class="mord">5</span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6741em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">∘</span></span></span></span></span></span></span></span></span></span></span>.</p></div></details>
+</article>
+<article class="cours-card cours-exo">
+<h3><span class="cours-exo-num">Exercice 4</span> Défi : Centre de symétrie d'un quadrilatère</h3>
+<p class="cours-tier cours-tier-4">Palier 4 · défi</p>
+<p class="math-p">Un quadrilatère possède un centre de symétrie qui est le point d'intersection de ses diagonales. Il s'agit obligatoirement d'un...</p>
+<ol class="cours-mcq" type="A"><li>Parallélogramme</li><li>Trapèze quelconque</li><li>Cerf-volant</li><li>Triangle</li></ol>
+<details class="cours-hint"><summary>Un indice</summary><div><p class="math-p">Les côtés opposés sont symétriques et donc parallèles et de même longueur.</p></div></details>
+<details class="cours-solution"><summary>Voir la correction</summary><div class="cours-solution-body"><p class="cours-answer"><strong>Bonne réponse :</strong> A. Parallélogramme</p><div><p class="math-p">Exact : tout quadrilatère ayant un centre de symétrie est un parallélogramme.</p></div><p class="math-p">Un quadrilatère qui admet un centre de symétrie est un parallélogramme.</p></div></details>
+</article>
+    </section>
+
+    <aside class="cours-cta-box" aria-label="Entraînement">
+      <p class="cours-cta-box-title">Prêt à t'entraîner ?</p>
+      <p>Exercices générés à l'infini, corrigés pas à pas et classés en quatre paliers de difficulté, gratuitement et sans inscription.</p>
+      <div class="cours-cta">
+        <a class="btn-primary cours-cta-main" href="../../index.html?chapitre=5G2">🎯 S'entraîner sur ce chapitre</a>
+        <a class="btn-secondary cours-cta-alt" href="../../index.html?mode=rituel&amp;chapitre=5G2">⏱️ Rituel flash</a>
+        <a class="btn-secondary cours-cta-alt" href="../../index.html?mode=flashcards&amp;chapitre=5G2">🗂️ Flashcards</a>
+      </div>
+    </aside>
+
+    <nav class="cours-pager" aria-label="Chapitres voisins">
+      <a class="cours-pager-link cours-pager-prev" href="reperage-sur-une-droite-et-dans-le-plan.html" rel="prev"><span>← Chapitre précédent</span><strong>Repérage sur une droite et dans le plan</strong></a>
+      <a class="cours-pager-link cours-pager-up" href="./"><span>Tous les chapitres</span><strong>5e</strong></a>
+      <a class="cours-pager-link cours-pager-next" href="angles-et-parallelisme.html" rel="next"><span>Chapitre suivant →</span><strong>Angles et parallélisme (alternes-internes et somme 180°)</strong></a>
+    </nav>
+  </main>
+
+  <footer class="cours-footer">
+    <p>L'Établi des Maths — Conçu par Loïc Delaporte, professeur de mathématiques • 100 % libre et gratuit, conforme aux programmes</p>
+    <p><a href="../../cours/">Tous les cours</a> · <a href="../../index.html">Ouvrir l'application</a> · <a href="../../enseignants.html">Espace enseignants</a></p>
+  </footer>
+  <!-- Statistiques d'audience anonymes et conformes RGPD (GoatCounter) -->
+  <script data-goatcounter="https://etabli-des-maths.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

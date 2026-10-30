@@ -10,10 +10,41 @@
  * NE PAS éditer à la main la liste ci-dessous ni CACHE_NAME : lancer `node scripts/build_versions.js`.
  */
 
-const CACHE_NAME = 'etabli-des-maths-dev';
+const CACHE_NAME = 'etabli-des-maths-b662601142';
 
 // @precache-start
-const PRECACHE_URLS = [];
+const PRECACHE_URLS = [
+  './',
+  './index.html',
+  './manifest.json',
+  './assets/logo.svg',
+  './assets/favicon-32x32.png',
+  './assets/favicon-144x144.png',
+  './vendor/katex/katex.min.css?v=000b7545e1',
+  './css/style.css?v=6f2c8ac842',
+  './vendor/katex/katex.min.js?v=9616b6e2a7',
+  './vendor/katex/auto-render.min.js?v=491616b8c9',
+  './js/data/chapters.js?v=c4d084203e',
+  './js/data/chapters_lycee.js?v=fbbdc8065d',
+  './js/data/chapters_licence.js?v=862554015c',
+  './js/data/data_capes.js?v=5ce35bd63a',
+  './js/storage.js?v=974eea8078',
+  './js/audioEffects.js?v=61af5bd9de',
+  './js/confetti.js?v=a25de2b7fe',
+  './js/mathRenderer.js?v=a79ff2ff2a',
+  './js/geometryFigures.js?v=656295f7c5',
+  './js/scratchRenderer.js?v=ed1e43916b',
+  './js/adaptiveEngine.js?v=793550908c',
+  './js/randomGenerators.js?v=9178902e23',
+  './js/proofEngine.js?v=f99d384bfd',
+  './js/mathVisualizer.js?v=96becc2c77',
+  './js/diaporamaEngine.js?v=eba71f5370',
+  './js/flashQuizGenerator.js?v=1d7f5812d4',
+  './js/flashcardsEngine.js?v=3bcc67a07f',
+  './js/dataLoader.js?v=828f7fa67d',
+  './js/app.js?v=a54c87a8aa',
+  './js/pwaManager.js?v=0a3ce1177d'
+];
 // @precache-end
 
 self.addEventListener('install', (event) => {

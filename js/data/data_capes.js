@@ -831,7 +831,7 @@
         chapterId: 'capes-05',
         tier: 4,
         title: "Bipolaire orthogonal et adhérence en dimension infinie",
-        statement: "Soit $E$ un espace préhilbertien réel et $F$ un sous-espace vectoriel de $E$. Quelle est la relation générale exacte entre $F$ et son bipolaire orthogonal $F^{\\perp\\perp}$ ?",
+        statement: "Soit $E$ un espace de Hilbert réel (préhilbertien complet) et $F$ un sous-espace vectoriel de $E$. Quelle est la relation exacte entre $F$ et son bipolaire orthogonal $F^{\\perp\\perp}$ ?",
         type: "mcq",
         options: [
           "$F^{\\perp\\perp} = \\bar{F}$ (l'adhérence de F pour la topologie induite par le produit scalaire)",
@@ -842,7 +842,7 @@
         correctIndex: 0,
         answer: "$F^{\\perp\\perp} = \\bar{F}$ (l'adhérence de F pour la topologie induite par le produit scalaire)",
         hint1: "Comme l'application $x \\mapsto \\langle x, y \\rangle$ est continue, tout orthogonal $S^\\perp$ est un sous-espace fermé. Si $F$ est dense mais distinct de $E$, $F^{\\perp\\perp} = E \\ne F$.",
-        solution: "Pour tout sous-ensemble $S$, l'orthogonal $S^\\perp$ est une intersection de noyaux de formes linéaires continues, donc est un sous-espace vectoriel fermé. Ainsi, $F^{\\perp\\perp}$ est fermé et contient $F$, donc contient $\\bar{F}$. Si l'espace est complet (Hilbert), ou en dimension finie, on a exactement $F^{\\perp\\perp} = \\bar{F}$. En particulier, si $F$ n'est pas fermé (par exemple les polynômes $\\mathbb{R}[X]$ dans $L^2([0, 1])$), $F^{\\perp\\perp} = L^2([0, 1]) \\ne F$."
+        solution: "Pour tout sous-ensemble $S$, l'orthogonal $S^\\perp$ est une intersection de noyaux de formes linéaires continues, donc est un sous-espace vectoriel fermé. Ainsi, $F^{\\perp\\perp}$ est fermé et contient $F$, donc contient $\\bar{F}$. Comme $E$ est complet, $\\bar{F}$ est un sous-espace fermé et $E = \\bar{F} \\oplus \\bar{F}^{\\perp}$ (théorème de projection), avec $\\bar{F}^{\\perp} = F^{\\perp}$ ; on en déduit exactement $F^{\\perp\\perp} = \\bar{F}$. Attention : dans un espace seulement préhilbertien (non complet), on a uniquement l'inclusion $\\bar{F} \\subset F^{\\perp\\perp}$, qui peut être stricte. En particulier, si $F$ n'est pas fermé (par exemple les polynômes $\\mathbb{R}[X]$ dans $L^2([0, 1])$), $F^{\\perp\\perp} = L^2([0, 1]) \\ne F$."
       }
     ],
 
@@ -1116,15 +1116,15 @@
         statement: "On considère la série $u_n = \\frac{(-1)^n}{\\sqrt{n+1}}$ pour $n \\ge 0$. Cette série est convergente (CSSA). Que peut-on dire du produit de Cauchy $w_n = \\sum_{k=0}^n u_k u_{n-k}$ de cette série par elle-même ?",
         type: "mcq",
         options: [
-          "La série produit $\\sum w_n$ est grossièrement divergente car $|w_n| \\ge 1$ (tend vers 2)",
+          "La série produit $\\sum w_n$ est grossièrement divergente car $|w_n| \\ge 1$ pour tout $n$",
           "La série produit $\\sum w_n$ converge absolument",
           "La série produit $\\sum w_n$ converge vers $(\\sum u_n)^2$",
           "La série produit $\\sum w_n$ a pour somme 0"
         ],
         correctIndex: 0,
-        answer: "La série produit $\\sum w_n$ est grossièrement divergente car $|w_n| \\ge 1$ (tend vers 2)",
+        answer: "La série produit $\\sum w_n$ est grossièrement divergente car $|w_n| \\ge 1$ pour tout $n$",
         hint1: "Calculer le terme général : $w_n = (-1)^n \\sum_{k=0}^n \\frac{1}{\\sqrt{(k+1)(n-k+1)}}$ et minorer le dénominateur par $(n+2)/2$.",
-        solution: "On a $w_n = \\sum_{k=0}^n \\frac{(-1)^k}{\\sqrt{k+1}} \\frac{(-1)^{n-k}}{\\sqrt{n-k+1}} = (-1)^n \\sum_{k=0}^n \\frac{1}{\\sqrt{(k+1)(n-k+1)}}$. Par l'inégalité arithmético-géométrique, $(k+1)(n-k+1) \\le (\\frac{k+1+n-k+1}{2})^2 = (\\frac{n+2}{2})^2$. Donc $\\sqrt{(k+1)(n-k+1)} \\le \\frac{n+2}{2}$, d'où $\\frac{1}{\\sqrt{(k+1)(n-k+1)}} \\ge \\frac{2}{n+2}$. La somme comporte $n+1$ termes, donc $|w_n| \\ge (n+1) \\frac{2}{n+2} \\ge 1$ pour tout $n \\ge 0$ (et tend vers 2). Le terme général ne tend pas vers 0 : la série est grossièrement divergente. Cela illustre que l'absolue convergence d'au moins une des séries est indispensable dans le théorème de Mertens."
+        solution: "On a $w_n = \\sum_{k=0}^n \\frac{(-1)^k}{\\sqrt{k+1}} \\frac{(-1)^{n-k}}{\\sqrt{n-k+1}} = (-1)^n \\sum_{k=0}^n \\frac{1}{\\sqrt{(k+1)(n-k+1)}}$. Par l'inégalité arithmético-géométrique, $(k+1)(n-k+1) \\le (\\frac{k+1+n-k+1}{2})^2 = (\\frac{n+2}{2})^2$. Donc $\\sqrt{(k+1)(n-k+1)} \\le \\frac{n+2}{2}$, d'où $\\frac{1}{\\sqrt{(k+1)(n-k+1)}} \\ge \\frac{2}{n+2}$. La somme comporte $n+1$ termes, donc $|w_n| \\ge (n+1) \\frac{2}{n+2} \\ge 1$ pour tout $n \\ge 0$ (ce minorant tend vers 2 ; en reconnaissant une somme de Riemann, on montre même que $|w_n| \\to \\int_0^1 \\frac{dx}{\\sqrt{x(1-x)}} = \\pi$). Le terme général ne tend pas vers 0 : la série est grossièrement divergente. Cela illustre que l'absolue convergence d'au moins une des séries est indispensable dans le théorème de Mertens."
       },
       {
         id: 'capes-09-4',

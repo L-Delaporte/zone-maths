@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <script>
+    // Applique le thème (clair/sombre) choisi dans l'application, avant l'affichage
+    try {
+      document.documentElement.setAttribute('data-theme', JSON.parse(localStorage.getItem('maths_3e_progress_v1') || '{}').theme || 'light');
+    } catch (e) {}
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Cours de maths de terminale : chapitres et exercices</title>
+  <meta name="description" content="La spécialité mathématiques de terminale et l'option mathématiques expertes : limites, continuité, logarithme, intégration, géométrie dans l'espace, lois…" />
+  <meta name="author" content="Loïc Delaporte, professeur de mathématiques" />
+  <link rel="canonical" href="https://etabli-des-maths.fr/cours/terminale/" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Cours de maths de terminale : chapitres et exercices" />
+  <meta property="og:description" content="La spécialité mathématiques de terminale et l'option mathématiques expertes : limites, continuité, logarithme, intégration, géométrie dans l'espace, lois…" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://etabli-des-maths.fr/cours/terminale/" />
+  <meta property="og:image" content="https://etabli-des-maths.fr/assets/logo.jpg" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta property="og:site_name" content="L'Établi des Maths" />
+
+  <link rel="stylesheet" href="../../css/style.css" />
+  <link rel="stylesheet" href="../../css/landing.css" />
+  <link rel="stylesheet" href="../../vendor/katex/katex.min.css" />
+  <link rel="stylesheet" href="../../css/cours.css" />
+  <link rel="icon" href="../../favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../../assets/favicon-32x32.png" />
+  <link rel="apple-touch-icon" href="../../assets/favicon.png" />
+  <link rel="manifest" href="../../manifest.json" />
+  <meta name="theme-color" content="#2563eb" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Cours de mathématiques de terminale — 16 chapitres",
+    "description": "La spécialité mathématiques de terminale et l'option mathématiques expertes : limites, continuité, logarithme, intégration, géométrie dans l'espace, lois…",
+    "url": "https://etabli-des-maths.fr/cours/terminale/",
+    "inLanguage": "fr",
+    "educationalLevel": "Lycée — terminale, spécialité mathématiques et mathématiques expertes",
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "L'Établi des Maths",
+      "url": "https://etabli-des-maths.fr/"
+    },
+    "mainEntity": {
+      "@type": "ItemList",
+      "numberOfItems": 16,
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Le raisonnement par récurrence",
+          "url": "https://etabli-des-maths.fr/cours/terminale/le-raisonnement-par-recurrence.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Limites de suites et théorèmes de convergence",
+          "url": "https://etabli-des-maths.fr/cours/terminale/limites-de-suites-et-theoremes-de-convergence.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Limites de fonctions, continuité et Théorème des Valeurs Intermédiaires",
+          "url": "https://etabli-des-maths.fr/cours/terminale/limites-de-fonctions.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Convexité, concavité et points d'inflexion",
+          "url": "https://etabli-des-maths.fr/cours/terminale/convexite-concavite-et-points-d-inflexion.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 5,
+          "name": "La fonction logarithme népérien : propriétés, limites et croissances comparées",
+          "url": "https://etabli-des-maths.fr/cours/terminale/la-fonction-logarithme-neperien.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 6,
+          "name": "Primitives et équations différentielles linéaires",
+          "url": "https://etabli-des-maths.fr/cours/terminale/primitives-et-equations-differentielles-lineaires.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 7,
+          "name": "Calcul intégral : intégrale, aire, valeur moyenne et intégration par parties",
+          "url": "https://etabli-des-maths.fr/cours/terminale/calcul-integral.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 8,
+          "name": "Vecteurs, droites et plans dans l'espace",
+          "url": "https://etabli-des-maths.fr/cours/terminale/vecteurs-droites-et-plans-dans-l-espace.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 9,
+          "name": "Produit scalaire dans l'espace et équations cartésiennes de plans",
+          "url": "https://etabli-des-maths.fr/cours/terminale/produit-scalaire-dans-l-espace-et-equations.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 10,
+          "name": "Épreuves répétées, schéma de Bernoulli et loi binomiale",
+          "url": "https://etabli-des-maths.fr/cours/terminale/epreuves-repetees.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 11,
+          "name": "Sommes de variables aléatoires et loi des grands nombres",
+          "url": "https://etabli-des-maths.fr/cours/terminale/sommes-de-variables-aleatoires-et-loi-des-grands.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 12,
+          "name": "Nombres complexes : forme algébrique et équations du second degré",
+          "url": "https://etabli-des-maths.fr/cours/terminale/nombres-complexes.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 13,
+          "name": "Nombres complexes et géométrie : forme trigonométrique et exponentielle",
+          "url": "https://etabli-des-maths.fr/cours/terminale/nombres-complexes-et-geometrie.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 14,
+          "name": "Arithmétique dans Z et congruences",
+          "url": "https://etabli-des-maths.fr/cours/terminale/arithmetique-dans-z-et-congruences.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 15,
+          "name": "Théorèmes de Bézout et de Gauss, nombres premiers et chiffrement RSA",
+          "url": "https://etabli-des-maths.fr/cours/terminale/theoremes-de-bezout-et-de-gauss.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 16,
+          "name": "Calcul matriciel, graphes et chaînes de Markov",
+          "url": "https://etabli-des-maths.fr/cours/terminale/calcul-matriciel.html"
+        }
+      ]
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Accueil",
+        "item": "https://etabli-des-maths.fr/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Cours",
+        "item": "https://etabli-des-maths.fr/cours/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Terminale",
+        "item": "https://etabli-des-maths.fr/cours/terminale/"
+      }
+    ]
+  }
+  </script>
+</head>
+<body class="cours-page">
+  <a class="cours-skip" href="#contenu">Aller au contenu</a>
+
+  <!-- Header Uniformisé -->
+  <header class="app-header">
+    <div class="header-inner">
+      <a href="../../index.html" class="brand-container" style="text-decoration: none;">
+        <img src="../../assets/logo-96.png" alt="L'Établi des Maths" class="brand-logo-img" width="44" height="44" />
+        <div class="brand-text">
+          <p class="brand-title">L'Établi des Maths <span class="brand-level-tag">Cours</span></p>
+          <span class="brand-tagline">Outils pour apprendre et pratiquer</span>
+        </div>
+      </a>
+
+      <!-- Navigation entre Portails -->
+      <nav class="nav-portal-links" aria-label="Portails thématiques">
+        <a href="../../index.html" class="nav-portal-btn">🏠 Accueil</a>
+        <a href="../../cours/" class="nav-portal-btn active" aria-current="true">📚 Cours</a>
+        <a href="../../rituels.html" class="nav-portal-btn">⏱️ Rituels</a>
+        <a href="../../brevet.html" class="nav-portal-btn">📝 Brevet 3e</a>
+        <a href="../../bac.html" class="nav-portal-btn">🎓 Baccalauréat</a>
+        <a href="../../enseignants.html" class="nav-portal-btn">👨‍🏫 Enseignants</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="landing-wrapper cours-wrapper" id="contenu">
+    <nav class="cours-breadcrumb" aria-label="Fil d'Ariane">
+      <ol>
+        <li><a href="../../index.html">Accueil</a></li>
+        <li><a href="../">Cours</a></li>
+        <li><span aria-current="page">Terminale</span></li>
+      </ol>
+    </nav>
+
+    <header class="cours-hero">
+      <p class="landing-tag">Lycée · Terminale</p>
+      <h1 class="cours-title">Cours de mathématiques de terminale — 16 chapitres</h1>
+      <p class="cours-lead">La spécialité mathématiques de terminale et l'option mathématiques expertes : limites, continuité, logarithme, intégration, géométrie dans l'espace, lois de probabilité, arithmétique, complexes et matrices. Chaque chapitre contient le cours complet, des méthodes rédigées et des exercices corrigés.</p>
+      <div class="cours-cta">
+        <a class="btn-primary cours-cta-main" href="../../index.html?level=tale">🎯 S'entraîner en Terminale</a>
+      </div>
+    </header>
+
+    <section class="cours-section" id="domaine-1" aria-labelledby="domaine-1-titre">
+      <h2 id="domaine-1-titre">Analyse et Raisonnement</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="le-raisonnement-par-recurrence.html">
+          <span class="topic-num">TA1</span>
+          <span class="cours-chapter-text"><strong>Le raisonnement par récurrence</strong><span>Principe de récurrence (initialisation, hérédité, conclusion), applications aux sommes, inégalités et suites définies par récurrence.</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-2" aria-labelledby="domaine-2-titre">
+      <h2 id="domaine-2-titre">Analyse et Suites</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="limites-de-suites-et-theoremes-de-convergence.html">
+          <span class="topic-num">TA2</span>
+          <span class="cours-chapter-text"><strong>Limites de suites et théorèmes de convergence</strong><span>Définition d'une limite finie ou infinie, opérations sur les limites, formes indéterminées, théorème de comparaison, théorème des gendarmes…</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-3" aria-labelledby="domaine-3-titre">
+      <h2 id="domaine-3-titre">Analyse et Fonctions</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="limites-de-fonctions.html">
+          <span class="topic-num">TA3</span>
+          <span class="cours-chapter-text"><strong>Limites de fonctions, continuité et Théorème des Valeurs Intermédiaires</strong><span>Limites aux bornes, asymptotes horizontales, verticales et obliques, notion de continuité, Théorème des Valeurs Intermédiaires (TVI) et corollaire…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="convexite-concavite-et-points-d-inflexion.html">
+          <span class="topic-num">TA4</span>
+          <span class="cours-chapter-text"><strong>Convexité, concavité et points d'inflexion</strong><span>Fonction convexe / concave, position relative par rapport aux tangentes, dérivée seconde f'', lien entre signe de f'' et convexité, détection…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="la-fonction-logarithme-neperien.html">
+          <span class="topic-num">TA5</span>
+          <span class="cours-chapter-text"><strong>La fonction logarithme népérien : propriétés, limites et croissances comparées</strong><span>Définition comme bijection réciproque de exp, ln(ab) = ln(a) + ln(b), dérivée de ln(u), limites aux bornes et croissances comparées…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="primitives-et-equations-differentielles-lineaires.html">
+          <span class="topic-num">TA6</span>
+          <span class="cours-chapter-text"><strong>Primitives et équations différentielles linéaires</strong><span>Définition d'une primitive, tableau des primitives usuelles, équations différentielles linéaires y' = ay et y' = ay + b, condition initiale.</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="calcul-integral.html">
+          <span class="topic-num">TA7</span>
+          <span class="cours-chapter-text"><strong>Calcul intégral : intégrale, aire, valeur moyenne et intégration par parties</strong><span>Intégrale comme aire sous la courbe, théorème fondamental de l'analyse ∫_a^b f(t)dt = F(b) - F(a), linéarité, positivité, intégration par parties…</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-4" aria-labelledby="domaine-4-titre">
+      <h2 id="domaine-4-titre">Géométrie de l'Espace</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="vecteurs-droites-et-plans-dans-l-espace.html">
+          <span class="topic-num">TG1</span>
+          <span class="cours-chapter-text"><strong>Vecteurs, droites et plans dans l'espace</strong><span>Bases et repères dans l'espace à 3 dimensions, colinéarité, vecteurs coplanaires, représentation paramétrique d'une droite et d'un plan.</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="produit-scalaire-dans-l-espace-et-equations.html">
+          <span class="topic-num">TG2</span>
+          <span class="cours-chapter-text"><strong>Produit scalaire dans l'espace et équations cartésiennes de plans</strong><span>Produit scalaire dans l'espace xx' + yy' + zz', orthogonalité de droites et de plans, vecteur normal à un plan, équation cartésienne ax + by + cz +…</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-5" aria-labelledby="domaine-5-titre">
+      <h2 id="domaine-5-titre">Probabilités et Statistiques</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="epreuves-repetees.html">
+          <span class="topic-num">TS1</span>
+          <span class="cours-chapter-text"><strong>Épreuves répétées, schéma de Bernoulli et loi binomiale</strong><span>Épreuve et schéma de Bernoulli, arbre de Bernoulli, coefficients binomiaux (n k), loi binomiale B(n, p), formule P(X = k), espérance E(X) = np…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="sommes-de-variables-aleatoires-et-loi-des-grands.html">
+          <span class="topic-num">TS2</span>
+          <span class="cours-chapter-text"><strong>Sommes de variables aléatoires et loi des grands nombres</strong><span>Somme de variables aléatoires indépendantes, linéarité de l'espérance, variance d'une somme, inégalité de Bienaymé-Tchebychev et inégalité…</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-6" aria-labelledby="domaine-6-titre">
+      <h2 id="domaine-6-titre">Mathématiques Expertes</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="nombres-complexes.html">
+          <span class="topic-num">TX1</span>
+          <span class="cours-chapter-text"><strong>Nombres complexes : forme algébrique et équations du second degré</strong><span>Construction de C, unité imaginaire i² = -1, partie réelle et imaginaire, conjugué z̄, équations du second degré à coefficients réels…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="nombres-complexes-et-geometrie.html">
+          <span class="topic-num">TX2</span>
+          <span class="cours-chapter-text"><strong>Nombres complexes et géométrie : forme trigonométrique et exponentielle</strong><span>Affixe d'un point et d'un vecteur, module |z|, argument arg(z), forme exponentielle re^(iθ), formule d'Euler et de Moivre, transformations du plan…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="arithmetique-dans-z-et-congruences.html">
+          <span class="topic-num">TX3</span>
+          <span class="cours-chapter-text"><strong>Arithmétique dans Z et congruences</strong><span>Divisibilité dans Z, division euclidienne, relation de congruence a ≡ b [n], compatibilité avec addition et multiplication, critères de divisibilité…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="theoremes-de-bezout-et-de-gauss.html">
+          <span class="topic-num">TX4</span>
+          <span class="cours-chapter-text"><strong>Théorèmes de Bézout et de Gauss, nombres premiers et chiffrement RSA</strong><span>PGCD, algorithme d'Euclide, identité de Bézout au + bv = pgcd(a,b), équations diophantiennes ax + by = c, lemme de Gauss, décomposition en facteurs…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="calcul-matriciel.html">
+          <span class="topic-num">TX5</span>
+          <span class="cours-chapter-text"><strong>Calcul matriciel, graphes et chaînes de Markov</strong><span>Matrices (lignes, colonnes, carrées), addition, multiplication matricielle, matrice inverse, puissances de matrices M^n, graphes probabilistes…</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <nav class="cours-pager" aria-label="Autres niveaux">
+      <a class="nav-portal-btn" href="../6e/">6e</a>
+      <a class="nav-portal-btn" href="../5e/">5e</a>
+      <a class="nav-portal-btn" href="../4e/">4e</a>
+      <a class="nav-portal-btn" href="../3e/">3e</a>
+      <a class="nav-portal-btn" href="../seconde/">Seconde</a>
+      <a class="nav-portal-btn" href="../premiere/">Première</a>
+      <a class="nav-portal-btn active" href="../terminale/" aria-current="page">Terminale</a>
+      <a class="nav-portal-btn" href="../l1/">Licence 1</a>
+      <a class="nav-portal-btn" href="../l2/">Licence 2</a>
+      <a class="nav-portal-btn" href="../l3/">Licence 3</a>
+      <a class="nav-portal-btn" href="../capes/">CAPES</a>
+    </nav>
+  </main>
+
+  <footer class="cours-footer">
+    <p>L'Établi des Maths — Conçu par Loïc Delaporte, professeur de mathématiques • 100 % libre et gratuit, conforme aux programmes</p>
+    <p><a href="../../cours/">Tous les cours</a> · <a href="../../index.html">Ouvrir l'application</a> · <a href="../../enseignants.html">Espace enseignants</a></p>
+  </footer>
+  <!-- Statistiques d'audience anonymes et conformes RGPD (GoatCounter) -->
+  <script data-goatcounter="https://etabli-des-maths.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

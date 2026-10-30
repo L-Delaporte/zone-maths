@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <script>
+    // Applique le thème (clair/sombre) choisi dans l'application, avant l'affichage
+    try {
+      document.documentElement.setAttribute('data-theme', JSON.parse(localStorage.getItem('maths_3e_progress_v1') || '{}').theme || 'light');
+    } catch (e) {}
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Cours de maths de L1 : chapitres et exercices</title>
+  <meta name="description" content="Première année de licence de mathématiques : logique et ensembles, nombres complexes, algèbre linéaire, suites et fonctions réelles, développements limités…" />
+  <meta name="author" content="Loïc Delaporte, professeur de mathématiques" />
+  <link rel="canonical" href="https://etabli-des-maths.fr/cours/l1/" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Cours de maths de L1 : chapitres et exercices" />
+  <meta property="og:description" content="Première année de licence de mathématiques : logique et ensembles, nombres complexes, algèbre linéaire, suites et fonctions réelles, développements limités…" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://etabli-des-maths.fr/cours/l1/" />
+  <meta property="og:image" content="https://etabli-des-maths.fr/assets/logo.jpg" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta property="og:site_name" content="L'Établi des Maths" />
+
+  <link rel="stylesheet" href="../../css/style.css" />
+  <link rel="stylesheet" href="../../css/landing.css" />
+  <link rel="stylesheet" href="../../vendor/katex/katex.min.css" />
+  <link rel="stylesheet" href="../../css/cours.css" />
+  <link rel="icon" href="../../favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../../assets/favicon-32x32.png" />
+  <link rel="apple-touch-icon" href="../../assets/favicon.png" />
+  <link rel="manifest" href="../../manifest.json" />
+  <meta name="theme-color" content="#2563eb" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Cours de mathématiques de L1 — 12 chapitres",
+    "description": "Première année de licence de mathématiques : logique et ensembles, nombres complexes, algèbre linéaire, suites et fonctions réelles, développements limités…",
+    "url": "https://etabli-des-maths.fr/cours/l1/",
+    "inLanguage": "fr",
+    "educationalLevel": "Université — licence de mathématiques, 1re année (L1)",
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "L'Établi des Maths",
+      "url": "https://etabli-des-maths.fr/"
+    },
+    "mainEntity": {
+      "@type": "ItemList",
+      "numberOfItems": 12,
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Logique mathématique, quantificateurs et théorie des ensembles",
+          "url": "https://etabli-des-maths.fr/cours/l1/logique-mathematique.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Nombres complexes et arithmétique des polynômes dans K[X]",
+          "url": "https://etabli-des-maths.fr/cours/l1/nombres-complexes-et-arithmetique-des-polynomes.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Calcul matriciel, systèmes linéaires et pivot de Gauss",
+          "url": "https://etabli-des-maths.fr/cours/l1/calcul-matriciel.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Espaces vectoriels, sous-espaces et bases en dimension finie",
+          "url": "https://etabli-des-maths.fr/cours/l1/espaces-vectoriels.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 5,
+          "name": "Applications linéaires, noyau, image et Théorème du Rang",
+          "url": "https://etabli-des-maths.fr/cours/l1/applications-lineaires.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 6,
+          "name": "Corps des nombres réels, propriété de la borne supérieure et topologie de R",
+          "url": "https://etabli-des-maths.fr/cours/l1/corps-des-nombres-reels.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 7,
+          "name": "Suites réelles : limites (ε-N), suites de Cauchy et Bolzano-Weierstrass",
+          "url": "https://etabli-des-maths.fr/cours/l1/suites-reelles.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 8,
+          "name": "Continuité et dérivation sur R, Théorème de Rolle et TAF",
+          "url": "https://etabli-des-maths.fr/cours/l1/continuite-et-derivation-sur-r.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 9,
+          "name": "Formules de Taylor, développements limités et étude locale",
+          "url": "https://etabli-des-maths.fr/cours/l1/formules-de-taylor.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 10,
+          "name": "Intégrale de Riemann sur un segment et techniques de primitivation",
+          "url": "https://etabli-des-maths.fr/cours/l1/integrale-de-riemann-sur-un-segment-et-techniques.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 11,
+          "name": "Géométrie euclidienne plane, repères orthonormés et coniques",
+          "url": "https://etabli-des-maths.fr/cours/l1/geometrie-euclidienne-plane.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 12,
+          "name": "Démonstrations fondamentales de L1 : analyse, algèbre et topologie",
+          "url": "https://etabli-des-maths.fr/cours/l1/demonstrations-fondamentales-de-l1.html"
+        }
+      ]
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Accueil",
+        "item": "https://etabli-des-maths.fr/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Cours",
+        "item": "https://etabli-des-maths.fr/cours/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Licence 1",
+        "item": "https://etabli-des-maths.fr/cours/l1/"
+      }
+    ]
+  }
+  </script>
+</head>
+<body class="cours-page">
+  <a class="cours-skip" href="#contenu">Aller au contenu</a>
+
+  <!-- Header Uniformisé -->
+  <header class="app-header">
+    <div class="header-inner">
+      <a href="../../index.html" class="brand-container" style="text-decoration: none;">
+        <img src="../../assets/logo-96.png" alt="L'Établi des Maths" class="brand-logo-img" width="44" height="44" />
+        <div class="brand-text">
+          <p class="brand-title">L'Établi des Maths <span class="brand-level-tag">Cours</span></p>
+          <span class="brand-tagline">Outils pour apprendre et pratiquer</span>
+        </div>
+      </a>
+
+      <!-- Navigation entre Portails -->
+      <nav class="nav-portal-links" aria-label="Portails thématiques">
+        <a href="../../index.html" class="nav-portal-btn">🏠 Accueil</a>
+        <a href="../../cours/" class="nav-portal-btn active" aria-current="true">📚 Cours</a>
+        <a href="../../rituels.html" class="nav-portal-btn">⏱️ Rituels</a>
+        <a href="../../brevet.html" class="nav-portal-btn">📝 Brevet 3e</a>
+        <a href="../../bac.html" class="nav-portal-btn">🎓 Baccalauréat</a>
+        <a href="../../enseignants.html" class="nav-portal-btn">👨‍🏫 Enseignants</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="landing-wrapper cours-wrapper" id="contenu">
+    <nav class="cours-breadcrumb" aria-label="Fil d'Ariane">
+      <ol>
+        <li><a href="../../index.html">Accueil</a></li>
+        <li><a href="../">Cours</a></li>
+        <li><span aria-current="page">Licence 1</span></li>
+      </ol>
+    </nav>
+
+    <header class="cours-hero">
+      <p class="landing-tag">Licence de mathématiques · Licence 1</p>
+      <h1 class="cours-title">Cours de mathématiques de L1 — 12 chapitres</h1>
+      <p class="cours-lead">Première année de licence de mathématiques : logique et ensembles, nombres complexes, algèbre linéaire, suites et fonctions réelles, développements limités, intégration et démonstrations fondamentales. Chaque chapitre contient le cours complet, des méthodes rédigées et des exercices corrigés.</p>
+      <div class="cours-cta">
+        <a class="btn-primary cours-cta-main" href="../../index.html?level=L1">🎯 S'entraîner en Licence 1</a>
+      </div>
+    </header>
+
+    <section class="cours-section" id="domaine-1" aria-labelledby="domaine-1-titre">
+      <h2 id="domaine-1-titre">Algèbre Fondamentale</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="logique-mathematique.html">
+          <span class="topic-num">L1-01</span>
+          <span class="cours-chapter-text"><strong>Logique mathématique, quantificateurs et théorie des ensembles</strong><span>Calcul propositionnel, quantificateurs (∀, ∃), connecteurs logiques, raisonnement par contraposition et par l'absurde, applications, injection…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="nombres-complexes-et-arithmetique-des-polynomes.html">
+          <span class="topic-num">L1-02</span>
+          <span class="cours-chapter-text"><strong>Nombres complexes et arithmétique des polynômes dans K[X]</strong><span>Racines n-ièmes de l'unité, polynômes à coefficients dans R ou C, division euclidienne, pgcd, algorithme d'Euclide, théorème de d'Alembert-Gauss…</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-2" aria-labelledby="domaine-2-titre">
+      <h2 id="domaine-2-titre">Algèbre Linéaire</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="calcul-matriciel.html">
+          <span class="topic-num">L1-03</span>
+          <span class="cours-chapter-text"><strong>Calcul matriciel, systèmes linéaires et pivot de Gauss</strong><span>Espaces de matrices M_{n,p}(K), produit matriciel, algorithme du pivot de Gauss, échelonnement en lignes, résolution des systèmes linéaires, calcul…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="espaces-vectoriels.html">
+          <span class="topic-num">L1-04</span>
+          <span class="cours-chapter-text"><strong>Espaces vectoriels, sous-espaces et bases en dimension finie</strong><span>Définition axiomatique d'un K-espace vectoriel, sous-espaces vectoriels, combinaisons linéaires, familles libres, familles génératrices, bases…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="applications-lineaires.html">
+          <span class="topic-num">L1-05</span>
+          <span class="cours-chapter-text"><strong>Applications linéaires, noyau, image et Théorème du Rang</strong><span>Morphismes d'espaces vectoriels, noyau Ker(f), image Im(f), théorème du rang dim(Ker f) + dim(Im f) = dim(E), isomorphismes, matrice représentative…</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-3" aria-labelledby="domaine-3-titre">
+      <h2 id="domaine-3-titre">Analyse Réelle</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="corps-des-nombres-reels.html">
+          <span class="topic-num">L1-06</span>
+          <span class="cours-chapter-text"><strong>Corps des nombres réels, propriété de la borne supérieure et topologie de R</strong><span>Construction intuitive de R, axiome de la borne supérieure, densité de Q et de R\Q dans R, valeur absolue, caractérisation par les voisinages…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="suites-reelles.html">
+          <span class="topic-num">L1-07</span>
+          <span class="cours-chapter-text"><strong>Suites réelles : limites (ε-N), suites de Cauchy et Bolzano-Weierstrass</strong><span>Définition de la limite par les quantificateurs (ε, N), suites monotones, suites adjacentes, sous-suites (valeurs d'adhérence), théorème…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="continuite-et-derivation-sur-r.html">
+          <span class="topic-num">L1-08</span>
+          <span class="cours-chapter-text"><strong>Continuité et dérivation sur R, Théorème de Rolle et TAF</strong><span>Continuité en un point (ε-δ), théorème des bornes atteintes (Weierstrass), théorème des valeurs intermédiaires, dérivabilité, extremum local…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="formules-de-taylor.html">
+          <span class="topic-num">L1-09</span>
+          <span class="cours-chapter-text"><strong>Formules de Taylor, développements limités et étude locale</strong><span>Formule de Taylor-Young, Taylor-Lagrange, développements limités (DL) au voisinage de 0, opérations sur les DL (somme, produit, quotient…</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-4" aria-labelledby="domaine-4-titre">
+      <h2 id="domaine-4-titre">Calcul Intégral</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="integrale-de-riemann-sur-un-segment-et-techniques.html">
+          <span class="topic-num">L1-10</span>
+          <span class="cours-chapter-text"><strong>Intégrale de Riemann sur un segment et techniques de primitivation</strong><span>Intégrale des fonctions continues par morceaux sur un segment [a,b], sommes de Darboux et de Riemann, théorème fondamental de l'analyse, intégration…</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-5" aria-labelledby="domaine-5-titre">
+      <h2 id="domaine-5-titre">Géométrie Élémentaire</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="geometrie-euclidienne-plane.html">
+          <span class="topic-num">L1-11</span>
+          <span class="cours-chapter-text"><strong>Géométrie euclidienne plane, repères orthonormés et coniques</strong><span>Produit scalaire euclidien sur R², R³, orthogonalité, équations de cercles, coniques (ellipse, hyperbole, parabole), foyer, directrice, excentricité…</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-6" aria-labelledby="domaine-6-titre">
+      <h2 id="domaine-6-titre">Démonstrations Fondamentales</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="demonstrations-fondamentales-de-l1.html">
+          <span class="topic-num">L1-12</span>
+          <span class="cours-chapter-text"><strong>Démonstrations fondamentales de L1 : analyse, algèbre et topologie</strong><span>Apprentissage des démonstrations universitaires de référence de L1 : TVI par dichotomie, Bolzano-Weierstrass, Théorème de Rolle, Théorème du Rang.</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <nav class="cours-pager" aria-label="Autres niveaux">
+      <a class="nav-portal-btn" href="../6e/">6e</a>
+      <a class="nav-portal-btn" href="../5e/">5e</a>
+      <a class="nav-portal-btn" href="../4e/">4e</a>
+      <a class="nav-portal-btn" href="../3e/">3e</a>
+      <a class="nav-portal-btn" href="../seconde/">Seconde</a>
+      <a class="nav-portal-btn" href="../premiere/">Première</a>
+      <a class="nav-portal-btn" href="../terminale/">Terminale</a>
+      <a class="nav-portal-btn active" href="../l1/" aria-current="page">Licence 1</a>
+      <a class="nav-portal-btn" href="../l2/">Licence 2</a>
+      <a class="nav-portal-btn" href="../l3/">Licence 3</a>
+      <a class="nav-portal-btn" href="../capes/">CAPES</a>
+    </nav>
+  </main>
+
+  <footer class="cours-footer">
+    <p>L'Établi des Maths — Conçu par Loïc Delaporte, professeur de mathématiques • 100 % libre et gratuit, conforme aux programmes</p>
+    <p><a href="../../cours/">Tous les cours</a> · <a href="../../index.html">Ouvrir l'application</a> · <a href="../../enseignants.html">Espace enseignants</a></p>
+  </footer>
+  <!-- Statistiques d'audience anonymes et conformes RGPD (GoatCounter) -->
+  <script data-goatcounter="https://etabli-des-maths.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

@@ -2187,6 +2187,7 @@ window.MATHS_EXERCISES_L1 = {
 window.MATHS_WORKSHEETS_L1 = {
   "L1-MAT": [
     {
+      "id": "L1-MAT-fiche_td",
       "title": "Feuille de TD L1 : Systèmes linéaires et Pivot de Gauss",
       "filename": "TD_L1_Pivot_Gauss.md",
       "statement": `## Travaux Dirigés L1 : Systèmes Linéaires et Algorithme de Gauss
@@ -2213,6 +2214,7 @@ Conclusion : $S = \\left\\{\\left(\\frac{14}{3} ; 0 ; \\frac{5}{3}\\right)\\righ
   ],
   "L1-CMP": [
     {
+      "id": "L1-CMP-fiche_td",
       "title": "Feuille de TD L1 : Polynômes et Décomposition en Éléments Simples (DES)",
       "filename": "TD_L1_Polynomes_DES.md",
       "statement": `## Travaux Dirigés L1 : Polynômes et Décomposition en Éléments Simples
@@ -2268,6 +2270,7 @@ Conclusion finale : $G(X) = 1 + \\frac{1}{(X - 1)^2} + \\frac{2}{3(X - 1)} - \\f
   ],
   "L1-REL": [
     {
+      "id": "L1-REL-fiche_td",
       "title": "Feuille de TD L1 : Nombres Réels, Borne Supérieure et Densité",
       "filename": "TD_L1_Reels_Borne_Sup_Densite.md",
       "statement": `## Travaux Dirigés L1 : Propriétés des Nombres Réels et Topologie de R

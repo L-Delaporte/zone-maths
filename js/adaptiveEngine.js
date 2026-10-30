@@ -895,6 +895,29 @@ window.MathsAdaptiveEngine = {
     if (!chapter) return `${rank} des Maths`;
 
     const specialNotions = {
+      // 6ème
+      '6N1': 'des Décimaux',
+      '6N2': 'des Encadrements',
+      '6N3': 'des Additions',
+      '6N4': 'des Multiplications',
+      '6N5': 'des Divisions',
+      '6N6': 'des Fractions',
+      '6N7': 'du Calcul Fractionnaire',
+      '6N8': 'de l\'Algèbre',
+      '6P1': 'de la Proportionnalité',
+      '6M1': 'des Périmètres',
+      '6M2': 'des Aires',
+      '6M3': 'des Volumes',
+      '6M4': 'des Durées',
+      '6G1': 'des Droites',
+      '6G2': 'de la Symétrie',
+      '6G3': 'des Angles',
+      '6G4': 'des Triangles',
+      '6G5': 'de l\'Espace',
+      '6D1': 'des Données',
+      '6D2': 'des Probabilités',
+      '6A1': 'Codeur Scratch',
+
       // 3ème
       'N1': 'des Fractions',
       'N2': 'du Calcul Littéral',

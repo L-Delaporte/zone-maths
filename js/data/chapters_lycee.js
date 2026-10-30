@@ -1,6 +1,6 @@
 /**
  * Métadonnées des 40 chapitres du Lycée (Seconde, Première Spécialité, Terminale Spé & Expertes)
- * Conforme aux programmes officiels du Bulletin Officiel de l'Éducation Nationale et à maths-et-tiques.fr
+ * Conforme aux programmes officiels de l'Éducation nationale
  */
 
 const MATHS_CHAPTERS_LYCEE = [

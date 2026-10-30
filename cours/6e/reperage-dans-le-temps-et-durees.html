@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <script>
+    // Applique le thème (clair/sombre) choisi dans l'application, avant l'affichage
+    try {
+      document.documentElement.setAttribute('data-theme', JSON.parse(localStorage.getItem('maths_3e_progress_v1') || '{}').theme || 'light');
+    } catch (e) {}
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Repérage dans le temps et durées — cours de 6e</title>
+  <meta name="description" content="Cours de 6e — Repérage dans le temps et durées : distinguer un horaire (un instant) et une durée (un intervalle de temps), connaître les relations entre unités…" />
+  <meta name="author" content="Loïc Delaporte, professeur de mathématiques" />
+  <link rel="canonical" href="https://etabli-des-maths.fr/cours/6e/reperage-dans-le-temps-et-durees.html" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Repérage dans le temps et durées — cours de 6e" />
+  <meta property="og:description" content="Cours de 6e — Repérage dans le temps et durées : distinguer un horaire (un instant) et une durée (un intervalle de temps), connaître les relations entre unités…" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://etabli-des-maths.fr/cours/6e/reperage-dans-le-temps-et-durees.html" />
+  <meta property="og:image" content="https://etabli-des-maths.fr/assets/logo.jpg" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta property="og:site_name" content="L'Établi des Maths" />
+
+  <link rel="stylesheet" href="../../css/style.css" />
+  <link rel="stylesheet" href="../../css/landing.css" />
+  <link rel="stylesheet" href="../../vendor/katex/katex.min.css" />
+  <link rel="stylesheet" href="../../css/cours.css" />
+  <link rel="icon" href="../../favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../../assets/favicon-32x32.png" />
+  <link rel="apple-touch-icon" href="../../assets/favicon.png" />
+  <link rel="manifest" href="../../manifest.json" />
+  <meta name="theme-color" content="#2563eb" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LearningResource",
+    "name": "Repérage dans le temps et durées — cours de 6e",
+    "headline": "Repérage dans le temps et durées",
+    "description": "Cours de 6e — Repérage dans le temps et durées : distinguer un horaire (un instant) et une durée (un intervalle de temps), connaître les relations entre unités…",
+    "url": "https://etabli-des-maths.fr/cours/6e/reperage-dans-le-temps-et-durees.html",
+    "inLanguage": "fr",
+    "educationalLevel": "Collège — classe de 6e (cycle 3)",
+    "learningResourceType": [
+      "Cours",
+      "Exercices corrigés"
+    ],
+    "teaches": [
+      "Distinguer un horaire (un instant) et une durée (un intervalle de temps).",
+      "Connaître les relations entre unités de durée : 1 h = 60 min, 1 min = 60 s, 1 j = 24 h.",
+      "Convertir des durées (heures, minutes, secondes ; écritures décimales simples).",
+      "Calculer une durée, un horaire de début ou de fin, et résoudre des problèmes."
+    ],
+    "about": {
+      "@type": "Thing",
+      "name": "Grandeurs et Mesures"
+    },
+    "isAccessibleForFree": true,
+    "dateModified": "2026-10-30",
+    "author": {
+      "@type": "Person",
+      "name": "Loïc Delaporte",
+      "jobTitle": "Professeur de mathématiques"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "L'Établi des Maths",
+      "url": "https://etabli-des-maths.fr/",
+      "logo": "https://etabli-des-maths.fr/assets/logo.png"
+    },
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "L'Établi des Maths",
+      "url": "https://etabli-des-maths.fr/"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Accueil",
+        "item": "https://etabli-des-maths.fr/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Cours",
+        "item": "https://etabli-des-maths.fr/cours/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "6e",
+        "item": "https://etabli-des-maths.fr/cours/6e/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Durées",
+        "item": "https://etabli-des-maths.fr/cours/6e/reperage-dans-le-temps-et-durees.html"
+      }
+    ]
+  }
+  </script>
+</head>
+<body class="cours-page">
+  <a class="cours-skip" href="#contenu">Aller au contenu</a>
+
+  <!-- Header Uniformisé -->
+  <header class="app-header">
+    <div class="header-inner">
+      <a href="../../index.html" class="brand-container" style="text-decoration: none;">
+        <img src="../../assets/logo-96.png" alt="L'Établi des Maths" class="brand-logo-img" width="44" height="44" />
+        <div class="brand-text">
+          <p class="brand-title">L'Établi des Maths <span class="brand-level-tag">Cours</span></p>
+          <span class="brand-tagline">Outils pour apprendre et pratiquer</span>
+        </div>
+      </a>
+
+      <!-- Navigation entre Portails -->
+      <nav class="nav-portal-links" aria-label="Portails thématiques">
+        <a href="../../index.html" class="nav-portal-btn">🏠 Accueil</a>
+        <a href="../../cours/" class="nav-portal-btn active" aria-current="true">📚 Cours</a>
+        <a href="../../rituels.html" class="nav-portal-btn">⏱️ Rituels</a>
+        <a href="../../brevet.html" class="nav-portal-btn">📝 Brevet 3e</a>
+        <a href="../../bac.html" class="nav-portal-btn">🎓 Baccalauréat</a>
+        <a href="../../enseignants.html" class="nav-portal-btn">👨‍🏫 Enseignants</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="landing-wrapper cours-wrapper" id="contenu">
+    <nav class="cours-breadcrumb" aria-label="Fil d'Ariane">
+      <ol>
+        <li><a href="../../index.html">Accueil</a></li>
+        <li><a href="../">Cours</a></li>
+        <li><a href="./">6e</a></li>
+        <li><span aria-current="page">Durées</span></li>
+      </ol>
+    </nav>
+
+    <header class="cours-hero">
+      <p class="landing-tag">6e · Grandeurs et Mesures · 6M4</p>
+      <h1 class="cours-title">Repérage dans le temps et durées — cours de 6e</h1>
+      <p class="cours-lead">Lire et calculer des horaires, convertir des durées (h, min, s), calculer une durée, un horaire de début ou de fin, et résoudre des problèmes de temps.</p>
+      <div class="cours-cta">
+        <a class="btn-primary cours-cta-main" href="../../index.html?chapitre=6M4">🎯 S'entraîner sur ce chapitre</a>
+        <a class="btn-secondary cours-cta-alt" href="../../index.html?mode=rituel&amp;chapitre=6M4">⏱️ Rituel flash</a>
+        <a class="btn-secondary cours-cta-alt" href="../../index.html?mode=flashcards&amp;chapitre=6M4">🗂️ Flashcards</a>
+      </div>
+    </header>
+
+    <nav class="cours-toc" aria-label="Sommaire du chapitre">
+      <p class="cours-toc-title">Sommaire</p>
+      <ol><li><a href="#objectifs">Objectifs du chapitre</a></li><li><a href="#cours">Le cours</a></li><li><a href="#methodes">Méthodes et exemples rédigés</a></li><li><a href="#pieges">Pièges fréquents</a></li><li><a href="#revision">Questions de révision</a></li><li><a href="#exercices">Exercices corrigés</a></li></ol>
+    </nav>
+
+    <section class="cours-section " id="objectifs" aria-labelledby="objectifs-titre">
+      <h2 id="objectifs-titre">Objectifs du chapitre</h2>
+<ul class="cours-list"><li>Distinguer un horaire (un instant) et une durée (un intervalle de temps).</li><li>Connaître les relations entre unités de durée : 1 h = 60 min, 1 min = 60 s, 1 j = 24 h.</li><li>Convertir des durées (heures, minutes, secondes ; écritures décimales simples).</li><li>Calculer une durée, un horaire de début ou de fin, et résoudre des problèmes.</li></ul>
+    </section>
+
+    <section class="cours-section " id="cours" aria-labelledby="cours-titre">
+      <h2 id="cours-titre">Le cours</h2>
+<article class="cours-card"><h3>1. Horaire et durée</h3><ul class="math-list">
+<li class="math-bullet">Un <strong>horaire</strong> indique un instant : « le film commence à 14 h 35 ».</li>
+<li class="math-bullet">Une <strong>durée</strong> mesure le temps écoulé entre deux instants : « le film dure 1 h 50 min ».</li>
+</ul>
+<p class="math-p"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mtext>horaire de fin</mtext><mo>=</mo><mrow><mtext>horaire de d</mtext><mover accent="true"><mtext>e</mtext><mo>ˊ</mo></mover><mtext>but</mtext></mrow><mo>+</mo><mrow><mtext>dur</mtext><mover accent="true"><mtext>e</mtext><mo>ˊ</mo></mover><mtext>e</mtext></mrow></mrow><annotation encoding="application/x-tex">\text{horaire de fin} = \text{horaire de début} + \text{durée}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord text"><span class="mord">horaire de fin</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7778em;vertical-align:-0.0833em;"></span><span class="mord text"><span class="mord">horaire de d</span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6944em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord">e</span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.25em;"><span class="mord">ˊ</span></span></span></span></span></span></span><span class="mord">but</span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord text"><span class="mord">dur</span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6944em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord">e</span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.25em;"><span class="mord">ˊ</span></span></span></span></span></span></span><span class="mord">e</span></span></span></span></span></span></p></article>
+<article class="cours-card"><h3>2. Unités de durée : un système en base 60</h3><p class="math-p"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mn>1</mn><mtext> h</mtext><mo>=</mo><mn>60</mn><mtext> min</mtext><mspace width="1em"/><mo separator="true">;</mo><mspace width="1em"/><mn>1</mn><mtext> min</mtext><mo>=</mo><mn>60</mn><mtext> s</mtext><mspace width="1em"/><mo separator="true">;</mo><mspace width="1em"/><mn>1</mn><mtext> h</mtext><mo>=</mo><mn>3</mn><mtext> </mtext><mn>600</mn><mtext> s</mtext><mspace width="1em"/><mo separator="true">;</mo><mspace width="1em"/><mn>1</mn><mtext> j</mtext><mo>=</mo><mn>24</mn><mtext> h</mtext></mrow><annotation encoding="application/x-tex">1\text{ h} = 60\text{ min} \quad ; \quad 1\text{ min} = 60\text{ s} \quad ; \quad 1\text{ h} = 3\,600\text{ s} \quad ; \quad 1\text{ j} = 24\text{ h}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord">1</span><span class="mord text"><span class="mord"> h</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8623em;vertical-align:-0.1944em;"></span><span class="mord">60</span><span class="mord text"><span class="mord"> min</span></span><span class="mspace" style="margin-right:1em;"></span><span class="mpunct">;</span><span class="mspace" style="margin-right:1em;"></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">1</span><span class="mord text"><span class="mord"> min</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord">60</span><span class="mord text"><span class="mord"> s</span></span><span class="mspace" style="margin-right:1em;"></span><span class="mpunct">;</span><span class="mspace" style="margin-right:1em;"></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">1</span><span class="mord text"><span class="mord"> h</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8623em;vertical-align:-0.1944em;"></span><span class="mord">3</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">600</span><span class="mord text"><span class="mord"> s</span></span><span class="mspace" style="margin-right:1em;"></span><span class="mpunct">;</span><span class="mspace" style="margin-right:1em;"></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">1</span><span class="mord text"><span class="mord"> j</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord">24</span><span class="mord text"><span class="mord"> h</span></span></span></span></span></span><br/>Les durées ne suivent <strong>pas</strong> le système décimal : <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo separator="true" lspace="0em" rspace="0em">,</mo><mn>5</mn><mtext> h</mtext></mrow><annotation encoding="application/x-tex">1{,}5\text{ h}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord">1</span><span class="mord"><span class="mpunct">,</span></span><span class="mord">5</span><span class="mord text"><span class="mord"> h</span></span></span></span></span> ne vaut pas 1 h 50 min mais <strong>1 h 30 min</strong> (car <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo separator="true" lspace="0em" rspace="0em">,</mo><mn>5</mn><mtext> h</mtext><mo>=</mo><mn>30</mn><mtext> min</mtext></mrow><annotation encoding="application/x-tex">0{,}5\text{ h} = 30\text{ min}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord">0</span><span class="mord"><span class="mpunct">,</span></span><span class="mord">5</span><span class="mord text"><span class="mord"> h</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6679em;"></span><span class="mord">30</span><span class="mord text"><span class="mord"> min</span></span></span></span></span>).<br/>À retenir : <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo separator="true" lspace="0em" rspace="0em">,</mo><mn>25</mn><mtext> h</mtext><mo>=</mo><mn>15</mn><mtext> min</mtext></mrow><annotation encoding="application/x-tex">0{,}25\text{ h} = 15\text{ min}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord">0</span><span class="mord"><span class="mpunct">,</span></span><span class="mord">25</span><span class="mord text"><span class="mord"> h</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6679em;"></span><span class="mord">15</span><span class="mord text"><span class="mord"> min</span></span></span></span></span> ; <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo separator="true" lspace="0em" rspace="0em">,</mo><mn>5</mn><mtext> h</mtext><mo>=</mo><mn>30</mn><mtext> min</mtext></mrow><annotation encoding="application/x-tex">0{,}5\text{ h} = 30\text{ min}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord">0</span><span class="mord"><span class="mpunct">,</span></span><span class="mord">5</span><span class="mord text"><span class="mord"> h</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6679em;"></span><span class="mord">30</span><span class="mord text"><span class="mord"> min</span></span></span></span></span> ; <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo separator="true" lspace="0em" rspace="0em">,</mo><mn>75</mn><mtext> h</mtext><mo>=</mo><mn>45</mn><mtext> min</mtext></mrow><annotation encoding="application/x-tex">0{,}75\text{ h} = 45\text{ min}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord">0</span><span class="mord"><span class="mpunct">,</span></span><span class="mord">75</span><span class="mord text"><span class="mord"> h</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6679em;"></span><span class="mord">45</span><span class="mord text"><span class="mord"> min</span></span></span></span></span>.</p></article>
+<article class="cours-card"><h3>3. Calculer une durée entre deux horaires</h3><p class="math-p">On peut <strong>compléter par étapes</strong> jusqu'à l'heure ronde (méthode du « saut ») :<br/>De 9 h 40 à 11 h 15 : de 9 h 40 à 10 h → 20 min ; de 10 h à 11 h → 1 h ; de 11 h à 11 h 15 → 15 min.<br/>Total : 1 h 35 min.<br/>On peut aussi poser une soustraction en séparant heures et minutes, en <strong>convertissant 1 h en 60 min</strong> si nécessaire.</p></article>
+    </section>
+
+    <section class="cours-section " id="methodes" aria-labelledby="methodes-titre">
+      <h2 id="methodes-titre">Méthodes et exemples rédigés</h2>
+<article class="cours-card cours-method"><h3>Méthode : Ajouter une durée à un horaire</h3>
+<div class="cours-example"><p class="cours-example-label">Exemple</p><p class="math-p">Un train part à 15 h 48 et le trajet dure 2 h 35 min. À quelle heure arrive-t-il ?</p></div>
+<ol class="cours-steps"><li><p class="math-p"><strong>Étape 1</strong> : On additionne séparément heures et minutes : <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>15</mn><mo>+</mo><mn>2</mn><mo>=</mo><mn>17</mn></mrow><annotation encoding="application/x-tex">15 + 2 = 17</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">15</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">17</span></span></span></span> h et <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>48</mn><mo>+</mo><mn>35</mn><mo>=</mo><mn>83</mn></mrow><annotation encoding="application/x-tex">48 + 35 = 83</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">48</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">35</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">83</span></span></span></span> min.</p></li><li><p class="math-p"><strong>Étape 2</strong> : <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>83</mn><mtext> min</mtext><mo>=</mo><mn>60</mn><mtext> min</mtext><mo>+</mo><mn>23</mn><mtext> min</mtext><mo>=</mo><mn>1</mn><mtext> h </mtext><mn>23</mn><mtext> min</mtext></mrow><annotation encoding="application/x-tex">83\text{ min} = 60\text{ min} + 23\text{ min} = 1\text{ h } 23\text{ min}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6679em;"></span><span class="mord">83</span><span class="mord text"><span class="mord"> min</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7512em;vertical-align:-0.0833em;"></span><span class="mord">60</span><span class="mord text"><span class="mord"> min</span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6679em;"></span><span class="mord">23</span><span class="mord text"><span class="mord"> min</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord">1</span><span class="mord text"><span class="mord"> h </span></span><span class="mord">23</span><span class="mord text"><span class="mord"> min</span></span></span></span></span>.</p></li><li><p class="math-p"><strong>Étape 3</strong> : On regroupe : <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>17</mn><mtext> h</mtext><mo>+</mo><mn>1</mn><mtext> h </mtext><mn>23</mn><mtext> min</mtext></mrow><annotation encoding="application/x-tex">17\text{ h} + 1\text{ h } 23\text{ min}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7778em;vertical-align:-0.0833em;"></span><span class="mord">17</span><span class="mord text"><span class="mord"> h</span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord">1</span><span class="mord text"><span class="mord"> h </span></span><span class="mord">23</span><span class="mord text"><span class="mord"> min</span></span></span></span></span>, soit une arrivée à <strong>18 h 23</strong>.</p></li></ol></article>
+<article class="cours-card cours-method"><h3>Méthode : Convertir une durée en minutes</h3>
+<div class="cours-example"><p class="cours-example-label">Exemple</p><p class="math-p">Convertir 3 h 25 min en minutes.</p></div>
+<ol class="cours-steps"><li><p class="math-p"><strong>Étape 1</strong> : <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mtext> h</mtext><mo>=</mo><mn>3</mn><mo>×</mo><mn>60</mn><mo>=</mo><mn>180</mn><mtext> min</mtext></mrow><annotation encoding="application/x-tex">3\text{ h} = 3 \times 60 = 180\text{ min}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord">3</span><span class="mord text"><span class="mord"> h</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">3</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">60</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6679em;"></span><span class="mord">180</span><span class="mord text"><span class="mord"> min</span></span></span></span></span>.</p></li><li><p class="math-p"><strong>Étape 2</strong> : On ajoute les minutes restantes : <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>180</mn><mo>+</mo><mn>25</mn><mo>=</mo><mn>205</mn><mtext> min</mtext></mrow><annotation encoding="application/x-tex">180 + 25 = 205\text{ min}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">180</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">25</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6679em;"></span><span class="mord">205</span><span class="mord text"><span class="mord"> min</span></span></span></span></span>.</p></li></ol></article>
+    </section>
+
+    <section class="cours-section " id="pieges" aria-labelledby="pieges-titre">
+      <h2 id="pieges-titre">Pièges fréquents</h2>
+<ul class="cours-list cours-traps"><li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo separator="true" lspace="0em" rspace="0em">,</mo><mn>2</mn><mtext> h</mtext></mrow><annotation encoding="application/x-tex">1{,}2\text{ h}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord">1</span><span class="mord"><span class="mpunct">,</span></span><span class="mord">2</span><span class="mord text"><span class="mord"> h</span></span></span></span></span> n'est pas égal à 1 h 20 min : <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo separator="true" lspace="0em" rspace="0em">,</mo><mn>2</mn><mtext> h</mtext><mo>=</mo><mn>0</mn><mo separator="true" lspace="0em" rspace="0em">,</mo><mn>2</mn><mo>×</mo><mn>60</mn><mo>=</mo><mn>12</mn><mtext> min</mtext></mrow><annotation encoding="application/x-tex">0{,}2\text{ h} = 0{,}2 \times 60 = 12\text{ min}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord">0</span><span class="mord"><span class="mpunct">,</span></span><span class="mord">2</span><span class="mord text"><span class="mord"> h</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8389em;vertical-align:-0.1944em;"></span><span class="mord">0</span><span class="mord"><span class="mpunct">,</span></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">60</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6679em;"></span><span class="mord">12</span><span class="mord text"><span class="mord"> min</span></span></span></span></span>, donc <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo separator="true" lspace="0em" rspace="0em">,</mo><mn>2</mn><mtext> h</mtext><mo>=</mo><mn>1</mn><mtext> h </mtext><mn>12</mn><mtext> min</mtext></mrow><annotation encoding="application/x-tex">1{,}2\text{ h} = 1\text{ h } 12\text{ min}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord">1</span><span class="mord"><span class="mpunct">,</span></span><span class="mord">2</span><span class="mord text"><span class="mord"> h</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord">1</span><span class="mord text"><span class="mord"> h </span></span><span class="mord">12</span><span class="mord text"><span class="mord"> min</span></span></span></span></span>.</li><li>Quand le nombre de minutes dépasse 60, il faut le convertir en heures : 2 h 75 min s'écrit 3 h 15 min.</li><li>Ne pas soustraire les horaires comme des nombres décimaux : de 8 h 50 à 9 h 10, il s'écoule 20 min, et non « 0,60 ».</li></ul>
+    </section>
+
+    <section class="cours-section " id="revision" aria-labelledby="revision-titre">
+      <h2 id="revision-titre">Questions de révision</h2>
+<p class="cours-note">Essaie de répondre de tête avant d'afficher la réponse.</p>
+<div class="cours-flashcards"><details class="cours-flash"><summary>Combien de secondes dans une heure ?</summary><div class="cours-flash-a"><p class="math-p"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mtext> h</mtext><mo>=</mo><mn>60</mn><mo>×</mo><mn>60</mn><mo>=</mo><mn>3</mn><mtext> </mtext><mn>600</mn><mtext> s</mtext></mrow><annotation encoding="application/x-tex">1\text{ h} = 60 \times 60 = 3\,600\text{ s}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord">1</span><span class="mord text"><span class="mord"> h</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">60</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">60</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">3</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">600</span><span class="mord text"><span class="mord"> s</span></span></span></span></span>.</p></div></details>
+<details class="cours-flash"><summary>Que vaut un quart d’heure en minutes ?</summary><div class="cours-flash-a"><p class="math-p"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>15</mn><mtext> min</mtext></mrow><annotation encoding="application/x-tex">15\text{ min}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6679em;"></span><span class="mord">15</span><span class="mord text"><span class="mord"> min</span></span></span></span></span> (car <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>60</mn><mo>÷</mo><mn>4</mn><mo>=</mo><mn>15</mn></mrow><annotation encoding="application/x-tex">60 \div 4 = 15</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">60</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">÷</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">4</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">15</span></span></span></span>).</p></div></details>
+<details class="cours-flash"><summary>Convertir <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo separator="true" lspace="0em" rspace="0em">,</mo><mn>5</mn><mtext> h</mtext></mrow><annotation encoding="application/x-tex">2{,}5\text{ h}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord">2</span><span class="mord"><span class="mpunct">,</span></span><span class="mord">5</span><span class="mord text"><span class="mord"> h</span></span></span></span></span> en heures et minutes.</summary><div class="cours-flash-a"><p class="math-p"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo separator="true" lspace="0em" rspace="0em">,</mo><mn>5</mn><mtext> h</mtext><mo>=</mo><mn>2</mn><mtext> h </mtext><mn>30</mn><mtext> min</mtext></mrow><annotation encoding="application/x-tex">2{,}5\text{ h} = 2\text{ h } 30\text{ min}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord">2</span><span class="mord"><span class="mpunct">,</span></span><span class="mord">5</span><span class="mord text"><span class="mord"> h</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord">2</span><span class="mord text"><span class="mord"> h </span></span><span class="mord">30</span><span class="mord text"><span class="mord"> min</span></span></span></span></span>.</p></div></details>
+<details class="cours-flash"><summary>Quelle durée s’écoule entre 10 h 45 et 12 h 10 ?</summary><div class="cours-flash-a"><p class="math-p">15 min (jusqu’à 11 h) + 1 h + 10 min = 1 h 25 min.</p></div></details>
+<details class="cours-flash"><summary>Combien d’heures dans 3 jours ?</summary><div class="cours-flash-a"><p class="math-p"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mo>×</mo><mn>24</mn><mo>=</mo><mn>72</mn><mtext> h</mtext></mrow><annotation encoding="application/x-tex">3 \times 24 = 72\text{ h}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">3</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">24</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord">72</span><span class="mord text"><span class="mord"> h</span></span></span></span></span>.</p></div></details></div>
+    </section>
+
+    <section class="cours-section " id="exercices" aria-labelledby="exercices-titre">
+      <h2 id="exercices-titre">Exercices corrigés</h2>
+<article class="cours-card cours-exo">
+<h3><span class="cours-exo-num">Exercice 1</span> Convertir en minutes</h3>
+<p class="cours-tier cours-tier-1">Palier 1 · découverte</p>
+<p class="math-p">Convertir 2 h 15 min en minutes.</p>
+
+<details class="cours-hint"><summary>Un indice</summary><div><p class="math-p"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mtext> h</mtext><mo>=</mo><mn>60</mn><mtext> min</mtext></mrow><annotation encoding="application/x-tex">1\text{ h} = 60\text{ min}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord">1</span><span class="mord text"><span class="mord"> h</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6679em;"></span><span class="mord">60</span><span class="mord text"><span class="mord"> min</span></span></span></span></span>.</p></div></details>
+<details class="cours-solution"><summary>Voir la correction</summary><div class="cours-solution-body"><p class="cours-answer"><strong>Réponse attendue :</strong> 135</p><p class="math-p"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mn>2</mn><mo>×</mo><mn>60</mn><mo>+</mo><mn>15</mn><mo>=</mo><mn>120</mn><mo>+</mo><mn>15</mn><mo>=</mo><mn>135</mn><mtext> min</mtext></mrow><annotation encoding="application/x-tex">2 \times 60 + 15 = 120 + 15 = 135\text{ min}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">60</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">15</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">120</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">15</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6679em;"></span><span class="mord">135</span><span class="mord text"><span class="mord"> min</span></span></span></span></span></span></p></div></details>
+</article>
+<article class="cours-card cours-exo">
+<h3><span class="cours-exo-num">Exercice 2</span> Durée d’un film</h3>
+<p class="cours-tier cours-tier-2">Palier 2 · application</p>
+<p class="math-p">Un film commence à 20 h 45 et se termine à 22 h 30.<br/><strong>Combien de minutes dure-t-il ?</strong></p>
+
+<details class="cours-hint"><summary>Un indice</summary><div><p class="math-p">Compte de 20 h 45 à 21 h, puis de 21 h à 22 h 30.</p></div></details>
+<details class="cours-solution"><summary>Voir la correction</summary><div class="cours-solution-body"><p class="cours-answer"><strong>Réponse attendue :</strong> 105</p><p class="math-p">De 20 h 45 à 21 h : 15 min ; de 21 h à 22 h 30 : 1 h 30 min = 90 min.<br/><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mn>15</mn><mo>+</mo><mn>90</mn><mo>=</mo><mn>105</mn><mtext> min</mtext></mrow><annotation encoding="application/x-tex">15 + 90 = 105\text{ min}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">15</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">90</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6679em;"></span><span class="mord">105</span><span class="mord text"><span class="mord"> min</span></span></span></span></span></span></p></div></details>
+</article>
+<article class="cours-card cours-exo">
+<h3><span class="cours-exo-num">Exercice 3</span> Heure d’arrivée</h3>
+<p class="cours-tier cours-tier-3">Palier 3 · approfondissement</p>
+<p class="math-p">Un car part à 13 h 50. Le trajet dure 2 h 25 min.<br/><strong>À quelle heure arrive-t-il ?</strong></p>
+<ol class="cours-mcq" type="A"><li>16 h 15</li><li>15 h 75</li><li>15 h 15</li><li>16 h 25</li></ol>
+<details class="cours-hint"><summary>Un indice</summary><div><p class="math-p">Ajoute séparément les heures et les minutes.</p></div></details>
+<details class="cours-solution"><summary>Voir la correction</summary><div class="cours-solution-body"><p class="cours-answer"><strong>Bonne réponse :</strong> A. 16 h 15</p><p class="math-p"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>13</mn><mtext> h</mtext><mo>+</mo><mn>2</mn><mtext> h</mtext><mo>=</mo><mn>15</mn><mtext> h</mtext></mrow><annotation encoding="application/x-tex">13\text{ h} + 2\text{ h} = 15\text{ h}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7778em;vertical-align:-0.0833em;"></span><span class="mord">13</span><span class="mord text"><span class="mord"> h</span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord">2</span><span class="mord text"><span class="mord"> h</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord">15</span><span class="mord text"><span class="mord"> h</span></span></span></span></span> et <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>50</mn><mo>+</mo><mn>25</mn><mo>=</mo><mn>75</mn><mtext> min</mtext><mo>=</mo><mn>1</mn><mtext> h </mtext><mn>15</mn><mtext> min</mtext></mrow><annotation encoding="application/x-tex">50 + 25 = 75\text{ min} = 1\text{ h } 15\text{ min}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">50</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">25</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6679em;"></span><span class="mord">75</span><span class="mord text"><span class="mord"> min</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord">1</span><span class="mord text"><span class="mord"> h </span></span><span class="mord">15</span><span class="mord text"><span class="mord"> min</span></span></span></span></span>.<br/>Arrivée : <strong>16 h 15</strong>.</p></div></details>
+</article>
+<article class="cours-card cours-exo">
+<h3><span class="cours-exo-num">Exercice 4</span> Défi 5ème : Course de relais</h3>
+<p class="cours-tier cours-tier-4">Palier 4 · défi</p>
+<p class="math-p">Trois coureurs se relaient : le premier court 12 min 48 s, le deuxième 13 min 35 s et le troisième 11 min 57 s.<br/><strong>Quel est le temps total de l’équipe, en secondes ?</strong></p>
+
+<details class="cours-hint"><summary>Un indice</summary><div><p class="math-p">Additionne les minutes entre elles et les secondes entre elles, puis convertis.</p></div></details>
+<details class="cours-solution"><summary>Voir la correction</summary><div class="cours-solution-body"><p class="cours-answer"><strong>Réponse attendue :</strong> 2300</p><p class="math-p">Minutes : <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>36</mn><mtext> min</mtext><mo>=</mo><mn>2</mn><mtext> </mtext><mn>160</mn><mtext> s</mtext></mrow><annotation encoding="application/x-tex">36\text{ min} = 2\,160\text{ s}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6679em;"></span><span class="mord">36</span><span class="mord text"><span class="mord"> min</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">160</span><span class="mord text"><span class="mord"> s</span></span></span></span></span>. Secondes : <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>140</mn><mtext> s</mtext></mrow><annotation encoding="application/x-tex">140\text{ s}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">140</span><span class="mord text"><span class="mord"> s</span></span></span></span></span>.<br/><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mn>2</mn><mtext> </mtext><mn>160</mn><mo>+</mo><mn>140</mn><mo>=</mo><mn>2</mn><mtext> </mtext><mn>300</mn><mtext> s</mtext></mrow><annotation encoding="application/x-tex">2\,160 + 140 = 2\,300\text{ s}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">160</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">140</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">300</span><span class="mord text"><span class="mord"> s</span></span></span></span></span></span><br/>(soit 38 min 20 s).</p></div></details>
+</article>
+    </section>
+
+    <aside class="cours-cta-box" aria-label="Entraînement">
+      <p class="cours-cta-box-title">Prêt à t'entraîner ?</p>
+      <p>Exercices générés à l'infini, corrigés pas à pas et classés en quatre paliers de difficulté, gratuitement et sans inscription.</p>
+      <div class="cours-cta">
+        <a class="btn-primary cours-cta-main" href="../../index.html?chapitre=6M4">🎯 S'entraîner sur ce chapitre</a>
+        <a class="btn-secondary cours-cta-alt" href="../../index.html?mode=rituel&amp;chapitre=6M4">⏱️ Rituel flash</a>
+        <a class="btn-secondary cours-cta-alt" href="../../index.html?mode=flashcards&amp;chapitre=6M4">🗂️ Flashcards</a>
+      </div>
+    </aside>
+
+    <nav class="cours-pager" aria-label="Chapitres voisins">
+      <a class="cours-pager-link cours-pager-prev" href="volumes-centimetre-cube-paves-et-cubes.html" rel="prev"><span>← Chapitre précédent</span><strong>Volumes : centimètre cube, pavés et cubes</strong></a>
+      <a class="cours-pager-link cours-pager-up" href="./"><span>Tous les chapitres</span><strong>6e</strong></a>
+      <a class="cours-pager-link cours-pager-next" href="droites-segments-distances-milieu-et-cercle.html" rel="next"><span>Chapitre suivant →</span><strong>Droites, segments, distances, milieu et cercle</strong></a>
+    </nav>
+  </main>
+
+  <footer class="cours-footer">
+    <p>L'Établi des Maths — Conçu par Loïc Delaporte, professeur de mathématiques • 100 % libre et gratuit, conforme aux programmes</p>
+    <p><a href="../../cours/">Tous les cours</a> · <a href="../../index.html">Ouvrir l'application</a> · <a href="../../enseignants.html">Espace enseignants</a></p>
+  </footer>
+  <!-- Statistiques d'audience anonymes et conformes RGPD (GoatCounter) -->
+  <script data-goatcounter="https://etabli-des-maths.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

@@ -1,5 +1,5 @@
-// Fiches de cours de référence, définitions, formules, méthodes et flashcards pour les 18 chapitres de 3ème
-// Conforme au Bulletin Officiel de l'Éducation Nationale et enrichi avec les cours et évaluations d'archives
+// Fiches de cours de référence, définitions, formules, méthodes et flashcards pour les 19 chapitres de 3ème
+// Conforme aux programmes officiels de l'Éducation nationale
 window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
   "N1": {
     "title": "N1 : Ensemble de nombres et fractions",

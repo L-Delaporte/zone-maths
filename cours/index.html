@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <script>
+    // Applique le thème (clair/sombre) choisi dans l'application, avant l'affichage
+    try {
+      document.documentElement.setAttribute('data-theme', JSON.parse(localStorage.getItem('maths_3e_progress_v1') || '{}').theme || 'light');
+    } catch (e) {}
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Cours de maths de la 6e à la licence | L'Établi des Maths</title>
+  <meta name="description" content="165 cours de mathématiques gratuits, du collège à la licence et au CAPES : leçons complètes, méthodes rédigées et exercices corrigés, conformes aux programmes." />
+  <meta name="author" content="Loïc Delaporte, professeur de mathématiques" />
+  <link rel="canonical" href="https://etabli-des-maths.fr/cours/" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Cours de maths de la 6e à la licence | L'Établi des Maths" />
+  <meta property="og:description" content="165 cours de mathématiques gratuits, du collège à la licence et au CAPES : leçons complètes, méthodes rédigées et exercices corrigés, conformes aux programmes." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://etabli-des-maths.fr/cours/" />
+  <meta property="og:image" content="https://etabli-des-maths.fr/assets/logo.jpg" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta property="og:site_name" content="L'Établi des Maths" />
+
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/landing.css" />
+  <link rel="stylesheet" href="../vendor/katex/katex.min.css" />
+  <link rel="stylesheet" href="../css/cours.css" />
+  <link rel="icon" href="../favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32x32.png" />
+  <link rel="apple-touch-icon" href="../assets/favicon.png" />
+  <link rel="manifest" href="../manifest.json" />
+  <meta name="theme-color" content="#2563eb" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Cours de mathématiques de la 6e à la licence",
+    "description": "165 cours de mathématiques gratuits, du collège à la licence et au CAPES : leçons complètes, méthodes rédigées et exercices corrigés, conformes aux programmes.",
+    "url": "https://etabli-des-maths.fr/cours/",
+    "inLanguage": "fr",
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "L'Établi des Maths",
+      "url": "https://etabli-des-maths.fr/"
+    },
+    "hasPart": [
+      {
+        "@type": "CollectionPage",
+        "name": "Cours de 6e",
+        "url": "https://etabli-des-maths.fr/cours/6e/"
+      },
+      {
+        "@type": "CollectionPage",
+        "name": "Cours de 5e",
+        "url": "https://etabli-des-maths.fr/cours/5e/"
+      },
+      {
+        "@type": "CollectionPage",
+        "name": "Cours de 4e",
+        "url": "https://etabli-des-maths.fr/cours/4e/"
+      },
+      {
+        "@type": "CollectionPage",
+        "name": "Cours de 3e",
+        "url": "https://etabli-des-maths.fr/cours/3e/"
+      },
+      {
+        "@type": "CollectionPage",
+        "name": "Cours de seconde",
+        "url": "https://etabli-des-maths.fr/cours/seconde/"
+      },
+      {
+        "@type": "CollectionPage",
+        "name": "Cours de première",
+        "url": "https://etabli-des-maths.fr/cours/premiere/"
+      },
+      {
+        "@type": "CollectionPage",
+        "name": "Cours de terminale",
+        "url": "https://etabli-des-maths.fr/cours/terminale/"
+      },
+      {
+        "@type": "CollectionPage",
+        "name": "Cours de L1",
+        "url": "https://etabli-des-maths.fr/cours/l1/"
+      },
+      {
+        "@type": "CollectionPage",
+        "name": "Cours de L2",
+        "url": "https://etabli-des-maths.fr/cours/l2/"
+      },
+      {
+        "@type": "CollectionPage",
+        "name": "Cours de L3",
+        "url": "https://etabli-des-maths.fr/cours/l3/"
+      },
+      {
+        "@type": "CollectionPage",
+        "name": "Cours CAPES",
+        "url": "https://etabli-des-maths.fr/cours/capes/"
+      }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Accueil",
+        "item": "https://etabli-des-maths.fr/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Cours",
+        "item": "https://etabli-des-maths.fr/cours/"
+      }
+    ]
+  }
+  </script>
+</head>
+<body class="cours-page">
+  <a class="cours-skip" href="#contenu">Aller au contenu</a>
+
+  <!-- Header Uniformisé -->
+  <header class="app-header">
+    <div class="header-inner">
+      <a href="../index.html" class="brand-container" style="text-decoration: none;">
+        <img src="../assets/logo-96.png" alt="L'Établi des Maths" class="brand-logo-img" width="44" height="44" />
+        <div class="brand-text">
+          <p class="brand-title">L'Établi des Maths <span class="brand-level-tag">Cours</span></p>
+          <span class="brand-tagline">Outils pour apprendre et pratiquer</span>
+        </div>
+      </a>
+
+      <!-- Navigation entre Portails -->
+      <nav class="nav-portal-links" aria-label="Portails thématiques">
+        <a href="../index.html" class="nav-portal-btn">🏠 Accueil</a>
+        <a href="../cours/" class="nav-portal-btn active" aria-current="page">📚 Cours</a>
+        <a href="../rituels.html" class="nav-portal-btn">⏱️ Rituels</a>
+        <a href="../brevet.html" class="nav-portal-btn">📝 Brevet 3e</a>
+        <a href="../bac.html" class="nav-portal-btn">🎓 Baccalauréat</a>
+        <a href="../enseignants.html" class="nav-portal-btn">👨‍🏫 Enseignants</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="landing-wrapper cours-wrapper" id="contenu">
+    <nav class="cours-breadcrumb" aria-label="Fil d'Ariane">
+      <ol>
+        <li><a href="../index.html">Accueil</a></li>
+        <li><span aria-current="page">Cours</span></li>
+      </ol>
+    </nav>
+
+    <header class="cours-hero">
+      <p class="landing-tag">📚 165 chapitres en accès libre</p>
+      <h1 class="cours-title">Cours de mathématiques de la 6e à la licence</h1>
+      <p class="cours-lead">Leçons complètes, méthodes rédigées pas à pas et exercices corrigés pour chaque chapitre du programme, du collège au CAPES. Pour s'entraîner ensuite, chaque page renvoie vers l'application interactive.</p>
+      <div class="cours-cta">
+        <a class="btn-primary cours-cta-main" href="../index.html">🎯 Ouvrir l'application</a>
+      </div>
+    </header>
+
+    <section class="cours-section" id="college" aria-labelledby="college-titre">
+      <h2 id="college-titre">Collège</h2>
+      <p class="cours-note">De la 6e à la 3e, jusqu’au brevet.</p>
+      <div class="cours-level-grid">
+        <article class="cours-level-card">
+          <h3><a href="6e/">6e</a> <span class="cours-count">21 chapitres</span></h3>
+          <ul>
+            <li><a href="6e/nombres-entiers-et-decimaux.html">Nombres entiers et décimaux : écritures et valeur des chiffres</a></li>
+            <li><a href="6e/comparer-ranger-encadrer-et-arrondir-des-nombres.html">Comparer, ranger, encadrer et arrondir des nombres décimaux</a></li>
+            <li><a href="6e/addition-et-soustraction-de-nombres-decimaux.html">Addition et soustraction de nombres décimaux</a></li>
+            <li><a href="6e/multiplication-de-nombres-decimaux.html">Multiplication de nombres décimaux</a></li>
+            <li><a href="6e/division-euclidienne.html">Division euclidienne, division décimale, multiples et diviseurs</a></li>
+            <li><a href="6e/fractions-quotient-reperage-egalite-et-comparaison.html">Fractions : quotient, repérage, égalité et comparaison</a></li>
+            <li><a href="6e/calculs-avec-les-fractions.html">Calculs avec les fractions</a></li>
+            <li><a href="6e/pensee-algebrique.html">Pensée algébrique : nombres inconnus, égalités à trou et motifs</a></li>
+            <li><a href="6e/proportionnalite-linearite-retour-a-l-unite-et-echelles.html">Proportionnalité : linéarité, retour à l'unité et échelles</a></li>
+            <li><a href="6e/longueurs-et-perimetres.html">Longueurs et périmètres (polygones et cercle)</a></li>
+            <li><a href="6e/aires-unites-carre-rectangle-et-figures-composees.html">Aires : unités, carré, rectangle et figures composées</a></li>
+            <li><a href="6e/volumes-centimetre-cube-paves-et-cubes.html">Volumes : centimètre cube, pavés et cubes</a></li>
+            <li><a href="6e/reperage-dans-le-temps-et-durees.html">Repérage dans le temps et durées</a></li>
+            <li><a href="6e/droites-segments-distances-milieu-et-cercle.html">Droites, segments, distances, milieu et cercle</a></li>
+            <li><a href="6e/mediatrice-et-symetrie-axiale.html">Médiatrice et symétrie axiale</a></li>
+            <li><a href="6e/angles-vocabulaire-mesure-et-bissectrice.html">Angles : vocabulaire, mesure et bissectrice</a></li>
+            <li><a href="6e/triangles-constructions-triangles-particuliers-et-somme.html">Triangles : constructions, triangles particuliers et somme des angles</a></li>
+            <li><a href="6e/vision-dans-l-espace.html">Vision dans l'espace : assemblages de cubes et solides</a></li>
+            <li><a href="6e/organisation-et-gestion-de-donnees.html">Organisation et gestion de données : tableaux et diagrammes</a></li>
+            <li><a href="6e/probabilites-hasard-et-premieres-probabilites.html">Probabilités : hasard et premières probabilités</a></li>
+            <li><a href="6e/initiation-a-la-pensee-informatique.html">Initiation à la pensée informatique : instructions, séquences et boucles</a></li>
+          </ul>
+        </article>
+        <article class="cours-level-card">
+          <h3><a href="5e/">5e</a> <span class="cours-count">16 chapitres</span></h3>
+          <ul>
+            <li><a href="5e/organisation-d-un-calcul-et-priorites-operatoires.html">Organisation d'un calcul et priorités opératoires</a></li>
+            <li><a href="5e/nombres-relatifs.html">Nombres relatifs : repérage, comparaison et calculs</a></li>
+            <li><a href="5e/fractions-quotients-comparaison-et-calculs.html">Fractions : quotients, comparaison et calculs</a></li>
+            <li><a href="5e/puissances-carres-de-1-a-12-et-puissances-de-2-et-3.html">Puissances : carrés de 1 à 12 et puissances de 2 et 3</a></li>
+            <li><a href="5e/calcul-litteral-et-equations.html">Calcul littéral et équations</a></li>
+            <li><a href="5e/reperage-sur-une-droite-et-dans-le-plan.html">Repérage sur une droite et dans le plan</a></li>
+            <li><a href="5e/symetrie-centrale.html">Symétrie centrale : constructions et propriétés</a></li>
+            <li><a href="5e/angles-et-parallelisme.html">Angles et parallélisme (alternes-internes et somme 180°)</a></li>
+            <li><a href="5e/triangles-constructions-droites-remarquables-et-aires.html">Triangles : constructions, droites remarquables et aires</a></li>
+            <li><a href="5e/parallelogrammes-et-quadrilateres-particuliers.html">Parallélogrammes et quadrilatères particuliers</a></li>
+            <li><a href="5e/prismes-droits.html">Prismes droits, cylindres de révolution et volumes</a></li>
+            <li><a href="5e/statistiques-effectifs-frequences-et-diagrammes.html">Statistiques : effectifs, fréquences et diagrammes</a></li>
+            <li><a href="5e/probabilites-decouverte-du-hasard-et-evenements.html">Probabilités : découverte du hasard et événements</a></li>
+            <li><a href="5e/proportionnalite-tableaux-pourcentages-et-graphiques.html">Proportionnalité : tableaux, pourcentages et graphiques</a></li>
+            <li><a href="5e/dependance-entre-grandeurs-et-tableaux-de-valeurs.html">Dépendance entre grandeurs et tableaux de valeurs</a></li>
+            <li><a href="5e/algorithmique-et-pensee-informatique-avec-scratch.html">Algorithmique et pensée informatique avec Scratch</a></li>
+          </ul>
+        </article>
+        <article class="cours-level-card">
+          <h3><a href="4e/">4e</a> <span class="cours-count">14 chapitres</span></h3>
+          <ul>
+            <li><a href="4e/operations-sur-les-nombres-relatifs.html">Opérations sur les nombres relatifs (règle des signes)</a></li>
+            <li><a href="4e/fractions-et-nombres-rationnels.html">Fractions et nombres rationnels : 4 opérations</a></li>
+            <li><a href="4e/puissances-d-un-nombre-et-puissances-de-10.html">Puissances d'un nombre et puissances de 10</a></li>
+            <li><a href="4e/racines-carrees-et-carres-parfaits.html">Racines carrées et carrés parfaits</a></li>
+            <li><a href="4e/calcul-litteral-et-resolution-d-equations-du-premier.html">Calcul littéral et résolution d'équations du premier degré</a></li>
+            <li><a href="4e/theoreme-de-pythagore.html">Théorème de Pythagore, réciproque et contraposée</a></li>
+            <li><a href="4e/triangle-rectangle.html">Triangle rectangle, cercle circonscrit et droite des milieux</a></li>
+            <li><a href="4e/translations-et-proprietes-de-conservation.html">Translations et propriétés de conservation</a></li>
+            <li><a href="4e/espace-pyramides-cones-de-revolution-et-volumes.html">Espace : pyramides, cônes de révolution et volumes</a></li>
+            <li><a href="4e/statistiques-moyenne-ponderee-mediane-et-etendue.html">Statistiques : moyenne pondérée, médiane et étendue</a></li>
+            <li><a href="4e/probabilites-evenements-contraires-et-experiences.html">Probabilités : événements contraires et expériences à deux épreuves</a></li>
+            <li><a href="4e/proportionnalite-ratios-et-pourcentages.html">Proportionnalité, ratios et pourcentages (coefficients)</a></li>
+            <li><a href="4e/notion-de-fonction-et-programmes-de-calcul.html">Notion de fonction et programmes de calcul</a></li>
+            <li><a href="4e/algorithmique-instructions-conditionnelles-et-variables.html">Algorithmique : instructions conditionnelles et variables Scratch</a></li>
+          </ul>
+        </article>
+        <article class="cours-level-card">
+          <h3><a href="3e/">3e</a> <span class="cours-count">19 chapitres</span></h3>
+          <ul>
+            <li><a href="3e/ensemble-de-nombres-et-fractions.html">Ensemble de nombres et fractions</a></li>
+            <li><a href="3e/calcul-litteral-et-developpement.html">Calcul littéral et développement</a></li>
+            <li><a href="3e/calcul-litteral-et-factorisation.html">Calcul littéral et factorisation</a></li>
+            <li><a href="3e/puissances-et-notation-scientifique.html">Puissances et Notation scientifique</a></li>
+            <li><a href="3e/equations-et-resolution-de-problemes.html">Équations et Résolution de problèmes</a></li>
+            <li><a href="3e/arithmetique-et-nombres-premiers.html">Arithmétique et Nombres premiers</a></li>
+            <li><a href="3e/theoreme-de-pythagore-et-proprietes.html">Théorème de Pythagore et Propriétés</a></li>
+            <li><a href="3e/theoreme-de-thales-et-reciproque.html">Théorème de Thalès et Réciproque</a></li>
+            <li><a href="3e/trigonometrie-dans-le-triangle-rectangle.html">Trigonométrie dans le triangle rectangle</a></li>
+            <li><a href="3e/homotheties-et-effets-d-echelle.html">Homothéties et Effets d'échelle</a></li>
+            <li><a href="3e/sphere-boule-et-reperage-terrestre.html">Sphère, Boule et Repérage terrestre</a></li>
+            <li><a href="3e/geometrie-dans-l-espace-et-sections-planes.html">Géométrie dans l'espace et Sections planes</a></li>
+            <li><a href="3e/rotations-et-transformations-du-plan.html">Rotations et Transformations du plan</a></li>
+            <li><a href="3e/triangles-semblables.html">Triangles semblables</a></li>
+            <li><a href="3e/notion-de-fonction.html">Notion de fonction</a></li>
+            <li><a href="3e/statistiques-et-analyse-de-donnees.html">Statistiques et Analyse de données</a></li>
+            <li><a href="3e/fonctions-lineaires-et-affines.html">Fonctions linéaires et affines</a></li>
+            <li><a href="3e/probabilites-et-experiences-aleatoires.html">Probabilités et Expériences aléatoires</a></li>
+            <li><a href="3e/algorithmique-scratch-et-tableur.html">Algorithmique, Scratch et Tableur</a></li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="cours-section" id="lycee" aria-labelledby="lycee-titre">
+      <h2 id="lycee-titre">Lycée</h2>
+      <p class="cours-note">Seconde, puis spécialité mathématiques en première et terminale.</p>
+      <div class="cours-level-grid">
+        <article class="cours-level-card">
+          <h3><a href="seconde/">Seconde</a> <span class="cours-count">13 chapitres</span></h3>
+          <ul>
+            <li><a href="seconde/ensembles-de-nombres.html">Ensembles de nombres, arithmétique et nombres réels</a></li>
+            <li><a href="seconde/calcul-litteral.html">Calcul littéral, identités remarquables et factorisation</a></li>
+            <li><a href="seconde/ordre-intervalles-et-valeur-absolue.html">Ordre, intervalles et valeur absolue</a></li>
+            <li><a href="seconde/equations-inequations-du-premier-degre-et-tableaux.html">Équations, inéquations du premier degré et tableaux de signes</a></li>
+            <li><a href="seconde/notion-generale-de-fonction.html">Notion générale de fonction, ensemble de définition et courbes</a></li>
+            <li><a href="seconde/variations-et-extremums-d-une-fonction.html">Variations et extremums d'une fonction</a></li>
+            <li><a href="seconde/fonctions-de-reference.html">Fonctions de référence : carré, inverse, racine carrée, cube et affines</a></li>
+            <li><a href="seconde/reperage-cartesien.html">Repérage cartésien, milieu d'un segment et distance dans le plan</a></li>
+            <li><a href="seconde/vecteurs-du-plan.html">Vecteurs du plan, translation et déterminant (colinéarité)</a></li>
+            <li><a href="seconde/droites-du-plan.html">Droites du plan, équations cartésiennes et réduites</a></li>
+            <li><a href="seconde/statistiques-descriptives.html">Statistiques descriptives : moyenne, médiane, quartiles et dispersion</a></li>
+            <li><a href="seconde/probabilites-sur-un-ensemble-fini.html">Probabilités sur un ensemble fini : événements, réunion et intersection</a></li>
+            <li><a href="seconde/echantillonnage-fluctuation-et-algorithmique-en-python.html">Échantillonnage, fluctuation et algorithmique en Python</a></li>
+          </ul>
+        </article>
+        <article class="cours-level-card">
+          <h3><a href="premiere/">Première</a> <span class="cours-count">11 chapitres</span></h3>
+          <ul>
+            <li><a href="premiere/polynome-du-second-degre.html">Polynôme du second degré : forme canonique, racines et signe</a></li>
+            <li><a href="premiere/nombre-derive.html">Nombre dérivé, taux de variation et tangente à une courbe</a></li>
+            <li><a href="premiere/fonction-derivee.html">Fonction dérivée, règles de dérivation et variations d'une fonction</a></li>
+            <li><a href="premiere/la-fonction-exponentielle.html">La fonction exponentielle : définition, propriétés et étude</a></li>
+            <li><a href="premiere/generalites-sur-les-suites-numeriques-et-sens.html">Généralités sur les suites numériques et sens de variation</a></li>
+            <li><a href="premiere/suites-arithmetiques-et-suites-geometriques.html">Suites arithmétiques et suites géométriques</a></li>
+            <li><a href="premiere/trigonometrie-cercle-trigonometrique-et-fonctions-sinus.html">Trigonométrie, cercle trigonométrique et fonctions sinus et cosinus</a></li>
+            <li><a href="premiere/le-produit-scalaire-dans-le-plan.html">Le produit scalaire dans le plan : définitions et propriétés</a></li>
+            <li><a href="premiere/applications-du-produit-scalaire.html">Applications du produit scalaire, formule d'Al-Kashi et droites</a></li>
+            <li><a href="premiere/probabilites-conditionnelles-et-independance.html">Probabilités conditionnelles et indépendance d'événements</a></li>
+            <li><a href="premiere/variables-aleatoires-reelles.html">Variables aléatoires réelles, espérance, variance et écart-type</a></li>
+          </ul>
+        </article>
+        <article class="cours-level-card">
+          <h3><a href="terminale/">Terminale</a> <span class="cours-count">16 chapitres</span></h3>
+          <ul>
+            <li><a href="terminale/le-raisonnement-par-recurrence.html">Le raisonnement par récurrence</a></li>
+            <li><a href="terminale/limites-de-suites-et-theoremes-de-convergence.html">Limites de suites et théorèmes de convergence</a></li>
+            <li><a href="terminale/limites-de-fonctions.html">Limites de fonctions, continuité et Théorème des Valeurs Intermédiaires</a></li>
+            <li><a href="terminale/convexite-concavite-et-points-d-inflexion.html">Convexité, concavité et points d'inflexion</a></li>
+            <li><a href="terminale/la-fonction-logarithme-neperien.html">La fonction logarithme népérien : propriétés, limites et croissances comparées</a></li>
+            <li><a href="terminale/primitives-et-equations-differentielles-lineaires.html">Primitives et équations différentielles linéaires</a></li>
+            <li><a href="terminale/calcul-integral.html">Calcul intégral : intégrale, aire, valeur moyenne et intégration par parties</a></li>
+            <li><a href="terminale/vecteurs-droites-et-plans-dans-l-espace.html">Vecteurs, droites et plans dans l'espace</a></li>
+            <li><a href="terminale/produit-scalaire-dans-l-espace-et-equations.html">Produit scalaire dans l'espace et équations cartésiennes de plans</a></li>
+            <li><a href="terminale/epreuves-repetees.html">Épreuves répétées, schéma de Bernoulli et loi binomiale</a></li>
+            <li><a href="terminale/sommes-de-variables-aleatoires-et-loi-des-grands.html">Sommes de variables aléatoires et loi des grands nombres</a></li>
+            <li><a href="terminale/nombres-complexes.html">Nombres complexes : forme algébrique et équations du second degré</a></li>
+            <li><a href="terminale/nombres-complexes-et-geometrie.html">Nombres complexes et géométrie : forme trigonométrique et exponentielle</a></li>
+            <li><a href="terminale/arithmetique-dans-z-et-congruences.html">Arithmétique dans Z et congruences</a></li>
+            <li><a href="terminale/theoremes-de-bezout-et-de-gauss.html">Théorèmes de Bézout et de Gauss, nombres premiers et chiffrement RSA</a></li>
+            <li><a href="terminale/calcul-matriciel.html">Calcul matriciel, graphes et chaînes de Markov</a></li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="cours-section" id="licence" aria-labelledby="licence-titre">
+      <h2 id="licence-titre">Licence de mathématiques</h2>
+      <p class="cours-note">Les trois années de licence à l’université.</p>
+      <div class="cours-level-grid">
+        <article class="cours-level-card">
+          <h3><a href="l1/">Licence 1</a> <span class="cours-count">12 chapitres</span></h3>
+          <ul>
+            <li><a href="l1/logique-mathematique.html">Logique mathématique, quantificateurs et théorie des ensembles</a></li>
+            <li><a href="l1/nombres-complexes-et-arithmetique-des-polynomes.html">Nombres complexes et arithmétique des polynômes dans K[X]</a></li>
+            <li><a href="l1/calcul-matriciel.html">Calcul matriciel, systèmes linéaires et pivot de Gauss</a></li>
+            <li><a href="l1/espaces-vectoriels.html">Espaces vectoriels, sous-espaces et bases en dimension finie</a></li>
+            <li><a href="l1/applications-lineaires.html">Applications linéaires, noyau, image et Théorème du Rang</a></li>
+            <li><a href="l1/corps-des-nombres-reels.html">Corps des nombres réels, propriété de la borne supérieure et topologie de R</a></li>
+            <li><a href="l1/suites-reelles.html">Suites réelles : limites (ε-N), suites de Cauchy et Bolzano-Weierstrass</a></li>
+            <li><a href="l1/continuite-et-derivation-sur-r.html">Continuité et dérivation sur R, Théorème de Rolle et TAF</a></li>
+            <li><a href="l1/formules-de-taylor.html">Formules de Taylor, développements limités et étude locale</a></li>
+            <li><a href="l1/integrale-de-riemann-sur-un-segment-et-techniques.html">Intégrale de Riemann sur un segment et techniques de primitivation</a></li>
+            <li><a href="l1/geometrie-euclidienne-plane.html">Géométrie euclidienne plane, repères orthonormés et coniques</a></li>
+            <li><a href="l1/demonstrations-fondamentales-de-l1.html">Démonstrations fondamentales de L1 : analyse, algèbre et topologie</a></li>
+          </ul>
+        </article>
+        <article class="cours-level-card">
+          <h3><a href="l2/">Licence 2</a> <span class="cours-count">16 chapitres</span></h3>
+          <ul>
+            <li><a href="l2/determinants-formes-multilineaires-alternees.html">Déterminants, formes multilinéaires alternées et comatrice</a></li>
+            <li><a href="l2/reduction-des-endomorphismes-i.html">Réduction des endomorphismes I : Valeurs propres et Diagonalisation</a></li>
+            <li><a href="l2/reduction-des-endomorphismes-ii.html">Réduction des endomorphismes II : Trigonalisation et Cayley-Hamilton</a></li>
+            <li><a href="l2/dualite-en-dimension-finie.html">Dualité en dimension finie, base duale et orthogonalité</a></li>
+            <li><a href="l2/espaces-prehilbertiens-et-euclidiens.html">Espaces Préhilbertiens et Euclidiens : Orthogonalité et Gram-Schmidt</a></li>
+            <li><a href="l2/endomorphismes-symetriques.html">Endomorphismes symétriques, groupe orthogonal et Théorème Spectral</a></li>
+            <li><a href="l2/series-numeriques-reelles-et-complexes.html">Séries numériques réelles et complexes : convergence et critères</a></li>
+            <li><a href="l2/integrale-de-riemann-approfondie-et-fonctions-reglees.html">Intégrale de Riemann approfondie et fonctions réglées</a></li>
+            <li><a href="l2/integrales-generalisees-sur-un-intervalle-quelconque.html">Intégrales généralisées sur un intervalle quelconque</a></li>
+            <li><a href="l2/equations-differentielles-lineaires-et-systemes.html">Équations différentielles linéaires et systèmes différentiels</a></li>
+            <li><a href="l2/integrales-dependant-d-un-parametre-et-convergence.html">Intégrales dépendant d'un paramètre et convergence dominée</a></li>
+            <li><a href="l2/integrales-multiples.html">Intégrales multiples, théorème de Fubini et changements de variables</a></li>
+            <li><a href="l2/courbes-parametrees.html">Courbes paramétrées, repère de Frenet et courbure</a></li>
+            <li><a href="l2/espaces-probabilises-et-variables-aleatoires-discretes.html">Espaces probabilisés et variables aléatoires discrètes</a></li>
+            <li><a href="l2/calcul-differentiel-a-plusieurs-variables.html">Calcul différentiel à plusieurs variables, gradient et extremums</a></li>
+            <li><a href="l2/demonstrations-fondamentales-de-l2.html">Démonstrations fondamentales de L2 : algèbre bilinéaire et analyse</a></li>
+          </ul>
+        </article>
+        <article class="cours-level-card">
+          <h3><a href="l3/">Licence 3</a> <span class="cours-count">16 chapitres</span></h3>
+          <ul>
+            <li><a href="l3/theorie-des-groupes-i.html">Théorie des Groupes I : Morphismes, sous-groupes distingués et quotients</a></li>
+            <li><a href="l3/theorie-des-groupes-ii.html">Théorie des Groupes II : Actions de groupes, théorèmes de Sylow et groupes symétriques</a></li>
+            <li><a href="l3/theorie-des-anneaux-et-des-corps.html">Théorie des Anneaux et des Corps : Anneaux principaux, euclidiens et corps finis</a></li>
+            <li><a href="l3/espaces-metriques-et-espaces-vectoriels-normes.html">Espaces métriques et Espaces vectoriels normés : Ouverts, fermés et adhérence</a></li>
+            <li><a href="l3/completude-espaces-de-banach-et-theoreme-du-point.html">Complétude, Espaces de Banach et Théorème du Point Fixe de Picard</a></li>
+            <li><a href="l3/compacite-connexite-et-theoreme-de-heine.html">Compacité, Connexité et Théorème de Heine</a></li>
+            <li><a href="l3/suites-et-series-de-fonctions.html">Suites et séries de fonctions : Convergences simple, uniforme et normale</a></li>
+            <li><a href="l3/series-entieres.html">Séries entières, rayon de convergence et fonctions analytiques</a></li>
+            <li><a href="l3/series-de-fourier.html">Séries de Fourier, polynômes trigonométriques et convergence L²</a></li>
+            <li><a href="l3/geometrie-affine.html">Géométrie affine, projective et groupe d'inversion</a></li>
+            <li><a href="l3/geometrie-differentielle-des-surfaces.html">Géométrie différentielle des surfaces : Formes fondamentales et Théorème Egregium</a></li>
+            <li><a href="l3/analyse-numerique-matricielle.html">Analyse numérique matricielle : Conditionnement, factorisation LU/Cholesky et gradient</a></li>
+            <li><a href="l3/programmation-lineaire.html">Programmation linéaire, algorithme du Simplexe et dualité</a></li>
+            <li><a href="l3/theorie-de-la-mesure-et-integration-de-lebesgue.html">Théorie de la Mesure et Intégration de Lebesgue</a></li>
+            <li><a href="l3/probabilites-continues.html">Probabilités continues, vecteurs gaussiens et Théorème Central Limite</a></li>
+            <li><a href="l3/demonstrations-fondamentales-de-l3.html">Démonstrations fondamentales de L3 : Lebesgue, Banach et Sylow</a></li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="cours-section" id="concours" aria-labelledby="concours-titre">
+      <h2 id="concours-titre">Concours de l’enseignement</h2>
+      <p class="cours-note">Préparation aux oraux du CAPES.</p>
+      <div class="cours-level-grid">
+        <article class="cours-level-card">
+          <h3><a href="capes/">CAPES de mathématiques</a> <span class="cours-count">11 chapitres</span></h3>
+          <ul>
+            <li><a href="capes/equations-differentielles-lineaires.html">Équations différentielles linéaires : résolution, structure et modélisation</a></li>
+            <li><a href="capes/reduction-des-endomorphismes.html">Réduction des endomorphismes : éléments propres, diagonalisation et trigonalisation</a></li>
+            <li><a href="capes/series-de-fourier.html">Séries de Fourier : coefficients, convergence et formule de Parseval</a></li>
+            <li><a href="capes/variables-aleatoires-reelles-discretes.html">Variables aléatoires réelles discrètes : loi, espérance, variance et lois classiques</a></li>
+            <li><a href="capes/espaces-prehilbertiens-reels.html">Espaces préhilbertiens réels, orthogonalité et projections orthogonales</a></li>
+            <li><a href="capes/integrale-de-riemann.html">Intégrale de Riemann, primitives et intégrales à paramètres</a></li>
+            <li><a href="capes/groupe-symetrique.html">Groupe symétrique, signature et applications aux déterminants</a></li>
+            <li><a href="capes/convexite-des-fonctions-reelles-d-une-variable-reelle.html">Convexité des fonctions réelles d'une variable réelle et applications</a></li>
+            <li><a href="capes/suites-et-series-numeriques.html">Suites et séries numériques : convergence, sommabilité et critères</a></li>
+            <li><a href="capes/arithmetique-dans-z.html">Arithmétique dans Z : divisibilité, pgcd, congruences et cryptographie RSA</a></li>
+            <li><a href="capes/epreuve-d-entretien.html">Épreuve d'entretien : Éthique professionnelle, laïcité et valeurs de la République</a></li>
+          </ul>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="cours-footer">
+    <p>L'Établi des Maths — Conçu par Loïc Delaporte, professeur de mathématiques • 100 % libre et gratuit, conforme aux programmes</p>
+    <p><a href="../cours/">Tous les cours</a> · <a href="../index.html">Ouvrir l'application</a> · <a href="../enseignants.html">Espace enseignants</a></p>
+  </footer>
+  <!-- Statistiques d'audience anonymes et conformes RGPD (GoatCounter) -->
+  <script data-goatcounter="https://etabli-des-maths.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

@@ -154,12 +154,28 @@ function checkExerciseObject(obj, sourceInfo) {
 console.log('=== STARTING COMPREHENSIVE MATH INTEGRITY AUDIT ===');
 let totalErrors = 0;
 
-// Load chapters
-require(path.join(__dirname, '../js/data/chapters.js'));
-require(path.join(__dirname, '../js/data/chapters_lycee.js'));
-require(path.join(__dirname, '../js/data/chapters_licence.js'));
-require(path.join(__dirname, '../js/data/data_capes.js'));
-require(path.join(__dirname, '../js/data/data_proofs.js'));
+// Chargement des données dans l'ordre exact d'index.html (worksheets.js avant les
+// fichiers data_*.js, qui complètent les registres globaux sans les écraser).
+const indexHtml = fs.readFileSync(path.join(__dirname, '../index.html'), 'utf8');
+const dataFiles = [...indexHtml.matchAll(/<script[^>]+src="(js\/data\/[^"?]+)/g)].map(m => m[1]);
+// Niveaux chargés à la demande (js/dataLoader.js) : <script id="level-bundles"> JSON
+const bundlesMatch = indexHtml.match(/<script[^>]*id="level-bundles"[^>]*>([\s\S]*?)<\/script>/);
+if (bundlesMatch) {
+  for (const urls of Object.values(JSON.parse(bundlesMatch[1]))) {
+    for (const u of urls) {
+      const f = String(u).split('?')[0];
+      if (/^js\/data\//.test(f) && !dataFiles.includes(f)) dataFiles.push(f);
+    }
+  }
+}
+for (const df of dataFiles) {
+  try {
+    require(path.join(__dirname, '..', df));
+  } catch (e) {
+    console.error(`Error requiring ${df}:`, e.message);
+    totalErrors++;
+  }
+}
 console.log(`Total chapters registered: ${window.MATHS_CHAPTERS.length}`);
 
 // Load geometryFigures & scratchRenderer
@@ -179,18 +195,11 @@ require(path.join(__dirname, '../js/randomGenerators.js'));
 
 // 1. Audit AdvancedGenerators directly
 console.log('\n--- 1. Testing MathsAdvancedGenerators directly ---');
-const advChapters = [
-  // L1
-  'L1-LOG', 'L1-CMP', 'L1-MAT', 'L1-EV1', 'L1-APP', 'L1-REL', 'L1-SUI', 'L1-CNT', 'L1-TAY', 'L1-INT', 'L1-GEO',
-  // L2
-  'L2-RED1', 'L2-PRE', 'L2-SER', 'L2-CAL', 'L2-EDO', 'L2-EV2', 'L2-INT', 'L2-PRO', 'L2-TOP', 'L2-NUM', 'L2-GRP', 'L2-BIL', 'L2-AFF', 'L2-ANA', 'L2-ARI',
-  // L3
-  'L3-TOP', 'L3-MES', 'L3-GAL', 'L3-HOL', 'L3-EDP', 'L3-GEO', 'L3-ANA', 'L3-DIS', 'L3-RED2', 'L3-OPT', 'L3-STA', 'L3-DIF', 'L3-MOD', 'L3-ALG', 'L3-PRC',
-  // Lycée (40 chapitres)
-  '2N1', '2N2', '2N3', '2N4', '2A1', '2A2', '2A3', '2G1', '2G2', '2G3', '2S1', '2S2', '2S3',
-  '1A1', '1A2', '1A3', '1A4', '1A5', '1A6', '1G1', '1G2', '1G3', '1S1', '1S2',
-  'TA1', 'TA2', 'TA3', 'TA4', 'TA5', 'TA6', 'TA7', 'TG1', 'TG2', 'TS1', 'TS2', 'TX1', 'TX2', 'TX3', 'TX4', 'TX5'
-];
+// Liste construite dynamiquement : chapitres de lycée et de Licence réellement déclarés
+// dans window.MATHS_CHAPTERS (chapters_lycee.js, chapters_licence.js).
+const ADV_LEVELS = new Set(['2nde', '1ere', 'tale', 'L1', 'L2', 'L3']);
+const advChapters = window.MATHS_CHAPTERS.filter(c => ADV_LEVELS.has(c.level)).map(c => c.id);
+console.log(`Chapitres lycée/Licence testés : ${advChapters.length}`);
 
 for (const ch of advChapters) {
   for (let tier = 1; tier <= 4; tier++) {
@@ -243,24 +252,9 @@ for (const ch of window.MATHS_CHAPTERS) {
   }
 }
 
-// 3. Load all static data files
+// 3. Données statiques (déjà chargées au début, dans l'ordre d'index.html)
 console.log('\n--- 3. Testing Static Data Files in js/data/ ---');
-const dataFiles = [
-  'data_5eme.js', 'data_4eme.js', 'data_2nde.js', 'data_1ere.js', 'data_terminale.js',
-  'data_l1.js', 'data_l2.js', 'data_l3.js', 'data_capes.js', 'data_proofs.js',
-  'exercises.js', 'courses.js', 'worksheets.js'
-];
-
-for (const df of dataFiles) {
-  const filePath = path.join(__dirname, '../js/data', df);
-  if (!fs.existsSync(filePath)) continue;
-  try {
-    require(filePath);
-    console.log(`Loaded ${df}`);
-  } catch (e) {
-    console.error(`Error requiring ${df}:`, e.message);
-  }
-}
+console.log(`Loaded ${dataFiles.length} data files: ${dataFiles.join(', ')}`);
 
 // Check window.MATHS_EXERCISES
 if (window.MATHS_EXERCISES) {

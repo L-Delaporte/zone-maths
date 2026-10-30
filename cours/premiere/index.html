@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <script>
+    // Applique le thème (clair/sombre) choisi dans l'application, avant l'affichage
+    try {
+      document.documentElement.setAttribute('data-theme', JSON.parse(localStorage.getItem('maths_3e_progress_v1') || '{}').theme || 'light');
+    } catch (e) {}
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Cours de maths de première : chapitres et exercices</title>
+  <meta name="description" content="La spécialité mathématiques de première : second degré, suites, dérivation, exponentielle, trigonométrie, produit scalaire, probabilités conditionnelles…" />
+  <meta name="author" content="Loïc Delaporte, professeur de mathématiques" />
+  <link rel="canonical" href="https://etabli-des-maths.fr/cours/premiere/" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Cours de maths de première : chapitres et exercices" />
+  <meta property="og:description" content="La spécialité mathématiques de première : second degré, suites, dérivation, exponentielle, trigonométrie, produit scalaire, probabilités conditionnelles…" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://etabli-des-maths.fr/cours/premiere/" />
+  <meta property="og:image" content="https://etabli-des-maths.fr/assets/logo.jpg" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta property="og:site_name" content="L'Établi des Maths" />
+
+  <link rel="stylesheet" href="../../css/style.css" />
+  <link rel="stylesheet" href="../../css/landing.css" />
+  <link rel="stylesheet" href="../../vendor/katex/katex.min.css" />
+  <link rel="stylesheet" href="../../css/cours.css" />
+  <link rel="icon" href="../../favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../../assets/favicon-32x32.png" />
+  <link rel="apple-touch-icon" href="../../assets/favicon.png" />
+  <link rel="manifest" href="../../manifest.json" />
+  <meta name="theme-color" content="#2563eb" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Cours de mathématiques de première — 11 chapitres",
+    "description": "La spécialité mathématiques de première : second degré, suites, dérivation, exponentielle, trigonométrie, produit scalaire, probabilités conditionnelles…",
+    "url": "https://etabli-des-maths.fr/cours/premiere/",
+    "inLanguage": "fr",
+    "educationalLevel": "Lycée — première, spécialité mathématiques",
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "L'Établi des Maths",
+      "url": "https://etabli-des-maths.fr/"
+    },
+    "mainEntity": {
+      "@type": "ItemList",
+      "numberOfItems": 11,
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Polynôme du second degré : forme canonique, racines et signe",
+          "url": "https://etabli-des-maths.fr/cours/premiere/polynome-du-second-degre.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Nombre dérivé, taux de variation et tangente à une courbe",
+          "url": "https://etabli-des-maths.fr/cours/premiere/nombre-derive.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Fonction dérivée, règles de dérivation et variations d'une fonction",
+          "url": "https://etabli-des-maths.fr/cours/premiere/fonction-derivee.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "La fonction exponentielle : définition, propriétés et étude",
+          "url": "https://etabli-des-maths.fr/cours/premiere/la-fonction-exponentielle.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 5,
+          "name": "Généralités sur les suites numériques et sens de variation",
+          "url": "https://etabli-des-maths.fr/cours/premiere/generalites-sur-les-suites-numeriques-et-sens.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 6,
+          "name": "Suites arithmétiques et suites géométriques",
+          "url": "https://etabli-des-maths.fr/cours/premiere/suites-arithmetiques-et-suites-geometriques.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 7,
+          "name": "Trigonométrie, cercle trigonométrique et fonctions sinus et cosinus",
+          "url": "https://etabli-des-maths.fr/cours/premiere/trigonometrie-cercle-trigonometrique-et-fonctions-sinus.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 8,
+          "name": "Le produit scalaire dans le plan : définitions et propriétés",
+          "url": "https://etabli-des-maths.fr/cours/premiere/le-produit-scalaire-dans-le-plan.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 9,
+          "name": "Applications du produit scalaire, formule d'Al-Kashi et droites",
+          "url": "https://etabli-des-maths.fr/cours/premiere/applications-du-produit-scalaire.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 10,
+          "name": "Probabilités conditionnelles et indépendance d'événements",
+          "url": "https://etabli-des-maths.fr/cours/premiere/probabilites-conditionnelles-et-independance.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 11,
+          "name": "Variables aléatoires réelles, espérance, variance et écart-type",
+          "url": "https://etabli-des-maths.fr/cours/premiere/variables-aleatoires-reelles.html"
+        }
+      ]
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Accueil",
+        "item": "https://etabli-des-maths.fr/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Cours",
+        "item": "https://etabli-des-maths.fr/cours/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Première",
+        "item": "https://etabli-des-maths.fr/cours/premiere/"
+      }
+    ]
+  }
+  </script>
+</head>
+<body class="cours-page">
+  <a class="cours-skip" href="#contenu">Aller au contenu</a>
+
+  <!-- Header Uniformisé -->
+  <header class="app-header">
+    <div class="header-inner">
+      <a href="../../index.html" class="brand-container" style="text-decoration: none;">
+        <img src="../../assets/logo-96.png" alt="L'Établi des Maths" class="brand-logo-img" width="44" height="44" />
+        <div class="brand-text">
+          <p class="brand-title">L'Établi des Maths <span class="brand-level-tag">Cours</span></p>
+          <span class="brand-tagline">Outils pour apprendre et pratiquer</span>
+        </div>
+      </a>
+
+      <!-- Navigation entre Portails -->
+      <nav class="nav-portal-links" aria-label="Portails thématiques">
+        <a href="../../index.html" class="nav-portal-btn">🏠 Accueil</a>
+        <a href="../../cours/" class="nav-portal-btn active" aria-current="true">📚 Cours</a>
+        <a href="../../rituels.html" class="nav-portal-btn">⏱️ Rituels</a>
+        <a href="../../brevet.html" class="nav-portal-btn">📝 Brevet 3e</a>
+        <a href="../../bac.html" class="nav-portal-btn">🎓 Baccalauréat</a>
+        <a href="../../enseignants.html" class="nav-portal-btn">👨‍🏫 Enseignants</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="landing-wrapper cours-wrapper" id="contenu">
+    <nav class="cours-breadcrumb" aria-label="Fil d'Ariane">
+      <ol>
+        <li><a href="../../index.html">Accueil</a></li>
+        <li><a href="../">Cours</a></li>
+        <li><span aria-current="page">Première</span></li>
+      </ol>
+    </nav>
+
+    <header class="cours-hero">
+      <p class="landing-tag">Lycée · Première</p>
+      <h1 class="cours-title">Cours de mathématiques de première — 11 chapitres</h1>
+      <p class="cours-lead">La spécialité mathématiques de première : second degré, suites, dérivation, exponentielle, trigonométrie, produit scalaire, probabilités conditionnelles et variables aléatoires. Chaque chapitre contient le cours complet, des méthodes rédigées et des exercices corrigés.</p>
+      <div class="cours-cta">
+        <a class="btn-primary cours-cta-main" href="../../index.html?level=1ere">🎯 S'entraîner en Première</a>
+      </div>
+    </header>
+
+    <section class="cours-section" id="domaine-1" aria-labelledby="domaine-1-titre">
+      <h2 id="domaine-1-titre">Analyse et Fonctions</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="polynome-du-second-degre.html">
+          <span class="topic-num">1A1</span>
+          <span class="cours-chapter-text"><strong>Polynôme du second degré : forme canonique, racines et signe</strong><span>Forme développée, canonique et factorisée, discriminant Δ = b² - 4ac, nombre de racines, factorisation et tableau de signes du trinôme.</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="nombre-derive.html">
+          <span class="topic-num">1A2</span>
+          <span class="cours-chapter-text"><strong>Nombre dérivé, taux de variation et tangente à une courbe</strong><span>Taux de variation, définition du nombre dérivé f'(a) comme limite quand h -&gt; 0, interprétation géométrique comme coefficient directeur, équation…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="fonction-derivee.html">
+          <span class="topic-num">1A3</span>
+          <span class="cours-chapter-text"><strong>Fonction dérivée, règles de dérivation et variations d'une fonction</strong><span>Dérivées des fonctions usuelles (x^n, 1/x, √x), opérations (u+v, ku, uv, u/v), théorème fondamental reliant signe de f'(x) et sens de variation de f…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="la-fonction-exponentielle.html">
+          <span class="topic-num">1A4</span>
+          <span class="cours-chapter-text"><strong>La fonction exponentielle : définition, propriétés et étude</strong><span>Définition unique de la fonction f telle que f'=f et f(0)=1, relation fonctionnelle exp(a+b)=exp(a)exp(b), stricte positivité, stricte croissance…</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-2" aria-labelledby="domaine-2-titre">
+      <h2 id="domaine-2-titre">Analyse et Suites</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="generalites-sur-les-suites-numeriques-et-sens.html">
+          <span class="topic-num">1A5</span>
+          <span class="cours-chapter-text"><strong>Généralités sur les suites numériques et sens de variation</strong><span>Définition d'une suite, formes explicites u_n = f(n) et récurrentes u_(n+1) = f(u_n), représentation graphique en toile d'araignée, sens de variation…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="suites-arithmetiques-et-suites-geometriques.html">
+          <span class="topic-num">1A6</span>
+          <span class="cours-chapter-text"><strong>Suites arithmétiques et suites géométriques</strong><span>Définitions, raison r ou q, formule explicite du terme général u_n, somme des termes consécutifs (somme des entiers, somme des puissances de q)…</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-3" aria-labelledby="domaine-3-titre">
+      <h2 id="domaine-3-titre">Géométrie</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="trigonometrie-cercle-trigonometrique-et-fonctions-sinus.html">
+          <span class="topic-num">1G1</span>
+          <span class="cours-chapter-text"><strong>Trigonométrie, cercle trigonométrique et fonctions sinus et cosinus</strong><span>Enroulement de la droite des réels, mesure en radian, cosinus et sinus sur le cercle trigonométrique, valeurs remarquables (π/6, π/4, π/3), parité…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="le-produit-scalaire-dans-le-plan.html">
+          <span class="topic-num">1G2</span>
+          <span class="cours-chapter-text"><strong>Le produit scalaire dans le plan : définitions et propriétés</strong><span>Définition géométrique u·v = ||u|| ||v|| cos(θ), projection orthogonale, expression analytique xx' + yy' dans un repère orthonormé, orthogonalité…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="applications-du-produit-scalaire.html">
+          <span class="topic-num">1G3</span>
+          <span class="cours-chapter-text"><strong>Applications du produit scalaire, formule d'Al-Kashi et droites</strong><span>Théorème d'Al-Kashi (loi des cosinus), théorème de la médiane, vecteur normal à une droite et équation cartésienne ax + by + c = 0.</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-4" aria-labelledby="domaine-4-titre">
+      <h2 id="domaine-4-titre">Probabilités et Statistiques</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="probabilites-conditionnelles-et-independance.html">
+          <span class="topic-num">1S1</span>
+          <span class="cours-chapter-text"><strong>Probabilités conditionnelles et indépendance d'événements</strong><span>Définition P_A(B) = P(A ∩ B) / P(A), construction d'un arbre pondéré, formule des probabilités totales, indépendance de deux événements.</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="variables-aleatoires-reelles.html">
+          <span class="topic-num">1S2</span>
+          <span class="cours-chapter-text"><strong>Variables aléatoires réelles, espérance, variance et écart-type</strong><span>Définition d'une variable aléatoire discrète, loi de probabilité, espérance mathématique E(X), variance V(X), écart-type σ(X), jeu équitable.</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <nav class="cours-pager" aria-label="Autres niveaux">
+      <a class="nav-portal-btn" href="../6e/">6e</a>
+      <a class="nav-portal-btn" href="../5e/">5e</a>
+      <a class="nav-portal-btn" href="../4e/">4e</a>
+      <a class="nav-portal-btn" href="../3e/">3e</a>
+      <a class="nav-portal-btn" href="../seconde/">Seconde</a>
+      <a class="nav-portal-btn active" href="../premiere/" aria-current="page">Première</a>
+      <a class="nav-portal-btn" href="../terminale/">Terminale</a>
+      <a class="nav-portal-btn" href="../l1/">Licence 1</a>
+      <a class="nav-portal-btn" href="../l2/">Licence 2</a>
+      <a class="nav-portal-btn" href="../l3/">Licence 3</a>
+      <a class="nav-portal-btn" href="../capes/">CAPES</a>
+    </nav>
+  </main>
+
+  <footer class="cours-footer">
+    <p>L'Établi des Maths — Conçu par Loïc Delaporte, professeur de mathématiques • 100 % libre et gratuit, conforme aux programmes</p>
+    <p><a href="../../cours/">Tous les cours</a> · <a href="../../index.html">Ouvrir l'application</a> · <a href="../../enseignants.html">Espace enseignants</a></p>
+  </footer>
+  <!-- Statistiques d'audience anonymes et conformes RGPD (GoatCounter) -->
+  <script data-goatcounter="https://etabli-des-maths.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

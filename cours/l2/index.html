@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <script>
+    // Applique le thème (clair/sombre) choisi dans l'application, avant l'affichage
+    try {
+      document.documentElement.setAttribute('data-theme', JSON.parse(localStorage.getItem('maths_3e_progress_v1') || '{}').theme || 'light');
+    } catch (e) {}
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Cours de maths de L2 : chapitres et exercices</title>
+  <meta name="description" content="Deuxième année de licence : déterminants, réduction des endomorphismes, espaces euclidiens, séries numériques, intégrales généralisées, équations…" />
+  <meta name="author" content="Loïc Delaporte, professeur de mathématiques" />
+  <link rel="canonical" href="https://etabli-des-maths.fr/cours/l2/" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Cours de maths de L2 : chapitres et exercices" />
+  <meta property="og:description" content="Deuxième année de licence : déterminants, réduction des endomorphismes, espaces euclidiens, séries numériques, intégrales généralisées, équations…" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://etabli-des-maths.fr/cours/l2/" />
+  <meta property="og:image" content="https://etabli-des-maths.fr/assets/logo.jpg" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta property="og:site_name" content="L'Établi des Maths" />
+
+  <link rel="stylesheet" href="../../css/style.css" />
+  <link rel="stylesheet" href="../../css/landing.css" />
+  <link rel="stylesheet" href="../../vendor/katex/katex.min.css" />
+  <link rel="stylesheet" href="../../css/cours.css" />
+  <link rel="icon" href="../../favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../../assets/favicon-32x32.png" />
+  <link rel="apple-touch-icon" href="../../assets/favicon.png" />
+  <link rel="manifest" href="../../manifest.json" />
+  <meta name="theme-color" content="#2563eb" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Cours de mathématiques de L2 — 16 chapitres",
+    "description": "Deuxième année de licence : déterminants, réduction des endomorphismes, espaces euclidiens, séries numériques, intégrales généralisées, équations…",
+    "url": "https://etabli-des-maths.fr/cours/l2/",
+    "inLanguage": "fr",
+    "educationalLevel": "Université — licence de mathématiques, 2e année (L2)",
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "L'Établi des Maths",
+      "url": "https://etabli-des-maths.fr/"
+    },
+    "mainEntity": {
+      "@type": "ItemList",
+      "numberOfItems": 16,
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Déterminants, formes multilinéaires alternées et comatrice",
+          "url": "https://etabli-des-maths.fr/cours/l2/determinants-formes-multilineaires-alternees.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Réduction des endomorphismes I : Valeurs propres et Diagonalisation",
+          "url": "https://etabli-des-maths.fr/cours/l2/reduction-des-endomorphismes-i.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Réduction des endomorphismes II : Trigonalisation et Cayley-Hamilton",
+          "url": "https://etabli-des-maths.fr/cours/l2/reduction-des-endomorphismes-ii.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Dualité en dimension finie, base duale et orthogonalité",
+          "url": "https://etabli-des-maths.fr/cours/l2/dualite-en-dimension-finie.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 5,
+          "name": "Espaces Préhilbertiens et Euclidiens : Orthogonalité et Gram-Schmidt",
+          "url": "https://etabli-des-maths.fr/cours/l2/espaces-prehilbertiens-et-euclidiens.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 6,
+          "name": "Endomorphismes symétriques, groupe orthogonal et Théorème Spectral",
+          "url": "https://etabli-des-maths.fr/cours/l2/endomorphismes-symetriques.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 7,
+          "name": "Séries numériques réelles et complexes : convergence et critères",
+          "url": "https://etabli-des-maths.fr/cours/l2/series-numeriques-reelles-et-complexes.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 8,
+          "name": "Intégrale de Riemann approfondie et fonctions réglées",
+          "url": "https://etabli-des-maths.fr/cours/l2/integrale-de-riemann-approfondie-et-fonctions-reglees.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 9,
+          "name": "Intégrales généralisées sur un intervalle quelconque",
+          "url": "https://etabli-des-maths.fr/cours/l2/integrales-generalisees-sur-un-intervalle-quelconque.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 10,
+          "name": "Équations différentielles linéaires et systèmes différentiels",
+          "url": "https://etabli-des-maths.fr/cours/l2/equations-differentielles-lineaires-et-systemes.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 11,
+          "name": "Intégrales dépendant d'un paramètre et convergence dominée",
+          "url": "https://etabli-des-maths.fr/cours/l2/integrales-dependant-d-un-parametre-et-convergence.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 12,
+          "name": "Intégrales multiples, théorème de Fubini et changements de variables",
+          "url": "https://etabli-des-maths.fr/cours/l2/integrales-multiples.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 13,
+          "name": "Courbes paramétrées, repère de Frenet et courbure",
+          "url": "https://etabli-des-maths.fr/cours/l2/courbes-parametrees.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 14,
+          "name": "Espaces probabilisés et variables aléatoires discrètes",
+          "url": "https://etabli-des-maths.fr/cours/l2/espaces-probabilises-et-variables-aleatoires-discretes.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 15,
+          "name": "Calcul différentiel à plusieurs variables, gradient et extremums",
+          "url": "https://etabli-des-maths.fr/cours/l2/calcul-differentiel-a-plusieurs-variables.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 16,
+          "name": "Démonstrations fondamentales de L2 : algèbre bilinéaire et analyse",
+          "url": "https://etabli-des-maths.fr/cours/l2/demonstrations-fondamentales-de-l2.html"
+        }
+      ]
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Accueil",
+        "item": "https://etabli-des-maths.fr/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Cours",
+        "item": "https://etabli-des-maths.fr/cours/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Licence 2",
+        "item": "https://etabli-des-maths.fr/cours/l2/"
+      }
+    ]
+  }
+  </script>
+</head>
+<body class="cours-page">
+  <a class="cours-skip" href="#contenu">Aller au contenu</a>
+
+  <!-- Header Uniformisé -->
+  <header class="app-header">
+    <div class="header-inner">
+      <a href="../../index.html" class="brand-container" style="text-decoration: none;">
+        <img src="../../assets/logo-96.png" alt="L'Établi des Maths" class="brand-logo-img" width="44" height="44" />
+        <div class="brand-text">
+          <p class="brand-title">L'Établi des Maths <span class="brand-level-tag">Cours</span></p>
+          <span class="brand-tagline">Outils pour apprendre et pratiquer</span>
+        </div>
+      </a>
+
+      <!-- Navigation entre Portails -->
+      <nav class="nav-portal-links" aria-label="Portails thématiques">
+        <a href="../../index.html" class="nav-portal-btn">🏠 Accueil</a>
+        <a href="../../cours/" class="nav-portal-btn active" aria-current="true">📚 Cours</a>
+        <a href="../../rituels.html" class="nav-portal-btn">⏱️ Rituels</a>
+        <a href="../../brevet.html" class="nav-portal-btn">📝 Brevet 3e</a>
+        <a href="../../bac.html" class="nav-portal-btn">🎓 Baccalauréat</a>
+        <a href="../../enseignants.html" class="nav-portal-btn">👨‍🏫 Enseignants</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="landing-wrapper cours-wrapper" id="contenu">
+    <nav class="cours-breadcrumb" aria-label="Fil d'Ariane">
+      <ol>
+        <li><a href="../../index.html">Accueil</a></li>
+        <li><a href="../">Cours</a></li>
+        <li><span aria-current="page">Licence 2</span></li>
+      </ol>
+    </nav>
+
+    <header class="cours-hero">
+      <p class="landing-tag">Licence de mathématiques · Licence 2</p>
+      <h1 class="cours-title">Cours de mathématiques de L2 — 16 chapitres</h1>
+      <p class="cours-lead">Deuxième année de licence : déterminants, réduction des endomorphismes, espaces euclidiens, séries numériques, intégrales généralisées, équations différentielles, calcul différentiel et probabilités. Chaque chapitre contient le cours complet, des méthodes rédigées et des exercices corrigés.</p>
+      <div class="cours-cta">
+        <a class="btn-primary cours-cta-main" href="../../index.html?level=L2">🎯 S'entraîner en Licence 2</a>
+      </div>
+    </header>
+
+    <section class="cours-section" id="domaine-1" aria-labelledby="domaine-1-titre">
+      <h2 id="domaine-1-titre">Algèbre Linéaire Avancée</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="determinants-formes-multilineaires-alternees.html">
+          <span class="topic-num">L2-01</span>
+          <span class="cours-chapter-text"><strong>Déterminants, formes multilinéaires alternées et comatrice</strong><span>Formes n-linéaires alternées, groupe symétrique Sn, déterminant d'une matrice et d'un endomorphisme, développement par rapport à une ligne/colonne…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="reduction-des-endomorphismes-i.html">
+          <span class="topic-num">L2-02</span>
+          <span class="cours-chapter-text"><strong>Réduction des endomorphismes I : Valeurs propres et Diagonalisation</strong><span>Sous-espaces stables, valeurs propres, vecteurs propres, sous-espaces propres E_λ, polynôme caractéristique P_A(X) = det(XI - A), condition…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="reduction-des-endomorphismes-ii.html">
+          <span class="topic-num">L2-03</span>
+          <span class="cours-chapter-text"><strong>Réduction des endomorphismes II : Trigonalisation et Cayley-Hamilton</strong><span>Polynôme scindé, critère de trigonalisabilité, sous-espaces caractéristiques, théorème de Cayley-Hamilton P_A(A) = 0, polynôme minimal μ_A(X)…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="dualite-en-dimension-finie.html">
+          <span class="topic-num">L2-04</span>
+          <span class="cours-chapter-text"><strong>Dualité en dimension finie, base duale et orthogonalité</strong><span>Espace dual E = L(E, K), formes linéaires, hyperplans comme noyaux de formes non nulles, base duale (e_i), bidualité et isomorphisme canonique E ≃ E…</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-2" aria-labelledby="domaine-2-titre">
+      <h2 id="domaine-2-titre">Espaces Euclidiens</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="espaces-prehilbertiens-et-euclidiens.html">
+          <span class="topic-num">L2-05</span>
+          <span class="cours-chapter-text"><strong>Espaces Préhilbertiens et Euclidiens : Orthogonalité et Gram-Schmidt</strong><span>Produit scalaire réel, formes bilinéaires symétriques définies positives, norme euclidienne, inégalité de Cauchy-Schwarz, inégalité de Minkowski…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="endomorphismes-symetriques.html">
+          <span class="topic-num">L2-06</span>
+          <span class="cours-chapter-text"><strong>Endomorphismes symétriques, groupe orthogonal et Théorème Spectral</strong><span>Endomorphismes adjoints, matrices symétriques réelles, théorème spectral (toute matrice symétrique réelle est orthogonalement diagonalisable dans R)…</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-3" aria-labelledby="domaine-3-titre">
+      <h2 id="domaine-3-titre">Analyse Réelle &amp; Complexe</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="series-numeriques-reelles-et-complexes.html">
+          <span class="topic-num">L2-07</span>
+          <span class="cours-chapter-text"><strong>Séries numériques réelles et complexes : convergence et critères</strong><span>Sommes partielles, reste, convergence absolue, séries à termes positifs, critères de comparaison, règle de d'Alembert, règle de Cauchy, séries…</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-4" aria-labelledby="domaine-4-titre">
+      <h2 id="domaine-4-titre">Calcul Intégral</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="integrale-de-riemann-approfondie-et-fonctions-reglees.html">
+          <span class="topic-num">L2-08</span>
+          <span class="cours-chapter-text"><strong>Intégrale de Riemann approfondie et fonctions réglées</strong><span>Fonctions en escalier, fonctions réglées comme adhérence uniforme des fonctions en escalier, intégrale d'une fonction réglée sur un segment…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="integrales-generalisees-sur-un-intervalle-quelconque.html">
+          <span class="topic-num">L2-09</span>
+          <span class="cours-chapter-text"><strong>Intégrales généralisées sur un intervalle quelconque</strong><span>Intégrales impropres sur [a, +∞[ ou ]a, b], convergence absolue, critères de comparaison pour fonctions positives, intégrales de Riemann de référence…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="integrales-dependant-d-un-parametre-et-convergence.html">
+          <span class="topic-num">L2-11</span>
+          <span class="cours-chapter-text"><strong>Intégrales dépendant d'un paramètre et convergence dominée</strong><span>Fonctions définies par F(x) = ∫_I f(x, t) dt, théorème de continuité sous le signe intégrale, théorème de dérivation sous le signe intégrale (règle…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="integrales-multiples.html">
+          <span class="topic-num">L2-12</span>
+          <span class="cours-chapter-text"><strong>Intégrales multiples, théorème de Fubini et changements de variables</strong><span>Intégrales doubles et triples sur des domaines simples ou bornés, théorème de Fubini pour l'interversion d'intégrales, jacobien d'un difféomorphisme…</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-5" aria-labelledby="domaine-5-titre">
+      <h2 id="domaine-5-titre">Équations Différentielles</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="equations-differentielles-lineaires-et-systemes.html">
+          <span class="topic-num">L2-10</span>
+          <span class="cours-chapter-text"><strong>Équations différentielles linéaires et systèmes différentiels</strong><span>Équations différentielles linéaires d'ordre 1 et 2 à coefficients variables (Wronskien, variation des constantes), systèmes différentiels linéaires…</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-6" aria-labelledby="domaine-6-titre">
+      <h2 id="domaine-6-titre">Géométrie Différentielle</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="courbes-parametrees.html">
+          <span class="topic-num">L2-13</span>
+          <span class="cours-chapter-text"><strong>Courbes paramétrées, repère de Frenet et courbure</strong><span>Courbes planes paramétrées t -&gt; (x(t), y(t)), points réguliers et singuliers, branches infinies, vecteur tangent, abscisse curviligne, repère mobile…</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-7" aria-labelledby="domaine-7-titre">
+      <h2 id="domaine-7-titre">Probabilités</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="espaces-probabilises-et-variables-aleatoires-discretes.html">
+          <span class="topic-num">L2-14</span>
+          <span class="cours-chapter-text"><strong>Espaces probabilisés et variables aléatoires discrètes</strong><span>Tribus d'événements, axiomes de Kolmogorov, probabilité conditionnelle, indépendance d'une famille d'événements, variables aléatoires discrètes, lois…</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-8" aria-labelledby="domaine-8-titre">
+      <h2 id="domaine-8-titre">Calcul Différentiel</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="calcul-differentiel-a-plusieurs-variables.html">
+          <span class="topic-num">L2-15</span>
+          <span class="cours-chapter-text"><strong>Calcul différentiel à plusieurs variables, gradient et extremums</strong><span>Fonctions de R^n dans R^p, dérivées partielles, différentielle comme application linéaire, matrice jacobienne, règle de composition (Chain Rule)…</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-9" aria-labelledby="domaine-9-titre">
+      <h2 id="domaine-9-titre">Démonstrations Fondamentales</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="demonstrations-fondamentales-de-l2.html">
+          <span class="topic-num">L2-16</span>
+          <span class="cours-chapter-text"><strong>Démonstrations fondamentales de L2 : algèbre bilinéaire et analyse</strong><span>Preuves incontournables de L2 : Théorème Spectral euclidien, Lemme d'Abel et rayon de séries entières, Cayley-Hamilton, Dérivation sous l'intégrale.</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <nav class="cours-pager" aria-label="Autres niveaux">
+      <a class="nav-portal-btn" href="../6e/">6e</a>
+      <a class="nav-portal-btn" href="../5e/">5e</a>
+      <a class="nav-portal-btn" href="../4e/">4e</a>
+      <a class="nav-portal-btn" href="../3e/">3e</a>
+      <a class="nav-portal-btn" href="../seconde/">Seconde</a>
+      <a class="nav-portal-btn" href="../premiere/">Première</a>
+      <a class="nav-portal-btn" href="../terminale/">Terminale</a>
+      <a class="nav-portal-btn" href="../l1/">Licence 1</a>
+      <a class="nav-portal-btn active" href="../l2/" aria-current="page">Licence 2</a>
+      <a class="nav-portal-btn" href="../l3/">Licence 3</a>
+      <a class="nav-portal-btn" href="../capes/">CAPES</a>
+    </nav>
+  </main>
+
+  <footer class="cours-footer">
+    <p>L'Établi des Maths — Conçu par Loïc Delaporte, professeur de mathématiques • 100 % libre et gratuit, conforme aux programmes</p>
+    <p><a href="../../cours/">Tous les cours</a> · <a href="../../index.html">Ouvrir l'application</a> · <a href="../../enseignants.html">Espace enseignants</a></p>
+  </footer>
+  <!-- Statistiques d'audience anonymes et conformes RGPD (GoatCounter) -->
+  <script data-goatcounter="https://etabli-des-maths.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

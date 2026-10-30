@@ -297,7 +297,7 @@ window.MATHS_EXERCISES = Object.assign(window.MATHS_EXERCISES || {}, {
       "chapterId": "N2bis",
       "tier": 1,
       "title": "Facteur commun évident",
-      "statement": "Factoriser l'expression $A = 12x - 8$. Quel est le facteur commun maximal ?",
+      "statement": "Factoriser au maximum l'expression $A = 12x - 8$ (mettre en facteur le plus grand facteur commun).",
       "type": "mcq",
       "options": [
         "$4(3x - 2)$",

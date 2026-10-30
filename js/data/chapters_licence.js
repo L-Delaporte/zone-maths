@@ -1,11 +1,11 @@
 /**
- * Métadonnées des 41 modules de Licence de Mathématiques (L1, L2, L3)
+ * Métadonnées des 44 modules de Licence de Mathématiques (L1, L2, L3)
  * Conçu fidèlement d'après les enseignements magistraux et syllabus des archives universitaires
  */
 
 const MATHS_CHAPTERS_LICENCE = [
   // =========================================================================
-  // LICENCE 1 — FONDEMENTS ALGÉBRIQUES ET ANALYTIQUES (11 modules)
+  // LICENCE 1 — FONDEMENTS ALGÉBRIQUES ET ANALYTIQUES (12 modules)
   // =========================================================================
   {
     "id": "L1-LOG",
@@ -238,7 +238,7 @@ const MATHS_CHAPTERS_LICENCE = [
   },
 
   // =========================================================================
-  // LICENCE 2 — STRUCTURES LINÉAIRES, ANALYSE APPROFONDIE ET MULTIVARIABLE (15 modules)
+  // LICENCE 2 — STRUCTURES LINÉAIRES, ANALYSE APPROFONDIE ET MULTIVARIABLE (16 modules)
   // =========================================================================
   {
     "id": "L2-DET",
@@ -547,7 +547,7 @@ const MATHS_CHAPTERS_LICENCE = [
   },
 
   // =========================================================================
-  // LICENCE 3 — STRUCTURES MODERNES, TOPOLOGIE ET THÉORIE DE LA MESURE (15 modules)
+  // LICENCE 3 — STRUCTURES MODERNES, TOPOLOGIE ET THÉORIE DE LA MESURE (16 modules)
   // =========================================================================
   {
     "id": "L3-GRP1",
