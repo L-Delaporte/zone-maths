@@ -193,6 +193,15 @@ async function step(label, fn) {
     return 'rituel 6e ouvert';
   });
 
+  await step('Lien ?chapitre=N1&palier=4 sur un profil neuf : aucun palier débloqué', async () => {
+    await evaluate("localStorage.clear(); true");
+    await goto(BASE + 'index.html?chapitre=N1&palier=4');
+    await sleep(1500);
+    const st = await evaluate(`({ tier: window.MathsAdaptiveEngine.state.currentTier, validated: JSON.stringify((window.MathsStorage.getChapterProgress('N1').validatedTiers) || []), t4: window.MathsAdaptiveEngine.isTierUnlocked('N1', 4) })`);
+    if (st.tier !== 1 || st.t4 || st.validated !== '[]') throw new Error(JSON.stringify(st));
+    return 'reste au palier 1, palier 4 verrouillé';
+  });
+
   await step('Bouton Retour du navigateur', async () => {
     await goto(BASE + 'index.html');
     await waitFor('window.MathsApp && window.MathsApp.isHomeView');

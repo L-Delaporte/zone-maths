@@ -979,17 +979,19 @@ window.MathsApp = {
           this.hideHomeView();
           if (tierParam && tierParam >= 1 && tierParam <= 4) {
             setTimeout(() => {
-              // Si l'enseignant partage un palier précis pour une IE, s'assurer que le palier est accessible
-              window.MathsStorage.updateChapterProgress(targetChap.id, p => {
-                p.validatedTiers = p.validatedTiers || [];
-                for (let t = 1; t < tierParam; t++) {
-                  if (!p.validatedTiers.includes(t)) p.validatedTiers.push(t);
-                }
-                return p;
-              });
-              window.MathsAdaptiveEngine.setTier(tierParam);
+              // Un lien partagé (?palier=N) ne débloque JAMAIS de palier : l'élève est placé sur
+              // le palier demandé s'il l'a déjà débloqué, sinon sur son palier le plus élevé.
+              const engine = window.MathsAdaptiveEngine;
+              const name = targetChap.shortTitle || targetChap.title;
+              if (engine.isTierUnlocked(targetChap.id, tierParam)) {
+                engine.setTier(tierParam);
+                this.showToast(`🎯 <strong>Entraînement ciblé :</strong> ${name} (Palier ${tierParam})`, 4000);
+              } else {
+                const reachable = engine.getHighestUnlockedTier(targetChap.id);
+                engine.setTier(reachable);
+                this.showToast(`🔒 <strong>Palier ${tierParam} pas encore débloqué</strong> pour ${name}.<br>Tu commences au palier ${reachable} : progresse pour l'atteindre !`, 5500);
+              }
               this.renderTrainingView();
-              this.showToast(`🎯 <strong>Entraînement ciblé :</strong> ${targetChap.shortTitle || targetChap.title} (Palier ${tierParam})`, 4000);
             }, 250);
           }
           handled = true;
