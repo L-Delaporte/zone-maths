@@ -133,6 +133,24 @@ async function step(label, fn) {
     return `réponse attendue ${ex.answer} — retour : ${fb1}`;
   });
 
+  await step('Onglets Fiches & DS et Bilan (3e, 6e, Terminale)', async () => {
+    const out = [];
+    for (const [lvl, chap] of [['3eme', 'N1'], ['6eme', '6N4'], ['tale', 'TA1']]) {
+      await evaluate(`window.MathsApp.switchLevel('${lvl}', false)`);
+      await waitFor(`window.MathsDataLoader.isLevelLoaded('${lvl}')`);
+      await evaluate(`window.MathsApp.selectChapter('${chap}'); window.MathsApp.switchTab('sheets'); true`);
+      await sleep(500);
+      const sheets = await evaluate(`(document.getElementById('sheets-content-container') || document.querySelector('[id*="sheet"]') || {textContent: ''}).textContent.length`);
+      await evaluate(`window.MathsApp.switchTab('stats'); true`);
+      await sleep(400);
+      const stats = await evaluate(`(document.getElementById('stats-content-container') || document.querySelector('[id*="stats"]') || {textContent: ''}).textContent.length`);
+      if (lvl === '3eme') await shot('03b_bilan');
+      out.push(`${chap} fiches ${sheets} car. / bilan ${stats} car.`);
+      await evaluate(`window.MathsApp.switchTab('train'); true`);
+    }
+    return out.join(' · ');
+  });
+
   await step('Navigation clavier : Tab atteint les cartes de l’accueil', async () => {
     await evaluate(`window.MathsApp.showHomeView(); true`);
     await sleep(300);

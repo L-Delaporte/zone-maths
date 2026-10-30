@@ -1,0 +1,982 @@
+/**
+ * L'Établi des Maths — Entraînement adaptatif : exercice, paliers, saisie, correction, célébrations.
+ * Méthodes de window.MathsApp (voir js/app.js), ajoutées avant l'initialisation.
+ */
+Object.assign(window.MathsApp, {
+  // =========================================================================
+  // 1. ESPACE ENTRAÎNEMENT ADAPTATIF (ZONE OPTIMALE / ZPD)
+  // =========================================================================
+  renderTrainingView() {
+    const engine = window.MathsAdaptiveEngine;
+    const activeChapLevel = this.getCurrentChapterLevel();
+    const exercise = engine ? engine.state.currentExercise : null;
+
+    // 1. Mise à jour de la jauge ZPD, des paliers et de la maîtrise
+    this.renderZpdGauge();
+    this.updateChapterMasteryUI(this.currentChapterId);
+
+    // Paliers boutons (gestion des déblocages et choix de palier)
+    this.renderTierButtons();
+
+    // 2. Affichage de l'exercice
+    const container = document.getElementById('exercise-statement-box');
+    const interactionContainer = document.getElementById('exercise-input-zone');
+    const feedbackContainer = document.getElementById('exercise-feedback-zone');
+
+    if (!exercise) {
+      if (engine && typeof engine.nextExercise === 'function') {
+        try {
+          const fallbackExo = engine.nextExercise();
+          if (fallbackExo) {
+            this.renderTrainingView();
+            return;
+          }
+        } catch (err) {
+          console.error("Erreur lors de la génération de l'exercice :", err);
+        }
+      }
+      if (container) container.innerHTML = `<p class="math-p">Aucun exercice disponible pour ce chapitre.</p>`;
+      return;
+    }
+
+    // Énoncé
+    if (container) {
+      container.innerHTML = `
+        <div class="exo-header-bar">
+          <span class="exo-tier-tag tier-${exercise.tier}">Palier ${exercise.tier} : ${this.getTierName(exercise.tier, activeChapLevel)}</span>
+          <span class="exo-skill-tag">${exercise.skill || 'Mathématiques'}</span>
+        </div>
+        <h3 class="exo-title">${exercise.title}</h3>
+        <div class="exo-body">${window.MathsRenderer.markdownToHtml(exercise.statement)}</div>
+      `;
+      window.MathsRenderer.renderElement(container);
+    }
+
+    // Zone de saisie / Interaction
+    if (interactionContainer) {
+      interactionContainer.innerHTML = '';
+      if (exercise.type === 'mcq') {
+        // Normalisation défensive choices -> options
+        if (!exercise.options && exercise.choices) exercise.options = exercise.choices;
+        if (exercise.correctIndex === undefined && exercise.options && exercise.answer) {
+          exercise.correctIndex = exercise.options.indexOf(exercise.answer);
+          if (exercise.correctIndex === -1) exercise.correctIndex = 0;
+        }
+        if (!exercise.options) exercise.options = [];
+        // Mélange défensif : la bonne réponse ne doit jamais être prévisible (toujours en A)
+        if (!exercise._mcqShuffled && engine && typeof engine.shuffleMcq === 'function') {
+          engine.shuffleMcq(exercise);
+          if (exercise.options[exercise.correctIndex] !== undefined) exercise.answer = exercise.options[exercise.correctIndex];
+        }
+
+        // Affichage QCM
+        const mcqBox = document.createElement('div');
+        mcqBox.className = 'mcq-options-grid';
+
+        exercise.options.forEach((opt, idx) => {
+          const btn = document.createElement('button');
+          btn.className = 'mcq-opt-btn';
+          btn.setAttribute('data-index', idx);
+          btn.innerHTML = `
+            <span class="mcq-letter">${String.fromCharCode(65 + idx)}</span>
+            <span class="mcq-text">${opt}</span>
+          `;
+          btn.addEventListener('click', () => {
+            document.querySelectorAll('.mcq-opt-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            this.selectedMcqAnswer = idx;
+          });
+          mcqBox.appendChild(btn);
+        });
+
+        // Raccourcis clavier guide
+        const kbdHint = document.createElement('div');
+        kbdHint.className = 'kbd-hint';
+        kbdHint.innerHTML = `<span>⌨️ Raccourcis :</span> <kbd class="kbd-badge">A</kbd> <kbd class="kbd-badge">B</kbd> <kbd class="kbd-badge">C</kbd> <kbd class="kbd-badge">D</kbd> pour choisir, <kbd class="kbd-badge">Entrée</kbd> pour valider, <kbd class="kbd-badge">H</kbd> pour indice`;
+        mcqBox.appendChild(kbdHint);
+
+        interactionContainer.appendChild(mcqBox);
+        window.MathsRenderer.renderElement(mcqBox);
+        this.selectedMcqAnswer = null;
+
+      } else {
+        // Saisie exacte (input text avec preview KaTeX)
+        const inputWrapper = document.createElement('div');
+        inputWrapper.className = 'exact-input-wrapper';
+
+        // Placeholder neutre qui ne donne JAMAIS la réponse aux élèves
+        let safePlaceholder = 'Votre réponse...';
+        let inputTip = '💡 Pour une fraction, écris par exemple <code>13/7</code> ou utilise le clavier virtuel ci-dessous.';
+        const ansStr = String(exercise.answer || '').trim();
+        if (ansStr.includes(';') || (ansStr.startsWith('(') && ansStr.endsWith(')'))) {
+          safePlaceholder = 'Coordonnées (ex: (3;5) ou 3;5)';
+          inputTip = '💡 Écris les coordonnées sous la forme <code>(x;y)</code> ou <code>x;y</code>.';
+        } else if (ansStr.includes('/')) {
+          safePlaceholder = 'Ex: 3/4 (fraction irréductible)';
+        } else if (ansStr.includes('^')) {
+          safePlaceholder = 'Ex: 10^3';
+        } else if (!isNaN(parseFloat(ansStr))) {
+          safePlaceholder = 'Nombre (ex: 12 ou -4)';
+        }
+
+        inputWrapper.innerHTML = `
+          <div class="input-row">
+            <input type="text" id="math-user-input" class="math-text-input" placeholder="${safePlaceholder}" autocomplete="off" />
+            <div id="math-preview-badge" class="math-preview-badge" style="display:none;"></div>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.4rem;">
+            <p class="input-tip" style="margin:0;">${inputTip}</p>
+            <div class="kbd-hint" style="margin:0;"><span>⌨️</span> <kbd class="kbd-badge">Entrée</kbd> pour valider, <kbd class="kbd-badge">H</kbd> pour indice</div>
+          </div>
+        `;
+        interactionContainer.appendChild(inputWrapper);
+
+        const inputField = inputWrapper.querySelector('#math-user-input');
+        const previewBadge = inputWrapper.querySelector('#math-preview-badge');
+
+        inputField.addEventListener('input', () => {
+          window.MathsRenderer.renderPreview(inputField.value, previewBadge);
+        });
+
+        inputField.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            e.stopPropagation();
+            // Si le bouton "Question Suivante" est visible, avancer immédiatement
+            const nextBtnEl = document.getElementById('btn-next-exercise');
+            if (nextBtnEl && nextBtnEl.style.display !== 'none') {
+              nextBtnEl.click();
+              return;
+            }
+            this.submitCurrentAnswer();
+          }
+        });
+
+        setTimeout(() => inputField.focus(), 100);
+      }
+    }
+
+    // Nettoyer la zone de feedback
+    if (feedbackContainer) {
+      feedbackContainer.innerHTML = '';
+      feedbackContainer.style.display = 'none';
+    }
+
+    // Réinitialiser les boutons d'action
+    const validateBtn = document.getElementById('btn-validate-answer');
+    const nextBtn = document.getElementById('btn-next-exercise');
+    const hint1Btn = document.getElementById('btn-hint-1');
+    const hint2Btn = document.getElementById('btn-hint-2');
+
+    if (validateBtn) {
+      validateBtn.style.display = 'inline-flex';
+      validateBtn.onclick = () => this.submitCurrentAnswer();
+    }
+    if (nextBtn) {
+      nextBtn.style.display = 'none';
+      nextBtn.innerHTML = `Exercice suivant ➔`;
+      nextBtn.onclick = () => {
+        engine.nextExercise();
+        this.renderTrainingView();
+      };
+    }
+    if (hint1Btn) {
+      hint1Btn.onclick = () => this.showHint(1);
+    }
+    if (hint2Btn) {
+      hint2Btn.onclick = () => this.showHint(2);
+    }
+  },
+
+  renderZpdGauge() {
+    // Zone cognitive ZPD retirée de l'interface à la demande de l'utilisateur
+  },
+
+  getCurrentChapterLevel() {
+    if (this.currentChapterId) {
+      const ch = (window.MATHS_CHAPTERS || []).find(c => c.id === this.currentChapterId);
+      if (ch && ch.level) return ch.level;
+      if (this.currentChapterId.startsWith('6')) return '6eme';
+      if (this.currentChapterId.startsWith('5')) return '5eme';
+      if (this.currentChapterId.startsWith('4')) return '4eme';
+      if (this.currentChapterId.startsWith('3')) return '3eme';
+      if (this.currentChapterId.startsWith('2')) return '2nde';
+      if (this.currentChapterId.startsWith('1')) return '1ere';
+      if (this.currentChapterId.startsWith('T')) return 'tale';
+      if (this.currentChapterId.startsWith('L1')) return 'L1';
+      if (this.currentChapterId.startsWith('L2')) return 'L2';
+      if (this.currentChapterId.startsWith('L3')) return 'L3';
+    }
+    return this.currentLevel || '3eme';
+  },
+
+  getTierButtonLabel(tier, level = null) {
+    const lvl = level || this.getCurrentChapterLevel();
+    const t = parseInt(tier, 10);
+    if (lvl === '6eme') {
+      const labels = {
+        1: "Palier 1 : Socle",
+        2: "Palier 2 : Guidé",
+        3: "Palier 3 : Approfondissement",
+        4: "Palier 4 : Défi 5ème"
+      };
+      return labels[t] || `Palier ${t}`;
+    } else if (lvl === '5eme') {
+      const labels = {
+        1: "Palier 1 : Socle",
+        2: "Palier 2 : Guidé",
+        3: "Palier 3 : Approfondissement",
+        4: "Palier 4 : Défi 4ème"
+      };
+      return labels[t] || `Palier ${t}`;
+    } else if (lvl === '4eme') {
+      const labels = {
+        1: "Palier 1 : Socle",
+        2: "Palier 2 : Guidé",
+        3: "Palier 3 : Approfondissement",
+        4: "Palier 4 : Défi 3ème"
+      };
+      return labels[t] || `Palier ${t}`;
+    } else if (lvl === '2nde') {
+      const labels = {
+        1: "Palier 1 : Socle",
+        2: "Palier 2 : Guidé",
+        3: "Palier 3 : Approfondissement",
+        4: "Palier 4 : Défi 1ère Spé"
+      };
+      return labels[t] || `Palier ${t}`;
+    } else if (lvl === '1ere' || lvl === 'tale' || lvl === 'lycee') {
+      const labels = {
+        1: "Palier 1 : Socle",
+        2: "Palier 2 : Guidé",
+        3: "Palier 3 : Bac",
+        4: "Palier 4 : Approfondissement"
+      };
+      return labels[t] || `Palier ${t}`;
+    } else if (lvl === 'capes') {
+      if (this.currentChapterId === 'capes-oral2') {
+        const labels = {
+          1: "Palier 1 : Déontologie",
+          2: "Palier 2 : Situations",
+          3: "Palier 3 : Périscolaire",
+          4: "Palier 4 : Procédures"
+        };
+        return labels[t] || `Palier ${t}`;
+      }
+      const labels = {
+        1: "Palier 1 : Socle",
+        2: "Palier 2 : Méthodes",
+        3: "Palier 3 : Concours",
+        4: "Palier 4 : Rigueur"
+      };
+      return labels[t] || `Palier ${t}`;
+    } else if (['L1', 'L2', 'L3', 'licence'].includes(lvl)) {
+      const labels = {
+        1: "Palier 1 : Socle",
+        2: "Palier 2 : Méthodes",
+        3: "Palier 3 : Examen",
+        4: "Palier 4 : Rigueur"
+      };
+      return labels[t] || `Palier ${t}`;
+    } else {
+      const labels = {
+        1: "Palier 1 : Socle",
+        2: "Palier 2 : Guidé",
+        3: "Palier 3 : Brevet",
+        4: "Palier 4 : Défi Seconde"
+      };
+      return labels[t] || `Palier ${t}`;
+    }
+  },
+
+  getTierName(tier, level = null) {
+    const lvl = level || this.getCurrentChapterLevel();
+    const t = parseInt(tier, 10);
+    if (lvl === '6eme') {
+      const names = {
+        1: "Socle & Automatismes",
+        2: "Entraînement Guidé",
+        3: "Approfondissement 6e",
+        4: "Défi 5ème (Expert)"
+      };
+      return names[t] || `Niveau ${t}`;
+    } else if (lvl === '5eme') {
+      const names = {
+        1: "Socle & Automatismes",
+        2: "Entraînement Guidé",
+        3: "Approfondissement 5e",
+        4: "Défi 4ème (Expert)"
+      };
+      return names[t] || `Niveau ${t}`;
+    } else if (lvl === '4eme') {
+      const names = {
+        1: "Socle & Automatismes",
+        2: "Entraînement Guidé",
+        3: "Approfondissement 4e",
+        4: "Défi 3ème (Expert)"
+      };
+      return names[t] || `Niveau ${t}`;
+    } else if (lvl === '2nde') {
+      const names = {
+        1: "Socle & Automatismes",
+        2: "Entraînement Guidé",
+        3: "Approfondissement 2nde",
+        4: "Défi 1ère Spé (Expert)"
+      };
+      return names[t] || `Niveau ${t}`;
+    } else if (lvl === '1ere' || lvl === 'tale' || lvl === 'lycee') {
+      const names = {
+        1: "Socle & Automatismes",
+        2: "Entraînement Guidé",
+        3: "Objectif Bac (Épreuve)",
+        4: lvl === 'tale' ? "Défi Post-Bac & Approfondissement" : "Défi & Approfondissement"
+      };
+      return names[t] || `Niveau ${t}`;
+    } else if (lvl === 'capes') {
+      if (this.currentChapterId === 'capes-oral2') {
+        const names = {
+          1: "Socle Déontologique & Textes",
+          2: "Situations de Classe & Contestation",
+          3: "Parents, Sorties & Périscolaire",
+          4: "Procédures d'Urgence & Jury"
+        };
+        return names[t] || `Niveau ${t}`;
+      }
+      const names = {
+        1: "Socle & Définitions",
+        2: "Entraînement & Méthodes",
+        3: "Niveau Concours (Oral 1)",
+        4: "Démonstrations & Rigueur"
+      };
+      return names[t] || `Niveau ${t}`;
+    } else if (['L1', 'L2', 'L3', 'licence'].includes(lvl)) {
+      const names = {
+        1: "Socle & Définitions",
+        2: "Entraînement & Méthodes",
+        3: "Niveau Examen (Partiel)",
+        4: "Démonstrations & Rigueur"
+      };
+      return names[t] || `Niveau ${t}`;
+    } else {
+      const names = {
+        1: "Socle & Automatismes",
+        2: "Entraînement Guidé",
+        3: "Objectif Brevet (DNB)",
+        4: "Défi Seconde (Lycée)"
+      };
+      return names[t] || `Niveau ${t}`;
+    }
+  },
+
+  renderTierButtons() {
+    const engine = window.MathsAdaptiveEngine;
+    const activeChapLevel = this.getCurrentChapterLevel();
+    const progress = window.MathsStorage.getChapterProgress(this.currentChapterId);
+    const valTiers = progress.validatedTiers || [];
+
+    document.querySelectorAll('.tier-pill-btn').forEach(btn => {
+      const tier = parseInt(btn.dataset.tier, 10);
+      const isUnlocked = engine ? engine.isTierUnlocked(this.currentChapterId, tier) : (tier === 1);
+      const isValidated = valTiers.includes(tier);
+      const isActive = (tier === (engine && engine.state ? engine.state.currentTier : 1));
+      const baseLabel = this.getTierButtonLabel(tier, activeChapLevel);
+
+      if (!isUnlocked) {
+        // Palier verrouillé : l'élève doit d'abord atteindre le pourcentage requis
+        const reqPercent = { 2: '25%', 3: '50%', 4: '75%' }[tier] || '25%';
+        btn.innerHTML = `<span class="tier-lock-icon">🔒</span> ${baseLabel}`;
+        btn.classList.add('tier-locked');
+        btn.classList.remove('active', 'tier-validated');
+        btn.title = `Palier ${tier} verrouillé — Atteins ${reqPercent} de maîtrise (validation du Palier ${tier - 1}) pour le débloquer`;
+        btn.onclick = () => {
+          if (window.MathsAudio) window.MathsAudio.playHint();
+          this.showToast(`🔒 <strong>Palier ${tier} verrouillé</strong><br>Atteins au moins <strong>${reqPercent}</strong> de maîtrise pour débloquer le Palier ${tier} !`, 3500);
+        };
+      } else {
+        // Palier débloqué : l'élève peut toujours choisir lui-même ce palier
+        btn.innerHTML = `${isValidated ? '<span class="tier-check-icon">✓</span> ' : ''}${baseLabel}`;
+        btn.classList.remove('tier-locked');
+        btn.classList.toggle('active', isActive);
+        btn.classList.toggle('tier-validated', isValidated);
+        btn.title = isValidated
+          ? `Palier ${tier} validé — Clique pour choisir ce palier`
+          : `Palier ${tier} débloqué — Clique pour t'entraîner sur ce palier`;
+        btn.onclick = () => {
+          if (engine) {
+            engine.setTier(tier);
+            this.renderTrainingView();
+          }
+        };
+      }
+    });
+  },
+
+  updateTierButtonsUI() {
+    this.renderTierButtons();
+  },
+
+  submitCurrentAnswer() {
+    const engine = window.MathsAdaptiveEngine;
+    const exercise = engine.state.currentExercise;
+    if (!exercise) return;
+
+    let userAnswer = null;
+    if (exercise.type === 'mcq') {
+      if (this.selectedMcqAnswer === null || this.selectedMcqAnswer === undefined) {
+        alert('Veuillez sélectionner une réponse parmi les options proposées.');
+        return;
+      }
+      userAnswer = this.selectedMcqAnswer;
+    } else {
+      const input = document.getElementById('math-user-input');
+      if (!input || !input.value.trim()) {
+        alert('Veuillez saisir votre réponse.');
+        return;
+      }
+      userAnswer = input.value;
+    }
+
+    const result = engine.submitAnswer(userAnswer);
+    if (!result) return;
+
+    this.displayAnswerFeedback(result, exercise);
+    this.updateHeaderProfile();
+    this.updateChapterMasteryUI(this.currentChapterId);
+    this.renderZpdGauge();
+  },
+
+  displayAnswerFeedback(result, exercise) {
+    const engine = window.MathsAdaptiveEngine;
+    const feedbackContainer = document.getElementById('exercise-feedback-zone');
+    const validateBtn = document.getElementById('btn-validate-answer');
+    const nextBtn = document.getElementById('btn-next-exercise');
+
+    if (!feedbackContainer) return;
+    feedbackContainer.style.display = 'block';
+
+    if (result.needsSimplification) {
+      if (window.MathsAudio) window.MathsAudio.playHint();
+      feedbackContainer.className = 'feedback-card feedback-warning';
+      feedbackContainer.innerHTML = `
+        <div class="feedback-header">
+          <span class="feedback-icon">💡</span>
+          <h4>${result.feedback}</h4>
+        </div>
+        <div class="feedback-solution" style="border-left-color: var(--warning, #f59e0b);">
+          <div class="feedback-solution-title" style="color: var(--warning, #f59e0b);">Conseil de simplification :</div>
+          <div class="feedback-solution-body">
+            <p class="math-p">Ta réponse <strong>${result.userFraction}</strong> a la bonne valeur numérique, mais <strong>elle n'est pas sous forme irréductible</strong>.</p>
+            <p class="math-p">Divise le numérateur et le dénominateur par leur plus grand diviseur commun, puis clique de nouveau sur <strong>Valider ma réponse</strong>.</p>
+          </div>
+        </div>
+      `;
+      window.MathsRenderer.renderElement(feedbackContainer);
+      this.announceFeedback(feedbackContainer);
+      if (validateBtn) validateBtn.style.display = 'inline-flex';
+      if (nextBtn) nextBtn.style.display = 'none';
+      const input = document.getElementById('math-user-input');
+      if (input) {
+        input.focus();
+        input.select();
+      }
+      return;
+    }
+
+    if (result.isCorrect) {
+      // Mettre à jour immédiatement l'état visuel des boutons de paliers (coche ✓, déblocage, palier actif)
+      this.renderTierButtons();
+
+      // Célébration Popup centrale (10s) si un palier ou un rang est déverrouillé
+      const hasCelebration = this.handleUnlockCelebration(result);
+      if (!hasCelebration) {
+        if (window.MathsAudio) window.MathsAudio.playCorrect();
+      }
+
+      // SUCCÈS
+      feedbackContainer.className = 'feedback-card feedback-success';
+      feedbackContainer.innerHTML = `
+        <div class="feedback-header">
+          <span class="feedback-icon">🎉</span>
+          <h4>${result.feedback}</h4>
+          <span class="xp-badge">+${result.xpEarned} XP</span>
+        </div>
+        ${result.leveledUp ? `<div class="level-up-banner">${result.levelUpMessage}</div>` : ''}
+        ${result.tierCapMessage ? `<div class="level-up-banner" style="background: rgba(37,99,235,0.08); border-color: rgba(37,99,235,0.3); color: var(--primary);">🎯 ${result.tierCapMessage}</div>` : ''}
+        ${result.solution ? `
+        <div class="feedback-solution">
+          <div class="feedback-solution-title">Explication / Solution détaillée :</div>
+          <div class="feedback-solution-body">${window.MathsRenderer.markdownToHtml((window.MathsAdaptiveEngine && exercise && exercise.statement) ? window.MathsAdaptiveEngine.formatSolutionWithInitialExpr(exercise.statement, result.solution) : result.solution)}</div>
+        </div>` : ''}
+      `;
+      window.MathsRenderer.renderElement(feedbackContainer);
+      this.announceFeedback(feedbackContainer);
+
+      if (validateBtn) validateBtn.style.display = 'none';
+      if (nextBtn) {
+        nextBtn.style.display = 'inline-flex';
+        // Si un palier vient d'être validé, inciter au passage au palier supérieur
+        if (result.newlyValidatedTiers && result.newlyValidatedTiers.length > 0 && result.newTier && result.newTier > (exercise.tier || 1)) {
+          const nextTierLabel = this.getTierButtonLabel(result.newTier, this.getCurrentChapterLevel());
+          nextBtn.innerHTML = `<span>Passer au ${nextTierLabel}</span> ➔`;
+          nextBtn.onclick = () => {
+            window.MathsAdaptiveEngine.setTier(result.newTier);
+            this.renderTrainingView();
+          };
+        } else if (result.tierCapReached && result.nextTierToAdvance) {
+          const nextTierLabel = this.getTierButtonLabel(result.nextTierToAdvance, this.getCurrentChapterLevel());
+          nextBtn.innerHTML = `<span>Passer au ${nextTierLabel}</span> ➔`;
+          nextBtn.onclick = () => {
+            window.MathsAdaptiveEngine.setTier(result.nextTierToAdvance);
+            this.renderTrainingView();
+          };
+        } else {
+          nextBtn.innerHTML = `<span>Exercice suivant</span> ➔`;
+          nextBtn.onclick = () => {
+            engine.nextExercise();
+            this.renderTrainingView();
+          };
+        }
+        // Ne pas appeler focus() automatiquement sur nextBtn : l'élève doit avoir le temps de lire le commentaire
+      }
+
+    } else {
+      // Effet sonore d'erreur ou d'indice
+      if (result.stage === 'hint1' || result.stage === 'hint2') {
+        if (window.MathsAudio) window.MathsAudio.playHint();
+      } else {
+        if (window.MathsAudio) window.MathsAudio.playIncorrect();
+      }
+
+      // ERREUR AVEC ÉTAYAGE BIENVEILLANT
+      feedbackContainer.className = 'feedback-card feedback-warning';
+
+      if (result.stage === 'hint1') {
+        feedbackContainer.innerHTML = `
+          <div class="feedback-header">
+            <span class="feedback-icon">💡</span>
+            <h4>${result.message}</h4>
+          </div>
+          <div class="hint-content">${window.MathsRenderer.markdownToHtml(result.hint)}</div>
+          <p class="retry-text">Tu peux modifier ta réponse et retenter ta chance !</p>
+        `;
+      } else if (result.stage === 'hint2') {
+        feedbackContainer.innerHTML = `
+          <div class="feedback-header">
+            <span class="feedback-icon">📖</span>
+            <h4>${result.message}</h4>
+          </div>
+          <div class="hint-content">${window.MathsRenderer.markdownToHtml(result.hint)}</div>
+          <p class="retry-text">Dernière tentative avant la correction complète.</p>
+        `;
+      } else {
+        // Solution finale
+        feedbackContainer.className = 'feedback-card feedback-danger';
+        feedbackContainer.innerHTML = `
+          <div class="feedback-header">
+            <span class="feedback-icon">📝</span>
+            <h4>${result.message}</h4>
+          </div>
+          ${result.solution ? `
+          <div class="feedback-solution">
+            <div class="feedback-solution-title">Explication / Solution détaillée :</div>
+            <div class="feedback-solution-body">${window.MathsRenderer.markdownToHtml((window.MathsAdaptiveEngine && exercise && exercise.statement) ? window.MathsAdaptiveEngine.formatSolutionWithInitialExpr(exercise.statement, result.solution) : result.solution)}</div>
+          </div>` : ''}
+          ${result.canStepDown ? `
+            <div class="step-down-box">
+              <p>${result.stepDownMessage}</p>
+              <button id="btn-step-down" class="btn-secondary btn-sm">Revenir au ${this.getTierButtonLabel(engine.state.currentTier - 1, this.getCurrentChapterLevel())}</button>
+            </div>
+          ` : ''}
+        `;
+        if (result.canStepDown) {
+          setTimeout(() => {
+            const btn = document.getElementById('btn-step-down');
+            if (btn) {
+              btn.onclick = () => {
+                window.MathsAdaptiveEngine.setTier(window.MathsAdaptiveEngine.state.currentTier - 1);
+                this.renderTrainingView();
+              };
+            }
+          }, 50);
+        }
+        if (validateBtn) validateBtn.style.display = 'none';
+        if (nextBtn) nextBtn.style.display = 'inline-flex';
+      }
+      window.MathsRenderer.renderElement(feedbackContainer);
+      this.announceFeedback(feedbackContainer);
+    }
+  },
+
+  showHint(num) {
+    if (window.MathsAudio) window.MathsAudio.playHint();
+    const hint = window.MathsAdaptiveEngine.requestHint(num);
+    if (!hint) return;
+    const feedbackContainer = document.getElementById('exercise-feedback-zone');
+    if (!feedbackContainer) return;
+    feedbackContainer.style.display = 'block';
+    feedbackContainer.className = 'feedback-card feedback-info';
+    feedbackContainer.innerHTML = `
+      <div class="feedback-header">
+        <span class="feedback-icon">${num === 1 ? '💡' : '📖'}</span>
+        <h4>${num === 1 ? 'Coup de pouce méthodologique' : 'Rappel de cours ciblé'}</h4>
+      </div>
+      <div class="hint-content">${window.MathsRenderer.markdownToHtml(hint)}</div>
+      ${num === 2 ? `
+        <div style="margin-top: 0.75rem; text-align: right;">
+          <button class="btn-secondary btn-sm" onclick="window.MathsApp.switchTab('course')" type="button">
+            📖 Consulter la fiche de cours complète ➔
+          </button>
+        </div>
+      ` : ''}
+    `;
+    window.MathsRenderer.renderElement(feedbackContainer);
+  },
+
+  // Clavier virtuel mathématique
+  bindVirtualKeyboard() {
+    const toggleBtn = document.getElementById('btn-toggle-math-keyboard');
+    const keyboard = document.getElementById('virtual-math-keyboard');
+
+    if (toggleBtn && keyboard) {
+      toggleBtn.addEventListener('click', () => {
+        const isHidden = keyboard.style.display === 'none' || !keyboard.style.display;
+        keyboard.style.display = isHidden ? 'grid' : 'none';
+        toggleBtn.classList.toggle('active', isHidden);
+      });
+    }
+
+    document.querySelectorAll('.key-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const input = document.getElementById('math-user-input');
+        if (!input) return;
+
+        const action = btn.dataset.action;
+        const val = btn.dataset.val;
+
+        const start = (input.selectionStart !== null && input.selectionStart !== undefined) ? input.selectionStart : input.value.length;
+        const end = (input.selectionEnd !== null && input.selectionEnd !== undefined) ? input.selectionEnd : input.value.length;
+
+        if (action === 'backspace') {
+          if (start === end && start > 0) {
+            input.setRangeText('', start - 1, start, 'end');
+          } else if (start !== end) {
+            input.setRangeText('', start, end, 'end');
+          }
+        } else if (action === 'clear') {
+          input.value = '';
+        } else if (action === 'enter') {
+          this.submitCurrentAnswer();
+          return;
+        } else if (val) {
+          input.setRangeText(val, start, end, 'end');
+        }
+
+        input.dispatchEvent(new Event('input'));
+        input.focus();
+      });
+    });
+  },
+
+  startChapterTier(chapterId, tier = 1) {
+    if (!chapterId) return;
+    this.selectChapter(chapterId);
+    this.switchTab('train');
+    if (tier && tier >= 1 && tier <= 4) {
+      if (window.MathsAdaptiveEngine) {
+        window.MathsAdaptiveEngine.setTier(tier);
+      }
+      this.renderTrainingView();
+    }
+  },
+
+  shareCurrentTraining() {
+    const chapterId = this.currentChapterId;
+    const currentTier = (window.MathsAdaptiveEngine && window.MathsAdaptiveEngine.state && window.MathsAdaptiveEngine.state.currentTier) || 1;
+    const chapter = (window.MATHS_CHAPTERS || []).find(c => c.id === chapterId);
+    const chapterName = chapter ? (chapter.shortTitle || chapter.title) : chapterId;
+
+    const url = new URL(window.location.href);
+    url.searchParams.set('chapitre', chapterId);
+    url.searchParams.set('palier', currentTier);
+    const shareUrl = url.toString();
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(shareUrl).then(() => {
+        this.showToast(`🔗 <strong>Lien copié !</strong><br><small>${chapterName} — Palier ${currentTier}</small>`);
+      }).catch(() => {
+        prompt('Lien à copier :', shareUrl);
+      });
+    } else {
+      prompt('Lien à copier :', shareUrl);
+    }
+  },
+
+  /**
+   * Analyse si un palier ou un rang a été débloqué et déclenche la célébration popup
+   */
+  handleUnlockCelebration(result) {
+    if (!result || !result.isCorrect) return false;
+
+    const chapterId = this.currentChapterId;
+    const chapter = (window.MATHS_CHAPTERS || []).find(c => c.id === chapterId);
+    const lvl = this.getCurrentChapterLevel();
+
+    const newBadges = result.newlyUnlockedBadges || [];
+    const newValidatedTiers = result.newlyValidatedTiers || [];
+    const tierUnlocked = result.unlockedTier || (result.leveledUp ? result.newTier : null);
+
+    // Filtrer les badges de rang par palier (Novice, Apprenti, Chevalier, Maître / Grand Maître)
+    const rankBadges = newBadges.filter(b => b.kind === 'rank');
+    // Badge général de tier 4 ("Cap vers la Seconde / 3e / 4e")
+    const tier4Badge = newBadges.find(b => b.id === 'tier_4_unlocked');
+    // Badges de série de jours (Daily Streak)
+    const streakBadges = newBadges.filter(b => b.kind === 'streak');
+
+    const hasNewRank = rankBadges.length > 0;
+    const hasNewTier = newValidatedTiers.length > 0 || (result.leveledUp && !!tierUnlocked) || !!tier4Badge;
+    const hasStreakBadge = streakBadges.length > 0;
+    const hasLevelUp = !!result.leveledUpProfile;
+
+    if (!hasNewRank && !hasNewTier && !hasStreakBadge && !hasLevelUp) {
+      return false;
+    }
+
+    // 0. Trophée de série de jours conquis (Daily Streak)
+    if (hasStreakBadge) {
+      const topStreak = streakBadges[streakBadges.length - 1];
+      this.showUnlockPopup({
+        icon: topStreak.icon || '🔥',
+        category: '🔥 NOUVEAU TROPHÉE DE RÉGULARITÉ !',
+        title: topStreak.title,
+        chapterTitle: `Série de ${topStreak.days} jours consécutifs validée !`,
+        description: `Incroyable assiduité ! Tu as maintenu ta flamme pendant <strong>${topStreak.days} jours consécutifs</strong> sur L'Établi des Maths.<br>${topStreak.desc || ''}`,
+        perks: [
+          `🔥 Série : ${topStreak.days} jours`,
+          `🏆 Trophée débloqué dans ton passeport`,
+          `⭐ Persévérance exemplaire`
+        ],
+        actionLabel: `Continuer l'entraînement`
+      });
+      return true;
+    }
+
+    // 1. Déblocage combiné : Rang + Palier
+    if (hasNewRank && hasNewTier) {
+      const topRank = rankBadges[rankBadges.length - 1];
+      const topTier = newValidatedTiers.length > 0 ? Math.max(...newValidatedTiers) : (tierUnlocked || topRank.tier || 1);
+      const nextTierName = topTier < 4 ? this.getTierName(topTier + 1, lvl) : 'Maîtrise totale';
+      const isMaster = topRank.tier === 4 || topTier >= 4 || result.mastery >= 100;
+
+      this.showUnlockPopup({
+        icon: topRank.icon || (isMaster ? '💎' : '🏆'),
+        category: isMaster ? '👑 MAÎTRISE TOTALE & RANG SUPRÊME !' : '🎉 NOUVEAU RANG & PALIER DÉBLOQUÉS !',
+        title: topRank.title,
+        chapterTitle: chapter ? `${chapter.num} — ${chapter.shortTitle || chapter.title}` : '',
+        description: isMaster
+          ? `Exceptionnel ! Tu as atteint <strong>100% de maîtrise</strong> sur <em>${chapter ? (chapter.shortTitle || chapter.title) : 'ce chapitre'}</em> et débloqué le titre suprême de <strong>${topRank.title}</strong> !`
+          : `Félicitations pour tes efforts ! Tu as validé le <strong>Palier ${topTier}</strong> et conquis le rang honorifique de <strong>${topRank.title}</strong>.<br>${topTier < 4 ? `Le <strong>${nextTierName}</strong> est désormais accessible !` : 'Tous les paliers de ce chapitre sont conquis !'}`,
+        perks: [
+          `🎖️ Titre ${topRank.title}`,
+          topTier < 4 ? `🚀 ${nextTierName} débloqué` : `💎 100% de réussite`,
+          `🏅 Trophée ajouté à ton passeport`
+        ],
+        isMaster,
+        actionLabel: topTier < 4 ? `Passer au ${nextTierName}` : `Continuer l'entraînement`
+      });
+      return true;
+    }
+
+    // 2. Uniquement un Rang honorifique débloqué
+    if (hasNewRank) {
+      const topRank = rankBadges[rankBadges.length - 1];
+      const isMaster = topRank.tier === 4 || result.mastery >= 100;
+      this.showUnlockPopup({
+        icon: topRank.icon || '🏆',
+        category: isMaster ? '👑 RANG SUPRÊME DÉBLOQUÉ !' : '🏆 NOUVEAU RANG DÉBLOQUÉ !',
+        title: topRank.title,
+        chapterTitle: chapter ? `${chapter.num} — ${chapter.shortTitle || chapter.title}` : '',
+        description: `Félicitations pour tes progrès constants ! Grâce à ta réussite sur ce chapitre, tu accèdes au rang honorifique de <strong>${topRank.title}</strong> !`,
+        perks: [
+          `🎖️ Rang ${topRank.title}`,
+          `🏅 Trophée ajouté au passeport`,
+          `⭐ Progression enregistrée`
+        ],
+        isMaster,
+        actionLabel: `Continuer l'entraînement`
+      });
+      return true;
+    }
+
+    // 3. Uniquement un Palier débloqué / validé
+    if (hasNewTier) {
+      const validatedTier = newValidatedTiers.length > 0 ? Math.max(...newValidatedTiers) : tierUnlocked;
+      const tierTitle = this.getTierName(validatedTier, lvl);
+      const nextTierTitle = validatedTier < 4 ? this.getTierName(validatedTier + 1, lvl) : 'Maîtrise totale';
+      const isMax = validatedTier >= 4;
+
+      this.showUnlockPopup({
+        icon: isMax ? '💎' : '🚀',
+        category: isMax ? '💎 PALIER SUPRÊME CONQUIS !' : '🚀 NOUVEAU PALIER DÉBLOQUÉ !',
+        title: !isMax ? nextTierTitle : 'Maîtrise totale',
+        chapterTitle: chapter ? `${chapter.num} — ${chapter.shortTitle || chapter.title}` : '',
+        description: !isMax
+          ? `Bravo ! Tu as validé le <strong>${tierTitle}</strong> avec <strong>${result.mastery}% de maîtrise</strong>.<br>Le <strong>${nextTierTitle}</strong> est désormais déverrouillé !`
+          : `Exceptionnel ! Tu as validé tous les paliers de ce chapitre avec <strong>100% de maîtrise</strong> !`,
+        perks: [
+          !isMax ? `🎯 Accès aux exercices du ${nextTierTitle}` : `👑 Tous les paliers conquis`,
+          `📈 Maîtrise en hausse : ${result.mastery}%`,
+          `⚡ +${result.xpEarned} XP gagnés`
+        ],
+        isMaster: isMax,
+        actionLabel: !isMax ? `Passer au ${nextTierTitle}` : `Continuer l'entraînement`,
+        advanceOnAction: !isMax
+      });
+      return true;
+    }
+
+    // 4. Montée de niveau de profil (Progression de Niveau d'Expérience)
+    if (hasLevelUp) {
+      const lvlInfo = (window.MathsStorage && typeof window.MathsStorage.getLevelProgressInfo === 'function')
+        ? window.MathsStorage.getLevelProgressInfo()
+        : { level: result.userLevel || 2, rankTitle: "Apprenti de l'Établi", xpNeeded: 75 };
+
+      this.showUnlockPopup({
+        icon: '⭐',
+        category: '⭐ NIVEAU SUPÉRIEUR ATTEINT !',
+        title: `Niveau ${result.userLevel}`,
+        chapterTitle: lvlInfo.rankTitle,
+        description: `Félicitations pour tes efforts ! Tu as accumulé assez d'expérience pour franchir ce cap et atteindre le <strong>Niveau ${result.userLevel}</strong> !`,
+        perks: [
+          `⭐ Niveau ${result.userLevel} atteint`,
+          `🎓 Titre : ${lvlInfo.rankTitle}`,
+          `🎯 Prochain niveau : ${lvlInfo.xpNeeded} XP nécessaires`
+        ],
+        actionLabel: `Continuer l'entraînement`
+      });
+      return true;
+    }
+
+    return false;
+  },
+
+  /**
+   * Affiche le popup de félicitations au milieu de l'écran pendant 10 secondes
+   */
+  showUnlockPopup(data) {
+    const modal = document.getElementById('reward-unlock-modal');
+    if (!modal) return;
+
+    // Nettoyer tout compte à rebours ou écouteur antérieur
+    if (this._unlockInterval) clearInterval(this._unlockInterval);
+    if (this._unlockTimeout) clearTimeout(this._unlockTimeout);
+    if (this._unlockKeyHandler) window.removeEventListener('keydown', this._unlockKeyHandler);
+
+    // Remplissage des éléments de l'interface
+    const iconEl = document.getElementById('unlock-modal-icon');
+    const catEl = document.getElementById('unlock-modal-category');
+    const titleEl = document.getElementById('unlock-modal-title');
+    const chapEl = document.getElementById('unlock-modal-chap');
+    const descEl = document.getElementById('unlock-modal-desc');
+    const perksEl = document.getElementById('unlock-modal-perks');
+    const progressBar = document.getElementById('unlock-timer-progress');
+    const secondsEl = document.getElementById('unlock-timer-seconds');
+    const actionBtn = modal.querySelector('.reward-action-btn');
+
+    if (iconEl) iconEl.textContent = data.icon || '🏆';
+    if (catEl) catEl.textContent = data.category || 'FÉLICITATIONS !';
+    if (titleEl) titleEl.textContent = data.title || 'Nouveau Titre !';
+    if (chapEl) chapEl.textContent = data.chapterTitle || '';
+    if (descEl) descEl.innerHTML = data.description || 'Félicitations pour tes progrès !';
+
+    if (perksEl) {
+      const perks = data.perks || ['🏅 Trophée débloqué'];
+      perksEl.innerHTML = perks.map(p => `<span class="reward-perk-pill">${p}</span>`).join('');
+    }
+
+    if (actionBtn) {
+      actionBtn.innerHTML = data.actionLabel ? `<span>${data.actionLabel}</span> ➔` : `<span>Continuer l'entraînement</span> ➔`;
+      actionBtn.onclick = () => {
+        this.closeUnlockPopup();
+        if (data.advanceOnAction) {
+          const nextBtn = document.getElementById('btn-next-exercise');
+          if (nextBtn && nextBtn.style.display !== 'none') {
+            nextBtn.click();
+          }
+        }
+      };
+    }
+
+    // Effets sonores et visuels festifs
+    if (data.isMaster && window.MathsAudio) {
+      window.MathsAudio.playMastery();
+    } else if (window.MathsAudio) {
+      window.MathsAudio.playLevelUp();
+    }
+    if (window.MathsConfetti) {
+      window.MathsConfetti.launch(3500);
+    }
+
+    // Initialisation du compte à rebours 10 secondes (10 000 ms)
+    const totalDuration = 10000;
+    const startTime = Date.now();
+    if (progressBar) progressBar.style.width = '100%';
+    if (secondsEl) secondsEl.textContent = '10';
+
+    modal.style.display = 'flex';
+    modal.setAttribute('aria-hidden', 'false');
+
+    // Décompte fluide et régulier
+    this._unlockInterval = setInterval(() => {
+      const elapsed = Date.now() - startTime;
+      const remainingMs = Math.max(0, totalDuration - elapsed);
+      const remainingSec = Math.ceil(remainingMs / 1000);
+      const percent = (remainingMs / totalDuration) * 100;
+
+      if (progressBar) progressBar.style.width = `${percent}%`;
+      if (secondsEl) secondsEl.textContent = remainingSec;
+
+      if (remainingMs <= 0) {
+        this.closeUnlockPopup();
+      }
+    }, 100);
+
+    // Fermeture par raccourci clavier (Échap ou Entrée / Espace)
+    this._unlockKeyHandler = (e) => {
+      if (e.key === 'Escape' || e.key === 'Enter' || e.code === 'Space') {
+        e.preventDefault();
+        this.closeUnlockPopup();
+        if (data.advanceOnAction && (e.key === 'Enter' || e.code === 'Space')) {
+          const nextBtn = document.getElementById('btn-next-exercise');
+          if (nextBtn && nextBtn.style.display !== 'none') {
+            nextBtn.click();
+          }
+        }
+      }
+    };
+    window.addEventListener('keydown', this._unlockKeyHandler);
+  },
+
+  /**
+   * Ferme le popup de félicitations et stoppe le compte à rebours
+   */
+  closeUnlockPopup() {
+    const modal = document.getElementById('reward-unlock-modal');
+    if (this._unlockInterval) {
+      clearInterval(this._unlockInterval);
+      this._unlockInterval = null;
+    }
+    if (this._unlockTimeout) {
+      clearTimeout(this._unlockTimeout);
+      this._unlockTimeout = null;
+    }
+    if (this._unlockKeyHandler) {
+      window.removeEventListener('keydown', this._unlockKeyHandler);
+      this._unlockKeyHandler = null;
+    }
+
+    if (modal) {
+      modal.style.display = 'none';
+      modal.setAttribute('aria-hidden', 'true');
+    }
+  },
+});

@@ -1,3538 +1,1021 @@
 /**
- * Zone-Maths — Contrôleur principal de l'application (Cycle 4 : 5e, 4e, 3e)
- * Gestion des vues, navigation par chapitre et domaine, clavier virtuel mathématique,
- * rendu réactif et interactions pédagogiques.
+ * L'Établi des Maths — Contrôleur principal de l'application (6e → Licence)
+ * État, niveaux et cycles, initialisation, navigation, URL, clavier, accessibilité,
+ * en-tête et notifications. Les vues sont dans js/app/*.js (Object.assign sur MathsApp),
+ * chargées après ce fichier ; l'initialisation a lieu au DOMContentLoaded.
  */
 
-document.addEventListener('DOMContentLoaded', () => {
-  window.MathsApp = {
-    currentLevel: '3eme',
-    currentChapterId: 'N1',
-    currentTab: 'train', // 'train', 'course', 'sheets', 'stats'
-    currentFilterDomain: 'all',
-    searchQuery: '',
-    selectedSheetIndex: 0,
-    generatedPracticeSheet: null,
-    generatedDsByChapter: {},
+window.MathsApp = {
+  currentLevel: '3eme',
+  currentChapterId: 'N1',
+  currentTab: 'train', // 'train', 'course', 'sheets', 'stats'
+  currentFilterDomain: 'all',
+  searchQuery: '',
+  selectedSheetIndex: 0,
+  generatedPracticeSheet: null,
+  generatedDsByChapter: {},
 
-    CYCLES: {
-      college: { id: 'college', name: 'Collège', defaultLevel: '3eme', levels: ['6eme', '5eme', '4eme', '3eme'] },
-      lycee: { id: 'lycee', name: 'Lycée', defaultLevel: '2nde', levels: ['2nde', '1ere', 'tale'] },
-      licence: { id: 'licence', name: 'Licence & Concours', defaultLevel: 'L1', levels: ['L1', 'L2', 'L3', 'capes'] }
-    },
+  CYCLES: {
+    college: { id: 'college', name: 'Collège', defaultLevel: '3eme', levels: ['6eme', '5eme', '4eme', '3eme'] },
+    lycee: { id: 'lycee', name: 'Lycée', defaultLevel: '2nde', levels: ['2nde', '1ere', 'tale'] },
+    licence: { id: 'licence', name: 'Licence & Concours', defaultLevel: 'L1', levels: ['L1', 'L2', 'L3', 'capes'] }
+  },
 
-    VALID_LEVELS: ['6eme', '5eme', '4eme', '3eme', '2nde', '1ere', 'tale', 'L1', 'L2', 'L3', 'capes'],
+  VALID_LEVELS: ['6eme', '5eme', '4eme', '3eme', '2nde', '1ere', 'tale', 'L1', 'L2', 'L3', 'capes'],
 
-    LEVEL_LABELS: {
-      '6eme': '6ème',
-      '5eme': '5ème',
-      '4eme': '4ème',
-      '3eme': '3ème (DNB)',
-      '2nde': 'Seconde',
-      '1ere': '1ère Spécialité',
-      'tale': 'Terminale (Spé/Exp)',
-      'L1': 'Licence 1 (L1)',
-      'L2': 'Licence 2 (L2)',
-      'L3': 'Licence 3 (L3)',
-      'capes': 'CAPES / Agrég'
-    },
+  LEVEL_LABELS: {
+    '6eme': '6ème',
+    '5eme': '5ème',
+    '4eme': '4ème',
+    '3eme': '3ème (DNB)',
+    '2nde': 'Seconde',
+    '1ere': '1ère Spécialité',
+    'tale': 'Terminale (Spé/Exp)',
+    'L1': 'Licence 1 (L1)',
+    'L2': 'Licence 2 (L2)',
+    'L3': 'Licence 3 (L3)',
+    'capes': 'CAPES / Agrég'
+  },
 
-    currentExplainerMode: 'adaptive',
+  getLevelName(level) {
+    return this.LEVEL_LABELS[level] || level || 'Mathématiques';
+  },
 
-    MODE_EXPLAINERS: {
-      adaptive: {
-        icon: '🎯',
-        title: "Entraînement Adaptatif",
-        subtitle: "Zone Proximale de Développement (ZPD) & 4 Paliers",
-        actionLabel: "Tester l'entraînement 🎯",
-        contentHtml: `
-          <div class="mode-explainer-concept">
-            L'algorithme s'adapte en continu à ton niveau grâce aux <strong>4 paliers de difficulté calibrés</strong>. Tu progresses à ton rythme, sans blocage ni frustration, en consolidant chaque étape avant de passer au palier supérieur.
-          </div>
-
-          <div class="mode-explainer-example-card">
-            <div class="mode-explainer-example-header">
-              <span>Exemple concret : Résolution d'équations</span>
-              <span class="mode-explainer-example-badge">Progression ZPD</span>
-            </div>
-            <div class="mode-explainer-tiers-list">
-              <div class="mode-explainer-tier-item tier-1">
-                <div class="mode-explainer-tier-head">
-                  <span>Palier 1 : Socle & Automatismes</span>
-                  <span class="mode-explainer-tier-tag">Niveau 1</span>
-                </div>
-                <div class="mode-explainer-tier-math">
-                  Résoudre $2x = 8$. Solution immédiate : $x = \\frac{8}{2} = 4$.
-                </div>
-              </div>
-              <div class="mode-explainer-tier-item tier-2">
-                <div class="mode-explainer-tier-head">
-                  <span>Palier 2 : Entraînement Guidé</span>
-                  <span class="mode-explainer-tier-tag">Niveau 2</span>
-                </div>
-                <div class="mode-explainer-tier-math">
-                  Résoudre $3x + 5 = 20$. Étapes : $3x = 15$ puis $x = 5$.
-                </div>
-              </div>
-              <div class="mode-explainer-tier-item tier-3">
-                <div class="mode-explainer-tier-head">
-                  <span>Palier 3 : Niveau Examen Officiel</span>
-                  <span class="mode-explainer-tier-tag">Brevet / Bac</span>
-                </div>
-                <div class="mode-explainer-tier-math">
-                  Résoudre $5(x - 2) = 2x + 8$. Développement et regroupement : $3x = 18 \\implies x = 6$.
-                </div>
-              </div>
-              <div class="mode-explainer-tier-item tier-4">
-                <div class="mode-explainer-tier-head">
-                  <span>Palier 4 : Défis & Dépassement</span>
-                  <span class="mode-explainer-tier-tag">Expert</span>
-                </div>
-                <div class="mode-explainer-tier-math">
-                  Mise en équation d'un problème concret avec calcul de coût ou optimisation géométrique.
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="mode-explainer-benefits-grid">
-            <div class="mode-explainer-benefit-pill">
-              <span>⚡</span>
-              <div><strong>Feedback immédiat :</strong> Explication détaillée à chaque réponse pour comprendre ses erreurs.</div>
-            </div>
-            <div class="mode-explainer-benefit-pill">
-              <span>🛡️</span>
-              <div><strong>Ni note ni sanction :</strong> Seule la maîtrise compte. Tu avances sans stress et peux retenter jusqu'à la réussite.</div>
-            </div>
-            <div class="mode-explainer-benefit-pill">
-              <span>🚀</span>
-              <div><strong>Autonomie complète :</strong> Choix libre du palier ou guidage intelligent par le moteur adaptatif.</div>
-            </div>
-          </div>
-        `
-      },
-
-      rituel: {
-        icon: '⏱️',
-        title: "Rituels Flash Chronométrés",
-        subtitle: "Calcul mental & Automatismes façon MathsMentales",
-        actionLabel: "Lancer un Rituel Flash ⏱️",
-        contentHtml: `
-          <div class="mode-explainer-concept">
-            Inspiré du célèbre outil pédagogique <strong>MathsMentales</strong>, le rituel flash est idéal pour démarrer chaque séance : une série courte de questions défilant avec un <strong>compte à rebours dynamique</strong>, parfaite pour la vidéoprojection en classe ou l'échauffement individuel.
-          </div>
-
-          <div class="mode-explainer-example-card">
-            <div class="mode-explainer-example-header">
-              <span>Exemple d'une question projetée</span>
-              <span class="mode-explainer-example-badge">⏱️ 15 secondes</span>
-            </div>
-            <div class="mode-explainer-tier-item tier-2">
-              <div class="mode-explainer-tier-head">
-                <span>Énoncé flash à l'écran</span>
-                <span class="mode-explainer-tier-tag">Calcul Mental</span>
-              </div>
-              <div class="mode-explainer-tier-math" style="font-size: 1.05rem; font-weight: 600; color: var(--text-main); margin: 0.25rem 0;">
-                Calculer : $(-7) + (-5) \\times 3$
-              </div>
-              <div class="mode-explainer-tier-math" style="border-top: 1px dashed var(--border-color); padding-top: 0.4rem; margin-top: 0.4rem;">
-                <strong>Phase de correction pas à pas :</strong><br/>
-                1. Priorité opératoire : $(-5) \\times 3 = -15$<br/>
-                2. Somme de nombres négatifs : $(-7) + (-15) = \\mathbf{-22}$
-              </div>
-            </div>
-          </div>
-
-          <div class="mode-explainer-benefits-grid">
-            <div class="mode-explainer-benefit-pill">
-              <span>🧠</span>
-              <div><strong>Mémoire de travail :</strong> Automatiser les calculs simples libère l'esprit pour raisonner sur les problèmes complexes.</div>
-            </div>
-            <div class="mode-explainer-benefit-pill">
-              <span>📽️</span>
-              <div><strong>Vidéoprojection 1 clic :</strong> Mode plein écran sans pub, adapté aux vidéoprojecteurs et TNI en classe.</div>
-            </div>
-            <div class="mode-explainer-benefit-pill">
-              <span>⚙️</span>
-              <div><strong>100% Paramétrable :</strong> Règle le nombre de questions (5, 10, 15) et le temps par question (10s à 60s).</div>
-            </div>
-          </div>
-        `
-      },
-
-      quiz: {
-        icon: '📝',
-        title: "Devoirs Blancs & Évaluations",
-        subtitle: "Sujets complets avec barèmes officiels et corrigés rédigés",
-        actionLabel: "Générer un Devoir Blanc 📝",
-        contentHtml: `
-          <div class="mode-explainer-concept">
-            Génère en un clic une évaluation complète et équilibrée couvrant le programme. Chaque devoir est calibré sur un <strong>barème officiel</strong> (ex : 100 points pour le Brevet des Collèges, épreuve type Bac au Lycée) avec un corrigé rédigé prêt pour l'auto-évaluation ou l'impression.
-          </div>
-
-          <div class="mode-explainer-example-card">
-            <div class="mode-explainer-example-header">
-              <span>Structure type d'un devoir Brevet</span>
-              <span class="mode-explainer-example-badge">Sur 100 points</span>
-            </div>
-            <div class="mode-explainer-tiers-list">
-              <div class="mode-explainer-tier-item tier-1">
-                <div class="mode-explainer-tier-head">
-                  <span>Exercice 1 : QCM d'automatismes</span>
-                  <span class="mode-explainer-tier-tag">20 pts</span>
-                </div>
-                <div class="mode-explainer-tier-math">Fractions, puissances, décomposition en facteurs premiers.</div>
-              </div>
-              <div class="mode-explainer-tier-item tier-2">
-                <div class="mode-explainer-tier-head">
-                  <span>Exercice 2 : Géométrie & Trigonométrie</span>
-                  <span class="mode-explainer-tier-tag">25 pts</span>
-                </div>
-                <div class="mode-explainer-tier-math">Théorème de Thalès et calcul d'angles dans un repère réel.</div>
-              </div>
-              <div class="mode-explainer-tier-item tier-3">
-                <div class="mode-explainer-tier-head">
-                  <span>Exercice 3 : Fonctions & Modélisation</span>
-                  <span class="mode-explainer-tier-tag">20 pts</span>
-                </div>
-                <div class="mode-explainer-tier-math">Comparaison graphique de formules tarifaires et lectures d'images/antécédents.</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="mode-explainer-benefits-grid">
-            <div class="mode-explainer-benefit-pill">
-              <span>🎯</span>
-              <div><strong>Conditions réelles :</strong> Apprends à gérer ton temps et la longueur d'une épreuve officielle.</div>
-            </div>
-            <div class="mode-explainer-benefit-pill">
-              <span>📖</span>
-              <div><strong>Corrigé rédigé :</strong> Modèle de rédaction mathématique soignée avec justification des théorèmes.</div>
-            </div>
-            <div class="mode-explainer-benefit-pill">
-              <span>🖨️</span>
-              <div><strong>Format papier & PDF :</strong> Bouton d'impression optimisé pour les élèves et les enseignants.</div>
-            </div>
-          </div>
-        `
-      },
-
-      flashcards: {
-        icon: '🗂️',
-        title: "Boîte de Leitner (Flashcards)",
-        subtitle: "Mémorisation active & Répétition espacée à long terme",
-        actionLabel: "Ouvrir les Flashcards 🗂️",
-        contentHtml: `
-          <div class="mode-explainer-concept">
-            Basée sur la méthode scientifique de Sebastian Leitner et la courbe de l'oubli, la <strong>Boîte de Leitner</strong> permet d'ancrer durablement les théorèmes, formules et définitions grâce au principe de la <strong>répétition espacée</strong>.
-          </div>
-
-          <div class="mode-explainer-example-card">
-            <div class="mode-explainer-example-header">
-              <span>Exemple d'une carte d'ancrage</span>
-              <span class="mode-explainer-example-badge">Recto / Verso</span>
-            </div>
-            <div class="mode-explainer-tier-item tier-3">
-              <div class="mode-explainer-tier-head">
-                <span>🔲 Recto (Question / Défi)</span>
-                <span class="mode-explainer-tier-tag">Évocation active</span>
-              </div>
-              <div class="mode-explainer-tier-math" style="font-size: 0.95rem; font-weight: 600; color: var(--text-main); margin: 0.25rem 0;">
-                « Théorème de Pythagore : Énoncé précis et formule dans un triangle rectangle. »
-              </div>
-              <div class="mode-explainer-tier-head" style="margin-top: 0.5rem;">
-                <span>🔄 Verso (Réponse mémorisée)</span>
-                <span class="mode-explainer-tier-tag">Validation</span>
-              </div>
-              <div class="mode-explainer-tier-math" style="margin-top: 0.2rem;">
-                Si un triangle $ABC$ est rectangle en $A$, alors :<br/>
-                $$BC^2 = AB^2 + AC^2$$
-                <em>(Le carré de l'hypoténuse est égal à la somme des carrés des deux autres côtés.)</em>
-              </div>
-            </div>
-          </div>
-
-          <div class="mode-explainer-benefits-grid">
-            <div class="mode-explainer-benefit-pill">
-              <span>📈</span>
-              <div><strong>Système 5 boîtes :</strong> Une carte réussie monte de boîte (révisée moins souvent), une carte ratée redescend en Boîte 1.</div>
-            </div>
-            <div class="mode-explainer-benefit-pill">
-              <span>⏱️</span>
-              <div><strong>5 min par jour :</strong> Infiniment plus efficace que le bachotage de dernière minute la veille du contrôle.</div>
-            </div>
-            <div class="mode-explainer-benefit-pill">
-              <span>💾</span>
-              <div><strong>Sauvegarde locale :</strong> Ta progression est conservée dans ton navigateur sans création de compte.</div>
-            </div>
-          </div>
-        `
+  init() {
+    console.log('Initialisation de L\'Établi des Maths (Collège, Lycée, Licence)...');
+    let savedLevel = window.MathsStorage.getCurrentLevel() || '3eme';
+    this.currentLevel = savedLevel;
+    this.initTheme();
+    if (window.MathsAudio) {
+      window.MathsAudio.updateToggleButton();
+    }
+    this.bindGlobalEvents();
+    this.bindKeyboardShortcuts();
+    this.bindClickableA11y();
+    this.bindModalA11y();
+    this.bindHistoryNavigation();
+    this.renderDomainNav();
+    this.updateHeaderProfile();
+    // Les données du niveau courant sont chargées avant le premier affichage
+    this.whenLevelReady(this.currentLevel, () => {
+      this.switchLevel(this.currentLevel, false);
+      const hasUrlParams = this.checkUrlShareParams();
+      if (!hasUrlParams) {
+        this.showHomeView();
       }
-    },
+      // L'URL ne reflète la navigation qu'une fois le lien d'arrivée lu (sinon la sélection
+      // du chapitre par défaut écraserait ?chapitre=… avant sa lecture)
+      this._urlSyncReady = true;
+    });
+  },
 
-    getLevelName(level) {
-      return this.LEVEL_LABELS[level] || level || 'Mathématiques';
-    },
+  /**
+   * Exécute fn une fois les données du niveau chargées (chargement à la demande,
+   * voir js/dataLoader.js). Immédiat si le niveau est déjà disponible.
+   */
+  whenLevelReady(level, fn) {
+    const loader = window.MathsDataLoader;
+    if (!loader || !level || loader.isLevelLoaded(level)) return fn();
+    document.body.classList.add('level-loading');
+    const slowTimer = setTimeout(() => this.showToast('⏳ Chargement des contenus…', 2500), 400);
+    return loader.ensureLevel(level)
+      .then(() => fn())
+      .catch(err => {
+        console.error(err);
+        this.showToast('⚠️ Impossible de charger les contenus de ce niveau. Vérifie ta connexion puis réessaie.', 5000);
+      })
+      .finally(() => {
+        clearTimeout(slowTimer);
+        document.body.classList.remove('level-loading');
+      });
+  },
 
-    init() {
-      console.log('Initialisation de L\'Établi des Maths (Collège, Lycée, Licence)...');
-      let savedLevel = window.MathsStorage.getCurrentLevel() || '3eme';
-      this.currentLevel = savedLevel;
-      this.initTheme();
-      if (window.MathsAudio) {
-        window.MathsAudio.updateToggleButton();
-      }
-      this.bindGlobalEvents();
-      this.bindKeyboardShortcuts();
-      this.bindClickableA11y();
-      this.bindModalA11y();
-      this.bindHistoryNavigation();
-      this.renderDomainNav();
-      this.updateHeaderProfile();
-      // Les données du niveau courant sont chargées avant le premier affichage
-      this.whenLevelReady(this.currentLevel, () => {
-        this.switchLevel(this.currentLevel, false);
-        const hasUrlParams = this.checkUrlShareParams();
-        if (!hasUrlParams) {
-          this.showHomeView();
+  isLevelReady(level) {
+    const loader = window.MathsDataLoader;
+    return !loader || !level || loader.isLevelLoaded(level);
+  },
+
+  switchCycle(cycleId, targetLevel = null) {
+    if (!this.CYCLES[cycleId]) return;
+
+    this.hideHomeView();
+    window.MathsStorage.setCurrentCycle(cycleId);
+
+    // Met à jour les onglets de cycle
+    document.querySelectorAll('.cycle-tab-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('data-cycle') === cycleId);
+      btn.setAttribute('aria-current', btn.getAttribute('data-cycle') === cycleId ? 'true' : 'false');
+    });
+
+    // Affiche le groupe de pilules correspondant
+    document.querySelectorAll('.cycle-levels-group').forEach(group => {
+      const isCurrent = group.id === `levels-group-${cycleId}`;
+      group.style.display = isCurrent ? 'flex' : 'none';
+      group.classList.toggle('active', isCurrent);
+    });
+
+    const cycleInfo = this.CYCLES[cycleId];
+    const nextLevel = (targetLevel && cycleInfo.levels.includes(targetLevel))
+      ? targetLevel
+      : (cycleInfo.levels.includes(this.currentLevel) ? this.currentLevel : cycleInfo.defaultLevel);
+
+    this.switchLevel(nextLevel, true);
+  },
+
+  switchLevel(level, autoSelectFirst = false) {
+    if (!this.VALID_LEVELS.includes(level)) return;
+    if (!this.isLevelReady(level)) return this.whenLevelReady(level, () => this.switchLevel(level, autoSelectFirst));
+
+    this.hideHomeView();
+    this.currentLevel = level;
+    window.MathsStorage.setCurrentLevel(level);
+    const currentCycle = window.MathsStorage.getCycleForLevel(level);
+
+    // Met à jour l'onglet du cycle actif
+    document.querySelectorAll('.cycle-tab-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('data-cycle') === currentCycle);
+      btn.setAttribute('aria-current', btn.getAttribute('data-cycle') === currentCycle ? 'true' : 'false');
+    });
+
+    // Affiche le groupe de niveaux correspondant au cycle
+    document.querySelectorAll('.cycle-levels-group').forEach(group => {
+      const isCurrent = group.id === `levels-group-${currentCycle}`;
+      group.style.display = isCurrent ? 'flex' : 'none';
+      group.classList.toggle('active', isCurrent);
+    });
+
+    // Met à jour les pilules du sélecteur
+    document.querySelectorAll('.level-pill').forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('data-level') === level);
+    });
+
+    const lvlLabel = this.getLevelName(level);
+    const cycleInfo = this.CYCLES[currentCycle];
+    const cycleName = cycleInfo ? cycleInfo.name : 'Maths';
+
+    // Titre dynamique dans le header
+    const titleEl = document.getElementById('app-main-title');
+    if (titleEl) {
+      titleEl.innerHTML = `L'Établi des Maths <span class="brand-level-tag badge-${currentCycle}">${lvlLabel}</span>`;
+    }
+
+    // Titre dynamique dans la barre latérale
+    const sidebarTitle = document.querySelector('.sidebar-title-row h2');
+    if (sidebarTitle) {
+      sidebarTitle.textContent = `Progression ${lvlLabel}`;
+    }
+
+    // Filtrer les chapitres de ce niveau
+    const levelChapters = (window.MATHS_CHAPTERS || []).filter(c => (c.level || '3eme') === level);
+    const countEl = document.querySelector('.chapters-count');
+    if (countEl) {
+      countEl.textContent = `${levelChapters.length} chapitres`;
+    }
+
+    // Détermine le chapitre à sélectionner
+    const currentExists = levelChapters.some(c => c.id === this.currentChapterId);
+    if ((!currentExists || autoSelectFirst) && levelChapters.length > 0) {
+      this.currentChapterId = levelChapters[0].id;
+    }
+
+    // Titre dynamique dans le footer et titre du document
+    const footerTitleEl = document.getElementById('app-footer-title');
+    if (footerTitleEl) {
+      footerTitleEl.textContent = `L'Établi des Maths (${lvlLabel} • ${cycleName}) — Outils pour apprendre et pratiquer`;
+    }
+    document.title = `L'Établi des Maths (${lvlLabel} • ${cycleName}) — Outils pour apprendre et pratiquer | Créé par Loïc Delaporte`;
+
+    this.renderDomainNav();
+    this.renderChaptersGrid();
+    this.selectChapter(this.currentChapterId);
+    this.updateTierButtonsUI();
+
+    const isLicenceCycle = currentCycle === 'licence';
+    this.updateVisualizerButtonUI();
+
+    if (this.currentTab === 'stats') {
+      this.renderStatsView();
+    }
+  },
+
+  // --- Gestion du Thème (Clair / Sombre) ---
+  initTheme() {
+    const saved = window.MathsStorage.load().theme || 'light';
+    document.documentElement.setAttribute('data-theme', saved);
+    this.updateThemeButton(saved);
+  },
+
+  toggleTheme() {
+    const current = document.documentElement.getAttribute('data-theme') || 'light';
+    const next = current === 'light' ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', next);
+    const data = window.MathsStorage.load();
+    data.theme = next;
+    window.MathsStorage.save(data);
+    this.updateThemeButton(next);
+  },
+
+  updateThemeButton(theme) {
+    const btn = document.getElementById('theme-toggle-btn');
+    if (btn) {
+      btn.innerHTML = theme === 'dark' ? '☀️ Mode Clair' : '🌙 Mode Sombre';
+    }
+  },
+
+  // --- Navigation par Domaine & Chapitre ---
+  bindGlobalEvents() {
+    // Bouton thème
+    const themeBtn = document.getElementById('theme-toggle-btn');
+    if (themeBtn) themeBtn.addEventListener('click', () => this.toggleTheme());
+
+    // Déclencheur du tiroir mobile de chapitres
+    const mobileChapterBtn = document.getElementById('mobile-chapter-btn');
+    const sidebarChapters = document.getElementById('sidebar-chapters');
+    const mobileArrow = document.getElementById('mobile-chapter-arrow');
+    if (mobileChapterBtn && sidebarChapters) {
+      mobileChapterBtn.addEventListener('click', () => {
+        const isOpen = sidebarChapters.classList.toggle('mobile-open');
+        mobileChapterBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        if (mobileArrow) {
+          mobileArrow.textContent = isOpen ? '▴' : '▾';
         }
-        // L'URL ne reflète la navigation qu'une fois le lien d'arrivée lu (sinon la sélection
-        // du chapitre par défaut écraserait ?chapitre=… avant sa lecture)
-        this._urlSyncReady = true;
       });
-    },
+    }
 
-    /**
-     * Exécute fn une fois les données du niveau chargées (chargement à la demande,
-     * voir js/dataLoader.js). Immédiat si le niveau est déjà disponible.
-     */
-    whenLevelReady(level, fn) {
-      const loader = window.MathsDataLoader;
-      if (!loader || !level || loader.isLevelLoaded(level)) return fn();
-      document.body.classList.add('level-loading');
-      const slowTimer = setTimeout(() => this.showToast('⏳ Chargement des contenus…', 2500), 400);
-      return loader.ensureLevel(level)
-        .then(() => fn())
-        .catch(err => {
-          console.error(err);
-          this.showToast('⚠️ Impossible de charger les contenus de ce niveau. Vérifie ta connexion puis réessaie.', 5000);
-        })
-        .finally(() => {
-          clearTimeout(slowTimer);
-          document.body.classList.remove('level-loading');
-        });
-    },
+    // Bouton ouvrir passeport modal
+    const passportBtn = document.getElementById('passport-btn');
+    if (passportBtn) {
+      passportBtn.addEventListener('click', () => this.switchTab('stats'));
+    }
 
-    isLevelReady(level) {
-      const loader = window.MathsDataLoader;
-      return !loader || !level || loader.isLevelLoaded(level);
-    },
-
-    switchCycle(cycleId, targetLevel = null) {
-      if (!this.CYCLES[cycleId]) return;
-
-      this.hideHomeView();
-      window.MathsStorage.setCurrentCycle(cycleId);
-
-      // Met à jour les onglets de cycle
-      document.querySelectorAll('.cycle-tab-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.getAttribute('data-cycle') === cycleId);
-        btn.setAttribute('aria-current', btn.getAttribute('data-cycle') === cycleId ? 'true' : 'false');
+    // Recherche instantanée de chapitres
+    const searchInput = document.getElementById('chapters-search-input');
+    const searchClear = document.getElementById('chapters-search-clear');
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        this.searchQuery = e.target.value;
+        if (searchClear) {
+          searchClear.style.display = this.searchQuery ? 'inline-block' : 'none';
+        }
+        this.renderChaptersGrid();
       });
-
-      // Affiche le groupe de pilules correspondant
-      document.querySelectorAll('.cycle-levels-group').forEach(group => {
-        const isCurrent = group.id === `levels-group-${cycleId}`;
-        group.style.display = isCurrent ? 'flex' : 'none';
-        group.classList.toggle('active', isCurrent);
-      });
-
-      const cycleInfo = this.CYCLES[cycleId];
-      const nextLevel = (targetLevel && cycleInfo.levels.includes(targetLevel))
-        ? targetLevel
-        : (cycleInfo.levels.includes(this.currentLevel) ? this.currentLevel : cycleInfo.defaultLevel);
-
-      this.switchLevel(nextLevel, true);
-    },
-
-    switchLevel(level, autoSelectFirst = false) {
-      if (!this.VALID_LEVELS.includes(level)) return;
-      if (!this.isLevelReady(level)) return this.whenLevelReady(level, () => this.switchLevel(level, autoSelectFirst));
-
-      this.hideHomeView();
-      this.currentLevel = level;
-      window.MathsStorage.setCurrentLevel(level);
-      const currentCycle = window.MathsStorage.getCycleForLevel(level);
-
-      // Met à jour l'onglet du cycle actif
-      document.querySelectorAll('.cycle-tab-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.getAttribute('data-cycle') === currentCycle);
-        btn.setAttribute('aria-current', btn.getAttribute('data-cycle') === currentCycle ? 'true' : 'false');
-      });
-
-      // Affiche le groupe de niveaux correspondant au cycle
-      document.querySelectorAll('.cycle-levels-group').forEach(group => {
-        const isCurrent = group.id === `levels-group-${currentCycle}`;
-        group.style.display = isCurrent ? 'flex' : 'none';
-        group.classList.toggle('active', isCurrent);
-      });
-
-      // Met à jour les pilules du sélecteur
-      document.querySelectorAll('.level-pill').forEach(btn => {
-        btn.classList.toggle('active', btn.getAttribute('data-level') === level);
-      });
-
-      const lvlLabel = this.getLevelName(level);
-      const cycleInfo = this.CYCLES[currentCycle];
-      const cycleName = cycleInfo ? cycleInfo.name : 'Maths';
-
-      // Titre dynamique dans le header
-      const titleEl = document.getElementById('app-main-title');
-      if (titleEl) {
-        titleEl.innerHTML = `L'Établi des Maths <span class="brand-level-tag badge-${currentCycle}">${lvlLabel}</span>`;
-      }
-
-      // Titre dynamique dans la barre latérale
-      const sidebarTitle = document.querySelector('.sidebar-title-row h2');
-      if (sidebarTitle) {
-        sidebarTitle.textContent = `Progression ${lvlLabel}`;
-      }
-
-      // Filtrer les chapitres de ce niveau
-      const levelChapters = (window.MATHS_CHAPTERS || []).filter(c => (c.level || '3eme') === level);
-      const countEl = document.querySelector('.chapters-count');
-      if (countEl) {
-        countEl.textContent = `${levelChapters.length} chapitres`;
-      }
-
-      // Détermine le chapitre à sélectionner
-      const currentExists = levelChapters.some(c => c.id === this.currentChapterId);
-      if ((!currentExists || autoSelectFirst) && levelChapters.length > 0) {
-        this.currentChapterId = levelChapters[0].id;
-      }
-
-      // Titre dynamique dans le footer et titre du document
-      const footerTitleEl = document.getElementById('app-footer-title');
-      if (footerTitleEl) {
-        footerTitleEl.textContent = `L'Établi des Maths (${lvlLabel} • ${cycleName}) — Outils pour apprendre et pratiquer`;
-      }
-      document.title = `L'Établi des Maths (${lvlLabel} • ${cycleName}) — Outils pour apprendre et pratiquer | Créé par Loïc Delaporte`;
-
-      this.renderDomainNav();
-      this.renderChaptersGrid();
-      this.selectChapter(this.currentChapterId);
-      this.updateTierButtonsUI();
-
-      const isLicenceCycle = currentCycle === 'licence';
-      this.updateVisualizerButtonUI();
-
-      if (this.currentTab === 'stats') {
-        this.renderStatsView();
-      }
-    },
-
-    // --- Gestion du Thème (Clair / Sombre) ---
-    initTheme() {
-      const saved = window.MathsStorage.load().theme || 'light';
-      document.documentElement.setAttribute('data-theme', saved);
-      this.updateThemeButton(saved);
-    },
-
-    toggleTheme() {
-      const current = document.documentElement.getAttribute('data-theme') || 'light';
-      const next = current === 'light' ? 'dark' : 'light';
-      document.documentElement.setAttribute('data-theme', next);
-      const data = window.MathsStorage.load();
-      data.theme = next;
-      window.MathsStorage.save(data);
-      this.updateThemeButton(next);
-    },
-
-    updateThemeButton(theme) {
-      const btn = document.getElementById('theme-toggle-btn');
-      if (btn) {
-        btn.innerHTML = theme === 'dark' ? '☀️ Mode Clair' : '🌙 Mode Sombre';
-      }
-    },
-
-    // --- Navigation par Domaine & Chapitre ---
-    bindGlobalEvents() {
-      // Bouton thème
-      const themeBtn = document.getElementById('theme-toggle-btn');
-      if (themeBtn) themeBtn.addEventListener('click', () => this.toggleTheme());
-
-      // Déclencheur du tiroir mobile de chapitres
-      const mobileChapterBtn = document.getElementById('mobile-chapter-btn');
-      const sidebarChapters = document.getElementById('sidebar-chapters');
-      const mobileArrow = document.getElementById('mobile-chapter-arrow');
-      if (mobileChapterBtn && sidebarChapters) {
-        mobileChapterBtn.addEventListener('click', () => {
-          const isOpen = sidebarChapters.classList.toggle('mobile-open');
-          mobileChapterBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-          if (mobileArrow) {
-            mobileArrow.textContent = isOpen ? '▴' : '▾';
-          }
-        });
-      }
-
-      // Bouton ouvrir passeport modal
-      const passportBtn = document.getElementById('passport-btn');
-      if (passportBtn) {
-        passportBtn.addEventListener('click', () => this.switchTab('stats'));
-      }
-
-      // Recherche instantanée de chapitres
-      const searchInput = document.getElementById('chapters-search-input');
-      const searchClear = document.getElementById('chapters-search-clear');
-      if (searchInput) {
-        searchInput.addEventListener('input', (e) => {
-          this.searchQuery = e.target.value;
-          if (searchClear) {
-            searchClear.style.display = this.searchQuery ? 'inline-block' : 'none';
-          }
+    }
+    if (searchClear) {
+      searchClear.addEventListener('click', () => {
+        if (searchInput) {
+          searchInput.value = '';
+          this.searchQuery = '';
+          searchClear.style.display = 'none';
+          searchInput.focus();
           this.renderChaptersGrid();
-        });
-      }
-      if (searchClear) {
-        searchClear.addEventListener('click', () => {
-          if (searchInput) {
-            searchInput.value = '';
-            this.searchQuery = '';
-            searchClear.style.display = 'none';
-            searchInput.focus();
-            this.renderChaptersGrid();
-          }
-        });
-      }
-
-      // Onglets principaux du chapitre
-      document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          const tab = e.currentTarget.dataset.tab;
-          this.switchTab(tab);
-        });
-      });
-
-      // Filtres de domaine
-      document.querySelectorAll('.domain-filter-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          document.querySelectorAll('.domain-filter-btn').forEach(b => b.classList.remove('active'));
-          e.currentTarget.classList.add('active');
-          this.currentFilterDomain = e.currentTarget.dataset.domain;
-          this.renderChaptersGrid();
-        });
-      });
-
-      // Boutons Diaporama (MathsMentales)
-      const openDiapoBtn = document.getElementById('btn-open-diaporama');
-      if (openDiapoBtn) {
-        openDiapoBtn.addEventListener('click', () => {
-          window.MathsDiaporama.openModal(this.currentChapterId);
-        });
-      }
-      const quickDiapoBtn = document.getElementById('btn-launch-diapo-quick');
-      if (quickDiapoBtn) {
-        quickDiapoBtn.addEventListener('click', () => {
-          window.MathsDiaporama.openModal(this.currentChapterId);
-        });
-      }
-
-      // Boutons Devoir Flash
-      const openQuizBtn = document.getElementById('btn-open-quiz');
-      if (openQuizBtn) {
-        openQuizBtn.addEventListener('click', () => {
-          window.MathsQuizGenerator.openModal(this.currentChapterId);
-        });
-      }
-      const quizFromSheetsBtn = document.getElementById('btn-quiz-from-sheets');
-      if (quizFromSheetsBtn) {
-        quizFromSheetsBtn.addEventListener('click', () => {
-          window.MathsQuizGenerator.openModal(this.currentChapterId);
-        });
-      }
-
-      // Bouton Flashcards (Mémorisation active Leitner / Fabien Olicard)
-      const openFlashcardsBtn = document.getElementById('btn-open-flashcards');
-      if (openFlashcardsBtn) {
-        openFlashcardsBtn.addEventListener('click', () => {
-          if (window.MathsFlashcards && typeof window.MathsFlashcards.openModal === 'function') {
-            window.MathsFlashcards.openModal(this.currentChapterId);
-          }
-        });
-      }
-
-      // Bouton Partager le lien d'entraînement
-      const shareBtn = document.getElementById('btn-share-training');
-      if (shareBtn) {
-        shareBtn.addEventListener('click', () => this.shareCurrentTraining());
-      }
-
-      // Bouton Question Aléatoire Infinie (Générateur procédural)
-      const randomExoBtn = document.getElementById('btn-random-exercise');
-      if (randomExoBtn) {
-        randomExoBtn.addEventListener('click', () => {
-          window.MathsAdaptiveEngine.nextExercise();
-          this.renderTrainingView();
-        });
-      }
-
-      // Bouton Réinitialiser TOUS les chapitres à 0%
-      const resetAllBtn = document.getElementById('btn-reset-all-mastery');
-      if (resetAllBtn) {
-        resetAllBtn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          const levelChapters = (window.MATHS_CHAPTERS || []).filter(c => (c.level || '3eme') === this.currentLevel);
-          const levelName = this.getLevelName(this.currentLevel);
-          if (confirm(`⚠️ Souhaitez-vous vraiment remettre à 0% la maîtrise de TOUS les ${levelChapters.length} chapitres de ${levelName} ?`)) {
-            levelChapters.forEach(c => window.MathsStorage.resetChapterProgress(c.id));
-            window.MathsAdaptiveEngine.state.manualTierSelected = false;
-            window.MathsAdaptiveEngine.startChapterSession(this.currentChapterId);
-            this.renderChaptersGrid();
-            this.updateChapterMasteryUI(this.currentChapterId);
-            this.renderTrainingView();
-            if (this.currentTab === 'stats') {
-              this.renderStatsView();
-            }
-          }
-        });
-      }
-
-      // Bouton Réinitialiser le chapitre actuel à 0%
-      const resetChapBtn = document.getElementById('btn-reset-chapter-mastery');
-      if (resetChapBtn) {
-        resetChapBtn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          const curChap = (window.MATHS_CHAPTERS || []).find(c => c.id === this.currentChapterId);
-          const chapName = curChap ? `${curChap.num} (${curChap.title})` : this.currentChapterId;
-          if (confirm(`Remettre à 0% la maîtrise du chapitre ${chapName} ?`)) {
-            window.MathsStorage.resetChapterProgress(this.currentChapterId);
-            window.MathsAdaptiveEngine.state.manualTierSelected = false;
-            window.MathsAdaptiveEngine.startChapterSession(this.currentChapterId);
-            this.renderChaptersGrid();
-            this.updateChapterMasteryUI(this.currentChapterId);
-            this.renderTrainingView();
-            if (this.currentTab === 'stats') {
-              this.renderStatsView();
-            }
-          }
-        });
-      }
-
-      // Clavier virtuel mathématique
-      this.bindVirtualKeyboard();
-
-      // Clic sur la flamme / série quotidienne (Daily Streak)
-      const streakPill = document.getElementById('header-streak-pill');
-      if (streakPill) {
-        streakPill.addEventListener('click', () => this.openStreakModal());
-      }
-
-      // Fermeture de la modale streak au clic sur le fond sombre
-      const streakModal = document.getElementById('streak-modal');
-      if (streakModal) {
-        streakModal.addEventListener('click', (e) => {
-          if (e.target === streakModal) this.closeStreakModal();
-        });
-      }
-
-      // Clic sur le niveau / XP pour afficher le popup de progression
-      const levelPill = document.getElementById('header-level-pill');
-      if (levelPill) {
-        levelPill.addEventListener('click', () => this.openLevelModal());
-      }
-      const xpPill = document.getElementById('header-xp-pill');
-      if (xpPill) {
-        xpPill.addEventListener('click', () => this.openLevelModal());
-      }
-
-      // Fermeture de la modale level au clic sur le fond sombre
-      const levelModal = document.getElementById('level-modal');
-      if (levelModal) {
-        levelModal.addEventListener('click', (e) => {
-          if (e.target === levelModal) this.closeLevelModal();
-        });
-      }
-    },
-
-    /** Éléments cliquables non natifs (div onclick, cartes) : rendus accessibles au clavier. */
-    CLICKABLE_SELECTOR: '[onclick]:not(button):not(a):not(input):not(select):not(textarea):not(label):not(.modal-overlay):not([class*="overlay"]), .chapter-trophy-card, .home-cycle-card',
-
-    enhanceClickableA11y(root = document) {
-      const nodes = root.querySelectorAll ? root.querySelectorAll(this.CLICKABLE_SELECTOR) : [];
-      nodes.forEach(el => {
-        const handler = el.getAttribute('onclick') || '';
-        if (/event\.target\s*===\s*this/.test(handler)) return; // fermeture de fond de modale
-        if (!el.hasAttribute('role')) el.setAttribute('role', 'button');
-        if (!el.hasAttribute('tabindex')) el.setAttribute('tabindex', '0');
-      });
-    },
-
-    bindClickableA11y() {
-      this.enhanceClickableA11y();
-      new MutationObserver(mutations => {
-        mutations.forEach(m => m.addedNodes.forEach(n => {
-          if (n.nodeType !== 1) return;
-          if (n.matches && n.matches(this.CLICKABLE_SELECTOR)) this.enhanceClickableA11y(n.parentNode || document);
-          else this.enhanceClickableA11y(n);
-        }));
-      }).observe(document.body, { childList: true, subtree: true });
-      // Entrée / Espace activent les éléments role="button" non natifs
-      document.addEventListener('keydown', e => {
-        const el = e.target;
-        if (!(e.key === 'Enter' || e.key === ' ') || !el || !el.matches || !el.matches('[role="button"]:not(button)')) return;
-        e.preventDefault();
-        e.stopPropagation();
-        el.click();
-      }, true);
-    },
-
-    /**
-     * Accessibilité des modales : Échap ferme la modale du dessus, le focus y entre à
-     * l'ouverture, reste piégé dedans (Tab) et revient à l'élément d'origine à la fermeture.
-     */
-    bindModalA11y() {
-      const FOCUSABLE = 'button:not([disabled]), [href], input:not([disabled]), select, textarea, [tabindex]:not([tabindex="-1"])';
-      // offsetParent est null pour les éléments position:fixed (les fonds de modale) : on utilise getClientRects
-      const isOpen = m => m.style.display !== 'none' && m.getClientRects().length > 0;
-      const visible = el => el.getClientRects().length > 0;
-      const openModals = () => Array.from(document.querySelectorAll('.modal-overlay')).filter(isOpen);
-      const returnFocus = new Map();
-
-      new MutationObserver(mutations => {
-        mutations.forEach(({ target: modal }) => {
-          const open = modal.style.display !== 'none';
-          if (open && !returnFocus.has(modal)) {
-            returnFocus.set(modal, document.activeElement);
-            setTimeout(() => {
-              if (!isOpen(modal) || modal.contains(document.activeElement)) return;
-              const first = Array.from(modal.querySelectorAll(FOCUSABLE)).find(visible);
-              (first || modal).focus({ preventScroll: true });
-            }, 60);
-          } else if (!open && returnFocus.has(modal)) {
-            const back = returnFocus.get(modal);
-            returnFocus.delete(modal);
-            if (back && document.contains(back) && back.focus) back.focus({ preventScroll: true });
-          }
-        });
-      }).observe(document.body, { attributes: true, attributeFilter: ['style'], subtree: true });
-
-      document.addEventListener('keydown', e => {
-        const modals = openModals();
-        if (!modals.length) return;
-        const top = modals[modals.length - 1];
-        if (e.key === 'Escape') {
-          const closeBtn = Array.from(top.querySelectorAll('.modal-close-btn, .reward-modal-close, [aria-label="Fermer"]')).find(visible);
-          if (closeBtn) {
-            e.preventDefault();
-            closeBtn.click();
-          }
-        } else if (e.key === 'Tab') {
-          const items = Array.from(top.querySelectorAll(FOCUSABLE)).filter(visible);
-          if (!items.length) return;
-          const first = items[0];
-          const last = items[items.length - 1];
-          if (!top.contains(document.activeElement)) {
-            e.preventDefault();
-            first.focus();
-          } else if (e.shiftKey && document.activeElement === first) {
-            e.preventDefault();
-            last.focus();
-          } else if (!e.shiftKey && document.activeElement === last) {
-            e.preventDefault();
-            first.focus();
-          }
         }
       });
-    },
+    }
 
-    /**
-     * Reflète la vue courante dans l'URL (?chapitre=ID) : liens partageables, bouton
-     * « Retour » du navigateur et pages explorables par les moteurs de recherche.
-     */
-    syncUrl(params) {
-      if (!this._urlSyncReady || this._restoringFromHistory || !window.history || !history.pushState) return;
-      const current = new URLSearchParams(location.search);
-      // Les paramètres d'outil d'un lien partagé (mode, palier…) restent tant qu'on ne change pas de vue
-      const sameView = (params.chapitre || null) === (current.get('chapitre') || current.get('chapter') || current.get('chap'));
-      if (sameView && (params.chapitre || !location.search)) return;
-      const qs = new URLSearchParams(params).toString();
-      history.pushState(params, '', qs ? `?${qs}` : location.pathname);
-      // Statistiques d'audience : une « page vue » par chapitre consulté
-      if (window.goatcounter && typeof window.goatcounter.count === 'function') {
-        window.goatcounter.count({ path: location.pathname + location.search });
-      }
-    },
+    // Onglets principaux du chapitre
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const tab = e.currentTarget.dataset.tab;
+        this.switchTab(tab);
+      });
+    });
 
-    bindHistoryNavigation() {
-      window.addEventListener('popstate', () => {
-        this._restoringFromHistory = true;
-        try {
-          const params = new URLSearchParams(location.search);
-          const chap = params.get('chapitre') || params.get('chapter') || params.get('chap');
-          if (chap && (window.MATHS_CHAPTERS || []).some(c => c.id === chap)) {
-            this.selectChapter(chap);
-            this.switchTab('train');
-            this.hideHomeView();
-          } else {
-            this.showHomeView();
-          }
-        } finally {
-          this._restoringFromHistory = false;
+    // Filtres de domaine
+    document.querySelectorAll('.domain-filter-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        document.querySelectorAll('.domain-filter-btn').forEach(b => b.classList.remove('active'));
+        e.currentTarget.classList.add('active');
+        this.currentFilterDomain = e.currentTarget.dataset.domain;
+        this.renderChaptersGrid();
+      });
+    });
+
+    // Boutons Diaporama (MathsMentales)
+    const openDiapoBtn = document.getElementById('btn-open-diaporama');
+    if (openDiapoBtn) {
+      openDiapoBtn.addEventListener('click', () => {
+        window.MathsDiaporama.openModal(this.currentChapterId);
+      });
+    }
+    const quickDiapoBtn = document.getElementById('btn-launch-diapo-quick');
+    if (quickDiapoBtn) {
+      quickDiapoBtn.addEventListener('click', () => {
+        window.MathsDiaporama.openModal(this.currentChapterId);
+      });
+    }
+
+    // Boutons Devoir Flash
+    const openQuizBtn = document.getElementById('btn-open-quiz');
+    if (openQuizBtn) {
+      openQuizBtn.addEventListener('click', () => {
+        window.MathsQuizGenerator.openModal(this.currentChapterId);
+      });
+    }
+    const quizFromSheetsBtn = document.getElementById('btn-quiz-from-sheets');
+    if (quizFromSheetsBtn) {
+      quizFromSheetsBtn.addEventListener('click', () => {
+        window.MathsQuizGenerator.openModal(this.currentChapterId);
+      });
+    }
+
+    // Bouton Flashcards (Mémorisation active Leitner / Fabien Olicard)
+    const openFlashcardsBtn = document.getElementById('btn-open-flashcards');
+    if (openFlashcardsBtn) {
+      openFlashcardsBtn.addEventListener('click', () => {
+        if (window.MathsFlashcards && typeof window.MathsFlashcards.openModal === 'function') {
+          window.MathsFlashcards.openModal(this.currentChapterId);
         }
       });
-    },
-
-    escapeHtml(str) {
-      return String(str).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-    },
-
-    bindKeyboardShortcuts() {
-      document.addEventListener('keydown', (e) => {
-        const active = document.activeElement;
-        const activeTag = active ? active.tagName.toLowerCase() : '';
-        const isInputField = activeTag === 'input' || activeTag === 'textarea' || activeTag === 'select' || (active && active.isContentEditable);
-        const isAnswerField = isInputField && !!active.closest('#exercise-input-zone');
-
-        // Entrée/Espace sur un bouton ou un lien ciblé au clavier : laisser l'activation native
-        if ((e.key === 'Enter' || e.code === 'Space') && active && active !== document.body && active.matches('button, a[href], [role="button"], summary')) return;
-
-        // Si une modale est ouverte, ne pas interférer (flashcards, quiz, diaporama…)
-        const openModal = Array.from(document.querySelectorAll('.modal-overlay')).some(m => m.style.display !== 'none' && m.getClientRects().length > 0);
-        if (openModal) return;
-
-        // Ne pas intercepter la saisie dans un champ autre que la réponse de l'exercice (recherche…)
-        if (isInputField && !isAnswerField) return;
-
-        // Bouton « Question suivante » réellement visible (aucune boîte de rendu si l'onglet est masqué)
-        const nextBtn = document.getElementById('btn-next-exercise');
-        const isNextVisible = nextBtn && nextBtn.style.display !== 'none' && nextBtn.getClientRects().length > 0;
-
-        // Entrée avance toujours ; Espace et N seulement hors champ de saisie
-        if (isNextVisible && (e.key === 'Enter' || (!isInputField && (e.code === 'Space' || e.key === 'n' || e.key === 'N')))) {
-          e.preventDefault();
-          nextBtn.click();
-          return;
-        }
-
-        if (isInputField) return;
-
-        // Raccourci H : Demander un indice
-        if (e.key === 'h' || e.key === 'H') {
-          const hint1Btn = document.getElementById('btn-hint-1');
-          const hint2Btn = document.getElementById('btn-hint-2');
-          if (window.MathsAdaptiveEngine.state.usedHintsCount === 0 && hint1Btn) {
-            e.preventDefault();
-            hint1Btn.click();
-          } else if (hint2Btn) {
-            e.preventDefault();
-            hint2Btn.click();
-          }
-          return;
-        }
-
-        // Raccourcis QCM : 1, 2, 3, 4 ou A, B, C, D
-        const mcqButtons = document.querySelectorAll('.mcq-opt-btn');
-        if (mcqButtons && mcqButtons.length > 0) {
-          let selectedIdx = -1;
-          if (e.key === '1' || e.key === 'a' || e.key === 'A') selectedIdx = 0;
-          else if (e.key === '2' || e.key === 'b' || e.key === 'B') selectedIdx = 1;
-          else if (e.key === '3' || e.key === 'c' || e.key === 'C') selectedIdx = 2;
-          else if (e.key === '4' || e.key === 'd' || e.key === 'D') selectedIdx = 3;
-
-          if (selectedIdx >= 0 && selectedIdx < mcqButtons.length) {
-            e.preventDefault();
-            mcqButtons[selectedIdx].click();
-            return;
-          }
-        }
-
-        // Touche Entrée hors champ texte : valider si le bouton est visible
-        if (e.key === 'Enter') {
-          const validateBtn = document.getElementById('btn-validate-answer');
-          if (validateBtn && validateBtn.style.display !== 'none') {
-            e.preventDefault();
-            validateBtn.click();
-          }
-        }
-      });
-    },
-
-    /** Crédite de l'XP (flashcards, modes annexes) et rafraîchit l'en-tête. */
-    awardXP(points) {
-      if (!window.MathsStorage || !points) return null;
-      const result = window.MathsStorage.addXp(points);
-      this.updateHeaderProfile();
-      return result;
-    },
-
-    updateHeaderProfile() {
-      const data = window.MathsStorage.load();
-      const streakInfo = (window.MathsStorage && typeof window.MathsStorage.getDailyStreakInfo === 'function')
-        ? window.MathsStorage.getDailyStreakInfo()
-        : { streak: (data.user && data.user.streak) || 0, isActiveToday: false };
-
-      const levelEl = document.getElementById('header-user-level');
-      const xpEl = document.getElementById('header-user-xp');
-      const streakEl = document.getElementById('header-user-streak');
-
-      if (levelEl) levelEl.textContent = `Niveau ${data.user.level}`;
-      if (xpEl) xpEl.textContent = `${data.user.xp} XP`;
-      if (streakEl) {
-        const s = streakInfo.streak || 0;
-        streakEl.textContent = `🔥 ${s}`;
-        streakEl.title = streakInfo.isActiveToday
-          ? `Série : ${s} jour(s) d'affilée • Défi du jour validé ! (Clique pour voir les détails)`
-          : `Série : ${s} jour(s) d'affilée • Entraîne-toi aujourd'hui pour continuer ! (Clique pour voir les détails)`;
-      }
-    },
-
-    openStreakModal() {
-      const streakInfo = (window.MathsStorage && typeof window.MathsStorage.getDailyStreakInfo === 'function')
-        ? window.MathsStorage.getDailyStreakInfo()
-        : { streak: 0, bestStreak: 0, isActiveToday: false };
-      const modal = document.getElementById('streak-modal');
-      if (!modal) return;
-
-      const countEl = document.getElementById('streak-modal-count');
-      const statusEl = document.getElementById('streak-modal-status');
-      const currentEl = document.getElementById('streak-modal-current');
-      const bestEl = document.getElementById('streak-modal-best');
-      const todayEl = document.getElementById('streak-modal-today');
-
-      const s = streakInfo.streak || 0;
-      const daysStr = s > 1 ? `${s} jours` : `${s} jour`;
-      const b = Math.max(streakInfo.bestStreak || 0, s);
-      const bestStr = b > 1 ? `${b} jours` : `${b} jour`;
-
-      if (countEl) countEl.textContent = daysStr;
-      if (currentEl) currentEl.textContent = daysStr;
-      if (bestEl) bestEl.textContent = bestStr;
-
-      if (todayEl) {
-        todayEl.innerHTML = streakInfo.isActiveToday 
-          ? `<span style="color: var(--success, #10b981); font-weight: 700;">Validé ✓</span>` 
-          : `<span style="color: #f59e0b; font-weight: 700;">En attente ⏳</span>`;
-      }
-
-      if (statusEl) {
-        if (streakInfo.isActiveToday) {
-          statusEl.textContent = `Bravo ! Défi du jour validé. Reviens demain pour passer à ${s + 1} jours !`;
-        } else if (s > 0) {
-          statusEl.textContent = `Ta série d'hier est préservée ! Résous un exercice aujourd'hui pour passer à ${s + 1} jours.`;
-        } else {
-          statusEl.textContent = `Complète un exercice aujourd'hui pour allumer ta flamme et démarrer ta série !`;
-        }
-      }
-
-      // Rendu dynamique de la grille des 6 trophées de série (1 sem, 2 sem, 1 mois, 2 mois, 6 mois, 1 an)
-      const trophiesContainer = document.getElementById('streak-modal-trophies-list');
-      if (trophiesContainer && typeof window.MathsStorage.getStreakMilestones === 'function') {
-        const milestones = window.MathsStorage.getStreakMilestones();
-        trophiesContainer.innerHTML = milestones.map(m => `
-          <div class="streak-trophy-modal-card ${m.isUnlocked ? 'unlocked' : 'locked'}">
-            <span class="streak-trophy-icon" aria-hidden="true">${m.icon}</span>
-            <div class="streak-trophy-details">
-              <div class="streak-trophy-top">
-                <span class="streak-trophy-title" title="${m.title}">${m.title}</span>
-                <span class="streak-trophy-pill">${m.label}</span>
-              </div>
-              <div class="streak-trophy-sub" title="${m.desc}">${m.desc}</div>
-              <div class="streak-trophy-progress-wrap">
-                <div class="streak-trophy-bar-bg">
-                  <div class="streak-trophy-bar-fill" style="width: ${m.progressPct}%;"></div>
-                </div>
-                <span class="streak-trophy-progress-lbl">${m.isUnlocked ? 'Débloqué ✓' : `${m.current}/${m.days} j`}</span>
-              </div>
-            </div>
-          </div>
-        `).join('');
-      }
-
-      modal.style.display = 'flex';
-    },
-
-    closeStreakModal() {
-      const modal = document.getElementById('streak-modal');
-      if (modal) modal.style.display = 'none';
-    },
-
-    openLevelModal() {
-      const info = (window.MathsStorage && typeof window.MathsStorage.getLevelProgressInfo === 'function')
-        ? window.MathsStorage.getLevelProgressInfo()
-        : {
-            level: 1,
-            nextLevel: 2,
-            totalXp: 0,
-            xpInLevel: 0,
-            xpNeeded: 50,
-            xpToNext: 50,
-            progressPct: 0,
-            rankTitle: "Apprenti de l'Établi"
-          };
-      const modal = document.getElementById('level-modal');
-      if (!modal) return;
-
-      const numEl = document.getElementById('level-modal-num');
-      const titleEl = document.getElementById('level-modal-title');
-      const rankEl = document.getElementById('level-modal-rank');
-      const nextEl = document.getElementById('level-modal-next-level');
-      const xpInLevelEl = document.getElementById('level-modal-xp-in-level');
-      const xpNeededEl = document.getElementById('level-modal-xp-needed');
-      const stepNeededEl = document.getElementById('level-modal-step-needed');
-      const progressFillEl = document.getElementById('level-modal-progress-fill');
-      const progressBgEl = document.getElementById('level-modal-progressbar');
-      const remainingEl = document.getElementById('level-modal-remaining-banner');
-      const totalXpEl = document.getElementById('level-modal-total-xp');
-
-      if (numEl) numEl.textContent = info.level;
-      if (titleEl) titleEl.textContent = `Niveau ${info.level}`;
-      if (rankEl) rankEl.textContent = info.rankTitle;
-      if (nextEl) nextEl.textContent = `Niveau ${info.nextLevel}`;
-      if (xpInLevelEl) xpInLevelEl.textContent = info.xpInLevel;
-      if (xpNeededEl) xpNeededEl.textContent = info.xpNeeded;
-      if (stepNeededEl) stepNeededEl.textContent = `${info.xpNeeded} XP`;
-      if (progressFillEl) progressFillEl.style.width = `${info.progressPct}%`;
-      if (progressBgEl) progressBgEl.setAttribute('aria-valuenow', info.progressPct);
-      if (remainingEl) {
-        remainingEl.innerHTML = `🚀 Plus que <strong>${info.xpToNext} XP</strong> nécessaires pour passer au <strong>Niveau ${info.nextLevel}</strong> !`;
-      }
-      if (totalXpEl) totalXpEl.textContent = `${info.totalXp} XP`;
-
-      modal.style.display = 'flex';
-    },
-
-    closeLevelModal() {
-      const modal = document.getElementById('level-modal');
-      if (modal) modal.style.display = 'none';
-    },
-
-    getVisualizerModeForChapter(chapterId) {
-      if (!chapterId) return null;
-      const map = {
-        'L2-CAL': 'torus',
-        'L2-MUL': 'torus',
-        'L2-CRB': 'torus',
-        'L3-GDF': 'torus',
-        'L2-EDO': 'phase_plane',
-        'capes-01': 'phase_plane',
-        'L3-SDF': 'fourier',
-        'L3-FOU': 'fourier',
-        'capes-03': 'fourier'
-      };
-      return map[chapterId] || null;
-    },
-
-    updateVisualizerButtonUI(chapterId = null) {
-      const chId = chapterId || this.currentChapterId;
-      const btnVis = document.getElementById('btn-open-visualizer');
-      if (!btnVis) return;
-      const mode = this.getVisualizerModeForChapter(chId);
-      if (mode) {
-        btnVis.style.display = 'inline-flex';
-        const labels = {
-          torus: '🔬 Labo 3D : Tore & Variétés',
-          phase_plane: '🔬 Labo 2D : Plan de Phase EDO',
-          fourier: '🔬 Labo 2D : Synthèse de Fourier'
-        };
-        btnVis.innerHTML = labels[mode] || '🔬 Labo 2D/3D';
-        btnVis.onclick = () => this.openVisualizerModal(mode);
-      } else {
-        btnVis.style.display = 'none';
-      }
-    },
-
-    openVisualizerModal(mode = null) {
-      const modal = document.getElementById('visualizer-modal');
-      if (!modal) return;
-      modal.style.display = 'flex';
-      const targetMode = mode || this.getVisualizerModeForChapter(this.currentChapterId) || 'torus';
-      if (window.MathVisualizer) {
-        window.MathVisualizer.init('vis-canvas');
-        window.MathVisualizer.switchMode(targetMode);
-      }
-    },
-
-    closeVisualizerModal() {
-      const modal = document.getElementById('visualizer-modal');
-      if (modal) modal.style.display = 'none';
-      if (window.MathVisualizer && window.MathVisualizer.animId) {
-        cancelAnimationFrame(window.MathVisualizer.animId);
-        window.MathVisualizer.animId = null;
-      }
-    },
-
-    openProofModal(theoremId = null) {
-      const modal = document.getElementById('proof-modal');
-      if (!modal) return;
-      modal.style.display = 'flex';
-      if (window.ProofEngine) {
-        this.renderProofEngineUI(theoremId);
-      }
-    },
-
-    closeProofModal() {
-      const modal = document.getElementById('proof-modal');
-      if (modal) modal.style.display = 'none';
-    },
-
-    renderProofEngineUI(selectedId = null) {
-      const container = document.getElementById('proof-content-container');
-      if (!container || !window.ProofEngine) return;
-      const thList = window.ProofEngine.getTheorems();
-      const currentTh = selectedId ? window.ProofEngine.getTheoremById(selectedId) : thList[0];
-      const ex = window.ProofEngine.generateProofExercise(currentTh.id);
-
-      container.innerHTML = `
-        <div style="margin-bottom: 1.25rem; display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center;">
-          <label style="font-weight: 700; font-size: 0.9rem;">Théorème :</label>
-          <select id="proof-theorem-select" class="form-select" style="max-width: 380px;" onchange="window.MathsApp.renderProofEngineUI(this.value)">
-            ${thList.map(t => `<option value="${t.id}" ${t.id === currentTh.id ? 'selected' : ''}>${t.title} (${t.level})</option>`).join('')}
-          </select>
-        </div>
-
-        <div class="proof-statement-box">
-          <strong style="color: var(--primary);">Énoncé :</strong>
-          <p class="math-p" style="margin: 0.4rem 0 0 0;">${currentTh.statement}</p>
-        </div>
-
-        <h4 style="margin: 1.25rem 0 0.5rem 0; font-size: 1.05rem;">Étapes de la démonstration :</h4>
-        <div id="proof-steps-container" class="proof-steps-list">
-          ${ex.shuffledSteps.map((step, idx) => `
-            <div class="proof-step-item" data-step-id="${step.id}">
-              <span class="proof-step-num">${idx + 1}</span>
-              <div class="proof-step-text">
-                <div>${step.text}</div>
-                <small style="color: var(--text-muted); font-size: 0.8rem; margin-top: 0.2rem; display: block;">💡 Justification : ${step.why}</small>
-              </div>
-            </div>
-          `).join('')}
-        </div>
-
-        <div style="background: rgba(239, 68, 68, 0.08); border-left: 4px solid #ef4444; padding: 1rem; border-radius: 0 8px 8px 0; margin-top: 1.25rem;">
-          <h4 style="margin: 0 0 0.4rem 0; color: #dc2626; font-size: 0.98rem;">⚠️ Piège / Sophisme à éviter absolument :</h4>
-          <p class="math-p" style="margin: 0; font-style: italic;">« ${currentTh.fallacy.fakeStep} »</p>
-          <div style="color: #991b1b; font-weight: 600; font-size: 0.85rem; margin-top: 0.4rem;">
-            <strong>Réfutation :</strong> ${currentTh.fallacy.whyFalse}
-          </div>
-        </div>
-      `;
-      window.MathsRenderer.renderElement(container);
-    },
-
-    showHomeView() {
-      this.syncUrl({});
-      this.isHomeView = true;
-      document.body.classList.add('home-view-active');
-      const homeView = document.getElementById('home-view');
-      const sidebar = document.getElementById('sidebar-chapters');
-      const workspace = document.querySelector('.main-workspace');
-      const mobileBar = document.getElementById('mobile-chapter-trigger-bar');
-      const appContainer = document.querySelector('.app-container');
-
-      if (homeView) homeView.style.display = 'flex';
-      if (sidebar) sidebar.style.display = 'none';
-      if (workspace) workspace.style.display = 'none';
-      if (mobileBar) mobileBar.style.display = 'none';
-      if (appContainer) appContainer.classList.add('home-active');
-
-      // Mettre en surbrillance l'onglet Accueil dans le header et désactiver les autres
-      document.querySelectorAll('.cycle-tab-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.id === 'cycle-tab-home');
-      });
-      // Retirer la sélection active des pilules de niveaux sur la page d'accueil
-      document.querySelectorAll('.level-pill').forEach(pill => pill.classList.remove('active'));
-
-      this.renderHomeView();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    },
-
-    hideHomeView() {
-      if (!this.isHomeView) return;
-      this.isHomeView = false;
-      document.body.classList.remove('home-view-active');
-      const homeView = document.getElementById('home-view');
-      const sidebar = document.getElementById('sidebar-chapters');
-      const workspace = document.querySelector('.main-workspace');
-      const mobileBar = document.getElementById('mobile-chapter-trigger-bar');
-      const appContainer = document.querySelector('.app-container');
-
-      if (homeView) homeView.style.display = 'none';
-      if (sidebar) sidebar.style.display = 'flex';
-      if (workspace) workspace.style.display = 'flex';
-      if (mobileBar) mobileBar.style.display = '';
-      if (appContainer) appContainer.classList.remove('home-active');
-
-      const homeTab = document.getElementById('cycle-tab-home');
-      if (homeTab) homeTab.classList.remove('active');
-
-      const currentCycle = window.MathsStorage.getCycleForLevel(this.currentLevel);
-      document.querySelectorAll('.cycle-tab-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.getAttribute('data-cycle') === currentCycle);
-        btn.setAttribute('aria-current', btn.getAttribute('data-cycle') === currentCycle ? 'true' : 'false');
-      });
-    },
-
-    renderHomeView() {
-      // 1. Mise à jour de la flamme / série quotidienne
-      const streakStatus = window.MathsStorage && window.MathsStorage.getDailyStreakInfo ? window.MathsStorage.getDailyStreakInfo() : null;
-      const streakDays = streakStatus ? streakStatus.streak : ((window.MathsStorage.load().user || {}).streak || 0);
-      const streakDaysEl = document.getElementById('home-streak-days');
-      if (streakDaysEl) streakDaysEl.textContent = streakDays;
-
-      // 2. Mise à jour de la carte de reprise d'activité (Effet Zeigarnik ou Accueil Neutre)
-      const lastActive = window.MathsStorage && window.MathsStorage.getLastActiveChapter ? window.MathsStorage.getLastActiveChapter() : null;
-      const allChapters = window.MATHS_CHAPTERS || [];
-      const chap = (lastActive && lastActive.chapterId) ? allChapters.find(c => c.id === lastActive.chapterId) : null;
-
-      const badgeEl = document.getElementById('home-resume-badge');
-      const tagEl = document.getElementById('home-resume-tag');
-      const nameEl = document.getElementById('home-resume-chap-name');
-      const tierEl = document.getElementById('home-resume-tier-pill');
-      const subEl = document.getElementById('home-resume-sub');
-      const btnEl = document.getElementById('home-resume-btn');
-
-      if (chap && lastActive) {
-        this.homeResumeTarget = { chapterId: chap.id, tier: lastActive.tier || 1 };
-        if (badgeEl) badgeEl.textContent = chap.id;
-        if (tagEl) tagEl.textContent = "🎯 Reprendre où tu t'es arrêté";
-        if (nameEl) nameEl.textContent = chap.shortTitle || chap.title;
-        let tierLabel = 'Socle';
-        if (lastActive.tier) {
-          tierLabel = this.getTierButtonLabel(lastActive.tier, chap.level).replace(/^Palier \d+\s*:\s*/, '');
-        }
-        if (tierEl) {
-          tierEl.style.display = 'inline-block';
-          tierEl.textContent = `Palier ${lastActive.tier || 1} : ${tierLabel}`;
-        }
-        const progress = window.MathsStorage.getChapterProgress(chap.id);
-        const mastery = progress ? (progress.mastery || 0) : 0;
-        if (subEl) subEl.innerHTML = `Maîtrise : <strong id="home-resume-percent">${mastery}%</strong>`;
-        if (btnEl) btnEl.innerHTML = 'Continuer ➔';
-      } else {
-        this.homeResumeTarget = null;
-        if (badgeEl) badgeEl.textContent = '🚀';
-        if (tagEl) tagEl.textContent = '🎯 Démarrage Rapide';
-        if (nameEl) nameEl.textContent = 'Choisis ton cycle pour démarrer';
-        if (tierEl) tierEl.style.display = 'none';
-        if (subEl) subEl.textContent = 'Collège, Lycée ou prépare ton Brevet / Bac';
-        if (btnEl) btnEl.innerHTML = 'Découvrir les cycles ▾';
-      }
-
-    },
-
-    handleResumeOrStart() {
-      if (this.homeResumeTarget) {
-        this.resumeLastActivity();
-      } else {
-        this.scrollToCycles();
-      }
-    },
-
-    scrollToCycles() {
-      const el = document.querySelector('.home-cycles-grid') || document.querySelector('.home-section-header');
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    },
-
-    resumeLastActivity() {
-      const target = this.homeResumeTarget || { chapterId: 'N1', tier: 1 };
-      this.hideHomeView();
-      const allChapters = window.MATHS_CHAPTERS || [];
-      const chap = allChapters.find(c => c.id === target.chapterId);
-      if (chap && chap.level && chap.level !== this.currentLevel) {
-        this.switchLevel(chap.level, false);
-      }
-      this.selectChapter(target.chapterId);
-      if (window.MathsAdaptiveEngine && target.tier) {
-        window.MathsAdaptiveEngine.setTier(target.tier);
-      }
-      this.switchTab('train');
-    },
-
-    showModeExplainer(modeKey) {
-      const explainer = this.MODE_EXPLAINERS[modeKey];
-      if (!explainer) return;
-
-      this.currentExplainerMode = modeKey;
-      const modal = document.getElementById('mode-explainer-modal');
-      const iconEl = document.getElementById('mode-explainer-icon');
-      const titleEl = document.getElementById('mode-explainer-title');
-      const subEl = document.getElementById('mode-explainer-subtitle');
-      const bodyEl = document.getElementById('mode-explainer-body');
-      const actionBtn = document.getElementById('mode-explainer-action-btn');
-
-      if (iconEl) iconEl.textContent = explainer.icon;
-      if (titleEl) titleEl.textContent = explainer.title;
-      if (subEl) subEl.textContent = explainer.subtitle;
-      if (bodyEl) {
-        bodyEl.innerHTML = explainer.contentHtml;
-        if (window.MathsRenderer && typeof window.MathsRenderer.renderElement === 'function') {
-          window.MathsRenderer.renderElement(bodyEl);
-        }
-      }
-      if (actionBtn) {
-        actionBtn.innerHTML = explainer.actionLabel;
-      }
-
-      if (modal) {
-        modal.style.display = 'flex';
-        modal.scrollTop = 0;
-      }
-    },
-
-    closeModeExplainer() {
-      const modal = document.getElementById('mode-explainer-modal');
-      if (modal) {
-        modal.style.display = 'none';
-      }
-    },
-
-    launchCurrentExplainerMode() {
-      const mode = this.currentExplainerMode || 'adaptive';
-      this.closeModeExplainer();
-      if (mode === 'adaptive') {
-        this.hideHomeView();
-        this.switchTab('train');
-      } else if (mode === 'rituel') {
-        this.openDiaporamaModal();
-      } else if (mode === 'quiz') {
-        this.openQuizModal();
-      } else if (mode === 'flashcards') {
-        this.openFlashcardsModal();
-      }
-    },
-
-    openDiaporamaModal(chapterId = null, autoStart = false) {
-      if (!this.isLevelReady(this.currentLevel)) return this.whenLevelReady(this.currentLevel, () => this.openDiaporamaModal(chapterId, autoStart));
-      this.hideHomeView();
-      const targetId = chapterId || this.currentChapterId;
-      if (window.MathsDiaporama && typeof window.MathsDiaporama.openModal === 'function') {
-        window.MathsDiaporama.openModal(targetId);
-        if (autoStart && typeof window.MathsDiaporama.start === 'function') {
-          setTimeout(() => {
-            window.MathsDiaporama.start();
-          }, 80);
-        }
-      }
-    },
-
-    openQuizModal(chapterId = null, autoGenerate = false) {
-      if (!this.isLevelReady(this.currentLevel)) return this.whenLevelReady(this.currentLevel, () => this.openQuizModal(chapterId, autoGenerate));
-      this.hideHomeView();
-      const targetId = chapterId || this.currentChapterId;
-      if (window.MathsQuizGenerator && typeof window.MathsQuizGenerator.openModal === 'function') {
-        window.MathsQuizGenerator.openModal(targetId);
-        if (autoGenerate && typeof window.MathsQuizGenerator.generate === 'function') {
-          setTimeout(() => {
-            if (typeof window.MathsQuizGenerator.selectAllChapters === 'function') {
-              window.MathsQuizGenerator.selectAllChapters(true);
-            }
-            window.MathsQuizGenerator.generate();
-          }, 120);
-        }
-      }
-    },
-
-    openFlashcardsModal(chapterId = null) {
-      if (!this.isLevelReady(this.currentLevel)) return this.whenLevelReady(this.currentLevel, () => this.openFlashcardsModal(chapterId));
-      this.hideHomeView();
-      const targetId = chapterId || this.currentChapterId;
-      if (window.MathsFlashcards && typeof window.MathsFlashcards.openModal === 'function') {
-        window.MathsFlashcards.openModal(targetId);
-      }
-    },
-
-    renderDomainNav() {
-      const navContainer = document.querySelector('.domain-filters-scroll');
-      if (!navContainer) return;
-
-      let filters = [];
-      if (this.currentLevel === 'capes') {
-        filters = [
-          { domain: 'all', label: 'Tous' },
-          { domain: 'oral1', label: '📐 Oral 1 : Leçons' },
-          { domain: 'oral2', label: '⚖️ Oral 2 : Entretien' }
-        ];
-      } else {
-        filters = [
-          { domain: 'all', label: 'Tous' },
-          { domain: 'nombres', label: '🔢 Nombres' },
-          { domain: 'geometrie', label: '📐 Géométrie' },
-          { domain: 'fonctions', label: this.currentLevel === '6eme' ? '📊 Données & proportionnalité' : '📈 Fonctions' },
-          { domain: 'algo', label: '💻 Algo' }
-        ];
-      }
-
-      // S'assurer que le filtre actif est valide pour le niveau actuel
-      const validDomains = filters.map(f => f.domain);
-      if (!validDomains.includes(this.currentFilterDomain)) {
-        this.currentFilterDomain = 'all';
-      }
-
-      navContainer.innerHTML = filters.map(f => `
-        <button class="domain-filter-btn ${f.domain === this.currentFilterDomain ? 'active' : ''}" data-domain="${f.domain}">
-          ${f.label}
-        </button>
-      `).join('');
-
-      navContainer.querySelectorAll('.domain-filter-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          navContainer.querySelectorAll('.domain-filter-btn').forEach(b => b.classList.remove('active'));
-          e.currentTarget.classList.add('active');
-          this.currentFilterDomain = e.currentTarget.dataset.domain;
-          this.renderChaptersGrid();
-        });
-      });
-    },
-
-    renderChaptersGrid() {
-      const container = document.getElementById('chapters-list-container');
-      if (!container) return;
-
-      const allChapters = window.MATHS_CHAPTERS || [];
-      const levelChapters = allChapters.filter(c => (c.level || '3eme') === this.currentLevel);
-      let filtered = this.currentFilterDomain === 'all'
-        ? levelChapters
-        : levelChapters.filter(c => {
-            if (this.currentLevel === 'capes') {
-              if (this.currentFilterDomain === 'oral1') return c.id !== 'capes-oral2' && c.domain !== 'oral2';
-              if (this.currentFilterDomain === 'oral2') return c.id === 'capes-oral2' || c.domain === 'oral2';
-            }
-            if (c.domain === this.currentFilterDomain) return true;
-            if (this.currentFilterDomain === 'nombres' && (c.domain === 'algebre' || c.domain === 'arithmetique')) return true;
-            if (this.currentFilterDomain === 'geometrie' && (c.domain === 'espace' || c.domain === 'vecteurs' || c.domain === 'trigo')) return true;
-            if (this.currentFilterDomain === 'fonctions' && (c.domain === 'gestion' || c.domain === 'analyse' || c.domain === 'suites' || c.domain === 'calcul')) return true;
-            if (this.currentFilterDomain === 'algo' && (c.domain === 'stats' || c.domain === 'probas' || c.domain === 'numerique' || c.domain === 'python')) return true;
-            return false;
-          });
-
-      const query = (this.searchQuery || '').trim().toLowerCase();
-      if (query) {
-        filtered = filtered.filter(c => {
-          const idMatch = c.id.toLowerCase().includes(query);
-          const numMatch = (c.num || '').toLowerCase().includes(query);
-          const titleMatch = (c.title || '').toLowerCase().includes(query);
-          const shortTitleMatch = (c.shortTitle || '').toLowerCase().includes(query);
-          const domainMatch = (c.domainName || '').toLowerCase().includes(query);
-          const descMatch = (c.description || '').toLowerCase().includes(query);
-          return idMatch || numMatch || titleMatch || shortTitleMatch || domainMatch || descMatch;
-        });
-      }
-
-      container.innerHTML = '';
-
-      if (filtered.length === 0) {
-        container.innerHTML = `
-          <div style="padding: 1.5rem 0.5rem; text-align: center; color: var(--text-muted); font-size: 0.85rem;">
-            🔍 Aucun chapitre ne correspond à "<strong>${this.escapeHtml(this.searchQuery)}</strong>".
-          </div>
-        `;
-        return;
-      }
-
-      filtered.forEach(chap => {
-        const progress = window.MathsStorage.getChapterProgress(chap.id);
-        const card = document.createElement('button');
-        card.className = `chapter-card ${chap.id === this.currentChapterId ? 'active' : ''}`;
-        card.setAttribute('data-chapter-id', chap.id);
-
-        card.innerHTML = `
-          <div class="chap-badge-id" style="background-color: ${chap.color}20; color: ${chap.color};">
-            ${chap.num}
-          </div>
-          <div class="chap-info">
-            <span class="chap-title">${chap.shortTitle || chap.title}</span>
-            <span class="chap-desc">${chap.domainName}</span>
-          </div>
-          <div class="chap-progress-pill">
-            <div class="pill-fill" style="width: ${progress.mastery || 0}%;"></div>
-            <span class="pill-text">${progress.mastery || 0}%</span>
-          </div>
-        `;
-
-        card.addEventListener('click', () => {
-          this.selectChapter(chap.id);
-        });
-
-        container.appendChild(card);
-      });
-    },
-
-    selectChapter(chapterId) {
-      const chapter = (window.MATHS_CHAPTERS || []).find(c => c.id === chapterId);
-      if (!chapter) return;
-      if (!this.isLevelReady(chapter.level)) return this.whenLevelReady(chapter.level, () => this.selectChapter(chapterId));
-      this.currentChapterId = chapterId;
-      this.syncUrl({ chapitre: chapterId });
-
-      // Synchroniser le niveau actif si nécessaire
-      if (chapter.level && chapter.level !== this.currentLevel) {
-        this.switchLevel(chapter.level, false);
-      }
-      this.hideHomeView();
-      if (window.MathsStorage && window.MathsStorage.setLastActiveChapter) {
-        window.MathsStorage.setLastActiveChapter(chapter.id, window.MathsAdaptiveEngine ? window.MathsAdaptiveEngine.state.currentTier : 1);
-      }
-      this.updateTierButtonsUI();
-
-      // Mise à jour de la sélection dans la barre latérale / grille
-      document.querySelectorAll('.chapter-card').forEach(c => {
-        c.classList.toggle('active', c.dataset.chapterId === chapterId);
-      });
-
-      // En-tête du chapitre
-      const titleEl = document.getElementById('chapter-hero-title');
-      const domainEl = document.getElementById('chapter-hero-domain');
-      const descEl = document.getElementById('chapter-hero-desc');
-      const masteryEl = document.getElementById('chapter-hero-mastery');
-      const masteryFill = document.getElementById('chapter-hero-mastery-fill');
-
-      // Mise à jour de la barre mobile de sélection de chapitre et fermeture du tiroir
-      const mobileLabel = document.getElementById('mobile-chapter-label');
-      if (mobileLabel) {
-        mobileLabel.textContent = `${chapter.num || chapter.id} : ${chapter.shortTitle || chapter.title}`;
-      }
-      const sidebarChapters = document.getElementById('sidebar-chapters');
-      if (sidebarChapters) {
-        sidebarChapters.classList.remove('mobile-open');
-      }
-      const mobileArrow = document.getElementById('mobile-chapter-arrow');
-      if (mobileArrow) {
-        mobileArrow.textContent = '▾';
-      }
-      const mobileBtn = document.getElementById('mobile-chapter-btn');
-      if (mobileBtn) {
-        mobileBtn.setAttribute('aria-expanded', 'false');
-      }
-
-      const progress = window.MathsStorage.getChapterProgress(chapterId);
-
-      if (titleEl) titleEl.textContent = `${chapter.num} : ${chapter.title}`;
-      if (domainEl) {
-        domainEl.textContent = chapter.domainName;
-        domainEl.style.backgroundColor = `${chapter.color}20`;
-        domainEl.style.color = chapter.color;
-      }
-      if (descEl) descEl.textContent = chapter.description;
-
-      // Démarrage de la session adaptative ZPD
-      window.MathsAdaptiveEngine.startChapterSession(chapterId);
-
-      // Mise à jour réactive immédiate de la jauge de maîtrise (héro + barre latérale)
-      this.updateChapterMasteryUI(chapterId);
-
-      // Mise à jour du bouton contextuel Labo 2D/3D
-      this.updateVisualizerButtonUI(chapterId);
-
-      // Rafraîchir l'onglet actif
-      this.refreshCurrentTab();
-    },
-
-    updateChapterMasteryUI(chapterId) {
-      if (!chapterId) chapterId = this.currentChapterId;
-      if (!chapterId) return;
-
-      const progress = window.MathsStorage.getChapterProgress(chapterId);
-      const mastery = progress.mastery || 0;
-
-      // 1. Jauge héro dans l'en-tête du chapitre actif
-      const masteryEl = document.getElementById('chapter-hero-mastery');
-      const masteryFill = document.getElementById('chapter-hero-mastery-fill');
-      if (masteryEl) masteryEl.textContent = `${mastery}%`;
-      if (masteryFill) masteryFill.style.width = `${mastery}%`;
-
-      // 1b. Pastille de maîtrise sur la barre mobile de sélection
-      const mobileMasteryTag = document.getElementById('mobile-chapter-mastery-tag');
-      if (mobileMasteryTag) {
-        mobileMasteryTag.textContent = `${mastery}%`;
-        mobileMasteryTag.className = 'm-chap-mastery-pill' + (mastery >= 80 ? ' high' : (mastery >= 40 ? ' mid' : ''));
-      }
-
-      // 2. Pastille de progression sur la carte latérale du chapitre
-      const card = document.querySelector(`.chapter-card[data-chapter-id="${chapterId}"]`);
-      if (card) {
-        const pillFill = card.querySelector('.pill-fill');
-        const pillText = card.querySelector('.pill-text');
-        if (pillFill) pillFill.style.width = `${mastery}%`;
-        if (pillText) pillText.textContent = `${mastery}%`;
-      }
-
-      // 3. Rafraîchir l'onglet ou modale de bilan si ouverte
-      const modal = document.getElementById('stats-modal');
-      if (modal && modal.classList.contains('active')) {
-        this.renderStatsModal();
-      }
-    },
-
-    switchTab(tabName) {
-      this.currentTab = tabName;
-      document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.tab === tabName);
-      });
-      document.querySelectorAll('.tab-pane').forEach(pane => {
-        pane.classList.toggle('active', pane.id === `tab-pane-${tabName}`);
-      });
-      this.refreshCurrentTab();
-    },
-
-    refreshCurrentTab() {
-      if (this.currentTab === 'train') {
+    }
+
+    // Bouton Partager le lien d'entraînement
+    const shareBtn = document.getElementById('btn-share-training');
+    if (shareBtn) {
+      shareBtn.addEventListener('click', () => this.shareCurrentTraining());
+    }
+
+    // Bouton Question Aléatoire Infinie (Générateur procédural)
+    const randomExoBtn = document.getElementById('btn-random-exercise');
+    if (randomExoBtn) {
+      randomExoBtn.addEventListener('click', () => {
+        window.MathsAdaptiveEngine.nextExercise();
         this.renderTrainingView();
-      } else if (this.currentTab === 'course') {
-        this.renderCourseView();
-      } else if (this.currentTab === 'sheets') {
-        this.renderSheetsView();
-      } else if (this.currentTab === 'stats') {
-        this.renderStatsView();
-      }
-    },
+      });
+    }
 
-    // =========================================================================
-    // 1. ESPACE ENTRAÎNEMENT ADAPTATIF (ZONE OPTIMALE / ZPD)
-    // =========================================================================
-    renderTrainingView() {
-      const engine = window.MathsAdaptiveEngine;
-      const activeChapLevel = this.getCurrentChapterLevel();
-      const exercise = engine ? engine.state.currentExercise : null;
-
-      // 1. Mise à jour de la jauge ZPD, des paliers et de la maîtrise
-      this.renderZpdGauge();
-      this.updateChapterMasteryUI(this.currentChapterId);
-
-      // Paliers boutons (gestion des déblocages et choix de palier)
-      this.renderTierButtons();
-
-      // 2. Affichage de l'exercice
-      const container = document.getElementById('exercise-statement-box');
-      const interactionContainer = document.getElementById('exercise-input-zone');
-      const feedbackContainer = document.getElementById('exercise-feedback-zone');
-
-      if (!exercise) {
-        if (engine && typeof engine.nextExercise === 'function') {
-          try {
-            const fallbackExo = engine.nextExercise();
-            if (fallbackExo) {
-              this.renderTrainingView();
-              return;
-            }
-          } catch (err) {
-            console.error("Erreur lors de la génération de l'exercice :", err);
-          }
-        }
-        if (container) container.innerHTML = `<p class="math-p">Aucun exercice disponible pour ce chapitre.</p>`;
-        return;
-      }
-
-      // Énoncé
-      if (container) {
-        container.innerHTML = `
-          <div class="exo-header-bar">
-            <span class="exo-tier-tag tier-${exercise.tier}">Palier ${exercise.tier} : ${this.getTierName(exercise.tier, activeChapLevel)}</span>
-            <span class="exo-skill-tag">${exercise.skill || 'Mathématiques'}</span>
-          </div>
-          <h3 class="exo-title">${exercise.title}</h3>
-          <div class="exo-body">${window.MathsRenderer.markdownToHtml(exercise.statement)}</div>
-        `;
-        window.MathsRenderer.renderElement(container);
-      }
-
-      // Zone de saisie / Interaction
-      if (interactionContainer) {
-        interactionContainer.innerHTML = '';
-        if (exercise.type === 'mcq') {
-          // Normalisation défensive choices -> options
-          if (!exercise.options && exercise.choices) exercise.options = exercise.choices;
-          if (exercise.correctIndex === undefined && exercise.options && exercise.answer) {
-            exercise.correctIndex = exercise.options.indexOf(exercise.answer);
-            if (exercise.correctIndex === -1) exercise.correctIndex = 0;
-          }
-          if (!exercise.options) exercise.options = [];
-          // Mélange défensif : la bonne réponse ne doit jamais être prévisible (toujours en A)
-          if (!exercise._mcqShuffled && engine && typeof engine.shuffleMcq === 'function') {
-            engine.shuffleMcq(exercise);
-            if (exercise.options[exercise.correctIndex] !== undefined) exercise.answer = exercise.options[exercise.correctIndex];
-          }
-
-          // Affichage QCM
-          const mcqBox = document.createElement('div');
-          mcqBox.className = 'mcq-options-grid';
-
-          exercise.options.forEach((opt, idx) => {
-            const btn = document.createElement('button');
-            btn.className = 'mcq-opt-btn';
-            btn.setAttribute('data-index', idx);
-            btn.innerHTML = `
-              <span class="mcq-letter">${String.fromCharCode(65 + idx)}</span>
-              <span class="mcq-text">${opt}</span>
-            `;
-            btn.addEventListener('click', () => {
-              document.querySelectorAll('.mcq-opt-btn').forEach(b => b.classList.remove('selected'));
-              btn.classList.add('selected');
-              this.selectedMcqAnswer = idx;
-            });
-            mcqBox.appendChild(btn);
-          });
-
-          // Raccourcis clavier guide
-          const kbdHint = document.createElement('div');
-          kbdHint.className = 'kbd-hint';
-          kbdHint.innerHTML = `<span>⌨️ Raccourcis :</span> <kbd class="kbd-badge">A</kbd> <kbd class="kbd-badge">B</kbd> <kbd class="kbd-badge">C</kbd> <kbd class="kbd-badge">D</kbd> pour choisir, <kbd class="kbd-badge">Entrée</kbd> pour valider, <kbd class="kbd-badge">H</kbd> pour indice`;
-          mcqBox.appendChild(kbdHint);
-
-          interactionContainer.appendChild(mcqBox);
-          window.MathsRenderer.renderElement(mcqBox);
-          this.selectedMcqAnswer = null;
-
-        } else {
-          // Saisie exacte (input text avec preview KaTeX)
-          const inputWrapper = document.createElement('div');
-          inputWrapper.className = 'exact-input-wrapper';
-
-          // Placeholder neutre qui ne donne JAMAIS la réponse aux élèves
-          let safePlaceholder = 'Votre réponse...';
-          let inputTip = '💡 Pour une fraction, écris par exemple <code>13/7</code> ou utilise le clavier virtuel ci-dessous.';
-          const ansStr = String(exercise.answer || '').trim();
-          if (ansStr.includes(';') || (ansStr.startsWith('(') && ansStr.endsWith(')'))) {
-            safePlaceholder = 'Coordonnées (ex: (3;5) ou 3;5)';
-            inputTip = '💡 Écris les coordonnées sous la forme <code>(x;y)</code> ou <code>x;y</code>.';
-          } else if (ansStr.includes('/')) {
-            safePlaceholder = 'Ex: 3/4 (fraction irréductible)';
-          } else if (ansStr.includes('^')) {
-            safePlaceholder = 'Ex: 10^3';
-          } else if (!isNaN(parseFloat(ansStr))) {
-            safePlaceholder = 'Nombre (ex: 12 ou -4)';
-          }
-
-          inputWrapper.innerHTML = `
-            <div class="input-row">
-              <input type="text" id="math-user-input" class="math-text-input" placeholder="${safePlaceholder}" autocomplete="off" />
-              <div id="math-preview-badge" class="math-preview-badge" style="display:none;"></div>
-            </div>
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.4rem;">
-              <p class="input-tip" style="margin:0;">${inputTip}</p>
-              <div class="kbd-hint" style="margin:0;"><span>⌨️</span> <kbd class="kbd-badge">Entrée</kbd> pour valider, <kbd class="kbd-badge">H</kbd> pour indice</div>
-            </div>
-          `;
-          interactionContainer.appendChild(inputWrapper);
-
-          const inputField = inputWrapper.querySelector('#math-user-input');
-          const previewBadge = inputWrapper.querySelector('#math-preview-badge');
-
-          inputField.addEventListener('input', () => {
-            window.MathsRenderer.renderPreview(inputField.value, previewBadge);
-          });
-
-          inputField.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
-              e.preventDefault();
-              e.stopPropagation();
-              // Si le bouton "Question Suivante" est visible, avancer immédiatement
-              const nextBtnEl = document.getElementById('btn-next-exercise');
-              if (nextBtnEl && nextBtnEl.style.display !== 'none') {
-                nextBtnEl.click();
-                return;
-              }
-              this.submitCurrentAnswer();
-            }
-          });
-
-          setTimeout(() => inputField.focus(), 100);
-        }
-      }
-
-      // Nettoyer la zone de feedback
-      if (feedbackContainer) {
-        feedbackContainer.innerHTML = '';
-        feedbackContainer.style.display = 'none';
-      }
-
-      // Réinitialiser les boutons d'action
-      const validateBtn = document.getElementById('btn-validate-answer');
-      const nextBtn = document.getElementById('btn-next-exercise');
-      const hint1Btn = document.getElementById('btn-hint-1');
-      const hint2Btn = document.getElementById('btn-hint-2');
-
-      if (validateBtn) {
-        validateBtn.style.display = 'inline-flex';
-        validateBtn.onclick = () => this.submitCurrentAnswer();
-      }
-      if (nextBtn) {
-        nextBtn.style.display = 'none';
-        nextBtn.innerHTML = `Exercice suivant ➔`;
-        nextBtn.onclick = () => {
-          engine.nextExercise();
+    // Bouton Réinitialiser TOUS les chapitres à 0%
+    const resetAllBtn = document.getElementById('btn-reset-all-mastery');
+    if (resetAllBtn) {
+      resetAllBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const levelChapters = (window.MATHS_CHAPTERS || []).filter(c => (c.level || '3eme') === this.currentLevel);
+        const levelName = this.getLevelName(this.currentLevel);
+        if (confirm(`⚠️ Souhaitez-vous vraiment remettre à 0% la maîtrise de TOUS les ${levelChapters.length} chapitres de ${levelName} ?`)) {
+          levelChapters.forEach(c => window.MathsStorage.resetChapterProgress(c.id));
+          window.MathsAdaptiveEngine.state.manualTierSelected = false;
+          window.MathsAdaptiveEngine.startChapterSession(this.currentChapterId);
+          this.renderChaptersGrid();
+          this.updateChapterMasteryUI(this.currentChapterId);
           this.renderTrainingView();
-        };
-      }
-      if (hint1Btn) {
-        hint1Btn.onclick = () => this.showHint(1);
-      }
-      if (hint2Btn) {
-        hint2Btn.onclick = () => this.showHint(2);
-      }
-    },
-
-    renderZpdGauge() {
-      // Zone cognitive ZPD retirée de l'interface à la demande de l'utilisateur
-    },
-
-    getCurrentChapterLevel() {
-      if (this.currentChapterId) {
-        const ch = (window.MATHS_CHAPTERS || []).find(c => c.id === this.currentChapterId);
-        if (ch && ch.level) return ch.level;
-        if (this.currentChapterId.startsWith('6')) return '6eme';
-        if (this.currentChapterId.startsWith('5')) return '5eme';
-        if (this.currentChapterId.startsWith('4')) return '4eme';
-        if (this.currentChapterId.startsWith('3')) return '3eme';
-        if (this.currentChapterId.startsWith('2')) return '2nde';
-        if (this.currentChapterId.startsWith('1')) return '1ere';
-        if (this.currentChapterId.startsWith('T')) return 'tale';
-        if (this.currentChapterId.startsWith('L1')) return 'L1';
-        if (this.currentChapterId.startsWith('L2')) return 'L2';
-        if (this.currentChapterId.startsWith('L3')) return 'L3';
-      }
-      return this.currentLevel || '3eme';
-    },
-
-    getTierButtonLabel(tier, level = null) {
-      const lvl = level || this.getCurrentChapterLevel();
-      const t = parseInt(tier, 10);
-      if (lvl === '6eme') {
-        const labels = {
-          1: "Palier 1 : Socle",
-          2: "Palier 2 : Guidé",
-          3: "Palier 3 : Approfondissement",
-          4: "Palier 4 : Défi 5ème"
-        };
-        return labels[t] || `Palier ${t}`;
-      } else if (lvl === '5eme') {
-        const labels = {
-          1: "Palier 1 : Socle",
-          2: "Palier 2 : Guidé",
-          3: "Palier 3 : Approfondissement",
-          4: "Palier 4 : Défi 4ème"
-        };
-        return labels[t] || `Palier ${t}`;
-      } else if (lvl === '4eme') {
-        const labels = {
-          1: "Palier 1 : Socle",
-          2: "Palier 2 : Guidé",
-          3: "Palier 3 : Approfondissement",
-          4: "Palier 4 : Défi 3ème"
-        };
-        return labels[t] || `Palier ${t}`;
-      } else if (lvl === '2nde') {
-        const labels = {
-          1: "Palier 1 : Socle",
-          2: "Palier 2 : Guidé",
-          3: "Palier 3 : Approfondissement",
-          4: "Palier 4 : Défi 1ère Spé"
-        };
-        return labels[t] || `Palier ${t}`;
-      } else if (lvl === '1ere' || lvl === 'tale' || lvl === 'lycee') {
-        const labels = {
-          1: "Palier 1 : Socle",
-          2: "Palier 2 : Guidé",
-          3: "Palier 3 : Bac",
-          4: "Palier 4 : Approfondissement"
-        };
-        return labels[t] || `Palier ${t}`;
-      } else if (lvl === 'capes') {
-        if (this.currentChapterId === 'capes-oral2') {
-          const labels = {
-            1: "Palier 1 : Déontologie",
-            2: "Palier 2 : Situations",
-            3: "Palier 3 : Périscolaire",
-            4: "Palier 4 : Procédures"
-          };
-          return labels[t] || `Palier ${t}`;
-        }
-        const labels = {
-          1: "Palier 1 : Socle",
-          2: "Palier 2 : Méthodes",
-          3: "Palier 3 : Concours",
-          4: "Palier 4 : Rigueur"
-        };
-        return labels[t] || `Palier ${t}`;
-      } else if (['L1', 'L2', 'L3', 'licence'].includes(lvl)) {
-        const labels = {
-          1: "Palier 1 : Socle",
-          2: "Palier 2 : Méthodes",
-          3: "Palier 3 : Examen",
-          4: "Palier 4 : Rigueur"
-        };
-        return labels[t] || `Palier ${t}`;
-      } else {
-        const labels = {
-          1: "Palier 1 : Socle",
-          2: "Palier 2 : Guidé",
-          3: "Palier 3 : Brevet",
-          4: "Palier 4 : Défi Seconde"
-        };
-        return labels[t] || `Palier ${t}`;
-      }
-    },
-
-    getTierName(tier, level = null) {
-      const lvl = level || this.getCurrentChapterLevel();
-      const t = parseInt(tier, 10);
-      if (lvl === '6eme') {
-        const names = {
-          1: "Socle & Automatismes",
-          2: "Entraînement Guidé",
-          3: "Approfondissement 6e",
-          4: "Défi 5ème (Expert)"
-        };
-        return names[t] || `Niveau ${t}`;
-      } else if (lvl === '5eme') {
-        const names = {
-          1: "Socle & Automatismes",
-          2: "Entraînement Guidé",
-          3: "Approfondissement 5e",
-          4: "Défi 4ème (Expert)"
-        };
-        return names[t] || `Niveau ${t}`;
-      } else if (lvl === '4eme') {
-        const names = {
-          1: "Socle & Automatismes",
-          2: "Entraînement Guidé",
-          3: "Approfondissement 4e",
-          4: "Défi 3ème (Expert)"
-        };
-        return names[t] || `Niveau ${t}`;
-      } else if (lvl === '2nde') {
-        const names = {
-          1: "Socle & Automatismes",
-          2: "Entraînement Guidé",
-          3: "Approfondissement 2nde",
-          4: "Défi 1ère Spé (Expert)"
-        };
-        return names[t] || `Niveau ${t}`;
-      } else if (lvl === '1ere' || lvl === 'tale' || lvl === 'lycee') {
-        const names = {
-          1: "Socle & Automatismes",
-          2: "Entraînement Guidé",
-          3: "Objectif Bac (Épreuve)",
-          4: lvl === 'tale' ? "Défi Post-Bac & Approfondissement" : "Défi & Approfondissement"
-        };
-        return names[t] || `Niveau ${t}`;
-      } else if (lvl === 'capes') {
-        if (this.currentChapterId === 'capes-oral2') {
-          const names = {
-            1: "Socle Déontologique & Textes",
-            2: "Situations de Classe & Contestation",
-            3: "Parents, Sorties & Périscolaire",
-            4: "Procédures d'Urgence & Jury"
-          };
-          return names[t] || `Niveau ${t}`;
-        }
-        const names = {
-          1: "Socle & Définitions",
-          2: "Entraînement & Méthodes",
-          3: "Niveau Concours (Oral 1)",
-          4: "Démonstrations & Rigueur"
-        };
-        return names[t] || `Niveau ${t}`;
-      } else if (['L1', 'L2', 'L3', 'licence'].includes(lvl)) {
-        const names = {
-          1: "Socle & Définitions",
-          2: "Entraînement & Méthodes",
-          3: "Niveau Examen (Partiel)",
-          4: "Démonstrations & Rigueur"
-        };
-        return names[t] || `Niveau ${t}`;
-      } else {
-        const names = {
-          1: "Socle & Automatismes",
-          2: "Entraînement Guidé",
-          3: "Objectif Brevet (DNB)",
-          4: "Défi Seconde (Lycée)"
-        };
-        return names[t] || `Niveau ${t}`;
-      }
-    },
-
-    renderTierButtons() {
-      const engine = window.MathsAdaptiveEngine;
-      const activeChapLevel = this.getCurrentChapterLevel();
-      const progress = window.MathsStorage.getChapterProgress(this.currentChapterId);
-      const valTiers = progress.validatedTiers || [];
-
-      document.querySelectorAll('.tier-pill-btn').forEach(btn => {
-        const tier = parseInt(btn.dataset.tier, 10);
-        const isUnlocked = engine ? engine.isTierUnlocked(this.currentChapterId, tier) : (tier === 1);
-        const isValidated = valTiers.includes(tier);
-        const isActive = (tier === (engine && engine.state ? engine.state.currentTier : 1));
-        const baseLabel = this.getTierButtonLabel(tier, activeChapLevel);
-
-        if (!isUnlocked) {
-          // Palier verrouillé : l'élève doit d'abord atteindre le pourcentage requis
-          const reqPercent = { 2: '25%', 3: '50%', 4: '75%' }[tier] || '25%';
-          btn.innerHTML = `<span class="tier-lock-icon">🔒</span> ${baseLabel}`;
-          btn.classList.add('tier-locked');
-          btn.classList.remove('active', 'tier-validated');
-          btn.title = `Palier ${tier} verrouillé — Atteins ${reqPercent} de maîtrise (validation du Palier ${tier - 1}) pour le débloquer`;
-          btn.onclick = () => {
-            if (window.MathsAudio) window.MathsAudio.playHint();
-            this.showToast(`🔒 <strong>Palier ${tier} verrouillé</strong><br>Atteins au moins <strong>${reqPercent}</strong> de maîtrise pour débloquer le Palier ${tier} !`, 3500);
-          };
-        } else {
-          // Palier débloqué : l'élève peut toujours choisir lui-même ce palier
-          btn.innerHTML = `${isValidated ? '<span class="tier-check-icon">✓</span> ' : ''}${baseLabel}`;
-          btn.classList.remove('tier-locked');
-          btn.classList.toggle('active', isActive);
-          btn.classList.toggle('tier-validated', isValidated);
-          btn.title = isValidated
-            ? `Palier ${tier} validé — Clique pour choisir ce palier`
-            : `Palier ${tier} débloqué — Clique pour t'entraîner sur ce palier`;
-          btn.onclick = () => {
-            if (engine) {
-              engine.setTier(tier);
-              this.renderTrainingView();
-            }
-          };
+          if (this.currentTab === 'stats') {
+            this.renderStatsView();
+          }
         }
       });
-    },
+    }
 
-    updateTierButtonsUI() {
-      this.renderTierButtons();
-    },
-
-    submitCurrentAnswer() {
-      const engine = window.MathsAdaptiveEngine;
-      const exercise = engine.state.currentExercise;
-      if (!exercise) return;
-
-      let userAnswer = null;
-      if (exercise.type === 'mcq') {
-        if (this.selectedMcqAnswer === null || this.selectedMcqAnswer === undefined) {
-          alert('Veuillez sélectionner une réponse parmi les options proposées.');
-          return;
-        }
-        userAnswer = this.selectedMcqAnswer;
-      } else {
-        const input = document.getElementById('math-user-input');
-        if (!input || !input.value.trim()) {
-          alert('Veuillez saisir votre réponse.');
-          return;
-        }
-        userAnswer = input.value;
-      }
-
-      const result = engine.submitAnswer(userAnswer);
-      if (!result) return;
-
-      this.displayAnswerFeedback(result, exercise);
-      this.updateHeaderProfile();
-      this.updateChapterMasteryUI(this.currentChapterId);
-      this.renderZpdGauge();
-    },
-
-    displayAnswerFeedback(result, exercise) {
-      const engine = window.MathsAdaptiveEngine;
-      const feedbackContainer = document.getElementById('exercise-feedback-zone');
-      const validateBtn = document.getElementById('btn-validate-answer');
-      const nextBtn = document.getElementById('btn-next-exercise');
-
-      if (!feedbackContainer) return;
-      feedbackContainer.style.display = 'block';
-
-      if (result.needsSimplification) {
-        if (window.MathsAudio) window.MathsAudio.playHint();
-        feedbackContainer.className = 'feedback-card feedback-warning';
-        feedbackContainer.innerHTML = `
-          <div class="feedback-header">
-            <span class="feedback-icon">💡</span>
-            <h4>${result.feedback}</h4>
-          </div>
-          <div class="feedback-solution" style="border-left-color: var(--warning, #f59e0b);">
-            <div class="feedback-solution-title" style="color: var(--warning, #f59e0b);">Conseil de simplification :</div>
-            <div class="feedback-solution-body">
-              <p class="math-p">Ta réponse <strong>${result.userFraction}</strong> a la bonne valeur numérique, mais <strong>elle n'est pas sous forme irréductible</strong>.</p>
-              <p class="math-p">Divise le numérateur et le dénominateur par leur plus grand diviseur commun, puis clique de nouveau sur <strong>Valider ma réponse</strong>.</p>
-            </div>
-          </div>
-        `;
-        window.MathsRenderer.renderElement(feedbackContainer);
-        this.announceFeedback(feedbackContainer);
-        if (validateBtn) validateBtn.style.display = 'inline-flex';
-        if (nextBtn) nextBtn.style.display = 'none';
-        const input = document.getElementById('math-user-input');
-        if (input) {
-          input.focus();
-          input.select();
-        }
-        return;
-      }
-
-      if (result.isCorrect) {
-        // Mettre à jour immédiatement l'état visuel des boutons de paliers (coche ✓, déblocage, palier actif)
-        this.renderTierButtons();
-
-        // Célébration Popup centrale (10s) si un palier ou un rang est déverrouillé
-        const hasCelebration = this.handleUnlockCelebration(result);
-        if (!hasCelebration) {
-          if (window.MathsAudio) window.MathsAudio.playCorrect();
-        }
-
-        // SUCCÈS
-        feedbackContainer.className = 'feedback-card feedback-success';
-        feedbackContainer.innerHTML = `
-          <div class="feedback-header">
-            <span class="feedback-icon">🎉</span>
-            <h4>${result.feedback}</h4>
-            <span class="xp-badge">+${result.xpEarned} XP</span>
-          </div>
-          ${result.leveledUp ? `<div class="level-up-banner">${result.levelUpMessage}</div>` : ''}
-          ${result.tierCapMessage ? `<div class="level-up-banner" style="background: rgba(37,99,235,0.08); border-color: rgba(37,99,235,0.3); color: var(--primary);">🎯 ${result.tierCapMessage}</div>` : ''}
-          ${result.solution ? `
-          <div class="feedback-solution">
-            <div class="feedback-solution-title">Explication / Solution détaillée :</div>
-            <div class="feedback-solution-body">${window.MathsRenderer.markdownToHtml((window.MathsAdaptiveEngine && exercise && exercise.statement) ? window.MathsAdaptiveEngine.formatSolutionWithInitialExpr(exercise.statement, result.solution) : result.solution)}</div>
-          </div>` : ''}
-        `;
-        window.MathsRenderer.renderElement(feedbackContainer);
-        this.announceFeedback(feedbackContainer);
-
-        if (validateBtn) validateBtn.style.display = 'none';
-        if (nextBtn) {
-          nextBtn.style.display = 'inline-flex';
-          // Si un palier vient d'être validé, inciter au passage au palier supérieur
-          if (result.newlyValidatedTiers && result.newlyValidatedTiers.length > 0 && result.newTier && result.newTier > (exercise.tier || 1)) {
-            const nextTierLabel = this.getTierButtonLabel(result.newTier, this.getCurrentChapterLevel());
-            nextBtn.innerHTML = `<span>Passer au ${nextTierLabel}</span> ➔`;
-            nextBtn.onclick = () => {
-              window.MathsAdaptiveEngine.setTier(result.newTier);
-              this.renderTrainingView();
-            };
-          } else if (result.tierCapReached && result.nextTierToAdvance) {
-            const nextTierLabel = this.getTierButtonLabel(result.nextTierToAdvance, this.getCurrentChapterLevel());
-            nextBtn.innerHTML = `<span>Passer au ${nextTierLabel}</span> ➔`;
-            nextBtn.onclick = () => {
-              window.MathsAdaptiveEngine.setTier(result.nextTierToAdvance);
-              this.renderTrainingView();
-            };
-          } else {
-            nextBtn.innerHTML = `<span>Exercice suivant</span> ➔`;
-            nextBtn.onclick = () => {
-              engine.nextExercise();
-              this.renderTrainingView();
-            };
+    // Bouton Réinitialiser le chapitre actuel à 0%
+    const resetChapBtn = document.getElementById('btn-reset-chapter-mastery');
+    if (resetChapBtn) {
+      resetChapBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const curChap = (window.MATHS_CHAPTERS || []).find(c => c.id === this.currentChapterId);
+        const chapName = curChap ? `${curChap.num} (${curChap.title})` : this.currentChapterId;
+        if (confirm(`Remettre à 0% la maîtrise du chapitre ${chapName} ?`)) {
+          window.MathsStorage.resetChapterProgress(this.currentChapterId);
+          window.MathsAdaptiveEngine.state.manualTierSelected = false;
+          window.MathsAdaptiveEngine.startChapterSession(this.currentChapterId);
+          this.renderChaptersGrid();
+          this.updateChapterMasteryUI(this.currentChapterId);
+          this.renderTrainingView();
+          if (this.currentTab === 'stats') {
+            this.renderStatsView();
           }
-          // Ne pas appeler focus() automatiquement sur nextBtn : l'élève doit avoir le temps de lire le commentaire
         }
-
-      } else {
-        // Effet sonore d'erreur ou d'indice
-        if (result.stage === 'hint1' || result.stage === 'hint2') {
-          if (window.MathsAudio) window.MathsAudio.playHint();
-        } else {
-          if (window.MathsAudio) window.MathsAudio.playIncorrect();
-        }
-
-        // ERREUR AVEC ÉTAYAGE BIENVEILLANT
-        feedbackContainer.className = 'feedback-card feedback-warning';
-
-        if (result.stage === 'hint1') {
-          feedbackContainer.innerHTML = `
-            <div class="feedback-header">
-              <span class="feedback-icon">💡</span>
-              <h4>${result.message}</h4>
-            </div>
-            <div class="hint-content">${window.MathsRenderer.markdownToHtml(result.hint)}</div>
-            <p class="retry-text">Tu peux modifier ta réponse et retenter ta chance !</p>
-          `;
-        } else if (result.stage === 'hint2') {
-          feedbackContainer.innerHTML = `
-            <div class="feedback-header">
-              <span class="feedback-icon">📖</span>
-              <h4>${result.message}</h4>
-            </div>
-            <div class="hint-content">${window.MathsRenderer.markdownToHtml(result.hint)}</div>
-            <p class="retry-text">Dernière tentative avant la correction complète.</p>
-          `;
-        } else {
-          // Solution finale
-          feedbackContainer.className = 'feedback-card feedback-danger';
-          feedbackContainer.innerHTML = `
-            <div class="feedback-header">
-              <span class="feedback-icon">📝</span>
-              <h4>${result.message}</h4>
-            </div>
-            ${result.solution ? `
-            <div class="feedback-solution">
-              <div class="feedback-solution-title">Explication / Solution détaillée :</div>
-              <div class="feedback-solution-body">${window.MathsRenderer.markdownToHtml((window.MathsAdaptiveEngine && exercise && exercise.statement) ? window.MathsAdaptiveEngine.formatSolutionWithInitialExpr(exercise.statement, result.solution) : result.solution)}</div>
-            </div>` : ''}
-            ${result.canStepDown ? `
-              <div class="step-down-box">
-                <p>${result.stepDownMessage}</p>
-                <button id="btn-step-down" class="btn-secondary btn-sm">Revenir au ${this.getTierButtonLabel(engine.state.currentTier - 1, this.getCurrentChapterLevel())}</button>
-              </div>
-            ` : ''}
-          `;
-          if (result.canStepDown) {
-            setTimeout(() => {
-              const btn = document.getElementById('btn-step-down');
-              if (btn) {
-                btn.onclick = () => {
-                  window.MathsAdaptiveEngine.setTier(window.MathsAdaptiveEngine.state.currentTier - 1);
-                  this.renderTrainingView();
-                };
-              }
-            }, 50);
-          }
-          if (validateBtn) validateBtn.style.display = 'none';
-          if (nextBtn) nextBtn.style.display = 'inline-flex';
-        }
-        window.MathsRenderer.renderElement(feedbackContainer);
-        this.announceFeedback(feedbackContainer);
-      }
-    },
-
-    showHint(num) {
-      if (window.MathsAudio) window.MathsAudio.playHint();
-      const hint = window.MathsAdaptiveEngine.requestHint(num);
-      if (!hint) return;
-      const feedbackContainer = document.getElementById('exercise-feedback-zone');
-      if (!feedbackContainer) return;
-      feedbackContainer.style.display = 'block';
-      feedbackContainer.className = 'feedback-card feedback-info';
-      feedbackContainer.innerHTML = `
-        <div class="feedback-header">
-          <span class="feedback-icon">${num === 1 ? '💡' : '📖'}</span>
-          <h4>${num === 1 ? 'Coup de pouce méthodologique' : 'Rappel de cours ciblé'}</h4>
-        </div>
-        <div class="hint-content">${window.MathsRenderer.markdownToHtml(hint)}</div>
-        ${num === 2 ? `
-          <div style="margin-top: 0.75rem; text-align: right;">
-            <button class="btn-secondary btn-sm" onclick="window.MathsApp.switchTab('course')" type="button">
-              📖 Consulter la fiche de cours complète ➔
-            </button>
-          </div>
-        ` : ''}
-      `;
-      window.MathsRenderer.renderElement(feedbackContainer);
-    },
+      });
+    }
 
     // Clavier virtuel mathématique
-    bindVirtualKeyboard() {
-      const toggleBtn = document.getElementById('btn-toggle-math-keyboard');
-      const keyboard = document.getElementById('virtual-math-keyboard');
+    this.bindVirtualKeyboard();
 
-      if (toggleBtn && keyboard) {
-        toggleBtn.addEventListener('click', () => {
-          const isHidden = keyboard.style.display === 'none' || !keyboard.style.display;
-          keyboard.style.display = isHidden ? 'grid' : 'none';
-          toggleBtn.classList.toggle('active', isHidden);
-        });
-      }
+    // Clic sur la flamme / série quotidienne (Daily Streak)
+    const streakPill = document.getElementById('header-streak-pill');
+    if (streakPill) {
+      streakPill.addEventListener('click', () => this.openStreakModal());
+    }
 
-      document.querySelectorAll('.key-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const input = document.getElementById('math-user-input');
-          if (!input) return;
-
-          const action = btn.dataset.action;
-          const val = btn.dataset.val;
-
-          const start = (input.selectionStart !== null && input.selectionStart !== undefined) ? input.selectionStart : input.value.length;
-          const end = (input.selectionEnd !== null && input.selectionEnd !== undefined) ? input.selectionEnd : input.value.length;
-
-          if (action === 'backspace') {
-            if (start === end && start > 0) {
-              input.setRangeText('', start - 1, start, 'end');
-            } else if (start !== end) {
-              input.setRangeText('', start, end, 'end');
-            }
-          } else if (action === 'clear') {
-            input.value = '';
-          } else if (action === 'enter') {
-            this.submitCurrentAnswer();
-            return;
-          } else if (val) {
-            input.setRangeText(val, start, end, 'end');
-          }
-
-          input.dispatchEvent(new Event('input'));
-          input.focus();
-        });
+    // Fermeture de la modale streak au clic sur le fond sombre
+    const streakModal = document.getElementById('streak-modal');
+    if (streakModal) {
+      streakModal.addEventListener('click', (e) => {
+        if (e.target === streakModal) this.closeStreakModal();
       });
-    },
+    }
 
-    // =========================================================================
-    // 2. ESPACE FICHE DE COURS SYNTHÉTIQUE
-    // =========================================================================
-    renderCourseView() {
-      const container = document.getElementById('course-content-container');
-      if (!container) return;
-      const lvlLabel = this.getLevelName(this.currentLevel);
+    // Clic sur le niveau / XP pour afficher le popup de progression
+    const levelPill = document.getElementById('header-level-pill');
+    if (levelPill) {
+      levelPill.addEventListener('click', () => this.openLevelModal());
+    }
+    const xpPill = document.getElementById('header-xp-pill');
+    if (xpPill) {
+      xpPill.addEventListener('click', () => this.openLevelModal());
+    }
 
-      const currentCycle = window.MathsStorage.getCycleForLevel(this.currentLevel);
-      const cycleInfo = this.CYCLES[currentCycle] || { name: 'Mathématiques' };
-      const course = (window.MATHS_COURSES || {})[this.currentChapterId];
-      const capesLesson = (window.CAPES_LESSONS || []).find(l => l.id.toLowerCase() === (this.currentChapterId || '').toLowerCase());
-      if (capesLesson) {
-        const isOral2 = capesLesson.id === 'capes-oral2';
-        const themeColor = isOral2 ? '#ec4899' : '#8b5cf6';
-        const badgeText = isOral2
-          ? "ÉPREUVE D'ENTRETIEN (ORAL 2) • ÉTHIQUE PROFESSIONNELLE & VALEURS DE LA RÉPUBLIQUE"
-          : "LEÇON DISCIPLINAIRE (ORAL 1) • CONCOURS DE L'ENSEIGNEMENT";
+    // Fermeture de la modale level au clic sur le fond sombre
+    const levelModal = document.getElementById('level-modal');
+    if (levelModal) {
+      levelModal.addEventListener('click', (e) => {
+        if (e.target === levelModal) this.closeLevelModal();
+      });
+    }
+  },
 
-        container.innerHTML = `
-          <div class="course-sheet-header">
-            <div class="course-header-titles">
-              <span class="badge-tag" style="background:${themeColor}; color:#fff; font-weight:800; font-size:0.75rem; padding:3px 10px; border-radius:12px; margin-bottom:0.5rem; display:inline-block;">${badgeText}</span>
-              <h2>${capesLesson.num} : ${capesLesson.title}</h2>
-              <div style="color:var(--text-muted); font-size:0.9rem; font-weight:600; margin-top:0.25rem;">Domaine : ${capesLesson.domain} • Niveau : ${capesLesson.level}</div>
-            </div>
-            <div class="course-header-actions">
-              <button class="btn-secondary no-print course-print-btn" onclick="window.print()" title="Imprimer la leçon"><span style="margin-right: 0.35rem;">🖨️</span>Imprimer la fiche</button>
-              <img src="assets/logo-96.png" alt="Logo L'Établi des Maths" class="course-header-logo" width="48" height="48" />
-            </div>
-          </div>
+  /** Éléments cliquables non natifs (div onclick, cartes) : rendus accessibles au clavier. */
+  CLICKABLE_SELECTOR: '[onclick]:not(button):not(a):not(input):not(select):not(textarea):not(label):not(.modal-overlay):not([class*="overlay"]), .chapter-trophy-card, .home-cycle-card',
 
-          <div class="course-card course-objectives">
-            <h3>${isOral2 ? '🎯 1. Textes Officiels & Cadre Institutionnel' : '🎯 1. Pré-requis & Cadre Mathématique Formel'}</h3>
-            <ul class="math-list">
-              ${(capesLesson.prerequisites || []).map(p => `<li>${p}</li>`).join('')}
-            </ul>
-          </div>
+  enhanceClickableA11y(root = document) {
+    const nodes = root.querySelectorAll ? root.querySelectorAll(this.CLICKABLE_SELECTOR) : [];
+    nodes.forEach(el => {
+      const handler = el.getAttribute('onclick') || '';
+      if (/event\.target\s*===\s*this/.test(handler)) return; // fermeture de fond de modale
+      if (!el.hasAttribute('role')) el.setAttribute('role', 'button');
+      if (!el.hasAttribute('tabindex')) el.setAttribute('tabindex', '0');
+    });
+  },
 
-          <div class="course-card">
-            <h3>${isOral2 ? '📋 2. Proposition de Plan & Synthèse Thématique' : '📋 2. Proposition de Plan en 3 Parties (Exposé au tableau)'}</h3>
-            <div class="course-card-body" style="display:flex; flex-direction:column; gap:1rem;">
-              ${(capesLesson.plan || []).map(p => `
-                <div style="background:var(--bg-subtle, #f8fafc); border-left:4px solid ${themeColor}; padding:0.9rem 1.1rem; border-radius:0 8px 8px 0;">
-                  <h4 style="margin:0 0 0.4rem 0; color:${themeColor}; font-size:1.02rem;">${p.part}</h4>
-                  <p class="math-p" style="margin:0;">${p.content}</p>
-                </div>
-              `).join('')}
-            </div>
-          </div>
+  bindClickableA11y() {
+    this.enhanceClickableA11y();
+    new MutationObserver(mutations => {
+      mutations.forEach(m => m.addedNodes.forEach(n => {
+        if (n.nodeType !== 1) return;
+        if (n.matches && n.matches(this.CLICKABLE_SELECTOR)) this.enhanceClickableA11y(n.parentNode || document);
+        else this.enhanceClickableA11y(n);
+      }));
+    }).observe(document.body, { childList: true, subtree: true });
+    // Entrée / Espace activent les éléments role="button" non natifs
+    document.addEventListener('keydown', e => {
+      const el = e.target;
+      if (!(e.key === 'Enter' || e.key === ' ') || !el || !el.matches || !el.matches('[role="button"]:not(button)')) return;
+      e.preventDefault();
+      e.stopPropagation();
+      el.click();
+    }, true);
+  },
 
-          <div class="course-card" style="border: 2px solid ${isOral2 ? 'rgba(236, 72, 153, 0.3)' : 'rgba(139, 92, 246, 0.3)'};">
-            <h3>${isOral2 ? '⚖️ 3. Cadre Juridique Fondamental & Jurisprudences de Référence' : '✍️ 3. Théorème Clé & Démonstration Complète au Tableau'}</h3>
-            <div class="course-card-body">
-              <div class="callout callout-info" style="margin-bottom:1rem; border-left:4px solid ${themeColor};">
-                <strong style="color:${themeColor};">${capesLesson.keyTheorem.title} :</strong>
-                <p class="math-p" style="margin-top:0.4rem;">${capesLesson.keyTheorem.statement}</p>
-              </div>
-              <h5 style="margin:0.75rem 0 0.5rem 0; font-size:0.95rem; font-weight:700; color:var(--text-main);">${isOral2 ? 'Jurisprudences & fondements juridiques :' : 'Démonstration rigoureuse :'}</h5>
-              <div style="background:var(--bg-surface); padding:0.85rem 1rem; border:1px solid var(--border-color); border-radius:6px; font-size:0.95rem; line-height:1.6;">
-                ${window.MathsRenderer.markdownToHtml(capesLesson.keyTheorem.proof)}
-              </div>
-            </div>
-          </div>
+  /**
+   * Accessibilité des modales : Échap ferme la modale du dessus, le focus y entre à
+   * l'ouverture, reste piégé dedans (Tab) et revient à l'élément d'origine à la fermeture.
+   */
+  bindModalA11y() {
+    const FOCUSABLE = 'button:not([disabled]), [href], input:not([disabled]), select, textarea, [tabindex]:not([tabindex="-1"])';
+    // offsetParent est null pour les éléments position:fixed (les fonds de modale) : on utilise getClientRects
+    const isOpen = m => m.style.display !== 'none' && m.getClientRects().length > 0;
+    const visible = el => el.getClientRects().length > 0;
+    const openModals = () => Array.from(document.querySelectorAll('.modal-overlay')).filter(isOpen);
+    const returnFocus = new Map();
 
-          <div class="course-card course-method">
-            <h3>${isOral2 ? '⏱️ 4. Focus Thématiques & Études de Cas Juridiques' : '⏱️ 4. Développements Types pour l\'Oral (15 minutes)'}</h3>
-            <ul class="math-list">
-              ${(capesLesson.developments || []).map(d => `<li>${d}</li>`).join('')}
-            </ul>
-          </div>
+    new MutationObserver(mutations => {
+      mutations.forEach(({ target: modal }) => {
+        const open = modal.style.display !== 'none';
+        if (open && !returnFocus.has(modal)) {
+          returnFocus.set(modal, document.activeElement);
+          setTimeout(() => {
+            if (!isOpen(modal) || modal.contains(document.activeElement)) return;
+            const first = Array.from(modal.querySelectorAll(FOCUSABLE)).find(visible);
+            (first || modal).focus({ preventScroll: true });
+          }, 60);
+        } else if (!open && returnFocus.has(modal)) {
+          const back = returnFocus.get(modal);
+          returnFocus.delete(modal);
+          if (back && document.contains(back) && back.focus) back.focus({ preventScroll: true });
+        }
+      });
+    }).observe(document.body, { attributes: true, attributeFilter: ['style'], subtree: true });
 
-          <div class="course-card" style="border-left: 4px solid #ef4444;">
-            <h3>${isOral2 ? '⚠️ 5. Questions Pièges du Jury & Posture Déontologique' : '⚠️ 5. Questions Pièges Classiques & Remarques du Jury'}</h3>
-            <ul class="math-list" style="color:var(--text-main);">
-              ${(capesLesson.juryTips || []).map(tip => `<li><strong>Attention :</strong> ${tip}</li>`).join('')}
-            </ul>
-          </div>
+    document.addEventListener('keydown', e => {
+      const modals = openModals();
+      if (!modals.length) return;
+      const top = modals[modals.length - 1];
+      if (e.key === 'Escape') {
+        const closeBtn = Array.from(top.querySelectorAll('.modal-close-btn, .reward-modal-close, [aria-label="Fermer"]')).find(visible);
+        if (closeBtn) {
+          e.preventDefault();
+          closeBtn.click();
+        }
+      } else if (e.key === 'Tab') {
+        const items = Array.from(top.querySelectorAll(FOCUSABLE)).filter(visible);
+        if (!items.length) return;
+        const first = items[0];
+        const last = items[items.length - 1];
+        if (!top.contains(document.activeElement)) {
+          e.preventDefault();
+          first.focus();
+        } else if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    });
+  },
 
-          <div class="course-print-footer print-only">
-            <span>L'Établi des Maths — Fiche ${isOral2 ? 'Oral 2' : 'de Leçon Concours'} CAPES / Agrégation</span>
-            <span>Auteur : Loïc Delaporte</span>
-          </div>
-        `;
-        window.MathsRenderer.renderElement(container);
+  /**
+   * Reflète la vue courante dans l'URL (?chapitre=ID) : liens partageables, bouton
+   * « Retour » du navigateur et pages explorables par les moteurs de recherche.
+   */
+  syncUrl(params) {
+    if (!this._urlSyncReady || this._restoringFromHistory || !window.history || !history.pushState) return;
+    const current = new URLSearchParams(location.search);
+    // Les paramètres d'outil d'un lien partagé (mode, palier…) restent tant qu'on ne change pas de vue
+    const sameView = (params.chapitre || null) === (current.get('chapitre') || current.get('chapter') || current.get('chap'));
+    if (sameView && (params.chapitre || !location.search)) return;
+    const qs = new URLSearchParams(params).toString();
+    history.pushState(params, '', qs ? `?${qs}` : location.pathname);
+    // Statistiques d'audience : une « page vue » par chapitre consulté
+    if (window.goatcounter && typeof window.goatcounter.count === 'function') {
+      window.goatcounter.count({ path: location.pathname + location.search });
+    }
+  },
+
+  bindHistoryNavigation() {
+    window.addEventListener('popstate', () => {
+      this._restoringFromHistory = true;
+      try {
+        const params = new URLSearchParams(location.search);
+        const chap = params.get('chapitre') || params.get('chapter') || params.get('chap');
+        if (chap && (window.MATHS_CHAPTERS || []).some(c => c.id === chap)) {
+          this.selectChapter(chap);
+          this.switchTab('train');
+          this.hideHomeView();
+        } else {
+          this.showHomeView();
+        }
+      } finally {
+        this._restoringFromHistory = false;
+      }
+    });
+  },
+
+  escapeHtml(str) {
+    return String(str).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  },
+
+  bindKeyboardShortcuts() {
+    document.addEventListener('keydown', (e) => {
+      const active = document.activeElement;
+      const activeTag = active ? active.tagName.toLowerCase() : '';
+      const isInputField = activeTag === 'input' || activeTag === 'textarea' || activeTag === 'select' || (active && active.isContentEditable);
+      const isAnswerField = isInputField && !!active.closest('#exercise-input-zone');
+
+      // Entrée/Espace sur un bouton ou un lien ciblé au clavier : laisser l'activation native
+      if ((e.key === 'Enter' || e.code === 'Space') && active && active !== document.body && active.matches('button, a[href], [role="button"], summary')) return;
+
+      // Si une modale est ouverte, ne pas interférer (flashcards, quiz, diaporama…)
+      const openModal = Array.from(document.querySelectorAll('.modal-overlay')).some(m => m.style.display !== 'none' && m.getClientRects().length > 0);
+      if (openModal) return;
+
+      // Ne pas intercepter la saisie dans un champ autre que la réponse de l'exercice (recherche…)
+      if (isInputField && !isAnswerField) return;
+
+      // Bouton « Question suivante » réellement visible (aucune boîte de rendu si l'onglet est masqué)
+      const nextBtn = document.getElementById('btn-next-exercise');
+      const isNextVisible = nextBtn && nextBtn.style.display !== 'none' && nextBtn.getClientRects().length > 0;
+
+      // Entrée avance toujours ; Espace et N seulement hors champ de saisie
+      if (isNextVisible && (e.key === 'Enter' || (!isInputField && (e.code === 'Space' || e.key === 'n' || e.key === 'N')))) {
+        e.preventDefault();
+        nextBtn.click();
         return;
       }
 
-      if (!course) {
-        const chMeta = (window.MATHS_CHAPTERS || []).find(c => c.id === this.currentChapterId);
-        if (chMeta) {
-          const isUniversity = ['L1', 'L2', 'L3', 'capes'].includes(this.currentLevel);
-          const resourceCallout = !isUniversity ? '' : `
-            <div class="callout callout-info" style="margin-top: 1.25rem; padding: 0.9rem; border-radius: 8px; background: var(--bg-hover, #f1f5f9); border-left: 4px solid var(--primary, #2563eb);">
-              🎓 <strong>Ressources universitaires (${cycleInfo.name}) :</strong> Définitions formelles, théorèmes fondamentaux et méthodologie d'après les enseignements magistraux et TD de Licence de Mathématiques.
-            </div>`;
-          container.innerHTML = `
-            <div class="course-sheet-header">
-              <div class="course-header-titles">
-                <h2>${chMeta.num} : ${chMeta.title}</h2>
-              </div>
-              <div class="course-header-actions">
-                <button class="btn-secondary no-print course-print-btn" onclick="window.print()" title="Imprimer le cours"><span style="margin-right: 0.35rem;">🖨️</span>Imprimer le cours</button>
-                <img src="assets/logo-96.png" alt="Logo L'Établi des Maths" class="course-header-logo" width="48" height="48" />
-              </div>
-            </div>
-            <div class="course-card course-objectives">
-              <h3>🎯 Attendus & Objectifs ${lvlLabel}</h3>
-              <ul class="math-list">
-                ${(chMeta.skills || []).map(s => `<li>${s}</li>`).join('')}
-              </ul>
-            </div>
-            <div class="course-card">
-              <h3>📖 Synthèse du chapitre & Notions clés</h3>
-              <div class="course-card-body">
-                <p class="math-p">${chMeta.description}</p>
-                ${resourceCallout}
-              </div>
-            </div>
-            <div class="course-card course-method">
-              <h3>⚡ Entraînement & Automatismes</h3>
-              <p class="math-p">Rendez-vous dans l'onglet <strong>🎯 S'entraîner</strong> pour pratiquer les 4 Paliers ZPD ou lancez un <strong>⏱️ Rituel Flash</strong> !</p>
-            </div>
-            <div class="course-print-footer print-only">
-              <span>L'Établi des Maths</span>
-              <span>Créé par Loïc Delaporte</span>
-            </div>
-          `;
-          window.MathsRenderer.renderElement(container);
+      if (isInputField) return;
+
+      // Raccourci H : Demander un indice
+      if (e.key === 'h' || e.key === 'H') {
+        const hint1Btn = document.getElementById('btn-hint-1');
+        const hint2Btn = document.getElementById('btn-hint-2');
+        if (window.MathsAdaptiveEngine.state.usedHintsCount === 0 && hint1Btn) {
+          e.preventDefault();
+          hint1Btn.click();
+        } else if (hint2Btn) {
+          e.preventDefault();
+          hint2Btn.click();
+        }
+        return;
+      }
+
+      // Raccourcis QCM : 1, 2, 3, 4 ou A, B, C, D
+      const mcqButtons = document.querySelectorAll('.mcq-opt-btn');
+      if (mcqButtons && mcqButtons.length > 0) {
+        let selectedIdx = -1;
+        if (e.key === '1' || e.key === 'a' || e.key === 'A') selectedIdx = 0;
+        else if (e.key === '2' || e.key === 'b' || e.key === 'B') selectedIdx = 1;
+        else if (e.key === '3' || e.key === 'c' || e.key === 'C') selectedIdx = 2;
+        else if (e.key === '4' || e.key === 'd' || e.key === 'D') selectedIdx = 3;
+
+        if (selectedIdx >= 0 && selectedIdx < mcqButtons.length) {
+          e.preventDefault();
+          mcqButtons[selectedIdx].click();
           return;
         }
-        container.innerHTML = `<p class="math-p">Fiche de cours en cours d'actualisation.</p>`;
-        return;
       }
 
-      let html = `
-        <div class="course-sheet-header">
-          <div class="course-header-titles">
-            <h2>${course.title}</h2>
-          </div>
-          <div class="course-header-actions">
-            <button class="btn-secondary no-print course-print-btn" onclick="window.print()" title="Imprimer le cours"><span style="margin-right: 0.35rem;">🖨️</span>Imprimer le cours</button>
-            <img src="assets/logo-96.png" alt="Logo L'Établi des Maths" class="course-header-logo" width="48" height="48" />
-          </div>
-        </div>
-      `;
-
-      // Objectifs
-      if (course.objectives && course.objectives.length) {
-        html += `
-          <div class="course-card course-objectives">
-            <h3>🎯 Attendus de fin de cycle & Objectifs ${lvlLabel}</h3>
-            <ul class="math-list">
-              ${course.objectives.map(o => `<li>${o}</li>`).join('')}
-            </ul>
-          </div>
-        `;
-      }
-
-      // Notions et Propriétés
-      if (course.keyPoints && course.keyPoints.length) {
-        course.keyPoints.forEach(kp => {
-          html += `
-            <div class="course-card">
-              <h3>${kp.title}</h3>
-              <div class="course-card-body">${window.MathsRenderer.markdownToHtml(kp.content)}</div>
-            </div>
-          `;
-        });
-      }
-
-      // Méthodes pas-à-pas
-      if (course.methods && course.methods.length) {
-        course.methods.forEach(m => {
-          html += `
-            <div class="course-card course-method">
-              <h3>⚡ ${m.title}</h3>
-              <div class="method-example"><strong>Exemple :</strong> ${window.MathsRenderer.markdownToHtml(m.example)}</div>
-              <div class="method-steps">
-                ${m.steps.map(s => `<div class="method-step-item">${window.MathsRenderer.markdownToHtml(s)}</div>`).join('')}
-              </div>
-            </div>
-          `;
-        });
-      }
-
-      // Pièges à éviter
-      if (course.traps && course.traps.length) {
-        html += `
-          <div class="course-card course-traps">
-            <h3>⚠️ Pièges fréquents</h3>
-            <ul>
-              ${course.traps.map(t => `<li>${window.MathsRenderer.markdownToHtml(t)}</li>`).join('')}
-            </ul>
-          </div>
-        `;
-      }
-
-      // Mode Cartes Flash / Mémorisation active
-      if (course.flashcards && course.flashcards.length) {
-        html += `
-          <div class="course-flashcards-section">
-            <div class="flashcards-header">
-              <div>
-                <h3>🗂️ Mémorisation Active & Flashcards de Révision</h3>
-                <span class="flashcards-subtitle">Teste ta mémoire sur les définitions, formules et théorèmes clés avant de t'entraîner</span>
-              </div>
-              <button class="btn-primary btn-sm-flashcards" onclick="window.MathsFlashcards.openModal('${this.currentChapterId}')" style="margin-left:auto;">
-                🚀 Lancer l'entraînement interactif (Boîte Leitner)
-              </button>
-            </div>
-            <div class="flashcards-grid">
-              ${course.flashcards.map((fc, idx) => `
-                <div class="flashcard-card" id="flashcard-card-${idx}">
-                  <span class="flashcard-pill">Flashcard #${idx + 1}</span>
-                  <div class="flashcard-question-text">${window.MathsRenderer.markdownToHtml(fc.q)}</div>
-                  <div class="flashcard-answer-box" id="flashcard-ans-${idx}" style="display: none;">
-                    <strong>Réponse :</strong>
-                    <div>${window.MathsRenderer.markdownToHtml(fc.a)}</div>
-                  </div>
-                  <button class="flashcard-btn-action" onclick="window.MathsApp.toggleFlashcard(${idx})">
-                    👁️ Révéler la réponse
-                  </button>
-                </div>
-              `).join('')}
-            </div>
-          </div>
-        `;
-      }
-
-      html += `
-        <div class="course-cta-box">
-          <p>Prêt à tester ta compréhension dans ta zone optimale ?</p>
-          <button class="btn-primary" onclick="window.MathsApp.switchTab('train')">Lancer l'entraînement adaptatif 🎯</button>
-        </div>
-        <div class="course-print-footer print-only">
-          <span>L'Établi des Maths</span>
-          <span>Créé par Loïc Delaporte</span>
-        </div>
-      `;
-
-      container.innerHTML = html;
-      window.MathsRenderer.renderElement(container);
-    },
-
-    toggleFlashcard(idx) {
-      const ansBox = document.getElementById(`flashcard-ans-${idx}`);
-      const card = document.getElementById(`flashcard-card-${idx}`);
-      if (!ansBox || !card) return;
-      const btn = card.querySelector('.flashcard-btn-action');
-      const isHidden = ansBox.style.display === 'none';
-      ansBox.style.display = isHidden ? 'block' : 'none';
-      if (btn) {
-        btn.innerHTML = isHidden ? '🙈 Masquer la réponse' : '👁️ Révéler la réponse';
-      }
-      if (isHidden) {
-        if (window.MathsAudio) window.MathsAudio.playHint();
-        window.MathsRenderer.renderElement(ansBox);
-      }
-    },
-
-    getChapterSheets(chapterId) {
-      const baseSheets = ((window.MATHS_WORKSHEETS || {})[chapterId] || []).slice();
-      if (!baseSheets.some(s => s.type === 'ds_type' || (s.id && s.id.includes('ds_type')))) {
-        const dsSheet = this.generatedDsByChapter[chapterId] || this.createDsTypeSheet(chapterId);
-        if (dsSheet) {
-          this.generatedDsByChapter[chapterId] = dsSheet;
-          baseSheets.push(dsSheet);
+      // Touche Entrée hors champ texte : valider si le bouton est visible
+      if (e.key === 'Enter') {
+        const validateBtn = document.getElementById('btn-validate-answer');
+        if (validateBtn && validateBtn.style.display !== 'none') {
+          e.preventDefault();
+          validateBtn.click();
         }
       }
-      if (this.generatedPracticeSheet && this.generatedPracticeSheet.chapterId === chapterId) {
-        baseSheets.push(this.generatedPracticeSheet);
-      }
-      return baseSheets;
-    },
+    });
+  },
 
-    getPedagogicalStage(tier) {
-      const stages = {
-        1: { label: 'Automatismes', prompt: 'Réactiver une règle ou une procédure connue.' },
-        2: { label: 'Application guidée', prompt: 'Repérer les données, choisir la méthode, puis l’appliquer.' },
-        3: { label: 'Raisonnement', prompt: 'Justifier la propriété utilisée et organiser les étapes du calcul.' },
-        4: { label: 'Problème et défi', prompt: 'Modéliser la situation, résoudre, puis vérifier et interpréter le résultat.' }
-      };
-      return stages[parseInt(tier, 10)] || stages[1];
-    },
+  /** Crédite de l'XP (flashcards, modes annexes) et rafraîchit l'en-tête. */
+  awardXP(points) {
+    if (!window.MathsStorage || !points) return null;
+    const result = window.MathsStorage.addXp(points);
+    this.updateHeaderProfile();
+    return result;
+  },
 
-    getExerciseCompetency(exercise, chapterId) {
-      if (exercise && exercise.skill) return exercise.skill;
-      if (exercise && exercise.title) return exercise.title;
-      const chapter = (window.MATHS_CHAPTERS || []).find(c => c.id === chapterId);
-      return chapter ? (chapter.shortTitle || chapter.title) : chapterId;
-    },
+  updateHeaderProfile() {
+    const data = window.MathsStorage.load();
+    const streakInfo = (window.MathsStorage && typeof window.MathsStorage.getDailyStreakInfo === 'function')
+      ? window.MathsStorage.getDailyStreakInfo()
+      : { streak: (data.user && data.user.streak) || 0, isActiveToday: false };
 
-    getMethodChecklist(tier, chapterId = '') {
-      const chapterMethods = {
-        G0: ['Repérer le triangle rectangle et son hypoténuse.', 'Écrire l’égalité de Pythagore, remplacer par les longueurs connues et calculer.', 'Conclure avec la longueur cherchée et son unité.'],
-        '4G1': ['Repérer le triangle rectangle et son hypoténuse.', 'Écrire l’égalité de Pythagore, remplacer par les longueurs connues et calculer.', 'Conclure avec la longueur cherchée et son unité.'],
-        G1: ['Vérifier les alignements et le parallélisme dans la configuration.', 'Écrire les rapports de Thalès dans le même ordre.', 'Calculer la longueur demandée et conclure avec son unité.'],
-        N4: ['Définir l’inconnue et traduire la situation en équation si nécessaire.', 'Résoudre en effectuant la même opération des deux côtés.', 'Vérifier la solution dans l’équation de départ et conclure.'],
-        '4N5': ['Définir l’inconnue et traduire la situation en équation si nécessaire.', 'Résoudre en effectuant la même opération des deux côtés.', 'Vérifier la solution dans l’équation de départ et conclure.'],
-        Org2: ['Organiser les valeurs ou le tableau d’effectifs.', 'Choisir l’indicateur demandé et effectuer le calcul ou lire le rang utile.', 'Interpréter le résultat dans le contexte.'],
-        '4D1': ['Organiser les valeurs ou le tableau d’effectifs.', 'Choisir l’indicateur demandé et effectuer le calcul ou lire le rang utile.', 'Interpréter le résultat dans le contexte.'],
-        Org4: ['Définir l’événement étudié et repérer les issues possibles.', 'Utiliser le dénombrement ou l’arbre adapté : multiplier sur un chemin, additionner les chemins concernés.', 'Simplifier la probabilité et vérifier qu’elle est comprise entre 0 et 1.'],
-        '4D2': ['Définir l’événement étudié et repérer les issues possibles.', 'Utiliser le dénombrement ou l’arbre adapté : multiplier sur un chemin, additionner les chemins concernés.', 'Simplifier la probabilité et vérifier qu’elle est comprise entre 0 et 1.'],
-        '5D2': ['Définir l’événement étudié et repérer les issues possibles.', 'Dénombrer les issues favorables et les issues possibles.', 'Simplifier la probabilité et vérifier qu’elle est comprise entre 0 et 1.']
-      };
-      if (chapterMethods[chapterId]) return chapterMethods[chapterId];
+    const levelEl = document.getElementById('header-user-level');
+    const xpEl = document.getElementById('header-user-xp');
+    const streakEl = document.getElementById('header-user-streak');
 
-      const checklists = {
-        1: ['Identifier la règle ou l’opération à utiliser.', 'Effectuer le calcul en respectant les priorités.', 'Vérifier rapidement le résultat.'],
-        2: ['Relever les données utiles et ce qui est demandé.', 'Choisir la propriété ou la méthode adaptée.', 'Appliquer la méthode et rédiger la réponse.'],
-        3: ['Annoncer la propriété ou le raisonnement utilisé.', 'Présenter les calculs dans un ordre lisible.', 'Conclure en répondant précisément à la question.'],
-        4: ['Traduire la situation en calcul, schéma ou modèle.', 'Résoudre en justifiant les étapes importantes.', 'Vérifier la cohérence et interpréter le résultat dans son contexte.']
-      };
-      return checklists[parseInt(tier, 10)] || checklists[1];
-    },
+    if (levelEl) levelEl.textContent = `Niveau ${data.user.level}`;
+    if (xpEl) xpEl.textContent = `${data.user.xp} XP`;
+    if (streakEl) {
+      const s = streakInfo.streak || 0;
+      streakEl.textContent = `🔥 ${s}`;
+      streakEl.title = streakInfo.isActiveToday
+        ? `Série : ${s} jour(s) d'affilée • Défi du jour validé ! (Clique pour voir les détails)`
+        : `Série : ${s} jour(s) d'affilée • Entraîne-toi aujourd'hui pour continuer ! (Clique pour voir les détails)`;
+    }
+  },
 
-    createDsTypeSheet(chapterId) {
-      const ch = (window.MATHS_CHAPTERS || []).find(c => c.id === chapterId);
-      const chTitle = ch ? (ch.shortTitle || ch.title) : chapterId;
-      const lvlLabel = this.getLevelName(this.currentLevel);
-      const staticExos = (window.MATHS_EXERCISES || {})[chapterId] || [];
-      const gen = window.MathsGenerators;
-      
-      const makeExercise = tier => (gen && gen.generateForChapter(chapterId, tier)) || staticExos.find(e => e.tier === tier) || null;
-      const ex1 = makeExercise(1);
-      const ex2 = makeExercise(2);
-      const ex3 = makeExercise(3);
-      const ex4 = makeExercise(4);
+  renderDomainNav() {
+    const navContainer = document.querySelector('.domain-filters-scroll');
+    if (!navContainer) return;
 
-      const items = [
-        { num: 1, name: "Automatismes & Questions flash", pts: 4, ex: ex1 },
-        { num: 2, name: "Application directe du cours", pts: 5, ex: ex2 },
-        { num: 3, name: "Raisonnement et calculs approfondis", pts: 5, ex: ex3 },
-        { num: 4, name: "Tâche complexe & Problème concret de modélisation", pts: 6, ex: ex4 }
-      ].filter(item => item.ex && item.ex.statement);
-
-      if (!items.length) return null;
-
-      let statementMd = `# Devoir Surveillé de Mathématiques (${lvlLabel})\n`;
-      statementMd += `## Sujet de DS Type : ${ch ? ch.title : chapterId} (Barème sur 20 points)\n\n`;
-      statementMd += `*Durée recommandée : 50 minutes. Calculatrice autorisée. La qualité de la rédaction, la clarté et la précision des justifications seront notées sur 20 points.*\n\n---\n\n`;
-
-      items.forEach(item => {
-        const tier = item.ex.tier || item.num;
-        const stage = this.getPedagogicalStage(tier);
-        const competency = this.getExerciseCompetency(item.ex, chapterId);
-        statementMd += `### Exercice ${item.num} — ${stage.label} : ${item.ex.title || item.name} (${item.pts} points)\n`;
-        statementMd += `*Compétence : ${competency} · Palier ${tier}*\n\n`;
-        statementMd += `${item.ex.statement}\n\n---\n\n`;
-      });
-
-      let solutionMd = `## Corrigé Détaillé et Barème Officiel du Devoir Surveillé (sur 20 points)\n\n`;
-      items.forEach(item => {
-        const tier = item.ex.tier || item.num;
-        const rawSol = item.ex.solution || (item.ex.answer ? `Réponse attendue : **${item.ex.answer}**` : "Voir le cours pour les étapes détaillées.");
-        const solContent = (window.MathsAdaptiveEngine && item.ex && item.ex.statement)
-          ? window.MathsAdaptiveEngine.formatSolutionWithInitialExpr(item.ex.statement, rawSol)
-          : rawSol;
-        solutionMd += `### Exercice ${item.num} — ${this.getPedagogicalStage(tier).label} : ${item.ex.title || item.name} (${item.pts} points)\n`;
-        solutionMd += `**Méthode à vérifier dans sa démarche :**\n${this.getMethodChecklist(tier, chapterId).map(step => `- ${step}`).join('\n')}\n\n${solContent}\n\n---\n\n`;
-      });
-
-      return {
-        id: `${chapterId}-ds_type_sommatif`,
-        filename: `DS_Type_${chapterId}.md`,
-        type: 'ds_type',
-        title: `📝 Sujet type de DS (20 pts)`,
-        statement: statementMd,
-        solution: solutionMd
-      };
-    },
-
-    generatePracticeSheet() {
-      const chapterId = this.currentChapterId;
-      if (window.MathsGenerators && window.MathsGenerators._recentGeneratedStatements) {
-        for (let t = 1; t <= 4; t++) {
-          delete window.MathsGenerators._recentGeneratedStatements[`${chapterId}:${t}`];
-        }
-      }
-      const ch = (window.MATHS_CHAPTERS || []).find(c => c.id === chapterId);
-      const title = ch ? ch.title : chapterId;
-      const gen = window.MathsGenerators;
-      const staticExos = (window.MATHS_EXERCISES || {})[chapterId] || [];
-      const items = [];
-      const usedStatements = new Set();
-      for (let i = 0; i < 8; i++) {
-        const tier = (i % 4) + 1;
-        let ex = null;
-        for (let attempt = 0; attempt < 8; attempt++) {
-          ex = (gen && gen.generateForChapter(chapterId, tier)) || staticExos.find(q => q.tier === tier) || staticExos[i % Math.max(1, staticExos.length)];
-          if (!ex || !ex.statement || !usedStatements.has(ex.statement)) break;
-        }
-        if (ex && ex.statement) {
-          usedStatements.add(ex.statement);
-          items.push({ ex, tier, num: items.length + 1 });
-        }
-      }
-      if (!items.length) return;
-
-      const statement = `# Fiche d'entraînement renouvelable — ${title}\n\n${[1, 2, 3, 4].map(tier => {
-        const stageItems = items.filter(item => item.tier === tier);
-        if (!stageItems.length) return '';
-        const stage = this.getPedagogicalStage(tier);
-        return `## ${stage.label}\n\n*${stage.prompt}*\n\n${stageItems.map(({ ex, num }) => `### Exercice ${num} : ${ex.title || 'Application'}\n\n**Compétence / notion :** ${this.getExerciseCompetency(ex, chapterId)} · **Palier ${tier}**\n\n${ex.statement}`).join('\n\n')}`;
-      }).filter(Boolean).join('\n\n---\n\n')}`;
-      const solution = `# Corrigé détaillé et méthodes\n\n${[1, 2, 3, 4].map(tier => {
-        const stageItems = items.filter(item => item.tier === tier);
-        if (!stageItems.length) return '';
-        const stage = this.getPedagogicalStage(tier);
-        return `## ${stage.label}\n\n${stageItems.map(({ ex, num }) => `### Exercice ${num} : ${ex.title || 'Application'}\n\n**Méthode à vérifier :**\n${this.getMethodChecklist(tier, chapterId).map(step => `- ${step}`).join('\n')}\n\n${ex.solution || `Réponse : **${ex.answer || 'à déterminer'}**`}`).join('\n\n')}`;
-      }).filter(Boolean).join('\n\n---\n\n')}`;
-      this.generatedPracticeSheet = {
-        id: `${chapterId}-fiche-renouvelable`,
-        chapterId,
-        type: 'devoir_entrainement',
-        title: `✨ Fiche d'entraînement renouvelée (${items.length} exercices)`,
-        statement,
-        solution
-      };
-      this.selectedSheetIndex = this.getChapterSheets(chapterId).length - 1;
-      this.renderSheetsView();
-    },
-
-    regenerateDs() {
-      const chapterId = this.currentChapterId;
-      if (window.MathsGenerators && window.MathsGenerators._recentGeneratedStatements) {
-        for (let t = 1; t <= 4; t++) {
-          delete window.MathsGenerators._recentGeneratedStatements[`${chapterId}:${t}`];
-        }
-      }
-      this.generatedDsByChapter[chapterId] = this.createDsTypeSheet(chapterId);
-      const sheets = this.getChapterSheets(chapterId);
-      this.selectedSheetIndex = Math.max(0, sheets.findIndex(s => s.type === 'ds_type'));
-      this.renderSheetsView();
-    },
-
-    // =========================================================================
-    // 3. ESPACE FICHES D'EXERCICES COMPLÈTES (IMPRESSION & SUJETS)
-    // =========================================================================
-    renderSheetsView() {
-      const container = document.getElementById('sheets-content-container');
-      if (!container) return;
-
-      const sheets = this.getChapterSheets(this.currentChapterId);
-      if (!sheets.length) {
-        const chMeta = (window.MATHS_CHAPTERS || []).find(c => c.id === this.currentChapterId);
-        const exos = (window.MATHS_EXERCISES || {})[this.currentChapterId] || [];
-        const currentCycle = window.MathsStorage.getCycleForLevel(this.currentLevel);
-        const cycleName = this.CYCLES[currentCycle] ? this.CYCLES[currentCycle].name : 'Maths';
-        const lvlLabel = this.getLevelName(this.currentLevel);
-        
-        container.innerHTML = `
-          <div class="sheets-nav-bar no-print">
-            <div class="sheets-tabs-group">
-              <button class="sheet-select-btn active">Fiche d'entraînement (${chMeta ? chMeta.shortTitle : this.currentChapterId})</button>
-            </div>
-            <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
-              <button class="btn-primary no-print" onclick="window.MathsQuizGenerator.openModal(window.MathsApp.currentChapterId)">📝 Devoir Surveillé (20 pts)</button>
-              <button class="btn-secondary no-print" onclick="window.MathsApp.generatePracticeSheet()">✨ Nouvelle fiche variée</button>
-              <button class="btn-secondary print-btn" onclick="window.print()">🖨️ Imprimer la fiche</button>
-            </div>
-          </div>
-          <div class="printable-worksheet">
-            <div class="sheet-print-header">
-              <h1>L'Établi des Maths • ${cycleName} — Mathématiques ${lvlLabel}</h1>
-              <h2>Fiche d'entraînement : ${chMeta ? chMeta.title : this.currentChapterId}</h2>
-              <div class="sheet-author-tag">Fiche créée par <strong>Loïc Delaporte</strong>, Professeur de Mathématiques</div>
-              <div class="print-meta">Nom : .................................... Prénom : .................................... Classe : .......... Date : ..........</div>
-            </div>
-            <div class="sheet-statement-content">
-              ${exos.length ? exos.map((ex, i) => `
-                <div style="margin-bottom: 1.25rem; padding: 0.9rem; border: 1px solid var(--border, #cbd5e1); border-radius: 8px;">
-                  <h4 style="margin-top:0; color: var(--primary, #2563eb);">Exercice ${i+1} : ${ex.title || 'Application directe'} (Palier ${ex.tier || 1})</h4>
-                  <div>${window.MathsRenderer.markdownToHtml(ex.statement)}</div>
-                </div>
-              `).join('') : `
-                <p class="math-p">Entraînez-vous avec les exercices interactifs dans l'onglet <strong>🎯 S'entraîner</strong> ou générez un sujet complet dans <strong>📝 Devoir Blanc</strong>.</p>
-              `}
-            </div>
-          </div>
-        `;
-        window.MathsRenderer.renderElement(container);
-        return;
-      }
-
-      if (this.selectedSheetIndex >= sheets.length) {
-        this.selectedSheetIndex = 0;
-      }
-
-      const activeSheet = sheets[this.selectedSheetIndex] || sheets[0];
-      const currentCycle = window.MathsStorage.getCycleForLevel(this.currentLevel);
-      const cycleName = this.CYCLES[currentCycle] ? this.CYCLES[currentCycle].name : 'Maths';
-      const lvlLabel = this.getLevelName(this.currentLevel);
-
-      let navHtml = `
-        <div class="sheets-nav-bar no-print">
-          <div class="sheets-tabs-group">
-            ${sheets.map((s, idx) => `
-              <button class="sheet-select-btn ${idx === this.selectedSheetIndex ? 'active' : ''}" onclick="window.MathsApp.selectSheet(${idx})">
-                ${s.title}
-              </button>
-            `).join('')}
-          </div>
-          <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
-            <button class="btn-secondary no-print" onclick="window.MathsApp.generatePracticeSheet()" title="Créer une fiche avec de nouveaux exercices pour ce chapitre">✨ Nouvelle fiche variée</button>
-            <button class="btn-secondary no-print" onclick="window.MathsApp.regenerateDs()" title="Renouveler les valeurs du sujet et de son corrigé">🔀 Renouveler le DS</button>
-            <button class="btn-primary no-print" onclick="window.MathsQuizGenerator.openModal(window.MathsApp.currentChapterId)" title="Générer un Devoir Surveillé complet calibré sur 20 points pour ce chapitre">
-              📝 Générer un DS (20 pts)
-            </button>
-            <button class="btn-secondary print-btn" onclick="window.print()">🖨️ Imprimer la fiche</button>
-          </div>
-        </div>
-      `;
-
-      let sheetBody = `
-        <div class="printable-worksheet">
-          <div class="sheet-print-header print-only">
-            <h1>L'Établi des Maths • ${cycleName} — Mathématiques ${lvlLabel}</h1>
-            <h2>${activeSheet.title} (${this.currentChapterId})</h2>
-            <div class="sheet-author-tag">Fiche d'exercices créée par <strong>Loïc Delaporte</strong>, Professeur de Mathématiques</div>
-            <div class="print-meta">Nom : .................................... Prénom : .................................... Classe : .......... Date : ..........</div>
-          </div>
-          
-          <div class="sheet-statement-content">
-            ${window.MathsRenderer.markdownToHtml(activeSheet.statement)}
-          </div>
-
-          ${activeSheet.solution ? `
-            <div class="sheet-solution-accordion no-print">
-              <button class="accordion-toggle-btn" onclick="window.MathsApp.toggleSheetSolution()">
-                <span>🔍 Afficher / Masquer la Correction détaillée</span>
-                <span id="solution-toggle-arrow">▼</span>
-              </button>
-              <div id="sheet-solution-wrapper" class="solution-content" style="display:none;">
-                ${window.MathsRenderer.markdownToHtml(activeSheet.solution)}
-              </div>
-            </div>
-          ` : ''}
-        </div>
-      `;
-
-      container.innerHTML = navHtml + sheetBody;
-      window.MathsRenderer.renderElement(container);
-    },
-
-    selectSheet(idx) {
-      this.selectedSheetIndex = idx;
-      this.renderSheetsView();
-    },
-
-    toggleSheetSolution() {
-      const wrapper = document.getElementById('sheet-solution-wrapper');
-      const arrow = document.getElementById('solution-toggle-arrow');
-      if (!wrapper) return;
-      const isHidden = wrapper.style.display === 'none';
-      wrapper.style.display = isHidden ? 'block' : 'none';
-      if (arrow) arrow.textContent = isHidden ? '▲' : '▼';
-    },
-
-    // =========================================================================
-    // 4. ESPACE PASSEPORT, BILAN & STATISTIQUES
-    // =========================================================================
-    renderStatsView() {
-      const container = document.getElementById('stats-content-container');
-      if (!container) return;
-
-      const data = window.MathsStorage.load();
-      const allChapters = window.MATHS_CHAPTERS || [];
-      const levelChapters = allChapters.filter(c => (c.level || '3eme') === this.currentLevel);
-      const levelName = this.getLevelName(this.currentLevel);
-
-      // Calcul des stats du niveau
-      let totalMastery = 0;
-      let completedExosCount = 0;
-
-      levelChapters.forEach(c => {
-        const p = data.chapters[c.id];
-        if (p) {
-          totalMastery += (p.mastery || 0);
-          completedExosCount += (p.completed || []).length;
-        }
-      });
-      const globalProgress = levelChapters.length ? Math.round(totalMastery / levelChapters.length) : 0;
-
-      let html = `
-        <div class="passport-author-banner">
-          <span>📐 <strong>L'Établi des Maths • Cycle 4 (${levelName})</strong> • Application et contenus conçus par <strong>Loïc Delaporte</strong>, Professeur de Mathématiques</span>
-        </div>
-
-        <div class="stats-overview-grid">
-          <div class="stat-card">
-            <span class="stat-icon">🎓</span>
-            <span class="stat-val">Niveau ${data.user.level}</span>
-            <span class="stat-lbl">Titre d'élève</span>
-          </div>
-          <div class="stat-card">
-            <span class="stat-icon">⚡</span>
-            <span class="stat-val">${data.user.xp} XP</span>
-            <span class="stat-lbl">Points d'expérience</span>
-          </div>
-          <div class="stat-card">
-            <span class="stat-icon">🎯</span>
-            <span class="stat-val">${completedExosCount}</span>
-            <span class="stat-lbl">Exercices maîtrisés</span>
-          </div>
-          <div class="stat-card">
-            <span class="stat-icon">📊</span>
-            <span class="stat-val">${globalProgress}%</span>
-            <span class="stat-lbl">Programme ${levelName} validé</span>
-          </div>
-        </div>
-
-        <div class="stats-section">
-          <h3>🏆 Badges d'Étapes & Jalons</h3>
-          <div class="badges-grid">
-            ${this.renderBadgesHtml(data.badges)}
-          </div>
-        </div>
-
-        <div class="stats-section">
-          <h3>🔥 Trophées de Régularité (Daily Streak)</h3>
-          <p class="math-p" style="margin-bottom: 1rem; font-size: 0.92rem; color: var(--text-muted);">
-            S'entraîner chaque jour entretient ta flamme et débloque des trophées d'assiduité : 1 semaine, 2 semaines, 1 mois, 2 mois, 6 mois et 1 an de persévérance !
-          </p>
-          <div class="badges-grid">
-            ${this.renderStreakBadgesHtml(data)}
-          </div>
-        </div>
-
-        <div class="stats-section">
-          <h3>🎖️ Rangs & Trophées par Chapitre — ${levelName}</h3>
-          <p class="math-p" style="margin-bottom: 1rem; font-size: 0.92rem; color: var(--text-muted);">
-            Valide les paliers d'entraînement pour faire évoluer ton titre : 🥉 <strong>Novice</strong> (Palier 1 validé) ➔ 🥈 <strong>Apprenti</strong> (Palier 2 validé) ➔ 🥇 <strong>Chevalier</strong> (Palier 3 validé) ➔ 💎 <strong>Maître</strong> (100% de la notion) !
-          </p>
-          <div class="chapter-trophies-grid">
-            ${this.renderChapterTrophiesHtml(levelChapters, data.badges, data.chapters)}
-          </div>
-        </div>
-
-        <div class="stats-section">
-          <h3>🗺️ Maîtrise par Chapitre — Classe de ${levelName} (${levelChapters.length} Thèmes)</h3>
-          <div class="chapters-mastery-list">
-            ${levelChapters.map(c => {
-              const p = data.chapters[c.id] || { mastery: 0, currentTier: 1, completed: [], validatedTiers: [] };
-              const valTiers = p.validatedTiers || [];
-              let highestTier = 0;
-              if (p.mastery >= 100 || valTiers.includes(4) || (data.badges || []).some(b => b.id === `${c.id}_tier_4`)) {
-                highestTier = 4;
-              } else if (valTiers.includes(3) || (data.badges || []).some(b => b.id === `${c.id}_tier_3`) || p.mastery >= 75 || p.currentTier >= 4) {
-                highestTier = 3;
-              } else if (valTiers.includes(2) || (data.badges || []).some(b => b.id === `${c.id}_tier_2`) || p.mastery >= 50 || p.currentTier >= 3) {
-                highestTier = 2;
-              } else if (valTiers.includes(1) || (data.badges || []).some(b => b.id === `${c.id}_tier_1`) || p.mastery >= 25 || p.currentTier >= 2) {
-                highestTier = 1;
-              }
-              const currentRank = highestTier > 0 
-                ? (window.MathsAdaptiveEngine ? window.MathsAdaptiveEngine.getChapterRankTitle(c, highestTier) : `Palier ${highestTier}`)
-                : 'Non débloqué';
-              return `
-                <div class="mastery-row">
-                  <div class="mastery-left">
-                    <span class="mastery-code" style="color:${c.color}; font-weight:bold;">${c.num}</span>
-                    <span class="mastery-name">${c.shortTitle || c.title}</span>
-                  </div>
-                  <div class="mastery-bar-wrapper">
-                    <div class="mastery-bar-fill" style="width:${p.mastery || 0}%; background-color:${c.color};"></div>
-                  </div>
-                  <span class="mastery-percent">${p.mastery || 0}% — <strong>${currentRank}</strong></span>
-                </div>
-              `;
-            }).join('')}
-          </div>
-        </div>
-
-        <div class="stats-footer-actions no-print">
-          <button class="btn-secondary" onclick="window.MathsStorage.exportToJson()" title="Télécharger un fichier de sauvegarde de ta progression">💾 Sauvegarder ma progression</button>
-          <button class="btn-secondary" onclick="window.MathsApp.handleImportProgress()" title="Restaurer une progression depuis un fichier de sauvegarde">📂 Restaurer une sauvegarde</button>
-          <button class="btn-danger" onclick="window.MathsApp.handleResetProgress()">🔄 Réinitialiser ma progression</button>
-        </div>
-      `;
-
-      container.innerHTML = html;
-    },
-
-    renderBadgesHtml(unlockedBadges = []) {
-      const lvl = this.getCurrentChapterLevel();
-      let tier4Title = 'Cap vers la Seconde';
-      let tier4Desc = 'Débloquer le palier 4 (Défi Seconde)';
-      if (lvl === '6eme') {
-        tier4Title = 'Cap vers la 5ème';
-        tier4Desc = 'Débloquer le palier 4 (Défi 5ème)';
-      } else if (lvl === '5eme') {
-        tier4Title = 'Cap vers la 4ème';
-        tier4Desc = 'Débloquer le palier 4 (Défi 4ème)';
-      } else if (lvl === '4eme') {
-        tier4Title = 'Cap vers la 3ème';
-        tier4Desc = 'Débloquer le palier 4 (Défi 3ème)';
-      } else if (lvl === '2nde') {
-        tier4Title = 'Cap vers la 1ère Spé';
-        tier4Desc = 'Débloquer le palier 4 (Défi 1ère Spé)';
-      } else if (lvl === '1ere' || lvl === 'tale' || lvl === 'lycee') {
-        tier4Title = 'Excellence Baccalauréat';
-        tier4Desc = 'Débloquer le palier 4 (Défi & Approfondissement)';
-      } else if (['L1', 'L2', 'L3', 'licence', 'capes'].includes(lvl)) {
-        tier4Title = 'Rigueur Universitaire & Concours';
-        tier4Desc = 'Débloquer le palier 4 (Démonstrations & Rigueur)';
-      }
-      const unlockedTier4 = (unlockedBadges || []).find(ub => ub.id === 'tier_4_unlocked');
-
-      const allPossibleBadges = [
-        { id: 'first_step', title: 'Premier Pas', desc: 'Compléter un exercice avec succès', icon: '🎯' },
-        { id: 'level_3', title: 'Apprenti Géomètre', desc: "Atteindre le Niveau 3 d'expérience", icon: '📐' },
-        { id: 'level_5', title: 'Maître du Calcul', desc: "Atteindre le Niveau 5 d'expérience", icon: '⚡' },
-        { 
-          id: 'tier_4_unlocked', 
-          title: unlockedTier4 ? (unlockedTier4.title || tier4Title) : tier4Title, 
-          desc: unlockedTier4 ? (unlockedTier4.description || tier4Desc) : tier4Desc, 
-          icon: '🚀' 
-        }
+    let filters = [];
+    if (this.currentLevel === 'capes') {
+      filters = [
+        { domain: 'all', label: 'Tous' },
+        { domain: 'oral1', label: '📐 Oral 1 : Leçons' },
+        { domain: 'oral2', label: '⚖️ Oral 2 : Entretien' }
       ];
+    } else {
+      filters = [
+        { domain: 'all', label: 'Tous' },
+        { domain: 'nombres', label: '🔢 Nombres' },
+        { domain: 'geometrie', label: '📐 Géométrie' },
+        { domain: 'fonctions', label: this.currentLevel === '6eme' ? '📊 Données & proportionnalité' : '📈 Fonctions' },
+        { domain: 'algo', label: '💻 Algo' }
+      ];
+    }
 
-      return allPossibleBadges.map(b => {
-        const isUnlocked = (unlockedBadges || []).some(ub => ub.id === b.id);
-        return `
-          <div class="badge-item ${isUnlocked ? 'unlocked' : 'locked'}">
-            <span class="badge-emoji">${b.icon}</span>
-            <div class="badge-info">
-              <strong>${b.title}</strong>
-              <small>${b.desc}</small>
-            </div>
-          </div>
-        `;
-      }).join('');
-    },
+    // S'assurer que le filtre actif est valide pour le niveau actuel
+    const validDomains = filters.map(f => f.domain);
+    if (!validDomains.includes(this.currentFilterDomain)) {
+      this.currentFilterDomain = 'all';
+    }
 
-    renderStreakBadgesHtml(data) {
-      const milestones = (window.MathsStorage && typeof window.MathsStorage.getStreakMilestones === 'function')
-        ? window.MathsStorage.getStreakMilestones(data)
-        : [];
+    navContainer.innerHTML = filters.map(f => `
+      <button class="domain-filter-btn ${f.domain === this.currentFilterDomain ? 'active' : ''}" data-domain="${f.domain}">
+        ${f.label}
+      </button>
+    `).join('');
 
-      return milestones.map(m => {
-        const statusText = m.isUnlocked 
-          ? '<span style="color: var(--success, #10b981); font-weight: 700;">Obtenu ✓</span>' 
-          : `<span style="color: var(--text-muted);">${m.current} / ${m.days} j (${m.progressPct}%)</span>`;
+    navContainer.querySelectorAll('.domain-filter-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        navContainer.querySelectorAll('.domain-filter-btn').forEach(b => b.classList.remove('active'));
+        e.currentTarget.classList.add('active');
+        this.currentFilterDomain = e.currentTarget.dataset.domain;
+        this.renderChaptersGrid();
+      });
+    });
+  },
 
-        return `
-          <div class="badge-item ${m.isUnlocked ? 'unlocked' : 'locked'}">
-            <span class="badge-emoji">${m.icon}</span>
-            <div class="badge-info">
-              <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 0.35rem;">
-                <strong>${m.title}</strong>
-                <span class="streak-trophy-pill" style="font-size: 0.7rem;">${m.label}</span>
-              </div>
-              <small>${m.desc} • ${statusText}</small>
-            </div>
-          </div>
-        `;
-      }).join('');
-    },
+  renderChaptersGrid() {
+    const container = document.getElementById('chapters-list-container');
+    if (!container) return;
 
-    renderChapterTrophiesHtml(chapters, unlockedBadges = [], chaptersData = {}) {
-      const engine = window.MathsAdaptiveEngine;
-      return chapters.map(c => {
-        const p = chaptersData[c.id] || { mastery: 0, currentTier: 1, validatedTiers: [] };
-        const valTiers = p.validatedTiers || [];
-
-        // Règle de déblocage stricte :
-        // 1. Pour Maître : il faut 100% de la notion (p.mastery >= 100)
-        // 2. Si palier 3 validé : débloque Chevalier
-        // 3. Si palier 2 validé : débloque Apprenti
-        // 4. Si palier 1 validé : débloque Novice
-        let highestTier = 0;
-        if (p.mastery >= 100 || valTiers.includes(4) || (unlockedBadges || []).some(b => b.id === `${c.id}_tier_4`)) {
-          highestTier = 4;
-        } else if (valTiers.includes(3) || (unlockedBadges || []).some(b => b.id === `${c.id}_tier_3`) || p.mastery >= 75 || p.currentTier >= 4) {
-          highestTier = 3;
-        } else if (valTiers.includes(2) || (unlockedBadges || []).some(b => b.id === `${c.id}_tier_2`) || p.mastery >= 50 || p.currentTier >= 3) {
-          highestTier = 2;
-        } else if (valTiers.includes(1) || (unlockedBadges || []).some(b => b.id === `${c.id}_tier_1`) || p.mastery >= 25 || p.currentTier >= 2) {
-          highestTier = 1;
-        }
-
-        const tierMedals = { 1: '🥉', 2: '🥈', 3: '🥇', 4: '💎' };
-        const tierLabels = {
-          1: 'Palier 1 validé',
-          2: 'Palier 2 validé',
-          3: 'Palier 3 validé',
-          4: '100% de la notion validé'
-        };
-
-        const rankTitle = highestTier > 0 
-          ? (engine ? engine.getChapterRankTitle(c, highestTier) : `Palier ${highestTier}`)
-          : (engine ? engine.getChapterRankTitle(c, 1) : 'Novice');
-
-        const medal = highestTier > 0 ? tierMedals[highestTier] : '🔒';
-        const statusLabel = highestTier > 0 ? tierLabels[highestTier] : 'Objectif : Palier 1';
-        const displayTitle = highestTier > 0 ? rankTitle : `Objectif : ${rankTitle}`;
-
-        return `
-          <div class="chapter-trophy-card ${highestTier > 0 ? 'unlocked tier-' + highestTier : 'locked'}" 
-               onclick="window.MathsApp.startChapterTier('${c.id}', ${highestTier > 0 ? highestTier : 1})"
-               title="Clique pour t'entraîner sur ${c.shortTitle || c.title}">
-            <div class="chapter-trophy-header">
-              <div class="chapter-trophy-title-wrap">
-                <span class="chapter-trophy-code" style="color: ${c.color}; border-color: ${c.color}40; background-color: ${c.color}15;">${c.num}</span>
-                <strong class="chapter-trophy-name" title="${c.title}">${c.shortTitle || c.title}</strong>
-              </div>
-              <span class="chapter-trophy-mastery">${p.mastery || 0}%</span>
-            </div>
-
-            <div class="chapter-single-rank-banner">
-              <span class="rank-single-medal">${medal}</span>
-              <div class="rank-single-text">
-                <span class="rank-single-status">${statusLabel}</span>
-                <strong class="rank-single-title">${displayTitle}</strong>
-              </div>
-            </div>
-          </div>
-        `;
-      }).join('');
-    },
-
-    startChapterTier(chapterId, tier = 1) {
-      if (!chapterId) return;
-      this.selectChapter(chapterId);
-      this.switchTab('train');
-      if (tier && tier >= 1 && tier <= 4) {
-        if (window.MathsAdaptiveEngine) {
-          window.MathsAdaptiveEngine.setTier(tier);
-        }
-        this.renderTrainingView();
-      }
-    },
-
-    /** Annonce un message aux lecteurs d'écran (zone aria-live invisible). */
-    announce(msg) {
-      let live = document.getElementById('sr-live-region');
-      if (!live) {
-        live = document.createElement('div');
-        live.id = 'sr-live-region';
-        live.className = 'sr-only';
-        live.setAttribute('aria-live', 'assertive');
-        live.setAttribute('role', 'status');
-        document.body.appendChild(live);
-      }
-      live.textContent = '';
-      setTimeout(() => { live.textContent = msg; }, 50);
-    },
-
-    /** Annonce le titre du retour de correction (juste / faux / indice). */
-    announceFeedback(container) {
-      const h = container && container.querySelector('.feedback-header h4');
-      if (h) this.announce(h.textContent.trim());
-    },
-
-    showToast(msg, duration = 3500) {
-      let toast = document.getElementById('app-toast');
-      if (!toast) {
-        toast = document.createElement('div');
-        toast.id = 'app-toast';
-        toast.className = 'app-toast';
-        toast.setAttribute('role', 'status');
-        toast.setAttribute('aria-live', 'polite');
-        document.body.appendChild(toast);
-      }
-      toast.innerHTML = msg;
-      toast.classList.add('visible');
-      clearTimeout(this._toastTimeout);
-      this._toastTimeout = setTimeout(() => {
-        toast.classList.remove('visible');
-      }, duration);
-    },
-
-    shareCurrentTraining() {
-      const chapterId = this.currentChapterId;
-      const currentTier = (window.MathsAdaptiveEngine && window.MathsAdaptiveEngine.state && window.MathsAdaptiveEngine.state.currentTier) || 1;
-      const chapter = (window.MATHS_CHAPTERS || []).find(c => c.id === chapterId);
-      const chapterName = chapter ? (chapter.shortTitle || chapter.title) : chapterId;
-
-      const url = new URL(window.location.href);
-      url.searchParams.set('chapitre', chapterId);
-      url.searchParams.set('palier', currentTier);
-      const shareUrl = url.toString();
-
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(shareUrl).then(() => {
-          this.showToast(`🔗 <strong>Lien copié !</strong><br><small>${chapterName} — Palier ${currentTier}</small>`);
-        }).catch(() => {
-          prompt('Lien à copier :', shareUrl);
+    const allChapters = window.MATHS_CHAPTERS || [];
+    const levelChapters = allChapters.filter(c => (c.level || '3eme') === this.currentLevel);
+    let filtered = this.currentFilterDomain === 'all'
+      ? levelChapters
+      : levelChapters.filter(c => {
+          if (this.currentLevel === 'capes') {
+            if (this.currentFilterDomain === 'oral1') return c.id !== 'capes-oral2' && c.domain !== 'oral2';
+            if (this.currentFilterDomain === 'oral2') return c.id === 'capes-oral2' || c.domain === 'oral2';
+          }
+          if (c.domain === this.currentFilterDomain) return true;
+          if (this.currentFilterDomain === 'nombres' && (c.domain === 'algebre' || c.domain === 'arithmetique')) return true;
+          if (this.currentFilterDomain === 'geometrie' && (c.domain === 'espace' || c.domain === 'vecteurs' || c.domain === 'trigo')) return true;
+          if (this.currentFilterDomain === 'fonctions' && (c.domain === 'gestion' || c.domain === 'analyse' || c.domain === 'suites' || c.domain === 'calcul')) return true;
+          if (this.currentFilterDomain === 'algo' && (c.domain === 'stats' || c.domain === 'probas' || c.domain === 'numerique' || c.domain === 'python')) return true;
+          return false;
         });
-      } else {
-        prompt('Lien à copier :', shareUrl);
+
+    const query = (this.searchQuery || '').trim().toLowerCase();
+    if (query) {
+      filtered = filtered.filter(c => {
+        const idMatch = c.id.toLowerCase().includes(query);
+        const numMatch = (c.num || '').toLowerCase().includes(query);
+        const titleMatch = (c.title || '').toLowerCase().includes(query);
+        const shortTitleMatch = (c.shortTitle || '').toLowerCase().includes(query);
+        const domainMatch = (c.domainName || '').toLowerCase().includes(query);
+        const descMatch = (c.description || '').toLowerCase().includes(query);
+        return idMatch || numMatch || titleMatch || shortTitleMatch || domainMatch || descMatch;
+      });
+    }
+
+    container.innerHTML = '';
+
+    if (filtered.length === 0) {
+      container.innerHTML = `
+        <div style="padding: 1.5rem 0.5rem; text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+          🔍 Aucun chapitre ne correspond à "<strong>${this.escapeHtml(this.searchQuery)}</strong>".
+        </div>
+      `;
+      return;
+    }
+
+    filtered.forEach(chap => {
+      const progress = window.MathsStorage.getChapterProgress(chap.id);
+      const card = document.createElement('button');
+      card.className = `chapter-card ${chap.id === this.currentChapterId ? 'active' : ''}`;
+      card.setAttribute('data-chapter-id', chap.id);
+
+      card.innerHTML = `
+        <div class="chap-badge-id" style="background-color: ${chap.color}20; color: ${chap.color};">
+          ${chap.num}
+        </div>
+        <div class="chap-info">
+          <span class="chap-title">${chap.shortTitle || chap.title}</span>
+          <span class="chap-desc">${chap.domainName}</span>
+        </div>
+        <div class="chap-progress-pill">
+          <div class="pill-fill" style="width: ${progress.mastery || 0}%;"></div>
+          <span class="pill-text">${progress.mastery || 0}%</span>
+        </div>
+      `;
+
+      card.addEventListener('click', () => {
+        this.selectChapter(chap.id);
+      });
+
+      container.appendChild(card);
+    });
+  },
+
+  selectChapter(chapterId) {
+    const chapter = (window.MATHS_CHAPTERS || []).find(c => c.id === chapterId);
+    if (!chapter) return;
+    if (!this.isLevelReady(chapter.level)) return this.whenLevelReady(chapter.level, () => this.selectChapter(chapterId));
+    this.currentChapterId = chapterId;
+    this.syncUrl({ chapitre: chapterId });
+
+    // Synchroniser le niveau actif si nécessaire
+    if (chapter.level && chapter.level !== this.currentLevel) {
+      this.switchLevel(chapter.level, false);
+    }
+    this.hideHomeView();
+    if (window.MathsStorage && window.MathsStorage.setLastActiveChapter) {
+      window.MathsStorage.setLastActiveChapter(chapter.id, window.MathsAdaptiveEngine ? window.MathsAdaptiveEngine.state.currentTier : 1);
+    }
+    this.updateTierButtonsUI();
+
+    // Mise à jour de la sélection dans la barre latérale / grille
+    document.querySelectorAll('.chapter-card').forEach(c => {
+      c.classList.toggle('active', c.dataset.chapterId === chapterId);
+    });
+
+    // En-tête du chapitre
+    const titleEl = document.getElementById('chapter-hero-title');
+    const domainEl = document.getElementById('chapter-hero-domain');
+    const descEl = document.getElementById('chapter-hero-desc');
+    const masteryEl = document.getElementById('chapter-hero-mastery');
+    const masteryFill = document.getElementById('chapter-hero-mastery-fill');
+
+    // Mise à jour de la barre mobile de sélection de chapitre et fermeture du tiroir
+    const mobileLabel = document.getElementById('mobile-chapter-label');
+    if (mobileLabel) {
+      mobileLabel.textContent = `${chapter.num || chapter.id} : ${chapter.shortTitle || chapter.title}`;
+    }
+    const sidebarChapters = document.getElementById('sidebar-chapters');
+    if (sidebarChapters) {
+      sidebarChapters.classList.remove('mobile-open');
+    }
+    const mobileArrow = document.getElementById('mobile-chapter-arrow');
+    if (mobileArrow) {
+      mobileArrow.textContent = '▾';
+    }
+    const mobileBtn = document.getElementById('mobile-chapter-btn');
+    if (mobileBtn) {
+      mobileBtn.setAttribute('aria-expanded', 'false');
+    }
+
+    const progress = window.MathsStorage.getChapterProgress(chapterId);
+
+    if (titleEl) titleEl.textContent = `${chapter.num} : ${chapter.title}`;
+    if (domainEl) {
+      domainEl.textContent = chapter.domainName;
+      domainEl.style.backgroundColor = `${chapter.color}20`;
+      domainEl.style.color = chapter.color;
+    }
+    if (descEl) descEl.textContent = chapter.description;
+
+    // Démarrage de la session adaptative ZPD
+    window.MathsAdaptiveEngine.startChapterSession(chapterId);
+
+    // Mise à jour réactive immédiate de la jauge de maîtrise (héro + barre latérale)
+    this.updateChapterMasteryUI(chapterId);
+
+    // Mise à jour du bouton contextuel Labo 2D/3D
+    this.updateVisualizerButtonUI(chapterId);
+
+    // Rafraîchir l'onglet actif
+    this.refreshCurrentTab();
+  },
+
+  updateChapterMasteryUI(chapterId) {
+    if (!chapterId) chapterId = this.currentChapterId;
+    if (!chapterId) return;
+
+    const progress = window.MathsStorage.getChapterProgress(chapterId);
+    const mastery = progress.mastery || 0;
+
+    // 1. Jauge héro dans l'en-tête du chapitre actif
+    const masteryEl = document.getElementById('chapter-hero-mastery');
+    const masteryFill = document.getElementById('chapter-hero-mastery-fill');
+    if (masteryEl) masteryEl.textContent = `${mastery}%`;
+    if (masteryFill) masteryFill.style.width = `${mastery}%`;
+
+    // 1b. Pastille de maîtrise sur la barre mobile de sélection
+    const mobileMasteryTag = document.getElementById('mobile-chapter-mastery-tag');
+    if (mobileMasteryTag) {
+      mobileMasteryTag.textContent = `${mastery}%`;
+      mobileMasteryTag.className = 'm-chap-mastery-pill' + (mastery >= 80 ? ' high' : (mastery >= 40 ? ' mid' : ''));
+    }
+
+    // 2. Pastille de progression sur la carte latérale du chapitre
+    const card = document.querySelector(`.chapter-card[data-chapter-id="${chapterId}"]`);
+    if (card) {
+      const pillFill = card.querySelector('.pill-fill');
+      const pillText = card.querySelector('.pill-text');
+      if (pillFill) pillFill.style.width = `${mastery}%`;
+      if (pillText) pillText.textContent = `${mastery}%`;
+    }
+
+    // 3. Rafraîchir l'onglet ou modale de bilan si ouverte
+    const modal = document.getElementById('stats-modal');
+    if (modal && modal.classList.contains('active')) {
+      this.renderStatsModal();
+    }
+  },
+
+  switchTab(tabName) {
+    this.currentTab = tabName;
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.tab === tabName);
+    });
+    document.querySelectorAll('.tab-pane').forEach(pane => {
+      pane.classList.toggle('active', pane.id === `tab-pane-${tabName}`);
+    });
+    this.refreshCurrentTab();
+  },
+
+  refreshCurrentTab() {
+    if (this.currentTab === 'train') {
+      this.renderTrainingView();
+    } else if (this.currentTab === 'course') {
+      this.renderCourseView();
+    } else if (this.currentTab === 'sheets') {
+      this.renderSheetsView();
+    } else if (this.currentTab === 'stats') {
+      this.renderStatsView();
+    }
+  },
+
+  /** Annonce un message aux lecteurs d'écran (zone aria-live invisible). */
+  announce(msg) {
+    let live = document.getElementById('sr-live-region');
+    if (!live) {
+      live = document.createElement('div');
+      live.id = 'sr-live-region';
+      live.className = 'sr-only';
+      live.setAttribute('aria-live', 'assertive');
+      live.setAttribute('role', 'status');
+      document.body.appendChild(live);
+    }
+    live.textContent = '';
+    setTimeout(() => { live.textContent = msg; }, 50);
+  },
+
+  /** Annonce le titre du retour de correction (juste / faux / indice). */
+  announceFeedback(container) {
+    const h = container && container.querySelector('.feedback-header h4');
+    if (h) this.announce(h.textContent.trim());
+  },
+
+  showToast(msg, duration = 3500) {
+    let toast = document.getElementById('app-toast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'app-toast';
+      toast.className = 'app-toast';
+      toast.setAttribute('role', 'status');
+      toast.setAttribute('aria-live', 'polite');
+      document.body.appendChild(toast);
+    }
+    toast.innerHTML = msg;
+    toast.classList.add('visible');
+    clearTimeout(this._toastTimeout);
+    this._toastTimeout = setTimeout(() => {
+      toast.classList.remove('visible');
+    }, duration);
+  },
+
+  checkUrlShareParams() {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const chapParam = params.get('chapitre') || params.get('chapter') || params.get('chap');
+      const tierParam = parseInt(params.get('palier') || params.get('tier'), 10);
+      const levelParam = params.get('level') || params.get('niveau');
+      const modeParam = (params.get('mode') || params.get('tool') || '').toLowerCase();
+
+      const autoGen = params.get('generate') === '1' || (modeParam === 'quiz' || modeParam === 'devoir');
+
+      // Charger d'abord les données du niveau visé par le lien partagé
+      const linkedChap = chapParam && (window.MATHS_CHAPTERS || []).find(c => c.id.toLowerCase() === chapParam.toLowerCase());
+      const neededLevel = linkedChap ? linkedChap.level : (this.VALID_LEVELS.includes(levelParam) ? levelParam : null);
+      if (neededLevel && !this.isLevelReady(neededLevel)) {
+        this.whenLevelReady(neededLevel, () => {
+          if (!this.checkUrlShareParams()) this.showHomeView();
+        });
+        return true;
       }
-    },
 
-    checkUrlShareParams() {
-      try {
-        const params = new URLSearchParams(window.location.search);
-        const chapParam = params.get('chapitre') || params.get('chapter') || params.get('chap');
-        const tierParam = parseInt(params.get('palier') || params.get('tier'), 10);
-        const levelParam = params.get('level') || params.get('niveau');
-        const modeParam = (params.get('mode') || params.get('tool') || '').toLowerCase();
+      let handled = false;
 
-        const autoGen = params.get('generate') === '1' || (modeParam === 'quiz' || modeParam === 'devoir');
-
-        // Charger d'abord les données du niveau visé par le lien partagé
-        const linkedChap = chapParam && (window.MATHS_CHAPTERS || []).find(c => c.id.toLowerCase() === chapParam.toLowerCase());
-        const neededLevel = linkedChap ? linkedChap.level : (this.VALID_LEVELS.includes(levelParam) ? levelParam : null);
-        if (neededLevel && !this.isLevelReady(neededLevel)) {
-          this.whenLevelReady(neededLevel, () => {
-            if (!this.checkUrlShareParams()) this.showHomeView();
-          });
-          return true;
-        }
-
-        let handled = false;
-
-        if (levelParam) {
-          if (this.VALID_LEVELS.includes(levelParam)) {
-            this.switchLevel(levelParam, true);
-            this.hideHomeView();
-            handled = true;
-          }
-        }
-
-        if (chapParam) {
-          const allChapters = window.MATHS_CHAPTERS || [];
-          const targetChap = allChapters.find(c => c.id.toLowerCase() === chapParam.toLowerCase());
-          if (targetChap) {
-            if (targetChap.level && targetChap.level !== this.currentLevel) {
-              this.switchLevel(targetChap.level, false);
-            }
-            this.selectChapter(targetChap.id);
-            this.switchTab('train');
-            this.hideHomeView();
-            if (tierParam && tierParam >= 1 && tierParam <= 4) {
-              setTimeout(() => {
-                // Si l'enseignant partage un palier précis pour une IE, s'assurer que le palier est accessible
-                window.MathsStorage.updateChapterProgress(targetChap.id, p => {
-                  p.validatedTiers = p.validatedTiers || [];
-                  for (let t = 1; t < tierParam; t++) {
-                    if (!p.validatedTiers.includes(t)) p.validatedTiers.push(t);
-                  }
-                  return p;
-                });
-                window.MathsAdaptiveEngine.setTier(tierParam);
-                this.renderTrainingView();
-                this.showToast(`🎯 <strong>Entraînement ciblé :</strong> ${targetChap.shortTitle || targetChap.title} (Palier ${tierParam})`, 4000);
-              }, 250);
-            }
-            handled = true;
-          }
-        }
-
-        if (modeParam) {
+      if (levelParam) {
+        if (this.VALID_LEVELS.includes(levelParam)) {
+          this.switchLevel(levelParam, true);
           this.hideHomeView();
-          setTimeout(() => {
-            if (modeParam === 'rituel' || modeParam === 'diaporama') {
-              this.openDiaporamaModal(null, false);
-            } else if (modeParam === 'quiz' || modeParam === 'devoir') {
-              this.openQuizModal(null, autoGen);
-            } else if (modeParam === 'flashcards' || modeParam === 'flashcard') {
-              this.openFlashcardsModal(null);
-            }
-          }, 200);
           handled = true;
         }
-
-        return handled;
-      } catch (err) {
-        console.warn('Erreur lecture paramètres URL :', err);
-      }
-      return false;
-    },
-
-    /**
-     * Analyse si un palier ou un rang a été débloqué et déclenche la célébration popup
-     */
-    handleUnlockCelebration(result) {
-      if (!result || !result.isCorrect) return false;
-
-      const chapterId = this.currentChapterId;
-      const chapter = (window.MATHS_CHAPTERS || []).find(c => c.id === chapterId);
-      const lvl = this.getCurrentChapterLevel();
-
-      const newBadges = result.newlyUnlockedBadges || [];
-      const newValidatedTiers = result.newlyValidatedTiers || [];
-      const tierUnlocked = result.unlockedTier || (result.leveledUp ? result.newTier : null);
-
-      // Filtrer les badges de rang par palier (Novice, Apprenti, Chevalier, Maître / Grand Maître)
-      const rankBadges = newBadges.filter(b => b.kind === 'rank');
-      // Badge général de tier 4 ("Cap vers la Seconde / 3e / 4e")
-      const tier4Badge = newBadges.find(b => b.id === 'tier_4_unlocked');
-      // Badges de série de jours (Daily Streak)
-      const streakBadges = newBadges.filter(b => b.kind === 'streak');
-
-      const hasNewRank = rankBadges.length > 0;
-      const hasNewTier = newValidatedTiers.length > 0 || (result.leveledUp && !!tierUnlocked) || !!tier4Badge;
-      const hasStreakBadge = streakBadges.length > 0;
-      const hasLevelUp = !!result.leveledUpProfile;
-
-      if (!hasNewRank && !hasNewTier && !hasStreakBadge && !hasLevelUp) {
-        return false;
       }
 
-      // 0. Trophée de série de jours conquis (Daily Streak)
-      if (hasStreakBadge) {
-        const topStreak = streakBadges[streakBadges.length - 1];
-        this.showUnlockPopup({
-          icon: topStreak.icon || '🔥',
-          category: '🔥 NOUVEAU TROPHÉE DE RÉGULARITÉ !',
-          title: topStreak.title,
-          chapterTitle: `Série de ${topStreak.days} jours consécutifs validée !`,
-          description: `Incroyable assiduité ! Tu as maintenu ta flamme pendant <strong>${topStreak.days} jours consécutifs</strong> sur L'Établi des Maths.<br>${topStreak.desc || ''}`,
-          perks: [
-            `🔥 Série : ${topStreak.days} jours`,
-            `🏆 Trophée débloqué dans ton passeport`,
-            `⭐ Persévérance exemplaire`
-          ],
-          actionLabel: `Continuer l'entraînement`
-        });
-        return true;
-      }
-
-      // 1. Déblocage combiné : Rang + Palier
-      if (hasNewRank && hasNewTier) {
-        const topRank = rankBadges[rankBadges.length - 1];
-        const topTier = newValidatedTiers.length > 0 ? Math.max(...newValidatedTiers) : (tierUnlocked || topRank.tier || 1);
-        const nextTierName = topTier < 4 ? this.getTierName(topTier + 1, lvl) : 'Maîtrise totale';
-        const isMaster = topRank.tier === 4 || topTier >= 4 || result.mastery >= 100;
-
-        this.showUnlockPopup({
-          icon: topRank.icon || (isMaster ? '💎' : '🏆'),
-          category: isMaster ? '👑 MAÎTRISE TOTALE & RANG SUPRÊME !' : '🎉 NOUVEAU RANG & PALIER DÉBLOQUÉS !',
-          title: topRank.title,
-          chapterTitle: chapter ? `${chapter.num} — ${chapter.shortTitle || chapter.title}` : '',
-          description: isMaster
-            ? `Exceptionnel ! Tu as atteint <strong>100% de maîtrise</strong> sur <em>${chapter ? (chapter.shortTitle || chapter.title) : 'ce chapitre'}</em> et débloqué le titre suprême de <strong>${topRank.title}</strong> !`
-            : `Félicitations pour tes efforts ! Tu as validé le <strong>Palier ${topTier}</strong> et conquis le rang honorifique de <strong>${topRank.title}</strong>.<br>${topTier < 4 ? `Le <strong>${nextTierName}</strong> est désormais accessible !` : 'Tous les paliers de ce chapitre sont conquis !'}`,
-          perks: [
-            `🎖️ Titre ${topRank.title}`,
-            topTier < 4 ? `🚀 ${nextTierName} débloqué` : `💎 100% de réussite`,
-            `🏅 Trophée ajouté à ton passeport`
-          ],
-          isMaster,
-          actionLabel: topTier < 4 ? `Passer au ${nextTierName}` : `Continuer l'entraînement`
-        });
-        return true;
-      }
-
-      // 2. Uniquement un Rang honorifique débloqué
-      if (hasNewRank) {
-        const topRank = rankBadges[rankBadges.length - 1];
-        const isMaster = topRank.tier === 4 || result.mastery >= 100;
-        this.showUnlockPopup({
-          icon: topRank.icon || '🏆',
-          category: isMaster ? '👑 RANG SUPRÊME DÉBLOQUÉ !' : '🏆 NOUVEAU RANG DÉBLOQUÉ !',
-          title: topRank.title,
-          chapterTitle: chapter ? `${chapter.num} — ${chapter.shortTitle || chapter.title}` : '',
-          description: `Félicitations pour tes progrès constants ! Grâce à ta réussite sur ce chapitre, tu accèdes au rang honorifique de <strong>${topRank.title}</strong> !`,
-          perks: [
-            `🎖️ Rang ${topRank.title}`,
-            `🏅 Trophée ajouté au passeport`,
-            `⭐ Progression enregistrée`
-          ],
-          isMaster,
-          actionLabel: `Continuer l'entraînement`
-        });
-        return true;
-      }
-
-      // 3. Uniquement un Palier débloqué / validé
-      if (hasNewTier) {
-        const validatedTier = newValidatedTiers.length > 0 ? Math.max(...newValidatedTiers) : tierUnlocked;
-        const tierTitle = this.getTierName(validatedTier, lvl);
-        const nextTierTitle = validatedTier < 4 ? this.getTierName(validatedTier + 1, lvl) : 'Maîtrise totale';
-        const isMax = validatedTier >= 4;
-
-        this.showUnlockPopup({
-          icon: isMax ? '💎' : '🚀',
-          category: isMax ? '💎 PALIER SUPRÊME CONQUIS !' : '🚀 NOUVEAU PALIER DÉBLOQUÉ !',
-          title: !isMax ? nextTierTitle : 'Maîtrise totale',
-          chapterTitle: chapter ? `${chapter.num} — ${chapter.shortTitle || chapter.title}` : '',
-          description: !isMax
-            ? `Bravo ! Tu as validé le <strong>${tierTitle}</strong> avec <strong>${result.mastery}% de maîtrise</strong>.<br>Le <strong>${nextTierTitle}</strong> est désormais déverrouillé !`
-            : `Exceptionnel ! Tu as validé tous les paliers de ce chapitre avec <strong>100% de maîtrise</strong> !`,
-          perks: [
-            !isMax ? `🎯 Accès aux exercices du ${nextTierTitle}` : `👑 Tous les paliers conquis`,
-            `📈 Maîtrise en hausse : ${result.mastery}%`,
-            `⚡ +${result.xpEarned} XP gagnés`
-          ],
-          isMaster: isMax,
-          actionLabel: !isMax ? `Passer au ${nextTierTitle}` : `Continuer l'entraînement`,
-          advanceOnAction: !isMax
-        });
-        return true;
-      }
-
-      // 4. Montée de niveau de profil (Progression de Niveau d'Expérience)
-      if (hasLevelUp) {
-        const lvlInfo = (window.MathsStorage && typeof window.MathsStorage.getLevelProgressInfo === 'function')
-          ? window.MathsStorage.getLevelProgressInfo()
-          : { level: result.userLevel || 2, rankTitle: "Apprenti de l'Établi", xpNeeded: 75 };
-
-        this.showUnlockPopup({
-          icon: '⭐',
-          category: '⭐ NIVEAU SUPÉRIEUR ATTEINT !',
-          title: `Niveau ${result.userLevel}`,
-          chapterTitle: lvlInfo.rankTitle,
-          description: `Félicitations pour tes efforts ! Tu as accumulé assez d'expérience pour franchir ce cap et atteindre le <strong>Niveau ${result.userLevel}</strong> !`,
-          perks: [
-            `⭐ Niveau ${result.userLevel} atteint`,
-            `🎓 Titre : ${lvlInfo.rankTitle}`,
-            `🎯 Prochain niveau : ${lvlInfo.xpNeeded} XP nécessaires`
-          ],
-          actionLabel: `Continuer l'entraînement`
-        });
-        return true;
-      }
-
-      return false;
-    },
-
-    /**
-     * Affiche le popup de félicitations au milieu de l'écran pendant 10 secondes
-     */
-    showUnlockPopup(data) {
-      const modal = document.getElementById('reward-unlock-modal');
-      if (!modal) return;
-
-      // Nettoyer tout compte à rebours ou écouteur antérieur
-      if (this._unlockInterval) clearInterval(this._unlockInterval);
-      if (this._unlockTimeout) clearTimeout(this._unlockTimeout);
-      if (this._unlockKeyHandler) window.removeEventListener('keydown', this._unlockKeyHandler);
-
-      // Remplissage des éléments de l'interface
-      const iconEl = document.getElementById('unlock-modal-icon');
-      const catEl = document.getElementById('unlock-modal-category');
-      const titleEl = document.getElementById('unlock-modal-title');
-      const chapEl = document.getElementById('unlock-modal-chap');
-      const descEl = document.getElementById('unlock-modal-desc');
-      const perksEl = document.getElementById('unlock-modal-perks');
-      const progressBar = document.getElementById('unlock-timer-progress');
-      const secondsEl = document.getElementById('unlock-timer-seconds');
-      const actionBtn = modal.querySelector('.reward-action-btn');
-
-      if (iconEl) iconEl.textContent = data.icon || '🏆';
-      if (catEl) catEl.textContent = data.category || 'FÉLICITATIONS !';
-      if (titleEl) titleEl.textContent = data.title || 'Nouveau Titre !';
-      if (chapEl) chapEl.textContent = data.chapterTitle || '';
-      if (descEl) descEl.innerHTML = data.description || 'Félicitations pour tes progrès !';
-
-      if (perksEl) {
-        const perks = data.perks || ['🏅 Trophée débloqué'];
-        perksEl.innerHTML = perks.map(p => `<span class="reward-perk-pill">${p}</span>`).join('');
-      }
-
-      if (actionBtn) {
-        actionBtn.innerHTML = data.actionLabel ? `<span>${data.actionLabel}</span> ➔` : `<span>Continuer l'entraînement</span> ➔`;
-        actionBtn.onclick = () => {
-          this.closeUnlockPopup();
-          if (data.advanceOnAction) {
-            const nextBtn = document.getElementById('btn-next-exercise');
-            if (nextBtn && nextBtn.style.display !== 'none') {
-              nextBtn.click();
-            }
+      if (chapParam) {
+        const allChapters = window.MATHS_CHAPTERS || [];
+        const targetChap = allChapters.find(c => c.id.toLowerCase() === chapParam.toLowerCase());
+        if (targetChap) {
+          if (targetChap.level && targetChap.level !== this.currentLevel) {
+            this.switchLevel(targetChap.level, false);
           }
-        };
-      }
-
-      // Effets sonores et visuels festifs
-      if (data.isMaster && window.MathsAudio) {
-        window.MathsAudio.playMastery();
-      } else if (window.MathsAudio) {
-        window.MathsAudio.playLevelUp();
-      }
-      if (window.MathsConfetti) {
-        window.MathsConfetti.launch(3500);
-      }
-
-      // Initialisation du compte à rebours 10 secondes (10 000 ms)
-      const totalDuration = 10000;
-      const startTime = Date.now();
-      if (progressBar) progressBar.style.width = '100%';
-      if (secondsEl) secondsEl.textContent = '10';
-
-      modal.style.display = 'flex';
-      modal.setAttribute('aria-hidden', 'false');
-
-      // Décompte fluide et régulier
-      this._unlockInterval = setInterval(() => {
-        const elapsed = Date.now() - startTime;
-        const remainingMs = Math.max(0, totalDuration - elapsed);
-        const remainingSec = Math.ceil(remainingMs / 1000);
-        const percent = (remainingMs / totalDuration) * 100;
-
-        if (progressBar) progressBar.style.width = `${percent}%`;
-        if (secondsEl) secondsEl.textContent = remainingSec;
-
-        if (remainingMs <= 0) {
-          this.closeUnlockPopup();
+          this.selectChapter(targetChap.id);
+          this.switchTab('train');
+          this.hideHomeView();
+          if (tierParam && tierParam >= 1 && tierParam <= 4) {
+            setTimeout(() => {
+              // Si l'enseignant partage un palier précis pour une IE, s'assurer que le palier est accessible
+              window.MathsStorage.updateChapterProgress(targetChap.id, p => {
+                p.validatedTiers = p.validatedTiers || [];
+                for (let t = 1; t < tierParam; t++) {
+                  if (!p.validatedTiers.includes(t)) p.validatedTiers.push(t);
+                }
+                return p;
+              });
+              window.MathsAdaptiveEngine.setTier(tierParam);
+              this.renderTrainingView();
+              this.showToast(`🎯 <strong>Entraînement ciblé :</strong> ${targetChap.shortTitle || targetChap.title} (Palier ${tierParam})`, 4000);
+            }, 250);
+          }
+          handled = true;
         }
-      }, 100);
+      }
 
-      // Fermeture par raccourci clavier (Échap ou Entrée / Espace)
-      this._unlockKeyHandler = (e) => {
-        if (e.key === 'Escape' || e.key === 'Enter' || e.code === 'Space') {
-          e.preventDefault();
-          this.closeUnlockPopup();
-          if (data.advanceOnAction && (e.key === 'Enter' || e.code === 'Space')) {
-            const nextBtn = document.getElementById('btn-next-exercise');
-            if (nextBtn && nextBtn.style.display !== 'none') {
-              nextBtn.click();
-            }
+      if (modeParam) {
+        this.hideHomeView();
+        setTimeout(() => {
+          if (modeParam === 'rituel' || modeParam === 'diaporama') {
+            this.openDiaporamaModal(null, false);
+          } else if (modeParam === 'quiz' || modeParam === 'devoir') {
+            this.openQuizModal(null, autoGen);
+          } else if (modeParam === 'flashcards' || modeParam === 'flashcard') {
+            this.openFlashcardsModal(null);
           }
-        }
-      };
-      window.addEventListener('keydown', this._unlockKeyHandler);
-    },
-
-    /**
-     * Ferme le popup de félicitations et stoppe le compte à rebours
-     */
-    closeUnlockPopup() {
-      const modal = document.getElementById('reward-unlock-modal');
-      if (this._unlockInterval) {
-        clearInterval(this._unlockInterval);
-        this._unlockInterval = null;
-      }
-      if (this._unlockTimeout) {
-        clearTimeout(this._unlockTimeout);
-        this._unlockTimeout = null;
-      }
-      if (this._unlockKeyHandler) {
-        window.removeEventListener('keydown', this._unlockKeyHandler);
-        this._unlockKeyHandler = null;
+        }, 200);
+        handled = true;
       }
 
-      if (modal) {
-        modal.style.display = 'none';
-        modal.setAttribute('aria-hidden', 'true');
-      }
-    },
-
-    handleImportProgress() {
-      const input = document.createElement('input');
-      input.type = 'file';
-      input.accept = 'application/json,.json';
-      input.addEventListener('change', () => {
-        const file = input.files && input.files[0];
-        if (!file) return;
-        file.text().then(text => {
-          if (!confirm('Remplacer ta progression actuelle par celle de ce fichier ?')) return;
-          if (window.MathsStorage.importFromJson(text)) {
-            location.reload();
-          } else {
-            this.showToast('❌ Ce fichier n\'est pas une sauvegarde valide de L\'Établi des Maths.', 4000);
-          }
-        });
-      });
-      input.click();
-    },
-
-    handleResetProgress() {
-      if (confirm('Attention : toutes tes données, XP et badges seront réinitialisés. Confirmer ?')) {
-        window.MathsStorage.resetAll();
-        location.reload();
-      }
+      return handled;
+    } catch (err) {
+      console.warn('Erreur lecture paramètres URL :', err);
     }
-  };
+    return false;
+  },
+};
 
-  window.MathsApp.init();
-});
+document.addEventListener('DOMContentLoaded', () => window.MathsApp.init());
