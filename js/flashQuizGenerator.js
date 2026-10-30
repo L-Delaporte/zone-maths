@@ -61,6 +61,18 @@ window.MathsQuizGenerator = {
       container.innerHTML = actionsHtml + chipsHtml;
     }
 
+    const countSelect = document.getElementById('quiz-count-select');
+    if (countSelect) {
+      const currentLevel = (window.MathsApp && window.MathsApp.currentLevel) || '3eme';
+      if (currentLevel === '3eme') {
+        countSelect.value = 'dnb-100';
+      } else if (currentLevel === 'tale' || currentLevel === '1ere') {
+        countSelect.value = 'bac-20';
+      } else {
+        countSelect.value = '10';
+      }
+    }
+
     document.getElementById('quiz-config-screen').style.display = 'block';
     document.getElementById('quiz-preview-screen').style.display = 'none';
   },
@@ -126,27 +138,91 @@ window.MathsQuizGenerator = {
     }
 
     const countSelect = document.getElementById('quiz-count-select');
-    const count = countSelect ? parseInt(countSelect.value, 10) : (this.lastCount || 10);
-    this.lastCount = count;
+    const selectedFormat = countSelect ? countSelect.value : (this.lastCount || '10');
+    this.lastCount = selectedFormat;
 
-    // Barème
-    const totalPoints = count === 5 ? 10 : (count === 10 ? 20 : 30);
-    const ptsPerQ = Math.round((totalPoints / count) * 10) / 10;
-
-    // Générer une série de questions aléatoires fraîches
-    const questions = window.MathsGenerators.generateSeries(chapters, count);
-
-    const previewContainer = document.getElementById('quiz-preview-content');
-    if (!previewContainer) return;
-
-    const chapterTitles = chapters.map(cid => {
-      const c = (window.MATHS_CHAPTERS || []).find(ch => ch.id === cid);
-      return c ? `${c.num} (${c.shortTitle || c.title})` : cid;
-    }).join(', ');
+    const isExamDNB = selectedFormat === 'dnb-100';
+    const isExamBac = selectedFormat === 'bac-20';
 
     const levelLabel = (window.MathsApp && typeof window.MathsApp.getLevelName === 'function')
       ? window.MathsApp.getLevelName(currentLevel)
       : (currentLevel === '5eme' ? '5ème' : (currentLevel === '4eme' ? '4ème' : (currentLevel === '3eme' ? '3ème' : currentLevel)));
+
+    let totalPoints = 20;
+    let ptsPerQ = 2;
+    let questions = [];
+    let examMainTitle = `📝 L'ÉTABLI DES MATHS (${levelLabel}) — DEVOIRS BLANCS D'ENTRAÎNEMENT`;
+    let examSubNotice = `💡 <strong>Sujet Blanc d'Entraînement (${levelLabel}) :</strong> Ce sujet a été généré aléatoirement pour vous entraîner en conditions réelles d'examen. Prenez une feuille, rédigez soigneusement vos calculs et vos justifications, puis comparez avec le <strong>corrigé détaillé</strong> ci-dessous. Vous pouvez cliquer sur <strong>« 🔄 Régénérer un nouveau devoir »</strong> à tout moment pour en faire d'autres !`;
+    let examSolutionTitle = `L'ÉTABLI DES MATHS (${levelLabel}) — CORRIGÉ DÉTAILLÉ DU DEVOIR BLANC — BARÈME SUR ${totalPoints} POINTS`;
+
+    if (isExamDNB) {
+      totalPoints = 100;
+      ptsPerQ = 20;
+      examMainTitle = `🎓 DIPLÔME NATIONAL DU BREVET (DNB 3e) — SUJET BLANC OFFICIEL SUR 100 POINTS`;
+      examSubNotice = `🎓 <strong>Sujet Blanc Brevet des Collèges (DNB 3e) sur 100 points :</strong> 5 exercices calibrés conformément à la structure officielle du Brevet (Automatismes & Calculs, Géométrie, Fonctions, Algorithmique Scratch, Statistiques & Probabilités). Durée conseillée : 2h00. Calculatrice autorisée.`;
+      examSolutionTitle = `🎓 DNB 3e — CORRIGÉ OFFICIEL DU SUJET BLANC SUR 100 POINTS (5 EXERCICES SUR 20 POINTS)`;
+
+      const dnbStructure = [
+        { title: "Exercice 1 — Automatismes & Calculs numériques (20 points)", pool: ['N1', 'N2', 'N3', 'N4', 'N5'], tier: 3 },
+        { title: "Exercice 2 — Géométrie & Démonstration (Pythagore / Thalès / Trigonométrie) (20 points)", pool: ['G1', 'G2', 'G3'], tier: 3 },
+        { title: "Exercice 3 — Fonctions & Modélisation (20 points)", pool: ['Org1', 'Org2', 'Org3'], tier: 3 },
+        { title: "Exercice 4 — Algorithmique & Programmation Scratch (20 points)", pool: ['Algo'], tier: 3 },
+        { title: "Exercice 5 — Statistiques & Probabilités en situation concrète (20 points)", pool: ['Org4'], tier: 3 }
+      ];
+
+      questions = dnbStructure.map((def, idx) => {
+        const cid = def.pool[Math.floor(Math.random() * def.pool.length)];
+        const q = window.MathsGenerators.generateForChapter(cid, def.tier);
+        if (q) {
+          q.examTitle = def.title;
+          q.examPoints = 20;
+          q.seriesIndex = idx + 1;
+        }
+        return q;
+      }).filter(Boolean);
+
+    } else if (isExamBac) {
+      totalPoints = 20;
+      ptsPerQ = 5;
+      examMainTitle = `🎓 BACCALAURÉAT GÉNÉRAL — ÉPREUVE DE SPÉCIALITÉ MATHÉMATIQUES (20 POINTS)`;
+      examSubNotice = `🎓 <strong>Sujet Blanc Baccalauréat Spécialité Maths sur 20 points :</strong> 4 exercices calibrés conformément à la structure officielle de l'épreuve de spécialité (Probabilités conditionnelles & Loi binomiale, Géométrie dans l'espace, Suites & Analyse, Approfondissement / Convexité / Intégration). Durée conseillée : 4h00. Calculatrice mode examen autorisée.`;
+      examSolutionTitle = `🎓 BACCALAURÉAT GÉNÉRAL — CORRIGÉ OFFICIEL DE L'ÉPREUVE DE SPÉCIALITÉ (SUR 20 POINTS)`;
+
+      const bacStructure = [
+        { title: "Exercice 1 — Probabilités conditionnelles & Loi binomiale (5 points)", pool: ['TS1', 'TS2'], tier: 3 },
+        { title: "Exercice 2 — Géométrie dans l'espace & Produit scalaire (5 points)", pool: ['TG1', 'TG2'], tier: 3 },
+        { title: "Exercice 3 — Analyse, Suites récurrentes & Continuité (5 points)", pool: ['TA1', 'TA2', 'TA3', 'TA5'], tier: 3 },
+        { title: "Exercice 4 — Analyse approfondie, Convexité ou Intégration (5 points)", pool: ['TA4', 'TA6', 'TA7'], tier: 3 }
+      ];
+
+      questions = bacStructure.map((def, idx) => {
+        const cid = def.pool[Math.floor(Math.random() * def.pool.length)];
+        const q = window.MathsGenerators.generateForChapter(cid, def.tier);
+        if (q) {
+          q.examTitle = def.title;
+          q.examPoints = 5;
+          q.seriesIndex = idx + 1;
+        }
+        return q;
+      }).filter(Boolean);
+
+    } else {
+      const count = parseInt(selectedFormat, 10) || 10;
+      totalPoints = count === 5 ? 10 : (count === 10 ? 20 : 30);
+      ptsPerQ = Math.round((totalPoints / count) * 10) / 10;
+      questions = window.MathsGenerators.generateSeries(chapters, count);
+      examSolutionTitle = `L'ÉTABLI DES MATHS (${levelLabel}) — CORRIGÉ DÉTAILLÉ DU DEVOIR BLANC — BARÈME SUR ${totalPoints} POINTS`;
+    }
+
+    const previewContainer = document.getElementById('quiz-preview-content');
+    if (!previewContainer) return;
+
+    const chapterTitles = isExamDNB ? 'Programme officiel complet du Brevet des Collèges (3ème)'
+      : (isExamBac ? 'Programme officiel de Spécialité Mathématiques (Terminale)'
+      : chapters.map(cid => {
+          const c = (window.MATHS_CHAPTERS || []).find(ch => ch.id === cid);
+          return c ? `${c.num} (${c.shortTitle || c.title})` : cid;
+        }).join(', '));
 
     let html = `
       <div class="printable-quiz-sheet">
@@ -155,15 +231,13 @@ window.MathsQuizGenerator = {
         <div class="quiz-single-subject">
           
           <div class="quiz-banner-notice no-print" id="quiz-status-banner">
-            💡 <strong>Sujet Blanc d'Entraînement (${levelLabel}) :</strong> Ce sujet a été généré aléatoirement pour vous entraîner en conditions réelles d'examen. 
-            Prenez une feuille, rédigez soigneusement vos calculs et vos justifications, puis comparez avec le <strong>corrigé détaillé</strong> ci-dessous.
-            Vous pouvez cliquer sur <strong>« 🔄 Régénérer un nouveau devoir »</strong> à tout moment pour en faire d'autres !
+            ${examSubNotice}
           </div>
 
           <div class="quiz-header-box">
             <div class="quiz-title-line">
               <div class="quiz-title-main">
-                <h3>📝 L'ÉTABLI DES MATHS (${levelLabel}) — DEVOIRS BLANCS D'ENTRAÎNEMENT</h3>
+                <h3>${examMainTitle}</h3>
                 <span class="quiz-badge-theme">${chapterTitles}</span>
               </div>
               <div class="quiz-header-right">
@@ -190,12 +264,14 @@ window.MathsQuizGenerator = {
               const comp = (window.MathsApp && typeof window.MathsApp.getExerciseCompetency === 'function')
                 ? window.MathsApp.getExerciseCompetency(q, q.chapterId)
                 : (q.skill || q.title || q.chapterId);
+              const cardTitle = q.examTitle || `Exercice ${idx + 1}`;
+              const pointsDisplay = q.examPoints ? `${q.examPoints} points` : `${ptsPerQ} pt${ptsPerQ > 1 ? 's' : ''}`;
               return `
                 <div class="quiz-q-card">
                   <div class="quiz-q-header">
-                    <span class="quiz-q-badge">Exercice ${idx + 1}</span>
-                    <span class="quiz-q-pts">(${ptsPerQ} pt${ptsPerQ > 1 ? 's' : ''})</span>
-                    ${q.title ? `<span class="quiz-q-topic">${q.title}</span>` : ''}
+                    <span class="quiz-q-badge">${cardTitle}</span>
+                    <span class="quiz-q-pts">(${pointsDisplay})</span>
+                    ${q.title && !q.examTitle ? `<span class="quiz-q-topic">${q.title}</span>` : ''}
                   </div>
                   <div class="quiz-learning-meta">
                     <span class="quiz-stage-pill">${stage.label}</span>
@@ -211,7 +287,7 @@ window.MathsQuizGenerator = {
           </div>
 
           <div class="quiz-footer-credit print-only">
-            <span>L'Établi des Maths • Devoir blanc ${levelLabel} • Créé par Loïc Delaporte, Professeur de Mathématiques</span>
+            <span>L'Établi des Maths • ${examMainTitle} • Créé par Loïc Delaporte, Professeur de Mathématiques</span>
           </div>
         </div>
 
@@ -220,7 +296,7 @@ window.MathsQuizGenerator = {
           <div class="quiz-header-box teacher-header">
             <div class="quiz-title-line">
               <div class="quiz-title-main">
-                <h3>L'ÉTABLI DES MATHS (${levelLabel}) — CORRIGÉ DÉTAILLÉ DU DEVOIR BLANC — BARÈME SUR ${totalPoints} POINTS</h3>
+                <h3>${examSolutionTitle}</h3>
                 <p style="margin: 0.25rem 0 0 0; font-size: 0.85rem; color: var(--text-muted, #555);">
                   Thème(s) évalué(s) : ${chapterTitles} — Auto-évaluation & remédiation
                 </p>
@@ -241,6 +317,8 @@ window.MathsQuizGenerator = {
               const comp = (window.MathsApp && typeof window.MathsApp.getExerciseCompetency === 'function')
                 ? window.MathsApp.getExerciseCompetency(q, q.chapterId)
                 : (q.skill || q.title || q.chapterId);
+              const cardTitle = q.examTitle || `Exercice ${idx + 1}`;
+              const pointsDisplay = q.examPoints ? `${q.examPoints} points` : `${ptsPerQ} pt${ptsPerQ > 1 ? 's' : ''}`;
               const rawSol = q.solution || (q.answer ? `Réponse attendue : **${q.answer}**` : "Voir le cours pour les étapes détaillées.");
               const solFormatted = (window.MathsAdaptiveEngine && q.statement && rawSol)
                 ? window.MathsAdaptiveEngine.formatSolutionWithInitialExpr(q.statement, rawSol)
@@ -248,8 +326,8 @@ window.MathsQuizGenerator = {
               return `
                 <div class="quiz-sol-card">
                   <div class="quiz-sol-header">
-                    <strong>Exercice ${idx + 1}</strong> <span class="quiz-q-pts">(${ptsPerQ} pt${ptsPerQ > 1 ? 's' : ''})</span>
-                    ${q.title ? `<span class="quiz-sol-topic">${q.title}</span>` : ''}
+                    <strong>${cardTitle}</strong> <span class="quiz-q-pts">(${pointsDisplay})</span>
+                    ${q.title && !q.examTitle ? `<span class="quiz-sol-topic">${q.title}</span>` : ''}
                   </div>
                   <div class="quiz-learning-meta correction-learning-meta">
                     <span class="quiz-stage-pill">${stage.label}</span>

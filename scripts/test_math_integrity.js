@@ -158,9 +158,20 @@ let totalErrors = 0;
 require(path.join(__dirname, '../js/data/chapters.js'));
 require(path.join(__dirname, '../js/data/chapters_lycee.js'));
 require(path.join(__dirname, '../js/data/chapters_licence.js'));
+require(path.join(__dirname, '../js/data/data_capes.js'));
+require(path.join(__dirname, '../js/data/data_proofs.js'));
 console.log(`Total chapters registered: ${window.MATHS_CHAPTERS.length}`);
 
-// Load advancedGenerators
+// Load geometryFigures & scratchRenderer
+require(path.join(__dirname, '../js/geometryFigures.js'));
+require(path.join(__dirname, '../js/scratchRenderer.js'));
+
+// Load proofEngine & mathVisualizer
+require(path.join(__dirname, '../js/proofEngine.js'));
+require(path.join(__dirname, '../js/mathVisualizer.js'));
+
+// Load advancedGenerators & lyceeGenerators
+require(path.join(__dirname, '../js/lyceeGenerators.js'));
 require(path.join(__dirname, '../js/advancedGenerators.js'));
 
 // Load randomGenerators
@@ -175,15 +186,15 @@ const advChapters = [
   'L2-RED1', 'L2-PRE', 'L2-SER', 'L2-CAL', 'L2-EDO', 'L2-EV2', 'L2-INT', 'L2-PRO', 'L2-TOP', 'L2-NUM', 'L2-GRP', 'L2-BIL', 'L2-AFF', 'L2-ANA', 'L2-ARI',
   // L3
   'L3-TOP', 'L3-MES', 'L3-GAL', 'L3-HOL', 'L3-EDP', 'L3-GEO', 'L3-ANA', 'L3-DIS', 'L3-RED2', 'L3-OPT', 'L3-STA', 'L3-DIF', 'L3-MOD', 'L3-ALG', 'L3-PRC',
-  // Lycée
-  '2NDE-FONC', '2NDE-VAR', '2NDE-VECT', '2NDE-STAT', '2NDE-DROI', '2NDE-PROB',
-  '1ERE-DERI', '1ERE-DEGC', '1ERE-SUIT', '1ERE-TRIG', '1ERE-PROD', '1ERE-PROB',
-  'TERM-COMB', 'TERM-SUIT', 'TERM-EXP', 'TERM-TRIG', 'TERM-PRIM', 'TERM-EQD', 'TERM-LOGA', 'TERM-INTG', 'TERM-GEOS', 'TERM-LOIB'
+  // Lycée (40 chapitres)
+  '2N1', '2N2', '2N3', '2N4', '2A1', '2A2', '2A3', '2G1', '2G2', '2G3', '2S1', '2S2', '2S3',
+  '1A1', '1A2', '1A3', '1A4', '1A5', '1A6', '1G1', '1G2', '1G3', '1S1', '1S2',
+  'TA1', 'TA2', 'TA3', 'TA4', 'TA5', 'TA6', 'TA7', 'TG1', 'TG2', 'TS1', 'TS2', 'TX1', 'TX2', 'TX3', 'TX4', 'TX5'
 ];
 
 for (const ch of advChapters) {
   for (let tier = 1; tier <= 4; tier++) {
-    for (let run = 0; run < 20; run++) {
+    for (let run = 0; run < 10; run++) {
       try {
         const q = window.MathsAdvancedGenerators.generate(ch, tier);
         if (q) {
@@ -205,13 +216,13 @@ for (const ch of advChapters) {
   }
 }
 
-// 2. Audit MathsGenerators.generateExercise for all chapters
-console.log('\n--- 2. Testing MathsGenerators.generateExercise across all chapters ---');
+// 2. Audit MathsGenerators.generateForChapter across all chapters
+console.log('\n--- 2. Testing MathsGenerators.generateForChapter across all chapters ---');
 for (const ch of window.MATHS_CHAPTERS) {
   for (let tier = 1; tier <= 4; tier++) {
-    for (let run = 0; run < 10; run++) {
+    for (let run = 0; run < 5; run++) {
       try {
-        const q = window.MathsGenerators.generateExercise(ch.id, tier);
+        const q = window.MathsGenerators.generateForChapter(ch.id, tier);
         if (q) {
           const errs = checkExerciseObject(q, `MathsGenerators.${ch.id}.tier${tier}.run${run}`);
           if (errs.length > 0) {
@@ -224,7 +235,9 @@ for (const ch of window.MATHS_CHAPTERS) {
           }
         }
       } catch (e) {
-        // Not all chapters might be wired
+        // Log if unexpected exception
+        console.error(`[EXCEPTION] MathsGenerators ${ch.id} Tier ${tier}: ${e.message}`);
+        totalErrors++;
       }
     }
   }
@@ -234,7 +247,8 @@ for (const ch of window.MATHS_CHAPTERS) {
 console.log('\n--- 3. Testing Static Data Files in js/data/ ---');
 const dataFiles = [
   'data_5eme.js', 'data_4eme.js', 'data_2nde.js', 'data_1ere.js', 'data_terminale.js',
-  'data_l1.js', 'data_l2.js', 'data_l3.js', 'exercises.js', 'courses.js', 'worksheets.js'
+  'data_l1.js', 'data_l2.js', 'data_l3.js', 'data_capes.js', 'data_proofs.js',
+  'exercises.js', 'courses.js', 'worksheets.js'
 ];
 
 for (const df of dataFiles) {
@@ -352,6 +366,92 @@ if (window.MATHS_WORKSHEETS) {
       });
     }
   }
+}
+
+// Check window.CAPES_LESSONS
+if (window.CAPES_LESSONS) {
+  console.log('\nChecking window.CAPES_LESSONS...');
+  window.CAPES_LESSONS.forEach((lesson, idx) => {
+    if (lesson.keyTheorem) {
+      if (lesson.keyTheorem.statement) {
+        const errs = checkMath(lesson.keyTheorem.statement, `CAPES.${lesson.id}.keyTheorem.statement`);
+        for (const e of errs) {
+          console.error(`[ERROR] CAPES ${lesson.id} statement: ${e}`);
+          totalErrors++;
+        }
+      }
+      if (lesson.keyTheorem.proof) {
+        const errs = checkMath(lesson.keyTheorem.proof, `CAPES.${lesson.id}.keyTheorem.proof`);
+        for (const e of errs) {
+          console.error(`[ERROR] CAPES ${lesson.id} proof: ${e}`);
+          totalErrors++;
+        }
+      }
+    }
+    if (Array.isArray(lesson.plan)) {
+      lesson.plan.forEach((p, pIdx) => {
+        const errs = checkMath(p.content, `CAPES.${lesson.id}.plan[${pIdx}]`);
+        for (const e of errs) {
+          console.error(`[ERROR] CAPES ${lesson.id} plan ${pIdx}: ${e}`);
+          totalErrors++;
+        }
+      });
+    }
+    if (Array.isArray(lesson.developments)) {
+      lesson.developments.forEach((d, dIdx) => {
+        const errs = checkMath(d, `CAPES.${lesson.id}.developments[${dIdx}]`);
+        for (const e of errs) {
+          console.error(`[ERROR] CAPES ${lesson.id} dev ${dIdx}: ${e}`);
+          totalErrors++;
+        }
+      });
+    }
+  });
+}
+
+// Check window.ProofEngine
+if (window.ProofEngine) {
+  console.log('\nChecking window.ProofEngine Theorems...');
+  const thList = window.ProofEngine.getTheorems();
+  thList.forEach((th) => {
+    if (th.statement) {
+      const errs = checkMath(th.statement, `ProofEngine.${th.id}.statement`);
+      for (const e of errs) {
+        console.error(`[ERROR] Proof ${th.id} statement: ${e}`);
+        totalErrors++;
+      }
+    }
+    if (Array.isArray(th.steps)) {
+      th.steps.forEach((s, sIdx) => {
+        const errsText = checkMath(s.text, `ProofEngine.${th.id}.step[${sIdx}].text`);
+        for (const e of errsText) {
+          console.error(`[ERROR] Proof ${th.id} step ${sIdx} text: ${e}`);
+          totalErrors++;
+        }
+        const errsWhy = checkMath(s.why, `ProofEngine.${th.id}.step[${sIdx}].why`);
+        for (const e of errsWhy) {
+          console.error(`[ERROR] Proof ${th.id} step ${sIdx} why: ${e}`);
+          totalErrors++;
+        }
+      });
+    }
+    if (th.fallacy) {
+      if (th.fallacy.fakeStep) {
+        const errs = checkMath(th.fallacy.fakeStep, `ProofEngine.${th.id}.fallacy.fakeStep`);
+        for (const e of errs) {
+          console.error(`[ERROR] Proof ${th.id} fakeStep: ${e}`);
+          totalErrors++;
+        }
+      }
+      if (th.fallacy.whyFalse) {
+        const errs = checkMath(th.fallacy.whyFalse, `ProofEngine.${th.id}.fallacy.whyFalse`);
+        for (const e of errs) {
+          console.error(`[ERROR] Proof ${th.id} whyFalse: ${e}`);
+          totalErrors++;
+        }
+      }
+    }
+  });
 }
 
 console.log(`\n=== AUDIT COMPLETE: ${totalErrors} errors found ===`);

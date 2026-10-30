@@ -341,7 +341,7 @@ window.MATHS_COURSES_L1 = {
       }
     ],
     "traps": [
-      "⚠️ Interdiction formelle d'additionner des équivalents : $u_n \\sim a_n$ et $v_n \\sim b_n \\centernot\\implies u_n + v_n \\sim a_n + b_n$ (risque d'annulation des termes prépondérants) !",
+      "⚠️ Interdiction formelle d'additionner des équivalents : $u_n \\sim a_n$ et $v_n \\sim b_n \\not\\implies u_n + v_n \\sim a_n + b_n$ (risque d'annulation des termes prépondérants) !",
       "⚠️ Ne pas confondre suite bornée (qui n'a pas nécessairement de limite, ex: $(-1)^n$) et suite convergente."
     ],
     "flashcards": [
@@ -396,7 +396,7 @@ window.MATHS_COURSES_L1 = {
     ],
     "traps": [
       "⚠️ Pour composer $g(f(x))$, la condition essentielle est $\\lim_{x \\to 0} f(x) = 0$ !",
-      "⚠️ On ne peut PAS dériver un développement limité en général : $f(x) = o(x) \\centernot\\implies f'(x) = o(1)$ sans hypothèse de dérivabilité supérieure."
+      "⚠️ On ne peut PAS dériver un développement limité en général : $f(x) = o(x) \\not\\implies f'(x) = o(1)$ sans hypothèse de dérivabilité supérieure."
     ],
     "flashcards": [
       {

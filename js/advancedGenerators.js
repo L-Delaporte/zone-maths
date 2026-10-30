@@ -25,8 +25,26 @@ window.MathsAdvancedGenerators = {
   },
 
   makeMcq(chapterId, tier, title, skill, statement, correctAnswer, distractors, hint1, hint2, solution) {
-    // Éliminer les doublons éventuels parmi les options
-    const uniqueDistractors = [...new Set(distractors.filter(d => d !== correctAnswer))];
+    let uniqueDistractors = [...new Set(distractors.filter(d => d && d !== correctAnswer))];
+    let fallbackOffset = 1;
+    while (uniqueDistractors.length < 3) {
+      let synthetic = null;
+      const numMatch = correctAnswer.match(/-?\d+(?:[.,]\d+)?/);
+      if (numMatch) {
+        const val = parseFloat(numMatch[0].replace(',', '.'));
+        const offset = fallbackOffset % 2 === 1 ? fallbackOffset : -fallbackOffset;
+        const newVal = val + offset;
+        synthetic = correctAnswer.replace(numMatch[0], String(newVal));
+      }
+      if (!synthetic || synthetic === correctAnswer || uniqueDistractors.includes(synthetic)) {
+        synthetic = `$${fallbackOffset}$`;
+      }
+      if (!uniqueDistractors.includes(synthetic) && synthetic !== correctAnswer) {
+        uniqueDistractors.push(synthetic);
+      }
+      fallbackOffset++;
+      if (fallbackOffset > 10) break;
+    }
     const pickedDistractors = this.shuffleArray(uniqueDistractors).slice(0, 3);
     const allOptions = this.shuffleArray([correctAnswer, ...pickedDistractors]);
     const correctIndex = allOptions.indexOf(correctAnswer);
@@ -116,10 +134,10 @@ window.MathsAdvancedGenerators = {
         if (chapterId.startsWith('2N') || chapterId.startsWith('2G') || chapterId.startsWith('2F') || chapterId.startsWith('2S') || chapterId.startsWith('2A')) {
           return this.generateLycee2nde(chapterId, t);
         }
-        if (chapterId.startsWith('1A') || chapterId.startsWith('1G') || chapterId.startsWith('1F') || chapterId.startsWith('1P')) {
+        if (chapterId.startsWith('1A') || chapterId.startsWith('1G') || chapterId.startsWith('1F') || chapterId.startsWith('1P') || chapterId.startsWith('1S')) {
           return this.generateLycee1ere(chapterId, t);
         }
-        if (chapterId.startsWith('TA') || chapterId.startsWith('TG') || chapterId.startsWith('TP') || chapterId.startsWith('TO')) {
+        if (chapterId.startsWith('TA') || chapterId.startsWith('TG') || chapterId.startsWith('TP') || chapterId.startsWith('TO') || chapterId.startsWith('TS') || chapterId.startsWith('TX')) {
           return this.generateLyceeTale(chapterId, t);
         }
         return null;
@@ -4309,6 +4327,10 @@ window.MathsAdvancedGenerators = {
   // =========================================================================
 
   generateLycee2nde(chapterId, tier) {
+    if (typeof window !== 'undefined' && window.MathsLyceeGenerators) {
+      const q = window.MathsLyceeGenerators.generate(chapterId, tier);
+      if (q) return q;
+    }
     if (typeof window !== 'undefined' && window.MATHS_EXERCISES && window.MATHS_EXERCISES[chapterId] && window.MATHS_EXERCISES[chapterId].length) {
       const exos = window.MATHS_EXERCISES[chapterId];
       const matchTier = exos.filter(e => e.tier === tier);
@@ -4330,6 +4352,10 @@ window.MathsAdvancedGenerators = {
   },
 
   generateLycee1ere(chapterId, tier) {
+    if (typeof window !== 'undefined' && window.MathsLyceeGenerators) {
+      const q = window.MathsLyceeGenerators.generate(chapterId, tier);
+      if (q) return q;
+    }
     if (typeof window !== 'undefined' && window.MATHS_EXERCISES && window.MATHS_EXERCISES[chapterId] && window.MATHS_EXERCISES[chapterId].length) {
       const exos = window.MATHS_EXERCISES[chapterId];
       const matchTier = exos.filter(e => e.tier === tier);
@@ -4359,6 +4385,10 @@ window.MathsAdvancedGenerators = {
   },
 
   generateLyceeTale(chapterId, tier) {
+    if (typeof window !== 'undefined' && window.MathsLyceeGenerators) {
+      const q = window.MathsLyceeGenerators.generate(chapterId, tier);
+      if (q) return q;
+    }
     if (typeof window !== 'undefined' && window.MATHS_EXERCISES && window.MATHS_EXERCISES[chapterId] && window.MATHS_EXERCISES[chapterId].length) {
       const exos = window.MATHS_EXERCISES[chapterId];
       const matchTier = exos.filter(e => e.tier === tier);

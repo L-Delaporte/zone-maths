@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     CYCLES: {
       college: { id: 'college', name: 'Collège', defaultLevel: '3eme', levels: ['5eme', '4eme', '3eme'] },
       lycee: { id: 'lycee', name: 'Lycée', defaultLevel: '2nde', levels: ['2nde', '1ere', 'tale'] },
-      licence: { id: 'licence', name: 'Licence', defaultLevel: 'L1', levels: ['L1', 'L2', 'L3'] }
+      licence: { id: 'licence', name: 'Licence & Concours', defaultLevel: 'L1', levels: ['L1', 'L2', 'L3', 'capes'] }
     },
 
     LEVEL_LABELS: {
@@ -30,7 +30,8 @@ document.addEventListener('DOMContentLoaded', () => {
       'tale': 'Terminale (Spé/Exp)',
       'L1': 'Licence 1 (L1)',
       'L2': 'Licence 2 (L2)',
-      'L3': 'Licence 3 (L3)'
+      'L3': 'Licence 3 (L3)',
+      'capes': 'CAPES / Agrég'
     },
 
     currentExplainerMode: 'adaptive',
@@ -327,7 +328,7 @@ document.addEventListener('DOMContentLoaded', () => {
     },
 
     switchLevel(level, autoSelectFirst = false) {
-      const validLevels = ['5eme', '4eme', '3eme', '2nde', '1ere', 'tale', 'L1', 'L2', 'L3'];
+      const validLevels = ['5eme', '4eme', '3eme', '2nde', '1ere', 'tale', 'L1', 'L2', 'L3', 'capes'];
       if (!validLevels.includes(level)) return;
 
       // Protection enseignant : vérification si le niveau appartient à un cycle verrouillé
@@ -395,9 +396,13 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       document.title = `L'Établi des Maths (${lvlLabel} • ${cycleName}) — Outils pour apprendre et pratiquer | Créé par Loïc Delaporte`;
 
+      this.renderDomainNav();
       this.renderChaptersGrid();
       this.selectChapter(this.currentChapterId);
       this.updateTierButtonsUI();
+
+      const isLicenceCycle = currentCycle === 'licence';
+      this.updateVisualizerButtonUI();
 
       if (this.currentTab === 'stats') {
         this.renderStatsView();
@@ -855,6 +860,119 @@ document.addEventListener('DOMContentLoaded', () => {
       if (modal) modal.style.display = 'none';
     },
 
+    getVisualizerModeForChapter(chapterId) {
+      if (!chapterId) return null;
+      const map = {
+        'L2-CAL': 'torus',
+        'L2-MUL': 'torus',
+        'L2-CRB': 'torus',
+        'L3-GDF': 'torus',
+        'L2-EDO': 'phase_plane',
+        'capes-01': 'phase_plane',
+        'L3-SDF': 'fourier',
+        'L3-FOU': 'fourier',
+        'capes-03': 'fourier'
+      };
+      return map[chapterId] || null;
+    },
+
+    updateVisualizerButtonUI(chapterId = null) {
+      const chId = chapterId || this.currentChapterId;
+      const btnVis = document.getElementById('btn-open-visualizer');
+      if (!btnVis) return;
+      const mode = this.getVisualizerModeForChapter(chId);
+      if (mode) {
+        btnVis.style.display = 'inline-flex';
+        const labels = {
+          torus: '🔬 Labo 3D : Tore & Variétés',
+          phase_plane: '🔬 Labo 2D : Plan de Phase EDO',
+          fourier: '🔬 Labo 2D : Synthèse de Fourier'
+        };
+        btnVis.innerHTML = labels[mode] || '🔬 Labo 2D/3D';
+        btnVis.onclick = () => this.openVisualizerModal(mode);
+      } else {
+        btnVis.style.display = 'none';
+      }
+    },
+
+    openVisualizerModal(mode = null) {
+      const modal = document.getElementById('visualizer-modal');
+      if (!modal) return;
+      modal.style.display = 'flex';
+      const targetMode = mode || this.getVisualizerModeForChapter(this.currentChapterId) || 'torus';
+      if (window.MathVisualizer) {
+        window.MathVisualizer.init('vis-canvas');
+        window.MathVisualizer.switchMode(targetMode);
+      }
+    },
+
+    closeVisualizerModal() {
+      const modal = document.getElementById('visualizer-modal');
+      if (modal) modal.style.display = 'none';
+      if (window.MathVisualizer && window.MathVisualizer.animId) {
+        cancelAnimationFrame(window.MathVisualizer.animId);
+        window.MathVisualizer.animId = null;
+      }
+    },
+
+    openProofModal(theoremId = null) {
+      const modal = document.getElementById('proof-modal');
+      if (!modal) return;
+      modal.style.display = 'flex';
+      if (window.ProofEngine) {
+        this.renderProofEngineUI(theoremId);
+      }
+    },
+
+    closeProofModal() {
+      const modal = document.getElementById('proof-modal');
+      if (modal) modal.style.display = 'none';
+    },
+
+    renderProofEngineUI(selectedId = null) {
+      const container = document.getElementById('proof-content-container');
+      if (!container || !window.ProofEngine) return;
+      const thList = window.ProofEngine.getTheorems();
+      const currentTh = selectedId ? window.ProofEngine.getTheoremById(selectedId) : thList[0];
+      const ex = window.ProofEngine.generateProofExercise(currentTh.id);
+
+      container.innerHTML = `
+        <div style="margin-bottom: 1.25rem; display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center;">
+          <label style="font-weight: 700; font-size: 0.9rem;">Théorème :</label>
+          <select id="proof-theorem-select" class="form-select" style="max-width: 380px;" onchange="window.MathsApp.renderProofEngineUI(this.value)">
+            ${thList.map(t => `<option value="${t.id}" ${t.id === currentTh.id ? 'selected' : ''}>${t.title} (${t.level})</option>`).join('')}
+          </select>
+        </div>
+
+        <div class="proof-statement-box">
+          <strong style="color: var(--primary);">Énoncé :</strong>
+          <p class="math-p" style="margin: 0.4rem 0 0 0;">${currentTh.statement}</p>
+        </div>
+
+        <h4 style="margin: 1.25rem 0 0.5rem 0; font-size: 1.05rem;">Étapes de la démonstration :</h4>
+        <div id="proof-steps-container" class="proof-steps-list">
+          ${ex.shuffledSteps.map((step, idx) => `
+            <div class="proof-step-item" data-step-id="${step.id}">
+              <span class="proof-step-num">${idx + 1}</span>
+              <div class="proof-step-text">
+                <div>${step.text}</div>
+                <small style="color: var(--text-muted); font-size: 0.8rem; margin-top: 0.2rem; display: block;">💡 Justification : ${step.why}</small>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+
+        <div style="background: rgba(239, 68, 68, 0.08); border-left: 4px solid #ef4444; padding: 1rem; border-radius: 0 8px 8px 0; margin-top: 1.25rem;">
+          <h4 style="margin: 0 0 0.4rem 0; color: #dc2626; font-size: 0.98rem;">⚠️ Piège / Sophisme à éviter absolument :</h4>
+          <p class="math-p" style="margin: 0; font-style: italic;">« ${currentTh.fallacy.fakeStep} »</p>
+          <div style="color: #991b1b; font-weight: 600; font-size: 0.85rem; margin-top: 0.4rem;">
+            <strong>Réfutation :</strong> ${currentTh.fallacy.whyFalse}
+          </div>
+        </div>
+      `;
+      window.MathsRenderer.renderElement(container);
+    },
+
     openLockModal(targetCycle = 'lycee', targetLevel = null, targetChapterId = null, targetMode = null, autoGenerate = false) {
       this.pendingUnlock = {
         cycle: targetCycle,
@@ -1214,7 +1332,46 @@ document.addEventListener('DOMContentLoaded', () => {
     },
 
     renderDomainNav() {
-      // Déjà pré-câblé dans HTML
+      const navContainer = document.querySelector('.domain-filters-scroll');
+      if (!navContainer) return;
+
+      let filters = [];
+      if (this.currentLevel === 'capes') {
+        filters = [
+          { domain: 'all', label: 'Tous' },
+          { domain: 'oral1', label: '📐 Oral 1 : Leçons' },
+          { domain: 'oral2', label: '⚖️ Oral 2 : Entretien' }
+        ];
+      } else {
+        filters = [
+          { domain: 'all', label: 'Tous' },
+          { domain: 'nombres', label: '🔢 Nombres' },
+          { domain: 'geometrie', label: '📐 Géométrie' },
+          { domain: 'fonctions', label: '📈 Fonctions' },
+          { domain: 'algo', label: '💻 Algo' }
+        ];
+      }
+
+      // S'assurer que le filtre actif est valide pour le niveau actuel
+      const validDomains = filters.map(f => f.domain);
+      if (!validDomains.includes(this.currentFilterDomain)) {
+        this.currentFilterDomain = 'all';
+      }
+
+      navContainer.innerHTML = filters.map(f => `
+        <button class="domain-filter-btn ${f.domain === this.currentFilterDomain ? 'active' : ''}" data-domain="${f.domain}">
+          ${f.label}
+        </button>
+      `).join('');
+
+      navContainer.querySelectorAll('.domain-filter-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          navContainer.querySelectorAll('.domain-filter-btn').forEach(b => b.classList.remove('active'));
+          e.currentTarget.classList.add('active');
+          this.currentFilterDomain = e.currentTarget.dataset.domain;
+          this.renderChaptersGrid();
+        });
+      });
     },
 
     renderChaptersGrid() {
@@ -1226,6 +1383,10 @@ document.addEventListener('DOMContentLoaded', () => {
       let filtered = this.currentFilterDomain === 'all'
         ? levelChapters
         : levelChapters.filter(c => {
+            if (this.currentLevel === 'capes') {
+              if (this.currentFilterDomain === 'oral1') return c.id !== 'capes-oral2' && c.domain !== 'oral2';
+              if (this.currentFilterDomain === 'oral2') return c.id === 'capes-oral2' || c.domain === 'oral2';
+            }
             if (c.domain === this.currentFilterDomain) return true;
             if (this.currentFilterDomain === 'nombres' && (c.domain === 'algebre' || c.domain === 'arithmetique')) return true;
             if (this.currentFilterDomain === 'geometrie' && (c.domain === 'espace' || c.domain === 'vecteurs' || c.domain === 'trigo')) return true;
@@ -1353,6 +1514,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Mise à jour réactive immédiate de la jauge de maîtrise (héro + barre latérale)
       this.updateChapterMasteryUI(chapterId);
+
+      // Mise à jour du bouton contextuel Labo 2D/3D
+      this.updateVisualizerButtonUI(chapterId);
 
       // Rafraîchir l'onglet actif
       this.refreshCurrentTab();
@@ -1515,8 +1679,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
           // Placeholder neutre qui ne donne JAMAIS la réponse aux élèves
           let safePlaceholder = 'Votre réponse...';
+          let inputTip = '💡 Pour une fraction, écris par exemple <code>13/7</code> ou utilise le clavier virtuel ci-dessous.';
           const ansStr = String(exercise.answer || '').trim();
-          if (ansStr.includes('/')) {
+          if (ansStr.includes(';') || (ansStr.startsWith('(') && ansStr.endsWith(')'))) {
+            safePlaceholder = 'Coordonnées (ex: (3;5) ou 3;5)';
+            inputTip = '💡 Écris les coordonnées sous la forme <code>(x;y)</code> ou <code>x;y</code>.';
+          } else if (ansStr.includes('/')) {
             safePlaceholder = 'Ex: 3/4 (fraction irréductible)';
           } else if (ansStr.includes('^')) {
             safePlaceholder = 'Ex: 10^3';
@@ -1530,7 +1698,7 @@ document.addEventListener('DOMContentLoaded', () => {
               <div id="math-preview-badge" class="math-preview-badge" style="display:none;"></div>
             </div>
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.4rem;">
-              <p class="input-tip" style="margin:0;">💡 Pour une fraction, écris par exemple <code>13/7</code> ou utilise le clavier virtuel ci-dessous.</p>
+              <p class="input-tip" style="margin:0;">${inputTip}</p>
               <div class="kbd-hint" style="margin:0;"><span>⌨️</span> <kbd class="kbd-badge">Entrée</kbd> pour valider, <kbd class="kbd-badge">H</kbd> pour indice</div>
             </div>
           `;
@@ -1649,6 +1817,23 @@ document.addEventListener('DOMContentLoaded', () => {
           4: "Palier 4 : Approfondissement"
         };
         return labels[t] || `Palier ${t}`;
+      } else if (lvl === 'capes') {
+        if (this.currentChapterId === 'capes-oral2') {
+          const labels = {
+            1: "Palier 1 : Déontologie",
+            2: "Palier 2 : Situations",
+            3: "Palier 3 : Périscolaire",
+            4: "Palier 4 : Procédures"
+          };
+          return labels[t] || `Palier ${t}`;
+        }
+        const labels = {
+          1: "Palier 1 : Socle",
+          2: "Palier 2 : Méthodes",
+          3: "Palier 3 : Concours",
+          4: "Palier 4 : Rigueur"
+        };
+        return labels[t] || `Palier ${t}`;
       } else if (['L1', 'L2', 'L3', 'licence'].includes(lvl)) {
         const labels = {
           1: "Palier 1 : Socle",
@@ -1701,6 +1886,23 @@ document.addEventListener('DOMContentLoaded', () => {
           2: "Entraînement Guidé",
           3: "Objectif Bac (Épreuve)",
           4: lvl === 'tale' ? "Défi Post-Bac & Approfondissement" : "Défi & Approfondissement"
+        };
+        return names[t] || `Niveau ${t}`;
+      } else if (lvl === 'capes') {
+        if (this.currentChapterId === 'capes-oral2') {
+          const names = {
+            1: "Socle Déontologique & Textes",
+            2: "Situations de Classe & Contestation",
+            3: "Parents, Sorties & Périscolaire",
+            4: "Procédures d'Urgence & Jury"
+          };
+          return names[t] || `Niveau ${t}`;
+        }
+        const names = {
+          1: "Socle & Définitions",
+          2: "Entraînement & Méthodes",
+          3: "Niveau Concours (Oral 1)",
+          4: "Démonstrations & Rigueur"
         };
         return names[t] || `Niveau ${t}`;
       } else if (['L1', 'L2', 'L3', 'licence'].includes(lvl)) {
@@ -2037,8 +2239,84 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const currentCycle = window.MathsStorage.getCycleForLevel(this.currentLevel);
       const cycleInfo = this.CYCLES[currentCycle] || { name: 'Mathématiques' };
-      const lvlLabel = this.getLevelName(this.currentLevel);
       const course = (window.MATHS_COURSES || {})[this.currentChapterId];
+      const capesLesson = (window.CAPES_LESSONS || []).find(l => l.id.toLowerCase() === (this.currentChapterId || '').toLowerCase());
+      if (capesLesson) {
+        const isOral2 = capesLesson.id === 'capes-oral2';
+        const themeColor = isOral2 ? '#ec4899' : '#8b5cf6';
+        const badgeText = isOral2
+          ? "ÉPREUVE D'ENTRETIEN (ORAL 2) • ÉTHIQUE PROFESSIONNELLE & VALEURS DE LA RÉPUBLIQUE"
+          : "LEÇON DISCIPLINAIRE (ORAL 1) • CONCOURS DE L'ENSEIGNEMENT";
+
+        container.innerHTML = `
+          <div class="course-sheet-header">
+            <div class="course-header-titles">
+              <span class="badge-tag" style="background:${themeColor}; color:#fff; font-weight:800; font-size:0.75rem; padding:3px 10px; border-radius:12px; margin-bottom:0.5rem; display:inline-block;">${badgeText}</span>
+              <h2>${capesLesson.num} : ${capesLesson.title}</h2>
+              <div style="color:var(--text-muted); font-size:0.9rem; font-weight:600; margin-top:0.25rem;">Domaine : ${capesLesson.domain} • Niveau : ${capesLesson.level}</div>
+            </div>
+            <div class="course-header-actions">
+              <button class="btn-secondary no-print course-print-btn" onclick="window.print()" title="Imprimer la leçon"><span style="margin-right: 0.35rem;">🖨️</span>Imprimer la fiche</button>
+              <img src="assets/logo.png" alt="Logo L'Établi des Maths" class="course-header-logo" width="48" height="48" />
+            </div>
+          </div>
+
+          <div class="course-card course-objectives">
+            <h3>${isOral2 ? '🎯 1. Textes Officiels & Cadre Institutionnel' : '🎯 1. Pré-requis & Cadre Mathématique Formel'}</h3>
+            <ul class="math-list">
+              ${(capesLesson.prerequisites || []).map(p => `<li>${p}</li>`).join('')}
+            </ul>
+          </div>
+
+          <div class="course-card">
+            <h3>${isOral2 ? '📋 2. Proposition de Plan & Synthèse Thématique' : '📋 2. Proposition de Plan en 3 Parties (Exposé au tableau)'}</h3>
+            <div class="course-card-body" style="display:flex; flex-direction:column; gap:1rem;">
+              ${(capesLesson.plan || []).map(p => `
+                <div style="background:var(--bg-subtle, #f8fafc); border-left:4px solid ${themeColor}; padding:0.9rem 1.1rem; border-radius:0 8px 8px 0;">
+                  <h4 style="margin:0 0 0.4rem 0; color:${themeColor}; font-size:1.02rem;">${p.part}</h4>
+                  <p class="math-p" style="margin:0;">${p.content}</p>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+
+          <div class="course-card" style="border: 2px solid ${isOral2 ? 'rgba(236, 72, 153, 0.3)' : 'rgba(139, 92, 246, 0.3)'};">
+            <h3>${isOral2 ? '⚖️ 3. Cadre Juridique Fondamental & Jurisprudences de Référence' : '✍️ 3. Théorème Clé & Démonstration Complète au Tableau'}</h3>
+            <div class="course-card-body">
+              <div class="callout callout-info" style="margin-bottom:1rem; border-left:4px solid ${themeColor};">
+                <strong style="color:${themeColor};">${capesLesson.keyTheorem.title} :</strong>
+                <p class="math-p" style="margin-top:0.4rem;">${capesLesson.keyTheorem.statement}</p>
+              </div>
+              <h5 style="margin:0.75rem 0 0.5rem 0; font-size:0.95rem; font-weight:700; color:var(--text-main);">${isOral2 ? 'Jurisprudences & fondements juridiques :' : 'Démonstration rigoureuse :'}</h5>
+              <div style="background:var(--bg-surface); padding:0.85rem 1rem; border:1px solid var(--border-color); border-radius:6px; font-size:0.95rem; line-height:1.6;">
+                ${window.MathsRenderer.markdownToHtml(capesLesson.keyTheorem.proof)}
+              </div>
+            </div>
+          </div>
+
+          <div class="course-card course-method">
+            <h3>${isOral2 ? '⏱️ 4. Focus Thématiques & Études de Cas Juridiques' : '⏱️ 4. Développements Types pour l\'Oral (15 minutes)'}</h3>
+            <ul class="math-list">
+              ${(capesLesson.developments || []).map(d => `<li>${d}</li>`).join('')}
+            </ul>
+          </div>
+
+          <div class="course-card" style="border-left: 4px solid #ef4444;">
+            <h3>${isOral2 ? '⚠️ 5. Questions Pièges du Jury & Posture Déontologique' : '⚠️ 5. Questions Pièges Classiques & Remarques du Jury'}</h3>
+            <ul class="math-list" style="color:var(--text-main);">
+              ${(capesLesson.juryTips || []).map(tip => `<li><strong>Attention :</strong> ${tip}</li>`).join('')}
+            </ul>
+          </div>
+
+          <div class="course-print-footer print-only">
+            <span>L'Établi des Maths — Fiche ${isOral2 ? 'Oral 2' : 'de Leçon Concours'} CAPES / Agrégation</span>
+            <span>Auteur : Loïc Delaporte</span>
+          </div>
+        `;
+        window.MathsRenderer.renderElement(container);
+        return;
+      }
+
       if (!course) {
         const chMeta = (window.MATHS_CHAPTERS || []).find(c => c.id === this.currentChapterId);
         if (chMeta) {
@@ -2664,8 +2942,8 @@ document.addEventListener('DOMContentLoaded', () => {
       } else if (lvl === '1ere' || lvl === 'tale' || lvl === 'lycee') {
         tier4Title = 'Excellence Baccalauréat';
         tier4Desc = 'Débloquer le palier 4 (Défi & Approfondissement)';
-      } else if (['L1', 'L2', 'L3', 'licence'].includes(lvl)) {
-        tier4Title = 'Rigueur Universitaire';
+      } else if (['L1', 'L2', 'L3', 'licence', 'capes'].includes(lvl)) {
+        tier4Title = 'Rigueur Universitaire & Concours';
         tier4Desc = 'Débloquer le palier 4 (Démonstrations & Rigueur)';
       }
       const unlockedTier4 = (unlockedBadges || []).find(ub => ub.id === 'tier_4_unlocked');

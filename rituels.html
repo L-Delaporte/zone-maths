@@ -18,6 +18,7 @@
   <title>Rituels de Maths & Questions Flash à Vidéoprojeter — L'Établi des Maths</title>
 
   <link rel="stylesheet" href="css/style.css?v=20261006a" />
+  <link rel="manifest" href="manifest.json" />
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png" />
   <link rel="apple-touch-icon" href="assets/favicon.png" />
 
@@ -254,6 +255,13 @@
             Un clic suffit pour projeter la correction détaillée avec les étapes intermédiaires, favorisant l'auto-correction immédiate sur ardoise ou cahier de brouillon.
           </p>
         </div>
+        <div class="landing-feature-card" style="border: 2px solid var(--primary);">
+          <div class="landing-feature-icon">✨</div>
+          <h3 class="landing-feature-title">Double Rituel Différencié</h3>
+          <p class="landing-feature-desc">
+            Projetez deux colonnes synchronisées au tableau : <strong>🟢 Socle</strong> pour consolider les automatismes fondamentaux et <strong>🟣 Défi</strong> pour stimuler les élèves rapides sans temps mort.
+          </p>
+        </div>
       </div>
     </section>
 
@@ -285,5 +293,17 @@
     <p>L'Établi des Maths — Conçu par Loïc Delaporte, Professeur de Mathématiques • 100 % Libre & Conforme aux Programmes</p>
   </footer>
 
+  <!-- Enregistrement Service Worker (PWA Hors-Ligne) -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('./sw.js').then(function(reg) {
+          console.log('[PWA] Service Worker actif :', reg.scope);
+        }).catch(function(err) {
+          console.warn('[PWA] Échec enregistrement Service Worker :', err);
+        });
+      });
+    }
+  </script>
 </body>
 </html>

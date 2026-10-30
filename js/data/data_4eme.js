@@ -1339,6 +1339,20 @@ window.MATHS_EXERCISES_4E = {
       "hint2": "$12^2 = 144$ et $7^2 + 9^2 = 49 + 81 = 130$. Compare $144$ et $130$.",
       "solution": "Dans le triangle $RST$, le plus long côté est $[RT]$ :\n1. D'une part : $$RT^2 = 12^2 = 144$$\n2. D'autre part : $$RS^2 + ST^2 = 7^2 + 9^2 = 49 + 81 = 130$$\n3. On constate que $RT^2 \\neq RS^2 + ST^2$ ($144 \\neq 130$).\nPar conséquent, d'après la **contraposée du théorème de Pythagore**, le triangle $RST$ **n'est pas rectangle**.",
       "skill": "Raisonner"
+    },
+    {
+      "id": "4G1-6",
+      "chapterId": "4G1",
+      "tier": 4,
+      "title": "Défi 3ème : Longueur d'une échelle nécessaire (Calcul de l'hypoténuse)",
+      "statement": "<div class=\"geo-figure-wrapper\" style=\"text-align:center; margin:12px 0;\">\n<svg class=\"geo-svg-figure\" viewBox=\"0 0 280 180\" width=\"280\" height=\"180\" style=\"max-width:270px; width:100%; height:auto;\" xmlns=\"http://www.w3.org/2000/svg\">\n  <line x1=\"20\" y1=\"145\" x2=\"265\" y2=\"145\" stroke=\"var(--text-main, #334155)\" stroke-width=\"2.5\" />\n  <path d=\"M 30,145 L 20,155 M 70,145 L 60,155 M 110,145 L 100,155 M 150,145 L 140,155 M 190,145 L 180,155 M 230,145 L 220,155\" stroke=\"#94a3b8\" stroke-width=\"1.2\" />\n  <line x1=\"210\" y1=\"20\" x2=\"210\" y2=\"145\" stroke=\"#64748b\" stroke-width=\"4\" stroke-linecap=\"round\" />\n  <path d=\"M 210,133 L 198,133 L 198,145\" fill=\"rgba(37, 99, 235, 0.15)\" stroke=\"var(--primary, #2563eb)\" stroke-width=\"1.6\" />\n  <line x1=\"75\" y1=\"145\" x2=\"210\" y2=\"35\" stroke=\"#ef4444\" stroke-width=\"2.6\" stroke-linecap=\"round\" />\n  <line x1=\"90\" y1=\"125\" x2=\"98\" y2=\"134\" stroke=\"#dc2626\" stroke-width=\"1.8\" />\n  <line x1=\"110\" y1=\"109\" x2=\"117\" y2=\"118\" stroke=\"#dc2626\" stroke-width=\"1.8\" />\n  <line x1=\"129\" y1=\"93\" x2=\"137\" y2=\"103\" stroke=\"#dc2626\" stroke-width=\"1.8\" />\n  <line x1=\"148\" y1=\"77\" x2=\"156\" y2=\"87\" stroke=\"#dc2626\" stroke-width=\"1.8\" />\n  <line x1=\"168\" y1=\"62\" x2=\"175\" y2=\"71\" stroke=\"#dc2626\" stroke-width=\"1.8\" />\n  <line x1=\"187\" y1=\"46\" x2=\"195\" y2=\"55\" stroke=\"#dc2626\" stroke-width=\"1.8\" />\n  <g class=\"geo-pill\">\n      <rect x=\"93\" y=\"69\" width=\"74\" height=\"22\" rx=\"5\" fill=\"#fee2e2\" stroke=\"#ef4444\" stroke-width=\"1.8\" />\n      <text x=\"130\" y=\"84.5\" text-anchor=\"middle\" font-family=\"system-ui, -apple-system, sans-serif\" font-size=\"12\" font-weight=\"700\" fill=\"#dc2626\">L = ? m</text>\n    </g>\n  <g class=\"geo-pill\">\n      <rect x=\"109\" y=\"152\" width=\"66.5\" height=\"22\" rx=\"5\" fill=\"var(--bg-surface, #ffffff)\" stroke=\"var(--border-color, #94a3b8)\" stroke-width=\"1\" />\n      <text x=\"142\" y=\"167.5\" text-anchor=\"middle\" font-family=\"system-ui, -apple-system, sans-serif\" font-size=\"12\" font-weight=\"600\" fill=\"var(--text-main, #0f172a)\">d = 6 m</text>\n    </g>\n  <g class=\"geo-pill\">\n      <rect x=\"205\" y=\"79\" width=\"66.5\" height=\"22\" rx=\"5\" fill=\"var(--bg-surface, #ffffff)\" stroke=\"var(--border-color, #94a3b8)\" stroke-width=\"1\" />\n      <text x=\"238\" y=\"94.5\" text-anchor=\"middle\" font-family=\"system-ui, -apple-system, sans-serif\" font-size=\"12\" font-weight=\"600\" fill=\"var(--text-main, #0f172a)\">h = 8 m</text>\n    </g>\n</svg>\n</div>\n\nPour atteindre une hauteur $h = 8\\text{ m}$ sur un mur vertical, on place le pied d'une échelle à une distance $d = 6\\text{ m}$ de la base du mur.\n**Quelle doit être la longueur $L$ de l'échelle pour atteindre cette hauteur (en mètres) ?**",
+      "type": "exact",
+      "answer": "10",
+      "placeholder": "Ex: 10",
+      "hint1": "Le mur vertical et le sol horizontal sont perpendiculaires : l'échelle correspond à l'hypoténuse.",
+      "hint2": "D'après le théorème de Pythagore : $L^2 = d^2 + h^2 = 6^2 + 8^2$.",
+      "solution": "Dans le triangle rectangle formé par le mur vertical, le sol horizontal et l'échelle (qui correspond à l'hypoténuse) :\n$$L^2 = d^2 + h^2$$\n$$L^2 = 6^2 + 8^2 = 36 + 64 = 100$$\nComme une longueur est positive ($L > 0$) :\n$$L = \\sqrt{100} = 10\\text{ m}$$",
+      "skill": "Résoudre"
     }
   ],
   "4G4": [
@@ -1642,6 +1656,19 @@ window.MATHS_EXERCISES_4E = {
     "hint1": "Ajoute les composantes du déplacement (3 en x, 4 en y) aux coordonnées de M.",
     "solution": "$$x' = 2 + 3 = 5 \\quad \\text{et} \\quad y' = 1 + 4 = 5 \\implies M'(5 ; 5)$$",
     "skill": "Calculer"
+  },
+  {
+    "id": "4G3-5",
+    "chapterId": "4G3",
+    "tier": 4,
+    "title": "Défi : Translation avec coordonnées négatives",
+    "statement": "Dans un repère, une translation décale les points de $-2$ en abscisse et $+5$ en ordonnée.\n**Quelles sont les coordonnées du point image de $A(9 ; 7)$ ?** *(Format attendu : $(x ; y)$)*",
+    "type": "exact",
+    "answer": "(7;12)",
+    "placeholder": "(7;12)",
+    "hint1": "Applique chaque décalage : retranche 2 à l'abscisse et ajoute 5 à l'ordonnée.",
+    "solution": "On applique les décalages de la translation aux coordonnées de $A(9 ; 7)$ :\n- Abscisse : $$x' = 9 - 2 = 7$$\n- Ordonnée : $$y' = 7 + 5 = 12$$\nLes coordonnées du point image sont donc **$A'(7 ; 12)$** (ou **$(7 ; 12)$**).",
+    "skill": "Résoudre"
   }
 ],
   "4D2": [

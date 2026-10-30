@@ -1,5 +1,5 @@
 // Base de données des exercices interactifs par chapitre et par palier ZPD (1 à 4)
-window.MATHS_EXERCISES = {
+window.MATHS_EXERCISES = Object.assign(window.MATHS_EXERCISES || {}, {
   "N1": [
     {
       "id": "N1-1",
@@ -1935,4 +1935,4 @@ window.MATHS_EXERCISES = {
       "skill": "Raisonner"
     }
   ]
-};
+});

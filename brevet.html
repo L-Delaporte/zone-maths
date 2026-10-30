@@ -18,6 +18,7 @@
   <title>Révisions Brevet Maths 3ème (DNB) — Devoirs Blancs & Exercices Corrigés</title>
 
   <link rel="stylesheet" href="css/style.css?v=20261006a" />
+  <link rel="manifest" href="manifest.json" />
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png" />
   <link rel="apple-touch-icon" href="assets/favicon.png" />
 
@@ -327,5 +328,17 @@
     <p>L'Établi des Maths — Conçu par Loïc Delaporte, Professeur de Mathématiques • 100 % Libre & Conforme aux Programmes</p>
   </footer>
 
+  <!-- Enregistrement Service Worker (PWA Hors-Ligne) -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('./sw.js').then(function(reg) {
+          console.log('[PWA] Service Worker actif :', reg.scope);
+        }).catch(function(err) {
+          console.warn('[PWA] Échec enregistrement Service Worker :', err);
+        });
+      });
+    }
+  </script>
 </body>
 </html>

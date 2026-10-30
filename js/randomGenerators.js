@@ -137,49 +137,52 @@ window.MathsGenerators = {
   },
 
   formatPoly(a, b, c) {
-    // Permet d'appeler avec un tableau : formatPoly([a, b]) pour ax + b, ou formatPoly([a, b, c]) pour ax^2 + bx + c
+    // Permet d'appeler avec un tableau : formatPoly([a, b]) pour ax + b, formatPoly([a, b, c]) pour ax^2 + bx + c,
+    // ou avec n'importe quel degré formatPoly([c_n, ..., c_0]), ou encore formatPoly(a, b) / formatPoly(a, b, c).
+    let coeffs;
     if (Array.isArray(a)) {
-      if (a.length === 2) {
-        c = a[1];
-        b = a[0];
-        a = 0;
-      } else if (a.length === 3) {
-        c = a[2];
-        b = a[1];
-        a = a[0];
-      }
+      coeffs = a;
     } else if (c === undefined && b !== undefined) {
-      // Appel avec deux arguments : formatPoly(a, b) -> ax + b
-      c = b;
-      b = a;
-      a = 0;
+      coeffs = [a, b];
+    } else {
+      coeffs = [a || 0, b || 0, c || 0];
     }
-    a = a || 0;
-    b = b || 0;
-    c = c || 0;
 
+    const n = coeffs.length;
     const parts = [];
-    if (a !== 0) {
-      if (a === 1) parts.push('x^2');
-      else if (a === -1) parts.push('-x^2');
-      else parts.push(`${a}x^2`);
-    }
-    if (b !== 0) {
+
+    for (let i = 0; i < n; i++) {
+      const coeff = coeffs[i];
+      if (coeff === 0) continue;
+      const power = n - 1 - i;
+
+      let varStr = '';
+      if (power === 1) varStr = 'x';
+      else if (power > 1) varStr = `x^${power}`;
+
       if (parts.length === 0) {
-        if (b === 1) parts.push('x');
-        else if (b === -1) parts.push('-x');
-        else parts.push(`${b}x`);
+        if (power === 0) {
+          parts.push(String(coeff));
+        } else if (coeff === 1) {
+          parts.push(varStr);
+        } else if (coeff === -1) {
+          parts.push(`-${varStr}`);
+        } else {
+          parts.push(`${coeff}${varStr}`);
+        }
       } else {
-        parts.push(this.formatSignedTerm(b, 'x'));
+        const sign = coeff > 0 ? '+ ' : '- ';
+        const absVal = Math.abs(coeff);
+        if (power === 0) {
+          parts.push(`${sign}${absVal}`);
+        } else if (absVal === 1) {
+          parts.push(`${sign}${varStr}`);
+        } else {
+          parts.push(`${sign}${absVal}${varStr}`);
+        }
       }
     }
-    if (c !== 0) {
-      if (parts.length === 0) {
-        parts.push(String(c));
-      } else {
-        parts.push(c > 0 ? `+ ${c}` : `- ${Math.abs(c)}`);
-      }
-    }
+
     return parts.length ? parts.join(' ') : '0';
   },
 
@@ -210,6 +213,38 @@ window.MathsGenerators = {
       <rect x="${rx}" y="${ry}" width="${width}" height="${height}" rx="5" fill="${bg}" stroke="${border}" stroke-width="${strokeW}" />
       <text x="${x}" y="${y + 4.5}" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="${fontWeight}" fill="${textColor}">${str}</text>
     </g>`;
+  },
+
+  renderScratch(lines) {
+    const sr = (typeof window !== 'undefined' && window.ScratchRenderer) || (typeof ScratchRenderer !== 'undefined' ? ScratchRenderer : null);
+    if (sr && typeof sr.renderScript === 'function') {
+      return sr.renderScript(lines);
+    }
+    return `\`\`\`text\n${lines.join('\n')}\n\`\`\``;
+  },
+
+  renderTrigFigure(opts = {}) {
+    const gf = (typeof window !== 'undefined' && window.GeometryFigures) || (typeof GeometryFigures !== 'undefined' ? GeometryFigures : null);
+    if (gf && typeof gf.drawTrigTriangle === 'function') {
+      return gf.drawTrigTriangle(opts);
+    }
+    return '';
+  },
+
+  renderRightTriangle(opts = {}) {
+    const gf = (typeof window !== 'undefined' && window.GeometryFigures) || (typeof GeometryFigures !== 'undefined' ? GeometryFigures : null);
+    if (gf && typeof gf.drawRightTriangle === 'function') {
+      return gf.drawRightTriangle(opts);
+    }
+    return this.buildRightTriangleSvg(opts);
+  },
+
+  renderThalesFigure(opts = {}) {
+    const gf = (typeof window !== 'undefined' && window.GeometryFigures) || (typeof GeometryFigures !== 'undefined' ? GeometryFigures : null);
+    if (gf && typeof gf.drawThalesFigure === 'function') {
+      return gf.drawThalesFigure(opts);
+    }
+    return this.buildThalesEmboiteSvg(opts);
   },
 
   buildRightTriangleSvg({
@@ -500,11 +535,22 @@ window.MathsGenerators = {
       `</svg>\n</div>\n\n`;
   },
 
-  buildLadderSvg({ L = 10, d = 6, h = '?' }) {
+  buildLadderSvg({ L = 10, d = 6, h = '?', unknown = null }) {
     const w = 280;
     const height = 180;
     const pFoot = { x: 75, y: 145 };
     const pTop = { x: 210, y: 35 };
+
+    const isUnkL = (unknown === 'L' || L === '?' || L === '? m');
+    const isUnkH = (unknown === 'h' || h === '?' || h === '? m');
+    const isUnkD = (unknown === 'd' || d === '?' || d === '? m');
+
+    const strL = isUnkL ? 'L = ? m' : `L = ${L} m`;
+    const strD = isUnkD ? 'd = ? m' : `d = ${d} m`;
+    const strH = isUnkH ? 'h = ? m' : `h = ${h} m`;
+
+    const ladderColor = isUnkL ? '#ef4444' : '#b45309';
+    const rungColor = isUnkL ? '#dc2626' : '#d97706';
 
     const rungs = [];
     for (let i = 1; i <= 6; i++) {
@@ -516,7 +562,7 @@ window.MathsGenerators = {
       const len = Math.hypot(dx, dy);
       const nx = -dy / len * 6;
       const ny = dx / len * 6;
-      rungs.push(`<line x1="${Math.round(rx - nx)}" y1="${Math.round(ry - ny)}" x2="${Math.round(rx + nx)}" y2="${Math.round(ry + ny)}" stroke="#d97706" stroke-width="1.8" />`);
+      rungs.push(`<line x1="${Math.round(rx - nx)}" y1="${Math.round(ry - ny)}" x2="${Math.round(rx + nx)}" y2="${Math.round(ry + ny)}" stroke="${rungColor}" stroke-width="1.8" />`);
     }
 
     return `<div class="geo-figure-wrapper" style="text-align:center; margin:12px 0;">\n` +
@@ -525,11 +571,11 @@ window.MathsGenerators = {
       `  <path d="M 30,145 L 20,155 M 70,145 L 60,155 M 110,145 L 100,155 M 150,145 L 140,155 M 190,145 L 180,155 M 230,145 L 220,155" stroke="#94a3b8" stroke-width="1.2" />\n` +
       `  <line x1="210" y1="20" x2="210" y2="145" stroke="#64748b" stroke-width="4" stroke-linecap="round" />\n` +
       `  <path d="M 210,133 L 198,133 L 198,145" fill="rgba(37, 99, 235, 0.15)" stroke="var(--primary, #2563eb)" stroke-width="1.6" />\n` +
-      `  <line x1="${pFoot.x}" y1="${pFoot.y}" x2="${pTop.x}" y2="${pTop.y}" stroke="#b45309" stroke-width="2.6" stroke-linecap="round" />\n` +
+      `  <line x1="${pFoot.x}" y1="${pFoot.y}" x2="${pTop.x}" y2="${pTop.y}" stroke="${ladderColor}" stroke-width="2.6" stroke-linecap="round" />\n` +
       `  ${rungs.join('\n  ')}\n` +
-      `  ${this.buildSvgPill(130, 80, `L = ${L} m`, false)}\n` +
-      `  ${this.buildSvgPill(142, 163, `d = ${d} m`, false)}\n` +
-      `  ${this.buildSvgPill(238, 90, `h = ${h} m`, true)}\n` +
+      `  ${this.buildSvgPill(130, 80, strL, isUnkL)}\n` +
+      `  ${this.buildSvgPill(142, 163, strD, isUnkD)}\n` +
+      `  ${this.buildSvgPill(238, 90, strH, isUnkH)}\n` +
       `</svg>\n</div>\n\n`;
   },
 
@@ -1062,7 +1108,7 @@ window.MathsGenerators = {
         correctIndex: 0,
         explanations,
         hint1: "Calcule séparément l'expression du haut (numérateur) et l'expression du bas (dénominateur) en les mettant chacune au même dénominateur.",
-        hint2: `1. Haut : $\\frac{${a}}{${b}} - \\frac{${c}}{${d}} = \\frac{${a}\\times${d} - ${c}\\times${b}}{${numD}} = \\frac{${numN}}{${numD}}${numStr}.\n2. Bas : $\\frac{${e}}{${f}} + \\frac{${g}}{${h}} = \\frac{${e}\\times${h} + ${g}\\times${f}}{${denD}} = \\frac{${denN}}{${denD}}${denStr}.\n3. On multiplie ensuite le haut par l'inverse du bas.`,
+        hint2: `1. Haut : $\\frac{${a}}{${b}} - \\frac{${c}}{${d}} = \\frac{${a}\\times${d} - ${c}\\times${b}}{${numD}} = \\frac{${numN}}{${numD}}${numStr}$.\n2. Bas : $\\frac{${e}}{${f}} + \\frac{${g}}{${h}} = \\frac{${e}\\times${h} + ${g}\\times${f}}{${denD}} = \\frac{${denN}}{${denD}}${denStr}$.\n3. On multiplie ensuite le haut par l'inverse du bas.`,
         solution: `1. **Calcul du numérateur (en haut)** :\n$$\\frac{${a}}{${b}} - \\frac{${c}}{${d}} = \\frac{${a} \\times ${d}}{${b} \\times ${d}} - \\frac{${c} \\times ${b}}{${d} \\times ${b}} = \\frac{${numN}}{${numD}}${numStr}$$\n2. **Calcul du dénominateur (en bas)** :\n$$\\frac{${e}}{${f}} + \\frac{${g}}{${h}} = \\frac{${e} \\times ${h}}{${f} \\times ${h}} + \\frac{${g} \\times ${f}}{${h} \\times ${f}} = \\frac{${denN}}{${denD}}${denStr}$$\n3. **Division par multiplication par l'inverse** :\n$$G = \\frac{${sNumN}}{${sNumD}} \\div \\frac{${sDenN}}{${sDenD}} = \\frac{${sNumN}}{${sNumD}} \\times \\frac{${sDenD}}{${sDenN}} = \\frac{${sNumN * sDenD}}{${sNumD * sDenN}} = ${this.formatFraction(sN, sD)}$$`
       };
     }
@@ -3158,11 +3204,19 @@ window.MathsGenerators = {
       if (vtype === 'cos60') {
         const hyp = this.randInt(4, 12) * 2;
         const adj = hyp / 2;
+        const figSvg = this.renderTrigFigure({
+          vertices: ['A', 'B', 'C'],
+          rightVertex: 'A',
+          angleVertex: 'B',
+          angleVal: '60°',
+          lengths: { 'BC': `${hyp} cm`, 'AB': '?' },
+          highlightUnknown: 'AB'
+        });
         return {
           chapterId: 'G2',
           tier: 2,
           title: "Calcul du côté adjacent avec le cosinus",
-          statement: `Soit $ABC$ un triangle rectangle en $A$ tel que $\\widehat{B} = 60^\\circ$ et l'hypoténuse $BC = ${hyp}\\text{ cm}$.\n*(On rappelle que $\\cos(60^\\circ) = 0{,}5$)*\n\n**Calculer la longueur du côté adjacent $AB$ en cm.**`,
+          statement: `${figSvg}Soit $ABC$ un triangle rectangle en $A$ tel que $\\widehat{B} = 60^\\circ$ et l'hypoténuse $BC = ${hyp}\\text{ cm}$.\n*(On rappelle que $\\cos(60^\\circ) = 0{,}5$)*\n\n**Calculer la longueur du côté adjacent $AB$ en cm.**`,
           type: 'exact',
           answer: String(adj),
           placeholder: `Ex: ${adj}`,
@@ -3172,11 +3226,19 @@ window.MathsGenerators = {
       } else if (vtype === 'sin30') {
         const hyp = this.randInt(4, 12) * 2;
         const opp = hyp / 2;
+        const figSvg = this.renderTrigFigure({
+          vertices: ['A', 'B', 'C'],
+          rightVertex: 'A',
+          angleVertex: 'B',
+          angleVal: '30°',
+          lengths: { 'BC': `${hyp} cm`, 'AC': '?' },
+          highlightUnknown: 'AC'
+        });
         return {
           chapterId: 'G2',
           tier: 2,
           title: "Calcul du côté opposé avec le sinus",
-          statement: `Soit $ABC$ un triangle rectangle en $A$ tel que $\\widehat{B} = 30^\\circ$ et l'hypoténuse $BC = ${hyp}\\text{ cm}$.\n*(On rappelle que $\\sin(30^\\circ) = 0{,}5$)*\n\n**Calculer la longueur du côté opposé $AC$ en cm.**`,
+          statement: `${figSvg}Soit $ABC$ un triangle rectangle en $A$ tel que $\\widehat{B} = 30^\\circ$ et l'hypoténuse $BC = ${hyp}\\text{ cm}$.\n*(On rappelle que $\\sin(30^\\circ) = 0{,}5$)*\n\n**Calculer la longueur du côté opposé $AC$ en cm.**`,
           type: 'exact',
           answer: String(opp),
           placeholder: `Ex: ${opp}`,
@@ -3185,11 +3247,19 @@ window.MathsGenerators = {
         };
       } else if (vtype === 'tan45') {
         const side = this.randInt(4, 15);
+        const figSvg = this.renderTrigFigure({
+          vertices: ['A', 'B', 'C'],
+          rightVertex: 'A',
+          angleVertex: 'B',
+          angleVal: '45°',
+          lengths: { 'AB': `${side} cm`, 'AC': '?' },
+          highlightUnknown: 'AC'
+        });
         return {
           chapterId: 'G2',
           tier: 2,
           title: "Calcul avec la tangente d'un angle de 45°",
-          statement: `Dans un triangle $ABC$ rectangle en $A$, $\\widehat{B} = 45^\\circ$ et le côté adjacent $AB = ${side}\\text{ cm}$.\n*(On rappelle que $\\tan(45^\\circ) = 1$)*\n\n**Calculer la longueur du côté opposé $AC$ en cm.**`,
+          statement: `${figSvg}Dans un triangle $ABC$ rectangle en $A$, $\\widehat{B} = 45^\\circ$ et le côté adjacent $AB = ${side}\\text{ cm}$.\n*(On rappelle que $\\tan(45^\\circ) = 1$)*\n\n**Calculer la longueur du côté opposé $AC$ en cm.**`,
           type: 'exact',
           answer: String(side),
           placeholder: `Ex: ${side}`,
@@ -3199,11 +3269,19 @@ window.MathsGenerators = {
       } else {
         const adj = this.randInt(3, 10);
         const hyp = adj * 2;
+        const figSvg = this.renderTrigFigure({
+          vertices: ['A', 'B', 'C'],
+          rightVertex: 'A',
+          angleVertex: 'B',
+          angleVal: '60°',
+          lengths: { 'AB': `${adj} cm`, 'BC': '?' },
+          highlightUnknown: 'BC'
+        });
         return {
           chapterId: 'G2',
           tier: 2,
           title: "Calcul de l'hypoténuse avec le cosinus",
-          statement: `Soit $ABC$ un triangle rectangle en $A$ tel que $\\widehat{B} = 60^\\circ$ et le côté adjacent $AB = ${adj}\\text{ cm}$.\n*(On rappelle que $\\cos(60^\\circ) = 0{,}5$)*\n\n**Calculer la longueur de l'hypoténuse $BC$ en cm.**`,
+          statement: `${figSvg}Soit $ABC$ un triangle rectangle en $A$ tel que $\\widehat{B} = 60^\\circ$ et le côté adjacent $AB = ${adj}\\text{ cm}$.\n*(On rappelle que $\\cos(60^\\circ) = 0{,}5$)*\n\n**Calculer la longueur de l'hypoténuse $BC$ en cm.**`,
           type: 'exact',
           answer: String(hyp),
           placeholder: `Ex: ${hyp}`,
@@ -3215,12 +3293,20 @@ window.MathsGenerators = {
       const a = this.randInt(3, 22);
       const b = this.randInt(3, 22, [a]);
       const angle = Math.round(Math.atan(b / a) * 180 / Math.PI);
+      const figSvg = this.renderTrigFigure({
+        vertices: ['A', 'B', 'C'],
+        rightVertex: 'A',
+        angleVertex: 'B',
+        angleVal: '?',
+        lengths: { 'AB': `${a} cm`, 'AC': `${b} cm` },
+        highlightUnknown: 'B'
+      });
 
       return {
         chapterId: 'G2',
         tier: 3,
         title: "Calcul d'un angle au degré près (Brevet)",
-        statement: `Dans un triangle $ABC$ rectangle en $A$, on donne $AB = ${a}\\text{ cm}$ (côté adjacent) et $AC = ${b}\\text{ cm}$ (côté opposé).\n**Calculer la mesure de l'angle $\\widehat{ABC}$ arrondie au degré près.**`,
+        statement: `${figSvg}Dans un triangle $ABC$ rectangle en $A$, on donne $AB = ${a}\\text{ cm}$ (côté adjacent) et $AC = ${b}\\text{ cm}$ (côté opposé).\n**Calculer la mesure de l'angle $\\widehat{ABC}$ arrondie au degré près.**`,
         type: 'exact',
         answer: String(angle),
         placeholder: `Ex: ${angle}`,
@@ -4518,11 +4604,19 @@ window.MathsGenerators = {
         const m = this.randInt(2, 5);
         const a = this.randInt(3, 9);
         const res = x * m + a;
+        const scratchHtml = this.renderScratch([
+          "quand drapeau vert pressé",
+          "demander [Choisir un nombre] et attendre",
+          "mettre [x] à réponse",
+          `mettre [x] à (x * ${m})`,
+          `mettre [x] à (x + ${a})`,
+          "dire (x)"
+        ]);
         return {
           chapterId: 'Algo',
           tier: 1,
           title: "Programme de calcul Scratch (Cycle 4)",
-          statement: `On considère le script Scratch suivant :\n\`\`\`text\nquand drapeau vert pressé\ndemander [Choisir un nombre] et attendre\nmettre [x] à réponse\nmettre [x] à (x * ${m})\nmettre [x] à (x + ${a})\ndire (x)\n\`\`\`\n**Si le nombre choisi au départ est $${x}$, quel résultat affiche le lutin ?**`,
+          statement: `On considère le script Scratch suivant :\n${scratchHtml}\n**Si le nombre choisi au départ est $${x}$, quel résultat affiche le lutin ?**`,
           type: 'exact',
           answer: String(res),
           placeholder: `Ex: ${res}`,
@@ -4535,12 +4629,17 @@ window.MathsGenerators = {
       const n = this.randInt(3, 6);
       const step = this.randInt(10, 30);
       const total = n * step;
+      const scratchHtml = this.renderScratch([
+        "mettre [X] à 0",
+        `répéter ${n} fois`,
+        `    ajouter ${step} à [X]`
+      ]);
 
       return {
         chapterId: 'Algo',
         tier: 1,
         title: "Boucle de répétition (Scratch)",
-        statement: `On considère le script suivant :\n\`\`\`text\nmettre X à 0\nrépéter ${n} fois :\n    ajouter ${step} à X\n\`\`\`\n**Quelle sera la valeur finale de la variable $X$ à la fin du script ?**`,
+        statement: `On considère le script suivant :\n${scratchHtml}\n**Quelle sera la valeur finale de la variable $X$ à la fin du script ?**`,
         type: 'exact',
         answer: String(total),
         placeholder: `Ex: ${total}`,
@@ -4555,11 +4654,19 @@ window.MathsGenerators = {
         const a = this.randInt(2, 6);
         const b = this.randInt(2, 5);
         const res = (x - a) * b;
+        const scratchHtml = this.renderScratch([
+          "quand drapeau vert pressé",
+          "demander [Choisir un nombre] et attendre",
+          "mettre [x] à réponse",
+          `mettre [x] à (x - ${a})`,
+          `mettre [x] à (x * ${b})`,
+          "dire (x)"
+        ]);
         return {
           chapterId: 'Algo',
           tier: 2,
           title: "Programme de calcul Scratch avec relatifs (Brevet)",
-          statement: `On considère le script Scratch suivant :\n\`\`\`text\nquand drapeau vert pressé\ndemander [Choisir un nombre] et attendre\nmettre [x] à réponse\nmettre [x] à (x - ${a})\nmettre [x] à (x * ${b})\ndire (x)\n\`\`\`\n**Si le nombre choisi est $${x}$, quel résultat affiche le lutin ?**`,
+          statement: `On considère le script Scratch suivant :\n${scratchHtml}\n**Si le nombre choisi est $${x}$, quel résultat affiche le lutin ?**`,
           type: 'exact',
           answer: String(res),
           placeholder: `Ex: ${res}`,
@@ -4593,11 +4700,19 @@ window.MathsGenerators = {
         const m = this.randInt(2, 4);
         const a = this.randInt(3, 10);
         const finalVal = start * m + a;
+        const scratchHtml = this.renderScratch([
+          "quand drapeau vert pressé",
+          "demander [Choisir un nombre] et attendre",
+          "mettre [x] à réponse",
+          `mettre [x] à (x * ${m})`,
+          `mettre [x] à (x + ${a})`,
+          "dire (x)"
+        ]);
         return {
           chapterId: 'Algo',
           tier: 3,
           title: "Problème inverse Scratch : retrouver le nombre de départ (Brevet)",
-          statement: `On considère le script Scratch suivant :\n\`\`\`text\nquand drapeau vert pressé\ndemander [Choisir un nombre] et attendre\nmettre [x] à réponse\nmettre [x] à (x * ${m})\nmettre [x] à (x + ${a})\ndire (x)\n\`\`\`\nÀ la fin du programme, **le lutin annonce $${finalVal}$**.\n**Quel nombre de départ avait été choisi ?**`,
+          statement: `On considère le script Scratch suivant :\n${scratchHtml}\nÀ la fin du programme, **le lutin annonce $${finalVal}$**.\n**Quel nombre de départ avait été choisi ?**`,
           type: 'exact',
           answer: String(start),
           placeholder: `Ex: ${start}`,
@@ -6044,7 +6159,7 @@ window.MathsGenerators = {
       }
     } else if (t === 3) {
       // Palier 3 : Brevet (ax + b = cx + d ou avec parenthèses)
-      const subType = this.randChoice(['two_sides_std', 'two_sides_inv', 'par_equation', 'x_sub_par']);
+      const subType = this.randChoice(['two_sides_std', 'two_sides_inv', 'par_equation', 'x_sub_par', 'distrib_one_side', 'fraction_simple', 'sum_two_paren']);
 
       if (subType === 'two_sides_std') {
         const a = this.randInt(4, 8);
@@ -6099,7 +6214,7 @@ window.MathsGenerators = {
           hint1: `Méthode 1 : développe $${k}x + ${k * a} = ${rhs}$. Méthode 2 : divise d'abord par $${k}$.`,
           solution: `$$${k}x + ${k * a} = ${rhs}$$\n$$${k}x = ${rhs} - ${k * a} = ${rhs - k * a}$$\n$$x = \\frac{${rhs - k * a}}{${k}} = ${x}$$`
         };
-      } else {
+      } else if (subType === 'x_sub_par') {
         const a = this.randInt(4, 7);
         const b = this.randInt(2, 3);
         const c = this.randInt(1, 6);
@@ -6117,30 +6232,349 @@ window.MathsGenerators = {
           hint1: `Supprime les parenthèses en changeant les signes à l'intérieur : $${a}x - ${b}x - ${c} = ${rhs}$.`,
           solution: `$$${a}x - ${b}x - ${c} = ${rhs}$$\n$$${a - b}x - ${c} = ${rhs}$$\n$$${a - b}x = ${rhs + c}$$\n$$x = \\frac{${rhs + c}}{${a - b}} = ${x}$$`
         };
+      } else if (subType === 'distrib_one_side') {
+        const k = this.randInt(2, 4);
+        const a = this.randInt(2, 4);
+        const ka = k * a;
+        let c;
+        do {
+          c = this.randInt(1, 9);
+        } while (c === ka);
+        const x = this.randInt(-5, 6, [0]);
+        const b = this.randInt(-5, 5, [0]);
+        const d = (ka - c) * x + k * b;
+        const bFormatted = b >= 0 ? `+ ${b}` : `- ${Math.abs(b)}`;
+        const dFormatted = d >= 0 ? `+ ${d}` : `- ${Math.abs(d)}`;
+
+        return {
+          chapterId: '4N5',
+          tier: 3,
+          title: "Équation avec parenthèse et inconnue des deux côtés",
+          statement: `Résoudre dans $\\mathbb{R}$ l'équation :\n$$${k}(${a === 1 ? 'x' : `${a}x`} ${bFormatted}) = ${c === 1 ? 'x' : `${c}x`} ${dFormatted}$$`,
+          type: "exact",
+          answer: String(x),
+          placeholder: `Ex: ${x}`,
+          hint1: `Commence par développer le membre de gauche : $${k} \\times ${a === 1 ? 'x' : `${a}x`} ${b >= 0 ? '+' : '-'} ${k} \\times ${Math.abs(b)}$. Puis regroupe les $x$ à gauche et les nombres à droite.`,
+          solution: `1. Développer à gauche :\n$$${ka}x ${this.formatSigned(k * b)} = ${c === 1 ? 'x' : `${c}x`} ${dFormatted}$$\n2. Transposer les termes :\n$$${ka}x - (${c === 1 ? 'x' : `${c}x`}) = ${d} - (${k * b})$$\n$$${ka - c}x = ${d - k * b}$$\n$$x = \\frac{${d - k * b}}{${ka - c}} = ${x}$$`
+        };
+      } else if (subType === 'fraction_simple') {
+        const c = this.randInt(2, 5);
+        const a = this.randInt(2, 4);
+        const x = this.randInt(-5, 6, [0]);
+        let d = this.randInt(-6, 6, [0]);
+        let b = c * d - a * x;
+        if (b === 0) {
+          d += 1;
+          b = c * d - a * x;
+        }
+
+        return {
+          chapterId: '4N5',
+          tier: 3,
+          title: "Équation sous forme fractionnaire $\\frac{ax + b}{c} = d$",
+          statement: `Résoudre dans $\\mathbb{R}$ l'équation :\n$$\\frac{${this.formatPoly([a, b])}}{${c}} = ${d}$$`,
+          type: "exact",
+          answer: String(x),
+          placeholder: `Ex: ${x}`,
+          hint1: `Multiplie d'abord les deux membres par $${c}$ pour éliminer le dénominateur : $${a}x ${this.formatSigned(b)} = ${d} \\times ${c} = ${c * d}$.`,
+          solution: `1. Multiplier chaque membre par $${c}$ :\n$$${this.formatPoly([a, b])} = ${d} \\times ${c} = ${c * d}$$\n2. Isoler le terme en $x$ :\n$$${a}x = ${c * d} - (${b}) = ${c * d - b}$$\n3. Diviser par $${a}$ :\n$$x = \\frac{${c * d - b}}{${a}} = ${x}$$`
+        };
+      } else {
+        const a = this.randInt(2, 4);
+        const c = this.randInt(2, 4);
+        const x = this.randInt(-5, 6, [0]);
+        const b = this.randInt(-4, 4, [0]);
+        const d = this.randInt(-4, 4, [0]);
+        const e = (a + c) * x + a * b + c * d;
+        const bStr = b >= 0 ? `+ ${b}` : `- ${Math.abs(b)}`;
+        const dStr = d >= 0 ? `+ ${d}` : `- ${Math.abs(d)}`;
+
+        return {
+          chapterId: '4N5',
+          tier: 3,
+          title: "Équation avec somme de deux parenthèses",
+          statement: `Résoudre dans $\\mathbb{R}$ l'équation :\n$$${a}(x ${bStr}) + ${c}(x ${dStr}) = ${e}$$`,
+          type: "exact",
+          answer: String(x),
+          placeholder: `Ex: ${x}`,
+          hint1: `Développe chaque terme séparément : $${a}(x ${bStr})$ et $${c}(x ${dStr})$, puis réduis le membre de gauche avant d'isoler $x$.`,
+          solution: `1. Développer :\n$$(${a}x ${this.formatSigned(a * b)}) + (${c}x ${this.formatSigned(c * d)}) = ${e}$$\n2. Réduire le membre de gauche :\n$$${a + c}x ${this.formatSigned(a * b + c * d)} = ${e}$$\n3. Isoler $x$ :\n$$${a + c}x = ${e} - (${a * b + c * d}) = ${e - (a * b + c * d)}$$\n$$x = \\frac{${e - (a * b + c * d)}}{${a + c}} = ${x}$$`
+        };
       }
     } else {
-      // Palier 4 : Défi 3ème (Double distributivité développée et réduite (ax + b)(cx + d))
-      const a = this.randInt(2, 4);
-      const b = this.randInt(-5, 5, [0]);
-      const c = this.randInt(2, 4);
-      const d = this.randInt(-5, 5, [0]);
+      // Palier 4 : Défi 3ème (Développements degrés 0 à 4 & équations avancées réalisables en 4e)
+      const subType = this.randChoice([
+        'poly_deg1',
+        'poly_deg2',
+        'poly_deg3',
+        'poly_deg4',
+        'poly_deg0',
+        'eq_double_distrib',
+        'eq_cancelling_squares',
+        'eq_cross_product',
+        'eq_complex_bracket'
+      ]);
 
-      // (ax + b)(cx + d) = a*c*x^2 + (a*d + b*c)*x + b*d
-      const coeffX2 = a * c;
-      const coeffX = a * d + b * c;
-      const constTerm = b * d;
+      if (subType === 'poly_deg1') {
+        const a = this.randInt(2, 4);
+        const b = this.randInt(-5, 5, [0]);
+        const c = this.randInt(2, 4);
+        const d = this.randInt(-5, 5, [0]);
 
-      return {
-        chapterId: '4N5',
-        tier: 4,
-        title: "Défi 3ème : Double distributivité $(ax + b)(cx + d)$",
-        statement: `Développer et réduire l'expression algébrique :\n$$E = (${this.formatPoly([a, b])})(${this.formatPoly([c, d])})$$\n\n**Quel est le coefficient du terme en $x$ (le terme du 1er degré) ?**`,
-        type: "exact",
-        answer: String(coeffX),
-        placeholder: `Ex: ${coeffX}`,
-        hint1: `Formule de la double distributivité : $(ax + b)(cx + d) = ax \\times cx + ax \\times d + b \\times cx + b \\times d$.\nLe terme en $x$ provient de $(a \\times d + b \\times c)x$.`,
-        solution: `Développement pas à pas :\n$$E = (${a}x) \\times (${c}x) + (${a}x) \\times (${d}) + (${b}) \\times (${c}x) + (${b}) \\times (${d})$$\n$$E = ${coeffX2}x^2 + (${a*d})x + (${b*c})x + (${constTerm})$$\n$$E = ${coeffX2}x^2 + (${coeffX})x + (${constTerm})$$\nLe coefficient de $x$ est donc :\n$$${coeffX}$$`
-      };
+        const coeffX2 = a * c;
+        const coeffX = a * d + b * c;
+        const constTerm = b * d;
+
+        return {
+          chapterId: '4N5',
+          tier: 4,
+          title: "Défi 3ème : Terme de degré 1 d'un produit",
+          statement: `Développer et réduire l'expression algébrique :\n$$E = (${this.formatPoly([a, b])})(${this.formatPoly([c, d])})$$\n\n**Quel est le coefficient du terme en $x$ (le terme du 1er degré) ?**`,
+          type: "exact",
+          answer: String(coeffX),
+          placeholder: `Ex: ${coeffX}`,
+          hint1: `Formule de la double distributivité : $(ax + b)(cx + d) = ax \\times cx + ax \\times d + b \\times cx + b \\times d$.\nLe terme en $x$ provient de $(a \\times d + b \\times c)x$.`,
+          solution: `Développement pas à pas :\n$$E = (${a}x) \\times (${c}x) + (${a}x) \\times (${d}) + (${b}) \\times (${c}x) + (${b}) \\times (${d})$$\n$$E = ${coeffX2}x^2 + (${a * d})x + (${b * c})x + (${constTerm})$$\n$$E = ${this.formatPoly([coeffX2, coeffX, constTerm])}$$\nLe coefficient de $x$ (degré 1) est donc :\n$$${coeffX}$$`
+        };
+      } else if (subType === 'poly_deg2') {
+        const variant = this.randChoice(['product', 'square']);
+        if (variant === 'square') {
+          const a = this.randInt(2, 6);
+          const b = this.randInt(-6, 6, [0]);
+          const coeffX2 = a * a;
+          const coeffX = 2 * a * b;
+          const coeffConst = b * b;
+
+          return {
+            chapterId: '4N5',
+            tier: 4,
+            title: "Défi 3ème : Terme de degré 2 d'un carré",
+            statement: `Développer et réduire l'expression algébrique :\n$$E = (${this.formatPoly([a, b])})^2$$\n\n**Quel est le coefficient du terme en $x^2$ (le terme du 2nd degré) ?**`,
+            type: "exact",
+            answer: String(coeffX2),
+            placeholder: `Ex: ${coeffX2}`,
+            hint1: `$(ax + b)^2 = (ax + b)(ax + b) = (ax)^2 + 2 \\times (ax) \\times b + b^2$. Le terme de degré 2 est $(ax)^2$.`,
+            solution: `On développe le carré :\n$$E = (${a}x)^2 + 2 \\times (${a}x) \\times (${b}) + (${b})^2$$\n$$E = ${coeffX2}x^2 ${this.formatSignedTerm(coeffX, 'x')} + ${coeffConst}$$\nLe coefficient du terme en $x^2$ (degré 2) est donc **$${coeffX2}$**.`
+          };
+        } else {
+          const a = this.randInt(2, 5);
+          const b = this.randInt(-5, 5, [0]);
+          const c = this.randInt(2, 5);
+          const d = this.randInt(-5, 5, [0]);
+          const coeffX2 = a * c;
+          const coeffX = a * d + b * c;
+          const constTerm = b * d;
+
+          return {
+            chapterId: '4N5',
+            tier: 4,
+            title: "Défi 3ème : Terme de degré 2 d'un produit",
+            statement: `Développer et réduire l'expression algébrique :\n$$E = (${this.formatPoly([a, b])})(${this.formatPoly([c, d])})$$\n\n**Quel est le coefficient du terme en $x^2$ (le terme du 2nd degré) ?**`,
+            type: "exact",
+            answer: String(coeffX2),
+            placeholder: `Ex: ${coeffX2}`,
+            hint1: `Le terme en $x^2$ s'obtient en multipliant les termes contenant $x$ entre eux : $(ax) \\times (cx) = (a \\times c)x^2$.`,
+            solution: `Par double distributivité :\n$$E = (${a}x) \\times (${c}x) + (${a}x) \\times (${d}) + (${b}) \\times (${c}x) + (${b}) \\times (${d})$$\n$$E = ${coeffX2}x^2 ${this.formatSignedTerm(coeffX, 'x')} ${this.formatSigned(constTerm)}$$\nLe coefficient du terme en $x^2$ (degré 2) est donc **$${coeffX2}$**.`
+          };
+        }
+      } else if (subType === 'poly_deg0') {
+        const a = this.randInt(2, 5);
+        const b = this.randInt(-6, 6, [0]);
+        const c = this.randInt(2, 5);
+        const d = this.randInt(-6, 6, [0]);
+        const constTerm = b * d;
+
+        return {
+          chapterId: '4N5',
+          tier: 4,
+          title: "Défi 3ème : Terme constant (degré 0) d'un produit",
+          statement: `Développer et réduire l'expression algébrique :\n$$E = (${this.formatPoly([a, b])})(${this.formatPoly([c, d])})$$\n\n**Quelle est la valeur du terme constant (le nombre sans $x$, de degré 0) ?**`,
+          type: "exact",
+          answer: String(constTerm),
+          placeholder: `Ex: ${constTerm}`,
+          hint1: `Le terme constant s'obtient en multipliant les deux nombres sans $x$ : $(${b}) \\times (${d})$. Attention aux signes !`,
+          solution: `Par double distributivité, les termes contenant $x$ se réduisent et le terme constant est le produit des deux constantes :\n$$(${b}) \\times (${d}) = ${constTerm}$$\nLe terme constant est donc **$${constTerm}$**.`
+        };
+      } else if (subType === 'poly_deg3') {
+        const variant = this.randChoice(['monomial_distrib', 'binomial_trinomial']);
+        if (variant === 'monomial_distrib') {
+          const k = this.randInt(1, 3);
+          const a = this.randInt(2, 4);
+          const b = this.randInt(-4, 4, [0]);
+          const c = this.randInt(2, 4);
+          const d = this.randInt(-4, 4, [0]);
+          const coeffX3 = k * a * c;
+          const coeffX2 = k * (a * d + b * c);
+          const coeffX = k * b * d;
+          const kStr = k === 1 ? 'x' : `${k}x`;
+
+          return {
+            chapterId: '4N5',
+            tier: 4,
+            title: "Défi 3ème : Terme de degré 3 d'une expression",
+            statement: `Développer et réduire l'expression algébrique :\n$$E = ${kStr}(${this.formatPoly([a, b])})(${this.formatPoly([c, d])})$$\n\n**Quel est le coefficient du terme en $x^3$ (le terme de degré 3) ?**`,
+            type: "exact",
+            answer: String(coeffX3),
+            placeholder: `Ex: ${coeffX3}`,
+            hint1: `Multiplie d'abord les deux parenthèses pour trouver le terme en $x^2$ : $(${a}x) \\times (${c}x) = ${a * c}x^2$. Multiplie ensuite par $${kStr}$ pour obtenir le terme en $x^3$.`,
+            solution: `1. Double distributivité des parenthèses :\n$$(${this.formatPoly([a, b])})(${this.formatPoly([c, d])}) = ${a * c}x^2 ${this.formatSignedTerm(a * d + b * c, 'x')} ${this.formatSigned(b * d)}$$\n2. Multiplication par $${kStr}$ :\n$$E = ${kStr} \\times (${a * c}x^2 ${this.formatSignedTerm(a * d + b * c, 'x')} ${this.formatSigned(b * d)}) = ${this.formatPoly([coeffX3, coeffX2, coeffX, 0])}$$\nLe coefficient du terme en $x^3$ (degré 3) est donc **$${coeffX3}$**.`
+          };
+        } else {
+          const a = this.randInt(2, 3);
+          const b = this.randInt(-3, 3, [0]);
+          const c = this.randInt(1, 3);
+          const d = this.randInt(-3, 3, [0]);
+          const e = this.randInt(-4, 4, [0]);
+          const coeffX3 = a * c;
+          const coeffX2 = a * d + b * c;
+          const coeffX = a * e + b * d;
+          const coeffConst = b * e;
+
+          return {
+            chapterId: '4N5',
+            tier: 4,
+            title: "Défi 3ème : Terme de degré 3 avec trinôme",
+            statement: `Développer l'expression algébrique :\n$$E = (${this.formatPoly([a, b])})(${this.formatPoly([c, d, e])})$$\n\n**Quel est le coefficient du terme en $x^3$ (le terme de degré 3) ?**`,
+            type: "exact",
+            answer: String(coeffX3),
+            placeholder: `Ex: ${coeffX3}`,
+            hint1: `Par distributivité, le terme en $x^3$ s'obtient uniquement par le produit du terme en $x$ de la 1ère parenthèse avec le terme en $x^2$ de la 2nde parenthèse.`,
+            solution: `Le seul produit donnant une puissance de 3 est :\n$$(${a}x) \\times (${c === 1 ? 'x^2' : `${c}x^2`}) = ${coeffX3}x^3$$\nEn développant entièrement :\n$$E = ${this.formatPoly([coeffX3, coeffX2, coeffX, coeffConst])}$$\nLe coefficient du terme en $x^3$ (degré 3) est **$${coeffX3}$**.`
+          };
+        }
+      } else if (subType === 'poly_deg4') {
+        const variant = this.randChoice(['biquadratic', 'x2_times_bracket']);
+        if (variant === 'biquadratic') {
+          const a = this.randInt(2, 4);
+          const b = this.randInt(-5, 5, [0]);
+          const c = this.randInt(2, 4);
+          const d = this.randInt(-5, 5, [0]);
+          const coeffX4 = a * c;
+          const coeffX2 = a * d + b * c;
+          const constTerm = b * d;
+
+          return {
+            chapterId: '4N5',
+            tier: 4,
+            title: "Défi 3ème : Terme de degré 4 d'un produit",
+            statement: `Développer et réduire l'expression algébrique :\n$$E = (${this.formatPoly([a, 0, b])})(${this.formatPoly([c, 0, d])})$$\n\n**Quel est le coefficient du terme en $x^4$ (le terme de degré 4) ?**`,
+            type: "exact",
+            answer: String(coeffX4),
+            placeholder: `Ex: ${coeffX4}`,
+            hint1: `Distribue chaque terme : $(ax^2) \\times (cx^2) = (a \\times c)x^4$. Rappel : $x^2 \\times x^2 = x^4$.`,
+            solution: `Par double distributivité :\n$$E = (${a}x^2) \\times (${c}x^2) + (${a}x^2) \\times (${d}) + (${b}) \\times (${c}x^2) + (${b}) \\times (${d})$$\n$$E = ${coeffX4}x^4 ${this.formatSignedTerm(coeffX2, 'x^2')} ${this.formatSigned(constTerm)}$$\nLe coefficient du terme en $x^4$ (degré 4) est donc **$${coeffX4}$**.`
+          };
+        } else {
+          const k = this.randInt(1, 3);
+          const a = this.randInt(2, 4);
+          const b = this.randInt(-4, 4, [0]);
+          const c = this.randInt(2, 4);
+          const d = this.randInt(-4, 4, [0]);
+          const coeffX4 = k * a * c;
+          const coeffX3 = k * (a * d + b * c);
+          const coeffX2 = k * b * d;
+          const kStr = k === 1 ? 'x^2' : `${k}x^2`;
+
+          return {
+            chapterId: '4N5',
+            tier: 4,
+            title: "Défi 3ème : Terme de degré 4 avec facteur $x^2$",
+            statement: `Développer et réduire l'expression algébrique :\n$$E = ${kStr}(${this.formatPoly([a, b])})(${this.formatPoly([c, d])})$$\n\n**Quel est le coefficient du terme en $x^4$ (le terme de degré 4) ?**`,
+            type: "exact",
+            answer: String(coeffX4),
+            placeholder: `Ex: ${coeffX4}`,
+            hint1: `Calcule d'abord le produit des parenthèses qui commence par $(ax)(cx) = (ac)x^2$, puis multiplie par $${kStr}$ devant.`,
+            solution: `1. Produit des parenthèses :\n$$(${this.formatPoly([a, b])})(${this.formatPoly([c, d])}) = ${a * c}x^2 ${this.formatSignedTerm(a * d + b * c, 'x')} ${this.formatSigned(b * d)}$$\n2. Distribution de $${kStr}$ :\n$$E = ${kStr} \\times (${a * c}x^2) + \\dots = ${coeffX4}x^4 ${this.formatSignedTerm(coeffX3, 'x^3')} ${this.formatSignedTerm(coeffX2, 'x^2')}$$\nLe coefficient du terme en $x^4$ (degré 4) est donc **$${coeffX4}$**.`
+          };
+        }
+      } else if (subType === 'eq_double_distrib') {
+        let a, c, b, d, xSol;
+        do {
+          a = this.randInt(2, 5);
+          c = this.randInt(2, 5, [a]);
+          xSol = this.randInt(-5, 6, [0]);
+          b = this.randInt(-6, 6, [0]);
+        } while (((a - c) * xSol + a * b) % c !== 0 || ((a - c) * xSol + a * b) / c === 0);
+        d = ((a - c) * xSol + a * b) / c;
+
+        const bStr = b >= 0 ? `+ ${b}` : `- ${Math.abs(b)}`;
+        const dStr = d >= 0 ? `+ ${d}` : `- ${Math.abs(d)}`;
+
+        return {
+          chapterId: '4N5',
+          tier: 4,
+          title: "Équation complexe : distributivité des deux côtés",
+          statement: `Résoudre dans $\\mathbb{R}$ l'équation :\n$$${a}(x ${bStr}) = ${c}(x ${dStr})$$`,
+          type: "exact",
+          answer: String(xSol),
+          placeholder: `Ex: ${xSol}`,
+          hint1: `Étape 1 : développe chaque membre de l'équation : $${a}x ${this.formatSigned(a * b)} = ${c}x ${this.formatSigned(c * d)}$.\nÉtape 2 : regroupe les termes en $x$ à gauche et les nombres à droite.`,
+          solution: `1. Développer les deux membres :\n$$${a}x ${this.formatSigned(a * b)} = ${c}x ${this.formatSigned(c * d)}$$\n2. Transposer les termes en $x$ et les constantes :\n$$${a}x - (${c}x) = ${c * d} - (${a * b})$$\n$$${a - c}x = ${c * d - a * b}$$\n$$x = \\frac{${c * d - a * b}}{${a - c}} = ${xSol}$$`
+        };
+      } else if (subType === 'eq_cancelling_squares') {
+        let a, b, xSol;
+        do {
+          a = this.randInt(-5, 5, [0]);
+          b = this.randInt(-5, 5, [0, -a]);
+          xSol = this.randInt(-6, 6, [0]);
+        } while (a === b && Math.random() > 0.5);
+
+        const sumAB = a + b;
+        const prodAB = a * b;
+        const c = sumAB * xSol + prodAB;
+
+        return {
+          chapterId: '4N5',
+          tier: 4,
+          title: "Équation avancée : simplification des termes de degré 2",
+          statement: `Résoudre dans $\\mathbb{R}$ l'équation :\n$$(${this.formatPoly([1, a])})(${this.formatPoly([1, b])}) = x^2 ${this.formatSigned(c)}$$`,
+          type: "exact",
+          answer: String(xSol),
+          placeholder: `Ex: ${xSol}`,
+          hint1: `Développe le membre de gauche par double distributivité : $(x + a)(x + b) = x^2 + (a+b)x + ab$. Que remarques-tu pour les termes en $x^2$ des deux côtés ?`,
+          solution: `1. Développer le membre de gauche :\n$$x^2 ${this.formatSignedTerm(sumAB, 'x')} ${this.formatSigned(prodAB)} = x^2 ${this.formatSigned(c)}$$\n2. Soustraire $x^2$ des deux membres (les termes au carré s'annulent) :\n$$${sumAB === 1 ? 'x' : (sumAB === -1 ? '-x' : `${sumAB}x`)} ${this.formatSigned(prodAB)} = ${c}$$\n3. Isoler $x$ :\n$$${sumAB}x = ${c} - (${prodAB}) = ${c - prodAB}$$\n$$x = \\frac{${c - prodAB}}{${sumAB}} = ${xSol}$$`
+        };
+      } else if (subType === 'eq_cross_product') {
+        let b, d, a, c, xSol;
+        do {
+          b = this.randInt(2, 5);
+          d = this.randInt(2, 5, [b]);
+          xSol = this.randInt(-6, 7, [0]);
+          a = this.randInt(-5, 5, [0]);
+        } while (((d - b) * xSol + d * a) % b !== 0 || ((d - b) * xSol + d * a) / b === 0);
+        c = ((d - b) * xSol + d * a) / b;
+
+        return {
+          chapterId: '4N5',
+          tier: 4,
+          title: "Équation avec quotients : égalité des produits en croix",
+          statement: `Résoudre dans $\\mathbb{R}$ l'équation :\n$$\\frac{${this.formatPoly([1, a])}}{${b}} = \\frac{${this.formatPoly([1, c])}}{${d}}$$`,
+          type: "exact",
+          answer: String(xSol),
+          placeholder: `Ex: ${xSol}`,
+          hint1: `Utilise la règle de l'égalité des produits en croix (au programme de 4ème) : $\\frac{A}{B} = \\frac{C}{D} \\iff A \\times D = B \\times C$.`,
+          solution: `1. Égalité des produits en croix :\n$$${d}(${this.formatPoly([1, a])}) = ${b}(${this.formatPoly([1, c])})$$\n2. Développer les deux côtés :\n$$${d}x ${this.formatSigned(d * a)} = ${b}x ${this.formatSigned(b * c)}$$\n3. Regrouper les termes en $x$ et résoudre :\n$$${d}x - ${b}x = ${b * c} - (${d * a})$$\n$$${d - b}x = ${b * c - d * a}$$\n$$x = \\frac{${b * c - d * a}}{${d - b}} = ${xSol}$$`
+        };
+      } else {
+        const a = this.randInt(3, 5);
+        const c = this.randInt(1, a - 1);
+        const xSol = this.randInt(-5, 6, [0]);
+        const b = this.randInt(-5, 5, [0]);
+        const d = this.randInt(-5, 5, [0]);
+        const e = (a - c) * xSol + a * b - d;
+
+        return {
+          chapterId: '4N5',
+          tier: 4,
+          title: "Équation complexe : suppression de parenthèses",
+          statement: `Résoudre dans $\\mathbb{R}$ l'équation :\n$$${a}(${this.formatPoly([1, b])}) - (${this.formatPoly([c, d])}) = ${e}$$`,
+          type: "exact",
+          answer: String(xSol),
+          placeholder: `Ex: ${xSol}`,
+          hint1: `Attention au signe « - » devant la seconde parenthèse : il change les signes de tous les termes à l'intérieur !`,
+          solution: `1. Développer et supprimer les parenthèses :\n$$${a}x ${this.formatSigned(a * b)} - ${c === 1 ? 'x' : `${c}x`} ${this.formatSigned(-d)} = ${e}$$\n2. Réduire les termes semblables :\n$$${a - c}x ${this.formatSigned(a * b - d)} = ${e}$$\n3. Isoler $x$ :\n$$${a - c}x = ${e} - (${a * b - d}) = ${e - (a * b - d)}$$\n$$x = \\frac{${e - (a * b - d)}}{${a - c}} = ${xSol}$$`
+        };
+      }
     }
   },
 
@@ -6436,30 +6870,62 @@ window.MathsGenerators = {
         { d: 9, h: 12, l: 15 },
         { d: 5, h: 12, l: 13 },
         { d: 8, h: 15, l: 17 },
-        { d: 12, h: 16, l: 20 }
+        { d: 12, h: 16, l: 20 },
+        { d: 3, h: 4, l: 5 },
+        { d: 15, h: 20, l: 25 },
+        { d: 7, h: 24, l: 25 },
+        { d: 10, h: 24, l: 26 }
       ];
       const lad = this.randChoice(ladders);
       const dSol = lad.d;
       const hMur = lad.h;
       const lEchelle = lad.l;
 
-      const figSvg = this.buildLadderSvg({
-        L: lEchelle,
-        d: dSol,
-        h: '?'
-      });
+      const isFindingHypotenuse = Math.random() < 0.5;
 
-      return {
-        chapterId: '4G1',
-        tier: 4,
-        title: "Défi 3ème : Problème concret de modélisation (Pythagore)",
-        statement: `${figSvg}Une échelle de longueur $L = ${lEchelle}\\text{ m}$ est posée contre un mur vertical. Le pied de l'échelle est situé à une distance $d = ${dSol}\\text{ m}$ de la base du mur.\n\n**À quelle hauteur $h$ sur le mur le sommet de l'échelle parvient-il (en mètres) ?**`,
-        type: "exact",
-        answer: String(hMur),
-        placeholder: `Ex: ${hMur}`,
-        hint1: "Le mur et le sol forment un angle droit. L'échelle joue le rôle de l'hypoténuse.",
-        solution: `Dans le triangle rectangle formé par le mur, le sol et l'échelle :\n$$L^2 = d^2 + h^2 \\implies h^2 = L^2 - d^2$$\n$$h^2 = ${lEchelle}^2 - ${dSol}^2 = ${lEchelle*lEchelle} - ${dSol*dSol} = ${hMur*hMur}$$\n$$h = \\sqrt{${hMur*hMur}} = ${hMur}\\text{ m}$$`
-      };
+      if (!isFindingHypotenuse) {
+        // Variante 1 : Hauteur atteinte sur le mur (Calcul d'un côté de l'angle droit)
+        const figSvg = this.buildLadderSvg({
+          L: lEchelle,
+          d: dSol,
+          h: '?',
+          unknown: 'h'
+        });
+
+        return {
+          chapterId: '4G1',
+          tier: 4,
+          title: "Défi 3ème : Hauteur atteinte par une échelle (Pythagore)",
+          statement: `${figSvg}Une échelle de longueur $L = ${lEchelle}\\text{ m}$ est posée contre un mur vertical. Le pied de l'échelle est situé à une distance $d = ${dSol}\\text{ m}$ de la base du mur.\n\n**À quelle hauteur $h$ sur le mur le sommet de l'échelle parvient-il (en mètres) ?**`,
+          type: "exact",
+          answer: String(hMur),
+          placeholder: `Ex: ${hMur}`,
+          hint1: "Le mur vertical et le sol horizontal forment un angle droit. L'échelle correspond à l'hypoténuse.",
+          hint2: `D'après le théorème de Pythagore : $L^2 = d^2 + h^2 \\implies h^2 = L^2 - d^2 = ${lEchelle}^2 - ${dSol}^2$.`,
+          solution: `Dans le triangle rectangle formé par le mur vertical, le sol horizontal et l'échelle (hypoténuse) :\n$$L^2 = d^2 + h^2 \\implies h^2 = L^2 - d^2$$\n$$h^2 = ${lEchelle}^2 - ${dSol}^2 = ${lEchelle*lEchelle} - ${dSol*dSol} = ${hMur*hMur}$$\nComme une hauteur est positive ($h > 0$) :\n$$h = \\sqrt{${hMur*hMur}} = ${hMur}\\text{ m}$$`
+        };
+      } else {
+        // Variante 2 : Longueur de l'échelle nécessaire (Calcul de l'hypoténuse)
+        const figSvg = this.buildLadderSvg({
+          L: '?',
+          d: dSol,
+          h: hMur,
+          unknown: 'L'
+        });
+
+        return {
+          chapterId: '4G1',
+          tier: 4,
+          title: "Défi 3ème : Longueur de l'échelle nécessaire (Calcul de l'hypoténuse)",
+          statement: `${figSvg}Pour atteindre une hauteur $h = ${hMur}\\text{ m}$ sur un mur vertical, on place le pied d'une échelle à une distance $d = ${dSol}\\text{ m}$ de la base du mur.\n\n**Quelle doit être la longueur $L$ de l'échelle pour atteindre cette hauteur (en mètres) ?**`,
+          type: "exact",
+          answer: String(lEchelle),
+          placeholder: `Ex: ${lEchelle}`,
+          hint1: "Le mur vertical et le sol horizontal forment un angle droit. L'échelle correspond à l'hypoténuse.",
+          hint2: `D'après le théorème de Pythagore : $L^2 = d^2 + h^2 = ${dSol}^2 + ${hMur}^2$.`,
+          solution: `Dans le triangle rectangle formé par le mur vertical, le sol horizontal et l'échelle (qui joue le rôle de l'hypoténuse) :\n$$L^2 = d^2 + h^2$$\n$$L^2 = ${dSol}^2 + ${hMur}^2 = ${dSol*dSol} + ${hMur*hMur} = ${lEchelle*lEchelle}$$\nComme une longueur est positive ($L > 0$) :\n$$L = \\sqrt{${lEchelle*lEchelle}} = ${lEchelle}\\text{ m}$$`
+        };
+      }
     }
   },
 
@@ -11266,11 +11732,18 @@ window.MathsGenerators = {
         // Programme de calcul Scratch 5ème
         const x = this.randInt(2, 9);
         const a = this.randInt(3, 8);
+        const scratchHtml = this.renderScratch([
+          "quand drapeau cliqué",
+          "demander [Choisir un nombre] et attendre",
+          "mettre [N] à réponse",
+          `mettre [N] à (N + ${a})`,
+          "dire (N)"
+        ]);
         return {
           chapterId: '5A1',
           tier: 1,
           title: "Programme de calcul Scratch (5ème)",
-          statement: `Un lutin exécute le script suivant :\n\`\`\`text\nquand drapeau cliqué\ndemander [Choisir un nombre] et attendre\nmettre [N] à réponse\nmettre [N] à (N + ${a})\ndire (N)\n\`\`\`\n**Si le nombre entré au départ est $${x}$, quel nombre affiche le lutin ?**`,
+          statement: `Un lutin exécute le script suivant :\n${scratchHtml}\n**Si le nombre entré au départ est $${x}$, quel nombre affiche le lutin ?**`,
           type: "exact",
           answer: String(x + a),
           placeholder: `Ex: ${x + a}`,
@@ -11305,11 +11778,19 @@ window.MathsGenerators = {
         const x = this.randInt(2, 8);
         const a = this.randInt(2, 5);
         const b = this.randInt(2, 9);
+        const scratchHtml = this.renderScratch([
+          "quand drapeau cliqué",
+          "demander [Choisir un nombre] et attendre",
+          "mettre [N] à réponse",
+          `mettre [N] à (N * ${a})`,
+          `mettre [N] à (N + ${b})`,
+          "dire (N)"
+        ]);
         return {
           chapterId: '5A1',
           tier: 2,
           title: "Programme de calcul à 2 étapes Scratch (5ème)",
-          statement: `Un lutin exécute le script suivant :\n\`\`\`text\nquand drapeau cliqué\ndemander [Choisir un nombre] et attendre\nmettre [N] à réponse\nmettre [N] à (N * ${a})\nmettre [N] à (N + ${b})\ndire (N)\n\`\`\`\n**Si l'on choisit le nombre $${x}$ au départ, quel est le résultat final affiché ?**`,
+          statement: `Un lutin exécute le script suivant :\n${scratchHtml}\n**Si l'on choisit le nombre $${x}$ au départ, quel est le résultat final affiché ?**`,
           type: "exact",
           answer: String(x * a + b),
           placeholder: `Ex: ${x * a + b}`,
@@ -11340,11 +11821,19 @@ window.MathsGenerators = {
         const a = this.randInt(2, 4);
         const b = this.randInt(3, 10);
         const finalVal = start * a + b;
+        const scratchHtml = this.renderScratch([
+          "quand drapeau cliqué",
+          "demander [Choisir un nombre] et attendre",
+          "mettre [N] à réponse",
+          `mettre [N] à (N * ${a})`,
+          `mettre [N] à (N + ${b})`,
+          "dire (N)"
+        ]);
         return {
           chapterId: '5A1',
           tier: 3,
           title: "Retrouver le nombre de départ dans Scratch (5ème)",
-          statement: `Un lutin exécute le script :\n\`\`\`text\nquand drapeau cliqué\ndemander [Choisir un nombre] et attendre\nmettre [N] à réponse\nmettre [N] à (N * ${a})\nmettre [N] à (N + ${b})\ndire (N)\n\`\`\`\nÀ la fin, **le lutin annonce $${finalVal}$**.\n**Quel nombre de départ avait été choisi ?**`,
+          statement: `Un lutin exécute le script suivant :\n${scratchHtml}\nÀ la fin, **le lutin annonce $${finalVal}$**.\n**Quel nombre de départ avait été choisi ?**`,
           type: "exact",
           answer: String(start),
           placeholder: `Ex: ${start}`,
@@ -11770,53 +12259,84 @@ window.MathsGenerators = {
         };
       }
     } else {
-      const vtype = this.randChoice(['coord_pos', 'coord_neg', 'coord_preimage']);
+      const vtype = this.randChoice(['coord_pos', 'coord_neg', 'coord_relatifs', 'coord_preimage']);
       if (vtype === 'coord_pos') {
         const dx = this.randInt(2, 6);
         const dy = this.randInt(2, 6);
-        const x = this.randInt(1, 5);
-        const y = this.randInt(1, 5);
+        const x = this.randInt(1, 6);
+        const y = this.randInt(1, 6);
+        const xImg = x + dx;
+        const yImg = y + dy;
         return {
           chapterId: '4G3',
           tier: 4,
           title: "Défi : Coordonnées et translation (4ème)",
-          statement: `Dans un repère, une translation décale les points de $+${dx}$ en abscisse et $+${dy}$ en ordonnée.\n**Quelle est l'abscisse de l'image du point $M(${x} ; ${y})$ ?**`,
+          statement: `Dans un repère, une translation décale les points de $+${dx}$ en abscisse et $+${dy}$ en ordonnée.\n\n**Quelles sont les coordonnées du point image $M'$ de $M(${x} ; ${y})$ ?** *(Format attendu : $(x ; y)$)*`,
           type: "exact",
-          answer: String(x + dx),
-          placeholder: `Ex: ${x + dx}`,
-          hint1: `Ajoute le décalage à l'abscisse de départ : $${x} + ${dx}$.`,
-          solution: `$$x' = ${x} + ${dx} = ${x + dx}$$`
+          answer: `(${xImg};${yImg})`,
+          placeholder: `(${xImg};${yImg})`,
+          hint1: "On applique chaque décalage à l'abscisse et à l'ordonnée : $x' = x + dx$ et $y' = y + dy$.",
+          hint2: `Pour l'abscisse : $${x} + ${dx} = ${xImg}$. Pour l'ordonnée : $${y} + ${dy} = ${yImg}$. Note ta réponse sous la forme $(${xImg} ; ${yImg})$.`,
+          solution: `On applique les décalages de la translation aux coordonnées de $M(${x} ; ${y})$ :\n- Abscisse : $$x' = ${x} + ${dx} = ${xImg}$$\n- Ordonnée : $$y' = ${y} + ${dy} = ${yImg}$$\nLes coordonnées du point image sont donc **$M'(${xImg} ; ${yImg})$**.`
         };
       } else if (vtype === 'coord_neg') {
         const dx = this.randInt(2, 5);
         const dy = this.randInt(2, 5);
         const x = this.randInt(4, 9);
         const y = this.randInt(3, 8);
+        const xImg = x - dx;
+        const yImg = y + dy;
         return {
           chapterId: '4G3',
           tier: 4,
           title: "Défi : Translation avec coordonnées négatives (4ème)",
-          statement: `Dans un repère, une translation décale les points de $-${dx}$ en abscisse et $+${dy}$ en ordonnée.\n**Quelle est l'abscisse du point image de $A(${x} ; ${y})$ ?**`,
+          statement: `Dans un repère, une translation décale les points de $-${dx}$ en abscisse et $+${dy}$ en ordonnée.\n\n**Quelles sont les coordonnées du point image $A'$ de $A(${x} ; ${y})$ ?** *(Format attendu : $(x ; y)$)*`,
           type: "exact",
-          answer: String(x - dx),
-          placeholder: `Ex: ${x - dx}`,
-          hint1: `Calcule l'abscisse de départ moins le décalage : $${x} - ${dx}$.`,
-          solution: `$$x' = ${x} - ${dx} = ${x - dx}$$`
+          answer: `(${xImg};${yImg})`,
+          placeholder: `(${xImg};${yImg})`,
+          hint1: "On retranche le décalage à l'abscisse et on ajoute le décalage à l'ordonnée.",
+          hint2: `Pour l'abscisse : $${x} - ${dx} = ${xImg}$. Pour l'ordonnée : $${y} + ${dy} = ${yImg}$. Écris ta réponse sous la forme $(${xImg} ; ${yImg})$.`,
+          solution: `On applique les décalages de la translation aux coordonnées de $A(${x} ; ${y})$ :\n- Abscisse : $$x' = ${x} - ${dx} = ${xImg}$$\n- Ordonnée : $$y' = ${y} + ${dy} = ${yImg}$$\nLes coordonnées du point image sont donc **$A'(${xImg} ; ${yImg})$**.`
+        };
+      } else if (vtype === 'coord_relatifs') {
+        const dx = this.randChoice([-5, -4, -3, -2, 2, 3, 4, 5]);
+        const dy = this.randChoice([-5, -4, -3, -2, 2, 3, 4, 5]);
+        const x = this.randInt(-5, 6);
+        const y = this.randInt(-4, 7);
+        const xImg = x + dx;
+        const yImg = y + dy;
+        const dxStr = dx >= 0 ? `+${dx}` : `${dx}`;
+        const dyStr = dy >= 0 ? `+${dy}` : `${dy}`;
+        return {
+          chapterId: '4G3',
+          tier: 4,
+          title: "Défi : Translation de points relatifs (4ème)",
+          statement: `Dans un repère, une translation décale les points de $${dxStr}$ en abscisse et $${dyStr}$ en ordonnée.\n\n**Quelles sont les coordonnées du point image $B'$ de $B(${x} ; ${y})$ ?** *(Format attendu : $(x ; y)$)*`,
+          type: "exact",
+          answer: `(${xImg};${yImg})`,
+          placeholder: `(${xImg};${yImg})`,
+          hint1: "Ajoute algébriquement chaque décalage (attention aux signes des relatifs).",
+          hint2: `Pour l'abscisse : $${x} + (${dx}) = ${xImg}$. Pour l'ordonnée : $${y} + (${dy}) = ${yImg}$. Réponds sous la forme $(${xImg} ; ${yImg})$.`,
+          solution: `On applique les règles d'addition des nombres relatifs aux coordonnées de $B(${x} ; ${y})$ :\n- Abscisse : $$x' = ${x} + (${dx}) = ${xImg}$$\n- Ordonnée : $$y' = ${y} + (${dy}) = ${yImg}$$\nLe point image est donc **$B'(${xImg} ; ${yImg})$**.`
         };
       } else {
         const dx = this.randInt(2, 6);
-        const xFinal = this.randInt(7, 12);
+        const dy = this.randInt(2, 6);
+        const xFinal = this.randInt(5, 12);
+        const yFinal = this.randInt(4, 11);
         const xStart = xFinal - dx;
+        const yStart = yFinal - dy;
         return {
           chapterId: '4G3',
           tier: 4,
           title: "Défi : Retrouver les coordonnées de départ (4ème)",
-          statement: `Une translation décale les points de $+${dx}$ en abscisse. L'image d'un point $P$ a pour abscisse $x' = ${xFinal}$.\n**Quelle était l'abscisse initiale du point $P$ ?**`,
+          statement: `Une translation décale les points de $+${dx}$ en abscisse et $+${dy}$ en ordonnée. L'image d'un point $P$ par cette translation est le point $P'(${xFinal} ; ${yFinal})$.\n\n**Quelles étaient les coordonnées initiales du point $P$ ?** *(Format attendu : $(x ; y)$)*`,
           type: "exact",
-          answer: String(xStart),
-          placeholder: `Ex: ${xStart}`,
-          hint1: `À l'envers : $x' = x + ${dx} \\implies x = x' - ${dx}$.`,
-          solution: `$$x = ${xFinal} - ${dx} = ${xStart}$$`
+          answer: `(${xStart};${yStart})`,
+          placeholder: `(${xStart};${yStart})`,
+          hint1: "Pour retrouver le point de départ, effectue la transformation inverse en soustrayant chaque décalage.",
+          hint2: `Abscisse de départ : $${xFinal} - ${dx} = ${xStart}$. Ordonnée de départ : $${yFinal} - ${dy} = ${yStart}$.`,
+          solution: `Pour retrouver le point initial $P$, on applique la transformation inverse (en retranchant les décalages de la translation) :\n- Abscisse : $$x = ${xFinal} - ${dx} = ${xStart}$$\n- Ordonnée : $$y = ${yFinal} - ${dy} = ${yStart}$$\nLes coordonnées initiales du point étaient donc **$P(${xStart} ; ${yStart})$**.`
         };
       }
     }
@@ -12550,7 +13070,9 @@ window.MathsGenerators = {
         }
 
         // 2. Sinon, puiser dans la banque d'exercices avec mutation dynamique des paramètres
-        const exos = (typeof window !== 'undefined' && window.MATHS_EXERCISES && window.MATHS_EXERCISES[chapterId]) ? window.MATHS_EXERCISES[chapterId] : [];
+        const capesExos = (typeof window !== 'undefined' && window.CAPES_EXERCISES && window.CAPES_EXERCISES[chapterId]) ? window.CAPES_EXERCISES[chapterId] : null;
+        const proofExos = (typeof window !== 'undefined' && window.PROOF_EXERCISES && window.PROOF_EXERCISES[chapterId]) ? window.PROOF_EXERCISES[chapterId] : null;
+        const exos = ((typeof window !== 'undefined' && window.MATHS_EXERCISES && window.MATHS_EXERCISES[chapterId]) ? window.MATHS_EXERCISES[chapterId] : null) || capesExos || proofExos || [];
         if (exos.length) {
           const matchingTierExos = exos.filter(e => e.tier === resolvedTier);
           const pool = matchingTierExos.length > 0 ? matchingTierExos : exos;
@@ -12562,7 +13084,31 @@ window.MathsGenerators = {
             q.id = `${base.id}-dyn-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
           }
         } else {
-          q = this.generateN1(resolvedTier, mastery);
+          // Si c'est un chapitre de CAPES, de Preuves ou d'études supérieures, ne JAMAIS tomber dans generateN1 (calculs de 5e) !
+          if (chapterId.startsWith('capes-') || chapterId.includes('-PRF') || chapterId.startsWith('L1-') || chapterId.startsWith('L2-') || chapterId.startsWith('L3-')) {
+            const prefix = chapterId.split('-')[0];
+            const allExosObj = Object.assign({}, (typeof window !== 'undefined' && window.MATHS_EXERCISES) || {}, (typeof window !== 'undefined' && window.CAPES_EXERCISES) || {}, (typeof window !== 'undefined' && window.PROOF_EXERCISES) || {});
+            const fallbackKey = Object.keys(allExosObj).find(k => k.startsWith(prefix) && allExosObj[k].length > 0);
+            if (fallbackKey && allExosObj[fallbackKey].length > 0) {
+              const base = this.randChoice(allExosObj[fallbackKey]);
+              q = JSON.parse(JSON.stringify(base));
+              q.id = `${chapterId}-fallback-${Date.now()}`;
+              q.chapterId = chapterId;
+            } else {
+              // Si aucun exercice n'est trouvé, tirer dans capes-01 ou L1-PRF mais JAMAIS N1 !
+              const capesPool = (typeof window !== 'undefined' && window.CAPES_EXERCISES && window.CAPES_EXERCISES['capes-01']) ? window.CAPES_EXERCISES['capes-01'] : [];
+              if (capesPool.length > 0) {
+                const base = this.randChoice(capesPool);
+                q = JSON.parse(JSON.stringify(base));
+                q.id = `${chapterId}-capesfallback-${Date.now()}`;
+                q.chapterId = chapterId;
+              } else {
+                q = null;
+              }
+            }
+          } else {
+            q = this.generateN1(resolvedTier, mastery);
+          }
         }
         break;
       }

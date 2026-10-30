@@ -288,7 +288,9 @@ window.MathsAdaptiveEngine = {
 
     // 2. Repli catalogue statique si le générateur procédural n'est pas disponible pour ce chapitre
     if (!candidate) {
-      const exercises = window.MATHS_EXERCISES[this.state.chapterId] || [];
+      const capesExos = (typeof window !== 'undefined' && window.CAPES_EXERCISES && window.CAPES_EXERCISES[this.state.chapterId]) ? window.CAPES_EXERCISES[this.state.chapterId] : null;
+      const proofExos = (typeof window !== 'undefined' && window.PROOF_EXERCISES && window.PROOF_EXERCISES[this.state.chapterId]) ? window.PROOF_EXERCISES[this.state.chapterId] : null;
+      const exercises = (window.MATHS_EXERCISES && window.MATHS_EXERCISES[this.state.chapterId]) || capesExos || proofExos || [];
       const completedSet = new Set(progress.completed || []);
       let tierExercises = exercises.filter(e => e.tier === this.state.currentTier);
       if (!tierExercises.length) {
@@ -401,6 +403,46 @@ window.MathsAdaptiveEngine = {
 
       // Correspondance stricte directe
       if (cleanUser === cleanExpected) return true;
+
+      // Tolérance pour les coordonnées d'un point (ex: "(3; 5)", "(3;5)", "3;5", "(3, 5)", "M'(3;5)")
+      const parseCoordinates = (str) => {
+        if (!str) return null;
+        let s = String(str).trim();
+        s = s.replace(/^[a-zA-Z]['’]?\s*[:=]?\s*/, '').trim();
+        const hasParens = (s.startsWith('(') && s.endsWith(')')) || (s.startsWith('[') && s.endsWith(']'));
+        if (hasParens) {
+          s = s.slice(1, -1).trim();
+        }
+        let parts;
+        if (s.includes(';')) {
+          parts = s.split(';');
+        } else if (hasParens && s.includes(',')) {
+          parts = s.split(',');
+        } else {
+          return null;
+        }
+        if (parts.length < 2 || parts.length > 4) return null;
+        const nums = parts.map(p => {
+          p = p.trim().replace(/[−–—]/g, '-').replace(/\s+/g, '');
+          if (p.includes('/')) {
+            const frac = p.split('/');
+            const num = parseFloat(frac[0]);
+            const den = parseFloat(frac[1]);
+            return (den && !isNaN(num) && !isNaN(den)) ? num / den : null;
+          }
+          const n = Number(p);
+          return isNaN(n) ? null : n;
+        });
+        if (nums.some(n => n === null)) return null;
+        return nums;
+      };
+
+      const userCoords = parseCoordinates(userAnswer);
+      const expectedCoords = parseCoordinates(exercise.answer);
+      if (userCoords && expectedCoords && userCoords.length === expectedCoords.length) {
+        const allMatch = userCoords.every((val, idx) => Math.abs(val - expectedCoords[idx]) < 0.0001);
+        if (allMatch) return true;
+      }
 
       // Normalisation oui/non vs vrai/faux
       const trueSet = ['oui', 'vrai', 'true', 'v'];

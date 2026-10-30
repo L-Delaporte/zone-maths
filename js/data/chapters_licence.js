@@ -216,6 +216,26 @@ const MATHS_CHAPTERS_LICENCE = [
       "Écrire l'équation polaire d'une conique connaissant son excentricité"
     ]
   },
+  {
+    "id": "L1-PRF",
+    "level": "L1",
+    "domain": "nombres",
+    "domainName": "Démonstrations Fondamentales",
+    "folder": "L1_PRF_Preuves_fondamentales",
+    "num": "L1-12",
+    "title": "Démonstrations fondamentales de L1 : analyse, algèbre et topologie",
+    "shortTitle": "Preuves Fondamentales L1",
+    "icon": "book-open",
+    "badge": "Démonstrateur de L1",
+    "color": "#8b5cf6",
+    "description": "Apprentissage des démonstrations universitaires de référence de L1 : TVI par dichotomie, Bolzano-Weierstrass, Théorème de Rolle, Théorème du Rang.",
+    "skills": [
+      "Structurer une preuve formelle (hypothèses, lemmes clés, articulation logique, conclusion)",
+      "Démontrer le TVI par dichotomie et suites adjacentes",
+      "Démontrer le théorème de Bolzano-Weierstrass par le principe des tiroirs et suites emboîtées",
+      "Détecter les sophismes et erreurs de raisonnement classiques aux examens"
+    ]
+  },
 
   // =========================================================================
   // LICENCE 2 — STRUCTURES LINÉAIRES, ANALYSE APPROFONDIE ET MULTIVARIABLE (15 modules)
@@ -505,6 +525,26 @@ const MATHS_CHAPTERS_LICENCE = [
       "Déterminer les points critiques et statuer sur leur nature (minimum, maximum, point selle) via la matrice hessienne"
     ]
   },
+  {
+    "id": "L2-PRF",
+    "level": "L2",
+    "domain": "nombres",
+    "domainName": "Démonstrations Fondamentales",
+    "folder": "L2_PRF_Preuves_fondamentales",
+    "num": "L2-16",
+    "title": "Démonstrations fondamentales de L2 : algèbre bilinéaire et analyse",
+    "shortTitle": "Preuves Fondamentales L2",
+    "icon": "book-open",
+    "badge": "Démonstrateur de L2",
+    "color": "#ec4899",
+    "description": "Preuves incontournables de L2 : Théorème Spectral euclidien, Lemme d'Abel et rayon de séries entières, Cayley-Hamilton, Dérivation sous l'intégrale.",
+    "skills": [
+      "Démontrer le Théorème Spectral pour les endomorphismes autoadjoints par récurrence sur la dimension",
+      "Prouver le Lemme d'Abel pour les séries entières et établir la convergence uniforme sur les disques fermés",
+      "Justifier l'interversion limite-intégrale et la dérivation sous le signe intégral",
+      "Démontrer le théorème de Cayley-Hamilton"
+    ]
+  },
 
   // =========================================================================
   // LICENCE 3 — STRUCTURES MODERNES, TOPOLOGIE ET THÉORIE DE LA MESURE (15 modules)
@@ -792,6 +832,26 @@ const MATHS_CHAPTERS_LICENCE = [
       "Calculer la densité, l'espérance et la variance d'une variable aléatoire continue",
       "Calculer la fonction caractéristique et l'utiliser pour identifier la loi d'une somme indépendante",
       "Appliquer le Théorème Central Limite pour approximer des probabilités cumulées"
+    ]
+  },
+  {
+    "id": "L3-PRF",
+    "level": "L3",
+    "domain": "nombres",
+    "domainName": "Démonstrations Fondamentales",
+    "folder": "L3_PRF_Preuves_fondamentales",
+    "num": "L3-16",
+    "title": "Démonstrations fondamentales de L3 : Lebesgue, Banach et Sylow",
+    "shortTitle": "Preuves Fondamentales L3",
+    "icon": "book-open",
+    "badge": "Démonstrateur de L3",
+    "color": "#f59e0b",
+    "description": "Démonstrations majeures de L3 : Théorème de convergence dominée de Lebesgue, Théorème de Baire et Banach-Steinhaus, Théorème d'Inversion Locale, Théorèmes de Sylow.",
+    "skills": [
+      "Démontrer le Théorème de Convergence Dominée (TCD) via le Lemme de Fatou",
+      "Appliquer et démontrer le lemme de Baire et le principe de borne uniforme (Banach-Steinhaus)",
+      "Démontrer le Théorème d'Inversion Locale par le point fixe de Banach (Picard)",
+      "Prouver l'existence des p-sous-groupes de Sylow par action de groupe"
     ]
   }
 ];

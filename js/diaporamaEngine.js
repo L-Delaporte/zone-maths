@@ -8,6 +8,7 @@ window.MathsDiaporama = {
   state: {
     isRunning: false,
     isPaused: false,
+    isDifferentiated: false,
     questions: [],
     currentIndex: 0,
     timePerQuestion: 30, // secondes (15, 30, 45, 60, 0=manuel)
@@ -109,8 +110,31 @@ window.MathsDiaporama = {
     const timeSelect = document.getElementById('diapo-time-select');
     const time = timeSelect ? parseInt(timeSelect.value, 10) : 30;
 
+    const modeSelect = document.getElementById('diapo-mode-select');
+    const isDiff = modeSelect ? (modeSelect.value === 'differentiated') : false;
+    this.state.isDifferentiated = isDiff;
+
     // 2. Générer les questions à données aléatoires
-    this.state.questions = window.MathsGenerators.generateSeries(chapters, count);
+    if (isDiff) {
+      const pairs = [];
+      for (let i = 0; i < count; i++) {
+        const ch = chapters[i % chapters.length];
+        const tierSocle = (i % 2 === 0) ? 1 : 2;
+        const tierDefi = (i % 2 === 0) ? 3 : 4;
+        const qSocle = window.MathsGenerators.generate(ch, tierSocle);
+        const qDefi = window.MathsGenerators.generate(ch, tierDefi);
+        pairs.push({
+          isDifferentiated: true,
+          socle: qSocle,
+          defi: qDefi,
+          title: `Question ${i + 1}`
+        });
+      }
+      this.state.questions = pairs;
+    } else {
+      this.state.questions = window.MathsGenerators.generateSeries(chapters, count);
+    }
+
     this.state.currentIndex = 0;
     this.state.timePerQuestion = time;
     this.state.answersRecord = [];
@@ -145,18 +169,49 @@ window.MathsDiaporama = {
 
     if (indexEl) indexEl.textContent = `Question ${this.state.currentIndex + 1} / ${this.state.questions.length}`;
     
-    // Rendu du titre avec prise en charge complète du LaTeX ($...$)
-    if (titleEl) {
-      titleEl.innerHTML = (q.title || '')
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;');
-      window.MathsRenderer.renderElement(titleEl);
-    }
+    if (q.isDifferentiated) {
+      if (titleEl) {
+        titleEl.textContent = `Double Rituel Flash : Question ${this.state.currentIndex + 1} / ${this.state.questions.length}`;
+      }
+      if (bodyEl) {
+        bodyEl.innerHTML = `
+          <div class="diapo-double-stage">
+            <div class="diapo-col-socle">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.6rem;">
+                <span class="diapo-badge-socle">🟢 Socle</span>
+                <strong style="font-size:0.95rem; color:var(--text-main);">${q.socle.title || ''}</strong>
+              </div>
+              <div class="diapo-col-body" style="font-size:1.15rem; line-height:1.5;">
+                ${window.MathsRenderer.markdownToHtml(q.socle.statement)}
+              </div>
+            </div>
+            <div class="diapo-col-defi">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.6rem;">
+                <span class="diapo-badge-defi">🟣 Défi</span>
+                <strong style="font-size:0.95rem; color:var(--text-main);">${q.defi.title || ''}</strong>
+              </div>
+              <div class="diapo-col-body" style="font-size:1.15rem; line-height:1.5;">
+                ${window.MathsRenderer.markdownToHtml(q.defi.statement)}
+              </div>
+            </div>
+          </div>
+        `;
+        window.MathsRenderer.renderElement(bodyEl);
+      }
+    } else {
+      // Rendu du titre avec prise en charge complète du LaTeX ($...$)
+      if (titleEl) {
+        titleEl.innerHTML = (q.title || '')
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;');
+        window.MathsRenderer.renderElement(titleEl);
+      }
 
-    if (bodyEl) {
-      bodyEl.innerHTML = window.MathsRenderer.markdownToHtml(q.statement);
-      window.MathsRenderer.renderElement(bodyEl);
+      if (bodyEl) {
+        bodyEl.innerHTML = window.MathsRenderer.markdownToHtml(q.statement);
+        window.MathsRenderer.renderElement(bodyEl);
+      }
     }
 
     // Gestion du timer
@@ -290,6 +345,18 @@ window.MathsDiaporama = {
   copyQuestions() {
     const isSolutions = this.state.recapMode === 'solutions';
     const lines = this.state.questions.map((q, idx) => {
+      if (q.isDifferentiated) {
+        const s = q.socle;
+        const d = q.defi;
+        const sStmt = (s.statement || '').replace(/\$\$/g, '').replace(/\$/g, '').replace(/\r?\n+/g, ' ').trim();
+        const dStmt = (d.statement || '').replace(/\$\$/g, '').replace(/\$/g, '').replace(/\r?\n+/g, ' ').trim();
+        if (isSolutions) {
+          const sAns = String(s.options ? s.options[s.correctIndex !== undefined ? s.correctIndex : 0] : (s.answer || '')).replace(/\$\$/g, '').replace(/\$/g, '').trim();
+          const dAns = String(d.options ? d.options[d.correctIndex !== undefined ? d.correctIndex : 0] : (d.answer || '')).replace(/\$\$/g, '').replace(/\$/g, '').trim();
+          return `${idx + 1}) [Socle] ${sStmt} ➜ ${sAns}  |  [Défi] ${dStmt} ➜ ${dAns}`;
+        }
+        return `${idx + 1}) [Socle] ${sStmt}  |  [Défi] ${dStmt}`;
+      }
       let cleanStmt = (q.statement || '')
         .replace(/\$\$/g, '')
         .replace(/\$/g, '')
@@ -332,39 +399,54 @@ window.MathsDiaporama = {
     // Mettre à jour les onglets actifs
     if (tabStatements) tabStatements.classList.toggle('active', !isSolutions);
     if (tabSolutions) tabSolutions.classList.toggle('active', isSolutions);
-    if (sheetTitle) sheetTitle.textContent = 'Diapo 1';
+    if (sheetTitle) sheetTitle.textContent = this.state.isDifferentiated ? 'Double Rituel (Socle & Défi)' : 'Diapo 1';
 
-    // Rendu compact de chaque question
-    const itemsHtml = this.state.questions.map((q, idx) => {
-      // 1. Énoncé compact sur une ligne (remplace les retours à la ligne)
-      const cleanStmt = (q.statement || '').replace(/\r?\n+/g, ' ');
-      const statementHtml = window.MathsRenderer.markdownToHtml(cleanStmt);
+    // Rendu en mode différencié (2 colonnes synchronisées)
+    if (this.state.isDifferentiated) {
+      const itemsHtml = this.state.questions.map((q, idx) => {
+        const s = q.socle;
+        const d = q.defi;
 
-      // 2. Réponse en mode correction
-      let ansHtml = '';
-      if (isSolutions) {
-        const rawAns = q.options ? q.options[q.correctIndex !== undefined ? q.correctIndex : 0] : (q.answer || '');
-        ansHtml = this.formatAnswerForDisplay(rawAns);
-      }
+        let sAnsHtml = '';
+        let dAnsHtml = '';
+        if (isSolutions) {
+          const sRaw = s.options ? s.options[s.correctIndex !== undefined ? s.correctIndex : 0] : (s.answer || '');
+          sAnsHtml = this.formatAnswerForDisplay(sRaw);
+          const dRaw = d.options ? d.options[d.correctIndex !== undefined ? d.correctIndex : 0] : (d.answer || '');
+          dAnsHtml = this.formatAnswerForDisplay(dRaw);
+        }
 
-      return `
-        <div class="diapo-mm-item">
-          <span class="diapo-mm-num">${idx + 1})</span>
-          <div class="diapo-mm-content">
-            <span class="diapo-mm-statement">${statementHtml}</span>
-            ${isSolutions ? `
-              <span class="diapo-mm-ans-badge">➜ <strong>${ansHtml}</strong></span>
-              ${q.solution ? `
-                <details class="diapo-mm-detail">
-                  <summary>Détail du calcul</summary>
-                  <div class="diapo-mm-sol-text">${window.MathsRenderer.markdownToHtml(q.solution)}</div>
-                </details>
-              ` : ''}
-            ` : ''}
+        const sClean = (s.statement || '').replace(/\r?\n+/g, ' ');
+        const dClean = (d.statement || '').replace(/\r?\n+/g, ' ');
+
+        return `
+          <div class="diapo-recap-double">
+            <div class="diapo-col-socle" style="padding:0.85rem 1.1rem;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.4rem;">
+                <span class="diapo-badge-socle">🟢 Socle ${idx + 1}</span>
+                <small style="color:var(--text-muted); font-weight:600;">${s.title || ''}</small>
+              </div>
+              <div style="font-size:1.02rem;">${window.MathsRenderer.markdownToHtml(sClean)}</div>
+              ${isSolutions ? `<div style="margin-top:0.5rem;"><span class="diapo-mm-ans-badge">➜ <strong>${sAnsHtml}</strong></span></div>` : ''}
+            </div>
+            <div class="diapo-col-defi" style="padding:0.85rem 1.1rem;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.4rem;">
+                <span class="diapo-badge-defi">🟣 Défi ${idx + 1}</span>
+                <small style="color:var(--text-muted); font-weight:600;">${d.title || ''}</small>
+              </div>
+              <div style="font-size:1.02rem;">${window.MathsRenderer.markdownToHtml(dClean)}</div>
+              ${isSolutions ? `<div style="margin-top:0.5rem;"><span class="diapo-mm-ans-badge">➜ <strong>${dAnsHtml}</strong></span></div>` : ''}
+            </div>
           </div>
-        </div>
-      `;
-    }).join('');
+        `;
+      }).join('');
+
+      listContainer.innerHTML = itemsHtml;
+      if (sheetEl) window.MathsRenderer.renderElement(sheetEl);
+      else window.MathsRenderer.renderElement(listContainer);
+      this.applyZoom();
+      return;
+    }
 
     listContainer.innerHTML = itemsHtml;
 
