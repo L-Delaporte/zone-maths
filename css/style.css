@@ -5157,9 +5157,9 @@ body.home-view-active .cycle-levels-row {
     gap: 0.75rem;
   }
 
-  /* En-tête mobile aéré et ultra-compact */
+  /* En-tête mobile aéré, élégant et ultra-compact */
   .app-header {
-    padding: max(0.5rem, env(safe-area-inset-top)) 0.75rem 0.5rem;
+    padding: max(0.5rem, env(safe-area-inset-top)) 0.75rem 0.4rem;
     position: relative;
     z-index: 50;
   }
@@ -5167,120 +5167,382 @@ body.home-view-active .cycle-levels-row {
   .header-inner {
     flex-direction: column;
     align-items: stretch;
-    gap: 0.5rem;
+    gap: 0.4rem;
     padding: 0;
   }
 
   .brand-container {
     justify-content: center;
+    gap: 0.5rem;
   }
 
   .brand-logo-img {
-    width: 34px;
-    height: 34px;
+    width: 32px;
+    height: 32px;
   }
 
   .brand-text h1 {
-    font-size: 1.02rem;
+    font-size: 1.05rem;
+    font-weight: 800;
   }
 
   .brand-tagline {
     display: none; /* Alléger le header sur mobile */
   }
 
-  /* Sélecteur Multi-Cycles et Niveaux centré et fluide */
+  /* Sélecteur Multi-Cycles fluide sans débordement ni rognage */
   .app-curriculum-nav {
     width: 100%;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     gap: 0.3rem;
   }
 
-  .cycle-tabs-row,
-  .cycle-levels-row,
-  .cycle-levels-group {
-    width: 100%;
-    justify-content: center;
+  .cycle-tabs-row {
+    width: 100% !important;
+    max-width: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    overflow-x: auto !important;
+    scrollbar-width: none !important;
+    -webkit-overflow-scrolling: touch !important;
+    gap: 0.3rem !important;
+    padding: 3px 6px !important;
+    border-radius: var(--radius-full) !important;
+    box-sizing: border-box !important;
+  }
+
+  .cycle-tabs-row::-webkit-scrollbar {
+    display: none !important;
   }
 
   .cycle-tab-btn {
-    padding: 3px 8px;
-    font-size: 0.74rem;
-    flex: 1;
-    justify-content: center;
-    min-height: 28px;
+    flex: 0 0 auto !important;
+    padding: 4px 11px !important;
+    font-size: 0.78rem !important;
+    font-weight: 700 !important;
+    min-height: 30px !important;
+    white-space: nowrap !important;
+    border-radius: var(--radius-full) !important;
+  }
+
+  .btn-relock-cycles {
+    flex: 0 0 auto !important;
+    margin-left: 0.2rem !important;
+    padding: 4px 10px !important;
+    font-size: 0.74rem !important;
+    min-height: 30px !important;
+    white-space: nowrap !important;
+  }
+
+  .cycle-levels-row {
+    width: 100% !important;
+    overflow-x: auto !important;
+    scrollbar-width: none !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  .cycle-levels-row::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  .cycle-levels-group {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.35rem !important;
+    width: 100% !important;
+    overflow-x: auto !important;
+    scrollbar-width: none !important;
+    padding: 2px 0 !important;
   }
 
   .level-pill {
-    padding: 3px 6px;
-    font-size: 0.74rem;
-    flex: 1;
-    text-align: center;
-    min-height: 28px;
+    flex: 0 0 auto !important;
+    min-width: 60px !important;
+    padding: 4px 11px !important;
+    font-size: 0.76rem !important;
+    font-weight: 700 !important;
+    min-height: 30px !important;
+    border-radius: var(--radius-full) !important;
+    white-space: nowrap !important;
+    text-align: center !important;
   }
 
-  .cycle4-level-nav {
-    justify-content: center;
-    width: 100%;
-    padding: 3px 6px;
-  }
-
-  .level-pills {
-    justify-content: center;
-    width: 100%;
-  }
-
-  /* Statut et actions utilisateur compactes */
+  /* Statut utilisateur et barre d'actions rapides fluide sur 1 seule ligne */
   .header-user-status {
-    flex-direction: column;
-    gap: 0.4rem;
-    width: 100%;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 0.35rem !important;
+    width: 100% !important;
   }
 
   .status-pills-row {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.4rem;
-    width: 100%;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.35rem !important;
+    width: 100% !important;
+    overflow-x: auto !important;
+    scrollbar-width: none !important;
   }
 
   .status-pill {
-    padding: 2px 7px;
-    font-size: 0.75rem;
+    padding: 2px 9px !important;
+    font-size: 0.74rem !important;
+    font-weight: 700 !important;
+    border-radius: var(--radius-full) !important;
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
   }
 
+  /* Barre d'outils mobile en bande défilante horizontale ultra-compacte */
   .header-actions-row {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-    width: 100%;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 0.35rem !important;
+    width: 100% !important;
+    overflow-x: auto !important;
+    scrollbar-width: none !important;
+    -webkit-overflow-scrolling: touch !important;
+    padding: 2px 2px !important;
+    box-sizing: border-box !important;
+  }
+
+  .header-actions-row::-webkit-scrollbar {
+    display: none !important;
   }
 
   .header-tools-grid-2x2 {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.3rem 0.4rem;
-  }
-
-  .header-tools-grid-2x2 .btn-icon-text {
-    padding: 5px 8px;
-    font-size: 0.75rem;
-    border-radius: var(--radius-sm);
-    min-height: 32px;
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 0.35rem !important;
+    flex-shrink: 0 !important;
   }
 
   .header-utility-actions {
-    display: flex;
-    flex-direction: row;
-    gap: 0.3rem;
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 0.35rem !important;
+    flex-shrink: 0 !important;
   }
 
+  .header-tools-grid-2x2 .btn-icon-text,
   .header-utility-actions .btn-utility-action {
-    padding: 4px 8px;
-    font-size: 0.75rem;
-    border-radius: var(--radius-sm);
-    min-height: 32px;
+    padding: 4px 11px !important;
+    font-size: 0.75rem !important;
+    font-weight: 600 !important;
+    min-height: 29px !important;
+    border-radius: var(--radius-full) !important;
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* =========================================================================
+     PAGE D'ACCUEIL MOBILE (HUB ZPD) HAUT DE GAMME
+     ========================================================================= */
+  .home-view {
+    padding: 0 !important;
+    gap: 0.85rem !important;
+  }
+
+  .home-resume-box {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.65rem !important;
+  }
+
+  .home-resume-card {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 0.75rem !important;
+    padding: 0.95rem 1rem !important;
+    border-radius: var(--radius-lg) !important;
+    border-left: 5px solid var(--primary) !important;
+  }
+
+  .home-resume-left {
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 0.75rem !important;
+    width: 100% !important;
+  }
+
+  .home-resume-badge {
+    width: 42px !important;
+    height: 42px !important;
+    font-size: 0.95rem !important;
+    border-radius: var(--radius-md) !important;
+    flex-shrink: 0 !important;
+  }
+
+  .home-resume-info {
+    flex: 1 !important;
+    min-width: 0 !important;
+  }
+
+  .home-resume-tag {
+    font-size: 0.68rem !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.3px !important;
+  }
+
+  .home-resume-title {
+    white-space: normal !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    gap: 0.35rem !important;
+    font-size: 0.95rem !important;
+    font-weight: 700 !important;
+    line-height: 1.35 !important;
+    margin-top: 2px !important;
+  }
+
+  .home-resume-tier-pill {
+    margin-left: 0 !important;
+    font-size: 0.68rem !important;
+    padding: 1px 7px !important;
+  }
+
+  .home-resume-sub {
+    font-size: 0.74rem !important;
+    color: var(--text-muted) !important;
+    margin-top: 3px !important;
+  }
+
+  .home-resume-btn {
+    width: 100% !important;
+    justify-content: center !important;
+    min-height: 44px !important;
+    font-size: 0.95rem !important;
+    font-weight: 700 !important;
+    border-radius: 10px !important;
+    box-shadow: 0 3px 10px rgba(37, 99, 235, 0.28) !important;
+  }
+
+  .home-warmup-card {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 0.75rem !important;
+    padding: 0.85rem 1rem !important;
+    border-radius: var(--radius-lg) !important;
+  }
+
+  .home-warmup-info {
+    min-width: 0 !important;
+    flex: 1 !important;
+  }
+
+  .home-warmup-tag {
+    font-size: 0.68rem !important;
+    font-weight: 800 !important;
+  }
+
+  .home-warmup-title {
+    font-size: 0.92rem !important;
+    font-weight: 700 !important;
+  }
+
+  .home-warmup-sub {
+    font-size: 0.72rem !important;
+  }
+
+  .home-warmup-btn {
+    flex-shrink: 0 !important;
+    min-height: 38px !important;
+    padding: 6px 14px !important;
+    font-size: 0.85rem !important;
+    font-weight: 700 !important;
+    white-space: nowrap !important;
+    border-radius: 8px !important;
+  }
+
+  /* Titres de section Accueil - Plus d'orphelin sur "d'études" */
+  .home-section-header {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0.2rem !important;
+    margin-top: 1rem !important;
+    margin-bottom: 0.4rem !important;
+  }
+
+  .home-section-title {
+    font-size: 1rem !important;
+    font-weight: 800 !important;
+  }
+
+  .home-section-subtitle {
+    font-size: 0.76rem !important;
+    color: var(--text-muted) !important;
+  }
+
+  .home-cycles-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.75rem !important;
+  }
+
+  .home-cycle-card {
+    padding: 1rem 1.15rem !important;
+    border-radius: var(--radius-lg) !important;
+  }
+
+  .home-cycle-levels {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 0.35rem !important;
+    margin-top: 0.75rem !important;
+  }
+
+  .level-pill-mini {
+    min-height: 34px !important;
+    padding: 4px 13px !important;
+    font-size: 0.78rem !important;
+    font-weight: 700 !important;
+    border-radius: var(--radius-full) !important;
+  }
+
+  .home-tools-grid {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 0.65rem !important;
+  }
+
+  .home-tool-card {
+    padding: 0.9rem 1rem !important;
+    border-radius: var(--radius-lg) !important;
+  }
+
+  .home-portals-footer {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0.5rem !important;
+    padding: 1rem !important;
+    border-radius: var(--radius-lg) !important;
+    background: var(--bg-surface) !important;
+    border: 1px solid var(--border-color) !important;
+  }
+
+  .home-portals-links {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 0.4rem !important;
+  }
+
+  .home-portal-link {
+    padding: 5px 12px !important;
+    font-size: 0.78rem !important;
+    border-radius: var(--radius-full) !important;
   }
 
   /* Déclencheur mobile du volet chapitres */
@@ -5639,46 +5901,7 @@ body.home-view-active .cycle-levels-row {
     gap: 0.75rem;
   }
 
-  .header-actions-row {
-    flex-direction: column;
-    align-items: center;
-    gap: 0.35rem;
-    width: 100%;
-  }
 
-  .header-tools-grid-2x2 {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    width: 100%;
-    gap: 0.3rem;
-  }
-
-  .header-tools-grid-2x2 .btn-icon-text {
-    padding: 6px 4px;
-    font-size: 0.74rem;
-    min-height: 32px;
-  }
-
-  .header-tools-grid-2x2 .btn-lbl {
-    display: inline !important;
-  }
-
-  .header-utility-actions {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    gap: 0.4rem;
-  }
-
-  .header-utility-actions .btn-lbl {
-    display: none; /* Icon-only pour Sons et Thème sur petits smartphones */
-  }
-
-  .header-utility-actions .btn-utility-action {
-    padding: 5px 12px;
-    font-size: 0.88rem;
-    min-height: 30px;
-  }
 
   .virtual-math-keyboard {
     grid-template-columns: repeat(6, 1fr) !important;
