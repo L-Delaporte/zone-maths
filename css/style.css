@@ -182,10 +182,6 @@ body {
   box-shadow: 0 4px 12px rgba(56, 189, 248, 0.35);
 }
 
-.brand-logo {
-  font-size: 1.8rem;
-}
-
 .brand-text h1, .brand-text .brand-title {
   margin: 0;
   font-size: 1.15rem;
@@ -285,58 +281,6 @@ body {
   box-shadow: 0 2px 4px rgba(124, 58, 237, 0.3);
 }
 
-.cycle-lock-badge {
-  font-size: 0.72rem;
-  margin-left: 2px;
-  line-height: 1;
-  opacity: 0.85;
-}
-
-.btn-relock-cycles {
-  border: 1px dashed var(--border-color, #cbd5e1);
-  background: transparent;
-  color: var(--text-muted, #64748b);
-  font-size: 0.72rem;
-  font-weight: 600;
-  padding: 2px 8px;
-  border-radius: var(--radius-full, 9999px);
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-  margin-left: 0.4rem;
-  transition: all 0.2s ease;
-  white-space: nowrap;
-}
-
-.btn-relock-cycles:hover {
-  background-color: rgba(239, 68, 68, 0.1);
-  color: #ef4444;
-  border-color: #ef4444;
-}
-
-[data-theme="dark"] .btn-relock-cycles {
-  border-color: #475569;
-  color: #94a3b8;
-}
-
-[data-theme="dark"] .btn-relock-cycles:hover {
-  background-color: rgba(239, 68, 68, 0.2);
-  color: #f87171;
-  border-color: #f87171;
-}
-
-.lock-modal-box {
-  max-width: 480px;
-  border-radius: var(--radius-lg, 16px);
-  animation: modalFadeIn 0.25s ease-out;
-}
-
-.input-error {
-  border-color: #ef4444 !important;
-  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2) !important;
-}
-
 .cycle-levels-row {
   display: flex;
   align-items: center;
@@ -402,15 +346,6 @@ body.home-view-active .cycle-levels-row {
 }
 
 /* Rétrocompatibilité sélecteur Cycle 4 */
-.cycle4-level-nav {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  background-color: var(--bg-subtle);
-  padding: 3px 6px;
-  border-radius: var(--radius-full);
-  border: 1px solid var(--border-color);
-}
 
 .header-user-status {
   display: flex;
@@ -845,13 +780,6 @@ body.home-view-active .cycle-levels-row {
   color: var(--primary);
 }
 
-.level-pill-mini.highlight {
-  background: rgba(37, 99, 235, 0.12);
-  border-color: var(--primary);
-  color: var(--primary);
-  font-weight: 700;
-}
-
 /* Grille des 4 outils pédagogiques */
 .home-tools-grid {
   display: grid;
@@ -951,18 +879,6 @@ body.home-view-active .cycle-levels-row {
   flex-direction: column;
   gap: 1.25rem;
   line-height: 1.6;
-}
-
-.mode-explainer-section-title {
-  font-size: 0.88rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--primary);
-  margin-bottom: 0.5rem;
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
 }
 
 .mode-explainer-concept {
@@ -1691,61 +1607,6 @@ body.home-view-active .cycle-levels-row {
 }
 
 /* Jauge Visuelle ZPD */
-.zpd-gauge-widget {
-  background: var(--bg-subtle);
-  border-radius: var(--radius-md);
-  padding: 0.75rem 1rem;
-  border: 1px solid var(--border-color);
-}
-
-.zpd-gauge-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.4rem;
-}
-
-.zpd-label {
-  font-size: 0.85rem;
-  font-weight: 700;
-}
-
-.zpd-desc {
-  font-size: 0.75rem;
-  color: var(--text-muted);
-}
-
-.zpd-meter-bar {
-  position: relative;
-  height: 10px;
-  border-radius: var(--radius-full);
-  background: linear-gradient(90deg, #3b82f6 0%, #10b981 50%, #f59e0b 100%);
-  margin: 0.5rem 0;
-}
-
-.zpd-pointer {
-  position: absolute;
-  top: -4px;
-  width: 18px;
-  height: 18px;
-  background-color: white;
-  border: 3px solid var(--text-main);
-  border-radius: 50%;
-  transform: translateX(-50%);
-  transition: left 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-  box-shadow: var(--shadow-sm);
-}
-
-.zpd-pointer.badge-comfort { border-color: #3b82f6; }
-.zpd-pointer.badge-flow { border-color: #10b981; }
-.zpd-pointer.badge-frustration { border-color: #f59e0b; }
-
-.zpd-meter-labels {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.7rem;
-  color: var(--text-muted);
-}
 
 /* Boîte de l'exercice */
 .exercise-workspace-box {
@@ -3356,59 +3217,11 @@ body.home-view-active .cycle-levels-row {
   gap: 0.75rem;
 }
 
-.diapo-mm-item {
-  display: flex;
-  align-items: baseline;
-  gap: 0.75rem;
-  font-size: var(--diapo-font-size, 1.15rem);
-  line-height: 1.5;
-  color: #111827;
-}
-
-.diapo-mm-num {
-  font-weight: 800;
-  min-width: 2.2rem;
-  text-align: right;
-  flex-shrink: 0;
-  color: #111827;
-  user-select: none;
-}
-
-.diapo-mm-content {
-  flex: 1;
-}
-
-.diapo-mm-statement {
-  color: #111827;
-}
-
 .diapo-mm-ans-badge {
   display: inline-block;
   margin-left: 0.75rem;
   color: #16a34a !important;
   font-weight: 700;
-}
-
-.diapo-mm-detail {
-  margin-top: 0.4rem;
-  font-size: 0.9em;
-  color: #475569;
-}
-
-.diapo-mm-detail summary {
-  cursor: pointer;
-  color: #2563eb;
-  font-size: 0.85em;
-  font-weight: 600;
-  user-select: none;
-}
-
-.diapo-mm-sol-text {
-  margin-top: 0.35rem;
-  padding: 0.5rem 0.75rem;
-  background-color: #f8fafc;
-  border-left: 3px solid #3b82f6;
-  border-radius: 4px;
 }
 
 /* Compacité des formules dans la feuille (affichage sur une ligne) */
@@ -3485,10 +3298,6 @@ body.home-view-active .cycle-levels-row {
 [data-theme="dark"] .diapo-mm-sheet .diapo-mm-ans-badge,
 [data-theme="dark"] .diapo-mm-sheet .diapo-mm-ans-badge * {
   color: #16a34a !important;
-}
-
-[data-theme="dark"] .diapo-mm-sheet .diapo-mm-detail summary {
-  color: #2563eb !important;
 }
 
 [data-theme="dark"] .diapo-mm-zoom-btn {
@@ -3827,24 +3636,6 @@ body.home-view-active .cycle-levels-row {
 
 .quiz-sol-body p:last-child {
   margin-bottom: 0;
-}
-
-.quiz-method-cues {
-  margin: 0 0 0.55rem;
-  padding: 0.45rem 0.55rem;
-  border-left: 3px solid #60a5fa;
-  background: #eff6ff;
-  color: #334155;
-  font-size: 0.77rem;
-}
-
-.quiz-method-cues ul {
-  margin: 0.2rem 0 0 1rem;
-  padding: 0;
-}
-
-.quiz-method-cues li {
-  margin: 0.08rem 0;
 }
 
 /* Keep the correction preview inside its cards; print styles remain independent. */
@@ -5018,10 +4809,6 @@ body.home-view-active .cycle-levels-row {
   gap: 0.85rem;
 }
 
-.footer-logo {
-  font-size: 2rem;
-}
-
 .footer-logo-img {
   width: 38px;
   height: 38px;
@@ -5070,18 +4857,6 @@ body.home-view-active .cycle-levels-row {
 
 .modal-author-badge strong {
   color: var(--text-main);
-}
-
-.course-author-sub {
-  font-size: 0.82rem;
-  color: var(--text-muted);
-  font-style: italic;
-  margin-top: 0.2rem;
-}
-
-.course-author-sub strong {
-  color: var(--text-main);
-  font-style: normal;
 }
 
 .sheet-author-tag {
@@ -5971,8 +5746,6 @@ body.home-view-active .cycle-levels-row {
     gap: 0.75rem;
   }
 
-
-
   .virtual-math-keyboard {
     grid-template-columns: repeat(6, 1fr) !important;
     gap: 0.25rem;
@@ -6018,14 +5791,12 @@ body.home-view-active .cycle-levels-row {
 }
 
 [data-theme="dark"] .cycle-tabs-row,
-[data-theme="dark"] .cycle-levels-group,
-[data-theme="dark"] .cycle4-level-nav {
+[data-theme="dark"] .cycle-levels-group {
   background-color: #1e293b;
   border-color: #334155;
 }
 
-[data-theme="dark"] .cycle-tab-btn,
-[data-theme="dark"] .cycle4-label {
+[data-theme="dark"] .cycle-tab-btn {
   color: #94a3b8;
 }
 
@@ -6144,8 +5915,7 @@ body.home-view-active .cycle-levels-row {
   border-color: #3b82f6 !important;
 }
 
-[data-theme="dark"] .domain-pill,
-[data-theme="dark"] .domain-tag {
+[data-theme="dark"] .domain-pill {
   background-color: rgba(59, 130, 246, 0.2) !important;
   color: #93c5fd !important;
   border: 1px solid rgba(147, 197, 253, 0.3) !important;
@@ -6398,12 +6168,6 @@ body.home-view-active .cycle-levels-row {
   border-color: #334155;
 }
 
-[data-theme="dark"] .flashcard-question-box {
-  background-color: #162032;
-  border-color: #283548;
-  color: #f8fafc;
-}
-
 [data-theme="dark"] .flashcard-answer-box {
   background-color: rgba(16, 185, 129, 0.18);
   border-color: #10b981;
@@ -6431,8 +6195,7 @@ body.home-view-active .cycle-levels-row {
   color: #f8fafc;
 }
 
-[data-theme="dark"] .katex .frac-line,
-[data-theme="dark"] .katex .sqrt-line {
+[data-theme="dark"] .katex .frac-line {
   border-color: #cbd5e1;
 }
 
@@ -6444,8 +6207,7 @@ body.home-view-active .cycle-levels-row {
 }
 
 [data-theme="dark"] #sheet-solution-wrapper,
-[data-theme="dark"] .solution-content,
-[data-theme="dark"] .recap-solution {
+[data-theme="dark"] .solution-content {
   background-color: var(--bg-surface-elevated);
   color: var(--text-main);
   border-color: var(--border-color);
@@ -7505,11 +7267,6 @@ body.home-view-active .cycle-levels-row {
   border: 1px solid #3a8cae;
 }
 
-.scratch-operators {
-  background-color: #59c059;
-  border: 1px solid #389438;
-}
-
 .scratch-variables {
   background-color: #ff8c1a;
   border: 1px solid #db6e00;
@@ -7648,20 +7405,6 @@ body.home-view-active .cycle-levels-row {
 /* =========================================================================
    3. RECONSTITUTION DE PREUVE FORMELLE (LICENCE)
    ========================================================================= */
-.proof-container {
-  background: var(--bg-surface);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-lg);
-  padding: 1.5rem;
-  margin-top: 1rem;
-}
-
-.proof-theorem-title {
-  font-size: 1.25rem;
-  font-weight: 800;
-  color: var(--primary);
-  margin-bottom: 0.75rem;
-}
 
 .proof-statement-box {
   background: rgba(37, 99, 235, 0.06);
@@ -7717,14 +7460,6 @@ body.home-view-active .cycle-levels-row {
 /* =========================================================================
    4. LABORATOIRE INTERACTIF 2D/3D (LICENCE)
    ========================================================================= */
-.visualizer-workbench {
-  background: var(--bg-surface);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-lg);
-  padding: 1.5rem;
-  margin: 1.5rem 0;
-  box-shadow: var(--shadow-sm);
-}
 
 .visualizer-tabs-row {
   display: flex;
@@ -7751,97 +7486,9 @@ body.home-view-active .cycle-levels-row {
   border-color: rgba(37, 99, 235, 0.25);
 }
 
-.visualizer-canvas-box {
-  width: 100%;
-  height: 380px;
-  background: #0f172a;
-  border-radius: var(--radius-lg);
-  position: relative;
-  overflow: hidden;
-  box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.5);
-}
-
-.visualizer-canvas-box canvas {
-  width: 100%;
-  height: 100%;
-  display: block;
-  cursor: grab;
-}
-
-.visualizer-canvas-box canvas:active {
-  cursor: grabbing;
-}
-
-.visualizer-controls-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin-top: 1rem;
-  padding: 0.75rem 1rem;
-  background: var(--bg-subtle);
-  border-radius: var(--radius-md);
-}
-
-.visualizer-slider-group {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
 /* =========================================================================
    5. ESPACE PRÉPARATION AUX CONCOURS (CAPES & AGRÉGATION)
    ========================================================================= */
-.capes-lesson-card {
-  background: var(--bg-surface);
-  border: 1px solid var(--border-color);
-  border-left: 5px solid #f59e0b;
-  border-radius: var(--radius-lg);
-  padding: 1.5rem;
-  margin-bottom: 1.25rem;
-  box-shadow: var(--shadow-sm);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.capes-lesson-card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
-}
-
-.capes-lesson-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 0.75rem;
-}
-
-.capes-lesson-num {
-  display: inline-block;
-  background: rgba(245, 158, 11, 0.15);
-  color: #d97706;
-  font-weight: 800;
-  font-size: 0.8rem;
-  padding: 3px 10px;
-  border-radius: var(--radius-full);
-  text-transform: uppercase;
-}
-
-.capes-sub-section {
-  background: var(--bg-subtle);
-  border-radius: var(--radius-md);
-  padding: 1rem;
-  margin-top: 0.75rem;
-}
-
-.capes-trap-box {
-  background: rgba(239, 68, 68, 0.08);
-  border-left: 4px solid #ef4444;
-  padding: 0.85rem 1rem;
-  border-radius: 0 var(--radius-md) var(--radius-md) 0;
-  margin-top: 0.75rem;
-  font-size: 0.92rem;
-}
 
 /* =========================================================================
    BANDEAU D'INSTALLATION PWA MOBILE & MODALE iOS SAFARI
@@ -8415,8 +8062,6 @@ body.home-view-active .cycle-levels-row {
     break-inside: avoid !important;
   }
 }
-
-
 
 /* =========================================================================
    ACCESSIBILITÉ (RGAA / WCAG 2.2 AA)
