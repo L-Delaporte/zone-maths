@@ -4,7 +4,7 @@
  * Permet un fonctionnement autonome sans connexion Internet.
  */
 
-const CACHE_NAME = 'etabli-des-maths-v20261030d';
+const CACHE_NAME = 'etabli-des-maths-v20261030e';
 
 const PRECACHE_URLS = [
   './',
@@ -35,6 +35,7 @@ const PRECACHE_URLS = [
   './js/flashQuizGenerator.js',
   './js/flashcardsEngine.js',
   './js/app.js',
+  './js/pwaManager.js',
   './js/data/chapters.js',
   './js/data/chapters_lycee.js',
   './js/data/chapters_licence.js',

@@ -53,7 +53,7 @@
   <link rel="stylesheet" href="vendor/katex/katex.min.css" onerror="this.onerror=null;this.href='https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css';" />
   
   <!-- Feuilles de style de l'application -->
-  <link rel="stylesheet" href="css/style.css?v=20261030d" />
+  <link rel="stylesheet" href="css/style.css?v=20261030e" />
   <link rel="icon" href="/favicon.ico" sizes="any" />
   <link rel="icon" type="image/png" sizes="48x48" href="assets/favicon-48x48.png" />
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png" />
@@ -157,6 +157,23 @@
       </div>
     </div>
   </header>
+
+  <!-- Bandeau d'Installation PWA Mobile (Android & iOS) -->
+  <div id="pwa-install-banner" class="pwa-install-banner no-print" style="display: none;" role="region" aria-label="Installer l'application">
+    <div class="pwa-banner-left">
+      <img src="assets/logo.png" alt="Logo L'Établi des Maths" class="pwa-banner-logo" width="36" height="36" />
+      <div class="pwa-banner-text">
+        <strong class="pwa-banner-title">Installer L'Établi des Maths</strong>
+        <span class="pwa-banner-desc" id="pwa-banner-desc">Accès rapide & révisions 100% hors-ligne</span>
+      </div>
+    </div>
+    <div class="pwa-banner-actions">
+      <button id="pwa-install-btn" class="pwa-install-btn" type="button">
+        📲 Installer
+      </button>
+      <button id="pwa-dismiss-btn" class="pwa-dismiss-btn" type="button" aria-label="Fermer la notification d'installation" title="Fermer">✕</button>
+    </div>
+  </div>
 
   <!-- Déclencheur Rapide du Volet Chapitres sur Mobile / Tablette -->
   <div class="mobile-chapter-trigger-bar no-print" id="mobile-chapter-trigger-bar">
@@ -1230,6 +1247,70 @@
     </div>
   </div>
 
+  <!-- Modale Guide d'Installation iOS Safari -->
+  <div id="pwa-ios-modal" class="modal-overlay" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="pwa-ios-modal-title" onclick="if (event.target === this) window.MathsPwa.closeIosModal();">
+    <div class="modal-box pwa-ios-modal-box">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 0.6rem;">
+          <img src="assets/logo.png" alt="Logo" width="34" height="34" style="border-radius: 8px;" />
+          <div>
+            <h2 id="pwa-ios-modal-title" style="margin: 0; font-size: 1.15rem;">Installer sur iPhone / iPad</h2>
+            <small style="color: var(--text-muted);">Application autonome & cours accessibles hors-connexion</small>
+          </div>
+        </div>
+        <button id="pwa-ios-modal-close" class="modal-close-btn" type="button" aria-label="Fermer" onclick="window.MathsPwa.closeIosModal()">✕</button>
+      </div>
+
+      <div class="pwa-ios-modal-body">
+        <p class="pwa-ios-intro">
+          Sur <strong>Safari</strong> (iPhone & iPad), suivez ces 3 étapes simples pour installer l'application sur votre écran d'accueil :
+        </p>
+        <div class="pwa-ios-steps">
+          <div class="pwa-ios-step">
+            <span class="pwa-step-num">1</span>
+            <div class="pwa-step-content">
+              <strong>Touchez le bouton de Partage</strong>
+              <p>Situé dans la barre de navigation en bas de Safari.</p>
+              <div class="pwa-step-icon-preview">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #0284c7; flex-shrink: 0;">
+                  <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
+                  <polyline points="16 6 12 2 8 6"></polyline>
+                  <line x1="12" y1="2" x2="12" y2="15"></line>
+                </svg>
+                <span>Icône de partage Safari (carré avec flèche vers le haut)</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="pwa-ios-step">
+            <span class="pwa-step-num">2</span>
+            <div class="pwa-step-content">
+              <strong>Faites défiler vers le bas et appuyez sur :</strong>
+              <div class="pwa-step-action-badge">
+                <span style="font-size: 1.15rem; font-weight: bold; margin-right: 0.4rem;">➕</span>
+                <span>« Sur l'écran d'accueil »</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="pwa-ios-step">
+            <span class="pwa-step-num">3</span>
+            <div class="pwa-step-content">
+              <strong>Touchez « Ajouter » en haut à droite</strong>
+              <p>L'icône de L'Établi des Maths apparaît instantanément parmi vos applications !</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer" style="justify-content: flex-end; padding-top: 1rem;">
+        <button type="button" class="btn-primary" onclick="window.MathsPwa.closeIosModal()" style="padding: 0.6rem 1.4rem;">
+          J'ai compris ! 👍
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- Scripts KaTeX (avec fallback CDN) -->
   <script src="vendor/katex/katex.min.js" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js';"></script>
   <script src="vendor/katex/auto-render.min.js" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js';"></script>
@@ -1269,6 +1350,7 @@
   <script src="js/flashQuizGenerator.js?v=20260924b"></script>
   <script src="js/flashcardsEngine.js?v=20260923j"></script>
   <script src="js/app.js?v=20261030b"></script>
+  <script src="js/pwaManager.js?v=20261030a"></script>
 
   <!-- Statistiques d'audience anonymes et conformes RGPD (GoatCounter) -->
   <script>
