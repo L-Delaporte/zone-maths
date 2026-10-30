@@ -324,8 +324,9 @@ ${body}
   </main>
 
   <footer class="cours-footer">
-    <p>${esc(BRAND)} — Conçu par ${AUTHOR}, professeur de mathématiques • 100${NNB}% libre et gratuit, conforme aux programmes</p>
-    <p><a href="${up}cours/">Tous les cours</a> · <a href="${up}index.html">Ouvrir l'application</a> · <a href="${up}enseignants.html">Espace enseignants</a></p>
+    <p>${esc(BRAND)} — Conçu par ${AUTHOR}, professeur de mathématiques • 100${NNB}% gratuit, conforme aux programmes</p>
+    <p><a href="${up}cours/">Tous les cours</a> · <a href="${up}index.html">Ouvrir l'application</a> · <a href="${up}enseignants.html">Espace enseignants</a> · <a href="${up}mentions-legales.html">Mentions légales</a> · <a href="mailto:delaporte@etabli-des-maths.fr">Contact</a></p>
+    <p>Contenus sous licence <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr" rel="license noopener">CC BY-NC-SA 4.0</a></p>
   </footer>
   <!-- Statistiques d'audience anonymes et conformes RGPD (GoatCounter) -->
   <script data-goatcounter="https://etabli-des-maths.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
@@ -742,7 +743,8 @@ ${items.map((it) => `            <li><a href="${lvl.slug}/${it.slug}.html">${esc
     { loc: '/rituels.html', changefreq: 'monthly', priority: '0.9' },
     { loc: '/brevet.html', changefreq: 'monthly', priority: '0.9' },
     { loc: '/bac.html', changefreq: 'monthly', priority: '0.9' },
-    { loc: '/enseignants.html', changefreq: 'monthly', priority: '0.85' }
+    { loc: '/enseignants.html', changefreq: 'monthly', priority: '0.85' },
+    { loc: '/mentions-legales.html', changefreq: 'yearly', priority: '0.3' }
   ];
   const all = rootPages.concat(pages.map((p) => ({ ...p, changefreq: 'monthly' })));
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>

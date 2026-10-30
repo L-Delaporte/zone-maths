@@ -32,6 +32,12 @@
     <priority>0.85</priority>
   </url>
   <url>
+    <loc>https://etabli-des-maths.fr/mentions-legales.html</loc>
+    <lastmod>2026-10-30</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
     <loc>https://etabli-des-maths.fr/cours/</loc>
     <lastmod>2026-10-30</lastmod>
     <changefreq>monthly</changefreq>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <script>
+    // Applique le thème (clair/sombre) choisi dans l'application, avant l'affichage
+    try {
+      document.documentElement.setAttribute('data-theme', JSON.parse(localStorage.getItem('maths_3e_progress_v1') || '{}').theme || 'light');
+    } catch (e) {}
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="author" content="Loïc Delaporte, Professeur de Mathématiques" />
+  <meta name="description" content="Mentions légales, confidentialité et accessibilité de L'Établi des Maths : éditeur, hébergeur, aucune donnée personnelle collectée, aucun cookie, licence Creative Commons." />
+  <link rel="canonical" href="https://etabli-des-maths.fr/mentions-legales.html" />
+  <title>Mentions légales et confidentialité — L'Établi des Maths</title>
+
+  <link rel="stylesheet" href="css/style.css?v=c6778a5add" />
+  <link rel="stylesheet" href="css/landing.css?v=b9ada0e03c" />
+  <link rel="icon" href="favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png" />
+  <link rel="apple-touch-icon" href="assets/favicon.png" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#2563eb" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://etabli-des-maths.fr/" },
+    { "@type": "ListItem", "position": 2, "name": "Mentions légales", "item": "https://etabli-des-maths.fr/mentions-legales.html" }
+  ]
+}
+  </script>
+</head>
+<body>
+
+  <header class="app-header">
+    <div class="header-inner">
+      <a href="index.html" class="brand-container" style="text-decoration: none;">
+        <img src="assets/logo-96.png" alt="L'Établi des Maths" class="brand-logo-img" width="44" height="44" />
+        <div class="brand-text">
+          <p class="brand-title">L'Établi des Maths <span class="brand-level-tag">Mentions légales</span></p>
+          <span class="brand-tagline">Outils pour apprendre et pratiquer</span>
+        </div>
+      </a>
+
+      <nav class="nav-portal-links" aria-label="Portails thématiques">
+        <a href="index.html" class="nav-portal-btn">🏠 Accueil</a>
+        <a href="cours/" class="nav-portal-btn">📚 Cours</a>
+        <a href="rituels.html" class="nav-portal-btn">⏱️ Rituels</a>
+        <a href="brevet.html" class="nav-portal-btn">📝 Brevet 3e</a>
+        <a href="bac.html" class="nav-portal-btn">🎓 Baccalauréat</a>
+        <a href="enseignants.html" class="nav-portal-btn">👨‍🏫 Enseignants</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="landing-wrapper legal-page">
+    <section class="landing-hero">
+      <h1 class="landing-title">Mentions légales et confidentialité</h1>
+      <p class="landing-subtitle">
+        Gratuit, sans compte, sans publicité et sans collecte de données personnelles : voici, noir sur blanc, qui édite ce site et ce qu'il fait (et ne fait pas) de vos données.
+      </p>
+    </section>
+
+    <section class="legal-section" aria-labelledby="editeur">
+      <h2 id="editeur">1. Éditeur du site</h2>
+      <p>
+        <strong>L'Établi des Maths</strong> (<a href="https://etabli-des-maths.fr/">etabli-des-maths.fr</a>) est un site personnel, gratuit et non commercial, édité par
+        <strong>Loïc Delaporte</strong>, professeur de mathématiques.
+      </p>
+      <ul>
+        <li>Directeur de la publication : Loïc Delaporte.</li>
+        <li>Contact : <a href="mailto:delaporte@etabli-des-maths.fr">delaporte@etabli-des-maths.fr</a></li>
+      </ul>
+      <p>
+        Conformément à l'article 6-III-2 de la loi n° 2004-575 du 21 juin 2004 pour la confiance dans l'économie numérique,
+        l'éditeur, agissant à titre non professionnel, a communiqué ses coordonnées personnelles à l'hébergeur.
+      </p>
+    </section>
+
+    <section class="legal-section" aria-labelledby="hebergement">
+      <h2 id="hebergement">2. Hébergement</h2>
+      <ul>
+        <li>
+          <strong>Hébergeur du site :</strong> GitHub, Inc. (service GitHub Pages) — 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis —
+          <a href="https://github.com" rel="noopener">github.com</a>.
+        </li>
+        <li>
+          <strong>Nom de domaine et messagerie :</strong> OVH SAS — 2 rue Kellermann, 59100 Roubaix, France —
+          <a href="https://www.ovhcloud.com" rel="noopener">ovhcloud.com</a>.
+        </li>
+      </ul>
+    </section>
+
+    <section class="legal-section" aria-labelledby="donnees">
+      <h2 id="donnees">3. Données personnelles (RGPD)</h2>
+      <p><strong>Ce site ne collecte aucune donnée personnelle.</strong> En pratique :</p>
+      <ul>
+        <li><strong>Aucun compte</strong> : ni inscription, ni nom, ni adresse e-mail, ni mot de passe ne sont demandés aux élèves ou aux enseignants.</li>
+        <li>
+          <strong>La progression reste sur votre appareil.</strong> Points d'expérience, paliers, badges et préférences (thème, son) sont enregistrés
+          dans le stockage local de votre navigateur (<em>localStorage</em>). Ils ne sont jamais envoyés à un serveur et l'éditeur n'y a pas accès.
+          Vous pouvez les sauvegarder, les restaurer ou les effacer à tout moment depuis l'onglet <em>Bilan</em> de l'application,
+          ou en effaçant les données du site dans votre navigateur.
+        </li>
+        <li>
+          <strong>Mesure d'audience anonyme</strong> avec <a href="https://www.goatcounter.com" rel="noopener">GoatCounter</a> :
+          sans cookie, sans pistage individuel ni profilage, et sans conservation de l'adresse IP. Seules des statistiques globales
+          (pages consultées, provenance, type d'appareil) sont produites. Cet usage respecte les conditions fixées par la CNIL
+          pour être dispensé de consentement.
+        </li>
+        <li>
+          <strong>Journaux techniques de l'hébergeur</strong> : comme tout serveur web, GitHub peut enregistrer temporairement l'adresse IP des visiteurs
+          à des fins de sécurité et de bon fonctionnement, selon sa propre
+          <a href="https://docs.github.com/fr/site-policy/privacy-policies/github-general-privacy-statement" rel="noopener">politique de confidentialité</a>.
+        </li>
+        <li><strong>Aucune publicité</strong>, aucun outil de suivi publicitaire, aucune revente de données.</li>
+      </ul>
+      <p>
+        Si vous écrivez à l'adresse de contact, votre message et votre adresse e-mail ne servent qu'à vous répondre et ne sont transmis à personne.
+        Vous pouvez demander leur suppression à tout moment. Vous disposez des droits prévus par le RGPD (accès, rectification, effacement) et
+        pouvez saisir la <a href="https://www.cnil.fr" rel="noopener">CNIL</a> en cas de difficulté.
+      </p>
+    </section>
+
+    <section class="legal-section" aria-labelledby="cookies">
+      <h2 id="cookies">4. Cookies</h2>
+      <p>
+        Ce site ne dépose <strong>aucun cookie</strong> : c'est pourquoi aucun bandeau de consentement ne vous est présenté.
+        L'application peut être installée sur votre appareil (application web) pour fonctionner hors connexion ; les fichiers alors
+        mis en cache servent uniquement à afficher le site.
+      </p>
+    </section>
+
+    <section class="legal-section" aria-labelledby="licence">
+      <h2 id="licence">5. Propriété intellectuelle et licence</h2>
+      <p>
+        Les cours, exercices, fiches, générateurs d'exercices et textes de L'Établi des Maths sont des contenus originaux, conçus par Loïc Delaporte.
+        Ils sont mis à disposition selon les termes de la licence
+        <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr" rel="license noopener"><strong>Creative Commons Attribution – Pas d'utilisation commerciale – Partage dans les mêmes conditions 4.0 International (CC BY-NC-SA 4.0)</strong></a>.
+      </p>
+      <p>Concrètement, vous pouvez librement, notamment en classe :</p>
+      <ul>
+        <li>projeter, imprimer, distribuer, copier et adapter les contenus ;</li>
+        <li><strong>à condition</strong> de citer la source (« L'Établi des Maths — Loïc Delaporte — etabli-des-maths.fr ») ;</li>
+        <li>de ne pas en faire un usage commercial ;</li>
+        <li>et de partager vos adaptations sous la même licence.</li>
+      </ul>
+      <p>
+        Le nom « L'Établi des Maths » et son logo ne sont pas couverts par cette licence.
+        Le rendu des formules utilise la bibliothèque <a href="https://katex.org" rel="noopener">KaTeX</a> (licence MIT).
+      </p>
+    </section>
+
+    <section class="legal-section" aria-labelledby="responsabilite">
+      <h2 id="responsabilite">6. Contenus et signalement d'erreurs</h2>
+      <p>
+        Les contenus sont conçus conformément aux programmes officiels de l'Éducation nationale et vérifiés avec soin, notamment par des tests
+        automatiques qui recalculent les réponses des exercices générés. Une erreur reste toutefois possible :
+        si vous en repérez une, merci de la signaler à <a href="mailto:delaporte@etabli-des-maths.fr?subject=Signalement%20d'une%20erreur">delaporte@etabli-des-maths.fr</a>
+        en précisant le niveau, le chapitre et, si possible, une capture d'écran.
+      </p>
+      <p>
+        Les liens vers des sites extérieurs sont fournis à titre d'information ; l'éditeur n'est pas responsable de leur contenu.
+      </p>
+    </section>
+
+    <section class="legal-section" aria-labelledby="accessibilite">
+      <h2 id="accessibilite">7. Accessibilité</h2>
+      <p>
+        L'Établi des Maths vise le respect des règles d'accessibilité (RGAA, WCAG 2.2 niveau AA) : navigation complète au clavier,
+        focus visible, fenêtres de dialogue accessibles, annonce des résultats aux lecteurs d'écran, contrastes renforcés,
+        respect du réglage « réduire les animations » et formules mathématiques lisibles par les technologies d'assistance.
+        Le site n'a pas fait l'objet d'un audit de conformité officiel : il est donc <em>partiellement conforme</em>.
+      </p>
+      <p>
+        Si vous rencontrez une difficulté d'accès à un contenu, écrivez à
+        <a href="mailto:delaporte@etabli-des-maths.fr?subject=Accessibilit%C3%A9">delaporte@etabli-des-maths.fr</a> : une solution vous sera proposée.
+      </p>
+    </section>
+
+    <p class="legal-updated">Dernière mise à jour : 30 octobre 2026.</p>
+  </main>
+
+  <footer style="text-align: center; padding: 2rem; border-top: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.85rem;">
+    <p>L'Établi des Maths — Conçu par Loïc Delaporte, Professeur de Mathématiques • Contenus sous licence CC BY-NC-SA 4.0</p>
+  </footer>
+
+  <!-- Statistiques d'audience anonymes et conformes RGPD (GoatCounter) -->
+  <script data-goatcounter="https://etabli-des-maths.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
