@@ -1123,6 +1123,119 @@ window.MATHS_COURSES_1ERE = {
         "a": "L'espérance du gain algébrique du joueur est nulle : $E(X) = 0$."
       }
     ]
+  },
+  "1S3": {
+    "title": "1S3 : Algorithmique et programmation en Python : listes, suites, seuils et simulations",
+    "domain": "Algorithmique et Programmation",
+    "objectives": [
+      "Générer une liste Python en extension, par ajouts successifs (`append`) ou en compréhension.",
+      "Manipuler les éléments d'une liste : indices (à partir de 0), `L[-1]`, longueur `len(L)`, parcours par indice ou par élément.",
+      "Calculer un terme d'une suite définie explicitement ou par récurrence, et la liste de ses premiers termes.",
+      "Calculer une somme de termes à l'aide d'un accumulateur.",
+      "Programmer un algorithme de seuil avec une boucle `while` et interpréter le résultat.",
+      "Simuler une expérience aléatoire (`random`, `randint`), calculer une fréquence et la comparer à une probabilité ou une espérance."
+    ],
+    "keyPoints": [
+      {
+        "title": "1. Les listes en Python",
+        "content": "Une **liste** est une suite ordonnée de valeurs, écrite entre crochets : `L = [5, 8, 13]`.\n• Les **indices** commencent à $0$ : `L[0]` vaut $5$, `L[2]` vaut $13$ ; `L[-1]` désigne le **dernier** élément.\n• `len(L)` est le nombre d'éléments ; les indices vont donc de $0$ à `len(L) - 1`.\n• `L.append(x)` ajoute `x` à la fin ; `L[i] = x` remplace l'élément d'indice `i`.\n• `sum(L)`, `max(L)`, `min(L)` donnent la somme, le maximum, le minimum.\n```python\nL = []\nfor k in range(5):\n    L.append(k ** 2)\nprint(L)        # affiche [0, 1, 4, 9, 16]\nprint(len(L))   # affiche 5\n```"
+      },
+      {
+        "title": "2. Listes en compréhension et parcours",
+        "content": "On peut construire une liste en une ligne, **en compréhension** :\n```python\ncarres = [k ** 2 for k in range(5)]                # [0, 1, 4, 9, 16]\npairs = [k for k in range(1, 20) if k % 2 == 0]   # entiers pairs de 2 à 18\n```\nDeux façons de parcourir une liste :\n```python\nfor x in L:              # par élément\n    print(x)\nfor i in range(len(L)):  # par indice\n    print(i, L[i])\n```\nLe parcours par indice est utile quand on a besoin de la **position** (par exemple pour comparer `L[i]` et `L[i + 1]`)."
+      },
+      {
+        "title": "3. Calculer les termes d'une suite",
+        "content": "• **Suite explicite** $u_n = f(n)$ : on programme une fonction.\n```python\ndef u(n):\n    return 3 * n ** 2 - 1\n```\n• **Suite récurrente** $u_0 = 2$, $u_{n+1} = 3u_n - 1$ : on répète l'affectation $n$ fois ; après $n$ tours, la variable contient $u_n$.\n```python\ndef terme(n):\n    u = 2\n    for k in range(n):\n        u = 3 * u - 1\n    return u\n\ndef premiers_termes(n):\n    L = [2]\n    for k in range(n):\n        L.append(3 * L[k] - 1)\n    return L          # [u0, u1, ..., un]\n```\n`terme(3)` vaut $41$ et `premiers_termes(3)` vaut `[2, 5, 14, 41]`."
+      },
+      {
+        "title": "4. Sommes de termes",
+        "content": "Pour calculer $S_n = u_0 + u_1 + \\dots + u_n$, on utilise un **accumulateur** `s` initialisé à $0$ :\n```python\ndef somme(n):\n    s = 0\n    u = 1\n    for k in range(n + 1):\n        s = s + u        # on ajoute u_k\n        u = 2 * u        # on calcule u_(k+1)\n    return s\n```\nIci $u_k = 2^k$ et `somme(n)` vaut $1 + 2 + \\dots + 2^n = 2^{n+1} - 1$. Attention à l'**ordre** des deux instructions de la boucle et au **nombre de termes** : de $u_0$ à $u_n$, il y a $n + 1$ termes."
+      },
+      {
+        "title": "5. Algorithme de seuil",
+        "content": "Pour une suite croissante qui tend vers $+\\infty$, on cherche le **plus petit rang** $n$ tel que $u_n \\ge A$. On répète le calcul **tant que** le seuil n'est pas atteint :\n```python\ndef seuil(A):\n    n = 0\n    u = 500\n    while u < A:\n        u = 1.04 * u\n        n = n + 1\n    return n\n```\nÀ la sortie de la boucle, `u` vaut $u_n$ et c'est le premier terme supérieur ou égal à $A$. Pour une suite décroissante, la condition devient `while u > A:`. (Voir aussi le chapitre 1A5.)"
+      },
+      {
+        "title": "6. Simulation et fréquences",
+        "content": "Le module `random` permet de simuler le hasard :\n• `random()` renvoie un flottant aléatoire de $[0 ; 1[$ ; la condition `random() < p` est vraie avec la probabilité $p$ ;\n• `randint(a, b)` renvoie un entier aléatoire entre $a$ et $b$ **inclus**.\n```python\nfrom random import randint\n\ndef frequence_sept(N):\n    c = 0\n    for i in range(N):\n        if randint(1, 6) + randint(1, 6) == 7:\n            c = c + 1\n    return c / N\n```\nPour $N$ grand, la fréquence obtenue est proche de la probabilité $\\frac{6}{36} = \\frac{1}{6}$, et la **moyenne** de valeurs simulées est proche de l'**espérance** (loi des grands nombres, voir 1S2)."
+      }
+    ],
+    "methods": [
+      {
+        "title": "Méthode : Prévoir le contenu d'une liste",
+        "example": "Que contient la liste `L` après l'exécution de `L = [2 * k + 1 for k in range(3, 8)]` ? Que vaut `L[2]` ?",
+        "steps": [
+          "**Étape 1 (Valeurs de k)** : `range(3, 8)` donne $k = 3, 4, 5, 6, 7$ ($5$ valeurs, la borne $8$ est exclue).",
+          "**Étape 2 (Éléments)** : on calcule $2k + 1$ : `L = [7, 9, 11, 13, 15]`.",
+          "**Étape 3 (Indice)** : les indices commencent à $0$, donc `L[2]` est le **troisième** élément : $11$ (obtenu pour $k = 5$, et non pour $k = 2$).",
+          "**Conclusion** : `L = [7, 9, 11, 13, 15]`, `len(L)` vaut $5$ et `L[2]` vaut $11$."
+        ]
+      },
+      {
+        "title": "Méthode : Programmer un algorithme de seuil",
+        "example": "Une population de $2\\,000$ individus diminue de $5\\,\\%$ par an. Déterminer avec un programme au bout de combien d'années elle devient inférieure ou égale à $1\\,000$.",
+        "steps": [
+          "**Étape 1 (Modélisation)** : $u_0 = 2000$ et $u_{n+1} = 0{,}95u_n$ (coefficient multiplicateur $1 - 0{,}05$).",
+          "**Étape 2 (Condition de la boucle)** : on continue **tant que** $u_n > 1000$.",
+          "**Étape 3 (Programme)** :\n```python\nu = 2000\nn = 0\nwhile u > 1000:\n    u = 0.95 * u\n    n = n + 1\nprint(n)\n```",
+          "**Conclusion** : $u_{13} = 2000 \\times 0{,}95^{13} \\approx 1027 > 1000$ et $u_{14} \\approx 976 \\le 1000$ : le programme affiche $14$ ans."
+        ]
+      },
+      {
+        "title": "Méthode : Calculer une somme de termes",
+        "example": "Écrire un programme qui calcule $S = 3 + 7 + 11 + \\dots + 79$.",
+        "steps": [
+          "**Étape 1 (Suite)** : les termes forment une suite arithmétique de premier terme $3$ et de raison $4$ : $u_k = 3 + 4k$.",
+          "**Étape 2 (Nombre de termes)** : $3 + 4k = 79 \\iff k = 19$ ; il y a donc $20$ termes ($k$ de $0$ à $19$).",
+          "**Étape 3 (Programme)** :\n```python\ns = 0\nfor k in range(20):\n    s = s + 3 + 4 * k\nprint(s)\n```",
+          "**Conclusion** : le programme affiche $820$, ce que confirme la formule $20 \\times \\frac{3 + 79}{2} = 820$."
+        ]
+      },
+      {
+        "title": "Méthode : Approcher une solution par balayage",
+        "example": "Encadrer $\\sqrt{7}$ entre deux multiples consécutifs de $0{,}25$.",
+        "steps": [
+          "**Étape 1 (Principe)** : on part de $x = 0$ et on augmente $x$ d'un pas $0{,}25$ **tant que** $x^2 < 7$.",
+          "**Étape 2 (Programme)** :\n```python\nx = 0\nwhile x * x < 7:\n    x = x + 0.25\nprint(x - 0.25, x)\n```",
+          "**Étape 3 (Exécution)** : $2{,}5^2 = 6{,}25 < 7$ et $2{,}75^2 = 7{,}5625 \\ge 7$ : la boucle s'arrête pour $x = 2{,}75$.",
+          "**Conclusion** : le programme affiche `2.5 2.75`, donc $2{,}5 < \\sqrt{7} \\le 2{,}75$. Un pas plus petit donne un encadrement plus précis."
+        ]
+      }
+    ],
+    "traps": [
+      "⚠️ Le premier élément d'une liste est `L[0]` et non `L[1]` ; le dernier est `L[len(L) - 1]`, c'est-à-dire `L[-1]`.",
+      "⚠️ Après `for k in range(n)`, la boucle a tourné $n$ fois : partant de $u_0$, on obtient $u_n$ (et non $u_{n-1}$ ni $u_{n+1}$).",
+      "⚠️ Dans un algorithme de seuil, la condition du `while` est la condition pour **continuer** : on écrit `while u < A:` pour trouver le premier $n$ tel que $u_n \\ge A$.",
+      "⚠️ Dans une somme, l'ordre des instructions compte : `s = s + u` puis `u = …` ajoute $u_0$ en premier ; l'ordre inverse oublie $u_0$.",
+      "⚠️ Une fréquence obtenue par simulation n'est **pas** la probabilité : elle fluctue d'une exécution à l'autre et ne s'en approche que pour un grand nombre de répétitions."
+    ],
+    "flashcards": [
+      {
+        "q": "Que vaut `[k * k for k in range(1, 5)]` ?",
+        "a": "`[1, 4, 9, 16]`."
+      },
+      {
+        "q": "Si `L = [4, 7, 1, 9]`, que valent `L[1]`, `L[-1]` et `len(L)` ?",
+        "a": "$7$, $9$ et $4$."
+      },
+      {
+        "q": "Comment ajouter la valeur `x` à la fin de la liste `L` ?",
+        "a": "Avec l'instruction `L.append(x)`."
+      },
+      {
+        "q": "Quelle boucle utilise-t-on pour un algorithme de seuil, et pourquoi ?",
+        "a": "Une boucle `while`, car on ne connaît pas à l'avance le nombre de répétitions."
+      },
+      {
+        "q": "Que renvoie `randint(1, 6)` ?",
+        "a": "Un entier aléatoire entre $1$ et $6$, bornes incluses (simulation d'un dé équilibré)."
+      },
+      {
+        "q": "Pour $N$ grand, de quoi la moyenne de $N$ gains simulés est-elle proche ?",
+        "a": "De l'espérance du gain (loi des grands nombres)."
+      }
+    ]
   }
 };
 
@@ -2021,6 +2134,103 @@ window.MATHS_EXERCISES_1ERE = {
       "hint1": "L'espérance du gain brut doit être égale à la mise : $m = E(G)$.",
       "hint2": "$E(G) = 10 \\times \\frac{4}{32} + 5 \\times \\frac{4}{32} = \\frac{40 + 20}{32} = \\frac{60}{32} = 1{,}875$.",
       "solution": "Le gain brut moyen est $10 \\times \\frac{1}{8} + 5 \\times \\frac{1}{8} = \\frac{15}{8} = 1{,}875$ €. Pour que le jeu soit équitable, la mise doit être égale à l'espérance du gain brut, soit $1{,}875$ €."
+    }
+  ],
+  "1S3": [
+    {
+      "id": "1S3-1",
+      "tier": 1,
+      "type": "mcq",
+      "title": "Liste en compréhension",
+      "skill": "Construire une liste en compréhension",
+      "statement": "Qu'affiche le programme Python suivant ?\n```python\nL = [3 * k for k in range(1, 5)]\nprint(L)\n```",
+      "options": [
+        "« [3, 6, 9, 12] »",
+        "« [0, 3, 6, 9, 12] »",
+        "« [3, 6, 9, 12, 15] »",
+        "« [0, 3, 6, 9] »"
+      ],
+      "correctIndex": 0,
+      "answer": "« [3, 6, 9, 12] »",
+      "hint1": "`range(1, 5)` parcourt les entiers $1$, $2$, $3$ et $4$.",
+      "hint2": "Chaque élément est le triple de `k`.",
+      "solution": "Pour $k = 1, 2, 3, 4$ (la borne $5$ est exclue), on calcule $3k$ : la liste est `[3, 6, 9, 12]`."
+    },
+    {
+      "id": "1S3-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Terme d'une suite récurrente",
+      "skill": "Calculer un terme d'une suite avec une boucle",
+      "statement": "On considère la suite définie par $u_0 = 1$ et $u_{n+1} = 2u_n + 3$. Qu'affiche le programme suivant ?\n```python\nu = 1\nfor k in range(4):\n    u = 2 * u + 3\nprint(u)\n```",
+      "options": [
+        "$61$",
+        "$29$",
+        "$125$",
+        "$13$"
+      ],
+      "correctIndex": 0,
+      "answer": "$61$",
+      "hint1": "La boucle s'exécute $4$ fois : à la fin, `u` contient $u_4$.",
+      "hint2": "$u_1 = 5$, $u_2 = 13$…",
+      "solution": "$u_1 = 2 \\times 1 + 3 = 5$, $u_2 = 13$, $u_3 = 29$, $u_4 = 61$. Le programme affiche $61$."
+    },
+    {
+      "id": "1S3-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Algorithme de seuil",
+      "skill": "Exécuter un algorithme de seuil",
+      "statement": "Qu'affiche le programme Python suivant ?\n```python\nu = 3\nn = 0\nwhile u < 1000:\n    u = 2 * u\n    n = n + 1\nprint(n)\n```",
+      "options": [
+        "$9$",
+        "$8$",
+        "$10$",
+        "$1536$"
+      ],
+      "correctIndex": 0,
+      "answer": "$9$",
+      "hint1": "Après $n$ tours, `u` vaut $3 \\times 2^n$.",
+      "hint2": "Cherche le premier $n$ tel que $3 \\times 2^n \\ge 1000$.",
+      "solution": "$3 \\times 2^8 = 768 < 1000$ et $3 \\times 2^9 = 1536 \\ge 1000$. La boucle s'arrête après $9$ tours : le programme affiche $9$."
+    },
+    {
+      "id": "1S3-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Simulation de deux dés",
+      "skill": "Interpréter une fréquence simulée",
+      "statement": "On exécute le programme suivant.\n```python\nfrom random import randint\n\ndef frequence(N):\n    c = 0\n    for i in range(N):\n        a = randint(1, 6)\n        b = randint(1, 6)\n        if a + b >= 10:\n            c = c + 1\n    return c / N\n\nprint(frequence(100000))\n```\nAutour de quelle valeur la valeur affichée fluctue-t-elle ?",
+      "options": [
+        "$\\frac{1}{6}$",
+        "$\\frac{1}{12}$",
+        "$\\frac{1}{4}$",
+        "$\\frac{3}{11}$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\frac{1}{6}$",
+      "hint1": "Pour $N$ grand, la fréquence est proche de la probabilité de l'événement « $a + b \\ge 10$ ».",
+      "hint2": "Compte les couples $(a ; b)$ dont la somme vaut $10$, $11$ ou $12$ parmi les $36$ couples équiprobables.",
+      "solution": "Somme $10$ : $3$ couples, somme $11$ : $2$ couples, somme $12$ : $1$ couple, soit $6$ couples favorables sur $36$. La probabilité vaut $\\frac{6}{36} = \\frac{1}{6}$ : d'après la loi des grands nombres, la fréquence affichée fluctue autour de $\\frac{1}{6}$."
+    },
+    {
+      "id": "1S3-5",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Somme et ordre des instructions",
+      "skill": "Calculer une somme de termes avec un accumulateur",
+      "statement": "Qu'affiche le programme Python suivant ?\n```python\ns = 0\nu = 5\nfor k in range(4):\n    u = u + 2\n    s = s + u\nprint(s)\n```",
+      "options": [
+        "$40$",
+        "$32$",
+        "$44$",
+        "$13$"
+      ],
+      "correctIndex": 0,
+      "answer": "$40$",
+      "hint1": "Ici, `u` est modifié **avant** d'être ajouté à `s`.",
+      "hint2": "Les valeurs ajoutées sont $7$, $9$, $11$ et $13$.",
+      "solution": "Au premier tour, `u` devient $7$ avant d'être ajouté : $s = 7 + 9 + 11 + 13 = 40$. La valeur initiale $5$ n'est jamais ajoutée (avec l'ordre inverse, on aurait obtenu $5 + 7 + 9 + 11 = 32$)."
     }
   ]
 };

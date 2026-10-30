@@ -1,11 +1,11 @@
 /**
- * Métadonnées des 40 chapitres du Lycée (Seconde, Première Spécialité, Terminale Spé & Expertes)
+ * Métadonnées des 47 chapitres du Lycée (Seconde, Première Spécialité, Terminale Spé & Expertes)
  * Conforme aux programmes officiels de l'Éducation nationale
  */
 
 const MATHS_CHAPTERS_LYCEE = [
   // =========================================================================
-  // CLASSE DE SECONDE GÉNÉRALE & TECHNOLOGIQUE (13 chapitres)
+  // CLASSE DE SECONDE GÉNÉRALE & TECHNOLOGIQUE (15 chapitres)
   // =========================================================================
   {
     "id": "2N1",
@@ -81,6 +81,25 @@ const MATHS_CHAPTERS_LYCEE = [
       "Résoudre des équations produit-nul et équations rationnelles simples",
       "Étudier le signe de ax+b et dresser un tableau de signes produit/quotient",
       "Résoudre des inéquations à l'aide d'un tableau de signes rigoureux"
+    ]
+  },
+  {
+    "id": "2N5",
+    "level": "2nde",
+    "domain": "nombres",
+    "domainName": "Nombres et Calculs",
+    "folder": "2N5_Proportions_pourcentages_evolutions",
+    "num": "2N5",
+    "title": "Proportions, pourcentages et évolutions",
+    "shortTitle": "Proportions & Évolutions",
+    "icon": "percent",
+    "badge": "Expert des Pourcentages",
+    "color": "#047857",
+    "description": "Proportion d'une sous-population, proportion de proportion, taux d'évolution, coefficient multiplicateur, évolutions successives et évolution réciproque.",
+    "skills": [
+      "Calculer une proportion, un effectif et une proportion de proportion",
+      "Passer d'un taux d'évolution au coefficient multiplicateur et inversement",
+      "Calculer le taux global d'évolutions successives et le taux d'une évolution réciproque"
     ]
   },
   {
@@ -254,9 +273,28 @@ const MATHS_CHAPTERS_LYCEE = [
       "Interpréter la variabilité d'un échantillon à l'aide de la loi des grands nombres"
     ]
   },
+  {
+    "id": "2S4",
+    "level": "2nde",
+    "domain": "algo",
+    "domainName": "Algorithmique et Programmation",
+    "folder": "2S4_Algorithmique_programmation",
+    "num": "2S4",
+    "title": "Algorithmique et programmation : variables, instructions conditionnelles, boucles et fonctions",
+    "shortTitle": "Algorithmique & Python",
+    "icon": "code",
+    "badge": "Apprenti Programmeur",
+    "color": "#7c3aed",
+    "description": "Variables et types (entier, flottant, chaîne, booléen), affectation, instructions conditionnelles if/elif/else, boucles bornées for et non bornées while, fonctions Python avec paramètres et valeur renvoyée.",
+    "skills": [
+      "Exécuter à la main un programme Python en suivant l'évolution des variables",
+      "Choisir entre une boucle bornée et une boucle non bornée et écrire une instruction conditionnelle",
+      "Écrire et appeler une fonction Python avec paramètres et valeur renvoyée"
+    ]
+  },
 
   // =========================================================================
-  // PREMIÈRE SPÉCIALITÉ MATHÉMATIQUES (11 chapitres)
+  // PREMIÈRE SPÉCIALITÉ MATHÉMATIQUES (12 chapitres)
   // =========================================================================
   {
     "id": "1A1",
@@ -467,9 +505,28 @@ const MATHS_CHAPTERS_LYCEE = [
       "Calculer la variance et l'écart-type pour évaluer la dispersion du risque"
     ]
   },
+  {
+    "id": "1S3",
+    "level": "1ere",
+    "domain": "algo",
+    "domainName": "Algorithmique et Programmation",
+    "folder": "1S3_Algorithmique_Python",
+    "num": "1S3",
+    "title": "Algorithmique et programmation en Python : listes, suites, seuils et simulations",
+    "shortTitle": "Python : listes & suites",
+    "icon": "terminal",
+    "badge": "Codeur des Suites",
+    "color": "#6d28d9",
+    "description": "Listes Python (création, compréhension, append, len, indices, parcours), calcul de termes et de sommes de suites, algorithmes de seuil avec while, simulation d'expériences aléatoires et méthode de balayage.",
+    "skills": [
+      "Créer, modifier et parcourir une liste Python, en extension ou en compréhension",
+      "Calculer des termes et des sommes de suites et programmer une recherche de seuil",
+      "Simuler une expérience aléatoire et interpréter la fréquence obtenue"
+    ]
+  },
 
   // =========================================================================
-  // TERMINALE GÉNÉRALE (SPÉCIALITÉ & EXPERTES) (16 chapitres)
+  // TERMINALE GÉNÉRALE (SPÉCIALITÉ & EXPERTES) (20 chapitres)
   // =========================================================================
   {
     "id": "TA1",
@@ -605,6 +662,44 @@ const MATHS_CHAPTERS_LYCEE = [
     ]
   },
   {
+    "id": "TA8",
+    "level": "tale",
+    "domain": "fonctions",
+    "domainName": "Analyse et Fonctions",
+    "folder": "TA8_Complements_derivation",
+    "num": "TA8",
+    "title": "Compléments sur la dérivation : fonctions composées et dérivée seconde",
+    "shortTitle": "Composées & Dérivée seconde",
+    "icon": "git-merge",
+    "badge": "Virtuose de la Dérivation",
+    "color": "#1d4ed8",
+    "description": "Composée de deux fonctions, dérivée de g∘u (u^n, √u, 1/u, e^u, ln u, g(ax+b)), dérivée seconde f'', lien entre le signe de f'' et les variations de f', tangentes et variations de fonctions composées.",
+    "skills": [
+      "Reconnaître une fonction composée et appliquer la formule (g∘u)' = u' × (g'∘u)",
+      "Calculer la dérivée seconde d'une fonction et l'utiliser pour étudier les variations de f'",
+      "Étudier les variations d'une fonction composée et déterminer une équation de tangente"
+    ]
+  },
+  {
+    "id": "TA9",
+    "level": "tale",
+    "domain": "fonctions",
+    "domainName": "Analyse et Fonctions",
+    "folder": "TA9_Fonctions_sinus_cosinus",
+    "num": "TA9",
+    "title": "Fonctions sinus et cosinus : dérivées, périodicité, variations et équations",
+    "shortTitle": "Fonctions sinus & cosinus",
+    "icon": "radio",
+    "badge": "Maître des Ondes",
+    "color": "#0369a1",
+    "description": "Dérivées de sin et cos, de sin(ax+b) et cos(ax+b), parité et 2π-périodicité, variations et courbes, limite de sin(x)/x en 0, résolution d'équations et d'inéquations trigonométriques sur un intervalle.",
+    "skills": [
+      "Dériver des fonctions construites à partir de sin et cos et étudier leurs variations",
+      "Exploiter la parité et la périodicité pour réduire l'intervalle d'étude",
+      "Résoudre sur un intervalle des équations sin(x) = a, cos(x) = a et des inéquations associées"
+    ]
+  },
+  {
     "id": "TG1",
     "level": "tale",
     "domain": "geometrie",
@@ -678,6 +773,44 @@ const MATHS_CHAPTERS_LYCEE = [
       "Calculer l'espérance et la variance de la somme et de la moyenne d'un échantillon",
       "Appliquer l'inégalité de Bienaymé-Tchebychev pour majorer une dispersion",
       "Exploiter l'inégalité de concentration pour justifier la loi faible des grands nombres"
+    ]
+  },
+  {
+    "id": "TS3",
+    "level": "tale",
+    "domain": "algo",
+    "domainName": "Combinatoire et Dénombrement",
+    "folder": "TS3_Denombrement_combinatoire",
+    "num": "TS3",
+    "title": "Dénombrement et combinatoire : k-uplets, arrangements, permutations et combinaisons",
+    "shortTitle": "Dénombrement & Combinatoire",
+    "icon": "shuffle",
+    "badge": "Maître du Dénombrement",
+    "color": "#8b5cf6",
+    "description": "Principes additif et multiplicatif, k-uplets (n^k), arrangements, permutations (n!), combinaisons et coefficients binomiaux, relation et triangle de Pascal, nombre de parties d'un ensemble (2^n).",
+    "skills": [
+      "Choisir le bon modèle selon que l'ordre compte et que les répétitions sont permises",
+      "Calculer des arrangements, des permutations et des combinaisons",
+      "Utiliser la relation de Pascal et dénombrer les parties d'un ensemble fini"
+    ]
+  },
+  {
+    "id": "TS4",
+    "level": "tale",
+    "domain": "algo",
+    "domainName": "Algorithmique et Programmation",
+    "folder": "TS4_Algorithmique_Python",
+    "num": "TS4",
+    "title": "Algorithmique et programmation en Python : listes, seuils, dichotomie et méthode de Monte-Carlo",
+    "shortTitle": "Python : dichotomie & Monte-Carlo",
+    "icon": "cpu",
+    "badge": "Ingénieur des Algorithmes",
+    "color": "#5b21b6",
+    "description": "Listes et fonctions Python, affectation simultanée, suites et algorithmes de seuil (précision d'une limite), dichotomie pour encadrer une solution de f(x) = 0, méthode de Monte-Carlo pour estimer une aire, une intégrale ou π.",
+    "skills": [
+      "Écrire des fonctions Python manipulant des listes et des suites, et programmer une recherche de seuil",
+      "Encadrer une solution d'équation par dichotomie et prévoir le nombre d'étapes nécessaires",
+      "Estimer une aire, une intégrale ou π par la méthode de Monte-Carlo et interpréter le résultat"
     ]
   },
   {

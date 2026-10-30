@@ -482,6 +482,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://etabli-des-maths.fr/cours/seconde/proportions-pourcentages-et-evolutions.html</loc>
+    <lastmod>2026-10-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://etabli-des-maths.fr/cours/seconde/notion-generale-de-fonction.html</loc>
     <lastmod>2026-10-30</lastmod>
     <changefreq>monthly</changefreq>
@@ -531,6 +537,12 @@
   </url>
   <url>
     <loc>https://etabli-des-maths.fr/cours/seconde/echantillonnage-fluctuation-et-algorithmique-en-python.html</loc>
+    <lastmod>2026-10-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://etabli-des-maths.fr/cours/seconde/algorithmique-et-programmation.html</loc>
     <lastmod>2026-10-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -602,6 +614,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://etabli-des-maths.fr/cours/premiere/algorithmique-et-programmation-en-python.html</loc>
+    <lastmod>2026-10-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://etabli-des-maths.fr/cours/terminale/le-raisonnement-par-recurrence.html</loc>
     <lastmod>2026-10-30</lastmod>
     <changefreq>monthly</changefreq>
@@ -644,6 +662,18 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://etabli-des-maths.fr/cours/terminale/complements-sur-la-derivation.html</loc>
+    <lastmod>2026-10-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://etabli-des-maths.fr/cours/terminale/fonctions-sinus-et-cosinus.html</loc>
+    <lastmod>2026-10-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://etabli-des-maths.fr/cours/terminale/vecteurs-droites-et-plans-dans-l-espace.html</loc>
     <lastmod>2026-10-30</lastmod>
     <changefreq>monthly</changefreq>
@@ -663,6 +693,18 @@
   </url>
   <url>
     <loc>https://etabli-des-maths.fr/cours/terminale/sommes-de-variables-aleatoires-et-loi-des-grands.html</loc>
+    <lastmod>2026-10-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://etabli-des-maths.fr/cours/terminale/denombrement-et-combinatoire.html</loc>
+    <lastmod>2026-10-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://etabli-des-maths.fr/cours/terminale/algorithmique-et-programmation-en-python.html</loc>
     <lastmod>2026-10-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>

@@ -1,7 +1,7 @@
 /**
  * lyceeGenerators.js
  * Moteur procédural complet pour le Lycée : Seconde, Première Spé, Terminale Spé & Expertes.
- * 40 chapitres x 4 paliers ZPD = 160 générateurs avec variables aléatoires & corrections pas à pas.
+ * 47 chapitres x 4 paliers ZPD = 188 générateurs avec variables aléatoires & corrections pas à pas.
  * Chaque chapitre <id> a sa méthode gen_<id>(tier). Source de vérité : ce fichier
  * (les anciens scripts Python de scripts/legacy/lycee_builders/ sont archivés, ne plus les relancer).
  * Recalculs et contrôles : node scripts/tests/test_lycee_licence_generators.js
@@ -1939,6 +1939,641 @@ window.MathsLyceeGenerators = {
     );
   },
 
+  // =========================================================================
+  // 2N5 : Proportions, pourcentages et évolutions
+  // =========================================================================
+  /** Pourcentage en LaTeX (sans $) : 12.5 -> "12{,}5\\,\\%" */
+  _2N5_pct(x, d = 2) {
+    return `${this.dec(x, d)}\\,\\%`;
+  },
+
+  /** Évolution en toutes lettres : 12 -> « Une hausse de $12\,\%$ », -4 -> « Une baisse de $4\,\%$ » */
+  _2N5_evo(x, d = 2) {
+    const r = Math.round(x * 10 ** d) / 10 ** d;
+    if (r === 0) return 'Aucune évolution';
+    return r > 0 ? `Une hausse de $${this._2N5_pct(r, d)}$` : `Une baisse de $${this._2N5_pct(-r, d)}$`;
+  },
+
+  /** Verbe d'évolution : « augmente de $12\,\%$ » / « diminue de $8\,\%$ » */
+  _2N5_verb(t) {
+    return t > 0 ? `augmente de $${this._2N5_pct(t)}$` : `diminue de $${this._2N5_pct(-t)}$`;
+  },
+
+  /** Taux entier t (en %) non nul tel que v × t / 100 soit entier */
+  _2N5_rate(v, lo, hi) {
+    let t = 0;
+    let guard = 0;
+    while ((t === 0 || (v * t) % 100 !== 0) && guard < 500) { t = this.randInt(lo, hi); guard++; }
+    return t === 0 || (v * t) % 100 !== 0 ? (lo < 0 ? -50 : 50) : t;
+  },
+
+  /** Nombre (≤ 2 décimales) avec espace fine des milliers : 12500 -> "12\\,500", 1234.5 -> "1\\,234{,}5" */
+  _2N5_int(x) {
+    const [i, d] = this.dec(x, 2).split('{,}');
+    const g = i.replace(/\B(?=(\d{3})+(?!\d))/g, '\\,');
+    return d ? `${g}{,}${d}` : g;
+  },
+
+  gen_2N5(tier) {
+    const T = '2N5';
+    const I = (n) => this._2N5_int(n);
+    const D = (x) => this.dec(x, 2);
+    const P = (x, d) => this._2N5_pct(x, d);
+    const EV = (x, d) => this._2N5_evo(x, d);
+    const things = ['Le prix d\'un vélo', 'Le loyer d\'un appartement', 'Le nombre d\'abonnés d\'un club', 'La production d\'une usine',
+      'La consommation d\'eau d\'une famille', 'Le prix d\'un abonnement', 'Le nombre de visiteurs d\'un musée', 'Le chiffre d\'affaires d\'une boutique'];
+    if (tier === 1) {
+      const kind = this.randInt(0, 2);
+      if (kind === 0) {
+        const up = Math.random() < 0.5;
+        const t = up ? this.randInt(1, 120) : this.randInt(1, 95);
+        const s = up ? t : -t;
+        const cm = 1 + s / 100;
+        const what = this.randChoice(things);
+        return this.makeMcq(T, 1, 'Coefficient multiplicateur',
+          'Associer un taux d\'évolution à son coefficient multiplicateur',
+          `${what} ${this._2N5_verb(s)}. Par quel nombre cette grandeur est-elle multipliée ?`,
+          `$${this.dec(cm)}$`,
+          [`$${this.dec(t / 100)}$`, `$${this.dec(1 - s / 100)}$`, `$${this.dec(1 + s / 1000)}$`, `$${this.dec(t)}$`],
+          up ? 'Augmenter de $t\\,\\%$ revient à multiplier par $1 + \\frac{t}{100}$.' : 'Diminuer de $t\\,\\%$ revient à multiplier par $1 - \\frac{t}{100}$.',
+          `Le taux d'évolution est $t = ${this.dec(s / 100)}$.`,
+          `Le taux d'évolution vaut $t = ${this.dec(s / 100)}$, donc le coefficient multiplicateur est $CM = 1 + t = 1 ${up ? '+' : '-'} ${this.dec(t / 100)} = ${this.dec(cm)}$.`
+        );
+      }
+      if (kind === 1) {
+        let s = 0;
+        while (s === 0) s = this.randInt(-90, 160);
+        const cm = 1 + s / 100;
+        const what = this.randChoice(things);
+        return this.makeMcq(T, 1, 'Taux à partir du coefficient',
+          'Retrouver le taux d\'évolution à partir du coefficient multiplicateur',
+          `On a multiplié ${what.charAt(0).toLowerCase() + what.slice(1)} par $${this.dec(cm)}$. Quelle évolution cette grandeur a-t-elle subie ?`,
+          EV(s),
+          [EV(-s), EV(100 * cm), EV(-100 * cm), EV(s > 0 ? -(100 - s) : 100 + s)],
+          'Le coefficient multiplicateur vaut $CM = 1 + t$.',
+          `Calcule $t = CM - 1 = ${this.dec(cm)} - 1$.`,
+          `$t = CM - 1 = ${this.dec(cm)} - 1 = ${this.dec(s / 100)}$, soit ${s > 0 ? 'une hausse' : 'une baisse'} de $${P(Math.abs(s))}$.`
+        );
+      }
+      const N = this.randChoice([200, 250, 400, 500, 600, 800, 1000, 1200, 1250, 1500, 2000, 2500]);
+      let k = this.randInt(2, 95);
+      while ((k * N) % 100 !== 0) k = this.randInt(2, 95);
+      const nA = (k * N) / 100;
+      const ctx = this.randChoice([
+        ['élèves d\'un lycée', 'sont internes'], ['adhérents d\'une association sportive', 'pratiquent la natation'],
+        ['salariés d\'une entreprise', 'travaillent à temps partiel'], ['spectateurs d\'un festival', 'ont moins de 25 ans'],
+        ['habitants d\'un village', 'utilisent les transports en commun']]);
+      if (Math.random() < 0.5) {
+        return this.makeMcq(T, 1, 'Calcul d\'une proportion',
+          'Calculer la proportion d\'une sous-population',
+          `Parmi les $${I(N)}$ ${ctx[0]}, $${I(nA)}$ ${ctx[1]}. Quelle est la proportion, en pourcentage, de ceux qui ${ctx[1]} ?`,
+          `$${P(k)}$`,
+          [`$${P(100 - k)}$`, `$${P(N / nA, 2)}$`, `$${P(nA / 10)}$`, `$${P(k / 10)}$`],
+          'La proportion est $p = \\frac{n_A}{n_E}$.',
+          `Divise $${I(nA)}$ par $${I(N)}$, puis multiplie par $100$.`,
+          `$p = ${I(nA)} \\div ${I(N)} = ${this.dec(k / 100)}$, soit $${P(k)}$.`
+        );
+      }
+      return this.makeMcq(T, 1, 'Effectif à partir d\'une proportion',
+        'Calculer un effectif connaissant une proportion',
+        `Parmi les $${I(N)}$ ${ctx[0]}, $${P(k)}$ ${ctx[1]}. Combien sont-ils ?`,
+        `$${D(nA)}$`,
+        [`$${D(N - nA)}$`, `$${D(N / k)}$`, `$${D(N + nA)}$`, `$${D(k * N / 1000)}$`],
+        'L\'effectif est $n_A = p \\times n_E$.',
+        `Calcule $${this.dec(k / 100)} \\times ${I(N)}$.`,
+        `$n_A = ${this.dec(k / 100)} \\times ${I(N)} = ${I(nA)}$.`
+      );
+    }
+    if (tier === 2) {
+      const kind = this.randInt(0, 2);
+      const VD = this.randChoice([20, 25, 40, 50, 60, 80, 120, 150, 160, 200, 240, 250, 300, 400, 500, 800, 1200, 2000]);
+      const t = this._2N5_rate(VD, -60, 80);
+      const VA = (VD * (100 + t)) / 100;
+      const what = this.randChoice(things);
+      if (kind === 0) {
+        const sg = (x) => (x > 0 ? '+' : '-') + P(Math.abs(x));
+        return this.makeMcq(T, 2, 'Taux d\'évolution',
+          'Calculer un taux d\'évolution entre deux valeurs',
+          `${what} passe de $${I(VD)}$ à $${I(VA)}$. Quel est le taux d'évolution ?`,
+          `$${sg(t)}$`,
+          [`$${sg(-t)}$`, `$${sg(Math.round(((VA - VD) / VA) * 10000) / 100)}$`, `$${sg(VA - VD)}$`, `$${sg(100 + t)}$`],
+          'Le taux d\'évolution est $t = \\frac{V_A - V_D}{V_D}$.',
+          `Ici $V_D = ${I(VD)}$ et $V_A - V_D = ${I(VA - VD)}$.`,
+          `$t = \\frac{${I(VA)} - ${I(VD)}}{${I(VD)}} = \\frac{${I(VA - VD)}}{${I(VD)}} = ${this.dec(t / 100)}$, soit $${sg(t)}$ : ${t > 0 ? 'une hausse' : 'une baisse'} de $${P(Math.abs(t))}$.`
+        );
+      }
+      if (kind === 1) {
+        return this.makeMcq(T, 2, 'Valeur après évolution',
+          'Appliquer un taux d\'évolution à une valeur',
+          `${what} valait $${I(VD)}$, puis ${this._2N5_verb(t).replace('augmente', 'a augmenté').replace('diminue', 'a diminué')}. Quelle est sa nouvelle valeur ?`,
+          `$${D(VA)}$`,
+          [`$${D(VD + t)}$`, `$${D((VD * Math.abs(t)) / 100)}$`, `$${D((VD * (100 - t)) / 100)}$`, `$${D(VD * (1 + t / 10))}$`],
+          'On multiplie la valeur de départ par le coefficient $CM = 1 + t$.',
+          `$CM = ${this.dec(1 + t / 100)}$.`,
+          `$V_A = ${I(VD)} \\times ${this.dec(1 + t / 100)} = ${I(VA)}$.`
+        );
+      }
+      return this.makeMcq(T, 2, 'Valeur avant évolution',
+        'Retrouver une valeur initiale en divisant par le coefficient multiplicateur',
+        `Après avoir ${t > 0 ? 'augmenté' : 'diminué'} de $${P(Math.abs(t))}$, ${what.charAt(0).toLowerCase() + what.slice(1)} vaut $${I(VA)}$. Quelle était sa valeur initiale ?`,
+        `$${D(VD)}$`,
+        [`$${D((VA * (100 - t)) / 100)}$`, `$${D((VA * (100 + t)) / 100)}$`, `$${D(VA - t)}$`, `$${D(VA + t)}$`],
+        'On a $V_A = V_D \\times CM$, donc $V_D = \\frac{V_A}{CM}$.',
+        `$CM = ${this.dec(1 + t / 100)}$ : divise $${I(VA)}$ par ce coefficient.`,
+        `$V_D = \\frac{${I(VA)}}{${this.dec(1 + t / 100)}} = ${I(VD)}$. Appliquer le taux opposé ($${I(VA)} \\times ${this.dec(1 - t / 100)}$) serait une erreur.`
+      );
+    }
+    if (tier === 3) {
+      if (Math.random() < 0.55) {
+        let t1 = 0; let t2 = 0;
+        while (t1 === 0 || t2 === 0 || (100 + t1) * (100 + t2) === 10000) {
+          t1 = this.randInt(-12, 16) * 5;
+          t2 = this.randInt(-12, 16) * 5;
+          if (Math.random() < 0.4) t2 = this.randInt(-40, 60);
+        }
+        const tg = ((100 + t1) * (100 + t2) - 10000) / 100;
+        const what = this.randChoice(things);
+        const cm1 = this.dec(1 + t1 / 100); const cm2 = this.dec(1 + t2 / 100);
+        return this.makeMcq(T, 3, 'Évolutions successives',
+          'Calculer le taux global de deux évolutions successives',
+          `${what} ${this._2N5_verb(t1)} une première année, puis ${this._2N5_verb(t2)} l'année suivante. Quelle est l'évolution globale sur les deux années ?`,
+          EV(tg),
+          [EV(t1 + t2), EV(-tg), EV(t1 + t2 - (t1 * t2) / 100), EV(t1 * t2 / 100)],
+          'On multiplie les coefficients multiplicateurs (les pourcentages ne s\'additionnent pas).',
+          `$CM_1 = ${cm1}$ et $CM_2 = ${cm2}$.`,
+          `$CM = ${cm1} \\times ${cm2} = ${this.dec(1 + tg / 100, 6)}$, donc $t = CM - 1 = ${this.dec(tg / 100, 6)}$ : ${tg > 0 ? 'une hausse' : 'une baisse'} globale de $${P(Math.abs(tg))}$.`
+        );
+      }
+      const p1 = this.randInt(2, 19) * 5;
+      const p2 = this.randInt(1, 19) * 5;
+      const ctx = this.randChoice([
+        ['des élèves d\'un lycée sont en filière générale', 'd\'entre eux suivent la spécialité physique-chimie', 'élèves du lycée suivent cette spécialité'],
+        ['des salariés d\'une entreprise sont cadres', 'des cadres sont des femmes', 'salariés sont des femmes cadres'],
+        ['des adhérents d\'un club pratiquent la compétition', 'des compétiteurs ont moins de 18 ans', 'adhérents sont des compétiteurs de moins de 18 ans'],
+        ['des foyers d\'une ville possèdent une voiture', 'de ces foyers possèdent une voiture électrique', 'foyers de la ville possèdent une voiture électrique']]);
+      const p = (p1 * p2) / 100;
+      return this.makeMcq(T, 3, 'Proportion de proportion',
+        'Calculer une proportion de proportion',
+        `$${P(p1)}$ ${ctx[0]} et $${P(p2)}$ ${ctx[1]}. Quelle proportion des ${ctx[2]} ?`,
+        `$${P(p)}$`,
+        [`$${P(p1 + p2)}$`, `$${P(Math.abs(p1 - p2))}$`, `$${P((p1 + p2) / 2)}$`, `$${P(100 - p)}$`],
+        'Une proportion d\'une proportion se calcule par un produit.',
+        `Calcule $${this.dec(p2 / 100)} \\times ${this.dec(p1 / 100)}$.`,
+        `$p = ${this.dec(p2 / 100)} \\times ${this.dec(p1 / 100)} = ${this.dec(p / 100)}$, soit $${P(p)}$.`
+      );
+    }
+    // tier 4
+    const kind = this.randInt(0, 2);
+    if (kind === 0) {
+      let t = 0;
+      while (t === 0) t = this.randInt(-80, 150);
+      const tr = (100 / (100 + t) - 1) * 100;
+      const what = this.randChoice(things);
+      const exact = this.isDecimal(tr, 2);
+      return this.makeMcq(T, 4, 'Évolution réciproque',
+        'Déterminer le taux d\'évolution réciproque',
+        `${what} ${this._2N5_verb(t)}. Quelle évolution permettrait de revenir à la valeur initiale${exact ? '' : ' (taux arrondi à $0{,}01\\,\\%$ près)'} ?`,
+        EV(tr),
+        [EV(-t), EV(-tr), EV(t === 100 ? -t / 4 : (-t / (100 - t)) * 100), EV(tr * 2)],
+        'Le coefficient réciproque est l\'inverse du coefficient multiplicateur.',
+        `$CM = ${this.dec(1 + t / 100)}$, donc $CM' = \\frac{1}{${this.dec(1 + t / 100)}}$.`,
+        `$CM' = \\frac{1}{${this.dec(1 + t / 100)}} ${exact ? '=' : '\\approx'} ${this.dec(1 + tr / 100, 6)}$, donc $t' = CM' - 1 ${exact ? '=' : '\\approx'} ${this.dec(tr / 100, 6)}$ : ${tr > 0 ? 'une hausse' : 'une baisse'} de $${P(Math.abs(tr))}$${exact ? '' : ' environ'}.`
+      );
+    }
+    if (kind === 1) {
+      const t = this.randChoice([1, 1.5, 2, 2.5, 3, 4, 5, 6, 8, 10, 12, 15]) * (Math.random() < 0.7 ? 1 : -1);
+      const n = this.randInt(2, 6);
+      const cm = 1 + t / 100;
+      const tg = (cm ** n - 1) * 100;
+      const ex = this.isDecimal(cm ** n, 6);
+      const what = this.randChoice(things);
+      return this.makeMcq(T, 4, 'Évolutions identiques répétées',
+        'Calculer le taux global de plusieurs évolutions identiques',
+        `${what} ${this._2N5_verb(t)} chaque année pendant $${n}$ ans. Quelle est l'évolution globale sur ces $${n}$ années (taux arrondi à $0{,}01\\,\\%$ près) ?`,
+        EV(tg),
+        [EV(n * t), EV((cm ** (n - 1) - 1) * 100), EV((cm ** (n + 1) - 1) * 100), EV(-tg)],
+        `$${n}$ évolutions de même coefficient $CM$ donnent le coefficient global $CM^{${n}}$.`,
+        `$CM = ${this.dec(cm)}$ ; calcule $${this.dec(cm)}^{${n}}$.`,
+        `$CM_{\\text{global}} = ${this.dec(cm)}^{${n}} ${ex ? '=' : '\\approx'} ${this.dec(cm ** n, 6)}$, donc $t ${ex ? '=' : '\\approx'} ${this.dec(tg / 100, 6)}$ : ${tg > 0 ? 'une hausse' : 'une baisse'} ${ex ? 'de' : 'd\'environ'} $${P(Math.abs(tg))}$ (et non $${P(Math.abs(n * t))}$).`
+      );
+    }
+    let t1 = 0; let t2 = 0;
+    while (t1 === 0 || t2 === 0 || (100 + t1) * (100 + t2) === 10000) {
+      t1 = this.randInt(-8, 12) * 5;
+      t2 = this.randInt(-8, 12) * 5;
+    }
+    const tg = ((100 + t1) * (100 + t2) - 10000) / 100;
+    const what = this.randChoice(things);
+    return this.makeMcq(T, 4, 'Second taux d\'évolution',
+      'Déterminer un taux connaissant le taux global',
+      `${what} ${this._2N5_verb(t1)} une première année. Sur les deux années, l'évolution globale est ${tg > 0 ? 'une hausse' : 'une baisse'} de $${P(Math.abs(tg))}$. Quelle a été l'évolution la deuxième année ?`,
+      EV(t2),
+      [EV(tg - t1), EV(-t2), EV(t1 - tg), EV(tg + t1)],
+      'Le coefficient global est le produit des coefficients : $CM = CM_1 \\times CM_2$.',
+      `$CM_2 = \\frac{CM}{CM_1} = \\frac{${this.dec(1 + tg / 100, 6)}}{${this.dec(1 + t1 / 100)}}$.`,
+      `$CM = ${this.dec(1 + tg / 100, 6)}$ et $CM_1 = ${this.dec(1 + t1 / 100)}$, donc $CM_2 = \\frac{${this.dec(1 + tg / 100, 6)}}{${this.dec(1 + t1 / 100)}} = ${this.dec(1 + t2 / 100)}$ : ${t2 > 0 ? 'une hausse' : 'une baisse'} de $${P(Math.abs(t2))}$.`
+    );
+  },
+
+  // =========================================================================
+  // 2S4 : Algorithmique et programmation (Python) — Seconde
+  // =========================================================================
+  /** Bloc de code Python (rendu par MathsRenderer.markdownToHtml) */
+  _2S4_py(lines) {
+    return '\n```python\n' + lines.join('\n') + '\n```\n';
+  },
+
+  /** Réponse numérique en mode math ($-3$, $2{,}5$) */
+  _2S4_n(v) {
+    return `$${Number.isInteger(v) ? v : this.dec(v, 6)}$`;
+  },
+
+  gen_2S4(tier) {
+    const T = '2S4';
+    const P = (l) => this._2S4_py(l);
+    const N = (v) => this._2S4_n(v);
+    if (tier === 1) {
+      const fam = this.randInt(0, 3);
+      if (fam === 0) {
+        // Suite d'affectations
+        const pool = [
+          ['a = a + b', (s) => { s.a = s.a + s.b; }],
+          ['b = a - b', (s) => { s.b = s.a - s.b; }],
+          ['a = 2 * a', (s) => { s.a = 2 * s.a; }],
+          ['b = b + 3', (s) => { s.b = s.b + 3; }],
+          ['a = a * b', (s) => { s.a = s.a * s.b; }],
+          ['b = a + 1', (s) => { s.b = s.a + 1; }],
+          ['a = b - a', (s) => { s.a = s.b - s.a; }],
+          ['b = 3 * b - a', (s) => { s.b = 3 * s.b - s.a; }]
+        ];
+        const a0 = this.randInt(1, 9);
+        const b0 = this.randInt(1, 9);
+        const ops = this.pickDistinct(pool, 3);
+        const v = this.randChoice(['a', 'b']);
+        const s = { a: a0, b: b0 };
+        const trace = [];
+        ops.forEach(([txt, f]) => { f(s); trace.push(`après \`${txt}\` : \`a = ${s.a}\`, \`b = ${s.b}\``); });
+        // Erreur typique : utiliser les valeurs initiales à chaque ligne
+        const naive = { a: a0, b: b0 };
+        ops.forEach(([, f]) => { const c = { a: a0, b: b0 }; f(c); if (c.a !== a0) naive.a = c.a; if (c.b !== b0) naive.b = c.b; });
+        const other = v === 'a' ? 'b' : 'a';
+        const prev = { a: a0, b: b0 };
+        ops.slice(0, 2).forEach(([, f]) => f(prev));
+        return this.makeMcq(T, 1, 'Suite d\'affectations',
+          'Exécuter pas à pas une suite d\'affectations',
+          `Qu'affiche le programme Python suivant ?${P([`a = ${a0}`, `b = ${b0}`, ...ops.map((o) => o[0]), `print(${v})`])}`,
+          N(s[v]),
+          [N(naive[v]), N(s[other]), N(prev[v]), N(s[v] + 1)],
+          'Les instructions s\'exécutent de haut en bas : chaque affectation utilise les valeurs **actuelles** des variables.',
+          'Tiens à jour un tableau des valeurs de `a` et `b` après chaque ligne.',
+          `Au départ \`a = ${a0}\` et \`b = ${b0}\`. ${trace.join(' ; ').replace(/^a/, 'A')}. Le programme affiche donc ${N(s[v])}.`
+        );
+      }
+      if (fam === 1) {
+        // Échange de deux variables
+        const x = this.randInt(1, 20);
+        let y = this.randInt(1, 20);
+        while (y === x) y = this.randInt(1, 20);
+        const kind = this.randInt(0, 2);
+        const code = kind === 0 ? ['a = b', 'b = a'] : kind === 1 ? ['c = a', 'a = b', 'b = c'] : ['a, b = b, a'];
+        const res = kind === 0 ? [y, y] : [y, x];
+        const fmt = (p, q) => `« ${p} ${q} »`;
+        const ans = fmt(res[0], res[1]);
+        return this.makeMcq(T, 1, 'Échanger deux variables',
+          'Comprendre l\'échange du contenu de deux variables',
+          `Qu'affiche le programme Python suivant ?${P([`a = ${x}`, `b = ${y}`, ...code, 'print(a, b)'])}`,
+          ans,
+          [fmt(y, x), fmt(x, y), fmt(y, y), fmt(x, x)],
+          '`print(a, b)` affiche les deux valeurs séparées par une espace.',
+          kind === 0 ? 'Après `a = b`, l\'ancienne valeur de `a` est perdue.' : 'Suis le contenu de chaque variable ligne par ligne.',
+          kind === 0
+            ? `\`a = b\` donne \`a = ${y}\` : l'ancienne valeur ${x} est écrasée. Puis \`b = a\` donne \`b = ${y}\`. Affichage : ${ans}. Pour échanger, il faut une variable auxiliaire ou l'affectation simultanée \`a, b = b, a\`.`
+            : kind === 1
+              ? `\`c = a\` sauvegarde ${x}, \`a = b\` donne \`a = ${y}\`, puis \`b = c\` donne \`b = ${x}\` : les valeurs sont échangées. Affichage : ${ans}.`
+              : `L'affectation simultanée évalue d'abord le membre de droite \`(${y}, ${x})\`, puis l'affecte à \`(a, b)\` : les valeurs sont échangées. Affichage : ${ans}.`
+        );
+      }
+      if (fam === 2) {
+        // Instruction conditionnelle
+        const x = this.randInt(2, 30);
+        const k = this.randInt(5, 25);
+        const conds = [
+          [`x % 2 == 0`, (z) => z % 2 === 0, `${x} est-il pair`],
+          [`x % 3 == 0`, (z) => z % 3 === 0, `${x} est-il multiple de 3`],
+          [`x > ${k}`, (z) => z > k, `${x} > ${k}`],
+          [`x >= ${k}`, (z) => z >= k, `${x} \\ge ${k}`]
+        ];
+        const bodies = [
+          [['y = x // 2', (z) => Math.floor(z / 2)], ['y = 3 * x + 1', (z) => 3 * z + 1]],
+          [[`y = x - ${k}`, (z) => z - k], [`y = ${k} - x`, (z) => k - z]],
+          [['y = 2 * x', (z) => 2 * z], ['y = x + 10', (z) => z + 10]]
+        ];
+        const [ct, cf] = this.randChoice(conds);
+        const [[t1, f1], [t2, f2]] = this.randChoice(bodies);
+        const ok = cf(x);
+        const y = ok ? f1(x) : f2(x);
+        return this.makeMcq(T, 1, 'Instruction conditionnelle',
+          'Exécuter une instruction conditionnelle if … else',
+          `Qu'affiche le programme Python suivant ?${P([`x = ${x}`, `if ${ct}:`, `    ${t1}`, 'else:', `    ${t2}`, 'print(y)'])}`,
+          N(y),
+          [N(ok ? f2(x) : f1(x)), N(y + 1), N(x)],
+          `Commence par tester la condition \`${ct}\` avec \`x = ${x}\`.`,
+          'Seul le bloc correspondant au résultat du test est exécuté.',
+          `Avec \`x = ${x}\`, la condition \`${ct}\` est ${ok ? 'vraie' : 'fausse'} : on exécute \`${ok ? t1 : t2}\`, d'où \`y = ${y}\`. Le programme affiche ${N(y)}.`
+        );
+      }
+      // Division euclidienne et division décimale
+      const b = this.randChoice([2, 3, 4, 5, 6, 7, 8, 9]);
+      const a = this.randInt(b + 1, 99);
+      if (a % b === 0 || Math.random() < 0.5) {
+        const q = Math.floor(a / b);
+        const r = a % b;
+        const ans = `« ${q} ${r} »`;
+        return this.makeMcq(T, 1, 'Quotient et reste en Python',
+          'Utiliser les opérateurs // et %',
+          `Qu'affiche l'instruction Python suivante ?${P([`print(${a} // ${b}, ${a} % ${b})`])}`,
+          ans,
+          [`« ${r} ${q} »`, `« ${q + 1} ${r} »`, `« ${this.decText(a / b, 6).replace(',', '.')} ${r} »`, `« ${q} ${b - r} »`],
+          '`//` donne le quotient entier et `%` le reste de la division euclidienne.',
+          `Écris ${a} sous la forme ${b} × q + r avec 0 ≤ r < ${b}.`,
+          `${r ? `$${a} = ${b} \\times ${q} + ${r}$ avec $0 \\le ${r} < ${b}$` : `$${a} = ${b} \\times ${q}$`} : le quotient est ${q} et le reste ${r}. Affichage : ${ans}.`
+        );
+      }
+      const bb = this.randChoice([2, 4, 5, 8]);
+      let aa = this.randInt(3, 60);
+      while (aa % bb === 0) aa = this.randInt(3, 60);
+      return this.makeMcq(T, 1, 'Division décimale en Python',
+        'Distinguer / et //',
+        `Qu'affiche l'instruction Python suivante ?${P([`print(${aa} / ${bb})`])}`,
+        N(aa / bb),
+        [N(Math.floor(aa / bb)), N(aa % bb), N(Math.floor(aa / bb) + (aa % bb) / 10), N(bb / 10 + Math.floor(aa / bb))],
+        'En Python, `/` est la division décimale (le résultat est un flottant).',
+        '`//` serait la division entière : ce n\'est pas l\'opérateur utilisé ici.',
+        `\`${aa} / ${bb}\` est la division décimale : $${aa} \\div ${bb} = ${this.dec(aa / bb, 6)}$. Python affiche ${this.decText(aa / bb, 6).replace(',', '.')}, c'est-à-dire ${N(aa / bb)}.`
+      );
+    }
+    if (tier === 2) {
+      const fam = this.randInt(0, 2);
+      if (fam === 0) {
+        // Somme avec une boucle bornée
+        const forms = [
+          ['i', (i) => i, '$i$'],
+          ['i * i', (i) => i * i, '$i^2$'],
+          ['2 * i + 1', (i) => 2 * i + 1, '$2i + 1$']
+        ];
+        const [ft, ff, fm] = this.randChoice(forms);
+        const kind = this.randInt(0, 2);
+        let a; let b; let st = 1; let rng;
+        if (kind === 0) { a = 0; b = this.randInt(4, 9); rng = `range(${b})`; } else if (kind === 1) { a = this.randInt(1, 5); b = a + this.randInt(3, 6); rng = `range(${a}, ${b})`; } else { a = this.randInt(0, 3); st = this.randChoice([2, 3]); b = a + st * this.randInt(3, 5) + this.randInt(0, 1); rng = `range(${a}, ${b}, ${st})`; }
+        const vals = [];
+        for (let i = a; i < b; i += st) vals.push(i);
+        const s = vals.reduce((acc, i) => acc + ff(i), 0);
+        const withEnd = vals[vals.length - 1] + st === b ? s + ff(b) : s + ff(vals[vals.length - 1] + st);
+        return this.makeMcq(T, 2, 'Somme avec une boucle for',
+          'Exécuter une boucle bornée et un accumulateur',
+          `Qu'affiche le programme Python suivant ?${P(['s = 0', `for i in ${rng}:`, `    s = s + ${ft}`, 'print(s)'])}`,
+          N(s),
+          [N(withEnd), N(s - ff(vals[0]) + (vals[0] === 0 ? ff(b) : 0)), N(s - ff(vals[vals.length - 1])), N(vals.length)],
+          `\`${rng}\` parcourt les entiers ${vals.length > 1 ? `${vals[0]}, ${vals[1]}, …` : vals[0]} **sans atteindre** ${b}.`,
+          `La variable \`i\` prend les valeurs ${vals.join(', ')}.`,
+          `\`i\` prend successivement les valeurs ${vals.join(', ')} (la borne ${b} est exclue). On ajoute à chaque tour ${fm} : $s = ${vals.map(ff).join(' + ')} = ${s}$. Le programme affiche ${N(s)}.`
+        );
+      }
+      if (fam === 1) {
+        // Suite définie par récurrence (itérations)
+        const forms = [
+          ['x = 2 * x - 3', (x) => 2 * x - 3],
+          ['x = 3 * x + 1', (x) => 3 * x + 1],
+          ['x = x * x - 2', (x) => x * x - 2],
+          ['x = 10 - 2 * x', (x) => 10 - 2 * x],
+          ['x = x + 2 * k', null]
+        ];
+        const idx = this.randInt(0, forms.length - 1);
+        const [ft] = forms[idx];
+        const n = idx === 2 ? this.randInt(2, 3) : this.randInt(3, 6);
+        const x0 = idx === 2 ? this.randInt(-2, 3) : this.randInt(-5, 9);
+        const xs = [x0];
+        for (let k = 0; k < n + 1; k++) {
+          const x = xs[xs.length - 1];
+          xs.push(idx === 4 ? x + 2 * k : forms[idx][1](x));
+        }
+        const ans = xs[n];
+        return this.makeMcq(T, 2, 'Itérer une affectation',
+          'Exécuter une boucle bornée qui met à jour une variable',
+          `Qu'affiche le programme Python suivant ?${P([`x = ${x0}`, `for k in range(${n}):`, `    ${ft}`, 'print(x)'])}`,
+          N(ans),
+          [N(xs[n - 1]), N(xs[n + 1]), N(ans + 2)],
+          `La boucle s'exécute exactement ${n} fois (pour \`k\` = 0, 1, …, ${n - 1}).`,
+          'Note la valeur de `x` après chaque tour.',
+          `Valeurs successives de \`x\` : ${xs.slice(0, n + 1).join(' → ')}. Après ${n} tours, le programme affiche ${N(ans)}.`
+        );
+      }
+      // Compteur avec condition
+      const N0 = this.randInt(20, 80);
+      const k = this.randChoice([3, 4, 5, 6, 7]);
+      let m = this.randChoice([2, 3, 4, 5]);
+      while (m === k) m = this.randChoice([2, 3, 4, 5]);
+      const kind = this.randInt(0, 2);
+      const cond = kind === 0 ? `i % ${k} == 0` : kind === 1 ? `i % ${k} == 0 or i % ${m} == 0` : `i % ${k} == 0 and i % ${m} != 0`;
+      const test = (i) => (kind === 0 ? i % k === 0 : kind === 1 ? (i % k === 0 || i % m === 0) : (i % k === 0 && i % m !== 0));
+      let c = 0; let cIncl = 0;
+      for (let i = 1; i < N0; i++) if (test(i)) c++;
+      cIncl = c + (test(N0) ? 1 : 0);
+      let cAnd = 0;
+      for (let i = 1; i < N0; i++) if (kind === 1 ? (i % k === 0 && i % m === 0) : kind === 2 ? i % k === 0 : (i % k !== 0)) cAnd++;
+      return this.makeMcq(T, 2, 'Compter avec une boucle',
+        'Combiner boucle bornée et instruction conditionnelle',
+        `Qu'affiche le programme Python suivant ?${P(['c = 0', `for i in range(1, ${N0}):`, `    if ${cond}:`, '        c = c + 1', 'print(c)'])}`,
+        N(c),
+        [N(cIncl === c ? c + 1 : cIncl), N(cAnd), N(c - 1)],
+        `\`range(1, ${N0})\` parcourt les entiers de 1 à ${N0 - 1}.`,
+        `\`c\` compte les entiers \`i\` pour lesquels \`${cond}\` est vrai.`,
+        `On compte les entiers de 1 à ${N0 - 1} vérifiant \`${cond}\`${kind === 0 ? ` (les multiples de ${k})` : kind === 1 ? ` (multiples de ${k} ou de ${m})` : ` (multiples de ${k} qui ne sont pas multiples de ${m})`} : il y en a ${c}. Le programme affiche ${N(c)}.`
+      );
+    }
+    if (tier === 3) {
+      const fam = this.randInt(0, 3);
+      if (fam === 0) {
+        // Seuil : boucle while
+        const geo = Math.random() < 0.5;
+        const u0 = this.randInt(1, 9);
+        const q = geo ? this.randChoice([2, 3]) : this.randInt(3, 12);
+        const S = geo ? this.randInt(30, 900) : this.randInt(40, 150);
+        let u = u0; let n = 0; const tr = [`(${n} ; ${u})`];
+        while (u < S) { u = geo ? q * u : u + q; n++; tr.push(`(${n} ; ${u})`); }
+        const askU = Math.random() < 0.4;
+        const prevU = geo ? u / q : u - q;
+        return this.makeMcq(T, 3, 'Boucle non bornée (seuil)',
+          'Exécuter une boucle while',
+          `Qu'affiche le programme Python suivant ?${P([`u = ${u0}`, 'n = 0', `while u < ${S}:`, `    u = ${geo ? `${q} * u` : `u + ${q}`}`, '    n = n + 1', `print(${askU ? 'u' : 'n'})`])}`,
+          N(askU ? u : n),
+          askU ? [N(prevU), N(S), N(geo ? q * u : u + q)] : [N(n - 1), N(n + 1), N(u)],
+          `La boucle continue **tant que** \`u < ${S}\` ; elle s'arrête dès que \`u\` atteint ou dépasse ${S}.`,
+          'Dresse la liste des couples (`n` ; `u`) tour après tour.',
+          `Couples (\`n\` ; \`u\`) successifs : ${tr.join(', ')}. Pour \`u = ${u}\`, la condition \`u < ${S}\` est fausse : la boucle s'arrête avec \`n = ${n}\` et \`u = ${u}\`. Le programme affiche ${N(askU ? u : n)}.`
+        );
+      }
+      if (fam === 1) {
+        // Somme des chiffres / nombre de chiffres
+        const x = this.randInt(100, 99999);
+        const digits = String(x).split('').map(Number);
+        const sumDig = digits.reduce((a, b) => a + b, 0);
+        if (Math.random() < 0.5) {
+          return this.makeMcq(T, 3, 'Somme des chiffres',
+            'Utiliser // et % dans une boucle while',
+            `Qu'affiche le programme Python suivant ?${P([`x = ${x}`, 's = 0', 'while x > 0:', '    s = s + x % 10', '    x = x // 10', 'print(s)'])}`,
+            N(sumDig),
+            [N(digits.length), N(sumDig - digits[0]), N(x % 10), N(sumDig + 1)],
+            '`x % 10` est le chiffre des unités de `x` et `x // 10` supprime ce chiffre.',
+            'À chaque tour, on ajoute à `s` le dernier chiffre de `x`.',
+            `La boucle ajoute successivement les chiffres ${digits.slice().reverse().join(', ')} puis \`x\` devient 0 : \`s = ${digits.slice().reverse().join(' + ')} = ${sumDig}\`. Le programme affiche ${N(sumDig)}.`
+          );
+        }
+        const b = this.randChoice([2, 3, 10]);
+        let y = x; let c = 0; const tr = [y];
+        while (y >= b) { y = Math.floor(y / b); c++; tr.push(y); }
+        return this.makeMcq(T, 3, 'Divisions successives',
+          'Compter les tours d\'une boucle while',
+          `Qu'affiche le programme Python suivant ?${P([`x = ${x}`, 'c = 0', `while x >= ${b}:`, `    x = x // ${b}`, '    c = c + 1', 'print(c)'])}`,
+          N(c),
+          [N(c + 1), N(c - 1), N(y)],
+          `À chaque tour, \`x\` est remplacé par le quotient entier de \`x\` par ${b}.`,
+          `La boucle s'arrête dès que \`x < ${b}\`.`,
+          `Valeurs successives de \`x\` : ${tr.join(' → ')}. Il y a eu ${c} tours de boucle : le programme affiche ${N(c)}.`
+        );
+      }
+      if (fam === 2) {
+        // Somme d'entiers jusqu'à un seuil
+        const S = this.randInt(20, 300);
+        const sq = Math.random() < 0.5;
+        let s = 0; let k = 0;
+        while (s < S) { k++; s += sq ? 2 * k - 1 : k; }
+        const askS = Math.random() < 0.4;
+        return this.makeMcq(T, 3, 'Accumuler jusqu\'à un seuil',
+          'Exécuter une boucle while avec accumulateur',
+          `Qu'affiche le programme Python suivant ?${P(['s = 0', 'k = 0', `while s < ${S}:`, '    k = k + 1', `    s = s + ${sq ? '2 * k - 1' : 'k'}`, `print(${askS ? 's' : 'k'})`])}`,
+          N(askS ? s : k),
+          askS ? [N(s - (sq ? 2 * k - 1 : k)), N(S), N(s + (sq ? 2 * k + 1 : k + 1))] : [N(k - 1), N(k + 1), N(s)],
+          sq ? 'Remarque : $1 + 3 + 5 + \\dots + (2k - 1) = k^2$.' : 'Remarque : $1 + 2 + \\dots + k = \\frac{k(k + 1)}{2}$.',
+          `Cherche le premier \`k\` pour lequel \`s\` atteint ou dépasse ${S}.`,
+          `Après le tour où \`k\` vaut $k$, on a \`s\` $= ${sq ? 'k^2' : '\\frac{k(k + 1)}{2}'}$. ${k > 1 ? `Pour \`k = ${k - 1}\`, \`s = ${sq ? (k - 1) ** 2 : (k - 1) * k / 2}\` < ${S} ; ` : ''}pour \`k = ${k}\`, \`s = ${s}\` ≥ ${S} : la boucle s'arrête. Le programme affiche ${N(askS ? s : k)}.`
+        );
+      }
+      // Suite de Syracuse
+      const x0 = this.randInt(3, 40);
+      let x = x0; let n = 0; const tr = [x];
+      while (x !== 1) { x = x % 2 === 0 ? x / 2 : 3 * x + 1; n++; tr.push(x); }
+      const mx = Math.max(...tr);
+      return this.makeMcq(T, 3, 'Suite de Syracuse',
+        'Combiner boucle while et instruction conditionnelle',
+        `Qu'affiche le programme Python suivant ?${P([`x = ${x0}`, 'n = 0', 'while x != 1:', '    if x % 2 == 0:', '        x = x // 2', '    else:', '        x = 3 * x + 1', '    n = n + 1', 'print(n)'])}`,
+        N(n),
+        [N(n + 1), N(n - 1), N(mx)],
+        'Si `x` est pair on le divise par 2, sinon on le remplace par 3x + 1.',
+        '`n` compte le nombre de tours effectués avant d\'atteindre 1.',
+        `Valeurs successives de \`x\` : ${tr.join(' → ')}. Il faut ${n} tours pour atteindre 1 : le programme affiche ${N(n)}.`
+      );
+    }
+    // tier 4 : fonctions
+    const fam = this.randInt(0, 4);
+    if (fam === 0) {
+      const a = this.randNonZero(-4, 4);
+      const b = this.randInt(-6, 6);
+      const c = this.randInt(-9, 9);
+      const v = this.randNonZero(-5, 5);
+      const f = (x) => a * x * x + b * x + c;
+      const terms = [`${a === 1 ? '' : a === -1 ? '-' : a + ' * '}x ** 2`];
+      if (b) terms.push(`${b > 0 ? '+' : '-'} ${Math.abs(b) === 1 ? '' : Math.abs(b) + ' * '}x`);
+      if (c) terms.push(`${c > 0 ? '+' : '-'} ${Math.abs(c)}`);
+      return this.makeMcq(T, 4, 'Appeler une fonction',
+        'Calculer la valeur renvoyée par une fonction Python',
+        `Qu'affiche le programme Python suivant ?${P(['def f(x):', `    return ${terms.join(' ')}`, '', `print(f(${v}))`])}`,
+        N(f(v)),
+        [N(a * 2 * v + b * v + c), N(-a * v * v + b * v + c), N(a * v * v - b * v + c), N(f(v) + 1)],
+        '`x ** 2` signifie $x^2$ en Python.',
+        `Remplace \`x\` par ${v} dans l'expression renvoyée.`,
+        `\`f(${v})\` renvoie $${a} \\times ${this.paren(v)}^2${b ? ` ${b < 0 ? '-' : '+'} ${Math.abs(b)} \\times ${this.paren(v)}` : ''}${c ? ` ${c < 0 ? '-' : '+'} ${Math.abs(c)}` : ''} = ${f(v)}$ (la puissance est calculée avant la multiplication). Le programme affiche ${N(f(v))}.`
+      );
+    }
+    if (fam === 1) {
+      // Fonction définie par morceaux
+      const K = this.randInt(-2, 4);
+      const a = this.randNonZero(-3, 4);
+      const b = this.randInt(-5, 5);
+      const c = this.randInt(0, 9);
+      const f = (x) => (x < K ? a * x + b : x * x - c);
+      const u = this.randInt(K - 5, K - 1);
+      const w = this.randInt(K, K + 4);
+      const lin = `${a === 1 ? '' : a === -1 ? '-' : a + ' * '}x${b ? ` ${b > 0 ? '+' : '-'} ${Math.abs(b)}` : ''}`;
+      const ans = f(u) + f(w);
+      const swapped = (a * w + b) + (u * u - c);
+      return this.makeMcq(T, 4, 'Fonction avec test',
+        'Exécuter une fonction contenant une instruction conditionnelle',
+        `Qu'affiche le programme Python suivant ?${P(['def f(x):', `    if x < ${K}:`, `        return ${lin}`, '    else:', `        return x * x${c ? ` - ${c}` : ''}`, '', `print(f(${u}) + f(${w}))`])}`,
+        N(ans),
+        [N(swapped), N(2 * f(u)), N(2 * f(w)), N(ans + 1)],
+        `Pour chaque appel, teste d'abord si l'argument est strictement inférieur à ${K}.`,
+        'Calcule séparément les deux valeurs renvoyées, puis additionne-les.',
+        `${u} < ${K}, donc \`f(${u})\` renvoie ${N(f(u))} (première branche) ; ${w} ≥ ${K}, donc \`f(${w})\` renvoie $${this.paren(w)}^2${c ? ` - ${c}` : ''} = ${f(w)}$ (seconde branche). Le programme affiche la somme de ces deux valeurs : ${N(ans)}.`
+      );
+    }
+    if (fam === 2) {
+      // Fonction avec boucle
+      const forms = [
+        ['k', (k) => k, '$1 + 2 + \\dots + n$'],
+        ['k * k', (k) => k * k, '$1^2 + 2^2 + \\dots + n^2$'],
+        ['2 * k - 1', (k) => 2 * k - 1, 'la somme des $n$ premiers entiers impairs'],
+        ['k ** 3', (k) => k ** 3, '$1^3 + 2^3 + \\dots + n^3$']
+      ];
+      const [ft, ff, fm] = this.randChoice(forms);
+      const n = this.randInt(3, 9);
+      let s = 0; for (let k = 1; k <= n; k++) s += ff(k);
+      return this.makeMcq(T, 4, 'Fonction et boucle bornée',
+        'Calculer la valeur renvoyée par une fonction contenant une boucle',
+        `Qu'affiche le programme Python suivant ?${P(['def somme(n):', '    s = 0', '    for k in range(1, n + 1):', `        s = s + ${ft}`, '    return s', '', `print(somme(${n}))`])}`,
+        N(s),
+        [N(s - ff(n)), N(s + ff(n + 1)), N(ff(n))],
+        `\`range(1, n + 1)\` parcourt les entiers de 1 à $n$ inclus.`,
+        `La fonction calcule ${fm}.`,
+        `\`somme(${n})\` calcule $${Array.from({ length: n }, (_, i) => ff(i + 1)).join(' + ')} = ${s}$. Le programme affiche ${N(s)}.`
+      );
+    }
+    if (fam === 3) {
+      // Fonction renvoyant une chaîne
+      const sets = [[16, 14, 12, 10], [15, 13, 11, 9], [17, 14, 12, 10]];
+      const th = this.randChoice(sets);
+      const labels = ['Excellent', 'Très bien', 'Bien', 'Assez bien', 'Insuffisant'];
+      const note = this.randInt(5, 20);
+      const idx = note >= th[0] ? 0 : note >= th[1] ? 1 : note >= th[2] ? 2 : note >= th[3] ? 3 : 4;
+      const op = Math.random() < 0.5 ? '>=' : '>';
+      const idx2 = op === '>=' ? idx : (note > th[0] ? 0 : note > th[1] ? 1 : note > th[2] ? 2 : note > th[3] ? 3 : 4);
+      const ans = `« ${labels[idx2]} »`;
+      return this.makeMcq(T, 4, 'Fonction et tests en cascade',
+        'Exécuter une instruction if … elif … else',
+        `Qu'affiche le programme Python suivant ?${P(['def appreciation(note):', `    if note ${op} ${th[0]}:`, `        return "${labels[0]}"`, `    elif note ${op} ${th[1]}:`, `        return "${labels[1]}"`, `    elif note ${op} ${th[2]}:`, `        return "${labels[2]}"`, `    elif note ${op} ${th[3]}:`, `        return "${labels[3]}"`, '    else:', `        return "${labels[4]}"`, '', `print(appreciation(${note}))`])}`,
+        ans,
+        labels.filter((l, i) => i !== idx2).map((l) => `« ${l} »`),
+        'Les conditions sont testées dans l\'ordre ; dès qu\'une est vraie, `return` termine la fonction.',
+        `Attention à l'opérateur \`${op}\` : ${op === '>=' ? 'l\'égalité est acceptée' : 'l\'inégalité est stricte'}.`,
+        `Avec \`note = ${note}\`, ${idx2 === 0 ? `le premier test \`note ${op} ${th[0]}\` est vrai` : `les tests ${th.slice(0, idx2).map((t) => `\`note ${op} ${t}\``).join(', ')} sont faux${idx2 < 4 ? ` et \`note ${op} ${th[idx2]}\` est vrai` : ''}`} : la fonction renvoie ${ans}.`
+      );
+    }
+    // Fonction parcourant une liste
+    const L = Array.from({ length: this.randInt(5, 7) }, () => this.randInt(-9, 30));
+    const isMin = Math.random() < 0.5;
+    const r = isMin ? Math.min(...L) : Math.max(...L);
+    const other = isMin ? Math.max(...L) : Math.min(...L);
+    return this.makeMcq(T, 4, 'Parcourir une liste',
+      'Comprendre une fonction qui parcourt une liste',
+      `Qu'affiche le programme Python suivant ?${P(['def mystere(L):', '    m = L[0]', '    for x in L:', `        if x ${isMin ? '<' : '>'} m:`, '            m = x', '    return m', '', `print(mystere([${L.join(', ')}]))`])}`,
+      N(r),
+      [N(other), N(L[0]), N(L[L.length - 1]), N(L.reduce((a, b) => a + b, 0))],
+      '`m` contient la meilleure valeur rencontrée jusqu\'ici.',
+      `\`m\` est remplacé chaque fois qu'on rencontre un élément ${isMin ? 'plus petit' : 'plus grand'}.`,
+      `La fonction renvoie le ${isMin ? 'minimum' : 'maximum'} de la liste : ${N(r)}. Valeurs successives de \`m\` : ${(() => { let m = L[0]; const t = [m]; L.forEach((x) => { if (isMin ? x < m : x > m) { m = x; t.push(m); } }); return t.join(' → '); })()}.`
+    );
+  },
+
   // ---- lyTA ----
   // Réécrit les options purement mathématiques « $X$ » d'un QCM de limite en « $<lhs> = X$ »
   _TA_lim(q, lhs) {
@@ -3040,6 +3675,507 @@ window.MathsLyceeGenerators = {
       '$u\'(x) = 1$ et $v(x) = e^{x}$.',
       `$I = \\left[xe^{x}\\right]_{0}^{${a}} - \\int_{0}^{${a}} e^{x}\\,dx = ${a}e^{${a}} - (e^{${a}} - 1) = ${ans}$.`
     );
+  },
+
+  // ---------------------------------------------------------------------
+  // TA8 : Compléments sur la dérivation (composées, dérivée seconde)
+  // ---------------------------------------------------------------------
+  /** Coefficient devant une expression (parenthèse, e^{…}, \\sqrt…) : 1 -> '', -1 -> '-' */
+  _TA8_k(c, e) { return c === 1 ? e : c === -1 ? `-${e}` : `${c}${e}`; },
+  /** Fraction « c / den » avec signe devant : _TA8_fr(-3, 'x + 1') -> -\\frac{3}{x + 1} */
+  _TA8_fr(c, num, den) { return `${c < 0 ? '-' : ''}\\frac{${num}}{${den}}`; },
+
+  gen_TA8(tier) {
+    const T = 'TA8';
+    const L = (a, b) => this.poly([[a, 'x'], [b, '']]);
+    const Q = (a, p, q) => this.poly([[a, 'x^2'], [p, 'x'], [q, '']]);
+    const K = (c, e) => this._TA8_k(c, e);
+    const F = (s) => `$f'(x) = ${s}$`;
+    const F2 = (s) => `$f''(x) = ${s}$`;
+    const ex = (arg) => `e^{${arg}}`;
+    if (tier === 1) {
+      const fam = this.randInt(0, 4);
+      const a = this.randNonZero(-5, 5); const b = this.randNonZero(-7, 7);
+      const u = L(a, b);
+      if (fam === 0) {
+        const n = this.randInt(2, 5);
+        const P = (e) => this.pow(`(${u})`, e);
+        return this.makeMcq(T, 1, 'Dérivée de $(ax + b)^n$', 'Dériver $x \\mapsto g(ax + b)$',
+          `Soit $f(x) = (${u})^{${n}}$ sur $\\mathbb{R}$. Déterminer $f'(x)$.`,
+          F(K(n * a, P(n - 1))),
+          [F(K(n, P(n - 1))), F(K(n * a, P(n))), F(K(a, P(n - 1))), F(K((n - 1) * a, P(n - 1))), F(K(n * a * a, P(n - 1)))],
+          'Utilise $(u^n)\' = n u\' u^{n-1}$ avec $u(x) = ax + b$.',
+          `Ici $u(x) = ${u}$ et $u'(x) = ${a}$.`,
+          `$f'(x) = ${n} \\times ${this.paren(a)} \\times ${P(n - 1)} = ${K(n * a, P(n - 1))}$.`);
+      }
+      if (fam === 1) {
+        const c = this.randChoice([1, 1, 2, 3, -2]);
+        return this.makeMcq(T, 1, 'Dérivée de $e^{ax + b}$', 'Dériver $x \\mapsto e^{u(x)}$',
+          `Soit $f(x) = ${K(c, ex(u))}$ sur $\\mathbb{R}$. Déterminer $f'(x)$.`,
+          F(K(c * a, ex(u))),
+          [F(K(c, ex(u))), F(K(c * b, ex(u))), F(`${K(c, `(${u})`)}${ex(L(a, b - 1))}`), F(K(c * a, ex(L(a, b - 1)))), F(K(c * a, ex('x')))],
+          'Utilise $(e^u)\' = u\' e^u$.',
+          `Ici $u(x) = ${u}$ et $u'(x) = ${a}$.`,
+          `$f'(x) = ${c === 1 ? '' : `${this.paren(c)} \\times `}${this.paren(a)} \\times ${ex(u)} = ${K(c * a, ex(u))}$.`);
+      }
+      if (fam === 2) {
+        const sq = `\\sqrt{${u}}`;
+        const ans = a % 2 === 0 ? this._TA8_fr(a, Math.abs(a / 2), sq) : this._TA8_fr(a, Math.abs(a), `2${sq}`);
+        return this.makeMcq(T, 1, 'Dérivée de $\\sqrt{ax + b}$', 'Dériver $x \\mapsto \\sqrt{u(x)}$',
+          `Soit $f(x) = ${sq}$, définie et dérivable sur l'intervalle où $${u} > 0$. Déterminer $f'(x)$.`,
+          F(ans),
+          [F(`\\frac{1}{2${sq}}`), F(this._TA8_fr(a, Math.abs(a), sq)), F(`${K(a, sq)}`), F(this._TA8_fr(-a, Math.abs(a), `2${sq}`)), F(`\\frac{${u}}{2${sq}}`)],
+          'Utilise $(\\sqrt{u})\' = \\frac{u\'}{2\\sqrt{u}}$.',
+          `Ici $u'(x) = ${a}$.`,
+          `$f'(x) = \\frac{u'(x)}{2\\sqrt{u(x)}}$ avec $u(x) = ${u}$ et $u'(x) = ${a}$, d'où $f'(x) = ${ans}$.`);
+      }
+      if (fam === 3) {
+        const ans = this._TA8_fr(-a, Math.abs(a), `(${u})^2`);
+        return this.makeMcq(T, 1, 'Dérivée de $\\frac{1}{ax + b}$', 'Dériver $x \\mapsto \\frac{1}{u(x)}$',
+          `Soit $f(x) = \\frac{1}{${u}}$, définie et dérivable sur un intervalle où $${u} \\neq 0$. Déterminer $f'(x)$.`,
+          F(ans),
+          [F(this._TA8_fr(a, Math.abs(a), `(${u})^2`)), F(`-\\frac{1}{(${u})^2}`), F(this._TA8_fr(-a, Math.abs(a), u)), F(`-\\frac{1}{${u}}`)],
+          'Utilise $\\left(\\frac{1}{u}\\right)\' = -\\frac{u\'}{u^2}$.',
+          `Ici $u'(x) = ${a}$.`,
+          `$f'(x) = -\\frac{u'(x)}{u(x)^2}$ avec $u(x) = ${u}$ et $u'(x) = ${a}$, d'où $f'(x) = ${ans}$.`);
+      }
+      const ans = this._TA8_fr(a, Math.abs(a), u);
+      return this.makeMcq(T, 1, 'Dérivée de $\\ln(ax + b)$', 'Dériver $x \\mapsto \\ln(u(x))$',
+        `Soit $f(x) = \\ln(${u})$, définie et dérivable sur l'intervalle où $${u} > 0$. Déterminer $f'(x)$.`,
+        F(ans),
+        [F(`\\frac{1}{${u}}`), F(this._TA8_fr(-a, Math.abs(a), u)), F(this._TA8_fr(a, Math.abs(a), `(${u})^2`)), F(`${a}\\ln(${u})`)],
+        'Utilise $(\\ln u)\' = \\frac{u\'}{u}$.',
+        `Ici $u'(x) = ${a}$.`,
+        `$f'(x) = \\frac{u'(x)}{u(x)} = ${ans}$.`);
+    }
+    if (tier === 2) {
+      const fam = this.randInt(0, 4);
+      if (fam === 0) {
+        const p = this.randNonZero(-6, 6); const q = this.randNonZero(-9, 9); const n = this.randInt(2, 4);
+        const u = Q(1, p, q); const du = L(2, p);
+        const P = (e) => this.pow(`(${u})`, e);
+        return this.makeMcq(T, 2, 'Dérivée de $u^n$', 'Dériver une puissance d\'une fonction',
+          `Soit $f(x) = (${u})^{${n}}$ sur $\\mathbb{R}$. Déterminer $f'(x)$.`,
+          F(`${n}(${du})${P(n - 1)}`),
+          [F(`${n}${P(n - 1)}`), F(`(${du})${P(n - 1)}`), F(`${n}(${du})${P(n)}`), F(`${n}${this.pow(`(${du})`, n - 1)}`), F(`${n - 1}(${du})${P(n - 1)}`)],
+          'Utilise $(u^n)\' = n\\,u\'\\,u^{n-1}$.',
+          `Ici $u(x) = ${u}$ et $u'(x) = ${du}$.`,
+          `$f'(x) = ${n} \\times (${du}) \\times ${P(n - 1)} = ${n}(${du})${P(n - 1)}$.`);
+      }
+      if (fam === 1) {
+        const a = this.randNonZero(-3, 3); const b = this.randNonZero(-5, 5);
+        const u = Q(a, b, 0); const du = L(2 * a, b);
+        return this.makeMcq(T, 2, 'Dérivée de $e^{u}$', 'Dériver $x \\mapsto e^{u(x)}$',
+          `Soit $f(x) = ${ex(u)}$ sur $\\mathbb{R}$. Déterminer $f'(x)$.`,
+          F(`(${du})${ex(u)}`),
+          [F(ex(u)), F(`(${u})${ex(L(2 * a, b))}`), F(`(${L(a, b)})${ex(u)}`), F(`(${du})${ex(du)}`), F(`(${du})${ex(Q(a, b, -1))}`)],
+          'Utilise $(e^u)\' = u\'\\,e^u$.',
+          `Ici $u(x) = ${u}$ et $u'(x) = ${du}$.`,
+          `$f'(x) = u'(x)e^{u(x)} = (${du})${ex(u)}$.`);
+      }
+      if (fam === 2) {
+        const a = this.randInt(1, 4); const c = this.randInt(1, 9);
+        const u = Q(a, 0, c); const sq = `\\sqrt{${u}}`;
+        return this.makeMcq(T, 2, 'Dérivée de $\\sqrt{u}$', 'Dériver $x \\mapsto \\sqrt{u(x)}$',
+          `Soit $f(x) = ${sq}$ sur $\\mathbb{R}$. Déterminer $f'(x)$.`,
+          F(`\\frac{${this.coefStr(a, 'x')}}{${sq}}`),
+          [F(`\\frac{${this.coefStr(2 * a, 'x')}}{${sq}}`), F(`\\frac{1}{2${sq}}`), F(`\\frac{${this.coefStr(a, 'x')}}{2${sq}}`), F(`${this.coefStr(2 * a, 'x')}${sq}`), F(`\\frac{${this.coefStr(2 * a, 'x')}}{${u}}`)],
+          'Utilise $(\\sqrt{u})\' = \\frac{u\'}{2\\sqrt{u}}$.',
+          `Ici $u(x) = ${u} > 0$ et $u'(x) = ${this.coefStr(2 * a, 'x')}$.`,
+          `$f'(x) = \\frac{${this.coefStr(2 * a, 'x')}}{2${sq}} = \\frac{${this.coefStr(a, 'x')}}{${sq}}$.`);
+      }
+      if (fam === 3) {
+        const a = this.randInt(1, 5); const c = this.randInt(1, 9);
+        const u = Q(a, 0, c);
+        return this.makeMcq(T, 2, 'Dérivée de $\\ln(u)$', 'Dériver $x \\mapsto \\ln(u(x))$',
+          `Soit $f(x) = \\ln(${u})$ sur $\\mathbb{R}$. Déterminer $f'(x)$.`,
+          F(`\\frac{${this.coefStr(2 * a, 'x')}}{${u}}`),
+          [F(`\\frac{1}{${u}}`), F(`\\frac{${this.coefStr(a, 'x')}}{${u}}`), F(`\\frac{${this.coefStr(2 * a, 'x')}}{(${u})^2}`), F(`${this.coefStr(2 * a, 'x')}\\ln(${u})`)],
+          'Utilise $(\\ln u)\' = \\frac{u\'}{u}$, valable car $u > 0$.',
+          `Ici $u(x) = ${u}$ et $u'(x) = ${this.coefStr(2 * a, 'x')}$.`,
+          `$f'(x) = \\frac{u'(x)}{u(x)} = \\frac{${this.coefStr(2 * a, 'x')}}{${u}}$.`);
+      }
+      const p = this.randNonZero(-6, 6); const qq = Math.floor(p * p / 4) + this.randInt(1, 8);
+      const u = Q(1, p, qq); const du = L(2, p);
+      return this.makeMcq(T, 2, 'Dérivée de $\\frac{1}{u}$', 'Dériver l\'inverse d\'une fonction',
+        `Soit $f(x) = \\frac{1}{${u}}$ sur $\\mathbb{R}$ (le dénominateur ne s'annule pas). Déterminer $f'(x)$.`,
+        F(`-\\frac{${du}}{(${u})^2}`),
+        [F(`\\frac{${du}}{(${u})^2}`), F(`-\\frac{1}{(${u})^2}`), F(`-\\frac{${du}}{${u}}`), F(`\\frac{1}{${du}}`)],
+        'Utilise $\\left(\\frac{1}{u}\\right)\' = -\\frac{u\'}{u^2}$.',
+        `Ici $u'(x) = ${du}$.`,
+        `$f'(x) = -\\frac{u'(x)}{u(x)^2} = -\\frac{${du}}{(${u})^2}$.`);
+    }
+    if (tier === 3) {
+      const fam = this.randInt(0, 4);
+      if (fam === 0 || fam === 3) {
+        const a = this.randNonZero(-3, 3); const b = this.randNonZero(-5, 5); const n = this.randInt(3, 5);
+        const u = L(a, b);
+        const P = (e) => this.pow(`(${u})`, e);
+        if (fam === 0) {
+          return this.makeMcq(T, 3, 'Dérivée seconde de $(ax + b)^n$', 'Calculer une dérivée seconde',
+            `Soit $f(x) = (${u})^{${n}}$ sur $\\mathbb{R}$. Déterminer $f''(x)$.`,
+            F2(K(n * (n - 1) * a * a, P(n - 2))),
+            [F2(K(n * (n - 1), P(n - 2))), F2(K(n * a, P(n - 1))), F2(K(n * (n - 1) * a, P(n - 2))), F2(K(n * n * a * a, P(n - 2))), F2(K(n * (n - 1) * a * a, P(n - 1)))],
+            'Calcule d\'abord $f\'(x)$, puis dérive à nouveau.',
+            `$f'(x) = ${K(n * a, P(n - 1))}$.`,
+            `$f'(x) = ${K(n * a, P(n - 1))}$, puis $f''(x) = ${n * a} \\times ${n - 1} \\times ${this.paren(a)} \\times ${P(n - 2)} = ${K(n * (n - 1) * a * a, P(n - 2))}$.`);
+        }
+        let x0; let w;
+        do { x0 = this.randInt(-3, 3); w = a * x0 + b; } while (Math.abs(w) > 3 || (n - 2 > 1 && w === 0));
+        const v = n * (n - 1) * a * a * w ** (n - 2);
+        const A = (val) => `$f''(${x0}) = ${val}$`;
+        return this.makeMcq(T, 3, 'Valeur d\'une dérivée seconde', 'Calculer $f\'\'(a)$',
+          `Soit $f(x) = (${u})^{${n}}$ sur $\\mathbb{R}$. Calculer $f''(${x0})$.`,
+          A(v),
+          [A(n * a * w ** (n - 1)), A(n * (n - 1) * w ** (n - 2)), A(n * (n - 1) * a * w ** (n - 2)), A(w ** n), A(-v)],
+          'Exprime $f\'\'(x)$, puis remplace $x$ par la valeur demandée.',
+          `$f''(x) = ${K(n * (n - 1) * a * a, P(n - 2))}$.`,
+          `$f'(x) = ${K(n * a, P(n - 1))}$ et $f''(x) = ${K(n * (n - 1) * a * a, P(n - 2))}$. En $x = ${x0}$ : $${a} \\times ${this.paren(x0)} ${this.formatSign(b)} = ${w}$, donc $f''(${x0}) = ${n * (n - 1) * a * a} \\times ${this.pow(this.paren(w), n - 2)} = ${v}$.`);
+      }
+      if (fam === 1) {
+        const a = this.randNonZero(-3, 3);
+        const e = ex(this.coefStr(a, 'x^2'));
+        return this.makeMcq(T, 3, 'Dérivée seconde de $e^{ax^2}$', 'Dériver deux fois une composée',
+          `Soit $f(x) = ${e}$ sur $\\mathbb{R}$. Déterminer $f''(x)$.`,
+          F2(`(${this.poly([[4 * a * a, 'x^2'], [2 * a, '']])})${e}`),
+          [F2(`${this.coefStr(2 * a, 'x')}${e}`), F2(`(${this.poly([[4 * a * a, 'x^2'], [2 * a, 'x']])})${e}`), F2(`(${this.poly([[2 * a * a, 'x^2'], [2 * a, '']])})${e}`), F2(`${4 * a * a}x^2${e}`), F2(`(${this.poly([[4 * a * a, 'x^2'], [-2 * a, '']])})${e}`)],
+          'Calcule $f\'(x)$ avec $(e^u)\' = u\'e^u$, puis dérive le produit obtenu.',
+          `$f'(x) = ${this.coefStr(2 * a, 'x')}${e}$.`,
+          `$f'(x) = ${this.coefStr(2 * a, 'x')}${e}$. Avec $(uv)' = u'v + uv'$ : $f''(x) = ${K(2 * a, e)} + (${this.coefStr(2 * a, 'x')})^2${e} = (${this.poly([[4 * a * a, 'x^2'], [2 * a, '']])})${e}$.`);
+      }
+      if (fam === 2) {
+        const k = this.randNonZero(-4, 4);
+        const e = ex(this.coefStr(k, 'x'));
+        return this.makeMcq(T, 3, 'Dérivée seconde de $xe^{kx}$', 'Dériver deux fois un produit avec une composée',
+          `Soit $f(x) = x${e}$ sur $\\mathbb{R}$. Déterminer $f''(x)$.`,
+          F2(`(${this.poly([[k * k, 'x'], [2 * k, '']])})${e}`),
+          [F2(`(${this.poly([[k, 'x'], [1, '']])})${e}`), F2(`(${this.poly([[k * k, 'x'], [k, '']])})${e}`), F2(`${this.coefStr(k * k, 'x')}${e}`), F2(`(${this.poly([[k * k, 'x'], [2, '']])})${e}`), F2(`(${this.poly([[k, 'x'], [2 * k, '']])})${e}`)],
+          'Dérive le produit $x \\times e^{kx}$ en utilisant $(e^{kx})\' = ke^{kx}$.',
+          `$f'(x) = (${this.poly([[k, 'x'], [1, '']])})${e}$.`,
+          `$f'(x) = ${e} ${k > 0 ? '+' : '-'} ${this.coefStr(Math.abs(k), 'x')}${e} = (${this.poly([[k, 'x'], [1, '']])})${e}$, puis $f''(x) = ${K(k, e)} ${k > 0 ? '+' : '-'} ${K(Math.abs(k), `(${this.poly([[k, 'x'], [1, '']])})`)}${e} = (${this.poly([[k * k, 'x'], [2 * k, '']])})${e}$.`);
+      }
+      const a = this.randInt(1, 4); const b = this.randNonZero(-6, 6);
+      const u = L(a, b); const sq = `\\sqrt{${u}}`;
+      const ans = a % 2 === 0 ? `-\\frac{${a * a / 4}}{(${u})${sq}}` : `-\\frac{${a * a}}{4(${u})${sq}}`;
+      const d1 = a % 2 === 0 ? `\\frac{${a / 2}}{${sq}}` : `\\frac{${a}}{2${sq}}`;
+      return this.makeMcq(T, 3, 'Dérivée seconde de $\\sqrt{ax + b}$', 'Dériver deux fois une racine composée',
+        `Soit $f(x) = ${sq}$, définie sur l'intervalle où $${u} > 0$. Déterminer $f''(x)$.`,
+        F2(ans),
+        [F2(a % 2 === 0 ? `\\frac{${a * a / 4}}{(${u})${sq}}` : `\\frac{${a * a}}{4(${u})${sq}}`), F2(`-\\frac{${a}}{(${u})${sq}}`), F2(`-\\frac{${a * a}}{2${sq}}`), F2(`-\\frac{1}{4(${u})${sq}}`), F2(`-\\frac{${a * a}}{2(${u})${sq}}`)],
+        `On a $f'(x) = ${d1}$ : dérive cette expression de la forme $\\frac{k}{\\sqrt{u}}$.`,
+        '$\\left(\\frac{1}{\\sqrt{u}}\\right)\' = -\\frac{u\'}{2u\\sqrt{u}}$.',
+        `$f'(x) = ${d1}$, puis $f''(x) = ${a % 2 === 0 ? (a === 2 ? '' : `${a / 2} \\times `) : `\\frac{${a}}{2} \\times `}\\left(-\\frac{${a}}{2(${u})${sq}}\\right) = ${ans}$.`);
+    }
+    // tier 4
+    const fam = this.randInt(0, 3);
+    if (fam === 0) {
+      const a = this.randChoice([-3, -2, -1, 1, 2, 3, 4, 5]); const s = this.randInt(1, 5); const x0 = this.randInt(-4, 6);
+      const b = s * s - a * x0;
+      if (b === 0) return this.gen_TA8(4);
+      const u = L(a, b);
+      const m = this.frac(a, 2 * s); const p = this.frac(2 * s * s - a * x0, 2 * s);
+      const y = (mm, pp) => `$y = ${this.poly([[mm, 'x'], [pp, '']])}$`;
+      return this.makeMcq(T, 4, 'Tangente à la courbe d\'une racine composée', 'Utiliser $(\\sqrt{u})\'$ pour une équation de tangente',
+        `Soit $f(x) = \\sqrt{${u}}$. Déterminer l'équation réduite de la tangente à la courbe de $f$ au point d'abscisse $${x0}$.`,
+        y(m, p),
+        [y(this.frac(a, s), this.frac(s * s - a * x0, s)), y(m, String(s)), y(this.frac(1, 2 * s), this.frac(2 * s * s - x0, 2 * s)), y(this.frac(a, 2 * s), this.frac(2 * s * s + a * x0, 2 * s))],
+        'La tangente en $a$ a pour équation $y = f\'(a)(x - a) + f(a)$.',
+        `$f(${x0}) = \\sqrt{${s * s}} = ${s}$ et $f'(x) = \\frac{${a}}{2\\sqrt{${u}}}$.`,
+        `$f(${x0}) = ${s}$ et $f'(${x0}) = \\frac{${a}}{2 \\times ${s}} = ${m}$. Donc $y = ${m === '1' ? '' : m === '-1' ? '-' : m}${x0 === 0 ? 'x' : `(x ${this.formatSign(-x0)})`} + ${s}$, soit ${y(m, p)}.`);
+    }
+    if (fam === 1) {
+      const a = this.randNonZero(-4, 4); const x0 = this.randNonZero(-4, 4);
+      const b = -a * x0;
+      const u = L(a, b);
+      const y = (mm, pp) => `$y = ${this.poly([[mm, 'x'], [pp, '']])}$`;
+      return this.makeMcq(T, 4, 'Tangente à la courbe de $e^{ax + b}$', 'Utiliser $(e^u)\'$ pour une équation de tangente',
+        `Soit $f(x) = ${ex(u)}$. Déterminer l'équation réduite de la tangente à la courbe de $f$ au point d'abscisse $${x0}$.`,
+        y(a, 1 - a * x0),
+        [y(a, 1), y(1, 1 - x0), y(a, 1 + a * x0), y(a, -a * x0), y(-a, 1 + a * x0)],
+        'La tangente en $a$ a pour équation $y = f\'(a)(x - a) + f(a)$.',
+        `$${a} \\times ${this.paren(x0)} ${this.formatSign(b)} = 0$, donc $f(${x0}) = e^0 = 1$.`,
+        `$f'(x) = ${K(a, ex(u))}$, donc $f'(${x0}) = ${a}$ et $f(${x0}) = 1$. La tangente : $y = ${K(a, `(x ${this.formatSign(-x0)})`)} + 1$, soit ${y(a, 1 - a * x0)}.`);
+    }
+    if (fam === 2) {
+      const p = this.randNonZero(-8, 8);
+      const form = this.randInt(0, 3);
+      let f; let up;
+      if (form === 0) { f = ex(Q(1, p, 0)); up = true; } else if (form === 1) { f = ex(Q(-1, p, 0)); up = false; } else {
+        const q = Math.floor(p * p / 4) + this.randInt(1, 6);
+        f = form === 2 ? `\\ln(${Q(1, p, q)})` : `\\sqrt{${Q(1, p, q)}}`; up = true;
+      }
+      const c = up ? this.frac(-p, 2) : this.frac(p, 2);
+      const mc = up ? this.frac(p, 2) : this.frac(-p, 2);
+      const R = (v) => `$[${v} ; +\\infty[$`; const Lf = (v) => `$]-\\infty ; ${v}]$`;
+      const ans = up ? R(c) : Lf(c);
+      const du = up ? L(2, p) : L(-2, p);
+      return this.makeMcq(T, 4, 'Variations d\'une fonction composée', 'Étudier le signe de la dérivée d\'une composée',
+        `Soit $f$ la fonction définie sur $\\mathbb{R}$ par $f(x) = ${f}$. Sur quel intervalle $f$ est-elle croissante ?`,
+        ans,
+        [up ? Lf(c) : R(c), R(mc), Lf(mc), '$\\mathbb{R}$'],
+        'Dérive la composée, puis étudie le signe de $f\'(x)$ : seul le facteur $u\'(x)$ peut changer de signe.',
+        `Le signe de $f'(x)$ est celui de $${du}$.`,
+        `$f'(x)$ est le produit de $${du}$ par un facteur strictement positif. Or $${du} \\ge 0 \\iff x ${up ? '\\ge' : '\\le'} ${c}$. Donc $f$ est croissante sur ${ans}.`);
+    }
+    const a = this.randNonZero(-3, 3); const b = this.randNonZero(-9, 9); const c = this.randInt(-9, 9); const d = this.randInt(-9, 9);
+    const f = this.poly([[a, 'x^3'], [b, 'x^2'], [c, 'x'], [d, '']]);
+    const f2 = this.poly([[6 * a, 'x'], [2 * b, '']]);
+    const x0 = this.frac(-b, 3 * a);
+    const R = (v) => `$[${v} ; +\\infty[$`; const Lf = (v) => `$]-\\infty ; ${v}]$`;
+    const ans = a > 0 ? R(x0) : Lf(x0);
+    return this.makeMcq(T, 4, 'Dérivée seconde et variations de $f\'$', 'Lire les variations de $f\'$ sur le signe de $f\'\'$',
+      `Soit $f(x) = ${f}$ sur $\\mathbb{R}$. Sur quel intervalle la fonction dérivée $f'$ est-elle croissante ?`,
+      ans,
+      [a > 0 ? Lf(x0) : R(x0), R(this.frac(b, 3 * a)), Lf(this.frac(b, 3 * a)), R(this.frac(-b, a)), '$\\mathbb{R}$'],
+      '$f\'\'$ est la dérivée de $f\'$ : $f\'$ est croissante là où $f\'\' \\ge 0$.',
+      `$f'(x) = ${this.poly([[3 * a, 'x^2'], [2 * b, 'x'], [c, '']])}$ et $f''(x) = ${f2}$.`,
+      `$f''(x) = ${f2} \\ge 0 \\iff x ${a > 0 ? '\\ge' : '\\le'} ${x0}$. Donc $f'$ est croissante sur ${ans} (et $f$ y est convexe, voir le chapitre TA4).`);
+  },
+
+  // ---------------------------------------------------------------------
+  // TA9 : Fonctions sinus et cosinus
+  // ---------------------------------------------------------------------
+  /** Multiple de π : _TA9_pi(5, 6) -> \\frac{5\\pi}{6} ; _TA9_pi(-12, 12) -> -\\pi */
+  _TA9_pi(p, q) {
+    if (p === 0) return '0';
+    const g = this.gcd(p, q);
+    p /= g; q /= g;
+    if (q < 0) { p = -p; q = -q; }
+    const sg = p < 0 ? '-' : '';
+    const nu = Math.abs(p) === 1 ? '\\pi' : `${Math.abs(p)}\\pi`;
+    return q === 1 ? sg + nu : `${sg}\\frac{${nu}}{${q}}`;
+  },
+  /** Valeurs remarquables de sinus et cosinus */
+  _TA9_vals(withOnes = true) {
+    const v = [['0', 0], ['\\frac{1}{2}', 0.5], ['-\\frac{1}{2}', -0.5], ['\\frac{\\sqrt{2}}{2}', Math.SQRT2 / 2], ['-\\frac{\\sqrt{2}}{2}', -Math.SQRT2 / 2],
+      ['\\frac{\\sqrt{3}}{2}', Math.sqrt(3) / 2], ['-\\frac{\\sqrt{3}}{2}', -Math.sqrt(3) / 2]];
+    return withOnes ? v.concat([['1', 1], ['-1', -1]]) : v;
+  },
+  /** Intervalles d'étude (bornes en unités de π/12) */
+  _TA9_ivs() {
+    return [
+      { tex: '[0 ; 2\\pi[', lo: 0, hi: 24, lc: true, rc: false },
+      { tex: ']-\\pi ; \\pi]', lo: -12, hi: 12, lc: false, rc: true },
+      { tex: '[0 ; \\pi]', lo: 0, hi: 12, lc: true, rc: true },
+      { tex: '\\left[-\\frac{\\pi}{2} ; \\frac{\\pi}{2}\\right]', lo: -6, hi: 6, lc: true, rc: true },
+      { tex: '[-\\pi ; 0]', lo: -12, hi: 0, lc: true, rc: true },
+      { tex: '[\\pi ; 3\\pi]', lo: 12, hi: 36, lc: true, rc: true },
+      { tex: '[0 ; 2\\pi]', lo: 0, hi: 24, lc: true, rc: true }
+    ];
+  },
+  /** Solutions (en unités de π/12) de trig(x) = v dans l'intervalle I */
+  _TA9_solve(fn, v, I) {
+    const out = [];
+    for (let k = I.lo; k <= I.hi; k++) {
+      if ((k === I.lo && !I.lc) || (k === I.hi && !I.rc)) continue;
+      if (Math.abs(fn(k * Math.PI / 12) - v) < 1e-9) out.push(k);
+    }
+    return out;
+  },
+  _TA9_set(ks) {
+    return ks.length ? `S = \\left\\{${ks.map((k) => this._TA9_pi(k, 12)).join(' ; ')}\\right\\}` : 'S = \\emptyset';
+  },
+  /** Ensemble des x de I (unités π/12) tels que pred(x) ; g s'annule exactement aux points de rupture. Renvoie le LaTeX. */
+  _TA9_ineq(pred, g, I) {
+    const bps = [I.lo];
+    for (let k = I.lo + 1; k < I.hi; k++) if (Math.abs(g(k * Math.PI / 12)) < 1e-9) bps.push(k);
+    bps.push(I.hi);
+    const X = (k) => k * Math.PI / 12;
+    const inc = (k) => !((k === I.lo && !I.lc) || (k === I.hi && !I.rc)) && pred(X(k));
+    const pieces = [];
+    let cur = null;
+    for (let i = 0; i + 1 < bps.length; i++) {
+      const a = bps[i]; const b = bps[i + 1];
+      const on = pred(X((a + b) / 2));
+      if (on) {
+        if (cur && cur.b === a && inc(a)) cur.b = b;
+        else { if (cur) pieces.push(cur); cur = { a, b }; }
+      } else if (cur) { pieces.push(cur); cur = null; }
+    }
+    if (cur) pieces.push(cur);
+    if (!pieces.length) return 'S = \\emptyset';
+    return 'S = ' + pieces.map((p) => `${inc(p.a) ? '[' : ']'}${this._TA9_pi(p.a, 12)} ; ${this._TA9_pi(p.b, 12)}${inc(p.b) ? ']' : '['}`).join(' \\cup ');
+  },
+
+  gen_TA9(tier) {
+    const T = 'TA9';
+    const L = (a, b) => this.poly([[a, 'x'], [b, '']]);
+    const K = (c, e) => (c === 1 ? e : c === -1 ? `-${e}` : `${c}${e}`);
+    const F = (s) => `$f'(x) = ${s}$`;
+    const sin = Math.sin; const cos = Math.cos;
+    if (tier === 1) {
+      const r = Math.random();
+      if (r < 0.5) {
+        const b = this.randInt(-5, 5); const a = b === 0 ? this.randInt(1, 5) : this.randNonZero(-5, 5); const k = this.randChoice([1, 1, 2, 3, -1, -2, 4]);
+        const arg = L(a, b);
+        const isSin = Math.random() < 0.5;
+        const S = `\\sin(${arg})`; const Cs = `\\cos(${arg})`;
+        const f = K(k, isSin ? S : Cs);
+        const ans = isSin ? K(k * a, Cs) : K(-k * a, S);
+        return this.makeMcq(T, 1, `Dérivée de $${isSin ? '\\sin' : '\\cos'}(ax + b)$`, 'Dériver $x \\mapsto \\sin(ax + b)$ et $x \\mapsto \\cos(ax + b)$',
+          `Soit $f(x) = ${f}$ sur $\\mathbb{R}$. Déterminer $f'(x)$.`,
+          F(ans),
+          isSin ? [F(K(-k * a, Cs)), F(K(k, Cs)), F(K(k * a, S)), F(K(-k, Cs)), F(K(k * a, `\\cos(${a === 1 ? 'x' : a === -1 ? '-x' : `${a}x`})`)), F(K(-k * a, S))]
+            : [F(K(k * a, S)), F(K(-k, S)), F(K(-k * a, Cs)), F(K(k, S)), F(K(-k * a, `\\sin(${a === 1 ? 'x' : a === -1 ? '-x' : `${a}x`})`)), F(K(k * a, Cs))],
+          '$\\sin\' = \\cos$, $\\cos\' = -\\sin$, et la dérivée de $x \\mapsto g(ax + b)$ est $x \\mapsto a\\,g\'(ax + b)$.',
+          `Ici la fonction intérieure $${arg}$ a pour dérivée $${a}$.`,
+          `$f'(x) = ${k === 1 ? '' : `${this.paren(k)} \\times `}${this.paren(a)} \\times ${isSin ? Cs : `(-${S})`} = ${ans}$.`);
+      }
+      if (r < 0.75) {
+        const a = this.randInt(2, 6); const b = this.randInt(-4, 4); const k = this.randChoice([1, 2, 3, -1, 5]);
+        const isSin = Math.random() < 0.5;
+        const f = K(k, `\\${isSin ? 'sin' : 'cos'}(${L(a, b)})`);
+        const A = (p, q) => `$T = ${this._TA9_pi(p, q)}$`;
+        return this.makeMcq(T, 1, 'Période d\'une fonction trigonométrique', 'Déterminer la période de $x \\mapsto \\sin(ax + b)$',
+          `Soit $f(x) = ${f}$ sur $\\mathbb{R}$. Quelle est la plus petite période $T > 0$ de la fonction $f$ ?`,
+          A(2, a),
+          [A(1, a), A(2, 1), A(2 * a, 1), A(4, a), A(a, 2)],
+          '$\\sin$ et $\\cos$ sont $2\\pi$-périodiques.',
+          `$f(x + T) = f(x)$ pour tout $x$ dès que $${a}T$ est un multiple de $2\\pi$.`,
+          `Pour tout réel $x$, $${a}\\left(x + \\frac{2\\pi}{${a}}\\right)${b === 0 ? '' : ` ${this.formatSign(b)}`} = ${L(a, b)} + 2\\pi$, donc $f\\left(x + \\frac{2\\pi}{${a}}\\right) = f(x)$. La plus petite période est $T = ${this._TA9_pi(2, a)}$.`);
+      }
+      const fam = this.randChoice([['x\\sin(x)', 0], ['x\\cos(x)', 1], ['x^2\\cos(x)', 0], ['x^2\\sin(x)', 1], ['\\sin(x)\\cos(x)', 1], ['\\cos(x) + x^2', 0],
+        ['\\sin(x) + x', 1], ['\\sin(x) + \\cos(x)', 2], ['x + \\cos(x)', 2], ['\\cos(2x) - 3', 0], ['\\sin(3x)', 1], ['x^3\\cos(x)', 1], ['\\cos(x - 1)', 2], ['x\\sin(x) + 1', 0], ['\\sin(x) - 2', 2]]);
+      const k = this.randChoice([1, 2, 3, 5, -1, -4]);
+      const f = K(k, fam[0]);
+      const labs = ['La fonction $f$ est paire', 'La fonction $f$ est impaire', 'La fonction $f$ n\'est ni paire ni impaire', 'La fonction $f$ est à la fois paire et impaire'];
+      return this.makeMcq(T, 1, 'Parité et fonctions trigonométriques', 'Utiliser la parité de $\\sin$ et $\\cos$',
+        `Soit $f(x) = ${f}$ sur $\\mathbb{R}$. Que peut-on dire de la parité de $f$ ?`,
+        labs[fam[1]], labs.filter((_, i) => i !== fam[1]),
+        '$\\cos(-x) = \\cos(x)$ (cosinus est paire) et $\\sin(-x) = -\\sin(x)$ (sinus est impaire).',
+        'Calcule $f(-x)$ et compare-le à $f(x)$ et à $-f(x)$.',
+        fam[1] === 0 ? 'Pour tout réel $x$, on vérifie que $f(-x) = f(x)$ : $f$ est paire (sa courbe est symétrique par rapport à l\'axe des ordonnées).'
+          : fam[1] === 1 ? 'Pour tout réel $x$, on vérifie que $f(-x) = -f(x)$ : $f$ est impaire (sa courbe est symétrique par rapport à l\'origine).'
+            : 'On trouve un réel $x$ (par exemple $x = \\frac{\\pi}{2}$ ou $x = 1$) tel que $f(-x) \\neq f(x)$ et $f(-x) \\neq -f(x)$ : $f$ n\'est ni paire ni impaire.');
+    }
+    if (tier === 2) {
+      if (Math.random() < 0.4) {
+        const a = this.randNonZero(-4, 4); const b = this.randInt(-5, 5);
+        const u = L(a, b); const isSin = Math.random() < 0.5;
+        const S = '\\sin(x)'; const Cs = '\\cos(x)';
+        const prod = (c, e) => (u === 'x' ? `x${e}` : u === '-x' ? `-x${e}` : `(${u})${e}`);
+        const f = prod(1, isSin ? S : Cs);
+        const cl = (t) => t.replace('+ -', '- ').replace('- -', '+ ');
+        const ans = isSin ? `${K(a, S)} + ${prod(1, Cs)}` : `${K(a, Cs)} - ${prod(1, S)}`;
+        const w1 = isSin ? `${K(a, S)} - ${prod(1, Cs)}` : `${K(a, Cs)} + ${prod(1, S)}`;
+        const w2 = isSin ? K(a, Cs) : K(-a, S);
+        const w3 = isSin ? `${K(a, Cs)} + ${prod(1, S)}` : `${K(-a, S)} + ${prod(1, Cs)}`;
+        const w4 = isSin ? prod(1, Cs) : (prod(1, S).startsWith('-') ? prod(1, S).slice(1) : `-${prod(1, S)}`);
+        return this.makeMcq(T, 2, 'Dérivée d\'un produit avec sinus ou cosinus', 'Dériver $u \\times \\sin$ ou $u \\times \\cos$',
+          `Soit $f(x) = ${f}$ sur $\\mathbb{R}$. Déterminer $f'(x)$.`,
+          cl(F(ans)), [F(w1), F(w2), F(w3), F(w4)].map(cl),
+          'Utilise $(uv)\' = u\'v + uv\'$.',
+          `Ici $u(x) = ${u}$, $u'(x) = ${a}$ et $v(x) = ${isSin ? S : Cs}$, $v'(x) = ${isSin ? Cs : `-${S}`}$.`,
+          `$f'(x) = ${a} \\times ${isSin ? S : Cs} + ${u === 'x' ? 'x' : `(${u})`} \\times ${isSin ? Cs : `(-${S})`} = ${cl(ans)}$.`);
+      }
+      const isSin = Math.random() < 0.5;
+      const fn = isSin ? sin : cos;
+      const [vt, v] = this.randChoice(this._TA9_vals());
+      const I = this._TA9_ivs()[0];
+      const sol = this._TA9_solve(fn, v, I);
+      const wrongs = [this._TA9_set(this._TA9_solve(fn, -v, I)), this._TA9_set(this._TA9_solve(isSin ? cos : sin, v, I)), this._TA9_set(sol.slice(0, 1)),
+        this._TA9_set(sol.map((k) => -k).sort((x, y) => x - y)), this._TA9_set(this._TA9_solve(fn, v, { lo: -12, hi: 12, lc: false, rc: true }))].map((s) => `$${s}$`);
+      return this.makeMcq(T, 2, `Équation $\\${isSin ? 'sin' : 'cos'}(x) = a$ sur $[0 ; 2\\pi[$`, 'Résoudre une équation trigonométrique sur un intervalle',
+        `Résoudre dans l'intervalle $I = ${I.tex}$ l'équation $\\${isSin ? 'sin' : 'cos'}(x) = ${vt}$.`,
+        `$${this._TA9_set(sol)}$`, wrongs,
+        `Repère sur le cercle trigonométrique les points ${isSin ? 'd\'ordonnée' : 'd\'abscisse'} $${vt}$.`,
+        isSin ? 'Si $\\alpha$ est solution, $\\pi - \\alpha$ l\'est aussi (à $2\\pi$ près).' : 'Si $\\alpha$ est solution, $-\\alpha$ l\'est aussi (à $2\\pi$ près).',
+        sol.length ? `Les solutions dans $I$ sont les réels de $I$ associés aux points du cercle ${isSin ? 'd\'ordonnée' : 'd\'abscisse'} $${vt}$ : $${this._TA9_set(sol)}$.` : `Aucun réel de $I$ ne convient : $S = \\emptyset$.`);
+    }
+    if (tier === 3) {
+      const r = Math.random();
+      if (r < 0.4) {
+        const isSin = Math.random() < 0.5;
+        const fn = isSin ? sin : cos;
+        const [vt, v] = this.randChoice(this._TA9_vals());
+        const ivs = this._TA9_ivs();
+        const I = this.randChoice(ivs.slice(1, 6));
+        const sol = this._TA9_solve(fn, v, I);
+        const wrongs = [this._TA9_set(this._TA9_solve(fn, v, ivs[0])), this._TA9_set(this._TA9_solve(fn, -v, I)), this._TA9_set(this._TA9_solve(isSin ? cos : sin, v, I)),
+          this._TA9_set(sol.slice(0, 1)), this._TA9_set(sol.map((k) => -k).sort((x, y) => x - y)), this._TA9_set(this._TA9_solve(fn, v, { lo: I.lo - 12, hi: I.hi + 12, lc: true, rc: true }))]
+          .filter((s) => s !== this._TA9_set(sol)).map((s) => `$${s}$`);
+        return this.makeMcq(T, 3, `Équation $\\${isSin ? 'sin' : 'cos'}(x) = a$ sur un intervalle`, 'Résoudre une équation trigonométrique sur un intervalle donné',
+          `Résoudre dans l'intervalle $I = ${I.tex}$ l'équation $\\${isSin ? 'sin' : 'cos'}(x) = ${vt}$.`,
+          `$${this._TA9_set(sol)}$`, wrongs,
+          'Commence par les solutions dans $[0 ; 2\\pi[$, puis ajoute ou retire des multiples de $2\\pi$ pour revenir dans $I$.',
+          `Attention aux bornes de $I = ${I.tex}$.`,
+          sol.length ? `On cherche les réels de $I$ dont l'image sur le cercle trigonométrique a ${isSin ? 'pour ordonnée' : 'pour abscisse'} $${vt}$ ; en tenant compte de la $2\\pi$-périodicité et des bornes : $${this._TA9_set(sol)}$.`
+            : `Les solutions de l'équation sont, à $2\\pi$ près, en dehors de $I = ${I.tex}$ : $S = \\emptyset$.`);
+      }
+      if (r < 0.65) {
+        const a = this.randNonZero(-7, 7); const b = this.randInt(1, 6);
+        const num = `\\sin(${this.coefStr(a, 'x')})`;
+        const A = (p, q) => `$\\ell = ${this.frac(p, q)}$`;
+        return this.makeMcq(T, 3, 'Limite de référence $\\frac{\\sin(x)}{x}$', 'Utiliser $\\lim_{x \\to 0} \\frac{\\sin(x)}{x} = 1$',
+          `Déterminer $\\ell = \\lim_{x \\to 0} \\frac{${num}}{${this.coefStr(b, 'x')}}$.`,
+          A(a, b),
+          [A(b, a), A(1, b), A(0, 1), A(a * b, 1), A(-a, b), A(a, 1)],
+          '$\\lim_{X \\to 0} \\frac{\\sin(X)}{X} = 1$ (c\'est le nombre dérivé de $\\sin$ en $0$).',
+          `Écris $\\frac{${num}}{${this.coefStr(b, 'x')}} = ${this.frac(a, b)} \\times \\frac{${num}}{${this.coefStr(a, 'x')}}$.`,
+          `Pour $x \\neq 0$, $\\frac{${num}}{${this.coefStr(b, 'x')}} = ${this.frac(a, b)} \\times \\frac{\\sin(X)}{X}$ avec $X = ${this.coefStr(a, 'x')}$ qui tend vers $0$. Donc $\\ell = ${this.frac(a, b)} \\times 1 = ${this.frac(a, b)}$.`.replace(/1 \\times \\frac/, '\\frac').replace(/= 1 \\times 1 = 1\$/, '= 1$'));
+      }
+      const kind = this.randInt(0, 3);
+      const k = this.randChoice([1, 2, 3, -1, -2]); const c = this.randInt(2, 5);
+      let f; let ans; let ws; let h;
+      if (kind === 0) {
+        const e = `e^{${K(k, '\\sin(x)')}}`;
+        f = e; ans = `${K(k, '\\cos(x)')}${e}`; ws = [`\\cos(x)${e}`, `${K(-k, '\\cos(x)')}${e}`, `${K(k, '\\sin(x)')}${e}`, `e^{${K(k, '\\cos(x)')}}`]; h = '$(e^u)\' = u\'e^u$ avec $u(x) = ' + K(k, '\\sin(x)') + '$.';
+      } else if (kind === 1) {
+        const kx = this.coefStr(k, 'x^2');
+        f = `\\cos(${kx})`; ans = `${this.coefStr(-2 * k, 'x')}\\sin(${kx})`; ws = [`-\\sin(${kx})`, `${this.coefStr(2 * k, 'x')}\\sin(${kx})`, `${this.coefStr(-2 * k, 'x')}\\cos(${kx})`, `${this.coefStr(-k, 'x')}\\sin(${kx})`]; h = '$(\\cos(u))\' = -u\'\\sin(u)$.';
+      } else if (kind === 2) {
+        f = `\\ln(${c} + \\cos(x))`; ans = `-\\frac{\\sin(x)}{${c} + \\cos(x)}`; ws = [`\\frac{\\sin(x)}{${c} + \\cos(x)}`, `\\frac{1}{${c} + \\cos(x)}`, `-\\frac{\\cos(x)}{${c} + \\cos(x)}`, `-\\frac{\\sin(x)}{(${c} + \\cos(x))^2}`]; h = `$(\\ln(u))' = \\frac{u'}{u}$, avec $u(x) = ${c} + \\cos(x) > 0$.`;
+      } else {
+        f = `\\sqrt{${c} + \\sin(x)}`; ans = `\\frac{\\cos(x)}{2\\sqrt{${c} + \\sin(x)}}`; ws = [`\\frac{\\cos(x)}{\\sqrt{${c} + \\sin(x)}}`, `-\\frac{\\cos(x)}{2\\sqrt{${c} + \\sin(x)}}`, `\\frac{1}{2\\sqrt{${c} + \\sin(x)}}`, `\\frac{\\sin(x)}{2\\sqrt{${c} + \\sin(x)}}`]; h = `$(\\sqrt{u})' = \\frac{u'}{2\\sqrt{u}}$, avec $u(x) = ${c} + \\sin(x) > 0$.`;
+      }
+      return this.makeMcq(T, 3, 'Dérivée d\'une composée trigonométrique', 'Dériver une composée faisant intervenir $\\sin$ ou $\\cos$',
+        `Soit $f(x) = ${f}$ sur $\\mathbb{R}$. Déterminer $f'(x)$.`,
+        F(ans), ws.map(F),
+        'Repère la fonction intérieure $u$ et utilise $(g \\circ u)\' = u\' \\times g\'(u)$.',
+        h,
+        `En appliquant la formule de dérivation d'une composée : $f'(x) = ${ans}$.`);
+    }
+    // tier 4
+    const ivs = this._TA9_ivs();
+    if (Math.random() < 0.6) {
+      const isSin = Math.random() < 0.5;
+      const fn = isSin ? sin : cos;
+      const [vt, v] = this.randChoice(this._TA9_vals(false).filter((e) => !isSin || e[1] !== 0));
+      const op = this.randChoice(['\\ge', '\\le', '>', '<']);
+      const I = this.randChoice([ivs[0], ivs[1]]);
+      const cmp = { '\\ge': (x, y) => x >= y - 1e-12, '\\le': (x, y) => x <= y + 1e-12, '>': (x, y) => x > y + 1e-12, '<': (x, y) => x < y - 1e-12 };
+      const anti = { '\\ge': '<', '\\le': '>', '>': '\\le', '<': '\\ge' };
+      const flipS = { '\\ge': '>', '\\le': '<', '>': '\\ge', '<': '\\le' };
+      const S = (f2, w, o, J = I) => `$${this._TA9_ineq((x) => cmp[o](f2(x), w), (x) => f2(x) - w, J)}$`;
+      const ans = S(fn, v, op);
+      return this.makeMcq(T, 4, `Inéquation trigonométrique`, 'Résoudre une inéquation $\\cos(x) \\ge a$ ou $\\sin(x) \\le a$ sur un intervalle',
+        `Résoudre dans l'intervalle $I = ${I.tex}$ l'inéquation $\\${isSin ? 'sin' : 'cos'}(x) ${op} ${vt}$.`,
+        ans,
+        [S(fn, v, anti[op]), S(fn, -v, op), S(isSin ? cos : sin, v, op), S(fn, v, flipS[op]), S(fn, v, op, I === ivs[0] ? ivs[1] : ivs[0])],
+        `Résous d'abord l'équation $\\${isSin ? 'sin' : 'cos'}(x) = ${vt}$ dans $I$.`,
+        `Sur le cercle trigonométrique, repère les points ${isSin ? 'dont l\'ordonnée' : 'dont l\'abscisse'} est ${{ '\\ge': 'supérieure ou égale', '\\le': 'inférieure ou égale', '>': 'strictement supérieure', '<': 'strictement inférieure' }[op]} à $${vt}$.`,
+        `Les solutions de $\\${isSin ? 'sin' : 'cos'}(x) = ${vt}$ dans $I$ sont les bornes des intervalles cherchés : $${this._TA9_set(this._TA9_solve(fn, v, I))}$. En lisant le cercle trigonométrique (ou la courbe de $\\${isSin ? 'sin' : 'cos'}$ sur $I$), on obtient ${ans}${/^\$S = [\]\[]/.test(ans) && /[<>]/.test(op) ? ' (bornes exclues car l\'inégalité est stricte)' : ''}.`);
+    }
+    const [ct, c] = this.randChoice([['', 1], ['\\sqrt{2}', Math.SQRT2], ['\\sqrt{3}', Math.sqrt(3)]]);
+    const kind = this.randInt(0, 3);
+    const half = { 1: '\\frac{1}{2}', [Math.SQRT2]: '\\frac{\\sqrt{2}}{2}', [Math.sqrt(3)]: '\\frac{\\sqrt{3}}{2}' }[c];
+    // f(x) = c x ± 2 sin/cos ; f'(x) = c ± 2 (cos/-sin)
+    const defs = [
+      { f: `${ct}x - 2\\sin(x)`, d: `${ct || 1} - 2\\cos(x)`, g: (x) => c - 2 * cos(x), eq: `\\cos(x) \\le ${half}` },
+      { f: `${ct}x + 2\\sin(x)`, d: `${ct || 1} + 2\\cos(x)`, g: (x) => c + 2 * cos(x), eq: `\\cos(x) \\ge -${half}` },
+      { f: `${ct}x + 2\\cos(x)`, d: `${ct || 1} - 2\\sin(x)`, g: (x) => c - 2 * sin(x), eq: `\\sin(x) \\le ${half}` },
+      { f: `${ct}x - 2\\cos(x)`, d: `${ct || 1} + 2\\sin(x)`, g: (x) => c + 2 * sin(x), eq: `\\sin(x) \\ge -${half}` }
+    ];
+    const D = defs[kind];
+    const I = this.randChoice([ivs[6], ivs[1]]);
+    const S = (g, J = I) => `$${this._TA9_ineq((x) => g(x) >= -1e-12, g, J)}$`;
+    return this.makeMcq(T, 4, 'Signe de la dérivée et variations', 'Étudier le signe d\'une dérivée trigonométrique',
+      `Soit $f(x) = ${D.f}$ sur $I = ${I.tex}$. Déterminer l'ensemble $S$ des réels $x$ de $I$ tels que $f'(x) \\ge 0$ (ce qui donne les intervalles sur lesquels $f$ est croissante).`,
+      S(D.g),
+      [S((x) => -D.g(x)), S(defs[kind ^ 1].g), S(defs[kind ^ 2].g), S(defs[kind ^ 3].g)],
+      'Dérive : $\\sin\' = \\cos$ et $\\cos\' = -\\sin$.',
+      `$f'(x) = ${D.d}$, et $f'(x) \\ge 0 \\iff ${D.eq}$.`,
+      `$f'(x) = ${D.d}$. Or $f'(x) \\ge 0 \\iff ${D.eq}$. En lisant le cercle trigonométrique sur $I = ${I.tex}$, on obtient ${S(D.g)}.`);
   },
 
   // ---- lyTGSX ----
@@ -4370,6 +5506,581 @@ window.MathsLyceeGenerators = {
       "L'équation $\\pi P = \\pi$ donne $x = " + `${P[0][0]}x + ${P[1][0]}y$.`,
       "Utilise ensuite $y = 1 - x$.",
       `$\\pi P = \\pi$ donne $${P[0][1]}x = ${P[1][0]}y$. Avec $x + y = 1$ : $${P[0][1]}x = ${P[1][0]}(1 - x)$, d'où $x = \\frac{${P[1][0]}}{${P[0][1]} + ${P[1][0]}} = ${pa}$ et $y = ${pb}$. Donc ${R(pa, pb)}.`
+    );
+  },
+
+  // ---------------------------------------------------------------------
+  // TS3 : Dénombrement et combinatoire
+  // ---------------------------------------------------------------------
+  _TS3_fact(n) { let r = 1; for (let i = 2; i <= n; i++) r *= i; return r; },
+  _TS3_A(n, k) { let r = 1; for (let i = 0; i < k; i++) r *= n - i; return r; },
+  _TS3_C(n, k) {
+    if (k < 0 || k > n) return 0;
+    let r = 1;
+    for (let i = 1; i <= k; i++) r = r * (n - k + i) / i;
+    return Math.round(r);
+  },
+  /** Entier avec espaces fines de milliers : 2598960 -> "2\\,598\\,960" */
+  _TS3_n(v) { return String(v).replace(/\B(?=(\d{3})+(?!\d))/g, '\\,'); },
+  /** QCM dont la réponse est « $N = valeur$ » ; distracteurs entiers positifs distincts de la valeur */
+  _TS3_mcq(tier, title, skill, statement, val, wrongs, h1, h2, sol) {
+    const F = (x) => `$N = ${this._TS3_n(x)}$`;
+    const ws = [...new Set(wrongs.filter((w) => Number.isInteger(w) && w > 0 && w !== val))].map(F);
+    return this.makeMcq('TS3', tier, title, skill, statement, F(val), ws, h1, h2, sol);
+  },
+
+  gen_TS3(tier) {
+    const fa = (n) => this._TS3_fact(n);
+    const A = (n, k) => this._TS3_A(n, k);
+    const C = (n, k) => this._TS3_C(n, k);
+    const N = (v) => this._TS3_n(v);
+    const pw = (n, k) => n ** k;
+    const sg = (i, t) => (i > 1 ? t : { as: 'as', rois: 'roi', 'cœurs': 'cœur', piques: 'pique', 'boules rouges': 'boule rouge' }[t]);
+    if (tier === 1) {
+      const fam = this.randInt(0, 3);
+      if (fam === 0) {
+        const n = this.randInt(2, 10);
+        const k = this.randInt(2, 5);
+        const ctx = this.randChoice([
+          `Avec un alphabet de ${n} lettres, on forme des mots de ${k} lettres (ayant un sens ou non), une même lettre pouvant être répétée.`,
+          `Un cadenas possède des molettes portant chacune ${n} symboles ; il comporte ${k} molettes, et un code est la liste des symboles affichés (répétitions possibles).`,
+          `Chaque question d'un QCM propose ${n} réponses dont on coche exactement une ; le QCM comporte ${k} questions et l'on s'intéresse aux grilles de réponses possibles.`
+        ]);
+        return this._TS3_mcq(1, 'Listes avec répétition (k-uplets)', 'Dénombrer des $k$-uplets : $n^k$',
+          `${ctx} Déterminer le nombre $N$ de possibilités.`,
+          pw(n, k), [pw(k, n), A(n, k), C(n, k), n * k, pw(n, k - 1)],
+          'Chaque position se choisit indépendamment des autres, parmi les mêmes possibilités.',
+          `Il y a ${n} choix pour chacune des ${k} positions : principe multiplicatif.`,
+          `On dénombre des ${k}-uplets d'un ensemble à ${n} éléments : $N = ${n}^{${k}} = ${N(pw(n, k))}$.`);
+      }
+      if (fam === 1) {
+        const n = this.randInt(4, 9);
+        const ctx = this.randChoice([
+          `De combien de façons peut-on ranger ${n} livres distincts côte à côte sur une étagère ?`,
+          `${n} élèves passent un oral l'un après l'autre. Combien d'ordres de passage sont possibles ?`,
+          `${n} personnes s'assoient sur ${n} chaises alignées. Combien de placements sont possibles ?`
+        ]);
+        return this._TS3_mcq(1, 'Permutations', 'Dénombrer les permutations : $n!$',
+          `${ctx} On note $N$ ce nombre.`,
+          fa(n), [pw(n, n), fa(n - 1), n * (n - 1), fa(n + 1), pw(n, 2)],
+          'On ordonne tous les éléments : c\'est une permutation.',
+          `$N = ${n}! = ${Array.from({ length: n }, (_, i) => n - i).join(' \\times ')}$.`,
+          `Il y a ${n} choix pour la première place, ${n - 1} pour la deuxième, etc. : $N = ${n}! = ${N(fa(n))}$.`);
+      }
+      if (fam === 2) {
+        const n = this.randInt(6, 20);
+        const k = this.randInt(2, 4);
+        const ctx = this.randChoice([
+          `Une association de ${n} membres élit un bureau de ${k} personnes occupant des postes tous différents.`,
+          `Une course oppose ${n} concurrents ; on s'intéresse au classement des ${k} premiers (sans ex æquo).`,
+          `Parmi ${n} candidats, un jury attribue ${k} prix différents (premier prix, deuxième prix, etc.), chaque candidat recevant au plus un prix.`
+        ]);
+        return this._TS3_mcq(1, 'Arrangements', 'Dénombrer des arrangements : $\\frac{n!}{(n-k)!}$',
+          `${ctx} Déterminer le nombre $N$ de résultats possibles.`,
+          A(n, k), [C(n, k), pw(n, k), n * k, A(n, k - 1), A(n, k + 1)],
+          'L\'ordre compte et il n\'y a pas de répétition : c\'est un arrangement.',
+          `$N = ${Array.from({ length: k }, (_, i) => n - i).join(' \\times ')}$.`,
+          `On choisit successivement ${k} personnes distinctes parmi ${n}, l'ordre comptant : $N = \\frac{${n}!}{${n - k}!} = ${Array.from({ length: k }, (_, i) => n - i).join(' \\times ')} = ${N(A(n, k))}$.`);
+      }
+      const n = this.randInt(8, 35);
+      const k = this.randInt(2, 4);
+      const ctx = this.randChoice([
+        `Une classe de ${n} élèves désigne ${k} représentants, sans distinction de rôle.`,
+        `Un restaurant propose ${n} desserts ; un menu dégustation en comporte ${k} différents (l'ordre de service n'importe pas).`,
+        `Dans un sac de ${n} jetons tous différents, on prend une poignée de ${k} jetons.`
+      ]);
+      return this._TS3_mcq(1, 'Combinaisons', 'Dénombrer des combinaisons : $\\binom{n}{k}$',
+        `${ctx} Déterminer le nombre $N$ de choix possibles.`,
+        C(n, k), [A(n, k), pw(n, k), n * k, C(n, k - 1), C(n, k + 1)],
+        'L\'ordre ne compte pas et il n\'y a pas de répétition : c\'est une combinaison.',
+        `$N = \\binom{${n}}{${k}} = \\frac{${Array.from({ length: k }, (_, i) => n - i).join(' \\times ')}}{${k}!}$.`,
+        `On choisit une partie à ${k} éléments d'un ensemble à ${n} éléments : $N = \\binom{${n}}{${k}} = \\frac{${Array.from({ length: k }, (_, i) => n - i).join(' \\times ')}}{${Array.from({ length: k }, (_, i) => k - i).join(' \\times ')}} = ${N(C(n, k))}$.`);
+    }
+    if (tier === 2) {
+      const fam = this.randInt(0, 3);
+      if (fam === 0) {
+        const word = this.randChoice(['MATHS', 'CHIEN', 'PIANO', 'FLEUR', 'NOMBRE', 'POMME', 'LYCEE', 'BANANE', 'ANANAS', 'CALCUL', 'PAPILLON', 'ELEVE', 'RADAR', 'COLLEGE', 'ALGEBRE', 'TOMATE', 'CERISE', 'VECTEUR']);
+        const cnt = {};
+        for (const ch of word) cnt[ch] = (cnt[ch] || 0) + 1;
+        const reps = Object.entries(cnt).filter(([, m]) => m > 1);
+        const den = reps.reduce((p, [, m]) => p * fa(m), 1);
+        const val = fa(word.length) / den;
+        const denTex = reps.map(([, m]) => `${m}!`).join(' \\times ');
+        const sol = reps.length
+          ? `Le mot a ${word.length} lettres ; ${reps.map(([c, m]) => `la lettre ${c} apparaît ${m} fois`).join(', ')}. Permuter des lettres identiques ne change pas le mot, d'où $N = \\frac{${word.length}!}{${denTex}} = \\frac{${N(fa(word.length))}}{${den}} = ${N(val)}$.`
+          : `Les ${word.length} lettres sont distinctes : $N = ${word.length}! = ${N(val)}$.`;
+        return this._TS3_mcq(2, 'Anagrammes', 'Dénombrer les permutations d\'un mot',
+          `Déterminer le nombre $N$ d'anagrammes (ayant un sens ou non, le mot lui-même compris) du mot « ${word} ».`,
+          val, [fa(word.length), pw(word.length, word.length), fa(word.length - 1), val * 2, fa(Object.keys(cnt).length)],
+          'Commence par compter les permutations des lettres comme si elles étaient toutes distinctes.',
+          'Divise ensuite par le nombre de façons de permuter entre elles les lettres répétées.',
+          sol);
+      }
+      if (fam === 1) {
+        const n = this.randInt(5, 12);
+        const k = this.randInt(2, 4);
+        const mode = this.randInt(0, 2);
+        const val = mode === 0 ? pw(n, k) : mode === 1 ? A(n, k) : C(n, k);
+        const how = ['successivement et avec remise', 'successivement et sans remise', 'simultanément'][mode];
+        const what = mode === 2 ? 'tirages (ensembles de boules) possibles' : 'tirages (listes ordonnées de numéros) possibles';
+        const sol = mode === 0 ? `Avec remise, chaque tirage offre ${n} possibilités : $N = ${n}^{${k}} = ${N(val)}$ ($${k}$-uplets).`
+          : mode === 1 ? `Sans remise et dans l'ordre : arrangements, $N = ${Array.from({ length: k }, (_, i) => n - i).join(' \\times ')} = ${N(val)}$.`
+            : `Simultanément, l'ordre ne compte pas : $N = \\binom{${n}}{${k}} = ${N(val)}$.`;
+        return this._TS3_mcq(2, 'Tirages dans une urne', 'Choisir le bon modèle de dénombrement',
+          `Une urne contient ${n} boules numérotées de 1 à ${n}. On tire ${how} ${k} boules. Déterminer le nombre $N$ de ${what}.`,
+          val, [pw(n, k), A(n, k), C(n, k), pw(k, n), n * k],
+          'Demande-toi si l\'ordre compte et si les répétitions sont possibles.',
+          'Avec remise : $n^k$ ; sans remise et ordonné : $\\frac{n!}{(n-k)!}$ ; simultané : $\\binom{n}{k}$.',
+          sol);
+      }
+      if (fam === 2) {
+        const n = this.randInt(5, 14);
+        const k = this.randInt(1, n - 2);
+        const a = C(n, k); const b = C(n, k + 1);
+        return this._TS3_mcq(2, 'Relation de Pascal', 'Utiliser $\\binom{n}{k} + \\binom{n}{k+1} = \\binom{n+1}{k+1}$',
+          `On donne $\\binom{${n}}{${k}} = ${N(a)}$ et $\\binom{${n}}{${k + 1}} = ${N(b)}$. Déterminer $N = \\binom{${n + 1}}{${k + 1}}$.`,
+          a + b, [a * b, Math.abs(b - a), C(n + 1, k), 2 * b, a + b + 1],
+          'Pense au triangle de Pascal : chaque coefficient est la somme des deux coefficients situés au-dessus.',
+          `$\\binom{${n + 1}}{${k + 1}} = \\binom{${n}}{${k}} + \\binom{${n}}{${k + 1}}$.`,
+          `Par la relation de Pascal, $N = ${N(a)} + ${N(b)} = ${N(a + b)}$.`);
+      }
+      const n = this.randInt(3, 12);
+      const mode = this.randInt(0, 2);
+      const k = this.randInt(2, n - 1);
+      const val = mode === 0 ? pw(2, n) : mode === 1 ? pw(2, n) - 1 : C(n, k);
+      const what = mode === 0 ? 'parties de $E$ (y compris l\'ensemble vide et $E$ lui-même)' : mode === 1 ? 'parties non vides de $E$' : `parties de $E$ à ${k} éléments`;
+      return this._TS3_mcq(2, 'Parties d\'un ensemble', 'Dénombrer les parties d\'un ensemble fini',
+        `Un ensemble $E$ possède ${n} éléments. Déterminer le nombre $N$ de ${what}.`,
+        val, [pw(2, n), pw(2, n) - 1, pw(n, 2), C(n, k), 2 * n, fa(n)],
+        'Pour former une partie, chaque élément est soit pris, soit laissé.',
+        mode === 2 ? 'Une partie à $k$ éléments est une combinaison.' : `Il y a $2^{${n}}$ parties au total.`,
+        mode === 0 ? `Chaque élément est pris ou non : $N = 2^{${n}} = ${N(val)}$.` : mode === 1 ? `Il y a $2^{${n}} = ${N(val + 1)}$ parties, dont une seule est vide : $N = ${N(val)}$.` : `$N = \\binom{${n}}{${k}} = ${N(val)}$.`);
+    }
+    if (tier === 3) {
+      const fam = this.randInt(0, 3);
+      if (fam === 0) {
+        const k = this.randInt(3, 5);
+        const f = this.randInt(k, 12); const g = this.randInt(k + 1, 12);
+        const mode = this.randInt(0, 2);
+        let val; let what; let sol;
+        if (mode === 0) {
+          const i = this.randInt(1, Math.min(k - 1, f));
+          val = C(f, i) * C(g, k - i);
+          what = `exactement ${i} fille${i > 1 ? 's' : ''}`;
+          sol = `On choisit les ${i} fille${i > 1 ? 's' : ''} parmi ${f} puis les ${k - i} garçon${k - i > 1 ? 's' : ''} parmi ${g} : $N = \\binom{${f}}{${i}} \\times \\binom{${g}}{${k - i}} = ${C(f, i)} \\times ${C(g, k - i)} = ${N(val)}$.`;
+        } else if (mode === 1) {
+          val = C(f + g, k) - C(g, k);
+          what = 'au moins une fille';
+          sol = `On passe par le contraire « aucune fille » : $N = \\binom{${f + g}}{${k}} - \\binom{${g}}{${k}} = ${N(C(f + g, k))} - ${N(C(g, k))} = ${N(val)}$.`;
+        } else {
+          val = C(g, k) + f * C(g, k - 1);
+          what = 'au plus une fille';
+          sol = `Aucune fille : $\\binom{${g}}{${k}} = ${N(C(g, k))}$ ; exactement une fille : $${f} \\times \\binom{${g}}{${k - 1}} = ${N(f * C(g, k - 1))}$. Cas disjoints : $N = ${N(val)}$.`;
+        }
+        return this._TS3_mcq(3, 'Délégation avec contrainte', 'Combiner principe multiplicatif, additif et complémentaire',
+          `Un groupe est formé de ${f} filles et ${g} garçons. On choisit une délégation de ${k} personnes (sans rôle particulier). Déterminer le nombre $N$ de délégations comprenant ${what}.`,
+          val, [C(f + g, k), C(f + g, k) - C(g, k), C(g, k) + f * C(g, k - 1), C(f, 1) * C(g, k - 1), A(f + g, k), C(f, 2) * C(g, k - 2) || 0],
+          'Découpe le problème : choix des filles, puis choix des garçons.',
+          mode === 1 ? 'Le contraire de « au moins une fille » est « aucune fille ».' : 'Utilise le principe multiplicatif pour chaque cas, puis additionne les cas disjoints.',
+          sol);
+      }
+      if (fam === 1) {
+        const deck = this.randChoice([[32, 4, 'as'], [52, 4, 'rois'], [32, 8, 'cœurs'], [52, 13, 'piques']]);
+        const [D, a, type] = deck;
+        const k = this.randInt(3, 5);
+        const i = this.randInt(1, Math.min(3, k - 1));
+        const val = C(a, i) * C(D - a, k - i);
+        return this._TS3_mcq(3, 'Mains de cartes', 'Dénombrer des mains avec une condition',
+          `Un jeu de ${D} cartes contient ${a} ${type}. On tire simultanément ${k} cartes. Déterminer le nombre $N$ de mains contenant exactement ${i} ${sg(i, type)}.`,
+          val, [C(D, k), C(a, i), C(a, i) + C(D - a, k - i), C(a, i) * C(D, k - i), A(a, i) * A(D - a, k - i), C(a, i) * C(D - a, k)],
+          'Une main est une partie de l\'ensemble des cartes : l\'ordre ne compte pas.',
+          `Choisis ${i} ${sg(i, type)} parmi ${a}, puis ${k - i > 1 ? `les ${k - i} autres cartes` : 'la dernière carte'} parmi les ${D - a} restantes.`,
+          `$N = \\binom{${a}}{${i}} \\times \\binom{${D - a}}{${k - i}} = ${N(C(a, i))} \\times ${N(C(D - a, k - i))} = ${N(val)}$.`);
+      }
+      if (fam === 2) {
+        const l = this.randInt(1, 3); const c = this.randInt(1, 4);
+        const distinct = Math.random() < 0.5;
+        const val = (distinct ? A(26, l) : pw(26, l)) * pw(10, c);
+        return this._TS3_mcq(3, 'Codes mixtes', 'Appliquer le principe multiplicatif à des codes',
+          `Un identifiant est formé de ${l} lettre${l > 1 ? 's' : ''} (parmi les 26 de l'alphabet) suivie${l > 1 ? 's' : ''} de ${c} chiffre${c > 1 ? 's' : ''} (de 0 à 9). ${distinct && l > 1 ? 'Les lettres sont deux à deux distinctes, les chiffres peuvent se répéter.' : 'Les répétitions sont autorisées.'} Déterminer le nombre $N$ d'identifiants possibles.`,
+          val, [pw(26, l) * pw(10, c), A(26, l) * pw(10, c), A(26, l) * A(10, c), pw(26, l) + pw(10, c), pw(36, l + c), C(26, l) * pw(10, c)],
+          'Les choix des lettres et des chiffres sont successifs : on multiplie.',
+          distinct && l > 1 ? 'Pour les lettres distinctes : $26 \\times 25 \\times \\dots$' : 'Chaque position offre 26 (lettre) ou 10 (chiffre) possibilités.',
+          `$N = ${distinct && l > 1 ? Array.from({ length: l }, (_, i) => 26 - i).join(' \\times ') : (l > 1 ? `26^{${l}}` : '26')} \\times ${c > 1 ? `10^{${c}}` : '10'} = ${N(val)}$.`);
+      }
+      const k = this.randInt(2, 6);
+      const ev = Math.random() < 0.5;
+      const val = ev ? 9 * A(9, k - 1) : 9 * pw(10, k - 1);
+      return this._TS3_mcq(3, 'Nombres entiers et chiffres', 'Dénombrer avec une contrainte sur la première position',
+        `On considère les entiers naturels qui s'écrivent avec exactement ${k} chiffres (le premier chiffre n'est donc pas 0). Déterminer le nombre $N$ de ces entiers ${ev ? 'dont les chiffres sont deux à deux distincts' : '(sans autre contrainte)'}.`,
+        val, [9 * A(9, k - 1), 9 * pw(10, k - 1), A(10, k), pw(10, k), 9 * pw(9, k - 1)],
+        'Traite d\'abord le premier chiffre, qui ne peut pas être 0.',
+        ev ? 'Le premier chiffre : 9 choix ; ensuite il reste 9, puis 8, … chiffres disponibles.' : 'Le premier chiffre : 9 choix ; chacun des autres : 10 choix.',
+        ev ? `$N = 9 \\times ${Array.from({ length: k - 1 }, (_, i) => 9 - i).join(' \\times ')} = ${N(val)}$.` : `$N = 9 \\times ${k - 1 > 1 ? `10^{${k - 1}}` : '10'} = ${N(val)}$.`);
+    }
+    // tier 4
+    const fam = this.randInt(0, 4);
+    if (fam === 0) {
+      const deck = this.randChoice([[32, 4, 'as'], [52, 4, 'rois'], [32, 8, 'cœurs'], [52, 13, 'piques'], [10, 4, 'boules rouges'], [12, 5, 'boules rouges']]);
+      const [D, a, type] = deck;
+      const k = this.randInt(2, 4);
+      const i = this.randInt(1, Math.min(2, k));
+      const fav = C(a, i) * C(D - a, k - i); const tot = C(D, k);
+      const Fr = (x, y) => `$${this.frac(x, y)}$`;
+      return this.makeMcq('TS3', 4, 'Probabilité par dénombrement', 'Calculer une probabilité dans une situation d\'équiprobabilité',
+        `Un ${D <= 12 ? 'sac' : 'jeu'} de ${D} ${D <= 12 ? 'boules' : 'cartes'} contient ${a} ${type}. On tire simultanément et au hasard ${k} ${D <= 12 ? 'boules' : 'cartes'}. Quelle est la probabilité d'obtenir exactement ${i} ${sg(i, type)} ?`,
+        Fr(fav, tot),
+        [[C(a, i), tot], [a, D], [fav, A(D, k)], [C(D - a, k), tot], [tot - fav, tot], [i, k]].filter(([x, y]) => x > 0 && x < y).map(([x, y]) => Fr(x, y)),
+        'Équiprobabilité : $P = \\frac{\\text{nombre de cas favorables}}{\\text{nombre de cas possibles}}$.',
+        `Cas possibles : $\\binom{${D}}{${k}} = ${N(tot)}$.`,
+        `Cas possibles : $\\binom{${D}}{${k}} = ${N(tot)}$. Cas favorables : $\\binom{${a}}{${i}} \\times \\binom{${D - a}}{${k - i}} = ${N(fav)}$. Donc $P = \\frac{${N(fav)}}{${N(tot)}}${this.gcd(fav, tot) > 1 ? ' = ' + this.frac(fav, tot) : ''}$.`);
+    }
+    if (fam === 1) {
+      const a = this.randInt(2, 7); const b = this.randInt(2, 7);
+      return this._TS3_mcq(4, 'Chemins dans un quadrillage', 'Modéliser un chemin par une combinaison',
+        `Dans un repère, on va du point $O(0 ; 0)$ au point $B(${a} ; ${b})$ en se déplaçant uniquement d'une unité vers la droite ou d'une unité vers le haut. Déterminer le nombre $N$ de chemins possibles.`,
+        C(a + b, a), [pw(2, a + b), a * b, A(a + b, a), fa(a + b), C(a + b, a) * 2],
+        `Un chemin compte ${a + b} pas au total, dont ${a} vers la droite.`,
+        `Un chemin est déterminé par le choix des positions des ${a} pas vers la droite parmi les ${a + b} pas.`,
+        `$N = \\binom{${a + b}}{${a}} = ${N(C(a + b, a))}$.`);
+    }
+    if (fam === 2) {
+      const n = this.randInt(5, 30);
+      const diag = Math.random() < 0.5;
+      const val = diag ? n * (n - 3) / 2 : C(n, 2);
+      return this._TS3_mcq(4, diag ? 'Diagonales d\'un polygone' : 'Poignées de main', 'Modéliser par des paires (combinaisons de 2 éléments)',
+        diag ? `Un polygone convexe possède ${n} sommets. Déterminer le nombre $N$ de ses diagonales.`
+          : `Lors d'une réunion de ${n} personnes, chacune serre une fois la main de chacune des autres. Déterminer le nombre $N$ de poignées de main échangées.`,
+        val, [C(n, 2), n * (n - 3) / 2, n * (n - 1), n * n, C(n, 2) + n],
+        'Une poignée de main ou un segment correspond à une paire de points, sans ordre.',
+        diag ? `Parmi les $\\binom{${n}}{2}$ segments joignant deux sommets, ${n} sont des côtés.` : `Il s'agit de $\\binom{${n}}{2}$.`,
+        diag ? `$N = \\binom{${n}}{2} - ${n} = ${C(n, 2)} - ${n} = ${val}$.` : `$N = \\binom{${n}}{2} = \\frac{${n} \\times ${n - 1}}{2} = ${val}$.`);
+    }
+    if (fam === 3) {
+      const n = this.randChoice([6, 8, 10]);
+      const k = this.randInt(2, 4);
+      const fav = A(n, k); const tot = pw(n, k);
+      const Fr = (x, y) => `$${this.frac(x, y)}$`;
+      return this.makeMcq('TS3', 4, 'Probabilité et listes', 'Comparer arrangements et $k$-uplets',
+        `On lance ${k} fois un dé équilibré à ${n} faces numérotées de 1 à ${n} et on note la liste des résultats. Quelle est la probabilité que les ${k} résultats soient deux à deux distincts ?`,
+        Fr(fav, tot),
+        [Fr(C(n, k), tot), Fr(fav, tot * 2), Fr(tot - fav, tot), Fr(1, fa(k)), Fr(n - k, n)],
+        `Il y a $${n}^{${k}}$ listes équiprobables.`,
+        `Les listes sans répétition sont des arrangements : $${Array.from({ length: k }, (_, i) => n - i).join(' \\times ')}$.`,
+        `$P = \\frac{${Array.from({ length: k }, (_, i) => n - i).join(' \\times ')}}{${n}^{${k}}} = \\frac{${fav}}{${tot}}${this.gcd(fav, tot) > 1 ? ` = ${this.frac(fav, tot)}` : ''}$.`);
+    }
+    const n = this.randInt(4, 14);
+    const val = pw(2, n) - 1 - n;
+    return this._TS3_mcq(4, 'Parties d\'au moins deux éléments', 'Utiliser $\\sum \\binom{n}{k} = 2^n$',
+      `Un ensemble $E$ possède ${n} éléments. Déterminer le nombre $N$ de parties de $E$ comportant au moins deux éléments.`,
+      val, [pw(2, n), pw(2, n) - 1, pw(2, n) - n, C(n, 2), pw(2, n) - 2],
+      'Compte toutes les parties, puis retire celles qui ont 0 ou 1 élément.',
+      `Il y a $2^{${n}}$ parties, dont $\\binom{${n}}{0} = 1$ à 0 élément et $\\binom{${n}}{1} = ${n}$ à 1 élément.`,
+      `$N = 2^{${n}} - 1 - ${n} = ${N(pw(2, n))} - ${n + 1} = ${N(val)}$.`);
+  },
+
+  // =========================================================================
+  // TS4 : Algorithmique et programmation (Python) — Terminale spécialité
+  // =========================================================================
+  _TS4_py(lines) {
+    return '\n```python\n' + lines.join('\n') + '\n```\n';
+  },
+
+  _TS4_n(v) {
+    return `$${Number.isInteger(v) ? v : this.dec(v, 6)}$`;
+  },
+
+  /** Affichage Python d'un nombre : entier (isF = false) ou flottant (1.0, 2.6875) */
+  _TS4_pyr(v, isF) {
+    if (!isF) return String(v);
+    return Number.isInteger(v) ? v + '.0' : String(v);
+  },
+
+  /** Écart minimal entre des valeurs et un seuil (évite les cas limites d'arrondi) */
+  _TS4_safe(vals, S) {
+    return vals.every((v) => Math.abs(v - S) > 1e-7 * Math.max(1, Math.abs(S)));
+  },
+
+  gen_TS4(tier) {
+    const T = 'TS4';
+    const P = (l) => this._TS4_py(l);
+    const N = (v) => this._TS4_n(v);
+    if (tier === 1) {
+      const fam = this.randInt(0, 3);
+      if (fam === 0) {
+        // Affectation simultanée (suites récurrentes d'ordre 2)
+        const forms = [
+          ['a + b', (a, b) => a + b],
+          ['a + 2 * b', (a, b) => a + 2 * b],
+          ['b - a', (a, b) => b - a],
+          ['2 * a + b', (a, b) => 2 * a + b],
+          ['3 * b - 2 * a', (a, b) => 3 * b - 2 * a]
+        ];
+        const [ft, ff] = this.randChoice(forms);
+        const A = this.randInt(0, 4);
+        const B = this.randInt(1, 5);
+        const n = this.randInt(3, 6);
+        const st = [[A, B]];
+        for (let k = 0; k < n + 1; k++) { const [a, b] = st[k]; st.push([b, ff(a, b)]); }
+        const which = this.randChoice(['a', 'b']);
+        const w = which === 'a' ? 0 : 1;
+        const val = st[n][w];
+        // Erreur typique : affectations successives au lieu de simultanées
+        let a = A; let b = B;
+        for (let k = 0; k < n; k++) { a = b; b = ff(a, b); }
+        const seq = which === 'a' ? a : b;
+        return this.makeMcq(T, 1, 'Affectation simultanée',
+          'Exécuter une affectation simultanée dans une boucle',
+          `Qu'affiche le programme Python suivant ?${P([`a, b = ${A}, ${B}`, `for k in range(${n}):`, `    a, b = b, ${ft}`, `print(${which})`])}`,
+          N(val),
+          [N(st[n][1 - w]), N(st[n - 1][w]), N(st[n + 1][w]), N(seq)],
+          'Dans `a, b = b, …`, le membre de droite est entièrement évalué **avant** les affectations.',
+          `Note le couple (\`a\` ; \`b\`) après chacun des ${n} tours.`,
+          `Couples (\`a\` ; \`b\`) successifs : ${st.slice(0, n + 1).map(([x, y]) => `(${x} ; ${y})`).join(' → ')}. Le programme affiche ${N(val)}.`
+        );
+      }
+      if (fam === 1) {
+        // Compréhension avec filtre et fonctions de liste
+        const n0 = this.randInt(10, 30);
+        const d = this.randChoice([2, 3, 4, 5]);
+        const r = this.randInt(0, d - 1);
+        const sq = Math.random() < 0.5;
+        const L = [];
+        for (let k = 1; k < n0; k++) if (k % d === r) L.push(sq ? k * k : 2 * k);
+        if (L.length < 3) return this.gen_TS4(1);
+        const ask = this.randInt(0, 2);
+        const expr = ['len(L)', 'sum(L)', 'max(L) - min(L)'][ask];
+        const val = [L.length, L.reduce((x, y) => x + y, 0), Math.max(...L) - Math.min(...L)][ask];
+        const L2 = [];
+        for (let k = 1; k <= n0; k++) if (k % d === r) L2.push(sq ? k * k : 2 * k);
+        const v2 = [L2.length, L2.reduce((x, y) => x + y, 0), Math.max(...L2) - Math.min(...L2)][ask];
+        return this.makeMcq(T, 1, 'Liste en compréhension filtrée',
+          'Construire une liste en compréhension avec condition',
+          `Qu'affiche le programme Python suivant ?${P([`L = [${sq ? 'k * k' : '2 * k'} for k in range(1, ${n0}) if k % ${d} == ${r}]`, `print(${expr})`])}`,
+          N(val),
+          [N(v2 === val ? val + (sq ? 1 : 2) : v2), N(val - (ask === 0 ? 1 : L[L.length - 1])), N(ask === 1 ? L.length : val + L[0])],
+          `On garde les entiers $k$ de 1 à ${n0 - 1} dont le reste dans la division par ${d} vaut ${r}.`,
+          '`sum`, `max`, `min` et `len` s\'appliquent directement à une liste.',
+          `\`L = [${L.join(', ')}]\`, donc \`${expr}\` vaut ${N(val)}.`
+        );
+      }
+      if (fam === 2) {
+        // Moyenne d'une liste
+        const len = this.randChoice([4, 5, 8]);
+        let L; let s;
+        do { L = Array.from({ length: len }, () => this.randInt(0, 20)); s = L.reduce((x, y) => x + y, 0); } while (s % len === 0);
+        return this.makeMcq(T, 1, 'Fonction moyenne',
+          'Écrire une fonction parcourant une liste',
+          `Qu'affiche le programme Python suivant ?${P(['def moyenne(L):', '    s = 0', '    for x in L:', '        s = s + x', '    return s / len(L)', '', `print(moyenne([${L.join(', ')}]))`])}`,
+          N(s / len),
+          [N(Math.floor(s / len)), N(s), N(s / (len - 1)), N(s / (len + 1))],
+          '`len(L)` est le nombre d\'éléments de la liste.',
+          'La division `/` donne un résultat décimal.',
+          `La somme des éléments vaut $${s}$ et la liste en contient $${len}$ : \`moyenne\` renvoie $\\frac{${s}}{${len}} = ${this.dec(s / len, 6)}$.`.replace(`\\frac{${s}}{${len}}`, this.gcd(s, len) > 1 ? `${s} \\div ${len}` : `\\frac{${s}}{${len}}`)
+        );
+      }
+      // Recherche d'un élément
+      const L = this.pickDistinct(Array.from({ length: 30 }, (_, i) => i + 1), this.randInt(5, 8));
+      const absent = Math.random() < 0.25;
+      let v;
+      if (absent) { v = this.randInt(1, 30); while (L.includes(v)) v = this.randInt(1, 30); } else v = this.randChoice(L);
+      const i = L.indexOf(v);
+      return this.makeMcq(T, 1, 'Recherche dans une liste',
+        'Comprendre une recherche séquentielle',
+        `Qu'affiche le programme Python suivant ?${P(['def position(L, v):', '    for i in range(len(L)):', '        if L[i] == v:', '            return i', '    return -1', '', `print(position([${L.join(', ')}], ${v}))`])}`,
+        N(i),
+        absent ? [N(L.length), N(0), N(L.length - 1)] : [N(i + 1), N(-1), N(v)],
+        'La fonction renvoie le premier indice où `v` apparaît ; les indices commencent à 0.',
+        '`return -1` n\'est exécuté que si la boucle se termine sans trouver `v`.',
+        absent ? `${v} n'apparaît pas dans la liste : la boucle se termine et la fonction renvoie $-1$.` : `${v} est l'élément n° ${i + 1} de la liste, d'indice ${i} : la fonction renvoie ${N(i)}.`
+      );
+    }
+    if (tier === 2) {
+      const fam = this.randInt(0, 2);
+      if (fam === 0) {
+        // Suite convergente et précision
+        const a = this.randChoice([0.5, 0.8, 0.9, -0.5, 0.25, 0.75]);
+        const l = this.randInt(1, 10);
+        const b = Math.round(l * (1 - a) * 100) / 100;
+        const u0 = l + this.randNonZero(-20, 20);
+        const eps = this.randChoice([0.1, 0.01, 0.001]);
+        let u = u0; let n = 0; const errs = [Math.abs(u - l)];
+        while (Math.abs(u - l) > eps) { u = a * u + b; n++; errs.push(Math.abs(u - l)); }
+        if (!this._TS4_safe(errs, eps) || n < 2) return this.gen_TS4(2);
+        const k = Math.round(-Math.log10(eps));
+        return this.makeMcq(T, 2, 'Approcher une limite',
+          'Déterminer un rang à partir duquel une suite approche sa limite',
+          `La suite définie par $u_0 = ${u0}$ et $u_{n+1} = ${this.dec(a)}u_n + ${this.dec(b)}$ converge vers $${l}$. Qu'affiche le programme suivant ?${P([`u = ${u0}`, 'n = 0', `while abs(u - ${l}) > ${eps}:`, `    u = ${a} * u + ${b}`, '    n = n + 1', 'print(n)'])}`,
+          N(n),
+          [N(n - 1), N(n + 1), N(n + k)],
+          `On a $u_n - ${l} = (u_0 - ${l}) \\times (${this.dec(a)})^n$.`,
+          `Cherche le premier $n$ tel que $|u_n - ${l}| \\le 10^{-${k}}$.`,
+          `$|u_n - ${l}| = ${Math.abs(u0 - l)} \\times ${this.dec(Math.abs(a))}^n$. Pour $n = ${n - 1}$, on obtient environ $${this.dec(errs[n - 1], 6)}$, encore strictement supérieur à $${this.dec(eps)}$ ; pour $n = ${n}$, environ $${this.dec(errs[n], 6)}$. Le programme affiche ${N(n)}.`
+        );
+      }
+      if (fam === 1) {
+        // Seuil pour une somme de flottants
+        const kinds = [
+          ['1 / n', (k) => 1 / k, [1.5, 1.75, 2, 2.25, 2.5, 2.75, 3, 3.25, 3.5, 4], 'la somme $1 + \\frac{1}{2} + \\dots + \\frac{1}{n}$ (série harmonique, qui tend vers $+\\infty$)'],
+          ['1 / n ** 2', (k) => 1 / (k * k), [1.2, 1.25, 1.3, 1.35, 1.4, 1.45, 1.5, 1.55, 1.6], 'la somme $1 + \\frac{1}{4} + \\dots + \\frac{1}{n^2}$ (qui converge vers $\\frac{\\pi^2}{6} \\approx 1{,}645$)'],
+          ['1 / 2 ** n', (k) => 1 / 2 ** k, [0.6, 0.7, 0.8, 0.9, 0.95, 0.99, 0.999], 'la somme $\\frac{1}{2} + \\frac{1}{4} + \\dots + \\frac{1}{2^n} = 1 - \\frac{1}{2^n}$']
+        ];
+        const [ft, ff, Ss, desc] = this.randChoice(kinds);
+        const S = this.randChoice(Ss);
+        let s = 0; let n = 0; const ss = [];
+        while (s < S) { n++; s += ff(n); ss.push(s); }
+        if (!this._TS4_safe(ss, S) || n < 2) return this.gen_TS4(2);
+        return this.makeMcq(T, 2, 'Seuil pour une somme',
+          'Programmer une recherche de seuil pour une somme',
+          `Qu'affiche le programme Python suivant ?${P(['s = 0', 'n = 0', `while s < ${S}:`, '    n = n + 1', `    s = s + ${ft}`, 'print(n)'])}`,
+          N(n),
+          [N(n - 1), N(n + 1), N(2 * n)],
+          `Après le tour où \`n\` vaut $n$, \`s\` contient ${desc}.`,
+          `Cherche le premier $n$ pour lequel \`s\` atteint ${String(S).replace('.', ',')}.`,
+          `Pour $n = ${n - 1}$, la somme vaut environ $${this.dec(ss[n - 2], 4)}$, inférieure à $${this.dec(S)}$ ; pour $n = ${n}$, elle vaut environ $${this.dec(ss[n - 1], 4)}$. Le programme affiche ${N(n)}.`
+        );
+      }
+      // Fonction de seuil pour une somme de termes géométriques
+      const q = this.randChoice([2, 3, 5]);
+      const u0 = this.randInt(1, 5);
+      const A = this.randChoice([100, 200, 500, 1000, 2000, 5000, 10000, 100000]);
+      let n = 0; let u = u0; let s = u0; const ss = [s];
+      while (s < A) { n++; u = q * u; s = s + u; ss.push(s); }
+      if (n < 2) return this.gen_TS4(2);
+      return this.makeMcq(T, 2, 'Fonction de seuil',
+        'Écrire une fonction de seuil pour une somme',
+        `Qu'affiche le programme Python suivant ?${P(['def rang(A):', '    n = 0', `    u = ${u0}`, '    s = u', '    while s < A:', '        n = n + 1', `        u = ${q} * u`, '        s = s + u', '    return n', '', `print(rang(${A}))`])}`,
+        N(n),
+        [N(n - 1), N(n + 1), N(s)],
+        `\`s\` contient $u_0 + u_1 + \\dots + u_n$ avec $u_k = ${u0} \\times ${q}^k$.`,
+        `La fonction renvoie le premier $n$ tel que cette somme atteigne ${A}.`,
+        `Sommes successives : ${ss.join(' ; ')}. La première supérieure ou égale à ${A} est obtenue pour $n = ${n}$ : le programme affiche ${N(n)}.`
+      );
+    }
+    if (tier === 3) {
+      // Dichotomie
+      const kinds = [
+        ['x ** 2', (x) => x * x, 'x^2'],
+        ['x ** 3', (x) => x * x * x, 'x^3'],
+        ['x ** 3 + x', (x) => x * x * x + x, 'x^3 + x']
+      ];
+      const [ft, ff, fm] = this.randChoice(kinds);
+      let c; let a0;
+      for (;;) {
+        c = this.randInt(2, 40);
+        a0 = 0; while (ff(a0 + 1) <= c) a0++;
+        if (ff(a0) !== c && ff(a0 + 1) !== c) break;
+      }
+      const f = (x) => ff(x) - c;
+      const fam = this.randInt(0, 2);
+      const head = ['def f(x):', `    return ${ft} - ${c}`, ''];
+      const body = ['    m = (a + b) / 2', '    if f(a) * f(m) <= 0:', '        b = m', '    else:', '        a = m'];
+      const rootTex = ft === 'x ** 2' ? `\\sqrt{${c}}` : ft === 'x ** 3' ? `\\sqrt[3]{${c}}` : '\\alpha';
+      const where = `La fonction $f : x \\mapsto ${fm} - ${c}$ est continue et strictement croissante sur $[0 ; +\\infty[$ ; elle s'annule en un unique réel $${rootTex}$${ft === 'x ** 3 + x' ? ' (on note $\\alpha$ ce réel)' : ''}.`;
+      const run = (a, b, steps) => {
+        let aF = false; let bF = false; const tr = [];
+        for (let k = 0; k < steps; k++) {
+          const m = (a + b) / 2;
+          if (f(a) * f(m) <= 0) { b = m; bF = true; } else { a = m; aF = true; }
+          tr.push([a, b, aF, bF]);
+        }
+        return { a, b, aF, bF, tr };
+      };
+      const pr = (v, isF) => this._TS4_pyr(v, isF);
+      if (fam === 0) {
+        const Nst = this.randInt(2, 4);
+        const r = run(a0, a0 + 1, Nst);
+        const show = (o) => `« ${pr(o.a, o.aF)} ${pr(o.b, o.bF)} »`;
+        const prev = run(a0, a0 + 1, Nst - 1);
+        const next = run(a0, a0 + 1, Nst + 1);
+        // Erreur typique : test inversé
+        let wa = a0; let wb = a0 + 1; let waF = false; let wbF = false;
+        for (let k = 0; k < Nst; k++) { const m = (wa + wb) / 2; if (f(wa) * f(m) <= 0) { wa = m; waF = true; } else { wb = m; wbF = true; } }
+        return this.makeMcq(T, 3, 'Dichotomie : encadrement',
+          'Exécuter un algorithme de dichotomie',
+          `${where} Qu'affiche le programme suivant ?${P([...head, `a = ${a0}`, `b = ${a0 + 1}`, `for k in range(${Nst}):`, ...body, 'print(a, b)'])}`,
+          show(r),
+          [show(prev), show(next), `« ${pr(wa, waF)} ${pr(wb, wbF)} »`, `« ${pr(r.a, true)} ${pr(r.b + (r.b - r.a), true)} »`],
+          'À chaque étape, on garde la moitié de l\'intervalle sur laquelle $f$ change de signe : `f(a) * f(m) <= 0` signifie que la solution est dans $[a ; m]$.',
+          `Calcule $f$ au milieu de l'intervalle à chacune des ${Nst} étapes.`,
+          `$f(${a0}) = ${f(a0)} < 0$ et $f(${a0 + 1}) = ${f(a0 + 1)} > 0$. Intervalles successifs : ${r.tr.map(([x, y]) => `$[${this.dec(x, 6)} ; ${this.dec(y, 6)}]$`).join(', ')}. Le programme affiche ${show(r)} (un nombre resté entier s'affiche sans « .0 »), d'où $${this.dec(r.a, 6)} \\le ${rootTex} \\le ${this.dec(r.b, 6)}$.`
+        );
+      }
+      const w = this.randChoice([1, 2]);
+      const lo = w === 2 && a0 > 0 && Math.random() < 0.5 ? a0 - 1 : a0;
+      const hi = lo + w;
+      const e = this.randChoice([0.2, 0.1, 0.05, 0.01, 0.001]);
+      let n = 0; let width = w;
+      while (width > e) { width /= 2; n++; }
+      if (fam === 1) {
+        return this.makeMcq(T, 3, 'Dichotomie : nombre d\'étapes',
+          'Déterminer le nombre d\'étapes d\'une dichotomie',
+          `${where} Qu'affiche le programme suivant ?${P([...head, `a = ${lo}`, `b = ${hi}`, 'n = 0', `while b - a > ${e}:`, ...body, '    n = n + 1', 'print(n)'])}`,
+          N(n),
+          [N(n - 1), N(n + 1), N(Math.round(w / e))],
+          'À chaque tour, la longueur de l\'intervalle $[a ; b]$ est divisée par 2.',
+          `Après $n$ tours, $b - a = \\frac{${w}}{2^n}$ : cherche le premier $n$ tel que $\\frac{${w}}{2^n} \\le ${this.dec(e)}$.`,
+          `Après $n$ tours, $b - a = \\frac{${w}}{2^n}$. Or $\\frac{${w}}{2^{${n - 1}}} = ${this.dec(w / 2 ** (n - 1), 6)} > ${this.dec(e)}$ et $\\frac{${w}}{2^{${n}}} = ${this.dec(w / 2 ** n, 6)} \\le ${this.dec(e)}$. Le programme affiche ${N(n)}.`
+        );
+      }
+      const Nst = this.randInt(3, 6);
+      const amp = w / 2 ** Nst;
+      return this.makeMcq(T, 3, 'Dichotomie : précision',
+        'Relier le nombre d\'étapes et la précision d\'une dichotomie',
+        `${where} Qu'affiche le programme suivant ?${P([...head, `a = ${lo}`, `b = ${hi}`, `for k in range(${Nst}):`, ...body, 'print(b - a)'])}`,
+        N(amp),
+        [N(w / 2 ** (Nst - 1)), N(w / 2 ** (Nst + 1)), N(w / (2 * Nst))],
+        'À chaque étape, la longueur de l\'intervalle est divisée par 2, quel que soit le cas du test.',
+        `La longueur initiale est ${w}.`,
+        `Après ${Nst} étapes, $b - a = \\frac{${w}}{2^{${Nst}}} = ${this.dec(amp, 6)}$ : le programme affiche ${N(amp)}.`
+      );
+    }
+    // tier 4 : méthode de Monte-Carlo
+    const configs = [
+      ['x ** 2', 1, 1, [1, 3], 'x^2'], ['x ** 2', 2, 4, [8, 3], 'x^2'], ['x ** 2', 3, 9, [9, 1], 'x^2'],
+      ['x ** 3', 1, 1, [1, 4], 'x^3'], ['x ** 3', 2, 8, [4, 1], 'x^3'],
+      ['x', 1, 1, [1, 2], 'x'], ['x', 3, 3, [9, 2], 'x'],
+      ['1 - x ** 2', 1, 1, [2, 3], '1 - x^2'], ['x * (2 - x)', 2, 1, [4, 3], 'x(2 - x)'],
+      ['sqrt(x)', 1, 1, [2, 3], '\\sqrt{x}'], ['sqrt(x)', 4, 2, [16, 3], '\\sqrt{x}'],
+      ['4 * x * (1 - x)', 1, 1, [2, 3], '4x(1 - x)'], ['disque', 1, 1, null, '']
+    ];
+    const [ft, A, M, I, fm] = this.randChoice(configs);
+    const disk = ft === 'disque';
+    const scaled = Math.random() < 0.5;
+    const K = A * M;
+    const nSim = this.randChoice([1000, 10000, 100000]);
+    const code = [disk ? 'from random import random' : (ft.includes('sqrt') ? 'from random import random\nfrom math import sqrt' : 'from random import random'), '', 'def monte_carlo(n):', '    c = 0', '    for i in range(n):', `        x = ${A === 1 ? '' : A + ' * '}random()`, `        y = ${M === 1 ? '' : M + ' * '}random()`, `        if ${disk ? 'x ** 2 + y ** 2 <= 1' : `y <= ${ft}`}:`, '            c = c + 1', `    return ${scaled && K !== 1 ? K + ' * ' : (scaled && disk ? '4 * ' : '')}c / n`, '', `print(monte_carlo(${nSim}))`];
+    let ans; let ds; let expl;
+    if (disk) {
+      if (scaled) {
+        ans = '$\\pi$';
+        ds = ['$\\frac{\\pi}{4}$', '$2\\pi$', '$\\frac{\\pi}{2}$', '$\\frac{3}{4}$'];
+        expl = 'La proportion de points tombant dans le quart de disque est proche de son aire $\\frac{\\pi}{4}$ ; le programme renvoie $4 \\times \\frac{c}{n}$, proche de $\\pi$.';
+      } else {
+        ans = '$\\frac{\\pi}{4}$';
+        ds = ['$\\pi$', '$1 - \\frac{\\pi}{4}$', '$\\frac{\\pi}{2}$', '$\\frac{1}{2}$'];
+        expl = 'Le point $(x ; y)$ est choisi uniformément dans le carré $[0 ; 1]^2$ d\'aire 1 ; la condition $x^2 + y^2 \\le 1$ décrit un quart de disque de rayon 1, d\'aire $\\frac{\\pi}{4}$. La proportion $\\frac{c}{n}$ est donc proche de $\\frac{\\pi}{4}$.';
+      }
+    } else {
+      const val = scaled ? I : [I[0], I[1] * K];
+      ans = `$${this.frac(val[0], val[1])}$`;
+      const other = scaled ? [I[0], I[1] * K] : I;
+      ds = [`$${this.frac(other[0], other[1])}$`, `$${this.frac(val[1] - val[0], val[1])}$`, `$${this.frac(val[0] * 2, val[1])}$`, `$${this.frac(val[0] * 3, val[1] * 4)}$`];
+      if (scaled) ds[1] = `$${this.frac(K * I[1] - I[0], I[1])}$`;
+      const area = `\\int_0^{${A}} ${fm.includes(' ') ? `(${fm})` : fm} \\, \\mathrm{d}x = ${this.frac(I[0], I[1])}`;
+      expl = `Le point $(x ; y)$ est choisi uniformément dans le rectangle $[0 ; ${A}] \\times [0 ; ${M}]$ d'aire ${K}, et la condition $y \\le ${fm}$ décrit le domaine sous la courbe, d'aire $${area}$. La proportion $\\frac{c}{n}$ est donc proche de $\\frac{${this.frac(I[0], I[1])}}{${K}}${K === 1 ? '' : ` = ${this.frac(I[0], I[1] * K)}`}$${scaled && K !== 1 ? `, et le programme renvoie ${K} fois cette proportion, proche de $${this.frac(I[0], I[1])}$` : ''}.`;
+      if (K === 1) expl = expl.replace(`$\\frac{${this.frac(I[0], I[1])}}{1}$`, `$${this.frac(I[0], I[1])}$`);
+    }
+    // Les distracteurs « entiers nus » ne sont gardés que si la réponse est elle-même un entier
+    ds = ds.filter((o) => /^\$-?\d+\$$/.test(ans) || !/^\$-?\d+\$$/.test(o));
+    return this.makeMcq(T, 4, 'Méthode de Monte-Carlo',
+      'Interpréter une méthode de Monte-Carlo',
+      `On exécute le programme suivant, où \`random()\` renvoie un nombre aléatoire de $[0 ; 1[$.${P(code)}Autour de quelle valeur le nombre affiché fluctue-t-il ?`,
+      ans,
+      ds,
+      'Chaque point $(x ; y)$ est tiré au hasard uniformément dans un rectangle : la probabilité que la condition soit vraie est le quotient de deux aires.',
+      'Identifie le domaine décrit par la condition du `if`, puis calcule son aire.',
+      `${expl} D'après la loi des grands nombres, la valeur affichée fluctue autour de ${ans}, avec des écarts d'autant plus faibles que n est grand.`
     );
   },
 
@@ -6360,6 +8071,378 @@ window.MathsLyceeGenerators = {
       "Calcule $E(X)$ puis $E(X^2) = \\sum x_i^2 P(X = x_i)$.",
       `$E(X) = ${this.dec(E)}$ et $E(X^2) = ${this.dec(E2)}$.`,
       `$E(X) = ${this.dec(E)}$, $E(X^2) = ${vals.map((v, i) => `${this.paren(v)}^2 \\times ${P(pr[i])}`).join(' + ')} = ${this.dec(E2)}$. Donc $V(X) = ${this.dec(E2)} - ${this.paren(this.dec(E))}^2 = ${this.dec(Vv)}$${askSigma ? '' : ''}.`
+    );
+  },
+
+  // =========================================================================
+  // 1S3 : Algorithmique et programmation (Python) — Première spécialité
+  // =========================================================================
+  _1S3_py(lines) {
+    return '\n```python\n' + lines.join('\n') + '\n```\n';
+  },
+
+  _1S3_n(v) {
+    return `$${Number.isInteger(v) ? v : this.dec(v, 6)}$`;
+  },
+
+  /** Affichage Python d'une liste d'entiers, entre guillemets : « [1, 4, 9] » */
+  _1S3_list(L) {
+    return `« [${L.join(', ')}] »`;
+  },
+
+  /** Affichage Python d'un flottant : 1.0, 2.25 */
+  _1S3_pyf(v) {
+    return Number.isInteger(v) ? v + '.0' : String(v);
+  },
+
+  /** Écart relatif minimal entre les termes calculés et un seuil (évite les cas limites d'arrondi) */
+  _1S3_safe(vals, S) {
+    return vals.every((v) => Math.abs(v - S) > 1e-6 * Math.max(1, Math.abs(S)));
+  },
+
+  gen_1S3(tier) {
+    const T = '1S3';
+    const P = (l) => this._1S3_py(l);
+    const N = (v) => this._1S3_n(v);
+    const LS = (L) => this._1S3_list(L);
+    if (tier === 1) {
+      const fam = this.randInt(0, 2);
+      if (fam === 0) {
+        // Manipulations de base d'une liste
+        const L = Array.from({ length: this.randInt(4, 6) }, () => this.randInt(0, 20));
+        const code = [`L = [${L.join(', ')}]`];
+        const M = L.slice();
+        const ops = [];
+        if (Math.random() < 0.7) { const v = this.randInt(1, 30); code.push(`L.append(${v})`); M.push(v); ops.push(`\`L.append(${v})\` ajoute ${v} à la fin`); }
+        if (Math.random() < 0.6) { const i = this.randInt(0, M.length - 1); const w = this.randInt(0, 40); code.push(`L[${i}] = ${w}`); M[i] = w; ops.push(`\`L[${i}] = ${w}\` remplace l'élément d'indice ${i}`); }
+        const ask = this.randInt(0, 3);
+        let expr; let val; let ds;
+        if (ask === 0) { const k = this.randInt(1, M.length - 2); expr = `L[${k}]`; val = M[k]; ds = [M[k - 1], M[k + 1], k]; } else if (ask === 1) { expr = 'L[-1]'; val = M[M.length - 1]; ds = [M[0], M[M.length - 2], M.length]; } else if (ask === 2) { expr = 'len(L)'; val = M.length; ds = [M.length - 1, M.length + 1, M[M.length - 1]]; } else { expr = 'L[len(L) - 2]'; val = M[M.length - 2]; ds = [M[M.length - 1], M[M.length - 3], M.length - 2]; }
+        return this.makeMcq(T, 1, 'Indices et longueur d\'une liste',
+          'Manipuler les indices, append et len',
+          `Qu'affiche le programme Python suivant ?${P([...code, `print(${expr})`])}`,
+          N(val),
+          ds.map(N),
+          'Les indices d\'une liste commencent à 0 ; `L[-1]` est le dernier élément.',
+          '`len(L)` est le nombre d\'éléments de la liste.',
+          `${ops.length ? ops.join(', puis ') + '. ' : ''}La liste vaut alors \`[${M.join(', ')}]\`. \`${expr}\` vaut ${N(val)}.`
+        );
+      }
+      if (fam === 1) {
+        // Listes en compréhension
+        const forms = [
+          ['k ** 2', (k) => k * k],
+          ['2 * k + 1', (k) => 2 * k + 1],
+          ['3 * k - 2', (k) => 3 * k - 2],
+          ['k * (k + 1)', (k) => k * (k + 1)],
+          ['10 - k', (k) => 10 - k]
+        ];
+        const [ft, ff] = this.randChoice(forms);
+        const a = this.randInt(0, 4);
+        const b = a + this.randInt(3, 6);
+        const rng = a === 0 ? `range(${b})` : `range(${a}, ${b})`;
+        const L = [];
+        for (let k = a; k < b; k++) L.push(ff(k));
+        const ask = this.randInt(0, 2);
+        let expr; let ans; let ds;
+        if (ask === 0) {
+          const i = this.randInt(1, L.length - 1);
+          expr = `L[${i}]`; ans = N(L[i]);
+          ds = [N(ff(i)), N(L[i - 1]), N(ff(a + i + 1))];
+          if (a === 0) ds[0] = N(ff(i + 2));
+        } else if (ask === 1) {
+          expr = 'len(L)'; ans = N(L.length); ds = [N(b - a + 1), N(b), N(L[L.length - 1])];
+        } else {
+          expr = 'L'; ans = LS(L);
+          ds = [LS([...L, ff(b)]), LS(L.slice(1).concat([ff(b)])), LS(L.map((_, i) => ff(i + (a === 0 ? 1 : 0))))];
+        }
+        return this.makeMcq(T, 1, 'Liste en compréhension',
+          'Construire une liste en compréhension',
+          `Qu'affiche le programme Python suivant ?${P([`L = [${ft} for k in ${rng}]`, `print(${expr})`])}`,
+          ans,
+          ds,
+          `\`${rng}\` parcourt les entiers de ${a} à ${b - 1}.`,
+          `L'élément d'indice $i$ est obtenu pour \`k = ${a} + i\`.`,
+          `Pour \`k\` allant de ${a} à ${b - 1}, on calcule \`${ft}\` : \`L = [${L.join(', ')}]\` (${L.length} éléments). Donc \`${expr}\` vaut ${ans}.`
+        );
+      }
+      // Liste filtrée
+      const n0 = this.randInt(15, 60);
+      const d = this.randChoice([3, 4, 5, 6, 7]);
+      const L = [];
+      for (let k = 1; k < n0; k++) if (k % d === 0) L.push(k);
+      if (L.length < 2) return this.gen_1S3(1);
+      const ask = this.randInt(0, 2);
+      const sum = L.reduce((x, y) => x + y, 0);
+      const expr = ['len(L)', 'sum(L)', 'L[-1]'][ask];
+      const val = [L.length, sum, L[L.length - 1]][ask];
+      const withEnd = n0 % d === 0 ? [L.length + 1, sum + n0, n0][ask] : [L.length - 1, sum - L[L.length - 1], L[L.length - 2]][ask];
+      return this.makeMcq(T, 1, 'Liste filtrée',
+        'Construire une liste en compréhension avec une condition',
+        `Qu'affiche le programme Python suivant ?${P([`L = [k for k in range(1, ${n0}) if k % ${d} == 0]`, `print(${expr})`])}`,
+        N(val),
+        [N(withEnd), N(Math.floor(n0 / d) + 1), N(val + d), N(L[0])],
+        `La liste contient les entiers $k$ de 1 à ${n0 - 1} qui sont multiples de ${d}.`,
+        '`sum(L)` est la somme des éléments, `L[-1]` le dernier élément.',
+        `\`L = [${L.join(', ')}]\`. Donc \`${expr}\` vaut ${N(val)}.`
+      );
+    }
+    if (tier === 2) {
+      const fam = this.randInt(0, 3);
+      if (fam === 0) {
+        // Suite récurrente
+        const a = this.randChoice([2, 3, -1, -2]);
+        const b = this.randInt(-5, 5);
+        const u0 = this.randInt(-3, 6);
+        const n = this.randInt(3, 6);
+        const dep = Math.random() < 0.3;
+        const step = (u, k) => (dep ? u + 2 * k + 1 : a * u + b);
+        const us = [u0];
+        for (let k = 0; k <= n; k++) us.push(step(us[k], k));
+        const rhs = dep ? 'u + 2 * k + 1' : `${a === -1 ? '-u' : `${a} * u`}${b ? ` ${b > 0 ? '+' : '-'} ${Math.abs(b)}` : ''}`;
+        return this.makeMcq(T, 2, 'Calculer un terme d\'une suite',
+          'Calculer un terme d\'une suite récurrente avec une boucle',
+          `On considère le programme Python suivant.${P([`u = ${u0}`, `for k in range(${n}):`, `    u = ${rhs}`, 'print(u)'])}Quelle valeur affiche-t-il ?`,
+          N(us[n]),
+          [N(us[n - 1]), N(us[n + 1]), N(us[n] + 1)],
+          `La boucle est exécutée ${n} fois : à la fin, \`u\` contient le terme $u_{${n}}$.`,
+          'Calcule les termes successifs à partir de $u_0$.',
+          `On obtient successivement $u_0 = ${u0}$${us.slice(1, n + 1).map((v, i) => `, $u_{${i + 1}} = ${v}$`).join('')}. Le programme affiche ${N(us[n])}.`
+        );
+      }
+      if (fam === 1) {
+        // Somme de termes
+        const geo = Math.random() < 0.5;
+        const u0 = this.randInt(1, 6);
+        const r = geo ? this.randChoice([2, 3]) : this.randInt(-3, 5) || 2;
+        const n = this.randInt(4, 7);
+        const us = [u0];
+        for (let k = 1; k <= n + 1; k++) us.push(geo ? us[k - 1] * r : us[k - 1] + r);
+        if (us.slice(0, n).includes(0)) return this.gen_1S3(2);
+        const s = us.slice(0, n).reduce((x, y) => x + y, 0);
+        return this.makeMcq(T, 2, 'Somme de termes d\'une suite',
+          'Calculer une somme de termes avec un accumulateur',
+          `Qu'affiche le programme Python suivant ?${P(['s = 0', `u = ${u0}`, `for k in range(${n}):`, '    s = s + u', `    u = ${geo ? `${r} * u` : `u ${r < 0 ? '-' : '+'} ${Math.abs(r)}`}`, 'print(s)'])}`,
+          N(s),
+          [N(s + us[n]), N(s - u0), N(us[n]), N(us[n - 1])],
+          `La boucle ajoute ${n} termes à \`s\`, en commençant par $u_0 = ${u0}$.`,
+          'L\'ajout à `s` a lieu **avant** le calcul du terme suivant.',
+          `\`s\` reçoit $u_0 + u_1 + \\dots + u_{${n - 1}}$ = $${us.slice(0, n).map((v) => this.paren(v)).join(' + ')} = ${s}$. Le programme affiche ${N(s)}.`
+        );
+      }
+      if (fam === 2) {
+        // Liste des premiers termes
+        const a = this.randChoice([2, 3, -2]);
+        const b = this.randInt(-4, 4);
+        const u0 = this.randInt(-2, 5);
+        const n = this.randInt(3, 4);
+        const us = [u0];
+        for (let k = 0; k < n + 1; k++) us.push(a * us[k] + b);
+        const rhs = `${a} * L[k]${b ? ` ${b > 0 ? '+' : '-'} ${Math.abs(b)}` : ''}`;
+        const wrong = [u0];
+        for (let k = 0; k < n; k++) wrong.push(a * (wrong[k] + b));
+        return this.makeMcq(T, 2, 'Liste des premiers termes',
+          'Stocker les termes d\'une suite dans une liste',
+          `Qu'affiche le programme Python suivant ?${P([`L = [${u0}]`, `for k in range(${n}):`, `    L.append(${rhs})`, 'print(L)'])}`,
+          LS(us.slice(0, n + 1)),
+          [LS(us.slice(1, n + 1)), LS(us.slice(0, n + 2)), LS(wrong), LS(us.slice(0, n))],
+          '`L[k]` est le terme d\'indice $k$ ; `append` ajoute le terme suivant à la fin de la liste.',
+          `La liste finale contient ${n + 1} termes : $u_0$ à $u_{${n}}$.`,
+          `$u_0 = ${u0}$ puis $u_{k+1} = ${a}u_k ${this.formatSign(b).replace('+ 0', '')}$${b ? '' : ''} : ${us.slice(1, n + 1).map((v, i) => `$u_{${i + 1}} = ${v}$`).join(', ')}. Le programme affiche ${LS(us.slice(0, n + 1))}.`
+        );
+      }
+      // Suite explicite (fonction)
+      const a = this.randNonZero(-3, 3);
+      const b = this.randInt(-5, 5);
+      const c = this.randInt(-6, 6);
+      const m = this.randInt(1, 8);
+      const u = (n) => a * n * n + b * n + c;
+      const terms = [`${a === 1 ? '' : a === -1 ? '-' : a + ' * '}n ** 2`];
+      if (b) terms.push(`${b > 0 ? '+' : '-'} ${Math.abs(b) === 1 ? '' : Math.abs(b) + ' * '}n`);
+      if (c) terms.push(`${c > 0 ? '+' : '-'} ${Math.abs(c)}`);
+      const d = u(m + 1) - u(m);
+      return this.makeMcq(T, 2, 'Suite définie explicitement',
+        'Calculer avec une suite définie par une fonction Python',
+        `Qu'affiche le programme Python suivant ?${P(['def u(n):', `    return ${terms.join(' ')}`, '', `print(u(${m + 1}) - u(${m}))`])}`,
+        N(d),
+        [N(u(m + 1)), N(u(m)), N(-d), N(a + b)],
+        `\`u(n)\` renvoie $u_n = ${this.polyX([a, b, c], 'n')}$.`,
+        `Calcule $u_{${m + 1}}$ et $u_{${m}}$ séparément.`,
+        `$u_{${m + 1}} = ${u(m + 1)}$ et $u_{${m}} = ${u(m)}$, donc le programme affiche ${u(m) === 0 ? N(d) : `$${u(m + 1)} - ${this.paren(u(m))} = ${d}$`}.`
+      );
+    }
+    if (tier === 3) {
+      const fam = this.randInt(0, 3);
+      if (fam === 0) {
+        // Seuil pour une suite géométrique
+        const grow = Math.random() < 0.55;
+        const u0 = this.randChoice([100, 200, 500, 1000, 1500, 2000, 5000]);
+        const q = grow ? this.randChoice([1.02, 1.03, 1.05, 1.1, 1.2, 1.25, 1.5]) : this.randChoice([0.5, 0.75, 0.8, 0.9, 0.95]);
+        const mult = grow ? this.randChoice([1.5, 2, 3, 5]) : this.randChoice([0.5, 0.2, 0.1, 0.25]);
+        const S = Math.round(u0 * mult);
+        let u = u0; let n = 0; const vals = [u];
+        while (grow ? u < S : u > S) { u = u * q; n++; vals.push(u); }
+        if (!this._1S3_safe(vals, S) || n < 2) return this.gen_1S3(3);
+        const qT = String(q);
+        const lin = Math.ceil(Math.abs(S - u0) / (u0 * Math.abs(q - 1)) - 1e-9);
+        return this.makeMcq(T, 3, 'Algorithme de seuil',
+          'Déterminer un seuil avec une boucle while',
+          `Une quantité vaut ${u0} à l'instant 0 et est multipliée par $${this.dec(q)}$ à chaque étape. Qu'affiche le programme suivant ?${P([`u = ${u0}`, 'n = 0', `while u ${grow ? '<' : '>'} ${S}:`, `    u = u * ${qT}`, '    n = n + 1', 'print(n)'])}`,
+          N(n),
+          [N(n - 1), N(n + 1), N(lin === n ? n + 2 : lin)],
+          `On a $u_n = ${u0} \\times ${this.dec(q)}^n$ ; la boucle s'arrête au premier $n$ tel que $u_n ${grow ? '\\ge' : '\\le'} ${S}$.`,
+          'Calcule quelques termes à la calculatrice autour du seuil.',
+          `$u_{${n - 1}} \\approx ${this.dec(vals[n - 1], 2)}$, ${grow ? 'strictement inférieur' : 'strictement supérieur'} à ${S}, et $u_{${n}} \\approx ${this.dec(vals[n], 2)}$, ${grow ? 'supérieur ou égal' : 'inférieur ou égal'} à ${S} : la boucle s'arrête pour $n = ${n}$. Le programme affiche ${N(n)}.`
+        );
+      }
+      if (fam === 1) {
+        // Suite arithmético-géométrique et seuil
+        const a = this.randChoice([0.5, 0.8, 0.9, 0.6, 0.75]);
+        const l = this.randInt(2, 20);
+        const b = Math.round(l * (1 - a) * 100) / 100;
+        const down = Math.random() < 0.5;
+        const u0 = down ? l + this.randInt(5, 40) : l - this.randInt(5, 40);
+        const eps = this.randChoice([1, 0.5, 0.1, 0.01]);
+        const S = down ? l + eps : l - eps;
+        let u = u0; let n = 0; const vals = [u];
+        while (down ? u > S : u < S) { u = a * u + b; n++; vals.push(u); }
+        if (!this._1S3_safe(vals, S) || n < 2 || n > 200) return this.gen_1S3(3);
+        const ST = String(Math.round(S * 100) / 100);
+        return this.makeMcq(T, 3, 'Seuil pour une suite arithmético-géométrique',
+          'Interpréter et exécuter un algorithme de seuil',
+          `On considère la suite définie par $u_0 = ${u0}$ et $u_{n+1} = ${this.dec(a)}u_n + ${this.dec(b)}$, qui converge vers $${l}$. Qu'affiche le programme suivant ?${P([`u = ${u0}`, 'n = 0', `while u ${down ? '>' : '<'} ${ST}:`, `    u = ${a} * u + ${b}`, '    n = n + 1', 'print(n)'])}`,
+          N(n),
+          [N(n - 1), N(n + 1), N(n + 2)],
+          `On a $u_n - ${l} = (u_0 - ${l}) \\times ${this.dec(a)}^n$.`,
+          `La boucle s'arrête au premier $n$ tel que $u_n ${down ? '\\le' : '\\ge'} ${this.dec(S)}$.`,
+          `$u_n = ${l} ${down ? '+' : '-'} ${Math.abs(u0 - l)} \\times ${this.dec(a)}^n$. On cherche le premier $n$ tel que $${Math.abs(u0 - l)} \\times ${this.dec(a)}^n \\le ${this.dec(eps)}$ : $u_{${n - 1}} \\approx ${this.dec(vals[n - 1], 4)}$ et $u_{${n}} \\approx ${this.dec(vals[n], 4)}$. Le programme affiche ${N(n)}.`
+        );
+      }
+      if (fam === 2) {
+        // Seuil pour une somme
+        const forms = [
+          ['n ** 2', (k) => k * k, '$1^2 + 2^2 + \\dots + n^2$'],
+          ['2 ** n', (k) => 2 ** k, '$2^1 + 2^2 + \\dots + 2^n$'],
+          ['3 * n', (k) => 3 * k, '$3 \\times (1 + 2 + \\dots + n)$'],
+          ['n ** 3', (k) => k ** 3, '$1^3 + 2^3 + \\dots + n^3$']
+        ];
+        const [ft, ff, fm] = this.randChoice(forms);
+        const S = this.randInt(50, 2000);
+        let s = 0; let n = 0; const ss = [];
+        while (s < S) { n++; s += ff(n); ss.push(s); }
+        if (n < 3) return this.gen_1S3(3);
+        return this.makeMcq(T, 3, 'Seuil pour une somme',
+          'Programmer une recherche de seuil pour une somme',
+          `Qu'affiche le programme Python suivant ?${P(['s = 0', 'n = 0', `while s < ${S}:`, '    n = n + 1', `    s = s + ${ft}`, 'print(n)'])}`,
+          N(n),
+          [N(n - 1), N(n + 1), N(s)],
+          `Après le tour où \`n\` prend la valeur $n$, \`s\` vaut ${fm}.`,
+          `Cherche le premier $n$ pour lequel cette somme atteint ${S}.`,
+          `Pour $n = ${n - 1}$, la somme vaut $${ss[n - 2]}$, inférieure à $${S}$ ; pour $n = ${n}$, elle vaut $${s}$, supérieure ou égale à $${S}$. Le programme affiche ${N(n)}.`
+        );
+      }
+      // Fonction seuil
+      const q = this.randChoice([2, 3]);
+      const c = this.randInt(0, 3);
+      const u0 = this.randInt(c + 2, c + 6);
+      const A = this.randChoice([100, 500, 1000, 5000, 10000, 50000, 100000]);
+      let u = u0; let n = 0; const vals = [u];
+      while (u <= A) { u = q * u - c; n++; vals.push(u); }
+      return this.makeMcq(T, 3, 'Fonction seuil',
+        'Écrire et utiliser une fonction de seuil',
+        `Qu'affiche le programme Python suivant ?${P(['def seuil(A):', `    u = ${u0}`, '    n = 0', '    while u <= A:', `        u = ${q} * u${c ? ` - ${c}` : ''}`, '        n = n + 1', '    return n', '', `print(seuil(${A}))`])}`,
+        N(n),
+        [N(n - 1), N(n + 1), N(u)],
+        `La fonction renvoie le premier rang $n$ tel que $u_n > ${A}$.`,
+        'Calcule les termes successifs jusqu\'à dépasser le seuil.',
+        `Termes successifs : ${vals.join(' ; ')}. Le premier terme strictement supérieur à ${A} est $u_{${n}} = ${u}$ : le programme affiche ${N(n)}.`
+      );
+    }
+    // tier 4 : simulation et approximation
+    const fam = this.randInt(0, 2);
+    if (fam === 0) {
+      // Fréquence simulée -> probabilité
+      const F = this.randChoice([4, 6, 8, 10]);
+      const two = Math.random() < 0.6;
+      let cond; let test;
+      if (!two) {
+        const k = this.randInt(2, F);
+        const opts = [
+          [`a >= ${k}`, (a) => a >= k],
+          ['a % 2 == 0', (a) => a % 2 === 0],
+          [`a == 1 or a == ${F}`, (a) => a === 1 || a === F],
+          [`a * a > ${k * 2}`, (a) => a * a > 2 * k],
+          [`a % 3 == 0`, (a) => a % 3 === 0]
+        ];
+        [cond, test] = this.randChoice(opts);
+      } else {
+        const s = this.randInt(3, 2 * F - 1);
+        const m = this.randInt(2, F * F - 1);
+        const opts = [
+          [`a + b == ${s}`, (a, b) => a + b === s],
+          [`a + b >= ${s}`, (a, b) => a + b >= s],
+          ['a == b', (a, b) => a === b],
+          [`a * b > ${m}`, (a, b) => a * b > m],
+          ['a > b', (a, b) => a > b]
+        ];
+        [cond, test] = this.randChoice(opts);
+      }
+      let fav = 0; let tot = 0;
+      for (let a = 1; a <= F; a++) for (let b = 1; b <= (two ? F : 1); b++) { tot++; if (test(a, b)) fav++; }
+      if (fav === 0 || fav === tot) return this.gen_1S3(4);
+      const Nsim = this.randChoice([1000, 10000, 100000]);
+      const code = ['from random import randint', '', 'def experience():', `    a = randint(1, ${F})`];
+      if (two) code.push(`    b = randint(1, ${F})`);
+      code.push(`    if ${cond}:`, '        return 1', '    return 0', '', 'def frequence(N):', '    c = 0', '    for i in range(N):', '        c = c + experience()', '    return c / N', '', `print(frequence(${Nsim}))`);
+      const p = this.frac(fav, tot);
+      return this.makeMcq(T, 4, 'Simulation et fréquence',
+        'Interpréter un programme de simulation',
+        `On ${two ? `lance deux dés équilibrés à ${F} faces` : `lance un dé équilibré à ${F} faces`} et on simule l'expérience avec le programme suivant.${P(code)}Autour de quelle valeur la valeur affichée fluctue-t-elle d'une exécution à l'autre ?`,
+        `$${p}$`,
+        [`$${this.frac(tot - fav, tot)}$`, `$${this.frac(fav + 1, tot)}$`, `$${this.frac(1, F)}$`, `$${this.frac(fav, two ? 2 * F : F + 1)}$`, `$${this.frac(fav - 1, tot)}$`].filter((o) => !/^\$-?\d+\$$/.test(o)),
+        '`frequence(N)` renvoie la fréquence de l\'événement « la condition est vraie » sur N répétitions.',
+        `Pour N grand, la fréquence est proche de la probabilité de l'événement : compte les issues favorables parmi les ${tot} issues équiprobables.`,
+        `Il y a ${tot} issues équiprobables${two ? ' (couples `(a, b)`)' : ''}, dont ${fav} vérifient \`${cond}\`. La probabilité vaut $\\frac{${fav}}{${tot}}${this.gcd(fav, tot) > 1 ? ` = ${p}` : ''}$. D'après la loi des grands nombres, la fréquence affichée fluctue autour de $${p}$.`
+      );
+    }
+    if (fam === 1) {
+      // Gain moyen
+      const g1 = this.randInt(5, 20);
+      const k = this.randInt(3, 5);
+      const g2 = this.randInt(1, 4);
+      const c = this.randInt(1, 6);
+      const E = this.frac(g1 + (6 - k) * g2 - (k - 1) * c, 6);
+      const Ev = (g1 + (6 - k) * g2 - (k - 1) * c) / 6;
+      const Nsim = this.randChoice([1000, 10000, 100000]);
+      return this.makeMcq(T, 4, 'Simulation d\'un gain',
+        'Relier moyenne simulée et espérance',
+        `Un jeu consiste à lancer un dé équilibré à 6 faces. On simule ${Nsim} parties avec le programme suivant.${P(['from random import randint', '', 'def gain():', '    d = randint(1, 6)', '    if d == 6:', `        return ${g1}`, `    elif d >= ${k}:`, `        return ${g2}`, '    else:', `        return -${c}`, '', 'def moyenne(N):', '    s = 0', '    for i in range(N):', '        s = s + gain()', '    return s / N', '', `print(moyenne(${Nsim}))`])}Autour de quelle valeur la valeur affichée fluctue-t-elle ?`,
+        `$${E}$`,
+        [`$${this.frac(g1 + g2 - c, 3)}$`, `$${this.frac(g1 + (5 - k) * g2 - k * c, 6)}$`, `$${this.frac(g1 + (6 - k) * g2 + (k - 1) * c, 6)}$`, `$${this.frac(g1 + (6 - k) * g2, 6)}$`].filter((o) => Number.isInteger(Ev) || !/^\$-?\d+\$$/.test(o)),
+        'La moyenne des gains sur un grand nombre de parties est proche de l\'espérance du gain.',
+        `Gain ${g1} pour la face 6, ${g2} pour les faces ${k} à 5, $-${c}$ pour les faces 1 à ${k - 1}.`,
+        `$E(G) = \\frac{${g1} + ${6 - k} \\times ${g2} - ${k - 1} \\times ${c}}{6} = ${E}$ (chaque face a la probabilité $\\frac{1}{6}$). Pour ${Nsim} parties, la moyenne affichée est proche de $${E}$ (loi des grands nombres).`
+      );
+    }
+    // Balayage
+    const p = this.randChoice([0.5, 0.25, 0.125]);
+    const cube = Math.random() < 0.35;
+    let A = cube ? this.randInt(3, 60) : this.randInt(2, 90);
+    while (cube ? Number.isInteger(Math.round(Math.cbrt(A) * 1e9) / 1e9) : Number.isInteger(Math.sqrt(A))) A++;
+    const f = (x) => (cube ? x * x * x : x * x);
+    let x = 0;
+    while (f(x) < A) x = x + p;
+    const both = Number.isInteger(x) || Math.random() < 0.5;
+    const pf = (v) => this._1S3_pyf(v);
+    const expr = cube ? 'x * x * x' : 'x * x';
+    return this.makeMcq(T, 4, 'Méthode par balayage',
+      'Approcher une racine par balayage',
+      `Qu'affiche le programme Python suivant ?${P(['x = 0', `while ${expr} < ${A}:`, `    x = x + ${p}`, both ? `print(x - ${p}, x)` : 'print(x)'])}`,
+      both ? `« ${pf(x - p)} ${pf(x)} »` : N(x),
+      both ? [`« ${pf(x)} ${pf(x + p)} »`, `« ${pf(x - 2 * p)} ${pf(x - p)} »`, `« 0 ${pf(x)} »`] : [N(x - p), N(x + p), N(Math.round(x / p) * p === x ? x - 2 * p : x + 2 * p)],
+      `\`x\` augmente de ${p} tant que $x^${cube ? 3 : 2} < ${A}$.`,
+      `Le programme s'arrête au premier multiple de ${p} dont le ${cube ? 'cube' : 'carré'} atteint ${A} : il encadre $${cube ? `\\sqrt[3]{${A}}` : `\\sqrt{${A}}`}$.`,
+      `$${this.dec(x - p, 4)}^${cube ? 3 : 2} = ${this.dec(f(x - p), 6)} < ${A}$ et $${this.dec(x, 4)}^${cube ? 3 : 2} = ${this.dec(f(x), 6)} \\ge ${A}$ : la boucle s'arrête avec \`x = ${pf(x)}\`. On en déduit $${this.dec(x - p, 4)} < ${cube ? `\\sqrt[3]{${A}}` : `\\sqrt{${A}}`} \\le ${this.dec(x, 4)}$. Affichage : ${both ? `« ${pf(x - p)} ${pf(x)} »` : N(x)}.`
     );
   }
 };

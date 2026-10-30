@@ -185,14 +185,14 @@ window.MathsQuizGenerator = {
       totalPoints = 20;
       ptsPerQ = 5;
       examMainTitle = `🎓 BACCALAURÉAT GÉNÉRAL — ÉPREUVE DE SPÉCIALITÉ MATHÉMATIQUES (20 POINTS)`;
-      examSubNotice = `🎓 <strong>Sujet Blanc Baccalauréat Spécialité Maths sur 20 points :</strong> 4 exercices calibrés conformément à la structure officielle de l'épreuve de spécialité (Probabilités conditionnelles & Loi binomiale, Géométrie dans l'espace, Suites & Analyse, Approfondissement / Convexité / Intégration). Durée conseillée : 4h00. Calculatrice mode examen autorisée.`;
+      examSubNotice = `🎓 <strong>Sujet Blanc Baccalauréat Spécialité Maths sur 20 points :</strong> 4 exercices calibrés conformément à la structure officielle de l'épreuve de spécialité (Probabilités & dénombrement, Géométrie dans l'espace, Suites & Analyse, Analyse approfondie). Durée conseillée : 4h00. Calculatrice mode examen autorisée.`;
       examSolutionTitle = `🎓 BACCALAURÉAT GÉNÉRAL — CORRIGÉ OFFICIEL DE L'ÉPREUVE DE SPÉCIALITÉ (SUR 20 POINTS)`;
 
       const bacStructure = [
-        { title: "Exercice 1 — Probabilités conditionnelles & Loi binomiale (5 points)", pool: ['TS1', 'TS2'], tier: 3 },
+        { title: "Exercice 1 — Probabilités, dénombrement & loi binomiale (5 points)", pool: ['TS1', 'TS2', 'TS3'], tier: 3 },
         { title: "Exercice 2 — Géométrie dans l'espace & Produit scalaire (5 points)", pool: ['TG1', 'TG2'], tier: 3 },
         { title: "Exercice 3 — Analyse, Suites récurrentes & Continuité (5 points)", pool: ['TA1', 'TA2', 'TA3', 'TA5'], tier: 3 },
-        { title: "Exercice 4 — Analyse approfondie, Convexité ou Intégration (5 points)", pool: ['TA4', 'TA6', 'TA7'], tier: 3 }
+        { title: "Exercice 4 — Analyse approfondie : dérivation, trigonométrie, convexité ou intégration (5 points)", pool: ['TA4', 'TA6', 'TA7', 'TA8', 'TA9'], tier: 3 }
       ];
 
       questions = bacStructure.map((def, idx) => {

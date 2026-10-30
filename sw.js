@@ -10,7 +10,7 @@
  * NE PAS éditer à la main la liste ci-dessous ni CACHE_NAME : lancer `node scripts/build_versions.js`.
  */
 
-const CACHE_NAME = 'etabli-des-maths-4901e90f21';
+const CACHE_NAME = 'etabli-des-maths-1c7e5d7997';
 
 // @precache-start
 const PRECACHE_URLS = [
@@ -25,7 +25,7 @@ const PRECACHE_URLS = [
   './vendor/katex/katex.min.js?v=9616b6e2a7',
   './vendor/katex/auto-render.min.js?v=491616b8c9',
   './js/data/chapters.js?v=c4d084203e',
-  './js/data/chapters_lycee.js?v=fbbdc8065d',
+  './js/data/chapters_lycee.js?v=5087bbeebd',
   './js/data/chapters_licence.js?v=862554015c',
   './js/data/data_capes.js?v=5ce35bd63a',
   './js/storage.js?v=974eea8078',
@@ -39,7 +39,7 @@ const PRECACHE_URLS = [
   './js/proofEngine.js?v=f99d384bfd',
   './js/mathVisualizer.js?v=96becc2c77',
   './js/diaporamaEngine.js?v=eba71f5370',
-  './js/flashQuizGenerator.js?v=1d7f5812d4',
+  './js/flashQuizGenerator.js?v=694557b7d8',
   './js/flashcardsEngine.js?v=3bcc67a07f',
   './js/dataLoader.js?v=828f7fa67d',
   './js/app.js?v=1685ae6799',

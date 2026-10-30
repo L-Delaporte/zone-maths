@@ -1334,6 +1334,232 @@ window.MATHS_COURSES_2NDE = {
         "a": "$\\frac{2}{\\sqrt{n}} \\le 0{,}1 \\iff \\sqrt{n} \\ge 20 \\iff n \\ge 400$."
       }
     ]
+  },
+  "2N5": {
+    "title": "2N5 : Proportions, pourcentages et évolutions",
+    "domain": "Nombres et Calculs",
+    "objectives": [
+      "Calculer la proportion d'une sous-population dans une population, et l'exprimer sous forme décimale, fractionnaire ou en pourcentage.",
+      "Calculer un effectif connaissant une proportion, et une proportion de proportion : $p = p_1 \\times p_2$.",
+      "Calculer le taux d'évolution $t = \\frac{V_A - V_D}{V_D}$ entre une valeur de départ et une valeur d'arrivée.",
+      "Passer du taux d'évolution $t$ au coefficient multiplicateur $CM = 1 + t$, et inversement.",
+      "Calculer le coefficient multiplicateur global et le taux global d'évolutions successives.",
+      "Déterminer le taux d'évolution réciproque, qui permet de revenir à la valeur de départ."
+    ],
+    "keyPoints": [
+      {
+        "title": "1. Proportion d'une sous-population",
+        "content": "Soit $E$ une population d'effectif $n_E$ et $A$ une sous-population de $E$ d'effectif $n_A$. La **proportion** (ou fréquence) de $A$ dans $E$ est :\n$$p = \\frac{n_A}{n_E}$$\n• On a toujours $0 \\le p \\le 1$ ; on l'exprime sous forme décimale, fractionnaire ou en pourcentage ($p = 0{,}35 = \\frac{35}{100} = 35\\,\\%$).\n• Réciproquement, connaissant $p$ et $n_E$, l'effectif de $A$ est $n_A = p \\times n_E$.\n**Exemple** : dans un lycée de $1\\,200$ élèves, $420$ sont internes : $p = \\frac{420}{1\\,200} = 0{,}35 = 35\\,\\%$."
+      },
+      {
+        "title": "2. Proportion de proportion",
+        "content": "Si $A \\subset B \\subset E$, que $A$ représente une proportion $p_1$ de $B$ et que $B$ représente une proportion $p_2$ de $E$, alors la proportion de $A$ dans $E$ est le **produit** :\n$$p = p_1 \\times p_2$$\n**Exemple** : $60\\,\\%$ des élèves d'un lycée sont en filière générale, et parmi eux $25\\,\\%$ suivent la spécialité mathématiques. La proportion d'élèves du lycée suivant cette spécialité est $0{,}25 \\times 0{,}6 = 0{,}15 = 15\\,\\%$.\n⚠️ On ne peut **pas** additionner deux pourcentages qui ne portent pas sur la même population de référence."
+      },
+      {
+        "title": "3. Taux d'évolution et coefficient multiplicateur",
+        "content": "Une grandeur passe d'une valeur de départ $V_D > 0$ à une valeur d'arrivée $V_A$.\n• Le **taux d'évolution** est $t = \\frac{V_A - V_D}{V_D}$ (souvent exprimé en pourcentage). Si $t > 0$ c'est une hausse, si $t < 0$ une baisse.\n• Le **coefficient multiplicateur** est $CM = \\frac{V_A}{V_D}$, et l'on a :\n$$CM = 1 + t \\qquad \\text{et} \\qquad V_A = V_D \\times (1 + t)$$\n• Augmenter de $t\\,\\%$ revient à multiplier par $1 + \\frac{t}{100}$ ; diminuer de $t\\,\\%$ revient à multiplier par $1 - \\frac{t}{100}$.\n**Exemples** : une hausse de $8\\,\\%$ correspond à $CM = 1{,}08$ ; une baisse de $15\\,\\%$ à $CM = 0{,}85$ ; un coefficient $CM = 2$ correspond à une hausse de $100\\,\\%$."
+      },
+      {
+        "title": "4. Évolutions successives",
+        "content": "Si une grandeur subit successivement des évolutions de coefficients multiplicateurs $CM_1$, $CM_2$, …, $CM_n$, le **coefficient multiplicateur global** est le produit :\n$$CM_{\\text{global}} = CM_1 \\times CM_2 \\times \\dots \\times CM_n$$\nLe taux global est $t_{\\text{global}} = CM_{\\text{global}} - 1$.\n**Exemple** : une hausse de $20\\,\\%$ suivie d'une baisse de $20\\,\\%$ donne $CM = 1{,}2 \\times 0{,}8 = 0{,}96$, soit une **baisse** globale de $4\\,\\%$ (et non une évolution nulle !).\n• $n$ hausses successives de $t\\,\\%$ correspondent à $CM = \\left(1 + \\frac{t}{100}\\right)^n$."
+      },
+      {
+        "title": "5. Évolution réciproque",
+        "content": "Si une grandeur passe de $V_D$ à $V_A$ avec le coefficient $CM$, l'évolution qui fait revenir de $V_A$ à $V_D$ est l'**évolution réciproque**, de coefficient :\n$$CM' = \\frac{1}{CM}$$\nSon taux est $t' = \\frac{1}{1 + t} - 1$.\n**Exemple** : après une hausse de $25\\,\\%$ ($CM = 1{,}25$), il faut une baisse de $20\\,\\%$ pour revenir au prix initial, car $\\frac{1}{1{,}25} = 0{,}8$.\n**Exemple** : après une baisse de $50\\,\\%$ ($CM = 0{,}5$), il faut une hausse de $100\\,\\%$ ($\\frac{1}{0{,}5} = 2$)."
+      },
+      {
+        "title": "6. Retrouver une valeur initiale et programmer un calcul d'évolutions",
+        "content": "• Si l'on connaît la valeur d'arrivée et le taux, on **divise** par le coefficient multiplicateur : $V_D = \\frac{V_A}{1 + t}$.\n**Exemple** : un article coûte $68$ € après une remise de $15\\,\\%$ : son prix initial était $\\frac{68}{0{,}85} = 80$ €.\n• En Python, on peut calculer le coefficient global de plusieurs évolutions données en pourcentage :\n```python\ndef coefficient_global(taux):\n    cm = 1\n    for t in taux:\n        cm = cm * (1 + t / 100)\n    return cm\n\nprint(coefficient_global([20, -20]))   # affiche 0.96 (aux arrondis près)\n```"
+      }
+    ],
+    "methods": [
+      {
+        "title": "Méthode : Calculer un taux d'évolution",
+        "example": "Le prix d'un abonnement passe de $40$ € à $46$ €. Calculer le taux d'évolution, puis le coefficient multiplicateur.",
+        "steps": [
+          "**Étape 1 (Identifier les valeurs)** : $V_D = 40$ et $V_A = 46$.",
+          "**Étape 2 (Taux)** : $t = \\frac{V_A - V_D}{V_D} = \\frac{46 - 40}{40} = \\frac{6}{40} = 0{,}15$.",
+          "**Étape 3 (Coefficient)** : $CM = 1 + t = 1{,}15$ ; on vérifie que $40 \\times 1{,}15 = 46$.",
+          "**Conclusion** : le prix a augmenté de $15\\,\\%$."
+        ]
+      },
+      {
+        "title": "Méthode : Calculer le taux global de deux évolutions successives",
+        "example": "Une action baisse de $10\\,\\%$ un jour, puis augmente de $15\\,\\%$ le lendemain. Quelle est l'évolution globale ?",
+        "steps": [
+          "**Étape 1 (Coefficients)** : baisse de $10\\,\\%$ : $CM_1 = 0{,}9$ ; hausse de $15\\,\\%$ : $CM_2 = 1{,}15$.",
+          "**Étape 2 (Produit)** : $CM = 0{,}9 \\times 1{,}15 = 1{,}035$.",
+          "**Étape 3 (Taux global)** : $t = CM - 1 = 0{,}035 = 3{,}5\\,\\%$.",
+          "**Conclusion** : l'action a globalement augmenté de $3{,}5\\,\\%$ (et non de $15 - 10 = 5\\,\\%$)."
+        ]
+      },
+      {
+        "title": "Méthode : Déterminer l'évolution réciproque",
+        "example": "Un loyer a augmenté de $60\\,\\%$ en dix ans. De quel pourcentage devrait-il baisser pour revenir à sa valeur initiale ?",
+        "steps": [
+          "**Étape 1 (Coefficient de l'évolution)** : $CM = 1 + 0{,}6 = 1{,}6$.",
+          "**Étape 2 (Coefficient réciproque)** : $CM' = \\frac{1}{1{,}6} = 0{,}625$.",
+          "**Étape 3 (Taux réciproque)** : $t' = 0{,}625 - 1 = -0{,}375$.",
+          "**Conclusion** : il faudrait une baisse de $37{,}5\\,\\%$ (et non de $60\\,\\%$)."
+        ]
+      },
+      {
+        "title": "Méthode : Calculer une proportion de proportion",
+        "example": "Dans une entreprise, $40\\,\\%$ des salariés sont cadres, et $35\\,\\%$ des cadres sont des femmes. Quelle proportion des salariés sont des femmes cadres ? Combien sont-elles sur $1\\,500$ salariés ?",
+        "steps": [
+          "**Étape 1 (Emboîtement)** : femmes cadres $\\subset$ cadres $\\subset$ salariés.",
+          "**Étape 2 (Produit)** : $p = 0{,}35 \\times 0{,}4 = 0{,}14 = 14\\,\\%$.",
+          "**Étape 3 (Effectif)** : $n = 0{,}14 \\times 1\\,500 = 210$.",
+          "**Conclusion** : $14\\,\\%$ des salariés sont des femmes cadres, soit $210$ personnes."
+        ]
+      }
+    ],
+    "traps": [
+      "⚠️ Des pourcentages d'évolutions successives ne s'additionnent pas : on **multiplie** les coefficients multiplicateurs ($+20\\,\\%$ puis $-20\\,\\%$ donne $-4\\,\\%$).",
+      "⚠️ L'évolution réciproque d'une hausse de $t\\,\\%$ n'est pas une baisse de $t\\,\\%$ : son coefficient est $\\frac{1}{1 + t}$.",
+      "⚠️ Le taux d'évolution se calcule en divisant par la valeur de **départ** $V_D$, pas par la valeur d'arrivée.",
+      "⚠️ Une baisse de $30\\,\\%$ correspond au coefficient $0{,}7$ et non $0{,}3$ ; une hausse de $5\\,\\%$ correspond à $1{,}05$ et non $1{,}5$.",
+      "⚠️ Pour retrouver un prix avant une remise de $15\\,\\%$, on divise par $0{,}85$ : on n'ajoute pas $15\\,\\%$ du prix remisé."
+    ],
+    "flashcards": [
+      {
+        "q": "Quel coefficient multiplicateur correspond à une baisse de $12\\,\\%$ ?",
+        "a": "$CM = 1 - 0{,}12 = 0{,}88$."
+      },
+      {
+        "q": "Formule du taux d'évolution entre $V_D$ et $V_A$ ?",
+        "a": "$t = \\frac{V_A - V_D}{V_D}$, et $CM = 1 + t = \\frac{V_A}{V_D}$."
+      },
+      {
+        "q": "Quel est le taux global d'une hausse de $10\\,\\%$ suivie d'une hausse de $10\\,\\%$ ?",
+        "a": "$CM = 1{,}1^2 = 1{,}21$ : hausse globale de $21\\,\\%$."
+      },
+      {
+        "q": "Après une baisse de $20\\,\\%$, quelle hausse permet de revenir à la valeur initiale ?",
+        "a": "$\\frac{1}{0{,}8} = 1{,}25$ : une hausse de $25\\,\\%$."
+      },
+      {
+        "q": "$30\\,\\%$ des élèves sont internes et $40\\,\\%$ des internes sont en seconde. Quelle proportion des élèves sont des internes de seconde ?",
+        "a": "$0{,}4 \\times 0{,}3 = 0{,}12$, soit $12\\,\\%$."
+      },
+      {
+        "q": "Un prix vaut $63$ € après une hausse de $5\\,\\%$. Quel était le prix initial ?",
+        "a": "$\\frac{63}{1{,}05} = 60$ €."
+      }
+    ]
+  },
+  "2S4": {
+    "title": "2S4 : Algorithmique et programmation : variables, instructions conditionnelles, boucles et fonctions",
+    "domain": "Algorithmique et Programmation",
+    "objectives": [
+      "Choisir ou déterminer le type d'une variable : entier (`int`), flottant (`float`), chaîne de caractères (`str`), booléen (`bool`).",
+      "Concevoir et exécuter à la main une suite d'affectations en suivant l'évolution des variables.",
+      "Écrire une instruction conditionnelle `if … elif … else` à l'aide de conditions et de connecteurs `and`, `or`, `not`.",
+      "Programmer une boucle bornée (`for i in range(…)`) et une boucle non bornée (`while condition:`), et savoir laquelle choisir.",
+      "Écrire une fonction Python avec un ou plusieurs paramètres et une valeur renvoyée (`return`), puis l'appeler.",
+      "Utiliser les opérateurs `//` (quotient entier), `%` (reste) et `**` (puissance) dans des problèmes mathématiques."
+    ],
+    "keyPoints": [
+      {
+        "title": "1. Variables, types et affectation",
+        "content": "Une **variable** est un nom associé à une valeur stockée en mémoire. L'**affectation** `x = 5` range la valeur $5$ dans la variable `x` (le signe `=` n'est pas une égalité mathématique : il se lit « prend la valeur »).\n• `int` : nombre entier (`7`, `-3`) ;\n• `float` : nombre à virgule flottante, écrit avec un **point** (`2.5`, `0.1`) ;\n• `str` : chaîne de caractères entre guillemets (`\"Bonjour\"`) ;\n• `bool` : booléen, `True` ou `False` (résultat d'une comparaison comme `3 < 5`).\nOpérations utiles : `+`, `-`, `*`, `/` (division décimale, résultat flottant : `7 / 2` vaut $3{,}5$), `//` (quotient entier : `7 // 2` vaut $3$), `%` (reste : `7 % 2` vaut $1$), `**` (puissance : `2 ** 5` vaut $32$).\n```python\na = 7\nb = 2\nq = a // b    # 3\nr = a % b     # 1\nprint(q, r)   # affiche 3 1\n```"
+      },
+      {
+        "title": "2. Exécuter un programme à la main",
+        "content": "Les instructions s'exécutent **dans l'ordre**, de haut en bas. Chaque affectation utilise les valeurs **actuelles** des variables : l'ancienne valeur est **écrasée**.\nPour suivre un programme, on dresse un **tableau d'état** des variables, ligne après ligne.\n```python\na = 3\nb = 5\na = a + b     # a vaut 8\nb = a - b     # b vaut 3\na = a - b     # a vaut 5\n```\nCe programme **échange** les valeurs de `a` et `b`. On peut aussi écrire `a, b = b, a` (affectation simultanée) ou utiliser une variable auxiliaire `c`."
+      },
+      {
+        "title": "3. Instructions conditionnelles",
+        "content": "Une **instruction conditionnelle** exécute un bloc seulement si une condition est vraie. Les blocs sont délimités par l'**indentation** (4 espaces) et la ligne de test se termine par `:`.\n```python\nif delta > 0:\n    nb = 2\nelif delta == 0:\n    nb = 1\nelse:\n    nb = 0\n```\n• Comparaisons : `==` (égal), `!=` (différent), `<`, `<=`, `>`, `>=`.\n• Connecteurs logiques : `and` (les deux conditions), `or` (au moins l'une), `not` (négation).\n• Tester la parité : `n % 2 == 0` est vrai si et seulement si $n$ est pair."
+      },
+      {
+        "title": "4. Boucle bornée `for`",
+        "content": "On utilise une **boucle bornée** quand on connaît **à l'avance** le nombre de répétitions.\n• `range(n)` parcourt $0, 1, \\dots, n - 1$ ($n$ valeurs) ;\n• `range(a, b)` parcourt $a, a + 1, \\dots, b - 1$ (la borne $b$ est **exclue**) ;\n• `range(a, b, p)` avance avec un pas $p$.\nExemple : calcul de $1 + 2 + \\dots + 100$ avec un **accumulateur** `s`.\n```python\ns = 0\nfor i in range(1, 101):\n    s = s + i\nprint(s)      # affiche 5050\n```"
+      },
+      {
+        "title": "5. Boucle non bornée `while`",
+        "content": "On utilise une **boucle non bornée** quand on répète une action **tant qu'une condition est vraie**, sans connaître à l'avance le nombre de tours (recherche d'un **seuil**).\n```python\ncapital = 1000\nannees = 0\nwhile capital < 2000:\n    capital = capital * 1.05\n    annees = annees + 1\nprint(annees)   # affiche 15\n```\nLa condition est testée **avant** chaque tour. Il faut s'assurer que la condition finit par devenir fausse, sinon le programme ne s'arrête jamais (boucle infinie)."
+      },
+      {
+        "title": "6. Fonctions",
+        "content": "Une **fonction** regroupe des instructions réutilisables. Elle reçoit des **paramètres** et **renvoie** un résultat avec `return` (l'exécution de la fonction s'arrête alors).\n```python\ndef image(x):\n    return 3 * x ** 2 - 5\n\ndef est_multiple(n, d):\n    return n % d == 0\n\nprint(image(2))            # affiche 7\nprint(est_multiple(21, 7)) # affiche True\n```\nNe pas confondre `return` (la fonction **renvoie** une valeur utilisable dans un calcul) et `print` (qui **affiche** seulement une valeur à l'écran)."
+      }
+    ],
+    "methods": [
+      {
+        "title": "Méthode : Faire tourner un programme à la main",
+        "example": "Qu'affiche le programme suivant ?\n```python\nx = 4\ny = 1\nfor k in range(3):\n    y = y * x\n    x = x - 1\nprint(y)\n```",
+        "steps": [
+          "**Étape 1 (État initial)** : `x = 4`, `y = 1`. La boucle s'exécute 3 fois (`k` vaut 0, 1, 2).",
+          "**Étape 2 (Tour 1)** : `y = 1 × 4 = 4`, puis `x = 3`.",
+          "**Étape 3 (Tours 2 et 3)** : `y = 4 × 3 = 12`, `x = 2` ; puis `y = 12 × 2 = 24`, `x = 1`.",
+          "**Conclusion** : le programme affiche $24$, c'est-à-dire $4 \\times 3 \\times 2$."
+        ]
+      },
+      {
+        "title": "Méthode : Choisir entre boucle for et boucle while",
+        "example": "Une population de bactéries double toutes les heures, à partir de 500 bactéries. Écrire un programme donnant le nombre d'heures nécessaires pour dépasser 100 000 bactéries.",
+        "steps": [
+          "**Étape 1 (Analyse)** : on ne connaît pas à l'avance le nombre d'heures : on choisit une boucle **non bornée** `while`.",
+          "**Étape 2 (Condition)** : on continue **tant que** la population est inférieure ou égale à 100 000 : `while p <= 100000:`.",
+          "**Étape 3 (Programme)** :\n```python\np = 500\nh = 0\nwhile p <= 100000:\n    p = 2 * p\n    h = h + 1\nprint(h)\n```",
+          "**Conclusion** : $500 \\times 2^7 = 64\\,000$ et $500 \\times 2^8 = 128\\,000$, donc le programme affiche $8$ heures."
+        ]
+      },
+      {
+        "title": "Méthode : Écrire une fonction avec une instruction conditionnelle",
+        "example": "Écrire une fonction `tarif(age)` qui renvoie le prix d'une entrée de cinéma : 5 euros avant 12 ans, 7 euros de 12 à 25 ans inclus, 10 euros ensuite. Que renvoie `tarif(25)` ?",
+        "steps": [
+          "**Étape 1 (Cas)** : trois cas qui s'excluent, testés dans l'ordre : `if … elif … else`.",
+          "**Étape 2 (Programme)** :\n```python\ndef tarif(age):\n    if age < 12:\n        return 5\n    elif age <= 25:\n        return 7\n    else:\n        return 10\n```",
+          "**Étape 3 (Appel)** : pour `age = 25`, le test `age < 12` est faux, `age <= 25` est vrai : la fonction renvoie $7$.",
+          "**Conclusion** : `tarif(25)` vaut $7$ ; attention à bien choisir `<` ou `<=` selon que la borne est incluse ou non."
+        ]
+      },
+      {
+        "title": "Méthode : Utiliser le quotient et le reste",
+        "example": "Écrire un programme qui convertit une durée de 7 384 secondes en heures, minutes et secondes.",
+        "steps": [
+          "**Étape 1 (Heures)** : une heure vaut 3 600 s : `h = 7384 // 3600` donne $2$ et il reste `7384 % 3600`, soit $184$ s.",
+          "**Étape 2 (Minutes et secondes)** : `m = 184 // 60` donne $3$ et `s = 184 % 60` donne $4$.",
+          "**Étape 3 (Programme)** :\n```python\nt = 7384\nh = t // 3600\nreste = t % 3600\nm = reste // 60\ns = reste % 60\nprint(h, m, s)   # affiche 2 3 4\n```",
+          "**Conclusion** : $7\\,384$ s $= 2$ h $3$ min $4$ s, car $2 \\times 3600 + 3 \\times 60 + 4 = 7\\,384$."
+        ]
+      }
+    ],
+    "traps": [
+      "⚠️ `range(1, 10)` s'arrête à $9$ : la borne de droite est **exclue**. Pour aller jusqu'à $n$ inclus, on écrit `range(1, n + 1)`.",
+      "⚠️ Ne pas confondre `=` (affectation) et `==` (test d'égalité) : `if x = 3:` provoque une erreur.",
+      "⚠️ En Python, `/` donne toujours un flottant (`6 / 2` vaut `3.0`), alors que `//` donne le quotient entier. Les nombres décimaux s'écrivent avec un **point** : `2.5` et non `2,5`.",
+      "⚠️ Dans une boucle `while`, la condition est celle pour **continuer**, pas pour s'arrêter : pour s'arrêter dès que `u` dépasse 100, on écrit `while u <= 100:`.",
+      "⚠️ L'indentation fait partie du langage : une instruction mal indentée change de bloc (et donc le résultat), ou provoque une erreur."
+    ],
+    "flashcards": [
+      {
+        "q": "Quelles valeurs prend `i` dans `for i in range(2, 6):` ?",
+        "a": "$2$, $3$, $4$ et $5$ (la borne $6$ est exclue)."
+      },
+      {
+        "q": "Que valent `17 // 5` et `17 % 5` ?",
+        "a": "$3$ et $2$, car $17 = 5 \\times 3 + 2$."
+      },
+      {
+        "q": "Quand utilise-t-on une boucle `while` plutôt qu'une boucle `for` ?",
+        "a": "Quand on ne connaît pas à l'avance le nombre de répétitions : on répète tant qu'une condition est vraie (recherche de seuil)."
+      },
+      {
+        "q": "Quelle est la différence entre `return` et `print` dans une fonction ?",
+        "a": "`return` renvoie une valeur réutilisable (et termine la fonction) ; `print` se contente de l'afficher à l'écran."
+      },
+      {
+        "q": "Quel est le type de la valeur de `3 < 5` ?",
+        "a": "Un booléen (`bool`) : ici `True`."
+      },
+      {
+        "q": "Comment tester en Python qu'un entier `n` est pair ?",
+        "a": "Avec la condition `n % 2 == 0` (le reste de la division par 2 est nul)."
+      }
+    ]
   }
 };
 
@@ -2350,6 +2576,200 @@ window.MATHS_EXERCISES_2NDE = {
       "hint1": "L'amplitude dépend de $\\frac{1}{\\sqrt{n}}$.",
       "hint2": "$\\sqrt{4n} = 2\\sqrt{n}$. L'amplitude est donc divisée par 2.",
       "solution": "L'amplitude vaut $\\frac{2}{\\sqrt{n}}$. Si on remplace $n$ par $4n$, $\\sqrt{4n} = 2\\sqrt{n}$, la largeur est donc divisée par 2."
+    }
+  ],
+  "2N5": [
+    {
+      "id": "2N5-1",
+      "tier": 1,
+      "type": "mcq",
+      "title": "Coefficient multiplicateur d'une baisse",
+      "skill": "Associer un taux d'évolution à son coefficient multiplicateur",
+      "statement": "Le prix d'un vélo baisse de $18\\,\\%$. Par quel nombre est multiplié son prix ?",
+      "options": [
+        "$0{,}82$",
+        "$0{,}18$",
+        "$1{,}18$",
+        "$0{,}982$"
+      ],
+      "correctIndex": 0,
+      "answer": "$0{,}82$",
+      "hint1": "Diminuer de $t\\,\\%$ revient à multiplier par $1 - \\frac{t}{100}$.",
+      "hint2": "$1 - 0{,}18 = \\dots$",
+      "solution": "Une baisse de $18\\,\\%$ correspond au taux $t = -0{,}18$, donc au coefficient multiplicateur $CM = 1 + t = 1 - 0{,}18 = 0{,}82$."
+    },
+    {
+      "id": "2N5-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Proportion de proportion",
+      "skill": "Calculer la proportion d'une sous-population emboîtée",
+      "statement": "Dans un lycée, $45\\,\\%$ des élèves sont demi-pensionnaires et, parmi eux, $60\\,\\%$ sont en classe de seconde. Quelle proportion des élèves du lycée sont des demi-pensionnaires de seconde ?",
+      "options": [
+        "$27\\,\\%$",
+        "$105\\,\\%$",
+        "$15\\,\\%$",
+        "$52{,}5\\,\\%$"
+      ],
+      "correctIndex": 0,
+      "answer": "$27\\,\\%$",
+      "hint1": "Les demi-pensionnaires de seconde forment une partie des demi-pensionnaires, qui forment une partie des élèves.",
+      "hint2": "On multiplie les proportions : $0{,}6 \\times 0{,}45$.",
+      "solution": "La proportion cherchée est une proportion de proportion : $p = 0{,}6 \\times 0{,}45 = 0{,}27$, soit $27\\,\\%$ des élèves du lycée."
+    },
+    {
+      "id": "2N5-3",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Taux d'évolution",
+      "skill": "Calculer un taux d'évolution entre deux valeurs",
+      "statement": "La population d'une commune passe de $2\\,500$ à $2\\,350$ habitants. Quel est le taux d'évolution ?",
+      "options": [
+        "$-6\\,\\%$",
+        "$-150\\,\\%$",
+        "$+6\\,\\%$",
+        "$-6{,}38\\,\\%$"
+      ],
+      "correctIndex": 0,
+      "answer": "$-6\\,\\%$",
+      "hint1": "$t = \\frac{V_A - V_D}{V_D}$ avec $V_D = 2\\,500$.",
+      "hint2": "$V_A - V_D = -150$.",
+      "solution": "$t = \\frac{2\\,350 - 2\\,500}{2\\,500} = \\frac{-150}{2\\,500} = -0{,}06$. La population a baissé de $6\\,\\%$. (Diviser par $2\\,350$ au lieu de $2\\,500$ donnerait à tort environ $-6{,}38\\,\\%$.)"
+    },
+    {
+      "id": "2N5-4",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Évolutions successives",
+      "skill": "Calculer le taux global de deux évolutions successives",
+      "statement": "Le chiffre d'affaires d'une entreprise augmente de $30\\,\\%$ une année, puis diminue de $30\\,\\%$ l'année suivante. Quelle est l'évolution globale sur les deux ans ?",
+      "options": [
+        "Une baisse de $9\\,\\%$",
+        "Aucune évolution",
+        "Une hausse de $9\\,\\%$",
+        "Une baisse de $30\\,\\%$"
+      ],
+      "correctIndex": 0,
+      "answer": "Une baisse de $9\\,\\%$",
+      "hint1": "Calcule les deux coefficients multiplicateurs et multiplie-les.",
+      "hint2": "$1{,}3 \\times 0{,}7 = 0{,}91$.",
+      "solution": "$CM_1 = 1{,}3$ et $CM_2 = 0{,}7$, donc $CM = 1{,}3 \\times 0{,}7 = 0{,}91$ et $t = 0{,}91 - 1 = -0{,}09$ : le chiffre d'affaires a globalement baissé de $9\\,\\%$."
+    },
+    {
+      "id": "2N5-5",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Évolution réciproque",
+      "skill": "Déterminer le taux d'évolution réciproque",
+      "statement": "Pendant les soldes, un article est vendu avec une remise de $40\\,\\%$. Après les soldes, de quel pourcentage faut-il augmenter le prix soldé pour retrouver le prix initial (arrondi à $0{,}1\\,\\%$ près) ?",
+      "options": [
+        "$66{,}7\\,\\%$",
+        "$40\\,\\%$",
+        "$60\\,\\%$",
+        "$140\\,\\%$"
+      ],
+      "correctIndex": 0,
+      "answer": "$66{,}7\\,\\%$",
+      "hint1": "Le coefficient de la remise est $0{,}6$ ; le coefficient réciproque est son inverse.",
+      "hint2": "$\\frac{1}{0{,}6} \\approx 1{,}6667$.",
+      "solution": "La remise de $40\\,\\%$ correspond à $CM = 0{,}6$. L'évolution réciproque a pour coefficient $CM' = \\frac{1}{0{,}6} = \\frac{5}{3} \\approx 1{,}6667$, soit une hausse d'environ $66{,}7\\,\\%$."
+    }
+  ],
+  "2S4": [
+    {
+      "id": "2S4-1",
+      "tier": 1,
+      "type": "mcq",
+      "title": "Suivre des affectations",
+      "skill": "Exécuter à la main une suite d'affectations",
+      "statement": "Qu'affiche le programme Python suivant ?\n```python\na = 5\nb = 2\na = a * b\nb = a - b\nprint(a, b)\n```",
+      "options": [
+        "« 10 8 »",
+        "« 10 3 »",
+        "« 5 2 »",
+        "« 10 2 »"
+      ],
+      "correctIndex": 0,
+      "answer": "« 10 8 »",
+      "hint1": "Chaque affectation utilise les valeurs **actuelles** des variables.",
+      "hint2": "Après la ligne `a = a * b`, la variable `a` vaut $10$.",
+      "solution": "`a = 5 × 2 = 10`, puis `b = a - b = 10 - 2 = 8` (on utilise la nouvelle valeur de `a`). Le programme affiche « 10 8 »."
+    },
+    {
+      "id": "2S4-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Boucle bornée et accumulateur",
+      "skill": "Exécuter une boucle for avec range",
+      "statement": "Qu'affiche le programme Python suivant ?\n```python\ns = 0\nfor i in range(1, 6):\n    s = s + 2 * i\nprint(s)\n```",
+      "options": [
+        "$30$",
+        "$42$",
+        "$20$",
+        "$15$"
+      ],
+      "correctIndex": 0,
+      "answer": "$30$",
+      "hint1": "`range(1, 6)` parcourt les entiers de $1$ à $5$.",
+      "hint2": "On ajoute successivement $2$, $4$, $6$, $8$ et $10$.",
+      "solution": "`i` prend les valeurs $1, 2, 3, 4, 5$ (la borne $6$ est exclue). Donc $s = 2 + 4 + 6 + 8 + 10 = 30$."
+    },
+    {
+      "id": "2S4-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Boucle while et seuil",
+      "skill": "Déterminer le nombre de tours d'une boucle non bornée",
+      "statement": "Un capital de $500$ euros augmente de $10$ euros par mois. Le programme ci-dessous détermine au bout de combien de mois il dépasse strictement $600$ euros. Qu'affiche-t-il ?\n```python\nc = 500\nm = 0\nwhile c <= 600:\n    c = c + 10\n    m = m + 1\nprint(m)\n```",
+      "options": [
+        "$11$",
+        "$10$",
+        "$12$",
+        "$610$"
+      ],
+      "correctIndex": 0,
+      "answer": "$11$",
+      "hint1": "La boucle continue tant que `c <= 600`.",
+      "hint2": "Après $10$ mois, `c` vaut exactement $600$ : la condition est encore vraie.",
+      "solution": "Après $m$ tours, `c` vaut $500 + 10m$. Pour $m = 10$, `c = 600` et `c <= 600` est encore vrai : on fait un tour de plus. Pour $m = 11$, `c = 610` : la boucle s'arrête. Le programme affiche $11$."
+    },
+    {
+      "id": "2S4-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Fonction booléenne",
+      "skill": "Comprendre une fonction renvoyant un booléen",
+      "statement": "On considère la fonction Python suivante.\n```python\ndef mystere(n):\n    for d in range(2, n):\n        if n % d == 0:\n            return False\n    return True\n```\nPour un entier $n \\ge 2$, que teste cette fonction ?",
+      "options": [
+        "Si $n$ est un nombre premier",
+        "Si $n$ est un nombre pair",
+        "Si $n$ est un carré parfait",
+        "Si $n$ est divisible par tous les entiers de $2$ à $n - 1$"
+      ],
+      "correctIndex": 0,
+      "answer": "Si $n$ est un nombre premier",
+      "hint1": "`n % d == 0` signifie que $d$ divise $n$.",
+      "hint2": "La fonction renvoie `False` dès qu'elle trouve un diviseur $d$ compris entre $2$ et $n - 1$.",
+      "solution": "La fonction cherche un diviseur de $n$ parmi $2, 3, \\dots, n - 1$. Si elle en trouve un, elle renvoie `False` ; sinon elle renvoie `True`. Elle renvoie donc `True` exactement lorsque $n$ n'a pas d'autre diviseur que $1$ et lui-même : elle teste si $n$ est premier."
+    },
+    {
+      "id": "2S4-5",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Fonction et boucle",
+      "skill": "Calculer la valeur renvoyée par une fonction",
+      "statement": "Que renvoie l'appel `f(4)` ?\n```python\ndef f(n):\n    p = 1\n    for k in range(1, n + 1):\n        p = p * k\n    return p\n```",
+      "options": [
+        "$24$",
+        "$6$",
+        "$10$",
+        "$120$"
+      ],
+      "correctIndex": 0,
+      "answer": "$24$",
+      "hint1": "`range(1, n + 1)` parcourt les entiers de $1$ à $n$ inclus.",
+      "hint2": "La variable `p` est multipliée successivement par $1$, $2$, $3$ et $4$.",
+      "solution": "$p = 1 \\times 1 \\times 2 \\times 3 \\times 4 = 24$. La fonction calcule le produit des entiers de $1$ à $n$ (appelé factorielle de $n$, notée $n!$)."
     }
   ]
 };

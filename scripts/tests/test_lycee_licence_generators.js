@@ -3877,6 +3877,884 @@ Object.assign(VERIFIERS, ((V) => {
   return R;
 })(V));
 }
+// ---- recalculs 2N5 ----
+{
+Object.assign(VERIFIERS, ((V) => {
+  // ======================= 2N5 : proportions et évolutions =======================
+  const num = (s) => V.val(String(s).replace(/\\,\\%/g, '').replace(/\\,/g, '').replace(/^\+/, ''));
+  /** « Une hausse de $x\,\%$ » -> x ; « Une baisse de $x\,\%$ » -> -x ; « Aucune évolution » -> 0 ; « $+x\,\%$ » -> x */
+  const evo = (a) => {
+    if (/^Aucune évolution$/.test(a)) return 0;
+    let m = a.match(/^Une (hausse|baisse) de \$(.*?)\\,\\%\$$/);
+    if (m) return (m[1] === 'hausse' ? 1 : -1) * num(m[2]);
+    m = a.match(/^\$([+-])(.*?)\\,\\%\$$/);
+    if (m) return (m[1] === '+' ? 1 : -1) * num(m[2]);
+    m = a.match(/^\$(.*?)\\,\\%\$$/);
+    if (m) return num(m[1]);
+    return NaN;
+  };
+  /** Taux signés des verbes « augmente de $t\,\%$ » / « diminue de $t\,\%$ », dans l'ordre */
+  const verbs = (s) => [...s.matchAll(/(augmente|diminue|augmenté|diminué) de \$(.*?)\\,\\%\$/g)].map((m) => (/^augment/.test(m[1]) ? 1 : -1) * num(m[2]));
+  const dollars = (s) => [...s.matchAll(/\$([^$]*)\$/g)].map((m) => m[1]);
+  const close = (a, b, eps = 1e-9) => Number.isFinite(a) && Math.abs(a - b) <= eps;
+  const R2 = (x) => Math.round(x * 100) / 100;
+  const check = (q) => {
+    const s = q.statement; const a = q.answer;
+    switch (q.title) {
+      case 'Coefficient multiplicateur': {
+        const [t] = verbs(s);
+        return close(num(a), 1 + t / 100) || 'coefficient faux';
+      }
+      case 'Taux à partir du coefficient': {
+        const cm = num(s.match(/par \$(.*?)\$/)[1]);
+        return close(evo(a), R2((cm - 1) * 100), 1e-6) || 'taux faux';
+      }
+      case 'Calcul d\'une proportion': {
+        const [N, nA] = dollars(s).map(num);
+        return close(evo(a), (nA / N) * 100, 1e-9) || 'proportion fausse';
+      }
+      case 'Effectif à partir d\'une proportion': {
+        const d = dollars(s);
+        const N = num(d[0]); const k = num(d[1].replace(/\\,\\%/, ''));
+        return close(num(a), (k * N) / 100) || 'effectif faux';
+      }
+      case 'Taux d\'évolution': {
+        const m = s.match(/passe de \$(.*?)\$ à \$(.*?)\$/);
+        const VD = num(m[1]); const VA = num(m[2]);
+        return close(evo(a), ((VA - VD) / VD) * 100, 1e-9) || 'taux faux';
+      }
+      case 'Valeur après évolution': {
+        const VD = num(s.match(/valait \$(.*?)\$/)[1]); const [t] = verbs(s);
+        return close(num(a), VD * (1 + t / 100), 1e-9) || 'valeur d\'arrivée fausse';
+      }
+      case 'Valeur avant évolution': {
+        const [t] = verbs(s); const VA = num(s.match(/vaut \$(.*?)\$/)[1]);
+        return close(num(a) * (1 + t / 100), VA, 1e-9) || 'valeur initiale fausse';
+      }
+      case 'Évolutions successives': {
+        const [t1, t2] = verbs(s);
+        return close(evo(a), R2(((1 + t1 / 100) * (1 + t2 / 100) - 1) * 100), 1e-6) || 'taux global faux';
+      }
+      case 'Proportion de proportion': {
+        const d = dollars(s).map((x) => num(x));
+        return close(evo(a), (d[0] * d[1]) / 100, 1e-9) || 'proportion de proportion fausse';
+      }
+      case 'Évolution réciproque': {
+        const [t] = verbs(s);
+        const tr = (1 / (1 + t / 100) - 1) * 100;
+        if (/arrondi/.test(s) === (Math.abs(R2(tr) - tr) < 1e-9)) return 'mention d\'arrondi incohérente';
+        return close(evo(a), R2(tr), 1e-6) || 'taux réciproque faux';
+      }
+      case 'Évolutions identiques répétées': {
+        const [t] = verbs(s); const n = +s.match(/pendant \$(\d+)\$ ans/)[1];
+        return close(evo(a), R2(((1 + t / 100) ** n - 1) * 100), 1e-6) || 'taux global faux';
+      }
+      case 'Second taux d\'évolution': {
+        const [t1] = verbs(s);
+        const m = s.match(/est une (hausse|baisse) de \$(.*?)\\,\\%\$/);
+        const tg = (m[1] === 'hausse' ? 1 : -1) * num(m[2]);
+        return close(evo(a), ((1 + tg / 100) / (1 + t1 / 100) - 1) * 100, 1e-6) || 'second taux faux';
+      }
+      default:
+        return 'famille 2N5 non reconnue : ' + q.title;
+    }
+  };
+  return { '2N5': check };
+})(V));
+}
+// ---- recalculs 2S4 ----
+{
+Object.assign(VERIFIERS, ((V) => {
+  // ---------- mini-interpréteur Python (sous-ensemble) pour les recalculs d'algorithmique ----------
+  // int = nombre JS, float = PyFloat, bool, str, list. Instructions : =, +=, -=, *=, /=, //=, %=, a, b = …, L[i] = …,
+  // if/elif/else, for … in …, while, break, def/return, print, import (ignoré).
+  // Fonctions : range, len, abs, sum, max, min, int, float, str, sqrt, random, randint (hooks), list.append.
+  const PY = (() => {
+    class PyFloat { constructor(v) { this.v = v; } }
+    const F = (v) => new PyFloat(v);
+    const isF = (x) => x instanceof PyFloat;
+    const nv = (x) => (isF(x) ? x.v : typeof x === 'boolean' ? (x ? 1 : 0) : x);
+    const isNum = (x) => typeof x === 'number' || typeof x === 'boolean' || isF(x);
+    const truthy = (x) => (Array.isArray(x) ? x.length > 0 : isF(x) ? x.v !== 0 : !!x);
+    const TOK = /\s*(?:(\d+\.\d*(?:e-?\d+)?|\d+e-?\d+|\d+)|("[^"]*"|'[^']*')|([A-Za-z_]\w*)|(\*\*|\/\/=|\/\/|==|!=|<=|>=|\+=|-=|\*=|\/=|%=|[-+*/%<>()[\],.:=]))/y;
+    function tokenize(s) {
+      const out = []; TOK.lastIndex = 0; let m;
+      while (TOK.lastIndex < s.length) {
+        const start = TOK.lastIndex;
+        if (/^\s*$/.test(s.slice(start))) break;
+        m = TOK.exec(s);
+        if (!m) throw new Error('jeton illisible : ' + s.slice(start));
+        if (m[1] !== undefined) out.push({ t: 'num', v: /[.e]/.test(m[1]) ? F(parseFloat(m[1])) : parseInt(m[1], 10) });
+        else if (m[2] !== undefined) out.push({ t: 'str', v: m[2].slice(1, -1) });
+        else if (m[3] !== undefined) out.push({ t: 'name', v: m[3] });
+        else out.push({ t: 'op', v: m[4] });
+      }
+      return out;
+    }
+    // ---- analyse d'expressions ----
+    function parser(toks) {
+      let i = 0;
+      const peek = (v) => toks[i] && (toks[i].t === 'op' || toks[i].t === 'name') && toks[i].v === v;
+      const eat = (v) => { if (!peek(v)) throw new Error('attendu ' + v + ' trouvé ' + (toks[i] ? toks[i].v : 'fin')); i++; };
+      function expr() { return or(); }
+      function or() { let a = and(); while (peek('or')) { i++; const b = and(); const l = a; a = { k: 'or', l, r: b }; } return a; }
+      function and() { let a = not(); while (peek('and')) { i++; const b = not(); const l = a; a = { k: 'and', l, r: b }; } return a; }
+      function not() { if (peek('not')) { i++; return { k: 'not', e: not() }; } return cmp(); }
+      function cmp() {
+        const first = add(); const ops = []; const rest = [];
+        while (toks[i] && ['==', '!=', '<', '<=', '>', '>=', 'in'].includes(toks[i].v) && toks[i].t !== 'str') { ops.push(toks[i].v); i++; rest.push(add()); }
+        return ops.length ? { k: 'cmp', first, ops, rest } : first;
+      }
+      function add() { let a = mul(); while (peek('+') || peek('-')) { const op = toks[i++].v; a = { k: 'bin', op, l: a, r: mul() }; } return a; }
+      function mul() { let a = unary(); while (peek('*') || peek('/') || peek('//') || peek('%')) { const op = toks[i++].v; a = { k: 'bin', op, l: a, r: unary() }; } return a; }
+      function unary() { if (peek('-')) { i++; return { k: 'neg', e: unary() }; } if (peek('+')) { i++; return unary(); } return pow(); }
+      function pow() { const a = post(); if (peek('**')) { i++; return { k: 'bin', op: '**', l: a, r: unary() }; } return a; }
+      function post() {
+        let a = atom();
+        for (;;) {
+          if (peek('(')) { i++; const args = []; while (!peek(')')) { args.push(expr()); if (peek(',')) i++; } eat(')'); a = { k: 'call', f: a, args }; } else if (peek('[')) { i++; const ix = expr(); eat(']'); a = { k: 'idx', e: a, ix }; } else if (peek('.')) { i++; a = { k: 'attr', e: a, name: toks[i++].v }; } else break;
+        }
+        return a;
+      }
+      function atom() {
+        const t = toks[i++];
+        if (!t) throw new Error('expression incomplète');
+        if (t.t === 'num' || t.t === 'str') return { k: 'lit', v: t.v };
+        if (t.t === 'name') {
+          if (t.v === 'True') return { k: 'lit', v: true };
+          if (t.v === 'False') return { k: 'lit', v: false };
+          return { k: 'name', v: t.v };
+        }
+        if (t.v === '(') { const e = expr(); if (peek(',')) { const items = [e]; while (peek(',')) { i++; if (peek(')')) break; items.push(expr()); } eat(')'); return { k: 'tuple', items }; } eat(')'); return e; }
+        if (t.v === '[') {
+          if (peek(']')) { i++; return { k: 'list', items: [] }; }
+          const first = expr();
+          if (peek('for')) {
+            i++; const v = toks[i++].v; eat('in'); const it = or(); let cond = null;
+            if (peek('if')) { i++; cond = or(); }
+            eat(']'); return { k: 'comp', e: first, v, it, cond };
+          }
+          const items = [first]; while (peek(',')) { i++; if (peek(']')) break; items.push(expr()); } eat(']');
+          return { k: 'list', items };
+        }
+        throw new Error('jeton inattendu ' + t.v);
+      }
+      function tupleExpr() { const e = expr(); if (peek(',')) { const items = [e]; while (peek(',')) { i++; items.push(expr()); } return { k: 'tuple', items }; } return e; }
+      return { expr, tupleExpr, done: () => i >= toks.length, rest: () => toks.slice(i), pos: () => i, setPos: (p) => { i = p; }, peek, eat };
+    }
+    const parseExpr = (s) => { const p = parser(tokenize(s)); const e = p.tupleExpr(); if (!p.done()) throw new Error('reste : ' + s); return e; };
+    // ---- arithmétique ----
+    function arith(op, a, b) {
+      if (op === '+' && Array.isArray(a)) return a.concat(b);
+      if (op === '+' && typeof a === 'string') return a + b;
+      if (op === '*' && typeof a === 'string') return a.repeat(nv(b));
+      if (!isNum(a) || !isNum(b)) throw new Error('opérandes invalides pour ' + op);
+      const x = nv(a); const y = nv(b); const fl = isF(a) || isF(b);
+      const w = (v) => (fl ? F(v) : v);
+      switch (op) {
+        case '+': return w(x + y);
+        case '-': return w(x - y);
+        case '*': return w(x * y);
+        case '/': if (y === 0) throw new Error('ZeroDivisionError'); return F(x / y);
+        case '//': if (y === 0) throw new Error('ZeroDivisionError'); return w(Math.floor(x / y));
+        case '%': if (y === 0) throw new Error('ZeroDivisionError'); return w(x - y * Math.floor(x / y));
+        case '**': return (!fl && y >= 0) ? Math.pow(x, y) : F(Math.pow(x, y));
+        default: throw new Error('op ' + op);
+      }
+    }
+    function eq(a, b) {
+      if (isNum(a) && isNum(b)) return nv(a) === nv(b);
+      if (Array.isArray(a) && Array.isArray(b)) return a.length === b.length && a.every((x, k) => eq(x, b[k]));
+      return a === b;
+    }
+    function compare(op, a, b) {
+      if (op === '==') return eq(a, b);
+      if (op === '!=') return !eq(a, b);
+      if (op === 'in') return Array.isArray(b) ? b.some((x) => eq(x, a)) : String(b).includes(a);
+      const x = isNum(a) ? nv(a) : a; const y = isNum(b) ? nv(b) : b;
+      return { '<': x < y, '<=': x <= y, '>': x > y, '>=': x >= y }[op];
+    }
+    function repr(v, inner) {
+      if (isF(v)) {
+        const x = v.v;
+        if (Number.isInteger(x) && Math.abs(x) < 1e16) return x + '.0';
+        return String(x).replace(/e([+-])(\d)$/, 'e$10$2');
+      }
+      if (typeof v === 'boolean') return v ? 'True' : 'False';
+      if (typeof v === 'string') return inner ? "'" + v + "'" : v;
+      if (Array.isArray(v)) return '[' + v.map((x) => repr(x, true)).join(', ') + ']';
+      if (v && v.k === 'tuple') return '(' + v.items.map((x) => repr(x, true)).join(', ') + ')';
+      return String(v);
+    }
+    // ---- programme ----
+    function parseProgram(code) {
+      const lines = code.split('\n').map((l) => l.replace(/#.*$/, '').replace(/\s+$/, '')).filter((l) => l.trim());
+      let li = 0;
+      const ind = (l) => l.match(/^ */)[0].length;
+      function block(level) {
+        const out = [];
+        while (li < lines.length && ind(lines[li]) === level) out.push(stmt(level));
+        if (li < lines.length && ind(lines[li]) > level) throw new Error('indentation inattendue : ' + lines[li]);
+        return out;
+      }
+      function body(level) {
+        if (li >= lines.length || ind(lines[li]) <= level) throw new Error('bloc vide');
+        return block(ind(lines[li]));
+      }
+      function stmt(level) {
+        const line = lines[li++].trim();
+        let m;
+        if ((m = line.match(/^def (\w+)\((.*)\):$/))) return { k: 'def', name: m[1], params: m[2].split(',').map((s) => s.trim()).filter(Boolean), body: body(level) };
+        if ((m = line.match(/^if (.*):$/))) {
+          const branches = [{ c: parseExpr(m[1]), b: body(level) }]; let els = null;
+          while (li < lines.length && ind(lines[li]) === level) {
+            const l2 = lines[li].trim(); let m2;
+            if ((m2 = l2.match(/^elif (.*):$/))) { li++; branches.push({ c: parseExpr(m2[1]), b: body(level) }); } else if (l2 === 'else:') { li++; els = body(level); break; } else break;
+          }
+          return { k: 'if', branches, els };
+        }
+        if ((m = line.match(/^for (\w+) in (.*):$/))) return { k: 'for', v: m[1], it: parseExpr(m[2]), body: body(level) };
+        if ((m = line.match(/^while (.*):$/))) return { k: 'while', c: parseExpr(m[1]), body: body(level) };
+        if (line === 'break') return { k: 'break' };
+        if ((m = line.match(/^return(?: (.*))?$/))) return { k: 'return', e: m[1] ? parseExpr(m[1]) : null };
+        if (/^(import|from) /.test(line)) return { k: 'pass' };
+        if (line === 'pass') return { k: 'pass' };
+        const toks = tokenize(line);
+        let depth = 0;
+        for (let k = 0; k < toks.length; k++) {
+          const t = toks[k];
+          if (t.t !== 'op') continue;
+          if ('([' .includes(t.v)) depth++;
+          else if (')]'.includes(t.v)) depth--;
+          else if (depth === 0 && ['=', '+=', '-=', '*=', '/=', '//=', '%='].includes(t.v)) {
+            const pl = parser(toks.slice(0, k)); const target = pl.tupleExpr();
+            const pr = parser(toks.slice(k + 1)); const value = pr.tupleExpr();
+            if (!pl.done() || !pr.done()) throw new Error('affectation illisible : ' + line);
+            return { k: 'assign', op: t.v, target, value };
+          }
+        }
+        const p = parser(toks); const e = p.tupleExpr(); if (!p.done()) throw new Error('instruction illisible : ' + line);
+        return { k: 'expr', e };
+      }
+      const prog = block(0);
+      if (li < lines.length) throw new Error('ligne non analysée : ' + lines[li]);
+      return prog;
+    }
+    class Ret { constructor(v) { this.v = v; } }
+    class Brk {}
+    function run(code, hooks = {}) {
+      const out = []; let steps = 0;
+      const globals = {};
+      const builtins = {
+        print: (...a) => { out.push(a.map((x) => repr(x)).join(' ')); return undefined; },
+        range: (a, b, c) => { let s = 0; let e; let st = 1; if (b === undefined) e = nv(a); else { s = nv(a); e = nv(b); if (c !== undefined) st = nv(c); } const r = []; if (st > 0) for (let x = s; x < e; x += st) r.push(x); else for (let x = s; x > e; x += st) r.push(x); return r; },
+        len: (a) => a.length,
+        abs: (a) => (isF(a) ? F(Math.abs(a.v)) : Math.abs(nv(a))),
+        sum: (a) => a.reduce((s, x) => arith('+', s, x), 0),
+        max: (...a) => { const L = a.length === 1 && Array.isArray(a[0]) ? a[0] : a; return L.reduce((m, x) => (compare('>', x, m) ? x : m)); },
+        min: (...a) => { const L = a.length === 1 && Array.isArray(a[0]) ? a[0] : a; return L.reduce((m, x) => (compare('<', x, m) ? x : m)); },
+        int: (a) => (typeof a === 'string' ? parseInt(a, 10) : Math.trunc(nv(a))),
+        float: (a) => F(typeof a === 'string' ? parseFloat(a) : nv(a)),
+        str: (a) => repr(a),
+        sqrt: (a) => F(Math.sqrt(nv(a))),
+        random: () => F(hooks.random ? hooks.random() : Math.random()),
+        randint: (a, b) => (hooks.randint ? hooks.randint(nv(a), nv(b)) : nv(a) + Math.floor(Math.random() * (nv(b) - nv(a) + 1)))
+      };
+      function lookup(env, n) {
+        if (env.loc && n in env.loc) return env.loc[n];
+        if (n in globals) return globals[n];
+        if (n in builtins) return builtins[n];
+        throw new Error('NameError: ' + n);
+      }
+      function ev(e, env) {
+        if (++steps > 2e6) throw new Error('trop d\'étapes');
+        switch (e.k) {
+          case 'lit': return e.v;
+          case 'name': return lookup(env, e.v);
+          case 'neg': { const v = ev(e.e, env); return isF(v) ? F(-v.v) : -nv(v); }
+          case 'not': return !truthy(ev(e.e, env));
+          case 'and': { const a = ev(e.l, env); return truthy(a) ? ev(e.r, env) : a; }
+          case 'or': { const a = ev(e.l, env); return truthy(a) ? a : ev(e.r, env); }
+          case 'bin': return arith(e.op, ev(e.l, env), ev(e.r, env));
+          case 'cmp': { let a = ev(e.first, env); for (let k = 0; k < e.ops.length; k++) { const b = ev(e.rest[k], env); if (!compare(e.ops[k], a, b)) return false; a = b; } return true; }
+          case 'list': return e.items.map((x) => ev(x, env));
+          case 'tuple': return { k: 'tuple', items: e.items.map((x) => ev(x, env)) };
+          case 'comp': {
+            const it = ev(e.it, env); const res = [];
+            const loc = Object.assign({}, env.loc || {});
+            const env2 = { loc };
+            for (const x of it) { loc[e.v] = x; if (!e.cond || truthy(ev(e.cond, env2))) res.push(ev(e.e, env2)); }
+            return res;
+          }
+          case 'idx': { const L = ev(e.e, env); let ix = nv(ev(e.ix, env)); if (ix < 0) ix += L.length; if (ix < 0 || ix >= L.length) throw new Error('IndexError'); return L[ix]; }
+          case 'attr': {
+            const o = ev(e.e, env);
+            if (Array.isArray(o) && e.name === 'append') return (x) => { o.push(x); return undefined; };
+            throw new Error('attribut ' + e.name);
+          }
+          case 'call': {
+            const f = ev(e.f, env); const args = e.args.map((x) => ev(x, env));
+            if (typeof f === 'function') return f(...args);
+            if (f && f.k === 'def') {
+              const loc = {}; f.params.forEach((p, k) => { loc[p] = args[k]; });
+              try { exec(f.body, { loc }); } catch (r) { if (r instanceof Ret) return r.v; throw r; }
+              return undefined;
+            }
+            throw new Error('appel invalide');
+          }
+          default: throw new Error('noeud ' + e.k);
+        }
+      }
+      function assignTo(t, v, env) {
+        const store = env.loc || globals;
+        if (t.k === 'name') store[t.v] = v;
+        else if (t.k === 'tuple') { const vs = v.k === 'tuple' ? v.items : v; t.items.forEach((x, k) => assignTo(x, vs[k], env)); } else if (t.k === 'idx') { const L = ev(t.e, env); let ix = nv(ev(t.ix, env)); if (ix < 0) ix += L.length; L[ix] = v; } else throw new Error('cible invalide');
+      }
+      function exec(stmts, env) {
+        for (const s of stmts) {
+          if (++steps > 2e6) throw new Error('trop d\'étapes');
+          switch (s.k) {
+            case 'def': (env.loc || globals)[s.name] = s; break;
+            case 'if': { const br = s.branches.find((b) => truthy(ev(b.c, env))); if (br) exec(br.b, env); else if (s.els) exec(s.els, env); break; }
+            case 'for': {
+              const it = ev(s.it, env);
+              try { for (const x of (typeof it === 'string' ? it.split('') : it.slice())) { assignTo({ k: 'name', v: s.v }, x, env); exec(s.body, env); } } catch (b) { if (!(b instanceof Brk)) throw b; }
+              break;
+            }
+            case 'while': try { while (truthy(ev(s.c, env))) exec(s.body, env); } catch (b) { if (!(b instanceof Brk)) throw b; } break;
+            case 'break': throw new Brk();
+            case 'return': throw new Ret(s.e ? ev(s.e, env) : undefined);
+            case 'pass': break;
+            case 'assign': {
+              let v = ev(s.value, env);
+              if (s.op !== '=') v = arith(s.op.slice(0, -1), ev(s.target, env), v);
+              assignTo(s.target, v, env); break;
+            }
+            case 'expr': ev(s.e, env); break;
+            default: throw new Error('instruction ' + s.k);
+          }
+        }
+      }
+      exec(parseProgram(code), {});
+      return { out, globals, repr, call: (name, ...args) => ev({ k: 'call', f: { k: 'lit', v: globals[name] }, args: args.map((v) => ({ k: 'lit', v })) }, {}) };
+    }
+    /** Évalue une expression Python isolée (variables fournies dans vars). */
+    function evalExpr(src, vars = {}, hooks = {}) {
+      const code = Object.entries(vars).map(([k, v]) => `${k} = ${typeof v === 'number' && !Number.isInteger(v) ? String(v) : v}`).join('\n') + '\n__r = ' + src;
+      const r = run(code, hooks);
+      return nv(r.globals.__r);
+    }
+    /** Code Python d'un énoncé (premier bloc ```python ... ```). */
+    const code = (s) => { const m = String(s).match(/```python\n([\s\S]*?)```/); if (!m) throw new Error('pas de bloc python'); return m[1]; };
+    /** Vérifie une réponse de QCM contre la sortie d'un programme : « … » = texte exact, sinon valeur numérique. */
+    function checkOut(ans, outLines) {
+      const got = outLines.join('\n');
+      const m = String(ans).match(/^« (.*) »$/);
+      if (m) return m[1] === got || `affiche « ${got} », réponse « ${m[1]} »`;
+      const v = V.val(String(ans).replace(/^\$|\$$/g, ''));
+      if (Number.isNaN(v)) return 'réponse illisible ' + ans;
+      if (outLines.length !== 1 || Number.isNaN(parseFloat(got))) return 'sortie non numérique « ' + got + ' »';
+      return Math.abs(parseFloat(got) - v) < 1e-9 * Math.max(1, Math.abs(v)) || `affiche ${got}, réponse ${ans}`;
+    }
+    return { run, evalExpr, code, checkOut, nv, repr, F };
+  })();
+  V.py = PY;
+  /** Recalcul générique : exécute le programme de l'énoncé, compare la sortie à la réponse et vérifie
+   *  qu'aucun distracteur ne correspond aussi à la sortie. */
+  const runCheck = (q) => {
+    const r = PY.run(PY.code(q.statement));
+    const ok = PY.checkOut(q.answer, r.out);
+    if (ok !== true) return ok;
+    const dup = (q.options || []).find((o) => o !== q.answer && PY.checkOut(o, r.out) === true);
+    return dup ? 'distracteur également correct : ' + dup : true;
+  };
+  return { '2S4/1': runCheck, '2S4/2': runCheck, '2S4/3': runCheck, '2S4/4': runCheck };
+})(V));
+}
+// ---- recalculs 1S3 ----
+{
+Object.assign(VERIFIERS, ((V) => {
+  // Utilise l'interpréteur V.py défini avec les recalculs de 2S4 (résolu à l'appel).
+  const runCheck = (q) => {
+    const PY = V.py;
+    const r = PY.run(PY.code(q.statement));
+    const ok = PY.checkOut(q.answer, r.out);
+    if (ok !== true) return ok;
+    const dup = (q.options || []).find((o) => o !== q.answer && PY.checkOut(o, r.out) === true);
+    return dup ? 'distracteur également correct : ' + dup : true;
+  };
+  /** Programme de simulation : on énumère toutes les issues des appels randint de la fonction d'expérience
+   *  et on compare la moyenne exacte (probabilité ou espérance) à la réponse. */
+  const enumCheck = (q) => {
+    const PY = V.py;
+    const code = PY.code(q.statement);
+    const fn = /def gain\(\)/.test(code) ? 'gain' : 'experience';
+    if (!/return (c|s) \/ N/.test(code)) return 'fonction de moyenne absente';
+    const lines = code.split('\n');
+    const i0 = lines.findIndex((l) => l === `def ${fn}():`);
+    let i1 = i0 + 1;
+    while (i1 < lines.length && /^ {4}/.test(lines[i1])) i1++;
+    const block = lines.slice(i0, i1).join('\n');
+    const calls = [...block.matchAll(/randint\((\d+), (\d+)\)/g)].map((m) => [+m[1], +m[2]]);
+    let combos = [[]];
+    for (const [a, b] of calls) { const nx = []; for (const c of combos) for (let v = a; v <= b; v++) nx.push([...c, v]); combos = nx; }
+    let sum = 0;
+    for (const c of combos) {
+      let k = 0;
+      const r = PY.run(block + `\nprint(${fn}())`, { randint: () => c[k++] });
+      sum += parseFloat(r.out[0]);
+    }
+    const mean = sum / combos.length;
+    const val = (o) => V.val(String(o).replace(/^\$|\$$/g, ''));
+    if (!V.near(val(q.answer), mean)) return `moyenne exacte ${mean}, réponse ${q.answer}`;
+    const dup = q.options.find((o) => o !== q.answer && V.near(val(o), mean));
+    return dup ? 'distracteur égal à la valeur exacte : ' + dup : true;
+  };
+  const any = (q) => (/randint/.test(q.statement) ? enumCheck(q) : runCheck(q));
+  return { '1S3/1': runCheck, '1S3/2': runCheck, '1S3/3': runCheck, '1S3/4': any };
+})(V));
+}
+// ---- recalculs TA8 ----
+{
+Object.assign(VERIFIERS, ((V) => {
+  // Recalculs indépendants — TA8 (dérivées de composées, dérivée seconde) : dérivation numérique
+  // Évaluateur indépendant d'expressions LaTeX en x : \frac, \sqrt, e^{…}, \ln, \sin, \cos, \pi, puissances, produits implicites
+  const ev = (tex) => {
+    let s = String(tex).replace(/\\left|\\right|\\,|\\!/g, '').replace(/\\[dt]frac/g, '\\frac').replace(/\{,\}/g, '.').replace(/\s+/g, '');
+    let prev;
+    do {
+      prev = s;
+      s = s.replace(/\\frac\{([^{}]*)\}\{([^{}]*)\}/g, '(($1)/($2))').replace(/\\sqrt\{([^{}]*)\}/g, 'S($1)')
+        .replace(/e\^\{([^{}]*)\}/g, 'E($1)').replace(/\^\{([^{}]*)\}/g, '^($1)');
+    } while (s !== prev);
+    s = s.replace(/\\sin/g, 'N').replace(/\\cos/g, 'C').replace(/\\ln/g, 'L').replace(/\\pi/g, 'P').replace(/\\times|\\cdot/g, '*');
+    const toks = s.match(/\d+(?:\.\d+)?|[xPeSENCL]|[+\-*/^()]/g) || [];
+    if (toks.join('') !== s) throw new Error('ev: jeton inconnu dans ' + tex + ' -> ' + s);
+    let i = 0;
+    const peek = () => toks[i];
+    const expr = () => {
+      let v = term();
+      while (peek() === '+' || peek() === '-') { const o = toks[i++]; const r = term(); const l = v; v = o === '+' ? (x) => l(x) + r(x) : (x) => l(x) - r(x); }
+      return v;
+    };
+    const term = () => {
+      let v = unary();
+      for (;;) {
+        const t = peek();
+        if (t === '*' || t === '/') { i++; const r = unary(); const l = v; v = t === '*' ? (x) => l(x) * r(x) : (x) => l(x) / r(x); } else if (t !== undefined && /^[\d(xPeSENCL]/.test(t)) { const r = power(); const l = v; v = (x) => l(x) * r(x); } else break;
+      }
+      return v;
+    };
+    const unary = () => {
+      if (peek() === '-') { i++; const u = unary(); return (x) => -u(x); }
+      return power();
+    };
+    const power = () => {
+      const b = primary();
+      if (peek() === '^') { i++; const e = unary(); return (x) => Math.pow(b(x), e(x)); }
+      return b;
+    };
+    const primary = () => {
+      const t = toks[i++];
+      if (t === undefined) throw new Error('ev: fin inattendue ' + tex);
+      if (/^\d/.test(t)) { const c = +t; return () => c; }
+      if (t === 'x') return (x) => x;
+      if (t === 'P') return () => Math.PI;
+      if (t === 'e') return () => Math.E;
+      if (t === '(') { const v = expr(); if (toks[i++] !== ')') throw new Error('ev: ) attendue ' + tex); return v; }
+      const F = { S: Math.sqrt, E: Math.exp, N: Math.sin, C: Math.cos, L: Math.log }[t];
+      if (F) { if (toks[i++] !== '(') throw new Error('ev: ( attendue ' + tex); const v = expr(); if (toks[i++] !== ')') throw new Error('ev: ) attendue ' + tex); return (x) => F(v(x)); }
+      throw new Error('ev: jeton ' + t + ' dans ' + tex);
+    };
+    const f = expr();
+    if (i !== toks.length) throw new Error('ev: reste non lu dans ' + tex);
+    return f;
+  };
+  const fin = (v) => Number.isFinite(v) && Math.abs(v) < 1e9;
+  const d1 = (f, x, h = 1e-4) => (-f(x + 2 * h) + 8 * f(x + h) - 8 * f(x - h) + f(x - 2 * h)) / (12 * h);
+  const d2 = (f, x, h = 1e-3) => (-f(x + 2 * h) + 16 * f(x + h) - 30 * f(x) + 16 * f(x - h) - f(x - 2 * h)) / (12 * h * h);
+  const close = (a, b, tol = 1e-5) => Math.abs(a - b) <= tol * Math.max(1, Math.abs(a), Math.abs(b));
+  const PTS = []; for (let k = -120; k <= 120; k++) PTS.push(k * 0.137 + 0.0123);
+  /** g ≈ dérivée (ordre 1 ou 2) de f sur les points de définition (au moins 4) */
+  const sameDeriv = (f, g, order = 1) => {
+    let n = 0;
+    for (const x of PTS) {
+      const vals = [-2, -1, 0, 1, 2].map((k) => f(x + k * 1e-3));
+      if (!vals.every(fin)) continue;
+      const num = order === 1 ? d1(f, x) : d2(f, x);
+      const num2 = order === 1 ? d1(f, x, 5e-5) : d2(f, x, 5e-4);
+      const gv = g(x);
+      if (!fin(num) || !fin(gv) || !close(num, num2, 1e-7)) continue; // zone numériquement instable : ignorée
+      if (!close(num, gv, order === 1 ? 1e-5 : 1e-4)) return `écart en x = ${x.toFixed(4)} : ${gv} au lieu de ${num}`;
+      n++;
+    }
+    return n >= 4 || 'trop peu de points de contrôle';
+  };
+
+  const fOf = (s) => ev(s.match(/\$f\(x\) = (.*?)\$/)[1]);
+  const rhs = (a) => a.replace(/^\$/, '').replace(/\$$/, '').replace(/^[^=]*= /, '');
+  const iv = (a) => {
+    let m;
+    if ((m = a.match(/^\$\[(.*) ; \+\\infty\[\$$/))) return { lo: V.val(m[1]) || ev(m[1])(0), right: true };
+    if ((m = a.match(/^\$\]-\\infty ; (.*)\]\$$/))) return { hi: ev(m[1])(0), right: false };
+    return null;
+  };
+  /** la fonction (dérivée d'ordre `order` de f) est >= 0 exactement sur l'intervalle de la réponse */
+  const signOn = (f, ans, order) => {
+    const I = iv(ans);
+    if (!I) return 'intervalle illisible ' + ans;
+    const c = I.right ? I.lo : I.hi;
+    for (const dx of [0.05, 0.4, 1.5, 3]) {
+      const inside = I.right ? c + dx : c - dx; const outside = I.right ? c - dx : c + dx;
+      const di = order === 1 ? d1(f, inside) : d2(f, inside); const de = order === 1 ? d1(f, outside) : d2(f, outside);
+      if (!(di > 0) || !(de < 0)) return `signe incorrect autour de ${c}`;
+    }
+    return true;
+  };
+  const R = {};
+  R['TA8/1'] = (q) => sameDeriv(fOf(q.statement), ev(rhs(q.answer)), 1);
+  R['TA8/2'] = R['TA8/1'];
+  R['TA8/3'] = (q) => {
+    const f = fOf(q.statement);
+    const m = q.answer.match(/^\$f''\((-?\d+)\) = (-?\d+)\$$/);
+    if (m) return close(d2(f, +m[1]), +m[2], 1e-5) || `f''(${m[1]}) attendu ${d2(f, +m[1])}`;
+    return sameDeriv(f, ev(rhs(q.answer)), 2);
+  };
+  R['TA8/4'] = (q) => {
+    const f = fOf(q.statement);
+    if (/tangente/.test(q.statement)) {
+      const x0 = +q.statement.match(/abscisse \$(-?\d+)\$/)[1];
+      const t = ev(rhs(q.answer));
+      const y0 = f(x0); const m = d1(f, x0);
+      return (close(t(x0), y0) && close(t(x0 + 1) - t(x0), m)) || 'tangente fausse';
+    }
+    if (/dérivée \$f'\$ est-elle croissante/.test(q.statement)) return signOn(f, q.answer, 2);
+    return signOn(f, q.answer, 1);
+  };
+  return R;
+})(V));
+}
+// ---- recalculs TA9 ----
+{
+Object.assign(VERIFIERS, ((V) => {
+  // Recalculs indépendants — TA9 (sinus et cosinus) : évaluation numérique, résolution par arcsin / arccos
+  // Évaluateur indépendant d'expressions LaTeX en x : \frac, \sqrt, e^{…}, \ln, \sin, \cos, \pi, puissances, produits implicites
+  const ev = (tex) => {
+    let s = String(tex).replace(/\\left|\\right|\\,|\\!/g, '').replace(/\\[dt]frac/g, '\\frac').replace(/\{,\}/g, '.').replace(/\s+/g, '');
+    let prev;
+    do {
+      prev = s;
+      s = s.replace(/\\frac\{([^{}]*)\}\{([^{}]*)\}/g, '(($1)/($2))').replace(/\\sqrt\{([^{}]*)\}/g, 'S($1)')
+        .replace(/e\^\{([^{}]*)\}/g, 'E($1)').replace(/\^\{([^{}]*)\}/g, '^($1)');
+    } while (s !== prev);
+    s = s.replace(/\\sin/g, 'N').replace(/\\cos/g, 'C').replace(/\\ln/g, 'L').replace(/\\pi/g, 'P').replace(/\\times|\\cdot/g, '*');
+    const toks = s.match(/\d+(?:\.\d+)?|[xPeSENCL]|[+\-*/^()]/g) || [];
+    if (toks.join('') !== s) throw new Error('ev: jeton inconnu dans ' + tex + ' -> ' + s);
+    let i = 0;
+    const peek = () => toks[i];
+    const expr = () => {
+      let v = term();
+      while (peek() === '+' || peek() === '-') { const o = toks[i++]; const r = term(); const l = v; v = o === '+' ? (x) => l(x) + r(x) : (x) => l(x) - r(x); }
+      return v;
+    };
+    const term = () => {
+      let v = unary();
+      for (;;) {
+        const t = peek();
+        if (t === '*' || t === '/') { i++; const r = unary(); const l = v; v = t === '*' ? (x) => l(x) * r(x) : (x) => l(x) / r(x); } else if (t !== undefined && /^[\d(xPeSENCL]/.test(t)) { const r = power(); const l = v; v = (x) => l(x) * r(x); } else break;
+      }
+      return v;
+    };
+    const unary = () => {
+      if (peek() === '-') { i++; const u = unary(); return (x) => -u(x); }
+      return power();
+    };
+    const power = () => {
+      const b = primary();
+      if (peek() === '^') { i++; const e = unary(); return (x) => Math.pow(b(x), e(x)); }
+      return b;
+    };
+    const primary = () => {
+      const t = toks[i++];
+      if (t === undefined) throw new Error('ev: fin inattendue ' + tex);
+      if (/^\d/.test(t)) { const c = +t; return () => c; }
+      if (t === 'x') return (x) => x;
+      if (t === 'P') return () => Math.PI;
+      if (t === 'e') return () => Math.E;
+      if (t === '(') { const v = expr(); if (toks[i++] !== ')') throw new Error('ev: ) attendue ' + tex); return v; }
+      const F = { S: Math.sqrt, E: Math.exp, N: Math.sin, C: Math.cos, L: Math.log }[t];
+      if (F) { if (toks[i++] !== '(') throw new Error('ev: ( attendue ' + tex); const v = expr(); if (toks[i++] !== ')') throw new Error('ev: ) attendue ' + tex); return (x) => F(v(x)); }
+      throw new Error('ev: jeton ' + t + ' dans ' + tex);
+    };
+    const f = expr();
+    if (i !== toks.length) throw new Error('ev: reste non lu dans ' + tex);
+    return f;
+  };
+  const fin = (v) => Number.isFinite(v) && Math.abs(v) < 1e9;
+  const d1 = (f, x, h = 1e-4) => (-f(x + 2 * h) + 8 * f(x + h) - 8 * f(x - h) + f(x - 2 * h)) / (12 * h);
+  const d2 = (f, x, h = 1e-3) => (-f(x + 2 * h) + 16 * f(x + h) - 30 * f(x) + 16 * f(x - h) - f(x - 2 * h)) / (12 * h * h);
+  const close = (a, b, tol = 1e-5) => Math.abs(a - b) <= tol * Math.max(1, Math.abs(a), Math.abs(b));
+  const PTS = []; for (let k = -120; k <= 120; k++) PTS.push(k * 0.137 + 0.0123);
+  /** g ≈ dérivée (ordre 1 ou 2) de f sur les points de définition (au moins 4) */
+  const sameDeriv = (f, g, order = 1) => {
+    let n = 0;
+    for (const x of PTS) {
+      const vals = [-2, -1, 0, 1, 2].map((k) => f(x + k * 1e-3));
+      if (!vals.every(fin)) continue;
+      const num = order === 1 ? d1(f, x) : d2(f, x);
+      const num2 = order === 1 ? d1(f, x, 5e-5) : d2(f, x, 5e-4);
+      const gv = g(x);
+      if (!fin(num) || !fin(gv) || !close(num, num2, 1e-7)) continue; // zone numériquement instable : ignorée
+      if (!close(num, gv, order === 1 ? 1e-5 : 1e-4)) return `écart en x = ${x.toFixed(4)} : ${gv} au lieu de ${num}`;
+      n++;
+    }
+    return n >= 4 || 'trop peu de points de contrôle';
+  };
+
+  const rhs = (a) => a.replace(/^\$/, '').replace(/\$$/, '').replace(/^[^=]*= /, '');
+  const fOf = (s) => ev(s.match(/\$f\(x\) = (.*?)\$/)[1]);
+  const num = (t) => ev(t)(0);
+  const ivOf = (tex) => {
+    const t = tex.replace(/\\left|\\right/g, '').trim();
+    const m = t.match(/^([\[\]])(.*) ; (.*)([\[\]])$/);
+    return { lo: num(m[2]), hi: num(m[3]), lc: m[1] === '[', rc: m[4] === ']' };
+  };
+  const inIv = (x, I, eps = 1e-9) => (I.lc ? x >= I.lo - eps : x > I.lo + eps) && (I.rc ? x <= I.hi + eps : x < I.hi - eps);
+  /** Ensemble-réponse : { pts: [...] } (ensemble fini) ou { ivs: [...] } (réunion d'intervalles) */
+  const setOf = (ans) => {
+    const s = rhs(ans).trim();
+    if (s === '\\emptyset') return { pts: [] };
+    let m;
+    if ((m = s.match(/^\\left\\\{(.*)\\right\\\}$/))) return { pts: m[1].split(' ; ').map(num) };
+    return { ivs: s.split(' \\cup ').map(ivOf) };
+  };
+  const sameSetPred = (pred, S, I) => {
+    const xs = [];
+    for (let k = 0; k <= 960; k++) xs.push(I.lo + (I.hi - I.lo) * k / 960);
+    for (const J of S.ivs) for (const b of [J.lo, J.hi]) xs.push(b, b - 1e-6, b + 1e-6);
+    const ends = [I.lo, I.hi]; for (const J of S.ivs) ends.push(J.lo, J.hi);
+    for (const x of xs) {
+      if (!inIv(x, I, 0)) continue;
+      const dmin = Math.min(...ends.map((b) => Math.abs(x - b)));
+      if (dmin > 0 && dmin < 1e-7) continue; // trop près d'une borne : seuls les tests exacts aux bornes comptent
+      const inS = S.ivs.some((J) => inIv(x, J));
+      if (inS !== pred(x)) return `désaccord en x = ${x}`;
+    }
+    for (const J of S.ivs) if (!inIv(J.lo, I) && J.lc) return 'borne hors de I';
+    return true;
+  };
+  const OPS = { '\\ge': (a, b) => a >= b - 1e-9, '\\le': (a, b) => a <= b + 1e-9, '>': (a, b) => a > b + 1e-9, '<': (a, b) => a < b - 1e-9 };
+  const R = {};
+  R['TA9/1'] = (q) => {
+    const f = fOf(q.statement);
+    if (/Parité/.test(q.title)) {
+      const xs = [0.3, 0.71, 1.2, 1.9, 2.6, 3.3];
+      const even = xs.every((x) => Math.abs(f(-x) - f(x)) < 1e-9); const odd = xs.every((x) => Math.abs(f(-x) + f(x)) < 1e-9);
+      const lab = even && odd ? 'à la fois' : even ? 'est paire' : odd ? 'est impaire' : 'ni paire ni impaire';
+      return q.answer.includes(lab) || 'parité fausse';
+    }
+    if (/Période/.test(q.title)) {
+      const T = num(rhs(q.answer));
+      const per = (t) => [0.1, 0.5, 1.3, 2.2, -0.7].every((x) => Math.abs(f(x + t) - f(x)) < 1e-9);
+      if (!per(T)) return 'T n\'est pas une période';
+      for (let k = 2; k <= 12; k++) if (per(T / k)) return 'période non minimale';
+      return true;
+    }
+    return sameDeriv(f, ev(rhs(q.answer)), 1);
+  };
+  R['TA9/2'] = (q) => {
+    if (/Équation/.test(q.title)) return eqCheck(q);
+    return sameDeriv(fOf(q.statement), ev(rhs(q.answer)), 1);
+  };
+  const eqCheck = (q) => {
+    const m = q.statement.match(/I = (.*?)\$ l'équation \$\\(sin|cos)\(x\) = (.*?)\$/);
+    const I = ivOf(m[1]); const v = num(m[3]);
+    const base = m[2] === 'sin' ? [Math.asin(v), Math.PI - Math.asin(v)] : [Math.acos(v), -Math.acos(v)];
+    const sols = [];
+    for (let k = -4; k <= 4; k++) for (const b of base) { const x = b + 2 * k * Math.PI; if (inIv(x, I) && !sols.some((y) => Math.abs(y - x) < 1e-9)) sols.push(x); }
+    sols.sort((a, b) => a - b);
+    const S = setOf(q.answer);
+    if (!S.pts) return 'ensemble fini attendu';
+    const got = S.pts.slice().sort((a, b) => a - b);
+    return (got.length === sols.length && got.every((x, i) => Math.abs(x - sols[i]) < 1e-9)) || `solutions attendues ${sols.map((x) => (x / Math.PI).toFixed(4) + 'π')}`;
+  };
+  R['TA9/3'] = (q) => {
+    if (/Équation/.test(q.title)) return eqCheck(q);
+    if (/Limite/.test(q.title)) {
+      const g = ev(q.statement.match(/\\lim_\{x \\to 0\} (.*?)\$/)[1]);
+      const l = num(rhs(q.answer));
+      return (Math.abs(g(1e-6) - l) < 1e-6 && Math.abs(g(-1e-6) - l) < 1e-6) || 'limite fausse';
+    }
+    return sameDeriv(fOf(q.statement), ev(rhs(q.answer)), 1);
+  };
+  R['TA9/4'] = (q) => {
+    const S = setOf(q.answer);
+    if (!S.ivs) return 'réunion d\'intervalles attendue';
+    const I = ivOf(q.statement.match(/I = (.*?)\$/)[1]);
+    if (/Inéquation/.test(q.title)) {
+      const m = q.statement.match(/l'inéquation \$\\(sin|cos)\(x\) (\\ge|\\le|>|<) (.*?)\$/);
+      const fn = m[1] === 'sin' ? Math.sin : Math.cos; const v = num(m[3]); const op = OPS[m[2]];
+      return sameSetPred((x) => op(fn(x), v), S, I);
+    }
+    const f = fOf(q.statement);
+    return sameSetPred((x) => d1(f, x) >= -1e-7, S, I);
+  };
+  return R;
+})(V));
+}
+// ---- recalculs TS3 ----
+{
+Object.assign(VERIFIERS, ((V) => {
+  // Recalculs indépendants — TS3 (dénombrement)
+  const fact = (n) => (n <= 1 ? 1 : n * fact(n - 1));
+  const C = (n, k) => (k < 0 || k > n ? 0 : Math.round(fact(n) / (fact(k) * fact(n - k))));
+  const A = (n, k) => Math.round(fact(n) / fact(n - k));
+  const Nval = (q) => { const m = String(q.answer).match(/^\$N = ([\d\\,]+)\$$/); return m ? +m[1].replace(/\\,/g, '') : NaN; };
+  const ints = (s) => [...String(s).replace(/\$N\$/g, '').matchAll(/\d+/g)].map((m) => +m[0]);
+  const chk = (q, v) => Nval(q) === v || `N attendu ${v}, obtenu ${q.answer}`;
+  const frac = (q, num, den) => {
+    const m = String(q.answer).match(/^\$\\frac\{(\d+)\}\{(\d+)\}\$$/);
+    if (!m) return 'fraction illisible ' + q.answer;
+    return (+m[1] * den === +m[2] * num && V.gcd(+m[1], +m[2]) === 1) || `probabilité attendue ${num}/${den}`;
+  };
+  const R = {};
+  R['TS3/1'] = (q) => {
+    const [n, k] = ints(q.statement);
+    if (/k-uplets/.test(q.title)) return chk(q, n ** k);
+    if (/Permutations/.test(q.title)) return chk(q, fact(n));
+    if (/Arrangements/.test(q.title)) return chk(q, A(n, k));
+    if (/Combinaisons/.test(q.title)) return chk(q, C(n, k));
+    return 'famille TS3/1 inconnue';
+  };
+  R['TS3/2'] = (q) => {
+    const s = q.statement;
+    if (/Anagrammes/.test(q.title)) {
+      const w = s.match(/« ([A-Z]+) »/)[1];
+      const cnt = {};
+      for (const c of w) cnt[c] = (cnt[c] || 0) + 1;
+      return chk(q, Object.values(cnt).reduce((v, m) => v / fact(m), fact(w.length)));
+    }
+    if (/urne/.test(q.title)) {
+      const n = +s.match(/contient (\d+) boules/)[1]; const k = +s.match(/remise (\d+) boules|simultanément (\d+) boules/).slice(1).find(Boolean);
+      if (/avec remise/.test(s)) return chk(q, n ** k);
+      if (/sans remise/.test(s)) return chk(q, A(n, k));
+      return chk(q, C(n, k));
+    }
+    if (/Pascal/.test(q.title)) {
+      const m = s.match(/N = \\binom\{(\d+)\}\{(\d+)\}/);
+      const given = [...s.matchAll(/\\binom\{(\d+)\}\{(\d+)\} = ([\d\\,]+)\$/g)];
+      for (const g of given) if (C(+g[1], +g[2]) !== +g[3].replace(/\\,/g, '')) return 'donnée de l\'énoncé fausse';
+      return chk(q, C(+m[1], +m[2]));
+    }
+    if (/Parties/.test(q.title)) {
+      const n = +s.match(/possède (\d+) éléments/)[1];
+      if (/non vides/.test(s)) return chk(q, 2 ** n - 1);
+      const m = s.match(/parties de \$E\$ à (\d+) éléments/);
+      if (m) return chk(q, C(n, +m[1]));
+      return chk(q, 2 ** n);
+    }
+    return 'famille TS3/2 inconnue';
+  };
+  R['TS3/3'] = (q) => {
+    const s = q.statement;
+    if (/Délégation/.test(q.title)) {
+      const f = +s.match(/(\d+) filles/)[1]; const g = +s.match(/(\d+) garçons/)[1]; const k = +s.match(/délégation de (\d+)/)[1];
+      let cnt = 0;
+      // énumération brute : nombre de filles i de la délégation
+      for (let i = 0; i <= k; i++) {
+        const ok = /au moins une/.test(s) ? i >= 1 : /au plus une/.test(s) ? i <= 1 : i === +s.match(/exactement (\d+) fille/)[1];
+        if (ok) cnt += C(f, i) * C(g, k - i);
+      }
+      return chk(q, cnt);
+    }
+    if (/cartes/.test(q.title)) {
+      const [D, a, k, i] = ints(s);
+      return chk(q, C(a, i) * C(D - a, k - i));
+    }
+    if (/Codes/.test(q.title)) {
+      const l = +s.match(/formé de (\d+) lettre/)[1]; const c = +s.match(/de (\d+) chiffre/)[1];
+      return chk(q, (/deux à deux distinctes/.test(s) ? A(26, l) : 26 ** l) * 10 ** c);
+    }
+    if (/chiffres/.test(q.title)) {
+      const k = +s.match(/exactement (\d+) chiffres/)[1];
+      let cnt = 0;
+      if (k <= 5) {
+        for (let x = 10 ** (k - 1); x < 10 ** k; x++) if (!/distincts/.test(s) || new Set(String(x)).size === k) cnt++;
+      } else cnt = /distincts/.test(s) ? 9 * A(9, k - 1) : 9 * 10 ** (k - 1);
+      return chk(q, cnt);
+    }
+    return 'famille TS3/3 inconnue';
+  };
+  R['TS3/4'] = (q) => {
+    const s = q.statement;
+    if (/Probabilité par/.test(q.title)) {
+      const [D, a, k, i] = ints(s);
+      return frac(q, C(a, i) * C(D - a, k - i), C(D, k));
+    }
+    if (/quadrillage/.test(q.title)) {
+      const m = s.match(/B\((\d+) ; (\d+)\)/);
+      // dénombrement récursif des chemins
+      const a = +m[1]; const b = +m[2];
+      const T = Array.from({ length: a + 1 }, () => Array(b + 1).fill(1));
+      for (let x = 1; x <= a; x++) for (let y = 1; y <= b; y++) T[x][y] = T[x - 1][y] + T[x][y - 1];
+      return chk(q, T[a][b]);
+    }
+    if (/Diagonales/.test(q.title)) { const n = ints(s)[0]; return chk(q, C(n, 2) - n); }
+    if (/Poignées/.test(q.title)) { const n = ints(s)[0]; return chk(q, n * (n - 1) / 2); }
+    if (/listes/.test(q.title)) {
+      const [k, n] = ints(s);
+      let fav = 0;
+      for (let x = 0; x < n ** k; x++) { const d = []; let y = x; for (let j = 0; j < k; j++) { d.push(y % n); y = Math.floor(y / n); } if (new Set(d).size === k) fav++; }
+      return frac(q, fav, n ** k);
+    }
+    if (/deux éléments/.test(q.title)) { const n = ints(s)[0]; return chk(q, 2 ** n - 1 - n); }
+    return 'famille TS3/4 inconnue';
+  };
+  return R;
+})(V));
+}
+// ---- recalculs TS4 ----
+{
+Object.assign(VERIFIERS, ((V) => {
+  // Utilise l'interpréteur V.py défini avec les recalculs de 2S4 (résolu à l'appel).
+  const runCheck = (q) => {
+    const PY = V.py;
+    const r = PY.run(PY.code(q.statement));
+    const ok = PY.checkOut(q.answer, r.out);
+    if (ok !== true) return ok;
+    const dup = (q.options || []).find((o) => o !== q.answer && PY.checkOut(o, r.out) === true);
+    return dup ? 'distracteur également correct : ' + dup : true;
+  };
+  /** Valeur d'une réponse pouvant contenir π : "$\frac{\pi}{4}$", "$2\pi$", "$1 - \frac{\pi}{4}$", "$\frac{8}{3}$" */
+  const piVal = (s) => {
+    let t = String(s).replace(/^\$|\$$/g, '').replace(/\s+/g, '');
+    for (let k = 0; k < 3; k++) t = t.replace(/\\frac\{([^{}]*)\}\{([^{}]*)\}/g, '(($1)/($2))');
+    t = t.replace(/(\d)\\pi/g, '$1*P').replace(/\\pi/g, 'P');
+    if (/[^0-9P+\-*/().]/.test(t)) return NaN;
+    return Function('P', 'return ' + t)(Math.PI);
+  };
+  /** Monte-Carlo : proportion exacte (intégration numérique sur une grille fine) de la condition du programme. */
+  const mcCheck = (q) => {
+    const code = V.py.code(q.statement);
+    const mx = code.match(/x = (?:(\d+) \* )?random\(\)/);
+    const my = code.match(/y = (?:(\d+) \* )?random\(\)/);
+    const mc = code.match(/if (.*):/);
+    const mr = code.match(/return (?:(\d+) \* )?c \/ n/);
+    if (!mx || !my || !mc || !mr) return 'gabarit Monte-Carlo non reconnu';
+    const A = +(mx[1] || 1); const M = +(my[1] || 1); const K = +(mr[1] || 1);
+    const cond = Function('x', 'y', 'return ' + mc[1].replace(/sqrt\(/g, 'Math.sqrt(') + ';');
+    const G = 800; let c = 0;
+    for (let i = 0; i < G; i++) for (let j = 0; j < G; j++) if (cond(A * (i + 0.5) / G, M * (j + 0.5) / G)) c++;
+    const est = K * c / (G * G);
+    const v = piVal(q.answer);
+    if (!(Math.abs(v - est) < 0.01 * Math.max(1, Math.abs(est)))) return `valeur théorique ≈ ${est}, réponse ${q.answer}`;
+    const dup = q.options.find((o) => o !== q.answer && Math.abs(piVal(o) - est) < 0.03 * Math.max(1, Math.abs(est)));
+    return dup ? 'distracteur proche de la valeur théorique : ' + dup : true;
+  };
+  return { 'TS4/1': runCheck, 'TS4/2': runCheck, 'TS4/3': runCheck, 'TS4/4': mcCheck };
+})(V));
+}
+
 for (const f of VERIFY_FILES) Object.assign(VERIFIERS, require(path.resolve(f))(V));
 
 // ---------------------------------------------------------------------------

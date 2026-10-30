@@ -1593,6 +1593,453 @@ window.MATHS_COURSES_TALE = {
         "a": "Le déterminant vaut $1$, donc l'inverse est $\\begin{pmatrix} 1 & -1 \\\\ -1 & 2 \\end{pmatrix}$."
       }
     ]
+  },
+  "TA8": {
+    "title": "TA8 : Compléments sur la dérivation",
+    "domain": "Analyse et Fonctions",
+    "objectives": [
+      "Reconnaître une fonction composée $g \\circ u$ et déterminer son ensemble de définition.",
+      "Connaître et appliquer la formule de dérivation $(g \\circ u)' = u' \\times (g' \\circ u)$.",
+      "Dériver les formes usuelles $u^n$, $\\sqrt{u}$, $\\frac{1}{u}$, $e^u$, $\\ln(u)$ et $x \\mapsto g(ax + b)$.",
+      "Calculer la dérivée seconde $f''$ d'une fonction deux fois dérivable.",
+      "Interpréter le signe de $f''$ comme renseignant sur les variations de $f'$.",
+      "Étudier les variations d'une fonction composée et déterminer une équation de tangente."
+    ],
+    "keyPoints": [
+      {
+        "title": "1. Composée de deux fonctions",
+        "content": "Soit $u$ une fonction définie sur un intervalle $I$ et à valeurs dans un intervalle $J$, et $g$ une fonction définie sur $J$.\n• La **composée** de $u$ suivie de $g$ est la fonction $g \\circ u$ définie sur $I$ par $(g \\circ u)(x) = g(u(x))$.\n• On calcule d'abord $u(x)$, puis on applique $g$ au résultat : l'ordre compte, en général $g \\circ u \\neq u \\circ g$.\n• Exemple : avec $u(x) = x^2 + 1$ et $g(X) = \\sqrt{X}$, on a $(g \\circ u)(x) = \\sqrt{x^2 + 1}$, tandis que $(u \\circ g)(x) = (\\sqrt{x})^2 + 1 = x + 1$ pour $x \\ge 0$.\n• Pour déterminer l'ensemble de définition de $g \\circ u$, on cherche les $x$ tels que $u(x)$ appartienne à l'ensemble de définition de $g$."
+      },
+      {
+        "title": "2. Dérivée d'une fonction composée",
+        "content": "**Théorème** : si $u$ est dérivable sur $I$ et $g$ dérivable sur $J$ (avec $u(I) \\subset J$), alors $g \\circ u$ est dérivable sur $I$ et\n$$(g \\circ u)'(x) = u'(x) \\times g'(u(x))$$\n**Cas particulier** $g(ax + b)$ : la fonction $x \\mapsto g(ax + b)$ a pour dérivée $x \\mapsto a\\,g'(ax + b)$.\nExemple : $(e^{3x - 1})' = 3e^{3x - 1}$ et $\\left((2x + 5)^4\\right)' = 4 \\times 2 \\times (2x + 5)^3 = 8(2x + 5)^3$."
+      },
+      {
+        "title": "3. Formes usuelles à connaître",
+        "content": "Soit $u$ une fonction dérivable sur un intervalle $I$.\n| Fonction | Dérivée | Condition |\n|:---:|:---:|:---:|\n| $u^n$ ($n \\ge 1$ entier) | $n\\,u'\\,u^{n-1}$ | — |\n| $\\frac{1}{u}$ | $-\\frac{u'}{u^2}$ | $u$ ne s'annule pas sur $I$ |\n| $\\sqrt{u}$ | $\\frac{u'}{2\\sqrt{u}}$ | $u > 0$ sur $I$ |\n| $e^{u}$ | $u'\\,e^{u}$ | — |\n| $\\ln(u)$ | $\\frac{u'}{u}$ | $u > 0$ sur $I$ |\n\nCes formules sont toutes des cas particuliers de $(g \\circ u)' = u' \\times (g' \\circ u)$ ; par exemple pour $g(X) = \\sqrt{X}$, $g'(X) = \\frac{1}{2\\sqrt{X}}$ donc $(\\sqrt{u})' = u' \\times \\frac{1}{2\\sqrt{u}}$."
+      },
+      {
+        "title": "4. Dérivée seconde",
+        "content": "• Si $f$ est dérivable sur $I$ et si sa dérivée $f'$ est elle-même dérivable sur $I$, on dit que $f$ est **deux fois dérivable** et on note $f'' = (f')'$ sa **dérivée seconde**.\n• Le signe de $f''$ donne les **variations de $f'$** : si $f'' \\ge 0$ sur $I$, alors $f'$ est croissante sur $I$ ; si $f'' \\le 0$, $f'$ est décroissante.\n• Exemple : $f(x) = x^3 - 3x^2$ donne $f'(x) = 3x^2 - 6x$ et $f''(x) = 6x - 6$ ; $f'$ est décroissante sur $]-\\infty ; 1]$ et croissante sur $[1 ; +\\infty[$, son minimum est $f'(1) = -3$.\n• Interprétation cinématique : si $f(t)$ est une position, $f'(t)$ est la vitesse et $f''(t)$ l'accélération.\n• Le lien entre le signe de $f''$ et la **convexité** de $f$ est étudié dans le chapitre TA4."
+      },
+      {
+        "title": "5. Applications : variations et tangentes",
+        "content": "• **Variations d'une composée** : dans $(g \\circ u)' = u' \\times g'(u)$, il suffit souvent d'étudier le signe de chaque facteur. Par exemple $e^{u} > 0$, donc $(e^u)'$ a le signe de $u'$ : $x \\mapsto e^{u(x)}$ a les mêmes variations que $u$. De même, $\\sqrt{u}$ et $\\ln(u)$ ont les mêmes variations que $u$ (là où elles sont définies).\n• **Tangente** : la tangente à la courbe de $f$ au point d'abscisse $a$ a pour équation $y = f'(a)(x - a) + f(a)$ ; la formule de dérivation des composées permet de calculer $f'(a)$.\n• Vérification numérique en Python d'une dérivée (taux d'accroissement pour un petit $h$) :\n```python\nfrom math import exp\n\ndef f(x):\n    return exp(x**2 - 3*x)\n\ndef derivee_approchee(f, a, h=1e-6):\n    return (f(a + h) - f(a - h)) / (2 * h)\n\nprint(derivee_approchee(f, 1))\n```\nLa valeur affichée est proche de $f'(1) = (2 \\times 1 - 3)e^{1 - 3} = -e^{-2} \\approx -0{,}135$."
+      }
+    ],
+    "methods": [
+      {
+        "title": "Méthode : Dériver une fonction composée",
+        "example": "Dériver $f(x) = (x^2 - 3x + 4)^5$ puis $g(x) = \\sqrt{2x^2 + 1}$ sur $\\mathbb{R}$.",
+        "steps": [
+          "**Étape 1 (Reconnaître la forme)** : $f = u^5$ avec $u(x) = x^2 - 3x + 4$ ; $g = \\sqrt{v}$ avec $v(x) = 2x^2 + 1 > 0$.",
+          "**Étape 2 (Dériver la fonction intérieure)** : $u'(x) = 2x - 3$ et $v'(x) = 4x$.",
+          "**Étape 3 (Appliquer la formule)** : $f'(x) = 5u'(x)u(x)^4 = 5(2x - 3)(x^2 - 3x + 4)^4$ et $g'(x) = \\frac{v'(x)}{2\\sqrt{v(x)}} = \\frac{4x}{2\\sqrt{2x^2 + 1}} = \\frac{2x}{\\sqrt{2x^2 + 1}}$.",
+          "**Conclusion** : on n'oublie jamais le facteur $u'(x)$, dérivée de la fonction « intérieure »."
+        ]
+      },
+      {
+        "title": "Méthode : Étudier les variations d'une fonction composée",
+        "example": "Étudier les variations de $f(x) = e^{-x^2 + 4x}$ sur $\\mathbb{R}$.",
+        "steps": [
+          "**Étape 1 (Dérivée)** : $f = e^u$ avec $u(x) = -x^2 + 4x$, $u'(x) = -2x + 4$, donc $f'(x) = (-2x + 4)e^{-x^2 + 4x}$.",
+          "**Étape 2 (Signe)** : $e^{-x^2 + 4x} > 0$, donc $f'(x)$ a le signe de $-2x + 4$ : positif pour $x < 2$, négatif pour $x > 2$.",
+          "**Étape 3 (Variations)** : $f$ est croissante sur $]-\\infty ; 2]$ et décroissante sur $[2 ; +\\infty[$.",
+          "**Conclusion** : $f$ admet un maximum en $2$, égal à $f(2) = e^{4}$."
+        ]
+      },
+      {
+        "title": "Méthode : Calculer et exploiter une dérivée seconde",
+        "example": "Soit $f(x) = x e^{-x}$ sur $\\mathbb{R}$. Calculer $f''(x)$ et étudier les variations de $f'$.",
+        "steps": [
+          "**Étape 1 (Dérivée première)** : $f = uv$ avec $u(x) = x$ et $v(x) = e^{-x}$, $v'(x) = -e^{-x}$ : $f'(x) = e^{-x} - xe^{-x} = (1 - x)e^{-x}$.",
+          "**Étape 2 (Dérivée seconde)** : $f''(x) = -e^{-x} + (1 - x) \\times (-e^{-x}) = (x - 2)e^{-x}$.",
+          "**Étape 3 (Signe de $f''$)** : $e^{-x} > 0$, donc $f''(x) \\ge 0 \\iff x \\ge 2$.",
+          "**Conclusion** : $f'$ est décroissante sur $]-\\infty ; 2]$ et croissante sur $[2 ; +\\infty[$ ; son minimum est $f'(2) = -e^{-2}$."
+        ]
+      },
+      {
+        "title": "Méthode : Déterminer une tangente à la courbe d'une composée",
+        "example": "Déterminer l'équation de la tangente à la courbe de $f(x) = \\ln(x^2 + 1)$ au point d'abscisse $1$.",
+        "steps": [
+          "**Étape 1 (Image)** : $f(1) = \\ln(2)$.",
+          "**Étape 2 (Nombre dérivé)** : $f'(x) = \\frac{2x}{x^2 + 1}$, donc $f'(1) = \\frac{2}{2} = 1$.",
+          "**Étape 3 (Équation)** : $y = f'(1)(x - 1) + f(1) = x - 1 + \\ln(2)$.",
+          "**Conclusion** : la tangente a pour équation $y = x - 1 + \\ln(2)$."
+        ]
+      }
+    ],
+    "traps": [
+      "⚠️ Ne pas oublier le facteur $u'$ : $(e^{x^2})' = 2xe^{x^2}$ et non $e^{x^2}$ ; $\\left((3x + 1)^4\\right)' = 12(3x + 1)^3$ et non $4(3x + 1)^3$.",
+      "⚠️ $(\\sqrt{u})' = \\frac{u'}{2\\sqrt{u}}$ n'est valable que là où $u > 0$ : la racine carrée n'est pas dérivable en $0$.",
+      "⚠️ L'ordre de composition compte : $\\ln(x^2) \\neq (\\ln x)^2$ ; la première a pour dérivée $\\frac{2}{x}$, la seconde $\\frac{2\\ln x}{x}$.",
+      "⚠️ Le signe de $f''$ renseigne sur les variations de $f'$, pas sur celles de $f$ : pour les variations de $f$, c'est le signe de $f'$ qu'il faut étudier.",
+      "⚠️ Pour calculer $f''$, on dérive l'expression de $f'$ **après** l'avoir simplifiée (factorisation par $e^{u}$ par exemple) : les calculs sont beaucoup plus courts."
+    ],
+    "flashcards": [
+      {
+        "q": "Donner la formule de dérivation de $g \\circ u$.",
+        "a": "$(g \\circ u)' = u' \\times (g' \\circ u)$, c'est-à-dire $(g(u(x)))' = u'(x)\\,g'(u(x))$."
+      },
+      {
+        "q": "Quelle est la dérivée de $x \\mapsto g(ax + b)$ ?",
+        "a": "$x \\mapsto a\\,g'(ax + b)$."
+      },
+      {
+        "q": "Dériver $e^{u}$ et $\\ln(u)$.",
+        "a": "$(e^u)' = u'e^u$ et $(\\ln u)' = \\frac{u'}{u}$ (avec $u > 0$)."
+      },
+      {
+        "q": "Dériver $\\sqrt{u}$ et $u^n$.",
+        "a": "$(\\sqrt{u})' = \\frac{u'}{2\\sqrt{u}}$ (avec $u > 0$) et $(u^n)' = n\\,u'\\,u^{n-1}$."
+      },
+      {
+        "q": "Que renseigne le signe de la dérivée seconde $f''$ ?",
+        "a": "Les variations de $f'$ : $f'' \\ge 0$ sur $I$ signifie que $f'$ est croissante sur $I$."
+      },
+      {
+        "q": "Calculer $f''(x)$ pour $f(x) = e^{2x}$.",
+        "a": "$f'(x) = 2e^{2x}$, puis $f''(x) = 4e^{2x}$."
+      }
+    ]
+  },
+  "TA9": {
+    "title": "TA9 : Fonctions sinus et cosinus",
+    "domain": "Analyse et Fonctions",
+    "objectives": [
+      "Connaître les dérivées $\\sin' = \\cos$ et $\\cos' = -\\sin$, et dériver $x \\mapsto \\sin(ax + b)$ et $x \\mapsto \\cos(ax + b)$.",
+      "Utiliser la parité ($\\cos$ paire, $\\sin$ impaire) et la $2\\pi$-périodicité pour réduire l'intervalle d'étude.",
+      "Dresser les tableaux de variations de $\\sin$ et $\\cos$ et tracer leurs courbes.",
+      "Connaître et justifier la limite $\\lim_{x \\to 0} \\frac{\\sin(x)}{x} = 1$.",
+      "Résoudre sur un intervalle donné les équations $\\sin(x) = a$ et $\\cos(x) = a$, ainsi que des inéquations associées.",
+      "Étudier une fonction faisant intervenir $\\sin$ ou $\\cos$ (dérivée, signe, variations)."
+    ],
+    "keyPoints": [
+      {
+        "title": "1. Définition, parité et périodicité",
+        "content": "Pour tout réel $x$, $\\cos(x)$ et $\\sin(x)$ sont l'abscisse et l'ordonnée du point $M$ du cercle trigonométrique associé à $x$ (voir le chapitre 1G1). Les fonctions $\\cos$ et $\\sin$ sont définies sur $\\mathbb{R}$ et à valeurs dans $[-1 ; 1]$.\n• **Périodicité** : pour tout réel $x$, $\\cos(x + 2\\pi) = \\cos(x)$ et $\\sin(x + 2\\pi) = \\sin(x)$ : les fonctions sont **$2\\pi$-périodiques**. Leurs courbes sont invariantes par la translation de vecteur $2\\pi\\,\\vec{i}$.\n• **Parité** : $\\cos(-x) = \\cos(x)$ : $\\cos$ est **paire** (courbe symétrique par rapport à l'axe des ordonnées) ; $\\sin(-x) = -\\sin(x)$ : $\\sin$ est **impaire** (courbe symétrique par rapport à l'origine).\n• Conséquence : il suffit d'étudier ces fonctions sur $[0 ; \\pi]$, puis de compléter par symétrie et par translation.\n• Plus généralement, $x \\mapsto \\sin(ax + b)$ et $x \\mapsto \\cos(ax + b)$ ($a > 0$) sont périodiques de période $\\frac{2\\pi}{a}$."
+      },
+      {
+        "title": "2. Dérivées",
+        "content": "• Les fonctions $\\sin$ et $\\cos$ sont dérivables sur $\\mathbb{R}$ et, pour tout réel $x$ :\n$$\\sin'(x) = \\cos(x) \\qquad \\cos'(x) = -\\sin(x)$$\n• Par composition avec $x \\mapsto ax + b$ : $\\left(\\sin(ax + b)\\right)' = a\\cos(ax + b)$ et $\\left(\\cos(ax + b)\\right)' = -a\\sin(ax + b)$.\n• Plus généralement, si $u$ est dérivable : $(\\sin(u))' = u'\\cos(u)$ et $(\\cos(u))' = -u'\\sin(u)$ (voir le chapitre TA8 sur les composées).\n• Exemple : $f(x) = x\\cos(x)$ donne $f'(x) = \\cos(x) - x\\sin(x)$."
+      },
+      {
+        "title": "3. Variations et courbes",
+        "content": "Sur $[0 ; \\pi]$ : $\\cos'(x) = -\\sin(x) \\le 0$ donc $\\cos$ est **décroissante** de $1$ à $-1$ ; $\\sin'(x) = \\cos(x)$ est positive sur $\\left[0 ; \\frac{\\pi}{2}\\right]$ et négative sur $\\left[\\frac{\\pi}{2} ; \\pi\\right]$, donc $\\sin$ croît de $0$ à $1$ puis décroît de $1$ à $0$.\n| $x$ | $-\\pi$ | $-\\frac{\\pi}{2}$ | $0$ | $\\frac{\\pi}{2}$ | $\\pi$ |\n|:---:|:---:|:---:|:---:|:---:|:---:|\n| $\\cos(x)$ | $-1$ ↗ | $0$ ↗ | $1$ ↘ | $0$ ↘ | $-1$ |\n| $\\sin(x)$ | $0$ ↘ | $-1$ ↗ | $0$ ↗ | $1$ ↘ | $0$ |\n• Les courbes de $\\sin$ et $\\cos$ sont des **sinusoïdes** ; la courbe de $\\cos$ se déduit de celle de $\\sin$ par une translation, car $\\cos(x) = \\sin\\left(x + \\frac{\\pi}{2}\\right)$.\n• La tangente à la courbe de $\\sin$ en $0$ a pour équation $y = x$."
+      },
+      {
+        "title": "4. Une limite de référence",
+        "content": "Le taux d'accroissement de $\\sin$ en $0$ est $\\frac{\\sin(x) - \\sin(0)}{x - 0} = \\frac{\\sin(x)}{x}$. Comme $\\sin$ est dérivable en $0$ de nombre dérivé $\\cos(0) = 1$ :\n$$\\lim_{x \\to 0} \\frac{\\sin(x)}{x} = 1$$\nDe même, $\\lim_{x \\to 0} \\frac{\\cos(x) - 1}{x} = \\cos'(0) = -\\sin(0) = 0$.\nExemple : pour $a \\neq 0$, $\\frac{\\sin(ax)}{x} = a \\times \\frac{\\sin(ax)}{ax}$ tend vers $a$ quand $x$ tend vers $0$."
+      },
+      {
+        "title": "5. Équations $\\cos(x) = a$ et $\\sin(x) = a$",
+        "content": "Soit $a \\in [-1 ; 1]$ (sinon il n'y a aucune solution).\n• Si $\\alpha$ est un réel tel que $\\cos(\\alpha) = a$, les solutions réelles de $\\cos(x) = a$ sont les réels $x = \\alpha + 2k\\pi$ ou $x = -\\alpha + 2k\\pi$, $k \\in \\mathbb{Z}$.\n• Si $\\alpha$ est un réel tel que $\\sin(\\alpha) = a$, les solutions réelles de $\\sin(x) = a$ sont les réels $x = \\alpha + 2k\\pi$ ou $x = \\pi - \\alpha + 2k\\pi$, $k \\in \\mathbb{Z}$.\n• Sur un intervalle donné, on ne garde que les solutions qui lui appartiennent, en faisant attention aux bornes (ouvertes ou fermées).\n• Pour une **inéquation** comme $\\cos(x) \\ge a$, on résout d'abord l'équation, puis on lit sur le cercle trigonométrique (ou sur la courbe) les arcs qui conviennent."
+      },
+      {
+        "title": "6. Exploration numérique en Python",
+        "content": "On peut estimer le nombre de solutions de $\\cos(x) = a$ sur $[0 ; 2\\pi[$ en repérant les changements de signe de $\\cos(x) - a$ :\n```python\nfrom math import cos, pi\n\ndef nb_changements(a, n=10000):\n    c = 0\n    pas = 2 * pi / n\n    for k in range(n):\n        x = k * pas\n        if (cos(x) - a) * (cos(x + pas) - a) < 0:\n            c = c + 1\n    return c\n\nprint(nb_changements(0.3))\n```\nLe programme affiche $2$ : l'équation $\\cos(x) = 0{,}3$ a deux solutions dans $[0 ; 2\\pi[$, symétriques par rapport à $\\pi$."
+      }
+    ],
+    "methods": [
+      {
+        "title": "Méthode : Résoudre une équation trigonométrique sur un intervalle",
+        "example": "Résoudre dans $]-\\pi ; \\pi]$ l'équation $\\sin(x) = -\\frac{\\sqrt{3}}{2}$.",
+        "steps": [
+          "**Étape 1 (Valeur remarquable)** : $\\sin\\left(-\\frac{\\pi}{3}\\right) = -\\frac{\\sqrt{3}}{2}$, donc on prend $\\alpha = -\\frac{\\pi}{3}$.",
+          "**Étape 2 (Solutions générales)** : $x = -\\frac{\\pi}{3} + 2k\\pi$ ou $x = \\pi + \\frac{\\pi}{3} + 2k\\pi = \\frac{4\\pi}{3} + 2k\\pi$, $k \\in \\mathbb{Z}$.",
+          "**Étape 3 (Restriction à l'intervalle)** : $-\\frac{\\pi}{3} \\in ]-\\pi ; \\pi]$ ; $\\frac{4\\pi}{3} \\notin ]-\\pi ; \\pi]$ mais $\\frac{4\\pi}{3} - 2\\pi = -\\frac{2\\pi}{3}$ convient.",
+          "**Conclusion** : $S = \\left\\{-\\frac{2\\pi}{3} ; -\\frac{\\pi}{3}\\right\\}$."
+        ]
+      },
+      {
+        "title": "Méthode : Résoudre une inéquation trigonométrique",
+        "example": "Résoudre dans $[0 ; 2\\pi[$ l'inéquation $\\cos(x) > \\frac{1}{2}$.",
+        "steps": [
+          "**Étape 1 (Équation associée)** : $\\cos(x) = \\frac{1}{2}$ a pour solutions $\\frac{\\pi}{3}$ et $\\frac{5\\pi}{3}$ dans $[0 ; 2\\pi[$.",
+          "**Étape 2 (Lecture sur le cercle)** : les points d'abscisse strictement supérieure à $\\frac{1}{2}$ forment l'arc « de droite », qui contient le point associé à $0$.",
+          "**Étape 3 (Traduction en intervalles)** : en parcourant $[0 ; 2\\pi[$, cela correspond à $x \\in \\left[0 ; \\frac{\\pi}{3}\\right[$ ou $x \\in \\left]\\frac{5\\pi}{3} ; 2\\pi\\right[$.",
+          "**Conclusion** : $S = \\left[0 ; \\frac{\\pi}{3}\\right[ \\cup \\left]\\frac{5\\pi}{3} ; 2\\pi\\right[$ (bornes exclues car l'inégalité est stricte)."
+        ]
+      },
+      {
+        "title": "Méthode : Étudier une fonction trigonométrique",
+        "example": "Étudier les variations de $f(x) = x - 2\\sin(x)$ sur $[0 ; 2\\pi]$.",
+        "steps": [
+          "**Étape 1 (Dérivée)** : $f'(x) = 1 - 2\\cos(x)$.",
+          "**Étape 2 (Signe)** : $f'(x) \\ge 0 \\iff \\cos(x) \\le \\frac{1}{2} \\iff x \\in \\left[\\frac{\\pi}{3} ; \\frac{5\\pi}{3}\\right]$ (sur $[0 ; 2\\pi]$).",
+          "**Étape 3 (Variations)** : $f$ est décroissante sur $\\left[0 ; \\frac{\\pi}{3}\\right]$, croissante sur $\\left[\\frac{\\pi}{3} ; \\frac{5\\pi}{3}\\right]$, puis décroissante sur $\\left[\\frac{5\\pi}{3} ; 2\\pi\\right]$.",
+          "**Conclusion** : $f$ admet un minimum local $f\\left(\\frac{\\pi}{3}\\right) = \\frac{\\pi}{3} - \\sqrt{3}$ et un maximum local $f\\left(\\frac{5\\pi}{3}\\right) = \\frac{5\\pi}{3} + \\sqrt{3}$."
+        ]
+      },
+      {
+        "title": "Méthode : Calculer une limite avec $\\frac{\\sin(x)}{x}$",
+        "example": "Déterminer $\\lim_{x \\to 0} \\frac{\\sin(5x)}{2x}$.",
+        "steps": [
+          "**Étape 1 (Faire apparaître la limite de référence)** : pour $x \\neq 0$, $\\frac{\\sin(5x)}{2x} = \\frac{5}{2} \\times \\frac{\\sin(5x)}{5x}$.",
+          "**Étape 2 (Changement de variable)** : quand $x \\to 0$, $X = 5x \\to 0$ et $\\frac{\\sin(X)}{X} \\to 1$.",
+          "**Conclusion** : $\\lim_{x \\to 0} \\frac{\\sin(5x)}{2x} = \\frac{5}{2}$."
+        ]
+      }
+    ],
+    "traps": [
+      "⚠️ $\\cos' = -\\sin$ (avec un signe moins) mais $\\sin' = \\cos$ : l'erreur de signe est la plus fréquente.",
+      "⚠️ Ne pas oublier le facteur $a$ : $\\left(\\cos(3x)\\right)' = -3\\sin(3x)$, et non $-\\sin(3x)$.",
+      "⚠️ L'équation $\\cos(x) = a$ a en général **deux** solutions par période ($\\alpha$ et $-\\alpha$) ; pour $\\sin(x) = a$, ce sont $\\alpha$ et $\\pi - \\alpha$ (et non $-\\alpha$).",
+      "⚠️ Toujours vérifier l'appartenance des solutions à l'intervalle demandé, en tenant compte des bornes ouvertes ou fermées : sur $[0 ; 2\\pi[$, $2\\pi$ n'est pas solution même si $\\cos(2\\pi) = 1$.",
+      "⚠️ La limite $\\lim_{x \\to 0} \\frac{\\sin(x)}{x} = 1$ suppose $x$ exprimé en **radians**."
+    ],
+    "flashcards": [
+      {
+        "q": "Quelles sont les dérivées de $\\sin$ et de $\\cos$ ?",
+        "a": "$\\sin' = \\cos$ et $\\cos' = -\\sin$."
+      },
+      {
+        "q": "Dériver $x \\mapsto \\cos(ax + b)$.",
+        "a": "$x \\mapsto -a\\sin(ax + b)$."
+      },
+      {
+        "q": "Quelle est la parité de $\\cos$ et de $\\sin$ ?",
+        "a": "$\\cos$ est paire ($\\cos(-x) = \\cos(x)$), $\\sin$ est impaire ($\\sin(-x) = -\\sin(x)$)."
+      },
+      {
+        "q": "Quelle est la période de $x \\mapsto \\sin(4x)$ ?",
+        "a": "$\\frac{2\\pi}{4} = \\frac{\\pi}{2}$."
+      },
+      {
+        "q": "Que vaut $\\lim_{x \\to 0} \\frac{\\sin(x)}{x}$ ?",
+        "a": "$1$ : c'est le nombre dérivé de $\\sin$ en $0$, égal à $\\cos(0)$."
+      },
+      {
+        "q": "Donner les solutions réelles de $\\sin(x) = \\sin(\\alpha)$.",
+        "a": "$x = \\alpha + 2k\\pi$ ou $x = \\pi - \\alpha + 2k\\pi$, avec $k \\in \\mathbb{Z}$."
+      }
+    ]
+  },
+  "TS3": {
+    "title": "TS3 : Dénombrement et combinatoire",
+    "domain": "Combinatoire et Dénombrement",
+    "objectives": [
+      "Utiliser les principes additif (cas disjoints) et multiplicatif (choix successifs) pour dénombrer.",
+      "Dénombrer les $k$-uplets d'un ensemble à $n$ éléments : $n^k$ (ordre pris en compte, répétitions permises).",
+      "Dénombrer les arrangements $\\frac{n!}{(n-k)!}$ et les permutations $n!$ (ordre pris en compte, sans répétition).",
+      "Dénombrer les combinaisons (parties à $k$ éléments) à l'aide du coefficient binomial $\\binom{n}{k}$.",
+      "Connaître et démontrer la symétrie $\\binom{n}{k} = \\binom{n}{n-k}$ et la relation de Pascal ; construire le triangle de Pascal.",
+      "Savoir qu'un ensemble à $n$ éléments possède $2^n$ parties et utiliser le dénombrement pour calculer des probabilités."
+    ],
+    "keyPoints": [
+      {
+        "title": "1. Principes additif et multiplicatif",
+        "content": "Soient $A$ et $B$ deux ensembles finis ; on note $\\text{Card}(A)$ le nombre d'éléments de $A$.\n• **Principe additif** : si $A$ et $B$ sont **disjoints** ($A \\cap B = \\emptyset$), alors $\\text{Card}(A \\cup B) = \\text{Card}(A) + \\text{Card}(B)$. On l'utilise pour découper un problème en **cas** qui ne se recouvrent pas.\n• **Principe multiplicatif** : le produit cartésien $A \\times B$ (ensemble des couples $(a ; b)$) a pour cardinal $\\text{Card}(A) \\times \\text{Card}(B)$. On l'utilise pour des **choix successifs** : s'il y a $p$ choix pour une première étape puis $q$ choix pour la seconde, il y a $p \\times q$ issues.\n• **Complémentaire** : si $A \\subset E$, $\\text{Card}(\\overline{A}) = \\text{Card}(E) - \\text{Card}(A)$ ; très utile pour les conditions « au moins un »."
+      },
+      {
+        "title": "2. $k$-uplets : l'ordre compte, répétitions permises",
+        "content": "Soit $E$ un ensemble à $n$ éléments et $k \\ge 1$ un entier.\n• Un **$k$-uplet** (ou $k$-liste) de $E$ est une liste ordonnée $(x_1 ; x_2 ; \\dots ; x_k)$ d'éléments de $E$, non nécessairement distincts.\n• **Propriété** : il y a $n^k$ $k$-uplets de $E$ (chaque position offre $n$ choix).\n• Exemples : codes à $4$ chiffres : $10^4 = 10\\,000$ ; tirages successifs **avec remise** de $3$ boules parmi $8$ : $8^3 = 512$ ; mots de $5$ lettres : $26^5$."
+      },
+      {
+        "title": "3. Arrangements et permutations : l'ordre compte, sans répétition",
+        "content": "• Pour $n \\in \\mathbb{N}$, **factorielle** $n$ : $n! = 1 \\times 2 \\times \\dots \\times n$, avec la convention $0! = 1$.\n• Un **arrangement** de $k$ éléments de $E$ ($k \\le n$) est un $k$-uplet d'éléments **deux à deux distincts**. Leur nombre est\n$$n \\times (n-1) \\times \\dots \\times (n-k+1) = \\frac{n!}{(n-k)!}$$\n• Une **permutation** de $E$ est un arrangement de ses $n$ éléments : il y en a $n!$.\n• Exemples : podiums (or, argent, bronze) dans une course de $10$ coureurs : $10 \\times 9 \\times 8 = 720$ ; manières de ranger $6$ livres : $6! = 720$ ; tirages successifs **sans remise** de $3$ boules parmi $8$ : $8 \\times 7 \\times 6 = 336$."
+      },
+      {
+        "title": "4. Combinaisons : l'ordre ne compte pas, sans répétition",
+        "content": "• Une **combinaison** de $k$ éléments de $E$ est une **partie** de $E$ à $k$ éléments (un sous-ensemble, sans ordre).\n• Le nombre de combinaisons est le **coefficient binomial** $\\binom{n}{k}$ (« $k$ parmi $n$ ») :\n$$\\binom{n}{k} = \\frac{n!}{k!\\,(n-k)!} = \\frac{n \\times (n-1) \\times \\dots \\times (n-k+1)}{k!}$$\n• **Justification** : chaque partie à $k$ éléments donne $k!$ arrangements (en ordonnant ses éléments), donc $\\binom{n}{k} \\times k! = \\frac{n!}{(n-k)!}$.\n• Valeurs utiles : $\\binom{n}{0} = \\binom{n}{n} = 1$, $\\binom{n}{1} = n$, $\\binom{n}{2} = \\frac{n(n-1)}{2}$.\n• Exemples : mains de $5$ cartes dans un jeu de $32$ : $\\binom{32}{5} = 201\\,376$ ; tirages **simultanés** de $3$ boules parmi $8$ : $\\binom{8}{3} = 56$.\n• Le lien avec la loi binomiale (nombre de chemins à $k$ succès dans un arbre) est développé dans le chapitre TS1."
+      },
+      {
+        "title": "5. Symétrie, relation de Pascal et triangle de Pascal",
+        "content": "• **Symétrie** : $\\binom{n}{k} = \\binom{n}{n-k}$ (choisir les $k$ éléments pris revient à choisir les $n-k$ éléments laissés).\n• **Relation de Pascal** : pour $1 \\le k \\le n - 1$,\n$$\\binom{n-1}{k-1} + \\binom{n-1}{k} = \\binom{n}{k}$$\n*Preuve combinatoire* : on fixe un élément $a$ de $E$. Les parties à $k$ éléments contenant $a$ sont au nombre de $\\binom{n-1}{k-1}$, celles qui ne le contiennent pas au nombre de $\\binom{n-1}{k}$ ; ces deux cas sont disjoints.\n• **Triangle de Pascal** : chaque coefficient est la somme des deux coefficients situés juste au-dessus (au-dessus et au-dessus à gauche) :\n| $n$ | $k=0$ | $k=1$ | $k=2$ | $k=3$ | $k=4$ |\n|:---:|:---:|:---:|:---:|:---:|:---:|\n| $1$ | $1$ | $1$ | | | |\n| $2$ | $1$ | $2$ | $1$ | | |\n| $3$ | $1$ | $3$ | $3$ | $1$ | |\n| $4$ | $1$ | $4$ | $6$ | $4$ | $1$ |"
+      },
+      {
+        "title": "6. Nombre de parties d'un ensemble et calcul en Python",
+        "content": "• Un ensemble à $n$ éléments possède $2^n$ parties (chaque élément est pris ou non : $2 \\times 2 \\times \\dots \\times 2$).\n• En regroupant les parties selon leur nombre d'éléments : $\\sum_{k=0}^{n} \\binom{n}{k} = 2^n$.\n• Calcul des coefficients binomiaux par la relation de Pascal :\n```python\ndef pascal(n):\n    ligne = [1]\n    for i in range(n):\n        nouvelle = [1]\n        for k in range(1, len(ligne)):\n            nouvelle.append(ligne[k - 1] + ligne[k])\n        nouvelle.append(1)\n        ligne = nouvelle\n    return ligne\n```\n`pascal(4)` renvoie `[1, 4, 6, 4, 1]`, et la somme de cette liste vaut $2^4 = 16$. Le module `math` fournit aussi `factorial(n)` et `comb(n, k)`."
+      }
+    ],
+    "methods": [
+      {
+        "title": "Méthode : Choisir le bon modèle de dénombrement",
+        "example": "Une urne contient $10$ boules numérotées. On tire $3$ boules : (a) successivement avec remise ; (b) successivement sans remise ; (c) simultanément. Combien de tirages possibles dans chaque cas ?",
+        "steps": [
+          "**Étape 1 (L'ordre compte-t-il ?)** : dans (a) et (b), on obtient une liste ordonnée ; dans (c), un ensemble de boules : l'ordre ne compte pas.",
+          "**Étape 2 (Répétitions ?)** : seul le tirage avec remise (a) permet d'obtenir plusieurs fois la même boule.",
+          "**Étape 3 (Calculs)** : (a) $3$-uplets : $10^3 = 1\\,000$ ; (b) arrangements : $10 \\times 9 \\times 8 = 720$ ; (c) combinaisons : $\\binom{10}{3} = \\frac{720}{3!} = 120$.",
+          "**Conclusion** : on retient le tableau « ordre / répétition » : $n^k$ (oui / oui), $\\frac{n!}{(n-k)!}$ (oui / non), $\\binom{n}{k}$ (non / non)."
+        ]
+      },
+      {
+        "title": "Méthode : Dénombrer avec une condition « exactement » ou « au moins »",
+        "example": "Un groupe compte $7$ filles et $5$ garçons. On forme une délégation de $4$ personnes. Combien de délégations comportent exactement $2$ filles ? au moins une fille ?",
+        "steps": [
+          "**Étape 1 (Exactement 2 filles)** : on choisit $2$ filles parmi $7$, puis $2$ garçons parmi $5$ (principe multiplicatif) : $\\binom{7}{2} \\times \\binom{5}{2} = 21 \\times 10 = 210$.",
+          "**Étape 2 (Total)** : le nombre total de délégations est $\\binom{12}{4} = 495$.",
+          "**Étape 3 (Au moins une fille, par le contraire)** : le contraire est « aucune fille », soit $\\binom{5}{4} = 5$ délégations. Donc $495 - 5 = 490$.",
+          "**Conclusion** : $210$ délégations avec exactement $2$ filles, $490$ avec au moins une fille."
+        ]
+      },
+      {
+        "title": "Méthode : Dénombrer les anagrammes d'un mot",
+        "example": "Combien d'anagrammes (ayant un sens ou non) le mot « BANANE » possède-t-il ?",
+        "steps": [
+          "**Étape 1 (Lettres distinguées)** : si les $6$ lettres étaient distinctes, il y aurait $6! = 720$ permutations.",
+          "**Étape 2 (Lettres répétées)** : le A apparaît $2$ fois et le N $2$ fois ; échanger deux lettres identiques ne change pas le mot, donc chaque anagramme est comptée $2! \\times 2! = 4$ fois.",
+          "**Étape 3 (Calcul)** : $\\frac{6!}{2! \\times 2!} = \\frac{720}{4} = 180$.",
+          "**Conclusion** : le mot « BANANE » a $180$ anagrammes. Autre méthode : on place les A ($\\binom{6}{2}$), puis les N ($\\binom{4}{2}$), puis B et E ($2!$) : $15 \\times 6 \\times 2 = 180$."
+        ]
+      },
+      {
+        "title": "Méthode : Calculer une probabilité par dénombrement",
+        "example": "On tire simultanément $5$ cartes d'un jeu de $32$ cartes (qui contient $4$ as). Quelle est la probabilité d'obtenir exactement $2$ as ?",
+        "steps": [
+          "**Étape 1 (Univers)** : les mains sont des combinaisons de $5$ cartes parmi $32$, toutes équiprobables : $\\binom{32}{5} = 201\\,376$ issues.",
+          "**Étape 2 (Cas favorables)** : $2$ as parmi $4$ et $3$ autres cartes parmi $28$ : $\\binom{4}{2} \\times \\binom{28}{3} = 6 \\times 3\\,276 = 19\\,656$.",
+          "**Étape 3 (Probabilité)** : $P = \\frac{19\\,656}{201\\,376} \\approx 0{,}098$.",
+          "**Conclusion** : on a un peu moins d'une chance sur dix d'obtenir exactement deux as."
+        ]
+      }
+    ],
+    "traps": [
+      "⚠️ Avant tout calcul, se demander : **l'ordre compte-t-il ?** et **les répétitions sont-elles possibles ?** Un tirage simultané se modélise par une combinaison, un tirage successif par une liste.",
+      "⚠️ Ne pas confondre $n^k$ (nombre de $k$-uplets) et $k^n$ : pour un code de $4$ chiffres, il y a $10^4$ possibilités, pas $4^{10}$.",
+      "⚠️ Le principe additif exige des cas **disjoints** : pour « au moins un », on additionne les cas « exactement 1 », « exactement 2 »… ou, plus simplement, on passe par le **contraire**.",
+      "⚠️ $0! = 1$ (et non $0$) : ainsi $\\binom{n}{0} = \\frac{n!}{0!\\,n!} = 1$, ce qui correspond à l'unique partie vide.",
+      "⚠️ Dans « exactement 2 as », il ne faut pas oublier de choisir les **autres** cartes parmi les cartes qui ne sont **pas** des as ($28$ et non $32$)."
+    ],
+    "flashcards": [
+      {
+        "q": "Combien y a-t-il de $k$-uplets d'un ensemble à $n$ éléments ?",
+        "a": "$n^k$ (ordre pris en compte, répétitions permises)."
+      },
+      {
+        "q": "Combien y a-t-il d'arrangements de $k$ éléments parmi $n$ ?",
+        "a": "$\\frac{n!}{(n-k)!} = n(n-1)\\dots(n-k+1)$."
+      },
+      {
+        "q": "Donner la formule de $\\binom{n}{k}$ à l'aide de factorielles.",
+        "a": "$\\binom{n}{k} = \\frac{n!}{k!\\,(n-k)!}$."
+      },
+      {
+        "q": "Énoncer la relation de Pascal.",
+        "a": "$\\binom{n-1}{k-1} + \\binom{n-1}{k} = \\binom{n}{k}$ pour $1 \\le k \\le n-1$."
+      },
+      {
+        "q": "Combien de parties possède un ensemble à $n$ éléments ?",
+        "a": "$2^n$, et $\\sum_{k=0}^{n} \\binom{n}{k} = 2^n$."
+      },
+      {
+        "q": "Combien de façons de ranger $5$ objets distincts en ligne ?",
+        "a": "$5! = 120$."
+      }
+    ]
+  },
+  "TS4": {
+    "title": "TS4 : Algorithmique et programmation en Python : listes, seuils, dichotomie et méthode de Monte-Carlo",
+    "domain": "Algorithmique et Programmation",
+    "objectives": [
+      "Écrire des fonctions Python qui construisent, parcourent ou filtrent des listes (compréhension, `sum`, `max`, `len`, recherche d'un élément).",
+      "Utiliser l'affectation simultanée `a, b = b, a + b` pour programmer une suite récurrente d'ordre 2.",
+      "Programmer un algorithme de seuil, y compris pour déterminer un rang à partir duquel $|u_n - \\ell| \\le 10^{-p}$.",
+      "Encadrer une solution d'une équation $f(x) = 0$ par dichotomie et déterminer le nombre d'étapes nécessaires pour une précision donnée.",
+      "Mettre en œuvre la méthode de Monte-Carlo pour estimer une aire, une intégrale ou le nombre $\\pi$.",
+      "Analyser un programme : terminaison d'une boucle, valeur renvoyée, précision du résultat."
+    ],
+    "keyPoints": [
+      {
+        "title": "1. Listes et fonctions : rappels et compléments",
+        "content": "• Création en compréhension avec filtre : `[k for k in range(1, 50) if k % 7 == 3]` donne `[3, 10, 17, 24, 31, 38, 45]`.\n• Fonctions prédéfinies : `len(L)`, `sum(L)`, `max(L)`, `min(L)` ; `L.append(x)` ajoute un élément ; `L[-1]` est le dernier élément.\n• Une fonction peut renvoyer une liste, ou s'interrompre dès qu'un résultat est trouvé :\n```python\ndef position(L, v):\n    for i in range(len(L)):\n        if L[i] == v:\n            return i      # sortie immédiate\n    return -1             # v absent de L\n```\n• **Affectation simultanée** : dans `a, b = b, a + b`, le membre de droite est entièrement calculé **avant** les affectations (suite de Fibonacci)."
+      },
+      {
+        "title": "2. Suites et algorithmes de seuil",
+        "content": "• Si $(u_n)$ tend vers $+\\infty$, la boucle `while u < A:` se termine et fournit le plus petit $n$ tel que $u_n \\ge A$.\n• Si $(u_n)$ converge vers $\\ell$, on peut chercher un rang à partir duquel $u_n$ approche $\\ell$ à $10^{-p}$ près :\n```python\nu = 10\nn = 0\nwhile abs(u - 6) > 0.001:\n    u = 0.5 * u + 3\n    n = n + 1\nprint(n)      # affiche 12\n```\nIci $u_n - 6 = 4 \\times 0{,}5^n$ : on cherche le premier $n$ tel que $4 \\times 0{,}5^n \\le 0{,}001$, soit $2^n \\ge 4000$, d'où $n = 12$. (Voir aussi le chapitre TA2.)\n• Une boucle `while` doit **se terminer** : si la suite ne dépasse jamais le seuil, le programme tourne indéfiniment."
+      },
+      {
+        "title": "3. Méthode de dichotomie",
+        "content": "Soit $f$ continue et strictement monotone sur $[a ; b]$ avec $f(a)$ et $f(b)$ de signes contraires : l'équation $f(x) = 0$ a une unique solution $\\alpha$ dans $[a ; b]$ (corollaire du théorème des valeurs intermédiaires, chapitre TA3).\nÀ chaque étape, on calcule le milieu $m$ et on garde la moitié qui contient $\\alpha$ :\n• si $f(a) \\times f(m) \\le 0$, $\\alpha \\in [a ; m]$ : on remplace $b$ par $m$ ;\n• sinon, $\\alpha \\in [m ; b]$ : on remplace $a$ par $m$.\n```python\ndef dichotomie(f, a, b, e):\n    while b - a > e:\n        m = (a + b) / 2\n        if f(a) * f(m) <= 0:\n            b = m\n        else:\n            a = m\n    return a, b\n```\nOn passe la fonction `f` en paramètre (en Python, une fonction est une valeur comme une autre)."
+      },
+      {
+        "title": "4. Précision et nombre d'étapes d'une dichotomie",
+        "content": "À chaque étape, la longueur de l'intervalle est **divisée par 2**. Partant de $[a ; b]$, après $n$ étapes, elle vaut $\\frac{b - a}{2^n}$.\nPour obtenir une précision $e$, il faut le plus petit $n$ tel que $\\frac{b - a}{2^n} \\le e$, c'est-à-dire $2^n \\ge \\frac{b - a}{e}$, soit $n \\ge \\frac{\\ln\\left(\\frac{b - a}{e}\\right)}{\\ln 2}$.\nExemple : sur $[1 ; 2]$, pour $e = 0{,}01$, il faut $2^n \\ge 100$, donc $n = 7$ étapes ($2^7 = 128$). Chaque étape fait gagner environ « un tiers de chiffre décimal » : $10$ étapes divisent la longueur par $2^{10} = 1024 \\approx 10^3$."
+      },
+      {
+        "title": "5. Méthode de Monte-Carlo",
+        "content": "On tire au hasard $n$ points $(x ; y)$ uniformément dans un rectangle $R$ d'aire $\\mathcal{A}_R$ et on compte le nombre $c$ de points qui tombent dans un domaine $D \\subset R$. D'après la loi des grands nombres :\n$$\\frac{c}{n} \\approx \\frac{\\text{aire}(D)}{\\mathcal{A}_R}$$\n**Estimation de $\\pi$** : avec $x$ et $y$ dans $[0 ; 1[$, la condition $x^2 + y^2 \\le 1$ décrit un quart de disque d'aire $\\frac{\\pi}{4}$.\n```python\nfrom random import random\n\ndef estimation_pi(n):\n    c = 0\n    for i in range(n):\n        x = random()\n        y = random()\n        if x ** 2 + y ** 2 <= 1:\n            c = c + 1\n    return 4 * c / n\n```\n**Estimation d'une intégrale** : si $0 \\le f \\le M$ sur $[0 ; A]$, avec `x = A * random()` et `y = M * random()`, la quantité $A \\times M \\times \\frac{c}{n}$ (où $c$ compte les points tels que $y \\le f(x)$) estime $\\int_0^A f(x)\\,\\mathrm{d}x$."
+      },
+      {
+        "title": "6. Pour aller plus loin : autres méthodes numériques",
+        "content": "• **Méthode d'Euler** (chapitre 1A4) : pour approcher la solution de $y' = y$, $y(0) = 1$, on itère $y \\leftarrow y + h \\times y$ avec un petit pas $h$.\n• **Méthode des rectangles** (chapitre TA7) : approximation déterministe d'une intégrale par une somme d'aires de rectangles.\n• **Méthode de Newton** : on remplace la courbe par sa tangente, $x_{n+1} = x_n - \\frac{f(x_n)}{f'(x_n)}$ ; la convergence est en général beaucoup plus rapide que la dichotomie, mais elle n'est pas garantie.\n• Comparaison : la dichotomie gagne un facteur $2$ par étape, la méthode de Monte-Carlo a une précision de l'ordre de $\\frac{1}{\\sqrt{n}}$ : pour gagner un chiffre, il faut **100 fois** plus de points."
+      }
+    ],
+    "methods": [
+      {
+        "title": "Méthode : Encadrer une solution par dichotomie",
+        "example": "Montrer que l'équation $x^3 + x - 5 = 0$ admet une unique solution $\\alpha$ dans $[1 ; 2]$, puis l'encadrer à $0{,}01$ près à l'aide d'un programme.",
+        "steps": [
+          "**Étape 1 (Existence et unicité)** : $f(x) = x^3 + x - 5$ est continue et strictement croissante sur $[1 ; 2]$ (somme de fonctions croissantes, dont une strictement) ; $f(1) = -3 < 0$ et $f(2) = 5 > 0$ : par le corollaire du TVI, $\\alpha$ existe et est unique.",
+          "**Étape 2 (Programme)** :\n```python\ndef f(x):\n    return x ** 3 + x - 5\n\na = 1\nb = 2\nwhile b - a > 0.01:\n    m = (a + b) / 2\n    if f(a) * f(m) <= 0:\n        b = m\n    else:\n        a = m\nprint(a, b)\n```",
+          "**Étape 3 (Exécution)** : $7$ étapes sont nécessaires ($\\frac{1}{2^7} \\approx 0{,}0078 \\le 0{,}01$) ; le programme affiche `1.515625 1.5234375`.",
+          "**Conclusion** : $1{,}515 < \\alpha < 1{,}524$ ; une valeur approchée de $\\alpha$ à $0{,}01$ près est $1{,}52$."
+        ]
+      },
+      {
+        "title": "Méthode : Prévoir le nombre d'étapes d'une dichotomie",
+        "example": "Combien d'étapes de dichotomie faut-il, à partir d'un intervalle de longueur $2$, pour obtenir un encadrement d'amplitude inférieure ou égale à $10^{-4}$ ?",
+        "steps": [
+          "**Étape 1 (Longueur après n étapes)** : $\\frac{2}{2^n}$.",
+          "**Étape 2 (Inéquation)** : $\\frac{2}{2^n} \\le 10^{-4} \\iff 2^n \\ge 20\\,000 \\iff n \\ge \\frac{\\ln(20\\,000)}{\\ln 2} \\approx 14{,}3$.",
+          "**Étape 3 (Vérification)** : $2^{14} = 16\\,384 < 20\\,000 \\le 2^{15} = 32\\,768$.",
+          "**Conclusion** : il faut $15$ étapes."
+        ]
+      },
+      {
+        "title": "Méthode : Estimer une intégrale par la méthode de Monte-Carlo",
+        "example": "Écrire un programme estimant $I = \\int_0^2 x^2\\,\\mathrm{d}x$ et prévoir la valeur autour de laquelle il fluctue.",
+        "steps": [
+          "**Étape 1 (Rectangle)** : sur $[0 ; 2]$, $0 \\le x^2 \\le 4$ : le domaine sous la courbe est inclus dans le rectangle $[0 ; 2] \\times [0 ; 4]$, d'aire $8$.",
+          "**Étape 2 (Programme)** :\n```python\nfrom random import random\n\ndef estimation(n):\n    c = 0\n    for i in range(n):\n        x = 2 * random()\n        y = 4 * random()\n        if y <= x ** 2:\n            c = c + 1\n    return 8 * c / n\n```",
+          "**Étape 3 (Valeur théorique)** : $\\frac{c}{n} \\approx \\frac{I}{8}$, donc `estimation(n)` est proche de $I = \\left[\\frac{x^3}{3}\\right]_0^2 = \\frac{8}{3} \\approx 2{,}67$.",
+          "**Conclusion** : la valeur renvoyée fluctue autour de $\\frac{8}{3}$, avec des écarts de l'ordre de $\\frac{8}{\\sqrt{n}}$ au plus pour $n$ grand."
+        ]
+      },
+      {
+        "title": "Méthode : Approcher une limite avec un programme",
+        "example": "La suite définie par $u_0 = 10$ et $u_{n+1} = 0{,}5u_n + 3$ converge vers $6$. Déterminer le premier rang $n$ tel que $|u_n - 6| \\le 10^{-3}$.",
+        "steps": [
+          "**Étape 1 (Suite auxiliaire)** : $v_n = u_n - 6$ est géométrique de raison $0{,}5$ et $v_0 = 4$, donc $|u_n - 6| = 4 \\times 0{,}5^n$.",
+          "**Étape 2 (Programme)** : boucle `while abs(u - 6) > 0.001:` qui calcule le terme suivant et incrémente `n` (voir le point clé 2).",
+          "**Étape 3 (Calcul)** : $4 \\times 0{,}5^n \\le 0{,}001 \\iff 2^n \\ge 4000$ ; or $2^{11} = 2048$ et $2^{12} = 4096$.",
+          "**Conclusion** : le programme affiche $12$ : à partir du rang $12$, $u_n$ est une valeur approchée de $6$ à $10^{-3}$ près."
+        ]
+      }
+    ],
+    "traps": [
+      "⚠️ La dichotomie suppose un **changement de signe** de $f$ sur $[a ; b]$ et la continuité de $f$ ; sans hypothèse de monotonie, elle trouve **une** solution, pas forcément la seule.",
+      "⚠️ Ne pas confondre le nombre d'étapes et la précision : après $n$ étapes, la longueur est $\\frac{b - a}{2^n}$, et non $\\frac{b - a}{2n}$.",
+      "⚠️ Avec la méthode de Monte-Carlo, le résultat est **aléatoire** : deux exécutions donnent des valeurs différentes, et la précision ne s'améliore que lentement (en $\\frac{1}{\\sqrt{n}}$).",
+      "⚠️ Les calculs sur les flottants sont approchés : `0.1 + 0.2 == 0.3` vaut `False`. Dans une boucle, préférer une condition d'inégalité (`while b - a > e:`) à un test d'égalité.",
+      "⚠️ Dans `a, b = b, a + b`, les deux affectations sont simultanées ; écrire `a = b` puis `b = a + b` donne un tout autre résultat."
+    ],
+    "flashcards": [
+      {
+        "q": "Après $n$ étapes de dichotomie à partir de $[a ; b]$, quelle est la longueur de l'intervalle obtenu ?",
+        "a": "$\\frac{b - a}{2^n}$."
+      },
+      {
+        "q": "Combien d'étapes de dichotomie faut-il pour passer d'un intervalle de longueur $1$ à une longueur au plus $10^{-3}$ ?",
+        "a": "$10$ étapes, car $2^9 = 512 < 1000 \\le 2^{10} = 1024$."
+      },
+      {
+        "q": "Dans l'estimation de $\\pi$ par Monte-Carlo, de quoi la proportion de points vérifiant $x^2 + y^2 \\le 1$ est-elle proche ?",
+        "a": "De $\\frac{\\pi}{4}$, l'aire du quart de disque de rayon $1$ (le carré $[0 ; 1]^2$ ayant pour aire $1$)."
+      },
+      {
+        "q": "Que contient la liste `[k for k in range(1, 50) if k % 7 == 3]` ?",
+        "a": "`[3, 10, 17, 24, 31, 38, 45]`."
+      },
+      {
+        "q": "Pourquoi utilise-t-on une boucle `while` dans un algorithme de dichotomie avec précision donnée ?",
+        "a": "Parce qu'on répète la division de l'intervalle tant que sa longueur dépasse la précision voulue (le nombre d'étapes n'est pas écrit explicitement)."
+      },
+      {
+        "q": "Que vaut `a` après `a, b = 0, 1` puis dix exécutions de `a, b = b, a + b` ?",
+        "a": "$55$ (dixième terme de la suite de Fibonacci)."
+      }
+    ]
   }
 };
 
@@ -2919,6 +3366,394 @@ window.MATHS_EXERCISES_TALE = {
       "hint1": "$D^n = \\begin{pmatrix} 1^n & 0 \\\\ 0 & (0{,}5)^n \\end{pmatrix}$.",
       "hint2": "Comme $|0{,}5| < 1$, $(0{,}5)^n \\to 0$.",
       "solution": "$D^n = \\text{diag}(1^n, 0{,}5^n) = \\text{diag}(1, (0{,}5)^n)$. Quand $n \\to +\\infty$, $(0{,}5)^n \\to 0$, donc la matrice limite est $\\begin{pmatrix} 1 & 0 \\\\ 0 & 0 \\end{pmatrix}$."
+    }
+  ],
+  "TA8": [
+    {
+      "id": "TA8-1",
+      "tier": 1,
+      "type": "mcq",
+      "title": "Dérivée d'une puissance composée",
+      "skill": "Dériver $x \\mapsto g(ax + b)$",
+      "statement": "Soit $f(x) = (3x - 2)^4$ sur $\\mathbb{R}$. Que vaut $f'(x)$ ?",
+      "options": [
+        "$f'(x) = 12(3x - 2)^3$",
+        "$f'(x) = 4(3x - 2)^3$",
+        "$f'(x) = 12(3x - 2)^4$",
+        "$f'(x) = 3(3x - 2)^3$"
+      ],
+      "correctIndex": 0,
+      "answer": "$f'(x) = 12(3x - 2)^3$",
+      "hint1": "La dérivée de $x \\mapsto g(ax + b)$ est $x \\mapsto a\\,g'(ax + b)$.",
+      "hint2": "Ici $g(X) = X^4$, $g'(X) = 4X^3$ et $a = 3$.",
+      "solution": "Avec $u(x) = 3x - 2$, $u'(x) = 3$ et $(u^4)' = 4u'u^3$ : $f'(x) = 4 \\times 3 \\times (3x - 2)^3 = 12(3x - 2)^3$."
+    },
+    {
+      "id": "TA8-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Dérivée d'une exponentielle composée",
+      "skill": "Dériver $e^{u}$",
+      "statement": "Soit $f(x) = e^{x^2 - 5x}$ sur $\\mathbb{R}$. Que vaut $f'(x)$ ?",
+      "options": [
+        "$f'(x) = (2x - 5)e^{x^2 - 5x}$",
+        "$f'(x) = e^{x^2 - 5x}$",
+        "$f'(x) = (x^2 - 5x)e^{2x - 5}$",
+        "$f'(x) = (2x - 5)e^{2x - 5}$"
+      ],
+      "correctIndex": 0,
+      "answer": "$f'(x) = (2x - 5)e^{x^2 - 5x}$",
+      "hint1": "$(e^u)' = u'e^u$.",
+      "hint2": "$u(x) = x^2 - 5x$ donc $u'(x) = 2x - 5$.",
+      "solution": "$f = e^u$ avec $u(x) = x^2 - 5x$ et $u'(x) = 2x - 5$. Donc $f'(x) = u'(x)e^{u(x)} = (2x - 5)e^{x^2 - 5x}$."
+    },
+    {
+      "id": "TA8-3",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Dérivée d'un logarithme composé",
+      "skill": "Dériver $\\ln(u)$",
+      "statement": "Soit $f(x) = \\ln(x^2 + 4)$ sur $\\mathbb{R}$. Que vaut $f'(x)$ ?",
+      "options": [
+        "$f'(x) = \\frac{2x}{x^2 + 4}$",
+        "$f'(x) = \\frac{1}{x^2 + 4}$",
+        "$f'(x) = \\frac{2x}{(x^2 + 4)^2}$",
+        "$f'(x) = 2x\\ln(x^2 + 4)$"
+      ],
+      "correctIndex": 0,
+      "answer": "$f'(x) = \\frac{2x}{x^2 + 4}$",
+      "hint1": "$(\\ln u)' = \\frac{u'}{u}$ lorsque $u > 0$.",
+      "hint2": "Ici $u(x) = x^2 + 4 > 0$ et $u'(x) = 2x$.",
+      "solution": "Pour tout réel $x$, $u(x) = x^2 + 4 > 0$ et $u'(x) = 2x$, donc $f'(x) = \\frac{u'(x)}{u(x)} = \\frac{2x}{x^2 + 4}$."
+    },
+    {
+      "id": "TA8-4",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Calcul d'une dérivée seconde",
+      "skill": "Dériver deux fois une fonction composée",
+      "statement": "Soit $f(x) = e^{-2x + 1}$ sur $\\mathbb{R}$. Que vaut $f''(x)$ ?",
+      "options": [
+        "$f''(x) = 4e^{-2x + 1}$",
+        "$f''(x) = -2e^{-2x + 1}$",
+        "$f''(x) = -4e^{-2x + 1}$",
+        "$f''(x) = e^{-2x + 1}$"
+      ],
+      "correctIndex": 0,
+      "answer": "$f''(x) = 4e^{-2x + 1}$",
+      "hint1": "Calcule d'abord $f'(x)$ avec $(e^u)' = u'e^u$.",
+      "hint2": "$f'(x) = -2e^{-2x + 1}$ ; dérive à nouveau.",
+      "solution": "$f'(x) = -2e^{-2x + 1}$, puis $f''(x) = -2 \\times (-2)e^{-2x + 1} = 4e^{-2x + 1}$."
+    },
+    {
+      "id": "TA8-5",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Variations d'une racine composée",
+      "skill": "Étudier les variations d'une composée",
+      "statement": "Soit $f(x) = \\sqrt{x^2 - 6x + 10}$ sur $\\mathbb{R}$. Sur quel intervalle $f$ est-elle décroissante ?",
+      "options": [
+        "$]-\\infty ; 3]$",
+        "$[3 ; +\\infty[$",
+        "$]-\\infty ; -3]$",
+        "$[-3 ; +\\infty[$"
+      ],
+      "correctIndex": 0,
+      "answer": "$]-\\infty ; 3]$",
+      "hint1": "$(\\sqrt{u})' = \\frac{u'}{2\\sqrt{u}}$ a le signe de $u'$.",
+      "hint2": "$u(x) = x^2 - 6x + 10 = (x - 3)^2 + 1 > 0$ et $u'(x) = 2x - 6$.",
+      "solution": "$u(x) = (x - 3)^2 + 1 > 0$, donc $f$ est dérivable sur $\\mathbb{R}$ et $f'(x) = \\frac{2x - 6}{2\\sqrt{x^2 - 6x + 10}} = \\frac{x - 3}{\\sqrt{x^2 - 6x + 10}}$, du signe de $x - 3$. Ainsi $f$ est décroissante sur $]-\\infty ; 3]$ et croissante sur $[3 ; +\\infty[$."
+    }
+  ],
+  "TA9": [
+    {
+      "id": "TA9-1",
+      "tier": 1,
+      "type": "mcq",
+      "title": "Dérivée de $\\cos(ax + b)$",
+      "skill": "Dériver $x \\mapsto \\cos(ax + b)$",
+      "statement": "Soit $f(x) = \\cos(3x - 1)$ sur $\\mathbb{R}$. Que vaut $f'(x)$ ?",
+      "options": [
+        "$f'(x) = -3\\sin(3x - 1)$",
+        "$f'(x) = 3\\sin(3x - 1)$",
+        "$f'(x) = -\\sin(3x - 1)$",
+        "$f'(x) = -3\\cos(3x - 1)$"
+      ],
+      "correctIndex": 0,
+      "answer": "$f'(x) = -3\\sin(3x - 1)$",
+      "hint1": "$\\cos' = -\\sin$.",
+      "hint2": "La dérivée de $x \\mapsto g(ax + b)$ est $x \\mapsto a\\,g'(ax + b)$.",
+      "solution": "Avec $g = \\cos$, $g' = -\\sin$ et $a = 3$ : $f'(x) = 3 \\times (-\\sin(3x - 1)) = -3\\sin(3x - 1)$."
+    },
+    {
+      "id": "TA9-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Équation $\\cos(x) = a$ sur $[0 ; 2\\pi[$",
+      "skill": "Résoudre une équation trigonométrique",
+      "statement": "Quel est l'ensemble des solutions dans $[0 ; 2\\pi[$ de l'équation $\\cos(x) = -\\frac{\\sqrt{2}}{2}$ ?",
+      "options": [
+        "$S = \\left\\{\\frac{3\\pi}{4} ; \\frac{5\\pi}{4}\\right\\}$",
+        "$S = \\left\\{\\frac{\\pi}{4} ; \\frac{7\\pi}{4}\\right\\}$",
+        "$S = \\left\\{\\frac{3\\pi}{4}\\right\\}$",
+        "$S = \\left\\{\\frac{5\\pi}{4} ; \\frac{7\\pi}{4}\\right\\}$"
+      ],
+      "correctIndex": 0,
+      "answer": "$S = \\left\\{\\frac{3\\pi}{4} ; \\frac{5\\pi}{4}\\right\\}$",
+      "hint1": "$\\cos\\left(\\frac{3\\pi}{4}\\right) = -\\frac{\\sqrt{2}}{2}$.",
+      "hint2": "Les solutions de $\\cos(x) = \\cos(\\alpha)$ sont $\\alpha + 2k\\pi$ et $-\\alpha + 2k\\pi$.",
+      "solution": "On a $\\cos\\left(\\frac{3\\pi}{4}\\right) = -\\frac{\\sqrt{2}}{2}$. Les solutions réelles sont $\\pm\\frac{3\\pi}{4} + 2k\\pi$. Dans $[0 ; 2\\pi[$ : $\\frac{3\\pi}{4}$ et $-\\frac{3\\pi}{4} + 2\\pi = \\frac{5\\pi}{4}$. ($\\frac{5\\pi}{4}$ et $\\frac{7\\pi}{4}$ sont les solutions de $\\sin(x) = -\\frac{\\sqrt{2}}{2}$.)"
+    },
+    {
+      "id": "TA9-3",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Dérivée d'un produit",
+      "skill": "Dériver $x \\mapsto x\\sin(x)$",
+      "statement": "Soit $f(x) = x\\sin(x)$ sur $\\mathbb{R}$. Que vaut $f'(x)$ ?",
+      "options": [
+        "$f'(x) = \\sin(x) + x\\cos(x)$",
+        "$f'(x) = \\cos(x)$",
+        "$f'(x) = \\sin(x) - x\\cos(x)$",
+        "$f'(x) = x\\cos(x)$"
+      ],
+      "correctIndex": 0,
+      "answer": "$f'(x) = \\sin(x) + x\\cos(x)$",
+      "hint1": "$(uv)' = u'v + uv'$.",
+      "hint2": "$u(x) = x$, $u'(x) = 1$ ; $v(x) = \\sin(x)$, $v'(x) = \\cos(x)$.",
+      "solution": "$f'(x) = 1 \\times \\sin(x) + x \\times \\cos(x) = \\sin(x) + x\\cos(x)$."
+    },
+    {
+      "id": "TA9-4",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Limite de référence",
+      "skill": "Utiliser $\\lim_{x \\to 0} \\frac{\\sin(x)}{x} = 1$",
+      "statement": "Que vaut $\\lim_{x \\to 0} \\frac{\\sin(6x)}{3x}$ ?",
+      "options": [
+        "$2$",
+        "$\\frac{1}{2}$",
+        "$1$",
+        "$0$"
+      ],
+      "correctIndex": 0,
+      "answer": "$2$",
+      "hint1": "Fais apparaître $\\frac{\\sin(6x)}{6x}$.",
+      "hint2": "$\\frac{\\sin(6x)}{3x} = 2 \\times \\frac{\\sin(6x)}{6x}$.",
+      "solution": "Pour $x \\neq 0$, $\\frac{\\sin(6x)}{3x} = 2 \\times \\frac{\\sin(6x)}{6x}$. Quand $x \\to 0$, $X = 6x \\to 0$ et $\\frac{\\sin(X)}{X} \\to 1$. La limite vaut donc $2$."
+    },
+    {
+      "id": "TA9-5",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Inéquation trigonométrique",
+      "skill": "Résoudre $\\sin(x) \\ge a$ sur un intervalle",
+      "statement": "Quel est l'ensemble des solutions dans $]-\\pi ; \\pi]$ de l'inéquation $\\sin(x) \\ge \\frac{1}{2}$ ?",
+      "options": [
+        "$S = \\left[\\frac{\\pi}{6} ; \\frac{5\\pi}{6}\\right]$",
+        "$S = \\left[\\frac{\\pi}{6} ; \\pi\\right]$",
+        "$S = \\left[-\\frac{\\pi}{3} ; \\frac{\\pi}{3}\\right]$",
+        "$S = \\left]-\\pi ; \\frac{\\pi}{6}\\right] \\cup \\left[\\frac{5\\pi}{6} ; \\pi\\right]$"
+      ],
+      "correctIndex": 0,
+      "answer": "$S = \\left[\\frac{\\pi}{6} ; \\frac{5\\pi}{6}\\right]$",
+      "hint1": "Résous d'abord $\\sin(x) = \\frac{1}{2}$ dans $]-\\pi ; \\pi]$.",
+      "hint2": "Les points du cercle d'ordonnée supérieure ou égale à $\\frac{1}{2}$ forment un arc « en haut » du cercle.",
+      "solution": "Dans $]-\\pi ; \\pi]$, $\\sin(x) = \\frac{1}{2}$ pour $x = \\frac{\\pi}{6}$ et $x = \\frac{5\\pi}{6}$. Les points d'ordonnée au moins $\\frac{1}{2}$ sont sur l'arc qui joint ces deux points en passant par le point associé à $\\frac{\\pi}{2}$ : $S = \\left[\\frac{\\pi}{6} ; \\frac{5\\pi}{6}\\right]$. ($\\left[-\\frac{\\pi}{3} ; \\frac{\\pi}{3}\\right]$ est l'ensemble des solutions de $\\cos(x) \\ge \\frac{1}{2}$.)"
+    }
+  ],
+  "TS3": [
+    {
+      "id": "TS3-1",
+      "tier": 1,
+      "type": "mcq",
+      "title": "Codes à chiffres",
+      "skill": "Dénombrer des $k$-uplets",
+      "statement": "Un digicode demande un code de $4$ chiffres, chaque chiffre allant de $0$ à $9$ (les répétitions sont permises). Combien de codes différents existe-t-il ?",
+      "options": [
+        "$10\\,000$",
+        "$5\\,040$",
+        "$210$",
+        "$40$"
+      ],
+      "correctIndex": 0,
+      "answer": "$10\\,000$",
+      "hint1": "L'ordre des chiffres compte et un chiffre peut être répété.",
+      "hint2": "Il y a $10$ choix pour chacune des $4$ positions.",
+      "solution": "Un code est un $4$-uplet de l'ensemble $\\{0 ; 1 ; \\dots ; 9\\}$ qui a $10$ éléments : il y a $10^4 = 10\\,000$ codes. ($5\\,040 = 10 \\times 9 \\times 8 \\times 7$ correspondrait à des chiffres distincts et $210 = \\binom{10}{4}$ à des choix sans ordre.)"
+    },
+    {
+      "id": "TS3-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Podium d'une course",
+      "skill": "Reconnaître un arrangement",
+      "statement": "Une course oppose $12$ coureurs. Combien de podiums (premier, deuxième, troisième, sans ex æquo) sont possibles ?",
+      "options": [
+        "$1\\,320$",
+        "$220$",
+        "$1\\,728$",
+        "$36$"
+      ],
+      "correctIndex": 0,
+      "answer": "$1\\,320$",
+      "hint1": "L'ordre compte (or, argent, bronze) et un coureur ne peut occuper deux places.",
+      "hint2": "Il y a $12$ choix pour le premier, $11$ pour le deuxième, $10$ pour le troisième.",
+      "solution": "Un podium est un arrangement de $3$ coureurs parmi $12$ : $\\frac{12!}{9!} = 12 \\times 11 \\times 10 = 1\\,320$. Le nombre $\\binom{12}{3} = 220$ compte les groupes de $3$ coureurs sans tenir compte de l'ordre."
+    },
+    {
+      "id": "TS3-3",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Triangle de Pascal",
+      "skill": "Utiliser la relation de Pascal",
+      "statement": "On sait que $\\binom{9}{3} = 84$ et $\\binom{9}{4} = 126$. Que vaut $\\binom{10}{4}$ ?",
+      "options": [
+        "$210$",
+        "$42$",
+        "$252$",
+        "$10\\,584$"
+      ],
+      "correctIndex": 0,
+      "answer": "$210$",
+      "hint1": "La relation de Pascal s'écrit $\\binom{n-1}{k-1} + \\binom{n-1}{k} = \\binom{n}{k}$.",
+      "hint2": "Prends $n = 10$ et $k = 4$.",
+      "solution": "D'après la relation de Pascal, $\\binom{10}{4} = \\binom{9}{3} + \\binom{9}{4} = 84 + 126 = 210$. On peut vérifier : $\\frac{10 \\times 9 \\times 8 \\times 7}{4 \\times 3 \\times 2 \\times 1} = \\frac{5\\,040}{24} = 210$."
+    },
+    {
+      "id": "TS3-4",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Comité avec au moins une femme",
+      "skill": "Dénombrer par passage au complémentaire",
+      "statement": "Une entreprise compte $6$ femmes et $8$ hommes. On forme un comité de $3$ personnes. Combien de comités comportent au moins une femme ?",
+      "options": [
+        "$308$",
+        "$364$",
+        "$56$",
+        "$168$"
+      ],
+      "correctIndex": 0,
+      "answer": "$308$",
+      "hint1": "Le contraire de « au moins une femme » est « aucune femme ».",
+      "hint2": "Calcule $\\binom{14}{3}$ puis retire $\\binom{8}{3}$.",
+      "solution": "Il y a $\\binom{14}{3} = \\frac{14 \\times 13 \\times 12}{6} = 364$ comités au total, dont $\\binom{8}{3} = 56$ sans aucune femme. Il y a donc $364 - 56 = 308$ comités comportant au moins une femme."
+    },
+    {
+      "id": "TS3-5",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Probabilité d'une main",
+      "skill": "Calculer une probabilité par dénombrement",
+      "statement": "On tire simultanément $2$ cartes d'un jeu de $32$ cartes contenant $4$ as. Quelle est la probabilité d'obtenir deux as ?",
+      "options": [
+        "$\\frac{3}{248}$",
+        "$\\frac{1}{64}$",
+        "$\\frac{1}{8}$",
+        "$\\frac{6}{31}$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\frac{3}{248}$",
+      "hint1": "Les mains de $2$ cartes sont équiprobables : il y en a $\\binom{32}{2}$.",
+      "hint2": "Les mains favorables sont formées de $2$ as parmi $4$ : $\\binom{4}{2} = 6$.",
+      "solution": "Il y a $\\binom{32}{2} = \\frac{32 \\times 31}{2} = 496$ mains équiprobables, dont $\\binom{4}{2} = 6$ formées de deux as. La probabilité vaut $\\frac{6}{496} = \\frac{3}{248}$. (Le résultat $\\frac{1}{64} = \\left(\\frac{4}{32}\\right)^2$ correspondrait à un tirage avec remise.)"
+    }
+  ],
+  "TS4": [
+    {
+      "id": "TS4-1",
+      "tier": 1,
+      "type": "mcq",
+      "title": "Affectation simultanée",
+      "skill": "Exécuter une affectation simultanée",
+      "statement": "Qu'affiche le programme Python suivant ?\n```python\na, b = 1, 1\nfor k in range(5):\n    a, b = b, a + b\nprint(a)\n```",
+      "options": [
+        "$8$",
+        "$5$",
+        "$13$",
+        "$32$"
+      ],
+      "correctIndex": 0,
+      "answer": "$8$",
+      "hint1": "Le membre de droite `b, a + b` est évalué avant les affectations.",
+      "hint2": "Couples successifs : (1 ; 1), (1 ; 2), (2 ; 3)…",
+      "solution": "Couples (`a` ; `b`) successifs : (1 ; 1) → (1 ; 2) → (2 ; 3) → (3 ; 5) → (5 ; 8) → (8 ; 13). Après $5$ tours, `a` vaut $8$."
+    },
+    {
+      "id": "TS4-2",
+      "tier": 2,
+      "type": "mcq",
+      "title": "Seuil et limite",
+      "skill": "Déterminer un rang à partir duquel une suite approche sa limite",
+      "statement": "La suite définie par $u_0 = 2$ et $u_{n+1} = 0{,}5u_n + 5$ converge vers $10$. Qu'affiche le programme suivant ?\n```python\nu = 2\nn = 0\nwhile abs(u - 10) > 0.01:\n    u = 0.5 * u + 5\n    n = n + 1\nprint(n)\n```",
+      "options": [
+        "$10$",
+        "$9$",
+        "$11$",
+        "$800$"
+      ],
+      "correctIndex": 0,
+      "answer": "$10$",
+      "hint1": "$u_n - 10 = (u_0 - 10) \\times 0{,}5^n = -8 \\times 0{,}5^n$.",
+      "hint2": "Cherche le premier $n$ tel que $8 \\times 0{,}5^n \\le 0{,}01$, c'est-à-dire $2^n \\ge 800$.",
+      "solution": "$|u_n - 10| = 8 \\times 0{,}5^n = \\frac{8}{2^n}$. On veut $2^n \\ge 800$ : $2^9 = 512 < 800$ et $2^{10} = 1024 \\ge 800$. Le programme affiche $10$."
+    },
+    {
+      "id": "TS4-3",
+      "tier": 3,
+      "type": "mcq",
+      "title": "Dichotomie",
+      "skill": "Exécuter un algorithme de dichotomie",
+      "statement": "Qu'affiche le programme suivant, qui encadre $\\sqrt{3}$ ?\n```python\ndef f(x):\n    return x ** 2 - 3\n\na = 1\nb = 2\nfor k in range(3):\n    m = (a + b) / 2\n    if f(a) * f(m) <= 0:\n        b = m\n    else:\n        a = m\nprint(a, b)\n```",
+      "options": [
+        "« 1.625 1.75 »",
+        "« 1.5 1.75 »",
+        "« 1.75 1.875 »",
+        "« 1.6875 1.75 »"
+      ],
+      "correctIndex": 0,
+      "answer": "« 1.625 1.75 »",
+      "hint1": "Le test `f(a) * f(m) <= 0` signifie que $\\sqrt{3}$ est dans $[a ; m]$.",
+      "hint2": "Premier milieu : $1{,}5$, et $f(1{,}5) = -0{,}75 < 0$.",
+      "solution": "Étape 1 : $m = 1{,}5$, $f(1{,}5) = -0{,}75$ est du signe de $f(1) = -2$ : $a = 1{,}5$. Étape 2 : $m = 1{,}75$, $f(1{,}75) = 0{,}0625 > 0$ : $b = 1{,}75$. Étape 3 : $m = 1{,}625$, $f(1{,}625) \\approx -0{,}36 < 0$ : $a = 1{,}625$. Le programme affiche « 1.625 1.75 », donc $1{,}625 \\le \\sqrt{3} \\le 1{,}75$."
+    },
+    {
+      "id": "TS4-4",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Monte-Carlo et intégrale",
+      "skill": "Interpréter une méthode de Monte-Carlo",
+      "statement": "On exécute le programme suivant.\n```python\nfrom random import random\n\ndef mc(n):\n    c = 0\n    for i in range(n):\n        x = random()\n        y = random()\n        if y <= x ** 3:\n            c = c + 1\n    return c / n\n\nprint(mc(100000))\n```\nAutour de quelle valeur le nombre affiché fluctue-t-il ?",
+      "options": [
+        "$\\frac{1}{4}$",
+        "$\\frac{3}{4}$",
+        "$\\frac{1}{3}$",
+        "$\\frac{1}{2}$"
+      ],
+      "correctIndex": 0,
+      "answer": "$\\frac{1}{4}$",
+      "hint1": "Le point $(x ; y)$ est choisi uniformément dans le carré $[0 ; 1]^2$, d'aire $1$.",
+      "hint2": "La proportion de points sous la courbe de $x \\mapsto x^3$ est proche de l'aire sous cette courbe.",
+      "solution": "La proportion $\\frac{c}{n}$ est proche de l'aire du domaine $\\{0 \\le x \\le 1, 0 \\le y \\le x^3\\}$, c'est-à-dire de $\\int_0^1 x^3\\,\\mathrm{d}x = \\left[\\frac{x^4}{4}\\right]_0^1 = \\frac{1}{4}$."
+    },
+    {
+      "id": "TS4-5",
+      "tier": 4,
+      "type": "mcq",
+      "title": "Précision d'une dichotomie",
+      "skill": "Déterminer le nombre d'étapes d'une dichotomie",
+      "statement": "On applique la méthode de dichotomie à partir de l'intervalle $[0 ; 4]$. Combien d'étapes faut-il au minimum pour obtenir un intervalle de longueur inférieure ou égale à $10^{-2}$ ?",
+      "options": [
+        "$9$",
+        "$8$",
+        "$200$",
+        "$400$"
+      ],
+      "correctIndex": 0,
+      "answer": "$9$",
+      "hint1": "Après $n$ étapes, la longueur vaut $\\frac{4}{2^n}$.",
+      "hint2": "On veut $2^n \\ge 400$.",
+      "solution": "$\\frac{4}{2^n} \\le 0{,}01 \\iff 2^n \\ge 400$. Or $2^8 = 256 < 400 \\le 2^9 = 512$ : il faut $9$ étapes."
     }
   ]
 };
