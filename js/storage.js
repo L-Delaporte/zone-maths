@@ -1,5 +1,5 @@
 /**
- * Zone-Maths — Gestionnaire de stockage local (localStorage)
+ * L'Établi des Maths — Gestionnaire de stockage local (localStorage)
  * Sauvegarde la progression de l'élève, ses XP, son niveau, ses badges et son historique.
  */
 
@@ -8,7 +8,7 @@ const STORAGE_KEY = 'maths_3e_progress_v1';
 window.MathsStorage = {
   getDefaultData() {
     return {
-      version: 1,
+      version: 2,
       user: {
         name: 'Élève / Étudiant',
         xp: 0,
@@ -27,45 +27,10 @@ window.MathsStorage = {
   },
 
   getCycleForLevel(level) {
-    if (['5eme', '4eme', '3eme'].includes(level)) return 'college';
+    if (['6eme', '5eme', '4eme', '3eme'].includes(level)) return 'college';
     if (['2nde', '1ere', 'tale'].includes(level)) return 'lycee';
     if (['L1', 'L2', 'L3', 'capes'].includes(level)) return 'licence';
     return 'college';
-  },
-
-  /**
-   * Vérifie si un cycle d'études est verrouillé par mot de passe enseignant
-   * Le collège reste toujours accessible sans code. Lycée et Licence requièrent le code PROF2026.
-   */
-  isCycleLocked(cycle) {
-    if (cycle === 'college') return false;
-    try {
-      return localStorage.getItem('maths_cycles_unlocked') !== 'true';
-    } catch (e) {
-      return true;
-    }
-  },
-
-  isLevelLocked(level) {
-    const cycle = this.getCycleForLevel(level);
-    return this.isCycleLocked(cycle);
-  },
-
-  unlockCycles(code) {
-    const cleanCode = String(code || '').trim().toUpperCase();
-    if (cleanCode === 'PROF2026') {
-      try {
-        localStorage.setItem('maths_cycles_unlocked', 'true');
-      } catch (e) {}
-      return true;
-    }
-    return false;
-  },
-
-  lockCycles() {
-    try {
-      localStorage.removeItem('maths_cycles_unlocked');
-    } catch (e) {}
   },
 
   getCurrentCycle() {
@@ -128,26 +93,85 @@ window.MathsStorage = {
     this.save(data);
   },
 
+  /** Version du schéma de données : incrémenter et compléter migrate() à chaque évolution. */
+  SCHEMA_VERSION: 2,
+
+  getDefaultChapterProgress() {
+    return {
+      mastery: 0,
+      currentTier: 1,
+      streak: 0,
+      completed: [],
+      attempts: 0,
+      successes: 0,
+      successesByTier: { 1: 0, 2: 0, 3: 0, 4: 0 }
+    };
+  },
+
+  /**
+   * Complète et valide des données (sauvegarde locale ou fichier importé) :
+   * un champ manquant, null ou du mauvais type ne doit jamais faire planter l'application.
+   */
+  normalize(data) {
+    const isObj = v => v !== null && typeof v === 'object' && !Array.isArray(v);
+    const def = this.getDefaultData();
+    if (!isObj(data)) return def;
+    const out = Object.assign(def, data);
+    out.user = Object.assign(this.getDefaultData().user, isObj(data.user) ? data.user : {});
+    out.user.xp = Number.isFinite(out.user.xp) && out.user.xp >= 0 ? out.user.xp : 0;
+    out.user.streak = Number.isFinite(out.user.streak) ? out.user.streak : 0;
+    out.user.bestStreak = Number.isFinite(out.user.bestStreak) ? out.user.bestStreak : 0;
+    out.badges = Array.isArray(data.badges) ? data.badges : [];
+    out.chapters = {};
+    if (isObj(data.chapters)) {
+      Object.keys(data.chapters).forEach(id => {
+        const ch = data.chapters[id];
+        if (!isObj(ch)) return;
+        const merged = Object.assign(this.getDefaultChapterProgress(), ch);
+        if (!Array.isArray(merged.completed)) merged.completed = [];
+        if (!isObj(merged.successesByTier)) merged.successesByTier = { 1: 0, 2: 0, 3: 0, 4: 0 };
+        merged.mastery = Number.isFinite(merged.mastery) ? merged.mastery : 0;
+        out.chapters[id] = merged;
+      });
+    }
+    out.user.level = this.getLevelFromXp(out.user.xp).level;
+    return this.migrate(out, Number(data.version) || 1);
+  },
+
+  migrate(data, fromVersion) {
+    if (fromVersion < 2) {
+      // v2 : les ids d'exercices générés (uniques, jamais réutilisés) ne sont plus mémorisés
+      Object.values(data.chapters).forEach(ch => {
+        ch.completed = ch.completed.filter(id => !/-dyn-|-gen-|fallback/.test(String(id)));
+      });
+    }
+    data.version = this.SCHEMA_VERSION;
+    return data;
+  },
+
   load() {
+    let raw = null;
     try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) {
-        const initial = this.getDefaultData();
-        this.save(initial);
-        return initial;
-      }
-      const data = JSON.parse(raw);
-      const merged = Object.assign(this.getDefaultData(), data);
-      if (merged.user && typeof merged.user.xp === 'number') {
-        merged.user.level = this.getLevelFromXp(merged.user.xp).level;
-      }
-      return merged;
+      raw = localStorage.getItem(STORAGE_KEY);
     } catch (e) {
-      console.warn('Erreur lors du chargement de localStorage:', e);
+      return this.getDefaultData(); // stockage bloqué (navigation privée stricte…)
+    }
+    if (!raw) {
+      const initial = this.getDefaultData();
+      this.save(initial);
+      return initial;
+    }
+    try {
+      return this.normalize(JSON.parse(raw));
+    } catch (e) {
+      // Données illisibles : on garde une copie de secours avant qu'une sauvegarde ne les écrase
+      console.warn('Progression illisible, copie de secours conservée :', e);
+      try {
+        if (!localStorage.getItem(STORAGE_KEY + '_backup')) localStorage.setItem(STORAGE_KEY + '_backup', raw);
+      } catch (err) {}
       return this.getDefaultData();
     }
   },
-
   save(data) {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
@@ -159,18 +183,7 @@ window.MathsStorage = {
   getChapterProgress(chapterId) {
     const data = this.load();
     if (!data.chapters[chapterId]) {
-      data.chapters[chapterId] = {
-        mastery: 0,
-        currentTier: 1,
-        streak: 0,
-        completed: [],
-        attempts: 0,
-        successes: 0,
-        successesByTier: { 1: 0, 2: 0, 3: 0, 4: 0 }
-      };
-      this.save(data);
-    } else if (!data.chapters[chapterId].successesByTier) {
-      data.chapters[chapterId].successesByTier = { 1: 0, 2: 0, 3: 0, 4: 0 };
+      data.chapters[chapterId] = this.getDefaultChapterProgress();
       this.save(data);
     }
     return data.chapters[chapterId];
@@ -526,27 +539,29 @@ window.MathsStorage = {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `zone-maths_passeport_${new Date().toISOString().slice(0, 10)}.json`;
+    a.download = `etabli-des-maths_progression_${new Date().toISOString().slice(0, 10)}.json`;
+    document.body.appendChild(a);
     a.click();
-    URL.revokeObjectURL(url);
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
   },
-
+  /** Importe une sauvegarde exportée. Retourne true si le fichier est une progression valide. */
   importFromJson(jsonString) {
     try {
       const data = JSON.parse(jsonString);
-      if (data && data.version) {
-        this.save(data);
-        return true;
-      }
-      return false;
+      const looksValid = data && typeof data === 'object' && data.user && typeof data.user === 'object' && data.chapters && typeof data.chapters === 'object';
+      if (!looksValid) return false;
+      this.save(this.normalize(data));
+      return true;
     } catch (e) {
       console.error('Import invalide :', e);
       return false;
     }
   },
-
   resetAll() {
-    localStorage.removeItem(STORAGE_KEY);
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+    } catch (e) {}
     return this.getDefaultData();
   }
 };

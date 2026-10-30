@@ -7,7 +7,14 @@
 
   let audioCtx = null;
   const STORAGE_KEY = 'maths_sound_muted';
-  let muted = localStorage.getItem(STORAGE_KEY) === 'true';
+  // Le stockage peut être bloqué (navigation privée stricte) : ne jamais faire planter le module
+  function readMuted() {
+    try { return localStorage.getItem(STORAGE_KEY) === 'true'; } catch (e) { return false; }
+  }
+  function writeMuted(val) {
+    try { localStorage.setItem(STORAGE_KEY, val ? 'true' : 'false'); } catch (e) {}
+  }
+  let muted = readMuted();
 
   function getContext() {
     if (!audioCtx) {
@@ -56,14 +63,14 @@
 
     toggleMute: function() {
       muted = !muted;
-      localStorage.setItem(STORAGE_KEY, muted ? 'true' : 'false');
+      writeMuted(muted);
       this.updateToggleButton();
       return muted;
     },
 
     setMuted: function(val) {
       muted = !!val;
-      localStorage.setItem(STORAGE_KEY, muted ? 'true' : 'false');
+      writeMuted(muted);
       this.updateToggleButton();
     },
 

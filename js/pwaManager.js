@@ -18,7 +18,8 @@ window.MathsPwa = {
     }
 
     // 2. Vérifier si l'utilisateur a fermé récemment le bandeau (rappel après 7 jours)
-    const dismissedTime = localStorage.getItem('etabli_pwa_dismissed');
+    let dismissedTime = null;
+    try { dismissedTime = localStorage.getItem('etabli_pwa_dismissed'); } catch (e) {}
     if (dismissedTime) {
       const elapsed = Date.now() - parseInt(dismissedTime, 10);
       if (elapsed < 7 * 24 * 60 * 60 * 1000) {
@@ -50,7 +51,7 @@ window.MathsPwa = {
     // 6. Détection après installation réussie
     window.addEventListener('appinstalled', () => {
       this.hideBanner();
-      localStorage.setItem('etabli_pwa_installed', 'true');
+      try { localStorage.setItem('etabli_pwa_installed', 'true'); } catch (e) {}
     });
 
     // 7. Attacher les écouteurs sur les boutons
@@ -101,7 +102,7 @@ window.MathsPwa = {
 
   dismissBanner() {
     this.hideBanner();
-    localStorage.setItem('etabli_pwa_dismissed', Date.now().toString());
+    try { localStorage.setItem('etabli_pwa_dismissed', Date.now().toString()); } catch (e) {}
   },
 
   async handleInstallClick() {

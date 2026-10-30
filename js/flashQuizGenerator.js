@@ -146,7 +146,7 @@ window.MathsQuizGenerator = {
 
     const levelLabel = (window.MathsApp && typeof window.MathsApp.getLevelName === 'function')
       ? window.MathsApp.getLevelName(currentLevel)
-      : (currentLevel === '5eme' ? '5ème' : (currentLevel === '4eme' ? '4ème' : (currentLevel === '3eme' ? '3ème' : currentLevel)));
+      : (currentLevel === '6eme' ? '6ème' : currentLevel === '5eme' ? '5ème' : (currentLevel === '4eme' ? '4ème' : (currentLevel === '3eme' ? '3ème' : currentLevel)));
 
     let totalPoints = 20;
     let ptsPerQ = 2;
@@ -242,7 +242,7 @@ window.MathsQuizGenerator = {
               </div>
               <div class="quiz-header-right">
                 <div class="quiz-grade-box">Note : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; / ${totalPoints}</div>
-                <img src="assets/logo.png" alt="Logo L'Établi des Maths" class="quiz-header-logo" width="46" height="46" />
+                <img src="assets/logo-192.png" alt="Logo L'Établi des Maths" class="quiz-header-logo" width="46" height="46" />
               </div>
             </div>
             <div class="quiz-author-line">
@@ -302,7 +302,7 @@ window.MathsQuizGenerator = {
                 </p>
               </div>
               <div class="quiz-header-right">
-                <img src="assets/logo.png" alt="Logo L'Établi des Maths" class="quiz-header-logo" width="46" height="46" />
+                <img src="assets/logo-192.png" alt="Logo L'Établi des Maths" class="quiz-header-logo" width="46" height="46" />
               </div>
             </div>
             <div class="quiz-author-line">

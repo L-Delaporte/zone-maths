@@ -16,7 +16,7 @@
   --bg-hover: var(--bg-subtle);
 
   --text-main: #0f172a;
-  --text-muted: #64748b;
+  --text-muted: #5b6b7f; /* ≥ 4,5:1 sur --bg-subtle (WCAG AA) */
   --text-subtle: #94a3b8;
 
   /* Couleurs sémantiques */
@@ -50,9 +50,14 @@
   --tier-2-color: #0284c7;
   --tier-3-color: #6366f1;
   --tier-4-color: #8b5cf6;
+  /* Fonds pleins avec texte blanc (contraste ≥ 4,5:1 dans les deux thèmes) */
+  --tier-1-strong: #047857;
+  --tier-2-strong: #0369a1;
+  --tier-3-strong: #4f46e5;
+  --tier-4-strong: #7c3aed;
 
   /* Typographie & Rayons */
-  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', Menlo, Consolas, Monaco, monospace;
   --radius-sm: 6px;
   --radius-md: 10px;
@@ -181,7 +186,8 @@ body {
   font-size: 1.8rem;
 }
 
-.brand-text h1 {
+.brand-text h1, .brand-text .brand-title {
+  margin: 0;
   font-size: 1.15rem;
   font-weight: 700;
   color: var(--text-main);
@@ -1629,10 +1635,10 @@ body.home-view-active .cycle-levels-row {
   transition: var(--transition);
 }
 
-.tier-pill-btn[data-tier="1"].active { background-color: var(--tier-1-color); color: white; border-color: var(--tier-1-color); }
-.tier-pill-btn[data-tier="2"].active { background-color: var(--tier-2-color); color: white; border-color: var(--tier-2-color); }
-.tier-pill-btn[data-tier="3"].active { background-color: var(--tier-3-color); color: white; border-color: var(--tier-3-color); }
-.tier-pill-btn[data-tier="4"].active { background-color: var(--tier-4-color); color: white; border-color: var(--tier-4-color); }
+.tier-pill-btn[data-tier="1"].active { background-color: var(--tier-1-strong); color: white; border-color: var(--tier-1-strong); }
+.tier-pill-btn[data-tier="2"].active { background-color: var(--tier-2-strong); color: white; border-color: var(--tier-2-strong); }
+.tier-pill-btn[data-tier="3"].active { background-color: var(--tier-3-strong); color: white; border-color: var(--tier-3-strong); }
+.tier-pill-btn[data-tier="4"].active { background-color: var(--tier-4-strong); color: white; border-color: var(--tier-4-strong); }
 
 /* Paliers d'entraînement verrouillés et validés */
 .tier-pill-btn.tier-locked {
@@ -4766,6 +4772,7 @@ body.home-view-active .cycle-levels-row {
 }
 
 #chapters-search-input::placeholder {
+  color: var(--text-muted);
   color: var(--text-subtle);
 }
 
@@ -5181,7 +5188,7 @@ body.home-view-active .cycle-levels-row {
     height: 32px;
   }
 
-  .brand-text h1 {
+  .brand-text h1, .brand-text .brand-title {
     font-size: 1.05rem;
     font-weight: 800;
   }
@@ -7090,7 +7097,7 @@ body.home-view-active .cycle-levels-row {
 .streak-stat-val {
   font-size: 1.05rem;
   font-weight: 700;
-  color: var(--text-primary);
+  color: var(--text-main);
 }
 
 .streak-explanation-box {
@@ -7100,13 +7107,13 @@ body.home-view-active .cycle-levels-row {
   padding: 0.9rem 1.1rem;
   font-size: 0.86rem;
   line-height: 1.45;
-  color: var(--text-primary);
+  color: var(--text-main);
 }
 
 .streak-explanation-box h4 {
   margin: 0 0 0.5rem 0;
   font-size: 0.92rem;
-  color: var(--text-primary);
+  color: var(--text-main);
 }
 
 .streak-explanation-box ul {
@@ -7186,7 +7193,7 @@ body.home-view-active .cycle-levels-row {
 .streak-trophy-title {
   font-size: 0.82rem;
   font-weight: 700;
-  color: var(--text-primary);
+  color: var(--text-main);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -7311,7 +7318,7 @@ body.home-view-active .cycle-levels-row {
 .level-hero-title {
   font-size: 1.35rem;
   font-weight: 800;
-  color: var(--text-primary);
+  color: var(--text-main);
   letter-spacing: -0.01em;
 }
 
@@ -7343,7 +7350,7 @@ body.home-view-active .cycle-levels-row {
 }
 
 .level-xp-step-label {
-  color: var(--text-primary);
+  color: var(--text-main);
   font-weight: 500;
 }
 
@@ -7353,7 +7360,7 @@ body.home-view-active .cycle-levels-row {
 }
 
 .level-xp-values strong {
-  color: var(--text-primary);
+  color: var(--text-main);
   font-size: 0.95rem;
 }
 
@@ -7379,7 +7386,7 @@ body.home-view-active .cycle-levels-row {
   background: rgba(59, 130, 246, 0.08);
   border: 1px solid rgba(59, 130, 246, 0.2);
   border-radius: 8px;
-  color: var(--text-primary);
+  color: var(--text-main);
 }
 
 .level-stats-row {
@@ -7408,7 +7415,7 @@ body.home-view-active .cycle-levels-row {
 .level-stat-val {
   font-size: 1.05rem;
   font-weight: 700;
-  color: var(--text-primary);
+  color: var(--text-main);
 }
 
 .level-tips-box {
@@ -7418,13 +7425,13 @@ body.home-view-active .cycle-levels-row {
   padding: 0.9rem 1.1rem;
   font-size: 0.85rem;
   line-height: 1.45;
-  color: var(--text-primary);
+  color: var(--text-main);
 }
 
 .level-tips-box h4 {
   margin: 0 0 0.5rem 0;
   font-size: 0.92rem;
-  color: var(--text-primary);
+  color: var(--text-main);
 }
 
 .level-tips-box ul {
@@ -7713,7 +7720,7 @@ body.home-view-active .cycle-levels-row {
 .visualizer-workbench {
   background: var(--bg-surface);
   border: 1px solid var(--border-color);
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-lg);
   padding: 1.5rem;
   margin: 1.5rem 0;
   box-shadow: var(--shadow-sm);
@@ -8409,3 +8416,60 @@ body.home-view-active .cycle-levels-row {
   }
 }
 
+
+
+/* =========================================================================
+   ACCESSIBILITÉ (RGAA / WCAG 2.2 AA)
+   ========================================================================= */
+
+/* Texte réservé aux lecteurs d'écran */
+.sr-only {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Focus clavier toujours visible, y compris sur les cartes cliquables */
+:focus-visible {
+  outline: 3px solid var(--border-focus);
+  outline-offset: 2px;
+}
+[role="button"]:focus-visible {
+  border-radius: var(--radius-md);
+}
+.form-select:focus-visible {
+  outline: 3px solid var(--border-focus);
+}
+
+/* Bouton principal en thème sombre : texte blanc lisible */
+[data-theme="dark"] .btn-primary {
+  background-color: #2563eb;
+}
+[data-theme="dark"] .btn-primary:hover {
+  background-color: #1d4ed8;
+}
+
+/* Cibles tactiles d'au moins 24 px (WCAG 2.5.8) */
+.level-pill,
+.modal-close-btn {
+  min-height: 28px;
+  min-width: 28px;
+}
+
+/* Respect du réglage « réduire les animations » du système */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

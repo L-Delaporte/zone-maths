@@ -827,8 +827,8 @@
         }
 
         // Son de succès
-        if (window.MathsAudio && window.MathsAudio.playSuccess) {
-          window.MathsAudio.playSuccess();
+        if (window.MathsAudio && window.MathsAudio.playCorrect) {
+          window.MathsAudio.playCorrect();
         }
 
         // Passer à la carte suivante
@@ -847,8 +847,8 @@
         }
 
         // Son d'erreur doux
-        if (window.MathsAudio && window.MathsAudio.playError) {
-          window.MathsAudio.playError();
+        if (window.MathsAudio && window.MathsAudio.playIncorrect) {
+          window.MathsAudio.playIncorrect();
         }
 
         // RÈGLE CLÉ : On ré-injecte la carte plus loin dans la session
@@ -884,8 +884,8 @@
       summaryScreen.style.display = 'block';
 
       // Confettis de réussite
-      if (window.MathsConfetti && typeof window.MathsConfetti.celebrate === 'function') {
-        window.MathsConfetti.celebrate();
+      if (window.MathsConfetti && typeof window.MathsConfetti.launch === 'function') {
+        window.MathsConfetti.launch();
       }
 
       const container = document.getElementById('fc-summary-container');

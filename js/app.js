@@ -16,12 +16,15 @@ document.addEventListener('DOMContentLoaded', () => {
     generatedDsByChapter: {},
 
     CYCLES: {
-      college: { id: 'college', name: 'Collège', defaultLevel: '3eme', levels: ['5eme', '4eme', '3eme'] },
+      college: { id: 'college', name: 'Collège', defaultLevel: '3eme', levels: ['6eme', '5eme', '4eme', '3eme'] },
       lycee: { id: 'lycee', name: 'Lycée', defaultLevel: '2nde', levels: ['2nde', '1ere', 'tale'] },
       licence: { id: 'licence', name: 'Licence & Concours', defaultLevel: 'L1', levels: ['L1', 'L2', 'L3', 'capes'] }
     },
 
+    VALID_LEVELS: ['6eme', '5eme', '4eme', '3eme', '2nde', '1ere', 'tale', 'L1', 'L2', 'L3', 'capes'],
+
     LEVEL_LABELS: {
+      '6eme': '6ème',
       '5eme': '5ème',
       '4eme': '4ème',
       '3eme': '3ème (DNB)',
@@ -274,10 +277,6 @@ document.addEventListener('DOMContentLoaded', () => {
     init() {
       console.log('Initialisation de L\'Établi des Maths (Collège, Lycée, Licence)...');
       let savedLevel = window.MathsStorage.getCurrentLevel() || '3eme';
-      if (window.MathsStorage.isLevelLocked(savedLevel)) {
-        savedLevel = '3eme';
-        window.MathsStorage.setCurrentLevel('3eme');
-      }
       this.currentLevel = savedLevel;
       this.initTheme();
       if (window.MathsAudio) {
@@ -285,24 +284,49 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       this.bindGlobalEvents();
       this.bindKeyboardShortcuts();
+      this.bindClickableA11y();
+      this.bindModalA11y();
+      this.bindHistoryNavigation();
       this.renderDomainNav();
-      this.switchLevel(this.currentLevel, false);
-      this.updateLockUI();
-      const hasUrlParams = this.checkUrlShareParams();
-      if (!hasUrlParams) {
-        this.showHomeView();
-      }
       this.updateHeaderProfile();
+      // Les données du niveau courant sont chargées avant le premier affichage
+      this.whenLevelReady(this.currentLevel, () => {
+        this.switchLevel(this.currentLevel, false);
+        const hasUrlParams = this.checkUrlShareParams();
+        if (!hasUrlParams) {
+          this.showHomeView();
+        }
+      });
+    },
+
+    /**
+     * Exécute fn une fois les données du niveau chargées (chargement à la demande,
+     * voir js/dataLoader.js). Immédiat si le niveau est déjà disponible.
+     */
+    whenLevelReady(level, fn) {
+      const loader = window.MathsDataLoader;
+      if (!loader || !level || loader.isLevelLoaded(level)) return fn();
+      document.body.classList.add('level-loading');
+      const slowTimer = setTimeout(() => this.showToast('⏳ Chargement des contenus…', 2500), 400);
+      return loader.ensureLevel(level)
+        .then(() => fn())
+        .catch(err => {
+          console.error(err);
+          this.showToast('⚠️ Impossible de charger les contenus de ce niveau. Vérifie ta connexion puis réessaie.', 5000);
+        })
+        .finally(() => {
+          clearTimeout(slowTimer);
+          document.body.classList.remove('level-loading');
+        });
+    },
+
+    isLevelReady(level) {
+      const loader = window.MathsDataLoader;
+      return !loader || !level || loader.isLevelLoaded(level);
     },
 
     switchCycle(cycleId, targetLevel = null) {
       if (!this.CYCLES[cycleId]) return;
-
-      // Protection enseignant : Lycée et Licence sont verrouillés par défaut
-      if (window.MathsStorage.isCycleLocked(cycleId)) {
-        this.openLockModal(cycleId, targetLevel);
-        return;
-      }
 
       this.hideHomeView();
       window.MathsStorage.setCurrentCycle(cycleId);
@@ -310,6 +334,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // Met à jour les onglets de cycle
       document.querySelectorAll('.cycle-tab-btn').forEach(btn => {
         btn.classList.toggle('active', btn.getAttribute('data-cycle') === cycleId);
+        btn.setAttribute('aria-current', btn.getAttribute('data-cycle') === cycleId ? 'true' : 'false');
       });
 
       // Affiche le groupe de pilules correspondant
@@ -328,15 +353,8 @@ document.addEventListener('DOMContentLoaded', () => {
     },
 
     switchLevel(level, autoSelectFirst = false) {
-      const validLevels = ['5eme', '4eme', '3eme', '2nde', '1ere', 'tale', 'L1', 'L2', 'L3', 'capes'];
-      if (!validLevels.includes(level)) return;
-
-      // Protection enseignant : vérification si le niveau appartient à un cycle verrouillé
-      if (window.MathsStorage.isLevelLocked(level)) {
-        const cycle = window.MathsStorage.getCycleForLevel(level);
-        this.openLockModal(cycle, level);
-        return;
-      }
+      if (!this.VALID_LEVELS.includes(level)) return;
+      if (!this.isLevelReady(level)) return this.whenLevelReady(level, () => this.switchLevel(level, autoSelectFirst));
 
       this.hideHomeView();
       this.currentLevel = level;
@@ -346,6 +364,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // Met à jour l'onglet du cycle actif
       document.querySelectorAll('.cycle-tab-btn').forEach(btn => {
         btn.classList.toggle('active', btn.getAttribute('data-cycle') === currentCycle);
+        btn.setAttribute('aria-current', btn.getAttribute('data-cycle') === currentCycle ? 'true' : 'false');
       });
 
       // Affiche le groupe de niveaux correspondant au cycle
@@ -632,51 +651,167 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     },
 
-    bindKeyboardShortcuts() {
-      document.addEventListener('keydown', (e) => {
-        // Touche Échap pour fermer les modales streak, level, lock et explainer
+    /** Éléments cliquables non natifs (div onclick, cartes) : rendus accessibles au clavier. */
+    CLICKABLE_SELECTOR: '[onclick]:not(button):not(a):not(input):not(select):not(textarea):not(label):not(.modal-overlay):not([class*="overlay"]), .chapter-trophy-card, .home-cycle-card',
+
+    enhanceClickableA11y(root = document) {
+      const nodes = root.querySelectorAll ? root.querySelectorAll(this.CLICKABLE_SELECTOR) : [];
+      nodes.forEach(el => {
+        const handler = el.getAttribute('onclick') || '';
+        if (/event\.target\s*===\s*this/.test(handler)) return; // fermeture de fond de modale
+        if (!el.hasAttribute('role')) el.setAttribute('role', 'button');
+        if (!el.hasAttribute('tabindex')) el.setAttribute('tabindex', '0');
+      });
+    },
+
+    bindClickableA11y() {
+      this.enhanceClickableA11y();
+      new MutationObserver(mutations => {
+        mutations.forEach(m => m.addedNodes.forEach(n => {
+          if (n.nodeType !== 1) return;
+          if (n.matches && n.matches(this.CLICKABLE_SELECTOR)) this.enhanceClickableA11y(n.parentNode || document);
+          else this.enhanceClickableA11y(n);
+        }));
+      }).observe(document.body, { childList: true, subtree: true });
+      // Entrée / Espace activent les éléments role="button" non natifs
+      document.addEventListener('keydown', e => {
+        const el = e.target;
+        if (!(e.key === 'Enter' || e.key === ' ') || !el || !el.matches || !el.matches('[role="button"]:not(button)')) return;
+        e.preventDefault();
+        e.stopPropagation();
+        el.click();
+      }, true);
+    },
+
+    /**
+     * Accessibilité des modales : Échap ferme la modale du dessus, le focus y entre à
+     * l'ouverture, reste piégé dedans (Tab) et revient à l'élément d'origine à la fermeture.
+     */
+    bindModalA11y() {
+      const FOCUSABLE = 'button:not([disabled]), [href], input:not([disabled]), select, textarea, [tabindex]:not([tabindex="-1"])';
+      // offsetParent est null pour les éléments position:fixed (les fonds de modale) : on utilise getClientRects
+      const isOpen = m => m.style.display !== 'none' && m.getClientRects().length > 0;
+      const visible = el => el.getClientRects().length > 0;
+      const openModals = () => Array.from(document.querySelectorAll('.modal-overlay')).filter(isOpen);
+      const returnFocus = new Map();
+
+      new MutationObserver(mutations => {
+        mutations.forEach(({ target: modal }) => {
+          const open = modal.style.display !== 'none';
+          if (open && !returnFocus.has(modal)) {
+            returnFocus.set(modal, document.activeElement);
+            setTimeout(() => {
+              if (!isOpen(modal) || modal.contains(document.activeElement)) return;
+              const first = Array.from(modal.querySelectorAll(FOCUSABLE)).find(visible);
+              (first || modal).focus({ preventScroll: true });
+            }, 60);
+          } else if (!open && returnFocus.has(modal)) {
+            const back = returnFocus.get(modal);
+            returnFocus.delete(modal);
+            if (back && document.contains(back) && back.focus) back.focus({ preventScroll: true });
+          }
+        });
+      }).observe(document.body, { attributes: true, attributeFilter: ['style'], subtree: true });
+
+      document.addEventListener('keydown', e => {
+        const modals = openModals();
+        if (!modals.length) return;
+        const top = modals[modals.length - 1];
         if (e.key === 'Escape') {
-          const explainerModal = document.getElementById('mode-explainer-modal');
-          if (explainerModal && explainerModal.style.display !== 'none') {
-            this.closeModeExplainer();
-            return;
+          const closeBtn = Array.from(top.querySelectorAll('.modal-close-btn, .reward-modal-close, [aria-label="Fermer"]')).find(visible);
+          if (closeBtn) {
+            e.preventDefault();
+            closeBtn.click();
           }
-          const streakModal = document.getElementById('streak-modal');
-          if (streakModal && streakModal.style.display !== 'none') {
-            this.closeStreakModal();
-            return;
-          }
-          const levelModal = document.getElementById('level-modal');
-          if (levelModal && levelModal.style.display !== 'none') {
-            this.closeLevelModal();
-            return;
-          }
-          const lockModal = document.getElementById('lock-cycle-modal');
-          if (lockModal && lockModal.style.display !== 'none') {
-            this.closeLockModal();
-            return;
+        } else if (e.key === 'Tab') {
+          const items = Array.from(top.querySelectorAll(FOCUSABLE)).filter(visible);
+          if (!items.length) return;
+          const first = items[0];
+          const last = items[items.length - 1];
+          if (!top.contains(document.activeElement)) {
+            e.preventDefault();
+            first.focus();
+          } else if (e.shiftKey && document.activeElement === first) {
+            e.preventDefault();
+            last.focus();
+          } else if (!e.shiftKey && document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
           }
         }
+      });
+    },
 
-        const activeTag = document.activeElement ? document.activeElement.tagName.toLowerCase() : '';
-        const isInputField = activeTag === 'input' || activeTag === 'textarea';
+    /**
+     * Reflète la vue courante dans l'URL (?chapitre=ID) : liens partageables, bouton
+     * « Retour » du navigateur et pages explorables par les moteurs de recherche.
+     */
+    syncUrl(params) {
+      if (this._restoringFromHistory || !window.history || !history.pushState) return;
+      const current = new URLSearchParams(location.search);
+      // Les paramètres d'outil d'un lien partagé (mode, palier…) restent tant qu'on ne change pas de vue
+      const sameView = (params.chapitre || null) === (current.get('chapitre') || current.get('chapter') || current.get('chap'));
+      if (sameView && (params.chapitre || !location.search)) return;
+      const qs = new URLSearchParams(params).toString();
+      history.pushState(params, '', qs ? `?${qs}` : location.pathname);
+      // Statistiques d'audience : une « page vue » par chapitre consulté
+      if (window.goatcounter && typeof window.goatcounter.count === 'function') {
+        window.goatcounter.count({ path: location.pathname + location.search });
+      }
+    },
 
+    bindHistoryNavigation() {
+      window.addEventListener('popstate', () => {
+        this._restoringFromHistory = true;
+        try {
+          const params = new URLSearchParams(location.search);
+          const chap = params.get('chapitre') || params.get('chapter') || params.get('chap');
+          if (chap && (window.MATHS_CHAPTERS || []).some(c => c.id === chap)) {
+            this.selectChapter(chap);
+            this.switchTab('train');
+            this.hideHomeView();
+          } else {
+            this.showHomeView();
+          }
+        } finally {
+          this._restoringFromHistory = false;
+        }
+      });
+    },
+
+    escapeHtml(str) {
+      return String(str).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    },
+
+    bindKeyboardShortcuts() {
+      document.addEventListener('keydown', (e) => {
+        const active = document.activeElement;
+        const activeTag = active ? active.tagName.toLowerCase() : '';
+        const isInputField = activeTag === 'input' || activeTag === 'textarea' || activeTag === 'select' || (active && active.isContentEditable);
+        const isAnswerField = isInputField && !!active.closest('#exercise-input-zone');
+
+        // Entrée/Espace sur un bouton ou un lien ciblé au clavier : laisser l'activation native
+        if ((e.key === 'Enter' || e.code === 'Space') && active && active !== document.body && active.matches('button, a[href], [role="button"], summary')) return;
+
+        // Si une modale est ouverte, ne pas interférer (flashcards, quiz, diaporama…)
+        const openModal = Array.from(document.querySelectorAll('.modal-overlay')).some(m => m.style.display !== 'none' && m.getClientRects().length > 0);
+        if (openModal) return;
+
+        // Ne pas intercepter la saisie dans un champ autre que la réponse de l'exercice (recherche…)
+        if (isInputField && !isAnswerField) return;
+
+        // Bouton « Question suivante » réellement visible (aucune boîte de rendu si l'onglet est masqué)
         const nextBtn = document.getElementById('btn-next-exercise');
-        const isNextVisible = nextBtn && nextBtn.style.display !== 'none';
+        const isNextVisible = nextBtn && nextBtn.style.display !== 'none' && nextBtn.getClientRects().length > 0;
 
-        // Si la solution ou le bouton "Question Suivante" est affiché, Entrée, Espace ou N avance
-        if (isNextVisible && (e.key === 'Enter' || e.code === 'Space' || e.key === 'n' || e.key === 'N')) {
+        // Entrée avance toujours ; Espace et N seulement hors champ de saisie
+        if (isNextVisible && (e.key === 'Enter' || (!isInputField && (e.code === 'Space' || e.key === 'n' || e.key === 'N')))) {
           e.preventDefault();
           nextBtn.click();
           return;
         }
 
-        // Ne pas intercepter les touches si l'utilisateur est en train de taper dans un champ de saisie
         if (isInputField) return;
-
-        // Si une modale est ouverte, ne pas interférer
-        const openModal = document.querySelector('.modal-overlay:not([style*="display: none"])');
-        if (openModal) return;
 
         // Raccourci H : Demander un indice
         if (e.key === 'h' || e.key === 'H') {
@@ -717,6 +852,14 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         }
       });
+    },
+
+    /** Crédite de l'XP (flashcards, modes annexes) et rafraîchit l'en-tête. */
+    awardXP(points) {
+      if (!window.MathsStorage || !points) return null;
+      const result = window.MathsStorage.addXp(points);
+      this.updateHeaderProfile();
+      return result;
     },
 
     updateHeaderProfile() {
@@ -973,131 +1116,8 @@ document.addEventListener('DOMContentLoaded', () => {
       window.MathsRenderer.renderElement(container);
     },
 
-    openLockModal(targetCycle = 'lycee', targetLevel = null, targetChapterId = null, targetMode = null, autoGenerate = false) {
-      this.pendingUnlock = {
-        cycle: targetCycle,
-        level: targetLevel,
-        chapterId: targetChapterId,
-        mode: targetMode,
-        autoGenerate: autoGenerate
-      };
-      const modal = document.getElementById('lock-cycle-modal');
-      const input = document.getElementById('lock-code-input');
-      const errorEl = document.getElementById('lock-code-error');
-      if (errorEl) errorEl.style.display = 'none';
-      if (input) {
-        input.value = '';
-        input.classList.remove('input-error');
-      }
-      if (modal) {
-        modal.style.display = 'flex';
-        document.body.style.overflow = 'hidden';
-        document.body.classList.add('modal-open');
-        setTimeout(() => { if (input) input.focus(); }, 100);
-      }
-    },
-
-    closeLockModal() {
-      const modal = document.getElementById('lock-cycle-modal');
-      if (modal) modal.style.display = 'none';
-      document.body.style.overflow = 'auto';
-      document.body.classList.remove('modal-open');
-      this.pendingUnlock = null;
-    },
-
-    toggleLockCodeVisibility() {
-      const input = document.getElementById('lock-code-input');
-      const btn = document.getElementById('lock-code-toggle-btn');
-      if (!input) return;
-      if (input.type === 'password') {
-        input.type = 'text';
-        if (btn) btn.textContent = '🔒';
-      } else {
-        input.type = 'password';
-        if (btn) btn.textContent = '👁️';
-      }
-    },
-
-    submitUnlockCode() {
-      const input = document.getElementById('lock-code-input');
-      const errorEl = document.getElementById('lock-code-error');
-      const code = input ? input.value : '';
-
-      const isSuccess = window.MathsStorage.unlockCycles(code);
-      if (isSuccess) {
-        if (errorEl) errorEl.style.display = 'none';
-        const modal = document.getElementById('lock-cycle-modal');
-        if (modal) modal.style.display = 'none';
-        document.body.style.overflow = 'auto';
-        document.body.classList.remove('modal-open');
-
-        this.updateLockUI();
-        this.showToast('🔓 Accès déverrouillé');
-
-        const pending = this.pendingUnlock;
-        this.pendingUnlock = null;
-
-        if (pending) {
-          if (pending.level) {
-            this.switchLevel(pending.level, true);
-          } else if (pending.cycle) {
-            this.switchCycle(pending.cycle);
-          }
-          if (pending.chapterId) {
-            this.selectChapter(pending.chapterId);
-          }
-          if (pending.mode === 'quiz' || pending.mode === 'devoir') {
-            setTimeout(() => {
-              this.openQuizModal(pending.chapterId, pending.autoGenerate);
-            }, 150);
-          } else if (pending.mode === 'rituel' || pending.mode === 'diaporama') {
-            setTimeout(() => {
-              this.openDiaporamaModal(pending.chapterId, false);
-            }, 150);
-          } else if (pending.mode === 'flashcards' || pending.mode === 'flashcard') {
-            setTimeout(() => {
-              this.openFlashcardsModal(pending.chapterId);
-            }, 150);
-          }
-        } else {
-          this.switchCycle('lycee');
-        }
-      } else {
-        if (errorEl) errorEl.style.display = 'block';
-        if (input) {
-          input.classList.add('input-error');
-          input.focus();
-          input.select();
-        }
-      }
-    },
-
-    relockCycles() {
-      window.MathsStorage.lockCycles();
-      this.updateLockUI();
-      // Si on était dans un cycle verrouillé, revenir au collège (3ème)
-      if (this.currentLevel && window.MathsStorage.isLevelLocked(this.currentLevel)) {
-        this.switchCycle('college', '3eme');
-      }
-      this.showToast('🔒 Sections Lycée et Licence re-verrouillées.');
-    },
-
-    updateLockUI() {
-      const isLocked = window.MathsStorage.isCycleLocked('lycee');
-      const badgeLycee = document.getElementById('lock-badge-lycee');
-      const badgeLicence = document.getElementById('lock-badge-licence');
-      const btnRelock = document.getElementById('btn-relock-cycles');
-
-      if (badgeLycee) badgeLycee.style.display = isLocked ? 'inline-block' : 'none';
-      if (badgeLicence) badgeLicence.style.display = isLocked ? 'inline-block' : 'none';
-      if (btnRelock) btnRelock.style.display = isLocked ? 'none' : 'inline-flex';
-
-      if (this.isHomeView) {
-        this.renderHomeView();
-      }
-    },
-
     showHomeView() {
+      this.syncUrl({});
       this.isHomeView = true;
       document.body.classList.add('home-view-active');
       const homeView = document.getElementById('home-view');
@@ -1145,12 +1165,13 @@ document.addEventListener('DOMContentLoaded', () => {
       const currentCycle = window.MathsStorage.getCycleForLevel(this.currentLevel);
       document.querySelectorAll('.cycle-tab-btn').forEach(btn => {
         btn.classList.toggle('active', btn.getAttribute('data-cycle') === currentCycle);
+        btn.setAttribute('aria-current', btn.getAttribute('data-cycle') === currentCycle ? 'true' : 'false');
       });
     },
 
     renderHomeView() {
       // 1. Mise à jour de la flamme / série quotidienne
-      const streakStatus = window.MathsStorage && window.MathsStorage.getStreakStatus ? window.MathsStorage.getStreakStatus() : null;
+      const streakStatus = window.MathsStorage && window.MathsStorage.getDailyStreakInfo ? window.MathsStorage.getDailyStreakInfo() : null;
       const streakDays = streakStatus ? streakStatus.streak : ((window.MathsStorage.load().user || {}).streak || 0);
       const streakDaysEl = document.getElementById('home-streak-days');
       if (streakDaysEl) streakDaysEl.textContent = streakDays;
@@ -1194,21 +1215,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (btnEl) btnEl.innerHTML = 'Découvrir les cycles ▾';
       }
 
-      // 3. Mise à jour des badges cadenas (Code requis)
-      const isLyceeLocked = window.MathsStorage.isCycleLocked('lycee');
-      const isLicenceLocked = window.MathsStorage.isCycleLocked('licence');
-
-      const badgeLycee = document.getElementById('home-badge-lycee');
-      if (badgeLycee) {
-        badgeLycee.textContent = isLyceeLocked ? '🔒 Code requis' : '🔓 Déverrouillé';
-        badgeLycee.className = `home-cycle-status-badge ${isLyceeLocked ? 'badge-lock' : 'badge-open'}`;
-      }
-
-      const badgeLicence = document.getElementById('home-badge-licence');
-      if (badgeLicence) {
-        badgeLicence.textContent = isLicenceLocked ? '🔒 Code requis' : '🔓 Déverrouillé';
-        badgeLicence.className = `home-cycle-status-badge ${isLicenceLocked ? 'badge-lock' : 'badge-open'}`;
-      }
     },
 
     handleResumeOrStart() {
@@ -1295,6 +1301,7 @@ document.addEventListener('DOMContentLoaded', () => {
     },
 
     openDiaporamaModal(chapterId = null, autoStart = false) {
+      if (!this.isLevelReady(this.currentLevel)) return this.whenLevelReady(this.currentLevel, () => this.openDiaporamaModal(chapterId, autoStart));
       this.hideHomeView();
       const targetId = chapterId || this.currentChapterId;
       if (window.MathsDiaporama && typeof window.MathsDiaporama.openModal === 'function') {
@@ -1308,6 +1315,7 @@ document.addEventListener('DOMContentLoaded', () => {
     },
 
     openQuizModal(chapterId = null, autoGenerate = false) {
+      if (!this.isLevelReady(this.currentLevel)) return this.whenLevelReady(this.currentLevel, () => this.openQuizModal(chapterId, autoGenerate));
       this.hideHomeView();
       const targetId = chapterId || this.currentChapterId;
       if (window.MathsQuizGenerator && typeof window.MathsQuizGenerator.openModal === 'function') {
@@ -1324,6 +1332,7 @@ document.addEventListener('DOMContentLoaded', () => {
     },
 
     openFlashcardsModal(chapterId = null) {
+      if (!this.isLevelReady(this.currentLevel)) return this.whenLevelReady(this.currentLevel, () => this.openFlashcardsModal(chapterId));
       this.hideHomeView();
       const targetId = chapterId || this.currentChapterId;
       if (window.MathsFlashcards && typeof window.MathsFlashcards.openModal === 'function') {
@@ -1413,7 +1422,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (filtered.length === 0) {
         container.innerHTML = `
           <div style="padding: 1.5rem 0.5rem; text-align: center; color: var(--text-muted); font-size: 0.85rem;">
-            🔍 Aucun chapitre ne correspond à "<strong>${this.searchQuery}</strong>".
+            🔍 Aucun chapitre ne correspond à "<strong>${this.escapeHtml(this.searchQuery)}</strong>".
           </div>
         `;
         return;
@@ -1448,16 +1457,11 @@ document.addEventListener('DOMContentLoaded', () => {
     },
 
     selectChapter(chapterId) {
-      this.currentChapterId = chapterId;
       const chapter = (window.MATHS_CHAPTERS || []).find(c => c.id === chapterId);
       if (!chapter) return;
-
-      // Protection enseignant : si le chapitre appartient à un niveau verrouillé
-      if (chapter.level && window.MathsStorage.isLevelLocked(chapter.level)) {
-        const cycle = window.MathsStorage.getCycleForLevel(chapter.level);
-        this.openLockModal(cycle, chapter.level, chapter.id);
-        return;
-      }
+      if (!this.isLevelReady(chapter.level)) return this.whenLevelReady(chapter.level, () => this.selectChapter(chapterId));
+      this.currentChapterId = chapterId;
+      this.syncUrl({ chapitre: chapterId });
 
       // Synchroniser le niveau actif si nécessaire
       if (chapter.level && chapter.level !== this.currentLevel) {
@@ -1465,7 +1469,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       this.hideHomeView();
       if (window.MathsStorage && window.MathsStorage.setLastActiveChapter) {
-        window.MathsStorage.setLastActiveChapter(chapter.id, window.MathsAdaptiveEngine ? window.MathsAdaptiveEngine.currentTier : 1);
+        window.MathsStorage.setLastActiveChapter(chapter.id, window.MathsAdaptiveEngine ? window.MathsAdaptiveEngine.state.currentTier : 1);
       }
       this.updateTierButtonsUI();
 
@@ -1641,6 +1645,11 @@ document.addEventListener('DOMContentLoaded', () => {
             if (exercise.correctIndex === -1) exercise.correctIndex = 0;
           }
           if (!exercise.options) exercise.options = [];
+          // Mélange défensif : la bonne réponse ne doit jamais être prévisible (toujours en A)
+          if (!exercise._mcqShuffled && engine && typeof engine.shuffleMcq === 'function') {
+            engine.shuffleMcq(exercise);
+            if (exercise.options[exercise.correctIndex] !== undefined) exercise.answer = exercise.options[exercise.correctIndex];
+          }
 
           // Affichage QCM
           const mcqBox = document.createElement('div');
@@ -1769,6 +1778,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (this.currentChapterId) {
         const ch = (window.MATHS_CHAPTERS || []).find(c => c.id === this.currentChapterId);
         if (ch && ch.level) return ch.level;
+        if (this.currentChapterId.startsWith('6')) return '6eme';
         if (this.currentChapterId.startsWith('5')) return '5eme';
         if (this.currentChapterId.startsWith('4')) return '4eme';
         if (this.currentChapterId.startsWith('3')) return '3eme';
@@ -1785,7 +1795,15 @@ document.addEventListener('DOMContentLoaded', () => {
     getTierButtonLabel(tier, level = null) {
       const lvl = level || this.getCurrentChapterLevel();
       const t = parseInt(tier, 10);
-      if (lvl === '5eme') {
+      if (lvl === '6eme') {
+        const labels = {
+          1: "Palier 1 : Socle",
+          2: "Palier 2 : Guidé",
+          3: "Palier 3 : Approfondissement",
+          4: "Palier 4 : Défi 5ème"
+        };
+        return labels[t] || `Palier ${t}`;
+      } else if (lvl === '5eme') {
         const labels = {
           1: "Palier 1 : Socle",
           2: "Palier 2 : Guidé",
@@ -1856,7 +1874,15 @@ document.addEventListener('DOMContentLoaded', () => {
     getTierName(tier, level = null) {
       const lvl = level || this.getCurrentChapterLevel();
       const t = parseInt(tier, 10);
-      if (lvl === '5eme') {
+      if (lvl === '6eme') {
+        const names = {
+          1: "Socle & Automatismes",
+          2: "Entraînement Guidé",
+          3: "Approfondissement 6e",
+          4: "Défi 5ème (Expert)"
+        };
+        return names[t] || `Niveau ${t}`;
+      } else if (lvl === '5eme') {
         const names = {
           1: "Socle & Automatismes",
           2: "Entraînement Guidé",
@@ -2027,6 +2053,7 @@ document.addEventListener('DOMContentLoaded', () => {
           </div>
         `;
         window.MathsRenderer.renderElement(feedbackContainer);
+        this.announceFeedback(feedbackContainer);
         if (validateBtn) validateBtn.style.display = 'inline-flex';
         if (nextBtn) nextBtn.style.display = 'none';
         const input = document.getElementById('math-user-input');
@@ -2064,6 +2091,7 @@ document.addEventListener('DOMContentLoaded', () => {
           </div>` : ''}
         `;
         window.MathsRenderer.renderElement(feedbackContainer);
+        this.announceFeedback(feedbackContainer);
 
         if (validateBtn) validateBtn.style.display = 'none';
         if (nextBtn) {
@@ -2157,6 +2185,7 @@ document.addEventListener('DOMContentLoaded', () => {
           if (nextBtn) nextBtn.style.display = 'inline-flex';
         }
         window.MathsRenderer.renderElement(feedbackContainer);
+        this.announceFeedback(feedbackContainer);
       }
     },
 
@@ -2257,7 +2286,7 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
             <div class="course-header-actions">
               <button class="btn-secondary no-print course-print-btn" onclick="window.print()" title="Imprimer la leçon"><span style="margin-right: 0.35rem;">🖨️</span>Imprimer la fiche</button>
-              <img src="assets/logo.png" alt="Logo L'Établi des Maths" class="course-header-logo" width="48" height="48" />
+              <img src="assets/logo-96.png" alt="Logo L'Établi des Maths" class="course-header-logo" width="48" height="48" />
             </div>
           </div>
 
@@ -2320,22 +2349,8 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!course) {
         const chMeta = (window.MATHS_CHAPTERS || []).find(c => c.id === this.currentChapterId);
         if (chMeta) {
-          const niveauSlugMap = {
-            '5eme': 'cinquieme',
-            '4eme': 'quatrieme',
-            '3eme': 'troisieme',
-            '2nde': 'seconde',
-            '1ere': 'premiere-spe',
-            'tale': 'terminale-spe'
-          };
-          const niveauSlug = niveauSlugMap[this.currentLevel];
-          const resourceCallout = niveauSlug ? `
-            <div class="callout callout-info" style="margin-top: 1.25rem; padding: 0.9rem; border-radius: 8px; background: var(--bg-hover, #f1f5f9); border-left: 4px solid var(--primary, #2563eb);">
-              💡 <strong>Ressources complémentaires & vidéos :</strong> Cours complets, démonstrations pas-à-pas et vidéos officielles sur 
-              <a href="https://www.maths-et-tiques.fr/index.php/cours-maths/niveau-${niveauSlug}" target="_blank" rel="noopener noreferrer" style="color: var(--primary, #2563eb); font-weight: 600; text-decoration: underline;">
-                maths-et-tiques.fr (Yvan Monka) ↗
-              </a>.
-            </div>` : `
+          const isUniversity = ['L1', 'L2', 'L3', 'capes'].includes(this.currentLevel);
+          const resourceCallout = !isUniversity ? '' : `
             <div class="callout callout-info" style="margin-top: 1.25rem; padding: 0.9rem; border-radius: 8px; background: var(--bg-hover, #f1f5f9); border-left: 4px solid var(--primary, #2563eb);">
               🎓 <strong>Ressources universitaires (${cycleInfo.name}) :</strong> Définitions formelles, théorèmes fondamentaux et méthodologie d'après les enseignements magistraux et TD de Licence de Mathématiques.
             </div>`;
@@ -2346,7 +2361,7 @@ document.addEventListener('DOMContentLoaded', () => {
               </div>
               <div class="course-header-actions">
                 <button class="btn-secondary no-print course-print-btn" onclick="window.print()" title="Imprimer le cours"><span style="margin-right: 0.35rem;">🖨️</span>Imprimer le cours</button>
-                <img src="assets/logo.png" alt="Logo L'Établi des Maths" class="course-header-logo" width="48" height="48" />
+                <img src="assets/logo-96.png" alt="Logo L'Établi des Maths" class="course-header-logo" width="48" height="48" />
               </div>
             </div>
             <div class="course-card course-objectives">
@@ -2385,7 +2400,7 @@ document.addEventListener('DOMContentLoaded', () => {
           </div>
           <div class="course-header-actions">
             <button class="btn-secondary no-print course-print-btn" onclick="window.print()" title="Imprimer le cours"><span style="margin-right: 0.35rem;">🖨️</span>Imprimer le cours</button>
-            <img src="assets/logo.png" alt="Logo L'Établi des Maths" class="course-header-logo" width="48" height="48" />
+            <img src="assets/logo-96.png" alt="Logo L'Établi des Maths" class="course-header-logo" width="48" height="48" />
           </div>
         </div>
       `;
@@ -2919,6 +2934,8 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
 
         <div class="stats-footer-actions no-print">
+          <button class="btn-secondary" onclick="window.MathsStorage.exportToJson()" title="Télécharger un fichier de sauvegarde de ta progression">💾 Sauvegarder ma progression</button>
+          <button class="btn-secondary" onclick="window.MathsApp.handleImportProgress()" title="Restaurer une progression depuis un fichier de sauvegarde">📂 Restaurer une sauvegarde</button>
           <button class="btn-danger" onclick="window.MathsApp.handleResetProgress()">🔄 Réinitialiser ma progression</button>
         </div>
       `;
@@ -2930,7 +2947,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const lvl = this.getCurrentChapterLevel();
       let tier4Title = 'Cap vers la Seconde';
       let tier4Desc = 'Débloquer le palier 4 (Défi Seconde)';
-      if (lvl === '5eme') {
+      if (lvl === '6eme') {
+        tier4Title = 'Cap vers la 5ème';
+        tier4Desc = 'Débloquer le palier 4 (Défi 5ème)';
+      } else if (lvl === '5eme') {
         tier4Title = 'Cap vers la 4ème';
         tier4Desc = 'Débloquer le palier 4 (Défi 4ème)';
       } else if (lvl === '4eme') {
@@ -3073,12 +3093,35 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     },
 
+    /** Annonce un message aux lecteurs d'écran (zone aria-live invisible). */
+    announce(msg) {
+      let live = document.getElementById('sr-live-region');
+      if (!live) {
+        live = document.createElement('div');
+        live.id = 'sr-live-region';
+        live.className = 'sr-only';
+        live.setAttribute('aria-live', 'assertive');
+        live.setAttribute('role', 'status');
+        document.body.appendChild(live);
+      }
+      live.textContent = '';
+      setTimeout(() => { live.textContent = msg; }, 50);
+    },
+
+    /** Annonce le titre du retour de correction (juste / faux / indice). */
+    announceFeedback(container) {
+      const h = container && container.querySelector('.feedback-header h4');
+      if (h) this.announce(h.textContent.trim());
+    },
+
     showToast(msg, duration = 3500) {
       let toast = document.getElementById('app-toast');
       if (!toast) {
         toast = document.createElement('div');
         toast.id = 'app-toast';
         toast.className = 'app-toast';
+        toast.setAttribute('role', 'status');
+        toast.setAttribute('aria-live', 'polite');
         document.body.appendChild(toast);
       }
       toast.innerHTML = msg;
@@ -3121,20 +3164,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const autoGen = params.get('generate') === '1' || (modeParam === 'quiz' || modeParam === 'devoir');
 
+        // Charger d'abord les données du niveau visé par le lien partagé
+        const linkedChap = chapParam && (window.MATHS_CHAPTERS || []).find(c => c.id.toLowerCase() === chapParam.toLowerCase());
+        const neededLevel = linkedChap ? linkedChap.level : (this.VALID_LEVELS.includes(levelParam) ? levelParam : null);
+        if (neededLevel && !this.isLevelReady(neededLevel)) {
+          this.whenLevelReady(neededLevel, () => {
+            if (!this.checkUrlShareParams()) this.showHomeView();
+          });
+          return true;
+        }
+
         let handled = false;
 
         if (levelParam) {
-          const validLevels = ['5eme', '4eme', '3eme', '2nde', '1ere', 'tale', 'L1', 'L2', 'L3'];
-          if (validLevels.includes(levelParam)) {
-            if (window.MathsStorage && window.MathsStorage.isLevelLocked && window.MathsStorage.isLevelLocked(levelParam)) {
-              const cycle = window.MathsStorage.getCycleForLevel(levelParam);
-              this.openLockModal(cycle, levelParam, chapParam, modeParam, autoGen);
-              return true;
-            } else {
-              this.switchLevel(levelParam, true);
-              this.hideHomeView();
-              handled = true;
-            }
+          if (this.VALID_LEVELS.includes(levelParam)) {
+            this.switchLevel(levelParam, true);
+            this.hideHomeView();
+            handled = true;
           }
         }
 
@@ -3142,11 +3188,6 @@ document.addEventListener('DOMContentLoaded', () => {
           const allChapters = window.MATHS_CHAPTERS || [];
           const targetChap = allChapters.find(c => c.id.toLowerCase() === chapParam.toLowerCase());
           if (targetChap) {
-            if (targetChap.level && window.MathsStorage.isLevelLocked(targetChap.level)) {
-              const cycle = window.MathsStorage.getCycleForLevel(targetChap.level);
-              this.openLockModal(cycle, targetChap.level, targetChap.id, modeParam, autoGen);
-              return true;
-            }
             if (targetChap.level && targetChap.level !== this.currentLevel) {
               this.switchLevel(targetChap.level, false);
             }
@@ -3460,6 +3501,25 @@ document.addEventListener('DOMContentLoaded', () => {
         modal.style.display = 'none';
         modal.setAttribute('aria-hidden', 'true');
       }
+    },
+
+    handleImportProgress() {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'application/json,.json';
+      input.addEventListener('change', () => {
+        const file = input.files && input.files[0];
+        if (!file) return;
+        file.text().then(text => {
+          if (!confirm('Remplacer ta progression actuelle par celle de ce fichier ?')) return;
+          if (window.MathsStorage.importFromJson(text)) {
+            location.reload();
+          } else {
+            this.showToast('❌ Ce fichier n\'est pas une sauvegarde valide de L\'Établi des Maths.', 4000);
+          }
+        });
+      });
+      input.click();
     },
 
     handleResetProgress() {

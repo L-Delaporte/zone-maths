@@ -21,6 +21,7 @@ window.MathsAdaptiveEngine = {
     if (targetCid) {
       const ch = (window.MATHS_CHAPTERS || []).find(c => c.id === targetCid);
       if (ch && ch.level) return ch.level;
+      if (targetCid.startsWith('6')) return '6eme';
       if (targetCid.startsWith('5')) return '5eme';
       if (targetCid.startsWith('4')) return '4eme';
       if (targetCid.startsWith('3')) return '3eme';
@@ -43,7 +44,15 @@ window.MathsAdaptiveEngine = {
   getTierDisplayName(tier, level = null) {
     const lvl = level || this.getCurrentLevel();
     const t = parseInt(tier, 10);
-    if (lvl === '5eme') {
+    if (lvl === '6eme') {
+      const names = {
+        1: "Palier 1 : Socle & Automatismes",
+        2: "Palier 2 : Entraînement Guidé",
+        3: "Palier 3 : Approfondissement",
+        4: "Palier 4 : Défi 5ème"
+      };
+      return names[t] || `Palier ${t}`;
+    } else if (lvl === '5eme') {
       const names = {
         1: "Palier 1 : Socle & Automatismes",
         2: "Palier 2 : Entraînement Guidé",
@@ -213,31 +222,39 @@ window.MathsAdaptiveEngine = {
     return exercise;
   },
 
-  /**
-   * Calcule le palier de difficulté proportionnel au pourcentage de réussite
-   * Fait évoluer la difficulté de façon continue (et non par simples paliers rigides)
-   */
-  getDynamicTier(mastery) {
-    const m = parseFloat(mastery) || 0;
+  /** Part des exercices tirés dans la banque statique même quand le générateur répond. */
+  STATIC_MIX_RATE: 0.15,
+  /** Nombre d'énoncés récents mémorisés par chapitre pour éviter les répétitions. */
+  RECENT_STATEMENTS_MAX: 12,
 
-    if (m < 20) {
-      return 1;
-    } else if (m < 25) {
-      // 20% à 24% : transition Socle -> Guidé (35% de chance de palier 2)
-      return Math.random() < 0.35 ? 2 : 1;
-    } else if (m < 45) {
-      return 2;
-    } else if (m < 50) {
-      // 45% à 49% : transition Guidé -> Brevet (35% de chance de palier 3)
-      return Math.random() < 0.35 ? 3 : 2;
-    } else if (m < 70) {
-      return 3;
-    } else if (m < 75) {
-      // 70% à 74% : transition Brevet -> Défi Seconde (35% de chance de palier 4)
-      return Math.random() < 0.35 ? 4 : 3;
-    } else {
-      return 4;
-    }
+  getRecentStatements(chapterId) {
+    if (!this._recentStatements) this._recentStatements = {};
+    return this._recentStatements[chapterId] || [];
+  },
+
+  rememberStatement(chapterId, statement) {
+    const list = this.getRecentStatements(chapterId).filter(s => s !== statement);
+    list.push(statement);
+    this._recentStatements[chapterId] = list.slice(-this.RECENT_STATEMENTS_MAX);
+  },
+
+  /**
+   * Tire un exercice de la banque statique du chapitre (de préférence du palier courant),
+   * en évitant les énoncés récents puis les exercices déjà réussis.
+   */
+  pickStaticExercise(chapterId, tier, progress, recentStatements = []) {
+    const capesExos = window.CAPES_EXERCISES && window.CAPES_EXERCISES[chapterId];
+    const proofExos = window.PROOF_EXERCISES && window.PROOF_EXERCISES[chapterId];
+    const exercises = (window.MATHS_EXERCISES && window.MATHS_EXERCISES[chapterId]) || capesExos || proofExos || [];
+    if (!exercises.length) return null;
+    let pool = exercises.filter(e => e.tier === tier);
+    if (!pool.length) pool = exercises;
+    const fresh = pool.filter(e => !recentStatements.includes(e.statement));
+    if (fresh.length) pool = fresh;
+    const completedSet = new Set((progress && progress.completed) || []);
+    const notDone = pool.filter(e => !completedSet.has(e.id));
+    if (notDone.length) pool = notDone;
+    return pool[Math.floor(Math.random() * pool.length)];
   },
 
   /**
@@ -262,45 +279,42 @@ window.MathsAdaptiveEngine = {
     }
 
     this.state.currentTier = targetTier;
-    if (progress) progress.currentTier = targetTier;
 
     let candidate = null;
+    const chapterId = this.state.chapterId;
+    const recent = this.getRecentStatements(chapterId);
+    const staticPick = () => this.pickStaticExercise(chapterId, this.state.currentTier, progress, recent);
 
-    // 1. PRIORITÉ ABSOLUE : Génération procédurale continue (style MathsMentales)
-    // Garantit que chaque question a de nouvelles valeurs aléatoires et évite les répétitions immédiates
+    // 1. Génération procédurale (nouvelles valeurs à chaque tirage), avec anti-répétition
+    //    sur l'historique récent du chapitre et non plus seulement sur la question précédente.
     if (window.MathsGenerators && typeof window.MathsGenerators.generateForChapter === 'function') {
       let randExo = null;
-      const prevStatement = (this.state.currentExercise && this.state.currentExercise.statement) ? this.state.currentExercise.statement : null;
+      let isRepeat = false;
       for (let attempt = 0; attempt < 8; attempt++) {
-        const candidateExo = window.MathsGenerators.generateForChapter(this.state.chapterId, this.state.currentTier, mastery);
+        const candidateExo = window.MathsGenerators.generateForChapter(chapterId, this.state.currentTier, mastery);
         if (!candidateExo) break;
         randExo = candidateExo;
-        if (!prevStatement || candidateExo.statement !== prevStatement) {
-          break;
-        }
+        isRepeat = recent.includes(candidateExo.statement);
+        if (!isRepeat) break;
       }
       if (randExo) {
         randExo.tier = this.state.currentTier;
-        randExo.id = `${this.state.chapterId}-dyn-t${this.state.currentTier}-${Date.now()}-${Math.floor(Math.random() * 100000)}`;
+        randExo.id = `${chapterId}-dyn-t${this.state.currentTier}-${Date.now()}-${Math.floor(Math.random() * 100000)}`;
         candidate = randExo;
+      }
+      // Générateur à court d'énoncés nouveaux (ou mélange occasionnel) : puiser dans la banque statique
+      if (candidate && (isRepeat || Math.random() < this.STATIC_MIX_RATE)) {
+        candidate = staticPick() || candidate;
       }
     }
 
     // 2. Repli catalogue statique si le générateur procédural n'est pas disponible pour ce chapitre
     if (!candidate) {
-      const capesExos = (typeof window !== 'undefined' && window.CAPES_EXERCISES && window.CAPES_EXERCISES[this.state.chapterId]) ? window.CAPES_EXERCISES[this.state.chapterId] : null;
-      const proofExos = (typeof window !== 'undefined' && window.PROOF_EXERCISES && window.PROOF_EXERCISES[this.state.chapterId]) ? window.PROOF_EXERCISES[this.state.chapterId] : null;
-      const exercises = (window.MATHS_EXERCISES && window.MATHS_EXERCISES[this.state.chapterId]) || capesExos || proofExos || [];
-      const completedSet = new Set(progress.completed || []);
-      let tierExercises = exercises.filter(e => e.tier === this.state.currentTier);
-      if (!tierExercises.length) {
-        tierExercises = exercises;
-      }
-      candidate = tierExercises.find(e => !completedSet.has(e.id));
-      if (!candidate && tierExercises.length > 0) {
-        const candidates = tierExercises.filter(e => !this.state.currentExercise || e.id !== this.state.currentExercise.id);
-        candidate = candidates[Math.floor(Math.random() * candidates.length)] || tierExercises[0];
-      }
+      candidate = staticPick();
+    }
+
+    if (candidate && candidate.statement) {
+      this.rememberStatement(chapterId, candidate.statement);
     }
 
     if (candidate) {
@@ -461,24 +475,9 @@ window.MathsAdaptiveEngine = {
       const noUnitExpected = stripUnits(strippedExpected);
       if (noUnitUser === noUnitExpected) return true;
 
-      // Correspondance fractionnaire et puissances de 10
-      const parseFractionOrPower = (val) => {
-        val = val.replace('**', '^');
-        if (/^10\^(-?[0-9]+)$/.test(val)) {
-          const exp = parseInt(val.match(/^10\^(-?[0-9]+)$/)[1], 10);
-          return Math.pow(10, exp);
-        }
-        if (val.includes('/')) {
-          const parts = val.split('/');
-          const num = parseFloat(parts[0]);
-          const den = parseFloat(parts[1]);
-          return den !== 0 ? num / den : NaN;
-        }
-        return parseFloat(val);
-      };
-
-      const userVal = parseFractionOrPower(noUnitUser);
-      const expectedVal = parseFractionOrPower(noUnitExpected);
+      // Correspondance numérique (fractions, puissances de 10, écriture scientifique)
+      const userVal = this.parseStrictNumber(noUnitUser);
+      const expectedVal = this.parseStrictNumber(noUnitExpected);
 
       if (!isNaN(userVal) && !isNaN(expectedVal)) {
         return Math.abs(userVal - expectedVal) < 0.0001;
@@ -486,6 +485,27 @@ window.MathsAdaptiveEngine = {
     }
 
     return false;
+  },
+
+  /**
+   * Convertit une réponse normalisée en nombre UNIQUEMENT si la chaîne entière est
+   * un nombre, une fraction, une puissance de 10 ou une écriture scientifique.
+   * Sinon NaN : parseFloat("2x+3") vaudrait 2 et accepterait à tort la réponse « 2 ».
+   */
+  parseStrictNumber(val) {
+    const NUM = '-?\\d+(?:\\.\\d+)?';
+    val = String(val).replace(/\*\*/g, '^').replace(/\\times|×|\\cdot|·/g, '*').replace(/[{}()]/g, '');
+    let m;
+    if (new RegExp(`^${NUM}$`).test(val)) return Number(val);
+    if ((m = val.match(new RegExp(`^(${NUM})/(${NUM})$`)))) {
+      const den = Number(m[2]);
+      return den !== 0 ? Number(m[1]) / den : NaN;
+    }
+    if ((m = val.match(/^10\^(-?\d+)$/))) return Math.pow(10, Number(m[1]));
+    if ((m = val.match(new RegExp(`^(${NUM})\\*10\\^(-?\\d+)$`)))) {
+      return Number(m[1]) * Math.pow(10, Number(m[2]));
+    }
+    return NaN;
   },
 
   /**
@@ -516,23 +536,8 @@ window.MathsAdaptiveEngine = {
     const den = parseInt(fracMatch[2], 10);
     if (den === 0) return null;
 
-    const parseVal = (val) => {
-      val = val.replace('**', '^');
-      if (/^10\^(-?[0-9]+)$/.test(val)) {
-        const exp = parseInt(val.match(/^10\^(-?[0-9]+)$/)[1], 10);
-        return Math.pow(10, exp);
-      }
-      if (val.includes('/')) {
-        const p = val.split('/');
-        const n = parseFloat(p[0]);
-        const d = parseFloat(p[1]);
-        return d !== 0 ? n / d : NaN;
-      }
-      return parseFloat(val);
-    };
-
     const userVal = num / den;
-    const expVal = parseVal(cleanExpected);
+    const expVal = this.parseStrictNumber(cleanExpected);
 
     if (!isNaN(userVal) && !isNaN(expVal) && Math.abs(userVal - expVal) < 0.0001) {
       const gcd = (a, b) => {
@@ -615,7 +620,9 @@ window.MathsAdaptiveEngine = {
       const tierCap = { 1: 25, 2: 50, 3: 75, 4: 100 }[exoTier] || 100;
 
       window.MathsStorage.updateChapterProgress(this.state.chapterId, p => {
-        if (!p.completed.includes(exercise.id)) {
+        // Seuls les exercices de la banque statique ont un id stable : inutile de stocker
+        // les ids uniques des exercices générés (croissance sans fin du localStorage).
+        if (!/-dyn-|-gen-|fallback/.test(exercise.id) && !p.completed.includes(exercise.id)) {
           p.completed.push(exercise.id);
         }
         p.successes = (p.successes || 0) + 1;
@@ -989,7 +996,10 @@ window.MathsAdaptiveEngine = {
       const lvl = this.getCurrentLevel();
       let tier4Title = 'Cap vers la Seconde';
       let tier4Desc = 'Avoir débloqué le palier 4 (Défi Seconde).';
-      if (lvl === '5eme') {
+      if (lvl === '6eme') {
+        tier4Title = 'Cap vers la 5ème';
+        tier4Desc = 'Avoir débloqué le palier 4 (Défi 5ème).';
+      } else if (lvl === '5eme') {
         tier4Title = 'Cap vers la 4ème';
         tier4Desc = 'Avoir débloqué le palier 4 (Défi 4ème).';
       } else if (lvl === '4eme') {

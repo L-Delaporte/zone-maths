@@ -1,8 +1,8 @@
 {
   "name": "L'Établi des Maths — Plateforme d'Apprentissage Mathématique",
   "short_name": "ÉtabliMaths",
-  "description": "Plateforme pédagogique complète de mathématiques : Collège (5e, 4e, 3e), Lycée (2nde, 1ère, Tale) et Université (L1, L2, L3). Exercices adaptatifs ZPD, devoirs blancs, fiches de cours et rituels.",
-  "start_url": "./index.html",
+  "description": "Plateforme pédagogique complète de mathématiques : Collège (6e, 5e, 4e, 3e), Lycée (2nde, 1ère, Terminale) et Université (L1, L2, L3, CAPES). Exercices adaptatifs, devoirs blancs, fiches de cours et rituels.",
+  "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "orientation": "any",
@@ -26,16 +26,28 @@
       "type": "image/png"
     },
     {
-      "src": "assets/favicon.png",
+      "src": "assets/logo-192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
-      "src": "assets/logo.png",
+      "src": "assets/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icon-maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "assets/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }
