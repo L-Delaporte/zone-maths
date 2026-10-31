@@ -3002,7 +3002,8 @@
           else val = V[from] >= V[to] ? this.randInt(2, 60) : this.randInt(1, 40) * (V[to] / V[from]);
           res = this._6r(val * V[from] / V[to]);
           const dec = (String(res).split('.')[1] || '').length;
-          if (dec <= 3 && res < 1e7) break;
+          // 100 et 1 000 figurent dans l'indice (égalités à connaître) : on les écarte
+          if (dec <= 3 && res < 1e7 && res !== 100 && res !== 1000) break;
         }
         return mk({
           title: decimal ? 'Volumes et contenances (décimaux)' : 'Volumes et contenances',
