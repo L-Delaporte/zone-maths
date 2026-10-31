@@ -247,7 +247,7 @@ async function step(label, fn) {
     await sleep(500);
     const st = await evaluate(`({ open: document.getElementById('share-class-modal').style.display, url: document.getElementById('share-class-url').value, qr: document.querySelector('.share-class-qr img').naturalWidth, msg: document.getElementById('share-class-msg').value.length })`);
     await shot('11_partage_classe');
-    if (st.open !== 'flex' || !st.url.includes('chapitre=G1') || !st.qr || st.msg < 50) throw new Error(JSON.stringify(st));
+    if (st.open !== 'flex' || !st.url.includes('chapitre=G1') || !st.qr || st.msg < 30) throw new Error(JSON.stringify(st));
     await evaluate("window.MathsApp.closeShareModal(); true");
     return st.url;
   });

@@ -711,7 +711,7 @@ Object.assign(window.MathsApp, {
     const chapterName = chapter.title || chapter.shortTitle || chapterId;
     const levelName = this.getLevelName(chapter.level || this.currentLevel);
     const shareUrl = `https://etabli-des-maths.fr/?chapitre=${encodeURIComponent(chapterId)}&src=classe`;
-    const message = `Pour vous entraîner en mathématiques (${levelName}), travaillez le chapitre « ${chapterName} » sur L'Établi des Maths : ${shareUrl}\nC'est gratuit et sans inscription : les exercices sont corrigés immédiatement et deviennent plus difficiles à mesure que vous progressez.`;
+    const message = `Lien d'entraînement pour le chapitre « ${chapterName} » : ${shareUrl}`;
 
     let modal = document.getElementById('share-class-modal');
     if (!modal) {
@@ -743,7 +743,7 @@ Object.assign(window.MathsApp, {
           <button type="button" class="btn-primary" data-copy="url">Copier le lien</button>
         </div>
         <label class="share-class-label" for="share-class-msg">Message pour l'ENT ou Pronote</label>
-        <textarea id="share-class-msg" class="form-input" rows="4" readonly>${esc(message)}</textarea>
+        <textarea id="share-class-msg" class="form-input" rows="2" readonly>${esc(message)}</textarea>
         <div class="share-class-actions">
           <button type="button" class="btn-secondary" data-copy="msg">Copier le message</button>
           <button type="button" class="btn-secondary" data-action="project">🖥️ Projeter le QR code en grand</button>

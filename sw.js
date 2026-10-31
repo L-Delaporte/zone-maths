@@ -10,7 +10,7 @@
  * NE PAS éditer à la main la liste ci-dessous ni CACHE_NAME : lancer `node scripts/build_versions.js`.
  */
 
-const CACHE_NAME = 'etabli-des-maths-1d70933c30';
+const CACHE_NAME = 'etabli-des-maths-84de3ba204';
 
 // @precache-start
 const PRECACHE_URLS = [
@@ -46,7 +46,7 @@ const PRECACHE_URLS = [
   './js/app.js?v=56ca597042',
   './js/app/home.js?v=72cdb60c9e',
   './js/app/tools.js?v=0cec4ea7db',
-  './js/app/training.js?v=f187a1fa23',
+  './js/app/training.js?v=1d1089c176',
   './js/app/course.js?v=e8977e54eb',
   './js/app/sheets.js?v=c9c4472639',
   './js/app/stats.js?v=2693dadcef',
