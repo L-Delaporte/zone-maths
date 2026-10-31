@@ -362,7 +362,7 @@ ${body}
   <footer class="cours-footer">
     <p>${esc(BRAND)} — Conçu par ${AUTHOR}, professeur de mathématiques • 100${NNB}% gratuit, conforme aux programmes</p>
     <p><a href="${up}cours/">Cours de maths</a> · <a href="${up}${HUBS.exercices.dir}/">Exercices corrigés</a> · <a href="${up}${HUBS.entrainement.dir}/">Entraînement en ligne</a> · <a href="${up}${HUBS.brevet.dir}/">Réviser le brevet</a> · <a href="${up}${HUBS.bac.dir}/">Réussir le bac</a></p>
-    <p><a href="${up}index.html">Ouvrir l'application</a> · <a href="${up}rituels.html">Rituels</a> · <a href="${up}brevet.html">Brevet blanc</a> · <a href="${up}bac.html">Devoir type bac</a> · <a href="${up}enseignants.html">Espace enseignants</a> · <a href="${up}parents.html">Espace parents</a> · <a href="${up}a-propos.html">Qui suis-je ?</a> · <a href="${up}mentions-legales.html">Mentions légales</a> · <a href="mailto:delaporte@etabli-des-maths.fr">Contact</a></p>
+    <p><a href="${up}index.html">Ouvrir l'application</a> · <a href="${up}rituels.html">Rituels</a> · <a href="${up}brevet.html">Brevet blanc</a> · <a href="${up}bac.html">Devoir type bac</a> · <a href="${up}a-propos.html">Qui suis-je ?</a> · <a href="${up}mentions-legales.html">Mentions légales</a> · <a href="mailto:delaporte@etabli-des-maths.fr">Contact</a></p>
     <p>Contenus sous licence <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr" rel="license noopener">CC BY-NC-SA 4.0</a></p>
   </footer>
   <!-- Statistiques d'audience anonymes et conformes RGPD (GoatCounter) -->
