@@ -237,8 +237,9 @@
     },
 
     /**
-     * Question à saisie exacte (answer en texte brut, sans LaTeX : "12", "-7/3", "2,5", "(1;-2)", "3,2×10^-4").
-     * La saisie est corrigée par MathsAdaptiveEngine.validateAnswer (comparaison numérique, couples, oui/non).
+     * Question à saisie exacte (answer en texte brut, sans LaTeX : "12", "-7/3", "2,5", "(1;-2)", "3,2×10^-4",
+     * "3√2", "2√3/3", "3π/4", "aucune").
+     * La saisie est corrigée par MathsAdaptiveEngine.validateAnswer (valeur ET forme : voir analyzeAnswer).
      * opts.instruction : consigne de saisie ajoutée à l'énoncé (par défaut : déduite de la forme de la réponse) ;
      * opts.instruction === false : aucune consigne ajoutée ; opts.answerTex : réponse en LaTeX (affichage).
      */
@@ -367,11 +368,12 @@
      * un QCM dont la réponse est un nombre, une fraction, un couple/triplet de nombres ou une écriture
      * scientifique devient, avec la probabilité EXACT_RATE[tier], une question à saisie.
      * Le générateur peut piloter la conversion : q.exactAnswer (saisie attendue explicite, prioritaire),
-     * q.exactInstruction (consigne), q.keepMcq = true (question conceptuelle : toujours QCM).
+     * q.exactInstruction (consigne), q.keepMcq = true (question conceptuelle : toujours QCM),
+     * q.acceptedAnswers (autres saisies acceptées, ex. « 3π/4 » quand on demande k pour kπ).
      */
     applyExactPolicy(q, tier) {
       if (!q || q.type !== 'mcq') return q;
-      const clean = (x) => { ['exactAnswer', 'keepMcq', 'exactInstruction'].forEach((k) => delete x[k]); return x; };
+      const clean = (x) => { ['exactAnswer', 'keepMcq', 'exactInstruction', 'acceptedAnswers'].forEach((k) => delete x[k]); return x; };
       if (q.keepMcq || U.forceMode === 'mcq') return clean(q);
       let input = null;
       const explicit = q.exactAnswer !== undefined && q.exactAnswer !== null;
@@ -384,7 +386,7 @@
         // valeur approchée : uniquement si l'énoncé précise l'arrondi
         if (r.approx && !/arrondi|près|approch|décimale/i.test(q.statement)) return clean(q);
         input = r.input;
-        // validateAnswer compare à 1e-4 près : un distracteur aussi proche serait accepté
+        // prudence : distracteur trop proche de la réponse (validateAnswer compare désormais à 1e-9 près en relatif)
         const val = (t) => { const m = String(t).match(/^(-?\d+)\/(\d+)$/); return m ? +m[1] / +m[2] : parseFloat(String(t).replace(',', '.')); };
         const v0 = val(input);
         if (Number.isFinite(v0) && (Math.abs(v0) < 1e-3 && v0 !== 0)) return clean(q);

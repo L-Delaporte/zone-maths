@@ -525,6 +525,11 @@
               <button type="button" class="key-btn" data-val="(">(</button>
               <button type="button" class="key-btn" data-val=")">)</button>
               <button type="button" class="key-btn action-key" data-action="enter" aria-label="Valider">⏎</button>
+
+              <button type="button" class="key-btn" data-val="√" aria-label="racine carrée" title="Racine carrée (ou taper sqrt)">√</button>
+              <button type="button" class="key-btn" data-val="π" aria-label="pi" title="Pi (ou taper pi)">π</button>
+              <button type="button" class="key-btn" data-val="^" aria-label="puissance" title="Puissance">xⁿ</button>
+              <button type="button" class="key-btn" data-val="∅" aria-label="ensemble vide, aucune solution" title="Ensemble vide (ou taper aucune)">∅</button>
             </div>
           </div>
 
@@ -1332,13 +1337,13 @@
     "5eme": ["js/data/data_5eme.js?v=8b31493e14", "js/data/ds_bank_5eme.js?v=a4e949ccb7"],
     "4eme": ["js/data/data_4eme.js?v=5b132c9ed0", "js/data/ds_bank_4eme.js?v=7330b78785"],
     "3eme": ["js/data/courses.js?v=00a8e459ef", "js/data/exercises.js?v=54a16d14b5", "js/data/worksheets.js?v=617c760ac9", "js/data/brevet_problems.js?v=c7e219b890", "js/data/ds_bank_3eme.js?v=f597014b0f"],
-    "2nde": ["js/data/data_2nde.js?v=e91f1cd4f9", "js/data/ds_bank_2nde.js?v=6a5de12aa0", "js/advancedGenerators.js?v=b18d11a938", "js/lyceeGenerators.js?v=cfd1896c90"],
-    "1ere": ["js/data/data_1ere.js?v=33acabf45f", "js/data/ds_bank_1ere.js?v=b58d567d8e", "js/advancedGenerators.js?v=b18d11a938", "js/lyceeGenerators.js?v=cfd1896c90"],
-    "tale": ["js/data/data_terminale.js?v=be1262f5cd", "js/data/ds_bank_tale.js?v=db55fd8924", "js/advancedGenerators.js?v=b18d11a938", "js/lyceeGenerators.js?v=cfd1896c90"],
-    "L1": ["js/data/data_l1.js?v=cb0d247127", "js/data/ds_bank_l1.js?v=5cbc5ee751", "js/data/data_proofs.js?v=a0b3632e2e", "js/advancedGenerators.js?v=b18d11a938", "js/lyceeGenerators.js?v=cfd1896c90"],
-    "L2": ["js/data/data_l2.js?v=dc14a61449", "js/data/ds_bank_l2.js?v=01e5c15442", "js/data/data_proofs.js?v=a0b3632e2e", "js/advancedGenerators.js?v=b18d11a938", "js/lyceeGenerators.js?v=cfd1896c90"],
-    "L3": ["js/data/data_l3.js?v=365e050528", "js/data/ds_bank_l3.js?v=792b3fd91b", "js/data/data_proofs.js?v=a0b3632e2e", "js/advancedGenerators.js?v=b18d11a938", "js/lyceeGenerators.js?v=cfd1896c90"],
-    "capes": ["js/data/ds_bank_capes.js?v=886dff7574", "js/data/data_proofs.js?v=a0b3632e2e", "js/advancedGenerators.js?v=b18d11a938", "js/lyceeGenerators.js?v=cfd1896c90"]
+    "2nde": ["js/data/data_2nde.js?v=e91f1cd4f9", "js/data/ds_bank_2nde.js?v=6a5de12aa0", "js/advancedGenerators.js?v=1ba1f4f77d", "js/lyceeGenerators.js?v=54fe7fb776"],
+    "1ere": ["js/data/data_1ere.js?v=33acabf45f", "js/data/ds_bank_1ere.js?v=b58d567d8e", "js/advancedGenerators.js?v=1ba1f4f77d", "js/lyceeGenerators.js?v=54fe7fb776"],
+    "tale": ["js/data/data_terminale.js?v=be1262f5cd", "js/data/ds_bank_tale.js?v=db55fd8924", "js/advancedGenerators.js?v=1ba1f4f77d", "js/lyceeGenerators.js?v=54fe7fb776"],
+    "L1": ["js/data/data_l1.js?v=cb0d247127", "js/data/ds_bank_l1.js?v=5cbc5ee751", "js/data/data_proofs.js?v=a0b3632e2e", "js/advancedGenerators.js?v=1ba1f4f77d", "js/lyceeGenerators.js?v=54fe7fb776"],
+    "L2": ["js/data/data_l2.js?v=dc14a61449", "js/data/ds_bank_l2.js?v=01e5c15442", "js/data/data_proofs.js?v=a0b3632e2e", "js/advancedGenerators.js?v=1ba1f4f77d", "js/lyceeGenerators.js?v=54fe7fb776"],
+    "L3": ["js/data/data_l3.js?v=365e050528", "js/data/ds_bank_l3.js?v=792b3fd91b", "js/data/data_proofs.js?v=a0b3632e2e", "js/advancedGenerators.js?v=1ba1f4f77d", "js/lyceeGenerators.js?v=54fe7fb776"],
+    "capes": ["js/data/ds_bank_capes.js?v=886dff7574", "js/data/data_proofs.js?v=a0b3632e2e", "js/advancedGenerators.js?v=1ba1f4f77d", "js/lyceeGenerators.js?v=54fe7fb776"]
   }
   </script>
 
@@ -1346,10 +1351,10 @@
   <script src="js/storage.js?v=974eea8078"></script>
   <script src="js/audioEffects.js?v=b65413daaf"></script>
   <script src="js/confetti.js?v=b2b29d56a8"></script>
-  <script src="js/mathRenderer.js?v=7e4ab0facd"></script>
+  <script src="js/mathRenderer.js?v=b18b8ba377"></script>
   <script src="js/geometryFigures.js?v=656295f7c5"></script>
   <script src="js/scratchRenderer.js?v=ed1e43916b"></script>
-  <script src="js/adaptiveEngine.js?v=c31c46fecc"></script>
+  <script src="js/adaptiveEngine.js?v=5ba06822ab"></script>
   <script src="js/randomGenerators.js?v=10f9caed22"></script>
   <script src="js/proofEngine.js?v=f99d384bfd"></script>
   <script src="js/mathVisualizer.js?v=dae9a74a57"></script>
@@ -1360,7 +1365,7 @@
   <script src="js/app.js?v=56ca597042"></script>
   <script src="js/app/home.js?v=72cdb60c9e"></script>
   <script src="js/app/tools.js?v=0cec4ea7db"></script>
-  <script src="js/app/training.js?v=ca6db9b84c"></script>
+  <script src="js/app/training.js?v=ffbdbc2e27"></script>
   <script src="js/app/course.js?v=e8977e54eb"></script>
   <script src="js/app/sheets.js?v=8e252b07d1"></script>
   <script src="js/app/stats.js?v=2693dadcef"></script>

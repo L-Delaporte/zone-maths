@@ -113,17 +113,27 @@ Object.assign(window.MathsApp, {
 
         // Placeholder neutre qui ne donne JAMAIS la réponse aux élèves
         let safePlaceholder = 'Votre réponse...';
-        let inputTip = '💡 Pour une fraction, écris par exemple <code>13/7</code> ou utilise le clavier virtuel ci-dessous.';
         const ansStr = String(exercise.answer || '').trim();
+        const allAnswers = [ansStr].concat(Array.isArray(exercise.acceptedAnswers) ? exercise.acceptedAnswers.map(String) : []).join(' ');
+        const level = this.getCurrentChapterLevel();
+        // Rappel de saisie des racines et de π : dès la 4e, ou si la réponse attendue en contient
+        const showSqrtPi = /[√π]/.test(allAnswers) || !['6eme', '5eme'].includes(level);
+        let inputTip = showSqrtPi
+          ? '💡 Fraction : <code>13/7</code> · racine : <code>3√2</code> ou <code>3sqrt(2)</code> · π : <code>3π/4</code> ou <code>3pi/4</code> (touches √ et π du clavier mathématique ci-dessous).'
+          : '💡 Pour une fraction, écris par exemple <code>13/7</code> ou utilise le clavier virtuel ci-dessous.';
         if (ansStr.includes(';') || (ansStr.startsWith('(') && ansStr.endsWith(')'))) {
           safePlaceholder = 'Coordonnées (ex: (3;5) ou 3;5)';
-          inputTip = '💡 Écris les coordonnées sous la forme <code>(x;y)</code> ou <code>x;y</code>.';
+          inputTip = '💡 Écris les coordonnées sous la forme <code>(x;y)</code> ou <code>x;y</code>.' + (showSqrtPi ? ' Racine : <code>√</code> ou <code>sqrt</code> ; π : <code>π</code> ou <code>pi</code>.' : '');
+        } else if (/[√π]/.test(ansStr)) {
+          safePlaceholder = 'Ex: 3√2, 2√3/3 ou 3π/4';
         } else if (ansStr.includes('/')) {
           safePlaceholder = 'Ex: 3/4 (fraction irréductible)';
         } else if (ansStr.includes('^')) {
           safePlaceholder = 'Ex: 10^3';
         } else if (!isNaN(parseFloat(ansStr))) {
           safePlaceholder = 'Nombre (ex: 12 ou -4)';
+        } else if (/^[a-zà-ÿ' -]{2,}$/i.test(ansStr)) {
+          safePlaceholder = 'Réponse en toutes lettres';
         }
 
         inputWrapper.innerHTML = `
@@ -525,10 +535,13 @@ Object.assign(window.MathsApp, {
           <h4>${result.feedback}</h4>
         </div>
         <div class="feedback-solution" style="border-left-color: var(--warning, #f59e0b);">
-          <div class="feedback-solution-title" style="color: var(--warning, #f59e0b);">Conseil de simplification :</div>
+          <div class="feedback-solution-title" style="color: var(--warning, #f59e0b);">${result.adviceText ? 'Conseil (ce n\'est pas compté comme une erreur) :' : 'Conseil de simplification :'}</div>
           <div class="feedback-solution-body">
+            ${result.adviceText ? `
+            <p class="math-p">${result.adviceText}</p>
+            <p class="math-p">Corrige ta réponse, puis clique de nouveau sur <strong>Valider ma réponse</strong>.</p>` : `
             <p class="math-p">Ta réponse <strong>${result.userFraction}</strong> a la bonne valeur numérique, mais <strong>elle n'est pas sous forme irréductible</strong>.</p>
-            <p class="math-p">Divise le numérateur et le dénominateur par leur plus grand diviseur commun, puis clique de nouveau sur <strong>Valider ma réponse</strong>.</p>
+            <p class="math-p">Divise le numérateur et le dénominateur par leur plus grand diviseur commun, puis clique de nouveau sur <strong>Valider ma réponse</strong>.</p>`}
           </div>
         </div>
       `;
