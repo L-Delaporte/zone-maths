@@ -76,7 +76,7 @@
   <link rel="stylesheet" href="vendor/katex/katex.min.css?v=000b7545e1" onerror="this.onerror=null;this.href='https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css';" />
   
   <!-- Feuilles de style de l'application -->
-  <link rel="stylesheet" href="css/style.css?v=903100fef1" />
+  <link rel="stylesheet" href="css/style.css?v=6bba6cb469" />
   <link rel="stylesheet" href="css/sheets.css?v=c8cd74024b" />
   <link rel="icon" href="/favicon.ico" sizes="any" />
   <link rel="icon" type="image/png" sizes="48x48" href="assets/favicon-48x48.png" />
@@ -269,6 +269,12 @@
         </div>
       </div>
 
+      <!-- Défi de la semaine (rendu par js/app/defi.js, banque js/data/defis.js) -->
+      <section class="home-defi-card" id="home-defi" aria-labelledby="home-defi-title">
+        <p class="home-defi-tag"><span aria-hidden="true">🏆</span> Défi de la semaine</p>
+        <h3 class="home-defi-title" id="home-defi-title">Chargement du défi…</h3>
+      </section>
+
       <!-- Section Cycles d'études -->
       <div class="home-section-header">
         <h3 class="home-section-title"><span aria-hidden="true">📚</span> Choisir un cycle d'études</h3>
@@ -362,6 +368,7 @@
           <a href="brevet.html" class="home-portal-link">🎯 Brevet des Collèges (3e)</a>
           <a href="bac.html" class="home-portal-link">🎓 Baccalauréat Spé Maths</a>
           <a href="enseignants.html" class="home-portal-link">👩‍🏫 Espace Enseignants</a>
+          <a href="kit-enseignant.html" class="home-portal-link">🧰 Kit enseignant</a>
           <a href="cours/" class="home-portal-link">📚 Tous les cours de maths</a>
           <a href="exercices-de-maths/" class="home-portal-link">✏️ Exercices de maths corrigés</a>
           <a href="entrainement-maths/" class="home-portal-link">🎯 Entraînement maths en ligne</a>
@@ -599,7 +606,7 @@
       </div>
       <div class="footer-author-box">
         <span class="footer-author-badge">Créé par <strong>Loïc Delaporte</strong>, Professeur de Mathématiques</span>
-        <p class="site-legal-links" style="margin-top: 0.5rem; font-size: 0.8rem;"><a href="a-propos.html">Qui suis-je ?</a> · <a href="mentions-legales.html">Mentions légales et confidentialité</a> · <a href="mailto:delaporte@etabli-des-maths.fr">Contact</a> · Contenus sous licence <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr" rel="license noopener">CC BY-NC-SA 4.0</a></p>
+        <p class="site-legal-links" style="margin-top: 0.5rem; font-size: 0.8rem;"><a href="kit-enseignant.html">Kit enseignant</a> · <a href="a-propos.html">Qui suis-je ?</a> · <a href="mentions-legales.html">Mentions légales et confidentialité</a> · <a href="mailto:delaporte@etabli-des-maths.fr">Contact</a> · Contenus sous licence <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr" rel="license noopener">CC BY-NC-SA 4.0</a></p>
       </div>
     </div>
   </footer>
@@ -1343,7 +1350,8 @@
   </script>
 
   <!-- Modules applicatifs -->
-  <script src="js/storage.js?v=974eea8078"></script>
+  <script src="js/data/defis.js?v=3bb2c75031"></script>
+  <script src="js/storage.js?v=6cfd159b0b"></script>
   <script src="js/audioEffects.js?v=b65413daaf"></script>
   <script src="js/confetti.js?v=b2b29d56a8"></script>
   <script src="js/mathRenderer.js?v=7e4ab0facd"></script>
@@ -1358,31 +1366,87 @@
   <script src="js/flashcardsEngine.js?v=1d33aefd7b"></script>
   <script src="js/dataLoader.js?v=828f7fa67d"></script>
   <script src="js/app.js?v=56ca597042"></script>
-  <script src="js/app/home.js?v=72cdb60c9e"></script>
+  <script src="js/app/home.js?v=75ad05503c"></script>
   <script src="js/app/tools.js?v=0cec4ea7db"></script>
-  <script src="js/app/training.js?v=ca6db9b84c"></script>
+  <script src="js/app/training.js?v=5c6c18f395"></script>
   <script src="js/app/course.js?v=e8977e54eb"></script>
   <script src="js/app/sheets.js?v=8e252b07d1"></script>
+  <script src="js/app/defi.js?v=2eb0e40fa1"></script>
   <script src="js/app/stats.js?v=2693dadcef"></script>
   <script src="js/pwaManager.js?v=0a3ce1177d"></script>
 
-  <!-- Statistiques d'audience anonymes et conformes RGPD (GoatCounter) -->
+  <!-- Statistiques d'audience anonymes et conformes RGPD (GoatCounter, sans cookie)
+       Sources de trafic : les liens diffusés portent ?src=<source>. GoatCounter lit nativement
+       les paramètres utm_source, ref, src et source (et utm_campaign / campaign) comme
+       « source » de la visite (https://www.goatcounter.com/help/campaigns).
+       Liste de référence (à garder identique à la FAQ de kit-enseignant.html) :
+         qr        QR codes imprimés ou projetés (fiches, DS, rituels, « Partager à ma classe »)
+                   — scripts/build_qr_codes.js (assets/qr/site.svg et assets/qr/<chapitre>.svg)
+         classe    lien « Partager à ma classe » d'un chapitre (js/app/training.js)
+         affiche   QR codes de l'affiche A4 et des QR par niveau (affiche.html, kit-enseignant.html)
+         ent       message aux élèves pour l'ENT / Pronote (kit-enseignant.html)
+         parents   message aux parents (kit-enseignant.html)
+         collegues message de présentation aux collègues (kit-enseignant.html)
+         defi      lien partagé du défi de la semaine (js/app/defi.js)
+       Ces paramètres sont retirés du chemin compté (sinon « /?src=qr » et « / » seraient deux
+       pages), la source est transmise comme référent, puis l'adresse affichée est nettoyée. -->
   <script>
-    window.goatcounter = {
-      path: function(p) {
-        return location.pathname + location.search + location.hash;
+    (function () {
+      var TRACKING = /^(src|ref|source|campaign|utm_[a-z]+)$/i;
+      var first = new URLSearchParams(location.search);
+      var source = (first.get('src') || first.get('ref') || first.get('source') || first.get('utm_source') || '')
+        .toLowerCase().replace(/[^a-z0-9_-]/g, '').slice(0, 40);
+      var counted = false;
+      function cleanSearch() {
+        var p = new URLSearchParams(location.search), drop = [];
+        p.forEach(function (v, k) { if (TRACKING.test(k)) drop.push(k); });
+        drop.forEach(function (k) { p.delete(k); });
+        var q = p.toString();
+        return q ? '?' + q : '';
       }
-    };
-    window.addEventListener('hashchange', function() {
-      if (window.goatcounter && typeof window.goatcounter.count === 'function') {
-        window.goatcounter.count({
-          path: location.pathname + location.search + location.hash
-        });
+      function cleanPath() { return location.pathname + cleanSearch() + location.hash; }
+      function cleanUrl() {
+        var target = cleanPath();
+        if (window.history && history.replaceState && target !== location.pathname + location.search + location.hash) {
+          history.replaceState(history.state, '', target);
+        }
       }
-    });
+      window.goatcounter = {
+        no_onload: true, // première visite comptée ci-dessous, pour nettoyer l'URL ensuite
+        path: function () { return cleanPath(); }
+      };
+      // Appelé au chargement de count.js : compte l'arrivée avec sa source, puis nettoie l'URL
+      window.edmCountLanding = function () {
+        if (counted) return;
+        var gc = window.goatcounter;
+        if (!gc || typeof gc.count !== 'function') return;
+        var go = function () {
+          counted = true;
+          gc.count(source ? { path: cleanPath(), referrer: source } : { path: cleanPath() });
+          cleanUrl();
+        };
+        if (document.visibilityState === 'prerender' || document.visibilityState === 'hidden') {
+          var onVisible = function () {
+            if (document.visibilityState !== 'visible') return;
+            document.removeEventListener('visibilitychange', onVisible);
+            go();
+          };
+          document.addEventListener('visibilitychange', onVisible);
+        } else {
+          go();
+        }
+      };
+      // Script bloqué ou hors ligne : l'adresse est nettoyée quand même
+      window.addEventListener('load', function () { setTimeout(function () { if (!counted) cleanUrl(); }, 5000); });
+      window.addEventListener('hashchange', function () {
+        if (window.goatcounter && typeof window.goatcounter.count === 'function') {
+          window.goatcounter.count({ path: cleanPath() });
+        }
+      });
+    })();
   </script>
   <script data-goatcounter="https://etabli-des-maths.goatcounter.com/count"
-          async src="//gc.zgo.at/count.js"></script>
+          async src="//gc.zgo.at/count.js" onload="window.edmCountLanding()"></script>
 
   <!-- Enregistrement Service Worker (PWA Hors-Ligne) -->
   <script>
