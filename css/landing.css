@@ -351,7 +351,7 @@
   grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr));
   gap: 0.4rem 1.5rem;
 }
-.landing-links-box a { color: var(--primary-text)); text-decoration: underline; text-underline-offset: 2px; }
+.landing-links-box a { color: var(--primary-text); text-decoration: underline; text-underline-offset: 2px; }
 [data-theme="dark"] .landing-links-box a { color: #93c5fd; }
 
 /* Accessibilité : contrastes ≥ 4,5:1 dans les deux thèmes */
@@ -378,4 +378,102 @@
 }
 .about-cta .landing-cta-btn {
   text-decoration: none;
+}
+
+/* ===================== Kit enseignant (kit-enseignant.html) ===================== */
+.kit-breadcrumb { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem; }
+.kit-breadcrumb a { color: var(--primary-text); }
+.kit-section { margin-top: 2.5rem; scroll-margin-top: 5rem; }
+.kit-h2 { font-size: 1.4rem; font-weight: 800; margin-bottom: 0.5rem; color: var(--text-main); }
+.kit-lead { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1rem; }
+.kit-note { color: var(--text-muted); font-size: 0.88rem; margin-top: 0.75rem; }
+.kit-toc ul {
+  list-style: none; display: flex; flex-wrap: wrap; justify-content: center;
+  gap: 0.5rem; margin-top: 1.5rem; padding: 0;
+}
+.kit-toc a {
+  display: inline-block; padding: 0.4rem 0.85rem; border-radius: 999px;
+  border: 1px solid var(--primary-border); background: var(--primary-subtle);
+  color: var(--primary-text); font-weight: 600; font-size: 0.88rem; text-decoration: none;
+}
+.kit-toc a:hover, .kit-toc a:focus-visible { background: var(--primary-fill); color: #fff; }
+.kit-pitch {
+  margin: 0; padding: 1.1rem 1.35rem; border-left: 4px solid var(--primary-fill);
+  background: var(--bg-surface); border-radius: var(--radius-md); box-shadow: var(--shadow-sm);
+  font-size: 1.05rem; line-height: 1.65; color: var(--text-main);
+}
+.kit-facts {
+  list-style: none; padding: 0; margin-top: 1rem;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(min(200px, 100%), 1fr)); gap: 0.5rem;
+}
+.kit-facts li {
+  padding: 0.6rem 0.8rem; border-radius: var(--radius-sm); background: var(--bg-subtle);
+  color: var(--text-main); font-size: 0.92rem;
+}
+.kit-facts li::before { content: "✓ "; color: var(--success-text); font-weight: 800; }
+.kit-messages { display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); }
+.kit-message {
+  display: flex; flex-direction: column; gap: 0.6rem;
+  background: var(--bg-surface); border: 1px solid var(--border-color);
+  border-radius: var(--radius-md); padding: 1.1rem; box-shadow: var(--shadow-sm);
+}
+.kit-message-title { font-size: 1.05rem; font-weight: 700; color: var(--text-main); }
+.kit-message-text {
+  width: 100%; min-height: 17rem; resize: vertical; padding: 0.75rem;
+  font: inherit; font-size: 0.88rem; line-height: 1.5; color: var(--text-main);
+  background: var(--bg-subtle); border: 1px solid var(--input-border); border-radius: var(--radius-sm);
+}
+.kit-message-text:focus-visible { outline: 3px solid var(--border-focus); outline-offset: 1px; }
+.kit-copy-row { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem; }
+.kit-copy-status { font-size: 0.88rem; font-weight: 600; color: var(--success-text); }
+.kit-message-src { font-size: 0.8rem; color: var(--text-muted); margin-top: auto; }
+.kit-affiche {
+  display: flex; flex-wrap: wrap; gap: 1.25rem; align-items: center;
+  background: var(--bg-surface); border: 1px solid var(--border-color);
+  border-radius: var(--radius-md); padding: 1.25rem; box-shadow: var(--shadow-sm);
+}
+.kit-affiche > div { flex: 1 1 260px; color: var(--text-main); }
+.kit-affiche-qr { width: 120px; height: 120px; border-radius: var(--radius-sm); background: #fff; }
+.kit-btn-row { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 0.9rem; }
+.kit-btn-row .landing-cta-btn { text-decoration: none; }
+.kit-qr-grid {
+  list-style: none; padding: 0; display: grid; gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+}
+.kit-qr-card {
+  text-align: center; background: var(--bg-surface); border: 1px solid var(--border-color);
+  border-radius: var(--radius-md); padding: 0.9rem 0.6rem; box-shadow: var(--shadow-sm);
+}
+.kit-qr-card img { width: 132px; height: 132px; background: #fff; display: block; margin: 0 auto; }
+.kit-qr-label { font-weight: 800; font-size: 1.05rem; color: var(--text-main); margin-top: 0.4rem; }
+.kit-qr-links { font-size: 0.85rem; color: var(--text-muted); }
+.kit-qr-links a, .kit-message a, .kit-faq-item a, .kit-page .usage-desc a { color: var(--primary-text); }
+.kit-faq-item summary { cursor: pointer; }
+.kit-faq-item summary:focus-visible { outline: 3px solid var(--border-focus); outline-offset: 2px; }
+.kit-faq-item[open] summary { margin-bottom: 0.5rem; }
+.kit-src-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.kit-src-table th, .kit-src-table td { text-align: left; padding: 0.45rem 0.6rem; border-bottom: 1px solid var(--border-color); vertical-align: top; }
+.kit-src-table code { white-space: nowrap; }
+[data-theme="dark"] .kit-breadcrumb a,
+[data-theme="dark"] .kit-qr-links a,
+[data-theme="dark"] .kit-message a,
+[data-theme="dark"] .kit-faq-item a,
+[data-theme="dark"] .kit-page .usage-desc a { color: #93c5fd; }
+[data-theme="dark"] .kit-toc a { color: #bfdbfe; background: rgba(37, 99, 235, 0.18); border-color: rgba(147, 197, 253, 0.35); }
+[data-theme="dark"] .kit-facts li::before, [data-theme="dark"] .kit-copy-status { color: #6ee7b7; }
+@media (max-width: 480px) {
+  .kit-pitch { font-size: 0.98rem; padding: 0.9rem 1rem; }
+  .kit-qr-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.6rem; }
+  .kit-qr-card img { width: 112px; height: 112px; }
+  .kit-btn-row .landing-cta-btn { width: 100%; }
+}
+@media print {
+  .kit-page .app-header, .kit-page footer, .kit-page .skip-link, .kit-page .kit-toc,
+  .kit-page .kit-breadcrumb, .kit-page .kit-btn-row, .kit-page .kit-copy-row,
+  .kit-page .landing-links-box { display: none; }
+  .kit-page .kit-message-text { min-height: 0; border-color: #999; background: #fff; }
+  .kit-page .kit-section, .kit-page .kit-qr-card, .kit-page .kit-message { break-inside: avoid; box-shadow: none; }
+  .kit-page .kit-qr-grid { grid-template-columns: repeat(4, 1fr); }
+  body[data-print-only="qr-niveaux"] .landing-wrapper > :not(#qr-niveaux) { display: none; }
+  body[data-print-only="qr-niveaux"] #qr-niveaux { margin-top: 0; }
 }

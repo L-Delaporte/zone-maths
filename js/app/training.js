@@ -777,6 +777,8 @@ Object.assign(window.MathsApp, {
     if (!chapter) return;
     const chapterName = chapter.title || chapter.shortTitle || chapterId;
     const levelName = this.getLevelName(chapter.level || this.currentLevel);
+    // src=classe : source GoatCounter (liste des sources en fin d'index.html) ; le QR code projeté
+    // ci-dessous est le QR imprimé du chapitre (src=qr, scripts/build_qr_codes.js)
     const shareUrl = `https://etabli-des-maths.fr/?chapitre=${encodeURIComponent(chapterId)}&src=classe`;
     const message = `Lien d'entraînement pour le chapitre « ${chapterName} » : ${shareUrl}`;
 

@@ -1,0 +1,93 @@
+/* L'Établi des Maths — Affiche A4 et flyers à imprimer (affiche.html).
+   Toujours en thème clair : c'est un support papier. */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #0f172a;
+  background: #e2e8f0;
+}
+.skip-link {
+  position: absolute; left: -9999px; top: 0; padding: 0.5rem 1rem;
+  background: #1d4ed8; color: #fff; z-index: 10;
+}
+.skip-link:focus { left: 0.5rem; top: 0.5rem; }
+
+/* Barre d'outils (écran uniquement) */
+.affiche-toolbar {
+  max-width: 210mm; margin: 1rem auto; padding: 1rem 1.25rem;
+  background: #fff; border-radius: 10px; box-shadow: 0 1px 3px rgba(15, 23, 42, 0.12);
+}
+.affiche-toolbar-title { margin: 0 0 0.75rem; }
+.affiche-toolbar-actions { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+.affiche-toolbar-tip { margin: 0.75rem 0 0; font-size: 0.85rem; color: #475569; }
+.affiche-btn {
+  display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.65rem 1.1rem;
+  border-radius: 8px; border: 1px solid #94a3b8; background: #fff; color: #1d4ed8;
+  font: inherit; font-weight: 700; text-decoration: none; cursor: pointer;
+}
+.affiche-btn-primary { background: #1d4ed8; border-color: #1d4ed8; color: #fff; }
+.affiche-btn:focus-visible { outline: 3px solid #f59e0b; outline-offset: 2px; }
+
+/* Feuilles A4 */
+.affiche-sheet {
+  width: 210mm; height: 297mm; margin: 0 auto 1.5rem; background: #fff;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.18); overflow: hidden; position: relative;
+}
+
+/* Page 1 : affiche */
+.affiche-poster {
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+  padding: 16mm 16mm 12mm;
+  border-top: 10mm solid #2563eb;
+}
+.poster-brand { display: flex; align-items: center; gap: 4mm; }
+.poster-brand img { width: 16mm; height: 16mm; border-radius: 3mm; }
+.poster-brand p { margin: 0; font-size: 20pt; font-weight: 800; color: #1d4ed8; }
+.poster-title { margin: 10mm 0 4mm; font-size: 38pt; line-height: 1.12; font-weight: 900; letter-spacing: -0.02em; }
+.poster-subtitle { margin: 0; font-size: 16pt; color: #334155; }
+.poster-qr {
+  margin-top: 10mm; padding: 6mm; border: 1.2mm solid #2563eb; border-radius: 6mm; background: #fff;
+}
+.poster-qr img { display: block; width: 80mm; height: 80mm; }
+.poster-qr-caption { margin: 3mm 0 0; font-size: 16pt; font-weight: 800; color: #1d4ed8; }
+.poster-url { margin: 5mm 0 0; font-size: 22pt; font-weight: 800; letter-spacing: 0.01em; }
+.poster-points {
+  list-style: none; margin: 9mm 0 0; padding: 0; text-align: left;
+  display: grid; gap: 3.5mm; font-size: 14.5pt;
+}
+.poster-points li { display: flex; gap: 3mm; align-items: baseline; }
+.poster-footer { margin-top: auto; font-size: 9.5pt; color: #475569; }
+
+/* Page 2 : 4 flyers A6 (2 × 2) avec traits de coupe */
+.affiche-flyers {
+  display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr;
+}
+.flyer {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+  padding: 8mm; border: 0.3mm dashed #94a3b8; gap: 2.5mm;
+}
+.flyer p { margin: 0; }
+.flyer-brand { font-size: 13pt; font-weight: 800; color: #1d4ed8; }
+.flyer-title { font-size: 17pt; font-weight: 900; line-height: 1.15; }
+.flyer img { width: 45mm; height: 45mm; margin: 2mm 0; }
+.flyer-url { font-size: 14pt; font-weight: 800; }
+.flyer-points { font-size: 10.5pt; color: #334155; }
+
+/* Petits écrans : aperçu réduit, sans débordement horizontal */
+@media screen and (max-width: 820px) {
+  .affiche-toolbar { margin: 0.75rem; }
+  .affiche-sheet { zoom: 0.43; margin-bottom: 1rem; }
+}
+@media screen and (min-width: 821px) and (max-width: 1000px) {
+  .affiche-sheet { zoom: 0.8; }
+}
+
+@page { size: A4 portrait; margin: 0; }
+@media print {
+  body { background: #fff; }
+  .affiche-toolbar, .skip-link { display: none; }
+  .affiche-sheet { margin: 0; box-shadow: none; zoom: 1; break-after: page; }
+  .affiche-sheet:last-child { break-after: auto; }
+}

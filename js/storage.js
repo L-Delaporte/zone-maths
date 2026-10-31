@@ -20,6 +20,7 @@ window.MathsStorage = {
         lastActive: new Date().toISOString()
       },
       chapters: {}, // { 'N1': { mastery: 0, completed: [], currentTier: 1, history: [] } }
+      defis: {}, // Défi de la semaine : { '2026-S44-college': { tries, solved, revealed, solvedAt } }
       badges: [],
       theme: 'light',
       soundEnabled: true
@@ -134,6 +135,10 @@ window.MathsStorage = {
         out.chapters[id] = merged;
       });
     }
+    out.defis = {};
+    if (isObj(data.defis)) {
+      Object.keys(data.defis).forEach(k => { if (isObj(data.defis[k])) out.defis[k] = data.defis[k]; });
+    }
     out.user.level = this.getLevelFromXp(out.user.xp).level;
     return this.migrate(out, Number(data.version) || 1);
   },
@@ -207,6 +212,27 @@ window.MathsStorage = {
     data.chapters[chapterId] = updateFn(data.chapters[chapterId]);
     this.save(data);
     return data.chapters[chapterId];
+  },
+
+  /** Défi de la semaine : état d'un défi (clé « 2026-S44-college »). */
+  getDefiProgress(key) {
+    const st = (this.load().defis || {})[key];
+    return Object.assign({ tries: 0, solved: false, revealed: false }, st || {});
+  },
+
+  updateDefiProgress(key, updateFn) {
+    const data = this.load();
+    if (!data.defis) data.defis = {};
+    const st = Object.assign({ tries: 0, solved: false, revealed: false }, data.defis[key] || {});
+    updateFn(st);
+    data.defis[key] = st;
+    this.save(data);
+    return st;
+  },
+
+  countSolvedDefis() {
+    const defis = this.load().defis || {};
+    return Object.keys(defis).filter(k => defis[k] && defis[k].solved).length;
   },
 
   resetChapterProgress(chapterId) {

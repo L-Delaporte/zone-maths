@@ -8920,3 +8920,154 @@ button.status-pill {
     flex-direction: column;
   }
 }
+
+/* ==========================================================================
+   Défi de la semaine (accueil — js/app/defi.js)
+   ========================================================================== */
+.home-defi-card {
+  background: var(--bg-surface);
+  border: 1px solid #ddd6fe;
+  border-left: 5px solid #7c3aed;
+  border-radius: var(--radius-md);
+  padding: 1rem 1.25rem;
+  box-shadow: 0 2px 6px rgba(124, 58, 237, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  min-width: 0;
+}
+.home-defi-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.6rem 1rem;
+}
+.home-defi-heading { min-width: 0; }
+.home-defi-tag {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  color: #6d28d9;
+  margin: 0;
+}
+.home-defi-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin: 2px 0 0;
+}
+.home-defi-title:focus { outline: none; }
+.home-defi-title:focus-visible { outline: 2px solid var(--border-focus); outline-offset: 2px; }
+.home-defi-meta {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin: 2px 0 0;
+}
+.home-defi-cycles {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+.home-defi-cycle-btn {
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  min-height: 36px;
+  padding: 0.3rem 0.75rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--input-border);
+  background: var(--bg-surface);
+  color: var(--text-main);
+  cursor: pointer;
+}
+.home-defi-cycle-btn[aria-pressed="true"] {
+  background: #6d28d9;
+  border-color: #6d28d9;
+  color: #ffffff;
+}
+.home-defi-cycle-btn:focus-visible,
+.home-defi-link-btn:focus-visible { outline: 2px solid var(--border-focus); outline-offset: 2px; }
+.home-defi-statement {
+  font-size: 0.95rem;
+  color: var(--text-main);
+  line-height: 1.55;
+  overflow-x: auto;
+}
+.home-defi-statement p,
+.home-defi-solution p,
+.home-defi-hint p { margin: 0 0 0.35rem; }
+.home-defi-solution ul { margin: 0 0 0.35rem 1.2rem; padding: 0; }
+.home-defi-form { display: flex; flex-direction: column; gap: 0.3rem; }
+.home-defi-label { font-size: 0.85rem; font-weight: 700; color: var(--text-main); }
+.home-defi-help { font-weight: 400; color: var(--text-muted); }
+.home-defi-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+.home-defi-input { flex: 1 1 9rem; max-width: 16rem; min-width: 0; }
+.home-defi-unit { font-weight: 600; color: var(--text-muted); }
+.home-defi-hint summary {
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--primary-text);
+  min-height: 32px;
+  display: inline-flex;
+  align-items: center;
+}
+.home-defi-hint > div { font-size: 0.88rem; color: var(--text-main); padding: 0.35rem 0 0 0.25rem; }
+.home-defi-feedback { font-size: 0.88rem; margin: 0; min-height: 0; }
+.home-defi-feedback:empty { display: none; }
+.home-defi-feedback.is-ok { color: var(--success-text); }
+.home-defi-feedback.is-ko { color: var(--danger-text); }
+.home-defi-notice {
+  font-size: 0.82rem;
+  margin: 0;
+  padding: 0.45rem 0.7rem;
+  border-radius: var(--radius-sm);
+  background: var(--info-bg);
+  color: var(--info-text);
+  border: 1px solid var(--info-border);
+}
+.home-defi-link-btn {
+  font: inherit;
+  font-weight: 700;
+  background: none;
+  border: none;
+  padding: 0;
+  color: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.home-defi-solution {
+  background: var(--success-bg);
+  border: 1px solid var(--success-border);
+  border-radius: var(--radius-sm);
+  padding: 0.7rem 0.9rem;
+  font-size: 0.9rem;
+  color: var(--text-main);
+  line-height: 1.55;
+  overflow-x: auto;
+}
+.home-defi-solution:focus { outline: none; }
+.home-defi-solution:focus-visible { outline: 2px solid var(--border-focus); outline-offset: 2px; }
+.home-defi-solution-title { font-weight: 600; color: var(--success-text); }
+.home-defi-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+}
+.home-defi-count { font-size: 0.8rem; font-weight: 600; color: var(--text-muted); }
+.home-defi-footnote { font-size: 0.75rem; color: var(--text-muted); margin: 0; }
+[data-theme="dark"] .home-defi-card { border-color: rgba(167, 139, 250, 0.35); border-left-color: #a78bfa; }
+[data-theme="dark"] .home-defi-tag { color: #c4b5fd; }
+[data-theme="dark"] .home-defi-cycle-btn[aria-pressed="true"] { background: #7c3aed; border-color: #a78bfa; }
+@media (max-width: 480px) {
+  .home-defi-card { padding: 0.85rem 0.9rem; }
+  .home-defi-input { max-width: none; }
+}

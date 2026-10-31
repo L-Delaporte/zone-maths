@@ -1,9 +1,12 @@
 #!/usr/bin/env node
 /**
  * Génère les QR codes (SVG) imprimés sur les fiches, devoirs et rituels projetés :
- *   assets/qr/site.svg        → page d'accueil
- *   assets/qr/<ID>.svg        → entraînement direct sur le chapitre ID
- * Le paramètre src=qr permet de mesurer ces visites dans GoatCounter.
+ *   assets/qr/site.svg        → page d'accueil (src=qr : fiches, DS, rituels projetés)
+ *   assets/qr/<ID>.svg        → entraînement direct sur le chapitre ID (src=qr)
+ *   assets/qr/affiche.svg     → page d'accueil, QR de l'affiche A4 du kit enseignant (src=affiche)
+ *   assets/qr/niveau-<N>.svg  → accueil d'un niveau (6eme … tale), QR par niveau du kit (src=affiche)
+ * Le paramètre src permet de mesurer ces visites dans GoatCounter (liste des sources :
+ * commentaire GoatCounter en fin d'index.html et FAQ de kit-enseignant.html).
  *
  * Usage : node scripts/build_qr_codes.js   (nécessite la commande `qrencode`)
  * À relancer après l'ajout de chapitres (idempotent : ne réécrit que ce qui change).
@@ -25,7 +28,13 @@ for (const f of ['chapters.js', 'chapters_lycee.js', 'chapters_licence.js', 'dat
 const chapters = sandbox.window.MATHS_CHAPTERS || [];
 
 fs.mkdirSync(OUT, { recursive: true });
-const targets = [['site', `${BASE}?src=qr`], ...chapters.map(c => [c.id, `${BASE}?chapitre=${encodeURIComponent(c.id)}&src=qr`])];
+const POSTER_LEVELS = ['6eme', '5eme', '4eme', '3eme', '2nde', '1ere', 'tale'];
+const targets = [
+  ['site', `${BASE}?src=qr`],
+  ['affiche', `${BASE}?src=affiche`],
+  ...POSTER_LEVELS.map(l => [`niveau-${l}`, `${BASE}?niveau=${l}&src=affiche`]),
+  ...chapters.map(c => [c.id, `${BASE}?chapitre=${encodeURIComponent(c.id)}&src=qr`])
+];
 
 let written = 0;
 for (const [id, url] of targets) {

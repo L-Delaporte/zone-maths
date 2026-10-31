@@ -457,6 +457,9 @@ Object.assign(window.MathsApp, {
       if (btnEl) btnEl.innerHTML = 'Découvrir les cycles ▾';
     }
 
+    // 3. Défi de la semaine (js/app/defi.js)
+    if (typeof this.renderDefiCard === 'function') this.renderDefiCard();
+
   },
 
   handleResumeOrStart() {

@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <script>
+    // Applique le thème (clair/sombre) choisi dans l'application, avant l'affichage
+    try {
+      document.documentElement.setAttribute('data-theme', JSON.parse(localStorage.getItem('maths_3e_progress_v1') || '{}').theme || 'light');
+    } catch (e) {}
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="author" content="Loïc Delaporte, Professeur de Mathématiques" />
+  <meta name="description" content="Kit enseignant de L'Établi des Maths : présentation en 30 secondes, mode d'emploi en classe, messages à copier pour l'ENT et les parents, affiche A4 et QR codes par niveau." />
+  <meta name="keywords" content="kit enseignant maths, présenter un site de maths aux élèves, message ENT maths, affiche QR code maths, ressource gratuite professeur de maths, sans compte élève RGPD" />
+  <link rel="canonical" href="https://etabli-des-maths.fr/kit-enseignant.html" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Kit enseignant : présenter L'Établi des Maths en classe" />
+  <meta property="og:description" content="Kit enseignant de L'Établi des Maths : présentation en 30 secondes, mode d'emploi en classe, messages à copier pour l'ENT et les parents, affiche A4 et QR codes par niveau." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://etabli-des-maths.fr/kit-enseignant.html" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta property="og:site_name" content="L'Établi des Maths" />
+  <meta property="og:image" content="https://etabli-des-maths.fr/assets/logo.jpg" />
+
+  <title>Kit enseignant : présenter L'Établi des Maths en classe</title>
+
+  <link rel="stylesheet" href="css/style.css?v=6bba6cb469" />
+  <link rel="stylesheet" href="css/landing.css?v=c818a93f22" />
+  <link rel="icon" href="favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png" />
+  <link rel="apple-touch-icon" href="assets/favicon.png" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#2563eb" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Kit enseignant : présenter L'Établi des Maths en classe",
+  "description": "Kit enseignant de L'Établi des Maths : présentation en 30 secondes, mode d'emploi en classe, messages à copier pour l'ENT et les parents, affiche A4 et QR codes par niveau.",
+  "url": "https://etabli-des-maths.fr/kit-enseignant.html",
+  "inLanguage": "fr",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "L'Établi des Maths",
+    "url": "https://etabli-des-maths.fr/"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Loïc Delaporte",
+    "jobTitle": "Professeur de mathématiques"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "L'Établi des Maths",
+    "url": "https://etabli-des-maths.fr/",
+    "logo": "https://etabli-des-maths.fr/assets/logo.png"
+  },
+  "audience": {
+    "@type": "EducationalAudience",
+    "educationalRole": "teacher"
+  }
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Accueil",
+      "item": "https://etabli-des-maths.fr/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Enseignants",
+      "item": "https://etabli-des-maths.fr/enseignants.html"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Kit enseignant",
+      "item": "https://etabli-des-maths.fr/kit-enseignant.html"
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Est-ce vraiment gratuit ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Oui. Toutes les fonctions sont accessibles gratuitement, sans abonnement ni version payante : cours, entraînement, rituels, flashcards, fiches et devoirs blancs. Le site est un projet personnel et indépendant, conçu par un professeur de mathématiques."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Les élèves doivent-ils créer un compte ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Non. Il n'y a ni inscription, ni identifiant, ni mot de passe. Un lien ou un QR code suffit : l'élève arrive directement sur le bon niveau ou le bon chapitre."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Quelles données sont collectées (RGPD) ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Aucune donnée personnelle n'est demandée. La progression (paliers, XP, flashcards, défis) est enregistrée uniquement dans le navigateur de l'appareil (stockage local) : elle ne quitte pas l'appareil et s'efface avec les données du navigateur. La mesure d'audience est anonyme et sans cookie (GoatCounter) : elle compte les pages vues et la provenance des visites (par exemple « src=ent »), sans identifier personne. Le détail figure dans les mentions légales."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Peut-on l'utiliser sans connexion internet ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "En partie. Le site s'installe comme une application (PWA) : après une première visite avec connexion, l'application et les niveaux déjà ouverts sur l'appareil restent utilisables hors ligne. Pour une salle sans réseau fiable, ouvrez les niveaux voulus à l'avance, ou imprimez fiches et devoirs blancs."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Puis-je réutiliser les contenus avec mes classes ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Oui. Les contenus sont sous licence Creative Commons CC BY-NC-SA 4.0 : vous pouvez les projeter, les imprimer, les distribuer et les adapter pour un usage non commercial, en citant L'Établi des Maths et en partageant vos adaptations dans les mêmes conditions."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "À quoi sert le paramètre « ?src= » dans les liens ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Il indique seulement d'où vient la visite (affiche, ENT, message aux parents…), pour savoir quels supports sont utiles. Il ne contient aucune information sur l'élève et disparaît de la barre d'adresse dès l'arrivée sur le site. Vous pouvez le retirer des liens sans aucune conséquence."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Une erreur dans un exercice ? Une idée ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Écrivez à delaporte@etabli-des-maths.fr. Les retours des collègues servent directement à corriger et à enrichir le site."
+      }
+    }
+  ]
+}
+  </script>
+</head>
+<body class="kit-page">
+  <a class="skip-link" href="#contenu">Aller au contenu</a>
+
+  <!-- Header -->
+  <header class="app-header">
+    <div class="header-inner">
+      <a href="index.html" class="brand-container" style="text-decoration: none;">
+        <img src="assets/logo-96.png" alt="" class="brand-logo-img" width="44" height="44" />
+        <div class="brand-text">
+          <p class="brand-title">L'Établi des Maths <span class="brand-level-tag">Kit enseignant</span></p>
+          <span class="brand-tagline">Outils pour apprendre et pratiquer</span>
+        </div>
+      </a>
+
+      <nav class="nav-portal-links" aria-label="Portails thématiques">
+        <a href="index.html" class="nav-portal-btn">🏠 Accueil</a>
+        <a href="cours/" class="nav-portal-btn">📚 Cours</a>
+        <a href="rituels.html" class="nav-portal-btn">⏱️ Rituels</a>
+        <a href="brevet.html" class="nav-portal-btn">📝 Brevet 3e</a>
+        <a href="bac.html" class="nav-portal-btn">🎓 Baccalauréat</a>
+        <a href="enseignants.html" class="nav-portal-btn active">👨‍🏫 Enseignants</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="landing-wrapper" id="contenu" tabindex="-1">
+    <nav class="kit-breadcrumb" aria-label="Fil d'Ariane">
+      <a href="index.html">Accueil</a> <span aria-hidden="true">›</span> <a href="enseignants.html">Enseignants</a> <span aria-hidden="true">›</span> <span aria-current="page">Kit enseignant</span>
+    </nav>
+
+    <section class="landing-hero">
+      <span class="landing-tag">🧰 Kit enseignant</span>
+      <h1 class="landing-title">Présenter L'Établi des Maths à vos classes</h1>
+      <p class="landing-subtitle">
+        Tout ce qu'il faut pour lancer le site avec vos élèves en cinq minutes : une présentation express, des idées d'usage en classe, des messages prêts à copier, une affiche à imprimer et des QR codes par niveau.
+      </p>
+      <nav class="kit-toc" aria-label="Sommaire du kit">
+        <ul>
+          <li><a href="#presentation">En 30 secondes</a></li>
+          <li><a href="#en-classe">En classe</a></li>
+          <li><a href="#messages">Messages à copier</a></li>
+          <li><a href="#affiche">Affiche et flyers</a></li>
+          <li><a href="#qr-niveaux">QR codes par niveau</a></li>
+          <li><a href="#faq">Questions fréquentes</a></li>
+        </ul>
+      </nav>
+    </section>
+
+    <section class="kit-section" id="presentation" aria-labelledby="presentation-titre">
+      <h2 class="kit-h2" id="presentation-titre">Le site en 30 secondes</h2>
+      <p class="kit-lead">À dire aux élèves, tel quel :</p>
+      <blockquote class="kit-pitch">
+        <p>« L'Établi des Maths, c'est un site gratuit pour s'entraîner en maths, de la 6e au bac. Pas de compte à créer : vous choisissez votre classe et un chapitre. Les exercices sont corrigés en détail et s'adaptent à votre niveau, du palier 1 pour revoir les bases au palier 4 pour les plus ambitieux. Et chaque semaine, un défi vous attend sur la page d'accueil. »</p>
+      </blockquote>
+      <ul class="kit-facts">
+        <li><strong>Gratuit</strong>, sans abonnement</li>
+        <li><strong>Sans compte</strong> ni donnée personnelle</li>
+        <li><strong>De la 6e au CAPES</strong>, conforme aux programmes</li>
+        <li><strong>Exercices renouvelés à l'infini</strong>, corrigés pas à pas</li>
+      </ul>
+    </section>
+
+    <section class="kit-section" id="en-classe" aria-labelledby="en-classe-titre">
+      <h2 class="kit-h2" id="en-classe-titre">Mode d'emploi en classe</h2>
+      <div class="usage-grid">
+        <div class="usage-card">
+          <span class="usage-badge usage-1">Début d'heure · 5 min</span>
+          <h3 class="usage-title">Rituels projetés</h3>
+          <p class="usage-desc">Ouvrez les « Rituels Flash », choisissez le chapitre et la durée, puis projetez. Les élèves répondent sur ardoise ; la correction s'affiche pas à pas. Accès direct : <a href="index.html?mode=rituel">lancer un rituel</a> ou la <a href="rituels.html">page des rituels</a>.</p>
+        </div>
+        <div class="usage-card">
+          <span class="usage-badge usage-2">Salle info, tablettes, maison</span>
+          <h3 class="usage-title">Entraînement en autonomie</h3>
+          <p class="usage-desc">Dans un chapitre, le bouton « Partager à ma classe » donne un lien et un QR code à projeter. Chaque élève avance par paliers ; un lien ne débloque jamais un palier que l'élève n'a pas encore atteint.</p>
+        </div>
+        <div class="usage-card">
+          <span class="usage-badge usage-3">Mémorisation</span>
+          <h3 class="usage-title">Flashcards</h3>
+          <p class="usage-desc">Définitions, propriétés et formules en boîte de Leitner (répétition espacée). Idéal en fin d'heure ou à la maison : <a href="index.html?mode=flashcards">ouvrir les flashcards</a>.</p>
+        </div>
+        <div class="usage-card">
+          <span class="usage-badge usage-4">Papier</span>
+          <h3 class="usage-title">Fiches et DS imprimables</h3>
+          <p class="usage-desc">Onglet « Fiches &amp; DS » d'un chapitre : fiche d'exercices ou devoir avec corrigé, à imprimer. Chaque tirage donne un sujet différent, utile pour des sujets A/B ou la remédiation.</p>
+        </div>
+        <div class="usage-card">
+          <span class="usage-badge usage-1">Examens</span>
+          <h3 class="usage-title">Brevet et bac blancs</h3>
+          <p class="usage-desc">Devoirs blancs générés avec barème et corrigé : <a href="brevet.html">brevet sur 100 points</a> et <a href="bac.html">sujets de type bac</a>. À imprimer pour un entraînement en conditions réelles ou à donner en devoir maison.</p>
+        </div>
+        <div class="usage-card">
+          <span class="usage-badge usage-2">Chaque lundi</span>
+          <h3 class="usage-title">Défi de la semaine</h3>
+          <p class="usage-desc">Un problème par cycle (collège, lycée, supérieur), le même pour toute la classe pendant la semaine, avec indice et corrigé rédigé. Il se prête bien à une correction collective en fin de semaine.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="kit-section" id="messages" aria-labelledby="messages-titre">
+      <h2 class="kit-h2" id="messages-titre">Messages prêts à copier</h2>
+      <p class="kit-lead">Modifiez le texte si besoin, puis copiez-le dans l'ENT, Pronote, un courriel ou le carnet de liaison.</p>
+      <div class="kit-messages">
+        <div class="kit-message">
+          <h3 class="kit-message-title" id="msg-ent-titre">Aux élèves (ENT, Pronote, cahier de textes)</h3>
+          <label class="sr-only" for="msg-ent">Texte du message aux élèves (ent, pronote, cahier de textes)</label>
+          <textarea id="msg-ent" class="kit-message-text" rows="11" spellcheck="false">Bonjour à tous,
+
+Pour vous entraîner en maths à la maison, utilisez L'Établi des Maths : cours, exercices corrigés à l'infini et flashcards, de la 6e au bac.
+- Pas de compte à créer, c'est gratuit.
+- Choisissez votre classe, puis un chapitre : les exercices s'adaptent à votre niveau (4 paliers).
+- Chaque semaine, un défi vous attend sur la page d'accueil.
+
+Lien : https://etabli-des-maths.fr/?src=ent
+
+Bon entraînement !</textarea>
+          <div class="kit-copy-row">
+            <button type="button" class="btn-primary kit-copy-btn" data-copy-target="msg-ent" data-copy-status="msg-ent-statut" aria-describedby="msg-ent-titre">📋 Copier le message</button>
+            <span class="kit-copy-status" id="msg-ent-statut" role="status" aria-live="polite"></span>
+          </div>
+          <p class="kit-message-src">Lien suivi avec <code>?src=ent</code>. Le texte est modifiable avant la copie.</p>
+        </div>
+        <div class="kit-message">
+          <h3 class="kit-message-title" id="msg-parents-titre">Aux parents</h3>
+          <label class="sr-only" for="msg-parents">Texte du message aux parents</label>
+          <textarea id="msg-parents" class="kit-message-text" rows="10" spellcheck="false">Madame, Monsieur,
+
+Pour accompagner le travail de votre enfant en mathématiques, je vous signale L'Établi des Maths, un site gratuit conçu par un professeur de mathématiques : cours, exercices corrigés et révisions du brevet et du bac, conformes aux programmes.
+- Aucun compte n'est demandé et aucune donnée personnelle n'est collectée : la progression reste enregistrée sur l'appareil utilisé.
+- Quelques minutes d'entraînement régulier, plusieurs fois par semaine, sont plus efficaces qu'une longue séance la veille d'un contrôle.
+
+Lien : https://etabli-des-maths.fr/?src=parents
+
+Bien cordialement,</textarea>
+          <div class="kit-copy-row">
+            <button type="button" class="btn-primary kit-copy-btn" data-copy-target="msg-parents" data-copy-status="msg-parents-statut" aria-describedby="msg-parents-titre">📋 Copier le message</button>
+            <span class="kit-copy-status" id="msg-parents-statut" role="status" aria-live="polite"></span>
+          </div>
+          <p class="kit-message-src">Lien suivi avec <code>?src=parents</code>. Le texte est modifiable avant la copie.</p>
+        </div>
+        <div class="kit-message">
+          <h3 class="kit-message-title" id="msg-collegues-titre">Aux collègues</h3>
+          <label class="sr-only" for="msg-collegues">Texte du message aux collègues</label>
+          <textarea id="msg-collegues" class="kit-message-text" rows="12" spellcheck="false">Bonjour à tous,
+
+Je vous partage L'Établi des Maths, un site gratuit et sans compte élève, de la 6e au bac :
+- rituels de début d'heure à projeter (questions flash chronométrées, correction pas à pas) ;
+- entraînement en autonomie par paliers de difficulté, avec correction détaillée ;
+- fiches d'exercices et devoirs blancs imprimables, avec barème et corrigé ;
+- flashcards pour mémoriser définitions et propriétés.
+
+Le kit enseignant (messages, affiche, QR codes par niveau) : https://etabli-des-maths.fr/kit-enseignant.html?src=collegues
+
+Bonne journée,</textarea>
+          <div class="kit-copy-row">
+            <button type="button" class="btn-primary kit-copy-btn" data-copy-target="msg-collegues" data-copy-status="msg-collegues-statut" aria-describedby="msg-collegues-titre">📋 Copier le message</button>
+            <span class="kit-copy-status" id="msg-collegues-statut" role="status" aria-live="polite"></span>
+          </div>
+          <p class="kit-message-src">Lien suivi avec <code>?src=collegues</code>. Le texte est modifiable avant la copie.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="kit-section" id="affiche" aria-labelledby="affiche-titre">
+      <h2 class="kit-h2" id="affiche-titre">Affiche A4 et flyers</h2>
+      <div class="kit-affiche">
+        <img class="kit-affiche-qr" src="assets/qr/affiche.svg" alt="QR code de l'affiche, vers la page d'accueil du site" width="120" height="120" />
+        <div>
+          <p>Une affiche A4 avec un grand QR code, à placer en salle de classe, au CDI ou en salle des professeurs. La deuxième page contient quatre flyers à découper pour les élèves.</p>
+          <div class="kit-btn-row">
+            <a class="btn-primary landing-cta-btn" href="affiche.html">🖨️ Ouvrir l'affiche à imprimer</a>
+            <a class="btn-secondary landing-cta-btn" href="assets/qr/affiche.svg" download="etabli-des-maths-qr.svg">⬇️ Télécharger le QR code</a>
+          </div>
+          <p class="kit-note">Conseil : imprimez en A4, orientation portrait, à l'échelle 100 %.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="kit-section" id="qr-niveaux" aria-labelledby="qr-niveaux-titre">
+      <h2 class="kit-h2" id="qr-niveaux-titre">QR codes par niveau</h2>
+      <p class="kit-lead">Chaque QR code ouvre directement l'application sur la classe choisie : à coller dans le cahier, sur une fiche ou à projeter.</p>
+      <ul class="kit-qr-grid">
+        <li class="kit-qr-card">
+          <img src="assets/qr/niveau-6eme.svg" alt="QR code vers le niveau 6e" width="132" height="132" />
+          <p class="kit-qr-label">6e</p>
+          <p class="kit-qr-links"><a href="index.html?niveau=6eme&amp;src=affiche">Ouvrir<span class="sr-only"> le niveau 6e</span></a> · <a href="assets/qr/niveau-6eme.svg" download="etabli-des-maths-qr-6eme.svg">Télécharger<span class="sr-only"> le QR code 6e</span></a></p>
+        </li>
+        <li class="kit-qr-card">
+          <img src="assets/qr/niveau-5eme.svg" alt="QR code vers le niveau 5e" width="132" height="132" />
+          <p class="kit-qr-label">5e</p>
+          <p class="kit-qr-links"><a href="index.html?niveau=5eme&amp;src=affiche">Ouvrir<span class="sr-only"> le niveau 5e</span></a> · <a href="assets/qr/niveau-5eme.svg" download="etabli-des-maths-qr-5eme.svg">Télécharger<span class="sr-only"> le QR code 5e</span></a></p>
+        </li>
+        <li class="kit-qr-card">
+          <img src="assets/qr/niveau-4eme.svg" alt="QR code vers le niveau 4e" width="132" height="132" />
+          <p class="kit-qr-label">4e</p>
+          <p class="kit-qr-links"><a href="index.html?niveau=4eme&amp;src=affiche">Ouvrir<span class="sr-only"> le niveau 4e</span></a> · <a href="assets/qr/niveau-4eme.svg" download="etabli-des-maths-qr-4eme.svg">Télécharger<span class="sr-only"> le QR code 4e</span></a></p>
+        </li>
+        <li class="kit-qr-card">
+          <img src="assets/qr/niveau-3eme.svg" alt="QR code vers le niveau 3e" width="132" height="132" />
+          <p class="kit-qr-label">3e</p>
+          <p class="kit-qr-links"><a href="index.html?niveau=3eme&amp;src=affiche">Ouvrir<span class="sr-only"> le niveau 3e</span></a> · <a href="assets/qr/niveau-3eme.svg" download="etabli-des-maths-qr-3eme.svg">Télécharger<span class="sr-only"> le QR code 3e</span></a></p>
+        </li>
+        <li class="kit-qr-card">
+          <img src="assets/qr/niveau-2nde.svg" alt="QR code vers le niveau Seconde" width="132" height="132" />
+          <p class="kit-qr-label">Seconde</p>
+          <p class="kit-qr-links"><a href="index.html?niveau=2nde&amp;src=affiche">Ouvrir<span class="sr-only"> le niveau Seconde</span></a> · <a href="assets/qr/niveau-2nde.svg" download="etabli-des-maths-qr-2nde.svg">Télécharger<span class="sr-only"> le QR code Seconde</span></a></p>
+        </li>
+        <li class="kit-qr-card">
+          <img src="assets/qr/niveau-1ere.svg" alt="QR code vers le niveau Première" width="132" height="132" />
+          <p class="kit-qr-label">Première</p>
+          <p class="kit-qr-links"><a href="index.html?niveau=1ere&amp;src=affiche">Ouvrir<span class="sr-only"> le niveau Première</span></a> · <a href="assets/qr/niveau-1ere.svg" download="etabli-des-maths-qr-1ere.svg">Télécharger<span class="sr-only"> le QR code Première</span></a></p>
+        </li>
+        <li class="kit-qr-card">
+          <img src="assets/qr/niveau-tale.svg" alt="QR code vers le niveau Terminale" width="132" height="132" />
+          <p class="kit-qr-label">Terminale</p>
+          <p class="kit-qr-links"><a href="index.html?niveau=tale&amp;src=affiche">Ouvrir<span class="sr-only"> le niveau Terminale</span></a> · <a href="assets/qr/niveau-tale.svg" download="etabli-des-maths-qr-tale.svg">Télécharger<span class="sr-only"> le QR code Terminale</span></a></p>
+        </li>
+      </ul>
+      <p class="kit-note">Pour un chapitre précis, utilisez plutôt le bouton « Partager à ma classe » du chapitre, ou le QR code imprimé en bas de chaque fiche.</p>
+      <div class="kit-btn-row kit-no-print">
+        <button type="button" class="btn-secondary landing-cta-btn" id="kit-print-qr" data-print="qr-niveaux">🖨️ Imprimer les QR codes</button>
+      </div>
+    </section>
+
+    <section class="landing-faq-box kit-section" id="faq" aria-labelledby="faq-titre">
+      <h2 class="landing-faq-title" id="faq-titre">Questions fréquentes</h2>
+      <details class="landing-faq-item kit-faq-item">
+        <summary class="landing-faq-q">Est-ce vraiment gratuit ?</summary>
+        <p class="landing-faq-a">Oui. Toutes les fonctions sont accessibles gratuitement, sans abonnement ni version payante : cours, entraînement, rituels, flashcards, fiches et devoirs blancs. Le site est un projet personnel et indépendant, conçu par un professeur de mathématiques.</p>
+      </details>
+      <details class="landing-faq-item kit-faq-item">
+        <summary class="landing-faq-q">Les élèves doivent-ils créer un compte ?</summary>
+        <p class="landing-faq-a">Non. Il n'y a ni inscription, ni identifiant, ni mot de passe. Un lien ou un QR code suffit : l'élève arrive directement sur le bon niveau ou le bon chapitre.</p>
+      </details>
+      <details class="landing-faq-item kit-faq-item">
+        <summary class="landing-faq-q">Quelles données sont collectées (RGPD) ?</summary>
+        <p class="landing-faq-a">Aucune donnée personnelle n'est demandée. La progression (paliers, XP, flashcards, défis) est enregistrée uniquement dans le navigateur de l'appareil (stockage local) : elle ne quitte pas l'appareil et s'efface avec les données du navigateur. La mesure d'audience est anonyme et sans cookie (GoatCounter) : elle compte les pages vues et la provenance des visites (par exemple « src=ent »), sans identifier personne. Le détail figure dans les <a href="mentions-legales.html">mentions légales</a>.</p>
+      </details>
+      <details class="landing-faq-item kit-faq-item">
+        <summary class="landing-faq-q">Peut-on l'utiliser sans connexion internet ?</summary>
+        <p class="landing-faq-a">En partie. Le site s'installe comme une application (PWA) : après une première visite avec connexion, l'application et les niveaux déjà ouverts sur l'appareil restent utilisables hors ligne. Pour une salle sans réseau fiable, ouvrez les niveaux voulus à l'avance, ou imprimez fiches et devoirs blancs.</p>
+      </details>
+      <details class="landing-faq-item kit-faq-item">
+        <summary class="landing-faq-q">Puis-je réutiliser les contenus avec mes classes ?</summary>
+        <p class="landing-faq-a">Oui. Les contenus sont sous licence Creative Commons <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr" rel="license noopener">CC BY-NC-SA 4.0</a> : vous pouvez les projeter, les imprimer, les distribuer et les adapter pour un usage non commercial, en citant L'Établi des Maths et en partageant vos adaptations dans les mêmes conditions.</p>
+      </details>
+      <details class="landing-faq-item kit-faq-item">
+        <summary class="landing-faq-q">À quoi sert le paramètre « ?src= » dans les liens ?</summary>
+        <p class="landing-faq-a">Il indique seulement d'où vient la visite (affiche, ENT, message aux parents…), pour savoir quels supports sont utiles. Il ne contient aucune information sur l'élève et disparaît de la barre d'adresse dès l'arrivée sur le site. Vous pouvez le retirer des liens sans aucune conséquence.</p>
+      </details>
+      <details class="landing-faq-item kit-faq-item">
+        <summary class="landing-faq-q">Une erreur dans un exercice ? Une idée ?</summary>
+        <p class="landing-faq-a">Écrivez à <a href="mailto:delaporte@etabli-des-maths.fr">delaporte@etabli-des-maths.fr</a>. Les retours des collègues servent directement à corriger et à enrichir le site.</p>
+      </details>
+      <details class="landing-faq-item kit-faq-item">
+        <summary class="landing-faq-q">Quelles valeurs de « src » sont utilisées ?</summary>
+        <div class="landing-faq-a">
+          <table class="kit-src-table">
+            <caption class="sr-only">Sources de visite indiquées par le paramètre src</caption>
+            <thead><tr><th scope="col">Valeur</th><th scope="col">Support</th></tr></thead>
+            <tbody>
+              <tr><th scope="row"><code>qr</code></th><td>QR codes imprimés sur les fiches et les devoirs, ou projetés depuis « Partager à ma classe »</td></tr>
+              <tr><th scope="row"><code>classe</code></th><td>Lien copié depuis « Partager à ma classe » dans un chapitre</td></tr>
+              <tr><th scope="row"><code>affiche</code></th><td>Affiche A4, flyers et QR codes par niveau de cette page</td></tr>
+              <tr><th scope="row"><code>ent</code></th><td>Message aux élèves déposé dans l'ENT ou Pronote</td></tr>
+              <tr><th scope="row"><code>parents</code></th><td>Message aux parents</td></tr>
+              <tr><th scope="row"><code>collegues</code></th><td>Message de présentation aux collègues</td></tr>
+              <tr><th scope="row"><code>defi</code></th><td>Lien partagé depuis le défi de la semaine</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </section>
+
+    <section class="landing-links-box" aria-labelledby="kit-liens-titre">
+      <h2 id="kit-liens-titre">Pour aller plus loin</h2>
+      <ul>
+        <li><a href="enseignants.html">Espace enseignants</a></li>
+        <li><a href="rituels.html">Rituels à vidéoprojeter</a></li>
+        <li><a href="cours/">Cours de maths, de la 6e à la licence</a></li>
+        <li><a href="exercices-de-maths/">Exercices de maths corrigés par classe</a></li>
+        <li><a href="a-propos.html">Qui suis-je ?</a></li>
+        <li><a href="mailto:delaporte@etabli-des-maths.fr">Écrire à l'auteur</a></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer style="text-align: center; padding: 2rem; border-top: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.85rem;">
+    <p>L'Établi des Maths — Conçu par Loïc Delaporte, Professeur de Mathématiques • 100 % gratuit, sans publicité & conforme aux programmes</p>
+    <p class="site-legal-links" style="margin-top: 0.4rem;"><a href="kit-enseignant.html" aria-current="page">Kit enseignant</a> · <a href="a-propos.html">Qui suis-je ?</a> · <a href="mentions-legales.html">Mentions légales et confidentialité</a> · <a href="mailto:delaporte@etabli-des-maths.fr">Contact</a> · Contenus sous licence <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr" rel="license noopener">CC BY-NC-SA 4.0</a></p>
+  </footer>
+
+  <!-- Statistiques d'audience anonymes et conformes RGPD (GoatCounter) ; sources ?src= : voir index.html -->
+  <script data-goatcounter="https://etabli-des-maths.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  <script src="js/kit.js?v=28e0ca3fb2"></script>
+</body>
+</html>
