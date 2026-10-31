@@ -476,6 +476,10 @@ async function step(label, fn) {
       await waitFor(`window.MathsDataLoader.isLevelLoaded('3eme')`);
       await evaluate(`window.MathsApp.selectChapter('N1'); window.scrollTo(0, 0); true`);
       await sleep(400);
+      // sur mobile, le choix d'un chapitre fait défiler jusqu'à l'exercice (défilement doux) : on ramène le bouton à l'écran
+      await sleep(800);
+      await evaluate(`document.getElementById('btn-open-flashcards').scrollIntoView({ block: 'center', behavior: 'instant' }); true`);
+      await sleep(200);
       await tap('#btn-open-flashcards');
       await waitFor(`document.getElementById('flashcards-modal').style.display !== 'none'`);
       const start = '#flashcards-config-screen .modal-footer .btn-primary';

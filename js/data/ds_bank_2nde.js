@@ -541,35 +541,27 @@ L'amplitude est $a^2 = 4 \\times 10^{-6} < 10^{-5}$.`
     },
     {
       id: "2N3-ds-08",
-      title: "Somme de deux distances",
+      title: "Moyennes arithmétique et géométrique",
       difficulty: 4,
       points: 6,
-      statement: `Pour tout réel $x$, on pose $f(x) = |x - 1| + |x - 5|$.
+      statement: `Soient $a$ et $b$ deux réels strictement positifs. On appelle **moyenne arithmétique** de $a$ et $b$ le nombre $m = \\frac{a + b}{2}$ et **moyenne géométrique** le nombre $g = \\sqrt{ab}$.
 
-1. Calculer $f(0)$, $f(3)$ et $f(7)$.
-2. Interpréter $f(x)$ comme une somme de distances sur la droite graduée.
-3. a) Montrer que si $x \\in [1 ; 5]$, alors $f(x) = 4$.
-   b) Exprimer $f(x)$ sans valeur absolue lorsque $x < 1$, puis lorsque $x > 5$.
-4. Résoudre l'équation $f(x) = 6$.
-5. Résoudre l'équation $|x - 1| = |x - 5|$, puis l'inéquation $|x - 1| \\leqslant |x - 5|$, en interprétant en termes de distances.`,
-      solution: `**1.** $f(0) = 1 + 5 = 6$ ; $f(3) = 2 + 2 = 4$ ; $f(7) = 6 + 2 = 8$.
+1. Calculer $m$ et $g$ pour $a = 4$ et $b = 9$, puis pour $a = b = 5$. Comparer $m$ et $g$ dans chaque cas.
+2. Montrer que $m - g = \\frac{(\\sqrt{a} - \\sqrt{b})^2}{2}$.
+3. En déduire que $g \\leqslant m$, et préciser dans quel cas on a l'égalité.
+4. Un rectangle a une aire de $36$ cm². Montrer que son périmètre est supérieur ou égal à $24$ cm. Pour quel rectangle est-il égal à $24$ cm ?
+5. Comparer, sans calculatrice, $\\sqrt{2\\,026 \\times 2\\,028}$ et $2\\,027$.`,
+      solution: `**1.** Pour $a = 4$, $b = 9$ : $m = \\frac{13}{2} = 6{,}5$ et $g = \\sqrt{36} = 6$, donc $g < m$. Pour $a = b = 5$ : $m = 5$ et $g = \\sqrt{25} = 5$, donc $g = m$.
 
-**2.** Si $A$, $B$, $M$ ont pour abscisses $1$, $5$ et $x$, alors $f(x) = MA + MB$.
+**2.** Comme $a = (\\sqrt{a})^2$, $b = (\\sqrt{b})^2$ et $\\sqrt{a}\\sqrt{b} = \\sqrt{ab}$ (car $a, b \\geqslant 0$) :
+$$(\\sqrt{a} - \\sqrt{b})^2 = a - 2\\sqrt{a}\\sqrt{b} + b = a + b - 2\\sqrt{ab}.$$
+En divisant par $2$ : $\\frac{(\\sqrt{a} - \\sqrt{b})^2}{2} = \\frac{a + b}{2} - \\sqrt{ab} = m - g$.
 
-**3. a)** Si $1 \\leqslant x \\leqslant 5$ : $x - 1 \\geqslant 0$ et $x - 5 \\leqslant 0$, donc $f(x) = (x - 1) + (5 - x) = 4$. (Le point $M$ est entre $A$ et $B$ : $MA + MB = AB = 4$.)
+**3.** Un carré est positif ou nul, donc $m - g \\geqslant 0$, c'est-à-dire $g \\leqslant m$. L'égalité a lieu si et seulement si $\\sqrt{a} - \\sqrt{b} = 0$, soit $\\sqrt{a} = \\sqrt{b}$, c'est-à-dire $a = b$ (on élève au carré deux nombres positifs).
 
-**b)** Si $x < 1$ : $x - 1 < 0$ et $x - 5 < 0$, donc $f(x) = (1 - x) + (5 - x) = 6 - 2x$.
-Si $x > 5$ : les deux quantités sont positives, $f(x) = (x - 1) + (x - 5) = 2x - 6$.
+**4.** Notons $a$ et $b$ les dimensions (en cm) : $ab = 36$. Le périmètre vaut $P = 2(a + b) = 4m \\geqslant 4g = 4\\sqrt{36} = 24$. L'égalité $P = 24$ a lieu si et seulement si $a = b$, c'est-à-dire pour le **carré** de côté $6$ cm.
 
-**4.**
-- Sur $[1 ; 5]$, $f(x) = 4 \\neq 6$ : pas de solution.
-- Si $x < 1$ : $6 - 2x = 6 \\iff x = 0$, qui vérifie bien $x < 1$.
-- Si $x > 5$ : $2x - 6 = 6 \\iff x = 6$, qui vérifie bien $x > 5$.
-
-$\\mathcal{S} = \\{0 ; 6\\}$.
-
-**5.** $|x - 1| = |x - 5|$ signifie $MA = MB$ : $M$ est le milieu de $[AB]$, donc $x = 3$.
-$|x - 1| \\leqslant |x - 5|$ signifie que $M$ est plus proche de $A$ que de $B$ (ou à égale distance) : $x \\leqslant 3$, soit $\\mathcal{S} = \\,]-\\infty ; 3]$.`
+**5.** Avec $a = 2\\,026$ et $b = 2\\,028$ : $m = \\frac{2\\,026 + 2\\,028}{2} = 2\\,027$ et $a \\neq b$, donc $\\sqrt{2\\,026 \\times 2\\,028} < 2\\,027$. (On peut le vérifier : $2\\,026 \\times 2\\,028 = (2\\,027 - 1)(2\\,027 + 1) = 2\\,027^2 - 1 < 2\\,027^2$.)`
     }
   ],
   "2N4": [
@@ -1456,27 +1448,27 @@ Donc pour $x \\in [-3 ; 2]$ : $0 \\leqslant x^2 \\leqslant 9$ (le minimum $0$ es
     },
     {
       id: "2A3-ds-04",
-      title: "Parité et symétries",
+      title: "La fonction valeur absolue",
       difficulty: 2,
       points: 5,
-      statement: `On rappelle qu'une fonction $f$ définie sur un ensemble symétrique par rapport à $0$ est **paire** si $f(-x) = f(x)$ pour tout $x$, et **impaire** si $f(-x) = -f(x)$ pour tout $x$.
+      statement: `On considère la fonction valeur absolue $f$ définie sur $\\mathbb{R}$ par $f(x) = |x|$.
 
-1. Étudier la parité des fonctions suivantes :
-   a) $f(x) = x^2 - 3$ sur $\\mathbb{R}$ ; $\\quad$ b) $g(x) = x^3 - 2x$ sur $\\mathbb{R}$ ;
-   c) $h(x) = x^2 + x$ sur $\\mathbb{R}$ ; $\\quad$ d) $k(x) = \\dfrac{1}{x}$ sur $\\mathbb{R}^*$.
-2. Quelle propriété géométrique possède la courbe d'une fonction paire ? D'une fonction impaire ?
-3. Une fonction impaire $u$ définie sur $\\mathbb{R}$ vérifie $u(2) = 5$. Que vaut $u(-2)$ ? Que vaut $u(0)$ ? Justifier.`,
-      solution: `**1. a)** $f(-x) = (-x)^2 - 3 = x^2 - 3 = f(x)$ : $f$ est **paire**.
+1. Calculer $f(-3)$, $f(2{,}5)$, $f(0)$ et $f\\left(-\\frac{7}{2}\\right)$.
+2. Exprimer $f(x)$ sans valeur absolue selon le signe de $x$. En déduire la nature de la courbe représentative de $f$ et la tracer pour $x \\in [-4 ; 4]$.
+3. Dresser le tableau de variations de $f$ sur $\\mathbb{R}$. Quel est son minimum ?
+4. Résoudre graphiquement puis algébriquement : a) $|x| = 3$ ; b) $|x| \\leqslant 2$ ; c) $|x| > 1$.
+5. Comparer $f(-4)$ et $f(-2)$ en utilisant le sens de variation de $f$, sans calculer ces nombres.`,
+      solution: `**1.** $f(-3) = 3$ ; $f(2{,}5) = 2{,}5$ ; $f(0) = 0$ ; $f\\left(-\\frac{7}{2}\\right) = \\frac{7}{2}$.
 
-**b)** $g(-x) = (-x)^3 - 2(-x) = -x^3 + 2x = -(x^3 - 2x) = -g(x)$ : $g$ est **impaire**.
+**2.** Si $x \\geqslant 0$, $f(x) = x$ ; si $x < 0$, $f(x) = -x$. La courbe est la réunion de deux demi-droites issues de l'origine : celle d'équation $y = -x$ pour $x \\leqslant 0$ et celle d'équation $y = x$ pour $x \\geqslant 0$ (forme de « V », symétrique par rapport à l'axe des ordonnées). Elle passe par $(-4 ; 4)$, $(0 ; 0)$ et $(4 ; 4)$.
 
-**c)** $h(1) = 2$ et $h(-1) = 1 - 1 = 0$. Comme $h(-1) \\neq h(1)$, $h$ n'est pas paire ; comme $h(-1) \\neq -h(1)$, $h$ n'est pas impaire. $h$ n'est **ni paire ni impaire** (un contre-exemple suffit).
+**3.** $f$ est décroissante sur $]-\\infty ; 0]$ (fonction affine $x \\mapsto -x$ de coefficient $-1 < 0$) et croissante sur $[0 ; +\\infty[$ (coefficient $1 > 0$). Son minimum est $f(0) = 0$, atteint en $0$.
 
-**d)** $\\mathbb{R}^*$ est symétrique par rapport à $0$ et $k(-x) = \\frac{1}{-x} = -\\frac{1}{x} = -k(x)$ : $k$ est **impaire**.
+**4. a)** La droite $y = 3$ coupe la courbe aux points d'abscisses $-3$ et $3$ : $\\mathcal{S} = \\{-3 ; 3\\}$ (la distance de $x$ à $0$ vaut $3$).
+**b)** La courbe est sous la droite $y = 2$ pour $x \\in [-2 ; 2]$ : $|x| \\leqslant 2 \\iff -2 \\leqslant x \\leqslant 2$, $\\mathcal{S} = [-2 ; 2]$.
+**c)** La courbe est strictement au-dessus de la droite $y = 1$ pour $x < -1$ ou $x > 1$ : $\\mathcal{S} = \\,]-\\infty ; -1[\\, \\cup \\,]1 ; +\\infty[$.
 
-**2.** La courbe d'une fonction paire est symétrique par rapport à l'**axe des ordonnées** ; celle d'une fonction impaire est symétrique par rapport à l'**origine** du repère.
-
-**3.** $u(-2) = -u(2) = -5$. Avec $x = 0$ : $u(-0) = -u(0)$, soit $u(0) = -u(0)$, donc $2u(0) = 0$ et $u(0) = 0$.`
+**5.** $-4 < -2$ et ces deux nombres appartiennent à $]-\\infty ; 0]$, où $f$ est décroissante : l'ordre est inversé, donc $f(-4) > f(-2)$ (on retrouve $4 > 2$).`
     },
     {
       id: "2A3-ds-05",
@@ -2569,22 +2561,26 @@ Somme $10$ : $1+3+6$ ($6$), $1+4+5$ ($6$), $2+2+6$ ($3$), $2+3+5$ ($6$), $2+4+4$
   "2S3": [
     {
       id: "2S3-ds-01",
-      title: "Une pièce est-elle équilibrée ?",
+      title: "Lancers d'une punaise et loi des grands nombres",
       difficulty: 1,
       points: 4,
-      statement: `On lance $400$ fois une pièce de monnaie et on obtient $216$ fois « Pile ». On veut savoir si ce résultat permet de douter que la pièce soit équilibrée ($p = 0{,}5$).
+      statement: `Une punaise lancée peut tomber sur la pointe (événement $P$) ou sur le dos. On a regroupé les résultats de lancers successifs :
 
-1. Calculer la fréquence observée $f$ de « Pile ».
-2. Rappeler l'intervalle de fluctuation au seuil de $95\\,\\%$ pour un échantillon de taille $n$, puis le calculer ici. Les conditions d'utilisation sont-elles remplies ?
-3. Que peut-on conclure ?
-4. Un autre expérimentateur obtient $236$ « Pile » sur $400$ lancers. Que conclut-il ?`,
-      solution: `**1.** $f = \\frac{216}{400} = 0{,}54$.
+| Nombre de lancers $n$ | $10$ | $100$ | $1\\,000$ | $10\\,000$ |
+|---|---|---|---|---|
+| Nombre de « $P$ » | $7$ | $58$ | $623$ | $6\\,180$ |
 
-**2.** $I = \\left[p - \\frac{1}{\\sqrt{n}} ; p + \\frac{1}{\\sqrt{n}}\\right]$. Ici $n = 400 \\geqslant 25$ et $p = 0{,}5 \\in [0{,}2 ; 0{,}8]$ : les conditions sont remplies. $\\frac{1}{\\sqrt{400}} = \\frac{1}{20} = 0{,}05$, donc $I = [0{,}45 ; 0{,}55]$.
+1. Calculer la fréquence de l'événement $P$ pour chaque valeur de $n$.
+2. Décrire l'évolution de ces fréquences lorsque $n$ augmente. Quel résultat du cours illustre-t-on ?
+3. Proposer un modèle : quelle probabilité choisir pour l'événement $P$ ? Pour son événement contraire ?
+4. Un élève affirme : « on a démontré que la probabilité de $P$ vaut $0{,}618$ ». Commenter.`,
+      solution: `**1.** Les fréquences sont $\\frac{7}{10} = 0{,}7$ ; $\\frac{58}{100} = 0{,}58$ ; $\\frac{623}{1\\,000} = 0{,}623$ ; $\\frac{6\\,180}{10\\,000} = 0{,}618$.
 
-**3.** $f = 0{,}54 \\in I$ : la fréquence observée est compatible avec une pièce équilibrée. On n'a **pas de raison de rejeter** l'hypothèse $p = 0{,}5$ (ce qui ne prouve pas pour autant que la pièce est équilibrée).
+**2.** Pour de petites valeurs de $n$, la fréquence varie beaucoup ; quand $n$ augmente, elle se stabilise autour de $0{,}62$. On illustre la **loi des grands nombres** : « lorsque $n$ est grand, sauf exception, la fréquence observée est proche de la probabilité ».
 
-**4.** $f' = \\frac{236}{400} = 0{,}59 \\notin I$. On rejette l'hypothèse « la pièce est équilibrée », avec un risque d'erreur d'environ $5\\,\\%$.`
+**3.** On peut choisir le modèle $P(P) = 0{,}62$ ; l'événement contraire « la punaise tombe sur le dos » a alors pour probabilité $1 - 0{,}62 = 0{,}38$.
+
+**4.** L'affirmation est fausse : une probabilité ne se démontre pas à partir d'une expérience. Le modèle est une **hypothèse** construite à partir des fréquences observées ; une autre série de $10\\,000$ lancers donnerait une fréquence légèrement différente (fluctuation d'échantillonnage). On distingue le modèle probabiliste de la situation réelle.`
     },
     {
       id: "2S3-ds-02",
@@ -2617,51 +2613,86 @@ def frequence_six(n):
 **3.** \`compteur\` est le nombre de $6$ obtenus en $n$ lancers. La fonction renvoie \`compteur / n\`, la **fréquence d'apparition du $6$**.
 
 **4.** Avec $10$ lancers, obtenir $4$ fois le $6$ est tout à fait possible avec un dé équilibré : sur un si petit échantillon, la fluctuation est grande. On ne peut rien conclure.
-Avec $10\\,000$ lancers, la fréquence devrait être proche de $\\frac{1}{6} \\approx 0{,}167$ (loi des grands nombres), l'écart $|f - p|$ étant le plus souvent inférieur à $\\frac{1}{\\sqrt{10\\,000}} = 0{,}01$. Une fréquence de $0{,}4$ est alors très improbable : c'est la simulation (le programme) qui serait en cause. *(Pour un vrai dé, on conclurait qu'il est truqué.)*
+Avec $10\\,000$ lancers, la fréquence devrait être proche de $\\frac{1}{6} \\approx 0{,}167$ (loi des grands nombres), l'écart avec $\\frac{1}{6}$ étant alors le plus souvent de l'ordre du centième. Une fréquence de $0{,}4$ est alors très improbable : c'est la simulation (le programme) qui serait en cause. *(Pour un vrai dé, on conclurait qu'il est truqué.)*
 
 **5.** On remplace le test par \`if de % 2 == 0:\` (le reste de la division par $2$ est nul pour un nombre pair). On peut renommer la fonction \`frequence_pair\`.`
     },
     {
       id: "2S3-ds-03",
-      title: "Un jeu à gratter",
+      title: "Un jeu à gratter simulé",
       difficulty: 2,
       points: 5,
-      statement: `Une société affirme qu'un ticket de son jeu à gratter sur quatre est gagnant ($p = 0{,}25$).
+      statement: `Une société affirme qu'un ticket de son jeu à gratter sur quatre est gagnant. Pour étudier ce modèle, on écrit en Python :
 
-1. Une association achète $100$ tickets et en trouve $16$ gagnants.
-   a) Calculer la fréquence observée.
-   b) Calculer l'intervalle de fluctuation au seuil de $95\\,\\%$.
-   c) Peut-on mettre en doute l'affirmation de la société ?
-2. L'association achète ensuite $400$ tickets et en trouve $64$ gagnants. Reprendre la question 1.
-3. Commenter la différence entre les deux conclusions, alors que la fréquence observée est la même.`,
-      solution: `**1. a)** $f = \\frac{16}{100} = 0{,}16$.
+\`\`\`python
+from random import random
 
-**b)** $n = 100$, $\\frac{1}{\\sqrt{100}} = 0{,}1$ : $I = [0{,}15 ; 0{,}35]$ (conditions remplies : $n \\geqslant 25$, $p \\in [0{,}2 ; 0{,}8]$).
+def ticket():
+    if random() < 0.25:
+        return 1
+    return 0
 
-**c)** $0{,}16 \\in I$ : on ne peut pas rejeter l'affirmation de la société.
+def gagnants(n):
+    s = 0
+    for i in range(n):
+        s = s + ticket()
+    return s
+\`\`\`
 
-**2.** $f = \\frac{64}{400} = 0{,}16$. $\\frac{1}{\\sqrt{400}} = 0{,}05$ : $I = [0{,}20 ; 0{,}30]$. Cette fois $0{,}16 \\notin I$ : on rejette l'affirmation, avec un risque d'erreur d'environ $5\\,\\%$.
+1. Que renvoie \`ticket()\` ? Avec quelle probabilité renvoie-t-elle $1$ ? Justifier.
+2. Que représente le nombre renvoyé par \`gagnants(n)\` ?
+3. Écrire une fonction \`frequence(n)\` qui renvoie la fréquence des tickets gagnants parmi $n$ tickets simulés.
+4. Trois appels \`frequence(100)\` donnent $0{,}21$, $0{,}27$ et $0{,}31$ ; trois appels \`frequence(10000)\` donnent $0{,}2487$, $0{,}2524$ et $0{,}2509$. Commenter.
+5. Une association achète $10\\,000$ vrais tickets et en trouve $1\\,600$ gagnants. Que peut-on penser de l'affirmation de la société ?`,
+      solution: `**1.** \`random()\` renvoie un nombre aléatoire de $[0 ; 1[$, réparti uniformément. La fonction renvoie $1$ lorsque ce nombre est dans $[0 ; 0{,}25[$, ce qui arrive avec la probabilité $0{,}25$ (longueur de l'intervalle), et $0$ sinon : elle simule un ticket gagnant ($1$) ou perdant ($0$) dans le modèle de la société.
 
-**3.** Plus l'échantillon est grand, plus l'intervalle de fluctuation est étroit (sa longueur $\\frac{2}{\\sqrt{n}}$ diminue) : la fluctuation d'échantillonnage est plus faible, et un même écart entre $f$ et $p$ devient significatif. Sur $100$ tickets, l'écart pouvait s'expliquer par le hasard ; sur $400$, c'est beaucoup moins plausible.`
+**2.** La boucle additionne les résultats de $n$ tickets simulés : \`gagnants(n)\` est le **nombre de tickets gagnants** parmi $n$ tickets.
+
+**3.**
+\`\`\`python
+def frequence(n):
+    return gagnants(n) / n
+\`\`\`
+
+**4.** Avec $100$ tickets, les fréquences varient sensiblement d'une simulation à l'autre : c'est la **fluctuation d'échantillonnage**. Avec $10\\,000$ tickets, elles sont toutes très proches de $0{,}25$ : c'est la **loi des grands nombres**.
+
+**5.** La fréquence observée vaut $\\frac{1\\,600}{10\\,000} = 0{,}16$. Or, dans le modèle de la société, les simulations de $10\\,000$ tickets donnent des fréquences qui ne s'écartent de $0{,}25$ que de quelques millièmes. Un écart de $0{,}09$ est donc très improbable si l'affirmation est vraie : on peut fortement douter de l'affirmation de la société (sans que ce soit une preuve absolue).`
     },
     {
       id: "2S3-ds-04",
-      title: "Taille d'un échantillon et précision",
+      title: "Somme de deux dés : modèle et simulation",
       difficulty: 2,
       points: 5,
-      statement: `On s'intéresse à la longueur $\\frac{2}{\\sqrt{n}}$ de l'intervalle de fluctuation au seuil de $95\\,\\%$ associé à un échantillon de taille $n$.
+      statement: `On lance deux dés équilibrés et on note $S$ la somme des deux faces obtenues.
 
-1. Calculer cette longueur pour $n = 100$, $n = 400$ et $n = 2\\,500$.
-2. Par combien faut-il multiplier la taille de l'échantillon pour diviser la longueur de l'intervalle par $2$ ? Par $10$ ? Justifier.
-3. Un institut veut que la fréquence observée soit, dans $95\\,\\%$ des cas environ, à une distance au plus $0{,}02$ de la proportion réelle $p$. Quelle taille minimale d'échantillon doit-il choisir ?
-4. Un sondage porte sur $1\\,000$ personnes. Quelle est la précision $\\frac{1}{\\sqrt{n}}$ correspondante, arrondie au millième ?`,
-      solution: `**1.** $n = 100$ : $\\frac{2}{10} = 0{,}2$ ; $\\;n = 400$ : $\\frac{2}{20} = 0{,}1$ ; $\\;n = 2\\,500$ : $\\frac{2}{50} = 0{,}04$.
+1. À l'aide d'un tableau à double entrée, déterminer $P(S = 7)$ et $P(S = 2)$.
+2. Compléter la fonction suivante pour qu'elle renvoie la somme des deux dés :
+\`\`\`python
+from random import randint
 
-**2.** Si on remplace $n$ par $kn$, la longueur devient $\\frac{2}{\\sqrt{kn}} = \\frac{1}{\\sqrt{k}} \\times \\frac{2}{\\sqrt{n}}$. Pour la diviser par $2$, il faut $\\sqrt{k} = 2$, soit $k = 4$. Pour la diviser par $10$, il faut $k = 100$.
+def somme_des():
+    return ...
+\`\`\`
+3. Écrire une fonction \`frequence_sept(n)\` qui simule $n$ lancers des deux dés et renvoie la fréquence des sommes égales à $7$.
+4. On obtient $0{,}21$ pour $n = 100$, $0{,}172$ pour $n = 1\\,000$ et $0{,}1663$ pour $n = 100\\,000$. Interpréter ces résultats et les comparer à la question 1.
+5. Un élève affirme : « les sommes possibles sont $2, 3, \\dots, 12$, soit $11$ valeurs, donc $P(S = 7) = \\frac{1}{11}$ ». Expliquer son erreur.`,
+      solution: `**1.** Le tableau à double entrée contient $36$ couples équiprobables. $S = 7$ pour $(1;6)$, $(2;5)$, $(3;4)$, $(4;3)$, $(5;2)$, $(6;1)$, soit $6$ couples : $P(S = 7) = \\frac{6}{36} = \\frac{1}{6}$. $S = 2$ seulement pour $(1;1)$ : $P(S = 2) = \\frac{1}{36}$.
 
-**3.** On veut $\\frac{1}{\\sqrt{n}} \\leqslant 0{,}02 \\iff \\sqrt{n} \\geqslant 50 \\iff n \\geqslant 2\\,500$. Il faut interroger au moins $2\\,500$ personnes.
+**2.** \`return randint(1, 6) + randint(1, 6)\` (chaque appel à \`randint(1, 6)\` simule un dé).
 
-**4.** $\\frac{1}{\\sqrt{1\\,000}} \\approx 0{,}032$, soit environ $3{,}2$ points de pourcentage.`
+**3.**
+\`\`\`python
+def frequence_sept(n):
+    c = 0
+    for i in range(n):
+        if somme_des() == 7:
+            c = c + 1
+    return c / n
+\`\`\`
+
+**4.** Les fréquences fluctuent, mais de moins en moins quand $n$ augmente, et se rapprochent de $\\frac{1}{6} \\approx 0{,}167$ : c'est la loi des grands nombres, en accord avec la probabilité calculée à la question 1.
+
+**5.** Les $11$ sommes possibles ne sont **pas équiprobables** : la somme $7$ est obtenue par $6$ couples, la somme $2$ par un seul. La formule $\\frac{\\text{Card}(A)}{\\text{Card}(\\Omega)}$ ne s'applique qu'avec des issues équiprobables, ici les $36$ couples.`
     },
     {
       id: "2S3-ds-05",
@@ -2699,34 +2730,52 @@ def proportion_proches(p, n, N):
 
 **2.** La fonction simule $100$ expériences de probabilité de succès $0{,}3$ et renvoie la fréquence des succès. On s'attend à une valeur proche de $0{,}3$ (variant d'un appel à l'autre, le plus souvent entre $0{,}2$ et $0{,}4$).
 
-**3.** \`abs(f - p)\` est la distance $|f - p|$. La condition $|f - p| \\leqslant \\frac{1}{\\sqrt{n}}$ équivaut à $f \\in \\left[p - \\frac{1}{\\sqrt{n}} ; p + \\frac{1}{\\sqrt{n}}\\right]$ : la fréquence est dans l'intervalle de fluctuation au seuil de $95\\,\\%$.
+**3.** \`abs(f - p)\` est la distance $|f - p|$. La condition $|f - p| \\leqslant \\frac{1}{\\sqrt{n}}$ équivaut à $f \\in \\left[p - \\frac{1}{\\sqrt{n}} ; p + \\frac{1}{\\sqrt{n}}\\right]$ : la distance entre la fréquence observée et $p$ est au plus $\\frac{1}{\\sqrt{n}}$.
 
-**4.** Sur $1\\,000$ échantillons de taille $100$, $96{,}2\\,\\%$ ont une fréquence dans l'intervalle $[0{,}2 ; 0{,}4]$. Cela illustre le résultat du cours : environ $95\\,\\%$ (au moins) des échantillons ont une fréquence dans l'intervalle de fluctuation.
+**4.** Sur $1\\,000$ échantillons de taille $100$, $96{,}2\\,\\%$ ont une fréquence dans l'intervalle $[0{,}2 ; 0{,}4]$. On observe ainsi qu'environ $95\\,\\%$ des échantillons de taille $100$ ont une fréquence à moins de $0{,}1$ de $p$ (ce résultat général, admis, est un approfondissement du programme de seconde).
 
-**5.** C'est possible (le résultat est aléatoire), mais très peu probable : le résultat admis du cours indique qu'environ $95\\,\\%$ au moins des échantillons vérifient la condition, et sur $1\\,000$ échantillons la proportion observée fluctue elle-même peu autour de sa valeur théorique. Une valeur de $0{,}90$ ferait plutôt soupçonner une erreur dans le programme.`
+**5.** C'est possible (le résultat est aléatoire), mais très peu probable : les simulations répétées montrent qu'environ $95\\,\\%$ au moins des échantillons vérifient la condition, et sur $1\\,000$ échantillons la proportion observée fluctue elle-même peu autour de sa valeur théorique. Une valeur de $0{,}90$ ferait plutôt soupçonner une erreur dans le programme.`
     },
     {
       id: "2S3-ds-06",
-      title: "Parité dans les recrutements",
+      title: "Répéter une expérience : trois lancers de pièce",
       difficulty: 3,
       points: 6,
-      statement: `Dans une région, les candidats à un métier sont pour moitié des femmes et pour moitié des hommes. On considère qu'un recrutement est assimilable à un tirage au hasard parmi les candidats.
+      statement: `On lance trois fois une pièce équilibrée et on compte le nombre de « Pile ». On code Pile par $1$ et Face par $0$.
 
-1. Une entreprise A a recruté $100$ personnes, dont $38$ femmes.
-   a) Calculer la fréquence de femmes recrutées et l'intervalle de fluctuation au seuil de $95\\,\\%$.
-   b) Peut-on soupçonner que l'entreprise A ne recrute pas au hasard ?
-2. Une entreprise B a recruté $64$ personnes, dont $26$ femmes. Que peut-on dire ?
-3. L'entreprise B affirme : « notre résultat montre que nous recrutons sans discrimination ». Cette affirmation est-elle justifiée ?
-4. À partir de quel nombre de recrutements une fréquence de $0{,}4$ de femmes conduirait-elle à rejeter l'hypothèse $p = 0{,}5$ ?`,
-      solution: `**1. a)** $f = \\frac{38}{100} = 0{,}38$. Avec $p = 0{,}5$ et $n = 100$ : $I = [0{,}5 - 0{,}1 ; 0{,}5 + 0{,}1] = [0{,}4 ; 0{,}6]$.
+\`\`\`python
+from random import randint
 
-**b)** $0{,}38 \\notin I$ : on rejette l'hypothèse d'un recrutement au hasard, avec un risque d'erreur d'environ $5\\,\\%$. Le soupçon est fondé statistiquement.
+def nb_pile(n):
+    c = 0
+    for i in range(n):
+        c = c + randint(0, 1)
+    return c
+\`\`\`
 
-**2.** $f = \\frac{26}{64} = 0{,}406\\,25$. $\\frac{1}{\\sqrt{64}} = 0{,}125$, d'où $I = [0{,}375 ; 0{,}625]$. $f \\in I$ : on ne peut pas rejeter l'hypothèse.
+1. Expliquer pourquoi l'appel \`nb_pile(3)\` simule l'expérience.
+2. À l'aide d'un arbre, écrire les $8$ issues équiprobables de l'expérience. En déduire la probabilité d'obtenir trois Pile, puis celle d'obtenir exactement deux Pile.
+3. Écrire une fonction \`frequence_trois(N)\` qui répète $N$ fois l'expérience et renvoie la fréquence des répétitions donnant trois Pile.
+4. L'appel \`frequence_trois(10000)\` renvoie $0{,}1262$. Ce résultat est-il cohérent avec la question 2 ?
+5. On appelle \`nb_pile(3)\` un grand nombre de fois et on calcule la moyenne des résultats. Vers quelle valeur cette moyenne devrait-elle se stabiliser ? Justifier.`,
+      solution: `**1.** \`randint(0, 1)\` renvoie $0$ ou $1$ avec la même probabilité $\\frac{1}{2}$ : c'est un lancer de pièce équilibrée. La boucle effectue $n$ lancers et \`c\` compte les Pile ; avec $n = 3$, on obtient le nombre de Pile en trois lancers.
 
-**3.** Non : ne pas rejeter une hypothèse ne prouve pas qu'elle est vraie. L'échantillon est petit et l'intervalle large ; la fréquence observée est d'ailleurs proche de celle de l'entreprise A. On peut seulement dire que les données ne permettent pas de conclure.
+**2.** Les issues sont $PPP$, $PPF$, $PFP$, $PFF$, $FPP$, $FPF$, $FFP$, $FFF$, chacune de probabilité $\\frac{1}{8}$. Trois Pile : $P = \\frac{1}{8} = 0{,}125$. Exactement deux Pile ($PPF$, $PFP$, $FPP$) : $P = \\frac{3}{8}$.
 
-**4.** On rejette lorsque $0{,}4 < 0{,}5 - \\frac{1}{\\sqrt{n}}$, c'est-à-dire $\\frac{1}{\\sqrt{n}} < 0{,}1 \\iff \\sqrt{n} > 10 \\iff n > 100$. À partir de $101$ recrutements, une fréquence de $0{,}4$ conduirait au rejet. (Pour $n = 100$, $0{,}4$ est exactement la borne de l'intervalle, donc dans l'intervalle.)`
+**3.**
+\`\`\`python
+def frequence_trois(N):
+    k = 0
+    for j in range(N):
+        if nb_pile(3) == 3:
+            k = k + 1
+    return k / N
+\`\`\`
+
+**4.** Oui : $0{,}1262$ est très proche de $0{,}125$, ce qu'on attend pour $N = 10\\,000$ d'après la loi des grands nombres.
+
+**5.** Sur un grand nombre de répétitions, les fréquences des résultats $0$, $1$, $2$, $3$ sont proches de leurs probabilités $\\frac{1}{8}$, $\\frac{3}{8}$, $\\frac{3}{8}$, $\\frac{1}{8}$. La moyenne, qui est la moyenne pondérée par ces fréquences, est donc proche de
+$$0 \\times \\frac{1}{8} + 1 \\times \\frac{3}{8} + 2 \\times \\frac{3}{8} + 3 \\times \\frac{1}{8} = \\frac{12}{8} = 1{,}5.$$`
     },
     {
       id: "2S3-ds-07",
@@ -2782,25 +2831,44 @@ def proportion_longue(N):
     },
     {
       id: "2S3-ds-08",
-      title: "Un candidat et un sondage",
+      title: "Sondages simulés et fluctuation d'échantillonnage",
       difficulty: 4,
       points: 6,
-      statement: `Un candidat à une élection affirme que $52\\,\\%$ des électeurs voteront pour lui. Un institut interroge au hasard $1\\,000$ électeurs : $470$ déclarent voter pour ce candidat.
+      statement: `Dans une grande ville, $52\\,\\%$ des électeurs sont favorables à la construction d'une piscine. On simule des sondages auprès de $n$ électeurs choisis au hasard :
 
-1. Calculer la fréquence observée.
-2. Calculer l'intervalle de fluctuation au seuil de $95\\,\\%$ sous l'hypothèse $p = 0{,}52$ (bornes arrondies au millième).
-3. L'affirmation du candidat est-elle crédible ? Préciser le risque d'erreur.
-4. Le même résultat ($f = 0{,}47$) aurait-il permis de conclure avec un échantillon de $400$ électeurs ? Justifier.
-5. Déterminer la taille minimale d'échantillon pour qu'une fréquence observée de $0{,}47$ conduise à rejeter l'affirmation du candidat.`,
-      solution: `**1.** $f = \\frac{470}{1\\,000} = 0{,}47$.
+\`\`\`python
+from random import random
 
-**2.** $\\frac{1}{\\sqrt{1\\,000}} \\approx 0{,}0316$. $I = [0{,}52 - 0{,}0316 ; 0{,}52 + 0{,}0316] \\approx [0{,}488 ; 0{,}552]$.
+def sondage(n, p):
+    oui = 0
+    for i in range(n):
+        if random() < p:
+            oui = oui + 1
+    return oui / n
 
-**3.** $0{,}47 < 0{,}488$, donc $f \\notin I$ : on rejette l'affirmation du candidat, avec un risque d'environ $5\\,\\%$ de se tromper (c'est-à-dire de rejeter à tort une affirmation vraie).
+def ecart_max(N, n, p):
+    m = 0
+    for k in range(N):
+        e = abs(sondage(n, p) - p)
+        if e > m:
+            m = e
+    return m
+\`\`\`
 
-**4.** Avec $n = 400$ : $\\frac{1}{\\sqrt{400}} = 0{,}05$ et $I = [0{,}47 ; 0{,}57]$. Cette fois $0{,}47 \\in I$ (c'est la borne inférieure) : on ne pourrait pas rejeter l'affirmation.
+1. Que renvoie \`sondage(1000, 0.52)\` ? Cinq appels donnent $0{,}507$ ; $0{,}534$ ; $0{,}522$ ; $0{,}498$ ; $0{,}529$. Pourquoi ces résultats sont-ils différents ?
+2. Que calcule la fonction \`ecart_max(N, n, p)\` ? Quel est le rôle de la variable \`m\` ?
+3. On obtient \`ecart_max(100, 100, 0.52)\` $\\approx 0{,}13$ et \`ecart_max(100, 10000, 0.52)\` $\\approx 0{,}013$. Interpréter.
+4. L'un des cinq sondages de la question 1 indique une majorité d'opposants. Est-ce surprenant ? Que faut-il en retenir pour la lecture d'un sondage ?
+5. Un véritable sondage auprès de $1\\,000$ électeurs donne une fréquence de $0{,}43$. En s'appuyant sur les simulations, ce résultat paraît-il compatible avec une proportion réelle de $52\\,\\%$ ?`,
+      solution: `**1.** \`sondage(1000, 0.52)\` renvoie la fréquence des réponses favorables dans un échantillon simulé de $1\\,000$ électeurs, chacun étant favorable avec la probabilité $0{,}52$. Les résultats sont aléatoires et varient d'un échantillon à l'autre : c'est la **fluctuation d'échantillonnage**.
 
-**5.** On veut $0{,}47 < 0{,}52 - \\frac{1}{\\sqrt{n}}$, soit $\\frac{1}{\\sqrt{n}} < 0{,}05 \\iff \\sqrt{n} > 20 \\iff n > 400$. Il faut un échantillon d'au moins $401$ électeurs.`
+**2.** La fonction simule $N$ sondages de taille $n$ ; pour chacun, elle calcule la distance $|f - p|$ entre la fréquence obtenue et $p$. La variable \`m\` conserve la plus grande distance rencontrée : la fonction renvoie le **plus grand écart** observé sur les $N$ sondages.
+
+**3.** Sur $100$ sondages de $100$ personnes, la fréquence s'est écartée de $0{,}52$ jusqu'à environ $0{,}13$ ; avec $10\\,000$ personnes, l'écart maximal n'est que d'environ $0{,}013$. Plus l'échantillon est grand, plus la fréquence observée est proche de la proportion réelle (loi des grands nombres) : la fluctuation diminue.
+
+**4.** Ce n'est pas surprenant : avec $1\\,000$ personnes, des écarts de deux ou trois centièmes autour de $0{,}52$ sont fréquents (les cinq simulations vont de $0{,}498$ à $0{,}534$), et $0{,}498$ est juste en dessous de $0{,}5$. Un sondage fournit une **estimation** de la proportion, pas sa valeur exacte : une faible majorité peut apparaître inversée.
+
+**5.** L'écart vaut $0{,}52 - 0{,}43 = 0{,}09$, bien plus grand que les écarts observés dans les simulations de sondages de $1\\,000$ personnes (quelques centièmes). Un tel résultat est donc très improbable si la proportion réelle est $52\\,\\%$ : on peut douter de cette proportion (ou de la façon dont l'échantillon a été constitué).`
     }
   ],
   "2S4": [

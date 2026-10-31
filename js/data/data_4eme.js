@@ -18,7 +18,7 @@ window.MATHS_COURSES_4E = {
     "keyPoints": [
       {
         "title": "1. Règle des signes pour la multiplication et la division",
-        "content": "• Le produit (ou quotient) de deux nombres de **même signe** est **toujours POSITIF (+)** :\n$$(+4) \\times (+5) = +20 \\quad \\text{et} \\quad (-4) \\times (-5) = +20$$\n$$\\frac{-18}{-3} = +6$$\n• Le produit (ou quotient) de deux nombres de **signes différents** est **toujours NÉGATIF (-)** :\n$$(+6) \\times (-3) = -18 \\quad \\text{et} \\quad \\frac{-35}{+7} = -5$$\n*Astuce mnémotechnique du cours* :\n- L'ami de mon ami est mon ami : $(+) \\times (+) \\to (+)$\n- L'ennemi de mon ennemi est mon ami : $(-) \\times (-) \\to (+)$\n- L'ami de mon ennemi est mon ennemi : $(+) \\times (-) \\to (-)$\n- L'ennemi de mon ami est mon ennemi : $(-) \\times (+) \\to (-)$"
+        "content": "• Le produit (ou quotient) de deux nombres de **même signe** est **toujours POSITIF (+)** :\n$$(+4) \\times (+5) = +20 \\quad \\text{et} \\quad (-4) \\times (-5) = +20$$\n$$\\frac{-18}{-3} = +6$$\n• Le produit (ou quotient) de deux nombres de **signes différents** est **toujours NÉGATIF (-)** :\n$$(+6) \\times (-3) = -18 \\quad \\text{et} \\quad \\frac{-35}{+7} = -5$$\n*Pourquoi $(-) \\times (-) = (+)$ ?* Multiplier par $-1$ donne l'opposé : $(-4) \\times (-5)$ est l'opposé de $4 \\times (-5) = -20$, donc vaut $+20$.\n*Moyen mnémotechnique* :\n- L'ami de mon ami est mon ami : $(+) \\times (+) \\to (+)$\n- L'ennemi de mon ennemi est mon ami : $(-) \\times (-) \\to (+)$\n- L'ami de mon ennemi est mon ennemi : $(+) \\times (-) \\to (-)$\n- L'ennemi de mon ami est mon ennemi : $(-) \\times (+) \\to (-)$"
       },
       {
         "title": "2. Produit de plusieurs facteurs relatifs",
@@ -30,7 +30,11 @@ window.MATHS_COURSES_4E = {
       },
       {
         "title": "4. Carré d'un relatif et priorités opératoires",
-        "content": "Attention primordiale aux parenthèses lors du calcul d'un carré :\n• $(-5)^2 = (-5) \\times (-5) = +25$ : le carré porte sur $(-5)$, le résultat est strictement positif.\n• $-5^2 = -(5 \\times 5) = -25$ : le carré ne porte que sur 5, le signe $-$ reste devant !\n• Enchaînements : les parenthèses sont prioritaires, puis les puissances, puis les multiplications/divisions, et enfin les additions/soustractions."
+        "content": "Attention aux parenthèses lors du calcul d'un carré :\n• $(-5)^2 = (-5) \\times (-5) = +25$ : le carré porte sur $(-5)$, le résultat est positif.\n• $-5^2 = -(5 \\times 5) = -25$ : le carré ne porte que sur 5, le signe $-$ reste devant.\n• **Ordre des calculs** : d'abord les parenthèses, puis les puissances, puis les multiplications et divisions (de gauche à droite), et enfin les additions et soustractions (de gauche à droite).\n• **Rappel (5e)** : soustraire un nombre, c'est ajouter son opposé : $3 - (-8) = 3 + 8 = 11$."
+      },
+      {
+        "title": "À retenir",
+        "content": "• Produit ou quotient de deux nombres de **même signe** : positif ; de **signes contraires** : négatif.\n• Produit de plusieurs facteurs : positif si le nombre de facteurs négatifs est **pair**, négatif s'il est **impair**.\n• $(-a)^2 = a^2$ mais $-a^2 = -(a^2)$.\n• Opposé : la somme vaut $0$. Inverse : le produit vaut $1$ ($0$ n'a pas d'inverse).\n• On ne divise jamais par $0$."
       }
     ],
     "methods": [
@@ -43,12 +47,23 @@ window.MATHS_COURSES_4E = {
           "**Étape 3 (Réécriture)** : $A = -7 + (-20) - (+4) + 9$.",
           "**Étape 4 (Règle des gains et pertes)** : $A = -7 - 20 - 4 + 9 = -31 + 9 = -22$."
         ]
+      },
+      {
+        "title": "Méthode : Prévoir le signe puis calculer un quotient de produits",
+        "example": "Calculer $B = \\dfrac{(-6) \\times 5 \\times (-2)}{(-4) \\times 3}$.",
+        "steps": [
+          "**Étape 1 (Signe)** : on compte les facteurs négatifs, au numérateur et au dénominateur : $-6$, $-2$ et $-4$, soit **3** facteurs négatifs (nombre impair). Le résultat est donc **négatif**.",
+          "**Étape 2 (Distance à zéro)** : on calcule sans les signes : $\\dfrac{6 \\times 5 \\times 2}{4 \\times 3} = \\dfrac{60}{12} = 5$.",
+          "**Étape 3 (Conclusion)** : $B = -5$.",
+          "**Vérification** : $(-6) \\times 5 \\times (-2) = +60$ et $(-4) \\times 3 = -12$, donc $B = \\dfrac{60}{-12} = -5$."
+        ]
       }
     ],
     "traps": [
       "⚠️ Ne pas confondre addition et multiplication : $(-4) + (-3) = -7$ (perte de 4 puis perte de 3), alors que $(-4) \\times (-3) = +12$ !",
       "⚠️ Ne pas confondre $(-6)^2 = +36$ et $-6^2 = -36$. Sans parenthèse, la puissance s'applique avant le signe moins.",
-      "⚠️ Ne pas confondre opposé et inverse : l'inverse de $-4$ est $-\\frac{1}{4} = -0,25$ et NON $+4$."
+      "⚠️ Ne pas confondre opposé et inverse : l'inverse de $-4$ est $-\\frac{1}{4} = -0{,}25$ et NON $+4$.",
+      "⚠️ La règle des signes du produit ne s'applique pas à l'addition : $(-3) + (-5) = -8$ (et non $+8$)."
     ],
     "flashcards": [
       {
@@ -70,6 +85,14 @@ window.MATHS_COURSES_4E = {
       {
         "q": "Quel est le seul nombre réel qui n'a pas d'inverse ?",
         "a": "C'est **0**, car la division par 0 est impossible et aucun nombre multiplié par 0 ne peut donner 1."
+      },
+      {
+        "q": "Calculer $\\dfrac{-48}{-6}$.",
+        "a": "$+8$ (quotient de deux nombres de même signe)."
+      },
+      {
+        "q": "Calculer $3 - 4 \\times (-2)$.",
+        "a": "$3 - (-8) = 3 + 8 = 11$ (la multiplication est prioritaire)."
       }
     ]
   },
@@ -86,7 +109,7 @@ window.MATHS_COURSES_4E = {
     "keyPoints": [
       {
         "title": "1. Multiplication de fractions",
-        "content": "On multiplie les numérateurs entre eux et les dénominateurs entre eux :\n$$\\frac{a}{b} \\times \\frac{c}{d} = \\frac{a \\times c}{b \\times d} \\quad (b \\neq 0, d \\neq 0)$$\n**Règle d'or absolue** : On applique la règle des signes globale, puis on **décompose en facteurs pour simplifier au maximum AVANT d'effectuer les multiplications** !\n$$\\frac{-15}{14} \\times \\frac{21}{-25} = +\\frac{15 \\times 21}{14 \\times 25} = \\frac{(3 \\times 5) \\times (3 \\times 7)}{(2 \\times 7) \\times (5 \\times 5)} = \\frac{9}{10}$$"
+        "content": "On multiplie les numérateurs entre eux et les dénominateurs entre eux :\n$$\\frac{a}{b} \\times \\frac{c}{d} = \\frac{a \\times c}{b \\times d} \\quad (b \\neq 0, d \\neq 0)$$\n**Conseil** : on détermine d'abord le signe, puis on **décompose les nombres en produits de facteurs pour simplifier avant d'effectuer les multiplications**.\n$$\\frac{-15}{14} \\times \\frac{21}{-25} = +\\frac{15 \\times 21}{14 \\times 25} = \\frac{(3 \\times 5) \\times (3 \\times 7)}{(2 \\times 7) \\times (5 \\times 5)} = \\frac{9}{10}$$"
       },
       {
         "title": "2. Inverse d'un nombre relatif non nul",
@@ -97,8 +120,12 @@ window.MATHS_COURSES_4E = {
         "content": "Diviser par un nombre non nul revient à **multiplier par son inverse** :\n$$\\frac{a}{b} \\div \\frac{c}{d} = \\frac{a}{b} \\times \\frac{d}{c} = \\frac{a \\times d}{b \\times c} \\quad (b, c, d \\neq 0)$$\nÉcriture sous forme de grand trait de fraction :\n$$\\frac{\\frac{a}{b}}{\\frac{c}{d}} = \\frac{a}{b} \\times \\frac{d}{c}$$"
       },
       {
-        "title": "4. Addition et soustraction au même dénominateur",
-        "content": "Pour additionner ou soustraire deux fractions, elles doivent **impérativement avoir le même dénominateur** :\n$$\\frac{a}{d} + \\frac{b}{d} = \\frac{a+b}{d} \\quad \\text{et} \\quad \\frac{a}{b} - \\frac{c}{d} = \\frac{ad - bc}{bd}$$\nOn ne touche jamais au dénominateur commun une fois qu'il est posé !"
+        "title": "4. Addition et soustraction : réduire au même dénominateur",
+        "content": "• Si les dénominateurs sont **égaux**, on additionne (ou soustrait) les numérateurs et on garde le dénominateur :\n$$\\frac{a}{d} + \\frac{b}{d} = \\frac{a+b}{d} \\qquad \\frac{a}{d} - \\frac{b}{d} = \\frac{a-b}{d}$$\n• Sinon, on **réduit d'abord au même dénominateur**, de préférence le plus petit multiple commun des dénominateurs :\n$$\\frac{5}{6} - \\frac{7}{4} = \\frac{5 \\times 2}{6 \\times 2} - \\frac{7 \\times 3}{4 \\times 3} = \\frac{10}{12} - \\frac{21}{12} = \\frac{-11}{12} = -\\frac{11}{12}$$\n• Dans le cas général : $\\dfrac{a}{b} + \\dfrac{c}{d} = \\dfrac{a \\times d + c \\times b}{b \\times d}$ (puis on simplifie si possible)."
+      },
+      {
+        "title": "À retenir",
+        "content": "• Multiplier : numérateurs entre eux, dénominateurs entre eux (en simplifiant avant).\n• Diviser par $\\dfrac{c}{d}$ (non nul), c'est multiplier par $\\dfrac{d}{c}$.\n• Additionner ou soustraire : seulement avec un **dénominateur commun**.\n• « Prendre une fraction de » se traduit par une **multiplication**.\n• On donne toujours le résultat sous forme **irréductible**."
       }
     ],
     "methods": [
@@ -111,12 +138,31 @@ window.MATHS_COURSES_4E = {
           "**Étape 3 (Mise au même dénominateur)** : $B = \\frac{2}{3} - \\frac{2}{5} = \\frac{2 \\times 5}{3 \\times 5} - \\frac{2 \\times 3}{5 \\times 3} = \\frac{10}{15} - \\frac{6}{15}$.",
           "**Étape 4 (Calcul et conclusion)** : $B = \\frac{10 - 6}{15} = \\frac{4}{15}$ (fraction irréductible)."
         ]
+      },
+      {
+        "title": "Méthode : Calculer un quotient de fractions",
+        "example": "Calculer $C = \\left(\\dfrac{2}{3} - \\dfrac{1}{4}\\right) \\div \\dfrac{5}{6}$ et donner le résultat sous forme irréductible.",
+        "steps": [
+          "**Étape 1 (Parenthèses d'abord)** : $\\dfrac{2}{3} - \\dfrac{1}{4} = \\dfrac{8}{12} - \\dfrac{3}{12} = \\dfrac{5}{12}$.",
+          "**Étape 2 (Diviser = multiplier par l'inverse)** : $C = \\dfrac{5}{12} \\div \\dfrac{5}{6} = \\dfrac{5}{12} \\times \\dfrac{6}{5}$.",
+          "**Étape 3 (Simplifier avant de multiplier)** : $C = \\dfrac{5 \\times 6}{(2 \\times 6) \\times 5} = \\dfrac{1}{2}$."
+        ]
+      },
+      {
+        "title": "Méthode : Résoudre un problème de « fraction d'une fraction »",
+        "example": "Léa dépense $\\dfrac{2}{5}$ de son argent de poche pour un livre, puis $\\dfrac{1}{3}$ **du reste** pour une place de cinéma. Quelle fraction de son argent de poche lui reste-t-il ?",
+        "steps": [
+          "**Étape 1 (Reste après le livre)** : $1 - \\dfrac{2}{5} = \\dfrac{5}{5} - \\dfrac{2}{5} = \\dfrac{3}{5}$.",
+          "**Étape 2 (« $\\frac{1}{3}$ du reste » = un produit)** : $\\dfrac{1}{3} \\times \\dfrac{3}{5} = \\dfrac{3}{15} = \\dfrac{1}{5}$ de l'argent de poche est dépensé au cinéma.",
+          "**Étape 3 (Reste final)** : $\\dfrac{3}{5} - \\dfrac{1}{5} = \\dfrac{2}{5}$.",
+          "**Conclusion** : il lui reste $\\dfrac{2}{5}$ de son argent de poche. (Avec 30 € : livre 12 €, cinéma 6 €, reste 12 €, et $\\frac{2}{5} \\times 30 = 12$.)"
+        ]
       }
     ],
     "traps": [
       "⚠️ Ne jamais additionner les dénominateurs : $\\frac{2}{5} + \\frac{1}{5} = \\frac{3}{5}$ et NON $\\frac{3}{10}$ !",
       "⚠️ Lors d'une division, n'inverser QUE la deuxième fraction (le diviseur) : $\\frac{3}{4} \\div \\frac{5}{7} = \\frac{3}{4} \\times \\frac{7}{5}$.",
-      "⚠️ Ne jamais simplifier avant d'avoir transformé la division en multiplication !"
+      "⚠️ Pas de simplification « en croix » à travers un signe $\\div$ : on transforme d'abord la division en multiplication par l'inverse, puis on simplifie."
     ],
     "flashcards": [
       {
@@ -138,6 +184,14 @@ window.MATHS_COURSES_4E = {
       {
         "q": "Quelle opération effectue-t-on en premier dans $\\frac{1}{2} + \\frac{3}{4} \\times \\frac{2}{5}$ ?",
         "a": "La multiplication $\\frac{3}{4} \\times \\frac{2}{5}$ est prioritaire sur l'addition."
+      },
+      {
+        "q": "Calculer $\\dfrac{3}{4} \\div \\dfrac{9}{8}$.",
+        "a": "$\\dfrac{3}{4} \\times \\dfrac{8}{9} = \\dfrac{24}{36} = \\dfrac{2}{3}$."
+      },
+      {
+        "q": "Calculer $\\dfrac{1}{6} + \\dfrac{3}{4}$.",
+        "a": "$\\dfrac{2}{12} + \\dfrac{9}{12} = \\dfrac{11}{12}$ (dénominateur commun 12)."
       }
     ]
   },
@@ -154,35 +208,60 @@ window.MATHS_COURSES_4E = {
     "keyPoints": [
       {
         "title": "1. Définition et cas particuliers",
-        "content": "Soit $a$ un nombre relatif et $n$ un entier positif non nul :\n$$a^n = \\underbrace{a \\times a \\times \\dots \\times a}_{n \\text{ facteurs}} \\quad (a \\text{ est la base, } n \\text{ est l'exposant})$$\n• $a^1 = a$ et par convention, pour tout $a \\neq 0$, $a^0 = 1$ (ex: $2026^0 = 1$).\n• $0^n = 0$ ($n > 0$) et $1^n = 1$.\n• Exposant négatif ($a \\neq 0$) : $a^{-n}$ est l'inverse de $a^n$ :\n$$a^{-n} = \\frac{1}{a^n} \\quad \\text{Exemple : } 5^{-2} = \\frac{1}{5^2} = \\frac{1}{25} = 0,04$$"
+        "content": "Soit $a$ un nombre relatif et $n$ un entier positif non nul :\n$$a^n = \\underbrace{a \\times a \\times \\dots \\times a}_{n \\text{ facteurs}} \\quad (a \\text{ est la base, } n \\text{ est l'exposant})$$\n• $a^1 = a$ et par convention, pour tout $a \\neq 0$, $a^0 = 1$ (ex: $2026^0 = 1$).\n• $0^n = 0$ ($n > 0$) et $1^n = 1$.\n• Exposant négatif ($a \\neq 0$) : $a^{-n}$ est l'inverse de $a^n$ :\n$$a^{-n} = \\frac{1}{a^n} \\quad \\text{Exemple : } 5^{-2} = \\frac{1}{5^2} = \\frac{1}{25} = 0{,}04$$"
       },
       {
         "title": "2. Les 5 règles de calcul sur les puissances",
-        "content": "Pour tous entiers relatifs $m$ et $n$, et nombres non nuls $a$ et $b$ :\n1. Produit : $a^m \\times a^n = a^{m+n}$\n2. Quotient : $\\frac{a^m}{a^n} = a^{m-n}$\n3. Puissance de puissance : $(a^m)^n = a^{m \\times n}$\n4. Produit de bases : $(a \\times b)^n = a^n \\times b^n$\n5. Quotient de bases : $\\left(\\frac{a}{b}\\right)^n = \\frac{a^n}{b^n}$"
+        "content": "Pour tous entiers relatifs $m$ et $n$, et nombres non nuls $a$ et $b$ (en 4e, on les utilise surtout avec les puissances de 10) :\n1. Produit : $a^m \\times a^n = a^{m+n}$\n2. Quotient : $\\frac{a^m}{a^n} = a^{m-n}$\n3. Puissance de puissance : $(a^m)^n = a^{m \\times n}$\n4. Produit de bases : $(a \\times b)^n = a^n \\times b^n$\n5. Quotient de bases : $\\left(\\frac{a}{b}\\right)^n = \\frac{a^n}{b^n}$\n\n*Exemple* : $10^5 \\times 10^{-2} = 10^{5 + (-2)} = 10^3$ et $\\dfrac{10^4}{10^{-3}} = 10^{4 - (-3)} = 10^7$."
       },
       {
         "title": "3. Puissances de 10",
-        "content": "• Pour $n > 0$ : $10^n = 1\\underbrace{00\\dots0}_{n \\text{ zéros}}$ ($10^3 = 1\\,000$ ; $10^6 = 1\\,000\\,000$).\n• Pour $n > 0$ : $10^{-n} = \\frac{1}{10^n} = \\underbrace{0,00\\dots0}_{n \\text{ zéros au total}}1$ ($10^{-1} = 0,1$ ; $10^{-3} = 0,001$).\n• Multiplier par $10^n$ décale la virgule de $n$ rangs vers la droite.\n• Multiplier par $10^{-n}$ décale la virgule de $n$ rangs vers la gauche."
+        "content": "• Pour $n > 0$ : $10^n = 1\\underbrace{00\\dots0}_{n \\text{ zéros}}$ ($10^3 = 1\\,000$ ; $10^6 = 1\\,000\\,000$).\n• Pour $n > 0$ : $10^{-n} = \\frac{1}{10^n} = \\underbrace{0{,}00\\dots0}_{n \\text{ zéros au total}}1$ ($10^{-1} = 0{,}1$ ; $10^{-3} = 0{,}001$).\n• Multiplier par $10^n$ décale la virgule de $n$ rangs vers la droite.\n• Multiplier par $10^{-n}$ décale la virgule de $n$ rangs vers la gauche."
       },
       {
         "title": "4. Notation scientifique et préfixes métriques",
         "content": "La **notation scientifique** d'un nombre s'écrit sous la forme unique :\n$$a \\times 10^n \\quad \\text{avec } 1 \\le |a| < 10 \\text{ et } n \\in \\mathbb{Z}$$\n*Préfixes à connaître par cœur* :\n• Téra (T) = $10^{12}$ | Giga (G) = $10^9$ | Méga (M) = $10^6$ | Kilo (k) = $10^3$\n• milli (m) = $10^{-3}$ | micro ($\\mu$) = $10^{-6}$ | nano (n) = $10^{-9}$"
+      },
+      {
+        "title": "À retenir",
+        "content": "• $a^n$ : produit de $n$ facteurs égaux à $a$ ; $a^0 = 1$ et $a^{-n} = \\dfrac{1}{a^n}$ ($a \\neq 0$).\n• $10^n \\times 10^p = 10^{n+p}$ ; $\\dfrac{10^n}{10^p} = 10^{n-p}$ ; $(10^n)^p = 10^{n \\times p}$.\n• $10^{-n}$ est un nombre **positif** : $10^{-2} = 0{,}01$.\n• Notation scientifique : $a \\times 10^n$ avec un seul chiffre non nul avant la virgule ($1 \\le a < 10$ pour un nombre positif)."
       }
     ],
     "methods": [
       {
         "title": "Méthode : Écrire un nombre en notation scientifique",
-        "example": "Écrire $A = 45\\,800\\,000$ et $B = 0,000\\,32$ en notation scientifique.",
+        "example": "Écrire $A = 45\\,800\\,000$ et $B = 0{,}000\\,32$ en notation scientifique.",
         "steps": [
-          "**Pour A ($45\\,800\\,000$)** : On place la virgule après le premier chiffre non nul : $4,58$. On compte le décalage de la virgule vers la gauche (+7 rangs) $\\implies A = 4,58 \\times 10^7$.",
-          "**Pour B ($0,000\\,32$)** : On place la virgule après le 3 : $3,2$. On compte le décalage vers la droite (4 rangs) $\\implies B = 3,2 \\times 10^{-4}$."
+          "**Pour A ($45\\,800\\,000$)** : On place la virgule après le premier chiffre non nul : $4{,}58$. On compte le décalage de la virgule vers la gauche (+7 rangs) $\\implies A = 4{,}58 \\times 10^7$.",
+          "**Pour B ($0{,}000\\,32$)** : On place la virgule après le 3 : $3{,}2$. On compte le décalage vers la droite (4 rangs) $\\implies B = 3{,}2 \\times 10^{-4}$."
+        ]
+      },
+      {
+        "title": "Méthode : Calculer avec des puissances de 10 et donner l'écriture scientifique",
+        "example": "Calculer $D = \\dfrac{3 \\times 10^4 \\times 8 \\times 10^{-6}}{6 \\times 10^{-3}}$ et donner le résultat en notation scientifique puis en écriture décimale.",
+        "steps": [
+          "**Étape 1 (Regrouper)** : on sépare les nombres et les puissances de 10 : $D = \\dfrac{3 \\times 8}{6} \\times \\dfrac{10^4 \\times 10^{-6}}{10^{-3}}$.",
+          "**Étape 2 (Nombres)** : $\\dfrac{3 \\times 8}{6} = \\dfrac{24}{6} = 4$.",
+          "**Étape 3 (Puissances de 10)** : $\\dfrac{10^{4 + (-6)}}{10^{-3}} = \\dfrac{10^{-2}}{10^{-3}} = 10^{-2 - (-3)} = 10^1$.",
+          "**Étape 4 (Conclusion)** : $D = 4 \\times 10^1$ (notation scientifique, car $1 \\le 4 < 10$), soit $D = 40$."
+        ]
+      },
+      {
+        "title": "Méthode : Utiliser les préfixes et comparer des ordres de grandeur",
+        "example": "Un virus mesure $120$ nm et une bactérie $2\\ \\mu$m. Exprimer ces longueurs en mètres en notation scientifique, puis dire combien de fois la bactérie est plus longue que le virus.",
+        "steps": [
+          "**Étape 1 (Virus)** : $1$ nm $= 10^{-9}$ m, donc $120$ nm $= 120 \\times 10^{-9}$ m $= 1{,}2 \\times 10^2 \\times 10^{-9}$ m $= 1{,}2 \\times 10^{-7}$ m.",
+          "**Étape 2 (Bactérie)** : $1\\ \\mu$m $= 10^{-6}$ m, donc $2\\ \\mu$m $= 2 \\times 10^{-6}$ m.",
+          "**Étape 3 (Comparer)** : $\\dfrac{2 \\times 10^{-6}}{1{,}2 \\times 10^{-7}} = \\dfrac{2}{1{,}2} \\times 10^{-6 - (-7)} = \\dfrac{2}{1{,}2} \\times 10 \\approx 16{,}7$.",
+          "**Conclusion** : la bactérie est environ 17 fois plus longue que le virus."
         ]
       }
     ],
     "traps": [
       "⚠️ $2^3 \\neq 6$ ! $2^3 = 2 \\times 2 \\times 2 = 8$. Ne jamais multiplier la base par l'exposant !",
-      "⚠️ $10^{-3}$ n'est PAS un nombre négatif ! $10^{-3} = \\frac{1}{10^3} = 0,001 > 0$. Un exposant négatif indique un inverse, pas un signe négatif.",
-      "⚠️ Dans la notation scientifique $a \\times 10^n$, $a$ doit être strictement inférieur à 10 : $34 \\times 10^5$ n'est pas scientifique, il faut écrire $3,4 \\times 10^6$."
+      "⚠️ $10^{-3}$ n'est PAS un nombre négatif ! $10^{-3} = \\frac{1}{10^3} = 0{,}001 > 0$. Un exposant négatif indique un inverse, pas un signe négatif.",
+      "⚠️ Dans la notation scientifique $a \\times 10^n$, $a$ doit être strictement inférieur à 10 : $34 \\times 10^5$ n'est pas scientifique, il faut écrire $3{,}4 \\times 10^6$.",
+      "⚠️ Pour multiplier des puissances, on additionne les exposants ; pour une somme on ne peut rien faire : $10^2 + 10^3 = 1\\,100$, ce n'est pas $10^5$."
     ],
     "flashcards": [
       {
@@ -198,12 +277,20 @@ window.MATHS_COURSES_4E = {
         "a": "$5^{4+3} = 5^7$ (on additionne les exposants lors d'un produit de même base)."
       },
       {
-        "q": "Quelle est la notation scientifique de $0,0052$ ?",
-        "a": "$5,2 \\times 10^{-3}$ (car on décale la virgule de 3 rangs vers la droite pour avoir $1 \\le 5,2 < 10$)."
+        "q": "Quelle est la notation scientifique de $0{,}0052$ ?",
+        "a": "$5{,}2 \\times 10^{-3}$ (car on décale la virgule de 3 rangs vers la droite pour avoir $1 \\le 5{,}2 < 10$)."
       },
       {
         "q": "À quelle puissance de 10 correspond le préfixe « micro » ($\\mu$) ?",
         "a": "$10^{-6}$ (un millionième d'unité)."
+      },
+      {
+        "q": "Simplifier $10^{-4} \\times 10^{6}$.",
+        "a": "$10^{-4 + 6} = 10^2$."
+      },
+      {
+        "q": "Écrire $0{,}000\\,7$ en notation scientifique.",
+        "a": "$7 \\times 10^{-4}$."
       }
     ]
   },
@@ -220,7 +307,7 @@ window.MATHS_COURSES_4E = {
     "keyPoints": [
       {
         "title": "1. Définition de la racine carrée",
-        "content": "Soit $a$ un nombre positif ou nul ($a \\ge 0$) :\nLa **racine carrée de $a$**, notée $\\sqrt{a}$, est le **nombre positif** dont le carré est égal à $a$ :\n$$(\\sqrt{a})^2 = a \\quad \\text{et} \\quad \\sqrt{a^2} = a \\quad (\\text{pour } a \\ge 0)$$\n*Exemple* : Le nombre positif dont le carré est 49 est 7, donc $\\sqrt{49} = 7$."
+        "content": "Soit $a$ un nombre positif ou nul ($a \\ge 0$) :\nLa **racine carrée de $a$**, notée $\\sqrt{a}$, est le **nombre positif** dont le carré est égal à $a$ :\n$$(\\sqrt{a})^2 = a \\quad \\text{et} \\quad \\sqrt{a^2} = a \\quad (\\text{pour } a \\ge 0)$$\n*Exemple* : Le nombre positif dont le carré est 49 est 7, donc $\\sqrt{49} = 7$.\n\n<div class=\"geo-figure-wrapper\" style=\"text-align:center; margin:1rem 0;\">\n<svg class=\"geo-svg-figure\" viewBox=\"0 0 220 160\" width=\"220\" height=\"160\" style=\"max-width:220px; width:100%; height:auto;\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Carré d'aire 49 cm carrés et de côté 7 cm\">\n  <rect x=\"55\" y=\"15\" width=\"110\" height=\"110\" fill=\"rgba(37, 99, 235, 0.08)\" stroke=\"var(--primary, #2563eb)\" stroke-width=\"2\" />\n  <text x=\"110\" y=\"66\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">Aire = 49 cm²</text>\n  <text x=\"110\" y=\"86\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"12\" font-weight=\"600\" fill=\"var(--text-muted, #64748b)\">donc côté = √49</text>\n  <text x=\"110\" y=\"148\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--primary, #2563eb)\">côté = √49 = 7 cm</text>\n</svg>\n</div>\n"
       },
       {
         "title": "2. Les carrés parfaits de 0 à 12 à connaître par cœur",
@@ -232,7 +319,11 @@ window.MATHS_COURSES_4E = {
       },
       {
         "title": "4. Encadrement et valeur exacte vs arrondie",
-        "content": "Pour la plupart des nombres, la racine carrée n'est pas un nombre décimal : c'est un nombre irrationnel.\n• **Valeur exacte** : on conserve le symbole radical, par exemple $\\sqrt{40}$ cm.\n• **Valeur arrondie** : obtenue avec la touche $\\sqrt{}$ de la calculatrice, par exemple $\\sqrt{40} \\approx 6,32$ cm.\n• **Encadrement sans calculatrice** : Comme $36 < 40 < 49$, alors $\\sqrt{36} < \\sqrt{40} < \\sqrt{49}$, soit $6 < \\sqrt{40} < 7$."
+        "content": "Si l'entier $a$ n'est **pas** un carré parfait, $\\sqrt{a}$ n'est pas un nombre décimal (on ne peut pas l'écrire exactement avec une virgule) : on donne alors sa valeur exacte ou une valeur arrondie.\n• **Valeur exacte** : on conserve le symbole radical, par exemple $\\sqrt{40}$ cm.\n• **Valeur arrondie** : obtenue avec la touche $\\sqrt{}$ de la calculatrice, par exemple $\\sqrt{40} \\approx 6{,}32$ cm.\n• **Encadrement sans calculatrice** : Comme $36 < 40 < 49$, alors $\\sqrt{36} < \\sqrt{40} < \\sqrt{49}$, soit $6 < \\sqrt{40} < 7$."
+      },
+      {
+        "title": "À retenir",
+        "content": "• Pour $a \\ge 0$, $\\sqrt{a}$ est le nombre **positif** dont le carré vaut $a$ : $(\\sqrt{a})^2 = a$.\n• Carrés parfaits à connaître : $1, 4, 9, 16, 25, 36, 49, 64, 81, 100, 121, 144$.\n• $\\sqrt{a}$ n'existe pas si $a < 0$.\n• Pour encadrer $\\sqrt{a}$ : on encadre $a$ par deux carrés parfaits consécutifs.\n• Valeur exacte : $\\sqrt{30}$ ; valeur approchée : $\\sqrt{30} \\approx 5{,}5$ (avec le signe $\\approx$)."
       }
     ],
     "methods": [
@@ -243,6 +334,16 @@ window.MATHS_COURSES_4E = {
           "**Étape 1 (Trouver les carrés parfaits)** : On cherche les carrés parfaits encadrant $75$ :\n$8^2 = 64$ et $9^2 = 81$, donc $64 < 75 < 81$.",
           "**Étape 2 (Passer aux racines)** : On applique la racine carrée en conservant l'ordre :\n$\\sqrt{64} < \\sqrt{75} < \\sqrt{81}$.",
           "**Étape 3 (Conclusion)** : $8 < \\sqrt{75} < 9$."
+        ]
+      },
+      {
+        "title": "Méthode : Encadrer une racine carrée au dixième et l'arrondir",
+        "example": "Un carré a une aire de $30$ cm². Donner la valeur exacte de son côté, un encadrement au dixième, puis l'arrondi au dixième.",
+        "steps": [
+          "**Étape 1 (Valeur exacte)** : le côté $c$ vérifie $c^2 = 30$ et $c > 0$, donc $c = \\sqrt{30}$ cm.",
+          "**Étape 2 (Encadrement à l'unité)** : $5^2 = 25 < 30 < 36 = 6^2$, donc $5 < \\sqrt{30} < 6$.",
+          "**Étape 3 (Encadrement au dixième)** : on teste les carrés des dixièmes : $5{,}4^2 = 29{,}16 < 30$ et $5{,}5^2 = 30{,}25 > 30$, donc $5{,}4 < \\sqrt{30} < 5{,}5$.",
+          "**Étape 4 (Arrondi)** : la calculatrice donne $\\sqrt{30} \\approx 5{,}477$, donc $c \\approx 5{,}5$ cm au dixième près."
         ]
       }
     ],
@@ -266,11 +367,19 @@ window.MATHS_COURSES_4E = {
       },
       {
         "q": "Quelle est la valeur exacte du côté d'un carré d'aire 13 cm² ?",
-        "a": "$\\sqrt{13}$ cm (c'est la valeur exacte ; $3,61$ cm n'est qu'une valeur arrondie)."
+        "a": "$\\sqrt{13}$ cm (c'est la valeur exacte ; $3{,}61$ cm n'est qu'une valeur arrondie)."
       },
       {
         "q": "Que vaut $(\\sqrt{37})^2$ ?",
         "a": "$37$ (la racine carrée et le carré s'annulent pour tout nombre positif)."
+      },
+      {
+        "q": "Que vaut $\\sqrt{144}$ ?",
+        "a": "$12$, car $12^2 = 144$."
+      },
+      {
+        "q": "Encadrer $\\sqrt{20}$ entre deux entiers consécutifs.",
+        "a": "$4 < \\sqrt{20} < 5$, car $16 < 20 < 25$."
       }
     ]
   },
@@ -279,10 +388,11 @@ window.MATHS_COURSES_4E = {
     "domain": "Nombres et Calculs",
     "objectives": [
       "Développer une expression littérale à l'aide de la distributivité simple : $k(a+b) = ka+kb$.",
+      "Développer un produit de deux sommes avec la double distributivité, et factoriser une expression simple.",
       "Supprimer des parenthèses précédées d'un signe $+$ ou d'un signe $-$.",
       "Réduire une expression littérale en regroupant les termes par familles de même puissance.",
       "Tester si une égalité est vraie pour une valeur donnée.",
-      "Résoudre une équation du 1er degré de type $ax+b = c$ ou $ax+b = cx+d$ et vérifier la solution trouvée."
+      "Résoudre une équation du premier degré de type $ax+b = c$ ou $ax+b = cx+d$ et vérifier la solution trouvée."
     ],
     "keyPoints": [
       {
@@ -291,7 +401,7 @@ window.MATHS_COURSES_4E = {
       },
       {
         "title": "2. Distributivité simple et suppression de parenthèses",
-        "content": "• **Distributivité simple** : transformer un produit en somme ou différence :\n$$k(a + b) = k \\times a + k \\times b = ka + kb$$\n$$k(a - b) = k \\times a - k \\times b = ka - kb$$\n• **Suppression de parenthèses** :\n  - Précédées d'un signe $+$ : on supprime les parenthèses sans rien changer : $a + (b - c) = a + b - c$.\n  - Précédées d'un signe $-$ : **on change TOUS les signes à l'intérieur** : $a - (b - c) = a - b + c$."
+        "content": "• **Distributivité simple** : transformer un produit en somme ou différence :\n$$k(a + b) = k \\times a + k \\times b = ka + kb$$\n$$k(a - b) = k \\times a - k \\times b = ka - kb$$\n• **Suppression de parenthèses** :\n  - Précédées d'un signe $+$ : on supprime les parenthèses sans rien changer : $a + (b - c) = a + b - c$.\n  - Précédées d'un signe $-$ : **on change TOUS les signes à l'intérieur** : $a - (b - c) = a - b + c$.\n• **Double distributivité** : chaque terme de la première parenthèse multiplie chaque terme de la seconde :\n$$(a + b)(c + d) = ac + ad + bc + bd$$\n• **Factoriser** (sens inverse) : $6x + 9 = 3 \\times 2x + 3 \\times 3 = 3(2x + 3)$."
       },
       {
         "title": "3. Réduction d'une expression littérale",
@@ -299,7 +409,11 @@ window.MATHS_COURSES_4E = {
       },
       {
         "title": "4. Résolution pas-à-pas d'une équation : « Ce qui change de côté change de signe »",
-        "content": "Pour résoudre $ax + b = cx + d$ :\n1. **Séparer les familles** : regrouper les termes en $x$ d'un côté (souvent à gauche) et les nombres constants de l'autre côté (à droite). Tout terme déplacé change de signe !\n2. **Réduire** les deux membres pour obtenir une forme $Ax = B$.\n3. **Isoler l'inconnue** en divisant par le coefficient $A$ devant $x$ : $x = \\frac{B}{A}$."
+        "content": "Pour résoudre $ax + b = cx + d$ :\n1. **Séparer les familles** : regrouper les termes en $x$ d'un côté (souvent à gauche) et les nombres constants de l'autre côté (à droite). Tout terme déplacé change de signe !\n2. **Réduire** les deux membres pour obtenir une forme $Ax = B$.\n3. **Isoler l'inconnue** en divisant par le coefficient $A$ devant $x$ : $x = \\frac{B}{A}$.\n\n*Pourquoi ça marche ?* On peut **ajouter ou soustraire** un même nombre aux deux membres, et **multiplier ou diviser** les deux membres par un même nombre **non nul** : l'égalité reste vraie. « Changer de côté en changeant de signe » n'est qu'un raccourci de cette règle."
+      },
+      {
+        "title": "À retenir",
+        "content": "• Développer : $k(a + b) = ka + kb$ et $(a + b)(c + d) = ac + ad + bc + bd$.\n• Un signe $-$ devant une parenthèse change le signe de **tous** les termes qu'elle contient.\n• Réduire : on regroupe les termes en $x^2$, en $x$, puis les nombres.\n• Résoudre : on isole $x$ en effectuant la même opération sur les deux membres, puis on **vérifie** la solution.\n• Problème : choisir l'inconnue, écrire l'équation, résoudre, vérifier, conclure par une phrase."
       }
     ],
     "methods": [
@@ -311,6 +425,26 @@ window.MATHS_COURSES_4E = {
           "**Étape 2 (Regroupement des constantes)** : On ajoute $4$ des deux côtés : $5x = 11 + 4 = 15$.",
           "**Étape 3 (Division par le coefficient)** : On divise par $5$ : $x = \\frac{15}{5} = 3$.",
           "**Étape 4 (Vérification)** :\n• Membre de gauche : $7 \\times 3 - 4 = 21 - 4 = 17$.\n• Membre de droite : $2 \\times 3 + 11 = 6 + 11 = 17$.\nL'égalité est vérifiée : la solution est bien $x = 3$."
+        ]
+      },
+      {
+        "title": "Méthode : Développer et réduire avec la double distributivité",
+        "example": "Développer et réduire $E = (2x + 3)(x - 4)$, puis vérifier avec $x = 1$.",
+        "steps": [
+          "**Étape 1 (Distribuer)** : $E = 2x \\times x + 2x \\times (-4) + 3 \\times x + 3 \\times (-4)$.",
+          "**Étape 2 (Calculer chaque produit)** : $E = 2x^2 - 8x + 3x - 12$.",
+          "**Étape 3 (Réduire)** : $E = 2x^2 - 5x - 12$.",
+          "**Vérification** pour $x = 1$ : forme de départ $(2 + 3)(1 - 4) = 5 \\times (-3) = -15$ ; forme développée $2 - 5 - 12 = -15$. Les résultats concordent."
+        ]
+      },
+      {
+        "title": "Méthode : Mettre un problème en équation",
+        "example": "La somme de trois nombres entiers consécutifs est égale à 84. Quels sont ces nombres ?",
+        "steps": [
+          "**Étape 1 (Choix de l'inconnue)** : on note $n$ le plus petit des trois nombres ; les suivants sont $n + 1$ et $n + 2$.",
+          "**Étape 2 (Mise en équation)** : $n + (n + 1) + (n + 2) = 84$, soit $3n + 3 = 84$.",
+          "**Étape 3 (Résolution)** : $3n = 84 - 3 = 81$, donc $n = \\dfrac{81}{3} = 27$.",
+          "**Étape 4 (Vérification et conclusion)** : $27 + 28 + 29 = 84$. Les trois nombres sont 27, 28 et 29."
         ]
       }
     ],
@@ -339,6 +473,14 @@ window.MATHS_COURSES_4E = {
       {
         "q": "Comment vérifie-t-on qu'un nombre est solution d'une équation ?",
         "a": "On remplace l'inconnue par ce nombre dans chaque membre séparément et on vérifie si les deux résultats sont égaux."
+      },
+      {
+        "q": "Développer $(x + 2)(x + 5)$.",
+        "a": "$x^2 + 5x + 2x + 10 = x^2 + 7x + 10$."
+      },
+      {
+        "q": "Résoudre $3(x - 2) = 5x + 4$.",
+        "a": "$3x - 6 = 5x + 4 \\iff -2x = 10 \\iff x = -5$ (vérification : $3 \\times (-7) = -21$ et $5 \\times (-5) + 4 = -21$)."
       }
     ]
   },
@@ -367,55 +509,60 @@ window.MATHS_COURSES_4E = {
       },
       {
         "title": "4. Valeur exacte vs Valeur arrondie",
-        "content": "• La **valeur exacte** conserve le symbole radical : $BC = \\sqrt{61}$ cm.\n• La **valeur arrondie** est donnée avec le symbole $\\approx$ selon la précision demandée (au dixième près : $BC \\approx 7,8$ cm).\n• Ne jamais arrondir au cours des étapes intermédiaires de calcul !"
+        "content": "• La **valeur exacte** conserve le symbole radical : $BC = \\sqrt{61}$ cm.\n• La **valeur arrondie** est donnée avec le symbole $\\approx$ selon la précision demandée (au dixième près : $BC \\approx 7{,}8$ cm).\n• Ne jamais arrondir au cours des étapes intermédiaires de calcul !"
+      },
+      {
+        "title": "À retenir",
+        "content": "• L'**hypoténuse** est le côté opposé à l'angle droit ; c'est le plus long côté.\n• **Théorème** (on sait que le triangle est rectangle) : on calcule une longueur.\n• **Réciproque** (on connaît les trois longueurs, égalité vérifiée) : le triangle est rectangle.\n• **Contraposée** (égalité fausse) : le triangle n'est pas rectangle.\n• On calcule toujours séparément le carré du plus grand côté et la somme des deux autres carrés."
       }
     ],
     "methods": [
-          {
-                "title": "Modèle officiel de rédaction : Calculer l'hypoténuse (Théorème direct)",
-                "example": "Soit un triangle ABC rectangle en A tel que AB = 6 cm et AC = 8 cm. Calculer la longueur de l'hypoténuse BC.\n\n<div class=\"geo-figure-wrapper\" style=\"text-align:center; margin:0.8rem 0;\">\n  <svg class=\"geo-svg-figure\" viewBox=\"0 0 260 140\" width=\"260\" height=\"140\" style=\"max-width:260px; width:100%; height:auto;\" xmlns=\"http://www.w3.org/2000/svg\">\n    <polygon points=\"45,115 215,115 45,25\" fill=\"rgba(37, 99, 235, 0.08)\" stroke=\"var(--text-main, #334155)\" stroke-width=\"2\" stroke-linejoin=\"round\" />\n    <path d=\"M 45 103 L 57 103 L 57 115\" fill=\"none\" stroke=\"var(--primary, #2563eb)\" stroke-width=\"1.8\" />\n    <text x=\"32\" y=\"126\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">A</text>\n    <text x=\"222\" y=\"126\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">B</text>\n    <text x=\"32\" y=\"22\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">C</text>\n    <text x=\"130\" y=\"132\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"600\" fill=\"var(--text-main, #0f172a)\">AB = 6 cm</text>\n    <text x=\"18\" y=\"72\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"600\" fill=\"var(--text-main, #0f172a)\">AC = 8 cm</text>\n    <text x=\"138\" y=\"62\" transform=\"rotate(-28 138 62)\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"700\" fill=\"#dc2626\">BC = ? (10 cm)</text>\n  </svg>\n</div>",
-                "steps": [
-                      "**1. Énoncer les hypothèses** : Dans le triangle $ABC$ rectangle en $A$,",
-                      "**2. Citer le théorème** : d'après le **théorème de Pythagore** :",
-                      "**3. Écrire l'égalité** : $BC^2 = AB^2 + AC^2$",
-                      "**4. Remplacer et calculer** : $BC^2 = 6^2 + 8^2 = 36 + 64 = 100$",
-                      "**5. Conclure avec la racine carrée** : Comme une longueur est positive ($BC > 0$) :\n$BC = \\sqrt{100} = 10\\text{ cm}$."
-                ]
-          },
-          {
-                "title": "Modèle officiel de rédaction : Calculer un côté de l'angle droit (Théorème direct)",
-                "example": "Soit un triangle DEF rectangle en E tel que DE = 6 cm et DF = 10 cm. Calculer la longueur EF.\n\n<div class=\"geo-figure-wrapper\" style=\"text-align:center; margin:0.8rem 0;\">\n  <svg class=\"geo-svg-figure\" viewBox=\"0 0 260 140\" width=\"260\" height=\"140\" style=\"max-width:260px; width:100%; height:auto;\" xmlns=\"http://www.w3.org/2000/svg\">\n    <polygon points=\"45,115 205,115 45,35\" fill=\"rgba(37, 99, 235, 0.08)\" stroke=\"var(--text-main, #334155)\" stroke-width=\"2\" stroke-linejoin=\"round\" />\n    <path d=\"M 45 103 L 57 103 L 57 115\" fill=\"none\" stroke=\"var(--primary, #2563eb)\" stroke-width=\"1.8\" />\n    <text x=\"32\" y=\"126\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">E</text>\n    <text x=\"212\" y=\"126\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">F</text>\n    <text x=\"32\" y=\"30\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">D</text>\n    <text x=\"18\" y=\"78\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"600\" fill=\"var(--text-main, #0f172a)\">DE = 6 cm</text>\n    <text x=\"135\" y=\"68\" transform=\"rotate(-27 135 68)\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"700\" fill=\"var(--primary, #2563eb)\">Hypoténuse DF = 10 cm</text>\n    <text x=\"125\" y=\"132\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"700\" fill=\"#dc2626\">EF = ? (8 cm)</text>\n  </svg>\n</div>",
-                "steps": [
-                      "**1. Énoncer les hypothèses** : Dans le triangle $DEF$ rectangle en $E$,",
-                      "**2. Citer le théorème** : d'après le **théorème de Pythagore** :",
-                      "**3. Écrire l'égalité** : $DF^2 = DE^2 + EF^2$",
-                      "**4. Isoler le côté cherché et calculer** : $EF^2 = DF^2 - DE^2 = 10^2 - 6^2 = 100 - 36 = 64$",
-                      "**5. Conclure avec la racine carrée** : Comme une longueur est positive ($EF > 0$) :\n$EF = \\sqrt{64} = 8\\text{ cm}$."
-                ]
-          },
-          {
-                "title": "Modèle officiel de rédaction : Réciproque de Pythagore (Démontrer qu'un triangle est rectangle)",
-                "example": "Soit un triangle RST tel que RS = 4,5 cm, ST = 6 cm et RT = 7,5 cm. Le triangle RST est-il rectangle ?\n\n<div class=\"geo-figure-wrapper\" style=\"text-align:center; margin:0.8rem 0;\">\n  <svg class=\"geo-svg-figure\" viewBox=\"0 0 260 140\" width=\"260\" height=\"140\" style=\"max-width:260px; width:100%; height:auto;\" xmlns=\"http://www.w3.org/2000/svg\">\n    <polygon points=\"45,115 205,115 45,35\" fill=\"rgba(16, 185, 129, 0.08)\" stroke=\"var(--text-main, #334155)\" stroke-width=\"2\" stroke-linejoin=\"round\" />\n    <path d=\"M 45 103 L 57 103 L 57 115\" fill=\"none\" stroke=\"#d97706\" stroke-width=\"1.8\" stroke-dasharray=\"3 2\" />\n    <text x=\"62\" y=\"108\" font-family=\"system-ui, sans-serif\" font-size=\"12\" font-weight=\"700\" fill=\"#d97706\">?</text>\n    <text x=\"32\" y=\"126\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">S</text>\n    <text x=\"212\" y=\"126\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">T</text>\n    <text x=\"32\" y=\"30\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">R</text>\n    <text x=\"125\" y=\"132\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"600\" fill=\"var(--text-main, #0f172a)\">ST = 6 cm</text>\n    <text x=\"18\" y=\"78\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"600\" fill=\"var(--text-main, #0f172a)\">RS = 4,5 cm</text>\n    <text x=\"135\" y=\"68\" transform=\"rotate(-27 135 68)\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"700\" fill=\"#10b981\">RT = 7,5 cm (plus grand)</text>\n  </svg>\n</div>",
-                "steps": [
-                      "**1. Identifier le plus grand côté** : Dans le triangle $RST$, le plus grand côté est $[RT]$.",
-                      "**2. Calculer séparément** :\n• D'une part : $RT^2 = 7,5^2 = 56,25$.\n• D'autre part : $RS^2 + ST^2 = 4,5^2 + 6^2 = 20,25 + 36 = 56,25$.",
-                      "**3. Conclure rigoureusement** : On constate que $RT^2 = RS^2 + ST^2$. D'après la **réciproque du théorème de Pythagore**, le triangle $RST$ est rectangle en $S$."
-                ]
-          },
-          {
-                "title": "Modèle officiel de rédaction : Contraposée de Pythagore (Démontrer qu'un triangle n'est pas rectangle)",
-                "example": "Soit un triangle KLM tel que KL = 5 cm, LM = 7 cm et KM = 9 cm. Le triangle KLM est-il rectangle ?\n\n<div class=\"geo-figure-wrapper\" style=\"text-align:center; margin:0.8rem 0;\">\n  <svg class=\"geo-svg-figure\" viewBox=\"0 0 260 140\" width=\"260\" height=\"140\" style=\"max-width:260px; width:100%; height:auto;\" xmlns=\"http://www.w3.org/2000/svg\">\n    <polygon points=\"45,115 205,115 48,38\" fill=\"rgba(220, 38, 38, 0.08)\" stroke=\"var(--text-main, #334155)\" stroke-width=\"2\" stroke-linejoin=\"round\" />\n    <path d=\"M 45 103 A 12 12 0 0 1 57 115\" fill=\"none\" stroke=\"#dc2626\" stroke-width=\"1.8\" stroke-dasharray=\"3 2\" />\n    <text x=\"54\" y=\"106\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"700\" fill=\"#dc2626\">≠ 90° ?</text>\n    <text x=\"32\" y=\"126\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">L</text>\n    <text x=\"212\" y=\"126\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">M</text>\n    <text x=\"38\" y=\"32\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">K</text>\n    <text x=\"18\" y=\"78\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"600\" fill=\"var(--text-main, #0f172a)\">KL = 5 cm</text>\n    <text x=\"125\" y=\"132\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"600\" fill=\"var(--text-main, #0f172a)\">LM = 7 cm</text>\n    <text x=\"135\" y=\"68\" transform=\"rotate(-26 135 68)\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"700\" fill=\"#d97706\">KM = 9 cm (plus grand)</text>\n  </svg>\n</div>",
-                "steps": [
-                      "**1. Identifier le plus grand côté** : Dans le triangle $KLM$, le plus grand côté est $[KM]$.",
-                      "**2. Calculer séparément** :\n• D'une part : $KM^2 = 9^2 = 81$.\n• D'autre part : $KL^2 + LM^2 = 5^2 + 7^2 = 25 + 49 = 74$.",
-                      "**3. Conclure rigoureusement** : On constate que $KM^2 \\neq KL^2 + LM^2$. D'après la **contraposée du théorème de Pythagore**, le triangle $KLM$ **n'est pas rectangle**."
-                ]
-          }
+      {
+        "title": "Modèle de rédaction : Calculer l'hypoténuse (Théorème direct)",
+        "example": "Soit un triangle ABC rectangle en A tel que AB = 6 cm et AC = 8 cm. Calculer la longueur de l'hypoténuse BC.\n\n<div class=\"geo-figure-wrapper\" style=\"text-align:center; margin:0.8rem 0;\">\n  <svg class=\"geo-svg-figure\" viewBox=\"0 0 260 140\" width=\"260\" height=\"140\" style=\"max-width:260px; width:100%; height:auto;\" xmlns=\"http://www.w3.org/2000/svg\">\n    <polygon points=\"45,115 215,115 45,25\" fill=\"rgba(37, 99, 235, 0.08)\" stroke=\"var(--text-main, #334155)\" stroke-width=\"2\" stroke-linejoin=\"round\" />\n    <path d=\"M 45 103 L 57 103 L 57 115\" fill=\"none\" stroke=\"var(--primary, #2563eb)\" stroke-width=\"1.8\" />\n    <text x=\"32\" y=\"126\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">A</text>\n    <text x=\"222\" y=\"126\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">B</text>\n    <text x=\"32\" y=\"22\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">C</text>\n    <text x=\"130\" y=\"132\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"600\" fill=\"var(--text-main, #0f172a)\">AB = 6 cm</text>\n    <text x=\"18\" y=\"72\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"600\" fill=\"var(--text-main, #0f172a)\">AC = 8 cm</text>\n    <text x=\"138\" y=\"62\" transform=\"rotate(-28 138 62)\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"700\" fill=\"#dc2626\">BC = ? (10 cm)</text>\n  </svg>\n</div>",
+        "steps": [
+          "**1. Énoncer les hypothèses** : Dans le triangle $ABC$ rectangle en $A$,",
+          "**2. Citer le théorème** : d'après le **théorème de Pythagore** :",
+          "**3. Écrire l'égalité** : $BC^2 = AB^2 + AC^2$",
+          "**4. Remplacer et calculer** : $BC^2 = 6^2 + 8^2 = 36 + 64 = 100$",
+          "**5. Conclure avec la racine carrée** : Comme une longueur est positive ($BC > 0$) :\n$BC = \\sqrt{100} = 10\\text{ cm}$."
+        ]
+      },
+      {
+        "title": "Modèle de rédaction : Calculer un côté de l'angle droit (Théorème direct)",
+        "example": "Soit un triangle DEF rectangle en E tel que DE = 6 cm et DF = 10 cm. Calculer la longueur EF.\n\n<div class=\"geo-figure-wrapper\" style=\"text-align:center; margin:0.8rem 0;\">\n  <svg class=\"geo-svg-figure\" viewBox=\"0 0 260 140\" width=\"260\" height=\"140\" style=\"max-width:260px; width:100%; height:auto;\" xmlns=\"http://www.w3.org/2000/svg\">\n    <polygon points=\"45,115 205,115 45,35\" fill=\"rgba(37, 99, 235, 0.08)\" stroke=\"var(--text-main, #334155)\" stroke-width=\"2\" stroke-linejoin=\"round\" />\n    <path d=\"M 45 103 L 57 103 L 57 115\" fill=\"none\" stroke=\"var(--primary, #2563eb)\" stroke-width=\"1.8\" />\n    <text x=\"32\" y=\"126\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">E</text>\n    <text x=\"212\" y=\"126\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">F</text>\n    <text x=\"32\" y=\"30\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">D</text>\n    <text x=\"18\" y=\"78\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"600\" fill=\"var(--text-main, #0f172a)\">DE = 6 cm</text>\n    <text x=\"135\" y=\"68\" transform=\"rotate(-27 135 68)\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"700\" fill=\"var(--primary, #2563eb)\">Hypoténuse DF = 10 cm</text>\n    <text x=\"125\" y=\"132\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"700\" fill=\"#dc2626\">EF = ? (8 cm)</text>\n  </svg>\n</div>",
+        "steps": [
+          "**1. Énoncer les hypothèses** : Dans le triangle $DEF$ rectangle en $E$,",
+          "**2. Citer le théorème** : d'après le **théorème de Pythagore** :",
+          "**3. Écrire l'égalité** : $DF^2 = DE^2 + EF^2$",
+          "**4. Isoler le côté cherché et calculer** : $EF^2 = DF^2 - DE^2 = 10^2 - 6^2 = 100 - 36 = 64$",
+          "**5. Conclure avec la racine carrée** : Comme une longueur est positive ($EF > 0$) :\n$EF = \\sqrt{64} = 8\\text{ cm}$."
+        ]
+      },
+      {
+        "title": "Modèle de rédaction : Réciproque de Pythagore (Démontrer qu'un triangle est rectangle)",
+        "example": "Soit un triangle RST tel que RS = 4,5 cm, ST = 6 cm et RT = 7,5 cm. Le triangle RST est-il rectangle ?\n\n<div class=\"geo-figure-wrapper\" style=\"text-align:center; margin:0.8rem 0;\">\n  <svg class=\"geo-svg-figure\" viewBox=\"0 0 260 140\" width=\"260\" height=\"140\" style=\"max-width:260px; width:100%; height:auto;\" xmlns=\"http://www.w3.org/2000/svg\">\n    <polygon points=\"45,115 205,115 45,35\" fill=\"rgba(16, 185, 129, 0.08)\" stroke=\"var(--text-main, #334155)\" stroke-width=\"2\" stroke-linejoin=\"round\" />\n    <path d=\"M 45 103 L 57 103 L 57 115\" fill=\"none\" stroke=\"#d97706\" stroke-width=\"1.8\" stroke-dasharray=\"3 2\" />\n    <text x=\"62\" y=\"108\" font-family=\"system-ui, sans-serif\" font-size=\"12\" font-weight=\"700\" fill=\"#d97706\">?</text>\n    <text x=\"32\" y=\"126\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">S</text>\n    <text x=\"212\" y=\"126\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">T</text>\n    <text x=\"32\" y=\"30\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">R</text>\n    <text x=\"125\" y=\"132\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"600\" fill=\"var(--text-main, #0f172a)\">ST = 6 cm</text>\n    <text x=\"18\" y=\"78\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"600\" fill=\"var(--text-main, #0f172a)\">RS = 4,5 cm</text>\n    <text x=\"135\" y=\"68\" transform=\"rotate(-27 135 68)\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"700\" fill=\"#10b981\">RT = 7,5 cm (plus grand)</text>\n  </svg>\n</div>",
+        "steps": [
+          "**1. Identifier le plus grand côté** : Dans le triangle $RST$, le plus grand côté est $[RT]$.",
+          "**2. Calculer séparément** :\n• D'une part : $RT^2 = 7{,}5^2 = 56{,}25$.\n• D'autre part : $RS^2 + ST^2 = 4{,}5^2 + 6^2 = 20{,}25 + 36 = 56{,}25$.",
+          "**3. Conclure rigoureusement** : On constate que $RT^2 = RS^2 + ST^2$. D'après la **réciproque du théorème de Pythagore**, le triangle $RST$ est rectangle en $S$."
+        ]
+      },
+      {
+        "title": "Modèle de rédaction : Contraposée de Pythagore (Démontrer qu'un triangle n'est pas rectangle)",
+        "example": "Soit un triangle KLM tel que KL = 5 cm, LM = 7 cm et KM = 9 cm. Le triangle KLM est-il rectangle ?\n\n<div class=\"geo-figure-wrapper\" style=\"text-align:center; margin:0.8rem 0;\">\n  <svg class=\"geo-svg-figure\" viewBox=\"0 0 260 140\" width=\"260\" height=\"140\" style=\"max-width:260px; width:100%; height:auto;\" xmlns=\"http://www.w3.org/2000/svg\">\n    <polygon points=\"45,115 205,115 48,38\" fill=\"rgba(220, 38, 38, 0.08)\" stroke=\"var(--text-main, #334155)\" stroke-width=\"2\" stroke-linejoin=\"round\" />\n    <path d=\"M 45 103 A 12 12 0 0 1 57 115\" fill=\"none\" stroke=\"#dc2626\" stroke-width=\"1.8\" stroke-dasharray=\"3 2\" />\n    <text x=\"54\" y=\"106\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"700\" fill=\"#dc2626\">≠ 90° ?</text>\n    <text x=\"32\" y=\"126\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">L</text>\n    <text x=\"212\" y=\"126\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">M</text>\n    <text x=\"38\" y=\"32\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">K</text>\n    <text x=\"18\" y=\"78\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"600\" fill=\"var(--text-main, #0f172a)\">KL = 5 cm</text>\n    <text x=\"125\" y=\"132\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"600\" fill=\"var(--text-main, #0f172a)\">LM = 7 cm</text>\n    <text x=\"135\" y=\"68\" transform=\"rotate(-26 135 68)\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"700\" fill=\"#d97706\">KM = 9 cm (plus grand)</text>\n  </svg>\n</div>",
+        "steps": [
+          "**1. Identifier le plus grand côté** : Dans le triangle $KLM$, le plus grand côté est $[KM]$.",
+          "**2. Calculer séparément** :\n• D'une part : $KM^2 = 9^2 = 81$.\n• D'autre part : $KL^2 + LM^2 = 5^2 + 7^2 = 25 + 49 = 74$.",
+          "**3. Conclure rigoureusement** : On constate que $KM^2 \\neq KL^2 + LM^2$. D'après la **contraposée du théorème de Pythagore**, le triangle $KLM$ **n'est pas rectangle**."
+        ]
+      }
     ],
     "traps": [
-      "⚠️ Poser l'égalité dès la 1ère ligne dans la réciproque : écrire d'emblée $RT^2 = RS^2 + ST^2$ est faux tant qu'on ne l'a pas calculé !",
+      "⚠️ Poser l'égalité dès la 1re ligne dans la réciproque : écrire d'emblée $RT^2 = RS^2 + ST^2$ est faux tant qu'on ne l'a pas calculé !",
       "⚠️ Pour calculer un côté de l'angle droit, il faut SOUSTRAIRE les carrés et non les additionner : $AB^2 = BC^2 - AC^2$.",
-      "⚠️ Oublier d'extraire la racine carrée $\\sqrt{}$ à la fin : $BC^2 = 25 \\implies BC = 5$, pas $25$ !"
+      "⚠️ Oublier d'extraire la racine carrée $\\sqrt{}$ à la fin : $BC^2 = 25 \\implies BC = 5$, pas $25$ !",
+      "⚠️ Appliquer le théorème de Pythagore dans un triangle dont on ne sait pas qu'il est rectangle : il faut d'abord le justifier (codage, énoncé, réciproque)."
     ],
     "flashcards": [
       {
@@ -437,6 +584,10 @@ window.MATHS_COURSES_4E = {
       {
         "q": "Que conclut-on si le carré du plus grand côté n'est pas égal à la somme des carrés des deux autres ?",
         "a": "D'après la **contraposée du théorème de Pythagore**, le triangle **n'est pas rectangle**."
+      },
+      {
+        "q": "Un triangle a pour côtés 5 cm, 12 cm et 13 cm. Est-il rectangle ?",
+        "a": "Oui : $13^2 = 169$ et $5^2 + 12^2 = 25 + 144 = 169$ ; d'après la réciproque du théorème de Pythagore, il est rectangle (l'angle droit est opposé au côté de 13 cm)."
       }
     ]
   },
@@ -448,7 +599,8 @@ window.MATHS_COURSES_4E = {
       "Calculer la longueur de la médiane issue de l'angle droit : elle mesure la moitié de l'hypoténuse.",
       "Appliquer le 1er théorème de la droite des milieux pour prouver un parallélisme.",
       "Appliquer le 2e théorème de la droite des milieux pour calculer une longueur ($IJ = BC / 2$).",
-      "Appliquer la réciproque de la droite des milieux pour prouver qu'un point est le milieu d'un segment."
+      "Appliquer la réciproque de la droite des milieux pour prouver qu'un point est le milieu d'un segment.",
+      "Utiliser le théorème de Thalès dans un triangle (triangles emboîtés) pour calculer une longueur."
     ],
     "keyPoints": [
       {
@@ -466,6 +618,14 @@ window.MATHS_COURSES_4E = {
       {
         "title": "4. Réciproque de la droite des milieux",
         "content": "Dans un triangle $ABC$, si une droite passe par le **milieu d'un côté** $[AB]$ et est **parallèle** à un deuxième côté $(BC)$, alors elle **coupe le troisième côté $[AC]$ en son milieu**."
+      },
+      {
+        "title": "5. Vers le théorème de Thalès (triangles emboîtés)",
+        "content": "Dans un triangle $ABC$, si $M \\in [AB]$, $N \\in [AC]$ et si les droites $(MN)$ et $(BC)$ sont **parallèles**, alors le triangle $AMN$ est une réduction du triangle $ABC$ et :\n$$\\frac{AM}{AB} = \\frac{AN}{AC} = \\frac{MN}{BC}$$\nLe théorème de la droite des milieux en est le cas particulier où ces trois rapports valent $\\dfrac{1}{2}$.\n\n<div class=\"geo-figure-wrapper\" style=\"text-align:center; margin:1rem 0;\">\n<svg class=\"geo-svg-figure\" viewBox=\"0 0 300 200\" width=\"300\" height=\"200\" style=\"max-width:300px; width:100%; height:auto;\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Triangle ABC avec M sur [AB], N sur [AC] et (MN) parallèle à (BC)\">\n  <polygon points=\"150,20 40,170 260,170\" fill=\"rgba(37, 99, 235, 0.06)\" stroke=\"var(--text-main, #334155)\" stroke-width=\"2\" stroke-linejoin=\"round\" />\n  <line x1=\"106\" y1=\"80\" x2=\"194\" y2=\"80\" stroke=\"var(--primary, #2563eb)\" stroke-width=\"2.5\" />\n  <line x1=\"40\" y1=\"170\" x2=\"260\" y2=\"170\" stroke=\"var(--primary, #2563eb)\" stroke-width=\"2.5\" />\n  <circle cx=\"106\" cy=\"80\" r=\"3\" fill=\"var(--primary, #2563eb)\" /><circle cx=\"194\" cy=\"80\" r=\"3\" fill=\"var(--primary, #2563eb)\" />\n  <text x=\"150\" y=\"14\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">A</text>\n  <text x=\"28\" y=\"184\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">B</text><text x=\"262\" y=\"184\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">C</text>\n  <text x=\"92\" y=\"80\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">M</text><text x=\"200\" y=\"80\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">N</text>\n  <text x=\"150\" y=\"74\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"700\" fill=\"var(--primary, #2563eb)\">(MN) // (BC)</text>\n</svg>\n</div>\n"
+      },
+      {
+        "title": "À retenir",
+        "content": "• Triangle rectangle $\\iff$ inscrit dans un cercle ayant pour diamètre son hypoténuse.\n• Médiane issue de l'angle droit = moitié de l'hypoténuse.\n• Milieux de deux côtés : la droite qui les joint est parallèle au 3e côté et le segment mesure sa moitié.\n• Thalès dans un triangle : avec $(MN) // (BC)$, $\\dfrac{AM}{AB} = \\dfrac{AN}{AC} = \\dfrac{MN}{BC}$."
       }
     ],
     "methods": [
@@ -476,11 +636,32 @@ window.MATHS_COURSES_4E = {
           "**Étape 1 (Parallélisme)** : Dans le triangle $ABC$, $I$ est le milieu de $[AB]$ et $J$ est le milieu de $[AC]$. D'après le 1er théorème de la droite des milieux, la droite $(IJ)$ est parallèle à $(BC)$.",
           "**Étape 2 (Longueur)** : D'après le 2e théorème de la droite des milieux, le segment $[IJ]$ mesure la moitié de $[BC]$ : $IJ = \\frac{BC}{2} = \\frac{12}{2} = 6$ cm."
         ]
+      },
+      {
+        "title": "Méthode : Calculer des longueurs avec le théorème de Thalès",
+        "example": "Dans la figure ci-dessus, $(MN) // (BC)$, $AM = 3$ cm, $AB = 7{,}5$ cm, $AN = 2$ cm et $BC = 6$ cm. Calculer $AC$ et $MN$.",
+        "steps": [
+          "**Étape 1 (Hypothèses)** : dans le triangle $ABC$, $M \\in [AB]$, $N \\in [AC]$ et $(MN) // (BC)$.",
+          "**Étape 2 (Théorème)** : d'après le théorème de Thalès, $\\dfrac{AM}{AB} = \\dfrac{AN}{AC} = \\dfrac{MN}{BC}$, soit $\\dfrac{3}{7{,}5} = \\dfrac{2}{AC} = \\dfrac{MN}{6}$.",
+          "**Étape 3 (Calcul de AC)** : par produit en croix, $AC = \\dfrac{2 \\times 7{,}5}{3} = \\dfrac{15}{3} = 5$ cm.",
+          "**Étape 4 (Calcul de MN)** : $MN = \\dfrac{3 \\times 6}{7{,}5} = \\dfrac{18}{7{,}5} = 2{,}4$ cm."
+        ]
+      },
+      {
+        "title": "Méthode : Démontrer qu'un triangle est rectangle grâce au cercle",
+        "example": "$[BC]$ est un diamètre d'un cercle de centre $O$ et de rayon $5$ cm. $A$ est un point du cercle tel que $AB = 6$ cm. Démontrer que $ABC$ est rectangle puis calculer $AC$.",
+        "steps": [
+          "**Étape 1 (Nature du triangle)** : le triangle $ABC$ est inscrit dans le cercle de diamètre $[BC]$. Or, si un triangle est inscrit dans un cercle ayant pour diamètre l'un de ses côtés, il est rectangle : $ABC$ est **rectangle en $A$**.",
+          "**Étape 2 (Hypoténuse)** : $BC = 2 \\times 5 = 10$ cm.",
+          "**Étape 3 (Pythagore)** : dans le triangle $ABC$ rectangle en $A$, $BC^2 = AB^2 + AC^2$, donc $AC^2 = 10^2 - 6^2 = 100 - 36 = 64$.",
+          "**Étape 4 (Conclusion)** : $AC = \\sqrt{64} = 8$ cm."
+        ]
       }
     ],
     "traps": [
       "⚠️ Ne pas confondre médiane (qui relie un sommet au milieu opposé) et hauteur (qui est perpendiculaire au côté opposé).",
-      "⚠️ Pour appliquer la droite des milieux, il faut que les points soient EXPLICITEMENT des milieux (ou démontrés comme tels)."
+      "⚠️ Pour appliquer la droite des milieux, il faut que les points soient EXPLICITEMENT des milieux (ou démontrés comme tels).",
+      "⚠️ Dans les rapports de Thalès, les longueurs du petit triangle $AMN$ vont au numérateur et celles du grand triangle $ABC$ au dénominateur, partout."
     ],
     "flashcards": [
       {
@@ -497,11 +678,15 @@ window.MATHS_COURSES_4E = {
       },
       {
         "q": "Si la base d'un triangle mesure 15 cm, quelle est la longueur du segment joignant les milieux des deux autres côtés ?",
-        "a": "$7,5$ cm ($15 \\div 2 = 7,5$ cm)."
+        "a": "$7{,}5$ cm ($15 \\div 2 = 7{,}5$ cm)."
       },
       {
         "q": "Si un triangle est inscrit dans un cercle ayant pour diamètre un de ses côtés, quelle est la nature de ce triangle ?",
         "a": "C'est un **triangle rectangle**."
+      },
+      {
+        "q": "$(MN) // (BC)$, $AM = 2$, $AB = 6$ et $BC = 9$. Combien mesure $MN$ ?",
+        "a": "$MN = \\dfrac{2 \\times 9}{6} = 3$ (Thalès : $\\dfrac{AM}{AB} = \\dfrac{MN}{BC}$)."
       }
     ]
   },
@@ -531,6 +716,10 @@ window.MATHS_COURSES_4E = {
       {
         "title": "4. Rappel comparatif des transformations du plan",
         "content": "• **Symétrie axiale** : effet miroir par pliage le long d'une droite (axe).\n• **Symétrie centrale** : demi-tour de $180^\\circ$ autour d'un point (centre, qui est le milieu).\n• **Translation** : glissement selon une direction, un sens et une distance sans rotation."
+      },
+      {
+        "title": "À retenir",
+        "content": "• Une translation est un **glissement** défini par une direction, un sens et une longueur (par exemple « de $A$ vers $B$ »).\n• $M'$ image de $M$ par la translation qui transforme $A$ en $B$ $\\iff$ $ABM'M$ est un parallélogramme (éventuellement aplati).\n• La translation conserve longueurs, angles, aires, alignement et parallélisme.\n• Sur quadrillage : on compte les carreaux du déplacement et on l'applique à chaque point."
       }
     ],
     "methods": [
@@ -543,11 +732,31 @@ window.MATHS_COURSES_4E = {
           "**Étape 3** : Prendre l'écartement $AC$, piquer sur $B$ et tracer un deuxième arc de cercle coupant le premier.",
           "**Étape 4 (Point image)** : Le point d'intersection des deux arcs est le point $D$ recherché."
         ]
+      },
+      {
+        "title": "Méthode : Construire l'image d'une figure sur un quadrillage",
+        "example": "Sur le quadrillage, construire l'image du triangle $PQR$ par la translation qui transforme $A$ en $B$.\n\n<div class=\"geo-figure-wrapper\" style=\"text-align:center; margin:1rem 0;\">\n<svg class=\"geo-svg-figure\" viewBox=\"0 0 240 180\" width=\"240\" height=\"180\" style=\"max-width:300px; width:100%; height:auto;\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Translation sur quadrillage : 3 carreaux vers la droite et 2 vers le haut\">\n  <defs><marker id=\"arr4g3\" markerWidth=\"8\" markerHeight=\"8\" refX=\"7\" refY=\"4\" orient=\"auto\"><path d=\"M0,0 L8,4 L0,8 z\" fill=\"#f59e0b\" /></marker></defs>\n  <line x1=\"10\" y1=\"10\" x2=\"10\" y2=\"170\" stroke=\"#cbd5e1\" stroke-width=\"1\" /><line x1=\"30\" y1=\"10\" x2=\"30\" y2=\"170\" stroke=\"#cbd5e1\" stroke-width=\"1\" /><line x1=\"50\" y1=\"10\" x2=\"50\" y2=\"170\" stroke=\"#cbd5e1\" stroke-width=\"1\" /><line x1=\"70\" y1=\"10\" x2=\"70\" y2=\"170\" stroke=\"#cbd5e1\" stroke-width=\"1\" /><line x1=\"90\" y1=\"10\" x2=\"90\" y2=\"170\" stroke=\"#cbd5e1\" stroke-width=\"1\" /><line x1=\"110\" y1=\"10\" x2=\"110\" y2=\"170\" stroke=\"#cbd5e1\" stroke-width=\"1\" /><line x1=\"130\" y1=\"10\" x2=\"130\" y2=\"170\" stroke=\"#cbd5e1\" stroke-width=\"1\" /><line x1=\"150\" y1=\"10\" x2=\"150\" y2=\"170\" stroke=\"#cbd5e1\" stroke-width=\"1\" /><line x1=\"170\" y1=\"10\" x2=\"170\" y2=\"170\" stroke=\"#cbd5e1\" stroke-width=\"1\" /><line x1=\"190\" y1=\"10\" x2=\"190\" y2=\"170\" stroke=\"#cbd5e1\" stroke-width=\"1\" /><line x1=\"210\" y1=\"10\" x2=\"210\" y2=\"170\" stroke=\"#cbd5e1\" stroke-width=\"1\" /><line x1=\"230\" y1=\"10\" x2=\"230\" y2=\"170\" stroke=\"#cbd5e1\" stroke-width=\"1\" /><line x1=\"10\" y1=\"10\" x2=\"230\" y2=\"10\" stroke=\"#cbd5e1\" stroke-width=\"1\" /><line x1=\"10\" y1=\"30\" x2=\"230\" y2=\"30\" stroke=\"#cbd5e1\" stroke-width=\"1\" /><line x1=\"10\" y1=\"50\" x2=\"230\" y2=\"50\" stroke=\"#cbd5e1\" stroke-width=\"1\" /><line x1=\"10\" y1=\"70\" x2=\"230\" y2=\"70\" stroke=\"#cbd5e1\" stroke-width=\"1\" /><line x1=\"10\" y1=\"90\" x2=\"230\" y2=\"90\" stroke=\"#cbd5e1\" stroke-width=\"1\" /><line x1=\"10\" y1=\"110\" x2=\"230\" y2=\"110\" stroke=\"#cbd5e1\" stroke-width=\"1\" /><line x1=\"10\" y1=\"130\" x2=\"230\" y2=\"130\" stroke=\"#cbd5e1\" stroke-width=\"1\" /><line x1=\"10\" y1=\"150\" x2=\"230\" y2=\"150\" stroke=\"#cbd5e1\" stroke-width=\"1\" /><line x1=\"10\" y1=\"170\" x2=\"230\" y2=\"170\" stroke=\"#cbd5e1\" stroke-width=\"1\" />\n  <polygon points=\"30,150 90,150 30,110\" fill=\"rgba(37, 99, 235, 0.10)\" stroke=\"var(--primary, #2563eb)\" stroke-width=\"2\" />\n  <polygon points=\"90,110 150,110 90,70\" fill=\"rgba(16, 185, 129, 0.12)\" stroke=\"#10b981\" stroke-width=\"2\" />\n  <line x1=\"150\" y1=\"50\" x2=\"206\" y2=\"13\" stroke=\"#f59e0b\" stroke-width=\"2.5\" marker-end=\"url(#arr4g3)\" />\n  <text x=\"140\" y=\"48\" font-family=\"system-ui, sans-serif\" font-size=\"12\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">A</text><text x=\"212\" y=\"22\" font-family=\"system-ui, sans-serif\" font-size=\"12\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">B</text>\n  <text x=\"22\" y=\"166\" font-family=\"system-ui, sans-serif\" font-size=\"12\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">P</text><text x=\"92\" y=\"166\" font-family=\"system-ui, sans-serif\" font-size=\"12\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">Q</text><text x=\"18\" y=\"108\" font-family=\"system-ui, sans-serif\" font-size=\"12\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">R</text>\n  <text x=\"82\" y=\"126\" font-family=\"system-ui, sans-serif\" font-size=\"12\" font-weight=\"700\" fill=\"#047857\">P'</text><text x=\"152\" y=\"126\" font-family=\"system-ui, sans-serif\" font-size=\"12\" font-weight=\"700\" fill=\"#047857\">Q'</text><text x=\"78\" y=\"68\" font-family=\"system-ui, sans-serif\" font-size=\"12\" font-weight=\"700\" fill=\"#047857\">R'</text>\n</svg>\n</div>\n",
+        "steps": [
+          "**Étape 1 (Lire le déplacement)** : pour aller de $A$ à $B$, on avance de **3 carreaux vers la droite** et de **2 carreaux vers le haut**.",
+          "**Étape 2 (Images des sommets)** : on applique ce même déplacement à chaque sommet : $P \\to P'$, $Q \\to Q'$, $R \\to R'$ (3 carreaux à droite, 2 vers le haut).",
+          "**Étape 3 (Tracer)** : on relie $P'$, $Q'$ et $R'$. Le triangle $P'Q'R'$ est superposable à $PQR$, sans rotation.",
+          "**Contrôle** : $PP'Q'Q$ est un parallélogramme : $[PP']$, $[QQ']$ et $[RR']$ sont parallèles à $[AB]$ et de même longueur."
+        ]
+      },
+      {
+        "title": "Méthode : Reconnaître une translation dans un parallélogramme",
+        "example": "$ABCD$ est un parallélogramme. Quelle est l'image de $A$ par la translation qui transforme $D$ en $C$ ?",
+        "steps": [
+          "**Étape 1 (Traduire)** : le point $M'$ est l'image de $A$ par la translation qui transforme $D$ en $C$ si et seulement si $DCM'A$ est un parallélogramme.",
+          "**Étape 2 (Utiliser la figure)** : $ABCD$ est un parallélogramme, donc $DCBA$ (le même, lu dans l'autre sens) aussi.",
+          "**Étape 3 (Conclure)** : $M' = B$. L'image de $A$ est $B$ : la flèche de $D$ vers $C$ et celle de $A$ vers $B$ ont même direction, même sens et même longueur."
+        ]
       }
     ],
     "traps": [
       "⚠️ Ne pas confondre **direction** (une droite ou une orientation dans l'espace, ex: horizontale) et **sens** (vers la droite ou vers la gauche).",
-      "⚠️ Attention à l'ordre des lettres dans le parallélogramme : si la translation envoie $A$ en $B$ et $C$ en $D$, le parallélogramme est $ABDC$ (et non $ABCD$) !"
+      "⚠️ Attention à l'ordre des lettres dans le parallélogramme : si la translation envoie $A$ en $B$ et $C$ en $D$, le parallélogramme est $ABDC$ (et non $ABCD$) !",
+      "⚠️ Faire tourner la figure ou changer sa taille : l'image par une translation a exactement la même orientation et les mêmes dimensions."
     ],
     "flashcards": [
       {
@@ -569,6 +778,10 @@ window.MATHS_COURSES_4E = {
       {
         "q": "Quelle transformation correspond à une rotation d'un demi-tour (180°) ?",
         "a": "La **symétrie centrale**."
+      },
+      {
+        "q": "Sur quadrillage, une translation déplace $A$ de 4 carreaux à gauche et 1 vers le bas. Que fait-elle sur un autre point $M$ ?",
+        "a": "Elle déplace aussi $M$ de 4 carreaux à gauche et 1 vers le bas : tous les points glissent de la même façon."
       }
     ]
   },
@@ -599,6 +812,10 @@ window.MATHS_COURSES_4E = {
       {
         "title": "4. Effets d'un agrandissement ou d'une réduction de rapport k",
         "content": "Si toutes les dimensions d'un solide sont multipliées par un nombre $k > 0$ :\n• Les **longueurs** sont multipliées par $k$.\n• Les **aires** sont multipliées par $k^2$.\n• Les **volumes** sont multipliés par $k^3$.\n*(Exemple : si on double les dimensions d'une pyramide ($k=2$), son volume est multiplié par $2^3 = 8$ !)*"
+      },
+      {
+        "title": "À retenir",
+        "content": "• Pyramide et cône : $V = \\dfrac{\\text{aire de la base} \\times \\text{hauteur}}{3}$.\n• Cône : base = disque, donc $V = \\dfrac{\\pi r^2 h}{3}$.\n• La hauteur est **perpendiculaire** à la base ; ne pas la confondre avec une arête ou la génératrice.\n• Dans un cône, hauteur, rayon et génératrice forment un triangle rectangle (Pythagore).\n• $1$ L $= 1$ dm³ $= 1\\,000$ cm³."
       }
     ],
     "methods": [
@@ -609,13 +826,33 @@ window.MATHS_COURSES_4E = {
           "**Étape 1 (Aire de la base)** : $\\mathcal{B} = \\pi \\times r^2 = \\pi \\times 3^2 = 9\\pi \\text{ cm}^2$.",
           "**Étape 2 (Formule du volume)** : $V = \\frac{\\mathcal{B} \\times h}{3} = \\frac{9\\pi \\times 7}{3}$.",
           "**Étape 3 (Simplification et valeur exacte)** : $\\frac{9 \\times 7}{3}\\pi = 3 \\times 7\\pi = 21\\pi \\text{ cm}^3$.",
-          "**Étape 4 (Valeur arrondie)** : $V \\approx 21 \\times 3,14159 \\approx 66 \\text{ cm}^3$."
+          "**Étape 4 (Valeur arrondie)** : $V \\approx 21 \\times 3{,}14159 \\approx 66 \\text{ cm}^3$."
+        ]
+      },
+      {
+        "title": "Méthode : Calculer le volume d'une pyramide",
+        "example": "Une pyramide a pour base un rectangle de $6$ cm sur $4$ cm et pour hauteur $9$ cm. Calculer son volume, puis le convertir en litres.",
+        "steps": [
+          "**Étape 1 (Aire de la base)** : $\\mathcal{B} = 6 \\times 4 = 24$ cm².",
+          "**Étape 2 (Formule)** : $V = \\dfrac{\\mathcal{B} \\times h}{3} = \\dfrac{24 \\times 9}{3} = \\dfrac{216}{3} = 72$ cm³.",
+          "**Étape 3 (Conversion)** : $1$ L $= 1$ dm³ $= 1\\,000$ cm³, donc $V = 0{,}072$ L."
+        ]
+      },
+      {
+        "title": "Méthode : Trouver la hauteur d'un cône avec Pythagore, puis son volume",
+        "example": "Un cône de révolution a pour rayon de base $r = 5$ cm et pour génératrice $g = 13$ cm. Calculer sa hauteur puis son volume (valeur exacte, puis arrondi au cm³).",
+        "steps": [
+          "**Étape 1 (Triangle rectangle)** : la hauteur $[SO]$, le rayon $[OA]$ et la génératrice $[SA]$ forment un triangle $SOA$ rectangle en $O$.",
+          "**Étape 2 (Pythagore)** : $SA^2 = SO^2 + OA^2$, donc $SO^2 = 13^2 - 5^2 = 169 - 25 = 144$ et $h = SO = \\sqrt{144} = 12$ cm.",
+          "**Étape 3 (Volume)** : $V = \\dfrac{\\pi \\times r^2 \\times h}{3} = \\dfrac{\\pi \\times 25 \\times 12}{3} = 100\\pi$ cm³.",
+          "**Étape 4 (Arrondi)** : $V \\approx 314$ cm³."
         ]
       }
     ],
     "traps": [
       "⚠️ Oublier de diviser par 3 dans la formule du volume d'une pyramide ou d'un cône : un cylindre contient 3 cônes de même base et même hauteur !",
-      "⚠️ Ne pas confondre la hauteur $h$ (perpendiculaire du sommet à la base) et la génératrice $g$ ou l'arête latérale (qui est oblique)."
+      "⚠️ Ne pas confondre la hauteur $h$ (perpendiculaire du sommet à la base) et la génératrice $g$ ou l'arête latérale (qui est oblique).",
+      "⚠️ Mélanger les unités : toutes les longueurs doivent être dans la même unité avant de calculer un volume."
     ],
     "flashcards": [
       {
@@ -637,6 +874,14 @@ window.MATHS_COURSES_4E = {
       {
         "q": "Comment calcule-t-on l'angle au centre $\\alpha$ du patron d'un cône ?",
         "a": "$$\\alpha = 360^\\circ \\times \\frac{r}{g} \\quad (r = \\text{rayon}, g = \\text{génératrice})$$"
+      },
+      {
+        "q": "Volume d'une pyramide de base carrée de côté 3 cm et de hauteur 5 cm ?",
+        "a": "$V = \\dfrac{3^2 \\times 5}{3} = 15$ cm³."
+      },
+      {
+        "q": "Combien de cm³ dans 1 litre ?",
+        "a": "$1\\,000$ cm³ (car $1$ L $= 1$ dm³)."
       }
     ]
   },
@@ -657,15 +902,19 @@ window.MATHS_COURSES_4E = {
       },
       {
         "title": "2. Médiane d'une série statistique",
-        "content": "La **médiane** d'une série ordonnée est un nombre qui partage la population en **deux groupes de même effectif** :\n• Au moins 50 % des valeurs sont inférieures ou égales à la médiane.\n• Au moins 50 % des valeurs sont supérieures ou égales à la médiane.\n**Condition préalable obligatoire** : Il faut toujours commencer par **ranger les valeurs par ordre croissant** !"
+        "content": "La **médiane** d'une série rangée par ordre croissant est un nombre qui la partage en deux groupes de même effectif (à une valeur près) :\n• au moins 50 % des valeurs sont inférieures ou égales à la médiane ;\n• au moins 50 % des valeurs sont supérieures ou égales à la médiane.\n**Condition préalable** : il faut toujours commencer par **ranger les valeurs par ordre croissant**.\nContrairement à la moyenne, la médiane n'est presque pas influencée par une valeur extrême."
       },
       {
         "title": "3. Méthode de calcul de la médiane selon la parité de l'effectif total N",
-        "content": "• **Si N est IMPAIR** ($N = 2p + 1$) : La médiane est la valeur située exactement au milieu, de rang $\\frac{N+1}{2}$.\n  - Exemple : $N = 9$ valeurs ordonnées $\\implies \\frac{9+1}{2} = 5$ème valeur.\n• **Si N est PAIR** ($N = 2p$) : La médiane est la demi-somme des deux valeurs centrales, de rang $\\frac{N}{2}$ et $\\frac{N}{2} + 1$.\n  - Exemple : $N = 10$ valeurs ordonnées $\\implies$ moyenne entre la 5ème et la 6ème valeur."
+        "content": "• **Si N est IMPAIR** ($N = 2p + 1$) : La médiane est la valeur située exactement au milieu, de rang $\\frac{N+1}{2}$.\n  - Exemple : $N = 9$ valeurs ordonnées $\\implies \\frac{9+1}{2} = 5$ème valeur.\n• **Si N est PAIR** ($N = 2p$) : La médiane est la demi-somme des deux valeurs centrales, de rang $\\frac{N}{2}$ et $\\frac{N}{2} + 1$.\n  - Exemple : $N = 10$ valeurs ordonnées $\\implies$ moyenne entre la 5e et la 6e valeur."
       },
       {
         "title": "4. Étendue d'une série",
         "content": "L'**étendue** d'une série statistique est la différence entre la plus grande valeur et la plus petite valeur de la série :\n$$\\text{Étendue} = \\text{Valeur maximale} - \\text{Valeur minimale}$$\nElle mesure la dispersion des données : plus l'étendue est grande, plus la série est étalée."
+      },
+      {
+        "title": "À retenir",
+        "content": "• Moyenne pondérée : $\\dfrac{\\text{somme des (valeur} \\times \\text{effectif ou coefficient)}}{\\text{somme des effectifs ou coefficients}}$.\n• Médiane : on **range** la série ; $N$ impair : valeur de rang $\\dfrac{N+1}{2}$ ; $N$ pair : moyenne des valeurs de rangs $\\dfrac{N}{2}$ et $\\dfrac{N}{2} + 1$.\n• Étendue = maximum − minimum (indicateur de dispersion).\n• Moyenne et médiane sont des indicateurs de **position** ; l'étendue mesure la **dispersion**."
       }
     ],
     "methods": [
@@ -676,13 +925,35 @@ window.MATHS_COURSES_4E = {
           "**Étape 1 (Ordonner la série)** : $8 \\le 9 \\le 11 \\le 12 \\le 14 \\le 15 \\le 16$.",
           "**Étape 2 (Compter l'effectif)** : Il y a $N = 7$ valeurs (nombre impair).",
           "**Étape 3 (Identifier le rang)** : $\\frac{7+1}{2} = 4$ème valeur.",
-          "**Étape 4 (Conclusion)** : La 4ème valeur est 12. La note médiane est donc **12** (3 notes sont $\\le 12$ et 3 notes sont $\\ge 12$)."
+          "**Étape 4 (Conclusion)** : La 4e valeur est 12. La note médiane est donc **12** (3 notes sont $\\le 12$ et 3 notes sont $\\ge 12$)."
+        ]
+      },
+      {
+        "title": "Méthode : Calculer une moyenne pondérée par des coefficients",
+        "example": "Sam a obtenu $12$ (coefficient 2), $15$ (coefficient 3) et $9$ (coefficient 1). Calculer sa moyenne.",
+        "steps": [
+          "**Étape 1 (Produits)** : $12 \\times 2 = 24$ ; $15 \\times 3 = 45$ ; $9 \\times 1 = 9$.",
+          "**Étape 2 (Somme des produits)** : $24 + 45 + 9 = 78$.",
+          "**Étape 3 (Somme des coefficients)** : $2 + 3 + 1 = 6$.",
+          "**Étape 4 (Moyenne)** : $\\bar{x} = \\dfrac{78}{6} = 13$. (Sans coefficients, on aurait trouvé $\\dfrac{12 + 15 + 9}{3} = 12$.)"
+        ]
+      },
+      {
+        "title": "Méthode : Médiane d'une série d'effectif pair et comparaison avec la moyenne",
+        "example": "Temps de trajet (en minutes) de 8 élèves : $15 ; 7 ; 20 ; 9 ; 3 ; 13 ; 7 ; 12$. Déterminer la médiane, la moyenne et l'étendue.",
+        "steps": [
+          "**Étape 1 (Ranger)** : $3 ; 7 ; 7 ; 9 ; 12 ; 13 ; 15 ; 20$ ($N = 8$, pair).",
+          "**Étape 2 (Médiane)** : les valeurs centrales sont la 4e et la 5e : $9$ et $12$. Médiane $= \\dfrac{9 + 12}{2} = 10{,}5$ min.",
+          "**Étape 3 (Moyenne)** : $\\dfrac{3 + 7 + 7 + 9 + 12 + 13 + 15 + 20}{8} = \\dfrac{86}{8} = 10{,}75$ min.",
+          "**Étape 4 (Étendue)** : $20 - 3 = 17$ min.",
+          "**Interprétation** : au moins la moitié des élèves mettent 10,5 minutes ou moins ; les temps sont assez dispersés (17 min d'écart entre extrêmes)."
         ]
       }
     ],
     "traps": [
       "⚠️ Chercher la médiane sans avoir au préalable rangé les valeurs dans l'ordre croissant !",
-      "⚠️ Dans une moyenne avec coefficients, diviser par le nombre de matières au lieu de diviser par la **somme des coefficients** !"
+      "⚠️ Dans une moyenne avec coefficients, diviser par le nombre de matières au lieu de diviser par la **somme des coefficients** !",
+      "⚠️ Pour une série de 8 valeurs, la médiane n'est pas la 4e valeur : c'est la moyenne de la 4e et de la 5e."
     ],
     "flashcards": [
       {
@@ -695,7 +966,7 @@ window.MATHS_COURSES_4E = {
       },
       {
         "q": "Dans une série de 11 valeurs rangées, quel est le rang de la médiane ?",
-        "a": "Le 6ème rang (car $\\frac{11+1}{2} = 6$, il y a 5 valeurs avant et 5 valeurs après)."
+        "a": "Le 6e rang (car $\\frac{11+1}{2} = 6$, il y a 5 valeurs avant et 5 valeurs après)."
       },
       {
         "q": "La médiane d'une série est 13. Que cela signifie-t-il ?",
@@ -704,6 +975,14 @@ window.MATHS_COURSES_4E = {
       {
         "q": "Calculer l'étendue de la série : 4 ; 12 ; 7 ; 19 ; 3.",
         "a": "$19 - 3 = 16$."
+      },
+      {
+        "q": "Médiane de la série $2 ; 5 ; 8 ; 10$ ?",
+        "a": "$\\dfrac{5 + 8}{2} = 6{,}5$."
+      },
+      {
+        "q": "Moyenne de $10$ (coefficient 3) et $14$ (coefficient 1) ?",
+        "a": "$\\dfrac{30 + 14}{4} = \\dfrac{44}{4} = 11$."
       }
     ]
   },
@@ -715,7 +994,8 @@ window.MATHS_COURSES_4E = {
       "Calculer la probabilité d'un événement en situation d'équiprobabilité : $P(A) = \\frac{\\text{issues favorables}}{\\text{issues possibles}}$.",
       "Définir l'événement contraire $\\bar{A}$ (« non A ») et appliquer la formule fondamentale $P(\\bar{A}) = 1 - P(A)$.",
       "Représenter une expérience aléatoire à deux épreuves successives indépendantes à l'aide d'un arbre pondéré ou d'un tableau à double entrée.",
-      "Calculer des probabilités composées."
+      "Calculer des probabilités composées.",
+      "Comprendre le lien entre fréquence observée et probabilité lorsque l'on répète une expérience un grand nombre de fois."
     ],
     "keyPoints": [
       {
@@ -728,11 +1008,19 @@ window.MATHS_COURSES_4E = {
       },
       {
         "title": "3. Événement contraire $\\bar{A}$",
-        "content": "L'**événement contraire** d'un événement $A$, noté $\\bar{A}$ (ou « non A »), est l'ensemble de toutes les issues qui n'appartiennent pas à $A$.\n$$\\text{Formule d'or : } P(\\bar{A}) = 1 - P(A) \\quad \\iff \\quad P(A) + P(\\bar{A}) = 1$$\n*Exemple* : Si la probabilité de tirer une bille rouge est $P(R) = 0,35$, alors la probabilité de ne pas tirer de bille rouge est $P(\\bar{R}) = 1 - 0,35 = 0,65$."
+        "content": "L'**événement contraire** d'un événement $A$, noté $\\bar{A}$ (ou « non A »), est l'ensemble de toutes les issues qui n'appartiennent pas à $A$.\n$$\\text{Formule d'or : } P(\\bar{A}) = 1 - P(A) \\quad \\iff \\quad P(A) + P(\\bar{A}) = 1$$\n*Exemple* : Si la probabilité de tirer une bille rouge est $P(R) = 0{,}35$, alors la probabilité de ne pas tirer de bille rouge est $P(\\bar{R}) = 1 - 0{,}35 = 0{,}65$."
       },
       {
         "title": "4. Expériences aléatoires à deux épreuves",
         "content": "Pour modéliser deux tirages successifs ou le lancer simultané de deux objets :\n• **Le tableau à double entrée** : très efficace quand le nombre d'issues est fini et identique pour chaque épreuve.\n• **L'arbre pondéré** : sur chaque branche on inscrit la probabilité de l'issue correspondante.\n• La somme des probabilités des branches issues d'un même nœud est **toujours égale à 1**."
+      },
+      {
+        "title": "5. Fréquence et probabilité",
+        "content": "Si on répète une expérience aléatoire **un très grand nombre de fois**, la **fréquence** d'apparition d'un événement se rapproche de sa **probabilité**.\n*Exemple* : en lançant un dé équilibré 6 000 fois, on obtient le 6 environ 1 000 fois : la fréquence est proche de $\\dfrac{1}{6} \\approx 0{,}17$. Sur 12 lancers seulement, elle peut en être très éloignée."
+      },
+      {
+        "title": "À retenir",
+        "content": "• $0 \\le P(A) \\le 1$ ; événement impossible : $0$ ; événement certain : $1$.\n• Équiprobabilité : $P(A) = \\dfrac{\\text{nombre d'issues favorables}}{\\text{nombre d'issues possibles}}$.\n• $P(\\bar{A}) = 1 - P(A)$ : très utile pour « au moins un ».\n• Deux épreuves : on liste toutes les issues avec un **arbre** ou un **tableau**.\n• Sur un grand nombre d'essais, la fréquence observée se rapproche de la probabilité."
       }
     ],
     "methods": [
@@ -740,20 +1028,39 @@ window.MATHS_COURSES_4E = {
         "title": "Méthode : Calculer la probabilité d'un événement avec l'événement contraire",
         "example": "Dans une tombola de 500 tickets, 15 tickets sont gagnants. Quelle est la probabilité de ne rien gagner ?",
         "steps": [
-          "**Étape 1 (Probabilité de l'événement direct)** : Soit $G$ l'événement « Gagner un lot ». $P(G) = \\frac{15}{500} = \\frac{3}{100} = 0,03$.",
+          "**Étape 1 (Probabilité de l'événement direct)** : Soit $G$ l'événement « Gagner un lot ». $P(G) = \\frac{15}{500} = \\frac{3}{100} = 0{,}03$.",
           "**Étape 2 (Appliquer l'événement contraire)** : L'événement « Ne rien gagner » est l'événement contraire $\\bar{G}$.",
-          "**Étape 3 (Calcul)** : $P(\\bar{G}) = 1 - P(G) = 1 - 0,03 = 0,97$ (soit 97 % de chance de ne rien gagner)."
+          "**Étape 3 (Calcul)** : $P(\\bar{G}) = 1 - P(G) = 1 - 0{,}03 = 0{,}97$ (soit 97 % de chance de ne rien gagner)."
+        ]
+      },
+      {
+        "title": "Méthode : Utiliser un tableau à double entrée (deux dés)",
+        "example": "On lance deux dés équilibrés à six faces et on additionne les résultats. Quelle est la probabilité d'obtenir une somme égale à 7 ?",
+        "steps": [
+          "**Étape 1 (Issues)** : chaque dé a 6 faces, il y a $6 \\times 6 = 36$ issues équiprobables, que l'on présente dans un tableau (dé 1 en ligne, dé 2 en colonne, somme dans les cases).",
+          "**Étape 2 (Issues favorables)** : la somme vaut 7 pour $(1 ; 6)$, $(2 ; 5)$, $(3 ; 4)$, $(4 ; 3)$, $(5 ; 2)$, $(6 ; 1)$ : **6 issues** (une diagonale du tableau).",
+          "**Étape 3 (Probabilité)** : en notant $S$ l'événement « la somme vaut 7 », $P(S) = \\dfrac{6}{36} = \\dfrac{1}{6}$."
+        ]
+      },
+      {
+        "title": "Méthode : Utiliser un arbre et l'événement contraire",
+        "example": "On lance deux fois une pièce équilibrée. Quelle est la probabilité d'obtenir **au moins une fois** Pile ?\n\n<div class=\"geo-figure-wrapper\" style=\"text-align:center; margin:1rem 0;\">\n<svg class=\"geo-svg-figure\" viewBox=\"0 0 330 200\" width=\"330\" height=\"200\" style=\"max-width:330px; width:100%; height:auto;\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Arbre de deux lancers d'une pièce : quatre issues de probabilité un quart\">\n  <line x1=\"20\" y1=\"100\" x2=\"100\" y2=\"50\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.6\" /><line x1=\"20\" y1=\"100\" x2=\"100\" y2=\"150\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.6\" />\n  <line x1=\"120\" y1=\"50\" x2=\"200\" y2=\"25\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.6\" /><line x1=\"120\" y1=\"50\" x2=\"200\" y2=\"75\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.6\" /><line x1=\"120\" y1=\"150\" x2=\"200\" y2=\"125\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.6\" /><line x1=\"120\" y1=\"150\" x2=\"200\" y2=\"175\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.6\" />\n  <circle cx=\"20\" cy=\"100\" r=\"3\" fill=\"var(--primary, #2563eb)\" />\n  <text x=\"110\" y=\"55\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">P</text><text x=\"110\" y=\"155\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">F</text>\n  <text x=\"210\" y=\"30\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">P</text><text x=\"210\" y=\"80\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">F</text><text x=\"210\" y=\"130\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">P</text><text x=\"210\" y=\"180\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">F</text>\n  <text x=\"52\" y=\"66\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"700\" fill=\"var(--primary, #2563eb)\">1/2</text><text x=\"52\" y=\"146\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"700\" fill=\"var(--primary, #2563eb)\">1/2</text>\n  <text x=\"152\" y=\"30\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"700\" fill=\"var(--primary, #2563eb)\">1/2</text><text x=\"152\" y=\"76\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"700\" fill=\"var(--primary, #2563eb)\">1/2</text><text x=\"152\" y=\"130\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"700\" fill=\"var(--primary, #2563eb)\">1/2</text><text x=\"152\" y=\"176\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"700\" fill=\"var(--primary, #2563eb)\">1/2</text>\n  <text x=\"240\" y=\"30\" font-family=\"system-ui, sans-serif\" font-size=\"12\" font-weight=\"600\" fill=\"var(--text-main, #0f172a)\">(P ; P) : 1/4</text><text x=\"240\" y=\"80\" font-family=\"system-ui, sans-serif\" font-size=\"12\" font-weight=\"600\" fill=\"var(--text-main, #0f172a)\">(P ; F) : 1/4</text><text x=\"240\" y=\"130\" font-family=\"system-ui, sans-serif\" font-size=\"12\" font-weight=\"600\" fill=\"var(--text-main, #0f172a)\">(F ; P) : 1/4</text><text x=\"240\" y=\"180\" font-family=\"system-ui, sans-serif\" font-size=\"12\" font-weight=\"600\" fill=\"var(--text-main, #0f172a)\">(F ; F) : 1/4</text>\n</svg>\n</div>\n",
+        "steps": [
+          "**Étape 1 (Arbre)** : l'arbre fait apparaître 4 issues équiprobables : $(P ; P)$, $(P ; F)$, $(F ; P)$, $(F ; F)$, chacune de probabilité $\\dfrac{1}{4}$.",
+          "**Étape 2 (Événement contraire)** : le contraire de « au moins une fois Pile » est « aucun Pile », c'est-à-dire $(F ; F)$, de probabilité $\\dfrac{1}{4}$.",
+          "**Étape 3 (Conclusion)** : en notant $A$ l'événement « au moins un Pile », $P(A) = 1 - P(\\bar{A}) = 1 - \\dfrac{1}{4} = \\dfrac{3}{4}$. (Vérification : 3 issues favorables sur 4.)"
         ]
       }
     ],
     "traps": [
       "⚠️ Trouver une probabilité supérieure à 1 ou strictement négative (une probabilité est TOUJOURS comprise entre 0 et 1).",
-      "⚠️ Oublier que la somme des probabilités de toutes les issues d'une expérience aléatoire doit être rigoureusement égale à 1."
+      "⚠️ Oublier que la somme des probabilités de toutes les issues d'une expérience aléatoire doit être rigoureusement égale à 1.",
+      "⚠️ Pour deux dés, les sommes ne sont pas équiprobables : 7 est bien plus probable que 2 (une seule issue $(1 ; 1)$ donne 2)."
     ],
     "flashcards": [
       {
-        "q": "Si $P(A) = 0,42$, que vaut la probabilité de l'événement contraire $\\bar{A}$ ?",
-        "a": "$P(\\bar{A}) = 1 - 0,42 = 0,58$."
+        "q": "Si $P(A) = 0{,}42$, que vaut la probabilité de l'événement contraire $\\bar{A}$ ?",
+        "a": "$P(\\bar{A}) = 1 - 0{,}42 = 0{,}58$."
       },
       {
         "q": "Que vaut la somme des probabilités de toutes les issues possibles d'une expérience aléatoire ?",
@@ -765,11 +1072,19 @@ window.MATHS_COURSES_4E = {
       },
       {
         "q": "Dans un sac contenant 4 billes bleues et 6 billes vertes, quelle est la probabilité de tirer une bille bleue ?",
-        "a": "$P = \\frac{4}{4+6} = \\frac{4}{10} = 0,4$ (ou $\\frac{2}{5}$)."
+        "a": "$P = \\frac{4}{4+6} = \\frac{4}{10} = 0{,}4$ (ou $\\frac{2}{5}$)."
       },
       {
         "q": "Que vaut la somme des probabilités des branches partant d'un même nœud dans un arbre pondéré ?",
         "a": "Elle vaut **toujours 1**."
+      },
+      {
+        "q": "On lance deux dés. Probabilité d'obtenir un double ?",
+        "a": "$\\dfrac{6}{36} = \\dfrac{1}{6}$ (les doubles forment la diagonale du tableau)."
+      },
+      {
+        "q": "On lance deux fois une pièce. Probabilité d'obtenir deux Face ?",
+        "a": "$\\dfrac{1}{4}$ (une issue sur quatre)."
       }
     ]
   },
@@ -785,7 +1100,7 @@ window.MATHS_COURSES_4E = {
     "keyPoints": [
       {
         "title": "1. Tableau de proportionnalité et Produit en croix",
-        "content": "Dans un tableau de proportionnalité, on passe d'une ligne à l'autre en multipliant par le **coefficient de proportionnalité**.\n• **Égalité des produits en croix** :\n$$\\begin{array}{|c|c|} \\hline a & c \\\\ \\hline b & d \\\\ \\hline \\end{array} \\iff a \\times d = b \\times c \\quad \\implies \\quad d = \\frac{b \\times c}{a}$$"
+        "content": "Dans un tableau de proportionnalité, on passe d'une ligne à l'autre en multipliant par le **coefficient de proportionnalité**.\n• **Égalité des produits en croix** :\n$$\\begin{array}{|c|c|} \\hline a & c \\\\ \\hline b & d \\\\ \\hline \\end{array} \\iff a \\times d = b \\times c \\quad \\implies \\quad d = \\frac{b \\times c}{a}$$\n• **Reconnaître la proportionnalité** : les quotients $\\dfrac{\\text{ligne 2}}{\\text{ligne 1}}$ sont tous égaux ; graphiquement, les points sont alignés **avec l'origine** du repère."
       },
       {
         "title": "2. Partage selon un ratio",
@@ -793,11 +1108,15 @@ window.MATHS_COURSES_4E = {
       },
       {
         "title": "3. Pourcentages et Coefficients multiplicateurs",
-        "content": "• **Prendre $t$ % d'une quantité** : on multiplie cette quantité par $\\frac{t}{100}$.\n• **Augmenter de $t$ %** revient à multiplier par $(1 + \\frac{t}{100})$ :\n  - Une augmentation de 20 % correspond au coefficient $1 + 0,20 = 1,20$.\n• **Diminuer de $t$ %** revient à multiplier par $(1 - \\frac{t}{100})$ :\n  - Une réduction de 15 % correspond au coefficient $1 - 0,15 = 0,85$."
+        "content": "• **Prendre $t$ % d'une quantité** : on multiplie cette quantité par $\\frac{t}{100}$.\n• **Augmenter de $t$ %** revient à multiplier par $(1 + \\frac{t}{100})$ :\n  - Une augmentation de 20 % correspond au coefficient $1 + 0{,}20 = 1{,}20$.\n• **Diminuer de $t$ %** revient à multiplier par $(1 - \\frac{t}{100})$ :\n  - Une réduction de 15 % correspond au coefficient $1 - 0{,}15 = 0{,}85$."
       },
       {
         "title": "4. Vitesse moyenne et conversion des unités",
-        "content": "La **vitesse moyenne** $v$ est une grandeur quotient égale à la distance $d$ divisée par le temps $t$ :\n$$v = \\frac{d}{t} \\quad \\iff \\quad d = v \\times t \\quad \\iff \\quad t = \\frac{d}{v}$$\n**Attention capitale aux unités de temps** :\n• $0,5$ h = $30$ min (la moitié d'une heure) | $0,25$ h = $15$ min | $0,75$ h = $45$ min.\n• Pour convertir des minutes en heures décimales : **diviser par 60** ($36$ min = $\\frac{36}{60} = 0,6$ h).\n• Pour convertir des heures décimales en minutes : **multiplier la partie décimale par 60** ($2,4$ h = $2$ h $+ 0,4 \\times 60$ min = $2$ h $24$ min)."
+        "content": "La **vitesse moyenne** $v$ est une grandeur quotient égale à la distance $d$ divisée par le temps $t$ :\n$$v = \\frac{d}{t} \\quad \\iff \\quad d = v \\times t \\quad \\iff \\quad t = \\frac{d}{v}$$\n**Attention capitale aux unités de temps** :\n• $0{,}5$ h = $30$ min (la moitié d'une heure) | $0{,}25$ h = $15$ min | $0{,}75$ h = $45$ min.\n• Pour convertir des minutes en heures décimales : **diviser par 60** ($36$ min = $\\frac{36}{60} = 0{,}6$ h).\n• Pour convertir des heures décimales en minutes : **multiplier la partie décimale par 60** ($2{,}4$ h = $2$ h $+ 0{,}4 \\times 60$ min = $2$ h $24$ min)."
+      },
+      {
+        "title": "À retenir",
+        "content": "• Proportionnalité : on passe d'une grandeur à l'autre en multipliant toujours par le même nombre.\n• Quatrième proportionnelle : produit en croix.\n• Ratio $a : b$ : partager en $a + b$ parts égales.\n• Hausse de $t\\ \\%$ : $\\times \\left(1 + \\dfrac{t}{100}\\right)$ ; baisse de $t\\ \\%$ : $\\times \\left(1 - \\dfrac{t}{100}\\right)$ ; pour revenir en arrière, on **divise** par le coefficient.\n• $v = \\dfrac{d}{t}$ avec des durées en heures décimales ($15$ min $= 0{,}25$ h)."
       }
     ],
     "methods": [
@@ -811,11 +1130,32 @@ window.MATHS_COURSES_4E = {
           "**Étape 4 (Part de Zoé)** : $3 \\times 30 = 90$ €.",
           "**Vérification** : $60 + 90 = 150$ €."
         ]
+      },
+      {
+        "title": "Méthode : Appliquer un pourcentage d'évolution et retrouver une valeur initiale",
+        "example": "a) Un jean à $85$ € est soldé à $-20\\ \\%$. Quel est son nouveau prix ? b) Après une hausse de $25\\ \\%$, un abonnement coûte $150$ €. Quel était son prix avant la hausse ?",
+        "steps": [
+          "**a) Coefficient** : baisser de $20\\ \\%$ revient à multiplier par $1 - 0{,}20 = 0{,}8$.",
+          "**a) Calcul** : $85 \\times 0{,}8 = 68$. Le jean coûte $68$ €.",
+          "**b) Coefficient** : augmenter de $25\\ \\%$ revient à multiplier par $1{,}25$ : prix initial $\\times 1{,}25 = 150$.",
+          "**b) Calcul** : prix initial $= \\dfrac{150}{1{,}25} = 120$. L'abonnement coûtait $120$ €. (Vérification : $120 \\times 1{,}25 = 150$.)"
+        ]
+      },
+      {
+        "title": "Méthode : Calculer une distance ou une durée avec la vitesse",
+        "example": "a) Une voiture roule à $75$ km/h de moyenne pendant $2$ h $24$ min. Quelle distance parcourt-elle ? b) Combien de temps faut-il à un cycliste roulant à $18$ km/h pour parcourir $12$ km ?",
+        "steps": [
+          "**a) Durée en heures décimales** : $24$ min $= \\dfrac{24}{60}$ h $= 0{,}4$ h, donc $2$ h $24$ min $= 2{,}4$ h.",
+          "**a) Distance** : $d = v \\times t = 75 \\times 2{,}4 = 180$ km.",
+          "**b) Durée** : $t = \\dfrac{d}{v} = \\dfrac{12}{18} = \\dfrac{2}{3}$ h.",
+          "**b) Conversion** : $\\dfrac{2}{3} \\times 60 = 40$ min."
+        ]
       }
     ],
     "traps": [
-      "⚠️ Écrire que $1,5$ heure équivaut à 1 h 50 min ! $1,5$ heure, c'est $1$ h et une demie heure, soit **1 h 30 min** !",
-      "⚠️ Penser qu'une hausse de 20 % suivie d'une baisse de 20 % redonne le prix initial : $100 \\times 1,20 = 120$, puis $120 \\times 0,80 = 96$ € (perte de 4 %) !"
+      "⚠️ Écrire que $1{,}5$ heure équivaut à 1 h 50 min ! $1{,}5$ heure, c'est $1$ h et une demie heure, soit **1 h 30 min** !",
+      "⚠️ Penser qu'une hausse de 20 % suivie d'une baisse de 20 % redonne le prix initial : $100 \\times 1{,}20 = 120$, puis $120 \\times 0{,}80 = 96$ € (perte de 4 %) !",
+      "⚠️ Pour retrouver un prix avant une hausse de 25 %, on divise par 1,25 : retirer 25 % du nouveau prix donne un résultat faux ($150 \\times 0{,}75 = 112{,}5$ et non 120)."
     ],
     "flashcards": [
       {
@@ -824,19 +1164,27 @@ window.MATHS_COURSES_4E = {
       },
       {
         "q": "Par quel nombre multiplie-t-on pour appliquer une réduction de 30 % ?",
-        "a": "Par $1 - 0,30 = 0,70$."
+        "a": "Par $1 - 0{,}30 = 0{,}70$."
       },
       {
         "q": "Combien de minutes durent 1,25 heure ?",
-        "a": "1 h 15 min (car $0,25 \\times 60 = 15$ min)."
+        "a": "1 h 15 min (car $0{,}25 \\times 60 = 15$ min)."
       },
       {
         "q": "Une voiture parcourt 180 km en 2h15min. Quelle est sa vitesse moyenne ?",
-        "a": "$80$ km/h ($2\\text{ h } 15\\text{ min} = 2,25\\text{ h}$, et $v = \\frac{180}{2,25} = 80$ km/h)."
+        "a": "$80$ km/h ($2\\text{ h } 15\\text{ min} = 2{,}25\\text{ h}$, et $v = \\frac{180}{2{,}25} = 80$ km/h)."
       },
       {
         "q": "Par quel coefficient multiplicateur traduit-on une augmentation de 8 % ?",
-        "a": "$1 + 0,08 = 1,08$."
+        "a": "$1 + 0{,}08 = 1{,}08$."
+      },
+      {
+        "q": "Un prix de $40$ € augmente de $15\\ \\%$. Nouveau prix ?",
+        "a": "$40 \\times 1{,}15 = 46$ €."
+      },
+      {
+        "q": "Convertir $0{,}2$ h en minutes.",
+        "a": "$0{,}2 \\times 60 = 12$ min."
       }
     ]
   },
@@ -861,11 +1209,15 @@ window.MATHS_COURSES_4E = {
       },
       {
         "title": "3. Tableau de valeurs",
-        "content": "Un tableau de valeurs regroupe des nombres choisis $x$ sur la 1ère ligne et leurs images $f(x)$ sur la 2ème ligne :\n$$\\begin{array}{|c|c|c|c|c|} \\hline x & -2 & 0 & 1 & 3 \\\\ \\hline f(x) = 2x+1 & -3 & 1 & 3 & 7 \\\\ \\hline \\end{array}$$"
+        "content": "Un tableau de valeurs regroupe des nombres choisis $x$ sur la 1re ligne et leurs images $f(x)$ sur la 2e ligne :\n$$\\begin{array}{|c|c|c|c|c|} \\hline x & -2 & 0 & 1 & 3 \\\\ \\hline f(x) = 2x+1 & -3 & 1 & 3 & 7 \\\\ \\hline \\end{array}$$"
       },
       {
         "title": "4. Représentation graphique dans un repère",
-        "content": "La courbe de la fonction $f$ est l'ensemble de tous les points de coordonnées $(x ; f(x))$ dans un repère orthogonal :\n• L'axe des abscisses (axe horizontal) porte les **antécédents $x$**.\n• L'axe des ordonnées (axe vertical) porte les **images $f(x)$**."
+        "content": "La courbe de la fonction $f$ est l'ensemble de tous les points de coordonnées $(x ; f(x))$ dans un repère orthogonal :\n• L'axe des abscisses (axe horizontal) porte les **antécédents $x$**.\n• L'axe des ordonnées (axe vertical) porte les **images $f(x)$**.\n• Pour une fonction $f(x) = ax + b$, les points sont **alignés** : la représentation graphique est une **droite**.\n\n<div class=\"geo-figure-wrapper\" style=\"text-align:center; margin:1rem 0;\">\n<svg class=\"geo-svg-figure\" viewBox=\"0 0 200 240\" width=\"200\" height=\"240\" style=\"max-width:240px; width:100%; height:auto;\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Droite représentant f(x) = 2x − 1 avec lecture de l'image de 2 et de l'antécédent de −3\">\n  <line x1=\"20\" y1=\"20\" x2=\"20\" y2=\"220\" stroke=\"#e2e8f0\" stroke-width=\"1\" /><line x1=\"40\" y1=\"20\" x2=\"40\" y2=\"220\" stroke=\"#e2e8f0\" stroke-width=\"1\" /><line x1=\"60\" y1=\"20\" x2=\"60\" y2=\"220\" stroke=\"#e2e8f0\" stroke-width=\"1\" /><line x1=\"80\" y1=\"20\" x2=\"80\" y2=\"220\" stroke=\"#e2e8f0\" stroke-width=\"1\" /><line x1=\"100\" y1=\"20\" x2=\"100\" y2=\"220\" stroke=\"#e2e8f0\" stroke-width=\"1\" /><line x1=\"120\" y1=\"20\" x2=\"120\" y2=\"220\" stroke=\"#e2e8f0\" stroke-width=\"1\" /><line x1=\"140\" y1=\"20\" x2=\"140\" y2=\"220\" stroke=\"#e2e8f0\" stroke-width=\"1\" /><line x1=\"160\" y1=\"20\" x2=\"160\" y2=\"220\" stroke=\"#e2e8f0\" stroke-width=\"1\" /><line x1=\"20\" y1=\"20\" x2=\"160\" y2=\"20\" stroke=\"#e2e8f0\" stroke-width=\"1\" /><line x1=\"20\" y1=\"40\" x2=\"160\" y2=\"40\" stroke=\"#e2e8f0\" stroke-width=\"1\" /><line x1=\"20\" y1=\"60\" x2=\"160\" y2=\"60\" stroke=\"#e2e8f0\" stroke-width=\"1\" /><line x1=\"20\" y1=\"80\" x2=\"160\" y2=\"80\" stroke=\"#e2e8f0\" stroke-width=\"1\" /><line x1=\"20\" y1=\"100\" x2=\"160\" y2=\"100\" stroke=\"#e2e8f0\" stroke-width=\"1\" /><line x1=\"20\" y1=\"120\" x2=\"160\" y2=\"120\" stroke=\"#e2e8f0\" stroke-width=\"1\" /><line x1=\"20\" y1=\"140\" x2=\"160\" y2=\"140\" stroke=\"#e2e8f0\" stroke-width=\"1\" /><line x1=\"20\" y1=\"160\" x2=\"160\" y2=\"160\" stroke=\"#e2e8f0\" stroke-width=\"1\" /><line x1=\"20\" y1=\"180\" x2=\"160\" y2=\"180\" stroke=\"#e2e8f0\" stroke-width=\"1\" /><line x1=\"20\" y1=\"200\" x2=\"160\" y2=\"200\" stroke=\"#e2e8f0\" stroke-width=\"1\" /><line x1=\"20\" y1=\"220\" x2=\"160\" y2=\"220\" stroke=\"#e2e8f0\" stroke-width=\"1\" />\n  <line x1=\"20\" y1=\"120\" x2=\"165\" y2=\"120\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.5\" />\n  <line x1=\"80\" y1=\"225\" x2=\"80\" y2=\"15\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.5\" />\n  <line x1=\"40\" y1=\"220\" x2=\"140\" y2=\"20\" stroke=\"var(--primary, #2563eb)\" stroke-width=\"2.5\" />\n  <polyline points=\"120,120 120,60 80,60\" fill=\"none\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-dasharray=\"5 4\" />\n  <polyline points=\"80,180 60,180 60,120\" fill=\"none\" stroke=\"#10b981\" stroke-width=\"2\" stroke-dasharray=\"5 4\" />\n  <text x=\"100\" y=\"133\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"10\" font-weight=\"600\" fill=\"var(--text-muted, #64748b)\">1</text><text x=\"120\" y=\"133\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"10\" font-weight=\"700\" fill=\"#b45309\">2</text>\n  <text x=\"60\" y=\"112\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"10\" font-weight=\"700\" fill=\"#047857\">−1</text>\n  <text x=\"74\" y=\"104\" text-anchor=\"end\" font-family=\"system-ui, sans-serif\" font-size=\"10\" font-weight=\"600\" fill=\"var(--text-muted, #64748b)\">1</text><text x=\"74\" y=\"64\" text-anchor=\"end\" font-family=\"system-ui, sans-serif\" font-size=\"10\" font-weight=\"700\" fill=\"#b45309\">3</text><text x=\"76\" y=\"184\" text-anchor=\"end\" font-family=\"system-ui, sans-serif\" font-size=\"10\" font-weight=\"700\" fill=\"#047857\">−3</text>\n  <text x=\"146\" y=\"36\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--primary, #2563eb)\">f</text>\n</svg>\n</div>\n"
+      },
+      {
+        "title": "À retenir",
+        "content": "• Une fonction associe à chaque nombre $x$ **une seule** image $f(x)$.\n• Image de $a$ : on calcule $f(a)$. Antécédent de $b$ : on cherche $x$ tel que $f(x) = b$.\n• Sur le graphique : les **abscisses** (horizontal) sont les antécédents, les **ordonnées** (vertical) les images.\n• Un programme de calcul se traduit par une expression ; pour prouver une propriété « pour tout nombre », on utilise le calcul littéral."
       }
     ],
     "methods": [
@@ -876,11 +1228,31 @@ window.MATHS_COURSES_4E = {
           "**Calculer l'image de 4** : On remplace $x$ par $4$ : $f(4) = 3 \\times 4 - 5 = 12 - 5 = 7$. L'image de 4 est 7.",
           "**Chercher l'antécédent de 16** : On résout l'équation $f(x) = 16$ :\n$3x - 5 = 16 \\implies 3x = 16 + 5 = 21 \\implies x = \\frac{21}{3} = 7$.\nL'antécédent de 16 est 7."
         ]
+      },
+      {
+        "title": "Méthode : Lire une image et un antécédent sur un graphique",
+        "example": "On a représenté ci-dessus la fonction $f : x \\longmapsto 2x - 1$. Lire l'image de $2$, puis l'antécédent de $-3$, et vérifier par le calcul.",
+        "steps": [
+          "**Image de 2** : on part de $2$ sur l'axe des abscisses, on monte jusqu'à la droite, puis on lit l'ordonnée : $f(2) = 3$ (pointillés orange).",
+          "**Antécédent de −3** : on part de $-3$ sur l'axe des ordonnées, on va horizontalement jusqu'à la droite, puis on lit l'abscisse : $-1$ (pointillés verts).",
+          "**Vérification** : $f(2) = 2 \\times 2 - 1 = 3$ et $f(-1) = 2 \\times (-1) - 1 = -3$."
+        ]
+      },
+      {
+        "title": "Méthode : Prouver une conjecture sur un programme de calcul",
+        "example": "Programme : « Choisir un nombre. Lui ajouter 4. Multiplier le résultat par le nombre de départ. Soustraire le carré du nombre de départ. » Tester avec 3, puis prouver que le résultat est toujours le quadruple du nombre de départ.",
+        "steps": [
+          "**Test avec 3** : $3 + 4 = 7$ ; $7 \\times 3 = 21$ ; $21 - 3^2 = 21 - 9 = 12$, et $12 = 4 \\times 3$.",
+          "**Traduction algébrique** : avec le nombre $x$, on obtient $(x + 4) \\times x - x^2$.",
+          "**Développement** : $(x + 4)x - x^2 = x^2 + 4x - x^2 = 4x$.",
+          "**Conclusion** : pour tout nombre $x$, le résultat est $4x$, le quadruple du nombre de départ. Un test sur des exemples ne suffit pas : c'est le calcul littéral qui le **prouve**."
+        ]
       }
     ],
     "traps": [
       "⚠️ Confondre image et antécédent : « Calculer l'image de 5 » veut dire remplacer $x$ par 5 ($f(5)$), alors que « Calculer l'antécédent de 5 » veut dire résoudre $f(x) = 5$ !",
-      "⚠️ Oublier les parenthèses en calculant l'image d'un nombre négatif dans un carré : pour $f(x) = x^2$, $f(-3) = (-3)^2 = 9$ et NON $-3^2 = -9$."
+      "⚠️ Oublier les parenthèses en calculant l'image d'un nombre négatif dans un carré : pour $f(x) = x^2$, $f(-3) = (-3)^2 = 9$ et NON $-3^2 = -9$.",
+      "⚠️ Croire qu'un programme de calcul est prouvé parce qu'il marche sur deux ou trois exemples : seule l'expression littérale le prouve pour tout nombre."
     ],
     "flashcards": [
       {
@@ -902,6 +1274,10 @@ window.MATHS_COURSES_4E = {
       {
         "q": "Quel est l'antécédent de 0 par la fonction $f(x) = 5x - 15$ ?",
         "a": "$x = 3$, car $5x - 15 = 0 \\implies 5x = 15 \\implies x = 3$."
+      },
+      {
+        "q": "Sur la courbe de $f$, le point $(4 ; 7)$ apparaît. Que peut-on dire ?",
+        "a": "$f(4) = 7$ : $7$ est l'image de $4$ et $4$ est un antécédent de $7$."
       }
     ]
   },
@@ -931,6 +1307,10 @@ window.MATHS_COURSES_4E = {
       {
         "title": "4. Répétitions et tracés géométriques",
         "content": "Pour tracer un polygone régulier à $N$ côtés égaux avec le stylo de Scratch :\n• On répète $N$ fois : « avancer de côté » puis « tourner de $(360 / N)$ degrés ».\n• Pour un triangle équilatéral ($N=3$) : tourner de $\\frac{360}{3} = 120^\\circ$.\n• Pour un carré ($N=4$) : tourner de $\\frac{360}{4} = 90^\\circ$.\n• Pour un hexagone ($N=6$) : tourner de $\\frac{360}{6} = 60^\\circ$."
+      },
+      {
+        "title": "À retenir",
+        "content": "• Une **variable** stocke une valeur ; « mettre à » remplace la valeur, « ajouter à » la modifie.\n• « si … alors … sinon … » : un seul des deux blocs est exécuté.\n• « répéter $n$ fois » : nombre de tours connu ; « répéter jusqu'à » : on s'arrête quand la condition devient vraie.\n• Polygone régulier à $N$ côtés : tourner de $\\dfrac{360^\\circ}{N}$ à chaque sommet.\n• Pour prévoir un script : un **tableau de suivi** des variables, ligne par ligne."
       }
     ],
     "methods": [
@@ -945,11 +1325,24 @@ window.MATHS_COURSES_4E = {
           "**Ligne 5 (Exécution bloc 'alors')** : $x = 8 + 1 = 9$. Le bloc 'sinon' est ignoré.",
           "**Valeurs finales** : $x = 9$ et $y = 16$."
         ]
+      },
+      {
+        "title": "Méthode : Suivre une boucle « répéter » avec un tableau de suivi",
+        "example": "Script : « mettre n à 1 ; mettre S à 0 ; répéter 4 fois : ajouter n à S, puis ajouter 2 à n ». Quelles sont les valeurs finales de S et de n ?",
+        "steps": [
+          "**Avant la boucle** : $n = 1$ et $S = 0$.",
+          "**Tour 1** : $S = 0 + 1 = 1$ ; $n = 1 + 2 = 3$.",
+          "**Tour 2** : $S = 1 + 3 = 4$ ; $n = 5$.",
+          "**Tour 3** : $S = 4 + 5 = 9$ ; $n = 7$.",
+          "**Tour 4** : $S = 9 + 7 = 16$ ; $n = 9$.",
+          "**Conclusion** : $S = 16$ et $n = 9$. Le script additionne les 4 premiers nombres impairs ($1 + 3 + 5 + 7 = 16 = 4^2$)."
+        ]
       }
     ],
     "traps": [
       "⚠️ Confondre « mettre ma variable à 1 » (qui fixe la valeur à 1) et « ajouter 1 à ma variable » (qui incrémente la valeur existante de 1).",
-      "⚠️ Dans les tracés géométriques, l'angle de rotation du lutin est l'angle **extérieur** ($360^\\circ / N$) et NON l'angle intérieur du polygone (ex: pour un triangle équilatéral, l'angle intérieur vaut $60^\\circ$, mais le lutin doit tourner de $180 - 60 = 120^\\circ$) !"
+      "⚠️ Dans les tracés géométriques, l'angle de rotation du lutin est l'angle **extérieur** ($360^\\circ / N$) et NON l'angle intérieur du polygone (ex: pour un triangle équilatéral, l'angle intérieur vaut $60^\\circ$, mais le lutin doit tourner de $180 - 60 = 120^\\circ$) !",
+      "⚠️ Oublier d'initialiser une variable avant une boucle : sans « mettre S à 0 », S garde la valeur de l'exécution précédente."
     ],
     "flashcards": [
       {
@@ -971,6 +1364,10 @@ window.MATHS_COURSES_4E = {
       {
         "q": "Quelle boucle utilise-t-on quand on ne connaît pas à l'avance le nombre d'itérations ?",
         "a": "La boucle conditionnelle **« répéter jusqu'à <condition> »**."
+      },
+      {
+        "q": "Combien de fois le corps de la boucle « répéter jusqu'à x > 10 » est-il exécuté si x part de 4 et qu'on ajoute 3 à x à chaque tour ?",
+        "a": "3 fois : x passe à 7, puis 10, puis 13 ; on s'arrête car 13 > 10."
       }
     ]
   }
@@ -1117,7 +1514,7 @@ window.MATHS_EXERCISES_4E = {
       "answer": "-4",
       "placeholder": "Ex: -4",
       "hint1": "Garde toute la fraction dans le calcul : $P = \\frac{10^5 \\times 10^{-2}}{10^7} = \\frac{10^{5 - 2}}{10^7} = \\frac{10^3}{10^7}$.",
-      "hint2": "Poursuis avec la fraction entière : $P = \\frac{10^3}{10^7} = 10^{3 - 7} = 10^{-4}$.",
+      "hint2": "Pour un quotient de puissances de 10 : $\\frac{10^a}{10^b} = 10^{a - b}$. Applique cette règle à $\\frac{10^3}{10^7}$.",
       "solution": "$$P = \\frac{10^3}{10^7} = 10^{3 - 7} = 10^{-4} \\implies n = -4$$",
       "skill": "Calculer"
     },
@@ -1144,7 +1541,7 @@ window.MATHS_EXERCISES_4E = {
       "answer": "-1",
       "placeholder": "Ex: -1",
       "hint1": "Réécris toute la fraction en simplifiant les produits : $C = \\frac{4 \\times 10^7 \\times 15 \\times 10^{-3}}{6 \\times (10^2)^3} = \\frac{60 \\times 10^4}{6 \\times 10^6}$.",
-      "hint2": "Poursuis avec la fraction complète : $C = \\frac{60 \\times 10^4}{6 \\times 10^6} = \\frac{10 \\times 10^4}{10^6} = 10 \\times 10^{-2} = 10^{-1} = 1 \\times 10^{-1}$.",
+      "hint2": "Sépare les nombres et les puissances de 10 : $\\frac{60}{6} = 10$ et $\\frac{10^4}{10^6} = 10^{-2}$. Écris ensuite $10 \\times 10^{-2}$ sous la forme $a \\times 10^k$ avec $1 \\le a < 10$.",
       "solution": "$$C = \\frac{60 \\times 10^4}{6 \\times 10^6} = 10 \\times 10^{-2} = 1 \\times 10^{-1} \\implies k = -1$$",
       "skill": "Calculer"
     }
@@ -1257,7 +1654,7 @@ window.MATHS_EXERCISES_4E = {
       "answer": "7",
       "placeholder": "Ex: 7",
       "hint1": "Double distributivité : $3x \\times 2x + 3x \\times 5 - 4 \\times 2x - 4 \\times 5$.",
-      "hint2": "Termes en $x$ : $15x - 8x = 7x$.",
+      "hint2": "Les termes du 1er degré sont $3x \\times 5$ et $-4 \\times 2x$ : réduis leur somme.",
       "solution": "$$E = 6x^2 + 15x - 8x - 20 = 6x^2 + 7x - 20$$\nLe coefficient de $x$ est donc 7.",
       "skill": "Calculer"
     }
@@ -1432,7 +1829,7 @@ window.MATHS_EXERCISES_4E = {
       "type": "exact",
       "answer": "13.1",
       "placeholder": "Ex: 13.1",
-      "hint1": "Somme des points : $10 \\times 2 + 12 \\times 3 + 15 \\times 5 = 131$. Effectif total : 10.",
+      "hint1": "Multiplie chaque note par son effectif, additionne ces produits, puis divise par l'effectif total $2 + 3 + 5$.",
       "solution": "$$\\bar{x} = \\frac{20 + 36 + 75}{10} = \\frac{131}{10} = 13{,}1$$",
       "skill": "Calculer"
     },
@@ -1841,7 +2238,7 @@ window.MATHS_EXERCISES_4E = {
     "type": "exact",
     "answer": "30",
     "placeholder": "Ex: 30",
-    "hint1": "Valeurs successives : 0, 6, 12, 18, 24, 30. La boucle s'arrête dès que la condition est vraie.",
+    "hint1": "Écris les valeurs successives du compteur (0, 6, 12, …) et teste la condition « Compteur ≥ 25 » après chaque ajout : la boucle s'arrête dès qu'elle est vraie.",
     "solution": "À 24, la condition $24 \\ge 25$ est fausse, on ajoute encore 6 : Compteur passe à 30 ($30 \\ge 25$ est vrai, la boucle s'arrête).",
     "skill": "Raisonner"
   }

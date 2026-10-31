@@ -17,6 +17,7 @@ Object.assign(window.MathsApp, {
 
     // Paliers boutons (gestion des déblocages et choix de palier)
     this.renderTierButtons();
+    this.renderTierProgressPanel();
 
     // 2. Affichage de l'exercice
     const container = document.getElementById('exercise-statement-box');
@@ -43,7 +44,7 @@ Object.assign(window.MathsApp, {
     if (container) {
       container.innerHTML = `
         <div class="exo-header-bar">
-          <span class="exo-tier-tag tier-${exercise.tier}">Palier ${exercise.tier} : ${this.getTierName(exercise.tier, activeChapLevel)}</span>
+          <span class="exo-tier-tag tier-${exercise.tier}">${exercise.isReview ? '🔁 Rappel · ' : ''}Palier ${exercise.tier} : ${this.getTierName(exercise.tier, activeChapLevel)}</span>
           <span class="exo-skill-tag">${exercise.skill || 'Mathématiques'}</span>
         </div>
         <h3 class="exo-title">${exercise.title}</h3>
@@ -193,6 +194,53 @@ Object.assign(window.MathsApp, {
     if (hint2Btn) {
       hint2Btn.onclick = () => this.showHint(2);
     }
+  },
+
+  /**
+   * Bandeau de progression du palier en cours : objectif explicite, pastilles des 8 dernières
+   * questions et nombre de bonnes réponses restantes avant le déblocage du palier suivant.
+   */
+  renderTierProgressPanel() {
+    const engine = window.MathsAdaptiveEngine;
+    const statementBox = document.getElementById('exercise-statement-box');
+    if (!engine || !statementBox || typeof engine.getTierProgressStatus !== 'function' || !this.currentChapterId) return;
+    let panel = document.getElementById('tier-progress-panel');
+    if (!panel) {
+      panel = document.createElement('div');
+      panel.id = 'tier-progress-panel';
+      panel.className = 'tier-progress-panel';
+      panel.setAttribute('aria-live', 'polite');
+      panel.style.cssText = 'display:flex;flex-wrap:wrap;align-items:center;gap:0.4rem 0.9rem;padding:0.55rem 0.8rem;margin:0 0 0.8rem;border-radius:10px;border:1px solid rgba(37,99,235,0.25);background:rgba(37,99,235,0.06);font-size:0.92rem;line-height:1.35;';
+      statementBox.parentNode.insertBefore(panel, statementBox);
+    }
+    const st = engine.getTierProgressStatus(this.currentChapterId);
+    const exercise = engine.state.currentExercise;
+    if (st.complete) {
+      panel.innerHTML = `<span aria-hidden="true">👑</span><span>${st.message}</span>`;
+      return;
+    }
+    const W = engine.PROGRESSION.WINDOW;
+    const dots = [];
+    for (let i = 0; i < W; i++) {
+      const c = st.window[i];
+      let color = 'rgba(100,116,139,0.18)';
+      let label = 'pas encore de réponse';
+      if (c !== undefined) {
+        if (c >= 1) { color = '#16a34a'; label = 'réussie'; }
+        else if (c > 0) { color = '#86efac'; label = 'réussie avec aide'; }
+        else { color = '#f87171'; label = 'à retravailler'; }
+      }
+      dots.push(`<span title="${label}" style="display:inline-block;width:0.8rem;height:0.8rem;border-radius:50%;background:${color};"></span>`);
+    }
+    const reviewNote = exercise && exercise.isReview
+      ? `<span style="flex-basis:100%;color:var(--text-muted,#64748b);">🔁 Question de rappel du Palier ${exercise.tier} (révision espacée) : elle ne compte pas dans l'objectif du palier en cours.</span>`
+      : '';
+    panel.innerHTML = `
+      <span><strong>🎯 ${st.objective}</strong></span>
+      <span role="img" aria-label="Tes ${W} dernières questions du palier" style="display:inline-flex;gap:0.25rem;">${dots.join('')}</span>
+      <span>${st.message}</span>
+      ${reviewNote}
+    `;
   },
 
   renderZpdGauge() {
@@ -391,15 +439,17 @@ Object.assign(window.MathsApp, {
       if (!isUnlocked) {
         // Palier verrouillé : l'élève doit d'abord atteindre le pourcentage requis
         const reqPercent = { 2: '25%', 3: '50%', 4: '75%' }[tier] || '25%';
+        const cfgP = engine && engine.PROGRESSION ? engine.PROGRESSION : { TARGET: 6, WINDOW: 8 };
+        const reqText = `valide le Palier ${tier - 1} (${cfgP.TARGET} bonnes réponses sur ${cfgP.WINDOW}, soit ${reqPercent} de maîtrise)`;
         btn.innerHTML = `<span class="tier-lock-icon" aria-hidden="true">🔒</span> ${baseLabel}<span class="sr-only"> (verrouillé)</span>`;
         btn.setAttribute('aria-disabled', 'true');
         btn.setAttribute('aria-pressed', 'false');
         btn.classList.add('tier-locked');
         btn.classList.remove('active', 'tier-validated');
-        btn.title = `Palier ${tier} verrouillé — Atteins ${reqPercent} de maîtrise (validation du Palier ${tier - 1}) pour le débloquer`;
+        btn.title = `Palier ${tier} verrouillé — Pour le débloquer, ${reqText}`;
         btn.onclick = () => {
           if (window.MathsAudio) window.MathsAudio.playHint();
-          this.showToast(`🔒 <strong>Palier ${tier} verrouillé</strong><br>Atteins au moins <strong>${reqPercent}</strong> de maîtrise pour débloquer le Palier ${tier} !`, 3500);
+          this.showToast(`🔒 <strong>Palier ${tier} verrouillé</strong><br>Pour le débloquer, ${reqText}.`, 3500);
         };
       } else {
         // Palier débloqué : l'élève peut toujours choisir lui-même ce palier
@@ -453,6 +503,7 @@ Object.assign(window.MathsApp, {
     this.displayAnswerFeedback(result, exercise);
     this.updateHeaderProfile();
     this.updateChapterMasteryUI(this.currentChapterId);
+    this.renderTierProgressPanel();
     this.renderZpdGauge();
   },
 
@@ -513,6 +564,7 @@ Object.assign(window.MathsApp, {
         </div>
         ${result.leveledUp ? `<div class="level-up-banner">${result.levelUpMessage}</div>` : ''}
         ${result.tierCapMessage ? `<div class="level-up-banner" style="background: rgba(37,99,235,0.08); border-color: rgba(37,99,235,0.3); color: var(--primary-text);">🎯 ${result.tierCapMessage}</div>` : ''}
+        ${result.progressMessage && !result.tierCapMessage ? `<p class="progress-message" style="margin:0.4rem 0;">📈 ${result.progressMessage}</p>` : ''}
         ${result.solution ? `
         <div class="feedback-solution">
           <div class="feedback-solution-title">Explication / Solution détaillée :</div>
@@ -568,7 +620,8 @@ Object.assign(window.MathsApp, {
             <h4>${result.message}</h4>
           </div>
           <div class="hint-content">${window.MathsRenderer.markdownToHtml(result.hint)}</div>
-          <p class="retry-text">Tu peux modifier ta réponse et retenter ta chance !</p>
+          <p class="retry-text">Tu peux modifier ta réponse et retenter ta chance !${exercise && exercise.type !== 'mcq' ? ' Une réponse corrigée compte encore en partie pour ton objectif.' : ''}</p>
+          ${result.supportMessage ? `<p class="progress-message" style="margin:0.4rem 0;">🤝 ${result.supportMessage}</p>` : ''}
         `;
       } else if (result.stage === 'hint2') {
         feedbackContainer.innerHTML = `
@@ -592,6 +645,7 @@ Object.assign(window.MathsApp, {
             <div class="feedback-solution-title">Explication / Solution détaillée :</div>
             <div class="feedback-solution-body">${window.MathsRenderer.markdownToHtml((window.MathsAdaptiveEngine && exercise && exercise.statement) ? window.MathsAdaptiveEngine.formatSolutionWithInitialExpr(exercise.statement, result.solution) : result.solution)}</div>
           </div>` : ''}
+          ${result.progressMessage ? `<p class="progress-message" style="margin:0.4rem 0;">📈 Une erreur ne fait jamais perdre un palier validé. ${result.progressMessage}</p>` : ''}
           ${result.canStepDown ? `
             <div class="step-down-box">
               <p>${result.stepDownMessage}</p>

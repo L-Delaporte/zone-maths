@@ -13,6 +13,10 @@
  *  « 1x », « + - », « - - », « x + 0 », « 0x », « x^1 », point décimal (convention française : virgule),
  *  note > 20, chaîne d'égalités numériques fausse, fraction non irréductible quand l'énoncé l'exige.
  * La variété (nombre d'énoncés distincts par palier) est affichée avec un avertissement sous le seuil.
+ * Vérification indépendante : les questions portant `_v` sont recalculées par scripts/tests/college_verifiers.js.
+ * Cohérence des indices (scripts/tests/hint_checks.js) pour la 5e à la 3e : hint1 et hint2 présents et distincts, sans la
+ * réponse, sans nombre ni point étranger à l'énoncé ; indices partagés entre familles signalés (--verbose).
+ * Développement : TESTC_EXTRA_GEN=surcouche.js, TESTC_EXTRA_VER=verificateurs.js.
  */
 'use strict';
 const fs = require('fs');
@@ -53,6 +57,11 @@ for (const f of NEEDED) if (!ordered.includes(f) && fs.existsSync(path.join(ROOT
 for (const f of ordered) {
   const file = path.join(ROOT, f);
   if (!fs.existsSync(file)) continue;
+  vm.runInThisContext(fs.readFileSync(file, 'utf8'), { filename: file });
+}
+// Développement : TESTC_EXTRA_GEN=a.js,b.js charge des fichiers générateurs supplémentaires (surcouches)
+for (const f of (process.env.TESTC_EXTRA_GEN || '').split(',').filter(Boolean)) {
+  const file = path.isAbsolute(f) ? f : path.join(ROOT, f);
   vm.runInThisContext(fs.readFileSync(file, 'utf8'), { filename: file });
 }
 const G = global.MathsGenerators;
@@ -167,6 +176,33 @@ const isRounding = (a, b) => {
 const gcd = (a, b) => { a = Math.abs(a); b = Math.abs(b); while (b) [a, b] = [b, a % b]; return a; };
 
 // ---------------------------------------------------------------------------
+// Vérificateurs indépendants (familles de questions portant un champ `_v` = { k: 'clé', ...paramètres }) :
+// VERIFIERS[k](v, q) renvoie la réponse attendue (nombre ou chaîne) ; pour un QCM, l'option correcte attendue.
+// Vérificateurs : scripts/tests/college_verifiers.js ; développement : TESTC_EXTRA_VER=a.js,b.js (module.exports = { k: fn }).
+// ---------------------------------------------------------------------------
+const VERIFIERS = Object.assign({}, require('./college_verifiers.js'));
+for (const f of (process.env.TESTC_EXTRA_VER || '').split(',').filter(Boolean)) {
+  Object.assign(VERIFIERS, require(path.isAbsolute(f) ? f : path.join(ROOT, f)));
+}
+const normAns = s => String(s).replace(/\$/g, '').replace(/\\[,;! ]|\s+|\u202f|\u00a0/g, '').replace(/\{,\}/g, ',').replace(/−/g, '-');
+function ansNum(s) {
+  const t = normAns(s).replace(',', '.');
+  let m = /^(-?\d+(?:\.\d+)?)$/.exec(t); if (m) return +m[1];
+  m = /^(-?\d+)\/(\d+)$/.exec(t); if (m) return m[1] / m[2];
+  m = /^(-?)\\[dt]?frac\{(\d+)\}\{(\d+)\}$/.exec(t); if (m) return (m[1] ? -1 : 1) * m[2] / m[3];
+  return null;
+}
+function sameAns(a, b) {
+  const na = ansNum(a), nb = ansNum(b);
+  if (na !== null && nb !== null) return Math.abs(na - nb) < 1e-9 * Math.max(1, Math.abs(nb));
+  return normAns(a).toLowerCase() === normAns(b).toLowerCase();
+}
+let verifiedCount = 0;
+// Cohérence des indices (hint1/hint2) avec la question posée : voir scripts/tests/hint_checks.js
+const { hintIssues, hintTemplate, familyKey } = require('./hint_checks.js');
+const sharedHints = {}; // gen|T -> gabarit de hint1 -> familles
+
+// ---------------------------------------------------------------------------
 // Collecte des anomalies
 // ---------------------------------------------------------------------------
 const issues = {};
@@ -279,6 +315,30 @@ function checkQuestion(gen, t, q) {
     }
   }
 
+  if (!/^generate6/.test(gen)) { // la 6e est contrôlée par test_6eme.js
+    for (const is of hintIssues(q)) add(gen, t, is.kind, is.msg, q);
+    const ht = hintTemplate(q.hint1 || '');
+    if (ht) { const m = sharedHints[`${gen}|T${t}`] || (sharedHints[`${gen}|T${t}`] = new Map()); if (!m.has(ht)) m.set(ht, new Set()); m.get(ht).add(familyKey(q)); }
+  }
+
+  if (q._v && !/^generate6/.test(gen)) { // les questions de 6e sont vérifiées par test_6eme.js
+    const vf = VERIFIERS[q._v.k];
+    if (typeof vf !== 'function') add(gen, t, 'VERIFICATEUR_ABSENT', `_v.k = ${q._v.k}`, q);
+    else {
+      let exp; try { exp = vf(q._v, q); } catch (e) { add(gen, t, 'VERIFICATEUR_EXCEPTION', `${q._v.k} : ${e.message}`, q); exp = undefined; }
+      if (exp !== undefined) {
+        if (q.type === 'mcq') {
+          const o = q.options || [];
+          const ok = o.filter(x => sameAns(x, exp));
+          if (ok.length !== 1) add(gen, t, 'VERIF_QCM', `[${q._v.k}] ${ok.length} option(s) = attendu « ${exp} » : ${JSON.stringify(o).slice(0, 160)}`, q);
+          else if (!sameAns(q.answer, exp)) add(gen, t, 'VERIF_REPONSE', `[${q._v.k}] réponse « ${q.answer} » ≠ attendu « ${exp} »`, q);
+          else verifiedCount++;
+        } else if (!sameAns(q.answer, exp)) add(gen, t, 'VERIF_REPONSE', `[${q._v.k}] réponse « ${q.answer} » ≠ attendu « ${exp} »`, q);
+        else verifiedCount++;
+      }
+    }
+  }
+
   if (q.type === 'mcq') {
     const o = q.options || q.choices;
     if (!Array.isArray(o) || o.length < 2) add(gen, t, 'QCM_OPTIONS', 'options manquantes', q);
@@ -344,11 +404,17 @@ const byKind = {};
 for (const k of Object.keys(issues)) { const kind = k.split('|')[2]; byKind[kind] = (byKind[kind] || 0) + issues[k].count; }
 console.log(`Fichiers chargés : ${ordered.join(', ')}`);
 console.log(`Générateurs : ${gens.length} × 4 paliers × ${N} tirages = ${calls} questions (${((Date.now() - t0) / 1000).toFixed(1)} s)`);
+console.log(`Réponses recalculées indépendamment (champ _v) : ${verifiedCount}`);
 
 const low = Object.entries(variety).filter(([, v]) => v < VARIETY_MIN).sort((a, b) => a[1] - b[1]);
 console.log(`\nVariété : ${Object.keys(variety).length} paliers testés, ${low.length} sous le seuil de ${VARIETY_MIN} énoncés distincts (avertissement).`);
 if (low.length) console.log('  ' + low.map(([k, v]) => `${k.replace('generate', '')}:${v}`).join('  '));
 if (VERBOSE) console.log(Object.entries(variety).map(([k, v]) => `${k.replace('generate', '')}:${v}`).join('  '));
+
+const shared = [];
+for (const [k, m] of Object.entries(sharedHints)) for (const [ht, fams] of m) if (fams.size >= 2) shared.push(`${k.replace('generate', '')} : « ${ht.slice(0, 70)} » pour ${fams.size} familles`);
+console.log(`\nIndices partagés par plusieurs familles de questions (avertissement, à vérifier) : ${shared.length}`);
+if (shared.length && VERBOSE) console.log('  ' + shared.join('\n  '));
 
 if (errorCount === 0) {
   console.log('\nOK : aucune erreur détectée.');

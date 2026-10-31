@@ -694,10 +694,455 @@ module.exports = {
 };
   return module.exports;
 })());
+// --- Vérificateurs des familles ajoutées / révisées, groupe E (audit 2026-10-31) ---
+Object.assign(VERIFIERS, (function () {
+  const module = { exports: {} };
+// Vérificateurs indépendants des nouvelles familles 6D1, 6D2, 6A1 (audit 2026-10-31)
+const vE_gcd = (a, b) => { a = Math.abs(a); b = Math.abs(b); while (b) [a, b] = [b, a % b]; return a; };
+const vE_frac = (n, d) => { const g = vE_gcd(n, d); return d / g === 1 ? String(n / g) : `${n / g}/${d / g}`; };
+const vE_dec = x => String(Math.round(x * 1e6) / 1e6).replace('.', ',');
+const vE_sum = a => a.reduce((s, x) => s + x, 0);
+const vE_step = { D: [1, 0], G: [-1, 0], H: [0, 1], B: [0, -1] };
+module.exports = {
+  '6D1.barext': v => { let best = 0; v.vals.forEach((x, i) => { if (v.mode === 'min' ? x < v.vals[best] : x > v.vals[best]) best = i; }); return v.cats[best]; },
+  '6D1.hauteur': v => vE_dec(v.vals[v.i] / v.kk),
+  '6D1.choixdiag': v => ({ barres: 'Un diagramme en barres', circ: 'Un diagramme circulaire', courbe: 'Un graphique (points reliés) en fonction du temps', double: 'Un tableau à double entrée' })[v.type],
+  '6D1.erreur': v => v.cats[v.vals.findIndex((x, i) => x !== v.drawn[i])],
+  '6D1.double2': v => {
+    const row = v.grid[v.hr];
+    const missing = v.rT[v.hr] - row.reduce((s, x) => s + (x === null ? 0 : x), 0);
+    return missing + v.grid[1 - v.hr][v.hc];
+  },
+  '6D1.barfrac': v => vE_frac(v.vals[v.i], vE_sum(v.vals)),
+  '6D2.echelle': v => {
+    const tot = vE_sum(v.counts);
+    const fav = v.mode === 'one' ? v.counts[v.j] : tot - v.counts[v.j];
+    if (fav === 0) return '0 : impossible';
+    if (fav === tot) return '1 : certain';
+    if (fav * 2 === tot) return '1/2 : une chance sur deux';
+    return fav * 2 < tot ? 'Entre 0 et 1/2 : peu probable' : 'Entre 1/2 et 1 : très probable';
+  },
+  '6D2.dec': v => vE_dec(v.k1 / v.tot),
+  '6D2.roueInegale': v => vE_frac(v.ks[v.j] * 360 / v.n, 360),
+  '6D2.bleues': v => { for (let b = 0; b < 1000; b++) if (v.r * v.q === v.p * (v.r + b)) return b; return -1; },
+  '6D2.conclure': v => {
+    const f = v.c / v.N;
+    if (v.N < 100) return 'On ne peut pas conclure : il y a trop peu de lancers';
+    return Math.abs(f - 1 / 6) > 0.05 ? 'Le dé est très probablement truqué' : 'Rien n\'indique que le dé est truqué';
+  },
+  '6D2.retrait': v => {
+    const c = v.counts.slice(); c[v.a] -= v.x;
+    return vE_frac(c[v.b], vE_sum(c));
+  },
+  '6A1.completer': v => {
+    const m = v.moves[v.ask];
+    const [dx, dy] = vE_step[m[0]];
+    return dx ? Math.abs(v.target[0] - v.start[0]) : Math.abs(v.target[1] - v.start[1]);
+  },
+  '6A1.bug': v => {
+    let x = v.start[0], y = v.start[1];
+    v.moves.forEach(([d, n], i) => { if (i !== v.idx) { x += vE_step[d][0] * n; y += vE_step[d][1] * n; } });
+    const [dx, dy] = vE_step[v.moves[v.idx][0]];
+    return dx ? (v.end[0] - x) / dx : (v.end[1] - y) / dy;
+  },
+  '6A1.boucleVar': v => {
+    if (v.mode === 'double') return v.x * Math.pow(2, v.n);
+    if (v.mode === 'somme') { let s = 0; for (let c = 1; c <= v.n; c++) s += c; return s; }
+    let n = v.x; for (let i = 0; i < v.n; i++) n = 2 * (n + v.a); return n;
+  },
+  '6A1.inverse': v => {
+    let n = v.res;
+    for (let i = v.ops.length - 1; i >= 0; i--) { const [o, a] = v.ops[i]; n = o === '+' ? n - a : o === '-' ? n + a : n / a; }
+    return n;
+  }
+};
+  return module.exports;
+})());
+// --- Vérificateurs des familles ajoutées / révisées, groupe B (audit 2026-10-31) ---
+Object.assign(VERIFIERS, (function () {
+  const module = { exports: {} };
+// Vérificateurs indépendants — groupe B (6N6, 6N7, 6N8, 6P1), nouvelles familles
+'use strict';
+const vB_gcd = (a, b) => { a = Math.abs(a); b = Math.abs(b); while (b) [a, b] = [b, a % b]; return a; };
+const vB_fr = (n, d) => { const g = vB_gcd(n, d); n /= g; d /= g; return d === 1 ? String(n) : `${n}/${d}`; };
+const vB_dec = x => String(Math.round(x * 1e6) / 1e6).replace('.', ',');
+// Nombre de carreaux d'un motif : formule fermée (premier terme + écart constant)
+const vB_motif = (shape, n) => ({ L: 2 * n + 1, croix: 4 * n + 1, T: 3 * n + 1, double: 2 * n + 2 })[shape];
+module.exports = {
+  '6N6.shaded': v => vB_fr(v.a, v.r * v.c),
+  '6N6.dec2frac': v => vB_dec(v.N / 100 * v.d),
+  '6N6.maxnum': v => { if (v.below) { let n = 0; while ((n + 1) < v.kk * v.d) n++; return String(n); } let n = 0; while (n <= v.kk * v.d) n++; return String(n); },
+  '6N6.unitlen': v => vB_dec(v.x * v.b / v.a),
+  '6N6.round10': v => { const c = Math.floor(v.a * 100 / v.b); const t = Math.floor(c / 10) + (c % 10 >= 5 ? 1 : 0); return vB_dec(t / 10); },
+  '6N7.ofunit': v => vB_dec(v.tot * v.a / v.b),
+  '6N7.complete1': v => vB_fr(v.b - v.a, v.b),
+  '6N7.subint': v => vB_fr(v.n * v.b - v.a, v.b),
+  '6N7.whole2': v => vB_dec(v.R / (1 - v.a / v.b)),
+  '6N7.tank': v => vB_dec(v.V / v.a * v.b - v.V),
+  '6N8.prog1': v => vB_dec(v.add ? v.x * v.a + v.b : v.x * v.a - v.b),
+  '6N8.seq': v => { const t = v.terms; return String(2 * t[t.length - 1] - t[t.length - 2]); },
+  '6N8.motif': v => String(vB_motif(v.shape, v.n)),
+  '6N8.think1': v => vB_dec(v.op === 'add' ? v.r - v.a : v.op === 'sub' ? v.r + v.a : v.op === 'mul' ? v.r / v.a : v.r * 2),
+  '6N8.seqgap': v => { const s = v.shown; const i = s.indexOf(null); const known = s.map((x, j) => [j, x]).filter(p => p[1] !== null); const [j0, x0] = known[0], [j1, x1] = known[known.length - 1]; return vB_dec(x0 + (x1 - x0) / (j1 - j0) * (i - j0)); },
+  '6N8.hole2': v => vB_dec((v.c - v.b) / v.a),
+  '6N8.sumdiff': v => vB_dec(v.askBig ? (v.S + v.D) / 2 : (v.S - v.D) / 2),
+  '6N8.twoprogs': v => { for (let x = 0; x <= 1000; x++) if (v.a * x + v.b === v.c * x + v.d) return String(x); return 'aucun'; },
+  '6N8.motifrev': v => { for (let n = 1; n < 1000; n++) if (vB_motif(v.shape, n) === v.N) return String(n); return 'aucun'; },
+  '6P1.tab': v => { const j = [0, 1, 2].find(i => v.r1[i] !== null && v.r2[i] !== null); const k = v.r2[j] / v.r1[j]; const i = [0, 1, 2].find(x => v.r1[x] === null || v.r2[x] === null); return vB_dec(v.r1[i] === null ? v.r2[i] / k : v.r1[i] * k); },
+  '6P1.pctsimple': v => vB_dec(v.N * v.p / 100),
+  '6P1.addlin': v => vB_dec(v.A / v.a * (v.a + v.b)),
+  '6P1.pctfind': v => vB_dec(v.M / v.N * 100),
+  '6P1.pctinc': v => vB_dec(v.N * (1 + v.p / 100)),
+  '6P1.recipeinv': v => vB_dec(v.Q * v.p / v.q),
+  '6P1.speed': v => vB_dec(v.D / v.m1 * v.m2),
+  '6P1.pctcmp': v => vB_dec(Math.max(v.a1 / v.n1, v.a2 / v.n2) * 100)
+};
+  return module.exports;
+})());
+// --- Vérificateurs des familles ajoutées / révisées, groupe C (audit 2026-10-31) ---
+Object.assign(VERIFIERS, (function () {
+  const module = { exports: {} };
+// ----- Vérificateurs indépendants des familles ajoutées/réécrites : 6M1, 6M2, 6M3, 6M4, 6G1 -----
+const vC_r = x => Math.round(x * 1e6) / 1e6;
+const vC_ans = x => String(vC_r(x)).replace('.', ',');
+// périmètre d'une figure en colonnes : on compte les arêtes de carreaux frontières
+const vC_per = hs => {
+  const filled = (i, k) => i >= 0 && i < hs.length && k >= 0 && k < hs[i];
+  let p = 0;
+  hs.forEach((h, i) => { for (let k = 0; k < h; k++) for (const [di, dk] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) if (!filled(i + di, k + dk)) p++; });
+  return p;
+};
+const vC_unit = u => ({ 'm³': '$\\text{m}^3$', 'm²': '$\\text{m}^2$', 'cm²': '$\\text{cm}^2$', 'mm²': '$\\text{mm}^2$', 'km²': '$\\text{km}^2$' }[u] || `$\\text{${u}}$`);
+module.exports = {
+  '6M1.gridper': v => vC_per(v.hs),
+  '6M1.demidisque': v => vC_ans(Math.round((v.d + 3.14 * v.d / 2) * 1000) / 1000),
+  '6M1.tours': v => { let n = 0; const tour = Math.round(314 * v.d) / 100; while ((n + 1) * tour <= v.Dm * 100 + 1e-9) n++; return n; },
+  '6M2.gridaire': v => v.hs.reduce((s, x) => s + x, 0),
+  '6M2.unite': v => vC_unit(v.u),
+  '6M2.cmpfig': v => {
+    const R = v.ask === 'aire' ? v.a * v.b : 2 * v.a + 2 * v.b;
+    const C = v.ask === 'aire' ? v.c * v.c : 4 * v.c;
+    return R > C ? 'le rectangle' : R < C ? 'le carré' : 'ils sont égaux';
+  },
+  '6M2.per2aire': v => (v.P / 4) * (v.P / 4),
+  '6M2.trapeze': v => vC_ans(((2 * v.a + v.b) * v.h) / 2), // aire du trapèze rectangle (bases a et a+b)
+  '6M3.unite': v => vC_unit(v.u),
+  '6M3.compare': v => Math.abs(v.A.reduce((p, x) => p * x, 1) - v.B.reduce((p, x) => p * x, 1)),
+  '6M3.arete': v => { let a = 1; while (a * a * a < v.V) a++; return a; },
+  '6M3.boiteL': v => vC_ans(v.L * v.l * v.h / 1000),
+  '6M3.compose': v => v.b * (v.a * v.h1 + v.c * v.h2),
+  '6M3.verres': v => (v.L * v.l * v.h) / (10 * v.verre),
+  '6M3.agrandir': v => (v.ask === 'vol' ? Math.pow(v.kf * v.a, 3) : Math.pow(v.kf, 3)),
+  '6M3.immersion': v => vC_ans(Math.pow(v.a, 3) / (v.L * v.l)),
+  '6M4.samehour': v => v.e - v.s,
+  '6M4.semaines': v => 7 * v.w + v.d,
+  '6M4.seances': v => v.n * v.c + v.x,
+  '6M4.calendrier': v => v.d2 - v.d1,
+  '6M4.bus': v => v.tj - v.ti,
+  '6M4.edt': v => (v.e - v.s - v.r) / v.n,
+  '6M4.chrono': v => v.et - v.st,
+  '6M4.escale': v => (v.a - v.s) - v.esc,
+  '6M4.frach': v => 60 * v.f1[0] / v.f1[1] + 60 * v.f2[0] / v.f2[1],
+  '6G1.quadri': v => ['un rectangle (non carré)', 'un losange (non carré)', 'un carré'][v.kind],
+  '6G1.droites': v => ['parallèles', 'perpendiculaires', 'parallèles'][v.kind],
+  '6G1.diagrect': v => vC_ans(v.mode === 'half' ? v.x / 2 : v.x),
+  '6G1.milieux2': v => (v.ask === 'AC' ? 2 * v.y : 2 * v.y - v.a),
+  '6G1.cercledroite': v => (v.h < v.r ? 2 : v.h === v.r ? 1 : 0)
+};
+  return module.exports;
+})());
+// --- Vérificateurs des familles ajoutées / révisées, groupe D (audit 2026-10-31) ---
+Object.assign(VERIFIERS, (function () {
+  const module = { exports: {} };
+// Vérificateurs indépendants des nouvelles familles 6G2 à 6G5 (groupe D)
+'use strict';
+const vD_dec = x => String(Math.round(x * 1e6) / 1e6).replace('.', ',');
+const vD_sum = a => a.reduce((s, v) => s + v, 0);
+// Pliage d'un patron (cases [c, r]) par roulement : renvoie la face du cube (U, D, N, S, E, W) de chaque case, ou null.
+const vD_fold = cells => {
+  const key = p => p[0] + ',' + p[1];
+  const idx = new Map(cells.map((p, i) => [key(p), i]));
+  const face = Array(cells.length).fill(null);
+  face[0] = { U: 'U', D: 'D', N: 'N', S: 'S', E: 'E', W: 'W' };
+  const stack = [0];
+  const rolls = [
+    [1, 0, o => ({ D: o.E, E: o.U, U: o.W, W: o.D, N: o.N, S: o.S })],
+    [-1, 0, o => ({ D: o.W, W: o.U, U: o.E, E: o.D, N: o.N, S: o.S })],
+    [0, 1, o => ({ D: o.S, S: o.U, U: o.N, N: o.D, E: o.E, W: o.W })],
+    [0, -1, o => ({ D: o.N, N: o.U, U: o.S, S: o.D, E: o.E, W: o.W })]
+  ];
+  while (stack.length) {
+    const i = stack.pop();
+    for (const [dx, dy, f] of rolls) {
+      const j = idx.get(key([cells[i][0] + dx, cells[i][1] + dy]));
+      if (j === undefined || face[j]) continue;
+      face[j] = f(face[i]); stack.push(j);
+    }
+  }
+  if (face.some(f => !f)) return null;
+  const down = face.map(f => f.D);
+  return new Set(down).size === 6 ? down : null;
+};
+const vD_opp = { U: 'D', D: 'U', N: 'S', S: 'N', E: 'W', W: 'E' };
+
+module.exports = {
+  '6G2.lettres': v => {
+    // lettres capitales bâton possédant au moins un axe (vertical ou horizontal)
+    const vert = new Set('AHIMOTUVWXY'), horiz = new Set('BCDEHIKOX');
+    return String(v.list.filter(l => vert.has(l) || horiz.has(l)).length);
+  },
+  '6G2.distaxe': v => vD_dec(v.x / 2),
+  '6G2.carreaux': v => String(new Set(v.cells.map(c => c.join(','))).size * 2),
+  '6G2.repere': v => String(v.a + (v.a - v.x)),
+  '6G2.angtri': v => String(180 - v.a - v.b),
+  '6G2.deuxsym': v => { const A = -v.x, A1 = -A, A2 = 2 * v.e - A1; return String(Math.abs(A2 - A)); },
+  '6G2.polyreg': v => String(v.n),
+  '6G3.rapp': v => String(v.x),
+  '6G3.compte': v => String(v.list.filter(x => (v.kind === 'aigus' ? x > 0 && x < 90 : x > 90 && x < 180)).length),
+  '6G3.droit': v => String(90 - v.x),
+  '6G3.bissadj': v => vD_dec(v.a + v.b / 2),
+  '6G3.plat3': v => String(180 - (v.a + v.b)),
+  '6G3.deuxbiss': v => vD_dec(v.a / 2 + v.b / 2),
+  '6G3.tour': v => vD_dec(v.m * (360 / v.n)),
+  '6G4.isoper': v => String(v.x + v.x + v.b),
+  '6G4.equicote': v => vD_dec(v.per / 3),
+  '6G4.compas': v => `un arc de cercle de centre $${v.P}$ et de rayon $${v.ac}$ cm`,
+  '6G4.relation': v => String(180 - v.x - v.m * v.x),
+  '6G4.ineg': v => {
+    // l'unique option donnant un triangle non aplati
+    const ok = c => { const s = [v.a, v.b, c].sort((p, q) => p - q); return s[2] < s[0] + s[1]; };
+    if (!ok(v.good)) return 'incohérent';
+    return `$${v.good}$ cm`;
+  },
+  '6G4.isorel': v => vD_dec(180 / (v.m + 2)),
+  '6G4.entiers': v => {
+    const vals = [];
+    for (let c = 1; c < 100; c++) { const s = [v.a, v.b, c].sort((p, q) => p - q); if (s[2] < s[0] + s[1]) vals.push(c); }
+    return String(v.ask === 'max' ? Math.max(...vals) : v.ask === 'min' ? Math.min(...vals) : vals.length);
+  },
+  '6G5.solide': v => ['un cube', 'un pavé droit', 'un cylindre', 'une pyramide', 'un cône', 'une boule', 'un prisme droit'][v.i],
+  '6G5.aretescube': v => vD_dec(v.a * 12),
+  '6G5.patron': v => {
+    const ok = v.nets.map(n => vD_fold(n) !== null);
+    if (ok.filter(Boolean).length !== 1) return 'incohérent';
+    return `la figure ${ok.indexOf(true) + 1}`;
+  },
+  '6G5.verscube': v => { const m = Math.max(v.a, v.b, v.c); return String(Math.pow(m, 3) - v.a * v.b * v.c); },
+  '6G5.de': v => {
+    const down = vD_fold(v.cells);
+    if (!down) return 'incohérent';
+    const hole = v.texts.indexOf('?');
+    const opp = down.indexOf(vD_opp[down[hole]]);
+    return String(7 - Number(v.texts[opp]));
+  },
+  '6G5.cotee': v => {
+    if (v.ask === 'total') return String(vD_sum(v.h.map(vD_sum)));
+    let s = 0;
+    for (let c = 0; c < v.h[0].length; c++) s += Math.max(...v.h.map(r => r[c]));
+    return String(s);
+  },
+  '6G5.maxvues': v => { let t = 0; v.f.forEach(a => v.s.forEach(b => { t += a < b ? a : b; })); return String(t); },
+  '6G5.airepatron': v => String(2 * v.L * v.l + 2 * v.l * v.h + 2 * v.L * v.h),
+  '6G5.visibles': v => {
+    // simulation : chaque cube a 6 faces ; on retire les faces collées et posées sur la table
+    let visible = 6 * v.n - 2 * (v.n - 1);
+    visible -= v.kind === 'pile' ? 1 : v.n;
+    return String(visible);
+  }
+};
+  return module.exports;
+})());
+// --- Vérificateurs des familles ajoutées / révisées, groupe A (audit 2026-10-31) ---
+Object.assign(VERIFIERS, (function () {
+  const module = { exports: {} };
+// Vérificateurs indépendants des nouvelles familles 6N1 à 6N5 (groupe A)
+'use strict';
+const r6 = x => Math.round(x * 1e6) / 1e6;
+const ans = x => String(r6(x)).replace('.', ',');
+const tex = x => {
+  const v = r6(x); const neg = v < 0;
+  const [ip, dp] = String(Math.abs(v)).split('.');
+  return (neg ? '-' : '') + ip.replace(/\B(?=(\d{3})+(?!\d))/g, '\\,') + (dp ? `{,}${dp}` : '');
+};
+// Analyse indépendante d'un nombre écrit en lettres
+const WV = { zéro: 0, un: 1, deux: 2, trois: 3, quatre: 4, cinq: 5, six: 6, sept: 7, huit: 8, neuf: 9, dix: 10, onze: 11, douze: 12, treize: 13, quatorze: 14, quinze: 15, seize: 16, vingt: 20, vingts: 20, trente: 30, quarante: 40, cinquante: 50, soixante: 60 };
+function parseWords(s) {
+  let total = 0, cur = 0, prev = '';
+  for (const w of s.split(/[\s-]+/).filter(Boolean)) {
+    if (w === 'et') continue;
+    if ((w === 'vingt' || w === 'vingts') && prev === 'quatre') { cur += 76; prev = w; continue; }
+    if (w === 'cent' || w === 'cents') cur = (cur || 1) * 100;
+    else if (w === 'mille') { total += (cur || 1) * 1000; cur = 0; }
+    else if (w === 'million' || w === 'millions') { total += cur * 1e6; cur = 0; }
+    else if (w in WV) cur += WV[w];
+    else throw new Error('mot inconnu ' + w);
+    prev = w;
+  }
+  return total + cur;
+}
+// Orthographe (rectifiée) d'un nombre < 10 000, écrite indépendamment
+function spell(n) {
+  const U = 'zéro un deux trois quatre cinq six sept huit neuf dix onze douze treize quatorze quinze seize dix-sept dix-huit dix-neuf'.split(' ');
+  const T = ['', '', 'vingt', 'trente', 'quarante', 'cinquante', 'soixante', 'soixante', 'quatre-vingt', 'quatre-vingt'];
+  const two = (x, last) => {
+    if (x < 20) return U[x];
+    const t = Math.floor(x / 10), u = x % 10;
+    if (t === 7 || t === 9) return T[t] + (t === 7 && u === 1 ? '-et-' : '-') + U[10 + u];
+    if (u === 0) return T[t] + (t === 8 && last ? 's' : '');
+    return T[t] + (u === 1 && t !== 8 ? '-et-un' : '-' + U[u]);
+  };
+  const three = (x, last) => {
+    const c = Math.floor(x / 100), r = x % 100;
+    const out = [];
+    if (c) out.push(c === 1 ? 'cent' : U[c] + '-cent' + (r === 0 && last ? 's' : ''));
+    if (r) out.push(two(r, last));
+    return out.join('-');
+  };
+  const th = Math.floor(n / 1000), rest = n % 1000;
+  const out = [];
+  if (th) out.push(th === 1 ? 'mille' : three(th, false) + '-mille');
+  if (rest) out.push(three(rest, true));
+  return out.join('-');
+}
+function perms(a) { if (a.length <= 1) return [a]; const o = []; a.forEach((x, i) => perms(a.slice(0, i).concat(a.slice(i + 1))).forEach(p => o.push([x].concat(p)))); return o; }
+
+module.exports = {
+  '6N1.valeur': v => {
+    const s = String(v.m); // m = nombre × 1000, 7 chiffres
+    const i = s.indexOf(String(v.d));
+    const rank = s.length - 1 - i - 3; // exposant de 10
+    return ans(v.d * Math.pow(10, rank));
+  },
+  '6N1.lettres': v => String(parseWords(v.words)),
+  '6N1.enlettres': v => spell(v.n),
+  '6N1.chiffres': v => {
+    let best = null;
+    for (const p of perms(v.ds)) {
+      const x = parseInt(p.join(''), 10) / Math.pow(10, v.dec);
+      if (best === null || (v.ask === 'grand' ? x > best : x < best)) best = x;
+    }
+    return ans(best);
+  },
+  '6N2.placer': v => {
+    const target = v.s + v.j / 10;
+    const hit = v.pts.filter(([, j]) => Math.abs(v.s + j / 10 - target) < 1e-9);
+    return hit.length === 1 ? hit[0][0] : '??';
+  },
+  '6N2.intercale1': v => {
+    const c = [];
+    for (let x = Math.ceil(v.lo / 10); x * 10 < v.hi; x++) if (x * 10 > v.lo && x % 10 !== 0) c.push(x);
+    return c.length === 1 ? ans(c[0] / 10) : '??';
+  },
+  '6N2.nbentre': v => {
+    let c = 0;
+    for (let x = v.a * 10 + 1; x < v.b * 10; x++) c++;
+    return c;
+  },
+  '6N3.mental': v => ans((v.op === '+' ? v.a + v.d : v.a - v.d) / 100),
+  '6N3.bonresultat': v => `$${tex(v.a / 10 + v.b / 100)}$`,
+  '6N3.astuce': v => ans((v.op === '+' ? v.x + v.v : v.x - v.v) / v.den),
+  '6N3.ticket': v => {
+    const known = v.p.reduce((s, x, i) => (i === v.miss ? s : s + x), 0);
+    return ans((v.p.reduce((s, x) => s + x, 0) - known) / 100);
+  },
+  '6N3.erreur': v => {
+    const A = String(v.a), B = String(v.b * 10).padStart(A.length, '0');
+    let nc = '';
+    for (let i = 0; i < A.length; i++) nc += String((+A[i] + +B[i]) % 10);
+    const shown = v.shown100 / 1000;
+    const exact = (v.a + 10 * v.b) / 100;
+    const close = x => Math.abs(x - shown) < 1e-9;
+    if (close(exact)) return 'Aucune : le résultat est juste.';
+    if (close((v.a + v.b) / 100)) return 'Les derniers chiffres ont été alignés au lieu des virgules.';
+    if (close(exact / 10)) return 'La virgule du résultat est mal placée.';
+    if (close(parseInt(nc, 10) / 100)) return 'Une retenue a été oubliée.';
+    return '??';
+  },
+  '6N3.pyramide': v => ans((v.top - v.a - v.c) / 20),
+  '6N3.magique': v => {
+    const M = v.M;
+    const S = M[0][0] + M[1][1] + M[2][2];
+    const lines = [...M, ...[0, 1, 2].map(j => M.map(r => r[j]))];
+    if (!lines.every(l => l.reduce((a, b) => a + b, 0) === S) || M[0][2] + M[1][1] + M[2][0] !== S) return '??';
+    return ans((S - M[v.r].reduce((a, b, j) => (j === v.col ? a : a + b), 0)) / 10);
+  },
+  '6N4.moitie': v => ans(v.n100 / 100 / v.div),
+  '6N4.aire': v => ans(v.L * v.l / 100),
+  '6N4.div10': v => ans(v.tot10 / 10 / v.m),
+  '6N4.distrib': v => ans(v.x10 * v.m / 10),
+  '6N4.courses': v => ans((v.billet * 100 - v.pk * v.mk / 10 - v.n * v.pu) / 100),
+  '6N4.carre': v => {
+    const sq = (v.a * v.a) / (v.s * v.s);
+    for (let i = 1; i < 10000; i++) if (Math.abs((i / 1000) * (i / 1000) - sq) < 1e-12) return ans(i / 1000);
+    return '??';
+  },
+  '6N4.cmpprod': v => {
+    const vals = v.F.map(f => v.N * f / 100);
+    const best = v.ask === 'grand' ? Math.max(...vals) : Math.min(...vals);
+    const f = v.F[vals.indexOf(best)];
+    return `$${v.N} \\times ${tex(f / 100)}$`;
+  },
+  '6N5.tables': v => v.n / v.d,
+  '6N5.nbmult': v => { let c = 0; for (let x = 1; x <= v.N; x++) if (x % v.d === 0) c++; return c; },
+  '6N5.criteres': v => [2, 3, 5, 9, 10].filter(d => v.n % d === 0).length,
+  '6N5.approche': v => {
+    // division posée chiffre par chiffre
+    let q = Math.floor(v.n / v.d), r = v.n % v.d, digs = [];
+    const k = String(v.p).length - 1;
+    for (let i = 0; i <= k; i++) { r *= 10; digs.push(Math.floor(r / v.d)); r %= v.d; }
+    let kept = q * Math.pow(10, k) + digs.slice(0, k).reduce((s, d) => s * 10 + d, 0);
+    if (digs[k] >= 5) kept += 1;
+    return ans(kept / v.p);
+  },
+  '6N5.restes': v => {
+    const sol = [];
+    for (let x = v.lo; x < v.lo + v.a * v.b; x++) if (x % v.a === v.ra && x % v.b === v.rb) sol.push(x);
+    return sol.length === 1 ? sol[0] : '??';
+  }
+};
+  return module.exports;
+})());
 for (const f of (process.env.TEST6_EXTRA_VER || '').split(',').filter(Boolean)) {
   Object.assign(VERIFIERS, require(path.isAbsolute(f) ? f : path.join(ROOT, f)));
 }
 
+// ---------------------------------------------------------------------------
+// Cohérence des indices (consigne du propriétaire) : nombres cités présents dans l’énoncé (ou constantes
+// de cours), réponse jamais donnée, hint1 ≠ hint2.
+// ---------------------------------------------------------------------------
+// Règles de cohérence des indices (partagées par hintcheck6.js et test_6eme.js) : q -> [messages]
+const HINT_CONST = new Set(['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '12', '24', '60', '100', '1000', '10000', '90', '180', '360', '3,14', '0,1', '0,01', '0,001', '0,5', '50', '25', '20', '30', '365', '7', '3600', '1000000']);
+function hClean(s) {
+  return String(s == null ? '' : s).replace(/<svg[\s\S]*?<\/svg>/g, ' ').replace(/<[^>]+>/g, ' ')
+    .replace(/\{,\}/g, ',').replace(/(\d)\\,(?=\d{3})/g, '$1').replace(/(\d)[   ](?=\d{3}\b)/g, '$1');
+}
+function hNums(s) { return (hClean(s).match(/\d+(?:,\d+)?/g) || []); }
+function hCanon(n) { let s = n.replace(/^0+(?=\d)/, ''); if (s.includes(',')) s = s.replace(/0+$/, '').replace(/,$/, ''); return s; }
+// Contrôle commun au collège (heuristique : nombres dérivés, objets étrangers, réponse livrée)
+const { hintIssues, hintTemplate, familyKey } = require('./hint_checks.js');
+function hintRules(q) {
+  const errs = [];
+  const h1 = String(q.hint1 || ''), h2 = String(q.hint2 || '');
+  if (!h1.trim() || !h2.trim()) errs.push('indice manquant');
+  if (h1.trim() && h1.trim() === h2.trim()) errs.push('hint1 = hint2');
+  const ctx = [q.statement, ...(q.options || [])].join(' ');
+  const ctxN = new Set(hNums(ctx).map(hCanon));
+  const ans = q.type === 'mcq' ? null : String(q.answer);
+  for (const [nm, h] of [['hint1', h1], ['hint2', h2]]) {
+    const hn = hNums(h).map(hCanon);
+    for (const n of hn) if (!ctxN.has(n) && !HINT_CONST.has(n)) { errs.push(`${nm} cite ${n}, absent de l'énoncé`); break; }
+    if (q._hintLeakOk) continue;
+    if (ans != null) {
+      if (/^-?\d+(,\d+)?$/.test(ans) && hn.includes(hCanon(ans.replace('-', ''))) && !ctxN.has(hCanon(ans.replace('-', '')))) errs.push(`${nm} contient la réponse ${ans}`);
+      const m = ans.match(/^(\d+)\/(\d+)$/);
+      if (m && new RegExp(`\\\\frac\\{${m[1]}\\}\\{${m[2]}\\}|\\b${m[1]}/${m[2]}\\b`).test(h) && !new RegExp(`\\\\frac\\{${m[1]}\\}\\{${m[2]}\\}`).test(ctx)) errs.push(`${nm} contient la réponse ${ans}`);
+    } else if (q.options) {
+      const a = hClean(q.answer).replace(/\s+/g, '');
+      if (a.length > 3 && hClean(h).replace(/\s+/g, '').includes(a) && !q.options.every(o => hClean(h).replace(/\s+/g, '').includes(hClean(o).replace(/\s+/g, '')))) errs.push(`${nm} contient l'option correcte`);
+    }
+  }
+  return errs;
+}
 // ---------------------------------------------------------------------------
 // 1. Structure
 // ---------------------------------------------------------------------------
@@ -785,6 +1230,7 @@ for (const ch of chapters) {
   if (typeof fn !== 'function') { fail(`gen.${ch.id}`, 'générateur absent'); continue; }
   for (let tier = 1; tier <= 4; tier++) {
     const stmts = new Set();
+    const sharedHints = new Map();
     for (let r = 0; r < RUNS; r++) {
       const w = `gen.${ch.id}.t${tier}`;
       let q;
@@ -810,6 +1256,9 @@ for (const ch of chapters) {
         if (/^-?\d+\/\d+$/.test(a)) { const [n, d] = a.replace('-', '').split('/').map(Number); if (gcd(n, d) !== 1 || d === 1) fail(w, `fraction non irréductible « ${a} »`); }
         if (/^-?0\d/.test(a) || /,\d*0$/.test(a)) fail(w, `zéros inutiles « ${a} »`);
       } else fail(w, `type inconnu ${q.type}`);
+      for (const e of hintRules(q)) fail(`${w}.indices`, `${e} | ${(q._v && q._v.k) || q.title}`);
+      for (const e of hintIssues(q)) fail(`${w}.indices`, `${e.kind} ${e.msg} | ${(q._v && q._v.k) || q.title}`);
+      { const ht = hintTemplate(q.hint1 || ''); if (ht) { if (!sharedHints.has(ht)) sharedHints.set(ht, new Set()); sharedHints.get(ht).add(familyKey(q)); } }
       // Vérification indépendante
       if (!q._v || !q._v.k) { fail(w, 'champ _v manquant'); continue; }
       const vf = VERIFIERS[q._v.k];
@@ -826,6 +1275,7 @@ for (const ch of chapters) {
         else verified++;
       }
     }
+    for (const [ht, fams] of sharedHints) if (fams.size > 1) console.warn(`[AVERTISSEMENT] gen.${ch.id}.t${tier} : hint1 partagé par ${[...fams].join(', ')} « ${ht.slice(0, 70)} »`);
     if (stmts.size < MIN_DISTINCT) fail(`gen.${ch.id}.t${tier}`, `variété insuffisante : ${stmts.size} énoncés distincts / ${RUNS}`);
     varietyReport.push(`${ch.id}.t${tier}:${stmts.size}`);
   }

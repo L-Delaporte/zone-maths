@@ -15,6 +15,11 @@
  *   - formatage : « 1x », « + - », « - - », « + 0 », « 0x », « ^1 », « \frac{a}{-b} », fractions non réduites,
  *     point décimal au lieu de la virgule ;
  *   - recalcul indépendant des familles vérifiables (table VERIFIERS) ;
+ *   - saisie exacte (type 'exact') : réponse en texte brut, acceptée par MathsAdaptiveEngine.validateAnswer
+ *     ainsi que des écritures équivalentes (décimal / fraction, « x = », point ou virgule, couple sans
+ *     parenthèses, écriture scientifique) ; refus d'une valeur fausse et des distracteurs du QCM d'origine ;
+ *     valeur identique à la réponse LaTeX d'origine (q.mcq) ; recalcul indépendant sur la forme QCM d'origine ;
+ *     --mode=exact|mcq force la conversion (ou l'interdit) pour tester les deux formes ;
  *   - variété insuffisante : moins de --min-variety énoncés distincts sur N tirages (sauf palier renvoyant null,
  *     qui déclenche le repli sur la banque statique MATHS_EXERCISES).
  */
@@ -56,11 +61,13 @@ const FILES = [
   'js/data/chapters.js', 'js/data/chapters_lycee.js', 'js/data/chapters_licence.js', 'js/data/exercises.js',
   'js/data/data_2nde.js', 'js/data/data_1ere.js', 'js/data/data_terminale.js',
   'js/data/data_l1.js', 'js/data/data_l2.js', 'js/data/data_l3.js', 'js/data/data_capes.js', 'js/data/data_proofs.js',
-  'js/advancedGenerators.js', 'js/lyceeGenerators.js', 'js/randomGenerators.js'
+  'js/advancedGenerators.js', 'js/lyceeGenerators.js', 'js/randomGenerators.js', 'js/adaptiveEngine.js'
 ];
 for (const f of FILES) require(path.join(ROOT, f));
 for (const f of LOADS) require(path.resolve(f));
 const ADV = window.MathsAdvancedGenerators;
+const ENGINE = window.MathsAdaptiveEngine;
+if (args.mode === 'mcq' || args.mode === 'exact') window.MathsGenUtils.forceMode = args.mode;
 
 // ---------------------------------------------------------------------------
 // Outils
@@ -4755,13 +4762,2960 @@ Object.assign(VERIFIERS, ((V) => {
 })(V));
 }
 
-for (const f of VERIFY_FILES) Object.assign(VERIFIERS, require(path.resolve(f))(V));
+// Vérificateurs prioritaires (familles ajoutées, saisies exactes natives) : clé 'CH/T' ou 'CH' ; une valeur
+// undefined renvoyée signifie « famille non reconnue ici » et passe la main au vérificateur principal.
+const PRE_VERIFIERS = {};
+const addPre = (obj) => { for (const [k, f] of Object.entries(obj)) (PRE_VERIFIERS[k] = PRE_VERIFIERS[k] || []).push(f); };
+// ==== PRE_VERIFIERS: blocs intégrés ====
+// ---- vérificateurs prioritaires CAPES ----
+{
+// Recalculs indépendants — CAPES (gen_capes_01 … gen_capes_10). Chaque fonction relit l'énoncé.
+addPre(( (V) => {
+  const fact = (n) => (n <= 1 ? 1 : n * fact(n - 1));
+  const gcd = (a, b) => { a = Math.abs(a); b = Math.abs(b); while (b) [a, b] = [b, a % b]; return a; };
+  const close = (a, b) => Math.abs(a - b) < 1e-9 * Math.max(1, Math.abs(a), Math.abs(b));
+  /** saisie attendue -> nombres */
+  const vals = (q) => {
+    const s = String(q.answer).replace(/\s+/g, '').replace(/^\(|\)$/g, '');
+    return s.split(';').map((t) => { const m = t.match(/^(-?\d+)\/(\d+)$/); return m ? +m[1] / +m[2] : parseFloat(t.replace(',', '.')); });
+  };
+  const expect = (q, ...exp) => {
+    const got = vals(q);
+    if (got.length !== exp.length) return `n-uplet de longueur ${got.length}, attendu ${exp.length}`;
+    return got.every((g, i) => close(g, exp[i])) || `attendu (${exp.join(' ; ')}), obtenu ${q.answer}`;
+  };
+  const st = (q) => String(q.statement);
+  /** valeur LaTeX simple : "-\frac{3}{4}", "5" */
+  const tv = (s) => { s = s.trim(); const m = s.match(/^(-?)\\frac\{(\d+)\}\{(\d+)\}$/); return m ? (m[1] ? -1 : 1) * m[2] / m[3] : +s; };
+  /** coefficients de y'' , y' , y dans « y'' + 3y' - 2y » */
+  const odeCoefs = (lhs) => {
+    const t = lhs.replace(/\s+/g, '');
+    const c = { 2: 0, 1: 0, 0: 0 };
+    for (const m of t.matchAll(/([+-]?)(\d*)y('*)/g)) c[m[3].length] += (m[1] === '-' ? -1 : 1) * (m[2] === '' ? 1 : +m[2]);
+    return c;
+  };
+  const R = {};
+  R['capes-01'] = (q) => {
+    const s = st(q);
+    let m;
+    if (/Solution constante de/.test(q.title)) {
+      m = s.match(/\$(y' [^$]*) = (-?\d+)\$/);
+      const c = odeCoefs(m[1]);
+      return expect(q, +m[2] / c[0]);
+    }
+    if (/Équation caractéristique|complexes/.test(q.title)) {
+      m = s.match(/\$(y''[^$]*) = 0\$/);
+      const c = odeCoefs(m[1]);
+      const D = c[1] * c[1] - 4 * c[0];
+      if (/complexes/.test(q.title)) return expect(q, -c[1] / 2, Math.sqrt(-D) / 2);
+      return expect(q, (-c[1] - Math.sqrt(D)) / 2, (-c[1] + Math.sqrt(D)) / 2);
+    }
+    if (/Solution particulière constante/.test(q.title)) {
+      m = s.match(/\$(y''[^$]*) = (-?\d+)\$/);
+      return expect(q, +m[2] / odeCoefs(m[1])[0]);
+    }
+    if (/Problème de Cauchy/.test(q.title)) {
+      m = s.match(/\$(y''[^$]*) = 0\$ telle que \$y\(0\) = (-?\d+)\$ et \$y'\(0\) = (-?\d+)\$/);
+      const c = odeCoefs(m[1]); const A = +m[2]; const B = +m[3];
+      const ex = [...s.matchAll(/e\^\{(-?\d*)t\}/g)].map((x) => (x[1] === '' ? 1 : x[1] === '-' ? -1 : +x[1]));
+      for (const r of ex) if (Math.abs(r * r + c[1] * r + c[0]) > 1e-9) return 'exposant non racine caractéristique';
+      // vérification numérique : y(t) = C1 e^{r1 t} + C2 e^{r2 t}
+      const [C1, C2] = vals(q);
+      return (close(C1 + C2, A) && close(ex[0] * C1 + ex[1] * C2, B)) || 'conditions initiales non vérifiées';
+    }
+    if (/Résonance/.test(q.title)) {
+      m = s.match(/y'' \+ (\d*)y = (-?\d+)\\cos\((\d*)t\)/);
+      const w2 = m[1] === '' ? 1 : +m[1]; const c = +m[2]; const w = m[3] === '' ? 1 : +m[3];
+      if (w * w !== w2) return 'pas de résonance';
+      // y = k t sin(wt) : y'' = k(2w cos - w^2 t sin) ; test numérique en t = 0,7
+      const k = vals(q)[0]; const t = 0.7;
+      const y = k * t * Math.sin(w * t); const ypp = k * (2 * w * Math.cos(w * t) - w * w * t * Math.sin(w * t));
+      return close(ypp + w2 * y, c * Math.cos(w * t)) || 'équation non vérifiée';
+    }
+    if (/hors résonance/.test(q.title)) {
+      m = s.match(/y'' \+ (\d*)y = (-?\d+)\\cos\((\d*)t\)/);
+      const w2 = m[1] === '' ? 1 : +m[1]; const c = +m[2]; const W = m[3] === '' ? 1 : +m[3];
+      const A = vals(q)[0]; const t = 0.4;
+      return close(-W * W * A * Math.cos(W * t) + w2 * A * Math.cos(W * t), c * Math.cos(W * t)) || 'équation non vérifiée';
+    }
+    return undefined;
+  };
+  const mat2 = (s) => { const m = s.match(/\\begin\{pmatrix\} (-?\d+) & (-?\d+) \\\\ (-?\d+) & (-?\d+) \\end\{pmatrix\}/); return m.slice(1, 5).map(Number); };
+  const mul2 = (A, B) => [A[0] * B[0] + A[1] * B[2], A[0] * B[1] + A[1] * B[3], A[2] * B[0] + A[3] * B[2], A[2] * B[1] + A[3] * B[3]];
+  R['capes-02'] = (q) => {
+    const s = st(q);
+    if (/Valeurs propres/.test(q.title)) {
+      const A = mat2(s);
+      const [l1, l2] = vals(q);
+      const det = (l) => (A[0] - l) * (A[3] - l) - A[1] * A[2];
+      return (l1 < l2 && close(det(l1), 0) && close(det(l2), 0)) || 'pas des valeurs propres';
+    }
+    if (/Vecteur propre/.test(q.title)) {
+      const A = mat2(s); const l = +s.match(/valeur propre \$(-?\d+)\$/)[1]; const y = vals(q)[0];
+      return (close(A[0] + A[1] * y, l) && close(A[2] + A[3] * y, l * y)) || 'AX ≠ λX';
+    }
+    if (/Trace d'une puissance/.test(q.title)) {
+      const A = mat2(s); const n = +s.match(/A\^\{(\d+)\}/)[1];
+      let P = [1, 0, 0, 1];
+      for (let k = 0; k < n; k++) P = mul2(P, A);
+      return expect(q, P[0] + P[3]);
+    }
+    if (/Cayley-Hamilton|Polynôme annulateur/.test(q.title)) {
+      const A = mat2(s); const A3 = mul2(A, mul2(A, A)); const [al, be] = vals(q);
+      return [0, 1, 2, 3].every((i) => close(A3[i], al * A[i] + be * (i === 0 || i === 3 ? 1 : 0))) || 'A^3 ≠ αA + βI';
+    }
+    if (/sous-espace propre/.test(q.title)) {
+      const m = s.match(/\\begin\{pmatrix\} (-?\d+) & (-?\d+) & (-?\d+) \\\\ 0 & (-?\d+) & (-?\d+) \\\\ 0 & 0 & (-?\d+) \\end\{pmatrix\}/);
+      const [l, x, y, l2, z, mu] = m.slice(1).map(Number);
+      const lam = +s.match(/E_\{(-?\d+)\}/)[1];
+      // rang de A - lam I par élimination
+      const M = [[l - lam, x, y], [0, l2 - lam, z], [0, 0, mu - lam]];
+      let r = 0; const rows = M.map((row) => row.slice());
+      for (let c = 0; c < 3 && r < 3; c++) {
+        const p = rows.findIndex((row, i) => i >= r && Math.abs(row[c]) > 1e-12);
+        if (p < 0) continue;
+        [rows[r], rows[p]] = [rows[p], rows[r]];
+        for (let i = 0; i < 3; i++) if (i !== r) { const f = rows[i][c] / rows[r][c]; for (let j = 0; j < 3; j++) rows[i][j] -= f * rows[r][j]; }
+        r++;
+      }
+      return expect(q, 3 - r);
+    }
+    return undefined;
+  };
+  R['capes-03'] = (q) => {
+    const s = st(q);
+    const integ = (f, a, b, N = 4000) => { let S = 0; const h = (b - a) / N; for (let i = 0; i < N; i++) S += f(a + (i + 0.5) * h); return S * h; };
+    if (/Parseval pour un polynôme/.test(q.title)) {
+      const m = s.match(/f\(x\) = (.*?)\$/)[1];
+      let a = 0; let b = 0; let c = 0; let p = 1; let qq = 1;
+      for (const t of m.replace(/\s+/g, '').matchAll(/([+-]?)(\d*)(\\cos\((\d*)x\)|\\sin\((\d*)x\))?/g)) {
+        if (!t[0]) continue;
+        const v = (t[1] === '-' ? -1 : 1) * (t[2] === '' ? 1 : +t[2]);
+        if (!t[3]) a = v; else if (t[3].startsWith('\\cos')) { b = v; p = t[4] === '' ? 1 : +t[4]; } else { c = v; qq = t[5] === '' ? 1 : +t[5]; }
+      }
+      const f = (x) => a + b * Math.cos(p * x) + c * Math.sin(qq * x);
+      const I = integ((x) => f(x) ** 2, -Math.PI, Math.PI) / (2 * Math.PI);
+      return Math.abs(I - vals(q)[0]) < 1e-6 || `intégrale numérique ${I}`;
+    }
+    if (/dents de scie/.test(q.title)) {
+      const al = s.match(/f\(x\) = (-?\d*)x\$/)[1]; const a = al === '' ? 1 : al === '-' ? -1 : +al;
+      const n = +s.match(/b_\{(\d+)\}/)[1];
+      const I = integ((x) => a * x * Math.sin(n * x), -Math.PI, Math.PI) / Math.PI;
+      return Math.abs(I - vals(q)[0]) < 1e-5 || `intégrale numérique ${I}`;
+    }
+    if (/de \$x\^2\$/.test(q.title)) {
+      const bt = s.match(/f\(x\) = (-?\d*)x\^2\$/)[1]; const b = bt === '' ? 1 : bt === '-' ? -1 : +bt;
+      const n = +s.match(/a_\{(\d+)\}/)[1];
+      const I = integ((x) => b * x * x * Math.cos(n * x), -Math.PI, Math.PI) / Math.PI;
+      return Math.abs(I - vals(q)[0]) < 1e-5 || `intégrale numérique ${I}`;
+    }
+    if (/Somme d'une série par les séries de Fourier/.test(q.title)) {
+      const m = s.match(/\\sum_\{n \\ge (\d)\} \\frac\{(\d*)(.*?) = r\\,\\pi\^\{(\d)\}/);
+      const n0 = +m[1]; const body = m[3]; const k = m[2] === '' ? 1 : /^\(-1\)/.test(body) || body.startsWith('}') ? +m[2] || 1 : 1;
+      const alt = /\(-1\)\^\{n\+1\}/.test(body); const odd = /2n\+1/.test(body); const e = +body.match(/\^(\d)\}$/)[1];
+      const num = (n) => (alt ? (n % 2 ? 1 : -1) : 1);
+      const den = (n) => (odd ? 2 * n + 1 : n) ** e;
+      let S = 0;
+      for (let n = n0; n < 2e5; n++) S += num(n) / den(n);
+      m[5] = m[4];
+      const r = vals(q)[0] * Math.PI ** +m[5];
+      return Math.abs(k * S - r) < 1e-4 || `somme numérique ${k * S}, r π^p = ${r}`;
+    }
+    return undefined;
+  };
+  R['capes-04'] = (q) => {
+    const s = st(q);
+    let m;
+    if ((m = s.match(/binomiale \$\\mathcal\{B\}\\left\((\d+) ; \\frac\{(\d+)\}\{(\d+)\}\\right\)\$\. Calculer \$(E|V)/))) {
+      const n = +m[1]; const p = m[2] / m[3];
+      // calcul par la loi
+      const C = (N, K) => fact(N) / (fact(K) * fact(N - K));
+      let E = 0; let E2 = 0;
+      for (let k = 0; k <= n; k++) { const pk = C(n, k) * p ** k * (1 - p) ** (n - k); E += k * pk; E2 += k * k * pk; }
+      return Math.abs((m[4] === 'E' ? E : E2 - E * E) - vals(q)[0]) < 1e-6 || 'valeur fausse';
+    }
+    if ((m = s.match(/géométrique de paramètre \$p = \\frac\{1\}\{(\d+)\}\$.*?(P\(X > (\d+)\)|E\(X\)|V\(X\))/))) {
+      const p = 1 / +m[1];
+      let E = 0; let E2 = 0; let tail = 0;
+      for (let k = 1; k < 4000; k++) { const pk = (1 - p) ** (k - 1) * p; E += k * pk; E2 += k * k * pk; if (m[3] && k > +m[3]) tail += pk; }
+      const v = m[3] ? tail : m[2] === 'E(X)' ? E : E2 - E * E;
+      return Math.abs(v - vals(q)[0]) < 1e-6 || `valeur ${v}`;
+    }
+    if ((m = s.match(/Poisson de paramètre \$\\lambda = (\\frac\{\d+\}\{\d+\}|\d+)\$/))) {
+      const lam = tv(m[1]);
+      let E1 = 0; let E2 = 0; let E3f = 0; let pk = Math.exp(-lam);
+      for (let k = 0; k < 200; k++) { if (k > 0) pk *= lam / k; E1 += k * pk; E2 += k * k * pk; E3f += k * (k - 1) * (k - 2) * pk; }
+      let v;
+      if (/E\(X\^2\)/.test(s)) v = E2;
+      else if (/X\(X-1\)\(X-2\)/.test(s)) v = E3f;
+      else { const mm = s.match(/Calculer \$V\((-?\d*)X/); const c = mm[1] === '' ? 1 : mm[1] === '-' ? -1 : +mm[1]; v = c * c * (E2 - E1 * E1); }
+      return Math.abs(v - vals(q)[0]) < 1e-6 || `valeur ${v}`;
+    }
+    if ((m = s.match(/comporte \$(\d+)\$ vignettes/))) {
+      // espérance par chaîne de Markov : E_k = 1 + (k/n) E_k + ((n-k)/n) E_{k+1}
+      const n = +m[1]; let E = 0;
+      for (let k = n - 1; k >= 0; k--) E = (1 + ((n - k) / n) * E) / ((n - k) / n);
+      return Math.abs(E - vals(q)[0]) < 1e-9 || `valeur ${E}`;
+    }
+    if (/Bienaymé-Tchebychev/.test(q.title)) {
+      m = s.match(/\\ge \\frac\{1\}\{(\d+)\}\) \\le \\frac\{1\}\{(\d+)\}\$/);
+      const eps = 1 / +m[1]; const al = 1 / +m[2];
+      let n = 1; while (1 / (4 * n * eps * eps) > al + 1e-12) n++;
+      return expect(q, n);
+    }
+    return undefined;
+  };
+  const vec = (s, name) => { const m = s.match(new RegExp(name + ' = \\((-?\\d+) ; (-?\\d+) ; (-?\\d+)\\)')); return m.slice(1).map(Number); };
+  const dot = (a, b) => a.reduce((x, y, i) => x + y * b[i], 0);
+  R['capes-05'] = (q) => {
+    const s = st(q);
+    if (/sur une droite/.test(q.title)) {
+      const u = vec(s, 'u'); const v = vec(s, 'v'); const p = vals(q);
+      // p colinéaire à v et u - p orthogonal à v
+      const r = u.map((x, i) => x - p[i]);
+      const col = Math.abs(p[0] * v[1] - p[1] * v[0]) + Math.abs(p[1] * v[2] - p[2] * v[1]) + Math.abs(p[0] * v[2] - p[2] * v[0]);
+      return (col < 1e-9 && Math.abs(dot(r, v)) < 1e-9) || 'pas le projeté';
+    }
+    if (/hyperplan/.test(q.title)) {
+      const u = vec(s, 'u'); const v = vec(s, 'v');
+      // minimisation numérique de |u - x|^2 sur H : u - x = t v
+      const t = dot(u, v) / dot(v, v);
+      const d2 = dot(v, v) * t * t;
+      return Math.abs(d2 - vals(q)[0]) < 1e-9 || `d² = ${d2}`;
+    }
+    if (/Gram-Schmidt/.test(q.title)) {
+      const v1 = vec(s, 'v_1'); const v2 = vec(s, 'v_2'); const w = vals(q);
+      const diff = w.map((x, i) => x - v2[i]);
+      const col = Math.abs(diff[0] * v1[1] - diff[1] * v1[0]) + Math.abs(diff[1] * v1[2] - diff[2] * v1[1]) + Math.abs(diff[0] * v1[2] - diff[2] * v1[0]);
+      return (Math.abs(dot(w, v1)) < 1e-9 && col < 1e-9) || 'w2 non orthogonal ou hors de Vect(v1, v2)';
+    }
+    if (/approximation affine/.test(q.title)) {
+      const m = s.match(/f\(t\) = (-?\d*)t\^\{(\d+)\}/); const c = m[1] === '' ? 1 : m[1] === '-' ? -1 : +m[1]; const k = +m[2];
+      const [a, b] = vals(q);
+      // conditions d'orthogonalité par intégration numérique
+      const N = 20000; let I0 = 0; let I1 = 0;
+      for (let i = 0; i < N; i++) { const t = (i + 0.5) / N; const r = c * t ** k - a * t - b; I0 += r / N; I1 += r * t / N; }
+      return (Math.abs(I0) < 1e-6 && Math.abs(I1) < 1e-6) || 'f - p non orthogonal aux fonctions affines';
+    }
+    return undefined;
+  };
+  R['capes-06'] = (q) => {
+    const s = st(q);
+    const integ = (f, a, b, N = 200000) => { let S = 0; const h = (b - a) / N; for (let i = 0; i < N; i++) S += f(a + (i + 0.5) * h); return S * h; };
+    let m;
+    if (/somme de Riemann/.test(q.title)) {
+      const n = 20000; let S = 0;
+      if ((m = s.match(/\\sum_\{k=1\}\^\{n\} (-?)\\frac\{(\d*)k\^\{(\d+)\}\}\{n\^\{(\d+)\}\}/))) {
+        const c = (m[1] ? -1 : 1) * (m[2] === '' ? 1 : +m[2]); const p = +m[3];
+        for (let k = 1; k <= n; k++) S += c * k ** p / n ** (p + 1);
+      } else {
+        m = s.match(/\\sum_\{k=1\}\^\{n\} (-?\d*)\\left\(1 \+ \\frac\{k\}\{n\}\\right\)\^\{(\d+)\}/);
+        const c = m[1] === '' ? 1 : m[1] === '-' ? -1 : +m[1]; const p = +m[2];
+        for (let k = 1; k <= n; k++) S += c * (1 + k / n) ** p / n;
+      }
+      return Math.abs(S - vals(q)[0]) < 2e-3 * Math.max(1, Math.abs(S)) || `somme numérique ${S}`;
+    }
+    if ((m = s.match(/I = \\int_0\^1 t(?:\^\{(\d+)\})?\(1 - t\)(?:\^\{(\d+)\})?\\,dt/))) {
+      const a = m[1] ? +m[1] : 1; const b = m[2] ? +m[2] : 1;
+      const I = integ((t) => t ** a * (1 - t) ** b, 0, 1);
+      return Math.abs(I - vals(q)[0]) < 1e-9 || `intégrale ${I}`;
+    }
+    if ((m = s.match(/\\int_0\^1 t(?:\^\{(\d+)\})?(?:\\ln t|\(\\ln t\)\^\{(\d+)\})\\,dt/))) {
+      const a = m[1] ? +m[1] : 1; const k = m[2] ? +m[2] : 1;
+      const I = integ((t) => t ** a * Math.log(t) ** k, 0, 1);
+      return Math.abs(I - vals(q)[0]) < 1e-6 || `intégrale ${I}`;
+    }
+    if ((m = s.match(/\\int_0\^\{\+\\infty\} t(?:\^\{(\d+)\})?e\^\{-(\d*)t\}/))) {
+      const n = m[1] ? +m[1] : 1; const a = m[2] === '' ? 1 : +m[2];
+      const I = integ((t) => t ** n * Math.exp(-a * t), 0, 80 / a, 400000);
+      return Math.abs(I - vals(q)[0]) < 1e-6 * Math.max(1, I) || `intégrale ${I}`;
+    }
+    return undefined;
+  };
+  const permOf = (s) => { const m = s.match(/\\begin\{pmatrix\} [\d &]+ \\\\ ([\d &]+) \\end\{pmatrix\}/); return m[1].split('&').map((x) => +x.trim()); };
+  R['capes-07'] = (q) => {
+    const s = st(q);
+    if (/Ordre d'une permutation/.test(q.title)) {
+      const p = permOf(s); let k = 1; let cur = p.slice();
+      while (!cur.every((x, i) => x === i + 1)) { cur = cur.map((x) => p[x - 1]); k++; }
+      return expect(q, k);
+    }
+    if (/inversions/.test(q.title)) {
+      const p = permOf(s); let n = 0;
+      for (let i = 0; i < p.length; i++) for (let j = i + 1; j < p.length; j++) if (p[i] > p[j]) n++;
+      return expect(q, n);
+    }
+    if (/Signature/.test(q.title)) {
+      // signature par produit (p(j) - p(i)) / (j - i)
+      const p = permOf(s); let num = 1; let den = 1;
+      for (let i = 0; i < p.length; i++) for (let j = i + 1; j < p.length; j++) { num *= Math.sign(p[j] - p[i]); den *= 1; }
+      return expect(q, num / den);
+    }
+    if (/cycles/.test(q.title) || /classe de conjugaison/.test(q.title)) {
+      // énumération brute de S_n
+      const n = +s.match(/\\mathcal\{S\}_\{(\d+)\}/)[1];
+      let target;
+      if (/Cardinal/.test(q.title)) target = s.match(/longueurs \$([\d, ]+)\$/)[1].split(',').map((x) => +x.trim());
+      else target = [+s.match(/longueur \$(\d+)\$/)[1]];
+      const key = target.slice().sort((a, b) => a - b).join(',');
+      let cnt = 0;
+      const p = [...Array(n).keys()];
+      const rec = (k) => {
+        if (k === n) {
+          const seen = new Array(n).fill(false); const lens = [];
+          for (let i = 0; i < n; i++) { if (seen[i]) continue; let l = 0; let j = i; while (!seen[j]) { seen[j] = true; j = p[j]; l++; } if (l > 1) lens.push(l); }
+          if (lens.sort((a, b) => a - b).join(',') === key) cnt++;
+          return;
+        }
+        for (let i = k; i < n; i++) { [p[k], p[i]] = [p[i], p[k]]; rec(k + 1); [p[k], p[i]] = [p[i], p[k]]; }
+      };
+      rec(0);
+      return expect(q, cnt);
+    }
+    return undefined;
+  };
+  R['capes-08'] = (q) => {
+    const s = st(q);
+    if (/inflexion/.test(q.title)) {
+      const m = s.match(/f\(x\) = x\^3 ([+-]) (\d*)x\^2/);
+      const a = (m[1] === '-' ? -1 : 1) * (m[2] === '' ? 1 : +m[2]);
+      const x0 = vals(q)[0];
+      return close(6 * x0 + 2 * a, 0) || 'f\'\'(x0) ≠ 0';
+    }
+    if (/degré 4/.test(q.title)) {
+      const m = s.match(/f\(x\) = x\^4 ([+-]) (\d*)x\^3/);
+      const a = (m[1] === '-' ? -1 : 1) * (m[2] === '' ? 1 : +m[2]);
+      const b = vals(q)[0];
+      // min de f'' = 12x^2 + 6ax + 2b doit être nul
+      let mn = Infinity;
+      for (let x = -10; x <= 10; x += 1e-4) mn = Math.min(mn, 12 * x * x + 6 * a * x + 2 * b);
+      return Math.abs(mn) < 1e-5 || `min f'' = ${mn}`;
+    }
+    if (/arithmético-géométrique/.test(q.title)) {
+      const n = (s.match(/\$x_1 x_2( x_3)?( x_4)?\$/)[0].match(/x_/g) || []).length; const S = +s.match(/somme \$(\d+)\$/)[1];
+      // maximum numérique pour n = 2 ou 3 (grille) ; formule sinon
+      let best = 0;
+      if (n === 2) for (let x = 0; x <= S; x += S / 2000) best = Math.max(best, x * (S - x));
+      else if (n === 3) for (let x = 0; x <= S; x += S / 300) for (let y = 0; x + y <= S; y += S / 300) best = Math.max(best, x * y * (S - x - y));
+      else best = (S / 4) ** 4;
+      return Math.abs(best - vals(q)[0]) < 1e-6 * Math.max(1, best) || `max ${best}`;
+    }
+    if (/Cauchy-Schwarz/.test(q.title)) {
+      const m = s.match(/vérifie \$(.*) = (-?\d+)\$/);
+      const co = { x: 0, y: 0, z: 0 };
+      for (const t of m[1].replace(/\s+/g, '').matchAll(/([+-]?)(\d*)([xyz])/g)) co[t[3]] = (t[1] === '-' ? -1 : 1) * (t[2] === '' ? 1 : +t[2]);
+      const d = +m[2]; const N = co.x ** 2 + co.y ** 2 + co.z ** 2;
+      // distance de l'origine au plan, recalculée par projection
+      return close(vals(q)[0], (d / Math.sqrt(N)) ** 2) || 'minimum faux';
+    }
+    return undefined;
+  };
+  R['capes-09'] = (q) => {
+    const s = st(q);
+    let m;
+    if ((m = s.match(/\\sum_\{n=(\d)\}\^\{\+\\infty\} (-?\d*)\\left\((-?\\frac\{\d+\}\{\d+\})\\right\)\^n/))) {
+      const n0 = +m[1]; const c = m[2] === '' ? 1 : m[2] === '-' ? -1 : +m[2]; const x = tv(m[3]);
+      let S = 0; for (let n = n0; n < 3000; n++) S += c * x ** n;
+      return Math.abs(S - vals(q)[0]) < 1e-9 || `somme ${S}`;
+    }
+    if ((m = s.match(/\\frac\{(\d+)\}\{n\(n \+ (\d+)\)\}/))) {
+      const c = +m[1]; const k = +m[2]; let S = 0;
+      for (let n = 1; n < 2e6; n++) S += c / (n * (n + k));
+      return Math.abs(S - vals(q)[0]) < 1e-4 || `somme ${S}`;
+    }
+    if (/série alternée/.test(q.title)) {
+      m = s.match(/\\frac\{(\d*)\(-1\)\^\{n\+1\}\}\{n(?:\^\{(\d)\})?\}/);
+      const c = m[1] === '' ? 1 : +m[1]; const p = m[2] ? +m[2] : 1;
+      const e = s.match(/\\le (?:(\d) \\times )?10\^\{-(\d)\}\$/); const eps = (e[1] ? +e[1] : 1) * 10 ** -+e[2];
+      let N = 0; while (c / (N + 1) ** p > eps * (1 + 1e-12)) N++;
+      return expect(q, N);
+    }
+    if ((m = s.match(/\\frac\{(\d*)n(\^2)?\}\{(\d+)\^n\}/))) {
+      const c = m[1] === '' ? 1 : +m[1]; const e = m[2] ? 2 : 1; const b = +m[3]; let S = 0;
+      for (let n = 1; n < 400; n++) S += c * n ** e / b ** n;
+      return Math.abs(S - vals(q)[0]) < 1e-9 || `somme ${S}`;
+    }
+    return undefined;
+  };
+  R['capes-10'] = (q) => {
+    const s = st(q);
+    let m;
+    if ((m = s.match(/pgcd\}\((\d+), (\d+)\)/))) {
+      const a = +m[1]; const b = +m[2]; let g = 1;
+      for (let d = 1; d <= Math.min(a, b); d++) if (a % d === 0 && b % d === 0) g = d;
+      return expect(q, g);
+    }
+    if ((m = s.match(/inverse de \$(\d+)\$ dans \$\\mathbb\{Z\}\/(\d+)/))) {
+      const x = vals(q)[0];
+      return ((+m[1] * x) % +m[2] === 1 && x >= 1 && x < +m[2]) || 'pas l\'inverse';
+    }
+    if ((m = s.match(/x \\equiv (\d+) \\pmod\{(\d+)\}\$ et \$x \\equiv (\d+) \\pmod\{(\d+)\}/))) {
+      const x = vals(q)[0];
+      for (let y = 0; y < x; y++) if (y % +m[2] === +m[1] && y % +m[4] === +m[3]) return 'pas le plus petit';
+      return (x % +m[2] === +m[1] && x % +m[4] === +m[3]) || 'congruences non vérifiées';
+    }
+    if ((m = s.match(/\\varphi\((\d+)\)/)) && /Indicatrice/.test(q.title)) {
+      const n = +m[1]; let c = 0;
+      for (let k = 1; k <= n; k++) if (gcd(k, n) === 1) c++;
+      return expect(q, c);
+    }
+    if (/RSA/.test(q.title)) {
+      const p = +s.match(/p = (\d+)/)[1]; const qq = +s.match(/q = (\d+)/)[1]; const e = +s.match(/e = (\d+)/)[1];
+      const d = vals(q)[0]; const n = p * qq;
+      // test de déchiffrement effectif sur quelques messages
+      const pw = (b, k, mod) => { let r = 1; b %= mod; while (k) { if (k & 1) r = (r * b) % mod; b = (b * b) % mod; k >>= 1; } return r; };
+      for (const msg of [2, 3, 7, 10, n - 2]) if (pw(pw(msg, e, n), d, n) !== msg) return 'le déchiffrement échoue';
+      return (d > 0 && d < (p - 1) * (qq - 1)) || 'd hors de l\'intervalle';
+    }
+    return undefined;
+  };
+  return R;
+})(V));
+}
+// ---- vérificateurs prioritaires L1 ----
+{
+// Vérificateurs indépendants des familles L1 modifiées / ajoutées (audit des entraînements).
+// Chaque fonction reçoit la question (forme QCM d'origine si convertie, avec q.exactInput = saisie attendue)
+// et renvoie undefined (famille non reconnue), true, ou un message d'erreur.
+'use strict';
+addPre(( (V) => {
+  // ---------------------------------------------------------------- outils
+  const strip = (s) => String(s).replace(/^\$|\$$/g, '');
+  const close = (a, b, eps = 1e-6) => Math.abs(a - b) <= eps * Math.max(1, Math.abs(a), Math.abs(b));
+  /** saisie élève « (a;b;c) » ou « a » -> nombres */
+  const tup = (s) => String(s).replace(/^\(|\)$/g, '').split(';').map((t) => {
+    const m = t.trim().match(/^(-?\d+)\/(\d+)$/);
+    return m ? +m[1] / +m[2] : parseFloat(t.replace(',', '.'));
+  });
+  const sameTup = (a, b, eps) => a.length === b.length && a.every((x, i) => close(x, b[i], eps));
+  /** vérifie q.exactInput (si présent) contre les valeurs attendues */
+  const chkIn = (q, expect, eps = 1e-6) => {
+    if (q.exactInput === undefined) return true;
+    const got = tup(q.exactInput);
+    return sameTup(got, expect, eps) || `saisie ${q.exactInput} ≠ attendu (${expect.map((x) => +x.toFixed(6)).join(';')})`;
+  };
+  // ------------------------------------------- évaluateur d'expressions LaTeX
+  function matchBrace(s, i) { // s[i] === '{' -> index de l'accolade fermante
+    let d = 0;
+    for (let j = i; j < s.length; j++) { if (s[j] === '{') d++; else if (s[j] === '}') { d--; if (!d) return j; } }
+    return -1;
+  }
+  function texToTokens(tex) {
+    let s = String(tex).replace(/\\left|\\right|\\displaystyle|\\[,;!]|\\cdot/g, (m) => (m === '\\cdot' ? '*' : '')).replace(/\\times/g, '*');
+    // \frac{A}{B}
+    for (;;) {
+      const i = s.search(/\\[dt]?frac\{/);
+      if (i < 0) break;
+      const a0 = s.indexOf('{', i); const a1 = matchBrace(s, a0); const b1 = matchBrace(s, a1 + 1);
+      s = s.slice(0, i) + '((' + s.slice(a0 + 1, a1) + ')/(' + s.slice(a1 + 2, b1) + '))' + s.slice(b1 + 1);
+    }
+    for (;;) {
+      const i = s.search(/\\sqrt\{/);
+      if (i < 0) break;
+      const a0 = s.indexOf('{', i); const a1 = matchBrace(s, a0);
+      s = s.slice(0, i) + 'sqrt(' + s.slice(a0 + 1, a1) + ')' + s.slice(a1 + 1);
+    }
+    for (;;) {
+      const i = s.search(/e\^\{/);
+      if (i < 0) break;
+      const a0 = i + 2; const a1 = matchBrace(s, a0);
+      s = s.slice(0, i) + 'exp(' + s.slice(a0 + 1, a1) + ')' + s.slice(a1 + 1);
+    }
+    s = s.replace(/\^\{/g, '^(').replace(/\{/g, '(').replace(/\}/g, ')');
+    s = s.replace(/\\(ln|sin|cos|tan|arctan|exp)/g, ' $1 ').replace(/\\pi/g, ' pi ');
+    s = s.replace(/(^|[^a-z])e\^(\d)/g, '$1exp($2)');
+    const toks = s.match(/\d+(?:\.\d+)?|sqrt|exp|ln|arctan|sin|cos|tan|pi|[a-z]|[-+*/^()]/g) || [];
+    return toks;
+  }
+  const FN = { sqrt: Math.sqrt, exp: Math.exp, ln: Math.log, sin: Math.sin, cos: Math.cos, tan: Math.tan, arctan: Math.atan };
+  /** expression LaTeX -> fonction (variables : noms donnés) */
+  function texFn(tex, vars = ['x']) {
+    const toks = texToTokens(tex); let i = 0;
+    const peek = () => toks[i];
+    const isAtomStart = (t) => t !== undefined && (/^\d/.test(t) || /^[a-z]+$/.test(t) || t === '(');
+    function expr() { let f = term(); while (peek() === '+' || peek() === '-') { const op = toks[i++]; const g = term(); const h = f; f = op === '+' ? (v) => h(v) + g(v) : (v) => h(v) - g(v); } return f; }
+    function term() {
+      let f = unary();
+      for (;;) {
+        if (peek() === '*' || peek() === '/') { const op = toks[i++]; const g = unary(); const h = f; f = op === '*' ? (v) => h(v) * g(v) : (v) => h(v) / g(v); } else if (isAtomStart(peek())) { const g = power(); const h = f; f = (v) => h(v) * g(v); } else break;
+      }
+      return f;
+    }
+    function unary() { if (peek() === '-') { i++; const g = unary(); return (v) => -g(v); } if (peek() === '+') { i++; return unary(); } return power(); }
+    function power() { const b = atom(); if (peek() === '^') { i++; const e = peek() === '-' ? unary() : atom(); return (v) => b(v) ** e(v); } return b; }
+    function atom() {
+      const t = toks[i++];
+      if (t === undefined) throw new Error('fin inattendue');
+      if (/^\d/.test(t)) { const c = +t; return () => c; }
+      if (t === '(') { const f = expr(); if (toks[i++] !== ')') throw new Error('parenthèse'); return f; }
+      if (t === 'pi') return () => Math.PI;
+      if (FN[t]) {
+        const fn = FN[t];
+        if (peek() === '^') { i++; const e = atom(); const a = atom(); return (v) => fn(a(v)) ** e(v); }
+        const a = peek() === '(' ? atom() : power();
+        return (v) => fn(a(v));
+      }
+      const k = vars.indexOf(t);
+      if (k >= 0) return (v) => (Array.isArray(v) ? v[k] : v);
+      throw new Error('symbole ' + t);
+    }
+    const f = expr();
+    if (i !== toks.length) throw new Error('reste ' + toks.slice(i).join(' '));
+    return f;
+  }
+  /** coefficients de Taylor numériques en 0 (interpolation aux nœuds de Tchebychev) */
+  function taylor(fn, n, h = 0.05, D = 14) {
+    const N = D + 1; const xs = []; const A = []; const b = [];
+    for (let j = 0; j < N; j++) { const t = Math.cos(Math.PI * (j + 0.5) / N); xs.push(t); A.push(Array.from({ length: N }, (_, k) => t ** k)); b.push(fn(h * t)); }
+    // élimination de Gauss avec pivot partiel
+    for (let c = 0; c < N; c++) {
+      let p = c; for (let r = c + 1; r < N; r++) if (Math.abs(A[r][c]) > Math.abs(A[p][c])) p = r;
+      [A[c], A[p]] = [A[p], A[c]]; [b[c], b[p]] = [b[p], b[c]];
+      for (let r = c + 1; r < N; r++) { const k = A[r][c] / A[c][c]; for (let j = c; j < N; j++) A[r][j] -= k * A[c][j]; b[r] -= k * b[c]; }
+    }
+    const co = new Array(N).fill(0);
+    for (let r = N - 1; r >= 0; r--) { let s = b[r]; for (let j = r + 1; j < N; j++) s -= A[r][j] * co[j]; co[r] = s / A[r][r]; }
+    return co.slice(0, n + 1).map((c, k) => c / h ** k);
+  }
+  /** polynôme LaTeX (coefficients entiers ou \frac) -> {deg: coef} ; variable v */
+  function polyTex(s, v = 'x') {
+    s = strip(s).replace(/\s+/g, '').replace(/\+o\([^)]*\)$/, '').replace(/\\[dt]frac/g, '\\frac');
+    const out = {}; const re = new RegExp(`([+-]?)(\\\\frac\\{(\\d+)\\}\\{(\\d+)\\}|\\d+)?(${v}(?:\\^\\{?(\\d+)\\}?)?)?`, 'y');
+    let pos = 0;
+    while (pos < s.length) {
+      re.lastIndex = pos; const m = re.exec(s);
+      if (!m || m[0] === '' || (!m[2] && !m[5])) return null;
+      pos = re.lastIndex;
+      const c = (m[1] === '-' ? -1 : 1) * (m[3] ? m[3] / m[4] : m[2] ? +m[2] : 1);
+      const d = m[5] ? (m[6] ? +m[6] : 1) : 0;
+      out[d] = (out[d] || 0) + c;
+    }
+    return out;
+  }
+  const texNum = (s) => { s = strip(s).replace(/\s+/g, ''); const m = s.match(/^(-?)\\[dt]?frac\{(\d+)\}\{(\d+)\}$/); return m ? (m[1] ? -1 : 1) * m[2] / m[3] : V.val(s); };
+
+  // ---------------------------------------------------------------- L1-TAY
+  const TAY = (q) => {
+    const S = q.statement; const t = q.title; let m;
+    if ((m = S.match(/à l'ordre (\d) en \$0\$ de \$f\(x\) = (.*)\$ \?/))) {
+      const n = +m[1]; const fn = texFn(m[2]);
+      const co = taylor(fn, n);
+      const p = polyTex(q.answer.replace(/^\$/, '').replace(/\+ o\(x\^\d\)\$$/, ''));
+      if (!p) return 'DL illisible ' + q.answer;
+      for (let k = 0; k <= n; k++) if (!close(p[k] || 0, co[k], 1e-5)) return `coefficient ${k} faux (${co[k]})`;
+      for (const o of q.options) {
+        if (o === q.answer) continue;
+        const po = polyTex(o.replace(/^\$/, '').replace(/\+ o\(x\^\d\)\$$/, ''));
+        if (po && [...Array(n + 1).keys()].every((k) => close(po[k] || 0, co[k], 1e-5))) return 'distracteur juste ' + o;
+      }
+      if (q.exactInput !== undefined) {
+        const idx = /\\cos/.test(m[2]) && n === 4 ? [0, 2, 4] : /\\sin/.test(m[2]) && n === 3 ? [1, 3] : [...Array(n + 1).keys()];
+        return chkIn(q, idx.map((k) => co[k]), 1e-5);
+      }
+      return true;
+    }
+    if (/Asymptote oblique/.test(t)) {
+      m = S.match(/Soit \$f\(x\) = (.*?)\$\. Déterminer/);
+      const fn = texFn(m[1]);
+      const X = 2000; const mm = Math.round(fn(1e6) / 1e6);
+      const g = (x) => fn(x) - mm * x;
+      const p = 2 * g(2 * X) - g(X);
+      const ans = polyTex(strip(q.answer).replace(/^y=\s*/, '').replace(/^y = /, ''));
+      if (!ans || !close(ans[1] || 0, mm) || !close(ans[0] || 0, p, 1e-5)) return `asymptote attendue y = ${mm}x + ${p}`;
+      const c = (g(X) - p) * X; // terme en 1/x
+      if (/au-dessus/.test(q.solution) !== (c > 0)) return 'position fausse';
+      for (const o of q.options) { if (o === q.answer) continue; const po = polyTex(strip(o).replace(/^y = /, '')); if (po && close(po[1] || 0, mm) && close(po[0] || 0, p, 1e-5)) return 'distracteur juste'; }
+      return chkIn(q, [mm, p], 1e-5);
+    }
+    return undefined;
+  };
+
+  // ---------------------------------------------------------------- L1-INT
+  const deriv = (F, x, h = 1e-5) => (F(x + h) - F(x - h)) / (2 * h);
+  const INT = (q) => {
+    const S = q.statement; const t = q.title; let m;
+    if (/Déterminer une primitive/.test(S) && q.exactInput !== undefined) {
+      m = S.match(/de \$f\(x\) = (.*?)\$\.$/);
+      const f = texFn(m[1]);
+      const F = texFn(strip(q.answer).replace(/\s*\+ C$/, ''));
+      const pts = [0.7, 1.3, 2.1, 0.4];
+      if (!pts.every((x) => close(deriv(F, x), f(x), 1e-5))) return 'primitive fausse';
+      const [al, be] = tup(q.exactInput);
+      let G;
+      if (/Primitive de la forme/.test(t)) {
+        const mm = S.match(/x\(x\^2 \+ (\d+)\)\^\{(\d+)\}/);
+        G = (x) => al * (x * x + +mm[1]) ** (+mm[2] + 1);
+      } else if (/logarithme/.test(t)) {
+        const n = (m[1].match(/x\^(\d)/) || [0, 1])[1];
+        G = (x) => al * x ** (+n + 1) * Math.log(x) + be * x ** (+n + 1);
+      } else {
+        const a = texFn((m[1].match(/e\^\{(.*?)\}|\\(?:sin|cos)\((.*?)\)/) || []).slice(1).find(Boolean));
+        const k = a(1) - a(0);
+        if (/e\^/.test(m[1])) G = (x) => (al * x + be) * Math.exp(k * x);
+        else if (/\\cos/.test(m[1])) G = (x) => al * x * Math.sin(k * x) + be * Math.cos(k * x);
+        else G = (x) => al * x * Math.cos(k * x) + be * Math.sin(k * x);
+      }
+      return pts.every((x) => close(deriv(G, x), f(x), 1e-5)) || 'saisie (α ; β) fausse : ' + q.exactInput;
+    }
+    if (/éléments simples/.test(t) && q.exactInput !== undefined) {
+      m = S.match(/\$\\dfrac\{([^{}]*)\}\{([^{}]*)\} = \\dfrac\{a\}\{([^{}]*)\} \+ \\dfrac\{b\}\{([^{}]*)\}\$/);
+      const lhs = texFn(`\\frac{${m[1]}}{${m[2]}}`); const d1 = texFn(m[3]); const d2 = texFn(m[4]);
+      // a = lim (x - p) F(x) en p : évaluation numérique au voisinage du pôle
+      const p1 = -d1(0); const p2 = -d2(0);
+      const a = (lhs(p1 + 1e-7) * d1(p1 + 1e-7) + lhs(p1 - 1e-7) * d1(p1 - 1e-7)) / 2;
+      const b = (lhs(p2 + 1e-7) * d2(p2 + 1e-7) + lhs(p2 - 1e-7) * d2(p2 - 1e-7)) / 2;
+      const ab = q.answer.match(/\$a = (.*?)\$ et \$b = (.*?)\$/);
+      if (!close(texNum(ab[1]), a, 1e-5) || !close(texNum(ab[2]), b, 1e-5)) return 'DES fausse';
+      return chkIn(q, [a, b], 1e-5);
+    }
+    return undefined;
+  };
+
+  // ---------------------------------------------------------------- L1-GEO
+  const pair = (s) => s.split(/\s*;\s*/).map(texNum);
+  const lineCo = (s) => { const p = V.poly(s.replace(/y/g, 'Y'), 'x'); const py = {}; // ax + by + c
+    const str = s.replace(/\s+/g, ''); const m = str.match(/^(-?\d*)x([+-]\d*)y([+-]\d+)?$/);
+    if (!m) return null; const c = (u) => (u === '' || u === '+' ? 1 : u === '-' ? -1 : +u);
+    return [c(m[1]), c(m[2]), m[3] ? +m[3] : 0]; };
+  const GEO = (q) => {
+    const S = q.statement; const t = q.title; let m;
+    if (/Distance d'un point/.test(t)) {
+      m = S.match(/M\((-?\d+) ; (-?\d+)\)\$ à la droite \$\\mathcal\{D\} : (.*) = 0\$/);
+      const [a, b, c] = lineCo(m[3]); const d = Math.abs(a * m[1] + b * m[2] + c) / Math.hypot(a, b);
+      if (!close(texNum(strip(q.answer).replace(/^d = /, '')), d)) return 'distance ' + d;
+      return chkIn(q, [d]);
+    }
+    if (/vecteur normal donné/.test(t)) {
+      m = S.match(/A\((-?\d+) ; (-?\d+)\)\$ et de vecteur normal \$\\vec\{n\}\((-?\d+) ; (-?\d+)\)/);
+      const [a, b, c] = lineCo(strip(q.answer).replace(/ = 0$/, ''));
+      if (!(a === +m[3] && b === +m[4] && a * m[1] + b * m[2] + c === 0)) return 'droite fausse';
+      return chkIn(q, [-(m[3] * m[1] + m[4] * m[2])]);
+    }
+    if (/Cercle/.test(t)) {
+      m = S.match(/\$x\^2 \+ y\^2(.*) = 0\$ est un cercle/);
+      const str = m[1].replace(/\s+/g, '');
+      const D = +String((str.match(/([+-]\d*)x/) || [0, 0])[1]).replace(/^([+-])$/, '$11');
+      const E = +String((str.match(/([+-]\d*)y/) || [0, 0])[1]).replace(/^([+-])$/, '$11');
+      const F = +(str.match(/([+-]\d+)$/) || [0, 0])[1];
+      const h = -D / 2; const k = -E / 2; const r = Math.sqrt(h * h + k * k - F);
+      const a = q.answer.match(/\\Omega\((-?\d+) ; (-?\d+)\)\$, rayon \$(\d+)\$/);
+      if (!(+a[1] === h && +a[2] === k && +a[3] === r)) return 'cercle : attendu ' + [h, k, r];
+      return chkIn(q, [h, k, r]);
+    }
+    if (/Projeté orthogonal/.test(t)) {
+      m = S.match(/M\((-?\d+) ; (-?\d+)\)\$ sur la droite \$\\mathcal\{D\} : (.*) = 0\$/);
+      const [a, b, c] = lineCo(m[3]); const x0 = +m[1]; const y0 = +m[2];
+      const tt = -(a * x0 + b * y0 + c) / (a * a + b * b);
+      const H = pair(q.answer.match(/H\\left\((.*)\\right\)/)[1]);
+      if (!(close(H[0], x0 + tt * a) && close(H[1], y0 + tt * b))) return 'projeté faux';
+      return chkIn(q, [x0 + tt * a, y0 + tt * b]);
+    }
+    if ((m = S.match(/\\frac\{x\^2\}\{(\d+)\} ([+-]) \\frac\{y\^2\}\{(\d+)\} = 1/))) {
+      const A2 = +m[1]; const B2 = +m[3]; const ell = m[2] === '+';
+      const c = Math.sqrt(ell ? A2 - B2 : A2 + B2); const a = Math.sqrt(A2); const b = Math.sqrt(B2);
+      if (ell && A2 <= B2) return 'grand axe vertical non prévu';
+      if (/Excentricité/.test(t)) return close(texNum(strip(q.answer).replace(/^e = /, '')), c / a) || 'e attendu ' + c / a;
+      if (/Foyers/.test(t)) return (+q.answer.match(/F\((\d+) ; 0\)/)[1] === c && chkIn(q, [c, 0]) === true) || 'foyers';
+      if (/Asymptotes/.test(t)) return (close(texNum(q.answer.match(/y = (.*?)x\$/)[1]), b / a) && chkIn(q, [b / a]) === true) || 'asymptotes';
+      if (/Directrice/.test(t)) return (close(texNum(strip(q.answer).replace(/^x = /, '')), a * a / c) && chkIn(q, [a * a / c]) === true) || 'directrice ' + a * a / c;
+      return 'conique non reconnue';
+    }
+    if (/Foyer d'une parabole/.test(t)) {
+      m = S.match(/\$(x|y)\^2 = (-?\d+)(x|y)\$/);
+      const f = +m[2] / 4;
+      const F = pair(q.answer.match(/F\\left\((.*)\\right\)/)[1]);
+      const exp = m[1] === 'y' ? [f, 0] : [0, f];
+      return (sameTup(F, exp) && chkIn(q, exp) === true) || 'foyer parabole';
+    }
+    if (/Réduction d'une conique/.test(t)) {
+      m = S.match(/\$(.*) = 0\$/);
+      const str = m[1].replace(/\s+/g, '').replace(/-/g, '+-');
+      const co = { xx: 0, yy: 0, x: 0, y: 0, c: 0 };
+      for (const tm of str.split('+').filter(Boolean)) {
+        const mm = tm.match(/^(-?\d*)(x\^2|y\^2|x|y)?$/);
+        const c = mm[1] === '' ? 1 : mm[1] === '-' ? -1 : +mm[1];
+        co[mm[2] === 'x^2' ? 'xx' : mm[2] === 'y^2' ? 'yy' : mm[2] || 'c'] += c;
+      }
+      const h = -co.x / (2 * co.xx); const k = -co.y / (2 * co.yy);
+      const K = co.xx * h * h + co.yy * k * k - co.c;
+      const a2 = K / co.xx; const b2 = K / co.yy;
+      let nat; let e;
+      if (a2 > 0 && b2 > 0) { nat = 'Ellipse'; e = Math.sqrt(1 - Math.min(a2, b2) / Math.max(a2, b2)); } else { nat = 'Hyperbole'; const A = a2 > 0 ? a2 : b2; const B = Math.abs(a2 > 0 ? b2 : a2); e = Math.sqrt(1 + B / A); }
+      const am = q.answer.match(/^(\w+) de centre \$\\Omega\((-?\d+) ; (-?\d+)\)\$ et d'excentricité \$(.*)\$$/);
+      return (am[1] === nat && +am[2] === h && +am[3] === k && close(texNum(am[4]), e)) || 'conique : attendu ' + [nat, h, k, e];
+    }
+    if (/Équation polaire/.test(t)) {
+      if ((m = S.match(/r = \\dfrac\{(\d+)\}\{(\d+) ([+-]) (\d*)\\cos\\theta\}\$/))) {
+        const N = +m[1]; const D = +m[2]; const E = m[4] === '' ? 1 : +m[4];
+        const e = E / D; const p = N / D;
+        const am = q.answer.match(/\$e = (.*?)\$ et \$p = (.*?)\$/);
+        if (!close(texNum(am[1]), e) || !close(texNum(am[2]), p)) return 'polaire : attendu ' + [e, p];
+        const nat = e < 1 ? 'ellipse' : e === 1 ? 'parabole' : 'hyperbole';
+        if (!q.solution.includes(nat)) return 'nature fausse';
+        return chkIn(q, [e, p]);
+      }
+      m = S.match(/x = (\d+)\$ et d'excentricité \$e = (.*?)\$/);
+      const d = +m[1]; const e = texNum(m[2]);
+      // r(θ) vérifie OM = e · d(M, D) en quelques angles
+      const fr = texFn(strip(q.answer).replace(/^r = /, '').replace(/\\theta/g, 't'), ['t']);
+      for (const th of [0.3, 1.1, 2.0]) { const r = fr(th); if (r > 0 && !close(r, e * (d - r * Math.cos(th)))) return 'équation polaire fausse'; }
+      return chkIn(q, [e * d]);
+    }
+    return 'famille GEO non reconnue';
+  };
+
+  // ---------------------------------------------------------------- L1-MAT
+  function pmats(str) {
+    return [...String(str).matchAll(/\\begin\{pmatrix\}(.*?)\\end\{pmatrix\}/g)].map((m) => m[1].split('\\\\').map((r) => r.split('&').map((x) => texNum(x.trim()))));
+  }
+  const prefixOf = (str) => { // facteur devant la dernière matrice : "\frac{1}{7} \begin", "-\begin"
+    const m = String(str).match(/(-?)\s*(\\frac\{(\d+)\}\{(\d+)\})?\s*\\begin\{pmatrix\}(?!.*\\begin\{pmatrix\})/);
+    return (m[1] ? -1 : 1) * (m[2] ? m[3] / m[4] : 1);
+  };
+  const mmul = (X, Y) => X.map((r) => Y[0].map((_, j) => r.reduce((a, x, k) => a + x * Y[k][j], 0)));
+  const det3 = (A) => A[0][0] * (A[1][1] * A[2][2] - A[1][2] * A[2][1]) - A[0][1] * (A[1][0] * A[2][2] - A[1][2] * A[2][0]) + A[0][2] * (A[1][0] * A[2][1] - A[1][1] * A[2][0]);
+  const inv3 = (A) => { const d = det3(A); const c = (i, j) => { const m = A.filter((_, r) => r !== i).map((r) => r.filter((_, k) => k !== j)); return ((i + j) % 2 ? -1 : 1) * (m[0][0] * m[1][1] - m[0][1] * m[1][0]); }; return [0, 1, 2].map((i) => [0, 1, 2].map((j) => c(j, i) / d)); };
+  const casesRows = (str) => { const m = str.match(/\\begin\{cases\}(.*?)\\end\{cases\}/); return m[1].split('\\\\').map((r) => { const [l, rhs] = r.split('='); const co = [0, 0, 0]; for (const t of l.replace(/\s+/g, '').matchAll(/([+-]?\d*)([xyz])/g)) co['xyz'.indexOf(t[2])] += t[1] === '' || t[1] === '+' ? 1 : t[1] === '-' ? -1 : +t[1]; return [...co, +rhs]; }); };
+  const lastMatOf = (o) => { const ps = pmats(o); return ps.length ? ps[ps.length - 1].map((r) => r.map((x) => x * prefixOf(o))) : null; };
+  const MAT = (q) => {
+    const S = q.statement; const t = q.title; let m;
+    const flat = (M) => M.reduce((a, r) => a.concat(r), []);
+    if (/inverse|Inverse|Inversion/.test(t) && /pmatrix/.test(q.answer) && !/annulateur/.test(t)) {
+      const M = pmats(S)[0]; const n = M.length;
+      const Inv = n === 2 ? (() => { const d = M[0][0] * M[1][1] - M[0][1] * M[1][0]; return [[M[1][1] / d, -M[0][1] / d], [-M[1][0] / d, M[0][0] / d]]; })() : inv3(M);
+      const got = lastMatOf(q.answer);
+      if (!flat(got).every((x, i) => close(x, flat(Inv)[i]))) return 'inverse fausse';
+      for (const o of q.options) { if (o === q.answer) continue; const g = lastMatOf(o); if (g && g.length === n && flat(g).every((x, i) => close(x, flat(Inv)[i]))) return 'distracteur aussi inverse ' + o; }
+      if (q.exactInput === undefined) return true;
+      if (n === 2) return chkIn(q, flat(Inv));
+      if (/diagonale/.test(t)) return chkIn(q, [Inv[0][0], Inv[1][1], Inv[2][2]]);
+      const upper = M[0][1] !== 0 || M[0][2] !== 0 || M[1][2] !== 0;
+      return chkIn(q, upper ? [Inv[0][1], Inv[0][2], Inv[1][2]] : [Inv[1][0], Inv[2][0], Inv[2][1]]);
+    }
+    if (/Déterminant/.test(t) && q.exactInput !== undefined) {
+      const M = pmats(S)[0]; const d = M.length === 2 ? M[0][0] * M[1][1] - M[0][1] * M[1][0] : det3(M);
+      if (+q.answer.match(/= (-?\d+)/)[1] !== d || /non inversible/.test(q.answer) !== (d === 0)) return 'déterminant faux';
+      return chkIn(q, [d]);
+    }
+    if (/Produit de matrices|Multiplication matricielle|matrice-vecteur/.test(t) && q.exactInput !== undefined) {
+      const ms = pmats(S); const BA = /produit \$BA\$/.test(S);
+      const Rm = BA ? mmul(ms[1], ms[0]) : mmul(ms[0], ms[1]); const got = pmats(q.answer)[0];
+      if (!Rm.every((r, i) => r.every((x, j) => close(x, got[i][j])))) return 'produit faux';
+      if (Rm.length === 3 && Rm[0].length === 3) return chkIn(q, Rm[1]);
+      return chkIn(q, flat(Rm));
+    }
+    if (/système échelonné|pivot de Gauss/.test(t)) {
+      const rows = casesRows(S); const A = rows.map((r) => r.slice(0, 3)); const b = rows.map((r) => r[3]);
+      const d = det3(A); if (d === 0) return 'système non inversible';
+      const sol = [0, 1, 2].map((k) => det3(A.map((r, i) => r.map((c, j) => (j === k ? b[i] : c)))) / d);
+      const got = q.answer.match(/= \((.*)\)\$/)[1].split(';').map((x) => +x.trim());
+      if (!sameTup(got, sol)) return 'solution fausse ' + sol;
+      if (/échelonné/.test(t) && !(A[1][0] === 0 && A[2][0] === 0 && A[2][1] === 0)) return 'système non échelonné';
+      return chkIn(q, sol);
+    }
+    if (/selon un paramètre/.test(t)) {
+      const D = (mv) => det3(pmats(S.replace(/& m \\end/, `& ${mv} \\end`))[0]);
+      const d0 = D(0); const d1 = D(1); const m0 = -d0 / (d1 - d0);
+      if (d1 === d0) return 'det indépendant de m';
+      if (!close(+q.answer.match(/m = (-?\d+)/)[1], m0)) return 'paramètre attendu ' + m0;
+      return chkIn(q, [m0]);
+    }
+    if (/polynôme annulateur/.test(t) && q.exactInput !== undefined) {
+      const rel = S.match(/telle que \$(.*) = 0\$/)[1].replace(/\s+/g, '');
+      const co = {}; for (const tm of rel.matchAll(/([+-]?\d*)(A\^(\d)|A|I_n)/g)) co[tm[3] ? +tm[3] : tm[2] === 'A' ? 1 : 0] = tm[1] === '' || tm[1] === '+' ? 1 : tm[1] === '-' ? -1 : +tm[1];
+      const deg = co[3] ? 3 : 2; const q0 = co[0];
+      // A^{-1} = -(1/q0)(A^{deg-1} + c_{deg-1} A^{deg-2} + ... + c_1 I)
+      const exp = []; for (let k = deg; k >= 1; k--) exp.push(-(k === deg ? 1 : (co[k] || 0)) / q0);
+      const ans = strip(q.answer).split('A^{-1} = ')[1];
+      const got = []; for (const mon of deg === 3 ? ['A^2', 'A', 'I_n'] : ['A', 'I_n']) { const re = new RegExp(`(^|[+-])\\s*(\\\\frac\\{\\d+\\}\\{\\d+\\}|\\d+)?${mon.replace('^', '\\^')}(?![\\^_])`); const mm = ans.replace(/\s+/g, '').replace(/([+-])/g, ' $1').trim().split(' ').map((x) => x.trim()).find((x) => new RegExp(`${mon.replace('^', '\\^')}$`).test(x) && (mon !== 'A' || !/A\^/.test(x))); got.push(mm ? (/^-/.test(mm) ? -1 : 1) * (mm.replace(/^[+-]/, '').replace(mon, '') === '' ? 1 : texNum(mm.replace(/^[+-]/, '').replace(mon, ''))) : 0); }
+      if (!sameTup(got, exp)) return 'inverse annulateur fausse ' + exp;
+      return chkIn(q, exp);
+    }
+    if (/Rang d'une matrice par échelonnement/.test(t)) {
+      const A = pmats(S)[0].map((r) => r.slice()); let rk = 0;
+      for (let c = 0; c < A[0].length && rk < A.length; c++) {
+        let p = rk; while (p < A.length && Math.abs(A[p][c]) < 1e-9) p++;
+        if (p === A.length) continue;
+        [A[rk], A[p]] = [A[p], A[rk]];
+        for (let i = rk + 1; i < A.length; i++) { const f = A[i][c] / A[rk][c]; A[i] = A[i].map((x, j) => x - f * A[rk][j]); }
+        rk++;
+      }
+      if (+q.answer.match(/= (\d)\$/)[1] !== rk) return 'rang attendu ' + rk;
+      return chkIn(q, [rk]);
+    }
+    if ((/binôme de Newton/.test(t) || (/unipotente/.test(t) && /Calculer \$A\^\{\d+\}\$/.test(S))) && (q.exactInput !== undefined || /unipotente/.test(t))) {
+      const A = pmats(S)[0]; const k = +S.match(/A\^\{(\d+)\}/)[1];
+      let P = [[1, 0], [0, 1]]; for (let i = 0; i < k; i++) P = mmul(P, A);
+      const got = pmats(q.answer)[0];
+      if (!flat(got).every((x, i) => close(x, flat(P)[i]))) return 'puissance fausse';
+      return chkIn(q, flat(P));
+    }
+    if (/système de Cramer/.test(t)) {
+      m = S.match(/mx \+ (\d*)y = -?\d+ \\\\ (\d*)x \+ my/);
+      const ab = (m[1] === '' ? 1 : +m[1]) * (m[2] === '' ? 1 : +m[2]); const r = Math.sqrt(ab);
+      if (!new RegExp(`\\\\setminus \\\\\\{-${r} ; ${r}\\\\\\}\\$$`).test(q.answer)) return 'valeurs exclues ±' + r;
+      return chkIn(q, [-r, r]);
+    }
+    return undefined;
+  };
+
+  // ---------------------------------------------------------------- L1-CMP
+  const cxParse = (str) => { // "2 - 3i", "-i", "5", "8i"
+    const t = String(str).replace(/\s+/g, ''); let re = 0; let im = 0;
+    for (const m of t.matchAll(/([+-]?)(\d*)(i?)/g)) { if (!m[0]) continue; const v = (m[1] === '-' ? -1 : 1) * (m[2] === '' ? 1 : +m[2]); if (m[3]) im += v; else if (m[2] !== '') re += v; }
+    return [re, im];
+  };
+  const cmul = (u, v) => [u[0] * v[0] - u[1] * v[1], u[0] * v[1] + u[1] * v[0]];
+  const peval = (co, x) => Object.entries(co).reduce((a, [d, c]) => a + c * x ** +d, 0);
+  const CMP = (q) => {
+    const S = q.statement; const t = q.title; let m;
+    if (/Racines carrées d'un nombre complexe/.test(t)) {
+      const Z = cxParse(S.match(/de \$Z = (.*?)\$/)[1]);
+      const w = cxParse(q.answer.match(/\\pm\((.*)\)\$/)[1]);
+      const w2 = cmul(w, w);
+      if (w2[0] !== Z[0] || w2[1] !== Z[1]) return 'racine carrée fausse';
+      const wp = w[0] > 0 || (w[0] === 0 && w[1] > 0) ? w : [-w[0], -w[1]];
+      return chkIn(q, wp);
+    }
+    if (/Forme algébrique d'une puissance/.test(t)) {
+      m = S.match(/\$\((.*)\)\^\{(\d+)\}\$/);
+      const z = cxParse(m[1]); let r = [1, 0]; for (let k = 0; k < +m[2]; k++) r = cmul(r, z);
+      const got = cxParse(strip(q.answer).split(" = ").pop());
+      if (got[0] !== r[0] || got[1] !== r[1]) return 'puissance fausse ' + r;
+      return chkIn(q, r);
+    }
+    if (/Division euclidienne de polynômes/.test(t)) {
+      m = S.match(/A\(X\) = (.*?)\$ par \$B\(X\) = (.*?)\$/);
+      const A = V.poly(m[1], 'X'); const B = V.poly(m[2], 'X');
+      const degA = Math.max(...Object.keys(A).map(Number));
+      const a = []; for (let d = degA; d >= 0; d--) a.push(A[d] || 0);
+      const b = [B[2] || 0, B[1] || 0, B[0] || 0];
+      const Q = []; const r = a.slice();
+      for (let i = 0; i + 2 < r.length; i++) { const c = r[i] / b[0]; Q.push(c); for (let j = 0; j < 3; j++) r[i + j] -= c * b[j]; }
+      const R = r.slice(-2);
+      const askR = /le reste/.test(S);
+      const tgt = askR ? R : Q;
+      const got = V.poly(strip(q.answer).replace(/^[QR]\(X\) = /, ''), 'X');
+      const gv = []; for (let d = tgt.length - 1; d >= 0; d--) gv.push(got[d] || 0);
+      if (!sameTup(gv, tgt)) return 'division fausse';
+      return chkIn(q, tgt);
+    }
+    if (/degré 3 scindé/.test(t) && q.exactInput !== undefined) {
+      const co = V.poly(S.match(/P\(X\) = (.*?)\$/)[1], 'X');
+      const roots = []; for (let x = -20; x <= 20; x++) if (peval(co, x) === 0) roots.push(x);
+      if (roots.length !== 3) return 'racines entières attendues';
+      const fr = [...q.answer.matchAll(/\(X ([+-]) (\d+)\)|X(?![\^ ]*[-+(])/g)];
+      return chkIn(q, roots);
+    }
+    if (/degré 3 (avec|à) racine double/.test(t) && q.exactInput !== undefined) {
+      const co = V.poly(S.match(/P\(X\) = (.*?)\$/)[1], 'X');
+      const dco = {}; for (const [d, c] of Object.entries(co)) if (+d > 0) dco[+d - 1] = c * +d;
+      let dbl = null; let sim = null;
+      for (let x = -20; x <= 20; x++) if (peval(co, x) === 0) { if (peval(dco, x) === 0) dbl = x; else sim = x; }
+      return chkIn(q, [dbl, sim]);
+    }
+    if (/PGCD de deux polynômes/.test(t)) {
+      m = S.match(/P\(X\) = (.*?)\$ et \$Q\(X\) = (.*?)\$/);
+      const P1 = V.poly(m[1], 'X'); const Q1 = V.poly(m[2], 'X');
+      const com = []; for (let x = -20; x <= 20; x++) if (peval(P1, x) === 0 && peval(Q1, x) === 0) com.push(x);
+      if (com.length !== 2) return 'racines communes';
+      const g = V.poly(q.answer.match(/= (.*)\$/)[1], 'X');
+      const exp = [-(com[0] + com[1]), com[0] * com[1]];
+      if ((g[2] || 0) !== 1 || (g[1] || 0) !== exp[0] || (g[0] || 0) !== exp[1]) return 'pgcd faux';
+      return chkIn(q, exp);
+    }
+    if (/Équation du second degré dans C/.test(t)) {
+      m = S.match(/l'équation \$z\^2(.*) = 0\$/)[1];
+      // z^2 + Bz + C : on teste les solutions proposées
+      const z1 = cxParse(q.answer.match(/z_1 = (.*?)\$/)[1]); const z2 = cxParse(q.answer.match(/z_2 = (.*?)\$/)[1]);
+      const ev = (z) => { const lin = m.replace(/z/g, `*(${z[0]}+${z[1]}*I)`); return lin; };
+      // somme et produit lus sur l'équation
+      let Bc = [0, 0]; let Cc = [0, 0];
+      const mm = m.match(/^\s*(?:([+-]) \(([^)]*)\)z|([+-]) ([^ ]*)z)?\s*(?:\+ \((.*)\)|([+-]) (.*))?$/);
+      if (!mm) return 'équation illisible';
+      if (mm[2] !== undefined) { const c = cxParse(mm[2]); Bc = mm[1] === '-' ? [-c[0], -c[1]] : c; } else if (mm[4] !== undefined) { const c = cxParse(mm[4] === '' ? '1' : mm[4]); Bc = mm[3] === '-' ? [-c[0], -c[1]] : c; }
+      if (mm[5] !== undefined) Cc = cxParse(mm[5]); else if (mm[7] !== undefined) { const c = cxParse(mm[7]); Cc = mm[6] === '-' ? [-c[0], -c[1]] : c; }
+      const f = (z) => { const z2b = cmul(z, z); const bz = cmul(Bc, z); return [z2b[0] + bz[0] + Cc[0], z2b[1] + bz[1] + Cc[1]]; };
+      const r1 = f(z1); const r2 = f(z2);
+      if (r1[0] || r1[1] || r2[0] || r2[1] || (z1[0] === z2[0] && z1[1] === z2[1])) return 'solutions fausses';
+      if (z2[0] > z1[0] || (z2[0] === z1[0] && z2[1] > z1[1])) return 'ordre z1/z2';
+      return chkIn(q, [...z1, ...z2]);
+    }
+    if (/Reste d'une division euclidienne par un carré/.test(t)) {
+      m = S.match(/X\^\{(\d+)\}\$ par \$B\(X\) = (\(X ([+-]) (\d+)\)|X)\^2/);
+      const n = +m[1]; const a = m[2] === 'X' ? 0 : (m[3] === '-' ? 1 : -1) * +m[4];
+      // reste = interpolation d'Hermite : R(a) = a^n, R'(a) = n a^{n-1}
+      const al = n * a ** (n - 1); const be = a ** n - al * a;
+      const g = V.poly(q.answer.match(/R\(X\) = (.*)\$/)[1], 'X');
+      if ((g[1] || 0) !== al || (g[0] || 0) !== be) return 'reste faux';
+      return chkIn(q, [al, be]);
+    }
+    if (/Polynôme réel de racine complexe/.test(t)) {
+      m = S.match(/admettant \$(.*?)\$ et \$(-?\d+)\$ pour racines/);
+      const z = cxParse(m[1]); const r = +m[2];
+      const g = V.poly(strip(q.answer), 'X');
+      // P(z) = 0 et P(r) = 0 avec P unitaire de degré 3
+      const co = [g[3] || 0, g[2] || 0, g[1] || 0, g[0] || 0];
+      if (co[0] !== 1) return 'non unitaire';
+      let v = [0, 0]; for (const c of co) { v = cmul(v, z); v[0] += c; }
+      if (Math.abs(v[0]) + Math.abs(v[1]) > 1e-9 || co.reduce((a, c) => a * r + c, 0) !== 0) return 'polynôme faux';
+      return chkIn(q, co.slice(1));
+    }
+    if (/racines multiples par le PGCD/.test(t) && q.exactInput !== undefined) {
+      const co = V.poly(S.match(/P\(X\) = (.*?)\$/)[1], 'X');
+      const dco = {}; for (const [d, c] of Object.entries(co)) if (+d > 0) dco[+d - 1] = c * +d;
+      for (let x = -20; x <= 20; x++) if (peval(co, x) === 0 && peval(dco, x) === 0) return chkIn(q, [x]);
+      return 'pas de racine multiple';
+    }
+    if (/Ordre de multiplicité/.test(t) && q.exactInput !== undefined) {
+      let co = V.poly(S.match(/P\(X\) = (.*?)\$/)[1].replace(/\{(\d+)\}/g, '$1'), 'X'); let k = 0;
+      while (Math.abs(peval(co, 1)) < 1e-9 && k < 10) { const d = {}; for (const [e, c] of Object.entries(co)) if (+e > 0) d[+e - 1] = c * +e; co = d; k++; }
+      return chkIn(q, [k]);
+    }
+    return undefined;
+  };
+
+  // ------------------------------------------- familles historiques étiquetées (_L1tag)
+  // La réponse QCM est recalculée par le vérificateur principal (on renvoie undefined) ; ici on contrôle
+  // seulement que la saisie attendue est bien la valeur portée par la réponse.
+  const TAG = (q) => {
+    if (q.exactInput === undefined) return undefined;
+    const t = q.title; const A = q.answer; let m; let exp = null;
+    if (/image d'un vecteur par une application/.test(t)) { m = A.match(/= \((-?\d+), (-?\d+)\)\$$/); exp = [+m[1], +m[2]]; }
+    else if (/dérivation concrète/.test(t)) { const p = V.poly(strip(A).replace(/^D\(P\) = /, ''), 'X'); exp = [p[1] || 0, p[0] || 0]; }
+    else if (/Théorème du rang (appliqué|: Dimension)/.test(t)) exp = [+A.match(/rg\}\(f\) = (\d+)/)[1]];
+    else if (/Matrice d'un endomorphisme dans la base canonique|Matrice de passage entre deux bases/.test(t)) exp = pmats(A)[0].flat();
+    else if (/Liberté de deux vecteurs|et liberté sans composante/.test(t)) exp = [+A.match(/\\det\(u, v(?:, w)?\) = (-?\d+)/)[1]];
+    else if (/^Rang d'une matrice \$3/.test(t)) exp = [+A.match(/rg\}\(M\) = (\d)/)[1]];
+    else if (/Nombre de racines réelles/.test(t)) exp = [/^Trois/.test(A) ? 3 : /^Deux/.test(A) ? 2 : 1];
+    else if (/Nombre de classes|modulo n sur un ensemble fini/.test(t)) exp = [+A.match(/^\$(\d+)\$/)[1]];
+    else if (/Image directe d'un intervalle/.test(t)) { m = A.match(/\[(-?\d+), (-?\d+)\]/); exp = [+m[1], +m[2]]; }
+    if (!exp) return undefined;
+    const r = chkIn(q, exp);
+    return r === true ? undefined : r;
+  };
+  const LOG = (q) => {
+    if (/Bijection réciproque d'une homographie/.test(q.title)) {
+      const m = q.statement.match(/f\(x\) = \\dfrac\{(.*?)\}\{(.*?)\}\$/);
+      const f = texFn(`\\frac{${m[1]}}{${m[2]}}`);
+      const g = texFn(strip(q.answer).replace(/^f\^\{-1\}\(y\) = /, '').replace(/y/g, 'x'));
+      for (const x of [0.37, 2.9, -4.1]) { const y = f(x); if (!close(g(y), x, 1e-7)) return 'réciproque fausse'; }
+      for (const o of q.options) { if (o === q.answer) continue; const h = texFn(strip(o).replace(/^f\^\{-1\}\(y\) = /, '').replace(/y/g, 'x')); if ([0.37, 2.9, -4.1].every((x) => close(h(f(x)), x, 1e-7))) return 'distracteur juste'; }
+      if (q.exactInput === undefined) return true;
+      const [al, be, de] = tup(q.exactInput);
+      return [0.37, 2.9, -4.1].every((x) => close((al * f(x) + be) / (f(x) + de), x, 1e-7)) || 'saisie réciproque fausse';
+    }
+    return TAG(q);
+  };
+  const APP = (q) => {
+    if (/Dimensions du noyau et de l'image/.test(q.title)) {
+      const comps = q.statement.match(/f\(x, y, z\) = \((.*)\)\$\. Déterminer/)[1].split(', \\, ');
+      const M = comps.map((c) => { const f = texFn(c, ['x', 'y', 'z']); return [[1, 0, 0], [0, 1, 0], [0, 0, 1]].map((e) => f(e)); });
+      const A = M.map((r) => r.slice()); let rk = 0;
+      for (let c = 0; c < 3 && rk < 3; c++) { let p = rk; while (p < 3 && Math.abs(A[p][c]) < 1e-9) p++; if (p === 3) continue; [A[rk], A[p]] = [A[p], A[rk]]; for (let i = rk + 1; i < 3; i++) { const f = A[i][c] / A[rk][c]; A[i] = A[i].map((x, j) => x - f * A[rk][j]); } rk++; }
+      const m = q.answer.match(/Ker\}\(f\) = (\d)\$ et \$\\text\{rg\}\(f\) = (\d)/);
+      if (+m[1] !== 3 - rk || +m[2] !== rk) return 'dimensions attendues ' + [3 - rk, rk];
+      return chkIn(q, [3 - rk, rk]);
+    }
+    return TAG(q);
+  };
+
+  return {
+    'L1-LOG': LOG,
+    'L1-APP': APP,
+    'L1-EV1': TAG,
+    'L1-REL': TAG,
+    'L1-CNT': TAG,
+    'L1-CMP': CMP,
+    'L1-MAT': MAT,
+    'L1-TAY': TAY,
+    'L1-INT': INT,
+    'L1-GEO': GEO
+  };
+})(V));
+}
+// ---- vérificateurs prioritaires L2/L3 ----
+{
+// Vérificateurs indépendants des familles L2/L3 ajoutées (patch_l23.js).
+// Chaque fonction recalcule la réponse à partir de l'énoncé (forme QCM d'origine si convertie).
+addPre(( (V) => {
+  const val = (s) => V.val(String(s).replace(/\\dfrac/g, '\\frac').trim());
+  const near = (a, b, e = 1e-9) => Math.abs(a - b) <= e * Math.max(1, Math.abs(a), Math.abs(b));
+  const strip = (s) => String(s).replace(/\$/g, '');
+  const rhs = (s) => strip(s).split('=').pop().trim();
+  /** n-uplet « (a ; b ; c) » en fin de réponse */
+  const tupA = (s) => { const m = strip(s).match(/\(([^()]*;[^()]*)\)\s*$/); return m ? m[1].split(';').map((x) => val(x)) : null; };
+  const num = (s) => val(rhs(s));
+  const cellv = (x) => { x = x.trim(); const v = val(x); return Number.isNaN(v) ? x : v; };
+  const mats = (s, env = 'pmatrix') => [...String(s).matchAll(new RegExp(`\\\\begin\\{${env}\\}(.*?)\\\\end\\{${env}\\}`, 'g'))]
+    .map((m) => m[1].split('\\\\').map((r) => r.split('&').map(cellv)));
+  const perms = (n) => (n === 1 ? [[0]] : perms(n - 1).flatMap((p) => Array.from({ length: n }, (_, i) => [...p.slice(0, i), n - 1, ...p.slice(i)])));
+  const sgn = (p) => { let s = 1; for (let i = 0; i < p.length; i++) for (let j = i + 1; j < p.length; j++) if (p[i] > p[j]) s = -s; return s; };
+  const det = (M) => perms(M.length).reduce((acc, p) => acc + sgn(p) * p.reduce((pr, j, i) => pr * M[i][j], 1), 0);
+  const mul = (A, B) => A.map((r) => B[0].map((_, j) => r.reduce((s, x, k) => s + x * B[k][j], 0)));
+  const rank = (M0) => {
+    const M = M0.map((r) => r.slice()); let r = 0;
+    for (let c = 0; c < M[0].length && r < M.length; c++) {
+      let p = r; while (p < M.length && Math.abs(M[p][c]) < 1e-12) p++;
+      if (p === M.length) continue;
+      [M[r], M[p]] = [M[p], M[r]];
+      for (let i = 0; i < M.length; i++) if (i !== r) { const f = M[i][c] / M[r][c]; for (let k = 0; k < M[0].length; k++) M[i][k] -= f * M[r][k]; }
+      r++;
+    }
+    return r;
+  };
+  const solve = (A, b) => { // Gauss, petite taille
+    const n = A.length; const M = A.map((r, i) => [...r, b[i]]);
+    for (let c = 0; c < n; c++) {
+      let p = c; while (Math.abs(M[p][c]) < 1e-12) p++;
+      [M[c], M[p]] = [M[p], M[c]];
+      for (let i = 0; i < n; i++) if (i !== c) { const f = M[i][c] / M[c][c]; for (let k = c; k <= n; k++) M[i][k] -= f * M[c][k]; }
+    }
+    return M.map((r, i) => r[n] / r[i]);
+  };
+  const tuple = (s) => s.split(',').map((x) => val(x));
+  const lin = (s, vars = 'xyz') => { // "2x - y + 3z" -> coefficients
+    const out = Array(vars.length).fill(0);
+    const t = String(s).replace(/\s+/g, '');
+    const re = new RegExp(`([+-]?)(\\d*)([${vars}])`, 'g'); let m;
+    while ((m = re.exec(t))) out[vars.indexOf(m[3])] += (m[1] === '-' ? -1 : 1) * (m[2] ? +m[2] : 1);
+    return out;
+  };
+  /** compare un n-uplet recalculé à la réponse (et à la saisie attendue si présente) */
+  const cmpT = (q, exp, msg) => {
+    const got = tupA(q.answer);
+    if (!got || got.length !== exp.length || got.some((x, i) => !near(x, exp[i]))) return `${msg}: attendu (${exp.join(';')}) / réponse ${q.answer}`;
+    if (q.exactInput) {
+      const e = String(q.exactInput).replace(/^\(|\)$/g, '').split(';').map((x) => { const m = x.match(/^(-?\d+)\/(\d+)$/); return m ? m[1] / m[2] : parseFloat(x.replace(',', '.')); });
+      if (e.length !== exp.length || e.some((x, i) => !near(x, exp[i]))) return `${msg}: saisie ${q.exactInput} ≠ (${exp.join(';')})`;
+    }
+    return true;
+  };
+  const cmpN = (q, exp, msg) => (near(num(q.answer), exp) ? true : `${msg}: attendu ${exp} / réponse ${q.answer}`);
+  const sorted = (a) => [...a].sort((x, y) => x - y);
+  const eig2 = (A) => { const t = A[0][0] + A[1][1]; const d = A[0][0] * A[1][1] - A[0][1] * A[1][0]; const s = Math.sqrt(t * t - 4 * d); return [(t - s) / 2, (t + s) / 2]; };
+  const st = (q) => String(q.statement);
+  const grab = (s, re) => { const m = String(s).match(re); return m ? m : null; };
+
+  const F = {}; // titre -> vérificateur
+  // ---------------------------------------------------------------- L2-DET
+  F['Matrice 2x2 non inversible : valeur du paramètre'] = (q) => {
+    const M = mats(st(q))[0];
+    const f = (x) => { const N = M.map((r) => r.map((c) => (c === 'x' ? x : c))); return det(N); };
+    const x = -f(0) / (f(1) - f(0));
+    return cmpN(q, x, 'paramètre');
+  };
+  F["Comatrice d'une matrice 2x2"] = (q) => {
+    const [[a, b], [c, d]] = mats(st(q))[0];
+    // cofacteurs C_ij = (-1)^{i+j} mineur
+    return cmpT(q, [d, -c, -b, a], 'comatrice');
+  };
+  F['Système de Cramer 2x2'] = (q) => {
+    const rows = [...st(q).matchAll(/([^{}\\]*?) = (-?\d+)(?= \\\\| \\end)/g)].map((m) => [lin(m[1], 'xy'), +m[2]]);
+    const s = solve(rows.map((r) => r[0]), rows.map((r) => r[1]));
+    return cmpT(q, s, 'Cramer 2');
+  };
+  F['Système de Cramer 3x3'] = (q) => {
+    const rows = [...st(q).matchAll(/([^{}\\]*?) = (-?\d+)(?= \\\\| \\end)/g)].map((m) => [lin(m[1], 'xyz'), +m[2]]);
+    if (rows.length !== 3) return 'système illisible';
+    const D = +st(q).match(/déterminant \$(-?\d+)\$/)[1];
+    if (D !== det(rows.map((r) => r[0]))) return 'déterminant annoncé faux';
+    return cmpT(q, solve(rows.map((r) => r[0]), rows.map((r) => r[1])), 'Cramer 3');
+  };
+  F["Coefficient de l'inverse par la comatrice"] = (q) => {
+    const M = mats(st(q))[0];
+    const [, i, j] = st(q).match(/\(A\^\{-1\}\)_\{(\d)(\d)\}/);
+    const D = det(M);
+    if (!st(q).includes(`déterminant $${D}$`)) return 'déterminant annoncé faux';
+    // inverse par Gauss : colonne j de A^{-1} = solution de A x = e_j
+    const e = [0, 0, 0]; e[j - 1] = 1;
+    return cmpN(q, solve(M, e)[i - 1], 'coef inverse');
+  };
+  F['Opérations élémentaires sur les lignes'] = (q) => {
+    const d = +st(q).match(/\\det\(A\) = (-?\d+)/)[1];
+    const R = [1, 2, 3].map((k) => st(q).match(new RegExp(`R_${k} = ([^$]*)\\$`))[1]);
+    const C = R.map((r) => { const c = [0, 0, 0]; for (const m of r.replace(/\s+/g, '').matchAll(/([+-]?)(\d*)L_(\d)/g)) c[+m[3] - 1] += (m[1] === '-' ? -1 : 1) * (m[2] ? +m[2] : 1); return c; });
+    return cmpN(q, det(C) * d, 'opérations');
+  };
+  F["Déterminant d'ordre n à structure"] = (q) => cmpN(q, det(mats(st(q))[0]), 'det structure');
+  F["Valeurs d'un paramètre annulant un déterminant"] = (q) => {
+    const M = mats(st(q))[0];
+    const at = (m) => det(M.map((r) => r.map((c) => (typeof c === 'number' ? c : m + (val(c.replace(/^m\s*/, '').replace(/\s+/g, '')) || 0)))));
+    const roots = []; for (let m = -40; m <= 40; m++) if (Math.abs(at(m)) < 1e-9) roots.push(m);
+    if (roots.length !== 2) return 'racines entières: ' + roots.join(',');
+    return cmpT(q, roots, 'paramètre det');
+  };
+  // ---------------------------------------------------------------- L2-RED1
+  F["Valeurs propres d'une matrice triangulaire"] = (q) => {
+    const M = mats(st(q))[0];
+    const tri = M.every((r, i) => r.every((x, j) => i >= j || x === 0)) || M.every((r, i) => r.every((x, j) => i <= j || x === 0));
+    if (!tri) return 'pas triangulaire';
+    return cmpT(q, sorted(M.map((r, i) => r[i])), 'spectre triangulaire');
+  };
+  F["Polynôme caractéristique d'une matrice 2x2"] = (q) => { const A = mats(st(q))[0]; return cmpT(q, [-(A[0][0] + A[1][1]), det(A)], 'chi'); };
+  F['Valeur propre associée à un vecteur propre'] = (q) => {
+    const [A, v] = mats(st(q)); const vv = v.map((r) => r[0]);
+    const Av = mul(A, v).map((r) => r[0]); const k = vv[0] !== 0 ? 0 : 1; const l = Av[k] / vv[k];
+    if (!near(Av[1 - k], l * vv[1 - k])) return 'v non propre';
+    return cmpN(q, l, 'vp');
+  };
+  F["Spectre d'un polynôme en A"] = (q) => {
+    const A = mats(st(q))[0];
+    const B = st(q).match(/B = ([^$]*)\$/)[1].replace(/\s+/g, '');
+    const cA2 = 1; const mA = B.match(/([+-]\d*)A(?!\^)/); const mI = B.match(/([+-]\d*)I_2/);
+    const p = mA ? (mA[1] === '+' ? 1 : mA[1] === '-' ? -1 : +mA[1]) : 0; const r = mI ? (mI[1] === '+' ? 1 : mI[1] === '-' ? -1 : +mI[1]) : 0;
+    const A2 = mul(A, A); const M = A2.map((row, i) => row.map((x, j) => cA2 * x + p * A[i][j] + (i === j ? r : 0)));
+    return cmpT(q, eig2(M), 'spectre P(A)');
+  };
+  F["Composante d'un vecteur propre"] = (q) => {
+    const A = mats(st(q))[0]; const l = +st(q).match(/\\lambda = (-?\d+)\$ pour valeur propre/)[1];
+    const x = +mats(st(q))[1][0][0]; const y = num(q.answer);
+    const Av = [A[0][0] * x + A[0][1] * y, A[1][0] * x + A[1][1] * y];
+    return (near(Av[0], l * x) && near(Av[1], l * y)) || 'Av ≠ λv';
+  };
+  F["Dimension d'un sous-espace propre"] = (q) => {
+    const A = mats(st(q))[0]; const l = +st(q).match(/E_\{(-?\d+)\}/)[1];
+    return cmpN(q, 3 - rank(A.map((r, i) => r.map((x, j) => x - (i === j ? l : 0)))), 'dim E');
+  };
+  F["Trace d'une puissance par diagonalisation"] = (q) => {
+    const A = mats(st(q))[0]; const n = +st(q).match(/A\^\{(\d+)\}/)[1];
+    let P = A; for (let k = 1; k < n; k++) P = mul(P, A);
+    return cmpN(q, P[0][0] + P[1][1], 'trace puissance');
+  };
+  F["Puissance d'une matrice diagonalisable"] = (q) => { const A = mats(st(q))[0]; const P = mul(mul(A, A), A); return cmpT(q, P.flat(), 'A^3'); };
+  // ---------------------------------------------------------------- L2-RED2
+  F['Polynôme annulateur de degré 2'] = (q) => { const A = mats(st(q))[0]; return cmpT(q, [-(A[0][0] + A[1][1]), det(A)], 'annulateur'); };
+  F["Carré d'une matrice strictement triangulaire"] = (q) => { const N = mats(st(q))[0]; return cmpN(q, mul(N, N)[0][2], 'N^2'); };
+  F['Puissance par Cayley-Hamilton'] = (q) => {
+    const A = mats(st(q))[0]; const A3 = mul(mul(A, A), A);
+    // A^3 = alpha A + beta I : résolution sur les coefficients (0,1)/(1,0) puis diagonale
+    const al = A[0][1] !== 0 ? A3[0][1] / A[0][1] : A3[1][0] / A[1][0]; const be = A3[0][0] - al * A[0][0];
+    if (!near(A3[1][1], al * A[1][1] + be)) return 'A^3 non combinaison';
+    return cmpT(q, [al, be], 'A^3');
+  };
+  F['Inverse par Cayley-Hamilton (coefficients)'] = (q) => {
+    const A = mats(st(q))[0]; const D = det(A); const Ai = [[A[1][1] / D, -A[0][1] / D], [-A[1][0] / D, A[0][0] / D]];
+    const al = A[0][1] !== 0 ? Ai[0][1] / A[0][1] : Ai[1][0] / A[1][0]; const be = Ai[0][0] - al * A[0][0];
+    return cmpT(q, [al, be], 'inverse CH');
+  };
+  F['Degré du polynôme minimal'] = (q) => {
+    const T = mats(st(q))[0]; const I = [[1, 0, 0], [0, 1, 0], [0, 0, 1]];
+    const ev = [...new Set(T.map((r, i) => r[i]))];
+    const sub = (l) => T.map((r, i) => r.map((x, j) => x - (i === j ? l : 0)));
+    // degré minimal : plus petit produit de (T - l_i)^{k_i} nul
+    let best = 9;
+    const cand = ev.length === 2 ? [[1, 1], [2, 1], [1, 2], [2, 2]] : [[1], [2], [3]];
+    for (const ks of cand) { let P = I; ev.forEach((l, i) => { for (let k = 0; k < ks[i]; k++) P = mul(P, sub(l)); }); if (P.flat().every((x) => x === 0)) best = Math.min(best, ks.reduce((a, b) => a + b, 0)); }
+    return cmpN(q, best, 'deg mu');
+  };
+  F['Trigonalisation : valeur propre double'] = (q) => {
+    const A = mats(st(q))[0]; const l = (A[0][0] + A[1][1]) / 2;
+    if (!near(det(A), l * l)) return 'pas de racine double';
+    const y = A[0][1] !== 0 ? -(A[0][0] - l) / A[0][1] : -A[1][0] / (A[1][1] - l);
+    return cmpT(q, [l, y], 'trigonalisation');
+  };
+  F["Puissance n-ième d'une matrice λI + N"] = (q) => {
+    const A = mats(st(q))[0]; const n = +st(q).match(/A\^\{(\d+)\}/)[1];
+    let P = A; for (let k = 1; k < n; k++) P = mul(P, A);
+    return cmpN(q, P[0][2], '(A^n)_13');
+  };
+  F['Polynôme annulateur scindé à racines simples'] = (q) => {
+    const m = st(q).match(/\\dim E_\{(-?\d+)\}\(A\) ; \\dim E_\{(-?\d+)\}/); const a = +m[1], b = +m[2];
+    const t = +st(q).match(/\\mathrm\{Tr\}\(A\) = (-?\d+)/)[1];
+    for (let p = 1; p <= 2; p++) if (p * a + (3 - p) * b === t) return cmpT(q, [p, 3 - p], 'multiplicités');
+    return 'aucune solution';
+  };
+  // ---------------------------------------------------------------- L2-DUA
+  F["Dimension de l'orthogonal d'un sous-espace"] = (q) => {
+    const T = [...st(q).matchAll(/= \(([-\d, ]+)\)/g)].map((m) => tuple(m[1]));
+    return cmpN(q, 4 - rank(T), 'dim F°');
+  };
+  F["Vecteur du noyau d'une forme linéaire"] = (q) => {
+    const c = lin(st(q).match(/\\varphi\(x, y, z\) = ([^$]*)\$/)[1]);
+    const m = st(q).match(/u = \((-?\d+), m, (-?\d+)\)/);
+    return cmpN(q, -(c[0] * +m[1] + c[2] * +m[2]) / c[1], 'noyau');
+  };
+  F['Forme linéaire prescrite sur une base'] = (q) => {
+    const e1 = tuple(st(q).match(/e_1 = \(([^)]*)\)/)[1]); const e2 = tuple(st(q).match(/e_2 = \(([^)]*)\)/)[1]);
+    const a = +st(q).match(/\\varphi\(e_1\) = (-?\d+)/)[1]; const b = +st(q).match(/\\varphi\(e_2\) = (-?\d+)/)[1];
+    return cmpT(q, solve([e1, e2], [a, b]), 'forme prescrite');
+  };
+  F["Forme linéaire de l'orthogonal d'une droite"] = (q) => {
+    const u = tuple(st(q).match(/u = \(([^)]*)\)/)[1]);
+    const phi = st(q).match(/\\varphi = ([^$]*)\$/)[1].replace(/\s+/g, '');
+    const co = [1, 2].map((k) => { const m = phi.match(new RegExp(`([+-]?\\d*)e_${k}\\^\\*`)); return m ? (m[1] === '' || m[1] === '+' ? 1 : m[1] === '-' ? -1 : +m[1]) : 0; });
+    return cmpN(q, -(co[0] * u[0] + co[1] * u[1]) / u[2], 'orthogonal droite');
+  };
+  F['Base antéduale'] = (q) => {
+    const f1 = lin(st(q).match(/\\varphi_1\(x, y\) = ([^$]*)\$/)[1], 'xy'); const f2 = lin(st(q).match(/\\varphi_2\(x, y\) = ([^$]*)\$/)[1], 'xy');
+    const w = +st(q).match(/vecteur \$e_(\d)\$/)[1];
+    return cmpT(q, solve([f1, f2], w === 1 ? [1, 0] : [0, 1]), 'antéduale');
+  };
+
+  // ---------------------------------------------------------------- outils polynômes en x, y
+  const P2 = (s) => { // "-3x^2y + 2xy - y^3 + 4" -> [[c, i, j]]
+    const t = String(s).replace(/\s+/g, ''); const out = []; const re = /([+-]?)(\d*)((?:x(?:\^(\d))?)?)((?:y(?:\^(\d))?)?)/g; let m;
+    while ((m = re.exec(t)) && m[0] !== '') out.push([(m[1] === '-' ? -1 : 1) * (m[2] ? +m[2] : 1), m[3] ? (m[4] ? +m[4] : 1) : 0, m[5] ? (m[6] ? +m[6] : 1) : 0]);
+    return out;
+  };
+  const ev2 = (P, x, y) => P.reduce((s, [c, i, j]) => s + c * x ** i * y ** j, 0);
+  const dx = (P) => P.filter(([, i]) => i > 0).map(([c, i, j]) => [c * i, i - 1, j]);
+  const dy = (P) => P.filter(([, , j]) => j > 0).map(([c, i, j]) => [c * j, i, j - 1]);
+  const dot = (a, b) => a.reduce((s, x, i) => s + x * b[i], 0);
+  const T3 = (s, name) => tuple(st({ statement: s }).match(new RegExp(`${name} = \\(([^)]*)\\)`))[1]);
+  const fv = (s) => { const m = String(s).match(/^(-?)\\frac\{(\d+)\}\{(\d+)\}$/); return m ? (m[1] ? -1 : 1) * m[2] / m[3] : val(s); };
+  // ---------------------------------------------------------------- L2-PRE
+  F['Orthogonalité dans $\\mathbb{R}^3$ euclidien'] = (q) => {
+    const u = T3(st(q), 'u'); const m = st(q).match(/v = \((-?\d+), (-?\d+), m\)/);
+    return cmpN(q, -(u[0] * +m[1] + u[1] * +m[2]) / u[2], 'orthogonalité');
+  };
+  const bil = (s) => { const C = [[0, 0], [0, 0]]; for (const m of String(s).replace(/\s+/g, '').matchAll(/([+-]?)(\d*)x_(\d)y_(\d)/g)) C[+m[3] - 1][+m[4] - 1] += (m[1] === '-' ? -1 : 1) * (m[2] ? +m[2] : 1); return C; };
+  F['Calcul dans un produit scalaire non canonique'] = (q) => {
+    const C = bil(st(q).match(/\\langle x, y \\rangle = ([^$]*)\$/)[1]); const u = T3(st(q), 'u'); const v = T3(st(q), 'v');
+    return cmpN(q, dot(u, mul(C, v.map((x) => [x])).map((r) => r[0])), 'ps');
+  };
+  F['Reconnaître un produit scalaire'] = (q) => {
+    const C = bil(st(q).match(/\\varphi\(x, y\) = ([^$]*)\$/)[1]);
+    let k;
+    if (C[0][1] !== C[1][0]) k = 'symétrique';
+    else { const D = C[0][0] * C[1][1] - C[0][1] ** 2; const t = C[0][0] + C[1][1]; k = D > 0 && t > 0 ? 'ok' : D === 0 && t > 0 ? 'définie' : D < 0 ? 'négatives' : '?'; }
+    const a = q.answer;
+    return (k === 'ok' ? /^C'est un produit/.test(a) : a.includes(k)) || `attendu ${k} / ${a}`;
+  };
+  F['Distance à une droite vectorielle'] = (q) => { const u = T3(st(q), 'u'); const v = T3(st(q), 'v'); return cmpN(q, dot(v, v) - dot(u, v) ** 2 / dot(u, u), 'd droite'); };
+  const plane = (s) => lin(s.match(/P : ([^$]*?) = 0\$/)[1]);
+  F['Distance à un plan vectoriel'] = (q) => { const n = plane(st(q)); const v = T3(st(q), 'v'); return cmpN(q, dot(n, v) ** 2 / dot(n, n), 'd plan'); };
+  F['Projection orthogonale sur un plan'] = (q) => {
+    const n = plane(st(q)); const v = T3(st(q), 'v'); const k = dot(n, v) / dot(n, n);
+    const p = v.map((x, i) => x - k * n[i]); if (Math.abs(dot(p, n)) > 1e-9) return 'p non dans P';
+    return cmpT(q, p, 'proj plan');
+  };
+  F['Meilleure approximation affine en moyenne quadratique'] = (q) => {
+    const f = st(q).match(/f\(t\) = ([^$]*)\$/)[1].replace(/\s+/g, '');
+    const c = { 2: 0, 3: 0 }; for (const m of f.matchAll(/([+-]?)(\d*)t\^(\d)/g)) c[+m[3]] = (m[1] === '-' ? -1 : 1) * (m[2] ? +m[2] : 1);
+    const I = (k) => c[2] / (k + 3) + c[3] / (k + 4); // int t^k f
+    return cmpT(q, solve([[1, 1 / 2], [1 / 2, 1 / 3]], [I(0), I(1)]), 'moindres carrés');
+  };
+  F['Déterminant de Gram'] = (q) => { const u = T3(st(q), 'u'); const v = T3(st(q), 'v'); return cmpN(q, dot(u, u) * dot(v, v) - dot(u, v) ** 2, 'Gram'); };
+  // ---------------------------------------------------------------- L2-SYM
+  F["Matrice d'une forme quadratique"] = (q) => {
+    const P = P2(st(q).match(/q\(x, y\) = ([^$]*)\$/)[1]); const co = (i, j) => P.filter((t) => t[1] === i && t[2] === j).reduce((s, t) => s + t[0], 0);
+    return cmpT(q, [co(2, 0), co(1, 1) / 2, co(0, 2)], 'matrice q');
+  };
+  F["Angle d'une rotation du plan"] = (q) => {
+    const M = st(q).match(/R = \\begin\{pmatrix\} (.*?) \\end\{pmatrix\}/)[1].split('\\\\').map((r) => r.split('&').map((x) => { x = x.trim().replace(/\\frac\{\\sqrt\{3\}\}\{2\}/, String(Math.sqrt(3) / 2)); return x.startsWith('-') && x.includes('frac') ? -fv(x.slice(1)) : fv(x); }));
+    const th = Math.atan2(M[1][0], M[0][0]); const k = num(q.answer);
+    if (!(near(M[0][1], -M[1][0]) && near(M[1][1], M[0][0]))) return 'pas une rotation';
+    return (k > -6 && k <= 6 && near(k * Math.PI / 6, th)) || `angle ${th}`;
+  };
+  F["Vecteur propre d'une matrice symétrique"] = (q) => { const [S, x] = mats(st(q)); const v = x.map((r) => r[0]); const w = mul(S, x).map((r) => r[0]); const k = v[0] ? 0 : 1; return cmpN(q, w[k] / v[k], 'vp sym'); };
+  F["Réduction de Gauss d'une forme quadratique"] = (q) => {
+    const P = P2(st(q).match(/q\(x, y\) = ([^$]*)\$ sous/)[1]); const co = (i, j) => P.filter((t) => t[1] === i && t[2] === j).reduce((s, t) => s + t[0], 0);
+    const a = co(2, 0), b2 = co(1, 1), c = co(0, 2); const al = b2 / (2 * a);
+    return cmpT(q, [al, c - a * al * al], 'Gauss');
+  };
+  const eigSym = (S) => { // valeurs propres d'une matrice symétrique 3x3 entière : racines entières de chi
+    const ch = (l) => det(S.map((r, i) => r.map((x, j) => x - (i === j ? l : 0)))); const out = [];
+    for (let l = -80; l <= 80; l++) { if (Math.abs(ch(l)) < 1e-9) { // multiplicité
+      let mlt = 1; const h = 1e-3; if (Math.abs((ch(l + h) - ch(l - h)) / (2 * h)) < 1e-4) mlt = Math.abs((ch(l + h) + ch(l - h) - 2 * ch(l)) / (h * h)) < 1e-3 ? 3 : 2;
+      for (let k = 0; k < mlt; k++) out.push(l); } }
+    return out;
+  };
+  F["Spectre d'une matrice symétrique $aI_3 + uu^{T}$"] = (q) => cmpT(q, eigSym(mats(st(q))[0]), 'spectre aI+uu^T');
+  F["Extremum d'une forme quadratique sur le cercle unité"] = (q) => {
+    const P = P2(st(q).match(/q\(x, y\) = ([^$]*)\$/)[1]); const co = (i, j) => P.filter((t) => t[1] === i && t[2] === j).reduce((s, t) => s + t[0], 0);
+    const e = eig2([[co(2, 0), co(1, 1) / 2], [co(1, 1) / 2, co(0, 2)]]);
+    return cmpN(q, /maximale/.test(st(q)) ? e[1] : e[0], 'extremum cercle');
+  };
+  F["Rotation de l'espace : angle"] = (q) => {
+    const R = mats(st(q))[0]; const RT = R[0].map((_, j) => R.map((r) => r[j])); const I = mul(R, RT);
+    if (!I.every((r, i) => r.every((x, j) => x === (i === j ? 1 : 0))) || det(R) !== 1) return 'pas une rotation';
+    return cmpN(q, (R[0][0] + R[1][1] + R[2][2] - 1) / 2, 'cos rotation');
+  };
+  F["Extremum d'une forme quadratique sur la sphère unité"] = (q) => {
+    const f = st(q).match(/q\(x, y, z\) = ([^$]*)\$/)[1].replace(/\s+/g, ''); const S = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]; const ix = { x: 0, y: 1, z: 2 };
+    for (const m of f.matchAll(/([+-]?)(\d*)([xyz])(\^2|[xyz])/g)) { const c = (m[1] === '-' ? -1 : 1) * (m[2] ? +m[2] : 1); if (m[4] === '^2') S[ix[m[3]]][ix[m[3]]] += c; else { S[ix[m[3]]][ix[m[4]]] += c / 2; S[ix[m[4]]][ix[m[3]]] += c / 2; } }
+    const e = eigSym(S); return cmpN(q, /maximale/.test(st(q)) ? Math.max(...e) : Math.min(...e), 'extremum sphère');
+  };
+  // ---------------------------------------------------------------- L2-SER (sommes numériques par sommation directe)
+  const sumNum = (f, n0, N = 200000) => { let s = 0; for (let n = n0; n < N; n++) s += f(n); return s; };
+  const texNum = (s) => Function('n', 'return ' + String(s).replace(/\\left|\\right/g, '').replace(/\\frac\{([^{}]*)\}\{([^{}]*)\}/g, '(($1)/($2))').replace(/(\d)n/g, '$1*n').replace(/n\(/g, 'n*(').replace(/\)\(/g, ')*(').replace(/(\d)\(/g, '$1*(').replace(/\s+/g, ''));
+  F['Série télescopique simple'] = (q) => {
+    const m = st(q).match(/\\sum_\{n=(\d+)\}\^\{\+\\infty\} \\left\((.*)\\right\)\$/); const f = texNum(m[2]);
+    return near(sumNum(f, +m[1], 2e6), num(q.answer), 1e-5) || 'somme télescopique';
+  };
+  F["Règle de d'Alembert"] = (q) => {
+    const u = st(q).match(/u_n = (.*?)\$\. Calculer/)[1]; let r;
+    let m;
+    if ((m = u.match(/^(?:n(?:\^\{?(\d)\}?)? )?\\left\((-?\\frac\{\d+\}\{\d+\}|\d+)\\right\)\^n$/))) r = fv(m[2]);
+    else if (/n!|\(2n\)!/.test(u)) r = 0;
+    else return 'forme inconnue ' + u;
+    return cmpN(q, r, "d'Alembert");
+  };
+  F['Série alternée : majoration du reste'] = (q) => {
+    const den = st(q).match(/\\frac\{\(-1\)\^n\}\{([^}]*)\}/)[1]; const N = +st(q).match(/R_\{(\d+)\}/)[1];
+    const f = Function('n', 'return ' + den.replace(/(\d)n/g, '$1*n').replace(/\s+/g, ''));
+    return near(val(strip(q.answer).split('\\leq').pop()), 1 / f(N + 1)) || 'reste alterné';
+  };
+  F['Règle de Cauchy'] = (q) => {
+    const m = st(q).match(/\\frac\{([^}]*)\}\{([^}]*)\}\\right\)\^n/); const a = lin(m[1], 'n')[0]; const c = lin(m[2], 'n')[0];
+    return cmpN(q, a / c, 'Cauchy');
+  };
+  F['Produit de Cauchy de deux séries géométriques'] = (q) => {
+    const xs = [...st(q).matchAll(/\\left\((-?\\frac\{\d+\}\{\d+\})\\right\)\^/g)].map((m) => fv(m[1]));
+    return cmpN(q, 1 / ((1 - xs[0]) * (1 - xs[1])), 'produit Cauchy');
+  };
+  F['Série alternée : rang garantissant une précision'] = (q) => {
+    const den = st(q).match(/\\frac\{\(-1\)\^n\}\{([^}]*)\}/)[1]; const M = 1 / fv(st(q).match(/\\leq (\\frac\{1\}\{\d+\})/)[1]);
+    const f = Function('n', 'return ' + den.replace(/(\d)n/g, '$1*n').replace(/\s+/g, ''));
+    let N = 0; while (1 / f(N + 1) > 1 / M + 1e-15) N++;
+    return cmpN(q, N, 'rang alterné');
+  };
+  F["Série télescopique d'ordre 2"] = (q) => {
+    const m = st(q).match(/\\sum_\{n=1\}\^\{\+\\infty\} (\\frac\{\d+\}\{[^$]*\})\$/); const f = texNum(m[1]);
+    return near(sumNum(f, 1, 1e6), num(q.answer), 1e-6) || 'somme ordre 2 ' + sumNum(f, 1, 1e6);
+  };
+  F['Série $\\sum n^2 x^n$'] = (q) => { const x = fv(st(q).match(/\\left\((-?\\frac\{\d+\}\{\d+\})\\right\)\^n/)[1]); return cmpN(q, sumNum((n) => n * n * x ** n, 1, 3000), 'n^2 x^n'); };
+  // ---------------------------------------------------------------- L2-CAL
+  F['Matrice jacobienne'] = (q) => {
+    const m = st(q).match(/F\(x, y\) = \((.*?), (.*?)\)\$/); const p = st(q).match(/J_F\((-?\d+), (-?\d+)\)/); const x = +p[1], y = +p[2];
+    const A = P2(m[1]), B = P2(m[2]);
+    return cmpT(q, [ev2(dx(A), x, y), ev2(dy(A), x, y), ev2(dx(B), x, y), ev2(dy(B), x, y)], 'jacobienne');
+  };
+  F['Dérivée partielle croisée'] = (q) => {
+    const f = P2(st(q).match(/f\(x, y\) = ([^$]*)\$/)[1]); const p = st(q).match(/\}\((-?\d+), (-?\d+)\)\$\./);
+    return cmpN(q, ev2(dx(dy(f)), +p[1], +p[2]), 'dxy');
+  };
+  F["Dérivée d'une fonction composée"] = (q) => {
+    const f = P2(st(q).match(/f\(x, y\) = ([^$]*)\$/)[1]);
+    const xt = P2(st(q).match(/x\(t\) = ([^$]*)\$/)[1].replace(/t/g, 'x')); const yt = P2(st(q).match(/y\(t\) = ([^$]*)\$/)[1].replace(/t/g, 'x'));
+    const t0 = +st(q).match(/g'\((-?\d+)\)/)[1]; const g = (t) => ev2(f, ev2(xt, t, 0), ev2(yt, t, 0)); const h = 1e-5;
+    return near((g(t0 + h) - g(t0 - h)) / (2 * h), num(q.answer), 1e-6) || 'chain rule';
+  };
+  F["Jacobien d'un changement de variables"] = (q) => {
+    const m = st(q).match(/\\varphi\(u, v\) = \((.*?), (.*?)\)\$/); const p = st(q).match(/J_\\varphi\((-?\d+), (-?\d+)\)/);
+    const A = P2(m[1].replace(/u/g, 'x').replace(/v/g, 'y')), B = P2(m[2].replace(/u/g, 'x').replace(/v/g, 'y')); const x = +p[1], y = +p[2];
+    return cmpN(q, ev2(dx(A), x, y) * ev2(dy(B), x, y) - ev2(dy(A), x, y) * ev2(dx(B), x, y), 'jacobien');
+  };
+  F['Hessienne en un point'] = (q) => {
+    const f = P2(st(q).match(/f\(x, y\) = ([^$]*)\$/)[1]); const p = st(q).match(/point \$\((-?\d+), (-?\d+)\)\$/); const x = +p[1], y = +p[2];
+    return cmpT(q, [ev2(dx(dx(f)), x, y), ev2(dx(dy(f)), x, y), ev2(dy(dy(f)), x, y)], 'hessienne');
+  };
+  F['Plan tangent à une surface'] = (q) => {
+    const f = P2(st(q).match(/z = ([^$]*)\$\. Son/)[1]); const p = st(q).match(/abscisses \$\((-?\d+), (-?\d+)\)\$/); const x = +p[1], y = +p[2];
+    const a = ev2(dx(f), x, y), b = ev2(dy(f), x, y); return cmpT(q, [a, b, ev2(f, x, y) - a * x - b * y], 'plan tangent');
+  };
+  F["Valeur d'un extremum local"] = (q) => {
+    const f = P2(st(q).match(/f\(x, y\) = ([^$]*)\$/)[1]); const lab = /un minimum/.test(st(q)) ? 'min' : 'max'; const vals = [];
+    for (let x = -10; x <= 10; x++) for (let y = -10; y <= 10; y++) {
+      if (ev2(dx(f), x, y) !== 0 || ev2(dy(f), x, y) !== 0) continue;
+      const r = ev2(dx(dx(f)), x, y), s = ev2(dx(dy(f)), x, y), t = ev2(dy(dy(f)), x, y);
+      if (r * t - s * s > 0 && (lab === 'min' ? r > 0 : r < 0)) vals.push(ev2(f, x, y));
+    }
+    return vals.length === 1 ? cmpN(q, vals[0], 'extremum') : 'extrema trouvés: ' + vals.join(',');
+  };
+  F['Extremum sous contrainte (multiplicateur de Lagrange)'] = (q) => {
+    const m = st(q).match(/contrainte \$([^$=]*) = (-?\d+)\$/); const [a, b] = lin(m[1], 'xy'); const c = +m[2];
+    return cmpN(q, c * c / (a * a + b * b), 'Lagrange');
+  };
+
+  // ---------------------------------------------------------------- outils analyse (part C)
+  /** LaTeX simple -> fonction JS d'une variable v */
+  const fn = (tex, v = 'x') => {
+    let s = String(tex).replace(/\\left|\\right|\\,/g, '').replace(/\s+/g, '');
+    for (let k = 0; k < 5; k++) {
+      s = s.replace(/\\[dt]?frac\{([^{}]*)\}\{([^{}]*)\}/g, '(($1)/($2))');
+      s = s.replace(/\\sqrt\{([^{}]*)\}/g, 'Math.sqrt($1)');
+      s = s.replace(/e\^\{([^{}]*)\}/g, 'Math.exp($1)');
+      s = s.replace(/\^\{([^{}]*)\}/g, '^($1)');
+    }
+    s = s.replace(/\\cos/g, 'Math.cos').replace(/\\sin/g, 'Math.sin').replace(/\\ln/g, 'Math.log').replace(/\\times|\\cdot/g, '*');
+    s = s.replace(new RegExp(`(\\d|\\))(?=[${v}(M])`, 'g'), '$1*').replace(new RegExp(`${v}(?=[(${v}M\\d])`, 'g'), `${v}*`);
+    for (let k = 0; k < 4; k++) s = s.replace(/([a-z]|\d+(?:\.\d+)?|\((?:[^()]|\([^()]*\))*\))\^(\d+|\([^()]*\))/g, 'Math.pow($1,$2)');
+    // eslint-disable-next-line no-new-func
+    return Function(v, 'return ' + s);
+  };
+  const simp = (f, a, b, n = 4000) => { const h = (b - a) / n; let s = f(a) + f(b); for (let i = 1; i < n; i++) s += f(a + i * h) * (i % 2 ? 4 : 2); return (s * h) / 3; };
+  const cmpA = (q, exp, msg, e = 1e-6) => (Math.abs(num(q.answer) - exp) <= e * Math.max(1, Math.abs(exp)) ? true : `${msg}: attendu ≈ ${exp} / réponse ${q.answer}`);
+  // ---------------------------------------------------------------- L2-RIE
+  F["Valeur moyenne d'une fonction"] = (q) => {
+    const m = +st(q).match(/sur \$\[0, (\d+)\]\$/)[1]; const f = fn(st(q).match(/de \$f\(x\) = ([^$]*)\$/)[1]);
+    return cmpA(q, simp(f, 0, m) / m, 'moyenne');
+  };
+  F['Somme de Riemann à gauche'] = (q) => {
+    const n = +st(q).match(/R_\{(\d+)\}/)[1]; const f = fn(st(q).match(/f\(x\) = ([^$]*)\$/)[1]);
+    let S = 0; for (let k = 0; k < n; k++) S += f(k / n); return cmpN(q, S / n, 'Riemann gauche');
+  };
+  F['Intégrale de la partie entière'] = (q) => {
+    const m = st(q).match(/\\int_\{(-?\d+)\}\^\{([^}]*(?:\}\{\d+\})?)\}/); const a = +m[1]; const b = fv(m[2].replace(/^\\frac\{(\d+)\}\{(\d+)$/, '\\frac{$1}{$2}'));
+    return cmpA(q, simp((x) => Math.floor(x + 1e-12), a, b, 200000), 'partie entière', 1e-4);
+  };
+  F["Limite d'intégrales par convergence uniforme"] = (q) => {
+    const p = st(q).match(/\\frac\{n\((.*?)\) \+ (\d+)\}\{n \+ 1\}/); const f = fn(p[1]); const c = +p[2]; const n = 1e7;
+    return cmpA(q, simp((x) => (n * f(x) + c) / (n + 1), 0, 1), 'CVU', 1e-5);
+  };
+  F["Dérivée d'une intégrale à bornes variables"] = (q) => {
+    const g = fn(st(q).match(/\\int_\{x\}\^\{x\^2\} \((.*?)\) \\, dt/)[1], 't'); const x0 = +st(q).match(/F'\((-?\d+)\)/)[1];
+    const F2 = (x) => simp(g, x, x * x, 2000); const h = 1e-4;
+    return cmpA(q, (F2(x0 + h) - F2(x0 - h)) / (2 * h), 'bornes variables', 1e-5);
+  };
+  F["Limite d'une intégrale par développement limité"] = (q) => {
+    const g = fn(st(q).match(/g\(t\) = ([^$]*)\$/)[1], 't'); const x = 1e-4;
+    return cmpA(q, simp((t) => g(t) - g(0), 0, x, 200) / (x * x), 'limite DL', 1e-3);
+  };
+  F['Intégrales de Wallis'] = (q) => { const n = +st(q).match(/W_\{(\d+)\}\$\./)[1]; return cmpA(q, simp((t) => Math.sin(t) ** n, 0, Math.PI / 2), 'Wallis'); };
+  F['Limite de somme de Riemann (intégrale bêta)'] = (q) => {
+    const m = st(q).match(/\\sum_\{k=1\}\^\{n\} (.*)\$\./)[1].replace(/\\frac\{k\}\{n\}/g, 'x'); const f = fn(m);
+    return cmpA(q, simp(f, 0, 1), 'bêta');
+  };
+  // ---------------------------------------------------------------- L2-ING
+  F["Intégrale impropre d'une puissance"] = (q) => {
+    const m = st(q).match(/\\int_\{(\d+)\}\^\{\+\\infty\} \\frac\{(\d+)\}\{\(x \+ (\d+)\)\^\{(\d+)\}\}/); const [a, c, b, k] = m.slice(1).map(Number);
+    // changement u = 1/(x + b) : int_0^{1/(a+b)} c u^{k-2} du
+    return cmpA(q, simp((u) => c * u ** (k - 2), 0, 1 / (a + b)), 'puissance');
+  };
+  F['Équivalent de Riemann en $+\\infty$'] = (q) => {
+    const m = st(q).match(/f\(x\) = \\frac\{([^}]*)\}\{([^}]*)\}/); const f = (x) => fn(m[1])(x) / fn(m[2])(x);
+    const al = -Math.log(f(1e6) / f(1e5)) / Math.log(10); return cmpA(q, Math.round(al), 'alpha') === true && Math.abs(al - Math.round(al)) < 1e-3 ? true : 'alpha ' + al;
+  };
+  F['Intégrale de polynôme × exponentielle'] = (q) => {
+    const m = st(q).match(/\\int_0\^\{\+\\infty\} \((.*?)\) (e\^\{[^}]*\})/); const f = fn('(' + m[1] + ')*' + m[2]);
+    return cmpA(q, simp(f, 0, 60, 60000), 'poly exp');
+  };
+  F['Intégrale de type gaussien (puissance impaire)'] = (q) => {
+    const m = st(q).match(/\\int_0\^\{\+\\infty\} (.*?) \\, dx/)[1].replace(' ', '*'); return cmpA(q, simp(fn(m), 0, 12, 60000), 'gauss impair');
+  };
+  F["Seuil de convergence d'une intégrale"] = (q) => { const b = +st(q).match(/x\^\{(\d+)\} \+/)[1]; let a = 0; while (b - (a + 1) > 1) a++; return cmpN(q, a, 'seuil'); };
+  F['Intégrale impropre en une borne finie'] = (q) => {
+    const m = st(q).match(/\\int_\{(-?\d+)\}\^\{(-?\d+)\} \\frac\{(\d+)\}\{\\sqrt\{([^}]*)\}\}/); const a = +m[1], b = +m[2], c = +m[3];
+    const g = fn(m[4]); if (Math.abs(g(a)) > 1e-12) return 'borne singulière fausse';
+    // u = sqrt(x - a) : int = 2c sqrt(b - a)
+    return cmpA(q, simp((u) => 2 * c * u / Math.sqrt(g(a + u * u)), 1e-9, Math.sqrt(b - a)), 'borne finie', 1e-4);
+  };
+  F["Calcul d'une intégrale de Bertrand"] = (q) => {
+    const m = st(q).match(/\\int_\{e(?:\^\{(\d+)\})?\}\^\{\+\\infty\} \\frac\{dx\}\{x \(\\ln x\)\^\{(\d+)\}\}/); const lo = m[1] ? +m[1] : 1; const k = +m[2];
+    // u = ln x puis w = 1/u : int_0^{1/lo} w^{k-2} dw
+    return cmpA(q, simp((w) => w ** (k - 2), 0, 1 / lo), 'Bertrand');
+  };
+  F['Convergence aux deux bornes'] = (q) => {
+    const m = st(q).match(/a \\in \\\{(-?\d+), \\dots, (-?\d+)\\\}/); const be = +st(q).match(/x\^\{(\d+)\}\}/)[1]; let c = 0;
+    for (let a = +m[1]; a <= +m[2]; a++) if (a > -1 && a - be < -1) c++;
+    return cmpN(q, c, 'comptage');
+  };
+  // ---------------------------------------------------------------- L2-EDO (vérification par substitution numérique)
+  const ode1 = (s) => { const m = s.match(/\$y' (?:([+-]) (\d*)y) = (-?\d+)\$/); return { a: (m[1] === '-' ? -1 : 1) * (m[2] ? +m[2] : 1), b: +m[3] }; };
+  F["Problème de Cauchy d'ordre 1 à second membre constant"] = (q) => {
+    const { a, b } = ode1(st(q)); const y0 = +st(q).match(/y\(0\) = (-?\d+)/)[1]; const [C, D] = tupA(q.answer);
+    const y = (t) => C * Math.exp(-a * t) + D; const yp = (t) => -a * C * Math.exp(-a * t);
+    if (!near(y(0), y0) || ![0, 0.3, 1].every((t) => near(yp(t) + a * y(t), b))) return 'Cauchy 1 faux';
+    return cmpT(q, [C, D], 'Cauchy 1');
+  };
+  F['Solution particulière polynomiale'] = (q) => {
+    const m = st(q).match(/\$y' ([+-]) (\d*)y = ([^$]*)\$/); const a = (m[1] === '-' ? -1 : 1) * (m[3 - 1] ? +m[2] : 1); const r = P2(m[3].replace(/t/g, 'x'));
+    const al = ev2(r, 1, 0) - ev2(r, 0, 0), be = ev2(r, 0, 0);
+    const p = al / a, qq = (be - p) / a; return cmpT(q, [p, qq], 'sol poly');
+  };
+  const ode2 = (s) => { const m = s.match(/\$(y''[^=$]*) = /)[1].replace(/\s+/g, ''); let p = 0, qq = 0; for (const t of m.matchAll(/([+-])(\d*)(y'|y)(?!')/g)) { const c = (t[1] === '-' ? -1 : 1) * (t[2] ? +t[2] : 1); if (t[3] === "y'") p = c; else qq = c; } return { p, q: qq }; };
+  F['Second membre exponentiel (ordre 2)'] = (q) => {
+    const { p, q: qq } = ode2(st(q)); const m = st(q).match(/= (-?\d*)e\^\{(-?\d*)t\}\$ admet/); const c = m[1] === '' ? 1 : m[1] === '-' ? -1 : +m[1]; const k = m[2] === '' ? 1 : m[2] === '-' ? -1 : +m[2];
+    return cmpN(q, c / (k * k + p * k + qq), 'exp part');
+  };
+  F["Problème de Cauchy d'ordre 2"] = (q) => {
+    const { p, q: qq } = ode2(st(q)); const d = Math.sqrt(p * p - 4 * qq); const r1 = (-p - d) / 2, r2 = (-p + d) / 2;
+    const y0 = +st(q).match(/y\(0\) = (-?\d+)/)[1], y1 = +st(q).match(/y'\(0\) = (-?\d+)/)[1];
+    return cmpT(q, solve([[1, 1], [r1, r2]], [y0, y1]), 'Cauchy 2');
+  };
+  F["Exponentielle d'une matrice nilpotente"] = (q) => {
+    const N = mats(st(q))[0]; let E = [[1, 0, 0], [0, 1, 0], [0, 0, 1]]; let P = E; let f = 1;
+    for (let k = 1; k < 6; k++) { P = mul(P, N); f *= k; E = E.map((r, i) => r.map((x, j) => x + P[i][j] / f)); }
+    return cmpN(q, E[0][2], 'exp nilpotente');
+  };
+  F["Déterminant d'une exponentielle de matrice"] = (q) => {
+    const A = mats(st(q))[0]; const t = +(st(q).match(/e\^\{(\d*)A\}/)[1] || 1); return cmpN(q, t * (A[0][0] + A[1][1] + A[2][2]), 'det exp');
+  };
+  F['Système différentiel avec condition initiale'] = (q) => {
+    const M = mats(st(q)); const A = M[0], v1 = M[1].map((r) => r[0]), v2 = M[2].map((r) => r[0]), X0 = M[3].map((r) => r[0]);
+    const l1 = +st(q).match(/valeur propre \$(-?\d+)\$\) et/)[1], l2 = +st(q).match(/valeur propre \$(-?\d+)\$\)\. La/)[1];
+    if (!near(mul(A, M[1])[0][0], l1 * v1[0]) || !near(mul(A, M[2])[1][0], l2 * v2[1])) return 'vecteurs propres faux';
+    return cmpT(q, solve([[v1[0], v2[0]], [v1[1], v2[1]]], X0), 'système CI');
+  };
+  F['Second membre résonant (racine simple)'] = (q) => {
+    const { p, q: qq } = ode2(st(q)); const m = st(q).match(/y_p\(t\) = Ate\^\{(-?\d*)t\}/); const r = m ? (m[1] === '' ? 1 : m[1] === '-' ? -1 : +m[1]) : 0;
+    const cm = st(q).match(/= (-?\d*)(?:e\^\{[^}]*\})?\$ admet/); const c = cm[1] === '' ? 1 : cm[1] === '-' ? -1 : +cm[1];
+    if (Math.abs(r * r + p * r + qq) > 1e-12) return 'r non racine';
+    // y = A t e^{rt} : y'' + p y' + q y = A (2r + p) e^{rt}
+    return cmpN(q, c / (2 * r + p), 'résonance');
+  };
+  // ---------------------------------------------------------------- L2-PAR
+  F["Continuité d'une intégrale à paramètre"] = (q) => {
+    const m = st(q).match(/\\int_0\^1 \((.*?)\) e\^\{(\d*)xt\}/); const g = fn(m[1], 't'); const c = +(m[2] || 1); const x = 1e-7;
+    return cmpA(q, simp((t) => g(t) * Math.exp(c * x * t), 0, 1), 'continuité', 1e-5);
+  };
+  F["Dérivée en 0 d'une intégrale à paramètre"] = (q) => {
+    const g = fn(st(q).match(/\\int_0\^1 \((.*?)\) e\^\{xt\}/)[1], 't'); const Fx = (x) => simp((t) => g(t) * Math.exp(x * t), 0, 1); const h = 1e-4;
+    return cmpA(q, (Fx(h) - Fx(-h)) / (2 * h), 'F\'(0)', 1e-5);
+  };
+  F['Intégrale à paramètre calculée explicitement'] = (q) => {
+    const a = +(st(q).match(/e\^\{-(\d*)t\} \\cos/)[1] || 1); const x0 = +st(q).match(/Calculer \$F\((-?\d+)\)/)[1];
+    return cmpA(q, simp((t) => Math.exp(-a * t) * Math.cos(x0 * t), 0, 60 / a, 200000), 'Laplace cos', 1e-5);
+  };
+  F['Moments gaussiens'] = (q) => {
+    const n2 = +st(q).match(/x\^\{(\d+)\}/)[1]; const s2 = +st(q).match(/\\frac\{x\^2\}\{(\d+)\}/)[1] / 2; const s = Math.sqrt(s2);
+    return cmpA(q, simp((x) => x ** n2 * Math.exp(-x * x / (2 * s2)), -15 * s, 15 * s, 100000) / (s * Math.sqrt(2 * Math.PI)), 'moment', 1e-5);
+  };
+  F['Convergence dominée sur un intervalle non borné'] = (q) => {
+    const a = +(st(q).match(/e\^\{-(\d*)x\}/)[1] || 1); const n = 1e6;
+    return cmpA(q, simp((x) => Math.exp(n * Math.log1p(x / n) - a * x), 0, 80, 100000), 'TCD', 1e-4);
+  };
+  const gamma = (x) => { // Lanczos
+    const g = 7; const c = [0.99999999999980993, 676.5203681218851, -1259.1392167224028, 771.32342877765313, -176.61502916214059, 12.507343278686905, -0.13857109526572012, 9.9843695780195716e-6, 1.5056327351493116e-7];
+    if (x < 0.5) return Math.PI / (Math.sin(Math.PI * x) * gamma(1 - x)); x -= 1; let a = c[0]; const t = x + g + 0.5; for (let i = 1; i < 9; i++) a += c[i] / (x + i); return Math.sqrt(2 * Math.PI) * t ** (x + 0.5) * Math.exp(-t) * a;
+  };
+  F['Quotient de valeurs de la fonction Gamma'] = (q) => {
+    const m = [...st(q).matchAll(/\\Gamma\\left\((\\frac\{\d+\}\{\d+\})\\right\)/g)].map((x) => fv(x[1]));
+    return cmpA(q, gamma(m[0]) / gamma(m[1]), 'Gamma', 1e-8);
+  };
+  F['Fonction Bêta'] = (q) => { const m = st(q).match(/Calculer \$B\((\d+), (\d+)\)/); const p = +m[1], r = +m[2]; return cmpA(q, simp((t) => t ** (p - 1) * (1 - t) ** (r - 1), 0, 1), 'Bêta'); };
+  F['Transformée de Laplace'] = (q) => {
+    const f = fn(st(q).match(/f\(t\) = ([^$]*)\$/)[1].replace(' ', '*'), 't'); const s = +st(q).match(/\\mathcal\{L\}f\((-?\d+)\)/)[1];
+    return cmpA(q, simp((t) => f(t) * Math.exp(-s * t), 0, 80, 200000), 'Laplace', 1e-5);
+  };
+
+  // ---------------------------------------------------------------- L2-MUL
+  const simp2 = (f, a, b, lo, hi, n = 400) => simp((x) => simp((y) => f(x, y), lo(x), hi(x), n), a, b, n);
+  const alphaPi = (q) => num(q.answer); // réponse « \alpha = ... »
+  F["Intégrale double d'une fonction affine sur un rectangle"] = (q) => {
+    const m = st(q).match(/\[0, (\d+)\] \\times \[0, (\d+)\]\} \((.*?)\)/); const c = lin(m[3], 'xy');
+    return cmpA(q, simp2((x, y) => c[0] * x + c[1] * y, 0, +m[1], () => 0, () => +m[2], 40), 'rectangle');
+  };
+  F["Aire d'un domaine plan"] = (q) => { const k = lin(st(q).match(/\\leq (\d*x)\\\}/)[1], 'x')[0]; return cmpA(q, simp((x) => k * x - x * x, 0, k), 'aire'); };
+  F["Inversion de l'ordre d'intégration"] = (q) => {
+    const m = st(q).match(/\\int_0\^(\d) \\left\(\\int_y\^\d (.*?) \\, dx\\right\) dy/); const a = +m[1]; const f = fn(m[2]);
+    return cmpA(q, simp((y) => simp(f, y, a, 200), 0, a, 200), 'inversion', 1e-5);
+  };
+  F['Volume sous un paraboloïde'] = (q) => {
+    const R2 = +st(q).match(/x\^2 \+ y\^2 \\leq (\d+)/)[1]; const h = +st(q).match(/0 \\leq z \\leq (\d+)/)[1];
+    return cmpA({ answer: q.answer }, simp((r) => 2 * Math.PI * h * (1 - r * r / R2) * r, 0, Math.sqrt(R2)) / Math.PI, 'paraboloïde');
+  };
+  F["Centre de gravité d'une plaque homogène"] = (q) => {
+    const a = +st(q).match(/0 \\leq x \\leq (\d+)/)[1]; const g = fn(st(q).match(/0 \\leq y \\leq ([^\\]*)\\\}/)[1]);
+    const A = simp(g, 0, a), X = simp((x) => x * g(x), 0, a), Y = simp((x) => g(x) ** 2 / 2, 0, a);
+    return cmpT(q, [X / A, Y / A].map((v) => Math.round(v * 1e9) / 1e9), 'centre de gravité');
+  };
+  F['Volume en coordonnées sphériques'] = (q) => {
+    const m = st(q).match(/\\\{(?:(\d+) \\leq )?x\^2 \+ y\^2 \+ z\^2 \\leq (\d+)\\\}/); const r1 = Math.sqrt(+(m[1] || 0)), r2 = Math.sqrt(+m[2]);
+    return cmpA(q, 4 / 3 * (r2 ** 3 - r1 ** 3), 'sphériques');
+  };
+  F["Moment d'inertie d'un disque"] = (q) => {
+    const R2 = +st(q).match(/x\^2 \+ y\^2 \\leq (\d+)\}/)[1]; const c = P2(st(q).match(/\} \((.*?)\) \\, dx/)[1]);
+    const f = (r, t) => ev2(c, r * Math.cos(t), r * Math.sin(t)) * r;
+    return cmpA(q, simp((r) => simp((t) => f(r, t), 0, 2 * Math.PI, 200), 0, Math.sqrt(R2), 200) / Math.PI, 'moment', 1e-5);
+  };
+  F['Intégrale gaussienne sur le plan'] = (q) => {
+    const a = +(st(q).match(/e\^\{-(\d*)\(x\^2/)[1] || 1); const w = st(q).match(/\} (\(x\^2 \+ y\^2\)(?:\^2)? )?e\^/); const k = !w[1] ? 0 : /\^2 $/.test(w[1]) ? 2 : 1;
+    return cmpA(q, simp((r) => 2 * r ** (2 * k + 1) * Math.exp(-a * r * r), 0, 12, 20000), 'gauss plan');
+  };
+  // ---------------------------------------------------------------- L2-CRB
+  const arc = (q) => { const m = st(q).match(/\\gamma\(t\) = \((.*?), (.*?)\)\$/); return [fn(m[1], 't'), fn(m[2], 't')]; };
+  const der = (f, t, h = 1e-5) => (f(t + h) - f(t - h)) / (2 * h);
+  F["Point stationnaire d'un arc paramétré"] = (q) => { const [x, y] = arc(q); const t = num(q.answer); return (Math.abs(der(x, t)) < 1e-6 && Math.abs(der(y, t)) < 1e-6) || 'pas stationnaire'; };
+  F['Pente de la tangente à un arc'] = (q) => { const [x, y] = arc(q); const t = +st(q).match(/paramètre \$t = (-?\d+)\$/)[1]; return cmpA(q, der(y, t) / der(x, t), 'pente'); };
+  F['Point stationnaire : entiers caractéristiques'] = (q) => {
+    const m = st(q).match(/\\gamma\(t\) = \((.*?), (.*?)\)\$/); const co = (s) => { const c = {}; for (const t of s.replace(/\s+/g, '').matchAll(/([+-]?)(\d*)t\^(\d)/g)) c[+t[3]] = (t[1] === '-' ? -1 : 1) * (t[2] ? +t[2] : 1); return c; };
+    const X = co(m[1]), Y = co(m[2]); let p = 0; for (let k = 1; k < 9; k++) if (X[k] || Y[k]) { p = k; break; }
+    let qq = 0; for (let k = p + 1; k < 9; k++) if ((X[k] || 0) * (Y[p] || 0) - (Y[k] || 0) * (X[p] || 0) !== 0) { qq = k; break; }
+    return cmpT(q, [p, qq], '(p;q)');
+  };
+  F["Longueur d'arches de cycloïde"] = (q) => {
+    const R = +(st(q).match(/\\gamma\(t\) = \((\d*)\(t/)[1] || 1); const e = st(q).match(/\[0, (\d*)\\pi\]/)[1]; const T = (e ? +e : 1) * Math.PI;
+    return cmpA(q, simp((t) => R * Math.sqrt(2 - 2 * Math.cos(t)), 0, T, 20000), 'cycloïde', 1e-6);
+  };
+  F['Vecteur tangent unitaire (repère de Frenet)'] = (q) => { const [x, y] = arc(q); const v = [der(x, 0), der(y, 0)]; const n = Math.hypot(...v); const got = tupA(q.answer); return (got && got.every((g, i) => Math.abs(g - v[i] / n) < 1e-6)) || 'tangent unitaire'; };
+  F["Rayon de courbure d'une parabole"] = (q) => {
+    const a = lin(st(q).match(/y = (-?\d*)x\^2/)[1] + 'x', 'x')[0]; const x0 = fv(st(q).match(/abscisse \$x = ([^$]*)\$/)[1]);
+    return cmpA(q, (1 + (2 * a * x0) ** 2) ** 1.5 / Math.abs(2 * a), 'rayon');
+  };
+  F["Courbure d'une ellipse en un sommet"] = (q) => {
+    const m = st(q).match(/\\gamma\(t\) = \((\d*)\\cos t, (\d*)\\sin t\)/); const A = +(m[1] || 1), B = +(m[2] || 1);
+    const x = (t) => A * Math.cos(t), y = (t) => B * Math.sin(t); const t = /\(0, \d+\)\$\.$/.test(st(q)) ? Math.PI / 2 : 0; const h = 1e-4;
+    const xp = der(x, t), yp = der(y, t), xs = (x(t + h) - 2 * x(t) + x(t - h)) / h / h, ys = (y(t + h) - 2 * y(t) + y(t - h)) / h / h;
+    return cmpA(q, Math.abs(xp * ys - yp * xs) / Math.hypot(xp, yp) ** 3, 'courbure ellipse', 1e-5);
+  };
+  F["Torsion d'une hélice"] = (q) => {
+    const m = st(q).match(/\\gamma\(t\) = \((\d*)\\cos t, \d*\\sin t, (-?\d*)t\)/); const a = +(m[1] || 1); const b = m[2] === '' ? 1 : m[2] === '-' ? -1 : +m[2];
+    const g1 = [0, a, b], g2 = [-a, 0, 0], g3 = [0, -a, 0]; // en t = 0
+    const cr = [g1[1] * g2[2] - g1[2] * g2[1], g1[2] * g2[0] - g1[0] * g2[2], g1[0] * g2[1] - g1[1] * g2[0]];
+    return cmpN(q, dot(cr, g3) / dot(cr, cr), 'torsion');
+  };
+  // ---------------------------------------------------------------- L2-PRB
+  const binom = (n, k) => { let r = 1; for (let i = 1; i <= k; i++) r = r * (n - k + i) / i; return r; };
+  const dval = (s) => parseFloat(String(s).replace('{,}', '.'));
+  F['Probabilité pour une loi géométrique'] = (q) => { const p = fv(st(q).match(/p = ([^$]*)\$/)[1]); const k = +st(q).match(/P\(X = (\d+)\)\$\./)[1]; return cmpN(q, (1 - p) ** (k - 1) * p, 'géométrique'); };
+  F['Formule des probabilités totales'] = (q) => {
+    const g = (re) => dval(st(q).match(re)[1]); const pa = g(/P\(A\) = ([\d{},]+)/), u = g(/P\(B \\mid A\) = ([\d{},]+)/), v = g(/P\(B \\mid \\overline\{A\}\) = ([\d{},]+)/);
+    return near(dval(rhs(q.answer)), pa * u + (1 - pa) * v) || 'probabilités totales';
+  };
+  F['Fonction génératrice : espérance et variance'] = (q) => {
+    const G = st(q).match(/G_X\(t\) = ([^$]*)\$/)[1]; const g = fn(G, 't'); const h = 1e-4;
+    const g1 = der(g, 1, h), g2 = (g(1 + h) - 2 * g(1) + g(1 - h)) / h / h;
+    if (Math.abs(g(1) - 1) > 1e-9) return 'G(1) ≠ 1';
+    return cmpA(q, /V\(X\)\$\./.test(st(q)) ? g2 + g1 - g1 * g1 : g1, 'génératrice', 1e-5);
+  };
+  F["Variance d'une combinaison de variables de Poisson"] = (q) => {
+    const l = +st(q).match(/X \\sim \\mathcal\{P\}\((\d+)\)/)[1], m = +st(q).match(/Y \\sim \\mathcal\{P\}\((\d+)\)/)[1]; const c = lin(st(q).match(/Calculer \$V\((.*?)\)\$/)[1], 'XY');
+    return cmpN(q, c[0] ** 2 * l + c[1] ** 2 * m, 'variance Poisson');
+  };
+  F['Loi du minimum de deux variables géométriques'] = (q) => {
+    const ps = [...st(q).matchAll(/\\mathcal\{G\}\\left\((\\frac\{\d+\}\{\d+\})\\right\)/g)].map((m) => fv(m[1]));
+    return cmpN(q, 1 - (1 - ps[0]) * (1 - ps[1]), 'min géométriques');
+  };
+  F["Variance d'une combinaison avec covariance"] = (q) => {
+    const vx = +st(q).match(/V\(X\) = (\d+)/)[1], vy = +st(q).match(/V\(Y\) = (\d+)/)[1], c = +st(q).match(/\\mathrm\{Cov\}\(X, Y\) = (-?\d+)/)[1]; const [a, b] = lin(st(q).match(/Calculer \$V\((.*?)\)\$/)[1], 'XY');
+    return cmpN(q, a * a * vx + b * b * vy + 2 * a * b * c, 'variance cov');
+  };
+  F['Somme de binomiales indépendantes (fonction génératrice)'] = (q) => {
+    const B = [...st(q).matchAll(/\\mathcal\{B\}\\left\((\d+), (\\frac\{\d+\}\{\d+\})\\right\)/g)]; const n = +B[0][1], m = +B[1][1], p = fv(B[0][2]); const k = +st(q).match(/P\(X \+ Y = (\d)\)/)[1];
+    let s = 0; for (let i = 0; i <= Math.min(k, n); i++) s += binom(n, i) * p ** i * (1 - p) ** (n - i) * binom(m, k - i) * p ** (k - i) * (1 - p) ** (m - k + i) * (k - i <= m ? 1 : 0);
+    return cmpN(q, s, 'somme binomiales');
+  };
+  F['Loi conditionnelle pour des variables de Poisson'] = (q) => {
+    const l = +st(q).match(/X \\sim \\mathcal\{P\}\((\d+)\)/)[1], m = +st(q).match(/Y \\sim \\mathcal\{P\}\((\d+)\)/)[1]; const mm = st(q).match(/P\(X = (\d+) \\mid X \+ Y = (\d+)\)/); const k = +mm[1], n = +mm[2];
+    const po = (lam, j) => Math.exp(-lam) * lam ** j / [1, 1, 2, 6, 24][j];
+    return cmpN(q, po(l, k) * po(m, n - k) / po(l + m, n), 'Poisson conditionnel');
+  };
+
+  // ================================================================ L3
+  const gcd = (a, b) => { a = Math.abs(a); b = Math.abs(b); while (b) [a, b] = [b, a % b]; return a; };
+  const ordMod = (a, n) => { let k = 1, x = a % n; while (x !== 0) { x = (x + a) % n; k++; } return k; }; // ordre additif de a dans Z/n
+  F["Ordre d'un groupe quotient cyclique"] = (q) => { const m = st(q).match(/\\mathbb\{Z\}\/(\d+)\\mathbb\{Z\}\$, soit \$H = \\langle \\overline\{(\d+)\}/); const n = +m[1], a = +m[2]; return cmpN(q, n / ordMod(a, n), 'quotient'); };
+  F["Premier théorème d'isomorphisme"] = (q) => {
+    const m = st(q).match(/\\mathbb\{Z\}\/(\d+)\\mathbb\{Z\} \\to \\mathbb\{Z\}\/(\d+)\\mathbb\{Z\}\$, \$\\overline\{x\} \\mapsto \\overline\{(\d*)x\}/); const n = +m[1], mm = +m[2], k = +(m[3] || 1);
+    if ((k * n) % mm) return 'mal défini'; const im = new Set(); let ker = 0;
+    for (let x = 0; x < n; x++) { const y = (k * x) % mm; im.add(y); if (y === 0) ker++; }
+    return cmpN(q, /\\ker/.test(st(q).split('Calculer').pop()) ? ker : im.size, 'iso');
+  };
+  F["Signature d'une permutation"] = (q) => {
+    const s = mats(st(q))[0][1]; const n = s.length; const seen = Array(n).fill(false); let e = 1;
+    for (let i = 0; i < n; i++) { if (seen[i]) continue; let j = i, L = 0; while (!seen[j]) { seen[j] = true; j = s[j] - 1; L++; } if (L % 2 === 0) e = -e; }
+    return cmpN(q, e, 'signature');
+  };
+  F["Ordre d'un $p$-sous-groupe de Sylow"] = (q) => { const n = +st(q).match(/d'ordre \$(\d+)\$/)[1]; const p = +st(q).match(/\$(\d)\$-sous-groupe/)[1]; let r = 1, m = n; while (m % p === 0) { m /= p; r *= p; } return cmpN(q, r, 'Sylow'); };
+  F["Nombre d'inversibles de $\\mathbb{Z}/n\\mathbb{Z}$"] = (q) => { const n = +st(q).match(/\\mathbb\{Z\}\/(\d+)/)[1]; let c = 0; for (let a = 1; a <= n; a++) if (gcd(a, n) === 1) c++; return cmpN(q, c, 'phi'); };
+  F["Somme et intersection d'idéaux de $\\mathbb{Z}$"] = (q) => { const m = st(q).match(/\$(\d+)\\mathbb\{Z\} \+ (\d+)\\mathbb\{Z\}/); const a = +m[1], b = +m[2]; return cmpT(q, [gcd(a, b), a * b / gcd(a, b)], 'idéaux'); };
+  F["Normes usuelles d'un vecteur"] = (q) => { const v = T3(st(q), 'x'); return cmpT(q, [v.reduce((s, x) => s + Math.abs(x), 0), Math.max(...v.map(Math.abs))], 'normes'); };
+  F["Diamètre d'une partie pour une norme"] = (q) => {
+    const m = st(q).match(/\[0, (\d+)\] \\times \[0, (\d+)\]/); const a = +m[1], b = +m[2]; const one = /\\\|_\{1\}/.test(st(q));
+    let best = 0; for (const [x1, y1] of [[0, 0], [a, 0], [0, b], [a, b]]) for (const [x2, y2] of [[0, 0], [a, 0], [0, b], [a, b]]) best = Math.max(best, one ? Math.abs(x1 - x2) + Math.abs(y1 - y2) : Math.max(Math.abs(x1 - x2), Math.abs(y1 - y2)));
+    return cmpN(q, best, 'diamètre');
+  };
+  F["Norme subordonnée d'une matrice"] = (q) => {
+    const A = mats(st(q))[0]; const one = /\\\|A\\\|_\{1\}/.test(st(q)); let best = 0;
+    for (let k = 0; k < 2000; k++) { const t = 2 * Math.PI * k / 2000; const x = one ? [Math.cos(t), Math.sin(t)].map((c) => c / (Math.abs(Math.cos(t)) + Math.abs(Math.sin(t)))) : [Math.sign(Math.cos(t)) || 1, Math.sign(Math.sin(t)) || 1];
+      const y = [A[0][0] * x[0] + A[0][1] * x[1], A[1][0] * x[0] + A[1][1] * x[1]]; best = Math.max(best, one ? Math.abs(y[0]) + Math.abs(y[1]) : Math.max(Math.abs(y[0]), Math.abs(y[1]))); }
+    return cmpA(q, best, 'norme subordonnée', 1e-6);
+  };
+  F["Bornes et points adhérents d'une partie de $\\mathbb{R}$"] = (q) => {
+    const m = st(q).match(/\\left\((\d+) \+ \\frac\{(\d+)\}\{n\}\\right\)/); const c = +m[1], d = +m[2]; const u = []; for (let n = 1; n < 2000; n++) u.push((-1) ** n * (c + d / n));
+    return cmpT(q, [Math.min(...u), Math.max(...u)], 'inf sup');
+  };
+  F["Image d'un segment par une fonction continue"] = (q) => { const m = st(q).match(/compact \$\[(-?\d+), (-?\d+)\]\$/); const a = +m[1], b = +m[2]; const v = []; for (let k = 0; k <= 1000; k++) { const x = a + (b - a) * k / 1000; v.push(x * x); } if (a <= 0 && b >= 0) v.push(0); return cmpT(q, [Math.min(...v), Math.max(...v)].map((x) => Math.round(x * 1e9) / 1e9), 'image'); };
+  F["Continuité uniforme d'une fonction lipschitzienne"] = (q) => { const k = +st(q).match(/est \$(\d+)\$-lipschitzienne/)[1]; const e = fv(st(q).match(/\\leq (\\frac\{1\}\{\d+\})\$ \?/)[1]); return cmpN(q, e / k, 'delta'); };
+  F["Composantes connexes d'un ouvert de $\\mathbb{R}$"] = (q) => {
+    const P = fn(st(q).match(/U = \\\{x \\in \\mathbb\{R\} : (.*?) > 0\\\}/)[1]); let c = 0, prev = false;
+    for (let x = -50; x <= 50; x += 0.01) { const pos = P(x) > 0; if (pos && !prev) c++; prev = pos; }
+    return cmpN(q, c, 'composantes');
+  };
+  F["Itérées d'une contraction"] = (q) => { const g = fn(st(q).match(/g\(x\) = ([^$]*)\$/)[1]); const x0 = +st(q).match(/x_0 = (-?\d+)/)[1]; return cmpA(q, g(g(x0)), 'itérées'); };
+  F["Nombre d'itérations pour une précision donnée"] = (q) => {
+    const k = fv(st(q).match(/\$(\\frac\{1\}\{\d+\})\$-contractante/)[1]); const d0 = +st(q).match(/= (\d+)\$\. Quel/)[1]; const m = +st(q).match(/10\^\{-(\d+)\}/)[1];
+    let n = 0; while (k ** n / (1 - k) * d0 > 10 ** -m * (1 + 1e-12)) n++; return cmpN(q, n, 'itérations');
+  };
+  F["Constante de contraction d'un opérateur intégral"] = (q) => {
+    const m = st(q).match(/T\(f\)\(x\) = (\\frac\{\d+\}\{\d+\})\\int_0\^1 (xt|t)? ?\\?,? ?f\(t\)/); const lam = fv(m[1]); const K = m[2] || '1';
+    let best = 0; for (let i = 0; i <= 100; i++) { const x = i / 100; best = Math.max(best, simp((t) => Math.abs(K === 'xt' ? x * t : K === 't' ? t : 1), 0, 1, 100)); }
+    return cmpA(q, lam * best, 'contraction', 1e-6);
+  };
+  F["Norme uniforme d'une fonction"] = (q) => { const f = fn(st(q).match(/f\(x\) = ([^$]*)\$/)[1]); let b = 0; for (let k = 0; k <= 100000; k++) b = Math.max(b, Math.abs(f(k / 100000))); return cmpA(q, b, 'sup', 1e-6); };
+  F['Série des normes uniformes'] = (q) => { const r = fv(st(q).match(/\\left\[0, (\\frac\{\d+\}\{\d+\})\\right\]/)[1]); return cmpA(q, sumNum((n) => r ** n, 1, 3000), 'série normes'); };
+  F['Interversion série-intégrale par convergence normale'] = (q) => {
+    const c = +st(q).match(/\{(\d+)\^n\}/)[1]; const k = +(st(q).match(/S\(x\)\\cos\((\d*)x\)/)[1] || 1);
+    const S = (x) => { let s = 0; for (let n = 0; n < 60; n++) s += Math.cos(n * x) / c ** n; return s; };
+    return cmpA(q, simp((x) => S(x) * Math.cos(k * x), 0, 2 * Math.PI, 4000) / Math.PI, 'interversion', 1e-6);
+  };
+  F['Rayon de convergence (Cauchy-Hadamard)'] = (q) => { const r = fv(st(q).match(/\\left\((\\frac\{\d+\}\{\d+\}|\d+)\\right\)\^n/)[1]); return cmpN(q, 1 / r, 'rayon'); };
+  F["Rayon de convergence d'une somme de séries entières"] = (q) => { const m = st(q).match(/\((\d+)\^n \+ (\d+)\^n\)/); return cmpN(q, 1 / Math.max(+m[1], +m[2]), 'rayon somme'); };
+  F["Coefficient d'un produit de séries entières"] = (q) => {
+    const m = st(q).match(/\\frac\{1\}\{\((.*?)\)\((.*?)\)\}/); const a = -lin(m[1], 'x')[0], b = -lin(m[2], 'x')[0]; const n = +st(q).match(/c_\{(\d+)\}\$\./)[1];
+    // développement par récurrence : c_n = (a + b) c_{n-1} - ab c_{n-2}
+    const c = [1, a + b]; for (let i = 2; i <= n; i++) c.push((a + b) * c[i - 1] - a * b * c[i - 2]); return cmpN(q, c[n], 'Cauchy coef');
+  };
+  F["Valeur moyenne d'un polynôme trigonométrique"] = (q) => { const f = fn(st(q).match(/f\(x\) = \\left\((.*?)\\right\)\^2/)[1]); return cmpA(q, simp((x) => f(x) ** 2, -Math.PI, Math.PI) / (2 * Math.PI), 'moyenne'); };
+  F['Coefficients de Fourier par linéarisation'] = (q) => {
+    const m = st(q).match(/f\(x\) = (-?\d*)\\(cos|sin)\^3 x/); const c = m[1] === '' ? 1 : m[1] === '-' ? -1 : +m[1]; const tr = m[2] === 'cos' ? Math.cos : Math.sin;
+    const co = (k) => simp((x) => c * Math.sin(x) ** 0 * tr(x) ** 3 * tr(k * x), -Math.PI, Math.PI) / Math.PI;
+    const got = tupA(q.answer); return (got && Math.abs(got[0] - co(1)) < 1e-6 && Math.abs(got[1] - co(3)) < 1e-6) || 'linéarisation';
+  };
+  F['Théorème de Dirichlet en un point de discontinuité'] = (q) => { const a = +st(q).match(/= (-?\d+)\$ sur \$\]-\\pi, 0\[/)[1], b = +st(q).match(/= (-?\d+)\$ sur \$\]0, \\pi\[/)[1]; return cmpN(q, (a + b) / 2, 'Dirichlet'); };
+  F['Composée de deux homothéties'] = (q) => { const k1 = +st(q).match(/de rapport \$(-?\d+)\$, et/)[1]; const k2 = fv(st(q).match(/rapport \$([^$]*)\$\. La/)[1]); return cmpN(q, k1 * k2, 'composée'); };
+  F["Coordonnées barycentriques d'un point"] = (q) => {
+    const pt = (L) => st(q).match(new RegExp(`\\$${L}\\((-?\\d+) ; (-?\\d+)\\)\\$`)).slice(1).map(Number);
+    const A = pt('A'), B = pt('B'), Cc = pt('C'); const Pm = st(q).match(/P\\left\((.*?) ; (.*?)\\right\)/); const P = [fv(Pm[1]), fv(Pm[2])];
+    const [be, ga] = solve([[B[0] - A[0], Cc[0] - A[0]], [B[1] - A[1], Cc[1] - A[1]]], [P[0] - A[0], P[1] - A[1]]);
+    const got = tupA(q.answer); const e = [1 - be - ga, be, ga]; return (got && got.every((g, i) => Math.abs(g - e[i]) < 1e-9)) || 'barycentriques';
+  };
+  F['Intersection de deux droites en coordonnées homogènes'] = (q) => {
+    const L = [...st(q).matchAll(/D_\d : (.*?) = 0\$/g)].map((m) => lin(m[1])); const s = solve([[L[0][0], L[0][1]], [L[1][0], L[1][1]]], [-L[0][2], -L[1][2]]);
+    const got = tupA(q.answer); return (got && got.every((g, i) => Math.abs(g - s[i]) < 1e-9)) || 'intersection';
+  };
+  F["Première forme fondamentale d'un plan paramétré"] = (q) => {
+    const comp = st(q).match(/X\(u, v\) = \((.*?)\)\$/)[1].split(', ').map((c) => lin(c, 'uv')); const u = comp.map((c) => c[0]), v = comp.map((c) => c[1]);
+    return cmpT(q, [dot(u, u), dot(u, v), dot(v, v)], 'I');
+  };
+  F["Aire d'un morceau de surface"] = (q) => { const [a, b] = lin(st(q).match(/plan \$z = ([^$]*)\$/)[1], 'xy'); const m = st(q).match(/\[0, (\d+)\] \\times \[0, (\d+)\]/); return cmpA(q, +m[1] * +m[2] * Math.sqrt(1 + a * a + b * b), 'aire'); };
+  F['Deuxième forme fondamentale en un point critique'] = (q) => { const f = P2(st(q).match(/z = ([^$]*)\$, paramétrée/)[1]); return cmpT(q, [ev2(dx(dx(f)), 0, 0), ev2(dx(dy(f)), 0, 0), ev2(dy(dy(f)), 0, 0)], 'II'); };
+  const iterRho = (G) => { let x = [1, 0.7]; let r = 0; for (let k = 0; k < 400; k++) { const y = [G[0][0] * x[0] + G[0][1] * x[1], G[1][0] * x[0] + G[1][1] * x[1]]; const n = Math.hypot(...y); if (n < 1e-300) return 0; r = n / Math.hypot(...x); x = y.map((c) => c / n); } return r; };
+  F['Rayon spectral de la matrice de Jacobi'] = (q) => { const [[a, b], [c, d]] = mats(st(q))[0]; const J = [[0, -b / a], [-c / d, 0]]; // chi_J = X^2 - tr X + det, tr = 0 : |mu|^2 = |det J|
+    return cmpA(q, Math.abs(J[0][0] * J[1][1] - J[0][1] * J[1][0]), 'rho J^2', 1e-9); };
+  F['Rayon spectral de la matrice de Gauss-Seidel'] = (q) => {
+    const [[a, b], [c, d]] = mats(st(q))[0]; const G = [[0, -b / a], [0, b * c / (a * d)]]; // (D - E)^{-1} F calculé : x1 = -b x2 / a ; x2 = -c x1 / d
+    return cmpA(q, iterRho(G), 'rho GS', 1e-6);
+  };
+  const lin2 = (s) => lin(s, 'xy');
+  F["Valeur de l'objectif en un sommet"] = (q) => {
+    const z = lin2(st(q).match(/maximise \$z = ([^$]*)\$/)[1]); const cs = [...st(q).matchAll(/\$([^$]*?) \\leq (\d+)\$/g)].map((m) => [lin2(m[1]), +m[2]]);
+    const s = solve([cs[0][0], cs[1][0]], [cs[0][1], cs[1][1]]); return cmpA(q, z[0] * s[0] + z[1] * s[1], 'objectif');
+  };
+  F['Sommet du domaine admissible'] = (q) => {
+    const cs = [...st(q).matchAll(/\\ ([^\\$]*?) \\leq (\d+)/g)].map((m) => [lin2(m[1]), +m[2]]); return cmpT(q, solve([cs[0][0], cs[1][0]], [cs[0][1], cs[1][1]]), 'sommet');
+  };
+  F["Dualité faible : majorant de l'optimum"] = (q) => {
+    const obj = lin(st(q).match(/maximiser \$([^$]*)\$/)[1].replace(/x_1/g, 'x').replace(/x_2/g, 'y'), 'xy');
+    const cs = [...st(q).matchAll(/\$([^$]*?) \\leq (\d+)\$/g)].map((m) => [lin(m[1].replace(/x_1/g, 'x').replace(/x_2/g, 'y'), 'xy'), +m[2]]);
+    const y = st(q).match(/= \((\d+), (\d+)\)\$ est admissible/).slice(1).map(Number);
+    if ([0, 1].some((j) => cs[0][0][j] * y[0] + cs[1][0][j] * y[1] < obj[j])) return 'dual non admissible';
+    return cmpN(q, cs[0][1] * y[0] + cs[1][1] * y[1], 'dualité faible');
+  };
+  F["Mesure d'une réunion dénombrable disjointe"] = (q) => { const r = fv(st(q).match(/\\left\((\\frac\{\d+\}\{\d+\})\\right\)\^n/)[1]); return cmpA(q, sumNum((n) => r ** n, 0, 3000), 'mesure'); };
+  F['Exposant conjugué (inégalité de Hölder)'] = (q) => { const p = fv(st(q).match(/avec \$p = ([^$]*)\$/)[1]); return cmpN(q, 1 / (1 - 1 / p), 'Hölder'); };
+  F["Norme $L^p$ d'une fonction puissance"] = (q) => { const f = fn(st(q).match(/f\(x\) = ([^$]*)\$/)[1]); const p = +st(q).match(/\\\|f\\\|_\{(\d+)\}/)[1]; return cmpA(q, simp((x) => Math.abs(f(x)) ** p, 0, 1), 'Lp'); };
+  F["Constante de normalisation d'une densité"] = (q) => { const k = +(st(q).match(/c ?x(?:\^\{(\d+)\})?\$/)[1] || 1); const a = +st(q).match(/sur \$\[0, (\d+)\]\$/)[1]; return cmpA(q, 1 / simp((x) => x ** k, 0, a), 'normalisation'); };
+  F["Théorème central limite : loi approchante d'une somme"] = (q) => {
+    const n = +st(q).match(/X_\{(\d+)\}/)[1], m = +st(q).match(/espérance \$(-?\d+)\$/)[1], v = +st(q).match(/variance \$(\d+)\$/)[1]; return cmpT(q, [n * m, n * v], 'TCL');
+  };
+
+  const run = (q) => { const f = F[q.title]; return f ? f(q) : undefined; };
+  const keys = ['L2-DET', 'L2-RED1', 'L2-RED2', 'L2-DUA', 'L2-PRE', 'L2-SYM', 'L2-SER', 'L2-CAL', 'L2-RIE', 'L2-ING', 'L2-EDO', 'L2-PAR', 'L2-MUL', 'L2-CRB', 'L2-PRB',
+    'L3-GRP1', 'L3-MET', 'L3-CMP', 'L3-MES', 'L3-GRP2', 'L3-ANN', 'L3-BAN', 'L3-SDF', 'L3-SER', 'L3-FOU', 'L3-GPR', 'L3-GDF', 'L3-NUM', 'L3-PROG', 'L3-PRC'];
+  return Object.fromEntries(keys.map((k) => [k, run]));
+})(V));
+}
+// ---- vérificateurs prioritaires 2nde/1re ----
+{
+/* Vérificateurs indépendants des familles ajoutées / converties (2nde et 1re spécialité).
+ * Chaque fonction reçoit la question (forme QCM d'origine si convertie, avec q.exactInput = saisie attendue ;
+ * sinon question 'exact' native dont q.answer est la saisie brute) et renvoie undefined / true / message. */
+addPre(( (V) => {
+  // ---------------------------------------------------------------- outils
+  const gcd = (a, b) => { a = Math.abs(a); b = Math.abs(b); while (b) [a, b] = [b, a % b]; return a; };
+  const near = (a, b, e = 1e-6) => Math.abs(a - b) <= e * Math.max(1, Math.abs(a), Math.abs(b));
+  /** saisie brute -> tableau de nombres */
+  const pv = (s) => {
+    const one = (t) => {
+      t = t.trim().replace(',', '.');
+      let m;
+      if ((m = t.match(/^(-?\d+)\/(\d+)$/))) return +m[1] / +m[2];
+      return /^-?\d+(\.\d+)?$/.test(t) ? +t : NaN;
+    };
+    s = String(s).trim();
+    if (/^\(.*\)$/.test(s)) return s.slice(1, -1).split(';').map(one);
+    return [one(s)];
+  };
+  /** saisie attendue : q.exactInput (QCM converti) ou q.answer (saisie native) */
+  const inp = (q) => (q.exactInput !== undefined ? q.exactInput : q.type === 'exact' ? q.answer : null);
+  const cmp = (q, exp, e = 1e-6) => {
+    const s = inp(q);
+    if (s === null) return undefined;
+    const got = pv(s);
+    exp = [].concat(exp);
+    if (got.length !== exp.length || got.some((g, i) => !near(g, exp[i], e))) return `attendu (${exp.join(';')}), saisie ${s}`;
+    return true;
+  };
+  /** nombre LaTeX simple */
+  const nv = (t) => {
+    t = String(t).replace(/\s|\\,/g, '').replace(/\\[dt]frac/g, '\\frac');
+    let m;
+    if ((m = t.match(/^(-?)\\frac\{(-?\d+)\}\{(\d+)\}$/))) return (m[1] ? -1 : 1) * m[2] / m[3];
+    t = t.replace('{,}', '.');
+    return /^[+-]?\d+(\.\d+)?$/.test(t) ? +t : NaN;
+  };
+  /** évaluateur d'expressions LaTeX (x, y, k, n, e^, \sqrt, \frac, ^, multiplication implicite) */
+  function evalTex(tex, env) {
+    let s = String(tex).replace(/\\left|\\right|\\displaystyle/g, '').replace(/\\[dt]frac/g, '\\frac').replace(/\{,\}/g, '.')
+      .replace(/\\times|\\cdot/g, '*').replace(/\\,|\\;|\\!/g, '').replace(/\s+/g, '');
+    let i = 0;
+    const peek = () => s[i];
+    const err = (m) => { throw new Error('evalTex: ' + m + ' @' + i + ' in ' + s); };
+    const group = () => { // { ... }
+      if (s[i] !== '{') return primary();
+      i++; const v = expr(); if (s[i] !== '}') err('} attendu'); i++; return v;
+    };
+    function primary() {
+      const c = peek();
+      if (c === '(') { i++; const v = expr(); if (s[i] !== ')') err(') attendu'); i++; return v; }
+      if (c === '{') return group();
+      if (s.startsWith('\\frac', i)) { i += 5; const a = group(); const b = group(); return a / b; }
+      if (s.startsWith('\\sqrt', i)) { i += 5; return Math.sqrt(group()); }
+      if (s.startsWith('\\pi', i)) { i += 3; return Math.PI; }
+      if (s.startsWith('\\ln', i)) { i += 3; return Math.log(factorNoImplicit()); }
+      if (s.startsWith('\\cos', i)) { i += 4; return Math.cos(factorNoImplicit()); }
+      if (s.startsWith('\\sin', i)) { i += 4; return Math.sin(factorNoImplicit()); }
+      if (c === 'e' && !/[a-z]/.test(s[i + 1] || '')) { i++; return Math.E; }
+      if (/[0-9.]/.test(c)) { const m = s.slice(i).match(/^\d+(\.\d+)?|^\.\d+/); i += m[0].length; return +m[0]; }
+      if (/[a-z]/i.test(c)) { i++; if (!(c in env)) err('variable ' + c); return env[c]; }
+      return err('inattendu ' + c);
+    }
+    function power() {
+      let b = primary();
+      while (s[i] === '^') { i++; const e = s[i] === '{' ? group() : (s[i] === '-' ? (i++, -primary()) : primary()); b = Math.pow(b, e); }
+      return b;
+    }
+    function factorNoImplicit() { if (s[i] === '-') { i++; return -factorNoImplicit(); } if (s[i] === '+') { i++; return factorNoImplicit(); } return power(); }
+    function term() {
+      let v = factorNoImplicit();
+      for (;;) {
+        const c = s[i];
+        if (c === '*') { i++; v *= factorNoImplicit(); } else if (c === '/') { i++; v /= factorNoImplicit(); }
+        else if (c !== undefined && (c === '(' || c === '{' || c === '\\' || /[0-9a-z.]/i.test(c))) v *= power();
+        else break;
+      }
+      return v;
+    }
+    function expr() {
+      let v = term();
+      while (s[i] === '+' || s[i] === '-') { const o = s[i++]; const t = term(); v = o === '+' ? v + t : v - t; }
+      return v;
+    }
+    const v = expr();
+    if (i !== s.length) err('reste « ' + s.slice(i) + ' »');
+    return v;
+  }
+  const fx = (tex) => (x) => evalTex(tex, { x });
+  /** coefficients [c0, c1, c2] d'un polynôme de degré <= 2 donné en LaTeX (vérifie le degré) */
+  const quad = (tex) => {
+    const f = fx(tex);
+    const c0 = f(0); const s1 = f(1); const m1 = f(-1);
+    const c2 = (s1 + m1) / 2 - c0; const c1 = (s1 - m1) / 2;
+    for (const t of [2.5, -3.7, 7]) if (!near(f(t), c0 + c1 * t + c2 * t * t, 1e-7)) throw new Error('pas de degré 2 : ' + tex);
+    return [c0, c1, c2];
+  };
+  const lin = (tex) => { const [c0, c1, c2] = quad(tex); if (Math.abs(c2) > 1e-9) throw new Error('pas affine ' + tex); return [c0, c1]; };
+  const same = (f, g) => [0.3, -1.7, 2.9, 5.1].every((t) => near(f(t), g(t), 1e-7));
+  const st = (q) => String(q.statement);
+  const mat = (s, re) => { const m = s.match(re); if (!m) throw new Error('motif absent ' + re); return m; };
+  const iv = (str) => { // "]a ; b[" -> {lc, a, b, rc}
+    const m = str.match(/([[\]])\s*(-?[\d{},]+|-\\infty)\s*;\s*(-?[\d{},]+|\+\\infty)\s*([[\]])/);
+    if (!m) throw new Error('intervalle ' + str);
+    return { lc: m[1] === '[', a: /infty/.test(m[2]) ? -Infinity : nv(m[2]), b: /infty/.test(m[3]) ? Infinity : nv(m[3]), rc: m[4] === ']' };
+  };
+  const inIv = (I, x) => (x > I.a || (x === I.a && I.lc)) && (x < I.b || (x === I.b && I.rc));
+  const pt = (s, n) => { const m = s.match(new RegExp(`${n}\\((-?\\d+) ; (-?\\d+)\\)`)); if (!m) throw new Error('point ' + n); return [+m[1], +m[2]]; };
+  const vec = (s, n) => { const m = s.match(new RegExp(`${n}\\\\begin\\{pmatrix\\} (-?\\d+) \\\\\\\\ (-?\\d+) \\\\end`)); if (!m) throw new Error('vecteur ' + n); return [+m[1], +m[2]]; };
+  const pct = (a) => { // réponse d'évolution / pourcentage -> valeur signée
+    const m = String(a).match(/\$([+-]?)([\d{},]+)\\,\\%\$/);
+    if (!m) return NaN;
+    const v = nv(m[2]);
+    return (/baisse/.test(a) || m[1] === '-') ? -v : v;
+  };
+  const by = (map) => (q) => { const f = map[q.title]; if (!f) return undefined; return f(q, st(q)); };
+
+  // ---------------------------------------------------------------- 2N1
+  const n2N1 = {
+    'Plus grand multiple inférieur à un entier': (q, s) => { const m = mat(s, /multiple de \$(\d+)\$ inférieur ou égal à \$(\d+)\$/); return cmp(q, +m[1] * Math.floor(+m[2] / +m[1])); },
+    'Encadrement décimal d\'un rationnel': (q, s) => { const m = mat(s, /\$\\frac\{(\d+)\}\{(\d+)\}\$ par deux décimaux d'amplitude \$0\{,\}(0?1)\$/); const k = m[3].length; return cmp(q, Math.floor(+m[1] * 10 ** k / +m[2]) / 10 ** k); },
+    'Calcul sur les puissances': (q, s) => {
+      let m = s.match(/\\dfrac\{(\d+)\^\{(-?\d+)\} \\times \d+\^\{(-?\d+)\}\}\{\d+\^\{(-?\d+)\}\}/);
+      if (m) return cmp(q, +m[2] + +m[3] - +m[4]);
+      m = mat(s, /\\left\((\d+)\^\{(-?\d+)\}\\right\)\^\{(\d+)\} \\times \d+\^\{(-?\d+)\}/);
+      return cmp(q, +m[2] * +m[3] + +m[4]);
+    },
+    'Simplification de radicaux': (q, s) => { const N = +mat(s, /\\sqrt\{(\d+)\}\$\.?$/m)[1]; let a = 1; for (let k = 2; k * k <= N; k++) if (N % (k * k) === 0) a = k; return cmp(q, [a, N / (a * a)]); },
+    'Somme de radicaux': (q, s) => {
+      const m = mat(s, /a\\sqrt\{(\d+)\}\$ : \$B = \\sqrt\{(\d+)\} ([+-]) \\sqrt\{(\d+)\}\$/);
+      const b = +m[1]; const c1 = Math.sqrt(+m[2] / b); const c2 = Math.sqrt(+m[4] / b);
+      if (!Number.isInteger(Math.round(c1 * 1e9) / 1e9) || !Number.isInteger(Math.round(c2 * 1e9) / 1e9)) return 'radicaux non simplifiables';
+      return cmp(q, c1 + (m[3] === '+' ? c2 : -c2));
+    },
+    'Écriture décimale d\'un nombre décimal': (q, s) => { const m = mat(s, /\\dfrac\{(\d+)\}\{(\d+)\}/); let d = +m[2]; while (d % 2 === 0) d /= 2; while (d % 5 === 0) d /= 5; if (d !== 1) return 'non décimal'; return cmp(q, +m[1] / +m[2]); },
+    'Carré d\'un nombre impair': (q, s) => { const n = +mat(s, /Pour \$n = (\d+)\$/)[1]; return cmp(q, (n * n - 1) / 2); },
+    'Problème de partage (plus grand diviseur commun)': (q, s) => { const m = mat(s, /dispose de \$(\d+)\$ .* et \$(\d+)\$ /); return cmp(q, gcd(+m[1], +m[2])); },
+    'Décomposition en facteurs premiers': (q, s) => {
+      if (inp(q) === null) return undefined;
+      let n = +mat(s, /premiers de \$(\d+)\$/)[1]; const e = [2, 3, 5, 7].map((p) => { let k = 0; while (n % p === 0) { n /= p; k++; } return k; });
+      if (n !== 1) return 'facteur premier > 7';
+      return cmp(q, e);
+    }
+  };
+
+  // ---------------------------------------------------------------- 2N2
+  const exprOf = (s, name) => mat(s, new RegExp(`\\$${name} = (.*?)\\$`))[1];
+  const n2N2 = {
+    'Développer et réduire': (q, s) => { const f = fx(exprOf(s, 'E')); const a = pv(inp(q)); return same(f, (x) => a[0] * x + a[1]) || 'développement faux'; },
+    'Factoriser $ax^2 + bx$': (q, s) => { const f = fx(exprOf(s, 'F')); const a = pv(inp(q)); if (!same(f, (x) => a[0] * x * (a[1] * x + a[2]))) return 'factorisation fausse'; const [, c1, c2] = quad(exprOf(s, 'F')); return a[0] === gcd(c1, c2) || 'k pas maximal'; },
+    'Réduire au même dénominateur': (q, s) => { const m = mat(s, /\$B = (.*?)\$ sous la forme \$\\dfrac\{mx \+ n\}\{(.*?)\}\$/); const f = fx(m[1]); const g = fx(m[2]); const a = pv(inp(q)); return same(f, (x) => (a[0] * x + a[1]) / g(x)) || 'quotient faux'; },
+    'Choisir la forme adaptée': (q, s) => {
+      const dev = mat(s, /f\(x\) = (.*?) = /)[1]; const [c0, c1, c2] = quad(dev);
+      if (/Calculer \$f\(0\)\$|calculer \$f\(0\)\$/.test(s)) return cmp(q, c0);
+      if (/ésoudre \$f\(x\) = 0\$/.test(s)) { const D = c1 * c1 - 4 * c2 * c0; const r = [(-c1 - Math.sqrt(D)) / (2 * c2), (-c1 + Math.sqrt(D)) / (2 * c2)].sort((u, v) => u - v); return cmp(q, r); }
+      const a = +mat(s, /alculer \$f\((-?\d+)\)\$/)[1]; return cmp(q, c0 + c1 * a + c2 * a * a);
+    }
+  };
+  const polyCheck = (exprName) => (q, s) => {
+    if (inp(q) === null) return undefined;
+    const f = fx(exprOf(s, exprName)); const a = pv(inp(q));
+    return same(f, (x) => a[0] * x * x + a[1] * x + a[2]) || 'coefficients faux';
+  };
+  n2N2['Développement : carré d\'une somme'] = polyCheck('A');
+  n2N2['Développement : carré d\'une différence'] = polyCheck('A');
+  n2N2['Différence de deux carrés'] = polyCheck('B');
+  n2N2['Double distributivité'] = polyCheck('B');
+  n2N2['Factorisation par un facteur commun'] = (q, s) => {
+    if (inp(q) === null) return undefined;
+    const f = fx(exprOf(s, 'C')); const F = fx(mat(s, /\$C = (\([^()]*\))/)[1]); const a = pv(inp(q));
+    return same(f, (x) => F(x) * (a[0] * x + a[1])) || 'factorisation fausse';
+  };
+  n2N2['Factorisation : différence de deux carrés'] = (q, s) => {
+    if (inp(q) === null) return undefined;
+    const f = fx(exprOf(s, 'D')); const a = pv(inp(q));
+    if (a.length === 2) { const c = lin(mat(s, /\$D = \(([^()]*)\)\^2/)[1])[1]; if (a[0] >= a[1]) return 'm < n attendu'; return same(f, (x) => (c * x + a[0]) * (c * x + a[1])) || 'factorisation fausse'; }
+    return same(f, (x) => (a[0] * x + a[1]) * (a[2] * x + a[3])) || 'factorisation fausse';
+  };
+
+  // ---------------------------------------------------------------- 2N3
+  const countInt = (pred) => { let c = 0; for (let x = -200; x <= 200; x++) if (pred(x)) c++; return c; };
+  const n2N3 = {
+    'Entiers d\'un intervalle': (q, s) => { const I = iv(mat(s, /I = (.*?)\$/)[1]); return cmp(q, countInt((x) => inIv(I, x))); },
+    'Centre et rayon d\'un intervalle': (q, s) => { const I = iv(mat(s, /x \\in (.*?) \\iff/)[1]); const strict = /< r\$/.test(s); if (I.lc === strict || I.rc === strict) return 'crochets incohérents'; return cmp(q, [(I.a + I.b) / 2, (I.b - I.a) / 2]); },
+    'Encadrement d\'une racine carrée (balayage)': (q, s) => { const N = +mat(s, /\\sqrt\{(\d+)\}/)[1]; let k = 0; while ((k + 1) * (k + 1) <= 100 * N) k++; return cmp(q, k / 10); },
+    'Équation avec valeur absolue': (q, s) => { if (inp(q) === null) return undefined; const m = mat(s, /\|x ([+-]) (\d+)\| = (\d+)\$/); const c = m[1] === '-' ? +m[2] : -m[2]; return cmp(q, [c - +m[3], c + +m[3]]); }
+  };
+  const interCount = (q, s) => { const I = iv(mat(s, /I = (.*?)\$/)[1]); const J = iv(mat(s, /J = (.*?)\$/)[1]); const inter = /\\cap J/.test(s); return cmp(q, countInt((x) => (inter ? inIv(I, x) && inIv(J, x) : inIv(I, x) || inIv(J, x)))); };
+  n2N3['Entiers d\'une intersection d\'intervalles'] = interCount;
+  n2N3['Entiers d\'une réunion d\'intervalles'] = interCount;
+
+  // ---------------------------------------------------------------- 2N4
+  const rel = { '<': (a, b) => a < b, '\\le': (a, b) => a <= b, '>': (a, b) => a > b, '\\ge': (a, b) => a >= b };
+  const n2N4 = {
+    'Équation du premier degré': (q, s) => { const m = mat(s, /équation \$(.*) = (.*)\$\./); const [c0, c1] = lin(`(${m[1]})-(${m[2]})`); return cmp(q, -c0 / c1); },
+    'Équation quotient': (q, s) => { const m = mat(s, /\$\\dfrac\{(.*?)\}\{(.*?)\} = (-?\d+)\$/); const [n0, n1] = lin(m[1]); const [d0, d1] = lin(m[2]); const k = +m[3]; const x = (k * d0 - n0) / (n1 - k * d1); if (near(d0 + d1 * x, 0)) return 'valeur interdite'; return cmp(q, x); },
+    'Entier solution d\'une inéquation': (q, s) => { const m = mat(s, /inéquation \$(.*?) (>|\\ge) (.*?)\$/); const L = fx(m[1]); const R = fx(m[3]); const ok = (x) => rel[m[2]](L(x), R(x)); const xs = []; for (let x = -100; x <= 100; x++) if (ok(x)) xs.push(x); return cmp(q, /plus petit/.test(s) ? xs[0] : xs[xs.length - 1]); },
+    'Entiers solutions d\'une inéquation produit': (q, s) => { const m = mat(s, /inéquation \$(.*) (\\le|<|\\ge|>) 0\$/); const f = fx(m[1]); return cmp(q, countInt((x) => rel[m[2]](f(x), 0))); },
+    'Modéliser par une inéquation': (q, s) => { const m = mat(s, /abonnement de \$(\d+)\$ € puis \$(\d+)\$ €.*Tarif B : \$(\d+)\$ €/); let n = 0; while (!(+m[1] + +m[2] * n < +m[3] * n)) n++; return cmp(q, n); },
+    'Équation produit nul': (q, s) => { if (inp(q) === null) return undefined; const [c0, c1, c2] = quad(mat(s, /équation : \$(.*) = 0\$/)[1]); const D = c1 * c1 - 4 * c2 * c0; return cmp(q, [(-c1 - Math.sqrt(D)) / (2 * c2), (-c1 + Math.sqrt(D)) / (2 * c2)].sort((u, v) => u - v)); }
+  };
+
+  // ---------------------------------------------------------------- 2N5 (saisies explicites : cohérence avec la réponse vérifiée par ailleurs)
+  const n2N5 = (q) => {
+    if (q.exactInput === undefined) return undefined;
+    const v = pct(q.answer);
+    if (!Number.isFinite(v)) return undefined;
+    return near(pv(q.exactInput)[0], v) ? undefined : `saisie ${q.exactInput} ≠ réponse ${q.answer}`;
+  };
+
+  // ---------------------------------------------------------------- 2A1, 2A2, 2A3
+  const n2A1 = {
+    'Point d\'une courbe et paramètre': (q, s) => { const m = mat(s, /f\(x\) = ax\^2 ?([+-] \d+)?\$/); const c = m[1] ? +m[1].replace(' ', '') : 0; const [x0, y0] = pt(s, 'A'); return cmp(q, (y0 - c) / (x0 * x0)); },
+    'Intersection de deux courbes': (q, s) => { const f = lin(mat(s, /f\(x\) = (.*?)\$/)[1]); const g = lin(mat(s, /g\(x\) = (.*?)\$/)[1]); const x = (g[0] - f[0]) / (f[1] - g[1]); return cmp(q, [x, f[0] + f[1] * x]); },
+    'Valeur interdite': (q, s) => { const [d0, d1] = lin(mat(s, /\\dfrac\{.*?\}\{(.*?)\}\$/)[1]); return cmp(q, -d0 / d1); },
+    'Modéliser par une fonction': (q, s) => { const h = +mat(s, /A\(x\) = x\((\d+) - x\)/)[1]; if (/Donner \$b\$/.test(s)) return cmp(q, h); const x0 = +mat(s, /Calculer \$A\((\d+)\)\$/)[1]; return cmp(q, x0 * (h - x0)); }
+  };
+  const n2A2 = {
+    'Extremum à partir des variations': (q, s) => {
+      const pts = [...s.matchAll(/\$f\((-?\d+)\) = (-?\d+)\$/g)].map((m) => [+m[1], +m[2]]);
+      const m = mat(s, /(maximum|minimum) de \$f\$ sur \$\[(-?\d+) ; (-?\d+)\]\$/);
+      const vals = pts.filter(([x]) => x >= +m[2] && x <= +m[3]).map(([, y]) => y);
+      // cohérence des sens de variation annoncés
+      const segs = [...s.matchAll(/(croissante|décroissante) sur \$\[(-?\d+) ; (-?\d+)\]\$/g)];
+      for (const sg of segs) { const a = pts.find(([x]) => x === +sg[2]); const b = pts.find(([x]) => x === +sg[3]); if ((sg[1] === 'croissante') !== (b[1] > a[1])) return 'variations incohérentes'; }
+      return cmp(q, m[1] === 'maximum' ? Math.max(...vals) : Math.min(...vals));
+    },
+    'Extremum d\'une fonction affine': (q, s) => { const f = fx(mat(s, /f\(x\) = (.*?)\$/)[1]); const m = mat(s, /sur \$\[(-?\d+) ; (-?\d+)\]\$\. Quel est le (maximum|minimum)/); const v = [f(+m[1]), f(+m[2])]; return cmp(q, m[3] === 'maximum' ? Math.max(...v) : Math.min(...v)); },
+    'Problème d\'optimisation': (q, s) => { const P = +mat(s, /périmètre de \$(\d+)\$ m/)[1]; const c = P / 4; if (!same(fx(mat(s, /A\(x\) = (.*?) = /)[1]), (x) => x * (P / 2 - x))) return 'aire mal modélisée'; return cmp(q, /aire maximale/.test(s) ? c * c : c); },
+    'Problème d\'optimisation (enclos)': (q, s) => { const L = +mat(s, /dispose de \$(\d+)\$ m/)[1]; return cmp(q, /aire maximale/.test(s) ? (L / 4) * (L / 2) : L / 4); },
+    'Extremum d\'une fonction du second degré': (q, s) => { if (inp(q) === null) return undefined; const [c0, c1, c2] = quad(mat(s, /f\(x\) = (.*?)\$ définie/)[1]); const al = -c1 / (2 * c2); return cmp(q, [al, c0 + c1 * al + c2 * al * al]); },
+    'Encadrement d\'images': (q, s) => {
+      if (inp(q) === null) return undefined;
+      const f = fx(mat(s, /f\(x\) = (.*?)\$/)[1]); const m = mat(s, /x \\in \[(-?\d+) ; (-?\d+)\]/); const a = +m[1]; const b = +m[2];
+      const ys = []; for (let k = 0; k <= 4000; k++) ys.push(f(a + (b - a) * k / 4000)); if (a < 0 && b > 0) ys.push(f(0));
+      return cmp(q, [Math.min(...ys), Math.max(...ys)], 1e-6);
+    }
+  };
+  const sqEq = (q, s) => { const m = mat(s, /\(x ([+-]) (\d+)\)\^2 (=|\\le|<|\\ge|>) (\d+)\$/); const a = m[1] === '-' ? +m[2] : -m[2]; const r = Math.sqrt(+m[4]); return cmp(q, [a - r, a + r]); };
+  const n2A3 = {
+    'Équation $(x - a)^2 = k$': sqEq,
+    'Inéquation $(x - a)^2 \\le k$': sqEq,
+    'Équation $\\sqrt{ax + b} = k$': (q, s) => { const m = mat(s, /\\sqrt\{(.*?)\} = (\d+)\$/); const [c0, c1] = lin(m[1]); return cmp(q, (+m[2] * +m[2] - c0) / c1); },
+    'Équation $x^2 = k$': (q, s) => { if (inp(q) === null) return undefined; const k = +mat(s, /x\^2 = (-?\d+)\$/)[1]; return cmp(q, [-Math.sqrt(k), Math.sqrt(k)]); },
+    'Équation $x^3 = k$': (q, s) => { if (inp(q) === null) return undefined; const k = +mat(s, /x\^3 = (-?\d+)\$/)[1]; return cmp(q, Math.cbrt(k)); },
+    'Équation $\\frac{1}{x} = k$': (q, s) => { if (inp(q) === null) return undefined; const k = nv(mat(s, /\\dfrac\{1\}\{x\} = (.*?)\$/)[1]); return cmp(q, 1 / k); }
+  };
+
+  // ---------------------------------------------------------------- 2G1, 2G2, 2G3
+  const n2G1 = {
+    'Distance entière entre deux points': (q, s) => { const A = pt(s, 'A'); const B = pt(s, 'B'); return cmp(q, Math.hypot(B[0] - A[0], B[1] - A[1])); },
+    'Centre du cercle circonscrit (triangle rectangle)': (q, s) => { const A = pt(s, 'A'); const B = pt(s, 'B'); const C = pt(s, 'C'); if ((B[0] - A[0]) * (C[0] - A[0]) + (B[1] - A[1]) * (C[1] - A[1]) !== 0) return 'pas rectangle en A'; return cmp(q, [(B[0] + C[0]) / 2, (B[1] + C[1]) / 2]); },
+    'Point équidistant sur un axe': (q, s) => { const A = pt(s, 'A'); const B = pt(s, 'B'); const x = pv(inp(q))[0]; return near(Math.hypot(x - A[0], A[1]), Math.hypot(x - B[0], B[1])) || 'MA ≠ MB'; }
+  };
+  const n2G2 = {
+    'Extrémité d\'un vecteur': (q, s) => { const A = pt(s, 'A'); const u = vec(s, '\\\\overrightarrow\\{AB\\}'); return cmp(q, [A[0] + u[0], A[1] + u[1]]); },
+    'Coordonnées d\'un vecteur': (q, s) => { if (inp(q) === null) return undefined; const A = pt(s, 'A'); const B = pt(s, 'B'); return cmp(q, [B[0] - A[0], B[1] - A[1]]); },
+    'Combinaison linéaire de vecteurs': (q, s) => { if (inp(q) === null) return undefined; const u = vec(s, '\\\\vec\\{u\\}'); const v = vec(s, '\\\\vec\\{v\\}'); const m = mat(s, /\\vec\{w\} = (-?\d*)\\vec\{u\} ([+-]) (\d*)\\vec\{v\}/); const k = m[1] === '' ? 1 : m[1] === '-' ? -1 : +m[1]; const l = (m[2] === '-' ? -1 : 1) * (m[3] === '' ? 1 : +m[3]); return cmp(q, [k * u[0] + l * v[0], k * u[1] + l * v[1]]); },
+    'Calcul d\'un déterminant': (q, s) => { const u = vec(s, '\\\\vec\\{u\\}'); const v = vec(s, '\\\\vec\\{v\\}'); return cmp(q, u[0] * v[1] - u[1] * v[0]); },
+    'Norme d\'un vecteur': (q, s) => { const u = vec(s, '\\\\vec\\{u\\}'); return cmp(q, Math.hypot(u[0], u[1])); },
+    'Coefficient de colinéarité': (q, s) => { const u = vec(s, '\\\\vec\\{u\\}'); const w = vec(s, '\\\\vec\\{w\\}'); const k = w[0] / u[0]; if (!near(w[1], k * u[1])) return 'non colinéaires'; return cmp(q, k); },
+    'Point aligné avec deux autres': (q, s) => { const A = pt(s, 'A'); const B = pt(s, 'B'); const xC = +mat(s, /C\((-?\d+) ; y\)/)[1]; const y = pv(inp(q))[0]; return near((B[0] - A[0]) * (y - A[1]) - (B[1] - A[1]) * (xC - A[0]), 0) || 'non alignés'; }
+  };
+  const cart = (tex) => { const F = (x, y) => evalTex(tex, { x, y }); const c = F(0, 0); return [F(1, 0) - c, F(0, 1) - c, c]; };
+  const n2G3 = {
+    'Coefficient directeur': (q, s) => { const A = pt(s, 'A'); const B = pt(s, 'B'); return cmp(q, (B[1] - A[1]) / (B[0] - A[0])); },
+    'Équation réduite d\'une droite': (q, s) => { if (inp(q) === null) return undefined; const A = pt(s, 'A'); const B = pt(s, 'B'); const m = (B[1] - A[1]) / (B[0] - A[0]); return cmp(q, [m, A[1] - m * A[0]]); },
+    'Équation cartésienne vers équation réduite': (q, s) => { const [a, b, c] = cart(mat(s, /équation cartésienne \$(.*?) = 0\$/)[1]); return cmp(q, [-a / b, -c / b]); },
+    'Droite par un point et sa pente': (q, s) => { const m = +mat(s, /de pente \$(-?\d+)\$/)[1]; const A = pt(s, 'A'); return cmp(q, [m, A[1] - m * A[0]]); },
+    'Point d\'une droite d\'abscisse donnée': (q, s) => { const x0 = +mat(s, /d'abscisse \$(-?\d+)\$/)[1]; const [a, b, c] = cart(mat(s, /d : (.*?) = 0\$/)[1]); return cmp(q, -(a * x0 + c) / b); },
+    'Intersection avec l\'axe des abscisses': (q, s) => { const [c0, c1] = lin(mat(s, /d : y = (.*?)\$/)[1]); return cmp(q, -c0 / c1); },
+    'Point d\'intersection de deux droites': (q, s) => { const f = lin(mat(s, /d_1 : y = (.*?)\$/)[1]); const g = lin(mat(s, /d_2 : y = (.*?)\$/)[1]); const x = (g[0] - f[0]) / (f[1] - g[1]); return cmp(q, [x, f[0] + f[1] * x]); },
+    'Droites parallèles et paramètre': (q, s) => { const sl = mat(s, /y = \((.*?)\)x/)[1]; const g = lin(mat(s, /d_2 : y = (.*?)\$/)[1]); const k = pv(inp(q))[0]; return near(evalTex(sl, { k }), g[1]) || 'pentes différentes'; }
+  };
+
+  // ---------------------------------------------------------------- 2S1, 2S2
+  const rows = (s) => [...s.matchAll(/\| \$\[(\d+) ; (\d+)\[\$ \| \$(\d+)\$ \|/g)].map((m) => [+m[1], +m[2], +m[3]]);
+  const round2 = (x) => Math.round(x * 100) / 100;
+  const n2S1 = {
+    'Moyenne de données regroupées en classes': (q, s) => { const R = rows(s); const N = R.reduce((t, r) => t + r[2], 0); return cmp(q, round2(R.reduce((t, r) => t + (r[0] + r[1]) / 2 * r[2], 0) / N)); },
+    'Ajout d\'une valeur à une série': (q, s) => { const m = mat(s, /série de \$(\d+)\$ notes a pour moyenne \$(\d+)\$\. On ajoute la note \$(\d+)\$/); return cmp(q, round2((+m[1] * +m[2] + +m[3]) / (+m[1] + 1))); },
+    'Classe médiane': (q, s) => { const R = rows(s); const N = R.reduce((t, r) => t + r[2], 0); let c = 0; for (const r of R) { c += r[2]; if (c > N / 2) return cmp(q, r[0]); } return 'pas de classe'; },
+    'Note nécessaire pour une moyenne': (q, s) => { const n = +mat(s, /Après \$(\d+)\$ devoirs/)[1]; const t = +mat(s, /soit exactement \$(\d+)\$/)[1]; const ms = s.match(/vaut exactement \$(\d+)\$/); const S = ms ? +ms[1] : n * nv(mat(s, /moyenne d'un élève est \$(.*?)\$/)[1]); return cmp(q, (n + 1) * t - S); }
+  };
+  const disp = (q, s) => { const xs = mat(s, /série : ([\d ;]+)\./)[1].split(';').map(Number); const m = xs.reduce((a, b) => a + b, 0) / xs.length; const Vv = xs.reduce((a, x) => a + (x - m) ** 2, 0) / xs.length; return cmp(q, /écart type/.test(s) ? round2(Math.sqrt(Vv)) : Vv); };
+  n2S1['Écart type d\'une série'] = disp;
+  n2S1['Variance d\'une série'] = disp;
+  const n2S2 = {
+    'Probabilité d\'une issue manquante': (q, s) => { const ps = [...s.matchAll(/\| \$(0\{,\}\d+)\$/g)].map((m) => nv(m[1])); return cmp(q, 1 - ps.reduce((a, b) => a + b, 0)); },
+    'Tableau croisé et probabilité conditionnelle': (q, s) => {
+      const R = [...s.matchAll(/\| \*\*([^*]+)\*\* \| \$(\d+)\$ \| \$(\d+)\$ \| \$(\d+)\$ \|/g)].map((m) => [m[1], +m[2], +m[3], +m[4]]);
+      const [r1, r2, tot] = R; if (r1[1] + r1[2] !== r1[3] || r1[1] + r2[1] !== tot[1] || tot[3] !== r1[3] + r2[3]) return 'totaux faux';
+      const ev = mat(s, /On note \$(\w)\$ : « (.*?) » et \$(\w)\$ : « (.*?) »/); const L = ev[1]; const C = ev[3];
+      const a = r1[1]; let exp;
+      if (new RegExp(`P\\(${L} \\\\cap ${C}\\)`).test(s)) exp = a / tot[3];
+      else if (new RegExp(`P_\\{${L}\\}\\(${C}\\)`).test(s)) exp = a / r1[3];
+      else if (new RegExp(`P_\\{${C}\\}\\(${L}\\)`).test(s)) exp = a / tot[1];
+      else return 'question illisible';
+      return cmp(q, exp);
+    },
+    'Arbre pondéré : probabilité d\'un chemin': (q, s) => { const m = mat(s, /P\(A\) = (.*?)\$, \$P_A\(B\) = (.*?)\$ et \$P_\{\\bar\{A\}\}\(B\) = (.*?)\$/); const [pa, pba, pbna] = [m[1], m[2], m[3]].map(nv); return cmp(q, /P\(\\bar\{A\} \\cap B\)/.test(s) ? (1 - pa) * pbna : pa * pba); },
+    'Test de dépistage : faux positifs': (q, s) => { const m = mat(s, /touche \$(\d+)\\,\\%\$.*chez \$(\d+)\\,\\%\$ des malades.*chez \$(\d+)\\,\\%\$ des non-malades/); const p = +m[1] / 100; const se = +m[2] / 100; const sp = +m[3] / 100; const vp = p * se; const fp = (1 - p) * (1 - sp); return cmp(q, /ne soit pas malade/.test(s) ? fp / (vp + fp) : vp / (vp + fp)); }
+  };
+
+  // ---------------------------------------------------------------- 2S3 (réécrit)
+  const n2S3 = {
+    'Fréquence observée': (q, s) => { const m = mat(s, /lance \$(\d+)\$ fois .* obtient \$(\d+)\$ fois/); return cmp(q, +m[2] / +m[1]); },
+    'Effectif à partir d\'une fréquence': (q, s) => { const m = mat(s, /échantillon de \$(\d+)\$ tirages, la fréquence observée de succès est \$f = (.*?)\$/); return cmp(q, Math.round(+m[1] * nv(m[2]))); },
+    'La fonction randint': (q, s) => { const m = mat(s, /randint\((\d+), (\d+)\)/); const n = +m[2] - +m[1] + 1; return cmp(q, /Combien de valeurs/.test(s) ? n : 1 / n); },
+    'Probabilité estimée par une simulation': (q, s) => {
+      const m = mat(s, /if randint\(1, (\d+)\) (<=|>=|% 2 ==|==) (\d+):/); const F = +m[1]; const k = +m[3]; let fav = 0;
+      for (let r = 1; r <= F; r++) if ((m[2] === '<=' && r <= k) || (m[2] === '>=' && r >= k) || (m[2] === '% 2 ==' && r % 2 === k) || (m[2] === '==' && r === k)) fav++;
+      return cmp(q, fav / F);
+    },
+    'Regrouper des échantillons': (q, s) => { const n = +mat(s, /chacun \$(\d+)\$ lancers/)[1]; const xs = mat(s, /respectivement \$(.*?)\$ fois/)[1].split(/\$, \$/).map(Number); return cmp(q, xs.reduce((a, b) => a + b, 0) / (n * xs.length)); },
+    'Somme de deux dés simulée': (q, s) => { const t = +mat(s, /if s == (\d+):/)[1]; let f = 0; for (let i = 1; i <= 6; i++) for (let j = 1; j <= 6; j++) if (i + j === t) f++; return cmp(q, f / 36); },
+    'Écart entre fréquence et probabilité': (q, s) => { const m = mat(s, /simule \$(\d+)\$ fois .* \$p = (.*?)\$ et on obtient \$(\d+)\$ succès/); return cmp(q, Math.abs(+m[3] / +m[1] - nv(m[2]))); },
+    'Fluctuation d\'échantillonnage': (q, s) => { const p = nv(mat(s, /\$p = (.*?)\$/)[1]); const e = nv(mat(s, /au plus \$(.*?)\$ de/)[1]); const fs = mat(s, /observées sont : \$(.*?)\$\. Combien/)[1].split(/\$ ; \$/).map(nv); return cmp(q, fs.filter((f) => Math.abs(f - p) <= e + 1e-9).length); },
+    'Programme simulant des échantillons': (q, s) => { const m = mat(s, /frequence\((\d+)\) for k in range\((\d+)\)/); return cmp(q, /éléments contient/.test(s) ? +m[2] : +m[1] * +m[2]); },
+    'Lire un programme de simulation': (q) => (/La fréquence de/.test(q.answer) ? true : 'réponse'),
+    'Loi des grands nombres': (q, s) => { const m = mat(s, /taille \$10\\,000\$ : \$f = (.*?)\$/); return q.answer.startsWith(`$${m[1]}$`) || 'mauvaise estimation'; },
+    'Taille de l\'échantillon et fluctuation': (q) => (/plus proches de \$p\$ que/.test(q.answer) ? true : 'réponse')
+  };
+
+
+  // ---------------------------------------------------------------- compléments 2nde (BO 2026)
+  Object.assign(n2N1, {
+    'Cardinal d\'une réunion': (q, s) => { const m = mat(s, /de \$1\$ à \$(\d+)\$.*multiples de \$(\d+)\$ .*multiples de \$(\d+)\$/); const N = +m[1]; let c = 0; for (let x = 1; x <= N; x++) if (x % +m[2] === 0 || x % +m[3] === 0) c++; return cmp(q, c); },
+    'Cardinal d\'une intersection': (q, s) => { const m = mat(s, /de \$1\$ à \$(\d+)\$.*multiples de \$(\d+)\$ .*multiples de \$(\d+)\$/); const N = +m[1]; let c = 0; for (let x = 1; x <= N; x++) if (x % +m[2] === 0 && x % +m[3] === 0) c++; return cmp(q, c); },
+    'Caractérisation des nombres décimaux': (q, s) => {
+      const isDec = (d) => { while (d % 2 === 0) d /= 2; while (d % 5 === 0) d /= 5; return d === 1; };
+      const want = !/n'est PAS/.test(s);
+      const ok = (o) => { const m = o.match(/\\frac\{(\d+)\}\{(\d+)\}/); return gcd(+m[1], +m[2]) === 1 && isDec(+m[2]) === want; };
+      return ok(q.answer) && q.options.filter(ok).length === 1 ? true : 'caractérisation fausse';
+    }
+  });
+  Object.assign(n2N3, {
+    'Arrondi et chiffres significatifs': (q, s) => { const x = nv(mat(s, /: \$(.*?)\$\. Arrondir/)[1].replace(/\\,/g, '')); const k = +mat(s, /à (\d) chiffres/)[1]; const o = Math.floor(Math.log10(x) + 1e-12); const st = Math.pow(10, o - k + 1); return cmp(q, Math.round(x / st) * st, 1e-9); },
+    'Comparer par la différence': (q, s) => { const m = mat(s, /A = \\dfrac\{(\d+)\}\{(\d+)\}\$ et \$B = \\dfrac\{(\d+)\}\{(\d+)\}/); return cmp(q, +m[1] / +m[2] - +m[3] / +m[4]); },
+    'Comparer par le quotient': (q, s) => { const m = mat(s, /\$A = (\d+)\$ .* \$B = (\d+)\$/); return cmp(q, +m[1] / +m[2]); }
+  });
+  Object.assign(n2N4, {
+    'Équation $x^2 = a$': (q, s) => { const a = +mat(s, /x\^2 = (\d+)\$/)[1]; return cmp(q, [-Math.sqrt(a), Math.sqrt(a)]); },
+    'Équation $\\frac{a}{x} = b$': (q, s) => { const m = mat(s, /\\dfrac\{(-?\d+)\}\{x\} = (-?\d+)\$/); return cmp(q, +m[1] / +m[2]); },
+    'Isoler une variable': (q, s) => { const m = mat(s, /relation \$(.*?) = (-?\d+)\$/); const [a, b] = cart(m[1]); return cmp(q, [-a / b, +m[2] / b]); },
+    'Isoler une variable dans une formule': (q, s) => { const m = mat(s, /relation \$(\w) = (\w) \\times (\w)\$.*Exprimer \$(\w)\$.*pour \$\w = (.*?)\$ .* et \$\w = (.*?)\$/); return cmp(q, nv(m[5]) / nv(m[6])); }
+  });
+  Object.assign(n2A3, {
+    'Fonction valeur absolue': (q, s) => { const m = mat(s, /Calculer \$f\((-?\d+)\) - f\((-?\d+)\)\$/); return cmp(q, Math.abs(+m[1]) - Math.abs(+m[2])); },
+    'Inéquation avec la fonction valeur absolue': (q, s) => { const k = +mat(s, /\|x\| (?:\\le|<) (\d+)\$/)[1]; return cmp(q, [-k, k]); },
+    'Extremums de la fonction valeur absolue': (q, s) => { const m = mat(s, /intervalle \$\[(-?\d+) ; (-?\d+)\]\$/); const a = +m[1]; const b = +m[2]; return cmp(q, [a <= 0 && b >= 0 ? 0 : Math.min(Math.abs(a), Math.abs(b)), Math.max(Math.abs(a), Math.abs(b))]); }
+  });
+  const fcv = (q, s) => {
+    const R = [...s.matchAll(/\| \*\*([^*]+)\*\* \| \$(\d+)\$ \| \$(\d+)\$ \| \$(\d+)\$ \|/g)].map((m) => [m[1], +m[2], +m[3], +m[4]]);
+    const [r1, r2, tot] = R; if (r1[1] + r2[1] !== tot[1] || r1[1] + r1[2] !== r1[3]) return 'totaux faux';
+    if (/fréquence marginale/.test(s)) return cmp(q, tot[1] / tot[3]);
+    if (/parmi les « /.test(s)) return cmp(q, r1[1] / r1[3]);
+    return cmp(q, r2[1] / tot[1]);
+  };
+  n2S1['Fréquence marginale'] = fcv; n2S1['Fréquence conditionnelle'] = fcv;
+  const n2S4 = { 'Quotient et reste en Python': (q, s) => { if (inp(q) === null) return undefined; const m = mat(s, /print\((\d+) \/\/ (\d+), \d+ % \d+\)/); return cmp(q, [Math.floor(+m[1] / +m[2]), +m[1] % +m[2]]); } };
+
+  // ---------------------------------------------------------------- 1re
+  const rhs = (a) => String(a).replace(/^\$|\$$/g, '').split(/=/).pop();
+  const piv = (t) => { // "\frac{3\pi}{4}" / "-\pi" / "\frac{\pi}{6}" -> coefficient de pi
+    t = t.replace(/\s/g, ''); let m;
+    if ((m = t.match(/^(-?)\\frac\{(\d*)\\pi\}\{(\d+)\}$/))) return (m[1] ? -1 : 1) * (m[2] ? +m[2] : 1) / +m[3];
+    if ((m = t.match(/^(-?)(\d*)\\pi$/))) return (m[1] ? -1 : 1) * (m[2] ? +m[2] : 1);
+    if (t === '0') return 0;
+    return NaN;
+  };
+  const ansNums = (a) => [...String(a).replace(/f'?\([^)]*\)|[fu]_?\{?\w*\}?\([^)]*\)|u_\{?\w+\}?|v_\{?\w+\}?|x_\d/g, ' ').matchAll(/(-?)\\frac\{(-?\d+)\}\{(\d+)\}|-?\d+(?:\{,\}\d+)?/g)].map((m) => (m[2] !== undefined ? (m[1] ? -1 : 1) * m[2] / m[3] : nv(m[0])));
+  const viaAns = (fn) => (q, s) => { if (q.exactInput === undefined) return undefined; let e; try { e = fn(q.answer, s); } catch (err) { return 'réponse illisible : ' + err.message; } const r = cmp(q, e); return r === true ? undefined : r; };
+  const numsAns = viaAns((a) => ansNums(a));
+  const n1A1 = {
+    'Factoriser un trinôme': (q, s) => { const [c0, c1, c2] = quad(mat(s, /f\(x\) = (.*?)\$ sous/)[1]); const D = Math.sqrt(c1 * c1 - 4 * c2 * c0); const r = [(-c1 - D) / (2 * c2), (-c1 + D) / (2 * c2)].sort((u, v) => u - v); return cmp(q, [c2, ...r]); },
+    'Trinôme connaissant ses racines': (q, s) => { const m = mat(s, /s'annule en \$(-?\d+)\$ et en \$(-?\d+)\$, et \$f\((-?\d+)\) = (-?\d+)\$/); const [r1, r2, x0, y0] = m.slice(1).map(Number); const a = y0 / ((x0 - r1) * (x0 - r2)); return cmp(q, [a, -a * (r1 + r2), a * r1 * r2]); },
+    'Signe d\'un trinôme sous forme factorisée': (q, s) => { const m = mat(s, /f\(x\) = (.*?)\$\. L'ensemble des solutions de \$f\(x\) (<|>) 0\$/); const f = fx(m[1]); const xs = []; for (let x = -20; x <= 20; x += 0.5) if (m[2] === '<' ? f(x) < 0 : f(x) > 0) xs.push(x); return cmp(q, [xs[0] - 0.5, xs[xs.length - 1] + 0.5]); },
+    'Deux nombres de somme et produit donnés': (q, s) => { const m = mat(s, /somme vaut \$(-?\d+)\$ et le produit vaut \$(-?\d+)\$/); const S = +m[1]; const P = +m[2]; const D = Math.sqrt(S * S - 4 * P); return cmp(q, [(S - D) / 2, (S + D) / 2]); },
+    'Racine évidente': (q, s) => { const m = mat(s, /que \$(-?\d+)\$ est une racine évidente de \$f\(x\) = (.*?)\$/); const [c0, c1, c2] = quad(m[2]); const one = +m[1]; if (!near(c2 * one * one + c1 * one + c0, 0)) return 'pas racine'; return cmp(q, c0 / c2 / one); },
+    'Nombre de solutions d\'une équation du second degré': viaAns((a) => (/Deux/.test(a) ? 2 : /seule/.test(a) ? 1 : /Aucune/.test(a) ? 0 : NaN)),
+    'Résolution d\'une équation du second degré': numsAns,
+    'Forme canonique d\'un trinôme': viaAns((a) => { const [c0, c1, c2] = quad(rhs(a)); const al = -c1 / (2 * c2); return [c2, al, c0 + c1 * al + c2 * al * al]; }),
+    'Trinôme à paramètre': numsAns
+  };
+  const n1A2 = {
+    'Approximation affine': (q, s) => { const m = mat(s, /f\((-?\d+)\) = (-?\d+)\$ et \$f'\(-?\d+\) = (-?\d+)\$.*de \$f\((.*?)\)\$/); return cmp(q, +m[2] + +m[3] * (nv(m[4]) - +m[1])); },
+    'Vitesse instantanée': (q, s) => { const d = mat(s, /d\(t\) = (.*?)\$/)[1]; const t0 = +mat(s, /instant \$t = (\d+)\$/)[1]; const f = (t) => evalTex(d, { t }); return cmp(q, (f(t0 + 1e-6) - f(t0 - 1e-6)) / 2e-6, 1e-5); },
+    'Nombre dérivé comme limite': (q, s) => { const f = fx(mat(s, /f\(x\) = (.*?)\$ et/)[1]); const a = +mat(s, /\\dfrac\{f\((-?\d+) \+ h\)/)[1]; const t = (h) => (f(a + h) - f(a)) / h; const beta = t(1e-6); const alpha = t(1) - t(0.5) ? (t(1) - t(0.5)) / 0.5 : 0; return cmp(q, [alpha, beta], 1e-4); },
+    'Coût marginal': (q, s) => { const C = mat(s, /C\(q\) = (.*?)\$/)[1]; const q0 = +mat(s, /pour \$q = (\d+)\$/)[1]; const f = (x) => evalTex(C, { q: x }); return cmp(q, (f(q0 + 1e-4) - f(q0 - 1e-4)) / 2e-4, 1e-5); },
+    'Lecture de la tangente': numsAns,
+    'Équation de la tangente': viaAns((a) => { const [c0, c1] = lin(rhs(a)); return [c1, c0]; }),
+    'Tangentes horizontales': numsAns
+  };
+  const n1A3 = {
+    'Dérivée de $x^n$ avec $n$ entier négatif': (q, s) => { const f = fx(mat(s, /f\(x\) = (.*?)\$\. On a/)[1]); const [k, p] = pv(inp(q)); return [0.7, 1.3, 2.1].every((x) => near((f(x + 1e-6) - f(x - 1e-6)) / 2e-6, k / Math.pow(x, p), 1e-4)) || 'dérivée fausse'; },
+    'Nombre dérivé d\'un produit': (q, s) => { const f = fx(mat(s, /f\(x\) = (.*?)\$\. Calculer/)[1]); const x0 = +mat(s, /f'\((-?\d+)\)/)[1]; return cmp(q, (f(x0 + 1e-6) - f(x0 - 1e-6)) / 2e-6, 1e-5); },
+    'Parité d\'une fonction': (q, s) => { const f = fx(mat(s, /f\(x\) = (.*?)\$ est-elle/)[1]); const xs = [0.5, 1.3, 2.7]; const even = xs.every((x) => near(f(-x), f(x))); const odd = xs.every((x) => near(f(-x), -f(x))); const exp = even ? 'Paire' : odd ? 'Impaire' : 'Ni paire ni impaire'; return q.answer === exp || `attendu ${exp}`; },
+    'Dérivée d\'un produit': viaAns((a) => { const [c0, c1] = lin(rhs(a)); return [c1, c0]; }),
+    'Dérivée d\'un quotient': viaAns((a) => { const m = rhs(a).match(/(-?)\\frac\{(\d+)\}/); return (m[1] ? -1 : 1) * +m[2]; }),
+    'Dérivée de l\'inverse d\'une fonction': viaAns((a) => { const m = rhs(a).match(/(-?)\\frac\{(\d+)\}/); return (m[1] ? -1 : 1) * +m[2]; }),
+    'Dérivée d\'un produit avec la racine carrée': viaAns((a) => { const [c0, c1] = lin(rhs(a).match(/\\frac\{(.*?)\}\{2\\sqrt\{x\}\}/)[1]); return [c1, c0]; }),
+    'Extremum local d\'une fonction polynôme': viaAns((a) => { const n = ansNums(a); return [n[1], n[0]]; }),
+    'Optimisation sur $]0 ; +\\infty[$': viaAns((a) => { const n = ansNums(a); return [n[1], n[0]]; })
+  };
+  n1A3['Dérivée d\'une fonction polynôme'] = (q) => {
+    if (q.exactInput === undefined) return undefined;
+    const g = fx(rhs(q.answer)); const v = pv(q.exactInput);
+    let ok;
+    if (v.length === 3) ok = same(g, (x) => v[0] * x * x + v[1] * x + v[2]);
+    else ok = [1, 2, 3, 4, 5, 6].some((d) => same(g, (x) => v[0] * Math.pow(x, d) + v[1]));
+    return ok ? undefined : 'coefficients ≠ réponse';
+  };
+  const ek = (t) => { t = t.replace(/\s/g, ''); let m; if (t === '1') return 0; if (t === 'e') return 1; if ((m = t.match(/^e\^\{(-?\d*)x?\}$/))) return m[1] === '' ? 1 : m[1] === '-' ? -1 : +m[1]; return NaN; };
+  const n1A4 = {
+    'Décroissance exponentielle $e^{-kt}$': (q, s) => { const m = mat(s, /Q\(t\) = (\d+)e\^\{-(.*?)t\}/); return cmp(q, -nv(m[2]) * +m[1]); },
+    'Croissance exponentielle discrète': (q, s) => { const m = mat(s, /N\(n\) = (\d+) \\times (.*?)\^n\$\. Calculer \$N\((\d+)\)/); return cmp(q, Math.round(+m[1] * Math.pow(nv(m[2]), +m[3]) * 100) / 100); },
+    'Abscisse de l\'extremum de $(ax + b)e^{kx}$': (q, s) => { const m = mat(s, /f\(x\) = \((.*?)\)e\^\{(-?\d*)x\}\$/); const [b, a] = lin(m[1]); const k = m[2] === '' ? 1 : m[2] === '-' ? -1 : +m[2]; return cmp(q, -(a + b * k) / (a * k)); },
+    'Propriétés algébriques de l\'exponentielle': viaAns((a) => ek(rhs(a))),
+    'Puissance d\'une exponentielle': viaAns((a) => ek(rhs(a))),
+    'Calcul avec des puissances de $e$': viaAns((a) => { const t = rhs(a).trim(); const m = t.match(/^e\^\{(-?\d+)\}$/); return t === 'e' ? 1 : t === '1' ? 0 : +m[1]; }),
+    'Dérivée de $e^{kx}$': viaAns((a) => { const m = rhs(a).trim().match(/^(-?\d*)e\^/); return m[1] === '' ? 1 : m[1] === '-' ? -1 : +m[1]; }),
+    'Dérivée d\'un produit avec $e^x$': viaAns((a) => { const [c0, c1] = lin(rhs(a).match(/\((.*?)\)e\^/)[1]); return [c1, c0]; }),
+    'Dérivée de $(ax + b)e^{kx}$': viaAns((a) => { const [c0, c1] = lin(rhs(a).match(/\((.*?)\)e\^/)[1]); return [c1, c0]; }),
+    'Équation avec des exponentielles': numsAns,
+    'Équation $e^{u(x)} = 1$': numsAns
+  };
+  const n1A5 = {
+    'Rang à partir duquel une suite croît': (q, s) => { const f = (n) => evalTex(mat(s, /u_n = (.*?)\$ pour/)[1], { n }); let n0 = 0; for (let n = 60; n >= 0; n--) { if (f(n + 1) < f(n)) { n0 = n + 1; break; } } return cmp(q, n0); },
+    'Conjecturer une limite': (q, s) => { const f = (n) => evalTex(mat(s, /u_n = (.*?)\$ pour/)[1], { n }); return cmp(q, Math.round(f(1e7))); },
+    'Différence de deux termes consécutifs': viaAns((a) => { const g = (n) => evalTex(rhs(a), { n }); return [g(1) - g(0), g(0)]; })
+  };
+  const n1A6 = {
+    'Terme général d\'une suite arithmétique': (q, s) => { const m = mat(s, /raison \$(-?\d+)\$ et \$u_\{(\d+)\} = (-?\d+)\$/); return cmp(q, [+m[3] - +m[2] * +m[1], +m[1]]); },
+    'Terme général d\'une suite géométrique': (q, s) => { const m = mat(s, /raison \$(.*?)\$ et \$v_\{(\d+)\} = (.*?)\$/); const qq = nv(m[1]); return cmp(q, [nv(m[3]) / Math.pow(qq, +m[2]), qq]); },
+    'Raison d\'une suite arithmétique': numsAns,
+    'Raison d\'une suite géométrique': numsAns
+  };
+  const n1G1 = {
+    'Longueur d\'un arc': (q, s) => { const R = +mat(s, /rayon \$(\d+)\$/)[1]; const th = piv(mat(s, /centre de \$(.*?)\$ rad/)[1]); return cmp(q, R * th); },
+    'Angle interceptant un arc': (q, s) => { const R = +mat(s, /rayon \$(\d+)\$/)[1]; const L = piv(mat(s, /longueur \$(.*?)\$ cm/)[1]); return cmp(q, L / R); },
+    'Calcul avec des valeurs remarquables': (q, s) => { const m = mat(s, /A = (.*?)\$\./); return cmp(q, evalTex(m[1], {})); },
+    'Réel associé dans $]-\\pi ; \\pi]$': (q, s) => { const x = piv(mat(s, /que le réel \$(.*?)\$ \?/)[1]); let m = x % 2; if (m > 1) m -= 2; if (m <= -1) m += 2; if (!near(piv(rhs(q.answer)), m)) return 'mauvais réel'; return q.exactInput === undefined ? true : cmp(q, m); },
+    'Conversion degrés-radians': viaAns((a) => piv(a.replace(/\$ rad$/, '').replace(/^\$/, ''))),
+    'Conversion radians-degrés': viaAns((a) => +a.match(/-?\d+/)[0])
+  };
+  const n1G2 = { 'Angle entre deux vecteurs': viaAns((a) => piv(rhs(a))) };
+  const circ = (a) => { const t = rhs(a); const L = String(a).replace(/^\$/, '').split('=')[0]; const F = (x, y) => evalTex(L, { x, y }); const h = -(F(1, 0) - F(-1, 0)) / 4; const k = -(F(0, 1) - F(0, -1)) / 4; return [h, k, nv(t)]; };
+  const n1G3 = {
+    'Projeté orthogonal d\'un point sur une droite': (q, s) => { const A = pt(s, 'A'); const [a, b, c] = cart(mat(s, /D : (.*?) = 0\$/)[1]); const [x, y] = pv(inp(q)); if (!near(a * x + b * y + c, 0)) return 'H hors de D'; return near((x - A[0]) * b - (y - A[1]) * a, 0) || 'AH non normal'; },
+    'Formule d\'Al-Kashi : calcul d\'une longueur': (q, s) => { if (q.exactInput === undefined) return undefined; const L = evalTex(rhs(q.answer), {}); const r1 = cmp(q, L * L); if (r1 === true) return undefined; const r2 = cmp(q, L); return r2 === true ? undefined : r1; },
+    'Équation d\'une droite de vecteur normal donné': viaAns((a) => cart(String(a).replace(/^\$|\$$/g, '').split('=')[0])),
+    'Équation d\'un cercle': viaAns(circ),
+    'Cercle de diamètre $[AB]$': viaAns(circ),
+    'Centre et rayon d\'un cercle': numsAns,
+    'Mesure d\'un angle avec Al-Kashi': viaAns((a) => +a.match(/\d+/)[0])
+  };
+  const C2 = (m, k) => { let r = 1; for (let i = 0; i < k; i++) r = r * (m - i) / (i + 1); return r; };
+  const n1S1 = {
+    'Répétition d\'épreuves de Bernoulli': (q, s) => { const n = +mat(s, /répète \$(\d+)\$ fois/)[1]; const p = nv(mat(s, /succès est \$(.*?)\$/)[1]); if (/au moins un succès/.test(s)) return cmp(q, 1 - (1 - p) ** n); const k = +mat(s, /obtenir (?:exactement )?(\d+) succès/)[1]; return cmp(q, C2(n, k) * p ** k * (1 - p) ** (n - k)); }
+  };
+  const law = (s) => { const xs = [...mat(s, /\| \$x_i\$ \|(.*)\|\n/)[1].matchAll(/\$(-?\d+)\$/g)].map((m) => +m[1]); const ps = [...mat(s, /\| \$P\(X = x_i\)\$ \|(.*)\|/)[1].matchAll(/\$(.*?)\$/g)].map((m) => nv(m[1])); if (!near(ps.reduce((a, b) => a + b, 0), 1)) throw new Error('loi'); return [xs, ps]; };
+  const n1S2 = {
+    'Probabilité d\'un événement $\\{X \\le a\\}$': (q, s) => { const [xs, ps] = law(s); const m = mat(s, /Calculer \$P\(X (\\le|<|>|\\ge) (-?\d+)\)\$/); const a = +m[2]; return cmp(q, xs.reduce((t, x, i) => t + (rel[m[1]](x, a) ? ps[i] : 0), 0)); },
+    'Loi d\'un gain': (q, s) => { const w = /un 6 ;|un 6,|obtient un 6/.test(s) && !/un 5/.test(s) ? 1 : /un 4/.test(s) ? 3 : 2; return cmp(q, /P\(X = -/.test(s) ? (6 - w) / 6 : w / 6); },
+    'Écart type d\'une variable aléatoire': (q, s) => { const [xs, ps] = law(s); const E = xs.reduce((t, x, i) => t + x * ps[i], 0); const Vv = xs.reduce((t, x, i) => t + (x - E) ** 2 * ps[i], 0); return cmp(q, Math.round(Math.sqrt(Vv) * 100) / 100); },
+    'Formule de König-Huygens': (q, s) => { const m = mat(s, /E\(X\) = (.*?)\$ et \$E\(X\^2\) = (.*?)\$/); return cmp(q, nv(m[2]) - nv(m[1]) ** 2); }
+  };
+  const n1S3 = { 'Liste des premiers termes': viaAns((a) => [...a.matchAll(/-?\d+/g)].map((m) => +m[0])) };
+
+  const out = {};
+  const reg = (ch, tiers, map) => { for (const t of tiers) out[`${ch}/${t}`] = typeof map === 'function' ? map : by(map); };
+  reg('2N1', [1, 2, 3, 4], n2N1); reg('2N2', [1, 2, 3, 4], n2N2); reg('2N3', [1, 2, 3, 4], n2N3); reg('2N4', [1, 2, 3, 4], n2N4);
+  reg('2N5', [1, 2, 3, 4], n2N5);
+  reg('2A1', [1, 2, 3, 4], n2A1); reg('2A2', [1, 2, 3, 4], n2A2); reg('2A3', [1, 2, 3, 4], n2A3);
+  reg('2G1', [1, 2, 3, 4], n2G1); reg('2G2', [1, 2, 3, 4], n2G2); reg('2G3', [1, 2, 3, 4], n2G3);
+  reg('2S1', [1, 2, 3, 4], n2S1); reg('2S2', [1, 2, 3, 4], n2S2); reg('2S3', [1, 2, 3, 4], n2S3);
+  reg('2S4', [1], n2S4);
+  reg('1A1', [1, 2, 3, 4], n1A1); reg('1A2', [1, 2, 3, 4], n1A2); reg('1A3', [1, 2, 3, 4], n1A3); reg('1A4', [1, 2, 3, 4], n1A4);
+  reg('1A5', [1, 2, 3, 4], n1A5); reg('1A6', [1, 2, 3, 4], n1A6); reg('1G1', [1, 2, 3, 4], n1G1); reg('1G2', [4], n1G2);
+  reg('1G3', [1, 2, 3, 4], n1G3); reg('1S1', [3, 4], n1S1); reg('1S2', [1, 2, 3, 4], n1S2); reg('1S3', [2], n1S3);
+  return out;
+})(V));
+}
+// ---- vérificateurs prioritaires Terminale ----
+{
+// Vérificateurs indépendants — Terminale (TA, TG, TS, TX) : familles nouvelles et saisies explicites (q.exactInput)
+addPre(( (V) => {
+  // ---------- mini-évaluateur LaTeX (descente récursive) ----------
+  function tokenize(s) {
+    s = String(s).replace(/\$/g, '').replace(/\\left|\\right|\\displaystyle/g, '').replace(/\\[,;!: ]/g, ' ').replace(/\\[dt]frac/g, '\\frac');
+    const t = []; let i = 0;
+    while (i < s.length) {
+      const c = s[i];
+      if (/\s/.test(c)) { i++; continue; }
+      let m;
+      if ((m = s.slice(i).match(/^\d+(?:\{,\}\d+|[.,]\d+)?/))) { t.push({ k: 'num', v: parseFloat(m[0].replace('{,}', '.').replace(',', '.')) }); i += m[0].length; continue; }
+      if ((m = s.slice(i).match(/^\\([a-zA-Z]+)/))) { t.push({ k: 'cmd', v: m[1] }); i += m[0].length; continue; }
+      if (/[a-zA-Z]/.test(c)) { t.push({ k: 'id', v: c }); i++; continue; }
+      t.push({ k: 'op', v: c }); i++;
+    }
+    return t;
+  }
+  function parse(tex, vars) {
+    const T = tokenize(tex); let p = 0;
+    const peek = () => T[p]; const eat = (v) => { if (!T[p] || T[p].v !== v) throw new Error('attendu ' + v + ' dans ' + tex); p++; };
+    const startsAtom = (tk) => tk && (tk.k === 'num' || tk.k === 'id' || (tk.k === 'cmd' && !['times', 'cdot', 'div'].includes(tk.v)) || (tk.k === 'op' && (tk.v === '(' || tk.v === '{')));
+    function expr() { let f = term(); while (peek() && peek().k === 'op' && (peek().v === '+' || peek().v === '-')) { const o = T[p++].v; const g = term(); const f0 = f; f = o === '+' ? (e) => f0(e) + g(e) : (e) => f0(e) - g(e); } return f; }
+    function term() {
+      let f = unary();
+      for (;;) {
+        const tk = peek();
+        if (tk && ((tk.k === 'cmd' && (tk.v === 'times' || tk.v === 'cdot')) || (tk.k === 'op' && tk.v === '/'))) { const div = tk.v === '/'; p++; const g = unary(); const f0 = f; f = div ? (e) => f0(e) / g(e) : (e) => f0(e) * g(e); continue; }
+        if (startsAtom(tk)) { const g = power(); const f0 = f; f = (e) => f0(e) * g(e); continue; }
+        return f;
+      }
+    }
+    function unary() { const tk = peek(); if (tk && tk.k === 'op' && (tk.v === '-' || tk.v === '+')) { p++; const g = unary(); return tk.v === '-' ? (e) => -g(e) : g; } return power(); }
+    function power() { const b = atom(); if (peek() && peek().v === '^') { p++; const ex = atom(); return (e) => Math.pow(b(e), ex(e)); } return b; }
+    function group() { if (peek() && peek().v === '{') { p++; const f = expr(); eat('}'); return f; } return atom(); }
+    function atom() {
+      const tk = T[p++];
+      if (!tk) throw new Error('fin inattendue ' + tex);
+      if (tk.k === 'num') return () => tk.v;
+      if (tk.k === 'id') {
+        if (tk.v === 'e' && !vars.includes('e')) return () => Math.E;
+        if (tk.v === 'i' && !vars.includes('i')) throw new Error('complexe');
+        const name = tk.v; let idx = name;
+        if (peek() && peek().v === '_') { p++; const sub = T[p++]; if (sub.v === '{') { idx += '_' + T[p++].v; eat('}'); } else idx += '_' + sub.v; }
+        return (e) => { if (!(idx in e)) throw new Error('variable inconnue ' + idx); return e[idx]; };
+      }
+      if (tk.k === 'op' && tk.v === '(') { const f = expr(); eat(')'); return f; }
+      if (tk.k === 'op' && tk.v === '{') { const f = expr(); eat('}'); return f; }
+      if (tk.k === 'cmd') {
+        if (tk.v === 'frac') { const a = group(); const b = group(); return (e) => a(e) / b(e); }
+        if (tk.v === 'sqrt') { const a = group(); return (e) => Math.sqrt(a(e)); }
+        if (tk.v === 'pi') return () => Math.PI;
+        const fns = { ln: Math.log, sin: Math.sin, cos: Math.cos, exp: Math.exp, tan: Math.tan };
+        if (fns[tk.v]) { const a = power(); return (e) => fns[tk.v](a(e)); }
+      }
+      throw new Error('jeton ' + JSON.stringify(tk) + ' dans ' + tex);
+    }
+    const f = expr();
+    if (p !== T.length) throw new Error('reste non lu dans ' + tex + ' @' + p);
+    return f;
+  }
+  const rhs = (tex) => { const s = String(tex).replace(/^\$|\$$/g, ''); const parts = s.split(/=|\\approx|\\ge|\\le/); return parts[parts.length - 1]; };
+  const math = (s) => [...String(s).matchAll(/\$([^$]*)\$/g)].map((m) => m[1]);
+  const near = (a, b, eps = 1e-7) => Math.abs(a - b) <= eps * Math.max(1, Math.abs(a), Math.abs(b));
+  /** saisie « (a;b) » ou « a » -> tableau de nombres */
+  const tup = (s) => String(s).replace(/^\(|\)$/g, '').split(';').map((x) => { const m = x.trim().match(/^(-?\d+)\/(\d+)$/); return m ? m[1] / m[2] : parseFloat(x.replace(',', '.')); });
+  /** compare la saisie (gabarit tpl(tuple) -> fonction de l'environnement) à la réponse LaTeX évaluée */
+  function sameFn(q, vars, tpl, pts) {
+    if (q.exactInput === undefined) return undefined;
+    const t = tup(q.exactInput);
+    const g = parse(rhs(q.answer), vars);
+    const h = tpl(t);
+    for (const e of pts) {
+      const a = g(e); const b = h(e);
+      if (!Number.isFinite(a)) continue;
+      if (!near(a, b, 1e-6)) return `saisie ${q.exactInput} incohérente avec ${q.answer} (${a} ≠ ${b})`;
+    }
+    return undefined;
+  }
+  const X = [0.37, 1.3, 2.1, 3.7].map((x) => ({ x }));
+  const Nn = [1, 2, 3, 5].map((n) => ({ n }));
+  const K = [1, 2, 3, 5].map((k) => ({ k, m: 7 }));
+  const Mm = [1, 2, 5].map((m) => ({ m }));
+  const val = (s) => { const v = V.val(String(s).trim()); return v; };
+  const ansNum = (q) => { const v = val(rhs(q.answer)); return v; };
+  const okIn = (q, v) => (q.exactInput === undefined || near(tup(q.exactInput)[0], v) ? true : `saisie ${q.exactInput} ≠ ${v}`);
+  const chk = (cond, msg) => (cond ? true : msg);
+  const polyOf = (s, v = 'x') => { const P = V.poly(s, v); if (!P) throw new Error('polynôme illisible ' + s); return (d) => P[d] || 0; };
+
+  const R = {};
+  const add = (key, f) => { (R[key] = R[key] || []).push(f); };
+  const by = (key, re, f) => add(key, (q) => (re.test(q.title) ? f(q) : undefined));
+
+  // =============================== TA1 ===============================
+  by('TA1/2', /Conjecturer puis démontrer/, (q) => sameFn(q, ['n'], ([A, b, L]) => (e) => A * b ** e.n + L, Nn));
+  by('TA1/2', /Bernoulli/, (q) => sameFn(q, ['k'], ([a, b]) => (e) => a * e.k + b, K));
+  by('TA1/3', /Initialisation : rang de départ/, (q) => {
+    const m = q.statement.match(/\$(\d+)\^\{n\} > ([^$]*)\$/);
+    const P = polyOf(m[2], 'n'); const b = +m[1];
+    const holds = (n) => b ** n > P(1) * n + P(0);
+    let n0 = 80; while (n0 > 0 && holds(n0 - 1)) n0--;
+    const a = ansNum(q);
+    return chk(a === n0, `n0 attendu ${n0}, trouvé ${a}`) === true ? okIn(q, n0) : `n0 attendu ${n0}`;
+  });
+  by('TA1/3', /Récurrence et divisibilité/, (q) => {
+    if (q.exactInput === undefined) return undefined;
+    // a^{k+1} ± c = d(αm + β) avec a^k ± c = dm : recalcul direct
+    const m = q.statement.match(/on suppose \$(\d+)\^\{k\} ([+-]) (\d+) = (\d+)m\$/);
+    const a = +m[1]; const c = (m[2] === '+' ? 1 : -1) * +m[3]; const d = +m[4];
+    // a^{k+1} + c = a(dm - c) + c = a d m - c(a - 1)
+    const al = a; const be = -c * (a - 1) / d;
+    const t = tup(q.exactInput);
+    return chk(near(t[0], al) && near(t[1], be), `attendu (${al};${be}), saisie ${q.exactInput}`) === true ? undefined : `attendu (${al};${be}), saisie ${q.exactInput}`;
+  });
+  by('TA1/4', /accroissements affines/, (q) => sameFn(q, ['n'], ([a, b, c]) => (e) => a * e.n * e.n + b * e.n + c, Nn));
+  by('TA1/4', /homographique/, (q) => sameFn(q, ['n'], ([a, b]) => (e) => 1 / (a * e.n + b), Nn));
+
+  // =============================== TA3 ===============================
+  by('TA3/2', /forme indéterminée levée par factorisation/, (q) => {
+    const m = q.statement.match(/\\lim_\{x \\to (-?\d+)\} \\frac\{([^}]*)\}\{([^}]*)\}/);
+    const c = +m[1]; const N = polyOf(m[2]); const D = polyOf(m[3]);
+    if (N(2) !== 1 || D(1) !== 1 || D(0) !== -c) return 'énoncé inattendu';
+    if (c * c + N(1) * c + N(0) !== 0) return 'le numérateur ne s\'annule pas en c';
+    // x^2 + px + q = (x - c)(x - r) : r = -p - c ; limite = c - r
+    const L = c - (-N(1) - c);
+    const a = ansNum(q);
+    return a === L ? okIn(q, L) : `limite attendue ${L}, trouvé ${a}`;
+  });
+  by('TA3/2', /Asymptotes d'une fonction homographique/, (q) => {
+    if (q.exactInput === undefined) return undefined;
+    const m = q.statement.match(/f\(x\) = \\frac\{([^}]*)\}\{([^}]*)\}/);
+    const N = polyOf(m[1]); const D = polyOf(m[2]);
+    const t = tup(q.exactInput);
+    return near(t[0], -D(0)) && near(t[1], N(1)) ? undefined : `asymptotes attendues (${-D(0)};${N(1)}), saisie ${q.exactInput}`;
+  });
+  by('TA3/3', /Théorème des valeurs intermédiaires/, (q) => {
+    if (q.exactInput === undefined) return undefined;
+    const P = polyOf(q.statement.match(/f\(x\) = ([^$]*)\$/)[1]);
+    const f = (x) => P(3) * x ** 3 + P(2) * x * x + P(1) * x + P(0);
+    const m = tup(q.exactInput)[0];
+    return f(m) < 0 && f(m + 1) > 0 ? undefined : `f(${m}) et f(${m + 1}) ne changent pas de signe`;
+  });
+
+  // =============================== TA4 ===============================
+  by('TA4/1', /Dérivée seconde en un point et convexité/, (q) => {
+    const P = polyOf(q.statement.match(/f\(x\) = ([^$]*)\$/)[1]);
+    const x0 = +q.statement.match(/Calculer \$f''\((-?\d+)\)\$/)[1];
+    const v = 6 * P(3) * x0 + 2 * P(2);
+    const a = ansNum(q);
+    return a === v ? okIn(q, v) : `f''(x0) attendu ${v}, trouvé ${a}`;
+  });
+  by('TA4/1', /Calcul d'une dérivée seconde/, (q) => {
+    if (q.exactInput === undefined) return undefined;
+    const P = polyOf(q.statement.match(/f\(x\) = ([^$]*)\$/)[1]);
+    const t = tup(q.exactInput);
+    const exp = P(4) || P(4) === 0 && t.length === 3 ? [12 * P(4), 6 * P(3), 2 * P(2)] : [6 * P(3), 2 * P(2)];
+    const want = t.length === 3 ? [12 * P(4), 6 * P(3), 2 * P(2)] : [6 * P(3), 2 * P(2)];
+    void exp;
+    return want.every((w, i) => near(w, t[i])) ? undefined : `f'' attendu (${want.join(';')}), saisie ${q.exactInput}`;
+  });
+  by('TA4/4', /Tangente au point d'inflexion d'une cubique/, (q) => {
+    const P = polyOf(q.statement.match(/f\(x\) = ([^$]*)\$/)[1]);
+    const x0 = -P(2) / (3 * P(3));
+    const f = (x) => P(3) * x ** 3 + P(2) * x * x + P(1) * x + P(0);
+    const d = (x) => 3 * P(3) * x * x + 2 * P(2) * x + P(1);
+    const m = d(x0); const p = f(x0) - m * x0;
+    const A = V.poly(rhs(q.answer), 'x');
+    if (!A || !near(A[1] || 0, m) || !near(A[0] || 0, p)) return `tangente attendue y = ${m}x + ${p}, trouvé ${q.answer}`;
+    if (q.exactInput !== undefined) { const t = tup(q.exactInput); if (!near(t[0], m) || !near(t[1], p)) return `saisie ${q.exactInput} ≠ (${m};${p})`; }
+    return true;
+  });
+  by('TA4/4', /Points d'inflexion d'une fonction de degré 4/, (q) => {
+    if (q.exactInput === undefined) return undefined;
+    const P = polyOf(q.statement.match(/f\(x\) = ([^$]*)\$/)[1]);
+    // f'' = 12x^2 + 2c2 = 0
+    const r = Math.sqrt(-2 * P(2) / 12);
+    const t = tup(q.exactInput);
+    return near(t[0], -r) && near(t[1], r) ? undefined : `abscisses attendues (${-r};${r})`;
+  });
+
+  // ---------- outils supplémentaires ----------
+  const ev = (tex, env = {}, vars = Object.keys(env)) => parse(tex, vars)(env);
+  const fx = (st, re = /f\(x\) = ([^$]*)\$/) => st.match(re)[1];
+  const inExp = (st) => st.match(/e\^\{([^{}]*)\}/)[1];
+  const tupEq = (q, want) => { if (q.exactInput === undefined) return undefined; const t = tup(q.exactInput); return want.length === t.length && want.every((w, i) => near(w, t[i], 1e-9)) ? undefined : `saisie ${q.exactInput} ≠ (${want.join(';')})`; };
+  /** complexe a + bi (LaTeX, linéaire en i) -> [re, im] */
+  const cplx = (tex) => { const f = parse(tex, ['i']); const re = f({ i: 0 }); return [re, f({ i: 1 }) - re]; };
+  const simpson = (f, a, b, n = 2000) => { const h = (b - a) / n; let s = f(a) + f(b); for (let k = 1; k < n; k++) s += (k % 2 ? 4 : 2) * f(a + k * h); return s * h / 3; };
+
+  // =============================== TA5 ===============================
+  by('TA5/1', /Propriétés algébriques du logarithme/, (q) => {
+    const m = [...q.statement.split('sous la forme')[0].matchAll(/([+-]?) ?\\ln\((\d+)\)/g)];
+    const p = +q.statement.match(/k\\ln\((\d+)\)/)[1];
+    let k = 0; for (const x of m) k += (x[1] === '-' ? -1 : 1) * Math.round(Math.log(+x[2]) / Math.log(p));
+    return tupEq(q, [k]);
+  });
+  by('TA5/2', /Équation \$\\ln\(x\) = \\ln\(c\)\$/, (q) => {
+    const m = q.statement.match(/\\ln\(x\) = (\d)\\ln\((\d+)\) ([+-]) \\ln\((\d+)\)/);
+    const c = (+m[2]) ** (+m[1]) * (m[3] === '+' ? +m[4] : 1 / +m[4]);
+    const a = ev(rhs(q.answer));
+    return near(a, c) ? okIn(q, c) : `solution attendue ${c}, trouvé ${a}`;
+  });
+  by('TA5/2', /Équation avec logarithmes/, (q) => {
+    if (q.exactInput === undefined) return undefined;
+    let sol;
+    let m = q.statement.match(/\\ln\(x\) \+ \\ln\(x \+ (\d+)\) = \\ln\((\d+)\)/);
+    if (m) { const a = +m[1]; const b = +m[2]; sol = (-a + Math.sqrt(a * a + 4 * b)) / 2; }
+    else {
+      m = q.statement.match(/l'équation \$\\ln\(([^)]*)\) = \\ln\(([^)]*)\)\$/);
+      const P = polyOf(m[1]); const Q = polyOf(m[2]);
+      const x = (Q(0) - P(0)) / (P(1) - Q(1));
+      sol = P(1) * x + P(0) > 0 ? x : 'aucune';
+    }
+    if (sol === 'aucune') return q.exactInput === 'aucune' ? undefined : `attendu « aucune », saisie ${q.exactInput}`;
+    return tupEq(q, [sol]);
+  });
+  by('TA5/3', /Dérivée de \$\\ln\(u\)\$/, (q) => { const u = q.statement.match(/\\ln\(([^)]*)\)\$/)[1]; return sameFn(q, ['x'], ([k]) => (e) => k * e.x / ev(u, { x: e.x }), X); });
+  by('TA5/3', /Dérivée d'un produit avec/, (q) => sameFn(q, ['x'], ([a, b, c]) => (e) => a * Math.log(e.x) + b + c / e.x, X));
+  by('TA5/3', /Dérivée d'un quotient avec/, (q) => sameFn(q, ['x'], ([a, b]) => (e) => (a + b * Math.log(e.x)) / (e.x * e.x), X));
+  by('TA5/4', /Placement à intérêts composés/, (q) => {
+    const t = +q.statement.match(/taux annuel de \$(\d+)\\,\\%\$/)[1]; const k = +q.statement.match(/multiplié par \$(\d+)\$/)[1];
+    let n = 0; while ((1 + t / 100) ** n < k) n++;
+    return tupEq(q, [n]);
+  });
+
+  // =============================== TA6 ===============================
+  by('TA6/1', /Primitive d'une fonction polynôme/, (q) => {
+    const P = polyOf(fx(q.statement));
+    return tupEq(q, [P(2) / 3, P(1) / 2, P(0)]);
+  });
+  by('TA6/1', /Primitive de \$e\^\{kx\}\$/, (q) => {
+    const f = fx(q.statement); const k = polyOf(inExp(q.statement))(1);
+    const lam = ev(f, { x: 0 }) / k; // f(0) = a
+    return tupEq(q, [lam]);
+  });
+  by('TA6/2', /Solution constante/, (q) => {
+    const eqn = q.statement.match(/\$y' = ([^$]*)\$/)[1]; const P = polyOf(eqn, 'y');
+    return tupEq(q, [-P(0) / P(1)]);
+  });
+  by('TA6/2', /Équation \$y' = ay\$/, (q) => {
+    const a = V.poly(q.statement.match(/\$y' = ([^$]*)\$/)[1], 'y')[1]; const y0 = +q.statement.match(/y\(0\) = (-?\d+)/)[1];
+    return tupEq(q, [y0, a]);
+  });
+  by('TA6/3', /Équation \$y' = ay \+ b\$/, (q) => {
+    let a; let b;
+    let m = q.statement.match(/\$y' = ([^$]*)\$/);
+    if (m) { const P = polyOf(m[1], 'y'); a = P(1); b = P(0); } else { m = q.statement.match(/\$y' ([+-]) (\d*)y = (-?\d+)\$/); a = (m[1] === '-' ? 1 : -1) * (m[2] === '' ? 1 : +m[2]); b = +m[3]; }
+    const y0 = +q.statement.match(/y\(0\) = (-?\d+)/)[1]; const d = -b / a;
+    return tupEq(q, [y0 - d, a, d]);
+  });
+  by('TA6/4', /Solution particulière affine/, (q) => {
+    const P = (() => { const s = q.statement.match(/\$y' = ([^$]*)\$/)[1]; const t = s.replace(/\s+/g, ''); const c = { y: 0, x: 0, 1: 0 };
+      for (const term of t.match(/[+-]?[^+-]+/g)) { const mm = term.match(/^([+-]?)(\d*)([xy]?)$/); c[mm[3] || 1] += (mm[1] === '-' ? -1 : 1) * (mm[2] === '' ? 1 : +mm[2]); } return c; })();
+    // α = k(αx + β) + m x + p  =>  kα + m = 0, α = kβ + p
+    const al = -P.x / P.y; const be = (al - P[1]) / P.y;
+    return tupEq(q, [al, be]);
+  });
+  by('TA6/4', /Primitive de la forme \$\\frac\{u'\}\{u\}\$/, (q) => {
+    const m = q.statement.match(/f\(x\) = \\frac\{([^}]*)\}\{([^}]*)\}/);
+    const N = polyOf(m[1]); const D = polyOf(m[2]);
+    return tupEq(q, [N(1) / (2 * D(2))]);
+  });
+  by('TA6/4', /Primitive de la forme \$u'e\^\{u\}\$/, (q) => {
+    const k = ev(fx(q.statement), { x: 1 }) / Math.exp(polyOf(inExp(q.statement))(2));
+    const a = polyOf(inExp(q.statement))(2);
+    return tupEq(q, [k / (2 * a)]);
+  });
+
+  // =============================== TA7 ===============================
+  by('TA7/2', /Intégrale d'une exponentielle/, (q) => {
+    const k = polyOf(inExp(q.statement))(1);
+    if (q.exactInput === undefined) return undefined;
+    const I = simpson((x) => Math.exp(k * x), 0, 1); const t = tup(q.exactInput);
+    return near(t[0] * Math.exp(k) + t[1], I, 1e-8) ? undefined : `saisie ${q.exactInput} : ${t[0]}e^${k}+${t[1]} ≠ ${I}`;
+  });
+  by('TA7/2', /Intégrale de \$\\frac\{1\}\{x\}\$/, (q) => { const m = q.statement.match(/\\int_\{1\}\^\{(\d+)\} \\frac\{(\d+)\}\{x\}/); return tupEq(q, [+m[2]]); });
+  by('TA7/4', /Linéarité et relation de Chasles/, (q) => {
+    const ints = [...q.statement.matchAll(/\\int_\{(-?\d+)\}\^\{(-?\d+)\} ([fg])\(x\)\\,dx = (-?\d+)/g)].map((m) => ({ a: +m[1], b: +m[2], f: m[3], v: +m[4] }));
+    const tgt = q.statement.match(/I = \\int_\{(-?\d+)\}\^\{(-?\d+)\} \((.*)\)\\,dx/);
+    const A = +tgt[1]; const C = +tgt[2];
+    const L = tgt[3].replace(/f\(x\)/, 'F').replace(/g\(x\)/, 'G');
+    // intégrale de f de A à C par Chasles (orientation)
+    const If = ints.filter((o) => o.f === 'f').reduce((s, o) => s + (o.a < o.b ? o.v : -o.v), 0);
+    const fs = ints.filter((o) => o.f === 'f'); const lo = Math.min(...fs.map((o) => Math.min(o.a, o.b))); const hi = Math.max(...fs.map((o) => Math.max(o.a, o.b)));
+    if (lo !== A || hi !== C) return 'bornes de Chasles incohérentes';
+    const Ig = ints.find((o) => o.f === 'g').v;
+    const I = parse(L, ['F', 'G'])({ F: If, G: Ig });
+    const a = ansNum(q);
+    return a === I ? okIn(q, I) : `I attendu ${I}, trouvé ${a}`;
+  });
+  by('TA7/4', /Intégration par parties/, (q) => {
+    if (q.exactInput === undefined) return undefined;
+    const m = q.statement.match(/\\int_\{(\d+)\}\^\{(\d+)\} (.*?) \\, dx/);
+    const a = +m[1]; const b = +m[2]; const body = m[3];
+    const I = simpson((x) => ev(body, { x }), a === 1 && /ln/.test(body) ? 1 : a, b);
+    const t = tup(q.exactInput);
+    const K = /ln/.test(body) ? Math.log(b) : (b === 1 ? Math.E : Math.exp(b));
+    return near(t[0] * K + t[1], I, 1e-8) ? undefined : `saisie ${q.exactInput} incohérente (${I})`;
+  });
+
+  // =============================== TA8 ===============================
+  {
+    const U1 = (st) => st.match(/f\(x\) = \(([^)]*)\)\^\{\d+\}/)[1];
+    const g = (u) => (x) => ev(u, { x });
+    by('TA8/1', /Dérivée de \$\(ax \+ b\)\^n\$/, (q) => { const u = g(U1(q.statement)); return sameFn(q, ['x'], ([k, m]) => (e) => k * u(e.x) ** m, X); });
+    by('TA8/1', /Dérivée de \$e\^\{ax \+ b\}\$/, (q) => { const u = g(inExp(q.statement)); return sameFn(q, ['x'], ([k]) => (e) => k * Math.exp(u(e.x)), X); });
+    by('TA8/1', /Dérivée de \$\\sqrt\{ax \+ b\}\$/, (q) => { const u = g(q.statement.match(/\\sqrt\{([^}]*)\}/)[1]); return sameFn(q, ['x'], ([k]) => (e) => k / Math.sqrt(u(e.x)), [5, 7, 9].map((x) => ({ x }))); });
+    by('TA8/1', /Dérivée de \$\\frac\{1\}\{ax \+ b\}\$/, (q) => { const u = g(q.statement.match(/\\frac\{1\}\{([^}]*)\}/)[1]); return sameFn(q, ['x'], ([k]) => (e) => k / u(e.x) ** 2, X); });
+    by('TA8/1', /Dérivée de \$\\ln\(ax \+ b\)\$/, (q) => { const u = g(q.statement.match(/\\ln\(([^)]*)\)/)[1]); return sameFn(q, ['x'], ([k]) => (e) => k / u(e.x), X); });
+    by('TA8/2', /Dérivée de \$u\^n\$/, (q) => { const u = g(U1(q.statement)); return sameFn(q, ['x'], ([a, b, m]) => (e) => (a * e.x + b) * u(e.x) ** m, X); });
+    by('TA8/2', /Dérivée de \$e\^\{u\}\$/, (q) => { const u = g(inExp(q.statement)); return sameFn(q, ['x'], ([a, b]) => (e) => (a * e.x + b) * Math.exp(u(e.x)), [0.1, 0.4, -0.3].map((x) => ({ x }))); });
+    by('TA8/2', /Dérivée de \$\\sqrt\{u\}\$/, (q) => { const u = g(q.statement.match(/\\sqrt\{([^}]*)\}/)[1]); return sameFn(q, ['x'], ([k]) => (e) => k * e.x / Math.sqrt(u(e.x)), X); });
+    by('TA8/2', /Dérivée de \$\\ln\(u\)\$/, (q) => { const u = g(q.statement.match(/\\ln\(([^)]*)\)/)[1]); return sameFn(q, ['x'], ([k]) => (e) => k * e.x / u(e.x), X); });
+    by('TA8/2', /Dérivée de \$\\frac\{1\}\{u\}\$/, (q) => { const u = g(q.statement.match(/\\frac\{1\}\{([^}]*)\}/)[1]); return sameFn(q, ['x'], ([a, b]) => (e) => (a * e.x + b) / u(e.x) ** 2, X); });
+    by('TA8/3', /Dérivée seconde de \$\(ax \+ b\)\^n\$/, (q) => { const u = g(U1(q.statement)); return sameFn(q, ['x'], ([k, m]) => (e) => k * u(e.x) ** m, X); });
+    by('TA8/3', /Dérivée seconde de \$e\^\{ax\^2\}\$/, (q) => { const u = g(inExp(q.statement)); return sameFn(q, ['x'], ([a, b, c]) => (e) => (a * e.x * e.x + b * e.x + c) * Math.exp(u(e.x)), [0.1, 0.4, -0.3].map((x) => ({ x }))); });
+    by('TA8/3', /Dérivée seconde de \$xe\^\{kx\}\$/, (q) => { const u = g(inExp(q.statement)); return sameFn(q, ['x'], ([a, b]) => (e) => (a * e.x + b) * Math.exp(u(e.x)), [0.1, 0.4, -0.3].map((x) => ({ x }))); });
+    by('TA8/3', /Dérivée seconde de \$\\sqrt\{ax \+ b\}\$/, (q) => { const u = g(q.statement.match(/\\sqrt\{([^}]*)\}/)[1]); return sameFn(q, ['x'], ([k]) => (e) => k / (u(e.x) * Math.sqrt(u(e.x))), [5, 7, 9].map((x) => ({ x }))); });
+    by('TA8/4', /Tangente à la courbe/, (q) => {
+      if (q.exactInput === undefined) return undefined;
+      const f = parse(rhs(q.answer), ['x']); const t = tup(q.exactInput);
+      return near(t[0], f({ x: 1 }) - f({ x: 0 })) && near(t[1], f({ x: 0 })) ? undefined : `saisie ${q.exactInput} ≠ ${q.answer}`;
+    });
+  }
+
+  // =============================== TA9 ===============================
+  {
+    const argOf = (st) => st.match(/\\(?:sin|cos)\(([^)]*)\)/)[1];
+    const setVals = (tex) => { if (/emptyset/.test(tex)) return []; const inner = tex.match(/\\left\\\{(.*)\\right\\\}/)[1]; return inner.split(';').map((t) => ev(t, {}) / Math.PI); };
+    const trigSol = (q) => {
+      if (q.exactInput === undefined) return undefined;
+      const want = setVals(q.answer);
+      if (!want.length) return q.exactInput === 'aucune' ? undefined : `attendu « aucune », saisie ${q.exactInput}`;
+      return tupEq(q, want.sort((a, b) => a - b));
+    };
+    by('TA9/1', /^Dérivée de \$\\(sin|cos)\(ax \+ b\)\$/, (q) => { const u = argOf(q.statement); return sameFn(q, ['x'], ([a, b]) => (e) => a * Math.sin(ev(u, e)) + b * Math.cos(ev(u, e)), X); });
+    by('TA9/1', /Période d'une fonction/, (q) => tupEq(q, [ev(rhs(q.answer), {}) / Math.PI]));
+    by('TA9/2', /Dérivée d'un produit avec sinus/, (q) => sameFn(q, ['x'], ([a, b, c, d]) => (e) => (a * e.x + b) * Math.sin(e.x) + (c * e.x + d) * Math.cos(e.x), X));
+    by('TA9/2', /^Équation/, trigSol);
+    by('TA9/3', /^Équation/, trigSol);
+    by('TA9/3', /Dérivée d'une composée trigonométrique/, (q) => {
+      const f = fx(q.statement);
+      let gf;
+      if (/^e\^/.test(f)) gf = (x) => Math.cos(x) * ev(f, { x });
+      else if (/^\\cos/.test(f)) { const inner = f.match(/\\cos\((.*)\)$/)[1]; gf = (x) => x * Math.sin(ev(inner, { x })); }
+      else if (/^\\ln/.test(f)) { const c = +f.match(/\\ln\((\d+)/)[1]; gf = (x) => Math.sin(x) / (c + Math.cos(x)); }
+      else { const c = +f.match(/\\sqrt\{(\d+)/)[1]; gf = (x) => Math.cos(x) / Math.sqrt(c + Math.sin(x)); }
+      return sameFn(q, ['x'], ([l]) => (e) => l * gf(e.x), X);
+    });
+    by('TA9/4', /Nombre de solutions d'une équation trigonométrique/, (q) => {
+      const m = q.statement.match(/\$\\(sin|cos)\((\d)x\) = ([^$]*)\$/);
+      const k = +m[2]; const v = ev(m[3], {}); const fn = m[1] === 'sin' ? Math.sin : Math.cos;
+      // comptage numérique : racines de fn(kx) - v sur [0 ; 2π[ (changements de signe + racines doubles par minimum de |.|)
+      const N = 24000; let cnt = 0; const h = (x) => fn(k * x) - v;
+      for (let i = 0; i < N; i++) {
+        const x0 = 2 * Math.PI * i / N; const x1 = 2 * Math.PI * (i + 1) / N;
+        if (h(x0) === 0 || (h(x0) * h(x1) < 0)) cnt++;
+        else if (Math.abs(v) === 1) { const xm = (x0 + x1) / 2; if (Math.abs(h(xm)) < 1e-7 && Math.abs(h(xm)) <= Math.abs(h(x0)) && Math.abs(h(xm)) <= Math.abs(h(x1))) cnt++; }
+      }
+      if (Math.abs(v) === 1) { cnt = 0; for (let j = 0; j < 4 * k; j++) { const x = (j * Math.PI) / (2 * k); if (x < 2 * Math.PI - 1e-12 && Math.abs(h(x)) < 1e-9) cnt++; } }
+      const a = ansNum(q);
+      return a === cnt ? okIn(q, cnt) : `nombre attendu ${cnt}, trouvé ${a}`;
+    });
+  }
+
+  // =============================== TG1 / TG2 ===============================
+  const v3 = (s, lab) => { const m = s.match(new RegExp(lab.replace(/[\\{}()$]/g, '\\$&') + '\\((-?\\d+) ; (-?\\d+) ; (-?\\d+)\\)')); return m ? [+m[1], +m[2], +m[3]] : null; };
+  const ansV3 = (q, lab) => v3(q.answer, lab);
+  by('TG1/2', /Point défini par une égalité vectorielle/, (q) => {
+    const A = v3(q.statement, 'A'); const B = v3(q.statement, 'B');
+    const ks = q.statement.match(/\\vec\{AM\} = (.*?)\\vec\{AB\}/)[1]; const k = ks === '' ? 1 : ks === '-' ? -1 : ev(ks, {});
+    const M = A.map((x, i) => x + k * (B[i] - x));
+    const a = ansV3(q, 'M');
+    if (!a || a.some((x, i) => !near(x, M[i]))) return `M attendu (${M.join(';')})`;
+    for (const o of q.options) if (o !== q.answer) { const w = v3(o, 'M'); if (w && w.every((x, i) => near(x, M[i]))) return 'distracteur juste'; }
+    return true;
+  });
+  by('TG1/3', /Intersection d'une droite et d'un plan de coordonnées/, (q) => {
+    const cs = q.statement.match(/x = ([^\\]*) \\\\ y = ([^\\]*) \\\\ z = ([^\\]*) \\end/).slice(1).map((e) => polyOf(e, 't'));
+    const ax = 'xyz'.indexOf(q.statement.match(/d'équation \$([xyz]) = 0\$/)[1]);
+    const t = -cs[ax](0) / cs[ax](1);
+    const P = cs.map((c) => c(0) + c(1) * t);
+    const a = ansV3(q, 'I');
+    return a && a.every((x, i) => near(x, P[i])) ? true : `I attendu (${P.join(';')})`;
+  });
+  by('TG1/3', /Décomposition d'un vecteur/, (q) => {
+    if (q.exactInput === undefined) return undefined;
+    const u = v3(q.statement, '\\vec{u}'); const v = v3(q.statement, '\\vec{v}'); const w = v3(q.statement, '\\vec{w}');
+    const [a, b] = tup(q.exactInput);
+    return u.every((x, i) => near(a * x + b * v[i], w[i])) ? undefined : `saisie ${q.exactInput} ne décompose pas w`;
+  });
+  by('TG1/4', /Coplanarité de trois vecteurs : paramètre/, (q) => {
+    const u = v3(q.statement, '\\vec{u}'); const v = v3(q.statement, '\\vec{v}');
+    const ws = q.statement.match(/\\vec\{w\}\(([^)]*)\)/)[1].split(' ; ');
+    const i = ws.indexOf('m'); const [j, k] = [0, 1, 2].filter((x) => x !== i);
+    const det = u[j] * v[k] - u[k] * v[j];
+    const a = (+ws[j] * v[k] - +ws[k] * v[j]) / det; const b = (u[j] * +ws[k] - u[k] * +ws[j]) / det;
+    const m = a * u[i] + b * v[i];
+    const got = ansNum(q);
+    return near(got, m) ? okIn(q, m) : `m attendu ${m}, trouvé ${got}`;
+  });
+  by('TG2/1', /Coordonnée manquante d'un point d'un plan/, (q) => {
+    const e = q.statement.match(/d'équation \$([^$]*) = 0\$/)[1].replace(/\s+/g, '');
+    const c = { x: 0, y: 0, z: 0, 1: 0 };
+    for (const t of e.match(/[+-]?[^+-]+/g)) { const mm = t.match(/^([+-]?)(\d*)([xyz]?)$/); c[mm[3] || 1] += (mm[1] === '-' ? -1 : 1) * (mm[2] === '' ? 1 : +mm[2]); }
+    const P = q.statement.match(/M\(([^)]*)\)/)[1].split(' ; ');
+    const vn = ['x', 'y', 'z']; let rest = c[1]; let coef = 0;
+    P.forEach((x, i) => { if (x === 'm') coef = c[vn[i]]; else rest += c[vn[i]] * +x; });
+    const m = -rest / coef; const got = ansNum(q);
+    return near(got, m) ? okIn(q, m) : `m attendu ${m}, trouvé ${got}`;
+  });
+  by('TG2/3', /Équation cartésienne d'un plan/, (q) => {
+    if (q.exactInput === undefined) return undefined;
+    const A = v3(q.statement, 'A'); const n = v3(q.statement, '\\vec{n}');
+    return tupEq(q, [-(A[0] * n[0] + A[1] * n[1] + A[2] * n[2])]);
+  });
+
+  // =============================== TS ===============================
+  by('TS1/4', /Probabilité d'au moins un succès|Probabilité cumulée/, (q) => {
+    if (q.exactInput === undefined) return undefined;
+    const m = q.statement.match(/\\mathcal\{B\}\((\d+) ; (0\{,\}\d+)\)/); const n = +m[1]; const p = V.val(m[2]);
+    const want = /au moins/.test(q.title) ? 1 - (1 - p) ** n : (1 - p) ** n + n * p * (1 - p) ** (n - 1);
+    const t = tup(q.exactInput)[0];
+    return Math.abs(t - want) < 6e-4 ? undefined : `saisie ${q.exactInput} ≠ ${want}`;
+  });
+  by('TS2/3', /Minoration par Bienaymé-Tchebychev/, (q) => {
+    if (q.exactInput === undefined) return undefined;
+    const Vx = +q.statement.match(/V\(X\) = (\d+)/)[1]; const m = q.statement.match(/P\((-?\d+) < X < (-?\d+)\)/);
+    const d = (+m[2] - +m[1]) / 2;
+    return tupEq(q, [1 - Vx / (d * d)]);
+  });
+  by('TS4/3', /Dichotomie : encadrement/, (q) => {
+    if (q.exactInput === undefined) return undefined;
+    const m = q.answer.match(/« (\S+) (\S+) »/);
+    return tupEq(q, [parseFloat(m[1]), parseFloat(m[2])]);
+  });
+
+  // =============================== TX ===============================
+  const cOf = (tex) => cplx(rhs(tex));
+  const cx = (st, lab) => cplx(st.match(new RegExp(lab.replace(/[\\{}]/g, '\\$&') + ' = ([^$]*)\\$'))[1]);
+  for (const [key, re] of [['TX1/1', /Somme|Différence|Conjugué/], ['TX1/2', /Produit de deux|Carré/], ['TX1/3', /Quotient|Inverse/]]) {
+    by(key, re, (q) => (q.exactInput === undefined ? undefined : tupEq(q, cOf(q.answer))));
+  }
+  by('TX1/1', /Parties réelle et imaginaire/, (q) => { const z = cx(q.statement, 'z'); return tupEq(q, z); });
+  by('TX1/4', /Équation du second degré dans/, (q) => {
+    if (q.exactInput === undefined) return undefined;
+    const P = polyOf(q.statement.match(/l'équation \$([^$]*) = 0\$/)[1], 'z');
+    const D = P(1) ** 2 - 4 * P(2) * P(0);
+    return tupEq(q, [-P(1) / (2 * P(2)), Math.sqrt(-D) / (2 * P(2))]);
+  });
+  by('TX1/4', /Équation avec le conjugué/, (q) => {
+    const m = q.statement.match(/\$z ([+-]) (\d+)\\bar\{z\} = ([^$]*)\$/);
+    const k = (m[1] === '-' ? -1 : 1) * +m[2]; const [A, B] = cplx(m[3]);
+    const z = [A / (1 + k), B / (1 - k)];
+    const a = cOf(q.answer);
+    if (!near(a[0], z[0]) || !near(a[1], z[1])) return `z attendu ${z}`;
+    for (const o of q.options) if (o !== q.answer) { const w = cOf(o); if (near(w[0], z[0]) && near(w[1], z[1])) return 'distracteur juste'; }
+    return tupEq(q, z) || true;
+  });
+  {
+    // r e^{i θ} (LaTeX) -> [r, θ/π]
+    const expoOf = (tex) => {
+      const s0 = rhs(tex).trim();
+      const m = s0.match(/^(.*?)e\^\{(-?)i(.*)\}$/);
+      if (!m) return [ev(s0, {}), 0];
+      const r = m[1] === '' ? 1 : ev(m[1], {});
+      return [r, (m[2] ? -1 : 1) * ev(m[3], {}) / Math.PI];
+    };
+    by('TX2/1', /Module d'un nombre complexe/, (q) => {
+      if (q.exactInput === undefined) return undefined;
+      const z = cx(q.statement, 'z'); const t = tup(q.exactInput);
+      if (t.length === 1) return near(t[0], Math.hypot(z[0], z[1])) ? undefined : `saisie ${q.exactInput} ≠ module`;
+      return near(t[0] * Math.sqrt(t[1]), Math.hypot(z[0], z[1])) && Number.isInteger(t[1]) && ![4, 9, 16, 25].some((c) => t[1] % c === 0) ? undefined : `saisie ${q.exactInput} ≠ module`;
+    });
+    by('TX2/2', /Forme exponentielle/, (q) => {
+      if (q.exactInput === undefined) return undefined;
+      const z = cx(q.statement, 'z'); const r = Math.hypot(z[0], z[1]); const th = Math.atan2(z[1], z[0]) / Math.PI;
+      return tupEq(q, [r, th]);
+    });
+    by('TX2/3', /Moivre|en forme exponentielle/, (q) => {
+      if (q.exactInput === undefined) return undefined;
+      const [r, th] = expoOf(q.answer);
+      if (!(th > -1 && th <= 1)) return 'argument hors de ]-π ; π]';
+      return tupEq(q, [r, th]);
+    });
+    by('TX2/4', /Construction d'un triangle rectangle isocèle/, (q) => {
+      const A = cx(q.statement, 'z_A'); const B = cx(q.statement, 'z_B');
+      const s = /= -\\frac\{\\pi\}\{2\}/.test(q.statement) ? -1 : 1;
+      const w = [B[0] - A[0], B[1] - A[1]];
+      const C = [A[0] - s * w[1], A[1] + s * w[0]];
+      const a = cOf(q.answer);
+      if (!near(a[0], C[0]) || !near(a[1], C[1])) return `z_C attendu ${C}`;
+      for (const o of q.options) if (o !== q.answer) { const w2 = cOf(o); if (near(w2[0], C[0]) && near(w2[1], C[1])) return 'distracteur juste'; }
+      return tupEq(q, C) || true;
+    });
+  }
+  by('TX3/4', /Équation de congruence/, (q) => {
+    if (q.exactInput === undefined) return undefined;
+    const m = q.statement.match(/\$(\d+)x \\equiv (\d+) \\pmod\{(\d+)\}\$/); const a = +m[1]; const b = +m[2]; const n = +m[3];
+    let x = 0; while ((a * x - b) % n !== 0) x++;
+    return tupEq(q, [x]);
+  });
+  by('TX4/2', /Identité de Bézout/, (q) => {
+    const m = q.statement.match(/\$(\d+)u \+ (\d+)v = 1\$/); const a = +m[1]; const b = +m[2];
+    let u = 0; while ((a * u) % b !== 1 % b) u++;
+    const v = (1 - a * u) / b;
+    const g = q.answer.match(/u = (-?\d+)\$ et \$v = (-?\d+)/);
+    if (+g[1] !== u || +g[2] !== v) return `couple attendu (${u};${v})`;
+    for (const o of q.options) if (o !== q.answer) { const h = o.match(/u = (-?\d+)\$ et \$v = (-?\d+)/); if (+h[1] === u && +h[2] === v) return 'distracteur identique'; }
+    return tupEq(q, [u, v]) || true;
+  });
+  by('TX4/4', /Équation diophantienne/, (q) => {
+    if (q.exactInput === undefined) return undefined;
+    const m = q.statement.match(/\$\(E\) : (\d+)x \+ (\d+)y = (-?\d+)\$/);
+    return tupEq(q, [+m[2], -m[1]]);
+  });
+  {
+    const mats = (s) => [...String(s).matchAll(/\\begin\{pmatrix\}(.*?)\\end\{pmatrix\}/g)].map((m) => m[1].split('\\\\').map((r) => r.split('&').map((x) => ev(x.trim(), {}))));
+    const mul = (A, B) => A.map((r) => B[0].map((_, j) => r.reduce((t, x, k) => t + x * B[k][j], 0)));
+    by('TX5/1', /Combinaison linéaire de matrices/, (q) => {
+      const [A, B] = mats(q.statement);
+      const ex = q.statement.match(/Calculer \$([^$]*)\$/)[1];
+      const f = parse(ex, ['A', 'B']);
+      const R = A.map((r, i) => r.map((x, j) => f({ A: x, B: B[i][j] })));
+      const got = mats(q.answer)[0];
+      if (!got.flat().every((x, i) => near(x, R.flat()[i]))) return `résultat attendu ${R}`;
+      return tupEq(q, R.flat()) || true;
+    });
+    by('TX5/1', /Produit de deux matrices/, (q) => { if (q.exactInput === undefined) return undefined; const [A, B] = mats(q.statement); return tupEq(q, mul(A, B).flat()); });
+    by('TX5/2', /Inverse d'une matrice/, (q) => {
+      if (q.exactInput === undefined) return undefined;
+      const [A] = mats(q.statement); const d = A[0][0] * A[1][1] - A[0][1] * A[1][0];
+      return tupEq(q, [A[1][1] / d, -A[0][1] / d, -A[1][0] / d, A[0][0] / d]);
+    });
+    by('TX5/2', /Chemins de longueur 2 dans un graphe/, (q) => {
+      const [G] = mats(q.statement);
+      const m = q.statement.match(/du sommet \$(\d)\$ au sommet \$(\d)\$/); const i = +m[1] - 1; const j = +m[2] - 1;
+      const n = mul(G, G)[i][j]; const got = ansNum(q);
+      return got === n ? okIn(q, n) : `nombre attendu ${n}, trouvé ${got}`;
+    });
+  }
+
+  by('TA6/3', /Limite en \$\+\\infty\$ d'une solution/, (q) => {
+    const P = polyOf(q.statement.match(/\$y' = ([^$]*)\$/)[1], 'y');
+    if (P(1) >= 0) return 'coefficient de y non négatif';
+    const L = -P(0) / P(1); const got = ev(rhs(q.answer), {});
+    if (!near(got, L)) return `limite attendue ${L}, trouvé ${q.answer}`;
+    for (const o of q.options) if (o !== q.answer && /^\$-?[\d\\]/.test(o)) { try { if (near(ev(rhs(o), {}), L)) return 'distracteur juste'; } catch (e) { /* option non numérique */ } }
+    return okIn(q, L);
+  });
+  by('TA7/1', /Intégrale de l'exponentielle/, (q) => {
+    const m = q.statement.match(/\\int_\{0\}\^\{\\ln\((\d+)\)\} (.*?) \\, dx/);
+    const a = +m[1]; const I = simpson((x) => ev(m[2], { x }), 0, Math.log(a));
+    const got = ansNum(q);
+    return near(got, I, 1e-8) ? okIn(q, Math.round(I)) : `I attendu ${I}, trouvé ${got}`;
+  });
+  by('TS1/1', /Reconnaître une loi binomiale/, (q) => {
+    const st = q.statement; const n = +st.match(/(?:lance|tire|comporte|lancé) (\d+) fois|comporte (\d+) questions/).slice(1).find(Boolean);
+    const p = /« 6 »/.test(st) ? 1 / 6 : /pile/.test(st) ? 1 / 2 : /3 boules rouges et 7/.test(st) ? 3 / 10 : /4 réponses/.test(st) ? 1 / 4 : /multiples de 3/.test(st) ? 1 / 3 : NaN;
+    const m = q.answer.match(/\\left\((\d+) ; (.*)\\right\)/);
+    if (+m[1] !== n || !near(ev(m[2], {}), p)) return `paramètres attendus (${n};${p})`;
+    return tupEq(q, [n, p]) || true;
+  });
+
+  return Object.fromEntries(Object.entries(R).map(([k, fs]) => [k.replace('/', '/'), (q) => { for (const f of fs) { const r = f(q); if (r !== undefined) return r; } return undefined; }]));
+})(V));
+}
+// ==== PRE_VERIFIERS: fin ====
+for (const f of VERIFY_FILES) addPre(require(path.resolve(f))(V));
+
+// ---------------------------------------------------------------------------
+// Saisie exacte : contrôles indépendants (parseurs propres au test, distincts de MathsGenUtils.texToInput)
+// ---------------------------------------------------------------------------
+/** Saisie élève (texte brut) -> { vals: [nombres] } ou null */
+function plainVals(str) {
+  let s = String(str).trim().replace(/[−–]/g, '-').replace(/\s+/g, '');
+  const one = (t) => {
+    let m;
+    if ((m = t.match(/^(-?\d+)\/(\d+)$/))) return +m[1] / +m[2];
+    if ((m = t.match(/^(-?\d+(?:[.,]\d+)?)[×*]10\^\(?(-?\d+)\)?$/))) return parseFloat(m[1].replace(',', '.')) * 10 ** +m[2];
+    if (/^-?\d+(?:[.,]\d+)?$/.test(t)) return parseFloat(t.replace(',', '.'));
+    return NaN;
+  };
+  if (/;/.test(s)) {
+    s = s.replace(/^\((.*)\)$/, '$1');
+    const v = s.split(';').map(one);
+    return v.every(Number.isFinite) ? v : null;
+  }
+  const v = one(s);
+  return Number.isFinite(v) ? [v] : null;
+}
+/** Réponse LaTeX d'origine (QCM) -> valeurs numériques du membre de droite, ou null */
+function texVals(tex) {
+  let s = String(tex).replace(/^\$|\$$/g, '').replace(/\\left|\\right/g, '').replace(/\\[,;!]/g, '').trim();
+  s = s.split(/=|\\approx/).pop().trim();
+  const one = (t) => {
+    t = t.replace(/\s+/g, '');
+    let m;
+    if ((m = t.match(/^(-?)\\[dt]?frac\{(-?\d+)\}\{(\d+)\}$/))) return (m[1] ? -1 : 1) * +m[2] / +m[3];
+    if ((m = t.match(/^(-?\d+(?:\{,\}\d+)?)\\times10\^\{?(-?\d+)\}?$/))) return parseFloat(m[1].replace('{,}', '.')) * 10 ** +m[2];
+    if (/^-?\d+(?:\{,\}\d+)?$/.test(t)) return parseFloat(t.replace('{,}', '.'));
+    return NaN;
+  };
+  const tup = s.match(/\(([^()]*;[^()]*)\)$/);
+  const v = tup ? tup[1].split(';').map(one) : [one(s)];
+  return v.every(Number.isFinite) ? v : null;
+}
+const fmtDec = (x, sep) => String(Math.round(x * 1e9) / 1e9).replace('.', sep);
+/** Écritures équivalentes raisonnables de la réponse attendue */
+function equivalents(ans, vals) {
+  const out = [ans, ` ${ans} `, ans.replace(/-/g, '−')];
+  if (vals.length === 1) {
+    const v = vals[0];
+    if (!/×10\^/.test(ans)) out.push(`x = ${ans}`);
+    if (Math.abs(v * 1e6 - Math.round(v * 1e6)) < 1e-6) out.push(fmtDec(v, ','), fmtDec(v, '.'));
+    if (/×10\^/.test(ans)) out.push(ans.replace('×', '*'), ans.replace('×', ' × '));
+    const m = ans.match(/^(-?\d+),(\d+)$/);
+    if (m) { const den = 10 ** m[2].length; const num = Math.round(v * den); const g = gcd(num, den); out.push(`${num / g}/${den / g}`); }
+  } else {
+    out.push(`(${ans.replace(/^\(|\)$/g, '').split(';').join(' ; ')})`);
+    // sans parenthèses : accepté seulement si aucune composante décimale (limite connue de validateAnswer)
+    if (!/,/.test(ans)) out.push(ans.replace(/^\(|\)$/g, ''));
+  }
+  return out;
+}
+function checkExact(q) {
+  const issues = [];
+  if (!ENGINE) return ['EXACT:moteur absent'];
+  const ans = String(q.answer);
+  const vals = plainVals(ans);
+  if (!vals) { // réponse non numérique (mot, oui/non…) : seule la saisie exacte est contrôlée
+    if (!ENGINE.validateAnswer(ans, q)) issues.push('EXACT:réponse attendue refusée par validateAnswer: ' + ans);
+    return issues;
+  }
+  for (const e of equivalents(ans, vals)) {
+    if (!ENGINE.validateAnswer(e, q)) issues.push(`EXACT:écriture équivalente refusée « ${e} » (attendu ${ans})`);
+  }
+  const wrong = vals.length === 1 ? fmtDec(vals[0] + 1, ',') : `(${vals.map((v, i) => fmtDec(i === 0 ? v + 1 : v, '.')).join(';')})`;
+  if (ENGINE.validateAnswer(wrong, q)) issues.push('EXACT:valeur fausse acceptée ' + wrong);
+  if (q.mcq) {
+    const tv = texVals(q.mcq.answer);
+    // saisie explicite (q.exactAnswer) : contrôlée par le vérificateur de la famille (q.exactInput)
+    if (q.mcq.explicit) { /* pas de comparaison avec la réponse LaTeX */ } else if (!tv) issues.push('EXACT:réponse LaTeX d\'origine illisible ' + q.mcq.answer);
+    else if (tv.length !== vals.length || tv.some((v, i) => Math.abs(v - vals[i]) > 1e-9 * Math.max(1, Math.abs(v)))) issues.push(`EXACT:saisie ${ans} ≠ réponse d'origine ${q.mcq.answer}`);
+    for (const o of q.mcq.options || []) {
+      if (o === q.mcq.answer) continue;
+      const ov = texVals(o);
+      if (!ov) continue;
+      const plain = ov.length === 1 ? fmtDec(ov[0], '.') : `(${ov.map((v) => fmtDec(v, '.')).join(';')})`;
+      if (ENGINE.validateAnswer(plain, q)) issues.push(`EXACT:distracteur d'origine accepté ${o}`);
+    }
+  }
+  return issues;
+}
+const exactStats = {};
+
+// ---------------------------------------------------------------------------
+// Cohérence des indices (hint1, hint2) avec la question réellement posée
+//   HINT:donne la réponse  — l'indice contient la réponse (« = 42 », ou toute la réponse LaTeX) : erreur ;
+//   nombre étranger        — nombre de l'indice absent de l'énoncé ET de la correction : signalé (souvent une étape
+//                            intermédiaire légitime ; à relire si le taux d'un palier est élevé) ;
+//   HINT:suite étrangère   — suite u_n, v_n, w_n nommée dans l'indice, absente de l'énoncé et de la correction : erreur ;
+//   objet étranger         — fonction f, g, h nommée dans l'indice et absente ailleurs : signalé (souvent une formule
+//                            générique légitime, « (g(ax + b))' = a g'(ax + b) ») ;
+//   HINT:identique         — même indice pour des familles (titres) différentes d'un même palier : signalé (liste).
+// ---------------------------------------------------------------------------
+const mathOf = (s) => [...String(s || '').matchAll(/\$\$([\s\S]*?)\$\$|\$([^$]*)\$/g)].map((m) => m[1] || m[2] || '').join(' ');
+const normM = (s) => String(s).replace(/\\[,;!: ]/g, '').replace(/\\left|\\right|\\displaystyle/g, '').replace(/\\[dt]frac/g, '\\frac').replace(/\s+/g, '');
+/** nombres d'un texte (mode math et texte), sous forme canonique « 12 », « 2.5 », « 3/4 » */
+function numsOf(s) {
+  const t = String(s || '').replace(/\\[dt]?frac\{(-?\d+)\}\{(\d+)\}/g, ' $1/$2 ').replace(/(\d)\\,(\d{3})/g, '$1$2').replace(/(\d) (\d{3})(?!\d)/g, '$1$2')
+    .replace(/\{,\}/g, '.').replace(/(\d),(\d)/g, '$1.$2').replace(/[_^]\{?-?\d+\}?/g, ' ').replace(/[A-Za-z]+\d+/g, ' ');
+  return [...t.matchAll(/\d+(?:\.\d+)?(?:\/\d+)?/g)].map((m) => m[0]);
+}
+function checkHints(q, view) {
+  const issues = [];
+  const st = String(view.statement) + ' ' + String(q.statement);
+  const sol = String(q.solution || '');
+  const ctx = new Set([...numsOf(st), ...numsOf(sol), ...numsOf(q.title), ...numsOf(q.skill)]);
+  const ctxVals = new Set([...ctx].map((x) => { const m = x.match(/^(\d+)\/(\d+)$/); return String(Math.round((m ? m[1] / m[2] : +x) * 1e9) / 1e9); }));
+  const ansTex = String(view.answer || '');
+  const ansMath = normM(mathOf(ansTex));
+  const rhs = ansMath.split(/=|\\approx/).pop();
+  for (const h of ['hint1', 'hint2']) {
+    const txt = q[h];
+    if (!txt) continue;
+    const hm = normM(mathOf(txt));
+    // 1. l'indice donne la réponse
+    if (ansMath.length >= 4 && /=|\\approx/.test(ansMath) && hm.includes(ansMath)) issues.push(`HINT:donne la réponse (${h}) ${ansTex}`);
+    else if (rhs && /^-?(\d+(\.\d+)?|\\frac\{\d+\}\{\d+\}|\d+\{,\}\d+)$/.test(rhs) && !/^-?[0-9]$/.test(rhs)) {
+      const re = new RegExp('(=|\\\\approx)' + rhs.replace(/[\\{}^$.*+?()[\]|]/g, '\\$&') + '(?![\\d{,.])');
+      if (re.test(hm) && !re.test(normM(mathOf(st)))) issues.push(`HINT:donne la réponse (${h}) ${ansTex}`);
+    }
+    // 2. nombres étrangers (≥ 3 chiffres significatifs ou décimaux/fractions), absents de l'énoncé et de la correction
+    for (const n of numsOf(txt)) {
+      if (/^\d$/.test(n) || /^\d\d$/.test(n) && +n <= 20) continue; // petits entiers : trop courants (exposants, k…)
+      const m = n.match(/^(\d+)\/(\d+)$/);
+      const v = String(Math.round((m ? m[1] / m[2] : +n) * 1e9) / 1e9);
+      if (!ctx.has(n) && !ctxVals.has(v)) { hintForeignNums.push(`${q.chapterId}/T${q.tier} ${h} ${n}`); break; }
+    }
+    // 3. objets nommés étrangers : f(, g(, u_n, v_n, points A(…) / vecteurs
+    // (u(x), v(x) sont exclus : lettres usuelles des formules (uv)' = u'v + uv')
+    const objs = [...mathOf(txt).matchAll(/(?<![a-zA-Z\\])([fgh](?=\()|[uvw](?=_))/g)].map((m) => m[1]);
+    const stm = mathOf(st) + ' ' + mathOf(sol) + ' ' + st;
+    for (const o of new Set(objs)) {
+      // objet défini dans l'indice lui-même (« pose f(x) = … », « f : x \mapsto … ») : légitime
+      if (new RegExp(`${o}\\([a-z]\\)\\s*=|${o}\\s*:|${o}_\\{?n\\}?\\s*=|fonctions?\\s*\\$${o}|suites?\\s*\\$?\\(?${o}`).test(txt)) continue;
+      if (!new RegExp(`(?<![a-zA-Z\\\\])${o}(?=\\(|_|'|\\s|\\)|,|$|\\^)`).test(stm)) { if (/[uvw]/.test(o)) issues.push(`HINT:suite étrangère (${h}) ${o}`); else hintForeignNums.push(`${q.chapterId}/T${q.tier} ${h} objet ${o}`); break; }
+    }
+  }
+  return issues;
+}
+const hintFamilies = {};
+const hintForeignNums = [];
 
 // ---------------------------------------------------------------------------
 // Boucle principale
 // ---------------------------------------------------------------------------
 const chapters = [...new Set((window.MATHS_CHAPTERS || []).map((c) => c.id))]
-  .filter((id) => /^(L[123]-|2[NAGS]\d|1[AGS]\d|T[AGSX]\d)/.test(id) && !/-PRF$/.test(id))
+  .filter((id) => /^(L[123]-|2[NAGS]\d|1[AGS]\d|T[AGSX]\d|capes-\d)/.test(id) && !/-PRF$/.test(id))
   .filter((id) => !ONLY || ONLY.test(id));
 
 let errors = 0; let total = 0; let nulls = 0; let verified = 0; let unverified = 0;
@@ -4771,7 +7725,12 @@ for (const ch of chapters) {
   const row = [];
   for (let t = 1; t <= 4; t++) {
     const seen = new Set(); const iss = {}; let nul = 0; let ver = 0;
-    const verifier = VERIFIERS[ch + '/' + t] || VERIFIERS[ch];
+    const mainVerifier = VERIFIERS[ch + '/' + t] || VERIFIERS[ch];
+    const pres = [...(PRE_VERIFIERS[ch + '/' + t] || []), ...(PRE_VERIFIERS[ch] || [])];
+    const verifier = (mainVerifier || pres.length) ? (q) => {
+      for (const f of pres) { const r = f(q); if (r !== undefined) return r; }
+      return mainVerifier ? mainVerifier(q) : 'aucun vérificateur pour cette famille';
+    } : null;
     for (let r = 0; r < N; r++) {
       total++;
       let q;
@@ -4784,9 +7743,24 @@ for (const ch of chapters) {
       if (!q) { const k = 'RETOUR_INVALIDE:' + q; iss[k] = iss[k] || { n: 0, sample: '' }; iss[k].n++; continue; }
       seen.add(q.statement + '||' + q.answer);
       const is = checkQ(q);
+      // Forme QCM d'origine d'une question convertie en saisie exacte : recalcul et qualité des distracteurs
+      const view = q.type === 'exact' && q.mcq
+        ? Object.assign({}, q, { type: 'mcq', statement: q.mcq.statement, answer: q.mcq.answer, options: q.mcq.options, correctIndex: q.mcq.options.indexOf(q.mcq.answer), exactInput: q.answer })
+        : q;
+      if (view !== q) checkQ(view).filter((x) => /^(opt|QCM)/.test(x)).forEach((x) => is.push('QCM_ORIGINE:' + x));
+      if (q.type === 'exact') checkExact(q).forEach((x) => is.push(x));
+      checkHints(q, view).forEach((x) => is.push(x));
+      if (q.hint1) {
+        const hk = ch + '/T' + t + '|' + q.hint1;
+        (hintFamilies[hk] = hintFamilies[hk] || new Set()).add(String(q.title).replace(/\$[^$]*\$/g, '…'));
+      }
+      const lvl = /^L[123]/.test(ch) ? ch.slice(0, 2) : /^capes/.test(ch) ? 'CAPES' : { 2: '2nde', 1: '1re', T: 'Tle' }[ch[0]];
+      exactStats[lvl] = exactStats[lvl] || {};
+      const es = exactStats[lvl][t] = exactStats[lvl][t] || [0, 0];
+      es[1]++; if (q.type === 'exact') es[0]++;
       if (verifier) {
         let res;
-        try { res = verifier(q); } catch (e) { res = 'verifier exception: ' + e.message; }
+        try { res = verifier(view); } catch (e) { res = 'verifier exception: ' + e.message; }
         if (typeof res === 'string' && res !== 'skip') is.push('RECALCUL:' + res);
         else if (res === true) ver++;
       }
@@ -4816,6 +7790,20 @@ for (const ch of chapters) {
 
 console.log('\n=== Variété (énoncés distincts sur ' + N + ' tirages, T1 T2 T3 T4 ; "null" = repli banque statique) ===');
 console.log(varietyRows.join('\n'));
+const sharedHints = Object.entries(hintFamilies).filter(([, v]) => v.size >= 2);
+console.log(`\n=== Indices identiques pour des familles différentes d'un même palier : ${sharedHints.length} ===`);
+for (const [k, v] of sharedHints.slice(0, 40)) console.log(`  ${k.split('|')[0]} « ${k.split('|').slice(1).join('|').slice(0, 90)} » ← ${[...v].join(' / ').slice(0, 120)}`);
+{
+  const byKey = {};
+  for (const x of hintForeignNums) { const k = x.split(' ')[0]; byKey[k] = (byKey[k] || 0) + 1; }
+  const top = Object.entries(byKey).filter(([, n]) => n >= N / 2).sort((a, b) => b[1] - a[1]);
+  console.log(`\n=== Indices citant un nombre ou une fonction absents de l'énoncé et de la correction (≥ 50 % des tirages, à relire) : ${top.length} ===`);
+  if (top.length) console.log('  ' + top.map(([k, n]) => `${k}:${n}`).join('  '));
+}
+console.log('\n=== Part de saisie exacte (T1 T2 T3 T4) ===');
+for (const [lvl, o] of Object.entries(exactStats)) {
+  console.log(`${lvl.padEnd(6)} ${[1, 2, 3, 4].map((t) => (o[t] ? Math.round(100 * o[t][0] / o[t][1]) + ' %' : '-').padStart(6)).join(' ')}`);
+}
 console.log('\nCatégories d\'erreurs :', JSON.stringify(errByCat));
 console.log(`Tirages : ${total}  |  null (repli banque) : ${nulls}  |  questions recalculées OK : ${verified}  |  tirages sans vérificateur : ${unverified}`);
 console.log(`Questions en erreur : ${errors}`);

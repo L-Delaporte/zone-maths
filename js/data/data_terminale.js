@@ -13,7 +13,8 @@ window.MATHS_COURSES_TALE = {
       "Démontrer des inégalités valables pour tout entier naturel $n \\ge n_0$.",
       "Éviter les erreurs de logique classiques (oubli de l'initialisation, circularité).",
       "Démontrer l'inégalité de Bernoulli et des propriétés de divisibilité par récurrence.",
-      "Utiliser la récurrence pour étudier une suite définie par $u_{n+1} = f(u_n)$ (encadrement, sens de variation)."
+      "Utiliser la récurrence pour étudier une suite définie par $u_{n+1} = f(u_n)$ (encadrement, sens de variation).",
+      "Rédiger une récurrence de divisibilité (forme $u_n = 6m$ avec $m$ entier)."
     ],
     "keyPoints": [
       {
@@ -66,6 +67,16 @@ window.MATHS_COURSES_TALE = {
           "**Étape 3 (Hérédité)** : Soit $k \\in \\mathbb{N}$ tel que $0 \\le u_k \\le u_{k+1} \\le 4$. Comme $f$ est croissante sur $[0 ; +\\infty[$ :\n$$f(0) \\le f(u_k) \\le f(u_{k+1}) \\le f(4)$$\nsoit $2 \\le u_{k+1} \\le u_{k+2} \\le \\sqrt{16} = 4$. Et puisque $0 \\le 2$, on obtient $0 \\le u_{k+1} \\le u_{k+2} \\le 4$.",
           "**Conclusion** : Pour tout $n$, $0 \\le u_n \\le u_{n+1} \\le 4$ : la suite $(u_n)$ est croissante et majorée par $4$. Elle converge donc (théorème de convergence monotone, chapitre TA2)."
         ]
+      },
+      {
+        "title": "Méthode : Démontrer une divisibilité par récurrence",
+        "example": "Démontrer que pour tout $n \\in \\mathbb{N}$, $7^n - 1$ est divisible par $6$.",
+        "steps": [
+          "**Étape 1 (Énoncé)** : pour $n \\in \\mathbb{N}$, on note $P(n)$ : « il existe un entier $m$ tel que $7^n - 1 = 6m$ ».",
+          "**Étape 2 (Initialisation, $n = 0$)** : $7^0 - 1 = 0 = 6 \\times 0$, donc $P(0)$ est vraie.",
+          "**Étape 3 (Hérédité)** : soit $k \\in \\mathbb{N}$ tel que $7^k - 1 = 6m$ avec $m$ entier (HR), c'est-à-dire $7^k = 6m + 1$. Alors $7^{k+1} - 1 = 7 \\times 7^k - 1 = 7(6m + 1) - 1 = 42m + 6 = 6(7m + 1)$. Comme $7m + 1$ est un entier, $P(k+1)$ est vraie.",
+          "**Conclusion** : par récurrence, pour tout $n \\in \\mathbb{N}$, $6$ divise $7^n - 1$ (contrôle : $7^2 - 1 = 48 = 6 \\times 8$)."
+        ]
       }
     ],
     "traps": [
@@ -95,6 +106,10 @@ window.MATHS_COURSES_TALE = {
       {
         "q": "Pour montrer par récurrence que $u_n \\le u_{n+1}$ avec $u_{n+1} = f(u_n)$, quelle propriété de $f$ est utile ?",
         "a": "La **croissance** de $f$ sur un intervalle contenant tous les termes de la suite."
+      },
+      {
+        "q": "Dans une récurrence de divisibilité, comment exploiter l'hypothèse « $6$ divise $7^k - 1$ » ?",
+        "a": "On l'écrit $7^k = 6m + 1$ avec $m$ entier, puis on remplace dans $7^{k+1} = 7 \\times 7^k$ pour factoriser par $6$."
       }
     ]
   },
@@ -102,12 +117,13 @@ window.MATHS_COURSES_TALE = {
     "title": "TA3 : Limites de fonctions, continuité et TVI",
     "domain": "Analyse et Fonctions",
     "objectives": [
-      "Déterminer les limites de fonctions en $\\pm\\infty$ et en un point (asymptotes horizontales, verticales, obliques).",
+      "Déterminer les limites de fonctions en $\\pm\\infty$ et en un point (asymptotes parallèles aux axes ; les asymptotes obliques relèvent de l'approfondissement).",
       "Maîtriser la définition et les propriétés des fonctions continues sur un intervalle.",
       "Énoncer et appliquer le Théorème des Valeurs Intermédiaires (TVI).",
       "Appliquer le corollaire du TVI (théorème de la bijection) pour prouver l'existence et l'unicité d'une solution $f(x) = k$.",
       "Connaître les croissances comparées de $x^n$ et $e^x$ et lever les formes indéterminées correspondantes.",
-      "Encadrer une solution d'équation par dichotomie (à la main ou avec Python)."
+      "Encadrer une solution d'équation par dichotomie (à la main ou avec Python).",
+      "Démontrer les limites de l'exponentielle en $\\pm\\infty$ et la croissance comparée de $e^x$ et $x^n$ en $+\\infty$."
     ],
     "keyPoints": [
       {
@@ -129,6 +145,14 @@ window.MATHS_COURSES_TALE = {
       {
         "title": "5. Corollaire du TVI sur un intervalle quelconque",
         "content": "Le corollaire s'étend aux intervalles ouverts ou non bornés en remplaçant les images des bornes par les **limites** : si $f$ est continue et strictement croissante sur $]a ; b[$ avec $\\lim\\limits_{x \\to a} f(x) = L_1$ et $\\lim\\limits_{x \\to b} f(x) = L_2$, alors pour tout $k \\in \\, ]L_1 ; L_2[$, l'équation $f(x) = k$ admet une **unique** solution dans $]a ; b[$.\nExemple : $x \\mapsto e^x + x$ est continue, strictement croissante sur $\\mathbb{R}$, de limites $-\\infty$ et $+\\infty$ : l'équation $e^x + x = 0$ a une unique solution réelle."
+      },
+      {
+        "title": "6. Démonstration : limites de la fonction exponentielle en $+\\infty$ et en $-\\infty$",
+        "content": "• **Inégalité préalable** : la fonction $g : x \\mapsto e^x - x$ a pour dérivée $g'(x) = e^x - 1$, négative sur $]-\\infty ; 0]$ et positive sur $[0 ; +\\infty[$. Son minimum est $g(0) = 1 > 0$, donc $e^x > x$ pour tout réel $x$.\n• **En $+\\infty$** : $e^x > x$ et $\\lim\\limits_{x \\to +\\infty} x = +\\infty$, donc, par comparaison, $\\lim\\limits_{x \\to +\\infty} e^x = +\\infty$.\n• **En $-\\infty$** : pour tout réel $x$, $e^x = \\dfrac{1}{e^{-x}}$. Quand $x \\to -\\infty$, $X = -x \\to +\\infty$, donc $e^{-x} = e^{X} \\to +\\infty$ et, par quotient, $\\lim\\limits_{x \\to -\\infty} e^x = 0$."
+      },
+      {
+        "title": "7. Démonstration : croissance comparée de $e^x$ et $x^n$ en $+\\infty$",
+        "content": "• **Cas $n = 1$** : soit $h(x) = e^x - \\dfrac{x^2}{2}$ sur $[0 ; +\\infty[$. Alors $h'(x) = e^x - x > 0$ (inégalité précédente), donc $h$ est croissante et $h(x) \\ge h(0) = 1 > 0$. Ainsi $e^x > \\dfrac{x^2}{2}$ et, pour $x > 0$, $\\dfrac{e^x}{x} > \\dfrac{x}{2}$. Comme $\\dfrac{x}{2} \\to +\\infty$, par comparaison $\\lim\\limits_{x \\to +\\infty} \\dfrac{e^x}{x} = +\\infty$.\n• **Cas $n \\ge 2$** : pour $x > 0$, en posant $X = \\dfrac{x}{n}$,\n$$\\frac{e^x}{x^n} = \\left(\\frac{e^{x/n}}{x}\\right)^n = \\left(\\frac{1}{n} \\times \\frac{e^{X}}{X}\\right)^n$$\nQuand $x \\to +\\infty$, $X \\to +\\infty$ et $\\dfrac{e^X}{X} \\to +\\infty$ (cas $n = 1$) ; par produit et puissance, $\\lim\\limits_{x \\to +\\infty} \\dfrac{e^x}{x^n} = +\\infty$.\n• **En $-\\infty$** : avec $X = -x \\to +\\infty$, $x^n e^x = (-1)^n \\dfrac{X^n}{e^X} \\to 0$."
       }
     ],
     "methods": [
@@ -199,6 +223,10 @@ window.MATHS_COURSES_TALE = {
       {
         "q": "Que vaut $\\lim\\limits_{x \\to -\\infty} x e^x$ ?",
         "a": "$0$ (croissances comparées)."
+      },
+      {
+        "q": "Quelle inégalité permet de démontrer que $\\lim\\limits_{x \\to +\\infty} e^x = +\\infty$ ?",
+        "a": "$e^x > x$ pour tout réel $x$ (étude de $x \\mapsto e^x - x$, de minimum $1$), puis comparaison."
       }
     ]
   },
@@ -211,7 +239,8 @@ window.MATHS_COURSES_TALE = {
       "Dériver des fonctions composées $(\\ln(u))' = \\frac{u'}{u}$.",
       "Connaître les limites usuelles et croissances comparées : $\\lim_{x \\to +\\infty} \\frac{\\ln(x)}{x} = 0$ et $\\lim_{x \\to 0^+} x\\ln(x) = 0$.",
       "Résoudre des équations et inéquations faisant intervenir $\\ln$ en précisant le domaine de validité.",
-      "Étudier une fonction faisant intervenir $\\ln$ (dérivée, variations, limites)."
+      "Étudier une fonction faisant intervenir $\\ln$ (dérivée, variations, limites).",
+      "Démontrer la formule $\\ln'(x) = \\frac{1}{x}$ et la limite de $x\\ln(x)$ en $0$."
     ],
     "keyPoints": [
       {
@@ -220,7 +249,7 @@ window.MATHS_COURSES_TALE = {
       },
       {
         "title": "2. Dérivée et croissances comparées",
-        "content": "• Dérivée : $(\\ln(x))' = \\frac{1}{x} > 0$ pour tout $x > 0$ (fonction strictement croissante sur $]0 ; +\\infty[$).\n• Dérivée composée : $(\\ln(u(x)))' = \\frac{u'(x)}{u(x)}$ (sur tout intervalle où $u(x) > 0$).\n• **Croissances comparées en $+\\infty$** : L'exponentielle l'emporte sur toute puissance de $x$, qui l'emporte sur le logarithme :\n$$\\lim_{x \\to +\\infty} \\frac{\\ln(x)}{x^n} = 0 \\quad (n > 0)$$"
+        "content": "• Dérivée : $(\\ln(x))' = \\frac{1}{x} > 0$ pour tout $x > 0$ (fonction strictement croissante sur $]0 ; +\\infty[$).\n• Dérivée composée : $(\\ln(u(x)))' = \\frac{u'(x)}{u(x)}$ (sur tout intervalle où $u(x) > 0$).\n• **Croissances comparées en $+\\infty$** : L'exponentielle l'emporte sur toute puissance de $x$, qui l'emporte sur le logarithme :\n$$\\lim_{x \\to +\\infty} \\frac{\\ln(x)}{x^n} = 0 \\quad (n \\in \\mathbb{N}^*)$$"
       },
       {
         "title": "3. Définition, variations et signe",
@@ -233,6 +262,18 @@ window.MATHS_COURSES_TALE = {
       {
         "title": "5. Fonctions $\\ln(u)$ : domaine et variations",
         "content": "• $\\ln(u(x))$ n'existe que si $u(x) > 0$ : le domaine se détermine en résolvant cette inéquation.\n• Sur un intervalle où $u > 0$ et $u$ dérivable, $(\\ln u)' = \\dfrac{u'}{u}$ a le signe de $u'$ : **$\\ln(u)$ a les mêmes variations que $u$**.\nExemple : $g(x) = \\ln(x^2 + 1)$ est définie sur $\\mathbb{R}$, $g'(x) = \\dfrac{2x}{x^2 + 1}$ ; $g$ est décroissante sur $]-\\infty ; 0]$ et croissante sur $[0 ; +\\infty[$.\n• Le logarithme décimal $\\log(x) = \\dfrac{\\ln(x)}{\\ln(10)}$ vérifie $\\log(10^n) = n$ (utilisé en chimie pour le pH, en acoustique pour les décibels)."
+      },
+      {
+        "title": "6. Démonstration : dérivée de $\\ln$ (la dérivabilité étant admise)",
+        "content": "Pour tout $x > 0$, $e^{\\ln(x)} = x$. On admet que $\\ln$ est dérivable sur $]0 ; +\\infty[$. On dérive les deux membres, le premier comme une composée $e^{u}$ avec $u = \\ln$ :\n$$\\ln'(x) \\times e^{\\ln(x)} = 1, \\quad \\text{soit} \\quad \\ln'(x) \\times x = 1$$\nDonc $\\ln'(x) = \\dfrac{1}{x}$ pour tout $x > 0$. Comme $\\dfrac{1}{x} > 0$, on retrouve que $\\ln$ est strictement croissante sur $]0 ; +\\infty[$.\n**Relation fonctionnelle** : pour $a, b > 0$, $e^{\\ln(a) + \\ln(b)} = e^{\\ln(a)} \\times e^{\\ln(b)} = ab = e^{\\ln(ab)}$. Deux réels ayant la même exponentielle sont égaux (l'exponentielle est strictement croissante), donc $\\ln(ab) = \\ln(a) + \\ln(b)$."
+      },
+      {
+        "title": "7. Démonstration : limite de $x\\ln(x)$ en $0$ et de $\\frac{\\ln(x)}{x}$ en $+\\infty$",
+        "content": "On se ramène aux croissances comparées de l'exponentielle (chapitre TA3) en posant $X = \\ln(x)$, c'est-à-dire $x = e^X$.\n• **En $0$** : quand $x \\to 0^+$, $X = \\ln(x) \\to -\\infty$, et $x\\ln(x) = e^X \\times X = Xe^X$. Or $\\lim\\limits_{X \\to -\\infty} Xe^X = 0$, donc $\\lim\\limits_{x \\to 0^+} x\\ln(x) = 0$.\n• **En $+\\infty$** : quand $x \\to +\\infty$, $X \\to +\\infty$ et $\\dfrac{\\ln(x)}{x} = \\dfrac{X}{e^X} = \\dfrac{1}{e^X / X}$. Comme $\\dfrac{e^X}{X} \\to +\\infty$, on obtient $\\lim\\limits_{x \\to +\\infty} \\dfrac{\\ln(x)}{x} = 0$."
+      },
+      {
+        "title": "8. Algorithme de Briggs (calcul approché d'un logarithme)",
+        "content": "Pour $x > 0$, on extrait $k$ racines carrées successives : $y = \\sqrt{\\sqrt{\\cdots\\sqrt{x}}} = x^{1/2^k}$ est très proche de $1$ et $\\ln(x) = 2^k \\ln(y)$. Comme $\\ln(y) \\approx y - 1$ pour $y$ proche de $1$ (tangente en $1$ à la courbe de $\\ln$), on obtient :\n$$\\ln(x) \\approx 2^k\\,(y - 1)$$\n```python\nfrom math import sqrt\n\ndef briggs(x, k):\n    y = x\n    for i in range(k):\n        y = sqrt(y)\n    return 2**k * (y - 1)\n\nprint(briggs(2, 20))   # environ 0.693147\n```\nOn retrouve $\\ln(2) \\approx 0{,}693147$."
       }
     ],
     "methods": [
@@ -282,7 +323,8 @@ window.MATHS_COURSES_TALE = {
       "⚠️ $\\ln(a+b) \\neq \\ln(a) + \\ln(b)$ !",
       "⚠️ Toujours déterminer le **domaine** avant de résoudre : dans $\\ln(2x - 1) \\le 0$, il faut $x > \\frac{1}{2}$, puis $2x - 1 \\le 1$ ; l'ensemble solution est $\\left]\\frac{1}{2} ; 1\\right]$ et non $]-\\infty ; 1]$.",
       "⚠️ $\\ln(a) \\times \\ln(b) \\ne \\ln(a) + \\ln(b)$ et $\\dfrac{\\ln(a)}{\\ln(b)} \\ne \\ln(a) - \\ln(b)$ : c'est $\\ln(ab)$ et $\\ln\\left(\\frac{a}{b}\\right)$ qui se transforment.",
-      "⚠️ $\\ln(x^2) = 2\\ln(x)$ seulement pour $x > 0$ ; pour $x \\ne 0$ quelconque, $\\ln(x^2) = 2\\ln|x|$."
+      "⚠️ $\\ln(x^2) = 2\\ln(x)$ seulement pour $x > 0$ ; pour $x \\ne 0$ quelconque, $\\ln(x^2) = 2\\ln|x|$.",
+      "⚠️ $\\ln(u(x))$ n'est définie que si $u(x) > 0$ : $x \\mapsto \\ln(x^2 - 1)$ est définie sur $]-\\infty ; -1[ \\cup ]1 ; +\\infty[$, et non sur $\\mathbb{R}$."
     ],
     "flashcards": [
       {
@@ -316,7 +358,8 @@ window.MATHS_COURSES_TALE = {
       "Maîtriser les propriétés de l'intégrale : linéarité, relation de Chasles, positivité.",
       "Appliquer la formule d'intégration par parties (IPP) : $\\int_a^b u'(t)v(t) dt = [u(t)v(t)]_a^b - \\int_a^b u(t)v'(t) dt$.",
       "Calculer l'aire d'un domaine délimité par deux courbes.",
-      "Étudier une suite d'intégrales (signe, monotonie, encadrement, limite) et approcher une intégrale par la méthode des rectangles."
+      "Étudier une suite d'intégrales (signe, monotonie, encadrement, limite) et approcher une intégrale par la méthode des rectangles.",
+      "Démontrer que $x \\mapsto \\int_a^x f(t)\\,dt$ est une primitive de $f$ (cas positif croissant) et la formule d'intégration par parties."
     ],
     "keyPoints": [
       {
@@ -337,7 +380,15 @@ window.MATHS_COURSES_TALE = {
       },
       {
         "title": "5. Méthode des rectangles avec Python",
-        "content": "Quand on ne connaît pas de primitive (par exemple de $x \\mapsto e^{-x^2}$), on approche l'intégrale par une somme d'aires de rectangles de largeur $\\frac{b - a}{n}$ :\n```python\nfrom math import exp\ndef rectangles(f, a, b, n):\n    h = (b - a) / n\n    s = 0\n    for k in range(n):\n        s = s + f(a + k*h) * h\n    return s\nprint(rectangles(lambda x: exp(-x**2), 0, 1, 10))\n```\nAvec $n = 10$ on obtient environ $0{,}778$ ; la valeur exacte est proche de $0{,}747$. Plus $n$ est grand, meilleure est l'approximation."
+        "content": "Quand on ne connaît pas de primitive (par exemple de $x \\mapsto e^{-x^2}$), on approche l'intégrale par une somme d'aires de rectangles de largeur $\\frac{b - a}{n}$ :\n```python\nfrom math import exp\ndef rectangles(f, a, b, n):\n    h = (b - a) / n\n    s = 0\n    for k in range(n):\n        s = s + f(a + k*h) * h\n    return s\nprint(rectangles(lambda x: exp(-x**2), 0, 1, 10))\n```\nAvec $n = 10$ on obtient environ $0{,}778$ ; la valeur exacte est proche de $0{,}747$. Plus $n$ est grand, meilleure est l'approximation.\n• **Variantes** : la méthode des **milieux** (hauteur $f\\left(a + (k + \\frac{1}{2})h\\right)$) donne environ $0{,}7471$ avec $n = 10$ ; la méthode des **trapèzes** (aire $\\frac{h}{2}\\big(f(x_k) + f(x_{k+1})\\big)$) donne environ $0{,}7462$. Ces méthodes sont en général plus précises. Voir aussi la méthode de Monte-Carlo (chapitre TS4)."
+      },
+      {
+        "title": "6. Démonstration : $x \\mapsto \\int_a^x f(t)\\,dt$ est une primitive de $f$ ($f$ continue, positive, croissante)",
+        "content": "Soit $f$ continue, positive et croissante sur $[a ; b]$, et $F(x) = \\int_a^x f(t)\\,dt$ (aire sous la courbe entre $a$ et $x$). Soit $x_0 \\in [a ; b[$ et $h > 0$ tel que $x_0 + h \\le b$.\n• $F(x_0 + h) - F(x_0)$ est l'aire du domaine situé sous la courbe entre $x_0$ et $x_0 + h$.\n• $f$ étant croissante, ce domaine contient le rectangle de largeur $h$ et de hauteur $f(x_0)$ et il est contenu dans le rectangle de largeur $h$ et de hauteur $f(x_0 + h)$ :\n$$h\\,f(x_0) \\le F(x_0 + h) - F(x_0) \\le h\\,f(x_0 + h)$$\n• En divisant par $h > 0$ : $f(x_0) \\le \\dfrac{F(x_0 + h) - F(x_0)}{h} \\le f(x_0 + h)$. Comme $f$ est continue en $x_0$, $f(x_0 + h) \\to f(x_0)$ quand $h \\to 0$ : par le théorème des gendarmes, le taux d'accroissement tend vers $f(x_0)$.\n• Pour $h < 0$, on obtient de même l'encadrement $f(x_0 + h) \\le \\dfrac{F(x_0 + h) - F(x_0)}{h} \\le f(x_0)$ et la même limite. Donc $F$ est dérivable et $F' = f$ : $F$ est la primitive de $f$ qui s'annule en $a$.\n• **Conséquence** : si $G$ est une primitive quelconque de $f$, alors $G = F + C$ (chapitre TA6), donc $G(b) - G(a) = F(b) - F(a) = \\int_a^b f(t)\\,dt$."
+      },
+      {
+        "title": "7. Démonstration : formule d'intégration par parties",
+        "content": "Soient $u$ et $v$ dérivables sur $[a ; b]$, de dérivées $u'$ et $v'$ continues.\n• Le produit $uv$ est dérivable et $(uv)' = u'v + uv'$, fonction continue : $uv$ est donc une primitive de $u'v + uv'$, et\n$$\\int_a^b \\big(u'(t)v(t) + u(t)v'(t)\\big)\\,dt = [u(t)v(t)]_a^b$$\n• Par linéarité, $\\int_a^b u'(t)v(t)\\,dt + \\int_a^b u(t)v'(t)\\,dt = [u(t)v(t)]_a^b$, d'où :\n$$\\int_a^b u'(t)v(t)\\,dt = [u(t)v(t)]_a^b - \\int_a^b u(t)v'(t)\\,dt$$\nLa continuité de $u'$ et $v'$ garantit l'existence de toutes les intégrales écrites."
       }
     ],
     "methods": [
@@ -370,6 +421,16 @@ window.MATHS_COURSES_TALE = {
           "**Étape 3 (Encadrement)** : sur $[0 ; 1]$, $1 + x \\ge 1$, donc $0 \\le \\dfrac{x^n}{1 + x} \\le x^n$. Par croissance de l'intégrale : $0 \\le I_n \\le \\int_0^1 x^n\\,dx = \\dfrac{1}{n + 1}$.",
           "**Conclusion** : $\\lim \\frac{1}{n+1} = 0$, donc d'après le théorème des gendarmes, $\\lim\\limits_{n \\to +\\infty} I_n = 0$."
         ]
+      },
+      {
+        "title": "Méthode : Calculer et interpréter une valeur moyenne",
+        "example": "La vitesse d'un mobile est $v(t) = 6t - t^2$ (en m/s) pour $t \\in [0 ; 6]$ (en s). Calculer sa vitesse moyenne sur $[0 ; 6]$.",
+        "steps": [
+          "**Étape 1 (Formule)** : $\\mu = \\dfrac{1}{6 - 0}\\int_0^6 v(t)\\,dt$.",
+          "**Étape 2 (Primitive)** : $V(t) = 3t^2 - \\dfrac{t^3}{3}$ est une primitive de $v$ sur $[0 ; 6]$.",
+          "**Étape 3 (Calcul)** : $\\int_0^6 v(t)\\,dt = V(6) - V(0) = 108 - 72 = 36$, donc $\\mu = \\dfrac{36}{6} = 6$.",
+          "**Conclusion** : la vitesse moyenne est $6$ m/s ; l'intégrale $36$ représente la distance parcourue ($36$ m). Graphiquement, le rectangle de hauteur $\\mu = 6$ sur $[0 ; 6]$ a la même aire que le domaine sous la courbe de $v$."
+        ]
       }
     ],
     "traps": [
@@ -399,6 +460,10 @@ window.MATHS_COURSES_TALE = {
       {
         "q": "Comment calcule-t-on l'aire entre les courbes de $f$ et $g$ sur $[a ; b]$ si $f \\ge g$ ?",
         "a": "$\\int_a^b \\big(f(x) - g(x)\\big)\\,dx$ (en unités d'aire)."
+      },
+      {
+        "q": "Sur quelle formule repose la démonstration de l'intégration par parties ?",
+        "a": "La dérivée d'un produit, $(uv)' = u'v + uv'$, que l'on intègre entre $a$ et $b$ avant d'utiliser la linéarité."
       }
     ]
   },
@@ -410,7 +475,8 @@ window.MATHS_COURSES_TALE = {
       "Déterminer et utiliser l'équation cartésienne d'un plan $ax + by + cz + d = 0$ de vecteur normal $\\vec{n}(a ; b ; c)$.",
       "Calculer le projeté orthogonal d'un point sur un plan et la distance d'un point à un plan.",
       "Calculer une longueur, un angle et démontrer une orthogonalité avec le produit scalaire.",
-      "Démontrer qu'une droite est orthogonale à un plan."
+      "Démontrer qu'une droite est orthogonale à un plan.",
+      "Démontrer l'équation cartésienne d'un plan et la propriété de distance minimale du projeté orthogonal."
     ],
     "keyPoints": [
       {
@@ -419,7 +485,7 @@ window.MATHS_COURSES_TALE = {
       },
       {
         "title": "2. Produit scalaire dans l'espace : définitions et propriétés",
-        "content": "• Deux vecteurs de l'espace sont toujours coplanaires : on définit $\\vec{u} \\cdot \\vec{v} = \\|\\vec{u}\\| \\times \\|\\vec{v}\\| \\times \\cos(\\widehat{\\vec{u}, \\vec{v}})$ comme dans le plan qui les contient.\n• **Formule de polarisation** : $\\vec{u} \\cdot \\vec{v} = \\frac{1}{2}\\left(\\|\\vec{u} + \\vec{v}\\|^2 - \\|\\vec{u}\\|^2 - \\|\\vec{v}\\|^2\\right)$.\n• En **repère orthonormé**, pour $\\vec{u}(x ; y ; z)$ et $\\vec{v}(x' ; y' ; z')$ : $\\vec{u} \\cdot \\vec{v} = xx' + yy' + zz'$ et $\\|\\vec{u}\\| = \\sqrt{x^2 + y^2 + z^2}$.\n• Le produit scalaire est **symétrique** et **bilinéaire** : $\\vec{u} \\cdot (\\vec{v} + k\\vec{w}) = \\vec{u} \\cdot \\vec{v} + k\\,\\vec{u} \\cdot \\vec{w}$.\n• $\\vec{u} \\perp \\vec{v} \\iff \\vec{u} \\cdot \\vec{v} = 0$."
+        "content": "• Deux vecteurs de l'espace sont toujours coplanaires : on définit $\\vec{u} \\cdot \\vec{v} = \\|\\vec{u}\\| \\times \\|\\vec{v}\\| \\times \\cos(\\widehat{\\vec{u}, \\vec{v}})$ comme dans le plan qui les contient.\n• **Formule de polarisation** : $\\vec{u} \\cdot \\vec{v} = \\frac{1}{2}\\left(\\|\\vec{u} + \\vec{v}\\|^2 - \\|\\vec{u}\\|^2 - \\|\\vec{v}\\|^2\\right)$.\n• En **repère orthonormé**, pour $\\vec{u}(x ; y ; z)$ et $\\vec{v}(x' ; y' ; z')$ : $\\vec{u} \\cdot \\vec{v} = xx' + yy' + zz'$ et $\\|\\vec{u}\\| = \\sqrt{x^2 + y^2 + z^2}$.\n• Le produit scalaire est **symétrique** et **bilinéaire** : $\\vec{u} \\cdot (\\vec{v} + k\\vec{w}) = \\vec{u} \\cdot \\vec{v} + k\\,\\vec{u} \\cdot \\vec{w}$.\n• $\\vec{u} \\perp \\vec{v} \\iff \\vec{u} \\cdot \\vec{v} = 0$.\n• Développement : $\\|\\vec{u} + \\vec{v}\\|^2 = \\|\\vec{u}\\|^2 + 2\\,\\vec{u} \\cdot \\vec{v} + \\|\\vec{v}\\|^2$.\n• Distance entre deux points en repère orthonormé : $AB = \\sqrt{(x_B - x_A)^2 + (y_B - y_A)^2 + (z_B - z_A)^2}$."
       },
       {
         "title": "3. Orthogonalité d'une droite et d'un plan",
@@ -428,6 +494,18 @@ window.MATHS_COURSES_TALE = {
       {
         "title": "4. Projeté orthogonal et distance",
         "content": "• Le **projeté orthogonal** d'un point $M$ sur un plan $\\mathcal{P}$ est le point $H$ de $\\mathcal{P}$ tel que $\\overrightarrow{MH}$ est colinéaire à un vecteur normal de $\\mathcal{P}$ (c'est l'intersection de $\\mathcal{P}$ avec la droite passant par $M$ orthogonale à $\\mathcal{P}$).\n• $H$ est le point de $\\mathcal{P}$ **le plus proche** de $M$ : pour tout $N \\in \\mathcal{P}$, $MN \\ge MH$ (Pythagore). La distance de $M$ au plan est $MH$.\n• De même, le projeté orthogonal de $M$ sur une droite $d$ est le point $H$ de $d$ tel que $\\overrightarrow{MH}$ est orthogonal à un vecteur directeur de $d$."
+      },
+      {
+        "title": "5. Démonstration : équation cartésienne d'un plan",
+        "content": "On se place dans un repère orthonormé. Soit $\\mathcal{P}$ le plan passant par $A(x_A ; y_A ; z_A)$ et de vecteur normal $\\vec{n}(a ; b ; c) \\ne \\vec{0}$.\n• **Sens direct** : $M(x ; y ; z) \\in \\mathcal{P} \\iff \\overrightarrow{AM} \\cdot \\vec{n} = 0 \\iff a(x - x_A) + b(y - y_A) + c(z - z_A) = 0$, c'est-à-dire $ax + by + cz + d = 0$ avec $d = -(ax_A + by_A + cz_A)$.\n• **Réciproque** : soient $(a ; b ; c) \\ne (0 ; 0 ; 0)$ et $d$ un réel ; supposons par exemple $a \\ne 0$. Le point $A\\left(-\\frac{d}{a} ; 0 ; 0\\right)$ vérifie l'équation et, pour tout point $M(x ; y ; z)$, $ax + by + cz + d = a\\left(x + \\frac{d}{a}\\right) + by + cz = \\overrightarrow{AM} \\cdot \\vec{n}$. L'ensemble des points vérifiant $ax + by + cz + d = 0$ est donc le plan passant par $A$ et de vecteur normal $\\vec{n}(a ; b ; c)$. (Si $a = 0$, on raisonne de même avec $b$ ou $c$.)"
+      },
+      {
+        "title": "6. Démonstration : le projeté orthogonal est le point du plan le plus proche",
+        "content": "Soit $H$ le projeté orthogonal de $M$ sur le plan $\\mathcal{P}$ et $N$ un point quelconque de $\\mathcal{P}$.\n• $\\overrightarrow{MH}$ est normal à $\\mathcal{P}$ et $\\overrightarrow{HN}$ est un vecteur du plan ($H$ et $N$ sont dans $\\mathcal{P}$) : $\\overrightarrow{MH} \\cdot \\overrightarrow{HN} = 0$.\n• Par la relation de Chasles et le développement du carré scalaire :\n$$MN^2 = \\|\\overrightarrow{MH} + \\overrightarrow{HN}\\|^2 = MH^2 + 2\\,\\overrightarrow{MH} \\cdot \\overrightarrow{HN} + HN^2 = MH^2 + HN^2$$\n• Donc $MN^2 \\ge MH^2$, soit $MN \\ge MH$, avec égalité si et seulement si $HN = 0$, c'est-à-dire $N = H$.\n**Conclusion** : $H$ est l'unique point de $\\mathcal{P}$ le plus proche de $M$, et la distance de $M$ au plan est $MH$."
+      },
+      {
+        "title": "7. Pour aller plus loin : intersection de deux plans",
+        "content": "Deux plans dont les vecteurs normaux ne sont pas colinéaires sont sécants selon une droite. Pour en obtenir une représentation paramétrique, on résout le système formé par les deux équations en prenant une inconnue comme paramètre.\nExemple : $\\mathcal{P}_1 : x + y + z - 3 = 0$ et $\\mathcal{P}_2 : x - y + 2z - 1 = 0$. En posant $z = t$ : $x + y = 3 - t$ et $x - y = 1 - 2t$, d'où $x = 2 - \\frac{3}{2}t$ et $y = 1 + \\frac{1}{2}t$. La droite d'intersection passe par $(2 ; 1 ; 0)$ et est dirigée par $(-3 ; 1 ; 2)$, vecteur orthogonal aux deux vecteurs normaux $(1 ; 1 ; 1)$ et $(1 ; -1 ; 2)$."
       }
     ],
     "methods": [
@@ -460,6 +538,16 @@ window.MATHS_COURSES_TALE = {
           "**Étape 3 (Cosinus)** : $\\cos(\\widehat{BAC}) = \\dfrac{\\overrightarrow{AB} \\cdot \\overrightarrow{AC}}{AB \\times AC} = \\dfrac{1}{\\sqrt{2} \\times \\sqrt{2}} = \\dfrac{1}{2}$.",
           "**Conclusion** : $\\widehat{BAC} = 60^\\circ$. Comme $\\overrightarrow{BC}(0 ; -1 ; 1)$ donne aussi $BC = \\sqrt{2}$, le triangle $ABC$ est équilatéral."
         ]
+      },
+      {
+        "title": "Méthode : Déterminer le projeté orthogonal d'un point sur une droite",
+        "example": "Soit $d$ la droite passant par $A(1 ; 0 ; 2)$ et de vecteur directeur $\\vec{u}(1 ; 1 ; 0)$, et $M(3 ; 4 ; -1)$. Déterminer le projeté orthogonal $H$ de $M$ sur $d$ et la distance de $M$ à $d$.",
+        "steps": [
+          "**Étape 1 (Paramétrage)** : $H \\in d$, donc $H(1 + t ; t ; 2)$ pour un réel $t$, et $\\overrightarrow{MH}(t - 2 ; t - 4 ; 3)$.",
+          "**Étape 2 (Orthogonalité)** : $\\overrightarrow{MH} \\cdot \\vec{u} = 0 \\iff (t - 2) + (t - 4) + 0 = 0 \\iff 2t - 6 = 0 \\iff t = 3$.",
+          "**Étape 3 (Coordonnées)** : $H(4 ; 3 ; 2)$ et $\\overrightarrow{MH}(1 ; -1 ; 3)$.",
+          "**Conclusion** : $MH = \\sqrt{1 + 1 + 9} = \\sqrt{11}$ : la distance de $M$ à la droite $d$ est $\\sqrt{11} \\approx 3{,}32$."
+        ]
       }
     ],
     "traps": [
@@ -489,6 +577,10 @@ window.MATHS_COURSES_TALE = {
       {
         "q": "Le point $A(1 ; 1 ; 1)$ appartient-il au plan $2x - y + 3z - 4 = 0$ ?",
         "a": "Oui : $2 - 1 + 3 - 4 = 0$."
+      },
+      {
+        "q": "Pourquoi le projeté orthogonal $H$ de $M$ sur un plan est-il le point du plan le plus proche de $M$ ?",
+        "a": "Pour tout point $N$ du plan, $\\overrightarrow{MH} \\cdot \\overrightarrow{HN} = 0$, donc $MN^2 = MH^2 + HN^2 \\ge MH^2$."
       }
     ]
   },
@@ -501,7 +593,8 @@ window.MATHS_COURSES_TALE = {
       "Reconnaître et caractériser la loi binomiale $\\mathcal{B}(n, p)$ comptant le nombre de succès.",
       "Calculer $P(X = k) = \\binom{n}{k} p^k (1-p)^{n-k}$, l'espérance $E(X) = np$ et la variance $V(X) = np(1-p)$.",
       "Utiliser les coefficients binomiaux $\\binom{n}{k}$ (propriétés, triangle de Pascal).",
-      "Calculer des probabilités cumulées et déterminer un seuil ou un intervalle pour une loi binomiale."
+      "Calculer des probabilités cumulées et déterminer un seuil ou un intervalle pour une loi binomiale.",
+      "Modéliser une succession d'épreuves indépendantes et démontrer l'expression de $P(X = k)$."
     ],
     "keyPoints": [
       {
@@ -519,6 +612,18 @@ window.MATHS_COURSES_TALE = {
       {
         "title": "4. Probabilités cumulées et calculs pratiques",
         "content": "• $P(X \\le k) = \\sum_{i=0}^{k} P(X = i)$ s'obtient à la calculatrice (fonction « binomiale cumulée » / « binomFRép »).\n• $P(X \\ge k) = 1 - P(X \\le k - 1)$ et $P(a \\le X \\le b) = P(X \\le b) - P(X \\le a - 1)$.\n• En Python :\n```python\nfrom math import comb\ndef binom(n, p, k):\n    return comb(n, k) * p**k * (1 - p)**(n - k)\ndef cumul(n, p, k):\n    return sum(binom(n, p, i) for i in range(k + 1))\n```"
+      },
+      {
+        "title": "5. Succession d'épreuves indépendantes",
+        "content": "• Une succession de $n$ épreuves **indépendantes** se représente par un arbre ou par un produit cartésien : une issue est une liste $(x_1 ; x_2 ; \\dots ; x_n)$.\n• **Modèle** : la probabilité d'une issue $(x_1 ; \\dots ; x_n)$ est le **produit** des probabilités des issues $x_1$, …, $x_n$ de chaque épreuve.\n• Exemple : on lance une pièce équilibrée puis un dé équilibré : $P\\big((\\text{Pile} ; 6)\\big) = \\frac{1}{2} \\times \\frac{1}{6} = \\frac{1}{12}$.\n• Pour un **schéma de Bernoulli**, l'univers est l'ensemble $\\{0 ; 1\\}^n$ des listes de $n$ chiffres ($1$ pour un succès, $0$ pour un échec)."
+      },
+      {
+        "title": "6. Démonstration : expression de la probabilité de $k$ succès",
+        "content": "Soit un schéma de Bernoulli de paramètres $n$ et $p$, $X$ le nombre de succès et $k \\in \\{0, \\dots, n\\}$.\n• Une issue réalisant $\\{X = k\\}$ est une liste de $n$ résultats comportant exactement $k$ succès et $n - k$ échecs. Par indépendance, sa probabilité est le produit $p^k(1 - p)^{n-k}$, **la même pour toutes ces issues**.\n• Une telle issue est entièrement déterminée par l'ensemble des $k$ rangs (parmi $n$) où ont lieu les succès : il y en a donc $\\binom{n}{k}$ (nombre de parties à $k$ éléments d'un ensemble à $n$ éléments, chapitre TS3).\n• Ces issues étant deux à deux incompatibles, on additionne leurs probabilités :\n$$P(X = k) = \\binom{n}{k}p^k(1 - p)^{n-k}$$"
+      },
+      {
+        "title": "7. Algorithmes : planche de Galton et surréservation",
+        "content": "• **Planche de Galton** : une bille rencontre $n$ rangées de clous et part à droite avec la probabilité $\\frac{1}{2}$ à chaque clou ; le numéro de sa case d'arrivée (nombre de déplacements à droite) suit $\\mathcal{B}\\left(n ; \\frac{1}{2}\\right)$.\n```python\nfrom random import random\n\ndef galton(n, nb_billes):\n    cases = [0] * (n + 1)\n    for b in range(nb_billes):\n        droite = 0\n        for i in range(n):\n            if random() < 0.5:\n                droite = droite + 1\n        cases[droite] = cases[droite] + 1\n    return cases\n```\n• **Surréservation** : pour $X \\sim \\mathcal{B}(n, p)$ et $\\alpha > 0$, on cherche le plus petit entier $k$ tel que $P(X > k) \\le \\alpha$.\n```python\nfrom math import comb\n\ndef seuil(n, p, alpha):\n    k = 0\n    cumul = (1 - p)**n          # P(X <= 0)\n    while 1 - cumul > alpha:    # P(X > k) = 1 - P(X <= k)\n        k = k + 1\n        cumul = cumul + comb(n, k) * p**k * (1 - p)**(n - k)\n    return k\n```\nExemple : une compagnie vend $318$ billets pour un avion de $300$ places ; chaque passager se présente indépendamment avec la probabilité $0{,}92$. `seuil(318, 0.92, 0.05)` renvoie $300$ : la probabilité que plus de $300$ passagers se présentent est inférieure ou égale à $5\\,\\%$. Avec $320$ billets, le seuil passe à $302$."
       }
     ],
     "methods": [
@@ -588,6 +693,10 @@ window.MATHS_COURSES_TALE = {
       {
         "q": "Pour $X \\sim \\mathcal{B}(50 ; 0{,}2)$, que valent $E(X)$ et $V(X)$ ?",
         "a": "$E(X) = 10$ et $V(X) = 8$."
+      },
+      {
+        "q": "Pourquoi y a-t-il $\\binom{n}{k}$ issues réalisant exactement $k$ succès dans un schéma de Bernoulli ?",
+        "a": "Une telle issue est déterminée par le choix des $k$ rangs des succès parmi les $n$ rangs."
       }
     ]
   },
@@ -599,7 +708,8 @@ window.MATHS_COURSES_TALE = {
       "Définir le conjugué $\\bar{z} = a - ib$ et utiliser $z\\bar{z} = a^2 + b^2$ pour calculer l'inverse et les quotients.",
       "Résoudre dans $\\mathbb{C}$ les équations du second degré à coefficients réels lorsque $\\Delta < 0$ ($z_{1,2} = \\frac{-b \\pm i\\sqrt{|\\Delta|}}{2a}$).",
       "Utiliser les propriétés du conjugué et résoudre des équations faisant intervenir $z$ et $\\bar{z}$.",
-      "Factoriser un polynôme par $z - a$ lorsque $a$ est racine, et utiliser la formule du binôme de Newton."
+      "Factoriser un polynôme par $z - a$ lorsque $a$ est racine, et utiliser la formule du binôme de Newton.",
+      "Démontrer les propriétés du conjugué, la formule du binôme et la factorisation d'un polynôme par $z - a$."
     ],
     "keyPoints": [
       {
@@ -621,6 +731,18 @@ window.MATHS_COURSES_TALE = {
       {
         "title": "5. Formule du binôme de Newton",
         "content": "Pour tous complexes $a$, $b$ et tout entier naturel $n$ :\n$$(a + b)^n = \\sum_{k=0}^{n} \\binom{n}{k} a^k b^{n-k}$$\nLes coefficients se lisent dans le triangle de Pascal. Exemple : $(1 + i)^4 = 1 + 4i + 6i^2 + 4i^3 + i^4 = 1 + 4i - 6 - 4i + 1 = -4$.\nRappel utile : les puissances de $i$ sont périodiques de période $4$ : $i^0 = 1$, $i^1 = i$, $i^2 = -1$, $i^3 = -i$."
+      },
+      {
+        "title": "6. Démonstrations : conjugué d'un produit, d'un inverse, d'une puissance",
+        "content": "Soient $z = a + ib$ et $z' = a' + ib'$ deux complexes sous forme algébrique.\n• **Produit** : $zz' = (aa' - bb') + i(ab' + a'b)$, donc $\\overline{zz'} = (aa' - bb') - i(ab' + a'b)$. Par ailleurs, $\\bar{z}\\,\\bar{z'} = (a - ib)(a' - ib') = (aa' - bb') - i(ab' + a'b)$. Donc $\\overline{zz'} = \\bar{z}\\,\\bar{z'}$.\n• **Inverse** ($z \\ne 0$) : $z \\times \\dfrac{1}{z} = 1$, donc d'après le point précédent $\\bar{z} \\times \\overline{\\left(\\dfrac{1}{z}\\right)} = \\bar{1} = 1$, d'où $\\overline{\\left(\\dfrac{1}{z}\\right)} = \\dfrac{1}{\\bar{z}}$.\n• **Puissance** : par récurrence sur $n \\in \\mathbb{N}$. On a $\\overline{z^0} = 1 = \\bar{z}^0$. Si $\\overline{z^k} = \\bar{z}^k$, alors $\\overline{z^{k+1}} = \\overline{z^k \\times z} = \\overline{z^k} \\times \\bar{z} = \\bar{z}^k \\times \\bar{z} = \\bar{z}^{k+1}$."
+      },
+      {
+        "title": "7. Démonstration : formule du binôme (par récurrence)",
+        "content": "On note $P(n)$ : « pour tous complexes $a$ et $b$, $(a + b)^n = \\sum_{k=0}^{n} \\binom{n}{k} a^k b^{n-k}$ ».\n• **Initialisation** : $(a + b)^0 = 1$ et $\\binom{0}{0}a^0b^0 = 1$.\n• **Hérédité** : supposons $P(n)$ vraie. Alors\n$$(a + b)^{n+1} = (a + b)\\sum_{k=0}^{n} \\binom{n}{k} a^k b^{n-k} = \\sum_{k=0}^{n} \\binom{n}{k} a^{k+1} b^{n-k} + \\sum_{k=0}^{n} \\binom{n}{k} a^k b^{n+1-k}$$\nOn regroupe les termes en $a^j b^{n+1-j}$ : pour $1 \\le j \\le n$, le coefficient obtenu est $\\binom{n}{j-1} + \\binom{n}{j} = \\binom{n+1}{j}$ (relation de Pascal) ; les termes extrêmes $a^{n+1}$ et $b^{n+1}$ ont pour coefficient $1 = \\binom{n+1}{n+1} = \\binom{n+1}{0}$. Donc $(a + b)^{n+1} = \\sum_{j=0}^{n+1} \\binom{n+1}{j} a^j b^{n+1-j}$ : $P(n+1)$ est vraie.\n• **Conclusion** : la formule est vraie pour tout $n \\in \\mathbb{N}$."
+      },
+      {
+        "title": "8. Démonstrations : factorisation par $z - a$ et nombre de racines",
+        "content": "• **Factorisation de $z^n - a^n$** : en développant,\n$$(z - a)(z^{n-1} + az^{n-2} + \\dots + a^{n-1}) = (z^n + az^{n-1} + \\dots + a^{n-1}z) - (az^{n-1} + \\dots + a^{n-1}z + a^n) = z^n - a^n$$\ncar tous les termes intermédiaires se simplifient.\n• **Factorisation de $P$ si $P(a) = 0$** : soit $P(z) = c_nz^n + \\dots + c_1z + c_0$. Alors $P(z) = P(z) - P(a) = c_n(z^n - a^n) + \\dots + c_1(z - a)$. Chaque $z^k - a^k$ se factorise par $z - a$, donc $P(z) = (z - a)Q(z)$, où $Q$ est un polynôme de degré $n - 1$ (de coefficient dominant $c_n$).\n• **Au plus $n$ racines** : par récurrence sur le degré $n \\ge 1$. Un polynôme de degré $1$, $c_1z + c_0$ avec $c_1 \\ne 0$, a une seule racine. Supposons le résultat vrai au degré $n$ et soit $P$ de degré $n + 1$. Si $P$ n'a pas de racine, c'est terminé ; sinon, soit $a$ une racine : $P(z) = (z - a)Q(z)$ avec $Q$ de degré $n$. Si $P(b) = 0$, alors $(b - a)Q(b) = 0$, donc $b = a$ ou $Q(b) = 0$ (un produit de complexes est nul si et seulement si l'un des facteurs l'est). Comme $Q$ a au plus $n$ racines, $P$ en a au plus $n + 1$."
       }
     ],
     "methods": [
@@ -691,6 +813,10 @@ window.MATHS_COURSES_TALE = {
       {
         "q": "Que vaut $(1 + i)^2$ ?",
         "a": "$(1 + i)^2 = 1 + 2i + i^2 = 2i$."
+      },
+      {
+        "q": "Comment démontre-t-on que $\\overline{z^n} = \\bar{z}^n$ ?",
+        "a": "Par récurrence sur $n$, en utilisant $\\overline{zz'} = \\bar{z}\\,\\bar{z'}$ : $\\overline{z^{k+1}} = \\overline{z^k}\\,\\bar{z} = \\bar{z}^{k+1}$."
       }
     ]
   },
@@ -702,7 +828,8 @@ window.MATHS_COURSES_TALE = {
       "Énoncer et appliquer le théorème des gendarmes et les théorèmes de comparaison.",
       "Appliquer le théorème de convergence monotone pour les suites récurrentes.",
       "Connaître le comportement de $q^n$ selon la valeur de $q$ et l'utiliser.",
-      "Déterminer la limite d'une suite récurrente convergente à l'aide d'un point fixe."
+      "Déterminer la limite d'une suite récurrente convergente à l'aide d'un point fixe.",
+      "Connaître et rédiger les démonstrations exigibles : suite croissante non majorée, théorème de comparaison, limite de $(q^n)$."
     ],
     "keyPoints": [
       {
@@ -728,6 +855,22 @@ window.MATHS_COURSES_TALE = {
       {
         "title": "6. Suites récurrentes et point fixe",
         "content": "Soit $(u_n)$ définie par $u_{n+1} = f(u_n)$. Si $(u_n)$ **converge** vers $\\ell$ et si $f$ est **continue** en $\\ell$, alors $\\ell$ vérifie :\n$$f(\\ell) = \\ell$$\nOn dit que $\\ell$ est un **point fixe** de $f$. On résout donc l'équation $f(x) = x$, puis on sélectionne la bonne solution grâce aux informations connues sur la suite (signe, bornes, monotonie)."
+      },
+      {
+        "title": "7. Démonstration : une suite croissante non majorée tend vers $+\\infty$",
+        "content": "Soit $(u_n)$ une suite croissante et non majorée, et $A$ un réel quelconque.\n• Comme $(u_n)$ n'est pas majorée, $A$ n'est pas un majorant de la suite : il existe un rang $N$ tel que $u_N > A$.\n• Comme $(u_n)$ est croissante, pour tout $n \\ge N$, $u_n \\ge u_N > A$.\n• Ainsi, l'intervalle $]A ; +\\infty[$ contient tous les termes $u_n$ à partir du rang $N$. Ceci étant vrai pour tout réel $A$, on a par définition $\\lim\\limits_{n \\to +\\infty} u_n = +\\infty$."
+      },
+      {
+        "title": "8. Démonstration : théorème de comparaison (limite infinie)",
+        "content": "**Énoncé** : si $u_n \\le v_n$ à partir d'un rang $n_0$ et si $\\lim u_n = +\\infty$, alors $\\lim v_n = +\\infty$.\n• Soit $A$ un réel. Comme $\\lim u_n = +\\infty$, l'intervalle $]A ; +\\infty[$ contient tous les termes $u_n$ à partir d'un certain rang $n_1$.\n• Pour tout $n \\ge \\max(n_0 ; n_1)$, on a $v_n \\ge u_n > A$ : l'intervalle $]A ; +\\infty[$ contient aussi tous les termes $v_n$ à partir de ce rang.\n• Ceci étant vrai pour tout réel $A$, $\\lim v_n = +\\infty$."
+      },
+      {
+        "title": "9. Démonstration : limite de la suite $(q^n)$",
+        "content": "• **Cas $q > 1$** : on pose $a = q - 1 > 0$. D'après l'inégalité de Bernoulli (démontrée par récurrence au chapitre TA1), $q^n = (1 + a)^n \\ge 1 + na$ pour tout $n \\in \\mathbb{N}$. Comme $a > 0$, $\\lim\\limits_{n \\to +\\infty} (1 + na) = +\\infty$ ; par comparaison, $\\lim\\limits_{n \\to +\\infty} q^n = +\\infty$.\n• **Cas $0 < |q| < 1$** : on pose $Q = \\dfrac{1}{|q|} > 1$. D'après le cas précédent, $Q^n \\to +\\infty$, donc $|q|^n = \\dfrac{1}{Q^n} \\to 0$. Comme $-|q|^n \\le q^n \\le |q|^n$, le théorème des gendarmes donne $\\lim\\limits_{n \\to +\\infty} q^n = 0$. (Si $q = 0$, la suite est nulle à partir du rang $1$.)\n• **Cas $q \\le -1$** : les termes de rang pair $q^{2n} = (q^2)^n$ sont $\\ge 1$ et ceux de rang impair sont $\\le -1$. La suite ne peut ni converger (sa limite serait à la fois $\\ge 1$ et $\\le -1$), ni tendre vers $+\\infty$ ou $-\\infty$ (ses termes changent de signe) : elle n'a pas de limite."
+      },
+      {
+        "title": "10. Algorithme : valeur approchée de $\\sqrt{2}$",
+        "content": "Le programme cherche le plus grand entier $k$ tel que $k^2 \\le 2 \\times 10^{2p}$, ce qui donne l'encadrement $\\dfrac{k}{10^p} \\le \\sqrt{2} < \\dfrac{k+1}{10^p}$ (calcul exact sur des entiers, sans erreur d'arrondi) :\n```python\ndef encadrement_racine2(p):\n    k = 1\n    while (k + 1)**2 <= 2 * 10**(2*p):\n        k = k + 1\n    return k / 10**p, (k + 1) / 10**p\n\nprint(encadrement_racine2(3))   # (1.414, 1.415)\n```\nLe même principe (algorithme de seuil ou de balayage) permet d'approcher d'autres nombres comme $\\ln(2)$ ou la limite d'une suite convergente."
       }
     ],
     "methods": [
@@ -775,7 +918,8 @@ window.MATHS_COURSES_TALE = {
       "⚠️ Ne jamais confondre majorée et convergente : la suite $u_n = (-1)^n$ est bornée mais ne converge pas.",
       "⚠️ Le passage à la limite transforme une inégalité stricte en inégalité **large** : $\\frac{1}{n} > 0$ pour tout $n \\ge 1$, mais $\\lim \\frac{1}{n} = 0$.",
       "⚠️ Une suite croissante ne tend pas forcément vers $+\\infty$ : $u_n = 1 - \\frac{1}{n}$ est croissante et converge vers $1$.",
-      "⚠️ $(-2)^n$ ne tend pas vers $+\\infty$ : ses termes changent de signe ($1, -2, 4, -8, \\dots$), la suite n'a pas de limite."
+      "⚠️ $(-2)^n$ ne tend pas vers $+\\infty$ : ses termes changent de signe ($1, -2, 4, -8, \\dots$), la suite n'a pas de limite.",
+      "⚠️ Pour une suite récurrente, résoudre $f(\\ell) = \\ell$ ne suffit pas : il faut d'abord **prouver la convergence** (par exemple par convergence monotone). La suite $u_{n+1} = 2u_n$ avec $u_0 = 1$ a pour « point fixe » $0$, mais elle tend vers $+\\infty$."
     ],
     "flashcards": [
       {
@@ -797,6 +941,10 @@ window.MATHS_COURSES_TALE = {
       {
         "q": "Si $u_{n+1} = f(u_n)$, $u_n \\to \\ell$ et $f$ continue en $\\ell$, quelle équation vérifie $\\ell$ ?",
         "a": "$f(\\ell) = \\ell$ : $\\ell$ est un point fixe de $f$."
+      },
+      {
+        "q": "Comment démontre-t-on que $q^n \\to +\\infty$ lorsque $q > 1$ ?",
+        "a": "On écrit $q = 1 + a$ avec $a > 0$ ; l'inégalité de Bernoulli donne $q^n \\ge 1 + na$, qui tend vers $+\\infty$, puis on conclut par comparaison."
       }
     ]
   },
@@ -808,16 +956,17 @@ window.MATHS_COURSES_TALE = {
       "Relier le signe de la dérivée seconde $f''$ à la convexité de $f$.",
       "Déterminer les coordonnées des points d'inflexion d'une courbe représentative.",
       "Connaître la définition de la convexité par la position de la courbe par rapport à ses sécantes.",
-      "Utiliser la convexité pour démontrer des inégalités ($e^x \\ge 1 + x$, $\\ln(x) \\le x - 1$)."
+      "Utiliser la convexité pour démontrer des inégalités ($e^x \\ge 1 + x$, $\\ln(x) \\le x - 1$).",
+      "Démontrer que si $f'' \\ge 0$, la courbe est au-dessus de ses tangentes."
     ],
     "keyPoints": [
       {
         "title": "1. Définition et caractérisation de la convexité",
-        "content": "Soit $f$ une fonction deux fois dérivable sur un intervalle $I$ :\n• $f$ est **convexe** sur $I \\iff$ sa courbe $\\mathcal{C}_f$ est située **au-dessus** de toutes ses tangentes $\\iff f'$ est croissante sur $I \\iff f''(x) \\ge 0$ pour tout $x \\in I$.\n• $f$ est **concave** sur $I \\iff$ sa courbe $\\mathcal{C}_f$ est située **en dessous** de toutes ses tangentes $\\iff f'$ est décroissante sur $I \\iff f''(x) \\le 0$ pour tout $x \\in I$."
+        "content": "Soit $f$ une fonction deux fois dérivable sur un intervalle $I$ (la convexité est définie par les cordes, voir point 3 ; les équivalences ci-dessous sont admises, sauf l'implication démontrée au point 6) :\n• $f$ est **convexe** sur $I \\iff$ sa courbe $\\mathcal{C}_f$ est située **au-dessus** de toutes ses tangentes $\\iff f'$ est croissante sur $I \\iff f''(x) \\ge 0$ pour tout $x \\in I$.\n• $f$ est **concave** sur $I \\iff$ sa courbe $\\mathcal{C}_f$ est située **en dessous** de toutes ses tangentes $\\iff f'$ est décroissante sur $I \\iff f''(x) \\le 0$ pour tout $x \\in I$."
       },
       {
         "title": "2. Point d'inflexion",
-        "content": "Un **point d'inflexion** est un point où la courbe traverse sa tangente.\n• Théorème : Le point $A(a ; f(a))$ est un point d'inflexion de $\\mathcal{C}_f$ si et seulement si $f''(x)$ s'annule en $a$ **en changeant de signe**."
+        "content": "Un **point d'inflexion** est un point où la courbe traverse sa tangente.\n• Propriété : si $f$ est deux fois dérivable et si $f''$ s'annule en $a$ **en changeant de signe**, alors le point $A(a ; f(a))$ est un point d'inflexion de $\\mathcal{C}_f$ : la fonction change de convexité en $a$.\n• En pratique, on cherche les points d'inflexion parmi les réels où $f''$ s'annule, puis on vérifie le changement de signe."
       },
       {
         "title": "3. Définition par les sécantes (cordes)",
@@ -830,6 +979,10 @@ window.MATHS_COURSES_TALE = {
       {
         "title": "5. Inégalités de convexité",
         "content": "Si $f$ est convexe sur $I$, sa courbe est au-dessus de chacune de ses tangentes : pour tout $a \\in I$ et tout $x \\in I$,\n$$f(x) \\ge f'(a)(x - a) + f(a)$$\nDeux inégalités classiques à connaître :\n• $e^x \\ge 1 + x$ pour tout réel $x$ (tangente en $0$ à la courbe de l'exponentielle) ;\n• $\\ln(x) \\le x - 1$ pour tout $x > 0$ (le logarithme est concave, $y = x - 1$ est sa tangente en $1$).\nEn un point d'inflexion, la courbe **traverse** sa tangente."
+      },
+      {
+        "title": "6. Démonstration : si $f''$ est positive, la courbe est au-dessus de ses tangentes",
+        "content": "Soit $f$ deux fois dérivable sur un intervalle $I$ avec $f''(x) \\ge 0$ pour tout $x \\in I$, et soit $a \\in I$. La tangente en $a$ a pour équation $y = f'(a)(x - a) + f(a)$.\n• On pose, pour $x \\in I$, $g(x) = f(x) - \\big[f'(a)(x - a) + f(a)\\big]$ : c'est l'écart entre la courbe et la tangente. $g$ est dérivable et $g'(x) = f'(x) - f'(a)$.\n• Comme $f'' \\ge 0$, $f'$ est croissante sur $I$ : si $x \\le a$, $f'(x) \\le f'(a)$ donc $g'(x) \\le 0$ ; si $x \\ge a$, $g'(x) \\ge 0$.\n• $g$ est donc décroissante puis croissante : elle admet un minimum en $a$, égal à $g(a) = f(a) - f(a) = 0$.\n• Ainsi $g(x) \\ge 0$ pour tout $x \\in I$ : la courbe est au-dessus de sa tangente en $a$, et ceci pour tout $a \\in I$."
       }
     ],
     "methods": [
@@ -878,7 +1031,8 @@ window.MATHS_COURSES_TALE = {
       "⚠️ Pour être un point d'inflexion, il ne suffit pas que $f''(a) = 0$, il faut impérativement que $f''$ **change de signe** (contre-exemple : $f(x) = x^4$ en 0 a $f''(0) = 0$ mais reste toujours convexe).",
       "⚠️ Ne pas confondre **convexité** et **variations** : $x \\mapsto e^{-x}$ est décroissante et pourtant convexe. Le signe de $f''$ renseigne sur la convexité de $f$, le signe de $f'$ sur ses variations.",
       "⚠️ Si l'énoncé donne la courbe de $f'$, la convexité de $f$ se lit sur les **variations** de $f'$ (et non sur son signe).",
-      "⚠️ Pour parler de point d'inflexion en $a$, il faut que $a$ appartienne au domaine : $x \\mapsto \\frac{1}{x}$ change de convexité « en $0$ » mais n'a pas de point d'inflexion."
+      "⚠️ Pour parler de point d'inflexion en $a$, il faut que $a$ appartienne au domaine : $x \\mapsto \\frac{1}{x}$ change de convexité « en $0$ » mais n'a pas de point d'inflexion.",
+      "⚠️ Pour démontrer une inégalité par convexité, préciser la tangente utilisée et le bon sens : fonction convexe, courbe **au-dessus** de ses tangentes ; fonction concave, courbe **en dessous**. Inverser les deux conduit à une inégalité fausse."
     ],
     "flashcards": [
       {
@@ -900,6 +1054,10 @@ window.MATHS_COURSES_TALE = {
       {
         "q": "Quelle inégalité découle de la convexité de l'exponentielle ?",
         "a": "$e^x \\ge 1 + x$ pour tout réel $x$."
+      },
+      {
+        "q": "Quelle fonction étudie-t-on pour démontrer qu'une courbe convexe est au-dessus de sa tangente en $a$ ?",
+        "a": "$g(x) = f(x) - [f'(a)(x - a) + f(a)]$ : $g' = f' - f'(a)$ change de signe en $a$ car $f'$ est croissante, donc $g$ a pour minimum $g(a) = 0$."
       }
     ]
   },
@@ -911,12 +1069,13 @@ window.MATHS_COURSES_TALE = {
       "Résoudre l'équation différentielle $y' = ay$ et $y' = ay + b$ ($a \\ne 0$).",
       "Déterminer l'unique solution vérifiant une condition initiale fixée $y(x_0) = y_0$.",
       "Résoudre une équation $y' = ay + f$ à l'aide d'une solution particulière.",
-      "Modéliser une situation d'évolution (refroidissement, population) par une équation différentielle."
+      "Modéliser une situation d'évolution (refroidissement, population) par une équation différentielle.",
+      "Démontrer que deux primitives diffèrent d'une constante et résoudre $y' = ay$ ; programmer la méthode d'Euler."
     ],
     "keyPoints": [
       {
         "title": "1. Primitives de formes composées usuelles",
-        "content": "• $u' u^n \\implies \\frac{u^{n+1}}{n+1} + C$ ($n \\neq -1$)\n• $\\frac{u'}{u} \\implies \\ln(|u|) + C$\n• $u' e^u \\implies e^u + C$\n• $\\frac{u'}{\\sqrt{u}} \\implies 2\\sqrt{u} + C$"
+        "content": "Soit $u$ une fonction dérivable sur un intervalle $I$, de dérivée $u'$ continue. Une primitive sur $I$ de :\n• $u' u^n$ est $\\dfrac{u^{n+1}}{n+1}$ pour $n \\in \\mathbb{N}$ (et pour $n$ entier $\\le -2$ si $u$ ne s'annule pas sur $I$) ;\n• $\\dfrac{u'}{u}$ est $\\ln(u)$ si $u > 0$ sur $I$ (plus généralement $\\ln(|u|)$ si $u$ ne s'annule pas sur $I$) ;\n• $u' e^u$ est $e^u$ ;\n• $\\dfrac{u'}{\\sqrt{u}}$ est $2\\sqrt{u}$ si $u > 0$ sur $I$.\nLes autres primitives s'obtiennent en ajoutant une constante $C$. Toutes ces formules découlent de la dérivée d'une composée $(v \\circ u)' = (v' \\circ u) \\times u'$."
       },
       {
         "title": "2. Résolution des équations différentielles linéaires",
@@ -928,11 +1087,23 @@ window.MATHS_COURSES_TALE = {
       },
       {
         "title": "4. Primitives usuelles",
-        "content": "• $x^n$ ($n \\in \\mathbb{N}$) a pour primitives $\\dfrac{x^{n+1}}{n+1} + C$ sur $\\mathbb{R}$.\n• $\\dfrac{1}{x^2}$ a pour primitives $-\\dfrac{1}{x} + C$ sur $]0 ; +\\infty[$ (ou $]-\\infty ; 0[$).\n• $\\dfrac{1}{x}$ a pour primitives $\\ln(x) + C$ sur $]0 ; +\\infty[$.\n• $\\dfrac{1}{\\sqrt{x}}$ a pour primitives $2\\sqrt{x} + C$ sur $]0 ; +\\infty[$.\n• $e^x$ a pour primitives $e^x + C$ ; $e^{ax+b}$ ($a \\ne 0$) a pour primitives $\\dfrac{1}{a}e^{ax+b} + C$.\n• $\\cos(x)$ a pour primitives $\\sin(x) + C$ ; $\\sin(x)$ a pour primitives $-\\cos(x) + C$."
+        "content": "• $x^n$ ($n \\in \\mathbb{N}$) a pour primitives $\\dfrac{x^{n+1}}{n+1} + C$ sur $\\mathbb{R}$.\n• $\\dfrac{1}{x^n}$ ($n \\ge 2$ entier) a pour primitives $-\\dfrac{1}{(n-1)x^{n-1}} + C$ sur $]0 ; +\\infty[$ (ou $]-\\infty ; 0[$).\n• $\\dfrac{1}{x^2}$ a pour primitives $-\\dfrac{1}{x} + C$ sur $]0 ; +\\infty[$ (ou $]-\\infty ; 0[$).\n• $\\dfrac{1}{x}$ a pour primitives $\\ln(x) + C$ sur $]0 ; +\\infty[$.\n• $\\dfrac{1}{\\sqrt{x}}$ a pour primitives $2\\sqrt{x} + C$ sur $]0 ; +\\infty[$.\n• $e^x$ a pour primitives $e^x + C$ ; $e^{ax+b}$ ($a \\ne 0$) a pour primitives $\\dfrac{1}{a}e^{ax+b} + C$.\n• $\\cos(x)$ a pour primitives $\\sin(x) + C$ ; $\\sin(x)$ a pour primitives $-\\cos(x) + C$."
       },
       {
         "title": "5. Équation $y' = ay + f$ : structure des solutions",
         "content": "Soit $a \\ne 0$ un réel et $f$ une fonction définie sur $I$. Si $g$ est **une** solution particulière de $(E) : y' = ay + f$, alors les solutions de $(E)$ sont les fonctions :\n$$y(x) = Ce^{ax} + g(x), \\quad C \\in \\mathbb{R}$$\n**Solution générale = solutions de $y' = ay$ + une solution particulière.**\nExemple de modélisation (loi de Newton) : la température $\\theta(t)$ d'un café dans une pièce à $20$ °C vérifie $\\theta' = -k(\\theta - 20)$ avec $k > 0$, soit $\\theta' = -k\\theta + 20k$ ; les solutions sont $\\theta(t) = Ce^{-kt} + 20$, qui tendent vers $20$ quand $t \\to +\\infty$."
+      },
+      {
+        "title": "6. Démonstration : deux primitives d'une même fonction diffèrent d'une constante",
+        "content": "Soient $F$ et $G$ deux primitives d'une même fonction $f$ continue sur un **intervalle** $I$.\n• La fonction $H = G - F$ est dérivable sur $I$ et $H' = G' - F' = f - f = 0$.\n• Une fonction de dérivée nulle sur un intervalle est constante : il existe un réel $C$ tel que $H(x) = C$ pour tout $x \\in I$.\n• Donc $G(x) = F(x) + C$ pour tout $x \\in I$. Réciproquement, $(F + C)' = F' = f$ : toute fonction $F + C$ est une primitive de $f$.\nL'hypothèse « intervalle » est essentielle : sur $]-\\infty ; 0[ \\cup ]0 ; +\\infty[$, on peut ajouter des constantes différentes de chaque côté de $0$."
+      },
+      {
+        "title": "7. Démonstration : résolution de $y' = ay$ et de $y' = ay + b$",
+        "content": "• **Les fonctions $x \\mapsto Ce^{ax}$ sont solutions** de $y' = ay$ : leur dérivée est $aCe^{ax} = a \\times Ce^{ax}$.\n• **Ce sont les seules** : soit $f$ une solution sur $\\mathbb{R}$. On pose $g(x) = f(x)e^{-ax}$. Alors\n$$g'(x) = f'(x)e^{-ax} - af(x)e^{-ax} = \\big(f'(x) - af(x)\\big)e^{-ax} = 0$$\ncar $f' = af$. Donc $g$ est constante sur $\\mathbb{R}$ : $g(x) = C$, soit $f(x) = Ce^{ax}$.\n• **Cas $y' = ay + b$ ($a \\ne 0$)** : la constante $y_p = -\\dfrac{b}{a}$ est solution, car $y_p' = 0$ et $ay_p + b = -b + b = 0$. Pour une fonction dérivable $f$ : $f' = af + b \\iff f' = a(f - y_p) \\iff (f - y_p)' = a(f - y_p)$. Donc $f$ est solution si et seulement si $f - y_p$ est solution de $y' = ay$, c'est-à-dire $f(x) = Ce^{ax} - \\dfrac{b}{a}$, $C \\in \\mathbb{R}$."
+      },
+      {
+        "title": "8. Méthode d'Euler en Python",
+        "content": "Pour approcher la solution de $y' = ay + b$ telle que $y(x_0) = y_0$, on remplace la courbe par sa tangente sur des intervalles de petite longueur $h$ :\n$$y(x + h) \\approx y(x) + h \\times y'(x) = y(x) + h\\big(ay(x) + b\\big)$$\n```python\ndef euler(a, b, x0, y0, h, n):\n    x, y = x0, y0\n    for i in range(n):\n        y = y + h * (a * y + b)\n        x = x + h\n    return x, y\n\nprint(euler(3, 6, 0, 5, 0.001, 1000))\n```\nPour $y' = 3y + 6$, $y(0) = 5$, on obtient $y(1) \\approx 137{,}97$, à comparer à la valeur exacte $7e^3 - 2 \\approx 138{,}60$ (voir la méthode « Résoudre $y' = ay + b$ avec condition initiale ») : plus le pas $h$ est petit, meilleure est l'approximation. La même boucle avec `y = y + h * f(x)` approche une primitive de $f$ (équation $y' = f$)."
       }
     ],
     "methods": [
@@ -981,7 +1152,8 @@ window.MATHS_COURSES_TALE = {
       "⚠️ La solution particulière constante de $y' = ay + b$ est $-\\frac{b}{a}$ et NON $+\\frac{b}{a}$ !",
       "⚠️ Une primitive d'un produit n'est **pas** le produit des primitives : $x e^x$ n'a pas pour primitive $\\frac{x^2}{2}e^x$ (dériver pour s'en convaincre).",
       "⚠️ La constante $C$ se détermine avec la condition initiale sur la solution **complète** $Ce^{ax} + g(x)$, jamais sur $Ce^{ax}$ seul.",
-      "⚠️ Une primitive de $e^{3x}$ est $\\frac{1}{3}e^{3x}$ et non $e^{3x}$ ni $3e^{3x}$."
+      "⚠️ Une primitive de $e^{3x}$ est $\\frac{1}{3}e^{3x}$ et non $e^{3x}$ ni $3e^{3x}$.",
+      "⚠️ Les primitives se cherchent sur un **intervalle** : $\\ln(x)$ est une primitive de $\\frac{1}{x}$ sur $]0 ; +\\infty[$ seulement ; sur $]-\\infty ; 0[$, une primitive est $\\ln(-x)$."
     ],
     "flashcards": [
       {
@@ -1003,6 +1175,10 @@ window.MATHS_COURSES_TALE = {
       {
         "q": "Si $g$ est une solution particulière de $y' = ay + f$, quelles sont toutes les solutions ?",
         "a": "Les fonctions $x \\mapsto Ce^{ax} + g(x)$, $C \\in \\mathbb{R}$."
+      },
+      {
+        "q": "Pourquoi deux primitives d'une même fonction sur un intervalle diffèrent-elles d'une constante ?",
+        "a": "Leur différence a une dérivée nulle sur un intervalle, donc elle est constante."
       }
     ]
   },
@@ -1065,13 +1241,24 @@ window.MATHS_COURSES_TALE = {
           "**Étape 2 (Combinaison linéaire)** : on cherche $a$, $b$ tels que $\\overrightarrow{AD} = a\\overrightarrow{AB} + b\\overrightarrow{AC}$ :\n$$\\begin{cases} 0 = -a - b \\\\ 1 = a \\\\ -1 = b \\end{cases}$$\nLes deux dernières lignes donnent $a = 1$ et $b = -1$ ; la première est vérifiée : $-1 + 1 = 0$.",
           "**Conclusion** : $\\overrightarrow{AD} = \\overrightarrow{AB} - \\overrightarrow{AC}$, donc les vecteurs sont coplanaires et les points $A$, $B$, $C$, $D$ sont **coplanaires**."
         ]
+      },
+      {
+        "title": "Méthode : Montrer que trois vecteurs forment une base et décomposer un vecteur",
+        "example": "Dans un repère de l'espace, on donne $\\vec{u}(1 ; 0 ; 1)$, $\\vec{v}(0 ; 1 ; 1)$, $\\vec{w}(1 ; 1 ; 0)$ et $\\vec{t}(3 ; 1 ; 2)$. Montrer que $(\\vec{u}, \\vec{v}, \\vec{w})$ est une base de l'espace, puis exprimer $\\vec{t}$ dans cette base.",
+        "steps": [
+          "**Étape 1 (Non-coplanarité)** : $\\vec{u}$ et $\\vec{v}$ ne sont pas colinéaires. Si l'on avait $\\vec{w} = a\\vec{u} + b\\vec{v}$, les coordonnées donneraient $1 = a$, $1 = b$ et $0 = a + b = 2$ : impossible. Donc $\\vec{u}$, $\\vec{v}$, $\\vec{w}$ ne sont pas coplanaires : ils forment une base.",
+          "**Étape 2 (Système)** : on cherche $x$, $y$, $z$ tels que $\\vec{t} = x\\vec{u} + y\\vec{v} + z\\vec{w}$, soit $\\begin{cases} x + z = 3 \\\\ y + z = 1 \\\\ x + y = 2 \\end{cases}$",
+          "**Étape 3 (Résolution)** : en additionnant les trois lignes, $2(x + y + z) = 6$, donc $x + y + z = 3$. On en déduit $y = 3 - 3 = 0$ (avec la 1re ligne), $x = 3 - 1 = 2$ (avec la 2e) et $z = 3 - 2 = 1$ (avec la 3e).",
+          "**Conclusion** : $\\vec{t} = 2\\vec{u} + 0\\vec{v} + 1\\vec{w}$ ; les coordonnées de $\\vec{t}$ dans la base $(\\vec{u}, \\vec{v}, \\vec{w})$ sont $(2 ; 0 ; 1)$. Vérification : $2(1 ; 0 ; 1) + (1 ; 1 ; 0) = (3 ; 1 ; 2)$."
+        ]
       }
     ],
     "traps": [
       "⚠️ Dans l'espace, deux droites qui ne se coupent pas ne sont PAS obligatoirement parallèles : elles peuvent être **non coplanaires** !",
       "⚠️ Pour chercher l'intersection de deux droites, utiliser **deux paramètres différents** ($t$ et $s$) : un même point n'a aucune raison d'être obtenu pour la même valeur du paramètre.",
       "⚠️ Une droite admet une **infinité** de représentations paramétriques : deux systèmes d'apparence différente peuvent décrire la même droite.",
-      "⚠️ Trois vecteurs deux à deux non colinéaires peuvent être coplanaires : il faut tester si l'un est combinaison linéaire des deux autres."
+      "⚠️ Trois vecteurs deux à deux non colinéaires peuvent être coplanaires : il faut tester si l'un est combinaison linéaire des deux autres.",
+      "⚠️ Pour conclure que deux droites sont non coplanaires, il ne suffit pas que leurs vecteurs directeurs soient non colinéaires : il faut aussi montrer que le système traduisant l'intersection n'a **aucune** solution."
     ],
     "flashcards": [
       {
@@ -1093,6 +1280,10 @@ window.MATHS_COURSES_TALE = {
       {
         "q": "Qu'est-ce qu'une base de l'espace ?",
         "a": "Un triplet de vecteurs non coplanaires $(\\vec{i}, \\vec{j}, \\vec{k})$ : tout vecteur s'écrit de façon unique $x\\vec{i} + y\\vec{j} + z\\vec{k}$."
+      },
+      {
+        "q": "Comment démontrer que trois vecteurs forment une base de l'espace ?",
+        "a": "On montre qu'ils ne sont pas coplanaires : deux d'entre eux ne sont pas colinéaires et le troisième n'est pas combinaison linéaire des deux premiers."
       }
     ]
   },
@@ -1104,7 +1295,8 @@ window.MATHS_COURSES_TALE = {
       "Énoncer et appliquer l'inégalité de Bienaymé-Tchebychev et l'inégalité de concentration.",
       "Justifier rigoureusement le principe de la loi faible des grands nombres.",
       "Utiliser la linéarité de l'espérance et les propriétés de la variance ($V(aX + b) = a^2V(X)$).",
-      "Déterminer une taille d'échantillon à l'aide de l'inégalité de concentration."
+      "Déterminer une taille d'échantillon à l'aide de l'inégalité de concentration.",
+      "Démontrer l'espérance et la variance de la loi binomiale ; simuler des échantillons en Python."
     ],
     "keyPoints": [
       {
@@ -1126,6 +1318,18 @@ window.MATHS_COURSES_TALE = {
       {
         "title": "5. Loi faible des grands nombres",
         "content": "Soit $(X_1, \\dots, X_n)$ un échantillon de variables indépendantes de même loi d'espérance $\\mu$, et $M_n = \\frac{X_1 + \\dots + X_n}{n}$. Pour tout réel $\\delta > 0$ :\n$$\\lim_{n \\to +\\infty} P(|M_n - \\mu| \\ge \\delta) = 0$$\n**Interprétation** : plus l'échantillon est grand, plus la moyenne observée a de chances d'être proche de l'espérance. Pour des variables de Bernoulli de paramètre $p$, $M_n$ est la **fréquence** de succès : elle se rapproche de $p$. C'est ce qui justifie l'estimation d'une probabilité par une fréquence (simulations)."
+      },
+      {
+        "title": "6. Démonstration : espérance et variance de la loi binomiale",
+        "content": "Soit $X \\sim \\mathcal{B}(n, p)$. On écrit $X = X_1 + \\dots + X_n$, où $X_i$ vaut $1$ si la $i$-ème épreuve est un succès et $0$ sinon.\n• Chaque $X_i$ suit la loi de Bernoulli de paramètre $p$ : $E(X_i) = 1 \\times p + 0 \\times (1 - p) = p$ et, comme $X_i^2 = X_i$, $V(X_i) = E(X_i^2) - E(X_i)^2 = p - p^2 = p(1 - p)$.\n• **Espérance** : par linéarité, $E(X) = E(X_1) + \\dots + E(X_n) = np$.\n• **Variance** : les épreuves étant indépendantes, les variables $X_i$ sont indépendantes et leurs variances s'additionnent : $V(X) = V(X_1) + \\dots + V(X_n) = np(1 - p)$.\n• Par suite, $\\sigma(X) = \\sqrt{np(1 - p)}$."
+      },
+      {
+        "title": "7. Démonstrations : Bienaymé-Tchebychev, concentration, loi des grands nombres",
+        "content": "**Bienaymé-Tchebychev** (pour $X$ prenant les valeurs $x_1, \\dots, x_r$ avec les probabilités $p_1, \\dots, p_r$, d'espérance $\\mu$) : on ne garde, dans la somme qui définit la variance, que les termes (positifs) pour lesquels $|x_i - \\mu| \\ge \\delta$ :\n$$V(X) = \\sum_{i=1}^{r} p_i (x_i - \\mu)^2 \\ge \\sum_{|x_i - \\mu| \\ge \\delta} p_i (x_i - \\mu)^2 \\ge \\sum_{|x_i - \\mu| \\ge \\delta} p_i\\,\\delta^2 = \\delta^2\\,P(|X - \\mu| \\ge \\delta)$$\nEn divisant par $\\delta^2 > 0$ : $P(|X - \\mu| \\ge \\delta) \\le \\dfrac{V(X)}{\\delta^2}$.\n**Concentration** : on applique cette inégalité à $M_n$, d'espérance $\\mu$ et de variance $\\dfrac{V}{n}$ : $P(|M_n - \\mu| \\ge \\delta) \\le \\dfrac{V}{n\\delta^2}$.\n**Loi des grands nombres** : pour $\\delta > 0$ fixé, $0 \\le P(|M_n - \\mu| \\ge \\delta) \\le \\dfrac{V}{n\\delta^2}$ et $\\dfrac{V}{n\\delta^2} \\to 0$ quand $n \\to +\\infty$ ; par le théorème des gendarmes, $\\lim\\limits_{n \\to +\\infty} P(|M_n - \\mu| \\ge \\delta) = 0$."
+      },
+      {
+        "title": "8. Simulation d'échantillons en Python",
+        "content": "On simule $N$ échantillons de taille $n$ du lancer d'un dé équilibré et on étudie la série des $N$ moyennes obtenues :\n```python\nfrom random import randint\nfrom math import sqrt\n\ndef moyenne_echantillon(n):\n    return sum(randint(1, 6) for i in range(n)) / n\n\ndef experience(N, n):\n    moyennes = [moyenne_echantillon(n) for j in range(N)]\n    m = sum(moyennes) / N\n    s = sqrt(sum((x - m)**2 for x in moyennes) / N)\n    return m, s\n\nprint(experience(1000, 100))\n```\nPour un dé, $\\mu = 3{,}5$ et $\\sigma = \\sqrt{\\frac{35}{12}} \\approx 1{,}71$. On observe une moyenne des moyennes proche de $3{,}5$ et un écart-type $s$ proche de $\\frac{\\sigma}{\\sqrt{n}} \\approx 0{,}171$ pour $n = 100$. En comptant la proportion des moyennes situées à moins de $2s$ de $3{,}5$, on trouve en général environ $95\\,\\%$, bien plus que la garantie de $75\\,\\%$ donnée par Bienaymé-Tchebychev."
       }
     ],
     "methods": [
@@ -1173,7 +1377,8 @@ window.MATHS_COURSES_TALE = {
       "⚠️ Pour que $V(X + Y) = V(X) + V(Y)$, l'indépendance de $X$ et $Y$ est **indispensable** !",
       "⚠️ Pour $X$ et $Y$ indépendantes, $V(X - Y) = V(X) + V(Y)$ et non $V(X) - V(Y)$ : les variances s'additionnent toujours.",
       "⚠️ Ne pas confondre $2X$ et $X_1 + X_2$ : $V(2X) = 4V(X)$, alors que pour deux copies indépendantes $V(X_1 + X_2) = 2V(X)$.",
-      "⚠️ L'inégalité de Bienaymé-Tchebychev donne une **majoration**, pas une valeur approchée de la probabilité : la vraie valeur est souvent bien plus petite."
+      "⚠️ L'inégalité de Bienaymé-Tchebychev donne une **majoration**, pas une valeur approchée de la probabilité : la vraie valeur est souvent bien plus petite.",
+      "⚠️ Dans l'inégalité de concentration, c'est la **variance** $V$ (et non l'écart-type) qui figure au numérateur, et $\\delta$ est élevé au **carré** : $P(|M_n - \\mu| \\ge \\delta) \\le \\frac{V}{n\\delta^2}$."
     ],
     "flashcards": [
       {
@@ -1195,6 +1400,10 @@ window.MATHS_COURSES_TALE = {
       {
         "q": "Énoncer la loi faible des grands nombres.",
         "a": "Pour tout $\\delta > 0$, $\\lim\\limits_{n \\to +\\infty} P(|M_n - \\mu| \\ge \\delta) = 0$, où $M_n$ est la moyenne d'un échantillon de taille $n$."
+      },
+      {
+        "q": "Comment démontre-t-on que $V(X) = np(1-p)$ pour $X \\sim \\mathcal{B}(n, p)$ ?",
+        "a": "On écrit $X$ comme somme de $n$ variables de Bernoulli indépendantes, de variance $p(1-p)$ chacune, et on additionne les variances."
       }
     ]
   },
@@ -1206,7 +1415,8 @@ window.MATHS_COURSES_TALE = {
       "Passer de la forme algébrique à la forme trigonométrique et exponentielle $r e^{i\\theta}$.",
       "Interpréter géométriquement les modules (distances) et arguments (angles orientés de vecteurs).",
       "Utiliser les formules de Moivre et d'Euler.",
-      "Connaître les racines $n$-ièmes de l'unité et leur interprétation géométrique."
+      "Connaître les racines $n$-ièmes de l'unité et leur interprétation géométrique.",
+      "Démontrer $|z|^2 = z\\bar{z}$, le module d'un produit, une formule d'addition et la description de $\\mathbb{U}_n$."
     ],
     "keyPoints": [
       {
@@ -1215,7 +1425,7 @@ window.MATHS_COURSES_TALE = {
       },
       {
         "title": "2. Interprétation géométrique",
-        "content": "Soient $A(z_A)$, $B(z_B)$, $C(z_C)$ et $D(z_D)$ dans le plan complexe :\n• Distance : $AB = |z_B - z_A|$.\n• Angle orienté : $(\\vec{AB} ; \\vec{CD}) = \\arg\\left(\\frac{z_D - z_C}{z_B - z_A}\\right) \\pmod{2\\pi}$.\n• Alignement : $A, B, C$ alignés $\\iff \\frac{z_C - z_A}{z_B - z_A} \\in \\mathbb{R}$."
+        "content": "Soient $A(z_A)$, $B(z_B)$, $C(z_C)$ et $D(z_D)$ dans le plan complexe :\n• Distance : $AB = |z_B - z_A|$.\n• Angle orienté (avec $A \\ne B$ et $C \\ne D$) : $(\\vec{AB} ; \\vec{CD}) = \\arg\\left(\\frac{z_D - z_C}{z_B - z_A}\\right) \\pmod{2\\pi}$.\n• Alignement (avec $A \\ne B$) : $A, B, C$ alignés $\\iff \\frac{z_C - z_A}{z_B - z_A} \\in \\mathbb{R}$.\n• Orthogonalité (avec $A \\ne B$ et $A \\ne C$) : $(AB) \\perp (AC) \\iff \\frac{z_C - z_A}{z_B - z_A}$ est un imaginaire pur.\n• Le module de $\\frac{z_C - z_A}{z_B - z_A}$ vaut $\\frac{AC}{AB}$ et un argument est une mesure de l'angle orienté $(\\overrightarrow{AB}, \\overrightarrow{AC})$."
       },
       {
         "title": "3. Propriétés du module et de l'argument",
@@ -1227,7 +1437,19 @@ window.MATHS_COURSES_TALE = {
       },
       {
         "title": "5. Racines $n$-ièmes de l'unité",
-        "content": "Pour $n \\ge 2$, les solutions de $z^n = 1$ sont les $n$ nombres :\n$$\\omega_k = e^{\\frac{2ik\\pi}{n}}, \\quad k \\in \\{0, 1, \\dots, n - 1\\}$$\n• Leurs images sont les sommets d'un **polygone régulier** à $n$ côtés inscrit dans le cercle unité.\n• Leur somme est nulle : $1 + \\omega_1 + \\dots + \\omega_{n-1} = 0$.\n• Cas $n = 3$ : $1$, $j = e^{\\frac{2i\\pi}{3}} = -\\frac{1}{2} + i\\frac{\\sqrt{3}}{2}$ et $j^2 = \\bar{j}$, avec $1 + j + j^2 = 0$ (triangle équilatéral)."
+        "content": "Pour $n \\ge 2$, les solutions de $z^n = 1$ sont les $n$ nombres :\n$$\\omega_k = e^{\\frac{2ik\\pi}{n}}, \\quad k \\in \\{0, 1, \\dots, n - 1\\}$$\n• Leurs images sont les sommets d'un **polygone régulier** à $n$ côtés inscrit dans le cercle unité.\n• (Approfondissement) Leur somme est nulle : $1 + \\omega_1 + \\dots + \\omega_{n-1} = 0$, car c'est la somme des termes d'une suite géométrique de raison $\\omega_1 \\ne 1$ : elle vaut $\\frac{1 - \\omega_1^n}{1 - \\omega_1} = 0$.\n• Cas $n = 3$ : $1$, $j = e^{\\frac{2i\\pi}{3}} = -\\frac{1}{2} + i\\frac{\\sqrt{3}}{2}$ et $j^2 = \\bar{j}$, avec $1 + j + j^2 = 0$ (triangle équilatéral)."
+      },
+      {
+        "title": "6. Démonstrations : $|z|^2 = z\\bar{z}$, module d'un produit, d'une puissance ; ensemble $\\mathbb{U}$",
+        "content": "• Pour $z = a + ib$ : $z\\bar{z} = (a + ib)(a - ib) = a^2 - (ib)^2 = a^2 + b^2 = |z|^2$.\n• **Produit** : $|zz'|^2 = zz'\\,\\overline{zz'} = zz'\\,\\bar{z}\\,\\bar{z'} = (z\\bar{z})(z'\\bar{z'}) = |z|^2|z'|^2$ (conjugué d'un produit, TX1). Les modules étant positifs, $|zz'| = |z| \\times |z'|$.\n• **Puissance** : par récurrence, $|z^0| = 1 = |z|^0$ et, si $|z^k| = |z|^k$, alors $|z^{k+1}| = |z^k \\times z| = |z^k| \\times |z| = |z|^{k+1}$.\n• **Ensemble $\\mathbb{U}$** des complexes de module $1$ : si $|z| = |z'| = 1$, alors $|zz'| = 1$ et $\\left|\\frac{1}{z}\\right| = \\frac{1}{|z|} = 1$ : $\\mathbb{U}$ est stable par produit et par passage à l'inverse. Ses éléments s'écrivent $e^{i\\theta}$, $\\theta \\in \\mathbb{R}$ ; leurs images forment le cercle trigonométrique."
+      },
+      {
+        "title": "7. Démonstration : une formule d'addition (à partir du produit scalaire)",
+        "content": "Dans un repère orthonormé $(O ; \\vec{i}, \\vec{j})$, soient $\\vec{u}(\\cos a ; \\sin a)$ et $\\vec{v}(\\cos b ; \\sin b)$ : ce sont des vecteurs unitaires tels que $(\\vec{i}, \\vec{u}) = a$ et $(\\vec{i}, \\vec{v}) = b$, donc $(\\vec{v}, \\vec{u}) = a - b$ (modulo $2\\pi$).\n• Avec les coordonnées : $\\vec{u} \\cdot \\vec{v} = \\cos a \\cos b + \\sin a \\sin b$.\n• Avec la définition géométrique : $\\vec{u} \\cdot \\vec{v} = \\|\\vec{u}\\| \\times \\|\\vec{v}\\| \\times \\cos(a - b) = \\cos(a - b)$.\n• Donc $\\cos(a - b) = \\cos a \\cos b + \\sin a \\sin b$.\n**Conséquences** : en remplaçant $b$ par $-b$, $\\cos(a + b) = \\cos a \\cos b - \\sin a \\sin b$ ; avec $\\sin(x) = \\cos\\left(\\frac{\\pi}{2} - x\\right)$, $\\sin(a + b) = \\cos\\left(\\left(\\frac{\\pi}{2} - a\\right) - b\\right) = \\sin a \\cos b + \\cos a \\sin b$. En développant $(\\cos a + i\\sin a)(\\cos b + i\\sin b)$, ces formules donnent la relation $e^{ia} \\times e^{ib} = e^{i(a + b)}$."
+      },
+      {
+        "title": "8. Démonstration : ensemble $\\mathbb{U}_n$ des racines $n$-ièmes de l'unité",
+        "content": "Soit $n \\ge 2$. Le nombre $0$ n'est pas solution de $z^n = 1$ ; on écrit donc $z = re^{i\\theta}$ avec $r > 0$.\n• $z^n = 1 \\iff r^n e^{in\\theta} = 1 \\times e^{i0} \\iff r^n = 1$ et $n\\theta = 2k\\pi$ ($k \\in \\mathbb{Z}$) $\\iff r = 1$ et $\\theta = \\dfrac{2k\\pi}{n}$, $k \\in \\mathbb{Z}$ (car $r > 0$).\n• Les complexes $\\omega_k = e^{\\frac{2ik\\pi}{n}}$ ne dépendent que du reste de $k$ modulo $n$, car $\\omega_{k+n} = \\omega_k \\times e^{2i\\pi} = \\omega_k$. De plus, pour $0 \\le k < k' \\le n - 1$, on a $0 < \\frac{2(k' - k)\\pi}{n} < 2\\pi$, donc $\\omega_k \\ne \\omega_{k'}$.\n• Ainsi $\\mathbb{U}_n = \\left\\{e^{\\frac{2ik\\pi}{n}},\\ k \\in \\{0, 1, \\dots, n - 1\\}\\right\\}$ compte exactement $n$ éléments. Cas particuliers : $\\mathbb{U}_2 = \\{1 ; -1\\}$, $\\mathbb{U}_3 = \\{1 ; j ; j^2\\}$ et $\\mathbb{U}_4 = \\{1 ; i ; -1 ; -i\\}$ (sommets d'un carré)."
       }
     ],
     "methods": [
@@ -1298,6 +1520,10 @@ window.MATHS_COURSES_TALE = {
       {
         "q": "Calculer $|3 - 4i|$.",
         "a": "$\\sqrt{9 + 16} = 5$."
+      },
+      {
+        "q": "Décrire l'ensemble $\\mathbb{U}_4$ des racines quatrièmes de l'unité.",
+        "a": "$\\mathbb{U}_4 = \\{1 ; i ; -1 ; -i\\}$ : les sommets d'un carré inscrit dans le cercle unité."
       }
     ]
   },
@@ -1318,7 +1544,7 @@ window.MATHS_COURSES_TALE = {
       },
       {
         "title": "2. Propriétés opératoires des congruences",
-        "content": "Si $a \\equiv b \\pmod{n}$ et $c \\equiv d \\pmod{n}$, alors :\n• $a + c \\equiv b + d \\pmod{n}$\n• $a \\times c \\equiv b \\times d \\pmod{n}$\n• $a^k \\equiv b^k \\pmod{n}$ pour tout entier $k \\ge 1$."
+        "content": "Si $a \\equiv b \\pmod{n}$ et $c \\equiv d \\pmod{n}$, alors :\n• $a + c \\equiv b + d \\pmod{n}$\n• $a \\times c \\equiv b \\times d \\pmod{n}$\n• $a^k \\equiv b^k \\pmod{n}$ pour tout entier $k \\ge 1$.\n**Démonstration** : $(a + c) - (b + d) = (a - b) + (c - d)$ et $ac - bd = a(c - d) + d(a - b)$ ; comme $n$ divise $a - b$ et $c - d$, il divise ces combinaisons. La règle des puissances s'en déduit par récurrence sur $k$ (on multiplie $a^k \\equiv b^k$ par $a \\equiv b$)."
       },
       {
         "title": "3. Divisibilité dans $\\mathbb{Z}$",
@@ -1331,6 +1557,10 @@ window.MATHS_COURSES_TALE = {
       {
         "title": "5. Tables de congruences",
         "content": "Pour étudier une expression en $n$ modulo $m$, on remarque que $n$ est congru à l'un des restes $0, 1, \\dots, m - 1$ : on dresse une **table** donnant la valeur de l'expression pour chaque reste.\n• Exemple modulo 4 : $n^2 \\equiv 0$ ou $1 \\pmod{4}$ (restes $0, 1, 0, 1$ pour $n \\equiv 0, 1, 2, 3$). Donc un carré n'est jamais congru à $2$ ou $3$ modulo $4$.\n• **Attention** : on ne peut pas « simplifier » une congruence : $2x \\equiv 2 \\pmod{4}$ est vérifiée par $x = 3$, et pourtant $3 \\not\\equiv 1 \\pmod{4}$."
+      },
+      {
+        "title": "6. Démonstration : existence et unicité de la division euclidienne",
+        "content": "Soient $a \\in \\mathbb{Z}$ et $b \\in \\mathbb{N}^*$.\n• **Existence** : soit $q$ le plus grand entier tel que $bq \\le a$ (c'est la partie entière de $\\frac{a}{b}$). Alors $bq \\le a < b(q + 1)$, et $r = a - bq$ vérifie $0 \\le r < b$.\n• **Unicité** : si $a = bq + r = bq' + r'$ avec $0 \\le r < b$ et $0 \\le r' < b$, alors $b(q - q') = r' - r$ avec $-b < r' - r < b$. Le seul multiple de $b$ strictement compris entre $-b$ et $b$ est $0$, donc $r = r'$, puis $q = q'$.\nExemple : pour $a = -17$ et $b = 5$, $5 \\times (-4) = -20 \\le -17 < -15$, donc $q = -4$ et $r = 3$ : $-17 = 5 \\times (-4) + 3$."
       }
     ],
     "methods": [
@@ -1378,7 +1608,8 @@ window.MATHS_COURSES_TALE = {
       "⚠️ Dans la division euclidienne, le reste $r$ doit impérativement être **positif ou nul** ($0 \\le r < b$).",
       "⚠️ $ab \\equiv 0 \\pmod{n}$ n'implique pas $a \\equiv 0$ ou $b \\equiv 0$ : $2 \\times 3 \\equiv 0 \\pmod{6}$ alors que ni $2$ ni $3$ n'est divisible par $6$.",
       "⚠️ On peut élever une congruence à une puissance ($a \\equiv b \\Rightarrow a^k \\equiv b^k$), mais pas remplacer un **exposant** par un nombre congru : $1 \\equiv 4 \\pmod{3}$ et pourtant $2^1 = 2$ alors que $2^4 = 16 \\equiv 1 \\pmod{3}$.",
-      "⚠️ Pas de division dans les congruences : $2x \\equiv 2 \\pmod{4}$ n'entraîne pas $x \\equiv 1 \\pmod{4}$."
+      "⚠️ Pas de division dans les congruences : $2x \\equiv 2 \\pmod{4}$ n'entraîne pas $x \\equiv 1 \\pmod{4}$.",
+      "⚠️ Pour un entier négatif, attention au quotient : $-17 = 5 \\times (-3) - 2$ n'est **pas** la division euclidienne (reste négatif) ; la bonne écriture est $-17 = 5 \\times (-4) + 3$, de reste $3$."
     ],
     "flashcards": [
       {
@@ -1411,7 +1642,8 @@ window.MATHS_COURSES_TALE = {
       "Résoudre dans $\\mathbb{Z}^2$ les équations diophantiennes $ax + by = c$.",
       "Énoncer le théorème de Gauss et comprendre le principe du chiffrement asymétrique RSA.",
       "Calculer un PGCD par l'algorithme d'Euclide (à la main et en Python).",
-      "Connaître les propriétés des nombres premiers : infinité, décomposition, test de primalité."
+      "Connaître les propriétés des nombres premiers : infinité, décomposition, test de primalité.",
+      "Démontrer le théorème de Bézout (écriture du PGCD), le théorème de Gauss et l'infinité des nombres premiers ; programmer Euclide étendu et le crible d'Ératosthène."
     ],
     "keyPoints": [
       {
@@ -1420,7 +1652,7 @@ window.MATHS_COURSES_TALE = {
       },
       {
         "title": "2. Petit théorème de Fermat et cryptographie RSA",
-        "content": "• **Petit théorème de Fermat** : Si $p$ est premier et si $p \\nmid a$, alors $a^{p-1} \\equiv 1 \\pmod{p}$.\n• **Chiffrement RSA** : Repose sur la difficulté algorithmique de factoriser un très grand entier $N = pq$ (produit de deux nombres premiers géants)."
+        "content": "• **Petit théorème de Fermat** : Si $p$ est premier et si $p \\nmid a$, alors $a^{p-1} \\equiv 1 \\pmod{p}$. Conséquence : pour tout entier $a$, $a^p \\equiv a \\pmod{p}$.\n• **Chiffrement RSA** (problème d'approfondissement) : repose sur la difficulté algorithmique de factoriser un très grand entier $N = pq$ (produit de deux nombres premiers géants)."
       },
       {
         "title": "3. PGCD et algorithme d'Euclide",
@@ -1432,7 +1664,27 @@ window.MATHS_COURSES_TALE = {
       },
       {
         "title": "5. Nombres premiers",
-        "content": "• Un entier $p \\ge 2$ est **premier** s'il admet exactement deux diviseurs positifs : $1$ et $p$. ($1$ n'est pas premier.)\n• **Test** : si $n \\ge 2$ n'est divisible par aucun nombre premier $p$ tel que $p^2 \\le n$, alors $n$ est premier.\n• **Il existe une infinité de nombres premiers** (Euclide) : si $p_1, \\dots, p_k$ étaient tous les premiers, $N = p_1 \\times \\dots \\times p_k + 1$ n'en serait divisible par aucun, contradiction.\n• **Décomposition** : tout entier $n \\ge 2$ s'écrit de manière unique (à l'ordre près) comme produit de nombres premiers. Exemple : $360 = 2^3 \\times 3^2 \\times 5$.\n• **RSA miniature** : $p = 5$, $q = 11$, $n = 55$, $(p - 1)(q - 1) = 40$ ; clé publique $e = 3$, clé privée $d = 27$ car $3 \\times 27 = 81 \\equiv 1 \\pmod{40}$. Le message $m = 2$ est chiffré en $2^3 = 8$, et $8^{27} \\equiv 2 \\pmod{55}$ le déchiffre."
+        "content": "• Un entier $p \\ge 2$ est **premier** s'il admet exactement deux diviseurs positifs : $1$ et $p$. ($1$ n'est pas premier.)\n• **Test** : si $n \\ge 2$ n'est divisible par aucun nombre premier $p$ tel que $p^2 \\le n$, alors $n$ est premier.\n• **Il existe une infinité de nombres premiers** (démonstration rédigée ci-dessous).\n• **Décomposition** : tout entier $n \\ge 2$ s'écrit de manière unique (à l'ordre près) comme produit de nombres premiers. Exemple : $360 = 2^3 \\times 3^2 \\times 5$.\n• **RSA miniature** : $p = 5$, $q = 11$, $n = 55$, $(p - 1)(q - 1) = 40$ ; clé publique $e = 3$, clé privée $d = 27$ car $3 \\times 27 = 81 \\equiv 1 \\pmod{40}$. Le message $m = 2$ est chiffré en $2^3 = 8$, et $8^{27} \\equiv 2 \\pmod{55}$ le déchiffre."
+      },
+      {
+        "title": "6. Démonstration : le PGCD s'écrit $au + bv$ (théorème de Bézout)",
+        "content": "Soient $a$ et $b$ deux entiers non tous deux nuls, et $E$ l'ensemble des entiers **strictement positifs** de la forme $au + bv$ avec $u, v \\in \\mathbb{Z}$.\n• $E$ est non vide (il contient $a^2 + b^2 = a \\times a + b \\times b > 0$) : il admet donc un plus petit élément $d = au_0 + bv_0$.\n• **$d$ divise $a$** : on écrit $a = dq + r$ avec $0 \\le r < d$. Alors $r = a - dq = a(1 - qu_0) + b(-qv_0)$ est de la forme $au + bv$. Si l'on avait $r > 0$, $r$ serait un élément de $E$ plus petit que $d$ : impossible. Donc $r = 0$ et $d \\mid a$. De même, $d \\mid b$.\n• **$d$ est le plus grand des diviseurs communs** : tout diviseur commun $c$ de $a$ et $b$ divise $au_0 + bv_0 = d$, donc $c \\le d$.\nAinsi $\\text{PGCD}(a, b) = au_0 + bv_0$.\n**Théorème de Bézout** : si $\\text{PGCD}(a, b) = 1$, on obtient $au + bv = 1$. Réciproquement, si $au + bv = 1$, tout diviseur commun positif de $a$ et $b$ divise $1$, donc $\\text{PGCD}(a, b) = 1$."
+      },
+      {
+        "title": "7. Démonstration : théorème de Gauss",
+        "content": "Hypothèses : $a \\mid bc$ et $\\text{PGCD}(a, b) = 1$.\n• D'après le théorème de Bézout, il existe des entiers $u$ et $v$ tels que $au + bv = 1$.\n• En multipliant par $c$ : $acu + bcv = c$.\n• $a$ divise $acu$, et $a$ divise $bcv$ car $a \\mid bc$. Donc $a$ divise la somme $acu + bcv$, c'est-à-dire $c$."
+      },
+      {
+        "title": "8. Démonstration : l'ensemble des nombres premiers est infini",
+        "content": "• **Lemme** : tout entier $N \\ge 2$ admet au moins un diviseur premier. En effet, le plus petit diviseur $p \\ge 2$ de $N$ est premier : s'il avait un diviseur $d$ avec $1 < d < p$, ce $d$ diviserait aussi $N$ et serait plus petit que $p$.\n• **Raisonnement par l'absurde** : supposons qu'il n'y ait qu'un nombre fini de nombres premiers $p_1, p_2, \\dots, p_k$, et posons $N = p_1 \\times p_2 \\times \\dots \\times p_k + 1 \\ge 3$.\n• D'après le lemme, $N$ admet un diviseur premier, qui est donc l'un des $p_i$. Ce $p_i$ divise $N$ et le produit $p_1 \\times \\dots \\times p_k$, donc il divise leur différence $1$ : c'est impossible car $p_i \\ge 2$.\n• **Conclusion** : il existe une infinité de nombres premiers."
+      },
+      {
+        "title": "9. Pour aller plus loin : une démonstration du petit théorème de Fermat",
+        "content": "Soit $p$ premier et $a$ un entier non divisible par $p$ (donc premier avec $p$).\n• Les $p - 1$ entiers $a, 2a, \\dots, (p-1)a$ ont des restes modulo $p$ non nuls (si $p \\mid ka$, Gauss donne $p \\mid k$, impossible pour $1 \\le k \\le p - 1$) et **deux à deux distincts** : si $ka \\equiv k'a \\pmod{p}$, alors $p \\mid (k - k')a$, donc $p \\mid k - k'$, d'où $k = k'$ puisque $|k - k'| < p$.\n• Leurs restes sont donc exactement $1, 2, \\dots, p - 1$, dans un certain ordre. En multipliant : $a \\times 2a \\times \\dots \\times (p-1)a \\equiv 1 \\times 2 \\times \\dots \\times (p-1) \\pmod{p}$, soit $(p-1)!\\,a^{p-1} \\equiv (p-1)! \\pmod{p}$.\n• $p$ divise donc $(p-1)!\\,(a^{p-1} - 1)$ et $p$ est premier avec $(p-1)!$ (aucun facteur n'est divisible par $p$) : d'après Gauss, $p \\mid a^{p-1} - 1$, c'est-à-dire $a^{p-1} \\equiv 1 \\pmod{p}$."
+      },
+      {
+        "title": "10. Algorithmes : couple de Bézout, crible d'Ératosthène, décomposition en facteurs premiers",
+        "content": "```python\ndef bezout(a, b):\n    # renvoie (d, u, v) avec d = PGCD(a, b) = a*u + b*v\n    u0, v0, u1, v1 = 1, 0, 0, 1\n    while b != 0:\n        q = a // b\n        a, b = b, a - q * b\n        u0, u1 = u1, u0 - q * u1\n        v0, v1 = v1, v0 - q * v1\n    return a, u0, v0\n\ndef crible(n):\n    est_premier = [True] * (n + 1)\n    est_premier[0] = False\n    est_premier[1] = False\n    for p in range(2, n + 1):\n        if p * p > n:\n            break\n        if est_premier[p]:\n            for m in range(p * p, n + 1, p):\n                est_premier[m] = False\n    return [k for k in range(n + 1) if est_premier[k]]\n\ndef decomposition(n):\n    facteurs = []\n    p = 2\n    while n > 1:\n        while n % p == 0:\n            facteurs.append(p)\n            n = n // p\n        p = p + 1\n    return facteurs\n```\n`bezout(37, 13)` renvoie `(1, 6, -17)`, `crible(30)` renvoie `[2, 3, 5, 7, 11, 13, 17, 19, 23, 29]` et `decomposition(360)` renvoie `[2, 2, 2, 3, 3, 5]`."
       }
     ],
     "methods": [
@@ -1465,13 +1717,32 @@ window.MATHS_COURSES_TALE = {
           "**Étape 3 ($397$)** : $397$ est impair, somme des chiffres $19$, ne finit ni par 0 ni par 5 ; restes : $397 = 7 \\times 56 + 5$, $11 \\times 36 + 1$, $13 \\times 30 + 7$, $17 \\times 23 + 6$, $19 \\times 20 + 17$. Aucun reste nul.",
           "**Conclusion** : $391 = 17 \\times 23$ n'est pas premier, $397$ est premier."
         ]
+      },
+      {
+        "title": "Méthode : Démontrer que deux entiers sont premiers entre eux (Bézout)",
+        "example": "Démontrer que pour tout entier naturel $n$, $2n + 1$ et $3n + 2$ sont premiers entre eux.",
+        "steps": [
+          "**Étape 1 (Éliminer $n$)** : on combine les deux nombres pour faire disparaître $n$ : $3(2n + 1) - 2(3n + 2) = 6n + 3 - 6n - 4 = -1$.",
+          "**Étape 2 (Forme de Bézout)** : $(2n + 1) \\times (-3) + (3n + 2) \\times 2 = 1$, avec $u = -3$ et $v = 2$ entiers.",
+          "**Conclusion** : d'après le théorème de Bézout, $\\text{PGCD}(2n + 1, 3n + 2) = 1$ pour tout $n$. Exemple : pour $n = 4$, $9$ et $14$ sont bien premiers entre eux."
+        ]
+      },
+      {
+        "title": "Méthode : Utiliser le petit théorème de Fermat",
+        "example": "Démontrer que pour tout entier $n$, $n^7 - n$ est divisible par $7$.",
+        "steps": [
+          "**Étape 1 (Cas $7 \\mid n$)** : alors $n \\equiv 0$ et $n^7 \\equiv 0 \\pmod{7}$, donc $n^7 - n \\equiv 0 \\pmod{7}$.",
+          "**Étape 2 (Cas $7 \\nmid n$)** : $7$ est premier et ne divise pas $n$, donc d'après le petit théorème de Fermat $n^6 \\equiv 1 \\pmod{7}$ ; en multipliant par $n$, $n^7 \\equiv n \\pmod{7}$.",
+          "**Conclusion** : dans tous les cas, $7$ divise $n^7 - n$. Contrôle : $2^7 - 2 = 126 = 7 \\times 18$."
+        ]
       }
     ],
     "traps": [
       "⚠️ L'équation $ax + by = c$ n'admet de solutions dans $\\mathbb{Z}^2$ que si $\\text{PGCD}(a, b)$ divise $c$ !",
       "⚠️ Le théorème de Gauss exige $\\text{PGCD}(a, b) = 1$ : $6$ divise $4 \\times 3 = 12$, mais $6$ ne divise ni $4$ ni $3$.",
       "⚠️ Trouver $u$, $v$ tels que $au + bv = d$ ne prouve pas que $d = \\text{PGCD}(a, b)$ (sauf si $d = 1$) : $4 \\times 1 + 6 \\times 1 = 10$, mais $\\text{PGCD}(4, 6) = 2$.",
-      "⚠️ $1$ n'est pas un nombre premier (il n'a qu'un seul diviseur positif)."
+      "⚠️ $1$ n'est pas un nombre premier (il n'a qu'un seul diviseur positif).",
+      "⚠️ Le petit théorème de Fermat exige que $p$ soit **premier** (et ne divise pas $a$) : pour $n = 9$, non premier, $2^{8} = 256 \\equiv 4 \\pmod{9}$ et non $1$."
     ],
     "flashcards": [
       {
@@ -1497,6 +1768,10 @@ window.MATHS_COURSES_TALE = {
       {
         "q": "Si $4 \\mid n$ et $9 \\mid n$, que peut-on en déduire ?",
         "a": "$\\text{PGCD}(4, 9) = 1$, donc $36 \\mid n$ (corollaire du théorème de Gauss)."
+      },
+      {
+        "q": "Quelle est l'idée de la démonstration du théorème de Gauss ?",
+        "a": "Écrire $au + bv = 1$ (Bézout), multiplier par $c$ pour obtenir $acu + bcv = c$, puis remarquer que $a$ divise les deux termes de la somme."
       }
     ]
   },
@@ -1508,7 +1783,8 @@ window.MATHS_COURSES_TALE = {
       "Représenter un système d'équations sous la forme matricielle $AX = B$.",
       "Modéliser une situation d'évolution par un graphe probabiliste et déterminer son état stationnaire.",
       "Modéliser une situation par un graphe et compter des chemins avec les puissances de la matrice d'adjacence.",
-      "Étudier l'évolution d'une chaîne de Markov à l'aide de sa matrice de transition."
+      "Étudier l'évolution d'une chaîne de Markov à l'aide de sa matrice de transition.",
+      "Démontrer l'interprétation des coefficients de $A^n$ (chemins) et de $P^n$ (transitions) ; représenter une transformation du plan par une matrice."
     ],
     "keyPoints": [
       {
@@ -1530,6 +1806,18 @@ window.MATHS_COURSES_TALE = {
       {
         "title": "5. Suites de matrices",
         "content": "• Si $U_{n+1} = AU_n$ (avec $U_n$ matrice colonne), alors $U_n = A^n U_0$ par récurrence.\n• Si $U_{n+1} = AU_n + B$ et si $C$ vérifie $C = AC + B$, alors $V_n = U_n - C$ vérifie $V_{n+1} = AV_n$, donc $U_n = A^n(U_0 - C) + C$.\n• Puissances d'une matrice **diagonale** : $\\begin{pmatrix} a & 0 \\\\ 0 & b \\end{pmatrix}^n = \\begin{pmatrix} a^n & 0 \\\\ 0 & b^n \\end{pmatrix}$. Si $A = QDQ^{-1}$ avec $D$ diagonale, alors $A^n = QD^nQ^{-1}$."
+      },
+      {
+        "title": "6. Démonstration : nombre de chemins de longueur $n$",
+        "content": "On note $a_{ij}^{(n)}$ le coefficient $(i, j)$ de $A^n$ et on raisonne par récurrence sur $n \\ge 1$.\n• **Initialisation** : pour $n = 1$, $a_{ij}$ est le nombre d'arêtes, c'est-à-dire de chemins de longueur $1$, de $i$ à $j$.\n• **Hérédité** : supposons la propriété vraie au rang $n$. Un chemin de longueur $n + 1$ de $i$ à $j$ se décompose de façon unique en un chemin de longueur $n$ de $i$ à un sommet $k$, suivi d'une arête de $k$ à $j$. Pour $k$ fixé, il y en a $a_{ik}^{(n)} \\times a_{kj}$ (principe multiplicatif) ; en additionnant sur tous les sommets $k$ (cas disjoints), le nombre de chemins est\n$$\\sum_{k=1}^{p} a_{ik}^{(n)}\\, a_{kj}$$\nC'est exactement le coefficient $(i, j)$ du produit $A^n \\times A = A^{n+1}$.\n• **Conclusion** : pour tout $n \\ge 1$, le coefficient $(i, j)$ de $A^n$ est le nombre de chemins de longueur $n$ de $i$ à $j$."
+      },
+      {
+        "title": "7. Démonstration : distribution après $n$ transitions d'une chaîne de Markov",
+        "content": "• **Une transition** : d'après la formule des probabilités totales, pour chaque état $j$,\n$$P(X_{n+1} = j) = \\sum_{i} P(X_n = i) \\times p_{ij}$$\nce qui s'écrit matriciellement $\\pi_{n+1} = \\pi_n P$.\n• **Récurrence** : $\\pi_0 = \\pi_0 P^0$ et, si $\\pi_n = \\pi_0 P^n$, alors $\\pi_{n+1} = \\pi_n P = \\pi_0 P^{n+1}$. Donc $\\pi_n = \\pi_0 P^n$ pour tout $n \\in \\mathbb{N}$.\n• **Interprétation de $P^n$** : si l'on part de l'état $i$ (distribution initiale avec un $1$ en position $i$ et des $0$ ailleurs), $\\pi_n$ est la ligne $i$ de $P^n$. Le coefficient $(i, j)$ de $P^n$ est donc la probabilité de passer de l'état $i$ à l'état $j$ en $n$ transitions."
+      },
+      {
+        "title": "8. Matrices et transformations du plan",
+        "content": "Une transformation du plan qui s'écrit $\\begin{pmatrix} x' \\\\ y' \\end{pmatrix} = A\\begin{pmatrix} x \\\\ y \\end{pmatrix}$ est représentée par la matrice $A$. Exemples :\n• rotation de centre $O$ et d'angle $\\theta$ : $A = \\begin{pmatrix} \\cos\\theta & -\\sin\\theta \\\\ \\sin\\theta & \\cos\\theta \\end{pmatrix}$ ; pour $\\theta = \\frac{\\pi}{2}$, le point $(1 ; 0)$ a pour image $(0 ; 1)$ ;\n• homothétie de centre $O$ et de rapport $k$ : $A = \\begin{pmatrix} k & 0 \\\\ 0 & k \\end{pmatrix}$ ;\n• symétrie par rapport à l'axe des abscisses : $A = \\begin{pmatrix} 1 & 0 \\\\ 0 & -1 \\end{pmatrix}$.\nAppliquer la transformation de matrice $A$, puis celle de matrice $B$, revient à appliquer la transformation de matrice $BA$."
       }
     ],
     "methods": [
@@ -1562,6 +1850,16 @@ window.MATHS_COURSES_TALE = {
           "**Étape 3 (État stable)** : on cherche $\\pi = (x \\quad y)$ avec $\\pi P = \\pi$ et $x + y = 1$. La première coordonnée donne $0{,}9x + 0{,}3y = x$, soit $0{,}3y = 0{,}1x$, donc $x = 3y$. Avec $x + y = 1$ : $y = 0{,}25$ et $x = 0{,}75$.",
           "**Conclusion** : $\\pi_2 = (0{,}66 \\quad 0{,}34)$ et l'état stable est $\\pi = (0{,}75 \\quad 0{,}25)$ : à long terme, $75\\,\\%$ des jours se font avec le service $A$."
         ]
+      },
+      {
+        "title": "Méthode : Calculer les puissances d'une matrice et en déduire une suite",
+        "example": "Soit $A = \\begin{pmatrix} 1 & 2 \\\\ 0 & 1 \\end{pmatrix}$. Conjecturer puis démontrer l'expression de $A^n$, et en déduire $U_n$ si $U_{n+1} = AU_n$ et $U_0 = \\begin{pmatrix} 1 \\\\ 3 \\end{pmatrix}$.",
+        "steps": [
+          "**Étape 1 (Conjecture)** : $A^2 = \\begin{pmatrix} 1 & 4 \\\\ 0 & 1 \\end{pmatrix}$ et $A^3 = \\begin{pmatrix} 1 & 6 \\\\ 0 & 1 \\end{pmatrix}$ : on conjecture $A^n = \\begin{pmatrix} 1 & 2n \\\\ 0 & 1 \\end{pmatrix}$.",
+          "**Étape 2 (Récurrence)** : c'est vrai pour $n = 0$ ($A^0 = I_2$). Si $A^k = \\begin{pmatrix} 1 & 2k \\\\ 0 & 1 \\end{pmatrix}$, alors $A^{k+1} = A^k A = \\begin{pmatrix} 1 & 2 + 2k \\\\ 0 & 1 \\end{pmatrix} = \\begin{pmatrix} 1 & 2(k+1) \\\\ 0 & 1 \\end{pmatrix}$.",
+          "**Étape 3 (Suite)** : $U_n = A^n U_0 = \\begin{pmatrix} 1 \\times 1 + 2n \\times 3 \\\\ 0 \\times 1 + 1 \\times 3 \\end{pmatrix} = \\begin{pmatrix} 1 + 6n \\\\ 3 \\end{pmatrix}$.",
+          "**Conclusion** : si $U_n = \\begin{pmatrix} u_n \\\\ v_n \\end{pmatrix}$, alors $u_n = 1 + 6n$ et $v_n = 3$. Contrôle : la relation $U_{n+1} = AU_n$ s'écrit $u_{n+1} = u_n + 2v_n = u_n + 6$."
+        ]
       }
     ],
     "traps": [
@@ -1569,7 +1867,8 @@ window.MATHS_COURSES_TALE = {
       "⚠️ Dans un graphe probabiliste, la somme des probabilités sur chaque ligne de la matrice de transition doit toujours être égale à 1.",
       "⚠️ Avec la convention « matrices lignes » (utilisée ici), on écrit $\\pi_{n+1} = \\pi_n P$ et **pas** $P\\pi_n$ ; avec des matrices colonnes, il faut transposer. Ne pas mélanger les deux conventions.",
       "⚠️ $(A + B)^2 = A^2 + AB + BA + B^2$, qui n'est égal à $A^2 + 2AB + B^2$ que si $AB = BA$.",
-      "⚠️ $AB = 0$ n'implique pas $A = 0$ ou $B = 0$ : $\\begin{pmatrix} 1 & 0 \\\\ 0 & 0 \\end{pmatrix}\\begin{pmatrix} 0 & 0 \\\\ 0 & 1 \\end{pmatrix} = \\begin{pmatrix} 0 & 0 \\\\ 0 & 0 \\end{pmatrix}$."
+      "⚠️ $AB = 0$ n'implique pas $A = 0$ ou $B = 0$ : $\\begin{pmatrix} 1 & 0 \\\\ 0 & 0 \\end{pmatrix}\\begin{pmatrix} 0 & 0 \\\\ 0 & 1 \\end{pmatrix} = \\begin{pmatrix} 0 & 0 \\\\ 0 & 0 \\end{pmatrix}$.",
+      "⚠️ Une matrice carrée n'est pas toujours inversible : $\\begin{pmatrix} 1 & 2 \\\\ 2 & 4 \\end{pmatrix}$ a un déterminant nul. On ne « divise » jamais par une matrice : on multiplie par son inverse, du bon côté."
     ],
     "flashcards": [
       {
@@ -1591,6 +1890,10 @@ window.MATHS_COURSES_TALE = {
       {
         "q": "Donner l'inverse de $\\begin{pmatrix} 2 & 1 \\\\ 1 & 1 \\end{pmatrix}$.",
         "a": "Le déterminant vaut $1$, donc l'inverse est $\\begin{pmatrix} 1 & -1 \\\\ -1 & 2 \\end{pmatrix}$."
+      },
+      {
+        "q": "Pourquoi le coefficient $(i, j)$ de $A^2$ compte-t-il les chemins de longueur $2$ de $i$ à $j$ ?",
+        "a": "Il vaut $\\sum_k a_{ik}a_{kj}$ : pour chaque sommet intermédiaire $k$, on multiplie le nombre d'arêtes de $i$ à $k$ par le nombre d'arêtes de $k$ à $j$."
       }
     ]
   },
@@ -1616,7 +1919,7 @@ window.MATHS_COURSES_TALE = {
       },
       {
         "title": "3. Formes usuelles à connaître",
-        "content": "Soit $u$ une fonction dérivable sur un intervalle $I$.\n| Fonction | Dérivée | Condition |\n|:---:|:---:|:---:|\n| $u^n$ ($n \\ge 1$ entier) | $n\\,u'\\,u^{n-1}$ | — |\n| $\\frac{1}{u}$ | $-\\frac{u'}{u^2}$ | $u$ ne s'annule pas sur $I$ |\n| $\\sqrt{u}$ | $\\frac{u'}{2\\sqrt{u}}$ | $u > 0$ sur $I$ |\n| $e^{u}$ | $u'\\,e^{u}$ | — |\n| $\\ln(u)$ | $\\frac{u'}{u}$ | $u > 0$ sur $I$ |\n\nCes formules sont toutes des cas particuliers de $(g \\circ u)' = u' \\times (g' \\circ u)$ ; par exemple pour $g(X) = \\sqrt{X}$, $g'(X) = \\frac{1}{2\\sqrt{X}}$ donc $(\\sqrt{u})' = u' \\times \\frac{1}{2\\sqrt{u}}$."
+        "content": "Soit $u$ une fonction dérivable sur un intervalle $I$.\n| Fonction | Dérivée | Condition |\n|:---:|:---:|:---:|\n| $u^n$ ($n \\ge 1$ entier) | $n\\,u'\\,u^{n-1}$ | — |\n| $u^n$ ($n \\le -1$ entier) | $n\\,u'\\,u^{n-1}$ | $u$ ne s'annule pas sur $I$ |\n| $\\frac{1}{u}$ | $-\\frac{u'}{u^2}$ | $u$ ne s'annule pas sur $I$ |\n| $\\sqrt{u}$ | $\\frac{u'}{2\\sqrt{u}}$ | $u > 0$ sur $I$ |\n| $e^{u}$ | $u'\\,e^{u}$ | — |\n| $\\ln(u)$ | $\\frac{u'}{u}$ | $u > 0$ sur $I$ |\n\nCes formules sont toutes des cas particuliers de $(g \\circ u)' = u' \\times (g' \\circ u)$ ; par exemple pour $g(X) = \\sqrt{X}$, $g'(X) = \\frac{1}{2\\sqrt{X}}$ donc $(\\sqrt{u})' = u' \\times \\frac{1}{2\\sqrt{u}}$."
       },
       {
         "title": "4. Dérivée seconde",
@@ -1779,6 +2082,16 @@ window.MATHS_COURSES_TALE = {
           "**Étape 2 (Changement de variable)** : quand $x \\to 0$, $X = 5x \\to 0$ et $\\frac{\\sin(X)}{X} \\to 1$.",
           "**Conclusion** : $\\lim_{x \\to 0} \\frac{\\sin(5x)}{2x} = \\frac{5}{2}$."
         ]
+      },
+      {
+        "title": "Méthode : Résoudre une inéquation $\\cos(x) \\le a$ sur $]-\\pi ; \\pi]$",
+        "example": "Résoudre dans $]-\\pi ; \\pi]$ l'inéquation $\\cos(x) \\le -\\frac{\\sqrt{2}}{2}$.",
+        "steps": [
+          "**Étape 1 (Équation associée)** : $\\cos\\left(\\frac{3\\pi}{4}\\right) = -\\frac{\\sqrt{2}}{2}$ ; dans $]-\\pi ; \\pi]$, les solutions de $\\cos(x) = -\\frac{\\sqrt{2}}{2}$ sont $-\\frac{3\\pi}{4}$ et $\\frac{3\\pi}{4}$ (parité de $\\cos$).",
+          "**Étape 2 (Lecture sur le cercle)** : les points du cercle d'abscisse inférieure ou égale à $-\\frac{\\sqrt{2}}{2}$ forment l'arc « de gauche », qui contient le point associé à $\\pi$.",
+          "**Étape 3 (Traduction en intervalles)** : sur $]-\\pi ; \\pi]$, cet arc correspond à $x \\in \\left]-\\pi ; -\\frac{3\\pi}{4}\\right]$ ou $x \\in \\left[\\frac{3\\pi}{4} ; \\pi\\right]$.",
+          "**Conclusion** : $S = \\left]-\\pi ; -\\frac{3\\pi}{4}\\right] \\cup \\left[\\frac{3\\pi}{4} ; \\pi\\right]$ (les bornes $\\pm\\frac{3\\pi}{4}$ sont incluses car l'inégalité est large ; $-\\pi$ n'appartient pas à l'intervalle d'étude)."
+        ]
       }
     ],
     "traps": [
@@ -1850,6 +2163,18 @@ window.MATHS_COURSES_TALE = {
       {
         "title": "6. Nombre de parties d'un ensemble et calcul en Python",
         "content": "• Un ensemble à $n$ éléments possède $2^n$ parties (chaque élément est pris ou non : $2 \\times 2 \\times \\dots \\times 2$).\n• En regroupant les parties selon leur nombre d'éléments : $\\sum_{k=0}^{n} \\binom{n}{k} = 2^n$.\n• Calcul des coefficients binomiaux par la relation de Pascal :\n```python\ndef pascal(n):\n    ligne = [1]\n    for i in range(n):\n        nouvelle = [1]\n        for k in range(1, len(ligne)):\n            nouvelle.append(ligne[k - 1] + ligne[k])\n        nouvelle.append(1)\n        ligne = nouvelle\n    return ligne\n```\n`pascal(4)` renvoie `[1, 4, 6, 4, 1]`, et la somme de cette liste vaut $2^4 = 16$. Le module `math` fournit aussi `factorial(n)` et `comb(n, k)`."
+      },
+      {
+        "title": "7. Démonstration : un ensemble à $n$ éléments possède $2^n$ parties",
+        "content": "Soit $E = \\{e_1 ; e_2 ; \\dots ; e_n\\}$.\n• **Par les $n$-uplets** : à chaque partie $A$ de $E$, on associe le $n$-uplet $(c_1 ; \\dots ; c_n)$ de $\\{0 ; 1\\}^n$ où $c_i = 1$ si $e_i \\in A$ et $c_i = 0$ sinon. Chaque partie donne un unique $n$-uplet et chaque $n$-uplet provient d'une unique partie : il y a autant de parties que de $n$-uplets de $\\{0 ; 1\\}$, soit $2^n$ (principe multiplicatif).\n• **Par les tailles** : pour chaque $k \\in \\{0, 1, \\dots, n\\}$, il y a $\\binom{n}{k}$ parties à $k$ éléments, et ces cas sont disjoints. Le principe additif donne $\\sum_{k=0}^{n} \\binom{n}{k} = 2^n$.\nExemple : $E = \\{a ; b ; c\\}$ a $2^3 = 8$ parties : $\\emptyset$, $\\{a\\}$, $\\{b\\}$, $\\{c\\}$, $\\{a ; b\\}$, $\\{a ; c\\}$, $\\{b ; c\\}$ et $E$ ; on retrouve $1 + 3 + 3 + 1 = 8$."
+      },
+      {
+        "title": "8. Démonstration : relation de Pascal par le calcul",
+        "content": "Pour $1 \\le k \\le n - 1$ :\n$$\\binom{n-1}{k-1} + \\binom{n-1}{k} = \\frac{(n-1)!}{(k-1)!\\,(n-k)!} + \\frac{(n-1)!}{k!\\,(n-1-k)!}$$\nOn réduit au même dénominateur $k!\\,(n-k)!$ en utilisant $k! = k \\times (k-1)!$ et $(n-k)! = (n-k) \\times (n-k-1)!$ :\n$$= \\frac{(n-1)! \\times k + (n-1)! \\times (n-k)}{k!\\,(n-k)!} = \\frac{(n-1)! \\times n}{k!\\,(n-k)!} = \\frac{n!}{k!\\,(n-k)!} = \\binom{n}{k}$$\nLa preuve combinatoire (par dénombrement) est donnée au point 5."
+      },
+      {
+        "title": "9. Algorithmes : parties à deux éléments et permutations",
+        "content": "```python\ndef parties_2(E):\n    L = []\n    for i in range(len(E)):\n        for j in range(i + 1, len(E)):\n            L.append([E[i], E[j]])\n    return L\n\ndef permutations(E):\n    L = [[]]\n    for x in E:\n        nouvelle = []\n        for p in L:\n            for i in range(len(p) + 1):\n                nouvelle.append(p[:i] + [x] + p[i:])\n        L = nouvelle\n    return L\n```\n`parties_2(['a', 'b', 'c', 'd'])` renvoie les $\\binom{4}{2} = 6$ paires ; `permutations([1, 2, 3])` renvoie les $3! = 6$ permutations (chaque nouvel élément est inséré à toutes les places possibles). Pour tirer une permutation au hasard, on peut utiliser la fonction `shuffle` du module `random`."
       }
     ],
     "methods": [
@@ -1925,6 +2250,10 @@ window.MATHS_COURSES_TALE = {
       {
         "q": "Combien de façons de ranger $5$ objets distincts en ligne ?",
         "a": "$5! = 120$."
+      },
+      {
+        "q": "Pourquoi un ensemble à $n$ éléments a-t-il $2^n$ parties ?",
+        "a": "Une partie correspond à un $n$-uplet de $0$ et de $1$ (chaque élément est pris ou non) ; il y a $2^n$ tels $n$-uplets."
       }
     ]
   },
@@ -2139,7 +2468,7 @@ window.MATHS_EXERCISES_TALE = {
       "correctIndex": 0,
       "answer": "$5$",
       "hint1": "Comme $-1 < 2/3 < 1$, que vaut $\\lim (2/3)^n$ ?",
-      "hint2": "$\\lim (2/3)^n = 0$, donc $u_n \\to 5 - 3(0) = 5$.",
+      "hint2": "$\\lim (2/3)^n = 0$ : que devient alors le terme $3\\left(\\frac{2}{3}\\right)^n$ ?",
       "solution": "Comme $|2/3| < 1$, $\\lim_{n \\to +\\infty} (2/3)^n = 0$. Donc $\\lim_{n \\to +\\infty} u_n = 5 - 0 = 5$."
     },
     {
@@ -2196,7 +2525,7 @@ window.MATHS_EXERCISES_TALE = {
       "correctIndex": 0,
       "answer": "Elle converge, et sa limite est $l = 2$",
       "hint1": "Par le théorème de convergence monotone, la suite converge vers $l$ qui vérifie $l = \\sqrt{2+l}$.",
-      "hint2": "$l^2 = 2 + l \\iff l^2 - l - 2 = 0 \\iff (l - 2)(l + 1) = 0$. Comme $u_n > 0$, $l = 2$.",
+      "hint2": "$l = \\sqrt{2+l}$ donne $l^2 - l - 2 = 0$. Résous cette équation, puis élimine la racine incompatible avec $l \\ge u_0 = 1$.",
       "solution": "1. La suite est croissante et majorée : d'après le théorème de convergence monotone, elle converge vers une limite $l$.\n2. La fonction $f(x) = \\sqrt{2+x}$ est continue sur $[-2 ; +\\infty[$, donc $l$ vérifie $l = f(l)$, soit $l = \\sqrt{2+l}$, d'où $l \\ge 0$ et $l^2 - l - 2 = 0 \\iff (l-2)(l+1) = 0$.\n3. Comme $l \\ge 0$ (et même $l \\ge u_0 = 1$), on obtient $l = 2$.\nErreur fréquente : une suite croissante ne tend pas forcément vers $+\\infty$ ; si elle est majorée, elle converge."
     }
   ],
@@ -2216,8 +2545,8 @@ window.MATHS_EXERCISES_TALE = {
       ],
       "correctIndex": 0,
       "answer": "Exactement 1 solution",
-      "hint1": "Continuité + stricte monotonie = bijection.",
-      "hint2": "Comme $0 \\in [-3 ; 7]$, 0 admet un unique antécédent.",
+      "hint1": "Pense au corollaire du théorème des valeurs intermédiaires (fonction continue et strictement monotone).",
+      "hint2": "Regarde si $0$ est compris entre $f(1) = -3$ et $f(5) = 7$.",
       "solution": "$f$ est continue et strictement monotone sur $[1 ; 5]$. Comme $0 \\in [f(1) ; f(5)]$, d'après le corollaire du TVI (théorème de la bijection), l'équation $f(x) = 0$ admet une unique solution sur $[1 ; 5]$."
     },
     {
@@ -2255,7 +2584,7 @@ window.MATHS_EXERCISES_TALE = {
       "correctIndex": 0,
       "answer": "3 solutions",
       "hint1": "Dresse le tableau de variations complet avec les limites en $\\pm\\infty$.",
-      "hint2": "Sur $]-\\infty ; -1[$ : de $-\\infty$ à 8 (1 solution). Sur $[-1 ; 2]$ : de 8 à $-19$ (1 solution). Sur $]2 ; +\\infty[$ : de $-19$ à $+\\infty$ (1 solution).",
+      "hint2": "Les intervalles de monotonie sont $]-\\infty ; -1]$, $[-1 ; 2]$ et $[2 ; +\\infty[$. Sur chacun, regarde si $0$ est compris entre les valeurs (ou limites) aux bornes.",
       "solution": "La fonction change trois fois de signe : sur $]-\\infty ; -1]$, sur $[-1 ; 2]$, et sur $[2 ; +\\infty[$. Elle est strictement monotone sur chacun de ces trois intervalles. L'équation possède donc exactement 3 solutions réelles."
     },
     {
@@ -2274,7 +2603,7 @@ window.MATHS_EXERCISES_TALE = {
       "correctIndex": 0,
       "answer": "$g(0) = 3$",
       "hint1": "On sait que $\\lim_{u \\to 0} \\frac{\\sin(u)}{u} = 1$.",
-      "hint2": "$\\frac{\\sin(3x)}{x} = 3 \\times \\frac{\\sin(3x)}{3x} \\to 3 \\times 1 = 3$.",
+      "hint2": "Écris $\\frac{\\sin(3x)}{x} = 3 \\times \\frac{\\sin(3x)}{3x}$ et pose $u = 3x$.",
       "solution": "En posant $u = 3x \\to 0$, $\\lim_{x \\to 0} \\frac{\\sin(3x)}{x} = \\lim_{u \\to 0} 3\\frac{\\sin(u)}{u} = 3$. Le prolongement par continuité impose $g(0) = 3$."
     },
     {
@@ -2293,7 +2622,7 @@ window.MATHS_EXERCISES_TALE = {
       "correctIndex": 0,
       "answer": "$2$",
       "hint1": "En $\\pm\\infty$, la limite d'une fraction rationnelle est celle du quotient des monômes de plus haut degré.",
-      "hint2": "$\\frac{4x^3}{2x^3} = 2$.",
+      "hint2": "Ici, il s'agit du quotient $\\frac{4x^3}{2x^3}$ : simplifie-le.",
       "solution": "En $+\\infty$, $\\frac{4x^3 - 5x + 1}{2x^3 + 7x^2 - 3} \\sim \\frac{4x^3}{2x^3} = 2$."
     },
     {
@@ -2311,8 +2640,8 @@ window.MATHS_EXERCISES_TALE = {
       ],
       "correctIndex": 0,
       "answer": "$x = 2$ (verticale) et $y = 3$ (horizontale)",
-      "hint1": "$\\lim_{x \\to 2} f(x) = \\infty$ donne l'asymptote verticale.",
-      "hint2": "$\\lim_{x \\to \\pm\\infty} f(x) = 3$ donne l'asymptote horizontale.",
+      "hint1": "Une asymptote verticale se trouve là où le dénominateur s'annule (sans que le numérateur s'annule).",
+      "hint2": "Pour l'asymptote horizontale, calcule $\\lim_{x \\to \\pm\\infty} f(x)$ en ne gardant que les termes de plus haut degré : $\\frac{3x}{x}$.",
       "solution": "Le dénominateur s'annule en $x = 2$ avec $\\lim_{x \\to 2} f(x) = \\infty$ (asymptote verticale $x=2$). En $\\pm\\infty$, $\\lim f(x) = 3$ (asymptote horizontale $y=3$)."
     },
     {
@@ -2331,7 +2660,7 @@ window.MATHS_EXERCISES_TALE = {
       "correctIndex": 0,
       "answer": "$2$",
       "hint1": "Multiplie et divise par l'expression conjuguée $\\sqrt{x^2+4x} + x$.",
-      "hint2": "$\\frac{(x^2+4x) - x^2}{\\sqrt{x^2+4x} + x} = \\frac{4x}{x\\sqrt{1+4/x} + x} = \\frac{4}{\\sqrt{1+4/x} + 1} \\to \\frac{4}{2} = 2$.",
+      "hint2": "On obtient $\\frac{(x^2+4x) - x^2}{\\sqrt{x^2+4x} + x} = \\frac{4x}{x\\sqrt{1+4/x} + x} = \\frac{4}{\\sqrt{1+4/x} + 1}$. Passe à la limite.",
       "solution": "Par multiplication par la quantité conjuguée : $\\frac{4x}{\\sqrt{x^2+4x}+x} = \\frac{4}{\\sqrt{1+4/x}+1} \\xrightarrow[x \\to +\\infty]{} \\frac{4}{1+1} = 2$."
     },
     {
@@ -2371,7 +2700,7 @@ window.MATHS_EXERCISES_TALE = {
       "correctIndex": 0,
       "answer": "$f''(x) \\ge 0$ pour tout $x \\in I$",
       "hint1": "Convexe signifie que la courbe est au-dessus de ses tangentes.",
-      "hint2": "Cela équivaut à $f'$ croissante, c'est-à-dire sa dérivée $f'' \\ge 0$.",
+      "hint2": "Cela équivaut à : $f'$ croissante sur $I$. Quelle condition sur la dérivée de $f'$ traduit cela ?",
       "solution": "Par théorème du cours, $f$ est convexe sur $I \\iff f'$ est croissante sur $I \\iff f''(x) \\ge 0$ pour tout $x \\in I$."
     },
     {
@@ -2390,7 +2719,7 @@ window.MATHS_EXERCISES_TALE = {
       "correctIndex": 0,
       "answer": "$x = 2$",
       "hint1": "Un point d'inflexion correspond à une annulation de $f''$ avec changement de signe.",
-      "hint2": "$f'(x) = 3x^2 - 12x + 9 \\implies f''(x) = 6x - 12 = 0 \\iff x = 2$.",
+      "hint2": "$f'(x) = 3x^2 - 12x + 9$, donc $f''(x) = 6x - 12$. Résous $f''(x) = 0$ et vérifie le changement de signe.",
       "solution": "$f'(x) = 3x^2 - 12x + 9$, $f''(x) = 6x - 12$. $f''$ s'annule et change de signe en $x = 2$. L'abscisse du point d'inflexion est 2."
     },
     {
@@ -2449,7 +2778,7 @@ window.MATHS_EXERCISES_TALE = {
       "correctIndex": 0,
       "answer": "$\\ln(6)$",
       "hint1": "$\\ln(24) - \\ln(8) = \\ln(24/8) = \\ln(3)$.",
-      "hint2": "$\\ln(3) + \\ln(2) = \\ln(3 \\times 2) = \\ln(6)$.",
+      "hint2": "Utilise ensuite $\\ln(a) + \\ln(b) = \\ln(ab)$.",
       "solution": "$\\ln(24) - \\ln(8) + \\ln(2) = \\ln(24/8) + \\ln(2) = \\ln(3) + \\ln(2) = \\ln(3 \\times 2) = \\ln(6)$."
     },
     {
@@ -2565,7 +2894,7 @@ window.MATHS_EXERCISES_TALE = {
       "correctIndex": 0,
       "answer": "$y(x) = C e^{-3x} + 2$",
       "hint1": "Divise par 2 : $y' + 3y = 6 \\iff y' = -3y + 6$.",
-      "hint2": "Une solution particulière constante est $y_0 = -b/a = 6/3 = 2$. Les solutions sont $C e^{-3x} + 2$.",
+      "hint2": "Cherche une solution constante : $y' = 0$ donne $-3y + 6 = 0$. Ajoute-la aux solutions $C e^{-3x}$ de $y' = -3y$.",
       "solution": "$y' = -3y + 6$. Les solutions sont $y(x) = C e^{-3x} - \\frac{6}{-3} = C e^{-3x} + 2$ avec $C \\in \\mathbb{R}$."
     },
     {
@@ -2584,7 +2913,7 @@ window.MATHS_EXERCISES_TALE = {
       "correctIndex": 0,
       "answer": "$T(t) = 60e^{-0{,}1t} + 20$",
       "hint1": "Pose $u(t) = T(t) - 20$. Alors $u'(t) = -0{,}1 u(t)$.",
-      "hint2": "$u(t) = C e^{-0{,}1t}$. En $t=0$, $u(0) = 80 - 20 = 60$. Donc $T(t) = 60e^{-0{,}1t} + 20$.",
+      "hint2": "$u(t) = C e^{-0{,}1t}$. Détermine $C$ avec $u(0) = T(0) - 20$, puis reviens à $T(t) = u(t) + 20$.",
       "solution": "Posons $\\theta(t) = T(t) - 20$. Alors $\\theta' = -0{,}1\\theta \\implies \\theta(t) = C e^{-0{,}1t}$. À $t=0$, $\\theta(0) = 80 - 20 = 60$, donc $T(t) = 60e^{-0{,}1t} + 20$."
     }
   ],
@@ -2605,7 +2934,7 @@ window.MATHS_EXERCISES_TALE = {
       "correctIndex": 0,
       "answer": "$18$",
       "hint1": "Une primitive de $3x^2 - 2x$ est $F(x) = x^3 - x^2$.",
-      "hint2": "$F(3) = 27 - 9 = 18$ et $F(1) = 1 - 1 = 0$. $I = 18 - 0 = 18$.",
+      "hint2": "$I = F(3) - F(1)$, avec $F(1) = 1 - 1 = 0$.",
       "solution": "Primitive : $F(x) = x^3 - x^2$. $I = [x^3 - x^2]_1^3 = (27 - 9) - (1 - 1) = 18$."
     },
     {
@@ -2643,7 +2972,7 @@ window.MATHS_EXERCISES_TALE = {
       "correctIndex": 0,
       "answer": "$1$",
       "hint1": "Pose $u(x) = x \\implies u'(x) = 1$ et $v'(x) = e^x \\implies v(x) = e^x$.",
-      "hint2": "$K = [x e^x]_0^1 - \\int_0^1 e^x \\, dx = e - [e^x]_0^1 = e - (e - 1) = 1$.",
+      "hint2": "$K = [x e^x]_0^1 - \\int_0^1 e^x \\, dx$. Calcule chacun des deux termes.",
       "solution": "IPP : $u(x) = x, v'(x) = e^x \\implies u'(x) = 1, v(x) = e^x$. $K = [x e^x]_0^1 - \\int_0^1 e^x dx = 1e^1 - 0 - (e^1 - e^0) = e - e + 1 = 1$."
     },
     {
@@ -2683,7 +3012,7 @@ window.MATHS_EXERCISES_TALE = {
       "correctIndex": 0,
       "answer": "$\\vec{u}(-3 ; 4 ; -5)$",
       "hint1": "Les coefficients du paramètre $t$ correspondent aux composantes du vecteur directeur.",
-      "hint2": "Le coefficient de $t$ sur $x$ est $-3$, sur $y$ est $4$, sur $z$ est $-5$.",
+      "hint2": "Attention à la troisième ligne : $z = -5t$ s'écrit $z = 0 + (-5)t$. Les termes constants donnent un point de la droite, pas le vecteur directeur.",
       "solution": "Dans une représentation paramétrique, le vecteur directeur est constitué des coefficients de $t$ : $\\vec{u}(-3 ; 4 ; -5)$."
     },
     {
@@ -2702,7 +3031,7 @@ window.MATHS_EXERCISES_TALE = {
       "correctIndex": 0,
       "answer": "Oui, pour le paramètre $t = 2$",
       "hint1": "Résous $2 - 3t = -4 \\implies 3t = 6 \\implies t = 2$.",
-      "hint2": "Vérifie si $t=2$ donne $y=9$ et $z=-10$ : $1+4(2)=9$ et $-5(2)=-10$.",
+      "hint2": "Vérifie que cette valeur de $t$ donne aussi $y = 9$ et $z = -10$ dans les deux autres équations.",
       "solution": "$2 - 3t = -4 \\iff t = 2$. Avec $t = 2$, $y = 1 + 4(2) = 9$ et $z = -5(2) = -10$. Les 3 coordonnées coïncident : le point appartient à la droite."
     },
     {
@@ -2780,7 +3109,7 @@ window.MATHS_EXERCISES_TALE = {
       "correctIndex": 0,
       "answer": "Oui, car $\\vec{n}_1 \\cdot \\vec{n}_2 = 0$",
       "hint1": "$\\vec{n}_1(3 ; -2 ; 1)$ et $\\vec{n}_2(2 ; 4 ; 2)$.",
-      "hint2": "Calcule le produit scalaire : $3(2) + (-2)(4) + 1(2) = 6 - 8 + 2 = 0$.",
+      "hint2": "Calcule le produit scalaire $\\vec{n}_1 \\cdot \\vec{n}_2 = 3 \\times 2 + (-2) \\times 4 + 1 \\times 2$.",
       "solution": "$\\vec{n}_1 \\cdot \\vec{n}_2 = 3(2) + (-2)(4) + 1(2) = 6 - 8 + 2 = 0$. Les vecteurs normaux sont orthogonaux, donc les plans sont perpendiculaires."
     },
     {
@@ -2799,7 +3128,7 @@ window.MATHS_EXERCISES_TALE = {
       "correctIndex": 0,
       "answer": "$3$",
       "hint1": "Formule : $d(A, \\mathcal{P}) = \\frac{|a x_A + b y_A + c z_A + d|}{\\sqrt{a^2 + b^2 + c^2}}$.",
-      "hint2": "Numérateur : $|2(1) - 0 + 2 + 5| = 9$. Dénominateur : $\\sqrt{4 + 4 + 1} = \\sqrt{9} = 3$. $9/3 = 3$.",
+      "hint2": "Numérateur : $|2(1) - 2(0) + 2 + 5| = 9$. Dénominateur : $\\sqrt{2^2 + (-2)^2 + 1^2} = \\sqrt{9}$.",
       "solution": "$d(A, \\mathcal{P}) = \\frac{|2(1) - 2(0) + 2 + 5|}{\\sqrt{2^2 + (-2)^2 + 1^2}} = \\frac{9}{\\sqrt{9}} = \\frac{9}{3} = 3$."
     },
     {
@@ -2839,7 +3168,7 @@ window.MATHS_EXERCISES_TALE = {
       "correctIndex": 0,
       "answer": "$30$",
       "hint1": "Formule : $E(X) = n \\times p$.",
-      "hint2": "$100 \\times 0{,}3 = 30$.",
+      "hint2": "Ici $n = 100$ et $p = 0{,}3$.",
       "solution": "$E(X) = n \\times p = 100 \\times 0{,}3 = 30$."
     },
     {
@@ -2858,7 +3187,7 @@ window.MATHS_EXERCISES_TALE = {
       "correctIndex": 0,
       "answer": "$12$",
       "hint1": "$V(X) = n \\times p \\times (1 - p)$.",
-      "hint2": "$50 \\times 0{,}4 \\times 0{,}6 = 20 \\times 0{,}6 = 12$.",
+      "hint2": "Ici $n = 50$, $p = 0{,}4$ et donc $1 - p = 0{,}6$.",
       "solution": "$V(X) = n p (1 - p) = 50 \\times 0{,}4 \\times 0{,}6 = 12$."
     },
     {
@@ -2877,7 +3206,7 @@ window.MATHS_EXERCISES_TALE = {
       "correctIndex": 0,
       "answer": "$\\frac{3}{8}$",
       "hint1": "$\\binom{4}{2} = \\frac{4 \\times 3}{2} = 6$.",
-      "hint2": "$P(X = 2) = 6 \\times (0{,}5)^2 \\times (0{,}5)^2 = 6 \\times \\frac{1}{16} = \\frac{6}{16} = \\frac{3}{8}$.",
+      "hint2": "$P(X = 2) = \\binom{4}{2} (0{,}5)^2 (0{,}5)^{4-2}$, et $(0{,}5)^4 = \\frac{1}{16}$.",
       "solution": "$P(X = 2) = \\binom{4}{2}(0{,}5)^2 (0{,}5)^2 = 6 \\times \\frac{1}{16} = \\frac{3}{8}$."
     },
     {
@@ -2936,7 +3265,7 @@ window.MATHS_EXERCISES_TALE = {
       "correctIndex": 0,
       "answer": "$P(|X - 50| \\ge 8) \\le 0{,}25$",
       "hint1": "Applique avec $a = 8$ et $V(X) = 16$.",
-      "hint2": "$\\frac{V(X)}{a^2} = \\frac{16}{8^2} = \\frac{16}{64} = 0{,}25$.",
+      "hint2": "Calcule $\\frac{V(X)}{a^2} = \\frac{16}{8^2}$.",
       "solution": "$P(|X - 50| \\ge 8) \\le \\frac{V(X)}{8^2} = \\frac{16}{64} = \\frac{1}{4} = 0{,}25$."
     },
     {
@@ -2954,8 +3283,8 @@ window.MATHS_EXERCISES_TALE = {
       ],
       "correctIndex": 0,
       "answer": "$E(M_n) = \\mu$ et $V(M_n) = \\frac{\\sigma^2}{n}$",
-      "hint1": "Par linéarité, $E(M_n) = \\frac{1}{n}(n\\mu) = \\mu$.",
-      "hint2": "Par indépendance, $V(M_n) = \\frac{1}{n^2}(n\\sigma^2) = \\frac{\\sigma^2}{n}$.",
+      "hint1": "Par linéarité de l'espérance, $E(M_n) = \\frac{1}{n}\\left(E(X_1) + \\dots + E(X_n)\\right)$.",
+      "hint2": "Par indépendance, $V(X_1 + \\dots + X_n) = V(X_1) + \\dots + V(X_n)$ ; et $V(aY) = a^2 V(Y)$ avec ici $a = \\frac{1}{n}$.",
       "solution": "Par linéarité de l'espérance, $E(M_n) = \\mu$. Par indépendance des $X_i$, $V(M_n) = \\frac{1}{n^2} \\sum V(X_i) = \\frac{n\\sigma^2}{n^2} = \\frac{\\sigma^2}{n}$."
     },
     {
@@ -2974,7 +3303,7 @@ window.MATHS_EXERCISES_TALE = {
       "correctIndex": 0,
       "answer": "$n = 10\\,000$",
       "hint1": "Inégalité de concentration : $P(|F_n - p| \\ge \\epsilon) \\le \\frac{1}{4n\\epsilon^2}$.",
-      "hint2": "$\\frac{1}{4n (0{,}05)^2} \\le 0{,}01 \\iff \\frac{1}{4n \\times 0{,}0025} \\le 0{,}01 \\iff \\frac{1}{0{,}01 n} \\le 0{,}01 \\iff 0{,}0001 n \\ge 1 \\iff n \\ge 10\\,000$.",
+      "hint2": "Avec $\\epsilon = 0{,}05$ : $4n(0{,}05)^2 = 0{,}01n$, donc la majoration vaut $\\frac{1}{0{,}01n} = \\frac{100}{n}$. Résous $\\frac{100}{n} \\le 0{,}01$.",
       "solution": "$P(|F_n - p| \\ge 0{,}05) \\le \\frac{1}{4n(0{,}05)^2} = \\frac{1}{4n(0{,}0025)} = \\frac{1}{0{,}01 n} = \\frac{100}{n}$. On veut $\\frac{100}{n} \\le 0{,}01 \\iff n \\ge \\frac{100}{0{,}01} = 10\\,000$."
     }
   ],
@@ -2995,7 +3324,7 @@ window.MATHS_EXERCISES_TALE = {
       "correctIndex": 0,
       "answer": "$25$",
       "hint1": "$z \\bar{z} = a^2 + b^2$ avec $a=3$ et $b=-4$.",
-      "hint2": "$3^2 + (-4)^2 = 9 + 16 = 25$.",
+      "hint2": "Calcule $3^2 + (-4)^2$.",
       "solution": "$z \\bar{z} = (3 - 4i)(3 + 4i) = 3^2 - (4i)^2 = 9 - (-16) = 25$."
     },
     {
@@ -3033,7 +3362,7 @@ window.MATHS_EXERCISES_TALE = {
       "correctIndex": 0,
       "answer": "$S = \\{2 - 3i ; 2 + 3i\\}$",
       "hint1": "$\\Delta = (-4)^2 - 4(1)(13) = 16 - 52 = -36 = (6i)^2$.",
-      "hint2": "$z = \\frac{4 \\pm 6i}{2} = 2 \\pm 3i$.",
+      "hint2": "Lorsque $\\Delta < 0$, les racines sont $z = \\frac{-b \\pm i\\sqrt{-\\Delta}}{2a}$, ici avec $\\sqrt{-\\Delta} = 6$.",
       "solution": "$\\Delta = 16 - 52 = -36 < 0$. Deux racines complexes conjuguées : $z = \\frac{4 \\pm 6i}{2} = 2 \\pm 3i$."
     },
     {
@@ -3073,7 +3402,7 @@ window.MATHS_EXERCISES_TALE = {
       "correctIndex": 0,
       "answer": "$2$",
       "hint1": "$|z| = \\sqrt{a^2 + b^2}$.",
-      "hint2": "$\\sqrt{1^2 + (-\\sqrt{3})^2} = \\sqrt{1 + 3} = \\sqrt{4} = 2$.",
+      "hint2": "Ici $a = 1$ et $b = -\\sqrt{3}$, avec $(-\\sqrt{3})^2 = 3$.",
       "solution": "$|z| = \\sqrt{1^2 + (-\\sqrt{3})^2} = \\sqrt{1 + 3} = 2$."
     },
     {
@@ -3092,7 +3421,7 @@ window.MATHS_EXERCISES_TALE = {
       "correctIndex": 0,
       "answer": "$2\\sqrt{2} e^{i \\frac{3\\pi}{4}}$",
       "hint1": "$|z| = \\sqrt{(-2)^2 + 2^2} = \\sqrt{8} = 2\\sqrt{2}$.",
-      "hint2": "$\\cos(\\theta) = -\\frac{2}{2\\sqrt{2}} = -\\frac{\\sqrt{2}}{2}$ et $\\sin(\\theta) = \\frac{\\sqrt{2}}{2} \\implies \\theta = \\frac{3\\pi}{4}$.",
+      "hint2": "Cherche $\\theta$ tel que $\\cos(\\theta) = \\frac{-2}{2\\sqrt{2}} = -\\frac{\\sqrt{2}}{2}$ et $\\sin(\\theta) = \\frac{2}{2\\sqrt{2}} = \\frac{\\sqrt{2}}{2}$.",
       "solution": "$|z| = 2\\sqrt{2}$. $\\cos(\\theta) = -\\frac{\\sqrt{2}}{2}$ et $\\sin(\\theta) = \\frac{\\sqrt{2}}{2}$, donc $\\theta = \\frac{3\\pi}{4}$. D'où $z = 2\\sqrt{2}e^{i 3\\pi/4}$."
     },
     {
@@ -3111,7 +3440,7 @@ window.MATHS_EXERCISES_TALE = {
       "correctIndex": 0,
       "answer": "$-64$",
       "hint1": "$1 + i = \\sqrt{2} e^{i \\pi/4}$.",
-      "hint2": "$(\\sqrt{2})^{12} = 2^6 = 64$. $e^{i 12\\pi/4} = e^{i 3\\pi} = -1$.",
+      "hint2": "Par la formule de Moivre, $(1+i)^{12} = (\\sqrt{2})^{12} e^{i\\,12\\pi/4}$. Simplifie le module et l'argument séparément.",
       "solution": "$1 + i = \\sqrt{2} e^{i\\pi/4}$. D'où $(1+i)^{12} = (\\sqrt{2})^{12} e^{i 3\\pi} = 2^6 (-1) = -64$."
     },
     {
@@ -3130,7 +3459,7 @@ window.MATHS_EXERCISES_TALE = {
       "correctIndex": 0,
       "answer": "$\\frac{1}{4}\\cos(3x) + \\frac{3}{4}\\cos(x)$",
       "hint1": "$\\cos(x) = \\frac{e^{ix} + e^{-ix}}{2}$. Développe au cube.",
-      "hint2": "$\\frac{1}{8}(e^{3ix} + 3e^{ix} + 3e^{-ix} + e^{-3ix}) = \\frac{2\\cos(3x) + 6\\cos(x)}{8}$.",
+      "hint2": "$\\cos^3(x) = \\frac{1}{8}(e^{3ix} + 3e^{ix} + 3e^{-ix} + e^{-3ix})$. Regroupe $e^{3ix} + e^{-3ix}$ et $e^{ix} + e^{-ix}$ grâce aux formules d'Euler.",
       "solution": "$\\cos^3(x) = \\left(\\frac{e^{ix}+e^{-ix}}{2}\\right)^3 = \\frac{e^{3ix}+3e^{ix}+3e^{-ix}+e^{-3ix}}{8} = \\frac{2\\cos(3x)+6\\cos(x)}{8} = \\frac{1}{4}\\cos(3x) + \\frac{3}{4}\\cos(x)$."
     }
   ],
@@ -3151,7 +3480,7 @@ window.MATHS_EXERCISES_TALE = {
       "correctIndex": 0,
       "answer": "$4$",
       "hint1": "Calcule les premières puissances de 3 modulo 7 : $3^1 \\equiv 3$, $3^2 \\equiv 2$, $3^3 \\equiv 6 \\equiv -1$, $3^6 \\equiv 1$.",
-      "hint2": "$100 = 6 \\times 16 + 4$. Donc $3^{100} \\equiv (3^6)^{16} \\times 3^4 \\equiv 1 \\times 81 \\equiv 4 [7]$.",
+      "hint2": "$100 = 6 \\times 16 + 4$, donc $3^{100} = (3^6)^{16} \\times 3^4$. Il reste à réduire $3^4 = 81$ modulo 7.",
       "solution": "L'ordre de 3 modulo 7 est 6 car $3^6 = 729 = 7 \\times 104 + 1 \\equiv 1 [7]$. Comme $100 = 6 \\times 16 + 4$, on a $3^{100} \\equiv 3^4 = 81 \\equiv 4 [7]$."
     },
     {
@@ -3189,7 +3518,7 @@ window.MATHS_EXERCISES_TALE = {
       "correctIndex": 0,
       "answer": "$x \\equiv 4 \\pmod{7}$",
       "hint1": "Multiplie par l'inverse de 3 modulo 7. Remarque que $3 \\times 5 = 15 \\equiv 1 [7]$.",
-      "hint2": "$x \\equiv 5 \\times 5 = 25 \\equiv 4 [7]$.",
+      "hint2": "Multiplie les deux membres par 5 : $15x \\equiv 25 \\pmod{7}$, puis réduis $15$ et $25$ modulo 7.",
       "solution": "Comme $3 \\times 5 = 15 \\equiv 1 [7]$, 5 est l'inverse de 3 modulo 7. On multiplie par 5 : $x \\equiv 5 \\times 5 = 25 \\equiv 4 [7]$."
     },
     {
@@ -3228,8 +3557,8 @@ window.MATHS_EXERCISES_TALE = {
       ],
       "correctIndex": 0,
       "answer": "Il existe $(u, v) \\in \\mathbb{Z}^2$ tel que $au + bv = 1$",
-      "hint1": "C'est l'identité et théorème de Bézout.",
-      "hint2": "Le PGCD est égal à 1.",
+      "hint1": "« Premiers entre eux » signifie que $\\text{PGCD}(a, b) = 1$.",
+      "hint2": "Le théorème de Bézout caractérise cette situation par l'existence d'une combinaison linéaire $au + bv$ particulière, à coefficients entiers.",
       "solution": "D'après le théorème de Bézout, $a$ et $b$ sont premiers entre eux si et seulement si il existe des entiers relatifs $u$ et $v$ tels que $au + bv = 1$."
     },
     {
@@ -3249,7 +3578,7 @@ window.MATHS_EXERCISES_TALE = {
       "answer": "$(-5 ; 12)$",
       "hint1": "Teste $31(5) + 13(-12)$.",
       "hint2": "$31 \\times 5 = 155$ et $13 \\times 12 = 156$. $155 - 156 = -1$... attention au signe !",
-      "solution": "$31(-5) + 13(12) = -155 + 156 = 1$, donc $(u, v) = (-5 ; 12)$ ou $(5 ; -12)$ selon l'ordre. Testons : $31(5) + 13(-12) = 155 - 156 = -1$. Avec $(-5 ; 12)$ : $31(-5) + 13(12) = 1$. Le couple est donc $(u=-5, v=12)$."
+      "solution": "$31(-5) + 13(12) = -155 + 156 = 1$, donc le couple est $(u=-5, v=12)$."
     },
     {
       "id": "TX4-3",
@@ -3266,8 +3595,8 @@ window.MATHS_EXERCISES_TALE = {
       ],
       "correctIndex": 0,
       "answer": "$a$ divise $c$",
-      "hint1": "Théorème fondamental de l'arithmétique.",
-      "hint2": "Si $a \\mid bc$ et $\\text{PGCD}(a, b) = 1$, alors $a \\mid c$.",
+      "hint1": "Le théorème de Gauss concerne un entier qui divise un produit et qui est premier avec l'un des deux facteurs.",
+      "hint2": "Comme $a$ n'a aucun facteur premier commun avec $b$, ses facteurs premiers doivent tous se trouver dans l'autre facteur du produit.",
       "solution": "C'est l'énoncé exact du théorème (ou lemme) de Gauss : si un entier divise un produit et est premier avec l'un des facteurs, il divise obligatoirement l'autre facteur."
     },
     {
@@ -3306,8 +3635,8 @@ window.MATHS_EXERCISES_TALE = {
       ],
       "correctIndex": 0,
       "answer": "$\\begin{pmatrix} 4 & 6 \\\\ 10 & 12 \\end{pmatrix}$",
-      "hint1": "Ligne 1 : $1(2) + 2(1) = 4$ et $1(0) + 2(3) = 6$.",
-      "hint2": "Ligne 2 : $3(2) + 4(1) = 10$ et $3(0) + 4(3) = 12$.",
+      "hint1": "Le coefficient ligne $i$, colonne $j$ de $A \\times B$ s'obtient avec la ligne $i$ de $A$ et la colonne $j$ de $B$.",
+      "hint2": "Par exemple, ligne 1 colonne 1 : $1 \\times 2 + 2 \\times 1 = 4$. Procède de même pour les trois autres coefficients.",
       "solution": "$c_{11} = 1(2)+2(1) = 4$, $c_{12} = 1(0)+2(3) = 6$, $c_{21} = 3(2)+4(1) = 10$, $c_{22} = 3(0)+4(3) = 12$."
     },
     {
@@ -3326,7 +3655,7 @@ window.MATHS_EXERCISES_TALE = {
       "correctIndex": 0,
       "answer": "$\\begin{pmatrix} 0{,}7 & 0{,}3 \\\\ 0{,}4 & 0{,}6 \\end{pmatrix}$",
       "hint1": "Chaque ligne correspond à l'état de départ, la somme des coefficients de chaque ligne vaut 1.",
-      "hint2": "Ligne 1 : $(0{,}7 \\quad 0{,}3)$. Ligne 2 : $(0{,}4 \\quad 0{,}6)$.",
+      "hint2": "La ligne 1 correspond au départ de $A$ : elle contient $P(A \\to A)$ puis $P(A \\to B)$. Même principe pour la ligne 2 depuis $B$.",
       "solution": "Les lignes représentent les probabilités de transition depuis l'état courant : ligne 1 $(0{,}7 ; 0{,}3)$ et ligne 2 $(0{,}4 ; 0{,}6)$."
     },
     {
@@ -3345,7 +3674,7 @@ window.MATHS_EXERCISES_TALE = {
       "correctIndex": 0,
       "answer": "$P = \\left(\\frac{4}{7} \\quad \\frac{3}{7}\\right)$",
       "hint1": "$0{,}7x + 0{,}4y = x \\iff 0{,}4y = 0{,}3x \\iff 3x = 4y$.",
-      "hint2": "Comme $y = 1 - x$, $3x = 4(1 - x) = 4 - 4x \\implies 7x = 4 \\implies x = 4/7$.",
+      "hint2": "Remplace $y$ par $1 - x$ dans $3x = 4y$ et résous en $x$.",
       "solution": "$0{,}7x + 0{,}4y = x \\iff 0{,}4y = 0{,}3x \\iff y = \\frac{3}{4}x$. Avec $x + y = 1$, on obtient $x + \\frac{3}{4}x = 1 \\iff \\frac{7}{4}x = 1 \\iff x = \\frac{4}{7}$, d'où $y = \\frac{3}{7}$."
     },
     {
@@ -3384,8 +3713,8 @@ window.MATHS_EXERCISES_TALE = {
       ],
       "correctIndex": 0,
       "answer": "$f'(x) = 12(3x - 2)^3$",
-      "hint1": "La dérivée de $x \\mapsto g(ax + b)$ est $x \\mapsto a\\,g'(ax + b)$.",
-      "hint2": "Ici $g(X) = X^4$, $g'(X) = 4X^3$ et $a = 3$.",
+      "hint1": "Écris $f = u^4$ avec $u(x) = 3x - 2$ et utilise $(u^n)' = n\\,u'\\,u^{n-1}$.",
+      "hint2": "Ici $n = 4$ et $u'(x) = 3$.",
       "solution": "Avec $u(x) = 3x - 2$, $u'(x) = 3$ et $(u^4)' = 4u'u^3$ : $f'(x) = 4 \\times 3 \\times (3x - 2)^3 = 12(3x - 2)^3$."
     },
     {
@@ -3482,7 +3811,7 @@ window.MATHS_EXERCISES_TALE = {
       "correctIndex": 0,
       "answer": "$f'(x) = -3\\sin(3x - 1)$",
       "hint1": "$\\cos' = -\\sin$.",
-      "hint2": "La dérivée de $x \\mapsto g(ax + b)$ est $x \\mapsto a\\,g'(ax + b)$.",
+      "hint2": "$f$ est la composée de $\\cos$ et de $x \\mapsto 3x - 1$ : n'oublie pas le facteur $3$, dérivée de $3x - 1$.",
       "solution": "Avec $g = \\cos$, $g' = -\\sin$ et $a = 3$ : $f'(x) = 3 \\times (-\\sin(3x - 1)) = -3\\sin(3x - 1)$."
     },
     {
@@ -3694,7 +4023,7 @@ window.MATHS_EXERCISES_TALE = {
       ],
       "correctIndex": 0,
       "answer": "$10$",
-      "hint1": "$u_n - 10 = (u_0 - 10) \\times 0{,}5^n = -8 \\times 0{,}5^n$.",
+      "hint1": "Note $\\ell$ la valeur fixe de la relation ($\\ell = 0{,}5\\ell + 5$) : la suite $(u_n - \\ell)$ est géométrique de raison $0{,}5$ et de premier terme $u_0 - \\ell = -8$.",
       "hint2": "Cherche le premier $n$ tel que $8 \\times 0{,}5^n \\le 0{,}01$, c'est-à-dire $2^n \\ge 800$.",
       "solution": "$|u_n - 10| = 8 \\times 0{,}5^n = \\frac{8}{2^n}$. On veut $2^n \\ge 800$ : $2^9 = 512 < 800$ et $2^{10} = 1024 \\ge 800$. Le programme affiche $10$."
     },

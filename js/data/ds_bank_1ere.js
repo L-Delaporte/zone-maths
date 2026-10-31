@@ -917,9 +917,13 @@ Le $1^{\\text{er}}$ janvier 2036 correspond à $n = 10$ : $C_{10} = \\frac{13\\,
 **5.** Léa a versé $1\\,000 + 10 \\times 100 = 2\\,000$ €. Les intérêts représentent environ $2\\,490{,}30 - 2\\,000 = 490{,}30$ €, soit à peu près $19{,}7\\,\\%$ du capital.` }
   ],
   "1G1": [
-    { id: "1G1-ds-01", title: "Radians et mesures principales", difficulty: 1, points: 4,
+    {
+      id: "1G1-ds-01",
+      title: "Radians, longueur d'arc et réels associés à un même point",
+      difficulty: 1,
+      points: 4,
       statement: `1. Convertir en radians : $150^\\circ$ et $225^\\circ$. Convertir en degrés : $\\frac{7\\pi}{6}$ rad et $\\frac{\\pi}{10}$ rad.
-2. Déterminer la mesure principale (c'est-à-dire la mesure appartenant à $]-\\pi ; \\pi]$) de chacun des réels suivants :
+2. Pour chacun des réels suivants, déterminer le réel de $]-\\pi ; \\pi]$ associé au même point du cercle trigonométrique :
  a) $\\frac{17\\pi}{4}$  b) $-\\frac{11\\pi}{6}$  c) $\\frac{25\\pi}{3}$
 3. Sur un cercle de rayon $5$ cm, quelle est la longueur de l'arc intercepté par un angle de $\\frac{2\\pi}{5}$ rad ?`,
       solution: `**1.** On utilise $180^\\circ = \\pi$ rad.
@@ -927,12 +931,17 @@ Le $1^{\\text{er}}$ janvier 2036 correspond à $n = 10$ : $C_{10} = \\frac{13\\,
 - $\\frac{7\\pi}{6}$ rad $= \\frac{7 \\times 180}{6} = 210^\\circ$ ; $\\frac{\\pi}{10}$ rad $= \\frac{180}{10} = 18^\\circ$.
 
 **2.** On retire ou on ajoute un multiple de $2\\pi$.
-- **a)** $\\frac{17\\pi}{4} = \\frac{16\\pi}{4} + \\frac{\\pi}{4} = 4\\pi + \\frac{\\pi}{4}$ : mesure principale $\\frac{\\pi}{4}$.
-- **b)** $-\\frac{11\\pi}{6} = -\\frac{12\\pi}{6} + \\frac{\\pi}{6} = -2\\pi + \\frac{\\pi}{6}$ : mesure principale $\\frac{\\pi}{6}$.
-- **c)** $\\frac{25\\pi}{3} = \\frac{24\\pi}{3} + \\frac{\\pi}{3} = 8\\pi + \\frac{\\pi}{3}$ : mesure principale $\\frac{\\pi}{3}$.
+- **a)** $\\frac{17\\pi}{4} = \\frac{16\\pi}{4} + \\frac{\\pi}{4} = 4\\pi + \\frac{\\pi}{4}$ : même point que $\\frac{\\pi}{4}$.
+- **b)** $-\\frac{11\\pi}{6} = -\\frac{12\\pi}{6} + \\frac{\\pi}{6} = -2\\pi + \\frac{\\pi}{6}$ : même point que $\\frac{\\pi}{6}$.
+- **c)** $\\frac{25\\pi}{3} = \\frac{24\\pi}{3} + \\frac{\\pi}{3} = 8\\pi + \\frac{\\pi}{3}$ : même point que $\\frac{\\pi}{3}$.
 
-**3.** $\\ell = R\\theta = 5 \\times \\frac{2\\pi}{5} = 2\\pi \\approx 6{,}28$ cm.` },
-    { id: "1G1-ds-02", title: "Valeurs remarquables sur le cercle", difficulty: 1, points: 4,
+**3.** $\\ell = R\\theta = 5 \\times \\frac{2\\pi}{5} = 2\\pi \\approx 6{,}28$ cm.`
+    },
+    {
+      id: "1G1-ds-02",
+      title: "Valeurs remarquables sur le cercle",
+      difficulty: 1,
+      points: 4,
       statement: `1. Placer sur un cercle trigonométrique les points associés aux réels $\\frac{2\\pi}{3}$, $\\frac{5\\pi}{4}$, $-\\frac{\\pi}{6}$ et $\\frac{7\\pi}{2}$ (on expliquera la démarche).
 2. Donner les valeurs exactes de $\\cos$ et $\\sin$ de chacun de ces réels, en justifiant à l'aide des symétries du cercle.`,
       solution: `**1.** On repère chaque réel par rapport aux angles remarquables du premier quadrant :
@@ -944,8 +953,9 @@ Le $1^{\\text{er}}$ janvier 2036 correspond à $n = 10$ : $C_{10} = \\frac{13\\,
 **2.**
 - $\\cos\\frac{2\\pi}{3} = -\\cos\\frac{\\pi}{3} = -\\frac{1}{2}$ et $\\sin\\frac{2\\pi}{3} = \\sin\\frac{\\pi}{3} = \\frac{\\sqrt{3}}{2}$.
 - $\\cos\\frac{5\\pi}{4} = -\\cos\\frac{\\pi}{4} = -\\frac{\\sqrt{2}}{2}$ et $\\sin\\frac{5\\pi}{4} = -\\sin\\frac{\\pi}{4} = -\\frac{\\sqrt{2}}{2}$.
-- $\\cos\\left(-\\frac{\\pi}{6}\\right) = \\cos\\frac{\\pi}{6} = \\frac{\\sqrt{3}}{2}$ (cosinus pair) et $\\sin\\left(-\\frac{\\pi}{6}\\right) = -\\sin\\frac{\\pi}{6} = -\\frac{1}{2}$ (sinus impair).
-- $\\cos\\frac{7\\pi}{2} = \\cos\\left(-\\frac{\\pi}{2}\\right) = 0$ et $\\sin\\frac{7\\pi}{2} = \\sin\\left(-\\frac{\\pi}{2}\\right) = -1$.` },
+- $\\cos\\left(-\\frac{\\pi}{6}\\right) = \\cos\\frac{\\pi}{6} = \\frac{\\sqrt{3}}{2}$ (symétrie par rapport à l'axe des abscisses) et $\\sin\\left(-\\frac{\\pi}{6}\\right) = -\\sin\\frac{\\pi}{6} = -\\frac{1}{2}$ (même symétrie).
+- $\\cos\\frac{7\\pi}{2} = \\cos\\left(-\\frac{\\pi}{2}\\right) = 0$ et $\\sin\\frac{7\\pi}{2} = \\sin\\left(-\\frac{\\pi}{2}\\right) = -1$.`
+    },
     { id: "1G1-ds-03", title: "Du sinus au cosinus", difficulty: 2, points: 5,
       statement: `Soit $x$ un réel de l'intervalle $\\left[\\frac{\\pi}{2} ; \\pi\\right]$ tel que $\\sin x = \\frac{3}{5}$.
 
@@ -962,23 +972,30 @@ Comme $x \\in \\left[\\frac{\\pi}{2} ; \\pi\\right]$, le point associé est dans
 **c)** $\\cos\\left(\\frac{\\pi}{2} - x\\right) = \\sin x = \\frac{3}{5}$.
 
 **d)** $\\sin(-x) = -\\sin x = -\\frac{3}{5}$ et $\\cos(-x) = \\cos x = -\\frac{4}{5}$, donc $\\sin(-x) + \\cos(-x) = -\\frac{7}{5}$.` },
-    { id: "1G1-ds-04", title: "Équations trigonométriques", difficulty: 2, points: 5,
-      statement: `Résoudre les équations suivantes dans l'intervalle indiqué, en s'aidant du cercle trigonométrique.
+    {
+      id: "1G1-ds-04",
+      title: "Valeurs en π/6 et lien avec le triangle rectangle",
+      difficulty: 2,
+      points: 5,
+      statement: `Dans un repère orthonormé $(O ; I, J)$, on note $M$ le point du cercle trigonométrique associé au réel $\\frac{\\pi}{6}$, $H$ le projeté orthogonal de $M$ sur l'axe des abscisses et $M'$ le symétrique de $M$ par rapport à l'axe des abscisses.
 
-1. $\\cos x = \\frac{1}{2}$ dans $]-\\pi ; \\pi]$.
-2. $\\sin x = -\\frac{\\sqrt{2}}{2}$ dans $[0 ; 2\\pi[$.
-3. $2\\cos x + \\sqrt{3} = 0$ dans $]-\\pi ; \\pi]$.
-4. $\\sin x = 1$ dans $\\mathbb{R}$.`,
-      solution: `**1.** $\\cos\\frac{\\pi}{3} = \\frac{1}{2}$. Les points du cercle d'abscisse $\\frac{1}{2}$ sont associés à $\\frac{\\pi}{3}$ et $-\\frac{\\pi}{3}$ (symétriques par rapport à l'axe des abscisses). $\\mathcal{S} = \\left\\{-\\frac{\\pi}{3} ; \\frac{\\pi}{3}\\right\\}$.
+1. Justifier que $\\cos\\frac{\\pi}{6} = OH$ et $\\sin\\frac{\\pi}{6} = HM$.
+2. Montrer que le triangle $OMM'$ est équilatéral. En déduire que $\\sin\\frac{\\pi}{6} = \\frac{1}{2}$.
+3. En déduire la valeur exacte de $\\cos\\frac{\\pi}{6}$.
+4. Donner les valeurs exactes du cosinus et du sinus de $\\frac{5\\pi}{6}$, $-\\frac{\\pi}{6}$ et $\\frac{7\\pi}{6}$, en justifiant à l'aide des symétries du cercle.
+5. Une rampe rectiligne de $6$ m de long fait un angle de $30^\\circ$ avec le sol horizontal. À quelle hauteur son extrémité s'élève-t-elle ?`,
+      solution: `**1.** $M$ a pour coordonnées $\\left(\\cos\\frac{\\pi}{6} ; \\sin\\frac{\\pi}{6}\\right)$, toutes deux positives ($M$ est dans le premier quadrant). Donc $H\\left(\\cos\\frac{\\pi}{6} ; 0\\right)$, $OH = \\cos\\frac{\\pi}{6}$ et $HM = \\sin\\frac{\\pi}{6}$. (Le triangle $OHM$ est rectangle en $H$ d'hypoténuse $OM = 1$ : on retrouve côté adjacent et côté opposé.)
 
-**2.** $\\sin\\frac{\\pi}{4} = \\frac{\\sqrt{2}}{2}$, donc $\\sin\\left(-\\frac{\\pi}{4}\\right) = -\\frac{\\sqrt{2}}{2}$ et $\\sin\\left(\\pi + \\frac{\\pi}{4}\\right) = -\\frac{\\sqrt{2}}{2}$. Dans $[0 ; 2\\pi[$, $-\\frac{\\pi}{4}$ correspond à $2\\pi - \\frac{\\pi}{4} = \\frac{7\\pi}{4}$.
-$\\mathcal{S} = \\left\\{\\frac{5\\pi}{4} ; \\frac{7\\pi}{4}\\right\\}$.
+**2.** $M'$ est associé à $-\\frac{\\pi}{6}$. On a $OM = OM' = 1$ et l'angle $\\widehat{MOM'}$ mesure $\\frac{\\pi}{6} + \\frac{\\pi}{6} = \\frac{\\pi}{3}$, soit $60^\\circ$. Le triangle $OMM'$ est isocèle en $O$ avec un angle au sommet de $60^\\circ$ : ses deux autres angles mesurent $\\frac{180^\\circ - 60^\\circ}{2} = 60^\\circ$, il est équilatéral, donc $MM' = 1$. Par symétrie, $H$ est le milieu de $[MM']$, d'où $HM = \\frac{1}{2}$ : $\\sin\\frac{\\pi}{6} = \\frac{1}{2}$.
 
-**3.** $2\\cos x + \\sqrt{3} = 0 \\iff \\cos x = -\\frac{\\sqrt{3}}{2}$. Or $\\cos\\left(\\pi - \\frac{\\pi}{6}\\right) = -\\cos\\frac{\\pi}{6} = -\\frac{\\sqrt{3}}{2}$, et par parité $\\cos\\left(-\\frac{5\\pi}{6}\\right) = -\\frac{\\sqrt{3}}{2}$.
-$\\mathcal{S} = \\left\\{-\\frac{5\\pi}{6} ; \\frac{5\\pi}{6}\\right\\}$.
+**3.** $\\cos^2\\frac{\\pi}{6} = 1 - \\sin^2\\frac{\\pi}{6} = 1 - \\frac{1}{4} = \\frac{3}{4}$ et $\\cos\\frac{\\pi}{6} > 0$, donc $\\cos\\frac{\\pi}{6} = \\frac{\\sqrt{3}}{2}$.
 
-**4.** Le seul point du cercle d'ordonnée $1$ est associé à $\\frac{\\pi}{2}$ ; tous les réels associés à ce point s'écrivent $\\frac{\\pi}{2} + 2k\\pi$ :
-$\\mathcal{S} = \\left\\{\\frac{\\pi}{2} + 2k\\pi,\\ k \\in \\mathbb{Z}\\right\\}$.` },
+**4.** $\\frac{5\\pi}{6} = \\pi - \\frac{\\pi}{6}$ (symétrie par rapport à l'axe des ordonnées) : $\\cos\\frac{5\\pi}{6} = -\\frac{\\sqrt{3}}{2}$ et $\\sin\\frac{5\\pi}{6} = \\frac{1}{2}$.
+$-\\frac{\\pi}{6}$ (symétrie par rapport à l'axe des abscisses) : $\\cos\\left(-\\frac{\\pi}{6}\\right) = \\frac{\\sqrt{3}}{2}$ et $\\sin\\left(-\\frac{\\pi}{6}\\right) = -\\frac{1}{2}$.
+$\\frac{7\\pi}{6} = \\pi + \\frac{\\pi}{6}$ (symétrie par rapport à l'origine) : $\\cos\\frac{7\\pi}{6} = -\\frac{\\sqrt{3}}{2}$ et $\\sin\\frac{7\\pi}{6} = -\\frac{1}{2}$.
+
+**5.** La rampe est l'hypoténuse d'un triangle rectangle d'angle $30^\\circ = \\frac{\\pi}{6}$ ; la hauteur est le côté opposé : $h = 6 \\times \\sin\\frac{\\pi}{6} = 6 \\times \\frac{1}{2} = 3$ m.`
+    },
     { id: "1G1-ds-05", title: "Simplifications avec les angles associés", difficulty: 3, points: 6,
       statement: `1. Simplifier, pour tout réel $x$ :
  a) $A(x) = \\cos(\\pi - x) + \\sin\\left(\\frac{\\pi}{2} - x\\right) + \\cos(x + \\pi) + \\cos(-x)$
@@ -995,30 +1012,50 @@ $B(x) = -\\sin x + \\sin x + \\sin x + \\sin x = 2\\sin x$.
 Les termes s'annulent deux à deux : $C = 0$.
 
 **3.** $\\sin\\frac{3\\pi}{8} = \\sin\\left(\\frac{\\pi}{2} - \\frac{\\pi}{8}\\right) = \\cos\\frac{\\pi}{8}$. Donc $D = \\sin^2\\frac{\\pi}{8} + \\cos^2\\frac{\\pi}{8} = 1$.` },
-    { id: "1G1-ds-06", title: "Inéquations et fonctions trigonométriques", difficulty: 3, points: 6,
-      statement: `1. À l'aide du cercle trigonométrique, résoudre :
- a) $\\cos x \\geqslant \\frac{1}{2}$ dans $]-\\pi ; \\pi]$ ;
- b) $\\sin x < \\frac{1}{2}$ dans $[0 ; 2\\pi[$.
-2. Soit $f$ la fonction définie sur $\\mathbb{R}$ par $f(x) = \\sin(2x)$.
- a) Montrer que $f$ est impaire.
- b) Montrer que pour tout réel $x$, $f(x + \\pi) = f(x)$. Que peut-on en déduire pour la courbe de $f$ ?
- c) Calculer $f\\left(\\frac{\\pi}{4}\\right)$, $f\\left(\\frac{\\pi}{3}\\right)$ et $f\\left(-\\frac{\\pi}{12}\\right)$.`,
-      solution: `**1. a)** Les points d'abscisse $\\frac{1}{2}$ sont associés à $\\pm\\frac{\\pi}{3}$. Les points d'abscisse supérieure ou égale à $\\frac{1}{2}$ forment l'arc situé « à droite », entre $-\\frac{\\pi}{3}$ et $\\frac{\\pi}{3}$ : $\\mathcal{S} = \\left[-\\frac{\\pi}{3} ; \\frac{\\pi}{3}\\right]$.
+    {
+      id: "1G1-ds-06",
+      title: "Approcher π par la méthode d'Archimède",
+      difficulty: 3,
+      points: 6,
+      statement: `On inscrit dans le cercle trigonométrique (de rayon $1$) un polygone régulier à $n$ côtés. Son demi-périmètre $p_n$ est une valeur approchée de $\\pi$, demi-périmètre du cercle.
 
-**b)** Les points d'ordonnée $\\frac{1}{2}$ sont associés à $\\frac{\\pi}{6}$ et $\\frac{5\\pi}{6}$. L'ordonnée est $\\geqslant \\frac{1}{2}$ sur l'arc supérieur $\\left[\\frac{\\pi}{6} ; \\frac{5\\pi}{6}\\right]$ ; elle est donc $< \\frac{1}{2}$ ailleurs :
-$\\mathcal{S} = \\left[0 ; \\frac{\\pi}{6}\\right[ \\cup \\left]\\frac{5\\pi}{6} ; 2\\pi\\right[$.
+1. Pour $n = 6$, les sommets sont les points associés aux réels $0$, $\\frac{\\pi}{3}$, $\\frac{2\\pi}{3}$, …, $\\frac{5\\pi}{3}$. Justifier que chacun des six triangles formés par le centre $O$ et deux sommets consécutifs est équilatéral, puis calculer $p_6$.
+2. Pour $n = 4$, les sommets sont les points associés à $0$, $\\frac{\\pi}{2}$, $\\pi$ et $\\frac{3\\pi}{2}$. Calculer la longueur d'un côté, puis $p_4$ (valeur exacte et arrondi au centième).
+3. On admet que si $c$ est la longueur du côté du polygone à $n$ côtés, celle du polygone à $2n$ côtés est $\\sqrt{2 - \\sqrt{4 - c^2}}$. En partant du carré, calculer la valeur exacte du côté de l'octogone régulier, puis $p_8$ arrondi au centième.
+4. On considère le programme suivant :
+\`\`\`python
+from math import sqrt
 
-**2. a)** $\\mathbb{R}$ est symétrique par rapport à $0$ et $f(-x) = \\sin(-2x) = -\\sin(2x) = -f(x)$ : $f$ est impaire (courbe symétrique par rapport à l'origine).
+def archimede(k):
+    n = 6
+    c = 1
+    for i in range(k):
+        c = sqrt(2 - sqrt(4 - c * c))
+        n = 2 * n
+    return n * c / 2
+\`\`\`
+Que renvoie \`archimede(0)\` ? Combien de côtés a le polygone utilisé par \`archimede(4)\` ?
+5. \`archimede(4)\` renvoie environ $3{,}1410$. Comparer à $\\pi$, puis expliquer pourquoi les valeurs $p_n$ sont toujours inférieures à $\\pi$.`,
+      solution: `**1.** Deux sommets consécutifs $A$ et $B$ vérifient $OA = OB = 1$ et $\\widehat{AOB} = \\frac{\\pi}{3} = 60^\\circ$. Le triangle $OAB$ est isocèle en $O$ avec un angle au sommet de $60^\\circ$, donc ses trois angles mesurent $60^\\circ$ : il est équilatéral et $AB = 1$. Le périmètre de l'hexagone vaut $6$, donc $p_6 = 3$.
 
-**b)** $f(x + \\pi) = \\sin(2x + 2\\pi) = \\sin(2x) = f(x)$ car la fonction sinus est $2\\pi$-périodique. $f$ est périodique de période $\\pi$ : sa courbe est invariante par la translation de vecteur $\\pi\\,\\vec{i}$ ; il suffit de la tracer sur un intervalle de longueur $\\pi$.
+**2.** Le côté joint les points $(1 ; 0)$ et $(0 ; 1)$ : sa longueur est $\\sqrt{1^2 + 1^2} = \\sqrt{2}$. Le périmètre vaut $4\\sqrt{2}$, donc $p_4 = 2\\sqrt{2} \\approx 2{,}83$.
 
-**c)** $f\\left(\\frac{\\pi}{4}\\right) = \\sin\\frac{\\pi}{2} = 1$ ; $f\\left(\\frac{\\pi}{3}\\right) = \\sin\\frac{2\\pi}{3} = \\frac{\\sqrt{3}}{2}$ ; $f\\left(-\\frac{\\pi}{12}\\right) = \\sin\\left(-\\frac{\\pi}{6}\\right) = -\\frac{1}{2}$.` },
-    { id: "1G1-ds-07", title: "La grande roue", difficulty: 4, points: 7,
+**3.** Avec $c = \\sqrt{2}$ : $4 - c^2 = 2$, donc le côté de l'octogone vaut $\\sqrt{2 - \\sqrt{2}} \\approx 0{,}765\\,4$. Alors $p_8 = \\frac{8\\sqrt{2 - \\sqrt{2}}}{2} = 4\\sqrt{2 - \\sqrt{2}} \\approx 3{,}06$.
+
+**4.** Pour $k = 0$, la boucle n'est pas exécutée : la fonction renvoie $\\frac{6 \\times 1}{2} = 3 = p_6$. Pour $k = 4$, le nombre de côtés est doublé quatre fois : $6 \\times 2^4 = 96$ côtés (comme Archimède).
+
+**5.** $\\pi \\approx 3{,}141\\,59$ : l'écart est d'environ $0{,}000\\,6$, la valeur est correcte au millième près par défaut. Chaque côté est une corde, plus courte que l'arc de cercle qu'elle sous-tend (le segment est le plus court chemin entre deux points) ; le périmètre du polygone est donc inférieur à celui du cercle, $2\\pi$, et $p_n < \\pi$.`
+    },
+    {
+      id: "1G1-ds-07",
+      title: "La grande roue",
+      difficulty: 4,
+      points: 7,
       statement: `Une grande roue a un rayon de $20$ m ; son centre est situé à $22$ m du sol. Elle fait un tour complet en $12$ minutes, à vitesse constante. On repère la position d'une nacelle par un réel $\\theta$ (en radians) : sa hauteur au-dessus du sol est alors $h(\\theta) = 22 + 20\\sin\\theta$.
 
 1. Quelles sont la hauteur minimale et la hauteur maximale de la nacelle ? Pour quelles valeurs de $\\theta \\in [0 ; 2\\pi[$ sont-elles atteintes ?
 2. Calculer $h\\left(\\frac{\\pi}{6}\\right)$ et $h\\left(\\frac{5\\pi}{4}\\right)$ (valeur exacte puis arrondie au dixième).
-3. Résoudre dans $[0 ; 2\\pi[$ l'inéquation $h(\\theta) \\geqslant 32$.
+3. Montrer que $h(\\theta) \\geqslant 32 \\iff \\sin\\theta \\geqslant \\frac{1}{2}$, puis calculer $h\\left(\\frac{5\\pi}{6}\\right)$. On admet que, pour $\\theta \\in [0 ; 2\\pi[$, la nacelle est à au moins $32$ m du sol exactement lorsque $\\theta \\in \\left[\\frac{\\pi}{6} ; \\frac{5\\pi}{6}\\right]$ : illustrer ce résultat sur le cercle trigonométrique.
 4. En déduire, pendant un tour, la durée pendant laquelle la nacelle est à au moins $32$ m du sol.
 5. Quelle distance la nacelle parcourt-elle pendant cette durée ? (arrondir au dixième de mètre)`,
       solution: `**1.** Pour tout $\\theta$, $-1 \\leqslant \\sin\\theta \\leqslant 1$, donc $2 \\leqslant h(\\theta) \\leqslant 42$.
@@ -1027,32 +1064,38 @@ Minimum $2$ m pour $\\sin\\theta = -1$, soit $\\theta = \\frac{3\\pi}{2}$ ; maxi
 **2.** $h\\left(\\frac{\\pi}{6}\\right) = 22 + 20 \\times \\frac{1}{2} = 32$ m.
 $h\\left(\\frac{5\\pi}{4}\\right) = 22 + 20 \\times \\left(-\\frac{\\sqrt{2}}{2}\\right) = 22 - 10\\sqrt{2} \\approx 7{,}9$ m.
 
-**3.** $h(\\theta) \\geqslant 32 \\iff 20\\sin\\theta \\geqslant 10 \\iff \\sin\\theta \\geqslant \\frac{1}{2}$.
-Sur le cercle, les points d'ordonnée au moins $\\frac{1}{2}$ forment l'arc d'extrémités $\\frac{\\pi}{6}$ et $\\frac{5\\pi}{6}$ : $\\mathcal{S} = \\left[\\frac{\\pi}{6} ; \\frac{5\\pi}{6}\\right]$.
+**3.** $h(\\theta) \\geqslant 32 \\iff 20\\sin\\theta \\geqslant 10 \\iff \\sin\\theta \\geqslant \\frac{1}{2}$. De plus $h\\left(\\frac{5\\pi}{6}\\right) = 22 + 20\\sin\\left(\\pi - \\frac{\\pi}{6}\\right) = 22 + 20 \\times \\frac{1}{2} = 32$ m.
+Sur le cercle, les points associés à $\\frac{\\pi}{6}$ et $\\frac{5\\pi}{6}$ ont pour ordonnée $\\frac{1}{2}$ ; les points d'ordonnée au moins $\\frac{1}{2}$ forment l'arc supérieur qui les joint, ce qui correspond à $\\theta \\in \\left[\\frac{\\pi}{6} ; \\frac{5\\pi}{6}\\right]$.
 
 **4.** Cet arc correspond à un angle de $\\frac{5\\pi}{6} - \\frac{\\pi}{6} = \\frac{2\\pi}{3}$, soit $\\frac{2\\pi/3}{2\\pi} = \\frac{1}{3}$ de tour. La roue tournant à vitesse constante, la durée est $\\frac{1}{3} \\times 12 = 4$ minutes.
 
-**5.** La nacelle parcourt un arc de cercle de rayon $20$ m et d'angle $\\frac{2\\pi}{3}$ rad : $\\ell = 20 \\times \\frac{2\\pi}{3} = \\frac{40\\pi}{3} \\approx 41{,}9$ m.` },
-    { id: "1G1-ds-08", title: "Équations se ramenant au second degré", difficulty: 4, points: 7,
-      statement: `1. Résoudre dans $\\mathbb{R}$ l'équation $2X^2 - X - 1 = 0$.
-2. En déduire les solutions dans $]-\\pi ; \\pi]$ de l'équation $2\\sin^2 x - \\sin x - 1 = 0$.
-3. Résoudre dans $]-\\pi ; \\pi]$ l'équation $2\\cos^2 x + 3\\cos x - 2 = 0$.
-4. Montrer que pour tout réel $x$, $\\cos^4 x - \\sin^4 x = 2\\cos^2 x - 1$. En déduire les solutions dans $]-\\pi ; \\pi]$ de $\\cos^4 x - \\sin^4 x = 0$.`,
-      solution: `**1.** $\\Delta = 1 + 8 = 9$ ; $X_1 = \\frac{1 - 3}{4} = -\\frac{1}{2}$ et $X_2 = \\frac{1 + 3}{4} = 1$.
+**5.** La nacelle parcourt un arc de cercle de rayon $20$ m et d'angle $\\frac{2\\pi}{3}$ rad : $\\ell = 20 \\times \\frac{2\\pi}{3} = \\frac{40\\pi}{3} \\approx 41{,}9$ m.`
+    },
+    {
+      id: "1G1-ds-08",
+      title: "L'horloge et le cercle trigonométrique",
+      difficulty: 4,
+      points: 7,
+      statement: `On modélise le cadran d'une horloge par le cercle trigonométrique, l'axe des ordonnées étant dirigé vers « 12 » et l'axe des abscisses vers « 3 ». L'extrémité de la grande aiguille (de longueur $1$) est le point du cercle associé au réel
+$$x(t) = \\frac{\\pi}{2} - \\frac{\\pi t}{30},$$
+où $t$ est le nombre de minutes écoulées depuis l'heure pile ($0 \\leqslant t < 60$).
 
-**2.** On pose $X = \\sin x$ : l'équation équivaut à $\\sin x = 1$ ou $\\sin x = -\\frac{1}{2}$.
-- $\\sin x = 1$ dans $]-\\pi ; \\pi]$ : $x = \\frac{\\pi}{2}$.
-- $\\sin x = -\\frac{1}{2}$ : $\\sin\\left(-\\frac{\\pi}{6}\\right) = -\\frac{1}{2}$ et $\\sin\\left(-\\pi + \\frac{\\pi}{6}\\right) = -\\sin\\frac{\\pi}{6} = -\\frac{1}{2}$ (car $\\sin(-\\pi + a) = -\\sin a$), d'où $x = -\\frac{\\pi}{6}$ ou $x = -\\frac{5\\pi}{6}$.
+1. Vérifier que pour $t = 0$ on obtient le point $J(0 ; 1)$ et pour $t = 15$ le point $I(1 ; 0)$. Pourquoi le coefficient de $t$ est-il négatif ?
+2. Déterminer les coordonnées exactes de l'extrémité de l'aiguille pour $t = 10$ et pour $t = 40$.
+3. À quel instant l'extrémité de l'aiguille est-elle au point de coordonnées $\\left(-\\frac{\\sqrt{2}}{2} ; \\frac{\\sqrt{2}}{2}\\right)$ ?
+4. Sur une vraie horloge, la grande aiguille mesure $12$ cm. Quelle distance son extrémité parcourt-elle en $25$ minutes ?
+5. Montrer que le réel $\\frac{47\\pi}{6}$ est associé au même point du cercle que $x(t)$ pour une valeur de $t$ que l'on déterminera.`,
+      solution: `**1.** $x(0) = \\frac{\\pi}{2}$ : le point associé est $J(0 ; 1)$. $x(15) = \\frac{\\pi}{2} - \\frac{15\\pi}{30} = 0$ : le point associé est $I(1 ; 0)$. L'aiguille tourne dans le sens des aiguilles d'une montre, c'est-à-dire dans le sens **indirect** : le réel associé diminue quand $t$ augmente.
 
-$\\mathcal{S} = \\left\\{-\\frac{5\\pi}{6} ; -\\frac{\\pi}{6} ; \\frac{\\pi}{2}\\right\\}$.
+**2.** $x(10) = \\frac{\\pi}{2} - \\frac{\\pi}{3} = \\frac{\\pi}{6}$ : point $\\left(\\frac{\\sqrt{3}}{2} ; \\frac{1}{2}\\right)$.
+$x(40) = \\frac{\\pi}{2} - \\frac{4\\pi}{3} = -\\frac{5\\pi}{6}$ : $\\cos\\left(-\\frac{5\\pi}{6}\\right) = -\\frac{\\sqrt{3}}{2}$ et $\\sin\\left(-\\frac{5\\pi}{6}\\right) = -\\frac{1}{2}$, d'où le point $\\left(-\\frac{\\sqrt{3}}{2} ; -\\frac{1}{2}\\right)$.
 
-**3.** Avec $X = \\cos x$ : $2X^2 + 3X - 2 = 0$, $\\Delta = 9 + 16 = 25$, $X = \\frac{-3 - 5}{4} = -2$ ou $X = \\frac{-3 + 5}{4} = \\frac{1}{2}$.
-$\\cos x = -2$ est impossible ($-1 \\leqslant \\cos x \\leqslant 1$). $\\cos x = \\frac{1}{2}$ donne $x = \\pm\\frac{\\pi}{3}$.
-$\\mathcal{S} = \\left\\{-\\frac{\\pi}{3} ; \\frac{\\pi}{3}\\right\\}$.
+**3.** Ce point est associé à $\\frac{3\\pi}{4}$, donc aux réels $\\frac{3\\pi}{4} + 2k\\pi$ ($k \\in \\mathbb{Z}$). On cherche $t \\in [0 ; 60[$ tel que $\\frac{\\pi}{2} - \\frac{\\pi t}{30} = \\frac{3\\pi}{4} + 2k\\pi$, soit $\\frac{t}{30} = -\\frac{1}{4} - 2k$, c'est-à-dire $t = -7{,}5 - 60k$. Avec $k = -1$ : $t = 52{,}5$. L'aiguille y est à $52$ min $30$ s.
 
-**4.** $\\cos^4 x - \\sin^4 x = (\\cos^2 x - \\sin^2 x)(\\cos^2 x + \\sin^2 x) = \\cos^2 x - \\sin^2 x$, et comme $\\sin^2 x = 1 - \\cos^2 x$, cela vaut $2\\cos^2 x - 1$.
-$\\cos^4 x - \\sin^4 x = 0 \\iff \\cos^2 x = \\frac{1}{2} \\iff \\cos x = \\frac{\\sqrt{2}}{2}$ ou $\\cos x = -\\frac{\\sqrt{2}}{2}$.
-Dans $]-\\pi ; \\pi]$ : $x \\in \\left\\{-\\frac{3\\pi}{4} ; -\\frac{\\pi}{4} ; \\frac{\\pi}{4} ; \\frac{3\\pi}{4}\\right\\}$.` }
+**4.** En $25$ minutes, l'aiguille tourne de $\\frac{25}{60}$ de tour, soit un angle de $\\frac{25}{60} \\times 2\\pi = \\frac{5\\pi}{6}$ rad. L'extrémité parcourt un arc de longueur $\\ell = 12 \\times \\frac{5\\pi}{6} = 10\\pi \\approx 31{,}4$ cm.
+
+**5.** $\\frac{47\\pi}{6} = 8\\pi - \\frac{\\pi}{6}$ : ce réel est associé au même point que $-\\frac{\\pi}{6}$. Or $x(t) = -\\frac{\\pi}{6} \\iff \\frac{\\pi t}{30} = \\frac{\\pi}{2} + \\frac{\\pi}{6} = \\frac{2\\pi}{3} \\iff t = 20$. Pour $t = 20$ min, l'extrémité de l'aiguille est au point associé à $\\frac{47\\pi}{6}$.`
+    }
   ],
   "1G2": [
     { id: "1G2-ds-01", title: "Produit scalaire en coordonnées", difficulty: 1, points: 4,
@@ -1550,24 +1593,31 @@ $E(G) = \\frac{a - 1}{6} - \\frac{5}{6} = \\frac{a - 6}{6}$.
 
 **4.** $P(X \\geqslant 4) = \\frac{7 + 9 + 11}{36} = \\frac{27}{36} = \\frac{3}{4}$.
 (Autre méthode : $P(X \\leqslant 3) = \\frac{9}{36}$, deux dés $\\leqslant 3$, donc $P(X \\geqslant 4) = 1 - \\frac{1}{4} = \\frac{3}{4}$.)` },
-    { id: "1S2-ds-04", title: "Transformations affines d'une variable aléatoire", difficulty: 2, points: 5,
-      statement: `On rappelle que pour tous réels $a$ et $b$, $E(aX + b) = aE(X) + b$ et $V(aX + b) = a^2V(X)$.
+    {
+      id: "1S2-ds-04",
+      title: "Linéarité de l'espérance et variance d'un gain",
+      difficulty: 2,
+      points: 5,
+      statement: `On rappelle la linéarité de l'espérance : pour tous réels $a$ et $b$, $E(aX + b) = aE(X) + b$.
 
-1. Les notes $X$ d'un contrôle ont pour moyenne $E(X) = 12$ et pour écart-type $\\sigma(X) = 3$. Le professeur décide de transformer chaque note $x$ en $1{,}5x - 2$. On note $Y = 1{,}5X - 2$.
- a) Calculer $E(Y)$, $V(Y)$ et $\\sigma(Y)$.
+1. Les notes $X$ d'un contrôle ont pour moyenne $E(X) = 12$. Le professeur transforme chaque note $x$ en $1{,}5x - 2$ ; on note $Y = 1{,}5X - 2$.
+ a) Calculer $E(Y)$.
  b) Une note de $16$ devient-elle supérieure à $20$ ?
-2. Dans un jeu, le nombre de jetons gagnés $J$ vérifie $E(J) = 2$ et $V(J) = 4$. Chaque jeton vaut $0{,}5$ € et la participation coûte $1$ €. On note $Z$ le gain algébrique en euros.
+2. Dans un jeu, le nombre $J$ de jetons gagnés suit la loi : $P(J = 0) = 0{,}3$, $P(J = 2) = 0{,}4$, $P(J = 4) = 0{,}3$. Chaque jeton vaut $0{,}5$ € et la participation coûte $1$ €. On note $Z$ le gain algébrique en euros.
  a) Exprimer $Z$ en fonction de $J$.
- b) Calculer $E(Z)$ et $\\sigma(Z)$. Le jeu est-il équitable ?`,
-      solution: `**1. a)** $E(Y) = 1{,}5 \\times 12 - 2 = 16$.
-$V(X) = 3^2 = 9$, donc $V(Y) = 1{,}5^2 \\times 9 = 2{,}25 \\times 9 = 20{,}25$ et $\\sigma(Y) = |1{,}5| \\times 3 = 4{,}5$.
+ b) Calculer $E(J)$, puis $E(Z)$. Le jeu est-il équitable ?
+ c) Déterminer la loi de $Z$, puis calculer $V(Z)$ à l'aide de la formule de König-Huygens et $\\sigma(Z)$.`,
+      solution: `**1. a)** Par linéarité : $E(Y) = 1{,}5 \\times 12 - 2 = 16$.
 
-**b)** $1{,}5 \\times 16 - 2 = 22 > 20$ : oui, la transformation n'est pas adaptée aux bonnes notes (il faudrait plafonner à $20$).
+**b)** $1{,}5 \\times 16 - 2 = 22 > 20$ : oui, cette transformation n'est pas adaptée aux bonnes notes (il faudrait plafonner à $20$).
 
-**2. a)** Les jetons rapportent $0{,}5J$ euros, et on retire la mise : $Z = 0{,}5J - 1$.
+**2. a)** Les jetons rapportent $0{,}5J$ euros et on retire la mise : $Z = 0{,}5J - 1$.
 
-**b)** $E(Z) = 0{,}5 \\times 2 - 1 = 0$ ; $V(Z) = 0{,}25 \\times 4 = 1$ et $\\sigma(Z) = 1$.
-$E(Z) = 0$ : le jeu est équitable (le gain moyen sur un grand nombre de parties est nul), même si le gain varie d'une partie à l'autre (écart-type $1$ €).` },
+**b)** $E(J) = 0 \\times 0{,}3 + 2 \\times 0{,}4 + 4 \\times 0{,}3 = 2$. Par linéarité, $E(Z) = 0{,}5 \\times 2 - 1 = 0$ : le jeu est équitable (gain moyen nul sur un grand nombre de parties).
+
+**c)** $Z$ prend les valeurs $-1$ (si $J = 0$), $0$ (si $J = 2$) et $1$ (si $J = 4$), avec les probabilités $0{,}3$ ; $0{,}4$ ; $0{,}3$.
+$E(Z^2) = 1 \\times 0{,}3 + 0 \\times 0{,}4 + 1 \\times 0{,}3 = 0{,}6$, donc $V(Z) = E(Z^2) - E(Z)^2 = 0{,}6 - 0 = 0{,}6$ et $\\sigma(Z) = \\sqrt{0{,}6} \\approx 0{,}77$ €. Le gain varie d'une partie à l'autre, même si sa moyenne est nulle.`
+    },
     { id: "1S2-ds-05", title: "Tirages sans remise", difficulty: 3, points: 6,
       statement: `Une urne contient $3$ boules rouges et $5$ boules blanches, indiscernables au toucher. On tire successivement et **sans remise** deux boules. On note $X$ le nombre de boules rouges obtenues.
 
@@ -1795,7 +1845,11 @@ def sommes_partielles(n):
         L.append(S)
     return L
 \`\`\`` },
-    { id: "1S3-ds-05", title: "Simuler des lancers de dés", difficulty: 3, points: 6,
+    {
+      id: "1S3-ds-05",
+      title: "Simuler des lancers de dés",
+      difficulty: 3,
+      points: 6,
       statement: `On rappelle que \`randint(a, b)\` (module \`random\`) renvoie un entier aléatoire entre \`a\` et \`b\` inclus.
 \`\`\`python
 from random import randint
@@ -1823,10 +1877,11 @@ def frequence(N):
 
 **3.** Les $36$ couples sont équiprobables ; la somme vaut $7$ pour $(1,6), (2,5), (3,4), (4,3), (5,2), (6,1)$, soit $6$ couples : $p = \\frac{6}{36} = \\frac{1}{6} \\approx 0{,}167$.
 
-**4.** $0{,}172$ est proche de $0{,}167$ : l'écart s'explique par la fluctuation d'échantillonnage, il n'est pas surprenant (il est bien inférieur à $\\frac{1}{\\sqrt{1000}} \\approx 0{,}03$). D'après la loi des grands nombres, pour $N = 100\\,000$ on attend une fréquence encore plus proche de $\\frac{1}{6}$.
+**4.** $0{,}172$ est proche de $0{,}167$ : l'écart s'explique par la fluctuation d'échantillonnage, il n'est pas surprenant. D'après la loi des grands nombres, pour $N = 100\\,000$ on attend une fréquence encore plus proche de $\\frac{1}{6}$.
 
 **5.** On remplace la dernière ligne de \`experience\` par \`return d1 + d2 >= 10\`.
-Les couples favorables sont $(4,6), (5,5), (6,4)$ (somme $10$), $(5,6), (6,5)$ (somme $11$) et $(6,6)$ (somme $12$) : $6$ couples, donc la probabilité vaut aussi $\\frac{6}{36} = \\frac{1}{6}$.` },
+Les couples favorables sont $(4,6), (5,5), (6,4)$ (somme $10$), $(5,6), (6,5)$ (somme $11$) et $(6,6)$ (somme $12$) : $6$ couples, donc la probabilité vaut aussi $\\frac{6}{36} = \\frac{1}{6}$.`
+    },
     { id: "1S3-ds-06", title: "Méthode de balayage", difficulty: 3, points: 6,
       statement: `Soit $f$ la fonction définie sur $[0 ; 1]$ par $f(x) = x^3 + x - 1$.
 

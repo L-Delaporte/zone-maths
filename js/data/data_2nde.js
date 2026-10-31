@@ -13,7 +13,11 @@ window.MATHS_COURSES_2NDE = {
       "Simplifier des fractions et des radicaux à l'aide de l'arithmétique.",
       "Démontrer que $\\sqrt{2}$ est un nombre irrationnel (démonstration par l'absurde historique).",
       "Utiliser les notions de multiple, de diviseur, de nombre premier et de nombre pair ou impair.",
-      "Connaître et appliquer les règles de calcul sur les racines carrées."
+      "Connaître et appliquer les règles de calcul sur les racines carrées.",
+      "Démontrer que $\\frac{1}{3}$ n'est pas un nombre décimal et que $\\sqrt{ab} = \\sqrt{a}\\sqrt{b}$ pour $a, b \\ge 0$.",
+      "Utiliser le vocabulaire de la logique : implication, réciproque, contraposée, contre-exemple, raisonnement par l'absurde.",
+      "Programmer en Python un test de divisibilité et un encadrement de $\\sqrt{2}$ par balayage.",
+      "Utiliser le vocabulaire ensembliste (élément, $\\in$, $\\subset$, $\\varnothing$, $\\cap$, $\\cup$, complémentaire, $\\text{Card}$, couple, produit cartésien) et les quantifications « pour tout », « il existe » en langage naturel."
     ],
     "keyPoints": [
       {
@@ -33,16 +37,44 @@ window.MATHS_COURSES_2NDE = {
         "content": "• **Définition** : soient $a$ et $b$ deux entiers relatifs avec $b \\neq 0$. On dit que $a$ est un **multiple** de $b$ (ou que $b$ est un **diviseur** de $a$) s'il existe un entier $k$ tel que $a = k \\times b$.\n• Un entier $n$ est **pair** s'il s'écrit $n = 2k$ avec $k \\in \\mathbb{Z}$, et **impair** s'il s'écrit $n = 2k + 1$.\n• **Propriété** : la somme de deux multiples de $a$ est un multiple de $a$ : $ka + k'a = (k + k')a$.\n• **Propriété** : le carré d'un nombre impair est impair. En effet, $(2k+1)^2 = 4k^2 + 4k + 1 = 2(2k^2 + 2k) + 1$.\nPar contraposée : si $p^2$ est pair, alors $p$ est pair (c'est l'argument utilisé dans la démonstration de l'irrationalité de $\\sqrt{2}$)."
       },
       {
-        "title": "5. Nombres premiers",
-        "content": "• **Définition** : un entier naturel $p$ est **premier** s'il possède exactement deux diviseurs positifs : $1$ et lui-même.\n• Les nombres premiers inférieurs à 30 sont : $2, 3, 5, 7, 11, 13, 17, 19, 23, 29$.\n• **Test pratique** : pour savoir si $n \\ge 2$ est premier, il suffit de tester sa divisibilité par les nombres premiers $p$ tels que $p^2 \\le n$.\n*Exemple* : pour $97$, on teste $2, 3, 5, 7$ (car $11^2 = 121 > 97$). Aucun ne divise $97$, donc $97$ est premier."
+        "title": "5. Rappel du collège : nombres premiers",
+        "content": "*Notion du cycle 4, utile ici comme outil pour rendre une fraction irréductible.*\n• **Définition** : un entier naturel $p$ est **premier** s'il possède exactement deux diviseurs positifs : $1$ et lui-même.\n• Les nombres premiers inférieurs à 30 sont : $2, 3, 5, 7, 11, 13, 17, 19, 23, 29$.\n• **Test pratique** : pour savoir si $n \\ge 2$ est premier, il suffit de tester sa divisibilité par les nombres premiers $p$ tels que $p^2 \\le n$.\n*Exemple* : pour $97$, on teste $2, 3, 5, 7$ (car $11^2 = 121 > 97$). Aucun ne divise $97$, donc $97$ est premier."
       },
       {
-        "title": "6. Reconnaître un nombre décimal",
-        "content": "Une fraction **irréductible** $\\frac{a}{b}$ (avec $b > 0$) est un nombre décimal si et seulement si les seuls facteurs premiers de $b$ sont $2$ et/ou $5$.\n• $\\frac{7}{40}$ : $40 = 2^3 \\times 5$, donc $\\frac{7}{40} \\in \\mathbb{D}$. En effet $\\frac{7}{40} = \\frac{7 \\times 25}{40 \\times 25} = \\frac{175}{1000} = 0{,}175$.\n• $\\frac{5}{12}$ : $12 = 2^2 \\times 3$ contient le facteur $3$, donc $\\frac{5}{12} \\notin \\mathbb{D}$ (on a $\\frac{5}{12} = 0{,}41666\\dots$)."
+        "title": "6. Pour aller plus loin : reconnaître un nombre décimal",
+        "content": "Une fraction **irréductible** $\\frac{a}{b}$ (avec $b > 0$) est un nombre décimal si et seulement si $b$ n'a pas d'autre facteur premier que $2$ et $5$ (propriété admise).\n• $\\frac{7}{40}$ : $40 = 2^3 \\times 5$, donc $\\frac{7}{40} \\in \\mathbb{D}$. En effet $\\frac{7}{40} = \\frac{7 \\times 25}{40 \\times 25} = \\frac{175}{1000} = 0{,}175$.\n• $\\frac{5}{12}$ : $12 = 2^2 \\times 3$ contient le facteur $3$, donc $\\frac{5}{12} \\notin \\mathbb{D}$ (on a $\\frac{5}{12} = 0{,}41666\\dots$)."
       },
       {
         "title": "7. Règles de calcul sur les racines carrées",
         "content": "Pour tous réels $a \\ge 0$ et $b \\ge 0$ :\n$$\\sqrt{a \\times b} = \\sqrt{a} \\times \\sqrt{b} \\qquad (\\sqrt{a})^2 = a$$\net si $b > 0$ : $\\sqrt{\\frac{a}{b}} = \\frac{\\sqrt{a}}{\\sqrt{b}}$.\n• Pour tout réel $a$ : $\\sqrt{a^2} = |a|$ (par exemple $\\sqrt{(-3)^2} = \\sqrt{9} = 3$).\n• **Contre-exemple** : la racine d'une somme n'est pas la somme des racines : $\\sqrt{9 + 16} = \\sqrt{25} = 5$ alors que $\\sqrt{9} + \\sqrt{16} = 3 + 4 = 7$."
+      },
+      {
+        "title": "8. Démonstration : $\\frac{1}{3}$ n'est pas un nombre décimal",
+        "content": "On raisonne **par l'absurde** : supposons que $\\frac{1}{3}$ soit décimal. Il existe alors un entier $a$ et un entier naturel $n$ tels que $\\frac{1}{3} = \\frac{a}{10^n}$.\n1. En multipliant par $3 \\times 10^n$, on obtient $10^n = 3a$ : l'entier $10^n$ serait donc un **multiple de $3$**.\n2. Or $10^n$ s'écrit avec un $1$ suivi de $n$ zéros : la somme de ses chiffres vaut $1$, qui n'est pas divisible par $3$. Donc $10^n$ n'est pas un multiple de $3$.\n3. **Contradiction**. Conclusion : $\\frac{1}{3} \\notin \\mathbb{D}$, c'est un rationnel non décimal ($\\frac{1}{3} = 0{,}333\\dots$)."
+      },
+      {
+        "title": "9. Démonstrations : somme de deux multiples, carré d'un nombre impair",
+        "content": "**Propriété 1** : soit $a$ un entier. La somme de deux multiples de $a$ est un multiple de $a$.\n*Démonstration* : soient $m$ et $m'$ deux multiples de $a$. Il existe des entiers $k$ et $k'$ tels que $m = ka$ et $m' = k'a$. Alors $m + m' = ka + k'a = (k + k')a$, et $k + k'$ est un entier : $m + m'$ est un multiple de $a$.\n*Exemple* : $21 = 3 \\times 7$ et $35 = 5 \\times 7$, donc $21 + 35 = 8 \\times 7 = 56$.\n\n**Propriété 2** : le carré d'un nombre impair est impair.\n*Démonstration* : soit $n$ impair : il existe un entier $k$ tel que $n = 2k + 1$. Alors\n$$n^2 = (2k + 1)^2 = 4k^2 + 4k + 1 = 2(2k^2 + 2k) + 1$$\net $2k^2 + 2k$ est un entier : $n^2$ est de la forme $2K + 1$, il est impair.\n*Conséquence (contraposée)* : si $n^2$ est pair, alors $n$ est pair."
+      },
+      {
+        "title": "10. Démonstration : $\\sqrt{ab} = \\sqrt{a}\\sqrt{b}$ pour $a \\ge 0$ et $b \\ge 0$",
+        "content": "**Rappel** : pour $x \\ge 0$, $\\sqrt{x}$ est l'**unique** nombre positif dont le carré vaut $x$.\n*Démonstration* : soient $a \\ge 0$ et $b \\ge 0$.\n1. $\\sqrt{a} \\ge 0$ et $\\sqrt{b} \\ge 0$, donc le produit $\\sqrt{a}\\sqrt{b}$ est positif.\n2. $(\\sqrt{a}\\sqrt{b})^2 = (\\sqrt{a})^2 \\times (\\sqrt{b})^2 = a \\times b$.\n3. $\\sqrt{a}\\sqrt{b}$ est donc un nombre positif dont le carré vaut $ab$ : c'est $\\sqrt{ab}$.\n\n**Complément** : pour $a > 0$ et $b > 0$, $\\sqrt{a + b} < \\sqrt{a} + \\sqrt{b}$.\n*Démonstration* : les deux membres sont positifs, il suffit donc de comparer leurs carrés. $(\\sqrt{a} + \\sqrt{b})^2 = a + 2\\sqrt{a}\\sqrt{b} + b > a + b = (\\sqrt{a + b})^2$ car $2\\sqrt{a}\\sqrt{b} > 0$. Deux nombres positifs sont rangés dans le même ordre que leurs carrés, d'où le résultat."
+      },
+      {
+        "title": "11. Logique : implication, réciproque, contraposée",
+        "content": "• Une **proposition** est un énoncé mathématique qui est soit vrai, soit faux : « $7$ est un nombre premier » (vraie), « $\\sqrt{2} \\in \\mathbb{Q}$ » (fausse). Une proposition peut contenir une **variable** : « $n^2 + 1$ est pair » est vraie pour $n = 3$ et fausse pour $n = 2$.\n• **Quantifications** : « **pour tout** réel $x$, $x^2 \\ge 0$ » est vraie (quantification universelle) ; « **il existe** un réel $x$ tel que $x^2 = 2$ » est vraie (quantification existentielle, avec $x = \\sqrt{2}$) ; « pour tout réel $x$, $x^2 > x$ » est fausse : le contre-exemple $x = \\frac{1}{2}$ suffit, car $\\frac{1}{4} < \\frac{1}{2}$. *(Les symboles $\\forall$ et $\\exists$ ne sont pas utilisés en seconde.)*\n• **Négation d'une proposition simple** : la négation de « $x > 2$ » est « $x \\le 2$ » ; celle de « $n$ est pair » est « $n$ est impair ».\n• Une **implication** « si $P$, alors $Q$ » se note $P \\implies Q$. Exemple : « si $n$ est pair, alors $n^2$ est pair » (vraie).\n• Sa **réciproque** est « si $Q$, alors $P$ ». Elle peut être fausse : « si $x^2 = 4$, alors $x = 2$ » est fausse ($x = -2$ convient), alors que sa réciproque « si $x = 2$, alors $x^2 = 4$ » est vraie.\n• Sa **contraposée** est « si non $Q$, alors non $P$ » : elle est **toujours** vraie en même temps que l'implication. C'est ce qu'on utilise pour $\\sqrt{2}$ : « $n$ impair $\\implies n^2$ impair » donne « $n^2$ pair $\\implies n$ pair ».\n• Quand $P \\implies Q$ et $Q \\implies P$ sont vraies, on écrit $P \\iff Q$ (**équivalence**).\n• Pour montrer qu'une affirmation générale est fausse, **un contre-exemple** suffit.\n• **Négation** : la négation de « $A$ et $B$ » est « non $A$ ou non $B$ » ; celle de « $A$ ou $B$ » est « non $A$ et non $B$ ».\n• **Raisonnement par l'absurde** : on suppose le contraire de ce qu'on veut montrer et on aboutit à une contradiction ($\\sqrt{2}$, $\\frac{1}{3}$). **Disjonction des cas** : on traite séparément tous les cas possibles (par exemple $n$ pair, puis $n$ impair)."
+      },
+      {
+        "title": "12. Algorithmes en Python : multiples et encadrement de $\\sqrt{2}$",
+        "content": "• **Tester si $a$ est un multiple de $b$** ($b \\neq 0$) : c'est le cas si et seulement si le reste de la division de $a$ par $b$ est nul.\n• **Plus grand multiple de $a$ inférieur ou égal à $b$** : c'est $a$ fois le quotient entier de $b$ par $a$.\n```python\ndef est_multiple(a, b):\n    return a % b == 0\n\ndef plus_grand_multiple(a, b):\n    return (b // a) * a\n\nprint(est_multiple(91, 7))          # affiche True (91 = 7 × 13)\nprint(plus_grand_multiple(7, 100))  # affiche 98 (7 × 14 = 98 et 7 × 15 = 105)\n```\n• **Encadrement de $\\sqrt{2}$ par balayage** à $10^{-n}$ près : on cherche le plus grand entier $k$ tel que $\\left(\\frac{k}{10^n}\\right)^2 \\le 2$, c'est-à-dire $k^2 \\le 2 \\times 10^{2n}$ (on travaille avec des entiers pour éviter les erreurs d'arrondi).\n```python\ndef encadrement_racine2(n):\n    k = 10 ** n\n    while (k + 1) ** 2 <= 2 * 10 ** (2 * n):\n        k = k + 1\n    return k / 10 ** n, (k + 1) / 10 ** n\n\nprint(encadrement_racine2(3))   # affiche (1.414, 1.415)\n```\nAinsi $1{,}414 \\le \\sqrt{2} < 1{,}415$ : c'est un encadrement d'amplitude $10^{-3}$."
+      },
+      {
+        "title": "13. Vocabulaire ensembliste",
+        "content": "Soit $E$ un ensemble et $A$, $B$ deux **sous-ensembles** (ou parties) de $E$.\n• $x \\in A$ : $x$ **appartient** à $A$ (est un **élément** de $A$) ; $x \\notin A$ sinon.\n• $A \\subset B$ : $A$ est **inclus** dans $B$ (tout élément de $A$ est un élément de $B$). Exemple : $\\mathbb{N} \\subset \\mathbb{Z}$.\n• $\\varnothing$ est l'**ensemble vide** ; $\\{1 ; 4 ; 9\\}$ est l'ensemble dont les éléments sont $1$, $4$ et $9$.\n• $A \\cap B$ (**intersection**) : éléments communs à $A$ **et** à $B$ ; $A \\cup B$ (**réunion**) : éléments de $A$ **ou** de $B$ (« ou » inclusif).\n• **Complémentaire** de $A$ dans $E$, noté $\\overline{A}$ ou $E \\setminus A$ : éléments de $E$ qui ne sont pas dans $A$.\n• $\\text{Card}(A)$ : **cardinal** (nombre d'éléments) d'un ensemble fini $A$.\n*Exemple* : $E = \\{1 ; 2 ; \\dots ; 10\\}$, $A$ = « nombres pairs de $E$ » $= \\{2 ; 4 ; 6 ; 8 ; 10\\}$, $B$ = « multiples de $3$ de $E$ » $= \\{3 ; 6 ; 9\\}$. Alors $A \\cap B = \\{6\\}$, $A \\cup B = \\{2 ; 3 ; 4 ; 6 ; 8 ; 9 ; 10\\}$, $\\text{Card}(A \\cup B) = 7$ et $\\overline{A} = \\{1 ; 3 ; 5 ; 7 ; 9\\}$.\n• Un **couple** $(a ; b)$ est une liste ordonnée de deux éléments : $(1 ; 2) \\neq (2 ; 1)$. Le **produit cartésien** $E \\times F$ est l'ensemble des couples $(x ; y)$ avec $x \\in E$ et $y \\in F$. Par exemple $\\{P ; F\\} \\times \\{1 ; 2 ; 3\\}$ contient $2 \\times 3 = 6$ couples, de $(P ; 1)$ à $(F ; 3)$ ; les coordonnées $(x ; y)$ d'un point du plan forment un couple de $\\mathbb{R} \\times \\mathbb{R}$."
+      },
+      {
+        "title": "14. Automatismes : écritures, ordres de grandeur et unités",
+        "content": "À travailler régulièrement, de tête :\n• **Passer d'une écriture à une autre** : $0{,}375 = \\frac{3}{8} = 37{,}5\\,\\%$ ; $\\frac{7}{20} = 0{,}35 = 35\\,\\%$ ; $2{,}5\\,\\% = 0{,}025$.\n• **Comparer des fractions simples** : $\\frac{3}{4} = \\frac{21}{28}$ et $\\frac{5}{7} = \\frac{20}{28}$, donc $\\frac{5}{7} < \\frac{3}{4}$.\n• **Puissances** : $10^3 \\times 10^{-5} = 10^{-2}$ ; $\\frac{2^7}{2^4} = 2^3 = 8$ ; $(3^2)^3 = 3^6$.\n• **Ordre de grandeur** : $49{,}8 \\times 0{,}21 \\approx 50 \\times 0{,}2 = 10$ ; un résultat de $104{,}58$ serait donc invraisemblable.\n• **Vraisemblance** : une probabilité supérieure à $1$, une longueur négative ou une vitesse de $3\\,000$ km/h pour un cycliste signalent une erreur.\n• **Conversions d'unités** : $1\\ \\text{m}^2 = 10\\,000\\ \\text{cm}^2$ ; $1\\ \\text{m}^3 = 1\\,000\\ \\text{L}$ et $1\\ \\text{L} = 1\\ \\text{dm}^3$ ; $90\\ \\text{km/h} = \\frac{90\\,000\\ \\text{m}}{3\\,600\\ \\text{s}} = 25\\ \\text{m/s}$ ; $1\\ \\text{h}\\ 15\\ \\text{min} = 1{,}25\\ \\text{h}$ ; $1\\ \\text{g} = 1\\,000\\ \\text{mg}$.\n• **Droite graduée** : placer $-\\frac{3}{2}$ entre $-2$ et $-1$, au milieu ; lire l'abscisse d'un point repéré entre deux graduations."
       }
     ],
     "methods": [
@@ -82,7 +114,8 @@ window.MATHS_COURSES_2NDE = {
       "⚠️ $\\frac{1}{3} \\notin \\mathbb{D}$ : un nombre décimal doit posséder un nombre **fini** de chiffres après la virgule.",
       "⚠️ $1$ n'est pas un nombre premier : il ne possède qu'un seul diviseur positif. Le plus petit nombre premier est $2$ (c'est aussi le seul nombre premier pair).",
       "⚠️ $\\sqrt{a + b} \\neq \\sqrt{a} + \\sqrt{b}$ en général : on ne peut « couper » une racine que sur un **produit** ou un **quotient**.",
-      "⚠️ Le quotient de deux décimaux n'est pas toujours décimal : $1$ et $3$ sont décimaux, mais $\\frac{1}{3} \\notin \\mathbb{D}$."
+      "⚠️ Le quotient de deux décimaux n'est pas toujours décimal : $1$ et $3$ sont décimaux, mais $\\frac{1}{3} \\notin \\mathbb{D}$.",
+      "⚠️ Ne pas confondre réciproque et contraposée : « si $x = 2$ alors $x^2 = 4$ » est vraie, sa réciproque « si $x^2 = 4$ alors $x = 2$ » est fausse, mais sa contraposée « si $x^2 \\neq 4$ alors $x \\neq 2$ » est vraie."
     ],
     "flashcards": [
       {
@@ -108,6 +141,18 @@ window.MATHS_COURSES_2NDE = {
       {
         "q": "Pourquoi $\\frac{7}{40}$ est-il un nombre décimal ?",
         "a": "La fraction est irréductible et $40 = 2^3 \\times 5$ n'a que $2$ et $5$ comme facteurs premiers : $\\frac{7}{40} = 0{,}175$."
+      },
+      {
+        "q": "Comment démontrer que $\\frac{1}{3}$ n'est pas décimal ?",
+        "a": "Par l'absurde : si $\\frac{1}{3} = \\frac{a}{10^n}$, alors $10^n = 3a$ serait multiple de $3$ ; or la somme des chiffres de $10^n$ vaut $1$, contradiction."
+      },
+      {
+        "q": "Quelle est la contraposée de « si $n$ est impair, alors $n^2$ est impair » ?",
+        "a": "« Si $n^2$ est pair, alors $n$ est pair. » Elle est vraie, comme l'implication de départ."
+      },
+      {
+        "q": "Pourquoi a-t-on $\\sqrt{ab} = \\sqrt{a}\\sqrt{b}$ pour $a, b \\ge 0$ ?",
+        "a": "$\\sqrt{a}\\sqrt{b}$ est positif et son carré vaut $(\\sqrt{a})^2(\\sqrt{b})^2 = ab$ : c'est donc la racine carrée de $ab$."
       }
     ]
   },
@@ -119,9 +164,11 @@ window.MATHS_COURSES_2NDE = {
       "Développer et réduire des expressions algébriques du second degré.",
       "Maîtriser les 3 identités remarquables dans les deux sens (développement et factorisation).",
       "Factoriser par recherche d'un facteur commun ou identité remarquable.",
-      "Simplifier des fractions rationnelles en précisant les valeurs interdites.",
+      "Calculer avec des expressions fractionnaires (somme, quotient) en précisant les valeurs interdites.",
       "Utiliser les règles de calcul sur les puissances entières (positives et négatives).",
-      "Démontrer qu'une égalité est vraie (par le calcul) ou fausse (par un contre-exemple)."
+      "Démontrer qu'une égalité est vraie (par le calcul) ou fausse (par un contre-exemple).",
+      "Automatiser les règles du calcul fractionnaire et des signes ($-(a - b) = b - a$, division par une fraction…).",
+      "Programmer en Python la recherche de la première puissance d'un nombre dépassant un seuil."
     ],
     "keyPoints": [
       {
@@ -141,7 +188,7 @@ window.MATHS_COURSES_2NDE = {
         "content": "Pour tous réels $a$ et $b$ non nuls et tous entiers relatifs $n$ et $m$ :\n• $a^n \\times a^m = a^{n+m}$ et $\\frac{a^n}{a^m} = a^{n-m}$\n• $(a^n)^m = a^{n \\times m}$ et $(a \\times b)^n = a^n \\times b^n$\n• $a^0 = 1$ et $a^{-n} = \\frac{1}{a^n}$\n*Exemple* : $\\frac{2^7 \\times 2^{-2}}{2^3} = 2^{7 - 2 - 3} = 2^2 = 4$.\n*Attention* : $(a + b)^n \\neq a^n + b^n$ en général."
       },
       {
-        "title": "5. Expressions rationnelles et valeurs interdites",
+        "title": "5. Expressions fractionnaires et valeurs interdites",
         "content": "Un quotient $\\frac{A(x)}{B(x)}$ n'existe que si $B(x) \\neq 0$ : les valeurs de $x$ qui annulent le dénominateur sont les **valeurs interdites**.\nPour additionner deux quotients, on les réduit au même dénominateur : $\\frac{a}{b} + \\frac{c}{d} = \\frac{ad + bc}{bd}$.\n*Exemple* : pour $x \\neq 0$ et $x \\neq -1$ :\n$$\\frac{1}{x} + \\frac{2}{x + 1} = \\frac{(x + 1) + 2x}{x(x + 1)} = \\frac{3x + 1}{x(x + 1)}$$"
       },
       {
@@ -151,6 +198,22 @@ window.MATHS_COURSES_2NDE = {
       {
         "title": "7. Les identités remarquables au service du calcul mental",
         "content": "• $101^2 = (100 + 1)^2 = 10\\,000 + 200 + 1 = 10\\,201$.\n• $99^2 = (100 - 1)^2 = 10\\,000 - 200 + 1 = 9\\,801$.\n• $49 \\times 51 = (50 - 1)(50 + 1) = 50^2 - 1^2 = 2\\,500 - 1 = 2\\,499$."
+      },
+      {
+        "title": "8. Automatismes : signes et écritures fractionnaires",
+        "content": "Pour tous réels $a$, $b$, $c$, $d$ (dénominateurs non nuls) :\n• $-(a + b) = -a - b$ et $-(a - b) = b - a$ ; $(-1) \\times a = -a$.\n• $\\frac{0}{a} = 0$, $\\frac{x}{1} = x$, $\\frac{ab}{c} = a \\times \\frac{b}{c}$.\n• **Diviser par une fraction**, c'est multiplier par son inverse :\n$$\\frac{a}{b} \\div \\frac{c}{d} = \\frac{a}{b} \\times \\frac{d}{c} = \\frac{ad}{bc} \\qquad \\frac{1}{\\frac{1}{a}} = a \\qquad \\frac{1}{\\frac{a}{b}} = \\frac{b}{a}$$\n*Exemples* : $\\frac{3}{4} \\div \\frac{9}{8} = \\frac{3}{4} \\times \\frac{8}{9} = \\frac{24}{36} = \\frac{2}{3}$ ; $\\frac{5}{\\frac{1}{2}} = 10$.\n• **Comparer deux fractions** : on les écrit avec un même dénominateur, ou on étudie le signe de leur différence.\n• **Factorisations rapides** : $ax^2 + bx = x(ax + b)$ et $ax + bx = (a + b)x$. Par exemple $3x^2 - 6x = 3x(x - 2)$."
+      },
+      {
+        "title": "9. Illustration géométrique de $(a + b)^2$",
+        "content": "Pour $a > 0$ et $b > 0$, on découpe un carré de côté $a + b$ en quatre morceaux : un carré de côté $a$ (aire $a^2$), un carré de côté $b$ (aire $b^2$) et deux rectangles de dimensions $a \\times b$ (aire $ab$ chacun).\nL'aire totale vaut donc $a^2 + ab + ab + b^2$, ce qui illustre :\n$$(a + b)^2 = a^2 + 2ab + b^2$$\nLes deux rectangles expliquent le **double produit** $2ab$ que l'on oublie souvent."
+      },
+      {
+        "title": "10. Python : première puissance dépassant un seuil",
+        "content": "Pour un nombre $q > 1$, les puissances $q^1, q^2, q^3, \\dots$ finissent par dépasser n'importe quel seuil. On cherche la première qui le dépasse avec une boucle non bornée :\n```python\ndef premiere_puissance(q, seuil):\n    n = 0\n    p = 1\n    while p <= seuil:\n        p = p * q\n        n = n + 1\n    return n\n\nprint(premiere_puissance(2, 1000))   # affiche 10 car 2**9 = 512 et 2**10 = 1024\n```\nPour $0 < q < 1$, les puissances diminuent : on cherche la première puissance **inférieure** à un seuil en remplaçant la condition par `while p >= seuil:`."
+      },
+      {
+        "title": "11. Pour aller plus loin",
+        "content": "Ces développements ne sont pas exigibles mais s'obtiennent avec les outils du chapitre :\n$$(a + b + c)^2 = a^2 + b^2 + c^2 + 2ab + 2ac + 2bc$$\n$$(a + b)^3 = (a + b)^2(a + b) = a^3 + 3a^2b + 3ab^2 + b^3$$\n*Vérification* avec $a = b = 1$ : $(1 + 1)^3 = 8$ et $1 + 3 + 3 + 1 = 8$."
       }
     ],
     "methods": [
@@ -199,7 +262,8 @@ window.MATHS_COURSES_2NDE = {
       "⚠️ $(a+b)^2 \\neq a^2 + b^2$ : il ne faut jamais oublier le double produit $2ab$ !",
       "⚠️ $(3x)^2 = 9x^2$ et non $3x^2$ : le carré porte sur **tout** le produit.",
       "⚠️ $-3^2 = -9$ alors que $(-3)^2 = 9$ : sans parenthèses, le carré ne porte que sur $3$.",
-      "⚠️ On ne simplifie jamais un terme d'une somme : $\\frac{x + 3}{x} \\neq 3$. Seul un **facteur** commun au numérateur et au dénominateur se simplifie : $\\frac{3(x + 1)}{5(x + 1)} = \\frac{3}{5}$ pour $x \\neq -1$."
+      "⚠️ On ne simplifie jamais un terme d'une somme : $\\frac{x + 3}{x} \\neq 3$. Seul un **facteur** commun au numérateur et au dénominateur se simplifie : $\\frac{3(x + 1)}{5(x + 1)} = \\frac{3}{5}$ pour $x \\neq -1$.",
+      "⚠️ $\\frac{a}{b} \\div \\frac{c}{d} \\neq \\frac{a \\div c}{b \\div d}$ en pratique : on multiplie par l'**inverse** de la seconde fraction, $\\frac{a}{b} \\times \\frac{d}{c}$."
     ],
     "flashcards": [
       {
@@ -221,6 +285,18 @@ window.MATHS_COURSES_2NDE = {
       {
         "q": "Développer et réduire $(2x + 3)(x - 4)$.",
         "a": "$2x^2 - 8x + 3x - 12 = 2x^2 - 5x - 12$."
+      },
+      {
+        "q": "Calculer $\\frac{2}{3} \\div \\frac{4}{9}$.",
+        "a": "$\\frac{2}{3} \\times \\frac{9}{4} = \\frac{18}{12} = \\frac{3}{2}$."
+      },
+      {
+        "q": "Factoriser $5x^2 + 15x$.",
+        "a": "$5x^2 + 15x = 5x(x + 3)$."
+      },
+      {
+        "q": "Développer $-(4 - x)$.",
+        "a": "$-(4 - x) = x - 4$."
       }
     ]
   },
@@ -234,12 +310,15 @@ window.MATHS_COURSES_2NDE = {
       "Interpréter $|x - a|$ comme la distance géométrique entre $x$ et $a$ sur la droite numérique.",
       "Résoudre des équations et inéquations du type $|x - a| = r$ et $|x - a| \\le r$.",
       "Utiliser les règles de l'ordre (addition, multiplication par un réel positif ou négatif) pour résoudre des inéquations.",
-      "Comparer deux nombres en étudiant le signe de leur différence."
+      "Comparer deux nombres en étudiant le signe de leur différence.",
+      "Additionner des inégalités et comparer deux nombres strictement positifs par leur quotient.",
+      "Arrondir un résultat avec un nombre de chiffres significatifs adapté.",
+      "Donner un encadrement décimal d'amplitude $10^{-n}$ d'un nombre réel."
     ],
     "keyPoints": [
       {
         "title": "1. Intervalles de $\\mathbb{R}$, intersection et réunion",
-        "content": "• **Intersection $I \\cap J$** : ensemble des réels appartenant **à la fois** à $I$ et à $J$.\n• **Réunion $I \\cup J$** : ensemble des réels appartenant **à au moins l'un** des deux intervalles $I$ ou $J$.\nExemple : Si $I = [-3 ; 4]$ et $J = [1 ; 7[$, alors :\n$$I \\cap J = [1 ; 4] \\quad \\text{et} \\quad I \\cup J = [-3 ; 7[$$\n• **Inégalités strictes et larges** : crochet tourné vers l'extérieur pour exclu ($]a; b[$), vers l'intérieur pour inclus ($[a; b]$)."
+        "content": "• **Intersection $I \\cap J$** : ensemble des réels appartenant **à la fois** à $I$ et à $J$.\n• **Réunion $I \\cup J$** : ensemble des réels appartenant **à au moins l'un** des deux intervalles $I$ ou $J$.\nExemple : Si $I = [-3 ; 4]$ et $J = [1 ; 7[$, alors :\n$$I \\cap J = [1 ; 4] \\quad \\text{et} \\quad I \\cup J = [-3 ; 7[$$\n• **Inégalités strictes et larges** : crochet tourné vers l'extérieur pour exclu ($]a ; b[$), vers l'intérieur pour inclus ($[a ; b]$)."
       },
       {
         "title": "2. Valeur absolue et distance sur la droite numérique",
@@ -247,15 +326,19 @@ window.MATHS_COURSES_2NDE = {
       },
       {
         "title": "3. Ordre et opérations",
-        "content": "Pour tous réels $a$, $b$ et $c$ :\n• **Addition** : $a < b \\iff a + c < b + c$ (on peut ajouter ou soustraire un même nombre).\n• **Multiplication par un nombre strictement positif** : si $c > 0$, alors $a < b \\iff ac < bc$ (le sens est conservé).\n• **Multiplication par un nombre strictement négatif** : si $c < 0$, alors $a < b \\iff ac > bc$ (le sens est **inversé**).\n*Exemple* : $-2x < 6 \\iff x > \\frac{6}{-2} \\iff x > -3$."
+        "content": "Pour tous réels $a$, $b$ et $c$ :\n• **Addition** : $a < b \\iff a + c < b + c$ (on peut ajouter ou soustraire un même nombre).\n• **Multiplication par un nombre strictement positif** : si $c > 0$, alors $a < b \\iff ac < bc$ (le sens est conservé).\n• **Multiplication par un nombre strictement négatif** : si $c < 0$, alors $a < b \\iff ac > bc$ (le sens est **inversé**).\n*Exemple* : $-2x < 6 \\iff x > \\frac{6}{-2} \\iff x > -3$.\n• **Somme d'inégalités** : si $a < b$ et $c < d$, alors $a + c < b + d$ (on peut **additionner** membre à membre deux inégalités de même sens).\n*Exemple* : si $2 < x < 3$ et $1 < y < 4$, alors $3 < x + y < 7$."
       },
       {
         "title": "4. Comparer deux nombres",
-        "content": "• **Par la différence** : $a \\le b \\iff b - a \\ge 0$. Pour comparer deux nombres, on étudie le signe de leur différence.\n*Exemple* : $\\frac{5}{7} - \\frac{7}{10} = \\frac{50 - 49}{70} = \\frac{1}{70} > 0$, donc $\\frac{5}{7} > \\frac{7}{10}$.\n• **Nombres positifs** : pour $a \\ge 0$ et $b \\ge 0$, on a $a < b \\iff a^2 < b^2 \\iff \\sqrt{a} < \\sqrt{b}$.\n• **Propriété** : si $0 < a < 1$, alors $a^2 < a$ ; si $a > 1$, alors $a^2 > a$. En effet $a^2 - a = a(a - 1)$, qui est du signe de $a - 1$ lorsque $a > 0$."
+        "content": "• **Par la différence** : $a \\le b \\iff b - a \\ge 0$. Pour comparer deux nombres, on étudie le signe de leur différence.\n*Exemple* : $\\frac{5}{7} - \\frac{7}{10} = \\frac{50 - 49}{70} = \\frac{1}{70} > 0$, donc $\\frac{5}{7} > \\frac{7}{10}$.\n• **Nombres positifs** : pour $a \\ge 0$ et $b \\ge 0$, on a $a < b \\iff a^2 < b^2 \\iff \\sqrt{a} < \\sqrt{b}$.\n• **Propriété** : si $0 < a < 1$, alors $a^2 < a$ ; si $a > 1$, alors $a^2 > a$. En effet $a^2 - a = a(a - 1)$, qui est du signe de $a - 1$ lorsque $a > 0$.\n• **Par le quotient** (pour $a > 0$ et $b > 0$) : $a < b \\iff \\frac{a}{b} < 1$.\n*Exemple* : $\\frac{7}{8} \\div \\frac{8}{9} = \\frac{63}{64} < 1$, donc $\\frac{7}{8} < \\frac{8}{9}$."
       },
       {
         "title": "5. Intervalles non bornés et encadrements",
-        "content": "• $[a ; +\\infty[$ est l'ensemble des réels $x$ tels que $x \\ge a$ ; $]-\\infty ; b[$ celui des réels $x$ tels que $x < b$ ; $\\mathbb{R} = ]-\\infty ; +\\infty[$.\n• Du côté de $+\\infty$ ou $-\\infty$, le crochet est **toujours ouvert**.\n• **Encadrement** : $1{,}414 < \\sqrt{2} < 1{,}415$ est un encadrement de $\\sqrt{2}$ d'**amplitude** $10^{-3}$ ; $1{,}414$ en est une valeur approchée par défaut à $10^{-3}$ près."
+        "content": "• $[a ; +\\infty[$ est l'ensemble des réels $x$ tels que $x \\ge a$ ; $]-\\infty ; b[$ celui des réels $x$ tels que $x < b$ ; $\\mathbb{R} = ]-\\infty ; +\\infty[$.\n• Du côté de $+\\infty$ ou $-\\infty$, le crochet est **toujours ouvert**.\n• **Encadrement** : $1{,}414 < \\sqrt{2} < 1{,}415$ est un encadrement de $\\sqrt{2}$ d'**amplitude** $10^{-3}$ ; $1{,}414$ en est une valeur approchée par défaut à $10^{-3}$ près.\n• **Arrondir avec des chiffres significatifs** : les chiffres significatifs sont comptés à partir du premier chiffre non nul. $0{,}004\\,567 \\approx 0{,}004\\,6$ (2 chiffres significatifs) ; $12\\,345 \\approx 12\\,300 = 1{,}23 \\times 10^4$ (3 chiffres significatifs). On adapte la précision à la situation (une mesure au millimètre près ne justifie pas 8 décimales)."
+      },
+      {
+        "title": "6. Pour aller plus loin : moyennes arithmétique et géométrique",
+        "content": "Pour deux réels $a > 0$ et $b > 0$, la **moyenne arithmétique** est $\\frac{a + b}{2}$ et la **moyenne géométrique** est $\\sqrt{ab}$. On a toujours\n$$\\sqrt{ab} \\le \\frac{a + b}{2}$$\n*Démonstration* (comparaison par différence) : comme $a = (\\sqrt{a})^2$ et $b = (\\sqrt{b})^2$,\n$$\\frac{a + b}{2} - \\sqrt{ab} = \\frac{(\\sqrt{a})^2 - 2\\sqrt{a}\\sqrt{b} + (\\sqrt{b})^2}{2} = \\frac{(\\sqrt{a} - \\sqrt{b})^2}{2} \\ge 0$$\navec égalité si et seulement si $\\sqrt{a} = \\sqrt{b}$, c'est-à-dire $a = b$.\n*Exemple* : pour $a = 2$ et $b = 8$, $\\sqrt{16} = 4 \\le \\frac{10}{2} = 5$."
       }
     ],
     "methods": [
@@ -269,7 +352,7 @@ window.MATHS_COURSES_2NDE = {
         ]
       },
       {
-        "title": "Méthode : Résoudre une inéquation du type $|x - a| > r$",
+        "title": "Pour aller plus loin — Méthode : Résoudre une inéquation du type $|x - a| > r$",
         "example": "Résoudre dans $\\mathbb{R}$ l'inéquation $|x + 1| > 4$.",
         "steps": [
           "**Étape 1 (Interprétation)** : $|x + 1| = |x - (-1)|$ est la distance entre $x$ et $-1$. On cherche les réels dont la distance à $-1$ est **strictement supérieure** à $4$.",
@@ -304,7 +387,8 @@ window.MATHS_COURSES_2NDE = {
       "⚠️ Une valeur absolue est toujours positive ou nulle : l'équation $|x - 2| = -3$ n'a aucune solution ($S = \\emptyset$).",
       "⚠️ Multiplier ou diviser une inégalité par un nombre **négatif** change son sens : $-3x \\le 12 \\iff x \\ge -4$.",
       "⚠️ Le crochet est toujours ouvert en $\\pm\\infty$ : on écrit $[2 ; +\\infty[$, jamais $[2 ; +\\infty]$.",
-      "⚠️ $|a + b| \\neq |a| + |b|$ en général : $|3 + (-5)| = 2$ alors que $|3| + |-5| = 8$."
+      "⚠️ $|a + b| \\neq |a| + |b|$ en général : $|3 + (-5)| = 2$ alors que $|3| + |-5| = 8$.",
+      "⚠️ On peut additionner deux inégalités de même sens, mais **pas les soustraire** : $2 < 5$ et $1 < 10$, mais $2 - 1 = 1$ n'est pas inférieur à $5 - 10 = -5$."
     ],
     "flashcards": [
       {
@@ -326,6 +410,14 @@ window.MATHS_COURSES_2NDE = {
       {
         "q": "Si $0 < a < 1$, comparer $a$ et $a^2$.",
         "a": "$a^2 < a$ (par exemple $0{,}5^2 = 0{,}25 < 0{,}5$)."
+      },
+      {
+        "q": "Si $1 \\le a \\le 3$ et $-2 \\le b \\le 5$, encadrer $a + b$.",
+        "a": "On additionne les inégalités : $-1 \\le a + b \\le 8$."
+      },
+      {
+        "q": "Comparer $\\frac{12}{13}$ et $\\frac{13}{14}$ par le quotient.",
+        "a": "$\\frac{12}{13} \\div \\frac{13}{14} = \\frac{168}{169} < 1$, donc $\\frac{12}{13} < \\frac{13}{14}$."
       }
     ]
   },
@@ -339,7 +431,8 @@ window.MATHS_COURSES_2NDE = {
       "Dresser un tableau de signes pour un produit ou un quotient d'expressions affines.",
       "Résoudre des inéquations rationnelles en respectant les valeurs interdites.",
       "Résoudre une équation ou une inéquation du premier degré.",
-      "Mettre un problème en équation et interpréter la solution."
+      "Mettre un problème en équation et interpréter la solution.",
+      "Isoler une variable dans une formule (physique, géométrie…) et résoudre une équation quotient $\\frac{A(x)}{B(x)} = k$."
     ],
     "keyPoints": [
       {
@@ -361,6 +454,18 @@ window.MATHS_COURSES_2NDE = {
       {
         "title": "5. Mettre un problème en équation",
         "content": "1. **Choisir l'inconnue** et préciser ce qu'elle représente (et ses valeurs possibles).\n2. **Traduire** l'énoncé par une équation ou une inéquation.\n3. **Résoudre**.\n4. **Vérifier** que la solution convient au contexte, puis **conclure** par une phrase.\n*Exemple* : un rectangle a une longueur égale au double de sa largeur $\\ell$ et un périmètre de $36$ cm. Alors $2(2\\ell + \\ell) = 36 \\iff 6\\ell = 36 \\iff \\ell = 6$ : la largeur vaut $6$ cm et la longueur $12$ cm."
+      },
+      {
+        "title": "6. Isoler une variable dans une formule",
+        "content": "On applique aux formules les mêmes règles qu'aux équations, en vérifiant qu'on ne divise jamais par $0$ :\n• $U = RI \\iff I = \\frac{U}{R}$ (pour $R \\neq 0$) ;\n• $d = vt \\iff t = \\frac{d}{v}$ (pour $v \\neq 0$) ;\n• $V = \\pi r^2 h \\iff h = \\frac{V}{\\pi r^2}$ (pour $r > 0$) ;\n• $S = \\pi r^2 \\iff r = \\sqrt{\\frac{S}{\\pi}}$ (car $r > 0$) ;\n• **Relation du premier degré** $ax + by = c$ avec $b \\neq 0$ : $y = \\frac{c - ax}{b}$. Par exemple $2x + 5y = 10 \\iff y = 2 - 0{,}4x$.\n*Application numérique* : un trajet de $d = 150$ km à la vitesse $v = 90$ km/h dure $t = \\frac{150}{90} = \\frac{5}{3}$ h, soit $1$ h $40$ min."
+      },
+      {
+        "title": "7. Équation quotient $\\frac{A(x)}{B(x)} = k$",
+        "content": "1. On détermine les **valeurs interdites** ($B(x) = 0$).\n2. Pour $x$ non interdit, $\\frac{A(x)}{B(x)} = k \\iff A(x) = k\\,B(x)$.\n3. On résout, puis on **élimine** les solutions qui seraient des valeurs interdites.\n*Exemple* : $\\frac{2x + 1}{x - 3} = 5$. Valeur interdite : $3$. Pour $x \\neq 3$ : $2x + 1 = 5(x - 3) \\iff 2x + 1 = 5x - 15 \\iff 16 = 3x \\iff x = \\frac{16}{3}$. Comme $\\frac{16}{3} \\neq 3$, $S = \\left\\{\\frac{16}{3}\\right\\}$.\n*Contrôle* : $\\frac{2 \\times \\frac{16}{3} + 1}{\\frac{16}{3} - 3} = \\frac{\\frac{35}{3}}{\\frac{7}{3}} = 5$."
+      },
+      {
+        "title": "8. Automatismes : équations et formules",
+        "content": "À traiter de tête ou en une ligne :\n• $x^2 = 49 \\iff x = -7$ ou $x = 7$ ; $x^2 = -4$ n'a pas de solution ; $x^2 = 5 \\iff x = -\\sqrt{5}$ ou $x = \\sqrt{5}$.\n• $3x - 5 = x + 7 \\iff 2x = 12 \\iff x = 6$.\n• $\\frac{12}{x} = 4 \\iff x = 3$ (pour $x \\neq 0$) ; $\\frac{a}{x} = b \\iff x = \\frac{a}{b}$ si $a \\neq 0$ et $b \\neq 0$.\n• $-2x + 6 > 0 \\iff -2x > -6 \\iff x < 3$ (on divise par $-2 < 0$ : le sens change).\n• **Isoler une variable** : $P = UI \\iff I = \\frac{P}{U}$ ; $E = \\frac{1}{2}mv^2 \\iff v = \\sqrt{\\frac{2E}{m}}$ (pour $v > 0$).\n• **Application numérique** : avec $m = 2$ kg et $E = 100$ J, $v = \\sqrt{\\frac{200}{2}} = 10$ m/s ; avec $U = 230$ V et $I = 2$ A, $P = 460$ W."
       }
     ],
     "methods": [
@@ -403,6 +508,16 @@ window.MATHS_COURSES_2NDE = {
           "**Étape 3 (Tableau de signes)** : $-x + 5$ s'annule en $5$ (positif avant, négatif après) ; $x - 2$ s'annule en $2$ (négatif avant, positif après). Le quotient est négatif sur $]-\\infty ; 2[$, positif sur $]2 ; 5[$, négatif sur $]5 ; +\\infty[$ et nul en $5$.",
           "**Conclusion** : $S = ]-\\infty ; 2[ \\cup [5 ; +\\infty[$ ($5$ inclus car l'inégalité est large, $2$ exclu car valeur interdite)."
         ]
+      },
+      {
+        "title": "Méthode : Isoler une variable dans une formule",
+        "example": "La surface latérale d'un cylindre de rayon $r$ et de hauteur $h$ vaut $A = 2\\pi r h$. Exprimer $h$ en fonction de $A$ et $r$, puis calculer $h$ pour $A = 100$ cm² et $r = 2$ cm.",
+        "steps": [
+          "**Étape 1** : on repère la variable à isoler, $h$, multipliée par $2\\pi r$.",
+          "**Étape 2** : on divise les deux membres par $2\\pi r$, qui est non nul car $r > 0$ : $h = \\frac{A}{2\\pi r}$.",
+          "**Étape 3 (Application numérique)** : $h = \\frac{100}{2\\pi \\times 2} = \\frac{25}{\\pi} \\approx 7{,}96$ cm.",
+          "**Conclusion** : $h = \\frac{A}{2\\pi r}$, soit environ $8{,}0$ cm (arrondi à 2 chiffres significatifs, comme les données)."
+        ]
       }
     ],
     "traps": [
@@ -432,6 +547,14 @@ window.MATHS_COURSES_2NDE = {
       {
         "q": "Résoudre $3 - 2x \\ge 7$.",
         "a": "$-2x \\ge 4 \\iff x \\le -2$ (on divise par $-2 < 0$, le sens change). $S = ]-\\infty ; -2]$."
+      },
+      {
+        "q": "Exprimer $R$ en fonction de $U$ et $I$ dans $U = RI$ ($I \\neq 0$).",
+        "a": "$R = \\frac{U}{I}$."
+      },
+      {
+        "q": "Résoudre $\\frac{x + 4}{x - 1} = 3$.",
+        "a": "$x \\neq 1$ ; $x + 4 = 3x - 3 \\iff x = 3{,}5$. Comme $3{,}5 \\neq 1$, $S = \\{3{,}5\\}$."
       }
     ]
   },
@@ -445,7 +568,9 @@ window.MATHS_COURSES_2NDE = {
       "Tracer et exploiter la courbe représentative $\\mathcal{C}_f$ dans un repère.",
       "Résoudre graphiquement des équations $f(x) = k$ et inéquations $f(x) \\le k$.",
       "Savoir qu'une fonction peut être définie par une formule, une courbe, un tableau de valeurs ou un programme Python.",
-      "Déterminer par le calcul si un point appartient à une courbe et les points d'intersection de deux courbes."
+      "Déterminer par le calcul si un point appartient à une courbe et les points d'intersection de deux courbes.",
+      "Reconnaître une fonction linéaire ou affine et savoir que sa courbe est une droite.",
+      "Résoudre une équation ou une inéquation $f(x) = k$, $f(x) < g(x)$ en choisissant une méthode adaptée : graphique, algébrique ou logicielle."
     ],
     "keyPoints": [
       {
@@ -467,6 +592,14 @@ window.MATHS_COURSES_2NDE = {
       {
         "title": "5. Appartenance d'un point à une courbe",
         "content": "Un point $M(a ; b)$ appartient à la courbe $\\mathcal{C}_f$ si et seulement si $a \\in \\mathcal{D}_f$ **et** $f(a) = b$.\n*Exemple* avec $f(x) = x^2 - 2x$ :\n• $A(3 ; 3)$ : $f(3) = 9 - 6 = 3$, donc $A \\in \\mathcal{C}_f$.\n• $B(-1 ; 2)$ : $f(-1) = 1 + 2 = 3 \\neq 2$, donc $B \\notin \\mathcal{C}_f$."
+      },
+      {
+        "title": "6. Fonctions linéaires et affines (rappels)",
+        "content": "• Une **fonction affine** est définie sur $\\mathbb{R}$ par $f(x) = mx + p$ ; sa courbe est une **droite** de coefficient directeur $m$ et d'ordonnée à l'origine $p$ (elle coupe l'axe des ordonnées au point $(0 ; p)$).\n• Si $p = 0$, $f(x) = mx$ est **linéaire** : sa courbe est une droite passant par l'origine, et elle modélise une situation de **proportionnalité**.\n• Si $m = 0$, $f$ est **constante** : sa courbe est une droite horizontale.\n*Exemples* : $f(x) = 3x - 2$ est affine ; $g(x) = -0{,}5x$ est linéaire ; $h(x) = x^2 + 1$ n'est pas affine.\n• **Fonctions de la variable $t$ ou $n$** : une grandeur qui dépend du temps se note souvent $f(t)$ ; une grandeur définie seulement pour des entiers se note $u(n)$ (par exemple $u(n) = 500 \\times 2^n$ bactéries au bout de $n$ heures)."
+      },
+      {
+        "title": "7. Automatismes : lire et exploiter une courbe",
+        "content": "• **Image** : l'image de $a$ se lit en **ordonnée** du point de la courbe d'abscisse $a$.\n• **Antécédents** de $k$ : on trace la droite horizontale $y = k$ et on lit les **abscisses** des points d'intersection.\n• **Équation de courbe** : $M(2 ; 5)$ appartient à la courbe d'équation $y = x^2 + 1$ car $2^2 + 1 = 5$ ; le point de cette courbe d'abscisse $-3$ a pour ordonnée $10$.\n• **Reconnaître** : $x \\mapsto -4x$ est linéaire, $x \\mapsto 2x + 3$ est affine, $x \\mapsto \\frac{1}{x}$ et $x \\mapsto x^2$ ne sont pas affines ; les fonctions linéaires et affines sont représentées par des **droites**."
       }
     ],
     "methods": [
@@ -537,6 +670,10 @@ window.MATHS_COURSES_2NDE = {
       {
         "q": "Comment lit-on graphiquement l'image de $3$ par $f$ ?",
         "a": "On repère le point de $\\mathcal{C}_f$ d'abscisse $3$ et on lit son **ordonnée**."
+      },
+      {
+        "q": "La fonction $f(x) = 4 - 2x$ est-elle affine ? linéaire ?",
+        "a": "Affine ($m = -2$, $p = 4$) mais pas linéaire car $p \\neq 0$. Sa courbe est une droite qui passe par $(0 ; 4)$."
       }
     ]
   },
@@ -550,12 +687,15 @@ window.MATHS_COURSES_2NDE = {
       "Définir et identifier le maximum et le minimum d'une fonction sur un intervalle.",
       "Comparer des images à l'aide du sens de variation sans calcul explicite.",
       "Démontrer le sens de variation d'une fonction affine ou de la fonction carré à l'aide de la définition.",
-      "Exploiter un tableau de variations pour déterminer le nombre de solutions d'une équation $f(x) = k$."
+      "Exploiter un tableau de variations pour déterminer le nombre de solutions d'une équation $f(x) = k$.",
+      "Interpréter le coefficient $m$ d'une fonction affine comme un taux d'accroissement.",
+      "Approcher un extremum ou une longueur de courbe à l'aide d'un algorithme (balayage, dichotomie).",
+      "Traiter un problème d'optimisation."
     ],
     "keyPoints": [
       {
         "title": "1. Définitions formelles de la monotonie",
-        "content": "Soit $f$ une fonction définie sur un intervalle $I$ :\n• $f$ est **strictement croissante** sur $I$ si pour tous $a, b \\in I$ :\n$$a < b \\implies f(a) < f(b)$$ *(la fonction conserve l'ordre)*.\n• $f$ est **strictement décroissante** sur $I$ si pour tous $a, b \\in I$ :\n$$a < b \\implies f(a) > f(b)$$ *(la fonction inverse l'ordre)*."
+        "content": "Soit $f$ une fonction définie sur un intervalle $I$ :\n• $f$ est **strictement croissante** sur $I$ si pour tous $a, b \\in I$ :\n$$a < b \\implies f(a) < f(b)$$ *(la fonction conserve l'ordre)*.\n• $f$ est **strictement décroissante** sur $I$ si pour tous $a, b \\in I$ :\n$$a < b \\implies f(a) > f(b)$$ *(la fonction inverse l'ordre)*.\n• On dit plus largement que $f$ est **croissante** sur $I$ si pour tous $a, b \\in I$, $a < b \\implies f(a) \\le f(b)$, et **décroissante** si $a < b \\implies f(a) \\ge f(b)$. Une fonction constante est à la fois croissante et décroissante."
       },
       {
         "title": "2. Extremums : Maximum et Minimum",
@@ -566,12 +706,20 @@ window.MATHS_COURSES_2NDE = {
         "content": "Une fonction est **monotone** sur un intervalle $I$ si elle est soit croissante, soit décroissante sur tout $I$.\nLe **tableau de variations** résume les intervalles de monotonie :\n• 1re ligne : les valeurs de $x$ (bornes de $\\mathcal{D}_f$ et abscisses où le sens de variation change) ;\n• 2e ligne : des flèches montantes (croissance) ou descendantes (décroissance), avec les images aux extrémités des flèches."
       },
       {
-        "title": "4. Sens de variation d'une fonction affine",
-        "content": "Soit $f(x) = mx + p$ définie sur $\\mathbb{R}$.\n• Si $m > 0$, $f$ est strictement croissante ; si $m < 0$, $f$ est strictement décroissante ; si $m = 0$, $f$ est constante.\n**Démonstration** : soient $a < b$. Alors $f(b) - f(a) = (mb + p) - (ma + p) = m(b - a)$. Comme $b - a > 0$, $f(b) - f(a)$ a le signe de $m$. Si $m > 0$, $f(a) < f(b)$ : l'ordre est conservé."
+        "title": "4. Démonstration : sens de variation d'une fonction affine",
+        "content": "Soit $f(x) = mx + p$ définie sur $\\mathbb{R}$.\n• Si $m > 0$, $f$ est strictement croissante ; si $m < 0$, $f$ est strictement décroissante ; si $m = 0$, $f$ est constante.\n**Démonstration** : soient deux réels $a < b$. Alors\n$$f(b) - f(a) = (mb + p) - (ma + p) = m(b - a)$$\nComme $b - a > 0$, $f(b) - f(a)$ a le **signe de $m$** :\n• si $m > 0$, $f(b) - f(a) > 0$, soit $f(a) < f(b)$ : l'ordre est conservé, $f$ est strictement croissante ;\n• si $m < 0$, $f(b) - f(a) < 0$, soit $f(a) > f(b)$ : l'ordre est inversé, $f$ est strictement décroissante ;\n• si $m = 0$, $f(a) = f(b)$ : $f$ est constante.\n**Interprétation de $m$** : pour $a \\neq b$, $\\frac{f(b) - f(a)}{b - a} = m$. Le coefficient $m$ est le **taux d'accroissement** : quand $x$ augmente de $1$, $f(x)$ varie de $m$. Et $p = f(0)$ est l'**ordonnée à l'origine**.\n*Exemple* : un forfait téléphonique coûte $f(x) = 0{,}2x + 15$ euros pour $x$ minutes hors forfait : chaque minute supplémentaire coûte $0{,}20$ €, et $15$ € est le prix de base."
       },
       {
         "title": "5. Existence d'un extremum",
         "content": "• Un maximum peut être atteint au sommet d'une flèche montante **ou en une borne** de l'intervalle : il faut comparer toutes les valeurs « hautes » du tableau.\n• Une fonction n'admet pas toujours de maximum : sur $]0 ; 1[$, la fonction $x \\mapsto x$ prend des valeurs aussi proches de $1$ que l'on veut, sans jamais atteindre $1$.\n• **En Python**, on peut approcher le maximum par **balayage** :\n```python\ndef maximum(f, a, b, pas):\n    M = f(a)\n    x = a\n    while x <= b:\n        if f(x) > M:\n            M = f(x)\n        x = x + pas\n    return M\n```"
+      },
+      {
+        "title": "6. Algorithmes : dichotomie et longueur d'une courbe",
+        "content": "• **Approcher un maximum par dichotomie** : on suppose $f$ croissante puis décroissante sur $[a ; b]$. On coupe l'intervalle en son milieu $m$ ; si $f$ augmente encore juste après $m$, le maximum est à droite de $m$, sinon il est à gauche (à un petit pas $d$ près). On recommence jusqu'à la précision $e$ voulue.\n```python\ndef maximum_dicho(f, a, b, e):\n    d = e / 10\n    while b - a > e:\n        m = (a + b) / 2\n        if f(m) < f(m + d):\n            a = m\n        else:\n            b = m + d\n    return a, b\n```\nAvec $f(x) = -x^2 + 4x + 1$ sur $[0 ; 5]$ et $e = 0{,}01$, on obtient un intervalle d'amplitude inférieure à $0{,}01$ contenant $2$ : le maximum est atteint en $x = 2$ et vaut $f(2) = 5$.\n• **Longueur approchée d'une courbe** : on remplace la courbe de $f$ sur $[a ; b]$ par $n$ petits segments et on additionne leurs longueurs (formule de la distance dans un repère orthonormé).\n```python\nfrom math import sqrt\n\ndef longueur(f, a, b, n):\n    h = (b - a) / n\n    L = 0\n    for k in range(n):\n        x1 = a + k * h\n        x2 = x1 + h\n        L = L + sqrt(h ** 2 + (f(x2) - f(x1)) ** 2)\n    return L\n```\nPour la parabole $y = x^2$ entre $x = 0$ et $x = 1$ : $n = 10$ donne environ $1{,}478\\,2$ et $n = 1\\,000$ environ $1{,}478\\,9$. Plus $n$ est grand, meilleure est l'approximation."
+      },
+      {
+        "title": "7. Un problème d'optimisation",
+        "content": "**Problème** : parmi les rectangles de périmètre $20$ cm, lequel a la plus grande aire ?\n• Si $x$ est la longueur d'un côté ($0 < x < 10$), l'autre côté mesure $10 - x$ et l'aire vaut $A(x) = x(10 - x) = 10x - x^2$.\n• On vérifie en développant que $A(x) = 25 - (x - 5)^2$. Comme $(x - 5)^2 \\ge 0$, on a $A(x) \\le 25$ pour tout $x$, avec égalité si et seulement si $x = 5$.\n• **Conclusion** : l'aire maximale est $25$ cm², obtenue pour le **carré** de côté $5$ cm.\nOn peut aussi conjecturer ce résultat avec un tableau de valeurs, une courbe (calculatrice, logiciel) ou l'algorithme de balayage du paragraphe 5, puis le démontrer comme ci-dessus."
       }
     ],
     "methods": [
@@ -613,6 +761,16 @@ window.MATHS_COURSES_2NDE = {
           "**Étape 3** : La plus petite valeur est $f(0) = 0$ ; la plus grande des valeurs aux bornes est $f(3) = 9$.",
           "**Conclusion** : sur $[-2 ; 3]$, le minimum de $f$ est $0$ (atteint en $0$) et son maximum est $9$ (atteint en $3$)."
         ]
+      },
+      {
+        "title": "Méthode : Interpréter les coefficients d'une fonction affine",
+        "example": "Un réservoir contient $500$ L d'eau et se vide de $20$ L par minute. On note $V(t)$ le volume (en L) au bout de $t$ minutes. Exprimer $V(t)$, donner son sens de variation et l'instant où le réservoir est vide.",
+        "steps": [
+          "**Étape 1** : le volume diminue de $20$ L chaque minute à partir de $500$ L : $V(t) = -20t + 500$, fonction affine de coefficient $m = -20$ (taux d'accroissement : $-20$ L/min) et d'ordonnée à l'origine $p = 500$ (volume initial).",
+          "**Étape 2** : $m = -20 < 0$, donc $V$ est strictement décroissante.",
+          "**Étape 3** : $V(t) = 0 \\iff -20t + 500 = 0 \\iff t = 25$.",
+          "**Conclusion** : $V$ décroît et le réservoir est vide au bout de $25$ minutes ; le modèle n'a de sens que pour $t \\in [0 ; 25]$."
+        ]
       }
     ],
     "traps": [
@@ -642,28 +800,35 @@ window.MATHS_COURSES_2NDE = {
       {
         "q": "Une fonction définie sur un intervalle ouvert admet-elle toujours un maximum ?",
         "a": "Non : $x \\mapsto x$ sur $]0 ; 1[$ n'a pas de maximum."
+      },
+      {
+        "q": "Que représente $m$ pour la fonction affine $f(x) = mx + p$ ?",
+        "a": "Le taux d'accroissement : $\\frac{f(b) - f(a)}{b - a} = m$ ; quand $x$ augmente de $1$, $f(x)$ varie de $m$."
       }
     ]
   },
 
   "2A3": {
-    "title": "2A3 : Fonctions de référence : carré, inverse, racine et cube",
+    "title": "2A3 : Fonctions de référence : valeur absolue, carré, inverse, racine carrée et cube",
     "domain": "Analyse et Fonctions",
     "objectives": [
-      "Connaître les propriétés, courbes et variations des fonctions carré $x^2$, inverse $1/x$, racine $\\sqrt{x}$ et cube $x^3$.",
-      "Maîtriser la notion de parité : fonction paire (symétrie par rapport à l'axe des ordonnées) et impaire (symétrie par rapport à l'origine).",
+      "Connaître les définitions, courbes, signes et variations des fonctions valeur absolue $|x|$, carré $x^2$, inverse $\\frac{1}{x}$, racine carrée $\\sqrt{x}$ et cube $x^3$.",
+      "Pour aller plus loin : notion de parité (fonction paire, fonction impaire).",
       "Résoudre des équations et inéquations du type $x^2 \\le k$ et $\\sqrt{x} \\ge k$.",
       "Étudier la position relative des courbes d'équations $y = x$, $y = x^2$ et $y = x^3$ pour $x \\ge 0$.",
-      "Encadrer $x^2$, $\\frac{1}{x}$ ou $\\sqrt{x}$ à partir d'un encadrement de $x$."
+      "Encadrer $x^2$, $\\frac{1}{x}$ ou $\\sqrt{x}$ à partir d'un encadrement de $x$.",
+      "Connaître la fonction valeur absolue : définition, courbe, signe et variations.",
+      "Démontrer les variations des fonctions carré et inverse.",
+      "Comparer $f(a)$ et $f(b)$ pour une fonction de référence $f$, en utilisant ses variations."
     ],
     "keyPoints": [
       {
         "title": "1. Synthèse des fonctions de référence",
-        "content": "• **Fonction carré ($x \\mapsto x^2$)** : Définie sur $\\mathbb{R}$, paire ($(-x)^2 = x^2$), décroissante sur $]-\\infty; 0]$ et croissante sur $[0; +\\infty[$. Sa courbe est une **parabole** de sommet $(0,0)$.\n• **Fonction inverse ($x \\mapsto \\frac{1}{x}$)** : Définie sur $\\mathbb{R}^*$, impaire ($\\frac{1}{-x} = -\\frac{1}{x}$), strictement décroissante sur $]-\\infty; 0[$ et sur $]0; +\\infty[$. Sa courbe est une **hyperbole**.\n• **Fonction racine carrée ($x \\mapsto \\sqrt{x}$)** : Définie sur $[0; +\\infty[$, strictement croissante sur $[0; +\\infty[$.\n• **Fonction cube ($x \\mapsto x^3$)** : Définie sur $\\mathbb{R}$, impaire, strictement croissante sur $\\mathbb{R}$."
+        "content": "• **Fonction carré ($x \\mapsto x^2$)** : Définie sur $\\mathbb{R}$, paire ($(-x)^2 = x^2$), décroissante sur $]-\\infty ; 0]$ et croissante sur $[0 ; +\\infty[$. Sa courbe est une **parabole** de sommet $(0 ; 0)$.\n• **Fonction inverse ($x \\mapsto \\frac{1}{x}$)** : Définie sur $\\mathbb{R}^*$, impaire ($\\frac{1}{-x} = -\\frac{1}{x}$), strictement décroissante sur $]-\\infty ; 0[$ et sur $]0 ; +\\infty[$. Sa courbe est une **hyperbole**.\n• **Fonction racine carrée ($x \\mapsto \\sqrt{x}$)** : Définie sur $[0 ; +\\infty[$, strictement croissante sur $[0 ; +\\infty[$.\n• **Fonction valeur absolue ($x \\mapsto |x|$)** : définie sur $\\mathbb{R}$, décroissante sur $]-\\infty ; 0]$ et croissante sur $[0 ; +\\infty[$ (voir le paragraphe 5).\n• **Fonction cube ($x \\mapsto x^3$)** : Définie sur $\\mathbb{R}$, impaire, strictement croissante sur $\\mathbb{R}$."
       },
       {
-        "title": "2. Parité : définitions précises",
-        "content": "Soit $f$ une fonction dont l'ensemble de définition $\\mathcal{D}$ est symétrique par rapport à $0$ (si $x \\in \\mathcal{D}$, alors $-x \\in \\mathcal{D}$).\n• $f$ est **paire** si pour tout $x \\in \\mathcal{D}$, $f(-x) = f(x)$ : sa courbe est symétrique par rapport à l'axe des ordonnées.\n• $f$ est **impaire** si pour tout $x \\in \\mathcal{D}$, $f(-x) = -f(x)$ : sa courbe est symétrique par rapport à l'origine $O$.\n*Exemple* : $g(x) = x^3 - 2x$ est impaire car $g(-x) = -x^3 + 2x = -(x^3 - 2x) = -g(x)$.\nLa fonction racine carrée n'est ni paire ni impaire : $[0 ; +\\infty[$ n'est pas symétrique par rapport à $0$."
+        "title": "2. Pour aller plus loin : parité",
+        "content": "*La parité n'est pas un attendu du programme de seconde ; elle aide cependant à comprendre les symétries des courbes.*\nSoit $f$ une fonction dont l'ensemble de définition $\\mathcal{D}$ est symétrique par rapport à $0$ (si $x \\in \\mathcal{D}$, alors $-x \\in \\mathcal{D}$).\n• $f$ est **paire** si pour tout $x \\in \\mathcal{D}$, $f(-x) = f(x)$ : sa courbe est symétrique par rapport à l'axe des ordonnées.\n• $f$ est **impaire** si pour tout $x \\in \\mathcal{D}$, $f(-x) = -f(x)$ : sa courbe est symétrique par rapport à l'origine $O$.\n*Exemple* : $g(x) = x^3 - 2x$ est impaire car $g(-x) = -x^3 + 2x = -(x^3 - 2x) = -g(x)$.\nLa fonction racine carrée n'est ni paire ni impaire : $[0 ; +\\infty[$ n'est pas symétrique par rapport à $0$."
       },
       {
         "title": "3. Positions relatives de $x$, $x^2$ et $x^3$ pour $x \\ge 0$",
@@ -672,6 +837,26 @@ window.MATHS_COURSES_2NDE = {
       {
         "title": "4. Équations avec les fonctions de référence",
         "content": "• $x^2 = k$ : si $k > 0$, deux solutions $-\\sqrt{k}$ et $\\sqrt{k}$ ; si $k = 0$, une solution $0$ ; si $k < 0$, aucune solution.\n• $\\sqrt{x} = k$ : si $k \\ge 0$, une unique solution $x = k^2$ ; si $k < 0$, aucune solution.\n• $\\frac{1}{x} = k$ : si $k \\neq 0$, une unique solution $x = \\frac{1}{k}$ ; si $k = 0$, aucune solution.\n• $x^3 = k$ : toujours une unique solution réelle (par exemple $x^3 = -8 \\iff x = -2$)."
+      },
+      {
+        "title": "5. La fonction valeur absolue",
+        "content": "La fonction **valeur absolue** est définie sur $\\mathbb{R}$ par $f(x) = |x|$, avec\n$$|x| = \\begin{cases} x & \\text{si } x \\ge 0 \\\\ -x & \\text{si } x < 0 \\end{cases}$$\n• **Courbe** : réunion de deux demi-droites issues de l'origine, d'équations $y = -x$ (pour $x \\le 0$) et $y = x$ (pour $x \\ge 0$) ; elle a la forme d'un « V ».\n• **Signe** : $|x| \\ge 0$ pour tout réel $x$, et $|x| = 0 \\iff x = 0$.\n• **Variations** : décroissante sur $]-\\infty ; 0]$, croissante sur $[0 ; +\\infty[$ ; son minimum est $0$, atteint en $0$.\n• **Équations et inéquations** : pour $k > 0$, $|x| = k \\iff x = -k$ ou $x = k$ ; $|x| \\le k \\iff -k \\le x \\le k$.\n*Exemple* : $|x| = 2{,}5$ a pour solutions $-2{,}5$ et $2{,}5$ ; $|x| \\le 2$ a pour ensemble de solutions $[-2 ; 2]$."
+      },
+      {
+        "title": "6. Signe des fonctions de référence",
+        "content": "| Fonction | Signe |\n|---|---|\n| $x \\mapsto x^2$ | positive ou nulle sur $\\mathbb{R}$ (nulle seulement en $0$) |\n| $x \\mapsto \\frac{1}{x}$ | strictement négative sur $]-\\infty ; 0[$, strictement positive sur $]0 ; +\\infty[$ |\n| $x \\mapsto \\sqrt{x}$ | positive ou nulle sur $[0 ; +\\infty[$ |\n| $x \\mapsto x^3$ | du signe de $x$ |\n| $x \\mapsto \\lvert x \\rvert$ | positive ou nulle sur $\\mathbb{R}$ |"
+      },
+      {
+        "title": "7. Démonstration : variations de la fonction carré",
+        "content": "Soit $f(x) = x^2$ et deux réels $a < b$. On étudie le signe de\n$$f(b) - f(a) = b^2 - a^2 = (b - a)(b + a)$$\nOn sait que $b - a > 0$.\n• **Sur $[0 ; +\\infty[$** : si $0 \\le a < b$, alors $b + a > 0$, donc $f(b) - f(a) > 0$ : $f(a) < f(b)$. La fonction carré est **strictement croissante** sur $[0 ; +\\infty[$.\n• **Sur $]-\\infty ; 0]$** : si $a < b \\le 0$, alors $b + a < 0$, donc $f(b) - f(a) < 0$ : $f(a) > f(b)$. La fonction carré est **strictement décroissante** sur $]-\\infty ; 0]$.\nSon minimum sur $\\mathbb{R}$ est $f(0) = 0$."
+      },
+      {
+        "title": "8. Démonstration : variations de la fonction inverse",
+        "content": "Soit $f(x) = \\frac{1}{x}$ et deux réels non nuls $a < b$ **de même signe**. On étudie le signe de\n$$f(b) - f(a) = \\frac{1}{b} - \\frac{1}{a} = \\frac{a - b}{ab}$$\nOn sait que $a - b < 0$.\n• **Sur $]0 ; +\\infty[$** : si $0 < a < b$, alors $ab > 0$, donc $f(b) - f(a) < 0$ : $f(a) > f(b)$. La fonction inverse est **strictement décroissante** sur $]0 ; +\\infty[$.\n• **Sur $]-\\infty ; 0[$** : si $a < b < 0$, le produit de deux négatifs est positif : $ab > 0$, donc $f(b) - f(a) < 0$ : la fonction inverse est aussi **strictement décroissante** sur $]-\\infty ; 0[$.\n⚠️ On ne peut pas conclure sur $\\mathbb{R}^*$ tout entier : $-1 < 1$ et pourtant $f(-1) = -1 < f(1) = 1$."
+      },
+      {
+        "title": "9. Pour aller plus loin : courbes de la racine carrée et du carré",
+        "content": "Sur $[0 ; +\\infty[$, si $y = \\sqrt{x}$ alors $x = y^2$ (et réciproquement, pour $y \\ge 0$). Les courbes de $x \\mapsto \\sqrt{x}$ et de $x \\mapsto x^2$ restreinte à $[0 ; +\\infty[$ sont donc **symétriques par rapport à la droite d'équation $y = x$** dans un repère orthonormé : le point $(4 ; 2)$ est sur la première, le point $(2 ; 4)$ sur la seconde."
       }
     ],
     "methods": [
@@ -712,14 +897,25 @@ window.MATHS_COURSES_2NDE = {
           "**Étape 3** : Le quotient d'un nombre négatif par un nombre positif est négatif : $\\frac{1}{b} - \\frac{1}{a} < 0$.",
           "**Conclusion** : $\\frac{1}{b} < \\frac{1}{a}$ : la fonction inverse inverse l'ordre, elle est strictement décroissante sur $]0 ; +\\infty[$."
         ]
+      },
+      {
+        "title": "Méthode : Comparer deux images par une fonction de référence",
+        "example": "Sans calculatrice, comparer $(-3{,}7)^2$ et $(-3{,}2)^2$, puis $\\frac{1}{0{,}7}$ et $\\frac{1}{0{,}8}$.",
+        "steps": [
+          "**Étape 1 (Carré)** : $-3{,}7$ et $-3{,}2$ appartiennent à $]-\\infty ; 0]$, où la fonction carré est strictement décroissante (elle inverse l'ordre).",
+          "**Étape 2** : $-3{,}7 < -3{,}2$ donc $(-3{,}7)^2 > (-3{,}2)^2$ (contrôle : $13{,}69 > 10{,}24$).",
+          "**Étape 3 (Inverse)** : $0{,}7$ et $0{,}8$ appartiennent à $]0 ; +\\infty[$, où la fonction inverse est strictement décroissante ; $0{,}7 < 0{,}8$ donc $\\frac{1}{0{,}7} > \\frac{1}{0{,}8}$.",
+          "**Conclusion** : $(-3{,}7)^2 > (-3{,}2)^2$ et $\\frac{1}{0{,}7} > \\frac{1}{0{,}8}$ ($\\approx 1{,}43 > 1{,}25$)."
+        ]
       }
     ],
     "traps": [
       "⚠️ Attention pour $x^2 \\ge 9$ : les solutions sont les valeurs à l'extérieur des racines, soit $S = ]-\\infty ; -3] \\cup [3 ; +\\infty[$ !",
-      "⚠️ La fonction inverse n'est PAS décroissante sur $\\mathbb{R}^*$ tout entier, mais séparément sur chaque intervalle $]-\\infty; 0[$ et $]0; +\\infty[$.",
+      "⚠️ La fonction inverse n'est PAS décroissante sur $\\mathbb{R}^*$ tout entier, mais séparément sur chaque intervalle $]-\\infty ; 0[$ et $]0 ; +\\infty[$.",
       "⚠️ Si $-2 \\le x \\le 3$, on n'a **pas** $4 \\le x^2 \\le 9$ : l'intervalle contient $0$, où la fonction carré change de sens. On a en réalité $0 \\le x^2 \\le 9$.",
       "⚠️ L'équation $x^2 = 16$ a **deux** solutions : $-4$ et $4$. Ne pas oublier la solution négative.",
-      "⚠️ Élever au carré n'agrandit pas toujours un nombre : pour $0 < x < 1$, $x^2 < x$ (par exemple $0{,}5^2 = 0{,}25$)."
+      "⚠️ Élever au carré n'agrandit pas toujours un nombre : pour $0 < x < 1$, $x^2 < x$ (par exemple $0{,}5^2 = 0{,}25$).",
+      "⚠️ $|x| \\le 3$ ne signifie pas $x \\le 3$ : il faut aussi $x \\ge -3$, soit $x \\in [-3 ; 3]$."
     ],
     "flashcards": [
       {
@@ -741,6 +937,14 @@ window.MATHS_COURSES_2NDE = {
       {
         "q": "Résoudre $\\sqrt{x} \\ge 3$.",
         "a": "La fonction racine est croissante sur $[0 ; +\\infty[$ : $\\sqrt{x} \\ge \\sqrt{9} \\iff x \\ge 9$. $S = [9 ; +\\infty[$."
+      },
+      {
+        "q": "Quelles sont les variations de la fonction valeur absolue ?",
+        "a": "Décroissante sur $]-\\infty ; 0]$, croissante sur $[0 ; +\\infty[$, minimum $0$ en $0$."
+      },
+      {
+        "q": "Comparer $(-5)^2$ et $(-2)^2$ à l'aide des variations.",
+        "a": "La fonction carré est décroissante sur $]-\\infty ; 0]$ et $-5 < -2$, donc $(-5)^2 > (-2)^2$ ($25 > 4$)."
       }
     ]
   },
@@ -754,12 +958,14 @@ window.MATHS_COURSES_2NDE = {
       "Démontrer géométriquement qu'un triangle est rectangle, isocèle ou équilatéral.",
       "Démontrer qu'un quadrilatère est un parallélogramme, rectangle ou losange.",
       "Distinguer repère quelconque, orthogonal et orthonormé.",
-      "Calculer les coordonnées du symétrique d'un point ou du quatrième sommet d'un parallélogramme."
+      "Calculer les coordonnées du symétrique d'un point ou du quatrième sommet d'un parallélogramme.",
+      "Justifier la formule de la distance à l'aide du théorème de Pythagore.",
+      "Réinvestir Pythagore, Thalès et la trigonométrie du triangle rectangle."
     ],
     "keyPoints": [
       {
         "title": "1. Formules fondamentales de géométrie analytique",
-        "content": "Soient $A(x_A ; y_A)$ et $B(x_B ; y_B)$ deux points du plan :\n• **Coordonnées du milieu $M$ du segment $[AB]$** (valable dans tout repère) :\n$$x_M = \\frac{x_A + x_B}{2} \\quad \\text{et} \\quad y_M = \\frac{y_A + y_B}{2}$$\n• **Distance $AB$** (valable **uniquement dans un repère orthonormé**) :\n$$AB = \\sqrt{(x_B - x_A)^2 + (y_B - y_A)^2}$$"
+        "content": "Soient $A(x_A ; y_A)$ et $B(x_B ; y_B)$ deux points du plan :\n• **Coordonnées du milieu $M$ du segment $[AB]$** (valable dans tout repère ; formule admise, sa démonstration à l'aide des vecteurs est un approfondissement, voir le chapitre 2G2) :\n$$x_M = \\frac{x_A + x_B}{2} \\quad \\text{et} \\quad y_M = \\frac{y_A + y_B}{2}$$\n• **Distance $AB$** (valable **uniquement dans un repère orthonormé**) :\n$$AB = \\sqrt{(x_B - x_A)^2 + (y_B - y_A)^2}$$"
       },
       {
         "title": "2. Les différents types de repères",
@@ -772,6 +978,22 @@ window.MATHS_COURSES_2NDE = {
       {
         "title": "4. Symétrique d'un point et cercle",
         "content": "• $A'$ est le **symétrique** de $A$ par rapport à $B$ si et seulement si $B$ est le milieu de $[AA']$. On en déduit :\n$$x_{A'} = 2x_B - x_A \\quad \\text{et} \\quad y_{A'} = 2y_B - y_A$$\n• Dans un repère orthonormé, un point $M$ appartient au **cercle** de centre $\\Omega$ et de rayon $r$ si et seulement si $\\Omega M = r$."
+      },
+      {
+        "title": "5. Démonstration : formule de la distance",
+        "content": "Dans un repère **orthonormé**, soient $A(x_A ; y_A)$ et $B(x_B ; y_B)$. On considère le point $H(x_B ; y_A)$.\n1. $A$ et $H$ ont la même ordonnée : $(AH)$ est parallèle à l'axe des abscisses et $AH = |x_B - x_A|$.\n2. $H$ et $B$ ont la même abscisse : $(HB)$ est parallèle à l'axe des ordonnées et $HB = |y_B - y_A|$.\n3. Les axes étant perpendiculaires, le triangle $AHB$ est rectangle en $H$ (s'il n'est pas aplati). Le théorème de Pythagore donne :\n$$AB^2 = AH^2 + HB^2 = (x_B - x_A)^2 + (y_B - y_A)^2$$\ncar $|u|^2 = u^2$. Une distance étant positive, $AB = \\sqrt{(x_B - x_A)^2 + (y_B - y_A)^2}$. La formule reste vraie si $H = A$ ou $H = B$ (points sur une même horizontale ou verticale).\nC'est parce qu'on utilise l'égalité des unités et l'angle droit entre les axes que la formule exige un repère orthonormé."
+      },
+      {
+        "title": "6. Rappels : Pythagore, Thalès et trigonométrie",
+        "content": "• **Pythagore** : si $ABC$ est rectangle en $A$, alors $BC^2 = AB^2 + AC^2$.\n• **Thalès** : si $M \\in (AB)$, $N \\in (AC)$ et $(MN) \\parallel (BC)$, alors $\\frac{AM}{AB} = \\frac{AN}{AC} = \\frac{MN}{BC}$.\n• **Trigonométrie** : dans un triangle $ABC$ rectangle en $A$, pour l'angle aigu $\\widehat{B}$ :\n$$\\cos \\widehat{B} = \\frac{AB}{BC} \\qquad \\sin \\widehat{B} = \\frac{AC}{BC} \\qquad \\tan \\widehat{B} = \\frac{AC}{AB}$$\n(côté adjacent, côté opposé, hypoténuse).\n• **Relation** : $\\cos^2 \\widehat{B} + \\sin^2 \\widehat{B} = 1$. En effet $\\cos^2 \\widehat{B} + \\sin^2 \\widehat{B} = \\frac{AB^2 + AC^2}{BC^2} = \\frac{BC^2}{BC^2} = 1$ d'après Pythagore.\n*Exemple* : si $BC = 10$ et $\\widehat{B} = 30°$, alors $AC = 10 \\sin 30° = 5$ et $AB = 10 \\cos 30° \\approx 8{,}66$."
+      },
+      {
+        "title": "7. Automatismes : grandeurs et configurations",
+        "content": "• **Repérage** : lire les coordonnées d'un point, placer un point de coordonnées données, dans un repère orthogonal.\n• **Périmètres** : polygone (somme des côtés), cercle $2\\pi r$. **Aires** : rectangle $L \\times \\ell$, triangle $\\frac{\\text{base} \\times \\text{hauteur}}{2}$, disque $\\pi r^2$.\n• **Volumes** : pavé droit $abc$ ; prisme droit et cylindre $\\mathcal{B} \\times h$ (cylindre : $\\pi r^2 h$) ; pyramide et cône $\\frac{1}{3}\\mathcal{B} \\times h$ (cône : $\\frac{1}{3}\\pi r^2 h$) ; boule $\\frac{4}{3}\\pi r^3$.\n*Exemple* : un cône de rayon $3$ cm et de hauteur $4$ cm a pour volume $\\frac{1}{3}\\pi \\times 9 \\times 4 = 12\\pi \\approx 37{,}7$ cm³.\n• **Pythagore** : un triangle rectangle de côtés de l'angle droit $6$ et $8$ a une hypoténuse de $10$. **Thalès** : en configuration de Thalès, $\\frac{AM}{AB} = \\frac{AN}{AC}$.\n• **Trigonométrie** : dans un triangle rectangle d'hypoténuse $10$ et d'angle aigu $30^\\circ$, le côté opposé mesure $10 \\sin 30^\\circ = 5$."
+      },
+      {
+        "title": "8. Pour aller plus loin : aire d'un triangle",
+        "content": "Dans un triangle $ABC$ avec $a = BC$ et $b = CA$, la hauteur issue de $A$ mesure $b \\sin \\widehat{C}$ (lorsque l'angle $\\widehat{C}$ est aigu). L'aire vaut donc\n$$\\mathcal{A} = \\frac{1}{2}\\,ab\\sin \\widehat{C}$$\n*Exemple* : $a = 4$, $b = 5$ et $\\widehat{C} = 30^\\circ$ donnent $\\mathcal{A} = \\frac{1}{2} \\times 4 \\times 5 \\times \\frac{1}{2} = 5$."
       }
     ],
     "methods": [
@@ -842,6 +1064,10 @@ window.MATHS_COURSES_2NDE = {
       {
         "q": "Dans un repère orthonormé, $M(3 ; 4)$ appartient-il au cercle de centre $O$ et de rayon $5$ ?",
         "a": "Oui : $OM = \\sqrt{3^2 + 4^2} = \\sqrt{25} = 5$."
+      },
+      {
+        "q": "Dans un triangle rectangle, que vaut $\\cos^2 \\alpha + \\sin^2 \\alpha$ pour un angle aigu $\\alpha$ ?",
+        "a": "$1$ (conséquence du théorème de Pythagore)."
       }
     ]
   },
@@ -855,7 +1081,9 @@ window.MATHS_COURSES_2NDE = {
       "Calculer les coordonnées d'un vecteur $\\vec{AB}(x_B - x_A ; y_B - y_A)$ et sa norme.",
       "Utiliser le déterminant $\\det(\\vec{u}, \\vec{v}) = xy' - yx' = 0$ pour tester la colinéarité et prouver l'alignement ou le parallélisme.",
       "Calculer les coordonnées d'une somme de vecteurs et du produit d'un vecteur par un réel.",
-      "Caractériser un parallélogramme par une égalité vectorielle."
+      "Caractériser un parallélogramme par une égalité vectorielle.",
+      "Décomposer un vecteur dans une base : $\\vec{u} = x\\vec{i} + y\\vec{j}$.",
+      "Démontrer l'équivalence entre colinéarité, proportionnalité des coordonnées et nullité du déterminant."
     ],
     "keyPoints": [
       {
@@ -868,11 +1096,23 @@ window.MATHS_COURSES_2NDE = {
       },
       {
         "title": "3. Opérations sur les vecteurs en coordonnées",
-        "content": "Pour $\\vec{u}\\begin{pmatrix} x \\\\ y \\end{pmatrix}$, $\\vec{v}\\begin{pmatrix} x' \\\\ y' \\end{pmatrix}$ et un réel $k$ :\n$$\\vec{u} + \\vec{v}\\begin{pmatrix} x + x' \\\\ y + y' \\end{pmatrix} \\qquad k\\vec{u}\\begin{pmatrix} kx \\\\ ky \\end{pmatrix}$$\n• Le vecteur **opposé** de $\\vec{AB}$ est $-\\vec{AB} = \\vec{BA}$.\n• $\\vec{u}$ et $\\vec{v}$ sont **colinéaires** s'il existe un réel $k$ tel que $\\vec{v} = k\\vec{u}$ (ou si $\\vec{u} = \\vec{0}$).\n• $I$ est le milieu de $[AB]$ si et seulement si $\\vec{AI} = \\vec{IB}$."
+        "content": "Pour $\\vec{u}\\begin{pmatrix} x \\\\ y \\end{pmatrix}$, $\\vec{v}\\begin{pmatrix} x' \\\\ y' \\end{pmatrix}$ et un réel $k$ :\n$$\\vec{u} + \\vec{v}\\begin{pmatrix} x + x' \\\\ y + y' \\end{pmatrix} \\qquad k\\vec{u}\\begin{pmatrix} kx \\\\ ky \\end{pmatrix}$$\n• Le vecteur **opposé** de $\\vec{AB}$ est $-\\vec{AB} = \\vec{BA}$.\n• $\\vec{u}$ et $\\vec{v}$ sont **colinéaires** s'il existe un réel $k$ tel que $\\vec{v} = k\\vec{u}$ (ou si $\\vec{u} = \\vec{0}$).\n• **Caractérisation vectorielle du milieu** : $I$ est le milieu de $[AB]$ si et seulement si $\\vec{AI} = \\vec{IB}$ (ou encore $\\vec{AI} = \\frac{1}{2}\\vec{AB}$).\n• *Pour aller plus loin* : en coordonnées, $\\vec{AI} = \\vec{IB}$ donne $x_I - x_A = x_B - x_I$, soit $x_I = \\frac{x_A + x_B}{2}$ (et de même pour $y_I$) : on retrouve la formule du milieu."
       },
       {
         "title": "4. Relation de Chasles et règle du parallélogramme",
         "content": "• **Relation de Chasles** : pour tous points $A$, $B$, $C$ : $\\vec{AB} + \\vec{BC} = \\vec{AC}$.\n*Exemple* : $\\vec{MA} + \\vec{AN} = \\vec{MN}$ ; on « intercale » un point.\n• **Règle du parallélogramme** : $\\vec{AB} + \\vec{AD} = \\vec{AC}$ si et seulement si $ABCD$ est un parallélogramme."
+      },
+      {
+        "title": "5. Base orthonormée et décomposition d'un vecteur",
+        "content": "• Un repère $(O ; \\vec{i}, \\vec{j})$ est **orthonormé** si $\\vec{i}$ et $\\vec{j}$ ont des directions perpendiculaires et une norme égale à $1$ : on dit que $(\\vec{i}, \\vec{j})$ est une **base orthonormée**.\n• Dire que $\\vec{u}$ a pour coordonnées $(x ; y)$ signifie que\n$$\\vec{u} = x\\vec{i} + y\\vec{j}$$\n*Exemple* : $\\vec{u} = 3\\vec{i} - 2\\vec{j}$ a pour coordonnées $(3 ; -2)$.\n• Plus généralement, si $\\vec{a}$ et $\\vec{b}$ ne sont pas colinéaires, tout vecteur du plan s'écrit de façon unique $\\vec{u} = \\alpha\\vec{a} + \\beta\\vec{b}$ (propriété admise).\n• En physique, $\\vec{AB}$ est le **vecteur déplacement** de $A$ à $B$ ; si $O$ est l'origine, $\\vec{OM}$ est le **vecteur position** de $M$, et ses coordonnées sont celles du point $M$."
+      },
+      {
+        "title": "6. Démonstration : caractérisations de la colinéarité",
+        "content": "Soient $\\vec{u}(x ; y)$ et $\\vec{v}(x' ; y')$ deux vecteurs **non nuls**. Les trois propriétés suivantes sont équivalentes :\n**(1)** $\\vec{u}$ et $\\vec{v}$ sont colinéaires ; **(2)** leurs coordonnées sont proportionnelles : il existe un réel $k$ tel que $x' = kx$ et $y' = ky$ ; **(3)** $\\det(\\vec{u}, \\vec{v}) = xy' - yx' = 0$.\n• **(1) $\\iff$ (2)** : c'est la traduction en coordonnées de $\\vec{v} = k\\vec{u}$.\n• **(2) $\\implies$ (3)** : si $x' = kx$ et $y' = ky$, alors $xy' - yx' = x(ky) - y(kx) = 0$.\n• **(3) $\\implies$ (2)** : supposons $xy' = yx'$. Comme $\\vec{u} \\neq \\vec{0}$, $x \\neq 0$ ou $y \\neq 0$.\n– Si $x \\neq 0$, posons $k = \\frac{x'}{x}$ : alors $x' = kx$ et $y' = \\frac{yx'}{x} = ky$.\n– Si $x = 0$, alors $y \\neq 0$ et l'égalité donne $0 = yx'$, donc $x' = 0$. Avec $k = \\frac{y'}{y}$, on a $x' = 0 = kx$ et $y' = ky$.\nDans tous les cas, $\\vec{v} = k\\vec{u}$."
+      },
+      {
+        "title": "7. Algorithme : tester l'alignement de trois points",
+        "content": "$A$, $B$, $C$ sont alignés si et seulement si $\\det(\\vec{AB}, \\vec{AC}) = 0$.\n```python\ndef alignes(xA, yA, xB, yB, xC, yC):\n    d = (xB - xA) * (yC - yA) - (yB - yA) * (xC - xA)\n    return d == 0\n\nprint(alignes(-2, 1, 2, 3, 6, 5))   # affiche True\n```\nAvec des coordonnées non entières, les calculs en flottants peuvent produire de minuscules erreurs : on teste alors `abs(d) < 1e-9` plutôt que `d == 0`."
       }
     ],
     "methods": [
@@ -933,6 +1173,14 @@ window.MATHS_COURSES_2NDE = {
       {
         "q": "Dans un repère orthonormé, norme de $\\vec{u}(-5 ; 12)$ ?",
         "a": "$\\|\\vec{u}\\| = \\sqrt{25 + 144} = \\sqrt{169} = 13$."
+      },
+      {
+        "q": "Quelles sont les coordonnées de $\\vec{u} = -\\vec{i} + 4\\vec{j}$ ?",
+        "a": "$\\vec{u}(-1 ; 4)$."
+      },
+      {
+        "q": "Pourquoi la proportionnalité des coordonnées entraîne-t-elle un déterminant nul ?",
+        "a": "Si $x' = kx$ et $y' = ky$, alors $xy' - yx' = kxy - kxy = 0$."
       }
     ]
   },
@@ -944,9 +1192,11 @@ window.MATHS_COURSES_2NDE = {
       "Déterminer et utiliser l'équation cartésienne d'une droite $ax + by + c = 0$ et son vecteur directeur $\\vec{u}(-b ; a)$.",
       "Déterminer l'équation réduite $y = mx + p$ (si la droite n'est pas verticale) avec le coefficient directeur $m = \\frac{y_B - y_A}{x_B - x_A}$.",
       "Caractériser le parallélisme de deux droites par l'égalité de leurs coefficients directeurs.",
-      "Calculer les coordonnées du point d'intersection de deux droites sécantes en résolvant un système de deux équations à deux inconnues.",
+      "Calculer les coordonnées du point d'intersection de deux droites sécantes données par leurs équations réduites.",
       "Déterminer une équation de droite à partir d'un point et d'un vecteur directeur.",
-      "Résoudre un système de deux équations linéaires à deux inconnues par substitution ou par combinaison."
+      "Pour aller plus loin : résoudre un système de deux équations linéaires à deux inconnues par combinaison.",
+      "Établir, à l'aide du déterminant, la forme générale $ax + by + c = 0$ d'une équation de droite.",
+      "Déterminer une équation de droite à partir d'un point et de la pente, et programmer ce calcul en Python."
     ],
     "keyPoints": [
       {
@@ -964,6 +1214,14 @@ window.MATHS_COURSES_2NDE = {
       {
         "title": "4. Positions relatives de deux droites et systèmes",
         "content": "Soient $d : ax + by + c = 0$ et $d' : a'x + b'y + c' = 0$.\n• $d \\parallel d' \\iff$ leurs vecteurs directeurs $(-b ; a)$ et $(-b' ; a')$ sont colinéaires $\\iff ab' - a'b = 0$.\n• Sinon, $d$ et $d'$ sont **sécantes** en un unique point.\nLe système formé par les deux équations a donc :\n• **une** solution si les droites sont sécantes ;\n• **aucune** solution si elles sont strictement parallèles ;\n• une **infinité** de solutions si elles sont confondues."
+      },
+      {
+        "title": "5. Démonstration : forme générale d'une équation de droite",
+        "content": "**Toute droite a une équation de la forme $ax + by + c = 0$.** Soit $d$ la droite passant par $A(x_A ; y_A)$ et de vecteur directeur $\\vec{u}(\\alpha ; \\beta) \\neq \\vec{0}$. Pour tout point $M(x ; y)$ :\n$$M \\in d \\iff \\vec{AM} \\text{ et } \\vec{u} \\text{ colinéaires} \\iff (x - x_A)\\beta - (y - y_A)\\alpha = 0 \\iff \\beta x - \\alpha y + (\\alpha y_A - \\beta x_A) = 0$$\nEn posant $a = \\beta$, $b = -\\alpha$ et $c = \\alpha y_A - \\beta x_A$, on obtient $ax + by + c = 0$ avec $(a ; b) \\neq (0 ; 0)$ puisque $\\vec{u} \\neq \\vec{0}$.\n**Réciproquement**, soit $a$, $b$, $c$ avec $(a ; b) \\neq (0 ; 0)$. L'ensemble des points vérifiant $ax + by + c = 0$ contient un point $A(x_A ; y_A)$ (par exemple $A\\left(0 ; -\\frac{c}{b}\\right)$ si $b \\neq 0$, ou $A\\left(-\\frac{c}{a} ; 0\\right)$ si $b = 0$). Comme $ax_A + by_A + c = 0$ :\n$$ax + by + c = 0 \\iff a(x - x_A) + b(y - y_A) = 0 \\iff \\det(\\vec{AM}, \\vec{u}) = 0 \\text{ avec } \\vec{u}(-b ; a)$$\nC'est donc la droite passant par $A$ et de vecteur directeur $\\vec{u}(-b ; a)$."
+      },
+      {
+        "title": "6. Algorithme : équation réduite d'une droite passant par deux points",
+        "content": "```python\ndef equation_reduite(xA, yA, xB, yB):\n    if xA == xB:\n        return \"droite verticale d'équation x = \" + str(xA)\n    m = (yB - yA) / (xB - xA)\n    p = yA - m * xA\n    return m, p\n\nprint(equation_reduite(1, 3, 4, 9))   # affiche (2.0, 1.0) : y = 2x + 1\n```\nLe test `xA == xB` traite le cas de la droite verticale, qui n'a pas d'équation réduite."
       }
     ],
     "methods": [
@@ -997,13 +1255,23 @@ window.MATHS_COURSES_2NDE = {
         ]
       },
       {
-        "title": "Méthode : Résoudre un système par combinaison",
+        "title": "Pour aller plus loin — Méthode : Résoudre un système par combinaison",
         "example": "Résoudre le système $\\begin{cases} 2x + 3y = 7 \\\\ 5x - 2y = 8 \\end{cases}$.",
         "steps": [
           "**Étape 1** : On multiplie la 1re équation par $2$ et la 2e par $3$ pour obtenir des coefficients de $y$ opposés : $4x + 6y = 14$ et $15x - 6y = 24$.",
           "**Étape 2** : On additionne membre à membre : $19x = 38$, donc $x = 2$.",
           "**Étape 3** : On reporte dans la 1re équation : $4 + 3y = 7 \\iff y = 1$. Contrôle dans la 2e : $5 \\times 2 - 2 \\times 1 = 8$.",
           "**Conclusion** : le système a pour unique solution le couple $(2 ; 1)$."
+        ]
+      },
+      {
+        "title": "Méthode : Équation d'une droite connaissant un point et la pente",
+        "example": "Déterminer l'équation réduite de la droite $d$ de pente $-\\frac{3}{2}$ passant par $A(-2 ; 5)$, puis donner un vecteur directeur.",
+        "steps": [
+          "**Étape 1** : la pente est $m = -1{,}5$, donc $d : y = -1{,}5x + p$.",
+          "**Étape 2** : $A \\in d$, donc $5 = -1{,}5 \\times (-2) + p = 3 + p$, d'où $p = 2$.",
+          "**Étape 3** : $d : y = -1{,}5x + 2$. Un vecteur directeur est $(1 ; m) = (1 ; -1{,}5)$, ou encore $(2 ; -3)$ en multipliant par $2$.",
+          "**Conclusion** : $y = -1{,}5x + 2$. Contrôle : pour $x = -2$, $y = 3 + 2 = 5$."
         ]
       }
     ],
@@ -1034,12 +1302,16 @@ window.MATHS_COURSES_2NDE = {
       {
         "q": "Combien de solutions a un système dont les deux droites associées sont strictement parallèles ?",
         "a": "Aucune : les droites n'ont pas de point commun."
+      },
+      {
+        "q": "Donner l'équation réduite de la droite de pente $4$ passant par $A(1 ; -2)$.",
+        "a": "$y = 4x + p$ avec $-2 = 4 + p$, donc $p = -6$ : $y = 4x - 6$."
       }
     ]
   },
 
   "2S1": {
-    "title": "2S1 : Statistiques descriptives : moyenne, médiane, quartiles et dispersion",
+    "title": "2S1 : Statistiques descriptives, séries regroupées en classes et tableaux croisés",
     "domain": "Probabilités et Statistiques",
     "objectives": [
       "Calculer la moyenne pondérée d'une série statistique discrète ou continue.",
@@ -1047,7 +1319,10 @@ window.MATHS_COURSES_2NDE = {
       "Calculer l'écart interquartile $Q_3 - Q_1$ et l'étendue pour mesurer la dispersion.",
       "Construire et analyser un diagramme en boîte (boîte à moustaches).",
       "Calculer et interpréter l'écart-type d'une série statistique.",
-      "Choisir des indicateurs adaptés : (moyenne ; écart-type) ou (médiane ; écart interquartile)."
+      "Choisir des indicateurs adaptés : (moyenne ; écart-type) ou (médiane ; écart interquartile).",
+      "Pour une série regroupée en classes : histogramme, moyenne avec les centres de classes, classe médiane et estimation de la médiane.",
+      "Mesurer l'influence de l'ajout ou de la suppression d'une valeur sur la moyenne et la médiane.",
+      "Croiser deux variables qualitatives : tableau croisé d'effectifs, fréquences marginales et conditionnelles."
     ],
     "keyPoints": [
       {
@@ -1060,11 +1335,35 @@ window.MATHS_COURSES_2NDE = {
       },
       {
         "title": "3. Variance et écart-type",
-        "content": "• La **variance** est la moyenne des carrés des écarts à la moyenne :\n$$V = \\frac{n_1(x_1 - \\overline{x})^2 + \\dots + n_p(x_p - \\overline{x})^2}{N}$$\n• L'**écart-type** est $\\sigma = \\sqrt{V}$. Il s'exprime dans la même unité que les valeurs.\n• Plus $\\sigma$ est grand, plus les valeurs sont **dispersées** autour de la moyenne. Ajouter une même constante à toutes les valeurs ne change pas l'écart-type.\n• En pratique, on le calcule avec la calculatrice ou un tableur."
+        "content": "• La **variance** est la moyenne des carrés des écarts à la moyenne :\n$$V = \\frac{n_1(x_1 - \\overline{x})^2 + \\dots + n_p(x_p - \\overline{x})^2}{N}$$\n• L'**écart-type** est $\\sigma = \\sqrt{V}$ (on le note aussi $s$). Il s'exprime dans la même unité que les valeurs.\n• Plus $\\sigma$ est grand, plus les valeurs sont **dispersées** autour de la moyenne. Ajouter une même constante à toutes les valeurs ne change pas l'écart-type.\n• En pratique, on le calcule avec la calculatrice ou un tableur."
       },
       {
         "title": "4. Diagramme en boîte et choix des indicateurs",
         "content": "• Le **diagramme en boîte** représente, sur un axe gradué : le minimum, $Q_1$, la médiane, $Q_3$ et le maximum. La boîte (de $Q_1$ à $Q_3$) contient environ la moitié centrale des données.\n• Le couple **(moyenne ; écart-type)** utilise toutes les valeurs mais est sensible aux valeurs extrêmes.\n• Le couple **(médiane ; écart interquartile)** est robuste face aux valeurs extrêmes.\n• En Python, une moyenne se calcule avec une boucle :\n```python\ndef moyenne(L):\n    s = 0\n    for x in L:\n        s = s + x\n    return s / len(L)\n```"
+      },
+      {
+        "title": "5. Séries regroupées en classes",
+        "content": "Lorsque les données sont regroupées en classes **de même amplitude** :\n• **Histogramme** : chaque classe est représentée par un rectangle dont la hauteur est proportionnelle à l'effectif (les bases ayant la même longueur, l'aire est aussi proportionnelle à l'effectif).\n• **Polygone des fréquences cumulées croissantes** : on relie les points dont l'abscisse est la borne supérieure d'une classe et l'ordonnée la fréquence cumulée correspondante.\n• **Moyenne** : si on suppose les valeurs **uniformément réparties** dans chaque classe, on remplace chaque classe par son **centre** et on calcule une moyenne pondérée par les effectifs. Si on connaît la moyenne de chaque classe, on utilise ces moyennes à la place des centres.\n• **Classe médiane** : classe dans laquelle l'effectif cumulé atteint ou dépasse $\\frac{N}{2}$. En supposant la répartition uniforme dans cette classe, on estime la médiane par proportionnalité."
+      },
+      {
+        "title": "6. Influence de l'ajout ou de la suppression d'une valeur",
+        "content": "• Si une série de $N$ valeurs a pour moyenne $\\overline{x}$ et qu'on ajoute une valeur $v$, la nouvelle moyenne est $\\frac{N\\overline{x} + v}{N + 1}$.\n*Exemple* : $9$ notes de moyenne $12$ (somme $108$) ; on ajoute un $2$ : la moyenne devient $\\frac{108 + 2}{10} = 11$.\n• La **médiane** est beaucoup moins sensible : pour la série $8, 10, 12, 14, 40$, la moyenne vaut $\\frac{84}{5} = 16{,}8$ et la médiane $12$. Si l'on supprime la valeur extrême $40$, la moyenne chute à $\\frac{44}{4} = 11$ alors que la médiane ne passe que de $12$ à $\\frac{10 + 12}{2} = 11$.\n• Une valeur extrême (erreur de saisie, cas exceptionnel) peut donc modifier fortement la moyenne : c'est pourquoi on choisit le couple (médiane ; écart interquartile) lorsque la série contient des valeurs extrêmes."
+      },
+      {
+        "title": "7. Croisement de deux variables qualitatives",
+        "content": "On étudie deux caractères (qualitatifs) sur une même population, par exemple le **régime** (interne ou externe) et le **genre** de $200$ élèves. On les résume dans un **tableau croisé d'effectifs** :\n\n| | Filles | Garçons | Total |\n|---|---|---|---|\n| Internes | $30$ | $40$ | $70$ |\n| Externes | $80$ | $50$ | $130$ |\n| Total | $110$ | $90$ | $200$ |\n\n• **Fréquence marginale** : on divise un total de ligne ou de colonne par l'effectif total. La fréquence des internes est $\\frac{70}{200} = 0{,}35$.\n• **Fréquence conditionnelle** : on se restreint à une sous-population. Parmi les internes, la fréquence des filles est $\\frac{30}{70} \\approx 0{,}43$ ; parmi les filles, la fréquence des internes est $\\frac{30}{110} \\approx 0{,}27$.\n• Ces deux fréquences conditionnelles **ne sont pas égales** : « la proportion de filles parmi les internes » et « la proportion d'internes parmi les filles » sont deux informations différentes ; il faut toujours repérer la population de référence (le mot « parmi »)."
+      },
+      {
+        "title": "8. Statistiques en Python",
+        "content": "• **Lire et comprendre** une fonction qui calcule un écart-type (ici `L` est une liste de valeurs, effectifs tous égaux à $1$) :\n```python\nfrom math import sqrt\n\ndef ecart_type(L):\n    n = len(L)\n    m = sum(L) / n\n    s = 0\n    for x in L:\n        s = s + (x - m) ** 2\n    return sqrt(s / n)\n```\n• **Filtrer des individus** à partir de deux caractères, avec les connecteurs `and`, `or`, `not` :\n```python\ngenre = [\"F\", \"G\", \"F\", \"F\", \"G\"]\nregime = [\"interne\", \"externe\", \"externe\", \"interne\", \"interne\"]\nn = 0\nfor i in range(len(genre)):\n    if genre[i] == \"F\" and regime[i] == \"interne\":\n        n = n + 1\nprint(n)   # affiche 2 : deux filles internes\n```"
+      },
+      {
+        "title": "9. Algorithme : tableau croisé et fréquence conditionnelle",
+        "content": "On reprend les deux listes `genre` et `regime` du paragraphe 8 (cinq élèves). La fonction suivante compte les individus vérifiant **à la fois** deux critères ; on en déduit le tableau croisé, puis des fréquences.\n```python\ndef effectif(L1, L2, a, b):\n    n = 0\n    for i in range(len(L1)):\n        if L1[i] == a and L2[i] == b:\n            n = n + 1\n    return n\n\nfor g in [\"F\", \"G\"]:\n    for r in [\"interne\", \"externe\"]:\n        print(g, r, effectif(genre, regime, g, r))\n\nnF = effectif(genre, regime, \"F\", \"interne\") + effectif(genre, regime, \"F\", \"externe\")\nprint(effectif(genre, regime, \"F\", \"interne\") / nF)\n```\nLe programme affiche les effectifs $2$ (filles internes), $1$ (filles externes), $1$ (garçons internes), $1$ (garçons externes), puis la **fréquence conditionnelle** des internes parmi les filles : $\\frac{2}{3} \\approx 0{,}67$. La **fréquence marginale** des filles est $\\frac{3}{5} = 0{,}6$."
+      },
+      {
+        "title": "10. Automatismes : graphiques et indicateurs",
+        "content": "• **Lire un graphique** : repérer l'origine, les unités et les échelles des axes avant toute lecture (diagramme en barres, diagramme circulaire ou semi-circulaire, courbe, nuage de points).\n• Dans un diagramme circulaire, un secteur de $90^\\circ$ représente $25\\,\\%$ de l'effectif ; dans un diagramme semi-circulaire, $90^\\circ$ représente $50\\,\\%$.\n• **Indicateurs** : pour la série $3 ; 5 ; 8 ; 8 ; 11$, la moyenne vaut $\\frac{35}{5} = 7$ et la médiane $8$.\n• **Boîtes à moustaches** : la boîte la plus « étroite » correspond à la série dont les valeurs centrales sont les plus resserrées (écart interquartile plus petit)."
       }
     ],
     "methods": [
@@ -1107,6 +1406,27 @@ window.MATHS_COURSES_2NDE = {
           "**Étape 3 (Médiane)** : $N = 25$ est impair, la médiane est la 13e valeur : $Me = 1$.",
           "**Conclusion** : $Q_1 = 1$, $Me = 1$, $Q_3 = 2$ (écart interquartile $1$) et $\\overline{x} = \\frac{0 \\times 4 + 1 \\times 9 + 2 \\times 7 + 3 \\times 3 + 4 \\times 2}{25} = \\frac{40}{25} = 1{,}6$."
         ]
+      },
+      {
+        "title": "Méthode : Moyenne et médiane d'une série regroupée en classes",
+        "example": "Durée de trajet (en min) de $40$ élèves : $[0 ; 10[$ : $6$ élèves ; $[10 ; 20[$ : $10$ ; $[20 ; 30[$ : $14$ ; $[30 ; 40[$ : $8$ ; $[40 ; 50[$ : $2$. Estimer la moyenne et la médiane.",
+        "steps": [
+          "**Étape 1 (Centres)** : $5$, $15$, $25$, $35$, $45$. On suppose la répartition uniforme dans chaque classe.",
+          "**Étape 2 (Moyenne)** : $\\overline{x} \\approx \\frac{5 \\times 6 + 15 \\times 10 + 25 \\times 14 + 35 \\times 8 + 45 \\times 2}{40} = \\frac{30 + 150 + 350 + 280 + 90}{40} = \\frac{900}{40} = 22{,}5$ min.",
+          "**Étape 3 (Classe médiane)** : effectifs cumulés $6$ ; $16$ ; $30$ ; $38$ ; $40$. On a $\\frac{N}{2} = 20$, atteint dans la classe $[20 ; 30[$ (on passe de $16$ à $30$) : c'est la classe médiane.",
+          "**Étape 4 (Estimation)** : il manque $20 - 16 = 4$ élèves sur les $14$ de la classe, répartis uniformément sur $10$ min : $Me \\approx 20 + 10 \\times \\frac{4}{14} \\approx 22{,}9$ min.",
+          "**Conclusion** : moyenne estimée $22{,}5$ min, médiane estimée $22{,}9$ min, dans la classe médiane $[20 ; 30[$."
+        ]
+      },
+      {
+        "title": "Méthode : Compléter un tableau croisé à partir de pourcentages",
+        "example": "Une enquête porte sur $500$ clients : $300$ anciens et $200$ nouveaux. $80\\,\\%$ des anciens et $45\\,\\%$ des nouveaux se disent satisfaits. Quelle est la fréquence des clients satisfaits ? Parmi les satisfaits, quelle est la proportion de nouveaux clients ?",
+        "steps": [
+          "**Étape 1** : anciens satisfaits : $0{,}8 \\times 300 = 240$, donc $60$ non satisfaits ; nouveaux satisfaits : $0{,}45 \\times 200 = 90$, donc $110$ non satisfaits.",
+          "**Étape 2 (Totaux)** : satisfaits $240 + 90 = 330$ ; non satisfaits $60 + 110 = 170$ ; total $500$.",
+          "**Étape 3 (Fréquence marginale)** : $\\frac{330}{500} = 0{,}66$, soit $66\\,\\%$ de clients satisfaits.",
+          "**Conclusion (Fréquence conditionnelle)** : parmi les $330$ satisfaits, la proportion de nouveaux clients est $\\frac{90}{330} = \\frac{3}{11} \\approx 27\\,\\%$ (à ne pas confondre avec les $45\\,\\%$ de satisfaits parmi les nouveaux)."
+        ]
       }
     ],
     "traps": [
@@ -1114,7 +1434,9 @@ window.MATHS_COURSES_2NDE = {
       "⚠️ Contrairement à la médiane, la moyenne est très sensible aux valeurs extrêmes.",
       "⚠️ La moyenne de deux moyennes n'est égale à la moyenne globale que si les deux groupes ont le **même effectif**.",
       "⚠️ Dans le calcul de la variance, chaque carré d'écart est multiplié par son **effectif** ; on n'oublie pas ensuite de prendre la **racine carrée** pour obtenir l'écart-type.",
-      "⚠️ Avec la définition du cours, $Q_1$ et $Q_3$ sont toujours des **valeurs de la série** : on ne fait jamais de demi-somme pour les quartiles (contrairement à la médiane quand $N$ est pair)."
+      "⚠️ Avec la définition du cours, $Q_1$ et $Q_3$ sont toujours des **valeurs de la série** : on ne fait jamais de demi-somme pour les quartiles (contrairement à la médiane quand $N$ est pair).",
+      "⚠️ « La proportion de $A$ parmi $B$ » n'est pas « la proportion de $B$ parmi $A$ » : on divise toujours par l'effectif de la population de **référence** (celle qui suit le mot « parmi »).",
+      "⚠️ Pour une série regroupée en classes, la moyenne calculée avec les centres n'est qu'une **estimation** (on suppose la répartition uniforme dans chaque classe)."
     ],
     "flashcards": [
       {
@@ -1136,29 +1458,44 @@ window.MATHS_COURSES_2NDE = {
       {
         "q": "Quelles sont les cinq valeurs représentées par un diagramme en boîte ?",
         "a": "Le minimum, $Q_1$, la médiane, $Q_3$ et le maximum."
+      },
+      {
+        "q": "Qu'est-ce que la classe médiane d'une série regroupée en classes ?",
+        "a": "La classe dans laquelle l'effectif cumulé croissant atteint ou dépasse la moitié de l'effectif total $\\frac{N}{2}$."
+      },
+      {
+        "q": "Dans un tableau croisé, comment calcule-t-on la fréquence de $A$ parmi $B$ ?",
+        "a": "$\\frac{\\text{effectif de } A \\text{ et } B}{\\text{effectif de } B}$ : c'est une fréquence conditionnelle."
+      },
+      {
+        "q": "On supprime une valeur très élevée d'une série. Qui change le plus : la moyenne ou la médiane ?",
+        "a": "La moyenne : elle est sensible aux valeurs extrêmes, la médiane beaucoup moins."
       }
     ]
   },
 
   "2S2": {
-    "title": "2S2 : Probabilités sur un ensemble fini : événements, réunion et intersection",
+    "title": "2S2 : Probabilités : modèle probabiliste, probabilités conditionnelles et arbres pondérés",
     "domain": "Probabilités et Statistiques",
     "objectives": [
       "Modéliser une expérience aléatoire par un univers fini $\\Omega$ et une loi de probabilité.",
       "Calculer la probabilité d'un événement dans le cas d'équiprobabilité : $P(A) = \\frac{\\text{Card}(A)}{\\text{Card}(\\Omega)}$.",
       "Utiliser la formule de l'événement contraire : $P(\\overline{A}) = 1 - P(A)$.",
-      "Appliquer la formule fondamentale de la réunion : $P(A \\cup B) = P(A) + P(B) - P(A \\cap B)$.",
+      "Utiliser, en rappel, la relation $P(A \\cup B) = P(A) + P(B) - P(A \\cap B)$.",
       "Définir une loi de probabilité sur un univers fini.",
-      "Dénombrer des issues à l'aide d'un tableau à double entrée ou d'un arbre."
+      "Dénombrer des issues à l'aide d'un tableau à double entrée ou d'un arbre.",
+      "Calculer une probabilité conditionnelle $P_A(B)$ à partir d'un tableau croisé d'effectifs ou d'un arbre pondéré.",
+      "Construire et exploiter un arbre pondéré : probabilité d'un chemin comme produit des probabilités des branches.",
+      "Distinguer $P_A(B)$ et $P_B(A)$, notamment pour les tests de dépistage (faux positifs, faux négatifs)."
     ],
     "keyPoints": [
       {
-        "title": "1. Vocabulaire des probabilités et propriétés",
+        "title": "1. Vocabulaire des probabilités et propriétés (rappels)",
         "content": "• **Univers $\\Omega$** : ensemble des issues possibles. La somme des probabilités de toutes les issues vaut 1.\n• **Événements incompatibles (ou disjoints)** : $A \\cap B = \\emptyset \\implies P(A \\cup B) = P(A) + P(B)$.\n• **Cas général de la réunion** :\n$$P(A \\cup B) = P(A) + P(B) - P(A \\cap B)$$\n• **Événement contraire $\\overline{A}$** : $P(\\overline{A}) = 1 - P(A)$."
       },
       {
         "title": "2. Loi de probabilité et équiprobabilité",
-        "content": "• Définir une **loi de probabilité** sur $\\Omega = \\{e_1, \\dots, e_n\\}$, c'est associer à chaque issue $e_i$ un nombre $p_i \\ge 0$ tel que $p_1 + p_2 + \\dots + p_n = 1$.\n• La probabilité d'un événement $A$ est la **somme des probabilités des issues** qui le réalisent.\n• Lorsque toutes les issues ont la même probabilité $\\frac{1}{n}$, on parle d'**équiprobabilité** et $P(A) = \\frac{\\text{Card}(A)}{\\text{Card}(\\Omega)}$.\n*Exemple* : pour un dé truqué où $P(6) = 0{,}5$ et les cinq autres faces ont la même probabilité, chacune vaut $\\frac{1 - 0{,}5}{5} = 0{,}1$."
+        "content": "• Définir une **loi de probabilité** sur $\\Omega = \\{e_1, \\dots, e_n\\}$, c'est associer à chaque issue $e_i$ un nombre $p_i \\ge 0$ tel que $p_1 + p_2 + \\dots + p_n = 1$.\n• Le choix d'une loi de probabilité est une **hypothèse du modèle** : il ne se démontre pas. On distingue le **modèle** (un dé « équilibré ») de la **situation réelle** (un dé physique), dont on peut tester l'adéquation au modèle en observant les fréquences (voir 2S3).\n• La probabilité d'un événement $A$ est la **somme des probabilités des issues** qui le réalisent.\n• Lorsque toutes les issues ont la même probabilité $\\frac{1}{n}$, on parle d'**équiprobabilité** et $P(A) = \\frac{\\text{Card}(A)}{\\text{Card}(\\Omega)}$.\n*Exemple* : pour un dé truqué où $P(6) = 0{,}5$ et les cinq autres faces ont la même probabilité, chacune vaut $\\frac{1 - 0{,}5}{5} = 0{,}1$."
       },
       {
         "title": "3. Vocabulaire des événements",
@@ -1167,6 +1504,18 @@ window.MATHS_COURSES_2NDE = {
       {
         "title": "4. Dénombrer avec un tableau ou un arbre",
         "content": "• **Tableau à double entrée** : pour le lancer de deux dés équilibrés, on obtient $6 \\times 6 = 36$ couples équiprobables.\n*Exemple* : la somme vaut $7$ pour $(1;6), (2;5), (3;4), (4;3), (5;2), (6;1)$, donc $P(\\text{somme} = 7) = \\frac{6}{36} = \\frac{1}{6}$.\n• **Arbre** : pour des expériences successives, chaque chemin complet représente une issue ; on compte les chemins qui réalisent l'événement."
+      },
+      {
+        "title": "5. Probabilité conditionnelle",
+        "content": "Soit $A$ un événement de probabilité **non nulle**. La **probabilité de $B$ sachant $A$** est\n$$P_A(B) = \\frac{P(A \\cap B)}{P(A)}$$\nC'est la probabilité que $B$ soit réalisé lorsqu'on **sait** que $A$ est réalisé. On en déduit $P(A \\cap B) = P(A) \\times P_A(B)$.\n• **Lien avec les fréquences conditionnelles** : si on choisit un individu au hasard (équiprobabilité) dans une population,\n$$P(A) = \\frac{\\text{Card}(A)}{\\text{Card}(\\Omega)} \\qquad P_B(A) = \\frac{\\text{Card}(A \\cap B)}{\\text{Card}(B)}$$\n*Exemple* (tableau croisé des $200$ élèves du chapitre de statistiques : $70$ internes dont $30$ filles, $110$ filles) : on choisit un élève au hasard. Avec $I$ = « interne » et $F$ = « fille » : $P_I(F) = \\frac{30}{70} = \\frac{3}{7}$ alors que $P_F(I) = \\frac{30}{110} = \\frac{3}{11}$.\n• En général $P_A(B) \\neq P_B(A)$ : c'est le problème de l'**inversion des conditionnements**."
+      },
+      {
+        "title": "6. Arbres pondérés",
+        "content": "Un **arbre pondéré** représente une expérience en plusieurs étapes.\n• Sur les branches du premier niveau, on écrit $P(A)$ et $P(\\overline{A})$ ; sur les branches suivantes, des probabilités **conditionnelles** ($P_A(B)$, $P_A(\\overline{B})$, …).\n• **Règle des nœuds** : la somme des probabilités des branches issues d'un même nœud vaut $1$ : $P_A(B) + P_A(\\overline{B}) = 1$.\n• **Règle du chemin** : la probabilité d'un chemin est le **produit** des probabilités de ses branches :\n$$P(A \\cap B) = P(A) \\times P_A(B)$$\nC'est exactement la définition de la probabilité conditionnelle, écrite sous forme de produit.\n• **Pour aller plus loin** : la probabilité d'un événement réalisé par plusieurs chemins est la somme des probabilités de ces chemins (ce calcul n'est pas un attendu du programme de seconde)."
+      },
+      {
+        "title": "7. Automatismes : probabilités",
+        "content": "• Une probabilité est toujours un nombre compris entre $0$ et $1$.\n• $P(\\overline{A}) = 1 - P(A)$ : si $P(A) = 0{,}35$, alors $P(\\overline{A}) = 0{,}65$.\n• Avec un dé équilibré, l'événement $N$ « obtenir un nombre premier » est $\\{2 ; 3 ; 5\\}$, donc $P(N) = \\frac{1}{6} + \\frac{1}{6} + \\frac{1}{6} = \\frac{1}{2}$ (somme des probabilités des issues).\n• En situation d'équiprobabilité, $P(A) = \\frac{\\text{Card}(A)}{\\text{Card}(\\Omega)}$ : tirer un as dans un jeu de $32$ cartes a pour probabilité $\\frac{4}{32} = \\frac{1}{8}$."
       }
     ],
     "methods": [
@@ -1208,6 +1557,26 @@ window.MATHS_COURSES_2NDE = {
           "**Étape 3** : « Aucune des deux » est l'événement contraire de $S \\cup M$ : $P = 1 - 0{,}75 = 0{,}25$.",
           "**Conclusion** : $P(S \\cup M) = 0{,}75$ et $50$ élèves ($25\\,\\%$) ne pratiquent ni sport ni musique."
         ]
+      },
+      {
+        "title": "Méthode : Utiliser un arbre pondéré",
+        "example": "Une usine fabrique $70\\,\\%$ de ses pièces sur la machine $A$ et $30\\,\\%$ sur la machine $B$. $2\\,\\%$ des pièces de $A$ et $5\\,\\%$ des pièces de $B$ sont défectueuses. On choisit une pièce au hasard. On note $D$ « la pièce est défectueuse ». Calculer $P(A \\cap D)$ et $P(B \\cap D)$.",
+        "steps": [
+          "**Étape 1 (Arbre)** : premier niveau : $P(A) = 0{,}7$ et $P(B) = 0{,}3$. Second niveau : $P_A(D) = 0{,}02$, $P_A(\\overline{D}) = 0{,}98$, $P_B(D) = 0{,}05$, $P_B(\\overline{D}) = 0{,}95$ (règle des nœuds).",
+          "**Étape 2 (Chemin $A$ puis $D$)** : $P(A \\cap D) = P(A) \\times P_A(D) = 0{,}7 \\times 0{,}02 = 0{,}014$.",
+          "**Étape 3 (Chemin $B$ puis $D$)** : $P(B \\cap D) = 0{,}3 \\times 0{,}05 = 0{,}015$.",
+          "**Conclusion** : $P(A \\cap D) = 0{,}014$ et $P(B \\cap D) = 0{,}015$. *Pour aller plus loin* : $D$ est réalisé par ces deux chemins, donc $P(D) = 0{,}014 + 0{,}015 = 0{,}029$."
+        ]
+      },
+      {
+        "title": "Méthode : Test de dépistage et faux positifs",
+        "example": "Une maladie touche $2\\,\\%$ d'une population. Un test détecte $95\\,\\%$ des malades (sensibilité) et donne un résultat négatif pour $90\\,\\%$ des non-malades (spécificité). Une personne a un test positif : quelle est la probabilité qu'elle soit malade ?",
+        "steps": [
+          "**Étape 1 (Population fictive de $10\\,000$ personnes)** : $200$ malades et $9\\,800$ non-malades.",
+          "**Étape 2 (Tableau croisé)** : parmi les malades, $0{,}95 \\times 200 = 190$ tests positifs et $10$ négatifs (**faux négatifs**). Parmi les non-malades, $0{,}9 \\times 9\\,800 = 8\\,820$ négatifs et $980$ positifs (**faux positifs**). Total des positifs : $190 + 980 = 1\\,170$.",
+          "**Étape 3** : on choisit au hasard une personne parmi les positifs : $P_T(M) = \\frac{190}{1\\,170} \\approx 0{,}16$.",
+          "**Conclusion** : seulement $16\\,\\%$ environ des personnes positives sont malades, alors que $P_M(T) = 0{,}95$ : il ne faut pas confondre $P_T(M)$ et $P_M(T)$."
+        ]
       }
     ],
     "traps": [
@@ -1215,7 +1584,9 @@ window.MATHS_COURSES_2NDE = {
       "⚠️ Une probabilité est **toujours** comprise entre 0 et 1 : si vous trouvez 1,2 ou un nombre négatif, il y a une erreur de calcul.",
       "⚠️ La formule $P(A) = \\frac{\\text{Card}(A)}{\\text{Card}(\\Omega)}$ n'est valable qu'en cas d'**équiprobabilité** : avec deux dés, les sommes de $2$ à $12$ ne sont pas équiprobables ($P(\\text{somme} = 2) = \\frac{1}{36}$ mais $P(\\text{somme} = 7) = \\frac{6}{36}$).",
       "⚠️ En mathématiques, « $A$ ou $B$ » est **inclusif** : il contient aussi les issues qui réalisent $A$ et $B$ en même temps.",
-      "⚠️ Pour « au moins un », il est souvent plus simple de passer par l'événement contraire « aucun »."
+      "⚠️ Pour « au moins un », il est souvent plus simple de passer par l'événement contraire « aucun ».",
+      "⚠️ $P_A(B)$ n'est pas $P(A \\cap B)$ : dans un arbre, la branche de $A$ vers $B$ porte $P_A(B)$, et c'est le **chemin** complet qui donne $P(A \\cap B) = P(A) \\times P_A(B)$.",
+      "⚠️ $P_A(B) \\neq P_B(A)$ en général : un test peut détecter $95\\,\\%$ des malades sans que $95\\,\\%$ des personnes positives soient malades."
     ],
     "flashcards": [
       {
@@ -1237,55 +1608,83 @@ window.MATHS_COURSES_2NDE = {
       {
         "q": "On lance deux dés équilibrés. Probabilité que la somme fasse $8$ ?",
         "a": "$(2;6), (3;5), (4;4), (5;3), (6;2)$ : $\\frac{5}{36}$."
+      },
+      {
+        "q": "Définition de $P_A(B)$ (avec $P(A) \\neq 0$) ?",
+        "a": "$P_A(B) = \\frac{P(A \\cap B)}{P(A)}$ : probabilité de $B$ sachant que $A$ est réalisé."
+      },
+      {
+        "q": "Dans un arbre, $P(A) = 0{,}4$ et $P_A(B) = 0{,}3$. Que vaut $P(A \\cap B)$ ?",
+        "a": "$P(A \\cap B) = 0{,}4 \\times 0{,}3 = 0{,}12$ (règle du chemin)."
+      },
+      {
+        "q": "Que vaut $P_A(\\overline{B})$ si $P_A(B) = 0{,}35$ ?",
+        "a": "$1 - 0{,}35 = 0{,}65$ (règle des nœuds)."
       }
     ]
   },
 
   "2S3": {
-    "title": "2S3 : Échantillonnage, fluctuation et algorithmique en Python",
+    "title": "2S3 : Fluctuation d'échantillonnage, loi des grands nombres et simulation en Python",
     "domain": "Algorithmique et Programmation",
     "objectives": [
       "Comprendre la variabilité d'une fréquence observée d'un échantillon à l'autre.",
-      "Connaître le principe de l'intervalle de fluctuation au seuil de 95% pour un grand échantillon : $\\left[p - \\frac{1}{\\sqrt{n}} ; p + \\frac{1}{\\sqrt{n}}\\right]$.",
+      "Pour aller plus loin : connaître le critère $|f - p| \\le \\frac{1}{\\sqrt{n}}$, vérifié par environ $95\\,\\%$ des échantillons de taille $n$.",
       "Lire et écrire un script Python simulant une expérience aléatoire (module `random`).",
-      "Prendre une décision d'acceptation ou de rejet d'une hypothèse sur une proportion $p$.",
+      "Pour aller plus loin : prendre une décision sur une proportion $p$ à l'aide d'un échantillon.",
       "Simuler $N$ échantillons de taille $n$ en Python et observer la proportion de ceux pour lesquels $|f - p| \\le \\frac{1}{\\sqrt{n}}$.",
-      "Déterminer une taille d'échantillon permettant d'obtenir une précision donnée."
+      "Pour aller plus loin : déterminer une taille d'échantillon permettant d'obtenir une précision donnée.",
+      "Écrire une fonction Python renvoyant le résultat d'une expérience aléatoire et observer la loi des grands nombres par simulation."
     ],
     "keyPoints": [
       {
-        "title": "1. Principe de l'échantillonnage et intervalle de fluctuation",
-        "content": "Soit $p$ la proportion d'un caractère dans une population générale. Lorsqu'on prélève au hasard un échantillon de taille $n$ (avec $n$ assez grand ; à titre indicatif $n \\ge 25$ et $0{,}2 \\le p \\le 0{,}8$) :\n• La fréquence observée $f$ varie d'un échantillon à un autre : c'est la **fluctuation d'échantillonnage**.\n• L'**intervalle de fluctuation à 95%** est :\n$$I = \\left[p - \\frac{1}{\\sqrt{n}} ; p + \\frac{1}{\\sqrt{n}}\\right]$$\nPour $n$ assez grand, dans environ 95 % (au moins) des échantillons de taille $n$, la fréquence observée $f$ appartient à cet intervalle."
+        "title": "1. Échantillon, fréquence et loi des grands nombres",
+        "content": "• Un **échantillon de taille $n$** est obtenu en répétant $n$ fois, de façon indépendante, une même expérience aléatoire à deux issues (succès de probabilité $p$, ou échec).\n• Si $k$ est le nombre de succès, la **fréquence observée** est $f = \\frac{k}{n}$.\n• **Loi des grands nombres** (version vulgarisée) : « lorsque $n$ est grand, sauf exception, la fréquence observée est proche de la probabilité ».\n• Le choix d'une loi de probabilité (par exemple l'équiprobabilité pour un dé équilibré) est une **hypothèse de modèle** : elle ne se démontre pas. Pour un phénomène réel (lancer d'une punaise), on peut construire le modèle à partir des fréquences observées sur un grand nombre d'essais."
       },
       {
         "title": "2. Algorithmique en Python : simulation d'échantillons",
         "content": "En Python, on utilise la bibliothèque `random` :\n```python\nimport random\n\ndef frequence_pile(n):\n    nb_pile = 0\n    for i in range(n):\n        if random.random() < 0.5:\n            nb_pile += 1\n    return nb_pile / n\n```"
       },
       {
-        "title": "3. Échantillon, fréquence et loi des grands nombres",
-        "content": "• Un **échantillon de taille $n$** est obtenu en répétant $n$ fois, de façon indépendante, une même expérience aléatoire à deux issues (succès de probabilité $p$, ou échec).\n• Si $k$ est le nombre de succès, la **fréquence observée** est $f = \\frac{k}{n}$.\n• **Loi des grands nombres** (approche intuitive) : lorsque $n$ devient grand, la fréquence $f$ se rapproche de la probabilité $p$."
+        "title": "3. Fonction renvoyant un nombre aléatoire et loi des grands nombres",
+        "content": "• `randint(a, b)` (module `random`) renvoie un entier aléatoire entre $a$ et $b$ **inclus** ; `random()` renvoie un nombre aléatoire de $[0 ; 1[$.\n• En appelant plusieurs fois une telle fonction, on obtient une **série statistique** dont on peut calculer la fréquence d'une issue :\n```python\nfrom random import randint\n\ndef lancer_de():\n    return randint(1, 6)\n\ndef frequence_six(n):\n    nb = 0\n    for i in range(n):\n        if lancer_de() == 6:\n            nb = nb + 1\n    return nb / n\n\nfor n in [10, 100, 10000]:\n    print(n, frequence_six(n))\n```\n• Les résultats changent à chaque exécution. Avec $n = 10$ la fréquence peut être très éloignée de $\\frac{1}{6} \\approx 0{,}167$ (par exemple $0{,}3$) ; avec $n = 10\\,000$ elle est presque toujours très proche de $0{,}167$ : on **observe** la loi des grands nombres."
       },
       {
-        "title": "4. Écart entre fréquence et probabilité",
+        "title": "4. Pour aller plus loin : fluctuation et critère $\\frac{1}{\\sqrt{n}}$",
+        "content": "*Ce critère n'est pas un attendu du programme de seconde : le programme demande d'observer la fluctuation d'échantillonnage et la loi des grands nombres par simulation (voir les paragraphes 1 et 3).*\nSoit $p$ la proportion d'un caractère dans une population générale. Lorsqu'on prélève au hasard un échantillon de taille $n$ (avec $n$ assez grand ; à titre indicatif $n \\ge 25$ et $0{,}2 \\le p \\le 0{,}8$) :\n• La fréquence observée $f$ varie d'un échantillon à un autre : c'est la **fluctuation d'échantillonnage**.\n• L'**intervalle de fluctuation à 95%** est :\n$$I = \\left[p - \\frac{1}{\\sqrt{n}} ; p + \\frac{1}{\\sqrt{n}}\\right]$$\nPour $n$ assez grand, dans environ 95 % (au moins) des échantillons de taille $n$, la fréquence observée $f$ appartient à cet intervalle."
+      },
+      {
+        "title": "5. Pour aller plus loin : écart entre fréquence et probabilité",
         "content": "Dire que $f \\in \\left[p - \\frac{1}{\\sqrt{n}} ; p + \\frac{1}{\\sqrt{n}}\\right]$ équivaut à dire que la distance entre $f$ et $p$ vérifie :\n$$|f - p| \\le \\frac{1}{\\sqrt{n}}$$\n**Résultat admis** : pour $n$ assez grand, cette inégalité est vérifiée pour environ $95\\,\\%$ (ou plus) des échantillons de taille $n$.\n• Plus $n$ est grand, plus l'intervalle est étroit : la fréquence fluctue moins."
       },
       {
-        "title": "5. Simuler de nombreux échantillons en Python",
+        "title": "6. Pour aller plus loin : simuler de nombreux échantillons en Python",
         "content": "```python\nfrom random import random\nfrom math import sqrt\n\ndef frequence(n, p):\n    k = 0\n    for i in range(n):\n        if random() < p:\n            k = k + 1\n    return k / n\n\ndef proportion_proches(N, n, p):\n    c = 0\n    for j in range(N):\n        if abs(frequence(n, p) - p) <= 1 / sqrt(n):\n            c = c + 1\n    return c / N\n```\n`random()` renvoie un nombre aléatoire de $[0 ; 1[$ : la condition `random() < p` est réalisée avec la probabilité $p$. L'appel `proportion_proches(1000, 100, 0.3)` renvoie en général une valeur proche de $0{,}95$ ou au-dessus."
       }
     ],
     "methods": [
       {
-        "title": "Méthode : Prendre une décision à l'aide d'un échantillon",
-        "example": "Un dé à 6 faces est lancé 100 fois. Le chiffre 6 apparaît 28 fois. Le dé est-il truqué au seuil de 95% ?",
+        "title": "Méthode : Simuler une expérience aléatoire avec une fonction Python",
+        "example": "On lance deux dés équilibrés et on s'intéresse à la somme. Écrire une fonction qui simule un lancer, puis une fonction qui estime la fréquence de la somme $7$ sur $n$ lancers.",
         "steps": [
-          "**Étape 1 (Proportion théorique)** : Pour un dé équilibré, $p = \\frac{1}{6} \\approx 0{,}167$. Taille $n = 100$.",
-          "**Étape 2 (Intervalle de fluctuation)** : $\\frac{1}{\\sqrt{100}} = 0{,}1$. L'intervalle est $[0{,}167 - 0{,}1 ; 0{,}167 + 0{,}1] = [0{,}067 ; 0{,}267]$.",
-          "**Étape 3 (Fréquence observée et décision)** : La fréquence observée est $f = \\frac{28}{100} = 0{,}28$. Comme $0{,}28 \\notin [0{,}067 ; 0{,}267]$, on rejette l'hypothèse d'un dé équilibré au seuil de 95%."
+          "**Étape 1 (Une expérience)** : `def somme_deux_des(): return randint(1, 6) + randint(1, 6)` (après `from random import randint`).",
+          "**Étape 2 (Répétition)** :\n```python\ndef frequence_sept(n):\n    c = 0\n    for i in range(n):\n        if somme_deux_des() == 7:\n            c = c + 1\n    return c / n\n```",
+          "**Étape 3 (Comparaison au modèle)** : la probabilité théorique vaut $\\frac{6}{36} = \\frac{1}{6} \\approx 0{,}167$ (tableau à double entrée). Pour $n = 10\\,000$, la fréquence obtenue est en général très proche de $0{,}167$.",
+          "**Conclusion** : la simulation ne **démontre** rien, mais elle permet de confronter le modèle (dés équilibrés) aux fréquences observées, conformément à la loi des grands nombres."
         ]
       },
       {
-        "title": "Méthode : Vérifier la conformité d'un échantillon",
+        "title": "Pour aller plus loin — Méthode : Prendre une décision à l'aide d'un échantillon",
+        "example": "Une pièce est lancée $100$ fois et tombe $62$ fois sur pile. Peut-on considérer, au seuil de $95\\,\\%$, que la pièce est équilibrée ?",
+        "steps": [
+          "**Étape 1 (Proportion théorique)** : pour une pièce équilibrée, $p = 0{,}5$ (compris entre $0{,}2$ et $0{,}8$) et $n = 100 \\ge 25$ : le critère s'applique.",
+          "**Étape 2 (Intervalle)** : $\\frac{1}{\\sqrt{100}} = 0{,}1$, donc $I = [0{,}5 - 0{,}1 ; 0{,}5 + 0{,}1] = [0{,}4 ; 0{,}6]$.",
+          "**Étape 3 (Fréquence observée)** : $f = \\frac{62}{100} = 0{,}62$ et $0{,}62 \\notin [0{,}4 ; 0{,}6]$.",
+          "**Conclusion** : on rejette l'hypothèse « la pièce est équilibrée », avec un risque d'erreur d'environ $5\\,\\%$. (Avec $55$ piles, $f = 0{,}55 \\in I$ : on ne pourrait pas rejeter l'hypothèse.)"
+        ]
+      },
+      {
+        "title": "Pour aller plus loin — Méthode : Vérifier la conformité d'un échantillon",
         "example": "Un fabricant affirme que $90\\,\\%$ de ses ampoules fonctionnent plus de 1000 heures. Sur un échantillon de $400$ ampoules, $348$ dépassent 1000 heures. Ce résultat remet-il en cause l'affirmation ?",
         "steps": [
           "**Étape 1 (Données)** : $p = 0{,}9$ et $n = 400$. On a $\\frac{1}{\\sqrt{400}} = \\frac{1}{20} = 0{,}05$.",
@@ -1295,7 +1694,7 @@ window.MATHS_COURSES_2NDE = {
         ]
       },
       {
-        "title": "Méthode : Déterminer une taille d'échantillon",
+        "title": "Pour aller plus loin — Méthode : Déterminer une taille d'échantillon",
         "example": "Quelle taille minimale $n$ doit avoir un échantillon pour que l'intervalle $\\left[p - \\frac{1}{\\sqrt{n}} ; p + \\frac{1}{\\sqrt{n}}\\right]$ ait une amplitude inférieure ou égale à $0{,}04$ ?",
         "steps": [
           "**Étape 1** : L'amplitude de l'intervalle vaut $\\frac{2}{\\sqrt{n}}$. On veut $\\frac{2}{\\sqrt{n}} \\le 0{,}04$.",
@@ -1314,11 +1713,11 @@ window.MATHS_COURSES_2NDE = {
     ],
     "flashcards": [
       {
-        "q": "Quelle est la formule approchée de l'intervalle de fluctuation à 95% pour un échantillon de taille $n$ et de proportion $p$ ?",
+        "q": "(Pour aller plus loin) Quelle est la formule approchée de l'intervalle de fluctuation à 95% pour un échantillon de taille $n$ et de proportion $p$ ?",
         "a": "$\\left[p - \\frac{1}{\\sqrt{n}} ; p + \\frac{1}{\\sqrt{n}}\\right]$."
       },
       {
-        "q": "Si on multiplie la taille d'un échantillon par 4, par combien est divisée la largeur de l'intervalle de fluctuation ?",
+        "q": "(Pour aller plus loin) Si on multiplie la taille d'un échantillon par 4, par combien est divisée la largeur de l'intervalle de fluctuation ?",
         "a": "Par $\\sqrt{4} = 2$ (elle est divisée par 2)."
       },
       {
@@ -1332,9 +1731,18 @@ window.MATHS_COURSES_2NDE = {
       {
         "q": "Quelle taille minimale d'échantillon donne un intervalle d'amplitude au plus $0{,}1$ ?",
         "a": "$\\frac{2}{\\sqrt{n}} \\le 0{,}1 \\iff \\sqrt{n} \\ge 20 \\iff n \\ge 400$."
+      },
+      {
+        "q": "Énoncer la loi des grands nombres (version vulgarisée).",
+        "a": "Lorsque $n$ est grand, sauf exception, la fréquence observée est proche de la probabilité."
+      },
+      {
+        "q": "Que renvoie `randint(1, 6)` ?",
+        "a": "Un entier aléatoire entre $1$ et $6$, bornes incluses (simulation d'un dé équilibré)."
       }
     ]
   },
+
   "2N5": {
     "title": "2N5 : Proportions, pourcentages et évolutions",
     "domain": "Nombres et Calculs",
@@ -1344,7 +1752,8 @@ window.MATHS_COURSES_2NDE = {
       "Calculer le taux d'évolution $t = \\frac{V_A - V_D}{V_D}$ entre une valeur de départ et une valeur d'arrivée.",
       "Passer du taux d'évolution $t$ au coefficient multiplicateur $CM = 1 + t$, et inversement.",
       "Calculer le coefficient multiplicateur global et le taux global d'évolutions successives.",
-      "Déterminer le taux d'évolution réciproque, qui permet de revenir à la valeur de départ."
+      "Déterminer le taux d'évolution réciproque, qui permet de revenir à la valeur de départ.",
+      "Distinguer variation absolue (en points ou en unités) et variation relative (taux d'évolution)."
     ],
     "keyPoints": [
       {
@@ -1370,6 +1779,18 @@ window.MATHS_COURSES_2NDE = {
       {
         "title": "6. Retrouver une valeur initiale et programmer un calcul d'évolutions",
         "content": "• Si l'on connaît la valeur d'arrivée et le taux, on **divise** par le coefficient multiplicateur : $V_D = \\frac{V_A}{1 + t}$.\n**Exemple** : un article coûte $68$ € après une remise de $15\\,\\%$ : son prix initial était $\\frac{68}{0{,}85} = 80$ €.\n• En Python, on peut calculer le coefficient global de plusieurs évolutions données en pourcentage :\n```python\ndef coefficient_global(taux):\n    cm = 1\n    for t in taux:\n        cm = cm * (1 + t / 100)\n    return cm\n\nprint(coefficient_global([20, -20]))   # affiche 0.96 (aux arrondis près)\n```"
+      },
+      {
+        "title": "7. Variation absolue, variation relative et points de pourcentage",
+        "content": "Une grandeur passe de $V_1$ à $V_2$ :\n• **variation absolue** (additive) : $V_2 - V_1$, dans l'unité de la grandeur ;\n• **coefficient multiplicateur** (variation multiplicative) : $\\frac{V_2}{V_1}$ ;\n• **variation relative** (taux d'évolution) : $\\frac{V_2 - V_1}{V_1}$.\n*Exemple* : un taux de chômage passe de $8\\,\\%$ à $7\\,\\%$. La variation absolue est de $-1$ **point** de pourcentage, mais le taux d'évolution est $\\frac{7 - 8}{8} = -0{,}125$, soit une **baisse de $12{,}5\\,\\%$**.\n• Un pourcentage peut exprimer une **proportion** (« $35\\,\\%$ des élèves sont internes ») ou une **évolution** (« le prix a augmenté de $35\\,\\%$ ») : il faut toujours identifier lequel."
+      },
+      {
+        "title": "8. Démonstration : coefficient multiplicateur global",
+        "content": "Une grandeur vaut $V_0$, subit une évolution de coefficient $CM_1$ puis une évolution de coefficient $CM_2$.\n• Après la première évolution : $V_1 = V_0 \\times CM_1$.\n• Après la seconde : $V_2 = V_1 \\times CM_2 = V_0 \\times CM_1 \\times CM_2$.\nDonc $\\frac{V_2}{V_0} = CM_1 \\times CM_2$ : le coefficient global est le **produit** des coefficients, et le taux global vaut $CM_1 \\times CM_2 - 1$.\n• **Évolution réciproque** : on cherche $CM'$ tel que $V_0 \\times CM \\times CM' = V_0$, soit $CM \\times CM' = 1$, d'où $CM' = \\frac{1}{CM}$ (le coefficient réciproque est l'**inverse**)."
+      },
+      {
+        "title": "9. Automatismes : proportions et évolutions",
+        "content": "• $30\\,\\%$ de $250$ : $0{,}3 \\times 250 = 75$.\n• **Le tout connaissant une partie** : si $18$ élèves représentent $40\\,\\%$ d'une classe, la classe compte $\\frac{18}{0{,}4} = 45$ élèves.\n• **Formulation multiplicative** : « augmenter de $5\\,\\%$ » revient à « multiplier par $1{,}05$ » ; « diminuer de $12\\,\\%$ » revient à « multiplier par $0{,}88$ » ; « multiplier par $1{,}2$ » revient à « augmenter de $20\\,\\%$ ».\n• Une proportion s'écrit indifféremment $\\frac{3}{5}$, $0{,}6$ ou $60\\,\\%$."
       }
     ],
     "methods": [
@@ -1419,7 +1840,8 @@ window.MATHS_COURSES_2NDE = {
       "⚠️ L'évolution réciproque d'une hausse de $t\\,\\%$ n'est pas une baisse de $t\\,\\%$ : son coefficient est $\\frac{1}{1 + t}$.",
       "⚠️ Le taux d'évolution se calcule en divisant par la valeur de **départ** $V_D$, pas par la valeur d'arrivée.",
       "⚠️ Une baisse de $30\\,\\%$ correspond au coefficient $0{,}7$ et non $0{,}3$ ; une hausse de $5\\,\\%$ correspond à $1{,}05$ et non $1{,}5$.",
-      "⚠️ Pour retrouver un prix avant une remise de $15\\,\\%$, on divise par $0{,}85$ : on n'ajoute pas $15\\,\\%$ du prix remisé."
+      "⚠️ Pour retrouver un prix avant une remise de $15\\,\\%$, on divise par $0{,}85$ : on n'ajoute pas $15\\,\\%$ du prix remisé.",
+      "⚠️ Ne pas confondre points de pourcentage et pourcentage d'évolution : passer de $8\\,\\%$ à $7\\,\\%$, c'est perdre $1$ point, mais c'est une baisse de $12{,}5\\,\\%$."
     ],
     "flashcards": [
       {
@@ -1445,9 +1867,14 @@ window.MATHS_COURSES_2NDE = {
       {
         "q": "Un prix vaut $63$ € après une hausse de $5\\,\\%$. Quel était le prix initial ?",
         "a": "$\\frac{63}{1{,}05} = 60$ €."
+      },
+      {
+        "q": "Un taux passe de $20\\,\\%$ à $25\\,\\%$. Variation absolue et taux d'évolution ?",
+        "a": "$+5$ points de pourcentage ; taux d'évolution $\\frac{25 - 20}{20} = 0{,}25$, soit $+25\\,\\%$."
       }
     ]
   },
+
   "2S4": {
     "title": "2S4 : Algorithmique et programmation : variables, instructions conditionnelles, boucles et fonctions",
     "domain": "Algorithmique et Programmation",
@@ -1457,7 +1884,8 @@ window.MATHS_COURSES_2NDE = {
       "Écrire une instruction conditionnelle `if … elif … else` à l'aide de conditions et de connecteurs `and`, `or`, `not`.",
       "Programmer une boucle bornée (`for i in range(…)`) et une boucle non bornée (`while condition:`), et savoir laquelle choisir.",
       "Écrire une fonction Python avec un ou plusieurs paramètres et une valeur renvoyée (`return`), puis l'appeler.",
-      "Utiliser les opérateurs `//` (quotient entier), `%` (reste) et `**` (puissance) dans des problèmes mathématiques."
+      "Utiliser les opérateurs `//` (quotient entier), `%` (reste) et `**` (puissance) dans des problèmes mathématiques.",
+      "Passer d'un algorithme écrit en langage naturel (affectation notée $\\leftarrow$) à un programme Python, et inversement."
     ],
     "keyPoints": [
       {
@@ -1483,6 +1911,10 @@ window.MATHS_COURSES_2NDE = {
       {
         "title": "6. Fonctions",
         "content": "Une **fonction** regroupe des instructions réutilisables. Elle reçoit des **paramètres** et **renvoie** un résultat avec `return` (l'exécution de la fonction s'arrête alors).\n```python\ndef image(x):\n    return 3 * x ** 2 - 5\n\ndef est_multiple(n, d):\n    return n % d == 0\n\nprint(image(2))            # affiche 7\nprint(est_multiple(21, 7)) # affiche True\n```\nNe pas confondre `return` (la fonction **renvoie** une valeur utilisable dans un calcul) et `print` (qui **affiche** seulement une valeur à l'écran)."
+      },
+      {
+        "title": "7. Du langage naturel à Python",
+        "content": "En langage naturel, l'affectation se note avec une flèche : $a \\leftarrow 3$ se lit « $a$ prend la valeur $3$ ».\n\n| Langage naturel | Python |\n|---|---|\n| $s \\leftarrow 0$ | `s = 0` |\n| Pour $i$ allant de $1$ à $10$ | `for i in range(1, 11):` |\n| $s \\leftarrow s + i^2$ | `    s = s + i ** 2` |\n| Tant que $s < 100$ | `while s < 100:` |\n| Si $n$ est pair, alors… sinon… | `if n % 2 == 0:` … `else:` … |\n| Afficher $s$ | `print(s)` |\n\n*Exemple* : l'algorithme « $s \\leftarrow 0$ ; pour $i$ allant de $1$ à $10$ : $s \\leftarrow s + i^2$ ; afficher $s$ » calcule $1^2 + 2^2 + \\dots + 10^2 = 385$.\n• Une fonction peut avoir **plusieurs arguments** : `def aire_rectangle(L, l): return L * l` ; l'appel `aire_rectangle(5, 3)` renvoie $15$."
       }
     ],
     "methods": [
@@ -1558,6 +1990,10 @@ window.MATHS_COURSES_2NDE = {
       {
         "q": "Comment tester en Python qu'un entier `n` est pair ?",
         "a": "Avec la condition `n % 2 == 0` (le reste de la division par 2 est nul)."
+      },
+      {
+        "q": "Traduire en Python « Pour $i$ allant de $1$ à $n$ ».",
+        "a": "`for i in range(1, n + 1):` (la borne de droite de `range` est exclue)."
       }
     ]
   }
@@ -1704,20 +2140,20 @@ window.MATHS_EXERCISES_2NDE = {
       "id": "2N2-4",
       "tier": 4,
       "type": "mcq",
-      "title": "Forme canonique et extremum",
-      "skill": "Mettre sous forme canonique",
-      "statement": "Quelle est la forme canonique de $f(x) = 2x^2 - 12x + 10$ ?",
+      "title": "Calcul sur les puissances",
+      "skill": "Règles de calcul sur les puissances",
+      "statement": "Écrire $A = \\frac{2^5 \\times 2^{-3}}{2^{-1}}$ sous la forme d'un entier.",
       "options": [
-        "$2(x - 3)^2 - 8$",
-        "$2(x - 3)^2 + 10$",
-        "$2(x + 3)^2 - 8$",
-        "$(2x - 6)^2 - 26$"
+        "$8$",
+        "$2$",
+        "$\\frac{1}{2}$",
+        "$16$"
       ],
       "correctIndex": 0,
-      "answer": "$2(x - 3)^2 - 8$",
-      "hint1": "Factorise d'abord par 2 : $2[x^2 - 6x + 5]$.",
-      "hint2": "$x^2 - 6x = (x - 3)^2 - 9$.",
-      "solution": "$2(x^2 - 6x + 5) = 2[(x - 3)^2 - 9 + 5] = 2[(x - 3)^2 - 4] = 2(x - 3)^2 - 8$."
+      "answer": "$8$",
+      "hint1": "Utilise $a^n \\times a^m = a^{n+m}$ puis $\\frac{a^n}{a^m} = a^{n-m}$.",
+      "hint2": "Numérateur : $2^{5 + (-3)} = 2^2$. Puis $\\frac{2^2}{2^{-1}} = 2^{2 - (-1)}$.",
+      "solution": "$2^5 \\times 2^{-3} = 2^{2}$, puis $\\frac{2^2}{2^{-1}} = 2^{2 + 1} = 2^3 = 8$."
     }
   ],
   "2N3": [
@@ -1782,20 +2218,20 @@ window.MATHS_EXERCISES_2NDE = {
       "id": "2N3-4",
       "tier": 4,
       "type": "mcq",
-      "title": "Inégalité triangulaire",
-      "skill": "Appliquer l'inégalité triangulaire",
-      "statement": "Pour tous réels $a$ et $b$, quelle inégalité est toujours vérifiée ?",
+      "title": "Inéquation et distance",
+      "skill": "Inéquation du type |x - a| < r",
+      "statement": "Résoudre dans $\\mathbb{R}$ l'inéquation $|x + 2| < 3$.",
       "options": [
-        "$|a + b| \\le |a| + |b|$",
-        "$|a + b| = |a| + |b|$",
-        "$|a - b| \\ge |a| + |b|$",
-        "$|ab| < |a| \\times |b|$"
+        "$x \\in ]-5 ; 1[$",
+        "$x \\in ]-1 ; 5[$",
+        "$x \\in [-5 ; 1]$",
+        "$x \\in ]-\\infty ; 1[$"
       ],
       "correctIndex": 0,
-      "answer": "$|a + b| \\le |a| + |b|$",
-      "hint1": "C'est l'inégalité triangulaire classique pour les normes et valeurs absolues.",
-      "hint2": "L'égalité n'a lieu que lorsque $a$ et $b$ sont de même signe.",
-      "solution": "D'après l'inégalité triangulaire, pour tous réels $a$ et $b$, $|a + b| \\le |a| + |b|$."
+      "answer": "$x \\in ]-5 ; 1[$",
+      "hint1": "$|x + 2| = |x - (-2)|$ est la distance entre $x$ et $-2$.",
+      "hint2": "On cherche les réels à une distance strictement inférieure à $3$ de $-2$ : entre $-2 - 3$ et $-2 + 3$, bornes exclues.",
+      "solution": "$|x + 2| < 3 \\iff -2 - 3 < x < -2 + 3 \\iff -5 < x < 1$. Les bornes sont exclues car l'inégalité est stricte : $S = ]-5 ; 1[$."
     }
   ],
   "2N4": [
@@ -1852,8 +2288,8 @@ window.MATHS_EXERCISES_2NDE = {
       ],
       "correctIndex": 0,
       "answer": "$x \\in [-2 ; 3]$",
-      "hint1": "Les racines sont $x = 3$ et $x = -2$.",
-      "hint2": "Le coefficient dominant du produit développé vaut $-2 < 0$. Le produit est donc positif entre les racines.",
+      "hint1": "Cherche les valeurs qui annulent chaque facteur : $3 - x = 0$ et $2x + 4 = 0$.",
+      "hint2": "Dans un tableau de signes : $3 - x$ est positif avant $3$, $2x + 4$ est positif après $-2$. Le produit est positif là où les deux facteurs ont le même signe.",
       "solution": "Les zéros sont $-2$ et $3$. Pour $x < -2$ : $(+)(-) = -$. Pour $-2 \\le x \\le 3$ : $(+)(+) = +$. Pour $x > 3$ : $(-)(+) = -$. Donc $S = [-2 ; 3]$."
     },
     {
@@ -1938,20 +2374,20 @@ window.MATHS_EXERCISES_2NDE = {
       "id": "2A1-4",
       "tier": 4,
       "type": "mcq",
-      "title": "Parité et symétrie",
-      "skill": "Démontrer la parité d'une fonction",
-      "statement": "Soit $f(x) = \\frac{x^3}{x^2 + 1}$ définie sur $\\mathbb{R}$. Que peut-on affirmer ?",
+      "title": "Appartenance d'un point à une courbe",
+      "skill": "Exploiter une équation de courbe",
+      "statement": "Soit $f(x) = x^2 - 3x$ et $\\mathcal{C}_f$ sa courbe représentative. Lequel de ces points appartient à $\\mathcal{C}_f$ ?",
       "options": [
-        "$f$ est impaire (courbe symétrique par rapport à l'origine)",
-        "$f$ est paire (courbe symétrique par rapport à l'axe des ordonnées)",
-        "$f$ n'est ni paire ni impaire",
-        "$f$ est périodique"
+        "$A(-2 ; 10)$",
+        "$B(-2 ; -2)$",
+        "$C(3 ; 9)$",
+        "$D(1 ; 2)$"
       ],
       "correctIndex": 0,
-      "answer": "$f$ est impaire (courbe symétrique par rapport à l'origine)",
-      "hint1": "Calcule $f(-x)$ en remplaçant $x$ par $-x$.",
-      "hint2": "$(-x)^3 = -x^3$ et $(-x)^2 + 1 = x^2 + 1$, donc $f(-x) = -f(x)$.",
-      "solution": "$f(-x) = \\frac{(-x)^3}{(-x)^2 + 1} = \\frac{-x^3}{x^2 + 1} = -f(x)$. $f$ est impaire, sa courbe admet $O$ pour centre de symétrie."
+      "answer": "$A(-2 ; 10)$",
+      "hint1": "$M(a ; b) \\in \\mathcal{C}_f \\iff f(a) = b$ : calcule $f$ en l'abscisse de chaque point.",
+      "hint2": "$f(-2) = (-2)^2 - 3 \\times (-2)$, $f(3) = 9 - 9$ et $f(1) = 1 - 3$.",
+      "solution": "$f(-2) = 4 + 6 = 10$ : $A \\in \\mathcal{C}_f$ (et donc $B \\notin \\mathcal{C}_f$). $f(3) = 0 \\neq 9$ et $f(1) = -2 \\neq 2$ : $C$ et $D$ n'appartiennent pas à la courbe."
     }
   ],
   "2A2": [
@@ -2398,28 +2834,28 @@ window.MATHS_EXERCISES_2NDE = {
       ],
       "correctIndex": 0,
       "answer": "5ème et 15ème valeurs",
-      "hint1": "$N/4 = 20/4 = 5$ et $3N/4 = 60/4 = 15$.",
-      "hint2": "Comme ces quotients sont des entiers, on prend exactement ces rangs.",
+      "hint1": "$Q_1$ est la valeur dont le rang est le plus petit entier supérieur ou égal à $\\frac{N}{4}$ ; même principe pour $Q_3$ avec $\\frac{3N}{4}$.",
+      "hint2": "Ici $\\frac{20}{4} = 5$ et $\\frac{3 \\times 20}{4} = 15$ sont des entiers : on prend exactement ces rangs.",
       "solution": "$N/4 = 5$ donc $Q_1$ est la 5ème valeur ordonnée. $3N/4 = 15$ donc $Q_3$ est la 15ème valeur ordonnée."
     },
     {
       "id": "2S1-4",
       "tier": 4,
       "type": "mcq",
-      "title": "Effet d'une transformation affine sur moyenne et écart-type",
-      "skill": "Comprendre les propriétés de la moyenne et de la dispersion",
-      "statement": "Si toutes les notes d'une classe sont multipliées par 1,1 puis augmentées de 2, que devient l'écart-type $\\sigma$ ?",
+      "title": "Linéarité de la moyenne",
+      "skill": "Linéarité de la moyenne",
+      "statement": "La moyenne des notes d'une classe est $11$. Toutes les notes sont multipliées par $1{,}1$, puis augmentées de $2$ points. Quelle est la nouvelle moyenne ?",
       "options": [
-        "Il est multiplié par 1,1 (inchangé par le +2)",
-        "Il est multiplié par 1,1 et augmenté de 2",
-        "Il reste inchangé",
-        "Il est augmenté de 2"
+        "$14{,}1$",
+        "$12{,}1$",
+        "$14{,}3$",
+        "$13$"
       ],
       "correctIndex": 0,
-      "answer": "Il est multiplié par 1,1 (inchangé par le +2)",
-      "hint1": "L'écart-type mesure la dispersion, il n'est pas affecté par une translation ($+b$).",
-      "hint2": "Pour $Y = aX + b$, $\\sigma(Y) = |a| \\sigma(X)$.",
-      "solution": "Pour une transformation $Y = aX + b$, $\\sigma(Y) = |a| \\sigma(X)$. L'écart-type est multiplié par 1,1 et n'est pas affecté par l'ajout constant de 2."
+      "answer": "$14{,}1$",
+      "hint1": "Si chaque valeur $x_i$ devient $a x_i + b$, la moyenne $\\overline{x}$ devient $a\\overline{x} + b$.",
+      "hint2": "Ici $a = 1{,}1$ et $b = 2$ : calcule $1{,}1 \\times 11 + 2$.",
+      "solution": "Par linéarité de la moyenne : $1{,}1 \\times 11 + 2 = 12{,}1 + 2 = 14{,}1$. (Attention à l'ordre : on multiplie d'abord, on ajoute ensuite ; $1{,}1 \\times (11 + 2) = 14{,}3$ correspondrait à l'ordre inverse.)"
     }
   ],
   "2S2": [
@@ -2505,77 +2941,77 @@ window.MATHS_EXERCISES_2NDE = {
       "id": "2S3-1",
       "tier": 1,
       "type": "mcq",
-      "title": "Échantillonnage et règle des 1/racine(n)",
-      "skill": "Calculer l'amplitude de l'intervalle de fluctuation en Seconde",
-      "statement": "Quelle est l'amplitude de l'intervalle de fluctuation au seuil de 95% pour un échantillon de taille $n = 400$ ?",
+      "title": "Loi des grands nombres",
+      "skill": "Observer la loi des grands nombres",
+      "statement": "On simule $10\\,000$ lancers d'un dé équilibré et on calcule la fréquence d'apparition du $6$. De quelle valeur cette fréquence est-elle très probablement proche ?",
       "options": [
-        "$0{,}10$",
-        "$0{,}05$",
-        "$0{,}20$",
-        "$0{,}025$"
+        "$0{,}167$",
+        "$0{,}6$",
+        "$0{,}5$",
+        "$0{,}06$"
       ],
       "correctIndex": 0,
-      "answer": "$0{,}10$",
-      "hint1": "L'intervalle en Seconde est $\\left[p - \\frac{1}{\\sqrt{n}} ; p + \\frac{1}{\\sqrt{n}}\\right]$. Son amplitude est $\\frac{2}{\\sqrt{n}}$.",
-      "hint2": "$\\frac{2}{\\sqrt{400}} = \\frac{2}{20} = 0{,}10$.",
-      "solution": "Comme $\\sqrt{400} = 20$, la demi-amplitude est $\\frac{1}{\\sqrt{n}} = 0{,}05$ et l'amplitude totale vaut $\\frac{2}{\\sqrt{400}} = \\frac{2}{20} = 0{,}10$."
+      "answer": "$0{,}167$",
+      "hint1": "Pour un grand nombre de lancers, la fréquence observée est, sauf exception, proche de la probabilité.",
+      "hint2": "Avec un dé équilibré, la probabilité d'obtenir $6$ vaut $\\frac{1}{6}$.",
+      "solution": "D'après la loi des grands nombres (version vulgarisée), pour $n = 10\\,000$ la fréquence observée est très probablement proche de $P(6) = \\frac{1}{6} \\approx 0{,}167$."
     },
     {
       "id": "2S3-2",
       "tier": 2,
       "type": "mcq",
-      "title": "Intervalle de fluctuation et prise de décision",
-      "skill": "Tester une hypothèse avec un intervalle de fluctuation",
-      "statement": "Une pièce est supposée équilibrée ($p = 0{,}5$). Sur 100 lancers, on obtient 63 « Pile ». L'intervalle de fluctuation est $[0{,}4 ; 0{,}6]$. Que conclut-on au seuil de 95% ?",
+      "title": "Simuler une pièce en Python",
+      "skill": "Fonction renvoyant un nombre aléatoire",
+      "statement": "Avec `from random import randint`, quelle instruction simule le lancer d'une pièce équilibrée, en codant Pile par $1$ et Face par $0$ ?",
       "options": [
-        "On rejette l'hypothèse de pièce équilibrée car $0{,}63 \\notin [0{,}4 ; 0{,}6]$",
-        "On accepte que la pièce est équilibrée car $0{,}63 \\approx 0{,}6$",
-        "Le test n'est pas valide car $n < 30$",
-        "On ne peut rien conclure"
+        "randint(0, 1)",
+        "randint(0, 2)",
+        "randint(1, 2) / 2",
+        "range(0, 1)"
       ],
       "correctIndex": 0,
-      "answer": "On rejette l'hypothèse de pièce équilibrée car $0{,}63 \\notin [0{,}4 ; 0{,}6]$",
-      "hint1": "La fréquence observée est $f = 63/100 = 0{,}63$.",
-      "hint2": "Vérifie si $f$ appartient à l'intervalle de fluctuation.",
-      "solution": "La fréquence observée est $f = 0{,}63$. Comme $0{,}63 > 0{,}6$, la fréquence observée est hors de l'intervalle de fluctuation au seuil de 95% : on rejette l'hypothèse d'équilibre."
+      "answer": "randint(0, 1)",
+      "hint1": "`randint(a, b)` renvoie un entier aléatoire entre $a$ et $b$, les deux bornes étant **incluses**.",
+      "hint2": "On veut deux valeurs possibles, $0$ et $1$, de même probabilité.",
+      "solution": "`randint(0, 1)` renvoie $0$ ou $1$ avec la même probabilité $\\frac{1}{2}$. `randint(0, 2)` a trois issues, `randint(1, 2) / 2` renvoie $0{,}5$ ou $1$, et `range(0, 1)` n'est pas un nombre aléatoire."
     },
     {
       "id": "2S3-3",
       "tier": 3,
       "type": "mcq",
-      "title": "Taille d'échantillon pour une précision donnée",
-      "skill": "Déterminer la taille n nécessaire",
-      "statement": "Quelle taille d'échantillon $n$ minimale doit-on choisir pour que la demi-amplitude de l'intervalle soit inférieure ou égale à $0{,}02$ ?",
+      "title": "Lire une fonction de simulation",
+      "skill": "Fonction renvoyant le résultat d'une expérience aléatoire",
+      "statement": "On considère la fonction Python suivante (`random()` renvoie un nombre aléatoire de $[0 ; 1[$) :\n```python\nfrom random import random\n\ndef experience():\n    if random() < 0.3:\n        return 1\n    return 0\n```\nQuelle est la probabilité que `experience()` renvoie $1$ ?",
       "options": [
-        "$n = 2\\,500$",
-        "$n = 500$",
-        "$n = 1\\,000$",
-        "$n = 10\\,000$"
+        "$0{,}3$",
+        "$0{,}7$",
+        "$0{,}5$",
+        "$1$"
       ],
       "correctIndex": 0,
-      "answer": "$n = 2\\,500$",
-      "hint1": "La demi-amplitude est $\\frac{1}{\\sqrt{n}}$. On veut $\\frac{1}{\\sqrt{n}} \\le 0{,}02$.",
-      "hint2": "$\\sqrt{n} \\ge \\frac{1}{0{,}02} = 50 \\implies n \\ge 50^2 = 2500$.",
-      "solution": "$\\frac{1}{\\sqrt{n}} \\le 0{,}02 \\iff \\sqrt{n} \\ge \\frac{1}{0{,}02} = 50 \\iff n \\ge 50^2 = 2\\,500$."
+      "answer": "$0{,}3$",
+      "hint1": "La fonction renvoie $1$ exactement lorsque le nombre aléatoire tiré est strictement inférieur au seuil écrit dans le test.",
+      "hint2": "`random()` est réparti uniformément sur $[0 ; 1[$ : la probabilité de tomber dans $[0 ; 0{,}3[$ est la longueur de cet intervalle.",
+      "solution": "`random() < 0.3` est vrai avec la probabilité $0{,}3$ (longueur de $[0 ; 0{,}3[$) : la fonction renvoie $1$ avec la probabilité $0{,}3$ et $0$ avec la probabilité $0{,}7$."
     },
     {
       "id": "2S3-4",
       "tier": 4,
       "type": "mcq",
-      "title": "Fluctuation d'échantillonnage et loi des grands nombres",
-      "skill": "Interpréter la convergence des fréquences",
-      "statement": "Lorsque la taille $n$ de l'échantillon est multipliée par 4, par combien la largeur de l'intervalle de fluctuation est-elle divisée ?",
+      "title": "Construire un modèle à partir de fréquences",
+      "skill": "Loi des grands nombres et choix d'un modèle",
+      "statement": "On lance $5\\,000$ fois une punaise : elle tombe $3\\,100$ fois sur la pointe. Quelle probabilité est-il raisonnable de choisir, dans le modèle, pour l'événement « la punaise tombe sur la pointe » ?",
       "options": [
-        "Par 2",
-        "Par 4",
-        "Par 16",
-        "Par $\\sqrt{2}$"
+        "$0{,}62$",
+        "$0{,}5$",
+        "$0{,}31$",
+        "$3\\,100$"
       ],
       "correctIndex": 0,
-      "answer": "Par 2",
-      "hint1": "L'amplitude dépend de $\\frac{1}{\\sqrt{n}}$.",
-      "hint2": "$\\sqrt{4n} = 2\\sqrt{n}$. L'amplitude est donc divisée par 2.",
-      "solution": "L'amplitude vaut $\\frac{2}{\\sqrt{n}}$. Si on remplace $n$ par $4n$, $\\sqrt{4n} = 2\\sqrt{n}$, la largeur est donc divisée par 2."
+      "answer": "$0{,}62$",
+      "hint1": "Pour un phénomène réel, on peut construire le modèle à partir de la fréquence observée sur un grand nombre d'essais.",
+      "hint2": "Calcule la fréquence $\\frac{3\\,100}{5\\,000}$.",
+      "solution": "La fréquence observée vaut $\\frac{3\\,100}{5\\,000} = 0{,}62$. Le nombre d'essais étant grand, on choisit le modèle $P(\\text{pointe}) = 0{,}62$. Rien ne justifie l'équiprobabilité ($0{,}5$) ; ce choix reste une **hypothèse** de modèle."
     }
   ],
   "2N5": [

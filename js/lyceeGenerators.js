@@ -82,6 +82,8 @@ window.MathsLyceeGenerators = {
   // 2N1 : Ensembles de nombres, arithmétique et nombres réels
   // =========================================================================
   gen_2N1(tier) {
+    const xq = this._lyX('2N1', tier, [1, 2, 0, 3][tier - 1]);
+    if (xq) return xq;
     const NN = '$\\mathbb{N}$';
     const ZZ = '$\\mathbb{Z}$';
     const DD = '$\\mathbb{D}$';
@@ -158,7 +160,7 @@ window.MathsLyceeGenerators = {
       if (Math.random() < 0.55) {
         const a = this.randInt(2, 9);
         const N = a * a * b;
-        return this.makeMcq('2N1', 2, 'Simplification de radicaux',
+        return this._xa([`(${a};${b})`, 'Écrire le résultat sous la forme $a\\sqrt{b}$ et saisir (a ; b), par exemple (3;2) pour $3\\sqrt{2}$.'], '2N1', 2, 'Simplification de radicaux',
           'Extraire les carrés parfaits d\'une racine carrée',
           `Écrire sous la forme $a\\sqrt{b}$ (avec $a$ et $b$ entiers, $b$ le plus petit possible) : $\\sqrt{${N}}$.`,
           `$${a}\\sqrt{${b}}$`,
@@ -178,17 +180,18 @@ window.MathsLyceeGenerators = {
       const t2 = `\\sqrt{${q * q * b}}`;
       const s1 = p === 1 ? `\\sqrt{${b}}` : `${p}\\sqrt{${b}}`;
       const wrong = (k) => (k === 1 ? `$\\sqrt{${b}}$` : k === -1 ? `$-\\sqrt{${b}}$` : k === 0 ? null : `$${k}\\sqrt{${b}}$`);
-      return this.makeMcq('2N1', 2, 'Somme de radicaux',
+      return this._xa([String(r), `Le résultat s'écrit $a\\sqrt{${b}}$ : saisir l'entier relatif $a$.`], '2N1', 2, 'Somme de radicaux',
         'Simplifier puis réduire une somme de racines carrées',
         `Écrire sous la forme $a\\sqrt{${b}}$ : $B = ${t1} ${sg > 0 ? '+' : '-'} ${t2}$.`,
         `$${res}$`,
         [`$\\sqrt{${p * p * b + sg * q * q * b > 0 ? p * p * b + sg * q * q * b : q * q * b - p * p * b}}$`, wrong(p * q), wrong(r + 1), wrong(r - 1), wrong(-r)],
         'Simplifie chaque racine séparément avant d\'additionner.',
         `$${t2} = \\sqrt{${q * q} \\times ${b}} = ${q}\\sqrt{${b}}$.`,
-        `$B = ${s1} ${sg > 0 ? '+' : '-'} ${q}\\sqrt{${b}} = (${p} ${sg > 0 ? '+' : '-'} ${q})\\sqrt{${b}} = ${res}$. Attention : $\\sqrt{a} + \\sqrt{b} \\neq \\sqrt{a + b}$ en général.`
+        `$${t2} = \\sqrt{${q * q} \\times ${b}} = ${q}\\sqrt{${b}}$, donc $B = ${s1} ${sg > 0 ? '+' : '-'} ${q}\\sqrt{${b}} = (${p} ${sg > 0 ? '+' : '-'} ${q})\\sqrt{${b}} = ${res}$. Attention : $\\sqrt{a} + \\sqrt{b} \\neq \\sqrt{a + b}$ en général.`
       );
     }
-    if (tier === 3) {
+    if (tier === 3 || (tier === 4 && Math.random() < 0.2)) {
+      // programme 2026 : caractérisation des décimaux en approfondissement (palier 4)
       const decDens = [8, 16, 20, 25, 32, 40, 50, 80, 125];
       const nonDecDens = [6, 12, 14, 15, 21, 24, 30, 35, 18, 22, 28, 45];
       const irr = (d) => {
@@ -209,7 +212,7 @@ window.MathsLyceeGenerators = {
       const sol = findNot
         ? `Toutes les fractions proposées sont irréductibles. Le dénominateur ${descr(dg)} contient un facteur premier autre que 2 et 5, donc $\\frac{${ng}}{${dg}}$ n'est pas décimal. Les autres dénominateurs (${badTxt}) ne contiennent que des facteurs 2 et 5.`
         : `Toutes les fractions proposées sont irréductibles. Le dénominateur ${descr(dg)} ne contient que les facteurs premiers 2 et 5, donc $\\frac{${ng}}{${dg}} = ${this.dec(ng / dg, 6)}$ est décimal. Les autres dénominateurs (${badTxt}) contiennent un facteur premier différent de 2 et de 5.`;
-      return this.makeMcq('2N1', 3, 'Caractérisation des nombres décimaux',
+      return this.makeMcq('2N1', tier, 'Caractérisation des nombres décimaux',
         'Reconnaître un décimal par les facteurs premiers du dénominateur',
         findNot
           ? 'Laquelle des fractions irréductibles suivantes n\'est PAS un nombre décimal ?'
@@ -236,7 +239,7 @@ window.MathsLyceeGenerators = {
         ],
         `Comme ${p} est premier et divise $a^2$, il divise $a$ : on écrit $a = ${p}k$.`,
         `En remplaçant : $${p * p}k^2 = ${p}b^2$, soit $b^2 = ${p}k^2$.`,
-        `$a^2 = ${p}b^2$ donc ${p} divise $a^2$, et comme ${p} est premier, ${p} divise $a$. Avec $a = ${p}k$ : $b^2 = ${p}k^2$, donc ${p} divise aussi $b$. La fraction $\\frac{a}{b}$ serait simplifiable par ${p} : contradiction. Donc $\\sqrt{${p}}$ est irrationnel.`
+        `$a^2 = ${p}b^2$ donc ${p} divise $a^2$, et comme ${p} est premier, ${p} divise $a$. Avec $a = ${p}k$ : $${p * p}k^2 = ${p}b^2$, soit $b^2 = ${p}k^2$, donc ${p} divise aussi $b$. La fraction $\\frac{a}{b}$ serait simplifiable par ${p} : contradiction. Donc $\\sqrt{${p}}$ est irrationnel.`
       );
     }
     if (kind === 1) {
@@ -258,7 +261,7 @@ window.MathsLyceeGenerators = {
       const d2 = alt((p) => (exps[p] > 1 && p === ps[ps.length - 1] ? exps[p] - 1 : exps[p] + (p === ps[ps.length - 1] ? 1 : 0)));
       const d3 = ps.length > 1 ? alt((p) => exps[ps[ps.length - 1 - ps.indexOf(p)]]) : `$${ps[0] * ps[0]}^${exps[ps[0]]}$`;
       const d4 = alt((p) => (p === ps[0] && exps[p] > 1 ? exps[p] - 1 : exps[p] + 2 * (p === ps[0] ? 1 : 0)));
-      return this.makeMcq('2N1', 4, 'Décomposition en facteurs premiers',
+      return this._xa([`(${exps[2] || 0};${exps[3] || 0};${exps[5] || 0};${exps[7] || 0})`, 'Écrire la décomposition sous la forme $2^a \\times 3^b \\times 5^c \\times 7^d$ (exposants éventuellement nuls) et saisir (a ; b ; c ; d).'], '2N1', 4, 'Décomposition en facteurs premiers',
         'Décomposer un entier en produit de facteurs premiers',
         `Quelle est la décomposition en produit de facteurs premiers de $${n}$ ?`,
         correct, [d1, d2, d3, d4],
@@ -289,13 +292,15 @@ window.MathsLyceeGenerators = {
   // 2N2 : Calcul littéral, identités remarquables et factorisation
   // =========================================================================
   gen_2N2(tier) {
+    const xq = this._lyX('2N2', tier, [1, 2, 1, 2][tier - 1]);
+    if (xq) return xq;
     const L = (a, b) => this._2nd_lin(a, b);
     if (tier === 1) {
       const a = this.randInt(1, 6);
       const b = this.randNonZero(-9, 9);
       const A = `${L(a, b)}^2`;
       const ans = this.polyX([a * a, 2 * a * b, b * b]);
-      return this.makeMcq('2N2', 1, b > 0 ? 'Développement : carré d\'une somme' : 'Développement : carré d\'une différence',
+      return this._xa([`(${a * a};${2 * a * b};${b * b})`, 'Écrire le résultat sous la forme $ax^2 + bx + c$ et saisir (a ; b ; c).'], '2N2', 1, b > 0 ? 'Développement : carré d\'une somme' : 'Développement : carré d\'une différence',
         b > 0 ? 'Appliquer $(u + v)^2 = u^2 + 2uv + v^2$' : 'Appliquer $(u - v)^2 = u^2 - 2uv + v^2$',
         `Développer et réduire l'expression : $A = ${A}$.`,
         `$${ans}$`,
@@ -311,7 +316,7 @@ window.MathsLyceeGenerators = {
         const b = this.randInt(1, 9);
         const B = `${L(a, -b)}${L(a, b)}`;
         const ans = this.polyX([a * a, 0, -b * b]);
-        return this.makeMcq('2N2', 2, 'Différence de deux carrés',
+        return this._xa([`(${a * a};0;${-b * b})`, 'Écrire le résultat sous la forme $ax^2 + bx + c$ et saisir (a ; b ; c).'], '2N2', 2, 'Différence de deux carrés',
           'Développer avec $(u - v)(u + v) = u^2 - v^2$',
           `Développer et réduire l'expression : $B = ${B}$.`,
           `$${ans}$`,
@@ -327,7 +332,7 @@ window.MathsLyceeGenerators = {
       const d = this.randNonZero(-7, 7);
       const B = `${L(a, b)}${L(c, d)}`;
       const ans = this.polyX([a * c, a * d + b * c, b * d]);
-      return this.makeMcq('2N2', 2, 'Double distributivité',
+      return this._xa([`(${a * c};${a * d + b * c};${b * d})`, 'Écrire le résultat sous la forme $ax^2 + bx + c$ et saisir (a ; b ; c).'], '2N2', 2, 'Double distributivité',
         'Développer un produit de deux facteurs affines',
         `Développer et réduire l'expression : $B = ${B}$.`,
         `$${ans}$`,
@@ -351,7 +356,7 @@ window.MathsLyceeGenerators = {
       const C = `${F}${L(c, d)} ${minus ? '-' : '+'} ${F}${L(e, f)}`;
       const ans = `${F}${L(inner[0], inner[1])}`;
       const wrongMinus = minus ? `${F}${L(c - e, d + f)}` : `${F}${L(c + e, d - f)}`;
-      return this.makeMcq('2N2', 3, 'Factorisation par un facteur commun',
+      return this._xa([`(${inner[0]};${inner[1]})`, `Le résultat s'écrit $${F}(cx + d)$ : saisir (c ; d).`], '2N2', 3, 'Factorisation par un facteur commun',
         'Identifier et mettre en facteur une expression commune',
         `Factoriser l'expression : $C = ${C}$.`,
         `$${ans}$`,
@@ -368,7 +373,7 @@ window.MathsLyceeGenerators = {
       const k = this.randInt(1, 7);
       const D = `${L(a, b)}^2 - ${k * k}`;
       const ans = `${L(a, b - k)}${L(a, b + k)}`;
-      return this.makeMcq('2N2', 4, 'Factorisation : différence de deux carrés',
+      return this._xa([`(${b - k};${b + k})`, `Le résultat s'écrit $(${this.coefStr(a, 'x')} + m)(${this.coefStr(a, 'x')} + n)$ avec $m < n$ : saisir (m ; n).`], '2N2', 4, 'Factorisation : différence de deux carrés',
         'Reconnaître $u^2 - v^2 = (u - v)(u + v)$ avec $u$ composé',
         `Factoriser l'expression : $D = ${D}$.`,
         `$${ans}$`,
@@ -386,7 +391,7 @@ window.MathsLyceeGenerators = {
     const f1 = [a - c, b - d];
     const f2 = [a + c, b + d];
     const ans = `${L(f1[0], f1[1])}${L(f2[0], f2[1])}`;
-    return this.makeMcq('2N2', 4, 'Factorisation : différence de deux carrés',
+    return this._xa([`(${a - c};${b - d};${a + c};${b + d})`, 'Le résultat s\'écrit $(px + q)(rx + s)$, où $px + q = u - v$ et $rx + s = u + v$ : saisir (p ; q ; r ; s).'], '2N2', 4, 'Factorisation : différence de deux carrés',
       'Factoriser $u^2 - v^2$ avec deux expressions affines',
       `Factoriser l'expression : $D = ${D}$.`,
       `$${ans}$`,
@@ -401,6 +406,8 @@ window.MathsLyceeGenerators = {
   // 2N3 : Ordre, intervalles et valeur absolue
   // =========================================================================
   gen_2N3(tier) {
+    const xq = this._lyX('2N3', tier, [1, 3, 1, 2][tier - 1]);
+    if (xq) return xq;
     const iv = (lc, a, b, rc) => this._2nd_iv(lc, a, b, rc);
     if (tier === 1) {
       const a = this.randInt(-9, 6);
@@ -448,7 +455,7 @@ window.MathsLyceeGenerators = {
           `$${dist}$`,
           [`$${Math.abs(a + b) === dist ? dist + 2 : Math.abs(a + b)}$`, `$${a - b === dist ? -dist : a - b}$`, `$${Math.abs(a) + Math.abs(b) === dist ? dist + 1 : Math.abs(a) + Math.abs(b)}$`, `$${dist + 1}$`],
           'La distance entre $a$ et $b$ vaut $|a - b|$, toujours positive.',
-          `Calcule d'abord $${a} - ${this.paren(b)} = ${a - b}$.`,
+          `Calcule d'abord la différence $${a} - ${this.paren(b)}$, puis prends sa valeur absolue.`,
           `$|${a} - ${this.paren(b)}| = |${a - b}| = ${dist}$.`
         );
       }
@@ -469,7 +476,7 @@ window.MathsLyceeGenerators = {
         );
       }
       const ans = `S = \\{${c - r} ; ${c + r}\\}`;
-      return this.makeMcq('2N3', 2, 'Équation avec valeur absolue',
+      return this._xa([`(${c - r};${c + r})`, 'Saisir les deux solutions dans l\'ordre croissant : (x1 ; x2).'], '2N3', 2, 'Équation avec valeur absolue',
         'Résoudre $|x - c| = r$ par la distance',
         `Résoudre dans $\\mathbb{R}$ l'équation $${absx} = ${r}$.`,
         `$${ans}$`,
@@ -540,6 +547,8 @@ window.MathsLyceeGenerators = {
   // 2N4 : Équations, inéquations du premier degré et tableaux de signes
   // =========================================================================
   gen_2N4(tier) {
+    const xq = this._lyX('2N4', tier, [1, 2, 1, 1][tier - 1]);
+    if (xq) return xq;
     const L = (a, b) => this._2nd_lin(a, b);
     const iv = (lc, a, b, rc) => this._2nd_iv(lc, a, b, rc);
     if (tier === 1) {
@@ -568,7 +577,7 @@ window.MathsLyceeGenerators = {
         same ? '\\emptyset' : `S = \\{${this.frac(roots[0][0], roots[0][1])}\\}`,
         `S = \\{${this.frac(-b, 1)} ; ${this.frac(-d, 1)}\\}`
       ];
-      return this.makeMcq('2N4', 1, 'Équation produit nul',
+      return this._xa(same ? null : [`(${this._xf(roots[0][0], roots[0][1])};${this._xf(roots[1][0], roots[1][1])})`, 'Saisir les deux solutions dans l\'ordre croissant : (x1 ; x2).'], '2N4', 1, 'Équation produit nul',
         'Appliquer : un produit est nul si et seulement si l\'un de ses facteurs est nul',
         `Résoudre dans $\\mathbb{R}$ l'équation : $${expr} = 0$.`,
         `$${S}$`, wrong.map((s) => `$${s}$`),
@@ -690,6 +699,8 @@ window.MathsLyceeGenerators = {
   // 2A1 : Notion de fonction, ensemble de définition
   // =========================================================================
   gen_2A1(tier) {
+    const xq = this._lyX('2A1', tier, [2, 2, 3, 1][tier - 1]);
+    if (xq) return xq;
     const iv = (lc, a, b, rc) => this._2nd_iv(lc, a, b, rc);
     if (tier === 1) {
       const kind = this.randInt(0, 2);
@@ -709,7 +720,7 @@ window.MathsLyceeGenerators = {
           `$f(${x0}) = ${v}$`,
           [`$f(${x0}) = ${e1}$`, `$f(${x0}) = ${e2}$`, `$f(${x0}) = ${e3}$`, `$f(${x0}) = ${v + 2}$`, `$f(${x0}) = ${-v}$`],
           'Remplace chaque $x$ par la valeur, entre parenthèses si elle est négative.',
-          `Attention : $${this.paren(x0)}^2 = ${x0 * x0}$.`,
+          `Attention : $${this.paren(x0)}^2 = ${this.paren(x0)} \\times ${this.paren(x0)}$ est positif.`,
           `$f(${x0}) = ${this.poly([[a, `\\times ${this.paren(x0)}^2`], [b, `\\times ${this.paren(x0)}`], [c, '']]).replace(/^-\\times/, '-1 \\times').replace(/^\\times /, '')} = ${v}$.`
         );
       }
@@ -737,7 +748,7 @@ window.MathsLyceeGenerators = {
     if (tier === 2) {
       if (Math.random() < 0.5) {
         const a = this.randNonZero(-6, 6);
-        const b = this.randInt(-9, 9);
+        const b = this.randNonZero(-9, 9);
         const y = this.randInt(-12, 12);
         const ans = this.frac(y - b, a);
         return this.makeMcq('2A1', 2, 'Recherche d\'antécédent',
@@ -850,13 +861,15 @@ window.MathsLyceeGenerators = {
   // 2A2 : Variations et extremums
   // =========================================================================
   gen_2A2(tier) {
+    const xq = this._lyX('2A2', tier, [1, 1, 1, 1][tier - 1]);
+    if (xq) return xq;
     if (tier === 1) {
       const a = this.randNonZero(-9, 9);
       const b = this.randInt(-9, 9);
       const form = this.randInt(0, 2);
       const f = form === 0 ? this.poly([[a, 'x'], [b, '']]) : form === 1 ? this.poly([[b, ''], [a, 'x']]) : `${this.poly([[a, 'x']])}${b ? ' ' + this.formatSign(b) : ''}`;
       const ans = a > 0 ? 'Strictement croissante sur $\\mathbb{R}$' : 'Strictement décroissante sur $\\mathbb{R}$';
-      return this.makeMcq('2A2', 1, 'Sens de variation d\'une fonction affine',
+      return this._xa('keep', '2A2', 1, 'Sens de variation d\'une fonction affine',
         'Lier le signe du coefficient directeur au sens de variation',
         `Quel est le sens de variation de la fonction affine $f(x) = ${f}$ ?`,
         ans,
@@ -874,7 +887,7 @@ window.MathsLyceeGenerators = {
       const f = developed ? this.polyX([a, -2 * a * al, a * al * al + be]) : `${a === 1 ? '' : a === -1 ? '-' : a}${al === 0 ? 'x^2' : `${this._2nd_lin(1, -al)}^2`} ${be ? this.formatSign(be) : ''}`.trim();
       const kind = a > 0 ? 'minimum' : 'maximum';
       const ans = `${kind === 'minimum' ? 'Minimum' : 'Maximum'} $${be}$ atteint en $x = ${al}$`;
-      return this.makeMcq('2A2', 2, 'Extremum d\'une fonction du second degré',
+      return this._xa([`(${al};${be})`, 'Saisir (α ; β), où α est la valeur de $x$ en laquelle l\'extremum est atteint et β la valeur de cet extremum.'], '2A2', 2, 'Extremum d\'une fonction du second degré',
         developed ? 'Utiliser $\\alpha = -\\frac{b}{2a}$ pour trouver l\'extremum' : 'Lire l\'extremum sur la forme $a(x - \\alpha)^2 + \\beta$',
         `Soit $f(x) = ${f}$ définie sur $\\mathbb{R}$. Quel est l'extremum de $f$ ?`,
         ans,
@@ -997,7 +1010,7 @@ window.MathsLyceeGenerators = {
         : kind === 2
           ? [`$${hi} \\le f(x) \\le ${lo}$`, `$${a} \\le f(x) \\le ${b}$`, `$${this.frac(1, a + b)} \\le f(x) \\le ${hi}$`]
           : [`$${hi} \\le f(x) \\le ${lo}$`, `$${lo - 1} \\le f(x) \\le ${hi + 1}$`, `$${Math.min(a, b)} \\le f(x) \\le ${Math.max(a, b)}$`];
-    return this.makeMcq('2A2', 4, 'Encadrement d\'images',
+    return this._xa([kind === 2 ? `(${this._xf(1, b)};${this._xf(1, a)})` : `(${lo};${hi})`, 'Saisir (m ; M) tels que $m \\le f(x) \\le M$ soit le meilleur encadrement.'], '2A2', 4, 'Encadrement d\'images',
       'Déduire un encadrement de $f(x)$ des variations de $f$',
       `Soit $f(x) = ${fTex}$. Sachant que $x \\in [${a} ; ${b}]$, quel est le meilleur encadrement de $f(x)$ ?`,
       ans, wrong,
@@ -1011,6 +1024,8 @@ window.MathsLyceeGenerators = {
   // 2A3 : Fonctions de référence
   // =========================================================================
   gen_2A3(tier) {
+    const xq = this._lyX('2A3', tier, [4, 3, 3, 0][tier - 1]);
+    if (xq) return xq;
     const iv = (lc, a, b, rc) => this._2nd_iv(lc, a, b, rc);
     if (tier === 1) {
       const kind = this.randInt(0, 3);
@@ -1059,7 +1074,8 @@ window.MathsLyceeGenerators = {
         );
       }
       const r = this.randInt(2, 15);
-      const k = this.randInt(2, 9);
+      let k = this.randInt(2, 9);
+      while (k === r) k = this.randInt(2, 9);
       return this.makeMcq('2A3', 1, 'Image par la fonction racine carrée',
         'Calculer une racine carrée exacte',
         `Calculer l'image de $${r * r * k * k}$ par la fonction racine carrée.`,
@@ -1081,7 +1097,7 @@ window.MathsLyceeGenerators = {
         else if (sub === 1) { const r = this.randInt(1, 12); k = r * r; ans = `S = \\{-${r} ; ${r}\\}`; sol = `$x^2 = ${k} \\iff x = -\\sqrt{${k}}$ ou $x = \\sqrt{${k}}$, soit $x = -${r}$ ou $x = ${r}$.`; }
         else { k = this.randChoice([2, 3, 5, 6, 7, 8, 12, 18, 20, 27, 28, 32, 45, 50]); const t = this._2nd_sqrtTex(k); ans = `S = \\{-${t} ; ${t}\\}`; sol = `$x^2 = ${k} \\iff x = -\\sqrt{${k}}$ ou $x = \\sqrt{${k}}$${t !== `\\sqrt{${k}}` ? `, avec $\\sqrt{${k}} = ${t}$` : ''}.`; }
         const t = k > 0 ? this._2nd_sqrtTex(k) : this._2nd_sqrtTex(-k);
-        return this.makeMcq('2A3', 2, 'Équation $x^2 = k$',
+        return this._xa(sub === 1 ? [`(${-Math.sqrt(k)};${Math.sqrt(k)})`, 'Saisir les deux solutions dans l\'ordre croissant : (x1 ; x2).'] : null, '2A3', 2, 'Équation $x^2 = k$',
           'Résoudre une équation avec la fonction carré',
           `Résoudre dans $\\mathbb{R}$ l'équation $x^2 = ${k}$.`,
           `$${ans}$`,
@@ -1094,7 +1110,7 @@ window.MathsLyceeGenerators = {
       if (kind === 1) {
         const x = this.randNonZero(-5, 5);
         const k = x ** 3;
-        return this.makeMcq('2A3', 2, 'Équation $x^3 = k$',
+        return this._xa([String(x)], '2A3', 2, 'Équation $x^3 = k$',
           'Résoudre une équation avec la fonction cube',
           `Résoudre dans $\\mathbb{R}$ l'équation $x^3 = ${k}$.`,
           `$S = \\{${x}\\}$`,
@@ -1108,7 +1124,7 @@ window.MathsLyceeGenerators = {
       let q = this.randInt(1, 9);
       while (this.gcd(p, q) !== 1) { p = this.randNonZero(-9, 9); q = this.randInt(1, 9); }
       const k = this.frac(p, q);
-      return this.makeMcq('2A3', 2, 'Équation $\\frac{1}{x} = k$',
+      return this._xa([this._xf(q, p)], '2A3', 2, 'Équation $\\frac{1}{x} = k$',
         'Résoudre une équation avec la fonction inverse',
         `Résoudre dans $\\mathbb{R}^*$ l'équation $\\dfrac{1}{x} = ${k}$.`,
         `$S = \\left\\{${this.frac(q, p)}\\right\\}$`,
@@ -1169,46 +1185,15 @@ window.MathsLyceeGenerators = {
         `Pour $x < 0$ : $\\frac{1}{x} < 0 < ${k}$, toujours vrai. Pour $x > 0$ : $\\frac{1}{x} < ${k} \\iff x > ${inv}$. Donc $S = ${ans}$.`
       );
     }
-    // tier 4 : parité
-    const kind = this.randInt(0, 3);
-    const a = this.randNonZero(-6, 6);
-    const b = this.randNonZero(-6, 6);
-    const c = this.randNonZero(-9, 9);
-    let f;
-    let ans;
-    let sol;
-    if (kind === 0) {
-      f = this.poly([[a, 'x^4'], [b, 'x^2'], [c, '']]);
-      ans = 'Paire';
-      sol = `$f(-x) = ${this.poly([[a, '(-x)^4'], [b, '(-x)^2'], [c, '']])} = ${f} = f(x)$ : $f$ est paire.`;
-    } else if (kind === 1) {
-      f = this.poly([[a, 'x^3'], [b, 'x']]);
-      ans = 'Impaire';
-      sol = `$f(-x) = ${this.poly([[a, '(-x)^3'], [b, '(-x)']])} = ${this.poly([[-a, 'x^3'], [-b, 'x']])} = -f(x)$ : $f$ est impaire.`;
-    } else if (kind === 2) {
-      f = this.poly([[a, 'x^2'], [b, 'x']]);
-      ans = 'Ni paire ni impaire';
-      sol = `$f(-x) = ${this.poly([[a, 'x^2'], [-b, 'x']])}$, qui n'est égal ni à $f(x)$ ni à $-f(x)$ (par exemple $f(1) = ${a + b}$ et $f(-1) = ${a - b}$) : $f$ n'est ni paire ni impaire.`;
-    } else {
-      const k = this.randInt(1, 9);
-      f = `\\dfrac{${this.coefStr(a, 'x')}}{x^2 + ${k}}`;
-      ans = 'Impaire';
-      sol = `$f$ est définie sur $\\mathbb{R}$ (symétrique par rapport à 0) et $f(-x) = \\dfrac{${this.coefStr(-a, 'x')}}{(-x)^2 + ${k}} = -f(x)$ : $f$ est impaire.`;
-    }
-    return this.makeMcq('2A3', 4, 'Parité d\'une fonction',
-      'Étudier la parité par le calcul de $f(-x)$',
-      `La fonction $f$ définie sur $\\mathbb{R}$ par $f(x) = ${f}$ est-elle paire, impaire ou ni l'un ni l'autre ?`,
-      ans, ['Paire', 'Impaire', 'Ni paire ni impaire', 'Paire et impaire'].filter((s) => s !== ans),
-      'Calcule $f(-x)$ et compare-le à $f(x)$ et à $-f(x)$.',
-      'Paire : $f(-x) = f(x)$ (courbe symétrique par rapport à l\'axe des ordonnées) ; impaire : $f(-x) = -f(x)$ (symétrie centrale par rapport à l\'origine).',
-      sol
-    );
+    return null; // palier 4 : familles ajoutées (_LYX) ; la parité relève de la 1re (1A3)
   },
 
   // =========================================================================
   // 2G1 : Repérage, milieu, distance
   // =========================================================================
   gen_2G1(tier) {
+    const xq = this._lyX('2G1', tier, [1, 1, 1, 2][tier - 1]);
+    if (xq) return xq;
     const pt = (n, x, y) => `${n}(${x} ; ${y})`;
     if (tier === 1) {
       const x1 = this.randNonZero(-9, 9);
@@ -1335,6 +1320,8 @@ window.MathsLyceeGenerators = {
   // 2G2 : Vecteurs, colinéarité
   // =========================================================================
   gen_2G2(tier) {
+    const xq = this._lyX('2G2', tier, [1, 1, 1, 1][tier - 1]);
+    if (xq) return xq;
     const vec = (n, x, y) => `\\vec{${n}}\\begin{pmatrix} ${x} \\\\ ${y} \\end{pmatrix}`;
     const pt = (n, x, y) => `${n}(${x} ; ${y})`;
     if (tier === 1) {
@@ -1342,7 +1329,7 @@ window.MathsLyceeGenerators = {
       const B = [this.randNonZero(-9, 9), this.randNonZero(-9, 9)];
       if (A[0] === B[0] && A[1] === B[1]) return this.gen_2G2(1);
       const ov = (x, y) => `\\overrightarrow{AB}\\begin{pmatrix} ${x} \\\\ ${y} \\end{pmatrix}`;
-      return this.makeMcq('2G2', 1, 'Coordonnées d\'un vecteur',
+      return this._xa([`(${B[0] - A[0]};${B[1] - A[1]})`, 'Saisir les coordonnées sous la forme (x ; y).'], '2G2', 1, 'Coordonnées d\'un vecteur',
         'Calculer les coordonnées de $\\overrightarrow{AB}$',
         `On donne $${pt('A', A[0], A[1])}$ et $${pt('B', B[0], B[1])}$. Quelles sont les coordonnées du vecteur $\\overrightarrow{AB}$ ?`,
         `$${ov(B[0] - A[0], B[1] - A[1])}$`,
@@ -1360,7 +1347,7 @@ window.MathsLyceeGenerators = {
       const w = [k * u[0] + m * v[0], k * u[1] + m * v[1]];
       const comb = this.poly([[k, '\\vec{u}'], [m, '\\vec{v}']]);
       const W = (x, y) => `\\vec{w}\\begin{pmatrix} ${x} \\\\ ${y} \\end{pmatrix}`;
-      return this.makeMcq('2G2', 2, 'Combinaison linéaire de vecteurs',
+      return this._xa([`(${w[0]};${w[1]})`, 'Saisir les coordonnées sous la forme (x ; y).'], '2G2', 2, 'Combinaison linéaire de vecteurs',
         'Calculer les coordonnées de $k\\vec{u} + m\\vec{v}$',
         `On donne $${vec('u', u[0], u[1])}$ et $${vec('v', v[0], v[1])}$. Quelles sont les coordonnées de $\\vec{w} = ${comb}$ ?`,
         `$${W(w[0], w[1])}$`,
@@ -1430,6 +1417,8 @@ window.MathsLyceeGenerators = {
   // 2G3 : Droites du plan
   // =========================================================================
   gen_2G3(tier) {
+    const xq = this._lyX('2G3', tier, [1, 2, 1, 1][tier - 1]);
+    if (xq) return xq;
     const pt = (n, x, y) => `${n}(${x} ; ${y})`;
     const red = (m, p) => `y = ${this.poly([[m, 'x'], [p, '']])}`;
     const cart = (a, b, c) => `${this.poly([[a, 'x'], [b, 'y'], [c, '']])} = 0`;
@@ -1461,7 +1450,7 @@ window.MathsLyceeGenerators = {
         eq(this.frac(-mNum, mDen), this.frac(y1 * mDen + mNum * x1, mDen))
       ];
       const slope = `\\frac{y_B - y_A}{x_B - x_A} = ${(y2 - y1)} \\div ${this.paren(x2 - x1)} = ${mT}`;
-      return this.makeMcq('2G3', 1, 'Équation réduite d\'une droite',
+      return this._xa([`(${this._xf(mNum, mDen)};${this._xf(pN, mDen)})`, 'Saisir (m ; p) pour $y = mx + p$, par exemple (-2/3;5).'], '2G3', 1, 'Équation réduite d\'une droite',
         'Calculer le coefficient directeur puis l\'ordonnée à l\'origine',
         `Déterminer l'équation réduite de la droite $(AB)$ avec $${pt('A', x1, y1)}$ et $${pt('B', x2, y2)}$.`,
         `$${ans}$`, cands.map((c) => `$${c}$`),
@@ -1569,6 +1558,8 @@ window.MathsLyceeGenerators = {
   // 2S1 : Statistiques descriptives
   // =========================================================================
   gen_2S1(tier) {
+    const xq = this._lyX('2S1', tier, [2, 1, 1, 3][tier - 1]);
+    if (xq) return xq;
     const fmtMean = (num, den) => {
       const v = num / den;
       if (this.isDecimal(v, 2)) return { rel: '=', txt: this.dec(v, 2), exact: true };
@@ -1606,7 +1597,7 @@ window.MathsLyceeGenerators = {
         `$\\bar{x} ${m.rel} ${m.txt}$`,
         [`$\\bar{x} ${ms.rel} ${ms.txt}$`, `$\\bar{x} ${fmtMean(S, k).rel} ${fmtMean(S, k).txt}$`, `$\\bar{x} ${fmtMean(S, N + 1).rel} ${fmtMean(S, N + 1).txt}$`],
         'Chaque valeur est multipliée par son effectif.',
-        `Effectif total : $N = ${N}$.`,
+        `L'effectif total est $${N}$.`,
         `$\\bar{x} = \\frac{${vals.map((v, i) => `${eff[i]} \\times ${v}`).join(' + ')}}{${N}} = \\frac{${S}}{${N}} ${m.rel} ${m.txt}$.`.replace(`\\frac{${S}}{${N}}`, this.gcd(S, N) === 1 && N > 1 ? `\\frac{${S}}{${N}}` : `${S} \\div ${N}`)
       );
     }
@@ -1702,7 +1693,7 @@ window.MathsLyceeGenerators = {
     const ans = askE ? `$${mx - mn}$` : `$${q3 - q1}$`;
     return this.makeMcq('2S1', 4, askE ? 'Étendue' : 'Écart interquartile',
       'Distinguer les indicateurs de dispersion',
-      `Une série a pour minimum $${mn}$, premier quartile $Q_1 = ${q1}$, troisième quartile $Q_3 = ${q3}$ et maximum $${mx}$. Quel est son ${askE ? 'étendue' : 'écart interquartile'} ?`,
+      `Une série a pour minimum $${mn}$, premier quartile $Q_1 = ${q1}$, troisième quartile $Q_3 = ${q3}$ et maximum $${mx}$. ${askE ? 'Quelle est son étendue' : 'Quel est son écart interquartile'} ?`,
       ans,
       [`$${askE ? q3 - q1 : mx - mn}$`, `$${q3 + q1}$`, `$${mx - q1}$`, `$${q3 - mn}$`].filter((s) => s !== ans),
       askE ? 'L\'étendue est « maximum moins minimum ».' : 'L\'écart interquartile est $Q_3 - Q_1$.',
@@ -1715,6 +1706,8 @@ window.MathsLyceeGenerators = {
   // 2S2 : Probabilités
   // =========================================================================
   gen_2S2(tier) {
+    const xq = this._lyX('2S2', tier, [2, 2, 2, 1][tier - 1]);
+    if (xq) return xq;
     const P = (x) => this.dec(x / 100, 2);
     if (tier === 1) {
       if (Math.random() < 0.5) {
@@ -1834,108 +1827,187 @@ window.MathsLyceeGenerators = {
   // 2S3 : Échantillonnage et fluctuation
   // =========================================================================
   gen_2S3(tier) {
-    const ns = [25, 100, 400, 625, 1600, 2500, 10000];
-    const sq = { 25: 5, 100: 10, 400: 20, 625: 25, 1600: 40, 2500: 50, 10000: 100 };
+    // Programme 2026 : simulation, fréquence observée, loi des grands nombres (version vulgarisée) ;
+    // l'intervalle de fluctuation [p - 1/√n ; p + 1/√n] n'est plus au programme de seconde.
+    const T = '2S3';
+    const P = (lines) => this._2S4_py(lines);
+    const D = (x, k = 4) => this.dec(x, k);
     if (tier === 1) {
-      if (Math.random() < 0.5) {
-        const n = this.randChoice(ns);
-        return this.makeMcq('2S3', 1, 'Rayon de l\'intervalle de fluctuation',
-          'Calculer $\\frac{1}{\\sqrt{n}}$',
-          `Pour un échantillon de taille $n = ${n}$, calculer la valeur de $\\frac{1}{\\sqrt{n}}$ (demi-amplitude de l'intervalle de fluctuation au seuil de 95 %).`,
-          `$${this.dec(1 / sq[n])}$`,
-          [`$${this.dec(1 / n, 6)}$`, `$${this.dec(2 / sq[n])}$`, `$${sq[n]}$`, `$${this.dec(1 / (2 * sq[n]))}$`],
-          `$\\sqrt{${n}} = ${sq[n]}$.`,
-          'Divise 1 par la racine carrée de $n$.',
-          `$\\frac{1}{\\sqrt{${n}}} = \\frac{1}{${sq[n]}} = ${this.dec(1 / sq[n])}$.`
-        );
+      const kind = this.randInt(0, 2);
+      if (kind === 0) {
+        const n = this.randChoice([20, 25, 40, 50, 80, 100, 200, 250, 500]);
+        const k = this.randInt(1, n - 1);
+        const ctx = this.randChoice([['une pièce', '« Pile »'], ['un dé à six faces', 'un « 6 »'], ['une punaise', '« pointe en haut »'], ['un dé à quatre faces', 'un « 1 »']]);
+        return this.makeExact(T, 1, 'Fréquence observée',
+          'Calculer une fréquence observée sur un échantillon',
+          `On lance $${n}$ fois ${ctx[0]} et on obtient $${k}$ fois ${ctx[1]}. Quelle est la fréquence observée de ${ctx[1]} ?`,
+          this._xd(k / n),
+          'La fréquence observée est le quotient de l\'effectif par le nombre total de lancers.',
+          `Calcule $${k} \\div ${n}$ et donne le résultat sous forme décimale.`,
+          `$f = ${k} \\div ${n} = ${D(k / n)}$.`,
+          { instruction: 'Saisir un nombre décimal, par exemple 0,34.' });
       }
-      const n = this.randInt(5, 200);
-      const p = this.randInt(5, 95) / 100;
-      const ok = n >= 25 && p >= 0.2 && p <= 0.8;
-      const ans = ok ? 'Oui, car $n \\ge 25$ et $0{,}2 \\le p \\le 0{,}8$' : (n < 25 ? 'Non, car $n < 25$' : 'Non, car $p$ n\'est pas compris entre $0{,}2$ et $0{,}8$');
-      return this.makeMcq('2S3', 1, 'Conditions d\'utilisation',
-        'Vérifier les conditions d\'utilisation de l\'intervalle de fluctuation',
-        `On prélève un échantillon de taille $n = ${n}$ dans une population où la proportion d'un caractère est $p = ${this.dec(p)}$. Peut-on utiliser l'intervalle de fluctuation $\\left[p - \\frac{1}{\\sqrt{n}} ; p + \\frac{1}{\\sqrt{n}}\\right]$ ?`,
-        ans,
-        ['Oui, car $n \\ge 25$ et $0{,}2 \\le p \\le 0{,}8$', 'Non, car $n < 25$', 'Non, car $p$ n\'est pas compris entre $0{,}2$ et $0{,}8$', 'Oui, il s\'utilise sans condition'].filter((s) => s !== ans),
-        'L\'intervalle s\'utilise lorsque $n \\ge 25$ et $0{,}2 \\le p \\le 0{,}8$.',
-        'Vérifie les deux conditions une par une.',
-        `Ici $n = ${n} ${n >= 25 ? '\\ge' : '<'} 25$ et $p = ${this.dec(p)}$ ${p >= 0.2 && p <= 0.8 ? 'est' : 'n\'est pas'} compris entre $0{,}2$ et $0{,}8$. ${ok ? 'Les conditions sont réunies.' : 'Les conditions ne sont pas réunies.'}`
-      );
+      if (kind === 1) {
+        const n = this.randChoice([50, 100, 200, 400, 500, 1000]);
+        const k = this.randInt(1, n - 1);
+        const f = k / n;
+        return this.makeExact(T, 1, 'Effectif à partir d\'une fréquence',
+          'Relier fréquence observée et effectif',
+          `Sur un échantillon de $${n}$ tirages, la fréquence observée de succès est $f = ${D(f)}$. Combien de succès a-t-on obtenus ?`,
+          String(k),
+          '$f = \\dfrac{\\text{nombre de succès}}{\\text{nombre de tirages}}$.',
+          `Multiplie la fréquence par $${n}$.`,
+          `Nombre de succès $= f \\times n = ${D(f)} \\times ${n} = ${k}$.`,
+          { instruction: 'Saisir un nombre entier.' });
+      }
+      const a = this.randInt(0, 5);
+      const b = a + this.randInt(3, 19);
+      const ask = this.randInt(0, 1);
+      return this.makeExact(T, 1, 'La fonction randint',
+        'Comprendre l\'instruction randint de Python',
+        `En Python, après \`from random import randint\`, l'instruction \`randint(${a}, ${b})\` renvoie un entier choisi au hasard (de façon équiprobable) entre ${a} et ${b}, bornes comprises. ${ask === 0 ? 'Combien de valeurs différentes peut-elle renvoyer ?' : `Quelle est la probabilité qu'elle renvoie ${b} ?`}`,
+        ask === 0 ? String(b - a + 1) : `1/${b - a + 1}`,
+        `Les deux bornes ${a} et ${b} sont des valeurs possibles.`,
+        ask === 0 ? `Compte les entiers de ${a} à ${b}.` : 'Les valeurs possibles sont équiprobables.',
+        `Les valeurs possibles sont les entiers de ${a} à ${b} : il y en a $${b} - ${a} + 1 = ${b - a + 1}$.${ask === 1 ? ` Elles sont équiprobables, donc la probabilité d'obtenir ${b} est $\\dfrac{1}{${b - a + 1}}$.` : ''}`,
+        { instruction: ask === 0 ? 'Saisir un nombre entier.' : 'Saisir une fraction, par exemple 1/8.' });
     }
     if (tier === 2) {
-      const n = this.randChoice(ns);
-      const pc = this.randInt(4, 16) * 5; // 0,20 à 0,80
-      const p = pc / 100;
-      const r = 1 / sq[n];
-      const lo = this.dec(p - r);
-      const hi = this.dec(p + r);
-      return this.makeMcq('2S3', 2, 'Calcul d\'un intervalle de fluctuation',
-        'Calculer $\\left[p - \\frac{1}{\\sqrt{n}} ; p + \\frac{1}{\\sqrt{n}}\\right]$',
-        `Dans une population, la proportion d'un caractère est $p = ${this.dec(p)}$. Déterminer l'intervalle de fluctuation au seuil de 95 % pour des échantillons de taille $n = ${n}$.`,
-        `$[${lo} ; ${hi}]$`,
-        [`$[${this.dec(p - 2 * r)} ; ${this.dec(p + 2 * r)}]$`, `$[${this.dec(p - r / 2)} ; ${this.dec(p + r / 2)}]$`, `$[${this.dec(p - 1 / n, 6)} ; ${this.dec(p + 1 / n, 6)}]$`, `$[${this.dec(1 - p - r)} ; ${this.dec(1 - p + r)}]$`].filter((s) => s !== `$[${lo} ; ${hi}]$`),
-        `Calcule $\\frac{1}{\\sqrt{${n}}}$.`,
-        `$\\frac{1}{\\sqrt{${n}}} = ${this.dec(r)}$.`,
-        `$\\frac{1}{\\sqrt{${n}}} = ${this.dec(r)}$, donc $I = [${this.dec(p)} - ${this.dec(r)} ; ${this.dec(p)} + ${this.dec(r)}] = [${lo} ; ${hi}]$.`
-      );
+      const kind = this.randInt(0, 2);
+      if (kind <= 1) {
+        const faces = this.randChoice([4, 6, 8, 10, 12, 20]);
+        const n = this.randChoice([1000, 10000, 100000]);
+        const cond = this.randInt(0, 3);
+        const k = this.randInt(2, faces - 1);
+        let test; let fav; let desc;
+        if (cond === 0) { test = `randint(1, ${faces}) <= ${k}`; fav = k; desc = `un résultat inférieur ou égal à ${k}`; }
+        else if (cond === 1) { test = `randint(1, ${faces}) >= ${k}`; fav = faces - k + 1; desc = `un résultat supérieur ou égal à ${k}`; }
+        else if (cond === 2) { test = `randint(1, ${faces}) % 2 == 0`; fav = faces / 2; desc = 'un résultat pair'; }
+        else { test = `randint(1, ${faces}) == ${k}`; fav = 1; desc = `le résultat ${k}`; }
+        if (kind === 1) {
+          return this.makeMcq(T, 2, 'Lire un programme de simulation',
+            'Comprendre et analyser un script Python de simulation',
+            `On considère le programme Python suivant :${P(['from random import randint', 'c = 0', `for i in range(${n}):`, `    if ${test}:`, '        c = c + 1', `print(c / ${n})`])}Que représente le nombre affiché ?`,
+            `La fréquence de ${desc} sur ${n} lancers simulés d'un dé à ${faces} faces`,
+            [`Le nombre de fois où l'on a obtenu ${desc} sur ${n} lancers`, `La probabilité exacte d'obtenir ${desc}`, `Le nombre de lancers nécessaires pour obtenir ${desc}`],
+            '`c` compte les répétitions où la condition du `if` est vraie.',
+            `Le programme divise ce compteur par ${n} avant de l'afficher.`,
+            `La boucle simule ${n} lancers d'un dé équilibré à ${faces} faces ; \`c\` compte les lancers donnant ${desc}. Le programme affiche \`c / ${n}\` : c'est une fréquence observée, qui varie d'une exécution à l'autre (ce n'est pas la probabilité exacte, dont elle se rapproche quand le nombre de lancers est grand).`
+          );
+        }
+        return this.makeExact(T, 2, 'Probabilité estimée par une simulation',
+          'Interpréter une simulation à l\'aide de la loi des grands nombres',
+          `On exécute le programme Python suivant :${P(['from random import randint', 'c = 0', `for i in range(${n}):`, `    if ${test}:`, '        c = c + 1', `print(c / ${n})`])}D'après la loi des grands nombres, de quelle valeur exacte le nombre affiché est-il proche ?`,
+          this._xf(fav, faces),
+          `\`randint(1, ${faces})\` simule le lancer d'un dé équilibré à ${faces} faces.`,
+          `Compte les faces qui rendent la condition vraie : ${desc}.`,
+          `La condition est vraie pour ${fav} face${fav > 1 ? 's' : ''} sur ${faces} équiprobables : sa probabilité vaut $${this.frac(fav, faces)}$. Pour ${n} répétitions, la fréquence affichée est, sauf exception, proche de $${this.frac(fav, faces)}$.`,
+          { instruction: 'Saisir une fraction irréductible, par exemple 3/8.' });
+      }
+      const n = this.randChoice([50, 100, 200]);
+      const fs = Array.from({ length: 5 }, () => this.randInt(Math.round(0.2 * n), Math.round(0.8 * n)));
+      const tot = fs.reduce((s, x) => s + x, 0);
+      return this.makeExact(T, 2, 'Regrouper des échantillons',
+        'Calculer une fréquence observée sur plusieurs échantillons',
+        `Cinq élèves simulent chacun $${n}$ lancers d'une pièce truquée et obtiennent respectivement $${fs.join('$, $')}$ fois « Pile ». Quelle est la fréquence de « Pile » observée sur l'ensemble des $${5 * n}$ lancers ?`,
+        this._xd(tot / (5 * n)),
+        'Regroupe les cinq échantillons en un seul.',
+        `Additionne les nombres de « Pile » et divise par $${5 * n}$.`,
+        `Nombre total de « Pile » : $${fs.join(' + ')} = ${tot}$. Fréquence : $\\dfrac{${tot}}{${5 * n}} = ${D(tot / (5 * n))}$. Sur un échantillon plus grand, la fréquence observée fluctue en général moins.`,
+        { instruction: 'Saisir un nombre décimal, par exemple 0,415.' });
     }
     if (tier === 3) {
-      const n = this.randChoice([100, 400, 625, 1600, 2500]);
-      const pc = this.randInt(4, 16) * 5;
-      const p = pc / 100;
-      const r = 1 / sq[n];
-      const inside = Math.random() < 0.5;
-      let k;
-      if (inside) k = Math.round(n * (p + (Math.random() * 1.6 - 0.8) * r));
-      else k = Math.round(n * (p + (Math.random() < 0.5 ? -1 : 1) * r * (1.2 + Math.random())));
-      if (k <= 0 || k >= n) return this.gen_2S3(3);
-      const f = k / n;
-      const lo = p - r;
-      const hi = p + r;
-      if (Math.abs(f - lo) < 1e-9 || Math.abs(f - hi) < 1e-9) return this.gen_2S3(3);
-      const isIn = f >= lo - 1e-12 && f <= hi + 1e-12;
-      const fT = this.dec(f, 6);
-      const ans = isIn ? `$f = ${fT}$ appartient à l'intervalle : l'échantillon est compatible avec $p = ${this.dec(p)}$` : `$f = ${fT}$ n'appartient pas à l'intervalle : on rejette l'hypothèse $p = ${this.dec(p)}$ au risque de 5 %`;
-      return this.makeMcq('2S3', 3, 'Prise de décision',
-        'Comparer une fréquence observée à l\'intervalle de fluctuation',
-        `On suppose que la proportion d'un caractère est $p = ${this.dec(p)}$. Sur un échantillon de ${n} individus, on en observe ${k} ayant ce caractère. L'intervalle de fluctuation au seuil de 95 % est $[${this.dec(lo)} ; ${this.dec(hi)}]$. Que conclure ?`,
-        ans,
-        [isIn ? `$f = ${fT}$ n'appartient pas à l'intervalle : on rejette l'hypothèse $p = ${this.dec(p)}$ au risque de 5 %` : `$f = ${fT}$ appartient à l'intervalle : l'échantillon est compatible avec $p = ${this.dec(p)}$`,
-          `On est certain que $p = ${fT}$`, 'On ne peut rien conclure sans connaître la population entière'],
-        'Calcule la fréquence observée $f = \\frac{k}{n}$.',
-        'Compare $f$ aux bornes de l\'intervalle.',
-        `$f = ${k} \\div ${n} = ${fT}$. ${isIn ? 'Cette fréquence est dans l\'intervalle : la différence avec $p$ peut s\'expliquer par la fluctuation d\'échantillonnage.' : 'Cette fréquence est hors de l\'intervalle : on rejette l\'hypothèse, avec un risque d\'erreur de 5 %.'}`
+      const kind = this.randInt(0, 2);
+      if (kind === 0) {
+        const s = this.randInt(2, 12);
+        let fav = 0;
+        for (let i = 1; i <= 6; i++) for (let j = 1; j <= 6; j++) if (i + j === s) fav++;
+        const n = this.randChoice([10000, 100000]);
+        return this.makeExact(T, 3, 'Somme de deux dés simulée',
+          'Simuler une expérience à deux épreuves et interpréter la fréquence',
+          `On exécute le programme suivant :${P(['from random import randint', 'c = 0', `for i in range(${n}):`, '    s = randint(1, 6) + randint(1, 6)', `    if s == ${s}:`, '        c = c + 1', `print(c / ${n})`])}De quelle valeur exacte le nombre affiché est-il proche ?`,
+          this._xf(fav, 36),
+          'Le programme simule le lancer de deux dés équilibrés et la somme des résultats.',
+          `Dans un tableau à double entrée $6 \\times 6$, compte les cases de somme ${s}.`,
+          `Il y a $36$ couples équiprobables ; ${fav} donnent la somme ${s}. La probabilité vaut $${this.frac(fav, 36)}$ et, d'après la loi des grands nombres, la fréquence affichée en est proche.`,
+          { instruction: 'Saisir une fraction irréductible, par exemple 1/12.' });
+      }
+      if (kind === 1) {
+        const n = this.randChoice([50, 100, 200, 500]);
+        const p = this.randInt(2, 8) / 10;
+        let k = Math.round(n * p) + this.randNonZero(-Math.round(n / 10), Math.round(n / 10));
+        k = Math.max(1, Math.min(n - 1, k));
+        const f = k / n;
+        return this.makeExact(T, 3, 'Écart entre fréquence et probabilité',
+          'Mesurer l\'écart entre une fréquence observée et une probabilité',
+          `On simule $${n}$ fois une expérience dont la probabilité de succès est $p = ${D(p)}$ et on obtient $${k}$ succès. Calculer l'écart $|f - p|$ entre la fréquence observée $f$ et $p$.`,
+          this._xd(Math.abs(f - p)),
+          `Calcule d'abord $f = ${k} \\div ${n}$.`,
+          'L\'écart est la distance entre les deux nombres : il est positif.',
+          `$f = ${k} \\div ${n} = ${D(f)}$, donc $|f - p| = |${D(f)} - ${D(p)}| = ${D(Math.abs(f - p))}$.`,
+          { instruction: 'Saisir un nombre décimal, par exemple 0,03.' });
+      }
+      const p = this.randChoice([0.25, 0.3, 0.4, 0.5, 0.6, 0.7]);
+      const sizes = [10, 100, 1000, 10000];
+      const fr = sizes.map((s, i) => {
+        const spread = [0.2, 0.06, 0.02, 0.005][i];
+        let f = Math.round((p + (Math.random() < 0.5 ? -1 : 1) * spread * (0.6 + 0.4 * Math.random())) * s) / s;
+        if (Math.abs(f - p) < 1e-9) f = p + 1 / s;
+        return f;
+      });
+      const order = this.shuffleArray([0, 1, 2, 3]);
+      return this.makeMcq(T, 3, 'Loi des grands nombres',
+        'Interpréter la variabilité d\'un échantillon selon sa taille',
+        `Une expérience a une probabilité de succès inconnue $p$. Quatre simulations donnent : ${order.map((i) => `échantillon de taille $${sizes[i] === 10000 ? '10\\,000' : sizes[i]}$ : $f = ${D(fr[i])}$`).join(' ; ')}. Quelle est la meilleure estimation de $p$ ?`,
+        `$${D(fr[3])}$, obtenue sur l'échantillon de taille $10\\,000$`,
+        [`$${D(fr[0])}$, obtenue sur l'échantillon de taille $10$`, `$${D((fr[0] + fr[1] + fr[2] + fr[3]) / 4)}$, moyenne simple des quatre fréquences`, `$${D(fr[1])}$, obtenue sur l'échantillon de taille $100$`],
+        'Plus l\'échantillon est grand, plus la fréquence observée est, en général, proche de la probabilité.',
+        'Une moyenne simple donnerait le même poids à un échantillon de 10 et à un échantillon de 10 000.',
+        `D'après la loi des grands nombres, lorsque $n$ est grand, sauf exception, la fréquence observée est proche de la probabilité. L'échantillon de taille $10\\,000$ fournit donc la meilleure estimation : $p \\approx ${D(fr[3])}$.`
       );
     }
     // tier 4
-    if (Math.random() < 0.5) {
-      const e = this.randChoice([[10, 100], [5, 400], [4, 625], [2, 2500], [1, 10000], [20, 25]]); // demi-amplitude en centièmes -> n
-      const half = e[0] / 100;
-      return this.makeMcq('2S3', 4, 'Taille d\'échantillon et précision',
-        'Relier la taille de l\'échantillon à l\'amplitude de l\'intervalle',
-        `Quelle taille minimale $n$ faut-il donner à l'échantillon pour que l'intervalle de fluctuation $\\left[p - \\frac{1}{\\sqrt{n}} ; p + \\frac{1}{\\sqrt{n}}\\right]$ ait une amplitude au plus égale à $${this.dec(2 * half)}$ ?`,
-        `$n = ${e[1]}$`,
-        [`$n = ${Math.round(1 / (2 * half) ** 2)}$`, `$n = ${Math.round(1 / half)}$`, `$n = ${Math.round(2 / half)}$`, `$n = ${4 * e[1]}$`],
-        'L\'amplitude de l\'intervalle vaut $\\frac{2}{\\sqrt{n}}$.',
-        `Résous $\\frac{2}{\\sqrt{n}} \\le ${this.dec(2 * half)}$, soit $\\sqrt{n} \\ge ${Math.round(1 / half)}$.`,
-        `$\\frac{2}{\\sqrt{n}} \\le ${this.dec(2 * half)} \\iff \\sqrt{n} \\ge ${Math.round(1 / half)} \\iff n \\ge ${e[1]}$. La taille minimale est $n = ${e[1]}$.`
-      );
+    const kind = this.randInt(0, 2);
+    if (kind === 0) {
+      const n = this.randChoice([100, 400]);
+      const p = this.randChoice([0.3, 0.4, 0.5, 0.6]);
+      const e = n === 100 ? 0.1 : 0.05;
+      const fs = Array.from({ length: 12 }, () => Math.round((p + (Math.random() * 2 - 1) * e * 1.6) * n) / n);
+      const inside = fs.filter((f) => Math.abs(f - p) <= e + 1e-9).length;
+      if (fs.some((f) => Math.abs(Math.abs(f - p) - e) < 1e-9)) return this.gen_2S3(4);
+      return this.makeExact(T, 4, 'Fluctuation d\'échantillonnage',
+        'Observer la fluctuation des fréquences d\'un échantillon à l\'autre',
+        `On simule 12 échantillons de taille $${n}$ d'une expérience de probabilité de succès $p = ${D(p)}$. Les fréquences observées sont : $${fs.map((f) => D(f)).join('$ ; $')}$. Combien de ces fréquences sont à une distance au plus $${D(e)}$ de $p$ ?`,
+        String(inside),
+        `Une fréquence $f$ convient si $|f - ${D(p)}| \\le ${D(e)}$.`,
+        `Autrement dit, si $f$ appartient à $[${D(p - e)} ; ${D(p + e)}]$.`,
+        `On garde les fréquences de $[${D(p - e)} ; ${D(p + e)}]$ : il y en a $${inside}$ sur $12$. Les autres illustrent la fluctuation d'échantillonnage : un échantillon peut s'écarter nettement de $p$.`,
+        { instruction: 'Saisir un nombre entier.' });
     }
-    const n = this.randChoice([50, 100, 200, 500, 1000]);
-    const pc = this.randInt(2, 8) / 10;
-    const pyP = String(pc);
-    const ask = this.randInt(0, 1);
-    const code = `def simul(n): c = 0 ; for k in range(n): if random() < ${pyP}: c = c + 1 ; return c / n`;
-    const ans = ask === 0 ? `La fréquence de succès observée sur ${n} répétitions d'une expérience de probabilité de succès $${this.dec(pc)}$` : `Une valeur proche de $${this.dec(pc)}$, qui varie d'une exécution à l'autre`;
-    return this.makeMcq('2S3', 4, 'Simulation en Python',
-      'Interpréter un programme de simulation d\'échantillon',
-      `On considère la fonction Python (écrite ici sur une ligne) : « ${code} ». ${ask === 0 ? `Que renvoie l'appel simul(${n}) ?` : `Que peut-on dire de la valeur renvoyée par simul(${n}) ?`}`,
-      ans,
-      [ask === 0 ? `Le nombre de succès observés sur ${n} répétitions` : `Toujours exactement $${this.dec(pc)}$`, ask === 0 ? `La probabilité exacte $${this.dec(pc)}$` : `Toujours un entier entre 0 et ${n}`, `Le nombre $${this.dec(pc * n)}$`, ask === 0 ? `Une valeur proche de $${this.dec(1 - pc)}$` : `Une valeur proche de $${this.dec(1 - pc)}$`],
-      '« random() < p » est vrai avec une probabilité $p$.',
-      'Le compteur c compte les succès ; on divise par n à la fin.',
-      `La boucle répète ${n} fois une expérience à deux issues dont le succès a pour probabilité $${this.dec(pc)}$ ; c compte les succès et la fonction renvoie c / n, la fréquence observée. Elle fluctue d'une exécution à l'autre autour de $${this.dec(pc)}$ (dans environ 95 % des cas entre $${this.dec(pc)} - \\frac{1}{\\sqrt{${n}}}$ et $${this.dec(pc)} + \\frac{1}{\\sqrt{${n}}}$).`
+    if (kind === 1) {
+      const n = this.randChoice([20, 50, 100, 200]);
+      const N = this.randChoice([10, 30, 50, 100]);
+      const p = this.randInt(1, 9) / 10;
+      const ask = this.randInt(0, 1);
+      return this.makeExact(T, 4, 'Programme simulant des échantillons',
+        'Analyser un programme qui simule plusieurs échantillons',
+        `On considère le programme suivant :${P(['from random import random', '', 'def frequence(n):', '    c = 0', '    for i in range(n):', `        if random() < ${String(p)}:`, '            c = c + 1', '    return c / n', '', `L = [frequence(${n}) for k in range(${N})]`])}${ask === 0 ? 'Combien d\'éléments contient la liste `L` ?' : 'Combien de fois la fonction `random()` est-elle appelée au total ?'}`,
+        String(ask === 0 ? N : n * N),
+        '`frequence(n)` simule un échantillon de taille `n` et renvoie la fréquence de succès.',
+        ask === 0 ? 'La liste est construite en compréhension : un élément par valeur de `k`.' : `Chaque appel de \`frequence(${n})\` appelle \`random()\` ${n} fois.`,
+        ask === 0 ? `\`k\` parcourt \`range(${N})\`, soit ${N} valeurs : \`L\` contient ${N} fréquences, une par échantillon de taille ${n}.` : `\`frequence(${n})\` est appelée ${N} fois et effectue chaque fois ${n} tirages : au total $${N} \\times ${n} = ${n * N}$ appels à \`random()\`.`,
+        { instruction: 'Saisir un nombre entier.' });
+    }
+    const n1 = this.randChoice([10, 20, 25]);
+    const n2 = this.randChoice([1000, 2500, 10000]);
+    return this.makeMcq(T, 4, 'Taille de l\'échantillon et fluctuation',
+      'Interpréter la variabilité d\'un échantillon à l\'aide de la loi des grands nombres',
+      `On simule de nombreux échantillons de taille $${n1}$, puis de nombreux échantillons de taille $${n2}$, d'une même expérience de probabilité de succès $p$. Quelle affirmation est correcte ?`,
+      `Les fréquences des échantillons de taille $${n2}$ sont en général plus proches de $p$ que celles des échantillons de taille $${n1}$`,
+      [`Les fréquences des échantillons de taille $${n2}$ sont toutes égales à $p$`, `Les fréquences des échantillons de taille $${n1}$ sont en général plus proches de $p$`, 'La taille de l\'échantillon n\'a aucune influence sur la fluctuation'],
+      'Pense à la loi des grands nombres.',
+      'La fluctuation diminue quand la taille de l\'échantillon augmente, mais ne disparaît pas.',
+      `D'après la loi des grands nombres, lorsque $n$ est grand, sauf exception, la fréquence observée est proche de $p$. Les échantillons de taille $${n2}$ fluctuent donc beaucoup moins que ceux de taille $${n1}$, sans que leurs fréquences soient pour autant exactement égales à $p$.`
     );
   },
 
@@ -1980,6 +2052,9 @@ window.MathsLyceeGenerators = {
     const D = (x) => this.dec(x, 2);
     const P = (x, d) => this._2N5_pct(x, d);
     const EV = (x, d) => this._2N5_evo(x, d);
+    const TX = 'Saisir le taux en pourcentage, sans le symbole %, précédé du signe « - » pour une baisse (par exemple -12,5).';
+    const PC = 'Saisir le pourcentage sans le symbole % (par exemple 12,5).';
+    const R2 = (x) => this._xd(Math.round(x * 100) / 100, 2);
     const things = ['Le prix d\'un vélo', 'Le loyer d\'un appartement', 'Le nombre d\'abonnés d\'un club', 'La production d\'une usine',
       'La consommation d\'eau d\'une famille', 'Le prix d\'un abonnement', 'Le nombre de visiteurs d\'un musée', 'Le chiffre d\'affaires d\'une boutique'];
     if (tier === 1) {
@@ -2005,7 +2080,7 @@ window.MathsLyceeGenerators = {
         while (s === 0) s = this.randInt(-90, 160);
         const cm = 1 + s / 100;
         const what = this.randChoice(things);
-        return this.makeMcq(T, 1, 'Taux à partir du coefficient',
+        return this._xa([String(s), TX], T, 1, 'Taux à partir du coefficient',
           'Retrouver le taux d\'évolution à partir du coefficient multiplicateur',
           `On a multiplié ${what.charAt(0).toLowerCase() + what.slice(1)} par $${this.dec(cm)}$. Quelle évolution cette grandeur a-t-elle subie ?`,
           EV(s),
@@ -2024,7 +2099,7 @@ window.MathsLyceeGenerators = {
         ['salariés d\'une entreprise', 'travaillent à temps partiel'], ['spectateurs d\'un festival', 'ont moins de 25 ans'],
         ['habitants d\'un village', 'utilisent les transports en commun']]);
       if (Math.random() < 0.5) {
-        return this.makeMcq(T, 1, 'Calcul d\'une proportion',
+        return this._xa([String(k), PC], T, 1, 'Calcul d\'une proportion',
           'Calculer la proportion d\'une sous-population',
           `Parmi les $${I(N)}$ ${ctx[0]}, $${I(nA)}$ ${ctx[1]}. Quelle est la proportion, en pourcentage, de ceux qui ${ctx[1]} ?`,
           `$${P(k)}$`,
@@ -2052,7 +2127,7 @@ window.MathsLyceeGenerators = {
       const what = this.randChoice(things);
       if (kind === 0) {
         const sg = (x) => (x > 0 ? '+' : '-') + P(Math.abs(x));
-        return this.makeMcq(T, 2, 'Taux d\'évolution',
+        return this._xa([String(t), TX], T, 2, 'Taux d\'évolution',
           'Calculer un taux d\'évolution entre deux valeurs',
           `${what} passe de $${I(VD)}$ à $${I(VA)}$. Quel est le taux d'évolution ?`,
           `$${sg(t)}$`,
@@ -2094,7 +2169,7 @@ window.MathsLyceeGenerators = {
         const tg = ((100 + t1) * (100 + t2) - 10000) / 100;
         const what = this.randChoice(things);
         const cm1 = this.dec(1 + t1 / 100); const cm2 = this.dec(1 + t2 / 100);
-        return this.makeMcq(T, 3, 'Évolutions successives',
+        return this._xa([R2(tg), TX], T, 3, 'Évolutions successives',
           'Calculer le taux global de deux évolutions successives',
           `${what} ${this._2N5_verb(t1)} une première année, puis ${this._2N5_verb(t2)} l'année suivante. Quelle est l'évolution globale sur les deux années ?`,
           EV(tg),
@@ -2112,7 +2187,7 @@ window.MathsLyceeGenerators = {
         ['des adhérents d\'un club pratiquent la compétition', 'des compétiteurs ont moins de 18 ans', 'adhérents sont des compétiteurs de moins de 18 ans'],
         ['des foyers d\'une ville possèdent une voiture', 'de ces foyers possèdent une voiture électrique', 'foyers de la ville possèdent une voiture électrique']]);
       const p = (p1 * p2) / 100;
-      return this.makeMcq(T, 3, 'Proportion de proportion',
+      return this._xa([R2(p), PC], T, 3, 'Proportion de proportion',
         'Calculer une proportion de proportion',
         `$${P(p1)}$ ${ctx[0]} et $${P(p2)}$ ${ctx[1]}. Quelle proportion des ${ctx[2]} ?`,
         `$${P(p)}$`,
@@ -2130,7 +2205,7 @@ window.MathsLyceeGenerators = {
       const tr = (100 / (100 + t) - 1) * 100;
       const what = this.randChoice(things);
       const exact = this.isDecimal(tr, 2);
-      return this.makeMcq(T, 4, 'Évolution réciproque',
+      return this._xa([R2(tr), TX], T, 4, 'Évolution réciproque',
         'Déterminer le taux d\'évolution réciproque',
         `${what} ${this._2N5_verb(t)}. Quelle évolution permettrait de revenir à la valeur initiale${exact ? '' : ' (taux arrondi à $0{,}01\\,\\%$ près)'} ?`,
         EV(tr),
@@ -2147,7 +2222,7 @@ window.MathsLyceeGenerators = {
       const tg = (cm ** n - 1) * 100;
       const ex = this.isDecimal(cm ** n, 6);
       const what = this.randChoice(things);
-      return this.makeMcq(T, 4, 'Évolutions identiques répétées',
+      return this._xa([R2(tg), TX], T, 4, 'Évolutions identiques répétées',
         'Calculer le taux global de plusieurs évolutions identiques',
         `${what} ${this._2N5_verb(t)} chaque année pendant $${n}$ ans. Quelle est l'évolution globale sur ces $${n}$ années (taux arrondi à $0{,}01\\,\\%$ près) ?`,
         EV(tg),
@@ -2164,7 +2239,7 @@ window.MathsLyceeGenerators = {
     }
     const tg = ((100 + t1) * (100 + t2) - 10000) / 100;
     const what = this.randChoice(things);
-    return this.makeMcq(T, 4, 'Second taux d\'évolution',
+    return this._xa([String(t2), TX], T, 4, 'Second taux d\'évolution',
       'Déterminer un taux connaissant le taux global',
       `${what} ${this._2N5_verb(t1)} une première année. Sur les deux années, l'évolution globale est ${tg > 0 ? 'une hausse' : 'une baisse'} de $${P(Math.abs(tg))}$. Quelle a été l'évolution la deuxième année ?`,
       EV(t2),
@@ -2289,7 +2364,7 @@ window.MathsLyceeGenerators = {
         const q = Math.floor(a / b);
         const r = a % b;
         const ans = `« ${q} ${r} »`;
-        return this.makeMcq(T, 1, 'Quotient et reste en Python',
+        return this._xa([`(${q};${r})`, 'Saisir les deux nombres affichés, dans l\'ordre, sous la forme (a ; b).'], T, 1, 'Quotient et reste en Python',
           'Utiliser les opérateurs // et %',
           `Qu'affiche l'instruction Python suivante ?${P([`print(${a} // ${b}, ${a} % ${b})`])}`,
           ans,
@@ -2574,6 +2649,1057 @@ window.MathsLyceeGenerators = {
     );
   },
 
+  // =========================================================================
+  // Familles complémentaires Seconde et Première (audit du 31/10/2026, programmes BO du 2 avril 2026)
+  // _lyX(ch, tier, nOld) tire une famille ajoutée avec un poids proportionnel à leur nombre
+  // (nOld = nombre de familles historiques du palier ; 0 = familles ajoutées seules).
+  // =========================================================================
+  _lyX(ch, tier, nOld) {
+    const names = ((this._LYX || {})[ch] || {})[tier];
+    if (!names || !names.length) return null;
+    if (nOld > 0 && Math.random() >= names.length / (names.length + nOld)) return null;
+    return this[this.randChoice(names)](tier);
+  },
+
+  /** makeMcq + pilotage de la saisie exacte : ex = [saisie, consigne] ou 'keep' (QCM conceptuel) */
+  _xa(ex, ...args) {
+    const q = this.makeMcq(...args);
+    if (ex === 'keep') q.keepMcq = true;
+    else if (ex) {
+      const v = this.numValue(`$${String(ex[0]).replace(/^(-?\d+)\/(\d+)$/, '\\frac{$1}{$2}').replace(',', '{,}')}$`);
+      const clash = v !== null && (q.options || []).some((o) => {
+        if (o === q.answer) return false;
+        const r = window.MathsGenUtils.texToInput(o);
+        const ov = r ? this.numValue(`$${r.input.replace(/^(-?\d+)\/(\d+)$/, '\\frac{$1}{$2}').replace(',', '{,}')}$`) : null;
+        return ov !== null && Math.abs(ov - v) < 1e-4;
+      });
+      if (!clash) { q.exactAnswer = ex[0]; if (ex[1]) q.exactInstruction = ex[1]; }
+    }
+    return q;
+  },
+
+  _LYX: {
+    '2N1': { 1: ['_x2N1mult', '_x2N1enc'], 2: ['_x2N1pow'], 3: ['_x2N1dec', '_x2N1par', '_x2N1card'], 4: ['_x2N1lots'] },
+    '2N2': { 1: ['_x2N2dev'], 2: ['_x2N2fac'], 3: ['_x2N2den'], 4: ['_x2N2form'] },
+    '2N3': { 1: ['_x2N3ent', '_x2N3sig'], 2: ['_x2N3cr', '_x2N3cmp', '_x2N3sig'], 3: ['_x2N3sqrt', '_x2N3cr'], 4: ['_x2N3cnt'] },
+    '2N4': { 1: ['_x2N4lin', '_x2N4sq', '_x2N4inv'], 2: ['_x2N4quo', '_x2N4ent', '_x2N4iso'], 3: ['_x2N4cnt', '_x2N4quo'], 4: ['_x2N4mod'] },
+    '2A1': { 2: ['_x2A1pt'], 3: ['_x2A1int', '_x2A1vi'], 4: ['_x2A1mod'] },
+    '2A2': { 1: ['_x2A2tab', '_x2A2aff'], 2: ['_x2A2tab'], 3: ['_x2A2opt'], 4: ['_x2A2opt'] },
+    '2A3': { 1: ['_x2A3abs'], 3: ['_x2A3sq', '_x2A3abs'], 4: ['_x2A3sqrt', '_x2A3sq', '_x2A3abs'] },
+    '2G1': { 2: ['_x2G1pyt'], 3: ['_x2G1cc'], 4: ['_x2G1eq'] },
+    '2G2': { 1: ['_x2G2B'], 2: ['_x2G2det', '_x2G2norm'], 3: ['_x2G2k'], 4: ['_x2G2al'] },
+    '2G3': { 1: ['_x2G3m'], 2: ['_x2G3pente', '_x2G3red'], 3: ['_x2G3ord', '_x2G3ax'], 4: ['_x2G3int', '_x2G3par'] },
+    '2S1': { 2: ['_x2S1cls', '_x2S1add'], 3: ['_x2S1var', '_x2S1cm', '_x2S1fc'], 4: ['_x2S1need', '_x2S1var', '_x2S1fc'] },
+    '2S2': { 1: ['_x2S2loi'], 2: ['_x2S2tc'], 3: ['_x2S2arb', '_x2S2tc'], 4: ['_x2S2tp'] },
+    '1A1': { 2: ['_x1A1fac'], 3: ['_x1A1det', '_x1A1sgn'], 4: ['_x1A1evid', '_x1A1sp'] },
+    '1A2': { 2: ['_x1A2app', '_x1A2vit'], 3: ['_x1A2lim', '_x1A2cm'] },
+    '1A3': { 2: ['_x1A3xn'], 3: ['_x1A3pt', '_x1A3par'] },
+    '1A4': { 2: ['_x1A4dec'], 3: ['_x1A4mod'], 4: ['_x1A4ext'] },
+    '1A5': { 3: ['_x1A5var'], 4: ['_x1A5lim'] },
+    '1A6': { 2: ['_x1A6gen'] },
+    '1G1': { 2: ['_x1G1arc'], 4: ['_x1G1arc', '_x1G1sum'] },
+    '1S1': { 3: ['_x1S1bern'], 4: ['_x1S1bern'] },
+    '1S2': { 1: ['_x1S2cum'], 2: ['_x1S2jeu'], 3: ['_x1S2kh'], 4: ['_x1S2sd'] },
+    '1G3': { 4: ['_x1G3proj'] }
+  },
+
+  /** Saisie brute d'une fraction réduite : (6, 1) -> "6", (-6, 8) -> "-3/4" */
+  _xf(n, d = 1) {
+    if (d < 0) { n = -n; d = -d; }
+    const g = this.gcd(Math.abs(n), d) || 1;
+    n /= g; d /= g;
+    return d === 1 ? String(n) : `${n}/${d}`;
+  },
+
+  /** Saisie brute d'un décimal : 2.5 -> "2,5" */
+  _xd(x, k = 4) {
+    return this.decText(x, k);
+  },
+
+  /** Tableau Markdown (rendu par MathsRenderer) */
+  _xtab(head, rows) {
+    const line = (r) => `| ${r.join(' | ')} |`;
+    return `\n\n${line(head)}\n|${head.map(() => ':---:').join('|')}|\n${rows.map(line).join('\n')}\n\n`;
+  },
+
+  // ---- 2N1 ----
+  _x2N1mult() {
+    const a = this.randInt(3, 19);
+    let b = this.randInt(40, 500);
+    while (b % a === 0) b = this.randInt(40, 500);
+    const q = Math.floor(b / a);
+    const r = b - a * q;
+    return this.makeExact('2N1', 1, 'Plus grand multiple inférieur à un entier',
+      'Utiliser la division euclidienne pour trouver un multiple',
+      `Quel est le plus grand multiple de $${a}$ inférieur ou égal à $${b}$ ?`,
+      String(a * q),
+      'Un multiple de $a$ s\'écrit $k \\times a$ avec $k$ entier.',
+      `Effectue la division euclidienne de $${b}$ par $${a}$ et garde le quotient entier.`,
+      `Division euclidienne : $${b} = ${a} \\times ${q} + ${r}$ avec $0 \\le ${r} < ${a}$. Le multiple suivant, $${a} \\times ${q + 1} = ${a * (q + 1)}$, dépasse $${b}$. Le plus grand multiple de $${a}$ inférieur ou égal à $${b}$ est donc $${a} \\times ${q} = ${a * q}$.`,
+      { instruction: 'Saisir un nombre entier.' });
+  },
+
+  _x2N1enc() {
+    const d = this.randChoice([3, 6, 7, 9, 11, 12, 13]);
+    let n = this.randInt(d + 1, 9 * d);
+    while (this.gcd(n, d) !== 1) n = this.randInt(d + 1, 9 * d);
+    const k = this.randChoice([1, 2]);
+    const A = Math.floor((n * 10 ** k) / d);
+    const a = A / 10 ** k;
+    const b = (A + 1) / 10 ** k;
+    const fr = `\\frac{${n}}{${d}}`;
+    const amp = k === 1 ? '0{,}1' : '0{,}01';
+    return this.makeExact('2N1', 1, 'Encadrement décimal d\'un rationnel',
+      'Encadrer un réel par deux décimaux d\'amplitude donnée',
+      `On encadre $${fr}$ par deux décimaux d'amplitude $${amp}$ : $a \\le ${fr} < a + ${amp}$, où $a$ s'écrit avec ${k === 1 ? 'un chiffre' : 'deux chiffres'} après la virgule. Donner $a$.`,
+      this._xd(a),
+      'Calcule l\'écriture décimale du quotient (division posée).',
+      `Garde ${k === 1 ? 'un chiffre' : 'deux chiffres'} après la virgule, sans arrondir : c'est une troncature.`,
+      `$${fr} = ${this.dec(n / d, 6)}\\ldots$ (écriture décimale illimitée). Donc $${this.dec(a)} \\le ${fr} < ${this.dec(b)}$ et $a = ${this.dec(a)}$.`,
+      { instruction: 'Saisir un nombre décimal, par exemple 2,35.' });
+  },
+
+  _x2N1pow() {
+    const base = this.randChoice([2, 3, 5, 10]);
+    const kind = this.randInt(0, 1);
+    let st; let n; let h2; let sol;
+    if (kind === 0) {
+      const a = this.randNonZero(-6, 9);
+      const b = this.randNonZero(-6, 9);
+      const c = this.randNonZero(-6, 9);
+      n = a + b - c;
+      st = `\\dfrac{${base}^{${a}} \\times ${base}^{${b}}}{${base}^{${c}}}`;
+      h2 = `Calcule l'exposant $${a} + ${this.paren(b)} - ${this.paren(c)}$.`;
+      sol = `$A = \\dfrac{${base}^{${a + b}}}{${base}^{${c}}} = ${base}^{${a + b} - ${this.paren(c)}} = ${base}^{${n}}$, donc $n = ${n}$.`;
+    } else {
+      const a = this.randNonZero(-4, 5);
+      const b = this.randInt(2, 4);
+      const c = this.randNonZero(-6, 6);
+      n = a * b + c;
+      st = `\\left(${base}^{${a}}\\right)^{${b}} \\times ${base}^{${c}}`;
+      h2 = `Calcule l'exposant $${a} \\times ${b} + ${this.paren(c)}$.`;
+      sol = `$A = ${base}^{${a * b}} \\times ${base}^{${c}} = ${base}^{${a * b} + ${this.paren(c)}} = ${base}^{${n}}$, donc $n = ${n}$.`;
+    }
+    return this.makeExact('2N1', 2, 'Calcul sur les puissances',
+      'Appliquer les règles de calcul sur les puissances entières relatives',
+      `Écrire $A = ${st}$ sous la forme $${base}^n$, avec $n$ entier relatif. Donner $n$.`,
+      String(n),
+      kind === 0 ? '$a^m \\times a^p = a^{m + p}$ et $\\dfrac{a^m}{a^p} = a^{m - p}$.' : '$(a^m)^p = a^{m \\times p}$ et $a^m \\times a^p = a^{m + p}$.',
+      h2, sol, { instruction: 'Saisir l\'entier relatif $n$.' });
+  },
+
+  _x2N1dec() {
+    const i = this.randInt(0, 4);
+    const j = this.randInt(0, 3);
+    const d = 2 ** i * 5 ** j;
+    if (d === 1) return this._x2N1dec();
+    let n = this.randInt(1, 4 * d);
+    while (this.gcd(n, d) !== 1 || n % d === 0) n = this.randInt(1, 4 * d);
+    const k = Math.max(i, j);
+    const mult = 10 ** k / d;
+    return this.makeExact('2N1', 3, 'Écriture décimale d\'un nombre décimal',
+      'Passer d\'une écriture fractionnaire à l\'écriture décimale',
+      `La fraction $\\dfrac{${n}}{${d}}$ est irréductible et ${this._2nd_factorTex(d) === String(d) ? `$${d}$ est premier` : `$${d} = ${this._2nd_factorTex(d)}$`}. Justifier que c'est un nombre décimal et donner son écriture décimale.`,
+      this._xd(n / d, 6),
+      'Le dénominateur n\'a pas d\'autres facteurs premiers que 2 et 5.',
+      `Multiplie le numérateur et le dénominateur par $${mult}$ pour obtenir le dénominateur $${10 ** k}$.`,
+      `$\\dfrac{${n}}{${d}} = \\dfrac{${n} \\times ${mult}}{${d} \\times ${mult}} = \\dfrac{${n * mult}}{${10 ** k}} = ${this.dec(n / d, 6)}$ : c'est un nombre décimal.`,
+      { instruction: 'Saisir l\'écriture décimale, par exemple 0,375.' });
+  },
+
+  _x2N1par() {
+    const k = this.randInt(3, 40);
+    const n = 2 * k + 1;
+    const m = 2 * k * k + 2 * k;
+    return this.makeExact('2N1', 3, 'Carré d\'un nombre impair',
+      'Démontrer que le carré d\'un nombre impair est impair',
+      `Un entier impair s'écrit $n = 2k + 1$ avec $k$ entier ; alors $n^2 = 2m + 1$ avec $m = 2k^2 + 2k$ entier, ce qui prouve que $n^2$ est impair. Pour $n = ${n}$, que vaut $m$ ?`,
+      String(m),
+      `Commence par trouver $k$ tel que $${n} = 2k + 1$.`,
+      '$n^2 = (2k + 1)^2 = 4k^2 + 4k + 1 = 2(2k^2 + 2k) + 1$.',
+      `$${n} = 2 \\times ${k} + 1$, donc $k = ${k}$ et $m = 2 \\times ${k}^2 + 2 \\times ${k} = ${m}$. Vérification : $${n}^2 = ${n * n} = 2 \\times ${m} + 1$.`,
+      { instruction: 'Saisir un nombre entier.' });
+  },
+
+  _x2N1lots() {
+    const g = this.randChoice([6, 8, 9, 10, 12, 14, 15, 18, 21, 24]);
+    let a = this.randInt(2, 11);
+    let b = this.randInt(2, 11);
+    while (this.gcd(a, b) !== 1 || a === b) { a = this.randInt(2, 11); b = this.randInt(2, 11); }
+    const A = g * a;
+    const B = g * b;
+    const ctx = this.randChoice([['roses', 'tulipes', 'bouquets'], ['stylos', 'cahiers', 'lots'], ['croissants', 'pains au chocolat', 'plateaux']]);
+    return this.makeExact('2N1', 4, 'Problème de partage (plus grand diviseur commun)',
+      'Modéliser un problème à l\'aide des diviseurs communs',
+      `On dispose de $${A}$ ${ctx[0]} et $${B}$ ${ctx[1]}. On veut composer le plus grand nombre possible de ${ctx[2]} identiques en utilisant tous les ${ctx[0]} et tous les ${ctx[1]}. Combien de ${ctx[2]} peut-on composer ?`,
+      String(g),
+      `Le nombre de ${ctx[2]} doit diviser à la fois $${A}$ et $${B}$.`,
+      'Décompose les deux nombres en produits de facteurs premiers et repère les facteurs communs.',
+      `$${A} = ${this._2nd_factorTex(A)}$ et $${B} = ${this._2nd_factorTex(B)}$. Le plus grand diviseur commun est $${g}$ : on compose $${g}$ ${ctx[2]}, chacun avec $${a}$ ${ctx[0]} et $${b}$ ${ctx[1]}.`,
+      { instruction: 'Saisir un nombre entier.' });
+  },
+
+  // ---- 2N2 ----
+  _x2N2dev() {
+    const k = this.randNonZero(-5, 6);
+    const a = this.randNonZero(-5, 5);
+    const b = this.randNonZero(-7, 7);
+    const m = this.randInt(1, 5);
+    const c = this.randNonZero(-5, 5);
+    const d = this.randNonZero(-7, 7);
+    const A = k * a - m * c;
+    const B = k * b - m * d;
+    if (A === 0) return this._x2N2dev();
+    const e = `${k === 1 ? '' : k === -1 ? '-' : k}${this._2nd_lin(a, b)} - ${m === 1 ? '' : m}${this._2nd_lin(c, d)}`;
+    return this.makeExact('2N2', 1, 'Développer et réduire',
+      'Distribuer un facteur et un signe « - » devant une parenthèse',
+      `Développer et réduire $E = ${e}$. Le résultat s'écrit $ax + b$ : saisir $(a ; b)$.`,
+      `(${A};${B})`,
+      'Distribue chaque facteur sur la parenthèse qui le suit.',
+      'Le signe « - » devant la seconde parenthèse change le signe de chacun de ses termes.',
+      `$E = ${this.poly([[k * a, 'x'], [k * b, '']])} ${m === 1 ? '-' : `- ${m} \\times`} (${this.poly([[c, 'x'], [d, '']])})$ $= ${this.poly([[k * a, 'x'], [k * b, '']])} ${this.poly([[-m * c, 'x'], [-m * d, '']]).replace(/^(?!-)/, '+ ').replace(/^-/, '- ')} = ${this.poly([[A, 'x'], [B, '']])}$. Donc $(a ; b) = (${A} ; ${B})$.`,
+      { instruction: 'Saisir (a ; b), par exemple (3;-2).' });
+  },
+
+  _x2N2fac() {
+    const g = this.randInt(1, 6);
+    let p = this.randInt(1, 6);
+    let q = this.randNonZero(-9, 9);
+    while (this.gcd(p, Math.abs(q)) !== 1) { p = this.randInt(1, 6); q = this.randNonZero(-9, 9); }
+    const a = g * p;
+    const b = g * q;
+    return this.makeExact('2N2', 2, 'Factoriser $ax^2 + bx$',
+      'Mettre en facteur le plus grand facteur commun',
+      `Factoriser $F = ${this.polyX([a, b, 0])}$ sous la forme $kx(px + q)$, avec $k$ entier positif le plus grand possible. Saisir $(k ; p ; q)$.`,
+      `(${g};${p};${q})`,
+      'Les deux termes contiennent le facteur $x$.',
+      `Cherche aussi le plus grand diviseur commun de $${a}$ et $${Math.abs(b)}$.`,
+      `$${this.polyX([a, b, 0])} = ${g === 1 ? '' : g}x \\times ${this.coefStr(p, 'x')} ${q > 0 ? '+' : '-'} ${g === 1 ? '' : g}x \\times ${Math.abs(q)} = ${g === 1 ? '' : g}x${this._2nd_lin(p, q)}$. Donc $(k ; p ; q) = (${g} ; ${p} ; ${q})$.`,
+      { instruction: 'Saisir (k ; p ; q), par exemple (2;3;-1).' });
+  },
+
+  _x2N2den() {
+    const p = this.randNonZero(-7, 7);
+    const a = this.randNonZero(-9, 9);
+    const b = this.randNonZero(-6, 6);
+    const lin = this.poly([[1, 'x'], [p, '']]);
+    const minus = b < 0;
+    const m = b;
+    const n = a + b * p;
+    return this.makeExact('2N2', 3, 'Réduire au même dénominateur',
+      'Écrire une somme sous la forme d\'un seul quotient',
+      `Pour $x \\neq ${-p}$, écrire $B = \\dfrac{${a}}{${lin}} ${minus ? '-' : '+'} ${Math.abs(b)}$ sous la forme $\\dfrac{mx + n}{${lin}}$. Saisir $(m ; n)$.`,
+      `(${m};${n})`,
+      `Écris $${Math.abs(b)} = \\dfrac{${Math.abs(b)}(${lin})}{${lin}}$.`,
+      'Additionne (ou soustrais) les numérateurs une fois le dénominateur commun obtenu.',
+      `$B = \\dfrac{${a}}{${lin}} ${minus ? '-' : '+'} \\dfrac{${Math.abs(b)}(${lin})}{${lin}} = \\dfrac{${a} ${minus ? '-' : '+'} (${this.poly([[Math.abs(b), 'x'], [Math.abs(b) * p, '']])})}{${lin}} = \\dfrac{${this.poly([[m, 'x'], [n, '']])}}{${lin}}$. Donc $(m ; n) = (${m} ; ${n})$.`,
+      { instruction: 'Saisir (m ; n), par exemple (2;-5).' });
+  },
+
+  _x2N2form() {
+    const al = this.randNonZero(-6, 6);
+    let k = this.randInt(1, 7);
+    while (k === Math.abs(al)) k = this.randInt(1, 7);
+    const dev = this.polyX([1, -2 * al, al * al - k * k]);
+    const can = `${this._2nd_lin(1, -al)}^2 - ${k * k}`;
+    const fac = `${this._2nd_lin(1, -al - k)}${this._2nd_lin(1, -al + k)}`;
+    const ask = this.randInt(0, 2);
+    const q = ['Calculer $f(0)$.', 'Résoudre $f(x) = 0$.', `Calculer $f(${al})$.`][ask];
+    const ans = [String(al * al - k * k), `(${al - k};${al + k})`, String(-k * k)][ask];
+    const form = ['développée', 'factorisée', 'canonique'][ask];
+    const sol = [
+      `Avec la forme développée, $f(0)$ est le terme constant : $f(0) = ${al * al - k * k}$.`,
+      `Avec la forme factorisée : $f(x) = 0 \\iff x ${this.formatSign(-al - k)} = 0$ ou $x ${this.formatSign(-al + k)} = 0$, soit $x = ${al + k}$ ou $x = ${al - k}$.`,
+      `Avec la forme canonique : $f(${al}) = (${al} - ${this.paren(al)})^2 - ${k * k} = 0 - ${k * k} = ${-k * k}$.`
+    ][ask];
+    return this.makeExact('2N2', 4, 'Choisir la forme adaptée',
+      'Choisir la forme développée, factorisée ou canonique selon la question',
+      `On admet que, pour tout réel $x$ : $f(x) = ${dev} = ${can} = ${fac}$. En choisissant la forme la plus adaptée, ${q.charAt(0).toLowerCase() + q.slice(1)}`,
+      ans,
+      'Chaque forme est adaptée à un type de question.',
+      `Ici, la forme ${form} donne la réponse presque sans calcul.`,
+      sol,
+      { instruction: ask === 1 ? 'Saisir les deux solutions dans l\'ordre croissant : (x1 ; x2).' : 'Saisir un nombre entier.' });
+  },
+
+  // ---- 2N3 ----
+  _x2N3ent() {
+    const a = this.randInt(-9, 5);
+    const b = a + this.randInt(2, 9);
+    const lc = Math.random() < 0.5;
+    const rc = Math.random() < 0.5;
+    let cnt = 0;
+    for (let x = a; x <= b; x++) if ((x > a || lc) && (x < b || rc)) cnt++;
+    const I = this._2nd_iv(lc, a, b, rc);
+    return this.makeExact('2N3', 1, 'Entiers d\'un intervalle',
+      'Déterminer si un nombre appartient à un intervalle',
+      `Combien de nombres entiers relatifs appartiennent à l'intervalle $I = ${I}$ ?`,
+      String(cnt),
+      'Un crochet tourné vers l\'intérieur inclut la borne, un crochet tourné vers l\'extérieur l\'exclut.',
+      `Liste les entiers de $${a}$ à $${b}$, puis retire les bornes exclues.`,
+      `De $${a}$ à $${b}$ il y a $${b - a + 1}$ entiers. ${lc ? `$${a}$ est inclus` : `$${a}$ est exclu`} et ${rc ? `$${b}$ est inclus` : `$${b}$ est exclu`}, donc $I$ contient $${cnt}$ entiers.`,
+      { instruction: 'Saisir un nombre entier.' });
+  },
+
+  _x2N3cr(tier) {
+    const a = this.randInt(-9, 6);
+    const b = a + (tier >= 3 ? this.randInt(1, 11) : 2 * this.randInt(1, 6));
+    const c = (a + b) / 2;
+    const r = (b - a) / 2;
+    const large = Math.random() < 0.6;
+    const I = this._2nd_iv(large, a, b, large);
+    return this.makeExact('2N3', tier, 'Centre et rayon d\'un intervalle',
+      'Caractériser un intervalle par $|x - c| \\le r$',
+      `Déterminer les réels $c$ et $r$ tels que : $x \\in ${I} \\iff |x - c| ${large ? '\\le' : '<'} r$. Saisir $(c ; r)$.`,
+      `(${this._xd(c)};${this._xd(r)})`,
+      '$|x - c|$ est la distance entre $x$ et $c$ : $c$ est le centre de l\'intervalle.',
+      'Le centre est la moyenne des bornes ; le rayon est la moitié de la longueur.',
+      `$c = \\dfrac{${a} + ${this.paren(b)}}{2} = ${this.dec(c)}$ et $r = \\dfrac{${b} - ${this.paren(a)}}{2} = ${this.dec(r)}$. On a bien $${I} = ${large ? '[' : ']'}${this.dec(c)} - ${this.dec(r)} ; ${this.dec(c)} + ${this.dec(r)}${large ? ']' : '['}$ (bornes ${large ? 'incluses' : 'exclues'}).`,
+      { instruction: 'Saisir (c ; r), par exemple (1,5;4).' });
+  },
+
+  _x2N3sqrt() {
+    let N = this.randInt(2, 99);
+    while (Number.isInteger(Math.sqrt(N))) N = this.randInt(2, 99);
+    let k = Math.floor(Math.sqrt(N * 100));
+    while (k * k > N * 100) k--;
+    while ((k + 1) * (k + 1) <= N * 100) k++;
+    const e = Math.floor(Math.sqrt(N));
+    return this.makeExact('2N3', 3, 'Encadrement d\'une racine carrée (balayage)',
+      'Encadrer $\\sqrt{N}$ d\'amplitude $0{,}1$ en comparant des carrés',
+      `On cherche le décimal $a$, avec un chiffre après la virgule, tel que $a \\le \\sqrt{${N}} < a + 0{,}1$. Donner $a$.`,
+      this._xd(k / 10),
+      `Commence par encadrer $\\sqrt{${N}}$ entre deux entiers consécutifs.`,
+      `Pour $a \\ge 0$ : $a \\le \\sqrt{${N}} \\iff a^2 \\le ${N}$. Teste $${e}{,}1$, $${e}{,}2$, … (balayage).`,
+      `$${e}^2 = ${e * e} \\le ${N} < ${(e + 1) ** 2} = ${e + 1}^2$. Puis $${this.dec(k / 10)}^2 = ${this.dec((k * k) / 100)} \\le ${N} < ${this.dec(((k + 1) * (k + 1)) / 100)} = ${this.dec((k + 1) / 10)}^2$, donc $${this.dec(k / 10)} \\le \\sqrt{${N}} < ${this.dec((k + 1) / 10)}$ et $a = ${this.dec(k / 10)}$.`,
+      { instruction: 'Saisir un nombre décimal, par exemple 4,7.' });
+  },
+
+  _x2N3cnt() {
+    const a = this.randInt(-9, 0);
+    const c = a + this.randInt(1, 5);
+    const b = c + this.randInt(1, 6);
+    const d = b + this.randInt(1, 6);
+    const [l1, r1, l2, r2] = [0, 0, 0, 0].map(() => Math.random() < 0.5);
+    const askInter = Math.random() < 0.6;
+    const inI = (x) => (x > a || (x === a && l1)) && (x < b || (x === b && r1));
+    const inJ = (x) => (x > c || (x === c && l2)) && (x < d || (x === d && r2));
+    let cnt = 0;
+    for (let x = a; x <= d; x++) if (askInter ? inI(x) && inJ(x) : inI(x) || inJ(x)) cnt++;
+    const I = this._2nd_iv(l1, a, b, r1);
+    const J = this._2nd_iv(l2, c, d, r2);
+    const res = askInter ? this._2nd_iv(l2, c, b, r1) : this._2nd_iv(l1, a, d, r2);
+    return this.makeExact('2N3', 4, askInter ? 'Entiers d\'une intersection d\'intervalles' : 'Entiers d\'une réunion d\'intervalles',
+      'Déterminer intersection et réunion d\'intervalles',
+      `On donne $I = ${I}$ et $J = ${J}$. Combien de nombres entiers appartiennent à $I ${askInter ? '\\cap' : '\\cup'} J$ ?`,
+      String(cnt),
+      askInter ? 'Un réel est dans $I \\cap J$ s\'il est à la fois dans $I$ et dans $J$.' : 'Un réel est dans $I \\cup J$ s\'il est dans $I$ ou dans $J$ (au moins l\'un des deux).',
+      `Écris d'abord $I ${askInter ? '\\cap' : '\\cup'} J$ sous forme d'intervalle, puis compte ses entiers.`,
+      `Sur une droite graduée : $I ${askInter ? '\\cap' : '\\cup'} J = ${res}$. Cet intervalle contient $${cnt}$ entiers.`,
+      { instruction: 'Saisir un nombre entier.' });
+  },
+
+  // ---- 2N4 ----
+  _x2N4lin() {
+    const a = this.randNonZero(-7, 7);
+    let c = this.randNonZero(-7, 7);
+    while (c === a) c = this.randNonZero(-7, 7);
+    const b = this.randInt(-12, 12);
+    const d = this.randInt(-12, 12);
+    if (b === d) return this._x2N4lin();
+    return this.makeExact('2N4', 1, 'Équation du premier degré',
+      'Résoudre $ax + b = cx + d$',
+      `Résoudre dans $\\mathbb{R}$ l'équation $${this.poly([[a, 'x'], [b, '']])} = ${this.poly([[c, 'x'], [d, '']])}$.`,
+      this._xf(d - b, a - c),
+      'Regroupe les termes en $x$ dans un membre et les constantes dans l\'autre.',
+      `Tu dois obtenir une équation de la forme $${this.coefStr(a - c, 'x')} = ${d - b}$.`,
+      `$${this.poly([[a, 'x'], [b, '']])} = ${this.poly([[c, 'x'], [d, '']])} \\iff ${this.coefStr(a - c, 'x')} = ${d - b} \\iff x = ${this.frac(d - b, a - c)}$.`);
+  },
+
+  _x2N4quo(tier) {
+    const a = this.randNonZero(-5, 5);
+    const b = this.randInt(-9, 9);
+    const c = this.randInt(1, 4);
+    const d = this.randNonZero(-9, 9);
+    const k = this.randNonZero(-4, 4);
+    if (a === k * c || a * d === b * c) return this._x2N4quo(tier);
+    const xn = k * d - b;
+    const xd = a - k * c;
+    if (c * xn + d * xd === 0) return this._x2N4quo(tier);
+    const num = this.poly([[a, 'x'], [b, '']]);
+    const den = this.poly([[c, 'x'], [d, '']]);
+    return this.makeExact('2N4', tier, 'Équation quotient',
+      'Résoudre $\\frac{A(x)}{B(x)} = k$ en tenant compte de la valeur interdite',
+      `Résoudre l'équation $\\dfrac{${num}}{${den}} = ${k}$.`,
+      this._xf(xn, xd),
+      `Valeur interdite : $${den} \\neq 0$, soit $x \\neq ${this.frac(-d, c)}$.`,
+      `Pour $x \\neq ${this.frac(-d, c)}$, l'équation équivaut à $${num} = ${k}(${den})$.`,
+      `Pour $x \\neq ${this.frac(-d, c)}$ : $${num} = ${this.poly([[k * c, 'x'], [k * d, '']])} \\iff ${this.coefStr(xd, 'x')} = ${xn} \\iff x = ${this.frac(xn, xd)}$. Cette valeur n'est pas la valeur interdite : c'est l'unique solution.`);
+  },
+
+  _x2N4ent() {
+    const a = this.randNonZero(-6, 6);
+    let c = this.randNonZero(-6, 6);
+    while (c === a) c = this.randNonZero(-6, 6);
+    const b = this.randInt(-15, 15);
+    const d = this.randInt(-15, 15);
+    const strict = Math.random() < 0.5;
+    const sym = strict ? '>' : '\\ge';
+    const ok = (x) => (strict ? a * x + b > c * x + d : a * x + b >= c * x + d);
+    // solutions : x > m/k (k > 0) ou x < m/k (k < 0)
+    const k = a - c;
+    const m = d - b;
+    const wantMin = k > 0;
+    let best = null;
+    for (let x = -60; x <= 60; x++) if (ok(x)) { if (wantMin && best === null) best = x; if (!wantMin) best = x; }
+    return this.makeExact('2N4', 2, 'Entier solution d\'une inéquation',
+      'Résoudre une inéquation du premier degré et l\'exploiter',
+      `Déterminer le ${wantMin ? 'plus petit' : 'plus grand'} nombre entier solution de l'inéquation $${this.poly([[a, 'x'], [b, '']])} ${sym} ${this.poly([[c, 'x'], [d, '']])}$.`,
+      String(best),
+      'Résous d\'abord l\'inéquation : regroupe les $x$ dans un membre.',
+      `On obtient $${this.coefStr(k, 'x')} ${sym} ${m}$ ; attention si tu divises par un nombre négatif.`,
+      `$${this.poly([[a, 'x'], [b, '']])} ${sym} ${this.poly([[c, 'x'], [d, '']])} \\iff ${this.coefStr(k, 'x')} ${sym} ${m} \\iff x ${k > 0 ? sym : (strict ? '<' : '\\le')} ${this.frac(m, k)}$${k < 0 ? ' (division par un négatif : le sens change)' : ''}. Le ${wantMin ? 'plus petit' : 'plus grand'} entier qui convient est $${best}$.`,
+      { instruction: 'Saisir un nombre entier.' });
+  },
+
+  _x2N4cnt() {
+    let r1 = this.randInt(-7, 7);
+    let r2 = this.randInt(-7, 7);
+    while (Math.abs(r2 - r1) < 2) r2 = this.randInt(-7, 7);
+    if (r1 > r2) [r1, r2] = [r2, r1];
+    const a = this.randChoice([1, -1, 2, -2]);
+    const c = this.randChoice([1, -1, 3]);
+    const f = (x) => (a * x - a * r1) * (c * x - c * r2);
+    const neg = a * c > 0; // produit négatif entre les racines
+    const large = Math.random() < 0.5;
+    const sym = neg ? (large ? '\\le' : '<') : (large ? '\\ge' : '>');
+    const ok = (x) => (neg ? (large ? f(x) <= 0 : f(x) < 0) : (large ? f(x) >= 0 : f(x) > 0));
+    let cnt = 0;
+    for (let x = r1 - 2; x <= r2 + 2; x++) if (ok(x)) cnt++;
+    const e = `${this._2nd_lin(a, -a * r1)}${this._2nd_lin(c, -c * r2)}`;
+    return this.makeExact('2N4', 3, 'Entiers solutions d\'une inéquation produit',
+      'Résoudre une inéquation produit à l\'aide d\'un tableau de signes',
+      `Combien de nombres entiers sont solutions de l'inéquation $${e} ${sym} 0$ ?`,
+      String(cnt),
+      'Dresse le tableau de signes du produit.',
+      `Les facteurs s'annulent en $${r1}$ et $${r2}$.`,
+      `Le produit est du signe de $${a * c}$ à l'extérieur des racines, donc ${neg ? 'négatif' : 'positif'} entre $${r1}$ et $${r2}$. L'ensemble des solutions est $${this._2nd_iv(large, r1, r2, large)}$, qui contient $${cnt}$ entiers.`,
+      { instruction: 'Saisir un nombre entier.' });
+  },
+
+  _x2N4mod() {
+    const ctx = this.randChoice([['une salle de sport', 'séances'], ['un cinéma', 'places'], ['une piscine', 'entrées'], ['une médiathèque', 'locations']]);
+    const q = this.randInt(7, 15);
+    const p = q - this.randInt(2, 5);
+    const F = this.randInt(15, 90);
+    const n0 = Math.floor(F / (q - p)) + 1;
+    return this.makeExact('2N4', 4, 'Modéliser par une inéquation',
+      'Modéliser un problème par une inéquation du premier degré',
+      `Pour ${ctx[0]}, deux tarifs sont proposés. Tarif A : abonnement de $${F}$ € puis $${p}$ € par ${ctx[1].slice(0, -1)}. Tarif B : $${q}$ € par ${ctx[1].slice(0, -1)}, sans abonnement. À partir de combien de ${ctx[1]} le tarif A est-il strictement plus avantageux ?`,
+      String(n0),
+      `Pour $n$ ${ctx[1]}, le tarif A coûte $${F} + ${p}n$ et le tarif B coûte $${q}n$.`,
+      `Résous l'inéquation $${F} + ${p}n < ${q}n$ avec $n$ entier.`,
+      `$${F} + ${p}n < ${q}n \\iff ${F} < ${q - p}n \\iff n > ${this.frac(F, q - p)}$${Number.isInteger(F / (q - p)) ? '' : ` $\\approx ${this.dec(F / (q - p), 2)}$`}. Le plus petit entier qui convient est $${n0}$ : à partir de $${n0}$ ${ctx[1]}, le tarif A est plus avantageux.`,
+      { instruction: 'Saisir un nombre entier.' });
+  },
+
+  // ---- 2A1 ----
+  _x2A1pt() {
+    const x0 = this.randNonZero(-4, 4);
+    const c = this.randInt(-8, 8);
+    const a = this.randNonZero(-4, 4);
+    const y0 = a * x0 * x0 + c;
+    return this.makeExact('2A1', 2, 'Point d\'une courbe et paramètre',
+      'Exploiter l\'équation $y = f(x)$ d\'une courbe',
+      `Soit $f(x) = ax^2 ${this.formatSign(c)}$, où $a$ est un réel. Déterminer $a$ pour que le point $A(${x0} ; ${y0})$ appartienne à la courbe représentative de $f$.`.replace(' + 0$', '$'),
+      String(a),
+      '$A$ appartient à la courbe si et seulement si $y_A = f(x_A)$.',
+      `Écris l'égalité $f(${x0}) = ${y0}$ et résous-la.`,
+      `$f(${x0}) = a \\times ${this.paren(x0)}^2 ${this.formatSign(c)} = ${this.coefStr(x0 * x0, 'a')} ${this.formatSign(c)}$. L'équation $${this.coefStr(x0 * x0, 'a')} ${this.formatSign(c)} = ${y0}$ donne $${this.coefStr(x0 * x0, 'a')} = ${y0 - c}$, soit $a = ${a}$.`.replace(/ \+ 0/g, ''),
+      { instruction: 'Saisir la valeur de $a$.' });
+  },
+
+  _x2A1int() {
+    const a = this.randNonZero(-5, 5);
+    let c = this.randNonZero(-5, 5);
+    while (c === a) c = this.randNonZero(-5, 5);
+    const X = this.randInt(-5, 5);
+    const Y = this.randInt(-8, 8);
+    const b = Y - a * X;
+    const d = Y - c * X;
+    return this.makeExact('2A1', 3, 'Intersection de deux courbes',
+      'Résoudre algébriquement $f(x) = g(x)$',
+      `Soit $f(x) = ${this.poly([[a, 'x'], [b, '']])}$ et $g(x) = ${this.poly([[c, 'x'], [d, '']])}$. Déterminer les coordonnées du point d'intersection des courbes de $f$ et $g$.`,
+      `(${X};${Y})`,
+      'L\'abscisse du point d\'intersection est la solution de $f(x) = g(x)$.',
+      `Résous $${this.poly([[a, 'x'], [b, '']])} = ${this.poly([[c, 'x'], [d, '']])}$, puis calcule l'ordonnée.`,
+      `$f(x) = g(x) \\iff ${this.coefStr(a - c, 'x')} = ${d - b} \\iff x = ${X}$. Puis $f(${X}) = ${Y}$ (et $g(${X}) = ${Y}$). Le point d'intersection est $(${X} ; ${Y})$.`,
+      { instruction: 'Saisir les coordonnées sous la forme (x ; y).' });
+  },
+
+  _x2A1vi() {
+    const a = this.randNonZero(-6, 6);
+    const b = this.randNonZero(-12, 12);
+    const p = this.randNonZero(-9, 9);
+    const q = this.randInt(-9, 9);
+    const lin = this.poly([[a, 'x'], [b, '']]);
+    return this.makeExact('2A1', 3, 'Valeur interdite',
+      'Déterminer l\'ensemble de définition d\'une fonction rationnelle',
+      `Soit $f(x) = \\dfrac{${this.poly([[p, 'x'], [q, '']]) || '0'}}{${lin}}$. Quel est le seul réel qui n'a pas d'image par $f$ ?`,
+      this._xf(-b, a),
+      'On ne peut pas diviser par 0.',
+      `Résous l'équation $${lin} = 0$.`,
+      `$${lin} = 0 \\iff x = ${this.frac(-b, a)}$. Ce réel n'a pas d'image : $\\mathcal{D}_f = \\mathbb{R} \\setminus \\left\\{${this.frac(-b, a)}\\right\\}$.`);
+  },
+
+  _x2A1mod() {
+    const P = 2 * this.randInt(6, 30);
+    const h = P / 2;
+    const x0 = this.randInt(1, h - 1);
+    const ask = this.randInt(0, 1);
+    return this.makeExact('2A1', 4, 'Modéliser par une fonction',
+      'Modéliser une situation par une fonction et son ensemble de définition',
+      `Un rectangle a un périmètre de $${P}$ cm. On note $x$ la longueur d'un de ses côtés (en cm) et $A(x)$ son aire. On admet que $A(x) = x(${h} - x)$. ${ask === 0 ? `Calculer $A(${x0})$.` : 'L\'ensemble de définition de $A$ est un intervalle $]0 ; b[$. Donner $b$.'}`,
+      ask === 0 ? String(x0 * (h - x0)) : String(h),
+      ask === 0 ? 'Remplace $x$ par la valeur donnée.' : 'Les deux côtés du rectangle doivent avoir une longueur strictement positive.',
+      ask === 0 ? `L'autre côté mesure $${h} - ${x0}$ cm.` : `Le demi-périmètre vaut $${h}$ cm : l'autre côté mesure $${h} - x$.`,
+      ask === 0 ? `$A(${x0}) = ${x0} \\times (${h} - ${x0}) = ${x0} \\times ${h - x0} = ${x0 * (h - x0)}$ cm².` : `On doit avoir $x > 0$ et $${h} - x > 0$, soit $0 < x < ${h}$. Donc $\\mathcal{D}_A = ]0 ; ${h}[$ et $b = ${h}$.`,
+      { instruction: 'Saisir un nombre entier.' });
+  },
+
+  // ---- 2A2 ----
+  _x2A2tab(tier) {
+    const xs = [this.randInt(-6, -3)];
+    for (let i = 0; i < 3; i++) xs.push(xs[i] + this.randInt(1, 4));
+    const up = Math.random() < 0.5;
+    const v = [this.randInt(-6, 6)];
+    for (let i = 1; i < 4; i++) v.push(v[i - 1] + (((i % 2 === 1) === up) ? 1 : -1) * this.randInt(1, 7));
+    const desc = [0, 1, 2].map((i) => `${((i % 2 === 0) === up) ? 'croissante' : 'décroissante'} sur $[${xs[i]} ; ${xs[i + 1]}]$`).join(', ');
+    const vals = xs.map((x, i) => `$f(${x}) = ${v[i]}$`).join(', ');
+    const sub = tier >= 2 && Math.random() < 0.6;
+    const lo = sub ? 1 : 0;
+    const hi = 3;
+    const askMax = Math.random() < 0.5;
+    const seg = v.slice(lo, hi + 1);
+    const res = askMax ? Math.max(...seg) : Math.min(...seg);
+    return this.makeExact('2A2', tier, 'Extremum à partir des variations',
+      'Exploiter un tableau de variations pour trouver un extremum',
+      `Une fonction $f$ est définie sur $[${xs[0]} ; ${xs[3]}]$. Elle est ${desc}, avec ${vals}. Quel est le ${askMax ? 'maximum' : 'minimum'} de $f$ sur $[${xs[lo]} ; ${xs[hi]}]$ ?`,
+      String(res),
+      'Dresse le tableau de variations : les extremums sont atteints aux bornes ou aux changements de sens.',
+      `Compare les valeurs de $f$ aux points $${xs.slice(lo).join('$, $')}$.`,
+      `Sur $[${xs[lo]} ; ${xs[hi]}]$, les valeurs candidates sont ${xs.slice(lo).map((x, i) => `$f(${x}) = ${v[lo + i]}$`).join(', ')}. Le ${askMax ? 'maximum' : 'minimum'} est $${res}$.`,
+      { instruction: 'Saisir un nombre entier.' });
+  },
+
+  _x2A2aff() {
+    const m = this.randNonZero(-5, 5);
+    const p = this.randInt(-9, 9);
+    const a = this.randInt(-6, 2);
+    const b = a + this.randInt(1, 6);
+    const askMax = Math.random() < 0.5;
+    const fa = m * a + p;
+    const fb = m * b + p;
+    const res = askMax ? Math.max(fa, fb) : Math.min(fa, fb);
+    const at = res === fa ? a : b;
+    return this.makeExact('2A2', 1, 'Extremum d\'une fonction affine',
+      'Relier sens de variation et extremum d\'une fonction affine',
+      `Soit $f(x) = ${this.poly([[m, 'x'], [p, '']])}$ définie sur $[${a} ; ${b}]$. Quel est le ${askMax ? 'maximum' : 'minimum'} de $f$ sur cet intervalle ?`,
+      String(res),
+      'Une fonction affine est monotone : son extremum est atteint à une borne.',
+      `Le coefficient directeur est $${m}$ : $f$ est ${m > 0 ? 'croissante' : 'décroissante'}.`,
+      `$f$ est ${m > 0 ? 'croissante' : 'décroissante'} ($m = ${m}$). $f(${a}) = ${fa}$ et $f(${b}) = ${fb}$ : le ${askMax ? 'maximum' : 'minimum'} est $${res}$, atteint en $x = ${at}$.`,
+      { instruction: 'Saisir un nombre entier.' });
+  },
+
+  _x2A2opt(tier) {
+    if (tier <= 3) {
+      const P = 4 * this.randInt(3, 25);
+      const c = P / 4;
+      const ask = this.randInt(0, 1);
+      return this.makeExact('2A2', tier, 'Problème d\'optimisation',
+        'Déterminer un maximum à l\'aide de la forme canonique',
+        `Un rectangle a un périmètre de $${P}$ m. On note $x$ la longueur d'un côté ; son aire est $A(x) = x(${P / 2} - x) = -(x - ${c})^2 + ${c * c}$ pour $x \\in ]0 ; ${P / 2}[$. ${ask === 0 ? 'Quelle est l\'aire maximale (en m²) ?' : 'Pour quelle valeur de $x$ l\'aire est-elle maximale ?'}`,
+        String(ask === 0 ? c * c : c),
+        'Un carré $-(x - c)^2$ est toujours négatif ou nul.',
+        `$A(x) \\le ${c * c}$ pour tout $x$ : cherche quand l'égalité a lieu.`,
+        `$-(x - ${c})^2 \\le 0$, donc $A(x) \\le ${c * c}$, avec égalité pour $x = ${c}$. L'aire maximale est $${c * c}$ m², atteinte pour $x = ${c}$ (le rectangle est un carré).`,
+        { instruction: ask === 0 ? 'Saisir un nombre entier.' : 'Saisir la valeur de $x$.' });
+    }
+    const L = 4 * this.randInt(5, 30);
+    const y = L / 4;
+    const xL = L / 2;
+    const ask = this.randInt(0, 1);
+    return this.makeExact('2A2', 4, 'Problème d\'optimisation (enclos)',
+      'Modéliser et optimiser à l\'aide du sens de variation',
+      `On dispose de $${L}$ m de grillage pour clôturer un enclos rectangulaire le long d'un mur (le côté le long du mur n'est pas grillagé). On note $y$ la longueur des deux côtés perpendiculaires au mur : le troisième côté mesure $${L} - 2y$ et l'aire vaut $A(y) = y(${L} - 2y)$. ${ask === 0 ? 'Quelle est l\'aire maximale de l\'enclos (en m²) ?' : 'Pour quelle valeur de $y$ l\'aire est-elle maximale ?'}`,
+      ask === 0 ? this._xd(y * xL) : this._xd(y),
+      '$A$ est une fonction polynôme du second degré : son extremum est atteint au milieu de ses racines.',
+      `$A(y) = 0$ pour $y = 0$ et $y = ${this.dec(L / 2)}$.`,
+      `$A(y) = -2y^2 + ${L}y$ : coefficient de $y^2$ négatif, donc un maximum atteint pour $y = \\dfrac{0 + ${this.dec(L / 2)}}{2} = ${this.dec(y)}$. Le côté parallèle au mur mesure $${L} - 2 \\times ${this.dec(y)} = ${this.dec(xL)}$ m et l'aire maximale vaut $${this.dec(y)} \\times ${this.dec(xL)} = ${this.dec(y * xL)}$ m².`,
+      { instruction: 'Saisir la valeur (entier ou décimal).' });
+  },
+
+  // ---- 2A3 ----
+  _x2A3sq(tier) {
+    const a = this.randNonZero(-6, 6);
+    const r = this.randInt(1, 8);
+    const lin = this.poly([[1, 'x'], [-a, '']]);
+    if (tier <= 3) {
+      return this.makeExact('2A3', tier, 'Équation $(x - a)^2 = k$',
+        'Résoudre une équation avec la fonction carré',
+        `Résoudre dans $\\mathbb{R}$ l'équation $(${lin})^2 = ${r * r}$.`,
+        `(${a - r};${a + r})`,
+        'L\'équation $X^2 = k$ (avec $k > 0$) a deux solutions : $X = -\\sqrt{k}$ et $X = \\sqrt{k}$.',
+        `Pose $X = ${lin}$ et résous $X^2 = ${r * r}$.`,
+        `$(${lin})^2 = ${r * r} \\iff ${lin} = -${r}$ ou $${lin} = ${r}$, soit $x = ${a - r}$ ou $x = ${a + r}$.`,
+        { instruction: 'Saisir les deux solutions dans l\'ordre croissant : (x1 ; x2).' });
+    }
+    const less = Math.random() < 0.5;
+    const large = Math.random() < 0.5;
+    const sym = less ? (large ? '\\le' : '<') : (large ? '\\ge' : '>');
+    const S = less ? this._2nd_iv(large, a - r, a + r, large) : `${this._2nd_iv(false, '-\\infty', a - r, large)} \\cup ${this._2nd_iv(large, a + r, '+\\infty', false)}`;
+    return this.makeExact('2A3', 4, 'Inéquation $(x - a)^2 \\le k$',
+      'Résoudre une inéquation avec la fonction carré',
+      `L'ensemble des solutions de l'inéquation $(${lin})^2 ${sym} ${r * r}$ est ${less ? 'un intervalle' : 'la réunion de deux intervalles'} dont les bornes finies sont $m < M$. Saisir $(m ; M)$.`,
+      `(${a - r};${a + r})`,
+      `Pose $X = ${lin}$ : résous d'abord $X^2 ${sym} ${r * r}$ avec la parabole $y = X^2$.`,
+      `$X^2 ${sym} ${r * r}$ équivaut à ${less ? `$-${r} ${large ? '\\le' : '<'} X ${large ? '\\le' : '<'} ${r}$` : `$X ${large ? '\\le' : '<'} -${r}$ ou $X ${large ? '\\ge' : '>'} ${r}$`}.`,
+      `On revient à $x = X ${this.formatSign(a)}$ : $S = ${S}$. Les bornes sont $${a - r}$ et $${a + r}$.`,
+      { instruction: 'Saisir (m ; M), par exemple (-3;5).' });
+  },
+
+  _x2A3sqrt() {
+    const a = this.randNonZero(-5, 5);
+    const k = this.randInt(1, 7);
+    const b = this.randInt(-9, 9);
+    const lin = this.poly([[a, 'x'], [b, '']]);
+    return this.makeExact('2A3', 4, 'Équation $\\sqrt{ax + b} = k$',
+      'Résoudre une équation avec la fonction racine carrée',
+      `Résoudre l'équation $\\sqrt{${lin}} = ${k}$.`,
+      this._xf(k * k - b, a),
+      'Pour $k \\ge 0$ : $\\sqrt{X} = k \\iff X = k^2$.',
+      `Résous $${lin} = ${k * k}$.`,
+      `Comme $${k} \\ge 0$ : $\\sqrt{${lin}} = ${k} \\iff ${lin} = ${k * k} \\iff ${this.coefStr(a, 'x')} = ${k * k - b} \\iff x = ${this.frac(k * k - b, a)}$. (Pour cette valeur, $${lin} = ${k * k} \\ge 0$.)`);
+  },
+
+  // ---- 2G1 ----
+  _x2G1pyt() {
+    const [p, q, h] = this.randChoice([[3, 4, 5], [6, 8, 10], [5, 12, 13], [8, 15, 17], [9, 12, 15], [12, 16, 20], [7, 24, 25]]);
+    const sw = Math.random() < 0.5;
+    const dx = (sw ? p : q) * this.randChoice([1, -1]);
+    const dy = (sw ? q : p) * this.randChoice([1, -1]);
+    const A = [this.randInt(-9, 9), this.randInt(-9, 9)];
+    const B = [A[0] + dx, A[1] + dy];
+    return this.makeExact('2G1', 2, 'Distance entière entre deux points',
+      'Calculer une distance dans un repère orthonormé',
+      `Dans un repère orthonormé, on donne $A(${A[0]} ; ${A[1]})$ et $B(${B[0]} ; ${B[1]})$. Calculer la distance $AB$.`,
+      String(h),
+      'Formule : $AB = \\sqrt{(x_B - x_A)^2 + (y_B - y_A)^2}$.',
+      'Calcule d\'abord les différences des abscisses et des ordonnées.',
+      `$x_B - x_A = ${dx}$ et $y_B - y_A = ${dy}$, donc $AB = \\sqrt{${this.paren(dx)}^2 + ${this.paren(dy)}^2} = \\sqrt{${dx * dx} + ${dy * dy}} = \\sqrt{${h * h}} = ${h}$.`,
+      { instruction: 'Saisir la distance (nombre entier).' });
+  },
+
+  _x2G1cc() {
+    const A = [this.randInt(-5, 5), this.randInt(-5, 5)];
+    const p = this.randNonZero(-4, 4);
+    const q = this.randNonZero(-4, 4);
+    const k = this.randChoice([1, 2, -2, 3]);
+    const B = [A[0] + p, A[1] + q];
+    const C = [A[0] - k * q, A[1] + k * p];
+    const I = [(B[0] + C[0]) / 2, (B[1] + C[1]) / 2];
+    return this.makeExact('2G1', 3, 'Centre du cercle circonscrit (triangle rectangle)',
+      'Démontrer qu\'un triangle est rectangle et utiliser le milieu de l\'hypoténuse',
+      `On donne $A(${A[0]} ; ${A[1]})$, $B(${B[0]} ; ${B[1]})$ et $C(${C[0]} ; ${C[1]})$ dans un repère orthonormé. On admet que le triangle $ABC$ est rectangle en $A$. Déterminer les coordonnées du centre $K$ de son cercle circonscrit.`,
+      `(${this._xd(I[0])};${this._xd(I[1])})`,
+      'Le cercle circonscrit à un triangle rectangle a pour diamètre l\'hypoténuse.',
+      'Le centre est donc le milieu de $[BC]$.',
+      `Vérification : $AB^2 + AC^2 = ${p * p + q * q} + ${k * k * (p * p + q * q)} = ${(1 + k * k) * (p * p + q * q)} = BC^2$. Le centre $K$ est le milieu de l'hypoténuse $[BC]$ : $x_K = \\dfrac{${B[0]} + ${this.paren(C[0])}}{2} = ${this.dec(I[0])}$ et $y_K = \\dfrac{${B[1]} + ${this.paren(C[1])}}{2} = ${this.dec(I[1])}$.`,
+      { instruction: 'Saisir les coordonnées sous la forme (x ; y), par exemple (1,5;-2).' });
+  },
+
+  _x2G1eq() {
+    const A = [this.randInt(-6, 6), this.randInt(-6, 6)];
+    const B = [this.randInt(-6, 6), this.randInt(-6, 6)];
+    if (A[0] === B[0]) return this._x2G1eq();
+    const num = B[0] ** 2 + B[1] ** 2 - A[0] ** 2 - A[1] ** 2;
+    const den = 2 * (B[0] - A[0]);
+    return this.makeExact('2G1', 4, 'Point équidistant sur un axe',
+      'Traduire une égalité de distances par une équation',
+      `Dans un repère orthonormé, on donne $A(${A[0]} ; ${A[1]})$ et $B(${B[0]} ; ${B[1]})$. Déterminer l'abscisse $x$ du point $M(x ; 0)$ de l'axe des abscisses tel que $MA = MB$.`,
+      this._xf(num, den),
+      '$MA = MB \\iff MA^2 = MB^2$ (distances positives).',
+      'Écris $MA^2 = MB^2$ avec la formule de la distance, puis développe : les termes en $x^2$ se simplifient.',
+      `$MA^2 = MB^2 \\iff x^2 ${this.formatSign(-2 * A[0])}x + ${A[0] ** 2 + A[1] ** 2} = x^2 ${this.formatSign(-2 * B[0])}x + ${B[0] ** 2 + B[1] ** 2} \\iff ${this.coefStr(2 * (B[0] - A[0]), 'x')} = ${num} \\iff x = ${this.frac(num, den)}$.`.replace(/\+ -/g, '- ').replace(/ \+ 0x/g, '').replace(/ - 0x/g, '').replace(/ \+ 0 =/g, ' =').replace(/ \+ 0\$/g, '$'));
+  },
+
+  // ---- 2G2 ----
+  _x2G2B() {
+    const A = [this.randInt(-8, 8), this.randInt(-8, 8)];
+    const u = [this.randNonZero(-7, 7), this.randNonZero(-7, 7)];
+    const B = [A[0] + u[0], A[1] + u[1]];
+    return this.makeExact('2G2', 1, 'Extrémité d\'un vecteur',
+      'Utiliser les coordonnées de $\\overrightarrow{AB}$',
+      `On donne $A(${A[0]} ; ${A[1]})$ et $\\overrightarrow{AB}\\begin{pmatrix} ${u[0]} \\\\ ${u[1]} \\end{pmatrix}$. Déterminer les coordonnées du point $B$.`,
+      `(${B[0]};${B[1]})`,
+      '$\\overrightarrow{AB}\\begin{pmatrix} x_B - x_A \\\\ y_B - y_A \\end{pmatrix}$.',
+      'Donc $x_B = x_A + x_{\\overrightarrow{AB}}$ (de même pour les ordonnées).',
+      `$x_B = ${A[0]} + ${this.paren(u[0])} = ${B[0]}$ et $y_B = ${A[1]} + ${this.paren(u[1])} = ${B[1]}$, donc $B(${B[0]} ; ${B[1]})$.`,
+      { instruction: 'Saisir les coordonnées sous la forme (x ; y).' });
+  },
+
+  _x2G2det() {
+    const u = [this.randNonZero(-7, 7), this.randNonZero(-7, 7)];
+    const v = [this.randNonZero(-7, 7), this.randNonZero(-7, 7)];
+    const det = u[0] * v[1] - u[1] * v[0];
+    return this.makeExact('2G2', 2, 'Calcul d\'un déterminant',
+      'Calculer le déterminant de deux vecteurs',
+      `On donne $\\vec{u}\\begin{pmatrix} ${u[0]} \\\\ ${u[1]} \\end{pmatrix}$ et $\\vec{v}\\begin{pmatrix} ${v[0]} \\\\ ${v[1]} \\end{pmatrix}$ dans une base orthonormée. Calculer $\\det(\\vec{u}, \\vec{v})$.`,
+      String(det),
+      '$\\det(\\vec{u}, \\vec{v}) = xy\' - yx\'$ pour $\\vec{u}(x ; y)$ et $\\vec{v}(x\' ; y\')$.',
+      'Attention à l\'ordre des produits et aux signes.',
+      `$\\det(\\vec{u}, \\vec{v}) = ${this.paren(u[0])} \\times ${this.paren(v[1])} - ${this.paren(u[1])} \\times ${this.paren(v[0])} = ${u[0] * v[1]} - ${this.paren(u[1] * v[0])} = ${det}$.${det === 0 ? ' Les vecteurs sont colinéaires.' : ''}`);
+  },
+
+  _x2G2norm() {
+    const [p, q, h] = this.randChoice([[3, 4, 5], [6, 8, 10], [5, 12, 13], [8, 6, 10], [12, 9, 15], [4, 3, 5], [15, 8, 17]]);
+    const u = [p * this.randChoice([1, -1]), q * this.randChoice([1, -1])];
+    return this.makeExact('2G2', 2, 'Norme d\'un vecteur',
+      'Calculer la norme d\'un vecteur en base orthonormée',
+      `Dans une base orthonormée, on donne $\\vec{u}\\begin{pmatrix} ${u[0]} \\\\ ${u[1]} \\end{pmatrix}$. Calculer $\\|\\vec{u}\\|$.`,
+      String(h),
+      '$\\|\\vec{u}\\| = \\sqrt{x^2 + y^2}$.',
+      'Un carré est toujours positif.',
+      `$\\|\\vec{u}\\| = \\sqrt{${this.paren(u[0])}^2 + ${this.paren(u[1])}^2} = \\sqrt{${p * p} + ${q * q}} = \\sqrt{${h * h}} = ${h}$.`,
+      { instruction: 'Saisir un nombre entier.' });
+  },
+
+  _x2G2k() {
+    const u = [this.randNonZero(-6, 6), this.randNonZero(-6, 6)];
+    const kn = this.randNonZero(-6, 6);
+    const kd = this.randChoice([1, 1, 2, 3]);
+    if (this.gcd(Math.abs(kn), kd) !== 1) return this._x2G2k();
+    if (!Number.isInteger((u[0] * kn) / kd) || !Number.isInteger((u[1] * kn) / kd)) return this._x2G2k();
+    const w = [(u[0] * kn) / kd, (u[1] * kn) / kd];
+    return this.makeExact('2G2', 3, 'Coefficient de colinéarité',
+      'Exprimer un vecteur comme multiple d\'un vecteur colinéaire',
+      `On donne $\\vec{u}\\begin{pmatrix} ${u[0]} \\\\ ${u[1]} \\end{pmatrix}$ et $\\vec{w}\\begin{pmatrix} ${w[0]} \\\\ ${w[1]} \\end{pmatrix}$. On admet que $\\vec{w}$ et $\\vec{u}$ sont colinéaires. Déterminer le réel $k$ tel que $\\vec{w} = k\\vec{u}$.`,
+      this._xf(kn, kd),
+      '$\\vec{w} = k\\vec{u}$ signifie que chaque coordonnée de $\\vec{w}$ est $k$ fois celle de $\\vec{u}$.',
+      `Résous $${w[0]} = k \\times ${this.paren(u[0])}$.`,
+      `$k = ${w[0]} \\div ${this.paren(u[0])} = ${this.frac(kn, kd)}$ ; on vérifie avec les ordonnées : $${this.frac(kn, kd)} \\times ${this.paren(u[1])} = ${w[1]}$.`);
+  },
+
+  _x2G2al() {
+    const A = [this.randInt(-6, 6), this.randInt(-6, 6)];
+    const B = [this.randInt(-6, 6), this.randInt(-6, 6)];
+    if (B[0] === A[0] || B[1] === A[1]) return this._x2G2al();
+    let xC = this.randInt(-8, 8);
+    while (xC === A[0]) xC = this.randInt(-8, 8);
+    // y_C - y_A = (y_B - y_A)/(x_B - x_A) * (x_C - x_A)
+    const num = A[1] * (B[0] - A[0]) + (B[1] - A[1]) * (xC - A[0]);
+    const den = B[0] - A[0];
+    return this.makeExact('2G2', 4, 'Point aligné avec deux autres',
+      'Utiliser le déterminant pour établir un alignement',
+      `On donne $A(${A[0]} ; ${A[1]})$, $B(${B[0]} ; ${B[1]})$ et $C(${xC} ; y)$. Déterminer $y$ pour que les points $A$, $B$ et $C$ soient alignés.`,
+      this._xf(num, den),
+      '$A$, $B$, $C$ alignés $\\iff \\det(\\overrightarrow{AB}, \\overrightarrow{AC}) = 0$.',
+      `$\\overrightarrow{AB}\\begin{pmatrix} ${B[0] - A[0]} \\\\ ${B[1] - A[1]} \\end{pmatrix}$ et $\\overrightarrow{AC}\\begin{pmatrix} ${xC - A[0]} \\\\ y ${this.formatSign(-A[1])} \\end{pmatrix}$.`.replace(' + 0 ', ' '),
+      `$\\det(\\overrightarrow{AB}, \\overrightarrow{AC}) = ${B[0] - A[0] === 1 ? '' : B[0] - A[0] === -1 ? '-' : this.paren(B[0] - A[0])}(y ${this.formatSign(-A[1])}) - ${this.paren(B[1] - A[1])} \\times ${this.paren(xC - A[0])} = 0 \\iff y = ${this.frac(num, den)}$.`.replace(/\(y \+ 0\)/, 'y'));
+  },
+
+  // ---- 2G3 ----
+  _x2G3m() {
+    const A = [this.randInt(-7, 7), this.randInt(-7, 7)];
+    const B = [this.randInt(-7, 7), this.randInt(-7, 7)];
+    if (A[0] === B[0]) return this._x2G3m();
+    return this.makeExact('2G3', 1, 'Coefficient directeur',
+      'Calculer le coefficient directeur d\'une droite passant par deux points',
+      `Déterminer le coefficient directeur $m$ de la droite $(AB)$, avec $A(${A[0]} ; ${A[1]})$ et $B(${B[0]} ; ${B[1]})$.`,
+      this._xf(B[1] - A[1], B[0] - A[0]),
+      '$m = \\dfrac{y_B - y_A}{x_B - x_A}$.',
+      'Calcule séparément la différence des ordonnées et celle des abscisses.',
+      `$m = \\dfrac{${B[1]} - ${this.paren(A[1])}}{${B[0]} - ${this.paren(A[0])}} = ${B[1] - A[1]} \\div ${this.paren(B[0] - A[0])} = ${this.frac(B[1] - A[1], B[0] - A[0])}$.`);
+  },
+
+  _x2G3pente() {
+    const a = this.randNonZero(-6, 6);
+    const b = this.randNonZero(-6, 6);
+    const c = this.randInt(-9, 9);
+    const eq = `${this.poly([[a, 'x'], [b, 'y'], [c, '']])} = 0`;
+    return this.makeExact('2G3', 2, 'Équation cartésienne vers équation réduite',
+      'Passer d\'une équation cartésienne à l\'équation réduite',
+      `La droite $d$ a pour équation cartésienne $${eq}$. Son équation réduite s'écrit $y = mx + p$ : saisir $(m ; p)$.`,
+      `(${this._xf(-a, b)};${this._xf(-c, b)})`,
+      'Isole $y$ dans l\'équation.',
+      `On obtient $${this.coefStr(b, 'y')} = ${this.poly([[-a, 'x'], [-c, '']])}$, puis on divise par $${b}$.`,
+      `$${eq} \\iff ${this.coefStr(b, 'y')} = ${this.poly([[-a, 'x'], [-c, '']])} \\iff y = ${this.poly([[this.frac(-a, b), 'x'], [this.frac(-c, b), '']])}$. Donc $m = ${this.frac(-a, b)}$ et $p = ${this.frac(-c, b)}$.`,
+      { instruction: 'Saisir (m ; p), par exemple (-2/3;5).' });
+  },
+
+  _x2G3red() {
+    const A = [this.randNonZero(-6, 6), this.randInt(-6, 6)];
+    const m = this.randNonZero(-5, 5);
+    const p = A[1] - m * A[0];
+    return this.makeExact('2G3', 2, 'Droite par un point et sa pente',
+      'Déterminer l\'équation réduite connaissant un point et la pente',
+      `Déterminer l'équation réduite $y = mx + p$ de la droite de pente $${m}$ passant par $A(${A[0]} ; ${A[1]})$. Saisir $(m ; p)$.`,
+      `(${m};${p})`,
+      'La pente donne directement $m$.',
+      '$A$ est sur la droite : $y_A = m x_A + p$.',
+      `$m = ${m}$ et $${A[1]} = ${m} \\times ${this.paren(A[0])} + p$, d'où $p = ${A[1]} - ${this.paren(m * A[0])} = ${p}$. Donc $y = ${this.poly([[m, 'x'], [p, '']])}$.`,
+      { instruction: 'Saisir (m ; p), par exemple (3;-1).' });
+  },
+
+  _x2G3ord() {
+    const a = this.randNonZero(-6, 6);
+    const b = this.randNonZero(-6, 6);
+    const c = this.randInt(-9, 9);
+    const x0 = this.randInt(-6, 6);
+    const eq = `${this.poly([[a, 'x'], [b, 'y'], [c, '']])} = 0`;
+    return this.makeExact('2G3', 3, 'Point d\'une droite d\'abscisse donnée',
+      'Calculer les coordonnées d\'un point d\'une droite',
+      `Le point $M$ d'abscisse $${x0}$ appartient à la droite $d : ${eq}$. Calculer son ordonnée.`,
+      this._xf(-a * x0 - c, b),
+      'Les coordonnées de $M$ vérifient l\'équation de la droite.',
+      `Remplace $x$ par $${x0}$ et résous l'équation d'inconnue $y$.`,
+      `$${this.paren(a)} \\times ${this.paren(x0)} ${this.poly([[b, 'y'], [c, '']]).replace(/^(?!-)/, '+ ').replace(/^-/, '- ')} = 0 \\iff ${this.coefStr(b, 'y')} = ${-a * x0 - c}${b === 1 ? '' : ` \\iff y = ${this.frac(-a * x0 - c, b)}`}$.`);
+  },
+
+  _x2G3ax() {
+    const m = this.randNonZero(-6, 6);
+    const p = this.randNonZero(-9, 9);
+    return this.makeExact('2G3', 3, 'Intersection avec l\'axe des abscisses',
+      'Calculer les coordonnées d\'un point d\'intersection',
+      `La droite $d : y = ${this.poly([[m, 'x'], [p, '']])}$ coupe l'axe des abscisses en un point $E$. Calculer l'abscisse de $E$.`,
+      this._xf(-p, m),
+      'Un point de l\'axe des abscisses a une ordonnée nulle.',
+      `Résous $${this.poly([[m, 'x'], [p, '']])} = 0$.`,
+      `$${this.poly([[m, 'x'], [p, '']])} = 0 \\iff x = ${this.frac(-p, m)}$, donc $E\\left(${this.frac(-p, m)} ; 0\\right)$.`);
+  },
+
+  _x2G3int() {
+    const m1 = this.randNonZero(-5, 5);
+    let m2 = this.randNonZero(-5, 5);
+    while (m2 === m1) m2 = this.randNonZero(-5, 5);
+    const X = this.randInt(-5, 5);
+    const Y = this.randInt(-9, 9);
+    const p1 = Y - m1 * X;
+    const p2 = Y - m2 * X;
+    return this.makeExact('2G3', 4, 'Point d\'intersection de deux droites',
+      'Calculer les coordonnées du point d\'intersection de deux droites sécantes',
+      `Les droites $d_1 : y = ${this.poly([[m1, 'x'], [p1, '']])}$ et $d_2 : y = ${this.poly([[m2, 'x'], [p2, '']])}$ sont sécantes (pentes différentes). Déterminer les coordonnées de leur point d'intersection.`,
+      `(${X};${Y})`,
+      'Le point d\'intersection vérifie les deux équations à la fois.',
+      `Résous $${this.poly([[m1, 'x'], [p1, '']])} = ${this.poly([[m2, 'x'], [p2, '']])}$.`,
+      `$${this.poly([[m1, 'x'], [p1, '']])} = ${this.poly([[m2, 'x'], [p2, '']])} \\iff ${this.coefStr(m1 - m2, 'x')} = ${p2 - p1} \\iff x = ${X}$, puis $y = ${m1} \\times ${this.paren(X)} ${this.formatSign(p1)} = ${Y}$. Le point d'intersection est $(${X} ; ${Y})$.`.replace(' + 0 = ', ' = '),
+      { instruction: 'Saisir les coordonnées sous la forme (x ; y).' });
+  },
+
+  _x2G3par() {
+    const a = this.randChoice([2, 3, -2, 1, -1]);
+    const b = this.randNonZero(-5, 5);
+    const s = this.randNonZero(-6, 6);
+    const c = this.randInt(-6, 6);
+    const e = this.randInt(-6, 6);
+    const slope = this.poly([[a, 'k'], [b, '']]);
+    return this.makeExact('2G3', 4, 'Droites parallèles et paramètre',
+      'Déterminer si deux droites sont parallèles',
+      `Pour un réel $k$, on considère $d_1 : y = (${slope})x ${this.formatSign(c)}$ et $d_2 : y = ${this.poly([[s, 'x'], [e, '']])}$. Pour quelle valeur de $k$ les droites $d_1$ et $d_2$ sont-elles parallèles ?`.replace(' + 0$', '$'),
+      this._xf(s - b, a),
+      'Deux droites non verticales sont parallèles si et seulement si elles ont la même pente.',
+      `Résous $${slope} = ${s}$.`,
+      `$d_1 \\parallel d_2 \\iff ${slope} = ${s} \\iff ${this.coefStr(a, 'k')} = ${s - b} \\iff k = ${this.frac(s - b, a)}$.`);
+  },
+
+  // ---- 2S1 ----
+  _x2S1cls() {
+    const h = this.randChoice([2, 4, 5, 10, 20]);
+    const a0 = h * this.randInt(0, 5);
+    const k = this.randInt(3, 5);
+    const eff = Array.from({ length: k }, () => this.randInt(2, 15));
+    const N = eff.reduce((s, x) => s + x, 0);
+    const cen = eff.map((_, i) => a0 + h * i + h / 2);
+    const S = cen.reduce((s, c, i) => s + c * eff[i], 0);
+    const m = S / N;
+    const exact = this.isDecimal(m, 2);
+    const rows = eff.map((e, i) => [`$[${a0 + h * i} ; ${a0 + h * (i + 1)}[$`, `$${e}$`]);
+    return this.makeExact('2S1', 2, 'Moyenne de données regroupées en classes',
+      'Calculer une moyenne pondérée à l\'aide des centres des classes',
+      `On a regroupé les valeurs d'une série en classes de même amplitude :${this._xtab(['Classe', 'Effectif'], rows)}En supposant la répartition uniforme dans chaque classe, calculer la moyenne de la série${exact ? '' : ' (arrondir au centième)'}.`,
+      this._xd(m, 2),
+      'Chaque classe est représentée par son centre.',
+      `Le centre de $[${a0} ; ${a0 + h}[$ est $${this.dec(a0 + h / 2)}$ ; l'effectif total est $${N}$.`,
+      `$\\bar{x} = \\dfrac{${cen.map((c, i) => `${eff[i]} \\times ${this.dec(c)}`).join(' + ')}}{${N}} = \\dfrac{${this.dec(S)}}{${N}} ${exact ? '=' : '\\approx'} ${this.dec(m, 2)}$.`,
+      { instruction: exact ? 'Saisir la moyenne (entier ou décimal).' : 'Saisir la valeur arrondie au centième, par exemple 12,35.' });
+  },
+
+  _x2S1add() {
+    const n = this.randInt(4, 24);
+    const m = this.randInt(8, 15);
+    const v = this.randInt(1, 20);
+    if (v === m) return this._x2S1add();
+    const nm = (n * m + v) / (n + 1);
+    const exact = this.isDecimal(nm, 2);
+    return this.makeExact('2S1', 2, 'Ajout d\'une valeur à une série',
+      'Étudier l\'influence de l\'ajout d\'une valeur sur la moyenne',
+      `Une série de $${n}$ notes a pour moyenne $${m}$. On ajoute la note $${v}$. Quelle est la nouvelle moyenne${exact ? '' : ' (arrondie au centième)'} ?`,
+      this._xd(nm, 2),
+      'Retrouve d\'abord la somme des notes à partir de la moyenne.',
+      `La somme des $${n}$ notes vaut $${n} \\times ${m}$.`,
+      `Somme initiale : $${n} \\times ${m} = ${n * m}$. Nouvelle somme : $${n * m} + ${v} = ${n * m + v}$ pour $${n + 1}$ notes, donc $\\bar{x} = \\dfrac{${n * m + v}}{${n + 1}}${exact ? ' =' : ' \\approx'} ${this.dec(nm, 2)}$. La moyenne ${v > m ? 'augmente' : 'diminue'} car la note ajoutée est ${v > m ? 'supérieure' : 'inférieure'} à l'ancienne moyenne.`,
+      { instruction: exact ? 'Saisir la moyenne (entier ou décimal).' : 'Saisir la valeur arrondie au centième, par exemple 12,35.' });
+  },
+
+  _x2S1var(tier) {
+    const n = this.randInt(4, 6);
+    const vals = Array.from({ length: n }, () => this.randInt(2, 18));
+    const S = vals.reduce((s, x) => s + x, 0);
+    const m = S / n;
+    const V = vals.reduce((s, x) => s + (x - m) ** 2, 0) / n;
+    if (V === 0) return this._x2S1var(tier);
+    const askSd = tier >= 4 || Math.random() < 0.4;
+    const vEx = this.isDecimal(V, 2);
+    if (!askSd && !vEx) return this._x2S1var(tier);
+    const sd = Math.sqrt(V);
+    const res = askSd ? sd : V;
+    return this.makeExact('2S1', tier, askSd ? 'Écart type d\'une série' : 'Variance d\'une série',
+      'Calculer un indicateur de dispersion : variance et écart type',
+      `On considère la série : ${vals.join(' ; ')}. Calculer ${askSd ? 'son écart type $\\sigma$ (arrondir au centième)' : 'sa variance $V$'}.`,
+      this._xd(res, 2),
+      'Calcule d\'abord la moyenne $\\bar{x}$ de la série.',
+      '$V$ est la moyenne des carrés des écarts à la moyenne, et $\\sigma = \\sqrt{V}$.',
+      `$\\bar{x} = \\dfrac{${S}}{${n}} = ${this.dec(m, 4)}$. $V = \\dfrac{${vals.map((x) => `(${x} - ${this.dec(m, 4)})^2`).join(' + ')}}{${n}} ${vEx ? '=' : '\\approx'} ${this.dec(V, 4)}$.${askSd ? ` Donc $\\sigma = \\sqrt{V} \\approx ${this.dec(sd, 2)}$.` : ''}`,
+      { instruction: askSd ? 'Saisir la valeur arrondie au centième, par exemple 3,47.' : 'Saisir la valeur exacte (entier ou décimal).' });
+  },
+
+  _x2S1cm() {
+    const h = this.randChoice([5, 10, 20, 50]);
+    const a0 = h * this.randInt(0, 6);
+    const k = this.randInt(4, 6);
+    const eff = Array.from({ length: k }, () => this.randInt(2, 20));
+    const N = eff.reduce((s, x) => s + x, 0);
+    let cum = 0;
+    let idx = -1;
+    for (let i = 0; i < k; i++) {
+      cum += eff[i];
+      if (cum === N / 2) return this._x2S1cm();
+      if (idx < 0 && cum > N / 2) idx = i;
+    }
+    const rows = eff.map((e, i) => [`$[${a0 + h * i} ; ${a0 + h * (i + 1)}[$`, `$${e}$`]);
+    let c2 = 0;
+    const cums = eff.map((e) => (c2 += e));
+    return this.makeExact('2S1', 3, 'Classe médiane',
+      'Déterminer la classe médiane à partir des effectifs cumulés',
+      `On donne la répartition d'une série en classes :${this._xtab(['Classe', 'Effectif'], rows)}La classe médiane est $[a ; b[$. Donner $a$.`,
+      String(a0 + h * idx),
+      'La classe médiane contient la valeur située au milieu de la série ordonnée.',
+      `Calcule les effectifs cumulés croissants et compare-les à la moitié de l'effectif total $${N}$.`,
+      `Effectif total : $${N}$, moitié : $${this.dec(N / 2)}$. Effectifs cumulés : $${cums.join(' ; ')}$. Le premier effectif cumulé qui dépasse $${this.dec(N / 2)}$ est $${cums[idx]}$, celui de la classe $[${a0 + h * idx} ; ${a0 + h * (idx + 1)}[$ : c'est la classe médiane, et $a = ${a0 + h * idx}$.`,
+      { instruction: 'Saisir un nombre entier.' });
+  },
+
+  _x2S1need() {
+    const n = this.randInt(3, 7);
+    const target = this.randInt(9, 15);
+    const x = this.randInt(4, 20);
+    const S = target * (n + 1) - x;
+    const m = S / n;
+    const ex = this.isDecimal(m, 2);
+    return this.makeExact('2S1', 4, 'Note nécessaire pour une moyenne',
+      'Exploiter la définition de la moyenne pour résoudre un problème',
+      `Après $${n}$ devoirs de même coefficient, la moyenne d'un élève est $${ex ? '' : '\\approx '}${this.dec(m, 2)}$${ex ? '' : ` (la somme de ses notes vaut exactement $${S}$)`}. Quelle note doit-il obtenir au devoir suivant pour que sa moyenne soit exactement $${target}$ ?`,
+      String(x),
+      `Avec $${n + 1}$ devoirs, la somme des notes doit valoir $${n + 1} \\times ${target}$.`,
+      'La note cherchée est la différence entre la somme visée et la somme actuelle.',
+      `Somme actuelle : $${ex ? `${n} \\times ${this.dec(m, 2)} = ` : ''}${S}$. Somme visée : $${n + 1} \\times ${target} = ${(n + 1) * target}$. Note nécessaire : $${(n + 1) * target} - ${S} = ${x}$.`,
+      { instruction: 'Saisir un nombre (entier ou décimal).' });
+  },
+
+  // ---- 2S2 ----
+  _x2S2loi() {
+    const k = this.randInt(3, 5);
+    let ps;
+    do {
+      ps = Array.from({ length: k - 1 }, () => this.randInt(1, 40));
+    } while (ps.reduce((s, x) => s + x, 0) >= 95);
+    const last = 100 - ps.reduce((s, x) => s + x, 0);
+    const issues = ['A', 'B', 'C', 'D', 'E'].slice(0, k).map((x) => `$${x}$`);
+    const rows = [['Issue', ...issues], ['Probabilité', ...ps.map((p) => `$${this.dec(p / 100)}$`), '$p$']];
+    return this.makeExact('2S2', 1, 'Probabilité d\'une issue manquante',
+      'Savoir que la somme des probabilités des issues vaut 1',
+      `Une expérience aléatoire a ${k} issues dont les probabilités sont données dans le tableau :${this._xtab(rows[0], [rows[1].slice(1)].map((r) => [rows[1][0], ...r]))}Calculer $p$.`,
+      this._xd(last / 100),
+      'La somme des probabilités de toutes les issues vaut 1.',
+      `Additionne les probabilités connues, puis complète jusqu'à 1.`,
+      `$p = 1 - (${ps.map((x) => this.dec(x / 100)).join(' + ')}) = 1 - ${this.dec((100 - last) / 100)} = ${this.dec(last / 100)}$.`,
+      { instruction: 'Saisir un nombre décimal, par exemple 0,15.' });
+  },
+
+  _x2S2tc(tier) {
+    const ctx = this.randChoice([
+      ['élèves d\'un lycée', 'demi-pensionnaire', 'externe', 'fille', 'garçon', 'F', 'D'],
+      ['salariés d\'une entreprise', 'cadre', 'non cadre', 'femme', 'homme', 'F', 'C'],
+      ['clients d\'un magasin', 'ayant la carte de fidélité', 'sans carte', 'ayant acheté en ligne', 'ayant acheté en boutique', 'L', 'C']]);
+    const a = this.randInt(10, 90); const b = this.randInt(10, 90);
+    const c = this.randInt(10, 90); const d = this.randInt(10, 90);
+    const N = a + b + c + d;
+    // lignes : ctx[3] / ctx[4] ; colonnes : ctx[1] / ctx[2]
+    const rows = [[`**${ctx[3]}**`, `$${a}$`, `$${b}$`, `$${a + b}$`], [`**${ctx[4]}**`, `$${c}$`, `$${d}$`, `$${c + d}$`], ['**Total**', `$${a + c}$`, `$${b + d}$`, `$${N}$`]];
+    const Ev1 = ctx[5]; const Ev2 = ctx[6];
+    const ask = tier >= 3 ? this.randInt(1, 2) : this.randInt(0, 2);
+    let lab; let num; let den; let expl;
+    if (ask === 0) { lab = `P(${Ev1} \\cap ${Ev2})`; num = a; den = N; expl = `Il y a $${a}$ individus à la fois « ${ctx[3]} » et « ${ctx[1]} » sur $${N}$.`; }
+    else if (ask === 1) { lab = `P_{${Ev1}}(${Ev2})`; num = a; den = a + b; expl = `Parmi les $${a + b}$ individus « ${ctx[3]} », $${a}$ sont « ${ctx[1]} ».`; }
+    else { lab = `P_{${Ev2}}(${Ev1})`; num = a; den = a + c; expl = `Parmi les $${a + c}$ individus « ${ctx[1]} », $${a}$ sont « ${ctx[3]} ».`; }
+    return this.makeExact('2S2', tier, 'Tableau croisé et probabilité conditionnelle',
+      'Calculer une probabilité (conditionnelle) à partir d\'un tableau croisé d\'effectifs',
+      `On a interrogé des ${ctx[0]} :${this._xtab(['', ctx[1], ctx[2], 'Total'], rows)}On choisit une personne au hasard. On note $${Ev1}$ : « ${ctx[3]} » et $${Ev2}$ : « ${ctx[1]} ». Calculer $${lab}$.`,
+      this._xf(num, den),
+      ask === 0 ? 'Une intersection correspond à une case du tableau, rapportée à l\'effectif total.' : `$P_A(B) = \\dfrac{\\text{Card}(A \\cap B)}{\\text{Card}(A)}$ : on se restreint à la sous-population $${ask === 1 ? Ev1 : Ev2}$.`,
+      ask === 0 ? 'Repère la case à l\'intersection de la ligne et de la colonne.' : `Repère l'effectif total de la ${ask === 1 ? 'ligne' : 'colonne'} correspondant à l'événement qui conditionne.`,
+      `${expl} Donc $${lab} = \\dfrac{${num}}{${den}}${this.frac(num, den) === `\\frac{${num}}{${den}}` ? '' : ` = ${this.frac(num, den)}`}$.`,
+      { instruction: 'Saisir une fraction irréductible, par exemple 7/12.' });
+  },
+
+  _x2S2arb() {
+    const pA = this.randInt(1, 9) / 10;
+    const pBA = this.randInt(1, 19) / 20;
+    const pBnA = this.randInt(1, 19) / 20;
+    const ask = this.randInt(0, 1);
+    const res = ask === 0 ? pA * pBA : (1 - pA) * pBnA;
+    return this.makeExact('2S2', 3, 'Arbre pondéré : probabilité d\'un chemin',
+      'Multiplier les probabilités le long d\'un chemin d\'un arbre pondéré',
+      `On donne $P(A) = ${this.dec(pA)}$, $P_A(B) = ${this.dec(pBA)}$ et $P_{\\bar{A}}(B) = ${this.dec(pBnA)}$. Calculer $P(${ask === 0 ? 'A' : '\\bar{A}'} \\cap B)$.`,
+      this._xd(res, 6),
+      'La probabilité d\'un chemin est le produit des probabilités portées par ses branches.',
+      ask === 0 ? '$P(A \\cap B) = P(A) \\times P_A(B)$.' : `Commence par $P(\\bar{A}) = 1 - ${this.dec(pA)}$.`,
+      ask === 0 ? `$P(A \\cap B) = P(A) \\times P_A(B) = ${this.dec(pA)} \\times ${this.dec(pBA)} = ${this.dec(res, 6)}$.` : `$P(\\bar{A}) = 1 - ${this.dec(pA)} = ${this.dec(1 - pA)}$, puis $P(\\bar{A} \\cap B) = P(\\bar{A}) \\times P_{\\bar{A}}(B) = ${this.dec(1 - pA)} \\times ${this.dec(pBnA)} = ${this.dec(res, 6)}$.`,
+      { instruction: 'Saisir un nombre décimal, par exemple 0,225.' });
+  },
+
+  _x2S2tp() {
+    const N = 10000;
+    const prev = this.randChoice([1, 2, 4, 5, 8, 10]);
+    const se = this.randChoice([80, 90, 95, 98]);
+    const sp = this.randChoice([90, 95, 98, 99]);
+    const M = (N * prev) / 100;
+    const VP = (M * se) / 100;
+    const FP = ((N - M) * (100 - sp)) / 100;
+    const ask = this.randInt(0, 1);
+    const num = ask === 0 ? VP : FP;
+    const den = VP + FP;
+    return this.makeExact('2S2', 4, 'Test de dépistage : faux positifs',
+      'Distinguer $P_A(B)$ et $P_B(A)$ dans une situation de dépistage',
+      `Une maladie touche $${prev}\\,\\%$ d'une population. Un test est positif chez $${se}\\,\\%$ des malades (sensibilité) et négatif chez $${sp}\\,\\%$ des non-malades (spécificité). Sur un échantillon de $10\\,000$ personnes représentatif, on choisit au hasard une personne dont le test est positif. Quelle est la probabilité qu'elle ${ask === 0 ? 'soit malade' : 'ne soit pas malade (faux positif)'} ?`,
+      this._xf(num, den),
+      'Construis le tableau croisé des effectifs : malades / non malades, test positif / négatif.',
+      'On cherche une probabilité sachant « test positif » : on se restreint aux personnes testées positives.',
+      `Malades : $${M}$, dont $${VP}$ testés positifs. Non malades : $${N - M}$, dont $${FP}$ testés positifs (faux positifs). Total des positifs : $${den}$. Donc $P_{T}(${ask === 0 ? 'M' : '\\bar{M}'}) = \\dfrac{${num}}{${den}} = ${this.frac(num, den)}$${ask === 0 ? ` $\\approx ${this.dec(num / den, 3)}$ : bien moins que la sensibilité $P_M(T) = ${this.dec(se / 100)}$` : ''}.`,
+      { instruction: 'Saisir une fraction irréductible, par exemple 19/68.' });
+  },
+
   // ---- lyTA ----
   // Réécrit les options purement mathématiques « $X$ » d'un QCM de limite en « $<lhs> = X$ »
   _TA_lim(q, lhs) {
@@ -2647,7 +3773,7 @@ window.MathsLyceeGenerators = {
         const hk = L === 0
           ? `u_{k+1} = ${b} \\times (${cf(A, b, 'k', 0)}) = ${cf(A, b, 'k+1', 0)}`
           : `u_{k+1} = ${b}(${cf(A, b, 'k', L)}) ${this.formatSign(c)} = ${cf(A, b, 'k+1', b * L)} ${this.formatSign(c)} = ${cf(A, b, 'k+1', L)}`;
-        return this.makeMcq(T, 2, "Conjecturer puis démontrer une formule explicite",
+        return this._Tx(this.makeMcq(T, 2, "Conjecturer puis démontrer une formule explicite",
           'Vérifier une formule explicite au rang initial et sa transmission (hérédité)',
           `Soit $(u_n)$ définie par $u_0 = ${u0}$ et, pour tout $n \\in \\mathbb{N}$, $u_{n+1} = ${rec}$. Quelle formule explicite peut-on démontrer par récurrence ?`,
           `$u_n = ${ans}$`,
@@ -2655,12 +3781,12 @@ window.MathsLyceeGenerators = {
           'Une formule correcte doit déjà donner la bonne valeur de $u_0$ (initialisation).',
           'Pour l\'hérédité, suppose la formule vraie au rang $k$ et calcule $u_{k+1}$ avec la relation de récurrence.',
           `Initialisation : $${cf(A, b, '0', L)} = ${u0} = u_0$. Hérédité : si $u_k = ${cf(A, b, 'k', L)}$, alors $${hk}$. Par récurrence, $u_n = ${ans}$ pour tout $n$.`
-        );
+        ), [A, b, L], 'La formule s\'écrit $u_n = \\alpha \\times \\beta^{n} + \\gamma$ : saisir (α ; β ; γ).');
       }
       const a = this.randInt(2, 9);
       const B = a + 1;
       const ans = this.poly([[a * B, 'k'], [B, '']]);
-      return this.makeMcq(T, 2, "Hérédité de l'inégalité de Bernoulli",
+      return this._Tx(this.makeMcq(T, 2, "Hérédité de l'inégalité de Bernoulli",
         "Rédiger l'étape d'hérédité d'une inégalité",
         `On démontre par récurrence que, pour tout $n \\in \\mathbb{N}$, $${B}^{n} \\ge 1 + ${a}n$. Pour l'hérédité, on suppose $${B}^{k} \\ge 1 + ${a}k$ pour un entier $k$ fixé, puis on multiplie les deux membres par $${B} > 0$. Quelle minoration de $${B}^{k+1}$ obtient-on ?`,
         `$${B}^{k+1} \\ge ${ans}$`,
@@ -2668,21 +3794,40 @@ window.MathsLyceeGenerators = {
         'Multiplier une inégalité par un réel strictement positif conserve son sens.',
         `Développe $${B}(1 + ${a}k)$.`,
         `$${B}^{k+1} = ${B} \\times ${B}^{k} \\ge ${B}(1 + ${a}k) = ${ans}$. Comme $${ans} \\ge 1 + ${a}(k+1)$ (car $${a * B}k + ${B} - (1 + ${a}k + ${a}) = ${a * a}k \\ge 0$), la propriété est vraie au rang $k+1$.`
-      );
+      ), [a * B, B], 'Le minorant obtenu s\'écrit $\\alpha k + \\beta$ : saisir (α ; β).');
     }
     if (tier === 3) {
-      if (Math.random() < 0.5) {
+      const r3 = Math.random();
+      if (r3 < 0.3) {
+        // Rang à partir duquel une inégalité b^n > pn + q est vraie (initialisation, puis hérédité)
+        let b; let p; let q; let n0;
+        do {
+          b = this.randChoice([2, 2, 3]); p = this.randInt(2, b === 2 ? 12 : 20); q = this.randInt(0, 12);
+          n0 = 60; while (n0 > 0 && b ** (n0 - 1) > p * (n0 - 1) + q) n0--;
+        } while (n0 < 2 || n0 > 7);
+        const v = (n) => `$${b}^{${n}} = ${b ** n}$ et $${p} \\times ${n}${q ? ' + ' + q : ''} = ${p * n + q}$`;
+        return this._Tx(this.makeMcq(T, 3, 'Initialisation : rang de départ d\'une récurrence',
+          'Déterminer le rang à partir duquel une propriété est vraie, puis la démontrer par récurrence',
+          `On note $P(n)$ la propriété « $${b}^{n} > ${this.poly([[p, 'n'], [q, '']])}$ ». On admet l'hérédité : pour tout entier $k \\ge 1$, si $P(k)$ est vraie alors $P(k+1)$ l'est aussi. Déterminer le plus petit entier naturel $n_0$ tel que $P(n)$ soit vraie pour tout entier $n \\ge n_0$.`,
+          `$n_0 = ${n0}$`,
+          [`$n_0 = ${n0 - 1}$`, `$n_0 = ${n0 + 1}$`, `$n_0 = ${n0 + 2}$`, `$n_0 = ${Math.max(0, n0 - 2) === n0 - 1 ? n0 + 3 : Math.max(0, n0 - 2)}$`],
+          `Compare $${b}^{n}$ et $${this.poly([[p, 'n'], [q, '']])}$ pour $n = 1, 2, 3, \\dots$ jusqu'à ce que l'inégalité devienne vraie.`,
+          `Hérédité : $${b}^{k+1} = ${b} \\times ${b}^{k} > ${b}(${this.poly([[p, 'k'], [q, '']])})$, et ce nombre dépasse $${this.poly([[p, 'k'], [p + q, '']])}$ dès que $k \\ge 1$.`,
+          `Pour $n = ${n0 - 1}$ : ${v(n0 - 1)}, l'inégalité est fausse. Pour $n = ${n0}$ : ${v(n0)}, elle est vraie (initialisation au rang $${n0}$). Par l'hérédité admise, $P(n)$ est vraie pour tout $n \\ge ${n0}$, et $${n0}$ est le plus petit rang possible puisque $P(${n0 - 1})$ est fausse : $n_0 = ${n0}$.`
+        ), n0, 'Saisir un nombre entier.');
+      }
+      if (r3 < 0.65) {
         const a = this.randInt(3, 12);
         const d = a - 1;
-        return this.makeMcq(T, 3, 'Récurrence et divisibilité',
+        return this._Tx(this.makeMcq(T, 3, 'Récurrence et divisibilité',
           "Rédiger l'hérédité d'une propriété de divisibilité",
           `On veut démontrer par récurrence que, pour tout $n \\in \\mathbb{N}$, $${a}^{n} - 1$ est divisible par $${d}$. Hérédité : on suppose $${a}^{k} - 1 = ${d}m$ avec $m$ entier. Quelle écriture de $${a}^{k+1} - 1$ permet de conclure ?`,
           `$${a}^{k+1} - 1 = ${d}(${a}m + 1)$`,
           [`$${a}^{k+1} - 1 = ${d}(m + 1)$`, `$${a}^{k+1} - 1 = ${d}(${a}m + ${a})$`, `$${a}^{k+1} - 1 = ${a}(${d}m + 1)$`, `$${a}^{k+1} - 1 = ${d}(${a}m - 1)$`],
           `Écris $${a}^{k+1} - 1 = ${a} \\times ${a}^{k} - 1$ et remplace $${a}^{k}$ par $${d}m + 1$.`,
-          `$${a}(${d}m + 1) - 1 = ${a * d}m + ${a - 1}$.`,
+          `Remplace $${a}^{k}$ par $${d}m + 1$, développe, puis factorise par $${d}$.`,
           `$${a}^{k+1} - 1 = ${a}(${d}m + 1) - 1 = ${a * d}m + ${d} = ${d}(${a}m + 1)$ avec $${a}m + 1$ entier : $${a}^{k+1} - 1$ est divisible par $${d}$. Initialisation : $${a}^{0} - 1 = 0$ est divisible par $${d}$.`
-        );
+        ), [a, 1], `L'écriture cherchée est de la forme $${a}^{k+1} - 1 = ${d}(\\alpha m + \\beta)$ : saisir (α ; β).`);
       }
       const d = this.randInt(2, 6);
       const t = this.randInt(1, 3);
@@ -2690,15 +3835,15 @@ window.MathsLyceeGenerators = {
       const s = this.randInt(1, 3);
       const c = d * s - 1;
       const ct = c * t;
-      return this.makeMcq(T, 3, 'Récurrence et divisibilité',
+      return this._Tx(this.makeMcq(T, 3, 'Récurrence et divisibilité',
         "Rédiger l'hérédité d'une propriété de divisibilité",
         `On veut démontrer par récurrence que, pour tout $n \\in \\mathbb{N}$, $${a}^{n} + ${c}$ est divisible par $${d}$. Hérédité : on suppose $${a}^{k} + ${c} = ${d}m$ avec $m$ entier. Quelle écriture de $${a}^{k+1} + ${c}$ permet de conclure ?`,
         `$${a}^{k+1} + ${c} = ${d}(${a}m - ${ct})$`,
         [`$${a}^{k+1} + ${c} = ${d}(${a}m + ${ct})$`, `$${a}^{k+1} + ${c} = ${d}(${a}m - ${c})$`, `$${a}^{k+1} + ${c} = ${a}(${d}m - ${ct})$`, `$${a}^{k+1} + ${c} = ${d}(m - ${ct})$`],
         `Écris $${a}^{k+1} = ${a} \\times ${a}^{k}$ et remplace $${a}^{k}$ par $${d}m - ${c}$.`,
-        `$${a}(${d}m - ${c}) + ${c} = ${a * d}m - ${c * (a - 1)}$.`,
+        `Remplace $${a}^{k}$ par $${d}m - ${c}$, développe, puis factorise par $${d}$.`,
         `Initialisation : $${a}^{0} + ${c} = ${c + 1} = ${d} \\times ${s}$. Hérédité : $${a}^{k+1} + ${c} = ${a}(${d}m - ${c}) + ${c} = ${a * d}m - ${c * (a - 1)} = ${d}(${a}m - ${ct})$, multiple de $${d}$.`
-      );
+      ), [a, -ct], `L'écriture cherchée est de la forme $${a}^{k+1} + ${c} = ${d}(\\alpha m + \\beta)$ : saisir (α ; β).`);
     }
     // tier 4
     if (Math.random() < 0.5) {
@@ -2711,15 +3856,15 @@ window.MathsLyceeGenerators = {
         this.poly([[h, 'n^2'], [q + h, 'n'], [a0, '']]), this.poly([[h, 'n^2'], [q - h, 'n'], [a0 + 1, '']])];
       const inc = this.poly([[p, 'k'], [q, '']]);
       const nxt = this.poly([[h, 'k^2'], [q + h, 'k'], [a0 + q, '']]);
-      return this.makeMcq(T, 4, 'Formule explicite d\'une suite à accroissements affines',
+      return this._Tx(this.makeMcq(T, 4, 'Formule explicite d\'une suite à accroissements affines',
         'Conjecturer une formule et la démontrer par récurrence',
         `Soit $(u_n)$ définie par $u_0 = ${a0}$ et, pour tout $n \\in \\mathbb{N}$, $u_{n+1} = ${this.poly([[1, 'u_n'], [p, 'n'], [q, '']])}$. Quelle formule explicite, démontrable par récurrence, est vérifiée par $u_n$ ?`,
         `$u_n = ${ans}$`,
         ds.map((d) => `$u_n = ${d}$`),
-        'Calcule $u_1$, $u_2$, $u_3$ et teste chaque formule ; une seule convient pour tous les rangs.',
+        `Calcule $u_1$, $u_2$, $u_3$ : les écarts successifs $${this.poly([[p, 'n'], [q, '']])}$ sont affines, donc on cherche $u_n$ sous la forme $\\alpha n^2 + \\beta n + \\gamma$.`,
         `Hérédité : si $u_k$ vérifie la formule, calcule $u_k + ${inc}$ et compare à la formule au rang $k+1$.`,
         `Initialisation : la formule donne $${a0}$ pour $n = 0$. Hérédité : si $u_k = ${this.poly([[h, 'k^2'], [q - h, 'k'], [a0, '']])}$, alors $u_{k+1} = u_k ${inc.startsWith('-') ? '- ' + inc.slice(1) : '+ ' + inc} = ${nxt}$, qui est bien le développement de $${this.poly([[h, '(k+1)^2'], [q - h, '(k+1)'], [a0, '']])}$. Donc $u_n = ${ans}$ pour tout $n$.`
-      );
+      ), [h, q - h, a0], 'La formule s\'écrit $u_n = \\alpha n^2 + \\beta n + \\gamma$ : saisir (α ; β ; γ).');
     }
     const a = this.randInt(1, 5);
     const b = this.randInt(1, 4);
@@ -2727,15 +3872,15 @@ window.MathsLyceeGenerators = {
     const den = (bb, aa) => this.poly([[bb, 'n'], [aa, '']]);
     const ds = [`\\frac{1}{${den(b + 1, a)}}`, `\\frac{1}{${this.poly([[b, 'n^2'], [a, '']])}}`, `\\frac{n}{${den(b, a)}}`];
     if (a !== b) ds.push(`\\frac{1}{${den(a, b)}}`);
-    return this.makeMcq(T, 4, 'Formule explicite d\'une suite homographique',
+    return this._Tx(this.makeMcq(T, 4, 'Formule explicite d\'une suite homographique',
       'Conjecturer une formule et la démontrer par récurrence',
       `Soit $(u_n)$ définie par $u_0 = ${u0}$ et, pour tout $n \\in \\mathbb{N}$, $u_{n+1} = \\frac{u_n}{1 + ${this.coefStr(b, 'u_n')}}$. Quelle formule, démontrable par récurrence, donne $u_n$ ?`,
       `$u_n = \\frac{1}{${den(b, a)}}$`,
       ds.map((d) => `$u_n = ${d}$`),
       'Calcule $u_1$ et $u_2$ sous forme de fractions et observe les dénominateurs.',
-      `Hérédité : si $u_k = \\frac{1}{${den(b, a).replace('n', 'k')}}$, simplifie $\\frac{u_k}{1 + ${this.coefStr(b, 'u_k')}}$ en multipliant numérateur et dénominateur par $${den(b, a).replace('n', 'k')}$.`,
+      `Conjecture $u_k = \\frac{1}{\\alpha k + \\beta}$ ; pour l'hérédité, simplifie $\\frac{u_k}{1 + ${this.coefStr(b, 'u_k')}}$ en multipliant numérateur et dénominateur par $\\alpha k + \\beta$.`,
       `Initialisation : $${a === 1 ? '1' : `\\frac{1}{${a}}`} = u_0$. Hérédité : $u_{k+1} = \\frac{1}{${den(b, a).replace('n', 'k')} + ${b}} = \\frac{1}{${den(b, a).replace('n', '(k+1)')}}$. Donc $u_n = \\frac{1}{${den(b, a)}}$ pour tout $n$.`
-    );
+    ), [b, a], 'La formule s\'écrit $u_n = \\frac{1}{\\alpha n + \\beta}$ : saisir (α ; β).');
   },
 
   // ---------------------------------------------------------------------
@@ -2994,7 +4139,23 @@ window.MathsLyceeGenerators = {
       if (a * c + b === 0) b += 1;
       const N = a * c + b;
       const fx = `\\frac{${this.poly([[a, 'x'], [b, '']])}}{${this.poly([[1, 'x'], [-c, '']])}}`;
-      if (Math.random() < 0.55) {
+      const r2 = Math.random();
+      if (r2 < 0.3) {
+        // Forme « 0/0 » levée par factorisation : (x - c)(x - r) / (x - c)
+        let r = this.randInt(-6, 6); if (r === c) r += 1;
+        const num = this.poly([[1, 'x^2'], [-(c + r), 'x'], [c * r, '']]);
+        const L0 = c - r;
+        return this._TA_lim(this.makeMcq(T, 2, 'Limite en un point : forme indéterminée levée par factorisation',
+          'Lever une indétermination en factorisant',
+          `Déterminer $\\ell = \\lim_{x \\to ${c}} \\frac{${num}}{${this.poly([[1, 'x'], [-c, '']])}}$.`,
+          `$${L0}$`,
+          ['$0$', '$+\\infty$', `$${c + r}$`, `$${c * r}$`, `$${2 * c - r + (2 * c - r === L0 ? 1 : 0)}$`].filter((x) => x !== `$${L0}$`),
+          `Le numérateur et le dénominateur s'annulent tous les deux en $${c}$ : c'est une forme indéterminée.`,
+          `$${c}$ est racine du numérateur : factorise-le par $${this.poly([[1, 'x'], [-c, '']])}$.`,
+          `Pour $x \\neq ${c}$, $${num} = (${this.poly([[1, 'x'], [-c, '']])})(${this.poly([[1, 'x'], [-r, '']])})$, donc la fraction vaut $${this.poly([[1, 'x'], [-r, '']])}$. Ainsi $\\ell = ${c} ${this.formatSign(-r)} = ${L0}$.`.replace(' + 0 = ', ' = ').replace(' - 0 = ', ' = ')
+        ), '\\ell');
+      }
+      if (r2 < 0.65) {
         const right = Math.random() < 0.5;
         const s = Math.sign(N) * (right ? 1 : -1);
         return this._TA_lim(this.makeMcq(T, 2, 'Limite en un point : asymptote verticale',
@@ -3007,7 +4168,7 @@ window.MathsLyceeGenerators = {
           `Le numérateur tend vers $${N}$ et le dénominateur vers $0^{${right ? '+' : '-'}}$ : par quotient, la limite est $${s > 0 ? '+' : '-'}\\infty$. La droite d'équation $x = ${c}$ est asymptote verticale.`
         ), `\\lim_{x \\to ${c}^{${right ? '+' : '-'}}} f(x)`);
       }
-      return this.makeMcq(T, 2, 'Asymptotes d\'une fonction homographique',
+      return this._Tx(this.makeMcq(T, 2, 'Asymptotes d\'une fonction homographique',
         'Interpréter graphiquement des limites',
         `Soit $f(x) = ${fx}$ définie pour $x \\neq ${c}$. Quelles sont les asymptotes à la courbe de $f$ ?`,
         `$x = ${c}$ et $y = ${a}$`,
@@ -3015,7 +4176,7 @@ window.MathsLyceeGenerators = {
         'Une asymptote horizontale provient d\'une limite finie en $\\pm\\infty$ ; une verticale, d\'une limite infinie en un point.',
         `Calcule $\\lim_{x \\to \\pm\\infty} f(x)$ puis étudie $f$ au voisinage de $${c}$.`,
         `$\\lim_{x \\to \\pm\\infty} f(x) = ${a}$ (rapport des termes de plus haut degré) : asymptote horizontale $y = ${a}$. En $${c}$, le numérateur tend vers $${N} \\neq 0$ et le dénominateur vers $0$ : asymptote verticale $x = ${c}$.`
-      );
+      ), [c, a], 'Les asymptotes ont pour équations $x = p$ (verticale) et $y = q$ (horizontale) : saisir (p ; q).');
     }
     if (tier === 3) {
       if (Math.random() < 0.55) {
@@ -3028,15 +4189,15 @@ window.MathsLyceeGenerators = {
         const f = (x) => F(x) + q;
         const expr = this.poly([[1, 'x^3'], [p, 'x'], [q, '']]);
         const I = (m) => `$[${m} ; ${m + 1}]$`;
-        return this.makeMcq(T, 3, 'Théorème des valeurs intermédiaires',
+        return this._Tx(this.makeMcq(T, 3, 'Théorème des valeurs intermédiaires',
           'Localiser une solution grâce au corollaire du TVI',
           `Soit $f(x) = ${expr}$ sur $\\mathbb{R}$. La fonction $f$ est continue et strictement croissante, et l'équation $f(x) = 0$ admet une unique solution $\\alpha$. Dans quel intervalle se trouve $\\alpha$ ?`,
           I(k),
           [I(k - 1), I(k + 1), I(k + 2), I(k - 2)],
-          'Calcule $f$ aux bornes de chaque intervalle proposé et cherche un changement de signe.',
-          `$f(${k}) = ${f(k)}$ et $f(${k + 1}) = ${f(k + 1)}$.`,
+          'Calcule $f(m)$ pour quelques entiers $m$ et cherche deux entiers consécutifs où $f$ change de signe.',
+          `$f(0) = ${f(0)}$ ${f(0) > 0 ? '> 0 : la solution est négative ; calcule $f(-1)$, $f(-2)$…' : '< 0 : la solution est positive ; calcule $f(1)$, $f(2)$…'}`,
           `$f$ est continue et strictement croissante sur $[${k} ; ${k + 1}]$, avec $f(${k}) = ${f(k)} < 0$ et $f(${k + 1}) = ${f(k + 1)} > 0$. D'après le corollaire du TVI, $\\alpha \\in [${k} ; ${k + 1}]$.`
-        );
+        ), k, 'L\'intervalle cherché est de la forme $[m ; m + 1]$ avec $m$ entier : saisir l\'entier $m$.');
       }
       const a = this.randInt(1, 2);
       const q = this.randInt(-5, 5);
@@ -3114,12 +4275,32 @@ window.MathsLyceeGenerators = {
   gen_TA4(tier) {
     const T = 'TA4';
     if (tier === 1) {
-      if (Math.random() < 0.5) {
+      const r1 = Math.random();
+      if (r1 < 0.3) {
+        // Valeur de f'' en un point et convexité locale
+        const a = this.randNonZero(-3, 3); const b = this.randInt(-5, 5); const c = this.randInt(-6, 6); const d = this.randInt(-5, 5);
+        const x0 = this.randInt(-3, 3);
+        const f = this.poly([[a, 'x^3'], [b, 'x^2'], [c, 'x'], [d, '']]);
+        const f2 = this.poly([[6 * a, 'x'], [2 * b, '']]);
+        const v = 6 * a * x0 + 2 * b;
+        const v1 = 3 * a * x0 * x0 + 2 * b * x0 + c;
+        return this.makeMcq(T, 1, 'Dérivée seconde en un point et convexité',
+          'Calculer $f\'\'(a)$ et interpréter son signe',
+          `Soit $f(x) = ${f}$. Calculer $f''(${x0})$ ; son signe indique si $f$ est convexe ou concave au voisinage de $${x0}$.`,
+          `$f''(${x0}) = ${v}$`,
+          [v1, 3 * a * x0 + 2 * b, 6 * a * x0 + b, -v, v + 2 * b].filter((x) => x !== v).map((x) => `$f''(${x0}) = ${x}$`),
+          'Dérive deux fois, puis remplace $x$ par la valeur demandée.',
+          `$f'(x) = ${this.poly([[3 * a, 'x^2'], [2 * b, 'x'], [c, '']])}$.`,
+          `$f'(x) = ${this.poly([[3 * a, 'x^2'], [2 * b, 'x'], [c, '']])}$ et $f''(x) = ${f2}$, donc $f''(${x0}) = ${6 * a} \\times ${this.paren(x0)}${b ? ' ' + this.formatSign(2 * b) : ''} = ${v}$. ` +
+            (v > 0 ? `Comme $f''(${x0}) > 0$ et que $f''$ est continue, $f$ est convexe au voisinage de $${x0}$.` : v < 0 ? `Comme $f''(${x0}) < 0$ et que $f''$ est continue, $f$ est concave au voisinage de $${x0}$.` : `$f''(${x0}) = 0$ : on ne peut pas conclure sans étudier le signe de $f''$ autour de $${x0}$.`)
+        );
+      }
+      if (r1 < 0.65) {
         const a = this.randNonZero(-4, 4); const b = this.randInt(-6, 6); const c = this.randInt(-9, 9); const d = this.randInt(-9, 9);
         const f = this.poly([[a, 'x^3'], [b, 'x^2'], [c, 'x'], [d, '']]);
         const f1 = this.poly([[3 * a, 'x^2'], [2 * b, 'x'], [c, '']]);
         const ans = this.poly([[6 * a, 'x'], [2 * b, '']]);
-        return this.makeMcq(T, 1, 'Calcul d\'une dérivée seconde',
+        return this._Tx(this.makeMcq(T, 1, 'Calcul d\'une dérivée seconde',
           'Dériver deux fois une fonction polynôme',
           `Soit $f(x) = ${f}$. Déterminer $f''(x)$.`,
           `$f''(x) = ${ans}$`,
@@ -3127,12 +4308,12 @@ window.MathsLyceeGenerators = {
           'Dérive une première fois, puis dérive $f\'$.',
           `$f'(x) = ${f1}$.`,
           `$f'(x) = ${f1}$, puis $f''(x) = ${ans}$.`
-        );
+        ), [6 * a, 2 * b], 'On écrit $f\'\'(x) = \\alpha x + \\beta$ : saisir (α ; β).');
       }
       const a = this.randNonZero(-3, 3); const b = this.randInt(-5, 5); const c = this.randNonZero(-6, 6);
       const f = this.poly([[a, 'x^4'], [b, 'x^3'], [c, 'x^2']]);
       const ans = this.poly([[12 * a, 'x^2'], [6 * b, 'x'], [2 * c, '']]);
-      return this.makeMcq(T, 1, 'Calcul d\'une dérivée seconde',
+      return this._Tx(this.makeMcq(T, 1, 'Calcul d\'une dérivée seconde',
         'Dériver deux fois une fonction polynôme',
         `Soit $f(x) = ${f}$. Déterminer $f''(x)$.`,
         `$f''(x) = ${ans}$`,
@@ -3140,7 +4321,7 @@ window.MathsLyceeGenerators = {
         'Dérive une première fois, puis dérive $f\'$.',
         `$f'(x) = ${this.poly([[4 * a, 'x^3'], [3 * b, 'x^2'], [2 * c, 'x']])}$.`,
         `$f'(x) = ${this.poly([[4 * a, 'x^3'], [3 * b, 'x^2'], [2 * c, 'x']])}$, puis $f''(x) = ${ans}$.`
-      );
+      ), [12 * a, 6 * b, 2 * c], 'On écrit $f\'\'(x) = \\alpha x^2 + \\beta x + \\gamma$ : saisir (α ; β ; γ).');
     }
     if (tier === 2) {
       const a = this.randNonZero(-3, 3); const b = this.randNonZero(-6, 6); const c = this.randInt(-9, 9); const d = this.randInt(-9, 9);
@@ -3211,7 +4392,26 @@ window.MathsLyceeGenerators = {
       );
     }
     // tier 4
-    const f = this.randInt(1, 3);
+    const f = this.randInt(1, 4);
+    if (f === 4) {
+      // Tangente au point d'inflexion d'une cubique (elle traverse la courbe)
+      const a = this.randChoice([-2, -1, 1, 2]); const x0 = this.randInt(-3, 3); const m = this.randInt(-5, 5); const y0 = this.randInt(-5, 5);
+      const fx = this.poly([[a, 'x^3'], [-3 * a * x0, 'x^2'], [3 * a * x0 * x0 + m, 'x'], [-a * x0 ** 3 - m * x0 + y0, '']]);
+      const p = y0 - m * x0;
+      const Y = (mm, pp) => `$y = ${this.poly([[mm, 'x'], [pp, '']]) || '0'}$`;
+      const ans = Y(m, p);
+      const f0 = -a * x0 ** 3 - m * x0 + y0; const d0 = 3 * a * x0 * x0 + m;
+      const tw = m === 0 ? String(y0) : `${m === 1 ? '' : m === -1 ? '-' : m}${x0 === 0 ? 'x' : `(x ${this.formatSign(-x0)})`}${y0 ? ' ' + this.formatSign(y0) : ''}`;
+      return this._Tx(this.makeMcq(T, 4, 'Tangente au point d\'inflexion d\'une cubique',
+        'Déterminer un point d\'inflexion et la tangente qui y traverse la courbe',
+        `Soit $f(x) = ${fx}$. Déterminer l'équation réduite de la tangente à la courbe de $f$ en son point d'inflexion.`,
+        ans,
+        [Y(m, y0), Y(m, y0 + m * x0), Y(d0, f0), Y(-m, y0 + m * x0), Y(m, p + 1), Y(m, p - 1), Y(m + 1, p), Y(-m, p - 1)].filter((x, i, arr) => x !== ans && arr.indexOf(x) === i),
+        'Le point d\'inflexion est l\'endroit où $f\'\'$ s\'annule en changeant de signe.',
+        `$f''(x) = ${this.poly([[6 * a, 'x'], [-6 * a * x0, '']])}$ ; calcule ensuite $f$ et $f'$ en ce point et utilise $y = f'(a)(x - a) + f(a)$.`,
+        `$f'(x) = ${this.poly([[3 * a, 'x^2'], [-6 * a * x0, 'x'], [d0, '']])}$ et $f''(x) = ${this.poly([[6 * a, 'x'], [-6 * a * x0, '']])}$, qui s'annule en changeant de signe en $x = ${x0}$ : c'est l'abscisse du point d'inflexion. $f(${x0}) = ${y0}$ et $f'(${x0}) = ${m}$, donc la tangente a pour équation $y = ${tw}$, soit ${ans}. Au point d'inflexion, la courbe traverse cette tangente.`
+      ), [m, p], 'L\'équation réduite s\'écrit $y = mx + p$ : saisir (m ; p).');
+    }
     if (f === 1) {
       const a = this.randInt(-2, 3);
       const E = a === 1 ? 'e' : `e^{${a}}`;
@@ -3242,7 +4442,7 @@ window.MathsLyceeGenerators = {
     }
     const k = this.randInt(1, 4);
     const c = this.randInt(-9, 9);
-    return this.makeMcq(T, 4, 'Points d\'inflexion d\'une fonction de degré 4',
+    return this._Tx(this.makeMcq(T, 4, 'Points d\'inflexion d\'une fonction de degré 4',
       'Étudier le signe d\'une dérivée seconde du second degré',
       `Soit $f(x) = ${this.poly([[1, 'x^4'], [-6 * k * k, 'x^2'], [c, '']])}$. Quelles sont les abscisses des points d'inflexion de sa courbe ?`,
       `$x = ${-k}$ et $x = ${k}$`,
@@ -3250,7 +4450,7 @@ window.MathsLyceeGenerators = {
       'Calcule $f\'\'$ et étudie son signe.',
       `$f''(x) = ${this.poly([[12, 'x^2'], [-12 * k * k, '']])} = 12(x - ${k})(x + ${k})$.`,
       `$f''(x) = 12(x^2 - ${k * k})$ s'annule en changeant de signe en $x = ${-k}$ et $x = ${k}$ : la courbe a deux points d'inflexion.`
-    );
+    ), [-k, k], 'Saisir les abscisses dans l\'ordre croissant sous la forme (x₁ ; x₂).');
   },
 
   // ---------------------------------------------------------------------
@@ -3265,7 +4465,7 @@ window.MathsLyceeGenerators = {
         do { e1 = this.randInt(2, 5); e2 = this.randInt(1, 3); e3 = this.randInt(2, 5); k = e1 + e2 - e3; } while (k === 0 || e3 === e1 || e3 === e2 || p ** e3 > 300 || p ** e1 > 300);
         const L = `\\ln(${p})`;
         const A = `\\ln(${p ** e1}) + \\ln(${p ** e2}) - \\ln(${p ** e3})`;
-        return this.makeMcq(T, 1, 'Propriétés algébriques du logarithme',
+        return this._Tx(this.makeMcq(T, 1, 'Propriétés algébriques du logarithme',
           'Utiliser $\\ln(ab) = \\ln(a) + \\ln(b)$ et $\\ln(a^n) = n\\ln(a)$',
           `Écrire $A = ${A}$ sous la forme $k\\ln(${p})$.`,
           `$A = ${this.coefStr(k, L)}$`,
@@ -3273,7 +4473,7 @@ window.MathsLyceeGenerators = {
           `Écris chaque nombre comme une puissance de $${p}$.`,
           [e1, e2, e3].filter((e) => e > 1).map((e) => `$${p ** e} = ${p}^{${e}}$`).join(', ') + '.',
           `$A = ${e1}\\ln(${p}) + ${e2}\\ln(${p}) - ${e3}\\ln(${p}) = ${this.coefStr(k, L)}$.`.replace(/(^|[^0-9])1\\ln/g, '$1\\ln')
-        );
+        ), k, 'Saisir l\'entier $k$.');
       }
       const a = this.randInt(2, 6);
       const k = this.randChoice([2, 3]);
@@ -3290,7 +4490,27 @@ window.MathsLyceeGenerators = {
       );
     }
     if (tier === 2) {
-      if (Math.random() < 0.5) {
+      const r2 = Math.random();
+      if (r2 < 0.34) {
+        // ln(x) = k ln(a) ± ln(b) : regrouper avant d'utiliser l'injectivité de ln
+        const a = this.randInt(2, 5); const k = this.randChoice([2, 3]); const b = this.randInt(2, 7);
+        const plus = Math.random() < 0.5;
+        if (!plus && b === a) return this.gen_TA5(2);
+        const num = plus ? a ** k * b : a ** k; const den = plus ? 1 : b;
+        const sol = this.frac(num, den);
+        const ds = [this.frac(k * a + (plus ? b : -b), 1), this.frac(plus ? a ** k + b : a ** k - b, 1), this.frac(plus ? k * a * b : k * a, plus ? 1 : b), this.frac(plus ? a * b : a, plus ? 1 : b)]
+          .filter((d) => d !== sol && !/^-|^0$/.test(d));
+        return this.makeMcq(T, 2, 'Équation $\\ln(x) = \\ln(c)$',
+          'Regrouper des logarithmes puis utiliser $\\ln(x) = \\ln(c) \\iff x = c$',
+          `Résoudre dans $]0 ; +\\infty[$ l'équation $\\ln(x) = ${k}\\ln(${a}) ${plus ? '+' : '-'} \\ln(${b})$.`,
+          `$x = ${sol}$`,
+          ds.map((d) => `$x = ${d}$`),
+          `Écris le membre de droite comme un seul logarithme : $${k}\\ln(${a}) = \\ln(${a}^{${k}})$.`,
+          plus ? '$\\ln(a) + \\ln(b) = \\ln(ab)$.' : '$\\ln(a) - \\ln(b) = \\ln\\left(\\frac{a}{b}\\right)$.',
+          `$${k}\\ln(${a}) ${plus ? '+' : '-'} \\ln(${b}) = \\ln(${a ** k}) ${plus ? '+' : '-'} \\ln(${b}) = ${plus ? `\\ln(${a ** k} \\times ${b}) = ` : this.gcd(a ** k, b) === 1 ? '' : `\\ln(${a ** k} \\div ${b}) = `}\\ln\\left(${sol}\\right)$. Comme $\\ln$ est strictement croissante sur $]0 ; +\\infty[$, l'équation équivaut à $x = ${sol}$, qui est bien strictement positif.`
+        );
+      }
+      if (r2 < 0.67) {
         const x0 = this.randInt(-3, 5);
         const [a, c] = this.pickDistinct([1, 2, 3, 4, 5], 2);
         const valid = Math.random() < 0.75;
@@ -3298,7 +4518,7 @@ window.MathsLyceeGenerators = {
         const b = v - a * x0;
         const d = v - c * x0;
         const ans = valid ? `$S = \\{${x0}\\}$` : '$S = \\emptyset$';
-        return this.makeMcq(T, 2, 'Équation avec logarithmes',
+        return this._Tx(this.makeMcq(T, 2, 'Équation avec logarithmes',
           'Résoudre $\\ln(u) = \\ln(v)$ en tenant compte du domaine',
           `Résoudre dans $\\mathbb{R}$ l'équation $\\ln(${this.poly([[a, 'x'], [b, '']])}) = \\ln(${this.poly([[c, 'x'], [d, '']])})$.`,
           ans,
@@ -3306,10 +4526,10 @@ window.MathsLyceeGenerators = {
           'Les deux logarithmes doivent être définis : les expressions doivent être strictement positives.',
           '$\\ln$ est strictement croissante, donc $\\ln(u) = \\ln(v) \\iff u = v$ (avec $u > 0$).',
           `$${this.poly([[a, 'x'], [b, '']])} = ${this.poly([[c, 'x'], [d, '']])} \\iff x = ${x0}$. Pour $x = ${x0}$, les deux expressions valent $${v}$${valid ? ', strictement positif : la solution convient. $S = \\{' + x0 + '\\}$.' : ' : elles ne sont pas strictement positives, donc la valeur est exclue. $S = \\emptyset$.'}`
-        );
+        ), valid ? x0 : 'aucune', 'Saisir la solution, ou « aucune » si l\'équation n\'a pas de solution.');
       }
       const a = this.randInt(1, 6); const r = this.randInt(1, 6); const b = r * (r + a);
-      return this.makeMcq(T, 2, 'Équation avec logarithmes',
+      return this._Tx(this.makeMcq(T, 2, 'Équation avec logarithmes',
         'Résoudre $\\ln(u) + \\ln(v) = \\ln(w)$ sans oublier le domaine',
         `Résoudre dans $]0 ; +\\infty[$ l'équation $\\ln(x) + \\ln(x + ${a}) = \\ln(${b})$.`,
         `$S = \\{${r}\\}$`,
@@ -3317,14 +4537,14 @@ window.MathsLyceeGenerators = {
         'Sur $]0 ; +\\infty[$, $\\ln(x) + \\ln(x + ' + a + ') = \\ln(x(x + ' + a + '))$.',
         `Résous $x^2 + ${this.coefStr(a, 'x')} - ${b} = 0$ puis vérifie le domaine.`,
         `L'équation équivaut à $x(x + ${a}) = ${b}$, soit $(x - ${r})(x + ${r + a}) = 0$. Seule $x = ${r} > 0$ convient : $S = \\{${r}\\}$.`
-      );
+      ), r, 'Saisir la solution, ou « aucune » si l\'équation n\'a pas de solution.');
     }
     if (tier === 3) {
       const f = this.randInt(1, 3);
       if (f === 1) {
         const a = this.randInt(1, 5); const b = this.randInt(1, 9);
         const u = this.poly([[a, 'x^2'], [b, '']]);
-        return this.makeMcq(T, 3, 'Dérivée de $\\ln(u)$',
+        return this._Tx(this.makeMcq(T, 3, 'Dérivée de $\\ln(u)$',
           'Appliquer $(\\ln u)\' = \\frac{u\'}{u}$',
           `Soit $f(x) = \\ln(${u})$ sur $\\mathbb{R}$. Déterminer $f'(x)$.`,
           `$f'(x) = \\frac{${this.coefStr(2 * a, 'x')}}{${u}}$`,
@@ -3332,13 +4552,13 @@ window.MathsLyceeGenerators = {
           'Pour $u > 0$ dérivable, $(\\ln u)\' = \\frac{u\'}{u}$.',
           `Ici $u(x) = ${u}$ et $u'(x) = ${this.coefStr(2 * a, 'x')}$.`,
           `$f'(x) = \\frac{u'(x)}{u(x)} = \\frac{${this.coefStr(2 * a, 'x')}}{${u}}$.`
-        );
+        ), 2 * a, `On écrit $f'(x) = \\frac{kx}{${u}}$ : saisir $k$.`);
       }
       if (f === 2) {
         const a = this.randNonZero(-4, 4); const b = this.randNonZero(-6, 6);
         const lin = this.poly([[a, 'x'], [b, '']]);
         const ans = `${this.coefStr(a, '\\ln(x)')} + \\frac{${lin}}{x}`;
-        return this.makeMcq(T, 3, 'Dérivée d\'un produit avec $\\ln$',
+        return this._Tx(this.makeMcq(T, 3, 'Dérivée d\'un produit avec $\\ln$',
           'Appliquer $(uv)\' = u\'v + uv\'$',
           `Soit $f(x) = (${lin})\\ln(x)$ sur $]0 ; +\\infty[$. Déterminer $f'(x)$.`,
           `$f'(x) = ${ans}$`,
@@ -3346,11 +4566,11 @@ window.MathsLyceeGenerators = {
           'Produit : $(uv)\' = u\'v + uv\'$.',
           `$u(x) = ${lin}$, $v(x) = \\ln(x)$.`,
           `$f'(x) = ${a} \\times \\ln(x) + (${lin}) \\times \\frac{1}{x} = ${ans}$.`
-        );
+        ), [a, a, b], 'On écrit $f\'(x) = \\alpha\\ln(x) + \\beta + \\frac{\\gamma}{x}$ : saisir (α ; β ; γ).');
       }
       const a = this.randInt(1, 6);
       const num = this.poly([[a, ''], [-a, '\\ln(x)']]);
-      return this.makeMcq(T, 3, 'Dérivée d\'un quotient avec $\\ln$',
+      return this._Tx(this.makeMcq(T, 3, 'Dérivée d\'un quotient avec $\\ln$',
         'Appliquer $\\left(\\frac{u}{v}\\right)\' = \\frac{u\'v - uv\'}{v^2}$',
         `Soit $f(x) = \\frac{${this.coefStr(a, '\\ln(x)')}}{x}$ sur $]0 ; +\\infty[$. Déterminer $f'(x)$.`,
         `$f'(x) = \\frac{${num}}{x^2}`.concat('$'),
@@ -3358,7 +4578,7 @@ window.MathsLyceeGenerators = {
         'Quotient : $\\left(\\frac{u}{v}\\right)\' = \\frac{u\'v - uv\'}{v^2}$.',
         `$u(x) = ${this.coefStr(a, '\\ln(x)')}$, $u'(x) = \\frac{${a}}{x}$, $v(x) = x$.`,
         `$f'(x) = \\frac{\\frac{${a}}{x} \\times x - ${this.coefStr(a, '\\ln(x)')}}{x^2} = \\frac{${num}}{x^2}$.`
-      );
+      ), [a, -a], 'On écrit $f\'(x) = \\frac{\\alpha + \\beta\\ln(x)}{x^2}$ : saisir (α ; β).');
     }
     // tier 4
     const f = this.randInt(1, 3);
@@ -3380,7 +4600,7 @@ window.MathsLyceeGenerators = {
       const t = this.randChoice([2, 3, 4, 5, 6, 8]); const k = this.randChoice([2, 3]);
       const q = 1 + t / 100;
       let n = 0; while (q ** n < k) n++;
-      return this.makeMcq(T, 4, 'Placement à intérêts composés',
+      return this._Tx(this.makeMcq(T, 4, 'Placement à intérêts composés',
         'Déterminer un seuil avec le logarithme',
         `Un capital est placé à intérêts composés au taux annuel de $${t}\\,\\%$. Au bout de combien d'années (nombre entier minimal) aura-t-il au moins été multiplié par $${k}$ ?`,
         `$${n}$ ans`,
@@ -3388,7 +4608,7 @@ window.MathsLyceeGenerators = {
         `Le capital est multiplié par $${this.dec(q)}$ chaque année.`,
         `Résous $${this.dec(q)}^n \\ge ${k}$ avec le logarithme.`,
         `$${this.dec(q)}^n \\ge ${k} \\iff n \\ge \\frac{\\ln(${k})}{\\ln(${this.dec(q)})} \\approx ${this.dec(Math.log(k) / Math.log(q), 2)}$. Il faut donc $${n}$ ans.`
-      );
+      ), n, 'Saisir un nombre entier d\'années.');
     }
     const g = this.randInt(1, 4);
     const a = this.randInt(1, 5); const b = this.randInt(1, 5); const p = this.randInt(1, 3);
@@ -3419,35 +4639,35 @@ window.MathsLyceeGenerators = {
         const a = this.randNonZero(-6, 6); const b = this.randNonZero(-6, 6); const c = this.randInt(-7, 7);
         const f = this.poly([[a, 'x^2'], [b, 'x'], [c, '']]);
         const F = this.poly([[this.frac(a, 3), 'x^3'], [this.frac(b, 2), 'x^2'], [c, 'x']]);
-        return this.makeMcq(T, 1, 'Primitive d\'une fonction polynôme',
+        return this._Tx(this.makeMcq(T, 1, 'Primitive d\'une fonction polynôme',
           'Utiliser les primitives de $x^n$',
-          `Soit $f(x) = ${f}$. Parmi les fonctions suivantes, laquelle est une primitive de $f$ sur $\\mathbb{R}$ ?`,
+          `Soit $f(x) = ${f}$. Déterminer la primitive $F$ de $f$ sur $\\mathbb{R}$ qui vérifie $F(0) = 0$.`,
           `$F(x) = ${F}$`,
           [`$F(x) = ${this.poly([[2 * a, 'x'], [b, '']])}$`, `$F(x) = ${this.poly([[a, 'x^3'], [b, 'x^2'], [c, 'x']])}$`, `$F(x) = ${this.poly([[this.frac(a, 2), 'x^3'], [b, 'x^2'], [c, 'x']])}$`, `$F(x) = ${this.poly([[this.frac(a, 3), 'x^3'], [b, 'x^2'], [c, 'x']])}$`],
           'Une primitive de $x^n$ est $\\frac{x^{n+1}}{n+1}$.',
           'Vérifie en dérivant : on doit retrouver $f$.',
-          `$F(x) = ${F}$ vérifie bien $F'(x) = ${f} = f(x)$.`
-        );
+          `On prend une primitive de chaque terme ($x^n$ a pour primitive $\\frac{x^{n+1}}{n+1}$), sans constante puisque $F(0) = 0$ : $F(x) = ${F}$, et on vérifie que $F'(x) = ${f} = f(x)$.`
+        ), [this._Tq(a, 3), this._Tq(b, 2), c], 'On écrit $F(x) = \\alpha x^3 + \\beta x^2 + \\gamma x$ : saisir (α ; β ; γ).');
       }
       const a = this.randNonZero(-6, 6);
       const k = this.randChoice([-4, -3, -2, -1, 2, 3, 4]);
       const k2 = k === -1 ? -2 : k + 1;
       const F = this.poly([[this.frac(a, k), ex(k)]]);
-      return this.makeMcq(T, 1, 'Primitive de $e^{kx}$',
+      return this._Tx(this.makeMcq(T, 1, 'Primitive de $e^{kx}$',
         'Utiliser une primitive de $e^{kx}$',
-        `Soit $f(x) = ${this.poly([[a, ex(k)]])}$. Parmi les fonctions suivantes, laquelle est une primitive de $f$ sur $\\mathbb{R}$ ?`,
+        `Soit $f(x) = ${this.poly([[a, ex(k)]])}$. Déterminer une primitive $F$ de $f$ sur $\\mathbb{R}$.`,
         `$F(x) = ${F}$`,
         [`$F(x) = ${this.poly([[a * k, ex(k)]])}$`, `$F(x) = ${this.poly([[a, ex(k)]])}$`, `$F(x) = ${this.poly([[this.frac(a, k2), ex(k2)]])}$`, `$F(x) = ${this.poly([[this.frac(a, k), ex(k)], [this.frac(a, k), 'x']])}$`],
         'Une primitive de $e^{kx}$ est $\\frac{1}{k}e^{kx}$ pour $k \\neq 0$.',
         'Vérifie en dérivant.',
         `Comme $(${ex(k)})' = ${this.coefStr(k, ex(k))}$, on a $F'(x) = ${this.frac(a, k)} \\times ${this.paren(k)} \\times ${ex(k)} = ${this.poly([[a, ex(k)]])} = f(x)$.`
-      );
+      ), this._Tq(a, k), `Une primitive s'écrit $F(x) = \\lambda ${ex(k)}$ : saisir $\\lambda$.`);
     }
     if (tier === 2) {
       if (Math.random() < 0.5) {
         const a = this.randNonZero(-5, 5); const b = this.randNonZero(-9, 9);
         const y0 = this.frac(-b, a);
-        return this.makeMcq(T, 2, 'Solution constante de $y\' = ay + b$',
+        return this._Tx(this.makeMcq(T, 2, 'Solution constante de $y\' = ay + b$',
           'Chercher une solution particulière constante',
           `Quelle est la solution constante de l'équation différentielle $y' = ${this.poly([[a, 'y'], [b, '']])}$ ?`,
           `$y = ${y0}$`,
@@ -3455,12 +4675,12 @@ window.MathsLyceeGenerators = {
           'Une fonction constante a une dérivée nulle.',
           `Résous $0 = ${this.poly([[a, 'y'], [b, '']])}$.`,
           `Si $y$ est constante, $y' = 0$ donc $${this.poly([[a, 'y'], [b, '']])} = 0$, soit $y = ${y0}$.`
-        );
+        ), this._Tq(-b, a), 'Saisir la valeur de la constante (entier ou fraction irréductible).');
       }
       const a = this.randNonZero(-4, 4); const y0 = this.randNonZero(-5, 6);
       const ans = this.poly([[y0, ex(a)]]);
       const ds = [this.poly([[y0, ex(-a)]]), this.poly([[y0 * a, ex(a)]]), this.poly([[1, ex(a)], [y0 - 1, '']]), this.poly([[a, ex(y0)]]), this.poly([[y0, ex(a === -1 ? -2 : a + 1)]]), this.poly([[y0 + 1, ex(a)]]), this.poly([[y0, ex(a)], [a, '']])];
-      return this.makeMcq(T, 2, 'Équation $y\' = ay$ avec condition initiale',
+      return this._Tx(this.makeMcq(T, 2, 'Équation $y\' = ay$ avec condition initiale',
         'Résoudre $y\' = ay$ et utiliser une condition initiale',
         `Déterminer la solution $y$ de l'équation différentielle $y' = ${this.coefStr(a, 'y')}$ vérifiant $y(0) = ${y0}$.`,
         `$y(x) = ${ans}$`,
@@ -3468,9 +4688,27 @@ window.MathsLyceeGenerators = {
         'Les solutions de $y\' = ay$ sont les fonctions $x \\mapsto Ce^{ax}$.',
         'Détermine $C$ avec $y(0)$.',
         `$y(x) = C${ex(a)}$ et $y(0) = C = ${y0}$, donc $y(x) = ${ans}$.`
-      );
+      ), [y0, a], 'La solution s\'écrit $y(x) = Ce^{kx}$ : saisir (C ; k).');
     }
     if (tier === 3) {
+      if (Math.random() < 0.35) {
+        // comportement à l'infini d'une solution de y' = -ky + b (k > 0)
+        const k = this.randInt(1, 5); const b = this.randNonZero(-12, 12); const c = this.randInt(-6, 6);
+        const L = this.frac(b, k);
+        if (L === String(c)) return this.gen_TA6(3);
+        const eqn = `y' = ${this.poly([[-k, 'y'], [b, '']])}`;
+        return this.makeMcq(T, 3, 'Limite en $+\\infty$ d\'une solution de $y\' = ay + b$',
+          'Résoudre $y\' = ay + b$ et étudier le comportement de la solution en $+\\infty$',
+          `Soit $y$ la solution de l'équation différentielle $${eqn}$ vérifiant $y(0) = ${c}$. Déterminer $\\lim_{x \\to +\\infty} y(x)$.`,
+          `$${L}$`,
+          (b % k === 0 ? [`$${c}$`, '$0$', '$+\\infty$', `$${this.frac(-b, k)}$`, `$${b}$`]
+            : [`$${this.frac(-b, k)}$`, `$${this.frac(b, k + 1)}$`, `$${this.frac(b, 2 * k)}$`, `$${this.frac(c * k - b, k)}$`, '$+\\infty$'].filter((x) => !/^\$-?\d+\$$/.test(x)))
+            .filter((x, i, arr) => x !== `$${L}$` && arr.indexOf(x) === i),
+          `Les solutions s'écrivent $y(x) = Ce^{${-k === -1 ? '-' : -k}x} + d$ où $d$ est la solution constante.`,
+          `Comme $${-k} < 0$, $e^{${-k === -1 ? '-' : -k}x}$ tend vers $0$ en $+\\infty$.`,
+          `La solution constante vérifie $0 = ${this.poly([[-k, 'd'], [b, '']])}$, soit $d = ${L}$. Donc $y(x) = Ce^{${-k === -1 ? '-' : -k}x} ${b / k < 0 ? '-' : '+'} ${this.frac(Math.abs(b), k)}$ avec $C = ${c} ${b / k < 0 ? '+' : '-'} ${this.frac(Math.abs(b), k)}$ (condition initiale). Comme $e^{${-k === -1 ? '-' : -k}x} \\to 0$, $\\lim_{x \\to +\\infty} y(x) = ${L}$, quelle que soit la condition initiale.`
+        );
+      }
       const a = this.randNonZero(-4, 4); const m = this.randNonZero(-5, 5); const b = -a * m;
       let c = this.randInt(-5, 6); if (c === m) c = m + 1;
       const K = c - m;
@@ -3478,7 +4716,7 @@ window.MathsLyceeGenerators = {
       const form = Math.random() < 0.5;
       const eq = form ? `y' = ${this.poly([[a, 'y'], [b, '']])}` : `${this.poly([[1, "y'"], [-a, 'y']])} = ${b}`;
       const ds = [this.poly([[c, ex(a)], [m, '']]), this.poly([[K, ex(a)], [-m, '']]), this.poly([[c + m, ex(a)], [-m, '']]), this.poly([[K, ex(-a)], [m, '']])];
-      return this.makeMcq(T, 3, 'Équation $y\' = ay + b$ avec condition initiale',
+      return this._Tx(this.makeMcq(T, 3, 'Équation $y\' = ay + b$ avec condition initiale',
         'Résoudre une équation différentielle linéaire du premier ordre',
         `Déterminer la solution de l'équation différentielle $${eq}$ vérifiant $y(0) = ${c}$.`,
         `$y(x) = ${ans}$`,
@@ -3486,7 +4724,7 @@ window.MathsLyceeGenerators = {
         'Les solutions sont de la forme $y(x) = Ce^{ax} - \\frac{b}{a}$.',
         `La solution constante est $y = ${m}$.`,
         `${form ? '' : `L'équation s'écrit $y' = ${this.poly([[a, 'y'], [b, '']])}$. `}Les solutions sont $y(x) = ${this.poly([['C', ex(a)], [m, '']])}$. Avec $y(0) = C ${this.formatSign(m)} = ${c}$, on trouve $C = ${K}$, d'où $y(x) = ${ans}$.`
-      );
+      ), [K, a, m], 'La solution s\'écrit $y(x) = Ce^{kx} + d$ : saisir (C ; k ; d).');
     }
     // tier 4
     const f = this.randInt(1, 3);
@@ -3494,7 +4732,7 @@ window.MathsLyceeGenerators = {
       const k = this.randNonZero(-4, 4); const al = this.randNonZero(-4, 4); const be = this.randInt(-4, 4);
       const m = -k * al; const p = al - k * be;
       const ans = this.poly([[al, 'x'], [be, '']]);
-      return this.makeMcq(T, 4, 'Solution particulière affine',
+      return this._Tx(this.makeMcq(T, 4, 'Solution particulière affine',
         'Chercher une solution particulière d\'une forme donnée',
         `On considère l'équation différentielle $y' = ${this.poly([[k, 'y'], [m, 'x'], [p, '']])}$. Quelle fonction affine $x \\mapsto \\alpha x + \\beta$ en est solution ?`,
         `$y = ${ans}$`,
@@ -3502,7 +4740,7 @@ window.MathsLyceeGenerators = {
         'Remplace $y$ par $\\alpha x + \\beta$ et $y\'$ par $\\alpha$.',
         'Identifie les coefficients de $x$ et les termes constants.',
         `En remplaçant, $\\alpha = ${this.poly([[k, '\\alpha x'], [k, '\\beta'], [m, 'x'], [p, '']])}$ pour tout $x$, d'où $${this.poly([[k, '\\alpha'], [m, '']])} = 0$ et $\\alpha = ${this.poly([[k, '\\beta'], [p, '']])}$. On obtient $\\alpha = ${al}$ et $\\beta = ${be}$ : $y = ${ans}$.`
-      );
+      ), [al, be], 'Saisir le couple (α ; β).');
     }
     if (f === 2) {
       const k = this.randNonZero(-3, 3); const b = this.randInt(-4, 4);
@@ -3510,28 +4748,28 @@ window.MathsLyceeGenerators = {
       const den = this.poly([[1, 'x^2'], [b, 'x'], [c, '']]);
       const num = this.poly([[2 * k, 'x'], [k * b, '']]);
       const ans = this.coefStr(k, `\\ln(${den})`);
-      return this.makeMcq(T, 4, 'Primitive de la forme $\\frac{u\'}{u}$',
+      return this._Tx(this.makeMcq(T, 4, 'Primitive de la forme $\\frac{u\'}{u}$',
         'Reconnaître une forme $\\frac{u\'}{u}$',
-        `Soit $f(x) = \\frac{${num}}{${den}}$ sur $\\mathbb{R}$. Laquelle de ces fonctions est une primitive de $f$ ?`,
+        `Soit $f(x) = \\frac{${num}}{${den}}$ sur $\\mathbb{R}$. Déterminer une primitive $F$ de $f$ sur $\\mathbb{R}$.`,
         `$F(x) = ${ans}$`,
         [`$F(x) = ${this.coefStr(2 * k, `\\ln(${den})`)}$`, `$F(x) = \\frac{${k}}{${den}}$`.replace('\\frac{1}{', '\\frac{1}{'), `$F(x) = ${this.coefStr(-k, `\\ln(${den})`)}$`, `$F(x) = \\ln(${num.replace(/^-/, '')})$`].map((s) => s.replace(/\\frac\{-(\d+)\}/, '-\\frac{$1}')),
         `Le numérateur est-il proportionnel à la dérivée de $${den}$ ?`,
         `$(${den})' = ${this.poly([[2, 'x'], [b, '']])}$ et $${den} > 0$ sur $\\mathbb{R}$.`,
         `$f = ${k === 1 ? '' : k === -1 ? '-' : k + ' \\times '}\\frac{u'}{u}$ avec $u(x) = ${den} > 0$, donc $F(x) = ${ans}$ est une primitive de $f$.`
-      );
+      ), k, `Une primitive s'écrit $F(x) = \\lambda\\ln(${den})$ : saisir $\\lambda$.`);
     }
     const k = this.randNonZero(-6, 6); const a = this.randNonZero(-3, 3);
     const E = ex(a, 'x^2');
     const ans = this.poly([[this.frac(k, 2 * a), E]]);
-    return this.makeMcq(T, 4, 'Primitive de la forme $u\'e^{u}$',
+    return this._Tx(this.makeMcq(T, 4, 'Primitive de la forme $u\'e^{u}$',
       'Reconnaître une forme $u\'e^{u}$',
-      `Soit $f(x) = ${this.poly([[k, 'x' + E]])}$ sur $\\mathbb{R}$. Laquelle de ces fonctions est une primitive de $f$ ?`,
+      `Soit $f(x) = ${this.poly([[k, 'x' + E]])}$ sur $\\mathbb{R}$. Déterminer une primitive $F$ de $f$ sur $\\mathbb{R}$.`,
       `$F(x) = ${ans}$`,
       [this.poly([[k, E]]), this.poly([[2 * a * k, E]]), this.poly([[this.frac(k, 2), 'x^2' + E]]), this.poly([[this.frac(k, a), E]])].map((d) => `$F(x) = ${d}$`),
       'Une primitive de $u\'e^{u}$ est $e^{u}$.',
       `Ici $u(x) = ${this.coefStr(a, 'x^2')}$ et $u'(x) = ${this.coefStr(2 * a, 'x')}$.`,
       `$f(x) = ${this.frac(k, 2 * a) === '1' ? '' : this.frac(k, 2 * a) === '-1' ? '-' : this.frac(k, 2 * a) + ' \\times '}(${this.coefStr(2 * a, 'x')})${E}$, donc $F(x) = ${ans}$ (on vérifie $F' = f$).`
-    );
+    ), this._Tq(k, 2 * a), `Une primitive s'écrit $F(x) = \\lambda ${E}$ : saisir $\\lambda$.`);
   },
 
   // ---------------------------------------------------------------------
@@ -3540,7 +4778,22 @@ window.MathsLyceeGenerators = {
   gen_TA7(tier) {
     const T = 'TA7';
     if (tier === 1) {
-      if (Math.random() < 0.5) {
+      const r1 = Math.random();
+      if (r1 < 0.3) {
+        // ∫_0^{ln a} k e^x dx = k(a - 1)
+        const a = this.randInt(2, 9); const k = this.randChoice([1, 1, 2, 3, -2]);
+        const I = k * (a - 1);
+        return this.makeMcq(T, 1, 'Intégrale de l\'exponentielle',
+          'Utiliser la primitive $e^{x}$ de $e^{x}$ et $e^{\\ln(a)} = a$',
+          `Calculer $I = \\int_{0}^{\\ln(${a})} ${this.coefStr(k, 'e^{x}')} \\, dx$.`,
+          `$I = ${I}$`,
+          [k * a, k * (a + 1), k * (Math.round(Math.exp(a)) - 1), -I, k * (a - 2)].filter((x, i, arr) => x !== I && arr.indexOf(x) === i).map((x) => `$I = ${x}$`),
+          `Une primitive de $${this.coefStr(k, 'e^{x}')}$ est $${this.coefStr(k, 'e^{x}')}$.`,
+          `$e^{\\ln(${a})} = ${a}$ et $e^{0} = 1$.`,
+          `$I = \\left[${this.coefStr(k, 'e^{x}')}\\right]_{0}^{\\ln(${a})} = ${k === 1 ? '' : k === -1 ? '-' : k}(e^{\\ln(${a})} - e^{0}) = ${k === 1 ? '' : k === -1 ? '-' : k}(${a} - 1) = ${I}$.`
+        );
+      }
+      if (r1 < 0.65) {
         const c = this.randNonZero(-4, 4); const b = this.randInt(1, 6);
         const I = c * b ** 3;
         return this.makeMcq(T, 1, 'Calcul d\'une intégrale par primitive',
@@ -3562,7 +4815,7 @@ window.MathsLyceeGenerators = {
         `Calculer l'intégrale $I = \\int_{${lo}}^{${hi}} (${this.poly([[m, 'x'], [p, '']])}) \\, dx$.`,
         `$I = ${this.frac(num, 2)}$`,
         [`$I = ${this.frac(m * hi * hi + 2 * p * hi, 2)}$`, `$I = ${m * (hi - lo)}$`, `$I = ${this.frac(m * (hi * hi + lo * lo) + 2 * p * (hi - lo), 2)}$`, `$I = ${m * (hi * hi - lo * lo) + p * (hi - lo)}$`, `$I = ${this.frac(num + 2, 2)}$`, `$I = ${this.frac(-num, 2)}$`, `$I = ${this.frac(num - 2, 2)}$`],
-        `Une primitive est $F(x) = ${F}$.`,
+        `Une primitive de la fonction intégrée est $F : x \\mapsto ${F}$.`,
         `Calcule $F(${hi}) - F(${lo})$.`,
         `$I = \\left[${F}\\right]_{${lo}}^{${hi}} = F(${hi}) - F(${lo})${m * lo * lo + 2 * p * lo === 0 ? '' : ` = ${this.frac(m * hi * hi + 2 * p * hi, 2)} - ${this.paren(this.frac(m * lo * lo + 2 * p * lo, 2))}`} = ${this.frac(num, 2)}$.`
       );
@@ -3573,7 +4826,7 @@ window.MathsLyceeGenerators = {
         const k = this.randNonZero(-4, 4);
         const ek = k === 1 ? 'e' : `e^{${k}}`;
         const ans = k === 1 ? 'e - 1' : k === -1 ? '1 - e^{-1}' : k > 0 ? `\\frac{${ek} - 1}{${k}}` : `\\frac{1 - ${ek}}{${-k}}`;
-        return this.makeMcq(T, 2, 'Intégrale d\'une exponentielle',
+        return this._Tx(this.makeMcq(T, 2, 'Intégrale d\'une exponentielle',
           'Utiliser une primitive de $e^{kx}$',
           `Calculer $I = \\int_{0}^{1} e^{${this.coefStr(k, 'x')}} \\, dx$.`,
           `$I = ${ans}$`,
@@ -3581,12 +4834,12 @@ window.MathsLyceeGenerators = {
           `Une primitive de $e^{kx}$ est $\\frac{1}{k}e^{kx}$.`,
           `$I = \\left[${this.poly([[this.frac(1, k), `e^{${this.coefStr(k, 'x')}}`]])}\\right]_{0}^{1}$.`,
           `$I = ${k === 1 ? '' : (k === -1 ? '-' : this.frac(1, k)) + '('}${ek} - e^{0}${k === 1 ? '' : ')'} = ${ans}$.`
-        );
+        ), [this._Tq(1, k), this._Tq(-1, k)], `On écrit $I = \\alpha ${ek} + \\beta$ avec $\\alpha$, $\\beta$ rationnels : saisir (α ; β).`);
       }
       if (f === 2) {
         const a = this.randInt(2, 9); const c = this.randInt(1, 5);
         const ans = this.coefStr(c, `\\ln(${a})`);
-        return this.makeMcq(T, 2, 'Intégrale de $\\frac{1}{x}$',
+        return this._Tx(this.makeMcq(T, 2, 'Intégrale de $\\frac{1}{x}$',
           'Utiliser la primitive $\\ln$ de $\\frac{1}{x}$ sur $]0 ; +\\infty[$',
           `Calculer $I = \\int_{1}^{${a}} \\frac{${c}}{x} \\, dx$.`,
           `$I = ${ans}$`,
@@ -3594,7 +4847,7 @@ window.MathsLyceeGenerators = {
           'Une primitive de $\\frac{1}{x}$ sur $]0 ; +\\infty[$ est $\\ln(x)$.',
           '$\\ln(1) = 0$.',
           `$I = \\left[${this.coefStr(c, '\\ln(x)')}\\right]_{1}^{${a}} = ${this.coefStr(c, `\\ln(${a})`)} - ${this.coefStr(c, '\\ln(1)')} = ${ans}$.`
-        );
+        ), c, `On écrit $I = \\lambda\\ln(${a})$ : saisir $\\lambda$.`);
       }
       const b = this.randInt(1, 6); const p = this.randInt(-5, 5);
       const mu = this.frac(b * b + 3 * p, 3);
@@ -3635,13 +4888,31 @@ window.MathsLyceeGenerators = {
         `$\\mathcal{A} = \\int_{${-s}}^{${s}} (${this.poly([[-c, 'x^2'], [c * s * s, '']])})\\,dx = \\left[${this.poly([[this.frac(-c, 3), 'x^3'], [c * s * s, 'x']])}\\right]_{${-s}}^{${s}} = ${A}$.`
       );
     }
-    // tier 4 : intégration par parties
-    const f = this.randInt(1, 3);
+    // tier 4 : intégration par parties ; propriétés de l'intégrale
+    const f = this.randInt(0, 3);
+    if (f === 0) {
+      const a = this.randInt(-3, 1); const b = a + this.randInt(1, 3); const c = b + this.randInt(1, 3);
+      const p = this.randNonZero(-6, 6); const qv = this.randNonZero(-6, 6); const r = this.randNonZero(-6, 6);
+      const al = this.randChoice([-3, -2, 2, 3, 4]); const be = this.randChoice([-2, -1, 1, 2, 3]);
+      const rev = Math.random() < 0.5; // intégrale donnée avec les bornes inversées
+      const qq = rev ? -qv : qv; // \int_b^c f
+      const I = al * (p + qq) + be * r;
+      const lin = this.poly([[al, 'f(x)'], [be, 'g(x)']]);
+      return this.makeMcq(T, 4, 'Linéarité et relation de Chasles',
+        'Combiner linéarité, relation de Chasles et inversion des bornes',
+        `Les fonctions $f$ et $g$ sont continues sur $\\mathbb{R}$ et vérifient $\\int_{${a}}^{${b}} f(x)\\,dx = ${p}$, $\\int_{${rev ? c : b}}^{${rev ? b : c}} f(x)\\,dx = ${qv}$ et $\\int_{${a}}^{${c}} g(x)\\,dx = ${r}$. Calculer $I = \\int_{${a}}^{${c}} (${lin})\\,dx$.`,
+        `$I = ${I}$`,
+        [al * (p - qq) + be * r, al * (p + qq) - be * r, al * p + be * r, al * (p + qv) + be * r + (rev ? 0 : 2 * al), (al + be) * (p + qq + r)].filter((x) => x !== I).map((x) => `$I = ${x}$`),
+        'Utilise la linéarité : $\\int (\\alpha f + \\beta g) = \\alpha\\int f + \\beta\\int g$.',
+        `Relation de Chasles : $\\int_{${a}}^{${c}} f = \\int_{${a}}^{${b}} f + \\int_{${b}}^{${c}} f$${rev ? ', et $\\int_{' + b + '}^{' + c + '} f = -\\int_{' + c + '}^{' + b + '} f$' : ''}.`,
+        `${rev ? `En inversant les bornes, $\\int_{${b}}^{${c}} f(x)\\,dx = ${qq}$. ` : ''}Par la relation de Chasles, $\\int_{${a}}^{${c}} f(x)\\,dx = ${p} ${this.formatSign(qq)} = ${p + qq}$. Par linéarité, $I = ${al} \\times ${this.paren(p + qq)} ${be < 0 ? '-' : '+'} ${Math.abs(be) === 1 ? '' : Math.abs(be) + ' \\times '}${this.paren(r)} = ${I}$.`
+      );
+    }
     if (f === 1) {
       const b = this.randInt(-4, 5); const m = this.randInt(1, 3);
       const lin = this.poly([[m, 'x'], [b, '']]);
       const ans = this.poly([[b, 'e'], [m - b, '']]);
-      return this.makeMcq(T, 4, 'Intégration par parties',
+      return this._Tx(this.makeMcq(T, 4, 'Intégration par parties',
         'Appliquer $\\int_a^b uv\' = [uv]_a^b - \\int_a^b u\'v$',
         `Calculer $I = \\int_{0}^{1} (${lin})e^{x} \\, dx$.`,
         `$I = ${ans}$`,
@@ -3649,12 +4920,12 @@ window.MathsLyceeGenerators = {
         `Pose $u(x) = ${lin}$ et $v'(x) = e^{x}$.`,
         `$u'(x) = ${m}$ et $v(x) = e^{x}$.`,
         `$I = \\left[(${lin})e^{x}\\right]_{0}^{1} - \\int_{0}^{1} ${this.coefStr(m, 'e^{x}')}\\,dx = ${this.poly([[m + b, 'e'], [-b, '']])} - ${m === 1 ? '' : m}(e - 1) = ${ans}$.`
-      );
+      ), [b, m - b], 'On écrit $I = \\alpha e + \\beta$ : saisir (α ; β).');
     }
     if (f === 2) {
       const a = this.randInt(2, 6);
       const ans = this.poly([[a, `\\ln(${a})`], [1 - a, '']]);
-      return this.makeMcq(T, 4, 'Intégration par parties',
+      return this._Tx(this.makeMcq(T, 4, 'Intégration par parties',
         'Calculer $\\int \\ln(x)\\,dx$ par parties',
         `Calculer $I = \\int_{1}^{${a}} \\ln(x) \\, dx$.`,
         `$I = ${ans}$`,
@@ -3662,11 +4933,11 @@ window.MathsLyceeGenerators = {
         'Pose $u(x) = \\ln(x)$ et $v\'(x) = 1$.',
         '$u\'(x) = \\frac{1}{x}$ et $v(x) = x$.',
         `$I = \\left[x\\ln(x)\\right]_{1}^{${a}} - \\int_{1}^{${a}} 1\\,dx = ${a}\\ln(${a}) - (${a} - 1) = ${ans}$.`
-      );
+      ), [a, 1 - a], `On écrit $I = \\alpha\\ln(${a}) + \\beta$ : saisir (α ; β).`);
     }
     const a = this.randInt(2, 5);
     const ans = this.poly([[a - 1, `e^{${a}}`], [1, '']]);
-    return this.makeMcq(T, 4, 'Intégration par parties',
+    return this._Tx(this.makeMcq(T, 4, 'Intégration par parties',
       'Appliquer $\\int_a^b uv\' = [uv]_a^b - \\int_a^b u\'v$',
       `Calculer $I = \\int_{0}^{${a}} xe^{x} \\, dx$.`,
       `$I = ${ans}$`,
@@ -3674,7 +4945,7 @@ window.MathsLyceeGenerators = {
       'Pose $u(x) = x$ et $v\'(x) = e^{x}$.',
       '$u\'(x) = 1$ et $v(x) = e^{x}$.',
       `$I = \\left[xe^{x}\\right]_{0}^{${a}} - \\int_{0}^{${a}} e^{x}\\,dx = ${a}e^{${a}} - (e^{${a}} - 1) = ${ans}$.`
-    );
+    ), [a - 1, 1], `On écrit $I = \\alpha e^{${a}} + \\beta$ : saisir (α ; β).`);
   },
 
   // ---------------------------------------------------------------------
@@ -3700,53 +4971,58 @@ window.MathsLyceeGenerators = {
       if (fam === 0) {
         const n = this.randInt(2, 5);
         const P = (e) => this.pow(`(${u})`, e);
-        return this.makeMcq(T, 1, 'Dérivée de $(ax + b)^n$', 'Dériver $x \\mapsto g(ax + b)$',
+        return this._Tx(this.makeMcq(T, 1, 'Dérivée de $(ax + b)^n$', 'Dériver $x \\mapsto g(ax + b)$',
           `Soit $f(x) = (${u})^{${n}}$ sur $\\mathbb{R}$. Déterminer $f'(x)$.`,
           F(K(n * a, P(n - 1))),
           [F(K(n, P(n - 1))), F(K(n * a, P(n))), F(K(a, P(n - 1))), F(K((n - 1) * a, P(n - 1))), F(K(n * a * a, P(n - 1)))],
           'Utilise $(u^n)\' = n u\' u^{n-1}$ avec $u(x) = ax + b$.',
           `Ici $u(x) = ${u}$ et $u'(x) = ${a}$.`,
-          `$f'(x) = ${n} \\times ${this.paren(a)} \\times ${P(n - 1)} = ${K(n * a, P(n - 1))}$.`);
+          `$f'(x) = ${n} \\times ${this.paren(a)} \\times ${P(n - 1)} = ${K(n * a, P(n - 1))}$.`),
+          [n * a, n - 1], `On écrit $f'(x) = k(${u})^{m}$ : saisir (k ; m).`);
       }
       if (fam === 1) {
         const c = this.randChoice([1, 1, 2, 3, -2]);
-        return this.makeMcq(T, 1, 'Dérivée de $e^{ax + b}$', 'Dériver $x \\mapsto e^{u(x)}$',
+        return this._Tx(this.makeMcq(T, 1, 'Dérivée de $e^{ax + b}$', 'Dériver $x \\mapsto e^{u(x)}$',
           `Soit $f(x) = ${K(c, ex(u))}$ sur $\\mathbb{R}$. Déterminer $f'(x)$.`,
           F(K(c * a, ex(u))),
           [F(K(c, ex(u))), F(K(c * b, ex(u))), F(`${K(c, `(${u})`)}${ex(L(a, b - 1))}`), F(K(c * a, ex(L(a, b - 1)))), F(K(c * a, ex('x')))],
           'Utilise $(e^u)\' = u\' e^u$.',
           `Ici $u(x) = ${u}$ et $u'(x) = ${a}$.`,
-          `$f'(x) = ${c === 1 ? '' : `${this.paren(c)} \\times `}${this.paren(a)} \\times ${ex(u)} = ${K(c * a, ex(u))}$.`);
+          `$f'(x) = ${c === 1 ? '' : `${this.paren(c)} \\times `}${this.paren(a)} \\times ${ex(u)} = ${K(c * a, ex(u))}$.`),
+          c * a, `On écrit $f'(x) = k${ex(u)}$ : saisir $k$.`);
       }
       if (fam === 2) {
         const sq = `\\sqrt{${u}}`;
         const ans = a % 2 === 0 ? this._TA8_fr(a, Math.abs(a / 2), sq) : this._TA8_fr(a, Math.abs(a), `2${sq}`);
-        return this.makeMcq(T, 1, 'Dérivée de $\\sqrt{ax + b}$', 'Dériver $x \\mapsto \\sqrt{u(x)}$',
+        return this._Tx(this.makeMcq(T, 1, 'Dérivée de $\\sqrt{ax + b}$', 'Dériver $x \\mapsto \\sqrt{u(x)}$',
           `Soit $f(x) = ${sq}$, définie et dérivable sur l'intervalle où $${u} > 0$. Déterminer $f'(x)$.`,
           F(ans),
           [F(`\\frac{1}{2${sq}}`), F(this._TA8_fr(a, Math.abs(a), sq)), F(`${K(a, sq)}`), F(this._TA8_fr(-a, Math.abs(a), `2${sq}`)), F(`\\frac{${u}}{2${sq}}`)],
           'Utilise $(\\sqrt{u})\' = \\frac{u\'}{2\\sqrt{u}}$.',
           `Ici $u'(x) = ${a}$.`,
-          `$f'(x) = \\frac{u'(x)}{2\\sqrt{u(x)}}$ avec $u(x) = ${u}$ et $u'(x) = ${a}$, d'où $f'(x) = ${ans}$.`);
+          `$f'(x) = \\frac{u'(x)}{2\\sqrt{u(x)}}$ avec $u(x) = ${u}$ et $u'(x) = ${a}$, d'où $f'(x) = ${ans}$.`),
+          this._Tq(a, 2), `On écrit $f'(x) = \\frac{k}{${sq}}$ : saisir $k$ (entier ou fraction).`);
       }
       if (fam === 3) {
         const ans = this._TA8_fr(-a, Math.abs(a), `(${u})^2`);
-        return this.makeMcq(T, 1, 'Dérivée de $\\frac{1}{ax + b}$', 'Dériver $x \\mapsto \\frac{1}{u(x)}$',
+        return this._Tx(this.makeMcq(T, 1, 'Dérivée de $\\frac{1}{ax + b}$', 'Dériver $x \\mapsto \\frac{1}{u(x)}$',
           `Soit $f(x) = \\frac{1}{${u}}$, définie et dérivable sur un intervalle où $${u} \\neq 0$. Déterminer $f'(x)$.`,
           F(ans),
           [F(this._TA8_fr(a, Math.abs(a), `(${u})^2`)), F(`-\\frac{1}{(${u})^2}`), F(this._TA8_fr(-a, Math.abs(a), u)), F(`-\\frac{1}{${u}}`)],
           'Utilise $\\left(\\frac{1}{u}\\right)\' = -\\frac{u\'}{u^2}$.',
           `Ici $u'(x) = ${a}$.`,
-          `$f'(x) = -\\frac{u'(x)}{u(x)^2}$ avec $u(x) = ${u}$ et $u'(x) = ${a}$, d'où $f'(x) = ${ans}$.`);
+          `$f'(x) = -\\frac{u'(x)}{u(x)^2}$ avec $u(x) = ${u}$ et $u'(x) = ${a}$, d'où $f'(x) = ${ans}$.`),
+          -a, `On écrit $f'(x) = \\frac{k}{(${u})^2}$ : saisir $k$.`);
       }
       const ans = this._TA8_fr(a, Math.abs(a), u);
-      return this.makeMcq(T, 1, 'Dérivée de $\\ln(ax + b)$', 'Dériver $x \\mapsto \\ln(u(x))$',
+      return this._Tx(this.makeMcq(T, 1, 'Dérivée de $\\ln(ax + b)$', 'Dériver $x \\mapsto \\ln(u(x))$',
         `Soit $f(x) = \\ln(${u})$, définie et dérivable sur l'intervalle où $${u} > 0$. Déterminer $f'(x)$.`,
         F(ans),
         [F(`\\frac{1}{${u}}`), F(this._TA8_fr(-a, Math.abs(a), u)), F(this._TA8_fr(a, Math.abs(a), `(${u})^2`)), F(`${a}\\ln(${u})`)],
         'Utilise $(\\ln u)\' = \\frac{u\'}{u}$.',
         `Ici $u'(x) = ${a}$.`,
-        `$f'(x) = \\frac{u'(x)}{u(x)} = ${ans}$.`);
+        `$f'(x) = \\frac{u'(x)}{u(x)} = ${ans}$.`),
+        a, `On écrit $f'(x) = \\frac{k}{${u}}$ : saisir $k$.`);
     }
     if (tier === 2) {
       const fam = this.randInt(0, 4);
@@ -3754,56 +5030,61 @@ window.MathsLyceeGenerators = {
         const p = this.randNonZero(-6, 6); const q = this.randNonZero(-9, 9); const n = this.randInt(2, 4);
         const u = Q(1, p, q); const du = L(2, p);
         const P = (e) => this.pow(`(${u})`, e);
-        return this.makeMcq(T, 2, 'Dérivée de $u^n$', 'Dériver une puissance d\'une fonction',
+        return this._Tx(this.makeMcq(T, 2, 'Dérivée de $u^n$', 'Dériver une puissance d\'une fonction',
           `Soit $f(x) = (${u})^{${n}}$ sur $\\mathbb{R}$. Déterminer $f'(x)$.`,
           F(`${n}(${du})${P(n - 1)}`),
           [F(`${n}${P(n - 1)}`), F(`(${du})${P(n - 1)}`), F(`${n}(${du})${P(n)}`), F(`${n}${this.pow(`(${du})`, n - 1)}`), F(`${n - 1}(${du})${P(n - 1)}`)],
           'Utilise $(u^n)\' = n\\,u\'\\,u^{n-1}$.',
           `Ici $u(x) = ${u}$ et $u'(x) = ${du}$.`,
-          `$f'(x) = ${n} \\times (${du}) \\times ${P(n - 1)} = ${n}(${du})${P(n - 1)}$.`);
+          `$f'(x) = ${n} \\times (${du}) \\times ${P(n - 1)} = ${n}(${du})${P(n - 1)}$.`),
+          [2 * n, n * p, n - 1], `On écrit $f'(x) = (\\alpha x + \\beta)(${u})^{m}$ : saisir (α ; β ; m).`);
       }
       if (fam === 1) {
         const a = this.randNonZero(-3, 3); const b = this.randNonZero(-5, 5);
         const u = Q(a, b, 0); const du = L(2 * a, b);
-        return this.makeMcq(T, 2, 'Dérivée de $e^{u}$', 'Dériver $x \\mapsto e^{u(x)}$',
+        return this._Tx(this.makeMcq(T, 2, 'Dérivée de $e^{u}$', 'Dériver $x \\mapsto e^{u(x)}$',
           `Soit $f(x) = ${ex(u)}$ sur $\\mathbb{R}$. Déterminer $f'(x)$.`,
           F(`(${du})${ex(u)}`),
           [F(ex(u)), F(`(${u})${ex(L(2 * a, b))}`), F(`(${L(a, b)})${ex(u)}`), F(`(${du})${ex(du)}`), F(`(${du})${ex(Q(a, b, -1))}`)],
           'Utilise $(e^u)\' = u\'\\,e^u$.',
           `Ici $u(x) = ${u}$ et $u'(x) = ${du}$.`,
-          `$f'(x) = u'(x)e^{u(x)} = (${du})${ex(u)}$.`);
+          `$f'(x) = u'(x)e^{u(x)} = (${du})${ex(u)}$.`),
+          [2 * a, b], `On écrit $f'(x) = (\\alpha x + \\beta)${ex(u)}$ : saisir (α ; β).`);
       }
       if (fam === 2) {
         const a = this.randInt(1, 4); const c = this.randInt(1, 9);
         const u = Q(a, 0, c); const sq = `\\sqrt{${u}}`;
-        return this.makeMcq(T, 2, 'Dérivée de $\\sqrt{u}$', 'Dériver $x \\mapsto \\sqrt{u(x)}$',
+        return this._Tx(this.makeMcq(T, 2, 'Dérivée de $\\sqrt{u}$', 'Dériver $x \\mapsto \\sqrt{u(x)}$',
           `Soit $f(x) = ${sq}$ sur $\\mathbb{R}$. Déterminer $f'(x)$.`,
           F(`\\frac{${this.coefStr(a, 'x')}}{${sq}}`),
           [F(`\\frac{${this.coefStr(2 * a, 'x')}}{${sq}}`), F(`\\frac{1}{2${sq}}`), F(`\\frac{${this.coefStr(a, 'x')}}{2${sq}}`), F(`${this.coefStr(2 * a, 'x')}${sq}`), F(`\\frac{${this.coefStr(2 * a, 'x')}}{${u}}`)],
           'Utilise $(\\sqrt{u})\' = \\frac{u\'}{2\\sqrt{u}}$.',
           `Ici $u(x) = ${u} > 0$ et $u'(x) = ${this.coefStr(2 * a, 'x')}$.`,
-          `$f'(x) = \\frac{${this.coefStr(2 * a, 'x')}}{2${sq}} = \\frac{${this.coefStr(a, 'x')}}{${sq}}$.`);
+          `$f'(x) = \\frac{${this.coefStr(2 * a, 'x')}}{2${sq}} = \\frac{${this.coefStr(a, 'x')}}{${sq}}$.`),
+          a, `On écrit $f'(x) = \\frac{kx}{${sq}}$ : saisir $k$.`);
       }
       if (fam === 3) {
         const a = this.randInt(1, 5); const c = this.randInt(1, 9);
         const u = Q(a, 0, c);
-        return this.makeMcq(T, 2, 'Dérivée de $\\ln(u)$', 'Dériver $x \\mapsto \\ln(u(x))$',
+        return this._Tx(this.makeMcq(T, 2, 'Dérivée de $\\ln(u)$', 'Dériver $x \\mapsto \\ln(u(x))$',
           `Soit $f(x) = \\ln(${u})$ sur $\\mathbb{R}$. Déterminer $f'(x)$.`,
           F(`\\frac{${this.coefStr(2 * a, 'x')}}{${u}}`),
           [F(`\\frac{1}{${u}}`), F(`\\frac{${this.coefStr(a, 'x')}}{${u}}`), F(`\\frac{${this.coefStr(2 * a, 'x')}}{(${u})^2}`), F(`${this.coefStr(2 * a, 'x')}\\ln(${u})`)],
           'Utilise $(\\ln u)\' = \\frac{u\'}{u}$, valable car $u > 0$.',
           `Ici $u(x) = ${u}$ et $u'(x) = ${this.coefStr(2 * a, 'x')}$.`,
-          `$f'(x) = \\frac{u'(x)}{u(x)} = \\frac{${this.coefStr(2 * a, 'x')}}{${u}}$.`);
+          `$f'(x) = \\frac{u'(x)}{u(x)} = \\frac{${this.coefStr(2 * a, 'x')}}{${u}}$.`),
+          2 * a, `On écrit $f'(x) = \\frac{kx}{${u}}$ : saisir $k$.`);
       }
       const p = this.randNonZero(-6, 6); const qq = Math.floor(p * p / 4) + this.randInt(1, 8);
       const u = Q(1, p, qq); const du = L(2, p);
-      return this.makeMcq(T, 2, 'Dérivée de $\\frac{1}{u}$', 'Dériver l\'inverse d\'une fonction',
+      return this._Tx(this.makeMcq(T, 2, 'Dérivée de $\\frac{1}{u}$', 'Dériver l\'inverse d\'une fonction',
         `Soit $f(x) = \\frac{1}{${u}}$ sur $\\mathbb{R}$ (le dénominateur ne s'annule pas). Déterminer $f'(x)$.`,
         F(`-\\frac{${du}}{(${u})^2}`),
         [F(`\\frac{${du}}{(${u})^2}`), F(`-\\frac{1}{(${u})^2}`), F(`-\\frac{${du}}{${u}}`), F(`\\frac{1}{${du}}`)],
         'Utilise $\\left(\\frac{1}{u}\\right)\' = -\\frac{u\'}{u^2}$.',
         `Ici $u'(x) = ${du}$.`,
-        `$f'(x) = -\\frac{u'(x)}{u(x)^2} = -\\frac{${du}}{(${u})^2}$.`);
+        `$f'(x) = -\\frac{u'(x)}{u(x)^2} = -\\frac{${du}}{(${u})^2}$.`),
+        [-2, -p], `On écrit $f'(x) = \\frac{\\alpha x + \\beta}{(${u})^2}$ : saisir (α ; β).`);
     }
     if (tier === 3) {
       const fam = this.randInt(0, 4);
@@ -3812,13 +5093,14 @@ window.MathsLyceeGenerators = {
         const u = L(a, b);
         const P = (e) => this.pow(`(${u})`, e);
         if (fam === 0) {
-          return this.makeMcq(T, 3, 'Dérivée seconde de $(ax + b)^n$', 'Calculer une dérivée seconde',
+          return this._Tx(this.makeMcq(T, 3, 'Dérivée seconde de $(ax + b)^n$', 'Calculer une dérivée seconde',
             `Soit $f(x) = (${u})^{${n}}$ sur $\\mathbb{R}$. Déterminer $f''(x)$.`,
             F2(K(n * (n - 1) * a * a, P(n - 2))),
             [F2(K(n * (n - 1), P(n - 2))), F2(K(n * a, P(n - 1))), F2(K(n * (n - 1) * a, P(n - 2))), F2(K(n * n * a * a, P(n - 2))), F2(K(n * (n - 1) * a * a, P(n - 1)))],
             'Calcule d\'abord $f\'(x)$, puis dérive à nouveau.',
             `$f'(x) = ${K(n * a, P(n - 1))}$.`,
-            `$f'(x) = ${K(n * a, P(n - 1))}$, puis $f''(x) = ${n * a} \\times ${n - 1} \\times ${this.paren(a)} \\times ${P(n - 2)} = ${K(n * (n - 1) * a * a, P(n - 2))}$.`);
+            `$f'(x) = ${K(n * a, P(n - 1))}$, puis $f''(x) = ${n * a} \\times ${n - 1} \\times ${this.paren(a)} \\times ${P(n - 2)} = ${K(n * (n - 1) * a * a, P(n - 2))}$.`),
+            [n * (n - 1) * a * a, n - 2], `On écrit $f''(x) = k(${u})^{m}$ : saisir (k ; m).`);
         }
         let x0; let w;
         do { x0 = this.randInt(-3, 3); w = a * x0 + b; } while (Math.abs(w) > 3 || (n - 2 > 1 && w === 0));
@@ -3829,42 +5111,45 @@ window.MathsLyceeGenerators = {
           A(v),
           [A(n * a * w ** (n - 1)), A(n * (n - 1) * w ** (n - 2)), A(n * (n - 1) * a * w ** (n - 2)), A(w ** n), A(-v)],
           'Exprime $f\'\'(x)$, puis remplace $x$ par la valeur demandée.',
-          `$f''(x) = ${K(n * (n - 1) * a * a, P(n - 2))}$.`,
+          'Dérive deux fois avec $(u^n)\' = n\\,u\'\\,u^{n-1}$, où $u\'$ est constant.',
           `$f'(x) = ${K(n * a, P(n - 1))}$ et $f''(x) = ${K(n * (n - 1) * a * a, P(n - 2))}$. En $x = ${x0}$ : $${a} \\times ${this.paren(x0)} ${this.formatSign(b)} = ${w}$, donc $f''(${x0}) = ${n * (n - 1) * a * a} \\times ${this.pow(this.paren(w), n - 2)} = ${v}$.`);
       }
       if (fam === 1) {
         const a = this.randNonZero(-3, 3);
         const e = ex(this.coefStr(a, 'x^2'));
-        return this.makeMcq(T, 3, 'Dérivée seconde de $e^{ax^2}$', 'Dériver deux fois une composée',
+        return this._Tx(this.makeMcq(T, 3, 'Dérivée seconde de $e^{ax^2}$', 'Dériver deux fois une composée',
           `Soit $f(x) = ${e}$ sur $\\mathbb{R}$. Déterminer $f''(x)$.`,
           F2(`(${this.poly([[4 * a * a, 'x^2'], [2 * a, '']])})${e}`),
           [F2(`${this.coefStr(2 * a, 'x')}${e}`), F2(`(${this.poly([[4 * a * a, 'x^2'], [2 * a, 'x']])})${e}`), F2(`(${this.poly([[2 * a * a, 'x^2'], [2 * a, '']])})${e}`), F2(`${4 * a * a}x^2${e}`), F2(`(${this.poly([[4 * a * a, 'x^2'], [-2 * a, '']])})${e}`)],
           'Calcule $f\'(x)$ avec $(e^u)\' = u\'e^u$, puis dérive le produit obtenu.',
           `$f'(x) = ${this.coefStr(2 * a, 'x')}${e}$.`,
-          `$f'(x) = ${this.coefStr(2 * a, 'x')}${e}$. Avec $(uv)' = u'v + uv'$ : $f''(x) = ${K(2 * a, e)} + (${this.coefStr(2 * a, 'x')})^2${e} = (${this.poly([[4 * a * a, 'x^2'], [2 * a, '']])})${e}$.`);
+          `$f'(x) = ${this.coefStr(2 * a, 'x')}${e}$. Avec $(uv)' = u'v + uv'$ : $f''(x) = ${K(2 * a, e)} + (${this.coefStr(2 * a, 'x')})^2${e} = (${this.poly([[4 * a * a, 'x^2'], [2 * a, '']])})${e}$.`),
+          [4 * a * a, 0, 2 * a], `On écrit $f''(x) = (\\alpha x^2 + \\beta x + \\gamma)${e}$ : saisir (α ; β ; γ).`);
       }
       if (fam === 2) {
         const k = this.randNonZero(-4, 4);
         const e = ex(this.coefStr(k, 'x'));
-        return this.makeMcq(T, 3, 'Dérivée seconde de $xe^{kx}$', 'Dériver deux fois un produit avec une composée',
+        return this._Tx(this.makeMcq(T, 3, 'Dérivée seconde de $xe^{kx}$', 'Dériver deux fois un produit avec une composée',
           `Soit $f(x) = x${e}$ sur $\\mathbb{R}$. Déterminer $f''(x)$.`,
           F2(`(${this.poly([[k * k, 'x'], [2 * k, '']])})${e}`),
           [F2(`(${this.poly([[k, 'x'], [1, '']])})${e}`), F2(`(${this.poly([[k * k, 'x'], [k, '']])})${e}`), F2(`${this.coefStr(k * k, 'x')}${e}`), F2(`(${this.poly([[k * k, 'x'], [2, '']])})${e}`), F2(`(${this.poly([[k, 'x'], [2 * k, '']])})${e}`)],
           'Dérive le produit $x \\times e^{kx}$ en utilisant $(e^{kx})\' = ke^{kx}$.',
           `$f'(x) = (${this.poly([[k, 'x'], [1, '']])})${e}$.`,
-          `$f'(x) = ${e} ${k > 0 ? '+' : '-'} ${this.coefStr(Math.abs(k), 'x')}${e} = (${this.poly([[k, 'x'], [1, '']])})${e}$, puis $f''(x) = ${K(k, e)} ${k > 0 ? '+' : '-'} ${K(Math.abs(k), `(${this.poly([[k, 'x'], [1, '']])})`)}${e} = (${this.poly([[k * k, 'x'], [2 * k, '']])})${e}$.`);
+          `$f'(x) = ${e} ${k > 0 ? '+' : '-'} ${this.coefStr(Math.abs(k), 'x')}${e} = (${this.poly([[k, 'x'], [1, '']])})${e}$, puis $f''(x) = ${K(k, e)} ${k > 0 ? '+' : '-'} ${K(Math.abs(k), `(${this.poly([[k, 'x'], [1, '']])})`)}${e} = (${this.poly([[k * k, 'x'], [2 * k, '']])})${e}$.`),
+          [k * k, 2 * k], `On écrit $f''(x) = (\\alpha x + \\beta)${e}$ : saisir (α ; β).`);
       }
       const a = this.randInt(1, 4); const b = this.randNonZero(-6, 6);
       const u = L(a, b); const sq = `\\sqrt{${u}}`;
       const ans = a % 2 === 0 ? `-\\frac{${a * a / 4}}{(${u})${sq}}` : `-\\frac{${a * a}}{4(${u})${sq}}`;
       const d1 = a % 2 === 0 ? `\\frac{${a / 2}}{${sq}}` : `\\frac{${a}}{2${sq}}`;
-      return this.makeMcq(T, 3, 'Dérivée seconde de $\\sqrt{ax + b}$', 'Dériver deux fois une racine composée',
+      return this._Tx(this.makeMcq(T, 3, 'Dérivée seconde de $\\sqrt{ax + b}$', 'Dériver deux fois une racine composée',
         `Soit $f(x) = ${sq}$, définie sur l'intervalle où $${u} > 0$. Déterminer $f''(x)$.`,
         F2(ans),
         [F2(a % 2 === 0 ? `\\frac{${a * a / 4}}{(${u})${sq}}` : `\\frac{${a * a}}{4(${u})${sq}}`), F2(`-\\frac{${a}}{(${u})${sq}}`), F2(`-\\frac{${a * a}}{2${sq}}`), F2(`-\\frac{1}{4(${u})${sq}}`), F2(`-\\frac{${a * a}}{2(${u})${sq}}`)],
         `On a $f'(x) = ${d1}$ : dérive cette expression de la forme $\\frac{k}{\\sqrt{u}}$.`,
         '$\\left(\\frac{1}{\\sqrt{u}}\\right)\' = -\\frac{u\'}{2u\\sqrt{u}}$.',
-        `$f'(x) = ${d1}$, puis $f''(x) = ${a % 2 === 0 ? (a === 2 ? '' : `${a / 2} \\times `) : `\\frac{${a}}{2} \\times `}\\left(-\\frac{${a}}{2(${u})${sq}}\\right) = ${ans}$.`);
+        `$f'(x) = ${d1}$, puis $f''(x) = ${a % 2 === 0 ? (a === 2 ? '' : `${a / 2} \\times `) : `\\frac{${a}}{2} \\times `}\\left(-\\frac{${a}}{2(${u})${sq}}\\right) = ${ans}$.`),
+        this._Tq(-a * a, 4), `On écrit $f''(x) = \\frac{k}{(${u})${sq}}$ : saisir $k$ (entier ou fraction).`);
     }
     // tier 4
     const fam = this.randInt(0, 3);
@@ -3875,26 +5160,28 @@ window.MathsLyceeGenerators = {
       const u = L(a, b);
       const m = this.frac(a, 2 * s); const p = this.frac(2 * s * s - a * x0, 2 * s);
       const y = (mm, pp) => `$y = ${this.poly([[mm, 'x'], [pp, '']])}$`;
-      return this.makeMcq(T, 4, 'Tangente à la courbe d\'une racine composée', 'Utiliser $(\\sqrt{u})\'$ pour une équation de tangente',
+      return this._Tx(this.makeMcq(T, 4, 'Tangente à la courbe d\'une racine composée', 'Utiliser $(\\sqrt{u})\'$ pour une équation de tangente',
         `Soit $f(x) = \\sqrt{${u}}$. Déterminer l'équation réduite de la tangente à la courbe de $f$ au point d'abscisse $${x0}$.`,
         y(m, p),
         [y(this.frac(a, s), this.frac(s * s - a * x0, s)), y(m, String(s)), y(this.frac(1, 2 * s), this.frac(2 * s * s - x0, 2 * s)), y(this.frac(a, 2 * s), this.frac(2 * s * s + a * x0, 2 * s))],
         'La tangente en $a$ a pour équation $y = f\'(a)(x - a) + f(a)$.',
         `$f(${x0}) = \\sqrt{${s * s}} = ${s}$ et $f'(x) = \\frac{${a}}{2\\sqrt{${u}}}$.`,
-        `$f(${x0}) = ${s}$ et $f'(${x0}) = \\frac{${a}}{2 \\times ${s}} = ${m}$. Donc $y = ${m === '1' ? '' : m === '-1' ? '-' : m}${x0 === 0 ? 'x' : `(x ${this.formatSign(-x0)})`} + ${s}$, soit ${y(m, p)}.`);
+        `$f(${x0}) = ${s}$ et $f'(${x0}) = \\frac{${a}}{2 \\times ${s}} = ${m}$. Donc $y = ${m === '1' ? '' : m === '-1' ? '-' : m}${x0 === 0 ? 'x' : `(x ${this.formatSign(-x0)})`} + ${s}$, soit ${y(m, p)}.`),
+        [this._Tq(a, 2 * s), this._Tq(2 * s * s - a * x0, 2 * s)], 'L\'équation réduite s\'écrit $y = mx + p$ : saisir (m ; p).');
     }
     if (fam === 1) {
       const a = this.randNonZero(-4, 4); const x0 = this.randNonZero(-4, 4);
       const b = -a * x0;
       const u = L(a, b);
       const y = (mm, pp) => `$y = ${this.poly([[mm, 'x'], [pp, '']])}$`;
-      return this.makeMcq(T, 4, 'Tangente à la courbe de $e^{ax + b}$', 'Utiliser $(e^u)\'$ pour une équation de tangente',
+      return this._Tx(this.makeMcq(T, 4, 'Tangente à la courbe de $e^{ax + b}$', 'Utiliser $(e^u)\'$ pour une équation de tangente',
         `Soit $f(x) = ${ex(u)}$. Déterminer l'équation réduite de la tangente à la courbe de $f$ au point d'abscisse $${x0}$.`,
         y(a, 1 - a * x0),
         [y(a, 1), y(1, 1 - x0), y(a, 1 + a * x0), y(a, -a * x0), y(-a, 1 + a * x0)],
-        'La tangente en $a$ a pour équation $y = f\'(a)(x - a) + f(a)$.',
+        `Il faut $f(${x0})$ et $f'(${x0})$, puis l'équation $y = f'(${x0})(x ${this.formatSign(-x0)}) + f(${x0})$.`,
         `$${a} \\times ${this.paren(x0)} ${this.formatSign(b)} = 0$, donc $f(${x0}) = e^0 = 1$.`,
-        `$f'(x) = ${K(a, ex(u))}$, donc $f'(${x0}) = ${a}$ et $f(${x0}) = 1$. La tangente : $y = ${K(a, `(x ${this.formatSign(-x0)})`)} + 1$, soit ${y(a, 1 - a * x0)}.`);
+        `$f'(x) = ${K(a, ex(u))}$, donc $f'(${x0}) = ${a}$ et $f(${x0}) = 1$. La tangente : $y = ${K(a, `(x ${this.formatSign(-x0)})`)} + 1$, soit ${y(a, 1 - a * x0)}.`),
+        [a, 1 - a * x0], 'L\'équation réduite s\'écrit $y = mx + p$ : saisir (m ; p).');
     }
     if (fam === 2) {
       const p = this.randNonZero(-8, 8);
@@ -4012,27 +5299,29 @@ window.MathsLyceeGenerators = {
         const S = `\\sin(${arg})`; const Cs = `\\cos(${arg})`;
         const f = K(k, isSin ? S : Cs);
         const ans = isSin ? K(k * a, Cs) : K(-k * a, S);
-        return this.makeMcq(T, 1, `Dérivée de $${isSin ? '\\sin' : '\\cos'}(ax + b)$`, 'Dériver $x \\mapsto \\sin(ax + b)$ et $x \\mapsto \\cos(ax + b)$',
+        return this._Tx(this.makeMcq(T, 1, `Dérivée de $${isSin ? '\\sin' : '\\cos'}(ax + b)$`, 'Dériver $x \\mapsto \\sin(ax + b)$ et $x \\mapsto \\cos(ax + b)$',
           `Soit $f(x) = ${f}$ sur $\\mathbb{R}$. Déterminer $f'(x)$.`,
           F(ans),
           isSin ? [F(K(-k * a, Cs)), F(K(k, Cs)), F(K(k * a, S)), F(K(-k, Cs)), F(K(k * a, `\\cos(${a === 1 ? 'x' : a === -1 ? '-x' : `${a}x`})`)), F(K(-k * a, S))]
             : [F(K(k * a, S)), F(K(-k, S)), F(K(-k * a, Cs)), F(K(k, S)), F(K(-k * a, `\\sin(${a === 1 ? 'x' : a === -1 ? '-x' : `${a}x`})`)), F(K(k * a, Cs))],
-          '$\\sin\' = \\cos$, $\\cos\' = -\\sin$, et la dérivée de $x \\mapsto g(ax + b)$ est $x \\mapsto a\\,g\'(ax + b)$.',
+          '$\\sin\' = \\cos$, $\\cos\' = -\\sin$, et la dérivée de $x \\mapsto \\varphi(ax + b)$ est $x \\mapsto a\\,\\varphi\'(ax + b)$.',
           `Ici la fonction intérieure $${arg}$ a pour dérivée $${a}$.`,
-          `$f'(x) = ${k === 1 ? '' : `${this.paren(k)} \\times `}${this.paren(a)} \\times ${isSin ? Cs : `(-${S})`} = ${ans}$.`);
+          `$f'(x) = ${k === 1 ? '' : `${this.paren(k)} \\times `}${this.paren(a)} \\times ${isSin ? Cs : `(-${S})`} = ${ans}$.`),
+          isSin ? [0, k * a] : [-k * a, 0], `On écrit $f'(x) = \\alpha\\sin(${arg}) + \\beta\\cos(${arg})$ : saisir (α ; β).`);
       }
       if (r < 0.75) {
         const a = this.randInt(2, 6); const b = this.randInt(-4, 4); const k = this.randChoice([1, 2, 3, -1, 5]);
         const isSin = Math.random() < 0.5;
         const f = K(k, `\\${isSin ? 'sin' : 'cos'}(${L(a, b)})`);
         const A = (p, q) => `$T = ${this._TA9_pi(p, q)}$`;
-        return this.makeMcq(T, 1, 'Période d\'une fonction trigonométrique', 'Déterminer la période de $x \\mapsto \\sin(ax + b)$',
+        return this._Tx(this.makeMcq(T, 1, 'Période d\'une fonction trigonométrique', 'Déterminer la période de $x \\mapsto \\sin(ax + b)$',
           `Soit $f(x) = ${f}$ sur $\\mathbb{R}$. Quelle est la plus petite période $T > 0$ de la fonction $f$ ?`,
           A(2, a),
           [A(1, a), A(2, 1), A(2 * a, 1), A(4, a), A(a, 2)],
           '$\\sin$ et $\\cos$ sont $2\\pi$-périodiques.',
           `$f(x + T) = f(x)$ pour tout $x$ dès que $${a}T$ est un multiple de $2\\pi$.`,
-          `Pour tout réel $x$, $${a}\\left(x + \\frac{2\\pi}{${a}}\\right)${b === 0 ? '' : ` ${this.formatSign(b)}`} = ${L(a, b)} + 2\\pi$, donc $f\\left(x + \\frac{2\\pi}{${a}}\\right) = f(x)$. La plus petite période est $T = ${this._TA9_pi(2, a)}$.`);
+          `Pour tout réel $x$, $${a}\\left(x + \\frac{2\\pi}{${a}}\\right)${b === 0 ? '' : ` ${this.formatSign(b)}`} = ${L(a, b)} + 2\\pi$, donc $f\\left(x + \\frac{2\\pi}{${a}}\\right) = f(x)$. La plus petite période est $T = ${this._TA9_pi(2, a)}$.`),
+          this._Tq(2, a), 'On écrit $T = k\\pi$ : saisir $k$ (entier ou fraction).');
       }
       const fam = this.randChoice([['x\\sin(x)', 0], ['x\\cos(x)', 1], ['x^2\\cos(x)', 0], ['x^2\\sin(x)', 1], ['\\sin(x)\\cos(x)', 1], ['\\cos(x) + x^2', 0],
         ['\\sin(x) + x', 1], ['\\sin(x) + \\cos(x)', 2], ['x + \\cos(x)', 2], ['\\cos(2x) - 3', 0], ['\\sin(3x)', 1], ['x^3\\cos(x)', 1], ['\\cos(x - 1)', 2], ['x\\sin(x) + 1', 0], ['\\sin(x) - 2', 2]]);
@@ -4061,12 +5350,13 @@ window.MathsLyceeGenerators = {
         const w2 = isSin ? K(a, Cs) : K(-a, S);
         const w3 = isSin ? `${K(a, Cs)} + ${prod(1, S)}` : `${K(-a, S)} + ${prod(1, Cs)}`;
         const w4 = isSin ? prod(1, Cs) : (prod(1, S).startsWith('-') ? prod(1, S).slice(1) : `-${prod(1, S)}`);
-        return this.makeMcq(T, 2, 'Dérivée d\'un produit avec sinus ou cosinus', 'Dériver $u \\times \\sin$ ou $u \\times \\cos$',
+        return this._Tx(this.makeMcq(T, 2, 'Dérivée d\'un produit avec sinus ou cosinus', 'Dériver $u \\times \\sin$ ou $u \\times \\cos$',
           `Soit $f(x) = ${f}$ sur $\\mathbb{R}$. Déterminer $f'(x)$.`,
           cl(F(ans)), [F(w1), F(w2), F(w3), F(w4)].map(cl),
           'Utilise $(uv)\' = u\'v + uv\'$.',
           `Ici $u(x) = ${u}$, $u'(x) = ${a}$ et $v(x) = ${isSin ? S : Cs}$, $v'(x) = ${isSin ? Cs : `-${S}`}$.`,
-          `$f'(x) = ${a} \\times ${isSin ? S : Cs} + ${u === 'x' ? 'x' : `(${u})`} \\times ${isSin ? Cs : `(-${S})`} = ${cl(ans)}$.`);
+          `$f'(x) = ${a} \\times ${isSin ? S : Cs} + ${u === 'x' ? 'x' : `(${u})`} \\times ${isSin ? Cs : `(-${S})`} = ${cl(ans)}$.`),
+          isSin ? [0, a, a, b] : [-a, -b, 0, a], 'On écrit $f\'(x) = (\\alpha x + \\beta)\\sin(x) + (\\gamma x + \\delta)\\cos(x)$ : saisir (α ; β ; γ ; δ).');
       }
       const isSin = Math.random() < 0.5;
       const fn = isSin ? sin : cos;
@@ -4075,12 +5365,13 @@ window.MathsLyceeGenerators = {
       const sol = this._TA9_solve(fn, v, I);
       const wrongs = [this._TA9_set(this._TA9_solve(fn, -v, I)), this._TA9_set(this._TA9_solve(isSin ? cos : sin, v, I)), this._TA9_set(sol.slice(0, 1)),
         this._TA9_set(sol.map((k) => -k).sort((x, y) => x - y)), this._TA9_set(this._TA9_solve(fn, v, { lo: -12, hi: 12, lc: false, rc: true }))].map((s) => `$${s}$`);
-      return this.makeMcq(T, 2, `Équation $\\${isSin ? 'sin' : 'cos'}(x) = a$ sur $[0 ; 2\\pi[$`, 'Résoudre une équation trigonométrique sur un intervalle',
+      return this._Tx(this.makeMcq(T, 2, `Équation $\\${isSin ? 'sin' : 'cos'}(x) = a$ sur $[0 ; 2\\pi[$`, 'Résoudre une équation trigonométrique sur un intervalle',
         `Résoudre dans l'intervalle $I = ${I.tex}$ l'équation $\\${isSin ? 'sin' : 'cos'}(x) = ${vt}$.`,
         `$${this._TA9_set(sol)}$`, wrongs,
         `Repère sur le cercle trigonométrique les points ${isSin ? 'd\'ordonnée' : 'd\'abscisse'} $${vt}$.`,
         isSin ? 'Si $\\alpha$ est solution, $\\pi - \\alpha$ l\'est aussi (à $2\\pi$ près).' : 'Si $\\alpha$ est solution, $-\\alpha$ l\'est aussi (à $2\\pi$ près).',
-        sol.length ? `Les solutions dans $I$ sont les réels de $I$ associés aux points du cercle ${isSin ? 'd\'ordonnée' : 'd\'abscisse'} $${vt}$ : $${this._TA9_set(sol)}$.` : `Aucun réel de $I$ ne convient : $S = \\emptyset$.`);
+        sol.length ? `Les solutions dans $I$ sont les réels de $I$ associés aux points du cercle ${isSin ? 'd\'ordonnée' : 'd\'abscisse'} $${vt}$ : $${this._TA9_set(sol)}$.` : `Aucun réel de $I$ ne convient : $S = \\emptyset$.`),
+        ...this._TA9_exact(sol));
     }
     if (tier === 3) {
       const r = Math.random();
@@ -4094,13 +5385,14 @@ window.MathsLyceeGenerators = {
         const wrongs = [this._TA9_set(this._TA9_solve(fn, v, ivs[0])), this._TA9_set(this._TA9_solve(fn, -v, I)), this._TA9_set(this._TA9_solve(isSin ? cos : sin, v, I)),
           this._TA9_set(sol.slice(0, 1)), this._TA9_set(sol.map((k) => -k).sort((x, y) => x - y)), this._TA9_set(this._TA9_solve(fn, v, { lo: I.lo - 12, hi: I.hi + 12, lc: true, rc: true }))]
           .filter((s) => s !== this._TA9_set(sol)).map((s) => `$${s}$`);
-        return this.makeMcq(T, 3, `Équation $\\${isSin ? 'sin' : 'cos'}(x) = a$ sur un intervalle`, 'Résoudre une équation trigonométrique sur un intervalle donné',
+        return this._Tx(this.makeMcq(T, 3, `Équation $\\${isSin ? 'sin' : 'cos'}(x) = a$ sur un intervalle`, 'Résoudre une équation trigonométrique sur un intervalle donné',
           `Résoudre dans l'intervalle $I = ${I.tex}$ l'équation $\\${isSin ? 'sin' : 'cos'}(x) = ${vt}$.`,
           `$${this._TA9_set(sol)}$`, wrongs,
           'Commence par les solutions dans $[0 ; 2\\pi[$, puis ajoute ou retire des multiples de $2\\pi$ pour revenir dans $I$.',
           `Attention aux bornes de $I = ${I.tex}$.`,
           sol.length ? `On cherche les réels de $I$ dont l'image sur le cercle trigonométrique a ${isSin ? 'pour ordonnée' : 'pour abscisse'} $${vt}$ ; en tenant compte de la $2\\pi$-périodicité et des bornes : $${this._TA9_set(sol)}$.`
-            : `Les solutions de l'équation sont, à $2\\pi$ près, en dehors de $I = ${I.tex}$ : $S = \\emptyset$.`);
+            : `Les solutions de l'équation sont, à $2\\pi$ près, en dehors de $I = ${I.tex}$ : $S = \\emptyset$.`),
+          ...this._TA9_exact(sol));
       }
       if (r < 0.65) {
         const a = this.randNonZero(-7, 7); const b = this.randInt(1, 6);
@@ -4111,33 +5403,53 @@ window.MathsLyceeGenerators = {
           A(a, b),
           [A(b, a), A(1, b), A(0, 1), A(a * b, 1), A(-a, b), A(a, 1)],
           '$\\lim_{X \\to 0} \\frac{\\sin(X)}{X} = 1$ (c\'est le nombre dérivé de $\\sin$ en $0$).',
-          `Écris $\\frac{${num}}{${this.coefStr(b, 'x')}} = ${this.frac(a, b)} \\times \\frac{${num}}{${this.coefStr(a, 'x')}}$.`,
+          `Fais apparaître $\\frac{\\sin(X)}{X}$ avec $X = ${this.coefStr(a, 'x')}$ : multiplie et divise par $${a}$.`,
           `Pour $x \\neq 0$, $\\frac{${num}}{${this.coefStr(b, 'x')}} = ${this.frac(a, b)} \\times \\frac{\\sin(X)}{X}$ avec $X = ${this.coefStr(a, 'x')}$ qui tend vers $0$. Donc $\\ell = ${this.frac(a, b)} \\times 1 = ${this.frac(a, b)}$.`.replace(/1 \\times \\frac/, '\\frac').replace(/= 1 \\times 1 = 1\$/, '= 1$'));
       }
       const kind = this.randInt(0, 3);
       const k = this.randChoice([1, 2, 3, -1, -2]); const c = this.randInt(2, 5);
-      let f; let ans; let ws; let h;
+      let f; let ans; let ws; let h; let lam; let form;
       if (kind === 0) {
         const e = `e^{${K(k, '\\sin(x)')}}`;
-        f = e; ans = `${K(k, '\\cos(x)')}${e}`; ws = [`\\cos(x)${e}`, `${K(-k, '\\cos(x)')}${e}`, `${K(k, '\\sin(x)')}${e}`, `e^{${K(k, '\\cos(x)')}}`]; h = '$(e^u)\' = u\'e^u$ avec $u(x) = ' + K(k, '\\sin(x)') + '$.';
+        f = e; lam = k; form = `\\lambda\\cos(x)${e}`; ans = `${K(k, '\\cos(x)')}${e}`; ws = [`\\cos(x)${e}`, `${K(-k, '\\cos(x)')}${e}`, `${K(k, '\\sin(x)')}${e}`, `e^{${K(k, '\\cos(x)')}}`]; h = '$(e^u)\' = u\'e^u$ avec $u(x) = ' + K(k, '\\sin(x)') + '$.';
       } else if (kind === 1) {
         const kx = this.coefStr(k, 'x^2');
-        f = `\\cos(${kx})`; ans = `${this.coefStr(-2 * k, 'x')}\\sin(${kx})`; ws = [`-\\sin(${kx})`, `${this.coefStr(2 * k, 'x')}\\sin(${kx})`, `${this.coefStr(-2 * k, 'x')}\\cos(${kx})`, `${this.coefStr(-k, 'x')}\\sin(${kx})`]; h = '$(\\cos(u))\' = -u\'\\sin(u)$.';
+        f = `\\cos(${kx})`; lam = -2 * k; form = `\\lambda x\\sin(${kx})`; ans = `${this.coefStr(-2 * k, 'x')}\\sin(${kx})`; ws = [`-\\sin(${kx})`, `${this.coefStr(2 * k, 'x')}\\sin(${kx})`, `${this.coefStr(-2 * k, 'x')}\\cos(${kx})`, `${this.coefStr(-k, 'x')}\\sin(${kx})`]; h = '$(\\cos(u))\' = -u\'\\sin(u)$.';
       } else if (kind === 2) {
-        f = `\\ln(${c} + \\cos(x))`; ans = `-\\frac{\\sin(x)}{${c} + \\cos(x)}`; ws = [`\\frac{\\sin(x)}{${c} + \\cos(x)}`, `\\frac{1}{${c} + \\cos(x)}`, `-\\frac{\\cos(x)}{${c} + \\cos(x)}`, `-\\frac{\\sin(x)}{(${c} + \\cos(x))^2}`]; h = `$(\\ln(u))' = \\frac{u'}{u}$, avec $u(x) = ${c} + \\cos(x) > 0$.`;
+        f = `\\ln(${c} + \\cos(x))`; lam = -1; form = `\\frac{\\lambda\\sin(x)}{${c} + \\cos(x)}`; ans = `-\\frac{\\sin(x)}{${c} + \\cos(x)}`; ws = [`\\frac{\\sin(x)}{${c} + \\cos(x)}`, `\\frac{1}{${c} + \\cos(x)}`, `-\\frac{\\cos(x)}{${c} + \\cos(x)}`, `-\\frac{\\sin(x)}{(${c} + \\cos(x))^2}`]; h = `$(\\ln(u))' = \\frac{u'}{u}$, avec $u(x) = ${c} + \\cos(x) > 0$.`;
       } else {
-        f = `\\sqrt{${c} + \\sin(x)}`; ans = `\\frac{\\cos(x)}{2\\sqrt{${c} + \\sin(x)}}`; ws = [`\\frac{\\cos(x)}{\\sqrt{${c} + \\sin(x)}}`, `-\\frac{\\cos(x)}{2\\sqrt{${c} + \\sin(x)}}`, `\\frac{1}{2\\sqrt{${c} + \\sin(x)}}`, `\\frac{\\sin(x)}{2\\sqrt{${c} + \\sin(x)}}`]; h = `$(\\sqrt{u})' = \\frac{u'}{2\\sqrt{u}}$, avec $u(x) = ${c} + \\sin(x) > 0$.`;
+        f = `\\sqrt{${c} + \\sin(x)}`; lam = '1/2'; form = `\\frac{\\lambda\\cos(x)}{\\sqrt{${c} + \\sin(x)}}`; ans = `\\frac{\\cos(x)}{2\\sqrt{${c} + \\sin(x)}}`; ws = [`\\frac{\\cos(x)}{\\sqrt{${c} + \\sin(x)}}`, `-\\frac{\\cos(x)}{2\\sqrt{${c} + \\sin(x)}}`, `\\frac{1}{2\\sqrt{${c} + \\sin(x)}}`, `\\frac{\\sin(x)}{2\\sqrt{${c} + \\sin(x)}}`]; h = `$(\\sqrt{u})' = \\frac{u'}{2\\sqrt{u}}$, avec $u(x) = ${c} + \\sin(x) > 0$.`;
       }
-      return this.makeMcq(T, 3, 'Dérivée d\'une composée trigonométrique', 'Dériver une composée faisant intervenir $\\sin$ ou $\\cos$',
+      return this._Tx(this.makeMcq(T, 3, 'Dérivée d\'une composée trigonométrique', 'Dériver une composée faisant intervenir $\\sin$ ou $\\cos$',
         `Soit $f(x) = ${f}$ sur $\\mathbb{R}$. Déterminer $f'(x)$.`,
         F(ans), ws.map(F),
         'Repère la fonction intérieure $u$ et utilise $(g \\circ u)\' = u\' \\times g\'(u)$.',
         h,
-        `En appliquant la formule de dérivation d'une composée : $f'(x) = ${ans}$.`);
+        `En appliquant la formule de dérivation d'une composée : $f'(x) = ${ans}$.`),
+        lam, `On écrit $f'(x) = ${form}$ : saisir $\\lambda$ (entier ou fraction).`);
     }
     // tier 4
     const ivs = this._TA9_ivs();
-    if (Math.random() < 0.6) {
+    const r4 = Math.random();
+    if (r4 < 0.3) {
+      // Nombre de solutions de trig(kx) = v sur [0 ; 2π[ : périodicité
+      const k = this.randInt(2, 4);
+      const isSin = Math.random() < 0.5;
+      const [vt, v] = this.randChoice(this._TA9_vals().filter((e) => e[1] !== 0 || !isSin));
+      const ext = Math.abs(v) === 1;
+      const n = ext ? k : 2 * k;
+      const fn = `\\${isSin ? 'sin' : 'cos'}(${k}x)`;
+      return this.makeMcq(T, 4, 'Nombre de solutions d\'une équation trigonométrique',
+        'Utiliser la périodicité pour dénombrer les solutions',
+        `Combien l'équation $${fn} = ${vt}$ admet-elle de solutions dans l'intervalle $[0 ; 2\\pi[$ ?`,
+        `$${n}$`,
+        [n === 2 ? 4 : 2, ext ? 2 * k : k, n + 1, 2 * k + 2].filter((x, i, arr) => x !== n && arr.indexOf(x) === i).map((x) => `$${x}$`),
+        `Pose $X = ${k}x$ : quand $x$ parcourt $[0 ; 2\\pi[$, $X$ parcourt $[0 ; ${2 * k}\\pi[$.`,
+        `Sur un intervalle de longueur $2\\pi$, l'équation $\\${isSin ? 'sin' : 'cos'}(X) = ${vt}$ a ${ext ? 'une seule solution' : 'deux solutions'}.`,
+        `Avec $X = ${k}x$, il s'agit de résoudre $\\${isSin ? 'sin' : 'cos'}(X) = ${vt}$ pour $X \\in [0 ; ${2 * k}\\pi[$, intervalle formé de $${k}$ périodes. Sur chaque période, ${ext ? `$${vt}$ est une valeur extrême : une seule solution` : `il y a exactement deux solutions (points du cercle ${isSin ? 'd\'ordonnée' : 'd\'abscisse'} $${vt}$)`}. D'où $${k} \\times ${ext ? 1 : 2} = ${n}$ solutions pour $x$.`
+      );
+    }
+    if (r4 < 0.72) {
       const isSin = Math.random() < 0.5;
       const fn = isSin ? sin : cos;
       const [vt, v] = this.randChoice(this._TA9_vals(false).filter((e) => !isSin || e[1] !== 0));
@@ -4350,7 +5662,29 @@ window.MathsLyceeGenerators = {
       );
     }
     if (tier === 2) {
-      if (this.randInt(0, 1) === 0) {
+      const r2 = Math.random();
+      if (r2 < 0.34) {
+        // point défini par une égalité vectorielle AM = k AB
+        const [kn, kd] = this.randChoice([[1, 2], [1, 3], [2, 3], [3, 2], [-1, 2], [2, 1], [-1, 1], [3, 4]]);
+        const A = [this.randInt(-4, 4), this.randInt(-4, 4), this.randInt(-4, 4)];
+        let AB;
+        do { AB = [this.randInt(-2, 2) * kd, this.randInt(-2, 2) * kd, this.randInt(-2, 2) * kd]; } while (AB.filter((x) => x !== 0).length < 2);
+        const B = A.map((x, i) => x + AB[i]);
+        const M = A.map((x, i) => x + kn * AB[i] / kd);
+        const kt = kd === 1 ? (kn === 1 ? '' : kn === -1 ? '-' : String(kn)) : this.frac(kn, kd);
+        const Ms = (P) => `$M${V(P)}$`;
+        return this.makeMcq('TG1', 2, 'Point défini par une égalité vectorielle',
+          'Traduire une égalité vectorielle en coordonnées',
+          `Dans un repère de l'espace, on donne $A${V(A)}$ et $B${V(B)}$. Déterminer les coordonnées du point $M$ tel que $\\vec{AM} = ${kt}\\vec{AB}$.`,
+          Ms(M),
+          [B.map((x, i) => x + kn * AB[i] / kd), A.map((x, i) => kn * AB[i] / kd + 0 * x), A.map((x, i) => x - kn * AB[i] / kd), B.map((x, i) => x - kn * AB[i] / kd)]
+            .filter((P) => P.some((x, i) => x !== M[i])).map(Ms),
+          'Calcule d\'abord les coordonnées de $\\vec{AB}$.',
+          `$\\vec{AM} = ${kt}\\vec{AB}$ s'écrit $x_M - x_A = ${kt === '-' ? '-' : kt + ' \\times '}(x_B - x_A)$, et de même pour $y$ et $z$.`,
+          `$\\vec{AB}${V(AB)}$, donc $\\vec{AM}${V(AB.map((x) => kn * x / kd))}$ et $M = A + \\vec{AM}$ : $M${V(M)}$.`
+        );
+      }
+      if (r2 < 0.67) {
         // paramètre de colinéarité
         let u;
         do { u = this._TGSX_randVec(-4, 4); } while (u.some((x) => x === 0));
@@ -4400,6 +5734,28 @@ window.MathsLyceeGenerators = {
       );
     }
     if (tier === 3) {
+      if (Math.random() < 0.45) {
+        // intersection d'une droite et d'un plan de coordonnées
+        const i = this.randInt(0, 2);
+        const names = ['(yOz)', '(xOz)', '(xOy)']; const vn = ['x', 'y', 'z'];
+        let u;
+        do { u = this._TGSX_randVec(-3, 3); } while (u[i] === 0 || u.filter((x) => x !== 0).length < 2);
+        const t0 = this.randNonZero(-3, 3);
+        const A = [this.randInt(-4, 4), this.randInt(-4, 4), this.randInt(-4, 4)];
+        A[i] = -t0 * u[i];
+        const P = A.map((x, j) => x + t0 * u[j]);
+        const Is = (Q) => `$I${V(Q)}$`;
+        const ds = [A.map((x, j) => x - t0 * u[j]), A.map((x, j) => (j === i ? 0 : x)), A.map((x, j) => x + (t0 + 1) * u[j]), u.map((x, j) => x + t0 * A[j])]
+          .filter((Q) => Q.some((x, j) => x !== P[j]));
+        return this.makeMcq('TG1', 3, 'Intersection d\'une droite et d\'un plan de coordonnées',
+          'Utiliser une représentation paramétrique pour trouver un point d\'intersection',
+          `La droite $D$ admet pour représentation paramétrique $${this._TGSX_cases(A, u)}$, $t \\in \\mathbb{R}$. Déterminer les coordonnées du point d'intersection $I$ de $D$ avec le plan ${names[i]} d'équation $${vn[i]} = 0$.`,
+          Is(P), ds.map(Is),
+          `Un point de $D$ appartient au plan ${names[i]} lorsque sa coordonnée $${vn[i]}$ est nulle.`,
+          `Résous $${this.poly([[A[i], ''], [u[i], 't']])} = 0$ pour trouver le paramètre $t$.`,
+          `$${this.poly([[A[i], ''], [u[i], 't']])} = 0 \\iff t = ${t0}$. En remplaçant $t$ par $${t0}$ dans la représentation paramétrique, on obtient $I${V(P)}$.`
+        );
+      }
       let u; let v;
       do { u = this._TGSX_randVec(-2, 3); v = this._TGSX_randVec(-2, 3); } while (this._TGSX_colin(u, v));
       const al = this.randChoice([-3, -2, -1, 1, 2, 3]);
@@ -4407,7 +5763,7 @@ window.MathsLyceeGenerators = {
       do { be = this.randChoice([-3, -2, -1, 1, 2, 3]); } while (be === al);
       const w = u.map((x, i) => al * x + be * v[i]);
       const comb = (a, b) => `$\\vec{w} = ${this.poly([[a, '\\vec{u}'], [b, '\\vec{v}']])}$`;
-      return this.makeMcq('TG1', 3, 'Décomposition d\'un vecteur : coplanarité',
+      return this._Tx(this.makeMcq('TG1', 3, 'Décomposition d\'un vecteur : coplanarité',
         "Exprimer un vecteur comme combinaison linéaire de deux autres",
         `On donne $\\vec{u}${V(u)}$, $\\vec{v}${V(v)}$ et $\\vec{w}${V(w)}$. Les vecteurs $\\vec{u}$ et $\\vec{v}$ ne sont pas colinéaires. Trouver les réels $a$ et $b$ tels que $\\vec{w} = a\\vec{u} + b\\vec{v}$ (ce qui prouve que $\\vec{u}$, $\\vec{v}$, $\\vec{w}$ sont coplanaires).`,
         comb(al, be),
@@ -4415,9 +5771,31 @@ window.MathsLyceeGenerators = {
         "Écris le système de trois équations à deux inconnues $a$ et $b$.",
         "Résous avec deux équations, puis vérifie la troisième.",
         `On cherche $a$, $b$ tels que $${w[0]} = ${this.poly([[u[0], 'a'], [v[0], 'b']])}$, $${w[1]} = ${this.poly([[u[1], 'a'], [v[1], 'b']])}$ et $${w[2]} = ${this.poly([[u[2], 'a'], [v[2], 'b']])}$. On trouve $a = ${al}$ et $b = ${be}$, qui vérifient les trois équations : ${comb(al, be)}. Les trois vecteurs sont donc coplanaires.`
+      ), [al, be], 'Saisir le couple (a ; b).');
+    }
+    // tier 4 : positions relatives de deux droites ; coplanarité avec paramètre
+    if (Math.random() < 0.4) {
+      let u; let v; let i; let det;
+      do {
+        u = this._TGSX_randVec(-3, 3); v = this._TGSX_randVec(-3, 3); i = this.randInt(0, 2);
+        const [j, k] = [0, 1, 2].filter((x) => x !== i);
+        det = u[j] * v[k] - u[k] * v[j];
+      } while (this._TGSX_colin(u, v) || det === 0);
+      const al = this.randNonZero(-3, 3); const be = this.randNonZero(-3, 3);
+      const w = u.map((x, j) => al * x + be * v[j]);
+      const ws = w.map((x, j) => (j === i ? 'm' : String(x)));
+      const [j, k] = [0, 1, 2].filter((x) => x !== i);
+      const c = ['x', 'y', 'z'];
+      return this.makeMcq('TG1', 4, 'Coplanarité de trois vecteurs : paramètre',
+        'Déterminer un paramètre pour que trois vecteurs soient coplanaires',
+        `On donne $\\vec{u}${V(u)}$, $\\vec{v}${V(v)}$ et $\\vec{w}(${ws.join(' ; ')})$, où $m$ est un réel. Les vecteurs $\\vec{u}$ et $\\vec{v}$ ne sont pas colinéaires. Pour quelle valeur de $m$ les vecteurs $\\vec{u}$, $\\vec{v}$ et $\\vec{w}$ sont-ils coplanaires ?`,
+        `$m = ${w[i]}$`,
+        [al * u[i] - be * v[i], be * u[i] + al * v[i], -w[i], w[i] + 1].filter((x, n, arr) => x !== w[i] && arr.indexOf(x) === n).map((x) => `$m = ${x}$`),
+        'Les trois vecteurs sont coplanaires si et seulement s\'il existe des réels $a$ et $b$ tels que $\\vec{w} = a\\vec{u} + b\\vec{v}$.',
+        `Détermine $a$ et $b$ avec les coordonnées $${c[j]}$ et $${c[k]}$, puis calcule $m$.`,
+        `Le système $${w[j]} = ${this.poly([[u[j], 'a'], [v[j], 'b']])}$, $${w[k]} = ${this.poly([[u[k], 'a'], [v[k], 'b']])}$ a pour unique solution $a = ${al}$, $b = ${be}$. La coordonnée $${c[i]}$ impose alors $m = ${al} \\times ${this.paren(u[i])} + ${this.paren(be)} \\times ${this.paren(v[i])} = ${w[i]}$.`
       );
     }
-    // tier 4 : positions relatives de deux droites
     let u;
     do { u = this._TGSX_randVec(-2, 3); } while (u.filter((x) => x !== 0).length < 2);
     const kind = this.randChoice(['sec', 'sec', 'par', 'gau']);
@@ -4478,12 +5856,32 @@ window.MathsLyceeGenerators = {
       let n;
       do { n = this._TGSX_randVec(-5, 5); } while (n.filter((x) => x !== 0).length < 2);
       const d = this.randInt(-9, 9);
-      if (this.randInt(0, 1) === 0) {
+      const r1 = Math.random();
+      if (r1 < 0.33) {
+        // coordonnée manquante d'un point du plan
+        const i = [0, 1, 2].filter((j) => n[j] !== 0)[this.randInt(0, n.filter((x) => x !== 0).length - 1)];
+        const P = [this.randInt(-4, 4), this.randInt(-4, 4), this.randInt(-4, 4)];
+        P[i] = 0;
+        const rest = this._TGSX_dot(n, P) + d;
+        const m = this.frac(-rest, n[i]);
+        const Ps = P.map((x, j) => (j === i ? 'm' : String(x)));
+        const vn = ['x', 'y', 'z'];
+        return this.makeMcq('TG2', 1, 'Coordonnée manquante d\'un point d\'un plan',
+          'Utiliser une équation cartésienne pour compléter les coordonnées d\'un point',
+          `Le point $M(${Ps.join(' ; ')})$ appartient au plan $\\mathcal{P}$ d'équation $${planEq(n, d)}$. Déterminer $m$.`,
+          `$m = ${m}$`,
+          [this.frac(rest, n[i]), this.frac(-rest + 2 * d, n[i]), String(-rest), this.frac(-rest, n[i]) === String(-rest) ? String(rest) : this.frac(-rest - 1, n[i])].filter((x, j, arr) => x !== m && arr.indexOf(x) === j).map((x) => `$m = ${x}$`),
+          'Un point appartient au plan si et seulement si ses coordonnées vérifient l\'équation.',
+          `Remplace $x$, $y$, $z$ par les coordonnées de $M$ (avec $${vn[i]} = m$) et résous l'équation d'inconnue $m$.`,
+          `En remplaçant : $${this.poly([[n[i], 'm'], [rest, '']])} = 0$, donc $m = ${m}$.`
+        );
+      }
+      if (r1 < 0.66) {
         const cands = [[n[1], n[0], n[2]], [n[0], n[1], d], [n[0] + 1, n[1], n[2]], [-n[0], n[1], n[2]], [n[2], n[1], n[0]]]
           .filter((c) => !c.every((x) => x === 0) && !this._TGSX_colin(c, n)).map((c) => `$\\vec{n}${V(c)}$`);
         return this.makeMcq('TG2', 1, 'Vecteur normal à un plan',
           "Lire un vecteur normal sur une équation cartésienne",
-          `Parmi les vecteurs suivants, lequel est normal au plan $\\mathcal{P}$ d'équation $${planEq(n, d)}$ ?`,
+          `Quel vecteur normal au plan $\\mathcal{P}$ d'équation $${planEq(n, d)}$ lit-on directement sur cette équation ?`,
           `$\\vec{n}${V(n)}$`, cands,
           "Un plan d'équation $ax + by + cz + d = 0$ admet $\\vec{n}(a ; b ; c)$ comme vecteur normal.",
           "Lis les coefficients de $x$, $y$ et $z$ (un coefficient absent vaut $0$).",
@@ -4505,7 +5903,7 @@ window.MathsLyceeGenerators = {
         n[0] = 1; P[0] = 0; P[0] = -(this._TGSX_dot(n, P) + d);
       }
       const cands = [];
-      for (let k = 0; k < 8 && cands.length < 4; k++) {
+      for (let k = 0; k < 80 && cands.length < 4; k++) {
         const Q = P.map((x) => x + this.randInt(-2, 2));
         if (val(Q) !== 0) cands.push(`$${V(Q).replace(/^/, 'M')}$`);
       }
@@ -4567,19 +5965,20 @@ window.MathsLyceeGenerators = {
       if (this.randInt(0, 1) === 0) {
         let n;
         do { n = this._TGSX_randVec(-4, 4); } while (n.filter((x) => x !== 0).length < 2);
-        const A = [this.randInt(-4, 4), this.randInt(-4, 4), this.randInt(-4, 4)];
+        let A;
+        do { A = [this.randInt(-4, 4), this.randInt(-4, 4), this.randInt(-4, 4)]; } while (this._TGSX_dot(n, A) === 0);
         const d = -this._TGSX_dot(n, A);
         const eq = (dd) => `$${planEq(n, dd)}$`;
         const cands = [eq(-d), eq(d + 1), `$${planEq(A, -this._TGSX_dot(A, n))}$`, `$${planEq(n, 0)}$`, eq(d - 2)]
           .filter((c) => c !== eq(d));
-        return this.makeMcq('TG2', 3, 'Équation cartésienne d\'un plan',
+        return this._Tx(this.makeMcq('TG2', 3, 'Équation cartésienne d\'un plan',
           "Déterminer l'équation d'un plan connaissant un point et un vecteur normal",
           `Déterminer une équation cartésienne du plan $\\mathcal{P}$ passant par $A${V(A)}$ et de vecteur normal $\\vec{n}${V(n)}$.`,
           eq(d), cands,
           "Le plan a une équation de la forme $ax + by + cz + d = 0$ où $(a ; b ; c)$ sont les coordonnées de $\\vec{n}$.",
           "Détermine $d$ en écrivant que $A$ appartient au plan.",
           `$\\mathcal{P} : ${this.poly([[n[0], 'x'], [n[1], 'y'], [n[2], 'z']])} + d = 0$. Comme $A \\in \\mathcal{P}$ : $${this._TGSX_dot(n, A)} + d = 0$, donc $d = ${d}$. D'où ${eq(d)}.`
-        );
+        ), d, `Avec $\\vec{n}$ comme vecteur normal, l'équation s'écrit $${this.poly([[n[0], 'x'], [n[1], 'y'], [n[2], 'z']])} + d = 0$ : saisir $d$.`);
       }
       // position relative de deux plans
       let n1;
@@ -4652,6 +6051,28 @@ window.MathsLyceeGenerators = {
   // =========================================================================
   gen_TS1(tier) {
     const P = (x) => this.dec(x);
+    if (tier === 1 && Math.random() < 0.35) {
+      // reconnaître une loi binomiale : paramètres (n ; p)
+      const ctx = this.randChoice([
+        [(n) => `On lance ${n} fois un dé équilibré à six faces et on note $X$ le nombre de « 6 » obtenus.`, 1, 6],
+        [(n) => `On lance ${n} fois une pièce équilibrée et on note $X$ le nombre de « pile » obtenus.`, 1, 2],
+        [(n) => `Une urne contient 3 boules rouges et 7 boules noires. On tire ${n} fois une boule avec remise et on note $X$ le nombre de boules rouges obtenues.`, 3, 10],
+        [(n) => `Un QCM comporte ${n} questions indépendantes ayant chacune 4 réponses dont une seule juste. Un candidat répond au hasard ; $X$ est le nombre de bonnes réponses.`, 1, 4],
+        [(n) => `Un dé équilibré à six faces est lancé ${n} fois ; $X$ compte le nombre de résultats multiples de 3.`, 1, 3]
+      ]);
+      const n = this.randInt(5, 20);
+      const p = this.frac(ctx[1], ctx[2]);
+      const pp = (a, b) => `$\\mathcal{B}\\left(${a} ; ${b}\\right)$`;
+      return this._Tx(this.makeMcq('TS1', 1, 'Reconnaître une loi binomiale',
+        'Identifier un schéma de Bernoulli et les paramètres de la loi binomiale',
+        `${ctx[0](n)} Cette variable aléatoire suit une loi binomiale. Quels sont ses paramètres $n$ et $p$ ?`,
+        pp(n, p),
+        [pp(n, this.frac(ctx[2] - ctx[1], ctx[2])), pp(p, n), pp(n + 1, p), pp(ctx[2], this.frac(1, n))].filter((x, i, arr) => x !== pp(n, p) && arr.indexOf(x) === i),
+        'On répète des épreuves de Bernoulli identiques et indépendantes : $n$ est le nombre de répétitions.',
+        '$p$ est la probabilité du succès lors d\'une seule épreuve.',
+        `Chaque épreuve n'a que deux issues (succès / échec), on la répète $${n}$ fois de façon identique et indépendante, et $X$ compte les succès. Le succès a pour probabilité $${p}$ à chaque épreuve, donc $X$ suit la loi ${pp(n, p)}.`
+      ), [n, this._Tq(ctx[1], ctx[2])], 'Saisir le couple (n ; p), $p$ sous forme de fraction irréductible.');
+    }
     if (tier === 1) {
       const n = this.randInt(4, 10);
       const k = this.randInt(2, n - 2);
@@ -4745,7 +6166,7 @@ window.MathsLyceeGenerators = {
     if (fam === 2) {
       const val = 1 - q ** n;
       const A = (x) => `$P(X \\ge 1) ${fmt(x)}$`;
-      return this.makeMcq('TS1', 4, 'Probabilité d\'au moins un succès',
+      return this._Tx(this.makeMcq('TS1', 4, 'Probabilité d\'au moins un succès',
         "Passer par l'événement contraire $\\{X = 0\\}$",
         `$X$ suit la loi binomiale $\\mathcal{B}(${n} ; ${P(p)})$. Calculer $P(X \\ge 1)$ (valeur exacte ou arrondie au millième).`,
         A(val),
@@ -4753,11 +6174,11 @@ window.MathsLyceeGenerators = {
         "L'événement contraire de $\\{X \\ge 1\\}$ est $\\{X = 0\\}$.",
         `$P(X = 0) = ${P(q)}^{${n}}$.`,
         `$P(X \\ge 1) = 1 - P(X = 0) = 1 - ${P(q)}^{${n}} ${fmt(val)}$.`
-      );
+      ), this.dec(val, 3).replace('{,}', ','), 'Saisir la valeur exacte, ou arrondie au millième (virgule décimale).');
     }
     const val = q ** n + n * p * q ** (n - 1);
     const A = (x) => `$P(X \\le 1) ${fmt(x)}$`;
-    return this.makeMcq('TS1', 4, 'Probabilité cumulée',
+    return this._Tx(this.makeMcq('TS1', 4, 'Probabilité cumulée',
       "Calculer $P(X \\le 1) = P(X = 0) + P(X = 1)$",
       `$X$ suit la loi binomiale $\\mathcal{B}(${n} ; ${P(p)})$. Calculer $P(X \\le 1)$ (valeur exacte ou arrondie au millième).`,
       A(val),
@@ -4765,7 +6186,7 @@ window.MathsLyceeGenerators = {
       "$P(X \\le 1) = P(X = 0) + P(X = 1)$.",
       `$P(X = 1) = \\binom{${n}}{1} \\times ${P(p)} \\times ${P(q)}^{${n - 1}}$.`,
       `$P(X \\le 1) = ${P(q)}^{${n}} + ${n} \\times ${P(p)} \\times ${P(q)}^{${n - 1}} ${fmt(val)}$.`
-    );
+    ), this.dec(val, 3).replace('{,}', ','), 'Saisir la valeur exacte, ou arrondie au millième (virgule décimale).');
   },
 
   // =========================================================================
@@ -4799,7 +6220,7 @@ window.MathsLyceeGenerators = {
         `$E(${expr}) = ${D(r)}$`,
         [EX + EY, a * EX - c * EY, a * c * EX * EY, r + 1].filter((x) => x !== r).map((x) => `$E(${expr}) = ${D(x)}$`).concat(['On ne peut pas conclure sans savoir si $X$ et $Y$ sont indépendantes']),
         "La linéarité de l'espérance est toujours vraie, même sans indépendance.",
-        `$E(${expr}) = ${this.poly([[a, 'E(X)'], [c, 'E(Y)']])}$.`,
+        `Par linéarité, $E(${expr})$ s'écrit $${this.poly([[a, 'E(X)'], [c, 'E(Y)']])}$.`,
         `$E(${expr}) = ${this.poly([[a, 'E(X)'], [c, 'E(Y)']])} = ${a} \\times ${this.paren(D(EX))} + ${this.paren(c)} \\times ${this.paren(EY)} = ${D(r)}$.`
       );
     }
@@ -4851,7 +6272,7 @@ window.MathsLyceeGenerators = {
       }
       const lo = mu - delta; const hi = mu + delta;
       const b = this.frac(delta * delta - Va, delta * delta);
-      return this.makeMcq('TS2', 3, 'Minoration par Bienaymé-Tchebychev',
+      return this._Tx(this.makeMcq('TS2', 3, 'Minoration par Bienaymé-Tchebychev',
         "Minorer la probabilité d'un intervalle centré sur l'espérance",
         `Une variable aléatoire $X$ vérifie $E(X) = ${mu}$ et $V(X) = ${Va}$. Quelle minoration de $P(${lo} < X < ${hi})$ donne l'inégalité de Bienaymé-Tchebychev ?`,
         `$P(${lo} < X < ${hi}) \\ge ${b}$`,
@@ -4859,7 +6280,7 @@ window.MathsLyceeGenerators = {
         `L'événement $\\{${lo} < X < ${hi}\\}$ est le contraire de $\\{|X - ${mu}| \\ge ${delta}\\}$.`,
         "$P(|X - E(X)| \\ge \\delta) \\le \\frac{V(X)}{\\delta^2}$.",
         `$P(${lo} < X < ${hi}) = 1 - P(|X - ${mu}| \\ge ${delta}) \\ge 1 - \\frac{${Va}}{${delta}^2} = ${b}$.`
-      );
+      ), this._Tq(delta * delta - Va, delta * delta), 'Saisir le minorant sous forme de fraction irréductible.');
     }
     // tier 4 : moyenne empirique, inégalité de concentration
     const v = this.randChoice([1, 2, 3, 4, 5, 6, 8, 9, 10, 12, 16, 20, 25]);
@@ -4895,36 +6316,37 @@ window.MathsLyceeGenerators = {
   // =========================================================================
   gen_TX1(tier) {
     const C = (a, b) => this._TGSX_cplx(a, b);
+    const CI = 'Écrire le résultat sous la forme $a + ib$ ($a$ et $b$ réels) et saisir le couple (a ; b).';
     if (tier === 1) {
       const a = this.randNonZero(-9, 9); const b = this.randNonZero(-9, 9);
       const fam = this.randInt(1, 3);
       if (fam === 1) {
         const R = (x, y) => `$\\text{Re}(z) = ${x}$ et $\\text{Im}(z) = ${y}$`;
-        return this.makeMcq('TX1', 1, 'Parties réelle et imaginaire',
+        return this._Tx(this.makeMcq('TX1', 1, 'Parties réelle et imaginaire',
           "Identifier $\\text{Re}(z)$ et $\\text{Im}(z)$ dans l'écriture $a + ib$",
           `Quelles sont la partie réelle et la partie imaginaire du nombre complexe $z = ${C(a, b)}$ ?`,
           R(a, b), [R(a, this.coefStr(b, 'i')), R(b, a), R(a, -b), R(-a, b)],
           "La partie imaginaire est un nombre réel : le coefficient de $i$, sans le $i$.",
           "Le signe fait partie de la partie imaginaire.",
           `$z = ${C(a, b)}$ s'écrit $a + ib$ avec $a = ${a}$ et $b = ${b}$ : $\\text{Re}(z) = ${a}$ et $\\text{Im}(z) = ${b}$.`
-        );
+        ), [a, b], 'Saisir le couple (Re(z) ; Im(z)).');
       }
       const c = this.randNonZero(-9, 9); const d = this.randNonZero(-9, 9);
       if (fam === 2) {
         const op = this.randChoice(['+', '-']);
         const s = op === '+' ? 1 : -1;
         const r = C(a + s * c, b + s * d);
-        return this.makeMcq('TX1', 1, op === '+' ? 'Somme de nombres complexes' : 'Différence de nombres complexes',
+        return this._Tx(this.makeMcq('TX1', 1, op === '+' ? 'Somme de nombres complexes' : 'Différence de nombres complexes',
           "Additionner parties réelles et parties imaginaires séparément",
           `On pose $z_1 = ${C(a, b)}$ et $z_2 = ${C(c, d)}$. Écrire $z_1 ${op} z_2$ sous forme algébrique.`,
           `$${r}$`,
           this._TGSX_noInt([`$${C(a - s * c, b - s * d)}$`, `$${C(a + s * c, b - s * d)}$`, `$${C(a + s * d, b + s * c)}$`, `$${C(a * c, b * d)}$`, `$${C(-(a + s * c), b + s * d)}$`, `$${C(a + s * c, -(b + s * d))}$`]),
-          "$(a + ib) \\pm (c + id) = (a \\pm c) + i(b \\pm d)$.",
+          op === '+' ? '$(a + ib) + (c + id) = (a + c) + i(b + d)$.' : '$(a + ib) - (c + id) = (a - c) + i(b - d)$.',
           "Regroupe les parties réelles d'un côté, les parties imaginaires de l'autre.",
           `$z_1 ${op} z_2 = (${a} ${op} ${this.paren(c)}) + (${b} ${op} ${this.paren(d)})i = ${r}$.`
-        );
+        ), [a + s * c, b + s * d], CI);
       }
-      return this.makeMcq('TX1', 1, 'Conjugué d\'un nombre complexe',
+      return this._Tx(this.makeMcq('TX1', 1, 'Conjugué d\'un nombre complexe',
         "Écrire $\\bar{z} = a - ib$",
         `Quel est le conjugué $\\bar{z}$ du nombre complexe $z = ${C(a, b)}$ ?`,
         `$\\bar{z} = ${C(a, -b)}$`,
@@ -4932,7 +6354,7 @@ window.MathsLyceeGenerators = {
         "Le conjugué de $a + ib$ est $a - ib$.",
         "Seul le signe de la partie imaginaire change.",
         `$\\bar{z} = \\overline{${C(a, b)}} = ${C(a, -b)}$.`
-      );
+      ), [a, -b], CI);
     }
     if (tier === 2) {
       const a = this.randNonZero(-6, 6); const b = this.randNonZero(-6, 6);
@@ -4940,7 +6362,7 @@ window.MathsLyceeGenerators = {
       if (fam === 1) {
         const c = this.randNonZero(-6, 6); const d = this.randNonZero(-6, 6);
         const re = a * c - b * d; const im = a * d + b * c;
-        return this.makeMcq('TX1', 2, 'Produit de deux nombres complexes',
+        return this._Tx(this.makeMcq('TX1', 2, 'Produit de deux nombres complexes',
           "Développer en utilisant $i^2 = -1$",
           `Écrire sous forme algébrique le produit $(${C(a, b)})(${C(c, d)})$.`,
           `$${C(re, im)}$`,
@@ -4948,7 +6370,7 @@ window.MathsLyceeGenerators = {
           "Développe comme d'habitude puis remplace $i^2$ par $-1$.",
           `Le terme $(${this.coefStr(b, 'i')}) \\times (${this.coefStr(d, 'i')}) = ${this.coefStr(b * d, 'i^2')} = ${-b * d}$.`,
           `$(${C(a, b)})(${C(c, d)}) = ${this.poly([[a * c, ''], [a * d, 'i'], [b * c, 'i'], [b * d, 'i^2']])} = ${C(re, im)}$.`
-        );
+        ), [re, im], CI);
       }
       if (fam === 2) {
         const m = a * a + b * b;
@@ -4963,7 +6385,7 @@ window.MathsLyceeGenerators = {
         );
       }
       const re = a * a - b * b; const im = 2 * a * b;
-      return this.makeMcq('TX1', 2, 'Carré d\'un nombre complexe',
+      return this._Tx(this.makeMcq('TX1', 2, 'Carré d\'un nombre complexe',
         "Développer $(a + ib)^2 = a^2 - b^2 + 2abi$",
         `Écrire $z^2$ sous forme algébrique pour $z = ${C(a, b)}$.`,
         `$z^2 = ${C(re, im)}$`,
@@ -4971,7 +6393,7 @@ window.MathsLyceeGenerators = {
         "Identité remarquable avec $i^2 = -1$.",
         `$(${this.coefStr(b, 'i')})^2 = ${-b * b}$.`,
         `$z^2 = ${this.paren(a)}^2 + 2 \\times ${this.paren(a)} \\times (${this.coefStr(b, 'i')}) + (${this.coefStr(b, 'i')})^2 = ${a * a} ${this.formatSign(im)}i - ${b * b} = ${C(re, im)}$.`
-      );
+      ), [re, im], CI);
     }
     if (tier === 3) {
       if (this.randInt(0, 1) === 0) {
@@ -4980,7 +6402,7 @@ window.MathsLyceeGenerators = {
         const p = this.randInt(-5, 5); const q = this.randNonZero(-5, 5);
         const a = p * c - q * d; const b = p * d + q * c; // z1 = w z2
         const m = c * c + d * d;
-        return this.makeMcq('TX1', 3, 'Quotient de deux nombres complexes',
+        return this._Tx(this.makeMcq('TX1', 3, 'Quotient de deux nombres complexes',
           "Multiplier numérateur et dénominateur par le conjugué du dénominateur",
           `Écrire sous forme algébrique $\\frac{${C(a, b)}}{${C(c, d)}}$.`,
           `$${C(p, q)}$`,
@@ -4988,29 +6410,44 @@ window.MathsLyceeGenerators = {
           `Multiplie en haut et en bas par $\\overline{${C(c, d)}} = ${C(c, -d)}$.`,
           `Au dénominateur : $(${C(c, d)})(${C(c, -d)}) = ${m}$.`,
           `$\\frac{${C(a, b)}}{${C(c, d)}} = \\frac{(${C(a, b)})(${C(c, -d)})}{${m}} = \\frac{${C(p * m, q * m)}}{${m}} = ${C(p, q)}$.`
-        );
+        ), [p, q], CI);
       }
       const a = this.randNonZero(-5, 5); const b = this.randNonZero(-5, 5);
       const m = a * a + b * b;
       const F = (x, y) => `$${this.poly([[this.frac(x, m), ''], [this.frac(y, m), 'i']])}$`;
       const Fm = (x, y, mm) => `$${this.poly([[this.frac(x, mm), ''], [this.frac(y, mm), 'i']])}$`;
-      return this.makeMcq('TX1', 3, 'Inverse d\'un nombre complexe',
+      return this._Tx(this.makeMcq('TX1', 3, 'Inverse d\'un nombre complexe',
         "Écrire $\\frac{1}{z}$ sous forme algébrique",
         `Écrire sous forme algébrique l'inverse de $z = ${C(a, b)}$.`,
         F(a, -b), [F(a, b), F(-a, b), `$${C(a, -b)}$`, Fm(a, -b, Math.abs(a * a - b * b) || m + 1)],
         "Multiplie numérateur et dénominateur par le conjugué $\\bar{z}$.",
         `$z\\bar{z} = ${this.paren(a)}^2 + ${this.paren(b)}^2 = ${m}$.`,
         `$\\frac{1}{z} = \\frac{\\bar{z}}{z\\bar{z}} = \\frac{${C(a, -b)}}{${m}} = ${F(a, -b).slice(1, -1)}$.`
-      );
+      ), [this._Tq(a, m), this._Tq(-b, m)], CI);
     }
-    // tier 4 : équation du second degré à discriminant négatif
+    // tier 4 : équation avec conjugué ; équation du second degré à discriminant négatif
+    if (Math.random() < 0.45) {
+      const k = this.randChoice([-3, -2, 2, 3, 4]);
+      const x = this.randInt(-5, 5); const y = this.randNonZero(-5, 5);
+      const A = (1 + k) * x; const B = (1 - k) * y;
+      const ans = `$z = ${C(x, y)}$`;
+      return this._Tx(this.makeMcq('TX1', 4, 'Équation avec le conjugué',
+        'Résoudre une équation en posant $z = x + iy$',
+        `Résoudre dans $\\mathbb{C}$ l'équation $z ${k < 0 ? '-' : '+'} ${Math.abs(k)}\\bar{z} = ${C(A, B)}$.`,
+        ans,
+        [`$z = ${C(x, -y)}$`, `$z = ${C(this.frac(A, 1 - k) === String(x) ? x + 1 : this.frac(A, 1 - k), this.frac(B, 1 + k) === String(y) ? y + 1 : this.frac(B, 1 + k))}$`, `$z = ${C(-x, y)}$`, `$z = ${C(x + 1, y)}$`].filter((o, i, arr) => o !== ans && arr.indexOf(o) === i),
+        'Pose $z = x + iy$ avec $x$, $y$ réels ; alors $\\bar{z} = x - iy$.',
+        'Identifie les parties réelles et les parties imaginaires des deux membres.',
+        `Avec $z = x + iy$ : $z ${k < 0 ? '-' : '+'} ${Math.abs(k)}\\bar{z} = ${this.coefStr(1 + k, 'x')} + i(${this.coefStr(1 - k, 'y')})$ : partie réelle $${this.coefStr(1 + k, 'x')}$, partie imaginaire $${this.coefStr(1 - k, 'y')}$. Par identification, $${this.coefStr(1 + k, 'x')} = ${A}$ et $${this.coefStr(1 - k, 'y')} = ${B}$, d'où $x = ${x}$ et $y = ${y}$ : ${ans}.`
+      ), [x, y], CI);
+    }
     const p = this.randInt(-5, 5); const q = this.randInt(1, 5);
     const k = this.randChoice([1, 1, 1, 2, 3]);
     const A = k; const B = -2 * p * k; const Cc = k * (p * p + q * q);
     const delta = B * B - 4 * A * Cc;
     const S = (x, y) => `$S = \\{${C(x, -y)} ; ${C(x, y)}\\}$`;
     const eq = this.poly([[A, 'z^2'], [B, 'z'], [Cc, '']]);
-    return this.makeMcq('TX1', 4, 'Équation du second degré dans $\\mathbb{C}$',
+    return this._Tx(this.makeMcq('TX1', 4, 'Équation du second degré dans $\\mathbb{C}$',
       "Résoudre $az^2 + bz + c = 0$ quand $\\Delta < 0$",
       `Résoudre dans $\\mathbb{C}$ l'équation $${eq} = 0$.`,
       S(p, q),
@@ -5018,7 +6455,7 @@ window.MathsLyceeGenerators = {
       "Calcule $\\Delta = b^2 - 4ac$ ; s'il est négatif, les solutions sont $\\frac{-b \\pm i\\sqrt{-\\Delta}}{2a}$.",
       `Ici $\\Delta = ${delta}$, donc $\\sqrt{-\\Delta} = ${Math.sqrt(-delta)}$.`,
       `$\\Delta = ${this.paren(B)}^2 - 4 \\times ${A} \\times ${Cc} = ${delta} < 0$. Les solutions sont conjuguées : $z = \\frac{${-B} \\pm ${Math.sqrt(-delta)}i}{${2 * A}}$, soit $z_1 = ${C(p, -q)}$ et $z_2 = ${C(p, q)}$.`
-    );
+    ), [p, q], 'Les solutions s\'écrivent $p - iq$ et $p + iq$ avec $q > 0$ : saisir (p ; q).');
   },
 
   // =========================================================================
@@ -5027,6 +6464,9 @@ window.MathsLyceeGenerators = {
   gen_TX2(tier) {
     const C = (a, b) => this._TGSX_cplx(a, b);
     const ang = (k, m) => this._TGSX_angle(k, m);
+    const EI = 'On écrit le résultat $re^{i\\theta}$ avec $r > 0$ et $\\theta \\in ]-\\pi ; \\pi]$ : saisir le couple (r ; θ/π), en fractions si besoin.';
+    // argument k*pi/m ramené dans ]-pi ; pi], divisé par pi (texte brut)
+    const argPi = (k, m) => { let kk = ((k % (2 * m)) + 2 * m) % (2 * m); if (kk > m) kk -= 2 * m; return this._Tq(kk, m); };
     // r e^{i theta} avec signe moins sorti : e^{-i\frac{\pi}{3}}
     const expo = (r, k, m) => {
       const t = ang(k, m);
@@ -5065,7 +6505,9 @@ window.MathsLyceeGenerators = {
         const [x, y] = this.randInt(0, 1) ? [a, b] : [b, a];
         const m2 = x * x + y * y;
         const r = this._TGSX_sqrt(m2);
-        return this.makeMcq('TX2', 1, 'Module d\'un nombre complexe',
+        let kq = 1; let mq = m2;
+        for (let dd = 2; dd * dd <= mq; dd++) while (mq % (dd * dd) === 0) { mq /= dd * dd; kq *= dd; }
+        const qMod = this.makeMcq('TX2', 1, 'Module d\'un nombre complexe',
           "Calculer $|a + ib| = \\sqrt{a^2 + b^2}$",
           `Calculer le module du nombre complexe $z = ${C(x, y)}$.`,
           `$|z| = ${r}$`,
@@ -5074,6 +6516,7 @@ window.MathsLyceeGenerators = {
           "Simplifie la racine carrée si possible.",
           `$|z| = \\sqrt{${this.paren(x)}^2 + ${this.paren(y)}^2} = \\sqrt{${m2}}${r === `\\sqrt{${m2}}` ? '' : ' = ' + r}$.`
         );
+        return mq === 1 ? qMod : this._Tx(qMod, [kq, mq], 'On écrit $|z| = k\\sqrt{m}$ avec $k$, $m$ entiers et $m$ le plus petit possible : saisir (k ; m).');
       }
       // forme exponentielle -> algébrique
       const r = this.randInt(1, 6);
@@ -5109,7 +6552,7 @@ window.MathsLyceeGenerators = {
       const A = (r, kk, mm) => `$z = ${expo(r, kk, mm)}$`;
       const ans = A(rr, k, m);
       const cands = [A(rr, -k, m), A(rr, m - k, m), A(rr, k + m, m), A(m === 4 ? 2 * lam : lam * 4, k, m), A(rr, 2 * k + (k % 2 === 0 ? 1 : 0), 2 * m)].filter((x) => x !== ans);
-      return this.makeMcq('TX2', 2, 'Forme exponentielle d\'un nombre complexe',
+      const q2 = this.makeMcq('TX2', 2, 'Forme exponentielle d\'un nombre complexe',
         "Déterminer le module et un argument",
         `Écrire sous forme exponentielle le nombre complexe $z = ${z}$.`,
         ans, cands,
@@ -5117,6 +6560,7 @@ window.MathsLyceeGenerators = {
         "Repère le quadrant grâce aux signes de la partie réelle et de la partie imaginaire.",
         `$|z| = ${rr}$, puis $\\cos\\theta = ${exact(1, ...c) === 0 ? '0' : exact(1, ...c)}$ et $\\sin\\theta = ${exact(1, ...s) === 0 ? '0' : exact(1, ...s)}$, donc $\\theta = ${ang(k, m)}$ (modulo $2\\pi$). Ainsi ${ans}.`
       );
+      return m === 4 ? q2 : this._Tx(q2, [m === 2 ? lam : 2 * lam, argPi(k, m)], EI);
     }
     if (tier === 3) {
       const ms = [2, 3, 4, 6];
@@ -5130,14 +6574,14 @@ window.MathsLyceeGenerators = {
         const A = (R, kk, mm) => `$z^{${n}} = ${expo(R, kk, mm)}$`;
         const ans = A(r ** n, n * k, m);
         const cands = [A(r * n, n * k, m), A(r ** n, k, m), A(r ** n, n * k + m, m), A(r ** n, k + n, m), A(r ** n, -n * k, m), A(r ** n + 1, n * k, m)].filter((x) => x !== ans && !/= \d+\$$/.test(x));
-        return this.makeMcq('TX2', 3, 'Puissance d\'un nombre complexe (formule de Moivre)',
+        return this._Tx(this.makeMcq('TX2', 3, 'Puissance d\'un nombre complexe (formule de Moivre)',
           "Appliquer $(re^{i\\theta})^n = r^n e^{in\\theta}$",
           `On pose $z = ${base}$. Écrire $z^{${n}}$ sous forme exponentielle, avec un argument dans $]-\\pi ; \\pi]$.`,
           ans, cands,
           "$(re^{i\\theta})^n = r^n e^{in\\theta}$.",
           "Ramène l'argument dans $]-\\pi ; \\pi]$ en retirant un multiple de $2\\pi$.",
           `$z^{${n}} = ${r === 1 ? '' : r + '^{' + n + '}'}e^{i \\times ${n} \\times ${ang(k, m) === '\\pi' ? '\\pi' : '\\left(' + ang(k, m) + '\\right)'}}$, et $${n} \\times ${ang(k, m) === '\\pi' ? '\\pi' : '\\left(' + ang(k, m) + '\\right)'} \\equiv ${ang(n * k, m)} \\pmod{2\\pi}$. Donc ${ans}.`.replace(/\$z\^\{(\d+)\} = /, '$z^{$1} = ')
-        );
+        ), [r ** n, argPi(n * k, m)], EI);
       }
       const m1 = this.randChoice(ms); const m2 = this.randChoice(ms);
       const k1 = this.randNonZero(-m1 + 1, m1 - 1) || 1; const k2 = this.randNonZero(-m2 + 1, m2 - 1) || 1;
@@ -5150,16 +6594,37 @@ window.MathsLyceeGenerators = {
       const A = (R, kk) => `$${div ? '\\frac{z_1}{z_2}' : 'z_1 z_2'} = ${expo(R, kk, L)}$`;
       const ans = A(modS, kr);
       const cands = [A(modS, div ? kk1 + kk2 : kk1 - kk2), A(div ? String(r1 * r2) : String(r1 + r2), kr), A(modS, div ? kk2 - kk1 : kk1 * kk2), A(div ? this.frac(r2, r1) : String(r1 * r2 + 1), kr), A(modS, kr + L), A(div ? this.frac(r1 + 1, r2) : String(2 * r1 * r2), kr), A(div ? this.frac(3 * r1, r2) : String(r1 * r2 + 2), kr), A(div ? this.frac(r1 + 2, r2) : String(3 * r1 * r2), kr)].filter((x) => x !== ans);
-      return this.makeMcq('TX2', 3, div ? 'Quotient en forme exponentielle' : 'Produit en forme exponentielle',
+      return this._Tx(this.makeMcq('TX2', 3, div ? 'Quotient en forme exponentielle' : 'Produit en forme exponentielle',
         "Multiplier les modules, additionner les arguments",
         `On pose $z_1 = ${expo(r1, k1, m1)}$ et $z_2 = ${expo(r2, k2, m2)}$. Écrire $${div ? '\\frac{z_1}{z_2}' : 'z_1 z_2'}$ sous forme exponentielle (argument dans $]-\\pi ; \\pi]$).`,
         ans, cands,
         div ? "$\\frac{re^{i\\alpha}}{r'e^{i\\beta}} = \\frac{r}{r'}e^{i(\\alpha - \\beta)}$." : "$re^{i\\alpha} \\times r'e^{i\\beta} = rr'e^{i(\\alpha + \\beta)}$.",
         "Mets les arguments au même dénominateur.",
         `Module : $${div ? `\\frac{|z_1|}{|z_2|} = ${modS}` : `${r1} \\times ${r2} = ${modS}`}$. Argument : $${ang(k1, m1)} ${div ? '-' : '+'} ${/^-/.test(ang(k2, m2)) ? '\\left(' + ang(k2, m2) + '\\right)' : ang(k2, m2)} \\equiv ${ang(kr, L)} \\pmod{2\\pi}$. Donc ${ans}.`
-      );
+      ), [div ? this._Tq(r1, r2) : r1 * r2, argPi(kr, L)], EI);
     }
-    // tier 4 : nature d'un triangle
+    // tier 4 : nature d'un triangle ; construction d'un triangle rectangle isocèle
+    if (Math.random() < 0.45) {
+      const A0 = [this.randInt(-4, 4), this.randInt(-4, 4)];
+      let w0;
+      do { w0 = [this.randInt(-4, 4), this.randInt(-4, 4)]; } while (w0[0] === 0 && w0[1] === 0);
+      const B0 = [A0[0] + w0[0], A0[1] + w0[1]];
+      const s = this.randChoice([1, -1]); // rotation de +pi/2 (s = 1) ou -pi/2
+      const AC0 = [-s * w0[1], s * w0[0]];
+      const C0 = [A0[0] + AC0[0], A0[1] + AC0[1]];
+      const Z = (P) => `$z_C = ${C(P[0], P[1])}$`;
+      const ans = Z(C0);
+      return this._Tx(this.makeMcq('TX2', 4, 'Construction d\'un triangle rectangle isocèle',
+        'Traduire une rotation d\'angle $\\pm\\frac{\\pi}{2}$ par une multiplication par $\\pm i$',
+        `Dans le plan complexe, on donne les points $A$ et $B$ d'affixes $z_A = ${C(A0[0], A0[1])}$ et $z_B = ${C(B0[0], B0[1])}$. Déterminer l'affixe $z_C$ du point $C$ tel que $AC = AB$ et $(\\vec{AB}, \\vec{AC}) = ${s > 0 ? '' : '-'}\\frac{\\pi}{2}$ (le triangle $ABC$ est alors rectangle isocèle en $A$).`,
+        ans,
+        [[A0[0] - AC0[0], A0[1] - AC0[1]], [B0[0] + AC0[0], B0[1] + AC0[1]], [A0[0] + AC0[1], A0[1] + AC0[0]], [AC0[0], AC0[1]]]
+          .filter((P) => P[0] !== C0[0] || P[1] !== C0[1]).map(Z).filter((o, i, arr) => arr.indexOf(o) === i),
+        `Les conditions signifient que $\\frac{z_C - z_A}{z_B - z_A} = e^{${s > 0 ? '' : '-'}i\\frac{\\pi}{2}} = ${s > 0 ? 'i' : '-i'}$.`,
+        `Calcule $z_B - z_A$, multiplie par $${s > 0 ? 'i' : '-i'}$, puis ajoute $z_A$.`,
+        `$z_B - z_A = ${C(w0[0], w0[1])}$ et $z_C - z_A = ${s > 0 ? 'i' : '-i'}(${C(w0[0], w0[1])}) = ${C(AC0[0], AC0[1])}$, donc ${ans}.`
+      ), C0, 'Écrire le résultat sous la forme $a + ib$ ($a$ et $b$ réels) et saisir le couple (a ; b).');
+    }
     const zA = [this.randInt(-4, 4), this.randInt(-4, 4)];
     let w;
     do { w = [this.randInt(-3, 3), this.randInt(-3, 3)]; } while (w[0] === 0 && w[1] === 0);
@@ -5271,7 +6736,7 @@ window.MathsLyceeGenerators = {
         `$${r}$`,
         [`$${(r + 1) % n}$`, `$${this._TGSX_modpow(ra, N % n, n)}$`, `$${(ra * N) % n}$`, `$${(r + n - 2) % n}$`, `$${this._TGSX_modpow(ra, (rest + 1) % d, n)}$`],
         `Calcule les puissances successives de $${ra}$ modulo $${n}$ jusqu'à obtenir $1$.` + (prime ? ` (Le petit théorème de Fermat assure $${ra}^{${n - 1}} \\equiv 1$.)` : ''),
-        `On trouve $${a}^{${d}} \\equiv 1 \\pmod{${n}}$ ; écris $${N} = ${d}q + r$.`.replace(`^{1}`, ''),
+        `On trouve $${a}^{${d}} \\equiv 1 \\pmod{${n}}$ : effectue la division euclidienne de l'exposant $${N}$ par $${d}$.`.replace(`^{1}`, ''),
         (a === ra ? '' : `$${a} \\equiv ${ra} \\pmod{${n}}$ et `) + `$${this.pow(String(ra), d)} \\equiv 1 \\pmod{${n}}$. Or $${this._TGSX_eucl(N, d, Math.floor(N / d), rest)}$, donc $${a}^{${N}} = \\left(${this.pow(String(a), d)}\\right)^{${Math.floor(N / d)}}${rest ? ' \\times ' + this.pow(String(a), rest) : ''} \\equiv ${rest ? this.pow(String(ra), rest) : '1'}${rest > 1 ? ' \\equiv ' + r : ''} \\pmod{${n}}$.`
       );
     }
@@ -5283,7 +6748,7 @@ window.MathsLyceeGenerators = {
       const b = this.randInt(1, n - 1);
       let inv = 1; while ((a * inv) % n !== 1) inv++;
       const x = (inv * b) % n;
-      return this.makeMcq('TX3', 4, 'Équation de congruence',
+      return this._Tx(this.makeMcq('TX3', 4, 'Équation de congruence',
         "Résoudre $ax \\equiv b \\pmod{n}$ grâce à un inverse modulo $n$",
         `Résoudre dans $\\mathbb{Z}$ l'équation $${a}x \\equiv ${b} \\pmod{${n}}$.`,
         `$x \\equiv ${x} \\pmod{${n}}$`,
@@ -5291,7 +6756,7 @@ window.MathsLyceeGenerators = {
         `Cherche un entier $u$ tel que $${a}u \\equiv 1 \\pmod{${n}}$.`,
         `$${a} \\times ${inv} = ${a * inv} \\equiv 1 \\pmod{${n}}$.`,
         `Comme $${a} \\times ${inv} \\equiv 1 \\pmod{${n}}$, en multipliant par $${inv}$ : $${a}x \\equiv ${b} \\iff x \\equiv ${inv} \\times ${b} = ${inv * b} \\equiv ${x} \\pmod{${n}}$. Les solutions sont les entiers $x = ${x} + ${n}k$, $k \\in \\mathbb{Z}$.`.replace(/x = 0 \+ /, 'x = ')
-      );
+      ), x, `Les solutions s'écrivent $x \\equiv x_0 \\pmod{${n}}$ avec $0 \\le x_0 < ${n}$ : saisir l'entier $x_0$.`);
     }
     const a = this.randChoice([2, 3, 7, 8, 12, 13, 17, 22, 27, 33, 37, 43, 47, 53, 57, 63, 67, 73, 77, 83, 87, 93, 97]);
     const N = this.randInt(20, 2030);
@@ -5336,18 +6801,19 @@ window.MathsLyceeGenerators = {
     if (tier === 2) {
       let a; let b;
       do { a = this.randInt(5, 60); b = this.randInt(5, 60); } while (a === b || this.gcd(a, b) !== 1);
-      const [, u, v] = this._TGSX_egcd(a, b);
+      const [, u0] = this._TGSX_egcd(a, b);
+      const u = ((u0 % b) + b) % b; const v = (1 - a * u) / b; // unique couple avec 0 <= u < b
       const pair = (x, y) => `$u = ${x}$ et $v = ${y}$`;
-      const cands = [[-u, -v], [v, u], [u + 1, v], [u, v - 1], [u + b, v + a], [-u, v]]
-        .filter(([x, y]) => a * x + b * y !== 1).map(([x, y]) => pair(x, y));
-      return this.makeMcq('TX4', 2, 'Identité de Bézout',
+      const cands = [[-u, -v], [v, u], [u + 1, v], [u, v - 1], [u - b, v + a], [-u, v]]
+        .filter(([x, y]) => !(x === u && y === v)).map(([x, y]) => pair(x, y));
+      return this._Tx(this.makeMcq('TX4', 2, 'Identité de Bézout',
         "Trouver des coefficients de Bézout avec l'algorithme d'Euclide étendu",
-        `Les entiers $${a}$ et $${b}$ sont premiers entre eux. Quel couple d'entiers $(u ; v)$ vérifie $${a}u + ${b}v = 1$ ?`,
+        `Les entiers $${a}$ et $${b}$ sont premiers entre eux. Déterminer l'unique couple d'entiers $(u ; v)$ tel que $${a}u + ${b}v = 1$ et $0 \\le u < ${b}$.`,
         pair(u, v), cands,
-        "Remonte les étapes de l'algorithme d'Euclide, ou teste chaque couple proposé.",
-        "Vérifie en calculant $au + bv$.",
-        `$${a} \\times ${this.paren(u)} + ${b} \\times ${this.paren(v)} = ${a * u} ${this.formatSign(b * v)} = 1$. (Ce couple n'est pas unique : $(u + ${b}k ; v - ${a}k)$ convient aussi.)`
-      );
+        "Remonte les étapes de l'algorithme d'Euclide pour écrire $1$ comme combinaison de $" + a + "$ et $" + b + "$.",
+        `Si $(u ; v)$ convient, $(u + ${b}k ; v - ${a}k)$ aussi : choisis $k$ pour que $0 \\le u < ${b}$.`,
+        `L'algorithme d'Euclide étendu donne un couple de Bézout ; en ajoutant le multiple de $${b}$ convenable à $u$, on obtient $u = ${u}$ et $v = ${v}$. Vérification : $${a} \\times ${this.paren(u)} + ${b} \\times ${this.paren(v)} = ${a * u} ${this.formatSign(b * v)} = 1$, et $0 \\le ${u} < ${b}$.`
+      ), [u, v], 'Saisir le couple (u ; v).');
     }
     if (tier === 3) {
       const ps = [2, 3, 5, 7, 11];
@@ -5391,14 +6857,14 @@ window.MathsLyceeGenerators = {
       const c = a * x0 + b * y0;
       if (c === 0) return this.gen_TX4(4);
       const S = (p, q) => `$x = ${this.poly([[x0, ''], [p, 'k']])}$ et $y = ${this.poly([[y0, ''], [q, 'k']])}$, $k \\in \\mathbb{Z}$`;
-      return this.makeMcq('TX4', 4, 'Équation diophantienne $ax + by = c$',
+      return this._Tx(this.makeMcq('TX4', 4, 'Équation diophantienne $ax + by = c$',
         "Utiliser une solution particulière et le théorème de Gauss",
         `On considère l'équation $(E) : ${a}x + ${b}y = ${c}$, d'inconnues entières. Le couple $(${x0} ; ${y0})$ en est une solution particulière. Quelles sont toutes les solutions de $(E)$ ?`,
         S(b, -a), [S(a, -b), S(b, a), S(-a, b), S(a * b, -a * b)],
         `Soustrais membre à membre : $${a}(${this.poly([[1, 'x'], [-x0, '']])}) = ${b}(${this.poly([[y0, ''], [-1, 'y']])})$.`,
         `Comme $\\text{PGCD}(${a} ; ${b}) = 1$, le théorème de Gauss donne : $${b}$ divise $${this.poly([[1, 'x'], [-x0, '']])}$.`,
         `Si $(x ; y)$ est solution, $${a}(${this.poly([[1, 'x'], [-x0, '']])}) = ${b}(${this.poly([[y0, ''], [-1, 'y']])})$. Par le théorème de Gauss ($${a}$ et $${b}$ premiers entre eux), $${this.poly([[1, 'x'], [-x0, '']])} = ${b}k$, puis $y = ${this.poly([[y0, ''], [-a, 'k']])}$. Réciproquement ces couples conviennent : ${S(b, -a)}.`
-      );
+      ), [b, -a], `Les solutions s'écrivent $x = ${x0} + pk$, $y = ${y0} + qk$ ($k \\in \\mathbb{Z}$) avec $p > 0$ : saisir (p ; q).`.replace(/\+ -/g, '- '));
     }
     const primes = [3, 5, 7, 11, 13, 17];
     const [p, q] = this.pickDistinct(primes, 2);
@@ -5429,38 +6895,78 @@ window.MathsLyceeGenerators = {
     const M = (A) => this._TGSX_mat(A);
     const mul = (A, B) => A.map((r) => B[0].map((_, j) => r.reduce((s, x, k) => s + x * B[k][j], 0)));
     const rnd = () => [[this.randInt(-3, 4), this.randInt(-3, 4)], [this.randInt(-3, 4), this.randInt(-3, 4)]];
+    const MI = 'Saisir les coefficients ligne par ligne : (a ; b ; c ; d) pour la matrice $\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}$.';
     if (tier === 1) {
+      if (Math.random() < 0.4) {
+        // combinaison linéaire de matrices
+        const A = rnd(); const B = rnd();
+        const al = this.randChoice([-3, -2, 2, 3]); const be = this.randChoice([-2, -1, 1, 2, 3]);
+        const R = A.map((r, i) => r.map((x, j) => al * x + be * B[i][j]));
+        const ex = this.poly([[al, 'A'], [be, 'B']]);
+        const pR = M(R);
+        const cands = [A.map((r, i) => r.map((x, j) => al * x - be * B[i][j])), A.map((r, i) => r.map((x, j) => al * x + B[i][j])), A.map((r, i) => r.map((x, j) => x + be * B[i][j])), R.map((r, i) => r.map((x, j) => (i === 0 && j === 0 ? x + 1 : x)))]
+          .map(M).filter((x, i, arr) => x !== pR && arr.indexOf(x) === i).map((x) => `$${ex} = ${x}$`);
+        return this._Tx(this.makeMcq('TX5', 1, 'Combinaison linéaire de matrices',
+          'Additionner des matrices et les multiplier par un réel',
+          `On donne $A = ${M(A)}$ et $B = ${M(B)}$. Calculer $${ex}$.`,
+          `$${ex} = ${pR}$`, cands,
+          'On calcule coefficient par coefficient.',
+          `Le coefficient en position $(1, 1)$ vaut $${this._TGSX_sp([[al, A[0][0]], [be, B[0][0]]])}$.`,
+          `Chaque coefficient de $${ex}$ s'obtient à partir des coefficients de même position : $${ex} = ${pR}$.`
+        ), [R[0][0], R[0][1], R[1][0], R[1][1]], MI);
+      }
       const A = rnd(); const B = rnd();
       const AB = mul(A, B); const BA = mul(B, A);
       const had = A.map((r, i) => r.map((x, j) => x * B[i][j]));
       const tw = [[AB[0][0], AB[1][0]], [AB[0][1], AB[1][1]]];
       const pAB = M(AB);
       const cands = [M(BA), M(had), M(tw), M([[AB[0][0] + 1, AB[0][1]], [AB[1][0], AB[1][1]]])].filter((x) => x !== pAB).map((x) => `$AB = ${x}$`);
-      return this.makeMcq('TX5', 1, 'Produit de deux matrices carrées d\'ordre 2',
+      return this._Tx(this.makeMcq('TX5', 1, 'Produit de deux matrices carrées d\'ordre 2',
         "Multiplier ligne par colonne",
         `On donne $A = ${M(A)}$ et $B = ${M(B)}$. Calculer $AB$.`,
         `$AB = ${pAB}$`, cands,
         "Le coefficient $(AB)_{i,j}$ est le produit de la ligne $i$ de $A$ par la colonne $j$ de $B$.",
         "Attention : en général $AB \\neq BA$.",
         `$(AB)_{1,1} = ${this._TGSX_sp([[A[0][0], B[0][0]], [A[0][1], B[1][0]]])} = ${AB[0][0]}$, et de même pour les autres coefficients : $AB = ${pAB}$.`
-      );
+      ), [AB[0][0], AB[0][1], AB[1][0], AB[1][1]], MI);
     }
     if (tier === 2) {
-      if (this.randInt(0, 1) === 0) {
+      const r2 = Math.random();
+      if (r2 < 0.3) {
+        // chemins de longueur 2 dans un graphe orienté (matrice d'adjacence)
+        let G;
+        do { G = [0, 1, 2].map(() => [0, 1, 2].map(() => (Math.random() < 0.5 ? 1 : 0))); } while (G.flat().reduce((s, x) => s + x, 0) < 4);
+        const G2 = G.map((r) => [0, 1, 2].map((j) => r.reduce((s, x, k) => s + x * G[k][j], 0)));
+        let i; let j;
+        do { i = this.randInt(0, 2); j = this.randInt(0, 2); } while (G2[i][j] === 0 && Math.random() < 0.8);
+        const n = G2[i][j];
+        const M3 = (X) => `\\begin{pmatrix} ${X.map((r) => r.join(' & ')).join(' \\\\ ')} \\end{pmatrix}`;
+        const via = [0, 1, 2].filter((k) => G[i][k] && G[k][j]).map((k) => `$${i + 1} \\to ${k + 1} \\to ${j + 1}$`);
+        return this.makeMcq('TX5', 2, 'Chemins de longueur 2 dans un graphe',
+          'Interpréter les coefficients de $M^2$ pour une matrice d\'adjacence',
+          `Un graphe orienté de sommets $1$, $2$, $3$ a pour matrice d'adjacence $M = ${M3(G)}$ (le coefficient $(i, j)$ vaut $1$ s'il existe une arête de $i$ vers $j$). Combien existe-t-il de chemins de longueur $2$ allant du sommet $${i + 1}$ au sommet $${j + 1}$ ?`,
+          `$${n}$`,
+          [n + 1, G[i][j], n + 2, n === 0 ? 3 : n - 1].filter((x, k, arr) => x !== n && arr.indexOf(x) === k).map((x) => `$${x}$`),
+          'Le nombre de chemins de longueur $2$ de $i$ vers $j$ est le coefficient $(i, j)$ de $M^2$.',
+          `Calcule le produit de la ligne $${i + 1}$ de $M$ par la colonne $${j + 1}$ de $M$.`,
+          `Le coefficient $(${i + 1}, ${j + 1})$ de $M^2$ vaut $${G[i].map((x, k) => `${x} \\times ${G[k][j]}`).join(' + ')} = ${n}$. ${n ? `Les chemins sont : ${via.join(', ')}.` : 'Aucun sommet intermédiaire ne convient.'}`
+        );
+      }
+      if (r2 < 0.65) {
         let A; let det;
         do { A = rnd(); det = A[0][0] * A[1][1] - A[0][1] * A[1][0]; } while (det === 0 || Math.abs(det) > 6);
         const adj = [[A[1][1], -A[0][1]], [-A[1][0], A[0][0]]];
         const pre = (dd) => (dd === 1 ? '' : dd === -1 ? '-' : (dd < 0 ? '-' : '') + `\\frac{1}{${Math.abs(dd)}}`);
         const ans = `$A^{-1} = ${pre(det)}${M(adj)}$`;
         const cands = [`$A^{-1} = ${pre(-det)}${M(adj)}$`, `$A^{-1} = ${pre(det)}${M([[A[1][1], A[0][1]], [A[1][0], A[0][0]]])}$`, `$A^{-1} = ${pre(det)}${M([[A[0][0], -A[0][1]], [-A[1][0], A[1][1]]])}$`, `$A^{-1} = ${pre(det === 1 ? 2 : 1)}${M(adj)}$`].filter((x) => x !== ans);
-        return this.makeMcq('TX5', 2, 'Inverse d\'une matrice carrée d\'ordre 2',
+        return this._Tx(this.makeMcq('TX5', 2, 'Inverse d\'une matrice carrée d\'ordre 2',
           "Utiliser $\\det(A) = ad - bc$ et $A^{-1} = \\frac{1}{ad - bc}\\begin{pmatrix} d & -b \\\\ -c & a \\end{pmatrix}$",
           `On donne $A = ${M(A)}$. Justifier que $A$ est inversible et déterminer $A^{-1}$.`,
           ans, cands,
           "$A$ est inversible si et seulement si $\\det(A) = ad - bc \\neq 0$.",
           "On échange les coefficients diagonaux et on change le signe des deux autres.",
           `$\\det(A) = ${this._TGSX_sp([[A[0][0], A[1][1]], [-A[0][1], A[1][0]]])} = ${det} \\neq 0$, donc $A$ est inversible et ${ans.slice(1, -1).replace(/^/, '$')}$.`
-        );
+        ), adj.flat().map((x) => this._Tq(x, det)), MI.replace('Saisir les coefficients', 'Saisir les coefficients de $A^{-1}$ (entiers ou fractions)'));
       }
       let b; let c; let d; let m;
       do { b = this.randNonZero(-5, 5); c = this.randNonZero(-5, 5); d = this.randChoice([-3, -2, -1, 1, 2, 3]); } while ((b * c) % d !== 0);
@@ -5702,7 +7208,7 @@ window.MathsLyceeGenerators = {
         const distinct = Math.random() < 0.5;
         const val = (distinct ? A(26, l) : pw(26, l)) * pw(10, c);
         return this._TS3_mcq(3, 'Codes mixtes', 'Appliquer le principe multiplicatif à des codes',
-          `Un identifiant est formé de ${l} lettre${l > 1 ? 's' : ''} (parmi les 26 de l'alphabet) suivie${l > 1 ? 's' : ''} de ${c} chiffre${c > 1 ? 's' : ''} (de 0 à 9). ${distinct && l > 1 ? 'Les lettres sont deux à deux distinctes, les chiffres peuvent se répéter.' : 'Les répétitions sont autorisées.'} Déterminer le nombre $N$ d'identifiants possibles.`,
+          `Un identifiant est formé de ${l} lettre${l > 1 ? 's' : ''} (choisie${l > 1 ? 's' : ''} dans l'alphabet de 26 lettres) suivie${l > 1 ? 's' : ''} de ${c} chiffre${c > 1 ? 's' : ''} (de 0 à 9). ${distinct && l > 1 ? 'Les lettres sont deux à deux distinctes, les chiffres peuvent se répéter.' : 'Les répétitions sont autorisées.'} Déterminer le nombre $N$ d'identifiants possibles.`,
           val, [pw(26, l) * pw(10, c), A(26, l) * pw(10, c), A(26, l) * A(10, c), pw(26, l) + pw(10, c), pw(36, l + c), C(26, l) * pw(10, c)],
           'Les choix des lettres et des chiffres sont successifs : on multiplie.',
           distinct && l > 1 ? 'Pour les lettres distinctes : $26 \\times 25 \\times \\dots$' : 'Chaque position offre 26 (lettre) ou 10 (chiffre) possibilités.',
@@ -5752,7 +7258,7 @@ window.MathsLyceeGenerators = {
         diag ? `Un polygone convexe possède ${n} sommets. Déterminer le nombre $N$ de ses diagonales.`
           : `Lors d'une réunion de ${n} personnes, chacune serre une fois la main de chacune des autres. Déterminer le nombre $N$ de poignées de main échangées.`,
         val, [C(n, 2), n * (n - 3) / 2, n * (n - 1), n * n, C(n, 2) + n],
-        'Une poignée de main ou un segment correspond à une paire de points, sans ordre.',
+        diag ? 'Un segment joignant deux sommets correspond à une paire de sommets, sans ordre.' : 'Une poignée de main correspond à une paire de personnes, sans ordre.',
         diag ? `Parmi les $\\binom{${n}}{2}$ segments joignant deux sommets, ${n} sont des côtés.` : `Il s'agit de $\\binom{${n}}{2}$.`,
         diag ? `$N = \\binom{${n}}{2} - ${n} = ${C(n, 2)} - ${n} = ${val}$.` : `$N = \\binom{${n}}{2} = \\frac{${n} \\times ${n - 1}}{2} = ${val}$.`);
     }
@@ -5996,7 +7502,7 @@ window.MathsLyceeGenerators = {
         // Erreur typique : test inversé
         let wa = a0; let wb = a0 + 1; let waF = false; let wbF = false;
         for (let k = 0; k < Nst; k++) { const m = (wa + wb) / 2; if (f(wa) * f(m) <= 0) { wa = m; waF = true; } else { wb = m; wbF = true; } }
-        return this.makeMcq(T, 3, 'Dichotomie : encadrement',
+        return this._Tx(this.makeMcq(T, 3, 'Dichotomie : encadrement',
           'Exécuter un algorithme de dichotomie',
           `${where} Qu'affiche le programme suivant ?${P([...head, `a = ${a0}`, `b = ${a0 + 1}`, `for k in range(${Nst}):`, ...body, 'print(a, b)'])}`,
           show(r),
@@ -6004,7 +7510,7 @@ window.MathsLyceeGenerators = {
           'À chaque étape, on garde la moitié de l\'intervalle sur laquelle $f$ change de signe : `f(a) * f(m) <= 0` signifie que la solution est dans $[a ; m]$.',
           `Calcule $f$ au milieu de l'intervalle à chacune des ${Nst} étapes.`,
           `$f(${a0}) = ${f(a0)} < 0$ et $f(${a0 + 1}) = ${f(a0 + 1)} > 0$. Intervalles successifs : ${r.tr.map(([x, y]) => `$[${this.dec(x, 6)} ; ${this.dec(y, 6)}]$`).join(', ')}. Le programme affiche ${show(r)} (un nombre resté entier s'affiche sans « .0 »), d'où $${this.dec(r.a, 6)} \\le ${rootTex} \\le ${this.dec(r.b, 6)}$.`
-        );
+        ), [this.dec(r.a, 6).replace('{,}', ','), this.dec(r.b, 6).replace('{,}', ',')], 'Saisir les deux nombres affichés sous la forme (a ; b), avec la virgule décimale.');
       }
       const w = this.randChoice([1, 2]);
       const lo = w === 2 && a0 > 0 && Math.random() < 0.5 ? a0 - 1 : a0;
@@ -6182,9 +7688,657 @@ window.MathsLyceeGenerators = {
   },
 
   // =========================================================================
+  // Familles complémentaires Première (audit du 31/10/2026) — registre _LYX, tirage par _lyX
+  // =========================================================================
+  // ---- 1A1 ----
+  _x1A1fac() {
+    const a = this.randChoice([1, -1, 2, -2, 3, -3]);
+    const r1 = this.randInt(-7, 5);
+    const r2 = r1 + this.randInt(1, 7);
+    return this.makeExact('1A1', 2, 'Factoriser un trinôme',
+      'Factoriser un trinôme à l\'aide de ses racines',
+      `Factoriser $f(x) = ${this.polyX([a, -a * (r1 + r2), a * r1 * r2])}$ sous la forme $a(x - x_1)(x - x_2)$ avec $x_1 < x_2$. Saisir $(a ; x_1 ; x_2)$.`,
+      `(${a};${r1};${r2})`,
+      'Calcule le discriminant pour trouver les racines du trinôme.',
+      `Le coefficient $a$ est celui de $x^2$ ; les racines sont les solutions de $f(x) = 0$.`,
+      `$\\Delta = ${(a * (r1 + r2)) ** 2 - 4 * a * a * r1 * r2} = ${(a * (r2 - r1)) ** 2}$, donc $x_1 = ${r1}$ et $x_2 = ${r2}$. Ainsi $f(x) = ${a === 1 ? '' : a === -1 ? '-' : a}(x ${this.formatSign(-r1)})(x ${this.formatSign(-r2)})$.`.replace(/\(x \+ 0\)|\(x - 0\)/g, 'x'),
+      { instruction: 'Saisir (a ; x1 ; x2), par exemple (2;-3;1).' });
+  },
+
+  _x1A1det() {
+    const r1 = this.randInt(-6, 3);
+    const r2 = r1 + this.randInt(1, 6);
+    let x0 = this.randInt(-4, 6);
+    while (x0 === r1 || x0 === r2) x0 = this.randInt(-4, 6);
+    const a = this.randNonZero(-3, 3);
+    const y0 = a * (x0 - r1) * (x0 - r2);
+    return this.makeExact('1A1', 3, 'Trinôme connaissant ses racines',
+      'Déterminer une fonction polynôme du second degré s\'annulant en deux réels donnés',
+      `La fonction polynôme du second degré $f$ s'annule en $${r1}$ et en $${r2}$, et $f(${x0}) = ${y0}$. Écrire $f(x) = ax^2 + bx + c$ et saisir $(a ; b ; c)$.`,
+      `(${a};${-a * (r1 + r2)};${a * r1 * r2})`,
+      `$f$ s'écrit $f(x) = a(x - x_1)(x - x_2)$ avec $x_1 = ${r1}$ et $x_2 = ${r2}$.`,
+      `Utilise $f(${x0}) = ${y0}$ pour trouver $a$, puis développe.`,
+      `$f(x) = a(x ${this.formatSign(-r1)})(x ${this.formatSign(-r2)})$ et $f(${x0}) = a \\times ${this.paren(x0 - r1)} \\times ${this.paren(x0 - r2)} = ${this.coefStr((x0 - r1) * (x0 - r2), 'a')} = ${y0}$, d'où $a = ${a}$. En développant : $f(x) = ${this.polyX([a, -a * (r1 + r2), a * r1 * r2])}$.`.replace(/\(x \+ 0\)|\(x - 0\)/g, 'x'),
+      { instruction: 'Saisir (a ; b ; c), par exemple (2;-1;-6).' });
+  },
+
+  _x1A1evid() {
+    const a = this.randChoice([1, 2, 3, -1, -2, 4]);
+    const one = this.randChoice([1, -1]);
+    let r = this.randNonZero(-9, 9);
+    if (r === one) r = one * 3;
+    const q = this.randChoice([1, 1, 2, 3]);
+    // racines : one et r/q
+    const A = a * q; const B = -a * (q * one + r); const C = a * one * r;
+    return this.makeExact('1A1', 4, 'Racine évidente',
+      'Factoriser en repérant une racine évidente et le produit des racines',
+      `On remarque que $${one}$ est une racine évidente de $f(x) = ${this.polyX([A, B, C])}$. Déterminer l'autre racine.`,
+      this._xf(r, q),
+      'Le produit des racines d\'un trinôme $ax^2 + bx + c$ vaut $\\frac{c}{a}$.',
+      `Vérifie d'abord que $f(${one}) = 0$, puis utilise $x_1 x_2 = ${this.frac(C, A)}$.`,
+      `$f(${one}) = ${this.poly([[A, ''], [B * one, ''], [C, '']])} = 0$. Le produit des racines vaut $\\frac{c}{a} = ${this.frac(C, A)}$, donc l'autre racine est $${this.frac(C, A)} \\div ${this.paren(one)} = ${this.frac(r, q)}$.`,
+      { instruction: 'Saisir la valeur exacte (entier ou fraction).' });
+  },
+
+  // ---- 1A2 ----
+  _x1A2app() {
+    const fa = this.randInt(-9, 9);
+    const dfa = this.randNonZero(-8, 8);
+    const a = this.randInt(-3, 5);
+    const h = this.randChoice([0.1, -0.1, 0.01, 0.02, -0.05, 0.2]);
+    const v = fa + dfa * h;
+    return this.makeExact('1A2', 2, 'Approximation affine',
+      'Calculer une valeur approchée de $f(a + h)$ par $f(a) + f\'(a)h$',
+      `Une fonction $f$ dérivable vérifie $f(${a}) = ${fa}$ et $f'(${a}) = ${dfa}$. Donner la valeur approchée de $f(${this.dec(a + h)})$ obtenue avec l'approximation affine $f(a + h) \\approx f(a) + f'(a)h$.`,
+      this._xd(v),
+      'Repère $a$ et $h$ : $a + h$ doit valoir le nombre demandé.',
+      `Ici $h$ est l'écart entre $${this.dec(a + h)}$ et $${a}$.`,
+      `$h = ${this.dec(h)}$, donc $f(${this.dec(a + h)}) \\approx ${fa} + ${this.paren(dfa)} \\times ${this.paren(this.dec(h))} = ${this.dec(v)}$. La tangente en $${a}$ approche la courbe au voisinage de $${a}$.`,
+      { instruction: 'Saisir la valeur approchée (nombre décimal).' });
+  },
+
+  _x1A2vit() {
+    const a = this.randChoice([0.5, 1, 2, 3, 4.9, 5]);
+    const b = this.randInt(0, 12);
+    const t0 = this.randInt(1, 6);
+    const v = 2 * a * t0 + b;
+    return this.makeExact('1A2', 2, 'Vitesse instantanée',
+      'Interpréter le nombre dérivé comme une vitesse instantanée',
+      `Un mobile parcourt la distance $d(t) = ${this.poly([[this.dec(a), 't^2'], [b, 't']])}$ (en mètres) au bout de $t$ secondes. Sa vitesse instantanée à l'instant $t$ est $d'(t)$. Calculer sa vitesse à l'instant $t = ${t0}$ s (en m/s).`,
+      this._xd(v),
+      'La vitesse instantanée est le nombre dérivé de la distance par rapport au temps.',
+      '$(t^2)\' = 2t$ et $(t)\' = 1$.',
+      `$d'(t) = ${this.poly([[this.dec(2 * a), 't'], [b, '']])}$, donc $d'(${t0}) = ${this.dec(2 * a)} \\times ${t0}${b ? ` + ${b}` : ''} = ${this.dec(v)}$ m/s.`,
+      { instruction: 'Saisir un nombre (entier ou décimal).' });
+  },
+
+  _x1A2lim() {
+    const c = this.randNonZero(-4, 4);
+    const d = this.randInt(-6, 6);
+    const a = this.randInt(-3, 4);
+    return this.makeExact('1A2', 3, 'Nombre dérivé comme limite',
+      'Calculer un taux de variation et déterminer le nombre dérivé comme limite',
+      `Soit $f(x) = ${this.polyX([c, d, 0])}$ et $h \\neq 0$. Le taux de variation $\\dfrac{f(${a} + h) - f(${a})}{h}$ s'écrit $\\alpha h + \\beta$. Saisir $(\\alpha ; \\beta)$ ; quelle est alors la limite quand $h$ tend vers $0$ ?`,
+      `(${c};${2 * c * a + d})`,
+      `Développe $f(${a} + h)$ en utilisant $(${a} + h)^2 = ${a * a} + ${2 * a}h + h^2$.`.replace('+ 0h + ', '+ ').replace('+ -', '- '),
+      'Simplifie par $h$ : le terme constant restant est la limite, c\'est-à-dire le nombre dérivé.',
+      `$f(${a} + h) - f(${a}) = ${this.poly([[c, 'h^2'], [2 * c * a + d, 'h']])}$, donc le taux vaut $${this.poly([[c, 'h'], [2 * c * a + d, '']])}$ : $\\alpha = ${c}$, $\\beta = ${2 * c * a + d}$. Quand $h$ tend vers $0$, il tend vers $${2 * c * a + d} = f'(${a})$.`,
+      { instruction: 'Saisir (α ; β), par exemple (3;-2).' });
+  },
+
+  // ---- 1A3 ----
+  _x1A3xn() {
+    const a = this.randNonZero(-6, 6);
+    const n = this.randInt(1, 4);
+    const k = -n * a;
+    return this.makeExact('1A3', 2, 'Dérivée de $x^n$ avec $n$ entier négatif',
+      'Dériver $x \\mapsto x^n$ pour $n \\in \\mathbb{Z}$',
+      `Pour $x \\neq 0$, on pose $f(x) = ${a < 0 ? '-' : ''}\\dfrac{${Math.abs(a)}}{${this.pow('x', n)}}$. On a $f'(x) = \\dfrac{k}{x^p}$ : saisir $(k ; p)$.`,
+      `(${k};${n + 1})`,
+      `Écris $f(x) = ${a === 1 ? '' : a === -1 ? '-' : a}x^{${-n}}$.`,
+      '$(x^m)\' = mx^{m-1}$ reste vraie pour $m$ entier négatif.',
+      `$f(x) = ${a === 1 ? '' : a === -1 ? '-' : a}x^{${-n}}$, donc $f'(x) = ${a} \\times (${-n})x^{${-n - 1}} = ${this.coefStr(k, `x^{${-n - 1}}`)} = \\dfrac{${k}}{x^{${n + 1}}}$.`,
+      { instruction: 'Saisir (k ; p), par exemple (-6;3).' });
+  },
+
+  _x1A3pt() {
+    const a = this.randNonZero(-4, 4);
+    const b = this.randInt(-5, 5);
+    const c = this.randNonZero(-3, 3);
+    const d = this.randNonZero(-6, 6);
+    const x0 = this.randNonZero(-3, 3);
+    if (a * x0 + b === 0 || c * x0 * x0 + d === 0) return this._x1A3pt();
+    const v = a * (c * x0 * x0 + d) + (a * x0 + b) * 2 * c * x0;
+    return this.makeExact('1A3', 3, 'Nombre dérivé d\'un produit',
+      'Dériver un produit puis calculer un nombre dérivé',
+      `Soit $f(x) = (${this.polyX([a, b])})(${this.polyX([c, 0, d])})$. Calculer $f'(${x0})$.`,
+      String(v),
+      `Pose $u(x) = ${this.polyX([a, b])}$ et $v(x) = ${this.polyX([c, 0, d])}$ : $f' = u'v + uv'$.`,
+      `$u'(x) = ${a}$ et $v'(x) = ${this.coefStr(2 * c, 'x')}$.`,
+      `$f'(x) = ${a}(${this.polyX([c, 0, d])}) + (${this.polyX([a, b])}) \\times ${this.coefStr(2 * c, 'x')}$. En $x = ${x0}$ : $u(${x0}) = ${a * x0 + b}$, $v(${x0}) = ${c * x0 * x0 + d}$, $v'(${x0}) = ${2 * c * x0}$, donc $f'(${x0}) = ${a} \\times ${this.paren(c * x0 * x0 + d)} + ${this.paren(a * x0 + b)} \\times ${this.paren(2 * c * x0)} = ${v}$.`);
+  },
+
+  _x1A3par() {
+    const a = this.randNonZero(-5, 5);
+    const b = this.randNonZero(-6, 6);
+    const kind = this.randInt(0, 3);
+    let f; let ans; let sol;
+    if (kind === 0) { f = this.poly([[a, 'x^4'], [b, 'x^2']]); ans = 'Paire'; sol = `$f(-x) = ${this.poly([[a, '(-x)^4'], [b, '(-x)^2']])} = f(x)$ : $f$ est paire, sa courbe est symétrique par rapport à l'axe des ordonnées.`; }
+    else if (kind === 1) { f = this.poly([[a, 'x^3'], [b, 'x']]); ans = 'Impaire'; sol = `$f(-x) = ${this.poly([[a, '(-x)^3'], [b, '(-x)']])} = ${this.poly([[-a, 'x^3'], [-b, 'x']])} = -f(x)$ : $f$ est impaire, sa courbe est symétrique par rapport à l'origine.`; }
+    else if (kind === 2) { f = `${this.coefStr(a, 'x')}\\sqrt{x^2 + ${Math.abs(b)}}`; ans = 'Impaire'; sol = `$\\sqrt{(-x)^2 + ${Math.abs(b)}} = \\sqrt{x^2 + ${Math.abs(b)}}$, donc $f(-x) = -f(x)$ : $f$ est impaire.`; }
+    else { f = this.poly([[a, 'x^2'], [b, 'x'], [1, '']]); ans = 'Ni paire ni impaire'; sol = `$f(1) = ${a + b + 1}$ et $f(-1) = ${a - b + 1}$ : on n'a ni $f(-1) = f(1)$ ni $f(-1) = -f(1)$, donc $f$ n'est ni paire ni impaire.`; }
+    if (kind === 3 && (a - b + 1 === a + b + 1 || a - b + 1 === -(a + b + 1))) return this._x1A3par();
+    return this._xa('keep', '1A3', 3, 'Parité d\'une fonction',
+      'Reconnaître une fonction paire ou impaire et la symétrie de sa courbe',
+      `La fonction $f$ définie sur $\\mathbb{R}$ par $f(x) = ${f}$ est-elle paire, impaire, ou ni l'un ni l'autre ?`,
+      ans, ['Paire', 'Impaire', 'Ni paire ni impaire', 'Paire et impaire'].filter((s) => s !== ans),
+      'Calcule $f(-x)$ et compare-le à $f(x)$ et à $-f(x)$.',
+      'Paire : $f(-x) = f(x)$ (symétrie par rapport à l\'axe des ordonnées) ; impaire : $f(-x) = -f(x)$ (symétrie par rapport à l\'origine).',
+      sol);
+  },
+
+  // ---- 1A4 ----
+  _x1A4ext() {
+    const a = this.randNonZero(-4, 4);
+    const b = this.randInt(-6, 6);
+    const k = this.randChoice([1, 1, 2, -1, -2, 3]);
+    // f(x) = (ax + b)e^{kx} ; f'(x) = (akx + a + bk)e^{kx} ; annulation en -(a + bk)/(ak)
+    return this.makeExact('1A4', 4, 'Abscisse de l\'extremum de $(ax + b)e^{kx}$',
+      'Étudier le signe de la dérivée d\'une fonction $(ax + b)e^{kx}$',
+      `Soit $f(x) = (${this.polyX([a, b])})${k === 1 ? 'e^{x}' : `e^{${this.coefStr(k, 'x')}}`}$ sur $\\mathbb{R}$. La fonction $f$ admet un extremum : en quelle abscisse ?`,
+      this._xf(-(a + b * k), a * k),
+      'Dérive avec $(uv)\' = u\'v + uv\'$ et $(e^{kx})\' = ke^{kx}$.',
+      'Comme $e^{kx} > 0$, $f\'(x)$ a le signe d\'une expression affine : cherche où elle s\'annule.',
+      `$f'(x) = ${this.coefStr(a, `e^{${this.coefStr(k, 'x')}}`)} + (${this.polyX([a, b])}) \\times ${k === 1 ? '' : this.paren(k)}e^{${this.coefStr(k, 'x')}} = (${this.polyX([a * k, a + b * k])})e^{${this.coefStr(k, 'x')}}$. Elle s'annule en changeant de signe pour $x = ${this.frac(-(a + b * k), a * k)}$ : c'est l'abscisse de l'extremum.`.replace(/e\^\{x\}/g, 'e^{x}'),
+      { instruction: 'Saisir la valeur exacte (entier ou fraction).' });
+  },
+
+  _x1A4mod() {
+    const N0 = this.randChoice([100, 200, 500, 1000, 2000]);
+    const t = this.randChoice([2, 5, 10, 20, -10, -20, -5]);
+    const n = this.randInt(2, 5);
+    const q = 1 + t / 100;
+    const v = Math.round(N0 * q ** n * 100) / 100;
+    return this.makeExact('1A4', 3, 'Croissance exponentielle discrète',
+      'Modéliser une évolution à taux constant (lien avec les suites géométriques)',
+      `Une population de $${N0}$ individus ${t > 0 ? 'augmente' : 'diminue'} de $${Math.abs(t)}\\,\\%$ par an. On modélise son effectif après $n$ années par $N(n) = ${N0} \\times ${this.dec(q)}^n$. Calculer $N(${n})$ (arrondir au centième).`,
+      this._xd(v, 2),
+      `${t > 0 ? 'Augmenter' : 'Diminuer'} de $${Math.abs(t)}\\,\\%$ revient à multiplier par $${this.dec(q)}$.`,
+      `Calcule $${this.dec(q)}^{${n}}$ puis multiplie par $${N0}$.`,
+      `$N(${n}) = ${N0} \\times ${this.dec(q)}^{${n}} \\approx ${this.dec(v, 2)}$. La suite $(N(n))$ est géométrique de raison $${this.dec(q)}$ : c'est une évolution exponentielle.`,
+      { instruction: 'Saisir la valeur arrondie au centième, par exemple 1102,5.' });
+  },
+
+  // ---- 1A5 ----
+  _x1A5var() {
+    const k = this.randInt(4, 15);
+    const c = this.randInt(-5, 5);
+    // u_n = n^2 - k n + c ; u_{n+1} - u_n = 2n + 1 - k >= 0 <=> n >= (k - 1)/2
+    const n0 = Math.ceil((k - 1) / 2);
+    return this.makeExact('1A5', 3, 'Rang à partir duquel une suite croît',
+      'Étudier le sens de variation d\'une suite par le signe de $u_{n+1} - u_n$',
+      `Soit $u_n = ${this.polyX([1, -k, c], 'n')}$ pour tout $n \\in \\mathbb{N}$. À partir de quel rang $n_0$ a-t-on $u_{n+1} \\ge u_n$ pour tout $n \\ge n_0$ ? Donner le plus petit $n_0$.`,
+      String(n0),
+      'Calcule $u_{n+1} - u_n$ en fonction de $n$.',
+      '$(n + 1)^2 - n^2 = 2n + 1$.',
+      `$u_{n+1} - u_n = 2n + 1 - ${k} = ${this.polyX([2, 1 - k], 'n')}$, positif ou nul si et seulement si $n \\ge ${this.frac(k - 1, 2)}$. Le plus petit entier qui convient est $n_0 = ${n0}$.`,
+      { instruction: 'Saisir un nombre entier.' });
+  },
+
+  _x1A5lim() {
+    const k = this.randInt(-9, 9);
+    const c = this.randInt(1, 9);
+    const p = this.randInt(1, 3);
+    const sg = this.randChoice([1, -1]);
+    return this.makeExact('1A5', 4, 'Conjecturer une limite',
+      'Conjecturer la limite éventuelle d\'une suite',
+      `Soit $u_n = ${k} ${sg > 0 ? '+' : '-'} \\dfrac{${c}}{${p === 1 ? 'n + 1' : `n^${p} + 1`}}$ pour tout $n \\in \\mathbb{N}$. En calculant des termes de rang élevé, conjecturer la limite de $(u_n)$.`,
+      String(k),
+      `Que devient $\\dfrac{${c}}{${p === 1 ? 'n + 1' : `n^${p} + 1`}}$ quand $n$ devient très grand ?`,
+      'Calcule par exemple $u_{100}$ et $u_{1000}$.',
+      `Quand $n$ devient grand, le dénominateur devient très grand, donc $\\dfrac{${c}}{${p === 1 ? 'n + 1' : `n^${p} + 1`}}$ se rapproche de $0$ : par exemple $u_{1000} \\approx ${this.dec(k + sg * c / (1000 ** p + 1), 6)}$. On conjecture que $(u_n)$ tend vers $${k}$.`,
+      { instruction: 'Saisir la valeur de la limite.' });
+  },
+
+  // ---- 1A6 ----
+  _x1A6gen() {
+    const geo = Math.random() < 0.5;
+    const p = this.randInt(1, 5);
+    if (!geo) {
+      const r = this.randNonZero(-7, 7);
+      const u0 = this.randInt(-10, 15);
+      const up = u0 + p * r;
+      return this.makeExact('1A6', 2, 'Terme général d\'une suite arithmétique',
+        'Exprimer $u_n$ en fonction de $n$',
+        `$(u_n)$ est arithmétique de raison $${r}$ et $u_{${p}} = ${up}$. On a $u_n = a + bn$ pour tout $n$ : saisir $(a ; b)$.`,
+        `(${u0};${r})`,
+        '$u_n = u_0 + nr$.',
+        `Calcule d'abord $u_0 = u_{${p}} - ${p} \\times r$.`,
+        `$u_0 = ${up} - ${p} \\times ${this.paren(r)} = ${u0}$, donc $u_n = ${this.poly([[u0, ''], [r, 'n']])}$ : $(a ; b) = (${u0} ; ${r})$.`,
+        { instruction: 'Saisir (a ; b), par exemple (5;-3).' });
+    }
+    const q = this.randChoice([2, 3, -2, 0.5]);
+    const v0 = this.randChoice([1, 2, 3, 4, 5, 6, 8]) * (q === 0.5 ? 2 ** p : 1);
+    const vp = v0 * q ** p;
+    return this.makeExact('1A6', 2, 'Terme général d\'une suite géométrique',
+      'Exprimer $v_n$ en fonction de $n$',
+      `$(v_n)$ est géométrique de raison $${this.dec(q)}$ et $v_{${p}} = ${this.dec(vp)}$. On a $v_n = a \\times b^n$ pour tout $n$ : saisir $(a ; b)$.`,
+      `(${this._xd(v0)};${this._xd(q)})`,
+      '$v_n = v_0 \\times q^n$.',
+      `Calcule $v_0 = \\dfrac{v_{${p}}}{${this.pow('q', p)}}$.`,
+      `$v_0 = ${this.dec(vp)} \\div ${p === 1 ? this.paren(this.dec(q)) : `${this.paren(this.dec(q))}^{${p}}`} = ${this.dec(vp)} \\div ${this.paren(this.dec(q ** p))} = ${this.dec(v0)}$, donc $v_n = ${this.dec(v0)} \\times ${this.paren(this.dec(q))}^n$.`,
+      { instruction: 'Saisir (a ; b), par exemple (3;2) ou (4;0,5).' });
+  },
+
+  // ---- 1G1 ----
+  _x1G1arc(tier) {
+    const R = this.randInt(2, 12);
+    const d = this.randChoice([2, 3, 4, 6, 12]);
+    let p = this.randInt(1, 2 * d - 1);
+    while (this.gcd(p, d) !== 1) p = this.randInt(1, 2 * d - 1);
+    const th = this._1re_pi(p, d);
+    if (tier <= 2) {
+      return this.makeExact('1G1', tier, 'Longueur d\'un arc',
+        'Utiliser le radian : longueur d\'arc $L = R\\theta$',
+        `Sur un cercle de rayon $${R}$ cm, un arc intercepte un angle au centre de $${th}$ rad. Sa longueur s'écrit $k\\pi$ cm : saisir $k$.`,
+        this._xf(R * p, d),
+        'Un angle de 1 radian intercepte un arc de longueur égale au rayon.',
+        'La longueur de l\'arc est proportionnelle à l\'angle : $L = R \\times \\theta$.',
+        `$L = ${R} \\times ${th} = ${this._1re_pi(R * p, d)}$ cm, donc $k = ${this.frac(R * p, d)}$.`,
+        { instruction: 'Saisir $k$ (entier ou fraction), par exemple 5/3.' });
+    }
+    return this.makeExact('1G1', tier, 'Angle interceptant un arc',
+      'Utiliser le radian : $\\theta = \\frac{L}{R}$',
+      `Sur un cercle de rayon $${R}$ cm, un arc a pour longueur $${this._1re_pi(R * p, d)}$ cm. L'angle au centre qui l'intercepte mesure $k\\pi$ rad : saisir $k$.`,
+      this._xf(p, d),
+      '$L = R \\times \\theta$ avec $\\theta$ en radians.',
+      `Divise la longueur par le rayon $${R}$.`,
+      `$\\theta = \\dfrac{L}{R} = ${this._1re_pi(R * p, d)} \\div ${R} = ${th}$ rad, donc $k = ${this.frac(p, d)}$.`,
+      { instruction: 'Saisir $k$ (entier ou fraction), par exemple 3/4.' });
+  },
+
+  _x1G1sum() {
+    // angles dont le cosinus / sinus est rationnel
+    const cosA = [[0, 1, 1], [1, 3, 0.5], [1, 2, 0], [2, 3, -0.5], [1, 1, -1], [4, 3, -0.5], [-1, 3, 0.5], [-2, 3, -0.5]];
+    const sinA = [[1, 6, 0.5], [1, 2, 1], [5, 6, 0.5], [7, 6, -0.5], [-1, 6, -0.5], [-1, 2, -1], [3, 2, -1], [11, 6, -0.5]];
+    const [p1, d1, c1] = this.randChoice(cosA);
+    const [p2, d2, s2] = this.randChoice(sinA);
+    let p3; let d3; let c3;
+    do { [p3, d3, c3] = this.randChoice(cosA); } while ((p3 === p1 && d3 === d1) || c3 === 0);
+    const k = this.randChoice([2, 3, 4]);
+    const tot = c1 + k * s2 - c3;
+    const A1 = this._1re_pi(p1, d1); const A2 = this._1re_pi(p2, d2); const A3 = this._1re_pi(p3, d3);
+    const ex = (v) => this._1G1_exact(v);
+    return this.makeExact('1G1', 4, 'Calcul avec des valeurs remarquables',
+      'Lire sur le cercle trigonométrique les cosinus et sinus de valeurs remarquables',
+      `Calculer la valeur exacte de $A = \\cos\\left(${A1}\\right) + ${k}\\sin\\left(${A2}\\right) - \\cos\\left(${A3}\\right)$.`,
+      this._xf(Math.round(tot * 2), 2),
+      'Place chacun des trois points sur le cercle trigonométrique.',
+      'Le cosinus est l\'abscisse du point associé, le sinus son ordonnée ; ramène-toi si besoin à $]-\\pi ; \\pi]$.',
+      `$\\cos\\left(${A1}\\right) = ${ex(c1)}$, $\\sin\\left(${A2}\\right) = ${ex(s2)}$ et $\\cos\\left(${A3}\\right) = ${ex(c3)}$. Donc $A = ${ex(c1)} + ${k} \\times ${this.paren(ex(s2))} - ${this.paren(ex(c3))} = ${this.frac(Math.round(tot * 2), 2)}$.`,
+      { instruction: 'Saisir la valeur exacte (entier ou fraction), par exemple -3/2.' });
+  },
+
+  // ---- 1S1 ----
+  _x1S1bern(tier) {
+    const n = tier >= 4 ? this.randInt(3, 4) : this.randInt(2, 3);
+    const p = this.randChoice([0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]);
+    const ask = this.randInt(0, 2);
+    const C = (m, k) => { let r = 1; for (let i = 0; i < k; i++) r = r * (m - i) / (i + 1); return r; };
+    let k; let res; let lab; let sol;
+    if (ask === 0) { k = n; res = p ** n; lab = `obtenir ${n} succès`; sol = `Un seul chemin de l'arbre : $P = ${this.dec(p)}^{${n}} = ${this.dec(res, 6)}$.`; }
+    else if (ask === 1) { k = 0; res = 1 - (1 - p) ** n; lab = 'obtenir au moins un succès'; sol = `L'événement contraire est « aucun succès », de probabilité $${this.dec(1 - p)}^{${n}} = ${this.dec((1 - p) ** n, 6)}$. Donc $P = 1 - ${this.dec((1 - p) ** n, 6)} = ${this.dec(res, 6)}$.`; }
+    else { k = this.randInt(1, n - 1); res = C(n, k) * p ** k * (1 - p) ** (n - k); lab = `obtenir exactement ${k} succès`; sol = `Dans l'arbre, $${C(n, k)}$ chemins comportent exactement ${k} succès ; chacun a pour probabilité $${this.dec(p)}^{${k}} \\times ${this.dec(1 - p)}^{${n - k}}$. Donc $P = ${C(n, k)} \\times ${this.dec(p ** k, 6)} \\times ${this.dec((1 - p) ** (n - k), 6)} = ${this.dec(res, 6)}$.`; }
+    return this.makeExact('1S1', tier, 'Répétition d\'épreuves de Bernoulli',
+      'Représenter par un arbre la répétition d\'épreuves de Bernoulli indépendantes',
+      `On répète $${n}$ fois, de façon indépendante, une épreuve de Bernoulli dont la probabilité de succès est $${this.dec(p)}$. Calculer la probabilité d'${lab}.`,
+      this._xd(res, 6),
+      `Construis l'arbre à $${n}$ niveaux : chaque branche « succès » porte $${this.dec(p)}$, chaque branche « échec » porte $${this.dec(1 - p)}$.`,
+      ask === 1 ? 'Passe par l\'événement contraire.' : 'Multiplie les probabilités le long d\'un chemin, puis additionne les chemins favorables.',
+      sol,
+      { instruction: 'Saisir la valeur exacte (nombre décimal), par exemple 0,384.' });
+  },
+
+  // ---- 1S2 ----
+  _x1S2cum(tier) {
+    const k = this.randInt(4, 5);
+    const xs = this.pickDistinct([-5, -3, -2, -1, 0, 1, 2, 3, 4, 5, 8, 10], k).sort((u, v) => u - v);
+    let ps;
+    do {
+      ps = Array.from({ length: k - 1 }, () => this.randInt(1, 6) * 5);
+      ps.push(100 - ps.reduce((s, x) => s + x, 0));
+    } while (ps[k - 1] < 5 || ps[k - 1] > 40);
+    const a = xs[this.randInt(1, k - 2)];
+    const op = this.randChoice(['\\le', '<', '>', '\\ge']);
+    const ok = (x) => (op === '\\le' ? x <= a : op === '<' ? x < a : op === '>' ? x > a : x >= a);
+    const res = xs.reduce((s, x, i) => s + (ok(x) ? ps[i] : 0), 0) / 100;
+    return this.makeExact('1S2', tier, 'Probabilité d\'un événement $\\{X \\le a\\}$',
+      'Interpréter et calculer $P(X \\le a)$ à partir de la loi de $X$',
+      `La loi de probabilité d'une variable aléatoire $X$ est donnée par le tableau :${this._xtab(['$x_i$', ...xs.map((x) => `$${x}$`)], [['$P(X = x_i)$', ...ps.map((p) => `$${this.dec(p / 100)}$`)]])}Calculer $P(X ${op} ${a})$.`,
+      this._xd(res),
+      `L'événement $\\{X ${op} ${a}\\}$ est réalisé pour certaines valeurs $x_i$ seulement.`,
+      `Repère les valeurs $x_i$ telles que $x_i ${op} ${a}$${op === '<' || op === '>' ? ` (attention : $${a}$ est exclu)` : ` (attention : $${a}$ est inclus)`}, puis additionne leurs probabilités.`,
+      `Les valeurs qui conviennent sont $${xs.filter(ok).join('$, $')}$. Donc $P(X ${op} ${a}) = ${xs.map((x, i) => (ok(x) ? this.dec(ps[i] / 100) : null)).filter((v) => v !== null).join(' + ')} = ${this.dec(res)}$.`,
+      { instruction: 'Saisir un nombre décimal, par exemple 0,45.' });
+  },
+
+  _x1S2jeu() {
+    const faces = 6;
+    const win = this.randInt(1, 3); // faces gagnantes
+    const g = this.randInt(2, 10);
+    const m = this.randInt(1, 4);
+    const ask = this.randInt(0, 1);
+    const pw = this.frac(win, faces);
+    return this.makeExact('1S2', 2, 'Loi d\'un gain',
+      'Modéliser un jeu par une variable aléatoire et déterminer sa loi',
+      `On lance un dé équilibré à 6 faces. Si l'on obtient ${win === 1 ? 'un 6' : win === 2 ? 'un 5 ou un 6' : 'un 4, un 5 ou un 6'}, on gagne $${g}$ € ; sinon on perd $${m}$ €. On note $X$ le gain algébrique. ${ask === 0 ? `Calculer $P(X = ${g})$.` : `Calculer $P(X = -${m})$.`}`,
+      ask === 0 ? this._xf(win, faces) : this._xf(faces - win, faces),
+      'Les six faces sont équiprobables.',
+      ask === 0 ? 'Compte les faces qui font gagner.' : 'Compte les faces qui font perdre.',
+      `$X$ prend les valeurs $${g}$ et $-${m}$. $P(X = ${g}) = ${pw}$ et $P(X = -${m}) = ${this.frac(faces - win, faces)}$ (la somme vaut 1).`,
+      { instruction: 'Saisir une fraction irréductible, par exemple 1/3.' });
+  },
+
+  _x1S2sd() {
+    // loi à deux ou trois valeurs, variance décimale
+    const xs = this.pickDistinct([-4, -2, -1, 0, 1, 2, 3, 5, 6], 3).sort((u, v) => u - v);
+    let ps;
+    do { ps = [this.randInt(1, 8), this.randInt(1, 8)].map((x) => x * 10); } while (ps[0] + ps[1] >= 100);
+    ps.push(100 - ps[0] - ps[1]);
+    const E = xs.reduce((s, x, i) => s + x * ps[i], 0) / 100;
+    const Vv = xs.reduce((s, x, i) => s + (x - E) ** 2 * ps[i], 0) / 100;
+    if (Vv === 0) return this._x1S2sd();
+    return this.makeExact('1S2', 4, 'Écart type d\'une variable aléatoire',
+      'Calculer l\'écart type $\\sigma(X) = \\sqrt{V(X)}$',
+      `La loi de $X$ est donnée par :${this._xtab(['$x_i$', ...xs.map((x) => `$${x}$`)], [['$P(X = x_i)$', ...ps.map((p) => `$${this.dec(p / 100)}$`)]])}Calculer l'écart type $\\sigma(X)$, arrondi au centième.`,
+      this._xd(Math.round(Math.sqrt(Vv) * 100) / 100, 2),
+      'Calcule d\'abord l\'espérance $E(X)$.',
+      '$V(X) = \\sum p_i (x_i - E(X))^2$ (ou $E(X^2) - E(X)^2$), puis $\\sigma(X) = \\sqrt{V(X)}$.',
+      `$E(X) = ${xs.map((x, i) => `${this.dec(ps[i] / 100)} \\times ${this.paren(x)}`).join(' + ')} = ${this.dec(E)}$. $V(X) = ${this.dec(Vv, 6)}$, donc $\\sigma(X) = \\sqrt{${this.dec(Vv, 6)}} \\approx ${this.dec(Math.sqrt(Vv), 2)}$.`,
+      { instruction: 'Saisir la valeur arrondie au centième, par exemple 1,73.' });
+  },
+
+  // ---- compléments demandés (alignement BO 2026) ----
+  _x2N1card() {
+    const N = this.randInt(20, 60);
+    let a = this.randInt(2, 7);
+    let b = this.randInt(2, 9);
+    while (b === a || this.lcm(a, b) > N) { a = this.randInt(2, 7); b = this.randInt(2, 9); }
+    if (a > b) [a, b] = [b, a];
+    const l = this.lcm(a, b);
+    const ca = Math.floor(N / a); const cb = Math.floor(N / b); const ci = Math.floor(N / l);
+    const askU = Math.random() < 0.5;
+    return this.makeExact('2N1', 3, askU ? 'Cardinal d\'une réunion' : 'Cardinal d\'une intersection',
+      'Dénombrer les multiples d\'un entier dans un ensemble fini',
+      `On note $E$ l'ensemble des entiers de $1$ à $${N}$, $A$ l'ensemble des multiples de $${a}$ de $E$ et $B$ celui des multiples de $${b}$ de $E$. Déterminer $\\text{Card}(A ${askU ? '\\cup' : '\\cap'} B)$.`,
+      String(askU ? ca + cb - ci : ci),
+      `Un entier est dans $A \\cap B$ s'il est multiple à la fois de $${a}$ et de $${b}$.`,
+      askU ? '$\\text{Card}(A \\cup B) = \\text{Card}(A) + \\text{Card}(B) - \\text{Card}(A \\cap B)$.' : `Cherche le plus petit multiple commun de $${a}$ et $${b}$.`,
+      `$\\text{Card}(A) = ${ca}$ et $\\text{Card}(B) = ${cb}$ (quotients entiers de $${N}$ par $${a}$ et $${b}$). Les éléments de $A \\cap B$ sont les multiples de $${l}$ : il y en a $${ci}$.${askU ? ` Donc $\\text{Card}(A \\cup B) = ${ca} + ${cb} - ${ci} = ${ca + cb - ci}$.` : ''}`,
+      { instruction: 'Saisir un nombre entier.' });
+  },
+
+  _x2N3sig(tier) {
+    const e = this.randInt(-3, 4);
+    const m = this.randInt(100000, 999999);
+    const x = m * 10 ** (e - 5);
+    const k = this.randChoice([2, 3]);
+    const ord = e;
+    const mr = Math.round(m / 10 ** (6 - k)) * 10 ** (6 - k);
+    const r = e <= 5 ? mr / 10 ** (5 - e) : mr * 10 ** (e - 5);
+    const D = Math.max(0, -(ord - k + 1));
+    const ctx = this.randChoice(['une masse (en g)', 'une longueur (en m)', 'une durée (en s)', 'un volume (en L)']);
+    return this.makeExact('2N3', tier, 'Arrondi et chiffres significatifs',
+      'Arrondir en donnant un nombre de chiffres significatifs adapté',
+      `Un calcul donne ${ctx} : $${Number.isInteger(Math.round(x * 1e9) / 1e9) ? this._2N5_int(Math.round(x)) : this.dec(x, 9)}$. Arrondir ce résultat à ${k} chiffres significatifs.`,
+      this._xd(r, D),
+      'Les chiffres significatifs se comptent à partir du premier chiffre non nul.',
+      `Repère le ${k === 2 ? 'deuxième' : 'troisième'} chiffre significatif, puis regarde le suivant pour arrondir.`,
+      `Les ${k} premiers chiffres significatifs, après arrondi, donnent $${this.dec(r, D)}$.`,
+      { instruction: 'Saisir la valeur arrondie (virgule décimale), par exemple 0,0347.' });
+  },
+
+  _x2N3cmp() {
+    const quot = Math.random() < 0.5;
+    if (!quot) {
+      const [a, b, c, d] = [this.randInt(1, 12), this.randInt(2, 12), this.randInt(1, 12), this.randInt(2, 12)];
+      if (a * d === b * c || this.gcd(a, b) !== 1 || this.gcd(c, d) !== 1) return this._x2N3cmp();
+      return this.makeExact('2N3', 2, 'Comparer par la différence',
+        'Comparer deux nombres en étudiant le signe de leur différence',
+        `On pose $A = \\dfrac{${a}}{${b}}$ et $B = \\dfrac{${c}}{${d}}$. Calculer $A - B$ (fraction irréductible) ; on en déduira lequel est le plus grand.`,
+        this._xf(a * d - b * c, b * d),
+        'Réduis les deux fractions au même dénominateur.',
+        'Le signe de $A - B$ indique lequel des deux nombres est le plus grand.',
+        `$A - B = \\dfrac{${a * d} - ${b * c}}{${b * d}} = ${this.frac(a * d - b * c, b * d)}$, ${a * d - b * c > 0 ? 'positif : $A > B$' : 'négatif : $A < B$'}.`,
+        { instruction: 'Saisir une fraction irréductible, par exemple -7/12.' });
+    }
+    const B = this.randChoice([20, 25, 40, 50, 80, 120, 150, 200]);
+    const r = this.randChoice([0.5, 0.75, 1.2, 1.25, 1.5, 2, 2.5, 3, 0.8, 0.4]);
+    const A = B * r;
+    if (!Number.isInteger(A)) return this._x2N3cmp();
+    const ctx = this.randChoice(['Le prix d\'un vélo électrique', 'La population d\'une ville', 'La distance d\'un trajet']);
+    return this.makeExact('2N3', 2, 'Comparer par le quotient',
+      'Comparer deux quantités positives par leur rapport',
+      `${ctx} vaut $A = ${A}$ et celle d'une référence vaut $B = ${B}$. Calculer le rapport $\\dfrac{A}{B}$.`,
+      this._xd(r),
+      'Pour deux nombres strictement positifs, on compare leur quotient à 1.',
+      `Calcule $${A} \\div ${B}$.`,
+      `$\\dfrac{A}{B} = ${A} \\div ${B} = ${this.dec(r)}$ : ${r > 1 ? `$A$ vaut ${this.dec(r)} fois $B$, donc $A > B$` : r < 1 ? `$A$ ne représente que $${this.dec(r)}$ fois $B$, donc $A < B$` : '$A = B$'}.`,
+      { instruction: 'Saisir un nombre décimal, par exemple 1,25.' });
+  },
+
+  _x2N4sq() {
+    const r = this.randInt(1, 15);
+    return this.makeExact('2N4', 1, 'Équation $x^2 = a$',
+      'Résoudre une équation du type $x^2 = a$',
+      `Résoudre dans $\\mathbb{R}$ l'équation $x^2 = ${r * r}$.`,
+      `(${-r};${r})`,
+      'Si $a > 0$, l\'équation $x^2 = a$ a deux solutions opposées.',
+      `Cherche les nombres dont le carré vaut $${r * r}$.`,
+      `$x^2 = ${r * r} \\iff x = -\\sqrt{${r * r}}$ ou $x = \\sqrt{${r * r}}$, soit $x = -${r}$ ou $x = ${r}$.`,
+      { instruction: 'Saisir les deux solutions dans l\'ordre croissant : (x1 ; x2).' });
+  },
+
+  _x2N4inv() {
+    const a = this.randNonZero(-12, 12);
+    const b = this.randNonZero(-9, 9);
+    return this.makeExact('2N4', 1, 'Équation $\\frac{a}{x} = b$',
+      'Résoudre une équation du type $\\frac{a}{x} = b$',
+      `Résoudre dans $\\mathbb{R}^*$ l'équation $\\dfrac{${a}}{x} = ${b}$.`,
+      this._xf(a, b),
+      'Pour $x \\neq 0$, multiplie les deux membres par $x$.',
+      `On obtient $${this.coefStr(b, 'x')} = ${a}$.`,
+      `Pour $x \\neq 0$ : $\\dfrac{${a}}{x} = ${b} \\iff ${a} = ${this.coefStr(b, 'x')} \\iff x = ${this.frac(a, b)}$.`);
+  },
+
+  _x2N4iso() {
+    if (Math.random() < 0.5) {
+      const a = this.randNonZero(-6, 6);
+      const b = this.randNonZero(-6, 6);
+      const c = this.randInt(-12, 12);
+      return this.makeExact('2N4', 2, 'Isoler une variable',
+        'Exprimer une variable en fonction d\'une autre dans $ax + by = c$',
+        `On considère la relation $${this.poly([[a, 'x'], [b, 'y']])} = ${c}$. Exprimer $y$ en fonction de $x$ sous la forme $y = mx + p$ et saisir $(m ; p)$.`,
+        `(${this._xf(-a, b)};${this._xf(c, b)})`,
+        'Fais passer le terme en $x$ dans l\'autre membre.',
+        `Divise ensuite les deux membres par $${b}$.`,
+        `$${this.poly([[a, 'x'], [b, 'y']])} = ${c} \\iff ${this.coefStr(b, 'y')} = ${this.poly([[-a, 'x'], [c, '']])} \\iff y = ${this.poly([[this.frac(-a, b), 'x'], [this.frac(c, b), '']])}$.`,
+        { instruction: 'Saisir (m ; p), par exemple (-2/3;4).' });
+    }
+    const f = this.randChoice([
+      ['U = R \\times I', 'R', 'U', 'I', 'V', 'A', 'Ω'], ['d = v \\times t', 'v', 'd', 't', 'km', 'h', 'km/h'], ['P = U \\times I', 'I', 'P', 'U', 'W', 'V', 'A']]);
+    const y = this.randChoice([2, 4, 5, 8, 10, 0.5, 2.5]);
+    const res = this.randInt(2, 60);
+    const x = res * y;
+    return this.makeExact('2N4', 2, 'Isoler une variable dans une formule',
+      'Exprimer une variable en fonction des autres et faire une application numérique',
+      `On a la relation $${f[0]}$. Exprimer $${f[1]}$ en fonction de $${f[2]}$ et $${f[3]}$, puis calculer $${f[1]}$ (en ${f[6]}) pour $${f[2]} = ${this.dec(x)}$ ${f[4]} et $${f[3]} = ${this.dec(y)}$ ${f[5]}.`,
+      String(res),
+      `Divise les deux membres par $${f[3]}$ (non nul).`,
+      `$${f[1]} = \\dfrac{${f[2]}}{${f[3]}}$.`,
+      `$${f[1]} = \\dfrac{${f[2]}}{${f[3]}} = \\dfrac{${this.dec(x)}}{${this.dec(y)}} = ${res}$ ${f[6]}.`,
+      { instruction: 'Saisir un nombre.' });
+  },
+
+  _x2A3abs(tier) {
+    if (tier <= 2) {
+      const a = this.randNonZero(-15, 15);
+      const b = this.randNonZero(-15, 15);
+      return this.makeExact('2A3', tier, 'Fonction valeur absolue',
+        'Connaître la fonction valeur absolue',
+        `Soit $f$ la fonction valeur absolue : $f(x) = |x|$. Calculer $f(${a}) - f(${b})$.`,
+        String(Math.abs(a) - Math.abs(b)),
+        '$|x| = x$ si $x \\ge 0$ et $|x| = -x$ si $x < 0$.',
+        'Calcule séparément chaque image : elles sont positives ou nulles.',
+        `$f(${a}) = |${a}| = ${Math.abs(a)}$ et $f(${b}) = |${b}| = ${Math.abs(b)}$, donc $f(${a}) - f(${b}) = ${Math.abs(a)} - ${Math.abs(b)} = ${Math.abs(a) - Math.abs(b)}$.`);
+    }
+    if (tier === 3) {
+      const k = this.randInt(1, 12);
+      const large = Math.random() < 0.5;
+      return this.makeExact('2A3', 3, 'Inéquation avec la fonction valeur absolue',
+        'Résoudre $|x| \\le k$ à l\'aide de la courbe de la fonction valeur absolue',
+        `L'ensemble des solutions de l'inéquation $|x| ${large ? '\\le' : '<'} ${k}$ est un intervalle de bornes $m < M$. Saisir $(m ; M)$.`,
+        `(${-k};${k})`,
+        'La courbe de $x \\mapsto |x|$ est formée de deux demi-droites symétriques par rapport à l\'axe des ordonnées.',
+        `$|x|$ est la distance de $x$ à $0$ : cherche les réels à distance ${large ? 'au plus' : 'strictement inférieure à'} ${k} de $0$.`,
+        `$|x| ${large ? '\\le' : '<'} ${k} \\iff -${k} ${large ? '\\le' : '<'} x ${large ? '\\le' : '<'} ${k}$ : $S = ${this._2nd_iv(large, -k, k, large)}$, bornes $-${k}$ et $${k}$.`,
+        { instruction: 'Saisir (m ; M), par exemple (-4;4).' });
+    }
+    const a = this.randInt(-8, -1);
+    const b = this.randInt(1, 8);
+    const M = Math.max(-a, b);
+    return this.makeExact('2A3', 4, 'Extremums de la fonction valeur absolue',
+      'Utiliser les variations de la fonction valeur absolue',
+      `Soit $f(x) = |x|$ sur l'intervalle $[${a} ; ${b}]$. Donner le minimum $m$ et le maximum $M$ de $f$ sur cet intervalle : saisir $(m ; M)$.`,
+      `(0;${M})`,
+      'La fonction valeur absolue est décroissante sur $]-\\infty ; 0]$ et croissante sur $[0 ; +\\infty[$.',
+      `L'intervalle contient $0$ : compare $f(${a})$ et $f(${b})$ pour le maximum.`,
+      `$f$ est décroissante sur $[${a} ; 0]$ puis croissante sur $[0 ; ${b}]$ : son minimum est $f(0) = 0$ et son maximum est le plus grand de $f(${a}) = ${-a}$ et $f(${b}) = ${b}$, soit $${M}$.`,
+      { instruction: 'Saisir (m ; M), par exemple (0;7).' });
+  },
+
+  _x2S1fc(tier) {
+    const ctx = this.randChoice([
+      ['élèves', 'pratiquent un sport', 'ne pratiquent pas de sport', 'Seconde', 'Première'],
+      ['salariés', 'télétravaillent', 'ne télétravaillent pas', 'Cadres', 'Non-cadres'],
+      ['spectateurs', 'sont venus en train', 'sont venus autrement', 'Moins de 30 ans', '30 ans et plus']]);
+    const a = this.randInt(5, 60); const b = this.randInt(5, 60);
+    const c = this.randInt(5, 60); const d = this.randInt(5, 60);
+    const N = a + b + c + d;
+    const rows = [[`**${ctx[3]}**`, `$${a}$`, `$${b}$`, `$${a + b}$`], [`**${ctx[4]}**`, `$${c}$`, `$${d}$`, `$${c + d}$`], ['**Total**', `$${a + c}$`, `$${b + d}$`, `$${N}$`]];
+    const ask = this.randInt(0, 2);
+    let q; let num; let den;
+    if (ask === 0) { q = `la fréquence marginale des ${ctx[0]} qui ${ctx[1]}`; num = a + c; den = N; }
+    else if (ask === 1) { q = `la fréquence des ${ctx[0]} qui ${ctx[1]} parmi les « ${ctx[3]} »`; num = a; den = a + b; }
+    else { q = `la fréquence des « ${ctx[4]} » parmi les ${ctx[0]} qui ${ctx[1]}`; num = c; den = a + c; }
+    return this.makeExact('2S1', tier, ask === 0 ? 'Fréquence marginale' : 'Fréquence conditionnelle',
+      'Calculer des fréquences marginales et conditionnelles dans un tableau croisé',
+      `Le tableau croisé suivant répartit des ${ctx[0]} selon deux caractères :${this._xtab(['', ctx[1], ctx[2], 'Total'], rows)}Calculer ${q} (fraction irréductible).`,
+      this._xf(num, den),
+      ask === 0 ? 'Une fréquence marginale se calcule sur l\'effectif total, à partir d\'une marge (total de ligne ou de colonne).' : 'Une fréquence conditionnelle se calcule à l\'intérieur d\'une sous-population : son effectif est le dénominateur.',
+      ask === 0 ? 'Utilise le total de la colonne concernée.' : `Repère d'abord l'effectif de la sous-population de référence.`,
+      `${ask === 0 ? `Total de la colonne : $${num}$ sur $${den}$` : `Sous-population de référence : $${den}$ individus, dont $${num}$ conviennent`}. Fréquence : $\\dfrac{${num}}{${den}}${this.frac(num, den) === `\\frac{${num}}{${den}}` ? '' : ` = ${this.frac(num, den)}`}$ $\\approx ${this.dec(num / den, 3)}$.`,
+      { instruction: 'Saisir une fraction irréductible, par exemple 7/20.' });
+  },
+
+  _x1A1sgn() {
+    const a = this.randChoice([1, -1, 2, -2, 3, -3]);
+    const r1 = this.randInt(-7, 4);
+    const r2 = r1 + this.randInt(1, 7);
+    const sym = a > 0 ? '<' : '>';
+    return this.makeExact('1A1', 3, 'Signe d\'un trinôme sous forme factorisée',
+      'Étudier le signe d\'une fonction polynôme du second degré donnée sous forme factorisée',
+      `Soit $f(x) = ${a === 1 ? '' : a === -1 ? '-' : a}(x ${this.formatSign(-r1)})(x ${this.formatSign(-r2)})$. L'ensemble des solutions de $f(x) ${sym} 0$ est un intervalle $]m ; M[$ : saisir $(m ; M)$.`.replace(/\(x [+-] 0\)/g, 'x'),
+      `(${r1};${r2})`,
+      'Un trinôme est du signe de $a$ à l\'extérieur de ses racines et du signe contraire entre elles.',
+      `Les racines se lisent sur la forme factorisée ; ici $a = ${a}$.`,
+      `Les racines sont $${r1}$ et $${r2}$ et $a = ${a} ${a > 0 ? '> 0' : '< 0'}$ : $f(x)$ est ${a > 0 ? 'négatif' : 'positif'} strictement entre les racines. Donc $S = ]${r1} ; ${r2}[$.`,
+      { instruction: 'Saisir (m ; M), par exemple (-2;5).' });
+  },
+
+  _x1A1sp() {
+    const r1 = this.randInt(-9, 8);
+    const r2 = r1 + this.randInt(1, 9);
+    if (r1 === 0 || r2 === 0) return this._x1A1sp();
+    const S = r1 + r2; const P = r1 * r2;
+    return this.makeExact('1A1', 4, 'Deux nombres de somme et produit donnés',
+      'Déterminer deux nombres connaissant leur somme et leur produit',
+      `Déterminer les deux réels dont la somme vaut $${S}$ et le produit vaut $${P}$.`,
+      `(${r1};${r2})`,
+      'Ces deux nombres sont les racines du trinôme $x^2 - sx + p$.',
+      `Résous $${this.polyX([1, -S, P])} = 0$.`,
+      `Ce sont les racines de $${this.polyX([1, -S, P])}$ : $\\Delta = ${S * S - 4 * P} = ${r2 - r1}^2$, d'où $x_1 = ${r1}$ et $x_2 = ${r2}$. Vérification : $${r1} + ${this.paren(r2)} = ${S}$ et $${r1} \\times ${this.paren(r2)} = ${P}$.`,
+      { instruction: 'Saisir les deux nombres dans l\'ordre croissant : (x1 ; x2).' });
+  },
+
+  _x1A2cm() {
+    const a = this.randChoice([0.01, 0.02, 0.05, 0.1, 0.5]);
+    const b = this.randInt(2, 30);
+    const c = this.randInt(100, 2000);
+    const q0 = this.randChoice([10, 20, 40, 50, 100, 200]);
+    const v = 2 * a * q0 + b;
+    return this.makeExact('1A2', 3, 'Coût marginal',
+      'Interpréter le nombre dérivé en contexte : coût marginal',
+      `Le coût de production de $q$ objets est $C(q) = ${this.dec(a)}q^2 + ${b}q + ${c}$ (en euros). On assimile le coût marginal au nombre dérivé $C'(q)$. Calculer le coût marginal pour $q = ${q0}$.`,
+      this._xd(v),
+      'Le coût marginal est le nombre dérivé de la fonction coût.',
+      '$(q^2)\' = 2q$ et $(q)\' = 1$ ; la dérivée d\'une constante est nulle.',
+      `$C'(q) = ${this.poly([[this.dec(2 * a), 'q'], [b, '']])}$, donc $C'(${q0}) = ${this.dec(2 * a)} \\times ${q0} + ${b} = ${this.dec(v)}$ € : produire un objet de plus coûte environ $${this.dec(v)}$ €.`,
+      { instruction: 'Saisir un nombre (entier ou décimal).' });
+  },
+
+  _x1A4dec() {
+    const N0 = this.randChoice([50, 80, 100, 200, 500, 1000]);
+    const k = this.randChoice([0.1, 0.2, 0.25, 0.5, 0.05, 2, 3]);
+    return this.makeExact('1A4', 2, 'Décroissance exponentielle $e^{-kt}$',
+      'Dériver une fonction $t \\mapsto Ae^{-kt}$',
+      `La quantité d'un médicament dans le sang est modélisée par $Q(t) = ${N0}e^{-${this.dec(k)}t}$ (en mg, $t$ en heures). Calculer $Q'(0)$, vitesse d'évolution de la quantité à l'instant $t = 0$ (en mg/h).`,
+      this._xd(-k * N0),
+      'Pour tout réel $a$, la dérivée de $t \\mapsto e^{at}$ est $t \\mapsto ae^{at}$.',
+      `Ici $a = -${this.dec(k)}$ et $e^0 = 1$.`,
+      `$Q'(t) = ${N0} \\times (-${this.dec(k)})e^{-${this.dec(k)}t} = ${this.dec(-k * N0)}e^{-${this.dec(k)}t}$, donc $Q'(0) = ${this.dec(-k * N0)}$ : la quantité diminue (fonction décroissante).`,
+      { instruction: 'Saisir un nombre (avec son signe).' });
+  },
+
+  _x1G3proj() {
+    const [a, b] = this.randChoice([[1, 0], [0, 1], [1, 1], [1, -1], [1, 2], [2, 1], [3, 4], [1, 3], [2, -1]]);
+    const xA = this.randInt(-6, 6); const yA = this.randInt(-6, 6);
+    let c;
+    do { c = this.randInt(-10, 10); } while (a * xA + b * yA + c === 0);
+    const n2 = a * a + b * b;
+    const t = a * xA + b * yA + c; // H = A - t/n2 (a ; b)
+    const H = [[xA * n2 - t * a, n2], [yA * n2 - t * b, n2]];
+    const eq = `${this.poly([[a, 'x'], [b, 'y'], [c, '']])} = 0`;
+    return this.makeExact('1G3', 4, 'Projeté orthogonal d\'un point sur une droite',
+      'Déterminer les coordonnées du projeté orthogonal d\'un point sur une droite',
+      `Dans un repère orthonormé, on donne $A(${xA} ; ${yA})$ et la droite $D : ${eq}$. Déterminer les coordonnées du projeté orthogonal $H$ de $A$ sur $D$.`,
+      `(${this._xf(H[0][0], H[0][1])};${this._xf(H[1][0], H[1][1])})`,
+      `$\\vec{n}(${a} ; ${b})$ est normal à $D$ : $\\overrightarrow{AH}$ est colinéaire à $\\vec{n}$.`,
+      `Écris $H(${this.poly([[xA, ''], [a, 't']])} ; ${this.poly([[yA, ''], [b, 't']])})$ et exprime que $H \\in D$.`.replace(/\(0 ; /, '(0 ; ').replace(/H\( ;/, 'H(0 ;'),
+      `$H = A + t\\vec{n}$ avec $H \\in D$ : en remplaçant $x$ par $${this.poly([[xA, ''], [a, 't']])}$ et $y$ par $${this.poly([[yA, ''], [b, 't']])}$ dans l'équation de $D$, on obtient $${this.coefStr(n2, 't')} = ${-t}$, soit $t = ${this.frac(-t, n2)}$. Donc $H\\left(${this.frac(H[0][0], H[0][1])} ; ${this.frac(H[1][0], H[1][1])}\\right)$.`,
+      { instruction: 'Saisir les coordonnées sous la forme (x ; y), par exemple (3/5;-1).' });
+  },
+
+  _x1S2kh() {
+    const E = this.randNonZero(-30, 40) / 10;
+    const Vv = this.randInt(1, 60) / 10;
+    const m2 = Math.round((Vv + E * E) * 100) / 100;
+    return this.makeExact('1S2', 3, 'Formule de König-Huygens',
+      'Calculer une variance avec $V(X) = E(X^2) - E(X)^2$',
+      `Pour une variable aléatoire $X$, on sait que $E(X) = ${this.dec(E)}$ et $E(X^2) = ${this.dec(m2)}$. Calculer $V(X)$.`,
+      this._xd(m2 - E * E),
+      'Formule de König-Huygens : $V(X) = E(X^2) - \\left(E(X)\\right)^2$.',
+      `Calcule d'abord $\\left(E(X)\\right)^2 = ${this.paren(this.dec(E))}^2$.`,
+      `$V(X) = ${this.dec(m2)} - ${this.paren(this.dec(E))}^2 = ${this.dec(m2)} - ${this.dec(E * E)} = ${this.dec(m2 - E * E)}$.`,
+      { instruction: 'Saisir un nombre décimal.' });
+  },
+
+  // =========================================================================
   // 1A1 : Polynôme du second degré
   // =========================================================================
   gen_1A1(tier) {
+    const xq = this._lyX('1A1', tier, [2, 1, 3, 3][tier - 1]);
+    if (xq) return xq;
     const P = (a, b, c) => this.polyX([a, b, c]);
     if (tier === 1) {
       if (this.randInt(0, 1) === 0) {
@@ -6218,7 +8372,7 @@ window.MathsLyceeGenerators = {
       const d = b * b - 4 * a * c;
       const labels = ['Deux solutions réelles distinctes', 'Une seule solution réelle (racine double)', 'Aucune solution réelle', 'Une infinité de solutions réelles'];
       const ans = d > 0 ? labels[0] : d === 0 ? labels[1] : labels[2];
-      return this.makeMcq('1A1', 1, 'Nombre de solutions d\'une équation du second degré',
+      return this._xa([String(d > 0 ? 2 : d === 0 ? 1 : 0), 'Saisir le nombre de solutions réelles (0, 1 ou 2).'], '1A1', 1, 'Nombre de solutions d\'une équation du second degré',
         "Utiliser le signe du discriminant",
         `Combien de solutions réelles l'équation $${P(a, b, c)} = 0$ admet-elle ?`,
         ans, labels.filter((l) => l !== ans),
@@ -6230,6 +8384,7 @@ window.MathsLyceeGenerators = {
     if (tier === 2) {
       const cas = this.randChoice([0, 0, 0, 1, 2]);
       let A; let B; let C; let sol; let wrong; let expl;
+      let exA = null;
       if (cas === 0) {
         // k(x - r1)(qx - p)
         const q = this.randChoice([1, 1, 2, 3]);
@@ -6239,6 +8394,7 @@ window.MathsLyceeGenerators = {
         do { p = this.randInt(-9, 9); } while (p === r1 * q || (q > 1 && p % q === 0));
         A = k * q; B = -k * (p + q * r1); C = k * p * r1;
         const r2s = this.frac(p, q);
+        exA = r1 < p / q ? `(${r1};${this._xf(p, q)})` : `(${this._xf(p, q)};${r1})`;
         sol = this.randChoice([0]) === 0 ? `$S = ${this._1re_set([[r1, String(r1)], [p / q, r2s]])}$` : '';
         wrong = [
           `$S = ${this._1re_set([[-r1, String(-r1)], [-p / q, this.frac(-p, q)]])}$`,
@@ -6265,7 +8421,7 @@ window.MathsLyceeGenerators = {
         const D = B * B - 4 * A * C;
         expl = `$\\Delta = ${this.paren(B)}^2 - 4 \\times ${this.paren(A)} \\times ${this.paren(C)} = ${D} < 0$ : l'équation n'a aucune solution réelle, ${sol}.`;
       }
-      return this.makeMcq('1A1', 2, 'Résolution d\'une équation du second degré',
+      return this._xa(exA ? [exA, 'Saisir les deux solutions dans l\'ordre croissant : (x1 ; x2).'] : null, '1A1', 2, 'Résolution d\'une équation du second degré',
         "Calculer $\\Delta$ puis les racines $\\frac{-b \\pm \\sqrt{\\Delta}}{2a}$",
         `Résoudre dans $\\mathbb{R}$ l'équation : $${P(A, B, C)} = 0$.`,
         sol, wrong,
@@ -6283,14 +8439,15 @@ window.MathsLyceeGenerators = {
       const c = a * al * al + be;
       const fx = P(a, b, c);
       const fam = this.randInt(0, 2);
-      const sol = `On a $\\alpha = -\\frac{b}{2a} = -\\frac{${b}}{2 \\times ${this.paren(a)}} = ${al}$ et $\\beta = f(\\alpha) = f(${al}) = ${be}$.`;
+      const inner = this.polyX([1, -2 * al, 0]);
+      const sol = `On met $${a}$ en facteur dans les termes en $x$ et on complète le carré : $f(x) = ${a === 1 ? '' : a === -1 ? '-' : a}\\left(${inner}\\right) ${this.formatSign(c)}$ et $${inner} = (x ${this.formatSign(-al)})^2 - ${al * al}$, donc $f(x) = ${a === 1 ? '' : a === -1 ? '-' : a}(x ${this.formatSign(-al)})^2 ${this.formatSign(-a * al * al)} ${this.formatSign(c)} = ${this._1re_canon(a, al, be)}$ : $\\alpha = ${al}$ et $\\beta = ${be}$.`.replace(/\(x [+-] 0\)\^2 - 0/, 'x^2').replace(/\(x [+-] 0\)/g, 'x').replace(/ \+ 0(?![\d{,])/g, '').replace(/ - 0(?![\d{,])/g, '');
       if (fam === 0) {
-        return this.makeMcq('1A1', 3, 'Forme canonique d\'un trinôme',
+        return this._xa([`(${a};${al};${be})`, 'Écrire $f(x) = a(x - \\alpha)^2 + \\beta$ et saisir (a ; α ; β).'], '1A1', 3, 'Forme canonique d\'un trinôme',
           "Écrire un trinôme sous la forme $a(x - \\alpha)^2 + \\beta$",
           `Quelle est la forme canonique de $f(x) = ${fx}$ ?`,
           `$f(x) = ${this._1re_canon(a, al, be)}$`,
           [`$f(x) = ${this._1re_canon(a, -al, be)}$`, `$f(x) = ${this._1re_canon(a, al, -be)}$`, `$f(x) = ${this._1re_canon(a, -al, c)}$`, `$f(x) = ${this._1re_canon(a, al, be + a)}$`, `$f(x) = ${this._1re_canon(-a, al, be)}$`],
-          "Utilise $\\alpha = -\\frac{b}{2a}$ et $\\beta = f(\\alpha)$.",
+          "Mets $a$ en facteur dans les termes en $x$, puis complète le carré : $x^2 + kx = \\left(x + \\frac{k}{2}\\right)^2 - \\frac{k^2}{4}$.",
           `Ici $a = ${a}$ et $b = ${b}$.`,
           `${sol} Donc $f(x) = ${this._1re_canon(a, al, be)}$.`
         );
@@ -6349,7 +8506,7 @@ window.MathsLyceeGenerators = {
       const t = this.randInt(1, 4);
       const c = a * t * t;
       const m = 2 * a * t;
-      return this.makeMcq('1A1', 4, 'Trinôme à paramètre',
+      return this._xa([`(${-m};${m})`, 'Saisir les deux valeurs de $m$ dans l\'ordre croissant : (m1 ; m2).'], '1A1', 4, 'Trinôme à paramètre',
         "Traduire « une unique solution » par $\\Delta = 0$",
         `Pour quelles valeurs du réel $m$ l'équation $${this.coefStr(a, 'x^2')} + mx + ${c} = 0$ admet-elle une unique solution ?`,
         `$m = ${-m}$ ou $m = ${m}$`,
@@ -6370,7 +8527,7 @@ window.MathsLyceeGenerators = {
       `$x_2 = ${r2}$`,
       [`$x_2 = ${-r2}$`, `$x_2 = ${-r1}$`, `$x_2 = ${C}$`, `$x_2 = ${r2 + 1}$`],
       "Le produit des racines d'un trinôme $ax^2 + bx + c$ vaut $\\frac{c}{a}$.",
-      `Ici $x_1 \\times x_2 = ${C}$ avec $x_1 = ${r1}$.`,
+      `Ici le produit des racines vaut $${C}$ et l'une d'elles est $${r1}$.`,
       `$x_1 x_2 = \\frac{c}{a} = ${C}$, donc $x_2 = ${C} \\div ${this.paren(r1)} = ${r2}$. Vérification : $x_1 + x_2 = ${r1 + r2} = -\\frac{b}{a}$.`
     );
   },
@@ -6398,6 +8555,8 @@ window.MathsLyceeGenerators = {
   },
 
   gen_1A2(tier) {
+    const xq = this._lyX('1A2', tier, [3, 2, 1, 3][tier - 1]);
+    if (xq) return xq;
     if (tier === 1) {
       const fam = this.randInt(0, 2);
       if (fam === 0) {
@@ -6414,7 +8573,7 @@ window.MathsLyceeGenerators = {
           `$${tau}$`,
           [`$${f(x0 + h) - f(x0)}$`, `$${-tau}$`, `$${2 * a * x0 + b}$`, `$${tau + h}$`, `$${f(x0 + h) + f(x0)}$`],
           "Le taux de variation de $f$ entre $a$ et $b$ est $\\frac{f(b) - f(a)}{b - a}$.",
-          `Calcule $f(${x0}) = ${f(x0)}$ et $f(${x0 + h}) = ${f(x0 + h)}$.`,
+          `Calcule d'abord les images $f(${x0})$ et $f(${x0 + h})$.`,
           `$\\frac{f(${x0 + h}) - f(${x0})}{${x0 + h} - ${this.paren(x0)}} = \\frac{${f(x0 + h)} - ${this.paren(f(x0))}}{${h}} = ${tau}$.`
         );
       }
@@ -6440,7 +8599,7 @@ window.MathsLyceeGenerators = {
       const m = this.randNonZero(-5, 5);
       const p = this.randInt(-6, 6);
       const fx0 = m * x0 + p;
-      return this.makeMcq('1A2', 1, 'Lecture de la tangente',
+      return this._xa([`(${fx0};${m})`, `Saisir (f(${x0}) ; f'(${x0})).`], '1A2', 1, 'Lecture de la tangente',
         "Lire $f(a)$ et $f'(a)$ sur l'équation de la tangente",
         `La tangente à $\\mathcal{C}_f$ au point d'abscisse $${x0}$ a pour équation $y = ${this.poly([[m, 'x'], [p, '']])}$. Que valent $f(${x0})$ et $f'(${x0})$ ?`,
         `$f(${x0}) = ${fx0}$ et $f'(${x0}) = ${m}$`,
@@ -6500,7 +8659,7 @@ window.MathsLyceeGenerators = {
       const eq = (a, b) => `$y = ${this._1re_poly([[a, 'x'], [b, '']])}$`;
       const wrongP = F.kind === 'inv' ? this.frac(F.k, x0) : String(F.f(x0));
       const wrongP2 = F.kind === 'inv' ? this.frac(-2 * F.k, x0) : String(F.f(x0) + m * x0);
-      return this.makeMcq('1A2', 3, 'Équation de la tangente',
+      return this._xa([F.kind === 'inv' ? `(${this._xf(m[0], m[1])};${this._xf(p[0], p[1])})` : `(${m};${p})`, 'Saisir (m ; p) pour $y = mx + p$.'], '1A2', 3, 'Équation de la tangente',
         "Appliquer $y = f'(a)(x - a) + f(a)$",
         `Soit $f(x) = ${F.s}$. Déterminer l'équation réduite de la tangente à $\\mathcal{C}_f$ au point d'abscisse $${x0}$.`,
         eq(ms, ps),
@@ -6536,7 +8695,7 @@ window.MathsLyceeGenerators = {
       const p = -3 * (r1 + r2);
       const q = 6 * r1 * r2;
       const r = this.randInt(-5, 5);
-      return this.makeMcq('1A2', 4, 'Tangentes horizontales',
+      return this._xa([`(${r1};${r2})`, 'Saisir les deux abscisses dans l\'ordre croissant : (x1 ; x2).'], '1A2', 4, 'Tangentes horizontales',
         "Résoudre $f'(x) = 0$",
         `Soit $f(x) = ${this.polyX([2, p, q, r])}$. En quels points d'abscisse la courbe $\\mathcal{C}_f$ admet-elle une tangente horizontale ?`,
         `$x = ${r1}$ et $x = ${r2}$`,
@@ -6568,6 +8727,8 @@ window.MathsLyceeGenerators = {
   // 1A3 : Fonction dérivée et variations
   // =========================================================================
   gen_1A3(tier) {
+    const xq = this._lyX('1A3', tier, [2, 4, 2, 2][tier - 1]);
+    if (xq) return xq;
     if (tier === 1) {
       if (this.randInt(0, 2) === 0) {
         const a = this.randNonZero(-6, 7);
@@ -6575,7 +8736,7 @@ window.MathsLyceeGenerators = {
         const b = this.randInt(-5, 5);
         const fs = this.poly([[a, `x^${n}`], [b, 'x']]);
         const ds = this.poly([[a * n, this.pow('x', n - 1)], [b, '']]);
-        return this.makeMcq('1A3', 1, 'Dérivée d\'une fonction polynôme',
+        return this._xa([`(${a * n};${b})`, `Écrire $f'(x) = px^{${n - 1}} + q$ et saisir (p ; q).`], '1A3', 1, 'Dérivée d\'une fonction polynôme',
           "Appliquer $(x^n)' = nx^{n-1}$",
           `Déterminer la dérivée de $f(x) = ${fs}$.`,
           `$f'(x) = ${ds}$`,
@@ -6591,7 +8752,7 @@ window.MathsLyceeGenerators = {
       const d = this.randInt(-9, 9);
       const fs = this.polyX([a, b, c, d]);
       const ds = this.polyX([3 * a, 2 * b, c]);
-      return this.makeMcq('1A3', 1, 'Dérivée d\'une fonction polynôme',
+      return this._xa([`(${3 * a};${2 * b};${c})`, 'Écrire $f\'(x) = ax^2 + bx + c$ et saisir (a ; b ; c).'], '1A3', 1, 'Dérivée d\'une fonction polynôme',
         "Dériver terme à terme un polynôme",
         `Déterminer la dérivée de $f(x) = ${fs}$.`,
         `$f'(x) = ${ds}$`,
@@ -6609,7 +8770,7 @@ window.MathsLyceeGenerators = {
         const c = this.randNonZero(-4, 5);
         const d = this.randNonZero(-6, 6);
         const ds = this.polyX([2 * a * c, a * d + b * c]);
-        return this.makeMcq('1A3', 2, 'Dérivée d\'un produit',
+        return this._xa([`(${2 * a * c};${a * d + b * c})`, 'Écrire $f\'(x) = mx + p$ et saisir (m ; p).'], '1A3', 2, 'Dérivée d\'un produit',
           "Appliquer $(uv)' = u'v + uv'$",
           `Déterminer la dérivée de $f(x) = (${this.polyX([a, b])})(${this.polyX([c, d])})$.`,
           `$f'(x) = ${ds}$`,
@@ -6626,7 +8787,7 @@ window.MathsLyceeGenerators = {
         const den = `(${this.polyX([c, d])})^2`;
         const ans = `${N < 0 ? '-' : ''}\\frac{${Math.abs(N)}}{${den}}`;
         const wr = (n) => `$f'(x) = ${n < 0 ? '-' : ''}\\frac{${Math.abs(n)}}{${den}}$`;
-        return this.makeMcq('1A3', 2, 'Dérivée d\'un quotient',
+        return this._xa([String(N), `On a $f'(x) = \\dfrac{k}{${den}}$ : saisir $k$.`], '1A3', 2, 'Dérivée d\'un quotient',
           "Appliquer $\\left(\\frac{u}{v}\\right)' = \\frac{u'v - uv'}{v^2}$",
           `Déterminer la dérivée de $f(x) = \\frac{${this.polyX([a, b])}}{${this.polyX([c, d])}}$ sur son ensemble de définition.`,
           `$f'(x) = ${ans}$`,
@@ -6643,7 +8804,7 @@ window.MathsLyceeGenerators = {
         const N = -k * a;
         const den = `(${this.polyX([a, b])})^2`;
         const mk = (n) => `$f'(x) = ${n < 0 ? '-' : ''}\\frac{${Math.abs(n)}}{${den}}$`;
-        return this.makeMcq('1A3', 2, 'Dérivée de l\'inverse d\'une fonction',
+        return this._xa([String(N), `On a $f'(x) = \\dfrac{k}{${den}}$ : saisir $k$.`], '1A3', 2, 'Dérivée de l\'inverse d\'une fonction',
           "Appliquer $\\left(\\frac{1}{v}\\right)' = -\\frac{v'}{v^2}$",
           `Déterminer la dérivée de $f(x) = ${k < 0 ? '-' : ''}\\frac{${Math.abs(k)}}{${this.polyX([a, b])}}$.`,
           mk(N),
@@ -6656,7 +8817,7 @@ window.MathsLyceeGenerators = {
       const a = this.randNonZero(-3, 4);
       const b = this.randNonZero(-6, 6);
       const top = this.polyX([3 * a, b]);
-      return this.makeMcq('1A3', 2, 'Dérivée d\'un produit avec la racine carrée',
+      return this._xa([`(${3 * a};${b})`, 'Écrire $f\'(x) = \\dfrac{mx + p}{2\\sqrt{x}}$ et saisir (m ; p).'], '1A3', 2, 'Dérivée d\'un produit avec la racine carrée',
         "Appliquer $(uv)' = u'v + uv'$ avec $(\\sqrt{x})' = \\frac{1}{2\\sqrt{x}}$",
         `Déterminer la dérivée sur $]0 ; +\\infty[$ de $f(x) = (${this.polyX([a, b])})\\sqrt{x}$.`,
         `$f'(x) = \\frac{${top}}{2\\sqrt{x}}$`,
@@ -6723,7 +8884,7 @@ window.MathsLyceeGenerators = {
       const xe = (wantMax === (s > 0)) ? r1 : r2;
       const xo = xe === r1 ? r2 : r1;
       const typ = wantMax ? 'maximum' : 'minimum';
-      return this.makeMcq('1A3', 4, 'Extremum local d\'une fonction polynôme',
+      return this._xa([`(${xe};${f(xe)})`, 'Saisir (x ; y) : abscisse où l\'extremum est atteint, puis sa valeur.'], '1A3', 4, 'Extremum local d\'une fonction polynôme',
         "Repérer un changement de signe de $f'$",
         `Soit $f(x) = ${this.polyX([A, B, C, D])}$ définie sur $\\mathbb{R}$. Quel est le ${typ} local de $f$ ?`,
         `$${f(xe)}$, atteint en $x = ${xe}$`,
@@ -6736,7 +8897,7 @@ window.MathsLyceeGenerators = {
     const a = this.randInt(1, 5);
     const t = this.randInt(1, 6);
     const b = a * t * t;
-    return this.makeMcq('1A3', 4, 'Optimisation sur $]0 ; +\\infty[$',
+    return this._xa([`(${t};${2 * a * t})`, 'Saisir (x ; m) : abscisse où le minimum est atteint, puis la valeur $m$ du minimum.'], '1A3', 4, 'Optimisation sur $]0 ; +\\infty[$',
       "Étudier les variations pour trouver un minimum",
       `Soit $f(x) = ${this.coefStr(a, 'x')} + \\frac{${b}}{x}$ sur $]0 ; +\\infty[$. Quel est le minimum de $f$ ?`,
       `$${2 * a * t}$, atteint en $x = ${t}$`,
@@ -6756,6 +8917,8 @@ window.MathsLyceeGenerators = {
   },
 
   gen_1A4(tier) {
+    const xq = this._lyX('1A4', tier, [3, 3, 3, 3][tier - 1]);
+    if (xq) return xq;
     if (tier === 1) {
       const fam = this.randInt(0, 2);
       if (fam === 0) {
@@ -6763,7 +8926,7 @@ window.MathsLyceeGenerators = {
         const b = this.randNonZero(-5, 6);
         let c = this.randNonZero(-4, 5);
         const k = a + b - c;
-        return this.makeMcq('1A4', 1, 'Propriétés algébriques de l\'exponentielle',
+        return this._xa(k === 1 ? null : [String(k), 'Le résultat s\'écrit $e^{kx}$ : saisir $k$.'], '1A4', 1, 'Propriétés algébriques de l\'exponentielle',
           "Utiliser $e^a e^b = e^{a+b}$ et $\\frac{e^a}{e^b} = e^{a-b}$",
           `Simplifier l'expression : $A = \\frac{${this._1A4_exp(a)} \\times ${this._1A4_exp(b)}}{${this._1A4_exp(c)}}$.`,
           `$A = ${this._1A4_exp(k)}$`,
@@ -6778,7 +8941,7 @@ window.MathsLyceeGenerators = {
         const n = this.randInt(2, 4);
         const b = this.randNonZero(-5, 5);
         const k = a * n + b;
-        return this.makeMcq('1A4', 1, 'Puissance d\'une exponentielle',
+        return this._xa(k === 1 ? null : [String(k), 'Le résultat s\'écrit $e^{kx}$ : saisir $k$.'], '1A4', 1, 'Puissance d\'une exponentielle',
           "Utiliser $(e^a)^n = e^{na}$",
           `Simplifier l'expression : $B = \\left(${this._1A4_exp(a)}\\right)^${n} \\times ${this._1A4_exp(b)}$.`,
           `$B = ${this._1A4_exp(k)}$`,
@@ -6793,7 +8956,7 @@ window.MathsLyceeGenerators = {
       const c = this.randInt(2, 7);
       const k = a + b - c;
       const E = (n) => (n === 0 ? '1' : n === 1 ? 'e' : `e^{${n}}`);
-      return this.makeMcq('1A4', 1, 'Calcul avec des puissances de $e$',
+      return this._xa(k === 1 ? null : [String(k), 'Le résultat s\'écrit $e^{n}$ : saisir $n$.'], '1A4', 1, 'Calcul avec des puissances de $e$',
         "Utiliser $e^a e^b = e^{a+b}$ et $\\frac{e^a}{e^b} = e^{a-b}$",
         `Écrire sous la forme d'une seule puissance de $e$ : $C = \\frac{${E(a)} \\times ${E(b)}}{${E(c)}}$.`,
         `$C = ${E(k)}$`,
@@ -6807,24 +8970,24 @@ window.MathsLyceeGenerators = {
       const fam = this.randInt(0, 2);
       if (fam === 0) {
         const k = this.randNonZero(-6, 7);
-        const m = this.randNonZero(-5, 5);
+        const m = 0;
         const ex = this.poly([[k, 'x'], [m, '']]);
         const ans = `$f'(x) = ${this.coefStr(k, `e^{${ex}}`)}$`;
-        return this.makeMcq('1A4', 2, 'Dérivée de $e^{ax+b}$',
-          "Appliquer $(e^{ax+b})' = ae^{ax+b}$",
+        return this._xa([String(k), `On a $f'(x) = c\\,e^{${ex}}$ : saisir $c$.`], '1A4', 2, 'Dérivée de $e^{kx}$',
+          "Appliquer $(e^{kx})' = ke^{kx}$",
           `Déterminer la dérivée de la fonction $f(x) = e^{${ex}}$.`,
           ans,
           [`$f'(x) = e^{${ex}}$`, `$f'(x) = ${this.coefStr(k, 'x')}e^{${ex}}$`, `$f'(x) = ${this.coefStr(m, `e^{${ex}}`)}$`, `$f'(x) = ${this.coefStr(k, `e^{${this.poly([[k, 'x'], [m - 1, '']])}}`)}$`],
-          "$(e^{ax+b})' = a e^{ax+b}$.",
-          `Ici $u(x) = ${ex}$ et $u'(x) = ${k}$.`,
-          `D'après $(e^u)' = u'e^u$ : ${ans}.`
+          "Pour tout réel $k$, $(e^{kx})' = k e^{kx}$.",
+          `Ici le coefficient de $x$ dans l'exposant est $k = ${k}$.`,
+          `D'après $(e^{kx})' = ke^{kx}$ avec $k = ${k}$ : ${ans}.`
         );
       }
       if (fam === 1) {
         const a = this.randNonZero(-4, 5);
         const b = this.randInt(-6, 6);
         const ans = `$f'(x) = (${this.polyX([a, a + b])})e^{x}$`;
-        return this.makeMcq('1A4', 2, 'Dérivée d\'un produit avec $e^x$',
+        return this._xa([`(${a};${a + b})`, 'Écrire $f\'(x) = (mx + p)e^{x}$ et saisir (m ; p).'], '1A4', 2, 'Dérivée d\'un produit avec $e^x$',
           "Appliquer $(uv)' = u'v + uv'$",
           `Déterminer la dérivée de $f(x) = (${this.polyX([a, b])})e^{x}$.`,
           ans,
@@ -6839,7 +9002,7 @@ window.MathsLyceeGenerators = {
       const k = this.randChoice([-3, -2, -1, 2, 3]);
       const ek = `e^{${this.coefStr(k, 'x')}}`;
       const ans = `$f'(x) = (${this.polyX([a * k, a + b * k])})${ek}$`;
-      return this.makeMcq('1A4', 2, 'Dérivée de $(ax + b)e^{kx}$',
+      return this._xa([`(${a * k};${a + b * k})`, `Écrire $f'(x) = (mx + p)${ek}$ et saisir (m ; p).`], '1A4', 2, 'Dérivée de $(ax + b)e^{kx}$',
         "Combiner produit et $(e^{kx})' = ke^{kx}$",
         `Déterminer la dérivée de $f(x) = (${this.polyX([a, b])})${ek}$.`,
         ans,
@@ -6859,7 +9022,7 @@ window.MathsLyceeGenerators = {
       if (fam === 0) {
         const R = this.poly([[c, 'x'], [d, '']]);
         const xs = this.frac(d - b, a - c);
-        return this.makeMcq('1A4', 3, 'Équation avec des exponentielles',
+        return this._xa([this._xf(d - b, a - c)], '1A4', 3, 'Équation avec des exponentielles',
           "Utiliser $e^A = e^B \\iff A = B$",
           `Résoudre dans $\\mathbb{R}$ l'équation : $e^{${L}} = ${this.pow('e', R)}$.`,
           `$S = \\{${xs}\\}$`,
@@ -6873,7 +9036,7 @@ window.MathsLyceeGenerators = {
         const xs = this.frac(-b, a);
         const k = this.randChoice([1, 1, 2, 3]);
         const lhs = k === 1 ? `e^{${L}} = 1` : `${k}e^{${L}} = ${k}`;
-        return this.makeMcq('1A4', 3, 'Équation $e^{u(x)} = 1$',
+        return this._xa([this._xf(-b, a)], '1A4', 3, 'Équation $e^{u(x)} = 1$',
           "Utiliser $e^A = 1 \\iff A = 0$",
           `Résoudre dans $\\mathbb{R}$ l'équation : $${lhs}$.`,
           `$S = \\{${xs}\\}$`,
@@ -6959,6 +9122,8 @@ window.MathsLyceeGenerators = {
   // 1A5 : Généralités sur les suites
   // =========================================================================
   gen_1A5(tier) {
+    const xq = this._lyX('1A5', tier, [3, 2, 3, 2][tier - 1]);
+    if (xq) return xq;
     if (tier === 1) {
       const fam = this.randInt(0, 2);
       const k = this.randInt(2, 6);
@@ -6973,7 +9138,7 @@ window.MathsLyceeGenerators = {
           `$u_{${k}} = ${v}$`,
           [`$u_{${k}} = ${a * (k - 1) ** 2 + b * (k - 1) + c}$`, `$u_{${k}} = ${a * (k + 1) ** 2 + b * (k + 1) + c}$`, `$u_{${k}} = ${2 * a * k + b * k + c}$`, `$u_{${k}} = ${v + 1}$`],
           "Remplace $n$ par l'indice demandé.",
-          `$u_{${k}} = ${a} \\times ${k}^2${b === 0 ? '' : ' ' + this.formatSign(b) + ' \\times ' + k}${this._1re_sg(c)}$.`,
+          `Calcule $${a} \\times ${k}^2${b === 0 ? '' : ' ' + this.formatSign(b) + ' \\times ' + k}${this._1re_sg(c)}$ en respectant les priorités.`,
           `$u_{${k}} = ${a} \\times ${k * k}${b === 0 ? '' : ' ' + this.formatSign(b) + ' \\times ' + k}${this._1re_sg(c)} = ${v}$.`
         );
       }
@@ -7002,7 +9167,7 @@ window.MathsLyceeGenerators = {
         `$u_{${k}} = ${v}$`,
         [`$u_{${k}} = ${c * q * k + b}$`, `$u_{${k}} = ${(c * q) ** k + b}$`, `$u_{${k}} = ${c * q ** (k - 1) + b}$`, `$u_{${k}} = ${c * q ** (k + 1) + b}$`],
         "Remplace $n$ par l'indice demandé ; la puissance est prioritaire sur la multiplication.",
-        `$${q}^${k} = ${q ** k}$.`,
+        c === 1 && b === 0 ? `$${q}^${k}$ est le produit de $${k}$ facteurs égaux à $${q}$.` : `$${q}^${k} = ${q ** k}$.`,
         `$u_{${k}} = ${c} \\times ${q}^${k} ${this.formatSign(b)} = ${c} \\times ${q ** k} ${this.formatSign(b)} = ${v}$.`.replace(' + 0 =', ' =').replace(' + 0 =', ' =')
       );
     }
@@ -7022,7 +9187,7 @@ window.MathsLyceeGenerators = {
           `$u_${N} = ${t[N]}$`,
           [`$u_${N} = ${t[N - 1]}$`, `$u_${N} = ${a * N * u0 + b}$`, `$u_${N} = ${a * t[N - 1] - b}$`, `$u_${N} = ${t[N] + a}$`, `$u_${N} = ${a ** N * u0 + b}$`],
           "Calcule d'abord $u_1$, puis utilise-le pour obtenir le terme suivant.",
-          `$u_1 = ${a} \\times ${this.paren(u0)} ${this.formatSign(b)} = ${t[1]}$.`,
+          `Commence par $u_1 = ${a} \\times ${this.paren(u0)} ${this.formatSign(b)}$.`,
           t.slice(1).map((v, i) => `$u_${i + 1} = ${a} \\times ${this.paren(t[i])} ${this.formatSign(b)} = ${v}$`).join(', ') + '.'
         );
       }
@@ -7049,7 +9214,7 @@ window.MathsLyceeGenerators = {
         const b = this.randInt(-6, 6);
         const c = this.randInt(-5, 5);
         const ans = this.polyX([2 * a, a + b], 'n');
-        return this.makeMcq('1A5', 3, 'Différence de deux termes consécutifs',
+        return this._xa([`(${2 * a};${a + b})`, 'Écrire $u_{n+1} - u_n = pn + q$ et saisir (p ; q).'], '1A5', 3, 'Différence de deux termes consécutifs',
           "Calculer $u_{n+1} - u_n$",
           `Soit $u_n = ${this.polyX([a, b, c], 'n')}$ pour tout $n \\in \\mathbb{N}$. Exprimer $u_{n+1} - u_n$ en fonction de $n$.`,
           `$u_{n+1} - u_n = ${ans}$`,
@@ -7090,8 +9255,8 @@ window.MathsLyceeGenerators = {
         `Pour tout $n$, $u_n > 0$ et $\\frac{u_{n+1}}{u_n} = ${this.dec(q)} ${q > 1 ? '>' : '<'} 1$, donc $u_{n+1} ${q > 1 ? '>' : '<'} u_n$ : la suite est ${ans.toLowerCase()}.`
       );
     }
-    // tier 4
-    const fam = this.randInt(0, 2);
+    // tier 4 (« suite majorée / minorée » : hors programme 2026, retirée)
+    const fam = this.randInt(0, 1);
     if (fam === 0) {
       const u0 = this.randInt(1, 9);
       const q = this.randChoice([2, 3]);
@@ -7124,26 +9289,15 @@ window.MathsLyceeGenerators = {
         `$${u0} - ${r}n < ${S} \\iff ${r}n > ${u0 - S} \\iff n > ${this.frac(u0 - S, r)}$. Le plus petit entier qui convient est $n = ${n}$ (vérification : $u_{${n}} = ${u0 - r * n}$ et $u_{${n - 1}} = ${u0 - r * (n - 1)}$).`
       );
     }
-    const k = this.randInt(1, 9);
-    const c = this.randInt(1, 6);
-    const inc = this.randInt(0, 1) === 1;
-    const expr = inc ? `${k} - \\frac{${c}}{n + 1}` : `${k} + \\frac{${c}}{n + 1}`;
-    const ans = inc ? `$(u_n)$ est croissante et majorée par $${k}$` : `$(u_n)$ est décroissante et minorée par $${k}$`;
-    return this.makeMcq('1A5', 4, 'Suite majorée, minorée, monotone',
-      "Étudier le sens de variation et les bornes d'une suite",
-      `Soit $u_n = ${expr}$ pour tout $n \\in \\mathbb{N}$. Quelle affirmation est exacte ?`,
-      ans,
-      [inc ? `$(u_n)$ est décroissante et minorée par $${k}$` : `$(u_n)$ est croissante et majorée par $${k}$`, inc ? `$(u_n)$ est croissante et majorée par $${k - c}$` : `$(u_n)$ est décroissante et minorée par $${k + c}$`, inc ? `$(u_n)$ est croissante et non majorée` : `$(u_n)$ est décroissante et non minorée`],
-      "Étudie comment varie $\\frac{" + c + "}{n + 1}$ quand $n$ augmente.",
-      `$\\frac{${c}}{n + 1} > 0$ et cette quantité diminue quand $n$ augmente.`,
-      `La suite $\\left(\\frac{${c}}{n + 1}\\right)$ est strictement décroissante et positive. Donc $u_n = ${expr}$ est ${inc ? 'croissante' : 'décroissante'}, et pour tout $n$, $u_n ${inc ? '<' : '>'} ${k}$ : la suite est ${inc ? 'majorée' : 'minorée'} par $${k}$.`
-    );
+    return null;
   },
 
   // =========================================================================
   // 1A6 : Suites arithmétiques et géométriques
   // =========================================================================
   gen_1A6(tier) {
+    const xq = this._lyX('1A6', tier, [2, 2, 3, 4][tier - 1]);
+    if (xq) return xq;
     if (tier === 1) {
       if (this.randInt(0, 1) === 0) {
         const start = this.randInt(0, 1);
@@ -7171,7 +9325,7 @@ window.MathsLyceeGenerators = {
         `$v_${n} = ${v}$`,
         [`$v_${n} = ${v0 * q ** (n - 1)}$`, `$v_${n} = ${v0 + n * q}$`, `$v_${n} = ${v0 * q * n}$`, `$v_${n} = ${-v}$`, `$v_${n} = ${v0 * q ** (n + 1)}$`],
         "$v_n = v_0 \\times q^n$.",
-        `Calcule $${this.paren(q)}^${n} = ${q ** n}$.`,
+        `Calcule d'abord la puissance $${this.paren(q)}^${n}$, puis multiplie par $v_0$.`,
         `$v_${n} = ${v0} \\times ${this.paren(q)}^${n} = ${v0} \\times ${this.paren(q ** n)} = ${v}$.`
       );
     }
@@ -7184,7 +9338,7 @@ window.MathsLyceeGenerators = {
         const up = this.randNonZero(-20, 20);
         const uq = up + k * r;
         const u0 = up - p * r;
-        return this.makeMcq('1A6', 2, 'Raison d\'une suite arithmétique',
+        return this._xa([`(${r};${u0})`, 'Saisir (r ; u0).'], '1A6', 2, 'Raison d\'une suite arithmétique',
           "Utiliser $u_q - u_p = (q - p)r$",
           `$(u_n)$ est une suite arithmétique telle que $u_{${p}} = ${up}$ et $u_{${qn}} = ${uq}$. Déterminer sa raison $r$ et son premier terme $u_0$.`,
           `$r = ${r}$ et $u_0 = ${u0}$`,
@@ -7199,7 +9353,7 @@ window.MathsLyceeGenerators = {
       const v0 = this.randChoice([1, 2, 3, 5]);
       const vp = v0 * q ** p;
       const vp2 = vp * q * q;
-      return this.makeMcq('1A6', 2, 'Raison d\'une suite géométrique',
+      return this._xa([`(${q};${v0})`, 'Saisir (q ; v0).'], '1A6', 2, 'Raison d\'une suite géométrique',
         "Utiliser $v_{p+2} = v_p \\times q^2$",
         `$(v_n)$ est une suite géométrique de raison $q > 0$ telle que $v_{${p}} = ${vp}$ et $v_{${p + 2}} = ${vp2}$. Déterminer $q$ et $v_0$.`,
         `$q = ${q}$ et $v_0 = ${v0}$`,
@@ -7236,7 +9390,7 @@ window.MathsLyceeGenerators = {
           `$S = ${S}$`,
           [`$S = ${this.dec(n * (u0 + un) / 2)}$`, `$S = ${(n + 1) * (u0 + un)}$`, `$S = ${(n + 1) * u0 + n * r}$`, `$S = ${this.dec((n + 2) * (u0 + un + r) / 2)}$`],
           "$S = (\\text{nombre de termes}) \\times \\frac{\\text{premier} + \\text{dernier}}{2}$.",
-          `Il y a $${n + 1}$ termes et $u_{${n}} = ${un}$.`,
+          `Il y a $${n + 1}$ termes ; calcule d'abord le dernier, $u_{${n}}$.`,
           `$u_{${n}} = ${u0} ${this.formatSign(n * r)} = ${un}$, donc $S = ${n + 1} \\times \\frac{${u0} ${this.formatSign(un)}}{2} = ${this.dec(S)}$.`
         );
       }
@@ -7285,7 +9439,7 @@ window.MathsLyceeGenerators = {
         `$\\ell = ${l}$`,
         [`$\\ell = ${this.frac(-b, 1 - a)}$`, `$\\ell = ${this.frac(b, a)}$`, a === -1 ? `$\\ell = ${2 * b}$` : `$\\ell = ${this.frac(b, 1 + a)}$`, `$\\ell = ${b}$`],
         "$\\ell$ est le point fixe : $\\ell = a\\ell + b$.",
-        `Résous $\\ell = ${this.poly([[a, '\\ell'], [b, '']])}$.`,
+        `Résous l'équation du premier degré d'inconnue $\\ell$ obtenue en remplaçant $u_n$ et $u_{n+1}$ par $\\ell$.`,
         `$v_{n+1} = u_{n+1} - \\ell = ${this.poly([[a, 'u_n'], [b, '']])} - \\ell$. Pour avoir $v_{n+1} = ${this.coefStr(a, 'v_n')} = ${this.coefStr(a, 'u_n')} - ${this.paren(a)}\\ell$, il faut $\\ell = ${this.poly([[a, '\\ell'], [b, '']])}$, soit $${this.coefStr(1 - a, '\\ell')} = ${b}$ et $\\ell = ${l}$.`
       );
     }
@@ -7331,6 +9485,8 @@ window.MathsLyceeGenerators = {
   _1G1_triples: [[3, 4, 5], [5, 12, 13], [8, 15, 17], [7, 24, 25], [20, 21, 29], [9, 40, 41]],
 
   gen_1G1(tier) {
+    const xq = this._lyX('1G1', tier, [1, 2, 2, 0][tier - 1]);
+    if (xq) return xq;
     const ALL = ['0', '\\frac{1}{2}', '-\\frac{1}{2}', '\\frac{\\sqrt{2}}{2}', '-\\frac{\\sqrt{2}}{2}', '\\frac{\\sqrt{3}}{2}', '-\\frac{\\sqrt{3}}{2}', '1', '-1'];
     if (tier === 1) {
       const d = this.randChoice([1, 2, 3, 4, 6]);
@@ -7362,7 +9518,7 @@ window.MathsLyceeGenerators = {
         do { deg = this.randInt(-24, 24) * 15; } while (deg === 0);
         const r = this._1re_pi(deg, 180);
         if (toRad) {
-          return this.makeMcq('1G1', 2, 'Conversion degrés-radians',
+          return this._xa([this._xf(deg, 180), 'Le résultat s\'écrit $k\\pi$ rad : saisir $k$ (entier ou fraction).'], '1G1', 2, 'Conversion degrés-radians',
             "Utiliser la proportionnalité $180^\\circ \\leftrightarrow \\pi$ rad",
             `Convertir $${deg}^\\circ$ en radians.`,
             `$${r}$ rad`,
@@ -7372,7 +9528,7 @@ window.MathsLyceeGenerators = {
             `$${deg}^\\circ = ${deg} \\times \\frac{\\pi}{180} = ${r}$ rad.`
           );
         }
-        return this.makeMcq('1G1', 2, 'Conversion radians-degrés',
+        return this._xa([String(deg), 'Saisir la mesure en degrés (nombre seul).'], '1G1', 2, 'Conversion radians-degrés',
           "Utiliser la proportionnalité $\\pi$ rad $\\leftrightarrow 180^\\circ$",
           `Convertir $${r}$ rad en degrés.`,
           `$${deg}^\\circ$`,
@@ -7411,14 +9567,14 @@ window.MathsLyceeGenerators = {
         // mesure principale dans ]-π ; π]
         let m = ((p % (2 * d)) + 2 * d) % (2 * d);
         if (m > d) m -= 2 * d;
-        return this.makeMcq('1G1', 3, 'Mesure principale d\'un angle',
-          "Se ramener à $]-\\pi ; \\pi]$ en retranchant des multiples de $2\\pi$",
-          `Quelle est la mesure principale de l'angle orienté de mesure $${this._1re_pi(p, d)}$ ?`,
+        return this._xa([this._xf(m, d), 'Le réel cherché s\'écrit $k\\pi$ : saisir $k$ (entier ou fraction).'], '1G1', 3, 'Réel associé dans $]-\\pi ; \\pi]$',
+          "Utiliser l'enroulement de la droite sur le cercle : $x$ et $x + 2k\\pi$ ont le même point image",
+          `Quel est le réel de $]-\\pi ; \\pi]$ associé au même point du cercle trigonométrique que le réel $${this._1re_pi(p, d)}$ ?`,
           `$${this._1re_pi(m, d)}$`,
           [`$${this._1re_pi(-m, d)}$`, `$${this._1re_pi(m + (m > 0 ? -d : d), d)}$`, `$${this._1re_pi(m + 2 * d, d)}$`, `$${this._1re_pi(m - 2 * d, d)}$`, `$${this._1re_pi(d - m, d)}$`],
-          "La mesure principale est l'unique mesure dans $]-\\pi ; \\pi]$.",
+          "Deux réels qui diffèrent d'un multiple de $2\\pi$ ont le même point image sur le cercle trigonométrique.",
           `Écris $2\\pi = \\frac{${2 * d}\\pi}{${d}}$, puis retranche ou ajoute ce multiple autant de fois que nécessaire.`,
-          `$${this._1re_pi(p, d)} = ${this._1re_pi(m, d)} ${(p - m) / (2 * d) > 0 ? '+' : '-'} ${Math.abs((p - m) / (2 * d)) === 1 ? '' : Math.abs((p - m) / (2 * d)) + ' \\times '}2\\pi$ et $${this._1re_pi(m, d)} \\in ]-\\pi ; \\pi]$ : c'est la mesure principale.`
+          `$${this._1re_pi(p, d)} = ${this._1re_pi(m, d)} ${(p - m) / (2 * d) > 0 ? '+' : '-'} ${Math.abs((p - m) / (2 * d)) === 1 ? '' : Math.abs((p - m) / (2 * d)) + ' \\times '}2\\pi$ et $${this._1re_pi(m, d)} \\in ]-\\pi ; \\pi]$ : les deux réels ont le même point image, et $${this._1re_pi(m, d)}$ est le réel cherché.`
         );
       }
       const [p, q, r] = this.randChoice(this._1G1_triples);
@@ -7443,47 +9599,7 @@ window.MathsLyceeGenerators = {
         `$${e1} = ${this.frac(v1, r)}$ et $${e2} = ${this.frac(v2, r)}$, donc $A = ${this.frac(tot, r)}$.`
       );
     }
-    // tier 4 : équations
-    const fn = this.randChoice(['cos', 'sin']);
-    const vals = fn === 'cos'
-      ? [[1, 3], [1, 4], [1, 6], [2, 3], [3, 4], [5, 6], [0, 1], [1, 2], [1, 1]]
-      : [[1, 6], [1, 4], [1, 3], [-1, 6], [-1, 4], [-1, 3], [1, 2], [-1, 2], [0, 1]];
-    const [ap, ad] = this.randChoice(vals);
-    const a = ap * Math.PI / ad;
-    const v = fn === 'cos' ? Math.cos(a) : Math.sin(a);
-    const vs = this._1G1_exact(v);
-    const dom = this.randInt(0, 1); // 0: ]-π;π] , 1: [0;2π[
-    const domS = dom === 0 ? ']-\\pi ; \\pi]' : '[0 ; 2\\pi[';
-    // solutions : x = ±a [cos], x = a ou π - a [sin], ramenées dans le domaine
-    const D = 12;
-    const k0 = Math.round(ap * D / ad);
-    const cand = fn === 'cos' ? [k0, -k0] : [k0, D - k0];
-    const norm = (k) => {
-      let m = ((k % (2 * D)) + 2 * D) % (2 * D);
-      if (dom === 0 && m > D) m -= 2 * D;
-      return m;
-    };
-    const sols = [...new Set(cand.map(norm))];
-    const fmt = (arr) => `$S = ${this._1re_set(arr.map((k) => [k, this._1re_pi(k, D)]))}$`;
-    const ans = fmt(sols);
-    const wrongs = [
-      fmt([norm(k0)]),
-      fmt((fn === 'cos' ? [D - k0, k0 - D] : [k0, -k0]).map(norm)),
-      fmt((fn === 'cos' ? [D / 2 - k0, k0 - D / 2] : [D / 2 - k0, D / 2 + k0]).map(norm)),
-      fmt(sols.map((k) => norm(k + D))),
-      fmt(sols.map((k) => norm(-k))),
-      fmt(sols.map((k) => norm(k + D / 2))),
-      fmt([...sols, norm(k0 + D)]),
-      fmt([norm(D / 2), norm(-D / 2)])
-    ];
-    return this.makeMcq('1G1', 4, 'Équation trigonométrique',
-      `Résoudre $\\${fn}(x) = a$ sur un intervalle donné`,
-      `Résoudre dans $${domS}$ l'équation : $\\${fn}(x) = ${vs}$.`,
-      ans, wrongs,
-      fn === 'cos' ? "$\\cos(x) = \\cos(a) \\iff x = a + 2k\\pi$ ou $x = -a + 2k\\pi$." : "$\\sin(x) = \\sin(a) \\iff x = a + 2k\\pi$ ou $x = \\pi - a + 2k\\pi$.",
-      `On a $\\${fn}\\left(${this._1re_pi(ap, ad)}\\right) = ${vs}$.`,
-      `$${vs} = \\${fn}\\left(${this._1re_pi(ap, ad)}\\right)$. Les solutions réelles sont ${fn === 'cos' ? `$${this._1re_pi(ap, ad)} + 2k\\pi$ et $${this._1re_pi(-ap, ad)} + 2k\\pi$` : `$${this._1re_pi(ap, ad)} + 2k\\pi$ et $${this._1re_pi(ad - ap, ad)} + 2k\\pi$`} ($k \\in \\mathbb{Z}$). Celles qui appartiennent à $${domS}$ forment ${ans}.`.replace('$0 + 2k\\pi$', '$2k\\pi$').replace('$0 + 2k\\pi$', '$2k\\pi$')
-    );
+    return null; // palier 4 : familles ajoutées (_LYX) ; équations trigonométriques hors programme de 1re
   },
 
   // =========================================================================
@@ -7576,6 +9692,7 @@ window.MathsLyceeGenerators = {
         const dot = this.randInt(-nu * nv + 1, nu * nv - 1);
         const plus = this.randInt(0, 1) === 1;
         const s2 = nu * nu + nv * nv + (plus ? 2 : -2) * dot;
+        if (s2 === nu * nu || s2 === nv * nv) return this.gen_1G2(3);
         const target = this.randInt(0, 1) === 1;
         if (target) {
           return this.makeMcq('1G2', 3, 'Norme d\'une somme et produit scalaire',
@@ -7625,7 +9742,7 @@ window.MathsLyceeGenerators = {
       const dot = u[0] * v[0] + u[1] * v[1];
       const n2u = u[0] ** 2 + u[1] ** 2; const n2v = v[0] ** 2 + v[1] ** 2;
       const ang = this._1re_pi(p, d);
-      return this.makeMcq('1G2', 4, 'Angle entre deux vecteurs',
+      return this._xa([this._xf(p, d), 'La mesure s\'écrit $k\\pi$ avec $0 \\le k \\le 1$ : saisir $k$ (par exemple 3/4).'], '1G2', 4, 'Angle entre deux vecteurs',
         "Calculer $\\cos(\\vec{u}, \\vec{v}) = \\frac{\\vec{u} \\cdot \\vec{v}}{\\|\\vec{u}\\| \\times \\|\\vec{v}\\|}$",
         `Dans un repère orthonormé, on donne $\\vec{u}${V(u[0], u[1])}$ et $\\vec{v}${V(v[0], v[1])}$. Quelle est la mesure dans $[0 ; \\pi]$ de l'angle géométrique entre $\\vec{u}$ et $\\vec{v}$ ?`,
         `$${ang}$`,
@@ -7683,12 +9800,14 @@ window.MathsLyceeGenerators = {
   // 1G3 : Applications du produit scalaire
   // =========================================================================
   gen_1G3(tier) {
+    const xq = this._lyX('1G3', tier, [2, 2, 3, 2][tier - 1]);
+    if (xq) return xq;
     if (tier === 1) {
       if (this.randInt(0, 1) === 0) {
         const b = this.randInt(2, 10); const c = this.randInt(2, 10);
         const obtuse = this.randInt(0, 1) === 1;
         const a2 = b * b + c * c + (obtuse ? 1 : -1) * b * c;
-        return this.makeMcq('1G3', 1, 'Formule d\'Al-Kashi : calcul d\'une longueur',
+        return this._xa([String(a2), 'Saisir la valeur exacte de $BC^2$.'], '1G3', 1, 'Formule d\'Al-Kashi : calcul d\'une longueur',
           "Appliquer $BC^2 = AB^2 + AC^2 - 2 \\times AB \\times AC \\times \\cos\\widehat{A}$",
           `Dans un triangle $ABC$, $AB = ${c}$, $AC = ${b}$ et $\\widehat{BAC} = ${obtuse ? 120 : 60}^\\circ$. Calculer la longueur $BC$.`,
           `$BC = ${this._1re_sqrt(a2)}$`,
@@ -7729,7 +9848,7 @@ window.MathsLyceeGenerators = {
       const xA = this.randInt(-5, 5); const yA = this.randInt(-5, 5);
       const c = -(a * xA + b * yA);
       const eq = (cc) => `$${this.poly([[a, 'x'], [b, 'y'], [cc, '']])} = 0$`;
-      return this.makeMcq('1G3', 2, 'Équation d\'une droite de vecteur normal donné',
+      return this._xa([`(${a};${b};${c})`, 'Avec le vecteur normal $\\vec{n}$ donné, l\'équation s\'écrit $ax + by + c = 0$ : saisir (a ; b ; c).'], '1G3', 2, 'Équation d\'une droite de vecteur normal donné',
         "Utiliser $\\overrightarrow{AM} \\cdot \\vec{n} = 0$",
         `Déterminer une équation cartésienne de la droite passant par $A(${xA} ; ${yA})$ et de vecteur normal $\\vec{n}(${a} ; ${b})$.`,
         eq(c),
@@ -7745,19 +9864,19 @@ window.MathsLyceeGenerators = {
       const sq = (v, t) => (t === 0 ? `${v}^2` : `(${v} ${this.formatSign(-t)})^2`);
       if (fam === 0) {
         const e = (hh, kk, rr) => `$${sq('x', hh)} + ${sq('y', kk)} = ${rr}$`;
-        return this.makeMcq('1G3', 3, 'Équation d\'un cercle',
+        return this._xa([`(${h};${k};${r * r})`, 'L\'équation s\'écrit $(x - a)^2 + (y - b)^2 = R$ : saisir (a ; b ; R).'], '1G3', 3, 'Équation d\'un cercle',
           "Écrire $(x - x_\\Omega)^2 + (y - y_\\Omega)^2 = r^2$",
           `Quelle est une équation du cercle de centre $\\Omega(${h} ; ${k})$ et de rayon $${r}$ ?`,
           e(h, k, r * r),
           [e(-h, -k, r * r), e(h, k, r), e(k, h, r * r), e(h, k, 2 * r)],
           "$M(x ; y)$ est sur le cercle si et seulement si $\\Omega M^2 = r^2$.",
-          `Ici $r^2 = ${r * r}$.`,
+          `Le rayon vaut $${r}$ : le membre de droite est $r^2$, et non $r$.`,
           `$\\Omega M^2 = r^2 \\iff ${e(h, k, r * r).slice(1, -1)}$.`
         );
       }
       if (fam === 1) {
         const D = -2 * h; const E = -2 * k; const F = h * h + k * k - r * r;
-        return this.makeMcq('1G3', 3, 'Centre et rayon d\'un cercle',
+        return this._xa([`(${h};${k};${r})`, 'Saisir (a ; b ; r), où $\\Omega(a ; b)$ est le centre et $r$ le rayon.'], '1G3', 3, 'Centre et rayon d\'un cercle',
           "Retrouver la forme $(x - a)^2 + (y - b)^2 = r^2$ en complétant les carrés",
           `L'ensemble des points $M(x ; y)$ tels que $${this.poly([[1, 'x^2'], [1, 'y^2'], [D, 'x'], [E, 'y'], [F, '']])} = 0$ est un cercle. Quels sont son centre et son rayon ?`,
           `$\\Omega(${h} ; ${k})$ et $r = ${r}$`,
@@ -7776,7 +9895,7 @@ window.MathsLyceeGenerators = {
       const cx = (A[0] + B[0]) / 2; const cy = (A[1] + B[1]) / 2;
       const r2 = ((B[0] - A[0]) ** 2 + (B[1] - A[1]) ** 2) / 4;
       const e = (hh, kk, rr) => `$${sq('x', hh)} + ${sq('y', kk)} = ${rr}$`;
-      return this.makeMcq('1G3', 3, 'Cercle de diamètre $[AB]$',
+      return this._xa([`(${cx};${cy};${r2})`, 'L\'équation s\'écrit $(x - a)^2 + (y - b)^2 = R$ : saisir (a ; b ; R).'], '1G3', 3, 'Cercle de diamètre $[AB]$',
         "Utiliser $\\overrightarrow{MA} \\cdot \\overrightarrow{MB} = 0$ ou le milieu de $[AB]$",
         `Soit $A(${A[0]} ; ${A[1]})$ et $B(${B[0]} ; ${B[1]})$. Quelle est une équation du cercle de diamètre $[AB]$ ?`,
         e(cx, cy, r2),
@@ -7786,26 +9905,8 @@ window.MathsLyceeGenerators = {
         `$I(${cx} ; ${cy})$ et $AB^2 = ${4 * r2}$, donc $r^2 = \\frac{AB^2}{4} = ${r2}$. Équation : ${e(cx, cy, r2)}.`
       );
     }
-    // tier 4
-    const fam = this.randInt(0, 2);
-    if (fam === 0) {
-      const tr = this.randChoice([[3, 4, 5], [5, 12, 13], [8, 6, 10], [1, 0, 1], [0, 1, 1]]);
-      const s = this.randChoice([1, -1]);
-      const a = tr[0] * s; const b = tr[1] * this.randChoice([1, -1]); const n = tr[2];
-      const xA = this.randInt(-5, 5); const yA = this.randInt(-5, 5);
-      let c;
-      do { c = this.randInt(-12, 12); } while (a * xA + b * yA + c === 0);
-      const num = Math.abs(a * xA + b * yA + c);
-      return this.makeMcq('1G3', 4, 'Distance d\'un point à une droite',
-        "Utiliser $d(A, D) = \\frac{|ax_A + by_A + c|}{\\sqrt{a^2 + b^2}}$",
-        `Calculer la distance du point $A(${xA} ; ${yA})$ à la droite $D$ d'équation $${this.poly([[a, 'x'], [b, 'y'], [c, '']])} = 0$.`,
-        `$d(A, D) = ${this.frac(num, n)}$`,
-        [String(num * n), this.frac(num, n * n), this.frac(Math.abs(a * xA + b * yA), n), this.frac(num + 2 * Math.abs(c), n), this.frac(num + n, n)].map((w) => `$d(A, D) = ${w}$`),
-        "Le projeté orthogonal de $A$ sur $D$ réalise la distance ; la formule s'en déduit avec un vecteur normal.",
-        `$\\sqrt{a^2 + b^2} = \\sqrt{${a * a + b * b}} = ${n}$.`,
-        `$d(A, D) = \\frac{|${a} \\times ${this.paren(xA)} + ${this._1re_pz(b)} \\times ${this.paren(yA)} + ${this.paren(c)}|}{\\sqrt{${a * a + b * b}}} = ${num === n ? '1' : this.frac(num, n)}$.`
-      );
-    }
+    // tier 4 (distance d'un point à une droite : remplacée par le projeté orthogonal, _x1G3proj)
+    const fam = this.randInt(1, 2);
     if (fam === 1) {
       let AB; let AC; let BC;
       do { AB = this.randInt(2, 10); AC = this.randInt(2, 10); BC = 2 * this.randInt(1, 8); } while (AB >= AC + BC || AC >= AB + BC || BC >= AB + AC);
@@ -7824,7 +9925,7 @@ window.MathsLyceeGenerators = {
     const tri = this.randChoice([[7, 3, 8, 60], [7, 5, 8, 60], [13, 7, 15, 60], [13, 8, 15, 60], [7, 3, 5, 120], [19, 5, 16, 120], [14, 6, 10, 120], [13, 7, 8, 120]]);
     const k = this.randInt(1, 3);
     const [a, b, c, ang] = tri.map((t, i) => (i < 3 ? t * k : t));
-    return this.makeMcq('1G3', 4, 'Mesure d\'un angle avec Al-Kashi',
+    return this._xa([String(ang), 'Saisir la mesure en degrés (nombre seul).'], '1G3', 4, 'Mesure d\'un angle avec Al-Kashi',
       "Calculer $\\cos\\widehat{A}$ puis reconnaître l'angle",
       `Dans un triangle $ABC$, $BC = ${a}$, $AC = ${b}$ et $AB = ${c}$. Quelle est la mesure de l'angle $\\widehat{BAC}$ ?`,
       `$${ang}^\\circ$`,
@@ -7839,6 +9940,8 @@ window.MathsLyceeGenerators = {
   // 1S1 : Probabilités conditionnelles
   // =========================================================================
   gen_1S1(tier) {
+    const xq = this._lyX('1S1', tier, [2, 1, 2, 2][tier - 1]);
+    if (xq) return xq;
     const p = (c) => this._1re_p(c); // centièmes
     if (tier === 1) {
       const pa = this.randInt(2, 8) * 10;
@@ -7879,7 +9982,7 @@ window.MathsLyceeGenerators = {
         `$P(B) = ${P(pb)}$`,
         [`$P(B) = ${P((b1 + b2) / 2)}$`, `$P(B) = ${P(pa * b1 / 100)}$`, `$P(B) = ${P((pa * b1 + pa * b2) / 100)}$`, `$P(B) = ${P((pa * b2 + (100 - pa) * b1) / 100)}$`, `$P(B) = ${P(b1 * b2 / 100)}$`],
         "$A$ et $\\overline{A}$ forment une partition de l'univers : utilise un arbre pondéré.",
-        `$P(\\overline{A}) = 1 - ${P(pa)} = ${P(100 - pa)}$.`,
+        "Calcule $P(\\overline{A}) = 1 - P(A)$, puis additionne les produits des probabilités le long des deux chemins menant à $B$.",
         `$P(B) = ${P(pa)} \\times ${P(b1)} + ${P(100 - pa)} \\times ${P(b2)} = ${P(pa * b1 / 100)} + ${P((100 - pa) * b2 / 100)} = ${P(pb)}$.`
       );
     }
@@ -7938,7 +10041,7 @@ window.MathsLyceeGenerators = {
         `$P_B(A) ${sym} ${r2(v)}$`,
         [`$P_B(A) ${sym} ${r2(b1 / 100)}$`, `$P_B(A) ${sym} ${r2(num / 10000)}$`, `$P_B(A) ${sym} ${r2(1 - v)}$`, `$P_B(A) ${sym} ${r2(den / 10000)}$`, `$P_B(A) ${sym} ${r2(Math.min(0.99, v + 0.1))}$`],
         "Calcule d'abord $P(A \\cap B)$ puis $P(B)$ par la formule des probabilités totales.",
-        `$P(A \\cap B) = ${P(pa)} \\times ${P(b1)} = ${this.dec(num / 10000)}$.`,
+        "$P(A \\cap B) = P(A) \\times P_A(B)$ et $P(B) = P(A \\cap B) + P(\\overline{A}) \\times P_{\\overline{A}}(B)$.",
         `$P(A \\cap B) = ${this.dec(num / 10000)}$ et $P(B) = ${this.dec(num / 10000)} + ${P(100 - pa)} \\times ${P(b2)} = ${this.dec(den / 10000)}$. Donc $P_B(A) = \\frac{${this.dec(num / 10000)}}{${this.dec(den / 10000)}} ${sym} ${r2(v)}$.`
       );
     }
@@ -7984,6 +10087,8 @@ window.MathsLyceeGenerators = {
   },
 
   gen_1S2(tier) {
+    const xq = this._lyX('1S2', tier, [1, 1, 2, 1][tier - 1]);
+    if (xq) return xq;
     const P = (c) => this._1re_p(c);
     if (tier === 1) {
       const k = this.randInt(3, 4);
@@ -8017,11 +10122,9 @@ window.MathsLyceeGenerators = {
     if (tier === 3) {
       if (this.randInt(0, 1) === 0) {
         const a = this.randNonZero(-5, 5); const b = this.randInt(-9, 9);
-        const E = this.randInt(-30, 30) / 10; const Vv = this.randInt(1, 40) / 10;
-        const askE = this.randInt(0, 1) === 1;
+        const E = this.randInt(-30, 30) / 10;
         const Y = this.poly([[a, 'X'], [b, '']]);
-        if (askE) {
-          return this.makeMcq('1S2', 3, 'Espérance de $aX + b$',
+        return this.makeMcq('1S2', 3, 'Espérance de $aX + b$',
             "Utiliser la linéarité $E(aX + b) = aE(X) + b$",
             `On sait que $E(X) = ${this.dec(E)}$. On pose $Y = ${Y}$. Calculer $E(Y)$.`,
             `$E(Y) = ${this.dec(a * E + b)}$`,
@@ -8030,16 +10133,6 @@ window.MathsLyceeGenerators = {
             `Ici $a = ${a}$ et $b = ${b}$.`,
             `$E(Y) = ${a} \\times ${this.paren(this.dec(E))}${this._1re_sg(b)} = ${this.dec(a * E + b)}$.`
           );
-        }
-        return this.makeMcq('1S2', 3, 'Variance de $aX + b$',
-          "Utiliser $V(aX + b) = a^2 V(X)$",
-          `On sait que $V(X) = ${this.dec(Vv)}$. On pose $Y = ${Y}$. Calculer $V(Y)$.`,
-          `$V(Y) = ${this.dec(a * a * Vv)}$`,
-          [`$V(Y) = ${this.dec(a * Vv)}$`, `$V(Y) = ${this.dec(a * a * Vv + b)}$`, `$V(Y) = ${this.dec(a * Vv + b)}$`, `$V(Y) = ${this.dec(Math.abs(a) * Vv + 1)}$`],
-          "$V(aX + b) = a^2 V(X)$ : la constante $b$ ne change pas la dispersion.",
-          `Ici $a^2 = ${a * a}$.`,
-          `$V(Y) = ${this.paren(a)}^2 \\times ${this.dec(Vv)} = ${this.dec(a * a * Vv)}$.`
-        );
       }
       // jeu : mise équitable
       const k = 3;
@@ -8069,7 +10162,7 @@ window.MathsLyceeGenerators = {
       `$V(X) = ${this.dec(Vv)}$`,
       [`$V(X) = ${this.dec(E2)}$`, `$V(X) = ${this.dec(E2 + E * E)}$`, `$V(X) = ${this.dec(Math.sqrt(Math.abs(Vv)))}`.replace(/$/, '$'), `$V(X) = ${this.dec(Vv + 1)}$`, `$V(X) = ${this.dec(E2 - E)}$`],
       "Calcule $E(X)$ puis $E(X^2) = \\sum x_i^2 P(X = x_i)$.",
-      `$E(X) = ${this.dec(E)}$ et $E(X^2) = ${this.dec(E2)}$.`,
+      "Calcule $E(X)$ et $E(X^2)$, puis retranche $E(X)^2$ à $E(X^2)$.",
       `$E(X) = ${this.dec(E)}$, $E(X^2) = ${vals.map((v, i) => `${this.paren(v)}^2 \\times ${P(pr[i])}`).join(' + ')} = ${this.dec(E2)}$. Donc $V(X) = ${this.dec(E2)} - ${this.paren(this.dec(E))}^2 = ${this.dec(Vv)}$${askSigma ? '' : ''}.`
     );
   },
@@ -8235,13 +10328,13 @@ window.MathsLyceeGenerators = {
         const a = this.randChoice([2, 3, -2]);
         const b = this.randInt(-4, 4);
         const u0 = this.randInt(-2, 5);
-        const n = this.randInt(3, 4);
+        const n = 3;
         const us = [u0];
         for (let k = 0; k < n + 1; k++) us.push(a * us[k] + b);
         const rhs = `${a} * L[k]${b ? ` ${b > 0 ? '+' : '-'} ${Math.abs(b)}` : ''}`;
         const wrong = [u0];
         for (let k = 0; k < n; k++) wrong.push(a * (wrong[k] + b));
-        return this.makeMcq(T, 2, 'Liste des premiers termes',
+        return this._xa([`(${us.slice(0, 4).join(';')})`, 'Saisir les quatre éléments de la liste affichée sous la forme (a ; b ; c ; d).'], T, 2, 'Liste des premiers termes',
           'Stocker les termes d\'une suite dans une liste',
           `Qu'affiche le programme Python suivant ?${P([`L = [${u0}]`, `for k in range(${n}):`, `    L.append(${rhs})`, 'print(L)'])}`,
           LS(us.slice(0, n + 1)),
@@ -8444,7 +10537,31 @@ window.MathsLyceeGenerators = {
       `Le programme s'arrête au premier multiple de ${p} dont le ${cube ? 'cube' : 'carré'} atteint ${A} : il encadre $${cube ? `\\sqrt[3]{${A}}` : `\\sqrt{${A}}`}$.`,
       `$${this.dec(x - p, 4)}^${cube ? 3 : 2} = ${this.dec(f(x - p), 6)} < ${A}$ et $${this.dec(x, 4)}^${cube ? 3 : 2} = ${this.dec(f(x), 6)} \\ge ${A}$ : la boucle s'arrête avec \`x = ${pf(x)}\`. On en déduit $${this.dec(x - p, 4)} < ${cube ? `\\sqrt[3]{${A}}` : `\\sqrt{${A}}`} \\le ${this.dec(x, 4)}$. Affichage : ${both ? `« ${pf(x - p)} ${pf(x)} »` : N(x)}.`
     );
-  }
+  },
+  // ---- Helpers de saisie exacte (Terminale) ----
+  /** Fraction en texte brut réduite (saisie exacte) : _Tq(6, -4) -> "-3/2", _Tq(4, 2) -> "2" */
+  _Tq(n, d = 1) {
+    if (d < 0) { n = -n; d = -d; }
+    if (n === 0) return '0';
+    const g = this.gcd(n, d);
+    return d / g === 1 ? String(n / g) : `${n / g}/${d / g}`;
+  },
+
+  /** Saisie exacte explicite d'un QCM : n-uplet (tableau) ou valeur, avec consigne */
+  _Tx(q, ans, instruction) {
+    q.exactAnswer = Array.isArray(ans) ? `(${ans.join(';')})` : String(ans);
+    if (instruction) q.exactInstruction = instruction;
+    return q;
+  },
+
+  /** Saisie des solutions d'une équation trigonométrique (unités π/12) : quotients par π, ordre croissant */
+  _TA9_exact(ks) {
+    const ins = 'Diviser chaque solution par $\\pi$ et saisir les quotients dans l\'ordre croissant, entre parenthèses et séparés par « ; » s\'il y en a plusieurs (une seule solution : saisir son quotient seul ; aucune : saisir « aucune »).';
+    if (!ks.length) return ['aucune', ins];
+    const v = ks.map((k) => this._Tq(k, 12));
+    return [v.length === 1 ? v[0] : v, ins];
+  },
+
 };
 
 // Helpers partagés : implémentation unique dans advancedGenerators.js (window.MathsGenUtils).

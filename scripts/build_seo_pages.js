@@ -35,6 +35,13 @@ const ROOT = path.resolve(__dirname, '..');
 const OUT = path.join(ROOT, 'cours');
 const SITE = 'https://etabli-des-maths.fr';
 const BRAND = "L'Établi des Maths";
+// Anciennes URL de chapitres (titre renommé) → nouvelle URL, relatives à cours/.
+// GitHub Pages n'a pas de redirection serveur : une page relais (canonical + refresh) est générée.
+const REDIRECTS = {
+  'seconde/echantillonnage-fluctuation-et-algorithmique-en-python.html': 'seconde/fluctuation-d-echantillonnage.html',
+  'seconde/probabilites-sur-un-ensemble-fini.html': 'seconde/probabilites-modele-probabiliste-probabilites.html',
+  'premiere/trigonometrie-cercle-trigonometrique-et-fonctions-sinus.html': 'premiere/trigonometrie-cercle-trigonometrique-radian-cosinus.html'
+};
 const AUTHOR = 'Loïc Delaporte';
 const BUILD_DATE = process.env.BUILD_DATE || new Date().toISOString().slice(0, 10);
 const NB = '\u00a0';   // espace insécable
@@ -928,6 +935,27 @@ ${section('faq', 'Questions fréquentes', faqHtml(faqs))}`;
 
   // Pages piliers
   const hubPages = buildHubs({ levelsData, COURSES, EXOS });
+
+  // Pages relais des anciennes URL (hors sitemap)
+  for (const [from, to] of Object.entries(REDIRECTS)) {
+    if (!fs.existsSync(path.join(OUT, to))) { warnings.push(`Redirection ${from} : cible absente ${to}`); continue; }
+    if (fs.existsSync(path.join(OUT, from))) { warnings.push(`Redirection ${from} : l'ancienne URL est de nouveau une page`); continue; }
+    const url = `${SITE}/cours/${to}`;
+    fs.writeFileSync(path.join(OUT, from), `<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Page déplacée — ${BRAND}</title>
+<meta name="robots" content="noindex">
+<link rel="canonical" href="${url}">
+<meta http-equiv="refresh" content="0; url=${url}">
+</head>
+<body>
+<p>Cette page a été déplacée : <a href="${url}">${url}</a>.</p>
+</body>
+</html>
+`);
+  }
 
   // Sitemap
   const rootPages = [

@@ -8,20 +8,31 @@ window.MATHS_COURSES_1ERE = {
     "title": "1A1 : Polynôme du second degré : forme canonique, racines et signe",
     "domain": "Analyse et Fonctions",
     "objectives": [
+      "Étudier le signe d'une fonction polynôme du second degré donnée sous forme factorisée $a(x - x_1)(x - x_2)$ et déterminer les fonctions polynômes du second degré s'annulant en deux réels distincts.",
       "Mettre un trinôme du second degré $P(x) = ax^2 + bx + c$ sous forme canonique.",
       "Calculer le discriminant $\\Delta = b^2 - 4ac$ et déterminer le nombre et la valeur des racines réelles.",
       "Factoriser un trinôme lorsque $\\Delta \\ge 0$ et étudier son signe sur $\\mathbb{R}$.",
       "Résoudre des équations et inéquations du second degré.",
-      "Utiliser la somme $-\\frac{b}{a}$ et le produit $\\frac{c}{a}$ des racines, et choisir la forme (développée, canonique, factorisée) la mieux adaptée à la question posée."
+      "Utiliser la somme $-\\frac{b}{a}$ et le produit $\\frac{c}{a}$ des racines, et choisir la forme (développée, canonique, factorisée) la mieux adaptée à la question posée.",
+      "Obtenir une forme canonique dans des cas simples par complétion du carré : $x^2 + 2ax = (x + a)^2 - a^2$.",
+      "Logique : employer « condition nécessaire », « condition suffisante », distinguer identité et équation, utiliser et nier des propositions quantifiées."
     ],
     "keyPoints": [
       {
+        "title": "0. Trinôme donné sous forme factorisée : racines, signe, somme et produit",
+        "content": "Soit $f(x) = a(x - x_1)(x - x_2)$ avec $a \\neq 0$.\n• **Racines** : par la règle du produit nul, $f(x) = 0 \\iff x = x_1$ ou $x = x_2$ : on lit les racines sans calcul.\n• **Signe** : un tableau de signes des deux facteurs montre que, si $x_1 < x_2$, $f(x)$ est **du signe de $a$ à l'extérieur** de $[x_1 ; x_2]$ et **du signe de $-a$ entre** $x_1$ et $x_2$.\n*Exemple* : $f(x) = -2(x + 1)(x - 3)$ est positive sur $[-1 ; 3]$ et négative sur $]-\\infty ; -1] \\cup [3 ; +\\infty[$.\n• **Somme et produit des racines** : en développant, $a(x - x_1)(x - x_2) = ax^2 - a(x_1 + x_2)x + a\\,x_1x_2$. En identifiant avec $ax^2 + bx + c$ : $b = -a(x_1 + x_2)$ et $c = a\\,x_1x_2$, d'où $$x_1 + x_2 = -\\frac{b}{a} \\qquad x_1x_2 = \\frac{c}{a}$$\n• **Factorisation directe** : racines apparentes ($x^2 - 5x = x(x - 5)$), coefficient de $x$ nul ($x^2 - 9 = (x - 3)(x + 3)$), racines entières devinées par leur somme et leur produit ($x^2 - 7x + 10$ : somme $7$, produit $10$, racines $2$ et $5$)."
+      },
+      {
         "title": "1. Forme canonique d'un trinôme",
-        "content": "Tout trinôme $P(x) = ax^2 + bx + c$ ($a \\neq 0$) peut s'écrire sous forme canonique :\n$$P(x) = a(x - \\alpha)^2 + \\beta$$\navec : $$\\alpha = -\\frac{b}{2a} \\quad \\text{et} \\quad \\beta = P(\\alpha) = -\\frac{b^2 - 4ac}{4a}$$\nLe sommet de la parabole représentative a pour coordonnées $S(\\alpha ; \\beta)$."
+        "content": "Tout trinôme $P(x) = ax^2 + bx + c$ ($a \\neq 0$) peut s'écrire sous forme canonique :\n$$P(x) = a(x - \\alpha)^2 + \\beta$$\navec : $$\\alpha = -\\frac{b}{2a} \\quad \\text{et} \\quad \\beta = P(\\alpha) = -\\frac{b^2 - 4ac}{4a}$$\n• **Dans les cas simples**, on l'obtient par **complétion du carré** grâce à l'identité $x^2 + 2ax = (x + a)^2 - a^2$ : par exemple $x^2 + 6x + 1 = (x + 3)^2 - 9 + 1 = (x + 3)^2 - 8$.\n• Le calcul de la forme canonique dans le cas général n'est pas un attendu du programme : les formules donnant $\\alpha$ et $\\beta$ servent surtout de contrôle.\nLe sommet de la parabole représentative a pour coordonnées $S(\\alpha ; \\beta)$."
       },
       {
         "title": "2. Discriminant $\\Delta$ et racines réelles",
         "content": "On pose $\\Delta = b^2 - 4ac$ (le **discriminant**) :\n• **Si $\\Delta < 0$** : L'équation $ax^2 + bx + c = 0$ n'a **aucune racine réelle**. Le trinôme ne se factorise pas dans $\\mathbb{R}$.\n• **Si $\\Delta = 0$** : L'équation admet **une racine double** :\n$$x_0 = -\\frac{b}{2a}$$\nForme factorisée : $P(x) = a(x - x_0)^2$.\n• **Si $\\Delta > 0$** : L'équation admet **deux racines réelles distinctes** :\n$$x_1 = \\frac{-b - \\sqrt{\\Delta}}{2a} \\quad \\text{et} \\quad x_2 = \\frac{-b + \\sqrt{\\Delta}}{2a}$$\nForme factorisée : $P(x) = a(x - x_1)(x - x_2)$."
+      },
+      {
+        "title": "Démonstration : résolution de l'équation du second degré",
+        "content": "Soit $a \\neq 0$. On factorise par $a$ puis on complète le carré :\n$$ax^2 + bx + c = a\\left[x^2 + \\frac{b}{a}x\\right] + c = a\\left[\\left(x + \\frac{b}{2a}\\right)^2 - \\frac{b^2}{4a^2}\\right] + c = a\\left[\\left(x + \\frac{b}{2a}\\right)^2 - \\frac{\\Delta}{4a^2}\\right]$$\navec $\\Delta = b^2 - 4ac$. Comme $a \\neq 0$, l'équation $ax^2 + bx + c = 0$ équivaut à $\\left(x + \\frac{b}{2a}\\right)^2 = \\frac{\\Delta}{4a^2}$.\n• **Si $\\Delta < 0$** : le membre de droite est strictement négatif, alors qu'un carré est positif ou nul : **aucune solution réelle**.\n• **Si $\\Delta = 0$** : l'équation s'écrit $\\left(x + \\frac{b}{2a}\\right)^2 = 0$, d'où l'unique solution $x_0 = -\\frac{b}{2a}$.\n• **Si $\\Delta > 0$** : $\\frac{\\Delta}{4a^2} = \\left(\\frac{\\sqrt{\\Delta}}{2a}\\right)^2$ et l'identité $A^2 - B^2 = (A - B)(A + B)$ donne\n$$ax^2 + bx + c = a\\left(x + \\frac{b}{2a} - \\frac{\\sqrt{\\Delta}}{2a}\\right)\\left(x + \\frac{b}{2a} + \\frac{\\sqrt{\\Delta}}{2a}\\right) = a(x - x_2)(x - x_1)$$\navec $x_1 = \\frac{-b - \\sqrt{\\Delta}}{2a}$ et $x_2 = \\frac{-b + \\sqrt{\\Delta}}{2a}$. Par la règle du produit nul, les solutions sont $x_1$ et $x_2$, distinctes car $\\sqrt{\\Delta} \\neq 0$.\n**Bilan** : la démonstration fournit à la fois les formules des racines et la forme factorisée."
       },
       {
         "title": "3. Signe du trinôme du second degré",
@@ -29,7 +40,7 @@ window.MATHS_COURSES_1ERE = {
       },
       {
         "title": "4. Parabole, sommet et variations",
-        "content": "La courbe représentative de $x \\mapsto ax^2 + bx + c$ est une **parabole** d'axe de symétrie la droite d'équation $x = \\alpha = -\\frac{b}{2a}$ et de sommet $S(\\alpha ; \\beta)$.\n• **Si $a > 0$** : la fonction est décroissante sur $]-\\infty ; \\alpha]$ puis croissante sur $[\\alpha ; +\\infty[$ ; elle admet un **minimum** $\\beta$ atteint en $\\alpha$.\n• **Si $a < 0$** : la fonction est croissante sur $]-\\infty ; \\alpha]$ puis décroissante sur $[\\alpha ; +\\infty[$ ; elle admet un **maximum** $\\beta$ atteint en $\\alpha$.\n*Exemple* : pour $f(x) = x^2 - 4x + 1$, $\\alpha = 2$ et $\\beta = f(2) = -3$ : minimum $-3$ atteint en $x = 2$."
+        "content": "La courbe représentative de $x \\mapsto ax^2 + bx + c$ est une **parabole** d'axe de symétrie la droite d'équation $x = \\alpha = -\\frac{b}{2a}$ et de sommet $S(\\alpha ; \\beta)$.\n• **Si $a > 0$** : la fonction est décroissante sur $]-\\infty ; \\alpha]$ puis croissante sur $[\\alpha ; +\\infty[$ ; elle admet un **minimum** $\\beta$ atteint en $\\alpha$.\n• **Si $a < 0$** : la fonction est croissante sur $]-\\infty ; \\alpha]$ puis décroissante sur $[\\alpha ; +\\infty[$ ; elle admet un **maximum** $\\beta$ atteint en $\\alpha$.\n• **Translation** : la parabole d'équation $y = a(x - \\alpha)^2 + \\beta$ est l'image de la parabole $y = ax^2$ par la translation qui envoie l'origine sur $S(\\alpha ; \\beta)$. Plus généralement, pour une fonction $f$ et un réel $m$, la courbe de $x \\mapsto f(x - m)$ se déduit de celle de $f$ par la translation de vecteur $m\\,\\vec{\\imath}$ (décalage horizontal de $m$).\n• **Lien avec la dérivation** (voir 1A3) : $f'(x) = 2ax + b$ s'annule en $\\alpha = -\\frac{b}{2a}$ ; si $a > 0$, $f$ est décroissante puis croissante (minimum $\\beta$) ; si $a < 0$, croissante puis décroissante (maximum $\\beta$).\n*Exemple* : pour $f(x) = x^2 - 4x + 1$, $\\alpha = 2$ et $\\beta = f(2) = -3$ : minimum $-3$ atteint en $x = 2$."
       },
       {
         "title": "5. Somme et produit des racines",
@@ -38,6 +49,22 @@ window.MATHS_COURSES_1ERE = {
       {
         "title": "6. Racine évidente",
         "content": "Lorsqu'une racine $x_1 \\neq 0$ se « voit » (souvent $1$, $-1$, $2$…), on obtient l'autre sans calculer $\\Delta$ grâce au produit : $x_2 = \\frac{c}{a x_1}$.\n*Exemple* : pour $2x^2 + 3x - 5$, on a $2 + 3 - 5 = 0$, donc $x_1 = 1$ est racine. Alors $x_2 = \\frac{-5}{2 \\times 1} = -\\frac{5}{2}$ et $2x^2 + 3x - 5 = 2(x - 1)\\left(x + \\frac{5}{2}\\right)$."
+      },
+      {
+        "title": "7. Trinômes de racines données",
+        "content": "• Les fonctions polynômes du second degré qui s'annulent en deux réels distincts $x_1$ et $x_2$ sont exactement les fonctions $x \\mapsto a(x - x_1)(x - x_2)$, avec $a \\neq 0$.\n*Exemple* : celle qui s'annule en $-1$ et en $4$ et qui vaut $6$ en $0$ vérifie $a(0 + 1)(0 - 4) = -4a = 6$, donc $a = -\\frac{3}{2}$ et $f(x) = -\\frac{3}{2}(x + 1)(x - 4)$.\n• **Pour aller plus loin** : deux réels de somme $s$ et de produit $p$ sont les racines de $x^2 - sx + p$. Par exemple, deux nombres de somme $10$ et de produit $21$ sont les racines de $x^2 - 10x + 21$, soit $3$ et $7$."
+      },
+      {
+        "title": "8. Pour aller plus loin : polynôme de degré 3 ayant une racine connue",
+        "content": "Si $P(x) = x^3 - 2x^2 - x + 2$, on remarque que $P(1) = 1 - 2 - 1 + 2 = 0$. On cherche alors $P(x) = (x - 1)(x^2 + bx + c)$ ; en développant, $(x - 1)(x^2 + bx + c) = x^3 + (b - 1)x^2 + (c - b)x - c$, d'où $b - 1 = -2$, $c - b = -1$ et $-c = 2$ : $b = -1$, $c = -2$.\nAinsi $P(x) = (x - 1)(x^2 - x - 2) = (x - 1)(x + 1)(x - 2)$, et l'équation $P(x) = 0$ a pour solutions $-1$, $1$ et $2$.\nDe même, $x^3 - 1 = (x - 1)(x^2 + x + 1)$ et, plus généralement, $x^n - 1 = (x - 1)(x^{n-1} + \\dots + x + 1)$."
+      },
+      {
+        "title": "9. Logique : conditions nécessaires et suffisantes, quantificateurs",
+        "content": "• **Statut des égalités et des lettres** : $x^2 - 4x + 3 = (x - 2)^2 - 1$ est une **identité** (vraie pour tout réel $x$) ; $x^2 - 4x + 3 = 0$ est une **équation** d'**inconnue** $x$ (solutions $1$ et $3$). Dans « $ax^2 + bx + c$ », $a$, $b$, $c$ sont des **paramètres** et $x$ la **variable**.\n• **Condition suffisante, condition nécessaire** : « $a$ et $c$ sont de signes contraires » est une condition **suffisante** pour que $ax^2 + bx + c$ ait deux racines (car alors $-4ac > 0$, donc $\\Delta = b^2 - 4ac > 0$), mais elle n'est **pas nécessaire** : $x^2 - 5x + 6$ a deux racines ($2$ et $3$) alors que $a$ et $c$ sont positifs. « $\\Delta \\ge 0$ » est une condition **nécessaire et suffisante** pour que le trinôme ait au moins une racine réelle.\n• **Quantifications implicites** : « si $x > 3$, alors $x^2 > 9$ » signifie « **pour tout** réel $x$, si $x > 3$ alors $x^2 > 9$ ».\n• **Négation d'une proposition quantifiée** : la négation de « pour tout réel $x$, $P(x)$ » est « il existe un réel $x$ tel que non $P(x)$ ». Ainsi la négation de « pour tout réel $x$, $x^2 - 2x + 2 > 0$ » est « il existe un réel $x$ tel que $x^2 - 2x + 2 \\le 0$ » (cette négation est fausse, car $x^2 - 2x + 2 = (x - 1)^2 + 1 > 0$).\n• **Raisonnement par contraposée** : « si $\\Delta < 0$, le trinôme n'a pas de racine réelle » équivaut à « si le trinôme a une racine réelle, alors $\\Delta \\ge 0$ »."
+      },
+      {
+        "title": "Automatismes pour l'épreuve anticipée",
+        "content": "L'épreuve anticipée de mathématiques (2 heures, **sans calculatrice**) commence par un QCM d'automatismes (6 points sur 20), suivi d'exercices (14 points). Questions flash typiques sur ce chapitre, à traiter de tête :\n• Lire sur une parabole le signe de $a$ (branches vers le haut : $a > 0$) et le nombre de racines (points communs avec l'axe des abscisses).\n• $x^2 \\ge 10 \\iff x \\le -\\sqrt{10}$ ou $x \\ge \\sqrt{10}$ ; $x^2 < 9 \\iff -3 < x < 3$.\n• Racines de $(x - 2)(3x + 1)$ : $2$ et $-\\frac{1}{3}$, sans rien développer.\n• $x^2 - 6x + 9 = (x - 3)^2$ : $\\Delta = 0$, racine double $3$.\n• Sommet de la parabole $y = -2(x + 1)^2 + 5$ : $S(-1 ; 5)$ ; c'est un maximum car $a = -2 < 0$.\n• Signe : $-2x + 6$ est positif pour $x \\le 3$ ; $(x - 1)(x + 4)$ est négatif entre $-4$ et $1$.\n• Racine évidente : $x^2 + 4x - 5$ s'annule en $1$ ($1 + 4 - 5 = 0$) ; l'autre racine vaut $\\frac{c}{a \\times 1} = -5$."
       }
     ],
     "methods": [
@@ -89,7 +116,8 @@ window.MATHS_COURSES_1ERE = {
       "⚠️ Ne pas oublier de multiplier par $a$ dans la forme factorisée : $a(x - x_1)(x - x_2)$.",
       "⚠️ Pour résoudre une inéquation, on se ramène d'abord à une comparaison avec $0$ : $x^2 > 4x \\iff x^2 - 4x > 0 \\iff x(x - 4) > 0$. Ne divisez jamais par $x$, dont le signe est inconnu !",
       "⚠️ $\\Delta < 0$ ne veut pas dire que le trinôme est négatif : il est alors **du signe de $a$** sur $\\mathbb{R}$.",
-      "⚠️ Dans la forme canonique $a(x - \\alpha)^2 + \\beta$, attention au signe de $\\alpha$ : pour $2(x + 3)^2 - 1$, on a $\\alpha = -3$ (et non $3$)."
+      "⚠️ Dans la forme canonique $a(x - \\alpha)^2 + \\beta$, attention au signe de $\\alpha$ : pour $2(x + 3)^2 - 1$, on a $\\alpha = -3$ (et non $3$).",
+      "⚠️ L'équation $x^2 = 10$ a **deux** solutions, $-\\sqrt{10}$ et $\\sqrt{10}$ : oublier la solution négative est une erreur fréquente dans les QCM."
     ],
     "flashcards": [
       {
@@ -111,6 +139,14 @@ window.MATHS_COURSES_1ERE = {
       {
         "q": "Factoriser $x^2 - x - 6$.",
         "a": "$\\Delta = 1 + 24 = 25$, racines $-2$ et $3$ : $x^2 - x - 6 = (x + 2)(x - 3)$."
+      },
+      {
+        "q": "Comment démontre-t-on les formules des racines d'un trinôme ?",
+        "a": "On écrit $ax^2 + bx + c = a\\left[\\left(x + \\frac{b}{2a}\\right)^2 - \\frac{\\Delta}{4a^2}\\right]$, puis on discute selon le signe de $\\Delta$ (si $\\Delta > 0$, on factorise une différence de deux carrés)."
+      },
+      {
+        "q": "Donner une fonction du second degré qui s'annule en $1$ et en $5$.",
+        "a": "Par exemple $f(x) = (x - 1)(x - 5)$ ; plus généralement $a(x - 1)(x - 5)$ avec $a \\neq 0$."
       }
     ]
   },
@@ -122,7 +158,8 @@ window.MATHS_COURSES_1ERE = {
       "Définir le taux de variation d'une fonction entre $a$ et $a+h$ : $\\tau(h) = \\frac{f(a+h) - f(a)}{h}$.",
       "Définir le nombre dérivé $f'(a)$ comme la limite finie quand $h \\to 0$ du taux de variation.",
       "Interpréter géométriquement $f'(a)$ comme le coefficient directeur de la tangente $\\mathcal{T}_a$ à la courbe au point d'abscisse $a$.",
-      "Écrire et exploiter l'équation réduite de la tangente : $y = f'(a)(x - a) + f(a)$."
+      "Écrire et exploiter l'équation réduite de la tangente : $y = f'(a)(x - a) + f(a)$.",
+      "Interpréter le nombre dérivé en contexte : pente d'une tangente, vitesse instantanée, coût marginal ; calculer une valeur approchée de $f(a + h)$."
     ],
     "keyPoints": [
       {
@@ -131,7 +168,11 @@ window.MATHS_COURSES_1ERE = {
       },
       {
         "title": "2. Équation de la tangente à la courbe",
-        "content": "La tangente $\\mathcal{T}_a$ à la courbe $\\mathcal{C}_f$ au point $A(a ; f(a))$ est la droite de coefficient directeur $f'(a)$ passant par $A$.\nSon équation réduite est :\n$$y = f'(a)(x - a) + f(a)$$"
+        "content": "Lorsque $h$ tend vers $0$, les **sécantes** $(AM)$, où $M$ est le point de la courbe d'abscisse $a + h$, se rapprochent d'une droite limite : la **tangente**. Sa pente est la limite des pentes des sécantes, c'est-à-dire $f'(a)$.\nLa tangente $\\mathcal{T}_a$ à la courbe $\\mathcal{C}_f$ au point $A(a ; f(a))$ est la droite de coefficient directeur $f'(a)$ passant par $A$.\nSon équation réduite est :\n$$y = f'(a)(x - a) + f(a)$$"
+      },
+      {
+        "title": "Démonstration : équation de la tangente",
+        "content": "La tangente $\\mathcal{T}_a$ a pour coefficient directeur le nombre réel $f'(a)$ : elle n'est pas verticale et admet donc une équation de la forme $y = f'(a)\\,x + p$.\nElle passe par le point $A(a ; f(a))$, donc $f(a) = f'(a) \\times a + p$, d'où $p = f(a) - f'(a)\\,a$.\nAinsi $y = f'(a)\\,x + f(a) - f'(a)\\,a$, c'est-à-dire $$y = f'(a)(x - a) + f(a)$$"
       },
       {
         "title": "3. Calculer un nombre dérivé avec la définition",
@@ -143,7 +184,19 @@ window.MATHS_COURSES_1ERE = {
       },
       {
         "title": "5. Tangente et approximation affine",
-        "content": "Près du point $A(a ; f(a))$, la courbe et sa tangente sont très proches. Pour $h$ proche de $0$ :\n$$f(a + h) \\approx f(a) + f'(a)\\,h$$\n*Exemple* : pour $f(x) = \\sqrt{x}$, on admet que $f'(1) = \\frac{1}{2}$, donc $\\sqrt{1{,}02} \\approx 1 + \\frac{1}{2} \\times 0{,}02 = 1{,}01$ (la calculatrice donne $1{,}00995\\ldots$)."
+        "content": "Près du point $A(a ; f(a))$, la courbe et sa tangente sont très proches. Pour $h$ proche de $0$ :\n$$f(a + h) \\approx f(a) + f'(a)\\,h$$\n*Exemple* : pour $f(x) = \\sqrt{x}$, on admet que $f'(1) = \\frac{1}{2}$, donc $\\sqrt{1{,}02} \\approx 1 + \\frac{1}{2} \\times 0{,}02 = 1{,}01$ (la calculatrice donne $1{,}00995\\ldots$). De même, pour la fonction inverse, $f'(1) = -1$ donc $\\frac{1}{1{,}02} \\approx 1 - 0{,}02 = 0{,}98$ (valeur exacte $0{,}98039\\ldots$) ; pour la fonction carré, $1{,}02^2 \\approx 1 + 2 \\times 0{,}02 = 1{,}04$ (valeur exacte $1{,}0404$)."
+      },
+      {
+        "title": "6. Algorithme : coefficients directeurs des sécantes",
+        "content": "Pour $f(x) = x^2$ et $a = 1$, on calcule les pentes des sécantes $(AM)$, où $M$ est le point de la courbe d'abscisse $1 + h$, pour $h = 1$, puis $0{,}1$, puis $0{,}01$… (le pas est divisé par $10$ à chaque fois).\n```python\ndef f(x):\n    return x ** 2\n\ndef pentes(a, n):\n    L = []\n    h = 1\n    for k in range(n):\n        L.append((f(a + h) - f(a)) / h)\n        h = h / 10\n    return L\n```\n`pentes(1, 4)` renvoie (aux erreurs d'arrondi près) `[3, 2.1, 2.01, 2.001]` : le taux vaut exactement $2 + h$, et les pentes des sécantes se rapprochent de $f'(1) = 2$, pente de la tangente."
+      },
+      {
+        "title": "7. Interpréter le nombre dérivé en contexte",
+        "content": "• **Cinématique** : si $d(t)$ est la distance parcourue à l'instant $t$, le taux de variation $\\frac{d(t + h) - d(t)}{h}$ est une **vitesse moyenne** et $d'(t)$ la **vitesse instantanée**.\n*Exemple* : une bille en chute libre parcourt $d(t) = 5t^2$ mètres en $t$ secondes. Entre $1$ et $1 + h$ : $\\frac{5(1 + h)^2 - 5}{h} = \\frac{10h + 5h^2}{h} = 10 + 5h$, qui tend vers $10$ : à l'instant $t = 1$ s, la vitesse est $10$ m/s.\n• **Économie** : si $C(q)$ est le coût de production de $q$ unités, $C'(q)$ est le **coût marginal**, valeur approchée du coût de production d'une unité supplémentaire : $C(q + 1) - C(q) \\approx C'(q)$.\n*Exemple* : $C(q) = 0{,}5q^2 + 10q$ donne $C'(q) = q + 10$, donc $C'(20) = 30$, alors que $C(21) - C(20) = 30{,}5$.\n• **Notations** : en physique, on note $\\frac{\\Delta y}{\\Delta x}$ un taux de variation et $\\frac{\\mathrm{d}y}{\\mathrm{d}x}$ une dérivée ; si $y = f(x)$, $\\frac{\\mathrm{d}y}{\\mathrm{d}x} = f'(x)$ (de même $\\frac{\\mathrm{d}x}{\\mathrm{d}t}$ pour une position $x = f(t)$)."
+      },
+      {
+        "title": "Automatismes pour l'épreuve anticipée",
+        "content": "L'épreuve anticipée de mathématiques (2 heures, **sans calculatrice**) commence par un QCM d'automatismes (6 points sur 20), suivi d'exercices (14 points). Questions flash typiques sur ce chapitre, à traiter de tête :\n• Sur un graphique, $f(a)$ est l'**ordonnée** du point d'abscisse $a$ et $f'(a)$ la **pente** de la tangente en ce point.\n• Pente d'une droite passant par $(0 ; 2)$ et $(3 ; 0)$ : $\\frac{0 - 2}{3 - 0} = -\\frac{2}{3}$.\n• Tracer la droite d'équation $y = -2x + 3$ : elle passe par $(0 ; 3)$ et descend de $2$ quand $x$ augmente de $1$ ; lire graphiquement l'équation réduite d'une droite (ordonnée à l'origine, puis pente).\n• Tangente horizontale $\\iff f'(a) = 0$.\n• Si $f(2) = 3$ et $f'(2) = -1$, la tangente en $2$ a pour équation $y = -(x - 2) + 3 = -x + 5$.\n• Approximation affine : si $f(1) = 2$ et $f'(1) = 3$, alors $f(1{,}01) \\approx 2 + 3 \\times 0{,}01 = 2{,}03$."
       }
     ],
     "methods": [
@@ -215,6 +268,14 @@ window.MATHS_COURSES_1ERE = {
       {
         "q": "Pourquoi la fonction valeur absolue n'est-elle pas dérivable en $0$ ?",
         "a": "Son taux de variation en $0$ vaut $1$ pour $h > 0$ et $-1$ pour $h < 0$ : il n'a pas de limite quand $h$ tend vers $0$."
+      },
+      {
+        "q": "Comment démontre-t-on l'équation de la tangente en $a$ ?",
+        "a": "On cherche une équation $y = f'(a)\\,x + p$ ; le point $A(a ; f(a))$ donne $p = f(a) - f'(a)\\,a$, d'où $y = f'(a)(x - a) + f(a)$."
+      },
+      {
+        "q": "On sait que $f(3) = 5$ et $f'(3) = -2$. Donner une valeur approchée de $f(3{,}1)$.",
+        "a": "$f(3{,}1) \\approx f(3) + f'(3) \\times 0{,}1 = 5 - 0{,}2 = 4{,}8$."
       }
     ]
   },
@@ -226,7 +287,10 @@ window.MATHS_COURSES_1ERE = {
       "Connaître les dérivées des fonctions usuelles : $x^n, \\frac{1}{x}, \\sqrt{x}, ax+b$.",
       "Maîtriser les formules de dérivation : $(u+v)' = u'+v'$, $(ku)' = ku'$, $(uv)' = u'v + uv'$ et $\\left(\\frac{u}{v}\\right)' = \\frac{u'v - uv'}{v^2}$.",
       "Établir le lien fondamental entre le signe de la dérivée $f'(x)$ et le sens de variation de $f$.",
-      "Déterminer les extremums locaux d'une fonction dérivable."
+      "Déterminer les extremums locaux d'une fonction dérivable.",
+      "Reconnaître une fonction paire ou impaire (définition algébrique et traduction géométrique).",
+      "Étudier, à l'aide de la dérivation, une fonction polynôme du second degré : variations, extremum, allure selon le signe de $a$.",
+      "Exploiter les variations d'une fonction pour établir une inégalité ou étudier la position relative de deux courbes."
     ],
     "keyPoints": [
       {
@@ -234,20 +298,48 @@ window.MATHS_COURSES_1ERE = {
         "content": "• Constante $k$ : $(k)' = 0$\n• Fonction identité $x$ : $(x)' = 1$\n• Puissance $x^n$ ($n \\in \\mathbb{Z}^*$, avec $x \\neq 0$ si $n < 0$) : $(x^n)' = n x^{n-1}$\n• Inverse $\\frac{1}{x}$ : $\\left(\\frac{1}{x}\\right)' = -\\frac{1}{x^2}$\n• Racine carrée $\\sqrt{x}$ : $(\\sqrt{x})' = \\frac{1}{2\\sqrt{x}}$ (sur $]0 ; +\\infty[$)\n• Fonction exponentielle $e^x$ : $(e^x)' = e^x$"
       },
       {
-        "title": "2. Théorème fondamental de la dérivation et variations",
+        "title": "2. Opérations sur les fonctions dérivables",
+        "content": "Soient $u$ et $v$ deux fonctions dérivables sur un intervalle $I$ et $k$ un réel. Alors, sur $I$ :\n• $(u + v)' = u' + v'$ et $(ku)' = ku'$ ;\n• $(uv)' = u'v + uv'$ ;\n• si $v$ **ne s'annule pas** sur $I$ : $\\left(\\frac{u}{v}\\right)' = \\frac{u'v - uv'}{v^2}$.\n*Exemple* : sur $]0 ; +\\infty[$, $f(x) = (x^2 + 1)\\sqrt{x}$ a pour dérivée $f'(x) = 2x\\sqrt{x} + \\frac{x^2 + 1}{2\\sqrt{x}}$."
+      },
+      {
+        "title": "3. Théorème fondamental de la dérivation et variations",
         "content": "Soit $f$ dérivable sur un intervalle $I$ :\n• Si $f'(x) > 0$ sur $I$ (sauf éventuellement en un nombre fini de points où $f'(x)=0$), alors $f$ est **strictement croissante** sur $I$.\n• Si $f'(x) < 0$ sur $I$, alors $f$ est **strictement décroissante** sur $I$.\n• Si $f'(x) = 0$ sur $I$, alors $f$ est **constante** sur $I$."
       },
       {
-        "title": "3. Dérivée de l'inverse et de $x \\mapsto g(ax + b)$",
-        "content": "• Si $v$ est dérivable et ne s'annule pas sur $I$ : $$\\left(\\frac{1}{v}\\right)' = -\\frac{v'}{v^2}$$\n*Exemple* : $\\left(\\frac{1}{x^2 + 1}\\right)' = -\\frac{2x}{(x^2 + 1)^2}$.\n• Si $g$ est dérivable, la fonction $x \\mapsto g(ax + b)$ a pour dérivée $$x \\mapsto a\\,g'(ax + b)$$\n*Exemples* : la dérivée de $(3x - 1)^4$ est $3 \\times 4(3x - 1)^3 = 12(3x - 1)^3$ ; la dérivée de $\\sqrt{2x + 1}$ est $2 \\times \\frac{1}{2\\sqrt{2x + 1}} = \\frac{1}{\\sqrt{2x + 1}}$ sur $\\left]-\\frac{1}{2} ; +\\infty\\right[$."
+        "title": "4. Dérivée de l'inverse ; pour aller plus loin : $x \\mapsto g(ax + b)$",
+        "content": "• Si $v$ est dérivable et ne s'annule pas sur $I$ : $$\\left(\\frac{1}{v}\\right)' = -\\frac{v'}{v^2}$$\n*Exemple* : $\\left(\\frac{1}{x^2 + 1}\\right)' = -\\frac{2x}{(x^2 + 1)^2}$.\n• **Pour aller plus loin** (formule étudiée en terminale) : si $g$ est dérivable, la fonction $x \\mapsto g(ax + b)$ a pour dérivée $$x \\mapsto a\\,g'(ax + b)$$\n*Exemples* : la dérivée de $(3x - 1)^4$ est $3 \\times 4(3x - 1)^3 = 12(3x - 1)^3$ ; la dérivée de $\\sqrt{2x + 1}$ est $2 \\times \\frac{1}{2\\sqrt{2x + 1}} = \\frac{1}{\\sqrt{2x + 1}}$ sur $\\left]-\\frac{1}{2} ; +\\infty\\right[$."
       },
       {
-        "title": "4. Extremum local et dérivée",
-        "content": "Soit $f$ dérivable sur un intervalle ouvert $I$ et $c \\in I$.\n• Si $f$ admet un extremum local en $c$, alors $f'(c) = 0$.\n• Si $f'$ **s'annule en changeant de signe** en $c$, alors $f(c)$ est un extremum local : maximum si $f'$ passe de $+$ à $-$, minimum si $f'$ passe de $-$ à $+$.\n*Contre-exemple* : pour $f(x) = x^3$, $f'(x) = 3x^2$ s'annule en $0$ **sans changer de signe** : $f$ est croissante sur $\\mathbb{R}$ et $f(0)$ n'est pas un extremum."
+        "title": "5. Extremum local et dérivée",
+        "content": "Soit $f$ dérivable sur un intervalle ouvert $I$ et $c \\in I$.\n• Si $f$ admet un extremum local en $c$, alors $f'(c) = 0$ : la **tangente** à la courbe au point d'abscisse $c$ est **horizontale**.\n• Si $f'$ **s'annule en changeant de signe** en $c$, alors $f(c)$ est un extremum local : maximum si $f'$ passe de $+$ à $-$, minimum si $f'$ passe de $-$ à $+$.\n*Contre-exemple* : pour $f(x) = x^3$, $f'(x) = 3x^2$ s'annule en $0$ **sans changer de signe** : $f$ est croissante sur $\\mathbb{R}$ et $f(0)$ n'est pas un extremum."
       },
       {
-        "title": "5. Dérivabilité de la racine carrée",
-        "content": "La fonction $x \\mapsto \\sqrt{x}$ est définie sur $[0 ; +\\infty[$ mais dérivable seulement sur $]0 ; +\\infty[$ : en $0$, le taux de variation $\\frac{\\sqrt{h}}{h} = \\frac{1}{\\sqrt{h}}$ (pour $h > 0$) devient aussi grand que l'on veut. La courbe admet en l'origine une tangente verticale."
+        "title": "Fonctions paires, fonctions impaires",
+        "content": "Soit $f$ définie sur un ensemble $\\mathcal{D}$ symétrique par rapport à $0$ (si $x \\in \\mathcal{D}$, alors $-x \\in \\mathcal{D}$).\n• $f$ est **paire** si pour tout $x \\in \\mathcal{D}$, $f(-x) = f(x)$ : dans un repère orthogonal, sa courbe est **symétrique par rapport à l'axe des ordonnées**. Exemples : $x \\mapsto x^2$, $x \\mapsto |x|$, $x \\mapsto x^4 - 3x^2$.\n• $f$ est **impaire** si pour tout $x \\in \\mathcal{D}$, $f(-x) = -f(x)$ : sa courbe est **symétrique par rapport à l'origine**. Exemples : $x \\mapsto x^3$, $x \\mapsto \\frac{1}{x}$, $x \\mapsto x^3 - 3x$.\n*Exemple* : $f(x) = \\frac{x}{x^2 + 1}$ est définie sur $\\mathbb{R}$ et $f(-x) = \\frac{-x}{x^2 + 1} = -f(x)$ : $f$ est impaire.\n• **Intérêt** : il suffit d'étudier une fonction paire ou impaire sur $\\mathcal{D} \\cap [0 ; +\\infty[$, puis de compléter la courbe par symétrie.\n• La fonction racine carrée n'est ni paire ni impaire, car $[0 ; +\\infty[$ n'est pas symétrique par rapport à $0$."
+      },
+      {
+        "title": "Étude d'une fonction polynôme du second degré par la dérivation",
+        "content": "Soit $f(x) = ax^2 + bx + c$ avec $a \\neq 0$. Alors $f'(x) = 2ax + b$, qui s'annule en $\\alpha = -\\frac{b}{2a}$ en changeant de signe.\n• Si $a > 0$ : $f'(x) < 0$ pour $x < \\alpha$ et $f'(x) > 0$ pour $x > \\alpha$ ; $f$ est décroissante puis croissante et admet un **minimum** $f(\\alpha)$. La parabole est « tournée vers le haut ».\n• Si $a < 0$ : $f$ est croissante puis décroissante et admet un **maximum** $f(\\alpha)$.\n*Exemple* : $f(x) = -x^2 + 6x - 5$, $f'(x) = -2x + 6$ s'annule en $3$ : $f$ est croissante sur $]-\\infty ; 3]$, décroissante sur $[3 ; +\\infty[$, et son maximum vaut $f(3) = 4$."
+      },
+      {
+        "title": "Démonstration : la fonction racine carrée n'est pas dérivable en $0$",
+        "content": "La fonction $x \\mapsto \\sqrt{x}$ est définie sur $[0 ; +\\infty[$. Pour $h > 0$, son taux de variation entre $0$ et $h$ vaut\n$$\\frac{\\sqrt{h} - \\sqrt{0}}{h} = \\frac{\\sqrt{h}}{\\left(\\sqrt{h}\\right)^2} = \\frac{1}{\\sqrt{h}}$$\nQuand $h$ tend vers $0$, $\\sqrt{h}$ tend vers $0$ et $\\frac{1}{\\sqrt{h}}$ devient aussi grand que l'on veut (pour $h = 10^{-6}$, il vaut déjà $1\\,000$). Le taux de variation n'a pas de limite finie : la fonction racine carrée **n'est pas dérivable en $0$**. Graphiquement, la courbe admet en l'origine une tangente verticale.\nEn revanche, pour $a > 0$ : $\\frac{\\sqrt{a + h} - \\sqrt{a}}{h} = \\frac{(\\sqrt{a + h} - \\sqrt{a})(\\sqrt{a + h} + \\sqrt{a})}{h(\\sqrt{a + h} + \\sqrt{a})} = \\frac{1}{\\sqrt{a + h} + \\sqrt{a}}$, qui tend vers $\\frac{1}{2\\sqrt{a}}$ : on retrouve $(\\sqrt{x})' = \\frac{1}{2\\sqrt{x}}$ sur $]0 ; +\\infty[$."
+      },
+      {
+        "title": "Démonstration : dérivées des fonctions carré et inverse",
+        "content": "• **Carré** : pour tout réel $a$ et tout $h \\neq 0$, $\\frac{(a + h)^2 - a^2}{h} = \\frac{2ah + h^2}{h} = 2a + h$, qui tend vers $2a$ quand $h$ tend vers $0$. La fonction carré est dérivable sur $\\mathbb{R}$ et $(x^2)' = 2x$.\n• **Inverse** : pour $a \\neq 0$ et $h \\neq 0$ assez petit pour que $a + h \\neq 0$ :\n$$\\frac{\\frac{1}{a + h} - \\frac{1}{a}}{h} = \\frac{a - (a + h)}{h \\times a(a + h)} = \\frac{-h}{h \\times a(a + h)} = \\frac{-1}{a(a + h)}$$\nQuand $h$ tend vers $0$, $a(a + h)$ tend vers $a^2$, donc le taux tend vers $-\\frac{1}{a^2}$. La fonction inverse est dérivable sur $]-\\infty ; 0[$ et sur $]0 ; +\\infty[$, et $\\left(\\frac{1}{x}\\right)' = -\\frac{1}{x^2}$."
+      },
+      {
+        "title": "Démonstration : dérivée d'un produit",
+        "content": "Soient $u$ et $v$ dérivables en $a$ et $f = uv$. Pour $h \\neq 0$, on ajoute et on retranche $u(a)\\,v(a + h)$ au numérateur du taux de variation :\n$$\\frac{f(a + h) - f(a)}{h} = \\frac{u(a + h)v(a + h) - u(a)v(a + h) + u(a)v(a + h) - u(a)v(a)}{h}$$\n$$= \\frac{u(a + h) - u(a)}{h} \\times v(a + h) + u(a) \\times \\frac{v(a + h) - v(a)}{h}$$\nQuand $h$ tend vers $0$ : le premier quotient tend vers $u'(a)$, $v(a + h)$ tend vers $v(a)$ (on admet qu'une fonction dérivable en $a$ a cette propriété) et le dernier quotient tend vers $v'(a)$. Donc $f$ est dérivable en $a$ et $$f'(a) = u'(a)\\,v(a) + u(a)\\,v'(a)$$"
+      },
+      {
+        "title": "6. Algorithme : méthode de Newton",
+        "content": "Pour approcher une solution de $f(x) = 0$, on part d'une valeur $x_0$ et on remplace $x_n$ par l'abscisse du point où la tangente en $x_n$ coupe l'axe des abscisses. La tangente $y = f'(x_n)(x - x_n) + f(x_n)$ coupe cet axe pour $$x_{n+1} = x_n - \\frac{f(x_n)}{f'(x_n)} \\quad (\\text{si } f'(x_n) \\neq 0)$$\nAvec $f(x) = x^2 - 2$, $f'(x) = 2x$ et $x_0 = 1$ : $x_1 = 1{,}5$, $x_2 \\approx 1{,}416\\,67$, $x_3 \\approx 1{,}414\\,216$ ; la suite approche très vite $\\sqrt{2} \\approx 1{,}414\\,214$.\n```python\ndef newton(x, n):\n    for k in range(n):\n        x = x - (x ** 2 - 2) / (2 * x)\n    return x\n```\nOn se limite à des cas favorables : la méthode peut échouer si $f'(x_n)$ est nul ou très petit."
+      },
+      {
+        "title": "Automatismes pour l'épreuve anticipée",
+        "content": "L'épreuve anticipée de mathématiques (2 heures, **sans calculatrice**) commence par un QCM d'automatismes (6 points sur 20), suivi d'exercices (14 points). Questions flash typiques sur ce chapitre, à traiter de tête :\n• Dérivées immédiates : $(x^3)' = 3x^2$ ; $(5x^2 - 3x + 1)' = 10x - 3$ ; $\\left(\\frac{1}{x}\\right)' = -\\frac{1}{x^2}$ ; $(\\sqrt{x})' = \\frac{1}{2\\sqrt{x}}$.\n• Si $f'(x) = (x - 1)(x + 3)$, alors $f$ est décroissante sur $[-3 ; 1]$ (trinôme de coefficient $1 > 0$, négatif entre ses racines).\n• Passer d'un tableau de signes de $f'$ au tableau de variations de $f$, et inversement.\n• Repérer sur une courbe les points à tangente horizontale (où $f'$ s'annule).\n• Ne pas confondre le **signe de $f$** (position de la courbe par rapport à l'axe des abscisses) et le **signe de $f'$** (sens de variation)."
       }
     ],
     "methods": [
@@ -291,6 +383,16 @@ window.MATHS_COURSES_1ERE = {
           "**Étape 3 (Variations)** : $g$ est décroissante sur $[0 ; 1]$ et croissante sur $[1 ; +\\infty[$ ; son minimum est $g(1) = 1 - 3 + 2 = 0$.",
           "**Conclusion** : pour tout $x \\ge 0$, $g(x) \\ge g(1) = 0$, c'est-à-dire $x^3 \\ge 3x - 2$."
         ]
+      },
+      {
+        "title": "Méthode : Étudier la position d'une courbe et d'une tangente",
+        "example": "Soit $f(x) = x^3$. Déterminer la tangente $\\mathcal{T}$ à $\\mathcal{C}_f$ au point d'abscisse $1$, puis étudier la position relative de $\\mathcal{C}_f$ et $\\mathcal{T}$.",
+        "steps": [
+          "**Étape 1 (Tangente)** : $f(1) = 1$ et $f'(x) = 3x^2$, donc $f'(1) = 3$ ; $\\mathcal{T} : y = 3(x - 1) + 1 = 3x - 2$.",
+          "**Étape 2 (Différence)** : $d(x) = x^3 - (3x - 2) = x^3 - 3x + 2$. Comme $d(1) = 0$, on factorise par $x - 1$ : $d(x) = (x - 1)^2(x + 2)$ (contrôle en développant : $(x^2 - 2x + 1)(x + 2) = x^3 - 3x + 2$).",
+          "**Étape 3 (Signe)** : $(x - 1)^2 \\ge 0$, donc $d(x)$ est du signe de $x + 2$ : $d(x) < 0$ sur $]-\\infty ; -2[$ et $d(x) \\ge 0$ sur $[-2 ; +\\infty[$.",
+          "**Conclusion** : $\\mathcal{C}_f$ est au-dessous de $\\mathcal{T}$ sur $]-\\infty ; -2[$ et au-dessus sur $]-2 ; +\\infty[$ ; elles se coupent au point d'abscisse $-2$ et se touchent au point d'abscisse $1$."
+        ]
       }
     ],
     "traps": [
@@ -298,7 +400,8 @@ window.MATHS_COURSES_1ERE = {
       "⚠️ Attention au signe moins dans la formule du quotient : $(u'v - uv')/v^2$.",
       "⚠️ $f'(c) = 0$ ne suffit pas pour avoir un extremum : il faut que $f'$ **change de signe** en $c$ (contre-exemple : $x^3$ en $0$).",
       "⚠️ Pour $(2x + 1)^3$, la dérivée est $3 \\times 2(2x + 1)^2 = 6(2x + 1)^2$ : ne pas oublier le facteur $a = 2$.",
-      "⚠️ Le signe de $f'$ s'étudie sur l'ensemble de dérivabilité : $\\sqrt{x}$ n'est pas dérivable en $0$, $\\frac{1}{x}$ n'est pas définie en $0$."
+      "⚠️ Le signe de $f'$ s'étudie sur l'ensemble de dérivabilité : $\\sqrt{x}$ n'est pas dérivable en $0$, $\\frac{1}{x}$ n'est pas définie en $0$.",
+      "⚠️ Avant d'utiliser la formule du quotient, vérifier que le dénominateur ne s'annule pas sur l'intervalle d'étude."
     ],
     "flashcards": [
       {
@@ -320,6 +423,14 @@ window.MATHS_COURSES_1ERE = {
       {
         "q": "Quand $f(c)$ est-il un maximum local pour $f$ dérivable ?",
         "a": "Lorsque $f'$ s'annule en $c$ en passant du signe $+$ au signe $-$."
+      },
+      {
+        "q": "Pourquoi la fonction racine carrée n'est-elle pas dérivable en $0$ ?",
+        "a": "Pour $h > 0$, son taux de variation entre $0$ et $h$ vaut $\\frac{1}{\\sqrt{h}}$, qui devient aussi grand que l'on veut quand $h$ tend vers $0$ : il n'a pas de limite finie."
+      },
+      {
+        "q": "Quelle relation définit la méthode de Newton pour résoudre $f(x) = 0$ ?",
+        "a": "$x_{n+1} = x_n - \\frac{f(x_n)}{f'(x_n)}$ (abscisse du point où la tangente en $x_n$ coupe l'axe des abscisses)."
       }
     ]
   },
@@ -331,33 +442,50 @@ window.MATHS_COURSES_1ERE = {
       "Connaître la définition de la fonction exponentielle : unique fonction dérivable sur $\\mathbb{R}$ vérifiant $f' = f$ et $f(0) = 1$.",
       "Maîtriser les propriétés algébriques : $e^{a+b} = e^a e^b$, $e^{-a} = \\frac{1}{e^a}$, $e^{a-b} = \\frac{e^a}{e^b}$ et $(e^a)^n = e^{na}$.",
       "Savoir que pour tout réel $x$, $e^x > 0$ (stricte positivité).",
-      "Dériver les fonctions de la forme $x \\mapsto e^{ax+b}$ : $(e^{ax+b})' = a\\,e^{ax+b}$."
+      "Pour $a$ réel, dériver $t \\mapsto e^{at}$ : $(e^{at})' = a\\,e^{at}$ ; représenter $t \\mapsto e^{kt}$ et $t \\mapsto e^{-kt}$ pour $k > 0$.",
+      "Construire l'exponentielle par la méthode d'Euler et approcher $e$ à l'aide de la suite $\\left(\\left(1 + \\frac{1}{n}\\right)^n\\right)$."
     ],
     "keyPoints": [
       {
-        "title": "1. Propriétés algébriques de la fonction exponentielle",
+        "title": "1. Définition de la fonction exponentielle",
+        "content": "On admet qu'il existe une **unique** fonction $f$ dérivable sur $\\mathbb{R}$ telle que $f' = f$ et $f(0) = 1$. On l'appelle **fonction exponentielle** et on la note $\\exp$.\n• Par définition : $\\exp' = \\exp$ et $\\exp(0) = 1$.\n• On note $e = \\exp(1) \\approx 2{,}718$ et, pour tout réel $x$, $\\exp(x) = e^x$ ; cette notation est cohérente avec les règles de calcul sur les puissances (voir ci-dessous).\n• **Courbe** : elle passe par les points $(0 ; 1)$ et $(1 ; e)$, reste au-dessus de l'axe des abscisses, s'en rapproche vers la gauche et monte de plus en plus vite vers la droite."
+      },
+      {
+        "title": "2. Propriétés algébriques de la fonction exponentielle",
         "content": "La fonction exponentielle transforme une **somme en produit** :\n• $e^0 = 1$ et $e^1 = e \\approx 2{,}718$\n• $e^{x+y} = e^x \\times e^y$\n• $e^{-x} = \\frac{1}{e^x}$\n• $e^{x-y} = \\frac{e^x}{e^y}$\n• $(e^x)^n = e^{nx}$ pour tout $n \\in \\mathbb{Z}$"
       },
       {
-        "title": "2. Variations et dérivée de $x \\mapsto e^{ax+b}$",
-        "content": "• La fonction exponentielle est **strictement positive** ($e^x > 0$) et **strictement croissante** sur $\\mathbb{R}$.\n• Résolution : $e^a = e^b \\iff a = b$ et $e^a < e^b \\iff a < b$.\n• Pour tous réels $a$ et $b$, la fonction $x \\mapsto e^{ax+b}$ est dérivable sur $\\mathbb{R}$ et :\n$$(e^{ax+b})' = a\\,e^{ax+b}$$\n*(La formule générale $(e^{u})' = u'e^{u}$ sera vue en Terminale.)*"
+        "title": "Démonstration : propriétés de l'exponentielle",
+        "content": "*Démonstrations proposées en approfondissement par le programme. Elles utilisent le fait qu'une fonction de dérivée nulle sur $\\mathbb{R}$ est constante.*\n• **$\\exp(x) \\times \\exp(-x) = 1$, donc $\\exp$ ne s'annule pas.** On pose $\\varphi(x) = \\exp(x)\\exp(-x)$. La dérivée de $x \\mapsto \\exp(-x)$ est $x \\mapsto -\\exp(-x)$ (dérivée de $x \\mapsto e^{ax}$ avec $a = -1$, résultat admis), donc $\\varphi'(x) = \\exp(x)\\exp(-x) - \\exp(x)\\exp(-x) = 0$. Ainsi $\\varphi$ est constante, égale à $\\varphi(0) = 1$. Un produit égal à $1$ n'a aucun facteur nul : $\\exp(x) \\neq 0$, et $\\exp(-x) = \\frac{1}{\\exp(x)}$.\n• **Unicité.** Si $f$ est dérivable sur $\\mathbb{R}$ avec $f' = f$ et $f(0) = 1$, on pose $g(x) = f(x)\\exp(-x)$. Alors $g'(x) = f(x)\\exp(-x) - f(x)\\exp(-x) = 0$ : $g$ est constante, égale à $g(0) = 1$. Donc $f(x) = \\frac{1}{\\exp(-x)} = \\exp(x)$ pour tout $x$.\n• **$\\exp(a + b) = \\exp(a) \\times \\exp(b)$.** Le réel $b$ étant fixé, on pose $h(x) = \\exp(x + b)\\exp(-x)$. Alors $h'(x) = \\exp(x + b)\\exp(-x) - \\exp(x + b)\\exp(-x) = 0$, donc $h(x) = h(0) = \\exp(b)$. Ainsi $\\exp(x + b) = \\frac{\\exp(b)}{\\exp(-x)} = \\exp(x)\\exp(b)$, et on conclut avec $x = a$.\n• **Stricte positivité.** Pour tout $x$, $\\exp(x) = \\exp\\left(\\frac{x}{2} + \\frac{x}{2}\\right) = \\left(\\exp\\left(\\frac{x}{2}\\right)\\right)^2 \\ge 0$ ; comme $\\exp(x) \\neq 0$, on obtient $\\exp(x) > 0$.\n• **Stricte croissance.** $\\exp' = \\exp > 0$ sur $\\mathbb{R}$."
       },
       {
-        "title": "3. Signe de $e^x - 1$ et tangente en $0$",
+        "title": "3. Variations ; dérivée de $t \\mapsto e^{at}$",
+        "content": "• La fonction exponentielle est **strictement positive** ($e^x > 0$) et **strictement croissante** sur $\\mathbb{R}$.\n• Résolution : $e^a = e^b \\iff a = b$ et $e^a < e^b \\iff a < b$.\n• Pour tout réel $a$, la fonction $t \\mapsto e^{at}$ est dérivable sur $\\mathbb{R}$ et (résultat admis) :\n$(e^{at})' = a\\,e^{at}$\n• Conséquence : comme $e^{ax+b} = e^b \\times e^{ax}$, la fonction $x \\mapsto e^{ax+b}$ a pour dérivée $e^b \\times a\\,e^{ax} = a\\,e^{ax+b}$.\n*(La formule générale $(e^{u})' = u'e^{u}$ sera vue en Terminale.)*"
+      },
+      {
+        "title": "4. Signe de $e^x - 1$ et tangente en $0$",
         "content": "Comme $e^0 = 1$ et que l'exponentielle est strictement croissante :\n• $e^x > 1 \\iff x > 0$ et $e^x < 1 \\iff x < 0$.\n• Puisque $\\exp'(0) = e^0 = 1$, la tangente à la courbe au point d'abscisse $0$ a pour équation $y = 1 \\times (x - 0) + 1$, soit $y = x + 1$."
       },
       {
-        "title": "4. Les fonctions $t \\mapsto e^{kt}$ et les suites $(e^{na})$",
+        "title": "5. Les fonctions $t \\mapsto e^{kt}$ et les suites $(e^{na})$",
         "content": "• Pour un réel $k$, la fonction $t \\mapsto e^{kt}$ est dérivable sur $\\mathbb{R}$, de dérivée $t \\mapsto k\\,e^{kt}$. Elle est **strictement croissante si $k > 0$** et **strictement décroissante si $k < 0$**. Elle modélise des croissances ou décroissances « exponentielles » (populations, désintégration radioactive…).\n• Pour un réel $a$, la suite $(e^{na})$ est **géométrique de raison $e^a$**, car $e^{(n+1)a} = e^{na} \\times e^{a}$.\n*Exemple* : $u_n = e^{0{,}5n}$ est géométrique de raison $e^{0{,}5} \\approx 1{,}649$."
       },
       {
-        "title": "5. Approcher $e$ par la méthode d'Euler (Python)",
-        "content": "Comme $\\exp' = \\exp$, sur un petit pas $h$ on a $e^{x+h} \\approx e^x (1 + h)$. En partant de $e^0 = 1$ et en faisant $n$ pas de longueur $h = \\frac{1}{n}$, on obtient une valeur approchée de $e^1 = e$ :\n`def approx_e(n):`\n`    y = 1`\n`    for k in range(n):`\n`        y = y * (1 + 1/n)`\n`    return y`\nAvec $n = 1000$, on obtient environ $2{,}7169$ (pour $e \\approx 2{,}7183$)."
+        "title": "6. Méthode d'Euler et approximation de $e$ (Python)",
+        "content": "**Construction de l'exponentielle par la méthode d'Euler.** Comme $\\exp' = \\exp$, l'approximation affine donne, pour un petit pas $h$ : $\\exp(x + h) \\approx \\exp(x) + h\\exp(x) = \\exp(x)(1 + h)$. En partant du point $(0 ; 1)$, on construit de proche en proche des points $(x_k ; y_k)$ avec $x_{k+1} = x_k + h$ et $y_{k+1} = y_k + h\\,y_k$ :\n```python\ndef euler(h, n):\n    x = 0\n    y = 1\n    L = [(x, y)]\n    for k in range(n):\n        y = y + h * y      # car exp'(x) = exp(x)\n        x = x + h\n        L.append((x, y))\n    return L\n```\nLes points obtenus sont proches de la courbe de l'exponentielle. Avec $h = 0{,}1$ et $n = 10$, le dernier point a pour abscisse $1$ (aux arrondis près) et pour ordonnée $1{,}1^{10} \\approx 2{,}594$, valeur approchée de $e$. On remarque que $y_k = (1 + h)^k$ : les ordonnées forment une **suite géométrique**.\n**Valeur approchée de $e$.** Avec $h = \\frac{1}{n}$ et $n$ pas, on obtient $\\left(1 + \\frac{1}{n}\\right)^n$ :\n```python\ndef approx_e(n):\n    return (1 + 1 / n) ** n\n```\n$n = 10$ donne environ $2{,}594$, $n = 1\\,000$ environ $2{,}7169$ (pour $e \\approx 2{,}7183$) : plus $n$ est grand, meilleure est l'approximation."
+      },
+      {
+        "title": "7. Modèles de croissance et de décroissance exponentielles",
+        "content": "Pour un réel $k > 0$ :\n• $t \\mapsto e^{kt}$ est strictement croissante (dérivée $k\\,e^{kt} > 0$) : c'est une **croissance exponentielle** ; sa courbe passe par $(0 ; 1)$.\n• $t \\mapsto e^{-kt}$ est strictement décroissante (dérivée $-k\\,e^{-kt} < 0$) : c'est une **décroissance exponentielle** ; ses valeurs restent strictement positives et se rapprochent de $0$ quand $t$ devient grand. Plus $k$ est grand, plus la décroissance est rapide.\n*Exemple (décroissance radioactive)* : la masse d'un échantillon est $m(t) = m_0\\,e^{-kt}$ ($t$ en années). Pour tout $t$, $m(t + 1) = m(t) \\times e^{-k}$ : chaque année, la masse est multipliée par la même constante $e^{-k}$ (lien avec les suites géométriques). Avec $m_0 = 50$ g et $k = 0{,}1$, $m(10) = 50\\,e^{-1} \\approx 18{,}4$ g."
+      },
+      {
+        "title": "Automatismes pour l'épreuve anticipée",
+        "content": "L'épreuve anticipée de mathématiques (2 heures, **sans calculatrice**) commence par un QCM d'automatismes (6 points sur 20), suivi d'exercices (14 points). Questions flash typiques sur ce chapitre, à traiter de tête :\n• Simplifier : $e^{3} \\times e^{-1} = e^{2}$ ; $\\frac{e^{5}}{e^{2}} = e^{3}$ ; $\\left(e^{2}\\right)^3 = e^{6}$ ; $e^{x} \\times e^{-x} = 1$.\n• Signe : $e^{x} > 0$ pour tout $x$, donc $(x - 2)\\,e^{x}$ est du signe de $x - 2$.\n• Équations : $e^{2x} = 1 \\iff 2x = 0 \\iff x = 0$ ; $e^{x} = -1$ n'a aucune solution.\n• Reconnaître les courbes de $t \\mapsto e^{kt}$ (croissante si $k > 0$) et de $t \\mapsto e^{-kt}$ (décroissante si $k > 0$) : toutes deux coupent l'axe des ordonnées au point $(0 ; 1)$.\n• Dériver de tête : $\\left(e^{-0{,}5t}\\right)' = -0{,}5\\,e^{-0{,}5t}$."
       }
     ],
     "methods": [
       {
-        "title": "Méthode : Dériver une fonction contenant une exponentielle composée",
+        "title": "Méthode : Dériver un produit contenant $e^{at}$",
         "example": "Dériver la fonction $g(x) = (3x - 2)e^{-2x}$.",
         "steps": [
           "**Étape 1 (Reconnaissance produit)** : On pose $u(x) = 3x - 2 \\implies u'(x) = 3$ et $v(x) = e^{-2x} \\implies v'(x) = -2e^{-2x}$.",
@@ -401,7 +529,8 @@ window.MATHS_COURSES_1ERE = {
       "⚠️ Attention à ne pas oublier $u'$ lors de la dérivation de $e^{u(x)}$ : la dérivée de $e^{3x}$ est $3e^{3x}$ et non $e^{3x}$.",
       "⚠️ $e^a + e^b \\neq e^{a+b}$ : c'est le **produit** qui se transforme, $e^a \\times e^b = e^{a+b}$.",
       "⚠️ $(e^x)^2 = e^{2x}$ et non $e^{x^2}$.",
-      "⚠️ Dans un produit comme $(1 - x)e^{-x}$, le facteur $e^{-x}$ est toujours strictement positif : le signe est donné par l'autre facteur seulement."
+      "⚠️ Dans un produit comme $(1 - x)e^{-x}$, le facteur $e^{-x}$ est toujours strictement positif : le signe est donné par l'autre facteur seulement.",
+      "⚠️ $e^{-x}$ n'est pas un nombre négatif : c'est l'inverse $\\frac{1}{e^x}$, qui est strictement positif."
     ],
     "flashcards": [
       {
@@ -423,6 +552,14 @@ window.MATHS_COURSES_1ERE = {
       {
         "q": "La suite $u_n = e^{-2n}$ est-elle géométrique ? Si oui, de quelle raison ?",
         "a": "Oui : $u_{n+1} = e^{-2n} \\times e^{-2}$, raison $e^{-2}$ (comprise entre $0$ et $1$, donc suite décroissante)."
+      },
+      {
+        "q": "Pourquoi la fonction exponentielle ne s'annule-t-elle jamais ?",
+        "a": "Car $\\exp(x) \\times \\exp(-x) = 1$ pour tout $x$ (la dérivée de $x \\mapsto \\exp(x)\\exp(-x)$ est nulle et cette fonction vaut $1$ en $0$) : un produit égal à $1$ n'a pas de facteur nul."
+      },
+      {
+        "q": "Un capital est modélisé par $C(t) = 1000\\,e^{0{,}02t}$. Par quel nombre est-il multiplié chaque année ?",
+        "a": "Par $e^{0{,}02}$, car $C(t + 1) = C(t) \\times e^{0{,}02}$."
       }
     ]
   },
@@ -459,6 +596,14 @@ window.MATHS_COURSES_1ERE = {
       {
         "title": "6. Représentations graphiques d'une suite",
         "content": "• Pour une suite quelconque, on place dans un repère les points de coordonnées $(n ; u_n)$ : ce sont des **points isolés**, que l'on ne relie pas.\n• Pour une suite récurrente $u_{n+1} = f(u_n)$, on peut placer les termes sur l'axe des abscisses : on trace la courbe de $f$ et la droite $y = x$ ; à partir de $u_0$ sur l'axe des abscisses, on monte jusqu'à la courbe (ordonnée $u_1 = f(u_0)$), puis on rejoint horizontalement la droite $y = x$ pour reporter $u_1$ en abscisse, et on recommence. On obtient un escalier ou une « toile d'araignée » qui permet de **conjecturer** le comportement de la suite."
+      },
+      {
+        "title": "7. Suites définies par un motif, un dénombrement ou un algorithme",
+        "content": "• **Motif géométrique** : pour construire une rangée de $n$ carrés accolés avec des allumettes, il en faut $4$ pour le premier carré, puis $3$ de plus pour chaque nouveau carré : $u_n = 3n + 1$.\n• **Dénombrement** : lorsque $n$ personnes se serrent toutes la main deux à deux, le nombre $p_n$ de poignées de main vérifie $p_1 = 0$ et $p_{n+1} = p_n + n$ (la nouvelle personne serre $n$ mains). On trouve $p_2 = 1$, $p_3 = 3$, $p_4 = 6$ et, plus généralement, $p_n = \\frac{n(n - 1)}{2}$.\n• **Algorithme** : certaines suites ne sont données que par un procédé de calcul, comme la suite de Syracuse (voir 1S3)."
+      },
+      {
+        "title": "Automatismes pour l'épreuve anticipée",
+        "content": "L'épreuve anticipée de mathématiques (2 heures, **sans calculatrice**) commence par un QCM d'automatismes (6 points sur 20), suivi d'exercices (14 points). Questions flash typiques sur ce chapitre, à traiter de tête :\n• Calculer des termes : si $u_n = n^2 - 1$, alors $u_3 = 8$ ; si $u_0 = 2$ et $u_{n+1} = 3u_n$, alors $u_1 = 6$ et $u_2 = 18$.\n• Traduire une évolution : « augmente de $5\\,\\%$ par an » donne $u_{n+1} = 1{,}05\\,u_n$ ; « augmente de $5$ unités par an » donne $u_{n+1} = u_n + 5$.\n• Lire sur un nuage de points $(n ; u_n)$ les premiers termes et le sens de variation.\n• Conclure à partir d'un signe : si $u_{n+1} - u_n = -\\frac{2}{n + 1}$ pour tout $n$, la suite est strictement décroissante."
       }
     ],
     "methods": [
@@ -487,7 +632,7 @@ window.MATHS_COURSES_1ERE = {
         "example": "Soit $u_0 = 5$ et $u_{n+1} = 0{,}8\\,u_n + 3$. Calculer $u_1$, $u_2$, $u_3$ puis déterminer le plus petit entier $n$ tel que $u_n > 14$.",
         "steps": [
           "**Étape 1 (Premiers termes)** : $u_1 = 0{,}8 \\times 5 + 3 = 7$ ; $u_2 = 0{,}8 \\times 7 + 3 = 8{,}6$ ; $u_3 = 0{,}8 \\times 8{,}6 + 3 = 9{,}88$.",
-          "**Étape 2 (Algorithme de seuil)** : on calcule les termes tant que la condition d'arrêt n'est pas atteinte :\n`u = 5`\n`n = 0`\n`while u <= 14:`\n`    u = 0.8 * u + 3`\n`    n = n + 1`\n`print(n)`",
+          "**Étape 2 (Algorithme de seuil)** : on calcule les termes tant que la condition d'arrêt n'est pas atteinte :\n```python\nu = 5\nn = 0\nwhile u <= 14:\n    u = 0.8 * u + 3\n    n = n + 1\nprint(n)\n```",
           "**Étape 3 (Exécution)** : le programme affiche $11$ ; on trouve $u_{10} \\approx 13{,}93$ et $u_{11} \\approx 14{,}14$.",
           "**Conclusion** : le plus petit entier $n$ tel que $u_n > 14$ est $n = 11$."
         ]
@@ -520,6 +665,10 @@ window.MATHS_COURSES_1ERE = {
       {
         "q": "Vers quoi semble tendre la suite $u_n = \\frac{1}{n + 1}$ ?",
         "a": "Vers $0$ : ses termes deviennent aussi proches de $0$ que l'on veut."
+      },
+      {
+        "q": "Combien d'allumettes faut-il pour une rangée de $10$ carrés accolés ($u_n = 3n + 1$) ?",
+        "a": "$u_{10} = 3 \\times 10 + 1 = 31$ allumettes."
       }
     ]
   },
@@ -539,6 +688,10 @@ window.MATHS_COURSES_1ERE = {
         "content": "• **Suite Arithmétique (Raison $r$)** :\n- Récurrence : $u_{n+1} = u_n + r$\n- Formule explicite : $u_n = u_0 + nr = u_p + (n - p)r$\n- Somme de termes consécutifs : $S = (\\text{nombre de termes}) \\times \\frac{\\text{premier} + \\text{dernier}}{2}$\n\n• **Suite Géométrique (Raison $q$)** :\n- Récurrence : $u_{n+1} = q \\times u_n$\n- Formule explicite : $u_n = u_0 \\times q^n = u_p \\times q^{n-p}$\n- Somme de termes consécutifs ($q \\neq 1$) : $S = (\\text{premier terme}) \\times \\frac{1 - q^{\\text{nombre de termes}}}{1 - q}$"
       },
       {
+        "title": "Démonstration : terme général d'une suite arithmétique ou géométrique",
+        "content": "• **Arithmétique** : pour passer de $u_0$ à $u_n$, on ajoute $n$ fois la raison $r$, d'où $u_n = u_0 + nr$. Rédaction rigoureuse : la suite $(v_n)$ définie par $v_n = u_n - nr$ vérifie $v_{n+1} - v_n = (u_{n+1} - u_n) - r = r - r = 0$ ; elle est constante, égale à $v_0 = u_0$, donc $u_n = u_0 + nr$.\n• **Géométrique** (raison $q \\neq 0$) : on multiplie $n$ fois par $q$, d'où $u_n = u_0 \\times q^n$. Rédaction rigoureuse : la suite $(w_n)$ définie par $w_n = \\frac{u_n}{q^n}$ vérifie $w_{n+1} = \\frac{q\\,u_n}{q^{n+1}} = \\frac{u_n}{q^n} = w_n$ ; elle est constante, égale à $w_0 = u_0$, donc $u_n = u_0 \\times q^n$."
+      },
+      {
         "title": "2. Démontrer qu'une suite est (ou n'est pas) arithmétique ou géométrique",
         "content": "• $(u_n)$ est **arithmétique** si et seulement si $u_{n+1} - u_n$ est une constante $r$ (indépendante de $n$).\n• Si les termes ne s'annulent pas, $(u_n)$ est **géométrique** si et seulement si $\\frac{u_{n+1}}{u_n}$ est une constante $q$.\n• Pour prouver qu'une suite **ne l'est pas**, un contre-exemple suffit : pour $u_n = n^2$, $u_1 - u_0 = 1$ et $u_2 - u_1 = 3$, donc $(u_n)$ n'est pas arithmétique."
       },
@@ -549,6 +702,22 @@ window.MATHS_COURSES_1ERE = {
       {
         "title": "4. Pourcentages et intérêts",
         "content": "• Une augmentation de $t\\,\\%$ revient à multiplier par $1 + \\frac{t}{100}$ ; une baisse de $t\\,\\%$, par $1 - \\frac{t}{100}$.\n• **Intérêts composés** : un capital de 1 000 € placé à $3\\,\\%$ par an vaut $C_n = 1000 \\times 1{,}03^n$ après $n$ années (suite géométrique), soit environ 1 343,92 € après 10 ans.\n• **Intérêts simples** : on ajoute chaque année le même montant (suite arithmétique)."
+      },
+      {
+        "title": "Démonstration : $1 + 2 + \\dots + n = \\frac{n(n + 1)}{2}$",
+        "content": "On écrit la somme $S = 1 + 2 + \\dots + n$ dans les deux sens, puis on additionne colonne par colonne :\n$$\\begin{array}{rcl} S & = & 1 + 2 + \\dots + (n - 1) + n \\\\ S & = & n + (n - 1) + \\dots + 2 + 1 \\\\ \\hline 2S & = & (n + 1) + (n + 1) + \\dots + (n + 1) + (n + 1) \\end{array}$$\nChaque colonne a pour somme $n + 1$ et il y a $n$ colonnes, donc $2S = n(n + 1)$, soit $S = \\frac{n(n + 1)}{2}$.\n*Conséquence* : pour une suite arithmétique, $u_0 + u_1 + \\dots + u_n = (n + 1)u_0 + r(1 + 2 + \\dots + n) = (n + 1)u_0 + r\\,\\frac{n(n + 1)}{2} = (n + 1) \\times \\frac{u_0 + u_n}{2}$ : c'est la formule « nombre de termes $\\times$ (premier + dernier) / 2 »."
+      },
+      {
+        "title": "Démonstration : $1 + q + \\dots + q^n = \\frac{1 - q^{n+1}}{1 - q}$ pour $q \\neq 1$",
+        "content": "Soit $S = 1 + q + q^2 + \\dots + q^n$. Alors $qS = q + q^2 + \\dots + q^n + q^{n+1}$.\nEn soustrayant, tous les termes se simplifient sauf deux : $S - qS = 1 - q^{n+1}$, c'est-à-dire $(1 - q)S = 1 - q^{n+1}$.\nComme $q \\neq 1$, on peut diviser par $1 - q \\neq 0$ : $$S = \\frac{1 - q^{n+1}}{1 - q}$$\n*Exemple* : $1 + 2 + 4 + \\dots + 2^{10} = \\frac{1 - 2^{11}}{1 - 2} = 2^{11} - 1 = 2047$.\n*Conséquence* : $u_0 + u_1 + \\dots + u_n = u_0(1 + q + \\dots + q^n) = u_0 \\times \\frac{1 - q^{n+1}}{1 - q}$ (somme de $n + 1$ termes). Si $q = 1$, la somme vaut $(n + 1)u_0$."
+      },
+      {
+        "title": "5. Comportement de $q^n$ et liens avec les fonctions",
+        "content": "Observations (conjecturées en Première, démontrées en Terminale) pour la suite $(q^n)$ :\n• si $q > 1$, $q^n$ devient aussi grand que l'on veut : la suite tend vers $+\\infty$ (ex. : $2^{10} = 1024$) ;\n• si $-1 < q < 1$, $q^n$ se rapproche de $0$ (ex. : $0{,}5^{10} \\approx 0{,}001$) ;\n• si $q = 1$, la suite est constante ; si $q \\le -1$, elle n'a pas de limite (ses termes alternent de signe sans se stabiliser).\n**Liens** : les points $(n ; u_0 + nr)$ d'une suite arithmétique sont sur la droite d'équation $y = u_0 + rx$ (fonction affine) ; la suite géométrique $(e^{na})$ de raison $e^a$ est la « version discrète » de la fonction $x \\mapsto e^{ax}$."
+      },
+      {
+        "title": "Automatismes pour l'épreuve anticipée",
+        "content": "L'épreuve anticipée de mathématiques (2 heures, **sans calculatrice**) commence par un QCM d'automatismes (6 points sur 20), suivi d'exercices (14 points). Questions flash typiques sur ce chapitre, à traiter de tête :\n• Une hausse de $20\\,\\%$ suivie d'une baisse de $20\\,\\%$ : coefficient $1{,}2 \\times 0{,}8 = 0{,}96$, soit une **baisse** de $4\\,\\%$.\n• Après une baisse de $20\\,\\%$, il faut une hausse de $25\\,\\%$ pour revenir au prix initial ($0{,}8 \\times 1{,}25 = 1$).\n• Un coefficient multiplicateur $0{,}975$ correspond à une baisse de $2{,}5\\,\\%$.\n• Après une hausse de $25\\,\\%$, un prix vaut $150$ € : le prix initial est $\\frac{150}{1{,}25} = 120$ €.\n• Passer de $80$ à $92$, c'est une hausse de $\\frac{92 - 80}{80} = 0{,}15$, soit $15\\,\\%$.\n• $u_0 = 3$ et $r = -2$ : $u_{10} = 3 - 20 = -17$. $\\quad u_0 = 5$ et $q = 2$ : $u_3 = 5 \\times 8 = 40$.\n• $1 + 2 + \\dots + 10 = \\frac{10 \\times 11}{2} = 55$."
       }
     ],
     "methods": [
@@ -562,7 +731,7 @@ window.MATHS_COURSES_1ERE = {
         ]
       },
       {
-        "title": "Méthode : Utiliser une suite auxiliaire géométrique",
+        "title": "Pour aller plus loin — Méthode : Utiliser une suite auxiliaire géométrique",
         "example": "Soit $u_0 = 5$ et $u_{n+1} = 0{,}8\\,u_n + 3$. On pose $v_n = u_n - 15$. Montrer que $(v_n)$ est géométrique, puis exprimer $u_n$ en fonction de $n$.",
         "steps": [
           "**Étape 1 (Exprimer $v_{n+1}$)** : $v_{n+1} = u_{n+1} - 15 = 0{,}8\\,u_n + 3 - 15 = 0{,}8\\,u_n - 12$.",
@@ -619,44 +788,70 @@ window.MATHS_COURSES_1ERE = {
       {
         "q": "Que vaut $1 + 2 + 3 + \\dots + 100$ ?",
         "a": "$\\frac{100 \\times 101}{2} = 5050$."
+      },
+      {
+        "q": "Comment démontre-t-on que $1 + q + \\dots + q^n = \\frac{1 - q^{n+1}}{1 - q}$ ?",
+        "a": "On calcule $S - qS$ : tous les termes se simplifient sauf $1$ et $-q^{n+1}$, donc $(1 - q)S = 1 - q^{n+1}$, puis on divise par $1 - q \\neq 0$."
+      },
+      {
+        "q": "Un prix baisse de $20\\,\\%$ puis augmente de $20\\,\\%$. Quelle est l'évolution globale ?",
+        "a": "$0{,}8 \\times 1{,}2 = 0{,}96$ : une baisse de $4\\,\\%$."
       }
     ]
   },
 
   "1G1": {
-    "title": "1G1 : Trigonométrie, cercle trigonométrique et fonctions sinus et cosinus",
+    "title": "1G1 : Trigonométrie : cercle trigonométrique, radian, cosinus et sinus d'un réel",
     "domain": "Géométrie",
     "objectives": [
-      "Enrouler la droite réelle sur le cercle trigonométrique et convertir degrés en radians ($180^\\circ = \\pi$ rad).",
-      "Définir le cosinus et le sinus d'un réel $x$ sur le cercle orienté.",
-      "Connaître par cœur les valeurs remarquables de $\\cos$ et $\\sin$ pour $0, \\frac{\\pi}{6}, \\frac{\\pi}{4}, \\frac{\\pi}{3}, \\frac{\\pi}{2}, \\pi$.",
-      "Utiliser $\\cos^2(x) + \\sin^2(x) = 1$ et les formules d'angles associés (symétries)."
+      "Enrouler la droite réelle sur le cercle trigonométrique, placer l'image d'un réel et relier radian et longueur d'arc ($180^\\circ = \\pi$ rad).",
+      "Définir le cosinus et le sinus d'un réel $x$ et faire le lien avec le cosinus et le sinus dans un triangle rectangle.",
+      "Connaître les valeurs remarquables de $\\cos$ et $\\sin$ pour $0, \\frac{\\pi}{6}, \\frac{\\pi}{4}, \\frac{\\pi}{3}, \\frac{\\pi}{2}, \\pi$ et démontrer celles de $\\frac{\\pi}{4}$ et $\\frac{\\pi}{3}$.",
+      "Lire sur le cercle les cosinus et sinus des réels associés à une valeur remarquable ($-x$, $\\pi - x$, $\\pi + x$, $\\frac{\\pi}{2} - x$) ; utiliser $\\cos^2(x) + \\sin^2(x) = 1$.",
+      "Approcher $\\pi$ par la méthode d'Archimède (Python).",
+      "Pour aller plus loin : fonctions cosinus et sinus, équations $\\cos(x) = a$ et $\\sin(x) = a$."
     ],
     "keyPoints": [
       {
-        "title": "1. Valeurs remarquables sur le cercle trigonométrique",
+        "title": "1. Enroulement de la droite réelle, cosinus et sinus",
+        "content": "Dans un repère orthonormé $(O ; I, J)$, le **cercle trigonométrique** est le cercle de centre $O$ et de rayon $1$, orienté dans le sens direct (sens inverse des aiguilles d'une montre).\nOn « enroule » la droite des réels autour de ce cercle à partir du point $I(1 ; 0)$ : à chaque réel $x$ correspond un unique point $M$ du cercle, son **image**, obtenu en parcourant depuis $I$ un arc de longueur $|x|$, dans le sens direct si $x > 0$ et dans le sens indirect si $x < 0$.\n• $\\cos(x)$ est l'**abscisse** de $M$ et $\\sin(x)$ son **ordonnée** : $M(\\cos(x) ; \\sin(x))$.\n• Pour tout réel $x$ : $-1 \\le \\cos(x) \\le 1$, $-1 \\le \\sin(x) \\le 1$ et $\\cos^2(x) + \\sin^2(x) = 1$ (car $OM^2 = 1$).\n• **Lien avec le triangle rectangle** : pour $0 < x < \\frac{\\pi}{2}$, si $H$ est le projeté orthogonal de $M$ sur $(OI)$, le triangle $OHM$ est rectangle en $H$ et son hypoténuse mesure $OM = 1$ ; on retrouve $\\cos = \\frac{\\text{côté adjacent}}{\\text{hypoténuse}} = OH$ et $\\sin = \\frac{\\text{côté opposé}}{\\text{hypoténuse}} = HM$."
+      },
+      {
+        "title": "2. Valeurs remarquables sur le cercle trigonométrique",
         "content": "• **$0$ rad ($0^\\circ$)** : $\\cos(0) = 1$, $\\sin(0) = 0$\n• **$\\frac{\\pi}{6}$ rad ($30^\\circ$)** : $\\cos(\\frac{\\pi}{6}) = \\frac{\\sqrt{3}}{2}$, $\\sin(\\frac{\\pi}{6}) = \\frac{1}{2}$\n• **$\\frac{\\pi}{4}$ rad ($45^\\circ$)** : $\\cos(\\frac{\\pi}{4}) = \\frac{\\sqrt{2}}{2}$, $\\sin(\\frac{\\pi}{4}) = \\frac{\\sqrt{2}}{2}$\n• **$\\frac{\\pi}{3}$ rad ($60^\\circ$)** : $\\cos(\\frac{\\pi}{3}) = \\frac{1}{2}$, $\\sin(\\frac{\\pi}{3}) = \\frac{\\sqrt{3}}{2}$\n• **$\\frac{\\pi}{2}$ rad ($90^\\circ$)** : $\\cos(\\frac{\\pi}{2}) = 0$, $\\sin(\\frac{\\pi}{2}) = 1$"
       },
       {
-        "title": "2. Formules d'angles associés et parité",
-        "content": "• $\\cos(-x) = \\cos(x)$ (fonction cosinus paire)\n• $\\sin(-x) = -\\sin(x)$ (fonction sinus impaire)\n• $\\cos(\\pi - x) = -\\cos(x)$ et $\\sin(\\pi - x) = \\sin(x)$\n• $\\cos(\\pi + x) = -\\cos(x)$ et $\\sin(\\pi + x) = -\\sin(x)$\n• $\\cos(\\frac{\\pi}{2} - x) = \\sin(x)$ et $\\sin(\\frac{\\pi}{2} - x) = \\cos(x)$"
+        "title": "Démonstration : valeurs de $\\cos\\left(\\frac{\\pi}{4}\\right)$, $\\sin\\left(\\frac{\\pi}{4}\\right)$, $\\cos\\left(\\frac{\\pi}{3}\\right)$ et $\\sin\\left(\\frac{\\pi}{3}\\right)$",
+        "content": "• **Angle $\\frac{\\pi}{4}$** : le point $M$ image de $\\frac{\\pi}{4}$ est sur la bissectrice du premier quadrant, droite d'équation $y = x$. Donc $\\cos\\left(\\frac{\\pi}{4}\\right) = \\sin\\left(\\frac{\\pi}{4}\\right) = c$, avec $c > 0$. La relation $\\cos^2 + \\sin^2 = 1$ donne $2c^2 = 1$, soit $c^2 = \\frac{1}{2}$ et $c = \\frac{1}{\\sqrt{2}} = \\frac{\\sqrt{2}}{2}$.\n• **Angle $\\frac{\\pi}{3}$** : soit $M$ l'image de $\\frac{\\pi}{3}$. Le triangle $OIM$ est isocèle en $O$ ($OI = OM = 1$) et $\\widehat{IOM} = 60^\\circ$ ; ses deux autres angles sont égaux et mesurent $\\frac{180^\\circ - 60^\\circ}{2} = 60^\\circ$ : il est **équilatéral**. La hauteur issue de $M$ est aussi une médiane, donc le projeté $H$ de $M$ sur $(OI)$ est le milieu de $[OI]$ : $\\cos\\left(\\frac{\\pi}{3}\\right) = OH = \\frac{1}{2}$.\nEnsuite $\\sin^2\\left(\\frac{\\pi}{3}\\right) = 1 - \\frac{1}{4} = \\frac{3}{4}$ et $\\sin\\left(\\frac{\\pi}{3}\\right) > 0$, donc $\\sin\\left(\\frac{\\pi}{3}\\right) = \\frac{\\sqrt{3}}{2}$."
       },
       {
-        "title": "3. Le radian et la longueur d'arc",
+        "title": "3. Réels associés : lecture sur le cercle",
+        "content": "Les symétries du cercle trigonométrique donnent, pour tout réel $x$ :\n• $\\cos(-x) = \\cos(x)$ et $\\sin(-x) = -\\sin(x)$ (symétrie par rapport à l'axe des abscisses) ;\n• $\\cos(\\pi - x) = -\\cos(x)$ et $\\sin(\\pi - x) = \\sin(x)$ (symétrie par rapport à l'axe des ordonnées) ;\n• $\\cos(\\pi + x) = -\\cos(x)$ et $\\sin(\\pi + x) = -\\sin(x)$ (symétrie par rapport à l'origine) ;\n• $\\cos(\\frac{\\pi}{2} - x) = \\sin(x)$ et $\\sin(\\frac{\\pi}{2} - x) = \\cos(x)$ (symétrie par rapport à la droite d'équation $y = x$).\n*Exemple* : $\\cos\\left(\\frac{2\\pi}{3}\\right) = \\cos\\left(\\pi - \\frac{\\pi}{3}\\right) = -\\frac{1}{2}$ et $\\sin\\left(\\frac{2\\pi}{3}\\right) = \\frac{\\sqrt{3}}{2}$."
+      },
+      {
+        "title": "4. Le radian et la longueur d'arc",
         "content": "Sur un cercle de rayon $R$, un angle de $\\theta$ radians intercepte un arc de longueur $\\ell = R\\,\\theta$. En particulier, sur le cercle trigonométrique ($R = 1$), **la mesure en radians est égale à la longueur de l'arc**.\nConversion : $\\theta_{\\text{rad}} = \\theta_{\\text{deg}} \\times \\frac{\\pi}{180}$.\n*Exemple* : $135^\\circ = 135 \\times \\frac{\\pi}{180} = \\frac{3\\pi}{4}$ rad."
       },
       {
-        "title": "4. Réels associés à un même point et mesure principale",
-        "content": "Les réels $x$ et $x + 2k\\pi$ ($k \\in \\mathbb{Z}$) sont associés au **même point** du cercle trigonométrique. On a donc $\\cos(x + 2k\\pi) = \\cos(x)$ et $\\sin(x + 2k\\pi) = \\sin(x)$.\nLa **mesure principale** est l'unique mesure appartenant à $]-\\pi ; \\pi]$.\n*Exemple* : $\\frac{17\\pi}{3} = \\frac{18\\pi}{3} - \\frac{\\pi}{3} = 6\\pi - \\frac{\\pi}{3}$ : la mesure principale est $-\\frac{\\pi}{3}$."
+        "title": "5. Réels associés à un même point du cercle",
+        "content": "Les réels $x$ et $x + 2k\\pi$ ($k \\in \\mathbb{Z}$) sont associés au **même point** du cercle trigonométrique. On a donc $\\cos(x + 2k\\pi) = \\cos(x)$ et $\\sin(x + 2k\\pi) = \\sin(x)$.\n*Pour aller plus loin* : la **mesure principale** est l'unique mesure appartenant à $]-\\pi ; \\pi]$.\n*Exemple* : $\\frac{17\\pi}{3} = \\frac{18\\pi}{3} - \\frac{\\pi}{3} = 6\\pi - \\frac{\\pi}{3}$ : la mesure principale est $-\\frac{\\pi}{3}$."
       },
       {
-        "title": "5. Les fonctions cosinus et sinus",
-        "content": "• Elles sont définies sur $\\mathbb{R}$ et à valeurs dans $[-1 ; 1]$.\n• Elles sont **périodiques de période $2\\pi$** : leur courbe se répète par translation de $2\\pi$.\n• $\\cos$ est **paire** (courbe symétrique par rapport à l'axe des ordonnées) ; $\\sin$ est **impaire** (courbe symétrique par rapport à l'origine).\n• Sur $[0 ; \\pi]$, $\\cos$ est décroissante de $1$ à $-1$. Sur $\\left[-\\frac{\\pi}{2} ; \\frac{\\pi}{2}\\right]$, $\\sin$ est croissante de $-1$ à $1$.\n• Autres angles associés : $\\cos\\left(\\frac{\\pi}{2} + x\\right) = -\\sin(x)$ et $\\sin\\left(\\frac{\\pi}{2} + x\\right) = \\cos(x)$."
+        "title": "6. Pour aller plus loin : les fonctions cosinus et sinus",
+        "content": "*Ces fonctions seront étudiées en terminale ; ce paragraphe n'est pas un attendu du programme de première.*\n• Elles sont définies sur $\\mathbb{R}$ et à valeurs dans $[-1 ; 1]$.\n• Elles sont **périodiques de période $2\\pi$** : leur courbe se répète par translation de $2\\pi$.\n• $\\cos$ est **paire** (courbe symétrique par rapport à l'axe des ordonnées) ; $\\sin$ est **impaire** (courbe symétrique par rapport à l'origine).\n• Sur $[0 ; \\pi]$, $\\cos$ est décroissante de $1$ à $-1$. Sur $\\left[-\\frac{\\pi}{2} ; \\frac{\\pi}{2}\\right]$, $\\sin$ est croissante de $-1$ à $1$.\n• Autres angles associés : $\\cos\\left(\\frac{\\pi}{2} + x\\right) = -\\sin(x)$ et $\\sin\\left(\\frac{\\pi}{2} + x\\right) = \\cos(x)$."
+      },
+      {
+        "title": "7. Algorithme : approximation de $\\pi$ par la méthode d'Archimède",
+        "content": "Un polygone régulier à $n$ côtés inscrit dans un cercle de rayon $1$ a un périmètre proche de $2\\pi$ lorsque $n$ est grand : son demi-périmètre approche donc $\\pi$. On part de l'hexagone régulier ($n = 6$, côté $c = 1$) et on double à chaque étape le nombre de côtés ; on admet (théorème de Pythagore) que le nouveau côté vaut $\\sqrt{2 - \\sqrt{4 - c^2}}$.\n```python\nfrom math import sqrt\n\ndef archimede(k):\n    n = 6\n    c = 1\n    for i in range(k):\n        c = sqrt(2 - sqrt(4 - c * c))\n        n = 2 * n\n    return n * c / 2\n```\n`archimede(0)` renvoie $3$ ; `archimede(1)` environ $3{,}1058$ ($12$ côtés) ; `archimede(4)` environ $3{,}1410$ ($96$ côtés, comme Archimède)."
+      },
+      {
+        "title": "Réflexes sans calculatrice (épreuve anticipée)",
+        "content": "L'épreuve anticipée se passe **sans calculatrice** : ces calculs doivent devenir automatiques.\n• Conversions : $30^\\circ = \\frac{\\pi}{6}$, $45^\\circ = \\frac{\\pi}{4}$, $120^\\circ = \\frac{2\\pi}{3}$, $\\pi$ rad $= 180^\\circ$.\n• Placer $\\frac{3\\pi}{4}$, $-\\frac{\\pi}{2}$ ou $\\frac{7\\pi}{6}$ sur le cercle et lire les signes du cosinus et du sinus.\n• Valeurs : $\\cos\\left(\\frac{\\pi}{3}\\right) = \\frac{1}{2}$, $\\sin\\left(\\frac{\\pi}{6}\\right) = \\frac{1}{2}$, $\\cos(\\pi) = -1$, $\\sin\\left(\\frac{\\pi}{2}\\right) = 1$.\n• Longueur d'arc : sur un cercle de rayon $3$, un angle de $\\frac{\\pi}{3}$ rad intercepte un arc de longueur $3 \\times \\frac{\\pi}{3} = \\pi$.\n• Lire sur le cercle : $\\cos\\left(\\frac{2\\pi}{3}\\right) = -\\frac{1}{2}$, $\\sin\\left(-\\frac{\\pi}{4}\\right) = -\\frac{\\sqrt{2}}{2}$, $\\cos\\left(\\frac{5\\pi}{6}\\right) = -\\frac{\\sqrt{3}}{2}$."
       }
     ],
     "methods": [
       {
-        "title": "Méthode : Résoudre une équation $\\cos(x) = a$",
+        "title": "Pour aller plus loin — Méthode : Résoudre une équation $\\cos(x) = a$",
         "example": "Résoudre dans $[0 ; 2\\pi[$ l'équation $\\cos(x) = \\frac{1}{2}$.",
         "steps": [
           "**Étape 1 (Angle de référence)** : On sait que $\\cos\\left(\\frac{\\pi}{3}\\right) = \\frac{1}{2}$.",
@@ -666,7 +861,7 @@ window.MATHS_COURSES_1ERE = {
         ]
       },
       {
-        "title": "Méthode : Résoudre une équation $\\sin(x) = a$",
+        "title": "Pour aller plus loin — Méthode : Résoudre une équation $\\sin(x) = a$",
         "example": "Résoudre dans $]-\\pi ; \\pi]$ l'équation $\\sin(x) = -\\frac{\\sqrt{3}}{2}$.",
         "steps": [
           "**Étape 1 (Angle de référence)** : $\\sin\\left(\\frac{\\pi}{3}\\right) = \\frac{\\sqrt{3}}{2}$, et $\\sin$ est impaire, donc $\\sin\\left(-\\frac{\\pi}{3}\\right) = -\\frac{\\sqrt{3}}{2}$.",
@@ -700,7 +895,7 @@ window.MATHS_COURSES_1ERE = {
       "⚠️ Ne pas oublier que $\\cos^2(x) + \\sin^2(x) = 1$ permet de trouver l'un quand on a l'autre, mais il faut choisir le signe ($+$ ou $-$) selon le quadrant !",
       "⚠️ La calculatrice doit impérativement être réglée en mode **Radian** pour les calculs utilisant des angles en radians.",
       "⚠️ Le cosinus est l'**abscisse** du point du cercle et le sinus son **ordonnée** : ne pas les inverser.",
-      "⚠️ L'équation $\\cos(x) = a$ (ou $\\sin(x) = a$) n'a **aucune solution** si $a > 1$ ou $a < -1$.",
+      "⚠️ (Pour aller plus loin) L'équation $\\cos(x) = a$ (ou $\\sin(x) = a$) n'a **aucune solution** si $a > 1$ ou $a < -1$.",
       "⚠️ $\\cos(2x) \\neq 2\\cos(x)$ : par exemple $\\cos\\left(2 \\times \\frac{\\pi}{2}\\right) = -1$ alors que $2\\cos\\left(\\frac{\\pi}{2}\\right) = 0$."
     ],
     "flashcards": [
@@ -717,12 +912,16 @@ window.MATHS_COURSES_1ERE = {
         "a": "$\\cos\\left(\\pi - \\frac{\\pi}{6}\\right) = -\\cos\\left(\\frac{\\pi}{6}\\right) = -\\frac{\\sqrt{3}}{2}$."
       },
       {
-        "q": "Quelle est la mesure principale de $\\frac{25\\pi}{4}$ ?",
+        "q": "(Pour aller plus loin) Quelle est la mesure principale de $\\frac{25\\pi}{4}$ ?",
         "a": "$\\frac{25\\pi}{4} = 6\\pi + \\frac{\\pi}{4}$, donc la mesure principale est $\\frac{\\pi}{4}$."
       },
       {
         "q": "Convertir $\\frac{2\\pi}{5}$ rad en degrés.",
         "a": "$\\frac{2\\pi}{5} \\times \\frac{180}{\\pi} = 72^\\circ$."
+      },
+      {
+        "q": "Pourquoi $\\cos\\left(\\frac{\\pi}{3}\\right) = \\frac{1}{2}$ ?",
+        "a": "Le triangle $OIM$ ($M$ image de $\\frac{\\pi}{3}$) est équilatéral ; le projeté de $M$ sur $(OI)$ est donc le milieu de $[OI]$, d'abscisse $\\frac{1}{2}$."
       }
     ]
   },
@@ -733,7 +932,8 @@ window.MATHS_COURSES_1ERE = {
     "objectives": [
       "Connaître les 3 expressions du produit scalaire : géométrique $\\vec{u}\\cdot\\vec{v} = \\|\\vec{u}\\| \\|\\vec{v}\\| \\cos(\\theta)$, par projection orthogonale $\\vec{AB}\\cdot\\vec{AC} = \\overline{AB} \\times \\overline{AH}$, et analytique $xx' + yy'$.",
       "Caractériser l'orthogonalité de deux vecteurs par la nullité de leur produit scalaire : $\\vec{u} \\perp \\vec{v} \\iff \\vec{u} \\cdot \\vec{v} = 0$.",
-      "Utiliser les propriétés de bilinéarité et de symétrie du produit scalaire."
+      "Utiliser les propriétés de bilinéarité et de symétrie du produit scalaire.",
+      "Exprimer les coordonnées d'un vecteur dans une base orthonormée $(\\vec{\\imath}, \\vec{\\jmath})$ à l'aide de produits scalaires : $x = \\vec{u} \\cdot \\vec{\\imath}$ et $y = \\vec{u} \\cdot \\vec{\\jmath}$."
     ],
     "keyPoints": [
       {
@@ -751,6 +951,14 @@ window.MATHS_COURSES_1ERE = {
       {
         "title": "4. Signe du produit scalaire",
         "content": "Pour deux vecteurs non nuls, le signe de $\\vec{u} \\cdot \\vec{v}$ est celui de $\\cos(\\vec{u}, \\vec{v})$ :\n• $\\vec{u} \\cdot \\vec{v} > 0$ : l'angle géométrique est **aigu** ;\n• $\\vec{u} \\cdot \\vec{v} < 0$ : l'angle est **obtus** ;\n• $\\vec{u} \\cdot \\vec{v} = 0$ : les vecteurs sont **orthogonaux**.\nPar convention, le vecteur nul est orthogonal à tout vecteur."
+      },
+      {
+        "title": "5. Coordonnées et produit scalaire dans une base orthonormée",
+        "content": "Dans une base orthonormée $(\\vec{\\imath}, \\vec{\\jmath})$, on a $\\vec{\\imath} \\cdot \\vec{\\imath} = \\vec{\\jmath} \\cdot \\vec{\\jmath} = 1$ et $\\vec{\\imath} \\cdot \\vec{\\jmath} = 0$. Si $\\vec{u} = x\\vec{\\imath} + y\\vec{\\jmath}$, la bilinéarité donne\n$$\\vec{u} \\cdot \\vec{\\imath} = x \\quad \\text{et} \\quad \\vec{u} \\cdot \\vec{\\jmath} = y$$\nDe même, pour $\\vec{v} = x'\\vec{\\imath} + y'\\vec{\\jmath}$ : $\\vec{u} \\cdot \\vec{v} = xx'\\,\\vec{\\imath} \\cdot \\vec{\\imath} + (xy' + yx')\\,\\vec{\\imath} \\cdot \\vec{\\jmath} + yy'\\,\\vec{\\jmath} \\cdot \\vec{\\jmath} = xx' + yy'$. C'est la justification de l'expression analytique, dont on déduit aussi $\\|\\vec{u}\\| = \\sqrt{x^2 + y^2}$."
+      },
+      {
+        "title": "Réflexes sans calculatrice (épreuve anticipée)",
+        "content": "Calculs à mener de tête, utiles dans les exercices de l'épreuve anticipée (sans calculatrice) :\n• $\\vec{u}(2 ; 3) \\cdot \\vec{v}(-3 ; 2) = -6 + 6 = 0$ : les vecteurs sont orthogonaux.\n• $\\|\\vec{u}\\| = 2$, $\\|\\vec{v}\\| = 5$ et $(\\vec{u}, \\vec{v}) = \\frac{\\pi}{3}$ : $\\vec{u} \\cdot \\vec{v} = 2 \\times 5 \\times \\frac{1}{2} = 5$.\n• $\\vec{u}(3 ; 4)$ a pour norme $\\sqrt{9 + 16} = 5$.\n• Angle aigu : produit scalaire positif ; angle obtus : produit scalaire négatif.\n• $\\vec{u} \\cdot \\vec{u} = \\|\\vec{u}\\|^2$ et $(\\vec{u} + \\vec{v})^2 = \\|\\vec{u}\\|^2 + 2\\,\\vec{u} \\cdot \\vec{v} + \\|\\vec{v}\\|^2$."
       }
     ],
     "methods": [
@@ -821,6 +1029,10 @@ window.MATHS_COURSES_1ERE = {
       {
         "q": "Quel est le signe de $\\vec{u} \\cdot \\vec{v}$ si l'angle entre $\\vec{u}$ et $\\vec{v}$ est obtus ?",
         "a": "Négatif (car le cosinus d'un angle obtus est négatif)."
+      },
+      {
+        "q": "Dans une base orthonormée $(\\vec{\\imath}, \\vec{\\jmath})$, que vaut $\\vec{u} \\cdot \\vec{\\imath}$ ?",
+        "a": "L'abscisse $x$ de $\\vec{u}$ (et $\\vec{u} \\cdot \\vec{\\jmath}$ est son ordonnée $y$)."
       }
     ]
   },
@@ -830,8 +1042,10 @@ window.MATHS_COURSES_1ERE = {
     "domain": "Géométrie",
     "objectives": [
       "Appliquer le théorème d'Al-Kashi (loi des cosinus) dans un triangle quelconque : $a^2 = b^2 + c^2 - 2bc \\cos(\\widehat{A})$.",
-      "Appliquer le théorème de la médiane : si $I$ est le milieu de $[BC]$, alors $AB^2 + AC^2 = 2AI^2 + \\frac{BC^2}{2}$.",
-      "Définir un vecteur normal à une droite et déterminer l'équation cartésienne $ax + by + c = 0$ associée à $\\vec{n}(a ; b)$."
+      "Appliquer le théorème de la médiane : si $I$ est le milieu de $[BC]$, alors $AB^2 + AC^2 = 2AI^2 + \\frac{BC^2}{2}$ (pour aller plus loin).",
+      "Définir un vecteur normal à une droite et déterminer l'équation cartésienne $ax + by + c = 0$ associée à $\\vec{n}(a ; b)$.",
+      "Démontrer et utiliser la caractérisation du cercle de diamètre $[AB]$ : $\\vec{MA} \\cdot \\vec{MB} = 0$ ; déterminer une équation de cercle et le projeté orthogonal d'un point sur une droite.",
+      "Utiliser un repère orthonormé pour étudier une configuration ; reconnaître une équation de cercle et en déterminer centre et rayon."
     ],
     "keyPoints": [
       {
@@ -839,20 +1053,36 @@ window.MATHS_COURSES_1ERE = {
         "content": "Dans un triangle $ABC$ quelconque avec les notations usuelles ($a = BC, b = AC, c = AB$) :\n$$a^2 = b^2 + c^2 - 2bc \\cos(\\widehat{A})$$\n$$b^2 = a^2 + c^2 - 2ac \\cos(\\widehat{B})$$\n$$c^2 = a^2 + b^2 - 2ab \\cos(\\widehat{C})$$\n*Généralisation du théorème de Pythagore* : si $\\widehat{A} = 90^\\circ$, alors $\\cos(\\widehat{A}) = 0$ et on retrouve $a^2 = b^2 + c^2$."
       },
       {
+        "title": "Démonstration : formule d'Al-Kashi",
+        "content": "D'après la relation de Chasles, $\\vec{BC} = \\vec{BA} + \\vec{AC} = \\vec{AC} - \\vec{AB}$. Donc, avec l'identité remarquable du produit scalaire :\n$$BC^2 = \\|\\vec{AC} - \\vec{AB}\\|^2 = AC^2 - 2\\,\\vec{AB} \\cdot \\vec{AC} + AB^2$$\nOr $\\vec{AB} \\cdot \\vec{AC} = AB \\times AC \\times \\cos\\left(\\widehat{BAC}\\right)$. Avec les notations $a = BC$, $b = AC$, $c = AB$, on obtient $a^2 = b^2 + c^2 - 2bc\\cos\\left(\\widehat{A}\\right)$. Les deux autres formules se démontrent de la même façon."
+      },
+      {
         "title": "2. Vecteur normal à une droite",
-        "content": "• Un **vecteur normal** à une droite $\\mathcal{D}$ est un vecteur non nul $\\vec{n}$ orthogonal à tout vecteur directeur de $\\mathcal{D}$.\n• La droite passant par $A(x_A ; y_A)$ de vecteur normal $\\vec{n}\\begin{pmatrix} a \\\\ b \\end{pmatrix}$ admet pour équation cartésienne :\n$$a(x - x_A) + b(y - y_A) = 0 \\iff ax + by + c = 0$$"
+        "content": "• Un **vecteur normal** à une droite $\\mathcal{D}$ est un vecteur non nul $\\vec{n}$ orthogonal à tout vecteur directeur de $\\mathcal{D}$.\n• La droite passant par $A(x_A ; y_A)$ de vecteur normal $\\vec{n}\\begin{pmatrix} a \\\\ b \\end{pmatrix}$ admet pour équation cartésienne :\n$$a(x - x_A) + b(y - y_A) = 0 \\iff ax + by + c = 0$$\n*Justification* : un vecteur directeur de la droite d'équation $ax + by + c = 0$ est $\\vec{u}(-b ; a)$, et $\\vec{n} \\cdot \\vec{u} = a(-b) + ba = 0$. Réciproquement, $M(x ; y)$ appartient à la droite passant par $A$ de vecteur normal $\\vec{n}$ si et seulement si $\\vec{AM} \\cdot \\vec{n} = 0$, c'est-à-dire $a(x - x_A) + b(y - y_A) = 0$."
       },
       {
         "title": "3. Calculer un angle avec Al-Kashi",
         "content": "En isolant le cosinus dans la formule d'Al-Kashi, on obtient un angle à partir des trois côtés :\n$$\\cos(\\widehat{A}) = \\frac{b^2 + c^2 - a^2}{2bc}$$\n*Exemple* : si $a = BC = 7$, $b = AC = 5$ et $c = AB = 8$, alors $\\cos(\\widehat{A}) = \\frac{25 + 64 - 49}{80} = \\frac{40}{80} = \\frac{1}{2}$, donc $\\widehat{A} = 60^\\circ$."
       },
       {
-        "title": "4. Théorème de la médiane",
+        "title": "4. Transformation de $\\vec{MA} \\cdot \\vec{MB}$",
         "content": "Soit $I$ le milieu de $[AB]$. Pour tout point $M$ du plan :\n$$\\vec{MA} \\cdot \\vec{MB} = MI^2 - \\frac{AB^2}{4}$$\n*Preuve* : $\\vec{MA} \\cdot \\vec{MB} = (\\vec{MI} + \\vec{IA}) \\cdot (\\vec{MI} - \\vec{IA}) = MI^2 - IA^2$, et $IA = \\frac{AB}{2}$.\n**Conséquence** : l'ensemble des points $M$ tels que $\\vec{MA} \\cdot \\vec{MB} = 0$ est le **cercle de diamètre $[AB]$**."
+      },
+      {
+        "title": "Démonstration : ensemble des points $M$ tels que $\\vec{MA} \\cdot \\vec{MB} = 0$",
+        "content": "Soit $I$ le milieu de $[AB]$ ; alors $\\vec{IB} = -\\vec{IA}$ et $IA = \\frac{AB}{2}$. D'après la relation de Chasles :\n$$\\vec{MA} \\cdot \\vec{MB} = \\left(\\vec{MI} + \\vec{IA}\\right) \\cdot \\left(\\vec{MI} + \\vec{IB}\\right) = \\left(\\vec{MI} + \\vec{IA}\\right) \\cdot \\left(\\vec{MI} - \\vec{IA}\\right) = MI^2 - IA^2 = MI^2 - \\frac{AB^2}{4}$$\nDonc $\\vec{MA} \\cdot \\vec{MB} = 0 \\iff MI^2 = \\frac{AB^2}{4} \\iff MI = \\frac{AB}{2}$ (des longueurs étant positives).\nL'ensemble cherché est le **cercle de centre $I$ et de rayon $\\frac{AB}{2}$**, c'est-à-dire le **cercle de diamètre $[AB]$** (il contient $A$ et $B$). Pour $M$ distinct de $A$ et $B$, on retrouve : $M$ est sur ce cercle si et seulement si le triangle $AMB$ est rectangle en $M$."
       },
       {
         "title": "5. Équation cartésienne d'un cercle",
         "content": "Dans un repère orthonormé, le cercle de centre $\\Omega(a ; b)$ et de rayon $r > 0$ a pour équation :\n$$(x - a)^2 + (y - b)^2 = r^2$$\nEn effet, $M(x ; y)$ appartient au cercle si et seulement si $\\Omega M^2 = r^2$.\n*Exemple* : le cercle de centre $\\Omega(1 ; -2)$ et de rayon $3$ a pour équation $(x - 1)^2 + (y + 2)^2 = 9$."
+      },
+      {
+        "title": "Pour aller plus loin : théorème de la médiane",
+        "content": "*(Résultat non exigible en Première.)* Si $I$ est le milieu de $[BC]$, alors $$AB^2 + AC^2 = 2AI^2 + \\frac{BC^2}{2}$$\n*Preuve* : $AB^2 = \\|\\vec{AI} + \\vec{IB}\\|^2 = AI^2 + 2\\,\\vec{AI} \\cdot \\vec{IB} + IB^2$ et $AC^2 = AI^2 + 2\\,\\vec{AI} \\cdot \\vec{IC} + IC^2$. En ajoutant, comme $\\vec{IC} = -\\vec{IB}$ et $IB = IC = \\frac{BC}{2}$, on obtient $AB^2 + AC^2 = 2AI^2 + 2 \\times \\frac{BC^2}{4}$."
+      },
+      {
+        "title": "Réflexes sans calculatrice (épreuve anticipée)",
+        "content": "Calculs à mener de tête, utiles dans les exercices de l'épreuve anticipée (sans calculatrice) :\n• Droite $2x - 3y + 1 = 0$ : vecteur normal $\\vec{n}(2 ; -3)$, vecteur directeur $\\vec{u}(3 ; 2)$ ; le point $(1 ; 1)$ lui appartient car $2 - 3 + 1 = 0$.\n• Les droites $2x + y = 0$ et $x - 2y + 5 = 0$ sont perpendiculaires : leurs vecteurs normaux $(2 ; 1)$ et $(1 ; -2)$ ont un produit scalaire nul.\n• Cercle $(x - 2)^2 + (y + 1)^2 = 9$ : centre $\\Omega(2 ; -1)$, rayon $3$.\n• Al-Kashi avec un angle de $60^\\circ$ : $a^2 = b^2 + c^2 - bc$ (car $\\cos(60^\\circ) = \\frac{1}{2}$)."
       }
     ],
     "methods": [
@@ -894,13 +1124,24 @@ window.MATHS_COURSES_1ERE = {
           "**Étape 2 (Valeurs)** : $\\cos(120^\\circ) = -\\frac{1}{2}$, donc $BC^2 = 64 + 25 - 2 \\times 8 \\times 5 \\times \\left(-\\frac{1}{2}\\right) = 89 + 40 = 129$.",
           "**Conclusion** : $BC = \\sqrt{129} \\approx 11{,}36$. L'angle étant obtus, on vérifie que $BC^2 > AB^2 + AC^2$."
         ]
+      },
+      {
+        "title": "Méthode : Déterminer une équation du cercle de diamètre $[AB]$",
+        "example": "Dans un repère orthonormé, on donne $A(1 ; 2)$ et $B(5 ; -2)$. Déterminer une équation du cercle $\\mathcal{C}$ de diamètre $[AB]$, son centre et son rayon.",
+        "steps": [
+          "**Étape 1 (Caractérisation)** : $M(x ; y) \\in \\mathcal{C} \\iff \\vec{MA} \\cdot \\vec{MB} = 0$, avec $\\vec{MA}\\begin{pmatrix} 1 - x \\\\ 2 - y \\end{pmatrix}$ et $\\vec{MB}\\begin{pmatrix} 5 - x \\\\ -2 - y \\end{pmatrix}$.",
+          "**Étape 2 (Calcul)** : $(1 - x)(5 - x) + (2 - y)(-2 - y) = 0 \\iff x^2 - 6x + 5 + y^2 - 4 = 0 \\iff x^2 - 6x + y^2 + 1 = 0$.",
+          "**Étape 3 (Forme réduite)** : $x^2 - 6x = (x - 3)^2 - 9$, donc l'équation devient $(x - 3)^2 + y^2 = 8$.",
+          "**Conclusion** : $\\mathcal{C}$ a pour centre $\\Omega(3 ; 0)$ (milieu de $[AB]$) et pour rayon $\\sqrt{8} = 2\\sqrt{2}$ ; contrôle : $AB = \\sqrt{4^2 + 4^2} = 4\\sqrt{2}$, dont la moitié vaut bien $2\\sqrt{2}$."
+        ]
       }
     ],
     "traps": [
       "⚠️ Pour $ax + by + c = 0$ :\n- Un vecteur **directeur** est $\\vec{u}(-b ; a)$.\n- Un vecteur **normal** est $\\vec{n}(a ; b)$.",
       "⚠️ Dans $(x - a)^2 + (y - b)^2 = r^2$, le membre de droite est le **carré** du rayon : $(x - 1)^2 + y^2 = 9$ a pour rayon $3$, et non $9$.",
       "⚠️ Une équation de la forme $x^2 + y^2 + \\dots = 0$ ne définit pas toujours un cercle : $x^2 + y^2 - 2x + 4y + 10 = 0 \\iff (x - 1)^2 + (y + 2)^2 = -5$, ensemble **vide**.",
-      "⚠️ Dans Al-Kashi, l'angle utilisé est celui **opposé** au côté isolé : $a^2$ va avec $\\widehat{A}$, angle compris entre les côtés $b$ et $c$."
+      "⚠️ Dans Al-Kashi, l'angle utilisé est celui **opposé** au côté isolé : $a^2$ va avec $\\widehat{A}$, angle compris entre les côtés $b$ et $c$.",
+      "⚠️ Le projeté orthogonal $H$ d'un point $A$ sur une droite $\\mathcal{D}$ doit vérifier **deux** conditions : $H \\in \\mathcal{D}$ et $\\vec{AH}$ orthogonal à un vecteur directeur de $\\mathcal{D}$."
     ],
     "flashcards": [
       {
@@ -922,6 +1163,10 @@ window.MATHS_COURSES_1ERE = {
       {
         "q": "Comment calculer $\\cos(\\widehat{A})$ connaissant les trois côtés $a$, $b$, $c$ ?",
         "a": "$\\cos(\\widehat{A}) = \\frac{b^2 + c^2 - a^2}{2bc}$."
+      },
+      {
+        "q": "Comment démontre-t-on la formule d'Al-Kashi ?",
+        "a": "On écrit $\\vec{BC} = \\vec{AC} - \\vec{AB}$, d'où $BC^2 = AC^2 - 2\\,\\vec{AB} \\cdot \\vec{AC} + AB^2$, puis $\\vec{AB} \\cdot \\vec{AC} = AB \\times AC \\times \\cos\\left(\\widehat{A}\\right)$."
       }
     ]
   },
@@ -933,29 +1178,54 @@ window.MATHS_COURSES_1ERE = {
       "Définir la probabilité conditionnelle de $B$ sachant $A$ : $P_A(B) = \\frac{P(A \\cap B)}{P(A)}$ (avec $P(A) > 0$).",
       "Construire et pondérer un arbre de probabilités (règle des nœuds et règle du produit sur un chemin).",
       "Appliquer rigoureusement la formule des probabilités totales sur une partition de l'univers.",
-      "Caractériser l'indépendance de deux événements : $P(A \\cap B) = P(A) \\times P(B)$ ou $P_A(B) = P(B)$."
+      "Caractériser l'indépendance de deux événements : $P(A \\cap B) = P(A) \\times P(B)$ ou $P_A(B) = P(B)$.",
+      "Représenter par un arbre la répétition de $n \\le 4$ épreuves de Bernoulli identiques et indépendantes, et calculer des probabilités."
     ],
     "keyPoints": [
       {
-        "title": "1. Arbres pondérés et formule des probabilités totales",
+        "title": "1. Définitions : probabilité conditionnelle et indépendance",
+        "content": "Soient $A$ et $B$ deux événements, avec $P(A) \\neq 0$.\n• La **probabilité de $B$ sachant $A$** est $$P_A(B) = \\frac{P(A \\cap B)}{P(A)}$$\n• En situation d'équiprobabilité (tirage au hasard d'un individu dans une population), $P_A(B) = \\frac{\\text{nombre d'éléments de } A \\cap B}{\\text{nombre d'éléments de } A}$ : on « restreint » l'univers à $A$.\n• Les événements $A$ et $B$ sont **indépendants** lorsque $P(A \\cap B) = P(A) \\times P(B)$."
+      },
+      {
+        "title": "2. Arbres pondérés et formule des probabilités totales",
         "content": "• **Règle 1 (Nœud)** : La somme des probabilités des branches issues d'un même nœud est égale à 1.\n• **Règle 2 (Chemin)** : La probabilité de l'issue au bout d'un chemin est le **produit** des probabilités le long de ce chemin : $P(A \\cap B) = P(A) \\times P_A(B)$.\n• **Formule des probabilités totales** : Si $(A, \\overline{A})$ forme une partition de l'univers, alors pour tout événement $B$ :\n$$P(B) = P(A \\cap B) + P(\\overline{A} \\cap B) = P(A) \\times P_A(B) + P(\\overline{A}) \\times P_{\\overline{A}}(B)$$"
       },
       {
-        "title": "2. Propriétés de la probabilité conditionnelle",
+        "title": "3. Propriétés de la probabilité conditionnelle",
         "content": "Soit $A$ un événement tel que $P(A) > 0$.\n• $P_A$ est une probabilité : $0 \\le P_A(B) \\le 1$ et $P_A(\\overline{B}) = 1 - P_A(B)$.\n• **Formule du produit** : $P(A \\cap B) = P(A) \\times P_A(B)$ ; si de plus $P(B) > 0$, on a aussi $P(A \\cap B) = P(B) \\times P_B(A)$.\n*Exemple* : si $P(A) = 0{,}4$ et $P_A(B) = 0{,}3$, alors $P(A \\cap B) = 0{,}12$ et $P_A(\\overline{B}) = 0{,}7$."
       },
       {
-        "title": "3. Probabilités totales avec une partition quelconque",
+        "title": "4. Probabilités totales avec une partition quelconque",
         "content": "Des événements $A_1, A_2, \\dots, A_n$ de probabilités non nulles forment une **partition** de l'univers s'ils sont deux à deux incompatibles et si leur réunion est l'univers. Alors, pour tout événement $B$ :\n$$P(B) = P(A_1)P_{A_1}(B) + P(A_2)P_{A_2}(B) + \\dots + P(A_n)P_{A_n}(B)$$\nSur un arbre, $P(B)$ est la **somme des probabilités de tous les chemins** qui mènent à $B$."
       },
       {
-        "title": "4. Indépendance : compléments",
+        "title": "5. Indépendance : compléments",
         "content": "• Si $P(A) > 0$, $A$ et $B$ sont indépendants si et seulement si $P_A(B) = P(B)$ : savoir que $A$ est réalisé ne change pas la probabilité de $B$.\n• Si $A$ et $B$ sont indépendants, alors $A$ et $\\overline{B}$ le sont aussi.\n• **Succession de deux épreuves indépendantes** (par exemple deux lancers de dé) : dans l'arbre, les probabilités du second niveau sont les mêmes quelle que soit l'issue de la première épreuve, et la probabilité d'un couple d'issues est le produit des probabilités."
+      },
+      {
+        "title": "Démonstration : formule des probabilités totales",
+        "content": "Les événements $A \\cap B$ et $\\overline{A} \\cap B$ sont incompatibles (une issue ne peut pas appartenir à la fois à $A$ et à $\\overline{A}$) et leur réunion est $B$. Donc $$P(B) = P(A \\cap B) + P(\\overline{A} \\cap B)$$\nSi $0 < P(A) < 1$, la formule du produit donne $P(A \\cap B) = P(A)\\,P_A(B)$ et $P(\\overline{A} \\cap B) = P(\\overline{A})\\,P_{\\overline{A}}(B)$, d'où $P(B) = P(A)\\,P_A(B) + P(\\overline{A})\\,P_{\\overline{A}}(B)$.\nLe raisonnement est le même pour une partition $A_1, \\dots, A_n$ : les événements $A_i \\cap B$ sont deux à deux incompatibles et leur réunion est $B$."
+      },
+      {
+        "title": "Démonstration : si $A$ et $B$ sont indépendants, $A$ et $\\overline{B}$ le sont aussi",
+        "content": "$A$ est la réunion des événements incompatibles $A \\cap B$ et $A \\cap \\overline{B}$, donc $P(A \\cap \\overline{B}) = P(A) - P(A \\cap B)$. Par indépendance :\n$$P(A \\cap \\overline{B}) = P(A) - P(A)P(B) = P(A)\\left(1 - P(B)\\right) = P(A)\\,P(\\overline{B})$$"
+      },
+      {
+        "title": "6. Répétition d'épreuves de Bernoulli indépendantes ($n \\le 4$)",
+        "content": "Une **épreuve de Bernoulli** a deux issues : succès $S$, de probabilité $p$, et échec $\\overline{S}$, de probabilité $1 - p$. Lorsqu'on répète $n$ fois ($n \\le 4$ en Première) la même épreuve de façon indépendante, on représente la situation par un arbre à $n$ niveaux dont chaque branche porte $p$ ou $1 - p$.\n• La probabilité d'un chemin est le **produit** des probabilités de ses branches.\n• La probabilité d'un événement est la **somme** des probabilités des chemins qui le réalisent.\n*Exemple* : un joueur tire trois fois au but ; chaque tir est réussi avec la probabilité $0{,}7$, indépendamment des autres. Les chemins comportant exactement deux réussites sont $SS\\overline{S}$, $S\\overline{S}S$ et $\\overline{S}SS$ ; chacun a pour probabilité $0{,}7^2 \\times 0{,}3 = 0{,}147$. Donc $P(\\text{exactement deux réussites}) = 3 \\times 0{,}147 = 0{,}441$.\nEt $P(\\text{au moins une réussite}) = 1 - P(\\text{trois échecs}) = 1 - 0{,}3^3 = 1 - 0{,}027 = 0{,}973$."
+      },
+      {
+        "title": "7. Algorithme : méthode de Monte-Carlo",
+        "content": "On choisit au hasard un point $M(x ; y)$ dans le carré $[0 ; 1] \\times [0 ; 1]$. La probabilité qu'il appartienne au quart de disque d'équation $x^2 + y^2 \\le 1$ est le rapport des aires, $\\frac{\\pi}{4}$. En multipliant par $4$ la fréquence observée sur $N$ points, on estime $\\pi$.\n```python\nfrom random import random\n\ndef estimation_pi(N):\n    c = 0\n    for k in range(N):\n        x = random()\n        y = random()\n        if x * x + y * y <= 1:\n            c = c + 1\n    return 4 * c / N\n```\nAvec $N = 100\\,000$, on obtient en général une valeur proche de $3{,}14$, à environ $0{,}01$ près. Même principe pour estimer l'aire sous la parabole $y = x^2$ entre $0$ et $1$ : on compte les points tels que $y \\le x^2$ et on trouve une fréquence proche de $\\frac{1}{3}$ (valeur exacte établie en Terminale)."
+      },
+      {
+        "title": "Automatismes pour l'épreuve anticipée",
+        "content": "L'épreuve anticipée de mathématiques (2 heures, **sans calculatrice**) commence par un QCM d'automatismes (6 points sur 20), suivi d'exercices (14 points). Questions flash typiques sur ce chapitre, à traiter de tête :\n• Compléter un arbre : les branches issues d'un même nœud ont une somme égale à $1$.\n• Lire $P_A(B)$ sur une branche du second niveau, puis $P(A \\cap B) = P(A) \\times P_A(B)$ : avec $P(A) = 0{,}4$ et $P_A(B) = 0{,}5$, on obtient $P(A \\cap B) = 0{,}2$.\n• Dans un tableau croisé : $P_F(D) = \\frac{\\text{effectif de } F \\cap D}{\\text{effectif de } F}$ (on divise par le total de la ligne ou de la colonne de $F$, pas par l'effectif total).\n• Deux lancers indépendants d'une pièce équilibrée : $P(\\text{deux Pile}) = \\frac{1}{2} \\times \\frac{1}{2} = \\frac{1}{4}$.\n• Distinguer $P(A \\cap B)$ (probabilité que les deux événements soient réalisés), $P_A(B)$ (parmi les issues de $A$) et $P_B(A)$ (parmi les issues de $B$) : avec $P(A) = 0{,}4$, $P_A(B) = 0{,}5$ et $P(B) = 0{,}5$, on a $P(A \\cap B) = 0{,}2$ et $P_B(A) = \\frac{0{,}2}{0{,}5} = 0{,}4$.\n• « Au moins un » : passer par l'événement contraire."
       }
     ],
     "methods": [
       {
-        "title": "Méthode : Calculer une probabilité inverse avec la formule de Bayes",
+        "title": "Méthode : Calculer une probabilité « inverse » $P_B(A)$",
         "example": "Une maladie touche 1% de la population ($P(M) = 0{,}01$). Un test donne un résultat positif avec probabilité $P_M(T) = 0{,}99$ chez les malades, et $P_{\\overline{M}}(T) = 0{,}02$ chez les non-malades. Calculer la probabilité d'être malade sachant que le test est positif ($P_T(M)$).",
         "steps": [
           "**Étape 1 (Proba totale P(T))** : $P(T) = P(M \\cap T) + P(\\overline{M} \\cap T) = 0{,}01 \\times 0{,}99 + 0{,}99 \\times 0{,}02 = 0{,}0099 + 0{,}0198 = 0{,}0297$.",
@@ -992,6 +1262,16 @@ window.MATHS_COURSES_1ERE = {
           "**Étape 3 (Indépendance)** : $P(F \\cap D) = \\frac{140}{400} = 0{,}35$ et $P(F) \\times P(D) = 0{,}5 \\times 0{,}65 = 0{,}325$.",
           "**Conclusion** : $0{,}35 \\neq 0{,}325$, donc $F$ et $D$ ne sont pas indépendants."
         ]
+      },
+      {
+        "title": "Méthode : Calculer la probabilité de « au moins un succès »",
+        "example": "On lance quatre fois un dé équilibré à six faces. Quelle est la probabilité d'obtenir au moins un $6$ ?",
+        "steps": [
+          "**Étape 1 (Modélisation)** : quatre épreuves de Bernoulli identiques et indépendantes, de succès « obtenir $6$ », avec $p = \\frac{1}{6}$.",
+          "**Étape 2 (Événement contraire)** : « au moins un $6$ » a pour contraire « aucun $6$ », qui correspond au seul chemin $\\overline{S}\\,\\overline{S}\\,\\overline{S}\\,\\overline{S}$ de l'arbre : $P(\\text{aucun } 6) = \\left(\\frac{5}{6}\\right)^4 = \\frac{625}{1296}$.",
+          "**Étape 3 (Calcul)** : $P(\\text{au moins un } 6) = 1 - \\frac{625}{1296} = \\frac{671}{1296} \\approx 0{,}518$.",
+          "**Conclusion** : on a un peu plus d'une chance sur deux d'obtenir au moins un $6$ en quatre lancers."
+        ]
       }
     ],
     "traps": [
@@ -1021,6 +1301,14 @@ window.MATHS_COURSES_1ERE = {
       {
         "q": "Dans un lycée de $400$ élèves, $200$ sont des filles, dont $140$ demi-pensionnaires. Quelle est la probabilité qu'un élève soit demi-pensionnaire sachant que c'est une fille ?",
         "a": "$P_F(D) = \\frac{140}{200} = 0{,}7$."
+      },
+      {
+        "q": "Comment démontre-t-on la formule des probabilités totales avec $A$ et $\\overline{A}$ ?",
+        "a": "$B$ est la réunion des événements incompatibles $A \\cap B$ et $\\overline{A} \\cap B$, donc $P(B) = P(A \\cap B) + P(\\overline{A} \\cap B) = P(A)P_A(B) + P(\\overline{A})P_{\\overline{A}}(B)$."
+      },
+      {
+        "q": "On répète trois fois de façon indépendante une épreuve de succès $p = 0{,}5$. Probabilité d'au moins un succès ?",
+        "a": "$1 - 0{,}5^3 = 1 - 0{,}125 = 0{,}875$."
       }
     ]
   },
@@ -1032,7 +1320,8 @@ window.MATHS_COURSES_1ERE = {
       "Définir une variable aléatoire réelle $X$ sur un univers fini.",
       "Déterminer la loi de probabilité de $X$ (valeurs $x_i$ et probabilités associées $P(X = x_i)$).",
       "Calculer l'espérance mathématique $E(X) = \\sum x_i p_i$ et interpréter la notion de jeu équitable ($E(X) = 0$).",
-      "Calculer la variance $V(X) = E(X^2) - (E(X))^2$ et l'écart-type $\\sigma(X) = \\sqrt{V(X)}$."
+      "Calculer la variance $V(X) = E(X^2) - (E(X))^2$ et l'écart-type $\\sigma(X) = \\sqrt{V(X)}$.",
+      "Utiliser la linéarité de l'espérance et programmer le calcul de l'espérance, de la variance et de l'écart-type d'une loi."
     ],
     "keyPoints": [
       {
@@ -1040,16 +1329,36 @@ window.MATHS_COURSES_1ERE = {
         "content": "Pour une variable aléatoire $X$ prenant les valeurs $x_1, x_2, \\dots, x_k$ avec les probabilités $p_i = P(X = x_i)$ :\n• **Espérance mathématique** (moyenne pondérée sur le long terme) :\n$$E(X) = \\sum_{i=1}^k x_i p_i = x_1 p_1 + x_2 p_2 + \\dots + x_k p_k$$\n• **Variance** (mesure de la dispersion par rapport à la moyenne) :\n$$V(X) = \\sum_{i=1}^k (x_i - E(X))^2 p_i = E(X^2) - (E(X))^2 \\quad \\text{(formule de König-Huygens)}$$\n• **Écart-type** : $\\sigma(X) = \\sqrt{V(X)}$ (même unité que $X$)."
       },
       {
-        "title": "2. Effet d'une transformation affine $aX + b$",
-        "content": "Pour tous réels $a$ et $b$ :\n$$E(aX + b) = a E(X) + b$$\n$$V(aX + b) = a^2 V(X) \\quad \\text{et} \\quad \\sigma(aX + b) = |a| \\sigma(X)$$"
+        "title": "2. Transformation affine $aX + b$",
+        "content": "Pour tous réels $a$ et $b$, par **linéarité de l'espérance** :\n$$E(aX + b) = a E(X) + b$$\n*Pour aller plus loin* (non exigible en première) : $V(aX + b) = a^2 V(X)$ et $\\sigma(aX + b) = |a|\\,\\sigma(X)$."
       },
       {
         "title": "3. Variable aléatoire et loi de probabilité",
-        "content": "Une **variable aléatoire** $X$ sur un univers fini $\\Omega$ est une fonction qui associe un nombre réel à chaque issue.\n• L'événement $\\{X = x_i\\}$ regroupe les issues pour lesquelles $X$ prend la valeur $x_i$.\n• La **loi de probabilité** de $X$ est la donnée des valeurs $x_i$ et des probabilités $p_i = P(X = x_i)$, souvent présentée dans un tableau. On a toujours $p_1 + p_2 + \\dots + p_k = 1$.\n*Exemple* : on lance deux pièces équilibrées et $X$ est le nombre de « Pile ». $P(X = 0) = \\frac{1}{4}$, $P(X = 1) = \\frac{1}{2}$, $P(X = 2) = \\frac{1}{4}$."
+        "content": "Une **variable aléatoire** $X$ sur un univers fini $\\Omega$ est une fonction qui associe un nombre réel à chaque issue.\n• L'événement $\\{X = x_i\\}$ regroupe les issues pour lesquelles $X$ prend la valeur $x_i$.\n• La **loi de probabilité** de $X$ est la donnée des valeurs $x_i$ et des probabilités $p_i = P(X = x_i)$, souvent présentée dans un tableau. On a toujours $p_1 + p_2 + \\dots + p_k = 1$.\n*Exemple* : on lance deux pièces équilibrées et $X$ est le nombre de « Pile ». $P(X = 0) = \\frac{1}{4}$, $P(X = 1) = \\frac{1}{2}$, $P(X = 2) = \\frac{1}{4}$.\n• **Notations** : $\\{X \\le a\\}$ est l'événement « $X$ prend une valeur inférieure ou égale à $a$ ». Avec les deux pièces : $P(X \\le 1) = P(X = 0) + P(X = 1) = \\frac{3}{4}$."
       },
       {
         "title": "4. Interpréter l'espérance par la simulation",
-        "content": "Si l'on répète un grand nombre de fois l'expérience, la **moyenne des valeurs obtenues** pour $X$ est en général proche de $E(X)$. On peut l'observer en Python (dé : gain de $10$ si on obtient $6$, perte de $2$ sinon) :\n`from random import randint`\n`def moyenne(N):`\n`    s = 0`\n`    for k in range(N):`\n`        s = s + (10 if randint(1, 6) == 6 else -2)`\n`    return s / N`\nIci $E(X) = 10 \\times \\frac{1}{6} - 2 \\times \\frac{5}{6} = 0$, et `moyenne(100000)` renvoie une valeur proche de $0$."
+        "content": "Si l'on répète un grand nombre de fois l'expérience, la **moyenne des valeurs obtenues** pour $X$ est en général proche de $E(X)$. On peut l'observer en Python (dé : gain de $10$ si on obtient $6$, perte de $2$ sinon) :\n```python\nfrom random import randint\n\ndef moyenne(N):\n    s = 0\n    for k in range(N):\n        s = s + (10 if randint(1, 6) == 6 else -2)\n    return s / N\n```\nIci $E(X) = 10 \\times \\frac{1}{6} - 2 \\times \\frac{5}{6} = 0$, et `moyenne(100000)` renvoie une valeur proche de $0$."
+      },
+      {
+        "title": "Démonstration : formule de König-Huygens",
+        "content": "Notons $\\mu = E(X)$. En développant $(x_i - \\mu)^2 = x_i^2 - 2\\mu x_i + \\mu^2$ :\n$$V(X) = \\sum_{i=1}^k x_i^2 p_i - 2\\mu \\sum_{i=1}^k x_i p_i + \\mu^2 \\sum_{i=1}^k p_i = E(X^2) - 2\\mu \\times \\mu + \\mu^2 \\times 1 = E(X^2) - \\mu^2$$\ncar $\\sum x_i p_i = \\mu$ et $\\sum p_i = 1$. Cette formule simplifie souvent les calculs."
+      },
+      {
+        "title": "5. Linéarité de l'espérance",
+        "content": "Si $X$ et $Y$ sont deux variables aléatoires définies sur le même univers et $a$, $b$ deux réels (propriétés admises) :\n$$E(X + Y) = E(X) + E(Y) \\quad \\text{et} \\quad E(aX + b) = aE(X) + b$$\n*Exemple* : on lance deux dés équilibrés ; $X$ et $Y$ sont les deux résultats. $E(X) = E(Y) = \\frac{1 + 2 + 3 + 4 + 5 + 6}{6} = 3{,}5$, donc la somme $S = X + Y$ a pour espérance $E(S) = 7$, sans qu'il soit nécessaire de déterminer la loi de $S$.\n⚠️ Il n'y a pas de formule analogue pour la variance d'une somme en Première."
+      },
+      {
+        "title": "6. Algorithmes : espérance, variance, écart-type et échantillons",
+        "content": "• **Calcul à partir de la loi** (listes des valeurs et des probabilités) :\n```python\nfrom math import sqrt\n\ndef esperance(valeurs, probas):\n    return sum(valeurs[i] * probas[i] for i in range(len(valeurs)))\n\ndef variance(valeurs, probas):\n    m = esperance(valeurs, probas)\n    return sum((valeurs[i] - m) ** 2 * probas[i] for i in range(len(valeurs)))\n\ndef ecart_type(valeurs, probas):\n    return sqrt(variance(valeurs, probas))\n```\nAvec `valeurs = [5, 2, -2]` et `probas = [0.2, 0.3, 0.5]` (jeu de l'urne), on obtient, aux arrondis près, $0{,}6$, $7{,}84$ et $2{,}8$.\n• **Moyenne d'échantillons** : pour une variable $X$ d'espérance $\\mu$ et d'écart-type $\\sigma$, on simule $N$ échantillons de taille $n$ et on calcule la proportion de ceux dont la moyenne $m$ vérifie $|m - \\mu| \\le \\frac{2\\sigma}{\\sqrt{n}}$.\n```python\nfrom random import randint\nfrom math import sqrt\n\ndef moyenne_echantillon(n):     # gain du jeu : 10 si 6, -2 sinon\n    s = 0\n    for k in range(n):\n        s = s + (10 if randint(1, 6) == 6 else -2)\n    return s / n\n\ndef proportion(N, n, mu, sigma):\n    c = 0\n    for j in range(N):\n        if abs(moyenne_echantillon(n) - mu) <= 2 * sigma / sqrt(n):\n            c = c + 1\n    return c / N\n```\nPour ce jeu, $\\mu = 0$ et $V(X) = 100 \\times \\frac{1}{6} + 4 \\times \\frac{5}{6} = 20$, donc $\\sigma = \\sqrt{20}$. `proportion(1000, 100, 0, sqrt(20))` renvoie en général une valeur proche de $0{,}95$ : la moyenne d'un échantillon est le plus souvent à moins de $\\frac{2\\sigma}{\\sqrt{n}}$ de l'espérance, et cet écart diminue quand $n$ augmente."
+      },
+      {
+        "title": "7. Pour aller plus loin : minimum de $x \\mapsto E((X - x)^2)$",
+        "content": "Notons $\\mu = E(X)$. Pour tout réel $x$, en développant et par linéarité de l'espérance :\n$$E\\left((X - x)^2\\right) = E(X^2) - 2x\\,\\mu + x^2 = (x - \\mu)^2 + E(X^2) - \\mu^2 = (x - \\mu)^2 + V(X)$$\nC'est une fonction polynôme du second degré de $x$, minimale pour $x = \\mu$, de minimum $V(X)$ : l'espérance est le nombre « le plus proche » des valeurs de $X$ au sens des carrés des écarts, et la variance mesure cet écart minimal."
+      },
+      {
+        "title": "Automatismes pour l'épreuve anticipée",
+        "content": "L'épreuve anticipée de mathématiques (2 heures, **sans calculatrice**) commence par un QCM d'automatismes (6 points sur 20), suivi d'exercices (14 points). Questions flash typiques sur ce chapitre, à traiter de tête :\n• Compléter une loi : la somme des probabilités vaut $1$. Si $P(X = 1) = 0{,}3$, $P(X = 2) = \\frac{1}{4}$, $P(X = 3) = 0{,}25$, alors $P(X = 4) = 1 - 0{,}8 = 0{,}2$.\n• Espérance de tête : valeurs $-1$, $0$, $4$ de probabilités $0{,}5$ ; $0{,}3$ ; $0{,}2$ : $E(X) = -0{,}5 + 0 + 0{,}8 = 0{,}3$.\n• Une moyenne pondérée (statistiques) se calcule comme une espérance : notes $10$ et $16$ de coefficients $1$ et $2$ donnent $\\frac{10 + 32}{3} = 14$.\n• $E(2X + 1) = 2E(X) + 1$ (linéarité de l'espérance).\n• **Statistiques** : lire un histogramme ou un diagramme (origine, unités, échelles), passer du graphique aux données ; la série $2 ; 4 ; 4 ; 6$ a pour moyenne $4$ et pour écart type $\\sqrt{\\frac{4 + 0 + 0 + 4}{4}} = \\sqrt{2}$.\n• Jeu équitable $\\iff E(\\text{gain}) = 0$."
       }
     ],
     "methods": [
@@ -1084,7 +1393,7 @@ window.MATHS_COURSES_1ERE = {
         ]
       },
       {
-        "title": "Méthode : Utiliser les propriétés de $E(aX + b)$ et $V(aX + b)$",
+        "title": "Pour aller plus loin — Méthode : Utiliser les propriétés de $E(aX + b)$ et $V(aX + b)$",
         "example": "Pour le jeu de l'urne ci-dessus ($E(X) = 0{,}6$, $V(X) = 7{,}84$), l'organisateur double tous les gains et pertes puis retire 1 € de frais : le nouveau gain est $Y = 2X - 1$. Calculer $E(Y)$, $V(Y)$ et $\\sigma(Y)$.",
         "steps": [
           "**Étape 1 (Espérance)** : $E(Y) = 2E(X) - 1 = 2 \\times 0{,}6 - 1 = 0{,}2$.",
@@ -1098,7 +1407,7 @@ window.MATHS_COURSES_1ERE = {
       "⚠️ Dans la formule de König-Huygens, $E(X^2)$ se calcule en élevant les **valeurs $x_i$** au carré sans modifier les probabilités : $E(X^2) = \\sum x_i^2 p_i$.",
       "⚠️ Une variance est **toujours positive ou nulle** ($V(X) \\ge 0$). Si vous obtenez un résultat négatif, vous avez inversé les termes de König-Huygens.",
       "⚠️ Toujours vérifier que la somme des probabilités de la loi vaut $1$ : c'est un contrôle simple qui détecte beaucoup d'erreurs.",
-      "⚠️ $V(aX + b) = a^2 V(X)$ : la constante $b$ disparaît et $a$ est élevé au carré. Par exemple $V(-2X + 3) = 4V(X)$.",
+      "⚠️ (Pour aller plus loin) $V(aX + b) = a^2 V(X)$ : la constante $b$ disparaît et $a$ est élevé au carré. Par exemple $V(-2X + 3) = 4V(X)$.",
       "⚠️ L'espérance n'est pas forcément une valeur prise par $X$ : dans l'exemple de l'urne, $E(X) = 0{,}6$ alors que $X$ ne prend que les valeurs $5$, $2$ et $-2$."
     ],
     "flashcards": [
@@ -1121,24 +1430,34 @@ window.MATHS_COURSES_1ERE = {
       {
         "q": "Que signifie « jeu équitable » ?",
         "a": "L'espérance du gain algébrique du joueur est nulle : $E(X) = 0$."
+      },
+      {
+        "q": "On lance deux dés équilibrés. Quelle est l'espérance de la somme des deux résultats ?",
+        "a": "Par linéarité, $E(X + Y) = E(X) + E(Y) = 3{,}5 + 3{,}5 = 7$."
+      },
+      {
+        "q": "Avec $\\mu = E(X)$, comment démontre-t-on $V(X) = E(X^2) - \\mu^2$ ?",
+        "a": "On développe $\\sum (x_i - \\mu)^2 p_i = \\sum x_i^2 p_i - 2\\mu \\sum x_i p_i + \\mu^2 \\sum p_i = E(X^2) - 2\\mu^2 + \\mu^2$."
       }
     ]
   },
+
   "1S3": {
     "title": "1S3 : Algorithmique et programmation en Python : listes, suites, seuils et simulations",
     "domain": "Algorithmique et Programmation",
     "objectives": [
       "Générer une liste Python en extension, par ajouts successifs (`append`) ou en compréhension.",
-      "Manipuler les éléments d'une liste : indices (à partir de 0), `L[-1]`, longueur `len(L)`, parcours par indice ou par élément.",
+      "Manipuler les éléments d'une liste et leurs indices : lire, modifier, ajouter (`append`), supprimer (`pop`, `remove`, `del`), longueur `len(L)`, parcours par indice ou par élément.",
       "Calculer un terme d'une suite définie explicitement ou par récurrence, et la liste de ses premiers termes.",
       "Calculer une somme de termes à l'aide d'un accumulateur.",
       "Programmer un algorithme de seuil avec une boucle `while` et interpréter le résultat.",
-      "Simuler une expérience aléatoire (`random`, `randint`), calculer une fréquence et la comparer à une probabilité ou une espérance."
+      "Simuler une expérience aléatoire (`random`, `randint`), calculer une fréquence et la comparer à une probabilité ou une espérance.",
+      "Programmer des exemples classiques : factorielle, liste des termes de la suite de Fibonacci ou d'une suite de Syracuse, fréquences d'apparition des lettres d'un texte."
     ],
     "keyPoints": [
       {
         "title": "1. Les listes en Python",
-        "content": "Une **liste** est une suite ordonnée de valeurs, écrite entre crochets : `L = [5, 8, 13]`.\n• Les **indices** commencent à $0$ : `L[0]` vaut $5$, `L[2]` vaut $13$ ; `L[-1]` désigne le **dernier** élément.\n• `len(L)` est le nombre d'éléments ; les indices vont donc de $0$ à `len(L) - 1`.\n• `L.append(x)` ajoute `x` à la fin ; `L[i] = x` remplace l'élément d'indice `i`.\n• `sum(L)`, `max(L)`, `min(L)` donnent la somme, le maximum, le minimum.\n```python\nL = []\nfor k in range(5):\n    L.append(k ** 2)\nprint(L)        # affiche [0, 1, 4, 9, 16]\nprint(len(L))   # affiche 5\n```"
+        "content": "Une **liste** est une suite ordonnée de valeurs, écrite entre crochets : `L = [5, 8, 13]`.\n• Les **indices** commencent à $0$ : `L[0]` vaut $5$, `L[2]` vaut $13$ ; `L[-1]` désigne le **dernier** élément.\n• `len(L)` est le nombre d'éléments ; les indices vont donc de $0$ à `len(L) - 1`.\n• `L.append(x)` ajoute `x` à la fin ; `L[i] = x` remplace l'élément d'indice `i`.\n• **Supprimer** : `L.pop()` retire (et renvoie) le dernier élément ; `del L[i]` supprime l'élément d'indice `i` ; `L.remove(x)` supprime la première occurrence de la valeur `x`. Avec `L = [5, 8, 13]` : après `L.remove(8)`, `L` vaut `[5, 13]` ; après `del L[0]`, `L` vaut `[13]`.\n• `sum(L)`, `max(L)`, `min(L)` donnent la somme, le maximum, le minimum.\n```python\nL = []\nfor k in range(5):\n    L.append(k ** 2)\nprint(L)        # affiche [0, 1, 4, 9, 16]\nprint(len(L))   # affiche 5\n```"
       },
       {
         "title": "2. Listes en compréhension et parcours",
@@ -1159,6 +1478,18 @@ window.MATHS_COURSES_1ERE = {
       {
         "title": "6. Simulation et fréquences",
         "content": "Le module `random` permet de simuler le hasard :\n• `random()` renvoie un flottant aléatoire de $[0 ; 1[$ ; la condition `random() < p` est vraie avec la probabilité $p$ ;\n• `randint(a, b)` renvoie un entier aléatoire entre $a$ et $b$ **inclus**.\n```python\nfrom random import randint\n\ndef frequence_sept(N):\n    c = 0\n    for i in range(N):\n        if randint(1, 6) + randint(1, 6) == 7:\n            c = c + 1\n    return c / N\n```\nPour $N$ grand, la fréquence obtenue est proche de la probabilité $\\frac{6}{36} = \\frac{1}{6}$, et la **moyenne** de valeurs simulées est proche de l'**espérance** (loi des grands nombres, voir 1S2)."
+      },
+      {
+        "title": "7. Exemples classiques : factorielle, Fibonacci, Syracuse",
+        "content": "```python\ndef factorielle(n):\n    p = 1\n    for k in range(1, n + 1):\n        p = p * k\n    return p\n\ndef fibonacci(n):        # n premiers termes (n >= 2) : 1, 1, 2, 3, 5...\n    L = [1, 1]\n    while len(L) < n:\n        L.append(L[-1] + L[-2])\n    return L\n\ndef syracuse(a):         # termes à partir de a, jusqu'à atteindre 1\n    L = [a]\n    while a != 1:\n        if a % 2 == 0:\n            a = a // 2\n        else:\n            a = 3 * a + 1\n        L.append(a)\n    return L\n```\n• `factorielle(5)` vaut $5! = 1 \\times 2 \\times 3 \\times 4 \\times 5 = 120$.\n• `fibonacci(8)` vaut `[1, 1, 2, 3, 5, 8, 13, 21]` : chaque terme est la somme des deux précédents.\n• `syracuse(7)` contient $17$ termes (de $7$ à $1$) et atteint au maximum $52$. Personne ne sait démontrer que la suite atteint $1$ quel que soit l'entier de départ : c'est la **conjecture de Syracuse**."
+      },
+      {
+        "title": "8. Fréquences d'apparition des lettres d'un texte",
+        "content": "```python\ndef frequences(texte):\n    alphabet = \"abcdefghijklmnopqrstuvwxyz\"\n    lettres = [c for c in texte.lower() if c in alphabet]\n    return [(l, lettres.count(l) / len(lettres)) for l in alphabet]\n```\nLa fonction renvoie une liste de couples (lettre, fréquence). Sur un long texte en français, le « e » est nettement la lettre la plus fréquente ; la répartition est différente en anglais. Ces fréquences servent par exemple à décrypter un message codé par décalage des lettres."
+      },
+      {
+        "title": "9. Programmation modulaire",
+        "content": "On découpe un problème en **fonctions** simples, que l'on combine. Par exemple, pour calculer $u_0 + u_1 + \\dots + u_n$ avec $u_k = 2^k$, on sépare le calcul d'un terme et celui de la somme :\n```python\ndef u(k):\n    return 2 ** k\n\ndef somme(n):\n    s = 0\n    for k in range(n + 1):\n        s = s + u(k)\n    return s\n```\n`somme(10)` vaut $2^{11} - 1 = 2\\,047$. Pour une autre suite, il suffit de modifier la fonction `u` : la fonction `somme` reste inchangée."
       }
     ],
     "methods": [
@@ -1234,6 +1565,10 @@ window.MATHS_COURSES_1ERE = {
       {
         "q": "Pour $N$ grand, de quoi la moyenne de $N$ gains simulés est-elle proche ?",
         "a": "De l'espérance du gain (loi des grands nombres)."
+      },
+      {
+        "q": "Que renvoie `factorielle(4)` ?",
+        "a": "$4! = 1 \\times 2 \\times 3 \\times 4 = 24$."
       }
     ]
   }
@@ -1353,8 +1688,8 @@ window.MATHS_EXERCISES_1ERE = {
       ],
       "correctIndex": 0,
       "answer": "$6$",
-      "hint1": "Le taux d'accroissement tend vers $f'(3)$.",
-      "hint2": "Comme $f'(x) = 2x$, $f'(3) = 2 \\times 3 = 6$.",
+      "hint1": "Calcule $f(3 + h) - f(3) = (3 + h)^2 - 9$ en développant, puis divise par $h$.",
+      "hint2": "$(3 + h)^2 - 9 = 6h + h^2$, donc le taux vaut $6 + h$ pour $h \\neq 0$ ; cherche sa limite quand $h$ tend vers $0$.",
       "solution": "Par définition, $\\lim_{h \\to 0} \\frac{(3+h)^2 - 9}{h} = \\lim_{h \\to 0} \\frac{6h + h^2}{h} = \\lim_{h \\to 0} (6 + h) = 6 = f'(3)$."
     },
     {
@@ -1498,20 +1833,20 @@ window.MATHS_EXERCISES_1ERE = {
       "id": "1A4-2",
       "tier": 2,
       "type": "mcq",
-      "title": "Dérivée avec exponentielle $e^{u(x)}$",
-      "skill": "Dériver une fonction de la forme $e^{u(x)}$",
-      "statement": "Quelle est la dérivée de $f(x) = e^{-3x^2 + 2x}$ ?",
+      "title": "Dérivée de $t \\mapsto e^{at}$",
+      "skill": "Dériver t ↦ e^(at)",
+      "statement": "Quelle est la dérivée de la fonction $f$ définie sur $\\mathbb{R}$ par $f(t) = 5e^{-0{,}2t}$ ?",
       "options": [
-        "$(-6x + 2)e^{-3x^2 + 2x}$",
-        "$-6x e^{-3x^2 + 2x}$",
-        "$e^{-6x + 2}$",
-        "$(6x - 2)e^{-3x^2 + 2x}$"
+        "$f'(t) = -e^{-0{,}2t}$",
+        "$f'(t) = 5e^{-0{,}2t}$",
+        "$f'(t) = -0{,}2e^{-0{,}2t}$",
+        "$f'(t) = e^{-0{,}2t}$"
       ],
       "correctIndex": 0,
-      "answer": "$(-6x + 2)e^{-3x^2 + 2x}$",
-      "hint1": "Formule : $(e^u)' = u' e^u$.",
-      "hint2": "Ici $u(x) = -3x^2 + 2x$, donc $u'(x) = -6x + 2$.",
-      "solution": "$(e^u)' = u' e^u$. Avec $u(x) = -3x^2 + 2x$, on a $u'(x) = -6x + 2$, donc $f'(x) = (-6x + 2)e^{-3x^2 + 2x}$."
+      "answer": "$f'(t) = -e^{-0{,}2t}$",
+      "hint1": "Pour tout réel $a$, $(e^{at})' = a\\,e^{at}$ ; ici $a = -0{,}2$.",
+      "hint2": "N'oublie pas le facteur $5$ : $(5u)' = 5u'$.",
+      "solution": "$f'(t) = 5 \\times (-0{,}2)\\,e^{-0{,}2t} = -e^{-0{,}2t}$."
     },
     {
       "id": "1A4-3",
@@ -1536,20 +1871,20 @@ window.MATHS_EXERCISES_1ERE = {
       "id": "1A4-4",
       "tier": 4,
       "type": "mcq",
-      "title": "Équation se ramenant au second degré",
-      "skill": "Résoudre une équation avec changement de variable $X = e^x$",
-      "statement": "Résoudre dans $\\mathbb{R}$ l'équation $e^{2x} - 5e^x + 6 = 0$.",
+      "title": "Équation avec des exponentielles",
+      "skill": "Résoudre une équation e^a = e^b",
+      "statement": "Résoudre dans $\\mathbb{R}$ l'équation $e^{x^2} = e^{4x - 3}$.",
       "options": [
-        "$x = \\ln(2)$ ou $x = \\ln(3)$",
-        "$x = 2$ ou $x = 3$",
-        "$x = e^2$ ou $x = e^3$",
-        "Pas de solution réelle"
+        "$S = \\{1 ; 3\\}$",
+        "$S = \\{-1 ; -3\\}$",
+        "$S = \\{3\\}$",
+        "$S = \\emptyset$"
       ],
       "correctIndex": 0,
-      "answer": "$x = \\ln(2)$ ou $x = \\ln(3)$",
-      "hint1": "Pose $X = e^x > 0$. L'équation devient $X^2 - 5X + 6 = 0$.",
-      "hint2": "Les racines sont $X = 2$ et $X = 3$, donc $e^x = 2 \\iff x = \\ln(2)$ et $e^x = 3 \\iff x = \\ln(3)$.",
-      "solution": "Posons $X = e^x$. Alors $X^2 - 5X + 6 = 0 \\iff (X - 2)(X - 3) = 0 \\iff X = 2$ ou $X = 3$. Comme $X > 0$, $x = \\ln(2)$ ou $x = \\ln(3)$."
+      "answer": "$S = \\{1 ; 3\\}$",
+      "hint1": "La fonction exponentielle est strictement croissante : $e^a = e^b \\iff a = b$.",
+      "hint2": "On se ramène à $x^2 = 4x - 3$, soit $x^2 - 4x + 3 = 0$ ; cherche une racine évidente.",
+      "solution": "$e^{x^2} = e^{4x - 3} \\iff x^2 - 4x + 3 = 0$. Le réel $1$ est racine évidente ($1 - 4 + 3 = 0$) et le produit des racines vaut $3$ : l'autre racine est $3$. $S = \\{1 ; 3\\}$."
     }
   ],
   "1A5": [
@@ -1626,7 +1961,7 @@ window.MATHS_EXERCISES_1ERE = {
       "correctIndex": 0,
       "answer": "$(v_n)$ est géométrique de raison $0{,}5$ et $\\lim u_n = 6$",
       "hint1": "$v_{n+1} = u_{n+1} - 6 = 0{,}5 u_n + 3 - 6 = 0{,}5(u_n - 6) = 0{,}5 v_n$.",
-      "hint2": "Comme $|0{,}5| < 1$, $\\lim v_n = 0$, donc $\\lim u_n = 6$.",
+      "hint2": "$(v_n)$ est géométrique de raison $0{,}5$ et $v_0 = 2 - 6 = -4$, donc $v_n = -4 \\times 0{,}5^n$ : les termes se rapprochent de $0$ (conjecture à l'aide de quelques termes), et $u_n = v_n + 6$ se rapproche de $6$.",
       "solution": "$v_{n+1} = 0{,}5 u_n + 3 - 6 = 0{,}5(u_n - 6) = 0{,}5 v_n$. $(v_n)$ est géométrique de raison $0{,}5$. Comme $|0{,}5| < 1$, $\\lim v_n = 0 \\implies \\lim u_n = 6$."
     }
   ],
@@ -1704,7 +2039,7 @@ window.MATHS_EXERCISES_1ERE = {
       "correctIndex": 0,
       "answer": "$\\frac{3}{2}$",
       "hint1": "$S_n = \\frac{1 - (1/3)^{n+1}}{1 - 1/3}$.",
-      "hint2": "Comme $|1/3| < 1$, $(1/3)^{n+1} \\to 0$. La limite est $\\frac{1}{2/3} = \\frac{3}{2}$.",
+      "hint2": "Les puissances $\\left(\\frac{1}{3}\\right)^{n+1}$ deviennent aussi proches de $0$ que l'on veut ($\\frac{1}{3^{10}} \\approx 0{,}000\\,017$) : $S_n$ se rapproche de $\\frac{1}{1 - \\frac{1}{3}}$.",
       "solution": "Comme $|1/3| < 1$, $\\lim_{n \\to +\\infty} (1/3)^{n+1} = 0$. Donc $\\lim S_n = \\frac{1}{1 - 1/3} = \\frac{1}{2/3} = \\frac{3}{2}$."
     },
     {
@@ -1789,39 +2124,39 @@ window.MATHS_EXERCISES_1ERE = {
       "id": "1G1-3",
       "tier": 3,
       "type": "mcq",
-      "title": "Résolution d'équation trigonométrique",
-      "skill": "Résoudre cos(x) = a sur [-pi ; pi]",
-      "statement": "Quelles sont les solutions dans $]-\\pi ; \\pi]$ de $\\cos(x) = -\\frac{1}{2}$ ?",
+      "title": "Point associé à un réel",
+      "skill": "Coordonnées du point image d'un réel",
+      "statement": "Quelles sont les coordonnées du point $M$ du cercle trigonométrique associé au réel $\\frac{2\\pi}{3}$ ?",
       "options": [
-        "$S = \\left\\{-\\frac{2\\pi}{3} ; \\frac{2\\pi}{3}\\right\\}$",
-        "$S = \\left\\{-\\frac{\\pi}{3} ; \\frac{\\pi}{3}\\right\\}$",
-        "$S = \\left\\{\\frac{2\\pi}{3} ; \\frac{4\\pi}{3}\\right\\}$",
-        "$S = \\left\\{-\\frac{5\\pi}{6} ; \\frac{5\\pi}{6}\\right\\}$"
+        "$M\\left(-\\frac{1}{2} ; \\frac{\\sqrt{3}}{2}\\right)$",
+        "$M\\left(\\frac{1}{2} ; \\frac{\\sqrt{3}}{2}\\right)$",
+        "$M\\left(-\\frac{\\sqrt{3}}{2} ; \\frac{1}{2}\\right)$",
+        "$M\\left(\\frac{\\sqrt{3}}{2} ; -\\frac{1}{2}\\right)$"
       ],
       "correctIndex": 0,
-      "answer": "$S = \\left\\{-\\frac{2\\pi}{3} ; \\frac{2\\pi}{3}\\right\\}$",
-      "hint1": "$\\cos(x) = -\\cos(\\pi/3) = \\cos(\\pi - \\pi/3) = \\cos(2\\pi/3)$.",
-      "hint2": "Les deux solutions sur $]-\\pi ; \\pi]$ sont $\\alpha$ et $-\\alpha$.",
-      "solution": "$\\cos(x) = \\cos(2\\pi/3) \\iff x = \\frac{2\\pi}{3}$ ou $x = -\\frac{2\\pi}{3}$ dans l'intervalle $]-\\pi ; \\pi]$."
+      "answer": "$M\\left(-\\frac{1}{2} ; \\frac{\\sqrt{3}}{2}\\right)$",
+      "hint1": "Les coordonnées de $M$ sont $(\\cos x ; \\sin x)$, et $\\frac{2\\pi}{3} = \\pi - \\frac{\\pi}{3}$.",
+      "hint2": "Le point est le symétrique de celui de $\\frac{\\pi}{3}$ par rapport à l'axe des ordonnées : même ordonnée, abscisse opposée.",
+      "solution": "$\\cos\\left(\\frac{2\\pi}{3}\\right) = -\\cos\\left(\\frac{\\pi}{3}\\right) = -\\frac{1}{2}$ et $\\sin\\left(\\frac{2\\pi}{3}\\right) = \\sin\\left(\\frac{\\pi}{3}\\right) = \\frac{\\sqrt{3}}{2}$, d'où $M\\left(-\\frac{1}{2} ; \\frac{\\sqrt{3}}{2}\\right)$."
     },
     {
       "id": "1G1-4",
       "tier": 4,
       "type": "mcq",
-      "title": "Formule de duplication",
-      "skill": "Appliquer cos(2x) = 2 cos^2(x) - 1",
-      "statement": "Exprimer $\\cos(2x)$ en fonction de $\\cos(x)$ pour tout réel $x$.",
+      "title": "Longueur d'arc",
+      "skill": "Radian et longueur d'arc",
+      "statement": "Sur un cercle de rayon $6$ cm, quelle est la longueur de l'arc intercepté par un angle de $\\frac{5\\pi}{6}$ radians ?",
       "options": [
-        "$2\\cos^2(x) - 1$",
-        "$2\\cos(x) - 1$",
-        "$\\cos^2(x) + \\sin^2(x)$",
-        "$1 - \\cos^2(x)$"
+        "$5\\pi$ cm",
+        "$\\frac{5\\pi}{36}$ cm",
+        "$\\frac{5\\pi}{6}$ cm",
+        "$10\\pi$ cm"
       ],
       "correctIndex": 0,
-      "answer": "$2\\cos^2(x) - 1$",
-      "hint1": "$\\cos(2x) = \\cos^2(x) - \\sin^2(x)$.",
-      "hint2": "Remplace $\\sin^2(x)$ par $1 - \\cos^2(x)$.",
-      "solution": "$\\cos(2x) = \\cos^2(x) - \\sin^2(x) = \\cos^2(x) - (1 - \\cos^2(x)) = 2\\cos^2(x) - 1$."
+      "answer": "$5\\pi$ cm",
+      "hint1": "Sur un cercle de rayon $R$, un angle de $\\theta$ radians intercepte un arc de longueur $\\ell = R\\,\\theta$.",
+      "hint2": "Calcule $6 \\times \\frac{5\\pi}{6}$.",
+      "solution": "$\\ell = R\\theta = 6 \\times \\frac{5\\pi}{6} = 5\\pi \\approx 15{,}7$ cm."
     }
   ],
   "1G2": [
@@ -2082,20 +2417,20 @@ window.MATHS_EXERCISES_1ERE = {
       "id": "1S2-2",
       "tier": 2,
       "type": "mcq",
-      "title": "Transformation affine de variable aléatoire",
-      "skill": "Appliquer E(aX+b) et V(aX+b)",
-      "statement": "Sachant que $E(X) = 4$ et $V(X) = 9$, que valent l'espérance et l'écart-type de $Y = 3X - 5$ ?",
+      "title": "Linéarité de l'espérance",
+      "skill": "Linéarité de l'espérance",
+      "statement": "Une variable aléatoire $X$ vérifie $E(X) = 4$. On pose $Y = 3X - 5$. Que vaut $E(Y)$ ?",
       "options": [
-        "$E(Y) = 7$ et $\\sigma(Y) = 9$",
-        "$E(Y) = 7$ et $\\sigma(Y) = 27$",
-        "$E(Y) = 12$ et $\\sigma(Y) = 9$",
-        "$E(Y) = 7$ et $\\sigma(Y) = 3$"
+        "$7$",
+        "$12$",
+        "$17$",
+        "$-1$"
       ],
       "correctIndex": 0,
-      "answer": "$E(Y) = 7$ et $\\sigma(Y) = 9$",
-      "hint1": "$E(aX+b) = aE(X) + b = 3(4) - 5 = 7$.",
-      "hint2": "$\\sigma(aX+b) = |a|\\sigma(X)$. Or $\\sigma(X) = \\sqrt{9} = 3$, donc $\\sigma(Y) = 3 \\times 3 = 9$.",
-      "solution": "$E(3X - 5) = 3(4) - 5 = 7$. $\\sigma(X) = \\sqrt{9} = 3 \\implies \\sigma(3X - 5) = 3 \\times 3 = 9$."
+      "answer": "$7$",
+      "hint1": "Par linéarité de l'espérance, $E(aX + b) = aE(X) + b$.",
+      "hint2": "Ici $a = 3$ et $b = -5$.",
+      "solution": "$E(Y) = 3E(X) - 5 = 3 \\times 4 - 5 = 7$."
     },
     {
       "id": "1S2-3",

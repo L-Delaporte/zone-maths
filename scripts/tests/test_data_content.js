@@ -13,6 +13,8 @@
  *  - KaTeX : chaque fragment mathématique doit être rendu par vendor/katex
  *    (throwOnError), et aucun `$` orphelin ;
  *  - mots de brouillon oubliés (« attendez », « recalculons », « hmm »…) ;
+ *  - indices (hint, hint1, hint2) : non vides, hint1 ne contient pas la réponse finale,
+ *    pas d'indice identique dans deux chapitres différents ;
  *  - mention de maths-et-tiques ; champ `fullText` dans les fiches.
  */
 'use strict';
@@ -275,6 +277,50 @@ for (const { chId, ex, where } of allEx) {
       }
     });
   }
+}
+
+// Indices (hint, hint1, hint2) : non vides, hint1 ne livre pas la réponse finale,
+// pas d'indice recopié à l'identique dans un exercice d'un autre chapitre.
+/**
+ * Exercices où la réponse finale apparaît dans hint1 comme résultat INTERMÉDIAIRE
+ * (coïncidence numérique justifiée, l'indice ne la présente pas comme la réponse).
+ */
+const HINT_ANSWER_OK = new Set(['5N1-2']);
+const normHint = (s) => String(s).replace(/\$/g, '').replace(/\\[dt]frac/g, '\\frac').replace(/\{,\}/g, ',')
+  .replace(/\\[,;!: ]|\\quad|\\text\{\s*\}|\\left|\\right/g, '').replace(/\s+/g, '').toLowerCase();
+/** `needle` présent dans `hay` comme expression entière (pas au milieu d'un nombre ou d'un mot). */
+function containsToken(hay, needle) {
+  for (let i = hay.indexOf(needle); i >= 0; i = hay.indexOf(needle, i + 1)) {
+    const before = hay[i - 1] || '', after = hay[i + needle.length] || '';
+    const afterNext = hay[i + needle.length + 1] || '';
+    if (/[0-9a-z.,\\]/.test(before) || /[0-9a-z]/.test(after) || ((after === ',' || after === '.') && /[0-9]/.test(afterNext))) continue;
+    return true;
+  }
+  return false;
+}
+const hintOwners = new Map();
+const hintSeenEx = new Set();
+for (const { chId, ex, where } of allEx) {
+  if (hintSeenEx.has(ex)) continue;
+  hintSeenEx.add(ex);
+  for (const f of ['hint', 'hint1', 'hint2']) {
+    if (!(f in ex) || ex[f] === undefined || ex[f] === null) continue;
+    if (typeof ex[f] !== 'string' || !ex[f].trim()) { fail(`${where} : indice « ${f} » vide`); continue; }
+    const k = normHint(ex[f]);
+    if (k.length < 25) continue; // formules très courtes : les répétitions sont légitimes
+    if (!hintOwners.has(k)) hintOwners.set(k, []);
+    hintOwners.get(k).push({ chId, id: ex.id, f });
+  }
+  const h1 = typeof ex.hint1 === 'string' ? ex.hint1 : ex.hint;
+  if (typeof h1 !== 'string' || ex.answer === undefined || HINT_ANSWER_OK.has(ex.id)) continue;
+  const a = normHint(ex.answer);
+  // Réponses courtes non triviales seulement (un chiffre seul ou « oui » se retrouvent partout).
+  if (a.length < 2 || a.length > 40 || /^(oui|non|vrai|faux)$/.test(a)) continue;
+  if (containsToken(normHint(h1), a)) fail(`${where} : hint1 contient la réponse finale « ${ex.answer} »`);
+}
+for (const owners of hintOwners.values()) {
+  const chs = new Set(owners.map((o) => o.chId));
+  if (chs.size > 1) fail(`Indice identique dans des chapitres différents : ${owners.map((o) => `${o.id}.${o.f}`).join(', ')}`);
 }
 
 // Fiches

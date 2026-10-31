@@ -13,19 +13,23 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
     "keyPoints": [
       {
         "title": "1. Les ensembles de nombres emboîtés",
-        "content": "• **Entiers naturels $\\mathbb{N}$** : entiers positifs ($0, 1, 2, 42...$).\n• **Entiers relatifs $\\mathbb{Z}$** : entiers positifs et négatifs ($-7, -1, 0, 3...$).\n• **Nombres décimaux $\\mathbb{D}$** : nombres ayant un nombre fini de chiffres après la virgule, pouvant s'écrire sous la forme $\\frac{a}{10^n}$ (ex: $0,25 = \\frac{1}{4}$, mais $\\frac{1}{3} \\approx 0,333... \\notin \\mathbb{D}$).\n• **Nombres rationnels $\\mathbb{Q}$** : nombres pouvant s'écrire sous la forme d'un quotient $\\frac{a}{b}$ où $a \\in \\mathbb{Z}$ et $b \\in \\mathbb{Z}^*$ (ex: $\\frac{1}{3}, -\\frac{7}{11}$).\n• **Nombres réels $\\mathbb{R}$** : ensemble de tous les nombres (rationnels et irrationnels).\n$$\\mathbb{N} \\subset \\mathbb{Z} \\subset \\mathbb{D} \\subset \\mathbb{Q} \\subset \\mathbb{R}$$"
+        "content": "• **Entiers naturels $\\mathbb{N}$** : entiers positifs ($0, 1, 2, 42...$).\n• **Entiers relatifs $\\mathbb{Z}$** : entiers positifs et négatifs ($-7, -1, 0, 3...$).\n• **Nombres décimaux $\\mathbb{D}$** : nombres ayant un nombre fini de chiffres après la virgule, pouvant s'écrire sous la forme $\\frac{a}{10^n}$ (ex: $0{,}25 = \\frac{1}{4}$, mais $\\frac{1}{3} \\approx 0{,}333... \\notin \\mathbb{D}$).\n• **Nombres rationnels $\\mathbb{Q}$** : nombres pouvant s'écrire sous la forme d'un quotient $\\frac{a}{b}$ où $a \\in \\mathbb{Z}$ et $b \\in \\mathbb{Z}^*$ (ex: $\\frac{1}{3}, -\\frac{7}{11}$).\n• **Nombres réels $\\mathbb{R}$** : ensemble de tous les nombres (rationnels et irrationnels).\n$$\\mathbb{N} \\subset \\mathbb{Z} \\subset \\mathbb{D} \\subset \\mathbb{Q} \\subset \\mathbb{R}$$"
       },
       {
         "title": "2. Les nombres irrationnels",
-        "content": "Définition du cours : Un **nombre irrationnel** est un nombre réel qui **ne peut pas** s'écrire sous la forme d'un quotient $\\frac{a}{b}$ avec $a$ et $b$ entiers ($b \\neq 0$).\n*Exemples majeurs* :\n• $\\pi \\approx 3,14159...$\n• $\\sqrt{2} \\approx 1,4142...$ (la diagonale d'un carré de côté 1)\n• $\\sqrt{3}, \\sqrt{5}, \\sqrt{7}$... (racines carrées d'entiers qui ne sont pas des carrés parfaits)."
+        "content": "Définition du cours : Un **nombre irrationnel** est un nombre réel qui **ne peut pas** s'écrire sous la forme d'un quotient $\\frac{a}{b}$ avec $a$ et $b$ entiers ($b \\neq 0$).\n*Exemples majeurs* :\n• $\\pi \\approx 3{,}14159...$\n• $\\sqrt{2} \\approx 1{,}4142...$ (la diagonale d'un carré de côté 1)\n• $\\sqrt{3}, \\sqrt{5}, \\sqrt{7}$... (racines carrées d'entiers qui ne sont pas des carrés parfaits)."
       },
       {
         "title": "3. Les 4 opérations sur les fractions de relatifs",
-        "content": "• **Addition / Soustraction** : Même dénominateur obligatoire !\n$$\\frac{a}{d} + \\frac{b}{d} = \\frac{a+b}{d} \\quad \\text{et} \\quad \\frac{a}{b} - \\frac{c}{d} = \\frac{ad - bc}{bd}$$\n• **Multiplication** : On multiplie numérateurs entre eux et dénominateurs entre eux en décomposant pour simplifier AVANT :\n$$\\frac{a}{b} \\times \\frac{c}{d} = \\frac{a \\times c}{b \\times d}$$\n• **Division** : Diviser par une fraction non nulle revient à **multiplier par son inverse** :\n$$\\frac{a}{b} \\div \\frac{c}{d} = \\frac{a}{b} \\times \\frac{d}{c} = \\frac{ad}{bc}$$"
+        "content": "• **Addition / Soustraction** : on réduit d'abord les fractions au **même dénominateur** (de préférence le plus petit multiple commun des dénominateurs), puis on additionne ou on soustrait les numérateurs ; le dénominateur commun ne change pas :\n$$\\frac{a}{d} + \\frac{b}{d} = \\frac{a+b}{d} \\qquad \\text{exemple : } \\frac{5}{6} - \\frac{3}{4} = \\frac{10}{12} - \\frac{9}{12} = \\frac{1}{12}$$\n• **Multiplication** : on multiplie les numérateurs entre eux et les dénominateurs entre eux, en décomposant pour simplifier **avant** de calculer :\n$$\\frac{a}{b} \\times \\frac{c}{d} = \\frac{a \\times c}{b \\times d}$$\n• **Division** : diviser par une fraction non nulle revient à **multiplier par son inverse** :\n$$\\frac{a}{b} \\div \\frac{c}{d} = \\frac{a}{b} \\times \\frac{d}{c} = \\frac{ad}{bc}$$\n• **Signe d'une fraction** : $\\frac{-a}{b} = \\frac{a}{-b} = -\\frac{a}{b}$ et $\\frac{-a}{-b} = \\frac{a}{b}$."
       },
       {
         "title": "4. Fractions irréductibles et division par zéro",
         "content": "• Une fraction est **irréductible** lorsque son numérateur et son dénominateur sont premiers entre eux (leur PGCD vaut 1).\n• La division par 0 est strictement **impossible** : une fraction dont le dénominateur est nul n'a aucun sens mathématique."
+      },
+      {
+        "title": "À retenir pour le brevet",
+        "content": "• $\\mathbb{N} \\subset \\mathbb{Z} \\subset \\mathbb{D} \\subset \\mathbb{Q} \\subset \\mathbb{R}$ ; $\\pi$ et $\\sqrt{2}$ sont des nombres irrationnels.\n• Addition et soustraction : même dénominateur d'abord. Multiplication : numérateurs entre eux, dénominateurs entre eux. Division : on multiplie par l'inverse.\n• On simplifie avant de multiplier et on donne le résultat sous forme irréductible.\n• Priorités : parenthèses, puissances, multiplications et divisions, puis additions et soustractions.\n\n**Automatismes (questions flash)** :\n• $\\frac{2}{3} + \\frac{1}{6} = \\;?$ → $\\frac{4}{6} + \\frac{1}{6} = \\frac{5}{6}$.\n• Inverse de $0{,}25$ ? → $4$, car $0{,}25 \\times 4 = 1$.\n• $\\frac{3}{4} \\div \\frac{1}{2} = \\;?$ → $\\frac{3}{4} \\times 2 = \\frac{3}{2}$."
       }
     ],
     "methods": [
@@ -38,12 +42,33 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
           "**Étape 3 (Simplification préalable)** : $\\frac{3 \\times (5 \\times 2)}{5 \\times (3 \\times 3)} = \\frac{2}{3}$.",
           "**Étape 4 (Mise au même dénominateur)** : $A = \\frac{7}{5} - \\frac{2}{3} = \\frac{21}{15} - \\frac{10}{15} = \\frac{11}{15}$ (fraction irréductible)."
         ]
+      },
+      {
+        "title": "Méthode : Calculer avec des fractions de signes différents",
+        "example": "Calculer $B = -\\frac{3}{4} + \\frac{5}{6} \\times \\frac{-9}{10}$ et donner le résultat sous forme irréductible.",
+        "steps": [
+          "**Étape 1 (Priorités)** : la multiplication est prioritaire sur l'addition.",
+          "**Étape 2 (Signe puis simplification du produit)** : un seul facteur négatif, donc le produit est négatif :\n$\\frac{5}{6} \\times \\frac{-9}{10} = -\\frac{5 \\times 9}{6 \\times 10} = -\\frac{5 \\times 3 \\times 3}{2 \\times 3 \\times 2 \\times 5} = -\\frac{3}{4}$.",
+          "**Étape 3 (Addition, même dénominateur)** : $B = -\\frac{3}{4} + \\left(-\\frac{3}{4}\\right) = -\\frac{6}{4}$.",
+          "**Étape 4 (Forme irréductible)** : $B = -\\frac{6}{4} = -\\frac{3}{2}$ (soit $-1{,}5$)."
+        ]
+      },
+      {
+        "title": "Méthode : Savoir si une fraction est un nombre décimal",
+        "example": "Les nombres $\\frac{7}{40}$ et $\\frac{5}{12}$ sont-ils des nombres décimaux ?",
+        "steps": [
+          "**Étape 1 (Fraction irréductible)** : $7$ et $40$ n'ont pas de diviseur commun autre que 1 ; $5$ et $12$ non plus.",
+          "**Étape 2 (Cas de $\\frac{7}{40}$)** : $40 = 2^3 \\times 5$. En multipliant par $5^2 = 25$, on obtient une puissance de 10 au dénominateur :\n$\\frac{7}{40} = \\frac{7 \\times 25}{40 \\times 25} = \\frac{175}{1\\,000} = 0{,}175$. C'est un **nombre décimal**.",
+          "**Étape 3 (Cas de $\\frac{5}{12}$)** : $12 = 2^2 \\times 3$ contient le facteur premier 3 : aucune multiplication ne donnera $10$, $100$, $1\\,000$… au dénominateur. La division ne s'arrête pas : $\\frac{5}{12} = 0{,}41666\\dots$",
+          "**Conclusion** : $\\frac{7}{40} \\in \\mathbb{D}$, alors que $\\frac{5}{12}$ est un rationnel non décimal ($\\frac{5}{12} \\in \\mathbb{Q}$ mais $\\frac{5}{12} \\notin \\mathbb{D}$).\n*Règle utile* : une fraction irréductible est décimale si et seulement si son dénominateur n'a pas d'autres facteurs premiers que 2 et 5."
+        ]
       }
     ],
     "traps": [
       "⚠️ Ne jamais additionner les dénominateurs : $\\frac{1}{2} + \\frac{1}{3} = \\frac{5}{6}$ et NON $\\frac{2}{5}$ !",
       "⚠️ Ne pas confondre **opposé** ($-x$) et **inverse** ($\\frac{1}{x}$). L'inverse de $-\\frac{4}{7}$ est $-\\frac{7}{4}$.",
-      "⚠️ Penser que $\\frac{1}{3}$ est un nombre décimal : $1 \\div 3 = 0,333...$, la division ne s'arrête jamais, donc $\\frac{1}{3} \\in \\mathbb{Q}$ mais $\\frac{1}{3} \\notin \\mathbb{D}$."
+      "⚠️ Penser que $\\frac{1}{3}$ est un nombre décimal : $1 \\div 3 = 0{,}333...$, la division ne s'arrête jamais, donc $\\frac{1}{3} \\in \\mathbb{Q}$ mais $\\frac{1}{3} \\notin \\mathbb{D}$.",
+      "⚠️ Un nombre affiché avec beaucoup de décimales n'est pas forcément irrationnel : $\\frac{1}{7} = 0{,}142857142857\\dots$ est un rationnel (ses décimales se répètent)."
     ],
     "flashcards": [
       {
@@ -65,6 +90,14 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
       {
         "q": "Quelle est la condition obligatoire pour additionner deux fractions ?",
         "a": "Elles doivent impérativement être réduites au **même dénominateur** avant d'additionner les numérateurs."
+      },
+      {
+        "q": "Calculer $\\frac{2}{3} + \\frac{1}{6}$.",
+        "a": "$\\frac{4}{6} + \\frac{1}{6} = \\frac{5}{6}$ (on écrit $\\frac{2}{3}$ avec le dénominateur 6)."
+      },
+      {
+        "q": "Le nombre $\\frac{3}{8}$ est-il décimal ?",
+        "a": "Oui : $\\frac{3}{8} = \\frac{3 \\times 125}{8 \\times 125} = \\frac{375}{1\\,000} = 0{,}375$."
       }
     ]
   },
@@ -93,6 +126,10 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
       {
         "title": "4. Réduction et simplification d'expressions littérales",
         "content": "• **Réduire**, c'est regrouper les termes de même nature : les termes en $x^2$ ensemble, les termes en $x$ ensemble, et les constantes ensemble.\n• Exemple : $3x^2 + 5x - 7 + 2x^2 - 8x + 4 = (3+2)x^2 + (5-8)x + (-7+4) = 5x^2 - 3x - 3$."
+      },
+      {
+        "title": "À retenir pour le brevet",
+        "content": "• Développer, c'est transformer un produit en somme : $k(a+b) = ka + kb$ et $(a+b)(c+d) = ac + ad + bc + bd$.\n• Les trois identités remarquables : $(a+b)^2 = a^2 + 2ab + b^2$, $(a-b)^2 = a^2 - 2ab + b^2$, $(a-b)(a+b) = a^2 - b^2$.\n• Un signe moins devant un produit : on développe d'abord le produit entre crochets, puis on change tous les signes.\n• Pour prouver qu'une égalité est vraie pour tout $x$, on développe ; un seul contre-exemple suffit pour prouver qu'elle est fausse.\n\n**Automatismes (questions flash)** :\n• Développer $(x+4)^2$ → $x^2 + 8x + 16$.\n• Calculer $99^2$ de tête → $(100-1)^2 = 10\\,000 - 200 + 1 = 9\\,801$.\n• Calculer $49 \\times 51$ de tête → $(50-1)(50+1) = 2\\,500 - 1 = 2\\,499$."
       }
     ],
     "methods": [
@@ -105,12 +142,23 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
           "**Étape 3 (Distribuer le signe moins)** : $E = (9x^2 - 12x + 4) - [ 2x^2 - 7x - 4 ] = 9x^2 - 12x + 4 - 2x^2 + 7x + 4$.",
           "**Étape 4 (Réduction finale)** : $E = (9 - 2)x^2 + (-12 + 7)x + (4 + 4) = 7x^2 - 5x + 8$."
         ]
+      },
+      {
+        "title": "Méthode : Démontrer une égalité « pour tout nombre $x$ »",
+        "example": "Démontrer que, pour tout nombre $x$, $(x+3)^2 - (x-3)^2 = 12x$. En déduire la valeur de $103^2 - 97^2$ sans calculatrice.",
+        "steps": [
+          "**Étape 1 (Développer le premier carré)** : $(x+3)^2 = x^2 + 2 \\times x \\times 3 + 3^2 = x^2 + 6x + 9$.",
+          "**Étape 2 (Développer le second carré)** : $(x-3)^2 = x^2 - 6x + 9$.",
+          "**Étape 3 (Soustraire en gardant les parenthèses)** :\n$(x^2 + 6x + 9) - (x^2 - 6x + 9) = x^2 + 6x + 9 - x^2 + 6x - 9 = 12x$.\nL'égalité est donc vraie pour tout nombre $x$.",
+          "**Étape 4 (Application)** : avec $x = 100$, on a $x + 3 = 103$ et $x - 3 = 97$, donc $103^2 - 97^2 = 12 \\times 100 = 1\\,200$.\n*(Contrôle : $10\\,609 - 9\\,409 = 1\\,200$.)*"
+        ]
       }
     ],
     "traps": [
       "⚠️ Oublier le double produit $2ab$ : $(a+b)^2 \\neq a^2 + b^2$ ! $(x+3)^2 = x^2 + 6x + 9$.",
       "⚠️ Dans $(2x)^2$, oublier d'élever le 2 au carré : $(2x)^2 = 4x^2$ et NON $2x^2$ !",
-      "⚠️ Attention au signe $-$ devant un produit : $A - (x-1)(x+2) = A - [x^2 + x - 2] = A - x^2 - x + 2$."
+      "⚠️ Attention au signe $-$ devant un produit : $A - (x-1)(x+2) = A - [x^2 + x - 2] = A - x^2 - x + 2$.",
+      "⚠️ Tester quelques valeurs ne prouve pas qu'une égalité est vraie pour tout $x$ : il faut développer. En revanche, un seul contre-exemple suffit à prouver qu'elle est fausse."
     ],
     "flashcards": [
       {
@@ -132,6 +180,14 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
       {
         "q": "Que donne le développement de $(x - 5)^2$ ?",
         "a": "$$x^2 - 10x + 25$$"
+      },
+      {
+        "q": "Développer $3x(2x - 5)$.",
+        "a": "$3x \\times 2x - 3x \\times 5 = 6x^2 - 15x$."
+      },
+      {
+        "q": "Calculer $49 \\times 51$ sans calculatrice.",
+        "a": "$(50-1)(50+1) = 50^2 - 1^2 = 2\\,500 - 1 = 2\\,499$."
       }
     ]
   },
@@ -160,6 +216,10 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
       {
         "title": "4. Méthode 3 (Brevet) : Facteur commun parenthèse",
         "content": "• Structure : $A = (ax+b)(cx+d) + (ax+b)(ex+f) = (ax+b)[(cx+d)+(ex+f)]$.\n• On souligne le bloc commun $(ax+b)$, on le place devant et on rassemble tout le reste dans des **crochets**.\n• Attention si le deuxième terme est soustrait : distribuer le signe moins dans les crochets !"
+      },
+      {
+        "title": "À retenir pour le brevet",
+        "content": "• Factoriser, c'est transformer une somme en produit ; c'est l'inverse de développer.\n• On cherche d'abord un facteur commun (un nombre, $x$, ou une parenthèse entière).\n• Sinon, on cherche une différence de deux carrés : $a^2 - b^2 = (a-b)(a+b)$.\n• On vérifie toujours une factorisation en la redéveloppant.\n• Factoriser permet de résoudre une équation grâce à la propriété du produit nul.\n\n**Automatismes (questions flash)** :\n• Factoriser $x^2 - 64$ → $(x-8)(x+8)$.\n• Factoriser $6x^2 + 9x$ → $3x(2x+3)$.\n• Factoriser $7x - 7$ → $7(x-1)$."
       }
     ],
     "methods": [
@@ -173,12 +233,24 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
           "**Étape 4 (Réduire les crochets)** : $4x - x = 3x$ et $1 + 2 = 3$. D'où : $F = (2x - 3)(3x + 3)$.",
           "**Étape 5 (Factorisation maximale)** : Comme $3x + 3 = 3(x + 1)$, le résultat final est : $F = 3(2x - 3)(x + 1)$."
         ]
+      },
+      {
+        "title": "Méthode : Factoriser avec $a^2 - b^2$ pour résoudre une équation",
+        "example": "Factoriser $E = (2x+1)^2 - 9$, puis résoudre l'équation $E = 0$.",
+        "steps": [
+          "**Étape 1 (Reconnaître une différence de deux carrés)** : $9 = 3^2$, donc $E = (2x+1)^2 - 3^2$ est de la forme $a^2 - b^2$ avec $a = 2x+1$ et $b = 3$.",
+          "**Étape 2 (Appliquer l'identité)** : $E = (2x + 1 - 3)(2x + 1 + 3) = (2x - 2)(2x + 4)$.",
+          "**Étape 3 (Factorisation complète, facultative)** : $2x - 2 = 2(x-1)$ et $2x + 4 = 2(x+2)$, donc $E = 4(x-1)(x+2)$.",
+          "**Étape 4 (Équation produit nul)** : $E = 0 \\iff x - 1 = 0$ ou $x + 2 = 0 \\iff x = 1$ ou $x = -2$.",
+          "**Étape 5 (Vérification)** : pour $x = 1$ : $3^2 - 9 = 0$ ; pour $x = -2$ : $(-3)^2 - 9 = 0$. Les solutions sont $-2$ et $1$."
+        ]
       }
     ],
     "traps": [
       "⚠️ Oublier le 1 lors de la factorisation : $5x + 5 = 5(x + 1)$ et NON $5x$ !",
       "⚠️ Confondre $a^2 - b^2$ et $(a - b)^2$ : $a^2 - b^2 = (a-b)(a+b)$, alors que $(a-b)^2 = a^2 - 2ab + b^2$.",
-      "⚠️ Signe « - » devant la deuxième parenthèse : $(x+1)(2x+3) - (x+1)(x-4) = (x+1)[(2x+3) - (x-4)] = (x+1)(2x+3-x+4) = (x+1)(x+7)$."
+      "⚠️ Signe « - » devant la deuxième parenthèse : $(x+1)(2x+3) - (x+1)(x-4) = (x+1)[(2x+3) - (x-4)] = (x+1)(2x+3-x+4) = (x+1)(x+7)$.",
+      "⚠️ Une factorisation se vérifie en redéveloppant : $4(x-1)(x+2) = 4(x^2 + x - 2) = 4x^2 + 4x - 8$, qui est bien égal à $(2x+1)^2 - 9 = 4x^2 + 4x + 1 - 9$."
     ],
     "flashcards": [
       {
@@ -200,6 +272,14 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
       {
         "q": "Que vaut la factorisation de $4x + 4$ ?",
         "a": "$$4(x + 1)$$\n*(Attention à ne jamais oublier le $+1$ !)*"
+      },
+      {
+        "q": "Factoriser $x^2 - 64$.",
+        "a": "$x^2 - 8^2 = (x-8)(x+8)$."
+      },
+      {
+        "q": "Résoudre $x^2 - 49 = 0$ en factorisant.",
+        "a": "$(x-7)(x+7) = 0$, donc $x = 7$ ou $x = -7$."
       }
     ]
   },
@@ -219,20 +299,24 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
       },
       {
         "title": "2. Puissances de 10 et décalage de virgule",
-        "content": "• $10^n = 100\\dots0$ ($n$ zéros) | $10^{-n} = 0,00\\dots01$ ($n$ zéros au total).\n• $10^m \\times 10^n = 10^{m+n}$ et $\\frac{10^m}{10^n} = 10^{m-n}$.\n• Multiplier par $10^n$ décale la virgule de $n$ rangs vers la droite.\n• Multiplier par $10^{-n}$ décale la virgule de $n$ rangs vers la gauche."
+        "content": "• $10^n = 100\\dots0$ ($n$ zéros) | $10^{-n} = 0{,}00\\dots01$ ($n$ zéros au total).\n• $10^m \\times 10^n = 10^{m+n}$ et $\\frac{10^m}{10^n} = 10^{m-n}$.\n• Multiplier par $10^n$ décale la virgule de $n$ rangs vers la droite.\n• Multiplier par $10^{-n}$ décale la virgule de $n$ rangs vers la gauche."
       },
       {
         "title": "3. Notation scientifique",
-        "content": "Tout nombre positif non nul s'écrit de façon unique sous la forme :\n$$a \\times 10^n \\quad \\text{avec } 1 \\le a < 10 \\text{ et } n \\in \\mathbb{Z}$$\n*Exemples* :\n• $543\\,000 = 5,43 \\times 10^5$\n• $0,000\\,72 = 7,2 \\times 10^{-4}$"
+        "content": "Tout nombre décimal non nul s'écrit de façon unique sous la forme :\n$$a \\times 10^n \\quad \\text{avec } 1 \\le |a| < 10 \\text{ et } n \\text{ entier relatif}$$\nAutrement dit, $a$ a **un seul chiffre non nul avant la virgule** (et il garde le signe du nombre).\n*Exemples* :\n• $543\\,000 = 5{,}43 \\times 10^5$\n• $0{,}000\\,72 = 7{,}2 \\times 10^{-4}$\n• $-0{,}003\\,6 = -3{,}6 \\times 10^{-3}$\n• Si la partie numérique vaut au moins 10, l'exposant est positif ; si elle est comprise entre 0 et 1, l'exposant est négatif."
       },
       {
         "title": "4. Préfixes métriques et grandeurs scientifiques",
         "content": "• Téra (T) = $10^{12}$ | Giga (G) = $10^9$ | Méga (M) = $10^6$ | Kilo (k) = $10^3$\n• milli (m) = $10^{-3}$ | micro ($\\mu$) = $10^{-6}$ | nano (n) = $10^{-9}$"
+      },
+      {
+        "title": "À retenir pour le brevet",
+        "content": "• Même base : on additionne les exposants pour un produit, on les soustrait pour un quotient, on les multiplie pour une puissance de puissance.\n• $a^0 = 1$ et $a^{-n} = \\frac{1}{a^n}$ ($a \\neq 0$) ; $10^{-n}$ est un nombre positif.\n• Notation scientifique : $a \\times 10^n$ avec $1 \\le |a| < 10$.\n• Préfixes : k $= 10^3$, M $= 10^6$, G $= 10^9$, T $= 10^{12}$ ; m $= 10^{-3}$, µ $= 10^{-6}$, n $= 10^{-9}$.\n\n**Automatismes (questions flash)** :\n• $10^3 \\times 10^{-5} = \\;?$ → $10^{-2}$.\n• Notation scientifique de $0{,}047$ → $4{,}7 \\times 10^{-3}$.\n• $2^3 \\times 5^3 = \\;?$ → $(2 \\times 5)^3 = 10^3 = 1\\,000$."
       }
     ],
     "methods": [
       {
-        "title": "Méthode officielle Brevet : Calcul de fraction avec puissances de 10",
+        "title": "Méthode : Calcul de fraction avec puissances de 10",
         "example": "Calculer $C = \\frac{4 \\times 10^{-2} \\times 9 \\times 10^6}{6 \\times 10^3}$ et donner l'écriture scientifique.",
         "steps": [
           "**Étape 1 (Séparation)** : On sépare les coefficients numériques et les puissances de 10 :\n$C = \\frac{4 \\times 9}{6} \\times \\frac{10^{-2} \\times 10^6}{10^3}$.",
@@ -240,12 +324,33 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
           "**Étape 3 (Puissances de 10)** : $10^{-2+6-3} = 10^1$.",
           "**Étape 4 (Résultat scientifique)** : $C = 6 \\times 10^1 = 60$."
         ]
+      },
+      {
+        "title": "Méthode : Simplifier avec les règles de calcul sur les puissances",
+        "example": "Écrire sous la forme d'une seule puissance, puis en écriture décimale : $A = \\frac{2^5 \\times 2^{-3}}{2^4}$ et $B = (10^{-2})^3 \\times 10^4$.",
+        "steps": [
+          "**Pour $A$ (produit puis quotient de même base)** : $2^5 \\times 2^{-3} = 2^{5 + (-3)} = 2^2$, puis $\\frac{2^2}{2^4} = 2^{2-4} = 2^{-2}$.",
+          "**Valeur de $A$** : $2^{-2} = \\frac{1}{2^2} = \\frac{1}{4} = 0{,}25$.",
+          "**Pour $B$ (puissance de puissance puis produit)** : $(10^{-2})^3 = 10^{-2 \\times 3} = 10^{-6}$, puis $10^{-6} \\times 10^4 = 10^{-6+4} = 10^{-2}$.",
+          "**Valeur de $B$** : $10^{-2} = 0{,}01$."
+        ]
+      },
+      {
+        "title": "Méthode : Utiliser les préfixes et estimer un ordre de grandeur",
+        "example": "a) Un virus mesure 120 nm. Donner sa taille en mètres, en notation scientifique.\nb) Un disque dur de 2 To (téraoctets) stocke des photos de 4 Mo (mégaoctets) chacune. Combien de photos peut-il contenir ?",
+        "steps": [
+          "**a) Remplacer le préfixe** : nano $= 10^{-9}$, donc $120 \\text{ nm} = 120 \\times 10^{-9} \\text{ m}$.",
+          "**a) Normaliser** : $120 = 1{,}2 \\times 10^2$, donc $120 \\times 10^{-9} = 1{,}2 \\times 10^{2 + (-9)} = 1{,}2 \\times 10^{-7}$ m.",
+          "**b) Convertir** : $2 \\text{ To} = 2 \\times 10^{12}$ octets et $4 \\text{ Mo} = 4 \\times 10^6$ octets.",
+          "**b) Diviser** : $\\frac{2 \\times 10^{12}}{4 \\times 10^6} = \\frac{2}{4} \\times 10^{12-6} = 0{,}5 \\times 10^6 = 5 \\times 10^5$.\nLe disque peut contenir environ **500 000 photos**."
+        ]
       }
     ],
     "traps": [
       "⚠️ Attention aux parenthèses : $(-3)^2 = +9$, mais $-3^2 = -9$ !",
-      "⚠️ $12 \\times 10^4$ n'est PAS en notation scientifique car $12 \\ge 10$ : il faut écrire $1,2 \\times 10^5$.",
-      "⚠️ $a^n + a^m$ ne peut PAS se simplifier en additionnant les exposants : $2^3 + 2^2 = 8 + 4 = 12 \\neq 2^5 = 32$ !"
+      "⚠️ $12 \\times 10^4$ n'est PAS en notation scientifique car $12 \\ge 10$ : il faut écrire $1{,}2 \\times 10^5$.",
+      "⚠️ $a^n + a^m$ ne peut PAS se simplifier en additionnant les exposants : $2^3 + 2^2 = 8 + 4 = 12 \\neq 2^5 = 32$ !",
+      "⚠️ Ne pas mélanger les règles : $2^3 \\times 2^2 = 2^{3+2} = 2^5$ (on additionne), mais $(2^3)^2 = 2^{3 \\times 2} = 2^6$ (on multiplie)."
     ],
     "flashcards": [
       {
@@ -258,7 +363,7 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
       },
       {
         "q": "Quelle est la condition sur $a$ pour l'écriture scientifique $a \\times 10^n$ ?",
-        "a": "$$1 \\leqslant |a| < 10$$\n*(Un seul chiffre non nul avant la virgule)*."
+        "a": "$$1 \\le |a| < 10$$\n*(Un seul chiffre non nul avant la virgule)*."
       },
       {
         "q": "Simplifier $\\frac{10^7}{10^{-3}}$.",
@@ -266,7 +371,15 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
       },
       {
         "q": "Combien vaut $4^{-1}$ sous forme décimale ?",
-        "a": "$\\frac{1}{4} = 0,25$."
+        "a": "$\\frac{1}{4} = 0{,}25$."
+      },
+      {
+        "q": "Écrire $-0{,}003\\,6$ en notation scientifique.",
+        "a": "$-3{,}6 \\times 10^{-3}$ (le signe est conservé et $1 \\le 3{,}6 < 10$)."
+      },
+      {
+        "q": "Combien y a-t-il de nanomètres dans 1 mm ?",
+        "a": "$1 \\text{ mm} = 10^{-3}$ m et $1 \\text{ nm} = 10^{-9}$ m, donc $\\frac{10^{-3}}{10^{-9}} = 10^6$ : un million de nanomètres."
       }
     ]
   },
@@ -277,12 +390,12 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
       "Résoudre une équation linéaire du premier degré $ax + b = cx + d$.",
       "Énoncer et appliquer le théorème de l'équation produit-nul $(ax + b)(cx + d) = 0$.",
       "Résoudre les équations du type $x^2 = a$ selon le signe de $a$.",
-      "Résoudre des inéquations du premier degré en gérant le changement de sens lors de la division par un nombre négatif.",
+      "Complément (utile en seconde) : résoudre une inéquation du premier degré en changeant le sens quand on multiplie ou divise par un nombre négatif.",
       "Mettre un problème en équation et conclure."
     ],
     "keyPoints": [
       {
-        "title": "1. Résolution d'équation du 1er degré : ax + b = cx + d",
+        "title": "1. Résolution d'équation du premier degré : ax + b = cx + d",
         "content": "• On regroupe les termes en $x$ d'un côté (en changeant de signe le terme déplacé) et les nombres de l'autre côté :\n$$ax - cx = d - b \\implies (a - c)x = d - b$$\n• On isole $x$ en divisant par le coefficient devant $x$ : $x = \\frac{d - b}{a - c}$.\n• On vérifie toujours sa solution en la réinjectant dans l'équation d'origine."
       },
       {
@@ -294,8 +407,12 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
         "content": "Selon le signe du nombre réel $a$ :\n• **Si $a > 0$** : l'équation admet **DEUX solutions** : $x = \\sqrt{a}$ ou $x = -\\sqrt{a}$.\n• **Si $a = 0$** : l'équation admet **UNE unique solution** : $x = 0$.\n• **Si $a < 0$** : l'équation n'admet **AUCUNE solution réelle** (car un carré est toujours positif ou nul)."
       },
       {
-        "title": "4. Inéquations et changement de sens",
-        "content": "On résout une inéquation comme une équation, avec **une règle capitale** :\nQuand on multiplie ou divise les deux membres par un **nombre strictement négatif**, on doit **CHANGER LE SENS de l'inégalité** :\n$$-3x \\le 12 \\iff x \\ge \\frac{12}{-3} \\iff x \\ge -4$$"
+        "title": "4. Complément (utile en seconde) : inéquations et changement de sens",
+        "content": "*Les inéquations ne figurent plus au programme du collège ; ce paragraphe prépare la seconde.*\nOn résout une inéquation comme une équation, avec **une règle capitale** :\nquand on multiplie ou divise les deux membres par un **nombre strictement négatif**, on **change le sens de l'inégalité** :\n$$-3x \\le 12 \\iff x \\ge \\frac{12}{-3} \\iff x \\ge -4$$\nLes solutions forment un intervalle : ici $[-4 ; +\\infty[$."
+      },
+      {
+        "title": "À retenir pour le brevet",
+        "content": "• Pour résoudre $ax + b = cx + d$ : regrouper les $x$ d'un côté, les nombres de l'autre, puis diviser par le coefficient de $x$.\n• Produit nul : $A \\times B = 0 \\iff A = 0$ ou $B = 0$.\n• $x^2 = a$ : deux solutions $\\sqrt{a}$ et $-\\sqrt{a}$ si $a > 0$, une seule ($0$) si $a = 0$, aucune si $a < 0$.\n• Dans un problème : inconnue, équation, résolution, vérification, phrase de conclusion avec l'unité.\n\n**Automatismes (questions flash)** :\n• Résoudre $3x - 7 = 8$ → $3x = 15$, donc $x = 5$.\n• Résoudre $x^2 = 36$ → $x = 6$ ou $x = -6$.\n• $-2$ est-il solution de $x^2 + 3x + 2 = 0$ ? → oui : $4 - 6 + 2 = 0$."
       }
     ],
     "methods": [
@@ -305,15 +422,37 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
         "steps": [
           "**Étape 1 (Énoncé de la propriété)** : Si un produit de facteurs est nul, alors au moins l'un des facteurs est nul.",
           "**Étape 2 (Séparation)** : $2x - 5 = 0$ ou $3x + 12 = 0$.",
-          "**Étape 3 (Résolution)** :\n• $2x = 5 \\implies x = \\frac{5}{2} = 2,5$.\n• $3x = -12 \\implies x = \\frac{-12}{3} = -4$.",
-          "**Étape 4 (Conclusion)** : Les solutions de l'équation sont $-4$ et $2,5$ (noté $S = \\{-4 ; 2,5\\}$)."
+          "**Étape 3 (Résolution)** :\n• $2x = 5 \\implies x = \\frac{5}{2} = 2{,}5$.\n• $3x = -12 \\implies x = \\frac{-12}{3} = -4$.",
+          "**Étape 4 (Conclusion)** : Les solutions de l'équation sont $-4$ et $2{,}5$ (noté $S = \\{-4 ; 2{,}5\\}$)."
+        ]
+      },
+      {
+        "title": "Méthode : Mettre un problème en équation",
+        "example": "Un cinéma propose deux tarifs. Tarif A : abonnement de 20 € puis 5 € par séance. Tarif B : 9 € par séance, sans abonnement. Pour combien de séances les deux tarifs coûtent-ils le même prix ?",
+        "steps": [
+          "**Étape 1 (Choisir l'inconnue)** : on note $x$ le nombre de séances.",
+          "**Étape 2 (Traduire l'énoncé)** : tarif A : $20 + 5x$ ; tarif B : $9x$. On cherche $x$ tel que $20 + 5x = 9x$.",
+          "**Étape 3 (Résoudre)** : $20 = 9x - 5x$, soit $20 = 4x$, donc $x = \\frac{20}{4} = 5$.",
+          "**Étape 4 (Vérifier)** : tarif A : $20 + 5 \\times 5 = 45$ ; tarif B : $9 \\times 5 = 45$. Les deux coûts sont égaux.",
+          "**Étape 5 (Conclure par une phrase)** : les deux tarifs coûtent 45 € pour 5 séances. Au-delà, le tarif A est plus avantageux (pour 6 séances : 50 € contre 54 €)."
+        ]
+      },
+      {
+        "title": "Méthode : Résoudre une équation du type $x^2 = a$",
+        "example": "Résoudre $2x^2 - 18 = 0$, puis calculer le côté d'un carré d'aire $50 \\text{ cm}^2$.",
+        "steps": [
+          "**Étape 1 (Isoler $x^2$)** : $2x^2 = 18$, donc $x^2 = \\frac{18}{2} = 9$.",
+          "**Étape 2 (Signe de $a$)** : $9 > 0$, l'équation a deux solutions : $x = \\sqrt{9} = 3$ ou $x = -\\sqrt{9} = -3$.\nVérification : $2 \\times 3^2 - 18 = 0$ et $2 \\times (-3)^2 - 18 = 0$.",
+          "**Étape 3 (Problème du carré)** : si $c$ est le côté en cm, $c^2 = 50$, donc $c = \\sqrt{50}$ ou $c = -\\sqrt{50}$.",
+          "**Étape 4 (Interpréter)** : une longueur est positive, on garde $c = \\sqrt{50} \\approx 7{,}1$ cm (valeur exacte $\\sqrt{50}$ cm)."
         ]
       }
     ],
     "traps": [
       "⚠️ Pour $x^2 = 25$, oublier la solution négative : les solutions sont $5$ ET $-5$ !",
       "⚠️ Diviser par $x$ pour « simplifier » une équation comme $x(2x-3) = 0$ : cela élimine illégalement la solution $x = 0$ !",
-      "⚠️ Oublier d'inverser le sens de l'inégalité dans une inéquation lorsqu'on divise par un nombre négatif."
+      "⚠️ Oublier d'inverser le sens de l'inégalité dans une inéquation lorsqu'on divise par un nombre négatif.",
+      "⚠️ Dans un problème, garder une solution négative alors que l'inconnue est une longueur ou un nombre d'objets, ou oublier la phrase de conclusion avec l'unité."
     ],
     "flashcards": [
       {
@@ -335,6 +474,14 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
       {
         "q": "Quelles sont les solutions de $(x - 3)(2x + 8) = 0$ ?",
         "a": "$x = 3$ ou $x = -4$."
+      },
+      {
+        "q": "Le nombre $2$ est-il solution de $3x - 1 = x + 3$ ?",
+        "a": "Oui : à gauche $3 \\times 2 - 1 = 5$, à droite $2 + 3 = 5$."
+      },
+      {
+        "q": "Résoudre $5x + 2 = 3x - 6$.",
+        "a": "$5x - 3x = -6 - 2$, soit $2x = -8$, donc $x = -4$."
       }
     ]
   },
@@ -345,8 +492,8 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
       "Utiliser les critères de divisibilité par 2, 3, 5, 9, 10.",
       "Définir un nombre premier et réciter la liste des premiers inférieurs à 30.",
       "Décomposer un entier naturel en produit de facteurs premiers.",
-      "Rendre une fraction irréductible par décomposition ou division par le PGCD.",
-      "Résoudre des problèmes concrets de partage (friandises, engrenages) avec PGCD et PPCM."
+      "Rendre une fraction irréductible par décomposition en facteurs premiers ou division par le PGCD.",
+      "Résoudre des problèmes de partage (PGCD) et de rendez-vous ou d'engrenages (multiples communs, PPCM)."
     ],
     "keyPoints": [
       {
@@ -363,7 +510,11 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
       },
       {
         "title": "4. PGCD, PPCM et fractions irréductibles",
-        "content": "• **PGCD** (Plus Grand Diviseur Commun) : produit des facteurs premiers communs affectés du plus petit exposant. Pour 84 et 147 : $3^1 \\times 7^1 = 21$.\n• **Fractions irréductibles** : $\\frac{84}{147} = \\frac{21 \\times 4}{21 \\times 7} = \\frac{4}{7}$.\n• **Problème type** : Répartir 84 sucettes et 147 bonbons dans un maximum de sachets identiques $\\implies \\text{PGCD}(84, 147) = 21$ sachets de 4 sucettes et 7 bonbons !"
+        "content": "• **PGCD** (Plus Grand Commun Diviseur) : produit des facteurs premiers communs, chacun avec le **plus petit** exposant. Comme $84 = 2^2 \\times 3 \\times 7$ et $147 = 3 \\times 7^2$ : $\\text{PGCD}(84 ; 147) = 3 \\times 7 = 21$.\n• **Fraction irréductible** : on divise numérateur et dénominateur par leur PGCD : $\\frac{84}{147} = \\frac{21 \\times 4}{21 \\times 7} = \\frac{4}{7}$.\n• **Problème de partage** : 84 sucettes et 147 bonbons répartis sans reste dans un maximum de sachets identiques : $\\text{PGCD}(84 ; 147) = 21$ sachets, contenant chacun 4 sucettes et 7 bonbons.\n• **PPCM** (Plus Petit Commun Multiple) : produit de tous les facteurs premiers présents, chacun avec le **plus grand** exposant. Il sert quand des phénomènes répétitifs « se retrouvent » (engrenages, feux, bus).\n• *Exemple (engrenages)* : une roue de 12 dents entraîne une roue de 18 dents. $12 = 2^2 \\times 3$ et $18 = 2 \\times 3^2$, donc $\\text{PPCM}(12 ; 18) = 2^2 \\times 3^2 = 36$ : les deux roues reviennent ensemble en position de départ après 36 dents, soit 3 tours de la petite roue et 2 tours de la grande."
+      },
+      {
+        "title": "À retenir pour le brevet",
+        "content": "• Un nombre premier a exactement deux diviseurs : 1 et lui-même ; 0 et 1 ne sont pas premiers.\n• Nombres premiers inférieurs à 30 : 2, 3, 5, 7, 11, 13, 17, 19, 23, 29.\n• Critères : par 2 (chiffre des unités pair), par 3 ou 9 (somme des chiffres), par 5 (unités 0 ou 5).\n• Partage en lots identiques maximaux → diviseur commun (PGCD) ; retour simultané → multiple commun (PPCM).\n\n**Automatismes (questions flash)** :\n• Décomposer $72$ → $2^3 \\times 3^2$.\n• $1\\,035$ est-il divisible par 9 ? → oui, $1 + 0 + 3 + 5 = 9$.\n• $91$ est-il premier ? → non, $91 = 7 \\times 13$."
       }
     ],
     "methods": [
@@ -376,12 +527,34 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
           "**Étape 3 (Barrer les facteurs communs)** :\n$$\\frac{252}{360} = \\frac{2^2 \\times 3^2 \\times 7}{2^3 \\times 3^2 \\times 5} = \\frac{7}{2 \\times 5} = \\frac{7}{10}$$.",
           "**Conclusion** : $\\frac{7}{10}$ est irréductible car 7 et 10 sont premiers entre eux."
         ]
+      },
+      {
+        "title": "Méthode : Résoudre un problème de partage (diviseur commun)",
+        "example": "Un fleuriste a 126 roses et 90 tulipes. Il veut faire le plus grand nombre possible de bouquets identiques en utilisant toutes les fleurs. Combien de bouquets fait-il, et que contient chacun ?",
+        "steps": [
+          "**Étape 1 (Analyser)** : le nombre de bouquets doit diviser 126 et 90 ; on cherche le plus grand : c'est le PGCD.",
+          "**Étape 2 (Décomposer)** : $126 = 2 \\times 3^2 \\times 7$ et $90 = 2 \\times 3^2 \\times 5$.",
+          "**Étape 3 (PGCD)** : facteurs communs avec le plus petit exposant : $2 \\times 3^2 = 18$.",
+          "**Étape 4 (Composition)** : $126 \\div 18 = 7$ roses et $90 \\div 18 = 5$ tulipes par bouquet.",
+          "**Conclusion** : il réalise **18 bouquets** de 7 roses et 5 tulipes."
+        ]
+      },
+      {
+        "title": "Méthode : Résoudre un problème de rendez-vous (multiple commun)",
+        "example": "Un bus de la ligne A part toutes les 15 min, un bus de la ligne B toutes les 25 min. Deux bus partent ensemble à 7 h. À quelle heure partiront-ils de nouveau ensemble pour la première fois ?",
+        "steps": [
+          "**Étape 1 (Analyser)** : la durée cherchée est un multiple de 15 et de 25 ; on cherche le plus petit : c'est le PPCM.",
+          "**Étape 2 (Décomposer)** : $15 = 3 \\times 5$ et $25 = 5^2$.",
+          "**Étape 3 (PPCM)** : tous les facteurs avec le plus grand exposant : $3 \\times 5^2 = 75$.\n*(Vérification : $75 = 5 \\times 15 = 3 \\times 25$.)*",
+          "**Conclusion** : 75 min = 1 h 15 min, les bus repartent ensemble à **8 h 15**."
+        ]
       }
     ],
     "traps": [
       "⚠️ $1$ n'est PAS un nombre premier (il n'admet qu'un seul diviseur, 1).",
       "⚠️ Pour le critère par 3 et 9, ne pas regarder le dernier chiffre mais faire la SOMME de tous les chiffres !",
-      "⚠️ Ne pas s'arrêter dans la décomposition tant que tous les facteurs ne sont pas des nombres premiers (ex: $24 = 4 \\times 6$ n'est pas terminé car 4 et 6 ne sont pas premiers : $24 = 2^3 \\times 3$)."
+      "⚠️ Ne pas s'arrêter dans la décomposition tant que tous les facteurs ne sont pas des nombres premiers (ex: $24 = 4 \\times 6$ n'est pas terminé car 4 et 6 ne sont pas premiers : $24 = 2^3 \\times 3$).",
+      "⚠️ Ne pas confondre diviseur commun (partager en un maximum de lots identiques) et multiple commun (premier moment où deux phénomènes se retrouvent)."
     ],
     "flashcards": [
       {
@@ -403,6 +576,14 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
       {
         "q": "Comment sait-on qu'une fraction est irréductible ?",
         "a": "Lorsque son numérateur et son dénominateur sont **premiers entre eux** (aucun diviseur commun autre que 1)."
+      },
+      {
+        "q": "Que signifie PPCM et à quoi sert-il ?",
+        "a": "Plus Petit Commun Multiple : il donne le premier moment où deux phénomènes répétitifs se retrouvent (bus, feux, engrenages)."
+      },
+      {
+        "q": "Le nombre 91 est-il premier ?",
+        "a": "Non : $91 = 7 \\times 13$ (il a 4 diviseurs : 1, 7, 13 et 91)."
       }
     ]
   },
@@ -425,48 +606,53 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
         "content": "Soit $[BC]$ le plus grand côté d'un triangle $ABC$ :\n• Si $BC^2 = AB^2 + AC^2$, alors le triangle $ABC$ est rectangle en $A$ (d'après la **réciproque du théorème de Pythagore**).\n• Si $BC^2 \\neq AB^2 + AC^2$, alors le triangle n'est pas rectangle (d'après la **contraposée**).\n*Règle d'or* : On calcule toujours $BC^2$ d'une part, et $AB^2 + AC^2$ d'autre part **séparément** !"
       },
       {
-        "title": "3. Rédaction officielle pour calculer une longueur (Théorème direct)",
+        "title": "3. Rédaction type pour calculer une longueur (Théorème direct)",
         "content": "Pour calculer une longueur avec le théorème direct de Pythagore :\n1. Préciser le triangle et le sommet de l'angle droit : « Dans le triangle $ABC$ rectangle en $A$, »\n2. Citer le théorème : « d'après le **théorème de Pythagore** : »\n3. Écrire l'égalité : $BC^2 = AB^2 + AC^2$\n4. Remplacer par les valeurs et calculer.\n5. Justifier et conclure avec la racine carrée : comme une longueur est positive ($BC > 0$), $BC = \\sqrt{\\dots}$."
       },
       {
         "title": "4. Valeur exacte vs Valeur arrondie",
-        "content": "• **Valeur exacte** : $BC = \\sqrt{65}$ cm.\n• **Valeur arrondie** : $BC \\approx 8,1$ cm (au dixième près)."
+        "content": "• **Valeur exacte** : $BC = \\sqrt{65}$ cm.\n• **Valeur arrondie** : $BC \\approx 8{,}1$ cm (au dixième près)."
+      },
+      {
+        "title": "À retenir pour le brevet",
+        "content": "• Hypoténuse = côté opposé à l'angle droit = plus long côté.\n• Triangle rectangle **connu** $\\Rightarrow$ théorème de Pythagore pour **calculer** une longueur.\n• Trois longueurs connues $\\Rightarrow$ réciproque (égalité vraie) ou contraposée (égalité fausse) pour **démontrer**.\n• Valeur exacte $\\sqrt{\\dots}$, puis arrondi avec $\\approx$ seulement à la fin.\n\n**Automatismes** :\n• Hypoténuse d'un triangle rectangle de côtés $3$ et $4$ ? $\\to$ $5$.\n• $10^2 - 8^2$ ? $\\to$ $36$, donc le côté manquant d'un triangle rectangle d'hypoténuse $10$ et de côté $8$ vaut $6$.\n• Un triangle de côtés $7$, $24$, $25$ est-il rectangle ? $\\to$ oui : $49 + 576 = 625 = 25^2$."
       }
     ],
     "methods": [
-          {
-                "title": "Modèle officiel Brevet : Calculer une longueur (Théorème direct)",
-                "example": "Soit un triangle EFG rectangle en E tel que EF = 4,5 cm et EG = 6 cm. Calculer la longueur FG.\n\n<div class=\"geo-figure-wrapper\" style=\"text-align:center; margin:0.8rem 0;\">\n  <svg class=\"geo-svg-figure\" viewBox=\"0 0 260 140\" width=\"260\" height=\"140\" style=\"max-width:260px; width:100%; height:auto;\" xmlns=\"http://www.w3.org/2000/svg\">\n    <polygon points=\"45,115 205,115 45,35\" fill=\"rgba(37, 99, 235, 0.08)\" stroke=\"var(--text-main, #334155)\" stroke-width=\"2\" stroke-linejoin=\"round\" />\n    <path d=\"M 45 103 L 57 103 L 57 115\" fill=\"none\" stroke=\"var(--primary, #2563eb)\" stroke-width=\"1.8\" />\n    <text x=\"32\" y=\"126\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">E</text>\n    <text x=\"212\" y=\"126\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">G</text>\n    <text x=\"32\" y=\"30\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">F</text>\n    <text x=\"18\" y=\"78\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"600\" fill=\"var(--text-main, #0f172a)\">EF = 4,5 cm</text>\n    <text x=\"125\" y=\"132\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"600\" fill=\"var(--text-main, #0f172a)\">EG = 6 cm</text>\n    <text x=\"135\" y=\"68\" transform=\"rotate(-27 135 68)\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"700\" fill=\"#dc2626\">FG = ? (7,5 cm)</text>\n  </svg>\n</div>",
-                "steps": [
-                      "**1. Énoncer les hypothèses** : Dans le triangle $EFG$ rectangle en $E$,",
-                      "**2. Citer le théorème** : d'après le **théorème de Pythagore** :",
-                      "**3. Poser l'égalité** : $FG^2 = EF^2 + EG^2$",
-                      "**4. Calculer** : $FG^2 = 4{,}5^2 + 6^2 = 20{,}25 + 36 = 56{,}25$",
-                      "**5. Conclure** : Comme une longueur est positive ($FG > 0$) :\n$FG = \\sqrt{56{,}25} = 7{,}5\\text{ cm}$\n*(Pour calculer un côté de l'angle droit, on soustrait : $EF^2 = FG^2 - EG^2$)*."
-                ]
-          },
-          {
-                "title": "Modèle officiel Brevet : Démontrer qu'un triangle est rectangle (Réciproque)",
-                "example": "Soit un triangle MNP tel que MN = 6 cm, NP = 8 cm, MP = 10 cm. Est-il rectangle ?\n\n<div class=\"geo-figure-wrapper\" style=\"text-align:center; margin:0.8rem 0;\">\n  <svg class=\"geo-svg-figure\" viewBox=\"0 0 260 140\" width=\"260\" height=\"140\" style=\"max-width:260px; width:100%; height:auto;\" xmlns=\"http://www.w3.org/2000/svg\">\n    <polygon points=\"45,115 215,115 45,25\" fill=\"rgba(16, 185, 129, 0.08)\" stroke=\"var(--text-main, #334155)\" stroke-width=\"2\" stroke-linejoin=\"round\" />\n    <path d=\"M 45 103 L 57 103 L 57 115\" fill=\"none\" stroke=\"#d97706\" stroke-width=\"1.8\" stroke-dasharray=\"3 2\" />\n    <text x=\"62\" y=\"108\" font-family=\"system-ui, sans-serif\" font-size=\"12\" font-weight=\"700\" fill=\"#d97706\">?</text>\n    <text x=\"32\" y=\"126\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">N</text>\n    <text x=\"222\" y=\"126\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">P</text>\n    <text x=\"32\" y=\"22\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">M</text>\n    <text x=\"130\" y=\"132\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"600\" fill=\"var(--text-main, #0f172a)\">NP = 8 cm</text>\n    <text x=\"18\" y=\"72\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"600\" fill=\"var(--text-main, #0f172a)\">MN = 6 cm</text>\n    <text x=\"138\" y=\"62\" transform=\"rotate(-28 138 62)\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"700\" fill=\"#10b981\">MP = 10 cm (plus grand)</text>\n  </svg>\n</div>",
-                "steps": [
-                      "**1. Identifier le plus long côté** : Dans le triangle $MNP$, le plus grand côté est $[MP]$.",
-                      "**2. Calculer séparément** :\n• D'une part : $MP^2 = 10^2 = 100$.\n• D'autre part : $MN^2 + NP^2 = 6^2 + 8^2 = 36 + 64 = 100$.",
-                      "**3. Conclure rigoureusement** : On constate que $MP^2 = MN^2 + NP^2$. D'après la **réciproque du théorème de Pythagore**, le triangle $MNP$ est rectangle en $N$."
-                ]
-          },
-          {
-                "title": "Modèle officiel Brevet : Démontrer qu'un triangle n'est pas rectangle (Contraposée)",
-                "example": "Soit un triangle ABC tel que AB = 4 cm, BC = 6 cm et AC = 7,5 cm. Le triangle ABC est-il rectangle ?\n\n<div class=\"geo-figure-wrapper\" style=\"text-align:center; margin:0.8rem 0;\">\n  <svg class=\"geo-svg-figure\" viewBox=\"0 0 260 140\" width=\"260\" height=\"140\" style=\"max-width:260px; width:100%; height:auto;\" xmlns=\"http://www.w3.org/2000/svg\">\n    <polygon points=\"45,115 205,115 48,38\" fill=\"rgba(220, 38, 38, 0.08)\" stroke=\"var(--text-main, #334155)\" stroke-width=\"2\" stroke-linejoin=\"round\" />\n    <path d=\"M 45 103 A 12 12 0 0 1 57 115\" fill=\"none\" stroke=\"#dc2626\" stroke-width=\"1.8\" stroke-dasharray=\"3 2\" />\n    <text x=\"54\" y=\"106\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"700\" fill=\"#dc2626\">≠ 90° ?</text>\n    <text x=\"32\" y=\"126\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">B</text>\n    <text x=\"212\" y=\"126\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">C</text>\n    <text x=\"38\" y=\"32\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">A</text>\n    <text x=\"18\" y=\"78\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"600\" fill=\"var(--text-main, #0f172a)\">AB = 4 cm</text>\n    <text x=\"125\" y=\"132\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"600\" fill=\"var(--text-main, #0f172a)\">BC = 6 cm</text>\n    <text x=\"135\" y=\"68\" transform=\"rotate(-26 135 68)\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"700\" fill=\"#d97706\">AC = 7,5 cm (plus grand)</text>\n  </svg>\n</div>",
-                "steps": [
-                      "**1. Identifier le plus long côté** : Dans le triangle $ABC$, le plus grand côté est $[AC]$.",
-                      "**2. Calculer séparément** :\n• D'une part : $AC^2 = 7{,}5^2 = 56{,}25$.\n• D'autre part : $AB^2 + BC^2 = 4^2 + 6^2 = 16 + 36 = 52$.",
-                      "**3. Conclure rigoureusement** : On constate que $AC^2 \\neq AB^2 + BC^2$. D'après la **contraposée du théorème de Pythagore**, le triangle $ABC$ **n'est pas rectangle**."
-                ]
-          }
+      {
+        "title": "Modèle de rédaction (brevet) : Calculer une longueur (Théorème direct)",
+        "example": "Soit un triangle EFG rectangle en E tel que EF = 4,5 cm et EG = 6 cm. Calculer la longueur FG.\n\n<div class=\"geo-figure-wrapper\" style=\"text-align:center; margin:0.8rem 0;\">\n  <svg class=\"geo-svg-figure\" viewBox=\"0 0 260 140\" width=\"260\" height=\"140\" style=\"max-width:260px; width:100%; height:auto;\" xmlns=\"http://www.w3.org/2000/svg\">\n    <polygon points=\"45,115 205,115 45,35\" fill=\"rgba(37, 99, 235, 0.08)\" stroke=\"var(--text-main, #334155)\" stroke-width=\"2\" stroke-linejoin=\"round\" />\n    <path d=\"M 45 103 L 57 103 L 57 115\" fill=\"none\" stroke=\"var(--primary, #2563eb)\" stroke-width=\"1.8\" />\n    <text x=\"32\" y=\"126\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">E</text>\n    <text x=\"212\" y=\"126\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">G</text>\n    <text x=\"32\" y=\"30\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">F</text>\n    <text x=\"18\" y=\"78\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"600\" fill=\"var(--text-main, #0f172a)\">EF = 4,5 cm</text>\n    <text x=\"125\" y=\"132\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"600\" fill=\"var(--text-main, #0f172a)\">EG = 6 cm</text>\n    <text x=\"135\" y=\"68\" transform=\"rotate(-27 135 68)\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"700\" fill=\"#dc2626\">FG = ? (7,5 cm)</text>\n  </svg>\n</div>",
+        "steps": [
+          "**1. Énoncer les hypothèses** : Dans le triangle $EFG$ rectangle en $E$,",
+          "**2. Citer le théorème** : d'après le **théorème de Pythagore** :",
+          "**3. Poser l'égalité** : $FG^2 = EF^2 + EG^2$",
+          "**4. Calculer** : $FG^2 = 4{,}5^2 + 6^2 = 20{,}25 + 36 = 56{,}25$",
+          "**5. Conclure** : Comme une longueur est positive ($FG > 0$) :\n$FG = \\sqrt{56{,}25} = 7{,}5\\text{ cm}$\n*(Pour calculer un côté de l'angle droit, on soustrait : $EF^2 = FG^2 - EG^2$)*."
+        ]
+      },
+      {
+        "title": "Modèle de rédaction (brevet) : Démontrer qu'un triangle est rectangle (Réciproque)",
+        "example": "Soit un triangle MNP tel que MN = 6 cm, NP = 8 cm, MP = 10 cm. Est-il rectangle ?\n\n<div class=\"geo-figure-wrapper\" style=\"text-align:center; margin:0.8rem 0;\">\n  <svg class=\"geo-svg-figure\" viewBox=\"0 0 260 140\" width=\"260\" height=\"140\" style=\"max-width:260px; width:100%; height:auto;\" xmlns=\"http://www.w3.org/2000/svg\">\n    <polygon points=\"45,115 215,115 45,25\" fill=\"rgba(16, 185, 129, 0.08)\" stroke=\"var(--text-main, #334155)\" stroke-width=\"2\" stroke-linejoin=\"round\" />\n    <path d=\"M 45 103 L 57 103 L 57 115\" fill=\"none\" stroke=\"#d97706\" stroke-width=\"1.8\" stroke-dasharray=\"3 2\" />\n    <text x=\"62\" y=\"108\" font-family=\"system-ui, sans-serif\" font-size=\"12\" font-weight=\"700\" fill=\"#d97706\">?</text>\n    <text x=\"32\" y=\"126\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">N</text>\n    <text x=\"222\" y=\"126\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">P</text>\n    <text x=\"32\" y=\"22\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">M</text>\n    <text x=\"130\" y=\"132\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"600\" fill=\"var(--text-main, #0f172a)\">NP = 8 cm</text>\n    <text x=\"18\" y=\"72\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"600\" fill=\"var(--text-main, #0f172a)\">MN = 6 cm</text>\n    <text x=\"138\" y=\"62\" transform=\"rotate(-28 138 62)\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"700\" fill=\"#10b981\">MP = 10 cm (plus grand)</text>\n  </svg>\n</div>",
+        "steps": [
+          "**1. Identifier le plus long côté** : Dans le triangle $MNP$, le plus grand côté est $[MP]$.",
+          "**2. Calculer séparément** :\n• D'une part : $MP^2 = 10^2 = 100$.\n• D'autre part : $MN^2 + NP^2 = 6^2 + 8^2 = 36 + 64 = 100$.",
+          "**3. Conclure rigoureusement** : On constate que $MP^2 = MN^2 + NP^2$. D'après la **réciproque du théorème de Pythagore**, le triangle $MNP$ est rectangle en $N$."
+        ]
+      },
+      {
+        "title": "Modèle de rédaction (brevet) : Démontrer qu'un triangle n'est pas rectangle (Contraposée)",
+        "example": "Soit un triangle ABC tel que AB = 4 cm, BC = 6 cm et AC = 7,5 cm. Le triangle ABC est-il rectangle ?\n\n<div class=\"geo-figure-wrapper\" style=\"text-align:center; margin:0.8rem 0;\">\n  <svg class=\"geo-svg-figure\" viewBox=\"0 0 260 140\" width=\"260\" height=\"140\" style=\"max-width:260px; width:100%; height:auto;\" xmlns=\"http://www.w3.org/2000/svg\">\n    <polygon points=\"45,115 205,115 48,38\" fill=\"rgba(220, 38, 38, 0.08)\" stroke=\"var(--text-main, #334155)\" stroke-width=\"2\" stroke-linejoin=\"round\" />\n    <path d=\"M 45 103 A 12 12 0 0 1 57 115\" fill=\"none\" stroke=\"#dc2626\" stroke-width=\"1.8\" stroke-dasharray=\"3 2\" />\n    <text x=\"54\" y=\"106\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"700\" fill=\"#dc2626\">≠ 90° ?</text>\n    <text x=\"32\" y=\"126\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">B</text>\n    <text x=\"212\" y=\"126\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">C</text>\n    <text x=\"38\" y=\"32\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">A</text>\n    <text x=\"18\" y=\"78\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"600\" fill=\"var(--text-main, #0f172a)\">AB = 4 cm</text>\n    <text x=\"125\" y=\"132\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"600\" fill=\"var(--text-main, #0f172a)\">BC = 6 cm</text>\n    <text x=\"135\" y=\"68\" transform=\"rotate(-26 135 68)\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"700\" fill=\"#d97706\">AC = 7,5 cm (plus grand)</text>\n  </svg>\n</div>",
+        "steps": [
+          "**1. Identifier le plus long côté** : Dans le triangle $ABC$, le plus grand côté est $[AC]$.",
+          "**2. Calculer séparément** :\n• D'une part : $AC^2 = 7{,}5^2 = 56{,}25$.\n• D'autre part : $AB^2 + BC^2 = 4^2 + 6^2 = 16 + 36 = 52$.",
+          "**3. Conclure rigoureusement** : On constate que $AC^2 \\neq AB^2 + BC^2$. D'après la **contraposée du théorème de Pythagore**, le triangle $ABC$ **n'est pas rectangle**."
+        ]
+      }
     ],
     "traps": [
       "⚠️ Ne JAMAIS écrire $MP^2 = MN^2 + NP^2$ au début de la démonstration : on calcule les deux membres séparément !",
-      "⚠️ Pour un côté de l'angle droit, soustraire les carrés : $AB^2 = BC^2 - AC^2$. Ne pas additionner !"
+      "⚠️ Pour un côté de l'angle droit, soustraire les carrés : $AB^2 = BC^2 - AC^2$. Ne pas additionner !",
+      "⚠️ Se tromper d'hypoténuse : dans un triangle rectangle en $E$, l'hypoténuse est le côté qui ne contient pas $E$."
     ],
     "flashcards": [
       {
@@ -488,6 +674,10 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
       {
         "q": "Quelle est l'hypoténuse d'un triangle rectangle en F ?",
         "a": "Le côté opposé au sommet F, c'est-à-dire le segment $[DE]$ si le triangle s'appelle DEF."
+      },
+      {
+        "q": "Valeur exacte de l'hypoténuse d'un triangle rectangle dont les côtés de l'angle droit mesurent 2 cm et 5 cm ?",
+        "a": "$\\sqrt{2^2 + 5^2} = \\sqrt{29}$ cm (environ 5,4 cm)."
       }
     ]
   },
@@ -513,11 +703,15 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
       {
         "title": "3. Contraposée de Thalès (Prouver que les droites ne sont pas parallèles)",
         "content": "Si les points sont alignés dans le même ordre mais que :\n$$\\frac{AM}{AB} \\neq \\frac{AN}{AC}$$\nAlors les droites $(MN)$ et $(BC)$ **ne sont pas parallèles**."
+      },
+      {
+        "title": "À retenir pour le brevet",
+        "content": "• **Calculer une longueur** (on sait que les droites sont parallèles) : théorème de Thalès, puis produit en croix.\n• **Démontrer un parallélisme** : réciproque (rapports égaux et points alignés dans le même ordre).\n• **Démontrer un non-parallélisme** : contraposée (rapports différents).\n• Le petit triangle se lit au numérateur, le grand au dénominateur, dans les trois rapports.\n\n**Automatismes** :\n• $\\dfrac{AM}{AB} = \\dfrac{2}{5}$ et $AC = 10$ : $AN$ ? $\\to$ $4$.\n• $\\dfrac{3}{4}$ et $\\dfrac{6}{8}$ sont-ils égaux ? $\\to$ oui ($3 \\times 8 = 4 \\times 6 = 24$).\n• Le théorème de la droite des milieux est le cas où le rapport vaut ? $\\to$ $\\dfrac{1}{2}$."
       }
     ],
     "methods": [
       {
-        "title": "Modèle officiel Brevet : Calculer une longueur (Théorème direct)",
+        "title": "Modèle de rédaction (brevet) : Calculer une longueur (Théorème direct)",
         "example": "Sur la figure ci-dessous, les points $A, M, B$ et $A, N, C$ sont alignés avec $(MN) // (BC)$. On donne $AB = 6\\text{ cm}$, $AM = 2\\text{ cm}$, $AC = 7{,}5\\text{ cm}$ et $BC = 9\\text{ cm}$. Calculer $AN$ et $MN$.\n\n<div class=\"geo-figure-wrapper\" style=\"text-align:center; margin:1rem 0;\">\n  <svg class=\"geo-svg-figure\" viewBox=\"0 0 320 185\" width=\"320\" height=\"185\" style=\"max-width:300px; width:100%; height:auto;\" xmlns=\"http://www.w3.org/2000/svg\">\n    <polygon points=\"135,24 45,150 255,150\" fill=\"rgba(59, 130, 246, 0.05)\" stroke=\"var(--text-main, #334155)\" stroke-width=\"2\" stroke-linejoin=\"round\" />\n    <polygon points=\"135,24 105,66 175,66\" fill=\"rgba(37, 99, 235, 0.12)\" stroke=\"var(--primary, #2563eb)\" stroke-width=\"2\" stroke-linejoin=\"round\" />\n    <circle cx=\"135\" cy=\"24\" r=\"3.5\" fill=\"var(--primary, #2563eb)\" />\n    <circle cx=\"105\" cy=\"66\" r=\"3.5\" fill=\"var(--primary, #2563eb)\" />\n    <circle cx=\"175\" cy=\"66\" r=\"3.5\" fill=\"var(--primary, #2563eb)\" />\n    <circle cx=\"45\" cy=\"150\" r=\"3.5\" fill=\"var(--primary, #2563eb)\" />\n    <circle cx=\"255\" cy=\"150\" r=\"3.5\" fill=\"var(--primary, #2563eb)\" />\n    <text x=\"135\" y=\"16\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">A</text>\n    <text x=\"32\" y=\"155\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">B</text>\n    <text x=\"268\" y=\"155\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">C</text>\n    <text x=\"92\" y=\"64\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--primary, #2563eb)\">M</text>\n    <text x=\"188\" y=\"64\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--primary, #2563eb)\">N</text>\n    <g class=\"geo-pill\">\n      <rect x=\"36\" y=\"32\" width=\"64\" height=\"20\" rx=\"4\" fill=\"var(--bg-surface, #ffffff)\" stroke=\"var(--primary, #2563eb)\" stroke-width=\"1.2\" />\n      <text x=\"68\" y=\"46\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"10\" font-weight=\"700\" fill=\"var(--primary, #2563eb)\">AM = 2 cm</text>\n    </g>\n    <g class=\"geo-pill\">\n      <rect x=\"4\" y=\"98\" width=\"64\" height=\"20\" rx=\"4\" fill=\"var(--bg-surface, #ffffff)\" stroke=\"var(--border-color, #94a3b8)\" stroke-width=\"1\" />\n      <text x=\"36\" y=\"112\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"10\" font-weight=\"600\" fill=\"var(--text-muted, #64748b)\">AB = 6 cm</text>\n    </g>\n    <g class=\"geo-pill\">\n      <rect x=\"234\" y=\"98\" width=\"76\" height=\"20\" rx=\"4\" fill=\"var(--bg-surface, #ffffff)\" stroke=\"var(--border-color, #94a3b8)\" stroke-width=\"1\" />\n      <text x=\"272\" y=\"112\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"10\" font-weight=\"600\" fill=\"var(--text-muted, #64748b)\">AC = 7,5 cm</text>\n    </g>\n    <g class=\"geo-pill\">\n      <rect x=\"120\" y=\"156\" width=\"60\" height=\"20\" rx=\"4\" fill=\"var(--bg-surface, #ffffff)\" stroke=\"var(--border-color, #94a3b8)\" stroke-width=\"1\" />\n      <text x=\"150\" y=\"170\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"10\" font-weight=\"600\" fill=\"var(--text-main, #0f172a)\">BC = 9 cm</text>\n    </g>\n    <g class=\"geo-pill\">\n      <rect x=\"190\" y=\"32\" width=\"52\" height=\"20\" rx=\"4\" fill=\"#fee2e2\" stroke=\"#ef4444\" stroke-width=\"1.2\" />\n      <text x=\"216\" y=\"46\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"10\" font-weight=\"700\" fill=\"#dc2626\">AN = ?</text>\n    </g>\n    <g class=\"geo-pill\">\n      <rect x=\"114\" y=\"74\" width=\"52\" height=\"20\" rx=\"4\" fill=\"#fee2e2\" stroke=\"#ef4444\" stroke-width=\"1.2\" />\n      <text x=\"140\" y=\"88\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"10\" font-weight=\"700\" fill=\"#dc2626\">MN = ?</text>\n    </g>\n  </svg>\n</div>",
         "steps": [
           "**1. Énoncer les hypothèses indispensables** :\n• Les points $A, M, B$ et $A, N, C$ sont alignés.\n• Les droites $(MN)$ et $(BC)$ sont parallèles : $(MN) // (BC)$.",
@@ -532,8 +726,27 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
         "example": "Soit les points A, M, B et A, N, C alignés dans cet ordre. AM = 3 cm, AB = 5 cm, AN = 4,5 cm, AC = 7,5 cm. Les droites (MN) et (BC) sont-elles parallèles ?",
         "steps": [
           "**Étape 1 (Alignement dans le même ordre)** : Les points $A, M, B$ et $A, N, C$ sont alignés dans le même ordre.",
-          "**Étape 2 (Calcul séparé des rapports)** :\n• $\\frac{AM}{AB} = \\frac{3}{5} = 0,6$.\n• $\\frac{AN}{AC} = \\frac{4,5}{7,5} = \\frac{45}{75} = \\frac{3}{5} = 0,6$.",
+          "**Étape 2 (Calcul séparé des rapports)** :\n• $\\frac{AM}{AB} = \\frac{3}{5} = 0{,}6$.\n• $\\frac{AN}{AC} = \\frac{4{,}5}{7{,}5} = \\frac{45}{75} = \\frac{3}{5} = 0{,}6$.",
           "**Étape 3 (Conclusion)** : On constate que $\\frac{AM}{AB} = \\frac{AN}{AC}$. D'après la **réciproque du théorème de Thalès**, les droites $(MN)$ et $(BC)$ sont parallèles."
+        ]
+      },
+      {
+        "title": "Modèle de rédaction (brevet) : Thalès en configuration papillon",
+        "example": "Les droites $(MB)$ et $(NC)$ se coupent en $A$, avec $A$ entre $M$ et $B$, et entre $N$ et $C$. On sait que $(MN) // (BC)$, $AM = 4$ cm, $AB = 6$ cm, $AN = 3$ cm et $MN = 5$ cm. Calculer $AC$ et $BC$.",
+        "steps": [
+          "**1. Hypothèses** : les points $M, A, B$ et $N, A, C$ sont alignés et $(MN) // (BC)$.",
+          "**2. Théorème** : d'après le théorème de Thalès, $\\dfrac{AM}{AB} = \\dfrac{AN}{AC} = \\dfrac{MN}{BC}$, soit $\\dfrac{4}{6} = \\dfrac{3}{AC} = \\dfrac{5}{BC}$.",
+          "**3. Calcul de $AC$** : $AC = \\dfrac{3 \\times 6}{4} = \\dfrac{18}{4} = 4{,}5$ cm.",
+          "**4. Calcul de $BC$** : $BC = \\dfrac{5 \\times 6}{4} = \\dfrac{30}{4} = 7{,}5$ cm."
+        ]
+      },
+      {
+        "title": "Modèle de rédaction (brevet) : Démontrer que deux droites ne sont pas parallèles",
+        "example": "Les points $A, M, B$ et $A, N, C$ sont alignés dans cet ordre, avec $AM = 3$ cm, $AB = 8$ cm, $AN = 4$ cm et $AC = 10$ cm. Les droites $(MN)$ et $(BC)$ sont-elles parallèles ?",
+        "steps": [
+          "**1. Calcul séparé des rapports** : $\\dfrac{AM}{AB} = \\dfrac{3}{8}$ et $\\dfrac{AN}{AC} = \\dfrac{4}{10}$.",
+          "**2. Comparaison exacte (produits en croix)** : $3 \\times 10 = 30$ et $8 \\times 4 = 32$. Comme $30 \\neq 32$, $\\dfrac{AM}{AB} \\neq \\dfrac{AN}{AC}$ (soit $0{,}375 \\neq 0{,}4$).",
+          "**3. Conclusion** : d'après la contraposée du théorème de Thalès, les droites $(MN)$ et $(BC)$ **ne sont pas parallèles**."
         ]
       }
     ],
@@ -562,6 +775,14 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
       {
         "q": "Que conclut-on si $\\frac{AM}{AB} \\neq \\frac{AN}{AC}$ ?",
         "a": "D'après la **contraposée de Thalès**, les droites ne sont pas parallèles."
+      },
+      {
+        "q": "Configuration papillon : $(MN) // (BC)$, $AM = 2$, $AB = 5$, $BC = 10$. Que vaut $MN$ ?",
+        "a": "$MN = \\dfrac{2 \\times 10}{5} = 4$."
+      },
+      {
+        "q": "Comment comparer $\\dfrac{7}{9}$ et $\\dfrac{9}{12}$ sans arrondir ?",
+        "a": "Par produits en croix : $7 \\times 12 = 84$ et $9 \\times 9 = 81$, donc les rapports sont différents."
       }
     ]
   },
@@ -591,11 +812,15 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
       {
         "title": "4. Démarche pour calculer un angle aigu",
         "content": "Pour déterminer la mesure d'un angle au degré près :\n1. **Choix de la formule** selon les deux longueurs connues (cos, sin ou tan).\n2. **Calcul du quotient** : écrire le rapport (ex: $\\cos(\\widehat{A}) = \\frac{4}{7}$).\n3. **Touche inverse à la calculatrice** : utiliser `Arccos`, `Arcsin` ou `Arctan` (notées `cos⁻¹`, `sin⁻¹`, `tan⁻¹`) avec la calculatrice impérativement en **mode DEG** !"
+      },
+      {
+        "title": "À retenir pour le brevet",
+        "content": "• Dans un triangle **rectangle** seulement : $\\cos = \\dfrac{\\text{adj}}{\\text{hyp}}$, $\\sin = \\dfrac{\\text{opp}}{\\text{hyp}}$, $\\tan = \\dfrac{\\text{opp}}{\\text{adj}}$.\n• On repère d'abord l'hypoténuse, puis les côtés opposé et adjacent **à l'angle utilisé**.\n• Longueur cherchée : égalité puis produit en croix. Angle cherché : touches $\\cos^{-1}$, $\\sin^{-1}$, $\\tan^{-1}$.\n• Calculatrice en mode **degré**.\n\n**Automatismes** :\n• $\\cos(60^\\circ)$ ? $\\to$ $0{,}5$.\n• Dans $ABC$ rectangle en $B$, le côté opposé à $\\widehat{A}$ ? $\\to$ $[BC]$.\n• $\\tan(\\alpha) = 1$ pour un angle aigu : $\\alpha$ ? $\\to$ $45^\\circ$."
       }
     ],
     "methods": [
       {
-        "title": "Modèle officiel Brevet : Calculer une longueur avec la trigonométrie",
+        "title": "Modèle de rédaction (brevet) : Calculer une longueur avec la trigonométrie",
         "example": "Soit un triangle $ABC$ rectangle en $B$ tel que $AC = 8\\text{ cm}$ et $\\widehat{ACB} = 35^\\circ$. Calculer la longueur $AB$ arrondie au millimètre près.\n\n<div class=\"geo-figure-wrapper\" style=\"text-align:center; margin:1rem 0;\">\n  <svg class=\"geo-svg-figure\" viewBox=\"0 0 320 175\" width=\"320\" height=\"175\" style=\"max-width:290px; width:100%; height:auto;\" xmlns=\"http://www.w3.org/2000/svg\">\n    <polygon points=\"60,140 260,140 60,30\" fill=\"rgba(59, 130, 246, 0.06)\" stroke=\"var(--text-main, #334155)\" stroke-width=\"2\" stroke-linejoin=\"round\" />\n    <path d=\"M 60 125 L 75 125 L 75 140\" fill=\"none\" stroke=\"var(--primary, #2563eb)\" stroke-width=\"1.8\" />\n    <path d=\"M 225 140 A 35 35 0 0 1 236 128\" fill=\"none\" stroke=\"#f59e0b\" stroke-width=\"2.5\" />\n    <text x=\"202\" y=\"134\" font-family=\"system-ui, sans-serif\" font-size=\"12\" font-weight=\"700\" fill=\"#f59e0b\">35°</text>\n    <circle cx=\"60\" cy=\"140\" r=\"3.5\" fill=\"var(--primary, #2563eb)\" />\n    <circle cx=\"60\" cy=\"30\" r=\"3.5\" fill=\"var(--primary, #2563eb)\" />\n    <circle cx=\"260\" cy=\"140\" r=\"3.5\" fill=\"var(--primary, #2563eb)\" />\n    <text x=\"44\" y=\"152\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">B</text>\n    <text x=\"44\" y=\"28\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">A</text>\n    <text x=\"272\" y=\"152\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">C</text>\n    <g class=\"geo-pill\">\n      <rect x=\"4\" y=\"75\" width=\"52\" height=\"20\" rx=\"4\" fill=\"#fee2e2\" stroke=\"#ef4444\" stroke-width=\"1.2\" />\n      <text x=\"30\" y=\"89\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"10\" font-weight=\"700\" fill=\"#dc2626\">AB = ?</text>\n    </g>\n    <g class=\"geo-pill\">\n      <rect x=\"130\" y=\"65\" width=\"78\" height=\"20\" rx=\"4\" fill=\"var(--bg-surface, #ffffff)\" stroke=\"var(--primary, #2563eb)\" stroke-width=\"1.2\" />\n      <text x=\"169\" y=\"79\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"10\" font-weight=\"700\" fill=\"var(--primary, #2563eb)\">AC = 8 cm</text>\n    </g>\n  </svg>\n</div>",
         "steps": [
           "**1. Énoncer les hypothèses et repérer les côtés** :\nDans le triangle $ABC$ rectangle en $B$, $[AC]$ est l'hypoténuse. Par rapport à l'angle connu $\\widehat{ACB} = 35^\\circ$, le côté cherché $[AB]$ est le côté opposé.",
@@ -606,7 +831,7 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
         ]
       },
       {
-        "title": "Modèle officiel Brevet : Calculer un angle au degré près",
+        "title": "Modèle de rédaction (brevet) : Calculer un angle au degré près",
         "example": "Soit un triangle $ABC$ rectangle en $B$ tel que $AB = 4\\text{ cm}$ et $AC = 7\\text{ cm}$. Calculer la mesure de l'angle $\\widehat{BAC}$ au degré près.\n\n<div class=\"geo-figure-wrapper\" style=\"text-align:center; margin:1rem 0;\">\n  <svg class=\"geo-svg-figure\" viewBox=\"0 0 320 175\" width=\"320\" height=\"175\" style=\"max-width:290px; width:100%; height:auto;\" xmlns=\"http://www.w3.org/2000/svg\">\n    <polygon points=\"60,140 240,140 60,30\" fill=\"rgba(59, 130, 246, 0.06)\" stroke=\"var(--text-main, #334155)\" stroke-width=\"2\" stroke-linejoin=\"round\" />\n    <path d=\"M 60 125 L 75 125 L 75 140\" fill=\"none\" stroke=\"var(--primary, #2563eb)\" stroke-width=\"1.8\" />\n    <path d=\"M 87 47 A 32 32 0 0 1 60 62\" fill=\"none\" stroke=\"#f59e0b\" stroke-width=\"2.5\" />\n    <text x=\"82\" y=\"68\" font-family=\"system-ui, sans-serif\" font-size=\"12\" font-weight=\"700\" fill=\"#f59e0b\">?</text>\n    <circle cx=\"60\" cy=\"140\" r=\"3.5\" fill=\"var(--primary, #2563eb)\" />\n    <circle cx=\"60\" cy=\"30\" r=\"3.5\" fill=\"var(--primary, #2563eb)\" />\n    <circle cx=\"240\" cy=\"140\" r=\"3.5\" fill=\"var(--primary, #2563eb)\" />\n    <text x=\"44\" y=\"152\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">B</text>\n    <text x=\"44\" y=\"28\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">A</text>\n    <text x=\"252\" y=\"152\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">C</text>\n    <g class=\"geo-pill\">\n      <rect x=\"4\" y=\"75\" width=\"52\" height=\"20\" rx=\"4\" fill=\"var(--bg-surface, #ffffff)\" stroke=\"var(--border-color, #94a3b8)\" stroke-width=\"1\" />\n      <text x=\"30\" y=\"89\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"10\" font-weight=\"600\" fill=\"var(--text-main, #0f172a)\">AB = 4 cm</text>\n    </g>\n    <g class=\"geo-pill\">\n      <rect x=\"125\" y=\"65\" width=\"76\" height=\"20\" rx=\"4\" fill=\"var(--bg-surface, #ffffff)\" stroke=\"var(--border-color, #94a3b8)\" stroke-width=\"1\" />\n      <text x=\"163\" y=\"79\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"10\" font-weight=\"600\" fill=\"var(--text-main, #0f172a)\">AC = 7 cm</text>\n    </g>\n  </svg>\n</div>",
         "steps": [
           "**Étape 1 (Repérage des côtés)** : $[AC]$ est l'hypoténuse (en face de l'angle droit $B$) et $[AB]$ est le côté adjacent à l'angle cherché $\\widehat{BAC}$.",
@@ -614,12 +839,23 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
           "**Étape 3 (Calcul du rapport)** :\n$$\\cos(\\widehat{BAC}) = \\frac{4}{7}$$",
           "**Étape 4 (Calculatrice en mode Degré)** :\nÀ la calculatrice : $\\widehat{BAC} = \\arccos(4/7) \\approx 55{,}15^\\circ$.\nL'angle $\\widehat{BAC}$ mesure environ **$55^\\circ$** au degré près."
         ]
+      },
+      {
+        "title": "Modèle de rédaction (brevet) : Un problème concret avec la trigonométrie",
+        "example": "Une échelle de $5$ m est appuyée contre un mur vertical ; son pied est à $1{,}5$ m du mur, sur un sol horizontal. Pour être utilisée en sécurité, l'échelle doit faire avec le sol un angle compris entre $65^\\circ$ et $75^\\circ$. Est-ce le cas ?",
+        "steps": [
+          "**1. Modéliser** : le mur, le sol et l'échelle forment un triangle rectangle (le mur est perpendiculaire au sol). L'échelle ($5$ m) est l'hypoténuse ; la distance au mur ($1{,}5$ m) est le côté **adjacent** à l'angle $\\alpha$ entre l'échelle et le sol.",
+          "**2. Choisir la formule** : adjacent et hypoténuse $\\Rightarrow$ cosinus : $\\cos(\\alpha) = \\dfrac{1{,}5}{5} = 0{,}3$.",
+          "**3. Calculatrice (mode degré)** : $\\alpha = \\arccos(0{,}3) \\approx 72{,}5^\\circ$.",
+          "**4. Conclure** : $65^\\circ < 72{,}5^\\circ < 75^\\circ$, l'échelle est placée en sécurité."
+        ]
       }
     ],
     "traps": [
       "⚠️ Avoir sa calculatrice configurée en Radian (RAD) ou Grade (GRA) au lieu de Degré (DEG) !",
       "⚠️ Trouver un cosinus ou un sinus supérieur à 1 : c'est mathématiquement impossible car l'hypoténuse est le plus grand côté !",
-      "⚠️ Appliquer une formule de trigonométrie sur l'angle droit de 90°."
+      "⚠️ Appliquer une formule de trigonométrie sur l'angle droit de 90°.",
+      "⚠️ Se tromper de côté adjacent : il dépend de l'angle choisi ; le côté adjacent à $\\widehat{A}$ est l'opposé de $\\widehat{C}$."
     ],
     "flashcards": [
       {
@@ -641,6 +877,10 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
       {
         "q": "Peut-on appliquer les formules de trigonométrie dans un triangle qui n'est pas rectangle ?",
         "a": "**Non**, elles ne sont valables que dans un triangle rectangle."
+      },
+      {
+        "q": "$ABC$ rectangle en $A$, $BC = 10$ cm et $\\widehat{B} = 30^\\circ$. Que vaut $AC$ ?",
+        "a": "$AC = 10 \\times \\sin(30^\\circ) = 10 \\times 0{,}5 = 5$ cm ($[AC]$ est opposé à $\\widehat{B}$)."
       }
     ]
   },
@@ -669,11 +909,15 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
       {
         "title": "4. Conservations géométriques",
         "content": "L'homothétie conserve :\n• La **mesure des angles** (les figures sont semblables, de même forme).\n• Le **parallélisme** et l'**alignement** des points."
+      },
+      {
+        "title": "À retenir pour le brevet",
+        "content": "• Homothétie de centre $O$ et de rapport $k$ : $O$, $M$, $M'$ alignés et $OM' = |k| \\times OM$.\n• $k > 0$ : même côté de $O$ ; $k < 0$ : de part et d'autre de $O$.\n• $|k| > 1$ : agrandissement ; $|k| < 1$ : réduction ; $k = -1$ : symétrie centrale.\n• Longueurs $\\times |k|$, aires $\\times k^2$, volumes $\\times |k|^3$ ; angles et parallélisme conservés.\n\n**Automatismes** :\n• Rapport $3$ : une aire de $5$ cm² devient ? $\\to$ $45$ cm².\n• Rapport $\\dfrac{1}{2}$ : un volume de $80$ cm³ devient ? $\\to$ $10$ cm³.\n• $OA = 4$ et rapport $-2$ : $OA'$ ? $\\to$ $8$, de l'autre côté de $O$."
       }
     ],
     "methods": [
       {
-        "title": "Modèle officiel Brevet : Construire l'image d'une figure par une homothétie",
+        "title": "Modèle de rédaction (brevet) : Construire l'image d'une figure par une homothétie",
         "example": "Sur la figure ci-dessous, construire l'image $A'B'C'$ du triangle $ABC$ par l'homothétie de centre $O$ et de rapport $k = 2$.\n\n<div class=\"geo-figure-wrapper\" style=\"text-align:center; margin:1rem 0;\">\n  <svg class=\"geo-svg-figure\" viewBox=\"0 0 320 170\" width=\"320\" height=\"170\" style=\"max-width:300px; width:100%; height:auto;\" xmlns=\"http://www.w3.org/2000/svg\">\n    <line x1=\"30\" y1=\"115\" x2=\"145\" y2=\"15\" stroke=\"var(--border-color, #94a3b8)\" stroke-width=\"1.2\" stroke-dasharray=\"3,3\" />\n    <line x1=\"30\" y1=\"115\" x2=\"215\" y2=\"140\" stroke=\"var(--border-color, #94a3b8)\" stroke-width=\"1.2\" stroke-dasharray=\"3,3\" />\n    <line x1=\"30\" y1=\"115\" x2=\"120\" y2=\"140\" stroke=\"var(--border-color, #94a3b8)\" stroke-width=\"1.2\" stroke-dasharray=\"3,3\" />\n    <polygon points=\"75,75 105,125 65,125\" fill=\"rgba(37, 99, 235, 0.12)\" stroke=\"var(--primary, #2563eb)\" stroke-width=\"2\" stroke-linejoin=\"round\" />\n    <circle cx=\"75\" cy=\"75\" r=\"3.5\" fill=\"var(--primary, #2563eb)\" />\n    <circle cx=\"105\" cy=\"125\" r=\"3.5\" fill=\"var(--primary, #2563eb)\" />\n    <circle cx=\"65\" cy=\"125\" r=\"3.5\" fill=\"var(--primary, #2563eb)\" />\n    <text x=\"70\" y=\"65\" font-family=\"system-ui, sans-serif\" font-size=\"12\" font-weight=\"700\" fill=\"var(--primary, #2563eb)\">A</text>\n    <text x=\"110\" y=\"132\" font-family=\"system-ui, sans-serif\" font-size=\"12\" font-weight=\"700\" fill=\"var(--primary, #2563eb)\">B</text>\n    <text x=\"52\" y=\"132\" font-family=\"system-ui, sans-serif\" font-size=\"12\" font-weight=\"700\" fill=\"var(--primary, #2563eb)\">C</text>\n    <polygon points=\"120,35 180,135 100,135\" fill=\"rgba(16, 185, 129, 0.12)\" stroke=\"#10b981\" stroke-width=\"2\" stroke-linejoin=\"round\" />\n    <circle cx=\"120\" cy=\"35\" r=\"3.5\" fill=\"#10b981\" />\n    <circle cx=\"180\" cy=\"135\" r=\"3.5\" fill=\"#10b981\" />\n    <circle cx=\"100\" cy=\"135\" r=\"3.5\" fill=\"#10b981\" />\n    <text x=\"120\" y=\"24\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"12\" font-weight=\"700\" fill=\"#10b981\">A'</text>\n    <text x=\"194\" y=\"142\" font-family=\"system-ui, sans-serif\" font-size=\"12\" font-weight=\"700\" fill=\"#10b981\">B'</text>\n    <text x=\"90\" y=\"146\" font-family=\"system-ui, sans-serif\" font-size=\"12\" font-weight=\"700\" fill=\"#10b981\">C'</text>\n    <circle cx=\"30\" cy=\"115\" r=\"4\" fill=\"var(--text-main, #0f172a)\" />\n    <text x=\"16\" y=\"119\" font-family=\"system-ui, sans-serif\" font-size=\"14\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">O</text>\n    <g class=\"geo-pill\">\n      <rect x=\"22\" y=\"58\" width=\"62\" height=\"19\" rx=\"4\" fill=\"var(--bg-surface, #ffffff)\" stroke=\"var(--primary, #2563eb)\" stroke-width=\"1.2\" />\n      <text x=\"53\" y=\"71.5\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"10\" font-weight=\"700\" fill=\"var(--primary, #2563eb)\">OA = 3 cm</text>\n    </g>\n    <g class=\"geo-pill\">\n      <rect x=\"135\" y=\"48\" width=\"80\" height=\"19\" rx=\"4\" fill=\"var(--bg-surface, #ffffff)\" stroke=\"#10b981\" stroke-width=\"1.2\" />\n      <text x=\"175\" y=\"61.5\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"10\" font-weight=\"700\" fill=\"#10b981\">OA' = 2×3 = 6 cm</text>\n    </g>\n  </svg>\n</div>",
         "steps": [
           "**1. Tracer les demi-droites d'origine $O$** :\nTracer en pointillés les demi-droites $[OA)$, $[OB)$ et $[OC)$ issues du centre $O$ et passant par chaque sommet du triangle initial.",
@@ -683,18 +927,29 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
         ]
       },
       {
-        "title": "Modèle officiel Brevet : Calculer l'impact d'une homothétie sur une aire et un volume",
+        "title": "Modèle de rédaction (brevet) : Calculer l'impact d'une homothétie sur une aire et un volume",
         "example": "Une maquette de bateau est réalisée à l'échelle 1/50 (homothétie de rapport k = 0,02). L'aire des voiles sur la maquette est 0,08 m² et le volume de la coque est 0,016 m³. Calculer l'aire et le volume réels.",
         "steps": [
           "**Étape 1 (Rapport d'agrandissement)** : Pour passer de la maquette au bateau réel, le coefficient d'agrandissement est $K = 50$.",
           "**Étape 2 (Calcul de l'aire réelle)** :\nL'aire est multipliée par $K^2 = 50^2 = 2\\,500$ :\n$$\\text{Aire réelle} = 0{,}08 \\times 50^2 = 0{,}08 \\times 2\\,500 = 200\\text{ m}^2$$",
           "**Étape 3 (Calcul du volume réel)** :\nLe volume est multiplié par $K^3 = 50^3 = 125\\,000$ :\n$$\\text{Volume réel} = 0{,}016 \\times 50^3 = 0{,}016 \\times 125\\,000 = 2\\,000\\text{ m}^3$$"
         ]
+      },
+      {
+        "title": "Méthode : Homothétie de rapport négatif",
+        "example": "Le triangle $ABC$ a une aire de $12$ cm² et $OA = 6$ cm. On construit son image $A'B'C'$ par l'homothétie de centre $O$ et de rapport $k = -0{,}5$. Où placer $A'$ ? Quelle est l'aire de $A'B'C'$ ?",
+        "steps": [
+          "**1. Position de $A'$** : $k < 0$, donc $A'$ est sur la droite $(OA)$, **de l'autre côté de $O$** par rapport à $A$.",
+          "**2. Distance** : $OA' = |k| \\times OA = 0{,}5 \\times 6 = 3$ cm.",
+          "**3. Aire** : les aires sont multipliées par $k^2 = (-0{,}5)^2 = 0{,}25$, donc $\\mathcal{A}' = 0{,}25 \\times 12 = 3$ cm².",
+          "**4. Bilan** : c'est une réduction ($|k| < 1$) accompagnée d'un demi-tour autour de $O$."
+        ]
       }
     ],
     "traps": [
       "⚠️ Dans un rapport négatif, oublier d'inverser le côté par rapport au centre $O$ : pour $k = -2$, $M'$ est de l'autre côté de $O$ !",
-      "⚠️ Multiplier une aire par $k$ au lieu de $k^2$, ou un volume par $k$ au lieu de $k^3$."
+      "⚠️ Multiplier une aire par $k$ au lieu de $k^2$, ou un volume par $k$ au lieu de $k^3$.",
+      "⚠️ Le rapport se calcule « image sur départ » : si $OA = 4$ et $OA' = 10$, alors $|k| = \\dfrac{10}{4} = 2{,}5$ et non $0{,}4$."
     ],
     "flashcards": [
       {
@@ -716,6 +971,10 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
       {
         "q": "Une homothétie modifie-t-elle la mesure des angles d'un polygone ?",
         "a": "**Non**, l'homothétie conserve scrupuleusement la mesure des angles (les figures ont exactement la même forme)."
+      },
+      {
+        "q": "Une homothétie de rapport $k = -3$ est-elle un agrandissement ?",
+        "a": "Oui : $|k| = 3 > 1$ (avec en plus un demi-tour autour du centre)."
       }
     ]
   },
@@ -732,7 +991,7 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
     "keyPoints": [
       {
         "title": "1. Sphère vs Boule : Creux vs Plein",
-        "content": "• **Sphère de centre $O$ et rayon $R$** : ensemble des points de l'espace situés à une distance exactement égale à $R$ du centre $O$ ($OM = R$). Elle est **vide à l'intérieur** (comme une balle de ping-pong ou un ballon de foire).\n• **Boule de centre $O$ et rayon $R$** : ensemble des points de l'espace dont la distance à $O$ est inférieure ou égale à $R$ ($OM \\le R$). Elle est **pleine à l'intérieur** (comme une boule de pétanque ou la boule géante d'Indiana Jones) !"
+        "content": "• **Sphère de centre $O$ et rayon $R$** : ensemble des points de l'espace situés à une distance exactement égale à $R$ du centre $O$ ($OM = R$). Elle est **vide à l'intérieur** : c'est une surface, comme l'enveloppe d'une balle de ping-pong.\n• **Boule de centre $O$ et rayon $R$** : ensemble des points de l'espace dont la distance à $O$ est inférieure ou égale à $R$ ($OM \\le R$). Elle est **pleine à l'intérieur** : c'est un solide, comme une boule de pétanque."
       },
       {
         "title": "2. Formules d'aire et de volume à connaître par cœur",
@@ -744,7 +1003,11 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
       },
       {
         "title": "4. Repérage sur la sphère terrestre",
-        "content": "• **L'Équateur** : grand cercle de référence séparant l'hémisphère Nord et l'hémisphère Sud.\n• **Latitude** : angle mesuré depuis l'équateur vers le Nord ($0^\\circ$ à $90^\\circ$ N) ou vers le Sud ($0^\\circ$ à $90^\\circ$ S).\n• **Le méridien de Greenwich** : demi-cercle origine joignant les pôles.\n• **Longitude** : angle mesuré depuis Greenwich vers l'Est ($0^\\circ$ à $180^\\circ$ E) ou vers l'Ouest ($0^\\circ$ à $180^\\circ$ O)."
+        "content": "• **L'Équateur** : grand cercle de référence séparant l'hémisphère Nord et l'hémisphère Sud.\n• **Latitude** : angle mesuré depuis l'équateur vers le Nord ($0^\\circ$ à $90^\\circ$ N) ou vers le Sud ($0^\\circ$ à $90^\\circ$ S).\n• **Le méridien de Greenwich** : demi-cercle origine joignant les pôles.\n• **Longitude** : angle mesuré depuis Greenwich vers l'Est ($0^\\circ$ à $180^\\circ$ E) ou vers l'Ouest ($0^\\circ$ à $180^\\circ$ O).\n• Un point est repéré par le couple (latitude ; longitude), par exemple $M(40^\\circ\\text{ N} ; 50^\\circ\\text{ E})$ : $M$ est sur le parallèle situé à $40^\\circ$ au nord de l'équateur et sur le méridien situé à $50^\\circ$ à l'est de celui de Greenwich.\n\n<div class=\"geo-figure-wrapper\" style=\"text-align:center; margin:1rem 0;\">\n<svg class=\"geo-svg-figure\" viewBox=\"-10 0 270 220\" width=\"270\" height=\"220\" style=\"max-width:280px; width:100%; height:auto;\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Sphère terrestre avec équateur, méridien de Greenwich et un point M repéré par sa latitude et sa longitude\">\n  <circle cx=\"120\" cy=\"110\" r=\"90\" fill=\"rgba(37, 99, 235, 0.06)\" stroke=\"var(--text-main, #334155)\" stroke-width=\"2\" />\n  <ellipse cx=\"120\" cy=\"110\" rx=\"90\" ry=\"22\" fill=\"none\" stroke=\"#f59e0b\" stroke-width=\"2\" />\n  <ellipse cx=\"120\" cy=\"110\" rx=\"34\" ry=\"90\" fill=\"none\" stroke=\"#10b981\" stroke-width=\"2\" />\n  <ellipse cx=\"120\" cy=\"62\" rx=\"76\" ry=\"17\" fill=\"none\" stroke=\"var(--text-muted, #64748b)\" stroke-width=\"1.2\" stroke-dasharray=\"4 3\" />\n  <circle cx=\"120\" cy=\"20\" r=\"3\" fill=\"var(--text-main, #0f172a)\" /><circle cx=\"120\" cy=\"200\" r=\"3\" fill=\"var(--text-main, #0f172a)\" />\n  <circle cx=\"171\" cy=\"77\" r=\"4\" fill=\"#dc2626\" />\n  <text x=\"120\" y=\"14\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">Pôle Nord</text><text x=\"120\" y=\"216\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">Pôle Sud</text>\n  <text x=\"176\" y=\"94\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"#dc2626\">M</text>\n  <text x=\"212\" y=\"116\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"700\" fill=\"#b45309\">équateur</text>\n  <text x=\"54\" y=\"172\" text-anchor=\"end\" font-family=\"system-ui, sans-serif\" font-size=\"10\" font-weight=\"700\" fill=\"#047857\">méridien de</text><text x=\"54\" y=\"184\" text-anchor=\"end\" font-family=\"system-ui, sans-serif\" font-size=\"10\" font-weight=\"700\" fill=\"#047857\">Greenwich</text>\n  <text x=\"200\" y=\"52\" font-family=\"system-ui, sans-serif\" font-size=\"10\" font-weight=\"700\" fill=\"var(--text-muted, #64748b)\">parallèle</text>\n</svg>\n</div>\n"
+      },
+      {
+        "title": "À retenir pour le brevet",
+        "content": "• Sphère (surface) : $\\mathcal{A} = 4\\pi R^2$ ; boule (solide) : $\\mathcal{V} = \\dfrac{4}{3}\\pi R^3$.\n• Section d'une sphère par un plan : un cercle, de rayon $r = \\sqrt{R^2 - d^2}$ (Pythagore).\n• Latitude : nord/sud de l'équateur ($0^\\circ$ à $90^\\circ$) ; longitude : est/ouest de Greenwich ($0^\\circ$ à $180^\\circ$).\n• Valeur exacte avec $\\pi$, puis arrondi.\n\n**Automatismes** :\n• Volume d'une boule de rayon $3$ cm (valeur exacte) ? $\\to$ $36\\pi$ cm³.\n• Aire d'une sphère de diamètre $10$ cm ? $\\to$ $4\\pi \\times 5^2 = 100\\pi$ cm².\n• Latitude de l'équateur ? $\\to$ $0^\\circ$ ; d'un pôle ? $\\to$ $90^\\circ$."
       }
     ],
     "methods": [
@@ -752,12 +1015,12 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
         "title": "Méthode : Calculer le volume d'une boule et l'aire d'une sphère",
         "example": "Calculer l'aire et le volume d'une boule de rayon R = 6 cm.",
         "steps": [
-          "**Étape 1 (Aire)** : $\\mathcal{A} = 4\\pi R^2 = 4 \\times \\pi \\times 6^2 = 144\\pi \\approx 452,4 \\text{ cm}^2$.",
-          "**Étape 2 (Volume)** : $\\mathcal{V} = \\frac{4}{3}\\pi R^3 = \\frac{4}{3} \\times \\pi \\times 6^3 = \\frac{4}{3} \\times 216\\pi = 288\\pi \\approx 904,8 \\text{ cm}^3$."
+          "**Étape 1 (Aire)** : $\\mathcal{A} = 4\\pi R^2 = 4 \\times \\pi \\times 6^2 = 144\\pi \\approx 452{,}4 \\text{ cm}^2$.",
+          "**Étape 2 (Volume)** : $\\mathcal{V} = \\frac{4}{3}\\pi R^3 = \\frac{4}{3} \\times \\pi \\times 6^3 = \\frac{4}{3} \\times 216\\pi = 288\\pi \\approx 904{,}8 \\text{ cm}^3$."
         ]
       },
       {
-        "title": "Modèle officiel Brevet : Calculer le rayon de la section d'une sphère",
+        "title": "Modèle de rédaction (brevet) : Calculer le rayon de la section d'une sphère",
         "example": "Une sphère de centre $O$ et de rayon $R = 5\\text{ cm}$ est coupée par un plan situé à une distance $d = 3\\text{ cm}$ du centre $O$. Le point $H$ est le centre du cercle de section et $M$ est un point de ce cercle. Calculer le rayon $r$ du cercle de section.",
         "steps": [
           "**1. Identifier le triangle rectangle** :\nLa section d'une sphère par un plan est un **cercle** de centre $H$ et de rayon $r = HM$.\nLe triangle $OHM$ est rectangle en $H$ avec $OH = d = 3\\text{ cm}$ et $OM = R = 5\\text{ cm}$ (rayon de la sphère).",
@@ -792,6 +1055,10 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
       {
         "q": "Quel est le méridien d'origine pour la mesure des longitudes ?",
         "a": "Le **Méridien de Greenwich** (longitude $0^\\circ$)."
+      },
+      {
+        "q": "Une sphère de rayon 13 cm est coupée par un plan à 5 cm du centre. Rayon de la section ?",
+        "a": "$r = \\sqrt{13^2 - 5^2} = \\sqrt{144} = 12$ cm."
       }
     ]
   },
@@ -821,11 +1088,15 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
       {
         "title": "4. Récapitulatif des formules de volumes usuelles",
         "content": "• Cube : $V = c^3$ | Pavé droit : $V = L \\times l \\times h$\n• Prisme et Cylindre : $V = \\mathcal{B} \\times h$ (Cylindre : $\\pi r^2 h$)\n• Pyramide et Cône : $V = \\frac{1}{3} \\times \\mathcal{B} \\times h$ (Cône : $\\frac{1}{3}\\pi r^2 h$)\n• Boule : $V = \\frac{4}{3}\\pi R^3$"
+      },
+      {
+        "title": "À retenir pour le brevet",
+        "content": "• Pavé : section parallèle à une face $\\to$ rectangle identique à la face ; parallèle à une arête $\\to$ rectangle.\n• Cylindre : perpendiculaire à l'axe $\\to$ disque de même rayon ; parallèle à l'axe $\\to$ rectangle.\n• Pyramide, cône coupés parallèlement à la base : réduction de rapport $k = \\dfrac{h'}{h}$ (aires $\\times k^2$, volumes $\\times k^3$).\n• Volumes : prisme et cylindre $\\mathcal{B} \\times h$ ; pyramide et cône $\\dfrac{\\mathcal{B} \\times h}{3}$ ; boule $\\dfrac{4}{3}\\pi R^3$.\n\n**Automatismes** :\n• Volume d'un cylindre de rayon $1$ et de hauteur $3$ ? $\\to$ $3\\pi$.\n• Cône coupé au tiers de sa hauteur depuis le sommet ($k = \\dfrac{1}{3}$) : volume du petit cône ? $\\to$ $\\dfrac{1}{27}$ du grand.\n• $1$ m³ $=$ ? L $\\to$ $1\\,000$ L."
       }
     ],
     "methods": [
       {
-        "title": "Modèle officiel Brevet : Calculer le volume d'un cône tronqué (tronc de cône)",
+        "title": "Modèle de rédaction (brevet) : Calculer le volume d'un cône tronqué (tronc de cône)",
         "example": "Un cône de révolution de sommet $S$, de hauteur $h = 12\\text{ cm}$ et de rayon de base $R = 4\\text{ cm}$ est coupé à mi-hauteur ($h' = 6\\text{ cm}$) par un plan parallèle à la base. Calculer la valeur exacte puis arrondie au $\\text{cm}^3$ près du volume du tronc de cône restant.\n\n<div class=\"geo-figure-wrapper\" style=\"text-align:center; margin:1rem 0;\">\n  <svg class=\"geo-svg-figure\" viewBox=\"0 0 340 210\" width=\"340\" height=\"210\" style=\"max-width:300px; width:100%; height:auto;\" xmlns=\"http://www.w3.org/2000/svg\">\n    <line x1=\"45\" y1=\"25\" x2=\"45\" y2=\"165\" stroke=\"var(--border-color, #94a3b8)\" stroke-width=\"1.2\" />\n    <line x1=\"40\" y1=\"25\" x2=\"50\" y2=\"25\" stroke=\"var(--border-color, #94a3b8)\" stroke-width=\"1.2\" />\n    <line x1=\"40\" y1=\"95\" x2=\"50\" y2=\"95\" stroke=\"var(--border-color, #94a3b8)\" stroke-width=\"1.2\" />\n    <line x1=\"40\" y1=\"165\" x2=\"50\" y2=\"165\" stroke=\"var(--border-color, #94a3b8)\" stroke-width=\"1.2\" />\n    <text x=\"35\" y=\"63\" text-anchor=\"end\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"700\" fill=\"#2563eb\">h' = 6 cm</text>\n    <text x=\"35\" y=\"135\" text-anchor=\"end\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"700\" fill=\"var(--text-main, #334155)\">h = 12 cm</text>\n    <path d=\"M 125 95 L 95 165 A 60 15 0 0 0 215 165 L 185 95 A 30 8 0 0 1 125 95\" fill=\"rgba(16, 185, 129, 0.2)\" stroke=\"#10b981\" stroke-width=\"2\" />\n    <path d=\"M 95 165 A 60 15 0 0 1 215 165\" fill=\"none\" stroke=\"var(--border-color, #94a3b8)\" stroke-width=\"1.2\" stroke-dasharray=\"3,3\" />\n    <path d=\"M 95 165 A 60 15 0 0 0 215 165\" fill=\"none\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.8\" />\n    <line x1=\"155\" y1=\"165\" x2=\"215\" y2=\"165\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.8\" />\n    <circle cx=\"155\" cy=\"165\" r=\"3\" fill=\"var(--text-main, #334155)\" />\n    <circle cx=\"215\" cy=\"165\" r=\"3\" fill=\"var(--text-main, #334155)\" />\n    <ellipse cx=\"155\" cy=\"95\" rx=\"30\" ry=\"8\" fill=\"rgba(37, 99, 235, 0.25)\" stroke=\"#2563eb\" stroke-width=\"2\" />\n    <line x1=\"155\" y1=\"95\" x2=\"185\" y2=\"95\" stroke=\"#2563eb\" stroke-width=\"1.8\" />\n    <circle cx=\"155\" cy=\"95\" r=\"2.5\" fill=\"#2563eb\" />\n    <circle cx=\"185\" cy=\"95\" r=\"2.5\" fill=\"#2563eb\" />\n    <line x1=\"155\" y1=\"25\" x2=\"125\" y2=\"95\" stroke=\"#2563eb\" stroke-width=\"1.8\" />\n    <line x1=\"155\" y1=\"25\" x2=\"185\" y2=\"95\" stroke=\"#2563eb\" stroke-width=\"1.8\" />\n    <circle cx=\"155\" cy=\"25\" r=\"3.5\" fill=\"var(--text-main, #334155)\" />\n    <text x=\"155\" y=\"18\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"12\" font-weight=\"700\" fill=\"var(--text-main, #334155)\">S</text>\n    <g class=\"geo-pill\">\n      <rect x=\"198\" y=\"84\" width=\"68\" height=\"19\" rx=\"4\" fill=\"var(--bg-surface, #ffffff)\" stroke=\"#2563eb\" stroke-width=\"1.2\" />\n      <text x=\"232\" y=\"97\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"9.5\" font-weight=\"700\" fill=\"#2563eb\">r' = 2 cm</text>\n    </g>\n    <g class=\"geo-pill\">\n      <rect x=\"226\" y=\"154\" width=\"72\" height=\"19\" rx=\"4\" fill=\"var(--bg-surface, #ffffff)\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.2\" />\n      <text x=\"262\" y=\"167\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"9.5\" font-weight=\"700\" fill=\"var(--text-main, #334155)\">R = 4 cm</text>\n    </g>\n    <g class=\"geo-pill\">\n      <rect x=\"190\" y=\"38\" width=\"135\" height=\"20\" rx=\"4\" fill=\"#eff6ff\" stroke=\"#2563eb\" stroke-width=\"1.2\" />\n      <text x=\"257\" y=\"52\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"10\" font-weight=\"700\" fill=\"#1d4ed8\">V(petit) = 8π cm³</text>\n    </g>\n    <g class=\"geo-pill\">\n      <rect x=\"190\" y=\"120\" width=\"135\" height=\"20\" rx=\"4\" fill=\"#ecfdf5\" stroke=\"#10b981\" stroke-width=\"1.2\" />\n      <text x=\"257\" y=\"134\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"10\" font-weight=\"700\" fill=\"#047857\">V(tronc) = 56π cm³</text>\n    </g>\n  </svg>\n</div>",
         "steps": [
           "**1. Calculer le coefficient de réduction $k$** :\nLe plan coupe le cône parallèlement à la base, donc le petit cône est une réduction du grand cône de rapport :\n$$k = \\frac{h'}{h} = \\frac{6}{12} = 0{,}5 = \\frac{1}{2}$$",
@@ -833,11 +1104,31 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
           "**3. Calculer le volume du petit cône sommital** :\nDans un agrandissement/réduction de rapport $k$, les volumes sont multipliés par $k^3$ :\n$$V_{\\text{petit}} = k^3 \\times V_{\\text{grand}} = 0{,}5^3 \\times 64\\pi = \\frac{1}{8} \\times 64\\pi = 8\\pi \\approx 25{,}1\\text{ cm}^3$$",
           "**4. En déduire le volume du tronc de cône par soustraction** :\n$$V_{\\text{tronc}} = V_{\\text{grand}} - V_{\\text{petit}} = 64\\pi - 8\\pi = 56\\pi\\text{ cm}^3$$\nSoit environ **$176\\text{ cm}^3$** au $\\text{cm}^3$ près."
         ]
+      },
+      {
+        "title": "Modèle de rédaction (brevet) : Volume d'un solide composé",
+        "example": "Un silo est formé d'un cylindre de rayon $2$ m et de hauteur $5$ m, surmonté d'un cône de même base et de hauteur $1{,}5$ m. Calculer son volume (valeur exacte, puis arrondi au m³).",
+        "steps": [
+          "**1. Cylindre** : $V_1 = \\pi r^2 h = \\pi \\times 2^2 \\times 5 = 20\\pi$ m³.",
+          "**2. Cône** : $V_2 = \\dfrac{\\pi r^2 h}{3} = \\dfrac{\\pi \\times 4 \\times 1{,}5}{3} = 2\\pi$ m³.",
+          "**3. Total** : $V = 20\\pi + 2\\pi = 22\\pi$ m³ $\\approx 69$ m³.",
+          "**4. Interprétation** : $1$ m³ $= 1\\,000$ L, le silo contient environ $69\\,000$ L."
+        ]
+      },
+      {
+        "title": "Méthode : Section d'un pavé droit et Pythagore",
+        "example": "$ABCDEFGH$ est un pavé droit ($ABCD$ base, $E$ au-dessus de $A$, $G$ au-dessus de $C$) avec $AB = 4$ cm, $BC = 3$ cm et $AE = 10$ cm. On coupe le pavé par le plan passant par $A$, $C$, $G$ et $E$. Quelle est la nature de la section ? Calculer son aire.",
+        "steps": [
+          "**1. Nature** : le plan contient l'arête $[AE]$ et est parallèle à l'arête $[CG]$ : la section $ACGE$ est un **rectangle** (ses côtés $[AE]$ et $[CG]$ sont verticaux, $[AC]$ et $[EG]$ horizontaux).",
+          "**2. Calcul de $AC$** : dans le triangle $ABC$ rectangle en $B$ (face du pavé), d'après le théorème de Pythagore, $AC^2 = 4^2 + 3^2 = 25$, donc $AC = 5$ cm.",
+          "**3. Aire** : $\\mathcal{A} = AC \\times AE = 5 \\times 10 = 50$ cm²."
+        ]
       }
     ],
     "traps": [
       "⚠️ Penser que la section d'un cylindre par un plan parallèle à l'axe est un cercle : c'est un **rectangle** !",
-      "⚠️ Dans un tronc de cône, ne pas diviser le volume par 2 sous prétexte que le plan est à mi-hauteur : à mi-hauteur ($k = 0,5$), le petit cône occupe $\\frac{1}{8}$ du volume total !"
+      "⚠️ Dans un tronc de cône, ne pas diviser le volume par 2 sous prétexte que le plan est à mi-hauteur : à mi-hauteur ($k = 0{,}5$), le petit cône occupe $\\frac{1}{8}$ du volume total !",
+      "⚠️ Oublier de convertir : $1$ dm³ $= 1$ L, mais $1$ m³ $= 1\\,000$ L et $1$ cm³ $= 1$ mL."
     ],
     "flashcards": [
       {
@@ -858,7 +1149,11 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
       },
       {
         "q": "Si une pyramide est coupée à mi-hauteur par un plan parallèle à sa base, que vaut le volume de la petite pyramide ?",
-        "a": "$\\frac{1}{8}$ du volume initial (car $k = 0,5$ et $k^3 = 0,125 = \\frac{1}{8}$)."
+        "a": "$\\frac{1}{8}$ du volume initial (car $k = 0{,}5$ et $k^3 = 0{,}125 = \\frac{1}{8}$)."
+      },
+      {
+        "q": "Volume d'un prisme droit de base un triangle d'aire 6 cm² et de hauteur 10 cm ?",
+        "a": "$V = \\mathcal{B} \\times h = 6 \\times 10 = 60$ cm³."
       }
     ]
   },
@@ -888,11 +1183,15 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
       {
         "title": "4. Propriétés de conservation",
         "content": "Comme toutes les isométries du plan, la rotation conserve :\n• Les longueurs ($M'N' = MN$)\n• La mesure des angles géométriques\n• Les aires et périmètres (les figures sont superposables)\n• L'alignement et le parallélisme."
+      },
+      {
+        "title": "À retenir pour le brevet",
+        "content": "• Rotation de centre $O$ et d'angle $\\alpha$ (avec un sens) : $OM' = OM$ et $\\widehat{MOM'} = \\alpha$.\n• Sens direct = sens inverse des aiguilles d'une montre.\n• Rotation de $180^\\circ$ = symétrie centrale.\n• Conserve longueurs, angles, aires, alignement, parallélisme.\n• Polygone régulier à $n$ côtés : la rotation de centre le centre du polygone et d'angle $\\dfrac{360^\\circ}{n}$ envoie chaque sommet sur le suivant.\n\n**Automatismes** :\n• Angle au centre d'un octogone régulier ? $\\to$ $45^\\circ$.\n• Image d'un point par une rotation de $360^\\circ$ ? $\\to$ le point lui-même.\n• Une rotation peut-elle changer la longueur d'un segment ? $\\to$ non."
       }
     ],
     "methods": [
       {
-        "title": "Modèle officiel Brevet : Construire l'image d'une figure par une rotation",
+        "title": "Modèle de rédaction (brevet) : Construire l'image d'une figure par une rotation",
         "example": "Sur la figure ci-dessous, construire l'image $A'B'C'$ du triangle $ABC$ par la rotation de centre $O$ et d'angle $90^\\circ$ dans le sens anti-horaire (sens direct).\n\n<div class=\"geo-figure-wrapper\" style=\"text-align:center; margin:1rem 0;\">\n  <svg class=\"geo-svg-figure\" viewBox=\"0 0 340 215\" width=\"340\" height=\"215\" style=\"max-width:310px; width:100%; height:auto;\" xmlns=\"http://www.w3.org/2000/svg\">\n    <path d=\"M 180 160 A 70 70 0 0 0 110 90\" fill=\"none\" stroke=\"var(--border-color, #94a3b8)\" stroke-width=\"1.2\" stroke-dasharray=\"3,3\" />\n    <path d=\"M 180 110 A 86 86 0 0 0 60 90\" fill=\"none\" stroke=\"var(--border-color, #94a3b8)\" stroke-width=\"1.2\" stroke-dasharray=\"3,3\" />\n    <path d=\"M 210 120 A 108 108 0 0 0 70 60\" fill=\"none\" stroke=\"var(--border-color, #94a3b8)\" stroke-width=\"1.2\" stroke-dasharray=\"3,3\" />\n    <line x1=\"110\" y1=\"160\" x2=\"180\" y2=\"160\" stroke=\"var(--border-color, #94a3b8)\" stroke-width=\"1.2\" stroke-dasharray=\"3,3\" />\n    <line x1=\"110\" y1=\"160\" x2=\"110\" y2=\"90\" stroke=\"var(--border-color, #94a3b8)\" stroke-width=\"1.2\" stroke-dasharray=\"3,3\" />\n    <path d=\"M 110 148 L 122 148 L 122 160\" fill=\"none\" stroke=\"#f59e0b\" stroke-width=\"1.5\" />\n    <text x=\"130\" y=\"145\" font-family=\"system-ui, sans-serif\" font-size=\"10.5\" font-weight=\"700\" fill=\"#f59e0b\">90°</text>\n    <polygon points=\"180,160 210,120 180,110\" fill=\"rgba(37, 99, 235, 0.15)\" stroke=\"var(--primary, #2563eb)\" stroke-width=\"2\" stroke-linejoin=\"round\" />\n    <circle cx=\"180\" cy=\"160\" r=\"3\" fill=\"var(--primary, #2563eb)\" />\n    <circle cx=\"210\" cy=\"120\" r=\"3\" fill=\"var(--primary, #2563eb)\" />\n    <circle cx=\"180\" cy=\"110\" r=\"3\" fill=\"var(--primary, #2563eb)\" />\n    <text x=\"190\" y=\"167\" font-family=\"system-ui, sans-serif\" font-size=\"12\" font-weight=\"700\" fill=\"var(--primary, #2563eb)\">A</text>\n    <text x=\"218\" y=\"125\" font-family=\"system-ui, sans-serif\" font-size=\"12\" font-weight=\"700\" fill=\"var(--primary, #2563eb)\">B</text>\n    <text x=\"180\" y=\"102\" font-family=\"system-ui, sans-serif\" font-size=\"12\" font-weight=\"700\" fill=\"var(--primary, #2563eb)\">C</text>\n    <polygon points=\"110,90 70,60 60,90\" fill=\"rgba(16, 185, 129, 0.15)\" stroke=\"#10b981\" stroke-width=\"2\" stroke-linejoin=\"round\" />\n    <circle cx=\"110\" cy=\"90\" r=\"3\" fill=\"#10b981\" />\n    <circle cx=\"70\" cy=\"60\" r=\"3\" fill=\"#10b981\" />\n    <circle cx=\"60\" cy=\"90\" r=\"3\" fill=\"#10b981\" />\n    <text x=\"110\" y=\"82\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"12\" font-weight=\"700\" fill=\"#10b981\">A'</text>\n    <text x=\"68\" y=\"52\" font-family=\"system-ui, sans-serif\" font-size=\"12\" font-weight=\"700\" fill=\"#10b981\">B'</text>\n    <text x=\"48\" y=\"97\" font-family=\"system-ui, sans-serif\" font-size=\"12\" font-weight=\"700\" fill=\"#10b981\">C'</text>\n    <circle cx=\"110\" cy=\"160\" r=\"3.5\" fill=\"var(--text-main, #0f172a)\" />\n    <text x=\"96\" y=\"168\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">O</text>\n    <g class=\"geo-pill\">\n      <rect x=\"180\" y=\"40\" width=\"145\" height=\"20\" rx=\"4\" fill=\"#eff6ff\" stroke=\"#2563eb\" stroke-width=\"1.2\" />\n      <text x=\"252\" y=\"54\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"10\" font-weight=\"700\" fill=\"#1d4ed8\">Rotation (O ; 90° ; sens direct)</text>\n    </g>\n  </svg>\n</div>",
         "steps": [
           "**1. Construire l'image de chaque sommet indépendamment** :\nPour chaque sommet du triangle initial ($A$, $B$ et $C$), on applique la règle de rotation de centre $O$ et d'angle $90^\\circ$ dans le sens anti-horaire.",
@@ -902,7 +1201,7 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
         ]
       },
       {
-        "title": "Modèle officiel Brevet : Identifier une rotation dans un polygone régulier ou pavage",
+        "title": "Modèle de rédaction (brevet) : Identifier une rotation dans un polygone régulier ou pavage",
         "example": "On considère un hexagone régulier $ABCDEF$ de centre $O$ orienté dans le sens des aiguilles d'une montre ($A \\to B \\to C \\to D \\to E \\to F$). Déterminer l'image du triangle $OAB$ par la rotation de centre $O$, d'angle $120^\\circ$ dans le sens horaire.\n\n<div class=\"geo-figure-wrapper\" style=\"text-align:center; margin:1rem 0;\">\n  <svg class=\"geo-svg-figure\" viewBox=\"0 0 300 200\" width=\"300\" height=\"200\" style=\"max-width:280px; width:100%; height:auto;\" xmlns=\"http://www.w3.org/2000/svg\">\n    <line x1=\"140\" y1=\"100\" x2=\"140\" y2=\"30\" stroke=\"var(--border-color, #94a3b8)\" stroke-width=\"1.2\" stroke-dasharray=\"3,3\" />\n    <line x1=\"140\" y1=\"100\" x2=\"201\" y2=\"65\" stroke=\"var(--border-color, #94a3b8)\" stroke-width=\"1.2\" stroke-dasharray=\"3,3\" />\n    <line x1=\"140\" y1=\"100\" x2=\"201\" y2=\"135\" stroke=\"var(--border-color, #94a3b8)\" stroke-width=\"1.2\" stroke-dasharray=\"3,3\" />\n    <line x1=\"140\" y1=\"100\" x2=\"140\" y2=\"170\" stroke=\"var(--border-color, #94a3b8)\" stroke-width=\"1.2\" stroke-dasharray=\"3,3\" />\n    <line x1=\"140\" y1=\"100\" x2=\"79\" y2=\"135\" stroke=\"var(--border-color, #94a3b8)\" stroke-width=\"1.2\" stroke-dasharray=\"3,3\" />\n    <line x1=\"140\" y1=\"100\" x2=\"79\" y2=\"65\" stroke=\"var(--border-color, #94a3b8)\" stroke-width=\"1.2\" stroke-dasharray=\"3,3\" />\n    <polygon points=\"140,100 140,30 201,65\" fill=\"rgba(37, 99, 235, 0.2)\" stroke=\"var(--primary, #2563eb)\" stroke-width=\"2\" stroke-linejoin=\"round\" />\n    <polygon points=\"140,100 201,135 140,170\" fill=\"rgba(16, 185, 129, 0.25)\" stroke=\"#10b981\" stroke-width=\"2\" stroke-linejoin=\"round\" />\n    <polygon points=\"140,30 201,65 201,135 140,170 79,135 79,65\" fill=\"none\" stroke=\"var(--text-main, #334155)\" stroke-width=\"2\" stroke-linejoin=\"round\" />\n    <path d=\"M 140 55 A 45 45 0 0 1 179 122\" fill=\"none\" stroke=\"#f59e0b\" stroke-width=\"2\" />\n    <polygon points=\"179,122 173,115 182,113\" fill=\"#f59e0b\" />\n    <text x=\"180\" y=\"90\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"700\" fill=\"#f59e0b\">+120°</text>\n    <circle cx=\"140\" cy=\"30\" r=\"3.5\" fill=\"var(--primary, #2563eb)\" />\n    <circle cx=\"201\" cy=\"65\" r=\"3.5\" fill=\"var(--primary, #2563eb)\" />\n    <circle cx=\"201\" cy=\"135\" r=\"3.5\" fill=\"#10b981\" />\n    <circle cx=\"140\" cy=\"170\" r=\"3.5\" fill=\"#10b981\" />\n    <circle cx=\"79\" cy=\"135\" r=\"3\" fill=\"var(--text-main, #334155)\" />\n    <circle cx=\"79\" cy=\"65\" r=\"3\" fill=\"var(--text-main, #334155)\" />\n    <circle cx=\"140\" cy=\"100\" r=\"3.5\" fill=\"var(--text-main, #0f172a)\" />\n    <text x=\"140\" y=\"20\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"12\" font-weight=\"700\" fill=\"var(--primary, #2563eb)\">A</text>\n    <text x=\"214\" y=\"68\" font-family=\"system-ui, sans-serif\" font-size=\"12\" font-weight=\"700\" fill=\"var(--primary, #2563eb)\">B</text>\n    <text x=\"214\" y=\"142\" font-family=\"system-ui, sans-serif\" font-size=\"12\" font-weight=\"700\" fill=\"#10b981\">C</text>\n    <text x=\"140\" y=\"186\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"12\" font-weight=\"700\" fill=\"#10b981\">D</text>\n    <text x=\"66\" y=\"142\" font-family=\"system-ui, sans-serif\" font-size=\"12\" font-weight=\"700\" fill=\"var(--text-main, #334155)\">E</text>\n    <text x=\"66\" y=\"68\" font-family=\"system-ui, sans-serif\" font-size=\"12\" font-weight=\"700\" fill=\"var(--text-main, #334155)\">F</text>\n    <text x=\"127\" y=\"105\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">O</text>\n  </svg>\n</div>",
         "steps": [
           "**1. Calculer l'angle au centre entre deux sommets consécutifs** :\nUn tour complet mesure $360^\\circ$. L'hexagone régulier comporte 6 côtés égaux, donc l'angle au centre entre deux sommets voisins vaut :\n$$\\alpha = \\frac{360^\\circ}{6} = 60^\\circ$$",
@@ -914,7 +1213,8 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
     ],
     "traps": [
       "⚠️ Tourner dans le mauvais sens : toujours vérifier s'il s'agit du sens horaire ou anti-horaire !",
-      "⚠️ Oublier de reporter la distance au compas : $OM'$ doit impérativement être égal à $OM$."
+      "⚠️ Oublier de reporter la distance au compas : $OM'$ doit impérativement être égal à $OM$.",
+      "⚠️ Utiliser le rapporteur sans partir du centre : l'angle $\\widehat{MOM'}$ a pour sommet le centre $O$ de la rotation."
     ],
     "flashcards": [
       {
@@ -936,6 +1236,10 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
       {
         "q": "Une rotation modifie-t-elle l'aire d'une figure ?",
         "a": "**Non**, la rotation conserve rigoureusement les aires et les longueurs (c'est une isométrie)."
+      },
+      {
+        "q": "Dans un pentagone régulier de centre $O$, quel est l'angle de la rotation de centre $O$ qui envoie chaque sommet sur le suivant ?",
+        "a": "$\\dfrac{360^\\circ}{5} = 72^\\circ$."
       }
     ]
   },
@@ -965,21 +1269,26 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
       {
         "title": "4. Impact sur les aires",
         "content": "Si deux triangles sont semblables avec un rapport de similitude $k$ sur les longueurs, alors l'aire du triangle agrandi vaut :\n$$\\text{Aire}' = k^2 \\times \\text{Aire}$$"
+      },
+      {
+        "title": "À retenir pour le brevet",
+        "content": "• Deux triangles sont semblables s'ils ont leurs angles deux à deux égaux : **deux paires** d'angles égaux suffisent.\n• Équivalent : leurs côtés sont deux à deux **proportionnels**.\n• Côtés homologues = côtés opposés aux angles égaux ; on les associe avant d'écrire les rapports.\n• Rapport $k$ : longueurs $\\times k$, aires $\\times k^2$.\n\n**Automatismes** :\n• Triangle de côtés $3$, $4$, $5$ et triangle de côtés $6$, $8$, $10$ : semblables ? $\\to$ oui, $k = 2$.\n• Deux triangles ont des angles de $40^\\circ$ et $80^\\circ$ : sont-ils semblables ? $\\to$ oui (le 3e angle vaut $60^\\circ$ dans les deux).\n• Rapport $k = 3$ et aire $4$ cm² : aire de l'agrandissement ? $\\to$ $36$ cm²."
       }
     ],
     "methods": [
       {
-        "title": "Modèle officiel Brevet : Démontrer la similitude par les angles et calculer une longueur",
-        "example": "Soit un triangle $ABC$ avec $\\widehat{A} = 50^\\circ$ et $\\widehat{B} = 70^\\circ$, et de longueurs $AB = 4\\text{ cm}$, $BC = 5\\text{ cm}$ et $AC = 6\\text{ cm}$. Soit un triangle $DEF$ avec $\\widehat{D} = 50^\\circ$, $\\widehat{F} = 60^\\circ$ et $DF = 9\\text{ cm}$. Démontrer qu'ils sont semblables et calculer $DE$.\n\n<div class=\"geo-figure-wrapper\" style=\"text-align:center; margin:1rem 0;\">\n  <svg class=\"geo-svg-figure\" viewBox=\"0 0 340 195\" width=\"340\" height=\"195\" style=\"max-width:320px; width:100%; height:auto;\" xmlns=\"http://www.w3.org/2000/svg\">\n    <polygon points=\"35,140 105,140 84,82\" fill=\"rgba(37, 99, 235, 0.08)\" stroke=\"var(--primary, #2563eb)\" stroke-width=\"2\" stroke-linejoin=\"round\" />\n    <path d=\"M 53 140 A 18 18 0 0 0 46 126\" fill=\"none\" stroke=\"#f59e0b\" stroke-width=\"2\" />\n    <text x=\"56\" y=\"133\" font-family=\"system-ui, sans-serif\" font-size=\"10\" font-weight=\"700\" fill=\"#f59e0b\">50°</text>\n    <path d=\"M 89 140 A 16 16 0 0 1 100 125\" fill=\"none\" stroke=\"#10b981\" stroke-width=\"2\" />\n    <text x=\"82\" y=\"132\" font-family=\"system-ui, sans-serif\" font-size=\"10\" font-weight=\"700\" fill=\"#10b981\">70°</text>\n    <text x=\"70\" y=\"153\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"10\" font-weight=\"700\" fill=\"var(--primary, #2563eb)\">4 cm</text>\n    <text x=\"47\" y=\"105\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"10\" font-weight=\"700\" fill=\"var(--primary, #2563eb)\">6 cm</text>\n    <text x=\"104\" y=\"107\" font-family=\"system-ui, sans-serif\" font-size=\"10\" font-weight=\"700\" fill=\"var(--primary, #2563eb)\">5 cm</text>\n    <circle cx=\"35\" cy=\"140\" r=\"3\" fill=\"var(--primary, #2563eb)\" />\n    <circle cx=\"105\" cy=\"140\" r=\"3\" fill=\"var(--primary, #2563eb)\" />\n    <circle cx=\"84\" cy=\"82\" r=\"3\" fill=\"var(--primary, #2563eb)\" />\n    <text x=\"24\" y=\"146\" font-family=\"system-ui, sans-serif\" font-size=\"12\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">A</text>\n    <text x=\"112\" y=\"146\" font-family=\"system-ui, sans-serif\" font-size=\"12\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">B</text>\n    <text x=\"84\" y=\"73\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"12\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">C</text>\n    <polygon points=\"175,140 270,140 241,62\" fill=\"rgba(16, 185, 129, 0.08)\" stroke=\"#10b981\" stroke-width=\"2\" stroke-linejoin=\"round\" />\n    <path d=\"M 199 140 A 24 24 0 0 0 190 121\" fill=\"none\" stroke=\"#f59e0b\" stroke-width=\"2\" />\n    <text x=\"203\" y=\"131\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"700\" fill=\"#f59e0b\">50°</text>\n    <path d=\"M 230 83 A 24 24 0 0 0 247 84\" fill=\"none\" stroke=\"var(--primary, #2563eb)\" stroke-width=\"2\" />\n    <text x=\"241\" y=\"103\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"700\" fill=\"var(--primary, #2563eb)\">60°</text>\n    <text x=\"195\" y=\"95\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"700\" fill=\"#10b981\">DF = 9 cm</text>\n    <g class=\"geo-pill\">\n      <rect x=\"200\" y=\"145\" width=\"55\" height=\"19\" rx=\"4\" fill=\"#fee2e2\" stroke=\"#ef4444\" stroke-width=\"1.2\" />\n      <text x=\"227\" y=\"158\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"10\" font-weight=\"700\" fill=\"#dc2626\">DE = ?</text>\n    </g>\n    <circle cx=\"175\" cy=\"140\" r=\"3.5\" fill=\"#10b981\" />\n    <circle cx=\"270\" cy=\"140\" r=\"3.5\" fill=\"#10b981\" />\n    <circle cx=\"241\" cy=\"62\" r=\"3.5\" fill=\"#10b981\" />\n    <text x=\"162\" y=\"146\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">D</text>\n    <text x=\"278\" y=\"146\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">E</text>\n    <text x=\"241\" y=\"52\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">F</text>\n  </svg>\n</div>",
+        "title": "Modèle de rédaction (brevet) : Démontrer la similitude par les angles et calculer une longueur",
+        "example": "Soit un triangle $ABC$ avec $\\widehat{A} = 50^\\circ$, $\\widehat{B} = 70^\\circ$, $AB = 6\\text{ cm}$ et $AC \\approx 6{,}5\\text{ cm}$ (arrondi au mm). Soit un triangle $DEF$ avec $\\widehat{D} = 50^\\circ$, $\\widehat{F} = 60^\\circ$ et $DE = 9\\text{ cm}$. Démontrer que ces triangles sont semblables, calculer le rapport d'agrandissement puis une valeur approchée de $DF$.\n\n<div class=\"geo-figure-wrapper\" style=\"text-align:center; margin:1rem 0;\">\n  <svg class=\"geo-svg-figure\" viewBox=\"0 0 340 195\" width=\"340\" height=\"195\" style=\"max-width:320px; width:100%; height:auto;\" xmlns=\"http://www.w3.org/2000/svg\">\n    <polygon points=\"35,140 105,140 84,82\" fill=\"rgba(37, 99, 235, 0.08)\" stroke=\"var(--primary, #2563eb)\" stroke-width=\"2\" stroke-linejoin=\"round\" />\n    <path d=\"M 53 140 A 18 18 0 0 0 46 126\" fill=\"none\" stroke=\"#f59e0b\" stroke-width=\"2\" />\n    <text x=\"56\" y=\"133\" font-family=\"system-ui, sans-serif\" font-size=\"10\" font-weight=\"700\" fill=\"#f59e0b\">50°</text>\n    <path d=\"M 89 140 A 16 16 0 0 1 100 125\" fill=\"none\" stroke=\"#10b981\" stroke-width=\"2\" />\n    <text x=\"82\" y=\"132\" font-family=\"system-ui, sans-serif\" font-size=\"10\" font-weight=\"700\" fill=\"#10b981\">70°</text>\n    <text x=\"70\" y=\"153\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"10\" font-weight=\"700\" fill=\"var(--primary, #2563eb)\">6 cm</text>\n    <text x=\"47\" y=\"105\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"10\" font-weight=\"700\" fill=\"var(--primary, #2563eb)\">≈ 6,5 cm</text>\n    <circle cx=\"35\" cy=\"140\" r=\"3\" fill=\"var(--primary, #2563eb)\" />\n    <circle cx=\"105\" cy=\"140\" r=\"3\" fill=\"var(--primary, #2563eb)\" />\n    <circle cx=\"84\" cy=\"82\" r=\"3\" fill=\"var(--primary, #2563eb)\" />\n    <text x=\"24\" y=\"146\" font-family=\"system-ui, sans-serif\" font-size=\"12\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">A</text>\n    <text x=\"112\" y=\"146\" font-family=\"system-ui, sans-serif\" font-size=\"12\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">B</text>\n    <text x=\"84\" y=\"73\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"12\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">C</text>\n    <polygon points=\"175,140 270,140 241,62\" fill=\"rgba(16, 185, 129, 0.08)\" stroke=\"#10b981\" stroke-width=\"2\" stroke-linejoin=\"round\" />\n    <path d=\"M 199 140 A 24 24 0 0 0 190 121\" fill=\"none\" stroke=\"#f59e0b\" stroke-width=\"2\" />\n    <text x=\"203\" y=\"131\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"700\" fill=\"#f59e0b\">50°</text>\n    <path d=\"M 230 83 A 24 24 0 0 0 247 84\" fill=\"none\" stroke=\"var(--primary, #2563eb)\" stroke-width=\"2\" />\n    <text x=\"241\" y=\"103\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"700\" fill=\"var(--primary, #2563eb)\">60°</text>\n    <text x=\"195\" y=\"95\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"700\" fill=\"#10b981\">DF = ?</text>\n    <g class=\"geo-pill\">\n      <rect x=\"192\" y=\"145\" width=\"70\" height=\"19\" rx=\"4\" fill=\"#fee2e2\" stroke=\"#ef4444\" stroke-width=\"1.2\" />\n      <text x=\"227\" y=\"158\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"10\" font-weight=\"700\" fill=\"#dc2626\">DE = 9 cm</text>\n    </g>\n    <circle cx=\"175\" cy=\"140\" r=\"3.5\" fill=\"#10b981\" />\n    <circle cx=\"270\" cy=\"140\" r=\"3.5\" fill=\"#10b981\" />\n    <circle cx=\"241\" cy=\"62\" r=\"3.5\" fill=\"#10b981\" />\n    <text x=\"162\" y=\"146\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">D</text>\n    <text x=\"278\" y=\"146\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">E</text>\n    <text x=\"241\" y=\"52\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">F</text>\n  </svg>\n</div>",
         "steps": [
-          "**1. Calculer la mesure du 3e angle** :\nDans le triangle $ABC$, la somme des mesures des angles vaut $180^\\circ$ :\n$$\\widehat{C} = 180^\\circ - (\\widehat{A} + \\widehat{B}) = 180^\\circ - (50^\\circ + 70^\\circ) = 180^\\circ - 120^\\circ = 60^\\circ$$",
-          "**2. Démontrer que les triangles sont semblables** :\nOn a $\\widehat{A} = \\widehat{D} = 50^\\circ$ et $\\widehat{C} = \\widehat{F} = 60^\\circ$.\nLes triangles $ABC$ et $DEF$ possèdent deux paires d'angles de même mesure : ils sont donc **semblables** *(leurs côtés sont deux à deux proportionnels)*.",
-          "**3. Écrire l'égalité des rapports des côtés homologues** :\nOn associe les côtés opposés aux angles de même mesure :\n$$\\frac{DE}{AB} = \\frac{EF}{BC} = \\frac{DF}{AC}$$\nEn remplaçant par les valeurs numériques connues :\n$$\\frac{DE}{4} = \\frac{EF}{5} = \\frac{9}{6}$$",
-          "**4. Calculer la longueur $DE$ par produit en croix** :\n$$\\frac{DE}{4} = \\frac{9}{6} \\implies DE = \\frac{4 \\times 9}{6} = \\frac{36}{6} = 6\\text{ cm}$$\n*(Remarque : le coefficient d'agrandissement est $k = \\frac{9}{6} = 1{,}5$, d'où $DE = 1{,}5 \\times AB = 1{,}5 \\times 4 = 6\\text{ cm}$)*."
+          "**1. Calculer la mesure du 3e angle** : dans le triangle $ABC$, la somme des angles vaut $180^\\circ$ :\n$$\\widehat{C} = 180^\\circ - (50^\\circ + 70^\\circ) = 60^\\circ$$",
+          "**2. Démontrer que les triangles sont semblables** : $\\widehat{A} = \\widehat{D} = 50^\\circ$ et $\\widehat{C} = \\widehat{F} = 60^\\circ$. Les triangles $ABC$ et $DEF$ ont deux paires d'angles de même mesure : ils sont **semblables**. Les sommets homologues sont $A \\leftrightarrow D$, $C \\leftrightarrow F$, et donc $B \\leftrightarrow E$ (angles de $70^\\circ$).",
+          "**3. Côtés homologues** : ce sont les côtés opposés aux angles égaux : $[AB]$ et $[DE]$ (opposés aux angles de $60^\\circ$), $[AC]$ et $[DF]$ (opposés aux angles de $70^\\circ$), $[BC]$ et $[EF]$. Donc :\n$$\\frac{DE}{AB} = \\frac{DF}{AC} = \\frac{EF}{BC}$$",
+          "**4. Rapport d'agrandissement** : $k = \\dfrac{DE}{AB} = \\dfrac{9}{6} = 1{,}5$.",
+          "**5. Calcul de $DF$** : $DF = k \\times AC \\approx 1{,}5 \\times 6{,}5 = 9{,}75$, soit $DF \\approx 9{,}8$ cm. *(Les aires sont multipliées par $k^2 = 2{,}25$.)*"
         ]
       },
       {
-        "title": "Modèle officiel Brevet : Démontrer que deux triangles sont semblables grâce aux côtés",
+        "title": "Modèle de rédaction (brevet) : Démontrer que deux triangles sont semblables grâce aux côtés",
         "example": "Soit un triangle $ABC$ avec $AB = 4\\text{ cm}$, $BC = 6\\text{ cm}$ et $AC = 7\\text{ cm}$. Soit un triangle $RST$ avec $RS = 6\\text{ cm}$, $ST = 9\\text{ cm}$ et $RT = 10{,}5\\text{ cm}$. Démontrer que ces deux triangles sont semblables.\n\n<div class=\"geo-figure-wrapper\" style=\"text-align:center; margin:1rem 0;\">\n  <svg class=\"geo-svg-figure\" viewBox=\"0 0 340 185\" width=\"340\" height=\"185\" style=\"max-width:320px; width:100%; height:auto;\" xmlns=\"http://www.w3.org/2000/svg\">\n    <polygon points=\"40,135 100,135 75,80\" fill=\"rgba(37, 99, 235, 0.08)\" stroke=\"var(--primary, #2563eb)\" stroke-width=\"2\" stroke-linejoin=\"round\" />\n    <circle cx=\"40\" cy=\"135\" r=\"3\" fill=\"var(--primary, #2563eb)\" />\n    <circle cx=\"100\" cy=\"135\" r=\"3\" fill=\"var(--primary, #2563eb)\" />\n    <circle cx=\"75\" cy=\"80\" r=\"3\" fill=\"var(--primary, #2563eb)\" />\n    <text x=\"28\" y=\"140\" font-family=\"system-ui, sans-serif\" font-size=\"12\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">A</text>\n    <text x=\"108\" y=\"140\" font-family=\"system-ui, sans-serif\" font-size=\"12\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">B</text>\n    <text x=\"75\" y=\"70\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"12\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">C</text>\n    <text x=\"70\" y=\"148\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"10.5\" font-weight=\"700\" fill=\"var(--primary, #2563eb)\">4</text>\n    <text x=\"47\" y=\"103\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"10.5\" font-weight=\"700\" fill=\"var(--primary, #2563eb)\">7</text>\n    <text x=\"96\" y=\"103\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"10.5\" font-weight=\"700\" fill=\"var(--primary, #2563eb)\">6</text>\n    <polygon points=\"175,140 265,140 227.5,57.5\" fill=\"rgba(16, 185, 129, 0.08)\" stroke=\"#10b981\" stroke-width=\"2\" stroke-linejoin=\"round\" />\n    <circle cx=\"175\" cy=\"140\" r=\"3.5\" fill=\"#10b981\" />\n    <circle cx=\"265\" cy=\"140\" r=\"3.5\" fill=\"#10b981\" />\n    <circle cx=\"227.5\" cy=\"57.5\" r=\"3.5\" fill=\"#10b981\" />\n    <text x=\"162\" y=\"145\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">R</text>\n    <text x=\"272\" y=\"145\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">S</text>\n    <text x=\"227.5\" y=\"48\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">T</text>\n    <text x=\"220\" y=\"154\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"700\" fill=\"#10b981\">6</text>\n    <text x=\"189\" y=\"93\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"700\" fill=\"#10b981\">10,5</text>\n    <text x=\"259\" y=\"93\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"700\" fill=\"#10b981\">9</text>\n    <g class=\"geo-pill\">\n      <rect x=\"40\" y=\"162\" width=\"260\" height=\"20\" rx=\"4\" fill=\"var(--bg-surface, #ffffff)\" stroke=\"#10b981\" stroke-width=\"1.2\" />\n      <text x=\"170\" y=\"176\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"10.5\" font-weight=\"700\" fill=\"#047857\">Rapports : 6/4 = 9/6 = 10,5/7 = 1,5 (proportionnels)</text>\n    </g>\n  </svg>\n</div>",
         "steps": [
           "**1. Classer les longueurs de chaque triangle par ordre croissant** :\n• Dans le triangle $ABC$ : $AB = 4\\text{ cm} < BC = 6\\text{ cm} < AC = 7\\text{ cm}$.\n• Dans le triangle $RST$ : $RS = 6\\text{ cm} < ST = 9\\text{ cm} < RT = 10{,}5\\text{ cm}$.",
@@ -991,7 +1300,8 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
     ],
     "traps": [
       "⚠️ Associer les mauvais côtés dans les rapports de proportionnalité : il faut impérativement repérer les côtés face aux **mêmes angles** !",
-      "⚠️ Ne pas confondre triangles égaux (isométriques, toutes longueurs égales) et triangles semblables (même forme, côtés proportionnels mais pas forcément égaux)."
+      "⚠️ Ne pas confondre triangles égaux (isométriques, toutes longueurs égales) et triangles semblables (même forme, côtés proportionnels mais pas forcément égaux).",
+      "⚠️ Ranger les côtés par ordre croissant ne marche que pour comparer des longueurs ; pour des angles connus, il faut associer chaque côté à l'angle qui lui fait face."
     ],
     "flashcards": [
       {
@@ -1013,6 +1323,10 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
       {
         "q": "Si un triangle est semblable à un autre avec un rapport k = 3, que devient son aire ?",
         "a": "Son aire est multipliée par $k^2 = 3^2 = 9$."
+      },
+      {
+        "q": "$ABC$ et $DEF$ sont semblables avec $\\dfrac{DE}{AB} = 0{,}5$. L'aire de $ABC$ vaut 20 cm². Aire de $DEF$ ?",
+        "a": "$0{,}5^2 \\times 20 = 0{,}25 \\times 20 = 5$ cm²."
       }
     ]
   },
@@ -1042,6 +1356,10 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
       {
         "title": "4. Lecture graphique d'une image et d'un antécédent",
         "content": "• **Pour lire l'image de $a$** : on part de $a$ sur l'axe des abscisses (horizontal), on rejoint verticalement la courbe, puis on lit l'ordonnée sur l'axe vertical.\n• **Pour lire les antécédents de $b$** : on part de $b$ sur l'axe des ordonnées (vertical), on trace l'horizontale et on lit toutes les abscisses des points d'intersection avec la courbe."
+      },
+      {
+        "title": "À retenir pour le brevet",
+        "content": "• Image de $a$ : on **calcule** $f(a)$ ou on lit l'**ordonnée** du point de la courbe d'abscisse $a$.\n• Antécédent(s) de $b$ : on **résout** $f(x) = b$ ou on lit les **abscisses** des points de la courbe d'ordonnée $b$.\n• Un nombre a une seule image, mais peut avoir zéro, un ou plusieurs antécédents.\n• Le point $(a ; b)$ est sur la courbe $\\iff$ $f(a) = b$.\n\n**Automatismes** :\n• $f(x) = 3x - 1$ : $f(-2)$ ? $\\to$ $-7$.\n• $f(x) = x^2$ : antécédents de $16$ ? $\\to$ $-4$ et $4$.\n• Le point $(2 ; 5)$ est sur la courbe de $f$ : que vaut $f(2)$ ? $\\to$ $5$."
       }
     ],
     "methods": [
@@ -1052,11 +1370,22 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
           "**Calculer l'image de -3** : On remplace $x$ par $-3$ :\n$f(-3) = 4 \\times (-3) - 7 = -12 - 7 = -19$. L'image de $-3$ est $-19$.",
           "**Déterminer l'antécédent de 13** : On cherche $x$ tel que $f(x) = 13$ :\n$4x - 7 = 13 \\implies 4x = 13 + 7 = 20 \\implies x = \\frac{20}{4} = 5$.\nL'antécédent de 13 par $f$ est 5."
         ]
+      },
+      {
+        "title": "Méthode : Lire graphiquement une image et des antécédents",
+        "example": "On a tracé ci-dessous la courbe $\\mathcal{C}_f$ d'une fonction $f$ (avec $f(x) = x^2 - 2x - 3$). Lire l'image de $1$, puis les antécédents de $0$ et de $5$.\n\n<div class=\"geo-figure-wrapper\" style=\"text-align:center; margin:1rem 0;\">\n<svg class=\"geo-svg-figure\" viewBox=\"0 0 240 195\" width=\"240\" height=\"195\" style=\"max-width:280px; width:100%; height:auto;\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Courbe de la fonction f avec lecture graphique des antécédents de 0 et de l'image de 1\">\n  <line x1=\"30\" y1=\"170\" x2=\"30\" y2=\"35\" stroke=\"#e2e8f0\" stroke-width=\"1\" /><line x1=\"60\" y1=\"170\" x2=\"60\" y2=\"35\" stroke=\"#e2e8f0\" stroke-width=\"1\" /><line x1=\"90\" y1=\"170\" x2=\"90\" y2=\"35\" stroke=\"#e2e8f0\" stroke-width=\"1\" /><line x1=\"120\" y1=\"170\" x2=\"120\" y2=\"35\" stroke=\"#e2e8f0\" stroke-width=\"1\" /><line x1=\"150\" y1=\"170\" x2=\"150\" y2=\"35\" stroke=\"#e2e8f0\" stroke-width=\"1\" /><line x1=\"180\" y1=\"170\" x2=\"180\" y2=\"35\" stroke=\"#e2e8f0\" stroke-width=\"1\" /><line x1=\"210\" y1=\"170\" x2=\"210\" y2=\"35\" stroke=\"#e2e8f0\" stroke-width=\"1\" /><line x1=\"30\" y1=\"170\" x2=\"210\" y2=\"170\" stroke=\"#e2e8f0\" stroke-width=\"1\" /><line x1=\"30\" y1=\"155\" x2=\"210\" y2=\"155\" stroke=\"#e2e8f0\" stroke-width=\"1\" /><line x1=\"30\" y1=\"140\" x2=\"210\" y2=\"140\" stroke=\"#e2e8f0\" stroke-width=\"1\" /><line x1=\"30\" y1=\"125\" x2=\"210\" y2=\"125\" stroke=\"#e2e8f0\" stroke-width=\"1\" /><line x1=\"30\" y1=\"110\" x2=\"210\" y2=\"110\" stroke=\"#e2e8f0\" stroke-width=\"1\" /><line x1=\"30\" y1=\"95\" x2=\"210\" y2=\"95\" stroke=\"#e2e8f0\" stroke-width=\"1\" /><line x1=\"30\" y1=\"80\" x2=\"210\" y2=\"80\" stroke=\"#e2e8f0\" stroke-width=\"1\" /><line x1=\"30\" y1=\"65\" x2=\"210\" y2=\"65\" stroke=\"#e2e8f0\" stroke-width=\"1\" /><line x1=\"30\" y1=\"50\" x2=\"210\" y2=\"50\" stroke=\"#e2e8f0\" stroke-width=\"1\" /><line x1=\"30\" y1=\"35\" x2=\"210\" y2=\"35\" stroke=\"#e2e8f0\" stroke-width=\"1\" /><line x1=\"25\" y1=\"110\" x2=\"215\" y2=\"110\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.5\" /><line x1=\"90\" y1=\"175\" x2=\"90\" y2=\"30\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.5\" /><text x=\"30\" y=\"123\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"10\" font-weight=\"600\" fill=\"var(--text-muted, #64748b)\">−2</text><text x=\"60\" y=\"123\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"10\" font-weight=\"600\" fill=\"var(--text-muted, #64748b)\">−1</text><text x=\"120\" y=\"123\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"10\" font-weight=\"600\" fill=\"var(--text-muted, #64748b)\">1</text><text x=\"150\" y=\"123\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"10\" font-weight=\"600\" fill=\"var(--text-muted, #64748b)\">2</text><text x=\"180\" y=\"123\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"10\" font-weight=\"600\" fill=\"var(--text-muted, #64748b)\">3</text><text x=\"210\" y=\"123\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"10\" font-weight=\"600\" fill=\"var(--text-muted, #64748b)\">4</text><text x=\"85\" y=\"174\" text-anchor=\"end\" font-family=\"system-ui, sans-serif\" font-size=\"10\" font-weight=\"600\" fill=\"var(--text-muted, #64748b)\">−4</text><text x=\"85\" y=\"159\" text-anchor=\"end\" font-family=\"system-ui, sans-serif\" font-size=\"10\" font-weight=\"600\" fill=\"var(--text-muted, #64748b)\">−3</text><text x=\"85\" y=\"39\" text-anchor=\"end\" font-family=\"system-ui, sans-serif\" font-size=\"10\" font-weight=\"600\" fill=\"var(--text-muted, #64748b)\">5</text>\n  <polyline points=\"30,35 33.8,46 37.5,56.6 41.3,66.6 45,76.3 48.8,85.4 52.5,94.1 56.3,102.3 60,110 63.8,117.3 67.5,124.1 71.3,130.4 75,136.3 78.8,141.6 82.5,146.6 86.3,151 90,155 93.8,158.5 97.5,161.6 101.3,164.1 105,166.3 108.8,167.9 112.5,169.1 116.3,169.8 120,170 123.8,169.8 127.5,169.1 131.3,167.9 135,166.3 138.8,164.1 142.5,161.6 146.3,158.5 150,155 153.8,151 157.5,146.6 161.3,141.6 165,136.3 168.8,130.4 172.5,124.1 176.3,117.3 180,110 183.8,102.3 187.5,94.1 191.3,85.4 195,76.3 198.8,66.6 202.5,56.6 206.3,46 210,35\" fill=\"none\" stroke=\"var(--primary, #2563eb)\" stroke-width=\"2.5\" />\n  <polyline points=\"120,110 120,170 90,170\" fill=\"none\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-dasharray=\"5 4\" />\n  <circle cx=\"60\" cy=\"110\" r=\"4\" fill=\"#10b981\" /><circle cx=\"180\" cy=\"110\" r=\"4\" fill=\"#10b981\" />\n  <text x=\"168\" y=\"44\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--primary, #2563eb)\">C</text><text x=\"177\" y=\"48\" font-family=\"system-ui, sans-serif\" font-size=\"10\" font-weight=\"700\" fill=\"var(--primary, #2563eb)\">f</text>\n</svg>\n</div>\n",
+        "steps": [
+          "**Image de 1** : on part de $1$ sur l'axe des abscisses, on va verticalement jusqu'à la courbe, puis horizontalement jusqu'à l'axe des ordonnées : $f(1) = -4$ (pointillés orange). Vérification : $1 - 2 - 3 = -4$.",
+          "**Antécédents de 0** : on cherche les points de la courbe d'ordonnée $0$, c'est-à-dire sur l'axe des abscisses : $-1$ et $3$ (points verts). Vérification : $f(-1) = 1 + 2 - 3 = 0$ et $f(3) = 9 - 6 - 3 = 0$.",
+          "**Antécédents de 5** : la droite horizontale d'ordonnée $5$ coupe la courbe en deux points d'abscisses $-2$ et $4$. Vérification : $f(-2) = 4 + 4 - 3 = 5$ et $f(4) = 16 - 8 - 3 = 5$.",
+          "**À retenir** : une lecture graphique donne une valeur **approchée** ; seul le calcul la confirme."
+        ]
       }
     ],
     "traps": [
       "⚠️ Confondre image et antécédent : « Trouver l'image de 4 » $\\implies$ calculer $f(4)$ ; « Trouver l'antécédent de 4 » $\\implies$ résoudre $f(x) = 4$ !",
-      "⚠️ Oublier les parenthèses avec un nombre négatif : si $f(x) = x^2$, alors $f(-5) = (-5)^2 = 25$ et NON $-5^2 = -25$."
+      "⚠️ Oublier les parenthèses avec un nombre négatif : si $f(x) = x^2$, alors $f(-5) = (-5)^2 = 25$ et NON $-5^2 = -25$.",
+      "⚠️ Lire un antécédent sur l'axe des ordonnées : les antécédents se lisent toujours sur l'axe des **abscisses** (horizontal)."
     ],
     "flashcards": [
       {
@@ -1078,6 +1407,14 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
       {
         "q": "Quelle est l'image de 0 par la fonction $f(x) = 3x^2 - 5x + 7$ ?",
         "a": "$f(0) = 7$."
+      },
+      {
+        "q": "Le point $A(-1 ; 4)$ appartient à la courbe de $f$. Traduire par une égalité.",
+        "a": "$f(-1) = 4$ : $4$ est l'image de $-1$ et $-1$ est un antécédent de $4$."
+      },
+      {
+        "q": "Combien d'antécédents peut avoir un nombre par une fonction ?",
+        "a": "Aucun, un ou plusieurs (contrairement à l'image, qui est unique)."
       }
     ]
   },
@@ -1098,15 +1435,19 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
       },
       {
         "title": "2. Médiane : Définition et sens concret",
-        "content": "La **médiane** d'une série ordonnée est un nombre qui partage l'effectif en deux moitiés égales :\n• Au moins 50 % des valeurs lui sont inférieures ou égales.\n• Au moins 50 % des valeurs lui sont supérieures ou égales.\n• Contrairement à la moyenne, la médiane n'est pas influencée par les valeurs extrêmes."
+        "content": "La **médiane** d'une série rangée par ordre croissant est un nombre qui la partage en deux groupes de même effectif (à une valeur près) :\n• Au moins 50 % des valeurs lui sont inférieures ou égales.\n• Au moins 50 % des valeurs lui sont supérieures ou égales.\n• Contrairement à la moyenne, la médiane est très peu influencée par les valeurs extrêmes."
       },
       {
         "title": "3. Méthode officielle de détermination de la médiane",
-        "content": "1. **Ranger impérativement les valeurs par ordre croissant**.\n2. Calculer $\\frac{N}{2}$ (où $N$ est l'effectif total) :\n   - **Si $N$ est impair** ($N = 2p+1$) : la médiane est la valeur de rang $p+1$.\n   - **Si $N$ est pair** ($N = 2p$) : la médiane est la demi-somme des valeurs de rang $p$ et $p+1$."
+        "content": "1. **Ranger impérativement les valeurs par ordre croissant**.\n2. Calculer $\\frac{N}{2}$ (où $N$ est l'effectif total) :\n   - **Si $N$ est impair** ($N = 2p+1$) : la médiane est la valeur de rang $p+1$.\n   - **Si $N$ est pair** ($N = 2p$) : la médiane est la demi-somme des valeurs de rang $p$ et $p+1$.\n• Pour une série donnée par un tableau d'effectifs, les **effectifs cumulés croissants** (outil pratique, non obligatoire) permettent de repérer rapidement la valeur d'un rang donné."
       },
       {
         "title": "4. Étendue et indicateurs de dispersion",
         "content": "• **Étendue** : $\\text{Étendue} = \\text{Valeur maximale} - \\text{Valeur minimale}$.\n• Une série homogène a une petite étendue ; une série très hétérogène a une grande étendue."
+      },
+      {
+        "title": "À retenir pour le brevet",
+        "content": "• Moyenne pondérée $= \\dfrac{\\text{somme des (valeur} \\times \\text{effectif)}}{\\text{effectif total}}$.\n• Médiane : ranger, puis prendre la valeur du milieu ($N$ impair) ou la moyenne des deux valeurs centrales ($N$ pair).\n• Étendue $=$ max $-$ min : mesure la dispersion.\n• Pour comparer deux séries : une valeur de position (moyenne ou médiane) **et** la dispersion (étendue).\n\n**Automatismes** :\n• Médiane de $3 ; 8 ; 9 ; 12 ; 20$ ? $\\to$ $9$.\n• Moyenne de $10$, $12$, $17$ ? $\\to$ $13$.\n• Étendue de $4 ; 11 ; 7 ; 2$ ? $\\to$ $9$."
       }
     ],
     "methods": [
@@ -1116,15 +1457,36 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
         "steps": [
           "**Étape 1 (Effectif total)** : $N = 3 + 7 + 8 + 2 = 20$ élèves.",
           "**Étape 2 (Effectifs cumulés croissants ECC)** : Notes : 8 (ECC: 3) ; 10 (ECC: 10) ; 12 (ECC: 18) ; 15 (ECC: 20).",
-          "**Étape 3 (Rangs médians)** : $N = 20$ est pair $\\implies \\frac{20}{2} = 10$. On cherche la 10ème et la 11ème valeur.",
-          "**Étape 4 (Lecture)** : La 10ème valeur est 10. La 11ème valeur tombe dans la tranche de 12.",
+          "**Étape 3 (Rangs médians)** : $N = 20$ est pair $\\implies \\frac{20}{2} = 10$. On cherche la 10e et la 11e valeur.",
+          "**Étape 4 (Lecture)** : La 10e valeur est 10. La 11e valeur tombe dans la tranche de 12.",
           "**Étape 5 (Conclusion)** : $\\text{Médiane} = \\frac{10 + 12}{2} = 11$."
+        ]
+      },
+      {
+        "title": "Méthode : Calculer une moyenne pondérée à partir d'un tableau d'effectifs",
+        "example": "Notes sur 20 d'une classe : la note $8$ a été obtenue par 3 élèves, $10$ par 7, $12$ par 8 et $15$ par 2. Calculer la note moyenne.",
+        "steps": [
+          "**Étape 1 (Produits valeur × effectif)** : $8 \\times 3 = 24$ ; $10 \\times 7 = 70$ ; $12 \\times 8 = 96$ ; $15 \\times 2 = 30$.",
+          "**Étape 2 (Somme)** : $24 + 70 + 96 + 30 = 220$.",
+          "**Étape 3 (Effectif total)** : $3 + 7 + 8 + 2 = 20$.",
+          "**Étape 4 (Moyenne)** : $\\bar{x} = \\dfrac{220}{20} = 11$. La moyenne de la classe est $11$ sur $20$ (égale ici à la médiane trouvée dans la méthode précédente)."
+        ]
+      },
+      {
+        "title": "Méthode : Comparer deux séries statistiques",
+        "example": "Deux joueurs ont marqué, sur 6 matchs : Alex $12 ; 14 ; 15 ; 15 ; 16 ; 18$ et Bilal $5 ; 9 ; 15 ; 17 ; 22 ; 22$. Comparer leurs résultats.",
+        "steps": [
+          "**Moyennes** : Alex $\\dfrac{90}{6} = 15$ points ; Bilal $\\dfrac{5 + 9 + 15 + 17 + 22 + 22}{6} = \\dfrac{90}{6} = 15$ points.",
+          "**Médianes** (séries déjà rangées, $N = 6$) : Alex $\\dfrac{15 + 15}{2} = 15$ ; Bilal $\\dfrac{15 + 17}{2} = 16$.",
+          "**Étendues** : Alex $18 - 12 = 6$ ; Bilal $22 - 5 = 17$.",
+          "**Conclusion** : même moyenne, mais Bilal a des résultats beaucoup plus **dispersés** ; Alex est plus régulier. Bilal a marqué au moins 16 points dans la moitié de ses matchs."
         ]
       }
     ],
     "traps": [
       "⚠️ Confondre moyenne et médiane : une série peut avoir une moyenne de 12 et une médiane de 9 !",
-      "⚠️ Dans un calcul de moyenne pondérée, diviser par le nombre de colonnes au lieu de diviser par l'effectif total."
+      "⚠️ Dans un calcul de moyenne pondérée, diviser par le nombre de colonnes au lieu de diviser par l'effectif total.",
+      "⚠️ La médiane ne se calcule pas sur la série non rangée : prendre la valeur « du milieu » de la liste brute est faux."
     ],
     "flashcards": [
       {
@@ -1137,7 +1499,7 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
       },
       {
         "q": "Pour un effectif total de 25 valeurs, quel est le rang de la médiane ?",
-        "a": "La 13ème valeur (car $\\frac{25+1}{2} = 13$, il y a 12 valeurs avant et 12 valeurs après)."
+        "a": "La 13e valeur (car $\\frac{25+1}{2} = 13$, il y a 12 valeurs avant et 12 valeurs après)."
       },
       {
         "q": "La médiane est-elle sensible aux valeurs extrêmes aberrantes ?",
@@ -1146,6 +1508,14 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
       {
         "q": "Que vaut la moyenne de la série : 10 (coeff 2) et 16 (coeff 1) ?",
         "a": "$$\\frac{10 \\times 2 + 16 \\times 1}{2 + 1} = \\frac{36}{3} = 12$$"
+      },
+      {
+        "q": "Médiane de la série $1 ; 4 ; 6 ; 9 ; 10 ; 30$ ?",
+        "a": "$\\dfrac{6 + 9}{2} = 7{,}5$."
+      },
+      {
+        "q": "Que mesure l'étendue ?",
+        "a": "La **dispersion** des valeurs : l'écart entre la plus grande et la plus petite."
       }
     ]
   },
@@ -1176,22 +1546,47 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
       {
         "title": "4. Lien avec les pourcentages",
         "content": "• Augmenter une quantité de $t$ % correspond à la fonction linéaire : $f(x) = \\left(1 + \\frac{t}{100}\\right)x$.\n• Diminuer une quantité de $t$ % correspond à la fonction linéaire : $f(x) = \\left(1 - \\frac{t}{100}\\right)x$."
+      },
+      {
+        "title": "À retenir pour le brevet",
+        "content": "• Linéaire $f(x) = ax$ : proportionnalité, droite passant par l'origine.\n• Affine $f(x) = ax + b$ : droite qui coupe l'axe des ordonnées en $b$.\n• $a$ = coefficient directeur : quand $x$ augmente de $1$, $f(x)$ augmente de $a$ ; $a = \\dfrac{f(x_2) - f(x_1)}{x_2 - x_1}$.\n• $a > 0$ : droite qui monte ; $a < 0$ : droite qui descend ; $a = 0$ : droite horizontale.\n\n**Automatismes** :\n• $f(x) = -2x + 5$ : $f(3)$ ? $\\to$ $-1$.\n• Fonction linéaire telle que $f(4) = 10$ ? $\\to$ $f(x) = 2{,}5x$.\n• Une hausse de $5\\ \\%$ correspond à la fonction ? $\\to$ $x \\longmapsto 1{,}05x$."
       }
     ],
     "methods": [
       {
-        "title": "Méthode officielle : Déterminer l'expression d'une fonction affine",
+        "title": "Méthode : Déterminer l'expression d'une fonction affine",
         "example": "Déterminer la fonction affine f telle que f(2) = 7 et f(5) = 16.",
         "steps": [
           "**Étape 1 (Calcul du coefficient directeur a)** :\n$$a = \\frac{f(5) - f(2)}{5 - 2} = \\frac{16 - 7}{3} = \\frac{9}{3} = 3$$.\nLa fonction s'écrit donc $f(x) = 3x + b$.",
           "**Étape 2 (Calcul de l'ordonnée à l'origine b)** : On utilise $f(2) = 7$ :\n$3 \\times 2 + b = 7 \\implies 6 + b = 7 \\implies b = 7 - 6 = 1$.",
           "**Conclusion** : L'expression de la fonction est $f(x) = 3x + 1$."
         ]
+      },
+      {
+        "title": "Méthode : Lire le coefficient directeur et l'ordonnée à l'origine sur un graphique",
+        "example": "La droite $d$ ci-dessous représente une fonction affine $f$. Déterminer l'expression de $f(x)$.\n\n<div class=\"geo-figure-wrapper\" style=\"text-align:center; margin:1rem 0;\">\n<svg class=\"geo-svg-figure\" viewBox=\"0 0 180 205\" width=\"180\" height=\"205\" style=\"max-width:220px; width:100%; height:auto;\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Droite représentant une fonction affine passant par les points (0 ; 1) et (2 ; 4)\">\n  <line x1=\"20\" y1=\"190\" x2=\"20\" y2=\"30\" stroke=\"#e2e8f0\" stroke-width=\"1\" /><line x1=\"40\" y1=\"190\" x2=\"40\" y2=\"30\" stroke=\"#e2e8f0\" stroke-width=\"1\" /><line x1=\"60\" y1=\"190\" x2=\"60\" y2=\"30\" stroke=\"#e2e8f0\" stroke-width=\"1\" /><line x1=\"80\" y1=\"190\" x2=\"80\" y2=\"30\" stroke=\"#e2e8f0\" stroke-width=\"1\" /><line x1=\"100\" y1=\"190\" x2=\"100\" y2=\"30\" stroke=\"#e2e8f0\" stroke-width=\"1\" /><line x1=\"120\" y1=\"190\" x2=\"120\" y2=\"30\" stroke=\"#e2e8f0\" stroke-width=\"1\" /><line x1=\"140\" y1=\"190\" x2=\"140\" y2=\"30\" stroke=\"#e2e8f0\" stroke-width=\"1\" /><line x1=\"20\" y1=\"190\" x2=\"140\" y2=\"190\" stroke=\"#e2e8f0\" stroke-width=\"1\" /><line x1=\"20\" y1=\"170\" x2=\"140\" y2=\"170\" stroke=\"#e2e8f0\" stroke-width=\"1\" /><line x1=\"20\" y1=\"150\" x2=\"140\" y2=\"150\" stroke=\"#e2e8f0\" stroke-width=\"1\" /><line x1=\"20\" y1=\"130\" x2=\"140\" y2=\"130\" stroke=\"#e2e8f0\" stroke-width=\"1\" /><line x1=\"20\" y1=\"110\" x2=\"140\" y2=\"110\" stroke=\"#e2e8f0\" stroke-width=\"1\" /><line x1=\"20\" y1=\"90\" x2=\"140\" y2=\"90\" stroke=\"#e2e8f0\" stroke-width=\"1\" /><line x1=\"20\" y1=\"70\" x2=\"140\" y2=\"70\" stroke=\"#e2e8f0\" stroke-width=\"1\" /><line x1=\"20\" y1=\"50\" x2=\"140\" y2=\"50\" stroke=\"#e2e8f0\" stroke-width=\"1\" /><line x1=\"20\" y1=\"30\" x2=\"140\" y2=\"30\" stroke=\"#e2e8f0\" stroke-width=\"1\" /><line x1=\"15\" y1=\"170\" x2=\"145\" y2=\"170\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.5\" /><line x1=\"40\" y1=\"195\" x2=\"40\" y2=\"25\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.5\" /><text x=\"60\" y=\"183\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"10\" font-weight=\"600\" fill=\"var(--text-muted, #64748b)\">1</text><text x=\"80\" y=\"183\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"10\" font-weight=\"600\" fill=\"var(--text-muted, #64748b)\">2</text><text x=\"100\" y=\"183\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"10\" font-weight=\"600\" fill=\"var(--text-muted, #64748b)\">3</text><text x=\"120\" y=\"183\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"10\" font-weight=\"600\" fill=\"var(--text-muted, #64748b)\">4</text><text x=\"35\" y=\"154\" text-anchor=\"end\" font-family=\"system-ui, sans-serif\" font-size=\"10\" font-weight=\"600\" fill=\"var(--text-muted, #64748b)\">1</text><text x=\"35\" y=\"94\" text-anchor=\"end\" font-family=\"system-ui, sans-serif\" font-size=\"10\" font-weight=\"600\" fill=\"var(--text-muted, #64748b)\">4</text><text x=\"35\" y=\"34\" text-anchor=\"end\" font-family=\"system-ui, sans-serif\" font-size=\"10\" font-weight=\"600\" fill=\"var(--text-muted, #64748b)\">7</text>\n  <line x1=\"20\" y1=\"180\" x2=\"120\" y2=\"30\" stroke=\"var(--primary, #2563eb)\" stroke-width=\"2.5\" />\n  <polyline points=\"40,150 80,150 80,90\" fill=\"none\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-dasharray=\"5 4\" />\n  <circle cx=\"40\" cy=\"150\" r=\"4\" fill=\"#10b981\" /><circle cx=\"80\" cy=\"90\" r=\"4\" fill=\"#10b981\" />\n  <text x=\"60\" y=\"164\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"700\" fill=\"#b45309\">+2</text><text x=\"86\" y=\"124\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"700\" fill=\"#b45309\">+3</text>\n  <text x=\"126\" y=\"40\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--primary, #2563eb)\">d</text>\n</svg>\n</div>\n",
+        "steps": [
+          "**Ordonnée à l'origine** : la droite coupe l'axe des ordonnées au point $(0 ; 1)$, donc $b = f(0) = 1$.",
+          "**Coefficient directeur** : en partant du point $(0 ; 1)$, quand on avance de $2$ unités vers la droite, on monte de $3$ unités pour retrouver la droite au point $(2 ; 4)$. Donc $a = \\dfrac{3}{2} = 1{,}5$.",
+          "**Conclusion** : $f(x) = 1{,}5x + 1$.",
+          "**Vérification** : $f(2) = 1{,}5 \\times 2 + 1 = 4$, le point $(2 ; 4)$ est bien sur la droite."
+        ]
+      },
+      {
+        "title": "Modèle de rédaction (brevet) : Comparer deux tarifs",
+        "example": "Piscine. Tarif A : $6$ € l'entrée. Tarif B : abonnement annuel de $30$ € puis $3{,}50$ € l'entrée. On note $x$ le nombre d'entrées. À partir de combien d'entrées le tarif B est-il plus avantageux ?",
+        "steps": [
+          "**1. Modéliser** : tarif A : $f(x) = 6x$ (fonction linéaire : prix proportionnel au nombre d'entrées) ; tarif B : $g(x) = 3{,}5x + 30$ (fonction affine).",
+          "**2. Égalité des prix** : $6x = 3{,}5x + 30 \\iff 2{,}5x = 30 \\iff x = \\dfrac{30}{2{,}5} = 12$. Pour 12 entrées, les deux tarifs coûtent $72$ € ($6 \\times 12 = 72$ et $3{,}5 \\times 12 + 30 = 72$).",
+          "**3. Comparer** : pour $x = 20$, $f(20) = 120$ € et $g(20) = 100$ € : au-delà de 12 entrées, B est moins cher (la droite de $g$ monte moins vite car $3{,}5 < 6$).",
+          "**4. Conclusion** : le tarif B est plus avantageux à partir de **13 entrées**."
+        ]
       }
     ],
     "traps": [
       "⚠️ Dans la formule $a = \\frac{y_2 - y_1}{x_2 - x_1}$, inverser numérateur et dénominateur : ce sont les $y$ en haut et les $x$ en bas !",
-      "⚠️ Penser qu'une fonction affine est proportionnelle : $f(x) = ax + b$ N'EST PAS proportionnelle dès que $b \\neq 0$."
+      "⚠️ Penser qu'une fonction affine est proportionnelle : $f(x) = ax + b$ N'EST PAS proportionnelle dès que $b \\neq 0$.",
+      "⚠️ Pour tracer une droite, placer au moins deux points calculés (un troisième sert de contrôle) ; ne pas relier des points d'une fonction qui n'est pas affine par des segments."
     ],
     "flashcards": [
       {
@@ -1208,11 +1603,19 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
       },
       {
         "q": "Quelle fonction linéaire modélise une réduction de 20 % ?",
-        "a": "$$f(x) = 0,80x \\quad (\\text{car } 1 - 0,20 = 0,80)$$"
+        "a": "$$f(x) = 0{,}80x \\quad (\\text{car } 1 - 0{,}20 = 0{,}80)$$"
       },
       {
         "q": "Si le coefficient directeur $a$ d'une droite est négatif ($a < 0$), comment est orientée la droite ?",
         "a": "La droite est **descendante** (la fonction est décroissante)."
+      },
+      {
+        "q": "$f(x) = 4x - 3$ : coefficient directeur et ordonnée à l'origine ?",
+        "a": "$a = 4$ et $b = -3$."
+      },
+      {
+        "q": "$f$ est affine, $f(0) = 2$ et $f(1) = 5$. Expression de $f$ ?",
+        "a": "$b = 2$ et $a = 5 - 2 = 3$, donc $f(x) = 3x + 2$."
       }
     ]
   },
@@ -1242,6 +1645,14 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
       {
         "title": "4. Expériences à deux épreuves et Arbre pondéré",
         "content": "• **Règle 1 (Somme des branches)** : La somme des probabilités des branches issues d'un même nœud est égale à 1.\n• **Règle 2 (Chemin / Produit)** : La probabilité de l'issue associée à un chemin complet est le **produit des probabilités** rencontrées le long de ce chemin.\n• **Règle 3 (Événement composé / Somme)** : La probabilité d'un événement associé à plusieurs chemins est la **somme des probabilités** de ces chemins."
+      },
+      {
+        "title": "5. Fréquence et probabilité",
+        "content": "Quand on répète une expérience aléatoire un **grand nombre de fois**, la **fréquence** d'un événement se stabilise autour de sa **probabilité**. On peut ainsi **estimer** une probabilité qu'on ne sait pas calculer (objet non symétrique, situation réelle).\n*Attention* : sur peu d'essais, la fréquence peut être éloignée de la probabilité, et le hasard « n'a pas de mémoire » : après 5 Pile de suite, la probabilité d'obtenir Pile au lancer suivant reste $\\dfrac{1}{2}$."
+      },
+      {
+        "title": "À retenir pour le brevet",
+        "content": "• $0 \\le P(A) \\le 1$ et $P(\\bar{A}) = 1 - P(A)$.\n• Équiprobabilité : $P(A) = \\dfrac{\\text{issues favorables}}{\\text{issues possibles}}$.\n• Arbre : on **multiplie** le long d'un chemin, on **additionne** les chemins qui réalisent l'événement ; les branches d'un même nœud totalisent $1$.\n• Sans remise : le nombre de boules diminue à la seconde épreuve.\n\n**Automatismes** :\n• Dé équilibré : probabilité d'obtenir un nombre pair ? $\\to$ $\\dfrac{1}{2}$.\n• $P(A) = 0{,}35$ : $P(\\bar{A})$ ? $\\to$ $0{,}65$.\n• Deux lancers de pièce : probabilité de « deux Pile » ? $\\to$ $\\dfrac{1}{4}$."
       }
     ],
     "methods": [
@@ -1249,15 +1660,36 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
         "title": "Méthode : Calculer la probabilité avec un arbre à deux épreuves",
         "example": "On lance une pièce équilibrée puis on tire une boule dans un sac contenant 2 boules vertes et 3 boules rouges. Quelle est la probabilité d'obtenir (Pile, Rouge) ?",
         "steps": [
-          "**Étape 1 (1ère épreuve - Pièce)** : $P(\\text{Pile}) = \\frac{1}{2}$.",
-          "**Étape 2 (2ème épreuve - Sac)** : Il y a $2 + 3 = 5$ boules au total $\\implies P(\\text{Rouge}) = \\frac{3}{5}$.",
-          "**Étape 3 (Règle du produit)** : Les deux épreuves étant indépendantes :\n$$P(\\text{Pile et Rouge}) = P(\\text{Pile}) \\times P(\\text{Rouge}) = \\frac{1}{2} \\times \\frac{3}{5} = \\frac{3}{10} = 0,3$$."
+          "**Étape 1 (1re épreuve - Pièce)** : $P(\\text{Pile}) = \\frac{1}{2}$.",
+          "**Étape 2 (2e épreuve - Sac)** : Il y a $2 + 3 = 5$ boules au total $\\implies P(\\text{Rouge}) = \\frac{3}{5}$.",
+          "**Étape 3 (Règle du produit)** : Les deux épreuves étant indépendantes :\n$$P(\\text{Pile et Rouge}) = P(\\text{Pile}) \\times P(\\text{Rouge}) = \\frac{1}{2} \\times \\frac{3}{5} = \\frac{3}{10} = 0{,}3$$."
+        ]
+      },
+      {
+        "title": "Modèle de rédaction (brevet) : Tirage sans remise et arbre pondéré",
+        "example": "Un sac contient 3 boules rouges (R) et 2 boules vertes (V), indiscernables au toucher. On tire une boule, on ne la remet pas, puis on en tire une seconde. Calculer la probabilité d'obtenir deux boules de la même couleur.\n\n<div class=\"geo-figure-wrapper\" style=\"text-align:center; margin:1rem 0;\">\n<svg class=\"geo-svg-figure\" viewBox=\"0 0 340 200\" width=\"340\" height=\"200\" style=\"max-width:340px; width:100%; height:auto;\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Arbre pondéré de deux tirages sans remise dans un sac de 3 boules rouges et 2 vertes\">\n  <line x1=\"20\" y1=\"100\" x2=\"100\" y2=\"50\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.6\" /><line x1=\"20\" y1=\"100\" x2=\"100\" y2=\"150\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.6\" />\n  <line x1=\"120\" y1=\"50\" x2=\"200\" y2=\"25\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.6\" /><line x1=\"120\" y1=\"50\" x2=\"200\" y2=\"75\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.6\" /><line x1=\"120\" y1=\"150\" x2=\"200\" y2=\"125\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.6\" /><line x1=\"120\" y1=\"150\" x2=\"200\" y2=\"175\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.6\" />\n  <circle cx=\"20\" cy=\"100\" r=\"3\" fill=\"var(--primary, #2563eb)\" />\n  <text x=\"110\" y=\"55\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">R</text><text x=\"110\" y=\"155\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">V</text>\n  <text x=\"210\" y=\"30\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">R</text><text x=\"210\" y=\"80\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">V</text><text x=\"210\" y=\"130\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">R</text><text x=\"210\" y=\"180\" text-anchor=\"middle\" font-family=\"system-ui, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">V</text>\n  <text x=\"50\" y=\"66\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"700\" fill=\"var(--primary, #2563eb)\">3/5</text><text x=\"50\" y=\"146\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"700\" fill=\"var(--primary, #2563eb)\">2/5</text>\n  <text x=\"150\" y=\"30\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"700\" fill=\"var(--primary, #2563eb)\">2/4</text><text x=\"150\" y=\"76\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"700\" fill=\"var(--primary, #2563eb)\">2/4</text><text x=\"150\" y=\"130\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"700\" fill=\"var(--primary, #2563eb)\">3/4</text><text x=\"150\" y=\"176\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"700\" fill=\"var(--primary, #2563eb)\">1/4</text>\n  <text x=\"232\" y=\"30\" font-family=\"system-ui, sans-serif\" font-size=\"12\" font-weight=\"600\" fill=\"var(--text-main, #0f172a)\">(R ; R) : 6/20</text><text x=\"232\" y=\"80\" font-family=\"system-ui, sans-serif\" font-size=\"12\" font-weight=\"600\" fill=\"var(--text-main, #0f172a)\">(R ; V) : 6/20</text><text x=\"232\" y=\"130\" font-family=\"system-ui, sans-serif\" font-size=\"12\" font-weight=\"600\" fill=\"var(--text-main, #0f172a)\">(V ; R) : 6/20</text><text x=\"232\" y=\"180\" font-family=\"system-ui, sans-serif\" font-size=\"12\" font-weight=\"600\" fill=\"var(--text-main, #0f172a)\">(V ; V) : 2/20</text>\n</svg>\n</div>\n",
+        "steps": [
+          "**1. Première épreuve** : $P(R) = \\dfrac{3}{5}$ et $P(V) = \\dfrac{2}{5}$.",
+          "**2. Seconde épreuve (sans remise)** : il reste 4 boules. Après une rouge : 2 R et 2 V, d'où $\\dfrac{2}{4}$ et $\\dfrac{2}{4}$. Après une verte : 3 R et 1 V, d'où $\\dfrac{3}{4}$ et $\\dfrac{1}{4}$.",
+          "**3. Chemins (produits)** : $P(R ; R) = \\dfrac{3}{5} \\times \\dfrac{2}{4} = \\dfrac{6}{20}$ et $P(V ; V) = \\dfrac{2}{5} \\times \\dfrac{1}{4} = \\dfrac{2}{20}$.",
+          "**4. Événement (somme des chemins)** : $P(\\text{même couleur}) = \\dfrac{6}{20} + \\dfrac{2}{20} = \\dfrac{8}{20} = \\dfrac{2}{5} = 0{,}4$.",
+          "**Contrôle** : la somme des quatre chemins vaut $\\dfrac{6 + 6 + 6 + 2}{20} = 1$."
+        ]
+      },
+      {
+        "title": "Méthode : Estimer une probabilité par une fréquence",
+        "example": "On lance $500$ fois une punaise : elle tombe « pointe en haut » $315$ fois. Estimer la probabilité de l'événement « pointe en haut ».",
+        "steps": [
+          "**Étape 1 (Fréquence)** : $f = \\dfrac{315}{500} = 0{,}63$.",
+          "**Étape 2 (Loi des grands nombres)** : la punaise n'est pas un objet symétrique, on ne peut pas calculer la probabilité par équiprobabilité. Mais quand le nombre de lancers est grand, la fréquence observée se rapproche de la probabilité.",
+          "**Étape 3 (Conclusion)** : en notant $H$ l'événement « pointe en haut », on estime $P(H) \\approx 0{,}63$. Avec $5\\,000$ lancers, l'estimation serait plus fiable."
         ]
       }
     ],
     "traps": [
       "⚠️ Additionner les probabilités le long d'un chemin au lieu de les multiplier : pour un chemin d'arbre, on **multiplie** les probabilités !",
-      "⚠️ Dans les tirages sans remise, oublier de diminuer le nombre total de boules pour la seconde épreuve !"
+      "⚠️ Dans les tirages sans remise, oublier de diminuer le nombre total de boules pour la seconde épreuve !",
+      "⚠️ Croire qu'après une série de Face, Pile devient « plus probable » : chaque lancer d'une pièce équilibrée garde une probabilité de $\\dfrac{1}{2}$."
     ],
     "flashcards": [
       {
@@ -1277,8 +1709,16 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
         "a": "On effectue le **produit des probabilités** portées par chacune des branches de ce chemin."
       },
       {
-        "q": "Si $P(A) = 0,73$, quelle est la probabilité de son événement contraire ?",
-        "a": "$$1 - 0,73 = 0,27$$"
+        "q": "Si $P(A) = 0{,}73$, quelle est la probabilité de son événement contraire ?",
+        "a": "$$1 - 0{,}73 = 0{,}27$$"
+      },
+      {
+        "q": "Sac de 3 rouges et 2 vertes, deux tirages sans remise : probabilité de deux rouges ?",
+        "a": "$\\dfrac{3}{5} \\times \\dfrac{2}{4} = \\dfrac{6}{20} = \\dfrac{3}{10}$."
+      },
+      {
+        "q": "Sur 1 000 naissances, on observe 512 garçons. Quelle estimation de la probabilité « garçon » ?",
+        "a": "La fréquence $\\dfrac{512}{1000} = 0{,}512$."
       }
     ]
   },
@@ -1294,7 +1734,7 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
     "keyPoints": [
       {
         "title": "1. Le Tableur : Règles d'or et Formules clés",
-        "content": "• **Règle n°1** : Toute formule de tableur commence **OBLIGATOIREMENT par le signe égal `=`** (sans le signe `=`, le tableur affiche du simple texte) !\n• **Fonctions majeures du Brevet** :\n  - `=SOMME(B2:B8)` : calcule la somme des cellules de B2 à B8.\n  - `=MOYENNE(B2:B8)` : calcule la moyenne des valeurs.\n• **Étirement / Recopie vers le bas** : les indices de ligne augmentent automatiquement (`=B2*3` étiré vers le bas devient `=B3*3`).\n• **Étirement vers la droite** : les lettres de colonnes avancent (`=A1+B1` devient `=B1+C1`)."
+        "content": "• **Règle n°1** : Toute formule de tableur commence **OBLIGATOIREMENT par le signe égal `=`** (sans le signe `=`, le tableur affiche du simple texte) !\n• **Fonctions majeures du Brevet** :\n  - `=SOMME(B2:B8)` : calcule la somme des cellules de B2 à B8.\n  - `=MOYENNE(B2:B8)` : calcule la moyenne des valeurs.\n• **Étirement / Recopie vers le bas** : les indices de ligne augmentent automatiquement : par exemple, `=B2*3` recopiée en ligne 3\ndevient `=B3*3`.\n• **Étirement vers la droite** : les lettres de colonnes avancent (`=A1+B1` devient `=B1+C1`)."
       },
       {
         "title": "2. Scratch : Les Variables",
@@ -1307,6 +1747,10 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
       {
         "title": "4. Scratch : Boucles et Tracé de polygones réguliers",
         "content": "• **Boucle « répéter [N] fois »** : exécute le corps de boucle un nombre déterminé de fois.\n• **Tracé d'un polygone régulier à $N$ côtés** : tourner de $\\frac{360^\\circ}{N}$ à chaque sommet :\n  - Triangle équilatéral : tourner de $120^\\circ$ ($360/3$)\n  - Carré : tourner de $90^\\circ$ ($360/4$)\n  - Pentagone : tourner de $72^\\circ$ ($360/5$)\n  - Hexagone : tourner de $60^\\circ$ ($360/6$)."
+      },
+      {
+        "title": "À retenir pour le brevet",
+        "content": "• Tableur : une formule commence par `=` ; la multiplication s'écrit `*` et la division `/` ; en recopiant vers le bas, les numéros de ligne avancent.\n• Scratch : « mettre … à » remplace la valeur, « ajouter … à » la modifie.\n• « répéter n fois » : nombre de passages connu ; « répéter jusqu'à » : la boucle s'arrête dès que la condition devient vraie.\n• Pour comprendre un script, on fait un tableau de suivi des variables.\n• Polygone régulier à $n$ côtés : le lutin tourne de $\\frac{360^\\circ}{n}$ à chaque sommet.\n\n**Automatismes (questions flash)** :\n• Formule à saisir en B2 pour calculer $3 \\times$ A2 $+ 1$ → `=3*A2+1`.\n• $x$ vaut 3 ; « mettre x à x * 2 » puis « ajouter 1 à x » → $x = 7$.\n• Angle de rotation pour un octogone régulier → $360^\\circ \\div 8 = 45^\\circ$."
       }
     ],
     "methods": [
@@ -1315,14 +1759,35 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
         "example": "En cellule A2 on a le prix HT (120 €) et en B2 le taux de TVA (20%). Écrire la formule à saisir en C2 pour obtenir le prix TTC.",
         "steps": [
           "**Étape 1 (Début)** : La formule commence impérativement par `=`. ",
-          "**Étape 2 (Expression)** : Le prix TTC est égal au prix HT plus le montant de la TVA :\n`=A2 + A2 * B2` ou `=A2 * (1 + B2)`.",
-          "**Étape 3 (Étirement)** : En étirant cette formule vers le bas en C3, elle s'adaptera automatiquement en `=A3 * (1 + B3)`."
+          "**Étape 2 (Expression)** : Le prix TTC est égal au prix HT plus le montant de la TVA :\n`=A2 + A2*B2`\nou, plus court : `=A2*(1 + B2)`.",
+          "**Étape 3 (Étirement)** : En étirant cette formule vers le bas en C3, elle s'adaptera automatiquement en `=A3*(1 + B3)`."
+        ]
+      },
+      {
+        "title": "Méthode : Suivre une boucle « répéter jusqu'à » avec un tableau de suivi",
+        "example": "On exécute le script : « mettre n à 1 » ; « mettre S à 0 » ; « répéter jusqu'à S > 20 : ajouter n à S, puis ajouter 2 à n » ; « dire S ». Quelle valeur le lutin dit-il ? Combien de fois la boucle est-elle exécutée ?",
+        "steps": [
+          "**Étape 1 (Initialisation)** : $n = 1$ et $S = 0$. La condition $S > 20$ est fausse, on entre dans la boucle.",
+          "**Étape 2 (Tableau de suivi)** : on note les valeurs après chaque passage.\n\n| Passage | $S$ | $n$ | $S > 20$ ? |\n|:---:|:---:|:---:|:---:|\n| 1 | $0 + 1 = 1$ | $3$ | non |\n| 2 | $1 + 3 = 4$ | $5$ | non |\n| 3 | $4 + 5 = 9$ | $7$ | non |\n| 4 | $9 + 7 = 16$ | $9$ | non |\n| 5 | $16 + 9 = 25$ | $11$ | oui |",
+          "**Étape 3 (Conclusion)** : après 5 passages, $S = 25 > 20$ : la boucle s'arrête et le lutin dit **25**.\n*Remarque* : $S$ est la somme des premiers nombres impairs, $1 + 3 + 5 + 7 + 9 = 25 = 5^2$."
+        ]
+      },
+      {
+        "title": "Méthode : Programme de calcul Scratch et calcul littéral",
+        "example": "Script : « demander Choisis un nombre et attendre » ; « mettre x à réponse » ; « mettre a à x + 2 » ; « mettre b à x − 2 » ; « dire (a × b) − (x × x) » (dans Scratch, le signe × s'écrit avec l'étoile). Tester avec 5 et 10, puis prouver que le résultat est toujours le même.",
+        "steps": [
+          "**Étape 1 (Test avec 5)** : $a = 7$, $b = 3$, résultat $7 \\times 3 - 5 \\times 5 = 21 - 25 = -4$.",
+          "**Étape 2 (Test avec 10)** : $a = 12$, $b = 8$, résultat $12 \\times 8 - 10 \\times 10 = 96 - 100 = -4$.",
+          "**Étape 3 (Conjecture)** : le programme semble toujours afficher $-4$.",
+          "**Étape 4 (Preuve)** : pour un nombre $x$ quelconque, le résultat vaut $(x+2)(x-2) - x^2 = x^2 - 4 - x^2 = -4$.\nLa conjecture est démontrée pour tout nombre de départ."
         ]
       }
     ],
     "traps": [
       "⚠️ Dans un tableur, oublier le signe `=` au début d'une formule : taper `SOMME(A1:A5)` au lieu de `=SOMME(A1:A5)` n'effectue aucun calcul !",
-      "⚠️ Confondre l'angle intérieur d'un polygone avec l'angle de rotation extérieur de Scratch : pour un triangle équilatéral, l'angle intérieur est $60^\\circ$, mais Scratch doit tourner de $120^\\circ$ ($360/3$) !"
+      "⚠️ Confondre l'angle intérieur d'un polygone avec l'angle de rotation extérieur de Scratch : pour un triangle équilatéral, l'angle intérieur est $60^\\circ$, mais Scratch doit tourner de $120^\\circ$ ($360/3$) !",
+      "⚠️ Dans « répéter jusqu'à », la condition est testée avant chaque passage : la boucle s'arrête dès qu'elle devient vraie (et ne s'exécute pas du tout si elle est vraie au départ).",
+      "⚠️ Dans un tableur, le signe de multiplication est obligatoire : on tape `=3*A2`, et non `=3A2` ou `=3xA2`."
     ],
     "flashcards": [
       {
@@ -1344,6 +1809,14 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
       {
         "q": "Si on étire la formule `=A1*2` vers le bas en cellule ligne 2, que devient-elle ?",
         "a": "`=A2*2` (la référence de ligne s'incrémente automatiquement)."
+      },
+      {
+        "q": "Quand s'arrête la boucle « répéter jusqu'à S > 20 » ?",
+        "a": "Dès que la condition $S > 20$ devient vraie (elle est testée avant chaque passage)."
+      },
+      {
+        "q": "Quelle formule saisir en B2 pour calculer le double de A2 diminué de 5 ?",
+        "a": "`=2*A2-5`"
       }
     ]
   }

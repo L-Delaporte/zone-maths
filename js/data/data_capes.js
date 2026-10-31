@@ -8,435 +8,500 @@
 
   const CAPES_LESSONS = [
     {
-      id: 'capes-01',
-      num: 'Leçon 01',
-      title: "Équations différentielles linéaires : résolution, structure et modélisation",
-      domain: "Analyse",
-      level: "CAPES / Agrégation",
-      prerequisites: [
-        "Dérivation, calcul de primitives et intégration",
-        "Espaces vectoriels, dimension finie et sous-espaces affines",
-        "Exponentielle réelle et complexe"
+      "id": "capes-01",
+      "num": "Leçon 01",
+      "title": "Équations différentielles linéaires : résolution, structure et modélisation",
+      "domain": "Analyse",
+      "level": "CAPES / Agrégation",
+      "prerequisites": [
+        "Situation dans les programmes : en première, l'exponentielle est définie comme l'unique fonction dérivable égale à sa dérivée et valant 1 en 0 ; en terminale spécialité, résolution de $y' = ay$, $y' = ay + b$ et $y' = ay + f$ (une solution particulière étant fournie), avec des modélisations issues de la physique ou de la biologie.",
+        "Dérivation et primitives : toute fonction continue sur un intervalle admet des primitives ; une fonction de dérivée nulle sur un intervalle est constante (théorème des accroissements finis).",
+        "Algèbre linéaire : espaces vectoriels de fonctions, applications linéaires, noyau, sous-espaces affines, dimension.",
+        "Exponentielle réelle et complexe, nombres complexes et racines d'un trinôme à discriminant négatif."
       ],
-      plan: [
+      "plan": [
         {
-          part: "I. Équations scalaires linéaires du 1er ordre à coefficients continus",
-          content: "Équation homogène $y' + a(t)y = 0$, résolvante $e^{-A(t)}$. Structure affine de l'ensemble des solutions de $y' + a(t)y = b(t)$. Méthode de variation de la constante de Lagrange. Problème de Cauchy et unicité."
+          "part": "I. Équations scalaires linéaires du premier ordre",
+          "content": "Sur un intervalle $I$, avec $a, b$ continues, on étudie $(E) : y' + a(t)y = b(t)$ et l'équation homogène associée $(E_H)$. Théorème : les solutions de $(E_H)$ sont les fonctions $t \\mapsto Ce^{-A(t)}$, où $A$ est une primitive de $a$, et celles de $(E)$ forment une droite affine dirigée par cette droite vectorielle. Méthode de variation de la constante : on cherche $y = C(t)e^{-A(t)}$, ce qui impose $C' = be^{A}$. Théorème de Cauchy linéaire : pour tout $(t_0, y_0) \\in I \\times \\mathbb{R}$, il existe une unique solution vérifiant $y(t_0) = y_0$, définie sur tout $I$. Exemple : les solutions de $y' + 2ty = t$ sont les fonctions $t \\mapsto \\frac{1}{2} + Ce^{-t^2}$. Applications : décroissance radioactive, loi de refroidissement de Newton, charge d'un condensateur. Équations $\\alpha(t)y' + \\beta(t)y = \\gamma(t)$ où $\\alpha$ s'annule : résolution par intervalles puis raccordement."
         },
         {
-          part: "II. Équations linéaires du 2nd ordre à coefficients constants",
-          content: "Équation $a y'' + b y' + c y = f(t)$. Équation caractéristique $ar^2 + br + c = 0$. Base de solutions $(\\Delta > 0, \\Delta = 0, \\Delta < 0)$. Recherche de solution particulière par exponentielle-polynôme et résonance."
+          "part": "II. Équations linéaires du second ordre à coefficients constants",
+          "content": "Équation $(E) : ay'' + by' + cy = f(t)$ avec $a, b, c$ réels, $a \\neq 0$ et $f$ continue. Les solutions homogènes forment un plan vectoriel, l'application $y \\mapsto (y(t_0), y'(t_0))$ étant un isomorphisme. Équation caractéristique $ar^2 + br + c = 0$ de discriminant $\\Delta$ : si $\\Delta > 0$, base $(e^{r_1t}, e^{r_2t})$ ; si $\\Delta = 0$, base $(e^{rt}, te^{rt})$ ; si $\\Delta \\lt 0$ et $r = \\alpha \\pm i\\beta$, base $(e^{\\alpha t}\\cos(\\beta t), e^{\\alpha t}\\sin(\\beta t))$. Second membre $P(t)e^{mt}$ : il existe une solution particulière $Q(t)e^{mt}$ avec $\\deg Q = \\deg P + k$, où $k$ est la multiplicité de $m$ comme racine caractéristique (résonance si $k \\ge 1$). Principe de superposition. Exemple : $y'' + y = \\cos t$ admet la solution particulière $t \\mapsto \\frac{t}{2}\\sin t$."
         },
         {
-          part: "III. Systèmes différentiels linéaires et modélisations physiques",
-          content: "Système $Y' = AY$. Exponentielle de matrice $\\exp(tA)$. Oscillateur harmonique amorti, circuit RLC et modèle proies-prédateurs linéarisé."
+          "part": "III. Systèmes différentiels linéaires et modélisation",
+          "content": "Système $Y' = AY + B(t)$ avec $A \\in \\mathcal{M}_n(\\mathbb{R})$. Exponentielle de matrice $e^{tA} = \\sum_{k \\ge 0}\\frac{t^kA^k}{k!}$, dérivable de dérivée $Ae^{tA}$ ; les solutions de $Y' = AY$ sont les $t \\mapsto e^{tA}Y_0$. Calcul pratique par diagonalisation ou trigonalisation de $A$. Une équation scalaire d'ordre 2 se ramène à un système d'ordre 1 en posant $Y = (y, y')$. Modélisations : oscillateur amorti $x'' + 2\\lambda x' + \\omega_0^2x = 0$ avec ses régimes apériodique, critique et pseudo-périodique ; circuit RLC ; modèle proies-prédateurs linéarisé au voisinage d'un équilibre."
         }
       ],
-      keyTheorem: {
-        title: "Théorème de structure de l'ensemble des solutions d'une équation linéaire",
-        statement: "Soit $I \\subset \\mathbb{R}$ un intervalle, $a, b \\in \\mathcal{C}(I, \\mathbb{R})$. L'ensemble $\\mathcal{S}_H$ des solutions de $(E_H) : y' + a(t)y = 0$ est une droite vectorielle engendrée par $t \\mapsto \\exp(-A(t))$ où $A' = a$. L'ensemble $\\mathcal{S}$ des solutions de $(E) : y' + a(t)y = b(t)$ est la droite affine $y_0 + \\mathcal{S}_H$ où $y_0$ est une solution particulière.",
-        proof: "1. Si $y$ est solution de $(E_H)$, on pose $z(t) = y(t)e^{A(t)}$. Alors $z'(t) = (y'(t) + a(t)y(t))e^{A(t)} = 0$. Comme $I$ est un intervalle, $z$ est constante : $z(t) = C$, donc $y(t) = C e^{-A(t)}$. Réciproquement, ces fonctions sont solutions évidentes. L'application linéaire $y \\mapsto y(t_0)$ est un isomorphisme de $\\mathcal{S}_H$ sur $\\mathbb{R}$, donc $\\dim(\\mathcal{S}_H) = 1$.\n2. Si $y_1, y_2$ sont solutions de $(E)$, $(y_1 - y_2)' + a(t)(y_1 - y_2) = b(t) - b(t) = 0$, donc $y_1 - y_2 \\in \\mathcal{S}_H$, d'où $\\mathcal{S} = y_0 + \\mathcal{S}_H$."
+      "keyTheorem": {
+        "title": "Structure de l'ensemble des solutions d'une équation linéaire du premier ordre",
+        "statement": "Soit $I$ un intervalle de $\\mathbb{R}$, $a, b$ continues sur $I$ à valeurs réelles, et $A$ une primitive de $a$ sur $I$. (i) L'ensemble $\\mathcal{S}_H$ des solutions de $(E_H) : y' + a(t)y = 0$ est la droite vectorielle $\\{t \\mapsto Ce^{-A(t)}, C \\in \\mathbb{R}\\}$. (ii) L'ensemble $\\mathcal{S}$ des solutions de $(E) : y' + a(t)y = b(t)$ est non vide, et pour toute solution $y_p$, $\\mathcal{S} = y_p + \\mathcal{S}_H$. (iii) Pour tout $(t_0, y_0) \\in I \\times \\mathbb{R}$, il existe une unique solution de $(E)$ telle que $y(t_0) = y_0$.",
+        "proof": "1. **Existence de $A$.** La fonction $a$ est continue sur l'intervalle $I$, donc admet une primitive $A$ (théorème fondamental de l'analyse).\n2. **Équation homogène.** Soit $y$ dérivable sur $I$ et $z = ye^{A}$. Alors $z' = (y' + ay)e^{A}$. Donc $y \\in \\mathcal{S}_H$ si et seulement si $z' = 0$ sur $I$, si et seulement si $z$ est constante, car $I$ est un intervalle (accroissements finis). Ainsi $y \\in \\mathcal{S}_H \\iff y = Ce^{-A}$ pour une constante $C$. Comme $e^{-A}$ ne s'annule pas, $\\mathcal{S}_H$ est une droite vectorielle.\n3. **Solution particulière (variation de la constante).** On cherche $y = Ce^{-A}$ avec $C$ dérivable : $y' + ay = C'e^{-A}$, donc $y$ est solution de $(E)$ si et seulement si $C' = be^{A}$. La fonction $be^{A}$ est continue, $C(t) = \\int_{t_0}^{t}b(s)e^{A(s)}\\,ds$ convient : $\\mathcal{S} \\neq \\emptyset$.\n4. **Structure affine.** Soit $y_p \\in \\mathcal{S}$. Par linéarité, $(y - y_p)' + a(y - y_p) = b - b = 0$ pour tout $y \\in \\mathcal{S}$, et réciproquement $y_p + h \\in \\mathcal{S}$ pour tout $h \\in \\mathcal{S}_H$. Donc $\\mathcal{S} = y_p + \\mathcal{S}_H$.\n5. **Problème de Cauchy.** Les solutions sont les $y = y_p + Ce^{-A}$, et $y(t_0) = y_0$ équivaut à $C = (y_0 - y_p(t_0))e^{A(t_0)}$ : il existe une unique valeur de $C$, donc une unique solution, définie sur tout $I$."
       },
-      developments: [
-        "Résolution complète de l'oscillateur harmonique avec frottement fluide et étude du régime critique.",
-        "Calcul explicite de l'exponentielle d'une matrice $2 \\times 2$ via Cayley-Hamilton et application au système différentiel."
+      "developments": [
+        "Oscillateur harmonique amorti (niveau L1, lien avec la physique de terminale) : résolution de $x'' + 2\\lambda x' + \\omega_0^2x = 0$ avec $\\lambda > 0$ selon le signe de $\\lambda^2 - \\omega_0^2$, preuve que toute solution tend vers 0, et vérification que le régime critique $\\lambda = \\omega_0$ maximise le taux de décroissance exponentielle.",
+        "Exponentielle d'une matrice $2 \\times 2$ (niveau L2) : par le théorème de Cayley-Hamilton, $A^2 = (\\mathrm{tr}A)A - (\\det A)I_2$, donc $e^{tA} = \\alpha(t)I_2 + \\beta(t)A$ ; on détermine $\\alpha$ et $\\beta$ à l'aide des valeurs propres, puis on résout le système $Y' = AY$.",
+        "Variation des constantes à l'ordre 2 (niveau L2) : recherche de $y = \\lambda(t)y_1 + \\mu(t)y_2$ sous la condition $\\lambda'y_1 + \\mu'y_2 = 0$, rôle du wronskien qui ne s'annule pas, et exemple de $y'' + y = \\frac{1}{\\cos t}$ sur $]-\\frac{\\pi}{2} ; \\frac{\\pi}{2}[$.",
+        "Équation $y' = ay + b$ en terminale (niveau lycée) : unicité de la solution par l'étude de $t \\mapsto (y(t) - y_\\ast(t))e^{-at}$, solution d'équilibre $-\\frac{b}{a}$ et comportement en $+\\infty$ selon le signe de $a$, appliqués à la loi de refroidissement de Newton."
       ],
-      juryTips: [
-        "Toujours préciser l'intervalle $I$ de travail ! Si $a(t)$ s'annule au dénominateur, il faut résoudre sur chaque intervalle maximal puis raccorder.",
-        "Attention au piège de l'existence globale : pour les équations non linéaires ($y' = y^2$), le temps d'explosion peut être fini ($y(t) = 1/(1-t)$)."
+      "juryTips": [
+        "Précisez toujours l'intervalle de résolution. Pour une équation $\\alpha(t)y' + \\beta(t)y = \\gamma(t)$ où $\\alpha$ s'annule, on résout sur chaque intervalle où $\\alpha$ ne s'annule pas, puis on étudie le raccordement : pour $ty' - 2y = 0$, les solutions sur $\\mathbb{R}$ sont les fonctions égales à $Ct^2$ sur $[0 ; +\\infty[$ et à $Dt^2$ sur $]-\\infty ; 0]$, ce qui forme un espace de dimension 2 et non 1.",
+        "L'argument « dérivée nulle implique constante » exige un intervalle : sur $\\mathbb{R}^{\\ast}$, la fonction égale à 1 sur $]0 ; +\\infty[$ et à $-1$ sur $]-\\infty ; 0[$ a une dérivée nulle sans être constante.",
+        "L'existence globale des solutions est propre au cas linéaire : l'équation non linéaire $y' = y^2$ avec $y(0) = 1$ a pour solution maximale $t \\mapsto \\frac{1}{1-t}$, définie sur $]-\\infty ; 1[$, qui explose en temps fini.",
+        "En cas de résonance, $y'' + \\omega^2y = \\cos(\\omega t)$ n'admet pas de solution de la forme $A\\cos(\\omega t) + B\\sin(\\omega t)$ mais admet $t \\mapsto \\frac{t}{2\\omega}\\sin(\\omega t)$ : sachez l'expliquer par le fait que $i\\omega$ est racine caractéristique.",
+        "Le jury demande de situer la notion : en première, l'unicité de la fonction égale à sa dérivée et valant 1 en 0 se démontre en étudiant le quotient de deux telles fonctions, ce qui est le même argument que l'étape 2 de la preuve de structure."
       ]
     },
     {
-      id: 'capes-02',
-      num: 'Leçon 02',
-      title: "Réduction des endomorphismes : éléments propres, diagonalisation et trigonalisation",
-      domain: "Algèbre",
-      level: "CAPES / Agrégation",
-      prerequisites: [
-        "Espaces vectoriels de dimension finie",
-        "Polynômes, racines et factorisation sur $\\mathbb{R}$ et $\\mathbb{C}$",
-        "Déterminant et matrices semblables"
+      "id": "capes-02",
+      "num": "Leçon 02",
+      "title": "Réduction des endomorphismes : éléments propres, diagonalisation et trigonalisation",
+      "domain": "Algèbre",
+      "level": "CAPES / Agrégation",
+      "prerequisites": [
+        "Situation dans les programmes : la réduction n'est pas enseignée au lycée, mais l'option mathématiques expertes de terminale étudie les matrices, les suites de matrices colonnes $U_{n+1} = AU_n$, le calcul de puissances de matrices et les marches aléatoires sur un graphe, où la diagonalisation intervient implicitement.",
+        "Espaces vectoriels de dimension finie, rang et théorème du rang, matrice d'un endomorphisme et changement de base.",
+        "Déterminant, matrices semblables, trace.",
+        "Polynômes sur $\\mathbb{K} = \\mathbb{R}$ ou $\\mathbb{C}$ : division euclidienne, racines et multiplicité, théorème de d'Alembert-Gauss, polynômes premiers entre eux et identité de Bézout."
       ],
-      plan: [
+      "plan": [
         {
-          part: "I. Sous-espaces stables et éléments propres",
-          content: "Définition de valeur propre, vecteur propre, spectre $\\text{Sp}(u)$. Sous-espaces propres $E_\\lambda = \\ker(u - \\lambda \\text{id})$. La somme des sous-espaces propres est toujours directe."
+          "part": "I. Éléments propres et sous-espaces stables",
+          "content": "Soit $E$ un $\\mathbb{K}$-espace vectoriel de dimension finie $n$ et $u \\in \\mathcal{L}(E)$. Un scalaire $\\lambda$ est valeur propre de $u$ s'il existe $x \\neq 0$ tel que $u(x) = \\lambda x$ ; sous-espace propre $E_\\lambda(u) = \\ker(u - \\lambda\\,\\mathrm{id})$, spectre $\\mathrm{Sp}(u)$. Sous-espaces stables ; si $u$ et $v$ commutent, les sous-espaces propres de $u$ sont stables par $v$. Théorème : des sous-espaces propres associés à des valeurs propres deux à deux distinctes sont en somme directe ; corollaire : une famille de vecteurs propres associés à des valeurs propres distinctes est libre, et $u$ possède au plus $n$ valeurs propres. Exemple : la rotation d'angle $\\frac{\\pi}{2}$ du plan euclidien n'a aucune valeur propre réelle."
         },
         {
-          part: "II. Polynôme caractéristique et critères de diagonalisabilité",
-          content: "Polynôme caractéristique $P_u(X) = \\det(X \\text{id} - u)$. Multiplicité algébrique $m_\\lambda$ et géométrique $d_\\lambda = \\dim(E_\\lambda)$. Théorème fondamental : $u$ est diagonalisable si et seulement si $P_u$ est scindé et pour toute valeur propre, $\\dim(E_\\lambda) = m_\\lambda$."
+          "part": "II. Polynôme caractéristique et diagonalisation",
+          "content": "Polynôme caractéristique $\\chi_u(X) = \\det(X\\,\\mathrm{id} - u)$, unitaire de degré $n$, de coefficient $-\\mathrm{tr}(u)$ en $X^{n-1}$ et de coefficient constant $(-1)^n\\det(u)$ ; ses racines dans $\\mathbb{K}$ sont les valeurs propres. Multiplicité algébrique $m_\\lambda$ et dimension $d_\\lambda = \\dim E_\\lambda$, avec $1 \\le d_\\lambda \\le m_\\lambda$. Théorème : $u$ est diagonalisable si et seulement si $\\chi_u$ est scindé sur $\\mathbb{K}$ et $d_\\lambda = m_\\lambda$ pour toute valeur propre ; condition suffisante : $\\chi_u$ scindé à racines simples. Contre-exemple : $\\begin{pmatrix} 1 & 1 \\\\ 0 & 1 \\end{pmatrix}$ n'est pas diagonalisable car $d_1 = 1$ et $m_1 = 2$. Applications : calcul de $A^k$ grâce à $A = PDP^{-1}$, suites récurrentes linéaires, systèmes différentiels."
         },
         {
-          part: "III. Polynômes annulateurs, lemme des noyaux et trigonalisation",
-          content: "Théorème de Cayley-Hamilton. Polynôme minimal $\\pi_u$. Théorème : $u$ est diagonalisable ssi son polynôme minimal est scindé à racines simples. Théorème de trigonalisation (scindé sur le corps)."
+          "part": "III. Polynômes d'endomorphismes et trigonalisation",
+          "content": "Polynômes annulateurs, polynôme minimal $\\pi_u$, dont les racines sont exactement les valeurs propres. Lemme des noyaux : si $P = P_1 \\cdots P_r$ avec des $P_i$ premiers entre eux deux à deux, alors $\\ker P(u) = \\ker P_1(u) \\oplus \\cdots \\oplus \\ker P_r(u)$. Théorème : $u$ est diagonalisable si et seulement s'il annule un polynôme scindé à racines simples. Théorème de Cayley-Hamilton : $\\chi_u(u) = 0$. Trigonalisation : $u$ est trigonalisable si et seulement si $\\chi_u$ est scindé ; toute matrice complexe est trigonalisable. Exemples : un projecteur ($p^2 = p$) et une symétrie ($s^2 = \\mathrm{id}$) sont diagonalisables ; une matrice nilpotente non nulle ne l'est pas."
         }
       ],
-      keyTheorem: {
-        title: "Somme directe des sous-espaces propres",
-        statement: "Soit $u \\in \\mathcal{L}(E)$ et $\\lambda_1, \\dots, \\lambda_k$ des valeurs propres deux à deux distinctes de $u$. Alors la somme des sous-espaces propres $E_{\\lambda_1} + \\dots + E_{\\lambda_k}$ est directe.",
-        proof: "Par récurrence sur $k \\ge 1$. Pour $k=1$, c'est immédiat. Supposons la propriété vraie au rang $k-1$. Soient $v_i \\in E_{\\lambda_i}$ tels que $\\sum_{i=1}^k v_i = 0$. On applique $u$ : $\\sum_{i=1}^k \\lambda_i v_i = 0$. On soustrait $\\lambda_k \\sum v_i = 0$ : $\\sum_{i=1}^{k-1} (\\lambda_i - \\lambda_k) v_i = 0$. Par hypothèse de récurrence, les sous-espaces sont en somme directe, donc pour tout $i \\in \\{1, \\dots, k-1\\}$, $(\\lambda_i - \\lambda_k) v_i = 0$. Comme les valeurs propres sont distinctes, $\\lambda_i - \\lambda_k \\ne 0$, donc $v_i = 0$. Il reste $v_k = 0$. La somme est bien directe."
+      "keyTheorem": {
+        "title": "Critère de diagonalisabilité par les sous-espaces propres",
+        "statement": "Soit $E$ un $\\mathbb{K}$-espace vectoriel de dimension finie $n \\ge 1$ et $u \\in \\mathcal{L}(E)$, de valeurs propres distinctes $\\lambda_1, \\dots, \\lambda_k$. Les assertions suivantes sont équivalentes : (i) $u$ est diagonalisable, c'est-à-dire qu'il existe une base de $E$ formée de vecteurs propres de $u$ ; (ii) $E = E_{\\lambda_1} \\oplus \\cdots \\oplus E_{\\lambda_k}$ ; (iii) $\\sum_{i=1}^{k}\\dim E_{\\lambda_i} = n$ ; (iv) $\\chi_u$ est scindé sur $\\mathbb{K}$ et, pour tout $i$, $\\dim E_{\\lambda_i}$ est égale à la multiplicité $m_{\\lambda_i}$ de $\\lambda_i$ comme racine de $\\chi_u$.",
+        "proof": "1. **Lemme : la somme $E_{\\lambda_1} + \\cdots + E_{\\lambda_k}$ est directe.** Récurrence sur $k$, le cas $k = 1$ étant clair. Soit $v_i \\in E_{\\lambda_i}$ avec $v_1 + \\cdots + v_k = 0$. En appliquant $u$ : $\\lambda_1v_1 + \\cdots + \\lambda_kv_k = 0$. En retranchant $\\lambda_k$ fois la première relation : $\\sum_{i=1}^{k-1}(\\lambda_i - \\lambda_k)v_i = 0$, avec $(\\lambda_i - \\lambda_k)v_i \\in E_{\\lambda_i}$. Par hypothèse de récurrence, $(\\lambda_i - \\lambda_k)v_i = 0$, donc $v_i = 0$ pour $i \\le k - 1$ car $\\lambda_i \\neq \\lambda_k$ ; enfin $v_k = 0$.\n2. **Lemme : $d_\\lambda \\le m_\\lambda$.** Soit $d = \\dim E_\\lambda$ et $(e_1, \\dots, e_d)$ une base de $E_\\lambda$, complétée en une base $\\mathcal{B}$ de $E$. La matrice de $u$ dans $\\mathcal{B}$ est triangulaire par blocs, de blocs diagonaux $\\lambda I_d$ et $C$. Donc $\\chi_u = (X - \\lambda)^d\\chi_C$, et $(X - \\lambda)^d$ divise $\\chi_u$, soit $d \\le m_\\lambda$.\n3. **(i) implique (ii).** Une base de vecteurs propres montre que $E = E_{\\lambda_1} + \\cdots + E_{\\lambda_k}$ ; la somme est directe par l'étape 1.\n4. **(ii) équivaut à (iii).** La somme étant directe, $\\dim(E_{\\lambda_1} \\oplus \\cdots \\oplus E_{\\lambda_k}) = \\sum \\dim E_{\\lambda_i}$ ; ce sous-espace est égal à $E$ si et seulement si sa dimension vaut $n$.\n5. **(ii) implique (i).** La concaténation de bases des $E_{\\lambda_i}$ est une base de $E$ formée de vecteurs propres.\n6. **(i) implique (iv).** Dans une base de vecteurs propres, la matrice de $u$ est diagonale, donc $\\chi_u = \\prod_{i=1}^{k}(X - \\lambda_i)^{d_{\\lambda_i}}$ : $\\chi_u$ est scindé et $m_{\\lambda_i} = d_{\\lambda_i}$.\n7. **(iv) implique (iii).** Si $\\chi_u$ est scindé, la somme des multiplicités de ses racines est son degré $n$, donc $\\sum d_{\\lambda_i} = \\sum m_{\\lambda_i} = n$."
       },
-      developments: [
-        "Démonstration du lemme des noyaux et application à la diagonalisation par polynôme annulateur.",
-        "Calcul des puissances de la matrice de Fibonacci et terme général de la suite de Fibonacci."
+      "developments": [
+        "Lemme des noyaux et critère « $u$ est diagonalisable si et seulement s'il annule un polynôme scindé à racines simples » (niveau L2) : preuve par l'identité de Bézout dans $\\mathbb{K}[X]$, puis application : tout endomorphisme vérifiant $u^3 = u$ est diagonalisable.",
+        "Suite de Fibonacci par la réduction (niveau L1-L2, lien avec les mathématiques expertes) : la matrice $\\begin{pmatrix} 1 & 1 \\\\ 1 & 0 \\end{pmatrix}$ a pour valeurs propres $\\varphi = \\frac{1 + \\sqrt{5}}{2}$ et $-\\frac{1}{\\varphi}$, d'où la formule $F_n = \\frac{1}{\\sqrt{5}}\\left(\\varphi^n - \\left(-\\frac{1}{\\varphi}\\right)^n\\right)$.",
+        "Théorème de Cayley-Hamilton (niveau L2) : preuve par les sous-espaces cycliques et les matrices compagnons, ou par densité des matrices diagonalisables dans $\\mathcal{M}_n(\\mathbb{C})$.",
+        "Marche aléatoire à deux états (lien avec l'option mathématiques expertes) : diagonalisation de la matrice de transition $\\begin{pmatrix} 1-p & p \\\\ q & 1-q \\end{pmatrix}$, de valeurs propres $1$ et $1 - p - q$, et convergence vers la loi stationnaire $\\left(\\frac{q}{p+q}, \\frac{p}{p+q}\\right)$ lorsque $0 \\lt p + q \\lt 2$."
       ],
-      juryTips: [
-        "Ne pas confondre polynôme caractéristique et polynôme minimal !",
-        "Savoir justifier rigoureusement pourquoi une matrice symétrique réelle est toujours diagonalisable."
+      "juryTips": [
+        "Ne confondez pas polynôme caractéristique et polynôme minimal : pour $u = \\mathrm{id}_E$ avec $\\dim E = n$, $\\chi_u = (X - 1)^n$ alors que $\\pi_u = X - 1$.",
+        "Le corps de base compte : $\\begin{pmatrix} 0 & -1 \\\\ 1 & 0 \\end{pmatrix}$ n'est pas diagonalisable sur $\\mathbb{R}$, faute de valeur propre réelle, mais l'est sur $\\mathbb{C}$, avec les valeurs propres $i$ et $-i$.",
+        "Avoir $n$ valeurs propres distinctes est une condition suffisante, non nécessaire : $I_n$ est diagonale et n'a qu'une seule valeur propre.",
+        "Une matrice symétrique réelle est diagonalisable dans une base orthonormée (théorème spectral), mais une matrice symétrique complexe ne l'est pas toujours : $\\begin{pmatrix} 1 & i \\\\ i & -1 \\end{pmatrix}$ est nilpotente et non nulle.",
+        "Le jury vérifie la maîtrise du calcul : pour $A = \\begin{pmatrix} 2 & 1 \\\\ 1 & 2 \\end{pmatrix}$, il faut trouver rapidement $\\mathrm{Sp}(A) = \\{1, 3\\}$, les vecteurs propres $(1, -1)$ et $(1, 1)$, puis exprimer $A^n$."
       ]
     },
     {
-      id: 'capes-03',
-      num: 'Leçon 03',
-      title: "Séries de Fourier : coefficients, convergence et formule de Parseval",
-      domain: "Analyse",
-      level: "CAPES / Agrégation",
-      prerequisites: [
-        "Espaces préhilbertiens et orthogonalité",
-        "Intégration des fonctions continues par morceaux",
-        "Suites et séries de fonctions, convergence uniforme"
+      "id": "capes-03",
+      "num": "Leçon 03",
+      "title": "Séries de Fourier : coefficients, convergence et formule de Parseval",
+      "domain": "Analyse",
+      "level": "CAPES / Agrégation",
+      "prerequisites": [
+        "Situation dans les programmes : fonctions trigonométriques, parité et périodicité (première et terminale), calcul intégral et intégration par parties (terminale spécialité) ; en physique-chimie, décomposition d'un signal périodique en harmoniques et notion de spectre.",
+        "Espaces préhilbertiens complexes, familles orthonormées, inégalité de Bessel et projection orthogonale sur un sous-espace de dimension finie.",
+        "Intégration des fonctions continues par morceaux sur un segment, continuité uniforme sur un segment.",
+        "Suites et séries de fonctions : convergence simple, uniforme et normale, intégration terme à terme en cas de convergence uniforme."
       ],
-      plan: [
+      "plan": [
         {
-          part: "I. Coefficients de Fourier et système trigonométrique",
-          content: "Fonctions $T$-périodiques continues par morceaux. Famille orthonormée trigonométrique $(e^{i n \\omega t})_{n \\in \\mathbb{Z}}$ sur $[0, T]$. Coefficients exponentiels $c_n(f)$ et réels $a_n(f), b_n(f)$."
+          "part": "I. Coefficients de Fourier et système trigonométrique",
+          "content": "On note $\\mathcal{D}$ l'espace des fonctions $f : \\mathbb{R} \\to \\mathbb{C}$, $2\\pi$-périodiques et continues par morceaux, muni de $\\langle f, g \\rangle = \\frac{1}{2\\pi}\\int_{-\\pi}^{\\pi}f(t)\\overline{g(t)}\\,dt$. La famille $(e_n)_{n \\in \\mathbb{Z}}$, $e_n(t) = e^{int}$, est orthonormée. Coefficients $c_n(f) = \\frac{1}{2\\pi}\\int_{-\\pi}^{\\pi}f(t)e^{-int}\\,dt = \\langle f, e_n \\rangle$, et pour $n \\ge 0$, $a_n(f) = \\frac{1}{\\pi}\\int_{-\\pi}^{\\pi}f(t)\\cos(nt)\\,dt$, $b_n(f) = \\frac{1}{\\pi}\\int_{-\\pi}^{\\pi}f(t)\\sin(nt)\\,dt$, avec $c_0 = \\frac{a_0}{2}$ et $c_{\\pm n} = \\frac{a_n \\mp ib_n}{2}$ pour $n \\ge 1$. Sommes partielles $S_N(f) = \\sum_{|n| \\le N}c_n(f)e_n$. Propriétés : si $f$ est paire, $b_n = 0$ ; si $f$ est continue et de classe $\\mathcal{C}^1$ par morceaux, $c_n(f') = in\\,c_n(f)$ ; lemme de Riemann-Lebesgue $c_n(f) \\to 0$."
         },
         {
-          part: "II. Théorèmes de convergence ponctuelle et uniforme",
-          content: "Théorème de Dirichlet (régularité $\\mathcal{C}^1$ par morceaux). Convergence ponctuelle vers $\\frac{f(x^+) + f(x^-)}{2}$. Théorème de convergence normale pour $f \\in \\mathcal{C}^1$ périodique."
+          "part": "II. Convergence ponctuelle et uniforme",
+          "content": "Noyau de Dirichlet $D_N(t) = \\sum_{|n| \\le N}e^{int} = \\frac{\\sin\\left((N + \\frac{1}{2})t\\right)}{\\sin(t/2)}$ pour $t \\notin 2\\pi\\mathbb{Z}$, et $S_N(f)(x) = \\frac{1}{2\\pi}\\int_{-\\pi}^{\\pi}f(x - t)D_N(t)\\,dt$. Théorème de Dirichlet : si $f$ est de classe $\\mathcal{C}^1$ par morceaux, $S_N(f)(x)$ converge vers $\\frac{f(x^+) + f(x^-)}{2}$ en tout réel $x$. Théorème : si $f$ est continue et de classe $\\mathcal{C}^1$ par morceaux, la série $\\sum |c_n(f)|$ converge et la série de Fourier converge normalement vers $f$. Exemple : la fonction créneau et le phénomène de Gibbs. Contre-exemple : il existe des fonctions continues dont la série de Fourier diverge en un point."
         },
         {
-          part: "III. Égalité de Parseval et convergence en moyenne quadratique",
-          content: "Théorème de Parseval : $\\frac{1}{T} \\int_0^T |f|^2 = \\sum |c_n|^2$. Densité trigonométrique dans $L^2$. Calculs de sommes de séries remarquables (somme de Bâle $\\sum 1/n^2 = \\pi^2/6$)."
+          "part": "III. Convergence en moyenne quadratique et formule de Parseval",
+          "content": "$S_N(f)$ est la projection orthogonale de $f$ sur l'espace $\\mathcal{P}_N$ des polynômes trigonométriques de degré au plus $N$ ; inégalité de Bessel $\\sum_{|n| \\le N}|c_n(f)|^2 \\le \\frac{1}{2\\pi}\\int_{-\\pi}^{\\pi}|f|^2$. Théorème de Fejér : pour $f$ continue, les moyennes de Cesàro des $S_N(f)$ convergent uniformément vers $f$ ; densité des polynômes trigonométriques. Formule de Parseval, équivalente à $\\|f - S_N(f)\\|_2 \\to 0$. Applications : avec la fonction $2\\pi$-périodique égale à $x^2$ sur $[-\\pi ; \\pi]$, $\\sum_{n \\ge 1}\\frac{1}{n^2} = \\frac{\\pi^2}{6}$ et $\\sum_{n \\ge 1}\\frac{1}{n^4} = \\frac{\\pi^4}{90}$ ; injectivité de $f \\mapsto (c_n(f))_n$ sur les fonctions continues ; équation de la chaleur sur un cercle."
         }
       ],
-      keyTheorem: {
-        title: "Égalité de Parseval pour une fonction continue par morceaux",
-        statement: "Soit $f : \\mathbb{R} \\to \\mathbb{C}$ $2\\pi$-périodique et continue par morceaux. Alors $\\frac{1}{2\\pi} \\int_{-\\pi}^{\\pi} |f(t)|^2 \\, dt = \\sum_{n=-\\infty}^{+\\infty} |c_n(f)|^2 = a_0^2 + \\frac{1}{2} \\sum_{n=1}^{+\\infty} (a_n^2 + b_n^2)$.",
-        proof: "C'est l'inégalité de Bessel appliquée à la famille orthonormée $(e^{int})_{n \\in \\mathbb{Z}}$ couplée à la densité des polynômes trigonométriques dans $L^2([-\\pi, \\pi])$ (Théorème de Weierstrass trigonométrique ou approximation par le noyau de Fejér)."
+      "keyTheorem": {
+        "title": "Formule de Parseval pour une fonction continue par morceaux",
+        "statement": "Soit $f : \\mathbb{R} \\to \\mathbb{C}$ une fonction $2\\pi$-périodique et continue par morceaux. Alors $\\|f - S_N(f)\\|_2 \\to 0$ quand $N \\to +\\infty$, et $\\frac{1}{2\\pi}\\int_{-\\pi}^{\\pi}|f(t)|^2\\,dt = \\sum_{n=-\\infty}^{+\\infty}|c_n(f)|^2 = \\frac{|a_0|^2}{4} + \\frac{1}{2}\\sum_{n=1}^{+\\infty}\\left(|a_n|^2 + |b_n|^2\\right)$, où $\\|g\\|_2^2 = \\frac{1}{2\\pi}\\int_{-\\pi}^{\\pi}|g|^2$.",
+        "proof": "1. **Projection orthogonale.** La forme $\\langle \\cdot, \\cdot \\rangle$ est sesquilinéaire, hermitienne et positive (seulement semi-définie sur $\\mathcal{D}$, ce qui suffit pour Pythagore). Pour $|k| \\le N$, $\\langle f - S_N(f), e_k \\rangle = c_k(f) - c_k(f) = 0$ par orthonormalité des $e_n$. Donc $f - S_N(f)$ est orthogonal à $\\mathcal{P}_N$, et $\\|f\\|_2^2 = \\|S_N(f)\\|_2^2 + \\|f - S_N(f)\\|_2^2$ avec $\\|S_N(f)\\|_2^2 = \\sum_{|n| \\le N}|c_n(f)|^2$.\n2. **Meilleure approximation.** Pour $P \\in \\mathcal{P}_N$, $f - P = (f - S_N(f)) + (S_N(f) - P)$ est une somme de deux vecteurs orthogonaux, d'où $\\|f - P\\|_2 \\ge \\|f - S_N(f)\\|_2$. En particulier, $N \\mapsto \\|f - S_N(f)\\|_2$ est décroissante, puisque $\\mathcal{P}_N \\subset \\mathcal{P}_{N+1}$.\n3. **Théorème de Fejér pour $g$ continue.** Soit $\\sigma_N(g) = \\frac{1}{N}\\sum_{k=0}^{N-1}S_k(g) \\in \\mathcal{P}_{N-1}$. On a $\\sigma_N(g)(x) = \\frac{1}{2\\pi}\\int_{-\\pi}^{\\pi}g(x - t)K_N(t)\\,dt$ avec $K_N(t) = \\frac{1}{N}\\left(\\frac{\\sin(Nt/2)}{\\sin(t/2)}\\right)^2$. Ce noyau est positif, d'intégrale $\\frac{1}{2\\pi}\\int_{-\\pi}^{\\pi}K_N = 1$, et $K_N(t) \\le \\frac{1}{N\\sin^2(\\delta/2)}$ pour $\\delta \\le |t| \\le \\pi$. Soit $\\varepsilon > 0$ ; par continuité uniforme de $g$, il existe $\\delta$ tel que $|t| \\lt \\delta$ implique $|g(x - t) - g(x)| \\le \\varepsilon$ pour tout $x$. Alors $|\\sigma_N(g)(x) - g(x)| \\le \\frac{1}{2\\pi}\\int_{-\\pi}^{\\pi}|g(x - t) - g(x)|K_N(t)\\,dt \\le \\varepsilon + \\frac{2\\|g\\|_\\infty}{N\\sin^2(\\delta/2)}$, quantité inférieure à $2\\varepsilon$ pour $N$ assez grand, uniformément en $x$.\n4. **Approximation de $f$ par une fonction continue.** La fonction $f$ est bornée par un réel $M$ et n'a qu'un nombre fini $p$ de discontinuités par période. En remplaçant $f$ par une fonction affine sur un intervalle de longueur $\\eta$ autour de chacune d'elles, on obtient $g$ continue, $2\\pi$-périodique, avec $|g| \\le M$ et $g = f$ hors d'une réunion d'intervalles de longueur totale $p\\eta$ par période. Donc $\\|f - g\\|_2^2 \\le \\frac{p\\eta(2M)^2}{2\\pi}$, qui est inférieur à $\\varepsilon^2$ pour $\\eta$ assez petit.\n5. **Conclusion.** Pour $N$ assez grand, $\\sigma_{N+1}(g) \\in \\mathcal{P}_N$ et, par l'étape 2, $\\|f - S_N(f)\\|_2 \\le \\|f - \\sigma_{N+1}(g)\\|_2 \\le \\|f - g\\|_2 + \\|g - \\sigma_{N+1}(g)\\|_\\infty \\le 3\\varepsilon$. Donc $\\|f - S_N(f)\\|_2 \\to 0$, et l'égalité de l'étape 1 donne $\\sum_{n \\in \\mathbb{Z}}|c_n(f)|^2 = \\|f\\|_2^2$.\n6. **Forme réelle.** $|c_0|^2 = \\frac{|a_0|^2}{4}$ et, pour $n \\ge 1$, $|c_n|^2 + |c_{-n}|^2 = \\frac{|a_n - ib_n|^2 + |a_n + ib_n|^2}{4} = \\frac{|a_n|^2 + |b_n|^2}{2}$ par l'identité du parallélogramme."
       },
-      developments: [
-        "Calcul de $\\sum_{n=1}^\\infty \\frac{1}{n^2} = \\frac{\\pi^2}{6}$ et $\\sum_{n=1}^\\infty \\frac{1}{n^4} = \\frac{\\pi^4}{90}$ via le développement en série de Fourier de $f(x) = x^2$.",
-        "Inégalité isopérimétrique dans le plan démontrée par les coefficients de Fourier de Hurwitz."
+      "developments": [
+        "Calcul de $\\sum \\frac{1}{n^2}$ et de $\\sum \\frac{1}{n^4}$ (niveau L2) : pour la fonction $2\\pi$-périodique égale à $x^2$ sur $[-\\pi ; \\pi]$, $a_0 = \\frac{2\\pi^2}{3}$ et $a_n = \\frac{4(-1)^n}{n^2}$ ; la convergence normale au point $\\pi$ donne $\\frac{\\pi^2}{6}$ et la formule de Parseval donne $\\frac{\\pi^4}{90}$.",
+        "Théorème de Fejér (niveau L3) : calcul du noyau $K_N$, positivité, concentration près de 0 et convergence uniforme des moyennes de Cesàro pour $f$ continue ; corollaires : densité des polynômes trigonométriques et unicité des coefficients de Fourier d'une fonction continue.",
+        "Inégalité isopérimétrique (niveau L3) : pour une courbe fermée de classe $\\mathcal{C}^1$, de longueur $L$, délimitant un domaine d'aire $\\mathcal{A}$, on a $4\\pi\\mathcal{A} \\le L^2$, avec égalité pour le cercle ; preuve par la formule de Parseval appliquée à une paramétrisation par l'abscisse curviligne.",
+        "Équation de la chaleur sur un cercle (niveau L3) : recherche de solutions $u(x, t) = \\sum_{n \\in \\mathbb{Z}}c_ne^{-n^2t}e^{inx}$, justification de la régularité pour $t > 0$ et convergence vers la moyenne de la donnée initiale."
       ],
-      juryTips: [
-        "Maîtriser impérativement le phénomène de Gibbs : aux discontinuités, la série de Fourier dépasse de ~9 % le saut de la fonction !",
-        "Ne pas affirmer que la série de Fourier converge en tout point pour toute fonction continue (phénomène de Du Bois-Reymond)."
+      "juryTips": [
+        "Le phénomène de Gibbs : pour la fonction créneau, les sommes partielles dépassent la valeur de la fonction près d'une discontinuité d'environ 9 % de l'amplitude du saut, et ce dépassement ne tend pas vers 0. Il n'y a donc pas convergence uniforme, ce qui est cohérent avec le fait qu'une limite uniforme de fonctions continues est continue.",
+        "La continuité ne suffit pas pour la convergence ponctuelle : il existe des fonctions continues dont la série de Fourier diverge en un point. Les hypothèses du théorème de Dirichlet ne sont pas décoratives.",
+        "Sur les fonctions continues par morceaux, $\\langle f, g \\rangle = \\frac{1}{2\\pi}\\int_{-\\pi}^{\\pi}f\\overline{g}$ n'est pas défini positif : une fonction nulle sauf en un point par période a une norme nulle. On travaille sur les fonctions continues ou l'on identifie les fonctions égales sauf en un nombre fini de points par période.",
+        "Vérifiez les conventions : avec $a_0 = \\frac{1}{\\pi}\\int_{-\\pi}^{\\pi}f$, le terme constant de la série est $\\frac{a_0}{2}$ et Parseval fait intervenir $\\frac{|a_0|^2}{4}$, non $|a_0|^2$.",
+        "Lien avec le lycée : savoir montrer à un élève de terminale que $\\int_0^{2\\pi}\\cos(nt)\\cos(mt)\\,dt = 0$ pour des entiers naturels $n \\neq m$, et relier les coefficients aux harmoniques d'un son étudiés en physique."
       ]
     },
     {
-      id: 'capes-04',
-      num: 'Leçon 04',
-      title: "Variables aléatoires réelles discrètes : loi, espérance, variance et lois classiques",
-      domain: "Probabilités",
-      level: "CAPES / Agrégation",
-      prerequisites: [
-        "Espaces probabilisés discrets, axiomes de Kolmogorov",
-        "Séries numériques à termes positifs",
-        "Dénombrement et combinaisons"
+      "id": "capes-04",
+      "num": "Leçon 04",
+      "title": "Variables aléatoires réelles discrètes : loi, espérance, variance et lois classiques",
+      "domain": "Probabilités",
+      "level": "CAPES / Agrégation",
+      "prerequisites": [
+        "Situation dans les programmes : en première, variable aléatoire sur un univers fini, loi, espérance, variance et écart-type ; en terminale spécialité, loi binomiale, somme de variables aléatoires, inégalité de Bienaymé-Tchebychev, inégalité de concentration et loi faible des grands nombres ; la loi géométrique figure dans l'option mathématiques complémentaires.",
+        "Espaces probabilisés : tribu, probabilité, $\\sigma$-additivité, probabilités conditionnelles, formule des probabilités totales, indépendance.",
+        "Séries numériques à termes positifs, convergence absolue, sommation par paquets.",
+        "Dénombrement : coefficients binomiaux et formule du binôme."
       ],
-      plan: [
+      "plan": [
         {
-          part: "I. Définition et caractérisation d'une v.a.r. discrète",
-          content: "Espace $(\\Omega, \\mathcal{T}, P)$. Variable aléatoire $X(\\Omega)$ au plus dénombrable. Loi de probabilité $P(X = x_k)$. Fonction de répartition $F_X(t) = P(X \\le t)$."
+          "part": "I. Variables aléatoires discrètes et lois",
+          "content": "Sur un espace probabilisé $(\\Omega, \\mathcal{A}, P)$, une variable aléatoire discrète est une application $X : \\Omega \\to \\mathbb{R}$ dont l'image $X(\\Omega)$ est finie ou dénombrable et telle que $\\{X = x\\} \\in \\mathcal{A}$ pour tout $x$. Sa loi est la famille $(P(X = x))_{x \\in X(\\Omega)}$, de somme 1 ; réciproquement, toute famille de réels positifs de somme 1 indexée par une partie dénombrable de $\\mathbb{R}$ est la loi d'une variable aléatoire. Fonction de répartition $F_X(t) = P(X \\le t)$ : croissante, continue à droite, de limites 0 en $-\\infty$ et 1 en $+\\infty$. Couples de variables, lois marginales, indépendance : $P(X = x, Y = y) = P(X = x)P(Y = y)$ pour tous $x, y$."
         },
         {
-          part: "II. Moments d'une variable aléatoire",
-          content: "Espérance $E(X) = \\sum x_k P(X = x_k)$ (absolue convergence). Théorème de transfert $E(g(X))$. Variance $V(X) = E(X^2) - E(X)^2$, écart-type. Inégalité de Bienaymé-Tchebychev."
+          "part": "II. Espérance, variance et inégalités",
+          "content": "$X$ admet une espérance si $\\sum |x|P(X = x)$ converge, et alors $E(X) = \\sum xP(X = x)$. Linéarité, positivité, croissance. Théorème de transfert : $g(X)$ admet une espérance si et seulement si $\\sum |g(x)|P(X = x)$ converge, et $E(g(X)) = \\sum g(x)P(X = x)$. Variance $V(X) = E\\left((X - E(X))^2\\right) = E(X^2) - E(X)^2$, et $V(aX + b) = a^2V(X)$. Si $X$ et $Y$ sont indépendantes et admettent une variance, $E(XY) = E(X)E(Y)$ et $V(X + Y) = V(X) + V(Y)$. Inégalités de Markov et de Bienaymé-Tchebychev."
         },
         {
-          part: "III. Lois usuelles discrètes et théorèmes limites",
-          content: "Loi de Bernoulli, Binomiale $\\mathcal{B}(n, p)$, Géométrique $\\mathcal{G}(p)$ (absence de mémoire), Poisson $\\mathcal{P}(\\lambda)$. Loi des grands nombres."
+          "part": "III. Lois usuelles et loi faible des grands nombres",
+          "content": "Loi de Bernoulli $\\mathcal{B}(p)$ : espérance $p$, variance $p(1-p)$. Loi binomiale $\\mathcal{B}(n, p)$, loi de la somme de $n$ variables de Bernoulli indépendantes de paramètre $p$ : espérance $np$, variance $np(1-p)$. Loi géométrique $\\mathcal{G}(p)$ sur $\\mathbb{N}^{\\ast}$, rang du premier succès : $P(X = k) = (1-p)^{k-1}p$, espérance $\\frac{1}{p}$, variance $\\frac{1-p}{p^2}$, absence de mémoire. Loi de Poisson $\\mathcal{P}(\\lambda)$ : espérance et variance égales à $\\lambda$. Fonction génératrice $G_X(s) = E(s^X)$ pour $X$ à valeurs dans $\\mathbb{N}$. Loi faible des grands nombres pour des variables indépendantes de même loi admettant une variance. Applications : estimation d'une proportion, taille d'échantillon, simulation."
         }
       ],
-      keyTheorem: {
-        title: "Inégalité de Bienaymé-Tchebychev",
-        statement: "Soit $X$ une v.a.r. discrète admettant une variance. Alors pour tout $\\varepsilon > 0$, $P(|X - E(X)| \\ge \\varepsilon) \\le \\frac{V(X)}{\\varepsilon^2}$.",
-        proof: "Soit $Y = (X - E(X))^2$. $Y$ est positive. D'après l'inégalité de Markov appliquée à $Y$ pour $\\alpha = \\varepsilon^2 > 0$ : $P(Y \\ge \\varepsilon^2) \\le \\frac{E(Y)}{\\varepsilon^2} = \\frac{V(X)}{\\varepsilon^2}$. Or l'événement $\{Y \\ge \\varepsilon^2\}$ est exactement $\{|X - E(X)| \\ge \\varepsilon\}$, d'où le résultat."
+      "keyTheorem": {
+        "title": "Inégalités de Markov et de Bienaymé-Tchebychev, loi faible des grands nombres",
+        "statement": "Soit $X$ une variable aléatoire réelle discrète. (i) Si $X$ est à valeurs positives et admet une espérance, alors pour tout $a > 0$, $P(X \\ge a) \\le \\frac{E(X)}{a}$. (ii) Si $X$ admet une variance, alors pour tout $\\varepsilon > 0$, $P(|X - E(X)| \\ge \\varepsilon) \\le \\frac{V(X)}{\\varepsilon^2}$. (iii) Si $X_1, \\dots, X_n$ sont indépendantes, de même loi, d'espérance $m$ et de variance $\\sigma^2$, et si $M_n = \\frac{X_1 + \\cdots + X_n}{n}$, alors pour tout $\\varepsilon > 0$, $P(|M_n - m| \\ge \\varepsilon) \\le \\frac{\\sigma^2}{n\\varepsilon^2}$, qui tend vers 0 quand $n \\to +\\infty$.",
+        "proof": "1. **Markov.** Les valeurs $x$ de $X$ sont positives et la série $\\sum xP(X = x)$ converge. En séparant les valeurs $x \\ge a$ et $x \\lt a$ : $E(X) = \\sum_{x \\ge a}xP(X = x) + \\sum_{x \\lt a}xP(X = x) \\ge \\sum_{x \\ge a}xP(X = x)$, car la seconde somme est positive. Puis $\\sum_{x \\ge a}xP(X = x) \\ge a\\sum_{x \\ge a}P(X = x) = aP(X \\ge a)$ par $\\sigma$-additivité. Donc $P(X \\ge a) \\le \\frac{E(X)}{a}$.\n2. **Bienaymé-Tchebychev.** La variable $Y = (X - E(X))^2$ est discrète, positive, et admet l'espérance $V(X)$. Comme $\\varepsilon > 0$, les événements $\\{|X - E(X)| \\ge \\varepsilon\\}$ et $\\{Y \\ge \\varepsilon^2\\}$ sont égaux. Markov appliqué à $Y$ avec $a = \\varepsilon^2$ donne $P(|X - E(X)| \\ge \\varepsilon) \\le \\frac{V(X)}{\\varepsilon^2}$.\n3. **Moments de $M_n$.** Par linéarité, $E(M_n) = \\frac{1}{n}\\sum_{k=1}^{n}E(X_k) = m$. Par indépendance, $V(X_1 + \\cdots + X_n) = \\sum_{k=1}^{n}V(X_k) = n\\sigma^2$, donc $V(M_n) = \\frac{n\\sigma^2}{n^2} = \\frac{\\sigma^2}{n}$.\n4. **Conclusion.** Bienaymé-Tchebychev appliqué à $M_n$ donne $P(|M_n - m| \\ge \\varepsilon) \\le \\frac{\\sigma^2}{n\\varepsilon^2}$, majorant qui tend vers 0."
       },
-      developments: [
-        "Convergence de la loi binomiale $\\mathcal{B}(n, \\lambda/n)$ vers la loi de Poisson $\\mathcal{P}(\\lambda)$ (loi des événements rares).",
-        "Problème du collectionneur de vignettes (espérance et temps d'attente via la loi géométrique)."
+      "developments": [
+        "Approximation de la loi binomiale par la loi de Poisson (niveau L1-L2) : si $np_n \\to \\lambda > 0$, alors pour tout entier $k$, $\\binom{n}{k}p_n^k(1-p_n)^{n-k} \\to e^{-\\lambda}\\frac{\\lambda^k}{k!}$ ; preuve par équivalents et par $\\ln(1 - p_n) \\sim -p_n$, interprétation comme loi des événements rares.",
+        "Caractérisation de la loi géométrique par l'absence de mémoire (niveau L1) : si $X$ est à valeurs dans $\\mathbb{N}^{\\ast}$, avec $P(X > k) > 0$ et $P(X > n + k \\mid X > n) = P(X > k)$ pour tous $n, k \\in \\mathbb{N}$, alors $u_k = P(X > k)$ vérifie $u_{n+k} = u_nu_k$, donc $u_k = u_1^k$, et $X$ suit la loi $\\mathcal{G}(p)$ avec $p = P(X = 1)$.",
+        "Problème du collectionneur (niveau L1, abordable en terminale) : le nombre $T_n$ de tirages nécessaires pour obtenir les $n$ vignettes est une somme de variables géométriques de paramètres $\\frac{n-k}{n}$, $0 \\le k \\le n - 1$, d'où $E(T_n) = n\\sum_{k=1}^{n}\\frac{1}{k} \\sim n\\ln n$.",
+        "Loi faible des grands nombres et estimation (niveau terminale) : à l'aide de Bienaymé-Tchebychev et de $p(1-p) \\le \\frac{1}{4}$, déterminer une taille d'échantillon $n$ garantissant $P(|F_n - p| \\ge 0{,}05) \\le 0{,}05$, ce qui donne $n \\ge 2000$."
       ],
-      juryTips: [
-        "Toujours vérifier la sommabilité absolue avant d'écrire une espérance !",
-        "Bien connaître la propriété d'absence de mémoire qui caractérise la loi géométrique parmi les lois discrètes entières."
+      "juryTips": [
+        "Une variable discrète n'admet pas toujours d'espérance : si $P(X = k) = \\frac{1}{k(k+1)}$ pour $k \\in \\mathbb{N}^{\\ast}$, la loi est bien définie (somme télescopique égale à 1), mais $\\sum kP(X = k) = \\sum \\frac{1}{k+1}$ diverge.",
+        "La convergence absolue est exigée dans la définition de l'espérance pour que la somme ne dépende pas de l'ordre d'énumération de $X(\\Omega)$, en lien avec le théorème de réarrangement de Riemann.",
+        "L'additivité de la variance demande l'indépendance (la non-corrélation suffit) : pour $Y = -X$, $V(X + Y) = 0$ alors que $V(X) + V(Y) = 2V(X)$.",
+        "L'inégalité de Bienaymé-Tchebychev est souvent grossière : pour $X$ de loi $\\mathcal{B}(100, \\frac{1}{2})$, elle donne $P(|X - 50| \\ge 10) \\le 0{,}25$ alors que la valeur exacte est environ $0{,}057$. Le jury attend que l'on sache commenter cet écart.",
+        "Situer la notion : au lycée, les variables sont définies sur un univers fini et la loi est donnée par un tableau ; le passage au dénombrable, avec les lois géométrique et de Poisson, est ce qui rend nécessaires les séries et la convergence absolue."
       ]
     },
     {
-      id: 'capes-05',
-      num: 'Leçon 05',
-      title: "Espaces préhilbertiens réels, orthogonalité et projections orthogonales",
-      domain: "Géométrie & Algèbre",
-      level: "CAPES / Agrégation",
-      prerequisites: [
-        "Espaces vectoriels sur $\\mathbb{R}$",
-        "Formes bilinéaires symétriques et formes quadratiques"
+      "id": "capes-05",
+      "num": "Leçon 05",
+      "title": "Espaces préhilbertiens réels, orthogonalité et projections orthogonales",
+      "domain": "Géométrie & Algèbre",
+      "level": "CAPES / Agrégation",
+      "prerequisites": [
+        "Situation dans les programmes : théorème de Pythagore et distance d'un point à une droite au collège ; produit scalaire dans le plan en première (projection orthogonale, norme, formule d'Al-Kashi, expression en repère orthonormé) ; produit scalaire dans l'espace, orthogonalité et projeté orthogonal sur une droite ou un plan en terminale spécialité.",
+        "Espaces vectoriels réels, familles libres et génératrices, dimension, sous-espaces supplémentaires.",
+        "Formes bilinéaires symétriques et formes quadratiques, identités de polarisation.",
+        "Trinôme du second degré : signe et discriminant."
       ],
-      plan: [
+      "plan": [
         {
-          part: "I. Produit scalaire et norme euclidienne",
-          content: "Forme bilinéaire symétrique définie positive. Inégalité de Cauchy-Schwarz et cas d'égalité. Inégalité triangulaire (norme associée)."
+          "part": "I. Produit scalaire et norme euclidienne",
+          "content": "Un produit scalaire sur un $\\mathbb{R}$-espace vectoriel $E$ est une forme bilinéaire symétrique définie positive ; norme associée $\\|x\\| = \\sqrt{\\langle x, x \\rangle}$. Exemples : produit canonique sur $\\mathbb{R}^n$ ; $\\langle A, B \\rangle = \\mathrm{tr}(A^{\\top}B)$ sur $\\mathcal{M}_n(\\mathbb{R})$ ; $\\langle f, g \\rangle = \\int_a^b fg$ sur $\\mathcal{C}([a ; b], \\mathbb{R})$, défini positif grâce à la continuité. Identités de polarisation et du parallélogramme. Inégalité de Cauchy-Schwarz $|\\langle x, y \\rangle| \\le \\|x\\|\\|y\\|$, avec égalité si et seulement si $(x, y)$ est liée ; inégalité triangulaire, avec égalité si et seulement si les vecteurs sont positivement liés. Théorème de Pythagore."
         },
         {
-          part: "II. Orthogonalité et familles orthonormales",
-          content: "Vecteurs orthogonaux, sous-espaces orthogonaux $F^\\perp$. Familles libres orthonormales. Procédé d'orthonormalisation de Gram-Schmidt."
+          "part": "II. Orthogonalité et bases orthonormées",
+          "content": "Vecteurs orthogonaux, orthogonal $A^{\\perp}$ d'une partie $A$ (c'est un sous-espace vectoriel). Une famille orthogonale de vecteurs non nuls est libre. Procédé de Gram-Schmidt : pour toute famille libre $(x_1, \\dots, x_p)$, il existe une unique famille orthonormée $(e_1, \\dots, e_p)$ telle que $\\mathrm{Vect}(e_1, \\dots, e_k) = \\mathrm{Vect}(x_1, \\dots, x_k)$ et $\\langle e_k, x_k \\rangle > 0$ pour tout $k$. Conséquences : tout espace euclidien admet une base orthonormée, dans laquelle $x = \\sum \\langle x, e_i \\rangle e_i$ et $\\|x\\|^2 = \\sum \\langle x, e_i \\rangle^2$. Exemple : orthonormalisation de $(1, X, X^2)$ pour $\\langle P, Q \\rangle = \\int_{-1}^{1}PQ$."
         },
         {
-          part: "III. Projection orthogonale sur un sous-espace de dimension finie",
-          content: "Théorème de projection sur un sous-espace $F$ : $E = F \\oplus F^\\perp$. Caractérisation par la distance minimale $\\min_{y \\in F} \\|x - y\\|$. Moindres carrés."
+          "part": "III. Projection orthogonale et meilleure approximation",
+          "content": "Théorème : si $F$ est un sous-espace de dimension finie d'un espace préhilbertien $E$, alors $E = F \\oplus F^{\\perp}$ ; la projection orthogonale s'écrit $p_F(x) = \\sum_{i=1}^{p}\\langle x, e_i \\rangle e_i$ dans une base orthonormée $(e_1, \\dots, e_p)$ de $F$. Caractérisation : $p_F(x)$ est l'unique $y \\in F$ tel que $\\|x - y\\| = d(x, F)$, et $d(x, F)^2 = \\|x\\|^2 - \\sum_{i=1}^{p}\\langle x, e_i \\rangle^2$. Inégalité de Bessel. Applications : distance d'un point à un plan de l'espace, droite des moindres carrés, calcul de $\\min_{a, b \\in \\mathbb{R}}\\int_0^1(x^2 - ax - b)^2\\,dx = \\frac{1}{180}$, atteint pour $a = 1$ et $b = -\\frac{1}{6}$."
         }
       ],
-      keyTheorem: {
-        title: "Inégalité de Cauchy-Schwarz",
-        statement: "Dans un espace préhilbertien réel muni du produit scalaire $\\langle \\cdot, \\cdot \\rangle$ et de la norme $\\|\\cdot\\|$, on a pour tous $x, y \\in E$ : $|\\langle x, y \\rangle| \\le \\|x\\| \\|y\\|$, avec égalité ssi $(x, y)$ est liée.",
-        proof: "Si $y = 0$, l'inégalité est triviale. Supposons $y \\ne 0$. Pour tout $\\lambda \\in \\mathbb{R}$, $0 \\le \\|x + \\lambda y\\|^2 = \\|x\\|^2 + 2\\lambda \\langle x, y \\rangle + \\lambda^2 \\|y\\|^2$. Ce trinôme en $\\lambda$ du second degré garde un signe constant, son discriminant réduit est donc négatif ou nul : $\\Delta' = \\langle x, y \\rangle^2 - \\|x\\|^2 \\|y\\|^2 \\le 0$, d'où $|\\langle x, y \\rangle| \\le \\|x\\| \\|y\\|$. L'égalité correspond à un discriminant nul, c'est-à-dire l'existence d'une racine réelle $\\lambda_0$ telle que $\\|x + \\lambda_0 y\\|^2 = 0 \\iff x = -\\lambda_0 y$ (famille liée)."
+      "keyTheorem": {
+        "title": "Projection orthogonale sur un sous-espace de dimension finie",
+        "statement": "Soit $E$ un espace préhilbertien réel et $F$ un sous-espace vectoriel de dimension finie $p \\ge 1$, muni d'une base orthonormée $(e_1, \\dots, e_p)$ (qui existe par le procédé de Gram-Schmidt). Alors (i) $E = F \\oplus F^{\\perp}$ ; (ii) pour tout $x \\in E$, le vecteur $p_F(x) = \\sum_{i=1}^{p}\\langle x, e_i \\rangle e_i$ est l'unique $y \\in F$ tel que $\\|x - y\\| = \\inf_{z \\in F}\\|x - z\\|$ ; (iii) $d(x, F)^2 = \\|x\\|^2 - \\sum_{i=1}^{p}\\langle x, e_i \\rangle^2$.",
+        "proof": "1. **Intersection.** Si $x \\in F \\cap F^{\\perp}$, alors $\\langle x, x \\rangle = 0$, donc $x = 0$ car le produit scalaire est défini positif.\n2. **Décomposition.** Soit $x \\in E$ et $y = \\sum_{i=1}^{p}\\langle x, e_i \\rangle e_i \\in F$. Pour tout $j$, $\\langle x - y, e_j \\rangle = \\langle x, e_j \\rangle - \\sum_{i}\\langle x, e_i \\rangle\\langle e_i, e_j \\rangle = \\langle x, e_j \\rangle - \\langle x, e_j \\rangle = 0$. Par linéarité, $x - y$ est orthogonal à toute combinaison des $e_j$, donc $x - y \\in F^{\\perp}$. Ainsi $x = y + (x - y)$ et $E = F + F^{\\perp}$, somme directe par l'étape 1.\n3. **Minimisation.** Pour $z \\in F$, $x - z = (x - y) + (y - z)$ avec $x - y \\in F^{\\perp}$ et $y - z \\in F$. Par Pythagore, $\\|x - z\\|^2 = \\|x - y\\|^2 + \\|y - z\\|^2 \\ge \\|x - y\\|^2$, avec égalité si et seulement si $z = y$. L'infimum est donc atteint, uniquement en $y = p_F(x)$.\n4. **Distance.** Par Pythagore, $\\|x\\|^2 = \\|y\\|^2 + \\|x - y\\|^2$, et $\\|y\\|^2 = \\sum_{i=1}^{p}\\langle x, e_i \\rangle^2$ car la famille $(e_i)$ est orthonormée. Donc $d(x, F)^2 = \\|x - y\\|^2 = \\|x\\|^2 - \\sum_{i=1}^{p}\\langle x, e_i \\rangle^2$.\n5. **Remarque.** L'hypothèse de dimension finie sert à disposer d'une base orthonormée finie de $F$ ; sans elle, la conclusion (i) peut être fausse."
       },
-      developments: [
-        "Méthode des moindres carrés pour la régression linéaire et projection orthogonale.",
-        "Polynômes orthogonaux de Legendre obtenus par Gram-Schmidt sur $\\mathbb{R}[X]$ avec $\\langle P, Q \\rangle = \\int_{-1}^1 P Q$."
+      "developments": [
+        "Inégalité de Cauchy-Schwarz et cas d'égalité (niveau L1) : preuve par le signe du trinôme $\\lambda \\mapsto \\|x + \\lambda y\\|^2$, puis applications $\\left(\\sum_{i=1}^{n}a_i\\right)^2 \\le n\\sum_{i=1}^{n}a_i^2$ et $\\left(\\int_0^1 f\\right)^2 \\le \\int_0^1 f^2$ pour $f$ continue.",
+        "Droite des moindres carrés (niveau L2, lien avec la statistique du lycée) : projection orthogonale de $(y_1, \\dots, y_n)$ sur $\\mathrm{Vect}\\left((1, \\dots, 1), (x_1, \\dots, x_n)\\right)$, équations normales, et formules $a = \\frac{\\mathrm{cov}(x, y)}{V(x)}$ et $b = \\bar{y} - a\\bar{x}$.",
+        "Polynômes de Legendre (niveau L2-L3) : procédé de Gram-Schmidt appliqué à $(1, X, X^2, \\dots)$ pour $\\langle P, Q \\rangle = \\int_{-1}^{1}PQ$, identification avec les dérivées $n$-ièmes de $(X^2 - 1)^n$ à un facteur près, et preuve que le $n$-ième polynôme a $n$ racines simples dans $]-1 ; 1[$.",
+        "Déterminant de Gram (niveau L2) : pour une base quelconque $(f_1, \\dots, f_p)$ de $F$, $d(x, F)^2 = \\frac{G(f_1, \\dots, f_p, x)}{G(f_1, \\dots, f_p)}$, où $G$ désigne le déterminant de la matrice des produits scalaires."
       ],
-      juryTips: [
-        "Attention : $F^{\\perp\\perp} = F$ n'est vrai en général qu'en dimension finie ou si $F$ est un sous-espace fermé dans un espace de Hilbert.",
-        "Toujours expliciter l'expression de la projection orthogonale dans une base orthonormée : $p_F(x) = \\sum \\langle x, e_i \\rangle e_i$."
+      "juryTips": [
+        "En dimension infinie, $E = F \\oplus F^{\\perp}$ peut être faux : dans $\\mathbb{R}[X]$ muni du produit scalaire $\\langle P, Q \\rangle = \\sum_k p_kq_k$ des coefficients, l'hyperplan $F = \\{P : P(1) = 0\\}$ vérifie $F^{\\perp} = \\{0\\}$, donc $F^{\\perp\\perp} = E \\neq F$.",
+        "Le caractère défini positif doit être vérifié : sur $\\mathcal{C}([0 ; 1], \\mathbb{R})$, $\\int_0^1 fg$ convient car une fonction continue positive d'intégrale nulle est nulle, mais ce n'est plus un produit scalaire sur les fonctions continues par morceaux.",
+        "Le cas d'égalité de Cauchy-Schwarz porte sur $|\\langle x, y \\rangle|$ ; l'égalité $\\langle x, y \\rangle = \\|x\\|\\|y\\|$ sans valeur absolue caractérise les vecteurs positivement liés, ce qui donne le cas d'égalité de l'inégalité triangulaire.",
+        "Un projecteur n'est pas forcément orthogonal ; un projecteur $p$ est orthogonal si et seulement si $\\|p(x)\\| \\le \\|x\\|$ pour tout $x$, et le jury peut demander un exemple de projecteur non orthogonal dans le plan.",
+        "Lien avec le lycée : savoir présenter le projeté orthogonal d'un point sur une droite de l'espace comme le point qui minimise la distance, et faire le lien entre Cauchy-Schwarz et l'écriture $\\vec{u} \\cdot \\vec{v} = \\|\\vec{u}\\|\\|\\vec{v}\\|\\cos\\theta$."
       ]
     },
     {
-      id: 'capes-06',
-      num: 'Leçon 06',
-      title: "Intégrale de Riemann, primitives et intégrales à paramètres",
-      domain: "Analyse",
-      level: "CAPES / Agrégation",
-      prerequisites: [
-        "Continuité et fonctions réglées",
-        "Dérivation et théorème des accroissements finis",
-        "Topologie de $\\mathbb{R}$"
+      "id": "capes-06",
+      "num": "Leçon 06",
+      "title": "Intégrale de Riemann, primitives et intégrales à paramètres",
+      "domain": "Analyse",
+      "level": "CAPES / Agrégation",
+      "prerequisites": [
+        "Situation dans les programmes : en terminale spécialité, intégrale d'une fonction continue positive définie comme aire sous la courbe, théorème fondamental (démontré pour une fonction continue positive croissante, admis en général), existence de primitives admise, linéarité, positivité, relation de Chasles, valeur moyenne, intégration par parties ; méthode des rectangles en algorithmique.",
+        "Borne supérieure dans $\\mathbb{R}$, suites adjacentes.",
+        "Continuité, continuité uniforme et théorème de Heine sur un segment.",
+        "Dérivation, théorème des accroissements finis, fonctions de classe $\\mathcal{C}^1$."
       ],
-      plan: [
+      "plan": [
         {
-          part: "I. Construction de l'intégrale de Riemann sur un segment",
-          content: "Fonctions en escalier, subdivisions. Intégrales inférieure et supérieure de Darboux. Critère de Riemann. Intégrabilité des fonctions continues et continues par morceaux."
+          "part": "I. Intégrale de Riemann sur un segment",
+          "content": "Fonctions en escalier sur $[a ; b]$ et leur intégrale, indépendante de la subdivision adaptée choisie. Une fonction bornée $f$ est intégrable au sens de Riemann si pour tout $\\varepsilon > 0$ il existe $\\varphi, \\psi$ en escalier avec $\\varphi \\le f \\le \\psi$ et $\\int_a^b(\\psi - \\varphi) \\le \\varepsilon$. Théorème : toute fonction continue sur un segment est intégrable (par la continuité uniforme), ainsi que toute fonction monotone et toute fonction continue par morceaux. Contre-exemple : l'indicatrice de $\\mathbb{Q} \\cap [0 ; 1]$ n'est pas intégrable. Sommes de Riemann : pour $f$ continue, $\\frac{b-a}{n}\\sum_{k=1}^{n}f\\left(a + k\\frac{b-a}{n}\\right) \\to \\int_a^b f$. Propriétés : linéarité, positivité, relation de Chasles, $\\left|\\int_a^b f\\right| \\le \\int_a^b|f|$ pour $a \\le b$, inégalité de la moyenne."
         },
         {
-          part: "II. Théorème fondamental de l'analyse et calcul de primitives",
-          content: "Fonction $x \\mapsto \\int_a^x f(t) \\, dt$. Relation fondamentale : $F'(x) = f(x)$. Intégration par parties, changement de variable $\\mathcal{C}^1$."
+          "part": "II. Primitives et techniques de calcul",
+          "content": "Théorème fondamental : si $f$ est continue sur un intervalle $I$ et $a \\in I$, $x \\mapsto \\int_a^x f$ est l'unique primitive de $f$ nulle en $a$, et $\\int_a^b f = G(b) - G(a)$ pour toute primitive $G$. Intégration par parties pour $u, v$ de classe $\\mathcal{C}^1$. Changement de variable : $\\int_{\\varphi(\\alpha)}^{\\varphi(\\beta)}f(x)\\,dx = \\int_\\alpha^\\beta f(\\varphi(t))\\varphi'(t)\\,dt$ pour $f$ continue et $\\varphi$ de classe $\\mathcal{C}^1$. Formule de Taylor avec reste intégral. Exemple : intégrales de Wallis $W_n = \\int_0^{\\pi/2}\\sin^n t\\,dt$, avec $W_{n+2} = \\frac{n+1}{n+2}W_n$ par intégration par parties."
         },
         {
-          part: "III. Intégrales dépendant d'un paramètre",
-          content: "Continuité sous le signe intégral (théorème de continuité). Dérivation sous le signe intégral (théorème de Leibniz). Intégrale de Gauss $\\int_{-\\infty}^{+\\infty} e^{-t^2} \\, dt = \\sqrt{\\pi}$."
+          "part": "III. Intégrales dépendant d'un paramètre",
+          "content": "Sur un segment : si $f$ est continue sur $I \\times [a ; b]$, alors $F(x) = \\int_a^b f(x, t)\\,dt$ est continue sur $I$ ; si de plus $\\frac{\\partial f}{\\partial x}$ existe et est continue sur $I \\times [a ; b]$, alors $F$ est de classe $\\mathcal{C}^1$ et $F'(x) = \\int_a^b\\frac{\\partial f}{\\partial x}(x, t)\\,dt$. Sur un intervalle quelconque (intégrales généralisées), il faut une hypothèse de domination : $|f(x, t)| \\le g(t)$ avec $g$ intégrable indépendante de $x$, éventuellement sur chaque segment de $I$, et une domination analogue de la dérivée partielle. Exemples : fonction $\\Gamma$, intégrale de Gauss $\\int_{-\\infty}^{+\\infty}e^{-t^2}\\,dt = \\sqrt{\\pi}$, transformée de Laplace."
         }
       ],
-      keyTheorem: {
-        title: "Théorème Fondamental de l'Analyse",
-        statement: "Soit $f : [a, b] \\to \\mathbb{R}$ continue. Alors la fonction $F : x \\mapsto \\int_a^x f(t) \\, dt$ est dérivable sur $[a, b]$ et pour tout $x \\in [a, b]$, $F'(x) = f(x)$.",
-        proof: "Soit $x_0 \\in [a, b]$ et $h \\ne 0$. Le taux d'accroissement vaut $\\frac{F(x_0 + h) - F(x_0)}{h} = \\frac{1}{h} \\int_{x_0}^{x_0 + h} f(t) \\, dt$. Donc $\\frac{F(x_0 + h) - F(x_0)}{h} - f(x_0) = \\frac{1}{h} \\int_{x_0}^{x_0 + h} (f(t) - f(x_0)) \\, dt$. Soit $\\varepsilon > 0$. Par continuité de $f$ en $x_0$, $\\exists \\eta > 0$ tel que $|t - x_0| \\le \\eta \\implies |f(t) - f(x_0)| \\le \\varepsilon$. Pour $|h| \\le \\eta$ : $|\\frac{F(x_0+h)-F(x_0)}{h} - f(x_0)| \\le \\frac{1}{|h|} |h| \\varepsilon = \\varepsilon$. Donc $F'(x_0) = f(x_0)$."
+      "keyTheorem": {
+        "title": "Théorème fondamental de l'analyse",
+        "statement": "Soit $f$ une fonction continue sur un intervalle $I$ de $\\mathbb{R}$ et $a \\in I$. Alors la fonction $F : x \\mapsto \\int_a^x f(t)\\,dt$ est dérivable sur $I$ et $F' = f$ ; c'est l'unique primitive de $f$ sur $I$ qui s'annule en $a$. En conséquence, pour toute primitive $G$ de $f$ sur $I$ et tous $\\alpha, \\beta \\in I$, $\\int_\\alpha^\\beta f(t)\\,dt = G(\\beta) - G(\\alpha)$.",
+        "proof": "1. **Taux d'accroissement.** Soit $x_0 \\in I$ et $h \\neq 0$ tel que $x_0 + h \\in I$. Par la relation de Chasles et parce que $\\int_{x_0}^{x_0+h}f(x_0)\\,dt = hf(x_0)$ : $\\frac{F(x_0 + h) - F(x_0)}{h} - f(x_0) = \\frac{1}{h}\\int_{x_0}^{x_0+h}\\left(f(t) - f(x_0)\\right)dt$.\n2. **Majoration.** Soit $\\varepsilon > 0$. Par continuité de $f$ en $x_0$, il existe $\\eta > 0$ tel que pour tout $t \\in I$, $|t - x_0| \\le \\eta$ implique $|f(t) - f(x_0)| \\le \\varepsilon$. Si $0 \\lt |h| \\le \\eta$, tout $t$ compris entre $x_0$ et $x_0 + h$ vérifie $|t - x_0| \\le \\eta$, donc $\\left|\\int_{x_0}^{x_0+h}(f(t) - f(x_0))\\,dt\\right| \\le |h|\\varepsilon$.\n3. **Dérivabilité.** On obtient $\\left|\\frac{F(x_0 + h) - F(x_0)}{h} - f(x_0)\\right| \\le \\varepsilon$ pour $0 \\lt |h| \\le \\eta$ : $F$ est dérivable en $x_0$ (à droite ou à gauche seulement si $x_0$ est une borne de $I$) et $F'(x_0) = f(x_0)$. De plus $F(a) = 0$.\n4. **Unicité.** Si $G$ est une primitive de $f$ sur $I$, $(G - F)' = 0$ sur l'intervalle $I$, donc $G - F$ est constante par le théorème des accroissements finis. Si de plus $G(a) = 0$, alors $G = F$.\n5. **Calcul d'intégrales.** Pour toute primitive $G$, $G = F + c$, donc $G(\\beta) - G(\\alpha) = F(\\beta) - F(\\alpha) = \\int_a^\\beta f - \\int_a^\\alpha f = \\int_\\alpha^\\beta f$ par Chasles."
       },
-      developments: [
-        "Calcul de l'intégrale de Dirichlet $\\int_0^{+\\infty} \\frac{\\sin t}{t} \\, dt = \\frac{\\pi}{2}$ via une intégrale à paramètre.",
-        "Formule de Stirling démontrée par la méthode des intégrales de Wallis."
+      "developments": [
+        "Intégrales de Wallis et formule de Stirling (niveau L2) : relation $W_nW_{n+1} = \\frac{\\pi}{2(n+1)}$, équivalent $W_n \\sim \\sqrt{\\frac{\\pi}{2n}}$, puis $n! \\sim \\sqrt{2\\pi n}\\left(\\frac{n}{e}\\right)^n$ en identifiant la constante grâce aux intégrales de Wallis.",
+        "Intégrale de Gauss par une intégrale à paramètre sur un segment (niveau L2) : avec $F(x) = \\int_0^1\\frac{e^{-x^2(1+t^2)}}{1+t^2}\\,dt$ et $G(x) = \\left(\\int_0^x e^{-t^2}\\,dt\\right)^2$, on montre $F' + G' = 0$, donc $F + G = \\frac{\\pi}{4}$, et l'on obtient $\\int_0^{+\\infty}e^{-t^2}\\,dt = \\frac{\\sqrt{\\pi}}{2}$.",
+        "Sommes de Riemann (niveau terminale-L1) : pour $f$ lipschitzienne de constante $K$, l'erreur de la méthode des rectangles est majorée par $\\frac{K(b-a)^2}{2n}$ ; application à $\\lim_{n \\to +\\infty}\\sum_{k=1}^{n}\\frac{1}{n+k} = \\ln 2$ et lien avec l'algorithme des rectangles programmé au lycée.",
+        "Intégrale de Dirichlet (niveau L3) : $\\int_0^{+\\infty}\\frac{\\sin t}{t}\\,dt = \\frac{\\pi}{2}$, intégrale semi-convergente, par l'étude de $F(x) = \\int_0^{+\\infty}e^{-xt}\\frac{\\sin t}{t}\\,dt$ sur $]0 ; +\\infty[$, le calcul $F'(x) = -\\frac{1}{1+x^2}$ et une justification soignée de la continuité en 0."
       ],
-      juryTips: [
-        "Bien distinguer continuité simple et continuité uniforme sur un segment (Théorème de Heine).",
-        "Pour dériver une intégrale à paramètre, ne pas oublier l'hypothèse de domination locale sur tout compact !"
+      "juryTips": [
+        "Le théorème fondamental demande la continuité de $f$ : pour la fonction $f$ égale à 0 sur $[-1 ; 0[$ et à 1 sur $[0 ; 1]$, la fonction $x \\mapsto \\int_{-1}^{x}f$ existe mais n'est pas dérivable en 0.",
+        "Une fonction intégrable n'admet pas toujours de primitive : la partie entière est intégrable sur $[0 ; 2]$ mais n'a pas de primitive sur cet intervalle, car une dérivée vérifie la propriété des valeurs intermédiaires (théorème de Darboux).",
+        "Pour dériver sous le signe intégral sur un intervalle non borné, la domination porte sur la dérivée partielle et doit être uniforme sur chaque segment du domaine du paramètre : $|\\frac{\\partial f}{\\partial x}(x, t)| \\le g_K(t)$ pour $x \\in K$, avec $g_K$ intégrable.",
+        "Distinguez continuité et continuité uniforme : la preuve de l'intégrabilité des fonctions continues sur un segment utilise le théorème de Heine, et $x \\mapsto \\sin\\frac{1}{x}$ est continue sur $]0 ; 1]$ sans y être uniformément continue.",
+        "Situer la notion : en terminale, l'intégrale est introduite par l'aire et l'existence des primitives des fonctions continues est admise ; le jury apprécie que le candidat dise précisément ce que la construction de Riemann permet de démontrer."
       ]
     },
     {
-      id: 'capes-07',
-      num: 'Leçon 07',
-      title: "Groupe symétrique, signature et applications aux déterminants",
-      domain: "Algèbre",
-      level: "CAPES / Agrégation",
-      prerequisites: [
-        "Groupes, sous-groupes et morphismes",
-        "Relations d'équivalence et orbites",
-        "Espaces vectoriels"
+      "id": "capes-07",
+      "num": "Leçon 07",
+      "title": "Groupe symétrique, signature et applications aux déterminants",
+      "domain": "Algèbre",
+      "level": "CAPES / Agrégation",
+      "prerequisites": [
+        "Situation dans les programmes : dénombrement des permutations, des arrangements et des combinaisons en terminale spécialité ($n!$ permutations d'un ensemble à $n$ éléments) ; déterminant de deux vecteurs du plan et critère de colinéarité en seconde.",
+        "Groupes, sous-groupes, morphismes, noyau, sous-groupe distingué, théorème de Lagrange.",
+        "Actions de groupes, orbites, relations d'équivalence.",
+        "Espaces vectoriels de dimension finie, applications multilinéaires."
       ],
-      plan: [
+      "plan": [
         {
-          part: "I. Structure du groupe symétrique $\\mathcal{S}_n$",
-          content: "Définition, cardinal $n!$. Cycles, transpositions, décomposition en produit de cycles à supports disjoints. Générateurs : les transpositions, les transpositions $(1, 2), (2, 3), \\dots$, et $(1, 2)$ avec $(1, 2, \\dots, n)$."
+          "part": "I. Structure du groupe symétrique",
+          "content": "$\\mathcal{S}_n$ est le groupe des bijections de $\\{1, \\dots, n\\}$, de cardinal $n!$, non commutatif pour $n \\ge 3$. Support, cycles, transpositions. Théorème : toute permutation se décompose en produit de cycles à supports disjoints, de manière unique à l'ordre près des facteurs ; les supports sont les orbites non réduites à un point de l'action de $\\langle \\sigma \\rangle$. L'ordre de $\\sigma$ est le PPCM des longueurs de ses cycles. Générateurs : les transpositions ; les transpositions $(i\\ i+1)$ ; la paire formée de $(1\\ 2)$ et $(1\\ 2\\ \\cdots\\ n)$. Conjugaison : $\\tau(a_1\\ \\cdots\\ a_k)\\tau^{-1} = (\\tau(a_1)\\ \\cdots\\ \\tau(a_k))$, et deux permutations sont conjuguées si et seulement si elles ont le même type de décomposition. Exemple : $(1\\ 3\\ 5)(2\\ 4)$ est d'ordre 6."
         },
         {
-          part: "II. Signature d'une permutation",
-          content: "Inversions, polynôme de Vandermonde. Morphisme de signature $\\varepsilon : \\mathcal{S}_n \\to \\{-1, +1\\}$. Groupe alterné $\\mathcal{A}_n = \\ker(\\varepsilon)$ d'indice 2 et de cardinal $n!/2$."
+          "part": "II. Signature et groupe alterné",
+          "content": "Inversions ; signature $\\varepsilon(\\sigma) = \\prod_{i \\lt j}\\frac{\\sigma(j) - \\sigma(i)}{j - i} = (-1)^{N(\\sigma)}$, où $N(\\sigma)$ est le nombre d'inversions. Théorème : pour $n \\ge 2$, $\\varepsilon$ est l'unique morphisme non trivial de $\\mathcal{S}_n$ dans $\\{-1, 1\\}$. Une transposition a pour signature $-1$, un cycle de longueur $k$ a pour signature $(-1)^{k-1}$, et $\\varepsilon(\\sigma) = (-1)^{n - m}$ où $m$ est le nombre d'orbites de $\\sigma$ (points fixes compris). Groupe alterné $\\mathcal{A}_n = \\ker\\varepsilon$, distingué, d'indice 2 et de cardinal $\\frac{n!}{2}$ pour $n \\ge 2$, engendré par les 3-cycles pour $n \\ge 3$."
         },
         {
-          part: "III. Formes multilinéaires alternées et déterminant",
-          content: "Définition axiomatique du déterminant dans une base. Formule de Leibniz $\\det(A) = \\sum_{\\sigma \\in \\mathcal{S}_n} \\varepsilon(\\sigma) \\prod a_{\\sigma(i), i}$. Règle de Cramer et comatrice."
+          "part": "III. Formes multilinéaires alternées et déterminant",
+          "content": "Sur un espace $E$ de dimension $n$, les formes $n$-linéaires alternées forment une droite vectorielle ; il en existe une unique valant 1 sur une base $\\mathcal{B}$ donnée, le déterminant $\\det_{\\mathcal{B}}$. Formule de Leibniz $\\det(A) = \\sum_{\\sigma \\in \\mathcal{S}_n}\\varepsilon(\\sigma)\\prod_{i=1}^{n}a_{\\sigma(i), i}$. Conséquences : $\\det(AB) = \\det(A)\\det(B)$, $\\det(A^{\\top}) = \\det(A)$, $A$ inversible si et seulement si $\\det(A) \\neq 0$, développement selon une ligne ou une colonne, relation $A\\,\\mathrm{com}(A)^{\\top} = \\det(A)I_n$, formules de Cramer. Exemple : déterminant de Vandermonde $\\prod_{1 \\le i \\lt j \\le n}(x_j - x_i)$."
         }
       ],
-      keyTheorem: {
-        title: "Existence et unicité de la signature",
-        statement: "Il existe un unique morphisme de groupes non trivial de $\\mathcal{S}_n$ dans $(\\{-1, +1\\}, \\times)$ pour $n \\ge 2$.",
-        proof: "Toutes les transpositions sont conjuguées dans $\\mathcal{S}_n$, donc ont la même image par tout morphisme vers un groupe abélien. Comme elles engendrent $\\mathcal{S}_n$ et sont d'ordre 2, l'image d'une transposition est $\\pm 1$. L'existence se démontre en considérant l'action sur le polynôme de Vandermonde $P(X_1, \\dots, X_n) = \\prod_{i < j} (X_j - X_i)$ : $\\sigma(P) = \\varepsilon(\\sigma) P$ avec $\\varepsilon(\\sigma) = \\prod_{i < j} \\frac{\\sigma(j) - \\sigma(i)}{j - i} \\in \\{-1, +1\\}$."
+      "keyTheorem": {
+        "title": "Existence et unicité de la signature",
+        "statement": "Soit $n \\ge 2$. L'application $\\varepsilon : \\mathcal{S}_n \\to \\mathbb{Q}$ définie par $\\varepsilon(\\sigma) = \\prod_{1 \\le i \\lt j \\le n}\\frac{\\sigma(j) - \\sigma(i)}{j - i}$ est à valeurs dans $\\{-1, 1\\}$, c'est un morphisme de groupes de $\\mathcal{S}_n$ dans $(\\{-1, 1\\}, \\times)$ qui vaut $-1$ sur toute transposition, et c'est l'unique morphisme non trivial de $\\mathcal{S}_n$ dans $\\{-1, 1\\}$.",
+        "proof": "1. **Réécriture.** Notons $\\mathcal{P}$ l'ensemble des paires $\\{i, j\\}$ d'éléments distincts de $\\{1, \\dots, n\\}$. Le quotient $\\frac{\\sigma(j) - \\sigma(i)}{j - i}$ ne change pas si l'on échange $i$ et $j$, donc $\\varepsilon(\\sigma) = \\prod_{\\{i, j\\} \\in \\mathcal{P}}\\frac{\\sigma(j) - \\sigma(i)}{j - i}$. L'application $\\{i, j\\} \\mapsto \\{\\sigma(i), \\sigma(j)\\}$ est une bijection de $\\mathcal{P}$.\n2. **Valeurs.** Par ce changement d'indice, $\\prod_{\\mathcal{P}}|\\sigma(j) - \\sigma(i)| = \\prod_{\\mathcal{P}}|j - i|$, donc $|\\varepsilon(\\sigma)| = 1$ et $\\varepsilon(\\sigma) \\in \\{-1, 1\\}$.\n3. **Morphisme.** Pour $\\sigma, \\tau \\in \\mathcal{S}_n$, comme $\\tau(i) \\neq \\tau(j)$ : $\\varepsilon(\\sigma\\tau) = \\prod_{\\mathcal{P}}\\frac{\\sigma(\\tau(j)) - \\sigma(\\tau(i))}{\\tau(j) - \\tau(i)} \\times \\prod_{\\mathcal{P}}\\frac{\\tau(j) - \\tau(i)}{j - i}$. Le second produit vaut $\\varepsilon(\\tau)$ ; dans le premier, le changement d'indice $\\{k, l\\} = \\{\\tau(i), \\tau(j)\\}$, bijectif sur $\\mathcal{P}$, montre qu'il vaut $\\varepsilon(\\sigma)$.\n4. **Valeur sur $(1\\ 2)$.** La paire $\\{1, 2\\}$ donne le facteur $-1$. Pour $j \\ge 3$, les paires $\\{1, j\\}$ et $\\{2, j\\}$ donnent ensemble $\\frac{j - 2}{j - 1} \\times \\frac{j - 1}{j - 2} = 1$, et les paires contenues dans $\\{3, \\dots, n\\}$ donnent 1. Donc $\\varepsilon((1\\ 2)) = -1$.\n5. **Toutes les transpositions.** Pour $a \\neq b$, soit $\\gamma \\in \\mathcal{S}_n$ avec $\\gamma(1) = a$ et $\\gamma(2) = b$ ; alors $(a\\ b) = \\gamma(1\\ 2)\\gamma^{-1}$, et $\\varepsilon((a\\ b)) = \\varepsilon(\\gamma)\\varepsilon((1\\ 2))\\varepsilon(\\gamma)^{-1} = -1$ car $\\{-1, 1\\}$ est commutatif.\n6. **Les transpositions engendrent $\\mathcal{S}_n$.** Récurrence sur le nombre de points non fixes : si $\\sigma \\neq \\mathrm{id}$, soit $i$ avec $\\sigma(i) \\neq i$ et $t = (i\\ \\sigma(i))$. Alors $t\\sigma$ fixe $i$ et tous les points fixes de $\\sigma$ (un point fixe $k$ de $\\sigma$ est distinct de $i$ et de $\\sigma(i)$), donc a strictement moins de points non fixes ; on conclut par $\\sigma = t(t\\sigma)$.\n7. **Unicité.** Soit $\\chi : \\mathcal{S}_n \\to \\{-1, 1\\}$ un morphisme. Les transpositions étant conjuguées, elles ont toutes la même image $c$. Comme elles engendrent $\\mathcal{S}_n$, $\\chi$ est déterminé par $c$ : si $c = 1$, $\\chi$ est trivial ; si $c = -1$, $\\chi$ coïncide avec $\\varepsilon$ sur un système générateur, donc $\\chi = \\varepsilon$."
       },
-      developments: [
-        "Calcul du déterminant de Vandermonde et application à l'interpolation polynomiale de Lagrange.",
-        "Simplicité du groupe alterné $\\mathcal{A}_5$ et insolvabilité par radicaux des équations de degré 5."
+      "developments": [
+        "Déterminant de Vandermonde (niveau L1-L2) : $V(x_1, \\dots, x_n) = \\prod_{1 \\le i \\lt j \\le n}(x_j - x_i)$, par récurrence en considérant le déterminant comme un polynôme en $x_n$ ; application : existence et unicité du polynôme d'interpolation de Lagrange de degré au plus $n - 1$.",
+        "Décomposition en cycles à supports disjoints (niveau L2) : existence et unicité par les orbites de l'action de $\\langle \\sigma \\rangle$, ordre égal au PPCM des longueurs, et détermination de l'ordre maximal d'un élément de $\\mathcal{S}_5$, qui vaut 6.",
+        "Le groupe alterné est engendré par les 3-cycles pour $n \\ge 3$ (niveau L3) : un produit de deux transpositions est un produit de 3-cycles, grâce à $(a\\ b)(a\\ c) = (a\\ c\\ b)$ et $(a\\ b)(c\\ d) = (a\\ c\\ b)(a\\ c\\ d)$ pour $a, b, c, d$ distincts.",
+        "Construction du déterminant (niveau L2) : unicité de la forme $n$-linéaire alternée normalisée, formule de Leibniz, puis $\\det(AB) = \\det(A)\\det(B)$ et $\\det(A^{\\top}) = \\det(A)$ par le changement d'indice $\\sigma \\mapsto \\sigma^{-1}$, qui conserve la signature."
       ],
-      juryTips: [
-        "Savoir calculer rapidement la signature d'un cycle de longueur $L$ : $\\varepsilon(c) = (-1)^{L - 1}$.",
-        "Ne jamais hésiter sur la décomposition en cycles disjoints et l'ordre d'une permutation (PPCM des longueurs des cycles)."
+      "juryTips": [
+        "Un cycle de longueur $k$ est produit de $k - 1$ transpositions, donc sa signature vaut $(-1)^{k-1}$ : un 3-cycle est pair, ce qui surprend souvent.",
+        "La décomposition en produit de transpositions n'est pas unique, seule la parité du nombre de facteurs l'est : $(1\\ 2\\ 3) = (1\\ 3)(1\\ 2) = (1\\ 2)(2\\ 3)$.",
+        "Fixez la convention de composition : $\\sigma\\tau = \\sigma \\circ \\tau$ applique d'abord $\\tau$. Avec $\\sigma = (1\\ 2)$ et $\\tau = (2\\ 3)$, $\\sigma\\tau = (1\\ 2\\ 3)$ alors que $\\tau\\sigma = (1\\ 3\\ 2)$, ce qui montre que $\\mathcal{S}_3$ n'est pas commutatif.",
+        "L'ordre d'une permutation est le PPCM des longueurs de ses cycles disjoints, et non leur produit : $(1\\ 2)(3\\ 4)$ est d'ordre 2. La règle ne vaut que pour des cycles à supports disjoints : $(1\\ 2)(2\\ 3)$ est d'ordre 3.",
+        "Lien avec le secondaire : le déterminant de deux vecteurs vu en seconde, $\\det(\\vec{u}, \\vec{v}) = xy' - x'y$, est le cas $n = 2$ de la formule de Leibniz ; sachez l'interpréter comme une aire orientée."
       ]
     },
     {
-      id: 'capes-08',
-      num: 'Leçon 08',
-      title: "Convexité des fonctions réelles d'une variable réelle et applications",
-      domain: "Analyse",
-      level: "CAPES / Agrégation",
-      prerequisites: [
-        "Dérivation et continuité",
-        "Espaces affines et barycentres"
+      "id": "capes-08",
+      "num": "Leçon 08",
+      "title": "Convexité des fonctions réelles d'une variable réelle et applications",
+      "domain": "Analyse",
+      "level": "CAPES / Agrégation",
+      "prerequisites": [
+        "Situation dans les programmes : en terminale spécialité, fonction convexe définie par la position de la courbe par rapport à ses sécantes ; pour une fonction deux fois dérivable, équivalence admise avec la position par rapport aux tangentes, la croissance de $f'$ et la positivité de $f''$ ; points d'inflexion ; inégalités comme $e^x \\ge 1 + x$ et $\\ln x \\le x - 1$.",
+        "Dérivation, théorème de Rolle et théorème des accroissements finis.",
+        "Barycentres et segments dans un espace vectoriel réel.",
+        "Continuité, limites de fonctions monotones."
       ],
-      plan: [
+      "plan": [
         {
-          part: "I. Définitions et caractérisations géométriques",
-          content: "Ensembles convexes d'un intervalle. Fonction convexe : $f((1-t)x + ty) \\le (1-t)f(x) + tf(y)$. Épigraphe convexe. Pente des cordes (lemme des trois cordes)."
+          "part": "I. Définition et caractérisations géométriques",
+          "content": "Une fonction $f : I \\to \\mathbb{R}$ est convexe si pour tous $x, y \\in I$ et $t \\in [0 ; 1]$, $f((1-t)x + ty) \\le (1-t)f(x) + tf(y)$ ; elle est strictement convexe si l'inégalité est stricte pour $x \\neq y$ et $t \\in ]0 ; 1[$. Interprétation : l'arc est sous la corde ; $f$ est convexe si et seulement si son épigraphe est une partie convexe de $\\mathbb{R}^2$. Lemme des trois pentes : pour $x \\lt y \\lt z$ dans $I$, $\\frac{f(y) - f(x)}{y - x} \\le \\frac{f(z) - f(x)}{z - x} \\le \\frac{f(z) - f(y)}{z - y}$ ; de façon équivalente, pour tout $a \\in I$, le taux d'accroissement en $a$ est croissant. Conséquence : une fonction convexe sur un intervalle ouvert est continue et admet en tout point des dérivées à gauche et à droite, avec $f'_g \\le f'_d$. Exemples : $x \\mapsto |x|$, $x \\mapsto x^2$, $\\exp$, $-\\ln$ sur $]0 ; +\\infty[$."
         },
         {
-          part: "II. Caractérisations différentielles",
-          content: "Fonction $\\mathcal{C}^1$ convexe ssi la courbe est au-dessus de toutes ses tangentes ($f(x) \\ge f(x_0) + f'(x_0)(x - x_0)$). Fonction $\\mathcal{C}^2$ convexe ssi $f'' \\ge 0$ sur $I$."
+          "part": "II. Caractérisations différentielles",
+          "content": "Théorème : si $f$ est dérivable sur $I$, $f$ est convexe si et seulement si $f'$ est croissante, si et seulement si la courbe est au-dessus de chacune de ses tangentes : $f(x) \\ge f(a) + f'(a)(x - a)$. Si $f$ est deux fois dérivable, $f$ est convexe si et seulement si $f'' \\ge 0$ sur $I$. Point d'inflexion : point où la convexité change, la courbe y traverse sa tangente ; si $f''$ existe, elle s'y annule, mais la réciproque est fausse ($x \\mapsto x^4$ en 0). Exemples : $e^x \\ge 1 + x$ sur $\\mathbb{R}$, $\\ln x \\le x - 1$ sur $]0 ; +\\infty[$, $\\sin x \\ge \\frac{2}{\\pi}x$ sur $[0 ; \\frac{\\pi}{2}]$ par concavité du sinus."
         },
         {
-          part: "III. Inégalités de convexité et optimisation",
-          content: "Inégalité de Jensen : $f(\\sum p_i x_i) \\le \\sum p_i f(x_i)$. Inégalités arithmético-géométrique, de Hölder et de Minkowski. Tout minimum local est un minimum global."
+          "part": "III. Inégalités de convexité et optimisation",
+          "content": "Inégalité de Jensen discrète $f\\left(\\sum p_ix_i\\right) \\le \\sum p_if(x_i)$ pour des poids positifs de somme 1, et version intégrale $f\\left(\\frac{1}{b-a}\\int_a^b g\\right) \\le \\frac{1}{b-a}\\int_a^b f \\circ g$ pour $g$ continue sur $[a ; b]$ et $f$ convexe sur un intervalle ouvert contenant les valeurs de $g$. Inégalité arithmético-géométrique $\\sqrt[n]{x_1 \\cdots x_n} \\le \\frac{x_1 + \\cdots + x_n}{n}$ pour des réels positifs, par la concavité de $\\ln$ ; inégalité de Young $ab \\le \\frac{a^p}{p} + \\frac{b^q}{q}$, puis inégalités de Hölder et de Minkowski. Optimisation : pour $f$ convexe, tout minimum local est global, l'ensemble des points de minimum est un intervalle, et si $f$ est dérivable, $f'(a) = 0$ équivaut à $a$ point de minimum."
         }
       ],
-      keyTheorem: {
-        title: "Inégalité de Jensen",
-        statement: "Soit $f : I \\to \\mathbb{R}$ convexe. Pour tous $x_1, \\dots, x_n \\in I$ et tous coefficients $p_1, \\dots, p_n \\in [0, 1]$ avec $\\sum_{i=1}^n p_i = 1$, on a : $f\\left(\\sum_{i=1}^n p_i x_i\\right) \\le \\sum_{i=1}^n p_i f(x_i)$.",
-        proof: "Par récurrence sur $n \\ge 1$. Pour $n=1$ et $n=2$, c'est la définition. Supposons la propriété vraie pour $n-1$. Soient $p_1, \\dots, p_n$. Si $p_n = 1$, c'est immédiat. Sinon, $1 - p_n > 0$. On écrit $\\sum_{i=1}^n p_i x_i = (1 - p_n) \\left(\\sum_{i=1}^{n-1} \\frac{p_i}{1 - p_n} x_i\\right) + p_n x_n$. Par convexité pour 2 points : $f(\\sum p_i x_i) \\le (1 - p_n) f(\\sum_{i=1}^{n-1} \\frac{p_i}{1-p_n} x_i) + p_n f(x_n)$. Les poids $\\frac{p_i}{1-p_n}$ somment à 1, on applique l'hypothèse de récurrence à $n-1$ points, ce qui donne immédiatement l'inégalité de Jensen."
+      "keyTheorem": {
+        "title": "Caractérisation des fonctions convexes dérivables",
+        "statement": "Soit $I$ un intervalle d'intérieur non vide et $f : I \\to \\mathbb{R}$ dérivable. Les assertions suivantes sont équivalentes : (i) $f$ est convexe sur $I$ ; (ii) $f'$ est croissante sur $I$ ; (iii) pour tous $a, x \\in I$, $f(x) \\ge f(a) + f'(a)(x - a)$. En particulier, si $f$ est deux fois dérivable, $f$ est convexe si et seulement si $f'' \\ge 0$ sur $I$.",
+        "proof": "1. **Lemme des trois pentes.** Soit $x \\lt y \\lt z$ dans $I$ et $t = \\frac{y - x}{z - x} \\in ]0 ; 1[$, de sorte que $y = (1-t)x + tz$. La convexité donne $f(y) \\le (1-t)f(x) + tf(z)$, soit $f(y) - f(x) \\le t(f(z) - f(x))$ ; comme $y - x = t(z - x)$, on obtient $\\frac{f(y) - f(x)}{y - x} \\le \\frac{f(z) - f(x)}{z - x}$. De même $f(y) - f(z) \\le (1-t)(f(x) - f(z))$ et $z - y = (1-t)(z - x)$ donnent $\\frac{f(z) - f(x)}{z - x} \\le \\frac{f(z) - f(y)}{z - y}$.\n2. **(i) implique (ii).** Soit $a \\lt b$ dans $I$. Pour $a \\lt x \\lt b$, le lemme donne $\\frac{f(x) - f(a)}{x - a} \\le \\frac{f(b) - f(a)}{b - a} \\le \\frac{f(b) - f(x)}{b - x}$. En faisant tendre $x$ vers $a$ dans l'inégalité de gauche, puis vers $b$ dans celle de droite, on obtient $f'(a) \\le \\frac{f(b) - f(a)}{b - a} \\le f'(b)$.\n3. **(ii) implique (iii).** Soit $a \\neq x$ dans $I$. Par le théorème des accroissements finis, $f(x) - f(a) = f'(c)(x - a)$ avec $c$ strictement entre $a$ et $x$. Si $x > a$, alors $f'(c) \\ge f'(a)$ et $x - a > 0$ ; si $x \\lt a$, alors $f'(c) \\le f'(a)$ et $x - a \\lt 0$. Dans les deux cas $f'(c)(x - a) \\ge f'(a)(x - a)$.\n4. **(iii) implique (i).** Soit $x, y \\in I$, $t \\in [0 ; 1]$ et $z = (1-t)x + ty \\in I$. En appliquant (iii) au point $a = z$ : $f(x) \\ge f(z) + f'(z)(x - z)$ et $f(y) \\ge f(z) + f'(z)(y - z)$. En multipliant par $1 - t \\ge 0$ et $t \\ge 0$ puis en ajoutant : $(1-t)f(x) + tf(y) \\ge f(z) + f'(z)\\left((1-t)x + ty - z\\right) = f(z)$.\n5. **Cas deux fois dérivable.** Si $f'' \\ge 0$, $f'$ est croissante par le théorème des accroissements finis appliqué à $f'$. Réciproquement, si $f'$ est croissante, ses taux d'accroissement sont positifs, donc leur limite $f''(a)$ l'est aussi."
       },
-      developments: [
-        "Inégalité arithmético-géométrique et inégalité de Carleman.",
-        "Convergence de la méthode de Newton pour une fonction convexe et estimation de l'erreur quadratique."
+      "developments": [
+        "Inégalité de Jensen et inégalité arithmético-géométrique (niveau L1) : Jensen par récurrence sur le nombre de points, application à la fonction concave $\\ln$, cas d'égalité par stricte concavité ; corollaire exploitable dès le lycée : parmi les rectangles de périmètre donné, le carré a la plus grande aire.",
+        "Inégalités de Young, Hölder et Minkowski (niveau L2) : pour $a, b > 0$ et $\\frac{1}{p} + \\frac{1}{q} = 1$, la concavité de $\\ln$ donne $\\ln\\left(\\frac{a^p}{p} + \\frac{b^q}{q}\\right) \\ge \\ln a + \\ln b$ ; Hölder s'en déduit par normalisation et Minkowski fournit l'inégalité triangulaire de la norme $\\|\\cdot\\|_p$.",
+        "Régularité des fonctions convexes (niveau L2) : sur un intervalle ouvert, existence des dérivées à gauche et à droite par le lemme des trois pentes, d'où la continuité ; contre-exemple aux bornes : sur $[0 ; 1]$, la fonction nulle sur $[0 ; 1[$ et égale à 1 en 1 est convexe et discontinue en 1.",
+        "Méthode de Newton pour une fonction convexe (niveau L2, lien avec l'algorithmique du lycée) : si $f$ est de classe $\\mathcal{C}^2$ sur $[a ; b]$ avec $f' > 0$, $f'' \\ge 0$ et $f(a) \\lt 0 \\lt f(b)$, la suite $x_{n+1} = x_n - \\frac{f(x_n)}{f'(x_n)}$ issue de $x_0 = b$ décroît vers l'unique zéro $\\ell$ de $f$, et $0 \\le x_{n+1} - \\ell \\le \\frac{M_2}{2m_1}(x_n - \\ell)^2$ avec $m_1 = \\min f'$ et $M_2 = \\max f''$."
       ],
-      juryTips: [
-        "Une fonction convexe sur un intervalle ouvert est automatiquement continue et dérivable à gauche et à droite en tout point !",
-        "Faire attention aux intervalles semi-ouverts où la fonction peut être discontinue aux bornes."
+      "juryTips": [
+        "Une fonction convexe n'est pas forcément dérivable ($x \\mapsto |x|$ en 0), mais sur un intervalle ouvert elle est continue et admet en tout point une dérivée à gauche et une dérivée à droite.",
+        "Aux bornes d'un intervalle fermé, la continuité peut tomber en défaut : la fonction nulle sur $[0 ; 1[$ et égale à 1 en 1 est convexe sur $[0 ; 1]$.",
+        "L'annulation de $f''$ ne suffit pas à définir un point d'inflexion : $f(x) = x^4$ vérifie $f''(0) = 0$ et reste convexe ; il faut un changement de signe de $f''$.",
+        "La stricte convexité n'équivaut pas à $f'' > 0$ : $x \\mapsto x^4$ est strictement convexe sur $\\mathbb{R}$ alors que sa dérivée seconde s'annule en 0.",
+        "Situer la notion : en terminale, les équivalences entre caractérisations sont admises ; le jury attend que le candidat sache les démontrer avec le lemme des trois pentes et les accroissements finis, et propose des inégalités utilisables en classe comme $e^x \\ge 1 + x$."
       ]
     },
     {
-      id: 'capes-09',
-      num: 'Leçon 09',
-      title: "Suites et séries numériques : convergence, sommabilité et critères",
-      domain: "Analyse",
-      level: "CAPES / Agrégation",
-      prerequisites: [
-        "Axiome de la borne supérieure dans $\\mathbb{R}$",
-        "Suites réelles et complexes, limites"
+      "id": "capes-09",
+      "num": "Leçon 09",
+      "title": "Suites et séries numériques : convergence, sommabilité et critères",
+      "domain": "Analyse",
+      "level": "CAPES / Agrégation",
+      "prerequisites": [
+        "Situation dans les programmes : suites arithmétiques et géométriques et somme de leurs termes en première ; limites de suites, théorème de convergence monotone et limite de $q^n$ en terminale spécialité, où des sommes comme $\\sum_{k=1}^{n}\\frac{1}{k^2}$ sont étudiées en exercice.",
+        "Axiome de la borne supérieure, complétude de $\\mathbb{R}$ et suites de Cauchy.",
+        "Suites adjacentes, suites extraites, théorème de Bolzano-Weierstrass.",
+        "Relations de comparaison $o$, $O$ et $\\sim$, développements limités usuels.",
+        "Intégrale sur un segment et croissance de l'intégrale, pour la comparaison entre série et intégrale."
       ],
-      plan: [
+      "plan": [
         {
-          part: "I. Séries à termes positifs",
-          content: "Convergence ssi la suite des sommes partielles est majorée. Critères de comparaison, équivalents. Règle de d'Alembert et règle de Cauchy. Séries de Riemann $\\sum 1/n^\\alpha$ et intégrale de comparaison."
+          "part": "I. Généralités et séries à termes positifs",
+          "content": "Série $\\sum u_n$, sommes partielles $S_n = \\sum_{k=0}^{n}u_k$, convergence, somme et reste $R_n = \\sum_{k \\ge n+1}u_k$. Si $\\sum u_n$ converge, $u_n \\to 0$ ; la réciproque est fausse (série harmonique). Séries géométriques, critère de Cauchy. Séries à termes positifs : convergence si et seulement si $(S_n)$ est majorée ; théorèmes de comparaison par inégalité, par $O$ et par équivalent. Comparaison série-intégrale pour $f$ positive décroissante ; séries de Riemann : $\\sum \\frac{1}{n^\\alpha}$ converge si et seulement si $\\alpha > 1$. Règle de d'Alembert. Exemple : $\\sum \\frac{n^2}{2^n}$ converge."
         },
         {
-          part: "II. Séries semi-convergentes et séries alternées",
-          content: "Convergence absolue implique convergence. Règle de Leibniz pour les séries alternées et majoration du reste $|R_n| \\le |u_{n+1}|$. Théorème de réarrangement de Riemann."
+          "part": "II. Convergence absolue et séries semi-convergentes",
+          "content": "Si $\\sum |u_n|$ converge, alors $\\sum u_n$ converge (complétude de $\\mathbb{R}$ ou de $\\mathbb{C}$). Séries semi-convergentes. Critère spécial des séries alternées avec signe et majoration du reste. Exemple : $\\sum_{n \\ge 1}\\frac{(-1)^{n+1}}{n} = \\ln 2$. Transformation d'Abel : si $(a_n)$ décroît vers 0 et si les sommes partielles de $\\sum b_n$ sont bornées, $\\sum a_nb_n$ converge ; exemple de $\\sum \\frac{\\cos(n\\theta)}{n}$ pour $\\theta \\notin 2\\pi\\mathbb{Z}$. Théorème de réarrangement de Riemann."
         },
         {
-          part: "III. Produits de Cauchy et sommabilité",
-          content: "Produit de Cauchy de deux séries absolument convergentes. Familles sommables dans $\\mathbb{R}$ ou $\\mathbb{C}$, théorème de Fubini discret."
+          "part": "III. Sommabilité, produit de Cauchy et applications",
+          "content": "Familles sommables de réels positifs puis de complexes, sommation par paquets ; une série réelle a une somme indépendante de l'ordre des termes pour tout réarrangement si et seulement si elle converge absolument. Produit de Cauchy : si $\\sum a_n$ et $\\sum b_n$ convergent absolument, la série de terme $c_n = \\sum_{k=0}^{n}a_kb_{n-k}$ converge absolument et a pour somme $\\left(\\sum a_n\\right)\\left(\\sum b_n\\right)$ ; application : $\\exp(a + b) = \\exp(a)\\exp(b)$ pour la série exponentielle. Théorème de Fubini pour les séries doubles. Applications : $\\sum_{k=1}^{n}\\frac{1}{k} = \\ln n + \\gamma + o(1)$, calcul approché d'une somme avec contrôle du reste."
         }
       ],
-      keyTheorem: {
-        title: "Critère spécial des séries alternées (CSSA)",
-        statement: "Soit $(u_n)$ une suite décroissante tendant vers 0. Alors la série alternée $\\sum (-1)^n u_n$ converge, et pour tout $n$, le reste $R_n = \\sum_{k=n+1}^{+\\infty} (-1)^k u_k$ vérifie $|R_n| \\le u_{n+1}$ avec le signe de $(-1)^{n+1}$.",
-        proof: "Soit $S_n$ les sommes partielles. On étudie les sous-suites $S_{2n}$ et $S_{2n+1}$ : $S_{2n+2} - S_{2n} = u_{2n+2} - u_{2n+1} \\le 0$ (décroissante). $S_{2n+3} - S_{2n+1} = -u_{2n+3} + u_{2n+2} \\ge 0$ (croissante). De plus, $S_{2n+1} - S_{2n} = -u_{2n+1} \\to 0$. Les deux sous-suites sont adjacentes, donc convergent vers une même limite $S$. Le reste vérifie l'encadrement $S_{2n+1} \\le S \\le S_{2n}$, d'où la majoration du reste."
+      "keyTheorem": {
+        "title": "Critère spécial des séries alternées",
+        "statement": "Soit $(u_n)_{n \\ge 0}$ une suite réelle décroissante de limite nulle. Alors la série $\\sum (-1)^nu_n$ converge et, pour tout $n \\in \\mathbb{N}$, le reste $R_n = \\sum_{k=n+1}^{+\\infty}(-1)^ku_k$ est du signe de $(-1)^{n+1}$ et vérifie $|R_n| \\le u_{n+1}$.",
+        "proof": "1. **Positivité.** La suite $(u_n)$ décroît vers 0, donc $u_n \\ge 0$ pour tout $n$.\n2. **Suites adjacentes.** Soit $S_n = \\sum_{k=0}^{n}(-1)^ku_k$. On a $S_{2n+2} - S_{2n} = u_{2n+2} - u_{2n+1} \\le 0$ et $S_{2n+3} - S_{2n+1} = u_{2n+2} - u_{2n+3} \\ge 0$ ; de plus $S_{2n+1} - S_{2n} = -u_{2n+1} \\to 0$. Les suites $(S_{2n})$ et $(S_{2n+1})$ sont donc adjacentes et ont une limite commune $S$.\n3. **Convergence.** Les suites extraites d'indices pairs et impairs convergent vers $S$, donc $(S_n)$ converge vers $S$ : la série converge et $R_n = S - S_n$.\n4. **Encadrement.** Une suite croissante est majorée par sa limite et une suite décroissante minorée par la sienne : pour tout $p$, $S_{2p+1} \\le S \\le S_{2p}$ et $S_{2p+1} \\le S \\le S_{2p+2}$.\n5. **Reste d'indice pair $n = 2p$.** De $S_{2p+1} \\le S \\le S_{2p}$ on tire $-u_{2p+1} = S_{2p+1} - S_{2p} \\le R_{2p} \\le 0$ : $R_n$ est négatif, du signe de $(-1)^{n+1}$, et $|R_n| \\le u_{n+1}$.\n6. **Reste d'indice impair $n = 2p + 1$.** De $S_{2p+1} \\le S \\le S_{2p+2}$ on tire $0 \\le R_{2p+1} \\le S_{2p+2} - S_{2p+1} = u_{2p+2}$ : $R_n$ est positif et $|R_n| \\le u_{n+1}$."
       },
-      developments: [
-        "Théorème de réarrangement de Riemann : toute série semi-convergente peut être réarrangée pour converger vers n'importe quel réel ou diverger.",
-        "Développement asymptotique de la série harmonique $H_n = \\ln(n) + \\gamma + \\frac{1}{2n} + o(1/n)$."
+      "developments": [
+        "Théorème de réarrangement de Riemann (niveau L2) : si $\\sum u_n$ est une série réelle semi-convergente, pour tout $\\ell \\in \\mathbb{R}$ il existe une bijection $\\sigma$ de $\\mathbb{N}$ telle que $\\sum u_{\\sigma(n)}$ converge vers $\\ell$ ; preuve par un algorithme glouton utilisant la divergence des séries des parties positives et négatives.",
+        "Développement asymptotique de la série harmonique (niveau L1-L2) : $H_n = \\ln n + \\gamma + \\frac{1}{2n} + o\\left(\\frac{1}{n}\\right)$, en étudiant la série de terme $\\frac{1}{n} - \\ln\\left(1 + \\frac{1}{n}\\right)$, puis son reste par comparaison.",
+        "Comparaison série-intégrale (niveau L1, lien avec la terminale) : pour $f$ positive et décroissante, $\\int_n^{n+1}f \\le f(n) \\le \\int_{n-1}^{n}f$, d'où la nature des séries de Riemann et l'équivalent $\\sum_{k=n+1}^{+\\infty}\\frac{1}{k^2} \\sim \\frac{1}{n}$.",
+        "Produit de Cauchy (niveau L2) : preuve pour des séries absolument convergentes, application à $\\exp(a + b) = \\exp(a)\\exp(b)$ pour $a, b \\in \\mathbb{C}$, et contre-exemple : le produit de Cauchy de $\\sum \\frac{(-1)^n}{\\sqrt{n+1}}$ par elle-même a un terme général de module au moins 1, donc diverge."
       ],
-      juryTips: [
-        "Un équivalent $u_n \\sim v_n$ ne préserve la convergence que pour des séries à termes de SIGNE CONSTANT ! (Contre-exemple : $u_n = \\frac{(-1)^n}{\\sqrt{n}} + \\frac{1}{n}$).",
-        "Savoir expliquer intuitivement pourquoi la convergence absolue permet de réordonner les termes sans changer la somme."
+      "juryTips": [
+        "L'équivalence ne conserve la nature que pour des séries de signe constant à partir d'un certain rang : $u_n = \\frac{(-1)^n}{\\sqrt{n}} + \\frac{1}{n}$ est équivalent à $v_n = \\frac{(-1)^n}{\\sqrt{n}}$, la série $\\sum v_n$ converge et $\\sum u_n$ diverge.",
+        "Le critère des séries alternées exige la décroissance : si pour $k \\ge 1$, $u_{2k} = \\frac{1}{k}$ et $u_{2k+1} = \\frac{1}{k^2}$, alors $u_n \\to 0$ mais $\\sum (-1)^nu_n$ diverge, car deux termes consécutifs ont pour somme $\\frac{1}{k} - \\frac{1}{k^2}$.",
+        "La règle de d'Alembert ne permet pas de conclure lorsque la limite du rapport vaut 1 : $\\sum \\frac{1}{n}$ diverge et $\\sum \\frac{1}{n^2}$ converge, avec la même limite 1.",
+        "Sachez expliquer pourquoi la convergence absolue autorise à réordonner les termes, et donner un contre-exemple : en réarrangeant $\\sum \\frac{(-1)^{n+1}}{n}$ avec deux termes positifs pour un négatif, on obtient la somme $\\frac{3}{2}\\ln 2$ au lieu de $\\ln 2$.",
+        "Situer la notion : au lycée, la somme des termes d'une suite géométrique et sa limite pour $|q| \\lt 1$ constituent le premier exemple de série ; le jury apprécie qu'on l'exploite, par exemple avec l'écriture décimale illimitée $0{,}999\\ldots = 1$."
       ]
     },
     {
-      id: 'capes-10',
-      num: 'Leçon 10',
-      title: "Arithmétique dans Z : divisibilité, pgcd, congruences et cryptographie RSA",
-      domain: "Algèbre & Arithmétique",
-      level: "CAPES / Agrégation",
-      prerequisites: [
-        "Ensemble des entiers $\\mathbb{Z}$ et division euclidienne",
-        "Groupes finis et anneaux"
+      "id": "capes-10",
+      "num": "Leçon 10",
+      "title": "Arithmétique dans Z : divisibilité, pgcd, congruences et cryptographie RSA",
+      "domain": "Algèbre & Arithmétique",
+      "level": "CAPES / Agrégation",
+      "prerequisites": [
+        "Situation dans les programmes : multiples, diviseurs, nombres premiers et décomposition en facteurs premiers au cycle 4 et en seconde ; en option mathématiques expertes de terminale, division euclidienne, congruences, PGCD, théorèmes de Bézout et de Gauss, petit théorème de Fermat, avec des activités de chiffrement.",
+        "Construction de $\\mathbb{N}$ et de $\\mathbb{Z}$, récurrence, toute partie non vide de $\\mathbb{N}$ admet un plus petit élément.",
+        "Groupes, sous-groupes, anneaux, idéaux, théorème de Lagrange.",
+        "Algorithmique : boucles et fonctions en Python (algorithme d'Euclide, exponentiation modulaire rapide)."
       ],
-      plan: [
+      "plan": [
         {
-          part: "I. Divisibilité et algorithme d'Euclide",
-          content: "Division euclidienne, sous-groupes de $\\mathbb{Z}$ (de la forme $n\\mathbb{Z}$). PGCD, PPCM. Algorithme d'Euclide et Euclide étendu. Identité de Bézout et lemme de Gauss."
+          "part": "I. Divisibilité, PGCD et algorithme d'Euclide",
+          "content": "Division euclidienne : pour $a \\in \\mathbb{Z}$ et $b \\in \\mathbb{N}^{\\ast}$, il existe un unique couple $(q, r)$ avec $a = bq + r$ et $0 \\le r \\lt b$. Les sous-groupes de $\\mathbb{Z}$ sont les $n\\mathbb{Z}$, $n \\in \\mathbb{N}$. PGCD défini par $a\\mathbb{Z} + b\\mathbb{Z} = (a \\wedge b)\\mathbb{Z}$, PPCM par $a\\mathbb{Z} \\cap b\\mathbb{Z} = (a \\vee b)\\mathbb{Z}$, et $(a \\wedge b)(a \\vee b) = |ab|$. Algorithme d'Euclide, fondé sur $a \\wedge b = b \\wedge r$, et algorithme étendu. Théorèmes de Bézout et de Gauss. L'équation $ax + by = c$ a des solutions entières si et seulement si $a \\wedge b$ divise $c$. Exemple : $17 \\wedge 5 = 1$ et $17 \\times (-2) + 5 \\times 7 = 1$."
         },
         {
-          part: "II. Nombres premiers et décomposition",
-          content: "Lemme d'Euclide (si $p \\mid ab$ alors $p \\mid a$ ou $p \\mid b$). Théorème fondamental de l'arithmétique (existence et unicité de la décomposition en facteurs premiers). Infinité des nombres premiers."
+          "part": "II. Nombres premiers et décomposition",
+          "content": "Tout entier $n \\ge 2$ admet un diviseur premier ; il existe une infinité de nombres premiers. Lemme d'Euclide : si un nombre premier $p$ divise $ab$, alors $p$ divise $a$ ou $b$. Théorème fondamental de l'arithmétique : existence et unicité, à l'ordre près, de la décomposition en produit de facteurs premiers. Valuations $p$-adiques, expression du PGCD et du PPCM, nombre de diviseurs $\\prod(\\alpha_i + 1)$. Crible d'Ératosthène : un entier $n \\ge 2$ sans diviseur premier inférieur ou égal à $\\sqrt{n}$ est premier. Exemple : $360 = 2^3 \\times 3^2 \\times 5$ possède $4 \\times 3 \\times 2 = 24$ diviseurs positifs."
         },
         {
-          part: "III. Congruences, anneau Z/nZ et cryptographie",
-          content: "Structure d'anneau de $\\mathbb{Z}/n\\mathbb{Z}$. Éléments inversibles $(\\mathbb{Z}/n\\mathbb{Z})^\\times$ et indicateur d'Euler $\\varphi(n)$. Petit théorème de Fermat et théorème d'Euler. Système cryptographique RSA (clé publique, clé privée, signature)."
+          "part": "III. Congruences, anneaux Z/nZ et cryptographie",
+          "content": "Congruences modulo $n$, compatibles avec l'addition et la multiplication ; anneau $\\mathbb{Z}/n\\mathbb{Z}$. Théorème : la classe de $a$ est inversible si et seulement si $a \\wedge n = 1$, et $\\mathbb{Z}/n\\mathbb{Z}$ est un corps si et seulement si $n$ est premier. Indicateur d'Euler $\\varphi(n)$, multiplicativité, $\\varphi(p^k) = p^k - p^{k-1}$. Théorème d'Euler $a^{\\varphi(n)} \\equiv 1 \\pmod n$ si $a \\wedge n = 1$, conséquence du théorème de Lagrange dans le groupe des inversibles, et petit théorème de Fermat. Théorème chinois. Chiffrement RSA avec $n = pq$ et $ed \\equiv 1 \\pmod{\\varphi(n)}$, exponentiation rapide. Exemple : $p = 5$, $q = 11$, $n = 55$, $\\varphi(n) = 40$, $e = 3$, $d = 27$."
         }
       ],
-      keyTheorem: {
-        title: "Théorème de Bézout",
-        statement: "Deux entiers $a, b \\in \\mathbb{Z}$ sont premiers entre eux ssi il existe $u, v \\in \\mathbb{Z}$ tels que $au + bv = 1$.",
-        proof: "L'ensemble $I = a\\mathbb{Z} + b\\mathbb{Z}$ est un sous-groupe de $(\\mathbb{Z}, +)$. Comme tous les sous-groupes de $\\mathbb{Z}$ sont de la forme $d\\mathbb{Z}$, il existe un unique $d \\in \\mathbb{N}$ tel que $a\\mathbb{Z} + b\\mathbb{Z} = d\\mathbb{Z}$. On montre que $d = \\text{PGCD}(a, b)$ : $a \\in d\\mathbb{Z} \\implies d \\mid a$, $b \\in d\\mathbb{Z} \\implies d \\mid b$, et tout diviseur commun divise toute combinaison linéaire donc divise $d$. Ainsi, $\\text{PGCD}(a, b) = 1 \\iff 1 \\in a\\mathbb{Z} + b\\mathbb{Z} \\iff \\exists u, v \\in \\mathbb{Z},\\; au + bv = 1$."
+      "keyTheorem": {
+        "title": "Théorème de Bézout et lemme de Gauss",
+        "statement": "Soient $a, b \\in \\mathbb{Z}$ et $d = a \\wedge b$ leur PGCD (avec $0 \\wedge 0 = 0$). (i) Il existe $u, v \\in \\mathbb{Z}$ tels que $au + bv = d$. (ii) Les entiers $a$ et $b$ sont premiers entre eux si et seulement s'il existe $u, v \\in \\mathbb{Z}$ tels que $au + bv = 1$. (iii) Lemme de Gauss : si $a$ divise $bc$ et si $a \\wedge b = 1$, alors $a$ divise $c$.",
+        "proof": "1. **Sous-groupe.** $H = a\\mathbb{Z} + b\\mathbb{Z} = \\{au + bv : u, v \\in \\mathbb{Z}\\}$ contient 0 et est stable par différence : c'est un sous-groupe de $(\\mathbb{Z}, +)$.\n2. **Sous-groupes de $\\mathbb{Z}$.** Si $H = \\{0\\}$, $H = 0\\mathbb{Z}$. Sinon, $H \\cap \\mathbb{N}^{\\ast}$ est non vide (car $H$ est stable par opposé) et admet un plus petit élément $\\delta$, et $\\delta\\mathbb{Z} \\subset H$. Pour $h \\in H$, la division euclidienne $h = \\delta q + r$ avec $0 \\le r \\lt \\delta$ donne $r = h - \\delta q \\in H$, donc $r = 0$ par minimalité de $\\delta$. Ainsi $H = \\delta\\mathbb{Z}$ avec $\\delta \\in \\mathbb{N}$.\n3. **Identification du PGCD.** Comme $a = a \\times 1 + b \\times 0 \\in H$, $\\delta$ divise $a$, et de même $\\delta$ divise $b$. Réciproquement, tout diviseur commun de $a$ et $b$ divise toute combinaison $au + bv$, en particulier $\\delta \\in H$. Donc $\\delta$ est le plus grand diviseur commun positif, $\\delta = d$, et puisque $d \\in H$, (i) est démontré.\n4. **Point (ii).** Si $a \\wedge b = 1$, (i) fournit $u, v$. Réciproquement, si $au + bv = 1$, tout diviseur commun positif de $a$ et $b$ divise 1, donc $a \\wedge b = 1$.\n5. **Lemme de Gauss.** Avec $au + bv = 1$, on a $c = acu + bcv$. Or $a$ divise $acu$ et $a$ divise $bc$, donc $a$ divise $c$."
       },
-      developments: [
-        "Cryptosystème RSA : protocole complet, preuve de déchiffrement via le petit théorème de Fermat et complexité de factorisation.",
-        "Théorème des restes chinois et application à la résolution de systèmes de congruences simultanés."
+      "developments": [
+        "Cryptosystème RSA (niveau mathématiques expertes-L2) : choix de $n = pq$ avec $p \\neq q$ premiers, de $e$ premier avec $\\varphi(n)$ et de $d$ inverse de $e$ modulo $\\varphi(n)$ par Euclide étendu ; preuve que $m^{ed} \\equiv m \\pmod n$ pour tout entier $m$, même non premier avec $n$, par le petit théorème de Fermat modulo $p$ et modulo $q$ puis le lemme de Gauss ; sécurité liée à la difficulté de factoriser $n$.",
+        "Théorème chinois (niveau mathématiques expertes-L2) : si $m \\wedge n = 1$, l'application de $\\mathbb{Z}/mn\\mathbb{Z}$ dans $\\mathbb{Z}/m\\mathbb{Z} \\times \\mathbb{Z}/n\\mathbb{Z}$ est un isomorphisme d'anneaux, avec une solution explicite par Bézout ; exemple : $x \\equiv 2 \\pmod 3$ et $x \\equiv 3 \\pmod 5$ équivalent à $x \\equiv 8 \\pmod{15}$ ; corollaire : multiplicativité de $\\varphi$.",
+        "Infinité des nombres premiers et variantes (niveau seconde-L1) : preuve d'Euclide, infinité des nombres premiers de la forme $4k + 3$, et existence de $n$ entiers consécutifs composés, $(n+1)! + 2, \\dots, (n+1)! + n + 1$.",
+        "Petit théorème de Fermat (niveau mathématiques expertes) : preuve par la formule du binôme, $p$ divisant $\\binom{p}{k}$ pour $1 \\le k \\le p - 1$, et récurrence sur $a$, puis preuve par le groupe des inversibles de $\\mathbb{Z}/p\\mathbb{Z}$ ; la réciproque est fausse : $561 = 3 \\times 11 \\times 17$ vérifie $a^{560} \\equiv 1 \\pmod{561}$ pour tout $a$ premier avec 561."
       ],
-      juryTips: [
-        "Ne jamais oublier la condition de primalité entre eux dans le lemme de Gauss !",
-        "Maîtriser le calcul de l'inverse modulaire via l'algorithme d'Euclide étendu au tableau."
+      "juryTips": [
+        "Le lemme de Gauss exige l'hypothèse $a \\wedge b = 1$ : 6 divise $4 \\times 3$ sans diviser ni 4 ni 3.",
+        "Le lemme d'Euclide est faux pour un diviseur non premier, et c'est lui qui fonde l'unicité de la décomposition en facteurs premiers ; le jury demande souvent où il intervient dans la preuve.",
+        "Le couple de Bézout n'est pas unique : si $au_0 + bv_0 = 1$, les solutions de $au + bv = 1$ sont les $(u_0 + kb, v_0 - ka)$, $k \\in \\mathbb{Z}$ ; pour $17u + 5v = 1$, $(-2, 7)$ et $(3, -10)$ conviennent.",
+        "Sachez exécuter l'algorithme d'Euclide étendu au tableau pour calculer un inverse modulaire : l'inverse de 7 modulo 26 est 15, car $7 \\times 15 = 105 = 4 \\times 26 + 1$.",
+        "Situer la notion : divisibilité et nombres premiers sont travaillés au collège et en seconde, congruences et Bézout en mathématiques expertes ; le jury apprécie un raisonnement accessible à un élève, comme la preuve par la parité de l'irrationalité de $\\sqrt{2}$."
       ]
     },
     {
-      id: 'capes-oral2',
-      num: 'Oral 2',
-      title: "Épreuve d'entretien : Éthique professionnelle, laïcité et valeurs de la République",
-      domain: "Éthique & Laïcité",
-      level: "CAPES / Agrégation",
-      prerequisites: [
-        "Vademecum « La laïcité à l'école » (Conseil des sages de la laïcité, Éduscol)",
-        "Loi du 9 décembre 1905 concernant la séparation des Églises et de l'État",
-        "Loi n° 2004-228 du 15 mars 2004 (art. L. 141-5-1 du Code de l'éducation)",
-        "Loi n° 83-634 (art. 25) portant droits et obligations des fonctionnaires",
-        "Arrêté du 1er juillet 2013 (Référentiel des compétences professionnelles du professorat)"
+      "id": "capes-oral2",
+      "num": "Oral 2",
+      "title": "Épreuve d'entretien : Éthique professionnelle, laïcité et valeurs de la République",
+      "domain": "Éthique & Laïcité",
+      "level": "CAPES / Agrégation",
+      "prerequisites": [
+        "Format de l'épreuve d'entretien du CAPES externe (35 minutes) : une première partie sur la motivation et le parcours du candidat, appuyée sur la fiche individuelle de renseignement qu'il a remplie, puis une seconde partie consacrée à deux mises en situation professionnelles, l'une d'enseignement, l'autre relative à la vie scolaire ; le jury apprécie l'aptitude à s'approprier les valeurs de la République et les exigences du service public.",
+        "Constitution du 4 octobre 1958, article 1er : la France est une République indivisible, laïque, démocratique et sociale, qui assure l'égalité devant la loi de tous les citoyens et respecte toutes les croyances.",
+        "Code de l'éducation, article L. 111-1 : outre la transmission des connaissances, la Nation fixe comme mission première à l'école de faire partager aux élèves les valeurs de la République ; le service public de l'éducation veille à l'inclusion scolaire de tous les enfants.",
+        "Loi du 9 décembre 1905 concernant la séparation des Églises et de l'État, et loi n° 2004-228 du 15 mars 2004, codifiée à l'article L. 141-5-1 du Code de l'éducation, sur le port de signes ou de tenues manifestant ostensiblement une appartenance religieuse.",
+        "Statut des fonctionnaires, aujourd'hui regroupé dans le Code général de la fonction publique (qui reprend notamment la loi n° 83-634 du 13 juillet 1983), et référentiel des compétences professionnelles des métiers du professorat et de l'éducation (arrêté du 1er juillet 2013)."
       ],
-      plan: [
+      "plan": [
         {
-          part: "I. Cadre constitutionnel, légal et principes républicains",
-          content: "Principe républicain d'indivisibilité, de laïcité, de démocratie et d'égalité (Constitution de 1958, art. 1). Loi de 1905 : séparation des Églises et de l'État, liberté de conscience et neutralité de la puissance publique. Loi du 15 mars 2004 (art. L. 141-5-1 du Code de l'éducation) : interdiction pour les élèves des écoles, collèges et lycées publics de porter des signes ou tenues manifestant ostensiblement une appartenance religieuse. Loi de 2019 pour une École de la confiance (art. L. 141-5-2) : protection contre les pressions et le prosélytisme aux abords des établissements."
+          "part": "I. Cadre institutionnel et principes républicains",
+          "content": "La Constitution fait de la laïcité un principe de la République : neutralité de l'État, égalité des citoyens sans distinction de religion, respect de toutes les croyances. La loi de 1905 garantit la liberté de conscience et le libre exercice des cultes, et pose que la République ne reconnaît, ne salarie ni ne subventionne aucun culte. Le Code de l'éducation (article L. 111-1) assigne à l'école la mission de faire partager les valeurs de la République, de contribuer à l'égalité des chances et de veiller à l'inclusion de tous les élèves. La loi du 15 mars 2004 interdit aux élèves des écoles, collèges et lycées publics le port de signes ou tenues par lesquels ils manifestent ostensiblement une appartenance religieuse, et prévoit qu'une procédure disciplinaire est précédée d'un dialogue avec l'élève. La Charte de la laïcité à l'École (2013), affichée dans les établissements, rappelle notamment qu'aucun élève ne peut invoquer une conviction religieuse ou politique pour contester à un enseignant le droit de traiter une question au programme."
         },
         {
-          part: "II. Statuts juridiques et obligations des acteurs de la communauté éducative",
-          content: "1. Enseignants et agents publics : stricte obligation de neutralité religieuse, politique et commerciale dans l'exercice de leurs fonctions (jurisprudence constante CE avis Marteaux 2000, CEDH Dahlab et Ebrahimian). Devoir d'impartialité, de réserve, de probité et d'obéissance hiérarchique. Interdiction absolue du prosélytisme.\n2. Élèves : liberté de conscience absolue, apprentissage de l'esprit critique et distinction des savoirs et des croyances (art. 6 et 12 de la Charte de la laïcité). Obligation d'assiduité (art. L. 511-1). Respect des programmes nationaux obligatoires (art. R. 511-11).\n3. Parents d'élèves : usagers du service public non soumis au devoir de neutralité dans l'enceinte pour chercher leur enfant. En revanche, obligation de neutralité dès lors qu'ils animent ou encadrent des activités pédagogiques en classe (CAA Lyon 2019) et devoir de réserve/respect du vivre-ensemble lors des sorties scolaires."
+          "part": "II. Le professeur, fonctionnaire de l'État : droits, obligations, compétences",
+          "content": "Droits : liberté d'opinion, garanties statutaires, protection fonctionnelle accordée par l'administration à l'agent attaqué en raison de ses fonctions. Obligations : neutralité et respect du principe de laïcité dans l'exercice des fonctions, ce qui interdit de manifester ses convictions religieuses en service ; dignité, impartialité, intégrité et probité ; traitement égal de tous les usagers ; secret professionnel et discrétion professionnelle ; obéissance hiérarchique, sauf ordre manifestement illégal et de nature à compromettre gravement un intérêt public ; devoir de réserve dans l'expression publique, dégagé par la jurisprudence. Le Conseil d'État (avis du 3 mai 2000, Mlle Marteaux) a précisé qu'un agent du service public de l'enseignement ne peut manifester ses croyances religieuses dans l'exercice de ses fonctions. Le référentiel de 2013 décrit les compétences attendues : faire partager les valeurs de la République, inscrire son action dans le cadre des principes fondamentaux du système éducatif et dans le cadre réglementaire de l'école, prendre en compte la diversité des élèves, coopérer au sein d'une équipe et avec les parents, maîtriser les savoirs disciplinaires et leur didactique, évaluer les progrès des élèves."
         },
         {
-          part: "III. Gestion des contestations d'enseignements et cas de vie scolaire",
-          content: "Contestations de contenus disciplinaires (sciences, histoire, probabilités/hasard, représentations figurées en géométrie) : fermeté sur les programmes, distinction fondamentale entre la rigueur du savoir scientifique démontrable et la liberté des croyances intimes. Refus d'activités scolaires ou d'EPS : aucune dispense pour motif religieux (CEDH arrêt Osmanoglu c. Suisse 2017). Restauration scolaire : compétence des collectivités, absence de droit aux repas confessionnels, interdiction des PAI pour convenance religieuse (strictement réservés aux troubles de santé invalidants)."
-        },
-        {
-          part: "IV. Posture professionnelle et chaîne institutionnelle de signalement",
-          content: "La démarche de résolution en 3 temps devant le jury : 1. Réponse immédiate et posée dans la classe (désamorcer, rappeler la règle sans débat théologique, ne pas stigmatiser l'élève). 2. Dialogue éducatif avec l'élève et la famille mené par le chef d'établissement (dialogue qui n'est pas une négociation de la règle). 3. Concertation en équipe et recours institutionnel : signalement sur l'application « Faits établissement », saisine de l'Équipe Académique Valeurs de la République (EAVR), information préoccupante si santé d'un mineur compromise (art. 375 Code civil)."
+          "part": "III. Mises en situation : une démarche de réponse",
+          "content": "Première étape : analyser la situation et nommer les enjeux (sécurité des élèves, droit à l'instruction, apprentissages, valeurs en jeu). Deuxième étape : agir dans la classe avec calme, rappeler la règle sans entrer dans un débat sur les croyances, protéger les élèves, ne pas humilier, poursuivre le cours. Troisième étape : ne pas rester seul, informer le professeur principal, le conseiller principal d'éducation et le chef d'établissement, associer la famille, s'appuyer sur les personnels sociaux et de santé et, pour les atteintes à la laïcité, sur l'équipe académique Valeurs de la République. Quatrième étape, si un mineur est en danger ou en risque de l'être : transmettre une information préoccupante selon la procédure prévue ; tout fonctionnaire qui acquiert la connaissance d'un crime ou d'un délit dans l'exercice de ses fonctions doit en aviser le procureur de la République (article 40 du Code de procédure pénale). Situations fréquentes en mathématiques : contestation d'un contenu au nom d'une croyance, refus de travailler en groupe mixte, harcèlement entre élèves, fraude à une évaluation, élève à besoins éducatifs particuliers bénéficiant d'un plan d'accompagnement personnalisé ou d'un projet personnalisé de scolarisation."
         }
       ],
-      keyTheorem: {
-        title: "Principe fondamental de neutralité du fonctionnaire et liberté de conscience",
-        statement: "« Le fonctionnaire exerce ses fonctions dans le respect du principe de laïcité. À ce titre, il s'abstient notamment de manifester, dans l'exercice de ses fonctions, ses opinions religieuses. Le fonctionnaire traite de façon égale toutes les personnes et respecte leur liberté de conscience et leur dignité. » (Loi n° 83-634, art. 25 modifié par la loi du 20 avril 2016)",
-        proof: "• **Jurisprudence constante du Conseil d'État (Avis Marteaux, 3 mai 2000, n° 217017)** :\nLe principe de laïcité de l'enseignement public, élément de la laïcité de l'État et de la neutralité des services publics, fait obstacle à ce que les agents du service public de l'enseignement disposent, dans le cadre du service public, du droit de manifester leurs croyances religieuses, notamment par le port d'un signe destiné à marquer leur appartenance confessionnelle.\n\n• **Jurisprudence de la Cour Européenne des Droits de l'Homme (CEDH, 26 février 2016, Ebrahimian c. France)** :\nLa CEDH a validé la primauté absolue de l'exigence de neutralité et d'impartialité de l'État sur la manifestation des convictions religieuses de ses agents, constatant l'absence de conciliation possible entre celles-ci et l'exercice d'une fonction publique."
+      "keyTheorem": {
+        "title": "Neutralité de l'agent public et liberté de conscience des élèves",
+        "statement": "Dans l'exercice de ses fonctions, le professeur, agent public, est tenu à l'obligation de neutralité et exerce ses fonctions dans le respect du principe de laïcité : il s'abstient notamment de manifester ses opinions religieuses, traite de façon égale toutes les personnes et respecte leur liberté de conscience et leur dignité (statut général des fonctionnaires, dispositions introduites par la loi du 20 avril 2016 et reprises dans le Code général de la fonction publique). Les élèves, usagers du service public, ne sont pas soumis à cette obligation de neutralité ; leur liberté de conscience est protégée, dans les limites fixées par la loi du 15 mars 2004 et par le règlement intérieur.",
+        "proof": "1. **Fondement constitutionnel.** La République est laïque (article 1er de la Constitution) : l'État et ses services sont neutres, ce qui s'impose à ceux qui les font fonctionner, afin que chaque usager soit traité sans considération de ses convictions.\n2. **Fondement législatif.** Le statut général des fonctionnaires énonce l'obligation de neutralité et le respect de la laïcité ; le Code de l'éducation confie à l'école la mission de faire partager les valeurs de la République (article L. 111-1).\n3. **Jurisprudence administrative.** Par son avis du 3 mai 2000, le Conseil d'État a indiqué que le principe de laïcité fait obstacle à ce que les agents du service public de l'enseignement manifestent leurs croyances religieuses dans l'exercice de leurs fonctions, qu'ils enseignent ou non.\n4. **Asymétrie entre agents et usagers.** Les élèves ne sont pas des agents publics. Avant 2004, le Conseil d'État (avis du 27 novembre 1989) admettait le port de signes religieux par les élèves sauf pression, prosélytisme ou trouble ; la loi du 15 mars 2004 a ensuite interdit les signes et tenues manifestant ostensiblement une appartenance religieuse, après un dialogue avec l'élève.\n5. **Conséquences pour la classe.** Le professeur peut traiter des faits religieux ou historiques comme objets de savoir, mais ne prend pas parti ; il distingue ce qui relève du savoir, établi par la démonstration et l'argumentation, de ce qui relève de la croyance, qui appartient à chacun.\n6. **Limites et prudence.** Les parents d'élèves ne sont pas des agents publics ; leur situation, par exemple lors de l'accompagnement de sorties scolaires, relève de l'appréciation du chef d'établissement dans le cadre fixé par l'institution, et le candidat ne doit pas trancher seul ces questions."
       },
-      developments: [
-        "Analyse de la jurisprudence sur les signes religieux ostensibles par nature (voile, kippa, grande croix) vs signes devenus ostensibles par le comportement de l'élève (bandana, jupes longues portées de manière systématique et revendicative - CE 2007 et CAA Paris 2017).",
-        "Régime juridique des parents d'élèves accompagnateurs de sorties scolaires (Étude du CE de 2013, jugements TA Nice/Amiens 2015, arrêt CAA de Lyon du 23 juillet 2019 sur la neutralité en classe)."
+      "developments": [
+        "Mise en situation d'enseignement : en cours de probabilités, un élève déclare que le hasard n'existe pas et refuse l'exercice au nom de ses convictions. Réponse attendue : expliquer qu'une probabilité est un outil de modélisation et non une thèse sur le monde, rappeler que les programmes s'imposent à tous sans humilier l'élève, poursuivre le cours, puis reprendre l'échange individuellement et informer l'équipe si le refus persiste.",
+        "Mise en situation de vie scolaire : un élève confie être la cible de moqueries répétées sur un réseau social de la part de camarades de la classe. Réponse attendue : écouter et prendre la parole au sérieux, ne pas promettre le secret, informer sans délai le conseiller principal d'éducation et le chef d'établissement, qui mettent en œuvre le protocole de traitement du harcèlement ; depuis la loi du 2 mars 2022, le harcèlement scolaire constitue un délit.",
+        "Mise en situation d'évaluation et d'inclusion : un élève bénéficiant d'un plan d'accompagnement personnalisé demande les aménagements prévus lors d'un devoir surveillé. Réponse attendue : les appliquer sans les commenter devant la classe, en lien avec le professeur principal, et expliquer que l'équité n'est pas l'uniformité, conformément à l'objectif d'inclusion fixé par l'article L. 111-1.",
+        "Question de motivation : expliquer pourquoi devenir professeur de mathématiques en reliant son parcours à une conception argumentée du métier (transmission des savoirs, exigence, accompagnement de tous les élèves, travail en équipe), illustrée par un exemple concret plutôt que par la récitation du référentiel."
       ],
-      juryTips: [
-        "Ne jamais opposer laïcité et liberté : la laïcité n'est pas une opinion ni une interdiction des religions, c'est le cadre républicain protecteur qui garantit la liberté de conscience de chacun, l'égalité de tous et la neutralité de l'État.",
-        "Devant le jury du CAPES, structurer impérativement sa réponse en 3 niveaux : 1° Le cadre juridique et réglementaire (textes officiels) ; 2° L'action pédagogique immédiate (fermeté bienveillante, pas d'escalade ni d'humiliation) ; 3° Le travail en équipe et l'alerte institutionnelle (CPE, chef d'établissement, signalement Faits établissement, équipe académique Valeurs de la République).",
-        "Rappeler fermement que le dialogue avec l'élève et la famille, obligatoire avant toute mesure disciplinaire, n'est JAMAIS une négociation de la règle républicaine."
+      "juryTips": [
+        "Ne pas opposer laïcité et liberté : la laïcité garantit la liberté de conscience de chacun et l'égalité de tous ; elle impose la neutralité à l'État et à ses agents, non aux élèves en tant que tels.",
+        "Ne citer que des textes dont on est sûr : un numéro d'article erroné ou une jurisprudence approximative dessert davantage qu'une réponse fondée sur les principes (Constitution, article L. 111-1, loi de 2004, statut de fonctionnaire, référentiel de 2013).",
+        "Ne pas présenter une réponse solitaire : le jury attend que le candidat situe son action dans une équipe (professeur principal, conseiller principal d'éducation, chef d'établissement, personnels sociaux et de santé) et connaisse les circuits de signalement.",
+        "Le dialogue avec l'élève et sa famille précède la procédure disciplinaire, mais il vise la compréhension de la règle et non sa négociation.",
+        "Relier les situations à la discipline : la démarche mathématique (distinction entre conjecture et preuve, esprit critique face aux chiffres et aux statistiques) contribue à la formation du citoyen, ce que le jury apprécie de voir illustré par un exemple de classe."
       ]
     }
   ];
@@ -542,7 +607,7 @@
         correctIndex: 0,
         answer: "Toutes les valeurs propres de A (réelles ou complexes) ont une partie réelle strictement négative : $\\forall \\lambda \\in \\mathrm{Sp}(A),\\; \\mathrm{Re}(\\lambda) < 0$",
         hint1: "Penser à la décomposition de Dunford ou à la réduction de Jordan : les composantes de $\\exp(tA)$ font intervenir des termes de la forme $t^k e^{\\lambda t}$.",
-        solution: "Par décomposition de Jordan ou Dunford de $A$, les coefficients de la matrice résolvante $\\exp(tA)$ sont des combinaisons linéaires de fonctions de la forme $t^k e^{\\lambda t} = t^k e^{\\mathrm{Re}(\\lambda)t} e^{i \\mathrm{Im}(\\lambda)t}$ où $\\lambda \\in \\mathrm{Sp}(A)$ et $0 \\le k \\le n-1$. Ces termes tendent vers 0 quand $t \\to +\\infty$ si et seulement si $\\mathrm{Re}(\\lambda) < 0$ pour toute valeur propre $\\lambda$. C'est le théorème de stabilité de Routh-Hurwitz."
+        solution: "Par décomposition de Jordan ou Dunford de $A$, les coefficients de la matrice résolvante $\\exp(tA)$ sont des combinaisons linéaires de fonctions de la forme $t^k e^{\\lambda t} = t^k e^{\\mathrm{Re}(\\lambda)t} e^{i \\mathrm{Im}(\\lambda)t}$ où $\\lambda \\in \\mathrm{Sp}(A)$ et $0 \\le k \\le n-1$. Ces termes tendent vers 0 quand $t \\to +\\infty$ si et seulement si $\\mathrm{Re}(\\lambda) < 0$ pour toute valeur propre $\\lambda$. Le système est donc asymptotiquement stable si et seulement si toutes les valeurs propres de $A$ sont de partie réelle strictement négative. Le critère de Routh-Hurwitz permet ensuite de vérifier cette condition sur les seuls coefficients du polynôme caractéristique, sans calculer les valeurs propres."
       }
     ],
 
@@ -637,7 +702,7 @@
         ],
         correctIndex: 0,
         answer: "$\\frac{f(x_0^+) + f(x_0^-)}{2}$ (la demi-somme des limites à droite et à gauche)",
-        hint1: "C'est l'énoncé fondamental du théorème de Dirichlet pour les fonctions $\\mathcal{C}^1$ par morceaux.",
+        hint1: "Le théorème de Dirichlet fait intervenir les limites à droite et à gauche $f(x_0^+)$ et $f(x_0^-)$. En un point de continuité, elles valent toutes deux $f(x_0)$ ; en un point de saut, quelle valeur symétrique la série peut-elle prendre ? (Pense à l'onde créneau impaire en $x_0 = 0$.)",
         solution: "D'après le théorème de Dirichlet, pour toute fonction $f$ $2\\pi$-périodique et $\\mathcal{C}^1$ par morceaux, en tout point $x \\in \\mathbb{R}$, la série de Fourier converge et sa somme vaut la régularisée de $f$, c'est-à-dire $\\frac{f(x^+) + f(x^-)}{2}$. Si $f$ est continue en $x_0$, cette valeur coïncide avec $f(x_0)$."
       },
       {
@@ -691,7 +756,7 @@
         ],
         correctIndex: 0,
         answer: "Les sommes partielles dépassent le palier d'environ $8{,}95\\,\\%$ du saut : le dépassement persiste et ne tend pas vers 0 (défaut de convergence uniforme)",
-        hint1: "C'est le phénomène de Gibbs : l'intégrale $\\frac{2}{\\pi}\\int_0^\\pi \\frac{\\sin t}{t}\\,dt \\approx 1{,}17898$, soit un dépassement de $\\approx 9\\%$ de part et d'autre.",
+        hint1: "Près du saut, le maximum de $S_N(f)$ tend vers $\\frac{2}{\\pi}\\int_0^\\pi \\frac{\\sin t}{t}\\,dt \\approx 1{,}179$ fois le demi-saut : traduis ce dépassement en pourcentage du saut total, et demande-toi s'il dépend de $N$.",
         solution: "Le phénomène de Gibbs montre que pour une fonction discontinue de première espèce (comme le créneau), les sommes partielles de Fourier oscillent au voisinage de la discontinuité avec un dépassement asymptotique constant égal à $\\frac{1}{\\pi} \\int_0^\\pi \\frac{\\sin(t)}{t}\\,dt - \\frac{1}{2} \\approx 0{,}08949$, soit environ $8{,}95\\,\\%$ de la hauteur du saut. Cela illustre rigoureusement l'absence de convergence uniforme sur tout intervalle contenant une discontinuité."
       }
     ],
@@ -898,7 +963,7 @@
         ],
         correctIndex: 0,
         answer: "$I = \\frac{\\pi}{2}$",
-        hint1: "$F'(x) = -\\frac{1}{1+x^2} \\implies F(x) = C - \\arctan(x)$. Comme $\\lim_{+\\infty} F = 0$, $C = \\frac{\\pi}{2}$.",
+        hint1: "Intègre $F'$ : $F(x) = C - \\arctan(x)$. Détermine $C$ grâce à la limite en $+\\infty$, puis utilise (en l'admettant) la continuité de $F$ en $0$ : $I = F(0)$.",
         solution: "On a $F'(x) = -\\frac{1}{1+x^2}$, donc $F(x) = C - \\arctan(x)$ sur $]0, +\\infty[$. En faisant tendre $x \\to +\\infty$, $0 = C - \\frac{\\pi}{2}$, donc $C = \\frac{\\pi}{2}$, d'où $F(x) = \\frac{\\pi}{2} - \\arctan(x)$. En justifiant la continuité de $F$ en $0^+$ par convergence uniforme (ou intégration par parties), on obtient $I = \\lim_{x \\to 0^+} F(x) = \\frac{\\pi}{2}$."
       },
       {
@@ -916,7 +981,7 @@
         ],
         correctIndex: 0,
         answer: "L'ensemble des points de discontinuité de f est de mesure de Lebesgue nulle",
-        hint1: "C'est la caractérisation exacte des fonctions Riemann-intégrables par les ensembles de mesure nulle (négligeables).",
+        hint1: "Une fonction monotone peut avoir une infinité dénombrable de discontinuités et rester intégrable, l'indicatrice de l'ensemble de Cantor est discontinue en une infinité non dénombrable de points et reste intégrable, alors que $\\mathbf{1}_{\\mathbb{Q}}$ (discontinue partout) ne l'est pas : quelle notion de « petitesse » de l'ensemble des discontinuités départage ces cas ?",
         solution: "Le critère de Lebesgue-Vitali établit qu'une fonction bornée sur un segment $[a, b]$ est Riemann-intégrable si et seulement si l'ensemble de ses points de discontinuité est de mesure de Lebesgue nulle. Cela inclut toutes les fonctions continues par morceaux, les fonctions réglées, ainsi que des fonctions ayant un ensemble non dénombrable de discontinuités (comme sur l'ensemble triadique de Cantor qui est de mesure nulle)."
       }
     ],
@@ -1180,7 +1245,7 @@
         ],
         correctIndex: 0,
         answer: "9 (car $7 \\times 9 = 63 = 2 \\times 31 + 1$)",
-        hint1: "Rechercher $7x \\equiv 1 \\pmod{31}$. On remarque que $7 \\times 9 = 63 = 62 + 1 = 2 \\times 31 + 1$.",
+        hint1: "Applique l'algorithme d'Euclide étendu : $31 = 4 \\times 7 + 3$ et $7 = 2 \\times 3 + 1$, puis remonte les égalités pour écrire $1 = 7u + 31v$ ; $u$ modulo $31$ est l'inverse cherché.",
         solution: "On cherche $x \\in \\mathbb{Z}$ tel que $7x - 31y = 1$. L'algorithme d'Euclide donne : $31 = 4 \\times 7 + 3$, puis $7 = 2 \\times 3 + 1$. En remontant : $1 = 7 - 2 \\times 3 = 7 - 2 \\times (31 - 4 \\times 7) = 9 \\times 7 - 2 \\times 31$. Donc $9 \\times 7 \\equiv 1 \\pmod{31}$. L'inverse de 7 modulo 31 est donc 9."
       },
       {

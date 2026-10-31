@@ -105,8 +105,145 @@ check('Import refusé si le fichier n\'est pas une progression', S.importFromJso
 check('Import refusé si JSON invalide', S.importFromJson('{'), false);
 check('Import accepté pour une sauvegarde valide', S.importFromJson(JSON.stringify(S.load())), true);
 
+// --- Modèle de progression (fenêtre glissante par palier) ------------------------------------
+// Générateur pseudo-aléatoire déterministe : les simulations donnent toujours le même résultat
+let seed = 12345;
+Math.random = () => {
+  seed = (seed + 0x6D2B79F5) | 0;
+  let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+  t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+  return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+};
+let genCount = 0;
+let mcqRate = 0;
+window.MathsGenerators = {
+  generateForChapter() {
+    genCount++;
+    if (Math.random() < mcqRate) {
+      return { type: 'mcq', title: 't', statement: `Q${genCount}`, options: ['ok', 'f1', 'f2', 'f3'], correctIndex: 0, solution: 's' };
+    }
+    return { type: 'exact', title: 't', statement: `Q${genCount}`, answer: '7', solution: 's' };
+  }
+};
+const P = E.PROGRESSION;
+const freshChapter = () => { delete store[KEY]; E._recentStatements = {}; E.startChapterSession('SIM'); };
+const answer = ok => {
+  const ex = E.state.currentExercise;
+  if (ex.type === 'mcq') return E.submitAnswer(ok ? ex.correctIndex : (ex.correctIndex + 1) % ex.options.length);
+  return E.submitAnswer(ok ? '7' : '8');
+};
+const tiersOf = () => (S.getChapterProgress('SIM').validatedTiers || []).slice().sort();
+
+// Pas de validation en moins de MIN_ANSWERS réponses, même toutes justes
+freshChapter();
+for (let i = 1; i < P.MIN_ANSWERS; i++) { answer(true); E.nextExercise(); }
+check('Palier 1 non validé après 5 bonnes réponses', tiersOf().includes(1), false);
+check('Message de progression explicite', E.getTierProgressStatus('SIM').message, 'Encore 1 bonne réponse pour débloquer le Palier 2 !');
+const r6 = answer(true);
+check('Palier 1 validé à la 6e bonne réponse', tiersOf().includes(1), true);
+check('Bascule automatique sur le palier 2', r6.newTier, 2);
+// Deux réussites sur la même question ne comptent qu'une fois
+freshChapter();
+answer(true); answer(true);
+check('Une question = une seule trace', S.getChapterProgress('SIM').tierWindows[1].length, 1);
+freshChapter();
+for (let i = 0; i < P.MIN_ANSWERS; i++) { answer(true); E.nextExercise(); }
+check('Maîtrise affichée = 25 % au palier 1 validé', S.getChapterProgress('SIM').mastery, 25);
+// Une série d'erreurs ne fait jamais perdre un palier validé, et l'erreur ne retire rien au palier en cours
+E.nextExercise();
+for (let i = 0; i < 3; i++) answer(true), E.nextExercise();
+const before = E.getTierProgressStatus('SIM').remaining;
+for (let i = 0; i < 3; i++) answer(false);
+check('Erreurs : palier 1 toujours validé', tiersOf().includes(1), true);
+check('Erreur sur une question : objectif inchangé (fenêtre non pleine)', E.getTierProgressStatus('SIM').remaining, before);
+check('Palier 2 toujours débloqué après des erreurs', E.isTierUnlocked('SIM', 2), true);
+
+// Crédits : indice demandé, essais multiples, QCM (correction du hasard)
+check('Crédit juste sans aide', E.answerCredit({ type: 'exact' }, true, 0, 0), 1);
+check('Crédit juste avec un indice', E.answerCredit({ type: 'exact' }, true, 0, 1), 0.75);
+check('Crédit juste au 2e essai', E.answerCredit({ type: 'exact' }, true, 1, 0), 0.5);
+check('Crédit QCM trouvé par élimination', E.answerCredit({ type: 'mcq', options: ['a', 'b', 'c', 'd'] }, true, 1, 0) < 0, true);
+
+// Une question passée après une erreur garde sa trace (pas d'esquive possible)
+freshChapter();
+answer(false);
+E.nextExercise();
+check('Erreur puis question suivante : trace conservée', S.getChapterProgress('SIM').tierWindows[1].length, 1);
+
+// Migration douce des progressions de l'ancien modèle
+store[KEY] = JSON.stringify({ version: 2, user: { xp: 0 }, chapters: {
+  OLD1: { mastery: 40, currentTier: 2, validatedTiers: [1], completed: [], successesByTier: { 1: 9, 2: 4, 3: 0, 4: 0 } },
+  OLD2: { mastery: 60, currentTier: 3, completed: [] },
+  OLD3: { mastery: 100, currentTier: 4, validatedTiers: [1, 2, 3, 4], completed: [] }
+} });
+check('Migration : paliers débloqués conservés (mastery 60 sans validatedTiers)', E.isTierUnlocked('OLD2', 3), true);
+const st1 = E.getTierProgressStatus('OLD1');
+check('Migration : maîtrise jamais en baisse', st1.mastery >= 40, true);
+check('Migration : palier 2 en cours', st1.tier, 2);
+check('Migration : chapitre complet conservé', E.getTierProgressStatus('OLD3').complete, true);
+E.startChapterSession('OLD1');
+answer(true);
+check('Migration appliquée au premier enregistrement', S.getChapterProgress('OLD1').tierModel, P.MODEL_VERSION);
+check('Migration : palier 1 toujours validé', S.getChapterProgress('OLD1').validatedTiers.includes(1), true);
+
+// Révision espacée : une question de rappel d'un palier validé toutes les REVIEW_EVERY questions
+freshChapter();
+for (let i = 0; i < P.MIN_ANSWERS; i++) { answer(true); if (i < P.MIN_ANSWERS - 1) E.nextExercise(); }
+E.setTier(2);
+const reviewFlags = [];
+for (let i = 0; i < 2 * P.REVIEW_EVERY; i++) { reviewFlags.push(!!E.state.currentExercise.isReview); answer(false); answer(false); answer(false); E.nextExercise(); }
+check('Révision espacée : rappels du palier 1 intercalés', reviewFlags.filter(Boolean).length >= 1, true);
+check('Pas de rappel juste après un changement de palier', reviewFlags[0], false);
+
+// Simulations de profils d'élèves : questions nécessaires par palier
+function simulate(p, { mcq = 0, guess = false, maxQ = 300 } = {}) {
+  mcqRate = mcq;
+  freshChapter();
+  const at = {};
+  for (let q = 1; q <= maxQ; q++) {
+    const ex = E.state.currentExercise;
+    let res;
+    if (guess && ex.type === 'mcq') {
+      const tried = new Set();
+      do {
+        const opts = ex.options.map((_, i) => i).filter(i => !tried.has(i));
+        const pick = opts[Math.floor(Math.random() * opts.length)];
+        tried.add(pick);
+        res = E.submitAnswer(pick);
+      } while (!res.isCorrect && res.stage !== 'solution');
+    } else {
+      res = answer(Math.random() < p);
+      while (!res.isCorrect && res.stage !== 'solution') res = answer(Math.random() < Math.min(0.95, p + 0.15));
+    }
+    tiersOf().forEach(t => { if (!at[t]) at[t] = q; });
+    if (at[4]) break;
+    if (res.isCorrect && res.newlyValidatedTiers && res.newlyValidatedTiers.length) E.setTier(res.newTier);
+    else E.nextExercise();
+  }
+  return at;
+}
+const med = a => { const s = a.slice().sort((x, y) => x - y); return s[Math.floor(s.length / 2)]; };
+function profile(label, p, opts, ranges) {
+  const runs = Array.from({ length: 40 }, () => simulate(p, opts));
+  for (const [tier, [lo, hi]] of Object.entries(ranges)) {
+    const t = Number(tier);
+    const per = runs.filter(r => r[t]).map(r => r[t] - (r[t - 1] || 0));
+    const m = per.length ? med(per) : Infinity;
+    if (!(m >= lo && m <= hi)) { failures++; logError(`✖ ${label} : palier ${t} validé en ${m} questions (médiane), attendu ${lo}-${hi}`); }
+  }
+  return runs;
+}
+const strong = profile('Élève fort (90 %)', 0.9, { mcq: 0.3 }, { 1: [6, 9], 2: [6, 10], 3: [6, 10], 4: [6, 10] });
+check('Élève fort : jamais de palier validé en moins de 6 questions', strong.every(r => r[1] >= P.MIN_ANSWERS), true);
+profile('Élève moyen (70 %)', 0.7, { mcq: 0.3 }, { 1: [6, 12], 2: [7, 14], 3: [7, 14], 4: [7, 14] });
+const weak = profile('Élève en difficulté (45 %)', 0.45, { mcq: 0.3 }, { 1: [8, 30] });
+check('Élève à 45 % : jamais bloqué au palier 1 (validé en moins de 60 questions)', weak.every(r => r[1] && r[1] <= 60), true);
+const guessers = Array.from({ length: 40 }, () => simulate(0, { mcq: 1, guess: true, maxQ: 100 }));
+check('QCM au hasard : palier 1 presque jamais validé en 100 questions', guessers.filter(r => r[1]).length <= 4, true);
+mcqRate = 0;
+
 if (failures) {
   logError(`\n✖ test_core : ${failures} échec(s)`);
   process.exit(1);
 }
-console.log('✔ test_core : correction des réponses, mélange des QCM et stockage OK');
+console.log('✔ test_core : correction des réponses, mélange des QCM, stockage et modèle de progression OK');

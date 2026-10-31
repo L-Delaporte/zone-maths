@@ -19,11 +19,11 @@ const MATHS_CHAPTERS_LYCEE = [
     "icon": "hash",
     "badge": "Maître des Ensembles",
     "color": "#059669",
-    "description": "Ensembles fondamentaux (N, Z, D, Q, R), inclusions, nombres premiers, décomposition en facteurs premiers, pgcd, irrationnalité de racine de 2.",
+    "description": "Ensembles de nombres N, Z, D, Q, R et vocabulaire ensembliste, multiples, diviseurs, parité, fractions irréductibles, encadrements décimaux, irrationalité de √2, logique (implication, contraposée, quantificateurs).",
     "skills": [
-      "Identifier le plus petit ensemble de nombres auquel appartient un réel",
-      "Décomposer un entier en facteurs premiers et simplifier des racines",
-      "Démontrer que √2 est irrationnel et manipuler les fractions irréductibles"
+      "Identifier le plus petit ensemble de nombres auquel appartient un réel et utiliser ∈, ⊂, ∩, ∪",
+      "Démontrer avec les multiples et la parité (somme de multiples, carré d'un impair)",
+      "Démontrer que √2 est irrationnel et que 1/3 n'est pas décimal"
     ]
   },
   {
@@ -76,7 +76,7 @@ const MATHS_CHAPTERS_LYCEE = [
     "icon": "equal",
     "badge": "Résolveur d'Inconnues",
     "color": "#14b8a6",
-    "description": "Équations produits nuls, signe d'une fonction affine ax+b, tableaux de signes d'un produit et d'un quotient, inéquations rationnelles.",
+    "description": "Équations produit nul et quotient, signe d'une fonction affine ax+b, tableaux de signes d'un produit et d'un quotient, inéquations, isoler une variable dans une formule.",
     "skills": [
       "Résoudre des équations produit-nul et équations rationnelles simples",
       "Étudier le signe de ax+b et dresser un tableau de signes produit/quotient",
@@ -133,10 +133,10 @@ const MATHS_CHAPTERS_LYCEE = [
     "icon": "activity",
     "badge": "Guide des Sommets",
     "color": "#2563eb",
-    "description": "Définition formelle de la croissance et décroissance, tableau de variations, maximum et minimum sur un intervalle, encadrement d'images.",
+    "description": "Croissance et décroissance sur un intervalle, tableau de variations, maximum et minimum, variations des fonctions affines, problèmes d'optimisation, algorithmes de balayage et de dichotomie.",
     "skills": [
       "Dresser et exploiter un tableau de variations complet",
-      "Déterminer le maximum et le minimum d'une fonction sur un intervalle",
+      "Déterminer le maximum et le minimum d'une fonction et résoudre un problème d'optimisation",
       "Comparer les images de deux nombres en justifiant par le sens de variation"
     ]
   },
@@ -147,16 +147,16 @@ const MATHS_CHAPTERS_LYCEE = [
     "domainName": "Analyse et Fonctions",
     "folder": "2A3_Fonctions_de_reference",
     "num": "2A3",
-    "title": "Fonctions de référence : carré, inverse, racine carrée, cube et affines",
+    "title": "Fonctions de référence : valeur absolue, carré, inverse, racine carrée et cube",
     "shortTitle": "Fonctions de référence",
     "icon": "function",
     "badge": "Architecte des Fonctions",
     "color": "#3b82f6",
-    "description": "Propriétés, courbes (parabole, hyperbole), variations et parité des fonctions carré x², inverse 1/x, racine √x et cube x³.",
+    "description": "Définitions, courbes, signe et variations des fonctions valeur absolue, carré x², inverse 1/x, racine carrée √x et cube x³ ; position relative de y = x et y = x² ; démonstrations des variations des fonctions carré et inverse.",
     "skills": [
-      "Connaître les variations et courbes des fonctions carré, inverse, racine et cube",
-      "Résoudre des équations et inéquations impliquant x² ou √x",
-      "Étudier la parité (paire / impaire) et les symétries associées"
+      "Connaître les courbes, le signe et les variations des fonctions valeur absolue, carré, inverse, racine carrée et cube",
+      "Résoudre des équations et inéquations du type f(x) = k ou f(x) < k avec une fonction de référence",
+      "Comparer f(a) et f(b) et démontrer les variations des fonctions carré et inverse"
     ]
   },
   {
@@ -211,9 +211,9 @@ const MATHS_CHAPTERS_LYCEE = [
     "color": "#92400e",
     "description": "Vecteur directeur, équation cartésienne ax+by+c=0, équation réduite y=mx+p, pente/coefficient directeur, parallélisme et intersection de droites.",
     "skills": [
-      "Déterminer l'équation réduite ou cartésienne d'une droite connaissant deux points",
+      "Déterminer une équation réduite ou cartésienne d'une droite (deux points, point et vecteur directeur, point et pente)",
       "Lire et interpréter le coefficient directeur et l'ordonnée à l'origine",
-      "Calculer les coordonnées du point d'intersection de deux droites sécantes"
+      "Calculer les coordonnées du point d'intersection de deux droites données par leurs équations réduites"
     ]
   },
   {
@@ -223,16 +223,16 @@ const MATHS_CHAPTERS_LYCEE = [
     "domainName": "Probabilités et Statistiques",
     "folder": "2S1_Statistiques_descriptives",
     "num": "2S1",
-    "title": "Statistiques descriptives : moyenne, médiane, quartiles et dispersion",
+    "title": "Statistiques descriptives : indicateurs, séries regroupées en classes et tableaux croisés",
     "shortTitle": "Statistiques descriptives",
     "icon": "bar-chart-2",
     "badge": "Analyste de Données",
     "color": "#7c3aed",
-    "description": "Moyenne pondérée, médiane, premier et troisième quartiles (Q1, Q3), écart interquartile, diagramme en boîte (boîte à moustaches).",
+    "description": "Moyenne pondérée et linéarité, médiane, quartiles, écart-type, diagrammes en boîte, histogrammes et séries regroupées en classes, tableau croisé de deux variables qualitatives, fréquences marginales et conditionnelles.",
     "skills": [
-      "Calculer la moyenne pondérée et déterminer médiane et quartiles",
-      "Construire et interpréter un diagramme en boîte à moustaches",
-      "Comparer deux séries statistiques à l'aide des indicateurs de position et dispersion"
+      "Calculer et interpréter moyenne, médiane, quartiles et écart-type, y compris pour une série regroupée en classes",
+      "Comparer deux séries à l'aide d'indicateurs et de diagrammes en boîte",
+      "Compléter un tableau croisé et calculer des fréquences marginales et conditionnelles"
     ]
   },
   {
@@ -242,16 +242,16 @@ const MATHS_CHAPTERS_LYCEE = [
     "domainName": "Probabilités et Statistiques",
     "folder": "2S2_Probabilites_ensemble_fini",
     "num": "2S2",
-    "title": "Probabilités sur un ensemble fini : événements, réunion et intersection",
-    "shortTitle": "Probabilités finies",
+    "title": "Probabilités : modèle probabiliste, probabilités conditionnelles et arbres pondérés",
+    "shortTitle": "Probabilités conditionnelles",
     "icon": "help-circle",
     "badge": "Maître du Hasard",
     "color": "#6d28d9",
-    "description": "Univers fini, loi de probabilité, équiprobabilité, événements contraires, formule P(A ∪ B) = P(A) + P(B) - P(A ∩ B), arbres et tableaux.",
+    "description": "Loi de probabilité sur un univers fini (hypothèse de modèle), équiprobabilité, événement contraire, probabilité conditionnelle P_A(B), arbres pondérés, tableaux croisés, inversion des conditionnements (faux positifs).",
     "skills": [
       "Calculer des probabilités dans une situation d'équiprobabilité",
-      "Modéliser une expérience aléatoire par un arbre ou un tableau à double entrée",
-      "Appliquer rigoureusement la formule de la réunion et de l'événement contraire"
+      "Calculer une probabilité conditionnelle à partir d'un tableau croisé ou d'un arbre pondéré",
+      "Distinguer P_A(B) et P_B(A), notamment pour un test de dépistage"
     ]
   },
   {
@@ -261,16 +261,16 @@ const MATHS_CHAPTERS_LYCEE = [
     "domainName": "Algorithmique et Programmation",
     "folder": "2S3_Echantillonnage_et_python",
     "num": "2S3",
-    "title": "Échantillonnage, fluctuation et algorithmique en Python",
-    "shortTitle": "Python & Échantillonnage",
+    "title": "Fluctuation d'échantillonnage, loi des grands nombres et simulation",
+    "shortTitle": "Échantillonnage et simulation",
     "icon": "terminal",
     "badge": "Codeur Scientifique",
     "color": "#4f46e5",
-    "description": "Principe de l'échantillonnage, intervalle de fluctuation, simulation de tirages aléatoires en Python avec random, boucles for et while.",
+    "description": "Échantillon, fréquence observée, fluctuation d'échantillonnage, loi des grands nombres (version vulgarisée), fonctions Python renvoyant un résultat aléatoire et simulation d'expériences répétées.",
     "skills": [
-      "Comprendre et analyser un script Python (variables, conditions, boucles)",
-      "Simuler des tirages aléatoires et calculer une fréquence observée",
-      "Interpréter la variabilité d'un échantillon à l'aide de la loi des grands nombres"
+      "Écrire une fonction Python renvoyant le résultat d'une expérience aléatoire",
+      "Simuler des échantillons et calculer une fréquence observée",
+      "Observer la loi des grands nombres et la fluctuation d'échantillonnage par simulation"
     ]
   },
   {
@@ -308,11 +308,11 @@ const MATHS_CHAPTERS_LYCEE = [
     "icon": "divide-circle",
     "badge": "Dompteur de Paraboles",
     "color": "#0284c7",
-    "description": "Forme développée, canonique et factorisée, discriminant Δ = b² - 4ac, nombre de racines, factorisation et tableau de signes du trinôme.",
+    "description": "Forme factorisée (racines, signe, somme et produit), forme canonique par complétion du carré, discriminant Δ = b² - 4ac, résolution et factorisation, signe du trinôme, logique (conditions nécessaires et suffisantes, quantificateurs).",
     "skills": [
-      "Mettre un trinôme sous forme canonique",
+      "Étudier le signe d'un trinôme donné sous forme factorisée et factoriser en diversifiant les stratégies",
       "Calculer le discriminant Δ et résoudre ax² + bx + c = 0",
-      "Dresser le tableau de signes d'un trinôme et résoudre une inéquation du second degré"
+      "Choisir la forme adaptée (développée, canonique, factorisée) pour résoudre un problème"
     ]
   },
   {
@@ -327,7 +327,7 @@ const MATHS_CHAPTERS_LYCEE = [
     "icon": "zap",
     "badge": "Pionnier du Différentiel",
     "color": "#0369a1",
-    "description": "Taux de variation, définition du nombre dérivé f'(a) comme limite quand h -> 0, interprétation géométrique comme coefficient directeur, équation de la tangente y = f'(a)(x-a) + f(a).",
+    "description": "Taux de variation et sécantes, nombre dérivé f'(a) comme limite du taux de variation, tangente (limite des sécantes) d'équation y = f(a) + f'(a)(x - a), approximation affine, vitesse instantanée et coût marginal, valeur absolue non dérivable en 0.",
     "skills": [
       "Calculer un taux de variation et déterminer le nombre dérivé comme limite",
       "Lire graphiquement le coefficient directeur d'une tangente",
@@ -346,11 +346,11 @@ const MATHS_CHAPTERS_LYCEE = [
     "icon": "trending-up",
     "badge": "Maître des Variations",
     "color": "#075985",
-    "description": "Dérivées des fonctions usuelles (x^n, 1/x, √x), opérations (u+v, ku, uv, u/v), théorème fondamental reliant signe de f'(x) et sens de variation de f, extremums locaux.",
+    "description": "Dérivées des fonctions carré, cube, inverse, racine carrée et x ↦ xⁿ (n ∈ Z), opérations (somme, produit, inverse, quotient), lien entre signe de f' et variations, extremums, fonctions paires et impaires, optimisation.",
     "skills": [
-      "Dériver des sommes, produits et quotients de fonctions",
-      "Étudier le signe de la fonction dérivée f'(x)",
-      "Dresser le tableau de variations complet et déterminer les extremums locaux"
+      "Dériver des sommes, produits, inverses et quotients de fonctions",
+      "Étudier le signe de f'(x) et dresser le tableau de variations",
+      "Déterminer des extremums, résoudre un problème d'optimisation et exploiter la parité"
     ]
   },
   {
@@ -365,11 +365,11 @@ const MATHS_CHAPTERS_LYCEE = [
     "icon": "arrow-up-right",
     "badge": "Explorateur Exponentiel",
     "color": "#2563eb",
-    "description": "Définition unique de la fonction f telle que f'=f et f(0)=1, relation fonctionnelle exp(a+b)=exp(a)exp(b), stricte positivité, stricte croissance et allure de la courbe.",
+    "description": "Définition comme unique fonction dérivable telle que f' = f et f(0) = 1, relation exp(a+b) = exp(a)exp(b), nombre e, signe et variations, dérivée de t ↦ e^(at), croissance et décroissance exponentielles, méthode d'Euler.",
     "skills": [
       "Manipuler les règles algébriques sur e^x (produit, quotient, puissances)",
-      "Dériver des fonctions composées du type e^(u(x))",
-      "Résoudre des équations et inéquations comportant l'exponentielle"
+      "Dériver t ↦ e^(at) et étudier des fonctions comportant e^(at)",
+      "Modéliser une croissance ou une décroissance exponentielle"
     ]
   },
   {
@@ -417,16 +417,16 @@ const MATHS_CHAPTERS_LYCEE = [
     "domainName": "Géométrie",
     "folder": "1G1_Trigonometrie",
     "num": "1G1",
-    "title": "Trigonométrie, cercle trigonométrique et fonctions sinus et cosinus",
+    "title": "Trigonométrie : cercle trigonométrique, radian, cosinus et sinus d'un réel",
     "shortTitle": "Cercle Trigonométrique",
     "icon": "compass",
     "badge": "Maître du Cercle",
     "color": "#d97706",
-    "description": "Enroulement de la droite des réels, mesure en radian, cosinus et sinus sur le cercle trigonométrique, valeurs remarquables (π/6, π/4, π/3), parité et périodicité.",
+    "description": "Cercle trigonométrique, longueur d'arc et radian, enroulement de la droite réelle, cosinus et sinus d'un réel, lien avec le triangle rectangle, valeurs remarquables et réels associés, méthode d'Archimède.",
     "skills": [
-      "Convertir degrés et radians et placer les angles remarquables sur le cercle",
-      "Utiliser cos²(x) + sin²(x) = 1 et les formules d'angles associés (π-x, π+x, etc.)",
-      "Résoudre des équations trigonométriques simples cos(x) = a et sin(x) = b"
+      "Convertir degrés et radians, calculer une longueur d'arc et placer l'image d'un réel sur le cercle",
+      "Connaître et démontrer les valeurs remarquables de cos et sin (π/4, π/3)",
+      "Lire sur le cercle les cosinus et sinus des réels associés (−x, π − x, π + x, π/2 − x)"
     ]
   },
   {
@@ -460,11 +460,11 @@ const MATHS_CHAPTERS_LYCEE = [
     "icon": "triangle",
     "badge": "Triangulateur d'Al-Kashi",
     "color": "#92400e",
-    "description": "Théorème d'Al-Kashi (loi des cosinus), théorème de la médiane, vecteur normal à une droite et équation cartésienne ax + by + c = 0.",
+    "description": "Formule d'Al-Kashi, transformation de MA·MB et cercle de diamètre [AB], vecteur normal et équation cartésienne ax + by + c = 0, projeté orthogonal d'un point sur une droite, équation de cercle.",
     "skills": [
-      "Calculer des longueurs et angles dans un triangle quelconque avec Al-Kashi",
-      "Déterminer un vecteur normal à une droite et son équation cartésienne",
-      "Calculer la distance d'un point à une droite et projeter orthogonalement"
+      "Calculer des longueurs et des angles dans un triangle quelconque avec Al-Kashi",
+      "Déterminer une équation de droite à partir d'un point et d'un vecteur normal",
+      "Déterminer une équation de cercle et le projeté orthogonal d'un point sur une droite"
     ]
   },
   {
@@ -479,7 +479,7 @@ const MATHS_CHAPTERS_LYCEE = [
     "icon": "git-branch",
     "badge": "Arboriste Aléatoire",
     "color": "#7c3aed",
-    "description": "Définition P_A(B) = P(A ∩ B) / P(A), construction d'un arbre pondéré, formule des probabilités totales, indépendance de deux événements.",
+    "description": "Probabilité conditionnelle P_A(B), arbres pondérés, partition de l'univers et formule des probabilités totales, indépendance, succession de deux épreuves indépendantes, répétition de n ≤ 4 épreuves de Bernoulli, méthode de Monte-Carlo.",
     "skills": [
       "Calculer une probabilité conditionnelle à partir d'un arbre ou tableau",
       "Appliquer rigoureusement la formule des probabilités totales",
@@ -498,7 +498,7 @@ const MATHS_CHAPTERS_LYCEE = [
     "icon": "cpu",
     "badge": "Espérance et Risque",
     "color": "#6d28d9",
-    "description": "Définition d'une variable aléatoire discrète, loi de probabilité, espérance mathématique E(X), variance V(X), écart-type σ(X), jeu équitable.",
+    "description": "Variable aléatoire réelle sur un univers fini, loi de probabilité, espérance, variance, écart-type, linéarité de l'espérance, formule de König-Huygens, jeu équitable, simulation d'échantillons.",
     "skills": [
       "Déterminer la loi de probabilité d'une variable aléatoire",
       "Calculer et interpréter l'espérance mathématique E(X) comme moyenne de long terme",

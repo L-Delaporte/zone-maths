@@ -27,6 +27,10 @@ window.MATHS_COURSES_6E = {
       {
         "title": "3. Nombres mixtes et pourcentages",
         "content": "• Un nombre peut s'écrire comme la somme d'un entier et d'une fraction inférieure à 1 : c'est un **nombre mixte**. Exemple : $\\frac{17}{10} = 1 + \\frac{7}{10} = 1{,}7$.\n• **Pourcentage** : « $t$ % » signifie « $t$ pour cent », c'est-à-dire la fraction $\\frac{t}{100}$.\n$$25\\,\\% = \\frac{25}{100} = 0{,}25 \\qquad 50\\,\\% = \\frac{1}{2} \\qquad 10\\,\\% = \\frac{1}{10}$$\n• Un même nombre a donc plusieurs écritures : $0{,}75 = \\frac{75}{100} = \\frac{3}{4} = 75\\,\\%$."
+      },
+      {
+        "title": "À retenir",
+        "content": "• La valeur d'un chiffre dépend de son **rang** ; chaque rang vaut $10$ fois le rang situé à sa droite.\n• Ne pas confondre **chiffre** des dizaines et **nombre** de dizaines.\n• $\\frac{1}{10} = 0{,}1$ ; $\\frac{1}{100} = 0{,}01$ ; $\\frac{1}{1\\,000} = 0{,}001$ ; $t\\,\\% = \\frac{t}{100}$."
       }
     ],
     "methods": [
@@ -75,7 +79,7 @@ window.MATHS_COURSES_6E = {
     "keyPoints": [
       {
         "title": "1. Demi-droite graduée",
-        "content": "• Une **demi-droite graduée** a une **origine** (le point d'abscisse $0$) et une **unité de longueur** reportée régulièrement.\n• Le nombre qui repère un point est son **abscisse**. On note $A(2{,}5)$.\n• Si l'unité est partagée en $10$, chaque petite graduation vaut $0{,}1$ ; si elle est partagée en $4$, chaque graduation vaut $0{,}25$."
+        "content": "• Une **demi-droite graduée** a une **origine** (le point d'abscisse $0$) et une **unité de longueur** reportée régulièrement.\n• Le nombre qui repère un point est son **abscisse**. On note $A(2{,}5)$.\n• Si l'unité est partagée en $10$, chaque petite graduation vaut $0{,}1$ ; si elle est partagée en $4$, chaque graduation vaut $0{,}25$.\n<div class=\"geo-figure-wrapper\" style=\"text-align:center; margin:1rem auto;\">\n<svg class=\"geo-svg-figure\" viewBox=\"0 0 440 90\" width=\"440\" height=\"90\" style=\"max-width:440px; width:100%; height:auto;\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Demi-droite graduée de 0 à 3, unité partagée en 5 ; points A d'abscisse 0,4 et M d'abscisse 2,6\">\n<line x1=\"30\" y1=\"48\" x2=\"432\" y2=\"48\" stroke=\"var(--text-main, #334155)\" stroke-width=\"2\"/>\n<path d=\"M 432 48 l -9 -5 v 10 z\" fill=\"var(--text-main, #334155)\"/>\n<line x1=\"30.0\" y1=\"40\" x2=\"30.0\" y2=\"56\" stroke=\"var(--text-main, #334155)\" stroke-width=\"2\"/>\n<text x=\"30.0\" y=\"74\" text-anchor=\"middle\" font-family=\"system-ui, -apple-system, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">0</text>\n<line x1=\"54.4\" y1=\"43\" x2=\"54.4\" y2=\"53\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.2\"/>\n<line x1=\"78.8\" y1=\"43\" x2=\"78.8\" y2=\"53\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.2\"/>\n<line x1=\"103.2\" y1=\"43\" x2=\"103.2\" y2=\"53\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.2\"/>\n<line x1=\"127.6\" y1=\"43\" x2=\"127.6\" y2=\"53\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.2\"/>\n<line x1=\"152.0\" y1=\"40\" x2=\"152.0\" y2=\"56\" stroke=\"var(--text-main, #334155)\" stroke-width=\"2\"/>\n<text x=\"152.0\" y=\"74\" text-anchor=\"middle\" font-family=\"system-ui, -apple-system, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">1</text>\n<line x1=\"176.4\" y1=\"43\" x2=\"176.4\" y2=\"53\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.2\"/>\n<line x1=\"200.8\" y1=\"43\" x2=\"200.8\" y2=\"53\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.2\"/>\n<line x1=\"225.2\" y1=\"43\" x2=\"225.2\" y2=\"53\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.2\"/>\n<line x1=\"249.6\" y1=\"43\" x2=\"249.6\" y2=\"53\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.2\"/>\n<line x1=\"274.0\" y1=\"40\" x2=\"274.0\" y2=\"56\" stroke=\"var(--text-main, #334155)\" stroke-width=\"2\"/>\n<text x=\"274.0\" y=\"74\" text-anchor=\"middle\" font-family=\"system-ui, -apple-system, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">2</text>\n<line x1=\"298.4\" y1=\"43\" x2=\"298.4\" y2=\"53\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.2\"/>\n<line x1=\"322.8\" y1=\"43\" x2=\"322.8\" y2=\"53\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.2\"/>\n<line x1=\"347.2\" y1=\"43\" x2=\"347.2\" y2=\"53\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.2\"/>\n<line x1=\"371.6\" y1=\"43\" x2=\"371.6\" y2=\"53\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.2\"/>\n<line x1=\"396.0\" y1=\"40\" x2=\"396.0\" y2=\"56\" stroke=\"var(--text-main, #334155)\" stroke-width=\"2\"/>\n<text x=\"396.0\" y=\"74\" text-anchor=\"middle\" font-family=\"system-ui, -apple-system, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">3</text>\n<circle cx=\"347.2\" cy=\"48\" r=\"4.5\" fill=\"#2563eb\"/>\n<text x=\"347.2\" y=\"32\" text-anchor=\"middle\" font-family=\"system-ui, -apple-system, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"#2563eb\">M(2,6)</text>\n<circle cx=\"78.8\" cy=\"48\" r=\"4.5\" fill=\"#059669\"/>\n<text x=\"78.8\" y=\"32\" text-anchor=\"middle\" font-family=\"system-ui, -apple-system, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"#059669\">A(0,4)</text>\n</svg>\n</div>\nIci l'unité est partagée en $5$ : une graduation vaut $1 \\div 5 = 0{,}2$."
       },
       {
         "title": "2. Comparer et ranger",
@@ -84,6 +88,10 @@ window.MATHS_COURSES_6E = {
       {
         "title": "3. Encadrer, intercaler, arrondir",
         "content": "• **Encadrer** $7{,}36$ à l'unité : $7 < 7{,}36 < 8$ ; au dixième : $7{,}3 < 7{,}36 < 7{,}4$.\n• **Intercaler** : entre deux décimaux distincts, on peut toujours trouver un autre décimal : entre $2{,}4$ et $2{,}5$ il y a $2{,}45$.\n• **Arrondir** à un rang, c'est choisir la valeur de l'encadrement la plus **proche**. On regarde le chiffre suivant : s'il vaut $0, 1, 2, 3$ ou $4$, on garde la valeur inférieure ; s'il vaut $5, 6, 7, 8$ ou $9$, on prend la valeur supérieure.\n$$7{,}36 \\approx 7{,}4 \\text{ (au dixième)} \\qquad 7{,}36 \\approx 7 \\text{ (à l'unité)}$$"
+      },
+      {
+        "title": "À retenir",
+        "content": "• Comparer : parties entières d'abord, puis dixièmes, centièmes…\n• Arrondir : on regarde **le chiffre juste après** le rang demandé ($0$ à $4$ : on garde ; $5$ à $9$ : on augmente).\n• Sur une demi-droite graduée, calculer d'abord la valeur d'**une** graduation."
       }
     ],
     "methods": [
@@ -103,6 +111,15 @@ window.MATHS_COURSES_6E = {
           "**Étape 1** : On compare les parties entières : $3{,}9$ est le plus petit.",
           "**Étape 2** : Pour les nombres de partie entière $4$, on écrit deux décimales : $4{,}30$ ; $4{,}08$ ; $4{,}25$.",
           "**Étape 3** : On range : $3{,}9 < 4{,}08 < 4{,}25 < 4{,}3$."
+        ]
+      },
+      {
+        "title": "Méthode : Encadrer et arrondir un nombre décimal",
+        "example": "Encadrer $15{,}647$ au dixième, puis l'arrondir au dixième et au centième.",
+        "steps": [
+          "**Étape 1** : Encadrement au dixième : $15{,}6 < 15{,}647 < 15{,}7$.",
+          "**Étape 2** : Au dixième, on regarde le chiffre des **centièmes** : c'est $4$, donc on garde la valeur inférieure : $15{,}647 \\approx 15{,}6$.",
+          "**Étape 3** : Au centième, on regarde le chiffre des **millièmes** : c'est $7$, donc on prend la valeur supérieure : $15{,}647 \\approx 15{,}65$."
         ]
       }
     ],
@@ -141,6 +158,10 @@ window.MATHS_COURSES_6E = {
       {
         "title": "3. Ordre de grandeur",
         "content": "• Un **ordre de grandeur** est une valeur approchée simple obtenue en arrondissant les termes.\n• Exemple : $49{,}8 + 31{,}25 \\approx 50 + 30 = 80$. Le résultat exact $81{,}05$ est cohérent.\n• Il permet de **détecter une erreur** (virgule mal placée, oubli de retenue)."
+      },
+      {
+        "title": "À retenir",
+        "content": "• On aligne les **virgules** (chiffres de même rang) et on complète par des zéros.\n• On contrôle avec un **ordre de grandeur**.\n• Chercher un complément, c'est calculer une différence."
       }
     ],
     "methods": [
@@ -160,6 +181,15 @@ window.MATHS_COURSES_6E = {
           "**Étape 1** : On cherche le nombre manquant dans $6{,}35 + \\dots = 10$.",
           "**Étape 2** : C'est la différence $10 - 6{,}35$.",
           "**Étape 3** : $10 - 6{,}35 = 3{,}65$. Vérification : $6{,}35 + 3{,}65 = 10$."
+        ]
+      },
+      {
+        "title": "Méthode : Résoudre un problème de rendu de monnaie",
+        "example": "Léa achète un livre à $8{,}75$ € et un stylo à $3{,}90$ €. Elle paie avec un billet de $20$ €. Combien lui rend-on ?",
+        "steps": [
+          "**Étape 1** : Prix total : $8{,}75 + 3{,}90 = 12{,}65$ €. Ordre de grandeur : $9 + 4 = 13$.",
+          "**Étape 2** : Monnaie rendue : $20 - 12{,}65 = 7{,}35$ €.",
+          "**Vérification** : $12{,}65 + 7{,}35 = 20$ €."
         ]
       }
     ],
@@ -198,6 +228,10 @@ window.MATHS_COURSES_6E = {
       {
         "title": "3. Produit de deux décimaux",
         "content": "• **Règle** : on multiplie les nombres **sans tenir compte des virgules**, puis on place la virgule pour que le résultat ait **autant de chiffres après la virgule** qu'il y en a au total dans les deux facteurs.\n$$2{,}3 \\times 1{,}25 : \\quad 23 \\times 125 = 2\\,875 \\quad \\text{donc} \\quad 2{,}3 \\times 1{,}25 = 2{,}875$$\n(1 décimale + 2 décimales = 3 décimales.)\n• Justification : $2{,}3 = \\frac{23}{10}$ et $1{,}25 = \\frac{125}{100}$, le produit vaut $\\frac{2\\,875}{1\\,000}$.\n• Le résultat d'une multiplication est un **produit** ; les nombres multipliés sont les **facteurs**."
+      },
+      {
+        "title": "À retenir",
+        "content": "• $\\times 10$, $\\times 100$, $\\times 1\\,000$ : les chiffres avancent de $1$, $2$, $3$ rangs ; $\\times 0{,}1$ revient à $\\div 10$.\n• Produit de décimaux : on calcule sans virgule, puis le résultat a **autant de décimales** que les deux facteurs réunis.\n• Multiplier par un nombre inférieur à $1$ donne un résultat plus petit."
       }
     ],
     "methods": [
@@ -215,7 +249,17 @@ window.MATHS_COURSES_6E = {
         "example": "Calculer mentalement $0{,}25 \\times 7{,}3 \\times 4$.",
         "steps": [
           "**Étape 1** : On regroupe les facteurs qui donnent un résultat simple : $0{,}25 \\times 4 = 1$.",
-          "**Étape 2** : Il reste $1 \\times 7{,}3 = 7{,}3$."
+          "**Étape 2** : Il reste $1 \\times 7{,}3 = 7{,}3$.",
+          "**Étape 3** : Donc $0{,}25 \\times 7{,}3 \\times 4 = 7{,}3$. On peut changer l'ordre des facteurs d'un produit sans changer le résultat."
+        ]
+      },
+      {
+        "title": "Méthode : Résoudre un problème avec un produit de décimaux",
+        "example": "Des pommes coûtent $3{,}80$ € le kilogramme. Combien paie-t-on pour $1{,}5\\text{ kg}$ ?",
+        "steps": [
+          "**Étape 1** : Ordre de grandeur : $4 \\times 1{,}5 = 6$ €.",
+          "**Étape 2** : Sans les virgules : $38 \\times 15 = 570$.",
+          "**Étape 3** : $1 + 1 = 2$ décimales : $3{,}80 \\times 1{,}5 = 5{,}70$ €, cohérent avec $6$ €."
         ]
       }
     ],
@@ -254,6 +298,10 @@ window.MATHS_COURSES_6E = {
       {
         "title": "3. Division décimale",
         "content": "• On peut continuer une division au-delà de la virgule en transformant le reste en dixièmes, centièmes… : $17 \\div 4 = 4{,}25$.\n• Pour diviser un décimal par un entier, on place la virgule au quotient **dès qu'on abaisse le chiffre des dixièmes** :\n$$25{,}2 \\div 6 = 4{,}2 \\qquad \\text{car} \\quad 6 \\times 4{,}2 = 25{,}2$$\n• Le quotient n'est pas toujours décimal : $10 \\div 3 = 3{,}333\\dots$ ; on donne alors une valeur approchée."
+      },
+      {
+        "title": "À retenir",
+        "content": "• $a = b \\times q + r$ avec $r < b$.\n• Critères : $2$, $5$, $10$ (chiffre des unités) ; $3$, $9$ (somme des chiffres).\n• Division décimale : on place la virgule au quotient quand on abaisse le chiffre des dixièmes."
       }
     ],
     "methods": [
@@ -273,6 +321,16 @@ window.MATHS_COURSES_6E = {
           "**Étape 1** : Somme des chiffres : $4 + 5 + 7 + 2 = 18$.",
           "**Étape 2** : $18$ est un multiple de $3$ et de $9$.",
           "**Étape 3** : Donc $4\\,572$ est divisible par $3$ et par $9$."
+        ]
+      },
+      {
+        "title": "Méthode : Diviser un nombre décimal par un entier",
+        "example": "Calculer $17{,}5 \\div 4$.",
+        "steps": [
+          "**Étape 1** : $17 \\div 4$ : quotient $4$, reste $1$ ($4 \\times 4 = 16$).",
+          "**Étape 2** : On abaisse le chiffre des dixièmes ($5$) : on place la **virgule** au quotient. $15$ dixièmes $\\div 4$ : $3$, reste $3$.",
+          "**Étape 3** : On ajoute un zéro : $30$ centièmes $\\div 4$ : $7$, reste $2$ ; puis $20$ millièmes $\\div 4$ : $5$, reste $0$.",
+          "**Conclusion** : $17{,}5 \\div 4 = 4{,}375$. Vérification : $4 \\times 4{,}375 = 17{,}5$."
         ]
       }
     ],
@@ -307,7 +365,7 @@ window.MATHS_COURSES_6E = {
       },
       {
         "title": "2. Repérer une fraction sur une demi-droite graduée",
-        "content": "Pour placer $\\frac{a}{b}$ sur une demi-droite graduée d'origine $0$ :\n• on partage **l'unité** (le segment de $0$ à $1$) en $b$ parts égales ;\n• on reporte $a$ de ces parts à partir de l'origine.\nExemple : pour $\\frac{7}{4}$, l'unité est partagée en $4$ et on compte $7$ quarts : le point est situé entre $1$ et $2$, car $\\frac{4}{4} = 1$ et $\\frac{8}{4} = 2$."
+        "content": "Pour placer $\\frac{a}{b}$ sur une demi-droite graduée d'origine $0$ :\n• on partage **l'unité** (le segment de $0$ à $1$) en $b$ parts égales ;\n• on reporte $a$ de ces parts à partir de l'origine.\nExemple : pour $\\frac{7}{4}$, l'unité est partagée en $4$ et on compte $7$ quarts : le point est situé entre $1$ et $2$, car $\\frac{4}{4} = 1$ et $\\frac{8}{4} = 2$.\n<div class=\"geo-figure-wrapper\" style=\"text-align:center; margin:1rem auto;\">\n<svg class=\"geo-svg-figure\" viewBox=\"0 0 380 90\" width=\"380\" height=\"90\" style=\"max-width:380px; width:100%; height:auto;\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Demi-droite graduée de 0 à 2, unité partagée en 4 ; le point A est placé à sept quarts\">\n<line x1=\"30\" y1=\"48\" x2=\"372\" y2=\"48\" stroke=\"var(--text-main, #334155)\" stroke-width=\"2\"/>\n<path d=\"M 372 48 l -9 -5 v 10 z\" fill=\"var(--text-main, #334155)\"/>\n<line x1=\"30.0\" y1=\"40\" x2=\"30.0\" y2=\"56\" stroke=\"var(--text-main, #334155)\" stroke-width=\"2\"/>\n<text x=\"30.0\" y=\"74\" text-anchor=\"middle\" font-family=\"system-ui, -apple-system, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">0</text>\n<line x1=\"68.3\" y1=\"43\" x2=\"68.3\" y2=\"53\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.2\"/>\n<line x1=\"106.5\" y1=\"43\" x2=\"106.5\" y2=\"53\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.2\"/>\n<line x1=\"144.8\" y1=\"43\" x2=\"144.8\" y2=\"53\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.2\"/>\n<line x1=\"183.0\" y1=\"40\" x2=\"183.0\" y2=\"56\" stroke=\"var(--text-main, #334155)\" stroke-width=\"2\"/>\n<text x=\"183.0\" y=\"74\" text-anchor=\"middle\" font-family=\"system-ui, -apple-system, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">1</text>\n<line x1=\"221.3\" y1=\"43\" x2=\"221.3\" y2=\"53\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.2\"/>\n<line x1=\"259.5\" y1=\"43\" x2=\"259.5\" y2=\"53\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.2\"/>\n<line x1=\"297.8\" y1=\"43\" x2=\"297.8\" y2=\"53\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.2\"/>\n<line x1=\"336.0\" y1=\"40\" x2=\"336.0\" y2=\"56\" stroke=\"var(--text-main, #334155)\" stroke-width=\"2\"/>\n<text x=\"336.0\" y=\"74\" text-anchor=\"middle\" font-family=\"system-ui, -apple-system, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">2</text>\n<circle cx=\"297.8\" cy=\"48\" r=\"4.5\" fill=\"#dc2626\"/>\n<text x=\"297.8\" y=\"32\" text-anchor=\"middle\" font-family=\"system-ui, -apple-system, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"#dc2626\">A</text>\n<circle cx=\"68.3\" cy=\"48\" r=\"4.5\" fill=\"#059669\"/>\n<text x=\"68.3\" y=\"32\" text-anchor=\"middle\" font-family=\"system-ui, -apple-system, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"#059669\">1/4</text>\n</svg>\n</div>"
       },
       {
         "title": "3. Fractions égales et nombres mixtes",
@@ -316,6 +374,10 @@ window.MATHS_COURSES_6E = {
       {
         "title": "4. Comparer et encadrer des fractions",
         "content": "• **Même dénominateur** : la plus grande fraction est celle qui a le plus grand numérateur : $\\frac{7}{9} > \\frac{4}{9}$.\n• **Comparaison à 1** : si le numérateur est plus grand que le dénominateur, la fraction est plus grande que $1$ : $\\frac{8}{5} > 1 > \\frac{4}{5}$.\n• **Dénominateurs multiples l'un de l'autre** : on transforme une fraction pour obtenir le même dénominateur : $\\frac{2}{3} = \\frac{8}{12}$ donc $\\frac{2}{3} > \\frac{7}{12}$.\n• **Encadrer entre deux entiers consécutifs** : $\\frac{23}{6}$ est entre $\\frac{18}{6} = 3$ et $\\frac{24}{6} = 4$, donc $3 < \\frac{23}{6} < 4$."
+      },
+      {
+        "title": "À retenir",
+        "content": "• $\\frac{a}{b}$ est le nombre qui, multiplié par $b$, donne $a$.\n• Fractions égales : on multiplie ou on divise **numérateur et dénominateur** par un même nombre.\n• Même dénominateur : on compare les numérateurs."
       }
     ],
     "methods": [
@@ -345,30 +407,12 @@ window.MATHS_COURSES_6E = {
       "⚠️ Sur une demi-droite graduée, on partage **l'unité** en $b$ parts, pas le segment entier dessiné."
     ],
     "flashcards": [
-      {
-        "q": "Que signifie $\\frac{5}{8}$ comme quotient ?",
-        "a": "C'est le nombre qui, multiplié par $8$, donne $5$ : $8 \\times \\frac{5}{8} = 5$. On a aussi $\\frac{5}{8} = 5 \\div 8 = 0{,}625$."
-      },
-      {
-        "q": "Quel nombre manque : $9 \\times \\ldots = 4$ ?",
-        "a": "$\\frac{4}{9}$, car $9 \\times \\frac{4}{9} = 4$."
-      },
-      {
-        "q": "Simplifier $\\frac{15}{25}$.",
-        "a": "$\\frac{15}{25} = \\frac{15 \\div 5}{25 \\div 5} = \\frac{3}{5}$."
-      },
-      {
-        "q": "Écrire $\\frac{11}{4}$ sous forme de nombre mixte.",
-        "a": "$11 = 2 \\times 4 + 3$, donc $\\frac{11}{4} = 2 + \\frac{3}{4}$."
-      },
-      {
-        "q": "Quel est le plus grand : $\\frac{1}{6}$ ou $\\frac{1}{4}$ ?",
-        "a": "$\\frac{1}{4}$ : avec le même numérateur, le plus petit dénominateur donne la plus grande fraction."
-      },
-      {
-        "q": "$\\frac{1}{3}$ est-il un nombre décimal ?",
-        "a": "Non : $1 \\div 3 = 0{,}333\\ldots$ ne s'arrête jamais. $\\frac{1}{3}$ n'est pas un nombre décimal."
-      }
+      { "q": "Que signifie $\\frac{5}{8}$ comme quotient ?", "a": "C'est le nombre qui, multiplié par $8$, donne $5$ : $8 \\times \\frac{5}{8} = 5$. On a aussi $\\frac{5}{8} = 5 \\div 8 = 0{,}625$." },
+      { "q": "Quel nombre manque : $9 \\times \\ldots = 4$ ?", "a": "$\\frac{4}{9}$, car $9 \\times \\frac{4}{9} = 4$." },
+      { "q": "Simplifier $\\frac{15}{25}$.", "a": "$\\frac{15}{25} = \\frac{15 \\div 5}{25 \\div 5} = \\frac{3}{5}$." },
+      { "q": "Écrire $\\frac{11}{4}$ sous forme de nombre mixte.", "a": "$11 = 2 \\times 4 + 3$, donc $\\frac{11}{4} = 2 + \\frac{3}{4}$." },
+      { "q": "Quel est le plus grand : $\\frac{1}{6}$ ou $\\frac{1}{4}$ ?", "a": "$\\frac{1}{4}$ : avec le même numérateur, le plus petit dénominateur donne la plus grande fraction." },
+      { "q": "$\\frac{1}{3}$ est-il un nombre décimal ?", "a": "Non : $1 \\div 3 = 0{,}333\\ldots$ ne s'arrête jamais. $\\frac{1}{3}$ n'est pas un nombre décimal." }
     ]
   },
   "6N7": {
@@ -396,6 +440,10 @@ window.MATHS_COURSES_6E = {
       {
         "title": "4. Prendre une fraction d'une quantité",
         "content": "Prendre $\\frac{a}{b}$ d'une quantité, c'est **multiplier** cette quantité par $\\frac{a}{b}$. On peut diviser d'abord par $b$, puis multiplier par $a$ :\n$$\\frac{3}{4} \\text{ de } 20 = \\frac{3}{4} \\times 20 = (20 \\div 4) \\times 3 = 5 \\times 3 = 15$$\nOn peut aussi multiplier d'abord : $(3 \\times 20) \\div 4 = 60 \\div 4 = 15$."
+      },
+      {
+        "title": "À retenir",
+        "content": "• Même dénominateur : on additionne les numérateurs, on **garde** le dénominateur.\n• Dénominateurs multiples : on transforme d'abord une des fractions.\n• $\\frac{a}{b}$ d'une quantité $= $ quantité $\\div b \\times a$."
       }
     ],
     "methods": [
@@ -425,26 +473,11 @@ window.MATHS_COURSES_6E = {
       "⚠️ « Les $\\frac{2}{3}$ de $30$ » se calcule par une multiplication ($20$), pas par une division de $30$ par $\\frac{2}{3}$."
     ],
     "flashcards": [
-      {
-        "q": "Calculer $\\frac{4}{11} + \\frac{5}{11}$.",
-        "a": "$\\frac{9}{11}$ : on additionne les numérateurs et on garde le dénominateur."
-      },
-      {
-        "q": "Calculer $\\frac{1}{2} + \\frac{1}{4}$.",
-        "a": "$\\frac{2}{4} + \\frac{1}{4} = \\frac{3}{4}$."
-      },
-      {
-        "q": "Calculer $4 \\times \\frac{2}{9}$.",
-        "a": "$\\frac{8}{9}$ (on multiplie seulement le numérateur)."
-      },
-      {
-        "q": "Combien valent les $\\frac{2}{3}$ de $30$ ?",
-        "a": "$30 \\div 3 = 10$, puis $10 \\times 2 = 20$."
-      },
-      {
-        "q": "Calculer $1 - \\frac{3}{8}$.",
-        "a": "$1 = \\frac{8}{8}$, donc $\\frac{8}{8} - \\frac{3}{8} = \\frac{5}{8}$."
-      }
+      { "q": "Calculer $\\frac{4}{11} + \\frac{5}{11}$.", "a": "$\\frac{9}{11}$ : on additionne les numérateurs et on garde le dénominateur." },
+      { "q": "Calculer $\\frac{1}{2} + \\frac{1}{4}$.", "a": "$\\frac{2}{4} + \\frac{1}{4} = \\frac{3}{4}$." },
+      { "q": "Calculer $4 \\times \\frac{2}{9}$.", "a": "$\\frac{8}{9}$ (on multiplie seulement le numérateur)." },
+      { "q": "Combien valent les $\\frac{2}{3}$ de $30$ ?", "a": "$30 \\div 3 = 10$, puis $10 \\times 2 = 20$." },
+      { "q": "Calculer $1 - \\frac{3}{8}$.", "a": "$1 = \\frac{8}{8}$, donc $\\frac{8}{8} - \\frac{3}{8} = \\frac{5}{8}$." }
     ]
   },
   "6N8": {
@@ -472,6 +505,10 @@ window.MATHS_COURSES_6E = {
       {
         "title": "4. Motifs évolutifs",
         "content": "Dans un **motif évolutif**, chaque étape se construit à partir de la précédente selon une règle régulière.\nExemple : à l'étape $1$ on utilise $4$ allumettes, puis on en ajoute $3$ à chaque étape.\n| Étape | 1 | 2 | 3 | 4 |\n|:---:|:---:|:---:|:---:|:---:|\n| Allumettes | 4 | 7 | 10 | 13 |\nRègle : nombre d'allumettes $= 3 \\times (\\text{numéro de l'étape}) + 1$. À l'étape $10$ : $3 \\times 10 + 1 = 31$ allumettes."
+      },
+      {
+        "title": "À retenir",
+        "content": "• Pour trouver un nombre inconnu, on utilise l'opération **inverse** et on vérifie.\n• Pour remonter un programme de calcul, on part de la **dernière** instruction.\n• Dans un motif, on cherche ce qui est ajouté à chaque étape."
       }
     ],
     "methods": [
@@ -500,26 +537,11 @@ window.MATHS_COURSES_6E = {
       "⚠️ Dans un motif, l'étape $10$ n'est pas forcément le double de l'étape $5$ : $3 \\times 5 + 1 = 16$ mais $3 \\times 10 + 1 = 31 \\neq 32$."
     ],
     "flashcards": [
-      {
-        "q": "Compléter : $\\ldots + 45 = 100$.",
-        "a": "$100 - 45 = 55$."
-      },
-      {
-        "q": "Compléter : $6 \\times \\ldots = 42$.",
-        "a": "$42 \\div 6 = 7$."
-      },
-      {
-        "q": "Programme : $\\times 2$ puis $+ 3$. Quel résultat pour le nombre $8$ ?",
-        "a": "$8 \\times 2 + 3 = 16 + 3 = 19$."
-      },
-      {
-        "q": "Programme : $\\times 2$ puis $+ 3$. Le résultat est $25$ : quel est le nombre de départ ?",
-        "a": "On remonte : $25 - 3 = 22$, puis $22 \\div 2 = 11$."
-      },
-      {
-        "q": "Un motif a 2 jetons à l'étape 1 et en gagne 2 à chaque étape. Combien à l'étape 6 ?",
-        "a": "$2 + 5 \\times 2 = 12$ jetons (c'est le double du numéro de l'étape)."
-      }
+      { "q": "Compléter : $\\ldots + 45 = 100$.", "a": "$100 - 45 = 55$." },
+      { "q": "Compléter : $6 \\times \\ldots = 42$.", "a": "$42 \\div 6 = 7$." },
+      { "q": "Programme : $\\times 2$ puis $+ 3$. Quel résultat pour le nombre $8$ ?", "a": "$8 \\times 2 + 3 = 16 + 3 = 19$." },
+      { "q": "Programme : $\\times 2$ puis $+ 3$. Le résultat est $25$ : quel est le nombre de départ ?", "a": "On remonte : $25 - 3 = 22$, puis $22 \\div 2 = 11$." },
+      { "q": "Un motif a 2 jetons à l'étape 1 et en gagne 2 à chaque étape. Combien à l'étape 6 ?", "a": "$2 + 5 \\times 2 = 12$ jetons (c'est le double du numéro de l'étape)." }
     ]
   },
   "6P1": {
@@ -547,6 +569,10 @@ window.MATHS_COURSES_6E = {
       {
         "title": "4. Pourcentages et échelles",
         "content": "• Prendre $t\\,\\%$ d'une quantité, c'est en prendre $\\frac{t}{100}$ : $30\\,\\%$ de $70$ $= \\frac{30}{100} \\times 70 = 21$.\n• Repères : $50\\,\\%$ c'est la moitié, $25\\,\\%$ le quart, $10\\,\\%$ le dixième.\n• Sur un plan, les longueurs sont proportionnelles aux longueurs réelles. Une **échelle** de $\\frac{1}{1\\,000}$ signifie que $1\\text{ cm}$ sur le plan représente $1\\,000\\text{ cm} = 10\\text{ m}$ dans la réalité."
+      },
+      {
+        "title": "À retenir",
+        "content": "• Proportionnalité : on multiplie toujours par le **même** nombre.\n• Trois méthodes : linéarité (multiplicative ou additive), retour à l'unité, coefficient.\n• $t\\,\\%$ d'une quantité $= \\frac{t}{100} \\times$ quantité ; échelle : penser aux conversions."
       }
     ],
     "methods": [
@@ -575,26 +601,11 @@ window.MATHS_COURSES_6E = {
       "⚠️ Avec une échelle, pense à convertir : $150\\,000\\text{ cm}$ ne font pas $150\\text{ km}$ mais $1{,}5\\text{ km}$."
     ],
     "flashcards": [
-      {
-        "q": "Qu'est-ce que le coefficient de proportionnalité ?",
-        "a": "C'est le nombre par lequel on multiplie toujours les valeurs d'une grandeur pour obtenir celles de l'autre."
-      },
-      {
-        "q": "$4$ croissants coûtent $3{,}20$ €. Combien coûtent $8$ croissants ?",
-        "a": "Deux fois plus de croissants : $2 \\times 3{,}20 = 6{,}40$ €."
-      },
-      {
-        "q": "Combien font $10\\,\\%$ de $250$ ?",
-        "a": "Le dixième de $250$ : $25$."
-      },
-      {
-        "q": "Combien font $25\\,\\%$ de $36$ ?",
-        "a": "Le quart de $36$ : $9$."
-      },
-      {
-        "q": "Que signifie une échelle de $\\frac{1}{100}$ ?",
-        "a": "$1\\text{ cm}$ sur le plan représente $100\\text{ cm} = 1\\text{ m}$ en réalité."
-      }
+      { "q": "Qu'est-ce que le coefficient de proportionnalité ?", "a": "C'est le nombre par lequel on multiplie toujours les valeurs d'une grandeur pour obtenir celles de l'autre." },
+      { "q": "$4$ croissants coûtent $3{,}20$ €. Combien coûtent $8$ croissants ?", "a": "Deux fois plus de croissants : $2 \\times 3{,}20 = 6{,}40$ €." },
+      { "q": "Combien font $10\\,\\%$ de $250$ ?", "a": "Le dixième de $250$ : $25$." },
+      { "q": "Combien font $25\\,\\%$ de $36$ ?", "a": "Le quart de $36$ : $9$." },
+      { "q": "Que signifie une échelle de $\\frac{1}{100}$ ?", "a": "$1\\text{ cm}$ sur le plan représente $100\\text{ cm} = 1\\text{ m}$ en réalité." }
     ]
   },
   "6D1": {
@@ -621,7 +632,11 @@ window.MATHS_COURSES_6E = {
       },
       {
         "title": "4. Diagramme en barres",
-        "content": "Dans un **diagramme en barres**, chaque catégorie est représentée par une barre dont la **hauteur** est proportionnelle à l'effectif.\n• On lit d'abord la **graduation** de l'axe vertical (de combien en combien ?).\n• On lit la hauteur de chaque barre en suivant les lignes du quadrillage.\n• On peut ainsi comparer les catégories : la plus haute barre correspond à l'effectif le plus grand."
+        "content": "Dans un **diagramme en barres**, chaque catégorie est représentée par une barre dont la **hauteur** est proportionnelle à l'effectif.\n• On lit d'abord la **graduation** de l'axe vertical (de combien en combien ?).\n• On lit la hauteur de chaque barre en suivant les lignes du quadrillage.\n• On peut ainsi comparer les catégories : la plus haute barre correspond à l'effectif le plus grand.\n<div class=\"geo-figure-wrapper\" style=\"text-align:center; margin:1rem auto;\">\n<svg class=\"geo-svg-figure\" viewBox=\"0 0 360 226\" width=\"360\" height=\"226\" style=\"max-width:360px; width:100%; height:auto;\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Diagramme en barres : football 9, basket 6, natation 4, danse 7\">\n<line x1=\"40\" y1=\"185.0\" x2=\"350\" y2=\"185.0\" stroke=\"rgba(100,116,139,0.35)\" stroke-width=\"1\"/>\n<text x=\"34\" y=\"189.0\" text-anchor=\"end\" font-family=\"system-ui, -apple-system, sans-serif\" font-size=\"11\" fill=\"var(--text-main, #0f172a)\">0</text>\n<line x1=\"40\" y1=\"152.0\" x2=\"350\" y2=\"152.0\" stroke=\"rgba(100,116,139,0.35)\" stroke-width=\"1\"/>\n<text x=\"34\" y=\"156.0\" text-anchor=\"end\" font-family=\"system-ui, -apple-system, sans-serif\" font-size=\"11\" fill=\"var(--text-main, #0f172a)\">2</text>\n<line x1=\"40\" y1=\"119.0\" x2=\"350\" y2=\"119.0\" stroke=\"rgba(100,116,139,0.35)\" stroke-width=\"1\"/>\n<text x=\"34\" y=\"123.0\" text-anchor=\"end\" font-family=\"system-ui, -apple-system, sans-serif\" font-size=\"11\" fill=\"var(--text-main, #0f172a)\">4</text>\n<line x1=\"40\" y1=\"86.0\" x2=\"350\" y2=\"86.0\" stroke=\"rgba(100,116,139,0.35)\" stroke-width=\"1\"/>\n<text x=\"34\" y=\"90.0\" text-anchor=\"end\" font-family=\"system-ui, -apple-system, sans-serif\" font-size=\"11\" fill=\"var(--text-main, #0f172a)\">6</text>\n<line x1=\"40\" y1=\"53.0\" x2=\"350\" y2=\"53.0\" stroke=\"rgba(100,116,139,0.35)\" stroke-width=\"1\"/>\n<text x=\"34\" y=\"57.0\" text-anchor=\"end\" font-family=\"system-ui, -apple-system, sans-serif\" font-size=\"11\" fill=\"var(--text-main, #0f172a)\">8</text>\n<line x1=\"40\" y1=\"20.0\" x2=\"350\" y2=\"20.0\" stroke=\"rgba(100,116,139,0.35)\" stroke-width=\"1\"/>\n<text x=\"34\" y=\"24.0\" text-anchor=\"end\" font-family=\"system-ui, -apple-system, sans-serif\" font-size=\"11\" fill=\"var(--text-main, #0f172a)\">10</text>\n<line x1=\"40\" y1=\"185\" x2=\"350\" y2=\"185\" stroke=\"var(--text-main, #334155)\" stroke-width=\"2\"/>\n<line x1=\"40\" y1=\"185\" x2=\"40\" y2=\"14\" stroke=\"var(--text-main, #334155)\" stroke-width=\"2\"/>\n<rect x=\"52.0\" y=\"36.5\" width=\"48.5\" height=\"148.5\" fill=\"rgba(37,99,235,0.75)\"/>\n<text x=\"76.3\" y=\"201\" text-anchor=\"middle\" font-family=\"system-ui, -apple-system, sans-serif\" font-size=\"11\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">Football</text>\n<rect x=\"124.5\" y=\"86.0\" width=\"48.5\" height=\"99.0\" fill=\"rgba(37,99,235,0.75)\"/>\n<text x=\"148.8\" y=\"201\" text-anchor=\"middle\" font-family=\"system-ui, -apple-system, sans-serif\" font-size=\"11\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">Basket</text>\n<rect x=\"197.0\" y=\"119.0\" width=\"48.5\" height=\"66.0\" fill=\"rgba(37,99,235,0.75)\"/>\n<text x=\"221.3\" y=\"201\" text-anchor=\"middle\" font-family=\"system-ui, -apple-system, sans-serif\" font-size=\"11\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">Natation</text>\n<rect x=\"269.5\" y=\"69.5\" width=\"48.5\" height=\"115.5\" fill=\"rgba(37,99,235,0.75)\"/>\n<text x=\"293.8\" y=\"201\" text-anchor=\"middle\" font-family=\"system-ui, -apple-system, sans-serif\" font-size=\"11\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">Danse</text>\n<text x=\"44\" y=\"12\" font-family=\"system-ui, -apple-system, sans-serif\" font-size=\"11\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">Effectif</text>\n</svg>\n</div>\nIci, une ligne du quadrillage correspond à $2$ élèves : la barre « Danse » s'arrête entre $6$ et $8$, elle vaut $7$."
+      },
+      {
+        "title": "À retenir",
+        "content": "• Effectif total $=$ somme des effectifs.\n• Tableau à double entrée : on lit à l'intersection d'une ligne et d'une colonne.\n• Diagramme en barres : lire la graduation avant de lire une hauteur."
       }
     ],
     "methods": [
@@ -650,26 +665,11 @@ window.MATHS_COURSES_6E = {
       "⚠️ « Moins de $8{,}5$ » exclut la valeur $8{,}5$ elle-même ; « au plus $8{,}5$ » l'inclut."
     ],
     "flashcards": [
-      {
-        "q": "Qu'est-ce que l'effectif d'une réponse dans une enquête ?",
-        "a": "C'est le nombre de personnes qui ont donné cette réponse."
-      },
-      {
-        "q": "Comment calcule-t-on l'effectif total ?",
-        "a": "On additionne les effectifs de toutes les catégories."
-      },
-      {
-        "q": "Que signifie « filtrer » un tableau ?",
-        "a": "Ne garder que les lignes qui vérifient un critère donné."
-      },
-      {
-        "q": "Dans un diagramme en barres, que représente la hauteur d'une barre ?",
-        "a": "L'effectif de la catégorie (la hauteur est proportionnelle à l'effectif)."
-      },
-      {
-        "q": "À quoi sert la case « Total » d'un tableau à double entrée ?",
-        "a": "À regrouper les effectifs d'une ligne ou d'une colonne et à vérifier les calculs."
-      }
+      { "q": "Qu'est-ce que l'effectif d'une réponse dans une enquête ?", "a": "C'est le nombre de personnes qui ont donné cette réponse." },
+      { "q": "Comment calcule-t-on l'effectif total ?", "a": "On additionne les effectifs de toutes les catégories." },
+      { "q": "Que signifie « filtrer » un tableau ?", "a": "Ne garder que les lignes qui vérifient un critère donné." },
+      { "q": "Dans un diagramme en barres, que représente la hauteur d'une barre ?", "a": "L'effectif de la catégorie (la hauteur est proportionnelle à l'effectif)." },
+      { "q": "À quoi sert la case « Total » d'un tableau à double entrée ?", "a": "À regrouper les effectifs d'une ligne ou d'une colonne et à vérifier les calculs." }
     ]
   },
   "6D2": {
@@ -697,6 +697,10 @@ window.MATHS_COURSES_6E = {
       {
         "title": "4. Fréquence et probabilité",
         "content": "Si l'on répète une expérience un grand nombre de fois, la **fréquence** d'apparition d'une issue ($\\frac{\\text{nombre de fois obtenue}}{\\text{nombre d'essais}}$) se rapproche de sa probabilité.\nExemple : sur $200$ lancers d'une pièce, on obtient $94$ fois « pile » : fréquence $\\frac{94}{200} = 0{,}47$, proche de la probabilité $0{,}5$. Sur peu d'essais, la fréquence peut être assez éloignée de la probabilité."
+      },
+      {
+        "title": "À retenir",
+        "content": "• Une probabilité est un nombre entre $0$ (impossible) et $1$ (certain).\n• Équiprobabilité : $\\frac{\\text{issues favorables}}{\\text{issues possibles}}$.\n• Sur un grand nombre d'essais, la fréquence se rapproche de la probabilité."
       }
     ],
     "methods": [
@@ -725,26 +729,11 @@ window.MATHS_COURSES_6E = {
       "⚠️ Compte toutes les issues possibles au dénominateur : avec $3$ rouges et $5$ bleues, il y a $8$ billes, donc $P(\\text{rouge}) = \\frac{3}{8}$ et non $\\frac{3}{5}$."
     ],
     "flashcards": [
-      {
-        "q": "Qu'est-ce qu'un événement impossible ? Quelle est sa probabilité ?",
-        "a": "Un événement qui ne peut jamais se produire ; sa probabilité vaut $0$."
-      },
-      {
-        "q": "Quelle est la probabilité d'un événement certain ?",
-        "a": "$1$."
-      },
-      {
-        "q": "Probabilité d'obtenir $5$ avec un dé équilibré à six faces ?",
-        "a": "$\\frac{1}{6}$."
-      },
-      {
-        "q": "Un sac contient $2$ billes vertes et $6$ jaunes. Probabilité de tirer une verte ?",
-        "a": "$\\frac{2}{8} = \\frac{1}{4}$."
-      },
-      {
-        "q": "Que se passe-t-il pour la fréquence quand on répète une expérience un très grand nombre de fois ?",
-        "a": "Elle se rapproche de la probabilité de l'événement."
-      }
+      { "q": "Qu'est-ce qu'un événement impossible ? Quelle est sa probabilité ?", "a": "Un événement qui ne peut jamais se produire ; sa probabilité vaut $0$." },
+      { "q": "Quelle est la probabilité d'un événement certain ?", "a": "$1$." },
+      { "q": "Probabilité d'obtenir $5$ avec un dé équilibré à six faces ?", "a": "$\\frac{1}{6}$." },
+      { "q": "Un sac contient $2$ billes vertes et $6$ jaunes. Probabilité de tirer une verte ?", "a": "$\\frac{2}{8} = \\frac{1}{4}$." },
+      { "q": "Que se passe-t-il pour la fréquence quand on répète une expérience un très grand nombre de fois ?", "a": "Elle se rapproche de la probabilité de l'événement." }
     ]
   },
   "6A1": {
@@ -772,6 +761,10 @@ window.MATHS_COURSES_6E = {
       {
         "title": "4. Premiers pas dans Scratch",
         "content": "Dans Scratch, un **lutin** exécute des **blocs** emboîtés :\n• un bloc **événement** lance le script (« quand le drapeau vert est cliqué ») ;\n• des blocs **mouvement** (« avancer de 10 pas », « tourner de 90 degrés ») ;\n• des blocs **contrôle** (« répéter 10 fois ») ;\n• une **variable** (par exemple « score ») permet de mémoriser un nombre qui peut changer."
+      },
+      {
+        "title": "À retenir",
+        "content": "• Une séquence s'exécute **dans l'ordre**, instruction par instruction.\n• « répéter $n$ fois » exécute $n$ fois **tout** le bloc qu'elle contient.\n• Carré : répéter $4$ fois [avancer ; tourner de $90$ degrés]."
       }
     ],
     "methods": [
@@ -800,26 +793,11 @@ window.MATHS_COURSES_6E = {
       "⚠️ Tourner « à droite » dépend de l'orientation du robot : un robot tourné vers le bas qui tourne à droite part vers la gauche de l'écran."
     ],
     "flashcards": [
-      {
-        "q": "Qu'est-ce qu'une séquence d'instructions ?",
-        "a": "Une suite d'instructions exécutées les unes après les autres, dans l'ordre."
-      },
-      {
-        "q": "À quoi sert une boucle « répéter » ?",
-        "a": "À exécuter plusieurs fois la même séquence d'instructions sans la réécrire."
-      },
-      {
-        "q": "Quel angle utiliser dans « répéter 4 fois [avancer de 50 ; tourner de … degrés] » pour tracer un carré ?",
-        "a": "$90$ degrés."
-      },
-      {
-        "q": "Un script répète $5$ fois « avancer de $20$ pas ». Quelle distance parcourt le lutin ?",
-        "a": "$5 \\times 20 = 100$ pas."
-      },
-      {
-        "q": "Quel bloc démarre souvent un script Scratch ?",
-        "a": "« Quand le drapeau vert est cliqué »."
-      }
+      { "q": "Qu'est-ce qu'une séquence d'instructions ?", "a": "Une suite d'instructions exécutées les unes après les autres, dans l'ordre." },
+      { "q": "À quoi sert une boucle « répéter » ?", "a": "À exécuter plusieurs fois la même séquence d'instructions sans la réécrire." },
+      { "q": "Quel angle utiliser dans « répéter 4 fois [avancer de 50 ; tourner de … degrés] » pour tracer un carré ?", "a": "$90$ degrés." },
+      { "q": "Un script répète $5$ fois « avancer de $20$ pas ». Quelle distance parcourt le lutin ?", "a": "$5 \\times 20 = 100$ pas." },
+      { "q": "Quel bloc démarre souvent un script Scratch ?", "a": "« Quand le drapeau vert est cliqué »." }
     ]
   },
   "6M1": {
@@ -844,6 +822,10 @@ window.MATHS_COURSES_6E = {
       {
         "title": "3. Périmètre d’un cercle",
         "content": "Le périmètre d'un cercle (aussi appelé **longueur du cercle**) est **proportionnel à son diamètre** : le coefficient de proportionnalité est le nombre $\\pi$ (« pi »), qui vaut environ $3{,}14$.\n$$P = \\pi \\times d = 2 \\times \\pi \\times r$$\noù $d$ est le diamètre et $r$ le rayon ($d = 2 \\times r$).\nExemple : un cercle de rayon $5\\text{ cm}$ a un diamètre de $10\\text{ cm}$, donc $P = \\pi \\times 10 \\approx 31{,}4\\text{ cm}$."
+      },
+      {
+        "title": "À retenir",
+        "content": "• Longueurs : chaque unité vaut $10$ fois la suivante (km, hm, dam, m, dm, cm, mm).\n• Carré : $P = 4 \\times c$ ; rectangle : $P = 2 \\times (L + \\ell)$ ; cercle : $P = \\pi \\times d$.\n• Toujours exprimer les longueurs **dans la même unité**."
       }
     ],
     "methods": [
@@ -872,26 +854,11 @@ window.MATHS_COURSES_6E = {
       "⚠️ Dans une figure composée, les segments situés **à l'intérieur** de la figure ne font pas partie du contour."
     ],
     "flashcards": [
-      {
-        "q": "Combien de mètres dans $1\\text{ km}$ ?",
-        "a": "$1\\text{ km} = 1\\,000\\text{ m}$."
-      },
-      {
-        "q": "Convertir $58\\text{ mm}$ en $\\text{cm}$.",
-        "a": "$58\\text{ mm} = 5{,}8\\text{ cm}$ (on divise par 10)."
-      },
-      {
-        "q": "Quelle est la formule du périmètre d’un rectangle ?",
-        "a": "$P = 2 \\times (L + \\ell)$, avec $L$ la longueur et $\\ell$ la largeur."
-      },
-      {
-        "q": "Quelle est la formule du périmètre d’un cercle ?",
-        "a": "$P = \\pi \\times d$ (ou $2 \\times \\pi \\times r$), avec $\\pi \\approx 3{,}14$."
-      },
-      {
-        "q": "Quel est le périmètre d'un carré de côté $2{,}5\\text{ cm}$ ?",
-        "a": "$P = 4 \\times 2{,}5 = 10\\text{ cm}$."
-      }
+      { "q": "Combien de mètres dans $1\\text{ km}$ ?", "a": "$1\\text{ km} = 1\\,000\\text{ m}$." },
+      { "q": "Convertir $58\\text{ mm}$ en $\\text{cm}$.", "a": "$58\\text{ mm} = 5{,}8\\text{ cm}$ (on divise par 10)." },
+      { "q": "Quelle est la formule du périmètre d’un rectangle ?", "a": "$P = 2 \\times (L + \\ell)$, avec $L$ la longueur et $\\ell$ la largeur." },
+      { "q": "Quelle est la formule du périmètre d’un cercle ?", "a": "$P = \\pi \\times d$ (ou $2 \\times \\pi \\times r$), avec $\\pi \\approx 3{,}14$." },
+      { "q": "Quel est le périmètre d'un carré de côté $2{,}5\\text{ cm}$ ?", "a": "$P = 4 \\times 2{,}5 = 10\\text{ cm}$." }
     ]
   },
   "6M2": {
@@ -920,6 +887,10 @@ window.MATHS_COURSES_6E = {
       {
         "title": "4. Figures composées",
         "content": "Pour une figure complexe, on la **découpe** en rectangles et carrés dont on additionne les aires, ou on calcule l'aire d'un grand rectangle **moins** celle de la partie retirée.\nUn **triangle rectangle** dont les côtés de l'angle droit mesurent $a$ et $b$ est la moitié d'un rectangle : son aire vaut $\\frac{a \\times b}{2}$."
+      },
+      {
+        "title": "À retenir",
+        "content": "• Aire (surface, en unités « carrées ») $\\neq$ périmètre (contour, en unités de longueur).\n• Carré : $\\mathcal{A} = c \\times c$ ; rectangle : $\\mathcal{A} = L \\times \\ell$ ; triangle rectangle : $\\frac{a \\times b}{2}$.\n• Entre deux unités d'aire voisines : $\\times 100$ ou $\\div 100$."
       }
     ],
     "methods": [
@@ -948,26 +919,11 @@ window.MATHS_COURSES_6E = {
       "⚠️ Une aire s'écrit avec une unité « au carré » ($\\text{cm}^2$, $\\text{m}^2$…) ; un périmètre avec une unité de longueur."
     ],
     "flashcards": [
-      {
-        "q": "Quelle est la formule de l’aire d’un rectangle ?",
-        "a": "$\\mathcal{A} = L \\times \\ell$ (longueur fois largeur)."
-      },
-      {
-        "q": "Combien de $\\text{cm}^2$ dans $1\\text{ dm}^2$ ?",
-        "a": "$1\\text{ dm}^2 = 100\\text{ cm}^2$ (un carré de 10 cm sur 10 cm)."
-      },
-      {
-        "q": "Aire d'un carré de côté $7\\text{ cm}$ ?",
-        "a": "$7 \\times 7 = 49\\text{ cm}^2$."
-      },
-      {
-        "q": "Deux figures de même aire ont-elles forcément le même périmètre ?",
-        "a": "**Non.** Exemple : un rectangle $4 \\times 1$ et un carré $2 \\times 2$ ont la même aire ($4$) mais des périmètres différents ($10$ et $8$)."
-      },
-      {
-        "q": "Aire d'un triangle rectangle dont les côtés de l'angle droit mesurent $6\\text{ cm}$ et $4\\text{ cm}$ ?",
-        "a": "C'est la moitié d'un rectangle : $\\frac{6 \\times 4}{2} = 12\\text{ cm}^2$."
-      }
+      { "q": "Quelle est la formule de l’aire d’un rectangle ?", "a": "$\\mathcal{A} = L \\times \\ell$ (longueur fois largeur)." },
+      { "q": "Combien de $\\text{cm}^2$ dans $1\\text{ dm}^2$ ?", "a": "$1\\text{ dm}^2 = 100\\text{ cm}^2$ (un carré de 10 cm sur 10 cm)." },
+      { "q": "Aire d'un carré de côté $7\\text{ cm}$ ?", "a": "$7 \\times 7 = 49\\text{ cm}^2$." },
+      { "q": "Deux figures de même aire ont-elles forcément le même périmètre ?", "a": "**Non.** Exemple : un rectangle $4 \\times 1$ et un carré $2 \\times 2$ ont la même aire ($4$) mais des périmètres différents ($10$ et $8$)." },
+      { "q": "Aire d'un triangle rectangle dont les côtés de l'angle droit mesurent $6\\text{ cm}$ et $4\\text{ cm}$ ?", "a": "C'est la moitié d'un rectangle : $\\frac{6 \\times 4}{2} = 12\\text{ cm}^2$." }
     ]
   },
   "6M3": {
@@ -991,6 +947,10 @@ window.MATHS_COURSES_6E = {
       {
         "title": "3. Volume et contenance",
         "content": "La **contenance** d'un récipient est le volume de liquide qu'il peut contenir. On retient :\n$$1\\text{ dm}^3 = 1\\text{ L} = 1\\,000\\text{ cm}^3 \\quad ; \\quad 1\\text{ cm}^3 = 1\\text{ mL}$$\nExemple : une boîte de $20\\text{ cm} \\times 10\\text{ cm} \\times 5\\text{ cm}$ a un volume de $1\\,000\\text{ cm}^3$, soit $1\\text{ L}$."
+      },
+      {
+        "title": "À retenir",
+        "content": "• Pavé droit : $\\mathcal{V} = L \\times \\ell \\times h$ ; cube : $\\mathcal{V} = a \\times a \\times a$.\n• $1\\text{ dm}^3 = 1\\text{ L} = 1\\,000\\text{ cm}^3$ et $1\\text{ cm}^3 = 1\\text{ mL}$.\n• Ne pas oublier les cubes cachés."
       }
     ],
     "methods": [
@@ -1019,26 +979,11 @@ window.MATHS_COURSES_6E = {
       "⚠️ Quand on compte des cubes sur un dessin, il ne faut pas oublier les cubes **cachés** à l'arrière ou en dessous."
     ],
     "flashcards": [
-      {
-        "q": "Quelle est la formule du volume d’un pavé droit ?",
-        "a": "$\\mathcal{V} = L \\times \\ell \\times h$."
-      },
-      {
-        "q": "Volume d'un cube d'arête $4\\text{ cm}$ ?",
-        "a": "$4 \\times 4 \\times 4 = 64\\text{ cm}^3$."
-      },
-      {
-        "q": "Combien de $\\text{cm}^3$ dans $1\\text{ L}$ ?",
-        "a": "$1\\text{ L} = 1\\text{ dm}^3 = 1\\,000\\text{ cm}^3$."
-      },
-      {
-        "q": "À quoi correspond $1\\text{ cm}^3$ en contenance ?",
-        "a": "$1\\text{ cm}^3 = 1\\text{ mL}$."
-      },
-      {
-        "q": "Qu’est-ce qu’un centimètre cube ?",
-        "a": "Le volume d'un cube de $1\\text{ cm}$ d'arête."
-      }
+      { "q": "Quelle est la formule du volume d’un pavé droit ?", "a": "$\\mathcal{V} = L \\times \\ell \\times h$." },
+      { "q": "Volume d'un cube d'arête $4\\text{ cm}$ ?", "a": "$4 \\times 4 \\times 4 = 64\\text{ cm}^3$." },
+      { "q": "Combien de $\\text{cm}^3$ dans $1\\text{ L}$ ?", "a": "$1\\text{ L} = 1\\text{ dm}^3 = 1\\,000\\text{ cm}^3$." },
+      { "q": "À quoi correspond $1\\text{ cm}^3$ en contenance ?", "a": "$1\\text{ cm}^3 = 1\\text{ mL}$." },
+      { "q": "Qu’est-ce qu’un centimètre cube ?", "a": "Le volume d'un cube de $1\\text{ cm}$ d'arête." }
     ]
   },
   "6M4": {
@@ -1062,6 +1007,10 @@ window.MATHS_COURSES_6E = {
       {
         "title": "3. Calculer une durée entre deux horaires",
         "content": "On peut **compléter par étapes** jusqu'à l'heure ronde (méthode du « saut ») :\nDe 9 h 40 à 11 h 15 : de 9 h 40 à 10 h → 20 min ; de 10 h à 11 h → 1 h ; de 11 h à 11 h 15 → 15 min.\nTotal : 1 h 35 min.\nOn peut aussi poser une soustraction en séparant heures et minutes, en **convertissant 1 h en 60 min** si nécessaire."
+      },
+      {
+        "title": "À retenir",
+        "content": "• $1\\text{ h} = 60\\text{ min}$, $1\\text{ min} = 60\\text{ s}$, $1\\text{ j} = 24\\text{ h}$.\n• $0{,}5\\text{ h} = 30\\text{ min}$ (et non $50$ min) ; $0{,}25\\text{ h} = 15\\text{ min}$.\n• Pour calculer une durée : compléter jusqu'à l'heure ronde."
       }
     ],
     "methods": [
@@ -1089,26 +1038,11 @@ window.MATHS_COURSES_6E = {
       "⚠️ Ne pas soustraire les horaires comme des nombres décimaux : de 8 h 50 à 9 h 10, il s'écoule 20 min, et non « 0,60 »."
     ],
     "flashcards": [
-      {
-        "q": "Combien de secondes dans une heure ?",
-        "a": "$1\\text{ h} = 60 \\times 60 = 3\\,600\\text{ s}$."
-      },
-      {
-        "q": "Que vaut un quart d’heure en minutes ?",
-        "a": "$15\\text{ min}$ (car $60 \\div 4 = 15$)."
-      },
-      {
-        "q": "Convertir $2{,}5\\text{ h}$ en heures et minutes.",
-        "a": "$2{,}5\\text{ h} = 2\\text{ h } 30\\text{ min}$."
-      },
-      {
-        "q": "Quelle durée s’écoule entre 10 h 45 et 12 h 10 ?",
-        "a": "15 min (jusqu’à 11 h) + 1 h + 10 min = 1 h 25 min."
-      },
-      {
-        "q": "Combien d’heures dans 3 jours ?",
-        "a": "$3 \\times 24 = 72\\text{ h}$."
-      }
+      { "q": "Combien de secondes dans une heure ?", "a": "$1\\text{ h} = 60 \\times 60 = 3\\,600\\text{ s}$." },
+      { "q": "Que vaut un quart d’heure en minutes ?", "a": "$15\\text{ min}$ (car $60 \\div 4 = 15$)." },
+      { "q": "Convertir $2{,}5\\text{ h}$ en heures et minutes.", "a": "$2{,}5\\text{ h} = 2\\text{ h } 30\\text{ min}$." },
+      { "q": "Quelle durée s’écoule entre 10 h 45 et 12 h 10 ?", "a": "15 min (jusqu’à 11 h) + 1 h + 10 min = 1 h 25 min." },
+      { "q": "Combien d’heures dans 3 jours ?", "a": "$3 \\times 24 = 72\\text{ h}$." }
     ]
   },
   "6G1": {
@@ -1119,7 +1053,8 @@ window.MATHS_COURSES_6E = {
       "Connaître la définition de la distance entre deux points et du milieu d’un segment.",
       "Reconnaître et tracer des droites perpendiculaires et parallèles.",
       "Connaître le vocabulaire du cercle et du disque : centre, rayon, diamètre, corde.",
-      "Savoir que le cercle de centre $O$ et de rayon $r$ est l’ensemble des points situés à la distance $r$ de $O$."
+      "Savoir que le cercle de centre $O$ et de rayon $r$ est l’ensemble des points situés à la distance $r$ de $O$.",
+      "Connaître les quadrilatères particuliers (rectangle, losange, carré) et les décrire avec le vocabulaire de la géométrie."
     ],
     "keyPoints": [
       {
@@ -1135,8 +1070,16 @@ window.MATHS_COURSES_6E = {
         "content": "• Deux droites **perpendiculaires** se coupent en formant un angle droit : on note $(d_1) \\perp (d_2)$.\n• Deux droites **parallèles** ne se coupent jamais (ou sont confondues) : on note $(d_1) \\parallel (d_2)$.\n• Propriété : si deux droites sont perpendiculaires à une même troisième droite, alors elles sont parallèles entre elles."
       },
       {
-        "title": "4. Cercle et disque",
+        "title": "4. Quadrilatères particuliers",
+        "content": "• Un **rectangle** est un quadrilatère qui a **quatre angles droits**. Ses côtés opposés sont parallèles et de même longueur ; ses diagonales ont la même longueur et le même milieu.\n• Un **losange** est un quadrilatère qui a **quatre côtés de même longueur**. Ses côtés opposés sont parallèles ; ses diagonales sont perpendiculaires et ont le même milieu.\n• Un **carré** a quatre angles droits **et** quatre côtés de même longueur : c'est à la fois un rectangle et un losange.\nPour construire un rectangle, on utilise l'équerre (angles droits) et la règle graduée ; pour un losange, le compas (côtés égaux)."
+      },
+      {
+        "title": "5. Cercle et disque",
         "content": "<div class=\"geo-figure-wrapper\" style=\"text-align:center; margin:1rem auto;\">\n<svg class=\"geo-svg-figure\" viewBox=\"0 0 300 200\" width=\"300\" height=\"200\" style=\"max-width:300px; width:100%; height:auto;\" xmlns=\"http://www.w3.org/2000/svg\">\n<circle cx=\"150\" cy=\"100\" r=\"75\" fill=\"rgba(16,185,129,0.08)\" stroke=\"var(--text-main, #334155)\" stroke-width=\"2\"/>\n<line x1=\"75\" y1=\"100\" x2=\"225\" y2=\"100\" stroke=\"#2563eb\" stroke-width=\"2\"/>\n<line x1=\"150\" y1=\"100\" x2=\"203\" y2=\"47\" stroke=\"#dc2626\" stroke-width=\"2\"/>\n<line x1=\"96\" y1=\"153\" x2=\"204\" y2=\"153\" stroke=\"#d97706\" stroke-width=\"2\" stroke-dasharray=\"5 3\"/>\n<circle cx=\"150\" cy=\"100\" r=\"3.5\" fill=\"var(--text-main, #334155)\"/>\n<text x=\"150\" y=\"120\" text-anchor=\"middle\" font-family=\"system-ui, -apple-system, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">O</text>\n<text x=\"62\" y=\"104\" text-anchor=\"middle\" font-family=\"system-ui, -apple-system, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">A</text>\n<text x=\"238\" y=\"104\" text-anchor=\"middle\" font-family=\"system-ui, -apple-system, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">B</text>\n<text x=\"212\" y=\"42\" text-anchor=\"middle\" font-family=\"system-ui, -apple-system, sans-serif\" font-size=\"13\" font-weight=\"700\" fill=\"var(--text-main, #0f172a)\">M</text>\n<text x=\"188\" y=\"72\" text-anchor=\"middle\" font-family=\"system-ui, -apple-system, sans-serif\" font-size=\"11\" font-weight=\"700\" fill=\"#dc2626\">rayon</text>\n<text x=\"110\" y=\"94\" text-anchor=\"middle\" font-family=\"system-ui, -apple-system, sans-serif\" font-size=\"11\" font-weight=\"700\" fill=\"#2563eb\">diamètre</text>\n<text x=\"150\" y=\"172\" text-anchor=\"middle\" font-family=\"system-ui, -apple-system, sans-serif\" font-size=\"11\" font-weight=\"700\" fill=\"#d97706\">corde</text>\n</svg>\n</div>\nLe **cercle** de centre $O$ et de rayon $r$ est l'ensemble de **tous les points situés à la distance $r$** du point $O$. Le **disque** est la surface délimitée par le cercle (intérieur compris).\n• Un **rayon** est un segment qui joint le centre à un point du cercle : $[OM]$.\n• Une **corde** est un segment qui joint deux points du cercle.\n• Un **diamètre** est une corde qui passe par le centre : $[AB]$. Sa longueur vaut le double du rayon : $d = 2 \\times r$."
+      },
+      {
+        "title": "À retenir",
+        "content": "• $(AB)$ droite, $[AB)$ demi-droite, $[AB]$ segment, $AB$ longueur.\n• Milieu : point du segment à égale distance des extrémités.\n• Cercle de centre $O$ et de rayon $r$ : tous les points à la distance $r$ de $O$ ; $d = 2 \\times r$."
       }
     ],
     "methods": [
@@ -1164,26 +1107,12 @@ window.MATHS_COURSES_6E = {
       "⚠️ Le diamètre est le **double** du rayon, et non la moitié."
     ],
     "flashcards": [
-      {
-        "q": "Que désigne la notation $[AB)$ ?",
-        "a": "La demi-droite d'origine $A$ passant par $B$."
-      },
-      {
-        "q": "Quelle est la définition du milieu d’un segment ?",
-        "a": "C'est le point du segment situé à égale distance des deux extrémités."
-      },
-      {
-        "q": "Un cercle a un diamètre de $11\\text{ cm}$. Quel est son rayon ?",
-        "a": "$11 \\div 2 = 5{,}5\\text{ cm}$."
-      },
-      {
-        "q": "Qu’est-ce qu’une corde d’un cercle ?",
-        "a": "Un segment dont les deux extrémités sont des points du cercle."
-      },
-      {
-        "q": "Deux droites perpendiculaires à une même droite sont…",
-        "a": "… parallèles entre elles."
-      }
+      { "q": "Que désigne la notation $[AB)$ ?", "a": "La demi-droite d'origine $A$ passant par $B$." },
+      { "q": "Quelle est la définition du milieu d’un segment ?", "a": "C'est le point du segment situé à égale distance des deux extrémités." },
+      { "q": "Un cercle a un diamètre de $11\\text{ cm}$. Quel est son rayon ?", "a": "$11 \\div 2 = 5{,}5\\text{ cm}$." },
+      { "q": "Qu’est-ce qu’une corde d’un cercle ?", "a": "Un segment dont les deux extrémités sont des points du cercle." },
+      { "q": "Deux droites perpendiculaires à une même droite sont…", "a": "… parallèles entre elles." },
+      { "q": "Qu'est-ce qu'un losange ?", "a": "Un quadrilatère qui a quatre côtés de même longueur." }
     ]
   },
   "6G2": {
@@ -1208,6 +1137,10 @@ window.MATHS_COURSES_6E = {
       {
         "title": "3. Propriétés de la symétrie axiale",
         "content": "La symétrie axiale **conserve** :\n• les **longueurs** : le symétrique d'un segment est un segment de même longueur ;\n• les **angles** : le symétrique d'un angle est un angle de même mesure ;\n• l'**alignement** : le symétrique d'une droite est une droite ;\n• les **aires** et les **périmètres** des figures.\nUne droite $(d)$ est un **axe de symétrie** d'une figure si le symétrique de la figure par rapport à $(d)$ est la figure elle-même. Un carré en a 4, un rectangle (non carré) 2, un triangle équilatéral 3, un cercle une infinité."
+      },
+      {
+        "title": "À retenir",
+        "content": "• Médiatrice de $[AB]$ : perpendiculaire à $[AB]$ en son milieu ; ses points vérifient $MA = MB$.\n• $A'$ symétrique de $A$ par rapport à $(d)$ : $(d)$ est la médiatrice de $[AA']$.\n• La symétrie axiale conserve longueurs, angles, alignement et aires."
       }
     ],
     "methods": [
@@ -1227,6 +1160,16 @@ window.MATHS_COURSES_6E = {
           "**Étape 1** : On cite la propriété : tout point de la médiatrice de $[AB]$ est à égale distance de $A$ et de $B$.",
           "**Étape 2** : Donc $MB = MA = 6{,}3\\text{ cm}$."
         ]
+      },
+      {
+        "title": "Méthode : Construire le symétrique d'un point par rapport à une droite",
+        "example": "Construire le symétrique $A'$ du point $A$ par rapport à la droite $(d)$.",
+        "steps": [
+          "**Étape 1** : Avec l'équerre, on trace la perpendiculaire à $(d)$ passant par $A$ ; elle coupe $(d)$ en $H$.",
+          "**Étape 2** : Avec le compas (pointe en $H$, écartement $HA$), on reporte la distance $HA$ de l'autre côté de $(d)$ : on obtient $A'$.",
+          "**Étape 3** : On code : angle droit en $H$ et $HA = HA'$. La droite $(d)$ est bien la médiatrice de $[AA']$.",
+          "**Sur quadrillage** : on compte les carreaux de $A$ jusqu'à l'axe et on en compte autant de l'autre côté."
+        ]
       }
     ],
     "traps": [
@@ -1235,26 +1178,11 @@ window.MATHS_COURSES_6E = {
       "⚠️ Un parallélogramme quelconque n'a **aucun** axe de symétrie, même s'il « paraît » régulier."
     ],
     "flashcards": [
-      {
-        "q": "Définition de la médiatrice d’un segment ?",
-        "a": "La droite perpendiculaire au segment qui passe par son milieu."
-      },
-      {
-        "q": "$M$ est sur la médiatrice de $[AB]$. Que peut-on dire de $MA$ et $MB$ ?",
-        "a": "$MA = MB$."
-      },
-      {
-        "q": "Que conserve la symétrie axiale ?",
-        "a": "Les longueurs, les angles, l’alignement, les aires et les périmètres."
-      },
-      {
-        "q": "Combien d’axes de symétrie possède un carré ?",
-        "a": "4 : les deux diagonales et les deux médiatrices des côtés."
-      },
-      {
-        "q": "Combien d’axes de symétrie possède un triangle équilatéral ?",
-        "a": "3 (les médiatrices de ses côtés)."
-      }
+      { "q": "Définition de la médiatrice d’un segment ?", "a": "La droite perpendiculaire au segment qui passe par son milieu." },
+      { "q": "$M$ est sur la médiatrice de $[AB]$. Que peut-on dire de $MA$ et $MB$ ?", "a": "$MA = MB$." },
+      { "q": "Que conserve la symétrie axiale ?", "a": "Les longueurs, les angles, l’alignement, les aires et les périmètres." },
+      { "q": "Combien d’axes de symétrie possède un carré ?", "a": "4 : les deux diagonales et les deux médiatrices des côtés." },
+      { "q": "Combien d’axes de symétrie possède un triangle équilatéral ?", "a": "3 (les médiatrices de ses côtés)." }
     ]
   },
   "6G3": {
@@ -1278,6 +1206,10 @@ window.MATHS_COURSES_6E = {
       {
         "title": "3. Bissectrice d’un angle",
         "content": "La **bissectrice** d'un angle est la demi-droite issue du sommet qui partage cet angle en **deux angles adjacents de même mesure**.\nExemple : la bissectrice d'un angle de $84^\\circ$ le partage en deux angles de $42^\\circ$."
+      },
+      {
+        "title": "À retenir",
+        "content": "• Aigu : moins de $90^\\circ$ ; droit : $90^\\circ$ ; obtus : entre $90^\\circ$ et $180^\\circ$ ; plat : $180^\\circ$.\n• Rapporteur : centre sur le sommet, zéro sur un côté, lecture sur la même graduation.\n• Supplémentaires : somme $180^\\circ$ ; opposés par le sommet : même mesure."
       }
     ],
     "methods": [
@@ -1297,6 +1229,16 @@ window.MATHS_COURSES_6E = {
           "**Étape 1** : $A$, $O$, $C$ alignés donc $\\widehat{AOC}$ est un angle plat : $180^\\circ$.",
           "**Étape 2** : Les angles sont supplémentaires : $\\widehat{BOC} = 180^\\circ - 38^\\circ = 142^\\circ$."
         ]
+      },
+      {
+        "title": "Méthode : Construire un angle de mesure donnée",
+        "example": "Construire un angle $\\widehat{xOy}$ de $125^\\circ$.",
+        "steps": [
+          "**Étape 1** : On trace la demi-droite $[Ox)$.",
+          "**Étape 2** : On place le centre du rapporteur sur $O$ et le zéro d'une graduation sur $[Ox)$.",
+          "**Étape 3** : En suivant cette graduation, on marque un point à $125^\\circ$, puis on trace $[Oy)$ passant par ce point.",
+          "**Contrôle** : $125^\\circ > 90^\\circ$, l'angle tracé doit être **obtus**."
+        ]
       }
     ],
     "traps": [
@@ -1305,26 +1247,11 @@ window.MATHS_COURSES_6E = {
       "⚠️ La taille des côtés dessinés ne change pas la mesure d'un angle."
     ],
     "flashcards": [
-      {
-        "q": "Qu’est-ce qu’un angle obtus ?",
-        "a": "Un angle dont la mesure est comprise entre $90^\\circ$ et $180^\\circ$."
-      },
-      {
-        "q": "Que vaut un angle plat ?",
-        "a": "$180^\\circ$."
-      },
-      {
-        "q": "Deux angles opposés par le sommet ont…",
-        "a": "… la même mesure."
-      },
-      {
-        "q": "Quel est le supplémentaire d'un angle de $72^\\circ$ ?",
-        "a": "$180^\\circ - 72^\\circ = 108^\\circ$."
-      },
-      {
-        "q": "Définition de la bissectrice d’un angle ?",
-        "a": "La demi-droite issue du sommet qui partage l’angle en deux angles adjacents de même mesure."
-      }
+      { "q": "Qu’est-ce qu’un angle obtus ?", "a": "Un angle dont la mesure est comprise entre $90^\\circ$ et $180^\\circ$." },
+      { "q": "Que vaut un angle plat ?", "a": "$180^\\circ$." },
+      { "q": "Deux angles opposés par le sommet ont…", "a": "… la même mesure." },
+      { "q": "Quel est le supplémentaire d'un angle de $72^\\circ$ ?", "a": "$180^\\circ - 72^\\circ = 108^\\circ$." },
+      { "q": "Définition de la bissectrice d’un angle ?", "a": "La demi-droite issue du sommet qui partage l’angle en deux angles adjacents de même mesure." }
     ]
   },
   "6G4": {
@@ -1347,11 +1274,15 @@ window.MATHS_COURSES_6E = {
       },
       {
         "title": "3. Construire un triangle",
-        "content": "• **Trois longueurs** : on trace un côté, puis deux arcs de cercle (compas) centrés à ses extrémités ; leur intersection donne le troisième sommet.\n• **Inégalité triangulaire** : un triangle est constructible seulement si la plus grande longueur est **strictement inférieure** à la somme des deux autres. Avec $3\\text{ cm}$, $4\\text{ cm}$ et $8\\text{ cm}$ : $3 + 4 = 7 < 8$, impossible.\n• **Un côté et deux angles** : on trace le côté puis les deux angles au rapporteur à ses extrémités."
+        "content": "• **Trois longueurs** : on trace un côté, puis deux arcs de cercle (compas) centrés à ses extrémités ; leur intersection donne le troisième sommet.\n• **Inégalité triangulaire** : un triangle est constructible seulement si la plus grande longueur est **strictement inférieure** à la somme des deux autres. Avec $3\\text{ cm}$, $4\\text{ cm}$ et $8\\text{ cm}$ : $3 + 4 = 7 < 8$, impossible.\n• **Deux longueurs et l'angle compris entre elles** : on trace un côté, on construit l'angle au rapporteur à une extrémité, on reporte la seconde longueur sur le côté de l'angle, puis on relie.\n• **Un côté et deux angles** : on trace le côté puis les deux angles au rapporteur à ses extrémités."
       },
       {
         "title": "4. Médiatrices et cercle circonscrit",
         "content": "Les trois médiatrices des côtés d'un triangle sont **concourantes** (elles se coupent en un même point $O$).\nCe point est à égale distance des trois sommets : $OA = OB = OC$. C'est le centre du **cercle circonscrit** au triangle, qui passe par les trois sommets."
+      },
+      {
+        "title": "À retenir",
+        "content": "• Somme des angles d'un triangle : $180^\\circ$.\n• Isocèle : angles à la base égaux ; équilatéral : trois angles de $60^\\circ$.\n• Constructible si le plus grand côté est **strictement** inférieur à la somme des deux autres."
       }
     ],
     "methods": [
@@ -1372,6 +1303,16 @@ window.MATHS_COURSES_6E = {
           "**Étape 2** : Elles se coupent en $O$, centre du cercle circonscrit (la troisième médiatrice passe aussi par $O$).",
           "**Étape 3** : On trace le cercle de centre $O$ et de rayon $OA$ : il passe par $A$, $B$ et $C$."
         ]
+      },
+      {
+        "title": "Méthode : Construire un triangle connaissant ses trois côtés",
+        "example": "Construire le triangle $RST$ tel que $RS = 7\\text{ cm}$, $RT = 5\\text{ cm}$ et $ST = 4\\text{ cm}$.",
+        "steps": [
+          "**Étape 1** : On vérifie : $7 < 5 + 4 = 9$, le triangle est constructible. On fait un schéma à main levée.",
+          "**Étape 2** : On trace le segment $[RS]$ de $7\\text{ cm}$.",
+          "**Étape 3** : On trace un arc de cercle de centre $R$ et de rayon $5\\text{ cm}$, puis un arc de centre $S$ et de rayon $4\\text{ cm}$.",
+          "**Étape 4** : $T$ est le point d'intersection des deux arcs ; on trace $[RT]$ et $[ST]$."
+        ]
       }
     ],
     "traps": [
@@ -1380,26 +1321,11 @@ window.MATHS_COURSES_6E = {
       "⚠️ Si la plus grande longueur est égale à la somme des deux autres, les trois points sont **alignés** : il n'y a pas de vrai triangle."
     ],
     "flashcards": [
-      {
-        "q": "Quelle est la somme des angles d’un triangle ?",
-        "a": "$180^\\circ$."
-      },
-      {
-        "q": "Combien mesure chaque angle d’un triangle équilatéral ?",
-        "a": "$60^\\circ$ (car $180 \\div 3 = 60$)."
-      },
-      {
-        "q": "Que sait-on des angles à la base d’un triangle isocèle ?",
-        "a": "Ils ont la même mesure."
-      },
-      {
-        "q": "Peut-on construire un triangle de côtés $2\\text{ cm}$, $3\\text{ cm}$ et $6\\text{ cm}$ ?",
-        "a": "Non, car $2 + 3 = 5 < 6$."
-      },
-      {
-        "q": "Quel est le centre du cercle circonscrit à un triangle ?",
-        "a": "Le point de concours des trois médiatrices de ses côtés."
-      }
+      { "q": "Quelle est la somme des angles d’un triangle ?", "a": "$180^\\circ$." },
+      { "q": "Combien mesure chaque angle d’un triangle équilatéral ?", "a": "$60^\\circ$ (car $180 \\div 3 = 60$)." },
+      { "q": "Que sait-on des angles à la base d’un triangle isocèle ?", "a": "Ils ont la même mesure." },
+      { "q": "Peut-on construire un triangle de côtés $2\\text{ cm}$, $3\\text{ cm}$ et $6\\text{ cm}$ ?", "a": "Non, car $2 + 3 = 5 < 6$." },
+      { "q": "Quel est le centre du cercle circonscrit à un triangle ?", "a": "Le point de concours des trois médiatrices de ses côtés." }
     ]
   },
   "6G5": {
@@ -1409,7 +1335,8 @@ window.MATHS_COURSES_6E = {
       "Dénombrer les cubes d’un assemblage, y compris les cubes cachés.",
       "Associer un assemblage de cubes à ses vues de dessus, de face et de côté.",
       "Reconnaître et décrire le cube et le pavé droit : faces, arêtes, sommets.",
-      "Reconnaître un patron de cube ou de pavé droit."
+      "Reconnaître un patron de cube ou de pavé droit.",
+      "Reconnaître et nommer les solides usuels : prisme droit, pyramide, cylindre, cône, boule."
     ],
     "keyPoints": [
       {
@@ -1427,6 +1354,14 @@ window.MATHS_COURSES_6E = {
       {
         "title": "4. Patrons",
         "content": "Un **patron** d'un solide est une figure plane qui, après pliage, permet de reconstituer le solide sans superposition.\nUn patron de cube est formé de **6 carrés** ; il existe 11 patrons de cube différents. Une « croix » de 6 carrés en est un exemple ; une ligne de 6 carrés n'en est pas un."
+      },
+      {
+        "title": "5. Autres solides usuels",
+        "content": "• **Prisme droit** : deux bases polygonales superposables et parallèles, reliées par des faces latérales rectangulaires (le pavé droit en est un).\n• **Pyramide** : une base polygonale et des faces latérales triangulaires qui se rejoignent en un même point, le **sommet** de la pyramide.\n• **Cylindre** : deux disques superposables reliés par une surface courbe (une boîte de conserve).\n• **Cône** : un disque de base et une surface courbe qui se termine en pointe (un cornet de glace).\n• **Boule** : tous les points situés à une distance inférieure ou égale au rayon d'un centre (la **sphère** est sa surface).\nLes solides qui ont uniquement des faces planes (cube, pavé, prisme, pyramide) sont des **polyèdres**."
+      },
+      {
+        "title": "À retenir",
+        "content": "• Pavé droit et cube : $6$ faces, $12$ arêtes, $8$ sommets.\n• Compter les cubes méthodiquement (étages ou colonnes), sans oublier les cubes cachés.\n• Un patron se replie sans superposition ; il existe $11$ patrons de cube."
       }
     ],
     "methods": [
@@ -1453,26 +1388,12 @@ window.MATHS_COURSES_6E = {
       "⚠️ Six carrés assemblés ne forment pas toujours un patron de cube : certaines faces se superposeraient au pliage."
     ],
     "flashcards": [
-      {
-        "q": "Combien un cube a-t-il de faces, d’arêtes et de sommets ?",
-        "a": "6 faces, 12 arêtes, 8 sommets."
-      },
-      {
-        "q": "Comment dessine-t-on les arêtes cachées en perspective cavalière ?",
-        "a": "En pointillés."
-      },
-      {
-        "q": "Combien de petits cubes forment un grand cube de 4 cubes d’arête ?",
-        "a": "$4 \\times 4 \\times 4 = 64$."
-      },
-      {
-        "q": "Quelle est la forme des faces d’un pavé droit ?",
-        "a": "Des rectangles (des carrés dans le cas du cube)."
-      },
-      {
-        "q": "Qu’est-ce qu’un patron d’un solide ?",
-        "a": "Une figure plane qui, une fois pliée, permet de fabriquer le solide."
-      }
+      { "q": "Combien un cube a-t-il de faces, d’arêtes et de sommets ?", "a": "6 faces, 12 arêtes, 8 sommets." },
+      { "q": "Comment dessine-t-on les arêtes cachées en perspective cavalière ?", "a": "En pointillés." },
+      { "q": "Combien de petits cubes forment un grand cube de 4 cubes d’arête ?", "a": "$4 \\times 4 \\times 4 = 64$." },
+      { "q": "Quelle est la forme des faces d’un pavé droit ?", "a": "Des rectangles (des carrés dans le cas du cube)." },
+      { "q": "Qu’est-ce qu’un patron d’un solide ?", "a": "Une figure plane qui, une fois pliée, permet de fabriquer le solide." },
+      { "q": "Quelle est la différence entre un prisme droit et une pyramide ?", "a": "Un prisme a **deux** bases et des faces latérales rectangulaires ; une pyramide a **une** base et des faces latérales triangulaires qui se rejoignent au sommet." }
     ]
   }
 };
@@ -1517,7 +1438,7 @@ window.MATHS_EXERCISES_6E = {
       "options": ["$\\frac{4}{100}$", "$40\\,\\%$", "$\\frac{40}{100}$", "$\\frac{2}{5}$"],
       "correctIndex": 0, "answer": "$\\frac{4}{100}$",
       "hint1": "$0{,}4$ = 4 dixièmes = 40 centièmes.",
-      "hint2": "$\\frac{4}{100}$ vaut 4 centièmes.",
+      "hint2": "Convertis chaque écriture en nombre décimal ; par exemple $\\frac{2}{5} = \\frac{4}{10}$.",
       "solution": "$0{,}4 = \\frac{4}{10} = \\frac{40}{100} = 40\\,\\% = \\frac{2}{5}$. En revanche $\\frac{4}{100} = 0{,}04$ : c'est l'intrus.",
       "skill": "Représenter"
     },
@@ -1550,7 +1471,7 @@ window.MATHS_EXERCISES_6E = {
       "title": "Arrondir au dixième",
       "statement": "Donner l'arrondi au dixième de $15{,}362$.",
       "type": "exact", "answer": "15,4", "placeholder": "Ex : 15,4",
-      "hint1": "Encadre au dixième : $15{,}3 < 15{,}362 < 15{,}4$.",
+      "hint1": "Encadre $15{,}362$ entre deux nombres consécutifs ayant un seul chiffre après la virgule.",
       "hint2": "Regarde le chiffre des centièmes : $6$.",
       "solution": "Le chiffre des centièmes est $6 \\ge 5$, donc on arrondit à la valeur supérieure : $15{,}362 \\approx 15{,}4$.",
       "skill": "Calculer"
@@ -1759,7 +1680,7 @@ window.MATHS_EXERCISES_6E = {
       "answer": "3/7",
       "placeholder": "Ex: 2/9",
       "hint1": "Par définition, $\\frac{a}{b}$ est le nombre qui, multiplié par $b$, donne $a$.",
-      "hint2": "Ici $b = 7$ et $a = 3$.",
+      "hint2": "Par exemple, $5 \\times \\frac{2}{5} = 2$.",
       "solution": "Le nombre qui, multiplié par $7$, donne $3$ est le quotient de $3$ par $7$ :\n$$7 \\times \\frac{3}{7} = 3$$\nLa réponse est $\\frac{3}{7}$.",
       "skill": "Chercher"
     },
@@ -1779,7 +1700,7 @@ window.MATHS_EXERCISES_6E = {
       "correctIndex": 0,
       "answer": "$\\frac{7}{5}$",
       "hint1": "Chaque graduation représente un cinquième de l'unité.",
-      "hint2": "On compte $7$ cinquièmes.",
+      "hint2": "$A$ est au-delà de la $5^{\\text{e}}$ graduation, donc après $1$ : son abscisse est supérieure à $1$.",
       "solution": "Chaque petite graduation vaut $\\frac{1}{5}$. Le point $A$ est à $7$ graduations de l'origine, donc son abscisse est $\\frac{7}{5}$ (soit $1 + \\frac{2}{5}$, entre $1$ et $2$).",
       "skill": "Représenter"
     },
@@ -1812,7 +1733,7 @@ window.MATHS_EXERCISES_6E = {
       "correctIndex": 0,
       "answer": "$<$",
       "hint1": "$8$ est un multiple de $4$ : écris $\\frac{3}{4}$ avec le dénominateur $8$.",
-      "hint2": "$\\frac{3}{4} = \\frac{6}{8}$.",
+      "hint2": "$\\frac{3}{4} = \\frac{6}{8}$ : il reste à comparer les numérateurs.",
       "solution": "$\\frac{3}{4} = \\frac{3 \\times 2}{4 \\times 2} = \\frac{6}{8}$. Comme $5 < 6$, on a $\\frac{5}{8} < \\frac{6}{8}$, donc :\n$$\\frac{5}{8} < \\frac{3}{4}$$",
       "skill": "Raisonner"
     },
@@ -1890,7 +1811,7 @@ window.MATHS_EXERCISES_6E = {
       "answer": "11/8",
       "placeholder": "Ex: 9/10",
       "hint1": "$8$ est un multiple de $4$ : écris $\\frac{3}{4}$ en huitièmes.",
-      "hint2": "$\\frac{3}{4} = \\frac{6}{8}$.",
+      "hint2": "$\\frac{3}{4} = \\frac{6}{8}$ : il reste à additionner les numérateurs.",
       "solution": "$$C = \\frac{3 \\times 2}{4 \\times 2} + \\frac{5}{8} = \\frac{6}{8} + \\frac{5}{8} = \\frac{11}{8}$$",
       "skill": "Calculer"
     },
@@ -2148,7 +2069,7 @@ window.MATHS_EXERCISES_6E = {
       "correctIndex": 0,
       "answer": "Impossible",
       "hint1": "Le nombre $7$ figure-t-il sur une face du dé ?",
-      "hint2": "Aucune face ne porte le nombre 7.",
+      "hint2": "Un événement est « impossible » s'il ne peut jamais se produire, « certain » s'il se produit toujours.",
       "solution": "Aucune face ne porte le nombre $7$ : l'événement ne peut pas se produire, il est **impossible** (sa probabilité vaut $0$).",
       "skill": "Communiquer"
     },
@@ -2240,7 +2161,7 @@ window.MATHS_EXERCISES_6E = {
       "correctIndex": 0,
       "answer": "répéter 4 fois",
       "hint1": "On cherche un bloc de la catégorie « Contrôle ».",
-      "hint2": "Le bloc contient le mot « répéter ».",
+      "hint2": "Élimine les blocs de mouvement, d'apparence et d'événement.",
       "solution": "Le bloc « répéter 4 fois » est une **boucle** : les instructions placées à l'intérieur sont exécutées 4 fois.",
       "skill": "Communiquer"
     },
@@ -2390,7 +2311,7 @@ window.MATHS_EXERCISES_6E = {
       "correctIndex": 0,
       "answer": "Son aire vaut $25\\text{ cm}^2$ et son périmètre $20\\text{ cm}$.",
       "hint1": "Aire du carré : $c \\times c$ ; périmètre : $4 \\times c$.",
-      "hint2": "$5 \\times 5 = 25$ et $4 \\times 5 = 20$.",
+      "hint2": "Calcule $5 \\times 5$ et $4 \\times 5$, puis vérifie aussi les unités ($\\text{cm}^2$ pour l'aire, $\\text{cm}$ pour le périmètre).",
       "solution": "Aire : $5 \\times 5 = 25\\text{ cm}^2$. Périmètre : $4 \\times 5 = 20\\text{ cm}$.",
       "skill": "Raisonner"
     },
@@ -2695,7 +2616,7 @@ window.MATHS_EXERCISES_6E = {
       "correctIndex": 0,
       "answer": "La droite perpendiculaire à $[AB]$ passant par son milieu",
       "hint1": "Deux conditions sont nécessaires.",
-      "hint2": "Perpendiculaire ET milieu.",
+      "hint2": "Une condition porte sur l'angle formé avec $[AB]$, l'autre sur un point particulier de $[AB]$.",
       "solution": "La médiatrice de $[AB]$ est la droite **perpendiculaire** à $[AB]$ qui passe par son **milieu**.",
       "skill": "Communiquer"
     },
@@ -2885,7 +2806,7 @@ window.MATHS_EXERCISES_6E = {
       "correctIndex": 0,
       "answer": "$4\\text{ cm}$, $5\\text{ cm}$ et $7\\text{ cm}$",
       "hint1": "La plus grande longueur doit être strictement inférieure à la somme des deux autres.",
-      "hint2": "$4 + 5 = 9 > 7$.",
+      "hint2": "Pour chaque proposition, compare la somme des deux plus petites longueurs à la plus grande ; attention au cas d'égalité.",
       "solution": "$4 + 5 = 9 > 7$ : constructible. Pour les autres : $2 + 3 = 5 < 6$, $3 + 4 = 7$ (points alignés), $1 + 5 = 6 < 8$.",
       "skill": "Raisonner"
     },

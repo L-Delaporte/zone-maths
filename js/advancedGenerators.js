@@ -236,21 +236,168 @@
       };
     },
 
-    /** Question à réponse libre (answer en texte brut, sans LaTeX) */
-    makeExact(chapterId, tier, title, skill, statement, answer, hint1, hint2, solution) {
-      return {
-        id: `${chapterId}-exact-${Date.now()}-${Math.floor(Math.random() * 100000)}`,
+    /**
+     * Question à saisie exacte (answer en texte brut, sans LaTeX : "12", "-7/3", "2,5", "(1;-2)", "3,2×10^-4").
+     * La saisie est corrigée par MathsAdaptiveEngine.validateAnswer (comparaison numérique, couples, oui/non).
+     * opts.instruction : consigne de saisie ajoutée à l'énoncé (par défaut : déduite de la forme de la réponse) ;
+     * opts.instruction === false : aucune consigne ajoutée ; opts.answerTex : réponse en LaTeX (affichage).
+     */
+    makeExact(chapterId, tier, title, skill, statement, answer, hint1, hint2, solution, opts) {
+      const o = opts || {};
+      const instr = o.instruction === false ? '' : (o.instruction || U.exactInstruction(String(answer), statement));
+      const q = {
+        // « -gen- » : l'identifiant n'est pas mémorisé dans la progression (cf. adaptiveEngine)
+        id: `${chapterId}-gen-x-${Date.now()}-${Math.floor(Math.random() * 100000)}`,
         chapterId,
         tier,
         type: 'exact',
         title,
         skill,
-        statement,
-        answer,
+        statement: instr ? `${statement}\n\n*${instr}*` : statement,
+        answer: String(answer),
         hint1,
         hint2,
         solution
       };
+      if (o.answerTex) q.answerTex = o.answerTex;
+      return q;
+    },
+
+    // ---------------------------------------------------------------------
+    // Saisie exacte : conversion des QCM à réponse numérique
+    // ---------------------------------------------------------------------
+
+    /**
+     * Part de questions converties en saisie exacte, par palier, lorsque la réponse s'y prête.
+     * forceMode : null (aléatoire), 'exact' (toujours convertir si possible), 'mcq' (jamais) — utilisé par les tests.
+     */
+    EXACT_RATE: { 1: 0.8, 2: 0.8, 3: 0.75, 4: 0.55 },
+    forceMode: null,
+
+    /** Énoncés conceptuels (choix parmi des propositions) : jamais convertis automatiquement */
+    CONCEPTUAL_RE: /parmi|laquelle|lequel|lesquel|proposition|affirmation|ci-dessous|quelle (écriture|expression|égalité|relation|forme|méthode|formule|est la bonne)|\bvraie?s?\b|\bfau(x|sses?)\b|cocher|choisir|correcte?s?\b|exacte?s?\s*\?/i,
+
+    /**
+     * Réponse LaTeX simple -> saisie élève, ou null si la réponse n'est pas saisissable sans ambiguïté.
+     * "$x = -\frac{3}{4}$" -> "-3/4" ; "$2{,}5$" -> "2,5" ; "$12\,345$" -> "12345" ; "$A(2 ; -3)$" -> "(2;-3)" ;
+     * "$3{,}2 \times 10^{-4}$" -> "3,2×10^-4" ; "$P(X = 2) \approx 0{,}271$" -> "0,271" (approx = true).
+     */
+    texToInput(tex) {
+      let s = String(tex).trim();
+      if (!/^\$[^$]+\$$/.test(s)) return null;
+      s = s.slice(1, -1).replace(/\\[dt]frac/g, '\\frac').replace(/\\left|\\right/g, '').replace(/\\[,;!: ]|~/g, ' ').replace(/\s+/g, ' ').trim();
+      // membre de droite après le dernier « = » ou « \approx » de premier niveau
+      const parts = s.split(/\s*(?:=|\\approx)\s*/);
+      const approx = /\\approx/.test(s);
+      let r = parts[parts.length - 1].trim();
+      // « 3x - y + 6 = 0 » est une équation, pas une valeur : membre de gauche avec + ou - de premier niveau
+      const topLevelOp = (t) => {
+        let depth = 0;
+        for (let i = 0; i < t.length; i++) {
+          const c = t[i];
+          if ('({['.includes(c)) depth++;
+          else if (')}]'.includes(c)) depth--;
+          else if (depth === 0 && (c === '+' || c === '-') && i > 0 && /\S/.test(t.slice(0, i))) return true;
+        }
+        return false;
+      };
+      if (parts.slice(0, -1).some((p) => topLevelOp(p.trim()) || /[<>]|\\[lg]e/.test(p))) return null;
+      // « y = 3 » : équation de droite / de tangente, pas une valeur
+      if (parts.length > 1 && /^[yz]$/.test(parts[0].trim())) return null;
+      const num = (t) => {
+        t = t.trim();
+        let m;
+        if ((m = t.match(/^([+-]?)\s*\\frac\{(\d+)\}\{(\d+)\}$/))) return `${m[1] === '-' ? '-' : ''}${m[2]}/${m[3]}`;
+        if ((m = t.match(/^\\frac\{(-\d+)\}\{(\d+)\}$/))) return `${m[1]}/${m[2]}`;
+        if ((m = t.match(/^([+-]?)\s*(\d+(?:\s\d{3})*)(?:\{,\}|,)?(\d*)$/))) {
+          const ip = m[2].replace(/\s/g, '');
+          return `${m[1] === '-' ? '-' : ''}${ip}${m[3] ? ',' + m[3] : ''}`;
+        }
+        return null;
+      };
+      let out = null;
+      let m;
+      if ((m = r.match(/^(?:[A-Za-z](?:_\{?\w+\}?)?'*|\\vec\{?\w+\}?|\\overrightarrow\{\w+\})?\s*\((.*)\)$/)) && m[1].includes(';')) {
+        const comps = m[1].split(';').map(num);
+        if (comps.length >= 2 && comps.length <= 4 && comps.every((c) => c !== null)) out = `(${comps.join(';')})`;
+      } else if ((m = r.match(/^(.*?)\s*\\times\s*10\^\{?(-?\d+)\}?$/))) {
+        const mant = num(m[1]);
+        if (mant !== null && !mant.includes('/')) out = `${mant}×10^${m[2]}`;
+      } else {
+        out = num(r);
+      }
+      if (out === null) return null;
+      return { input: out, approx };
+    },
+
+    /** Consigne de saisie déduite de la forme de la réponse attendue */
+    exactInstruction(input, statement) {
+      const s = String(input);
+      if (/^\(.*;.*\)$/.test(s)) {
+        const n = s.split(';').length;
+        const letters = ['a', 'b', 'c', 'd'].slice(0, n).join(' ; ');
+        return `Saisir la réponse sous la forme (${letters}), par exemple (2;-1/3).`;
+      }
+      if (/×10\^/.test(s)) return 'Saisir le résultat en écriture scientifique, par exemple 3,2×10^-4 ou 3,2*10^-4.';
+      if (/arrondi|près|approch|décimale/i.test(statement || '')) return 'Saisir la valeur arrondie demandée (virgule décimale), par exemple 3,14.';
+      if (/^-?\d+$/.test(s) && /combien|nombre de|dimension|rang|ordre|degré|cardinal/i.test(statement || '')) return 'Saisir un nombre entier.';
+      return 'Saisir la valeur exacte : entier, décimal ou fraction irréductible (par exemple -7/3).';
+    },
+
+    /**
+     * Convertit un QCM en question à saisie exacte. L'énoncé QCM d'origine est conservé dans q.mcq
+     * (contrôles automatiques, éventuel retour au QCM). input : saisie attendue (texte brut).
+     */
+    toExact(q, input, instruction, explicit) {
+      const ex = Object.assign({}, q);
+      ['options', 'choices', 'correctIndex', 'exactAnswer', 'keepMcq', 'exactInstruction'].forEach((k) => delete ex[k]);
+      ex.type = 'exact';
+      ex.mcq = { statement: q.statement, answer: q.answer, options: q.options };
+      if (explicit) ex.mcq.explicit = true; // saisie fournie par le générateur (q.exactAnswer)
+      ex.answerTex = q.answer;
+      ex.answer = String(input);
+      ex.id = String(q.id || `${q.chapterId}-gen-${Date.now()}`).replace('-gen-', '-gen-x-');
+      const instr = instruction || U.exactInstruction(ex.answer, q.statement);
+      ex.statement = `${q.statement}\n\n*${instr}*`;
+      return ex;
+    },
+
+    /**
+     * Politique de saisie exacte appliquée à toute question générée (lycée, licence, CAPES) :
+     * un QCM dont la réponse est un nombre, une fraction, un couple/triplet de nombres ou une écriture
+     * scientifique devient, avec la probabilité EXACT_RATE[tier], une question à saisie.
+     * Le générateur peut piloter la conversion : q.exactAnswer (saisie attendue explicite, prioritaire),
+     * q.exactInstruction (consigne), q.keepMcq = true (question conceptuelle : toujours QCM).
+     */
+    applyExactPolicy(q, tier) {
+      if (!q || q.type !== 'mcq') return q;
+      const clean = (x) => { ['exactAnswer', 'keepMcq', 'exactInstruction'].forEach((k) => delete x[k]); return x; };
+      if (q.keepMcq || U.forceMode === 'mcq') return clean(q);
+      let input = null;
+      const explicit = q.exactAnswer !== undefined && q.exactAnswer !== null;
+      if (q.exactAnswer !== undefined && q.exactAnswer !== null) {
+        input = String(q.exactAnswer);
+      } else {
+        if (U.CONCEPTUAL_RE.test(String(q.statement).replace(/\$[^$]*\$/g, ' '))) return clean(q);
+        const r = U.texToInput(q.answer);
+        if (!r) return clean(q);
+        // valeur approchée : uniquement si l'énoncé précise l'arrondi
+        if (r.approx && !/arrondi|près|approch|décimale/i.test(q.statement)) return clean(q);
+        input = r.input;
+        // validateAnswer compare à 1e-4 près : un distracteur aussi proche serait accepté
+        const val = (t) => { const m = String(t).match(/^(-?\d+)\/(\d+)$/); return m ? +m[1] / +m[2] : parseFloat(String(t).replace(',', '.')); };
+        const v0 = val(input);
+        if (Number.isFinite(v0) && (Math.abs(v0) < 1e-3 && v0 !== 0)) return clean(q);
+        if (Number.isFinite(v0) && (q.options || []).some((o) => {
+          if (o === q.answer) return false;
+          const ro = U.texToInput(o);
+          const vo = ro ? val(ro.input) : NaN;
+          return Number.isFinite(vo) && Math.abs(vo - v0) < 1e-4;
+        })) return clean(q);
+      }
+      const rate = U.EXACT_RATE[tier] !== undefined ? U.EXACT_RATE[tier] : 0.6;
+      if (U.forceMode !== 'exact' && Math.random() >= rate) return clean(q);
+      return U.toExact(q, input, q.exactInstruction, explicit);
     }
   };
   window.MathsGenUtils = U;
@@ -265,6 +412,17 @@ window.MathsAdvancedGenerators = {
    */
   generate(chapterId, tier = 1) {
     const t = (tier >= 1 && tier <= 4) ? parseInt(tier, 10) : 1;
+    // Politique de saisie exacte (cf. MathsGenUtils.applyExactPolicy) appliquée à toute question générée
+    return this.applyExactPolicy(this._generateRaw(chapterId, t), t);
+  },
+
+  /** Générateur brut (QCM ou saisie) sans politique de saisie exacte */
+  _generateRaw(chapterId, t) {
+    // CAPES : méthodes gen_capes_01… (renvoient null si absentes : repli sur la banque statique)
+    if (/^capes-/.test(chapterId)) {
+      const fn = this['gen_' + chapterId.replace(/-/g, '_')];
+      return typeof fn === 'function' ? fn.call(this, t) : null;
+    }
 
     switch (chapterId) {
       // =========================================================================
@@ -337,6 +495,12 @@ window.MathsAdvancedGenerators = {
 
 
   generateL1_LOG(tier) {
+    return this._L1tag(this._L1LOG_gen(tier));
+  },
+
+
+  _L1LOG_gen(tier) {
+    if (tier === 2 && Math.random() < 0.3) return this._L1LOG_homog();
     if (tier === 1 && Math.random() < 0.75) return this._L1LOG_neg();
     if (tier === 3 && Math.random() < 0.8) return this._L1LOG_equiv();
     if (tier === 4 && Math.random() < 0.8) return this._L1LOG_images();
@@ -366,7 +530,7 @@ window.MathsAdvancedGenerators = {
           `$A^{-1} = ${pre(-det)}${M(d, -b, -c, a)}$`,
           `$A^{-1} = ${pre(det)}${M(-d, b, c, -a)}$`
         ];
-        return this.makeMcq(
+        return this._L1x(this.makeMcq(
           'L1-MAT', 1, "Calcul de l'inverse d'une matrice 2x2",
           "Calculer l'inverse par la formule explicite $A^{-1} = \\frac{1}{\\det(A)} \\begin{pmatrix} d & -b \\\\ -c & a \\end{pmatrix}$",
           `Calculer l'inverse de la matrice $A = ${M(a, b, c, d)}$.`,
@@ -375,7 +539,7 @@ window.MathsAdvancedGenerators = {
           "Formule générale 2x2 : $A^{-1} = \\frac{1}{ad - bc} \\begin{pmatrix} d & -b \\\\ -c & a \\end{pmatrix}$.",
           `Calcule d'abord le déterminant : $\\det(A) = ${this.paren(a)} \\times ${this.paren(d)} - ${this.paren(b)} \\times ${this.paren(c)} = ${det}$.`,
           `On a $\\det(A) = ${this.paren(a)} \\times ${this.paren(d)} - ${this.paren(b)} \\times ${this.paren(c)} = ${det} \\neq 0$. Par la formule de la comatrice en dimension 2, $A^{-1} = ${pre(det)}${M(d, -b, -c, a)}$.`
-        );
+        ), this._L1tup([[d, det], [-b, det], [-c, det], [a, det]]), 'Saisir les coefficients (a ; b ; c ; d) de $A^{-1} = \\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}$, par exemple (1/2;-1;0;3/4).');
       } else if (variant === 'inv_3x3_diag') {
         // Demande explicite : Inversion sur des matrices 3x3 (matrice diagonale)
         const d1 = this.randChoice([2, 3, 4, -2]);
@@ -392,7 +556,7 @@ window.MathsAdvancedGenerators = {
           `$D^{-1} = \\begin{pmatrix} 1 & 0 & 0 \\\\ 0 & 1 & 0 \\\\ 0 & 0 & 1 \\end{pmatrix}$`,
           `$D^{-1} = \\begin{pmatrix} 0 & 0 & ${s1} \\\\ 0 & ${s2} & 0 \\\\ ${s3} & 0 & 0 \\end{pmatrix}$`
         ];
-        return this.makeMcq(
+        return this._L1x(this.makeMcq(
           'L1-MAT', 1, "Inverse d'une matrice diagonale 3x3",
           "Inverser une matrice diagonale en prenant l'inverse de chaque pivot diagonal",
           `Déterminer l'inverse de la matrice diagonale $D = \\begin{pmatrix} ${d1} & 0 & 0 \\\\ 0 & ${d2} & 0 \\\\ 0 & 0 & ${d3} \\end{pmatrix}$.`,
@@ -401,7 +565,7 @@ window.MathsAdvancedGenerators = {
           "Pour une matrice diagonale inversible, l'inverse est la matrice diagonale des inverses des coefficients.",
           "Chaque terme diagonal $d_i$ donne $1/d_i$ dans la matrice inverse.",
           `Une matrice diagonale est inversible ssi aucun élément diagonal n'est nul. Son inverse est obtenue en remplaçant chaque coefficient diagonal $d_{ii}$ par $\\frac{1}{d_{ii}}$. D'où $D^{-1} = \\begin{pmatrix} ${s1} & 0 & 0 \\\\ 0 & ${s2} & 0 \\\\ 0 & 0 & ${s3} \\end{pmatrix}$.`
-        );
+        ), this._L1tup([[1, d1], [1, d2], [1, d3]]), 'Saisir les coefficients diagonaux (a ; b ; c) de $D^{-1}$, de haut en bas, par exemple (1/2;-1;1/3).');
       } else if (variant === 'inv_3x3_triang') {
         // Demande explicite : Inverse d'une matrice triangulaire 3x3 par Gauss-Jordan
         const a = this.randChoice([1, 2, 3]);
@@ -414,7 +578,7 @@ window.MathsAdvancedGenerators = {
           `$T^{-1} = \\begin{pmatrix} 1 & ${-b} & ${prod} \\\\ 0 & 1 & ${-a} \\\\ 0 & 0 & 1 \\end{pmatrix}$`,
           `$T^{-1} = \\begin{pmatrix} -1 & ${-a} & ${prod} \\\\ 0 & -1 & ${-b} \\\\ 0 & 0 & -1 \\end{pmatrix}$`
         ];
-        return this.makeMcq(
+        return this._L1x(this.makeMcq(
           'L1-MAT', 1, "Inverse d'une matrice triangulaire unipotente 3x3",
           "Calculer l'inverse par élimination de Gauss-Jordan $(T \\mid I_3)$",
           `Calculer l'inverse de la matrice triangulaire $T = \\begin{pmatrix} 1 & ${a} & 0 \\\\ 0 & 1 & ${b} \\\\ 0 & 0 & 1 \\end{pmatrix}$.`,
@@ -423,7 +587,7 @@ window.MathsAdvancedGenerators = {
           "Applique les opérations élémentaires sur les lignes : $L_2 \\leftarrow L_2 - b L_3$ puis $L_1 \\leftarrow L_1 - a L_2$.",
           "Attention au terme en position (1,3) qui résulte de l'élimination : $-a(-b) = ab$.",
           `Par l'algorithme de Gauss-Jordan sur $(T \\mid I_3)$ : $L_2 \\leftarrow ${this.poly([[1, 'L_2'], [-b, 'L_3']])}$ donne en position $(2,3)$ de l'inverse $${-b}$. Puis $L_1 \\leftarrow ${this.poly([[1, 'L_1'], [-a, 'L_2']])}$ produit le coefficient $(${-a}) \\times ${this.paren(-b)} = ${prod}$ en position $(1, 3)$. D'où $T^{-1} = \\begin{pmatrix} 1 & ${-a} & ${prod} \\\\ 0 & 1 & ${-b} \\\\ 0 & 0 & 1 \\end{pmatrix}$.`
-        );
+        ), this._L1tup([-a, prod, -b]), 'Saisir les coefficients (a ; b ; c) de $T^{-1}$ situés au-dessus de la diagonale, aux positions (1, 2), (1, 3) et (2, 3), par exemple (-2;4;-1).');
       } else if (variant === 'det_2x2') {
         // Déterminant 2x2 et inversibilité : 50% inversible, 50% non inversible
         const wantInvertible = this.randChoice([true, false]);
@@ -475,7 +639,7 @@ window.MathsAdvancedGenerators = {
           ? `$\\det(A) = (${a})(${d}) - (${b})(${c}) = ${a * d} ${b * c >= 0 ? '- ' + b * c : '+ ' + (-b * c)} = ${det}$. Comme $\\det(A) \\neq 0$, la matrice est inversible.`
           : `$\\det(A) = (${a})(${d}) - (${b})(${c}) = ${a * d} ${b * c >= 0 ? '- ' + b * c : '+ ' + (-b * c)} = 0$. Comme son déterminant est nul (les lignes ou colonnes sont liées), la matrice n'est pas inversible.`;
 
-        return this.makeMcq(
+        return this._L1x(this.makeMcq(
           'L1-MAT', 1, "Déterminant 2x2 et condition d'inversibilité",
           "Calculer le déterminant d'une matrice 2x2 et tester son inversibilité",
           `Calculer le déterminant de la matrice $A = \\begin{pmatrix} ${a} & ${b} \\\\ ${c} & ${d} \\end{pmatrix}$. $A$ est-elle inversible ?`,
@@ -484,7 +648,7 @@ window.MathsAdvancedGenerators = {
           "Formule du déterminant 2x2 : $\\det = ad - bc$.",
           "Une matrice carrée est inversible si et seulement si son déterminant est non nul.",
           justification
-        );
+        ), String(det), 'Saisir la valeur de det(A).');
       } else if (variant === 'param_lambda') {
         const dVal = this.randChoice([2, 3, 4]);
         const l0 = this.randChoice([-3, -2, -1, 1, 2, 3, 4]);
@@ -524,7 +688,7 @@ window.MathsAdvancedGenerators = {
           `$\\det(T) = ${(d1 || 1) * (d2 || 2)}$, ${isInv3 ? 'inversible' : 'non inversible'}`
         ];
 
-        return this.makeMcq(
+        return this._L1x(this.makeMcq(
           'L1-MAT', 1, "Déterminant d'une matrice triangulaire 3x3",
           "Calculer le déterminant d'une matrice triangulaire comme produit des pivots",
           `Calculer le déterminant de la matrice triangulaire supérieure $T = \\begin{pmatrix} ${d1} & ${b12} & ${b13} \\\\ 0 & ${d2} & ${b23} \\\\ 0 & 0 & ${d3} \\end{pmatrix}$. $T$ est-elle inversible ?`,
@@ -533,10 +697,11 @@ window.MathsAdvancedGenerators = {
           "Le déterminant d'une matrice triangulaire est le produit de ses éléments diagonaux.",
           "$\\det(T) = d_1 \\times d_2 \\times d_3$.",
           `Pour une matrice triangulaire, le déterminant est le produit des termes diagonaux : $\\det(T) = (${d1}) \\times (${d2}) \\times (${d3}) = ${det3}$. Comme le déterminant est ${isInv3 ? 'non nul, la matrice est inversible' : 'nul, la matrice n\'est pas inversible'}.`
-        );
+        ), String(det3), 'Saisir la valeur de det(T).');
       }
     } else if (tier === 2) {
       // Palier 2 : Multiplication dans les deux sens (AB et BA), matrices 3x3 et matrices non carrées
+      if (Math.random() < 0.25) return this._L1MAT_system(2);
       const p2Variant = this.randChoice(['prod_2x2_sens', 'prod_3x3', 'prod_non_carre_calcul', 'prod_non_carre_taille', 'prod_mat_vect']);
 
       if (p2Variant === 'prod_2x2_sens') {
@@ -576,7 +741,7 @@ window.MathsAdvancedGenerators = {
         const wrongR21 = askBA ? ab21 : ba21;
         const wrongR22 = askBA ? ab22 : ba22;
 
-        return this.makeMcq(
+        return this._L1x(this.makeMcq(
           'L1-MAT', 2, `Multiplication matricielle non commutative ($${targetName}$)`,
           "Calculer un produit matriciel dans un ordre précis et constater la non-commutativité",
           `Soient $A = \\begin{pmatrix} ${a1} & ${b1} \\\\ ${c1} & ${d1} \\end{pmatrix}$ et $B = \\begin{pmatrix} ${a2} & ${b2} \\\\ ${c2} & ${d2} \\end{pmatrix}$. Calculer le produit $${targetName}$ (attention à l'ordre des facteurs !) :`,
@@ -589,7 +754,7 @@ window.MathsAdvancedGenerators = {
           `Attention à l'ordre des facteurs : pour $${targetName}$, la matrice ${askBA ? 'B' : 'A'} est à gauche et ${askBA ? 'A' : 'B'} est à droite.`,
           "Règle ligne par colonne : chaque coefficient est le produit scalaire d'une ligne de la matrice de gauche par une colonne de la matrice de droite.",
           `En calculant ligne par colonne pour $${targetName}$ : on trouve $\\begin{pmatrix} ${ansR11} & ${ansR12} \\\\ ${ansR21} & ${ansR22} \\end{pmatrix}$. Note bien que $${otherName} = \\begin{pmatrix} ${wrongR11} & ${wrongR12} \\\\ ${wrongR21} & ${wrongR22} \\end{pmatrix} \\neq ${targetName}$, illustrant la non-commutativité du produit matriciel.`
-        );
+        ), this._L1tup([ansR11, ansR12, ansR21, ansR22]), `Saisir les coefficients (a ; b ; c ; d) de $${targetName} = \\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}$, par exemple (3;-1;0;7).`);
       } else if (p2Variant === 'prod_3x3' || p2Variant === 'prod_non_carre_calcul') {
         // Produit de matrices 3x3 ou (2x3)(3x2), coefficients aléatoires
         const sq = p2Variant === 'prod_3x3';
@@ -606,7 +771,7 @@ window.MathsAdvancedGenerators = {
         const wrong3 = C.map((r) => r.map((x, j) => (j === 0 ? x + 1 : x)));
         const wrong4 = C.map((r, i) => r.map((x) => (i === n - 1 ? -x : x)));
         const term = (i, j) => A[i].map((x, k) => `${this.paren(x)} \\times ${this.paren(B[k][j])}`).join(' + ');
-        return this.makeMcq(
+        return this._L1x(this.makeMcq(
           'L1-MAT', 2, sq ? "Produit de matrices carrées 3x3" : "Produit de matrices rectangulaires non carrées",
           sq ? "Calculer le produit de deux matrices carrées d'ordre 3" : "Calculer le produit d'une matrice 2x3 par une matrice 3x2",
           `Calculer le produit matriciel $AB$ où $A = ${tex(A)}${sq ? '' : ' \\in \\mathcal{M}_{2,3}(\\mathbb{R})'}$ et $B = ${tex(B)}${sq ? '' : ' \\in \\mathcal{M}_{3,2}(\\mathbb{R})'}$.`,
@@ -615,7 +780,7 @@ window.MathsAdvancedGenerators = {
           sq ? "Applique la règle ligne par colonne : $c_{ij} = \\sum_{k=1}^3 a_{ik} b_{kj}$." : "Une matrice de taille $(2 \\times 3)$ multipliée par une matrice de taille $(3 \\times 2)$ donne une matrice $(2 \\times 2)$.",
           `Ligne 1 de $A$ par colonne 2 de $B$ : $${term(0, 1)} = ${C[0][1]}$.`,
           `Chaque coefficient est un produit ligne par colonne, par exemple $c_{11} = ${term(0, 0)} = ${C[0][0]}$ et $c_{${n}${pc}} = ${term(n - 1, pc - 1)} = ${C[n - 1][pc - 1]}$. D'où $AB = ${tex(C)}$.`
-        );
+        ), sq ? this._L1tup(C[1]) : this._L1tup([...C[0], ...C[1]]), sq ? 'Saisir les trois coefficients (a ; b ; c) de la deuxième ligne de $AB$, par exemple (3;-1;0).' : 'Saisir les coefficients (a ; b ; c ; d) de $AB = \\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}$, par exemple (3;-1;0;7).');
       } else if (p2Variant === 'prod_non_carre_taille') {
         // Format et compatibilité de matrices rectangulaires
         return this.makeMcq(
@@ -646,7 +811,7 @@ window.MathsAdvancedGenerators = {
         const r2 = c * x + d * y;
         const r3 = e * x + f * y;
 
-        return this.makeMcq(
+        return this._L1x(this.makeMcq(
           'L1-MAT', 2, "Produit matrice-vecteur (format rectangulaire)",
           "Multiplier une matrice $3 \\times 2$ par un vecteur colonne $2 \\times 1$",
           `Calculer le vecteur $AX$ où $A = \\begin{pmatrix} ${a} & ${b} \\\\ ${c} & ${d} \\\\ ${e} & ${f} \\end{pmatrix}$ et $X = \\begin{pmatrix} ${x} \\\\ ${y} \\end{pmatrix}$ :`,
@@ -662,13 +827,15 @@ window.MathsAdvancedGenerators = {
           "Chaque ligne de $A$ est multipliée par le vecteur colonne $X$.",
           `$(3 \\times 2) \\times (2 \\times 1) = (3 \\times 1)$.`,
           `On effectue le produit ligne par colonne : ligne 1 : $${this.paren(a)} \\times ${this.paren(x)} + ${this.paren(b)} \\times ${this.paren(y)} = ${r1}$, ligne 2 : $${this.paren(c)} \\times ${this.paren(x)} + ${this.paren(d)} \\times ${this.paren(y)} = ${r2}$, ligne 3 : $${this.paren(e)} \\times ${this.paren(x)} + ${this.paren(f)} \\times ${this.paren(y)} = ${r3}$. D'où $AX = \\begin{pmatrix} ${r1} \\\\ ${r2} \\\\ ${r3} \\end{pmatrix}$.`
-        );
+        ), this._L1tup([r1, r2, r3]), 'Saisir les coordonnées (a ; b ; c) du vecteur colonne $AX$, de haut en bas, par exemple (3;-1;0).');
       }
     } else if (tier === 3) {
       // Palier 3 : Variété de questions (Pivot de Gauss, Puissances, Trace, Transposition, Rang)
-      const p3Variant = this.randChoice(['systeme_3x3_echelonne', 'puissance_nilpotente', 'puissance_diagonale', 'transposition_symetrie', 'trace_commutateur', 'rang_echelonnee']);
+      const p3Variant = this.randChoice(['systeme_3x3_echelonne', 'systeme_3x3_echelonne', 'puissance_nilpotente', 'puissance_diagonale', 'transposition_symetrie', 'trace_commutateur', 'rang_echelonnee']);
+      if (p3Variant === 'rang_echelonnee') return this._L1MAT_rank();
 
-      if (p3Variant === 'systeme_3x3_echelonne') {
+      if (p3Variant === 'systeme_3x3_echelonne') return this._L1MAT_system(3);
+      if (p3Variant === 'legacy_echelonne') {
         // Résolution d'un système triangulaire échelonné 3x3 par substitution remontante
         const z = this.randChoice([2, 3, -1]);
         const y = this.randChoice([1, 2, -2]);
@@ -694,20 +861,20 @@ window.MathsAdvancedGenerators = {
         );
       } else if (p3Variant === 'puissance_nilpotente') {
         const a = this.randChoice([2, 3, 4, 5, -1, -2, -3]);
-        return this.makeMcq(
+        const n = this.randChoice([10, 12, 15, 20, 25, 50, 100]);
+        const up = this.randInt(0, 1) === 1;
+        const M = (x, y, z, w) => `\\begin{pmatrix} ${x} & ${y} \\\\ ${z} & ${w} \\end{pmatrix}`;
+        const P = (v) => (up ? M(1, v, 0, 1) : M(1, 0, v, 1));
+        return this._L1x(this.makeMcq(
           'L1-MAT', 3, "Puissance n-ième d'une matrice triangulaire unipotente",
           "Calculer $A^n$ par décomposition $A = I_2 + N$ avec matrice nilpotente",
-          `Soit $A = \\begin{pmatrix} 1 & ${a} \\\\ 0 & 1 \\end{pmatrix}$. Pour tout entier $n \\ge 1$, que vaut la puissance $A^n$ ?`,
-          `$A^n = \\begin{pmatrix} 1 & ${this.coefStr(a, 'n')} \\\\ 0 & 1 \\end{pmatrix}$`,
-          [
-            `$A^n = \\begin{pmatrix} 1 & ${this.paren(a)}^n \\\\ 0 & 1 \\end{pmatrix}$`,
-            `$A^n = \\begin{pmatrix} n & ${this.coefStr(a, 'n')} \\\\ 0 & n \\end{pmatrix}$`,
-            `$A^n = \\begin{pmatrix} 1 & n \\\\ 0 & 1 \\end{pmatrix}$`
-          ],
-          "Décompose $A = I_2 + N$ où $N = \\begin{pmatrix} 0 & a \\\\ 0 & 0 \\end{pmatrix}$ et calcule $N^2$.",
+          `Soit $A = ${P(a)}$. Calculer $A^{${n}}$.`,
+          `$A^{${n}} = ${P(n * a)}$`,
+          [`$A^{${n}} = ${M(n, up ? n * a : 0, up ? 0 : n * a, n)}$`, `$A^{${n}} = ${P(a)}$`, `$A^{${n}} = ${P((n - 1) * a)}$`, `$A^{${n}} = ${P(n + a)}$`],
+          `Décompose $A = I_2 + N$ où $N = ${P(a).replace(/\\begin\{pmatrix\} 1/, '\\begin{pmatrix} 0').replace(/1 \\end/, '0 \\end')}$, et calcule $N^2$.`,
           "Comme $I_2$ et $N$ commutent et $N^2 = 0$, la formule du binôme se réduit à $A^n = I_2 + nN$.",
-          `On écrit $A = I_2 + N$ avec $N = \\begin{pmatrix} 0 & ${a} \\\\ 0 & 0 \\end{pmatrix}$. On a $N^2 = \\begin{pmatrix} 0 & 0 \\\\ 0 & 0 \\end{pmatrix}$. Comme $I_2 N = N I_2$, par le binôme de Newton : $A^n = (I_2 + N)^n = I_2 + nN = \\begin{pmatrix} 1 & ${this.coefStr(a, 'n')} \\\\ 0 & 1 \\end{pmatrix}$.`
-        );
+          `On écrit $A = I_2 + N$ avec $N^2 = 0$. Comme $I_2 N = N I_2$, la formule du binôme donne $A^n = I_2 + nN$ pour tout $n \\ge 1$ (les termes en $N^k$, $k \\ge 2$, sont nuls). Pour $n = ${n}$ : $A^{${n}} = I_2 + ${n}N = ${P(n * a)}$.`
+        ), this._L1tup(up ? [1, n * a, 0, 1] : [1, 0, n * a, 1]), `Saisir les coefficients (a ; b ; c ; d) de $A^{${n}} = \\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}$, par exemple (1;-30;0;1).`);
       } else if (p3Variant === 'puissance_diagonale') {
         const a = this.randChoice([2, 3]);
         const b = this.randChoice([4, 5]);
@@ -796,7 +963,11 @@ window.MathsAdvancedGenerators = {
       }
     } else {
       // Palier 4 : Grand Bilan Universitaire (Inversion 3x3 Gauss-Jordan, Inverse det != 1, Polynôme annulateur, Système avec paramètre m, Binôme de Newton)
-      const p4Variant = this.randChoice(['bilan_inverse_3x3_gauss', 'bilan_inverse_2x2_det', 'bilan_polynome_annulateur', 'bilan_systeme_parametre', 'bilan_puissance_binome']);
+      const p4Variant = this.randChoice(['bilan_inverse_3x3_gauss', 'bilan_rang_parametre', 'bilan_polynome_annulateur', 'bilan_systeme_parametre', 'bilan_puissance_binome']);
+      if (p4Variant === 'bilan_rang_parametre') return this._L1MAT_rankParam();
+      if (p4Variant === 'bilan_polynome_annulateur') return this._L1MAT_annul();
+      if (p4Variant === 'bilan_puissance_binome') return this._L1MAT_binome();
+      if (p4Variant === 'bilan_systeme_parametre') return this._L1MAT_cramer();
 
       if (p4Variant === 'bilan_inverse_3x3_gauss') {
         // Inversion 3x3 par Gauss-Jordan : matrice triangulaire unipotente paramétrée (supérieure ou inférieure)
@@ -816,7 +987,7 @@ window.MathsAdvancedGenerators = {
         const steps = upper
           ? [`${op(2, c, 3)}$ : ligne 2 de droite $(0, 1, ${-c})$`, ...(b !== 0 ? [`${op(1, b, 3)}$ : ligne 1 de droite $(1, 0, ${-b})$`] : []), `${op(1, a, 2)}$ : ligne 1 de droite $(1, ${-a}, ${a * c - b})$`]
           : [`${op(2, a, 1)}$ : ligne 2 de droite $(${-a}, 1, 0)$`, ...(b !== 0 ? [`${op(3, b, 1)}$ : ligne 3 de droite $(${-b}, 0, 1)$`] : []), `${op(3, c, 2)}$ : ligne 3 de droite $(${a * c - b}, ${-c}, 1)$`];
-        return this.makeMcq(
+        return this._L1x(this.makeMcq(
           'L1-MAT', 4, "Inversion complète d'une matrice 3x3 (Gauss-Jordan)",
           "Appliquer l'algorithme complet de Gauss-Jordan $(A \\mid I_3) \\to (I_3 \\mid A^{-1})$",
           `Quelle est la matrice inverse de $A = ${tex(A)}$ obtenue par élimination de Gauss-Jordan ?`,
@@ -825,7 +996,7 @@ window.MathsAdvancedGenerators = {
           `La matrice est triangulaire ${upper ? 'supérieure' : 'inférieure'} à diagonale de 1 : élimine ${upper ? 'vers le haut, en partant de la dernière ligne' : 'vers le bas, en partant de la première ligne'}.`,
           'Attention au coefficient « coin » qui combine deux opérations successives.',
           `On forme $(A \\mid I_3)$ puis : ${steps.map((t, k) => `${k + 1}. $${t}`).join(' ; ')}. D'où $A^{-1} = ${tex(Ai)}$ (on vérifie $AA^{-1} = I_3$).`
-        );
+        ), upper ? this._L1tup([Ai[0][1], Ai[0][2], Ai[1][2]]) : this._L1tup([Ai[1][0], Ai[2][0], Ai[2][1]]), `Saisir les coefficients (a ; b ; c) de $A^{-1}$ situés ${upper ? 'au-dessus' : 'au-dessous'} de la diagonale, aux positions ${upper ? '(1, 2), (1, 3) et (2, 3)' : '(2, 1), (3, 1) et (3, 2)'}, par exemple (-2;4;-1).`);
       } else if (p4Variant === 'bilan_inverse_2x2_det') {
         const invCases = [
           {
@@ -1061,6 +1232,11 @@ window.MathsAdvancedGenerators = {
 
 
   generateL1_EV1(tier) {
+    return this._L1tag(this._L1EV1_gen(tier));
+  },
+
+
+  _L1EV1_gen(tier) {
     if (tier === 3 && Math.random() < 0.8) return this._L1EV1_dim();
     if (tier === 4 && Math.random() < 0.8) return this._L1EV1_grass();
     return this._L1EV1_legacy(tier);
@@ -1068,6 +1244,12 @@ window.MathsAdvancedGenerators = {
 
 
   generateL1_APP(tier) {
+    return this._L1tag(this._L1APP_gen(tier));
+  },
+
+
+  _L1APP_gen(tier) {
+    if (tier === 2 && Math.random() < 0.45) return this._L1APP_dims();
     if (tier === 2) return this._L1APP_ker();
     if (tier === 4 && Math.random() < 0.8) return this._L1APP_struct();
     return this._L1APP_legacy(tier);
@@ -1075,6 +1257,235 @@ window.MathsAdvancedGenerators = {
 
 
   generateL1_CMP(tier) {
+    const r = Math.random();
+    if (tier === 1) {
+      if (r < 0.3) return this._L1CMP_sqrt();
+      if (r < 0.6) return this._L1CMP_pow();
+    } else if (tier === 2) {
+      if (r < 0.35) return this._L1CMP_div();
+      if (r < 0.55) return this._L1CMP_deg3();
+    } else if (tier === 3) {
+      if (r < 0.3) return this._L1CMP_pgcd();
+      if (r < 0.6) return this._L1CMP_eq2();
+    } else if (r < 0.25) {
+      return this._L1CMP_reste();
+    } else if (r < 0.5) {
+      return this._L1CMP_realpoly();
+    }
+    return this._L1CMP_legacy(tier);
+  },
+
+
+  /** Nombre complexe a + ib en LaTeX (a, b entiers) */
+  _L1cx(a, b) {
+    if (b === 0) return String(a);
+    const ib = b === 1 ? 'i' : b === -1 ? '-i' : `${b}i`;
+    if (a === 0) return ib;
+    return `${a} ${b < 0 ? '-' : '+'} ${Math.abs(b) === 1 ? 'i' : `${Math.abs(b)}i`}`;
+  },
+
+
+  /** L1-CMP palier 1 : racines carrées d'un complexe sous forme algébrique */
+  _L1CMP_sqrt() {
+    let p; let q;
+    do { p = this.randInt(1, 6); q = this.randNonZero(-6, 6); } while (p === Math.abs(q));
+    const A = p * p - q * q; const B = 2 * p * q;
+    const z = this._L1cx(A, B);
+    const pm = (a, b) => `$\\pm(${this._L1cx(a, b)})$`;
+    return this._L1x(this.makeMcq(
+      'L1-CMP', 1, "Racines carrées d'un nombre complexe",
+      'Déterminer les racines carrées d\'un complexe sous forme algébrique',
+      `Déterminer les racines carrées dans $\\mathbb{C}$ de $Z = ${z}$, c'est-à-dire les complexes $w = a + ib$ tels que $w^2 = Z$.`,
+      pm(p, q),
+      [pm(Math.abs(q), q > 0 ? p : -p), pm(p, -q), pm(q, p), pm(A, B / 2), pm(p + 1, q)],
+      'Écris $w = a + ib$ : $w^2 = Z$ donne $a^2 - b^2 = \\text{Re}(Z)$ et $2ab = \\text{Im}(Z)$.',
+      'Ajoute l\'égalité des modules : $a^2 + b^2 = |Z|$.',
+      `$|Z| = \\sqrt{${A * A} + ${B * B}} = ${p * p + q * q}$. On résout $a^2 - b^2 = ${A}$, $a^2 + b^2 = ${p * p + q * q}$ : $a^2 = ${p * p}$ et $b^2 = ${q * q}$. Comme $2ab = ${B}$ ${B > 0 ? '> 0' : '< 0'}, $a$ et $b$ sont de ${B > 0 ? 'même signe' : 'signes contraires'} : les racines carrées de $Z$ sont $\\pm(${this._L1cx(p, q)})$.`
+    ), `(${p};${q})`, "Saisir (a ; b) pour la racine carrée a + ib de partie réelle positive, par exemple (2;-3).");
+  },
+
+
+  /** L1-CMP palier 1 : forme algébrique d'une puissance (forme exponentielle ou développement) */
+  _L1CMP_pow() {
+    const mul = (u, v) => [u[0] * v[0] - u[1] * v[1], u[0] * v[1] + u[1] * v[0]];
+    const pw = (u, n) => { let r = [1, 0]; for (let k = 0; k < n; k++) r = mul(r, u); return r; };
+    const unit = this.randInt(0, 2) > 0;
+    let z; let n; let sol;
+    if (unit) {
+      z = [this.randChoice([1, -1]), this.randChoice([1, -1])];
+      n = this.randInt(4, 12);
+      const k = z[0] === 1 ? (z[1] === 1 ? 1 : -1) : (z[1] === 1 ? 3 : -3);
+      // e^{i mπ/4} en LaTeX, fraction réduite
+      const ex = (m) => { const g = this.gcd(Math.abs(m), 4) || 4; const nu = Math.abs(m) / g; const de = 4 / g; const sg = m < 0 ? '-' : ''; if (m === 0) return 'e^{0}'; if (de === 1) return `e^{${sg}${nu === 1 ? '' : nu}i\\pi}`; return `e^{${sg}i\\frac{${nu === 1 ? '' : nu}\\pi}{${de}}}`; };
+      let m = ((k * n) % 8 + 8) % 8; if (m > 4) m -= 8;
+      const w = pw(z, n);
+      const mod = n % 2 === 0 ? `${2 ** (n / 2)}` : `${2 ** ((n - 1) / 2) === 1 ? '' : 2 ** ((n - 1) / 2)}\\sqrt{2}`;
+      sol = `$${this._L1cx(z[0], z[1])} = \\sqrt{2}\\,${ex(k)}$, donc $(${this._L1cx(z[0], z[1])})^{${n}} = (\\sqrt{2})^{${n}}\\,${ex(k * n)} = ${mod}\\,${ex(m)} = ${this._L1cx(w[0], w[1])}$`;
+    } else {
+      z = [this.randNonZero(-3, 3), this.randNonZero(-3, 3)];
+      n = this.randChoice([2, 3]);
+      const z2 = mul(z, z);
+      sol = n === 2
+        ? `$(${this._L1cx(z[0], z[1])})^2 = ${z[0] * z[0]} ${2 * z[0] * z[1] < 0 ? '-' : '+'} ${Math.abs(2 * z[0] * z[1])}i ${z[1] * z[1] ? '-' : '+'} ${z[1] * z[1]} = ${this._L1cx(z2[0], z2[1])}$ (car $i^2 = -1$)`
+        : `$(${this._L1cx(z[0], z[1])})^2 = ${this._L1cx(z2[0], z2[1])}$, puis $(${this._L1cx(z[0], z[1])})^3 = (${this._L1cx(z2[0], z2[1])})(${this._L1cx(z[0], z[1])}) = ${this._L1cx(...pw(z, 3))}$`;
+    }
+    const w = pw(z, n);
+    const C = (a, b) => `$(${this._L1cx(z[0], z[1])})^{${n}} = ${this._L1cx(a, b)}$`;
+    const wc = pw([z[0], -z[1]], n);
+    return this._L1x(this.makeMcq(
+      'L1-CMP', 1, "Forme algébrique d'une puissance",
+      'Passer de la forme exponentielle à la forme algébrique',
+      `Donner la forme algébrique de $(${this._L1cx(z[0], z[1])})^{${n}}$.`,
+      C(w[0], w[1]),
+      [C(wc[0], wc[1]), C(w[1], w[0]), C(-w[0], -w[1]), C(w[0], -w[1]), C(-w[1], -w[0]), C(2 * w[0], 2 * w[1])],
+      unit ? 'Écris le nombre sous forme exponentielle $re^{i\\theta}$ puis utilise $(re^{i\\theta})^n = r^n e^{in\\theta}$.' : 'Développe à l\'aide des identités remarquables (ou du binôme de Newton) en utilisant $i^2 = -1$.',
+      unit ? 'Le module vaut $\\sqrt{2}$ et l\'argument est un multiple impair de $\\frac{\\pi}{4}$.' : 'Pour une puissance $3$, calcule d\'abord le carré puis multiplie par le nombre.',
+      `${sol}.`
+    ), `(${w[0]};${w[1]})`, 'Saisir (a ; b) pour la forme algébrique a + ib, par exemple (-4;0).');
+  },
+
+
+  /** L1-CMP palier 2 : division euclidienne de polynômes (reste ou quotient) */
+  _L1CMP_div() {
+    const mulP = (P, Q) => { const r = new Array(P.length + Q.length - 1).fill(0); P.forEach((a, i) => Q.forEach((b, j) => { r[i + j] += a * b; })); return r; };
+    const addP = (P, Q) => { const n = Math.max(P.length, Q.length); const r = []; for (let k = 0; k < n; k++) r.push((P[P.length - n + k] || 0) + (Q[Q.length - n + k] || 0)); return r; };
+    // coefficients du plus haut degré au plus bas
+    const B = [1, this.randInt(-3, 3), this.randNonZero(-4, 4)];
+    const Q = this.randInt(0, 1) ? [1, this.randInt(-3, 3)] : [this.randChoice([1, 2]), this.randInt(-3, 3), this.randInt(-3, 3)];
+    let Rm; do { Rm = [this.randInt(-5, 5), this.randInt(-5, 5)]; } while (Rm[0] === 0 && Rm[1] === 0);
+    const A = addP(mulP(B, Q), Rm);
+    const P = (c) => this.polyX(c, 'X');
+    const askR = this.randInt(0, 2) > 0;
+    const target = askR ? Rm : Q;
+    const lbl = askR ? 'R' : 'Q';
+    const opt = (c) => `$${lbl}(X) = ${P(c)}$`;
+    const wrongR = addP(Rm, [0, B[2]]);
+    const dist = askR
+      ? [opt([-Rm[0], -Rm[1]]), opt([Rm[1], Rm[0]]), opt(wrongR), opt([Rm[0], Rm[1] + 1])]
+      : [opt(Q.map((c, k) => (k === Q.length - 1 ? c + 1 : c))), opt(Q.map((c, k) => (k ? -c : c))), opt([...Q.slice(0, -1), Q[Q.length - 1] - B[1]]), opt(Q.map((c, k) => (k === Q.length - 1 ? c - 1 : c))), opt([...Q.slice(0, -1), Q[Q.length - 1] + B[1]]), opt(Q.map((c, k) => (k === 0 ? c : c + 2)))];
+    const inst = askR ? 'Écrire $R(X) = aX + b$ et saisir (a ; b), par exemple (2;-3).' : (Q.length === 2 ? 'Écrire $Q(X) = aX + b$ et saisir (a ; b), par exemple (2;-3).' : 'Écrire $Q(X) = aX^2 + bX + c$ et saisir (a ; b ; c), par exemple (1;2;-3).');
+    return this._L1x(this.makeMcq(
+      'L1-CMP', 2, 'Division euclidienne de polynômes',
+      'Effectuer la division euclidienne de polynômes',
+      `Effectuer la division euclidienne de $A(X) = ${P(A)}$ par $B(X) = ${P(B)}$ : on écrit $A = BQ + R$ avec $\\deg R < 2$. Déterminer ${askR ? 'le reste $R$' : 'le quotient $Q$'}.`,
+      opt(target), dist,
+      'Divise le terme de plus haut degré de $A$ par celui de $B$ pour obtenir le premier terme du quotient, puis soustrais.',
+      `Le quotient est de degré $${A.length - 3}$ ; on s'arrête lorsque le reste est de degré strictement inférieur à $2$.`,
+      `La division donne $Q(X) = ${P(Q)}$ et $R(X) = ${P(Rm)}$. Vérification : $B(X)Q(X) = ${P(mulP(B, Q))}$, et en ajoutant $R(X)$ on retrouve $A(X) = ${P(A)}$.`
+    ), this._L1tup(askR ? Rm : Q), inst);
+  },
+
+
+  /** L1-CMP palier 2 : polynôme de degré 3 scindé à racines entières, une racine évidente donnée */
+  _L1CMP_deg3() {
+    let r1; let r2; let r3;
+    do { r1 = this.randChoice([1, -1, 2, -2]); r2 = this.randNonZero(-5, 5); r3 = this.randNonZero(-5, 5); } while (new Set([r1, r2, r3]).size < 3);
+    const c2 = -(r1 + r2 + r3); const c1 = r1 * r2 + r1 * r3 + r2 * r3; const c0 = -r1 * r2 * r3;
+    const P = this.polyX([1, c2, c1, c0], 'X');
+    const F = (a, b, c) => `$${[a, b, c].sort((u, v) => u - v).map((x) => this._L1fac(x)).join('')}$`;
+    const quo = this.polyX([1, c2 + r1, c1 + r1 * (c2 + r1)], 'X');
+    const sorted = [r1, r2, r3].sort((u, v) => u - v);
+    return this._L1x(this.makeMcq(
+      'L1-CMP', 2, "Factorisation d'un polynôme de degré 3 scindé",
+      'Factoriser un polynôme de degré 3 à racines entières',
+      `Factoriser dans $\\mathbb{R}[X]$ le polynôme $P(X) = ${P}$, sachant que $${r1}$ est une racine évidente.`,
+      F(r1, r2, r3),
+      [F(-r1, -r2, -r3), F(r1, -r2, -r3), F(r1, r2, -r3), F(-r1, r2, r3), F(r1, r1, r2 === -r1 ? r3 : r2)],
+      `Effectue la division euclidienne de $P(X)$ par $${this._L1fac(r1)}$ (ou identifie les coefficients).`,
+      'Factorise ensuite le quotient du second degré à l\'aide de son discriminant ou de la somme et du produit des racines.',
+      `$P(${r1}) = 0$ et la division de $P$ par $${this._L1fac(r1)}$ donne $P(X) = ${this._L1fac(r1)}(${quo})$. Le quotient a pour racines $${r2}$ et $${r3}$ (somme $${r2 + r3}$, produit $${r2 * r3}$), d'où $P(X) = ${F(r1, r2, r3).slice(1, -1)}$.`
+    ), this._L1tup(sorted), 'Saisir les trois racines (a ; b ; c) dans l\'ordre croissant, par exemple (-2;1;4).');
+  },
+
+
+  /** L1-CMP palier 3 : pgcd de deux polynômes scindés */
+  _L1CMP_pgcd() {
+    const rs = this.shuffleArray([-4, -3, -2, -1, 1, 2, 3, 4, 5]).slice(0, 4);
+    const [a, b, c, d] = rs;
+    const prod3 = (x, y, z) => this.polyX([1, -(x + y + z), x * y + x * z + y * z, -x * y * z], 'X');
+    const G = (x, y) => `$\\text{pgcd}(P, Q) = ${this.polyX([1, -(x + y), x * y], 'X')}$`;
+    return this._L1x(this.makeMcq(
+      'L1-CMP', 3, 'PGCD de deux polynômes',
+      'Effectuer la division euclidienne de polynômes et calculer un pgcd',
+      `Soient $P(X) = ${prod3(a, b, c)}$ et $Q(X) = ${prod3(a, b, d)}$. Sachant que $${a}$ et $${b}$ sont racines communes, déterminer le pgcd unitaire de $P$ et $Q$.`,
+      G(a, b),
+      [G(-a, -b), G(a, c), `$\\text{pgcd}(P, Q) = ${this._L1fac(a)}$`, `$\\text{pgcd}(P, Q) = 1$`, G(c, d)],
+      'Le pgcd unitaire de deux polynômes scindés est le produit des facteurs $(X - r)$ communs (avec la plus petite multiplicité).',
+      `Factorise $P$ et $Q$ : chacun a une troisième racine, différente pour les deux polynômes (utilise la somme des racines).`,
+      `Somme des racines : $P$ a pour racines $${a}$, $${b}$ et $${c}$ ; $Q$ a pour racines $${a}$, $${b}$ et $${d}$. Donc $P = ${this._L1fac(a)}${this._L1fac(b)}${this._L1fac(c)}$, $Q = ${this._L1fac(a)}${this._L1fac(b)}${this._L1fac(d)}$ et $\\text{pgcd}(P, Q) = ${this._L1fac(a)}${this._L1fac(b)} = ${this.polyX([1, -(a + b), a * b], 'X')}$ (on peut aussi l'obtenir par l'algorithme d'Euclide).`
+    ), `(${-(a + b)};${a * b})`, 'Écrire le pgcd sous la forme $X^2 + pX + q$ et saisir (p ; q), par exemple (-1;-6).');
+  },
+
+
+  /** L1-CMP palier 3 : équation du second degré à coefficients complexes */
+  _L1CMP_eq2() {
+    let z1; let z2;
+    do { z1 = [this.randInt(-3, 3), this.randInt(-3, 3)]; z2 = [this.randInt(-3, 3), this.randInt(-3, 3)]; } while ((z1[0] === z2[0] && z1[1] === z2[1]) || (z1[1] === 0 && z2[1] === 0) || z1[1] === -z2[1]);
+    if (z2[0] > z1[0] || (z2[0] === z1[0] && z2[1] > z1[1])) [z1, z2] = [z2, z1];
+    const S = [z1[0] + z2[0], z1[1] + z2[1]];
+    const Pr = [z1[0] * z2[0] - z1[1] * z2[1], z1[0] * z2[1] + z1[1] * z2[0]];
+    const D = [(z1[0] - z2[0]) ** 2 - (z1[1] - z2[1]) ** 2, 2 * (z1[0] - z2[0]) * (z1[1] - z2[1])];
+    const delta = [z1[0] - z2[0], z1[1] - z2[1]];
+    const term = (c, v) => { if (c[0] === 0 && c[1] === 0) return ''; const s = this._L1cx(c[0], c[1]); const simple = c[0] === 0 || c[1] === 0; if (simple) { const neg = s.startsWith('-'); const body = neg ? s.slice(1) : s; return ` ${neg ? '-' : '+'} ${body === '1' && v ? '' : body}${v}`; } return ` + (${s})${v}`; };
+    const zt = S[0] !== 0 && S[1] !== 0 ? ` - (${this._L1cx(S[0], S[1])})z` : term([-S[0], -S[1]], 'z');
+    const eq = `z^2${zt}${term(Pr, '')} = 0`;
+    const sol = (u, v) => `$z_1 = ${this._L1cx(u[0], u[1])}$ et $z_2 = ${this._L1cx(v[0], v[1])}$`;
+    return this._L1x(this.makeMcq(
+      'L1-CMP', 3, 'Équation du second degré dans C',
+      'Résoudre une équation du second degré à coefficients complexes',
+      `Résoudre dans $\\mathbb{C}$ l'équation $${eq}$.`,
+      sol(z1, z2),
+      [sol([-z1[0], -z1[1]], [-z2[0], -z2[1]]), sol([z1[0], -z1[1]], [z2[0], -z2[1]]), sol([z1[1], z1[0]], [z2[1], z2[0]]), sol([S[0], S[1]], [0, 0])],
+      'Calcule le discriminant $\\Delta = b^2 - 4ac$ (c\'est un nombre complexe).',
+      'Cherche une racine carrée $\\delta$ de $\\Delta$ (avec $a^2 - b^2$, $2ab$ et le module), puis $z = \\frac{-b \\pm \\delta}{2}$.',
+      `$\\Delta = ${this._L1cx(D[0], D[1])}$, dont une racine carrée est $\\delta = ${this._L1cx(delta[0], delta[1])}$ (on vérifie $\\delta^2 = \\Delta$). Les solutions sont $\\frac{${this._L1cx(S[0], S[1])} \\pm \\delta}{2}$, soit ${sol(z1, z2)} (somme $${this._L1cx(S[0], S[1])}$, produit $${this._L1cx(Pr[0], Pr[1])}$).`
+    ), `(${z1[0]};${z1[1]};${z2[0]};${z2[1]})`, 'Saisir (a ; b ; c ; d) où $z_1 = a + ib$ et $z_2 = c + id$, $z_1$ étant la solution de plus grande partie réelle (puis de plus grande partie imaginaire), par exemple (2;1;-1;3).');
+  },
+
+
+  /** L1-CMP palier 4 : reste de la division de X^n par (X - a)^2 */
+  _L1CMP_reste() {
+    const a = this.randChoice([1, 1, 2, -1, -2]);
+    const n = this.randInt(3, 8);
+    const al = n * a ** (n - 1); const be = (1 - n) * a ** n;
+    const Rs = (x, y) => `$R(X) = ${this.poly([[x, 'X'], [y, '']])}$`;
+    return this._L1x(this.makeMcq(
+      'L1-CMP', 4, 'Reste d\'une division euclidienne par un carré',
+      'Calculer le reste par dérivation ou formule de Taylor',
+      `Déterminer le reste $R$ de la division euclidienne de $A(X) = X^{${n}}$ par $B(X) = ${this._L1fac(a)}^2$ dans $\\mathbb{R}[X]$.`,
+      Rs(al, be),
+      [Rs(al, -be), Rs(n, 1 - n), Rs(a ** n, 0), Rs(al, be + a ** n), Rs((n - 1) * a ** (n - 1), be)],
+      'Comme $\\deg B = 2$, le reste s\'écrit $R(X) = \\alpha X + \\beta$ : écris $X^n = B(X)Q(X) + \\alpha X + \\beta$.',
+      `Évalue cette égalité en $X = ${a}$, puis dérive-la et évalue encore en $X = ${a}$ (racine double de $B$).`,
+      `En $X = ${a}$ : $${this.paren(a)}^{${n}} = ${a ** n} = ${this.coefStr(a, '\\alpha')} + \\beta$. En dérivant : $${n}X^{${n - 1}} = (BQ)'(X) + \\alpha$ et $(BQ)'(${a}) = 0$ car $${a}$ est racine double de $B$, d'où $\\alpha = ${n} \\times ${this.paren(a)}^{${n - 1}} = ${al}$ et $\\beta = ${a ** n} - ${this.paren(a * al)} = ${be}$. Ainsi ${Rs(al, be)}.`
+    ), `(${al};${be})`, 'Écrire $R(X) = \\alpha X + \\beta$ et saisir (α ; β), par exemple (5;-4).');
+  },
+
+
+  /** L1-CMP palier 4 : polynôme réel de degré 3 connaissant une racine complexe et une racine réelle */
+  _L1CMP_realpoly() {
+    const p = this.randInt(-3, 3); const q = this.randInt(1, 3); const r = this.randInt(-4, 4);
+    // (X^2 - 2pX + p^2 + q^2)(X - r)
+    const s2 = -2 * p; const s0 = p * p + q * q;
+    const co = [s2 - r, s0 - r * s2, -r * s0];
+    const z = this._L1cx(p, q);
+    const Pt = (c) => `$${this.polyX([1, ...c], 'X')}$`;
+    const s0b = p * p - q * q; // erreur classique : |z|^2 remplacé par p^2 - q^2
+    return this._L1x(this.makeMcq(
+      'L1-CMP', 4, 'Polynôme réel de racine complexe donnée',
+      'Factoriser un polynôme en produit d\'irréductibles dans R[X] et C[X]',
+      `Déterminer le polynôme unitaire $P \\in \\mathbb{R}[X]$ de degré $3$ admettant $${z}$ et $${r}$ pour racines.`,
+      Pt(co),
+      [Pt([s2 - r, s0b - r * s2, -r * s0b]), Pt([-s2 - r, s0 + r * s2, -r * s0]), Pt([s2 + r, s0 + r * s2, r * s0]), Pt([co[0], co[1], -co[2]])],
+      `Un polynôme à coefficients réels qui admet $${z}$ pour racine admet aussi son conjugué $${this._L1cx(p, -q)}$.`,
+      `Calcule d'abord $(X - (${z}))(X - (${this._L1cx(p, -q)})) = X^2 - 2\\text{Re}(z)X + |z|^2$, puis multiplie par $${this._L1fac(r)}$.`,
+      `$P$ étant réel, $\\overline{${z}} = ${this._L1cx(p, -q)}$ est aussi racine, et $P$ est unitaire de degré $3$ : $P(X) = (${this.polyX([1, s2, s0], 'X')})${this._L1fac(r)} = ${this.polyX([1, ...co], 'X')}$. Dans $\\mathbb{R}[X]$, le facteur $${this.polyX([1, s2, s0], 'X')}$ est irréductible (discriminant $${-4 * q * q} < 0$).`
+    ), this._L1tup(co), 'Écrire $P(X) = X^3 + aX^2 + bX + c$ et saisir (a ; b ; c), par exemple (-1;4;-6).');
+  },
+
+
+  /** Familles historiques de L1-CMP (racines de l'unité, factorisations, DES) */
+  _L1CMP_legacy(tier) {
     if (tier === 1) {
       // Palier 1 : Racines n-ièmes de l'unité (calculs explicites, ensemble U_n, somme, produit)
       const variant = this.randChoice(['u5', 'u4_alg', 'u3_alg', 'u6_exp', 'sum_without_1', 'prod_all', 'sum_all']);
@@ -1818,7 +2229,7 @@ window.MathsAdvancedGenerators = {
           }
         ];
         const c = this.randChoice(pgcdCases);
-        return this.makeMcq(
+        return this._L1x(this.makeMcq(
           'L1-CMP', 4, "Détection des racines multiples par le PGCD(P, P')",
           "Relier les racines multiples au PGCD du polynôme et de sa dérivée",
           `Calculer $\\text{pgcd}(P, P')$ pour $P(X) = ${c.poly}$. Qu'en déduit-on rigoureusement sur les racines multiples de $P$ ?`,
@@ -1827,7 +2238,7 @@ window.MathsAdvancedGenerators = {
           `Dérive $P$ : $P'(X) = ${c.deriv}$.`,
           "Applique le théorème : les racines de $\\text{pgcd}(P, P')$ sont les racines multiples de $P$, avec multiplicité diminuée de 1.",
           `On a $P'(X) = ${c.deriv}$. En évaluant les racines candidates dans $P$, le seul facteur unitaire commun annulant $P$ et $P'$ est $\\text{pgcd}(P, P') = ${c.pgcd}$. La racine $${c.root}$ est donc de multiplicité $1 + 1 = 2$ (racine double) pour $P$.`
-        );
+        ), c.root, 'Saisir la racine multiple de P.');
       } else if (p4Variant === 'td_des_partie_entiere') {
         const desEntiereCases = [
           {
@@ -1877,7 +2288,7 @@ window.MathsAdvancedGenerators = {
         );
       } else {
         const n = this.randChoice([3, 4, 5]);
-        return this.makeMcq(
+        return this._L1x(this.makeMcq(
           'L1-CMP', 4, "Ordre de multiplicité via les dérivées successives",
           "Appliquer la caractérisation de Taylor pour les racines multiples",
           `Pour le polynôme $P(X) = X^{${n}} - ${n}X + ${n - 1}$, quel est l'ordre de multiplicité exact de la racine $x_0 = 1$ ?`,
@@ -1890,13 +2301,18 @@ window.MathsAdvancedGenerators = {
           "Calcule $P(1)$, $P'(1)$ et $P''(1)$.",
           "La multiplicité est $m$ si $P(1) = \\dots = P^{(m-1)}(1) = 0$ et $P^{(m)}(1) \\neq 0$.",
           `$P(1) = 1 - ${n} + ${n-1} = 0$. $P'(X) = ${n}X^{${n-1}} - ${n} \\implies P'(1) = ${n} - ${n} = 0$. $P''(X) = ${n}(${n-1})X^{${n-2}} \\implies P''(1) = ${n*(n-1)} \\neq 0$. Par la caractérisation de Taylor, $1$ est une racine de multiplicité exactement 2 (racine double).`
-        );
+        ), '2', 'Saisir l\'ordre de multiplicité (nombre entier).');
       }
     }
   },
 
 
   generateL1_REL(tier) {
+    return this._L1tag(this._L1REL_gen(tier));
+  },
+
+
+  _L1REL_gen(tier) {
     if (tier === 2 && Math.random() < 0.75) return this._L1REL_ops();
     if (tier === 3 && Math.random() < 0.8) return this._L1REL_arch();
     if (tier === 4 && Math.random() < 0.8) return this._L1REL_nested();
@@ -2100,6 +2516,11 @@ window.MathsAdvancedGenerators = {
 
 
   generateL1_CNT(tier) {
+    return this._L1tag(this._L1CNT_gen(tier));
+  },
+
+
+  _L1CNT_gen(tier) {
     const C = (v) => `$c = ${v}$`;
     if (tier === 1) {
       const fam = this.randChoice(['rolle', 'rolle', 'abs']);
@@ -2320,7 +2741,11 @@ window.MathsAdvancedGenerators = {
       const co = this._L1TAYbase(kind, a, n);
       const ref = { exp: 'e^u = 1 + u + \\frac{u^2}{2} + \\frac{u^3}{6} + o(u^3)', sin: '\\sin u = u - \\frac{u^3}{6} + o(u^3)', cos: '\\cos u = 1 - \\frac{u^2}{2} + \\frac{u^4}{24} + o(u^4)', ln: '\\ln(1 + u) = u - \\frac{u^2}{2} + \\frac{u^3}{3} + o(u^3)', geo: '\\frac{1}{1 - u} = 1 + u + u^2 + u^3 + o(u^3)' }[kind];
       const ans = `$${this._L1dl(co, n)}$`;
-      return this.makeMcq(
+      // saisie : coefficients non identiquement nuls du DL (parité de sin / cos exploitée)
+      const idx = kind === 'cos' ? [0, 2, 4] : kind === 'sin' ? [1, 3] : [0, 1, 2, 3];
+      const lett = ['a', 'b', 'c', 'd'];
+      const form = this.poly(idx.map((k, i) => [1, `${lett[i]}${k === 0 ? '' : k === 1 ? 'x' : `x^${k}`}`]));
+      return this._L1x(this.makeMcq(
         'L1-TAY', 1, 'Développement limité usuel en 0',
         'Composer un DL usuel avec $u = ax$',
         `Quel est le développement limité à l'ordre ${n} en $0$ de $f(x) = ${name[kind](a)}$ ?`,
@@ -2328,7 +2753,8 @@ window.MathsAdvancedGenerators = {
         `Pars du DL usuel : $${ref}$.`,
         `Substitue $u = ${arg(a)}$ (qui tend vers $0$) et développe chaque puissance.`,
         `Avec $u = ${arg(a)}$ dans $${ref}$, on obtient $${name[kind](a)} = ${this._L1dl(co, n)}$.`
-      );
+      ), this._L1tup(idx.map((k) => co[k])),
+      this._L1dlInstr(form, n, idx.length));
     }
     if (tier === 2) {
       const fam = this.randChoice(['prod', 'quot', 'pow']);
@@ -2339,7 +2765,7 @@ window.MathsAdvancedGenerators = {
         const co = [R.Q(1), A, c2];
         const powStr = al[1] === 1 ? `${al[0]}` : `${al[0] < 0 ? '-' : ''}\\frac{${Math.abs(al[0])}}{${al[1]}}`;
         const f = `(1 + x)^{${powStr}}`;
-        return this.makeMcq(
+        return this._L1x(this.makeMcq(
           'L1-TAY', 2, 'DL de $(1 + x)^\\alpha$',
           'Appliquer la formule du binôme généralisé',
           `Quel est le développement limité à l'ordre 2 en $0$ de $f(x) = ${f}$ ?`,
@@ -2348,7 +2774,7 @@ window.MathsAdvancedGenerators = {
           '$(1 + x)^\\alpha = 1 + \\alpha x + \\frac{\\alpha(\\alpha - 1)}{2} x^2 + o(x^2)$.',
           `Ici $\\alpha = ${R.s(A)}$ et $\\alpha - 1 = ${R.s(R.sub(A, R.Q(1)))}$.`,
           `$\\frac{\\alpha(\\alpha - 1)}{2} = \\frac{${this.paren(R.s(A))} \\times ${this.paren(R.s(R.sub(A, R.Q(1))))}}{2} = ${R.s(c2)}$, d'où $${f} = ${this._L1dl(co, 2)}$.`
-        );
+        ), this._L1tup(co), this._L1dlInstr('a + bx + cx^2', 2, 3));
       }
       const a = this.randChoice([-3, -2, -1, 1, 2, 3]);
       const b = this.randChoice([-3, -2, -1, 1, 2, 3]);
@@ -2371,7 +2797,7 @@ window.MathsAdvancedGenerators = {
         f = `\\dfrac{e^{${arg(a)}}}{${this.poly([[1, ''], [-b, 'x']])}}`;
         how = `$e^{${arg(a)}} \\times \\frac{1}{${this.poly([[1, ''], [-b, 'x']])}} = \\left(${this._L1dl(E, 2).replace(/ \+ o\(x\^2\)$/, '')}\\right)\\left(${this._L1dl(G, 2).replace(/ \+ o\(x\^2\)$/, '')}\\right) + o(x^2)$`;
       }
-      return this.makeMcq(
+      return this._L1x(this.makeMcq(
         'L1-TAY', 2, 'Produit de développements limités',
         'Multiplier des DL en tronquant à l\'ordre voulu',
         `Quel est le développement limité à l'ordre 2 en $0$ de $f(x) = ${f}$ ?`,
@@ -2380,7 +2806,7 @@ window.MathsAdvancedGenerators = {
         `Écris le DL à l'ordre 2 de chaque facteur.`,
         'Développe le produit et ne conserve que les termes de degré au plus 2.',
         `${how}. On obtient $f(x) = ${this._L1dl(co, 2)}$.`
-      );
+      ), this._L1tup(co), this._L1dlInstr('a + bx + cx^2', 2, 3));
     }
     if (tier === 3) {
       const fam = this.randChoice(['exp2', 'cos2', 'sin3', 'ln2', 'expdiff', 'sinratio']);
@@ -2425,7 +2851,8 @@ window.MathsAdvancedGenerators = {
         `${sol}. Ainsi $\\ell = ${R.s(val)}$.`
       );
     }
-    // tier 4 : composition, position par rapport à la tangente
+    // tier 4 : composition, position par rapport à la tangente, asymptote oblique
+    if (Math.random() < 0.3) return this._L1TAY_asym();
     const fam = this.randChoice(['lncomp', 'invcomp', 'expcomp', 'sqrt']);
     const a = this.randChoice([-3, -2, -1, 1, 2, 3]);
     const b = this.randChoice([-3, -2, -1, 1, 2, 3, 4]);
@@ -2470,7 +2897,7 @@ window.MathsAdvancedGenerators = {
         `${how}, d'où $f(x) = ${this._L1dl(co, 2)}$. La tangente en $0$ est $y = ${tang}$ et $f(x) - (${tang}) \\sim ${this.coefStr(R.s(c2), 'x^2')}$, de signe ${c2[0] > 0 ? 'positif' : 'négatif'} : la courbe est ${pos} de sa tangente au voisinage de $0$.`
       );
     }
-    return this.makeMcq(
+    return this._L1x(this.makeMcq(
       'L1-TAY', 4, 'DL d\'une fonction composée',
       'Composer des développements limités à l\'ordre 2',
       `Quel est le développement limité à l'ordre 2 en $0$ de $f(x) = ${f}$ ?`,
@@ -2479,7 +2906,7 @@ window.MathsAdvancedGenerators = {
       'Pose $u$ égal à l\'expression qui tend vers $0$ et compose avec le DL usuel.',
       'Ne garde que les termes de degré au plus 2 dans $u$ et $u^2$.',
       `${how}, d'où $f(x) = ${this._L1dl(co, 2)}$.`
-    );
+    ), this._L1tup(co), this._L1dlInstr('a + bx + cx^2', 2, 3));
   },
 
 
@@ -2508,7 +2935,7 @@ window.MathsAdvancedGenerators = {
           I(R.s(val)),
           [I(R.s(R.add(F(q), F(p)))), I(R.s(R.sub(F(p), F(q)))), I(R.s(wrong1)), I(R.s(R.add(val, R.Q(1)))), I(R.s(R.sub(val, R.Q(1)))), I(R.s(R.add(val, R.Q(be * (q - p), 2))))],
           'Détermine une primitive $F$ de l\'intégrande.',
-          `$F(x) = ${Fs}$ convient ; calcule $F(${q}) - F(${p})$.`,
+          `Prends la primitive $F : x \\mapsto ${Fs}$, puis calcule $F(${q}) - F(${p})$.`,
           `$I = \\left[${Fs}\\right]_{${p}}^{${q}} = ${R.s(F(q))}${F(p)[0] === 0 ? '' : ' - ' + this.paren(R.s(F(p)))} = ${R.s(val)}$.`
         );
       }
@@ -2540,7 +2967,7 @@ window.MathsAdvancedGenerators = {
         `Calculer $I = \\displaystyle\\int_1^{${N}} \\frac{${a}}{x} \\, dx$.`,
         I(this.coefStr(a, lnN)),
         [I(`${this.frac(a, N)}`), I(this.coefStr(a + 1, lnN)), I(`${a * (N - 1)}`), I(`\\ln(${a * N})`)].filter((x) => x !== I(this.coefStr(a, lnN))),
-        'Une primitive de $\\frac{1}{x}$ sur $]0, +\\infty[$ est $\\ln x$.',
+        'Une primitive de $\\frac{1}{x}$ sur $]0 ; +\\infty[$ est $\\ln x$.',
         'Pense à $\\ln 1 = 0$.',
         `$I = ${a === 1 ? '' : a}\\left[\\ln x\\right]_1^{${N}} = ${a === 1 ? '' : a}(\\ln ${N} - \\ln 1) = ${this.coefStr(a, lnN)}$.`
       );
@@ -2553,10 +2980,10 @@ window.MathsAdvancedGenerators = {
         const m = n + 1;
         const ans = `$${this.poly([[this.frac(1, m), `x^{${m}}\\ln x`], [this.frac(-1, m * m), `x^{${m}}`]]).replace(/\^\{(\d)\}/g, '^$1')}${C}$`;
         const xn = n === 1 ? 'x' : `x^${n}`;
-        return this.makeMcq(
+        return this._L1x(this.makeMcq(
           'L1-INT', 2, 'Intégration par parties avec un logarithme',
           'Choisir $u = \\ln x$ et $v\' = x^n$',
-          `Déterminer une primitive sur $]0, +\\infty[$ de $f(x) = ${xn}\\ln x$.`,
+          `Déterminer une primitive sur $]0 ; +\\infty[$ de $f(x) = ${xn}\\ln x$.`,
           ans,
           [
             `$${this.poly([[this.frac(1, m), `x^{${m}}\\ln x`], [this.frac(1, m * m), `x^{${m}}`]]).replace(/\^\{(\d)\}/g, '^$1')}${C}$`,
@@ -2566,8 +2993,8 @@ window.MathsAdvancedGenerators = {
           ],
           `Pose $u(x) = \\ln x$ et $v'(x) = ${xn}$, donc $u'(x) = \\frac{1}{x}$ et $v(x) = \\frac{x^${m}}{${m}}$.`,
           '$\\int u v\' = uv - \\int u\' v$.',
-          `Par IPP : $\\int ${xn}\\ln x \\, dx = \\frac{x^${m}}{${m}}\\ln x - \\int \\frac{x^${n === 1 ? '' : n}}{${m}} \\, dx = ${ans.slice(1, -1)}$.`.replace('x^}', 'x}')
-        );
+          `On pose $u(x) = \\ln x$ et $v'(x) = ${xn}$, d'où $u'(x) = \\frac{1}{x}$ et $v(x) = \\frac{x^${m}}{${m}}$. Par IPP : $\\int ${xn}\\ln x \\, dx = \\frac{x^${m}}{${m}}\\ln x - \\int \\frac{x^${n === 1 ? '' : n}}{${m}} \\, dx = ${ans.slice(1, -1)}$.`.replace('x^}', 'x}')
+        ), this._L1tup([[1, m], [-1, m * m]]), `Écrire $F(x) = \\alpha x^${m}\\ln x + \\beta x^${m}$ et saisir (α ; β), par exemple (1/2;-1/4).`);
       }
       const a = this.randChoice(fam === 'xexp' ? [-3, -2, -1, 1, 2, 3, 4, 5] : [1, 2, 3, 4, 5]);
       const ia = this.frac(1, a);
@@ -2596,15 +3023,20 @@ window.MathsAdvancedGenerators = {
         sol = `$\\int x${s} \\, dx = ${this.coefStr(this.frac(-1, a), 'x' + c)} + \\int ${this.coefStr(ia, c)} \\, dx = ${ans.slice(1, -1)}$`;
       }
       const fx = fam === 'xexp' ? `${b === 0 ? 'x' : `(${this.poly([[1, 'x'], [b, '']])})`}e^{${arg(a)}}` : fam === 'xcos' ? `x\\cos(${arg(a)})` : `x\\sin(${arg(a)})`;
-      return this.makeMcq(
+      const ein = fam === 'xexp'
+        ? [this._L1tup([[1, a], [a * b - 1, a * a]]), `Écrire $F(x) = (\\alpha x + \\beta)e^{${arg(a)}}$ et saisir (α ; β), par exemple (1/2;-3/4).`]
+        : fam === 'xcos'
+          ? [this._L1tup([[1, a], [1, a * a]]), `Écrire $F(x) = \\alpha x\\sin(${arg(a)}) + \\beta\\cos(${arg(a)})$ et saisir (α ; β), par exemple (1/2;-3/4).`]
+          : [this._L1tup([[-1, a], [1, a * a]]), `Écrire $F(x) = \\alpha x\\cos(${arg(a)}) + \\beta\\sin(${arg(a)})$ et saisir (α ; β), par exemple (1/2;-3/4).`];
+      return this._L1x(this.makeMcq(
         'L1-INT', 2, 'Intégration par parties',
         'Choisir $u$ et $v\'$ et appliquer $\\int uv\' = uv - \\int u\'v$',
         `Déterminer une primitive sur $\\mathbb{R}$ de $f(x) = ${fx}$.`,
         ans, d,
         `Pose ${uv}.`,
         'Formule : $\\int u v\' = u v - \\int u\' v$.',
-        `Par intégration par parties : ${sol}.`
-      );
+        `On pose ${uv}. Par intégration par parties : ${sol}.`
+      ), ein[0], ein[1]);
     }
     if (tier === 3) {
       const fam = this.randChoice(['des', 'des', 'lnquot', 'power']);
@@ -2620,7 +3052,7 @@ window.MathsAdvancedGenerators = {
         const den = `${this._L1fac(p, 'x')}${this._L1fac(q, 'x')}`;
         const num = this.poly([[al, 'x'], [be, '']]);
         const AB = (x, y) => `$a = ${R.s(x)}$ et $b = ${R.s(y)}$`;
-        return this.makeMcq(
+        return this._L1x(this.makeMcq(
           'L1-INT', 3, 'Décomposition en éléments simples',
           'Décomposer une fraction rationnelle pour l\'intégrer',
           `Déterminer les réels $a$ et $b$ tels que, pour tout $x \\notin \\{${p}, ${q}\\}$ : $\\dfrac{${num}}{${den}} = \\dfrac{a}{${this.poly([[1, 'x'], [-p, '']])}} + \\dfrac{b}{${this.poly([[1, 'x'], [-q, '']])}}$.`,
@@ -2629,7 +3061,7 @@ window.MathsAdvancedGenerators = {
           `Multiplie par $${this._L1fac(p, 'x')}$ puis évalue en $x = ${p}$ pour obtenir $a$.`,
           `De même, multiplie par $${this._L1fac(q, 'x')}$ et évalue en $x = ${q}$.`,
           `$a = \\left.\\dfrac{${num}}{${this.poly([[1, 'x'], [-q, '']])}}\\right|_{x = ${p}} = \\dfrac{${al * p + be}}{${p} - ${this.paren(q)}} = ${R.s(A)}$ et $b = \\left.\\dfrac{${num}}{${this.poly([[1, 'x'], [-p, '']])}}\\right|_{x = ${q}} = \\dfrac{${al * q + be}}{${q} - ${this.paren(p)}} = ${R.s(B)}$. On en déduit une primitive $${this.coefStr(R.s(A), `\\ln|${this.poly([[1, 'x'], [-p, '']])}|`)} ${B[0] < 0 ? '-' : '+'} ${this.coefStr(R.s([Math.abs(B[0]), B[1]]), `\\ln|${this.poly([[1, 'x'], [-q, '']])}|`)}$.`
-        );
+        ), this._L1tup([A, B]), 'Saisir (a ; b), par exemple (2;-1/3).');
       }
       if (fam === 'lnquot') {
         const m = this.randInt(1, 6);
@@ -2649,14 +3081,14 @@ window.MathsAdvancedGenerators = {
           [I(this.coefStr(m, lnr)), I(this.coefStr(coef, `\\ln(${top})`)), I(this.coefStr(coef, `\\ln(${k * k})`)), I(this.coefStr(this.frac(m, 4), lnr))],
           `Pose $u = x^2 + ${c}$, donc $du = 2x \\, dx$.`,
           `$\\frac{${m === 1 ? '' : m}x}{x^2 + ${c}} = ${coef === '1' ? '' : coef} \\cdot \\frac{2x}{x^2 + ${c}}$.`,
-          `$I = ${coef === '1' ? '' : coef}\\left[\\ln(x^2 + ${c})\\right]_0^{${k}} = ${coef === '1' ? '' : coef}\\left(\\ln ${top} - \\ln ${c}\\right) = ${this.coefStr(coef, lnr)}$.`
+          `Avec $u = x^2 + ${c}$ ($du = 2x \\, dx$), l'intégrande est $${coef === '1' ? '' : coef} \\cdot \\frac{u'}{u}$ : $I = ${coef === '1' ? '' : coef}\\left[\\ln(x^2 + ${c})\\right]_0^{${k}} = ${coef === '1' ? '' : coef}\\left(\\ln ${top} - \\ln ${c}\\right) = ${this.coefStr(coef, lnr)}$.`
         );
       }
       const n = this.randInt(2, 6);
       const c = this.randInt(1, 5);
       const den = 2 * (n + 1);
       const ans = `$\\dfrac{(x^2 + ${c})^{${n + 1}}}{${den}} + C$`;
-      return this.makeMcq(
+      return this._L1x(this.makeMcq(
         'L1-INT', 3, 'Primitive de la forme $u\'u^n$',
         'Reconnaître une dérivée composée',
         `Déterminer une primitive sur $\\mathbb{R}$ de $f(x) = x(x^2 + ${c})^{${n}}$.`,
@@ -2664,8 +3096,8 @@ window.MathsAdvancedGenerators = {
         [`$\\dfrac{(x^2 + ${c})^{${n + 1}}}{${n + 1}} + C$`, `$\\dfrac{x^2(x^2 + ${c})^{${n + 1}}}{${den}} + C$`, `$${2 * n}x${this.pow(`(x^2 + ${c})`, n - 1)} + C$`, `$\\dfrac{(x^2 + ${c})^{${n - 1}}}{${2 * (n - 1)}} + C$`.replace('\\dfrac{(x^2 + ' + c + ')^{1}}{2}', '\\dfrac{x^2 + ' + c + '}{2}')],
         `Avec $u(x) = x^2 + ${c}$, on a $u'(x) = 2x$.`,
         `$f = \\frac{1}{2} u' u^{${n}}$ et une primitive de $u'u^n$ est $\\frac{u^{n+1}}{n+1}$.`,
-        `$f(x) = \\frac{1}{2} \\cdot 2x(x^2 + ${c})^{${n}}$, donc $F(x) = \\frac{1}{2} \\cdot \\frac{(x^2 + ${c})^{${n + 1}}}{${n + 1}} = \\frac{(x^2 + ${c})^{${n + 1}}}{${den}}$ (à une constante près).`
-      );
+        `Avec $u(x) = x^2 + ${c}$ : $f(x) = \\frac{1}{2} \\cdot 2x(x^2 + ${c})^{${n}} = \\frac{1}{2}u'(x)u(x)^{${n}}$, donc $F(x) = \\frac{1}{2} \\cdot \\frac{(x^2 + ${c})^{${n + 1}}}{${n + 1}} = \\frac{(x^2 + ${c})^{${n + 1}}}{${den}}$ (à une constante près).`
+      ), `1/${den}`, `Écrire $F(x) = k(x^2 + ${c})^{${n + 1}}$ et saisir k (fraction irréductible), par exemple 1/8.`);
     }
     // tier 4 : sommes de Riemann
     const fam = this.randChoice(['pow', 'pow', 'harm', 'atan', 'exp']);
@@ -2682,8 +3114,8 @@ window.MathsAdvancedGenerators = {
         L(R.s(val)),
         [L(R.s(R.Q(a, p))), L(R.s(R.Q(a, p + 2))), L(R.s(R.Q(a))), L('+\\infty'), L('0')],
         `Écris la somme sous la forme $\\frac{1}{n}\\sum_{k=1}^{n} f\\left(\\frac{k}{n}\\right)$.`,
-        `Ici $f(x) = ${this.coefStr(a, p === 1 ? 'x' : `x^${p}`)}$ sur $[0, 1]$.`,
-        `$\\sum_{k=1}^{n} \\frac{${a === 1 ? '' : a}${kp}}{n^{${p + 1}}} = \\frac{1}{n}\\sum_{k=1}^{n} ${this.coefStr(a, p === 1 ? '\\frac{k}{n}' : `\\left(\\frac{k}{n}\\right)^${p}`)} \\to \\int_0^1 ${this.coefStr(a, p === 1 ? 'x' : `x^${p}`)} \\, dx = ${R.s(val)}$ (fonction continue sur $[0, 1]$).`
+        `Ici $f(x) = ${this.coefStr(a, p === 1 ? 'x' : `x^${p}`)}$ sur $[0 ; 1]$.`,
+        `$\\sum_{k=1}^{n} \\frac{${a === 1 ? '' : a}${kp}}{n^{${p + 1}}} = \\frac{1}{n}\\sum_{k=1}^{n} ${this.coefStr(a, p === 1 ? '\\frac{k}{n}' : `\\left(\\frac{k}{n}\\right)^${p}`)} \\to \\int_0^1 ${this.coefStr(a, p === 1 ? 'x' : `x^${p}`)} \\, dx = ${R.s(val)}$ : somme de Riemann de $f(x) = ${this.coefStr(a, p === 1 ? 'x' : `x^${p}`)}$, continue sur $[0 ; 1]$.`
       );
     }
     if (fam === 'harm') {
@@ -2695,7 +3127,7 @@ window.MathsAdvancedGenerators = {
         L(`\\ln(${a + 1})`),
         [L(`\\ln(${a})`), L(`${a}`), L('0'), L(`\\ln(${a + 2})`), L('+\\infty')],
         'Factorise par $n$ au dénominateur : $\\frac{1}{n + k} = \\frac{1}{n} \\cdot \\frac{1}{1 + k/n}$.',
-        `C'est une somme de Riemann de $x \\mapsto \\frac{1}{1 + x}$ sur $[0, ${a}]$ (pas $\\frac{1}{n}$).`,
+        `C'est une somme de Riemann de $x \\mapsto \\frac{1}{1 + x}$ sur $[0 ; ${a}]$, de pas $\\frac{1}{n}$.`,
         `$\\sum_{k=1}^{${a === 1 ? 'n' : a + 'n'}} \\frac{1}{n} \\cdot \\frac{1}{1 + \\frac{k}{n}} \\to \\int_0^{${a}} \\frac{dx}{1 + x} = \\ln(${a + 1})$.`
       );
     }
@@ -2723,16 +3155,16 @@ window.MathsAdvancedGenerators = {
       `Déterminer $\\ell = \\lim\\limits_{n \\to +\\infty} \\dfrac{1}{n}\\displaystyle\\sum_{k=0}^{n-1} e^{${a === 1 ? '' : a === -1 ? '-' : a}k/n}$.`,
       L(good),
       dists,
-      'Somme de Riemann (à gauche) de $f(x) = e^{' + arg(a) + '}$ sur $[0, 1]$.',
+      'Somme de Riemann (à gauche) de $f(x) = e^{' + arg(a) + '}$ sur $[0 ; 1]$.',
       `Une primitive de $e^{${arg(a)}}$ est $${this.coefStr(this.frac(1, a), `e^{${arg(a)}}`)}$.`,
-      `$\\ell = \\int_0^1 e^{${arg(a)}} \\, dx = \\left[${this.coefStr(this.frac(1, a), `e^{${arg(a)}}`)}\\right]_0^1 = ${good}$.`
+      `Avec $f(x) = e^{${arg(a)}}$ continue sur $[0 ; 1]$ : $\\ell = \\int_0^1 e^{${arg(a)}} \\, dx = \\left[${this.coefStr(this.frac(1, a), `e^{${arg(a)}}`)}\\right]_0^1 = ${good}$.`
     );
   },
 
 
   generateL1_GEO(tier) {
     const R = this._L1Q();
-    const pt = (x, y) => `(${x}, ${y})`;
+    const pt = (x, y) => `(${x} ; ${y})`;
     const triples = [[3, 4, 5], [4, 3, 5], [5, 12, 13], [12, 5, 13], [6, 8, 10], [8, 6, 10], [8, 15, 17], [15, 8, 17]];
     if (tier === 1) {
       const fam = this.randChoice(['dist', 'dist', 'normal']);
@@ -2744,7 +3176,7 @@ window.MathsAdvancedGenerators = {
       if (fam === 'dist') {
         const x0 = this.randInt(-5, 5);
         const y0 = this.randInt(-5, 5);
-        let v = a * x0 + b * y0 + c;
+        const v = a * x0 + b * y0 + c;
         if (v === 0) return this.generateL1_GEO(1);
         const D = (t) => `$d = ${t}$`;
         return this.makeMcq(
@@ -2753,25 +3185,26 @@ window.MathsAdvancedGenerators = {
           `Dans un repère orthonormé, calculer la distance du point $M${pt(x0, y0)}$ à la droite $\\mathcal{D} : ${line}$.`,
           D(this.frac(Math.abs(v), n)),
           [D(Math.abs(v)), D(this.frac(Math.abs(v), n * n)), D(this.frac(Math.abs(v - c) || 1, n)), D(this.frac(Math.abs(v) + n, n))],
-          'La distance de $M(x_0, y_0)$ à $ax + by + c = 0$ vaut $\\frac{|ax_0 + by_0 + c|}{\\sqrt{a^2 + b^2}}$.',
-          `Ici $\\sqrt{a^2 + b^2} = \\sqrt{${a * a + b * b}} = ${n}$.`,
-          `$d = \\frac{|${a} \\times ${this.paren(x0)} + ${this.paren(b)} \\times ${this.paren(y0)} + ${this.paren(c)}|}{${n}} = ${this.frac(Math.abs(v), n)}$.`
+          'La distance de $M(x_0 ; y_0)$ à la droite $ax + by + c = 0$ vaut $\\frac{|ax_0 + by_0 + c|}{\\sqrt{a^2 + b^2}}$.',
+          `Ici $a = ${a}$ et $b = ${b}$ : calcule d'abord $\\sqrt{a^2 + b^2}$, puis $|ax_0 + by_0 + c|$.`,
+          `$\\sqrt{a^2 + b^2} = \\sqrt{${a * a} + ${b * b}} = \\sqrt{${a * a + b * b}} = ${n}$ et $|${a} \\times ${this.paren(x0)} + ${this.paren(b)} \\times ${this.paren(y0)} + ${this.paren(c)}| = ${Math.abs(v)}$, donc $d = ${this.frac(Math.abs(v), n)}$.`
         );
       }
       const x0 = this.randInt(-5, 5);
       const y0 = this.randInt(-5, 5);
       const cc = -(a * x0 + b * y0);
+      if (cc === 0) return this.generateL1_GEO(1);
       const E = (t) => `$${t} = 0$`;
-      return this.makeMcq(
+      return this._L1x(this.makeMcq(
         'L1-GEO', 1, "Équation d'une droite de vecteur normal donné",
-        'Utiliser $\\vec{n}(a, b)$ normal à $ax + by + c = 0$',
+        'Utiliser $\\vec{n}(a ; b)$ normal à $ax + by + c = 0$',
         `Dans un repère orthonormé, quelle est une équation de la droite passant par $A${pt(x0, y0)}$ et de vecteur normal $\\vec{n}${pt(a, b)}$ ?`,
         E(this.poly([[a, 'x'], [b, 'y'], [cc, '']])),
         [E(this.poly([[b, 'x'], [-a, 'y'], [-(b * x0 - a * y0), '']])), E(this.poly([[a, 'x'], [b, 'y'], [-cc, '']])), E(this.poly([[x0, 'x'], [y0, 'y'], [-(a * x0 + b * y0), '']])), E(this.poly([[a, 'x'], [-b, 'y'], [-(a * x0 - b * y0), '']]))],
-        'Une droite de vecteur normal $\\vec{n}(a, b)$ a une équation $ax + by + c = 0$.',
-        `Détermine $c$ en écrivant que $A${pt(x0, y0)}$ appartient à la droite.`,
-        `L'équation est de la forme $${this.poly([[a, 'x'], [b, 'y']])} + c = 0$ ; $A$ appartient à la droite donc $${this.paren(a * x0)} + ${this.paren(b * y0)} + c = 0$, soit $c = ${cc}$.`
-      );
+        'Une droite de vecteur normal $\\vec{n}(a ; b)$ a une équation de la forme $ax + by + c = 0$.',
+        `Détermine $c$ en écrivant que les coordonnées de $A$ vérifient l'équation.`,
+        `L'équation est de la forme $${this.poly([[a, 'x'], [b, 'y']])} + c = 0$ ; $A$ appartient à la droite donc $${a} \\times ${this.paren(x0)} + ${this.paren(b)} \\times ${this.paren(y0)} + c = 0$, soit $c = ${cc}$.`
+      ), String(cc), `Une équation s'écrit $${this.poly([[a, 'x'], [b, 'y']])} + c = 0$ : saisir la valeur de c.`);
     }
     if (tier === 2) {
       const fam = this.randChoice(['circle', 'circle', 'proj']);
@@ -2781,16 +3214,18 @@ window.MathsAdvancedGenerators = {
         const r = this.randInt(1, 6);
         const eq = `${this.poly([[1, 'x^2'], [1, 'y^2'], [-2 * h, 'x'], [-2 * k, 'y'], [h * h + k * k - r * r, '']])} = 0`;
         const A = (x, y, rr) => `Centre $\\Omega${pt(x, y)}$, rayon $${rr}$`;
-        return this.makeMcq(
+        const sqx = h === 0 ? 'x^2' : `(${this.poly([[1, 'x'], [-h, '']])})^2 - ${h * h}`;
+        const sqy = k === 0 ? 'y^2' : `(${this.poly([[1, 'y'], [-k, '']])})^2 - ${k * k}`;
+        return this._L1x(this.makeMcq(
           'L1-GEO', 2, "Cercle donné par une équation cartésienne",
           'Compléter les carrés pour obtenir centre et rayon',
           `Dans un repère orthonormé, l'ensemble d'équation $${eq}$ est un cercle. Quels sont son centre et son rayon ?`,
           A(h, k, r),
           [A(-h, -k, r), A(h, k, r * r), A(-2 * h, -2 * k, r), A(k, h, r), A(h, k, r + 1)],
           'Regroupe les termes en $x$ et en $y$ et complète les carrés.',
-          h !== 0 ? `$${this.poly([[1, 'x^2'], [-2 * h, 'x']])} = (${this.poly([[1, 'x'], [-h, '']])})^2 - ${h * h}$.` : k !== 0 ? `$${this.poly([[1, 'y^2'], [-2 * k, 'y']])} = (${this.poly([[1, 'y'], [-k, '']])})^2 - ${k * k}$.` : "L'équation est déjà de la forme $x^2 + y^2 = r^2$.",
-          `En complétant les carrés : $(${this.poly([[1, 'x'], [-h, '']])})^2 + (${this.poly([[1, 'y'], [-k, '']])})^2 = ${r * r}$. C'est le cercle de centre $\\Omega${pt(h, k)}$ et de rayon $\\sqrt{${r * r}} = ${r}$.`
-        );
+          h !== 0 ? `Écris $${this.poly([[1, 'x^2'], [-2 * h, 'x']])} = (${this.poly([[1, 'x'], [-h, '']])})^2 - ${h * h}$, puis fais de même en $y$.` : k !== 0 ? `Écris $${this.poly([[1, 'y^2'], [-2 * k, 'y']])} = (${this.poly([[1, 'y'], [-k, '']])})^2 - ${k * k}$ ; il n'y a pas de terme en $x$ seul.` : "L'équation est déjà de la forme $x^2 + y^2 = r^2$.",
+          `${[h !== 0 ? `$${this.poly([[1, 'x^2'], [-2 * h, 'x']])} = ${sqx}$` : '', k !== 0 ? `$${this.poly([[1, 'y^2'], [-2 * k, 'y']])} = ${sqy}$` : ''].filter(Boolean).join(' et ') || 'Aucun carré à compléter'}, donc l'équation équivaut à $${h === 0 ? 'x^2' : `(${this.poly([[1, 'x'], [-h, '']])})^2`} + ${k === 0 ? 'y^2' : `(${this.poly([[1, 'y'], [-k, '']])})^2`} = ${h * h + k * k === r * r ? '' : `${h * h + k * k} ${h * h + k * k - r * r < 0 ? '+' : '-'} ${Math.abs(h * h + k * k - r * r)} = `}${r * r}$. C'est le cercle de centre $\\Omega${pt(h, k)}$ et de rayon $\\sqrt{${r * r}} = ${r}$.`
+        ), `(${h};${k};${r})`, 'Saisir (a ; b ; r) où Ω(a ; b) est le centre et r le rayon, par exemple (2;-1;3).');
       }
       const [a0, b0, n] = this.randChoice(triples.slice(0, 8));
       const a = a0 * this.randChoice([1, -1]);
@@ -2803,24 +3238,40 @@ window.MathsAdvancedGenerators = {
       const t = R.Q(-v, n * n);
       const hx = R.add(R.Q(x0), R.mul(t, R.Q(a)));
       const hy = R.add(R.Q(y0), R.mul(t, R.Q(b)));
-      const H = (X, Y) => `$H\\left(${R.s(X)}, ${R.s(Y)}\\right)$`;
+      const H = (X, Y) => `$H\\left(${R.s(X)} ; ${R.s(Y)}\\right)$`;
       const t2 = R.Q(v, n * n);
-      return this.makeMcq(
+      return this._L1x(this.makeMcq(
         'L1-GEO', 2, 'Projeté orthogonal sur une droite',
         'Paramétrer la perpendiculaire et l\'intersecter avec la droite',
         `Dans un repère orthonormé, déterminer le projeté orthogonal $H$ du point $M${pt(x0, y0)}$ sur la droite $\\mathcal{D} : ${this.poly([[a, 'x'], [b, 'y'], [c, '']])} = 0$.`,
         H(hx, hy),
         [H(R.add(R.Q(x0), R.mul(t2, R.Q(a))), R.add(R.Q(y0), R.mul(t2, R.Q(b)))), H(R.add(R.Q(x0), R.mul(t, R.Q(b))), R.add(R.Q(y0), R.mul(t, R.Q(a)))), H(hy, hx), H(R.add(R.Q(x0), R.mul(R.Q(-v, n), R.Q(a))), R.add(R.Q(y0), R.mul(R.Q(-v, n), R.Q(b))))],
-        `$H = M + t\\,\\vec{n}$ avec $\\vec{n}${pt(a, b)}$ normal à $\\mathcal{D}$.`,
-        `En injectant dans l'équation de $\\mathcal{D}$ : $${v} + ${a * a + b * b}t = 0$.`.replace('+ -', '- '),
-        `$H = (${this.poly([[x0, ''], [a, 't']])}, ${this.poly([[y0, ''], [b, 't']])})$ appartient à $\\mathcal{D}$ si $${v} + ${a * a + b * b}t = 0$, soit $t = ${R.s(t)}$. Donc $H\\left(${R.s(hx)}, ${R.s(hy)}\\right)$.`
-      );
+        `Le vecteur $\\vec{n}${pt(a, b)}$ est normal à $\\mathcal{D}$ : cherche $H$ sous la forme $H = M + t\\,\\vec{n}$.`,
+        `Remplace les coordonnées de $M + t\\,\\vec{n}$ dans l'équation de $\\mathcal{D}$ : tu obtiens une équation du premier degré en $t$.`,
+        `$H = M + t\\,\\vec{n} = (${this.poly([[x0, ''], [a, 't']])} ; ${this.poly([[y0, ''], [b, 't']])})$ appartient à $\\mathcal{D}$ si $${v} + ${a * a + b * b}t = 0$, soit $t = ${R.s(t)}$. Donc $H\\left(${R.s(hx)} ; ${R.s(hy)}\\right)$.`.replace('+ -', '- ')
+      ), this._L1tup([hx, hy]), 'Saisir les coordonnées (x ; y) de H, par exemple (2;-1/5).');
     }
     // coniques
     const ell = [[5, 4, 3], [5, 3, 4], [10, 8, 6], [10, 6, 8], [13, 12, 5], [13, 5, 12], [17, 15, 8], [17, 8, 15], [25, 24, 7], [25, 7, 24]];
     const hyp = [[3, 4, 5], [4, 3, 5], [6, 8, 10], [8, 6, 10], [5, 12, 13], [12, 5, 13], [8, 15, 17], [15, 8, 17], [7, 24, 25], [24, 7, 25]];
     if (tier === 3) {
-      const fam = this.randChoice(['ellipse', 'hyperbole', 'parabole']);
+      const fam = this.randChoice(['ellipse', 'hyperbole', 'parabole', 'directrice']);
+      if (fam === 'directrice') {
+        const isEll = this.randInt(0, 1) === 1;
+        const [A, B, c] = this.randChoice(isEll ? ell : hyp);
+        const eq = `\\frac{x^2}{${A * A}} ${isEll ? '+' : '-'} \\frac{y^2}{${B * B}} = 1`;
+        const X = (v) => `$x = ${v}$`;
+        return this._L1x(this.makeMcq(
+          'L1-GEO', 3, `Directrice d'une ${isEll ? 'ellipse' : 'hyperbole'}`,
+          'Déterminer foyer, excentricité et directrice associée ($x = \\frac{a}{e} = \\frac{a^2}{c}$)',
+          `On considère l'${isEll ? 'ellipse' : 'hyperbole'} d'équation $${eq}$. Déterminer l'équation de la directrice associée au foyer d'abscisse positive.`,
+          X(this.frac(A * A, c)),
+          [X(this.frac(c * c, A)), X(this.frac(A, c)), X(this.frac(B * B, c)), X(c), X(this.frac(c, A))],
+          `Calcule $c$ avec $c^2 = a^2 ${isEll ? '-' : '+'} b^2$, puis l'excentricité $e = \\frac{c}{a}$.`,
+          'La directrice associée au foyer $F(c ; 0)$ est la droite $x = \\frac{a}{e} = \\frac{a^2}{c}$.',
+          `Ici $a = ${A}$ et $b = ${B}$, donc $c = \\sqrt{${A * A} ${isEll ? '-' : '+'} ${B * B}} = ${c}$ et $e = \\frac{c}{a} = ${this.frac(c, A)}$. Au foyer $F(${c} ; 0)$ est associée la directrice $x = \\frac{a^2}{c} = ${this.frac(A * A, c)}$ : tout point $M$ de la courbe vérifie $MF = e \\times d(M, \\mathcal{D})$.`
+        ), this._L1in([A * A, c]), 'La directrice a pour équation x = d : saisir d (fraction irréductible), par exemple 25/3.');
+      }
       if (fam === 'ellipse') {
         const [A, B, c] = this.randChoice(ell);
         const askE = this.randInt(0, 1) === 1;
@@ -2833,22 +3284,22 @@ window.MathsAdvancedGenerators = {
             `Quelle est l'excentricité de l'ellipse d'équation $${eq}$ ?`,
             E(this.frac(c, A)),
             [E(this.frac(B, A)), E(this.frac(c, B)), E(this.frac(A, c)), E(this.frac(A * A - B * B, A * A))],
-            `Demi-grand axe $a = ${A}$, demi-petit axe $b = ${B}$.`,
+            `Lis $a^2 = ${A * A}$ et $b^2 = ${B * B}$ : le demi-grand axe est $a = ${A}$.`,
             '$c = \\sqrt{a^2 - b^2}$ et $e = \\frac{c}{a}$.',
-            `$c = \\sqrt{${A * A} - ${B * B}} = \\sqrt{${c * c}} = ${c}$, donc $e = \\frac{c}{a} = ${this.frac(c, A)}$ (on a bien $0 < e < 1$).`
+            `$a = ${A}$, $b = ${B}$, $c = \\sqrt{${A * A} - ${B * B}} = \\sqrt{${c * c}} = ${c}$, donc $e = \\frac{c}{a} = ${this.frac(c, A)}$ (on a bien $0 < e < 1$).`
           );
         }
-        const F = (v) => `$F(${v}, 0)$ et $F'(-${v}, 0)$`;
-        return this.makeMcq(
+        const F = (v) => `$F(${v} ; 0)$ et $F'(-${v} ; 0)$`;
+        return this._L1x(this.makeMcq(
           'L1-GEO', 3, "Foyers d'une ellipse",
           'Utiliser $c^2 = a^2 - b^2$',
           `Quels sont les foyers de l'ellipse d'équation $${eq}$ ?`,
           F(c),
-          [F(A), F(B), F(Math.round(Math.sqrt(A * A + B * B)) === Math.sqrt(A * A + B * B) ? Math.sqrt(A * A + B * B) : A + B), `$F(0, ${c})$ et $F'(0, -${c})$`],
-          `Ici $a = ${A} > b = ${B}$ : le grand axe est l'axe des abscisses.`,
-          '$c = \\sqrt{a^2 - b^2}$.',
-          `$c^2 = ${A * A} - ${B * B} = ${c * c}$, donc $c = ${c}$ et les foyers sont $F(${c}, 0)$ et $F'(-${c}, 0)$.`
-        );
+          [F(A), F(B), F(Math.round(Math.sqrt(A * A + B * B)) === Math.sqrt(A * A + B * B) ? Math.sqrt(A * A + B * B) : A + B), `$F(0 ; ${c})$ et $F'(0 ; -${c})$`],
+          `Ici $a^2 = ${A * A} > b^2 = ${B * B}$ : le grand axe est l'axe des abscisses.`,
+          '$c = \\sqrt{a^2 - b^2}$ et les foyers sont $(\\pm c ; 0)$.',
+          `$a = ${A}$, $b = ${B}$ et $c^2 = ${A * A} - ${B * B} = ${c * c}$, donc $c = ${c}$ et les foyers sont $F(${c} ; 0)$ et $F'(-${c} ; 0)$.`
+        ), `(${c};0)`, "Saisir les coordonnées (x ; y) du foyer d'abscisse positive, par exemple (4;0).");
       }
       if (fam === 'hyperbole') {
         const [A, B, c] = this.randChoice(hyp);
@@ -2856,16 +3307,16 @@ window.MathsAdvancedGenerators = {
         const askAs = this.randInt(0, 1) === 1;
         if (askAs) {
           const As = (p) => `$y = ${p}x$ et $y = -${p}x$`;
-          return this.makeMcq(
+          return this._L1x(this.makeMcq(
             'L1-GEO', 3, "Asymptotes d'une hyperbole",
             'Lire les asymptotes $y = \\pm \\frac{b}{a}x$',
             `Quelles sont les asymptotes de l'hyperbole d'équation $${eq}$ ?`,
             As(this.frac(B, A)),
             [As(this.frac(A, B)), As(this.frac(B * B, A * A)), As(this.frac(c, A)), '$x = ' + A + '$ et $x = -' + A + '$'],
             'Les asymptotes de $\\frac{x^2}{a^2} - \\frac{y^2}{b^2} = 1$ ont pour équation $\\frac{x^2}{a^2} - \\frac{y^2}{b^2} = 0$.',
-            `Ici $a = ${A}$ et $b = ${B}$.`,
-            `$\\frac{x^2}{${A * A}} - \\frac{y^2}{${B * B}} = 0 \\iff y = \\pm ${this.frac(B, A)}x$.`
-          );
+            `Ici $a = ${A}$ et $b = ${B}$ ; factorise $\\frac{x^2}{a^2} - \\frac{y^2}{b^2}$.`,
+            `$\\frac{x^2}{${A * A}} - \\frac{y^2}{${B * B}} = 0 \\iff \\left(\\frac{x}{${A}} - \\frac{y}{${B}}\\right)\\left(\\frac{x}{${A}} + \\frac{y}{${B}}\\right) = 0 \\iff y = \\pm ${this.frac(B, A)}x$.`
+          ), this._L1in([B, A]), 'Les asymptotes sont les droites y = mx et y = -mx avec m > 0 : saisir m.');
         }
         const E = (v) => `$e = ${v}$`;
         return this.makeMcq(
@@ -2876,27 +3327,28 @@ window.MathsAdvancedGenerators = {
           [E(this.frac(B, A)), E(this.frac(A, c)), E(this.frac(c, B)), E(this.frac(A * A + B * B, A * A))],
           'Pour une hyperbole, $c^2 = a^2 + b^2$.',
           '$e = \\frac{c}{a} > 1$.',
-          `$c = \\sqrt{${A * A} + ${B * B}} = ${c}$, donc $e = ${this.frac(c, A)}$.`
+          `$a = ${A}$, $b = ${B}$ et $c = \\sqrt{${A * A} + ${B * B}} = ${c}$, donc $e = \\frac{c}{a} = ${this.frac(c, A)}$.`
         );
       }
       const p = this.randInt(1, 8);
       const twoP = 2 * p;
       const axis = this.randChoice(['x', 'y']);
       const sg = this.randChoice([1, -1]);
-      const eq = axis === 'x' ? `y^2 = ${sg * twoP === -1 ? '-' : sg * twoP}x` : `x^2 = ${sg * twoP}y`;
-      const f = this.frac(sg * p, 2);
-      const Fo = (v) => (axis === 'x' ? `$F\\left(${v}, 0\\right)$` : `$F\\left(0, ${v}\\right)$`);
-      return this.makeMcq(
+      const eq = axis === 'x' ? `y^2 = ${sg * twoP}x` : `x^2 = ${sg * twoP}y`;
+      const f = R.Q(sg * p, 2);
+      const Fo = (v) => (axis === 'x' ? `$F\\left(${v} ; 0\\right)$` : `$F\\left(0 ; ${v}\\right)$`);
+      return this._L1x(this.makeMcq(
         'L1-GEO', 3, "Foyer d'une parabole",
         'Identifier le paramètre $p$ dans $y^2 = 2px$',
         `Quel est le foyer de la parabole d'équation $${eq}$ ?`,
-        Fo(f),
+        Fo(R.s(f)),
         [Fo(this.frac(sg * p, 1)), Fo(this.frac(sg * twoP, 1)), Fo(this.frac(-sg * p, 2)), Fo(this.frac(sg * p, 4))],
         `Mets l'équation sous la forme $${axis === 'x' ? 'y^2 = 2px' : 'x^2 = 2py'}$.`,
-        `Ici $2p = ${sg * twoP}$ ; le foyer est à la distance $\\frac{|p|}{2}$ du sommet, sur l'axe.`,
-        `$2p = ${sg * twoP}$ donc $p = ${sg * p}$ et le foyer est ${Fo(f)}, la directrice ayant pour équation $${axis} = ${this.frac(-sg * p, 2)}$.`
-      );
+        `Identifie $2p$ ; le foyer est à la distance $\\frac{|p|}{2}$ du sommet, sur l'axe de la parabole.`,
+        `$2p = ${sg * twoP}$ donc $p = ${sg * p}$ et le foyer est ${Fo(R.s(f))}, la directrice ayant pour équation $${axis} = ${this.frac(-sg * p, 2)}$.`
+      ), axis === 'x' ? this._L1tup([f, 0]) : this._L1tup([0, f]), 'Saisir les coordonnées (x ; y) du foyer, par exemple (0;-3/2).');
     }
+    if (Math.random() < 0.45) return this._L1GEO_polar();
     // tier 4 : réduction d'une conique par complétion des carrés
     const isEll = this.randInt(0, 2) > 0;
     const [A, B, c] = this.randChoice(isEll ? ell.slice(0, 6) : hyp.slice(0, 6));
@@ -2908,7 +3360,7 @@ window.MathsAdvancedGenerators = {
     const eq = `${this.poly([[al, 'x^2'], [be, 'y^2'], [-2 * al * h, 'x'], [-2 * be * k, 'y'], [cst, '']])} = 0`;
     const nat = isEll ? 'Ellipse' : 'Hyperbole';
     const other = isEll ? 'Hyperbole' : 'Ellipse';
-    const S = (n, x, y, e) => `${n} de centre $\\Omega(${x}, ${y})$ et d'excentricité $${e}$`;
+    const S = (n, x, y, e) => `${n} de centre $\\Omega(${x} ; ${y})$ et d'excentricité $${e}$`;
     const e = this.frac(c, A);
     const sqx = h === 0 ? 'x^2' : `(${this.poly([[1, 'x'], [-h, '']])})^2`;
     const sqy = k === 0 ? 'y^2' : `(${this.poly([[1, 'y'], [-k, '']])})^2`;
@@ -2919,10 +3371,53 @@ window.MathsAdvancedGenerators = {
       S(nat, h, k, e),
       [S(nat, -h, -k, e), S(other, h, k, e), S(nat, h, k, this.frac(B, A)), S(nat, k, h, e), S(nat, h, k, this.frac(c, B)), S(other, -h, -k, e)],
       'Factorise les termes en $x$ et en $y$ puis complète les carrés.',
-      `Tu dois obtenir $\\frac{(x - x_0)^2}{${A * A}} ${isEll ? '+' : '-'} \\frac{(y - y_0)^2}{${B * B}} = 1$.`,
-      `$${al}${sqx} ${isEll ? '+' : '-'} ${A * A}${sqy} = ${A * A * B * B}$, soit $\\frac{${sqx}}{${A * A}} ${isEll ? '+' : '-'} \\frac{${sqy}}{${B * B}} = 1$ : ${isEll ? 'ellipse' : 'hyperbole'} de centre $\\Omega(${h}, ${k})$ avec $a = ${A}$, $b = ${B}$, $c = \\sqrt{${A * A} ${isEll ? '-' : '+'} ${B * B}} = ${c}$ et $e = \\frac{c}{a} = ${e}$.`
+      `Tu dois obtenir une équation réduite $\\frac{(x - x_0)^2}{a^2} ${isEll ? '+' : '-'} \\frac{(y - y_0)^2}{b^2} = 1$ ; le signe entre les deux carrés donne la nature.`,
+      `$${al}${sqx} ${isEll ? '+' : '-'} ${A * A}${sqy} = ${A * A * B * B}$, soit $\\frac{${sqx}}{${A * A}} ${isEll ? '+' : '-'} \\frac{${sqy}}{${B * B}} = 1$ : ${isEll ? 'ellipse' : 'hyperbole'} de centre $\\Omega(${h} ; ${k})$ avec $a = ${A}$, $b = ${B}$, $c = \\sqrt{${A * A} ${isEll ? '-' : '+'} ${B * B}} = ${c}$ et $e = \\frac{c}{a} = ${e}$.`
     );
   },
+
+
+  /** L1-GEO palier 4 : équation polaire d'une conique de foyer O (r = p / (1 + e cos θ)) */
+  _L1GEO_polar() {
+    const R = this._L1Q();
+    const nat = (e) => (e[0] < e[1] ? 'une ellipse' : e[0] === e[1] ? 'une parabole' : 'une hyperbole');
+    if (this.randInt(0, 1) === 0) {
+      // lecture de e et p sur r = N / (D + E cos θ)
+      const D = this.randChoice([2, 3, 4, 5]);
+      let E = this.randNonZero(-8, 8);
+      if (Math.abs(E) === D && Math.random() < 0.5) E = E > 0 ? E + 1 : E - 1;
+      const N = this.randInt(1, 9) * (this.randInt(0, 1) ? 1 : D);
+      const e = R.Q(Math.abs(E), D); const p = R.Q(N, D);
+      const opt = (ee, pp) => `$e = ${R.s(ee)}$ et $p = ${R.s(pp)}$`;
+      const den = `${D} ${E < 0 ? '-' : '+'} ${this.coefStr(Math.abs(E), '\\cos\\theta')}`;
+      return this._L1x(this.makeMcq(
+        'L1-GEO', 4, "Équation polaire d'une conique",
+        'Écrire l\'équation polaire d\'une conique et en lire l\'excentricité',
+        `Dans un repère orthonormé d'origine $O$, une conique de foyer $O$ a pour équation polaire $r = \\dfrac{${N}}{${den}}$. Déterminer son excentricité $e$ et son paramètre $p$ (forme $r = \\frac{p}{1 + e\\cos(\\theta - \\theta_0)}$).`,
+        opt(e, p),
+        [opt(R.Q(D, Math.abs(E)), p), opt(e, R.Q(N)), opt(R.Q(Math.abs(E)), R.Q(N)), opt(p, e)],
+        'Divise le numérateur et le dénominateur par le terme constant du dénominateur.',
+        `On obtient $r = \\dfrac{p}{1 ${E < 0 ? '-' : '+'} e\\cos\\theta}$ ; un signe $-$ correspond à $\\theta_0 = \\pi$ (et $e > 0$).`,
+        `En divisant par $${D}$ : $r = \\dfrac{${R.s(p)}}{1 ${E < 0 ? '-' : '+'} ${this.coefStr(R.s(e), '\\cos\\theta')}}$ ${E < 0 ? '$= \\dfrac{p}{1 + e\\cos(\\theta - \\pi)}$ ' : ''}donc $e = ${R.s(e)}$ et $p = ${R.s(p)}$. Comme $e ${e[0] < e[1] ? '< 1' : e[0] === e[1] ? '= 1' : '> 1'}$, la conique est ${nat(e)}.`
+      ), this._L1tup([e, p]), 'Saisir (e ; p), par exemple (1/2;3).');
+    }
+    // construction à partir de e et de la directrice x = d
+    const e = this.randChoice([R.Q(1, 2), R.Q(1, 3), R.Q(2, 3), R.Q(1), R.Q(2), R.Q(3, 2), R.Q(3), R.Q(3, 4)]);
+    const d = this.randInt(1, 9);
+    const p = R.mul(e, R.Q(d));
+    const eq = (pp, ee, sg) => `$r = \\dfrac{${R.s(pp)}}{1 ${sg} ${this.coefStr(R.s(ee), '\\cos\\theta')}}$`;
+    return this._L1x(this.makeMcq(
+      'L1-GEO', 4, "Équation polaire d'une conique",
+      'Écrire l\'équation polaire d\'une conique connaissant son excentricité',
+      `Dans un repère orthonormé d'origine $O$, on considère la conique de foyer $O$, de directrice $\\mathcal{D} : x = ${d}$ et d'excentricité $e = ${R.s(e)}$. Déterminer son équation polaire.`,
+      eq(p, e, '+'),
+      [eq(p, e, '-'), eq(R.Q(d), e, '+'), eq(R.mul(R.Q(d), R.Q(e[1], e[0])), e, '+'), eq(e, R.Q(d), '+')],
+      'Pour $M(r\\cos\\theta ; r\\sin\\theta)$, écris $OM = e \\times d(M, \\mathcal{D})$.',
+      `Ici $d(M, \\mathcal{D}) = ${d} - r\\cos\\theta$ (le foyer et la courbe sont du même côté de $\\mathcal{D}$) ; isole $r$.`,
+      `$r = e(${d} - r\\cos\\theta) \\iff r(1 + e\\cos\\theta) = ${d === 1 ? '' : d}e$, d'où $r = \\dfrac{p}{1 + e\\cos\\theta}$ avec $p = ${d === 1 ? 'e' : `${d}e`} = ${R.s(p)}$. Comme $e ${e[0] < e[1] ? '< 1' : e[0] === e[1] ? '= 1' : '> 1'}$, c'est ${nat(e)}.`
+    ), this._L1in(p), 'L\'équation s\'écrit r = p / (1 + e cos θ) : saisir le paramètre p (fraction irréductible), par exemple 3/2.');
+  },
+
 
   // =========================================================================
   // IMPLÉMENTATION DES GÉNÉRATEURS L2
@@ -2933,6 +3428,8 @@ window.MathsAdvancedGenerators = {
   // L2-RED1 : Valeurs propres, diagonalisation
   // =========================================================================
   generateL2_RED1(tier) {
+    const more = this._L23_more('L2RED1', tier);
+    if (more) return more;
     const vp = (l1, l2) => `$\\lambda_1 = ${Math.min(l1, l2)}$ et $\\lambda_2 = ${Math.max(l1, l2)}$`;
     const distinctPair = () => {
       let l1, l2;
@@ -3032,6 +3529,8 @@ window.MathsAdvancedGenerators = {
   // L2-PRE : Espaces préhilbertiens
   // =========================================================================
   generateL2_PRE(tier) {
+    const more = this._L23_more('L2PRE', tier);
+    if (more) return more;
     const dot = (a, b) => a.reduce((s, x, i) => s + x * b[i], 0);
     const rv = () => [this.randInt(-3, 3), this.randInt(-3, 3), this.randInt(-3, 3)];
     if (tier === 1) {
@@ -3095,7 +3594,7 @@ window.MathsAdvancedGenerators = {
       `$${lhs} = ${this.frac(num, 6)}$`,
       [this.frac(num, 3), this.frac(6 * a * cc + 3 * (a * dd + b * cc) + 3 * b * dd, 6), this.frac(num + 6, 6), this.frac(a * cc + b * dd, 1), this.frac(a * cc + a * dd + b * cc + b * dd, 1), this.frac(2 * a * cc + (a * dd + b * cc) + b * dd, 2), this.frac(-num, 6)].map((x) => `$${lhs} = ${x}$`),
       'Développe $P(t)Q(t)$ puis intègre terme à terme sur $[0, 1]$.',
-      '$\\int_0^1 dt = 1$, $\\int_0^1 t \\, dt = \\frac{1}{2}$, $\\int_0^1 t^2 \\, dt = \\frac{1}{3}$.',
+      'Utilise $\\int_0^1 t^k \\, dt = \\frac{1}{k + 1}$ pour $k = 0, 1, 2$.',
       `$${same ? 'P(t)^2' : 'P(t)Q(t)'} = ${this.polyX([b * dd, a * dd + b * cc, a * cc], 't')}$, donc $${lhs} = ${this.poly([[a * cc, ''], [this.frac(a * dd + b * cc, 2), ''], [this.frac(b * dd, 3), '']])} = ${this.frac(num, 6)}$.`
     );
   },
@@ -3105,6 +3604,8 @@ window.MathsAdvancedGenerators = {
   // L2-SER : Séries numériques
   // =========================================================================
   generateL2_SER(tier) {
+    const more = this._L23_more('L2SER', tier);
+    if (more) return more;
     const rq = () => {
       let p, r;
       do { r = this.randInt(2, 9); p = this.randNonZero(-(r - 1), r - 1); } while (this.gcd(p, r) !== 1);
@@ -3121,7 +3622,7 @@ window.MathsAdvancedGenerators = {
         `Calculer $S = \\sum_{n=${k}}^{+\\infty} ${qs(p, r)}^n$.`,
         `$S = ${this.frac(num, den)}$`,
         [this.frac(r, r - p), this.frac(r, r + p), this.frac(p, r - p), this.frac(p ** (k + 1) * r, r ** (k + 1) * (r - p)), this.frac(-num, den)].map((x) => `$S = ${x}$`),
-        `$|q| = ${this.frac(Math.abs(p), r)} < 1$ : la série géométrique converge.`,
+        'La raison $q$ de cette série géométrique vérifie $|q| < 1$ : elle converge.',
         '$\\sum_{n=k}^{+\\infty} q^n = \\frac{q^k}{1 - q}$.',
         `$S = \\frac{${k === 0 ? '1' : k === 1 ? qs(p, r) : `${qs(p, r)}^{${k}}`}}{1 - ${qs(p, r)}} = \\frac{${this.frac(p ** k, r ** k)}}{${this.frac(r - p, r)}} = ${this.frac(num, den)}$.`
       );
@@ -3193,6 +3694,8 @@ window.MathsAdvancedGenerators = {
   // L2-CAL : Calcul différentiel
   // =========================================================================
   generateL2_CAL(tier) {
+    const more = this._L23_more('L2CAL', tier);
+    if (more) return more;
     const shape = () => {
       const a = this.randNonZero(-4, 4), b = this.randNonZero(-3, 3), c = this.randNonZero(-5, 5);
       if (Math.random() < 0.5) {
@@ -3276,6 +3779,8 @@ window.MathsAdvancedGenerators = {
   // L2-DET : Déterminants
   // =========================================================================
   generateL2_DET(tier) {
+    const more = this._L23_more('L2DET', tier);
+    if (more) return more;
     const P = (v) => this.paren(v);
     if (tier === 1) {
       let M;
@@ -3362,6 +3867,8 @@ window.MathsAdvancedGenerators = {
   // L2-RED2 : Cayley-Hamilton, trigonalisation, nilpotence
   // =========================================================================
   generateL2_RED2(tier) {
+    const more = this._L23_more('L2RED2', tier);
+    if (more) return more;
     if (tier === 1 || tier === 2) {
       let A, t, d;
       do {
@@ -3451,6 +3958,8 @@ window.MathsAdvancedGenerators = {
   // L2-DUA : Dualité
   // =========================================================================
   generateL2_DUA(tier) {
+    const more = this._L23_more('L2DUA', tier);
+    if (more) return more;
     if (tier === 1) {
       let c;
       do { c = [this.randInt(-4, 4), this.randInt(-4, 4), this.randInt(-4, 4)]; } while (c.filter((x) => x !== 0).length < 2);
@@ -3538,6 +4047,8 @@ window.MathsAdvancedGenerators = {
   // L2-SYM : Endomorphismes symétriques, groupe orthogonal
   // =========================================================================
   generateL2_SYM(tier) {
+    const more = this._L23_more('L2SYM', tier);
+    if (more) return more;
     if (tier === 1) {
       const trip = this.randChoice([[3, 4, 5], [5, 12, 13], [8, 15, 17], [7, 24, 25], [20, 21, 29]]);
       let [p, q] = Math.random() < 0.5 ? [trip[0], trip[1]] : [trip[1], trip[0]];
@@ -3637,6 +4148,8 @@ window.MathsAdvancedGenerators = {
   // L2-RIE : Intégrale de Riemann
   // =========================================================================
   generateL2_RIE(tier) {
+    const more = this._L23_more('L2RIE', tier);
+    if (more) return more;
     if (tier === 1) {
       const a = this.randInt(1, 6), p = this.randInt(1, 5), b = this.randInt(0, 4);
       const kn = p === 1 ? '\\frac{k}{n}' : `\\left(\\frac{k}{n}\\right)^{${p}}`;
@@ -3679,7 +4192,7 @@ window.MathsAdvancedGenerators = {
         `$I = ${this.frac(num, 6)}$`,
         [this.frac(-num, 6), this.frac(num, 3), this.frac(2 * p * (be ** 3 - al ** 3) + 6 * q * (be ** 2 - al ** 2) + 6 * r * (be - al), 6), this.frac(6 * p * (be ** 2 - al ** 2) + 6 * q * (be - al), 6), this.frac(num + 6, 6)].map((x) => `$I = ${x}$`),
         'Cherche une primitive $F$ de l\'intégrande.',
-        `$F(x) = ${F}$ convient.`,
+        'Intègre terme à terme : $x^k$ a pour primitive $\\frac{x^{k+1}}{k + 1}$.',
         `$I = F(${be}) - F(${al}) = ${this.frac(num, 6)}$ avec $F(x) = ${F}$.`
       );
     }
@@ -3708,6 +4221,8 @@ window.MathsAdvancedGenerators = {
   // L2-ING : Intégrales généralisées
   // =========================================================================
   generateL2_ING(tier) {
+    const more = this._L23_more('L2ING', tier);
+    if (more) return more;
     if (tier === 1) {
       const fam = this.randChoice(['inf', 'zero']);
       let p, q;
@@ -3806,6 +4321,8 @@ window.MathsAdvancedGenerators = {
   // L2-EDO : Équations différentielles linéaires
   // =========================================================================
   generateL2_EDO(tier) {
+    const more = this._L23_more('L2EDO', tier);
+    if (more) return more;
     const E = (k) => this._L2_exp(k);
     if (tier === 1) {
       const a = this.randNonZero(-5, 5), y0 = this.randNonZero(-5, 5);
@@ -3907,6 +4424,8 @@ window.MathsAdvancedGenerators = {
   // L2-PAR : Intégrales à paramètre
   // =========================================================================
   generateL2_PAR(tier) {
+    const more = this._L23_more('L2PAR', tier);
+    if (more) return more;
     if (tier === 1) {
       const n = this.randInt(2, 5), a = this.randInt(1, 3), x0 = this.randInt(-3, 3);
       const num = (a + x0) ** n - x0 ** n;
@@ -4005,6 +4524,8 @@ window.MathsAdvancedGenerators = {
   // L2-MUL : Intégrales multiples
   // =========================================================================
   generateL2_MUL(tier) {
+    const more = this._L23_more('L2MUL', tier);
+    if (more) return more;
     if (tier === 1) {
       let a, b, p, q;
       do { a = this.randInt(1, 3); b = this.randInt(1, 3); p = this.randInt(0, 3); q = this.randInt(0, 3); } while (p + q === 0);
@@ -4081,6 +4602,8 @@ window.MathsAdvancedGenerators = {
   // L2-CRB : Courbes paramétrées
   // =========================================================================
   generateL2_CRB(tier) {
+    const more = this._L23_more('L2CRB', tier);
+    if (more) return more;
     if (tier === 1) {
       const a = this.randNonZero(-3, 4), b = this.randInt(-3, 3), c = this.randNonZero(-3, 4);
       const p = this.randInt(1, 3), q = this.randInt(1, 3), t0 = this.randNonZero(-2, 2);
@@ -4176,6 +4699,8 @@ window.MathsAdvancedGenerators = {
   // L2-PRB : Probabilités discrètes
   // =========================================================================
   generateL2_PRB(tier) {
+    const more = this._L23_more('L2PRB', tier);
+    if (more) return more;
     if (tier === 1) {
       let xs;
       do { xs = [this.randInt(-5, 10), this.randInt(-5, 10), this.randInt(-5, 10)].sort((a, b) => a - b); } while (new Set(xs).size < 3);
@@ -4252,6 +4777,8 @@ window.MathsAdvancedGenerators = {
   // L3-GRP1 : Théorie des groupes I
   // ===========================================================================
   generateL3_GRP1(tier) {
+    const more = this._L23_more('L3GRP1', tier);
+    if (more) return more;
     const C = 'L3-GRP1';
     if (tier === 1) {
       const n = this.randInt(6, 40);
@@ -4360,6 +4887,8 @@ window.MathsAdvancedGenerators = {
   // L3-MET : espaces métriques et normés
   // ===========================================================================
   generateL3_MET(tier) {
+    const more = this._L23_more('L3MET', tier);
+    if (more) return more;
     const C = 'L3-MET';
     if (tier === 1) {
       let ax;
@@ -4462,6 +4991,8 @@ window.MathsAdvancedGenerators = {
   // L3-CMP : compacité, connexité, Heine
   // ===========================================================================
   generateL3_CMP(tier) {
+    const more = this._L23_more('L3CMP', tier);
+    if (more) return more;
     const C = 'L3-CMP';
     if (tier === 1) {
       const a = this.randInt(-6, 3);
@@ -4508,7 +5039,7 @@ window.MathsAdvancedGenerators = {
         `$${ans}$`,
         [d, f(a), f(b), f(Math.round((a + b) / 2)), ans - 1, -ans, ans + 1, ans + 2].map((v) => `$${v}$`),
         `$f$ est croissante sur $]-\\infty, ${c}]$ et décroissante sur $[${c}, +\\infty[$.`,
-        `Compare $f(${a}) = ${f(a)}$, $f(${b}) = ${f(b)}$${c >= a && c <= b ? ` et $f(${c}) = ${d}$` : ''}.`,
+        `Compare les valeurs de $f$ aux bornes du segment${c >= a && c <= b ? ' et au sommet de la parabole' : ''}.`,
         `Le sommet de la parabole est en $x = ${c}$, ${c >= a && c <= b ? 'qui appartient' : 'qui n\'appartient pas'} au segment. On compare les valeurs $f(${a}) = ${f(a)}$, $f(${b}) = ${f(b)}$${c >= a && c <= b ? ` et $f(${c}) = ${d}$` : ''} : le ${isMax ? 'maximum' : 'minimum'} vaut $${ans}$.`);
     }
     if (tier === 3) {
@@ -4567,6 +5098,8 @@ window.MathsAdvancedGenerators = {
   // L3-MES : mesure et intégration de Lebesgue
   // ===========================================================================
   generateL3_MES(tier) {
+    const more = this._L23_more('L3MES', tier);
+    if (more) return more;
     const C = 'L3-MES';
     if (tier === 1) {
       const s1 = this.randInt(-4, 3);
@@ -4675,6 +5208,8 @@ window.MathsAdvancedGenerators = {
   // L3-GRP2 : actions de groupes, Sylow, groupes symétriques
   // ===========================================================================
   generateL3_GRP2(tier) {
+    const more = this._L23_more('L3GRP2', tier);
+    if (more) return more;
     const C = 'L3-GRP2';
     if (tier === 1) {
       const G = this.randChoice([12, 16, 18, 20, 24, 30, 36, 40, 48, 60, 72, 96, 120]);
@@ -4710,7 +5245,7 @@ window.MathsAdvancedGenerators = {
         `$${ans}$`,
         [`$${f(n) / (f(k) * f(n - k))}$`, `$${f(n) / f(n - k)}$`, `$${f(k - 1)}$`, `$${f(n) / k}$`, `$${f(n)}$`, `$${2 * ans}$`, `$${n * k}$`, `$${ans + n}$`],
         `Choisis d'abord le support du cycle ($\\binom{${n}}{${k}}$ possibilités).`,
-        `Sur un support fixé de $${k}$ éléments, il y a $(${k} - 1)! = ${f(k - 1)}$ cycles distincts.`,
+        `Sur un support fixé de $${k}$ éléments, compte les ordres cycliques possibles : il y en a $(${k} - 1)!$.`,
         `Un ${k}-cycle est déterminé par son support ($\\binom{${n}}{${k}} = ${f(n) / (f(k) * f(n - k))}$ choix) et par l'ordre cyclique de ses éléments ($(${k} - 1)! = ${f(k - 1)}$ choix). Il y a donc $${f(n) / (f(k) * f(n - k))} \\times ${f(k - 1)} = ${ans}$ cycles de longueur $${k}$ dans $\\mathfrak{S}_{${n}}$.`);
     }
     if (tier === 3) {
@@ -4781,6 +5316,8 @@ window.MathsAdvancedGenerators = {
   // L3-ANN : anneaux et corps
   // ===========================================================================
   generateL3_ANN(tier) {
+    const more = this._L23_more('L3ANN', tier);
+    if (more) return more;
     const C = 'L3-ANN';
     if (tier === 1) {
       let n;
@@ -4877,6 +5414,8 @@ window.MathsAdvancedGenerators = {
   // L3-BAN : complétude, point fixe de Picard
   // ===========================================================================
   generateL3_BAN(tier) {
+    const more = this._L23_more('L3BAN', tier);
+    if (more) return more;
     const C = 'L3-BAN';
     if (tier === 1) {
       const fam = this.randInt(0, 2);
@@ -4903,7 +5442,7 @@ window.MathsAdvancedGenerators = {
           `$k = ${k}$`,
           [`$k = ${this.frac(a, c)}$`, `$k = ${this.frac(c * c, a * a)}$`, '$k = 1$', `$k = ${this.frac(2 * c, a)}$`],
           'Inégalité des accroissements finis : $|f(x) - f(y)| \\le \\sup|f\'|\\,|x - y|$.',
-          `$f'(x) = ${coef}\\cos(x)$.`,
+          'Dérive $f$, puis majore $|\\cos|$ par $1$ (en remarquant que cette borne est atteinte).',
           `$\\sup_{\\mathbb{R}} |f'| = ${k}$ (atteint en $x = 0$) : par les accroissements finis $f$ est $${k}$-lipschitzienne, et aucune constante plus petite ne convient car $\\frac{f(h) - f(0)}{h} \\to ${k}$ quand $h \\to 0$.`);
       }
       const m = this.randInt(1, 6);
@@ -4976,6 +5515,8 @@ window.MathsAdvancedGenerators = {
   // L3-SDF : suites et séries de fonctions
   // ===========================================================================
   generateL3_SDF(tier) {
+    const more = this._L23_more('L3SDF', tier);
+    if (more) return more;
     const C = 'L3-SDF';
     if (tier === 1) {
       if (Math.random() < 0.6) {
@@ -5087,6 +5628,8 @@ window.MathsAdvancedGenerators = {
   // L3-SER : séries entières
   // ===========================================================================
   generateL3_SER(tier) {
+    const more = this._L23_more('L3SER', tier);
+    if (more) return more;
     const C = 'L3-SER';
     if (tier === 1) {
       const a = this.randInt(2, 9);
@@ -5194,6 +5737,8 @@ window.MathsAdvancedGenerators = {
   // L3-FOU : séries de Fourier
   // ===========================================================================
   generateL3_FOU(tier) {
+    const more = this._L23_more('L3FOU', tier);
+    if (more) return more;
     const C = 'L3-FOU';
     const conv = 'On utilise la convention $f(x) = \\frac{a_0}{2} + \\sum_{n \\geq 1} \\left(a_n \\cos(nx) + b_n \\sin(nx)\\right)$.';
     const trig = () => {
@@ -5321,6 +5866,8 @@ window.MathsAdvancedGenerators = {
   // L3-GPR : géométrie affine, projective, inversion
   // ===========================================================================
   generateL3_GPR(tier) {
+    const more = this._L23_more('L3GPR', tier);
+    if (more) return more;
     const C = 'L3-GPR';
     const pt = (x, y) => `\\left(${x} ; ${y}\\right)`;
     if (tier === 1) {
@@ -5417,6 +5964,8 @@ window.MathsAdvancedGenerators = {
   // L3-GDF : géométrie différentielle des surfaces
   // ===========================================================================
   generateL3_GDF(tier) {
+    const more = this._L23_more('L3GDF', tier);
+    if (more) return more;
     const C = 'L3-GDF';
     if (tier === 1) {
       const [p, q] = this.randChoice([[1, 1], [2, 1], [3, 1], [4, 1], [5, 1], [6, 1], [8, 1], [10, 1], [1, 2], [3, 2], [2, 3], [5, 2]]);
@@ -5523,6 +6072,8 @@ window.MathsAdvancedGenerators = {
   // L3-NUM : analyse numérique matricielle
   // ===========================================================================
   generateL3_NUM(tier) {
+    const more = this._L23_more('L3NUM', tier);
+    if (more) return more;
     const C = 'L3-NUM';
     if (tier === 1) {
       let a;
@@ -5549,7 +6100,7 @@ window.MathsAdvancedGenerators = {
         `$u_{22} = ${u22}$`,
         [d + b * m, d, a * d - b * c, d - m, d - b, b * m - d, u22 + 1].map((v) => `$u_{22} = ${v}$`),
         '$u_{22} = a_{22} - \\ell_{21} a_{12}$ avec $\\ell_{21} = \\frac{a_{21}}{a_{11}}$.',
-        `Ici $\\ell_{21} = ${c} / ${this.paren(a)} = ${m}$.`,
+        'Calcule d\'abord le multiplicateur $\\ell_{21}$, puis effectue l\'élimination sur la deuxième ligne.',
         `$\\ell_{21} = ${m}$ et $u_{22} = ${d} - ${this.paren(m)} \\times ${this.paren(b)} = ${u22}$. On vérifie que $\\det A = u_{11}u_{22} = ${a} \\times ${this.paren(u22)} = ${a * u22}$.`);
     }
     if (tier === 2) {
@@ -5583,7 +6134,7 @@ window.MathsAdvancedGenerators = {
         `$\\operatorname{cond}_\\infty(A) = ${ans}$`,
         [String(nA), this.frac(nA, Math.abs(det)), String(nA * nI), String(Math.abs(det)), this.frac(nI, Math.abs(det))].map((v) => `$\\operatorname{cond}_\\infty(A) = ${v}$`),
         '$A^{-1} = \\frac{1}{\\det A}\\begin{pmatrix} d & -b \\\\ -c & a \\end{pmatrix}$.',
-        `$\\det A = ${det}$ et $\\|A\\|_\\infty = ${nA}$.`,
+        'Calcule $\\det A$ et $\\|A\\|_\\infty$, puis $\\|A^{-1}\\|_\\infty$ à partir des sommes $|d| + |b|$ et $|c| + |a|$.',
         `$\\|A\\|_\\infty = ${nA}$, $\\det A = ${det}$ et $\\|A^{-1}\\|_\\infty = ${this.frac(nI, Math.abs(det))}$. Donc $\\operatorname{cond}_\\infty(A) = ${nA} \\times ${this.frac(nI, Math.abs(det))} = ${ans}$.`);
     }
     // tier 4 : Jacobi / Gauss-Seidel
@@ -5625,6 +6176,8 @@ window.MathsAdvancedGenerators = {
   // L3-PROG : programmation linéaire
   // ===========================================================================
   generateL3_PROG(tier) {
+    const more = this._L23_more('L3PROG', tier);
+    if (more) return more;
     const C = 'L3-PROG';
     const pt = (x, y) => `(${x} ; ${y})`;
     if (tier === 1) {
@@ -5720,6 +6273,8 @@ window.MathsAdvancedGenerators = {
   // L3-PRC : probabilités continues
   // ===========================================================================
   generateL3_PRC(tier) {
+    const more = this._L23_more('L3PRC', tier);
+    if (more) return more;
     const C = 'L3-PRC';
     if (tier === 1) {
       if (Math.random() < 0.55) {
@@ -7889,6 +8444,379 @@ window.MathsAdvancedGenerators = {
   },
 
 
+  /**
+   * Saisie exacte pilotée par le générateur (cf. MathsGenUtils.applyExactPolicy) : la saisie attendue
+   * `input` (texte brut, ex. "(1;-2;1/2)") et sa consigne sont attachées au QCM, qui reste utilisable tel quel.
+   */
+  _L1x(q, input, instruction) {
+    if (q && q.type === 'mcq') {
+      q.exactAnswer = typeof input === 'string' ? input : this._L1in(input);
+      if (instruction) q.exactInstruction = instruction;
+    }
+    return q;
+  },
+
+
+  /** Nombre (entier, ou rationnel [n, d]) -> saisie élève « n/d » irréductible */
+  _L1in(x) {
+    if (!Array.isArray(x)) return String(x);
+    let [n, d] = x;
+    if (d < 0) { n = -n; d = -d; }
+    const g = this.gcd(Math.abs(n), d) || 1;
+    n /= g; d /= g;
+    return d === 1 ? String(n) : `${n}/${d}`;
+  },
+
+
+  /** L1-MAT : système 3x3 à solution entière ; palier 2 : échelonné (remontée), palier 3 : pivot de Gauss complet */
+  _L1MAT_system(tier) {
+    const sol = [this.randNonZero(-4, 4), this.randNonZero(-4, 4), this.randInt(-4, 4)];
+    const V = ['x', 'y', 'z'];
+    const eq = (r) => `${this.poly(r.slice(0, 3).map((c, k) => [c, V[k]]))} = ${r[3]}`;
+    const row = (co) => [...co, co.reduce((s, c, k) => s + c * sol[k], 0)];
+    const sys = (rows) => `\\begin{cases} ${rows.map(eq).join(' \\\\ ')} \\end{cases}`;
+    const ans = (v) => `$(x ; y ; z) = (${v.join(' ; ')})$`;
+    const dist = [ans([sol[1], sol[0], sol[2]]), ans([sol[0], sol[1], -sol[2]]), ans([sol[0], -sol[1], sol[2]]), ans([sol[2], sol[1], sol[0]]), ans([sol[0] + 1, sol[1], sol[2]])];
+    const inst = 'Saisir la solution (x ; y ; z), par exemple (2;-1;0).';
+    if (tier === 2) {
+      const a = this.randInt(-3, 3); const b = this.randNonZero(-3, 3);
+      const p2 = this.randChoice([1, 2, 3, -1]); const d = this.randNonZero(-3, 3);
+      const p3 = this.randChoice([2, 3, -2, 4, -1]);
+      const rows = [row([1, a, b]), row([0, p2, d]), row([0, 0, p3])];
+      const [x, y, z] = sol;
+      return this._L1x(this.makeMcq(
+        'L1-MAT', 2, "Résolution d'un système échelonné (remontée)",
+        'Résoudre un système linéaire triangulaire par remontée des pivots',
+        `Résoudre dans $\\mathbb{R}^3$ le système échelonné : $${sys(rows)}$`,
+        ans(sol), dist,
+        'Le système est déjà échelonné : commence par la dernière équation, qui ne contient que $z$.',
+        'Reporte la valeur de $z$ dans la deuxième équation pour obtenir $y$, puis $y$ et $z$ dans la première pour obtenir $x$.',
+        `1. $${this.coefStr(p3, 'z')} = ${rows[2][3]}$ donne $z = ${z}$.\n2. $${this.coefStr(p2, 'y')} = ${this.poly([[rows[1][3], ''], [-d * z, '']])}${d * z === 0 ? '' : ` = ${p2 * y}`}$ donne $y = ${y}$.\n3. $x = ${this.poly([[rows[0][3], ''], [-a * y, ''], [-b * z, '']])}${a * y === 0 && b * z === 0 ? '' : ` = ${x}`}$.\nLa solution est $(x ; y ; z) = (${sol.join(' ; ')})$ (on vérifie dans chaque équation).`
+      ), this._L1tup(sol), inst);
+    }
+    // palier 3 : pivot de Gauss (éliminations sans fractions)
+    let A; let det;
+    do {
+      A = [[1, this.randInt(-3, 3), this.randInt(-3, 3)], [this.randNonZero(-3, 3), this.randInt(-3, 3), this.randInt(-3, 3)], [this.randInt(-3, 3), this.randInt(-3, 3), this.randInt(-3, 3)]];
+      det = A[0][0] * (A[1][1] * A[2][2] - A[1][2] * A[2][1]) - A[0][1] * (A[1][0] * A[2][2] - A[1][2] * A[2][0]) + A[0][2] * (A[1][0] * A[2][1] - A[1][1] * A[2][0]);
+    } while (det === 0 || A[2].every((c) => c === 0));
+    const rows = A.map(row);
+    const sub = (r, k, s) => r.map((c, j) => c - k * s[j]);
+    let r2 = sub(rows[1], rows[1][0], rows[0]);
+    let r3 = sub(rows[2], rows[2][0], rows[0]);
+    const lin = (dst, k, src) => (k === 0 ? '' : `$L_${dst} \\leftarrow ${this.poly([[1, 'L_' + dst], [-k, 'L_' + src]])}$`);
+    const ops1 = [lin(2, rows[1][0], 1), lin(3, rows[2][0], 1)].filter(Boolean).join(' et ');
+    let swap = '';
+    if (r2[1] === 0) { [r2, r3] = [r3, r2]; swap = ' puis on échange $L_2$ et $L_3$ (pivot nul)'; }
+    const p = r2[1]; const qq = r3[1];
+    const r3b = qq === 0 ? r3 : r3.map((c, j) => p * c - qq * r2[j]);
+    const op2 = qq === 0 ? 'la troisième équation ne contient déjà plus $y$' : `$L_3 \\leftarrow ${this.poly([[p, 'L_3'], [-qq, 'L_2']])}$`;
+    return this._L1x(this.makeMcq(
+      'L1-MAT', 3, 'Résolution d\'un système par le pivot de Gauss',
+      'Résoudre un système linéaire par la méthode du pivot de Gauss',
+      `Résoudre dans $\\mathbb{R}^3$, par la méthode du pivot de Gauss, le système : $${sys(rows)}$`,
+      ans(sol), dist,
+      'Utilise la première équation (coefficient $1$ devant $x$) pour éliminer $x$ des deux autres.',
+      'Élimine ensuite $y$ de la troisième équation à l\'aide de la deuxième, puis remonte le système triangulaire obtenu.',
+      `${ops1 || 'Les équations 2 et 3 ne contiennent pas $x$'}${swap} donnent $${sys([r2, r3])}$. Puis ${op2} : $${eq(r3b)}$. Le système est échelonné ; en remontant, $z = ${sol[2]}$, $y = ${sol[1]}$ et $x = ${sol[0]}$. La solution est $(x ; y ; z) = (${sol.join(' ; ')})$.`
+    ), this._L1tup(sol), inst);
+  },
+
+
+  /** L1-MAT palier 4 : valeur d'un paramètre pour laquelle une matrice 3x3 n'est pas inversible (rang 2) */
+  _L1MAT_rankParam() {
+    let a; let b; let c; let d; let e; let piv;
+    do {
+      a = this.randInt(-3, 3); b = this.randInt(-3, 3); c = this.randNonZero(-3, 3); d = this.randInt(-4, 4); e = this.randInt(-3, 3);
+      piv = d - a * c;
+    } while (piv === 0 || (b === 0 && e === 0));
+    let la; let mu; let m0;
+    for (let k = 0; k < 50; k++) {
+      la = this.randNonZero(-2, 2); mu = this.randNonZero(-2, 2);
+      m0 = la * b + mu * e;
+      if (m0 !== 0) break;
+    }
+    if (m0 === 0) return this._L1MAT_rankParam();
+    const r3 = [la + mu * c, la * a + mu * d];
+    const M = `\\begin{pmatrix} 1 & ${a} & ${b} \\\\ ${c} & ${d} & ${e} \\\\ ${r3[0]} & ${r3[1]} & m \\end{pmatrix}`;
+    const V = (v) => `$m = ${v}$`;
+    return this._L1x(this.makeMcq(
+      'L1-MAT', 4, 'Rang d\'une matrice selon un paramètre',
+      'Échelonner une matrice et déterminer son rang',
+      `Soit $m \\in \\mathbb{R}$ et $M = ${M}$. Pour quelle valeur de $m$ la matrice $M$ n'est-elle pas inversible (son rang vaut alors $2$) ?`,
+      V(m0),
+      [V(-m0), V(m0 + 1), V(m0 - 1), V(la * b - mu * e), V(r3[0] + r3[1])],
+      'Échelonne $M$ : élimine la première colonne sous le pivot $1$, puis la deuxième colonne de la troisième ligne.',
+      `Après $L_2 \\leftarrow ${this.poly([[1, 'L_2'], [-c, 'L_1']])}$, le pivot de la deuxième ligne vaut $${piv}$ ; le rang est $3$ si et seulement si le dernier pivot est non nul.`,
+      `On constate que $${this.poly([[la, 'L_1'], [mu, 'L_2']])}$ a les mêmes deux premiers coefficients que $L_3$ : l'opération $L_3 \\leftarrow ${this.poly([[1, 'L_3'], [-la, 'L_1'], [-mu, 'L_2']])}$ donne la ligne $(0 ; 0 ; ${this.poly([[1, 'm'], [-m0, '']])})$, et la deuxième ligne a pour pivot $${piv} \\neq 0$. Ainsi $\\det(M) = ${this.paren(piv)}(${this.poly([[1, 'm'], [-m0, '']])})$ : $M$ est inversible (rang $3$) si $m \\neq ${m0}$, et de rang $2$ pour $m = ${m0}$.`
+    ), String(m0), 'Saisir la valeur de m.');
+  },
+
+
+  /** L1-MAT palier 4 : inverse déduit d'un polynôme annulateur, A^{-1} = αA² + βA + γI_n */
+  _L1MAT_annul() {
+    const R = this._L1Q();
+    const deg3 = this.randInt(0, 1) === 1;
+    const p = this.randInt(-4, 4); const r = this.randInt(-3, 3); const q = this.randNonZero(-6, 6);
+    const coefs = deg3 ? [R.Q(-1, q), R.Q(-p, q), R.Q(-r, q)] : [R.Q(-1, q), R.Q(-p, q)];
+    const mons = deg3 ? ['A^2', 'A', 'I_n'] : ['A', 'I_n'];
+    const expr = (cs) => this.poly(cs.map((c, k) => [R.s(c), mons[k]]));
+    const rel = deg3 ? `${this.poly([[1, 'A^3'], [p, 'A^2'], [r, 'A'], [q, 'I_n']])} = 0` : `${this.poly([[1, 'A^2'], [p, 'A'], [q, 'I_n']])} = 0`;
+    const fact = deg3 ? this.poly([[1, 'A^2'], [p, 'A'], [r, 'I_n']]) : this.poly([[1, 'A'], [p, 'I_n']]);
+    const opt = (cs) => `$A$ est inversible et $A^{-1} = ${expr(cs)}$`;
+    const neg = (cs) => cs.map(R.neg);
+    return this._L1x(this.makeMcq(
+      'L1-MAT', 4, 'Inverse matriciel via un polynôme annulateur',
+      'Déduire l\'inversibilité et l\'expression de l\'inverse à partir d\'une relation polynomiale',
+      `Soit $A \\in \\mathcal{M}_n(\\mathbb{R})$ telle que $${rel}$. Montrer que $A$ est inversible et exprimer $A^{-1}$ à l'aide des puissances de $A$.`,
+      opt(coefs),
+      [opt(neg(coefs)), opt(coefs.map((c) => R.mul(c, R.Q(-q)))), opt(deg3 ? [coefs[0], R.neg(coefs[1]), coefs[2]] : [coefs[0], R.neg(coefs[1])]), '$A$ n\'est pas nécessairement inversible'],
+      `Fais passer le terme en $I_n$ de l'autre côté, puis factorise $A$ dans les termes restants.`,
+      `Tu obtiens $A \\times B = \\lambda I_n$ avec $\\lambda \\neq 0$ ; alors $A^{-1} = \\frac{1}{\\lambda}B$.`,
+      `On écrit $A(${fact}) = ${-q === 1 ? '' : -q === -1 ? '-' : -q}I_n$, d'où $A \\times \\left(${q === -1 ? '' : q === 1 ? '-' : `${this.frac(-1, q)}`}(${fact})\\right) = I_n$. Une matrice carrée admettant un inverse à droite est inversible, donc $A^{-1} = ${expr(coefs)}$.`
+    ), this._L1tup(coefs), deg3 ? 'Écrire $A^{-1} = \\alpha A^2 + \\beta A + \\gamma I_n$ et saisir (α ; β ; γ), par exemple (1/2;0;-3/2).' : 'Écrire $A^{-1} = \\alpha A + \\beta I_n$ et saisir (α ; β), par exemple (1/2;-3/2).');
+  },
+
+
+  /** L1-MAT palier 4 : puissance d'une matrice λI + N (N nilpotente) par la formule du binôme */
+  _L1MAT_binome() {
+    const la = this.randChoice([2, 3, -1, -2, 1]);
+    const b = this.randChoice([1, 2, 3, -1, -2]);
+    const k = this.randChoice([3, 4, 5]);
+    const up = this.randInt(0, 1) === 1;
+    const M = (x, y) => (up ? `\\begin{pmatrix} ${x} & ${y} \\\\ 0 & ${x} \\end{pmatrix}` : `\\begin{pmatrix} ${x} & 0 \\\\ ${y} & ${x} \\end{pmatrix}`);
+    const lk = la ** k; const off = k * la ** (k - 1) * b;
+    const N = up ? '\\begin{pmatrix} 0 & ' + b + ' \\\\ 0 & 0 \\end{pmatrix}' : '\\begin{pmatrix} 0 & 0 \\\\ ' + b + ' & 0 \\end{pmatrix}';
+    const T = up ? [lk, off, 0, lk] : [lk, 0, off, lk];
+    return this._L1x(this.makeMcq(
+      'L1-MAT', 4, 'Puissance d\'une matrice par le binôme de Newton',
+      'Calculer $A^n$ par décomposition $A = \\lambda I + N$ avec matrice nilpotente',
+      `Soit $A = ${M(la, b)}$. Calculer $A^{${k}}$.`,
+      `$A^{${k}} = ${M(lk, off)}$`,
+      [`$A^{${k}} = ${M(lk, b * lk)}$`, `$A^{${k}} = ${M(lk, k * b)}$`, `$A^{${k}} = ${M(lk, b * la ** (k - 1))}$`, `$A^{${k}} = ${M(k * la, k * b)}$`, `$A^{${k}} = ${M(lk, k * lk * b)}$`],
+      `Écris $A = ${la === 1 ? '' : la === -1 ? '-' : la}I_2 + N$ avec $N = ${N}$ et calcule $N^2$.`,
+      `$I_2$ et $N$ commutent et $N^2 = 0$ : la formule du binôme se réduit à deux termes, $A^n = \\lambda^n I_2 + n\\lambda^{n-1}N$.`,
+      `$A = ${la === 1 ? '' : la === -1 ? '-' : la}I_2 + N$ avec $N^2 = 0$ et $NI_2 = I_2N$, donc $A^{${k}} = ${this.paren(la)}^{${k}} I_2 + ${k} \\times ${this.paren(la)}^{${k - 1}} N = ${this.poly([[lk, 'I_2'], [k * la ** (k - 1), 'N']])} = ${M(lk, off)}$.`
+    ), this._L1tup(T), `Saisir les coefficients (a ; b ; c ; d) de $A^{${k}} = \\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}$, par exemple (8;12;0;8).`);
+  },
+
+
+  /** L1-MAT palier 4 : système 2x2 à paramètre, valeurs exclues du cas de Cramer */
+  _L1MAT_cramer() {
+    const s = this.randInt(1, 6);
+    const divs = [];
+    for (let d = 1; d <= s * s; d++) if ((s * s) % d === 0) divs.push(d);
+    const a = this.randChoice(divs); const b = (s * s) / a;
+    const u = this.randInt(-5, 5); const v = this.randNonZero(-5, 5);
+    const set = (x, y) => `$m \\in \\mathbb{R} \\setminus \\{${x} ; ${y}\\}$`;
+    return this._L1x(this.makeMcq(
+      'L1-MAT', 4, 'Système linéaire avec paramètre (système de Cramer)',
+      'Déterminer les conditions sur un paramètre pour l\'existence et l\'unicité de la solution',
+      `Pour quelles valeurs du paramètre réel $m$ le système $\\begin{cases} mx + ${a === 1 ? '' : a}y = ${u} \\\\ ${b === 1 ? '' : b}x + my = ${v} \\end{cases}$ admet-il une unique solution dans $\\mathbb{R}^2$ ?`,
+      set(-s, s),
+      [`$m = ${s}$ uniquement`, set(-a, b), `$m \\in \\mathbb{R} \\setminus \\{0\\}$`, set(-s * s, s * s), `$m \\in \\mathbb{R} \\setminus \\{${s}\\}$`],
+      'Un système carré admet une unique solution si et seulement si le déterminant de sa matrice est non nul (système de Cramer).',
+      'Écris la matrice du système et calcule son déterminant en fonction de $m$.',
+      `La matrice du système est $\\begin{pmatrix} m & ${a} \\\\ ${b} & m \\end{pmatrix}$, de déterminant $m^2 - ${a} \\times ${b} = m^2 - ${s * s}$. Le système est de Cramer si et seulement si $m^2 \\neq ${s * s}$, c'est-à-dire $m \\neq -${s}$ et $m \\neq ${s}$ : d'où l'unique solution pour ${set(-s, s)}.`
+    ), `(${-s};${s})`, 'Saisir les deux valeurs de m exclues, dans l\'ordre croissant (m1 ; m2), par exemple (-3;3).');
+  },
+
+
+  /** L1-MAT palier 3 : rang d'une matrice 3x4 non échelonnée (échelonnement par pivot de Gauss) */
+  _L1MAT_rank() {
+    const r = this.randChoice([1, 2, 2, 3, 3]);
+    let M; let tries = 0;
+    do {
+      // lignes : r lignes « libres » puis combinaisons entières de celles-ci
+      const base = [[1, this.randInt(-3, 3), this.randInt(-3, 3), this.randInt(-3, 3)]];
+      if (r >= 2) base.push([0, this.randNonZero(-2, 2), this.randInt(-3, 3), this.randInt(-3, 3)]);
+      if (r === 3) base.push([0, 0, this.randNonZero(-2, 2), this.randInt(-3, 3)]);
+      const rows = base.slice();
+      while (rows.length < 3) {
+        const co = base.map(() => this.randNonZero(-2, 2));
+        rows.push([0, 1, 2, 3].map((j) => base.reduce((s, b, k) => s + co[k] * b[j], 0)));
+      }
+      // brassage : L2 += αL1, L3 += βL1 + γL2 (ne change pas le rang) puis mélange des lignes
+      const al = this.randNonZero(-2, 2); const be = this.randInt(-2, 2); const ga = this.randInt(-1, 1);
+      rows[1] = rows[1].map((x, j) => x + al * rows[0][j]);
+      rows[2] = rows[2].map((x, j) => x + be * rows[0][j] + ga * rows[1][j]);
+      M = this.shuffleArray(rows);
+      tries++;
+    } while ((M.some((row) => row.every((x) => x === 0)) || M.some((row) => row.some((x) => Math.abs(x) > 12)) || this._L1rank(M) !== r) && tries < 60);
+    const rk = this._L1rank(M);
+    const tex = `\\begin{pmatrix} ${M.map((row) => row.join(' & ')).join(' \\\\ ')} \\end{pmatrix}`;
+    const R = (v) => `$\\text{rg}(M) = ${v}$`;
+    // échelonnement explicite (sans fractions) pour la correction
+    const A = M.map((row) => row.slice());
+    const steps = [];
+    let piv = 0;
+    for (let c = 0; c < 4 && piv < 3; c++) {
+      let p = piv; while (p < 3 && A[p][c] === 0) p++;
+      if (p === 3) continue;
+      if (p !== piv) { [A[piv], A[p]] = [A[p], A[piv]]; steps.push(`$L_${piv + 1} \\leftrightarrow L_${p + 1}$`); }
+      for (let i = piv + 1; i < 3; i++) {
+        if (A[i][c] === 0) continue;
+        const f = A[i][c]; const g = A[piv][c];
+        A[i] = A[i].map((x, j) => g * x - f * A[piv][j]);
+        steps.push(`$L_${i + 1} \\leftarrow ${this.poly([[g, `L_${i + 1}`], [-f, `L_${piv + 1}`]])}$`);
+      }
+      piv++;
+    }
+    const texA = `\\begin{pmatrix} ${A.map((row) => row.join(' & ')).join(' \\\\ ')} \\end{pmatrix}`;
+    return this._L1x(this.makeMcq(
+      'L1-MAT', 3, 'Rang d\'une matrice par échelonnement',
+      'Échelonner une matrice et déterminer son rang',
+      `Déterminer le rang de la matrice $M = ${tex} \\in \\mathcal{M}_{3,4}(\\mathbb{R})$.`,
+      R(rk), [1, 2, 3, 4].filter((v) => v !== rk).map(R),
+      'Échelonne $M$ par opérations élémentaires sur les lignes (elles ne changent pas le rang).',
+      'Le rang est le nombre de lignes non nulles (de pivots) de la matrice échelonnée obtenue.',
+      `Opérations : ${steps.join(', ')}. On obtient la matrice échelonnée $${texA}$, qui a ${rk} ligne${rk > 1 ? 's' : ''} non nulle${rk > 1 ? 's' : ''} : $\\text{rg}(M) = ${rk}$.`
+    ), String(rk), 'Saisir le rang (nombre entier).');
+  },
+
+
+  /**
+   * Saisie exacte des familles historiques de L1 (LOG, EV1, APP, REL, CNT) : la réponse numérique (rang, dimension,
+   * déterminant, coordonnées, coefficients, cardinal…) est lue sur la réponse QCM et attachée comme q.exactAnswer.
+   * Les questions dont la réponse est conceptuelle restent des QCM.
+   */
+  _L1tag(q) {
+    if (!q || q.type !== 'mcq' || q.exactAnswer !== undefined) return q;
+    const t = q.title; const A = String(q.answer); let m;
+    const set = (inp, ins) => this._L1x(q, inp, ins);
+    if (/image d'un vecteur par une application linéaire/.test(t) && (m = A.match(/= \((-?\d+), (-?\d+)\)\$$/))) return set(`(${m[1]};${m[2]})`, 'Saisir les coordonnées (a ; b) de l\'image, par exemple (3;-1).');
+    if (/dérivation concrète/.test(t) && (m = A.match(/D\(P\) = (-?\d*)X(?: ([+-]) (\d+))?\$$/))) {
+      const a = m[1] === '' ? 1 : m[1] === '-' ? -1 : +m[1]; const b = m[2] ? (m[2] === '-' ? -1 : 1) * +m[3] : 0;
+      return set(`(${a};${b})`, 'Écrire $D(P) = aX + b$ et saisir (a ; b), par exemple (4;-3).');
+    }
+    if (/Théorème du rang (appliqué|: Dimension)/.test(t) && (m = A.match(/rg\}\(f\) = (\d+)/))) return set(m[1], 'Saisir la valeur de rg(f) (nombre entier).');
+    if (/Matrice d'un endomorphisme dans la base canonique|Matrice de passage entre deux bases/.test(t) && (m = A.match(/\\begin\{pmatrix\} (-?\d+) & (-?\d+) \\\\ (-?\d+) & (-?\d+) \\end\{pmatrix\}\$$/))) return set(`(${m[1]};${m[2]};${m[3]};${m[4]})`, 'Saisir les coefficients (a ; b ; c ; d) de la matrice $\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}$, par exemple (2;0;-1;3).');
+    if (/Liberté de deux vecteurs|Base de \$\\mathbb\{R\}\^3\$ et liberté/.test(t) && (m = A.match(/\\det\((u, v(?:, w)?)\) = (-?\d+)/))) return set(m[2], `Saisir la valeur de $\\det(${m[1]})$ (la famille est libre si et seulement si ce déterminant est non nul).`);
+    if (/^Rang d'une matrice \$3/.test(t) && (m = A.match(/rg\}\(M\) = (\d)/))) return set(m[1], 'Saisir le rang (nombre entier).');
+    if (/Nombre de racines réelles d'un polynôme/.test(t)) {
+      const n = /^Trois/.test(A) ? 3 : /^Deux/.test(A) ? 2 : /^Une seule/.test(A) ? 1 : null;
+      if (n) return set(String(n), 'Saisir le nombre de racines réelles (nombre entier).');
+    }
+    if (/Nombre de classes d'une relation|Classe d'équivalence modulo n sur un ensemble fini/.test(t) && (m = A.match(/^\$(\d+)\$ (classes|éléments)$/))) return set(m[1], 'Saisir le nombre demandé (nombre entier).');
+    if (/Image directe d'un intervalle/.test(t) && (m = A.match(/^\$\[(-?\d+), (-?\d+)\]\$$/))) return set(`(${m[1]};${m[2]})`, '$f(A)$ est un segment $[a ; b]$ : saisir (a ; b), par exemple (-1;9).');
+    return q;
+  },
+
+
+  /** L1-LOG palier 2 : bijection réciproque d'une homographie */
+  _L1LOG_homog() {
+    let a; let b; let d;
+    do { a = this.randNonZero(-5, 5); b = this.randInt(-6, 6); d = this.randInt(-5, 5); } while (a * d - b === 0);
+    const f = `\\dfrac{${this.poly([[a, 'x'], [b, '']])}}{${this.poly([[1, 'x'], [d, '']])}}`;
+    const inv = (al, be, de) => `$f^{-1}(y) = \\dfrac{${this.poly([[al, 'y'], [be, '']])}}{${this.poly([[1, 'y'], [de, '']])}}$`;
+    const dom = (v) => `\\mathbb{R} \\setminus \\{${v}\\}`;
+    return this._L1x(this.makeMcq(
+      'L1-LOG', 2, "Bijection réciproque d'une homographie",
+      'Démontrer la bijectivité en résolvant $y = f(x)$ et expliciter la réciproque',
+      `On admet que $f : ${dom(-d)} \\to ${dom(a)}$, $f(x) = ${f}$, est bijective. Déterminer sa bijection réciproque $f^{-1}$.`,
+      inv(-d, b, -a),
+      [inv(d, -b, -a), inv(-d, b, a), inv(a, b, d), inv(-d, -b, -a), inv(1, -b, -a)],
+      `Pour $y \\neq ${a}$, résous l'équation $y = f(x)$ d'inconnue $x \\neq ${-d}$.`,
+      `Multiplie par $${this.poly([[1, 'x'], [d, '']])}$ puis regroupe les termes en $x$ : $x(y ${a < 0 ? '+' : '-'} ${Math.abs(a)}) = \\dots$`,
+      `Pour $y \\neq ${a}$ : $${d === 0 ? 'yx' : `y(${this.poly([[1, 'x'], [d, '']])})`} = ${this.poly([[a, 'x'], [b, '']])} \\iff x(${this.poly([[1, 'y'], [-a, '']])}) = ${this.poly([[-d, 'y'], [b, '']])} \\iff x = \\dfrac{${this.poly([[-d, 'y'], [b, '']])}}{${this.poly([[1, 'y'], [-a, '']])}}$. Cette solution est unique et différente de $${-d}$ (sinon on aurait $${a * d - b} = 0$) : tout $y$ de $${dom(a)}$ a exactement un antécédent, donc ${inv(-d, b, -a)}.`
+    ), `(${-d};${b};${-a})`, 'Écrire $f^{-1}(y) = \\dfrac{\\alpha y + \\beta}{y + \\delta}$ et saisir (α ; β ; δ), par exemple (2;-1;3).');
+  },
+
+
+  /** L1-APP palier 2 : dimensions du noyau et de l'image d'un endomorphisme de R^3 donné par sa matrice */
+  _L1APP_dims() {
+    const r = this.randChoice([1, 2, 2, 3]);
+    let M; let k = 0;
+    do {
+      const rows = [[this.randInt(-3, 3), this.randInt(-3, 3), this.randInt(-3, 3)], [this.randInt(-3, 3), this.randInt(-3, 3), this.randInt(-3, 3)]];
+      if (r === 1) rows[1] = rows[0].map((x) => x * this.randNonZero(-2, 2));
+      const l3 = r === 3 ? [this.randInt(-3, 3), this.randInt(-3, 3), this.randInt(-3, 3)] : rows[0].map((x, j) => this.randNonZero(-2, 2) * x + (r === 1 ? 0 : 1) * rows[1][j]);
+      M = this.shuffleArray([...rows, l3]);
+      k++;
+    } while ((this._L1rank(M) !== r || M.some((row) => row.every((x) => x === 0)) || M.some((row) => row.some((x) => Math.abs(x) > 9))) && k < 80);
+    const rk = this._L1rank(M);
+    const lin = (row) => this.poly(row.map((c, j) => [c, ['x', 'y', 'z'][j]]));
+    const opt = (a, b) => `$\\dim \\text{Ker}(f) = ${a}$ et $\\text{rg}(f) = ${b}$`;
+    return this._L1x(this.makeMcq(
+      'L1-APP', 2, 'Dimensions du noyau et de l\'image',
+      'Déterminer une base et la dimension du noyau et de l\'image d\'une application linéaire',
+      `Soit $f \\in \\mathcal{L}(\\mathbb{R}^3)$ définie par $f(x, y, z) = (${M.map(lin).join(', \\, ')})$. Déterminer $\\dim \\text{Ker}(f)$ et $\\text{rg}(f)$.`,
+      opt(3 - rk, rk),
+      [opt(rk, 3 - rk), opt(3 - rk, 3), opt(0, rk), opt(3 - rk + 1, rk), opt(3 - rk, rk + 1 > 3 ? rk - 1 : rk + 1)],
+      '$\\text{rg}(f)$ est le rang de la matrice de $f$ dans la base canonique : échelonne-la.',
+      'Le théorème du rang donne ensuite $\\dim \\text{Ker}(f) = 3 - \\text{rg}(f)$.',
+      `La matrice de $f$ dans la base canonique est $\\begin{pmatrix} ${M.map((row) => row.join(' & ')).join(' \\\\ ')} \\end{pmatrix}$ ; par échelonnement, elle a ${rk} pivot${rk > 1 ? 's' : ''}, donc $\\text{rg}(f) = ${rk}$. Par le théorème du rang, $\\dim \\text{Ker}(f) = 3 - ${rk} = ${3 - rk}$${rk === 3 ? ' : $f$ est un automorphisme' : ` : $f$ n'est ni injective ni surjective`}.`
+    ), `(${3 - rk};${rk})`, 'Saisir (dim Ker(f) ; rg(f)), par exemple (1;2).');
+  },
+
+
+  /** L1-TAY palier 4 : asymptote oblique en +∞ par développement asymptotique (saisie (m ; p)) */
+  _L1TAY_asym() {
+    const R = this._L1Q();
+    const fam = this.randChoice(['exp', 'sqrt', 'ln']);
+    const ov = (k, pw = '') => `${k < 0 ? '-' : '+'} \\frac{${Math.abs(k)}}{${pw}}`;
+    let f; let m; let p; let c; let dev; let ref;
+    if (fam === 'exp') {
+      // (αx + β) e^{a/x} = αx + (β + αa) + (αa²/2 + βa)/x + o(1/x)
+      const al = this.randChoice([1, 1, 2, -1]);
+      const a = this.randChoice([-3, -2, -1, 1, 2, 3]);
+      let be = this.randInt(-3, 3);
+      if (al * a + 2 * be === 0) be += 1; // terme en 1/x non nul : position lisible
+      const lin = this.poly([[al, 'x'], [be, '']]);
+      const ua = `${a < 0 ? '-' : ''}\\frac{${Math.abs(a)}}{x}`;
+      f = `${be === 0 && al === 1 ? 'x' : `(${lin})`}e^{${ua}}`;
+      m = R.Q(al); p = R.Q(be + al * a); c = R.Q(al * a * a + 2 * be * a, 2);
+      ref = `e^{u} = 1 + u + \\frac{u^2}{2} + o(u^2)$ avec $u = ${ua}`;
+      dev = `f(x) = (${lin})\\left(1 ${ov(a, 'x')} + \\frac{${a * a}}{2x^2} + o\\left(\\frac{1}{x^2}\\right)\\right)`;
+    } else if (fam === 'sqrt') {
+      // √(x² + bx + k) = x + b/2 + (k - b²/4)/(2x) + o(1/x) en +∞
+      const b = this.randChoice([-6, -4, -3, -2, 2, 3, 4, 6]);
+      let k = this.randNonZero(-5, 9);
+      if (4 * k === b * b) k += 1;
+      f = `\\sqrt{${this.poly([[1, 'x^2'], [b, 'x'], [k, '']])}}`;
+      m = R.Q(1); p = R.Q(b, 2); c = R.Q(4 * k - b * b, 8);
+      const u = `${b < 0 ? '-' : ''}\\frac{${Math.abs(b)}}{x} ${ov(k, 'x^2')}`;
+      ref = `\\sqrt{1 + u} = 1 + \\frac{u}{2} - \\frac{u^2}{8} + o(u^2)$ avec $u = ${u}`;
+      dev = `f(x) = x\\sqrt{1 + u}$ pour $x > 0$, avec $u = ${u}`;
+    } else {
+      // x² ln(1 + a/x) = ax - a²/2 + a³/(3x) + o(1/x)
+      const a = this.randChoice([-3, -2, -1, 1, 2, 3, 4]);
+      const ua = `${a < 0 ? '-' : ''}\\frac{${Math.abs(a)}}{x}`;
+      f = `x^2 \\ln\\left(1 ${ov(a, 'x')}\\right)`;
+      m = R.Q(a); p = R.Q(-a * a, 2); c = R.Q(a ** 3, 3);
+      ref = `\\ln(1 + u) = u - \\frac{u^2}{2} + \\frac{u^3}{3} + o(u^3)$ avec $u = ${ua}`;
+      dev = `f(x) = x^2\\left(${ua} - \\frac{${a * a}}{2x^2} ${ov(c[0], `${c[1] === 1 ? '' : c[1]}x^3`)} + o\\left(\\frac{1}{x^3}\\right)\\right)`;
+    }
+    const aff = (mm, pp) => this.poly([[R.s(mm), 'x'], [R.s(pp), '']]);
+    const line = (mm, pp) => `$y = ${aff(mm, pp)}$`;
+    const cx = `\\frac{${Math.abs(c[0])}}{${c[1] === 1 ? '' : c[1]}x}`;
+    const posTxt = `$f(x) - (${aff(m, p)}) \\sim ${c[0] < 0 ? '-' : ''}${cx}$, de signe ${c[0] > 0 ? 'positif' : 'négatif'} pour $x > 0$ : la courbe est ${c[0] > 0 ? 'au-dessus' : 'en dessous'} de son asymptote au voisinage de $+\\infty$.`;
+    return this._L1x(this.makeMcq(
+      'L1-TAY', 4, 'Asymptote oblique par développement asymptotique',
+      'Étudier la position d\'une courbe par rapport à son asymptote',
+      `Soit $f(x) = ${f}$. Déterminer l'équation $y = mx + p$ de l'asymptote oblique à la courbe de $f$ en $+\\infty$.`,
+      line(m, p),
+      [line(m, R.neg(p)), line(m, R.Q(0)), line(m, R.mul(p, R.Q(2))), line(R.add(m, R.Q(1)), p), line(m, R.add(p, R.Q(1))), line(R.neg(m), p), line(m, R.sub(p, R.Q(1)))],
+      'Développe $f(x)$ en puissances de $\\frac{1}{x}$ : $f(x) = mx + p + \\frac{c}{x} + o\\left(\\frac{1}{x}\\right)$.',
+      `Utilise $${ref}$.`,
+      `$${dev}$, d'où $f(x) = ${aff(m, p)} ${c[0] < 0 ? '-' : '+'} ${cx} + o\\left(\\frac{1}{x}\\right)$. L'asymptote est la droite ${line(m, p)} ; ${posTxt}`
+    ), this._L1tup([m, p]), 'Saisir (m ; p), par exemple (2;-1/2).');
+  },
+
+
+  /** Consigne de saisie des coefficients d'un DL : « Écrire f(x) = a + bx + … + o(x^n) et saisir (a ; b ; …) » */
+  _L1dlInstr(form, n, k, fname = 'f(x)') {
+    const ex = { 2: '(2;-1/3)', 3: '(1;-2;1/2)', 4: '(1;-2;1/2;0)' }[k];
+    return `Écrire $${fname} = ${form} + o(x^${n})$ et saisir (${['a', 'b', 'c', 'd'].slice(0, k).join(' ; ')}), par exemple ${ex}.`;
+  },
+
+
+  /** n-uplet de nombres -> « (a;b;c) » */
+  _L1tup(arr) {
+    return `(${arr.map((x) => this._L1in(x)).join(';')})`;
+  },
+
+
   /** Partie régulière d'un DL en 0 (coefficients rationnels, puissances croissantes) + o(x^n) */
   _L1dl(coeffs, n, v = 'x') {
     const R = this._L1Q();
@@ -7924,7 +8852,7 @@ window.MathsAdvancedGenerators = {
         `$${F(a)}^3$ avec $${a}$ racine triple`
       ]
       : [`$${F(a)} ${F(b)}^2$`, `$${F(-a)}^2 ${F(-b)}$`, `$${F(a)}^3$`, `$${F(a)} ${F(-a)} ${F(b)}$`];
-    return this.makeMcq(
+    return this._L1x(this.makeMcq(
       'L1-CMP', tier, tier === 2 ? 'Polynôme de degré 3 avec racine double' : 'Factorisation de degré 3 à racine double',
       'Détecter une racine double ($P(a) = P\'(a) = 0$) et factoriser',
       `Déterminer ${tier === 2 ? 'les racines et ' : ''}la factorisation dans $\\mathbb{R}[X]$ du polynôme $P(X) = ${P}$.`,
@@ -7933,7 +8861,7 @@ window.MathsAdvancedGenerators = {
       `Cherche une racine parmi les diviseurs du terme constant et calcule $P'(X) = ${Pp}$.`,
       `Si $P(a) = P'(a) = 0$, alors $(X - a)^2$ divise $P$ : effectue la division euclidienne.`,
       `On vérifie $P(${a}) = 0$ et $P'(${a}) = 0$ : $${a}$ est racine au moins double. La division de $P$ par $${F(a)}^2 = ${sq}$ donne le quotient $${this.poly([[1, 'X'], [-b, '']])}$ ; comme $${b} \\neq ${a}$, $${a}$ est racine double exactement et $P(X) = ${ans}$.`
-    );
+    ), `(${a};${b})`, 'Saisir (a ; b) où a est la racine double et b la racine simple, par exemple (2;-1).');
   },
 
 
@@ -8091,7 +9019,7 @@ window.MathsAdvancedGenerators = {
         `Quelle est la dimension de $${sym ? '\\mathcal{S}' : '\\mathcal{A}'}_{${n}}(\\mathbb{R})$, l'espace des matrices ${sym ? 'symétriques' : 'antisymétriques'} d'ordre $${n}$ ?`,
         D(v), [w, n * n, n, v + n].filter((x) => x !== v).map(D),
         sym ? 'Une matrice symétrique est déterminée par ses coefficients diagonaux et sur-diagonaux.' : 'Une matrice antisymétrique a une diagonale nulle et est déterminée par ses coefficients strictement au-dessus de la diagonale.',
-        `Il y a $${n}$ coefficients diagonaux et $\\frac{${n}(${n} - 1)}{2} = ${(n * (n - 1)) / 2}$ coefficients strictement au-dessus.`,
+        sym ? `Compte les $${n}$ coefficients diagonaux, puis les coefficients strictement au-dessus de la diagonale (il y en a $\\frac{n(n - 1)}{2}$).` : `Seuls comptent les coefficients strictement au-dessus de la diagonale : il y en a $\\frac{n(n - 1)}{2}$ pour $n = ${n}$.`,
         `$\\dim ${sym ? '\\mathcal{S}' : '\\mathcal{A}'}_{${n}}(\\mathbb{R}) = ${sym ? `\\frac{${n}(${n} + 1)}{2}` : `\\frac{${n}(${n} - 1)}{2}`} = ${v}$, et l'on retrouve $\\mathcal{M}_{${n}}(\\mathbb{R}) = \\mathcal{S}_{${n}} \\oplus \\mathcal{A}_{${n}}$ car $${(n * (n + 1)) / 2} + ${(n * (n - 1)) / 2} = ${n * n}$.`
       );
     }
@@ -8601,6 +9529,3836 @@ window.MathsAdvancedGenerators = {
       'Teste séparément les points intérieurs, les bornes et les points extérieurs.',
       'La propriété d\'Archimède assure que $\\frac{1}{n}$ devient plus petit que tout réel strictement positif.',
       sol + ` Résultat : $${ans}$.`
+    );
+  },
+
+  // =========================================================================
+  // CAPES (écrit) : générateurs paramétrés gen_capes_01 … gen_capes_10, majoritairement à saisie
+  // exacte. Chaque palier renvoie null avec une probabilité de 25 % : la question conceptuelle de la
+  // banque statique CAPES_EXERCISES (js/data/data_capes.js) reste ainsi en rotation.
+  // Recalculs indépendants : scripts/tests/test_lycee_licence_generators.js (PRE_VERIFIERS CAPES).
+  // =========================================================================
+
+  /** Saisie élève d'un rationnel n/d : "7/3", "-2", "0" */
+  _cp_q(n, d = 1) {
+    if (d < 0) { n = -n; d = -d; }
+    const g = this.gcd(n, d);
+    n /= g; d /= g;
+    return d === 1 ? String(n) : `${n}/${d}`;
+  },
+
+  /** Repli vers la banque statique (question conceptuelle) */
+  _cp_static() {
+    return Math.random() < 0.25;
+  },
+
+  _cp_fact(n) {
+    let r = 1;
+    for (let k = 2; k <= n; k++) r *= k;
+    return r;
+  },
+
+  gen_capes_01(t) {
+    if (this._cp_static()) return null;
+    const C = 'capes-01';
+    if (t === 1) {
+      if (this.randInt(0, 1)) {
+        const a = this.randNonZero(-6, 6);
+        const b = this.randNonZero(-12, 12);
+        const eq = `y' ${a > 0 ? '+' : '-'} ${Math.abs(a) === 1 ? '' : Math.abs(a)}y = ${b}`;
+        return this.makeExact(C, 1, 'Solution constante de $y\' + ay = b$',
+          'Résoudre une équation linéaire du premier ordre à coefficients constants',
+          `On considère l'équation différentielle $${eq}$ sur $\\mathbb{R}$. Elle admet une unique solution constante $y_0$. Que vaut $y_0$ ?`,
+          this._cp_q(b, a),
+          'Une fonction constante a une dérivée nulle.',
+          `Remplace $y$ par une constante $c$ : il reste $${a === 1 ? '' : a === -1 ? '-' : a}c = ${b}$.`,
+          `Si $y = c$ est constante, $y' = 0$ et l'équation devient $${a === 1 ? '' : a === -1 ? '-' : a}c = ${b}$, d'où $y_0 = ${this.frac(b, a)}$. Les solutions sont alors $y(t) = ${this.frac(b, a)} + K e^{${this.poly([[-a, 't']])}}$, $K \\in \\mathbb{R}$ : solution particulière + solutions de l'équation homogène.`);
+      }
+      let r1 = this.randInt(-6, 5);
+      let r2 = this.randInt(-6, 6);
+      if (r2 === r1) r2 = r1 + this.randInt(1, 3);
+      const [lo, hi] = [Math.min(r1, r2), Math.max(r1, r2)];
+      const p = -(r1 + r2);
+      const q = r1 * r2;
+      return this.makeExact(C, 1, 'Équation caractéristique d\'une EDO d\'ordre 2',
+        'Associer à $y\'\' + py\' + qy = 0$ son équation caractéristique',
+        `On considère l'équation $y'' ${this.poly([[p, "y'"], [q, 'y']]).replace(/^(?=[^-])/, '+ ').replace(/^-/, '- ')} = 0$. Ses solutions sont les $y(t) = Ae^{r_1 t} + Be^{r_2 t}$, où $r_1 < r_2$ sont les racines de l'équation caractéristique. Donner $(r_1 ; r_2)$.`,
+        `(${lo};${hi})`,
+        'L\'équation caractéristique de $y\'\' + py\' + qy = 0$ est $r^2 + pr + q = 0$.',
+        `Cherche deux nombres de somme $${-p}$ et de produit $${q}$.`,
+        `L'équation caractéristique est $${this.polyX([1, p, q], 'r')} = 0$. Ses racines ont pour somme $${-p}$ et pour produit $${q}$ : ce sont $r_1 = ${lo}$ et $r_2 = ${hi}$ (discriminant $${p * p - 4 * q} > 0$). D'où $y(t) = Ae^{${this.poly([[lo, 't']])}} + Be^{${this.poly([[hi, 't']])}}$.`,
+        { instruction: 'Saisir le couple (r1 ; r2) avec r1 < r2, par exemple (-3;2).' });
+    }
+    if (t === 2) {
+      if (this.randInt(0, 1)) {
+        const al = this.randNonZero(-4, 4);
+        const be = this.randInt(1, 5);
+        const p = -2 * al;
+        const q = al * al + be * be;
+        return this.makeExact(C, 2, 'Racines caractéristiques complexes',
+          'Résoudre une équation homogène d\'ordre 2 à discriminant négatif',
+          `On considère l'équation $y'' ${this.poly([[p, "y'"], [q, 'y']]).replace(/^(?=[^-])/, '+ ').replace(/^-/, '- ')} = 0$. Ses solutions réelles s'écrivent $y(t) = e^{\\alpha t}(A\\cos(\\beta t) + B\\sin(\\beta t))$ avec $\\beta > 0$. Donner $(\\alpha ; \\beta)$.`,
+          `(${al};${be})`,
+          'Les racines de l\'équation caractéristique sont $\\alpha \\pm i\\beta$.',
+          `Le discriminant de $r^2 ${p >= 0 ? '+' : '-'} ${Math.abs(p)}r + ${q}$ vaut $${p * p - 4 * q}$.`,
+          `L'équation caractéristique $${this.polyX([1, p, q], 'r')} = 0$ a pour discriminant $\\Delta = ${p * p - 4 * q} = (${2 * be}i)^2$, d'où $r = ${al} \\pm ${be === 1 ? '' : be}i$. Ainsi $\\alpha = ${al}$ et $\\beta = ${be}$ : $y(t) = e^{${this.poly([[al, 't']])}}(A\\cos(${this.poly([[be, 't']])}) + B\\sin(${this.poly([[be, 't']])}))$.`,
+          { instruction: 'Saisir le couple (alpha ; beta), par exemple (-1;3).' });
+      }
+      let r1 = this.randNonZero(-5, 5);
+      let r2 = this.randNonZero(-5, 5);
+      if (r1 === r2) r2 = -r1;
+      const p = -(r1 + r2);
+      const q = r1 * r2;
+      const c = q * this.randNonZero(-4, 4) * this.randChoice([1, 1, 2]);
+      return this.makeExact(C, 2, 'Solution particulière constante (ordre 2)',
+        'Trouver une solution particulière pour un second membre constant',
+        `Déterminer la solution particulière constante $y_p$ de l'équation $y'' ${this.poly([[p, "y'"], [q, 'y']]).replace(/^(?=[^-])/, '+ ').replace(/^-/, '- ')} = ${c}$.`,
+        this._cp_q(c, q),
+        'Pour une fonction constante, $y\' = y\'\' = 0$.',
+        `Il reste $${q}\\,y_p = ${c}$.`,
+        `Si $y_p$ est constante, l'équation se réduit à $${q}\\,y_p = ${c}$ (possible car $${q} \\neq 0$, c'est-à-dire $0$ n'est pas racine caractéristique), donc $y_p = ${this.frac(c, q)}$.`);
+    }
+    if (t === 3) {
+      const r1 = this.randNonZero(-4, 3);
+      let r2 = this.randNonZero(-4, 4);
+      if (r1 === r2) r2 = r1 === 4 ? -1 : r1 + 1 || 2;
+      const A = this.randInt(-4, 4);
+      const B = this.randInt(-6, 6);
+      const p = -(r1 + r2);
+      const q = r1 * r2;
+      // y = C1 e^{r1 t} + C2 e^{r2 t} ; C1 + C2 = A ; r1 C1 + r2 C2 = B
+      const c1n = B - r2 * A; const den = r1 - r2;
+      const c2n = r1 * A - B;
+      const lhs = `y'' ${this.poly([[p, "y'"], [q, 'y']]).replace(/^(?=[^-])/, '+ ').replace(/^-/, '- ')}`.replace(/\s+$/, '');
+      return this.makeExact(C, 3, 'Problème de Cauchy d\'ordre 2',
+        'Déterminer les constantes à l\'aide des conditions initiales',
+        `Soit $y$ la solution de $${q === 0 && p === 0 ? "y''" : lhs} = 0$ telle que $y(0) = ${A}$ et $y'(0) = ${B}$. On écrit $y(t) = C_1 e^{${this.poly([[r1, 't']])}} + C_2 e^{${this.poly([[r2, 't']])}}$. Donner $(C_1 ; C_2)$.`,
+        `(${this._cp_q(c1n, den)};${this._cp_q(c2n, den)})`,
+        'Écris $y(0)$ et $y\'(0)$ en fonction de $C_1$ et $C_2$.',
+        `Résous le système $C_1 + C_2 = ${A}$ et $${this.poly([[r1, 'C_1'], [r2, 'C_2']])} = ${B}$.`,
+        `$y(0) = C_1 + C_2 = ${A}$ et $y'(0) = ${this.poly([[r1, 'C_1'], [r2, 'C_2']])} = ${B}$. En retranchant à la seconde équation la première multipliée par $${r2}$ : $${den}\\,C_1 = ${c1n}$, d'où $C_1 = ${this.frac(c1n, den)}$, puis $C_2 = ${A} - C_1 = ${this.frac(c2n, den)}$.`,
+        { instruction: 'Saisir le couple (C1 ; C2), par exemple (2;-1/3).' });
+    }
+    // t === 4 : résonance ou non
+    const w = this.randInt(1, 5);
+    const c = this.randNonZero(-12, 12);
+    if (this.randInt(0, 1)) {
+      return this.makeExact(C, 4, 'Résonance d\'un oscillateur non amorti',
+        'Chercher une solution particulière lorsque le second membre est solution de l\'équation homogène',
+        `On considère $y'' + ${this.poly([[w * w, 'y']])} = ${c}\\cos(${this.poly([[w, 't']])})$. Une solution particulière s'écrit $y_p(t) = k\\,t\\sin(${this.poly([[w, 't']])})$. Que vaut $k$ ?`,
+        this._cp_q(c, 2 * w),
+        `$\\cos(${this.poly([[w, 't']])})$ est solution de l'équation homogène : il y a résonance, d'où le facteur $t$.`,
+        `Dérive deux fois $t\\sin(${this.poly([[w, 't']])})$ : $(t\\sin(\\omega t))'' = 2\\omega\\cos(\\omega t) - \\omega^2 t\\sin(\\omega t)$.`,
+        `Avec $\\omega = ${w}$ : $y_p'' + ${this.poly([[w * w, 'y_p']])} = k\\left(2\\omega\\cos(\\omega t) - \\omega^2 t\\sin(\\omega t)\\right) + \\omega^2 k\\,t\\sin(\\omega t) = ${2 * w}k\\cos(${this.poly([[w, 't']])})$. On identifie $${2 * w}k = ${c}$, donc $k = ${this.frac(c, 2 * w)}$. L'amplitude croît linéairement : c'est la résonance.`);
+    }
+    let W = this.randInt(1, 6);
+    if (W === w) W = w + 1;
+    return this.makeExact(C, 4, 'Oscillateur forcé hors résonance',
+      'Chercher une solution particulière de la forme du second membre',
+      `On considère $y'' + ${this.poly([[w * w, 'y']])} = ${c}\\cos(${this.poly([[W, 't']])})$. Une solution particulière s'écrit $y_p(t) = A\\cos(${this.poly([[W, 't']])})$. Que vaut $A$ ?`,
+      this._cp_q(c, w * w - W * W),
+      `La pulsation forcée $${W}$ diffère de la pulsation propre $${w}$ : pas de résonance.`,
+      `$(\\cos(\\Omega t))'' = -\\Omega^2\\cos(\\Omega t)$.`,
+      `$y_p'' + ${this.poly([[w * w, 'y_p']])} = (${w * w} - ${W * W})A\\cos(${this.poly([[W, 't']])}) = ${w * w - W * W}A\\cos(${this.poly([[W, 't']])})$. On identifie $${w * w - W * W}A = ${c}$, donc $A = ${this.frac(c, w * w - W * W)}$.`);
+  },
+
+  /** Matrice 2×2 entière de valeurs propres l1, l2 (b ≠ 0) */
+  _cp_mat2(l1, l2) {
+    for (let k = 0; k < 200; k++) {
+      const a = this.randInt(-5, 6);
+      const d = l1 + l2 - a;
+      const bc = a * d - l1 * l2;
+      const divs = [];
+      for (let b = -6; b <= 6; b++) if (b !== 0 && bc % b === 0 && Math.abs(bc / b) <= 9) divs.push(b);
+      if (!divs.length) continue;
+      const b = this.randChoice(divs);
+      const c = bc / b;
+      if (c === 0 && Math.random() < 0.7) continue;
+      return [a, b, c, d];
+    }
+    return [l1, 1, 0, l2];
+  },
+
+  _cp_pm(M) {
+    return `\\begin{pmatrix} ${M[0]} & ${M[1]} \\\\ ${M[2]} & ${M[3]} \\end{pmatrix}`;
+  },
+
+  gen_capes_02(t) {
+    if (this._cp_static()) return null;
+    const C = 'capes-02';
+    let l1 = this.randInt(-5, 5);
+    let l2 = this.randInt(-5, 6);
+    if (l1 === l2) l2 = l1 + this.randInt(1, 3);
+    if (l1 > l2) [l1, l2] = [l2, l1];
+    const M = this._cp_mat2(l1, l2);
+    const [a, b, c, d] = M;
+    const tr = a + d; const det = a * d - b * c;
+    if (t === 1) {
+      return this.makeExact(C, 1, 'Valeurs propres d\'une matrice 2×2',
+        'Calculer le polynôme caractéristique et les valeurs propres',
+        `Déterminer les valeurs propres $\\lambda_1 < \\lambda_2$ de $A = ${this._cp_pm(M)}$.`,
+        `(${l1};${l2})`,
+        '$\\chi_A(X) = X^2 - \\operatorname{tr}(A)X + \\det(A)$.',
+        `Ici $\\operatorname{tr}(A) = ${tr}$ et $\\det(A) = ${det}$.`,
+        `$\\chi_A(X) = ${this.polyX([1, -tr, det], 'X')}$, de racines $${l1}$ et $${l2}$ (somme $${tr}$, produit $${det}$). Deux valeurs propres distinctes en dimension $2$ : $A$ est diagonalisable.`,
+        { instruction: 'Saisir le couple (lambda1 ; lambda2) dans l\'ordre croissant, par exemple (-2;3).' });
+    }
+    if (t === 2) {
+      // vecteur propre (1 ; y) associé à l1 : a + b y = l1
+      return this.makeExact(C, 2, 'Vecteur propre d\'une matrice 2×2',
+        'Déterminer un sous-espace propre',
+        `La matrice $A = ${this._cp_pm(M)}$ admet la valeur propre $${l1}$. Déterminer le réel $y$ tel que $\\begin{pmatrix} 1 \\\\ y \\end{pmatrix}$ soit un vecteur propre associé.`,
+        this._cp_q(l1 - a, b),
+        'Résous $(A - \\lambda I_2)X = 0$.',
+        `La première ligne donne $${this.poly([[a, ''], [b, 'y']])} = ${l1}$.`,
+        `$AX = \\lambda X$ avec $\\lambda = ${l1}$ et $X = \\begin{pmatrix} 1 \\\\ y \\end{pmatrix}$ : la première ligne donne $${this.poly([[a, ''], [b, 'y']])} = ${l1}$, d'où $y = ${this.frac(l1 - a, b)}$ ; la seconde, $${this.poly([[c, ''], [d, 'y']])} = ${this.poly([[l1, 'y']])}$, est alors automatiquement vérifiée (le système est de rang $1$).`);
+    }
+    if (t === 3) {
+      const n = this.randInt(3, 5);
+      if (this.randInt(0, 1)) {
+        const v = l1 ** n + l2 ** n;
+        return this.makeExact(C, 3, 'Trace d\'une puissance de matrice',
+          'Utiliser la diagonalisation pour calculer $A^n$',
+          `Soit $A = ${this._cp_pm(M)}$. Calculer $\\operatorname{tr}(A^{${n}})$.`,
+          String(v),
+          '$A$ est semblable à une matrice diagonale, et la trace est un invariant de similitude.',
+          `Commence par les valeurs propres de $A$ (trace $${tr}$, déterminant $${det}$).`,
+          `Les valeurs propres de $A$ sont $${l1}$ et $${l2}$ ; $A = PDP^{-1}$ donne $A^{${n}} = PD^{${n}}P^{-1}$, donc $\\operatorname{tr}(A^{${n}}) = ${this.paren(l1)}^{${n}} + ${this.paren(l2)}^{${n}} = ${v}$.`);
+      }
+      // polynôme annulateur de degré 2 : A^2 = tr A - det I ; A^3 = alpha A + beta I
+      const al = tr * tr - det; const be = -tr * det;
+      return this.makeExact(C, 3, 'Polynôme annulateur et puissances',
+        'Utiliser le théorème de Cayley-Hamilton',
+        `Soit $A = ${this._cp_pm(M)}$. D'après le théorème de Cayley-Hamilton, on peut écrire $A^3 = \\alpha A + \\beta I_2$. Donner $(\\alpha ; \\beta)$.`,
+        `(${al};${be})`,
+        '$\\chi_A(A) = A^2 - \\operatorname{tr}(A)A + \\det(A)I_2 = 0$.',
+        `Ici $A^2 = ${this.poly([[tr, 'A'], [-det, 'I_2']])}$ ; multiplie par $A$ puis remplace de nouveau $A^2$.`,
+        `$A^2 = ${this.poly([[tr, 'A'], [-det, 'I_2']])}$, donc $A^3 = A \\cdot A^2 = ${this.poly([[tr, 'A^2'], [-det, 'A']])}$ ; en remplaçant $A^2$, on obtient $A^3 = ${this.poly([[al, 'A'], [be, 'I_2']])}$. D'où $\\alpha = ${al}$ et $\\beta = ${be}$.`,
+        { instruction: 'Saisir le couple (alpha ; beta), par exemple (7;-6).' });
+    }
+    // t === 4 : dimension d'un sous-espace propre d'une matrice triangulaire 3×3
+    const lam = this.randInt(-3, 4);
+    let mu = this.randInt(-3, 4);
+    if (mu === lam) mu = lam + 2;
+    const x = this.randChoice([0, 0, this.randNonZero(-3, 3)]);
+    const y = this.randInt(-3, 3);
+    const z = this.randInt(-3, 3);
+    // A - lam I = [[0,x,y],[0,0,z],[0,0,mu-lam]] : rang = 1 + (x ≠ 0)
+    const rank = 1 + (x !== 0 ? 1 : 0);
+    const dim = 3 - rank;
+    const ml = lam === 0 ? 'A' : `A ${lam > 0 ? '-' : '+'} ${Math.abs(lam) === 1 ? '' : Math.abs(lam)}I_3`;
+    const Mt = `\\begin{pmatrix} ${lam} & ${x} & ${y} \\\\ 0 & ${lam} & ${z} \\\\ 0 & 0 & ${mu} \\end{pmatrix}`;
+    return this.makeExact(C, 4, 'Dimension d\'un sous-espace propre',
+      'Utiliser le théorème du rang pour étudier la diagonalisabilité',
+      `Soit $A = ${Mt}$. Quelle est la dimension du sous-espace propre $E_{${lam}}(A) = \\operatorname{Ker}(${ml})$ ?`,
+      String(dim),
+      'Théorème du rang : $\\dim \\operatorname{Ker}(A - \\lambda I_3) = 3 - \\operatorname{rg}(A - \\lambda I_3)$.',
+      `$${lam}$ est valeur propre double ; calcule le rang de $${ml}$.`,
+      `$${ml} = \\begin{pmatrix} 0 & ${x} & ${y} \\\\ 0 & 0 & ${z} \\\\ 0 & 0 & ${mu - lam} \\end{pmatrix}$ est de rang $${rank}$ (la troisième colonne est non nulle${x !== 0 ? ' et la deuxième, de première composante non nulle, ne lui est pas proportionnelle' : ' et les deux premières colonnes sont nulles'}). Donc $\\dim E_{${lam}}(A) = 3 - ${rank} = ${dim}$. ${dim === 2 ? `Comme la multiplicité de $${lam}$ vaut $2$, $A$ est diagonalisable.` : `La multiplicité de $${lam}$ vaut $2 > 1$ : $A$ n'est pas diagonalisable.`}`,
+      { instruction: 'Saisir un nombre entier.' });
+  },
+
+  gen_capes_03(t) {
+    if (this._cp_static()) return null;
+    const C = 'capes-03';
+    if (t === 1) {
+      const a = this.randInt(-5, 5);
+      const b = this.randNonZero(-6, 6);
+      const c = this.randNonZero(-6, 6);
+      const p = this.randInt(1, 4);
+      let q = this.randInt(1, 5);
+      if (q === p && Math.random() < 0.5) q = p + 1;
+      const f = this.poly([[a, ''], [b, `\\cos(${p === 1 ? '' : p}x)`], [c, `\\sin(${q === 1 ? '' : q}x)`]]);
+      const num = 2 * a * a + b * b + c * c;
+      return this.makeExact(C, 1, 'Formule de Parseval pour un polynôme trigonométrique',
+        'Appliquer l\'égalité de Parseval',
+        `Soit $f(x) = ${f}$. Calculer $\\displaystyle \\frac{1}{2\\pi}\\int_{-\\pi}^{\\pi} f(x)^2 \\, dx$.`,
+        this._cp_q(num, 2),
+        'Parseval : $\\frac{1}{2\\pi}\\int_{-\\pi}^{\\pi} f^2 = a_0^2 + \\frac{1}{2}\\sum_{n \\ge 1}(a_n^2 + b_n^2)$.',
+        `Lis directement les coefficients : $a_0 = ${a}$, $a_{${p}} = ${b}$, $b_{${q}} = ${c}$.`,
+        `$f$ est son propre développement de Fourier : $a_0 = ${a}$, $a_{${p}} = ${b}$, $b_{${q}} = ${c}$, les autres coefficients sont nuls. Par Parseval (ou par orthogonalité de la famille trigonométrique) : $${this.paren(a)}^2 + \\frac{${this.paren(b)}^2 + ${this.paren(c)}^2}{2} = ${this.frac(num, 2)}$.`);
+    }
+    if (t === 2) {
+      const al = this.randNonZero(-5, 5);
+      const n = this.randInt(1, 9);
+      const v = 2 * al * (n % 2 ? 1 : -1);
+      return this.makeExact(C, 2, 'Coefficients de Fourier d\'une fonction en dents de scie',
+        'Calculer des coefficients de Fourier par intégration par parties',
+        `Soit $f$ la fonction $2\\pi$-périodique définie sur $]-\\pi ; \\pi[$ par $f(x) = ${al === 1 ? '' : al === -1 ? '-' : al}x$. Ses coefficients sont $b_n = \\frac{1}{\\pi}\\int_{-\\pi}^{\\pi} f(x)\\sin(nx)\\,dx$. Calculer $b_{${n}}$.`,
+        this._cp_q(v, n),
+        '$f$ est impaire : $b_n = \\frac{2}{\\pi}\\int_0^{\\pi} f(x)\\sin(nx)\\,dx$.',
+        'Intègre par parties : $\\int_0^{\\pi} x\\sin(nx)\\,dx = \\frac{\\pi(-1)^{n+1}}{n}$.',
+        `$b_n = \\frac{${2 * al}}{\\pi}\\int_0^{\\pi} x\\sin(nx)\\,dx$ et, par parties, $\\int_0^{\\pi} x\\sin(nx)\\,dx = \\left[-\\frac{x\\cos(nx)}{n}\\right]_0^{\\pi} + \\frac{1}{n}\\int_0^{\\pi}\\cos(nx)\\,dx = \\frac{\\pi(-1)^{n+1}}{n}$. D'où $b_n = \\frac{${2 * al}(-1)^{n+1}}{n}$ et $b_{${n}} = ${this.frac(v, n)}$.`);
+    }
+    if (t === 3) {
+      const be = this.randNonZero(-4, 4);
+      const n = this.randInt(1, 8);
+      const v = 4 * be * (n % 2 ? -1 : 1);
+      return this.makeExact(C, 3, 'Coefficients de Fourier de $x^2$',
+        'Calculer des coefficients de Fourier par deux intégrations par parties',
+        `Soit $f$ la fonction $2\\pi$-périodique et paire définie sur $[-\\pi ; \\pi]$ par $f(x) = ${be === 1 ? '' : be === -1 ? '-' : be}x^2$. On note $a_n = \\frac{1}{\\pi}\\int_{-\\pi}^{\\pi} f(x)\\cos(nx)\\,dx$. Calculer $a_{${n}}$.`,
+        this._cp_q(v, n * n),
+        '$f$ est paire : $a_n = \\frac{2}{\\pi}\\int_0^{\\pi} f(x)\\cos(nx)\\,dx$.',
+        'Deux intégrations par parties donnent $\\int_0^{\\pi} x^2\\cos(nx)\\,dx = \\frac{2\\pi(-1)^n}{n^2}$.',
+        `$\\int_0^{\\pi} x^2\\cos(nx)\\,dx = \\left[\\frac{x^2\\sin(nx)}{n}\\right]_0^{\\pi} - \\frac{2}{n}\\int_0^{\\pi} x\\sin(nx)\\,dx = -\\frac{2}{n}\\cdot\\frac{\\pi(-1)^{n+1}}{n} = \\frac{2\\pi(-1)^n}{n^2}$. Donc $a_n = \\frac{2 \\times ${this.paren(be)}}{\\pi}\\cdot\\frac{2\\pi(-1)^n}{n^2} = \\frac{${4 * be}(-1)^n}{n^2}$ et $a_{${n}} = ${this.frac(v, n * n)}$.`);
+    }
+    // t === 4 : sommes de séries via Fourier / Parseval : S = r pi^2 ou r pi^4
+    const fams = [
+      { s: '\\frac{1}{n^2}', from: 'n \\ge 1', p: 2, r: [1, 6], how: 'du développement de $x^2$ évalué en $x = \\pi$' },
+      { s: '\\frac{(-1)^{n+1}}{n^2}', from: 'n \\ge 1', p: 2, r: [1, 12], how: 'du développement de $x^2$ évalué en $x = 0$' },
+      { s: '\\frac{1}{(2n+1)^2}', from: 'n \\ge 0', p: 2, r: [1, 8], how: 'de $\\sum \\frac{1}{n^2} = \\frac{\\pi^2}{6}$ en retirant les termes pairs ($\\frac{1}{4}\\cdot\\frac{\\pi^2}{6}$)' },
+      { s: '\\frac{1}{n^4}', from: 'n \\ge 1', p: 4, r: [1, 90], how: 'de la formule de Parseval appliquée à $x^2$' },
+      { s: '\\frac{1}{(2n+1)^4}', from: 'n \\ge 0', p: 4, r: [1, 96], how: 'de $\\sum \\frac{1}{n^4} = \\frac{\\pi^4}{90}$ en retirant les termes pairs' }
+    ];
+    const F = this.randChoice(fams);
+    const k = this.randInt(1, 9);
+    const g = this.gcd(k * F.r[0], F.r[1]);
+    const rn = k * F.r[0] / g; const rd = F.r[1] / g;
+    const tex = this.frac(rn, rd);
+    return this.makeExact(C, 4, 'Somme d\'une série par les séries de Fourier',
+      'Calculer la somme d\'une série numérique à l\'aide d\'un développement de Fourier ou de Parseval',
+      `On admet les sommes classiques obtenues par séries de Fourier. On a $\\displaystyle S = \\sum_{${F.from}} ${k === 1 ? F.s : F.s.replace(/^\\frac\{1\}/, `\\frac{${k}}`).replace(/^\\frac\{\(-1\)/, `\\frac{${k}(-1)`)} = r\\,\\pi^{${F.p}}$ avec $r$ rationnel. Que vaut $r$ ?`,
+      this._cp_q(rn, rd),
+      `Résultat classique issu ${F.how}.`,
+      `$\\sum_{${F.from}} ${F.s} = ${this.frac(F.r[0], F.r[1])}\\pi^{${F.p}}$ ; multiplie par $${k}$.`,
+      `La somme de référence vaut $\\sum_{${F.from}} ${F.s} = \\frac{\\pi^{${F.p}}}{${F.r[1]}}$ (elle provient ${F.how}). Par linéarité, $S = ${k} \\times \\frac{\\pi^{${F.p}}}{${F.r[1]}} = ${tex}\\,\\pi^{${F.p}}$, donc $r = ${tex}$.`);
+  },
+
+  gen_capes_04(t) {
+    if (this._cp_static()) return null;
+    const C = 'capes-04';
+    if (t === 1) {
+      const n = this.randInt(5, 40);
+      const d = this.randChoice([2, 3, 4, 5, 6, 10]);
+      let k = this.randInt(1, d - 1);
+      while (this.gcd(k, d) !== 1) k = this.randInt(1, d - 1);
+      const askV = this.randInt(0, 1) === 1;
+      const vn = askV ? n * k * (d - k) : n * k; const vd = askV ? d * d : d;
+      return this.makeExact(C, 1, askV ? 'Variance d\'une loi binomiale' : 'Espérance d\'une loi binomiale',
+        'Connaître espérance et variance des lois classiques',
+        `Soit $X$ une variable aléatoire de loi binomiale $\\mathcal{B}\\left(${n} ; ${this.frac(k, d)}\\right)$. Calculer $${askV ? 'V' : 'E'}(X)$.`,
+        this._cp_q(vn, vd),
+        askV ? '$V(X) = np(1 - p)$.' : '$E(X) = np$.',
+        '$X$ est une somme de $n$ variables de Bernoulli indépendantes de paramètre $p$.',
+        askV
+          ? `$V(X) = np(1-p) = ${n} \\times ${this.frac(k, d)} \\times ${this.frac(d - k, d)} = ${this.frac(vn, vd)}$ (variance d'une somme de variables de Bernoulli indépendantes).`
+          : `$E(X) = np = ${n} \\times ${this.frac(k, d)} = ${this.frac(vn, vd)}$ (linéarité de l'espérance appliquée à une somme de variables de Bernoulli).`);
+    }
+    if (t === 2) {
+      const m = this.randInt(2, 8);
+      const kind = this.randChoice(['E', 'V', 'tail']);
+      if (kind === 'tail') {
+        const k = this.randInt(2, 5);
+        const num = (m - 1) ** k; const den = m ** k;
+        return this.makeExact(C, 2, 'Queue d\'une loi géométrique',
+          'Calculer $P(X > k)$ pour une loi géométrique',
+          `Soit $X$ de loi géométrique de paramètre $p = ${this.frac(1, m)}$ (rang du premier succès). Calculer $P(X > ${k})$.`,
+          this._cp_q(num, den),
+          '$X > k$ signifie : les $k$ premières épreuves sont des échecs.',
+          '$P(X > k) = (1 - p)^k$.',
+          `$P(X > ${k}) = (1 - p)^{${k}} = \\left(${this.frac(m - 1, m)}\\right)^{${k}} = ${this.frac(num, den)}$.`);
+      }
+      const vN = kind === 'E' ? m : (m - 1) * m;
+      return this.makeExact(C, 2, kind === 'E' ? 'Espérance d\'une loi géométrique' : 'Variance d\'une loi géométrique',
+        'Connaître espérance et variance de la loi géométrique',
+        `Soit $X$ de loi géométrique de paramètre $p = ${this.frac(1, m)}$. Calculer $${kind}(X)$.`,
+        String(vN),
+        kind === 'E' ? '$E(X) = \\frac{1}{p}$.' : '$V(X) = \\frac{1 - p}{p^2}$.',
+        'On peut dériver la série géométrique $\\sum x^k = \\frac{1}{1 - x}$.',
+        kind === 'E' ? `$E(X) = \\frac{1}{p} = ${m}$.` : `$V(X) = \\frac{1 - p}{p^2} = ${this.frac(m - 1, m)} \\times ${m * m} = ${vN}$.`);
+    }
+    if (t === 3) {
+      const ln = this.randInt(1, 9); const ld = this.randChoice([1, 1, 2, 3]);
+      const g = this.gcd(ln, ld); const a = ln / g; const b = ld / g;
+      const lam = this.frac(a, b);
+      const kind = this.randChoice(['X2', 'fact', 'aff']);
+      if (kind === 'X2') {
+        return this.makeExact(C, 3, 'Moment d\'ordre 2 d\'une loi de Poisson',
+          'Utiliser la fonction génératrice $G_X(t) = e^{\\lambda(t-1)}$',
+          `Soit $X$ de loi de Poisson de paramètre $\\lambda = ${lam}$. Calculer $E(X^2)$.`,
+          this._cp_q(a * a + a * b, b * b),
+          '$E(X^2) = V(X) + E(X)^2$.',
+          'Pour une loi de Poisson, $E(X) = V(X) = \\lambda$.',
+          `$G_X''(1) = E(X(X-1)) = \\lambda^2$ et $E(X) = \\lambda$, d'où $E(X^2) = \\lambda^2 + \\lambda = ${this.frac(a * a, b * b)} + ${lam} = ${this.frac(a * a + a * b, b * b)}$.`);
+      }
+      if (kind === 'fact') {
+        return this.makeExact(C, 3, 'Moment factoriel d\'une loi de Poisson',
+          'Dériver la fonction génératrice',
+          `Soit $X$ de loi de Poisson de paramètre $\\lambda = ${lam}$, de fonction génératrice $G_X(t) = e^{\\lambda(t - 1)}$. Calculer $E\\big(X(X-1)(X-2)\\big)$.`,
+          this._cp_q(a ** 3, b ** 3),
+          '$G_X^{(k)}(1) = E\\big(X(X-1)\\cdots(X-k+1)\\big)$.',
+          '$G_X^{(3)}(t) = \\lambda^3 e^{\\lambda(t-1)}$.',
+          `$G_X^{(3)}(t) = \\lambda^3e^{\\lambda(t-1)}$, donc $E(X(X-1)(X-2)) = G_X^{(3)}(1) = \\lambda^3 = ${this.frac(a ** 3, b ** 3)}$.`);
+      }
+      const c = this.randNonZero(-4, 4); const dd = this.randInt(-5, 5);
+      return this.makeExact(C, 3, 'Variance d\'une transformée affine (Poisson)',
+        'Utiliser $V(cX + d) = c^2V(X)$',
+        `Soit $X$ de loi de Poisson de paramètre $\\lambda = ${lam}$. Calculer $V(${this.poly([[c, 'X'], [dd, '']])})$.`,
+        this._cp_q(c * c * a, b),
+        '$V(X) = \\lambda$ pour une loi de Poisson.',
+        'Une translation ne change pas la variance.',
+        `$V(${this.poly([[c, 'X'], [dd, '']])}) = ${this.paren(c)}^2V(X) = ${c * c} \\times ${lam} = ${this.frac(c * c * a, b)}$.`);
+    }
+    // t === 4
+    if (this.randInt(0, 1)) {
+      const n = this.randInt(2, 7);
+      let hn = 0; let hd = 1;
+      for (let k = 1; k <= n; k++) { hn = hn * k + hd; hd *= k; const g = this.gcd(hn, hd); hn /= g; hd /= g; }
+      return this.makeExact(C, 4, 'Problème du collectionneur',
+        'Décomposer un temps d\'attente en somme de variables géométriques',
+        `Une collection comporte $${n}$ vignettes différentes ; chaque paquet contient une vignette uniformément au hasard, indépendamment des autres. Soit $T$ le nombre de paquets à acheter pour compléter la collection. Calculer $E(T)$.`,
+        this._cp_q(n * hn, hd),
+        'Après avoir obtenu $k$ vignettes distinctes, le temps d\'attente d\'une nouvelle vignette suit une loi géométrique.',
+        `Ce temps a pour paramètre $\\frac{${n} - k}{${n}}$ ; somme les espérances pour $k = 0, \\dots, ${n - 1}$.`,
+        `$T = \\sum_{k=0}^{${n - 1}} T_k$ où $T_k$ suit la loi géométrique de paramètre $\\frac{${n} - k}{${n}}$, d'espérance $\\frac{${n}}{${n} - k}$. Donc $E(T) = ${n}\\left(1 + \\frac{1}{2} + \\dots + \\frac{1}{${n}}\\right) = ${n} \\times ${this.frac(hn, hd)} = ${this.frac(n * hn, hd)}$.`);
+    }
+    const eps = this.randChoice([[1, 10], [1, 20], [1, 5], [1, 4], [1, 50]]);
+    const al = this.randChoice([[1, 20], [1, 10], [1, 4], [1, 100]]);
+    // n >= 1 / (4 eps^2 alpha)
+    const nMin = Math.ceil((eps[1] * eps[1] * al[1]) / (4 * eps[0] * eps[0] * al[0]) - 1e-9);
+    return this.makeExact(C, 4, 'Taille d\'échantillon par Bienaymé-Tchebychev',
+      'Utiliser l\'inégalité de Bienaymé-Tchebychev et la majoration $p(1-p) \\le \\frac{1}{4}$',
+      `On estime une proportion inconnue $p$ par la fréquence $F_n$ observée sur $n$ tirages indépendants. Quelle est la plus petite valeur de $n$ pour laquelle l'inégalité de Bienaymé-Tchebychev, combinée à $p(1-p) \\le \\frac{1}{4}$, garantit $P(|F_n - p| \\ge ${this.frac(eps[0], eps[1])}) \\le ${this.frac(al[0], al[1])}$ ?`,
+      String(nMin),
+      '$V(F_n) = \\frac{p(1-p)}{n} \\le \\frac{1}{4n}$.',
+      `Il suffit que $\\frac{1}{4n\\varepsilon^2} \\le ${this.frac(al[0], al[1])}$.`,
+      `Par Bienaymé-Tchebychev, $P(|F_n - p| \\ge \\varepsilon) \\le \\frac{p(1-p)}{n\\varepsilon^2} \\le \\frac{1}{4n\\varepsilon^2}$. Avec $\\varepsilon = ${this.frac(eps[0], eps[1])}$, il suffit que $n \\ge \\frac{1}{4\\varepsilon^2 \\times ${this.frac(al[0], al[1])}} = ${this.frac(eps[1] * eps[1] * al[1], 4 * al[0])}$, soit $n \\ge ${nMin}$.`,
+      { instruction: 'Saisir un nombre entier.' });
+  },
+
+  _cp_vec(v) {
+    return `(${v.join(' ; ')})`;
+  },
+
+  _cp_vecQ(num, den) {
+    return `(${num.map((x) => this._cp_q(x, den)).join(';')})`;
+  },
+
+  _cp_vecTex(num, den) {
+    return `\\left(${num.map((x) => this.frac(x, den)).join(' ; ')}\\right)`;
+  },
+
+  gen_capes_05(t) {
+    if (this._cp_static()) return null;
+    const C = 'capes-05';
+    const rv = (z) => { let v; do { v = [this.randInt(-3, 3), this.randInt(-3, 3), this.randInt(-3, 3)]; } while (z ? false : v.every((x) => x === 0)); return v; };
+    const dot = (a, b) => a.reduce((s, x, i) => s + x * b[i], 0);
+    if (t === 1 || t === 3) {
+      const u = rv(); let v = rv();
+      while (dot(u, v) === 0 || u.every((x, i) => x * v[0] === v[i] * u[0]) && u.join() === v.join()) v = rv();
+      const uv = dot(u, v); const vv = dot(v, v);
+      if (t === 1) {
+        return this.makeExact(C, 1, 'Projection orthogonale sur une droite',
+          'Calculer un projeté orthogonal sur une droite vectorielle',
+          `Dans $\\mathbb{R}^3$ muni du produit scalaire canonique, déterminer le projeté orthogonal $p(u)$ de $u = ${this._cp_vec(u)}$ sur la droite $\\mathbb{R}v$, où $v = ${this._cp_vec(v)}$.`,
+          this._cp_vecQ(v.map((x) => x * uv), vv),
+          '$p(u) = \\frac{\\langle u, v\\rangle}{\\|v\\|^2}v$.',
+          `$\\langle u, v\\rangle = ${uv}$ et $\\|v\\|^2 = ${vv}$.`,
+          `$p(u) = \\frac{\\langle u, v\\rangle}{\\|v\\|^2}v = ${this.frac(uv, vv)}\\,${this._cp_vec(v)} = ${this._cp_vecTex(v.map((x) => x * uv), vv)}$. On vérifie que $u - p(u)$ est orthogonal à $v$.`,
+          { instruction: 'Saisir le triplet de coordonnées, par exemple (1;-2/3;0).' });
+      }
+      // t === 3 : distance au plan orthogonal à v (au carré)
+      return this.makeExact(C, 3, 'Distance à un hyperplan',
+        'Calculer une distance à l\'aide d\'un vecteur normal',
+        `Dans $\\mathbb{R}^3$ euclidien canonique, soit $H = \\{x \\in \\mathbb{R}^3 \\mid \\langle x, v \\rangle = 0\\}$ avec $v = ${this._cp_vec(v)}$. Calculer $d(u, H)^2$ pour $u = ${this._cp_vec(u)}$.`,
+        this._cp_q(uv * uv, vv),
+        '$d(u, H)$ est la norme de la projection de $u$ sur $H^\\perp = \\mathbb{R}v$.',
+        `$d(u, H) = \\frac{|\\langle u, v\\rangle|}{\\|v\\|}$ avec $\\langle u, v\\rangle = ${uv}$.`,
+        `$H^\\perp = \\mathbb{R}v$, donc $d(u, H) = \\|p_{\\mathbb{R}v}(u)\\| = \\frac{|\\langle u, v\\rangle|}{\\|v\\|}$ et $d(u, H)^2 = \\frac{${uv}^2}{${vv}} = ${this.frac(uv * uv, vv)}$.`);
+    }
+    if (t === 2) {
+      const v1 = rv(); let v2 = rv();
+      while (v1[0] * v2[1] === v1[1] * v2[0] && v1[1] * v2[2] === v1[2] * v2[1] && v1[0] * v2[2] === v1[2] * v2[0]) v2 = rv();
+      while (dot(v2, v1) === 0) v2 = v2.map((x, i) => x + v1[i]);
+      const a = dot(v2, v1); const n = dot(v1, v1);
+      const w = v2.map((x, i) => x * n - a * v1[i]);
+      return this.makeExact(C, 2, 'Procédé de Gram-Schmidt',
+        'Orthogonaliser une famille libre',
+        `Dans $\\mathbb{R}^3$ euclidien canonique, on orthogonalise la famille $(v_1, v_2)$ avec $v_1 = ${this._cp_vec(v1)}$ et $v_2 = ${this._cp_vec(v2)}$ : $w_2 = v_2 - \\frac{\\langle v_2, v_1\\rangle}{\\|v_1\\|^2}v_1$. Déterminer $w_2$.`,
+        this._cp_vecQ(w, n),
+        '$w_2$ est $v_2$ moins son projeté orthogonal sur $\\mathbb{R}v_1$.',
+        `$\\langle v_2, v_1\\rangle = ${a}$ et $\\|v_1\\|^2 = ${n}$.`,
+        `$w_2 = ${this._cp_vec(v2)} ${a > 0 ? '-' : '+'} ${this.frac(Math.abs(a), n)}\\,${this._cp_vec(v1)} = ${this._cp_vecTex(w, n)}$. Contrôle : $\\langle w_2, v_1\\rangle = 0$.`,
+        { instruction: 'Saisir le triplet de coordonnées, par exemple (1;-2/3;0).' });
+    }
+    // t === 4 : meilleure approximation affine de c t^k dans L^2([0,1])
+    const k = this.randInt(2, 6); const c = this.randNonZero(-4, 4);
+    const an = 6 * k * c; const ad = (k + 1) * (k + 2);
+    const bn = (2 - 2 * k) * c; const bd = (k + 1) * (k + 2);
+    return this.makeExact(C, 4, 'Meilleure approximation affine en moyenne quadratique',
+      'Caractériser une projection orthogonale par les équations normales',
+      `Dans $\\mathcal{C}([0 ; 1], \\mathbb{R})$ muni de $\\langle f, g\\rangle = \\int_0^1 f(t)g(t)\\,dt$, on cherche la projection orthogonale de $f(t) = ${c === 1 ? '' : c === -1 ? '-' : c}t^{${k}}$ sur le sous-espace des fonctions affines : $p(t) = at + b$. Donner $(a ; b)$.`,
+      `(${this._cp_q(an, ad)};${this._cp_q(bn, bd)})`,
+      '$f - p$ doit être orthogonal à $1$ et à $t$.',
+      `Équations normales : $\\int_0^1 (f - p) = 0$ et $\\int_0^1 t(f - p) = 0$, avec $\\int_0^1 t^{${k}}\\,dt = ${this.frac(1, k + 1)}$.`,
+      `Les conditions $\\langle f - p, 1\\rangle = 0$ et $\\langle f - p, t\\rangle = 0$ donnent $\\frac{a}{2} + b = ${this.frac(c, k + 1)}$ et $\\frac{a}{3} + \\frac{b}{2} = ${this.frac(c, k + 2)}$. On obtient $a = ${this.frac(an, ad)}$ et $b = ${this.frac(bn, bd)}$.`,
+      { instruction: 'Saisir le couple (a ; b), par exemple (1;-1/6).' });
+  },
+
+  gen_capes_06(t) {
+    if (this._cp_static()) return null;
+    const C = 'capes-06';
+    if (t === 1) {
+      const p = this.randInt(2, 6); const c = this.randNonZero(-5, 5);
+      const co = (k) => (k === 1 ? '' : k === -1 ? '-' : String(k));
+      const shift = this.randInt(0, 1) === 1;
+      if (shift) {
+        // lim (1/n) sum (1 + k/n)^p * c = c (2^{p+1} - 1)/(p+1)
+        return this.makeExact(C, 1, 'Limite d\'une somme de Riemann',
+          'Reconnaître une somme de Riemann',
+          `Calculer $\\displaystyle \\lim_{n \\to +\\infty} \\frac{1}{n}\\sum_{k=1}^{n} ${c === 1 ? '' : c === -1 ? '-' : c}\\left(1 + \\frac{k}{n}\\right)^{${p}}$.`,
+          this._cp_q(c * (2 ** (p + 1) - 1), p + 1),
+          '$\\frac{1}{n}\\sum_{k=1}^n f\\left(\\frac{k}{n}\\right) \\to \\int_0^1 f$ pour $f$ continue sur $[0 ; 1]$.',
+          `Ici $f(x) = ${c === 1 ? '' : c === -1 ? '-' : c}(1 + x)^{${p}}$.`,
+          `C'est une somme de Riemann de $x \\mapsto ${c === 1 ? '' : c === -1 ? '-' : c}(1 + x)^{${p}}$, continue sur $[0 ; 1]$ : la limite vaut $${c === 1 ? '' : c === -1 ? '-' : c}\\int_0^1 (1 + x)^{${p}}\\,dx = ${this.paren(c)} \\times \\frac{2^{${p + 1}} - 1}{${p + 1}} = ${this.frac(c * (2 ** (p + 1) - 1), p + 1)}$.`);
+      }
+      return this.makeExact(C, 1, 'Limite d\'une somme de Riemann',
+        'Reconnaître une somme de Riemann',
+        `Calculer $\\displaystyle \\lim_{n \\to +\\infty} \\sum_{k=1}^{n} ${c < 0 ? '-' : ''}\\frac{${co(Math.abs(c))}k^{${p}}}{n^{${p + 1}}}$.`,
+        this._cp_q(c, p + 1),
+        'Factorise par $\\frac{1}{n}$ pour faire apparaître $\\left(\\frac{k}{n}\\right)^p$.',
+        `La somme vaut $\\frac{1}{n}\\sum_{k=1}^n ${co(c)}\\left(\\frac{k}{n}\\right)^{${p}}$.`,
+        `$\\sum_{k=1}^{n} ${c < 0 ? '-' : ''}\\frac{${co(Math.abs(c))}k^{${p}}}{n^{${p + 1}}} = \\frac{1}{n}\\sum_{k=1}^n f\\left(\\frac{k}{n}\\right)$ avec $f(x) = ${co(c)}x^{${p}}$ continue, d'où la limite $\\int_0^1 ${co(c)}x^{${p}}\\,dx = ${this.frac(c, p + 1)}$.`);
+    }
+    if (t === 2) {
+      const m = this.randInt(1, 6); const n = this.randInt(1, 5);
+      const num = this._cp_fact(m) * this._cp_fact(n); const den = this._cp_fact(m + n + 1);
+      return this.makeExact(C, 2, 'Intégrale de type Bêta',
+        'Intégrer par parties de façon répétée',
+        `Calculer $\\displaystyle I = \\int_0^1 ${this.pow('t', m)}${this.pow('(1 - t)', n)}\\,dt$.`,
+        this._cp_q(num, den),
+        'Intègre par parties en dérivant $(1 - t)^n$ : $I_{m,n} = \\frac{n}{m + 1}I_{m+1, n-1}$.',
+        `On aboutit à $I_{m,n} = \\frac{m!\\,n!}{(m + n + 1)!}$.`,
+        `Par parties, $I_{m,n} = \\left[\\frac{t^{m+1}}{m+1}(1-t)^n\\right]_0^1 + \\frac{n}{m+1}I_{m+1,n-1} = \\frac{n}{m+1}I_{m+1,n-1}$, et $I_{m+n,0} = \\frac{1}{m+n+1}$. Donc $I = \\frac{${m}!\\,${n}!}{${m + n + 1}!} = \\frac{${num}}{${den}} = ${this.frac(num, den)}$.`);
+    }
+    if (t === 3) {
+      const m = this.randInt(1, 7); const k = this.randInt(1, 3);
+      const num = (k % 2 ? -1 : 1) * this._cp_fact(k); const den = (m + 1) ** (k + 1);
+      return this.makeExact(C, 3, 'Dérivation sous le signe intégrale',
+        'Dériver une intégrale à paramètre',
+        `Pour $x > -1$, $F(x) = \\int_0^1 t^x\\,dt = \\frac{1}{x + 1}$. En dérivant sous le signe intégrale, calculer $\\displaystyle \\int_0^1 ${this.pow('t', m)}${k === 1 ? '\\ln t' : `(\\ln t)^{${k}}`}\\,dt$.`,
+        this._cp_q(num, den),
+        '$\\frac{\\partial^k}{\\partial x^k}t^x = (\\ln t)^k t^x$.',
+        `L'intégrale cherchée vaut $F^{(${k})}(${m})$, avec $F^{(k)}(x) = \\frac{(-1)^k k!}{(x+1)^{k+1}}$.`,
+        `La domination sur $[a ; b] \\subset ]-1 ; +\\infty[$ justifie la dérivation : $F^{(k)}(x) = \\int_0^1 (\\ln t)^k t^x\\,dt = \\frac{(-1)^k k!}{(x+1)^{k+1}}$. Pour $k = ${k}$ et $x = ${m}$ : $\\frac{${k % 2 ? '-' : ''}${this._cp_fact(k)}}{${m + 1}^{${k + 1}}} = ${this.frac(num, den)}$.`);
+    }
+    const n = this.randInt(1, 6); const a = this.randInt(1, 5);
+    const num = this._cp_fact(n); const den = a ** (n + 1);
+    return this.makeExact(C, 4, 'Intégrale généralisée et fonction Gamma',
+      'Calculer une intégrale généralisée à l\'aide de $\\Gamma(n+1) = n!$',
+      `Calculer $\\displaystyle \\int_0^{+\\infty} ${this.pow('t', n)}e^{-${a === 1 ? '' : a}t}\\,dt$.`,
+      this._cp_q(num, den),
+      `Pose $u = ${a === 1 ? '' : a}t$.`,
+      '$\\int_0^{+\\infty} u^n e^{-u}\\,du = \\Gamma(n+1) = n!$.',
+      `L'intégrale converge (domination par $e^{-${a === 1 ? '' : a}t/2}$ en $+\\infty$). Avec $u = ${a === 1 ? '' : a}t$ : $\\int_0^{+\\infty} ${this.pow('t', n)}e^{-${a === 1 ? '' : a}t}\\,dt = \\frac{\\Gamma(${n + 1})}{${a}^{${n + 1}}} = \\frac{${n}!}{${a ** (n + 1)}} = ${this.frac(num, den)}$.`);
+  },
+
+  _cp_perm(n) {
+    let p;
+    do { p = this.shuffleArray([...Array(n).keys()].map((i) => i + 1)); } while (p.every((x, i) => x === i + 1));
+    return p;
+  },
+
+  _cp_cycles(p) {
+    const seen = new Set(); const out = [];
+    for (let i = 1; i <= p.length; i++) {
+      if (seen.has(i)) continue;
+      const c = [];
+      let j = i;
+      while (!seen.has(j)) { seen.add(j); c.push(j); j = p[j - 1]; }
+      if (c.length > 1) out.push(c);
+    }
+    return out;
+  },
+
+  _cp_two(p) {
+    return `\\begin{pmatrix} ${p.map((_, i) => i + 1).join(' & ')} \\\\ ${p.join(' & ')} \\end{pmatrix}`;
+  },
+
+  gen_capes_07(t) {
+    if (this._cp_static()) return null;
+    const C = 'capes-07';
+    if (t === 1 || t === 2) {
+      const n = this.randInt(5, 8);
+      const p = this._cp_perm(n);
+      const cyc = this._cp_cycles(p);
+      const cycTex = cyc.map((c) => `(${c.join('\\;')})`).join('');
+      if (t === 1) {
+        const ord = cyc.reduce((l, c) => this.lcm(l, c.length), 1);
+        return this.makeExact(C, 1, 'Ordre d\'une permutation',
+          'Décomposer en cycles à supports disjoints',
+          `Dans $\\mathcal{S}_{${n}}$, quel est l'ordre de $\\sigma = ${this._cp_two(p)}$ ?`,
+          String(ord),
+          'Décompose $\\sigma$ en cycles à supports disjoints.',
+          'L\'ordre est le PPCM des longueurs des cycles.',
+          `$\\sigma = ${cycTex}$ (cycles de longueurs $${cyc.map((c) => c.length).join(', ')}$), qui commutent : l'ordre est $\\operatorname{ppcm}(${cyc.map((c) => c.length).join(', ')}) = ${ord}$.`,
+          { instruction: 'Saisir un nombre entier.' });
+      }
+      const sgn = cyc.reduce((s, c) => s * (c.length % 2 ? 1 : -1), 1);
+      let inv = 0;
+      for (let i = 0; i < n; i++) for (let j = i + 1; j < n; j++) if (p[i] > p[j]) inv++;
+      if (this.randInt(0, 1)) {
+        return this.makeExact(C, 2, 'Nombre d\'inversions d\'une permutation',
+          'Calculer la signature par le nombre d\'inversions',
+          `Dans $\\mathcal{S}_{${n}}$, combien d'inversions (couples $i < j$ tels que $\\sigma(i) > \\sigma(j)$) possède $\\sigma = ${this._cp_two(p)}$ ?`,
+          String(inv),
+          'Pour chaque position $i$, compte les valeurs plus petites situées à sa droite dans la seconde ligne.',
+          '$\\varepsilon(\\sigma) = (-1)^{N}$ où $N$ est le nombre d\'inversions : contrôle avec les cycles.',
+          `En parcourant la seconde ligne $${p.join(', ')}$ : ${p.map((x, i) => p.slice(i + 1).filter((y) => y < x).length).join(' + ')} $= ${inv}$ inversions. Contrôle : $\\sigma = ${cycTex}$ donne $\\varepsilon(\\sigma) = ${sgn} = ${this.pow('(-1)', inv)}$.`,
+          { instruction: 'Saisir un nombre entier.' });
+      }
+      return this.makeExact(C, 2, 'Signature d\'une permutation',
+        'Calculer une signature à partir de la décomposition en cycles',
+        `Dans $\\mathcal{S}_{${n}}$, quelle est la signature $\\varepsilon(\\sigma)$ de $\\sigma = ${this._cp_two(p)}$ ?`,
+        String(sgn),
+        'Un cycle de longueur $k$ a pour signature $(-1)^{k-1}$.',
+        'Décompose $\\sigma$ en cycles à supports disjoints, puis multiplie les signatures.',
+        `$\\sigma = ${cycTex}$, d'où $\\varepsilon(\\sigma) = ${cyc.map((c) => this.pow('(-1)', c.length - 1)).join(' \\times ')} = ${sgn}$.`,
+        { instruction: 'Saisir 1 ou -1.' });
+    }
+    if (t === 3) {
+      const n = this.randInt(4, 8);
+      const k = this.randInt(2, Math.min(n, 5));
+      const v = this._cp_fact(n) / (this._cp_fact(n - k) * k);
+      return this.makeExact(C, 3, 'Dénombrement des cycles',
+        'Dénombrer les permutations d\'un type cyclique donné',
+        `Combien le groupe $\\mathcal{S}_{${n}}$ contient-il de cycles de longueur $${k}$ ?`,
+        String(v),
+        `Choisis les $${k}$ éléments du support, puis l'ordre circulaire.`,
+        `Il y a $\\binom{${n}}{${k}}$ supports et $(${k} - 1)!$ cycles par support.`,
+        `$\\binom{${n}}{${k}} \\times (${k} - 1)! = ${this._cp_fact(n) / (this._cp_fact(k) * this._cp_fact(n - k))} \\times ${this._cp_fact(k - 1)} = ${v}$ : un même cycle s'écrit de $${k}$ façons, d'où aussi la formule $\\frac{${n}!}{(${n} - ${k})! \\times ${k}}$.`,
+        { instruction: 'Saisir un nombre entier.' });
+    }
+    // t === 4 : cardinal de la classe de conjugaison d'un type cyclique
+    const types = [[2, 2], [3, 2], [2, 2, 2], [3, 3], [4, 2], [2, 2, 3], [5, 2], [3, 3, 2]];
+    let tp; let n;
+    do { tp = this.randChoice(types); n = this.randInt(Math.max(4, tp.reduce((a, b) => a + b, 0)), 8); } while (tp.reduce((a, b) => a + b, 0) > n);
+    const cnt = {};
+    tp.forEach((l) => { cnt[l] = (cnt[l] || 0) + 1; });
+    const fixed = n - tp.reduce((a, b) => a + b, 0);
+    let den = this._cp_fact(fixed);
+    for (const [l, m] of Object.entries(cnt)) den *= (+l) ** m * this._cp_fact(m);
+    const v = this._cp_fact(n) / den;
+    const typeTex = tp.map((l) => `${l}`).join(', ');
+    return this.makeExact(C, 4, 'Cardinal d\'une classe de conjugaison',
+      'Utiliser la caractérisation des classes de conjugaison de $\\mathcal{S}_n$ par le type cyclique',
+      `Dans $\\mathcal{S}_{${n}}$, combien d'éléments sont conjugués à un produit de cycles à supports disjoints de longueurs $${typeTex}$ (les autres points étant fixes) ?`,
+      String(v),
+      'Deux permutations sont conjuguées si et seulement si elles ont le même type cyclique.',
+      `Formule : $\\frac{n!}{\\prod_k k^{m_k}\\,m_k!}$, où $m_k$ est le nombre de cycles de longueur $k$ (les points fixes comptent comme cycles de longueur $1$).`,
+      `La classe est formée des permutations de type $(${typeTex})$. Son cardinal vaut $\\frac{${n}!}{${Object.entries(cnt).map(([l, m]) => `${l}^{${m}} \\times ${m}!`).join(' \\times ')}${fixed > 1 ? ` \\times ${fixed}!` : ''}} = \\frac{${this._cp_fact(n)}}{${den}} = ${v}$ (on divise par les rotations de chaque cycle et les permutations des cycles de même longueur).`,
+      { instruction: 'Saisir un nombre entier.' });
+  },
+
+  gen_capes_08(t) {
+    if (this._cp_static()) return null;
+    const C = 'capes-08';
+    if (t === 1) {
+      const a = this.randNonZero(-9, 9); const b = this.randInt(-6, 6); const c = this.randInt(-5, 5);
+      return this.makeExact(C, 1, 'Point d\'inflexion d\'une cubique',
+        'Étudier la convexité à l\'aide de la dérivée seconde',
+        `Soit $f(x) = ${this.polyX([1, a, b, c])}$. La fonction $f$ est concave sur $]-\\infty ; x_0]$ et convexe sur $[x_0 ; +\\infty[$. Que vaut $x_0$ ?`,
+        this._cp_q(-a, 3),
+        '$f$ est convexe là où $f\'\' \\ge 0$.',
+        `$f''(x) = ${this.polyX([6, 2 * a])}$.`,
+        `$f'(x) = ${this.polyX([3, 2 * a, b])}$ et $f''(x) = ${this.polyX([6, 2 * a])}$, qui s'annule en changeant de signe en $x_0 = ${this.frac(-a, 3)}$ (négative avant, positive après) : c'est l'abscisse du point d'inflexion.`);
+    }
+    if (t === 2) {
+      const a = this.randNonZero(-9, 9);
+      return this.makeExact(C, 2, 'Convexité d\'un polynôme de degré 4',
+        'Traduire la convexité par le signe de $f\'\'$',
+        `Soit $f(x) = x^4 ${a > 0 ? '+' : '-'} ${Math.abs(a) === 1 ? '' : Math.abs(a)}x^3 + bx^2$ avec $b$ réel. Quelle est la plus petite valeur de $b$ pour laquelle $f$ est convexe sur $\\mathbb{R}$ ?`,
+        this._cp_q(3 * a * a, 8),
+        '$f$ est convexe sur $\\mathbb{R}$ si et seulement si $f\'\' \\ge 0$ sur $\\mathbb{R}$.',
+        `$f''(x) = ${this.polyX([12, 6 * a])} + 2b$ : un trinôme positif a un discriminant négatif ou nul.`,
+        `$f''(x) = 12x^2 ${6 * a > 0 ? '+' : '-'} ${Math.abs(6 * a)}x + 2b \\ge 0$ pour tout $x$ si et seulement si $\\Delta = ${36 * a * a} - 96b \\le 0$, soit $b \\ge ${this.frac(3 * a * a, 8)}$. La plus petite valeur est $${this.frac(3 * a * a, 8)}$.`);
+    }
+    if (t === 3) {
+      const n = this.randInt(2, 4); const S = this.randInt(2, 20);
+      return this.makeExact(C, 3, 'Inégalité arithmético-géométrique',
+        'Appliquer l\'inégalité de Jensen à $-\\ln$',
+        `Quel est le maximum du produit $${['x_1', 'x_2', 'x_3', 'x_4'].slice(0, n).join(' ')}$ lorsque $${['x_1', 'x_2', 'x_3', 'x_4'].slice(0, n).join(', ')}$ sont des réels strictement positifs de somme $${S}$ ?`,
+        this._cp_q(S ** n, n ** n),
+        'Inégalité arithmético-géométrique : $\\sqrt[n]{x_1\\cdots x_n} \\le \\frac{x_1 + \\dots + x_n}{n}$.',
+        'Il y a égalité lorsque tous les $x_i$ sont égaux.',
+        `Par concavité de $\\ln$ (Jensen), $\\frac{1}{${n}}\\sum \\ln x_i \\le \\ln\\left(${this.frac(S, n)}\\right)$, donc le produit est au plus $\\left(${this.frac(S, n)}\\right)^{${n}} = ${this.frac(S ** n, n ** n)}$, valeur atteinte pour $x_i = ${this.frac(S, n)}$.`);
+    }
+    const a = this.randNonZero(-3, 3); const b = this.randNonZero(-3, 3); const c = this.randInt(-3, 3); const d = this.randNonZero(-6, 6);
+    const N = a * a + b * b + c * c;
+    return this.makeExact(C, 4, 'Minimum sous contrainte par Cauchy-Schwarz',
+      'Utiliser l\'inégalité de Cauchy-Schwarz et son cas d\'égalité',
+      `Déterminer le minimum de $x^2 + y^2 + z^2$ lorsque $(x, y, z) \\in \\mathbb{R}^3$ vérifie $${this.poly([[a, 'x'], [b, 'y'], [c, 'z']])} = ${d}$.`,
+      this._cp_q(d * d, N),
+      'Cauchy-Schwarz : $(ax + by + cz)^2 \\le (a^2 + b^2 + c^2)(x^2 + y^2 + z^2)$.',
+      `Ici $a^2 + b^2 + c^2 = ${N}$ ; le cas d'égalité est atteint pour $(x, y, z)$ colinéaire à $(a, b, c)$.`,
+      `$${d * d} = (${this.poly([[a, 'x'], [b, 'y'], [c, 'z']])})^2 \\le ${N}(x^2 + y^2 + z^2)$, donc $x^2 + y^2 + z^2 \\ge ${this.frac(d * d, N)}$, avec égalité pour $(x, y, z) = ${this.frac(d, N)}(${a}, ${b}, ${c})$ : c'est le carré de la distance de l'origine au plan.`);
+  },
+
+  gen_capes_09(t) {
+    if (this._cp_static()) return null;
+    const C = 'capes-09';
+    if (t === 1) {
+      const q = this.randInt(2, 9); let p = this.randNonZero(-q + 1, q - 1);
+      while (this.gcd(p, q) !== 1) p = this.randNonZero(-q + 1, q - 1);
+      const c = this.randNonZero(-5, 5); const n0 = this.randInt(0, 2);
+      // sum_{n>=n0} c (p/q)^n = c (p/q)^{n0} / (1 - p/q)
+      const num = c * p ** n0 * q; const den = q ** n0 * (q - p);
+      return this.makeExact(C, 1, 'Somme d\'une série géométrique',
+        'Calculer la somme d\'une série géométrique convergente',
+        `Calculer $\\displaystyle \\sum_{n=${n0}}^{+\\infty} ${c === 1 ? '' : c === -1 ? '-' : c}\\left(${this.frac(p, q)}\\right)^n$.`,
+        this._cp_q(num, den),
+        `La raison $${this.frac(p, q)}$ est de valeur absolue $< 1$ : la série converge.`,
+        '$\\sum_{n \\ge n_0} x^n = \\frac{x^{n_0}}{1 - x}$.',
+        `$\\sum_{n \\ge ${n0}} x^n = \\frac{${this.pow('x', n0)}}{1 - x}$ avec $x = ${this.frac(p, q)}$ : la somme vaut $${this.paren(c)} \\times \\frac{${this.frac(p ** n0, q ** n0)}}{${this.frac(q - p, q)}} = ${this.frac(num, den)}$.`);
+    }
+    if (t === 2) {
+      const k = this.randInt(1, 6); const c = this.randInt(1, 9);
+      let hn = 0; let hd = 1;
+      for (let j = 1; j <= k; j++) { hn = hn * j + hd; hd *= j; const g = this.gcd(hn, hd); hn /= g; hd /= g; }
+      return this.makeExact(C, 2, 'Série télescopique',
+        'Calculer la somme d\'une série par télescopage',
+        `Calculer $\\displaystyle \\sum_{n=1}^{+\\infty} \\frac{${c}}{n(n + ${k})}$.`,
+        this._cp_q(c * hn, k * hd),
+        `Décompose en éléments simples : $\\frac{1}{n(n + ${k})} = ${k === 1 ? '' : this.frac(1, k)}\\left(\\frac{1}{n} - \\frac{1}{n + ${k}}\\right)$.`,
+        `Dans la somme partielle, seuls les $${k}$ premiers termes $\\frac{1}{n}$ subsistent.`,
+        `$\\sum_{n=1}^{N} \\left(\\frac{1}{n} - \\frac{1}{n + ${k}}\\right) = \\sum_{n=1}^{${k}} \\frac{1}{n} - \\sum_{n=N+1}^{N+${k}} \\frac{1}{n} \\to ${this.frac(hn, hd)}$. D'où la somme $${this.frac(c, k)} \\times ${this.frac(hn, hd)} = ${this.frac(c * hn, k * hd)}$.`);
+    }
+    if (t === 3) {
+      const p = this.randChoice([1, 2, 3]);
+      const k = this.randChoice(p === 1 ? [2, 3] : p === 2 ? [2, 3, 4] : [3, 4, 6]);
+      const c = this.randInt(1, 5);
+      const a = this.randChoice([1, 2, 5]);
+      // plus petit N tel que c/(N+1)^p <= a.10^{-k}, soit (N+1)^p >= c.10^k / a (entier car a divise 10^k)
+      const target = (c * 10 ** k) / a;
+      let N = 0;
+      while ((N + 1) ** p < target) N++;
+      const np = p === 1 ? 'n' : `n^{${p}}`;
+      const Np = p === 1 ? '(N+1)' : `(N+1)^{${p}}`;
+      const eps = a === 1 ? `10^{-${k}}` : `${a} \\times 10^{-${k}}`;
+      const term = `\\frac{${c === 1 ? '' : c}(-1)^{n+1}}{${np}}`;
+      return this.makeExact(C, 3, 'Reste d\'une série alternée',
+        'Majorer le reste d\'une série alternée (critère spécial)',
+        `On approche $S = \\sum_{n=1}^{+\\infty} ${term}$ par $S_N = \\sum_{n=1}^{N} ${term}$. Quel est le plus petit entier $N$ pour lequel la majoration du critère spécial des séries alternées garantit $|S - S_N| \\le ${eps}$ ?`,
+        String(N),
+        'Le critère spécial majore le reste par la valeur absolue du premier terme négligé.',
+        `Il faut $\\frac{${c}}{${Np}} \\le ${eps}$.`,
+        `La suite $\\left(\\frac{${c}}{${np}}\\right)$ décroît vers $0$, donc $|S - S_N| \\le \\frac{${c}}{${Np}}$. La condition équivaut à $${Np} \\ge ${target}$, d'où $N + 1 \\ge ${N + 1}$ (car $${p === 1 ? N : `${N}^{${p}}`} < ${target} \\le ${p === 1 ? N + 1 : `${N + 1}^{${p}}`}$), soit $N = ${N}$.`,
+        { instruction: 'Saisir un nombre entier.' });
+    }
+    const m = this.randInt(2, 6); const sq = this.randInt(0, 1) === 1; const c4 = this.randInt(1, 5);
+    // x = 1/m : sum n x^n = x/(1-x)^2 = m/(m-1)^2 ; sum n^2 x^n = x(1+x)/(1-x)^3 = m(m+1)/(m-1)^3
+    const num = c4 * (sq ? m * (m + 1) : m); const den = sq ? (m - 1) ** 3 : (m - 1) ** 2;
+    return this.makeExact(C, 4, 'Séries dérivées de la série géométrique',
+      'Dériver terme à terme une série entière dans son disque de convergence',
+      `Calculer $\\displaystyle \\sum_{n=1}^{+\\infty} \\frac{${c4 === 1 ? '' : c4}n${sq ? '^2' : ''}}{${m}^n}$.`,
+      this._cp_q(num, den),
+      '$\\sum_{n \\ge 0} x^n = \\frac{1}{1 - x}$ pour $|x| < 1$ ; dérive puis multiplie par $x$.',
+      sq ? '$\\sum n^2x^n = \\frac{x(1 + x)}{(1 - x)^3}$.' : '$\\sum nx^n = \\frac{x}{(1 - x)^2}$.',
+      `Dans le disque de convergence, $\\sum_{n\\ge1} nx^n = \\frac{x}{(1-x)^2}$${sq ? ' et, en dérivant de nouveau, $\\sum_{n\\ge1} n^2x^n = \\frac{x(1+x)}{(1-x)^3}$' : ''}. Avec $x = ${this.frac(1, m)}$ et le facteur $${c4}$ : $${this.frac(num, den)}$.`);
+  },
+
+  gen_capes_10(t) {
+    if (this._cp_static()) return null;
+    const C = 'capes-10';
+    const primes = [5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47];
+    const inv = (a, m) => { for (let x = 1; x < m; x++) if ((a * x) % m === 1) return x; return null; };
+    if (t === 1) {
+      const g = this.randChoice([2, 3, 4, 5, 6, 7, 8, 9, 12, 15]);
+      let a; let b;
+      do { a = g * this.randInt(4, 40); b = g * this.randInt(4, 40); } while (a === b);
+      const G = this.gcd(a, b);
+      const steps = [];
+      let x = Math.max(a, b); let y = Math.min(a, b);
+      while (y) { steps.push(x % y ? `${x} = ${Math.floor(x / y)} \\times ${y} + ${x % y}` : `${x} = ${Math.floor(x / y)} \\times ${y}`); [x, y] = [y, x % y]; }
+      return this.makeExact(C, 1, 'PGCD par l\'algorithme d\'Euclide',
+        'Mettre en œuvre l\'algorithme d\'Euclide',
+        `Calculer $\\operatorname{pgcd}(${a}, ${b})$.`,
+        String(G),
+        'Algorithme d\'Euclide : $\\operatorname{pgcd}(a, b) = \\operatorname{pgcd}(b, r)$ où $r$ est le reste de la division de $a$ par $b$.',
+        'Le PGCD est le dernier reste non nul.',
+        `Divisions successives : $${steps.join('$ ; $')}$. Le dernier reste non nul est $${G}$.`,
+        { instruction: 'Saisir un nombre entier.' });
+    }
+    if (t === 2) {
+      const p = this.randChoice(primes); const a = this.randInt(2, p - 1);
+      const x = inv(a, p);
+      return this.makeExact(C, 2, 'Inverse modulaire',
+        'Déterminer un inverse modulo $p$ (Bézout ou Fermat)',
+        `Déterminer l'inverse de $${a}$ dans $\\mathbb{Z}/${p}\\mathbb{Z}$, c'est-à-dire l'unique $x \\in \\{1, \\dots, ${p - 1}\\}$ tel que $${a}x \\equiv 1 \\pmod{${p}}$.`,
+        String(x),
+        `$${p}$ est premier et ne divise pas $${a}$ : une relation de Bézout $${a}u + ${p}v = 1$ existe.`,
+        'Applique l\'algorithme d\'Euclide étendu (ou teste les multiples de $' + a + '$).',
+        `$${a} \\times ${x} = ${a * x} = ${Math.floor(a * x / p)} \\times ${p} + 1$, donc $${a} \\times ${x} \\equiv 1 \\pmod{${p}}$ : l'inverse est $${x}$.`,
+        { instruction: 'Saisir un nombre entier.' });
+    }
+    if (t === 3) {
+      if (this.randInt(0, 1)) {
+        let m1 = this.randInt(3, 11); let m2 = this.randInt(3, 13);
+        while (this.gcd(m1, m2) !== 1 || m1 === m2) { m1 = this.randInt(3, 11); m2 = this.randInt(3, 13); }
+        const r1 = this.randInt(0, m1 - 1); const r2 = this.randInt(0, m2 - 1);
+        let x = 0;
+        while (x % m1 !== r1 || x % m2 !== r2) x++;
+        return this.makeExact(C, 3, 'Théorème des restes chinois',
+          'Résoudre un système de congruences',
+          `Déterminer le plus petit entier naturel $x$ tel que $x \\equiv ${r1} \\pmod{${m1}}$ et $x \\equiv ${r2} \\pmod{${m2}}$.`,
+          String(x),
+          `$${m1}$ et $${m2}$ sont premiers entre eux : la solution est unique modulo $${m1 * m2}$.`,
+          `Écris $x = ${r1} + ${m1}k$ et résous la congruence obtenue modulo $${m2}$.`,
+          `Les solutions sont les $x \\equiv ${x} \\pmod{${m1 * m2}}$ : en effet $${r1 ? `${x} = ${Math.floor(x / m1)} \\times ${m1} + ${r1}` : `${x} = ${Math.floor(x / m1)} \\times ${m1}`}$ et $${r2 ? `${x} = ${Math.floor(x / m2)} \\times ${m2} + ${r2}` : `${x} = ${Math.floor(x / m2)} \\times ${m2}`}$. Le plus petit entier naturel est $${x}$.`,
+          { instruction: 'Saisir un nombre entier.' });
+      }
+      const ps = this.pickDistinct([2, 3, 5, 7, 11], 2).sort((u, v) => u - v);
+      const e1 = this.randInt(1, 3); const e2 = this.randInt(1, 2);
+      const n = ps[0] ** e1 * ps[1] ** e2;
+      const phi = ps[0] ** (e1 - 1) * (ps[0] - 1) * ps[1] ** (e2 - 1) * (ps[1] - 1);
+      return this.makeExact(C, 3, 'Indicatrice d\'Euler',
+        'Calculer $\\varphi(n)$ à partir de la décomposition en facteurs premiers',
+        `Calculer $\\varphi(${n})$, nombre d'entiers de $\\{1, \\dots, ${n}\\}$ premiers avec $${n}$.`,
+        String(phi),
+        `Décompose $${n}$ en facteurs premiers.`,
+        '$\\varphi(p^k) = p^{k-1}(p - 1)$ et $\\varphi$ est multiplicative.',
+        `$${n} = ${this.pow(String(ps[0]), e1)} \\times ${this.pow(String(ps[1]), e2)}$, donc $\\varphi(${n}) = \\varphi(${ps[0] ** e1})\\,\\varphi(${ps[1] ** e2}) = ${ps[0] ** (e1 - 1) * (ps[0] - 1)} \\times ${ps[1] ** (e2 - 1) * (ps[1] - 1)} = ${phi}$.`,
+        { instruction: 'Saisir un nombre entier.' });
+    }
+    // t === 4 : RSA
+    let p; let q; let e; let phi;
+    do {
+      [p, q] = this.pickDistinct([5, 7, 11, 13, 17, 19, 23], 2);
+      phi = (p - 1) * (q - 1);
+      e = this.randChoice([3, 5, 7, 11, 13, 17]);
+    } while (this.gcd(e, phi) !== 1 || e >= phi);
+    const d = inv(e, phi);
+    return this.makeExact(C, 4, 'Clé privée RSA',
+      'Calculer l\'exposant de déchiffrement RSA',
+      `Dans le cryptosystème RSA, on prend $p = ${p}$, $q = ${q}$ (donc $n = ${p * q}$) et l'exposant public $e = ${e}$. Déterminer l'exposant privé $d \\in \\{1, \\dots, \\varphi(n) - 1\\}$ tel que $ed \\equiv 1 \\pmod{\\varphi(n)}$.`,
+      String(d),
+      '$\\varphi(n) = (p - 1)(q - 1)$.',
+      `$\\varphi(n) = ${phi}$ ; cherche l'inverse de $${e}$ modulo $${phi}$ (Euclide étendu).`,
+      `$\\varphi(n) = ${p - 1} \\times ${q - 1} = ${phi}$ et $${e} \\times ${d} = ${e * d} = ${Math.floor(e * d / phi)} \\times ${phi} + 1$, donc $d = ${d}$. Le déchiffrement $c \\mapsto c^{d} \\bmod ${p * q}$ inverse le chiffrement $m \\mapsto m^{${e}} \\bmod ${p * q}$ (petit théorème de Fermat et restes chinois).`,
+      { instruction: 'Saisir un nombre entier.' });
+  },
+
+  /** Tire une famille complémentaire du palier (ou null : famille d'origine) */
+  _L23_more(code, tier) {
+    const f = this[`_${code}_fams`];
+    const fams = f ? f.call(this, tier) || [] : [];
+    if (!fams.length || Math.random() >= fams.length / (fams.length + 1)) return null;
+    return this.randChoice(fams).call(this, tier);
+  },
+
+  /** n-uplet LaTeX « (a ; b ; c) » ; composantes nombres (entiers) ou chaînes LaTeX */
+  _L23_tup(v) {
+    return '(' + v.map((x) => (typeof x === 'number' ? String(x) : x)).join(' ; ') + ')';
+  },
+
+  /** QCM avec saisie exacte pilotée (exactAnswer / consigne) */
+  _L23_mcq(ch, tier, title, skill, st, ans, distr, h1, h2, sol, exact, instr) {
+    const q = this.makeMcq(ch, tier, title, skill, st, ans, distr, h1, h2, sol);
+    if (exact !== undefined && exact !== null) q.exactAnswer = exact;
+    if (instr) q.exactInstruction = instr;
+    return q;
+  },
+
+  /** Matrice 3x3 entière aléatoire de déterminant non nul, |det| <= dmax */
+  _L23_mat3(lo = -2, hi = 3, dmax = 6) {
+    let M, d;
+    do {
+      M = [0, 1, 2].map(() => [0, 1, 2].map(() => this.randInt(lo, hi)));
+      d = this._L2_det3(M);
+    } while (d === 0 || Math.abs(d) > dmax || M.flat().filter((x) => x === 0).length > 3);
+    return M;
+  },
+
+  /** « (A - λI_3) » bien formaté : sh('A', 2, 'I_3') -> "(A - 2I_3)", sh('A', 0, 'I_3') -> "(A)" */
+  _L23_sh(X, l, I) {
+    return `(${this.poly([[1, X], [-l, I]])})`;
+  },
+
+  /** Ligne d'un système linéaire : [2, -1, 0] -> "2x - y" */
+  _L23_lin(c, vars = ['x', 'y', 'z']) {
+    return this.poly(c.map((x, i) => [x, vars[i]]));
+  },
+
+  _L2DET_fams(tier) {
+    return {
+      1: [this._L2DET_param2, this._L2DET_com2],
+      2: [this._L2DET_cramer2, this._L2DET_invcoef],
+      3: [this._L2DET_ops, this._L2DET_struct],
+      4: [this._L2DET_param3, this._L2DET_cramer3]
+    }[tier];
+  },
+
+  _L2DET_param2() {
+    let a, c, k;
+    do { a = this.randNonZero(-5, 5); c = this.randNonZero(-4, 4); k = this.randNonZero(-3, 3); } while (Math.abs(c * k) > 9 || a * k === c);
+    const x = a * k;
+    const M = `\\begin{pmatrix} ${a} & x \\\\ ${c} & ${c * k} \\end{pmatrix}`;
+    return this.makeMcq('L2-DET', 1, 'Matrice 2x2 non inversible : valeur du paramètre',
+      'Utiliser le critère $\\det(A) = 0$',
+      `Pour quelle valeur du réel $x$ la matrice $A = ${M}$ n'est-elle pas inversible ?`,
+      `$x = ${x}$`,
+      [`$x = ${-x}$`, `$x = ${this.frac(c * k, a)}$`, `$x = ${a * c * k}$`, `$x = ${this.frac(a * c, c * k)}$`, `$x = ${k}$`],
+      '$A$ est inversible si et seulement si $\\det(A) \\neq 0$.',
+      `$\\det(A) = ${this.paren(a)} \\times ${this.paren(c * k)} - ${this.paren(c)} \\cdot x$ : résous $\\det(A) = 0$.`,
+      `$\\det(A) = ${a * c * k} ${c > 0 ? '-' : '+'} ${Math.abs(c) === 1 ? '' : Math.abs(c)}x$, qui s'annule pour $x = ${x}$. Pour cette valeur, les colonnes de $A$ sont proportionnelles et $A$ n'est pas inversible.`
+    );
+  },
+
+  _L2DET_com2() {
+    let M;
+    do { M = [[this.randInt(-6, 6), this.randInt(-6, 6)], [this.randInt(-6, 6), this.randInt(-6, 6)]]; } while (M.flat().some((x) => x === 0) || M[0][1] === M[1][0] || M[0][0] === M[1][1]);
+    const [[a, b], [c, d]] = M;
+    const T = (v) => `$${this._L23_tup(v)}$`;
+    return this._L23_mcq('L2-DET', 1, "Comatrice d'une matrice 2x2",
+      'Calculer les cofacteurs $C_{ij} = (-1)^{i+j} \\Delta_{ij}$',
+      `Soit $A = ${this._L2_pm(M)}$. On note $\\mathrm{com}(A) = \\begin{pmatrix} \\alpha & \\beta \\\\ \\gamma & \\delta \\end{pmatrix}$ sa comatrice. Donner $(\\alpha ; \\beta ; \\gamma ; \\delta)$.`,
+      T([d, -c, -b, a]),
+      [T([d, -b, -c, a]), T([d, c, b, a]), T([a, -b, -c, d]), T([-d, c, b, -a])],
+      'Le cofacteur $C_{ij}$ vaut $(-1)^{i+j}$ fois le déterminant obtenu en supprimant la ligne $i$ et la colonne $j$.',
+      `En dimension $2$, supprimer la ligne $1$ et la colonne $1$ laisse $${d}$ ; attention au signe $(-1)^{i+j}$ des cofacteurs non diagonaux.`,
+      `$C_{11} = ${d}$, $C_{12} = -${this.paren(c)} = ${-c}$, $C_{21} = -${this.paren(b)} = ${-b}$, $C_{22} = ${a}$. Donc $\\mathrm{com}(A) = ${this._L2_pm([[d, -c], [-b, a]])}$ ; on vérifie $A \\, {}^{t}\\mathrm{com}(A) = \\det(A) I_2$ avec $\\det(A) = ${a * d - b * c}$.`,
+      `(${d};${-c};${-b};${a})`, 'Saisir (α;β;γ;δ), par exemple (2;-1;0;5).'
+    );
+  },
+
+  _L2DET_cramer2() {
+    let a, b, c, d, D, x, y;
+    do {
+      a = this.randNonZero(-5, 5); b = this.randNonZero(-5, 5); c = this.randNonZero(-5, 5); d = this.randNonZero(-5, 5);
+      D = a * d - b * c; x = this.randInt(-4, 4); y = this.randInt(-4, 4);
+    } while (D === 0 || x === y || (x === 0 && y === 0));
+    const e = a * x + b * y, f = c * x + d * y;
+    const Dx = e * d - b * f, Dy = a * f - e * c;
+    const T = (u, v) => `$(x ; y) = ${this._L23_tup([u, v])}$`;
+    return this._L23_mcq('L2-DET', 2, 'Système de Cramer 2x2',
+      'Résoudre un système de Cramer à l\'aide des déterminants',
+      `Résoudre le système $\\begin{cases} ${this._L23_lin([a, b])} = ${e} \\\\ ${this._L23_lin([c, d])} = ${f} \\end{cases}$ par les formules de Cramer.`,
+      T(x, y),
+      [T(y, x), T(-x, -y), T(x, -y), T(this.frac(Dx, -D), this.frac(Dy, -D))],
+      `Le déterminant du système vaut $${this.paren(a)} \\times ${this.paren(d)} - ${this.paren(b)} \\times ${this.paren(c)}$ : s'il est non nul, le système est de Cramer.`,
+      '$x = \\frac{\\det(A_x)}{\\det(A)}$ où $A_x$ s\'obtient en remplaçant la première colonne par le second membre ; de même pour $y$ avec la deuxième colonne.',
+      `$\\det(A) = ${D} \\neq 0$, $\\det(A_x) = \\begin{vmatrix} ${e} & ${b} \\\\ ${f} & ${d} \\end{vmatrix} = ${Dx}$ et $\\det(A_y) = \\begin{vmatrix} ${a} & ${e} \\\\ ${c} & ${f} \\end{vmatrix} = ${Dy}$. Donc $x = \\frac{\\det(A_x)}{\\det(A)} = ${x}$ et $y = \\frac{\\det(A_y)}{\\det(A)} = ${y}$.`,
+      `(${x};${y})`, 'Saisir la solution sous la forme (x;y).'
+    );
+  },
+
+  _L2DET_invcoef() {
+    const M = this._L23_mat3(-2, 3, 6);
+    const D = this._L2_det3(M);
+    const i = this.randInt(1, 3), j = this.randInt(1, 3);
+    const minor = (r, s) => { const R = M.filter((_, k) => k !== r - 1).map((row) => row.filter((_, k) => k !== s - 1)); return R[0][0] * R[1][1] - R[0][1] * R[1][0]; };
+    const cof = (r, s) => ((r + s) % 2 ? -1 : 1) * minor(r, s);
+    const C = cof(j, i);
+    const lab = `(A^{-1})_{${i}${j}}`;
+    return this.makeMcq('L2-DET', 2, "Coefficient de l'inverse par la comatrice",
+      'Calculer un coefficient de $A^{-1} = \\frac{1}{\\det A} {}^{t}\\mathrm{com}(A)$',
+      `Soit $A = ${this._L2_pm(M)}$, de déterminant $${D}$. Calculer le coefficient $${lab}$ (ligne $${i}$, colonne $${j}$) de $A^{-1}$.`,
+      `$${lab} = ${this.frac(C, D)}$`,
+      [this.frac(cof(i, j), D), this.frac(-C, D), this.frac(minor(j, i) * ((i + j) % 2 ? 1 : -1), D), String(C), this.frac(D, C || 1)].map((x) => `$${lab} = ${x}$`),
+      '$A^{-1} = \\frac{1}{\\det(A)} {}^{t}\\mathrm{com}(A)$ : attention à la transposition.',
+      `Le coefficient $(${i}, ${j})$ de $A^{-1}$ est le cofacteur $C_{${j}${i}}$ divisé par $\\det(A)$ ; on supprime la ligne $${j}$ et la colonne $${i}$ de $A$.`,
+      `Le mineur $\\Delta_{${j}${i}}$ (ligne $${j}$ et colonne $${i}$ supprimées) vaut $${minor(j, i)}$, d'où $C_{${j}${i}} = (-1)^{${i + j}} \\times ${this.paren(minor(j, i))} = ${C}$ et $${lab} = \\frac{C_{${j}${i}}}{\\det(A)} = ${this.frac(C, D)}$.`
+    );
+  },
+
+  _L2DET_ops() {
+    const d = this.randNonZero(-5, 5);
+    const pi = this.shuffleArray([1, 2, 3]);
+    const al = this.randChoice([-3, -2, 2, 3, 4]), be = this.randChoice([-2, -1, 2, 3]), k = this.randNonZero(-3, 3);
+    const inv = (p) => { let s = 1; for (let x = 0; x < 3; x++) for (let y = x + 1; y < 3; y++) if (p[x] > p[y]) s = -s; return s; };
+    const ans = al * be * inv(pi) * d;
+    const R1 = this.poly([[al, `L_${pi[0]}`]]);
+    const R2 = this.poly([[1, `L_${pi[1]}`], [k, `L_${pi[0]}`]]);
+    const R3 = this.poly([[be, `L_${pi[2]}`]]);
+    return this.makeMcq('L2-DET', 3, 'Opérations élémentaires sur les lignes',
+      'Utiliser la multilinéarité et le caractère alterné du déterminant',
+      `Soit $A \\in \\mathcal{M}_3(\\mathbb{R})$ de lignes $L_1, L_2, L_3$, avec $\\det(A) = ${d}$. On note $B$ la matrice de lignes $R_1 = ${R1}$, $R_2 = ${R2}$, $R_3 = ${R3}$. Calculer $\\det(B)$.`,
+      `$\\det(B) = ${ans}$`,
+      [-ans, al * be * d * (inv(pi) === 1 ? 1 : 1) === ans ? -ans * 2 : al * be * d, (al + k) * be * inv(pi) * d, al * be * k * inv(pi) * d, ans + d].map((x) => `$\\det(B) = ${x}$`),
+      'Le déterminant est linéaire par rapport à chaque ligne et change de signe quand on échange deux lignes.',
+      `Ajouter à une ligne un multiple d'une autre ligne ne change pas le déterminant : élimine d'abord $${this.coefStr(k, `L_${pi[0]}`)}$ dans $R_2$.`,
+      `Le terme $${this.coefStr(k, `L_${pi[0]}`)}$ de $R_2$ est colinéaire à $R_1$ : l'opération $R_2 \\leftarrow ${this.poly([[1, 'R_2'], [this.frac(-k, al), 'R_1']])}$ ne change pas le déterminant, donc $\\det(B) = \\det(${R1}, L_${pi[1]}, ${R3})$. On on sort $${al}$ et $${be}$ : $\\det(B) = ${this.paren(al)} \\times ${this.paren(be)} \\times \\det(L_${pi[0]}, L_${pi[1]}, L_${pi[2]})$. La permutation $(${pi.join(', ')})$ a pour signature $${inv(pi)}$, donc $\\det(B) = ${al * be} \\times ${this.paren(inv(pi))} \\times ${this.paren(d)} = ${ans}$.`
+    );
+  },
+
+  _L2DET_struct() {
+    const n = this.randInt(3, 5);
+    let a, b;
+    do { a = this.randInt(-3, 5); b = this.randNonZero(-3, 3); } while (a === b || a + (n - 1) * b === 0);
+    const M = Array.from({ length: n }, (_, i) => Array.from({ length: n }, (_, j) => (i === j ? a : b)));
+    const det = (a - b) ** (n - 1) * (a + (n - 1) * b);
+    return this.makeMcq('L2-DET', 3, "Déterminant d'ordre n à structure",
+      'Calculer un déterminant $n \\times n$ par opérations élémentaires',
+      `Calculer le déterminant de la matrice de taille $${n}$ : $A = ${this._L2_pm(M)}$.`,
+      `$\\det(A) = ${det}$`,
+      [(a - b) ** n, (a - b) ** (n - 1) * (a + n * b), a ** n - b ** n, (a - b) * (a + (n - 1) * b) ** (n - 1), -det].map((x) => `$\\det(A) = ${x}$`),
+      'Ajoute toutes les colonnes à la première : elle devient constante, et l\'on peut factoriser.',
+      `Après factorisation par la somme d'une ligne, soustrais la première ligne aux autres : la matrice devient triangulaire.`,
+      `La somme de chaque ligne vaut $${a} ${this.formatSign((n - 1) * b)} = ${a + (n - 1) * b}$. En remplaçant $C_1$ par $C_1 + \\dots + C_${n}$ puis en factorisant, et en retranchant la première ligne aux autres, on obtient une matrice triangulaire de diagonale $(1, ${Array(n - 1).fill(a - b).join(', ')})$. Donc $\\det(A) = ${this.paren(a + (n - 1) * b)} \\times ${this.paren(a - b)}^{${n - 1}} = ${det}$.`
+    );
+  },
+
+  _L2DET_param3() {
+    let s, b;
+    do { s = this.randInt(-3, 3); b = this.randNonZero(-3, 3); } while (s + b === s - 2 * b);
+    const r1 = s + b, r2 = s - 2 * b;
+    const lo = Math.min(r1, r2), hi = Math.max(r1, r2);
+    const dg = this.poly([[1, 'm'], [-s, '']]);
+    const M = [[dg, b, b], [b, dg, b], [b, b, dg]];
+    const T = (u, v) => `$(m_1 ; m_2) = ${this._L23_tup([u, v])}$`;
+    const cand = [[s - b, s + 2 * b], [-hi, -lo], [s, s + b], [s - 2 * b, s + 2 * b], [lo, hi + 1]]
+      .filter(([u, v]) => u < v && !(u === lo && v === hi));
+    return this._L23_mcq('L2-DET', 4, "Valeurs d'un paramètre annulant un déterminant",
+      'Factoriser un déterminant dépendant d\'un paramètre',
+      `Soit $M(m) = ${this._L2_pm(M)}$. Déterminer les deux valeurs $m_1 < m_2$ du réel $m$ pour lesquelles $M(m)$ n'est pas inversible.`,
+      T(lo, hi), cand.map(([u, v]) => T(u, v)),
+      'Additionne les trois colonnes dans la première : on peut alors factoriser par la somme d\'une ligne.',
+      `Après factorisation, soustrais la première ligne aux deux autres : il apparaît des facteurs $(${dg} ${this.formatSign(-b)})$.`,
+      `La somme de chaque ligne vaut $${this.poly([[1, 'm'], [-s + 2 * b, '']])}$, et l'on obtient $\\det M(m) = (${this.poly([[1, 'm'], [-s + 2 * b, '']])})(${this.poly([[1, 'm'], [-s - b, '']])})^2$. Il s'annule pour $m = ${r2}$ et $m = ${r1}$ (racine double), donc $(m_1 ; m_2) = ${this._L23_tup([lo, hi])}$.`,
+      `(${lo};${hi})`, 'Saisir les deux valeurs dans l\'ordre croissant : (m1;m2).'
+    );
+  },
+
+  _L2DET_cramer3() {
+    const M = this._L23_mat3(-2, 3, 5);
+    let X;
+    do { X = [this.randInt(-3, 3), this.randInt(-3, 3), this.randInt(-3, 3)]; } while (new Set(X).size < 2);
+    const B = M.map((r) => r[0] * X[0] + r[1] * X[1] + r[2] * X[2]);
+    const D = this._L2_det3(M);
+    const T = (v) => `$(x ; y ; z) = ${this._L23_tup(v)}$`;
+    const sys = M.map((r, i) => `${this._L23_lin(r)} = ${B[i]}`).join(' \\\\ ');
+    return this._L23_mcq('L2-DET', 4, 'Système de Cramer 3x3',
+      'Résoudre un système de Cramer d\'ordre 3',
+      `Résoudre le système $\\begin{cases} ${sys} \\end{cases}$ (de déterminant $${D}$).`,
+      T(X),
+      [T([X[1], X[0], X[2]]), T(X.map((x) => -x)), T([X[0], X[1], -X[2]]), T([X[2], X[1], X[0]]), T([X[0] + 1, X[1], X[2] - 1])],
+      'Le déterminant du système est non nul : il y a une unique solution (système de Cramer).',
+      '$x = \\frac{\\det(A_1)}{\\det(A)}$, où $A_1$ s\'obtient en remplaçant la première colonne par le second membre (de même pour $y$ et $z$) ; le pivot de Gauss est aussi possible.',
+      `$\\det(A) = ${D}$. Les formules de Cramer donnent $x = ${X[0]}$, $y = ${X[1]}$, $z = ${X[2]}$ ; on vérifie en substituant ces valeurs dans les trois équations.`,
+      `(${X.join(';')})`, 'Saisir la solution sous la forme (x;y;z).'
+    );
+  },
+
+  _L2RED1_fams(tier) {
+    return {
+      1: [this._L2RED1_tri, this._L2RED1_chi],
+      2: [this._L2RED1_vpOfVec, this._L2RED1_polyA],
+      3: [this._L2RED1_vecComp, this._L2RED1_dimE],
+      4: [this._L2RED1_trPow, this._L2RED1_pow]
+    }[tier];
+  },
+
+  /** A = P diag(l1, l2) P^{-1} à coefficients modérés */
+  _L2RED1_diagMat(maxL = 4, maxC = 20) {
+    let l1, l2, P, A;
+    do {
+      l1 = this.randInt(-maxL, maxL); l2 = this.randInt(-maxL, maxL);
+      P = this._L2_unimod(2);
+      A = this._L2_conj(P, [[l1, 0], [0, l2]]);
+    } while (l1 === l2 || A.flat().some((x) => Math.abs(x) > maxC) || (A[0][1] === 0 && A[1][0] === 0));
+    return { l1, l2, P, A };
+  },
+
+  _L2RED1_tri() {
+    let d;
+    do { d = [this.randInt(-4, 6), this.randInt(-4, 6), this.randInt(-4, 6)]; } while (new Set(d).size < 3);
+    const o = [this.randNonZero(-5, 5), this.randInt(-5, 5), this.randNonZero(-5, 5)];
+    const low = Math.random() < 0.5;
+    const M = low ? [[d[0], 0, 0], [o[0], d[1], 0], [o[1], o[2], d[2]]] : [[d[0], o[0], o[1]], [0, d[1], o[2]], [0, 0, d[2]]];
+    const s = [...d].sort((x, y) => x - y);
+    const T = (v) => `$(\\lambda_1 ; \\lambda_2 ; \\lambda_3) = ${this._L23_tup(v)}$`;
+    const offs = [...o].sort((x, y) => x - y);
+    const cand = [offs, s.map((x) => -x).sort((x, y) => x - y), [s[0], s[1], s[2] + 1], [s[0] - 1, s[1], s[2]]].filter((v) => new Set(v).size === 3 && v[0] < v[1] && v[1] < v[2]);
+    return this._L23_mcq('L2-RED1', 1, "Valeurs propres d'une matrice triangulaire",
+      'Lire le spectre d\'une matrice triangulaire',
+      `Déterminer les valeurs propres $\\lambda_1 < \\lambda_2 < \\lambda_3$ de la matrice $A = ${this._L2_pm(M)}$.`,
+      T(s), cand.map(T),
+      `$XI_3 - A$ est triangulaire ${low ? 'inférieure' : 'supérieure'}.`,
+      'Le déterminant d\'une matrice triangulaire est le produit de ses coefficients diagonaux.',
+      `$\\chi_A(X) = ${d.map((r) => this._L2_fx(r)).join('')}$ : les valeurs propres sont les coefficients diagonaux, soit $${s.join(' < ')}$. Les coefficients hors diagonale n'interviennent pas.`,
+      `(${s.join(';')})`, 'Saisir les valeurs propres dans l\'ordre croissant : (λ1;λ2;λ3).'
+    );
+  },
+
+  _L2RED1_chi() {
+    let M;
+    do { M = [[this.randInt(-5, 6), this.randInt(-5, 5)], [this.randInt(-5, 5), this.randInt(-5, 6)]]; } while (M.flat().filter((x) => x === 0).length > 1 || M[0][0] + M[1][1] === 0);
+    const t = M[0][0] + M[1][1], d = this._L2_det2(M);
+    const T = (u, v) => `$(b ; c) = ${this._L23_tup([u, v])}$`;
+    return this._L23_mcq('L2-RED1', 1, "Polynôme caractéristique d'une matrice 2x2",
+      'Calculer $\\chi_A(X) = \\det(XI_2 - A)$',
+      `Soit $A = ${this._L2_pm(M)}$. On écrit $\\chi_A(X) = \\det(XI_2 - A) = X^2 + bX + c$. Donner $(b ; c)$.`,
+      T(-t, d),
+      [T(t, d), T(-t, -d), T(t, -d), T(-t, M[0][0] * M[1][1] + M[0][1] * M[1][0])],
+      'En dimension $2$, $\\chi_A(X) = X^2 - \\mathrm{Tr}(A) X + \\det(A)$.',
+      'Calcule la trace (somme des coefficients diagonaux) et le déterminant $ad - bc$ de $A$.',
+      `$\\mathrm{Tr}(A) = ${t}$ et $\\det(A) = ${d}$, donc $\\chi_A(X) = ${this.polyX([1, -t, d], 'X')}$ : $(b ; c) = ${this._L23_tup([-t, d])}$.`,
+      `(${-t};${d})`, 'Saisir (b;c).'
+    );
+  },
+
+  _L2RED1_vpOfVec() {
+    const { l1, l2, P, A } = this._L2RED1_diagMat(5, 20);
+    const which = this.randChoice([0, 1]);
+    const l = which ? l2 : l1, other = which ? l1 : l2;
+    const k = this.randChoice([1, 1, -1, 2]);
+    const v = [P[0][which] * k, P[1][which] * k];
+    const Av = [A[0][0] * v[0] + A[0][1] * v[1], A[1][0] * v[0] + A[1][1] * v[1]];
+    return this.makeMcq('L2-RED1', 2, 'Valeur propre associée à un vecteur propre',
+      'Identifier la valeur propre $\\lambda$ telle que $Av = \\lambda v$',
+      `Soit $A = ${this._L2_pm(A)}$ et $v = ${this._L2_col(v)}$. Sachant que $v$ est un vecteur propre de $A$, déterminer la valeur propre $\\lambda$ associée.`,
+      `$\\lambda = ${l}$`,
+      [other, -l, Av[0] === l ? Av[1] : Av[0], A[0][0] + A[1][1]].map((x) => `$\\lambda = ${x}$`),
+      'Calcule le produit $Av$ et compare-le à $v$.',
+      'Si $Av = \\lambda v$, le rapport des composantes non nulles de $Av$ et de $v$ donne $\\lambda$.',
+      `$Av = ${this._L2_col(Av)} = ${l} \\cdot ${this._L2_col(v)}$, donc $\\lambda = ${l}$.`
+    );
+  },
+
+  _L2RED1_polyA() {
+    let D, p, q, m1, m2;
+    do {
+      D = this._L2RED1_diagMat(3, 15);
+      p = this.randInt(-3, 3); q = this.randInt(-4, 4);
+      m1 = D.l1 ** 2 + p * D.l1 + q; m2 = D.l2 ** 2 + p * D.l2 + q;
+    } while (m1 === m2);
+    const lo = Math.min(m1, m2), hi = Math.max(m1, m2);
+    const B = this.poly([[1, 'A^2'], [p, 'A'], [q, 'I_2']]);
+    const T = (u, v) => `$(\\mu_1 ; \\mu_2) = ${this._L23_tup([u, v])}$`;
+    const alt = [[D.l1 + p + q, D.l2 + p + q], [D.l1 ** 2, D.l2 ** 2], [-hi, -lo], [D.l1 ** 2 - p * D.l1 + q, D.l2 ** 2 - p * D.l2 + q]]
+      .map(([u, v]) => [Math.min(u, v), Math.max(u, v)]).filter(([u, v]) => u !== v && !(u === lo && v === hi));
+    return this._L23_mcq('L2-RED1', 2, "Spectre d'un polynôme en A",
+      'Utiliser $Av = \\lambda v \\Rightarrow P(A)v = P(\\lambda)v$',
+      `Soit $A = ${this._L2_pm(D.A)}$ et $B = ${B}$. Déterminer les valeurs propres $\\mu_1 < \\mu_2$ de $B$.`,
+      T(lo, hi), alt.map(([u, v]) => T(u, v)),
+      'Commence par les valeurs propres de $A$ (trace et déterminant).',
+      'Si $Av = \\lambda v$, alors $P(A)v = P(\\lambda)v$ : un vecteur propre de $A$ est vecteur propre de $P(A)$.',
+      `$\\chi_A(X) = ${this.polyX([1, -(D.l1 + D.l2), D.l1 * D.l2], 'X')}$, donc $A$ a pour valeurs propres $${D.l1}$ et $${D.l2}$, et $A$ est diagonalisable. Avec $P(X) = ${this.polyX([1, p, q], 'X')}$ : $P(${D.l1}) = ${m1}$ et $P(${D.l2}) = ${m2}$, valeurs propres de $B = P(A)$. D'où $(\\mu_1 ; \\mu_2) = ${this._L23_tup([lo, hi])}$.`,
+      `(${lo};${hi})`, 'Saisir les valeurs propres de B dans l\'ordre croissant : (μ1;μ2).'
+    );
+  },
+
+  _L2RED1_vecComp() {
+    let D, which, v;
+    do {
+      D = this._L2RED1_diagMat(4, 20);
+      which = this.randChoice([0, 1]);
+      v = [D.P[0][which], D.P[1][which]];
+    } while (v[0] === 0 || v[1] === 0);
+    const l = which ? D.l2 : D.l1;
+    const k = v[0] < 0 ? -1 : 1;
+    v = v.map((x) => x * k);
+    const y = v[1];
+    const A = D.A;
+    const wrong = A[0][1] !== 0 ? this.frac(l * v[0] - A[0][0] * v[0], -A[0][1]) : null;
+    return this.makeMcq('L2-RED1', 3, "Composante d'un vecteur propre",
+      'Résoudre $(A - \\lambda I_2)v = 0$',
+      `Soit $A = ${this._L2_pm(A)}$, qui admet $\\lambda = ${l}$ pour valeur propre. Déterminer le réel $y$ tel que $v = ${this._L2_col([v[0], 'y'])}$ soit un vecteur propre de $A$ associé à $\\lambda = ${l}$.`,
+      `$y = ${y}$`,
+      [-y, wrong, y + 1, this.frac(v[0] * (A[0][0] - l), A[0][1] || 1)].filter((x) => x !== null).map((x) => `$y = ${x}$`),
+      `Écris le système $${this._L23_sh('A', l, 'I_2')} v = 0$.`,
+      'Utilise une ligne du système dont le coefficient de $y$ est non nul : elle relie la composante connue et $y$.',
+      `$${this._L23_sh('A', l, 'I_2').slice(1, -1)} = ${this._L2_pm([[A[0][0] - l, A[0][1]], [A[1][0], A[1][1] - l]])}$ est de rang $1$ ; l'équation $(${A[0][0] - l}) \\times ${this.paren(v[0])} + (${A[0][1]}) y = 0$ ${A[0][1] === 0 ? 'est vide, on utilise la seconde ligne ; elle' : ''} donne $y = ${y}$. Vérification : $A${this._L2_col(v)} = ${this._L2_col([A[0][0] * v[0] + A[0][1] * v[1], A[1][0] * v[0] + A[1][1] * v[1]])} = ${l} \\cdot ${this._L2_col(v)}$.`
+    );
+  },
+
+  _L2RED1_dimE() {
+    let l, m;
+    do { l = this.randInt(-3, 4); m = this.randInt(-3, 4); } while (l === m);
+    const a = Math.random() < 0.5 ? 0 : this.randNonZero(-3, 3);
+    const b = this.randInt(-3, 3), c = this.randInt(-3, 3);
+    const T = [[l, a, b], [0, l, c], [0, 0, m]];
+    const dim = a === 0 ? 2 : 1;
+    return this.makeMcq('L2-RED1', 3, "Dimension d'un sous-espace propre",
+      'Calculer $\\dim E_\\lambda = 3 - \\mathrm{rg}(A - \\lambda I_3)$',
+      `Soit $A = ${this._L2_pm(T)}$. Quelle est la dimension du sous-espace propre $E_{${l}}(A) = \\ker${this._L23_sh('A', l, 'I_3')}$ ?`,
+      `$\\dim E_{${l}}(A) = ${dim}$`,
+      [0, 1, 2, 3].filter((x) => x !== dim).map((x) => `$\\dim E_{${l}}(A) = ${x}$`),
+      'Théorème du rang : $\\dim \\ker(A - \\lambda I_3) = 3 - \\mathrm{rg}(A - \\lambda I_3)$.',
+      `Écris la matrice $${this._L23_sh('A', l, 'I_3').slice(1, -1)}$ et compte ses lignes indépendantes.`,
+      `$${this._L23_sh('A', l, 'I_3').slice(1, -1)} = ${this._L2_pm([[0, a, b], [0, 0, c], [0, 0, m - l]])}$. ${a === 0 ? `Ses trois lignes sont proportionnelles à $(0, 0, 1)$ : rang $1$` : `La première et la dernière ligne sont indépendantes (le coefficient $${a}$ est non nul), et la deuxième est combinaison de la troisième : rang $2$`}, donc $\\dim E_{${l}}(A) = 3 - ${3 - dim} = ${dim}$${dim === 2 ? ' ; ici $A$ est diagonalisable.' : ', strictement inférieure à la multiplicité $2$ de la valeur propre : $A$ n\'est pas diagonalisable.'}`
+    );
+  },
+
+  _L2RED1_trPow() {
+    const D = this._L2RED1_diagMat(3, 15);
+    const n = this.randInt(3, 5);
+    const ans = D.l1 ** n + D.l2 ** n;
+    const t = D.l1 + D.l2;
+    return this.makeMcq('L2-RED1', 4, "Trace d'une puissance par diagonalisation",
+      'Utiliser $A = PDP^{-1} \\Rightarrow A^n = PD^nP^{-1}$',
+      `Soit $A = ${this._L2_pm(D.A)}$. Calculer $\\mathrm{Tr}(A^{${n}})$.`,
+      `$\\mathrm{Tr}(A^{${n}}) = ${ans}$`,
+      [t ** n, n * t, (D.l1 * D.l2) ** n, (D.A[0][0] ** n + D.A[1][1] ** n), -ans].map((x) => `$\\mathrm{Tr}(A^{${n}}) = ${x}$`),
+      'Commence par diagonaliser $A$ : calcule ses valeurs propres.',
+      'Si $A = PDP^{-1}$, alors $A^n = PD^nP^{-1}$, et la trace est invariante par similitude.',
+      `$\\chi_A(X) = ${this.polyX([1, -t, D.l1 * D.l2], 'X')}$ a pour racines $${D.l1}$ et $${D.l2}$ (distinctes), donc $A = PDP^{-1}$ avec $D = \\mathrm{diag}(${D.l1}, ${D.l2})$. Alors $\\mathrm{Tr}(A^{${n}}) = \\mathrm{Tr}(D^{${n}}) = ${this.paren(D.l1)}^{${n}} + ${this.paren(D.l2)}^{${n}} = ${ans}$.`
+    );
+  },
+
+  _L2RED1_pow() {
+    let D;
+    do { D = this._L2RED1_diagMat(2, 8); } while (Math.abs(D.l1) + Math.abs(D.l2) < 2);
+    const k = 3;
+    const A3 = this._L2_mul(this._L2_mul(D.A, D.A), D.A);
+    const f = A3.flat();
+    const T = (v) => `$(a ; b ; c ; d) = ${this._L23_tup(v)}$`;
+    const A = D.A.flat();
+    return this._L23_mcq('L2-RED1', 4, 'Puissance d\'une matrice diagonalisable',
+      'Calculer $A^k = PD^kP^{-1}$',
+      `Soit $A = ${this._L2_pm(D.A)}$. On note $A^{${k}} = \\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}$. Donner $(a ; b ; c ; d)$.`,
+      T(f),
+      [T(A.map((x) => x ** 3)), T([f[0], f[2], f[1], f[3]]), T(A.map((x) => 3 * x)), T(f.map((x) => -x))],
+      'Diagonalise $A$ : $A = PDP^{-1}$ avec $D$ diagonale, puis $A^{3} = PD^{3}P^{-1}$ (ou calcule directement $A^2$ puis $A^3$).',
+      'Attention : on ne calcule pas une puissance de matrice coefficient par coefficient.',
+      `Valeurs propres : $${D.l1}$ et $${D.l2}$, $P = ${this._L2_pm(D.P)}$, $D^{3} = \\mathrm{diag}(${D.l1 ** 3}, ${D.l2 ** 3})$. Alors $A^{3} = PD^{3}P^{-1} = ${this._L2_pm(A3)}$ (on vérifie avec $A^2 = ${this._L2_pm(this._L2_mul(D.A, D.A))}$ puis $A^3 = A^2 A$).`,
+      `(${f.join(';')})`, 'Saisir les coefficients de A³ sous la forme (a;b;c;d).'
+    );
+  },
+
+  _L2RED2_fams(tier) {
+    return {
+      1: [this._L2RED2_annul, this._L2RED2_nil2],
+      2: [this._L2RED2_cube, this._L2RED2_inv],
+      3: [this._L2RED2_minDeg, this._L2RED2_trig],
+      4: [this._L2RED2_powN, this._L2RED2_mult]
+    }[tier];
+  },
+
+  _L2RED2_mat2() {
+    let A, t, d;
+    do {
+      A = [[this.randInt(-4, 5), this.randInt(-4, 4)], [this.randInt(-4, 4), this.randInt(-4, 5)]];
+      t = A[0][0] + A[1][1]; d = this._L2_det2(A);
+    } while (d === 0 || t === 0 || A.flat().filter((x) => x === 0).length > 1);
+    return { A, t, d };
+  },
+
+  _L2RED2_annul() {
+    const { A, t, d } = this._L2RED2_mat2();
+    const T = (u, v) => `$(\\alpha ; \\beta) = ${this._L23_tup([u, v])}$`;
+    return this._L23_mcq('L2-RED2', 1, 'Polynôme annulateur de degré 2',
+      'Appliquer le théorème de Cayley-Hamilton',
+      `Soit $A = ${this._L2_pm(A)}$. Déterminer les réels $\\alpha$ et $\\beta$ tels que $A^2 + \\alpha A + \\beta I_2 = 0$ (donnés par le théorème de Cayley-Hamilton).`,
+      T(-t, d), [T(t, d), T(-t, -d), T(t, -d), T(d, -t)],
+      'D\'après le théorème de Cayley-Hamilton, $A$ annule son polynôme caractéristique $\\chi_A$.',
+      `$\\chi_A(X) = X^2 - \\mathrm{Tr}(A) X + \\det(A)$ ; calcule la trace et le déterminant de $A$.`,
+      `$\\mathrm{Tr}(A) = ${t}$, $\\det(A) = ${d}$, donc $\\chi_A(X) = ${this.polyX([1, -t, d], 'X')}$ et $${this.poly([[1, 'A^2'], [-t, 'A'], [d, 'I_2']])} = 0$ : $(\\alpha ; \\beta) = ${this._L23_tup([-t, d])}$.`,
+      `(${-t};${d})`, 'Saisir (α;β).'
+    );
+  },
+
+  _L2RED2_nil2() {
+    let a, b, c;
+    do { a = this.randNonZero(-5, 5); b = this.randInt(-5, 5); c = this.randNonZero(-5, 5); } while (Math.abs(a * c) < 2);
+    const N = [[0, a, b], [0, 0, c], [0, 0, 0]];
+    const N2 = this._L2_mul(N, N);
+    return this.makeMcq('L2-RED2', 1, "Carré d'une matrice strictement triangulaire",
+      'Calculer les puissances d\'une matrice nilpotente',
+      `Soit $N = ${this._L2_pm(N)}$. Calculer le coefficient $(N^2)_{13}$ (ligne $1$, colonne $3$) de $N^2$.`,
+      `$(N^2)_{13} = ${N2[0][2]}$`,
+      [b * b, a * b, b * c, a + c, -a * c].map((x) => `$(N^2)_{13} = ${x}$`),
+      'Le coefficient $(1, 3)$ de $N^2$ est $\\sum_{k} N_{1,k} N_{k,3}$.',
+      'Seul le terme $k = 2$ peut être non nul, car $N_{11} = 0$ et $N_{33} = 0$.',
+      `$(N^2)_{13} = \\sum_{k} N_{1,k} N_{k,3}$ ; seul le terme $k = 2$ est non nul : $(N^2)_{13} = N_{1,2} N_{2,3} = ${this.paren(a)} \\times ${this.paren(c)} = ${a * c}$. C'est le seul coefficient non nul de $N^2$, et $N^3 = 0$.`
+    );
+  },
+
+  _L2RED2_cube() {
+    const { A, t, d } = this._L2RED2_mat2();
+    const al = t * t - d, be = -t * d;
+    const T = (u, v) => `$(\\alpha ; \\beta) = ${this._L23_tup([u, v])}$`;
+    return this._L23_mcq('L2-RED2', 2, 'Puissance par Cayley-Hamilton',
+      'Exprimer $A^3$ comme combinaison de $A$ et $I_2$',
+      `Soit $A = ${this._L2_pm(A)}$. À l'aide du théorème de Cayley-Hamilton, déterminer les réels $\\alpha, \\beta$ tels que $A^3 = \\alpha A + \\beta I_2$.`,
+      T(al, be), [T(t * t + d, -t * d), T(t * t - d, t * d), T(t, -d), T(t ** 3, -(d ** 2))].filter((x) => x !== T(al, be)),
+      'Cayley-Hamilton donne $A^2 = \\mathrm{Tr}(A) A - \\det(A) I_2$.',
+      'Multiplie cette relation par $A$, puis remplace de nouveau $A^2$.',
+      `$\\mathrm{Tr}(A) = ${t}$, $\\det(A) = ${d}$ : $A^2 = ${this.poly([[t, 'A'], [-d, 'I_2']])}$. En multipliant par $A$ : $A^3 = ${this.poly([[t, 'A^2'], [-d, 'A']])}$, puis en remplaçant $A^2$ : $A^3 = ${this.poly([[al, 'A'], [be, 'I_2']])}$.`,
+      `(${al};${be})`, 'Saisir (α;β).'
+    );
+  },
+
+  _L2RED2_inv() {
+    const { A, t, d } = this._L2RED2_mat2();
+    const T = (u, v) => `$(\\alpha ; \\beta) = ${this._L23_tup([u, v])}$`;
+    return this._L23_mcq('L2-RED2', 2, "Inverse par Cayley-Hamilton (coefficients)",
+      'Déduire $A^{-1}$ de $\\chi_A(A) = 0$',
+      `Soit $A = ${this._L2_pm(A)}$, inversible. Déterminer $\\alpha, \\beta$ tels que $A^{-1} = \\alpha A + \\beta I_2$.`,
+      T(this.frac(-1, d), this.frac(t, d)),
+      [T(this.frac(1, d), this.frac(-t, d)), T(this.frac(-1, d), this.frac(-t, d)), T(this.frac(t, d), this.frac(-1, d)), T(-1, t)],
+      'Cayley-Hamilton : $A^2 - \\mathrm{Tr}(A) A + \\det(A) I_2 = 0$.',
+      'Factorise par $A$ : $A\\,(\\mathrm{Tr}(A) I_2 - A) = \\det(A) I_2$, puis divise par $\\det(A)$.',
+      `$\\mathrm{Tr}(A) = ${t}$ et $\\det(A) = ${d}$, d'où $A(${this.poly([[t, 'I_2'], [-1, 'A']])}) = ${this.coefStr(d, 'I_2')}$ et $A^{-1} = ${this.poly([[this.frac(-1, d), 'A'], [this.frac(t, d), 'I_2']])}$.`,
+      `(${this.frac(-1, d).replace(/\\frac\{(\d+)\}\{(\d+)\}/, '$1/$2')};${this.frac(t, d).replace(/\\frac\{(\d+)\}\{(\d+)\}/, '$1/$2')})`,
+      'Saisir (α;β), fractions irréductibles acceptées (par exemple (-1/3;2/3)).'
+    );
+  },
+
+  _L2RED2_minDeg() {
+    let l, m;
+    do { l = this.randInt(-3, 4); m = this.randInt(-3, 4); } while (l === m);
+    const a = Math.random() < 0.5 ? 0 : this.randNonZero(-3, 3);
+    const b = this.randInt(-3, 3), c = this.randInt(-3, 3);
+    const T = [[l, a, b], [0, l, c], [0, 0, m]];
+    const deg = a === 0 ? 2 : 3;
+    return this.makeMcq('L2-RED2', 3, 'Degré du polynôme minimal',
+      'Déterminer le polynôme minimal d\'une matrice triangulaire',
+      `Soit $T = ${this._L2_pm(T)}$. Quel est le degré du polynôme minimal $\\mu_T$ ?`,
+      `$\\deg \\mu_T = ${deg}$`,
+      [1, 2, 3, 4].filter((x) => x !== deg).map((x) => `$\\deg \\mu_T = ${x}$`),
+      `$\\mu_T$ divise $\\chi_T(X) = ${this._L2_fx(l)}^2${this._L2_fx(m)}$ et a les mêmes racines.`,
+      `Teste si $${this._L23_sh('T', l, 'I_3')}${this._L23_sh('T', m, 'I_3')} = 0$.`,
+      `$\\mu_T$ est $${this._L2_fx(l)}${this._L2_fx(m)}$ ou $${this._L2_fx(l)}^2${this._L2_fx(m)}$. ${a === 0 ? `Ici $${this._L23_sh('T', l, 'I_3')}${this._L23_sh('T', m, 'I_3')} = 0$ (le bloc associé à $${l}$ est scalaire), donc $\\mu_T = ${this._L2_fx(l)}${this._L2_fx(m)}$, de degré $2$ : $T$ est diagonalisable.` : `Le produit $${this._L23_sh('T', l, 'I_3')}${this._L23_sh('T', m, 'I_3')}$ a pour coefficient $(1, 2)$ la valeur $${a} \\times ${this.paren(l - m)} \\neq 0$, donc $\\mu_T = \\chi_T$, de degré $3$ : $T$ n'est pas diagonalisable.`}`
+    );
+  },
+
+  _L2RED2_trig() {
+    let l, P, A;
+    do {
+      l = this.randInt(-3, 3);
+      P = this._L2_unimod(2);
+      A = this._L2_conj(P, [[l, 1], [0, l]]);
+    } while (A.flat().some((x) => Math.abs(x) > 15) || P[0][0] === 0);
+    // vecteur propre : première colonne de P, normalisée à première composante 1 si possible
+    const v = [P[0][0], P[1][0]];
+    const ok = v[1] % v[0] === 0;
+    if (!ok) return this._L2RED2_trig();
+    const y = v[1] / v[0];
+    const T = (u, w) => `$(\\lambda ; y) = ${this._L23_tup([u, w])}$`;
+    return this._L23_mcq('L2-RED2', 3, 'Trigonalisation : valeur propre double',
+      'Trigonaliser une matrice $2 \\times 2$ à polynôme caractéristique scindé',
+      `Soit $A = ${this._L2_pm(A)}$. Son polynôme caractéristique admet une racine double $\\lambda$, et $E_\\lambda(A)$ est la droite engendrée par $${this._L2_col([1, 'y'])}$. Donner $(\\lambda ; y)$.`,
+      T(l, y), [T(-l, y), T(l, -y), T(2 * l, y), T(l, y + 1)].filter((x) => x !== T(l, y)),
+      'La racine double vaut la moitié de la trace.',
+      'Résous $(A - \\lambda I_2) v = 0$ avec $v = (1, y)$.',
+      `$\\mathrm{Tr}(A) = ${2 * l}$, $\\det(A) = ${l * l}$, donc $\\chi_A(X) = ${this._L2_fx(l)}^2$ et $\\lambda = ${l}$. $${this._L23_sh('A', l, 'I_2').slice(1, -1)} = ${this._L2_pm([[A[0][0] - l, A[0][1]], [A[1][0], A[1][1] - l]])}$ est de rang $1$ et annule $(1, ${y})$. $A$ n'étant pas scalaire, elle n'est pas diagonalisable, mais elle est semblable à $\\begin{pmatrix} ${l} & 1 \\\\ 0 & ${l} \\end{pmatrix}$ dans une base commençant par ce vecteur propre.`,
+      `(${l};${y})`, 'Saisir (λ;y).'
+    );
+  },
+
+  _L2RED2_powN() {
+    const l = this.randChoice([-2, -1, 1, 2]);
+    let a, b, c;
+    do { a = this.randNonZero(-3, 3); b = this.randInt(-3, 3); c = this.randNonZero(-3, 3); } while (false);
+    const n = this.randInt(4, 7);
+    const A = [[l, a, b], [0, l, c], [0, 0, l]];
+    const C2 = n * (n - 1) / 2;
+    const ans = n * l ** (n - 1) * b + C2 * l ** (n - 2) * a * c;
+    return this.makeMcq('L2-RED2', 4, "Puissance n-ième d'une matrice λI + N",
+      'Utiliser la formule du binôme avec $N$ nilpotente commutant avec $\\lambda I_3$',
+      `Soit $A = ${this._L2_pm(A)}$. Calculer le coefficient $(A^{${n}})_{13}$ (ligne $1$, colonne $3$).`,
+      `$(A^{${n}})_{13} = ${ans}$`,
+      [n * l ** (n - 1) * b, C2 * l ** (n - 2) * a * c, b ** n, n * l ** (n - 1) * b + n * l ** (n - 2) * a * c, -ans].map((x) => `$(A^{${n}})_{13} = ${x}$`),
+      `Écris $A = ${this.coefStr(l, 'I_3')} + N$ avec $N$ strictement triangulaire, donc $N^3 = 0$.`,
+      `$${this.coefStr(l, 'I_3')}$ et $N$ commutent : $A^{${n}} = \\sum_{k=0}^{2} \\binom{${n}}{k} ${this.paren(l)}^{${n} - k} N^k$.`,
+      `$N^2$ n'a qu'un coefficient non nul : $(N^2)_{13} = ${this.paren(a)} \\times ${this.paren(c)} = ${a * c}$. Donc $(A^{${n}})_{13} = \\binom{${n}}{1} ${this.paren(l)}^{${n - 1}} \\times ${this.paren(b)} + \\binom{${n}}{2} ${this.paren(l)}^{${n - 2}} \\times ${this.paren(a * c)} = ${n * l ** (n - 1) * b} ${this.formatSign(C2 * l ** (n - 2) * a * c)} = ${ans}$.`
+    );
+  },
+
+  _L2RED2_mult() {
+    let a, b;
+    do { a = this.randInt(-4, 4); b = this.randInt(-4, 4); } while (a === b);
+    const p = this.randChoice([1, 2]), q = 3 - p;
+    const t = p * a + q * b;
+    const T = (u, v) => `$(\\dim E_{${a}} ; \\dim E_{${b}}) = ${this._L23_tup([u, v])}$`;
+    return this._L23_mcq('L2-RED2', 4, 'Polynôme annulateur scindé à racines simples',
+      'Utiliser le polynôme minimal pour diagonaliser et lire les multiplicités',
+      `Soit $A \\in \\mathcal{M}_3(\\mathbb{R})$ telle que $${this._L23_sh('A', a, 'I_3')}${this._L23_sh('A', b, 'I_3')} = 0$, avec $A \\neq ${this.poly([[a, 'I_3']])}$, $A \\neq ${this.poly([[b, 'I_3']])}$ et $\\mathrm{Tr}(A) = ${t}$. Déterminer $(\\dim E_{${a}}(A) ; \\dim E_{${b}}(A))$.`,
+      T(p, q), [T(q, p), T(1, 1), T(3, 0), T(0, 3)].filter((x) => x !== T(p, q)),
+      `Le polynôme $${this._L2_fx(a)}${this._L2_fx(b)}$ est scindé à racines simples et annule $A$ : que peut-on en déduire pour $A$ ?`,
+      `$A$ est diagonalisable avec des valeurs propres dans $\\{${Math.min(a, b)}, ${Math.max(a, b)}\\}$ ; la trace est la somme des valeurs propres comptées avec multiplicité.`,
+      `Le polynôme annulateur est scindé à racines simples, donc $A$ est diagonalisable, semblable à une matrice diagonale de coefficients $${a}$ ($p$ fois) et $${b}$ ($q$ fois), $p + q = 3$. Comme $A$ n'est pas scalaire, $p, q \\geq 1$. La trace donne $${this.poly([[a, 'p'], [b, 'q']])} = ${t}$ avec $p + q = 3$, d'où $(p ; q) = ${this._L23_tup([p, q])}$.`,
+      `(${p};${q})`, 'Saisir les deux dimensions : (p;q).'
+    );
+  },
+
+  _L2DUA_fams(tier) {
+    return {
+      1: [this._L2DUA_dimOrth, this._L2DUA_kerParam],
+      2: [this._L2DUA_prescribed],
+      3: [this._L2DUA_orthLine],
+      4: [this._L2DUA_antedual]
+    }[tier];
+  },
+
+  _L2DUA_dimOrth() {
+    const u = [this.randInt(-3, 3), this.randInt(-3, 3), this.randInt(-3, 3), this.randInt(-3, 3)];
+    if (u.every((x) => x === 0)) u[0] = 1;
+    const prop = Math.random() < 0.35;
+    let v;
+    if (prop) { const k = this.randChoice([-2, -1, 2, 3]); v = u.map((x) => k * x); } else {
+      do { v = [this.randInt(-3, 3), this.randInt(-3, 3), this.randInt(-3, 3), this.randInt(-3, 3)]; } while (v.every((x, i) => x * u.find((y) => y !== 0) === u[i] * v[u.findIndex((y) => y !== 0)]));
+    }
+    const r = prop ? 1 : 2;
+    const ans = 4 - r;
+    return this.makeMcq('L2-DUA', 1, "Dimension de l'orthogonal d'un sous-espace",
+      'Utiliser $\\dim F^{\\circ} = \\dim E - \\dim F$',
+      `Dans $E = \\mathbb{R}^4$, soit $F = \\mathrm{Vect}(u, v)$ avec $u = ${this._L2_tuple(u)}$ et $v = ${this._L2_tuple(v)}$. Quelle est la dimension de l'orthogonal $F^{\\circ} = \\{\\varphi \\in E^* : \\varphi_{|F} = 0\\}$ ?`,
+      `$\\dim F^{\\circ} = ${ans}$`,
+      [1, 2, 3, 4].filter((x) => x !== ans).map((x) => `$\\dim F^{\\circ} = ${x}$`),
+      '$\\dim F^{\\circ} = \\dim E - \\dim F$.',
+      'Commence par déterminer $\\dim F$ : les vecteurs $u$ et $v$ sont-ils colinéaires ?',
+      `${prop ? '$v$ est colinéaire à $u$' : '$u$ et $v$ ne sont pas colinéaires'}, donc $\\dim F = ${r}$ et $\\dim F^{\\circ} = 4 - ${r} = ${ans}$.`
+    );
+  },
+
+  _L2DUA_kerParam() {
+    let c, p, r, m;
+    do {
+      c = [this.randInt(-4, 4), this.randNonZero(-3, 3), this.randInt(-4, 4)];
+      p = this.randInt(-3, 3); r = this.randInt(-3, 3);
+      m = -(c[0] * p + c[2] * r) / c[1];
+    } while (!Number.isInteger(m) || (c[0] === 0 && c[2] === 0) || (p === 0 && r === 0));
+    const phi = this.poly([[c[0], 'x'], [c[1], 'y'], [c[2], 'z']]);
+    return this.makeMcq('L2-DUA', 1, "Vecteur du noyau d'une forme linéaire",
+      'Écrire $\\ker \\varphi$ comme un hyperplan d\'équation $\\varphi = 0$',
+      `Soit $\\varphi \\in (\\mathbb{R}^3)^*$ définie par $\\varphi(x, y, z) = ${phi}$. Pour quelle valeur de $m$ le vecteur $u = (${p}, m, ${r})$ appartient-il à $\\ker \\varphi$ ?`,
+      `$m = ${m}$`,
+      [-m, m + 1, this.frac(c[0] * p + c[2] * r, 1), c[1]].map((x) => `$m = ${x}$`),
+      '$u \\in \\ker \\varphi \\iff \\varphi(u) = 0$.',
+      `Remplace $x = ${p}$ et $z = ${r}$ dans $\\varphi(x, y, z) = 0$, puis isole $y = m$.`,
+      `$\\varphi(u) = ${c[0] * p + c[2] * r} ${c[1] > 0 ? '+' : '-'} ${Math.abs(c[1]) === 1 ? '' : Math.abs(c[1])}m = 0$, donc $m = ${m}$.`
+    );
+  },
+
+  _L2DUA_prescribed() {
+    const P = this._L2_unimod(3);
+    const e1 = [P[0][0], P[1][0]], e2 = [P[0][1], P[1][1]];
+    let al, be;
+    do { al = this.randInt(-5, 5); be = this.randInt(-5, 5); } while (al === 0 && be === 0);
+    const d = this._L2_det2(P);
+    // (p, q) P = (al, be) -> (p, q) = (al, be) P^{-1}
+    const Pi = [[P[1][1] * d, -P[0][1] * d], [-P[1][0] * d, P[0][0] * d]];
+    const p = al * Pi[0][0] + be * Pi[1][0], q = al * Pi[0][1] + be * Pi[1][1];
+    const T = (u, v) => `$(p ; q) = ${this._L23_tup([u, v])}$`;
+    return this._L23_mcq('L2-DUA', 2, 'Forme linéaire prescrite sur une base',
+      'Déterminer une forme linéaire par ses valeurs sur une base',
+      `Dans $\\mathbb{R}^2$, soit la base $(e_1, e_2)$ avec $e_1 = ${this._L2_tuple(e1)}$ et $e_2 = ${this._L2_tuple(e2)}$. On cherche la forme linéaire $\\varphi(x, y) = px + qy$ telle que $\\varphi(e_1) = ${al}$ et $\\varphi(e_2) = ${be}$. Donner $(p ; q)$.`,
+      T(p, q), [T(q, p), T(al, be), T(-p, -q), T(p, -q)].filter((x) => x !== T(p, q)),
+      'Écris les deux conditions $\\varphi(e_1)$ et $\\varphi(e_2)$ : c\'est un système linéaire d\'inconnues $p$ et $q$.',
+      `Le système est $${this._L23_lin([e1[0], e1[1]], ['p', 'q'])} = ${al}$, $${this._L23_lin([e2[0], e2[1]], ['p', 'q'])} = ${be}$.`,
+      `On résout : $p = ${p}$, $q = ${q}$, donc $\\varphi = ${this.poly([[p, 'e_1^*'], [q, 'e_2^*']]).replace(/e_(\d)\^\*/g, 'x_$1^*')}$ dans la base duale canonique, soit $\\varphi(x, y) = ${this.poly([[p, 'x'], [q, 'y']])}$. Vérification : $\\varphi(e_1) = ${al}$ et $\\varphi(e_2) = ${be}$.`,
+      `(${p};${q})`, 'Saisir (p;q).'
+    );
+  },
+
+  _L2DUA_orthLine() {
+    let u, a, b, c;
+    do {
+      u = [this.randInt(-3, 3), this.randInt(-3, 3), this.randChoice([-1, 1])];
+      a = this.randInt(-4, 4); b = this.randInt(-4, 4);
+      c = -(a * u[0] + b * u[1]) / u[2];
+    } while ((a === 0 && b === 0) || (u[0] === 0 && u[1] === 0) || c === 0);
+    const phi = this.poly([[a, 'e_1^*'], [b, 'e_2^*'], [1, 'c \\, e_3^*']]);
+    return this.makeMcq('L2-DUA', 3, "Forme linéaire de l'orthogonal d'une droite",
+      'Représenter un sous-espace par des équations duales',
+      `Dans $\\mathbb{R}^3$, soit $D = \\mathrm{Vect}(u)$ avec $u = ${this._L2_tuple(u)}$. Pour quelle valeur de $c$ la forme $\\varphi = ${phi}$ appartient-elle à l'orthogonal $D^{\\circ}$ ?`,
+      `$c = ${c}$`,
+      [-c, a * u[0] + b * u[1], c + 1, a + b].map((x) => `$c = ${x}$`),
+      '$\\varphi \\in D^{\\circ} \\iff \\varphi(u) = 0$.',
+      '$e_i^*(u)$ est la $i$-ème coordonnée de $u$.',
+      `$\\varphi(u) = ${[[a, u[0]], [b, u[1]]].filter(([x, y]) => x !== 0 && y !== 0).map(([x, y]) => `${this.paren(x)} \\times ${this.paren(y)} + `).join('')}c \\times ${this.paren(u[2])} = ${this.poly([[a * u[0] + b * u[1], ''], [u[2], 'c']])}$, nul pour $c = ${c}$. ($D^{\\circ}$ est un plan de $(\\mathbb{R}^3)^*$ : $\\dim D^{\\circ} = 3 - 1 = 2$.)`
+    );
+  },
+
+  _L2DUA_antedual() {
+    let M, d;
+    do { M = [[this.randInt(-3, 3), this.randInt(-3, 3)], [this.randInt(-3, 3), this.randInt(-3, 3)]]; d = this._L2_det2(M); } while (Math.abs(d) !== 1 || M.flat().filter((x) => x === 0).length > 1);
+    const which = this.randChoice([1, 2]);
+    // phi_i(x, y) = M[i][0] x + M[i][1] y ; e_which = colonne which de M^{-1}
+    const Mi = [[M[1][1] * d, -M[0][1] * d], [-M[1][0] * d, M[0][0] * d]];
+    const e = [Mi[0][which - 1], Mi[1][which - 1]];
+    const other = [Mi[0][2 - which], Mi[1][2 - which]];
+    const T = (v) => `$e_${which} = ${this._L23_tup(v)}$`;
+    const f = (r) => this.poly([[r[0], 'x'], [r[1], 'y']]);
+    return this._L23_mcq('L2-DUA', 4, 'Base antéduale',
+      'Déterminer la base dont une base de formes donnée est la duale',
+      `Dans $\\mathbb{R}^2$, on considère les formes $\\varphi_1(x, y) = ${f(M[0])}$ et $\\varphi_2(x, y) = ${f(M[1])}$, qui forment une base de $(\\mathbb{R}^2)^*$. Déterminer le vecteur $e_${which}$ de la base antéduale $(e_1, e_2)$, c'est-à-dire tel que $\\varphi_i(e_j) = \\delta_{ij}$.`,
+      T(e), [T(other), T([M[which - 1][0], M[which - 1][1]]), T(e.map((x) => -x)), T([e[1], e[0]])].filter((x) => x !== T(e)),
+      `$e_${which}$ vérifie $\\varphi_${which}(e_${which}) = 1$ et $\\varphi_${3 - which}(e_${which}) = 0$.`,
+      'Les vecteurs de la base antéduale sont les colonnes de l\'inverse de la matrice dont les lignes sont les coefficients des formes.',
+      `$M = ${this._L2_pm(M)}$, $\\det(M) = ${d}$, $M^{-1} = ${this._L2_pm(Mi)}$. La colonne ${which} donne $e_${which} = ${this._L2_tuple(e)}$ ; vérification : $\\varphi_${which}(e_${which}) = 1$ et $\\varphi_${3 - which}(e_${which}) = 0$.`,
+      `(${e.join(';')})`, `Saisir les coordonnées de e${which} : (x;y).`
+    );
+  },
+
+  _L2PRE_fams(tier) {
+    return {
+      1: [this._L2PRE_orthParam, this._L2PRE_gram],
+      2: [this._L2PRE_isPS, this._L2PRE_distLine],
+      3: [this._L2PRE_distPlane, this._L2PRE_projPlane],
+      4: [this._L2PRE_lsq, this._L2PRE_gramDet]
+    }[tier];
+  },
+
+  /** fraction en saisie « a/b » */
+  _L23_fin(n, d) {
+    return this.frac(n, d).replace(/^(-?)\\frac\{(\d+)\}\{(\d+)\}$/, '$1$2/$3');
+  },
+
+  _L2PRE_orthParam() {
+    let u, v, m;
+    do {
+      u = [this.randInt(-4, 4), this.randInt(-4, 4), this.randChoice([-2, -1, 1, 2])];
+      v = [this.randInt(-4, 4), this.randInt(-4, 4)];
+      m = -(u[0] * v[0] + u[1] * v[1]) / u[2];
+    } while (!Number.isInteger(m) || (u[0] === 0 && u[1] === 0) || (v[0] === 0 && v[1] === 0) || m === 0);
+    return this.makeMcq('L2-PRE', 1, 'Orthogonalité dans $\\mathbb{R}^3$ euclidien',
+      'Traduire l\'orthogonalité par un produit scalaire nul',
+      `Dans $\\mathbb{R}^3$ muni du produit scalaire canonique, pour quelle valeur de $m$ les vecteurs $u = ${this._L2_tuple(u)}$ et $v = (${v[0]}, ${v[1]}, m)$ sont-ils orthogonaux ?`,
+      `$m = ${m}$`,
+      [-m, m + 1, u[0] * v[0] + u[1] * v[1], this.frac(u[2], u[0] * v[0] + u[1] * v[1] || 1)].map((x) => `$m = ${x}$`),
+      '$u \\perp v \\iff \\langle u, v \\rangle = 0$.',
+      '$\\langle u, v \\rangle = u_1 v_1 + u_2 v_2 + u_3 v_3$ est une expression affine en $m$.',
+      `$\\langle u, v \\rangle = ${this.poly([[u[0] * v[0] + u[1] * v[1], ''], [u[2], 'm']])}$, nul pour $m = ${m}$.`
+    );
+  },
+
+  _L2PRE_gram() {
+    let a, b, c;
+    do { a = this.randInt(1, 5); b = this.randInt(-3, 3); c = this.randInt(1, 5); } while (a * c - b * b <= 0 || b === 0);
+    const u = [this.randInt(-3, 3), this.randInt(-3, 3)], v = [this.randInt(-3, 3), this.randInt(-3, 3)];
+    if (u.every((x) => x === 0)) u[0] = 1;
+    if (v.every((x) => x === 0)) v[1] = 1;
+    const ip = (x, y) => a * x[0] * y[0] + b * (x[0] * y[1] + x[1] * y[0]) + c * x[1] * y[1];
+    const ans = ip(u, v);
+    const form = this.poly([[a, 'x_1y_1'], [b, 'x_1y_2'], [b, 'x_2y_1'], [c, 'x_2y_2']]);
+    return this.makeMcq('L2-PRE', 1, 'Calcul dans un produit scalaire non canonique',
+      'Calculer avec un produit scalaire défini par une matrice symétrique',
+      `Sur $\\mathbb{R}^2$, on considère le produit scalaire $\\langle x, y \\rangle = ${form}$. Calculer $\\langle u, v \\rangle$ pour $u = ${this._L2_tuple(u)}$ et $v = ${this._L2_tuple(v)}$.`,
+      `$\\langle u, v \\rangle = ${ans}$`,
+      [u[0] * v[0] + u[1] * v[1], a * u[0] * v[0] + c * u[1] * v[1], ans + b * (u[0] * v[1] + u[1] * v[0]), -ans].map((x) => `$\\langle u, v \\rangle = ${x}$`),
+      'Remplace $(x_1, x_2)$ par les coordonnées de $u$ et $(y_1, y_2)$ par celles de $v$.',
+      `La matrice de ce produit scalaire est $${this._L2_pm([[a, b], [b, c]])}$ : $\\langle u, v \\rangle = u^{T} S v$.`,
+      `$\\langle u, v \\rangle = ${this.paren(a)} \\times ${this.paren(u[0])} \\times ${this.paren(v[0])} + ${this.paren(b)} \\times ${this.paren(u[0])} \\times ${this.paren(v[1])} + ${this.paren(b)} \\times ${this.paren(u[1])} \\times ${this.paren(v[0])} + ${this.paren(c)} \\times ${this.paren(u[1])} \\times ${this.paren(v[1])} = ${ans}$.`
+    );
+  },
+
+  _L2PRE_isPS() {
+    const kind = this.randChoice(['ok', 'sym', 'pos', 'deg']);
+    let a, b, b2, c;
+    for (;;) {
+      a = this.randInt(-2, 5); c = this.randInt(-2, 5); b = this.randInt(-3, 3); b2 = b;
+      if (kind === 'sym') { b2 = b + this.randChoice([-2, -1, 1, 2]); if (a > 0 && c > 0) break; continue; }
+      const D = a * c - b * b;
+      if (kind === 'ok' && a > 0 && D > 0 && b !== 0) break;
+      if (kind === 'pos' && D < 0 && b !== 0 && (a > 0 || c > 0)) break;
+      if (kind === 'deg' && D === 0 && a > 0 && b !== 0) break;
+    }
+    const form = this.poly([[a, 'x_1y_1'], [b, 'x_1y_2'], [b2, 'x_2y_1'], [c, 'x_2y_2']]);
+    const S = {
+      ok: 'C\'est un produit scalaire',
+      sym: 'Ce n\'est pas un produit scalaire : $\\varphi$ n\'est pas symétrique',
+      pos: 'Ce n\'est pas un produit scalaire : $\\varphi(x, x)$ prend des valeurs strictement négatives',
+      deg: 'Ce n\'est pas un produit scalaire : $\\varphi$ est positive mais pas définie'
+    };
+    const D = a * c - b * b;
+    const sol = {
+      ok: `$\\varphi$ est bilinéaire et symétrique, de matrice $S = ${this._L2_pm([[a, b], [b, c]])}$ avec $s_{11} = ${a} > 0$ et $\\det(S) = ${D} > 0$ : les deux valeurs propres sont strictement positives, $\\varphi$ est définie positive. C'est un produit scalaire.`,
+      sym: `Le coefficient de $x_1y_2$ ($${b}$) diffère de celui de $x_2y_1$ ($${b2}$) : $\\varphi(e_1, e_2) \\neq \\varphi(e_2, e_1)$, donc $\\varphi$ n'est pas symétrique.`,
+      pos: `$\\varphi$ est symétrique de matrice $S = ${this._L2_pm([[a, b], [b, c]])}$, mais $\\det(S) = ${D} < 0$ : $S$ a une valeur propre strictement négative, et $\\varphi(x, x) < 0$ pour un vecteur propre associé.`,
+      deg: `$\\varphi$ est symétrique de matrice $S = ${this._L2_pm([[a, b], [b, c]])}$, avec $\\det(S) = 0$ et $\\mathrm{Tr}(S) > 0$ : $\\varphi$ est positive mais il existe $x \\neq 0$ (dans $\\ker S$) avec $\\varphi(x, x) = 0$.`
+    };
+    const q = this.makeMcq('L2-PRE', 2, 'Reconnaître un produit scalaire',
+      'Vérifier qu\'une forme bilinéaire est un produit scalaire',
+      `Sur $\\mathbb{R}^2$, on pose $\\varphi(x, y) = ${form}$. Que peut-on dire de $\\varphi$ ?`,
+      S[kind], Object.keys(S).filter((k) => k !== kind).map((k) => S[k]),
+      'Un produit scalaire est une forme bilinéaire symétrique définie positive.',
+      'Vérifie la symétrie (coefficients de $x_1y_2$ et $x_2y_1$), puis le signe des valeurs propres de la matrice $S$ (trace et déterminant).',
+      sol[kind]
+    );
+    q.keepMcq = true;
+    return q;
+  },
+
+  _L2PRE_distLine() {
+    let u, v, s, n2;
+    do {
+      u = [this.randInt(-3, 3), this.randInt(-3, 3), this.randInt(-3, 3)];
+      v = [this.randInt(-3, 3), this.randInt(-3, 3), this.randInt(-3, 3)];
+      s = u[0] * v[0] + u[1] * v[1] + u[2] * v[2]; n2 = u[0] ** 2 + u[1] ** 2 + u[2] ** 2;
+    } while (n2 === 0 || s === 0 || (v[0] * n2 - s * u[0] === 0 && v[1] * n2 - s * u[1] === 0 && v[2] * n2 - s * u[2] === 0));
+    const v2 = v[0] ** 2 + v[1] ** 2 + v[2] ** 2;
+    const num = v2 * n2 - s * s;
+    return this.makeMcq('L2-PRE', 2, 'Distance à une droite vectorielle',
+      'Calculer la distance associée à une projection orthogonale',
+      `Dans $\\mathbb{R}^3$ euclidien canonique, soit $D = \\mathrm{Vect}(u)$ avec $u = ${this._L2_tuple(u)}$. Calculer le carré de la distance de $v = ${this._L2_tuple(v)}$ à $D$, c'est-à-dire $d(v, D)^2$.`,
+      `$d(v, D)^2 = ${this.frac(num, n2)}$`,
+      [this.frac(s * s, n2), this.frac(v2 * n2 + s * s, n2), String(v2), this.frac(num, n2 * n2), this.frac(v2 * n2 - s, n2)].map((x) => `$d(v, D)^2 = ${x}$`),
+      '$d(v, D) = \\|v - p_D(v)\\|$ où $p_D(v) = \\frac{\\langle u, v \\rangle}{\\|u\\|^2} u$.',
+      'Par Pythagore : $d(v, D)^2 = \\|v\\|^2 - \\frac{\\langle u, v \\rangle^2}{\\|u\\|^2}$.',
+      `$\\|v\\|^2 = ${v2}$, $\\langle u, v \\rangle = ${s}$, $\\|u\\|^2 = ${n2}$. Donc $d(v, D)^2 = ${v2} - \\frac{${s * s}}{${n2}} = ${this.frac(num, n2)}$.`
+    );
+  },
+
+  _L2PRE_distPlane() {
+    let n, v, s;
+    do {
+      n = [this.randInt(-3, 3), this.randInt(-3, 3), this.randInt(-3, 3)];
+      v = [this.randInt(-3, 4), this.randInt(-3, 4), this.randInt(-3, 4)];
+      s = n[0] * v[0] + n[1] * v[1] + n[2] * v[2];
+    } while (n.filter((x) => x !== 0).length < 2 || s === 0);
+    const n2 = n[0] ** 2 + n[1] ** 2 + n[2] ** 2;
+    const eq = this.poly([[n[0], 'x'], [n[1], 'y'], [n[2], 'z']]);
+    return this.makeMcq('L2-PRE', 3, 'Distance à un plan vectoriel',
+      'Utiliser un vecteur normal pour calculer une distance',
+      `Dans $\\mathbb{R}^3$ euclidien canonique, soit le plan $P : ${eq} = 0$ et $v = ${this._L2_tuple(v)}$. Calculer $d(v, P)^2$.`,
+      `$d(v, P)^2 = ${this.frac(s * s, n2)}$`,
+      [this.frac(Math.abs(s), n2), this.frac(s * s, n2 * n2), String(s * s), this.frac((v[0] ** 2 + v[1] ** 2 + v[2] ** 2) * n2 - s * s, n2)].map((x) => `$d(v, P)^2 = ${x}$`),
+      `$n = ${this._L2_tuple(n)}$ est normal à $P$ : la distance à $P$ est la norme du projeté de $v$ sur $\\mathrm{Vect}(n)$.`,
+      '$d(v, P) = \\frac{|\\langle n, v \\rangle|}{\\|n\\|}$.',
+      `$\\langle n, v \\rangle = ${s}$ et $\\|n\\|^2 = ${n2}$, donc $d(v, P)^2 = \\frac{\\langle n, v \\rangle^2}{\\|n\\|^2} = ${this.frac(s * s, n2)}$.`
+    );
+  },
+
+  _L2PRE_projPlane() {
+    let n, v, s, n2;
+    do {
+      n = [this.randInt(-2, 2), this.randInt(-2, 2), this.randInt(-2, 2)];
+      v = [this.randInt(-3, 3), this.randInt(-3, 3), this.randInt(-3, 3)];
+      s = n[0] * v[0] + n[1] * v[1] + n[2] * v[2]; n2 = n[0] ** 2 + n[1] ** 2 + n[2] ** 2;
+    } while (n.filter((x) => x !== 0).length < 2 || s === 0);
+    const p = v.map((x, i) => x * n2 - s * n[i]);
+    const T = (w, d) => `$p(v) = ${this._L23_tup(w.map((x) => this.frac(x, d)))}$`;
+    const eq = this.poly([[n[0], 'x'], [n[1], 'y'], [n[2], 'z']]);
+    return this._L23_mcq('L2-PRE', 3, 'Projection orthogonale sur un plan',
+      'Calculer $p_P(v) = v - \\frac{\\langle n, v \\rangle}{\\|n\\|^2} n$',
+      `Dans $\\mathbb{R}^3$ euclidien canonique, calculer le projeté orthogonal $p(v)$ de $v = ${this._L2_tuple(v)}$ sur le plan $P : ${eq} = 0$.`,
+      T(p, n2),
+      [T(n.map((x) => s * x), n2), T(v.map((x, i) => x * n2 + s * n[i]), n2), T(v.map((x, i) => x - s * n[i]), 1), T(p.map((x) => -x), n2)],
+      `$n = ${this._L2_tuple(n)}$ est normal à $P$ : $v$ se décompose en sa projection sur $P$ et sa projection sur $\\mathrm{Vect}(n)$.`,
+      '$p_P(v) = v - \\frac{\\langle n, v \\rangle}{\\|n\\|^2} n$.',
+      `$\\langle n, v \\rangle = ${s}$, $\\|n\\|^2 = ${n2}$, donc $p(v) = ${this._L2_tuple(v)} ${s > 0 ? '-' : '+'} ${this.frac(Math.abs(s), n2)} ${this._L2_tuple(n)} = ${this._L23_tup(p.map((x) => this.frac(x, n2)))}$ ; on vérifie que $p(v)$ satisfait l'équation de $P$.`,
+      `(${p.map((x) => this._L23_fin(x, n2)).join(';')})`, 'Saisir les coordonnées de p(v) sous la forme (x;y;z), fractions acceptées (par exemple (1/3;-2;5/3)).'
+    );
+  },
+
+  _L2PRE_lsq() {
+    // projection de f(t) = al t^2 + be t^3 sur R_1[X] pour <P, Q> = int_0^1 PQ
+    let al, be;
+    do { al = this.randInt(-3, 3); be = this.randInt(-2, 2); } while (al === 0 && be === 0);
+    // proj(t^2) = t - 1/6 ; proj(t^3) = 9/10 t - 1/5
+    const bN = 10 * al + 9 * be, bD = 10; // coefficient de t
+    const aN = -5 * al - 6 * be, aD = 30; // constante
+    const T = (x, y) => `$(a ; b) = ${this._L23_tup([x, y])}$`;
+    const f = this.poly([[al, 't^2'], [be, 't^3']]);
+    const fin = (n, d) => this._L23_fin(n, d);
+    return this._L23_mcq('L2-PRE', 4, 'Meilleure approximation affine en moyenne quadratique',
+      'Projeter orthogonalement sur $\\mathbb{R}_1[X]$ (équations normales)',
+      `Sur $\\mathcal{C}([0, 1])$ muni de $\\langle f, g \\rangle = \\int_0^1 f(t) g(t) \\, dt$, on cherche le projeté orthogonal $p(t) = a + bt$ de $f(t) = ${f}$ sur $\\mathbb{R}_1[X]$. Donner $(a ; b)$.`,
+      T(this.frac(aN, aD), this.frac(bN, bD)),
+      [T(this.frac(-aN, aD), this.frac(bN, bD)), T(this.frac(4 * al + 3 * be, 12), 0), T(this.frac(aN, aD), this.frac(al + be, 1)), T(this.frac(bN, bD), this.frac(aN, aD))],
+      '$f - p$ doit être orthogonal à $1$ et à $t$ : $\\langle f - p, 1 \\rangle = 0$ et $\\langle f - p, t \\rangle = 0$.',
+      '$\\int_0^1 t^k \\, dt = \\frac{1}{k + 1}$ : les équations normales forment un système $2 \\times 2$ en $(a, b)$.',
+      `Les équations normales s'écrivent $a + \\frac{b}{2} = \\int_0^1 f = ${this.frac(4 * al + 3 * be, 12)}$ et $\\frac{a}{2} + \\frac{b}{3} = \\int_0^1 t f(t) \\, dt = ${this.frac(5 * al + 4 * be, 20)}$. On obtient $b = ${this.frac(bN, bD)}$ et $a = ${this.frac(aN, aD)}$.`,
+      `(${fin(aN, aD)};${fin(bN, bD)})`, 'Saisir (a;b), fractions irréductibles acceptées.'
+    );
+  },
+
+  _L2PRE_gramDet() {
+    let u, v, w;
+    do {
+      u = [this.randInt(-3, 3), this.randInt(-3, 3), this.randInt(-3, 3)];
+      v = [this.randInt(-3, 3), this.randInt(-3, 3), this.randInt(-3, 3)];
+      w = [u[1] * v[2] - u[2] * v[1], u[2] * v[0] - u[0] * v[2], u[0] * v[1] - u[1] * v[0]];
+    } while (w.every((x) => x === 0));
+    const dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+    const G = [[dot(u, u), dot(u, v)], [dot(u, v), dot(v, v)]];
+    const ans = G[0][0] * G[1][1] - G[0][1] ** 2;
+    return this.makeMcq('L2-PRE', 4, 'Déterminant de Gram',
+      'Relier le déterminant de Gram à l\'aire d\'un parallélogramme',
+      `Dans $\\mathbb{R}^3$ euclidien canonique, soit $u = ${this._L2_tuple(u)}$ et $v = ${this._L2_tuple(v)}$. Calculer le déterminant de Gram $G(u, v) = \\det \\begin{pmatrix} \\langle u, u \\rangle & \\langle u, v \\rangle \\\\ \\langle v, u \\rangle & \\langle v, v \\rangle \\end{pmatrix}$, carré de l'aire du parallélogramme construit sur $u$ et $v$.`,
+      `$G(u, v) = ${ans}$`,
+      [G[0][0] * G[1][1] + G[0][1] ** 2, G[0][0] * G[1][1], G[0][0] * G[1][1] - G[0][1], Math.abs(w[0]) + Math.abs(w[1]) + Math.abs(w[2])].map((x) => `$G(u, v) = ${x}$`),
+      'Calcule les trois produits scalaires $\\langle u, u \\rangle$, $\\langle u, v \\rangle$ et $\\langle v, v \\rangle$.',
+      '$G(u, v) = \\|u\\|^2 \\|v\\|^2 - \\langle u, v \\rangle^2 = \\|u \\wedge v\\|^2$.',
+      `$\\|u\\|^2 = ${G[0][0]}$, $\\|v\\|^2 = ${G[1][1]}$, $\\langle u, v \\rangle = ${G[0][1]}$, donc $G(u, v) = ${G[0][0]} \\times ${G[1][1]} - ${this.paren(G[0][1])}^2 = ${ans}$. Contrôle : $u \\wedge v = ${this._L2_tuple(w)}$ et $\\|u \\wedge v\\|^2 = ${ans}$.`
+    );
+  },
+
+  _L2SYM_fams(tier) {
+    return {
+      1: [this._L2SYM_qmat, this._L2SYM_angle],
+      2: [this._L2SYM_vpVec, this._L2SYM_gauss],
+      3: [this._L2SYM_rank1, this._L2SYM_maxSphere],
+      4: [this._L2SYM_rot3, this._L2SYM_minSphere3]
+    }[tier];
+  },
+
+  _L2SYM_qmat() {
+    let a, b2, c;
+    do { a = this.randInt(-5, 5); b2 = this.randInt(-6, 6); c = this.randInt(-5, 5); } while (a === 0 || b2 === 0 || c === 0);
+    const qf = this.poly([[a, 'x^2'], [b2, 'xy'], [c, 'y^2']]);
+    const T = (x, y, z) => `$(s_{11} ; s_{12} ; s_{22}) = ${this._L23_tup([x, y, z])}$`;
+    return this._L23_mcq('L2-SYM', 1, "Matrice d'une forme quadratique",
+      'Écrire la matrice symétrique associée à une forme quadratique',
+      `Soit la forme quadratique $q(x, y) = ${qf}$ sur $\\mathbb{R}^2$, et $S = \\begin{pmatrix} s_{11} & s_{12} \\\\ s_{12} & s_{22} \\end{pmatrix}$ sa matrice symétrique dans la base canonique. Donner $(s_{11} ; s_{12} ; s_{22})$.`,
+      T(a, this.frac(b2, 2), c),
+      [T(a, b2, c), T(c, this.frac(b2, 2), a), T(a, this.frac(-b2, 2), c), T(a, this.frac(b2, 4), c)],
+      '$q(x, y) = s_{11} x^2 + 2 s_{12} xy + s_{22} y^2$.',
+      'Le coefficient de $xy$ se répartit à parts égales entre $s_{12}$ et $s_{21}$.',
+      `Par identification : $s_{11} = ${a}$, $2 s_{12} = ${b2}$ donc $s_{12} = ${this.frac(b2, 2)}$, et $s_{22} = ${c}$.`,
+      `(${a};${this._L23_fin(b2, 2)};${c})`, 'Saisir (s11;s12;s22), fractions acceptées (par exemple (2;-3/2;1)).'
+    );
+  },
+
+  _L2SYM_angle() {
+    const C = { 0: ['1', '0'], 1: ['\\frac{\\sqrt{3}}{2}', '\\frac{1}{2}'], 2: ['\\frac{1}{2}', '\\frac{\\sqrt{3}}{2}'], 3: ['0', '1'], 4: ['-\\frac{1}{2}', '\\frac{\\sqrt{3}}{2}'], 5: ['-\\frac{\\sqrt{3}}{2}', '\\frac{1}{2}'], 6: ['-1', '0'] };
+    let k;
+    do { k = this.randInt(-5, 6); } while (k === 0);
+    const [c, s0] = C[Math.abs(k)];
+    const neg = (x) => (x === '0' ? '0' : x.startsWith('-') ? x.slice(1) : '-' + x);
+    const s = k < 0 ? neg(s0) : s0;
+    const M = [[c, neg(s)], [s, c]];
+    return this.makeMcq('L2-SYM', 1, "Angle d'une rotation du plan",
+      'Identifier la rotation associée à une matrice de $SO_2(\\mathbb{R})$',
+      `La matrice $R = ${this._L2_pm(M)}$ est celle d'une rotation d'angle $\\theta \\in \\left]-\\pi ; \\pi\\right]$. On écrit $\\theta = \\frac{k\\pi}{6}$ avec $k$ entier. Donner $k$.`,
+      `$k = ${k}$`,
+      [-k, k === 6 ? 3 : 6 - k, k + (k > 0 ? -1 : 1) * 3 === 0 ? 1 : k + (k > 0 ? -1 : 1) * 3, 2 * k > 6 ? 2 * k - 12 : 2 * k].map((x) => `$k = ${x}$`),
+      'Une rotation d\'angle $\\theta$ a pour matrice $\\begin{pmatrix} \\cos\\theta & -\\sin\\theta \\\\ \\sin\\theta & \\cos\\theta \\end{pmatrix}$.',
+      'Lis $\\cos\\theta$ dans la première colonne et $\\sin\\theta$ en dessous : le signe du sinus fixe le signe de l\'angle.',
+      `$\\cos\\theta = ${c}$ et $\\sin\\theta = ${s}$, donc $\\theta = ${k === 6 ? '\\pi' : this._L2_piCoef(Math.abs(k), 6).replace(/^/, k < 0 ? '-' : '')}$ et $k = ${k}$.`
+    );
+  },
+
+  /** S = (1/r²) R diag(l1, l2) R^T entière, R rotation pythagoricienne */
+  _L2SYM_symMat() {
+    for (;;) {
+      const v = this.randChoice([[1, 1], [1, -1], [1, 2], [2, 1], [1, -2], [2, -1], [1, 3], [3, 1], [1, -3]]);
+      const m = this.randInt(-4, 4), k = this.randChoice([-1, 1, 2]);
+      const n = v[0] ** 2 + v[1] ** 2;
+      const S = [[m + k * v[0] * v[0], k * v[0] * v[1]], [k * v[0] * v[1], m + k * v[1] * v[1]]];
+      if (S.flat().some((x) => Math.abs(x) > 25)) continue;
+      const lv = m + k * n, lw = m;
+      return { S, l1: Math.min(lv, lw), l2: Math.max(lv, lw), v, lv, w: [-v[1], v[0]], lw };
+    }
+  },
+
+  _L2SYM_vpVec() {
+    const D = this._L2SYM_symMat();
+    const useV = Math.random() < 0.5;
+    const vec = useV ? D.v : D.w, l = useV ? D.lv : D.lw, other = useV ? D.lw : D.lv;
+    const k = this.randChoice([1, 2, -1]);
+    const x = vec.map((c) => c * k);
+    return this.makeMcq('L2-SYM', 2, 'Vecteur propre d\'une matrice symétrique',
+      'Identifier la valeur propre associée à un vecteur propre',
+      `Soit la matrice symétrique $S = ${this._L2_pm(D.S)}$. Le vecteur $x = ${this._L2_col(x)}$ est vecteur propre de $S$ : pour quelle valeur propre $\\lambda$ ?`,
+      `$\\lambda = ${l}$`,
+      [other, -l, D.S[0][0] + D.S[1][1], l + 1].map((y) => `$\\lambda = ${y}$`),
+      'Calcule $Sx$ et compare avec $x$.',
+      'Les vecteurs propres associés à deux valeurs propres distinctes d\'une matrice symétrique sont orthogonaux.',
+      `$Sx = ${this._L2_col([D.S[0][0] * x[0] + D.S[0][1] * x[1], D.S[1][0] * x[0] + D.S[1][1] * x[1]])} = ${l} \\cdot x$, donc $\\lambda = ${l}$. L'autre valeur propre est $${other}$, associée au vecteur orthogonal $${this._L2_tuple(useV ? D.w : D.v)}$.`
+    );
+  },
+
+  _L2SYM_gauss() {
+    let a, k, c;
+    do { a = this.randChoice([-3, -2, -1, 1, 2, 3]); k = this.randNonZero(-3, 3); c = this.randInt(-6, 8); } while (c - a * k * k === 0);
+    const b = a * k;
+    const qf = this.poly([[a, 'x^2'], [2 * b, 'xy'], [c, 'y^2']]);
+    const T = (x, y) => `$(\\alpha ; \\beta) = ${this._L23_tup([x, y])}$`;
+    const beta = c - a * k * k;
+    return this._L23_mcq('L2-SYM', 2, 'Réduction de Gauss d\'une forme quadratique',
+      'Écrire une forme quadratique comme combinaison de carrés',
+      `On écrit $q(x, y) = ${qf}$ sous la forme $q(x, y) = ${this.coefStr(a, '(x + \\alpha y)^2')} + \\beta y^2$. Donner $(\\alpha ; \\beta)$.`,
+      T(k, beta), [T(2 * k, beta), T(k, c + a * k * k), T(-k, beta), T(k, c - k * k)].filter((x) => x !== T(k, beta)),
+      `Factorise par $${a}$ les termes en $x$ : $${this.poly([[a, 'x^2'], [2 * b, 'xy']])} = ${this.coefStr(a, `(${this.poly([[1, 'x^2'], [2 * k, 'xy']])})`)}$.`,
+      'Complète le carré : $x^2 + 2\\alpha xy = (x + \\alpha y)^2 - \\alpha^2 y^2$.',
+      `$q(x, y) = ${this.poly([[a, `(${this.poly([[1, 'x'], [k, 'y']])})^2`], [-a * k * k, 'y^2']])} ${c === 0 ? '' : `${c > 0 ? '+' : '-'} ${this.coefStr(Math.abs(c), 'y^2')} `}= ${this.poly([[a, `(${this.poly([[1, 'x'], [k, 'y']])})^2`], [beta, 'y^2']])}$, donc $(\\alpha ; \\beta) = ${this._L23_tup([k, beta])}$. Signature : $(${(a > 0) + (beta > 0)}, ${(a < 0) + (beta < 0)})$.`,
+      `(${k};${beta})`, 'Saisir (α;β).'
+    );
+  },
+
+  _L2SYM_rank1() {
+    let u;
+    do { u = [this.randInt(-3, 3), this.randInt(-3, 3), this.randInt(-3, 3)]; } while (u.filter((x) => x !== 0).length < 2);
+    const a = this.randInt(-3, 3);
+    const n2 = u[0] ** 2 + u[1] ** 2 + u[2] ** 2;
+    const S = u.map((x, i) => u.map((y, j) => x * y + (i === j ? a : 0)));
+    const sp = [a, a, a + n2].sort((x, y) => x - y);
+    const T = (v) => `$(\\lambda_1 ; \\lambda_2 ; \\lambda_3) = ${this._L23_tup(v)}$`;
+    return this._L23_mcq('L2-SYM', 3, 'Spectre d\'une matrice symétrique $aI_3 + uu^{T}$',
+      'Diagonaliser une matrice symétrique de structure simple',
+      `Soit $S = ${this._L2_pm(S)}$${a === 0 ? '' : `, qui s'écrit $S = ${this.coefStr(a, 'I_3')} + uu^{T}$ avec $u = ${this._L2_tuple(u)}$`}. Déterminer ses valeurs propres $\\lambda_1 \\leq \\lambda_2 \\leq \\lambda_3$ (avec multiplicité).`,
+      T(sp),
+      [T([a, a + n2, a + n2].sort((x, y) => x - y)), T([0, 0, n2]), T([a, a, a + n2 * n2].sort((x, y) => x - y)), T([a - 1, a, a + n2].sort((x, y) => x - y))].filter((x) => x !== T(sp)),
+      a === 0 ? 'Toutes les lignes de $S$ sont proportionnelles : quel est son rang ?' : `$${this._L23_sh('S', a, 'I_3').slice(1, -1)}$ est de rang $1$.`,
+      'Une matrice symétrique de rang $1$ a pour valeurs propres $0$ (double) et sa trace.',
+      `${a === 0 ? `$S = uu^{T}$ avec $u = ${this._L2_tuple(u)}$` : `$S = ${this.coefStr(a, 'I_3')} + uu^{T}$`} : $uu^{T}$ est de rang $1$, de trace $\\|u\\|^2 = ${n2}$, donc de valeurs propres $0, 0, ${n2}$ ($u^{\\perp}$ est le noyau, $u$ est propre). Le spectre de $S$ est donc $${sp.join(', ')}$.`.replace(/\$S - 1I_3\$/, '$S - I_3$'),
+      `(${sp.join(';')})`, 'Saisir les valeurs propres dans l\'ordre croissant, avec multiplicité : (λ1;λ2;λ3).'
+    );
+  },
+
+  _L2SYM_maxSphere() {
+    const D = this._L2SYM_symMat();
+    const ask = this.randChoice(['max', 'min']);
+    const qf = this.poly([[D.S[0][0], 'x^2'], [2 * D.S[0][1], 'xy'], [D.S[1][1], 'y^2']]);
+    const ans = ask === 'max' ? D.l2 : D.l1;
+    return this.makeMcq('L2-SYM', 3, 'Extremum d\'une forme quadratique sur le cercle unité',
+      'Appliquer le théorème spectral : $\\lambda_{\\min} \\|x\\|^2 \\leq q(x) \\leq \\lambda_{\\max} \\|x\\|^2$',
+      `Soit $q(x, y) = ${qf}$. Déterminer la valeur ${ask === 'max' ? 'maximale' : 'minimale'} de $q$ sur le cercle unité $x^2 + y^2 = 1$.`,
+      `$${ask} = ${ans}$`,
+      [ask === 'max' ? D.l1 : D.l2, D.S[0][0], D.S[1][1], -ans].map((y) => `$${ask} = ${y}$`),
+      `La matrice de $q$ est $S = ${this._L2_pm(D.S)}$ ; diagonalise-la dans une base orthonormée.`,
+      'Dans une base orthonormée de vecteurs propres, $q = \\lambda_1 X^2 + \\lambda_2 Y^2$ avec $X^2 + Y^2 = 1$.',
+      `$\\mathrm{Tr}(S) = ${D.l1 + D.l2}$ et $\\det(S) = ${D.l1 * D.l2}$ : les valeurs propres sont $${D.l1}$ et $${D.l2}$. Sur le cercle unité, $q$ varie entre $${D.l1}$ et $${D.l2}$, valeurs atteintes en des vecteurs propres unitaires. Le ${ask === 'max' ? 'maximum' : 'minimum'} vaut donc $${ans}$.`
+    );
+  },
+
+  _L2SYM_rot3() {
+    let M, tr;
+    for (;;) {
+      const p = this.shuffleArray([0, 1, 2]);
+      const s = [this.randChoice([1, -1]), this.randChoice([1, -1]), this.randChoice([1, -1])];
+      M = [0, 1, 2].map((i) => [0, 1, 2].map((j) => (p[i] === j ? s[i] : 0)));
+      tr = M[0][0] + M[1][1] + M[2][2];
+      if (this._L2_det3(M) === 1 && tr !== 3) break;
+    }
+    const cos = this.frac(tr - 1, 2);
+    return this.makeMcq('L2-SYM', 4, 'Rotation de l\'espace : angle',
+      'Utiliser $\\mathrm{Tr}(R) = 1 + 2\\cos\\theta$ pour une rotation de $\\mathbb{R}^3$',
+      `La matrice $R = ${this._L2_pm(M)}$ est orthogonale de déterminant $1$ : c'est une rotation d'angle $\\theta \\in [0, \\pi]$ autour d'un axe. Calculer $\\cos\\theta$.`,
+      `$\\cos\\theta = ${cos}$`,
+      [this.frac(tr, 2), this.frac(tr, 3), this.frac(1 - tr, 2), this.frac(tr + 1, 2)].map((x) => `$\\cos\\theta = ${x}$`),
+      'Dans une base orthonormée adaptée (premier vecteur sur l\'axe), $R$ s\'écrit $\\begin{pmatrix} 1 & 0 & 0 \\\\ 0 & \\cos\\theta & -\\sin\\theta \\\\ 0 & \\sin\\theta & \\cos\\theta \\end{pmatrix}$.',
+      'La trace est invariante par changement de base.',
+      `$\\mathrm{Tr}(R) = ${tr} = 1 + 2\\cos\\theta$, donc $\\cos\\theta = ${cos}$${tr === -1 ? ' : c\'est un demi-tour ($\\theta = \\pi$)' : tr === 0 ? ' : $\\theta = \\frac{2\\pi}{3}$' : tr === 1 ? ' : $\\theta = \\frac{\\pi}{2}$' : ''}.`
+    );
+  },
+
+  _L2SYM_minSphere3() {
+    let a, b;
+    do { a = this.randInt(-3, 5); b = this.randNonZero(-3, 3); } while (false);
+    const S = [[a, b, b], [b, a, b], [b, b, a]];
+    const ask = this.randChoice(['max', 'min']);
+    const v1 = a + 2 * b, v2 = a - b;
+    const ans = ask === 'max' ? Math.max(v1, v2) : Math.min(v1, v2);
+    const qf = this.poly([[a, 'x^2'], [a, 'y^2'], [a, 'z^2'], [2 * b, 'xy'], [2 * b, 'xz'], [2 * b, 'yz']]);
+    return this.makeMcq('L2-SYM', 4, 'Extremum d\'une forme quadratique sur la sphère unité',
+      'Réduire une forme quadratique de $\\mathbb{R}^3$ par le théorème spectral',
+      `Soit $q(x, y, z) = ${qf}$. Déterminer la valeur ${ask === 'max' ? 'maximale' : 'minimale'} de $q$ sur la sphère unité $x^2 + y^2 + z^2 = 1$.`,
+      `$${ask} = ${ans}$`,
+      [ask === 'max' ? Math.min(v1, v2) : Math.max(v1, v2), a, a + 3 * b, a + b, -ans].map((y) => `$${ask} = ${y}$`),
+      `La matrice de $q$ est $S = ${this._L2_pm(S)}$.`,
+      `$S = ${this.poly([[a - b, 'I_3'], [b, 'J']])}$ où $J$ est la matrice remplie de $1$ : cherche les valeurs propres de $J$.`,
+      `$J$ a pour valeurs propres $3$ (vecteur $(1, 1, 1)$) et $0$ (double, sur le plan orthogonal). Donc $S$ a pour valeurs propres $${v1}$ (simple) et $${v2}$ (double). Sur la sphère unité, $q$ varie entre la plus petite et la plus grande valeur propre : le ${ask === 'max' ? 'maximum' : 'minimum'} vaut $${ans}$.`
+    );
+  },
+
+  _L2SER_fams(tier) {
+    return {
+      1: [this._L2SER_tele1, this._L2SER_alembert],
+      2: [this._L2SER_altBound, this._L2SER_cauchy],
+      3: [this._L2SER_cauchyProd, this._L2SER_altRank],
+      4: [this._L2SER_tele3, this._L2SER_n2q]
+    }[tier];
+  },
+
+  _L2SER_tele1() {
+    const a = this.randInt(1, 9), b = this.randInt(0, 5), p = this.randInt(1, 4);
+    const term = `\\frac{${a}}{n + ${b}} - \\frac{${a}}{n + ${b + 1}}`.replace('n + 0', 'n');
+    return this.makeMcq('L2-SER', 1, 'Série télescopique simple',
+      'Calculer la somme d\'une série télescopique',
+      `Calculer $S = \\sum_{n=${p}}^{+\\infty} \\left(${term}\\right)$.`,
+      `$S = ${this.frac(a, p + b)}$`,
+      [this.frac(a, p + b + 1), String(a), this.frac(a, p + b - 1 || 1), '0', this.frac(-a, p + b)].map((x) => `$S = ${x}$`),
+      `Les sommes partielles se simplifient : écris $S_N$ pour quelques valeurs de $N$.`,
+      'Pour une série télescopique $\\sum (u_n - u_{n+1})$ avec $u_n \\to 0$, la somme vaut le premier terme $u_{n_0}$.',
+      `Avec $u_n = \\frac{${a}}{n + ${b}}$ (qui tend vers $0$) : $S_N = \\sum_{n=${p}}^{N} (u_n - u_{n+1}) = u_{${p}} - u_{N+1} \\to u_{${p}}$, donc $S = ${this.frac(a, p + b)}$.`.replace(/n \+ 0/g, 'n')
+    );
+  },
+
+  _L2SER_alembert() {
+    const kind = this.randChoice(['geo', 'fact']);
+    if (kind === 'geo') {
+      let c, d;
+      do { c = this.randInt(1, 7); d = this.randInt(2, 9); } while (c === d || this.gcd(c, d) !== 1);
+      const k = this.randInt(1, 3);
+      const L = this.frac(c, d);
+      return this.makeMcq('L2-SER', 1, 'Règle de d\'Alembert',
+        'Calculer la limite du rapport $\\frac{u_{n+1}}{u_n}$',
+        `Soit $u_n = ${this.pow('n', k)} \\left(${this.frac(c, d)}\\right)^n$. Calculer $\\ell = \\lim_{n \\to +\\infty} \\frac{u_{n+1}}{u_n}$.`,
+        `$\\ell = ${L}$`,
+        [this.frac(d, c), '1', '0', this.frac(c * (k + 1), d)].map((x) => `$\\ell = ${x}$`),
+        `Écris $\\frac{u_{n+1}}{u_n}$ en séparant le facteur polynomial et le facteur géométrique.`,
+        '$\\left(\\frac{n + 1}{n}\\right)^k \\to 1$ quand $n \\to +\\infty$.',
+        `$\\frac{u_{n+1}}{u_n} = \\left(\\frac{n + 1}{n}\\right)^{${k}} \\times ${this.frac(c, d)} \\to ${L}$. Comme $\\ell ${c < d ? '< 1' : '> 1'}$, la série $\\sum u_n$ ${c < d ? 'converge' : 'diverge'} (règle de d'Alembert).`.replace('^{1}', '')
+      );
+    }
+    const c = this.randInt(2, 9), k = this.randInt(1, 2);
+    return this.makeMcq('L2-SER', 1, 'Règle de d\'Alembert',
+      'Calculer la limite du rapport $\\frac{u_{n+1}}{u_n}$',
+      `Soit $u_n = \\frac{${this.pow(String(c), 'n')}}{${k === 1 ? 'n!' : '(2n)!'}}$. Calculer $\\ell = \\lim_{n \\to +\\infty} \\frac{u_{n+1}}{u_n}$.`,
+      '$\\ell = 0$',
+      [String(c), '1', this.frac(1, c), this.frac(c, 2)].map((x) => `$\\ell = ${x}$`),
+      `Simplifie $\\frac{${k === 1 ? '(n + 1)!' : '(2n + 2)!'}}{${k === 1 ? 'n!' : '(2n)!'}}$.`,
+      'Le numérosur reste constant alors que le dénominateur tend vers $+\\infty$.'.replace('numérosur', 'numérateur'),
+      `$\\frac{u_{n+1}}{u_n} = \\frac{${c}}{${k === 1 ? 'n + 1' : '(2n + 1)(2n + 2)'}} \\to 0 < 1$ : la série $\\sum u_n$ converge (règle de d'Alembert).`
+    );
+  },
+
+  _L2SER_altBound() {
+    const a = this.randInt(1, 3), b = this.randInt(0, 4), N = this.randInt(3, 12);
+    const den = `${this.coefStr(a, 'n')}${b ? ` + ${b}` : ''}`;
+    const nxt = a * (N + 1) + b;
+    return this.makeMcq('L2-SER', 2, 'Série alternée : majoration du reste',
+      'Appliquer le critère spécial des séries alternées',
+      `Soit $S = \\sum_{n=0}^{+\\infty} \\frac{(-1)^n}{${den}${b === 0 ? ' + 1' : ''}}$ et $R_{${N}} = \\sum_{n=${N + 1}}^{+\\infty} \\frac{(-1)^n}{${den}${b === 0 ? ' + 1' : ''}}$ son reste d'ordre $${N}$. Donner le majorant de $|R_{${N}}|$ fourni par le critère spécial des séries alternées.`,
+      `$|R_{${N}}| \\leq ${this.frac(1, nxt + (b === 0 ? 1 : 0))}$`,
+      [this.frac(1, a * N + b + (b === 0 ? 1 : 0)), this.frac(1, a * (N + 2) + b + (b === 0 ? 1 : 0)), this.frac(1, N + 1), this.frac(2, nxt + (b === 0 ? 1 : 0))].map((x) => `$|R_{${N}}| \\leq ${x}$`),
+      'La suite $\\left(\\frac{1}{an + b}\\right)$ est décroissante et tend vers $0$ : le critère spécial s\'applique.',
+      'Le reste est majoré en valeur absolue par la valeur absolue de son premier terme.',
+      `Le premier terme du reste est obtenu pour $n = ${N + 1}$ : $|R_{${N}}| \\leq \\frac{1}{${a === 1 ? '' : a + ' \\times '}${N + 1}${b === 0 ? ' + 1' : ` + ${b}`}} = ${this.frac(1, nxt + (b === 0 ? 1 : 0))}$, et $R_{${N}}$ est du signe de $(-1)^{${N + 1}}$.`
+    );
+  },
+
+  _L2SER_cauchy() {
+    let a, b, c, d;
+    do { a = this.randInt(1, 6); c = this.randInt(1, 6); b = this.randInt(-3, 4); d = this.randInt(1, 5); } while (a === c || this.gcd(a, c) !== 1);
+    const L = this.frac(a, c);
+    return this.makeMcq('L2-SER', 2, 'Règle de Cauchy',
+      'Calculer la limite de $\\sqrt[n]{u_n}$',
+      `Soit $u_n = \\left(\\frac{${this.poly([[a, 'n'], [b, '']])}}{${this.poly([[c, 'n'], [d, '']])}}\\right)^n$ pour $n \\geq 1$. Calculer $\\ell = \\lim_{n \\to +\\infty} \\sqrt[n]{u_n}$.`,
+      `$\\ell = ${L}$`,
+      [this.frac(c, a), '1', '0', this.frac(a + b, c + d)].map((x) => `$\\ell = ${x}$`),
+      'Pour $n$ assez grand, $u_n > 0$ et $\\sqrt[n]{u_n}$ est la fraction entre parenthèses.',
+      'Une fraction rationnelle en $n$ tend vers le quotient des coefficients dominants.',
+      `$\\sqrt[n]{u_n} = \\frac{${this.poly([[a, 'n'], [b, '']])}}{${this.poly([[c, 'n'], [d, '']])}} \\to ${L}$. Comme $\\ell ${a < c ? '< 1' : '> 1'}$, la série $\\sum u_n$ ${a < c ? 'converge' : 'diverge grossièrement'} (règle de Cauchy).`
+    );
+  },
+
+  _L2SER_cauchyProd() {
+    const pick = () => { let p, r; do { r = this.randInt(2, 5); p = this.randNonZero(-(r - 1), r - 1); } while (this.gcd(p, r) !== 1); return [p, r]; };
+    let A, B;
+    do { A = pick(); B = pick(); } while (A[0] * B[1] === A[1] * B[0]);
+    // c_n = sum_{k=0}^n a^k b^{n-k}; somme = 1/((1-a)(1-b))
+    const num = A[1] * B[1], den = (A[1] - A[0]) * (B[1] - B[0]);
+    const fa = this.frac(A[0], A[1]), fb = this.frac(B[0], B[1]);
+    return this.makeMcq('L2-SER', 3, 'Produit de Cauchy de deux séries géométriques',
+      'Calculer la somme d\'un produit de Cauchy de séries absolument convergentes',
+      `On pose $c_n = \\sum_{k=0}^{n} \\left(${fa}\\right)^k \\left(${fb}\\right)^{n-k}$. Calculer $S = \\sum_{n=0}^{+\\infty} c_n$.`,
+      `$S = ${this.frac(num, den)}$`,
+      [this.frac(A[1], A[1] - A[0]), this.frac(A[1] * (B[1] - B[0]) + B[1] * (A[1] - A[0]), den), this.frac(num, den * 2), this.frac(-num, den)].map((x) => `$S = ${x}$`),
+      '$(c_n)$ est le produit de Cauchy de deux séries géométriques.',
+      'Les deux séries géométriques convergent absolument : la somme du produit de Cauchy est le produit des sommes.',
+      `$\\sum \\left(${fa}\\right)^n = \\frac{1}{1 - \\left(${fa}\\right)} = ${this.frac(A[1], A[1] - A[0])}$ et $\\sum \\left(${fb}\\right)^n = ${this.frac(B[1], B[1] - B[0])}$, donc $S = ${this.frac(A[1], A[1] - A[0])} \\times ${this.frac(B[1], B[1] - B[0])} = ${this.frac(num, den)}$.`
+    );
+  },
+
+  _L2SER_altRank() {
+    const a = this.randInt(1, 4), b = this.randInt(1, 6);
+    const M = this.randChoice([50, 100, 200, 500, 1000]);
+    // plus petit N tel que 1/(a(N+1)+b) <= 1/M, soit a(N+1)+b >= M
+    const N = Math.max(0, Math.ceil((M - b) / a) - 1);
+    return this.makeMcq('L2-SER', 3, 'Série alternée : rang garantissant une précision',
+      'Utiliser la majoration du reste d\'une série alternée',
+      `Soit $S = \\sum_{n=0}^{+\\infty} \\frac{(-1)^n}{${this.poly([[a, 'n'], [b, '']])}}$ et $S_N$ sa somme partielle d'indice $N$. Quel est le plus petit entier $N$ pour lequel le critère spécial des séries alternées garantit $|S - S_N| \\leq ${this.frac(1, M)}$ ?`,
+      `$N = ${N}$`,
+      [N + 1, N - 1, M, Math.ceil(M / a)].filter((x) => x >= 0 && x !== N).map((x) => `$N = ${x}$`),
+      '$|S - S_N| = |R_N|$ est majoré par le premier terme négligé.',
+      `Cherche le plus petit $N$ tel que $\\frac{1}{${this.poly([[a, '(N + 1)'], [b, '']])}} \\leq ${this.frac(1, M)}$.`,
+      `$|R_N| \\leq \\frac{1}{${this.poly([[a, '(N + 1)'], [b, '']])}}$, qui est $\\leq ${this.frac(1, M)}$ si et seulement si $${this.poly([[a, '(N + 1)'], [b, '']])} \\geq ${M}$, soit $N \\geq ${this.frac(M - b, a)} - 1$. Le plus petit entier convenable est $N = ${N}$.`
+    );
+  },
+
+  _L2SER_tele3() {
+    const a = this.randInt(0, 4), c = this.randChoice([1, 3, 4, 5, 6]);
+    const ans = this.frac(c, 2 * (a + 1) * (a + 2));
+    const f = (k) => (a + k === 0 ? 'n' : `n + ${a + k}`);
+    return this.makeMcq('L2-SER', 4, 'Série télescopique d\'ordre 2',
+      'Décomposer en éléments simples et télescoper',
+      `Calculer $S = \\sum_{n=1}^{+\\infty} \\frac{${c}}{(${f(0)})(${f(1)})(${f(2)})}$.`.replace('(n)', 'n'),
+      `$S = ${ans}$`,
+      [this.frac(c, (a + 1) * (a + 2)), this.frac(c, (a + 1) * (a + 2) * (a + 3)), this.frac(c, 4 * (a + 1) * (a + 2)), this.frac(c, 2 * (a + 1))].map((x) => `$S = ${x}$`),
+      `Écris $\\frac{1}{(${f(0)})(${f(1)})(${f(2)})}$ comme la moitié de $\\frac{1}{(${f(0)})(${f(1)})} - \\frac{1}{(${f(1)})(${f(2)})}$.`.replace('(n)', 'n').replace('(n)', 'n'),
+      'C\'est une différence $v_n - v_{n+1}$ : la somme vaut $\\frac{1}{2} v_1$.',
+      `Avec $v_n = \\frac{1}{(${f(0)})(${f(1)})}$ : $S = ${this.frac(c, 2)} \\sum_{n \\geq 1} (v_n - v_{n+1}) = ${this.frac(c, 2)} v_1 = \\frac{${c}}{2 \\times ${a + 1} \\times ${a + 2}} = ${ans}$.`.replace('(n)', 'n')
+    );
+  },
+
+  _L2SER_n2q() {
+    let p, r;
+    do { r = this.randInt(2, 5); p = this.randNonZero(-(r - 1), r - 1); } while (this.gcd(p, r) !== 1);
+    // sum n^2 x^n = x(1+x)/(1-x)^3
+    const num = p * (r + p) * r, den = (r - p) ** 3;
+    const x = this.frac(p, r);
+    return this.makeMcq('L2-SER', 4, 'Série $\\sum n^2 x^n$',
+      'Dériver deux fois la série géométrique',
+      `Calculer $S = \\sum_{n=1}^{+\\infty} n^2 \\left(${x}\\right)^n$.`,
+      `$S = ${this.frac(num, den)}$`,
+      [this.frac(p * r, (r - p) ** 2), this.frac(p * r * r, den), this.frac(num, (r - p) ** 2 * r), this.frac(2 * p * r * r, den)].map((y) => `$S = ${y}$`),
+      'Pour $|x| < 1$, $\\sum_{n \\geq 1} n x^n = \\frac{x}{(1 - x)^2}$ ; dérive et multiplie par $x$.',
+      '$\\sum_{n \\geq 1} n^2 x^n = \\frac{x(1 + x)}{(1 - x)^3}$.',
+      `Avec $x = ${x}$ : $1 + x = ${this.frac(r + p, r)}$ et $1 - x = ${this.frac(r - p, r)}$, donc $S = \\frac{${x} \\times ${this.frac(r + p, r)}}{\\left(${this.frac(r - p, r)}\\right)^3} = ${this.frac(num, den)}$.`
+    );
+  },
+
+  _L2CAL_fams(tier) {
+    return {
+      1: [this._L2CAL_jac, this._L2CAL_dxy],
+      2: [this._L2CAL_chain, this._L2CAL_jacdet],
+      3: [this._L2CAL_hess, this._L2CAL_tangent],
+      4: [this._L2CAL_minVal, this._L2CAL_lagrange]
+    }[tier];
+  },
+
+  _L2CAL_jac() {
+    const a = this.randNonZero(-3, 3), b = this.randNonZero(-3, 3), c = this.randNonZero(-3, 3), d = this.randInt(-4, 4);
+    const x0 = this.randInt(-2, 2), y0 = this.randInt(-2, 2);
+    // F(x, y) = (a x^2 y + d, b x + c y^2)
+    const J = [[2 * a * x0 * y0, a * x0 * x0], [b, 2 * c * y0]];
+    const F1 = this.poly([[a, 'x^2y'], [d, '']]), F2 = this.poly([[b, 'x'], [c, 'y^2']]);
+    const T = (v) => `$(a ; b ; c ; d) = ${this._L23_tup(v)}$`;
+    return this._L23_mcq('L2-CAL', 1, 'Matrice jacobienne',
+      'Écrire la matrice jacobienne d\'une fonction de $\\mathbb{R}^2$ dans $\\mathbb{R}^2$',
+      `Soit $F(x, y) = (${F1}, ${F2})$. On note $J_F(${x0}, ${y0}) = \\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}$ sa matrice jacobienne en $(${x0}, ${y0})$. Donner $(a ; b ; c ; d)$.`,
+      T(J.flat()),
+      [T([J[0][0], J[1][0], J[0][1], J[1][1]]), T([J[0][1], J[0][0], J[1][1], J[1][0]]), T([a * x0 * x0 * y0 + d, 0, b * x0, c * y0 * y0]), T(J.flat().map((x) => -x))].filter((x) => x !== T(J.flat())),
+      'La ligne $i$ de la jacobienne contient les dérivées partielles de la $i$-ème composante.',
+      '$J_F = \\begin{pmatrix} \\partial_x F_1 & \\partial_y F_1 \\\\ \\partial_x F_2 & \\partial_y F_2 \\end{pmatrix}$.',
+      `$\\partial_x F_1 = ${this.coefStr(2 * a, 'xy')}$, $\\partial_y F_1 = ${this.coefStr(a, 'x^2')}$, $\\partial_x F_2 = ${b}$, $\\partial_y F_2 = ${this.coefStr(2 * c, 'y')}$. En $(${x0}, ${y0})$ : $J_F = ${this._L2_pm(J)}$.`,
+      `(${J.flat().join(';')})`, 'Saisir (a;b;c;d).'
+    );
+  },
+
+  _L2CAL_dxy() {
+    const a = this.randNonZero(-4, 4), b = this.randNonZero(-3, 3), c = this.randInt(-5, 5);
+    const p = this.randInt(1, 3), q = this.randInt(1, 2);
+    const x0 = this.randNonZero(-2, 2), y0 = this.randNonZero(-2, 2);
+    // f = a x^p y^q + b x^2 + c y
+    const mono = (e1, e2) => `${e1 ? (e1 === 1 ? 'x' : `x^${e1}`) : ''}${e2 ? (e2 === 1 ? 'y' : `y^${e2}`) : ''}`;
+    const f = this.poly([[a, mono(p, q)], [b, 'x^2'], [c, 'y']]);
+    const ans = a * p * q * x0 ** (p - 1) * y0 ** (q - 1);
+    return this.makeMcq('L2-CAL', 1, 'Dérivée partielle croisée',
+      'Calculer une dérivée partielle d\'ordre 2',
+      `Soit $f(x, y) = ${f}$. Calculer $\\frac{\\partial^2 f}{\\partial x \\partial y}(${x0}, ${y0})$.`,
+      `$\\frac{\\partial^2 f}{\\partial x \\partial y}(${x0}, ${y0}) = ${ans}$`,
+      [a * p * x0 ** (p - 1) * y0 ** q, a * q * x0 ** p * y0 ** (q - 1), ans + 2 * b, -ans].map((x) => `$\\frac{\\partial^2 f}{\\partial x \\partial y}(${x0}, ${y0}) = ${x}$`),
+      'Dérive d\'abord par rapport à $y$, puis le résultat par rapport à $x$ (Schwarz : l\'ordre est indifférent).',
+      'Les termes qui ne dépendent que d\'une seule variable disparaissent dans la dérivée croisée.',
+      `$\\frac{\\partial f}{\\partial y} = ${this.poly([[a * q, mono(p, q - 1)], [c, '']])}$, puis $\\frac{\\partial^2 f}{\\partial x \\partial y} = ${this.poly([[a * p * q, mono(p - 1, q - 1)]])}$, qui vaut $${ans}$ en $(${x0}, ${y0})$.`
+    );
+  },
+
+  _L2CAL_chain() {
+    const a = this.randNonZero(-3, 3), b = this.randNonZero(-3, 3);
+    const f = this.poly([[a, 'x^2'], [b, 'xy']]);
+    const al = this.randNonZero(-3, 3), be = this.randInt(-3, 3), ga = this.randNonZero(-2, 2), de = this.randInt(-3, 3);
+    const t0 = this.randInt(-2, 2);
+    const X = al * t0 + be, Y = ga * t0 * t0 + de, Xp = al, Yp = 2 * ga * t0;
+    const fx = 2 * a * X + b * Y, fy = b * X;
+    const ans = fx * Xp + fy * Yp;
+    return this.makeMcq('L2-CAL', 2, 'Dérivée d\'une fonction composée',
+      'Appliquer la règle de la chaîne $g\'(t) = \\partial_x f \\, x\'(t) + \\partial_y f \\, y\'(t)$',
+      `Soit $f(x, y) = ${f}$ et $g(t) = f(x(t), y(t))$ avec $x(t) = ${this.poly([[al, 't'], [be, '']])}$ et $y(t) = ${this.poly([[ga, 't^2'], [de, '']])}$. Calculer $g'(${t0})$.`,
+      `$g'(${t0}) = ${ans}$`,
+      [fx + fy, fx * Xp, fy * Yp + fx, -ans, fx * Yp + fy * Xp].map((x) => `$g'(${t0}) = ${x}$`),
+      'Règle de la chaîne : $g\'(t) = \\frac{\\partial f}{\\partial x}(x(t), y(t)) \\, x\'(t) + \\frac{\\partial f}{\\partial y}(x(t), y(t)) \\, y\'(t)$.',
+      `Calcule d'abord le point $(x(${t0}), y(${t0}))$ et les dérivées $x'(${t0})$, $y'(${t0})$.`,
+      `$(x(${t0}), y(${t0})) = (${X}, ${Y})$, $x'(${t0}) = ${Xp}$, $y'(${t0}) = ${Yp}$. $\\partial_x f = ${this.poly([[2 * a, 'x'], [b, 'y']])}$ vaut $${fx}$ et $\\partial_y f = ${this.coefStr(b, 'x')}$ vaut $${fy}$. Donc $g'(${t0}) = ${[[fx, Xp], [fy, Yp]].filter(([u, w]) => u !== 0 && w !== 0).map(([u, w]) => `${this.paren(u)} \\times ${this.paren(w)}`).join(' + ') || '0'} = ${ans}$.`
+    );
+  },
+
+  _L2CAL_jacdet() {
+    const kind = this.randChoice(['sq', 'prod', 'mix']);
+    const u0 = this.randNonZero(-3, 3), v0 = this.randNonZero(-3, 3);
+    let phi, J;
+    if (kind === 'sq') { phi = '(u^2 - v^2, 2uv)'; J = [[2 * u0, -2 * v0], [2 * v0, 2 * u0]]; }
+    else if (kind === 'prod') { phi = '(u + v, uv)'; J = [[1, 1], [v0, u0]]; }
+    else { const k = this.randNonZero(-3, 3); phi = `(${this.poly([[1, 'u'], [k, 'v^2']])}, ${this.poly([[1, 'u^2'], [1, 'v']])})`; J = [[1, 2 * k * v0], [2 * u0, 1]]; }
+    const ans = J[0][0] * J[1][1] - J[0][1] * J[1][0];
+    return this.makeMcq('L2-CAL', 2, 'Jacobien d\'un changement de variables',
+      'Calculer un déterminant jacobien',
+      `Soit $\\varphi(u, v) = ${phi}$. Calculer le jacobien $\\det J_\\varphi(${u0}, ${v0})$.`,
+      `$\\det J_\\varphi(${u0}, ${v0}) = ${ans}$`,
+      [J[0][0] * J[1][1] + J[0][1] * J[1][0], -ans, J[0][0] + J[1][1], ans + 1].map((x) => `$\\det J_\\varphi(${u0}, ${v0}) = ${x}$`),
+      'La matrice jacobienne a pour lignes les gradients des deux composantes de $\\varphi$.',
+      'Calcule les quatre dérivées partielles en $(u, v)$, puis évalue au point avant de calculer le déterminant.',
+      `$J_\\varphi(${u0}, ${v0}) = ${this._L2_pm(J)}$, donc $\\det J_\\varphi(${u0}, ${v0}) = ${this.paren(J[0][0])} \\times ${this.paren(J[1][1])} - ${this.paren(J[0][1])} \\times ${this.paren(J[1][0])} = ${ans}$.`
+    );
+  },
+
+  _L2CAL_hess() {
+    const a = this.randNonZero(-3, 3), b = this.randNonZero(-3, 3), c = this.randNonZero(-3, 3);
+    const x0 = this.randInt(-2, 2), y0 = this.randInt(-2, 2);
+    // f = a x^3 + b x^2 y + c y^3
+    const f = this.poly([[a, 'x^3'], [b, 'x^2y'], [c, 'y^3']]);
+    const r = 6 * a * x0 + 2 * b * y0, s = 2 * b * x0, t = 6 * c * y0;
+    const T = (v) => `$(r ; s ; t) = ${this._L23_tup(v)}$`;
+    return this._L23_mcq('L2-CAL', 3, 'Hessienne en un point',
+      'Calculer les dérivées secondes (notations de Monge)',
+      `Soit $f(x, y) = ${f}$. Calculer, au point $(${x0}, ${y0})$, $r = \\frac{\\partial^2 f}{\\partial x^2}$, $s = \\frac{\\partial^2 f}{\\partial x \\partial y}$ et $t = \\frac{\\partial^2 f}{\\partial y^2}$. Donner $(r ; s ; t)$.`,
+      T([r, s, t]),
+      [T([t, s, r]), T([3 * a * x0 * x0 + 2 * b * x0 * y0, b * x0 * x0, 3 * c * y0 * y0]), T([r, 2 * s, t]), T([-r, -s, -t])].filter((x) => x !== T([r, s, t])),
+      'Calcule d\'abord le gradient, puis dérive chacune de ses composantes.',
+      'La hessienne $\\begin{pmatrix} r & s \\\\ s & t \\end{pmatrix}$ est symétrique (théorème de Schwarz).',
+      `$\\partial_x f = ${this.poly([[3 * a, 'x^2'], [2 * b, 'xy']])}$, $\\partial_y f = ${this.poly([[b, 'x^2'], [3 * c, 'y^2']])}$. Donc $r = ${this.poly([[6 * a, 'x'], [2 * b, 'y']])}$, $s = ${this.coefStr(2 * b, 'x')}$, $t = ${this.coefStr(6 * c, 'y')}$ ; en $(${x0}, ${y0})$ : $(r ; s ; t) = ${this._L23_tup([r, s, t])}$.`,
+      `(${r};${s};${t})`, 'Saisir (r;s;t).'
+    );
+  },
+
+  _L2CAL_tangent() {
+    const a = this.randNonZero(-3, 3), b = this.randNonZero(-3, 3), c = this.randInt(-4, 4);
+    const x0 = this.randInt(-2, 2), y0 = this.randInt(-2, 2);
+    // z = a x^2 + b xy + c y^2... on garde c possiblement nul
+    const f = this.poly([[a, 'x^2'], [b, 'xy'], [c, 'y^2']]);
+    const z0 = a * x0 * x0 + b * x0 * y0 + c * y0 * y0;
+    const fx = 2 * a * x0 + b * y0, fy = b * x0 + 2 * c * y0;
+    const g = z0 - fx * x0 - fy * y0;
+    const T = (v) => `$(\\alpha ; \\beta ; \\gamma) = ${this._L23_tup(v)}$`;
+    return this._L23_mcq('L2-CAL', 3, 'Plan tangent à une surface',
+      'Écrire l\'équation du plan tangent $z = f(a) + \\nabla f(a) \\cdot (X - a)$',
+      `Soit la surface $\\Sigma : z = ${f}$. Son plan tangent au point d'abscisses $(${x0}, ${y0})$ a pour équation $z = \\alpha x + \\beta y + \\gamma$. Donner $(\\alpha ; \\beta ; \\gamma)$.`,
+      T([fx, fy, g]),
+      [T([fx, fy, z0]), T([fy, fx, g]), T([fx, fy, -g]), T([2 * a, 2 * c, g])].filter((x) => x !== T([fx, fy, g])),
+      'Plan tangent au graphe de $f$ en $(x_0, y_0)$ : $z = f(x_0, y_0) + \\partial_x f(x_0, y_0)(x - x_0) + \\partial_y f(x_0, y_0)(y - y_0)$.',
+      `Calcule $f(${x0}, ${y0})$ et les deux dérivées partielles en ce point, puis développe.`,
+      `$f(${x0}, ${y0}) = ${z0}$, $\\partial_x f = ${this.poly([[2 * a, 'x'], [b, 'y']])}$ vaut $${fx}$, $\\partial_y f = ${this.poly([[b, 'x'], [2 * c, 'y']])}$ vaut $${fy}$. Le plan tangent est $z = ${this.poly([[fx, 'x'], [fy, 'y'], [g, '']])}$.`,
+      `(${fx};${fy};${g})`, 'Saisir (α;β;γ).'
+    );
+  },
+
+  _L2CAL_minVal() {
+    const a = this.randInt(1, 3), b = this.randInt(-3, 3), k = this.randChoice([1, 1, -1]);
+    // f = x^3 - 3a^2 x + k(y^2 - 2 b y) ; points critiques (±a, b)
+    const f = this.poly([[1, 'x^3'], [-3 * a * a, 'x'], [k, 'y^2'], [-2 * b * k, 'y']]);
+    const isMin = k === 1;
+    // k = 1 : minimum local en (a, b), valeur -2a^3 - b^2 ; k = -1 : maximum local en (-a, b), valeur 2a^3 + b^2
+    const xs = isMin ? a : -a;
+    const val = xs ** 3 - 3 * a * a * xs + k * (b * b - 2 * b * b);
+    const lab = isMin ? 'minimum' : 'maximum';
+    return this.makeMcq('L2-CAL', 4, 'Valeur d\'un extremum local',
+      'Déterminer les points critiques puis leur nature par la hessienne',
+      `La fonction $f(x, y) = ${f}$ admet deux points critiques, dont un seul est un extremum local (un ${lab}). Calculer la valeur de ce ${lab} local.`,
+      `$${lab} = ${val}$`,
+      [-(xs ** 3) + 3 * a * a * xs + k * (b * b - 2 * b * b), val - k * b * b, -val, xs ** 3 - 3 * a * a * xs].filter((x) => x !== val).map((x) => `$${lab} = ${x}$`),
+      'Résous $\\nabla f = 0$ : les deux équations sont découplées.',
+      'Au point critique, calcule $r t - s^2$ : extremum si $rt - s^2 > 0$, point selle si $rt - s^2 < 0$.',
+      `$\\partial_x f = 3x^2 - ${3 * a * a} = 0$ donne $x = \\pm ${a}$, et $\\partial_y f = ${this.poly([[2 * k, 'y'], [-2 * b * k, '']])} = 0$ donne $y = ${b}$. Hessienne : $r = 6x$, $s = 0$, $t = ${2 * k}$. En $(${xs}, ${b})$ : $rt - s^2 = ${6 * xs * 2 * k} > 0$ et $r ${isMin ? '> 0' : '< 0'}$ : ${lab} local ; l'autre point est un point selle. Valeur : $f(${xs}, ${b}) = ${val}$.`
+    );
+  },
+
+  _L2CAL_lagrange() {
+    let a, b, c;
+    do { a = this.randNonZero(-4, 4); b = this.randNonZero(-4, 4); c = this.randNonZero(-6, 6); } while (this.gcd(this.gcd(a, b), c) !== 1);
+    const n2 = a * a + b * b;
+    const ans = this.frac(c * c, n2);
+    return this.makeMcq('L2-CAL', 4, 'Extremum sous contrainte (multiplicateur de Lagrange)',
+      'Utiliser la condition $\\nabla f = \\lambda \\nabla g$',
+      `Déterminer le minimum de $f(x, y) = x^2 + y^2$ sous la contrainte $${this.poly([[a, 'x'], [b, 'y']])} = ${c}$.`,
+      `$\\min = ${ans}$`,
+      [this.frac(Math.abs(c), n2), this.frac(c * c, a * a + b * b + 2 * a * b || 1), this.frac(c * c, Math.abs(a) + Math.abs(b)), this.frac(c * c, 2 * n2)].map((x) => `$\\min = ${x}$`),
+      'Lagrange : en un extremum lié, $\\nabla f = \\lambda \\nabla g$ avec $g(x, y)$ le membre de gauche de la contrainte.',
+      '$(2x, 2y) = \\lambda (a, b)$ : le point est colinéaire au vecteur normal de la droite.',
+      `$(x, y) = \\frac{\\lambda}{2}(${a}, ${b})$ ; la contrainte donne $\\frac{\\lambda}{2} \\times ${n2} = ${c}$, donc $(x, y) = \\left(${this.frac(a * c, n2)}, ${this.frac(b * c, n2)}\\right)$ et le minimum vaut $x^2 + y^2 = ${ans}$ : c'est le carré de la distance de l'origine à la droite.`
+    );
+  },
+
+  _L2RIE_fams(tier) {
+    return {
+      1: [this._L2RIE_mean, this._L2RIE_leftSum],
+      2: [this._L2RIE_floor, this._L2RIE_unif],
+      3: [this._L2RIE_varBounds, this._L2RIE_limQuot],
+      4: [this._L2RIE_wallis, this._L2RIE_riemBeta]
+    }[tier];
+  },
+
+  _L2RIE_mean() {
+    const al = this.randNonZero(-3, 3) * 3, be = this.randInt(-4, 4), m = this.randInt(1, 4);
+    // valeur moyenne de al x^2 + be sur [0, m] : al m^2 / 3 + be
+    const ans = this.frac(al * m * m + 3 * be, 3);
+    const f = this.poly([[al, 'x^2'], [be, '']]);
+    return this.makeMcq('L2-RIE', 1, 'Valeur moyenne d\'une fonction',
+      'Calculer $\\frac{1}{b - a}\\int_a^b f$',
+      `Calculer la valeur moyenne $\\mu = \\frac{1}{${m}}\\int_0^{${m}} \\left(${f}\\right) dx$ de $f(x) = ${f}$ sur $[0, ${m}]$.`.replace('\\frac{1}{1}', ''),
+      `$\\mu = ${ans}$`,
+      [this.frac(al * m * m * m + 3 * be * m, 3), this.frac(al * m * m + be, 1), this.frac(al * m * m + 2 * be, 2), this.frac(-(al * m * m + 3 * be), 3)].map((x) => `$\\mu = ${x}$`),
+      'La valeur moyenne de $f$ sur $[a, b]$ est $\\frac{1}{b - a} \\int_a^b f(x) \\, dx$.',
+      `Une primitive de $f$ est $F(x) = ${this.poly([[al / 3, 'x^3'], [be, 'x']])}$.`,
+      `$\\int_0^{${m}} f = F(${m}) - F(0) = ${al / 3 * m ** 3 + be * m}$, donc $\\mu = \\frac{${al / 3 * m ** 3 + be * m}}{${m}} = ${ans}$.`.replace(`\\frac{${al / 3 * m ** 3 + be * m}}{1} = `, '')
+    );
+  },
+
+  _L2RIE_leftSum() {
+    const p = this.randChoice([1, 2]), n = this.randInt(2, 8);
+    // R_n = (1/n) sum_{k=0}^{n-1} (k/n)^p
+    let S = 0; for (let k = 0; k < n; k++) S += k ** p;
+    const den = n ** (p + 1);
+    const fx = p === 1 ? 'x' : 'x^2';
+    return this.makeMcq('L2-RIE', 1, 'Somme de Riemann à gauche',
+      'Calculer une somme de Riemann pour une subdivision régulière',
+      `Calculer la somme de Riemann à gauche $R_{${n}} = \\frac{1}{${n}} \\sum_{k=0}^{${n - 1}} f\\left(\\frac{k}{${n}}\\right)$ de $f(x) = ${fx}$ sur $[0, 1]$.`,
+      `$R_{${n}} = ${this.frac(S, den)}$`,
+      [this.frac(S + n ** p, den), this.frac(1, p + 1), this.frac(S, n ** p), this.frac(S, den * n)].map((x) => `$R_{${n}} = ${x}$`),
+      `La somme porte sur les points $0, \\frac{1}{${n}}, \\dots, \\frac{${n - 1}}{${n}}$ (le point $1$ est exclu).`,
+      p === 1 ? '$\\sum_{k=0}^{n-1} k = \\frac{n(n - 1)}{2}$.' : '$\\sum_{k=0}^{n-1} k^2 = \\frac{(n - 1)n(2n - 1)}{6}$.',
+      `$R_{${n}} = \\frac{1}{${n ** (p + 1)}} \\sum_{k=0}^{${n - 1}} k${p === 1 ? '' : '^2'} = \\frac{${S}}{${den}} = ${this.frac(S, den)}$ (à comparer avec $\\int_0^1 ${fx} \\, dx = ${this.frac(1, p + 1)}$).`.replace(`\\frac{${S}}{${den}} = ${this.frac(S, den)}`, this.frac(S, den) === `\\frac{${S}}{${den}}` ? this.frac(S, den) : `\\frac{${S}}{${den}} = ${this.frac(S, den)}`)
+    );
+  },
+
+  _L2RIE_floor() {
+    const a = this.randInt(-3, 2), half = Math.random() < 0.5;
+    const b = a + this.randInt(2, 5);
+    // int_a^{b(+1/2)} floor(x) dx
+    let num2 = 0; for (let k = a; k < b; k++) num2 += 2 * k;
+    if (half) num2 += b;
+    const up = half ? this.frac(2 * b + 1, 2) : String(b);
+    return this.makeMcq('L2-RIE', 2, 'Intégrale de la partie entière',
+      'Intégrer une fonction en escalier',
+      `Calculer $I = \\int_{${a}}^{${up}} \\lfloor x \\rfloor \\, dx$, où $\\lfloor x \\rfloor$ désigne la partie entière de $x$.`,
+      `$I = ${this.frac(num2, 2)}$`,
+      [this.frac(num2 + 2 * (b - a), 2), this.frac(b * b - a * a, 2), this.frac(-num2, 2), this.frac(num2 + 1, 2)].map((x) => `$I = ${x}$`),
+      '$\\lfloor x \\rfloor$ est constante égale à $k$ sur chaque intervalle $[k, k + 1[$ : c\'est une fonction en escalier.',
+      `Découpe $[${a}, ${up}]$ selon les entiers et ajoute les contributions (valeur × longueur).`,
+      `$I = ${Array.from({ length: b - a }, (_, i) => a + i).filter((x) => x !== 0).map((x) => this.paren(x)).join(' + ') || '0'}${half ? ` + ${this.paren(b)} \\times \\frac{1}{2}` : ''} = ${this.frac(num2, 2)}$.`
+    );
+  },
+
+  _L2RIE_unif() {
+    const al = this.randNonZero(-3, 3), be = this.randInt(-3, 3), c = this.randInt(1, 6);
+    const p = this.poly([[al, 'x^2'], [be, 'x']]);
+    const ans = this.frac(2 * al + 3 * be, 6);
+    return this.makeMcq('L2-RIE', 2, 'Limite d\'intégrales par convergence uniforme',
+      'Intervertir limite et intégrale sous convergence uniforme sur un segment',
+      `Pour $n \\geq 1$, soit $f_n(x) = \\frac{n(${p}) + ${c}}{n + 1}$ sur $[0, 1]$. Calculer $L = \\lim_{n \\to +\\infty} \\int_0^1 f_n(x) \\, dx$.`,
+      `$L = ${ans}$`,
+      [this.frac(2 * al + 3 * be + 6 * c, 6), this.frac(al + be, 1), this.frac(3 * al + 2 * be, 6), '0'].map((x) => `$L = ${x}$`),
+      `Étudie la limite de $f_n$ et majore $|f_n(x) - (${p})|$ indépendamment de $x \\in [0, 1]$.`,
+      'Si $f_n \\to f$ uniformément sur $[a, b]$, alors $\\int_a^b f_n \\to \\int_a^b f$.',
+      `$f_n(x) - (${p}) = \\frac{${c} - (${p})}{n + 1}$, majoré en valeur absolue par $\\frac{C}{n + 1}$ : la convergence est uniforme sur $[0, 1]$. Donc $L = \\int_0^1 (${p}) \\, dx = ${this.poly([[this.frac(al, 3), ''], [this.frac(be, 2), '']])} = ${ans}$.`
+    );
+  },
+
+  _L2RIE_varBounds() {
+    const a = this.randNonZero(-3, 3), b = this.randInt(-4, 4);
+    const x0 = this.randChoice([-2, -1, 2, 3]);
+    // F(x) = int_x^{x^2} g(t) dt, g(t) = a t + b
+    const g = (t) => a * t + b;
+    const ans = 2 * x0 * g(x0 * x0) - g(x0);
+    const gs = this.poly([[a, 't'], [b, '']]);
+    return this.makeMcq('L2-RIE', 3, 'Dérivée d\'une intégrale à bornes variables',
+      'Dériver $\\int_{u(x)}^{v(x)} g(t) \\, dt$',
+      `Soit $F(x) = \\int_{x}^{x^2} (${gs}) \\, dt$. Calculer $F'(${x0})$.`,
+      `$F'(${x0}) = ${ans}$`,
+      [g(x0 * x0) - g(x0), 2 * x0 * g(x0 * x0) + g(x0), 2 * x0 * g(x0 * x0), -ans].map((x) => `$F'(${x0}) = ${x}$`),
+      'Si $G$ est une primitive de $g$, alors $F(x) = G(x^2) - G(x)$.',
+      '$F\'(x) = 2x \\, g(x^2) - g(x)$ (dérivation d\'une composée).',
+      `$g(${x0 * x0}) = ${g(x0 * x0)}$ et $g(${x0}) = ${g(x0)}$, donc $F'(${x0}) = 2 \\times ${this.paren(x0)} \\times ${this.paren(g(x0 * x0))}${g(x0) === 0 ? '' : ` - ${this.paren(g(x0))}`} = ${ans}$.`
+    );
+  },
+
+  _L2RIE_limQuot() {
+    const c0 = this.randInt(-3, 3), c1 = this.randNonZero(-6, 6), c2 = this.randInt(-3, 3);
+    const g = this.poly([[c2, 't^2'], [c1, 't'], [c0, '']]);
+    const ans = this.frac(c1, 2);
+    return this.makeMcq('L2-RIE', 3, 'Limite d\'une intégrale par développement limité',
+      'Calculer une limite d\'intégrale par encadrement ou développement',
+      `Soit $g(t) = ${g}$. Calculer $L = \\lim_{x \\to 0} \\frac{1}{x^2} \\int_0^x \\left(g(t) - g(0)\\right) dt$.`,
+      `$L = ${ans}$`,
+      [String(c1), this.frac(c0, 2), '0', this.frac(c1, 3)].map((x) => `$L = ${x}$`),
+      `Calcule $g(t) - g(0)$, puis intègre terme à terme sur $[0, x]$.`,
+      'Seul le terme de plus bas degré en $x$ compte dans la limite.',
+      `$g(t) - g(0) = ${this.poly([[c2, 't^2'], [c1, 't']])}$, donc $\\int_0^x (g(t) - g(0)) \\, dt = ${this.poly([[this.frac(c1, 2), 'x^2'], [this.frac(c2, 3), 'x^3']])}$ ; divisé par $x^2$, cela tend vers $${ans}$ (c'est $\\frac{g'(0)}{2}$).`
+    );
+  },
+
+  _L2RIE_wallis() {
+    const n = this.randChoice([3, 5, 7, 9]);
+    let num = 1, den = 1;
+    for (let k = n - 1; k >= 2; k -= 2) num *= k;
+    for (let k = n; k >= 1; k -= 2) den *= k;
+    const ans = this.frac(num, den);
+    return this.makeMcq('L2-RIE', 4, 'Intégrales de Wallis',
+      'Établir et utiliser la relation $W_n = \\frac{n - 1}{n} W_{n-2}$',
+      `On pose $W_n = \\int_0^{\\pi/2} \\sin^n t \\, dt$. Sachant que $W_n = \\frac{n - 1}{n} W_{n-2}$ pour $n \\geq 2$ (intégration par parties), calculer $W_{${n}}$.`,
+      `$W_{${n}} = ${ans}$`,
+      [this.frac(num, den * 2), this.frac(n - 1, n), this.frac(num * (n + 1), den * n), this.frac(den, num * (n + 1))].map((x) => `$W_{${n}} = ${x}$`),
+      `$${n}$ est impair : descends jusqu'à $W_1$.`,
+      '$W_1 = \\int_0^{\\pi/2} \\sin t \\, dt = 1$.',
+      `$W_{${n}} = ${Array.from({ length: (n - 1) / 2 }, (_, i) => `\\frac{${n - 1 - 2 * i}}{${n - 2 * i}}`).join(' \\times ')} \\times W_1 = ${ans}$.`
+    );
+  },
+
+  _L2RIE_riemBeta() {
+    const p = this.randInt(1, 3), q = this.randInt(1, 2);
+    const f = (k) => [1, 1, 2, 6, 24, 120, 720, 5040, 40320][k];
+    const ans = this.frac(f(p) * f(q), f(p + q + 1));
+    const term = `\\left(\\frac{k}{n}\\right)^{${p}}\\left(1 - \\frac{k}{n}\\right)^{${q}}`.replace(/\^\{1\}/g, '');
+    return this.makeMcq('L2-RIE', 4, 'Limite de somme de Riemann (intégrale bêta)',
+      'Reconnaître une somme de Riemann puis intégrer',
+      `Calculer $L = \\lim_{n \\to +\\infty} \\frac{1}{n} \\sum_{k=1}^{n} ${term}$.`,
+      `$L = ${ans}$`,
+      [this.frac(1, (p + 1) * (q + 1)), this.frac(f(p) * f(q), f(p + q)), this.frac(1, p + q + 1), this.frac(f(p) * f(q), f(p + q + 2))].map((x) => `$L = ${x}$`),
+      `C'est une somme de Riemann de $f(x) = ${this.pow('x', p)}${this.pow('(1 - x)', q)}$ sur $[0, 1]$.`,
+      'Développe $(1 - x)^q$ et intègre terme à terme (ou intègre par parties).',
+      `$L = \\int_0^1 ${this.pow('x', p)}${this.pow('(1 - x)', q)} \\, dx = ${q === 1 ? `\\frac{1}{${p + 1}} - \\frac{1}{${p + 2}}` : `\\frac{1}{${p + 1}} - ${this.frac(2, p + 2)} + \\frac{1}{${p + 3}}`} = ${ans}$ (de manière générale $\\int_0^1 x^p(1 - x)^q \\, dx = \\frac{p! \\, q!}{(p + q + 1)!}$).`
+    );
+  },
+
+  _L2ING_fams(tier) {
+    return {
+      1: [this._L2ING_shift, this._L2ING_alpha],
+      2: [this._L2ING_ippExp, this._L2ING_gaussOdd],
+      3: [this._L2ING_threshold, this._L2ING_finite],
+      4: [this._L2ING_bertrandVal, this._L2ING_count]
+    }[tier];
+  },
+
+  _L2ING_shift() {
+    const k = this.randInt(2, 4), a = this.randInt(0, 3), b = this.randInt(1, 3), c = this.randInt(1, 6);
+    const num = c, den = (k - 1) * (a + b) ** (k - 1);
+    return this.makeMcq('L2-ING', 1, 'Intégrale impropre d\'une puissance',
+      'Calculer une intégrale convergente sur $[a, +\\infty[$',
+      `Calculer $I = \\int_{${a}}^{+\\infty} \\frac{${c}}{(x + ${b})^{${k}}} \\, dx$.`,
+      `$I = ${this.frac(num, den)}$`,
+      [this.frac(c, k * (a + b) ** (k - 1)), this.frac(c, (k - 1) * (a + b) ** k), this.frac(c, (a + b) ** (k - 1)), this.frac(-num, den)].map((x) => `$I = ${x}$`),
+      `Une primitive de $(x + ${b})^{-${k}}$ est $\\frac{(x + ${b})^{-${k - 1}}}{-${k - 1}}$.`.replace('{-1}}{-1}', '{-1}}{-1}'),
+      'Calcule l\'intégrale sur $[a, A]$, puis fais tendre $A$ vers $+\\infty$.',
+      `$\\int_{${a}}^{A} \\frac{${c} \\, dx}{(x + ${b})^{${k}}} = ${this.frac(c, k - 1)}\\left(${this.frac(1, (a + b) ** (k - 1))} - \\frac{1}{${this.pow(`(A + ${b})`, k - 1)}}\\right) \\to ${this.frac(num, den)}$ quand $A \\to +\\infty$.`
+    );
+  },
+
+  _L2ING_alpha() {
+    const p = this.randInt(0, 3), q = p + this.randInt(1, 4), c = this.randInt(1, 5), d = this.randInt(1, 5);
+    const N = p === 0 ? String(d + 1) : this.poly([[1, p === 1 ? 'x' : `x^${p}`], [d, '']]);
+    const D = this.poly([[1, q === 1 ? 'x' : `x^${q}`], [c, '']]);
+    const al = q - p;
+    return this.makeMcq('L2-ING', 1, 'Équivalent de Riemann en $+\\infty$',
+      'Trouver l\'exposant $\\alpha$ tel que $f(x) \\sim \\frac{C}{x^{\\alpha}}$',
+      `Soit $f(x) = \\frac{${N}}{${D}}$. Déterminer le réel $\\alpha$ tel que $f(x) \\sim \\frac{C}{x^{\\alpha}}$ en $+\\infty$ (avec $C > 0$).`,
+      `$\\alpha = ${al}$`,
+      [q + p, q, -al, al + 1].filter((x) => x !== al).map((x) => `$\\alpha = ${x}$`),
+      'Garde les termes dominants du numérateur et du dénominateur.',
+      'L\'intégrale $\\int_1^{+\\infty} f$ converge si et seulement si $\\alpha > 1$ (critère de Riemann par équivalence).',
+      `$f(x) \\sim \\frac{${p === 0 ? d + 1 : this.pow('x', p)}}{x^{${q}}} = ${p === 0 ? `\\frac{${d + 1}}{x^{${q}}}` : `\\frac{1}{x^{${al}}}`}$ en $+\\infty$, donc $\\alpha = ${al}$ : l'intégrale $\\int_1^{+\\infty} f$ ${al > 1 ? 'converge' : 'diverge'}.`.replace(/x\^\{1\}/g, 'x')
+    );
+  },
+
+  _L2ING_ippExp() {
+    const a = this.randInt(-2, 3), b = this.randInt(-3, 3), c = this.randInt(-3, 4), k = this.randInt(1, 3);
+    if (a === 0 && b === 0) return this._L2ING_ippExp();
+    const num = 2 * a + b * k + c * k * k, den = k ** 3;
+    const P = this.poly([[a, 'x^2'], [b, 'x'], [c, '']]);
+    const ex = `e^{${this.coefStr(-k, 'x')}}`;
+    return this.makeMcq('L2-ING', 2, 'Intégrale de polynôme × exponentielle',
+      'Intégrer par parties sur $[0, +\\infty[$',
+      `Calculer $I = \\int_0^{+\\infty} (${P}) ${ex} \\, dx$.`,
+      `$I = ${this.frac(num, den)}$`,
+      [this.frac(a + b * k + c * k * k, den), this.frac(2 * a + b + c, 1), this.frac(num, k * k), this.frac(-num, den)].map((x) => `$I = ${x}$`),
+      'Utilise la linéarité et $\\int_0^{+\\infty} x^n e^{-kx} \\, dx = \\frac{n!}{k^{n+1}}$ (intégrations par parties successives).',
+      'Les termes de bord des intégrations par parties sont nuls en $0$ (facteur $x$) ou en $+\\infty$ (croissances comparées), sauf le terme constant.',
+      `$I = ${this.paren(a)} \\times ${this.frac(2, k ** 3)} + ${this.paren(b)} \\times ${this.frac(1, k ** 2)} + ${this.paren(c)} \\times ${this.frac(1, k)} = ${this.frac(num, den)}$.`
+    );
+  },
+
+  _L2ING_gaussOdd() {
+    const n = this.randInt(0, 2), a = this.randInt(1, 4);
+    const f = [1, 1, 2][n];
+    const ans = this.frac(f, 2 * a ** (n + 1));
+    const ex = `e^{${this.coefStr(-a, 'x^2')}}`;
+    return this.makeMcq('L2-ING', 2, 'Intégrale de type gaussien (puissance impaire)',
+      'Changement de variable $u = ax^2$',
+      `Calculer $I = \\int_0^{+\\infty} ${this.pow('x', 2 * n + 1)} ${ex} \\, dx$.`,
+      `$I = ${ans}$`,
+      [this.frac(f, a ** (n + 1)), this.frac(f, 2 * a ** n), this.frac(f * 2, a ** (n + 1)), this.frac(1, 2 * a)].filter((x) => x !== ans).map((x) => `$I = ${x}$`),
+      'Pose $u = ' + this.coefStr(a, 'x^2') + '$ : $du = ' + this.coefStr(2 * a, 'x') + ' \\, dx$.',
+      'On se ramène à $\\int_0^{+\\infty} u^n e^{-u} \\, du = n!$.',
+      `Avec $u = ${this.coefStr(a, 'x^2')}$ : $I = \\frac{1}{${2 * a ** (n + 1)}} \\int_0^{+\\infty} ${n === 0 ? '' : this.pow('u', n) + ' '}e^{-u} \\, du = \\frac{${n}!}{${2 * a ** (n + 1)}} = ${ans}$.`
+    );
+  },
+
+  _L2ING_threshold() {
+    const b = this.randInt(2, 7), c = this.randInt(1, 4);
+    const ans = b - 2;
+    return this.makeMcq('L2-ING', 3, 'Seuil de convergence d\'une intégrale',
+      'Utiliser le critère de Riemann par équivalence',
+      `Quel est le plus grand entier $a \\geq 0$ pour lequel $\\int_1^{+\\infty} \\frac{x^a}{x^{${b}} + ${c}} \\, dx$ converge ?`,
+      `$a = ${ans}$`,
+      [b - 1, b, b + 1, ans - 1].filter((x) => x >= 0 && x !== ans).map((x) => `$a = ${x}$`),
+      'L\'intégrande est continu et positif sur $[1, +\\infty[$ : cherche un équivalent en $+\\infty$.',
+      `$\\frac{x^a}{x^{${b}} + ${c}} \\sim \\frac{1}{x^{${b} - a}}$ : critère de Riemann.`,
+      `L'intégrale converge si et seulement si $${b} - a > 1$, c'est-à-dire $a < ${b - 1}$. Le plus grand entier convenable est $a = ${ans}$ (pour $a = ${b - 1}$, l'intégrande est équivalent à $\\frac{1}{x}$ et l'intégrale diverge).`
+    );
+  },
+
+  _L2ING_finite() {
+    const a = this.randInt(-3, 3), k = this.randInt(1, 4), c = this.randInt(1, 5);
+    const ans = 2 * c * k;
+    const xa = a === 0 ? 'x' : `x ${this.formatSign(-a)}`;
+    return this.makeMcq('L2-ING', 3, 'Intégrale impropre en une borne finie',
+      'Étudier une singularité intégrable en une borne finie',
+      `Justifier la convergence et calculer $I = \\int_{${a}}^{${a + k * k}} \\frac{${c}}{\\sqrt{${xa}}} \\, dx$.`,
+      `$I = ${ans}$`,
+      [c * k, 4 * c * k, 2 * c * k * k, c * k * k].map((x) => `$I = ${x}$`),
+      `En $${a}$, l'intégrande se comporte comme $\\frac{1}{(x - a)^{1/2}}$ : exposant $\\frac{1}{2} < 1$, c'est intégrable (critère de Riemann en une borne finie).`.replace('(x - a)', `(${xa})`),
+      `Une primitive de $\\frac{1}{\\sqrt{${xa}}}$ est $2\\sqrt{${xa}}$.`,
+      `$\\int_{${a} + \\varepsilon}^{${a + k * k}} \\frac{${c} \\, dx}{\\sqrt{${xa}}} = ${2 * c}\\left(${k} - \\sqrt{\\varepsilon}\\right) \\to ${ans}$ quand $\\varepsilon \\to 0^+$.`
+    );
+  },
+
+  _L2ING_bertrandVal() {
+    const k = this.randInt(2, 4), m = this.randInt(1, 3);
+    const ans = this.frac(1, (k - 1) * m ** (k - 1));
+    const lo = m === 1 ? 'e' : `e^{${m}}`;
+    return this.makeMcq('L2-ING', 4, 'Calcul d\'une intégrale de Bertrand',
+      'Changement de variable $u = \\ln x$',
+      `Calculer $I = \\int_{${lo}}^{+\\infty} \\frac{dx}{x (\\ln x)^{${k}}}$.`,
+      `$I = ${ans}$`,
+      [this.frac(1, k * m ** (k - 1)), this.frac(1, (k - 1) * m ** k), this.frac(1, m ** (k - 1)), this.frac(1, k - 1 + m)].filter((x) => x !== ans).map((x) => `$I = ${x}$`),
+      'Pose $u = \\ln x$, d\'où $du = \\frac{dx}{x}$.',
+      `On obtient une intégrale de Riemann $\\int \\frac{du}{u^{${k}}}$ sur $[${m}, +\\infty[$.`,
+      `Avec $u = \\ln x$ : $I = \\int_{${m}}^{+\\infty} \\frac{du}{u^{${k}}} = \\left[-\\frac{1}{${k === 2 ? '' : k - 1}${this.pow('u', k - 1)}}\\right]_{${m}}^{+\\infty} = ${ans}$.`
+    );
+  },
+
+  _L2ING_count() {
+    const be = this.randInt(2, 6), lo = this.randInt(-4, -1), hi = this.randInt(be, be + 4);
+    // int_0^inf x^a / (1 + x^be) : converge ssi a > -1 et be - a > 1, i.e. -1 < a < be - 1
+    let cnt = 0; for (let a = lo; a <= hi; a++) if (a > -1 && a < be - 1) cnt++;
+    return this.makeMcq('L2-ING', 4, 'Convergence aux deux bornes',
+      'Étudier séparément la convergence en $0$ et en $+\\infty$',
+      `Combien d'entiers $a \\in \\{${lo}, \\dots, ${hi}\\}$ rendent convergente l'intégrale $\\int_0^{+\\infty} \\frac{x^a}{1 + x^{${be}}} \\, dx$ ?`,
+      `$${cnt}$`,
+      [cnt + 1, cnt - 1, be, hi - lo + 1, be - 2].filter((x) => x >= 0 && x !== cnt).map((x) => `$${x}$`),
+      'Coupe en $1$ : étudie le comportement en $0^+$ puis en $+\\infty$.',
+      `En $0^+$, l'intégrande est équivalent à $x^a$ ; en $+\\infty$, à $x^{a - ${be}}$.`,
+      `En $0$ : convergence si et seulement si $a > -1$. En $+\\infty$ : si et seulement si $${be} - a > 1$, soit $a < ${be - 1}$. Les entiers convenables sont ceux de $\\{0, \\dots, ${be - 2}\\}$ : il y en a $${cnt}$.`
+    );
+  },
+
+  _L2EDO_fams(tier) {
+    return {
+      1: [this._L2EDO_cauchy1, this._L2EDO_polyPart],
+      2: [this._L2EDO_expPart, this._L2EDO_cauchy2],
+      3: [this._L2EDO_expNil, this._L2EDO_detExp],
+      4: [this._L2EDO_sysCI, this._L2EDO_reson]
+    }[tier];
+  },
+
+  _L2EDO_cauchy1() {
+    const a = this.randNonZero(-4, 4), b = this.randNonZero(-8, 8), y0 = this.randInt(-5, 5);
+    const D = this.frac(b, a), C = this.frac(y0 * a - b, a);
+    const T = (u, v) => `$(C ; D) = ${this._L23_tup([u, v])}$`;
+    return this._L23_mcq('L2-EDO', 1, 'Problème de Cauchy d\'ordre 1 à second membre constant',
+      'Résoudre $y\' + ay = b$ avec condition initiale',
+      `La solution du problème $y' ${this.formatSign(a)}y = ${b}$, $y(0) = ${y0}$ s'écrit $y(t) = Ce^{${this.coefStr(-a, 't')}} + D$. Donner $(C ; D)$.`.replace(/ ([+-]) 1y/, ' $1 y'),
+      T(C, D), [T(this.frac(y0 * a + b, a), D), T(y0, D), T(C, this.frac(-b, a)), T(this.frac(y0 * a - b, a), b)].filter((x) => x !== T(C, D)),
+      'Cherche d\'abord une solution particulière constante.',
+      'La condition $y(0)$ fixe ensuite la constante devant l\'exponentielle.',
+      `La constante $D$ vérifie $${this.coefStr(a, 'D')} = ${b}$, donc $D = ${D}$. Puis $y(0) = C + D = ${y0}$ donne $C = ${C}$.`,
+      `(${this._L23_fin(y0 * a - b, a)};${this._L23_fin(b, a)})`, 'Saisir (C;D), fractions acceptées.'
+    );
+  },
+
+  _L2EDO_polyPart() {
+    let a, p, q;
+    do { a = this.randNonZero(-3, 3); p = this.randInt(-4, 4); q = this.randInt(-4, 4); } while (p === 0);
+    const al = a * p, be = p + a * q;
+    const T = (u, v) => `$(p ; q) = ${this._L23_tup([u, v])}$`;
+    return this._L23_mcq('L2-EDO', 1, 'Solution particulière polynomiale',
+      'Chercher une solution particulière de la forme du second membre',
+      `L'équation $y' ${this.formatSign(a)}y = ${this.poly([[al, 't'], [be, '']])}$ admet une solution particulière affine $y_p(t) = pt + q$. Donner $(p ; q)$.`.replace(/ ([+-]) 1y/, ' $1 y'),
+      T(p, q), [T(q, p), T(p, this.frac(be, a)), T(this.frac(al, a), be), T(-p, -q)].filter((x) => x !== T(p, q)),
+      'Remplace $y_p$ dans l\'équation et identifie les coefficients de $t$ et les constantes.',
+      `$y_p' = p$, donc $p ${this.formatSign(a)}(pt + q) = ${this.poly([[al, 't'], [be, '']])}$.`.replace(/ ([+-]) 1\(/, ' $1 ('),
+      `Identification : $${this.coefStr(a, 'p')} = ${al}$ donne $p = ${p}$, puis $p ${this.formatSign(a)}q = ${be}$ donne $q = ${q}$.`.replace(/ ([+-]) 1q/, ' $1 q'),
+      `(${p};${q})`, 'Saisir (p;q).'
+    );
+  },
+
+  _L2EDO_expPart() {
+    let p, q, k, c, d;
+    do { p = this.randInt(-4, 4); q = this.randInt(-4, 6); k = this.randNonZero(-3, 3); c = this.randNonZero(-6, 6); d = k * k + p * k + q; } while (d === 0);
+    const lhs = this.poly([[1, "y''"], [p, "y'"], [q, 'y']]);
+    const ans = this.frac(c, d);
+    return this.makeMcq('L2-EDO', 2, 'Second membre exponentiel (ordre 2)',
+      'Chercher $y_p = Ae^{kt}$ quand $k$ n\'est pas racine caractéristique',
+      `L'équation $${lhs} = ${this.coefStr(c, `e^{${this.coefStr(k, 't')}}`)}$ admet une solution particulière $y_p(t) = Ae^{${this.coefStr(k, 't')}}$. Calculer $A$.`,
+      `$A = ${ans}$`,
+      [this.frac(c, k * k), this.frac(c, d + 2 * p * k || 1), this.frac(-c, d), this.frac(c, k * k - p * k + q || 1), String(c)].map((x) => `$A = ${x}$`),
+      'Remplace $y_p$ : $y_p\' = kAe^{kt}$ et $y_p\'\' = k^2Ae^{kt}$.',
+      'On obtient $A(k^2 + pk + q) = c$, où $k^2 + pk + q$ est le polynôme caractéristique évalué en $k$.',
+      `Avec $\\chi(r) = ${this.polyX([1, p, q], 'r')}$, on obtient $A \\, \\chi(${k}) = ${c}$ et $\\chi(${k}) = ${d}$, donc $A = ${ans}$.`
+    );
+  },
+
+  _L2EDO_cauchy2() {
+    let r1, r2, C1, C2;
+    do { r1 = this.randInt(-3, 3); r2 = this.randInt(-3, 3); C1 = this.randInt(-4, 4); C2 = this.randInt(-4, 4); } while (r1 >= r2 || (C1 === 0 && C2 === 0));
+    const y0 = C1 + C2, y1 = r1 * C1 + r2 * C2;
+    const lhs = this.poly([[1, "y''"], [-(r1 + r2), "y'"], [r1 * r2, 'y']]);
+    const T = (u, v) => `$(C_1 ; C_2) = ${this._L23_tup([u, v])}$`;
+    const sol = `y(t) = C_1${this._L2_exp(r1)} + C_2${this._L2_exp(r2)}`;
+    return this._L23_mcq('L2-EDO', 2, 'Problème de Cauchy d\'ordre 2',
+      'Déterminer les constantes à partir des conditions initiales',
+      `La solution de $${lhs} = 0$ telle que $y(0) = ${y0}$ et $y'(0) = ${y1}$ s'écrit $${sol}$. Donner $(C_1 ; C_2)$.`,
+      T(C1, C2), [T(C2, C1), T(-C1, -C2), T(y0, y1), T(C1 + 1, C2 - 1)].filter((x) => x !== T(C1, C2)),
+      `Les racines caractéristiques sont $${r1}$ et $${r2}$.`,
+      `Écris $y(0) = C_1 + C_2$ et $y'(0) = ${this.poly([[r1, 'C_1'], [r2, 'C_2']])}$, puis résous le système.`,
+      `Le système $C_1 + C_2 = ${y0}$, $${this.poly([[r1, 'C_1'], [r2, 'C_2']])} = ${y1}$ donne (en retranchant $${r1 === 0 ? '0' : this.paren(r1)}$ fois la première équation à la seconde) $${this.coefStr(r2 - r1, 'C_2')} = ${y1 - r1 * y0}$, soit $C_2 = ${C2}$, puis $C_1 = ${C1}$.`
+    );
+  },
+
+  _L2EDO_expNil() {
+    let a, b, c;
+    do { a = this.randNonZero(-4, 4); b = this.randInt(-4, 4); c = this.randNonZero(-4, 4); } while (false);
+    const N = [[0, a, b], [0, 0, c], [0, 0, 0]];
+    const ans = this.frac(2 * b + a * c, 2);
+    return this.makeMcq('L2-EDO', 3, 'Exponentielle d\'une matrice nilpotente',
+      'Calculer $e^N = I + N + \\frac{N^2}{2}$ quand $N^3 = 0$',
+      `Soit $N = ${this._L2_pm(N)}$. Calculer le coefficient $(e^N)_{13}$ (ligne $1$, colonne $3$) de l'exponentielle de $N$.`,
+      `$(e^N)_{13} = ${ans}$`,
+      [String(b), this.frac(b + a * c, 1), this.frac(2 * b - a * c, 2), this.frac(6 * b + a * c, 6)].map((x) => `$(e^N)_{13} = ${x}$`),
+      '$N$ est strictement triangulaire, donc nilpotente : la série $\\sum \\frac{N^k}{k!}$ est une somme finie.',
+      '$N^3 = 0$, donc $e^N = I_3 + N + \\frac{1}{2}N^2$ ; calcule $N^2$.',
+      `$N^2$ n'a qu'un coefficient non nul, $(N^2)_{13} = ${this.paren(a)} \\times ${this.paren(c)} = ${a * c}$. Donc $(e^N)_{13} = ${b} + \\frac{${a * c}}{2} = ${ans}$.`.replace(`\\frac{${a * c}}{2}`, this.frac(a * c, 2)).replace('+ -', '- ')
+    );
+  },
+
+  _L2EDO_detExp() {
+    let M;
+    do { M = [0, 1, 2].map(() => [0, 1, 2].map(() => this.randInt(-4, 4))); } while (M[0][0] + M[1][1] + M[2][2] === 0);
+    const tr = M[0][0] + M[1][1] + M[2][2];
+    const t = this.randInt(1, 3);
+    return this.makeMcq('L2-EDO', 3, 'Déterminant d\'une exponentielle de matrice',
+      'Utiliser $\\det(e^{tA}) = e^{t \\, \\mathrm{Tr}(A)}$',
+      `Soit $A = ${this._L2_pm(M)}$. On a $\\det\\left(e^{${t === 1 ? '' : t}A}\\right) = e^{k}$ pour un entier $k$. Donner $k$.`,
+      `$k = ${t * tr}$`,
+      [t * this._L2_det3(M), tr, t * tr + 1, -t * tr].filter((x) => x !== t * tr).map((x) => `$k = ${x}$`),
+      'Trigonalise $A$ dans $\\mathbb{C}$ : $e^{tA}$ est semblable à une matrice triangulaire de diagonale $e^{t\\lambda_i}$.',
+      'Le déterminant de $e^{tA}$ est donc $\\prod_i e^{t\\lambda_i} = e^{t \\sum_i \\lambda_i}$.',
+      `$\\det\\left(e^{${t === 1 ? '' : t}A}\\right) = e^{${t === 1 ? '' : `${t} `}\\mathrm{Tr}(A)}$ et $\\mathrm{Tr}(A) = ${tr}$, donc $k = ${t * tr}$.`
+    );
+  },
+
+  _L2EDO_sysCI() {
+    let l1, l2, P, A;
+    do {
+      l1 = this.randInt(-3, 3); l2 = this.randInt(-3, 3);
+      P = this._L2_unimod(2);
+      A = this._L2_conj(P, [[l1, 0], [0, l2]]);
+    } while (l1 >= l2 || A.flat().some((x) => Math.abs(x) > 20));
+    const v1 = [P[0][0], P[1][0]], v2 = [P[0][1], P[1][1]];
+    let c1, c2;
+    do { c1 = this.randInt(-3, 3); c2 = this.randInt(-3, 3); } while (c1 === 0 && c2 === 0);
+    const X0 = [c1 * v1[0] + c2 * v2[0], c1 * v1[1] + c2 * v2[1]];
+    const T = (u, v) => `$(c_1 ; c_2) = ${this._L23_tup([u, v])}$`;
+    return this._L23_mcq('L2-EDO', 4, 'Système différentiel avec condition initiale',
+      'Résoudre $X\' = AX$, $X(0) = X_0$ dans une base propre',
+      `Soit $A = ${this._L2_pm(A)}$, de vecteurs propres $v_1 = ${this._L2_col(v1)}$ (valeur propre $${l1}$) et $v_2 = ${this._L2_col(v2)}$ (valeur propre $${l2}$). La solution de $X' = AX$ avec $X(0) = ${this._L2_col(X0)}$ s'écrit $X(t) = c_1 ${this._L2_exp(l1)} v_1 + c_2 ${this._L2_exp(l2)} v_2$. Donner $(c_1 ; c_2)$.`,
+      T(c1, c2), [T(c2, c1), T(-c1, -c2), T(X0[0], X0[1]), T(c1, -c2)].filter((x) => x !== T(c1, c2)),
+      'En $t = 0$ : $X(0) = c_1 v_1 + c_2 v_2$.',
+      'Décompose $X(0)$ dans la base $(v_1, v_2)$ en résolvant un système $2 \\times 2$.',
+      `$c_1 ${this._L2_col(v1)} + c_2 ${this._L2_col(v2)} = ${this._L2_col(X0)}$ donne $c_1 = ${c1}$ et $c_2 = ${c2}$.`,
+      `(${c1};${c2})`, 'Saisir (c1;c2).'
+    );
+  },
+
+  _L2EDO_reson() {
+    let r1, r2;
+    do { r1 = this.randInt(-3, 3); r2 = this.randInt(-3, 3); } while (r1 === r2);
+    const c = this.randNonZero(-4, 4);
+    const lhs = this.poly([[1, "y''"], [-(r1 + r2), "y'"], [r1 * r2, 'y']]);
+    const ans = this.frac(c, r1 - r2);
+    const ek = r1 === 0 ? '' : `e^{${this.coefStr(r1, 't')}}`;
+    return this.makeMcq('L2-EDO', 4, 'Second membre résonant (racine simple)',
+      'Chercher $y_p = Ate^{rt}$ quand $r$ est racine simple',
+      `L'équation $${lhs} = ${r1 === 0 ? c : this.coefStr(c, ek)}$ admet une solution particulière $y_p(t) = At${ek}$. Calculer $A$.`,
+      `$A = ${ans}$`,
+      [this.frac(c, r2 - r1), this.frac(c, r1 * r1 - (r1 + r2) * r1 + r1 * r2 || 1), String(c), this.frac(c, 2 * r1 - r2 + 1 === 0 ? 3 : 2 * r1 - r2 + 1)].map((x) => `$A = ${x}$`),
+      `$${r1}$ est racine simple de l'équation caractéristique : $Ae^{${this.coefStr(r1, 't')}}$ ne peut pas convenir.`.replace('e^{0}', '').replace('$Ae^{}$', '$A$'),
+      `Avec $y_p = At${ek}$, le calcul donne $A \\, \\chi'(${r1}) = ${c}$ où $\\chi(r) = ${this.polyX([1, -(r1 + r2), r1 * r2], 'r')}$.`,
+      `$\\chi'(r) = ${this.poly([[2, 'r'], [-(r1 + r2), '']])}$ et $\\chi'(${r1}) = ${r1 - r2}$, donc $A = ${ans}$.`
+    );
+  },
+
+  _L2PAR_fams(tier) {
+    return {
+      1: [this._L2PAR_cont, this._L2PAR_deriv0],
+      2: [this._L2PAR_laplaceCos, this._L2PAR_gaussMom],
+      3: [this._L2PAR_domExp, this._L2PAR_gammaRatio],
+      4: [this._L2PAR_beta, this._L2PAR_laplace]
+    }[tier];
+  },
+
+  _L2PAR_cont() {
+    const a = this.randNonZero(-4, 4), b = this.randInt(-4, 4), c = this.randInt(1, 3);
+    const g = this.poly([[a, 't'], [b, '']]);
+    const ans = this.frac(a + 2 * b, 2);
+    return this.makeMcq('L2-PAR', 1, 'Continuité d\'une intégrale à paramètre',
+      'Passer à la limite grâce à la continuité de $F$',
+      `Soit $F(x) = \\int_0^1 (${g}) e^{${this.coefStr(c, 'xt')}} \\, dt$. Calculer $\\lim_{x \\to 0} F(x)$.`,
+      `$\\lim_{x \\to 0} F(x) = ${ans}$`,
+      [String(a + b), this.frac(a, 2), '0', this.frac(a + 2 * b, 2 * c)].filter((x) => x !== ans).map((x) => `$\\lim_{x \\to 0} F(x) = ${x}$`),
+      'L\'intégrande est continu sur $\\mathbb{R} \\times [0, 1]$ et $[0, 1]$ est un segment : $F$ est continue.',
+      'Donc $\\lim_{x \\to 0} F(x) = F(0)$.',
+      `$F$ est continue (domination sur $[-1, 1] \\times [0, 1]$ par une constante), donc la limite vaut $F(0) = \\int_0^1 (${g}) \\, dt = ${ans}$.`
+    );
+  },
+
+  _L2PAR_deriv0() {
+    const a = this.randNonZero(-3, 3), b = this.randInt(-4, 4);
+    const g = this.poly([[a, 't^2'], [b, '']]);
+    const ans = this.frac(a * 2 + b * 4, 8); // int t(a t^2 + b) = a/4 + b/2
+    return this.makeMcq('L2-PAR', 1, 'Dérivée en 0 d\'une intégrale à paramètre',
+      'Dériver sous le signe intégrale',
+      `Soit $F(x) = \\int_0^1 (${g}) e^{xt} \\, dt$. Calculer $F'(0)$.`,
+      `$F'(0) = ${ans}$`,
+      [this.frac(a + 3 * b, 3), this.frac(a + 2 * b, 2), this.frac(a + b, 1), this.frac(-(a * 2 + b * 4), 8)].filter((x) => x !== ans).map((x) => `$F'(0) = ${x}$`),
+      '$\\frac{\\partial}{\\partial x}\\left(g(t) e^{xt}\\right) = t \\, g(t) e^{xt}$, continue sur $\\mathbb{R} \\times [0, 1]$.',
+      'Donc $F\'(0) = \\int_0^1 t \\, g(t) \\, dt$.',
+      `$F'(0) = \\int_0^1 (${this.poly([[a, 't^3'], [b, 't']])}) \\, dt = ${this.poly([[this.frac(a, 4), ''], [this.frac(b, 2), '']])} = ${ans}$.`
+    );
+  },
+
+  _L2PAR_laplaceCos() {
+    const a = this.randInt(1, 4), x0 = this.randInt(-3, 3);
+    const ans = this.frac(a, a * a + x0 * x0);
+    return this.makeMcq('L2-PAR', 2, 'Intégrale à paramètre calculée explicitement',
+      'Calculer $\\int_0^{+\\infty} e^{-at}\\cos(xt) \\, dt$',
+      `On admet que $F(x) = \\int_0^{+\\infty} e^{${this.coefStr(-a, 't')}} \\cos(xt) \\, dt$ vaut $\\frac{${a}}{${a * a} + x^2}$ (deux intégrations par parties, ou partie réelle de $\\int_0^{+\\infty} e^{(-${a === 1 ? '' : a} + ix)t} dt$). Calculer $F(${x0})$, puis vérifier le résultat.`.replace('(-1 +', '(-1 +'),
+      `$F(${x0}) = ${ans}$`,
+      [this.frac(1, a * a + x0 * x0), this.frac(x0, a * a + x0 * x0) === ans ? this.frac(a, a * a) : this.frac(x0, a * a + x0 * x0), this.frac(a, a * a - x0 * x0 || 1), this.frac(a, a + x0 * x0)].filter((x) => x !== ans).map((x) => `$F(${x0}) = ${x}$`),
+      `La domination $|e^{${this.coefStr(-a, 't')}} \\cos(xt)| \\leq e^{${this.coefStr(-a, 't')}}$ assure l'existence de $F(x)$.`,
+      'Remplace $x$ par sa valeur dans l\'expression de $F$.',
+      `$F(${x0}) = \\frac{${a}}{${a * a} + ${x0 * x0}} = ${ans}$.${x0 === 0 ? ` Vérification directe : $\\int_0^{+\\infty} e^{${this.coefStr(-a, 't')}} \\, dt = ${this.frac(1, a)}$.` : ''}`
+    );
+  },
+
+  _L2PAR_gaussMom() {
+    const n = this.randInt(1, 3), s = this.randInt(1, 3);
+    let df = 1; for (let k = 2 * n - 1; k > 1; k -= 2) df *= k;
+    const ans = df * s ** (2 * n);
+    const ex = `e^{-\\frac{x^2}{${2 * s * s}}}`;
+    return this.makeMcq('L2-PAR', 2, 'Moments gaussiens',
+      'Dériver par rapport au paramètre dans l\'intégrale de Gauss',
+      `Sachant que $\\int_{-\\infty}^{+\\infty} e^{-\\frac{x^2}{2\\sigma^2}} \\, dx = \\sigma\\sqrt{2\\pi}$, calculer $M = \\frac{1}{${s === 1 ? '' : s}\\sqrt{2\\pi}} \\int_{-\\infty}^{+\\infty} x^{${2 * n}} ${ex} \\, dx$.`,
+      `$M = ${ans}$`,
+      [s ** (2 * n), df * s ** n, (2 * n - 1) * s ** (2 * n), ans * 2].filter((x) => x !== ans).map((x) => `$M = ${x}$`),
+      'Dérive $G(\\sigma) = \\int e^{-\\frac{x^2}{2\\sigma^2}} \\, dx$ par rapport à $\\sigma$ (ou intègre par parties) pour faire apparaître $x^2$.',
+      'Pour la loi $\\mathcal{N}(0, \\sigma^2)$ : $E(X^{2n}) = 1 \\times 3 \\times \\dots \\times (2n - 1) \\, \\sigma^{2n}$.',
+      `$M$ est le moment d'ordre $${2 * n}$ de la loi $\\mathcal{N}(0, ${s * s})$ : $M = ${df === 1 ? '' : `${Array.from({ length: n }, (_, i) => 2 * i + 1).join(' \\times ')} \\times `}${s}^{${2 * n}} = ${ans}$.`
+    );
+  },
+
+  _L2PAR_domExp() {
+    const a = this.randInt(2, 5);
+    const ans = this.frac(1, a - 1);
+    return this.makeMcq('L2-PAR', 3, 'Convergence dominée sur un intervalle non borné',
+      'Majorer $\\left(1 + \\frac{x}{n}\\right)^n \\leq e^x$ pour dominer',
+      `Calculer $L = \\lim_{n \\to +\\infty} \\int_0^{+\\infty} \\left(1 + \\frac{x}{n}\\right)^n e^{${this.coefStr(-a, 'x')}} \\, dx$.`,
+      `$L = ${ans}$`,
+      [this.frac(1, a), this.frac(1, a + 1), '1', this.frac(a, a - 1)].filter((x) => x !== ans).map((x) => `$L = ${x}$`),
+      'Pour $x \\geq 0$, $\\left(1 + \\frac{x}{n}\\right)^n \\to e^x$ et $\\ln(1 + u) \\leq u$.',
+      `Domination : $\\left(1 + \\frac{x}{n}\\right)^n e^{${this.coefStr(-a, 'x')}} \\leq e^{${this.coefStr(1 - a, 'x')}}$, intégrable sur $[0, +\\infty[$.`,
+      `Par convergence dominée, $L = \\int_0^{+\\infty} e^{${this.coefStr(1 - a, 'x')}} \\, dx = ${ans}$.`
+    );
+  },
+
+  _L2PAR_gammaRatio() {
+    const k = this.randInt(1, 4), m = this.randInt(1, 2);
+    // Gamma(k + m + 1/2) / Gamma(k + 1/2) = prod_{j=0}^{m-1} (k + j + 1/2)
+    let num = 1, den = 1;
+    for (let j = 0; j < m; j++) { num *= 2 * (k + j) + 1; den *= 2; }
+    const A = this.frac(2 * (k + m) + 1, 2), B = this.frac(2 * k + 1, 2);
+    const ans = this.frac(num, den);
+    return this.makeMcq('L2-PAR', 3, 'Quotient de valeurs de la fonction Gamma',
+      'Utiliser $\\Gamma(x + 1) = x\\Gamma(x)$',
+      `Calculer $Q = \\frac{\\Gamma\\left(${A}\\right)}{\\Gamma\\left(${B}\\right)}$.`,
+      `$Q = ${ans}$`,
+      [this.frac(num * (2 * (k + m) + 1), den * 2), this.frac(2 * k + 1, 2), this.frac(2 * (k + m) + 1, 2 * k + 1), this.frac(num, den * 2)].filter((x) => x !== ans).map((x) => `$Q = ${x}$`),
+      '$\\Gamma(x + 1) = x \\, \\Gamma(x)$ pour tout $x > 0$.',
+      `Applique la relation ${m === 1 ? 'une fois' : 'deux fois'} en partant de $\\Gamma\\left(${A}\\right)$.`,
+      `$\\Gamma\\left(${A}\\right) = ${Array.from({ length: m }, (_, j) => `\\frac{${2 * (k + m - 1 - j) + 1}}{2}`).join(' \\times ')} \\times \\Gamma\\left(${B}\\right)$, donc $Q = ${ans}$ (inutile de connaître $\\Gamma\\left(\\frac{1}{2}\\right) = \\sqrt{\\pi}$).`
+    );
+  },
+
+  _L2PAR_beta() {
+    const p = this.randInt(1, 4), q = this.randInt(1, 4);
+    const f = (k) => [1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880][k];
+    const ans = this.frac(f(p - 1) * f(q - 1), f(p + q - 1));
+    return this.makeMcq('L2-PAR', 4, 'Fonction Bêta',
+      'Utiliser $B(p, q) = \\frac{\\Gamma(p)\\Gamma(q)}{\\Gamma(p + q)}$',
+      `On pose $B(p, q) = \\int_0^1 t^{p-1}(1 - t)^{q-1} \\, dt$ et l'on admet $B(p, q) = \\frac{\\Gamma(p)\\Gamma(q)}{\\Gamma(p + q)}$. Calculer $B(${p}, ${q})$.`,
+      `$B(${p}, ${q}) = ${ans}$`,
+      [this.frac(f(p) * f(q), f(p + q)), this.frac(f(p - 1) * f(q - 1), f(p + q)), this.frac(1, p * q), this.frac(f(p) * f(q), f(p + q + 1))].filter((x) => x !== ans).map((x) => `$B(${p}, ${q}) = ${x}$`),
+      'Pour $n$ entier $\\geq 1$, $\\Gamma(n) = (n - 1)!$.',
+      `$B(${p}, ${q}) = \\frac{(${p} - 1)! \\, (${q} - 1)!}{(${p} + ${q} - 1)!}$.`,
+      `$B(${p}, ${q}) = \\frac{${p - 1}! \\times ${q - 1}!}{${p + q - 1}!} = \\frac{${f(p - 1) * f(q - 1)}}{${f(p + q - 1)}} = ${ans}$.`.replace(`\\frac{${f(p - 1) * f(q - 1)}}{${f(p + q - 1)}} = ${ans}`, this.frac(f(p - 1) * f(q - 1), f(p + q - 1)) === `\\frac{${f(p - 1) * f(q - 1)}}{${f(p + q - 1)}}` ? ans : `\\frac{${f(p - 1) * f(q - 1)}}{${f(p + q - 1)}} = ${ans}`)
+    );
+  },
+
+  _L2PAR_laplace() {
+    const n = this.randInt(0, 3), b = this.randInt(-2, 2);
+    const s = Math.max(b, 0) + this.randInt(1, 3);
+    const f = [1, 1, 2, 6][n];
+    const ans = this.frac(f, (s - b) ** (n + 1));
+    const g = `${n === 0 ? '' : this.pow('t', n) + ' '}${b === 0 ? '' : `e^{${this.coefStr(b, 't')}}`}`.trim() || '1';
+    return this.makeMcq('L2-PAR', 4, 'Transformée de Laplace',
+      'Calculer $\\mathcal{L}f(s) = \\int_0^{+\\infty} f(t) e^{-st} \\, dt$',
+      `Pour $f(t) = ${g}$, calculer $\\mathcal{L}f(${s}) = \\int_0^{+\\infty} f(t) e^{-${s === 1 ? '' : s}t} \\, dt$.`,
+      `$\\mathcal{L}f(${s}) = ${ans}$`,
+      [this.frac(f, s ** (n + 1)), this.frac(f, (s - b) ** n), this.frac(f, (s - b + 1) ** (n + 1)), this.frac(n + 1, (s - b) ** (n + 1))].filter((x) => x !== ans).map((x) => `$\\mathcal{L}f(${s}) = ${x}$`),
+      'Regroupe les exponentielles : l\'intégrande est $t^n e^{-(s - b)t}$.',
+      '$\\int_0^{+\\infty} t^n e^{-ct} \\, dt = \\frac{n!}{c^{n+1}}$ pour $c > 0$ (dérivations successives par rapport à $c$).',
+      `Ici $c = ${s} ${this.formatSign(-b)} = ${s - b} > 0$, donc $\\mathcal{L}f(${s}) = \\frac{${n}!}{${s - b}^{${n + 1}}} = ${ans}$.`.replace(` ${this.formatSign(0)} = `, ' = ')
+    );
+  },
+
+  _L2MUL_fams(tier) {
+    return {
+      1: [this._L2MUL_rectLin, this._L2MUL_area],
+      2: [this._L2MUL_swap, this._L2MUL_parab],
+      3: [this._L2MUL_centroid, this._L2MUL_shell],
+      4: [this._L2MUL_moment, this._L2MUL_gauss2]
+    }[tier];
+  },
+
+  _L2MUL_rectLin() {
+    const a = this.randInt(1, 4), b = this.randInt(1, 4), al = this.randNonZero(-4, 4), be = this.randNonZero(-4, 4);
+    const num = al * a * a * b + be * a * b * b;
+    const ans = this.frac(num, 2);
+    return this.makeMcq('L2-MUL', 1, 'Intégrale double d\'une fonction affine sur un rectangle',
+      'Appliquer le théorème de Fubini sur un rectangle',
+      `Calculer $I = \\iint_{[0, ${a}] \\times [0, ${b}]} (${this.poly([[al, 'x'], [be, 'y']])}) \\, dx \\, dy$.`,
+      `$I = ${ans}$`,
+      [this.frac(al * a * a + be * b * b, 2), this.frac(al * a + be * b, 1), String(num), this.frac(al * a * a * b + be * a * b * b, 4)].map((x) => `$I = ${x}$`),
+      'Par linéarité, sépare l\'intégrale de $x$ et celle de $y$.',
+      `$\\iint_{[0, ${a}] \\times [0, ${b}]} x \\, dx \\, dy = \\left(\\int_0^{${a}} x \\, dx\\right) \\times ${b}$.`,
+      `$I = ${this.paren(al)} \\times ${this.frac(a * a, 2)} \\times ${b} + ${this.paren(be)} \\times ${a} \\times ${this.frac(b * b, 2)} = ${ans}$.`
+    );
+  },
+
+  _L2MUL_area() {
+    const k = this.randInt(1, 5);
+    // aire entre y = kx et y = x^2 : int_0^k (kx - x^2) = k^3/6
+    const ans = this.frac(k ** 3, 6);
+    return this.makeMcq('L2-MUL', 1, 'Aire d\'un domaine plan',
+      'Calculer une aire comme intégrale double $\\iint_D dx \\, dy$',
+      `Calculer l'aire du domaine $D = \\{(x, y) \\in \\mathbb{R}^2 : x^2 \\leq y \\leq ${this.coefStr(k, 'x')}\\}$.`,
+      `$\\mathcal{A}(D) = ${ans}$`,
+      [this.frac(k ** 3, 3), this.frac(k ** 3, 2), this.frac(k ** 2, 6), this.frac(k ** 3, 12)].map((x) => `$\\mathcal{A}(D) = ${x}$`),
+      `Les deux courbes se coupent en $x = 0$ et $x = ${k}$.`,
+      `$\\mathcal{A}(D) = \\int_0^{${k}} \\left(\\int_{x^2}^{${this.coefStr(k, 'x')}} dy\\right) dx$.`,
+      `$\\mathcal{A}(D) = \\int_0^{${k}} (${this.poly([[k, 'x'], [-1, 'x^2']])}) \\, dx = ${this.frac(k ** 3, 2)} - ${this.frac(k ** 3, 3)} = ${ans}$.`
+    );
+  },
+
+  _L2MUL_swap() {
+    const a = this.randInt(2, 3), n = this.randInt(0, 3), c = this.randInt(1, 6);
+    // int_0^a int_y^a c x^n dx dy = int_0^a c x^{n+1} dx
+    const ans = this.frac(c * a ** (n + 2), n + 2);
+    const fx = n === 0 ? String(c) : this.coefStr(c, n === 1 ? 'x' : `x^${n}`);
+    return this.makeMcq('L2-MUL', 2, 'Inversion de l\'ordre d\'intégration',
+      'Réécrire le domaine pour intervertir les intégrales (Fubini)',
+      `Calculer $I = \\int_0^${a} \\left(\\int_y^${a} ${fx} \\, dx\\right) dy$ en intervertissant l'ordre d'intégration.`,
+      `$I = ${ans}$`,
+      [this.frac(c * a ** (n + 1), n + 1), this.frac(c * a ** (n + 2), (n + 1) * (n + 2)), this.frac(c * a ** (n + 2), n + 1), this.frac(c * a ** (n + 1), n + 2)].filter((x) => x !== ans).map((x) => `$I = ${x}$`),
+      `Le domaine est $\\{(x, y) : 0 \\leq y \\leq x \\leq ${a}\\}$ : décris-le avec $x$ à l'extérieur.`,
+      `Pour $x \\in [0, ${a}]$ fixé, $y$ varie de $0$ à $x$ : l'intégrale intérieure en $y$ vaut $x \\times ${fx}$.`,
+      `$I = \\int_0^{${a}} \\left(\\int_0^{x} dy\\right) ${fx} \\, dx = \\int_0^{${a}} ${this.coefStr(c, this.pow('x', n + 1))} \\, dx = ${ans}$.`
+    );
+  },
+
+  _L2MUL_parab() {
+    const R = this.randInt(1, 3), h = this.randInt(1, 6);
+    const al = this.frac(h * R * R, 2);
+    return this._L23_mcq('L2-MUL', 2, 'Volume sous un paraboloïde',
+      'Calculer un volume en coordonnées polaires',
+      `Calculer le volume $V$ du solide $\\{(x, y, z) : x^2 + y^2 \\leq ${R * R}, \\ 0 \\leq z \\leq ${h}\\left(1 - \\frac{x^2 + y^2}{${R * R}}\\right)\\}$. On écrit $V = \\alpha\\pi$ ; donner $\\alpha$.`.replace('\\frac{x^2 + y^2}{1}', '(x^2 + y^2)'),
+      `$\\alpha = ${al}$`,
+      [this.frac(h * R * R, 1), this.frac(h * R * R, 4), this.frac(h * R * R, 3), this.frac(h * R, 2)].filter((x) => x !== al).map((x) => `$\\alpha = ${x}$`),
+      `$V = \\iint_{x^2 + y^2 \\leq ${R * R}} ${h}\\left(1 - \\frac{x^2 + y^2}{${R * R}}\\right) dx \\, dy$ ; passe en polaires.`.replace('\\frac{x^2 + y^2}{1}', '(x^2 + y^2)'),
+      '$dx \\, dy = r \\, dr \\, d\\theta$.',
+      `$V = 2\\pi \\int_0^{${R}} ${h}\\left(1 - \\frac{r^2}{${R * R}}\\right) r \\, dr = 2\\pi \\times ${h} \\times \\left(${this.frac(R * R, 2)} - ${this.frac(R * R, 4)}\\right) = ${al === '1' ? '' : al}\\pi$, donc $\\alpha = ${al}$.`.replace('\\frac{r^2}{1}', 'r^2')
+    );
+  },
+
+  _L2MUL_centroid() {
+    const n = this.randInt(1, 2), k = this.randInt(1, 3), a = this.randInt(1, 3);
+    // plaque 0 <= y <= k x^n, 0 <= x <= a
+    const xg = this.frac((n + 1) * a, n + 2);
+    const ygN = k * a ** n * (n + 1), ygD = 2 * (2 * n + 1);
+    const yg = this.frac(ygN, ygD);
+    const T = (u, v) => `$(x_G ; y_G) = ${this._L23_tup([u, v])}$`;
+    const fx = this.coefStr(k, this.pow('x', n));
+    return this._L23_mcq('L2-MUL', 3, 'Centre de gravité d\'une plaque homogène',
+      'Calculer un centre de gravité par intégrales doubles',
+      `Déterminer le centre de gravité $G = (x_G, y_G)$ de la plaque homogène $D = \\{(x, y) : 0 \\leq x \\leq ${a}, \\ 0 \\leq y \\leq ${fx}\\}$. Donner $(x_G ; y_G)$.`,
+      T(xg, yg),
+      [T(this.frac(a, 2), yg), T(xg, this.frac(ygN, 2 * ygD)), T(yg, xg), T(this.frac(a * (n + 1), n + 2), this.frac(k * a ** n, 2))].filter((x) => x !== T(xg, yg)),
+      '$x_G = \\frac{1}{\\mathcal{A}(D)} \\iint_D x \\, dx \\, dy$ et $y_G = \\frac{1}{\\mathcal{A}(D)} \\iint_D y \\, dx \\, dy$.',
+      `$\\mathcal{A}(D) = \\int_0^{${a}} ${fx} \\, dx$ ; pour $y_G$, l'intégrale intérieure $\\int_0^{${fx}} y \\, dy$ vaut $\\frac{1}{2}(${fx})^2$.`,
+      `$\\mathcal{A}(D) = ${this.frac(k * a ** (n + 1), n + 1)}$, $\\iint_D x = ${this.frac(k * a ** (n + 2), n + 2)}$, $\\iint_D y = ${this.frac(k * k * a ** (2 * n + 1), 2 * (2 * n + 1))}$. Donc $x_G = ${xg}$ et $y_G = ${yg}$.`,
+      `(${this._L23_fin((n + 1) * a, n + 2)};${this._L23_fin(ygN, ygD)})`, 'Saisir (xG;yG), fractions acceptées.'
+    );
+  },
+
+  _L2MUL_shell() {
+    const R1 = this.randInt(0, 2), R2 = R1 + this.randInt(1, 2);
+    const al = this.frac(4 * (R2 ** 3 - R1 ** 3), 3);
+    return this._L23_mcq('L2-MUL', 3, 'Volume en coordonnées sphériques',
+      'Utiliser $dx \\, dy \\, dz = r^2 \\sin\\varphi \\, dr \\, d\\varphi \\, d\\theta$',
+      `Calculer le volume $V$ de ${R1 === 0 ? `la boule $\\{x^2 + y^2 + z^2 \\leq ${R2 * R2}\\}$` : `la coquille $\\{${R1 * R1} \\leq x^2 + y^2 + z^2 \\leq ${R2 * R2}\\}$`} par un passage en coordonnées sphériques. On écrit $V = \\alpha\\pi$ ; donner $\\alpha$.`,
+      `$\\alpha = ${al}$`,
+      [this.frac(4 * (R2 ** 2 - R1 ** 2), 3), this.frac(2 * (R2 ** 3 - R1 ** 3), 3), this.frac(4 * (R2 - R1) ** 3, 3), this.frac(R2 ** 3 - R1 ** 3, 3)].filter((x) => x !== al).map((x) => `$\\alpha = ${x}$`),
+      'En sphériques, le jacobien vaut $r^2 \\sin\\varphi$ avec $\\varphi \\in [0, \\pi]$ et $\\theta \\in [0, 2\\pi]$.',
+      '$\\int_0^{\\pi} \\sin\\varphi \\, d\\varphi = 2$.',
+      `$V = \\int_0^{2\\pi} \\int_0^{\\pi} \\int_{${R1}}^{${R2}} r^2 \\sin\\varphi \\, dr \\, d\\varphi \\, d\\theta = 2\\pi \\times 2 \\times \\frac{${R2 ** 3} - ${R1 ** 3}}{3} = ${al}\\pi$.`.replace(' - 0}{3}', '}{3}')
+    );
+  },
+
+  _L2MUL_moment() {
+    const R = this.randInt(1, 3), a = this.randInt(1, 4), b = this.randInt(0, 4);
+    const al = this.frac((a + b) * R ** 4, 4);
+    const f = this.poly([[a, 'x^2'], [b, 'y^2']]);
+    return this._L23_mcq('L2-MUL', 4, 'Moment d\'inertie d\'un disque',
+      'Exploiter les symétries et les coordonnées polaires',
+      `Calculer $I = \\iint_{x^2 + y^2 \\leq ${R * R}} (${f}) \\, dx \\, dy$. On écrit $I = \\alpha\\pi$ ; donner $\\alpha$.`,
+      `$\\alpha = ${al}$`,
+      [this.frac((a + b) * R ** 4, 2), this.frac((a + b) * R ** 3, 3), this.frac(a * R ** 4, 4), this.frac((a + b) * R ** 4, 8)].filter((x) => x !== al).map((x) => `$\\alpha = ${x}$`),
+      'Par symétrie du disque, $\\iint x^2 \\, dx \\, dy$ et $\\iint y^2 \\, dx \\, dy$ sont égales, chacune à la moitié de $\\iint (x^2 + y^2) \\, dx \\, dy$.',
+      '$\\iint_{r \\leq R} (x^2 + y^2) \\, dx \\, dy = 2\\pi \\int_0^{R} r^3 \\, dr$.',
+      `$\\iint (x^2 + y^2) = 2\\pi \\times \\frac{${R ** 4}}{4} = ${this._L2_piCoef(R ** 4, 2)}$, donc $\\iint x^2 = \\iint y^2 = ${this._L2_piCoef(R ** 4, 4)}$ et $I = ${a + b} \\times ${this._L2_piCoef(R ** 4, 4)} = ${al === '1' ? '' : al}\\pi$.`
+    );
+  },
+
+  _L2MUL_gauss2() {
+    const k = this.randInt(0, 2), a = this.randInt(1, 3);
+    const f = [1, 1, 2][k];
+    const al = this.frac(f, a ** (k + 1));
+    const w = k === 0 ? '' : k === 1 ? '(x^2 + y^2) ' : '(x^2 + y^2)^2 ';
+    return this._L23_mcq('L2-MUL', 4, 'Intégrale gaussienne sur le plan',
+      'Intégrer sur $\\mathbb{R}^2$ en coordonnées polaires',
+      `Calculer $I = \\iint_{\\mathbb{R}^2} ${w}e^{-${a === 1 ? '' : a}(x^2 + y^2)} \\, dx \\, dy$. On écrit $I = \\alpha\\pi$ ; donner $\\alpha$.`,
+      `$\\alpha = ${al}$`,
+      [this.frac(f, 2 * a ** (k + 1)), this.frac(f * 2, a ** (k + 1)), this.frac(f, a ** k), this.frac(k + 1, a ** (k + 1))].filter((x) => x !== al).map((x) => `$\\alpha = ${x}$`),
+      'Passe en polaires : $\\iint_{\\mathbb{R}^2} g(x^2 + y^2) \\, dx \\, dy = 2\\pi \\int_0^{+\\infty} g(r^2) \\, r \\, dr$.',
+      `Pose ensuite $u = ${this.coefStr(a, 'r^2')}$ pour te ramener à $\\int_0^{+\\infty} u^n e^{-u} \\, du = n!$.`,
+      `$I = 2\\pi \\int_0^{+\\infty} ${this.pow('r', 2 * k + 1)} e^{-${a === 1 ? '' : a}r^2} \\, dr = ${a === 1 ? '\\pi' : `\\frac{\\pi}{${a ** (k + 1)}}`} \\int_0^{+\\infty} ${k === 0 ? '' : this.pow('u', k) + ' '}e^{-u} \\, du$, donc $\\alpha = ${al}$.`
+    );
+  },
+
+  _L2CRB_fams(tier) {
+    return {
+      1: [this._L2CRB_stat, this._L2CRB_slope],
+      2: [this._L2CRB_pq, this._L2CRB_cycloid],
+      3: [this._L2CRB_unitT, this._L2CRB_radius],
+      4: [this._L2CRB_ellipse, this._L2CRB_torsion]
+    }[tier];
+  },
+
+  _L2CRB_stat() {
+    const a = this.randNonZero(-3, 3), c = this.randInt(-3, 3);
+    const x = this.poly([[1, 't^2'], [-2 * a, 't'], [c, '']]);
+    const y = this.poly([[1, 't^3'], [-3 * a * a, 't']]);
+    return this.makeMcq('L2-CRB', 1, 'Point stationnaire d\'un arc paramétré',
+      'Résoudre $\\gamma\'(t) = 0$',
+      `Soit $\\gamma(t) = (${x}, ${y})$. Déterminer l'unique valeur $t_0$ du paramètre pour laquelle $\\gamma'(t_0) = (0, 0)$.`,
+      `$t_0 = ${a}$`,
+      [-a, 2 * a, a * a, 0].filter((v) => v !== a).map((v) => `$t_0 = ${v}$`),
+      'Un point stationnaire annule simultanément $x\'(t)$ et $y\'(t)$.',
+      `$x'(t) = ${this.poly([[2, 't'], [-2 * a, '']])}$ ne s'annule qu'une fois : vérifie que $y'$ s'annule aussi en ce point.`,
+      `$x'(t) = 0$ pour $t = ${a}$ et $y'(t) = ${this.poly([[3, 't^2'], [-3 * a * a, '']])}$ s'annule en $t = \\pm ${Math.abs(a)}$. La seule valeur commune est $t_0 = ${a}$.`
+    );
+  },
+
+  _L2CRB_slope() {
+    const a = this.randNonZero(-3, 3), b = this.randInt(-3, 3), c = this.randNonZero(-3, 3), d = this.randInt(-3, 3);
+    let t0;
+    do { t0 = this.randInt(-2, 2); } while (2 * a * t0 + b === 0);
+    const x = this.poly([[a, 't^2'], [b, 't']]), y = this.poly([[c, 't^3'], [d, 't']]);
+    const xp = 2 * a * t0 + b, yp = 3 * c * t0 * t0 + d;
+    const ans = this.frac(yp, xp);
+    return this.makeMcq('L2-CRB', 1, 'Pente de la tangente à un arc',
+      'Calculer la pente $\\frac{y\'(t)}{x\'(t)}$ en un point régulier',
+      `Soit l'arc $\\gamma(t) = (${x}, ${y})$. Calculer la pente de la tangente au point de paramètre $t = ${t0}$.`,
+      `$m = ${ans}$`,
+      [this.frac(xp, yp || 1), this.frac(-yp, xp), String(yp), this.frac(c * t0 ** 3 + d * t0, a * t0 * t0 + b * t0 || 1)].filter((v) => v !== ans).map((v) => `$m = ${v}$`),
+      'En un point régulier, $\\gamma\'(t)$ dirige la tangente.',
+      'Si $x\'(t) \\neq 0$, la pente vaut $\\frac{y\'(t)}{x\'(t)}$.',
+      `$\\gamma'(${t0}) = (${xp}, ${yp})$, donc la pente vaut $\\frac{y'(${t0})}{x'(${t0})} = ${ans}$.`
+    );
+  },
+
+  _L2CRB_pq() {
+    const p = this.randChoice([2, 2, 3]), q = this.randInt(p + 1, 5);
+    if (q % p === 0) return this._L2CRB_pq();
+    const al = this.randNonZero(-3, 3), be = this.randNonZero(-3, 3), ka = this.randInt(-2, 2);
+    const x = this.coefStr(al, `t^${p}`), y = this.poly([[be, `t^${q}`], [ka, `t^${p}`]]);
+    const T = (u, v) => `$(p ; q) = ${this._L23_tup([u, v])}$`;
+    const nat = p % 2 === 0 ? (q % 2 === 1 ? 'rebroussement de première espèce' : 'rebroussement de seconde espèce') : (q % 2 === 0 ? 'point d\'inflexion' : 'point ordinaire');
+    return this._L23_mcq('L2-CRB', 2, 'Point stationnaire : entiers caractéristiques',
+      'Déterminer la nature d\'un point stationnaire par développement de Taylor',
+      `Soit $\\gamma(t) = (${x}, ${y})$, stationnaire en $t = 0$. On note $p$ le plus petit entier tel que $\\gamma^{(p)}(0) \\neq 0$ et $q > p$ le plus petit entier tel que $\\gamma^{(q)}(0)$ ne soit pas colinéaire à $\\gamma^{(p)}(0)$. Donner $(p ; q)$.`,
+      T(p, q), [T(q, p), T(1, q), T(p, p + 1 === q ? q + 1 : p + 1), T(p - 1, q)].filter((v) => v !== T(p, q)),
+      'Écris le développement de Taylor de $\\gamma$ en $0$ : $\\gamma(t) = \\sum_k \\frac{t^k}{k!}\\gamma^{(k)}(0)$.',
+      'Les vecteurs $\\gamma^{(k)}(0)$ se lisent sur les coefficients de $t^k$ dans chaque composante.',
+      `Le premier vecteur non nul est le coefficient de $t^{${p}}$ : $(${al}, ${ka})$ à un facteur près, donc $p = ${p}$. Le coefficient de $t^{${q}}$ est proportionnel à $(0, ${be})$, non colinéaire au précédent : $q = ${q}$. Avec $p$ ${p % 2 ? 'impair' : 'pair'} et $q$ ${q % 2 ? 'impair' : 'pair'}, c'est un ${nat}.`,
+      `(${p};${q})`, 'Saisir (p;q).'
+    );
+  },
+
+  _L2CRB_cycloid() {
+    const R = this.randInt(1, 5), k = this.randInt(1, 3);
+    const L = 8 * k * R;
+    const end = k === 1 ? '2\\pi' : `${2 * k}\\pi`;
+    return this.makeMcq('L2-CRB', 2, 'Longueur d\'arches de cycloïde',
+      'Calculer une longueur d\'arc avec $1 - \\cos t = 2\\sin^2\\frac{t}{2}$',
+      `Calculer la longueur de la cycloïde $\\gamma(t) = (${this.coefStr(R, '(t - \\sin t)')}, ${this.coefStr(R, '(1 - \\cos t)')})$ pour $t \\in [0, ${end}]$.`,
+      `$L = ${L}$`,
+      [4 * k * R, 2 * k * R, 8 * R, 16 * k * R].filter((v) => v !== L).map((v) => `$L = ${v}$`),
+      '$L = \\int \\|\\gamma\'(t)\\| \\, dt$ et $\\|\\gamma\'(t)\\|^2 = 2R^2(1 - \\cos t)$.',
+      '$\\sqrt{2(1 - \\cos t)} = 2\\left|\\sin\\frac{t}{2}\\right|$, et $\\int_0^{2\\pi} \\sin\\frac{t}{2} \\, dt = 4$.',
+      `$\\|\\gamma'(t)\\| = ${2 * R}\\left|\\sin\\frac{t}{2}\\right|$ ; chaque arche (intervalle de longueur $2\\pi$) a pour longueur $${2 * R} \\times 4 = ${8 * R}$. Avec $${k}$ arche${k > 1 ? 's' : ''} : $L = ${L}$.`
+    );
+  },
+
+  _L2CRB_unitT() {
+    const [p0, q0, r] = this.randChoice([[3, 4, 5], [4, 3, 5], [5, 12, 13], [12, 5, 13], [8, 6, 10], [6, 8, 10]]);
+    const p = p0 * this.randChoice([1, -1]), q = q0 * this.randChoice([1, -1]);
+    const al = this.randInt(-3, 3), be = this.randInt(-3, 3);
+    const T = (u, v) => `$T(0) = ${this._L23_tup([u, v])}$`;
+    return this._L23_mcq('L2-CRB', 3, 'Vecteur tangent unitaire (repère de Frenet)',
+      'Normaliser le vecteur vitesse',
+      `Soit l'arc $\\gamma(t) = (${this.poly([[p, 't'], [al, 't^2']])}, ${this.poly([[q, 't'], [be, 't^2']])})$. Déterminer le vecteur tangent unitaire $T(0) = \\frac{\\gamma'(0)}{\\|\\gamma'(0)\\|}$.`,
+      T(this.frac(p, r), this.frac(q, r)),
+      [T(this.frac(q, r), this.frac(p, r)), T(p, q), T(this.frac(p, r * r), this.frac(q, r * r)), T(this.frac(-q, r), this.frac(p, r))],
+      'Calcule $\\gamma\'(0)$ en dérivant chaque composante.',
+      'Divise ce vecteur par sa norme euclidienne.',
+      `$\\gamma'(0) = (${p}, ${q})$ et $\\|\\gamma'(0)\\| = \\sqrt{${p * p} + ${q * q}} = ${r}$, donc $T(0) = ${this._L23_tup([this.frac(p, r), this.frac(q, r)])}$. Le vecteur normal $N(0)$ s'obtient par rotation de $+\\frac{\\pi}{2}$.`,
+      `(${this._L23_fin(p, r)};${this._L23_fin(q, r)})`, 'Saisir (a;b), fractions acceptées (par exemple (3/5;-4/5)).'
+    );
+  },
+
+  _L2CRB_radius() {
+    // y = a x^2, pente s = 2 a x0 dans {3/4, 4/3}, rayon (1 + s^2)^{3/2} / (2|a|)
+    const [sn, sd, hn] = this.randChoice([[3, 4, 5], [4, 3, 5], [0, 1, 1]]);
+    const a = this.randNonZero(-2, 2);
+    const sgn = this.randChoice([1, -1]);
+    const x0 = this.frac(sgn * sn, 2 * a * sd);
+    const num = hn ** 3, den = sd ** 3 * 2 * Math.abs(a);
+    const ans = this.frac(num, den);
+    return this.makeMcq('L2-CRB', 3, 'Rayon de courbure d\'une parabole',
+      'Utiliser $R = \\frac{(1 + f\'(x)^2)^{3/2}}{|f\'\'(x)|}$',
+      `Calculer le rayon de courbure de la courbe $y = ${this.coefStr(a, 'x^2')}$ au point d'abscisse $x = ${x0}$.`,
+      `$R = ${ans}$`,
+      [this.frac(den, num), this.frac(hn * hn, sd * sd * 2 * Math.abs(a)), this.frac(num, sd ** 3), this.frac(num, den * 2)].filter((v) => v !== ans).map((v) => `$R = ${v}$`),
+      'Le rayon de courbure est l\'inverse de la courbure $\\kappa = \\frac{|f\'\'(x)|}{(1 + f\'(x)^2)^{3/2}}$.',
+      `Calcule $f'(${x0})$ puis $1 + f'(${x0})^2$, qui est ici un carré parfait de rationnel.`,
+      `$f'(x) = ${this.coefStr(2 * a, 'x')}$ vaut $${this.frac(sgn * sn, sd)}$, donc $1 + f'^2 = ${this.frac(hn * hn, sd * sd)}$ et $(1 + f'^2)^{3/2} = ${this.frac(num, sd ** 3)}$ ; $|f''| = ${2 * Math.abs(a)}$, d'où $R = ${ans}$.`
+    );
+  },
+
+  _L2CRB_ellipse() {
+    let a, b;
+    do { a = this.randInt(1, 6); b = this.randInt(1, 6); } while (a === b);
+    const at = this.randChoice(['A', 'B']);
+    const ans = at === 'A' ? this.frac(a, b * b) : this.frac(b, a * a);
+    return this.makeMcq('L2-CRB', 4, 'Courbure d\'une ellipse en un sommet',
+      'Calculer $\\kappa = \\frac{|x\'y\'\' - y\'x\'\'|}{(x\'^2 + y\'^2)^{3/2}}$',
+      `Calculer la courbure de l'ellipse $\\gamma(t) = (${this.coefStr(a, '\\cos t')}, ${this.coefStr(b, '\\sin t')})$ au sommet ${at === 'A' ? `$(${a}, 0)$` : `$(0, ${b})$`}.`,
+      `$\\kappa = ${ans}$`,
+      [at === 'A' ? this.frac(b, a * a) : this.frac(a, b * b), this.frac(1, a), this.frac(1, b), this.frac(a * b, a * a + b * b)].filter((v) => v !== ans).map((v) => `$\\kappa = ${v}$`),
+      `Le sommet ${at === 'A' ? `$(${a}, 0)$` : `$(0, ${b})$`} correspond à $t = ${at === 'A' ? '0' : '\\frac{\\pi}{2}'}$.`,
+      '$x\'y\'\' - y\'x\'\' = ab$ pour tout $t$.',
+      `$x'y'' - y'x'' = ${a * b}$ et en ce point $\\|\\gamma'\\| = ${at === 'A' ? b : a}$, donc $\\kappa = \\frac{${a * b}}{${at === 'A' ? b : a}^3} = ${ans}$.`
+    );
+  },
+
+  _L2CRB_torsion() {
+    const a = this.randInt(1, 4), b = this.randNonZero(-4, 4);
+    const ans = this.frac(b, a * a + b * b);
+    return this.makeMcq('L2-CRB', 4, 'Torsion d\'une hélice',
+      'Calculer $\\tau = \\frac{\\det(\\gamma\', \\gamma\'\', \\gamma\'\'\')}{\\|\\gamma\' \\wedge \\gamma\'\'\\|^2}$',
+      `Calculer la torsion de l'hélice $\\gamma(t) = (${this.coefStr(a, '\\cos t')}, ${this.coefStr(a, '\\sin t')}, ${this.coefStr(b, 't')})$.`,
+      `$\\tau = ${ans}$`,
+      [this.frac(a, a * a + b * b), this.frac(b, a * a), this.frac(1, b), this.frac(-b, a * a + b * b)].filter((v) => v !== ans).map((v) => `$\\tau = ${v}$`),
+      'Calcule $\\gamma\'$, $\\gamma\'\'$ et $\\gamma\'\'\'$.',
+      `$\\|\\gamma' \\wedge \\gamma''\\|^2 = ${a * a}(${a * a} + ${b * b})$.`,
+      `$\\det(\\gamma', \\gamma'', \\gamma''') = ${a * a * b}$ et $\\|\\gamma' \\wedge \\gamma''\\|^2 = ${a * a * (a * a + b * b)}$, donc $\\tau = ${ans}$ (constante, comme la courbure $${this.frac(a, a * a + b * b)}$).`
+    );
+  },
+
+  _L2PRB_fams(tier) {
+    return {
+      1: [this._L2PRB_geoP, this._L2PRB_total],
+      2: [this._L2PRB_genE, this._L2PRB_poisVar],
+      3: [this._L2PRB_minGeo, this._L2PRB_cov],
+      4: [this._L2PRB_binSum, this._L2PRB_poisCond]
+    }[tier];
+  },
+
+  _L2PRB_geoP() {
+    let a, b;
+    do { b = this.randInt(2, 6); a = this.randInt(1, b - 1); } while (this.gcd(a, b) !== 1);
+    const k = this.randInt(2, 4);
+    const num = (b - a) ** (k - 1) * a, den = b ** k;
+    return this.makeMcq('L2-PRB', 1, 'Probabilité pour une loi géométrique',
+      'Utiliser $P(X = k) = (1 - p)^{k-1} p$',
+      `$X$ suit la loi géométrique de paramètre $p = ${this.frac(a, b)}$ (rang du premier succès). Calculer $P(X = ${k})$.`,
+      `$P(X = ${k}) = ${this.frac(num, den)}$`,
+      [this.frac(a ** (k - 1) * (b - a), den), this.frac((b - a) ** k * a, b ** (k + 1)), this.frac((b - a) ** (k - 1), b ** (k - 1)), this.frac(a ** k, b ** k)].filter((v) => v !== this.frac(num, den)).map((v) => `$P(X = ${k}) = ${v}$`),
+      `$X = ${k}$ signifie : $${k - 1}$ échec${k > 2 ? 's' : ''} puis un succès.`,
+      'Les épreuves sont indépendantes : multiplie les probabilités.',
+      `$P(X = ${k}) = \\left(${this.frac(b - a, b)}\\right)^{${k - 1}} \\times ${this.frac(a, b)} = ${this.frac(num, den)}$.`.replace('^{1}', '')
+    );
+  },
+
+  _L2PRB_total() {
+    const pA = this.randInt(1, 9), u = this.randInt(1, 9), v = this.randInt(1, 9);
+    // P(A) = pA/10, P(B|A) = u/10, P(B|non A) = v/10
+    const num = pA * u + (10 - pA) * v;
+    return this.makeMcq('L2-PRB', 1, 'Formule des probabilités totales',
+      'Décomposer selon un système complet d\'événements',
+      `On a $P(A) = ${this.dec(pA / 10)}$, $P(B \\mid A) = ${this.dec(u / 10)}$ et $P(B \\mid \\overline{A}) = ${this.dec(v / 10)}$. Calculer $P(B)$.`,
+      `$P(B) = ${this.dec(num / 100)}$`,
+      [this.dec(pA * u / 100), this.dec((u + v) / 20), this.dec((pA * u + pA * v) / 100), this.dec((pA * v + (10 - pA) * u) / 100)].filter((x) => x !== this.dec(num / 100)).map((x) => `$P(B) = ${x}$`),
+      '$(A, \\overline{A})$ est un système complet d\'événements.',
+      '$P(B) = P(A)P(B \\mid A) + P(\\overline{A})P(B \\mid \\overline{A})$.',
+      `$P(B) = ${this.dec(pA / 10)} \\times ${this.dec(u / 10)} + ${this.dec(1 - pA / 10)} \\times ${this.dec(v / 10)} = ${this.dec(num / 100)}$.`
+    );
+  },
+
+  _L2PRB_genE() {
+    const p = [this.randInt(1, 4), this.randInt(0, 4), this.randInt(1, 4)];
+    const S = p[0] + p[1] + p[2];
+    const G = this.poly([[this.frac(p[2], S), 't^2'], [this.frac(p[1], S), 't'], [this.frac(p[0], S), '']]);
+    const ask = this.randChoice(['E', 'V']);
+    const E = this.frac(p[1] + 2 * p[2], S);
+    const E2n = p[1] + 4 * p[2];
+    const Vn = E2n * S - (p[1] + 2 * p[2]) ** 2, Vd = S * S;
+    const ans = ask === 'E' ? E : this.frac(Vn, Vd);
+    const lab = ask === 'E' ? 'E(X)' : 'V(X)';
+    return this.makeMcq('L2-PRB', 2, 'Fonction génératrice : espérance et variance',
+      'Utiliser $E(X) = G_X\'(1)$ et $V(X) = G_X\'\'(1) + G_X\'(1) - G_X\'(1)^2$',
+      `La variable $X$ a pour fonction génératrice $G_X(t) = ${G}$. Calculer $${lab}$.`,
+      `$${lab} = ${ans}$`,
+      [ask === 'E' ? this.frac(Vn, Vd) : E, this.frac(2 * p[2], S), this.frac(E2n, S), this.frac(p[1] + p[2], S)].filter((v) => v !== ans).map((v) => `$${lab} = ${v}$`),
+      '$G_X(t) = \\sum_k P(X = k) t^k$ : on lit la loi de $X$ sur les coefficients.',
+      ask === 'E' ? '$E(X) = G_X\'(1)$.' : '$G_X\'\'(1) = E(X(X - 1))$, donc $V(X) = G_X\'\'(1) + G_X\'(1) - G_X\'(1)^2$.',
+      ask === 'E'
+        ? `$G_X'(t) = ${this.poly([[this.frac(2 * p[2], S), 't'], [this.frac(p[1], S), '']])}$, donc $E(X) = G_X'(1) = ${E}$.`
+        : `$G_X'(1) = ${E}$ et $G_X''(1) = ${this.frac(2 * p[2], S)}$, donc $V(X) = ${this.frac(2 * p[2], S)} + ${E} - \\left(${E}\\right)^2 = ${ans}$.`
+    );
+  },
+
+  _L2PRB_poisVar() {
+    const l = this.randInt(1, 5), m = this.randInt(1, 5), a = this.randNonZero(-3, 3), b = this.randNonZero(-3, 3), c = this.randInt(-5, 5);
+    const ans = a * a * l + b * b * m;
+    const Z = this.poly([[a, 'X'], [b, 'Y'], [c, '']]);
+    return this.makeMcq('L2-PRB', 2, 'Variance d\'une combinaison de variables de Poisson',
+      'Utiliser $V(aX + bY) = a^2V(X) + b^2V(Y)$ pour $X, Y$ indépendantes',
+      `$X \\sim \\mathcal{P}(${l})$ et $Y \\sim \\mathcal{P}(${m})$ sont indépendantes. Calculer $V(${Z})$.`,
+      `$V(${Z}) = ${ans}$`,
+      [a * l + b * m, a * a * l + b * b * m + c * c, (a + b) ** 2 * (l + m), a * a * l - b * b * m].filter((v) => v !== ans).map((v) => `$V(${Z}) = ${v}$`),
+      'Pour une loi de Poisson $\\mathcal{P}(\\lambda)$, la variance vaut $\\lambda$.',
+      'Une constante ajoutée ne change pas la variance ; l\'indépendance annule la covariance.',
+      `$V(${Z}) = ${this.paren(a)}^2 \\times ${l} + ${this.paren(b)}^2 \\times ${m} = ${ans}$.`
+    );
+  },
+
+  _L2PRB_minGeo() {
+    let a, b, c, d;
+    do { b = this.randInt(2, 6); a = this.randInt(1, b - 1); d = this.randInt(2, 6); c = this.randInt(1, d - 1); } while (this.gcd(a, b) !== 1 || this.gcd(c, d) !== 1);
+    // min(X, Y) ~ G(1 - (1-p)(1-q))
+    const num = b * d - (b - a) * (d - c), den = b * d;
+    const ans = this.frac(num, den);
+    return this.makeMcq('L2-PRB', 3, 'Loi du minimum de deux variables géométriques',
+      'Utiliser $P(\\min(X, Y) > k) = P(X > k)P(Y > k)$',
+      `$X \\sim \\mathcal{G}\\left(${this.frac(a, b)}\\right)$ et $Y \\sim \\mathcal{G}\\left(${this.frac(c, d)}\\right)$ sont indépendantes. On admet que $Z = \\min(X, Y)$ suit une loi géométrique : calculer son paramètre $r$.`,
+      `$r = ${ans}$`,
+      [this.frac(a * c, b * d), this.frac(a * d + b * c, 2 * b * d), this.frac((b - a) * (d - c), b * d), this.frac(a * d + c * b, b * d)].filter((v) => v !== ans).map((v) => `$r = ${v}$`),
+      'Pour $T \\sim \\mathcal{G}(p)$ : $P(T > k) = (1 - p)^k$.',
+      '$\\min(X, Y) > k \\iff (X > k \\text{ et } Y > k)$.',
+      `$P(Z > k) = \\left(${this.frac(b - a, b)}\\right)^k \\left(${this.frac(d - c, d)}\\right)^k = \\left(${this.frac((b - a) * (d - c), b * d)}\\right)^k$, donc $Z \\sim \\mathcal{G}(r)$ avec $r = 1 - ${this.frac((b - a) * (d - c), b * d)} = ${ans}$.`
+    );
+  },
+
+  _L2PRB_cov() {
+    const vx = this.randInt(1, 9), vy = this.randInt(1, 9), c = this.randInt(-3, 3), a = this.randNonZero(-3, 3), b = this.randNonZero(-3, 3);
+    if (c * c > vx * vy) return this._L2PRB_cov();
+    const ans = a * a * vx + b * b * vy + 2 * a * b * c;
+    const Z = this.poly([[a, 'X'], [b, 'Y']]);
+    return this.makeMcq('L2-PRB', 3, 'Variance d\'une combinaison avec covariance',
+      'Développer $V(aX + bY) = a^2V(X) + b^2V(Y) + 2ab\\,\\mathrm{Cov}(X, Y)$',
+      `On a $V(X) = ${vx}$, $V(Y) = ${vy}$ et $\\mathrm{Cov}(X, Y) = ${c}$. Calculer $V(${Z})$.`,
+      `$V(${Z}) = ${ans}$`,
+      [a * a * vx + b * b * vy, a * vx + b * vy + 2 * c, a * a * vx + b * b * vy + a * b * c, a * a * vx + b * b * vy - 2 * a * b * c].filter((v) => v !== ans).map((v) => `$V(${Z}) = ${v}$`),
+      'La variance est une forme quadratique : $V(U + W) = V(U) + V(W) + 2\\,\\mathrm{Cov}(U, W)$.',
+      '$V(aX) = a^2V(X)$ et $\\mathrm{Cov}(aX, bY) = ab\\,\\mathrm{Cov}(X, Y)$.',
+      `$V(${Z}) = ${this.paren(a)}^2 \\times ${vx} + ${this.paren(b)}^2 \\times ${vy} + 2 \\times ${this.paren(a)} \\times ${this.paren(b)} \\times ${this.paren(c)} = ${ans}$.`
+    );
+  },
+
+  _L2PRB_binSum() {
+    const n = this.randInt(1, 3), m = this.randInt(1, 3);
+    let a, b;
+    do { b = this.randInt(2, 5); a = this.randInt(1, b - 1); } while (this.gcd(a, b) !== 1);
+    const N = n + m, k = this.randInt(0, 1);
+    const num = (k === 0 ? 1 : N * a) * (b - a) ** (N - k), den = b ** N;
+    const ans = this.frac(num, den);
+    return this.makeMcq('L2-PRB', 4, 'Somme de binomiales indépendantes (fonction génératrice)',
+      'Utiliser $G_{X+Y} = G_X G_Y$',
+      `$X \\sim \\mathcal{B}\\left(${n}, ${this.frac(a, b)}\\right)$ et $Y \\sim \\mathcal{B}\\left(${m}, ${this.frac(a, b)}\\right)$ sont indépendantes. Calculer $P(X + Y = ${k})$.`,
+      `$P(X + Y = ${k}) = ${ans}$`,
+      [this.frac((k === 0 ? 1 : a) * (b - a) ** (N - k), den), this.frac((k === 0 ? 1 : N * a) * (b - a) ** (N - k), b ** (N + 1)), this.frac(k === 0 ? (b - a) ** n : n * a * (b - a) ** (n - 1), b ** n), this.frac(a ** (N - k) * (k === 0 ? 1 : N * (b - a)), den)].filter((v) => v !== ans).map((v) => `$P(X + Y = ${k}) = ${v}$`),
+      'Fonction génératrice de $\\mathcal{B}(n, p)$ : $G(t) = (1 - p + pt)^n$.',
+      'Le produit $G_X G_Y$ est la fonction génératrice d\'une loi binomiale : laquelle ?',
+      `$G_{X+Y}(t) = (1 - p + pt)^{${n}}(1 - p + pt)^{${m}} = (1 - p + pt)^{${N}}$, donc $X + Y \\sim \\mathcal{B}\\left(${N}, ${this.frac(a, b)}\\right)$ et $P(X + Y = ${k}) = ${k === 0 ? `\\left(${this.frac(b - a, b)}\\right)^{${N}}` : `${N} \\times ${this.frac(a, b)} \\times \\left(${this.frac(b - a, b)}\\right)^{${N - 1}}`} = ${ans}$.`.replace(/\^\{1\}/g, '')
+    );
+  },
+
+  _L2PRB_poisCond() {
+    const l = this.randInt(1, 4), mu = this.randInt(1, 4), n = this.randInt(2, 4);
+    const k = this.randInt(0, n);
+    const C = [1, n, n * (n - 1) / 2, n * (n - 1) * (n - 2) / 6, 1][Math.min(k, n - k)];
+    const num = C * l ** k * mu ** (n - k), den = (l + mu) ** n;
+    const ans = this.frac(num, den);
+    return this.makeMcq('L2-PRB', 4, 'Loi conditionnelle pour des variables de Poisson',
+      'Montrer que la loi de $X$ sachant $X + Y = n$ est binomiale',
+      `$X \\sim \\mathcal{P}(${l})$ et $Y \\sim \\mathcal{P}(${mu})$ sont indépendantes. Calculer $P(X = ${k} \\mid X + Y = ${n})$.`,
+      `$P(X = ${k} \\mid X + Y = ${n}) = ${ans}$`,
+      [this.frac(l ** k * mu ** (n - k), den), this.frac(C * mu ** k * l ** (n - k), den), this.frac(C * l ** k, (l + mu) ** k), this.frac(1, n + 1)].filter((v) => v !== ans).map((v) => `$P(X = ${k} \\mid X + Y = ${n}) = ${v}$`),
+      `$P(X = ${k} \\mid X + Y = ${n}) = \\frac{P(X = ${k}) P(Y = ${n - k})}{P(X + Y = ${n})}$ et $X + Y \\sim \\mathcal{P}(${l + mu})$.`,
+      'Les exponentielles se simplifient : il reste une probabilité binomiale.',
+      `On trouve $\\binom{${n}}{${k}} ${k === 0 ? '' : this.pow(`\\left(${this.frac(l, l + mu)}\\right)`, k)} ${n - k === 0 ? '' : this.pow(`\\left(${this.frac(mu, l + mu)}\\right)`, n - k)}$ : la loi conditionnelle est $\\mathcal{B}\\left(${n}, ${this.frac(l, l + mu)}\\right)$, d'où $${ans}$.`
+    );
+  },
+
+  _L3GRP1_fams(tier) {
+    return { 1: [this._L3GRP1_quot], 3: [this._L3GRP1_kerIm] }[tier];
+  },
+
+  _L3GRP1_quot() {
+    const n = this.randChoice([12, 15, 18, 20, 24, 30, 36, 40, 42, 45, 48, 60]);
+    let a;
+    do { a = this.randInt(2, n - 1); } while (this.gcd(a, n) === 1);
+    const g = this.gcd(a, n);
+    return this.makeMcq('L3-GRP1', 1, 'Ordre d\'un groupe quotient cyclique',
+      'Construire un groupe quotient et calculer son ordre',
+      `Dans $G = \\mathbb{Z}/${n}\\mathbb{Z}$, soit $H = \\langle \\overline{${a}} \\rangle$. Quel est l'ordre du groupe quotient $G/H$ ?`,
+      `$|G/H| = ${g}$`,
+      [n / g, a, n - a, n / a > 1 && Number.isInteger(n / a) ? a : g + 1].filter((x) => x !== g).map((x) => `$|G/H| = ${x}$`),
+      `$H$ est engendré par $\\overline{${a}}$ : son ordre est l'ordre de $\\overline{${a}}$ dans $\\mathbb{Z}/${n}\\mathbb{Z}$.`,
+      'L\'ordre de $\\overline{a}$ dans $\\mathbb{Z}/n\\mathbb{Z}$ vaut $\\frac{n}{\\mathrm{pgcd}(a, n)}$ ; puis Lagrange : $|G/H| = \\frac{|G|}{|H|}$.',
+      `$\\mathrm{pgcd}(${a}, ${n}) = ${g}$, donc $|H| = ${n / g}$ et $|G/H| = \\frac{${n}}{${n / g}} = ${g}$ (en fait $H = \\langle \\overline{${g}} \\rangle$ et $G/H \\simeq \\mathbb{Z}/${g}\\mathbb{Z}$).`
+    );
+  },
+
+  _L3GRP1_kerIm() {
+    let n, m, k;
+    do { n = this.randChoice([6, 8, 9, 10, 12, 15, 18, 20, 24]); m = this.randChoice([4, 6, 8, 9, 10, 12, 15]); k = this.randInt(1, m - 1); } while ((k * n) % m !== 0 || m === n);
+    const im = m / this.gcd(k, m);
+    const ker = n / im;
+    const ask = this.randChoice(['ker', 'im']);
+    const ans = ask === 'ker' ? ker : im;
+    const lab = ask === 'ker' ? '|\\ker f|' : '|\\mathrm{Im} f|';
+    return this.makeMcq('L3-GRP1', 3, 'Premier théorème d\'isomorphisme',
+      'Appliquer $G/\\ker f \\simeq \\mathrm{Im} f$',
+      `Le morphisme $f : \\mathbb{Z}/${n}\\mathbb{Z} \\to \\mathbb{Z}/${m}\\mathbb{Z}$, $\\overline{x} \\mapsto \\overline{${this.coefStr(k, 'x')}}$ est bien défini (car $${m}$ divise $${k} \\times ${n}$). Calculer $${lab}$.`,
+      `$${lab} = ${ans}$`,
+      [ask === 'ker' ? im : ker, this.gcd(k, m), n, m].filter((x) => x !== ans).map((x) => `$${lab} = ${x}$`),
+      '$\\mathrm{Im} f$ est le sous-groupe de $\\mathbb{Z}/m\\mathbb{Z}$ engendré par $f(\\overline{1})$.',
+      'Premier théorème d\'isomorphisme : $|\\ker f| \\times |\\mathrm{Im} f| = |G|$.',
+      `$\\mathrm{Im} f = \\langle \\overline{${k}} \\rangle$ est d'ordre $\\frac{${m}}{\\mathrm{pgcd}(${k}, ${m})} = ${im}$, et $|\\ker f| = \\frac{${n}}{${im}} = ${ker}$.`
+    );
+  },
+
+  _L3GRP2_fams(tier) {
+    return { 2: [this._L3GRP2_sign], 3: [this._L3GRP2_sylCard] }[tier];
+  },
+
+  _L3GRP2_sign() {
+    const n = this.randInt(5, 7);
+    const s = this.shuffleArray(Array.from({ length: n }, (_, i) => i + 1));
+    let inv = 0;
+    for (let i = 0; i < n; i++) for (let j = i + 1; j < n; j++) if (s[i] > s[j]) inv++;
+    const eps = inv % 2 ? -1 : 1;
+    return this.makeMcq('L3-GRP2', 2, 'Signature d\'une permutation',
+      'Décomposer en cycles disjoints et calculer la signature',
+      `Calculer la signature $\\varepsilon(\\sigma)$ de la permutation $\\sigma = \\begin{pmatrix} ${Array.from({ length: n }, (_, i) => i + 1).join(' & ')} \\\\ ${s.join(' & ')} \\end{pmatrix}$ de $\\mathfrak{S}_{${n}}$.`,
+      `$\\varepsilon(\\sigma) = ${eps}$`,
+      [`$\\varepsilon(\\sigma) = ${-eps}$`, '$\\varepsilon(\\sigma) = 0$', `$\\varepsilon(\\sigma) = ${inv}$`],
+      'Décompose $\\sigma$ en produit de cycles à supports disjoints.',
+      'Un cycle de longueur $\\ell$ a pour signature $(-1)^{\\ell - 1}$ ; on peut aussi compter les inversions.',
+      `$\\sigma$ présente $${inv}$ inversions (couples $i < j$ avec $\\sigma(i) > \\sigma(j)$), donc $\\varepsilon(\\sigma) = ${inv === 1 ? '' : `(-1)^{${inv}} = `}${eps}$.`
+    );
+  },
+
+  _L3GRP2_sylCard() {
+    const p = this.randChoice([2, 3, 5]);
+    const e = this.randInt(1, p === 2 ? 4 : 2);
+    const m = this.randChoice([3, 5, 7, 11, 13, 15, 21].filter((x) => x % p !== 0));
+    const n = p ** e * m;
+    return this.makeMcq('L3-GRP2', 3, 'Ordre d\'un $p$-sous-groupe de Sylow',
+      'Identifier l\'ordre des $p$-Sylow à partir de la factorisation de $|G|$',
+      `Soit $G$ un groupe d'ordre $${n}$. Quel est l'ordre d'un $${p}$-sous-groupe de Sylow de $G$ ?`,
+      `$${p ** e}$`,
+      [p, p ** (e + 1), m, n / p].filter((x) => x !== p ** e).map((x) => `$${x}$`),
+      `Factorise $${n}$ et isole la plus grande puissance de $${p}$ qui le divise.`,
+      'Un $p$-Sylow de $G$ est un sous-groupe d\'ordre $p^{\\alpha}$ où $|G| = p^{\\alpha} m$ avec $p \\nmid m$.',
+      `$${n} = ${this.pow(String(p), e)} \\times ${m}$ avec $${p} \\nmid ${m}$ : les $${p}$-Sylow sont d'ordre $${p ** e}$ (ils existent par le premier théorème de Sylow).`
+    );
+  },
+
+  _L3ANN_fams(tier) {
+    return { 1: [this._L3ANN_units], 3: [this._L3ANN_ideals] }[tier];
+  },
+
+  _L3ANN_units() {
+    const n = this.randChoice([12, 15, 16, 18, 20, 21, 24, 25, 27, 28, 30, 35, 36, 40, 45]);
+    const ph = this._L3phi(n);
+    return this.makeMcq('L3-ANN', 1, 'Nombre d\'inversibles de $\\mathbb{Z}/n\\mathbb{Z}$',
+      'Utiliser l\'indicatrice d\'Euler',
+      `Combien l'anneau $\\mathbb{Z}/${n}\\mathbb{Z}$ possède-t-il d'éléments inversibles ?`,
+      `$${ph}$`,
+      [n - 1, n / 2, ph + 2, n - ph].filter((x) => x !== ph && Number.isInteger(x)).map((x) => `$${x}$`),
+      '$\\overline{a}$ est inversible dans $\\mathbb{Z}/n\\mathbb{Z}$ si et seulement si $\\mathrm{pgcd}(a, n) = 1$.',
+      '$\\varphi(n) = n \\prod_{p \\mid n} \\left(1 - \\frac{1}{p}\\right)$.',
+      `$${n} = ${this._L3factorTex(n)}$, donc $\\varphi(${n}) = ${n}${this._L3factor(n).map(([p]) => ` \\times \\left(1 - \\frac{1}{${p}}\\right)`).join('')} = ${ph}$.`
+    );
+  },
+
+  _L3ANN_ideals() {
+    let a, b;
+    do { a = this.randInt(4, 40); b = this.randInt(4, 40); } while (a === b || this.gcd(a, b) === 1 || this.gcd(a, b) === Math.min(a, b));
+    const g = this.gcd(a, b), l = a * b / g;
+    const T = (u, v) => `$(d ; m) = ${this._L23_tup([u, v])}$`;
+    return this._L23_mcq('L3-ANN', 3, 'Somme et intersection d\'idéaux de $\\mathbb{Z}$',
+      'Utiliser le caractère principal de $\\mathbb{Z}$',
+      `Dans l'anneau principal $\\mathbb{Z}$, on écrit $${a}\\mathbb{Z} + ${b}\\mathbb{Z} = d\\mathbb{Z}$ et $${a}\\mathbb{Z} \\cap ${b}\\mathbb{Z} = m\\mathbb{Z}$ avec $d, m > 0$. Donner $(d ; m)$.`,
+      T(g, l), [T(l, g), T(g, a * b), T(a + b, l), T(1, l)].filter((x) => x !== T(g, l)),
+      '$a\\mathbb{Z} + b\\mathbb{Z}$ est le plus petit idéal contenant $a$ et $b$ (Bézout).',
+      '$a\\mathbb{Z} \\cap b\\mathbb{Z}$ est l\'ensemble des multiples communs à $a$ et $b$.',
+      `$d = \\mathrm{pgcd}(${a}, ${b}) = ${g}$ et $m = \\mathrm{ppcm}(${a}, ${b}) = \\frac{${a} \\times ${b}}{${g}} = ${l}$.`,
+      `(${g};${l})`, 'Saisir (d;m).'
+    );
+  },
+
+  _L3MET_fams(tier) {
+    return { 1: [this._L3MET_norms], 2: [this._L3MET_diam], 3: [this._L3MET_opnorm], 4: [this._L3MET_infsup] }[tier];
+  },
+
+  _L3MET_norms() {
+    let v;
+    do { v = [this.randInt(-6, 6), this.randInt(-6, 6), this.randInt(-6, 6)]; } while (v.filter((x) => x !== 0).length < 2);
+    const n1 = v.reduce((s, x) => s + Math.abs(x), 0), ni = Math.max(...v.map(Math.abs));
+    const T = (a, b) => `$(\\|x\\|_1 ; \\|x\\|_\\infty) = ${this._L23_tup([a, b])}$`;
+    return this._L23_mcq('L3-MET', 1, 'Normes usuelles d\'un vecteur',
+      'Calculer les normes $\\|\\cdot\\|_1$ et $\\|\\cdot\\|_\\infty$',
+      `Dans $\\mathbb{R}^3$, soit $x = ${this._L2_tuple(v)}$. Donner $(\\|x\\|_1 ; \\|x\\|_\\infty)$.`,
+      T(n1, ni), [T(ni, n1), T(v.reduce((s, y) => s + y, 0), ni), T(n1, Math.max(...v)), T(n1 * n1, ni)].filter((x) => x !== T(n1, ni)),
+      '$\\|x\\|_1 = \\sum_i |x_i|$ et $\\|x\\|_\\infty = \\max_i |x_i|$.',
+      'Attention aux valeurs absolues des composantes négatives.',
+      `$\\|x\\|_1 = ${v.filter((x) => x !== 0).map((x) => Math.abs(x)).join(' + ')} = ${n1}$ et $\\|x\\|_\\infty = ${ni}$. On vérifie $\\|x\\|_\\infty \\leq \\|x\\|_1 \\leq 3\\|x\\|_\\infty$.`,
+      `(${n1};${ni})`, 'Saisir (‖x‖₁;‖x‖∞).'
+    );
+  },
+
+  _L3MET_diam() {
+    const a = this.randInt(1, 7), b = this.randInt(1, 7), nrm = this.randChoice(['1', '\\infty']);
+    const ans = nrm === '1' ? a + b : Math.max(a, b);
+    return this.makeMcq('L3-MET', 2, 'Diamètre d\'une partie pour une norme',
+      'Calculer $\\mathrm{diam}(A) = \\sup_{x, y \\in A} \\|x - y\\|$',
+      `Dans $\\mathbb{R}^2$ muni de la norme $\\|\\cdot\\|_{${nrm}}$, calculer le diamètre du rectangle $A = [0, ${a}] \\times [0, ${b}]$.`,
+      `$\\mathrm{diam}(A) = ${ans}$`,
+      [nrm === '1' ? Math.max(a, b) : a + b, a * b, Math.min(a, b), a * a + b * b].filter((x) => x !== ans).map((x) => `$\\mathrm{diam}(A) = ${x}$`),
+      'Pour $x, y \\in A$, $|x_1 - y_1| \\leq ' + a + '$ et $|x_2 - y_2| \\leq ' + b + '$.',
+      'Le diamètre est atteint entre deux sommets opposés du rectangle.',
+      `Pour $x, y \\in A$ : $\\|x - y\\|_{${nrm}} \\leq ${nrm === '1' ? `${a} + ${b}` : `\\max(${a}, ${b})`} = ${ans}$, avec égalité pour $x = (0, 0)$ et $y = (${a}, ${b})$. Donc $\\mathrm{diam}(A) = ${ans}$.`
+    );
+  },
+
+  _L3MET_opnorm() {
+    const M = [[this.randInt(-5, 5), this.randInt(-5, 5)], [this.randInt(-5, 5), this.randInt(-5, 5)]];
+    if (M.flat().filter((x) => x !== 0).length < 3) return this._L3MET_opnorm();
+    const nrm = this.randChoice(['1', '\\infty']);
+    const rows = M.map((r) => Math.abs(r[0]) + Math.abs(r[1]));
+    const cols = [0, 1].map((j) => Math.abs(M[0][j]) + Math.abs(M[1][j]));
+    const ans = nrm === '1' ? Math.max(...cols) : Math.max(...rows);
+    return this.makeMcq('L3-MET', 3, 'Norme subordonnée d\'une matrice',
+      'Calculer une norme d\'opérateur sur $\\mathbb{R}^2$',
+      `Calculer la norme subordonnée $\\|A\\|_{${nrm}} = \\sup_{x \\neq 0} \\frac{\\|Ax\\|_{${nrm}}}{\\|x\\|_{${nrm}}}$ de $A = ${this._L3pm(M)}$.`,
+      `$\\|A\\|_{${nrm}} = ${ans}$`,
+      [nrm === '1' ? Math.max(...rows) : Math.max(...cols), M.flat().reduce((s, x) => s + Math.abs(x), 0), Math.max(...M.flat().map(Math.abs))].filter((x) => x !== ans).map((x) => `$\\|A\\|_{${nrm}} = ${x}$`),
+      nrm === '1' ? 'La norme subordonnée à $\\|\\cdot\\|_1$ est le maximum des sommes des valeurs absolues sur les colonnes.' : 'La norme subordonnée à $\\|\\cdot\\|_\\infty$ est le maximum des sommes des valeurs absolues sur les lignes.',
+      'La borne est atteinte : pour $\\|\\cdot\\|_1$ en un vecteur de base, pour $\\|\\cdot\\|_\\infty$ en un vecteur de coordonnées $\\pm 1$.',
+      nrm === '1' ? `Sommes par colonne : $${cols.join('$ et $')}$, d'où $\\|A\\|_1 = ${ans}$.` : `Sommes par ligne : $${rows.join('$ et $')}$, d'où $\\|A\\|_\\infty = ${ans}$.`
+    );
+  },
+
+  _L3MET_infsup() {
+    const c = this.randInt(1, 4), d = this.randInt(1, 6);
+    // u_n = (-1)^n (c + d/n), n >= 1 : sup = c + d/2 (n = 2), inf = -(c + d) (n = 1)
+    const T = (u, v) => `$(\\inf A ; \\sup A) = ${this._L23_tup([u, v])}$`;
+    const s = this.frac(2 * c + d, 2), i = -(c + d);
+    return this._L23_mcq('L3-MET', 4, 'Bornes et points adhérents d\'une partie de $\\mathbb{R}$',
+      'Déterminer bornes et adhérence d\'un ensemble défini par une suite',
+      `Soit $A = \\left\\{(-1)^n\\left(${c} + \\frac{${d}}{n}\\right) : n \\geq 1\\right\\}$. Donner $(\\inf A ; \\sup A)$.`,
+      T(i, s), [T(-c, c), T(i, c + d), T(this.frac(-(2 * c + d), 2), s), T(-c, s)].filter((x) => x !== T(i, s)),
+      'Sépare les indices pairs (termes positifs) et impairs (termes négatifs).',
+      `$n \\mapsto ${c} + \\frac{${d}}{n}$ est décroissante : les extrémums sont atteints pour les plus petits indices de chaque parité.`,
+      `Pour $n$ pair, le plus grand terme est obtenu pour $n = 2$ : $${c} + \\frac{${d}}{2} = ${s}$. Pour $n$ impair, le plus petit est obtenu pour $n = 1$ : $-${c + d}$. Donc $(\\inf A ; \\sup A) = ${this._L23_tup([i, s])}$ (bornes atteintes) ; $\\overline{A} = A \\cup \\{-${c}, ${c}\\}$.`,
+      `(${i};${this._L23_fin(2 * c + d, 2)})`, 'Saisir (inf A;sup A), fractions acceptées.'
+    );
+  },
+
+  _L3CMP_fams(tier) {
+    return { 1: [this._L3CMP_image], 3: [this._L3CMP_delta], 4: [this._L3CMP_comp] }[tier];
+  },
+
+  _L3CMP_image() {
+    let a, b;
+    do { a = this.randInt(-5, 3); b = this.randInt(a + 1, 6); } while (false);
+    const vals = [a * a, b * b]; const m = a <= 0 && b >= 0 ? 0 : Math.min(...vals), M = Math.max(...vals);
+    const T = (u, v) => `$(m ; M) = ${this._L23_tup([u, v])}$`;
+    return this._L23_mcq('L3-CMP', 1, 'Image d\'un segment par une fonction continue',
+      'Utiliser l\'image continue d\'un compact connexe',
+      `L'image du compact $[${a}, ${b}]$ par $f : x \\mapsto x^2$ est un segment $[m, M]$. Donner $(m ; M)$.`,
+      T(m, M), [T(a * a, b * b), T(Math.min(...vals), M), T(0, b * b), T(a, b)].filter((x) => x !== T(m, M) && !/\(-?\d+ ; -?\d+\)/.test('') ),
+      'L\'image d\'un segment par une fonction continue est un segment (compacité et connexité).',
+      `Étudie les variations de $x^2$ sur $[${a}, ${b}]$ : ${a < 0 && b > 0 ? '$0$ appartient-il à l\'intervalle ?' : 'la fonction y est monotone.'}`,
+      `${a <= 0 && b >= 0 ? `$0 \\in [${a}, ${b}]$ donc $m = 0$` : `$f$ est monotone sur $[${a}, ${b}]$, donc $m = ${m}$`}, et $M = \\max(${a * a}, ${b * b}) = ${M}$.`,
+      `(${m};${M})`, 'Saisir (m;M).'
+    );
+  },
+
+  _L3CMP_delta() {
+    const k = this.randInt(2, 9), e = this.randChoice([10, 100, 1000]);
+    const ans = this.frac(1, k * e);
+    return this.makeMcq('L3-CMP', 3, 'Continuité uniforme d\'une fonction lipschitzienne',
+      'Expliciter $\\delta$ en fonction de $\\varepsilon$',
+      `La fonction $f$ est $${k}$-lipschitzienne sur $\\mathbb{R}$. Quel est le plus grand $\\delta$ garanti par cette seule information pour que $|x - y| \\leq \\delta \\Rightarrow |f(x) - f(y)| \\leq ${this.frac(1, e)}$ ?`,
+      `$\\delta = ${ans}$`,
+      [this.frac(k, e), this.frac(1, e), this.frac(1, k * k * e), this.frac(2, k * e)].map((x) => `$\\delta = ${x}$`),
+      '$|f(x) - f(y)| \\leq k|x - y|$.',
+      'Il suffit que $k\\delta \\leq \\varepsilon$.',
+      `Avec $\\delta = \\frac{\\varepsilon}{${k}}$ : $|f(x) - f(y)| \\leq ${k}\\delta = \\varepsilon$. Ici $\\varepsilon = ${this.frac(1, e)}$, donc $\\delta = ${ans}$ (pour $f(x) = ${k}x$, aucun $\\delta$ plus grand ne convient).`
+    );
+  },
+
+  _L3CMP_comp() {
+    let r;
+    do { r = [this.randInt(-5, 5), this.randInt(-5, 5), this.randInt(-5, 5)]; } while (new Set(r).size < 3);
+    r.sort((x, y) => x - y);
+    const sgn = this.randChoice([1, -1]);
+    const P = (sgn === -1 ? '-' : '') + r.map((x) => this._L2_fx(x, 'x')).join('');
+    // composantes de {P > 0} : intervalles où P > 0
+    const pts = [-1e9, ...r, 1e9];
+    let cnt = 0;
+    for (let i = 0; i < pts.length - 1; i++) {
+      const m = i === 0 ? r[0] - 1 : i === pts.length - 2 ? r[2] + 1 : (pts[i] + pts[i + 1]) / 2;
+      if (sgn * r.reduce((s, x) => s * (m - x), 1) > 0) cnt++;
+    }
+    return this.makeMcq('L3-CMP', 4, 'Composantes connexes d\'un ouvert de $\\mathbb{R}$',
+      'Décrire un ouvert de $\\mathbb{R}$ comme réunion d\'intervalles disjoints',
+      `Combien l'ouvert $U = \\{x \\in \\mathbb{R} : ${P} > 0\\}$ a-t-il de composantes connexes ?`,
+      `$${cnt}$`,
+      [1, 2, 3, 4].filter((x) => x !== cnt).map((x) => `$${x}$`),
+      'Les composantes connexes d\'un ouvert de $\\mathbb{R}$ sont des intervalles ouverts disjoints.',
+      'Dresse le tableau de signes du polynôme.',
+      `Les racines $${r.join(' < ')}$ découpent $\\mathbb{R}$ en $4$ intervalles où le signe alterne. ${cnt} d'entre eux sont dans $U$ : $U$ a $${cnt}$ composantes connexes.`
+    );
+  },
+
+  _L3BAN_fams(tier) {
+    return { 2: [this._L3BAN_iter], 3: [this._L3BAN_nIter], 4: [this._L3BAN_opK] }[tier];
+  },
+
+  _L3BAN_iter() {
+    let p, q;
+    do { q = this.randInt(2, 5); p = this.randNonZero(-(q - 1), q - 1); } while (this.gcd(p, q) !== 1);
+    const b = this.randInt(-4, 4), x0 = this.randInt(-3, 3);
+    // x_{n+1} = (p/q) x_n + b
+    const x1n = p * x0 + b * q, x1d = q; // x1 = x1n / q
+    const x2n = p * x1n + b * q * q, x2d = q * q;
+    return this.makeMcq('L3-BAN', 2, 'Itérées d\'une contraction',
+      'Calculer les premiers termes de la suite des itérées de Picard',
+      `Soit $g(x) = ${this.poly([[this.frac(p, q), 'x'], [b, '']])}$, contractante sur $\\mathbb{R}$, et la suite $x_{n+1} = g(x_n)$ avec $x_0 = ${x0}$. Calculer $x_2$.`,
+      `$x_2 = ${this.frac(x2n, x2d)}$`,
+      [this.frac(x1n, x1d), this.frac(p * p * x0, q * q), this.frac(x2n + b * q * q, x2d), this.frac(b * q, q - p)].filter((x) => x !== this.frac(x2n, x2d)).map((x) => `$x_2 = ${x}$`),
+      'Calcule d\'abord $x_1 = g(x_0)$.',
+      `$g$ est ${this.frac(Math.abs(p), q)}-lipschitzienne : la suite converge vers l'unique point fixe, mais on demande seulement $x_2 = g(g(x_0))$.`.replace(/^(\$g\$ est )(.*?)-lipschitzienne/, '$1$$2$-lipschitzienne'),
+      `$x_1 = g(${x0}) = ${this.frac(x1n, x1d)}$, puis $x_2 = g(x_1) = ${this.frac(x2n, x2d)}$.`
+    );
+  },
+
+  _L3BAN_nIter() {
+    const k = this.randChoice([2, 4, 10]), d0 = this.randChoice([1, 2, 5]), m = this.randInt(2, 4);
+    // |x_n - l| <= k^{-n} d0 / (1 - 1/k) <= 10^{-m}
+    const bound = (n) => d0 / (k ** n) / (1 - 1 / k);
+    let n = 0; while (bound(n) > 10 ** -m + 1e-15) n++;
+    return this.makeMcq('L3-BAN', 3, 'Nombre d\'itérations pour une précision donnée',
+      'Utiliser l\'estimation a priori $|x_n - \\ell| \\leq \\frac{k^n}{1 - k}|x_1 - x_0|$',
+      `Une application $${this.frac(1, k)}$-contractante d'un espace complet vérifie $|x_1 - x_0| = ${d0}$. Quel est le plus petit $n$ pour lequel l'estimation a priori garantit $|x_n - \\ell| \\leq 10^{-${m}}$ ?`,
+      `$n = ${n}$`,
+      [n - 1, n + 1, m, n + 2].filter((x) => x >= 0 && x !== n).map((x) => `$n = ${x}$`),
+      `Écris $\\frac{k^n}{1 - k} \\times ${d0} \\leq 10^{-${m}}$ avec $k = ${this.frac(1, k)}$.`,
+      `$1 - k = ${this.frac(k - 1, k)}$ : il s'agit de trouver le plus petit $n$ tel que $${k}^n \\geq ${this.frac(d0 * k * 10 ** m, k - 1)}$.`,
+      `L'inégalité équivaut à $${k}^n \\geq ${this.frac(d0 * k * 10 ** m, k - 1)}$. On a $${k}^{${n - 1}} = ${k ** (n - 1)}$ (insuffisant) et $${k}^{${n}} = ${k ** n}$ (suffisant), donc $n = ${n}$.`
+    );
+  },
+
+  _L3BAN_opK() {
+    const lam = this.randChoice([[1, 2], [1, 3], [2, 3], [1, 4], [3, 4], [3, 2]]);
+    const kind = this.randChoice(['one', 'xy', 'x']);
+    const K = { one: '1', xy: 'xt', x: 't' }[kind];
+    const supInt = { one: [1, 1], xy: [1, 2], x: [1, 2] }[kind];
+    const kn = lam[0] * supInt[0], kd = lam[1] * supInt[1];
+    const ans = this.frac(kn, kd);
+    return this.makeMcq('L3-BAN', 4, 'Constante de contraction d\'un opérateur intégral',
+      'Majorer $\\|Tf - Tg\\|_\\infty$ sur $(\\mathcal{C}([0, 1]), \\|\\cdot\\|_\\infty)$',
+      `Sur $\\mathcal{C}([0, 1])$ muni de $\\|\\cdot\\|_\\infty$, soit $T(f)(x) = ${this.frac(lam[0], lam[1])}\\int_0^1 ${K === '1' ? '' : K + ' \\,'} f(t) \\, dt + \\sin x$. Quelle est la meilleure constante $k$ telle que $\\|T(f) - T(g)\\|_\\infty \\leq k\\|f - g\\|_\\infty$ ?`,
+      `$k = ${ans}$`,
+      [this.frac(lam[0], lam[1]), this.frac(lam[0], 2 * lam[1]), this.frac(lam[0], 3 * lam[1]), '1'].filter((x) => x !== ans).map((x) => `$k = ${x}$`),
+      `$T(f)(x) - T(g)(x) = ${this.frac(lam[0], lam[1])}\\int_0^1 ${K === '1' ? '' : K + ' \\,'}(f - g)(t) \\, dt$.`,
+      `Majore $|f - g|$ par $\\|f - g\\|_\\infty$, puis prends le sup en $x \\in [0, 1]$ de $\\int_0^1 ${K === '1' ? '1' : `|${K}|`} \\, dt$.`,
+      `$\\sup_{x \\in [0, 1]} \\int_0^1 ${K === '1' ? '1' : `|${K}|`} \\, dt = ${this.frac(supInt[0], supInt[1])}$, et la borne est atteinte pour $f - g$ constante : $k = ${this.frac(lam[0], lam[1])} \\times ${this.frac(supInt[0], supInt[1])} = ${ans}$. ${kn < kd ? 'Comme $k < 1$, $T$ est contractante et admet un unique point fixe (Picard).' : 'Ici $k \\geq 1$ : le théorème de Picard ne s\'applique pas directement.'}`
+    );
+  },
+
+  _L3SDF_fams(tier) {
+    return { 2: [this._L3SDF_supNorm], 3: [this._L3SDF_normal], 4: [this._L3SDF_fourierSwap] }[tier];
+  },
+
+  _L3SDF_supNorm() {
+    const n = this.randInt(1, 4);
+    // sup_{[0,1]} x^n (1 - x) = n^n / (n+1)^{n+1}
+    const num = n ** n, den = (n + 1) ** (n + 1);
+    return this.makeMcq('L3-SDF', 2, 'Norme uniforme d\'une fonction',
+      'Calculer $\\|f\\|_\\infty$ par étude de fonction',
+      `Calculer $\\|f\\|_\\infty = \\sup_{x \\in [0, 1]} |f(x)|$ pour $f(x) = ${this.pow('x', n)}(1 - x)$.`,
+      `$\\|f\\|_\\infty = ${this.frac(num, den)}$`,
+      [this.frac(1, n + 1), this.frac(n, n + 1), this.frac(num, (n + 1) ** n), this.frac(1, 4)].filter((x) => x !== this.frac(num, den)).map((x) => `$\\|f\\|_\\infty = ${x}$`),
+      '$f$ est positive sur $[0, 1]$ et nulle aux bornes : son maximum est atteint en un point critique intérieur.',
+      `$f'(x) = ${n === 1 ? '1 - 2x' : `${this.pow('x', n - 1)}(${n} - ${n + 1}x)`}$.`,
+      `$f'$ s'annule en $x = ${this.frac(n, n + 1)}$, d'où $\\|f\\|_\\infty = f\\left(${this.frac(n, n + 1)}\\right) = ${this.frac(num, den)}$.`.replace('x^{1}', 'x')
+    );
+  },
+
+  _L3SDF_normal() {
+    let p, q;
+    do { q = this.randInt(2, 6); p = this.randInt(1, q - 1); } while (this.gcd(p, q) !== 1);
+    const ans = this.frac(p, q - p);
+    return this.makeMcq('L3-SDF', 3, 'Série des normes uniformes',
+      'Calculer $\\sum \\|f_n\\|_\\infty$ pour établir la convergence normale',
+      `Sur $\\left[0, ${this.frac(p, q)}\\right]$, on considère $f_n(x) = x^n$ ($n \\geq 1$). Calculer $\\sum_{n=1}^{+\\infty} \\|f_n\\|_\\infty$.`,
+      `$\\sum_{n \\geq 1} \\|f_n\\|_\\infty = ${ans}$`,
+      [this.frac(q, q - p), this.frac(p, q), this.frac(p * p, q * (q - p)), '1'].filter((x) => x !== ans).map((x) => `$\\sum_{n \\geq 1} \\|f_n\\|_\\infty = ${x}$`),
+      '$x \\mapsto x^n$ est croissante sur l\'intervalle : sa norme uniforme est sa valeur à droite.',
+      'On obtient une série géométrique de raison strictement inférieure à $1$.',
+      `$\\|f_n\\|_\\infty = \\left(${this.frac(p, q)}\\right)^n$ et $\\sum_{n \\geq 1} \\left(${this.frac(p, q)}\\right)^n = \\frac{${this.frac(p, q)}}{1 - ${this.frac(p, q)}} = ${ans}$ : la série $\\sum f_n$ converge normalement sur ce segment.`
+    );
+  },
+
+  _L3SDF_fourierSwap() {
+    const c = this.randInt(2, 4), k = this.randInt(1, 3);
+    const al = this.frac(1, c ** k);
+    return this._L23_mcq('L3-SDF', 4, 'Interversion série-intégrale par convergence normale',
+      'Intégrer terme à terme une série normalement convergente',
+      `Soit $S(x) = \\sum_{n=0}^{+\\infty} \\frac{\\cos(nx)}{${c}^n}$. On écrit $\\int_0^{2\\pi} S(x)\\cos(${k === 1 ? '' : k}x) \\, dx = \\alpha\\pi$. Donner $\\alpha$.`,
+      `$\\alpha = ${al}$`,
+      [this.frac(2, c ** k), this.frac(1, c ** (k + 1)), this.frac(1, c), this.frac(c, c - 1)].filter((x) => x !== al).map((x) => `$\\alpha = ${x}$`),
+      `$\\left|\\frac{\\cos(nx)}{${c}^n}\\right| \\leq \\frac{1}{${c}^n}$ : la série converge normalement sur $[0, 2\\pi]$, on peut intégrer terme à terme.`,
+      '$\\int_0^{2\\pi} \\cos(nx)\\cos(kx) \\, dx$ vaut $\\pi$ si $n = k \\geq 1$ et $0$ si $n \\neq k$.',
+      `Seul le terme $n = ${k}$ contribue : $\\int_0^{2\\pi} S(x)\\cos(${k === 1 ? '' : k}x) \\, dx = \\frac{\\pi}{${c ** k}}$, donc $\\alpha = ${al}$.`
+    );
+  },
+
+  _L3SER_fams(tier) {
+    return { 1: [this._L3SER_hadamard], 2: [this._L3SER_sumR], 3: [this._L3SER_cauchyCoef] }[tier];
+  },
+
+  _L3SER_hadamard() {
+    let p, q;
+    do { p = this.randInt(1, 6); q = this.randInt(1, 6); } while (p === q || this.gcd(p, q) !== 1);
+    const k = this.randInt(0, 3);
+    const R = this.frac(q, p);
+    return this.makeMcq('L3-SER', 1, 'Rayon de convergence (Cauchy-Hadamard)',
+      'Calculer $R = 1/\\limsup |a_n|^{1/n}$',
+      `Déterminer le rayon de convergence de la série entière $\\sum_{n \\geq 1} ${k === 0 ? '' : this.pow('n', k) + ' '}\\left(${this.frac(p, q)}\\right)^n z^n$.`,
+      `$R = ${R}$`,
+      [this.frac(p, q), '1', this.frac(q, p * (k + 1)), String(q)].filter((x) => x !== R).map((x) => `$R = ${x}$`),
+      '$|a_n|^{1/n} = n^{k/n} \\times \\frac{p}{q}$ et $n^{k/n} \\to 1$.',
+      'Le facteur polynomial ne modifie pas le rayon de convergence.',
+      `$|a_n|^{1/n} \\to ${this.frac(p, q)}$, donc $R = ${R}$.`
+    );
+  },
+
+  _L3SER_sumR() {
+    let a, b;
+    do { a = this.randInt(2, 7); b = this.randInt(2, 7); } while (a === b);
+    const R = this.frac(1, Math.max(a, b));
+    return this.makeMcq('L3-SER', 2, 'Rayon de convergence d\'une somme de séries entières',
+      'Utiliser $R(\\sum (a_n + b_n) z^n) = \\min(R_a, R_b)$ quand $R_a \\neq R_b$',
+      `Déterminer le rayon de convergence de $\\sum_{n \\geq 0} (${a}^n + ${b}^n) z^n$.`,
+      `$R = ${R}$`,
+      [this.frac(1, Math.min(a, b)), this.frac(1, a + b), this.frac(1, a * b), String(Math.max(a, b))].filter((x) => x !== R).map((x) => `$R = ${x}$`),
+      `$\\sum ${a}^n z^n$ et $\\sum ${b}^n z^n$ ont pour rayons $${this.frac(1, a)}$ et $${this.frac(1, b)}$.`,
+      'Si les deux rayons diffèrent, le rayon de la somme est le plus petit des deux.',
+      `Les rayons $${this.frac(1, a)}$ et $${this.frac(1, b)}$ sont distincts, donc $R = \\min = ${R}$ (on le retrouve par d'Alembert : $\\frac{|a_{n+1}|}{|a_n|} \\to ${Math.max(a, b)}$).`
+    );
+  },
+
+  _L3SER_cauchyCoef() {
+    let a, b;
+    do { a = this.randNonZero(-3, 3); b = this.randNonZero(-3, 3); } while (a === b);
+    const n = this.randInt(2, 4);
+    let c = 0; for (let k = 0; k <= n; k++) c += a ** k * b ** (n - k);
+    const den = this.poly([[1, ''], [-a, 'x']]), den2 = this.poly([[1, ''], [-b, 'x']]);
+    return this.makeMcq('L3-SER', 3, 'Coefficient d\'un produit de séries entières',
+      'Effectuer un produit de Cauchy de séries entières',
+      `On écrit $\\frac{1}{(${den})(${den2})} = \\sum_{n \\geq 0} c_n x^n$ au voisinage de $0$. Calculer $c_{${n}}$.`,
+      `$c_{${n}} = ${c}$`,
+      [a ** n + b ** n, a ** n * b ** n, (a + b) ** n, c + a * b].filter((x) => x !== c).map((x) => `$c_{${n}} = ${x}$`),
+      `$\\frac{1}{${den}} = \\sum a^k x^k$ avec $a = ${a}$, et de même pour l'autre facteur.`,
+      'Produit de Cauchy : $c_n = \\sum_{k=0}^{n} a^k b^{n-k}$.',
+      `$c_{${n}} = \\sum_{k=0}^{${n}} ${this.paren(a)}^{k} \\times ${this.paren(b)}^{${n} - k} = ${c}$.`
+    );
+  },
+
+  _L3FOU_fams(tier) {
+    return { 1: [this._L3FOU_mean], 2: [this._L3FOU_lin], 3: [this._L3FOU_dirichlet] }[tier];
+  },
+
+  _L3FOU_mean() {
+    const a = this.randInt(-4, 4), b = this.randNonZero(-4, 4), k = this.randInt(1, 3);
+    const ans = this.frac(2 * a * a + b * b, 2);
+    return this.makeMcq('L3-FOU', 1, 'Valeur moyenne d\'un polynôme trigonométrique',
+      'Calculer le coefficient $\\frac{a_0}{2} = \\frac{1}{2\\pi}\\int_{-\\pi}^{\\pi} f$',
+      `Calculer la valeur moyenne $\\frac{1}{2\\pi}\\int_{-\\pi}^{\\pi} f(x) \\, dx$ de $f(x) = \\left(${this.poly([[a, ''], [b, `\\cos(${k === 1 ? '' : k}x)`]])}\\right)^2$.`,
+      `$\\frac{a_0}{2} = ${ans}$`,
+      [this.frac(a * a + b * b, 1), String(a * a), this.frac(a * a + b * b, 2), this.frac((a + b) ** 2, 1)].filter((x) => x !== ans).map((x) => `$\\frac{a_0}{2} = ${x}$`),
+      'Développe le carré et linéarise $\\cos^2$.',
+      '$\\cos^2 u = \\frac{1 + \\cos(2u)}{2}$, et la moyenne de $\\cos(mx)$ ($m \\neq 0$) sur une période est nulle.',
+      `$f(x) = ${this.poly([[a * a, ''], [2 * a * b, `\\cos(${k === 1 ? '' : k}x)`], [this.frac(b * b, 2), ''], [this.frac(b * b, 2), `\\cos(${2 * k}x)`]])}$ : la valeur moyenne est $${a * a} + ${this.frac(b * b, 2)} = ${ans}$.`
+    );
+  },
+
+  _L3FOU_lin() {
+    const c = this.randChoice([1, 2, 4, -4, -2, 8]), fn = this.randChoice(['cos', 'sin']);
+    // cos^3 x = 3/4 cos x + 1/4 cos 3x ; sin^3 x = 3/4 sin x - 1/4 sin 3x
+    const c1 = this.frac(3 * c, 4), c3 = this.frac((fn === 'cos' ? 1 : -1) * c, 4);
+    const coef = fn === 'cos' ? 'a' : 'b';
+    const T = (u, v) => `$(${coef}_1 ; ${coef}_3) = ${this._L23_tup([u, v])}$`;
+    return this._L23_mcq('L3-FOU', 2, 'Coefficients de Fourier par linéarisation',
+      'Linéariser une puissance de $\\cos$ ou $\\sin$',
+      `Soit $f(x) = ${this.coefStr(c, `\\${fn}^3 x`)}$. Ses seuls coefficients de Fourier non nuls sont $${coef}_1$ et $${coef}_3$. Donner $(${coef}_1 ; ${coef}_3)$.`,
+      T(c1, c3), [T(c3, c1), T(this.frac(c, 2), this.frac(c, 2)), T(c1, this.frac(-(fn === 'cos' ? 1 : -1) * c, 4)), T(c, 0)].filter((x) => x !== T(c1, c3)),
+      fn === 'cos' ? 'Utilise $\\cos(3x) = 4\\cos^3 x - 3\\cos x$.' : 'Utilise $\\sin(3x) = 3\\sin x - 4\\sin^3 x$.',
+      'Par unicité des coefficients d\'un polynôme trigonométrique, il suffit d\'identifier.',
+      `${fn === 'cos' ? '$\\cos^3 x = \\frac{3}{4}\\cos x + \\frac{1}{4}\\cos(3x)$' : '$\\sin^3 x = \\frac{3}{4}\\sin x - \\frac{1}{4}\\sin(3x)$'}, donc $(${coef}_1 ; ${coef}_3) = ${this._L23_tup([c1, c3])}$.`,
+      `(${this._L23_fin(3 * c, 4)};${this._L23_fin((fn === 'cos' ? 1 : -1) * c, 4)})`, `Saisir (${coef}1;${coef}3), fractions acceptées.`
+    );
+  },
+
+  _L3FOU_dirichlet() {
+    let a, b;
+    do { a = this.randInt(-5, 5); b = this.randInt(-5, 5); } while (a === b);
+    const at = this.randChoice([0, 'pi']);
+    const ans = this.frac(a + b, 2);
+    return this.makeMcq('L3-FOU', 3, 'Théorème de Dirichlet en un point de discontinuité',
+      'Calculer la somme de la série de Fourier en un saut',
+      `Soit $f$ $2\\pi$-périodique définie par $f(x) = ${a}$ sur $]-\\pi, 0[$ et $f(x) = ${b}$ sur $]0, \\pi[$. Que vaut la somme $S(${at === 0 ? '0' : '\\pi'})$ de sa série de Fourier en $x = ${at === 0 ? '0' : '\\pi'}$ ?`,
+      `$S(${at === 0 ? '0' : '\\pi'}) = ${ans}$`,
+      [String(a), String(b), this.frac(b - a, 2), '0'].filter((x) => x !== ans).map((x) => `$S(${at === 0 ? '0' : '\\pi'}) = ${x}$`),
+      '$f$ est $\\mathcal{C}^1$ par morceaux : le théorème de Dirichlet s\'applique.',
+      'En un point de discontinuité, la série converge vers la demi-somme des limites à gauche et à droite.',
+      `En $x = ${at === 0 ? '0' : '\\pi'}$, les limites ${at === 0 ? 'à gauche et à droite' : 'à gauche (valeur sur $]0, \\pi[$) et à droite (valeur sur $]-\\pi, 0[$ par périodicité)'} sont $${a}$ et $${b}$, donc $S = \\frac{${a} + ${this.paren(b)}}{2} = ${ans}$.`
+    );
+  },
+
+  _L3GPR_fams(tier) {
+    return { 1: [this._L3GPR_homComp], 2: [this._L3GPR_bary], 3: [this._L3GPR_homog] }[tier];
+  },
+
+  _L3GPR_homComp() {
+    let k1, k2;
+    do { k1 = this.randChoice([-3, -2, 2, 3, 4]); k2 = this.randChoice([-2, -1, 2, 3, this.frac(1, 2)]); } while (typeof k2 === 'number' && k1 * k2 === 1);
+    const k2v = typeof k2 === 'string' ? 0.5 : k2;
+    const r = k1 * k2v;
+    const ans = Number.isInteger(r) ? String(r) : this.frac(Math.round(r * 2), 2);
+    return this.makeMcq('L3-GPR', 1, 'Composée de deux homothéties',
+      'Composer des homothéties de centres distincts',
+      `Soit $h_1$ l'homothétie de centre $A$ et de rapport $${k1}$, et $h_2$ celle de centre $B \\neq A$ et de rapport $${k2}$. La composée $h_1 \\circ h_2$ est une homothétie ou une translation : quel est son rapport $k$ ?`,
+      `$k = ${ans}$`,
+      [this.frac(2 * k1 + Math.round(2 * k2v), 2), String(k1), String(-k1), this.frac(-Math.round(2 * r), 2), this.frac(Math.round(2 * r) + 2, 2), this.frac(Math.round(2 * r) - 2, 2)].filter((x) => x !== ans).map((x) => `$k = ${x}$`),
+      'La partie linéaire d\'une homothétie de rapport $k$ est $k \\, \\mathrm{Id}$.',
+      'La partie linéaire d\'une composée est la composée des parties linéaires.',
+      `La partie linéaire de $h_1 \\circ h_2$ est $${k1} \\times ${this.paren(k2)} \\, \\mathrm{Id} = ${ans} \\, \\mathrm{Id}$ : ${r === 1 ? 'c\'est une translation' : `c'est une homothétie de rapport $${ans}$`}.`
+    );
+  },
+
+  _L3GPR_bary() {
+    const A = [this.randInt(-3, 3), this.randInt(-3, 3)];
+    const B = [A[0] + this.randInt(2, 5), A[1] + this.randInt(-2, 2)];
+    const Cc = [A[0] + this.randInt(-2, 2), A[1] + this.randInt(2, 5)];
+    const det = (B[0] - A[0]) * (Cc[1] - A[1]) - (B[1] - A[1]) * (Cc[0] - A[0]);
+    if (det === 0) return this._L3GPR_bary();
+    let w;
+    do { w = [this.randInt(1, 4), this.randInt(1, 4), this.randInt(0, 3)]; } while (false);
+    const s = w[0] + w[1] + w[2];
+    const P = [0, 1].map((i) => this.frac(w[0] * A[i] + w[1] * B[i] + w[2] * Cc[i], s));
+    const T = (v) => `$(\\alpha ; \\beta ; \\gamma) = ${this._L23_tup(v)}$`;
+    const g = w.map((x) => this.frac(x, s));
+    return this._L23_mcq('L3-GPR', 2, 'Coordonnées barycentriques d\'un point',
+      'Résoudre $P = \\alpha A + \\beta B + \\gamma C$ avec $\\alpha + \\beta + \\gamma = 1$',
+      `Dans le plan, soit $A(${A.join(' ; ')})$, $B(${B.join(' ; ')})$, $C(${Cc.join(' ; ')})$ et $P\\left(${P.join(' ; ')}\\right)$. Déterminer les coordonnées barycentriques normalisées $(\\alpha ; \\beta ; \\gamma)$ de $P$ dans le repère $(A, B, C)$.`,
+      T(g), [T([g[1], g[0], g[2]]), T([g[2], g[1], g[0]]), T(w), T([g[0], g[2], g[1]])].filter((x) => x !== T(g)),
+      '$P = \\alpha A + \\beta B + \\gamma C$ avec $\\alpha + \\beta + \\gamma = 1$, soit $\\overrightarrow{AP} = \\beta \\overrightarrow{AB} + \\gamma \\overrightarrow{AC}$.',
+      'Résous le système $2 \\times 2$ en $(\\beta, \\gamma)$, puis $\\alpha = 1 - \\beta - \\gamma$.',
+      `$\\overrightarrow{AB} = (${B[0] - A[0]} ; ${B[1] - A[1]})$, $\\overrightarrow{AC} = (${Cc[0] - A[0]} ; ${Cc[1] - A[1]})$ ; la résolution donne $\\beta = ${g[1]}$, $\\gamma = ${g[2]}$ et $\\alpha = ${g[0]}$.`,
+      `(${w.map((x) => this._L23_fin(x, s)).join(';')})`, 'Saisir (α;β;γ), fractions acceptées.'
+    );
+  },
+
+  _L3GPR_homog() {
+    let l1, l2, P;
+    do {
+      l1 = [this.randInt(-3, 3), this.randInt(-3, 3), this.randInt(-4, 4)];
+      l2 = [this.randInt(-3, 3), this.randInt(-3, 3), this.randInt(-4, 4)];
+      P = [l1[1] * l2[2] - l1[2] * l2[1], l1[2] * l2[0] - l1[0] * l2[2], l1[0] * l2[1] - l1[1] * l2[0]];
+    } while (P[2] === 0 || (l1[0] === 0 && l1[1] === 0) || (l2[0] === 0 && l2[1] === 0));
+    const T = (u, v) => `$(x ; y) = ${this._L23_tup([u, v])}$`;
+    const xs = this.frac(P[0], P[2]), ys = this.frac(P[1], P[2]);
+    const eq = (l) => `${this.poly([[l[0], 'x'], [l[1], 'y'], [l[2], 'z']])} = 0`;
+    return this._L23_mcq('L3-GPR', 3, 'Intersection de deux droites en coordonnées homogènes',
+      'Calculer un point d\'intersection par produit vectoriel',
+      `Dans le plan projectif réel, on considère les droites $D_1 : ${eq(l1)}$ et $D_2 : ${eq(l2)}$ (coordonnées homogènes $[x : y : z]$). Leur point d'intersection est à distance finie : donner ses coordonnées affines $(x ; y)$ dans la carte $z = 1$.`,
+      T(xs, ys), [T(ys, xs), T(this.frac(-P[0], P[2]), this.frac(-P[1], P[2])), T(P[0], P[1]), T(xs, this.frac(-P[1], P[2]))].filter((x) => x !== T(xs, ys)),
+      'Le point d\'intersection de deux droites $[a : b : c]$ et $[a\' : b\' : c\']$ est donné par leur produit vectoriel.',
+      'Une fois $[X : Y : Z]$ obtenu avec $Z \\neq 0$, divise par $Z$.',
+      `$${this._L2_tuple(l1)} \\wedge ${this._L2_tuple(l2)} = ${this._L2_tuple(P)}$, donc l'intersection est $[${P.join(' : ')}]$, soit $(x ; y) = ${this._L23_tup([xs, ys])}$.`,
+      `(${this._L23_fin(P[0], P[2])};${this._L23_fin(P[1], P[2])})`, 'Saisir (x;y), fractions acceptées.'
+    );
+  },
+
+  _L3GDF_fams(tier) {
+    return { 1: [this._L3GDF_planeI], 2: [this._L3GDF_area], 3: [this._L3GDF_second] }[tier];
+  },
+
+  _L3GDF_planeI() {
+    const u = [this.randInt(-2, 2), this.randInt(-2, 2), this.randInt(-2, 2)], v = [this.randInt(-2, 2), this.randInt(-2, 2), this.randInt(-2, 2)];
+    if (u.every((x) => x === 0) || v.every((x) => x === 0)) return this._L3GDF_planeI();
+    const d = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+    const E = d(u, u), F = d(u, v), G = d(v, v);
+    if (E * G - F * F === 0) return this._L3GDF_planeI();
+    const comp = [0, 1, 2].map((i) => this.poly([[u[i], 'u'], [v[i], 'v']]));
+    const T = (a) => `$(E ; F ; G) = ${this._L23_tup(a)}$`;
+    return this._L23_mcq('L3-GDF', 1, 'Première forme fondamentale d\'un plan paramétré',
+      'Calculer $E = \\|X_u\\|^2$, $F = \\langle X_u, X_v \\rangle$, $G = \\|X_v\\|^2$',
+      `Soit la nappe $X(u, v) = (${comp.join(', ')})$. Calculer les coefficients $(E ; F ; G)$ de sa première forme fondamentale.`,
+      T([E, F, G]), [T([G, F, E]), T([E, 2 * F, G]), T([E, -F, G]), T([E + 1, F, G])].filter((x) => x !== T([E, F, G])),
+      '$X_u$ et $X_v$ sont les dérivées partielles de $X$ ; ici elles sont constantes.',
+      '$I = E \\, du^2 + 2F \\, du \\, dv + G \\, dv^2$.',
+      `$X_u = ${this._L2_tuple(u)}$, $X_v = ${this._L2_tuple(v)}$ : $E = ${E}$, $F = ${F}$, $G = ${G}$.`,
+      `(${E};${F};${G})`, 'Saisir (E;F;G).'
+    );
+  },
+
+  _L3GDF_area() {
+    const [a0, b0, r] = this.randChoice([[2, 2, 3], [4, 8, 9], [8, 4, 9], [2, 4, 0], [4, 2, 0]]).map((x) => x);
+    if (r === 0) return this._L3GDF_area();
+    const a = a0 * this.randChoice([1, -1]), b = b0 * this.randChoice([1, -1]);
+    const m = this.randInt(1, 4), n = this.randInt(1, 4);
+    const ans = m * n * r;
+    return this.makeMcq('L3-GDF', 2, 'Aire d\'un morceau de surface',
+      'Calculer $\\iint \\sqrt{EG - F^2} \\, du \\, dv$',
+      `Calculer l'aire de la portion du plan $z = ${this.poly([[a, 'x'], [b, 'y']])}$ située au-dessus du rectangle $[0, ${m}] \\times [0, ${n}]$.`,
+      `$\\mathcal{A} = ${ans}$`,
+      [m * n, m * n * r * r, m * n * (Math.abs(a) + Math.abs(b) + 1), m * n * (r + 1)].filter((x) => x !== ans).map((x) => `$\\mathcal{A} = ${x}$`),
+      'Pour un graphe $z = f(x, y)$ : $EG - F^2 = 1 + f_x^2 + f_y^2$.',
+      `Ici $1 + f_x^2 + f_y^2 = 1 + ${a * a} + ${b * b}$ est constant.`,
+      `$\\sqrt{1 + ${a * a} + ${b * b}} = ${r}$, donc $\\mathcal{A} = ${r} \\times ${m} \\times ${n} = ${ans}$.`
+    );
+  },
+
+  _L3GDF_second() {
+    const a = this.randNonZero(-3, 3), b = this.randInt(-4, 4), c = this.randNonZero(-3, 3);
+    const T = (v) => `$(L ; M ; N) = ${this._L23_tup(v)}$`;
+    return this._L23_mcq('L3-GDF', 3, 'Deuxième forme fondamentale en un point critique',
+      'Calculer $L, M, N$ pour un graphe en un point où le plan tangent est horizontal',
+      `Soit la surface $z = ${this.poly([[a, 'x^2'], [b, 'xy'], [c, 'y^2']])}$, paramétrée par $X(x, y) = (x, y, z(x, y))$, et $n$ la normale unitaire orientée vers les $z$ croissants. Donner les coefficients $(L ; M ; N)$ de la deuxième forme fondamentale à l'origine.`,
+      T([2 * a, b, 2 * c]), [T([a, b, c]), T([2 * a, 2 * b, 2 * c]), T([2 * c, b, 2 * a]), T([-2 * a, -b, -2 * c])].filter((x) => x !== T([2 * a, b, 2 * c])),
+      'À l\'origine, $\\nabla z = 0$ : $n = (0, 0, 1)$ et $E = G = 1$, $F = 0$.',
+      '$L = \\langle X_{xx}, n \\rangle = z_{xx}$, $M = z_{xy}$, $N = z_{yy}$.',
+      `$z_{xx} = ${2 * a}$, $z_{xy} = ${b}$, $z_{yy} = ${2 * c}$, donc $(L ; M ; N) = ${this._L23_tup([2 * a, b, 2 * c])}$ ; la courbure de Gauss en $0$ vaut $LN - M^2 = ${4 * a * c - b * b}$.`,
+      `(${2 * a};${b};${2 * c})`, 'Saisir (L;M;N).'
+    );
+  },
+
+  _L3NUM_fams(tier) {
+    return { 2: [this._L3NUM_jacobiRho], 3: [this._L3NUM_gsRho] }[tier];
+  },
+
+  _L3NUM_jrho() {
+    let a, b, c, d;
+    do { a = this.randNonZero(-6, 6); d = this.randNonZero(-6, 6); b = this.randNonZero(-4, 4); c = this.randNonZero(-4, 4); } while (Math.abs(b * c) >= Math.abs(a * d) || this.gcd(Math.abs(b * c), Math.abs(a * d)) === Math.abs(a * d));
+    return { a, b, c, d, r2: this.frac(Math.abs(b * c), Math.abs(a * d)) };
+  },
+
+  _L3NUM_jacobiRho() {
+    const { a, b, c, d, r2 } = this._L3NUM_jrho();
+    return this.makeMcq('L3-NUM', 2, 'Rayon spectral de la matrice de Jacobi',
+      'Étudier la convergence de la méthode de Jacobi',
+      `Soit $A = ${this._L3pm([[a, b], [c, d]])}$ et $J = D^{-1}(D - A)$ la matrice d'itération de Jacobi ($D$ = diagonale de $A$). Calculer $\\rho(J)^2$.`,
+      `$\\rho(J)^2 = ${r2}$`,
+      [this.frac(Math.abs(b * c), a * a + d * d), this.frac(Math.abs(b) + Math.abs(c), Math.abs(a) + Math.abs(d)), this.frac(Math.abs(a * d), Math.abs(b * c)), this.frac(b * b * c * c, a * a * d * d)].filter((x) => x !== r2).map((x) => `$\\rho(J)^2 = ${x}$`),
+      `$J = \\begin{pmatrix} 0 & -\\frac{a_{12}}{a_{11}} \\\\ -\\frac{a_{21}}{a_{22}} & 0 \\end{pmatrix}$.`,
+      'Les valeurs propres $\\mu$ de $J$ vérifient $\\mu^2 = \\frac{a_{12}a_{21}}{a_{11}a_{22}}$.',
+      `$\\mu^2 = \\frac{${b} \\times ${this.paren(c)}}{${a} \\times ${this.paren(d)}}$, donc $\\rho(J)^2 = ${r2} < 1$ : la méthode de Jacobi converge.`
+    );
+  },
+
+  _L3NUM_gsRho() {
+    const { a, b, c, d, r2 } = this._L3NUM_jrho();
+    return this.makeMcq('L3-NUM', 3, 'Rayon spectral de la matrice de Gauss-Seidel',
+      'Comparer Jacobi et Gauss-Seidel pour une matrice $2 \\times 2$',
+      `Soit $A = ${this._L3pm([[a, b], [c, d]])}$. Calculer le rayon spectral $\\rho(G)$ de la matrice d'itération de Gauss-Seidel $G = (D - E)^{-1}F$ (où $A = D - E - F$, $D$ diagonale, $-E$ strictement inférieure, $-F$ strictement supérieure).`,
+      `$\\rho(G) = ${r2}$`,
+      [this.frac(Math.abs(b), Math.abs(a)), this.frac(Math.abs(c), Math.abs(d)), this.frac(Math.abs(a * d), Math.abs(b * c)), this.frac(Math.abs(b * c), a * a + d * d)].filter((x) => x !== r2).map((x) => `$\\rho(G) = ${x}$`),
+      'Écris la première itération : $x_1$ est calculé avec l\'ancien $x_2$, puis $x_2$ avec le nouveau $x_1$.',
+      '$G = \\begin{pmatrix} 0 & -\\frac{a_{12}}{a_{11}} \\\\ 0 & \\frac{a_{12}a_{21}}{a_{11}a_{22}} \\end{pmatrix}$ est triangulaire.',
+      `$G$ a pour valeurs propres $0$ et $\\frac{${b} \\times ${this.paren(c)}}{${a} \\times ${this.paren(d)}}$, donc $\\rho(G) = ${r2}$, le carré du rayon spectral de Jacobi : Gauss-Seidel converge deux fois plus vite.`
+    );
+  },
+
+  _L3PROG_fams(tier) {
+    return { 1: [this._L3PROG_objVert], 2: [this._L3PROG_vertex], 3: [this._L3PROG_weak] }[tier];
+  },
+
+  _L3PROG_sys() {
+    let a1, b1, a2, b2, x, y;
+    do { a1 = this.randInt(1, 4); b1 = this.randInt(1, 4); a2 = this.randInt(1, 4); b2 = this.randInt(1, 4); x = this.randInt(1, 6); y = this.randInt(1, 6); } while (a1 * b2 - a2 * b1 === 0);
+    return { a1, b1, a2, b2, x, y, c1: a1 * x + b1 * y, c2: a2 * x + b2 * y };
+  },
+
+  _L3PROG_objVert() {
+    const S = this._L3PROG_sys();
+    const p = this.randInt(1, 6), q = this.randInt(1, 6);
+    const z = p * S.x + q * S.y;
+    return this.makeMcq('L3-PROG', 1, 'Valeur de l\'objectif en un sommet',
+      'Calculer un sommet du polyèdre admissible et y évaluer l\'objectif',
+      `On maximise $z = ${this.poly([[p, 'x'], [q, 'y']])}$ sous les contraintes $${this.poly([[S.a1, 'x'], [S.b1, 'y']])} \\leq ${S.c1}$, $${this.poly([[S.a2, 'x'], [S.b2, 'y']])} \\leq ${S.c2}$, $x, y \\geq 0$. Calculer la valeur de $z$ au sommet où les deux premières contraintes sont saturées.`,
+      `$z = ${z}$`,
+      [p * S.y + q * S.x, S.c1 + S.c2, z + p, p * S.x].filter((v) => v !== z).map((v) => `$z = ${v}$`),
+      'Un sommet où deux contraintes sont saturées est la solution du système formé par ces deux égalités.',
+      'Résous le système $2 \\times 2$ puis évalue $z$.',
+      `Le système $${this.poly([[S.a1, 'x'], [S.b1, 'y']])} = ${S.c1}$, $${this.poly([[S.a2, 'x'], [S.b2, 'y']])} = ${S.c2}$ donne $(x, y) = (${S.x}, ${S.y})$, d'où $z = ${p} \\times ${S.x} + ${q} \\times ${S.y} = ${z}$.`
+    );
+  },
+
+  _L3PROG_vertex() {
+    const S = this._L3PROG_sys();
+    const T = (u, v) => `$(x ; y) = ${this._L23_tup([u, v])}$`;
+    return this._L23_mcq('L3-PROG', 2, 'Sommet du domaine admissible',
+      'Déterminer un sommet comme intersection de deux contraintes saturées',
+      `Le domaine admissible $\\{x, y \\geq 0, \\ ${this.poly([[S.a1, 'x'], [S.b1, 'y']])} \\leq ${S.c1}, \\ ${this.poly([[S.a2, 'x'], [S.b2, 'y']])} \\leq ${S.c2}\\}$ a un sommet où les deux dernières contraintes sont saturées. Donner ses coordonnées $(x ; y)$.`,
+      T(S.x, S.y), [T(S.y, S.x), T(this.frac(S.c1, S.a1), 0), T(0, this.frac(S.c2, S.b2)), T(S.x + 1, S.y - 1)].filter((x) => x !== T(S.x, S.y)),
+      'Saturer une contrainte, c\'est la remplacer par une égalité.',
+      'Résous le système linéaire $2 \\times 2$ obtenu (combinaison ou Cramer).',
+      `$\\det = ${S.a1 * S.b2 - S.a2 * S.b1} \\neq 0$ ; la résolution donne $(x ; y) = ${this._L23_tup([S.x, S.y])}$, qui vérifie bien $x, y \\geq 0$.`,
+      `(${S.x};${S.y})`, 'Saisir (x;y).'
+    );
+  },
+
+  _L3PROG_weak() {
+    const S = this._L3PROG_sys();
+    const y1 = this.randInt(1, 4), y2 = this.randInt(1, 4);
+    const p = S.a1 * y1 + S.a2 * y2 - this.randInt(0, 2), q = S.b1 * y1 + S.b2 * y2 - this.randInt(0, 2);
+    const w = S.c1 * y1 + S.c2 * y2;
+    return this.makeMcq('L3-PROG', 3, 'Dualité faible : majorant de l\'optimum',
+      'Évaluer l\'objectif dual en un point dual admissible',
+      `Primal : maximiser $${this.poly([[p, 'x_1'], [q, 'x_2']])}$ sous $${this.poly([[S.a1, 'x_1'], [S.b1, 'x_2']])} \\leq ${S.c1}$, $${this.poly([[S.a2, 'x_1'], [S.b2, 'x_2']])} \\leq ${S.c2}$, $x \\geq 0$. Le point $(y_1, y_2) = (${y1}, ${y2})$ est admissible pour le dual. Quel majorant de l'optimum primal fournit-il ?`,
+      `$${w}$`,
+      [p * y1 + q * y2, S.c1 + S.c2, w + S.c1, S.c1 * y2 + S.c2 * y1].filter((v) => v !== w).map((v) => `$${v}$`),
+      'Dual : minimiser $b^{T}y$ sous $A^{T}y \\geq c$, $y \\geq 0$.',
+      'Dualité faible : pour $x$ primal admissible et $y$ dual admissible, $c^{T}x \\leq b^{T}y$.',
+      `Vérification de l'admissibilité : $${S.a1} \\times ${y1} + ${S.a2} \\times ${y2} = ${S.a1 * y1 + S.a2 * y2} \\geq ${p}$ et $${S.b1} \\times ${y1} + ${S.b2} \\times ${y2} = ${S.b1 * y1 + S.b2 * y2} \\geq ${q}$. Le majorant est $b^{T}y = ${S.c1} \\times ${y1} + ${S.c2} \\times ${y2} = ${w}$.`
+    );
+  },
+
+  _L3MES_fams(tier) {
+    return { 1: [this._L3MES_union], 2: [this._L3MES_holder], 3: [this._L3MES_lp] }[tier];
+  },
+
+  _L3MES_union() {
+    let p, q;
+    do { q = this.randInt(2, 5); p = this.randInt(1, q - 1); } while (this.gcd(p, q) !== 1);
+    // A = U_{n>=0} [n, n + (p/q)^n] (intervalles disjoints car longueurs <= 1)
+    const ans = this.frac(q, q - p);
+    return this.makeMcq('L3-MES', 1, 'Mesure d\'une réunion dénombrable disjointe',
+      'Utiliser la $\\sigma$-additivité de la mesure de Lebesgue',
+      `Calculer la mesure de Lebesgue de $A = \\bigcup_{n \\geq 0} \\left[n, n + \\left(${this.frac(p, q)}\\right)^n\\right[$.`,
+      `$\\lambda(A) = ${ans}$`,
+      [this.frac(p, q - p), '1', this.frac(q, p), this.frac(q * q, (q - p) * (q + p))].filter((x) => x !== ans).map((x) => `$\\lambda(A) = ${x}$`),
+      'Les intervalles $[n, n + r^n[$ sont deux à deux disjoints car $r^n \\leq 1$.',
+      '$\\sigma$-additivité : $\\lambda(A) = \\sum_n \\lambda([n, n + r^n[)$, puis série géométrique.',
+      `$\\lambda(A) = \\sum_{n \\geq 0} \\left(${this.frac(p, q)}\\right)^n = \\frac{1}{1 - ${this.frac(p, q)}} = ${ans}$.`
+    );
+  },
+
+  _L3MES_holder() {
+    let a, b;
+    do { a = this.randInt(3, 9); b = this.randInt(1, a - 1); } while (this.gcd(a, b) !== 1 || a / b <= 1);
+    const p = this.frac(a, b), qv = this.frac(a, a - b);
+    return this.makeMcq('L3-MES', 2, 'Exposant conjugué (inégalité de Hölder)',
+      'Déterminer $q$ tel que $\\frac{1}{p} + \\frac{1}{q} = 1$',
+      `On applique l'inégalité de Hölder $\\|fg\\|_1 \\leq \\|f\\|_p \\|g\\|_q$ avec $p = ${p}$. Quelle est la valeur de l'exposant conjugué $q$ ?`,
+      `$q = ${qv}$`,
+      [this.frac(b, a), this.frac(a - b, a), this.frac(a, a + b), this.frac(2 * a, a - b)].filter((x) => x !== qv).map((x) => `$q = ${x}$`),
+      '$p$ et $q$ sont conjugués lorsque $\\frac{1}{p} + \\frac{1}{q} = 1$.',
+      '$\\frac{1}{q} = 1 - \\frac{1}{p}$, d\'où $q = \\frac{p}{p - 1}$.',
+      `$\\frac{1}{q} = 1 - ${this.frac(b, a)} = ${this.frac(a - b, a)}$, donc $q = ${qv}$.`
+    );
+  },
+
+  _L3MES_lp() {
+    const a = this.randInt(1, 4), p = this.randInt(2, 4), c = this.randInt(1, 3);
+    // ||c x^a||_p^p sur [0,1] = c^p / (ap + 1)
+    const ans = this.frac(c ** p, a * p + 1);
+    return this.makeMcq('L3-MES', 3, 'Norme $L^p$ d\'une fonction puissance',
+      'Calculer $\\|f\\|_p^p = \\int |f|^p \\, d\\lambda$',
+      `Sur $[0, 1]$ muni de la mesure de Lebesgue, soit $f(x) = ${this.coefStr(c, this.pow('x', a))}$. Calculer $\\|f\\|_{${p}}^{${p}} = \\int_0^1 |f(x)|^{${p}} \\, dx$.`,
+      `$\\|f\\|_{${p}}^{${p}} = ${ans}$`,
+      [this.frac(c, a + 1), this.frac(c ** p, a + p), this.frac(c ** p, a * p), this.frac(c * p, a * p + 1)].filter((x) => x !== ans).map((x) => `$\\|f\\|_{${p}}^{${p}} = ${x}$`),
+      `$|f(x)|^{${p}} = ${this.coefStr(c ** p, this.pow('x', a * p))}$.`,
+      '$\\int_0^1 x^m \\, dx = \\frac{1}{m + 1}$.',
+      `$\\int_0^1 ${this.coefStr(c ** p, this.pow('x', a * p))} \\, dx = ${ans}$.`
+    );
+  },
+
+  _L3PRC_fams(tier) {
+    return { 2: [this._L3PRC_norm], 4: [this._L3PRC_tclParams] }[tier];
+  },
+
+  _L3PRC_norm() {
+    const k = this.randInt(1, 3), a = this.randInt(2, 3);
+    const ans = this.frac(k + 1, a ** (k + 1));
+    return this.makeMcq('L3-PRC', 2, 'Constante de normalisation d\'une densité',
+      'Imposer $\\int f = 1$',
+      `Pour quelle valeur de $c$ la fonction $f(x) = ${this.pow('cx', k).replace('cx^', 'cx^')}$ sur $[0, ${a}]$ (et $0$ ailleurs) est-elle une densité de probabilité ?`.replace(`cx^{${k}}`, `c x^{${k}}`),
+      `$c = ${ans}$`,
+      [this.frac(1, a ** (k + 1)), this.frac(k + 1, a ** k), this.frac(k, a ** (k + 1)), this.frac(a ** (k + 1), k + 1)].filter((x) => x !== ans).map((x) => `$c = ${x}$`),
+      'Une densité est positive et d\'intégrale égale à $1$.',
+      `$\\int_0^{${a}} ${this.pow('x', k)} \\, dx = \\frac{${a}^{${k + 1}}}{${k + 1}}$.`,
+      `$c \\times \\frac{${a ** (k + 1)}}{${k + 1}} = 1$, donc $c = ${ans}$ (et $f \\geq 0$).`
+    );
+  },
+
+  _L3PRC_tclParams() {
+    const n = this.randChoice([50, 100, 200, 400]), m = this.randInt(-3, 5), v = this.randInt(1, 9);
+    const T = (a, b) => `$(\\mu ; \\sigma^2) = ${this._L23_tup([a, b])}$`;
+    return this._L23_mcq('L3-PRC', 4, 'Théorème central limite : loi approchante d\'une somme',
+      'Identifier les paramètres de l\'approximation normale',
+      `Soit $S = X_1 + \\dots + X_{${n}}$ où les $X_i$ sont indépendantes, de même loi, d'espérance $${m}$ et de variance $${v}$. D'après le théorème central limite, la loi de $S$ est approchée par $\\mathcal{N}(\\mu, \\sigma^2)$. Donner $(\\mu ; \\sigma^2)$.`,
+      T(n * m, n * v), [T(m, v), T(n * m, v), T(n * m, n * n * v), T(m, this.frac(v, n))].filter((x) => x !== T(n * m, n * v)),
+      'Espérance et variance d\'une somme de variables indépendantes s\'additionnent.',
+      'Le TCL dit que $\\frac{S - E(S)}{\\sqrt{V(S)}}$ converge en loi vers $\\mathcal{N}(0, 1)$.',
+      `$E(S) = ${n} \\times ${this.paren(m)} = ${n * m}$ et $V(S) = ${n} \\times ${v} = ${n * v}$, d'où $(\\mu ; \\sigma^2) = ${this._L23_tup([n * m, n * v])}$.`,
+      `(${n * m};${n * v})`, 'Saisir (μ;σ²).'
     );
   },
 

@@ -261,7 +261,7 @@ window.MATHS_EXERCISES = Object.assign(window.MATHS_EXERCISES || {}, {
       "answer": "2",
       "placeholder": "Ex: 2",
       "hint1": "Développe $(2x+3)^2$ avec l'identité remarquable, et développe $(x-1)(2x+3)$ entre crochets pour ne pas te tromper avec le signe moins.",
-      "hint2": "$(2x+3)^2 = 4x^2 + 12x + 9$. Le second terme est $(2x^2 + x - 3)$. Soustrais les deux : $(4x^2 - 2x^2) = 2x^2$.",
+      "hint2": "$(2x+3)^2 = 4x^2 + 12x + 9$ et $(x-1)(2x+3) = 2x^2 + x - 3$. Soustrais en changeant tous les signes du second développement, puis regroupe les termes en $x^2$.",
       "solution": "1. Développons $(2x+3)^2 = 4x^2 + 12x + 9$.\n2. Développons le produit : $(x - 1)(2x + 3) = 2x^2 + 3x - 2x - 3 = 2x^2 + x - 3$.\n3. Soustraction en changeant les signes :\n$$F = (4x^2 + 12x + 9) - (2x^2 + x - 3) = 4x^2 + 12x + 9 - 2x^2 - x + 3 = 2x^2 + 11x + 12$$\nLe coefficient devant $x^2$ est donc bien $2$.",
       "skill": "Calculer"
     },
@@ -466,12 +466,12 @@ window.MATHS_EXERCISES = Object.assign(window.MATHS_EXERCISES || {}, {
       "chapterId": "G0",
       "tier": 4,
       "title": "Défi Seconde : Diagonale d'un cube",
-      "statement": "<div class=\"geo-figure-wrapper\" style=\"text-align:center; margin:12px 0;\">\n<svg class=\"geo-svg-figure\" viewBox=\"0 0 270 175\" width=\"270\" height=\"175\" style=\"max-width:270px; width:100%; height:auto;\" xmlns=\"http://www.w3.org/2000/svg\">\n  <line x1=\"60\" y1=\"135\" x2=\"105\" y2=\"110\" stroke=\"#94a3b8\" stroke-width=\"1.2\" stroke-dasharray=\"3,3\" />\n  <line x1=\"105\" y1=\"110\" x2=\"205\" y2=\"110\" stroke=\"#94a3b8\" stroke-width=\"1.2\" stroke-dasharray=\"3,3\" />\n  <line x1=\"105\" y1=\"110\" x2=\"105\" y2=\"30\" stroke=\"#94a3b8\" stroke-width=\"1.2\" stroke-dasharray=\"3,3\" />\n  <line x1=\"60\" y1=\"135\" x2=\"205\" y2=\"30\" stroke=\"#ef4444\" stroke-width=\"2.2\" stroke-dasharray=\"4,3\" />\n  <polygon points=\"60,135 160,135 160,55 60,55\" fill=\"rgba(59, 130, 246, 0.05)\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.8\" />\n  <polygon points=\"60,55 160,55 205,30 105,30\" fill=\"rgba(59, 130, 246, 0.08)\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.8\" />\n  <polygon points=\"160,135 205,110 205,30 160,55\" fill=\"rgba(59, 130, 246, 0.03)\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.8\" />\n  <g class=\"geo-pill\">\n      <rect x=\"73\" y=\"139\" width=\"74\" height=\"22\" rx=\"5\" fill=\"var(--bg-surface, #ffffff)\" stroke=\"var(--border-color, #94a3b8)\" stroke-width=\"1\" />\n      <text x=\"110\" y=\"154.5\" text-anchor=\"middle\" font-family=\"system-ui, -apple-system, sans-serif\" font-size=\"12\" font-weight=\"600\" fill=\"var(--text-main, #0f172a)\">a = 4 cm</text>\n    </g>\n  <g class=\"geo-pill\">\n      <rect x=\"104\" y=\"74\" width=\"51.5\" height=\"22\" rx=\"5\" fill=\"#fee2e2\" stroke=\"#ef4444\" stroke-width=\"1.8\" />\n      <text x=\"130\" y=\"89.5\" text-anchor=\"middle\" font-family=\"system-ui, -apple-system, sans-serif\" font-size=\"12\" font-weight=\"700\" fill=\"#dc2626\">D = ?</text>\n    </g>\n</svg>\n</div>\n\nSoit un cube d'arête $a = 4\\text{ cm}$. On cherche la longueur de sa grande diagonale spatiale reliant deux sommets opposés.\nDonner la valeur exacte sous la forme $4\\sqrt{3}$. Que vaut le carré de cette diagonale ?",
+      "statement": "<div class=\"geo-figure-wrapper\" style=\"text-align:center; margin:12px 0;\">\n<svg class=\"geo-svg-figure\" viewBox=\"0 0 270 175\" width=\"270\" height=\"175\" style=\"max-width:270px; width:100%; height:auto;\" xmlns=\"http://www.w3.org/2000/svg\">\n  <line x1=\"60\" y1=\"135\" x2=\"105\" y2=\"110\" stroke=\"#94a3b8\" stroke-width=\"1.2\" stroke-dasharray=\"3,3\" />\n  <line x1=\"105\" y1=\"110\" x2=\"205\" y2=\"110\" stroke=\"#94a3b8\" stroke-width=\"1.2\" stroke-dasharray=\"3,3\" />\n  <line x1=\"105\" y1=\"110\" x2=\"105\" y2=\"30\" stroke=\"#94a3b8\" stroke-width=\"1.2\" stroke-dasharray=\"3,3\" />\n  <line x1=\"60\" y1=\"135\" x2=\"205\" y2=\"30\" stroke=\"#ef4444\" stroke-width=\"2.2\" stroke-dasharray=\"4,3\" />\n  <polygon points=\"60,135 160,135 160,55 60,55\" fill=\"rgba(59, 130, 246, 0.05)\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.8\" />\n  <polygon points=\"60,55 160,55 205,30 105,30\" fill=\"rgba(59, 130, 246, 0.08)\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.8\" />\n  <polygon points=\"160,135 205,110 205,30 160,55\" fill=\"rgba(59, 130, 246, 0.03)\" stroke=\"var(--text-main, #334155)\" stroke-width=\"1.8\" />\n  <g class=\"geo-pill\">\n      <rect x=\"73\" y=\"139\" width=\"74\" height=\"22\" rx=\"5\" fill=\"var(--bg-surface, #ffffff)\" stroke=\"var(--border-color, #94a3b8)\" stroke-width=\"1\" />\n      <text x=\"110\" y=\"154.5\" text-anchor=\"middle\" font-family=\"system-ui, -apple-system, sans-serif\" font-size=\"12\" font-weight=\"600\" fill=\"var(--text-main, #0f172a)\">a = 4 cm</text>\n    </g>\n  <g class=\"geo-pill\">\n      <rect x=\"104\" y=\"74\" width=\"51.5\" height=\"22\" rx=\"5\" fill=\"#fee2e2\" stroke=\"#ef4444\" stroke-width=\"1.8\" />\n      <text x=\"130\" y=\"89.5\" text-anchor=\"middle\" font-family=\"system-ui, -apple-system, sans-serif\" font-size=\"12\" font-weight=\"700\" fill=\"#dc2626\">D = ?</text>\n    </g>\n</svg>\n</div>\n\nSoit un cube d'arête $a = 4\\text{ cm}$. On cherche la longueur de sa grande diagonale spatiale reliant deux sommets opposés.\nCalculer le carré $D^2$ de cette diagonale, puis sa valeur exacte $D$.",
       "type": "exact",
       "answer": "48",
       "placeholder": "Ex: 48",
-      "hint1": "Dans l'espace, pour un pavé droit de côtés $L, l, h$, la diagonale spatiale vérifie $D^2 = L^2 + l^2 + h^2$.",
-      "hint2": "Pour un cube de côté $a=4$ : $D^2 = 4^2 + 4^2 + 4^2 = 16 + 16 + 16$.",
+      "hint1": "Utilise Pythagore deux fois : d'abord dans une face carrée pour obtenir le carré $d^2$ de sa diagonale, puis dans le triangle rectangle formé par cette diagonale $d$, une arête verticale et la grande diagonale $D$.",
+      "hint2": "Diagonale d'une face : $d^2 = 4^2 + 4^2 = 32$. Puis $D^2 = d^2 + 4^2$.",
       "solution": "1. Diagonale d'une face carrée : $d^2 = 4^2 + 4^2 = 32$.\n2. Grande diagonale dans le triangle rectangle vertical : $D^2 = d^2 + 4^2 = 32 + 16 = 48$.\nDonc le carré de la diagonale vaut $48$ (et $D = \\sqrt{48} = 4\\sqrt{3} \\approx 6,93\\text{ cm}$).",
       "skill": "Raisonner"
     },
@@ -622,7 +622,7 @@ window.MATHS_EXERCISES = Object.assign(window.MATHS_EXERCISES || {}, {
         "Rien n'indique un angle droit, et la question porte sur le parallélisme."
       ],
       "hint1": "Calcule séparément les quotients $\\frac{OA}{OB} = \\frac{4}{6}$ et $\\frac{OC}{OD} = \\frac{6}{9}$. Simplifie ces fractions.",
-      "hint2": "$\\frac{4}{6} = \\frac{2}{3}$ et $\\frac{6}{9} = \\frac{2}{3}$. Les fractions sont égales.",
+      "hint2": "Simplifie $\\frac{4}{6}$ par $2$ et $\\frac{6}{9}$ par $3$, puis compare. N'oublie pas de vérifier l'ordre d'alignement des points.",
       "solution": "Les droites $(AB)$ et $(CD)$ sont sécantes en $O$. Les points $A, O, B$ d'une part et $C, O, D$ d'autre part sont alignés dans cet ordre.\n1. D'une part : $$\\frac{OA}{OB} = \\frac{4}{6} = \\frac{2}{3}$$\n2. D'autre part : $$\\frac{OC}{OD} = \\frac{6}{9} = \\frac{2}{3}$$\n3. Comme $\\frac{OA}{OB} = \\frac{OC}{OD}$ et que les points sont alignés dans le même ordre, d'après la **réciproque du théorème de Thalès**, les droites $(AC)$ et $(BD)$ sont **parallèles**.",
       "skill": "Raisonner"
     },
@@ -674,7 +674,7 @@ window.MATHS_EXERCISES = Object.assign(window.MATHS_EXERCISES || {}, {
         "C'est l'inverse du cosinus."
       ],
       "hint1": "Rappelle-toi du mot magique : CAH - SOH - TOA.",
-      "hint2": "La première syllabe est CAH : C pour Cosinus, A pour Adjacent, H pour Hypoténuse.",
+      "hint2": "Dans chaque syllabe, la 1re lettre désigne la fonction (C, S ou T), la 2e le côté au numérateur et la 3e le côté au dénominateur (A = adjacent, O = opposé, H = hypoténuse). Décode la syllabe qui commence par C.",
       "solution": "D'après la définition du cosinus dans un triangle rectangle (CAH) :\n$$\\cos(\\widehat{A}) = \\frac{\\text{Côté Adjacent}}{\\text{Hypoténuse}}$$",
       "skill": "Raisonner"
     },
@@ -713,7 +713,7 @@ window.MATHS_EXERCISES = Object.assign(window.MATHS_EXERCISES || {}, {
         "Attention, la tangente est Opposé / Adjacent = $8/6$, pas $6/8$."
       ],
       "hint1": "Par rapport à l'angle $\\widehat{E}$, $DF$ est le côté opposé et $DE$ le côté adjacent. Quel rapport utilise opposé et adjacent ?",
-      "hint2": "C'est la tangente : $\\tan(\\widehat{E}) = \\frac{\\text{opposé}}{\\text{adjacent}} = \\frac{DF}{DE} = \\frac{8}{6}$.",
+      "hint2": "Le rapport $\\frac{\\text{opposé}}{\\text{adjacent}}$ est la tangente. Remplace par les longueurs : lequel de $DF$ ou $DE$ va au numérateur ?",
       "solution": "Dans le triangle $DEF$ rectangle en $D$ :\n$$\\tan(\\widehat{E}) = \\frac{DF}{DE} = \\frac{8}{6} = \\frac{4}{3} \\approx 1,333$$\nÀ la calculatrice en mode Degré :\n$$\\widehat{E} = \\arctan\\left(\\frac{4}{3}\\right) \\approx 53,13^\\circ \\approx 53^\\circ$$",
       "skill": "Raisonner"
     },
@@ -835,7 +835,7 @@ window.MATHS_EXERCISES = Object.assign(window.MATHS_EXERCISES || {}, {
         "Attention, la racine carrée d'un nombre négatif n'existe pas dans $\\mathbb{R}$."
       ],
       "hint1": "Pense aux nombres dont le carré vaut 49. N'oublie pas le signe moins !",
-      "hint2": "$7^2 = 49$ et $(-7)^2 = 49$.",
+      "hint2": "Calcule $7^2$ puis $(-7)^2$. Combien de nombres ont un carré égal à $49$ ?",
       "solution": "Comme $49 > 0$, l'équation $x^2 = 49$ admet deux solutions réelles distinctes :\n$$x = \\sqrt{49} = 7 \\quad \\text{ou} \\quad x = -\\sqrt{49} = -7$$",
       "skill": "Raisonner"
     },
@@ -990,7 +990,7 @@ window.MATHS_EXERCISES = Object.assign(window.MATHS_EXERCISES || {}, {
         "0 n'est pas un nombre premier de toute façon."
       ],
       "hint1": "Pour prouver qu'une affirmation est fausse, trouve un simple contre-exemple.",
-      "hint2": "Prends deux petits nombres premiers impairs, par exemple 3 et 5. Que vaut leur somme ?",
+      "hint2": "Additionne deux petits nombres premiers impairs : leur somme est-elle paire ou impaire ? Un nombre pair supérieur à 2 peut-il être premier ?",
       "solution": "L'affirmation est fausse. En effet, 3 et 5 sont deux nombres premiers, mais leur somme $3 + 5 = 8$ est un nombre composé divisible par 2 et 4.",
       "skill": "Raisonner"
     }
@@ -1011,8 +1011,8 @@ window.MATHS_EXERCISES = Object.assign(window.MATHS_EXERCISES || {}, {
       ],
       "correctIndex": 0,
       "answer": "Le signe « = » (égal)",
-      "hint1": "C'est le symbole d'égalité mathématique.",
-      "hint2": "Sans ce signe `=`, le tableur interprète la saisie comme du texte ordinaire !",
+      "hint1": "Pense au symbole qu'on écrit en mathématiques juste avant le résultat d'un calcul, comme dans « 3 + 4 … 7 ».",
+      "hint2": "Sans ce symbole en tête de cellule, le tableur interprète la saisie comme du texte ordinaire et n'effectue aucun calcul.",
       "solution": "Toute formule dans un tableur commence impérativement par le signe égal `=` (ex: `=A1+B1` ou `=SOMME(B2:B10)`).",
       "skill": "Communiquer"
     },
@@ -1037,7 +1037,7 @@ window.MATHS_EXERCISES = Object.assign(window.MATHS_EXERCISES || {}, {
         "La cellule ferait une référence circulaire à elle-même."
       ],
       "hint1": "Quand on étire vers le bas, les colonnes (lettres) restent les mêmes mais les lignes (chiffres) augmentent.",
-      "hint2": "De B1 à B3, on descend de 2 lignes : A1 devient donc A3.",
+      "hint2": "De B1 à B3, on descend de 2 lignes : le numéro de ligne de la référence A1 augmente donc lui aussi de 2.",
       "solution": "Lors de la recopie vers le bas, le numéro de ligne s'incrémente : la formule `=2*A1 + 5` devient `=2*A2 + 5` en B2, puis `=2*A3 + 5` en B3.",
       "skill": "Modéliser"
     },
@@ -1131,7 +1131,7 @@ window.MATHS_EXERCISES = Object.assign(window.MATHS_EXERCISES || {}, {
       "answer": "0.001",
       "placeholder": "Ex: 0.001",
       "hint1": "$10^{-n} = \\frac{1}{10^n}$. Ici, il y a 3 zéros au total avant le chiffre 1.",
-      "hint2": "$10^{-3} = \\frac{1}{1000} = 0,001$.",
+      "hint2": "$10^{-3} = \\frac{1}{10^3} = \\frac{1}{1000}$. Écris ce quotient sous forme décimale.",
       "solution": "$$10^{-3} = \\frac{1}{10^3} = \\frac{1}{1000} = 0,001$$",
       "skill": "Calculer"
     },
@@ -1180,8 +1180,8 @@ window.MATHS_EXERCISES = Object.assign(window.MATHS_EXERCISES || {}, {
         "Attention, on divise $12$ par $3$, on ne soustrait pas.",
         "On soustrait les exposants lors d'une division, on ne les additionne pas."
       ],
-      "hint1": "Garde la fraction entière et simplifie chaque facteur : $B = \\frac{12 \\times 10^5}{3 \\times 10^8} = 4 \\times 10^{5-8}$.",
-      "hint2": "Règle : $\\frac{10^n}{10^m} = 10^{n-m}$.",
+      "hint1": "Sépare les nombres et les puissances de 10 : $B = \\frac{12}{3} \\times \\frac{10^5}{10^8}$.",
+      "hint2": "$\\frac{12}{3} = 4$ et, d'après la règle $\\frac{10^n}{10^m} = 10^{n-m}$, calcule l'exposant $5 - 8$.",
       "solution": "$$B = \\frac{12 \\times 10^5}{3 \\times 10^8} = \\frac{4 \\times 10^5}{10^8} = 4 \\times 10^{5-8} = 4 \\times 10^{-3}$$",
       "skill": "Calculer"
     },
@@ -1263,8 +1263,8 @@ window.MATHS_EXERCISES = Object.assign(window.MATHS_EXERCISES || {}, {
         "Une distance $OA'$ ne peut jamais être négative.",
         "Une aire est toujours multipliée par $k^2 = (-2)^2 = +4 > 0$."
       ],
-      "hint1": "Quand le rapport $k$ est négatif, le centre $O$ se trouve au milieu des deux points.",
-      "hint2": "Les vecteurs sont opposés : $\\vec{OA'} = -2 \\vec{OA}$.",
+      "hint1": "Quand le rapport $k$ est négatif, $A$ et $A'$ sont alignés avec $O$, mais de part et d'autre du centre $O$.",
+      "hint2": "Une distance est toujours positive : les longueurs sont multipliées par $|k| = 2$, et les aires par $k^2 = 4$.",
       "solution": "Un rapport négatif $k = -2$ provoque un demi-tour par rapport au centre $O$. Le point $O$ est donc situé entre $A$ et $A'$, et la distance $OA' = |-2| \\times OA = 2 OA$.",
       "skill": "Raisonner"
     }
@@ -1333,7 +1333,7 @@ window.MATHS_EXERCISES = Object.assign(window.MATHS_EXERCISES || {}, {
       "answer": "0",
       "placeholder": "Ex: 0",
       "hint1": "L'Équateur est le parallèle d'origine pour la mesure des latitudes.",
-      "hint2": "La latitude varie de 0° à l'Équateur jusqu'à 90° aux Pôles.",
+      "hint2": "La latitude mesure l'écart angulaire d'un point par rapport à l'Équateur, vers le Nord ou vers le Sud (jusqu'à $90^\\circ$ aux Pôles). Quel est cet écart pour un point situé sur l'Équateur lui-même ?",
       "solution": "L'Équateur est le parallèle de référence, sa latitude est donc exactement de $0^\\circ$.",
       "skill": "Raisonner"
     }
@@ -1349,7 +1349,7 @@ window.MATHS_EXERCISES = Object.assign(window.MATHS_EXERCISES || {}, {
       "answer": "120",
       "placeholder": "Ex: 120",
       "hint1": "$V = L \\times l \\times h$.",
-      "hint2": "$8 \\times 5 = 40$, puis $40 \\times 3 = 120$.",
+      "hint2": "Calcule d'abord $8 \\times 5$, puis multiplie le résultat par $3$.",
       "solution": "$$V = 8 \\times 5 \\times 3 = 120\\text{ cm}^3$$",
       "skill": "Calculer"
     },
@@ -1418,7 +1418,7 @@ window.MATHS_EXERCISES = Object.assign(window.MATHS_EXERCISES || {}, {
       "answer": "60",
       "placeholder": "Ex: 60",
       "hint1": "Un tour complet vaut $360^\\circ$. Divise par le nombre de sommets.",
-      "hint2": "$360 \\div 6 = 60$.",
+      "hint2": "L'hexagone régulier a 6 sommets répartis régulièrement autour du centre : effectue la division de $360$ par $6$.",
       "solution": "$$\\alpha = \\frac{360^\\circ}{6} = 60^\\circ$$",
       "skill": "Calculer"
     },
@@ -1443,7 +1443,7 @@ window.MATHS_EXERCISES = Object.assign(window.MATHS_EXERCISES || {}, {
         "Non, le sens est rigoureusement défini."
       ],
       "hint1": "Le préfixe « anti- » signifie contre ou inverse.",
-      "hint2": "Anti-horaire = contraire des aiguilles.",
+      "hint2": "Le sens « horaire » est celui dans lequel tournent les aiguilles d'une montre.",
       "solution": "Le sens anti-horaire est le sens inverse des aiguilles d'une montre.",
       "skill": "Raisonner"
     },
@@ -1457,7 +1457,7 @@ window.MATHS_EXERCISES = Object.assign(window.MATHS_EXERCISES || {}, {
       "answer": "18",
       "placeholder": "Ex: 18",
       "hint1": "La rotation est une isométrie : elle conserve les longueurs, les angles et les aires !",
-      "hint2": "L'aire ne change pas lors d'une rotation.",
+      "hint2": "L'angle de $75^\\circ$ n'intervient pas dans le calcul : il indique seulement de combien la figure a tourné. Compare l'aire de l'image à celle du triangle de départ.",
       "solution": "La rotation conserve les aires. L'aire du triangle image est donc exactement égale à $18\\text{ cm}^2$.",
       "skill": "Raisonner"
     },
@@ -1509,7 +1509,7 @@ window.MATHS_EXERCISES = Object.assign(window.MATHS_EXERCISES || {}, {
         "Pas nécessairement rectangles."
       ],
       "hint1": "Ils ont la même forme mais pas forcément la même taille.",
-      "hint2": "C'est la définition officielle du chapitre.",
+      "hint2": "C'est le mot employé pour deux figures dont l'une est un agrandissement ou une réduction de l'autre.",
       "solution": "Deux triangles ayant leurs angles deux à deux de même mesure sont des **triangles semblables**.",
       "skill": "Raisonner"
     },
@@ -1598,7 +1598,7 @@ window.MATHS_EXERCISES = Object.assign(window.MATHS_EXERCISES || {}, {
         "Pas nécessairement symétriques."
       ],
       "hint1": "Les côtés sont proportionnels d'après Thalès.",
-      "hint2": "Deux triangles à côtés proportionnels ont la même forme : ils sont semblables.",
+      "hint2": "Les droites parallèles créent aussi des angles correspondants égaux. Comment appelle-t-on deux triangles qui ont les mêmes angles et des côtés proportionnels ?",
       "solution": "Le théorème de Thalès garantit que les côtés sont proportionnels et les angles égaux : les triangles formés sont donc **semblables**.",
       "skill": "Raisonner"
     }
@@ -1677,7 +1677,7 @@ window.MATHS_EXERCISES = Object.assign(window.MATHS_EXERCISES || {}, {
         "Non, ce n'est pas l'origine.",
         "Non."
       ],
-      "hint1": "Les antécédents se lisent sur les abscisses ($x$), donc on part de l'ordonnée ($y$) pour les trouver.",
+      "hint1": "Ici, $3$ est une image, c'est-à-dire une valeur de $y$. Sur quel axe lit-on les valeurs de $y$ ?",
       "hint2": "Image = axe vertical ; Antécédent = axe horizontal.",
       "solution": "On se place sur l'axe des ordonnées à la valeur $y = 3$, puis on projette horizontalement sur la courbe pour lire les abscisses $x$ des points d'intersection.",
       "skill": "Raisonner"
@@ -1692,7 +1692,7 @@ window.MATHS_EXERCISES = Object.assign(window.MATHS_EXERCISES || {}, {
       "answer": "2",
       "placeholder": "Ex: 2",
       "hint1": "Résous $x^2 = 16$. N'oublie pas le nombre négatif !",
-      "hint2": "$4^2 = 16$ et $(-4)^2 = 16$.",
+      "hint2": "Calcule $4^2$ puis $(-4)^2$. Combien de nombres ont un carré égal à $16$ ?",
       "solution": "$$x^2 = 16 \\iff x = 4 \\quad \\text{ou} \\quad x = -4$$\nLe nombre 16 possède exactement 2 antécédents : $-4$ et $4$.",
       "skill": "Raisonner"
     }
@@ -1874,7 +1874,7 @@ window.MATHS_EXERCISES = Object.assign(window.MATHS_EXERCISES || {}, {
       "answer": "0.5",
       "placeholder": "Ex: 0.5 ou 1/2",
       "hint1": "Il y a 3 nombres pairs : 2, 4 et 6. Le nombre total de faces est 6.",
-      "hint2": "$P = \\frac{3}{6} = \\frac{1}{2} = 0,5$.",
+      "hint2": "$P = \\frac{\\text{nombre d'issues favorables}}{\\text{nombre total d'issues}} = \\frac{3}{6}$. Simplifie cette fraction.",
       "solution": "Les issues favorables sont $\\{2, 4, 6\\}$ (soit 3 issues sur 6) :\n$$P = \\frac{3}{6} = \\frac{1}{2} = 0,5$$",
       "skill": "Calculer"
     },
@@ -1888,7 +1888,7 @@ window.MATHS_EXERCISES = Object.assign(window.MATHS_EXERCISES || {}, {
       "answer": "0.65",
       "placeholder": "Ex: 0.65",
       "hint1": "Formule : $P(\\overline{A}) = 1 - P(A)$.",
-      "hint2": "$1 - 0,35 = 0,65$.",
+      "hint2": "Ici $P(A) = 0{,}35$ : calcule $1 - 0{,}35$.",
       "solution": "$$P(\\overline{A}) = 1 - P(A) = 1 - 0,35 = 0,65$$",
       "skill": "Calculer"
     },
@@ -1916,7 +1916,7 @@ window.MATHS_EXERCISES = Object.assign(window.MATHS_EXERCISES || {}, {
       "answer": "1/4",
       "placeholder": "Ex: 1/4",
       "hint1": "À chaque lancer, la probabilité de Pile est $\\frac{1}{2}$. Multiplie le long du chemin.",
-      "hint2": "$\\frac{1}{2} \\times \\frac{1}{2} = \\frac{1}{4}$.",
+      "hint2": "Le chemin (Pile ; Pile) comporte deux branches de probabilité $\\frac{1}{2}$ chacune : multiplie ces deux probabilités.",
       "solution": "D'après la règle du produit dans un arbre de probabilités :\n$$P(\\text{Pile, Pile}) = \\frac{1}{2} \\times \\frac{1}{2} = \\frac{1}{4} = 0,25$$",
       "skill": "Modéliser"
     },

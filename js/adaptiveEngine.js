@@ -143,6 +143,170 @@ window.MathsAdaptiveEngine = {
     return 1;
   },
 
+  // =========================================================================
+  // MODÈLE DE PROGRESSION (v2) : validation d'un palier sur fenêtre glissante
+  // =========================================================================
+  /**
+   * Chaque question traitée au palier « frontière » (premier palier non validé) laisse une trace :
+   *   1     : juste du premier coup, sans indice
+   *   0,75  : juste du premier coup avec un indice demandé (0,5 avec les deux indices)
+   *   0,5   : juste au 2e essai (saisie) ; 0,25 au 3e essai
+   *   0     : fausse (saisie)
+   *   −1/(k−1) : QCM à k choix faux du premier coup, même s'il est ensuite trouvé par élimination
+   *           (correction du hasard : un élève qui répond au hasard a une espérance nulle).
+   * Un palier est validé quand la somme des WINDOW dernières traces atteint TARGET
+   * (au moins MIN_ANSWERS questions). Après RELIEF_AFTER questions sur le même palier, si l'élève
+   * progresse réellement (crédit moyen ≥ RELIEF_MIN_AVG), l'objectif s'abaisse à RELIEF_TARGET pour
+   * qu'il ne reste pas bloqué indéfiniment.
+   * Un palier validé ne se perd jamais ; la maîtrise affichée vaut 25 % par palier validé
+   * plus l'avancement vers l'objectif du palier en cours.
+   */
+  PROGRESSION: {
+    MODEL_VERSION: 2,
+    WINDOW: 8,
+    TARGET: 6,
+    MIN_ANSWERS: 6,
+    RELIEF_AFTER: 16,
+    RELIEF_TARGET: 5,
+    RELIEF_MIN_AVG: 0.4, // crédit moyen minimal sur les 16 dernières questions pour bénéficier de l'allègement
+    REVIEW_EVERY: 5, // une question de rappel d'un palier validé toutes les 5 questions
+    REVIEW_AFTER_MS: 20 * 3600 * 1000 // rappel d'échauffement si le chapitre n'a pas été travaillé depuis 20 h
+  },
+
+  /** Nombre de paliers validés consécutivement depuis le palier 1. */
+  countValidatedTiers(p) {
+    const v = (p && p.validatedTiers) || [];
+    let n = 0;
+    while (n < 4 && v.includes(n + 1)) n++;
+    return n;
+  },
+
+  /**
+   * Migration douce d'une progression enregistrée avec l'ancien modèle (gains cumulés plafonnés) :
+   * les paliers déjà atteints restent validés et l'avancement dans le palier en cours est conservé
+   * sous forme de réussites déjà acquises. Idempotent ; modifie et renvoie `p`.
+   */
+  ensureProgressModel(p) {
+    if (!p) return p;
+    const cfg = this.PROGRESSION;
+    if (p.tierModel === cfg.MODEL_VERSION && p.tierWindows) return p;
+    const mastery = Number.isFinite(p.mastery) ? p.mastery : 0;
+    const validated = new Set((p.validatedTiers || []).map(Number).filter(t => t >= 1 && t <= 4));
+    [25, 50, 75, 100].forEach((thr, i) => { if (mastery >= thr) validated.add(i + 1); });
+    const maxV = validated.size ? Math.max(...validated) : 0;
+    for (let t = 1; t <= maxV; t++) validated.add(t);
+    p.validatedTiers = [...validated].sort((a, b) => a - b);
+    p.tierWindows = { 1: [], 2: [], 3: [], 4: [] };
+    p.tierAnswered = { 1: 0, 2: 0, 3: 0, 4: 0 };
+    p.tierLastAt = p.tierLastAt || {};
+    const vc = this.countValidatedTiers(p);
+    if (vc < 4) {
+      const inTier = Math.max(0, mastery - 25 * vc);
+      const seed = Math.min(cfg.TARGET - 1, Math.ceil((inTier / 25) * cfg.TARGET));
+      for (let i = 0; i < seed; i++) p.tierWindows[vc + 1].push(1);
+      p.tierAnswered[vc + 1] = seed;
+    }
+    p.tierModel = cfg.MODEL_VERSION;
+    p.mastery = this.computeMastery(p);
+    return p;
+  },
+
+  getTierTarget(p, tier) {
+    const cfg = this.PROGRESSION;
+    const answered = (p.tierAnswered && p.tierAnswered[tier]) || 0;
+    if (answered < cfg.RELIEF_AFTER) return cfg.TARGET;
+    // Allègement réservé à l'élève qui progresse réellement (pas à celui qui répond au hasard en QCM)
+    const hist = ((p.tierWindows && p.tierWindows[tier]) || []).slice(-2 * cfg.WINDOW);
+    const avg = hist.length ? hist.reduce((a, c) => a + c, 0) / hist.length : 0;
+    return avg >= cfg.RELIEF_MIN_AVG ? cfg.RELIEF_TARGET : cfg.TARGET;
+  },
+
+  windowSum(list) {
+    return (list || []).slice(-this.PROGRESSION.WINDOW).reduce((s, c) => s + c, 0);
+  },
+
+  isTierObjectiveMet(p, tier) {
+    const answered = (p.tierAnswered && p.tierAnswered[tier]) || 0;
+    return answered >= this.PROGRESSION.MIN_ANSWERS
+      && this.windowSum(p.tierWindows[tier]) >= this.getTierTarget(p, tier) - 1e-9;
+  },
+
+  /** Maîtrise affichée (0-100) : 25 % par palier validé + avancement vers l'objectif du palier en cours. */
+  computeMastery(p) {
+    const vc = this.countValidatedTiers(p);
+    if (vc >= 4) return 100;
+    const t = vc + 1;
+    const target = this.getTierTarget(p, t);
+    const frac = Math.max(0, Math.min(1, this.windowSum(p.tierWindows && p.tierWindows[t]) / target));
+    return 25 * vc + Math.min(24, Math.floor(25 * frac));
+  },
+
+  /** Nombre minimal de bonnes réponses (du premier coup) encore nécessaires pour valider `tier`. */
+  remainingCorrectFor(p, tier) {
+    const win = ((p.tierWindows && p.tierWindows[tier]) || []).slice();
+    let answered = (p.tierAnswered && p.tierAnswered[tier]) || 0;
+    const sim = { tierWindows: { [tier]: win }, tierAnswered: { [tier]: answered } };
+    for (let k = 0; k <= this.PROGRESSION.WINDOW + this.PROGRESSION.MIN_ANSWERS; k++) {
+      if (this.isTierObjectiveMet(sim, tier)) return k;
+      win.push(1);
+      sim.tierAnswered[tier] = ++answered;
+    }
+    return this.PROGRESSION.WINDOW;
+  },
+
+  /**
+   * État lisible de la progression d'un chapitre (pour l'affichage et les messages).
+   */
+  getTierProgressStatus(chapterId, progressObj = null) {
+    const raw = progressObj || window.MathsStorage.getChapterProgress(chapterId);
+    const p = this.ensureProgressModel(JSON.parse(JSON.stringify(raw || {})));
+    const vc = this.countValidatedTiers(p);
+    if (vc >= 4) {
+      return { complete: true, validatedCount: 4, tier: 4, mastery: 100, window: [], target: 0, remaining: 0,
+        message: 'Tous les paliers sont validés : continue à t\'entraîner librement pour entretenir tes acquis.' };
+    }
+    const tier = vc + 1;
+    const cfg = this.PROGRESSION;
+    const recent = (p.tierWindows[tier] || []).slice(-cfg.WINDOW);
+    const target = this.getTierTarget(p, tier);
+    const remaining = this.remainingCorrectFor(p, tier);
+    const answered = p.tierAnswered[tier] || 0;
+    const relief = target < cfg.TARGET;
+    const goal = tier < 4 ? `débloquer le Palier ${tier + 1}` : 'valider tout le chapitre';
+    let message = remaining <= 1
+      ? `Encore 1 bonne réponse pour ${goal} !`
+      : `Encore ${remaining} bonnes réponses pour ${goal}.`;
+    if (relief) message += ' Ta persévérance compte : l\'objectif est allégé à ' + target + ' sur ' + cfg.WINDOW + '.';
+    return {
+      complete: false, validatedCount: vc, tier, window: recent, target, remaining, answered, relief,
+      mastery: this.computeMastery(p),
+      objective: `Objectif du Palier ${tier} : ${String(target).replace('.', ',')} bonnes réponses sur les ${cfg.WINDOW} dernières questions`,
+      message
+    };
+  },
+
+  /** Crédit d'une question selon le déroulé (essais, indices, type QCM). */
+  answerCredit(exercise, isCorrect, mistakesBefore, hintsUsed) {
+    const k = (exercise && exercise.type === 'mcq' && Array.isArray(exercise.options)) ? exercise.options.length : 0;
+    const isMcq = k >= 2;
+    if (!isCorrect) return isMcq ? -1 / (k - 1) : 0;
+    if (mistakesBefore === 0) return hintsUsed >= 2 ? 0.5 : (hintsUsed === 1 ? 0.75 : 1);
+    // QCM réussi après une erreur : simple élimination, la trace négative est conservée
+    if (isMcq) return -1 / (k - 1);
+    return mistakesBefore === 1 ? 0.5 : 0.25;
+  },
+
+  /** Palier validé le moins récemment travaillé (révision espacée), parmi les paliers < maxTier. */
+  pickReviewTier(p, maxTier) {
+    const vc = this.countValidatedTiers(p);
+    const candidates = [];
+    for (let t = 1; t < maxTier && t <= vc; t++) candidates.push(t);
+    if (!candidates.length) return null;
+    const last = p.tierLastAt || {};
+    candidates.sort((a, b) => (last[a] || 0) - (last[b] || 0));
+    return candidates[0];
+  },
+
   /**
    * Initialise ou reprend une session pour un chapitre donné
    */
@@ -161,6 +325,7 @@ window.MathsAdaptiveEngine = {
     this.state.mistakesOnCurrent = 0;
     this.state.usedHintsCount = 0;
     this.state.sessionHistory = [];
+    this.state.sessionQuestionCount = 0;
 
     return this.nextExercise();
   },
@@ -280,10 +445,29 @@ window.MathsAdaptiveEngine = {
 
     this.state.currentTier = targetTier;
 
+    // Révision espacée : une question de rappel d'un palier déjà validé toutes les REVIEW_EVERY questions,
+    // et en échauffement quand le chapitre n'a pas été travaillé depuis longtemps.
+    // La question de rappel n'entre pas dans l'objectif du palier en cours (pas de pénalité).
+    const cfg = this.PROGRESSION;
+    const qIndex = this.state.sessionQuestionCount || 0;
+    this.state.sessionQuestionCount = qIndex + 1;
+    let genTier = this.state.currentTier;
+    let isReview = false;
+    if (progress && this.state.currentTier >= 2 && !this.state.skipReviewOnce) {
+      const modelP = this.ensureProgressModel(JSON.parse(JSON.stringify(progress)));
+      const longBreak = qIndex === 0 && progress.lastPracticedAt && (Date.now() - progress.lastPracticedAt) > cfg.REVIEW_AFTER_MS;
+      const periodic = qIndex > 0 && (qIndex % cfg.REVIEW_EVERY) === cfg.REVIEW_EVERY - 1;
+      if (longBreak || periodic) {
+        const rt = this.pickReviewTier(modelP, this.state.currentTier);
+        if (rt) { genTier = rt; isReview = true; }
+      }
+    }
+    this.state.skipReviewOnce = false;
+
     let candidate = null;
     const chapterId = this.state.chapterId;
     const recent = this.getRecentStatements(chapterId);
-    const staticPick = () => this.pickStaticExercise(chapterId, this.state.currentTier, progress, recent);
+    const staticPick = () => this.pickStaticExercise(chapterId, genTier, progress, recent);
 
     // 1. Génération procédurale (nouvelles valeurs à chaque tirage), avec anti-répétition
     //    sur l'historique récent du chapitre et non plus seulement sur la question précédente.
@@ -291,15 +475,15 @@ window.MathsAdaptiveEngine = {
       let randExo = null;
       let isRepeat = false;
       for (let attempt = 0; attempt < 8; attempt++) {
-        const candidateExo = window.MathsGenerators.generateForChapter(chapterId, this.state.currentTier, mastery);
+        const candidateExo = window.MathsGenerators.generateForChapter(chapterId, genTier, mastery);
         if (!candidateExo) break;
         randExo = candidateExo;
         isRepeat = recent.includes(candidateExo.statement);
         if (!isRepeat) break;
       }
       if (randExo) {
-        randExo.tier = this.state.currentTier;
-        randExo.id = `${chapterId}-dyn-t${this.state.currentTier}-${Date.now()}-${Math.floor(Math.random() * 100000)}`;
+        randExo.tier = genTier;
+        randExo.id = `${chapterId}-dyn-t${genTier}-${Date.now()}-${Math.floor(Math.random() * 100000)}`;
         candidate = randExo;
       }
       // Générateur à court d'énoncés nouveaux (ou mélange occasionnel) : puiser dans la banque statique
@@ -349,9 +533,16 @@ window.MathsAdaptiveEngine = {
       }
     }
 
+    if (candidate) {
+      // Les exercices de la banque statique gardent leur palier d'origine ; seul le palier du tirage fait foi
+      if (!candidate.tier) candidate.tier = genTier;
+      candidate.isReview = isReview && parseInt(candidate.tier, 10) < this.state.currentTier;
+    }
+
     this.state.currentExercise = candidate;
     this.state.mistakesOnCurrent = 0;
     this.state.usedHintsCount = 0;
+    this.state.answerEntry = null;
 
     return candidate;
   },
@@ -368,6 +559,7 @@ window.MathsAdaptiveEngine = {
       this.state.currentTier = t;
       this.state.manualTierSelected = true;
       this.state.consecutiveSuccesses = 0;
+      this.state.skipReviewOnce = true; // la première question après un changement de palier est bien de ce palier
       window.MathsStorage.updateChapterProgress(this.state.chapterId, p => {
         p.currentTier = t;
         return p;
@@ -595,125 +787,116 @@ window.MathsAdaptiveEngine = {
       hintsUsed: this.state.usedHintsCount
     });
 
+    // --- Trace de la question dans le modèle de progression (fenêtre glissante par palier) ---
+    // La trace est créée dès la première soumission (passer à la question suivante après une erreur
+    // ne l'efface donc pas), puis améliorée si l'élève corrige sa réponse.
+    const mistakesBefore = this.state.mistakesOnCurrent;
+    const hintsUsed = this.state.usedHintsCount;
+    const credit = this.answerCredit(exercise, isCorrect, mistakesBefore, hintsUsed);
+    const entryTier = exercise.isReview
+      ? (parseInt(exercise.tier, 10) || 1)
+      : (parseInt(this.state.currentTier, 10) || 1);
+    const isReview = !!exercise.isReview;
+    const prevValidated = new Set(window.MathsStorage.getChapterProgress(this.state.chapterId).validatedTiers || []);
+    let newlyValidatedTiers = [];
+    let masteryPercent = 0;
+    let frontierBefore = 1;
+    let supportMessage = '';
+
+    const progressAfter = window.MathsStorage.updateChapterProgress(this.state.chapterId, p => {
+      this.ensureProgressModel(p);
+      frontierBefore = this.countValidatedTiers(p) + 1;
+      p.attempts = (p.attempts || 0) + 1;
+      p.lastPracticedAt = Date.now();
+      p.tierLastAt = p.tierLastAt || {};
+      p.tierLastAt[entryTier] = Date.now();
+      const win = p.tierWindows[entryTier] || (p.tierWindows[entryTier] = []);
+      if (!this.state.answerEntry) {
+        win.push(Math.round(credit * 100) / 100);
+        p.tierAnswered[entryTier] = (p.tierAnswered[entryTier] || 0) + 1;
+        this.state.answerEntry = { tier: entryTier };
+      } else if (isCorrect && win.length) {
+        win[win.length - 1] = Math.max(win[win.length - 1], Math.round(credit * 100) / 100);
+      }
+      // On garde un peu d'historique au-delà de la fenêtre (affichage / analyse), sans croissance infinie
+      if (win.length > 2 * this.PROGRESSION.WINDOW) win.splice(0, win.length - 2 * this.PROGRESSION.WINDOW);
+
+      if (isCorrect) {
+        if (!/-dyn-|-gen-|fallback/.test(exercise.id) && !p.completed.includes(exercise.id)) {
+          p.completed.push(exercise.id);
+        }
+        p.successes = (p.successes || 0) + 1;
+        p.streak = (p.streak || 0) + 1;
+        p.mistakeStreak = 0;
+        p.successesByTier = p.successesByTier || { 1: 0, 2: 0, 3: 0, 4: 0 };
+        p.successesByTier[entryTier] = (p.successesByTier[entryTier] || 0) + 1;
+      } else {
+        p.streak = 0;
+        p.mistakeStreak = (p.mistakeStreak || 0) + 1;
+      }
+
+      // Validation du palier frontière : sur une bonne réponse, un seul palier à la fois,
+      // jamais de rétrogradation
+      const frontier = this.countValidatedTiers(p) + 1;
+      if (isCorrect && frontier <= 4 && entryTier === frontier && this.isTierObjectiveMet(p, frontier)) {
+        p.validatedTiers = [...new Set([...(p.validatedTiers || []), frontier])].sort((a, b) => a - b);
+      }
+      p.validatedTiers.forEach(t => { if (!prevValidated.has(t)) newlyValidatedTiers.push(t); });
+      p.mastery = this.computeMastery(p);
+      masteryPercent = p.mastery;
+
+      // Séquence difficile sur le palier en cours : on propose de l'aide, sans rien retirer
+      const recent = (p.tierWindows[frontier] || []).slice(-5);
+      if (!isCorrect && entryTier === frontier && recent.length >= 5 && recent.reduce((s, c) => s + Math.max(0, c), 0) <= 1) {
+        supportMessage = frontier > 1
+          ? 'Ce palier résiste un peu : relis le cours ou consolide le palier précédent. Tu ne perds aucun palier déjà validé.'
+          : 'Ce palier résiste un peu : relis le cours et utilise les indices, c\'est ainsi qu\'on progresse. Chaque réussite compte.';
+      }
+      return p;
+    });
+
+    const status = this.getTierProgressStatus(this.state.chapterId, progressAfter);
+    const progressMessage = isReview
+      ? `Question de rappel du Palier ${entryTier} : elle entretient tes acquis sans modifier l'objectif du palier en cours. ${status.message}`
+      : status.message;
+
     if (isCorrect) {
       // --- RÉUSSITE ---
       this.state.consecutiveSuccesses++;
 
-      // Calcul des points d'expérience selon le palier et les indices
-      const basePoints = { 1: 10, 2: 15, 3: 25, 4: 40 }[this.state.currentTier] || 10;
-      const penalty = this.state.usedHintsCount * 3; // légère retenue si indice utilisé
+      // Points d'expérience selon le palier ; légère retenue par indice ou essai supplémentaire
+      const basePoints = { 1: 10, 2: 15, 3: 25, 4: 40 }[entryTier] || 10;
+      const penalty = (hintsUsed + mistakesBefore) * 3;
       const xpEarned = Math.max(5, basePoints - penalty);
-
       const xpResult = window.MathsStorage.addXp(xpEarned);
 
-      // Mise à jour de la progression du chapitre
-      let masteryPercent = 0;
       let leveledUp = false;
       let levelUpMessage = '';
-      let newlyValidatedTiers = [];
       let unlockedTier = null;
       let tierCapReached = false;
       let tierCapMessage = '';
       let nextTierToAdvance = null;
 
-      const exoTier = parseInt(exercise.tier || this.state.currentTier || 1, 10);
-      const tierCap = { 1: 25, 2: 50, 3: 75, 4: 100 }[exoTier] || 100;
-
-      window.MathsStorage.updateChapterProgress(this.state.chapterId, p => {
-        // Seuls les exercices de la banque statique ont un id stable : inutile de stocker
-        // les ids uniques des exercices générés (croissance sans fin du localStorage).
-        if (!/-dyn-|-gen-|fallback/.test(exercise.id) && !p.completed.includes(exercise.id)) {
-          p.completed.push(exercise.id);
-        }
-        p.successes = (p.successes || 0) + 1;
-        p.attempts = (p.attempts || 0) + 1;
-        p.streak = (p.streak || 0) + 1;
-        p.mistakeStreak = 0;
-
-        const curMastery = p.mastery || 0;
-
-        // Gain modéré entre 1% et 5% selon le nombre de bonnes réponses d'affilées :
-        // 1ère bonne réponse : +2% (ou +1% si indice utilisé)
-        // 2 bonnes réponses d'affilée : +3%
-        // 3 bonnes réponses d'affilée : +4%
-        // 4+ bonnes réponses d'affilée : +5% (plafonné à +5%)
-        const streakBonus = Math.min(4, p.streak);
-        const baseGain = 1 + streakBonus; // 2, 3, 4, 5
-        const hintPenalty = this.state.usedHintsCount > 0 ? 1 : 0;
-        const gain = Math.min(5, Math.max(1, baseGain - hintPenalty));
-
-        // Plafonnement strict selon le palier de la question :
-        // - Questions du Palier 1 : ne font pas avancer le pourcentage au-delà de 25%
-        // - Questions du Palier 2 : ne font pas avancer le pourcentage au-delà de 50%
-        // - Questions du Palier 3 : ne font pas avancer le pourcentage au-delà de 75%
-        // - Questions du Palier 4 : jusqu'à 100%
-        if (curMastery < tierCap) {
-          masteryPercent = Math.min(tierCap, curMastery + gain);
+      if (newlyValidatedTiers.length > 0) {
+        const maxValidated = Math.max(...newlyValidatedTiers);
+        leveledUp = true;
+        if (maxValidated < 4) {
+          const nextUnlocked = maxValidated + 1;
+          unlockedTier = nextUnlocked;
+          this.state.currentTier = nextUnlocked;
+          this.state.manualTierSelected = true; // Bascule sur le palier supérieur pour la question suivante
+          window.MathsStorage.updateChapterProgress(this.state.chapterId, p => { p.currentTier = nextUnlocked; return p; });
+          levelUpMessage = `🚀 Bravo ! Tu as validé le Palier ${maxValidated} et débloqué le ${this.getTierDisplayName(nextUnlocked)} !`;
         } else {
-          // L'élève est déjà à ou au-delà du plafond pour ce palier : le pourcentage n'augmente plus
-          masteryPercent = curMastery;
-          tierCapReached = (exoTier < 4);
+          levelUpMessage = `👑 Félicitations ! Tu as validé tous les paliers et maîtrisé cette notion à 100% !`;
         }
-        p.mastery = masteryPercent;
+      } else if (!isReview && entryTier < frontierBefore && frontierBefore <= 4) {
+        // Entraînement volontaire sur un palier déjà validé
+        tierCapReached = true;
+        nextTierToAdvance = frontierBefore;
+        tierCapMessage = `Palier ${entryTier} déjà validé : c'est une bonne révision ! Pour faire progresser ta maîtrise, passe au Palier ${frontierBefore}.`;
+      }
 
-        // Suivi précis par palier
-        p.successesByTier = p.successesByTier || { 1: 0, 2: 0, 3: 0, 4: 0 };
-        p.successesByTier[exoTier] = (p.successesByTier[exoTier] || 0) + 1;
-
-        p.validatedTiers = p.validatedTiers || [];
-        // Palier 1 validé à 25% (débloque en même temps le Palier 2)
-        if (!p.validatedTiers.includes(1) && masteryPercent >= 25) {
-          p.validatedTiers.push(1);
-          newlyValidatedTiers.push(1);
-        }
-        // Palier 2 validé à 50% (débloque en même temps le Palier 3)
-        if (!p.validatedTiers.includes(2) && masteryPercent >= 50) {
-          if (!p.validatedTiers.includes(1)) p.validatedTiers.push(1);
-          p.validatedTiers.push(2);
-          newlyValidatedTiers.push(2);
-        }
-        // Palier 3 validé à 75% (débloque en même temps le Palier 4)
-        if (!p.validatedTiers.includes(3) && masteryPercent >= 75) {
-          if (!p.validatedTiers.includes(1)) p.validatedTiers.push(1);
-          if (!p.validatedTiers.includes(2)) p.validatedTiers.push(2);
-          p.validatedTiers.push(3);
-          newlyValidatedTiers.push(3);
-        }
-        // Palier 4 validé à 100% (Maîtrise totale)
-        if (!p.validatedTiers.includes(4) && masteryPercent >= 100) {
-          if (!p.validatedTiers.includes(1)) p.validatedTiers.push(1);
-          if (!p.validatedTiers.includes(2)) p.validatedTiers.push(2);
-          if (!p.validatedTiers.includes(3)) p.validatedTiers.push(3);
-          p.validatedTiers.push(4);
-          newlyValidatedTiers.push(4);
-        }
-
-        // Évolution continue de la difficulté et déblocage progressif des paliers
-        const prevTier = this.state.currentTier;
-        // Si un nouveau palier vient d'être validé, débloquer et passer immédiatement au palier supérieur à la question suivante
-        if (newlyValidatedTiers.length > 0) {
-          const maxValidated = Math.max(...newlyValidatedTiers);
-          if (maxValidated < 4) {
-            const nextUnlocked = maxValidated + 1;
-            leveledUp = true;
-            unlockedTier = nextUnlocked;
-            this.state.currentTier = nextUnlocked;
-            p.currentTier = nextUnlocked;
-            this.state.manualTierSelected = true; // Bascule et maintient sur le palier supérieur pour la question suivante
-            levelUpMessage = `🚀 Bravo ! Tu as validé le Palier ${maxValidated} et débloqué le ${this.getTierDisplayName(nextUnlocked)} !`;
-          } else {
-            leveledUp = true;
-            levelUpMessage = `👑 Félicitations ! Tu as validé tous les paliers et maîtrisé cette notion à 100% !`;
-          }
-        } else if (tierCapReached) {
-          nextTierToAdvance = exoTier + 1;
-          tierCapMessage = `Plafond du Palier ${exoTier} atteint (${tierCap}%). Passe au Palier ${nextTierToAdvance} pour continuer à faire progresser ton pourcentage !`;
-        }
-
-        return p;
-      });
-
-      // Vérification des Badges et Rangs
       const newlyUnlockedBadges = this.checkBadges(xpResult, masteryPercent);
 
       return {
@@ -732,81 +915,50 @@ window.MathsAdaptiveEngine = {
         userLevel: xpResult.level,
         leveledUpProfile: xpResult.leveledUp,
         mastery: masteryPercent,
+        credit,
+        isReview,
+        progress: status,
+        progressMessage: leveledUp ? (status.complete ? '' : status.objective + '.') : progressMessage,
         solution: this.formatSolutionWithInitialExpr(exercise.statement, exercise.solution),
-        feedback: "Bravo ! Réponse correcte."
+        feedback: credit >= 1 ? "Bravo ! Réponse correcte." : "Réponse correcte ! (comptée partiellement : aide ou plusieurs essais)"
       };
-    } else {
-      // --- ERREUR / ÉCHAFAUDAGE BIENVEILLANT ---
-      this.state.mistakesOnCurrent++;
-      this.state.consecutiveSuccesses = 0; // réinitialise la série
-
-      let currentMastery = 0;
-      window.MathsStorage.updateChapterProgress(this.state.chapterId, p => {
-        p.attempts = (p.attempts || 0) + 1;
-        p.streak = 0; // Réinitialise la série de succès
-        p.mistakeStreak = (p.mistakeStreak || 0) + 1;
-
-        const curMastery = p.mastery || 0;
-
-        // Baisse modérée entre 1% et 5% selon la série d'erreurs :
-        // 1ère erreur : -1% ou -2%
-        // 2ème erreur d'affilée : -3%
-        // 3ème erreur d'affilée : -4%
-        // 4+ erreurs d'affilée : -5% (maximum -5%)
-        let drop = 2;
-        if (this.state.mistakesOnCurrent === 1) {
-          drop = Math.min(2, Math.max(1, p.mistakeStreak));
-        } else if (this.state.mistakesOnCurrent === 2) {
-          drop = Math.min(3, Math.max(2, p.mistakeStreak));
-        } else {
-          drop = Math.min(5, Math.max(2, 1 + p.mistakeStreak));
-        }
-
-        currentMastery = Math.max(0, curMastery - drop);
-        p.mastery = currentMastery;
-
-        // Repli sécurisé uniquement si le palier en cours n'est plus débloqué
-        if (!this.isTierUnlocked(this.state.chapterId, this.state.currentTier)) {
-          this.state.currentTier = this.getHighestUnlockedTier(this.state.chapterId);
-          p.currentTier = this.state.currentTier;
-          this.state.manualTierSelected = false;
-        }
-
-        return p;
-      });
-
-      if (this.state.mistakesOnCurrent === 1) {
-        // 1ère erreur : Coup de pouce méthodologique
-        return {
-          isCorrect: false,
-          mastery: currentMastery,
-          stage: 'hint1',
-          hint: exercise.hint1,
-          message: "Pas tout à fait ! Voici un coup de pouce méthodologique pour t'aider à réessayer :"
-        };
-      } else if (this.state.mistakesOnCurrent === 2) {
-        // 2ème erreur : Rappel de cours ciblé
-        return {
-          isCorrect: false,
-          mastery: currentMastery,
-          stage: 'hint2',
-          hint: exercise.hint2,
-          message: "Toujours pas ! Voici un rappel essentiel de cours ou de formule pour débloquer la situation :"
-        };
-      } else {
-        // 3ème erreur : Solution complète et adaptation pédagogique
-        const canStepDown = this.state.currentTier > 1;
-        return {
-          isCorrect: false,
-          mastery: currentMastery,
-          stage: 'solution',
-          solution: this.formatSolutionWithInitialExpr(exercise.statement, exercise.solution),
-          message: "Voici la correction détaillée étape par étape pour bien comprendre le raisonnement.",
-          canStepDown,
-          stepDownMessage: canStepDown ? "Si cette notion te paraît difficile, tu peux revenir au palier précédent pour consolider tes bases en douceur." : null
-        };
-      }
     }
+
+    // --- ERREUR / ÉCHAFAUDAGE BIENVEILLANT ---
+    this.state.mistakesOnCurrent++;
+    this.state.consecutiveSuccesses = 0;
+    const common = {
+      isCorrect: false,
+      mastery: masteryPercent,
+      credit,
+      isReview,
+      progress: status,
+      progressMessage,
+      supportMessage
+    };
+
+    if (this.state.mistakesOnCurrent === 1) {
+      return Object.assign(common, {
+        stage: 'hint1',
+        hint: exercise.hint1,
+        message: "Pas tout à fait ! Voici un coup de pouce méthodologique pour t'aider à réessayer :"
+      });
+    }
+    if (this.state.mistakesOnCurrent === 2) {
+      return Object.assign(common, {
+        stage: 'hint2',
+        hint: exercise.hint2,
+        message: "Toujours pas ! Voici un rappel essentiel de cours ou de formule pour débloquer la situation :"
+      });
+    }
+    const canStepDown = this.state.currentTier > 1;
+    return Object.assign(common, {
+      stage: 'solution',
+      solution: this.formatSolutionWithInitialExpr(exercise.statement, exercise.solution),
+      message: "Voici la correction détaillée étape par étape pour bien comprendre le raisonnement.",
+      canStepDown,
+      stepDownMessage: canStepDown ? "Si cette notion te paraît difficile, tu peux revenir au palier précédent pour consolider tes bases en douceur." : null
+    });
   },
 
   /**

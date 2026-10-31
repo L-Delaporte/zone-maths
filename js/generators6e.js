@@ -222,7 +222,7 @@
           type: 'exact', answer: this._6ans(val), placeholder: PH_DEC,
           hint1: `Diviser par $${this._6tex(d)}$ revient à « décaler » les chiffres de ${String(d).length - 1} rang(s) vers la droite.`,
           hint2: `Le dernier chiffre du numérateur doit se retrouver au rang des ${d === 10 ? 'dixièmes' : d === 100 ? 'centièmes' : 'millièmes'}.`,
-          solution: `$$\\frac{${this._6tex(n)}}{${this._6tex(d)}} = ${this._6tex(val)}$$`,
+          solution: `Diviser par $${this._6tex(d)}$ rend chaque chiffre $${this._6tex(d)}$ fois plus petit : le chiffre des unités de $${this._6tex(n)}$ passe au rang des ${d === 10 ? 'dixièmes' : d === 100 ? 'centièmes' : 'millièmes'}.\n$$\\frac{${this._6tex(n)}}{${this._6tex(d)}} = ${this._6tex(val)}$$`,
           _v: { k: '6N1.fracdec', n, d }
         });
       }
@@ -244,7 +244,7 @@
           });
         }
         if (sub === 'pct') {
-          const p = this.randInt(1, 199);
+          const p = this.randInt(1, 199, [100]);
           if (Math.random() < 0.5) {
             return this._6A_q(id, t, sk, {
               title: 'Pourcentage et écriture décimale',
@@ -252,7 +252,7 @@
               type: 'exact', answer: this._6ans(p / 100), placeholder: PH_DEC,
               hint1: `$${p}\\,\\%$ signifie « ${p} pour 100 », c'est-à-dire $\\frac{${p}}{100}$.`,
               hint2: 'Diviser par 100 : le chiffre des unités passe au rang des centièmes.',
-              solution: `$$${p}\\,\\% = \\frac{${p}}{100} = ${this._6tex(p / 100)}$$`,
+              solution: `Un pourcentage est une fraction de dénominateur 100 :\n$$${p}\\,\\% = \\frac{${p}}{100} = ${this._6tex(p / 100)}$$\nDiviser par 100 décale les chiffres de deux rangs vers la droite.`,
               _v: { k: '6N1.pct', p, dir: 'to_dec' }
             });
           }
@@ -262,7 +262,7 @@
             type: 'exact', answer: String(p), placeholder: PH_INT,
             hint1: 'Écris le nombre sous la forme d\'une fraction de dénominateur 100.',
             hint2: `$${this._6tex(p / 100)} = \\frac{\\dots}{100}$.`,
-            solution: `$$${this._6tex(p / 100)} = \\frac{${p}}{100} = ${p}\\,\\%$$`,
+            solution: `Le dernier chiffre de $${this._6tex(p / 100)}$ est au rang des centièmes, donc :\n$$${this._6tex(p / 100)} = \\frac{${p}}{100} = ${p}\\,\\%$$\nLe nombre cherché est **${p}**.`,
             _v: { k: '6N1.pct', p, dir: 'to_pct' }
           });
         }
@@ -311,7 +311,7 @@
             statement: `Compléter l'égalité :\n$$${e} + \\frac{${a}}{${b}} = \\frac{\\dots}{${b}}$$\nQuel est le numérateur manquant ?`,
             type: 'exact', answer: String(e * b + a), placeholder: PH_INT,
             hint1: `Écris d'abord $${e}$ sous la forme d'une fraction de dénominateur $${b}$.`,
-            hint2: `$${e} = \\frac{${e * b}}{${b}}$.`,
+            hint2: `Une unité s'écrit $\\frac{${b}}{${b}}$ : chaque unité apporte donc $${b}$ parts au numérateur.`,
             solution: `$$${e} + \\frac{${a}}{${b}} = \\frac{${e * b}}{${b}} + \\frac{${a}}{${b}} = \\frac{${e * b + a}}{${b}}$$`,
             _v: { k: '6N1.mixte', e, a, b }
           });
@@ -325,8 +325,8 @@
             statement: `On écrit $\\frac{${n}}{${b}}$ sous la forme $e + \\frac{r}{${b}}$ avec $e$ entier et $r < ${b}$.\n**Que vaut ${ask === 'e' ? 'la partie entière $e$' : 'le numérateur $r$'} ?**`,
             type: 'exact', answer: String(ask === 'e' ? e : r), placeholder: PH_INT,
             hint1: `Cherche combien de fois $${b}$ « rentre » dans $${n}$ : c'est la division euclidienne de $${n}$ par $${b}$.`,
-            hint2: `$${n} = ${b} \\times ${e} + ${r}$.`,
-            solution: `$${n} = ${b} \\times ${e} + ${r}$, donc $\\frac{${n}}{${b}} = ${e} + \\frac{${r}}{${b}}$. Ainsi ${ask === 'e' ? `$e = ${e}$` : `$r = ${r}$`}.`,
+            hint2: `Dans la division euclidienne de $${n}$ par $${b}$, le quotient donne la partie entière $e$ et le reste donne le numérateur $r$.`,
+            solution: `**Étape 1 :** division euclidienne de $${n}$ par $${b}$ : $${n} = ${b} \\times ${e} + ${r}$ avec $${r} < ${b}$.\n**Étape 2 :** donc $\\frac{${n}}{${b}} = \\frac{${b} \\times ${e}}{${b}} + \\frac{${r}}{${b}} = ${e} + \\frac{${r}}{${b}}$.\nAinsi ${ask === 'e' ? `**$e = ${e}$**` : `**$r = ${r}$**`}.`,
             _v: { k: '6N1.fracmixte', n, b, ask }
           });
         }
@@ -339,7 +339,7 @@
             title: 'Différentes écritures d\'un nombre décimal',
             statement: `Quelle écriture est égale à $${this._6tex(val)}$ ?`,
             hint1: 'Le premier chiffre après la virgule est celui des dixièmes, le deuxième celui des centièmes.',
-            hint2: `$${this._6tex(val)} = ${u} + ${this._6tex(d1 / 10)} + ${this._6tex(d2 / 100)}$.`,
+            hint2: 'Un dixième s\'écrit $\\frac{1}{10}$ et un centième s\'écrit $\\frac{1}{100}$.',
             solution: `$${this._6tex(val)} = ${u} + \\frac{${d1}}{10} + \\frac{${d2}}{100}$ : ${d1} dixièmes et ${d2} centièmes.`,
             _v: { k: '6N1.ecriture', u, d1, d2 }
           });
@@ -358,12 +358,12 @@
             statement: `Écrire $\\frac{${a}}{${b}}$ sous la forme d'un pourcentage.\n*(Donner seulement le nombre placé devant le symbole %.)*`,
             type: 'exact', answer: String(p), placeholder: PH_INT,
             hint1: 'Cherche une fraction égale de dénominateur 100.',
-            hint2: `Multiplie le numérateur et le dénominateur par $${100 / b}$.`,
+            hint2: 'Un pourcentage est une fraction de dénominateur 100 ; on obtient une fraction égale en multipliant le numérateur et le dénominateur par un même nombre.',
             solution: `$$\\frac{${a}}{${b}} = \\frac{${a} \\times ${100 / b}}{${b} \\times ${100 / b}} = \\frac{${p}}{100} = ${p}\\,\\%$$`,
             _v: { k: '6N1.pctfrac', a, b }
           });
         }
-        const x = this.randInt(11, 999) / (Math.random() < 0.5 ? 10 : 100);
+        const x = this.randInt(11, 999, [100]) / (Math.random() < 0.5 ? 10 : 100);
         const u = this.randChoice([{ nom: 'dizaines', un: 'Une dizaine', m: 10 }, { nom: 'centaines', un: 'Une centaine', m: 100 }, { nom: 'milliers', un: 'Un millier', m: 1000 }]);
         const ans = this._6r(x * u.m);
         return this._6A_q(id, t, sk, {
@@ -372,7 +372,7 @@
           type: 'exact', answer: this._6ans(ans), placeholder: PH_INT,
           hint1: `${u.un} vaut $${this._6tex(u.m)}$ unités.`,
           hint2: `Calcule $${this._6tex(x)} \\times ${this._6tex(u.m)}$.`,
-          solution: `$$${this._6tex(x)} \\times ${this._6tex(u.m)} = ${this._6tex(ans)} \\text{ unités}$$`,
+          solution: `${u.un} vaut $${this._6tex(u.m)}$ unités, donc $${this._6tex(x)}$ ${u.nom} valent :\n$$${this._6tex(x)} \\times ${this._6tex(u.m)} = ${this._6tex(ans)}$$\nCela représente **${this._6txt(ans)}** unités.`,
           _v: { k: '6N1.numeration', x100: Math.round(x * 100), m: u.m }
         });
       }
@@ -401,8 +401,8 @@
           statement: `Donner l'écriture décimale de :\n$$\\frac{${a}}{10} + \\frac{${b}}{100} + \\frac{${c}}{1\\,000}$$`,
           type: 'exact', answer: this._6ans(val), placeholder: PH_DEC,
           hint1: 'Écris chaque fraction sous forme décimale, puis additionne en alignant les virgules.',
-          hint2: `$\\frac{${a}}{10} = ${this._6tex(a / 10)}$, $\\frac{${b}}{100} = ${this._6tex(b / 100)}$ et $\\frac{${c}}{1\\,000} = ${this._6tex(c / 1000)}$.`,
-          solution: `$$${this._6tex(a / 10)} + ${this._6tex(b / 100)} + ${this._6tex(c / 1000)} = ${this._6tex(val)}$$`,
+          hint2: 'Diviser par 10, 100 ou 1 000 décale les chiffres d\'un, deux ou trois rangs vers la droite.',
+          solution: `**Étape 1 :** on écrit chaque fraction décimale à virgule : $\\frac{${a}}{10} = ${this._6tex(a / 10)}$ ; $\\frac{${b}}{100} = ${this._6tex(b / 100)}$ ; $\\frac{${c}}{1\\,000} = ${this._6tex(c / 1000)}$.\n**Étape 2 :** on additionne en alignant les virgules :\n$$${this._6tex(a / 10)} + ${this._6tex(b / 100)} + ${this._6tex(c / 1000)} = ${this._6tex(val)}$$`,
           _v: { k: '6N1.sommefrac', a, b, c }
         });
       }
@@ -414,8 +414,8 @@
           title: 'Unités de numération',
           statement: `Combien faut-il de ${tgt.nom} pour faire $${a}$ unité${a > 1 ? 's' : ''} et $${b}$ dixième${b > 1 ? 's' : ''} ?`,
           type: 'exact', answer: String(ans), placeholder: PH_INT,
-          hint1: `Une unité vaut $${this._6tex(tgt.m)}$ ${tgt.nom} et un dixième vaut $${tgt.m / 10}$ ${tgt.nom}.`,
-          hint2: `$${a}$ unités et $${b}$ dixièmes, c'est le nombre $${this._6tex(a + b / 10)}$.`,
+          hint1: `Convertis séparément les unités puis les dixièmes en ${tgt.nom}, puis additionne.`,
+          hint2: `Une unité vaut $${this._6tex(tgt.m)}$ ${tgt.nom} et un dixième vaut $${tgt.m / 10}$ ${tgt.nom}.`,
           solution: `$$${a} \\times ${this._6tex(tgt.m)} + ${b} \\times ${tgt.m / 10} = ${this._6tex(ans)}$$ Il faut **${ans}** ${tgt.nom}.`,
           _v: { k: '6N1.conversion', a, b, m: tgt.m }
         });
@@ -437,7 +437,7 @@
         title: 'Comparer des écritures différentes',
         statement: 'Parmi ces nombres, lequel est **le plus grand** ?',
         hint1: 'Convertis chaque nombre en écriture décimale.',
-        hint2: `$${p}\\,\\% = ${this._6tex(p / 100)}$ et $\\frac{${fr[0]}}{${fr[1]}} = ${this._6tex(fr[0] / fr[1])}$.`,
+        hint2: 'Un pourcentage est une fraction de dénominateur 100 ; une fraction $\\frac{a}{b}$ est égale au quotient $a \\div b$.',
         solution: `En écriture décimale : $\\frac{${fr[0]}}{${fr[1]}} = ${this._6tex(vals[0] / 1000)}$ ; $${p}\\,\\% = ${this._6tex(vals[1] / 1000)}$ ; $${this._6tex(dec / 1000)}$ ; $\\frac{${n}}{1\\,000} = ${this._6tex(n / 1000)}$.\nLe plus grand est **${strs[imax]}**.`,
         _v: { k: '6N1.plusgrand', fa: fr[0], fb: fr[1], p, dec, n }
       });
@@ -484,7 +484,7 @@
             statement: `Sur la demi-droite graduée ci-dessous, l'unité est partagée en 10 parts égales.\n${fig}\n**Quelle est l'abscisse du point A ?**`,
             type: 'exact', answer: this._6ans(val), placeholder: PH_DEC,
             hint1: 'Entre deux graduations entières, il y a 10 petits intervalles : chacun vaut un dixième.',
-            hint2: `Compte les petites graduations à partir de $${s}$.`,
+            hint2: 'Repère la graduation entière située juste avant le point, puis compte les petites graduations à partir d\'elle.',
             solution: `Chaque petite graduation vaut $0{,}1$. Le point A est à ${k} graduations de $${s}$ : son abscisse est **$${tx(val)}$**.`,
             _v: { k: '6N2.abscisse', s, j: k, div: 10 }
           });
@@ -497,7 +497,7 @@
           statement: `Donner l'arrondi à l'unité de $${tx(x / 100)}$.`,
           type: 'exact', answer: String(ans), placeholder: PH_INT,
           hint1: 'Encadre le nombre entre deux entiers consécutifs, puis choisis le plus proche.',
-          hint2: 'Regarde le chiffre des dixièmes : s\'il vaut 5 ou plus, on arrondit à l\'entier supérieur.',
+          hint2: 'On regarde le chiffre des dixièmes : de zéro à quatre, on garde l\'entier inférieur ; de cinq à neuf, on passe à l\'entier supérieur.',
           solution: `$${Math.floor(x / 100)} < ${tx(x / 100)} < ${Math.floor(x / 100) + 1}$ et le chiffre des dixièmes est ${Math.floor(x / 10) % 10}.\nL'arrondi à l'unité est **${ans}**.`,
           _v: { k: '6N2.arrondi', x, scale: 100, prec: 0 }
         });
@@ -517,7 +517,7 @@
             statement: `Donner l'arrondi ${nom} de $${tx(x / 1000)}$.`,
             type: 'exact', answer: this._6ans(ans), placeholder: PH_DEC,
             hint1: `Encadre le nombre ${nom} près, puis choisis la valeur la plus proche.`,
-            hint2: `Regarde le chiffre ${prec === 1 ? 'des centièmes' : 'des millièmes'} : 5 ou plus → on arrondit au-dessus.`,
+            hint2: `On regarde le chiffre ${prec === 1 ? 'des centièmes' : 'des millièmes'} : de zéro à quatre, on garde ; de cinq à neuf, on arrondit au-dessus.`,
             solution: `Le chiffre ${prec === 1 ? 'des centièmes' : 'des millièmes'} de $${tx(x / 1000)}$ est ${prec === 1 ? Math.floor(x / 10) % 10 : x % 10}.\nL'arrondi ${nom} est **$${tx(ans)}$**.`,
             _v: { k: '6N2.arrondi', x, scale: 1000, prec }
           });
@@ -554,8 +554,8 @@
             title: 'Lire une abscisse au centième',
             statement: `Lire l'abscisse du point B.\n${fig}`,
             type: 'exact', answer: this._6ans(val), placeholder: PH_DEC,
-            hint1: `Entre $${tx(s)}$ et $${tx(this._6r(s + 0.1))}$, l'écart est $0{,}1$, partagé en 10 : chaque petite graduation vaut $0{,}01$.`,
-            hint2: `Compte les petites graduations à partir de $${tx(s)}$.`,
+            hint1: 'Calcule l\'écart entre les deux graduations numérotées, puis divise-le par le nombre de petits intervalles.',
+            hint2: 'Un dixième partagé en 10 parts égales donne des centièmes : chaque petite graduation vaut un centième.',
             solution: `Chaque petite graduation vaut $0{,}01$. B est à ${k} graduations de $${tx(s)}$ : $${tx(s)} + ${tx(k / 100)} = ${tx(val)}$.`,
             _v: { k: '6N2.abscisse', s: s10 / 10, j: k, div: 100 }
           });
@@ -638,14 +638,14 @@
             title: 'Trouver le pas d\'une graduation',
             statement: `Sur une demi-droite graduée, l'intervalle entre les graduations $${A}$ et $${B}$ est partagé en $${n}$ parts égales.\n**Quelle est la valeur d'une part ?**`,
             type: 'exact', answer: this._6ans(step), placeholder: PH_DEC,
-            hint1: `L'écart entre les deux graduations est $${B} - ${A} = ${B - A}$.`,
-            hint2: `On partage cet écart en $${n}$ : calcule $${B - A} \\div ${n}$.`,
+            hint1: 'Calcule d\'abord l\'écart entre les deux graduations, puis partage-le équitablement.',
+            hint2: 'Valeur d\'une part = écart entre les graduations ÷ nombre de parts égales.',
             solution: `$$(${B} - ${A}) \\div ${n} = ${B - A} \\div ${n} = ${tx(step)}$$`,
             _v: { k: '6N2.pas', A, B, n }
           });
         }
         const prec = this.randChoice([10, 100]);
-        let x = this.randInt(1000, 99999);
+        let x = this.randInt(1600, 99999);
         if (x % (prec * 10) === prec * 5) x += 1;
         const ans = Math.round(x / (prec * 10)) * prec;
         return this._6A_q(id, t, 'Calculer', {
@@ -673,8 +673,8 @@
           statement: `Quel est le **plus ${mode === 'max' ? 'grand' : 'petit'}** chiffre que l'on peut écrire à la place de $\\square$ pour que :\n$$${a}{,}\\square ${t1} ${rel} ${a}{,}${d}${t2}$$`,
           type: 'exact', answer: String(ans), placeholder: 'Ex : 4',
           hint1: 'Les parties entières sont égales : compare d\'abord les chiffres des dixièmes.',
-          hint2: `Teste $\\square = ${d}$ : compare alors les chiffres des centièmes ${t1} et ${t2}.`,
-          solution: `Avec $\\square = ${d}$ : $${a}{,}${d}${t1}$ ${(t1 < t2) === (mode === 'max') ? 'convient' : 'ne convient pas'}.\nLe ${mode === 'max' ? 'plus grand' : 'plus petit'} chiffre possible est donc **${ans}** ($${a}{,}${ans}${t1} ${rel} ${a}{,}${d}${t2}$).`,
+          hint2: 'Deux décimaux de même partie entière se comparent par les dixièmes ; si les dixièmes sont égaux, ce sont les centièmes qui départagent.',
+          solution: `**Étape 1 :** si le chiffre des dixièmes $\\square$ est ${mode === 'max' ? 'plus petit' : 'plus grand'} que $${d}$, l'inégalité est toujours vraie.\n**Étape 2 :** si $\\square = ${d}$, on compare les centièmes $${t1}$ et $${t2}$ : $${a}{,}${d}${t1}$ ${(t1 < t2) === (mode === 'max') ? 'convient' : 'ne convient pas'}.\n**Conclusion :** le ${mode === 'max' ? 'plus grand' : 'plus petit'} chiffre possible est **${ans}** ($${a}{,}${ans}${t1} ${rel} ${a}{,}${d}${t2}$).`,
           _v: { k: '6N2.manquant', d, t1, t2, mode }
         });
       }
@@ -697,14 +697,14 @@
       }
       if (sub === 'arrondi_possible') {
         const tt = this.randInt(11, 499);
-        const c = tt * 10 + this.randInt(-4, 4);
+        const c = tt * 10 + this.randChoice([-4, -3, -2, -1, 1, 2, 3, 4]);
         const correct = `$${tx(c / 100)}$`;
         const q = this._6A_q(id, t, sk, {
           title: 'Retrouver un nombre à partir de son arrondi',
           statement: `L'arrondi au dixième d'un nombre est $${tx(tt / 10)}$.\n**Lequel de ces nombres peut-il être ?**`,
           hint1: `Les nombres dont l'arrondi au dixième est $${tx(tt / 10)}$ sont plus proches de $${tx(tt / 10)}$ que des dixièmes voisins.`,
-          hint2: `Ils sont compris entre $${tx((tt * 10 - 5) / 100)}$ (inclus) et $${tx((tt * 10 + 5) / 100)}$ (exclu).`,
-          solution: `Il faut $${tx((tt * 10 - 5) / 100)} \\le x < ${tx((tt * 10 + 5) / 100)}$. Seul ${correct} convient.`,
+          hint2: 'Pour arrondir au dixième, on regarde le chiffre des centièmes : de 0 à 4, on garde le dixième ; de 5 à 9, on passe au dixième supérieur.',
+          solution: `Un nombre a pour arrondi au dixième $${tx(tt / 10)}$ lorsqu'il est plus proche de $${tx(tt / 10)}$ que de $${tx((tt - 1) / 10)}$ et de $${tx((tt + 1) / 10)}$ : il faut $${tx((tt * 10 - 5) / 100)} \\le x < ${tx((tt * 10 + 5) / 100)}$.\nParmi les propositions, seul ${correct} est dans cet intervalle.`,
           _v: { k: '6N2.arrondipossible', tt, c }
         });
         return this._6mcq(q, correct, [`$${tx((tt * 10 - 6) / 100)}$`, `$${tx((tt * 10 + 5) / 100)}$`, `$${tx((tt * 10 + 12) / 100)}$`, `$${tx((tt * 10 - 13) / 100)}$`]);
@@ -741,7 +741,7 @@
             type: 'exact', answer: this._6ans(s), placeholder: PH_DEC,
             hint1: 'Pose l\'addition en alignant les virgules (unités sous unités, dixièmes sous dixièmes).',
             hint2: 'Additionne d\'abord les dixièmes, sans oublier la retenue.',
-            solution: `$$${tx(a / 10)} + ${tx(b / 10)} = ${tx(s)}$$`,
+            solution: `On pose l'addition en alignant les virgules, puis on calcule de droite à gauche (dixièmes, unités, dizaines…) en reportant les retenues :\n$$${tx(a / 10)} + ${tx(b / 10)} = ${tx(s)}$$\nContrôle : $${Math.round(a / 10)} + ${Math.round(b / 10)} = ${Math.round(a / 10) + Math.round(b / 10)}$, proche du résultat.`,
             _v: { k: '6N3.lin', terms: [[1, a, 10], [1, b, 10]] }
           });
         }
@@ -753,7 +753,7 @@
             type: 'exact', answer: this._6ans((a - b) / 10), placeholder: PH_DEC,
             hint1: 'Pose la soustraction en alignant les virgules.',
             hint2: 'Commence par les dixièmes ; si le chiffre du haut est trop petit, fais une retenue.',
-            solution: `$$${tx(a / 10)} - ${tx(b / 10)} = ${tx((a - b) / 10)}$$`,
+            solution: `On pose la soustraction en alignant les virgules, en commençant par les dixièmes :\n$$${tx(a / 10)} - ${tx(b / 10)} = ${tx((a - b) / 10)}$$\nVérification par l'addition : $${tx((a - b) / 10)} + ${tx(b / 10)} = ${tx(a / 10)}$.`,
             _v: { k: '6N3.lin', terms: [[1, a, 10], [-1, b, 10]] }
           });
         }
@@ -766,7 +766,7 @@
           type: 'exact', answer: this._6ans(ans), placeholder: PH_DEC,
           hint1: `Cherche ce qu'il manque à $${tx(x)}$ pour atteindre $${target}$ : c'est une soustraction.`,
           hint2: `Calcule $${target} - ${tx(x)}$.`,
-          solution: `$$${target} - ${tx(x)} = ${tx(ans)} \\quad \\text{donc} \\quad ${tx(x)} + ${tx(ans)} = ${target}$$`,
+          solution: `Le nombre manquant est l'écart entre $${tx(x)}$ et $${target}$ : on calcule une soustraction.\n$$${target} - ${tx(x)} = ${tx(ans)} \\quad \\text{donc} \\quad ${tx(x)} + ${tx(ans)} = ${target}$$\nLe nombre manquant est **$${tx(ans)}$**.`,
           _v: { k: '6N3.lin', terms: [[1, target, 1], [-1, Math.round(x * 100), 100]] }
         });
       }
@@ -784,7 +784,7 @@
               type: 'exact', answer: this._6ans(this._6r(B - A)), placeholder: PH_DEC,
               hint1: 'Aligne les virgules et complète par des zéros si besoin.',
               hint2: `$${tx(B)} = ${this._6A_fix2(b * 10)}$.`,
-              solution: `$$${this._6A_fix2(b * 10)} - ${tx(A)} = ${tx(this._6r(B - A))}$$`,
+              solution: `On écrit les deux nombres avec deux chiffres après la virgule, puis on pose la soustraction virgules alignées :\n$$${this._6A_fix2(b * 10)} - ${tx(A)} = ${tx(this._6r(B - A))}$$\nVérification : $${tx(this._6r(B - A))} + ${tx(A)} = ${tx(B)}$.`,
               _v: { k: '6N3.lin', terms: [[1, b, 10], [-1, a, 100]] }
             });
           }
@@ -795,7 +795,7 @@
             type: 'exact', answer: this._6ans(res), placeholder: PH_DEC,
             hint1: 'Aligne les virgules et complète par des zéros si besoin.',
             hint2: `$${tx(B)} = ${this._6A_fix2(b * 10)}$.`,
-            solution: `$$${tx(A)} ${op} ${this._6A_fix2(b * 10)} = ${tx(res)}$$`,
+            solution: `On complète $${tx(B)}$ par un zéro pour avoir deux chiffres après la virgule, puis on pose l'opération virgules alignées :\n$$${tx(A)} ${op} ${this._6A_fix2(b * 10)} = ${tx(res)}$$`,
             _v: { k: '6N3.lin', terms: [[1, a, 100], [op === '+' ? 1 : -1, b, 10]] }
           });
         }
@@ -809,7 +809,7 @@
             type: 'exact', answer: this._6ans(res), placeholder: PH_DEC,
             hint1: `Écris $${n}$ sous la forme $${n}{,}00$ pour aligner les virgules.`,
             hint2: 'Fais attention aux retenues successives.',
-            solution: `$$${n}{,}00 - ${tx(x / 100)} = ${tx(res)}$$`,
+            solution: `Un entier a une virgule « invisible » : $${n} = ${n}{,}00$. On pose la soustraction virgules alignées, en gérant les retenues :\n$$${n}{,}00 - ${tx(x / 100)} = ${tx(res)}$$\nVérification : $${tx(res)} + ${tx(x / 100)} = ${n}$.`,
             _v: { k: '6N3.lin', terms: [[1, n, 1], [-1, x, 100]] }
           });
         }
@@ -841,8 +841,8 @@
             title: 'Ordre de grandeur',
             statement: `En arrondissant chaque nombre à la centaine, donner un ordre de grandeur de :\n$$${tx(a / 10)} ${op} ${tx(b / 10)}$$`,
             hint1: 'Arrondis chaque terme à la centaine la plus proche.',
-            hint2: `$${tx(a / 10)} \\approx ${ra}$ et $${tx(b / 10)} \\approx ${rb}$.`,
-            solution: `$${tx(a / 10)} \\approx ${ra}$ et $${tx(b / 10)} \\approx ${rb}$, donc l'ordre de grandeur est $${ra} ${op} ${rb} = ${og}$.`,
+            hint2: 'Pour arrondir à la centaine, on regarde le chiffre des dizaines : de 0 à 4, on garde la centaine inférieure ; de 5 à 9, on passe à la centaine supérieure.',
+            solution: `**Étape 1 :** on arrondit chaque terme à la centaine : $${tx(a / 10)} \\approx ${ra}$ et $${tx(b / 10)} \\approx ${rb}$.\n**Étape 2 :** on calcule mentalement $${ra} ${op} ${rb} = ${og}$.\nL'ordre de grandeur est **${og}**.`,
             _v: { k: '6N3.ordre', a, b, op }
           });
           return this._6mcq(q, String(og), [String(og * 10), String(og + 100), String(Math.abs(og - 100) || 1000), String(og * 100)]);
@@ -856,7 +856,7 @@
             type: 'exact', answer: this._6ans(s), placeholder: PH_DEC,
             hint1: 'Pose l\'addition en colonnes, virgules alignées (un entier a une virgule « invisible » après les unités).',
             hint2: `$${c} = ${c}{,}00$.`,
-            solution: `$$${tx(a / 100)} + ${tx(b / 10)} + ${c} = ${tx(s)}$$`,
+            solution: `On écrit tous les nombres avec deux chiffres après la virgule : $${c} = ${c}{,}00$, puis on additionne virgules alignées :\n$$${tx(a / 100)} + ${tx(b / 10)} + ${c} = ${tx(s)}$$`,
             _v: { k: '6N3.lin', terms: [[1, a, 100], [1, b, 10], [1, c, 1]] }
           });
         }
@@ -870,7 +870,7 @@
             type: 'exact', answer: this._6ans(this._6r((b - a) / 100)), placeholder: PH_DEC,
             hint1: 'Le terme manquant est la différence entre le résultat et le terme connu.',
             hint2: `Calcule $${tx(b / 100)} - ${tx(a / 100)}$.`,
-            solution: `$$${tx(b / 100)} - ${tx(a / 100)} = ${tx((b - a) / 100)}$$`,
+            solution: `Le terme manquant est la différence entre la somme et le terme connu :\n$$${tx(b / 100)} - ${tx(a / 100)} = ${tx((b - a) / 100)}$$\nVérification : $${tx(a / 100)} + ${tx((b - a) / 100)} = ${tx(b / 100)}$.`,
             _v: { k: '6N3.lin', terms: [[1, b, 100], [-1, a, 100]] }
           });
         }
@@ -880,7 +880,7 @@
           type: 'exact', answer: this._6ans(this._6r(a / 100 + d / 10)), placeholder: PH_DEC,
           hint1: 'Pour retrouver le nombre de départ d\'une soustraction, on fait l\'addition inverse.',
           hint2: `Calcule $${tx(d / 10)} + ${tx(a / 100)}$.`,
-          solution: `$$${tx(d / 10)} + ${tx(a / 100)} = ${tx(this._6r(a / 100 + d / 10))}$$`,
+          solution: `L'addition est l'opération inverse de la soustraction : le nombre de départ vaut le résultat plus le nombre retranché.\n$$${tx(d / 10)} + ${tx(a / 100)} = ${tx(this._6r(a / 100 + d / 10))}$$\nVérification : $${tx(this._6r(a / 100 + d / 10))} - ${tx(a / 100)} = ${tx(d / 10)}$.`,
           _v: { k: '6N3.lin', terms: [[1, a, 100], [1, d, 10]] }
         });
       }
@@ -895,7 +895,7 @@
           statement: `Calculer (de gauche à droite) :\n$$${tx(a / 100)} - ${tx(b / 100)} + ${tx(c / 10)} - ${tx(d / 100)}$$`,
           type: 'exact', answer: this._6ans(res), placeholder: PH_DEC,
           hint1: 'Sans parenthèses, additions et soustractions se calculent de gauche à droite.',
-          hint2: `Commence par $${tx(a / 100)} - ${tx(b / 100)} = ${tx((a - b) / 100)}$.`,
+          hint2: 'Effectue la première opération, puis utilise son résultat pour la suivante, et ainsi de suite.',
           solution: `$${tx(a / 100)} - ${tx(b / 100)} = ${tx((a - b) / 100)}$ ; puis $${tx((a - b) / 100)} + ${tx(c / 10)} = ${tx(this._6r((a - b) / 100 + c / 10))}$ ; enfin $${tx(this._6r((a - b) / 100 + c / 10))} - ${tx(d / 100)} = ${tx(res)}$.`,
           _v: { k: '6N3.lin', terms: [[1, a, 100], [-1, b, 100], [1, c, 10], [-1, d, 100]] }
         });
@@ -929,7 +929,7 @@
         statement: `Calculer astucieusement (en regroupant les termes) :\n$$${terms.map(([, n, d]) => tx(n / d)).join(' + ')}$$`,
         type: 'exact', answer: String(ans), placeholder: PH_INT,
         hint1: 'Cherche deux termes dont la somme est un nombre entier.',
-        hint2: `$${tx(x / 10)} + ${tx((k1 * 100 - x) / 10)} = ${k1 * 10}$.`,
+        hint2: 'Dans une somme, on peut changer l\'ordre des termes et les regrouper : cherche deux termes dont les parties décimales se complètent.',
         solution: `$$(${tx(x / 10)} + ${tx((k1 * 100 - x) / 10)}) + (${tx(y / 100)} + ${tx((k2 * 1000 - y) / 100)}) = ${k1 * 10} + ${k2 * 10} = ${ans}$$`,
         _v: { k: '6N3.lin', terms }
       });
@@ -957,7 +957,7 @@
             type: 'exact', answer: this._6ans(res), placeholder: PH_DEC,
             hint1: op === 'times' ? `Multiplier par $${tx(m)}$ : chaque chiffre prend une valeur $${tx(m)}$ fois plus grande.` : `Diviser par $${tx(m)}$ : chaque chiffre prend une valeur $${tx(m)}$ fois plus petite.`,
             hint2: `Les chiffres se décalent de ${String(m).length - 1} rang(s) vers la ${op === 'times' ? 'gauche' : 'droite'}.`,
-            solution: `$$${tx(x)} \\${op} ${tx(m)} = ${tx(res)}$$`,
+            solution: `${op === 'times' ? 'Multiplier' : 'Diviser'} par $${tx(m)}$ rend chaque chiffre $${tx(m)}$ fois plus ${op === 'times' ? 'grand' : 'petit'} : les chiffres se décalent de ${String(m).length - 1} rang(s) vers la ${op === 'times' ? 'gauche' : 'droite'} (on complète par des zéros si besoin).\n$$${tx(x)} \\${op} ${tx(m)} = ${tx(res)}$$`,
             _v: { k: '6N4.prod', f: [[Math.round(x * 1000), 1000], op === 'times' ? [m, 1] : [1, m]] }
           });
         }
@@ -971,7 +971,7 @@
             type: 'exact', answer: this._6ans(res), placeholder: PH_DEC,
             hint1: `Multiplier par $${tx(1 / m)}$, c'est diviser par $${tx(m)}$.`,
             hint2: `Les chiffres se décalent de ${String(m).length - 1} rang(s) vers la droite.`,
-            solution: `$$${tx(x)} \\times ${tx(1 / m)} = ${tx(x)} \\div ${tx(m)} = ${tx(res)}$$`,
+            solution: `Multiplier par $${tx(1 / m)}$, c'est prendre $${tx(1 / m)}$ fois le nombre, c'est-à-dire le diviser par $${tx(m)}$ : les chiffres se décalent de ${String(m).length - 1} rang(s) vers la droite.\n$$${tx(x)} \\times ${tx(1 / m)} = ${tx(x)} \\div ${tx(m)} = ${tx(res)}$$`,
             _v: { k: '6N4.prod', f: [[Math.round(x * 100), 100], [1, m]] }
           });
         }
@@ -981,9 +981,9 @@
           title: 'Multiplier un décimal par un entier',
           statement: `Calculer :\n$$${n} \\times ${tx(a / 10)}$$`,
           type: 'exact', answer: this._6ans(res), placeholder: PH_DEC,
-          hint1: `Calcule d'abord $${n} \\times ${a}$ sans la virgule.`,
+          hint1: 'Calcule d\'abord le produit sans tenir compte de la virgule, puis place-la.',
           hint2: 'Le facteur décimal a un chiffre après la virgule : le produit aussi.',
-          solution: `$${n} \\times ${a} = ${n * a}$, donc $${n} \\times ${tx(a / 10)} = ${tx(res)}$.`,
+          solution: `**Étape 1 :** on calcule sans la virgule : $${n} \\times ${a} = ${n * a}$.\n**Étape 2 :** $${tx(a / 10)}$ a un chiffre après la virgule, donc le produit aussi : $${n} \\times ${tx(a / 10)} = ${tx(res)}$.\nContrôle : $${n} \\times ${Math.round(a / 10)} = ${n * Math.round(a / 10)}$, proche du résultat.`,
           _v: { k: '6N4.prod', f: [[n, 1], [a, 10]] }
         });
       }
@@ -997,7 +997,7 @@
             title: 'Produit de deux décimaux',
             statement: `Calculer :\n$$${tx(a / 10)} \\times ${tx(b / 10)}$$`,
             type: 'exact', answer: this._6ans(res), placeholder: PH_DEC,
-            hint1: `Calcule $${a} \\times ${b}$ sans tenir compte des virgules.`,
+            hint1: 'Calcule le produit des deux nombres sans tenir compte des virgules.',
             hint2: 'Il y a un chiffre après la virgule dans chaque facteur : le produit en a deux au total.',
             solution: `$${a} \\times ${b} = ${a * b}$ ; on place 2 chiffres après la virgule : $${tx(a / 10)} \\times ${tx(b / 10)} = ${tx(res)}$.`,
             _v: { k: '6N4.prod', f: [[a, 10], [b, 10]] }
@@ -1013,8 +1013,8 @@
             statement: `On sait que $${a} \\times ${b} = ${tx(a * b)}$.\nEn déduire :\n$$${tx(A)} \\times ${tx(B)}$$`,
             type: 'exact', answer: this._6ans(res), placeholder: PH_DEC,
             hint1: 'Compte le nombre total de chiffres après la virgule dans les deux facteurs.',
-            hint2: `Il y en a ${s1 + s2} : le produit aura ${s1 + s2} chiffre(s) après la virgule.`,
-            solution: `${s1 + s2} chiffre(s) après la virgule au total, donc $${tx(A)} \\times ${tx(B)} = ${tx(res)}$.`,
+            hint2: 'Le nombre de chiffres après la virgule du produit est la somme des nombres de chiffres après la virgule des deux facteurs.',
+            solution: `**Étape 1 :** $${tx(A)}$ a ${s1} chiffre(s) après la virgule et $${tx(B)}$ en a ${s2}.\n**Étape 2 :** le produit en a donc $${s1} + ${s2} = ${s1 + s2}$ : on place la virgule dans $${tx(a * b)}$.\n$$${tx(A)} \\times ${tx(B)} = ${tx(res)}$$`,
             _v: { k: '6N4.prod', f: [[a, Math.pow(10, s1)], [b, Math.pow(10, s2)]] }
           });
         }
@@ -1028,7 +1028,7 @@
           type: 'exact', answer: this._6ans(res), placeholder: PH_DEC,
           hint1: 'Le prix est proportionnel à la quantité achetée : on multiplie.',
           hint2: `Calcule $${n} \\times ${tx(p / 100)}$.`,
-          solution: `$$${n} \\times ${tx(p / 100)} = ${tx(res)} \\text{ €}$$`,
+          solution: `Le prix est proportionnel à la quantité : ${n} fois plus de marchandise coûte ${n} fois plus cher.\n$$${n} \\times ${tx(p / 100)} = ${tx(res)}$$\n${n} ${prod[1]} coûtent **${this._6txt(res)} €**.`,
           _v: { k: '6N4.prod', f: [[n, 1], [p, 100]] }
         });
       }
@@ -1044,8 +1044,8 @@
             title: 'Ordre de grandeur d\'un produit',
             statement: `En arrondissant chaque facteur à la dizaine, donner un ordre de grandeur de :\n$$${tx(a / 10)} \\times ${tx(b / 10)}$$`,
             hint1: 'Arrondis chaque facteur à la dizaine la plus proche.',
-            hint2: `$${tx(a / 10)} \\approx ${ra}$ et $${tx(b / 10)} \\approx ${rb}$.`,
-            solution: `$${ra} \\times ${rb} = ${tx(og)}$ : l'ordre de grandeur est $${tx(og)}$.`,
+            hint2: 'Pour arrondir à la dizaine, on regarde le chiffre des unités : de 0 à 4, dizaine inférieure ; de 5 à 9, dizaine supérieure.',
+            solution: `**Étape 1 :** on arrondit chaque facteur à la dizaine : $${tx(a / 10)} \\approx ${ra}$ et $${tx(b / 10)} \\approx ${rb}$.\n**Étape 2 :** $${ra} \\times ${rb} = ${tx(og)}$.\nL'ordre de grandeur est **$${tx(og)}$**.`,
             _v: { k: '6N4.ordre', a, b }
           });
           return this._6mcq(q, String(og), [String(og * 10), String(og / 10), String(ra + rb), String(og + ra * 10)]);
@@ -1057,9 +1057,9 @@
             title: 'Produit de deux décimaux',
             statement: `Calculer :\n$$${tx(a / 100)} \\times ${tx(b / 10)}$$`,
             type: 'exact', answer: this._6ans(res), placeholder: PH_DEC,
-            hint1: `Calcule $${a} \\times ${b}$ sans les virgules.`,
-            hint2: 'Il y a 2 + 1 = 3 chiffres après la virgule dans les facteurs.',
-            solution: `$${a} \\times ${b} = ${tx(a * b)}$ ; avec 3 chiffres après la virgule : $${tx(res)}$.`,
+            hint1: 'Calcule le produit sans les virgules, puis place la virgule.',
+            hint2: 'Le produit a autant de chiffres après la virgule que les deux facteurs réunis.',
+            solution: `**Étape 1 :** sans les virgules : $${a} \\times ${b} = ${tx(a * b)}$.\n**Étape 2 :** les facteurs ont $2 + 1 = 3$ chiffres après la virgule, donc le produit aussi :\n$$${tx(a / 100)} \\times ${tx(b / 10)} = ${tx(res)}$$\nContrôle : $${Math.round(a / 100)} \\times ${Math.round(b / 10)} = ${Math.round(a / 100) * Math.round(b / 10)}$, ordre de grandeur cohérent.`,
             _v: { k: '6N4.prod', f: [[a, 100], [b, 10]] }
           });
         }
@@ -1073,7 +1073,7 @@
           type: 'exact', answer: this._6ans(res), placeholder: PH_DEC,
           hint1: 'Prix à payer = prix d\'un kilogramme × masse en kilogrammes.',
           hint2: `Calcule $${tx(p / 100)} \\times ${tx(m / 10)}$.`,
-          solution: `$$${tx(p / 100)} \\times ${tx(m / 10)} = ${tx(res)} \\text{ €}$$`,
+          solution: `Le prix est proportionnel à la masse : prix à payer = prix d'un kilogramme × masse.\n$$${tx(p / 100)} \\times ${tx(m / 10)} = ${tx(res)}$$\nLe prix à payer est **${this._6txt(res)} €**.`,
           _v: { k: '6N4.prod', f: [[p, 100], [m, 10]] }
         });
       }
@@ -1089,8 +1089,8 @@
           statement: `Compléter :\n$$${tx(x)} \\times \\dots = ${tx(y)}$$`,
           type: 'exact', answer: this._6ans(m), placeholder: 'Ex : 0,01',
           hint1: 'Compare la position des chiffres dans les deux nombres : de combien de rangs se sont-ils décalés ?',
-          hint2: 'Un décalage vers la gauche correspond à 10, 100, 1 000 ; vers la droite à 0,1 ; 0,01 ; 0,001.',
-          solution: `$$${tx(x)} \\times ${tx(m)} = ${tx(y)}$$`,
+          hint2: 'Quand les chiffres « montent » d\'un rang (nombre plus grand), on a multiplié par dix ; quand ils « descendent » d\'un rang, on a multiplié par un dixième.',
+          solution: `Les chiffres de $${tx(x)}$ et de $${tx(y)}$ sont les mêmes : seule la virgule a bougé, de ${String(Math.round(Math.max(m, 1 / m))).length - 1} rang(s) vers la ${m > 1 ? 'droite (le nombre devient plus grand)' : 'gauche (le nombre devient plus petit)'}.\n${m > 1 ? `On a donc multiplié par $${tx(m)}$` : `On a donc divisé par $${tx(1 / m)}$, c'est-à-dire multiplié par $${tx(m)}$`} :\n$$${tx(x)} \\times ${tx(m)} = ${tx(y)}$$`,
           _v: { k: '6N4.facteur', x100: Math.round(x * 100), y1e5: Math.round(y * 1e5) }
         });
       }
@@ -1105,7 +1105,7 @@
           statement: `Calculer astucieusement :\n$$${tx(a / den)} \\times ${tx(b / 10)} \\times ${c}$$`,
           type: 'exact', answer: this._6ans(res), placeholder: PH_DEC,
           hint1: 'Dans un produit, on peut changer l\'ordre des facteurs.',
-          hint2: `Commence par $${tx(a / den)} \\times ${c} = ${tx(this._6r(a / den * c))}$.`,
+          hint2: 'Cherche deux facteurs dont le produit est un nombre « rond » (entier).',
           solution: `$$${tx(a / den)} \\times ${c} \\times ${tx(b / 10)} = ${tx(this._6r(a / den * c))} \\times ${tx(b / 10)} = ${tx(res)}$$`,
           _v: { k: '6N4.prod', f: [[a, den], [b, 10], [c, 1]] }
         });
@@ -1118,7 +1118,7 @@
         title: 'Multiplier par un nombre plus petit que 1',
         statement: `Sans effectuer le calcul, compléter : le produit $${tx(x)} \\times ${tx(f)}$ est … $${tx(x)}$.`,
         hint1: 'Compare le second facteur à 1.',
-        hint2: 'Multiplier par un nombre plus petit que 1 « rapetisse » ; multiplier par un nombre plus grand que 1 « agrandit ».',
+        hint2: 'Multiplier par un nombre inférieur à 1 donne un résultat inférieur au nombre de départ ; multiplier par un nombre supérieur à 1 donne un résultat supérieur.',
         solution: `Comme $${tx(f)}$ est ${kind === 'lt' ? 'plus petit que 1' : kind === 'gt' ? 'plus grand que 1' : 'égal à 1'}, le produit est **${correct}** $${tx(x)}$ (il vaut $${tx(this._6r(x * f))}$).`,
         _v: { k: '6N4.compare', x10: Math.round(x * 10), f10: Math.round(f * 10) }
       });
@@ -1237,7 +1237,7 @@
             type: 'exact', answer: String(b * q0 + r), placeholder: PH_INT,
             hint1: 'Dividende = diviseur × quotient + reste.',
             hint2: `Calcule $${b} \\times ${q0} + ${r}$.`,
-            solution: `$$${b} \\times ${q0} + ${r} = ${b * q0} + ${r} = ${tx(b * q0 + r)}$$`,
+            solution: `L'égalité de la division euclidienne s'écrit : dividende = diviseur × quotient + reste (avec reste < diviseur).\n$$${b} \\times ${q0} + ${r} = ${b * q0} + ${r} = ${tx(b * q0 + r)}$$\nLe dividende est **${b * q0 + r}**.`,
             _v: { k: '6N5.dividende', b, q0, r }
           });
         }
@@ -1250,7 +1250,7 @@
             statement: `Combien le nombre $${n}$ a-t-il de diviseurs ? *(1 et ${n} compris)*`,
             type: 'exact', answer: String(divs.length), placeholder: PH_INT,
             hint1: 'Cherche les diviseurs par paires : si $a \\times b = ' + n + '$, alors $a$ et $b$ sont deux diviseurs.',
-            hint2: `Teste 1, 2, 3, 4… jusqu'à ce que les paires se répètent.`,
+            hint2: 'Un diviseur d\'un nombre est un entier par lequel la division tombe juste (reste nul). Teste les entiers dans l\'ordre croissant jusqu\'à ce que les paires se répètent.',
             solution: `Les diviseurs de $${n}$ sont : ${divs.join(' ; ')}. Il y en a **${divs.length}**.`,
             _v: { k: '6N5.nbdiv', n }
           });
@@ -1265,7 +1265,7 @@
             type: 'exact', answer: this._6ans(n / d), placeholder: PH_DEC,
             hint1: `Écris $${n}$ sous la forme $${n}{,}000$ et continue la division après la virgule.`,
             hint2: 'Arrête-toi lorsque le reste devient nul.',
-            solution: `$$${n} \\div ${d} = ${tx(n / d)} \\quad \\text{car} \\quad ${d} \\times ${tx(n / d)} = ${n}$$`,
+            solution: `On pose la division de $${n}$ par $${d}$ ; quand il reste un reste non nul après les unités, on place la virgule au quotient et on continue avec des zéros ($${n} = ${n}{,}000$) jusqu'à obtenir un reste nul.\n$$${n} \\div ${d} = ${tx(n / d)} \\quad \\text{car} \\quad ${d} \\times ${tx(n / d)} = ${n}$$`,
             _v: { k: '6N5.div', num: n, den: d }
           });
         }
@@ -1278,7 +1278,7 @@
           type: 'exact', answer: this._6ans(part / 100), placeholder: PH_DEC,
           hint1: `Partager équitablement entre ${d} personnes, c'est diviser par ${d}.`,
           hint2: `Calcule $${tx(total / 100)} \\div ${d}$.`,
-          solution: `$$${tx(total / 100)} \\div ${d} = ${tx(part / 100)} \\text{ €}$$`,
+          solution: `Partager équitablement entre ${d} personnes revient à diviser par ${d} :\n$$${tx(total / 100)} \\div ${d} = ${tx(part / 100)}$$\nVérification : $${d} \\times ${tx(part / 100)} = ${tx(total / 100)}$. Chacun reçoit **${this._6A_money(part)} €**.`,
           _v: { k: '6N5.div', num: total, den: d * 100 }
         });
       }
@@ -1314,8 +1314,8 @@
           title: 'Divisible par deux nombres',
           statement: `Quel est le plus petit nombre entier **strictement supérieur à $${N}$** qui est divisible à la fois par $${a}$ et par $${b}$ ?`,
           type: 'exact', answer: String(ans), placeholder: PH_INT,
-          hint1: `Un nombre divisible à la fois par ${a} et par ${b} est ici un multiple de $${a} \\times ${b} = ${l}$.`,
-          hint2: `Cherche le premier multiple de ${l} après ${N}.`,
+          hint1: `Calcule d'abord le plus petit nombre non nul divisible à la fois par ${a} et par ${b}, puis cherche ses multiples après ${N}.`,
+          hint2: `Comme ${a} et ${b} n'ont pas d'autre diviseur commun que 1, un nombre divisible par les deux est un multiple de leur produit.`,
           solution: `Les nombres divisibles par ${a} et par ${b} sont les multiples de ${l}. $${N} = ${l} \\times ${Math.floor(N / l)} + ${N % l}$, donc le suivant est $${l} \\times ${Math.floor(N / l) + 1} = ${ans}$.`,
           _v: { k: '6N5.commun', a, b, N }
         });
@@ -1428,7 +1428,7 @@
             statement: `Quel nombre faut-il multiplier par $${b}$ pour obtenir $${a}$ ?\n$$${b} \\times \\square = ${a}$$\nDonner la réponse sous forme de fraction.`,
             type: 'exact', answer: this._6fracAns(a, b), placeholder: 'Ex : 3/4',
             hint1: `Par définition, le quotient de $${a}$ par $${b}$ est le nombre qui, multiplié par $${b}$, donne $${a}$.`,
-            hint2: `Ce nombre s'écrit $${F(a, b)}$.`,
+            hint2: 'Rappel : le quotient d\'un nombre entier par un autre (non nul) peut s\'écrire sous la forme d\'une fraction, avec le dividende au numérateur et le diviseur au dénominateur.',
             solution: `Le nombre cherché est le quotient de $${a}$ par $${b}$ :\n$$${b} \\times ${F(a, b)} = ${a}$$\nLa réponse est $${F(a, b)}$.`,
             _v: { k: '6N6.quotient', a, b }
           });
@@ -1508,7 +1508,7 @@
             title: 'Repérer une fraction sur une demi-droite graduée',
             statement: `Sur la demi-droite graduée ci-dessous, chaque unité est partagée en $${d}$ parts égales.\n${fig}**Quelle est l'abscisse du point ${L} ?** Donner la réponse sous forme de fraction.`,
             type: 'exact', answer: this._6fracAns(n, d), placeholder: 'Ex : 5/3',
-            hint1: `Une graduation représente $${F(1, d)}$ d'unité.`,
+            hint1: `Chaque unité est partagée en $${d}$ parts égales : repère ce que vaut une petite graduation.`,
             hint2: `Compte le nombre de graduations entre $0$ et le point ${L}.`,
             solution: `Le point ${L} est à $${n}$ graduations de l'origine, chacune valant $${F(1, d)}$ : son abscisse est $${F(n, d)}$.`,
             skill: 'Représenter',
@@ -1587,7 +1587,7 @@
             title: 'Comparer deux fractions',
             statement: `Compléter avec le bon symbole :\n$$${F(n1, d1)} \\; \\dots \\; ${F(n2, d2)}$$`,
             hint1: `Écris les deux fractions avec le même dénominateur $${b * k}$.`,
-            hint2: `$${F(a, b)} = ${F(a * k, b * k)}$. Compare ensuite les numérateurs.`,
+            hint2: 'Rappel : deux fractions de même dénominateur sont rangées dans le même ordre que leurs numérateurs.',
             solution: `$${F(a, b)} = ${F(a * k, b * k)}$. On compare $${a * k}$ et $${c}$ : donc $${F(n1, d1)} ${cmp < 0 ? '<' : (cmp > 0 ? '>' : '=')} ${F(n2, d2)}$.`,
             skill: 'Comparer',
             _v: { k: '6N6.cmp', n1, d1, n2, d2 }
@@ -1602,8 +1602,8 @@
             title: 'Écrire une fraction sous forme de nombre mixte',
             statement: `Parmi les écritures suivantes, laquelle est égale à $${F(n, d)}$ ?`,
             hint1: `Combien de fois $${d}$ est-il contenu dans $${n}$ ? C'est la partie entière.`,
-            hint2: `$${n} = ${d} \\times ${e} + ${r}$.`,
-            solution: `$${n} = ${d} \\times ${e} + ${r}$ donc $${F(n, d)} = ${e} + ${F(r, d)}$.`,
+            hint2: `Rappel : si $${n} = ${d} \\times e + r$ avec $r < ${d}$, alors $${F(n, d)} = e + ${F('r', d)}$.`,
+            solution: `Étape 1 : division euclidienne de $${n}$ par $${d}$ : $${n} = ${d} \\times ${e} + ${r}$ avec $${r} < ${d}$.\nÉtape 2 : donc $${F(n, d)} = ${F(d * e, d)} + ${F(r, d)} = ${e} + ${F(r, d)}$.\nLa bonne écriture est $${e} + ${F(r, d)}$.`,
             skill: 'Représenter',
             _v: { k: '6N6.mixed', n, d }
           });
@@ -1616,8 +1616,8 @@
           statement: `Trouver l'entier $e$ tel que :\n$$e < ${F(n, d)} < e + 1$$`,
           type: 'exact', answer: String(Math.floor(n / d)),
           hint1: `Cherche le plus grand multiple de $${d}$ inférieur à $${n}$.`,
-          hint2: `$${d} \\times ${Math.floor(n / d)} = ${d * Math.floor(n / d)}$ et $${d} \\times ${Math.floor(n / d) + 1} = ${d * (Math.floor(n / d) + 1)}$.`,
-          solution: `$${F(d * Math.floor(n / d), d)} < ${F(n, d)} < ${F(d * (Math.floor(n / d) + 1), d)}$, donc $${Math.floor(n / d)} < ${F(n, d)} < ${Math.floor(n / d) + 1}$.`,
+          hint2: 'Rappel : un entier $e$ s\'écrit comme une fraction de même dénominateur ; deux fractions de même dénominateur se rangent comme leurs numérateurs.',
+          solution: `Étape 1 : $${d} \\times ${Math.floor(n / d)} = ${d * Math.floor(n / d)}$ et $${d} \\times ${Math.floor(n / d) + 1} = ${d * (Math.floor(n / d) + 1)}$, donc $${d * Math.floor(n / d)} < ${n} < ${d * (Math.floor(n / d) + 1)}$.\nÉtape 2 : $${F(d * Math.floor(n / d), d)} < ${F(n, d)} < ${F(d * (Math.floor(n / d) + 1), d)}$, c'est-à-dire $${Math.floor(n / d)} < ${F(n, d)} < ${Math.floor(n / d) + 1}$.\nDonc $e = ${Math.floor(n / d)}$.`,
           skill: 'Comparer',
           _v: { k: '6N6.frame', n, d }
         });
@@ -1657,8 +1657,8 @@
           statement: `Trouver le nombre entier $n$ tel que :\n$$${F(a, b)} < ${F('n', 2 * b)} < ${F(a + 1, b)}$$`,
           type: 'exact', answer: String(2 * a + 1),
           hint1: `Écris les deux fractions encadrantes avec le dénominateur $${2 * b}$.`,
-          hint2: `$${F(a, b)} = ${F(2 * a, 2 * b)}$ et $${F(a + 1, b)} = ${F(2 * a + 2, 2 * b)}$.`,
-          solution: `$${F(2 * a, 2 * b)} < ${F('n', 2 * b)} < ${F(2 * a + 2, 2 * b)}$ donc $n = ${2 * a + 1}$.`,
+          hint2: 'Rappel : on obtient une fraction égale en multipliant le numérateur et le dénominateur par un même nombre ; à dénominateur égal, on compare les numérateurs.',
+          solution: `Étape 1 : $${F(a, b)} = ${F(2 * a, 2 * b)}$ et $${F(a + 1, b)} = ${F(2 * a + 2, 2 * b)}$ (on multiplie par $2$).\nÉtape 2 : on cherche $n$ tel que $${F(2 * a, 2 * b)} < ${F('n', 2 * b)} < ${F(2 * a + 2, 2 * b)}$, donc $${2 * a} < n < ${2 * a + 2}$.\nLe seul entier qui convient est $n = ${2 * a + 1}$.`,
           skill: 'Raisonner',
           _v: { k: '6N6.between', a, b }
         });
@@ -1672,8 +1672,8 @@
           statement: `Écrire le nombre suivant sous la forme d'une seule fraction irréductible :\n$$${e} + ${F(r, d)}$$`,
           type: 'exact', answer: this._6fracAns(e * d + r, d), placeholder: 'Ex : 17/5',
           hint1: `Écris l'entier $${e}$ sous la forme d'une fraction de dénominateur $${d}$.`,
-          hint2: `$${e} = ${F(e * d, d)}$.`,
-          solution: `$$${e} + ${F(r, d)} = ${F(e * d, d)} + ${F(r, d)} = ${F(e * d + r, d)}$$`,
+          hint2: 'Rappel : un entier s\'écrit comme une fraction de dénominateur choisi : le numérateur est l\'entier multiplié par ce dénominateur.',
+          solution: `Étape 1 : $${e} = ${F(`${e} \\times ${d}`, d)} = ${F(e * d, d)}$.\nÉtape 2 : $${F(e * d, d)} + ${F(r, d)} = ${F(`${e * d} + ${r}`, d)} = ${F(e * d + r, d)}$.\nDonc $${e} + ${F(r, d)} = ${F(e * d + r, d)}$ (irréductible).`,
           _v: { k: '6N6.frommixed', e, r, d }
         });
       }
@@ -1684,7 +1684,7 @@
         statement: `Écrire la fraction $${F(a, b)}$ sous la forme d'un pourcentage.\n**Compléter : $${F(a, b)} = \\square \\, \\%$** (donner le nombre seul).`,
         type: 'exact', answer: this._6ans(a * 100 / b),
         hint1: 'Un pourcentage est une fraction de dénominateur $100$.',
-        hint2: `Multiplie numérateur et dénominateur par $${100 / b}$.`,
+        hint2: 'Rappel : on obtient une fraction égale en multipliant le numérateur et le dénominateur par un même nombre : choisis celui qui transforme le dénominateur en 100.',
         solution: `$$${F(a, b)} = ${F(`${a} \\times ${100 / b}`, `${b} \\times ${100 / b}`)} = ${F(a * 100 / b, 100)} = ${a * 100 / b} \\, \\%$$`,
         _v: { k: '6N6.percent', a, b }
       });
@@ -1714,7 +1714,7 @@
             statement: `Calculer :\n$$${F(a, d)} ${op} ${F(b, d)}$$\n${irr}`,
             type: 'exact', answer: this._6fracAns(n, d),
             hint1: 'Quand les dénominateurs sont égaux, on garde le dénominateur et on calcule avec les numérateurs.',
-            hint2: `$${a} ${op} ${b} = ${n}$. Pense à simplifier si possible.`,
+            hint2: `Rappel : $\\frac{a}{d} ${op} \\frac{b}{d} = \\frac{a ${op} b}{d}$ ; pense ensuite à simplifier la fraction obtenue.`,
             solution: `$$${F(a, d)} ${op} ${F(b, d)} = ${F(`${a} ${op} ${b}`, d)} = ${F(n, d)}${simpStep(n, d)}$$`,
             _v: { k: '6N7.addsame', a, b, d, op }
           });
@@ -1728,7 +1728,7 @@
             statement: `Calculer $${F(a, b)}$ de $${N}$.`,
             type: 'exact', answer: String(N / b * a), placeholder: 'Ex : 12',
             hint1: `Prendre $${F(a, b)}$ de $${N}$, c'est calculer $${F(a, b)} \\times ${N}$ : on peut diviser $${N}$ par $${b}$ puis multiplier par $${a}$.`,
-            hint2: `$${N} \\div ${b} = ${N / b}$.`,
+            hint2: 'Rappel : prendre une fraction $\\frac{a}{b}$ d\'une quantité, c\'est partager cette quantité en $b$ parts égales, puis prendre $a$ de ces parts.',
             solution: `$$${F(a, b)} \\times ${N} = (${N} \\div ${b}) \\times ${a} = ${N / b} \\times ${a} = ${N / b * a}$$`,
             _v: { k: '6N7.ofqty', a, b, N }
           });
@@ -1739,7 +1739,7 @@
           statement: `Calculer :\n$$${k} \\times ${F(a, d)}$$\n${irr}`,
           type: 'exact', answer: this._6fracAns(k * a, d),
           hint1: 'Pour multiplier une fraction par un entier, on multiplie le numérateur par cet entier et on garde le dénominateur.',
-          hint2: `$${k} \\times ${a} = ${k * a}$.`,
+          hint2: 'Rappel : $k \\times \\frac{a}{d} = \\frac{k \\times a}{d}$ ; on simplifie ensuite si possible.',
           solution: `$$${k} \\times ${F(a, d)} = ${F(`${k} \\times ${a}`, d)} = ${F(k * a, d)}${simpStep(k * a, d)}$$`,
           _v: { k: '6N7.multint', kk: k, a, d }
         });
@@ -1760,8 +1760,8 @@
             statement: `Calculer :\n$$${F(a, b)} ${op} ${F(c, b * k)}$$\n${irr}`,
             type: 'exact', answer: this._6fracAns(n, b * k),
             hint1: `$${b * k}$ est un multiple de $${b}$ : écris $${F(a, b)}$ avec le dénominateur $${b * k}$.`,
-            hint2: `$${F(a, b)} = ${F(a * k, b * k)}$.`,
-            solution: `$$${F(a, b)} ${op} ${F(c, b * k)} = ${F(a * k, b * k)} ${op} ${F(c, b * k)} = ${F(n, b * k)}${simpStep(n, b * k)}$$`,
+            hint2: 'Rappel : on ne change pas une fraction en multipliant son numérateur et son dénominateur par un même nombre non nul.',
+            solution: `Étape 1 : on écrit $${F(a, b)}$ avec le dénominateur $${b * k}$ : $${F(a, b)} = ${F(`${a} \\times ${k}`, `${b} \\times ${k}`)} = ${F(a * k, b * k)}$.\nÉtape 2 : $${F(a * k, b * k)} ${op} ${F(c, b * k)} = ${F(`${a * k} ${op} ${c}`, b * k)} = ${F(n, b * k)}${simpStep(n, b * k)}$.\nLe résultat est $${res(n, b * k)}$.`,
             _v: { k: '6N7.addmult', a, b, c, kk: k, op }
           });
         }
@@ -1781,8 +1781,8 @@
             statement: `${intro} $${N}$ ${unit}. Les $${F(a, b)}$ d'entre eux ${what}.\n**${ask}**`,
             type: 'exact', answer: String(N / b * a), placeholder: 'Ex : 120',
             hint1: `Il faut calculer $${F(a, b)}$ de $${N}$.`,
-            hint2: `Commence par $${N} \\div ${b} = ${N / b}$.`,
-            solution: `$$${F(a, b)} \\times ${N} = (${N} \\div ${b}) \\times ${a} = ${N / b * a}$$\nLa réponse est $${N / b * a}$.`,
+            hint2: 'Rappel : prendre $\\frac{a}{b}$ d\'une quantité, c\'est la diviser par $b$ (une part) puis multiplier le résultat par $a$.',
+            solution: `Étape 1 : une part : $${N} \\div ${b} = ${N / b}$.\nÉtape 2 : $${a}$ part${a > 1 ? 's' : ''} : $${N / b} \\times ${a} = ${N / b * a}$.\nLa réponse est $${N / b * a}$ ${unit}.`,
             skill: 'Résoudre',
             _v: { k: '6N7.ofqty', a, b, N }
           });
@@ -1796,7 +1796,7 @@
           statement: `Calculer :\n$$${left ? `${n} + ${F(a, b)}` : `${F(a, b)} + ${n}`}$$\n${irr}`,
           type: 'exact', answer: this._6fracAns(n * b + a, b),
           hint1: `Écris l'entier $${n}$ sous forme de fraction de dénominateur $${b}$.`,
-          hint2: `$${n} = ${F(n * b, b)}$.`,
+          hint2: 'Rappel : un entier $n$ s\'écrit $\\frac{n \\times b}{b}$ ; on additionne ensuite les numérateurs en gardant le dénominateur.',
           solution: `$$${left ? `${n} + ${F(a, b)}` : `${F(a, b)} + ${n}`} = ${left ? `${F(n * b, b)} + ${F(a, b)}` : `${F(a, b)} + ${F(n * b, b)}`} = ${F(n * b + a, b)}$$`,
           _v: { k: '6N7.intplus', n, a, b }
         });
@@ -1814,8 +1814,8 @@
             statement: `Calculer :\n$$${F(a, b)} + ${F(c, D)} - ${F(e, D)}$$\n${irr}`,
             type: 'exact', answer: this._6fracAns(n, D),
             hint1: `Mets toutes les fractions au dénominateur $${D}$.`,
-            hint2: `$${F(a, b)} = ${F(a * k, D)}$, puis calcule de gauche à droite.`,
-            solution: `$$${F(a * k, D)} + ${F(c, D)} - ${F(e, D)} = ${F(n, D)}${simpStep(n, D)}$$`,
+            hint2: 'Rappel : on ne change pas une fraction en multipliant son numérateur et son dénominateur par un même nombre ; on calcule ensuite de gauche à droite.',
+            solution: `Étape 1 : $${F(a, b)} = ${F(`${a} \\times ${k}`, `${b} \\times ${k}`)} = ${F(a * k, D)}$.\nÉtape 2 : $${F(a * k, D)} + ${F(c, D)} - ${F(e, D)} = ${F(`${a * k} + ${c} - ${e}`, D)} = ${F(n, D)}${simpStep(n, D)}$.\nLe résultat est $${res(n, D)}$.`,
             _v: { k: '6N7.three', a, b, c, e, D }
           });
         }
@@ -1832,7 +1832,7 @@
             statement: `${name} consacre $${F(a, b)}$ de ${items[0]} à ${items[1]} et $${F(c, D)}$ à ${items[2]}.\n**Quelle fraction de ${items[0]} reste-t-il ?** ${irr}`,
             type: 'exact', answer: this._6fracAns(n, D),
             hint1: `Le tout correspond à $1 = ${F(D, D)}$.`,
-            hint2: `Calcule d'abord la fraction utilisée : $${F(a, b)} + ${F(c, D)} = ${F(a * k + c, D)}$.`,
+            hint2: 'Rappel : pour additionner des fractions, on les écrit avec le même dénominateur ; la fraction restante est l\'écart entre 1 et la fraction utilisée.',
             solution: `Fraction utilisée : $${F(a * k, D)} + ${F(c, D)} = ${F(a * k + c, D)}$.\nFraction restante : $${F(D, D)} - ${F(a * k + c, D)} = ${F(n, D)}${simpStep(n, D)}$.`,
             skill: 'Résoudre',
             _v: { k: '6N7.remaining', a, b, c, D }
@@ -1846,7 +1846,7 @@
             statement: `Compléter :\n$$${F(a, b)} + ${F('\\square', D)} = ${F(a * k + x, D)}$$`,
             type: 'exact', answer: String(x), placeholder: 'Ex : 5',
             hint1: `Écris $${F(a, b)}$ avec le dénominateur $${D}$.`,
-            hint2: `$${F(a, b)} = ${F(a * k, D)}$ : que faut-il ajouter à $${a * k}$ pour obtenir $${a * k + x}$ ?`,
+            hint2: 'Rappel : pour additionner deux fractions de même dénominateur, on additionne les numérateurs : le numérateur manquant est donc une différence.',
             solution: `$${F(a, b)} = ${F(a * k, D)}$ et $${a * k + x} - ${a * k} = ${x}$, donc le nombre manquant est $${x}$.`,
             skill: 'Raisonner',
             _v: { k: '6N7.missing', a, b, D, total: a * k + x }
@@ -1860,8 +1860,8 @@
           statement: `Les $${F(a, b)}$ d'un nombre valent $${a * u}$.\n**Quel est ce nombre ?**`,
           type: 'exact', answer: String(b * u), placeholder: 'Ex : 40',
           hint1: `$${a}$ parts sur $${b}$ valent $${a * u}$ : combien vaut une part ?`,
-          hint2: `Une part vaut $${a * u} \\div ${a} = ${u}$.`,
-          solution: `Une part vaut $${a * u} \\div ${a} = ${u}$, donc le nombre vaut $${b} \\times ${u} = ${b * u}$.`,
+          hint2: `Rappel : $${F(a, b)}$ d'un nombre, ce sont $${a}$ parts parmi $${b}$ parts égales ; le nombre entier correspond aux $${b}$ parts.`,
+          solution: `Étape 1 : $${a}$ part${a > 1 ? 's' : ''} valent $${a * u}$, donc une part vaut $${a * u} \\div ${a} = ${u}$.\nÉtape 2 : le nombre compte $${b}$ parts : $${b} \\times ${u} = ${b * u}$.\nVérification : $${F(a, b)} \\times ${b * u} = ${a * u}$. Le nombre cherché est $${b * u}$.`,
           skill: 'Résoudre',
           _v: { k: '6N7.reverse', a, b, val: a * u }
         });
@@ -1882,7 +1882,7 @@
           statement: `${name} dispose de $${N}$ €. Elle dépense les $${F(a, b)}$ de cette somme pour un voyage et les $${F(c, D)}$ pour du matériel.\n**Combien d'euros lui reste-t-il ?**`,
           type: 'exact', answer: String(rest), placeholder: 'Ex : 150',
           hint1: `Calcule chaque dépense : $${F(a, b)}$ de $${N}$, puis $${F(c, D)}$ de $${N}$.`,
-          hint2: `Voyage : $${N / b * a}$ € ; matériel : $${N / D * c}$ €.`,
+          hint2: 'Rappel : prendre $\\frac{a}{b}$ d\'une somme, c\'est la diviser par $b$ puis multiplier par $a$ ; ce qui reste est la somme de départ moins les dépenses.',
           solution: `Voyage : $${F(a, b)} \\times ${N} = ${N / b * a}$ €. Matériel : $${F(c, D)} \\times ${N} = ${N / D * c}$ €.\nReste : $${N} - ${N / b * a} - ${N / D * c} = ${rest}$ €.`,
           skill: 'Résoudre',
           _v: { k: '6N7.money', a, b, c, D, N }
@@ -1895,7 +1895,7 @@
           statement: `Calculer :\n$$${k} \\times ${F(a, d)} + ${F(c, d)}$$\n${irr}`,
           type: 'exact', answer: this._6fracAns(k * a + c, d),
           hint1: 'La multiplication est prioritaire sur l\'addition.',
-          hint2: `$${k} \\times ${F(a, d)} = ${F(k * a, d)}$.`,
+          hint2: 'Rappel : pour multiplier une fraction par un entier, on multiplie le numérateur par cet entier et on garde le dénominateur.',
           solution: `$$${k} \\times ${F(a, d)} + ${F(c, d)} = ${F(k * a, d)} + ${F(c, d)} = ${F(k * a + c, d)}${simpStep(k * a + c, d)}$$`,
           _v: { k: '6N7.multadd', kk: k, a, c, d }
         });
@@ -1911,7 +1911,7 @@
           statement: `Quelle fraction faut-il ajouter à $${F(a, b)} + ${F(c, D)}$ pour obtenir $1$ ?\n${irr}`,
           type: 'exact', answer: this._6fracAns(n, D),
           hint1: `$1 = ${F(D, D)}$.`,
-          hint2: `$${F(a, b)} + ${F(c, D)} = ${F(a * k + c, D)}$.`,
+          hint2: `Rappel : on additionne d'abord les deux fractions après les avoir écrites avec le dénominateur $${D}$, puis on calcule l'écart avec $1$.`,
           solution: `$${F(a, b)} + ${F(c, D)} = ${F(a * k + c, D)}$ et $${F(D, D)} - ${F(a * k + c, D)} = ${F(n, D)}${simpStep(n, D)}$.`,
           skill: 'Raisonner',
           _v: { k: '6N7.remaining', a, b, c, D }
@@ -1926,8 +1926,8 @@
         statement: `Calculer :\n$$${F(a, d1)} + ${F(c, d2)} + ${F(e, d3)}$$\n${irr}`,
         type: 'exact', answer: this._6fracAns(n, d3),
         hint1: `Le dénominateur commun est $${d3}$.`,
-        hint2: `$${F(a, d1)} = ${F(4 * a, d3)}$ et $${F(c, d2)} = ${F(2 * c, d3)}$.`,
-        solution: `$$${F(4 * a, d3)} + ${F(2 * c, d3)} + ${F(e, d3)} = ${F(n, d3)}${simpStep(n, d3)}$$`,
+        hint2: 'Rappel : pour additionner des fractions, on les écrit d\'abord avec le même dénominateur (en multipliant numérateur et dénominateur par un même nombre).',
+        solution: `Étape 1 : $${F(a, d1)} = ${F(`${a} \\times 4`, `${d1} \\times 4`)} = ${F(4 * a, d3)}$ et $${F(c, d2)} = ${F(`${c} \\times 2`, `${d2} \\times 2`)} = ${F(2 * c, d3)}$.\nÉtape 2 : $${F(4 * a, d3)} + ${F(2 * c, d3)} + ${F(e, d3)} = ${F(`${4 * a} + ${2 * c} + ${e}`, d3)} = ${F(n, d3)}${simpStep(n, d3)}$.\nLe résultat est $${res(n, d3)}$.`,
         _v: { k: '6N7.chain', a, c, e, b }
       });
     },
@@ -1954,8 +1954,8 @@
           type: 'exact', answer: String(ans),
           hint1: sub === 'add' ? 'Pour retrouver un terme manquant d\'une somme, on effectue une soustraction.'
             : (sub === 'mult' ? 'Pour retrouver un facteur manquant, on effectue une division.' : 'Utilise l\'opération « inverse » pour retrouver le nombre manquant.'),
-          hint2: 'Vérifie ta réponse en la remplaçant dans l\'égalité.',
-          solution: `$$${sol}$$\nVérification : l'égalité est vraie avec $${ans}$.`,
+          hint2: 'Rappel : l\'addition et la soustraction sont des opérations contraires, tout comme la multiplication et la division.',
+          solution: `Étape 1 : on utilise l'opération contraire :\n$$${sol}$$\nÉtape 2 (vérification) : en remplaçant la case par $${ans}$, l'égalité est vraie.\nLe nombre manquant est $${ans}$.`,
           _v: { k: '6N8.hole', sub, a, b }
         });
       }
@@ -1972,8 +1972,8 @@
             statement: `Voici un programme de calcul :\n• Choisir un nombre.\n• ${steps[0]}.\n• ${steps[1]}.\n**Quel résultat obtient-on en choisissant $${x}$ ?**`,
             type: 'exact', answer: String(r),
             hint1: 'Applique les étapes dans l\'ordre, une par une.',
-            hint2: order ? `$${x} \\times ${a} = ${a * x}$.` : `$${x} + ${b} = ${x + b}$.`,
-            solution: order ? `$${x} \\times ${a} = ${a * x}$ puis $${a * x} + ${b} = ${r}$.` : `$${x} + ${b} = ${x + b}$ puis $${x + b} \\times ${a} = ${r}$.`,
+            hint2: 'Rappel : dans un programme de calcul, chaque instruction s\'applique au résultat de l\'instruction précédente.',
+            solution: (order ? `Étape 1 : $${x} \\times ${a} = ${a * x}$.\nÉtape 2 : $${a * x} + ${b} = ${r}$.` : `Étape 1 : $${x} + ${b} = ${x + b}$.\nÉtape 2 : $${x + b} \\times ${a} = ${r}$.`) + `\nEn choisissant $${x}$, on obtient $${r}$.`,
             skill: 'Calculer',
             _v: { k: '6N8.prog', a, b, x, order }
           });
@@ -1986,8 +1986,8 @@
             statement: `Compléter l'égalité :\n$$${this._6tex(a)} + ${S} = ${this._6tex(b)}$$`,
             type: 'exact', answer: this._6ans(ans), placeholder: 'Ex : 4,7',
             hint1: 'Le nombre manquant est la différence entre le résultat et le terme connu.',
-            hint2: `Calcule $${this._6tex(b)} - ${this._6tex(a)}$.`,
-            solution: `$$${S} = ${this._6tex(b)} - ${this._6tex(a)} = ${this._6tex(ans)}$$`,
+            hint2: 'Rappel : pour soustraire des décimaux, on aligne les virgules (on peut compléter par des zéros).',
+            solution: `Étape 1 : le terme manquant d'une somme s'obtient par soustraction :\n$$${S} = ${this._6tex(b)} - ${this._6tex(a)} = ${this._6tex(ans)}$$\nÉtape 2 (vérification) : $${this._6tex(a)} + ${this._6tex(ans)} = ${this._6tex(b)}$.\nLe nombre manquant est $${this._6tex(ans)}$.`,
             skill: 'Calculer',
             _v: { k: '6N8.hole', sub: 'add', a, b }
           });
@@ -2000,8 +2000,8 @@
             statement: `On construit une suite de motifs. L'étape $1$ compte $${a}$ ${thing}. À chaque nouvelle étape, on ajoute $${d}$ ${thing}.\n**Combien de ${thing} compte l'étape $${n}$ ?**`,
             type: 'exact', answer: String(a + (n - 1) * d),
             hint1: `De l'étape $1$ à l'étape $${n}$, on ajoute des ${thing} $${n - 1}$ fois.`,
-            hint2: `$${a} + ${n - 1} \\times ${d}$.`,
-            solution: `$$${a} + ${n - 1} \\times ${d} = ${a} + ${(n - 1) * d} = ${a + (n - 1) * d}$$`,
+            hint2: 'Rappel : dans un motif régulier, on ajoute toujours le même nombre d\'objets pour passer d\'une étape à la suivante.',
+            solution: `Étape 1 : de l'étape $1$ à l'étape $${n}$, on ajoute $${d}$ ${thing} $${n - 1}$ fois : $${n - 1} \\times ${d} = ${(n - 1) * d}$.\nÉtape 2 : $${a} + ${(n - 1) * d} = ${a + (n - 1) * d}$.\nL'étape $${n}$ compte $${a + (n - 1) * d}$ ${thing}.`,
             _v: { k: '6N8.pattern', a, d, n }
           });
         }
@@ -2011,8 +2011,8 @@
           statement: `Je pense à un nombre. Je le multiplie par $${a}$ puis j'ajoute $${b}$. J'obtiens $${a * x + b}$.\n**À quel nombre ai-je pensé ?**`,
           type: 'exact', answer: String(x),
           hint1: 'Remonte le programme à l\'envers en utilisant les opérations inverses.',
-          hint2: `Enlève d'abord $${b}$ : $${a * x + b} - ${b} = ${a * x}$.`,
-          solution: `$${a * x + b} - ${b} = ${a * x}$ puis $${a * x} \\div ${a} = ${x}$. J'ai pensé à $${x}$.`,
+          hint2: 'Rappel : on « défait » d\'abord la dernière opération ; le contraire d\'ajouter est soustraire, le contraire de multiplier est diviser.',
+          solution: `Étape 1 : on défait « ajouter $${b}$ » : $${a * x + b} - ${b} = ${a * x}$.\nÉtape 2 : on défait « multiplier par $${a}$ » : $${a * x} \\div ${a} = ${x}$.\nVérification : $${x} \\times ${a} + ${b} = ${a * x + b}$. J'ai pensé à $${x}$.`,
           _v: { k: '6N8.think', a, b, r: a * x + b }
         });
       }
@@ -2027,8 +2027,8 @@
             statement: `Un programme de calcul consiste à ajouter $${b}$ au nombre choisi, puis à multiplier le résultat par $${a}$.\nOn obtient $${r}$.\n**Quel nombre a été choisi au départ ?**`,
             type: 'exact', answer: String(x),
             hint1: 'Parcours le programme à l\'envers : la dernière étape est défaite en premier.',
-            hint2: `$${r} \\div ${a} = ${x + b}$.`,
-            solution: `$${r} \\div ${a} = ${x + b}$ puis $${x + b} - ${b} = ${x}$. Le nombre choisi est $${x}$.`,
+            hint2: 'Rappel : pour remonter un programme, on applique les opérations contraires dans l\'ordre inverse (diviser défait multiplier, soustraire défait ajouter).',
+            solution: `Étape 1 : on défait « multiplier par $${a}$ » : $${r} \\div ${a} = ${x + b}$.\nÉtape 2 : on défait « ajouter $${b}$ » : $${x + b} - ${b} = ${x}$.\nVérification : $(${x} + ${b}) \\times ${a} = ${r}$. Le nombre choisi est $${x}$.`,
             _v: { k: '6N8.reverse', a, b, r }
           });
         }
@@ -2044,8 +2044,8 @@
             statement: `${ctx[0]} $${u * (k + 1)}$ ${ctx[1]}. ${ctx[2]} $${k}$ ${ctx[3]}.\n**${ctx[4]}**`,
             type: 'exact', answer: String(u),
             hint1: `Fais un schéma en barres : la petite quantité est une barre, la grande en vaut $${k}$.`,
-            hint2: `En tout, il y a $${k + 1}$ barres identiques.`,
-            solution: `$${k + 1}$ barres valent $${u * (k + 1)}$, donc une barre vaut $${u * (k + 1)} \\div ${k + 1} = ${u}$.`,
+            hint2: 'Rappel : dans un schéma en barres, le total est partagé en barres de même valeur ; une barre vaut le total divisé par le nombre de barres.',
+            solution: `Étape 1 : la petite quantité vaut $1$ barre, la grande $${k}$ barres : en tout $1 + ${k} = ${k + 1}$ barres.\nÉtape 2 : $${k + 1}$ barres valent $${u * (k + 1)}$, donc une barre vaut $${u * (k + 1)} \\div ${k + 1} = ${u}$.\nLa réponse est $${u}$.`,
             skill: 'Modéliser',
             _v: { k: '6N8.barsum', kk: k, s: u * (k + 1) }
           });
@@ -2057,8 +2057,8 @@
             title: 'Problème à nombre inconnu (écart)',
             statement: `${name} a $${k}$ fois plus d'images que sa cousine. ${name} en a $${u * (k - 1)}$ de plus qu'elle.\n**Combien d'images a sa cousine ?**`,
             type: 'exact', answer: String(u),
-            hint1: `Schéma en barres : la cousine a 1 barre, ${name} en a $${k}$. L'écart correspond à $${k - 1}$ barre(s).`,
-            hint2: `Une barre vaut $${u * (k - 1)} \\div ${k - 1}$.`,
+            hint1: `Fais un schéma en barres : la cousine a 1 barre, ${name} en a $${k}$. Combien de barres l'écart représente-t-il ?`,
+            hint2: 'Rappel : l\'écart entre les deux quantités correspond exactement aux barres que l\'une possède en plus de l\'autre.',
             solution: `L'écart de $${u * (k - 1)}$ correspond à $${k - 1}$ barre(s) : une barre vaut $${u * (k - 1)} \\div ${k - 1} = ${u}$.\nLa cousine a $${u}$ images.`,
             skill: 'Modéliser',
             _v: { k: '6N8.bardiff', kk: k, dd: u * (k - 1) }
@@ -2071,8 +2071,8 @@
           statement: `Dans une suite de motifs, l'étape $1$ compte $${a}$ ${thing} et l'on ajoute $${d}$ ${thing} à chaque étape.\n**Combien de ${thing} compte l'étape $${n}$ ?**`,
           type: 'exact', answer: String(a + (n - 1) * d),
           hint1: 'Inutile de dessiner toutes les étapes : cherche une règle de calcul.',
-          hint2: `À l'étape $${n}$, on a ajouté $${d}$ ${thing} $${n - 1}$ fois.`,
-          solution: `$$${a} + (${n} - 1) \\times ${d} = ${a} + ${(n - 1) * d} = ${a + (n - 1) * d}$$`,
+          hint2: 'Rappel : entre l\'étape 1 et l\'étape $n$, on effectue $n - 1$ ajouts identiques.',
+          solution: `Étape 1 : de l'étape $1$ à l'étape $${n}$, on fait $${n} - 1 = ${n - 1}$ ajouts de $${d}$ ${thing} : $${n - 1} \\times ${d} = ${(n - 1) * d}$.\nÉtape 2 : $${a} + ${(n - 1) * d} = ${a + (n - 1) * d}$.\nL'étape $${n}$ compte $${a + (n - 1) * d}$ ${thing}.`,
           _v: { k: '6N8.pattern', a, d, n }
         });
       }
@@ -2103,7 +2103,7 @@
           statement: `Dans une suite de motifs, l'étape $1$ compte $${a}$ jetons et l'on ajoute $${d}$ jetons à chaque étape.\n**À quelle étape le motif compte-t-il $${N}$ jetons ?**`,
           type: 'exact', answer: String(n),
           hint1: `Combien de jetons ont été ajoutés depuis l'étape $1$ ?`,
-          hint2: `$${N} - ${a} = ${N - a}$ jetons ajoutés, soit $${N - a} \\div ${d}$ ajouts.`,
+          hint2: 'Rappel : le nombre de jetons à l\'étape $n$ est celui de l\'étape 1 augmenté de $n - 1$ ajouts identiques.',
           solution: `$${N} - ${a} = ${N - a}$ et $${N - a} \\div ${d} = ${n - 1}$ ajouts : c'est l'étape $${n - 1} + 1 = ${n}$.`,
           _v: { k: '6N8.patternrev', a, d, N }
         });
@@ -2115,7 +2115,7 @@
           statement: `Sur une balance en équilibre, on a d'un côté $${k}$ sacs identiques et une masse de $${a}$ g, de l'autre côté une masse de $${k * x + a}$ g.\n**Quelle est la masse d'un sac, en grammes ?**`,
           type: 'exact', answer: String(x),
           hint1: `Traduis par une égalité à trou : $${k} \\times ${S} + ${a} = ${k * x + a}$.`,
-          hint2: `Retire $${a}$ g de chaque côté : $${k} \\times ${S} = ${k * x}$.`,
+          hint2: 'Rappel : une balance reste en équilibre si l\'on retire la même masse des deux plateaux.',
           solution: `$${k} \\times ${S} = ${k * x + a} - ${a} = ${k * x}$ donc $${S} = ${k * x} \\div ${k} = ${x}$. Un sac pèse $${x}$ g.`,
           skill: 'Modéliser',
           _v: { k: '6N8.balance', kk: k, a, tot: k * x + a }
@@ -2129,7 +2129,7 @@
         statement: `Ensemble, ${o1} et ${o2} coûtent $${this._6eurTexB(s)}$ €. ${o2.charAt(0).toUpperCase() + o2.slice(1)} coûte $${this._6eurTexB(dd)}$ € de plus que ${o1}.\n**Quel est le prix de ${o1}, en euros ?**`,
         type: 'exact', answer: this._6ans(p), placeholder: 'Ex : 3,5',
         hint1: 'Schéma en barres : deux barres égales (le prix le plus bas) et un morceau en plus (l\'écart).',
-        hint2: `Retire l'écart : $${this._6eurTexB(s)} - ${this._6eurTexB(dd)} = ${this._6eurTexB(s - dd)}$, ce qui correspond à deux fois le prix cherché.`,
+        hint2: 'Rappel : si l\'on retire l\'écart du prix total, il reste deux fois le prix le plus bas.',
         solution: `$${this._6eurTexB(s)} - ${this._6eurTexB(dd)} = ${this._6eurTexB(2 * p)}$ puis $${this._6eurTexB(2 * p)} \\div 2 = ${this._6eurTexB(p)}$. ${o1.charAt(0).toUpperCase() + o1.slice(1)} coûte $${this._6eurTexB(p)}$ €.`,
         skill: 'Modéliser',
         _v: { k: '6N8.twoprices', s, dd }
@@ -2189,8 +2189,8 @@
           statement: `Pour $${p}$ personnes, une recette demande $${qty}$ ${ing[1]} de ${ing[0]}.\n**Quelle quantité de ${ing[0]} faut-il pour $${p2}$ personnes ?** (en ${ing[1]})`,
           type: 'exact', answer: String(qty * p2 / p),
           hint1: 'Les quantités sont proportionnelles au nombre de personnes.',
-          hint2: half ? 'Il y a deux fois moins de personnes.' : `Il y a $${f}$ fois plus de personnes.`,
-          solution: half ? `$${qty} \\div 2 = ${qty / 2}$ ${ing[1]}.` : `$${qty} \\times ${f} = ${qty * f}$ ${ing[1]}.`,
+          hint2: 'Rappel : dans une situation de proportionnalité, si l\'on multiplie (ou divise) une quantité par un nombre, l\'autre est multipliée (ou divisée) par le même nombre.',
+          solution: half ? `Étape 1 : $${p2} = ${p} \\div 2$ : il y a deux fois moins de personnes.\nÉtape 2 : $${qty} \\div 2 = ${qty / 2}$.\nIl faut $${qty / 2}$ ${ing[1]} de ${ing[0]}.` : `Étape 1 : $${p2} = ${p} \\times ${f}$ : il y a $${f}$ fois plus de personnes.\nÉtape 2 : $${qty} \\times ${f} = ${qty * f}$.\nIl faut $${qty * f}$ ${ing[1]} de ${ing[0]}.`,
           _v: { k: '6P1.lin', n: p, P: qty, m: p2 }
         });
       }
@@ -2207,7 +2207,7 @@
             statement: `$${n}$ ${pl} coûtent $${this._6eurTexB(P)}$ €. Le prix est proportionnel au nombre d'articles.\n**Combien coûtent $${m}$ ${pl} ?**`,
             type: 'exact', answer: this._6ans(u * m), placeholder: 'Ex : 7,2',
             hint1: 'Calcule d\'abord le prix d\'un seul article.',
-            hint2: `$${this._6eurTexB(P)} \\div ${n} = ${this._6eurTexB(u)}$ €.`,
+            hint2: 'Rappel : passage par l\'unité : on divise le prix total par le nombre d\'articles pour obtenir le prix d\'un article.',
             solution: `Prix d'un article : $${this._6eurTexB(P)} \\div ${n} = ${this._6eurTexB(u)}$ €.\nPrix de $${m}$ articles : $${this._6eurTexB(u)} \\times ${m} = ${this._6eurTexB(u * m)}$ €.`,
             _v: { k: '6P1.lin', n, P, m }
           });
@@ -2233,9 +2233,9 @@
             title: 'Appliquer un pourcentage',
             statement: `Calculer $${p} \\, \\%$ de $${N}$.`,
             type: 'exact', answer: this._6ans(N * p / 100),
-            hint1: `Prendre $${p} \\, \\%$ d'un nombre, c'est le multiplier par $\\frac{${p}}{100}$.`,
-            hint2: p === 50 ? 'C\'est la moitié.' : (p === 25 ? 'C\'est le quart.' : (p === 10 ? 'On divise par 10.' : `Calcule d'abord $1 \\, \\%$ ou $10 \\, \\%$ de $${N}$.`)),
-            solution: `$$\\frac{${p}}{100} \\times ${N} = ${this._6tex(N * p / 100)}$$`,
+            hint1: p === 50 ? 'Pense à une fraction simple : la moitié.' : (p === 25 ? 'Pense à une fraction simple : le quart.' : (p === 10 ? 'Pense à une fraction simple : le dixième.' : `Calcule d'abord dix pour cent (ou un pour cent) de $${N}$, puis adapte.`)),
+            hint2: `Rappel : prendre $${p} \\, \\%$ d'un nombre, c'est le multiplier par ${p} puis le diviser par cent.`,
+            solution: `Étape 1 : $${p} \\, \\% = \\frac{${p}}{100}$.\nÉtape 2 : $$\\frac{${p}}{100} \\times ${N} = \\frac{${p} \\times ${N}}{100} = ${this._6tex(N * p / 100)}$$\nDonc $${p} \\, \\%$ de $${N}$ vaut $${this._6tex(N * p / 100)}$.`,
             skill: 'Calculer',
             _v: { k: '6P1.percent', p, N }
           });
@@ -2265,7 +2265,7 @@
             statement: `Sur un plan à l'échelle $\\frac{1}{${E}}$, deux points sont distants de $${d}$ cm.\n**Quelle est la distance réelle, en mètres ?**`,
             type: 'exact', answer: this._6ans(real_m),
             hint1: `À l'échelle $\\frac{1}{${E}}$, $1$ cm sur le plan représente $${this._6tex(E)}$ cm en réalité.`,
-            hint2: `$${d} \\times ${this._6tex(E)} = ${this._6tex(d * E)}$ cm, puis convertis en mètres.`,
+            hint2: 'Rappel : un mètre vaut cent centimètres ; pour convertir des centimètres en mètres, on divise donc par cent.',
             solution: `Distance réelle : $${d} \\times ${this._6tex(E)} = ${this._6tex(d * E)}$ cm $= ${this._6tex(real_m)}$ m.`,
             _v: { k: '6P1.scale', d, E }
           });
@@ -2279,8 +2279,8 @@
             statement: `Une carte est à l'échelle $\\frac{1}{${E}}$. Deux villages sont à $${this._6tex(real_m)}$ m l'un de l'autre.\n**Quelle distance les sépare sur la carte, en centimètres ?**`,
             type: 'exact', answer: String(d),
             hint1: 'Convertis d\'abord la distance réelle en centimètres.',
-            hint2: `$${this._6tex(real_m)}$ m $= ${this._6tex(real_m * 100)}$ cm ; divise ensuite par $${this._6tex(E)}$.`,
-            solution: `$${this._6tex(real_m * 100)} \\div ${this._6tex(E)} = ${d}$ : la distance sur la carte est $${d}$ cm.`,
+            hint2: `Rappel : $1 \\text{ m} = 100 \\text{ cm}$ ; à l'échelle $\\frac{1}{${this._6tex(E)}}$, les longueurs réelles sont $${this._6tex(E)}$ fois plus grandes que sur la carte.`,
+            solution: `Étape 1 : $${this._6tex(real_m)}$ m $= ${this._6tex(real_m * 100)}$ cm.\nÉtape 2 : sur la carte, la longueur est $${this._6tex(E)}$ fois plus petite : $${this._6tex(real_m * 100)} \\div ${this._6tex(E)} = ${d}$.\nLa distance sur la carte est $${d}$ cm.`,
             _v: { k: '6P1.scalerev', real_m, E }
           });
         }
@@ -2298,7 +2298,7 @@
             statement: `${ctx[0]} On suppose que c'est une situation de proportionnalité.\n**${ctx[1]}**`,
             type: 'exact', answer: String(u * x2),
             hint1: 'Passe par l\'unité : calcule la quantité correspondant à $1$.',
-            hint2: `$${x1 * u} \\div ${x1} = ${u}$.`,
+            hint2: 'Rappel : dans une situation de proportionnalité, on peut calculer la valeur correspondant à 1, puis multiplier.',
             solution: `Pour $1$ : $${x1 * u} \\div ${x1} = ${u}$. Pour $${x2}$ : $${u} \\times ${x2} = ${u * x2}$.`,
             _v: { k: '6P1.lin', n: x1, P: x1 * u, m: x2 }
           });
@@ -2312,8 +2312,9 @@
           statement: `${obj.charAt(0).toUpperCase() + obj.slice(1)} coûte $${N}$ €. Pendant les soldes, son prix baisse de $${p} \\, \\%$.\n**Quel est son nouveau prix, en euros ?**`,
           type: 'exact', answer: this._6ans(final),
           hint1: `Calcule d'abord le montant de la réduction : $${p} \\, \\%$ de $${N}$.`,
-          hint2: `Réduction : $${this._6tex(N * p / 100)}$ €.`,
+          hint2: `Rappel : nouveau prix = prix de départ − réduction ; prendre $${p} \\, \\%$ d'un nombre, c'est le multiplier par $\\frac{${p}}{100}$.`,
           solution: `Réduction : $\\frac{${p}}{100} \\times ${N} = ${this._6tex(N * p / 100)}$ €.\nNouveau prix : $${N} - ${this._6tex(N * p / 100)} = ${this._6tex(final)}$ €.`,
+          _hintLeakOk: final === 100, // « 100 » du rappel de cours, pas la réponse
           _v: { k: '6P1.discount', p, N }
         });
       }
@@ -2330,7 +2331,7 @@
           statement: `Sur un plan, une longueur réelle de $${this._6tex(real_m)}$ m est représentée par $${d}$ cm.\nL'échelle s'écrit $\\frac{1}{E}$. **Quelle est la valeur de $E$ ?**`,
           type: 'exact', answer: String(E),
           hint1: 'Exprime les deux longueurs dans la même unité (le centimètre).',
-          hint2: `$${this._6tex(real_m)}$ m $= ${this._6tex(real_cm)}$ cm.`,
+          hint2: 'Rappel : à l\'échelle $\\frac{1}{E}$, une longueur de 1 cm sur le plan représente $E$ cm en réalité (les deux longueurs doivent être exprimées dans la même unité).',
           solution: `$${this._6tex(real_cm)} \\div ${d} = ${this._6tex(E)}$ : $1$ cm sur le plan représente $${this._6tex(E)}$ cm en réalité, donc $E = ${this._6tex(E)}$.`,
           _v: { k: '6P1.scalefind', d, real_m }
         });
@@ -2374,7 +2375,7 @@
           title: 'Défi 5ème : comparer deux offres',
           statement: `Au supermarché :\n• **Offre A** : $${n1}$ ${prod} pour $${this._6eurTexB(P1)}$ € ;\n• **Offre B** : $${n2}$ ${prod} pour $${this._6eurTexB(P2)}$ €.\n**Quelle offre est la plus avantageuse ?**`,
           hint1: 'Calcule le prix d\'un article dans chaque offre.',
-          hint2: `Offre A : $${this._6eurTexB(P1)} \\div ${n1}$ ; offre B : $${this._6eurTexB(P2)} \\div ${n2}$.`,
+          hint2: 'Rappel : pour comparer deux offres, on compare les prix pour une même quantité, par exemple le prix d\'un seul article.',
           solution: `Offre A : $${this._6eurTexB(P1)} \\div ${n1} = ${this._6eurTexB(u1)}$ € l'article. Offre B : $${this._6eurTexB(P2)} \\div ${n2} = ${this._6eurTexB(u2)}$ € l'article.\nRéponse : ${correct.toLowerCase()}.`,
           skill: 'Raisonner',
           _v: { k: '6P1.offers', n1, P1, n2, P2 }
@@ -2390,7 +2391,7 @@
         statement: `Pour $${p}$ personnes, il faut $${this._6tex(qty)}$ g de ${ing}.\n**Quelle masse de ${ing} faut-il pour $${p2}$ personnes, en grammes ?**`,
         type: 'exact', answer: this._6ans(per * p2), placeholder: 'Ex : 157,5',
         hint1: 'Calcule la masse nécessaire pour une seule personne.',
-        hint2: `$${this._6tex(qty)} \\div ${p} = ${this._6tex(per)}$ g par personne.`,
+        hint2: 'Rappel : passage par l\'unité : on calcule d\'abord la masse pour une personne, puis on multiplie par le nombre de personnes.',
         solution: `Pour $1$ personne : $${this._6tex(qty)} \\div ${p} = ${this._6tex(per)}$ g.\nPour $${p2}$ personnes : $${this._6tex(per)} \\times ${p2} = ${this._6tex(per * p2)}$ g.`,
         _v: { k: '6P1.lin', n: p, P: qty, m: p2 }
       });
@@ -2524,7 +2525,7 @@
       const U = ['km', 'hm', 'dam', 'm', 'dm', 'cm', 'mm'];
       const T = x => this._6tex(x), X = x => this._6txt(x), A = x => this._6ans(x);
       const mk = (o, sk) => this._6mQ('6M1', t, o, sk);
-      const convHint2 = "Dans le tableau de conversion, chaque unité vaut 10 fois l'unité située juste à sa droite : on décale la virgule d'un rang par colonne.";
+      const convHint2 = "Dans le tableau de conversion, chaque unité vaut dix fois l'unité située juste à sa droite : on décale la virgule d'un rang par colonne.";
 
       const conv = (decimal) => {
         let from, to, val, res;
@@ -2584,7 +2585,7 @@
           statement: `${sh.name.charAt(0).toUpperCase() + sh.name.slice(1)} a des côtés de longueur $${c}${this._6mU(u)}$.\n**Quel est son périmètre en ${u} ?**`,
           type: 'exact', answer: String(sh.n * c),
           hint1: `Combien de côtés a ${sh.name} ? Ils ont tous la même longueur.`,
-          hint2: `Le périmètre est égal à $${sh.n} \\times ${c}$.`,
+          hint2: 'Le périmètre est la longueur du contour : pour un polygone dont tous les côtés ont la même longueur, P = nombre de côtés × longueur d\'un côté.',
           solution: `${sh.name.charAt(0).toUpperCase() + sh.name.slice(1)} a ${sh.n} côtés de même longueur :\n$$P = ${sh.n} \\times ${c} = ${sh.n * c}${this._6mU(u)}$$`,
           _v: { k: '6M1.reg', n: sh.n, c }
         });
@@ -2618,7 +2619,7 @@
             statement: `Un rectangle mesure $${T(Lm)}\\text{ m}$ de longueur et $${lcm}\\text{ cm}$ de largeur.\n${this._6mRectSvg(`${X(Lm)} m`, `${lcm} cm`)}\n**Calculer son périmètre en cm.**`,
             type: 'exact', answer: A(P),
             hint1: 'Avant de calculer, il faut exprimer les deux longueurs dans la même unité (ici le cm).',
-            hint2: `$${T(Lm)}\\text{ m} = ${T(this._6r(Lm * 100))}\\text{ cm}$.`,
+            hint2: 'Rappel : $1\\text{ m} = 100\\text{ cm}$ ; périmètre du rectangle : $P = 2 \\times (L + \\ell)$.',
             solution: `$${T(Lm)}\\text{ m} = ${T(this._6r(Lm * 100))}\\text{ cm}$.\n$$P = 2 \\times (${T(this._6r(Lm * 100))} + ${lcm}) = 2 \\times ${T(this._6r(Lm * 100 + lcm))} = ${T(P)}\\text{ cm}$$`,
             _v: { k: '6M1.rectmix', Lm, lcm }
           }, 'Convertir');
@@ -2630,9 +2631,9 @@
             title: "Retrouver le côté d'un carré",
             statement: `Un carré a un périmètre de $${T(P)}\\text{ cm}$.\n**Quelle est la longueur de son côté, en cm ?**`,
             type: 'exact', answer: A(c),
-            hint1: 'Le périmètre d\'un carré est égal à 4 fois la longueur de son côté.',
-            hint2: `On cherche le nombre qui, multiplié par 4, donne ${X(P)}.`,
-            solution: `$P = 4 \\times c$ donc $c = ${T(P)} \\div 4 = ${T(c)}\\text{ cm}$.`,
+            hint1: `On cherche le nombre qui, multiplié par quatre, donne ${X(P)}.`,
+            hint2: 'Un carré a quatre côtés de même longueur : son périmètre vaut quatre fois la longueur d\'un côté.',
+            solution: `**Étape 1 :** pour un carré de côté $c$, $P = 4 \\times c$.\n**Étape 2 :** $c = ${T(P)} \\div 4 = ${T(c)}$.\nLe côté du carré mesure **$${T(c)}\\text{ cm}$**.`,
             _v: { k: '6M1.sqside', P }
           }, 'Raisonner');
         }
@@ -2643,8 +2644,8 @@
           statement: `Un rectangle a un périmètre de $${P}\\text{ m}$ et une longueur de $${L}\\text{ m}$.\n**Quelle est sa largeur, en m ?**`,
           type: 'exact', answer: String(l),
           hint1: 'La moitié du périmètre est égale à la longueur plus la largeur.',
-          hint2: `$${P} \\div 2 = ${P / 2}$, puis on retire la longueur.`,
-          solution: `Demi-périmètre : $${P} \\div 2 = ${P / 2}\\text{ m}$.\nLargeur : $${P / 2} - ${L} = ${l}\\text{ m}$.`,
+          hint2: 'Le périmètre d\'un rectangle est le double de la somme « longueur + largeur » : cette somme est donc la moitié du périmètre.',
+          solution: `**Étape 1 :** $P = 2 \\times (L + \\ell)$, donc $L + \\ell = ${P} \\div 2 = ${P / 2}\\text{ m}$ (demi-périmètre).\n**Étape 2 :** $\\ell = ${P / 2} - ${L} = ${l}\\text{ m}$.\nLa largeur du rectangle est **$${l}\\text{ m}$**.`,
           _v: { k: '6M1.rectside', P, L }
         }, 'Raisonner');
       }
@@ -2662,7 +2663,7 @@
             statement: `On considère un cercle ${giv}.\n${this._6mCircleSvg(isR ? `${r} cm` : `${d} cm`, isR)}\n**Calculer la longueur de ce cercle en cm, en prenant $3{,}14$ comme valeur approchée de $\\pi$.**`,
             type: 'exact', answer: A(res),
             hint1: 'La longueur d\'un cercle est proportionnelle à son diamètre : $\\mathcal{P} = \\pi \\times D$.',
-            hint2: isR ? `Le diamètre est le double du rayon : $D = 2 \\times ${r} = ${d}\\text{ cm}$.` : `Calcule $3{,}14 \\times ${d}$.`,
+            hint2: isR ? 'Attention : on te donne le rayon. Le diamètre est le double du rayon, puis $\\mathcal{P} \\approx 3{,}14 \\times D$.' : 'On remplace $\\pi$ par $3{,}14$ : $\\mathcal{P} \\approx 3{,}14 \\times D$.',
             solution: `${isR ? `$D = 2 \\times ${r} = ${d}\\text{ cm}$.\n` : ''}$$\\mathcal{P} = \\pi \\times D \\approx 3{,}14 \\times ${d} = ${T(res)}\\text{ cm}$$`,
             _v: { k: '6M1.circ', d }
           });
@@ -2677,7 +2678,7 @@
             title: "Longueur exacte d'un cercle",
             statement: `Un cercle a ${isR ? `un rayon de $${r}${this._6mU(u)}$` : `un diamètre de $${2 * r}${this._6mU(u)}$`}.\n**Quelle est la valeur exacte de sa longueur ?**`,
             hint1: 'La longueur d\'un cercle de diamètre $D$ est $\\pi \\times D$.',
-            hint2: isR ? `Le diamètre vaut $2 \\times ${r} = ${2 * r}${this._6mU(u)}$.` : `Ici $D = ${2 * r}${this._6mU(u)}$.`,
+            hint2: isR ? 'On te donne le rayon : le diamètre en est le double. La valeur exacte s\'écrit avec la lettre $\\pi$.' : 'La valeur exacte garde la lettre $\\pi$ : on ne remplace pas $\\pi$ par $3{,}14$.',
             solution: `$$\\mathcal{P} = \\pi \\times ${2 * r} = ${2 * r}\\pi${this._6mU(u)}$$`,
             _v: { k: '6M1.circExact', r, u }
           });
@@ -2691,7 +2692,7 @@
             statement: `Voici une figure dont tous les angles sont droits (dimensions en cm, figure non à l'échelle).\n${this._6mLShapeSvg({ bottom: `${W} cm`, left: `${H} cm`, top: `${W - a} cm`, innerV: `${b} cm` })}\n**Calculer le périmètre de cette figure en cm.**`,
             type: 'exact', answer: String(2 * (W + H)),
             hint1: 'Commence par trouver les deux longueurs manquantes à l\'aide des longueurs connues.',
-            hint2: `Le petit segment horizontal mesure $${W} - ${W - a} = ${a}\\text{ cm}$ et le côté droit $${H} - ${b} = ${H - b}\\text{ cm}$.`,
+            hint2: 'Dans une figure dont tous les angles sont droits, la somme des segments horizontaux du haut est égale à la longueur du bas (de même pour les segments verticaux).',
             solution: `Côtés manquants : $${W} - ${W - a} = ${a}\\text{ cm}$ et $${H} - ${b} = ${H - b}\\text{ cm}$.\n$$P = ${W} + ${H} + ${W - a} + ${b} + ${a} + ${H - b} = ${2 * (W + H)}\\text{ cm}$$`,
             _v: { k: '6M1.lshape', W, H }
           }, 'Raisonner');
@@ -2703,7 +2704,7 @@
           statement: `En prenant $3{,}14$ comme valeur approchée de $\\pi$, la longueur d'un cercle vaut $${T(L)}\\text{ cm}$.\n**Quel est son diamètre, en cm ?**`,
           type: 'exact', answer: String(d),
           hint1: 'Longueur du cercle $= 3{,}14 \\times D$ : on cherche $D$.',
-          hint2: `Effectue la division $${T(L)} \\div 3{,}14$.`,
+          hint2: 'Longueur d\'un cercle : $\\mathcal{P} = \\pi \\times D$ ; pour retrouver un facteur, on divise le produit par l\'autre facteur.',
           solution: `$3{,}14 \\times D = ${T(L)}$, donc $D = ${T(L)} \\div 3{,}14 = ${d}\\text{ cm}$.`,
           _v: { k: '6M1.circInv', L }
         }, 'Raisonner');
@@ -2719,7 +2720,7 @@
           statement: `Une piste est formée de deux segments de longueur $${L}\\text{ m}$ et de deux demi-cercles de diamètre $${d}\\text{ m}$.\n${this._6mStadeSvg(`${L} m`, `${d} m`)}\n**Calculer la longueur d'un tour de piste en m (prendre $3{,}14$ pour $\\pi$).**`,
           type: 'exact', answer: A(res),
           hint1: 'Deux demi-cercles de même diamètre forment un cercle entier.',
-          hint2: `Longueur $= 2 \\times ${L} + 3{,}14 \\times ${d}$.`,
+          hint2: 'Longueur d\'un cercle de diamètre $D$ : $\\pi \\times D$. N\'oublie pas les deux segments droits.',
           solution: `Les deux demi-cercles forment un cercle de diamètre $${d}\\text{ m}$ : $3{,}14 \\times ${d} = ${T(this._6r(3.14 * d))}\\text{ m}$.\n$$\\text{Tour} = 2 \\times ${L} + ${T(this._6r(3.14 * d))} = ${T(res)}\\text{ m}$$`,
           _v: { k: '6M1.stade', L, d }
         }, 'Modéliser');
@@ -2732,7 +2733,7 @@
           statement: `La figure est formée d'un carré de côté $${c}\\text{ cm}$ et d'un demi-cercle de diamètre égal au côté du carré.\n${this._6mSqHalfSvg(`${c} cm`)}\n**Calculer le périmètre de la figure en cm (prendre $3{,}14$ pour $\\pi$).**`,
           type: 'exact', answer: A(res),
           hint1: 'Le côté du carré en pointillés n\'est pas sur le contour : seuls 3 côtés comptent.',
-          hint2: `Longueur du demi-cercle : $3{,}14 \\times ${c} \\div 2$.`,
+          hint2: 'Un demi-cercle mesure la moitié de la longueur du cercle de même diamètre : $\\pi \\times D \\div 2$.',
           solution: `Trois côtés du carré : $3 \\times ${c} = ${3 * c}\\text{ cm}$.\nDemi-cercle : $3{,}14 \\times ${c} \\div 2 = ${T(this._6r(3.14 * c / 2))}\\text{ cm}$.\n$$P = ${3 * c} + ${T(this._6r(3.14 * c / 2))} = ${T(res)}\\text{ cm}$$`,
           _v: { k: '6M1.sqhalf', c }
         }, 'Modéliser');
@@ -2747,7 +2748,7 @@
           statement: `Un terrain rectangulaire mesure $${L}\\text{ m}$ sur $${l}\\text{ m}$. On veut le clôturer en laissant un portail de $${g}\\text{ m}$ sans grillage. Le grillage coûte ${X(p)} € le mètre.\n**Quel est le prix du grillage, en euros ?**`,
           type: 'exact', answer: A(cost),
           hint1: 'Calcule d\'abord le périmètre du terrain, puis retire la largeur du portail.',
-          hint2: `Longueur de grillage : $2 \\times (${L} + ${l}) - ${g} = ${len}\\text{ m}$.`,
+          hint2: 'Périmètre du rectangle : $P = 2 \\times (L + \\ell)$. Ensuite, prix total = longueur × prix d\'un mètre.',
           solution: `Périmètre : $2 \\times (${L} + ${l}) = ${2 * (L + l)}\\text{ m}$. Grillage : $${2 * (L + l)} - ${g} = ${len}\\text{ m}$.\n$$\\text{Prix} = ${len} \\times ${T(p)} = ${T(cost)}$$ soit ${X(cost)} €.`,
           _v: { k: '6M1.fence', L, l, g, p }
         }, 'Modéliser');
@@ -2759,7 +2760,7 @@
         statement: `Une roue de vélo a un diamètre de $${d}\\text{ cm}$. Elle fait ${n} tours complets sans glisser.\n**Quelle distance le vélo a-t-il parcourue, en cm ? (prendre $3{,}14$ pour $\\pi$)**`,
         type: 'exact', answer: A(res),
         hint1: 'À chaque tour, le vélo avance de la longueur du cercle de la roue.',
-        hint2: `Un tour : $3{,}14 \\times ${d} = ${T(this._6r(3.14 * d))}\\text{ cm}$.`,
+        hint2: 'En un tour, la roue avance de la longueur de son cercle : $\\pi \\times D \\approx 3{,}14 \\times D$.',
         solution: `Un tour : $3{,}14 \\times ${d} = ${T(this._6r(3.14 * d))}\\text{ cm}$.\n$$${n} \\times ${T(this._6r(3.14 * d))} = ${T(res)}\\text{ cm}$$`,
         _v: { k: '6M1.wheel', d, n }
       }, 'Modéliser');
@@ -2793,7 +2794,7 @@
           statement: `Compléter la conversion suivante :\n$$${T(val)}${this._6mU(U[from], 2)} = \\dots${this._6mU(U[to], 2)}$$\n*(Donner seulement le nombre.)*`,
           type: 'exact', answer: A(res),
           hint1: 'Pour les aires, chaque unité vaut 100 fois l\'unité immédiatement inférieure : le tableau a deux colonnes par unité.',
-          hint2: `On ${to > from ? 'multiplie' : 'divise'} par $${T(Math.pow(100, k))}$ (${k} rang${k > 1 ? 's' : ''} de 100).`,
+          hint2: `Entre deux unités d'aire voisines, on multiplie ou on divise par cent ; ici, l'écart est de ${['', 'un rang', 'deux rangs', 'trois rangs', 'quatre rangs'][k] || 'plusieurs rangs'}.`,
           solution: `$1${this._6mU(U[Math.min(from, to)], 2)} = ${T(Math.pow(100, k))}${this._6mU(U[Math.max(from, to)], 2)}$, donc :\n$$${T(val)}${this._6mU(U[from], 2)} = ${T(res)}${this._6mU(U[to], 2)}$$`,
           _v: { k: '6M2.conv', val, from: U[from], to: U[to] }
         }, 'Convertir');
@@ -2810,7 +2811,7 @@
             statement: `Calculer l'aire du rectangle ci-dessous, en ${u}² (figure non à l'échelle).\n${this._6mRectSvg(`${L} ${u}`, `${l} ${u}`)}`,
             type: 'exact', answer: String(L * l),
             hint1: "L'aire d'un rectangle est égale à Longueur × largeur.",
-            hint2: `Calcule $${L} \\times ${l}$.`,
+            hint2: 'Rectangle de longueur $L$ et de largeur $\\ell$ : $\\mathcal{A} = L \\times \\ell$, en unités « carrées ».',
             solution: `$$\\mathcal{A} = L \\times \\ell = ${L} \\times ${l} = ${L * l}${this._6mU(u, 2)}$$`,
             _v: { k: '6M2.rect', L, l }
           });
@@ -2821,7 +2822,7 @@
           statement: `Un carré a pour côté $${c}${this._6mU(u)}$.\n**Calculer son aire en ${u}².**`,
           type: 'exact', answer: String(c * c),
           hint1: "L'aire d'un carré est égale à côté × côté.",
-          hint2: `Calcule $${c} \\times ${c}$.`,
+          hint2: 'Carré de côté $c$ : $\\mathcal{A} = c \\times c$ ; l\'aire s\'exprime en unités « carrées ».',
           solution: `$$\\mathcal{A} = c \\times c = ${c} \\times ${c} = ${c * c}${this._6mU(u, 2)}$$`,
           _v: { k: '6M2.sq', c }
         });
@@ -2838,7 +2839,7 @@
             statement: `Un rectangle mesure $${T(L)}\\text{ m}$ de longueur et $${l}\\text{ m}$ de largeur.\n**Calculer son aire en m².**`,
             type: 'exact', answer: A(res),
             hint1: "Aire du rectangle = Longueur × largeur.",
-            hint2: `Calcule $${T(L)} \\times ${l}$.`,
+            hint2: 'Rectangle : $\\mathcal{A} = L \\times \\ell$. Pour multiplier un décimal par un entier, calcule comme avec des entiers puis place la virgule.',
             solution: `$$\\mathcal{A} = ${T(L)} \\times ${l} = ${T(res)}\\text{ m}^2$$`,
             _v: { k: '6M2.rect', L, l }
           });
@@ -2851,7 +2852,7 @@
             statement: `Un rectangle a une aire de $${Ar}\\text{ cm}^2$ et une longueur de $${L}\\text{ cm}$.\n**Quelle est sa largeur, en cm ?**`,
             type: 'exact', answer: String(l),
             hint1: `On cherche le nombre qui, multiplié par ${L}, donne ${Ar}.`,
-            hint2: `Effectue la division $${Ar} \\div ${L}$.`,
+            hint2: 'Aire du rectangle : $\\mathcal{A} = L \\times \\ell$ ; un facteur manquant s\'obtient par une division.',
             solution: `$${L} \\times \\ell = ${Ar}$, donc $\\ell = ${Ar} \\div ${L} = ${l}\\text{ cm}$.`,
             _v: { k: '6M2.side', A: Ar, L }
           }, 'Raisonner');
@@ -2866,7 +2867,7 @@
           title: 'Ne pas confondre aire et périmètre',
           statement: `On considère ${shape}.\n**Quel est son ${what} ?**`,
           hint1: "Le périmètre est une longueur (le tour, en cm) ; l'aire mesure la surface (en cm²).",
-          hint2: what === 'aire' ? `Aire : $${L} \\times ${l}$.` : `Périmètre : $2 \\times (${L} + ${l})$.`,
+          hint2: 'Rectangle : périmètre $P = 2 \\times (L + \\ell)$ (en cm) ; aire $\\mathcal{A} = L \\times \\ell$ (en cm²).',
           solution: what === 'aire'
             ? `$$\\mathcal{A} = ${L} \\times ${l} = ${area}\\text{ cm}^2$$ (le périmètre, lui, vaut $${per}\\text{ cm}$).`
             : `$$P = 2 \\times (${L} + ${l}) = ${per}\\text{ cm}$$ (l'aire, elle, vaut $${area}\\text{ cm}^2$).`,
@@ -2887,7 +2888,7 @@
             statement: `Tous les angles de cette figure sont droits (dimensions en cm, figure non à l'échelle).\n${this._6mLShapeSvg({ bottom: `${W} cm`, left: `${H} cm`, innerH: `${a} cm`, innerV: `${b} cm` })}\n**Calculer l'aire de cette figure en cm².**`,
             type: 'exact', answer: String(res),
             hint1: 'La figure est un grand rectangle auquel on a enlevé un petit rectangle dans un coin.',
-            hint2: `Aire $= ${W} \\times ${H} - ${a} \\times ${b}$.`,
+            hint2: 'Aire par différence : aire de la figure = aire du grand rectangle − aire de la partie enlevée.',
             solution: `Grand rectangle : $${W} \\times ${H} = ${W * H}\\text{ cm}^2$. Rectangle enlevé : $${a} \\times ${b} = ${a * b}\\text{ cm}^2$.\n$$\\mathcal{A} = ${W * H} - ${a * b} = ${res}\\text{ cm}^2$$`,
             _v: { k: '6M2.lshape', W, H, a, b }
           }, 'Raisonner');
@@ -2901,7 +2902,7 @@
             statement: `Un cadre rectangulaire mesure $${W}\\text{ cm}$ sur $${H}\\text{ cm}$. On découpe en son centre une ouverture rectangulaire de $${w}\\text{ cm}$ sur $${h}\\text{ cm}$.\n${this._6mFrameSvg(`${W} cm × ${H} cm`, `${w} cm × ${h} cm`)}\n**Quelle est l'aire de la partie colorée, en cm² ?**`,
             type: 'exact', answer: String(res),
             hint1: "On calcule l'aire du grand rectangle, puis on retire celle de l'ouverture.",
-            hint2: `$${W} \\times ${H} - ${w} \\times ${h}$.`,
+            hint2: 'Aire par différence : aire colorée = aire du grand rectangle − aire de l\'ouverture, avec $\\mathcal{A} = L \\times \\ell$.',
             solution: `$$\\mathcal{A} = ${W} \\times ${H} - ${w} \\times ${h} = ${W * H} - ${w * h} = ${res}\\text{ cm}^2$$`,
             _v: { k: '6M2.frame', W, H, w, h }
           }, 'Raisonner');
@@ -2913,7 +2914,7 @@
           statement: `Une planche rectangulaire mesure $${T(Lm)}\\text{ m}$ de long et $${lcm}\\text{ cm}$ de large.\n**Calculer son aire en cm².**`,
           type: 'exact', answer: A(res),
           hint1: 'Exprime d\'abord les deux dimensions dans la même unité : le cm.',
-          hint2: `$${T(Lm)}\\text{ m} = ${T(this._6r(Lm * 100))}\\text{ cm}$.`,
+          hint2: 'Rappel : $1\\text{ m} = 100\\text{ cm}$ ; aire du rectangle $\\mathcal{A} = L \\times \\ell$.',
           solution: `$${T(Lm)}\\text{ m} = ${T(this._6r(Lm * 100))}\\text{ cm}$.\n$$\\mathcal{A} = ${T(this._6r(Lm * 100))} \\times ${lcm} = ${T(res)}\\text{ cm}^2$$`,
           _v: { k: '6M2.mix', Lm, lcm }
         }, 'Convertir');
@@ -2929,7 +2930,7 @@
           statement: `Le triangle ci-dessous est rectangle ; ses côtés de l'angle droit mesurent $${a}\\text{ cm}$ et $${b}\\text{ cm}$.\n${this._6mTriSvg(`${a} cm`, `${b} cm`)}\n**Calculer son aire en cm².** *(Astuce : c'est la moitié d'un rectangle.)*`,
           type: 'exact', answer: A(res),
           hint1: `Deux triangles identiques à celui-ci forment un rectangle de $${a}\\text{ cm}$ sur $${b}\\text{ cm}$.`,
-          hint2: `Aire $= ${a} \\times ${b} \\div 2$.`,
+          hint2: 'Un triangle rectangle est la moitié d\'un rectangle : son aire vaut $\\frac{a \\times b}{2}$, où $a$ et $b$ sont les côtés de l\'angle droit.',
           solution: `Rectangle : $${a} \\times ${b} = ${a * b}\\text{ cm}^2$. Le triangle en est la moitié :\n$$\\mathcal{A} = ${a * b} \\div 2 = ${T(res)}\\text{ cm}^2$$`,
           _v: { k: '6M2.tri', a, b }
         }, 'Raisonner');
@@ -2945,7 +2946,7 @@
           statement: `Un mur rectangulaire mesure $${W}\\text{ m}$ sur $${H}\\text{ m}$. Il contient une fenêtre de $${T(w)}\\text{ m}$ sur $${T(h)}\\text{ m}$ qu'on ne peint pas. Un pot de peinture permet de couvrir $${c}\\text{ m}^2$.\n**Combien de pots faut-il acheter au minimum ?**`,
           type: 'exact', answer: String(pots),
           hint1: 'Calcule l\'aire à peindre : aire du mur moins aire de la fenêtre.',
-          hint2: `Aire à peindre : $${W * H} - ${T(this._6r(w * h))} = ${T(area)}\\text{ m}^2$. On ne peut acheter qu'un nombre entier de pots.`,
+          hint2: 'Aire d\'un rectangle : $L \\times \\ell$. On ne peut acheter qu\'un nombre entier de pots : on arrondit au nombre entier supérieur.',
           solution: `Aire à peindre : $${W} \\times ${H} - ${T(w)} \\times ${T(h)} = ${W * H} - ${T(this._6r(w * h))} = ${T(area)}\\text{ m}^2$.\nNombre de pots : $${T(area)} \\div ${c} \\approx ${T(this._6r(Math.floor(area / c * 100) / 100))}$, donc il faut **${pots} pots**.`,
           _v: { k: '6M2.paint', W, H, w, h, c }
         }, 'Modéliser');
@@ -2959,8 +2960,8 @@
           statement: `Un rectangle mesure $${L}\\text{ cm}$ sur $${l}\\text{ cm}$. Un carré a le **même périmètre** que ce rectangle.\n**Quelle est l'aire du carré, en cm² ?**`,
           type: 'exact', answer: String(c * c),
           hint1: 'Calcule le périmètre du rectangle, puis déduis-en le côté du carré.',
-          hint2: `Périmètre : $2 \\times (${L} + ${l}) = ${2 * (L + l)}\\text{ cm}$ ; côté du carré : $${2 * (L + l)} \\div 4$.`,
-          solution: `Périmètre commun : $${2 * (L + l)}\\text{ cm}$. Côté du carré : $${2 * (L + l)} \\div 4 = ${c}\\text{ cm}$.\n$$\\mathcal{A} = ${c} \\times ${c} = ${c * c}\\text{ cm}^2$$ (le rectangle n'a que $${L * l}\\text{ cm}^2$ !)`,
+          hint2: 'Rectangle : $P = 2 \\times (L + \\ell)$. Carré : $P = 4 \\times c$ et $\\mathcal{A} = c \\times c$.',
+          solution: `**Étape 1 :** périmètre du rectangle : $2 \\times (${L} + ${l}) = ${2 * (L + l)}\\text{ cm}$.\n**Étape 2 :** le carré a le même périmètre, donc son côté mesure $${2 * (L + l)} \\div 4 = ${c}\\text{ cm}$.\n**Étape 3 :** $$\\mathcal{A} = ${c} \\times ${c} = ${c * c}\\text{ cm}^2$$ L'aire du carré est **$${c * c}\\text{ cm}^2$** (le rectangle n'a que $${L * l}\\text{ cm}^2$ : même périmètre ne veut pas dire même aire).`,
           _v: { k: '6M2.sameperi', L, l }
         }, 'Raisonner');
       }
@@ -2972,9 +2973,9 @@
         title: 'Carreler une pièce',
         statement: `Le sol d'une pièce rectangulaire mesure $${L}\\text{ m}$ sur $${l}\\text{ m}$. On le recouvre de carreaux carrés de $${c}\\text{ cm}$ de côté, sans découpe.\n**Combien de carreaux faut-il ?**`,
         type: 'exact', answer: String(n),
-        hint1: `Combien de carreaux de ${c} cm peut-on aligner sur 1 m = 100 cm ?`,
-        hint2: `Sur la longueur : $${L * 100} \\div ${c} = ${L * perM}$ carreaux ; sur la largeur : $${l * 100} \\div ${c} = ${l * perM}$ carreaux.`,
-        solution: `Longueur : $${L * 100} \\div ${c} = ${L * perM}$ carreaux. Largeur : $${l * 100} \\div ${c} = ${l * perM}$ carreaux.\n$$${L * perM} \\times ${l * perM} = ${n}\\text{ carreaux}$$`,
+        hint1: 'Cherche combien de carreaux on peut aligner sur un mètre, puis sur la longueur et sur la largeur de la pièce.',
+        hint2: 'Rappel : un mètre vaut cent centimètres. Les carreaux forment des rangées : nombre total = nombre de rangées × nombre de carreaux par rangée.',
+        solution: `**Étape 1 :** on convertit : $${L}\\text{ m} = ${L * 100}\\text{ cm}$ et $${l}\\text{ m} = ${l * 100}\\text{ cm}$.\n**Étape 2 :** sur la longueur : $${L * 100} \\div ${c} = ${L * perM}$ carreaux ; sur la largeur : $${l * 100} \\div ${c} = ${l * perM}$ carreaux.\n**Étape 3 :** $$${L * perM} \\times ${l * perM} = ${n}\\text{ carreaux}$$ Il faut **${n} carreaux**.`,
         _v: { k: '6M2.tiles', L, l, c }
       }, 'Modéliser');
     },
@@ -3007,9 +3008,9 @@
           title: decimal ? 'Volumes et contenances (décimaux)' : 'Volumes et contenances',
           statement: `Compléter :\n$$${T(val)}${tex(from)} = \\dots${tex(to)}$$\n*(Rappel : $1\\text{ L} = 1\\text{ dm}^3 = 1\\,000\\text{ cm}^3$ et $1\\text{ mL} = 1\\text{ cm}^3$.)*`,
           type: 'exact', answer: A(res),
-          hint1: 'Utilise les égalités : 1 L = 1 dm³ = 1 000 cm³ = 1 000 mL ; 1 L = 100 cL ; 1 m³ = 1 000 L.',
-          hint2: `Exprime d'abord ${X(val)} ${from} en cm³ : cela fait ${X(this._6r(val * V[from]))} cm³.`,
-          solution: `$${T(val)}${tex(from)} = ${T(this._6r(val * V[from]))}\\text{ cm}^3 = ${T(res)}${tex(to)}$`,
+          hint1: `Passe si besoin par une unité intermédiaire (le cm³ ou le L) pour aller des ${from} aux ${to}.`,
+          hint2: 'Égalités à connaître : 1 L = 1 dm³ = 1 000 cm³ = 1 000 mL ; 1 L = 100 cL ; 1 m³ = 1 000 L ; 1 mL = 1 cm³.',
+          solution: `On passe par le centimètre cube ($1\\text{ cm}^3 = 1\\text{ mL}$ et $1\\text{ L} = 1\\,000\\text{ cm}^3$) :\n$$${T(val)}${tex(from)} = ${T(this._6r(val * V[from]))}\\text{ cm}^3 = ${T(res)}${tex(to)}$$\nRéponse : **$${T(res)}$** ${to}.`,
           _v: { k: '6M3.conv', val, from, to }
         }, 'Convertir');
       };
@@ -3036,7 +3037,7 @@
           statement: `Un cube a une arête de $${c}${this._6mU(u)}$.\n**Calculer son volume en ${u}³.**`,
           type: 'exact', answer: String(c * c * c),
           hint1: 'Volume du cube = arête × arête × arête.',
-          hint2: `Calcule $${c} \\times ${c} \\times ${c}$.`,
+          hint2: 'Cube d\'arête $a$ : $\\mathcal{V} = a \\times a \\times a$ ; l\'unité est l\'unité de longueur « au cube ».',
           solution: `$$\\mathcal{V} = ${c} \\times ${c} \\times ${c} = ${c * c * c}${this._6mU(u, 3)}$$`,
           _v: { k: '6M3.cube', c }
         });
@@ -3053,7 +3054,7 @@
             statement: `Calculer le volume du pavé droit ci-dessous en ${u}³ (figure non à l'échelle).\n${this._6mPaveSvg(`${L} ${u}`, `${l} ${u}`, `${h} ${u}`)}`,
             type: 'exact', answer: String(L * l * h),
             hint1: 'Volume du pavé droit = Longueur × largeur × hauteur.',
-            hint2: `Calcule $${L} \\times ${l} \\times ${h}$.`,
+            hint2: 'Pavé droit : $\\mathcal{V} = L \\times \\ell \\times h$, les trois longueurs étant dans la même unité.',
             solution: `$$\\mathcal{V} = ${L} \\times ${l} \\times ${h} = ${L * l * h}${this._6mU(u, 3)}$$`,
             _v: { k: '6M3.pave', L, l, h }
           });
@@ -3064,9 +3065,9 @@
           title: 'Retrouver la hauteur d\'un pavé',
           statement: `Un pavé droit a un volume de $${Vol}\\text{ cm}^3$. Sa base est un rectangle de $${L}\\text{ cm}$ sur $${l}\\text{ cm}$.\n**Quelle est sa hauteur, en cm ?**`,
           type: 'exact', answer: String(h),
-          hint1: `L'aire de la base est $${L} \\times ${l} = ${L * l}\\text{ cm}^2$.`,
-          hint2: `On cherche le nombre qui, multiplié par ${L * l}, donne ${Vol}.`,
-          solution: `Base : $${L} \\times ${l} = ${L * l}\\text{ cm}^2$. Hauteur : $${Vol} \\div ${L * l} = ${h}\\text{ cm}$.`,
+          hint1: 'Calcule d\'abord l\'aire de la base, puis cherche par quel nombre il faut la multiplier pour obtenir le volume.',
+          hint2: 'Pavé droit : $\\mathcal{V} = L \\times \\ell \\times h$ = (aire de la base) × hauteur.',
+          solution: `**Étape 1 :** aire de la base : $${L} \\times ${l} = ${L * l}\\text{ cm}^2$.\n**Étape 2 :** $${L * l} \\times h = ${Vol}$, donc $h = ${Vol} \\div ${L * l} = ${h}$.\nLa hauteur du pavé est **$${h}\\text{ cm}$**.`,
           _v: { k: '6M3.height', V: Vol, L, l }
         }, 'Raisonner');
       }
@@ -3081,8 +3082,8 @@
             statement: `Un aquarium a la forme d'un pavé droit de $${L}\\text{ cm}$ de long, $${l}\\text{ cm}$ de large et $${h}\\text{ cm}$ de haut.\n${this._6mPaveSvg(`${L} cm`, `${l} cm`, `${h} cm`)}\n**Quelle est sa contenance, en litres ?**`,
             type: 'exact', answer: A(res),
             hint1: 'Calcule le volume en cm³, puis convertis : 1 L = 1 000 cm³.',
-            hint2: `$${L} \\times ${l} \\times ${h} = ${T(L * l * h)}\\text{ cm}^3$.`,
-            solution: `$$\\mathcal{V} = ${L} \\times ${l} \\times ${h} = ${T(L * l * h)}\\text{ cm}^3 = ${T(res)}\\text{ L}$$`,
+            hint2: 'Pavé droit : $\\mathcal{V} = L \\times \\ell \\times h$ ; contenance : $1\\text{ L} = 1\\text{ dm}^3 = 1\\,000\\text{ cm}^3$.',
+            solution: `**Étape 1 :** $$\\mathcal{V} = ${L} \\times ${l} \\times ${h} = ${T(L * l * h)}\\text{ cm}^3$$\n**Étape 2 :** $1\\text{ L} = 1\\,000\\text{ cm}^3$, donc on divise par $1\\,000$ : $${T(L * l * h)}\\text{ cm}^3 = ${T(res)}\\text{ L}$.\nL'aquarium contient **$${T(res)}\\text{ L}$**.`,
             _v: { k: '6M3.aqua', L, l, h }
           }, 'Modéliser');
         }
@@ -3094,7 +3095,7 @@
             statement: `Un pavé droit mesure $${T(L)}\\text{ m}$ sur $${l}\\text{ m}$ sur $${h}\\text{ m}$.\n**Calculer son volume en m³.**`,
             type: 'exact', answer: A(res),
             hint1: 'Volume = Longueur × largeur × hauteur.',
-            hint2: `Calcule d'abord $${l} \\times ${h} = ${l * h}$, puis multiplie par $${T(L)}$.`,
+            hint2: 'Pavé droit : $\\mathcal{V} = L \\times \\ell \\times h$. On peut multiplier dans l\'ordre que l\'on veut : commence par les deux entiers.',
             solution: `$$\\mathcal{V} = ${T(L)} \\times ${l} \\times ${h} = ${T(L)} \\times ${l * h} = ${T(res)}\\text{ m}^3$$`,
             _v: { k: '6M3.pave', L, l, h }
           });
@@ -3106,7 +3107,7 @@
           statement: `Léa construit un pavé de ${a} cubes de long, ${b} cubes de large et ${c} cubes de haut, avec des cubes de $1\\text{ cm}^3$. Puis elle retire ${r} cubes de la couche du dessus.\n**Quel est le volume du solide obtenu, en cm³ ?**`,
           type: 'exact', answer: String(a * b * c - r),
           hint1: 'Calcule d\'abord le nombre de cubes du pavé complet.',
-          hint2: `Pavé complet : $${a} \\times ${b} \\times ${c} = ${a * b * c}$ cubes.`,
+          hint2: 'Nombre de cubes d\'un pavé = (cubes en longueur) × (cubes en largeur) × (cubes en hauteur) ; chaque cube vaut 1 cm³.',
           solution: `$$${a} \\times ${b} \\times ${c} - ${r} = ${a * b * c} - ${r} = ${a * b * c - r}\\text{ cm}^3$$`,
           _v: { k: '6M3.remove', a, b, c, r }
         }, 'Raisonner');
@@ -3127,9 +3128,9 @@
           title: 'Remplir une cuve',
           statement: `Une cuve a la forme d'un pavé droit de $${L}\\text{ dm}$ sur $${l}\\text{ dm}$ sur $${h}\\text{ dm}$. Un robinet débite ${d} litres par minute.\n**Combien de minutes faut-il pour remplir la cuve vide ?**`,
           type: 'exact', answer: String(Vol / d),
-          hint1: 'Calcule le volume en dm³ : 1 dm³ = 1 L.',
-          hint2: `Volume : $${L} \\times ${l} \\times ${h} = ${Vol}\\text{ dm}^3 = ${Vol}\\text{ L}$.`,
-          solution: `$\\mathcal{V} = ${L} \\times ${l} \\times ${h} = ${Vol}\\text{ dm}^3 = ${Vol}\\text{ L}$.\n$$${Vol} \\div ${d} = ${Vol / d}\\text{ min}$$`,
+          hint1: 'Calcule le volume de la cuve en litres, puis cherche combien de minutes il faut au robinet pour le fournir.',
+          hint2: 'Pavé droit : $\\mathcal{V} = L \\times \\ell \\times h$ ; $1\\text{ dm}^3 = 1\\text{ L}$.',
+          solution: `**Étape 1 :** $\\mathcal{V} = ${L} \\times ${l} \\times ${h} = ${Vol}\\text{ dm}^3 = ${Vol}\\text{ L}$.\n**Étape 2 :** chaque minute, le robinet verse ${d} L : $$${Vol} \\div ${d} = ${Vol / d}$$ Il faut **${Vol / d} minutes** pour remplir la cuve.`,
           _v: { k: '6M3.fill', L, l, h, d }
         }, 'Modéliser');
       }
@@ -3142,7 +3143,7 @@
           statement: `Une boîte en forme de pavé droit mesure intérieurement $${L}\\text{ cm}$ sur $${l}\\text{ cm}$ sur $${h}\\text{ cm}$. On la remplit entièrement de cubes de $${s}\\text{ cm}$ d'arête.\n**Combien de cubes peut-on y ranger ?**`,
           type: 'exact', answer: String(p * q2 * r),
           hint1: `Combien de cubes de ${s} cm tiennent sur la longueur ? sur la largeur ? sur la hauteur ?`,
-          hint2: `$${L} \\div ${s} = ${p}$, $${l} \\div ${s} = ${q2}$ et $${h} \\div ${s} = ${r}$.`,
+          hint2: 'Les cubes se rangent en couches : nombre total = (cubes en longueur) × (cubes en largeur) × (cubes en hauteur).',
           solution: `On aligne $${p}$ cubes sur la longueur, $${q2}$ sur la largeur et $${r}$ sur la hauteur :\n$$${p} \\times ${q2} \\times ${r} = ${p * q2 * r}\\text{ cubes}$$`,
           _v: { k: '6M3.fit', L, l, h, s }
         }, 'Raisonner');
@@ -3154,7 +3155,7 @@
         statement: `Le fond d'un aquarium est un rectangle de $${L}\\text{ cm}$ sur $${l}\\text{ cm}$. On y verse $${T(Vl)}\\text{ L}$ d'eau.\n**À quelle hauteur, en cm, l'eau monte-t-elle ?**`,
         type: 'exact', answer: String(hh),
         hint1: 'Convertis le volume d\'eau en cm³ : 1 L = 1 000 cm³.',
-        hint2: `$${T(Vl)}\\text{ L} = ${T(L * l * hh)}\\text{ cm}^3$ et l'aire du fond vaut $${T(L * l)}\\text{ cm}^2$.`,
+        hint2: 'L\'eau forme un pavé droit : $\\mathcal{V} = (\\text{aire du fond}) \\times h$, donc $h = \\mathcal{V} \\div (\\text{aire du fond})$.',
         solution: `$${T(Vl)}\\text{ L} = ${T(L * l * hh)}\\text{ cm}^3$. Aire du fond : $${L} \\times ${l} = ${T(L * l)}\\text{ cm}^2$.\n$$h = ${T(L * l * hh)} \\div ${T(L * l)} = ${hh}\\text{ cm}$$`,
         _v: { k: '6M3.level', L, l, V: Vl }
       }, 'Modéliser');
@@ -3178,9 +3179,9 @@
             title: 'Convertir en minutes',
             statement: `Convertir **${txt}** en minutes.`,
             type: 'exact', answer: String(h * 60 + m), placeholder: 'Ex : 135',
-            hint1: '1 h = 60 min.',
-            hint2: `$${h} \\times 60 = ${h * 60}$ min, puis ajoute les minutes restantes.`,
-            solution: `$$${h} \\times 60 + ${m} = ${h * 60} + ${m} = ${h * 60 + m}\\text{ min}$$`,
+            hint1: 'Convertis d\'abord les heures en minutes, puis ajoute les minutes restantes.',
+            hint2: 'Une heure compte soixante minutes.',
+            solution: `**Étape 1 :** $${h}\\text{ h} = ${h} \\times 60\\text{ min} = ${h * 60}\\text{ min}$.\n**Étape 2 :** $$${h * 60} + ${m} = ${h * 60 + m}\\text{ min}$$ Donc ${txt} = **${h * 60 + m} min**.`,
             _v: { k: '6M4.tomin', h, m }
           }, 'Convertir');
         }
@@ -3206,9 +3207,9 @@
           title: 'Convertir en secondes',
           statement: `Convertir **${m} min ${s} s** en secondes.`,
           type: 'exact', answer: String(m * 60 + s), placeholder: 'Ex : 200',
-          hint1: '1 min = 60 s.',
-          hint2: `$${m} \\times 60 = ${m * 60}$ s.`,
-          solution: `$$${m} \\times 60 + ${s} = ${m * 60 + s}\\text{ s}$$`,
+          hint1: 'Convertis d\'abord les minutes en secondes, puis ajoute les secondes restantes.',
+          hint2: '1 min = 60 s.',
+          solution: `**Étape 1 :** $${m}\\text{ min} = ${m} \\times 60\\text{ s} = ${m * 60}\\text{ s}$.\n**Étape 2 :** $$${m * 60} + ${s} = ${m * 60 + s}\\text{ s}$$ Donc ${m} min ${s} s = **${m * 60 + s} s**.`,
           _v: { k: '6M4.tosec', m, s }
         }, 'Convertir');
       }
@@ -3223,8 +3224,8 @@
             statement: `Un match commence à **${Hr(s)}** et se termine à **${Hr(s + d)}** le même jour.\n**Combien de minutes a-t-il duré ?**`,
             type: 'exact', answer: String(d), placeholder: 'Ex : 95',
             hint1: 'Passe par une heure « ronde » intermédiaire.',
-            hint2: `De ${Hr(s)} à ${Hr(Math.ceil(s / 60) * 60)}, il y a ${Math.ceil(s / 60) * 60 - s} min.`,
-            solution: `Durée : ${Hr(s + d)} − ${Hr(s)} = ${D(d)}, soit **${d} min**.`,
+            hint2: 'Durée = horaire de fin − horaire de début ; une heure compte soixante minutes. Méthode du « saut » : on complète d\'abord jusqu\'à l\'heure ronde.',
+            solution: `**Méthode du saut :** de ${Hr(s)} à ${Hr(Math.ceil(s / 60) * 60)} : ${Math.ceil(s / 60) * 60 - s} min` + (s + d > Math.ceil(s / 60) * 60 ? ` ; puis de ${Hr(Math.ceil(s / 60) * 60)} à ${Hr(s + d)} : ${s + d - Math.ceil(s / 60) * 60} min.\nTotal : $${Math.ceil(s / 60) * 60 - s} + ${s + d - Math.ceil(s / 60) * 60} = ${d}$ min.` : '.') + `\nLe match a duré ${D(d)}, soit **${d} min**.`,
             _v: { k: '6M4.between', s, e: s + d }
           }, 'Calculer');
         }
@@ -3237,7 +3238,7 @@
             statement: `Un film dure **${D(d)}**. La séance commence à **${Hr(s)}**.\n**À quelle heure le film se termine-t-il ?**`,
             hint1: 'Ajoute d\'abord les heures, puis les minutes.',
             hint2: 'Si tu obtiens 60 minutes ou plus, convertis 60 min en 1 h.',
-            solution: `${Hr(s)} + ${D(d)} = **${correct}**.`,
+            solution: `Horaire de fin = horaire de début + durée.\nOn ajoute ${D(d)} à ${Hr(s)} : cela fait ${Math.floor(s / 60) + Math.floor(d / 60)} h et ${s % 60 + d % 60} min` + (s % 60 + d % 60 >= 60 ? `, or ${s % 60 + d % 60} min = 1 h ${s % 60 + d % 60 - 60} min` : '') + `.\nLe film se termine à **${correct}**.`,
             _v: { k: '6M4.end', s, d }
           }, 'Calculer');
           return this._6mcq(q, correct, [Hr(s + d + 40), Hr(s + d - 60), Hr(s + d + 60), Hr(s + d - 40)]);
@@ -3247,9 +3248,9 @@
           title: 'Jours et heures',
           statement: `Convertir **${j} jour${j > 1 ? 's' : ''} et ${h} h** en heures.`,
           type: 'exact', answer: String(24 * j + h), placeholder: 'Ex : 50',
-          hint1: '1 jour = 24 h.',
-          hint2: `$${j} \\times 24 = ${24 * j}$ h.`,
-          solution: `$$${j} \\times 24 + ${h} = ${24 * j + h}\\text{ h}$$`,
+          hint1: 'Convertis d\'abord les jours en heures, puis ajoute les heures restantes.',
+          hint2: '1 jour = 24 h.',
+          solution: `**Étape 1 :** $${j}\\text{ j} = ${j} \\times 24\\text{ h} = ${24 * j}\\text{ h}$.\n**Étape 2 :** $$${24 * j} + ${h} = ${24 * j + h}\\text{ h}$$ Donc la durée vaut **${24 * j + h} h**.`,
           _v: { k: '6M4.days', j, h }
         }, 'Convertir');
       }
@@ -3265,8 +3266,8 @@
             title: 'Durée entre deux horaires',
             statement: `Un train part à **${Hr(s)}** et arrive à **${Hr(s + d)}** le même jour.\n**Quelle est la durée du trajet ?**`,
             hint1: 'Compte d\'abord jusqu\'à l\'heure ronde suivante, puis les heures entières, puis les minutes restantes.',
-            hint2: `De ${Hr(s)} à ${Hr(Math.ceil(s / 60) * 60)} : ${Math.ceil(s / 60) * 60 - s} min.`,
-            solution: `De ${Hr(s)} à ${Hr(s + d)}, il s'écoule ${d} min, soit **${correct}**.`,
+            hint2: 'Durée = horaire d\'arrivée − horaire de départ ; 1 h = 60 min.',
+            solution: `**Étape 1 :** de ${Hr(s)} à ${Hr(Math.ceil(s / 60) * 60)} : ${Math.ceil(s / 60) * 60 - s} min.\n**Étape 2 :** de ${Hr(Math.ceil(s / 60) * 60)} à ${Hr(s + d)} : ${D(s + d - Math.ceil(s / 60) * 60)}.\n**Étape 3 :** en tout ${d} min ; or $${d} = ${Math.floor(d / 60)} \\times 60 + ${d % 60}$.\nLe trajet dure **${correct}**.`,
             _v: { k: '6M4.betweenhm', s, e: s + d }
           }, 'Calculer');
           return this._6mcq(q, correct, [D(d + 40), D(d - 40), D(d + 60), D(d - 60)]);
@@ -3280,7 +3281,7 @@
             statement: `Une randonnée a duré **${D(d)}** et s'est terminée à **${Hr(e)}**.\n**À quelle heure a-t-elle commencé ?**`,
             hint1: 'On remonte le temps : on soustrait la durée à l\'horaire de fin.',
             hint2: 'Soustrais d\'abord les heures, puis les minutes (en « empruntant » 60 min si besoin).',
-            solution: `${Hr(e)} − ${D(d)} = **${correct}**.`,
+            solution: `Horaire de début = horaire de fin − durée.\nOn retire ${D(d)} à ${Hr(e)}` + ((e % 60) < (d % 60) ? ` : comme ${e % 60} < ${d % 60}, on « emprunte » 1 h = 60 min, ${Hr(e)} = ${Math.floor(e / 60) - 1} h ${e % 60 + 60} min.` : '.') + `\nLa randonnée a commencé à **${correct}**.`,
             _v: { k: '6M4.start', e, d }
           }, 'Raisonner');
           return this._6mcq(q, correct, [Hr(e - d + 40), Hr(e - d - 40), Hr(e - d + 60), Hr(e + d)]);
@@ -3291,8 +3292,8 @@
           title: 'Additionner des durées',
           statement: `Pour un devoir, Noé travaille **${D(a)}** le samedi et **${D(b)}** le dimanche.\n**Quelle est la durée totale de travail ?**`,
           hint1: 'Additionne les heures entre elles et les minutes entre elles.',
-          hint2: '60 min = 1 h : convertis si le total des minutes dépasse 59.',
-          solution: `${D(a)} + ${D(b)} = ${a + b} min = **${correct}**.`,
+          hint2: '1 h = 60 min : si le total des minutes atteint 60 ou plus, on convertit 60 min en 1 h.',
+          solution: `**Étape 1 :** on convertit en minutes : ${D(a)} = ${a} min et ${D(b)} = ${b} min.\n**Étape 2 :** $${a} + ${b} = ${a + b}$ min.\n**Étape 3 :** $${a + b} = ${Math.floor((a + b) / 60)} \\times 60 + ${(a + b) % 60}$, soit **${correct}**.`,
           _v: { k: '6M4.sum', a, b }
         }, 'Calculer');
         return this._6mcq(q, correct, [D(a + b + 40), D(a + b - 40), D(a + b + 60), D(a + b + 20)]);
@@ -3306,8 +3307,8 @@
           title: 'Tout en secondes',
           statement: `Un marathonien court pendant **${h} h ${m} min ${s} s**.\n**Combien de secondes cela représente-t-il ?**`,
           type: 'exact', answer: String(h * 3600 + m * 60 + s), placeholder: 'Ex : 4500',
-          hint1: '1 h = 3 600 s et 1 min = 60 s.',
-          hint2: `$${h} \\times 3\\,600 = ${T(h * 3600)}$ et $${m} \\times 60 = ${m * 60}$.`,
+          hint1: 'Convertis séparément les heures et les minutes en secondes, puis additionne le tout.',
+          hint2: '1 h = 3 600 s et 1 min = 60 s.',
           solution: `$$${h} \\times 3\\,600 + ${m} \\times 60 + ${s} = ${T(h * 3600)} + ${m * 60} + ${s} = ${T(h * 3600 + m * 60 + s)}\\text{ s}$$`,
           _v: { k: '6M4.hms', h, m, s }
         }, 'Convertir');
@@ -3319,9 +3320,9 @@
         const q = mk({
           title: 'Voyage de nuit',
           statement: `Un car de nuit part à **${Hr(s)}** pour un trajet de **${D(d)}**.\n**À quelle heure arrive-t-il ?**`,
-          hint1: 'Après 23 h 59, on repasse à 0 h 00 : c\'est le lendemain.',
-          hint2: `De ${Hr(s)} à minuit, il y a ${1440 - s} min.`,
-          solution: `${Hr(s)} + ${D(d)} : l'arrivée est à **${correct}**.`,
+          hint1: 'Compte d\'abord le temps qu\'il reste jusqu\'à minuit, puis le temps restant après minuit.',
+          hint2: 'Une journée compte 24 h : à minuit, on repasse à 0 h 00 et on change de jour.',
+          solution: `**Étape 1 :** de ${Hr(s)} à minuit : ${1440 - s} min.\n` + (s + d >= 1440 ? `**Étape 2 :** il reste $${d} - ${1440 - s} = ${s + d - 1440}$ min de trajet après minuit.\n` : `**Étape 2 :** le trajet (${d} min) se termine avant minuit.\n`) + `L'arrivée est à **${correct}**.`,
           _v: { k: '6M4.night', s, d }
         }, 'Raisonner');
         const alt = (m) => Hr(m) + (m >= 1440 ? ' le lendemain' : '');
@@ -3338,8 +3339,8 @@
           statement: `Une course dure $${T(val)}\\text{ h}$.\n**Combien de minutes cela fait-il ?** *(Attention : $${T(val)}\\text{ h}$ ne signifie pas « ${h} h ${Math.round(frac * 100)} min » !)*`,
           type: 'exact', answer: A(res), placeholder: 'Ex : 90',
           hint1: '1 h = 60 min : on multiplie le nombre d\'heures par 60.',
-          hint2: `$${T(frac)}\\text{ h} = ${T(frac)} \\times 60\\text{ min} = ${T(this._6r(frac * 60))}\\text{ min}$.`,
-          solution: `$$${T(val)} \\times 60 = ${T(res)}\\text{ min}$$`,
+          hint2: '1 h = 60 min, donc une durée en heures décimales se convertit en minutes en la multipliant par 60.',
+          solution: `$1\\text{ h} = 60\\text{ min}$, donc on multiplie par 60 :\n$$${T(val)} \\times 60 = ${T(res)}\\text{ min}$$\nLa course dure **${T(res)} min**` + (h > 0 ? ` (soit ${h} h ${T(this._6r(frac * 60))} min).` : '.'),
           _v: { k: '6M4.dech', val }
         }, 'Convertir');
       }
@@ -3349,8 +3350,8 @@
         title: 'Écrire une durée en heures décimales',
         statement: `Écrire la durée **${h === 0 ? '' : `${h} h `}${m} min** en heures, sous forme d'un nombre décimal.`,
         type: 'exact', answer: A(res), placeholder: 'Ex : 1,5',
-        hint1: `${m} min représente $\\frac{${m}}{60}$ d'heure.`,
-        hint2: `$${m} \\div 60 = ${T(this._6r(m / 60))}$.`,
+        hint1: 'Convertis d\'abord les minutes en fraction d\'heure, puis écris cette fraction sous forme décimale.',
+        hint2: '1 h = 60 min, donc 1 min = $\\frac{1}{60}$ h : un nombre de minutes se convertit en heures en le divisant par 60.',
         solution: `$${m}\\text{ min} = ${m} \\div 60\\text{ h} = ${T(this._6r(m / 60))}\\text{ h}$, donc la durée vaut $${T(res)}\\text{ h}$.`,
         _v: { k: '6M4.todec', h, m }
       }, 'Convertir');
@@ -3527,7 +3528,7 @@
             statement: `Un cercle de centre $${O}$ a un diamètre de $${W(d)}$ cm. **Quel est son rayon, en cm ?**`,
             type: 'exact', answer: A(d / 2),
             hint1: 'Le diamètre est le double du rayon.',
-            hint2: `Divise le diamètre par 2 : $${W(d)} \\div 2$.`,
+            hint2: 'Le rayon est la moitié du diamètre : un diamètre est formé de deux rayons mis bout à bout.',
             solution: `Le rayon est la moitié du diamètre : $r = ${W(d)} \\div 2 = ${W(d / 2)}$ cm.`,
             _v: { k: '6G1.half', x: d }
           });
@@ -3539,8 +3540,8 @@
             title: 'Diamètre d’un cercle',
             statement: `Un cercle de centre $${O}$ a un rayon de $${W(r)}$ cm. **Quel est son diamètre, en cm ?**`,
             type: 'exact', answer: A(2 * r),
-            hint1: 'Le diamètre est le double du rayon.',
-            hint2: `Calcule $2 \\times ${W(r)}$.`,
+            hint1: 'Trace un diamètre : il passe par le centre et il est formé de deux rayons mis bout à bout.',
+            hint2: 'Rappel : le diamètre d\'un cercle est le double de son rayon.',
             solution: `$d = 2 \\times r = 2 \\times ${W(r)} = ${W(2 * r)}$ cm.`,
             _v: { k: '6G1.double', x: r }
           });
@@ -3551,8 +3552,8 @@
           title: 'Milieu d’un segment',
           statement: `Le point $${I}$ est le milieu du segment $[${P}${Q}]$ et $${P}${Q} = ${W(L)}$ cm. **Calcule la longueur $${P}${I}$, en cm.**`,
           type: 'exact', answer: A(L / 2),
-          hint1: 'Le milieu partage le segment en deux segments de même longueur.',
-          hint2: `$${P}${I} = ${P}${Q} \\div 2$.`,
+          hint1: 'Fais un schéma à main levée : place le milieu et code les deux segments égaux.',
+          hint2: 'Le milieu d\'un segment est le point du segment situé à égale distance de ses extrémités : il le partage en deux moitiés.',
           solution: `$${I}$ est le milieu de $[${P}${Q}]$ donc $${P}${I} = ${I}${Q} = ${W(L)} \\div 2 = ${W(L / 2)}$ cm.`,
           _v: { k: '6G1.half', x: L }
         });
@@ -3567,9 +3568,9 @@
             title: 'Retrouver la longueur d’un segment à partir de son milieu',
             statement: `$${M}$ est le milieu du segment $[${E}${F}]$ et $${E}${M} = ${W(a)}$ cm. **Quelle est la longueur $${E}${F}$, en cm ?**`,
             type: 'exact', answer: A(2 * a),
-            hint1: `$${M}$ est le milieu : $${M}${F} = ${E}${M}$.`,
-            hint2: `$${E}${F} = ${E}${M} + ${M}${F}$.`,
-            solution: `$${E}${F} = 2 \\times ${E}${M} = 2 \\times ${W(a)} = ${W(2 * a)}$ cm.`,
+            hint1: `Fais un schéma : $[${E}${F}]$ est formé de deux segments, $[${E}${M}]$ et $[${M}${F}]$.`,
+            hint2: 'Le milieu d\'un segment le partage en deux segments de même longueur.',
+            solution: `$${M}$ est le milieu de $[${E}${F}]$, donc $${M}${F} = ${E}${M} = ${W(a)}$ cm.\n$${E}${F} = ${E}${M} + ${M}${F} = 2 \\times ${W(a)} = ${W(2 * a)}$ cm.`,
             _v: { k: '6G1.double', x: a }
           });
         }
@@ -3581,7 +3582,7 @@
             statement: `Les points $${P}$, $${Q}$ et $${R}$ sont alignés dans cet ordre (le point $${Q}$ appartient au segment $[${P}${R}]$). On sait que $${P}${Q} = ${W(a)}$ cm et $${Q}${R} = ${W(b)}$ cm. **Calcule $${P}${R}$, en cm.**`,
             type: 'exact', answer: A(a + b),
             hint1: `Comme $${Q}$ est sur $[${P}${R}]$ : $${P}${R} = ${P}${Q} + ${Q}${R}$.`,
-            hint2: `Calcule $${W(a)} + ${W(b)}$.`,
+            hint2: 'Si un point appartient à un segment, il le partage en deux segments dont les longueurs s\'additionnent.',
             solution: `$${Q} \\in [${P}${R}]$ donc $${P}${R} = ${P}${Q} + ${Q}${R} = ${W(a)} + ${W(b)} = ${W(this._6r(a + b))}$ cm.`,
             _v: { k: '6G1.sum', a, b }
           });
@@ -3594,7 +3595,7 @@
             statement: `Le point $${Q}$ appartient au segment $[${P}${R}]$. On sait que $${P}${R} = ${W(c)}$ cm et $${P}${Q} = ${W(a)}$ cm. **Calcule $${Q}${R}$, en cm.**`,
             type: 'exact', answer: A(c - a),
             hint1: `$${P}${R} = ${P}${Q} + ${Q}${R}$, donc $${Q}${R} = ${P}${R} - ${P}${Q}$.`,
-            hint2: `Calcule $${W(c)} - ${W(a)}$.`,
+            hint2: 'Si un point appartient à un segment, il le partage en deux segments dont les longueurs s\'additionnent : on retrouve un morceau par soustraction.',
             solution: `$${Q}${R} = ${P}${R} - ${P}${Q} = ${W(c)} - ${W(a)} = ${W(this._6r(c - a))}$ cm.`,
             _v: { k: '6G1.diff', a: c, b: a }
           });
@@ -3659,8 +3660,8 @@
           title: 'Milieux successifs',
           statement: `On a $${P}${R} = ${c}$ cm. Le point $${Q}$ est le milieu de $[${P}${R}]$ et le point $${I}$ est le milieu de $[${P}${Q}]$. **Calcule $${target}$, en cm.**`,
           type: 'exact', answer: A(val),
-          hint1: `Commence par $${P}${Q} = ${c} \\div 2 = ${c / 2}$ cm.`,
-          hint2: `Puis $${P}${I} = ${I}${Q} = ${c / 2} \\div 2 = ${c / 4}$ cm.`,
+          hint1: `Fais un schéma, puis calcule les longueurs dans l'ordre : d'abord $${P}${Q}$, ensuite $${P}${I}$.`,
+          hint2: 'Le milieu d\'un segment le partage en deux segments de même longueur, égale à la moitié du segment.',
           solution: `$${P}${Q} = ${Q}${R} = ${c / 2}$ cm et $${P}${I} = ${I}${Q} = ${c / 4}$ cm.\n` +
             (ask === 0 ? `Donc $${I}${Q} = ${c / 4}$ cm.` : `Donc $${I}${R} = ${I}${Q} + ${Q}${R} = ${c / 4} + ${c / 2} = ${3 * c / 4}$ cm.`),
           _v: { k: '6G1.quart', c, ask }
@@ -3679,8 +3680,8 @@
           title: 'Chaîne de milieux',
           statement: `Le segment $[${Pa}${Pb}]$ mesure $${L}$ cm. $${Pm}$ est le milieu de $[${Pa}${Pb}]$, $${Pn}$ est le milieu de $[${Pm}${Pb}]$ et $${Pp}$ est le milieu de $[${Pa}${Pn}]$. **Calcule $${pair[0]}${pair[1]}$, en cm.**`,
           type: 'exact', answer: A(val),
-          hint1: `Repère chaque point par sa distance à $${Pa}$ : $${Pa}${Pm} = ${L / 2}$ cm.`,
-          hint2: `$${Pa}${Pn} = ${L / 2} + ${L / 4} = ${3 * L / 4}$ cm et $${Pa}${Pp} = ${3 * L / 4} \\div 2 = ${3 * L / 8}$ cm.`,
+          hint1: `Repère chaque point par sa distance à $${Pa}$, en suivant l'ordre de l'énoncé : $${Pm}$, puis $${Pn}$, puis $${Pp}$.`,
+          hint2: 'Le milieu d\'un segment le partage en deux segments de même longueur, égale à la moitié du segment.',
           solution: `Distances à $${Pa}$ : $${Pa}${Pp} = ${3 * L / 8}$ ; $${Pa}${Pm} = ${L / 2}$ ; $${Pa}${Pn} = ${3 * L / 4}$ ; $${Pa}${Pb} = ${L}$ (en cm).\nDonc $${pair[0]}${pair[1]} = ${pos[pair[1]]} - ${pos[pair[0]]} = ${val}$ cm.`,
           _v: { k: '6G1.chaine', L, roles: [pair[0] === Pa ? 'A' : pair[0] === Pp ? 'P' : pair[0] === Pm ? 'M' : pair[0] === Pn ? 'N' : 'B', pair[1] === Pa ? 'A' : pair[1] === Pp ? 'P' : pair[1] === Pm ? 'M' : pair[1] === Pn ? 'N' : 'B'] }
         });
@@ -3706,7 +3707,7 @@
           statement: `Deux cercles de centres $${P}$ et $${Q}$ se touchent en un seul point $${T}$ du segment $[${P}${Q}]$. On sait que $${P}${Q} = ${W(d)}$ cm et que le cercle de centre $${P}$ a pour rayon $${W(r1)}$ cm. **Quel est le rayon du cercle de centre $${Q}$, en cm ?**`,
           type: 'exact', answer: A(r2),
           hint1: `$${P}${Q} = ${P}${T} + ${T}${Q}$ avec $${P}${T} = ${W(r1)}$ cm.`,
-          hint2: `Calcule $${W(d)} - ${W(r1)}$.`,
+          hint2: `Les points d'un cercle sont tous à la même distance du centre (le rayon) : $${P}${T}$ et $${T}${Q}$ sont des rayons.`,
           solution: `$${T}${Q} = ${P}${Q} - ${P}${T} = ${W(d)} - ${W(r1)} = ${W(r2)}$ cm : c'est le rayon cherché.`,
           _v: { k: '6G1.diff', a: d, b: r1 }
         });
@@ -3772,9 +3773,9 @@
             title: 'Propriété de la médiatrice',
             statement: `Le point $${M}$ appartient à la médiatrice du segment $[${P}${Q}]$ et $${M}${P} = ${W(x)}$ cm. **Quelle est la longueur $${M}${Q}$, en cm ?**`,
             type: 'exact', answer: A(x),
-            hint1: 'Tout point de la médiatrice d’un segment est à égale distance des extrémités du segment.',
-            hint2: `$${M}${Q} = ${M}${P}$.`,
-            solution: `$${M}$ est sur la médiatrice de $[${P}${Q}]$ donc $${M}${Q} = ${M}${P} = ${W(x)}$ cm.`,
+            hint1: `Repère sur quelle droite se trouve le point $${M}$ et ce que cela impose à ses distances aux points $${P}$ et $${Q}$.`,
+            hint2: 'Propriété : tout point de la médiatrice d’un segment est équidistant (à la même distance) des deux extrémités de ce segment.',
+            solution: `**Étape 1 :** $${M}$ appartient à la médiatrice du segment $[${P}${Q}]$.\n**Étape 2 :** or tout point de la médiatrice d'un segment est équidistant de ses extrémités, donc $${M}${Q} = ${M}${P}$.\n**Conclusion :** $${M}${Q} = ${W(x)}$ cm.`,
             _v: { k: '6G2.same', x }
           });
         }
@@ -3791,9 +3792,9 @@
             title: 'La symétrie axiale conserve les mesures',
             statement: `Par une symétrie axiale d'axe $(d)$, ${txt.s}`,
             type: 'exact', answer: A(x),
-            hint1: 'La symétrie axiale est un « pliage » : la figure et son image se superposent.',
-            hint2: 'Elle conserve les longueurs, les angles et les aires.',
-            solution: `${txt.w} sont ${kind === 1 ? 'conservés' : 'conservées'} par symétrie axiale : la mesure cherchée est $${W(x)}$.`,
+            hint1: 'Imagine le pliage le long de l’axe : la figure et son symétrique se superposent-ils exactement ?',
+            hint2: 'Propriété : la symétrie axiale conserve les longueurs, les mesures d’angles et les aires.',
+            solution: `**Étape 1 :** la figure et sa symétrique se superposent par pliage le long de $(d)$.\n**Étape 2 :** ${txt.w.toLowerCase()} sont donc ${kind === 1 ? 'conservés' : 'conservées'} par la symétrie axiale.\n**Conclusion :** la mesure cherchée est $${W(x)}$ ${kind === 1 ? 'degrés' : kind === 0 ? 'cm' : 'cm²'}.`,
             _v: { k: '6G2.same', x }
           });
         }
@@ -3808,9 +3809,9 @@
         return this._6E_mcq(ch, t, {
           title: 'Axes de symétrie des figures usuelles',
           statement: `**Combien d'axes de symétrie possède ${figs[idx][0]} ?**`,
-          hint1: 'Un axe de symétrie est une droite de pliage pour laquelle les deux parties se superposent exactement.',
-          hint2: 'Pense aux diagonales et aux médiatrices des côtés.',
-          solution: `${figs[idx][0].charAt(0).toUpperCase() + figs[idx][0].slice(1)} possède **${correct}** axe${correct === '1' ? '' : 's'} de symétrie.`,
+          hint1: 'Dessine la figure à main levée et cherche toutes les droites de pliage possibles, sans en oublier ni en compter deux fois.',
+          hint2: 'Un axe de symétrie est une droite de pliage pour laquelle les deux parties se superposent exactement. Pour un polygone, on teste les diagonales et les médiatrices des côtés ; pour un cercle, les droites passant par son centre.',
+          solution: `On cherche les droites de pliage qui superposent exactement les deux moitiés de la figure.\n**Conclusion :** ${figs[idx][0]} possède **${correct === 'aucun' ? 'aucun axe' : correct === 'une infinité' ? "une infinité d'axes" : correct === '1' ? 'un seul axe' : correct + ' axes'}** de symétrie${correct === 'une infinité' ? ' (toutes les droites passant par son centre)' : ''}.`,
           skill: 'Chercher',
           _v: { k: '6G2.axes', idx }
         }, correct, this.shuffle(pool));
@@ -3984,9 +3985,9 @@
           return this._6E_mcq(ch, t, {
             title: 'Nature d’un angle',
             statement: `L'angle $${ang(P, O, Q)}$ mesure $${x}^\\circ$. **De quelle nature est cet angle ?**`,
-            hint1: 'Aigu : entre 0° et 90°. Droit : 90°. Obtus : entre 90° et 180°. Plat : 180°.',
-            hint2: `Compare $${x}^\\circ$ à $90^\\circ$ et à $180^\\circ$.`,
-            solution: `Un angle de $${x}^\\circ$ est **${correct}**.`,
+            hint1: `Situe la mesure $${x}^\\circ$ par rapport aux deux mesures de référence de l'équerre et de la règle (90° et 180°).`,
+            hint2: 'Angle aigu : mesure strictement comprise entre 0° et 90°. Angle droit : 90°. Angle obtus : strictement comprise entre 90° et 180°. Angle plat : 180°.',
+            solution: `**Étape 1 :** on compare $${x}^\\circ$ à $90^\\circ$ (angle droit) et à $180^\\circ$ (angle plat).\n**Conclusion :** un angle de $${x}^\\circ$ est **${correct}**.`,
             skill: 'Communiquer',
             _v: { k: '6G3.nature', x }
           }, correct, opts.filter(o => o !== correct));
@@ -3996,8 +3997,8 @@
           return this._6E_mcq(ch, t, {
             title: 'Sommet d’un angle',
             statement: `**Quel est le sommet de l'angle $${ang(P, O, Q)}$ ?**`,
-            hint1: 'Dans la notation d’un angle, le sommet est la lettre du milieu, sous le chapeau.',
-            hint2: `Lis les trois lettres : $${P}$, $${O}$, $${Q}$.`,
+            hint1: 'Dans la notation à trois lettres, une seule lettre a une place particulière : cherche laquelle.',
+            hint2: 'Un angle est formé de deux demi-droites de même origine, appelée sommet ; dans la notation avec un chapeau, le sommet est toujours écrit au milieu.',
             solution: `Le sommet est la lettre du milieu : **le point $${O}$**. Les côtés sont $[${O}${P})$ et $[${O}${Q})$.`,
             skill: 'Représenter',
             _v: { k: '6G3.sommet', O }
@@ -4006,8 +4007,8 @@
         return this._6E_mcq(ch, t, {
           title: 'Côtés d’un angle',
           statement: `**Quels sont les côtés de l'angle $${ang(P, O, Q)}$ ?**`,
-          hint1: 'Les côtés d’un angle sont deux demi-droites de même origine : le sommet.',
-          hint2: `Le sommet est $${O}$.`,
+          hint1: 'Trouve d’abord le sommet de l’angle, puis écris les deux demi-droites qui partent de ce point.',
+          hint2: 'Les côtés d’un angle sont deux demi-droites de même origine, le sommet. Une demi-droite se note en commençant par son origine, avec un crochet de ce côté.',
           solution: `Les côtés sont les demi-droites **$[${O}${P})$ et $[${O}${Q})$**.`,
           skill: 'Représenter',
           _v: { k: '6G3.cotes', P, O, Q }
@@ -4023,9 +4024,9 @@
             title: 'Angles supplémentaires',
             statement: `Deux angles sont supplémentaires. L'un mesure $${x}^\\circ$. **Combien mesure l'autre, en degrés ?**`,
             type: 'exact', answer: A(180 - x),
-            hint1: 'Deux angles supplémentaires ont une somme de 180°.',
-            hint2: `Calcule $180 - ${x}$.`,
-            solution: `$180^\\circ - ${x}^\\circ = ${180 - x}^\\circ$.`,
+            hint1: 'Cherche ce qu’il faut ajouter à la mesure donnée pour obtenir la somme de deux angles supplémentaires.',
+            hint2: 'Deux angles sont supplémentaires lorsque la somme de leurs mesures est égale à 180°.',
+            solution: `**Étape 1 :** les deux angles sont supplémentaires, donc la somme de leurs mesures vaut $180^\\circ$.\n**Étape 2 :** $180^\\circ - ${x}^\\circ = ${180 - x}^\\circ$.\n**Conclusion :** l'autre angle mesure $${180 - x}^\\circ$.`,
             _v: { k: '6G3.sub', tot: 180, parts: [x] }
           });
         }
@@ -4036,9 +4037,9 @@
             title: 'Angle plat partagé en deux',
             statement: `Les points $${P}$, $${O}$ et $${Q}$ sont alignés, et $${ang(P, O, R)} = ${x}^\\circ$.\n${fig}\n**Calcule la mesure de l'angle $${ang(R, O, Q)}$, en degrés.**`,
             type: 'exact', answer: A(180 - x),
-            hint1: `$${ang(P, O, Q)}$ est un angle plat : il mesure 180°.`,
-            hint2: `$${ang(P, O, R)}$ et $${ang(R, O, Q)}$ sont adjacents et supplémentaires.`,
-            solution: `$${ang(R, O, Q)} = 180^\\circ - ${x}^\\circ = ${180 - x}^\\circ$.`,
+            hint1: `Les angles $${ang(P, O, R)}$ et $${ang(R, O, Q)}$ sont adjacents : ensemble, ils forment l'angle $${ang(P, O, Q)}$. Quelle est sa nature ?`,
+            hint2: 'Trois points alignés forment un angle plat, qui mesure 180° ; deux angles adjacents qui forment un angle plat sont supplémentaires.',
+            solution: `**Étape 1 :** $${P}$, $${O}$, $${Q}$ sont alignés, donc $${ang(P, O, Q)}$ est un angle plat : $180^\\circ$.\n**Étape 2 :** $${ang(P, O, R)}$ et $${ang(R, O, Q)}$ sont adjacents et forment cet angle plat : $${ang(R, O, Q)} = 180^\\circ - ${x}^\\circ = ${180 - x}^\\circ$.\n**Conclusion :** $${ang(R, O, Q)} = ${180 - x}^\\circ$.`,
             _v: { k: '6G3.sub', tot: 180, parts: [x] }
           });
         }
@@ -4049,9 +4050,9 @@
             title: 'Angles adjacents',
             statement: `Les angles $${ang(P, O, Q)}$ et $${ang(Q, O, R)}$ sont adjacents, avec $${ang(P, O, Q)} = ${a}^\\circ$ et $${ang(Q, O, R)} = ${b}^\\circ$.\n${fig}\n**Calcule la mesure de l'angle $${ang(P, O, R)}$, en degrés.**`,
             type: 'exact', answer: A(a + b),
-            hint1: 'Deux angles adjacents ont le même sommet, un côté commun et sont situés de part et d’autre de ce côté.',
-            hint2: `$${ang(P, O, R)} = ${ang(P, O, Q)} + ${ang(Q, O, R)}$.`,
-            solution: `$${ang(P, O, R)} = ${a}^\\circ + ${b}^\\circ = ${a + b}^\\circ$.`,
+            hint1: `Repère le côté commun $[${O}${Q})$ : l'angle $${ang(P, O, R)}$ est composé des deux angles donnés.`,
+            hint2: 'Deux angles adjacents ont le même sommet, un côté commun et sont de part et d’autre de ce côté ; la mesure de l’angle qu’ils forment ensemble est la somme de leurs mesures.',
+            solution: `**Étape 1 :** $${ang(P, O, Q)}$ et $${ang(Q, O, R)}$ sont adjacents (côté commun $[${O}${Q})$).\n**Étape 2 :** $${ang(P, O, R)} = ${a}^\\circ + ${b}^\\circ = ${a + b}^\\circ$.\n**Conclusion :** $${ang(P, O, R)} = ${a + b}^\\circ$.`,
             _v: { k: '6G3.add', parts: [a, b] }
           });
         }
@@ -4063,7 +4064,7 @@
           type: 'exact', answer: A(x),
           hint1: `$${ang(P, O, R)}$ et $${ang(Q, O, S)}$ sont opposés par le sommet.`,
           hint2: 'Deux angles opposés par le sommet ont la même mesure.',
-          solution: `Les angles $${ang(P, O, R)}$ et $${ang(Q, O, S)}$ sont opposés par le sommet, donc $${ang(Q, O, S)} = ${x}^\\circ$.`,
+          solution: `**Étape 1 :** les angles $${ang(P, O, R)}$ et $${ang(Q, O, S)}$ ont le même sommet $${O}$ et leurs côtés sont dans le prolongement l'un de l'autre : ils sont opposés par le sommet.\n**Étape 2 :** deux angles opposés par le sommet ont la même mesure.\n**Conclusion :** $${ang(Q, O, S)} = ${x}^\\circ$.`,
           _v: { k: '6G3.same', x }
         });
       }
@@ -4077,9 +4078,9 @@
             title: 'Bissectrice d’un angle',
             statement: `La demi-droite $[${O}${M})$ est la bissectrice de l'angle $${ang(P, O, Q)}$, qui mesure $${x}^\\circ$. **Combien mesure l'angle $${ang(P, O, M)}$, en degrés ?**`,
             type: 'exact', answer: A(x / 2), placeholder: 'Ex : 35',
-            hint1: 'La bissectrice partage un angle en deux angles adjacents de même mesure.',
-            hint2: `Calcule $${x} \\div 2$.`,
-            solution: `$${ang(P, O, M)} = ${x}^\\circ \\div 2 = ${W(x / 2)}^\\circ$.`,
+            hint1: `Fais un schéma à main levée : la bissectrice $[${O}${M})$ coupe l'angle $${ang(P, O, Q)}$ en deux morceaux. Que peux-tu dire de ces deux morceaux ?`,
+            hint2: 'La bissectrice d’un angle est la demi-droite qui partage cet angle en deux angles adjacents de même mesure.',
+            solution: `**Étape 1 :** $[${O}${M})$ est la bissectrice de $${ang(P, O, Q)}$, donc $${ang(P, O, M)} = ${ang(M, O, Q)}$.\n**Étape 2 :** ces deux angles se partagent $${x}^\\circ$ : $${ang(P, O, M)} = ${x}^\\circ \\div 2 = ${W(x / 2)}^\\circ$.\n**Conclusion :** $${ang(P, O, M)} = ${W(x / 2)}^\\circ$.`,
             _v: { k: '6G3.half', x }
           });
         }
@@ -4089,9 +4090,9 @@
             title: 'Retrouver un angle à partir de sa bissectrice',
             statement: `La demi-droite $[${O}${M})$ est la bissectrice de l'angle $${ang(P, O, Q)}$ et $${ang(M, O, Q)} = ${y}^\\circ$. **Combien mesure l'angle $${ang(P, O, Q)}$, en degrés ?**`,
             type: 'exact', answer: A(2 * y),
-            hint1: `$${ang(P, O, M)} = ${ang(M, O, Q)}$.`,
-            hint2: `$${ang(P, O, Q)} = 2 \\times ${ang(M, O, Q)}$.`,
-            solution: `$${ang(P, O, Q)} = 2 \\times ${y}^\\circ = ${2 * y}^\\circ$.`,
+            hint1: `L'angle $${ang(P, O, Q)}$ est formé de deux angles adjacents, $${ang(P, O, M)}$ et $${ang(M, O, Q)}$ : que sais-tu de leurs mesures ?`,
+            hint2: 'La bissectrice d’un angle le partage en deux angles adjacents de même mesure : chacun vaut la moitié de l’angle.',
+            solution: `**Étape 1 :** $[${O}${M})$ est la bissectrice, donc $${ang(P, O, M)} = ${ang(M, O, Q)} = ${y}^\\circ$.\n**Étape 2 :** $${ang(P, O, Q)} = ${y}^\\circ + ${y}^\\circ = 2 \\times ${y}^\\circ = ${2 * y}^\\circ$.\n**Conclusion :** $${ang(P, O, Q)} = ${2 * y}^\\circ$.`,
             _v: { k: '6G3.add', parts: [y, y] }
           });
         }
@@ -4102,9 +4103,9 @@
           title: 'Angles autour d’un point',
           statement: `Trois angles adjacents $${ang(P, O, Q)}$, $${ang(Q, O, R)}$ et $${ang(R, O, P)}$ font le tour complet du point $${O}$. On a $${ang(P, O, Q)} = ${a}^\\circ$ et $${ang(Q, O, R)} = ${b}^\\circ$.\n${fig}\n**Combien mesure l'angle $${ang(R, O, P)}$, en degrés ?**`,
           type: 'exact', answer: A(360 - a - b),
-          hint1: 'Un tour complet (angle plein) mesure 360°.',
-          hint2: `Calcule $360 - ${a} - ${b}$.`,
-          solution: `$${ang(R, O, P)} = 360^\\circ - ${a}^\\circ - ${b}^\\circ = ${360 - a - b}^\\circ$.`,
+          hint1: `Les trois angles remplissent tout le tour du point $${O}$ : additionne les deux angles connus, puis cherche ce qui manque.`,
+          hint2: 'Un tour complet autour d’un point (angle plein) mesure 360°.',
+          solution: `**Étape 1 :** les trois angles font le tour complet du point $${O}$ : leur somme vaut $360^\\circ$.\n**Étape 2 :** $${a}^\\circ + ${b}^\\circ = ${a + b}^\\circ$.\n**Étape 3 :** $${ang(R, O, P)} = 360^\\circ - ${a + b}^\\circ = ${360 - a - b}^\\circ$.\n**Conclusion :** $${ang(R, O, P)} = ${360 - a - b}^\\circ$.`,
           _v: { k: '6G3.sub', tot: 360, parts: [a, b] }
         });
       }
@@ -4153,8 +4154,8 @@
         title: 'Angle entre les aiguilles d’une horloge',
         statement: `Il est exactement ${hh}. **Quelle est la mesure, en degrés, du plus petit angle formé par les deux aiguilles de l'horloge ?**`,
         type: 'exact', answer: A(diff),
-        hint1: 'Entre deux nombres consécutifs du cadran, il y a $360^\\circ \\div 12 = 30^\\circ$.',
-        hint2: half ? "En 30 minutes, la petite aiguille parcourt la moitié de l'écart entre deux nombres, soit 15°." : "La grande aiguille est sur le 12.",
+        hint1: 'Le cadran est partagé en 12 intervalles égaux : calcule l’angle d’un intervalle, puis repère la position de chaque aiguille à partir du 12.',
+        hint2: half ? "Un tour complet mesure 360°. À la demie, la grande aiguille pointe sur le 6 et la petite aiguille est à mi-chemin entre deux nombres consécutifs." : "Un tour complet mesure 360°. À une heure « pile », la grande aiguille pointe sur le 12 et la petite exactement sur le nombre de l'heure.",
         solution: `La petite aiguille est à $${hourDeg}^\\circ$ du 12 et la grande à $${minDeg}^\\circ$. L'écart est de $${Math.abs(hourDeg - minDeg)}^\\circ$` + (Math.abs(hourDeg - minDeg) > 180 ? `, et le plus petit angle vaut $360^\\circ - ${Math.abs(hourDeg - minDeg)}^\\circ = ${diff}^\\circ$.` : `, soit $${diff}^\\circ$.`),
         skill: 'Modéliser',
         _v: { k: '6G3.horloge', h, half }
@@ -4180,9 +4181,9 @@
             title: 'Somme des angles d’un triangle',
             statement: `Dans le triangle $${P}${Q}${R}$, on a $${hat(P)} = ${a}^\\circ$ et $${hat(Q)} = ${b}^\\circ$. **Calcule la mesure de l'angle $${hat(R)}$, en degrés.**`,
             type: 'exact', answer: A(180 - a - b),
-            hint1: 'Dans un triangle, la somme des trois angles est égale à 180°.',
-            hint2: `$${hat(R)} = 180^\\circ - ${a}^\\circ - ${b}^\\circ$.`,
-            solution: `$${hat(R)} = 180^\\circ - (${a}^\\circ + ${b}^\\circ) = 180^\\circ - ${a + b}^\\circ = ${180 - a - b}^\\circ$.`,
+            hint1: 'Additionne les deux angles connus, puis cherche ce qu’il manque pour atteindre la somme des angles d’un triangle.',
+            hint2: 'Propriété : dans un triangle, la somme des mesures des trois angles est égale à 180°.',
+            solution: `**Étape 1 :** dans un triangle, la somme des angles vaut $180^\\circ$.\n**Étape 2 :** $${hat(P)} + ${hat(Q)} = ${a}^\\circ + ${b}^\\circ = ${a + b}^\\circ$.\n**Étape 3 :** $${hat(R)} = 180^\\circ - ${a + b}^\\circ = ${180 - a - b}^\\circ$.\n**Conclusion :** $${hat(R)} = ${180 - a - b}^\\circ$.`,
             _v: { k: '6G4.sub', tot: 180, parts: [a, b] }
           });
         }
@@ -4207,9 +4208,9 @@
           title: 'Périmètre d’un triangle équilatéral',
           statement: `Le triangle $${P}${Q}${R}$ est équilatéral et $${P}${Q} = ${W(c)}$ cm. **Calcule son périmètre, en cm.**`,
           type: 'exact', answer: A(3 * c),
-          hint1: 'Un triangle équilatéral a ses trois côtés de même longueur.',
-          hint2: `Périmètre $= 3 \\times ${W(c)}$.`,
-          solution: `Périmètre $= 3 \\times ${W(c)} = ${W(this._6r(3 * c))}$ cm.`,
+          hint1: 'Trouve d’abord la longueur de chacun des trois côtés, puis additionne-les.',
+          hint2: 'Un triangle équilatéral a ses trois côtés de même longueur ; le périmètre d’un polygone est la somme des longueurs de ses côtés.',
+          solution: `**Étape 1 :** le triangle est équilatéral : ses trois côtés mesurent $${W(c)}$ cm.\n**Étape 2 :** périmètre $= ${W(c)} + ${W(c)} + ${W(c)} = 3 \\times ${W(c)} = ${W(this._6r(3 * c))}$.\n**Conclusion :** le périmètre est $${W(this._6r(3 * c))}$ cm.`,
           _v: { k: '6G4.mul', a: 3, b: c }
         });
       }
@@ -4223,9 +4224,9 @@
             title: 'Angles d’un triangle rectangle',
             statement: `Le triangle $${P}${Q}${R}$ est rectangle en $${P}$ et $${hat(Q)} = ${x}^\\circ$. **Calcule $${hat(R)}$, en degrés.**`,
             type: 'exact', answer: A(90 - x),
-            hint1: `L'angle droit $${hat(P)}$ mesure $90^\\circ$.`,
-            hint2: `$${hat(R)} = 180^\\circ - 90^\\circ - ${x}^\\circ$.`,
-            solution: `$${hat(R)} = 180^\\circ - 90^\\circ - ${x}^\\circ = ${90 - x}^\\circ$.`,
+            hint1: `Le triangle est rectangle en $${P}$ : tu connais donc deux angles sur trois.`,
+            hint2: 'Dans un triangle, la somme des angles vaut 180° ; un angle droit mesure 90°.',
+            solution: `**Étape 1 :** rectangle en $${P}$ : $${hat(P)} = 90^\\circ$.\n**Étape 2 :** somme des angles : $${hat(R)} = 180^\\circ - 90^\\circ - ${x}^\\circ = ${90 - x}^\\circ$.\n**Conclusion :** $${hat(R)} = ${90 - x}^\\circ$ (les deux angles aigus d'un triangle rectangle ont pour somme $90^\\circ$).`,
             _v: { k: '6G4.sub', tot: 180, parts: [90, x] }
           });
         }
@@ -4235,8 +4236,8 @@
             title: 'Triangle isocèle : angles à la base',
             statement: `Le triangle $${P}${Q}${R}$ est isocèle en $${P}$ et $${hat(P)} = ${x}^\\circ$. **Calcule la mesure de l'angle $${hat(Q)}$, en degrés.**`,
             type: 'exact', answer: A((180 - x) / 2),
-            hint1: 'Dans un triangle isocèle, les deux angles à la base ont la même mesure.',
-            hint2: `$${hat(Q)} = ${hat(R)} = (180^\\circ - ${x}^\\circ) \\div 2$.`,
+            hint1: 'Calcule d’abord ce que valent ensemble les deux angles à la base, puis partage équitablement.',
+            hint2: 'Dans un triangle isocèle, les deux angles à la base ont la même mesure ; dans tout triangle, la somme des angles vaut 180°.',
             solution: `$${hat(Q)} + ${hat(R)} = 180^\\circ - ${x}^\\circ = ${180 - x}^\\circ$ et ces deux angles sont égaux : $${hat(Q)} = ${180 - x}^\\circ \\div 2 = ${(180 - x) / 2}^\\circ$.`,
             _v: { k: '6G4.isobase', x }
           });
@@ -4246,9 +4247,9 @@
           title: 'Triangle isocèle : angle au sommet principal',
           statement: `Le triangle $${P}${Q}${R}$ est isocèle en $${P}$ et $${hat(Q)} = ${x}^\\circ$. **Calcule la mesure de l'angle $${hat(P)}$, en degrés.**`,
           type: 'exact', answer: A(180 - 2 * x),
-          hint1: `Isocèle en $${P}$ : $${hat(R)} = ${hat(Q)}$.`,
-          hint2: `$${hat(P)} = 180^\\circ - 2 \\times ${x}^\\circ$.`,
-          solution: `$${hat(R)} = ${hat(Q)} = ${x}^\\circ$, donc $${hat(P)} = 180^\\circ - ${2 * x}^\\circ = ${180 - 2 * x}^\\circ$.`,
+          hint1: `Commence par trouver la mesure de l'angle $${hat(R)}$, puis utilise les trois angles du triangle.`,
+          hint2: 'Dans un triangle isocèle, les deux angles à la base ont la même mesure ; dans tout triangle, la somme des angles vaut 180°.',
+          solution: `**Étape 1 :** isocèle en $${P}$ : les angles à la base sont égaux, $${hat(R)} = ${hat(Q)} = ${x}^\\circ$.\n**Étape 2 :** $${hat(Q)} + ${hat(R)} = 2 \\times ${x}^\\circ = ${2 * x}^\\circ$.\n**Étape 3 :** $${hat(P)} = 180^\\circ - ${2 * x}^\\circ = ${180 - 2 * x}^\\circ$.\n**Conclusion :** $${hat(P)} = ${180 - 2 * x}^\\circ$.`,
           _v: { k: '6G4.sub', tot: 180, parts: [x, x] }
         });
       }
@@ -4284,9 +4285,9 @@
             title: 'Triangle isocèle et périmètre',
             statement: `Le triangle $${P}${Q}${R}$ est isocèle en $${P}$, avec $${P}${Q} = ${x}$ cm. Son périmètre est $${per}$ cm. **Calcule la longueur $${Q}${R}$, en cm.**`,
             type: 'exact', answer: A(b),
-            hint1: `Isocèle en $${P}$ : $${P}${R} = ${P}${Q} = ${x}$ cm.`,
-            hint2: `$${Q}${R} = ${per} - 2 \\times ${x}$.`,
-            solution: `$${P}${R} = ${P}${Q} = ${x}$ cm, donc $${Q}${R} = ${per} - ${x} - ${x} = ${b}$ cm.`,
+            hint1: `Trouve d'abord la longueur de $[${P}${R}]$, puis retire du périmètre les deux côtés connus.`,
+            hint2: `Un triangle isocèle en $${P}$ a deux côtés de même longueur, ceux qui partent de $${P}$ ; le périmètre est la somme des longueurs des trois côtés.`,
+            solution: `**Étape 1 :** isocèle en $${P}$ : $${P}${R} = ${P}${Q} = ${x}$ cm.\n**Étape 2 :** $${P}${Q} + ${P}${R} = ${2 * x}$ cm.\n**Étape 3 :** $${Q}${R} = ${per} - ${2 * x} = ${b}$ cm.\n**Conclusion :** $${Q}${R} = ${b}$ cm.`,
             _v: { k: '6G4.sub', tot: per, parts: [x, x] }
           });
         }
@@ -4373,8 +4374,8 @@
             title: 'Compter les cubes d’un pavé',
             statement: `Ce pavé droit est formé de cubes identiques.\n${this._6E_iso(h)}\n**Combien de cubes le composent ?** (${rule})`,
             type: 'exact', answer: A(a * b * c),
-            hint1: 'Compte les cubes d’une couche, puis le nombre de couches.',
-            hint2: `Une couche contient $${a} \\times ${b}$ cubes.`,
+            hint1: 'Compte les cubes d’une couche (longueur × largeur), puis le nombre de couches.',
+            hint2: 'Un pavé droit plein formé de cubes contient : (nombre de cubes d’une couche) × (nombre de couches).',
             solution: `Une couche : $${a} \\times ${b} = ${a * b}$ cubes ; il y a $${c}$ couche${c > 1 ? 's' : ''}. Total : $${a * b} \\times ${c} = ${a * b * c}$ cubes.`,
             skill: 'Représenter',
             _v: { k: '6G5.count', h }
@@ -4403,9 +4404,9 @@
           title: 'Faces, arêtes et sommets',
           statement: `On assimile ${o[0]} à un ${o[1]}. **Combien de ${pn} possède ce solide ?**`,
           type: 'exact', answer: A(val), placeholder: 'Ex : 4',
-          hint1: 'Un cube et un pavé droit ont le même nombre de faces, d’arêtes et de sommets.',
-          hint2: '6 faces rectangulaires, 12 arêtes, 8 sommets.',
-          solution: `Un ${o[1]} possède 6 faces, 12 arêtes et 8 sommets : la réponse est **${val}**.`,
+          hint1: `Dessine le solide en perspective et compte méthodiquement les ${pn} : ceux du dessus, ceux du dessous, puis ceux qui relient le dessus au dessous.`,
+          hint2: 'Une face est une surface plane qui limite le solide ; une arête est le segment commun à deux faces ; un sommet est un point où se rejoignent plusieurs arêtes.',
+          solution: `**Méthode :** on compte ${prop === 0 ? 'le dessus, le dessous et les 4 faces latérales' : prop === 1 ? 'les 4 arêtes du dessus, les 4 du dessous et les 4 arêtes verticales' : 'les 4 sommets du dessus et les 4 du dessous'}.\nUn ${o[1]} possède 6 faces, 12 arêtes et 8 sommets.\n**Conclusion :** la réponse est **${val}**.`,
           skill: 'Communiquer',
           _v: { k: '6G5.elem', prop }
         });
@@ -4447,9 +4448,9 @@
           title: 'Grand cube formé de petits cubes',
           statement: `On construit un grand cube plein avec des petits cubes de $1$ cm d'arête. Le grand cube a une arête de $${n}$ cm. **${ask === 0 ? 'Combien de petits cubes faut-il ?' : 'Combien de petits cubes voit-on sur une seule face du grand cube ?'}**`,
           type: 'exact', answer: A(ask === 0 ? n * n * n : n * n),
-          hint1: `Une arête contient $${n}$ petits cubes.`,
-          hint2: ask === 0 ? `Une couche contient $${n} \\times ${n}$ cubes, et il y a $${n}$ couches.` : `Une face est un carré de $${n}$ sur $${n}$.`,
-          solution: ask === 0 ? `$${n} \\times ${n} \\times ${n} = ${n * n * n}$ petits cubes.` : `$${n} \\times ${n} = ${n * n}$ petits cubes sur une face.`,
+          hint1: `Combien de petits cubes sont alignés le long d'une arête du grand cube ? ${ask === 0 ? 'Compte ensuite une couche, puis le nombre de couches.' : 'Une face est formée de rangées de petits cubes.'}`,
+          hint2: ask === 0 ? 'Un cube plein formé de petits cubes en contient (cubes d’une couche) × (nombre de couches) ; ses trois dimensions sont égales.' : 'Une face d’un cube est un carré : autant de rangées que de petits cubes par rangée.',
+          solution: ask === 0 ? `**Étape 1 :** une arête de $${n}$ cm contient $${n}$ petits cubes.\n**Étape 2 :** une couche contient $${n} \\times ${n} = ${n * n}$ cubes et il y a $${n}$ couches.\n**Conclusion :** $${n * n} \\times ${n} = ${n * n * n}$ petits cubes.` : `**Étape 1 :** une arête de $${n}$ cm contient $${n}$ petits cubes.\n**Étape 2 :** une face est un carré de $${n}$ rangées de $${n}$ cubes.\n**Conclusion :** $${n} \\times ${n} = ${n * n}$ petits cubes sur une face.`,
           _v: { k: '6G5.grand', n, ask }
         });
       }
@@ -4492,9 +4493,9 @@
           title: 'Longueur totale des arêtes d’un pavé',
           statement: `On veut fabriquer le squelette d'un pavé droit en fil de fer. Le pavé mesure $${L}$ cm de long, $${l}$ cm de large et $${hh}$ cm de haut. **Quelle longueur totale de fil faut-il, en cm ?**`,
           type: 'exact', answer: A(4 * (L + l + hh)),
-          hint1: 'Un pavé droit a 12 arêtes, réparties en 3 groupes de 4 arêtes de même longueur.',
-          hint2: `Longueur totale $= 4 \\times ${L} + 4 \\times ${l} + 4 \\times ${hh}$.`,
-          solution: `$4 \\times (${L} + ${l} + ${hh}) = 4 \\times ${L + l + hh} = ${4 * (L + l + hh)}$ cm.`,
+          hint1: 'Classe les arêtes du pavé selon leur longueur (longueurs, largeurs, hauteurs), compte combien il y en a de chaque sorte, puis additionne.',
+          hint2: 'Un pavé droit a 12 arêtes : 4 arêtes pour la longueur, 4 pour la largeur et 4 pour la hauteur.',
+          solution: `**Étape 1 :** $4$ arêtes de $${L}$ cm, $4$ de $${l}$ cm et $4$ de $${hh}$ cm.\n**Étape 2 :** $4 \\times ${L} + 4 \\times ${l} + 4 \\times ${hh} = 4 \\times (${L} + ${l} + ${hh}) = 4 \\times ${L + l + hh} = ${4 * (L + l + hh)}$.\n**Conclusion :** il faut $${4 * (L + l + hh)}$ cm de fil.`,
           skill: 'Modéliser',
           _v: { k: '6G5.aretes', L, l, h: hh }
         });
@@ -4511,11 +4512,11 @@
         title: 'Le pavé peint',
         statement: `On assemble des petits cubes identiques pour former un pavé droit plein de $${a}$ cubes de long, $${b}$ cubes de large et $${c}$ cubes de haut. On peint entièrement l'extérieur du pavé, puis on le démonte. **Combien de petits cubes ${what} ?**`,
         type: 'exact', answer: A(val), placeholder: 'Ex : 8',
-        hint1: kind === 0 ? 'Les cubes sans peinture forment un pavé intérieur : on retire une couche de chaque côté.' : kind === 1 ? 'Les cubes avec une seule face peinte sont au centre des faces (hors bords).' : 'Les cubes avec deux faces peintes sont sur les arêtes, sans compter les coins.',
-        hint2: kind === 0 ? `Le pavé intérieur mesure $${a} - 2$ sur $${b} - 2$ sur $${c} - 2$.` : kind === 1 ? 'Chaque face donne un rectangle intérieur ; il y a 6 faces, deux à deux identiques.' : 'Une arête de longueur $n$ cubes contient $n - 2$ cubes hors coins ; il y a 4 arêtes de chaque longueur.',
-        solution: kind === 0 ? `Pavé intérieur : $${a - 2} \\times ${b - 2} \\times ${c - 2} = ${val}$ cubes.`
-          : kind === 1 ? `$2 \\times (${a - 2} \\times ${b - 2} + ${b - 2} \\times ${c - 2} + ${a - 2} \\times ${c - 2}) = ${val}$ cubes.`
-            : `$4 \\times (${a - 2} + ${b - 2} + ${c - 2}) = ${val}$ cubes.`,
+        hint1: kind === 0 ? 'Retire une couche de cubes de chaque côté du pavé, dans chacune des trois directions, et compte les cubes du pavé qui reste.' : kind === 1 ? 'Sur chaque face du pavé, enlève la bordure : compte les cubes du rectangle intérieur, puis additionne pour toutes les faces.' : 'Sur chaque arête du pavé, enlève les cubes des coins : compte ceux qui restent, puis additionne pour toutes les arêtes.',
+        hint2: kind === 0 ? 'Un cube sans peinture ne touche aucune face extérieure du pavé : il est entièrement à l’intérieur.' : kind === 1 ? 'Un cube n’a qu’une face peinte s’il est sur une face du pavé sans être sur une arête ; un pavé droit a des faces opposées identiques.' : 'Un cube a exactement deux faces peintes s’il est sur une arête du pavé sans être un coin (les coins ont trois faces peintes) ; un pavé droit a douze arêtes, quatre de chaque longueur.',
+        solution: kind === 0 ? `**Étape 1 :** on retire une couche de chaque côté : le pavé intérieur mesure $${a} - 2 = ${a - 2}$ sur $${b} - 2 = ${b - 2}$ sur $${c} - 2 = ${c - 2}$ cubes.\n**Étape 2 :** $${a - 2} \\times ${b - 2} \\times ${c - 2} = ${val}$.\n**Conclusion :** **${val}** cubes n'ont aucune face peinte.`
+          : kind === 1 ? `**Étape 1 :** sur chaque face, on retire la bordure : rectangles intérieurs de $${a - 2} \\times ${b - 2}$, $${b - 2} \\times ${c - 2}$ et $${a - 2} \\times ${c - 2}$ cubes, chacun présent sur deux faces opposées.\n**Étape 2 :** $2 \\times (${(a - 2) * (b - 2)} + ${(b - 2) * (c - 2)} + ${(a - 2) * (c - 2)}) = ${val}$.\n**Conclusion :** **${val}** cubes ont exactement une face peinte.`
+            : `**Étape 1 :** sur chaque arête, on retire les deux coins : il reste $${a - 2}$, $${b - 2}$ ou $${c - 2}$ cubes selon la direction.\n**Étape 2 :** il y a $4$ arêtes de chaque sorte : $4 \\times (${a - 2} + ${b - 2} + ${c - 2}) = ${val}$.\n**Conclusion :** **${val}** cubes ont exactement deux faces peintes.`,
         skill: 'Chercher',
         _v: { k: '6G5.peint', a, b, c, kind }
       });
@@ -4715,7 +4716,7 @@
             type: 'exact', answer: String(vals[i]), placeholder: 'Ex : 12',
             hint1: `Repère la colonne « ${cats[i]} » puis lis le nombre de la ligne « Effectif ».`,
             hint2: "L'effectif d'une catégorie est le nombre de fois où elle apparaît.",
-            solution: `Dans la colonne « ${cats[i]} », on lit l'effectif $${vals[i]}$.`,
+            solution: `On repère la colonne « ${cats[i]} » dans la première ligne, puis on descend jusqu'à la ligne « Effectif » : on y lit $${vals[i]}$.\nL'effectif de la catégorie « ${cats[i]} » est **$${vals[i]}$**.`,
             _v: { k: '6D1.lire', vals, i }
           });
         }
@@ -4736,7 +4737,7 @@
           type: 'exact', answer: String(tot), placeholder: 'Ex : 60',
           hint1: "L'effectif total est la somme de tous les effectifs.",
           hint2: "Additionne les nombres de la ligne « Effectif » en les regroupant astucieusement.",
-          solution: `$$${vals.join(' + ')} = ${tot}$$\nL'effectif total est $${tot}$.`,
+          solution: `L'effectif total est la somme des effectifs de toutes les catégories :\n$$${vals.join(' + ')} = ${tot}$$\nL'effectif total est **$${tot}$**.`,
           _v: { k: '6D1.total', vals }
         });
       }
@@ -4752,8 +4753,8 @@
             statement: `Le diagramme en barres ci-dessous représente ${ctx.theme}.\n${this._6Fbars(cats, vals, step, ctx.unit)}\n**Quel est l'effectif de la catégorie « ${cats[i]} » ?**`,
             type: 'exact', answer: String(vals[i]), placeholder: 'Ex : 20',
             hint1: `Repère le haut de la barre « ${cats[i]} » et suis la ligne horizontale jusqu'à l'axe vertical.`,
-            hint2: `L'axe vertical est gradué de $${step}$ en $${step}$.`,
-            solution: `Le haut de la barre « ${cats[i]} » est au niveau de la graduation $${vals[i]}$ : l'effectif est $${vals[i]}$.`,
+            hint2: "Dans un diagramme en barres, la hauteur d'une barre donne l'effectif de la catégorie ; lis d'abord de combien en combien l'axe vertical est gradué.",
+            solution: `**Étape 1.** L'axe vertical est gradué de $${step}$ en $${step}$.\n**Étape 2.** Le haut de la barre « ${cats[i]} » est au niveau de la graduation $${vals[i]}$.\nL'effectif de la catégorie « ${cats[i]} » est **$${vals[i]}$**.`,
             _v: { k: '6D1.bar', vals, i }
           });
         }
@@ -4766,7 +4767,7 @@
             statement: `Le tableau ci-dessous présente ${ctx.theme}.${table}**Combien de ${ctx.unit} de plus compte la catégorie « ${cats[a]} » par rapport à la catégorie « ${cats[b]} » ?**`,
             type: 'exact', answer: String(vals[a] - vals[b]), placeholder: 'Ex : 7',
             hint1: "« Combien de plus » : on calcule une différence.",
-            hint2: `Calcule $${vals[a]} - ${vals[b]}$.`,
+            hint2: "Pour savoir de combien un nombre dépasse un autre, on soustrait le plus petit du plus grand.",
             solution: `$$${vals[a]} - ${vals[b]} = ${vals[a] - vals[b]}$$\nLa catégorie « ${cats[a]} » compte $${vals[a] - vals[b]}$ ${ctx.unit} de plus.`,
             _v: { k: '6D1.diff', vals, a, b }
           });
@@ -4873,9 +4874,9 @@
         return base("Calculer une moyenne", {
           statement: `${ctx.txt} :\n$$${vals.join(' \\; ; \\; ')}$$\n**Calculer la moyenne de cette série** (valeur exacte).`,
           type: 'exact', answer: this._6ans(mean), placeholder: 'Ex : 12,5',
-          hint1: "Moyenne = (somme des valeurs) ÷ (nombre de valeurs).",
-          hint2: `La somme vaut $${sum}$ et il y a $${k}$ valeurs.`,
-          solution: `$$\\text{Moyenne} = \\frac{${vals.join(' + ')}}{${k}} = \\frac{${sum}}{${k}} = ${this._6tex(mean)}$$`,
+          hint1: "Additionne toutes les valeurs (en les regroupant astucieusement), puis compte combien il y a de valeurs.",
+          hint2: "La moyenne d'une série est égale à la somme de toutes les valeurs divisée par le nombre de valeurs.",
+          solution: `**Étape 1.** Somme des valeurs : $${vals.join(' + ')} = ${sum}$.\n**Étape 2.** Il y a $${k}$ valeurs : $${sum} \\div ${k} = ${this._6tex(mean)}$.\nLa moyenne de la série est **$${this._6tex(mean)}$**.`,
           _v: { k: '6D1.moyenne', vals }
         });
       }
@@ -4897,7 +4898,7 @@
           statement: `Le tableau ci-dessous présente ${ctx.theme}.${this._6Ftable([ctx.col, ...cats, 'Total'], [['Effectif', ...vals.map(String), String(tot)]])}**Quel pourcentage de l'effectif total représente la catégorie « ${cats[i]} » ?** (réponse sans le symbole %)`,
           type: 'exact', answer: this._6ans(pct), placeholder: 'Ex : 30',
           hint1: `La proportion est $\\frac{${vals[i]}}{${tot}}$ ; écris-la avec le dénominateur $100$.`,
-          hint2: `$${tot} \\times ${100 / tot} = 100$.`,
+          hint2: "Un pourcentage est une proportion écrite avec le dénominateur 100 : on multiplie le numérateur et le dénominateur par un même nombre pour obtenir 100 en bas.",
           solution: `$$\\frac{${vals[i]}}{${tot}} = \\frac{${vals[i]} \\times ${100 / tot}}{${tot} \\times ${100 / tot}} = \\frac{${this._6tex(pct)}}{100}$$\nLa catégorie « ${cats[i]} » représente $${this._6tex(pct)}\\,\\%$ de l'effectif total.`,
           _v: { k: '6D1.pourcent', vals, i, tot }
         });
@@ -5022,8 +5023,8 @@
           const q = base("Vocabulaire du hasard (urne)", {
             statement: `Une urne opaque contient ${u.txt}. On tire une boule au hasard.\nL'événement « ${txtEv} » est-il certain, impossible ou possible ?`,
             hint1: "Regarde quelles boules de l'urne réalisent l'événement.",
-            hint2: "Impossible : aucune boule ne convient. Certain : toutes les boules conviennent.",
-            solution: fav === 0 ? "Aucune boule de l'urne ne convient : l'événement est **impossible**." : fav === tot ? "Toutes les boules de l'urne conviennent : l'événement est **certain**." : `$${fav}$ boules sur $${tot}$ conviennent : l'événement est **possible** sans être certain.`,
+            hint2: "Un événement réalisé par toutes les issues est certain ; un événement réalisé par aucune issue ne peut jamais se produire ; sinon, il est seulement possible.",
+            solution: fav === 0 ? "Aucune boule de l'urne n'est de cette couleur : l'événement ne peut jamais se réaliser, il est **impossible**." : fav === tot ? "Toutes les boules de l'urne réalisent l'événement : il se réalise à coup sûr, il est **certain**." : `$${fav}$ boule${fav > 1 ? 's' : ''} sur $${tot}$ réalise${fav > 1 ? 'nt' : ''} l'événement, mais pas toutes : l'événement est **possible** sans être certain.`,
             _v: { k: '6D2.vocabUrne', cols: u.cols.map(c => c[0]), counts: u.counts, color }
           });
           return this._6mcq(q, ans, [LBL.c, LBL.i, LBL.p]);
@@ -5066,9 +5067,9 @@
           return base("Probabilité dans une urne", {
             statement: `Une urne opaque contient ${u.txt}, indiscernables au toucher. On tire une boule au hasard.\n**Quelle est la probabilité de tirer une boule ${u.cols[j][0]} ?** (fraction irréductible a/b)`,
             type: 'exact', answer: this._6fracAns(k, tot), placeholder: 'Ex : 2/5',
-            hint1: "Probabilité = (nombre d'issues favorables) ÷ (nombre total d'issues).",
-            hint2: `Il y a $${tot}$ boules en tout, dont $${k}$ de la bonne couleur.`,
-            solution: `$$P = \\frac{${k}}{${tot}}${this.gcd(k, tot) > 1 ? ` = ${this.formatFraction(k, tot)}` : ''}$$`,
+            hint1: "Compte toutes les boules de l'urne, puis celles de la couleur demandée.",
+            hint2: "Quand les issues sont équiprobables, probabilité d'un événement = nombre d'issues favorables ÷ nombre total d'issues.",
+            solution: `**Étape 1.** Les boules sont indiscernables au toucher : chaque boule a la même chance d'être tirée. Il y a $${u.counts.join(' + ')} = ${tot}$ boules en tout.\n**Étape 2.** $${k}$ d'entre elles sont ${k > 1 ? u.cols[j][1] : u.cols[j][0]} : $P = \\frac{${k}}{${tot}}${this.gcd(k, tot) > 1 ? ` = ${this.formatFraction(k, tot)}` : ''}$.\nLa probabilité de tirer une boule ${u.cols[j][0]} est **$${this.formatFraction(k, tot)}$**.`,
             _v: { k: '6D2.urne', counts: u.counts, j }
           });
         }
@@ -5113,7 +5114,7 @@
             statement: `Une urne opaque contient ${u.txt}. On tire une boule au hasard.\n**Quelle est la probabilité de ne PAS tirer une boule ${u.cols[j][0]} ?** (fraction irréductible a/b)`,
             type: 'exact', answer: this._6fracAns(k, tot), placeholder: 'Ex : 3/4',
             hint1: `Compte les boules qui ne sont pas ${u.cols[j][1]}.`,
-            hint2: `Il y a $${tot}$ boules en tout.`,
+            hint2: "Probabilité = nombre d'issues favorables ÷ nombre total d'issues ; ici les issues favorables sont toutes les boules d'une autre couleur.",
             solution: `Boules qui ne sont pas ${u.cols[j][1]} : $${tot} - ${u.counts[j]} = ${k}$.\n$$P = \\frac{${k}}{${tot}}${this.gcd(k, tot) > 1 ? ` = ${this.formatFraction(k, tot)}` : ''}$$`,
             _v: { k: '6D2.contraire', counts: u.counts, j }
           });
@@ -5145,8 +5146,8 @@
         return base("Probabilité avec des lettres", {
           statement: `On écrit chaque lettre du mot **${w}** sur un carton (un carton par lettre). On mélange les cartons et on en tire un au hasard.\n**Quelle est la probabilité de ${evTxt} ?** (fraction irréductible a/b)${mode !== 'lettre' ? '\n*(Voyelles : A, E, I, O, U, Y.)*' : ''}`,
           type: 'exact', answer: this._6fracAns(k, w.length), placeholder: 'Ex : 2/7',
-          hint1: `Il y a autant de cartons que de lettres dans le mot : $${w.length}$.`,
-          hint2: "Compte les cartons favorables, en n'oubliant pas les lettres répétées.",
+          hint1: "Compte les lettres du mot (un carton par lettre, lettres répétées comprises), puis les cartons qui réalisent l'événement.",
+          hint2: "Chaque carton a la même chance d'être tiré : probabilité = nombre de cartons favorables ÷ nombre total de cartons.",
           solution: `Il y a $${k}$ carton${k > 1 ? 's' : ''} favorable${k > 1 ? 's' : ''} sur $${w.length}$ :\n$$P = \\frac{${k}}{${w.length}}${this.gcd(k, w.length) > 1 ? ` = ${this.formatFraction(k, w.length)}` : ''}$$`,
           _v: { k: '6D2.lettres', w, mode, letter }
         });
@@ -5162,9 +5163,9 @@
         return base("Fréquence observée", {
           statement: `On lance ${obj[0]} ${N} fois et on obtient ${obj[1]} ${c} fois.\n**Quelle est la fréquence d'apparition de ${obj[1]} ?** (écriture décimale)`,
           type: 'exact', answer: this._6ans(f), placeholder: 'Ex : 0,35',
-          hint1: "Fréquence = effectif observé ÷ nombre total de lancers.",
-          hint2: `Calcule $${c} \\div ${N}$.`,
-          solution: `$$f = \\frac{${c}}{${N}} = ${this._6tex(f)}$$`,
+          hint1: "Écris la fréquence sous forme de fraction, puis cherche son écriture décimale (dénominateur 10, 100 ou 1 000).",
+          hint2: "La fréquence d'apparition d'un résultat est le quotient : nombre de fois où il est apparu ÷ nombre total d'essais.",
+          solution: `**Étape 1.** ${obj[1].charAt(0).toUpperCase() + obj[1].slice(1)} est apparu $${c}$ fois sur $${N}$ lancers : $f = \\frac{${c}}{${N}}$.\n**Étape 2.** On divise : $${c} \\div ${N} = ${this._6tex(f)}$.\nLa fréquence observée est **$${this._6tex(f)}$**.`,
           _v: { k: '6D2.freq', c, N }
         });
       }
@@ -5182,8 +5183,8 @@
         return base("Ajouter des boules pour atteindre une probabilité", {
           statement: `Une urne contient ${r} boule${r > 1 ? 's' : ''} rouge${r > 1 ? 's' : ''} et ${b} boules bleues. On ajoute des boules rouges.\n**Combien de boules rouges faut-il ajouter pour que la probabilité de tirer une boule rouge soit égale à $\\frac{${p}}{${qd}}$ ?**`,
           type: 'exact', answer: String(x), placeholder: 'Ex : 4',
-          hint1: `La probabilité de tirer une bleue doit alors être $\\frac{${qd - p}}{${qd}}$.`,
-          hint2: `Les ${b} boules bleues doivent représenter $${qd - p}$ part${qd - p > 1 ? 's' : ''} sur $${qd}$ : une part vaut $${m}$ boule${m > 1 ? 's' : ''}.`,
+          hint1: "Le nombre de boules bleues ne change pas : cherche combien il doit y avoir de boules en tout pour que les bleues occupent la bonne part.",
+          hint2: `Tirer une rouge et tirer une bleue sont deux événements contraires : la somme de leurs probabilités est celle de l'événement certain. Si les rouges forment $${p}$ parts sur $${qd}$, les bleues forment les parts restantes.`,
           solution: `Il faut $${p} \\times ${m} = ${r + x}$ boules rouges pour $${b}$ bleues (total $${r + x + b}$, et $\\frac{${r + x}}{${r + x + b}} = \\frac{${p}}{${qd}}$).\nOn doit ajouter $${r + x} - ${r} = ${x}$ boules rouges.`,
           _v: { k: '6D2.ajout', r, b, p, q: qd }
         });
@@ -5199,8 +5200,8 @@
       const q = base("Fréquence observée et probabilité", {
         statement: `On lance ${N} fois ${objTxt}.\n**Lequel de ces nombres de succès est le plus vraisemblable ?**`,
         hint1: `La probabilité d'un succès est $\\frac{1}{${n}}$.`,
-        hint2: `Sur un grand nombre d'essais, la fréquence observée se rapproche de la probabilité : on attend environ $${N} \\div ${n} = ${exp}$ succès.`,
-        solution: `On attend environ $\\frac{1}{${n}} \\times ${N} = ${exp}$ succès. Le nombre le plus proche est $${good}$.`,
+        hint2: 'Sur un grand nombre d\'essais, la fréquence observée d\'un résultat se rapproche de sa probabilité.',
+        solution: `**Étape 1.** La probabilité d'un succès est $\\frac{1}{${n}}$. Sur ${N} essais, la fréquence observée doit être proche de $\\frac{1}{${n}}$, donc le nombre de succès proche de $\\frac{1}{${n}} \\times ${N} = ${exp}$.\n**Étape 2.** Parmi les propositions, la plus proche de $${exp}$ est $${good}$ (les autres sont beaucoup trop éloignées).\nLe nombre le plus vraisemblable est **$${good}$**.`,
         _v: { k: '6D2.freqProba', N, n, cands: [good, ...bad] }
       });
       return this._6mcq(q, String(good), opts);
@@ -5246,7 +5247,7 @@
             statement: `On exécute le script suivant :\n${html}\n**Si l'on répond $${xx}$, quel nombre le lutin dit-il ?**`,
             type: 'exact', answer: String(res), placeholder: 'Ex : 12',
             hint1: "La variable N prend d'abord la valeur de la réponse, puis elle est modifiée.",
-            hint2: `Calcule $${xx} ${sym} ${a}$.`,
+            hint2: "Le bloc « mettre N à (…) » remplace l'ancienne valeur de N par le résultat du calcul entre parenthèses.",
             solution: `N vaut d'abord $${xx}$, puis $${xx} ${sym} ${a} = ${res}$. Le lutin dit $${res}$.`,
             _v: { k: '6A1.calc', x: xx, ops: [[op, a]] }
           });
@@ -5291,7 +5292,7 @@
             statement: `Le lutin exécute le script suivant et trace ${P[2]}.\n${html}\n**Quelle est la longueur totale (en pas) du tracé ?**`,
             type: 'exact', answer: String(P[0] * d), placeholder: 'Ex : 160',
             hint1: `Le bloc « avancer de ${d} pas » est exécuté ${P[0]} fois.`,
-            hint2: `Calcule $${P[0]} \\times ${d}$.`,
+            hint2: "Une boucle « répéter n fois » exécute n fois les blocs qu'elle contient.",
             solution: `$$${P[0]} \\times ${d} = ${P[0] * d}$$\nLe tracé mesure $${P[0] * d}$ pas.`,
             _v: { k: '6A1.poly', n: P[0], d }
           });
@@ -5308,7 +5309,7 @@
           statement: `On exécute le script suivant :\n${html}\n**Quel nombre le lutin dit-il à la fin ?**`,
           type: 'exact', answer: String(s0 + k * a), placeholder: 'Ex : 50',
           hint1: `On ajoute $${a}$ à S, et cela $${k}$ fois.`,
-          hint2: `Calcule $${s0} + ${k} \\times ${a}$.`,
+          hint2: "« Ajouter a à S » augmente la valeur de S de a ; dans une boucle « répéter n fois », cela se produit n fois.",
           solution: `$$S = ${s0} + ${k} \\times ${a} = ${s0} + ${k * a} = ${s0 + k * a}$$`,
           _v: { k: '6A1.score', s0, n: k, a }
         });
@@ -5355,7 +5356,7 @@
             statement: `On exécute le script suivant :\n${html}\n**Si l'on répond $${x}$, quel nombre le lutin dit-il ?**`,
             type: 'exact', answer: String(val), placeholder: 'Ex : 30',
             hint1: "Les blocs s'exécutent de haut en bas : chaque calcul utilise la nouvelle valeur de N.",
-            hint2: `Première étape : ${steps[0]}.`,
+            hint2: "Le bloc « mettre N à (…) » remplace l'ancienne valeur de N par le résultat du calcul entre parenthèses.",
             solution: `Étapes : ${steps.join(' ; puis ')}.\nLe lutin dit $${val}$.`,
             _v: { k: '6A1.calc', x, ops }
           });
@@ -5410,7 +5411,7 @@
           type: 'exact', answer: String(360 / P[0]), placeholder: 'Ex : 90',
           hint1: "Après avoir tracé toute la figure, le lutin a fait un tour complet sur lui-même : $360^\\circ$.",
           hint2: `Ce tour complet est partagé en $${P[0]}$ rotations égales.`,
-          solution: `$$360^\\circ \\div ${P[0]} = ${360 / P[0]}^\\circ$$`,
+          solution: `**Étape 1.** Pour tracer la figure fermée, le lutin effectue $${P[0]}$ rotations identiques et revient dans sa direction de départ : il a tourné d'un tour complet, soit $360^\\circ$.\n**Étape 2.** $360^\\circ \\div ${P[0]} = ${360 / P[0]}^\\circ$.\nIl faut remplacer « ? » par **$${360 / P[0]}$**.`,
           _v: { k: '6A1.angle', n: P[0] }
         });
       }
@@ -5421,7 +5422,7 @@
           statement: `Un lutin exécute l'algorithme suivant :\n\n- **Répéter ${k1} fois :**\n  - **Répéter ${k2} fois :** avancer de ${d} pas ;\n  ${e ? `- avancer de ${e} pas ;\n  ` : ''}- tourner de 90 degrés.\n\n**Combien de pas le lutin a-t-il parcourus au total ?**`,
           type: 'exact', answer: String(total), placeholder: 'Ex : 120',
           hint1: `Calcule d'abord la distance parcourue pendant UNE répétition de la grande boucle.`,
-          hint2: `Une répétition : $${k2} \\times ${d}${e ? ` + ${e}` : ''} = ${k2 * d + e}$ pas.`,
+          hint2: 'Dans des boucles imbriquées, la boucle intérieure est exécutée en entier à chaque tour de la boucle extérieure.',
           solution: `Une répétition de la grande boucle : $${k2} \\times ${d}${e ? ` + ${e}` : ''} = ${k2 * d + e}$ pas.\n$$${k1} \\times ${k2 * d + e} = ${total}$$`,
           _v: { k: '6A1.imbrique', k1, k2, d, e }
         });
@@ -5457,4 +5458,2969 @@
       return this._6mcq(q, correct, opts);
     }
   });
+})();
+
+// =====================================================================
+// EXTENSIONS 6ème (audit pédagogique 2026-10-31)
+// Nouvelles familles de questions enregistrées par chapitre et par palier, mélangées aux familles
+// d'origine : _6X_add(id, palier, fn) ajoute une famille (fn.call(G, mastery) renvoie la question),
+// _6X_origWeight(id, palier, w) fixe le poids du générateur d'origine (défaut : 3, ≈ ses familles),
+// _6X_drop(id, palier, [clés _v]) retire des familles d'origine jugées faibles (nouveau tirage).
+// =====================================================================
+(function () {
+  'use strict';
+  if (typeof window === 'undefined' || !window.MathsGenerators) return;
+  const G = window.MathsGenerators;
+  const IDS6 = ['6N1', '6N2', '6N3', '6N4', '6N5', '6N6', '6N7', '6N8', '6P1', '6M1', '6M2', '6M3', '6M4',
+    '6G1', '6G2', '6G3', '6G4', '6G5', '6D1', '6D2', '6A1'];
+  const REG = {}; // id -> palier -> { fams: [fn], w: poids d'origine, drop: Set }
+  const slot = (id, t) => {
+    REG[id] = REG[id] || {};
+    REG[id][t] = REG[id][t] || { fams: [], w: 3, drop: new Set() };
+    return REG[id][t];
+  };
+  Object.assign(G, {
+    _6X_add(id, t, fn) { slot(id, t).fams.push(fn); },
+    _6X_origWeight(id, t, w) { slot(id, t).w = w; },
+    _6X_drop(id, t, keys) { keys.forEach(k => slot(id, t).drop.add(k)); }
+  });
+  for (const id of IDS6) {
+    const orig = G['generate' + id];
+    if (typeof orig !== 'function') continue;
+    G['generate' + id] = function (tier = 1, mastery = 0) {
+      const t = this.resolveTier(tier);
+      const s = REG[id] && REG[id][t];
+      if (!s || !s.fams.length) return orig.call(this, t, mastery);
+      const r = Math.random() * (s.w + s.fams.length);
+      if (r >= s.w) {
+        const q = s.fams[Math.floor(r - s.w)].call(this, mastery);
+        if (q) return q;
+      }
+      for (let i = 0; i < 40; i++) {
+        const q = orig.call(this, t, mastery);
+        if (!q || !q._v || !s.drop.has(q._v.k)) return q;
+      }
+      return s.fams[Math.floor(Math.random() * s.fams.length)].call(this, mastery);
+    };
+  }
+})();
+
+// ----- Extensions 6ème, groupe E (audit 2026-10-31) -----
+// ---------------------------------------------------------------------
+// Extensions 6D1, 6D2, 6A1 (audit 2026-10-31)
+// ---------------------------------------------------------------------
+(function () {
+  'use strict';
+  if (typeof window === 'undefined' || !window.MathsGenerators || !window.MathsGenerators._6X_add) return;
+  const G = window.MathsGenerators;
+  const sumOf = a => a.reduce((s, x) => s + x, 0);
+  const pl = (n, w, wp) => (n > 1 ? (wp || w + 's') : w);
+  const fracTex = (G0, k, n) => {
+    const g = G0.gcd(k, n);
+    return g > 1 ? `\\frac{${k}}{${n}} = \\frac{${k / g}}{${n / g}}` : `\\frac{${k}}{${n}}`;
+  };
+
+  // ===================================================================
+  // 6D1 — Organisation et gestion de données
+  // ===================================================================
+  G._6X_origWeight('6D1', 1, 3);
+  G._6X_origWeight('6D1', 2, 3);
+  G._6X_origWeight('6D1', 3, 3);
+  G._6X_origWeight('6D1', 4, 4);
+
+  // P1 : catégorie la moins (ou la plus) représentée sur un diagramme en barres
+  G._6X_add('6D1', 1, function () {
+    const step = this.randChoice([1, 2, 5]);
+    const { ctx, cats, vals: raw } = this._6D1pick(this.randInt(4, 5), 1, 9, true);
+    const vals = raw.map(v => v * step);
+    const mode = this.randChoice(['min', 'max']);
+    const target = mode === 'min' ? Math.min(...vals) : Math.max(...vals);
+    const i = vals.indexOf(target);
+    const q = this._6A_q('6D1', 1, 'Représenter', {
+      title: 'Lire un diagramme en barres : comparer les catégories',
+      statement: `Le diagramme en barres ci-dessous représente ${ctx.theme}.\n${this._6Fbars(cats, vals, step, ctx.unit)}\n**Quelle catégorie a le ${mode === 'min' ? 'plus petit' : 'plus grand'} effectif ?**`,
+      hint1: `Dans un diagramme en barres, la hauteur de chaque barre représente l'effectif de la catégorie.`,
+      hint2: `Plus l'effectif est ${mode === 'min' ? 'petit' : 'grand'}, plus la barre est ${mode === 'min' ? 'basse' : 'haute'} : compare les sommets des barres avec les graduations.`,
+      solution: `**Étape 1.** On lit la hauteur de chaque barre : ${cats.map((c, j) => `${c} : $${vals[j]}$`).join(' ; ')}.\n**Étape 2.** La barre la plus ${mode === 'min' ? 'basse' : 'haute'} est celle de « ${cats[i]} » (effectif $${target}$).\nLa catégorie qui a le ${mode === 'min' ? 'plus petit' : 'plus grand'} effectif est **${cats[i]}**.`,
+      _v: { k: '6D1.barext', vals, cats, mode }
+    });
+    return this._6mcq(q, cats[i], cats.filter((_, j) => j !== i));
+  });
+
+  // P2 : hauteur d'une barre à tracer (échelle de l'axe)
+  G._6X_add('6D1', 2, function () {
+    const k = this.randChoice([2, 4, 5, 10]);
+    const { ctx, cats, vals: raw } = this._6D1pick(this.randInt(4, 5), 2, 16);
+    const half = k % 2 === 0 && Math.random() < 0.5;
+    const vals = raw.map(v => (half ? v * (k / 2) : v * k));
+    const i = this.randInt(0, cats.length - 1);
+    const h = this._6r(vals[i] / k);
+    const table = this._6Ftable([ctx.col, ...cats], [['Effectif', ...vals.map(String)]]);
+    return this._6A_q('6D1', 2, 'Représenter', {
+      title: 'Construire un diagramme en barres : hauteur d\'une barre',
+      statement: `Le tableau ci-dessous présente ${ctx.theme}.${table}On veut représenter ces données par un diagramme en barres. Sur l'axe vertical, **$1$ cm représente $${k}$ ${ctx.unit}**.\n**Quelle doit être la hauteur (en cm) de la barre « ${cats[i]} » ?**`,
+      type: 'exact', answer: this._6ans(h), placeholder: 'Ex : 3,5',
+      hint1: `Cherche combien de fois $${k}$ ${ctx.unit} « rentrent » dans l'effectif de la catégorie « ${cats[i]} ».`,
+      hint2: `Dans un diagramme en barres, la hauteur de chaque barre est proportionnelle à l'effectif : ici, hauteur (en cm) = effectif ÷ $${k}$.`,
+      solution: `**Étape 1.** Dans le tableau, l'effectif de « ${cats[i]} » est $${vals[i]}$.\n**Étape 2.** $1$ cm représente $${k}$ ${ctx.unit}, donc la hauteur est $${vals[i]} \\div ${k} = ${this._6tex(h)}$ cm.\nLa barre « ${cats[i]} » doit mesurer **$${this._6tex(h)}$ cm** de haut.`,
+      _v: { k: '6D1.hauteur', vals, i, kk: k }
+    });
+  });
+
+  // P2 : choisir une représentation adaptée
+  const DIAG = {
+    barres: 'Un diagramme en barres',
+    circ: 'Un diagramme circulaire',
+    courbe: 'Un graphique (points reliés) en fonction du temps',
+    double: 'Un tableau à double entrée'
+  };
+  const DIAG_CTX = [
+    ['barres', 'On a demandé à chaque élève de la classe son sport préféré. On veut **comparer facilement le nombre d\'élèves** qui ont choisi chaque sport.'],
+    ['barres', 'On a compté les livres empruntés au CDI chaque jour de la semaine. On veut **comparer d\'un coup d\'œil les nombres de livres** empruntés selon le jour.'],
+    ['barres', 'Un club a relevé le nombre d\'inscrits dans chacune de ses cinq activités. On veut **voir quelle activité a le plus d\'inscrits** et comparer les effectifs.'],
+    ['circ', 'Une famille a noté la répartition de son budget mensuel (logement, nourriture, loisirs, transport). On veut **montrer quelle part du budget total** représente chaque poste.'],
+    ['circ', 'Lina a noté comment elle répartit ses 24 heures (sommeil, collège, repas, loisirs). On veut **visualiser la part de la journée** occupée par chaque activité.'],
+    ['circ', 'Lors d\'une élection de délégués, on veut **représenter la part des voix** obtenue par chaque candidat par rapport au total des votants.'],
+    ['courbe', 'On a relevé la température extérieure toutes les heures pendant une journée. On veut **montrer comment la température évolue** au cours de la journée.'],
+    ['courbe', 'On a mesuré la taille d\'une plante chaque semaine pendant deux mois. On veut **observer l\'évolution de sa taille** au fil du temps.'],
+    ['courbe', 'On a noté la population d\'une ville tous les dix ans depuis 1950. On veut **montrer l\'évolution de la population** au cours du temps.'],
+    ['double', 'On a interrogé des élèves sur leur moyen de transport et on veut **croiser deux informations** : le moyen de transport et la classe (6e ou 5e) de chaque élève.'],
+    ['double', 'Au restaurant scolaire, on veut **présenter en même temps** le nombre de repas servis selon le jour de la semaine **et** selon le menu choisi (avec ou sans viande).']
+  ];
+  G._6X_add('6D1', 2, function () {
+    const [type, txt] = this.randChoice(DIAG_CTX);
+    const q = this._6A_q('6D1', 2, 'Représenter', {
+      title: 'Choisir une représentation adaptée',
+      statement: `${txt}\n**Quelle représentation est la plus adaptée ?**`,
+      hint1: 'Repère le mot-clé de la consigne : comparer des catégories ? montrer des parts d\'un tout ? suivre une évolution dans le temps ? croiser deux critères ?',
+      hint2: 'Diagramme en barres : comparer des effectifs. Diagramme circulaire : parts d\'un tout. Graphique en fonction du temps : évolution. Tableau à double entrée : deux critères à la fois.',
+      solution: {
+        barres: 'On veut **comparer des effectifs** de différentes catégories : la hauteur des barres permet de les comparer d\'un coup d\'œil. On choisit **un diagramme en barres**.',
+        circ: 'On veut montrer **la part de chaque catégorie dans un tout** : chaque secteur du disque représente une part du total. On choisit **un diagramme circulaire**.',
+        courbe: 'On veut suivre **une évolution au cours du temps** : on place les mesures en fonction du temps et on relie les points. On choisit **un graphique en fonction du temps**.',
+        double: 'Chaque donnée dépend de **deux critères** à la fois : un tableau avec un critère en ligne et l\'autre en colonne convient. On choisit **un tableau à double entrée**.'
+      }[type],
+      _v: { k: '6D1.choixdiag', type }
+    });
+    return this._6mcq(q, DIAG[type], Object.keys(DIAG).filter(t => t !== type).map(t => DIAG[t]));
+  });
+
+  // P3 : repérer l'erreur dans un diagramme en barres
+  G._6X_add('6D1', 3, function () {
+    const step = this.randChoice([2, 5, 10]);
+    const { ctx, cats, vals: raw } = this._6D1pick(this.randInt(4, 5), 2, 8);
+    const vals = raw.map(v => v * step);
+    const i = this.randInt(0, cats.length - 1);
+    const drawn = vals.slice();
+    drawn[i] = vals[i] + this.randChoice([-1, 1]) * step;
+    const table = this._6Ftable([ctx.col, ...cats], [['Effectif', ...vals.map(String)]]);
+    const q = this._6A_q('6D1', 3, 'Représenter', {
+      title: 'Vérifier un diagramme en barres',
+      statement: `Le tableau ci-dessous présente ${ctx.theme}.${table}Un élève a construit le diagramme en barres suivant, mais **une barre est fausse**.\n${this._6Fbars(cats, drawn, step, ctx.unit)}\n**Quelle barre est fausse ?**`,
+      hint1: 'Lis la hauteur de chaque barre et compare-la, une par une, avec l\'effectif du tableau.',
+      hint2: `Attention à la graduation de l'axe vertical : elle va de $${step}$ en $${step}$.`,
+      solution: `**Étape 1.** On lit les hauteurs : ${cats.map((c, j) => `${c} : $${drawn[j]}$`).join(' ; ')}.\n**Étape 2.** On compare avec le tableau : la barre « ${cats[i]} » monte à $${drawn[i]}$ alors que l'effectif est $${vals[i]}$.\nLa barre fausse est **${cats[i]}**.`,
+      _v: { k: '6D1.erreur', vals, drawn, cats }
+    });
+    return this._6mcq(q, cats[i], cats.filter((_, j) => j !== i));
+  });
+
+  // P4 : tableau à double entrée avec deux cases effacées (raisonnement en deux temps)
+  G._6X_add('6D1', 4, function () {
+    const C = this.randChoice([
+      { cols: ['Anglais', 'Allemand', 'Espagnol'], what: 'la langue vivante choisie' },
+      { cols: ['Chorale', 'Échecs', 'Robotique'], what: 'le club choisi' },
+      { cols: ['Bus', 'Vélo', 'À pied'], what: 'le moyen de transport' },
+      { cols: ['Demi-pension', 'Externat', 'Internat'], what: 'le régime' }
+    ]);
+    const rows = this.randChoice([['6e', '5e'], ['Filles', 'Garçons']]);
+    const grid = rows.map(() => C.cols.map(() => this.randInt(4, 25)));
+    const rT = grid.map(r => sumOf(r));
+    const cT = C.cols.map((_, j) => grid[0][j] + grid[1][j]);
+    const all = rT[0] + rT[1];
+    const hr = this.randInt(0, 1), hc = this.randInt(0, C.cols.length - 1);
+    // cases effacées : grid[hr][hc] et cT[hc] -> on demande cT[hc]
+    const cells = rows.map((rn, i) => [rn, ...grid[i].map((v, j) => (i === hr && j === hc ? '?' : String(v))), String(rT[i])]);
+    cells.push(['Total', ...cT.map((v, j) => (j === hc ? '…' : String(v))), String(all)]);
+    const known = grid[hr].filter((_, j) => j !== hc);
+    const cell = grid[hr][hc];
+    return this._6A_q('6D1', 4, 'Raisonner', {
+      title: 'Tableau à double entrée : deux cases effacées',
+      statement: `Le tableau ci-dessous répartit les élèves d'un collège selon ${C.what}. Deux cases ont été effacées (« ? » et « … »).${this._6Ftable(['', ...C.cols, 'Total'], cells)}**Quel nombre doit-on écrire dans la case « … » (total de la colonne « ${C.cols[hc]} ») ?**`,
+      type: 'exact', answer: String(cT[hc]), placeholder: 'Ex : 30',
+      hint1: 'La colonne demandée contient deux nombres inconnus : commence par trouver le « ? » grâce à sa ligne, où il ne manque qu\'un nombre.',
+      hint2: 'Dans un tableau à double entrée, chaque total de ligne est la somme des cases de la ligne, et chaque total de colonne est la somme des cases de la colonne.',
+      solution: `**Étape 1 (ligne « ${rows[hr]} »).** $${known.join(' + ')} = ${sumOf(known)}$, donc « ? » $= ${rT[hr]} - ${sumOf(known)} = ${cell}$.\n**Étape 2 (colonne « ${C.cols[hc]} »).** $${grid[0][hc]} + ${grid[1][hc]} = ${cT[hc]}$.\nVérification : la somme des totaux de colonnes donne bien $${all}$.\nLa case « … » contient **$${cT[hc]}$**.`,
+      _v: { k: '6D1.double2', grid: grid.map((r, i) => r.map((v, j) => (i === hr && j === hc ? null : v))), rT, hr, hc }
+    });
+  });
+
+  // P4 : proportion lue sur un diagramme en barres (fraction irréductible)
+  G._6X_add('6D1', 4, function () {
+    const step = this.randChoice([2, 5, 10]);
+    let pick, vals, tot, i;
+    do {
+      pick = this._6D1pick(this.randInt(3, 4), 1, 8);
+      vals = pick.vals.map(v => v * step);
+      tot = sumOf(vals);
+      i = this.randInt(0, vals.length - 1);
+    } while (this.gcd(vals[i], tot) === 1 || vals[i] === tot);
+    const { ctx, cats } = pick;
+    return this._6A_q('6D1', 4, 'Raisonner', {
+      title: 'Proportion lue sur un diagramme en barres',
+      statement: `Le diagramme en barres ci-dessous représente ${ctx.theme}.\n${this._6Fbars(cats, vals, step, ctx.unit)}\n**Quelle fraction de l'effectif total représente la catégorie « ${cats[i]} » ?** (fraction irréductible a/b)`,
+      type: 'exact', answer: this._6fracAns(vals[i], tot), placeholder: 'Ex : 2/5',
+      hint1: 'Il faut deux nombres : l\'effectif de la catégorie (une barre) et l\'effectif total (toutes les barres).',
+      hint2: 'Proportion d\'une catégorie = effectif de la catégorie ÷ effectif total ; on simplifie ensuite la fraction en divisant le numérateur et le dénominateur par un même nombre.',
+      solution: `**Étape 1.** On lit les effectifs : $${vals.join(' + ')} = ${tot}$ (effectif total).\n**Étape 2.** La catégorie « ${cats[i]} » a un effectif de $${vals[i]}$, d'où la proportion $${fracTex(this, vals[i], tot)}$.\nLa catégorie « ${cats[i]} » représente **$${this.formatFraction(vals[i], tot)}$** de l'effectif total.`,
+      _v: { k: '6D1.barfrac', vals, i }
+    });
+  });
+
+  // ===================================================================
+  // 6D2 — Probabilités
+  // ===================================================================
+  G._6X_origWeight('6D2', 2, 3);
+  G._6X_origWeight('6D2', 3, 3);
+  G._6X_origWeight('6D2', 4, 3);
+
+  const ECH = {
+    0: '0 : impossible',
+    low: 'Entre 0 et 1/2 : peu probable',
+    half: '1/2 : une chance sur deux',
+    high: 'Entre 1/2 et 1 : très probable',
+    1: '1 : certain'
+  };
+  // P2 : placer un événement sur l'échelle des probabilités
+  G._6X_add('6D2', 2, function () {
+    const u = this._6D2urn();
+    const tot = sumOf(u.counts);
+    let j = this.randInt(0, u.cols.length - 1);
+    let mode = this.randChoice(['one', 'one', 'one', 'notone']);
+    let fav = mode === 'one' ? u.counts[j] : tot - u.counts[j];
+    const ev = mode === 'one' ? `tirer une boule ${u.cols[j][0]}` : `ne pas tirer une boule ${u.cols[j][0]}`;
+    const key = 2 * fav < tot ? 'low' : 2 * fav === tot ? 'half' : 'high';
+    const q = this._6A_q('6D2', 2, 'Raisonner', {
+      title: 'Placer un événement sur l\'échelle des probabilités',
+      statement: `Une urne opaque contient ${u.txt}. On tire une boule au hasard.\nOù se place l'événement « ${ev} » sur l'échelle des probabilités ?`,
+      hint1: 'Compte les boules favorables et compare-les à la moitié du nombre total de boules.',
+      hint2: 'Une probabilité est un nombre entre 0 (événement impossible) et 1 (événement certain) ; elle vaut 1/2 quand il y a autant d\'issues favorables que d\'issues défavorables.',
+      solution: `**Étape 1.** Il y a $${tot}$ boules en tout et $${fav}$ réalisent l'événement : $P = ${fracTex(this, fav, tot)}$.\n**Étape 2.** La moitié des boules est $${this._6tex(tot / 2)}$ ; or $${fav}$ ${key === 'low' ? '<' : key === 'half' ? '=' : '>'} $${this._6tex(tot / 2)}$.\nL'événement se place donc dans la zone **« ${ECH[key]} »**.`,
+      _v: { k: '6D2.echelle', counts: u.counts, j, mode }
+    });
+    return this._6mcq(q, ECH[key], ['low', 'half', 'high', 0, 1].filter(x => x !== key).map(x => ECH[x]), 5);
+  });
+
+  // P2 : probabilité sous forme décimale
+  G._6X_add('6D2', 2, function () {
+    const tot = this.randChoice([4, 5, 10, 20, 25, 50]);
+    const ctx = this.randChoice([
+      { obj: 'tickets de tombola', win: 'gagnants', one: 'un ticket', ev: 'tirer un ticket gagnant' },
+      { obj: 'cartes', win: 'rouges', one: 'une carte', ev: 'tirer une carte rouge' },
+      { obj: 'jetons', win: 'marqués d\'une étoile', one: 'un jeton', ev: 'tirer un jeton marqué d\'une étoile' }
+    ]);
+    const k = this.randInt(1, tot - 1);
+    const p = this._6r(k / tot);
+    return this._6A_q('6D2', 2, 'Calculer', {
+      title: 'Probabilité en écriture décimale',
+      statement: `Un sac contient ${tot} ${ctx.obj}, dont ${k} ${ctx.win}. On tire ${ctx.one} au hasard.\n**Quelle est la probabilité de ${ctx.ev} ?** (écriture décimale)`,
+      type: 'exact', answer: this._6ans(p), placeholder: 'Ex : 0,25',
+      hint1: 'Écris d\'abord la probabilité sous forme de fraction, puis transforme-la en écriture décimale.',
+      hint2: 'Probabilité = nombre d\'issues favorables ÷ nombre d\'issues possibles (toutes équiprobables). Pour obtenir l\'écriture décimale, on cherche une fraction égale de dénominateur 10, 100…',
+      solution: `**Étape 1.** Il y a $${tot}$ issues équiprobables, dont $${k}$ favorables : $P = \\frac{${k}}{${tot}}$.\n**Étape 2.** $\\frac{${k}}{${tot}} = \\frac{${k * (100 / tot)}}{100} = ${this._6tex(p)}$.\nLa probabilité est **$${this._6tex(p)}$**.`,
+      _v: { k: '6D2.dec', k1: k, tot }
+    });
+  });
+
+  // P3 : roue avec des secteurs de tailles différentes
+  const WCOL = { rouge: '#ef4444', bleu: '#3b82f6', vert: '#22c55e', jaune: '#facc15' };
+  const wheelUneven = (G0, parts, n) => {
+    const R = 72, cx = 95, cy = 92;
+    let inner = '', acc = 0;
+    for (const [col, k] of parts) {
+      const a0 = (2 * Math.PI * acc) / n - Math.PI / 2, a1 = (2 * Math.PI * (acc + k)) / n - Math.PI / 2;
+      const large = k / n > 0.5 ? 1 : 0;
+      const p = a => [(cx + R * Math.cos(a)).toFixed(2), (cy + R * Math.sin(a)).toFixed(2)];
+      const [x0, y0] = p(a0), [x1, y1] = p(a1);
+      inner += `<path d="M${cx},${cy} L${x0},${y0} A${R},${R} 0 ${large} 1 ${x1},${y1} Z" fill="${WCOL[col]}" fill-opacity="0.8" stroke="#ffffff" stroke-width="2"/>`;
+      const am = (a0 + a1) / 2;
+      inner += G0._6svgText((cx + 0.6 * R * Math.cos(am)).toFixed(1), (cy + 0.6 * R * Math.sin(am) + 4).toFixed(1), `${(360 * k) / n}°`, { size: 11, weight: '800', fill: '#0f172a' });
+      acc += k;
+    }
+    inner += `<polygon points="${cx - 7},8 ${cx + 7},8 ${cx},22" fill="var(--text-main, #334155)"/>`;
+    return G0._6svg(190, 175, inner, 210);
+  };
+  G._6X_add('6D2', 3, function () {
+    const n = this.randChoice([4, 6, 8, 12]);
+    const cols = this.shuffle(Object.keys(WCOL)).slice(0, this.randInt(2, 3));
+    let ks;
+    do { ks = cols.map(() => this.randInt(1, n - 1)); } while (sumOf(ks) !== n || new Set(ks).size < 2);
+    const parts = cols.map((c, i) => [c, ks[i]]);
+    const j = this.randInt(0, cols.length - 1);
+    const ang = (360 * ks[j]) / n;
+    return this._6A_q('6D2', 3, 'Raisonner', {
+      title: 'Roue de loterie à secteurs inégaux',
+      statement: `Une roue de loterie est partagée en secteurs **de tailles différentes** (les angles sont indiqués). On la fait tourner et on regarde la couleur indiquée par la flèche.\n${wheelUneven(this, parts, n)}\n**Quelle est la probabilité que la flèche s'arrête sur le ${cols[j]} ?** (fraction irréductible a/b)`,
+      type: 'exact', answer: this._6fracAns(ks[j], n), placeholder: 'Ex : 3/8',
+      hint1: 'Les couleurs n\'ont pas la même chance de sortir : la probabilité dépend de la part du disque occupée par la couleur.',
+      hint2: 'Un tour complet mesure $360^\\circ$ : un secteur d\'angle $a^\\circ$ occupe la fraction $\\frac{a}{360}$ du disque.',
+      solution: `**Étape 1.** Le secteur ${cols[j]} mesure $${ang}^\\circ$ sur un tour complet de $360^\\circ$.\n**Étape 2.** $P = \\frac{${ang}}{360}${this.gcd(ang, 360) > 1 ? ` = ${this.formatFraction(ang, 360)}` : ''}$.\nLa probabilité d'obtenir le ${cols[j]} est **$${this.formatFraction(ang, 360)}$**.`,
+      _v: { k: '6D2.roueInegale', ks, n, j }
+    });
+  });
+
+  // P3 : retrouver le nombre de boules d'une couleur à partir d'une probabilité
+  G._6X_add('6D2', 3, function () {
+    const [p, qd] = this.randChoice([[1, 2], [1, 3], [2, 3], [1, 4], [3, 4], [2, 5], [3, 5], [1, 5]]);
+    const m = this.randInt(1, 6);
+    const r = p * m, b = (qd - p) * m;
+    return this._6A_q('6D2', 3, 'Raisonner', {
+      title: 'Retrouver la composition d\'une urne',
+      statement: `Une urne contient ${r} ${pl(r, 'boule rouge', 'boules rouges')} et des boules bleues, indiscernables au toucher. On tire une boule au hasard.\nLa probabilité de tirer une boule rouge est $\\frac{${p}}{${qd}}$.\n**Combien y a-t-il de boules bleues dans l'urne ?**`,
+      type: 'exact', answer: String(b), placeholder: 'Ex : 6',
+      hint1: `La fraction $\\frac{${p}}{${qd}}$ est égale à « nombre de boules rouges ÷ nombre total de boules » : trouve d'abord le nombre total de boules.`,
+      hint2: 'Probabilité = nombre d\'issues favorables ÷ nombre total d\'issues. Deux fractions égales s\'obtiennent en multipliant numérateur et dénominateur par un même nombre.',
+      solution: `**Étape 1.** $\\frac{${p}}{${qd}} = \\frac{${r}}{\\dots}$ : on a multiplié le numérateur par $${m}$, donc le nombre total de boules est $${qd} \\times ${m} = ${qd * m}$.\n**Étape 2.** Boules bleues : $${qd * m} - ${r} = ${b}$.\nIl y a **$${b}$** boules bleues.`,
+      _v: { k: '6D2.bleues', r, p, q: qd }
+    });
+  });
+
+  // P4 : fréquence observée et probabilité — peut-on conclure ?
+  const CONC = {
+    peu: 'On ne peut pas conclure : il y a trop peu de lancers',
+    truque: 'Le dé est très probablement truqué',
+    ok: 'Rien n\'indique que le dé est truqué'
+  };
+  G._6X_add('6D2', 4, function () {
+    const mode = this.randChoice(['peu', 'truque', 'ok']);
+    let N, c;
+    if (mode === 'peu') { N = this.randChoice([6, 10, 12, 15, 20]); c = Math.round(N / 6) + this.randInt(2, 3); }
+    else if (mode === 'truque') { N = this.randChoice([3000, 6000, 12000]); c = Math.round(N * this.randChoice([0.3, 0.35, 0.05, 0.4])); }
+    else { N = this.randChoice([3000, 6000, 12000]); c = N / 6 + this.randInt(-Math.floor(N / 200), Math.floor(N / 200)); }
+    const nom = this.randChoice(['Tom', 'Inès', 'Hugo', 'Jade']);
+    const f = this._6r(c / N);
+    const q = this._6A_q('6D2', 4, 'Raisonner', {
+      title: 'Fréquence observée : peut-on conclure ?',
+      statement: `${nom} lance ${N} fois un dé à six faces et obtient ${c} fois le 6.\n**Que peut-on dire de ce dé ?**`,
+      hint1: 'Calcule la fréquence d\'apparition du 6, compare-la à la probabilité théorique $\\frac{1}{6}$, et tiens compte du nombre de lancers.',
+      hint2: 'Sur un grand nombre d\'essais, la fréquence observée se rapproche de la probabilité. Sur peu d\'essais, elle peut en être très éloignée par simple hasard.',
+      solution: `**Étape 1.** Fréquence du 6 : $\\frac{${c}}{${N}} ${Math.round(f * 100) / 100 === f ? '=' : '\\approx'} ${this._6tex(Math.round(f * 100) / 100)}$, à comparer à $\\frac{1}{6} \\approx 0{,}17$.\n**Étape 2.** ${mode === 'peu' ? `Avec seulement ${N} lancers, un tel écart peut être dû au hasard.` : mode === 'truque' ? `Avec ${N} lancers (un très grand nombre), la fréquence devrait être proche de $0{,}17$ : l'écart est trop important pour être dû au hasard.` : `Avec ${N} lancers, la fréquence est très proche de $\\frac{1}{6}$, comme attendu pour un dé équilibré.`}\nConclusion : **${CONC[mode]}**.`,
+      _v: { k: '6D2.conclure', N, c }
+    });
+    return this._6mcq(q, CONC[mode], Object.keys(CONC).filter(x => x !== mode).map(x => CONC[x]));
+  });
+
+  // P4 : on retire des boules avant le tirage
+  G._6X_add('6D2', 4, function () {
+    let u, a, b, x;
+    do {
+      u = this._6D2urn();
+      a = this.randInt(0, u.cols.length - 1);
+      b = this.randInt(0, u.cols.length - 1);
+    } while (u.counts[a] < 3);
+    x = this.randInt(1, u.counts[a] - 1);
+    const tot = sumOf(u.counts) - x;
+    const fav = u.counts[b] - (a === b ? x : 0);
+    return this._6A_q('6D2', 4, 'Raisonner', {
+      title: 'Modifier le contenu d\'une urne',
+      statement: `Une urne opaque contient ${u.txt}. Avant le tirage, on **retire ${x} ${pl(x, 'boule ' + u.cols[a][0], 'boules ' + u.cols[a][1])}** de l'urne. On tire ensuite une boule au hasard.\n**Quelle est la probabilité de tirer une boule ${u.cols[b][0]} ?** (fraction irréductible a/b)`,
+      type: 'exact', answer: this._6fracAns(fav, tot), placeholder: 'Ex : 3/10',
+      hint1: 'Commence par écrire le nouveau contenu de l\'urne : combien de boules de chaque couleur, et combien en tout ?',
+      hint2: 'Probabilité = nombre d\'issues favorables ÷ nombre total d\'issues, calculée avec le contenu de l\'urne au moment du tirage.',
+      solution: `**Étape 1.** Après le retrait, il reste $${sumOf(u.counts)} - ${x} = ${tot}$ boules, dont $${fav}$ ${pl(fav, u.cols[b][0], u.cols[b][1])}.\n**Étape 2.** $P = ${fracTex(this, fav, tot)}$.\nLa probabilité de tirer une boule ${u.cols[b][0]} est **$${this.formatFraction(fav, tot)}$**.`,
+      _v: { k: '6D2.retrait', counts: u.counts, a, b, x }
+    });
+  });
+
+  // ===================================================================
+  // 6A1 — Pensée informatique
+  // ===================================================================
+  G._6X_origWeight('6A1', 1, 3);
+  G._6X_origWeight('6A1', 2, 3);
+  G._6X_origWeight('6A1', 3, 3);
+  G._6X_origWeight('6A1', 4, 4);
+  const OPP = { D: 'G', G: 'D', H: 'B', B: 'H' };
+
+  // P1 : compléter une instruction pour atteindre une case
+  G._6X_add('6A1', 1, function () {
+    let start, m1, m2, target;
+    for (;;) {
+      start = [this.randInt(1, 8), this.randInt(1, 8)];
+      const d1 = this.randChoice(['D', 'G', 'H', 'B']);
+      const d2 = this.randChoice(d1 === 'D' || d1 === 'G' ? ['H', 'B'] : ['D', 'G']);
+      m1 = [d1, this.randInt(2, 5)]; m2 = [d2, this.randInt(1, 4)];
+      target = this._6Frun(start, [m1, m2]);
+      if (target) break;
+    }
+    const ask = this.randInt(0, 1);
+    const shown = [m1, m2].map((m, i) => (i === ask ? `avancer de **?** cases ${this._6FDIRS[m[0]].txt} (${this._6FDIRS[m[0]].arrow})` : `avancer de ${this._6FmoveTxt(m)}`));
+    const mm = ask === 0 ? m1 : m2;
+    return this._6A_q('6A1', 1, 'Modéliser', {
+      title: 'Compléter un programme de déplacement',
+      statement: `Un robot R doit aller de la case **${this._6Fcell(start)}** à la case **${this._6Fcell(target)}** (T).\n${this._6Fgrid(start, target)}\nOn lui donne le programme :\n\n1. ${shown[0]}\n2. ${shown[1]}\n\n**Par quel nombre faut-il remplacer le « ? » ?**`,
+      type: 'exact', answer: String(mm[1]), placeholder: 'Ex : 3',
+      hint1: `L'instruction à compléter est un déplacement ${mm[0] === 'D' || mm[0] === 'G' ? 'horizontal : compare les colonnes (lettres)' : 'vertical : compare les lignes (numéros)'} du départ et de l'arrivée.`,
+      hint2: 'Un déplacement vers la droite ou la gauche change seulement la colonne ; un déplacement vers le haut ou le bas change seulement la ligne.',
+      solution: `**Étape 1.** Départ ${this._6Fcell(start)}, arrivée ${this._6Fcell(target)}.\n**Étape 2.** ${mm[0] === 'D' || mm[0] === 'G' ? `De la colonne ${'ABCDEFGH'[start[0] - 1]} à la colonne ${'ABCDEFGH'[target[0] - 1]}` : `De la ligne ${start[1]} à la ligne ${target[1]}`}, il y a $${mm[1]}$ case${mm[1] > 1 ? 's' : ''}.\nIl faut remplacer « ? » par **$${mm[1]}$**.`,
+      _v: { k: '6A1.completer', start, target, moves: [m1, m2], ask }
+    });
+  });
+
+  // P2 : débogage — corriger une instruction
+  G._6X_add('6A1', 2, function () {
+    let pr, idx, wrong, reached;
+    for (let tries = 0; tries < 200; tries++) {
+      pr = this._6FrandomProg(3, 4);
+      idx = this.randInt(0, 2);
+      const [d, n] = pr.moves[idx];
+      const cands = [n + 1, n - 1, n + 2].filter(v => v >= 1 && v <= 6);
+      wrong = this.randChoice(cands);
+      const mv = pr.moves.map((m, i) => (i === idx ? [d, wrong] : m));
+      reached = this._6Frun(pr.start, mv);
+      if (reached) break;
+    }
+    const { start, moves, end } = pr;
+    const list = moves.map((m, i) => `${i + 1}. avancer de ${this._6FmoveTxt(i === idx ? [m[0], wrong] : m)}`).join('\n');
+    return this._6A_q('6A1', 2, 'Modéliser', {
+      title: 'Déboguer un programme',
+      statement: `Lina veut que son robot aille de la case **${this._6Fcell(start)}** à la case **${this._6Fcell(end)}** (T).\n${this._6Fgrid(start, end)}\nElle a écrit le programme :\n\n${list}\n\nEn le testant, le robot arrive en **${this._6Fcell(reached)}** au lieu de ${this._6Fcell(end)}. Seul le **nombre de cases de l'instruction ${idx + 1}** est faux.\n**Quel nombre faut-il écrire dans l'instruction ${idx + 1} ?**`,
+      type: 'exact', answer: String(moves[idx][1]), placeholder: 'Ex : 2',
+      hint1: 'Compare la case atteinte et la case visée : de combien de cases le robot s\'est-il trompé, et dans quelle direction ?',
+      hint2: 'Déboguer un programme, c\'est l\'exécuter pas à pas pour repérer l\'instruction qui ne produit pas l\'effet voulu, puis la corriger.',
+      solution: `**Étape 1.** Le robot arrive en ${this._6Fcell(reached)} au lieu de ${this._6Fcell(end)} : l'écart vient de l'instruction ${idx + 1} (« ${this._6FmoveTxt([moves[idx][0], wrong])} »).\n**Étape 2.** ${wrong > moves[idx][1] ? `Il est allé ${wrong - moves[idx][1]} case${wrong - moves[idx][1] > 1 ? 's' : ''} trop loin` : `Il lui manque ${moves[idx][1] - wrong} case${moves[idx][1] - wrong > 1 ? 's' : ''}`} ${this._6FDIRS[moves[idx][0]].txt} : $${wrong} ${wrong > moves[idx][1] ? '-' : '+'} ${Math.abs(wrong - moves[idx][1])} = ${moves[idx][1]}$.\nIl faut écrire **$${moves[idx][1]}$** dans l'instruction ${idx + 1}.`,
+      _v: { k: '6A1.bug', start, end, moves: moves.map((m, i) => (i === idx ? [m[0], null] : m)), idx }
+    });
+  });
+
+  // P3 : variable modifiée dans une boucle
+  G._6X_add('6A1', 3, function () {
+    const mode = this.randChoice(['double', 'somme', 'mixte']);
+    let lines, ans, sol, v;
+    if (mode === 'double') {
+      const x = this.randInt(1, 6), k = this.randInt(3, 5);
+      lines = ['quand drapeau cliqué', `mettre [N] à ${x}`, `répéter ${k} fois`, '    mettre [N] à (N * 2)', 'dire (N)'];
+      const seq = [x]; for (let i = 0; i < k; i++) seq.push(seq[i] * 2);
+      ans = seq[k];
+      sol = `Valeurs successives de N : ${seq.map(s => `$${s}$`).join(' → ')}.`;
+      v = { mode, x, n: k };
+    } else if (mode === 'somme') {
+      const k = this.randInt(4, 8);
+      lines = ['quand drapeau cliqué', 'mettre [S] à 0', 'mettre [C] à 1', `répéter ${k} fois`, '    ajouter (C) à [S]', '    ajouter 1 à [C]', 'dire (S)'];
+      ans = (k * (k + 1)) / 2;
+      sol = `C prend les valeurs $1, 2, …, ${k}$ et chacune est ajoutée à S : $S = ${Array.from({ length: k }, (_, i) => i + 1).join(' + ')} = ${ans}$.`;
+      v = { mode, n: k };
+    } else {
+      const x = this.randInt(1, 5), a = this.randInt(1, 4), k = this.randInt(2, 4);
+      lines = ['quand drapeau cliqué', `mettre [N] à ${x}`, `répéter ${k} fois`, `    ajouter ${a} à [N]`, '    mettre [N] à (N * 2)', 'dire (N)'];
+      const seq = [x]; let n = x;
+      const st = [];
+      for (let i = 0; i < k; i++) { st.push(`$(${n} + ${a}) \\times 2 = ${(n + a) * 2}$`); n = (n + a) * 2; seq.push(n); }
+      ans = n;
+      sol = `À chaque tour : ${st.join(' ; ')}.`;
+      v = { mode, x, a, n: k };
+    }
+    return this._6A_q('6A1', 3, 'Modéliser', {
+      title: 'Variable modifiée dans une boucle',
+      statement: `On exécute le script suivant :\n${this.renderScratch(lines)}\n**Quel nombre le lutin dit-il à la fin ?**`,
+      type: 'exact', answer: String(ans), placeholder: 'Ex : 48',
+      hint1: 'Fais un tableau avec une ligne par tour de boucle et note la valeur de chaque variable à la fin du tour.',
+      hint2: 'Une variable garde sa valeur d\'un tour de boucle au suivant : chaque instruction utilise la valeur la plus récente.',
+      solution: `**Étape 1.** On exécute la boucle tour par tour.\n${sol}\n**Étape 2.** À la fin de la boucle, le lutin dit **$${ans}$**.`,
+      _v: Object.assign({ k: '6A1.boucleVar' }, v)
+    });
+  });
+
+  // P4 : retrouver le nombre choisi (programme à l'envers)
+  G._6X_add('6A1', 4, function () {
+    const x = this.randInt(2, 15);
+    const pool = this.shuffle([['+', this.randInt(2, 12)], ['*', this.randInt(2, 5)], ['-', this.randInt(1, 9)]]).slice(0, this.randChoice([2, 3]));
+    let v = x; const fw = [];
+    for (const [o, a] of pool) { const nv = o === '+' ? v + a : o === '-' ? v - a : v * a; fw.push([v, o, a, nv]); v = nv; }
+    if (fw.some(s => s[3] < 0)) return null;
+    const res = v;
+    const sym = o => (o === '*' ? '\\times' : o);
+    const inv = { '+': '-', '-': '+', '*': '\\div' };
+    const back = fw.slice().reverse().map(([a0, o, a, nv]) => `$${nv} ${inv[o]} ${a} = ${a0}$`);
+    return this._6A_q('6A1', 4, 'Raisonner', {
+      title: 'Retrouver le nombre choisi',
+      statement: `On exécute le script suivant :\n${this.renderScratch(['quand drapeau cliqué', 'demander [Choisis un nombre] et attendre', 'mettre [N] à (réponse)', ...pool.map(([o, a]) => `mettre [N] à (N ${o} ${a})`), 'dire (N)'])}\nLe lutin dit $${res}$. **Quel nombre a-t-on choisi ?**`,
+      type: 'exact', answer: String(x), placeholder: 'Ex : 7',
+      hint1: 'Remonte le programme à l\'envers : pars du résultat et défais les instructions en commençant par la dernière.',
+      hint2: 'Pour défaire « ajouter » on soustrait, pour défaire « soustraire » on ajoute, pour défaire « multiplier » on divise.',
+      solution: `**Étape 1.** On remonte les instructions de la dernière à la première : ${back.join(' ; puis ')}.\n**Étape 2 (vérification).** ${fw.map(([a0, o, a, nv]) => `$${a0} ${sym(o)} ${a} = ${nv}$`).join(' ; ')}.\nLe nombre choisi est **$${x}$**.`,
+      _v: { k: '6A1.inverse', ops: pool, res }
+    });
+  });
+})();
+
+// ----- Extensions 6ème, groupe B (audit 2026-10-31) -----
+// ---------------------------------------------------------------------
+// Extensions 6N6, 6N7, 6N8, 6P1 (audit 2026-10-31)
+// ---------------------------------------------------------------------
+(function () {
+  'use strict';
+  if (typeof window === 'undefined' || !window.MathsGenerators || !window.MathsGenerators._6X_add) return;
+  const G = window.MathsGenerators;
+  const F = (n, d) => `\\frac{${n}}{${d}}`;
+  const PRENOMS = ['Léa', 'Hugo', 'Inès', 'Noah', 'Jade', 'Adam', 'Chloé', 'Rayan', 'Lina', 'Tom', 'Zoé', 'Malo', 'Sacha', 'Nina'];
+  const mk = (id, t, o) => {
+    const q = Object.assign({ chapterId: id, tier: t, skill: 'Calculer' }, o);
+    if (t === 4 && q.title && !/^Défi 5ème/.test(q.title)) q.title = `Défi 5ème : ${q.title}`;
+    if (q.type === 'exact' && !q.placeholder) q.placeholder = 'Ex : 12';
+    return q;
+  };
+  const simpTxt = (g, n, d) => {
+    const [a, b] = g.simplifyFraction(n, d);
+    return a === n ? '' : ` $= ${b === 1 ? a : F(a, b)}$ (fraction simplifiée)`;
+  };
+  const dur = m => { const h = Math.floor(m / 60), r = m % 60; return h ? (r ? `${h} h ${r} min` : `${h} h`) : `${r} min`; };
+
+  // Figure : rectangle quadrillé r × c, cases de `set` coloriées.
+  const gridSvg = (g, r, c, set) => {
+    const s = 32; let inner = '';
+    for (let i = 0; i < r; i++) for (let j = 0; j < c; j++) {
+      const k = i * c + j;
+      inner += `<rect x="${10 + j * s}" y="${10 + i * s}" width="${s}" height="${s}" fill="${set.has(k) ? 'rgba(59, 130, 246, 0.55)' : 'var(--bg-surface, #ffffff)'}" stroke="var(--text-main, #334155)" stroke-width="2"/>`;
+    }
+    return g._6svg(20 + c * s, 20 + r * s, inner, 300);
+  };
+
+  // Motifs évolutifs dessinés (carreaux) : étape n -> liste de cases [x, y].
+  const MOTIFS = {
+    L: { nom: 'en forme de L', cells: n => { const a = []; for (let y = 0; y <= n; y++) a.push([0, y]); for (let x = 1; x <= n; x++) a.push([x, n]); return a; } },
+    croix: { nom: 'en forme de croix', cells: n => { const a = [[0, 0]]; for (let i = 1; i <= n; i++) a.push([i, 0], [-i, 0], [0, i], [0, -i]); return a; } },
+    T: { nom: 'en forme de T', cells: n => { const a = []; for (let x = -n; x <= n; x++) a.push([x, 0]); for (let y = 1; y <= n; y++) a.push([0, y]); return a; } },
+    double: { nom: 'en double rangée', cells: n => { const a = []; for (let x = 0; x <= n; x++) a.push([x, 0], [x, 1]); return a; } }
+  };
+  const motifSvg = (g, shape) => {
+    const s = 11, steps = [1, 2, 3].map(n => MOTIFS[shape].cells(n));
+    const box = steps.map(c => {
+      const xs = c.map(p => p[0]), ys = c.map(p => p[1]);
+      return { minx: Math.min(...xs), maxx: Math.max(...xs), miny: Math.min(...ys), maxy: Math.max(...ys) };
+    });
+    const H = Math.max(...box.map(b => (b.maxy - b.miny + 1) * s));
+    let inner = '', ox = 12;
+    steps.forEach((c, i) => {
+      const b = box[i], w = (b.maxx - b.minx + 1) * s, h = (b.maxy - b.miny + 1) * s, top = 10 + H - h;
+      for (const [x, y] of c) inner += `<rect x="${ox + (x - b.minx) * s}" y="${top + (y - b.miny) * s}" width="${s}" height="${s}" fill="rgba(16, 185, 129, 0.35)" stroke="var(--text-main, #334155)" stroke-width="1.2"/>`;
+      inner += g._6svgText(ox + w / 2, 10 + H + 18, `Étape ${i + 1}`, { size: 11 });
+      ox += Math.max(w, 44) + 30;
+    });
+    return g._6svg(ox, H + 40, inner, 340);
+  };
+  const motifCount = (shape, n) => MOTIFS[shape].cells(n).length;
+  const motifInfo = (shape) => {
+    const c1 = motifCount(shape, 1), d = motifCount(shape, 2) - c1;
+    return { c1, d };
+  };
+
+  // =====================================================================
+  // 6N6 — Fractions
+  // =====================================================================
+  G._6X_origWeight('6N6', 1, 5);
+  G._6X_add('6N6', 1, function () {
+    const [r, c] = this.randChoice([[2, 3], [2, 4], [3, 3], [2, 5], [3, 4], [1, 6], [1, 8], [2, 6], [1, 5], [3, 5]]);
+    const n = r * c, a = this.randInt(1, n - 1);
+    const set = new Set(this.shuffle([...Array(n).keys()]).slice(0, a));
+    return mk('6N6', 1, {
+      title: 'Fraction d\'une figure coloriée',
+      statement: `La figure ci-dessous est partagée en parts égales.\n${gridSvg(this, r, c, set)}**Quelle fraction de la figure est coloriée ?** Donner la réponse sous forme de fraction.`,
+      type: 'exact', answer: this._6fracAns(a, n), placeholder: 'Ex : 3/8',
+      hint1: 'Compte d\'abord le nombre total de parts égales, puis le nombre de parts coloriées.',
+      hint2: 'Dans une fraction, le dénominateur indique en combien de parts égales on partage l\'unité ; le numérateur indique combien de parts on prend.',
+      solution: `Étape 1 : la figure est partagée en $${r} \\times ${c} = ${n}$ parts égales (c'est le dénominateur).\nÉtape 2 : $${a}$ parts sont coloriées (c'est le numérateur).\nLa partie coloriée représente $${F(a, n)}$ de la figure${simpTxt(this, a, n)}.`,
+      skill: 'Représenter',
+      _v: { k: '6N6.shaded', r, c, a }
+    });
+  });
+
+  G._6X_origWeight('6N6', 2, 4);
+  G._6X_add('6N6', 2, function () {
+    const d = this.randChoice([2, 4, 5, 20, 25, 50]);
+    let n; do { n = this.randInt(1, 3 * d); } while (n % d === 0);
+    const N = n * 100 / d, m = 100 / d;
+    return mk('6N6', 2, {
+      title: 'Du nombre décimal à la fraction',
+      statement: `Compléter l'égalité :\n$$${this._6tex(N / 100)} = ${F('\\square', d)}$$`,
+      type: 'exact', answer: String(n), placeholder: 'Ex : 3',
+      hint1: 'Écris d\'abord le nombre décimal sous la forme d\'une fraction de dénominateur 100.',
+      hint2: 'On obtient une fraction égale en divisant (ou multipliant) le numérateur et le dénominateur par un même nombre non nul.',
+      solution: `Étape 1 : $${this._6tex(N / 100)} = ${F(N, 100)}$ (le dernier chiffre est au rang des centièmes).\nÉtape 2 : $100 \\div ${d} = ${m}$, donc on divise aussi le numérateur par $${m}$ : $${N} \\div ${m} = ${n}$.\nAinsi $${this._6tex(N / 100)} = ${F(n, d)}$ : le nombre manquant est $${n}$.`,
+      skill: 'Représenter',
+      _v: { k: '6N6.dec2frac', N, d }
+    });
+  });
+
+  G._6X_origWeight('6N6', 3, 3);
+  G._6X_add('6N6', 3, function () {
+    const d = this.randInt(3, 12), k = this.randInt(1, 6), below = Math.random() < 0.5;
+    const ans = below ? k * d - 1 : k * d + 1;
+    return mk('6N6', 3, {
+      title: 'Comparer une fraction à un entier',
+      statement: `Quel est le **${below ? 'plus grand' : 'plus petit'}** nombre entier $n$ tel que :\n$$${F('n', d)} ${below ? '<' : '>'} ${k}$$`,
+      type: 'exact', answer: String(ans),
+      hint1: `Écris l'entier $${k}$ sous la forme d'une fraction de dénominateur $${d}$.`,
+      hint2: 'Deux fractions de même dénominateur sont rangées dans le même ordre que leurs numérateurs.',
+      solution: `Étape 1 : $${k} = ${F(k * d, d)}$.\nÉtape 2 : on veut $${F('n', d)} ${below ? '<' : '>'} ${F(k * d, d)}$, c'est-à-dire $n ${below ? '<' : '>'} ${k * d}$.\nLe ${below ? 'plus grand' : 'plus petit'} entier qui convient est $n = ${ans}$.`,
+      skill: 'Comparer',
+      _v: { k: '6N6.maxnum', d, kk: k, below }
+    });
+  });
+  G._6X_add('6N6', 3, function () {
+    let a, b; do { b = this.randInt(2, 8); a = this.randInt(1, 2 * b); } while (this.gcd(a, b) !== 1 || a === b);
+    const m = this.randInt(1, 4), x = a * m;
+    return mk('6N6', 3, {
+      title: 'Retrouver la longueur de l\'unité',
+      statement: `Sur une demi-droite graduée d'origine O, le point A a pour abscisse $${F(a, b)}$.\nSur le dessin, la longueur OA mesure $${x}$ cm.\n**Quelle est la longueur de l'unité (de O au point d'abscisse 1), en cm ?**`,
+      type: 'exact', answer: String(b * m), placeholder: 'Ex : 6',
+      hint1: `$${F(a, b)}$, c'est $${a}$ fois $${F(1, b)}$ : cherche d'abord la longueur qui correspond à $${F(1, b)}$.`,
+      hint2: `L'unité est partagée en $${b}$ parts égales de longueur $${F(1, b)}$ d'unité.`,
+      solution: `Étape 1 : $${F(a, b)}$ de l'unité mesure $${x}$ cm, donc $${F(1, b)}$ de l'unité mesure $${x} \\div ${a} = ${m}$ cm.\nÉtape 2 : l'unité contient $${b}$ fois $${F(1, b)}$ : $${b} \\times ${m} = ${b * m}$ cm.\nL'unité mesure $${b * m}$ cm.`,
+      skill: 'Représenter',
+      _v: { k: '6N6.unitlen', a, b, x }
+    });
+  });
+
+  G._6X_origWeight('6N6', 4, 4);
+  G._6X_add('6N6', 4, function () {
+    const notDec = (n, d) => { let m = this.simplifyFraction(n, d)[1]; while (m % 2 === 0) m /= 2; while (m % 5 === 0) m /= 5; return m !== 1; };
+    let a, b; do { b = this.randChoice([3, 6, 7, 9, 11, 12]); a = this.randInt(1, 5 * b); } while (!notDec(a, b));
+    const r = Math.round(a / b * 10) / 10;
+    const h = Math.floor(a * 1000 / b) / 1000;
+    const cent = Math.floor(a * 100 / b) % 10;
+    return mk('6N6', 4, {
+      title: 'Arrondir le quotient d\'une fraction',
+      statement: `Le nombre $${F(a, b)}$ n'est pas un nombre décimal.\n**Donner son arrondi au dixième.**`,
+      type: 'exact', answer: this._6ans(r), placeholder: 'Ex : 2,3',
+      hint1: `$${F(a, b)}$ est le quotient de $${a}$ par $${b}$ : pose la division décimale jusqu'au chiffre des centièmes.`,
+      hint2: 'Pour arrondir au dixième, on regarde le chiffre des centièmes : de 0 à 4, on garde le chiffre des dixièmes ; de 5 à 9, on l\'augmente de 1.',
+      solution: `Étape 1 : la division de $${a}$ par $${b}$ donne $${F(a, b)} \\approx ${this._6tex(h)}\\dots$\nÉtape 2 : le chiffre des centièmes est $${cent}$, ${cent >= 5 ? 'on augmente donc le chiffre des dixièmes de 1' : 'on garde donc le chiffre des dixièmes'}.\nL'arrondi au dixième de $${F(a, b)}$ est $${this._6tex(r)}$.`,
+      skill: 'Calculer',
+      _v: { k: '6N6.round10', a, b }
+    });
+  });
+
+  // =====================================================================
+  // 6N7 — Calculs avec les fractions
+  // =====================================================================
+  G._6X_origWeight('6N7', 1, 4);
+  G._6X_add('6N7', 1, function () {
+    const ctx = this.randChoice([
+      { tot: 60, big: 'heure', small: 'minutes', dens: [2, 3, 4, 5, 6, 10, 12] },
+      { tot: 1000, big: 'kilogramme', small: 'grammes', dens: [2, 4, 5, 8, 10] },
+      { tot: 100, big: 'mètre', small: 'centimètres', dens: [2, 4, 5, 10] },
+      { tot: 1000, big: 'litre', small: 'millilitres', dens: [2, 4, 5, 10] }
+    ]);
+    let a, b; do { b = this.randChoice(ctx.dens); a = this.randInt(1, b - 1); } while (this.gcd(a, b) !== 1);
+    const part = ctx.tot / b, ans = part * a;
+    return mk('6N7', 1, {
+      title: 'Fraction d\'une unité de mesure',
+      statement: `Combien de ${ctx.small} y a-t-il dans $${F(a, b)}$ de ${ctx.big} ?`,
+      type: 'exact', answer: String(ans), placeholder: 'Ex : 45',
+      hint1: `Commence par écrire combien de ${ctx.small} il y a dans ${ctx.big === 'heure' ? 'une heure entière' : `un ${ctx.big} entier`}.`,
+      hint2: `Prendre $${F(a, b)}$ d'une quantité : on la partage en $${b}$ parts égales (division par $${b}$), puis on prend $${a}$ part${a > 1 ? 's' : ''} (multiplication par $${a}$).`,
+      solution: `Étape 1 : ${ctx.big === 'heure' ? 'une heure' : `un ${ctx.big}`} vaut $${this._6tex(ctx.tot)}$ ${ctx.small}.\nÉtape 2 : $${this._6tex(ctx.tot)} \\div ${b} = ${this._6tex(part)}$, puis $${this._6tex(part)} \\times ${a} = ${this._6tex(ans)}$.\nIl y a $${this._6tex(ans)}$ ${ctx.small} dans $${F(a, b)}$ de ${ctx.big}.`,
+      skill: 'Calculer',
+      _v: { k: '6N7.ofunit', a, b, tot: ctx.tot }
+    });
+  });
+
+  G._6X_origWeight('6N7', 2, 3);
+  G._6X_add('6N7', 2, function () {
+    let a, b; do { b = this.randInt(3, 15); a = this.randInt(1, b - 1); } while (this.gcd(a, b) !== 1);
+    return mk('6N7', 2, {
+      title: 'Compléter pour obtenir 1',
+      statement: `Quelle fraction faut-il ajouter à $${F(a, b)}$ pour obtenir $1$ ?\nDonner le résultat sous forme de fraction irréductible.`,
+      type: 'exact', answer: this._6fracAns(b - a, b), placeholder: 'Ex : 3/7',
+      hint1: `Écris $1$ sous la forme d'une fraction de dénominateur $${b}$.`,
+      hint2: 'Pour soustraire deux fractions de même dénominateur, on soustrait les numérateurs et on garde le dénominateur.',
+      solution: `Étape 1 : $1 = ${F(b, b)}$.\nÉtape 2 : $${F(b, b)} - ${F(a, b)} = ${F(`${b} - ${a}`, b)} = ${F(b - a, b)}$.\nIl faut ajouter $${F(b - a, b)}$ (vérification : $${F(a, b)} + ${F(b - a, b)} = ${F(b, b)} = 1$).`,
+      _v: { k: '6N7.complete1', a, b }
+    });
+  });
+  G._6X_add('6N7', 2, function () {
+    let a, b; do { b = this.randInt(2, 12); a = this.randInt(1, b - 1); } while (this.gcd(a, b) !== 1);
+    const n = this.randInt(1, 6);
+    return mk('6N7', 2, {
+      title: 'Différence d\'un entier et d\'une fraction',
+      statement: `Calculer :\n$$${n} - ${F(a, b)}$$\nDonner le résultat sous forme de fraction irréductible.`,
+      type: 'exact', answer: this._6fracAns(n * b - a, b), placeholder: 'Ex : 7/4',
+      hint1: `Écris l'entier $${n}$ sous la forme d'une fraction de dénominateur $${b}$.`,
+      hint2: 'Un entier $n$ s\'écrit $\\frac{n \\times b}{b}$ ; on soustrait ensuite les numérateurs en gardant le dénominateur commun.',
+      solution: `Étape 1 : $${n} = ${F(n * b, b)}$.\nÉtape 2 : $${F(n * b, b)} - ${F(a, b)} = ${F(`${n * b} - ${a}`, b)} = ${F(n * b - a, b)}$.\nDonc $${n} - ${F(a, b)} = ${F(n * b - a, b)}$.`,
+      _v: { k: '6N7.subint', n, a, b }
+    });
+  });
+
+  G._6X_origWeight('6N7', 3, 4);
+  G._6X_add('6N7', 3, function () {
+    let a, b; do { b = this.randChoice([3, 4, 5, 6, 8, 10]); a = this.randInt(1, b - 1); } while (this.gcd(a, b) !== 1);
+    const u = this.randInt(2, 15), R = (b - a) * u;
+    const name = this.randChoice(PRENOMS);
+    return mk('6N7', 3, {
+      title: 'Problème : retrouver le total à partir du reste',
+      statement: `${name} a dépensé les $${F(a, b)}$ de son argent de poche. Il lui reste $${R}$ €.\n**Combien avait-il (ou elle) d'argent de poche au départ, en euros ?**`,
+      type: 'exact', answer: String(b * u), placeholder: 'Ex : 60',
+      hint1: 'Commence par trouver la fraction de l\'argent de poche qui reste.',
+      hint2: `Le tout correspond à $1 = ${F(b, b)}$. Si plusieurs parts valent une certaine somme, une part vaut cette somme divisée par le nombre de parts.`,
+      solution: `Étape 1 : il reste $${F(b, b)} - ${F(a, b)} = ${F(b - a, b)}$ de l'argent de poche.\nÉtape 2 : $${b - a}$ part${b - a > 1 ? 's' : ''} sur $${b}$ valent $${R}$ €, donc une part vaut $${R} \\div ${b - a} = ${u}$ €.\nÉtape 3 : le total compte $${b}$ parts : $${b} \\times ${u} = ${b * u}$ €.\n${name} avait $${b * u}$ € au départ.`,
+      skill: 'Résoudre',
+      _v: { k: '6N7.whole2', a, b, R }
+    });
+  });
+
+  G._6X_origWeight('6N7', 4, 4);
+  G._6X_add('6N7', 4, function () {
+    let a, b; do { b = this.randChoice([3, 4, 5, 6, 8, 10]); a = this.randInt(1, b - 1); } while (this.gcd(a, b) !== 1);
+    const u = this.randInt(3, 40), V = a * u;
+    const obj = this.randChoice([['Une cuve', 'L'], ['Un réservoir', 'L'], ['Une piscine gonflable', 'L'], ['Un arrosoir géant', 'L']]);
+    return mk('6N7', 4, {
+      title: 'Remplir un réservoir',
+      statement: `${obj[0]} est remplie aux $${F(a, b)}$ de sa capacité : elle contient $${V}$ ${obj[1]}.\n**Combien de litres faut-il encore ajouter pour la remplir complètement ?**`,
+      type: 'exact', answer: String((b - a) * u), placeholder: 'Ex : 15',
+      hint1: 'Deux étapes : trouve ce que représente une part de la capacité, puis la fraction qui manque.',
+      hint2: `Si $${F(a, b)}$ d'une quantité valent un nombre, alors $${F(1, b)}$ de cette quantité vaut ce nombre divisé par $${a}$.`,
+      solution: `Étape 1 : $${F(a, b)}$ de la capacité valent $${V}$ L, donc $${F(1, b)}$ vaut $${V} \\div ${a} = ${u}$ L.\nÉtape 2 : il manque $${F(b, b)} - ${F(a, b)} = ${F(b - a, b)}$ de la capacité.\nÉtape 3 : $${b - a} \\times ${u} = ${(b - a) * u}$ L.\nIl faut encore ajouter $${(b - a) * u}$ L (la capacité totale est $${b * u}$ L).`,
+      skill: 'Résoudre',
+      _v: { k: '6N7.tank', a, b, V }
+    });
+  });
+
+  // =====================================================================
+  // 6N8 — Pensée algébrique
+  // =====================================================================
+  G._6X_origWeight('6N8', 1, 1.5);
+  G._6X_add('6N8', 1, function () {
+    const a = this.randInt(2, 5), b = this.randInt(1, 10), x = this.randInt(1, 10);
+    const add = Math.random() < 0.6;
+    const r = add ? a * x + b : a * x - b;
+    if (r <= 0) return null;
+    const step2 = add ? `Ajouter $${b}$` : `Soustraire $${b}$`;
+    return mk('6N8', 1, {
+      title: 'Appliquer un programme de calcul',
+      statement: `Voici un programme de calcul :\n• Choisir un nombre.\n• Le multiplier par $${a}$.\n• ${step2} au résultat.\n**Quel nombre obtient-on si l'on choisit $${x}$ au départ ?**`,
+      type: 'exact', answer: String(r),
+      hint1: 'Effectue les instructions une par une, dans l\'ordre, en partant du nombre choisi.',
+      hint2: 'Dans un programme de calcul, chaque étape s\'applique au résultat de l\'étape précédente.',
+      solution: `Étape 1 : $${x} \\times ${a} = ${a * x}$.\nÉtape 2 : $${a * x} ${add ? '+' : '-'} ${b} = ${r}$.\nEn choisissant $${x}$, on obtient $${r}$.`,
+      _v: { k: '6N8.prog1', a, b, x, add }
+    });
+  });
+  G._6X_add('6N8', 1, function () {
+    const d = this.randInt(2, 12), len = this.randInt(4, 5), up = Math.random() < 0.65;
+    const u0 = up ? this.randInt(1, 30) : d * (len + 1) + this.randInt(0, 40);
+    const terms = []; for (let i = 0; i < len; i++) terms.push(u0 + (up ? d : -d) * i);
+    const next = terms[len - 1] + (up ? d : -d);
+    return mk('6N8', 1, {
+      title: 'Compléter une suite de nombres',
+      statement: `Dans cette suite, on passe d'un nombre au suivant en ${up ? 'ajoutant' : 'soustrayant'} toujours le même nombre :\n$$${terms.join(' \\; ; \\; ')} \\; ; \\; \\dots$$\n**Quel est le nombre suivant ?**`,
+      type: 'exact', answer: String(next),
+      hint1: 'Calcule l\'écart entre deux nombres qui se suivent.',
+      hint2: 'Une suite régulière garde le même écart entre deux termes consécutifs : on le vérifie sur plusieurs couples de nombres.',
+      solution: `Étape 1 : écart entre deux nombres consécutifs : $${up ? `${terms[1]} - ${terms[0]}` : `${terms[0]} - ${terms[1]}`} = ${d}$ (on vérifie : il est le même partout).\nÉtape 2 : $${terms[len - 1]} ${up ? '+' : '-'} ${d} = ${next}$.\nLe nombre suivant est $${next}$.`,
+      skill: 'Chercher',
+      _v: { k: '6N8.seq', terms }
+    });
+  });
+  G._6X_add('6N8', 1, function () {
+    const shape = this.randChoice(Object.keys(MOTIFS));
+    const n = this.randInt(4, 6), ans = motifCount(shape, n);
+    const { c1, d } = motifInfo(shape);
+    const steps = [1, 2, 3].map(k => motifCount(shape, k));
+    return mk('6N8', 1, {
+      title: 'Motif évolutif dessiné',
+      statement: `Voici les trois premières étapes d'un motif ${MOTIFS[shape].nom} :\n${motifSvg(this, shape)}**Combien de carreaux compte l'étape $${n}$ ?**`,
+      type: 'exact', answer: String(ans),
+      hint1: 'Compte les carreaux des étapes 1, 2 et 3 : que remarques-tu d\'une étape à la suivante ?',
+      hint2: 'Dans un motif régulier, on ajoute toujours le même nombre de carreaux pour passer d\'une étape à la suivante.',
+      solution: `Étape 1 : on compte $${steps.join('$, $')}$ carreaux : on ajoute $${d}$ carreaux à chaque étape.\nÉtape 2 : on continue : ${[4, 5, 6].slice(0, n - 3).map((k) => `étape $${k}$ : $${motifCount(shape, k - 1)} + ${d} = ${motifCount(shape, k)}$`).join(' ; ')}.\nL'étape $${n}$ compte $${ans}$ carreaux (on peut aussi calculer $${c1} + ${n - 1} \\times ${d} = ${ans}$).`,
+      skill: 'Chercher',
+      _v: { k: '6N8.motif', shape, n }
+    });
+  });
+  G._6X_add('6N8', 1, function () {
+    const op = this.randChoice(['add', 'sub', 'mul', 'half']);
+    let x, a, r, txt, inv, invTxt;
+    if (op === 'add') { x = this.randInt(3, 80); a = this.randInt(5, 60); r = x + a; txt = `Je lui ajoute $${a}$`; inv = `${r} - ${a}`; invTxt = 'Le contraire de « ajouter » est « soustraire »'; }
+    else if (op === 'sub') { x = this.randInt(20, 99); a = this.randInt(3, x - 1); r = x - a; txt = `Je lui soustrais $${a}$`; inv = `${r} + ${a}`; invTxt = 'Le contraire de « soustraire » est « ajouter »'; }
+    else if (op === 'mul') { x = this.randInt(2, 12); a = this.randInt(2, 9); r = x * a; txt = `Je le multiplie par $${a}$`; inv = `${r} \\div ${a}`; invTxt = 'Le contraire de « multiplier » est « diviser »'; }
+    else { x = 2 * this.randInt(3, 40); a = 2; r = x / 2; txt = 'J\'en prends la moitié'; inv = `${r} \\times 2`; invTxt = 'Le contraire de « prendre la moitié » est « doubler »'; }
+    return mk('6N8', 1, {
+      title: 'Je pense à un nombre',
+      statement: `Je pense à un nombre. ${txt}. J'obtiens $${r}$.\n**À quel nombre ai-je pensé ?**`,
+      type: 'exact', answer: String(x),
+      hint1: 'Pour retrouver le nombre de départ, on effectue l\'opération contraire.',
+      hint2: 'Addition et soustraction se « défont » l\'une l\'autre, de même que multiplication et division.',
+      solution: `Étape 1 : ${invTxt}.\nÉtape 2 : $${inv} = ${x}$.\nJ'ai pensé à $${x}$ (vérification : on retrouve bien $${r}$).`,
+      _v: { k: '6N8.think1', op, a, r }
+    });
+  });
+
+  G._6X_origWeight('6N8', 2, 4);
+  G._6X_add('6N8', 2, function () {
+    const d = this.randInt(3, 25), len = 5, u0 = this.randInt(1, 50);
+    const terms = []; for (let i = 0; i < len; i++) terms.push(u0 + d * i);
+    const gap = this.randInt(1, 3);
+    const shown = terms.map((x, i) => (i === gap ? '\\square' : String(x)));
+    return mk('6N8', 2, {
+      title: 'Nombre manquant dans une suite régulière',
+      statement: `Dans cette suite, on ajoute toujours le même nombre pour passer d'un terme au suivant :\n$$${shown.join(' \\; ; \\; ')}$$\n**Quel nombre faut-il écrire dans la case ?**`,
+      type: 'exact', answer: String(terms[gap]),
+      hint1: 'Repère deux nombres connus qui se suivent pour trouver le nombre ajouté à chaque fois.',
+      hint2: 'Dans une suite régulière, l\'écart entre deux termes consécutifs est toujours le même.',
+      solution: `Étape 1 : écart constant : $${gap >= 2 ? `${terms[1]} - ${terms[0]}` : `${terms[4]} - ${terms[3]}`} = ${d}$.\nÉtape 2 : le terme manquant vaut $${terms[gap - 1]} + ${d} = ${terms[gap]}$.\nVérification : $${terms[gap]} + ${d} = ${terms[gap + 1]}$. Le nombre manquant est $${terms[gap]}$.`,
+      skill: 'Chercher',
+      _v: { k: '6N8.seqgap', shown: shown.map(s => (s === '\\square' ? null : +s)) }
+    });
+  });
+  G._6X_add('6N8', 2, function () {
+    const a = this.randInt(2, 9), x = this.randInt(2, 15), b = this.randInt(1, 30);
+    const c = a * x + b;
+    return mk('6N8', 2, {
+      title: 'Égalité à trou en deux étapes',
+      statement: `Quel nombre faut-il écrire dans la case pour que l'égalité soit vraie ?\n$$${a} \\times \\square + ${b} = ${c}$$`,
+      type: 'exact', answer: String(x),
+      hint1: `Commence par trouver la valeur de $${a} \\times \\square$.`,
+      hint2: 'Terme manquant d\'une somme : on soustrait. Facteur manquant d\'un produit : on divise.',
+      solution: `Étape 1 : $${a} \\times \\square + ${b} = ${c}$ donc $${a} \\times \\square = ${c} - ${b} = ${a * x}$.\nÉtape 2 : $\\square = ${a * x} \\div ${a} = ${x}$.\nVérification : $${a} \\times ${x} + ${b} = ${a * x} + ${b} = ${c}$. Le nombre est $${x}$.`,
+      _v: { k: '6N8.hole2', a, b, c }
+    });
+  });
+
+  G._6X_origWeight('6N8', 3, 4);
+  G._6X_add('6N8', 3, function () {
+    const small = this.randInt(5, 60), D = this.randInt(2, 30), big = small + D, S = small + big;
+    const [p1, p2] = this.shuffle(PRENOMS).slice(0, 2);
+    const obj = this.randChoice(['billes', 'cartes', 'timbres', 'images']);
+    const askBig = Math.random() < 0.5;
+    return mk('6N8', 3, {
+      title: 'Somme et différence de deux nombres inconnus',
+      statement: `Ensemble, ${p1} et ${p2} ont $${S}$ ${obj}. ${p2} en a $${D}$ de plus que ${p1}.\n**Combien de ${obj} a ${askBig ? p2 : p1} ?**`,
+      type: 'exact', answer: String(askBig ? big : small),
+      hint1: `Fais un schéma en barres : la barre de ${p2} est celle de ${p1} avec un morceau de $${D}$ en plus.`,
+      hint2: 'Si l\'on retire l\'écart du total, il reste deux parts égales.',
+      solution: `Étape 1 : on retire l'écart : $${S} - ${D} = ${2 * small}$ ; il reste deux parts égales à la part de ${p1}.\nÉtape 2 : ${p1} a $${2 * small} \\div 2 = ${small}$ ${obj}.\nÉtape 3 : ${p2} a $${small} + ${D} = ${big}$ ${obj}.\nVérification : $${small} + ${big} = ${S}$. Réponse : $${askBig ? big : small}$ ${obj}.`,
+      skill: 'Modéliser',
+      _v: { k: '6N8.sumdiff', S, D, askBig }
+    });
+  });
+  G._6X_add('6N8', 3, function () {
+    const shape = this.randChoice(Object.keys(MOTIFS));
+    const n = this.randInt(10, 40), ans = motifCount(shape, n);
+    const { c1, d } = motifInfo(shape);
+    return mk('6N8', 3, {
+      title: 'Motif dessiné : étape éloignée',
+      statement: `Voici les trois premières étapes d'un motif ${MOTIFS[shape].nom} :\n${motifSvg(this, shape)}**Combien de carreaux compte l'étape $${n}$ ?**`,
+      type: 'exact', answer: String(ans),
+      hint1: 'Inutile de dessiner toutes les étapes : cherche combien de carreaux on ajoute à chaque étape et combien de fois on les ajoute.',
+      hint2: 'Entre l\'étape 1 et l\'étape $n$, on effectue $n - 1$ ajouts identiques.',
+      solution: `Étape 1 : l'étape 1 compte $${c1}$ carreaux et on ajoute $${d}$ carreaux à chaque étape.\nÉtape 2 : de l'étape 1 à l'étape $${n}$, on fait $${n - 1}$ ajouts : $${n - 1} \\times ${d} = ${(n - 1) * d}$.\nÉtape 3 : $${c1} + ${(n - 1) * d} = ${ans}$.\nL'étape $${n}$ compte $${ans}$ carreaux.`,
+      skill: 'Chercher',
+      _v: { k: '6N8.motif', shape, n }
+    });
+  });
+
+  G._6X_origWeight('6N8', 4, 4);
+  G._6X_add('6N8', 4, function () {
+    let a, b, c, d, x;
+    do { a = this.randInt(3, 9); c = this.randInt(2, a - 1); x = this.randInt(2, 12); b = this.randInt(1, 20); d = (a - c) * x + b; } while (d > 120);
+    const tbl = [0, 1, 2].map(k => `$${k}$ donne $${a * k + b}$ avec A et $${c * k + d}$ avec B`).join(' ; ');
+    return mk('6N8', 4, {
+      title: 'Deux programmes, un même résultat',
+      statement: `• **Programme A** : choisir un nombre, le multiplier par $${a}$, puis ajouter $${b}$.\n• **Programme B** : choisir un nombre, le multiplier par $${c}$, puis ajouter $${d}$.\n**Quel nombre faut-il choisir pour obtenir le même résultat avec les deux programmes ?**`,
+      type: 'exact', answer: String(x),
+      hint1: 'Teste quelques nombres entiers avec les deux programmes et observe comment évolue l\'écart entre les résultats.',
+      hint2: `Quand le nombre choisi augmente de 1, le résultat de A augmente de $${a}$ et celui de B de $${c}$ : l'écart se réduit donc de $${a} - ${c}$ à chaque fois.`,
+      solution: `Étape 1 : essais : ${tbl}.\nÉtape 2 : avec $0$, l'écart est $${d} - ${b} = ${d - b}$ ; il diminue de $${a - c}$ quand le nombre augmente de 1. Il s'annule après $${d - b} \\div ${a - c} = ${x}$ augmentations.\nÉtape 3 : vérification avec $${x}$ : $${a} \\times ${x} + ${b} = ${a * x + b}$ et $${c} \\times ${x} + ${d} = ${c * x + d}$.\nIl faut choisir $${x}$.`,
+      skill: 'Raisonner',
+      _v: { k: '6N8.twoprogs', a, b, c, d }
+    });
+  });
+  G._6X_add('6N8', 4, function () {
+    const shape = this.randChoice(Object.keys(MOTIFS));
+    const n = this.randInt(12, 60), N = motifCount(shape, n);
+    const { c1, d } = motifInfo(shape);
+    return mk('6N8', 4, {
+      title: 'Motif : retrouver le numéro de l\'étape',
+      statement: `Voici les trois premières étapes d'un motif ${MOTIFS[shape].nom} :\n${motifSvg(this, shape)}**À quelle étape le motif compte-t-il $${N}$ carreaux ?**`,
+      type: 'exact', answer: String(n),
+      hint1: 'Trouve d\'abord combien de carreaux on ajoute à chaque étape, puis combien de carreaux ont été ajoutés depuis l\'étape 1.',
+      hint2: 'Le nombre de carreaux à l\'étape $n$ est égal au nombre de l\'étape 1 augmenté de $n - 1$ ajouts identiques.',
+      solution: `Étape 1 : l'étape 1 compte $${c1}$ carreaux et on en ajoute $${d}$ à chaque étape.\nÉtape 2 : carreaux ajoutés depuis l'étape 1 : $${N} - ${c1} = ${N - c1}$, soit $${N - c1} \\div ${d} = ${n - 1}$ ajouts.\nÉtape 3 : après $${n - 1}$ ajouts, on est à l'étape $${n - 1} + 1 = ${n}$.\nLe motif compte $${N}$ carreaux à l'étape $${n}$.`,
+      skill: 'Chercher',
+      _v: { k: '6N8.motifrev', shape, N }
+    });
+  });
+
+  // =====================================================================
+  // 6P1 — Proportionnalité
+  // =====================================================================
+  const table = (h1, h2, r1, r2) => `$$\\begin{array}{|l|${r1.map(() => 'c').join('|')}|}\\hline \\text{${h1}} & ${r1.join(' & ')} \\\\ \\hline \\text{${h2}} & ${r2.join(' & ')} \\\\ \\hline \\end{array}$$`;
+
+  G._6X_origWeight('6P1', 1, 3);
+  G._6X_add('6P1', 1, function () {
+    const k = this.randInt(2, 9);
+    const xs = this.shuffle([1, 2, 3, 4, 5, 6, 7, 8, 10]).slice(0, 3).sort((a, b) => a - b);
+    const ys = xs.map(x => x * k);
+    const i = this.randInt(1, 2), row = Math.random() < 0.7 ? 'y' : 'x';
+    const ctx = this.randChoice([['Nombre de paquets', 'Nombre de biscuits'], ['Nombre de tours de piste', 'Distance (hm)'], ['Nombre de boîtes', 'Nombre d\'œufs'], ['Nombre de tickets', 'Prix (€)']]);
+    const r1 = xs.map((x, j) => (row === 'x' && j === i ? '\\square' : x));
+    const r2 = ys.map((y, j) => (row === 'y' && j === i ? '\\square' : y));
+    const j0 = i === 1 ? 0 : 1;
+    const ans = row === 'y' ? ys[i] : xs[i];
+    return mk('6P1', 1, {
+      title: 'Compléter un tableau de proportionnalité',
+      statement: `Ce tableau est un tableau de proportionnalité. **Quel nombre faut-il écrire dans la case ?**\n${table(ctx[0], ctx[1], r1, r2)}`,
+      type: 'exact', answer: String(ans),
+      hint1: 'Utilise une colonne complète pour trouver par quel nombre on multiplie la première ligne.',
+      hint2: 'Dans un tableau de proportionnalité, on passe de la première ligne à la deuxième en multipliant toujours par le même nombre : le coefficient de proportionnalité.',
+      solution: `Étape 1 : dans la colonne complète, $${ys[j0]} \\div ${xs[j0]} = ${k}$ : le coefficient de proportionnalité est $${k}$.\nÉtape 2 : ${row === 'y' ? `$${xs[i]} \\times ${k} = ${ys[i]}$` : `on cherche le nombre qui, multiplié par $${k}$, donne $${ys[i]}$ : $${ys[i]} \\div ${k} = ${xs[i]}$`}.\nLe nombre manquant est $${ans}$.`,
+      skill: 'Calculer',
+      _v: { k: '6P1.tab', r1: r1.map(v => (v === '\\square' ? null : v)), r2: r2.map(v => (v === '\\square' ? null : v)) }
+    });
+  });
+  G._6X_add('6P1', 1, function () {
+    const p = this.randChoice([10, 25, 50]);
+    const N = (p === 25 ? 4 : (p === 50 ? 2 : 10)) * this.randInt(2, 30);
+    const obj = this.randChoice(['Un pull', 'Un jeu de société', 'Une lampe', 'Un ballon', 'Un livre']);
+    const how = p === 50 ? 'la moitié' : (p === 25 ? 'le quart' : 'le dixième');
+    const div = p === 50 ? 2 : (p === 25 ? 4 : 10);
+    return mk('6P1', 1, {
+      title: 'Pourcentage simple',
+      statement: `${obj} coûte $${N}$ €. Le magasin accorde une réduction de $${p} \\, \\%$.\n**Quel est le montant de la réduction, en euros ?**`,
+      type: 'exact', answer: String(N / div),
+      hint1: `$${p} \\, \\%$ correspond à une fraction simple du prix : laquelle ?`,
+      hint2: `Rappel : $${p} \\, \\% = ${F(p, 100)}$ ; un pourcentage est une fraction de dénominateur cent, que l'on peut souvent simplifier.`,
+      solution: `Étape 1 : $${p} \\, \\% = ${F(p, 100)}$, c'est ${how}.\nÉtape 2 : $${N} \\div ${div} = ${N / div}$.\nLa réduction est de $${N / div}$ €.`,
+      _v: { k: '6P1.pctsimple', p, N }
+    });
+  });
+  G._6X_add('6P1', 1, function () {
+    const u = this.randInt(2, 9), a = this.randInt(2, 5);
+    let b; do { b = this.randInt(2, 7); } while (b === a);
+    const it = this.randChoice([['cahiers', 'cahiers'], ['croissants', 'croissants'], ['tickets de bus', 'tickets'], ['places de musée', 'places']]);
+    return mk('6P1', 1, {
+      title: 'Linéarité additive',
+      statement: `Le prix est proportionnel au nombre d'articles.\n• $${a}$ ${it[0]} coûtent $${a * u}$ €.\n• $${b}$ ${it[0]} coûtent $${b * u}$ €.\n**Combien coûtent $${a + b}$ ${it[1]} ?**`,
+      type: 'exact', answer: String((a + b) * u),
+      hint1: `Remarque que $${a + b} = ${a} + ${b}$.`,
+      hint2: 'Dans une situation de proportionnalité, à la somme de deux quantités correspond la somme des prix.',
+      solution: `Étape 1 : $${a + b}$ ${it[1]}, c'est $${a}$ ${it[1]} et $${b}$ ${it[1]}.\nÉtape 2 : le prix est donc $${a * u} + ${b * u} = ${(a + b) * u}$ €.\n$${a + b}$ ${it[1]} coûtent $${(a + b) * u}$ €.`,
+      skill: 'Résoudre',
+      _v: { k: '6P1.addlin', a, A: a * u, b, B: b * u }
+    });
+  });
+
+  G._6X_origWeight('6P1', 2, 4);
+  G._6X_add('6P1', 2, function () {
+    const N = this.randChoice([20, 25, 50, 200, 300, 400, 500]);
+    let p; do { p = this.randChoice([10, 20, 25, 30, 40, 50, 60, 75, 80, 90]); } while ((N * p) % 100 !== 0);
+    const M = N * p / 100;
+    const ctx = this.randChoice([['Un collège compte', 'élèves', 'sont demi-pensionnaires', 'd\'élèves demi-pensionnaires'], ['Une salle de concert contient', 'places', 'sont occupées', 'de places occupées'], ['Un verger compte', 'arbres', 'sont des pommiers', 'de pommiers']]);
+    return mk('6P1', 2, {
+      title: 'Exprimer une proportion en pourcentage',
+      statement: `${ctx[0]} $${N}$ ${ctx[1]}, dont $${M}$ ${ctx[2]}.\n**Quel est le pourcentage ${ctx[3]} ?** (donner le nombre seul, sans le symbole %)`,
+      type: 'exact', answer: String(p), placeholder: 'Ex : 35',
+      hint1: `Cherche combien cela représenterait sur $100$ ${ctx[1]} (et non sur $${N}$).`,
+      hint2: 'Un pourcentage est une proportion exprimée sur 100 : $p \\, \\%$ signifie $p$ sur $100$.',
+      solution: `Étape 1 : la proportion est $${F(M, N)}$.\nÉtape 2 : on cherche une fraction égale de dénominateur $100$ : ${N > 100 ? `$${F(M, N)} = ${F(`${M} \\div ${N / 100}`, `${N} \\div ${N / 100}`)}` : `$${F(M, N)} = ${F(`${M} \\times ${100 / N}`, `${N} \\times ${100 / N}`)}`} = ${F(p, 100)}$.\nLe pourcentage est $${p} \\, \\%$.`,
+      skill: 'Calculer',
+      _v: { k: '6P1.pctfind', N, M }
+    });
+  });
+
+  G._6X_origWeight('6P1', 3, 4);
+  G._6X_add('6P1', 3, function () {
+    const p = this.randChoice([5, 10, 15, 20, 25, 50]);
+    const N = this.randInt(2, 40) * 20;
+    const inc = N * p / 100;
+    const obj = this.randChoice(['de l\'abonnement de transport', 'de la cotisation au club de sport', 'du loyer d\'un garage', 'de l\'abonnement à la médiathèque']);
+    return mk('6P1', 3, {
+      title: 'Augmentation en pourcentage',
+      statement: `Le prix ${obj}, qui était de $${N}$ €, augmente de $${p} \\, \\%$.\n**Quel est le nouveau prix, en euros ?**`,
+      type: 'exact', answer: this._6ans(N + inc), placeholder: 'Ex : 46',
+      hint1: 'Calcule d\'abord le montant de l\'augmentation, puis ajoute-le au prix de départ.',
+      hint2: `Rappel : prendre $${p} \\, \\%$ d'un nombre, c'est le multiplier par $${p}$ puis diviser le résultat par cent.`,
+      solution: `Étape 1 : augmentation : $${F(p, 100)} \\times ${N} = ${this._6tex(inc)}$ €.\nÉtape 2 : nouveau prix : $${N} + ${this._6tex(inc)} = ${this._6tex(N + inc)}$ €.\nLe nouveau prix est $${this._6tex(N + inc)}$ €.`,
+      _v: { k: '6P1.pctinc', p, N }
+    });
+  });
+  G._6X_add('6P1', 3, function () {
+    const p = this.randChoice([2, 4, 6]), g = this.randChoice([25, 30, 40, 50, 60, 75]);
+    let n2; do { n2 = this.randInt(3, 15); } while (n2 === p || n2 % p === 0);
+    const q = p * g, Q = n2 * g;
+    const ing = this.randChoice(['farine', 'sucre', 'riz', 'chocolat']);
+    return mk('6P1', 3, {
+      title: 'Recette : nombre de personnes',
+      statement: `Une recette pour $${p}$ personnes demande $${q}$ g de ${ing}. On utilise $${this._6tex(Q)}$ g de ${ing} en respectant les proportions.\n**Pour combien de personnes prépare-t-on la recette ?**`,
+      type: 'exact', answer: String(n2), placeholder: 'Ex : 9',
+      hint1: 'Calcule d\'abord la masse nécessaire pour une seule personne.',
+      hint2: 'Passage par l\'unité : dans une situation de proportionnalité, on calcule d\'abord la valeur correspondant à 1.',
+      solution: `Étape 1 : pour $1$ personne : $${q} \\div ${p} = ${g}$ g de ${ing}.\nÉtape 2 : nombre de personnes : $${this._6tex(Q)} \\div ${g} = ${n2}$.\nOn prépare la recette pour $${n2}$ personnes.`,
+      _v: { k: '6P1.recipeinv', p, q, Q }
+    });
+  });
+
+  G._6X_origWeight('6P1', 4, 4);
+  G._6X_add('6P1', 4, function () {
+    const base = this.randChoice([10, 15, 20]), dd = this.randInt(4, 30);
+    const i = this.randInt(2, 4);
+    let j; do { j = this.randInt(4, 10); } while (j === i || j % i === 0);
+    const m1 = base * i, m2 = base * j;
+    const veh = this.randChoice(['Un train', 'Un car', 'Une voiture', 'Un bateau']);
+    return mk('6P1', 4, {
+      title: 'Vitesse constante et durées',
+      statement: `${veh} roule à vitesse constante. Il parcourt $${dd * i}$ km en ${dur(m1)}.\n**Quelle distance parcourt-il en ${dur(m2)}, en km ?**`,
+      type: 'exact', answer: String(dd * j), placeholder: 'Ex : 105',
+      hint1: 'Convertis les deux durées en minutes, puis cherche une durée « simple » contenue un nombre entier de fois dans chacune.',
+      hint2: 'À vitesse constante, la distance parcourue est proportionnelle à la durée du trajet.',
+      solution: `Étape 1 : ${dur(m1)} $= ${m1}$ min et ${dur(m2)} $= ${m2}$ min.\nÉtape 2 : en $${base}$ min, il parcourt $${dd * i} \\div ${i} = ${dd}$ km (car $${m1} = ${i} \\times ${base}$).\nÉtape 3 : $${m2} = ${j} \\times ${base}$, donc il parcourt $${j} \\times ${dd} = ${dd * j}$ km.\nEn ${dur(m2)}, il parcourt $${dd * j}$ km.`,
+      skill: 'Résoudre',
+      _v: { k: '6P1.speed', D: dd * i, m1, m2 }
+    });
+  });
+  G._6X_add('6P1', 4, function () {
+    const step = { 20: 5, 25: 4, 50: 2 };
+    let n1, n2, p1, p2, a1, a2;
+    do {
+      n1 = this.randChoice([20, 25, 50]); n2 = this.randChoice([20, 25, 50]);
+      p1 = step[n1] * this.randInt(Math.ceil(20 / step[n1]), Math.floor(90 / step[n1]));
+      p2 = step[n2] * this.randInt(Math.ceil(20 / step[n2]), Math.floor(90 / step[n2]));
+      a1 = n1 * p1 / 100; a2 = n2 * p2 / 100;
+    } while (p1 === p2 || n1 === n2 || (a1 > a2) === (p1 > p2) && Math.random() < 0.6);
+    return mk('6P1', 4, {
+      title: 'Comparer deux proportions',
+      statement: `Dans la classe A, $${a1}$ élèves sur $${n1}$ font partie d'un club sportif. Dans la classe B, ce sont $${a2}$ élèves sur $${n2}$.\n**Quel est le plus grand des deux pourcentages d'élèves inscrits dans un club ?** (donner le nombre seul)`,
+      type: 'exact', answer: String(Math.max(p1, p2)), placeholder: 'Ex : 64',
+      hint1: 'Les effectifs des classes sont différents : compare des proportions, pas des nombres d\'élèves. Exprime chacune sur 100.',
+      hint2: 'Un pourcentage est une fraction de dénominateur 100 ; on obtient une fraction égale en multipliant numérateur et dénominateur par un même nombre.',
+      solution: `Étape 1 : classe A : $${F(a1, n1)} = ${F(`${a1} \\times ${100 / n1}`, `${n1} \\times ${100 / n1}`)} = ${F(p1, 100)}$, soit $${p1} \\, \\%$.\nÉtape 2 : classe B : $${F(a2, n2)} = ${F(`${a2} \\times ${100 / n2}`, `${n2} \\times ${100 / n2}`)} = ${F(p2, 100)}$, soit $${p2} \\, \\%$.\nLe plus grand pourcentage est $${Math.max(p1, p2)} \\, \\%$ (classe ${p1 > p2 ? 'A' : 'B'})${(a1 > a2) !== (p1 > p2) ? ', alors que cette classe compte moins d\'inscrits' : ''}.`,
+      skill: 'Raisonner',
+      _v: { k: '6P1.pctcmp', a1, n1, a2, n2 }
+    });
+  });
+})();
+
+// ----- Extensions 6ème, groupe C (audit 2026-10-31) -----
+// ----- Extensions 6M1, 6M2, 6M3, 6M4, 6G1 (audit pédagogique 2026-10-31) -----
+(function () {
+  'use strict';
+  if (typeof window === 'undefined' || !window.MathsGenerators || !window.MathsGenerators._6X_add) return;
+  const G = window.MathsGenerators;
+  const PRENOMS = ['Léa', 'Hugo', 'Inès', 'Noah', 'Jade', 'Adam', 'Chloé', 'Rayan', 'Lina', 'Tom', 'Zoé', 'Malo'];
+
+  // Figure « en colonnes » sur quadrillage : heights[i] = nombre de carreaux de la colonne i (posés sur le bas).
+  const gridHeights = (g) => {
+    let hs;
+    do {
+      const n = g.randInt(3, 6);
+      hs = [];
+      for (let i = 0; i < n; i++) hs.push(g.randInt(1, 4));
+    } while (new Set(hs).size < 2);
+    return hs;
+  };
+  const gridSvg = (g, hs) => {
+    const c = 24, n = hs.length, hm = Math.max(...hs);
+    const nx = n + 2, ny = hm + 2;
+    let s = '';
+    for (let i = 0; i <= nx; i++) s += `<line x1="${i * c}" y1="0" x2="${i * c}" y2="${ny * c}" stroke="var(--border-color, #cbd5e1)" stroke-width="1"/>`;
+    for (let j = 0; j <= ny; j++) s += `<line x1="0" y1="${j * c}" x2="${nx * c}" y2="${j * c}" stroke="var(--border-color, #cbd5e1)" stroke-width="1"/>`;
+    hs.forEach((h, i) => {
+      for (let k = 0; k < h; k++) {
+        s += `<rect x="${(i + 1) * c}" y="${(ny - 1 - (k + 1)) * c}" width="${c}" height="${c}" fill="rgba(37, 99, 235, 0.35)" stroke="#1e3a8a" stroke-width="1.4"/>`;
+      }
+    });
+    return g._6svg(nx * c, ny * c, s, 260);
+  };
+
+  // =====================================================================
+  // 6M1 — Longueurs et périmètres
+  // =====================================================================
+  G._6X_origWeight('6M1', 1, 3);
+  G._6X_add('6M1', 1, function () {
+    const hs = gridHeights(this);
+    const n = hs.length;
+    let vert = hs[0] + hs[n - 1];
+    for (let i = 0; i + 1 < n; i++) vert += Math.abs(hs[i] - hs[i + 1]);
+    const per = 2 * n + vert;
+    return this._6mQ('6M1', 1, {
+      title: 'Périmètre sur un quadrillage',
+      statement: `Sur le quadrillage ci-dessous, chaque carreau est un carré de $1\\text{ cm}$ de côté.\n${gridSvg(this, hs)}**Quel est le périmètre de la figure colorée, en cm ?**`,
+      type: 'exact', answer: String(per), placeholder: 'Ex : 14',
+      hint1: 'Fais le tour de la figure avec ton doigt en comptant les côtés de carreaux, sans en oublier ni en compter deux fois.',
+      hint2: 'Le périmètre est la longueur du contour : seuls les côtés de carreaux situés sur le bord de la figure comptent.',
+      solution: `**Méthode :** on parcourt le contour de la figure.\n` +
+        `• Côtés horizontaux : la figure a ${n} colonnes, chacune donne un côté en haut et un côté en bas, soit $2 \\times ${n} = ${2 * n}$ côtés.\n` +
+        `• Côtés verticaux : $${hs[0]}$ à gauche, $${hs[n - 1]}$ à droite et les « marches » entre colonnes, soit $${vert}$ côtés.\n` +
+        `Le périmètre vaut $${2 * n} + ${vert} = ${per}$ côtés de carreau, donc **$${per}\\text{ cm}$**.`,
+      _v: { k: '6M1.gridper', hs }
+    }, 'Calculer');
+  });
+
+  G._6X_origWeight('6M1', 3, 4);
+  G._6X_add('6M1', 3, function () {
+    const d = this.randInt(4, 40);
+    const half = this._6r(3.14 * d / 2);
+    const per = this._6r(d + half);
+    const T = x => this._6tex(x);
+    return this._6mQ('6M1', 3, {
+      title: "Périmètre d'un demi-disque",
+      statement: `Un demi-disque a pour diamètre $${d}\\text{ cm}$.\n**Calculer son périmètre en cm, en prenant $3{,}14$ comme valeur approchée de $\\pi$.**`,
+      type: 'exact', answer: this._6ans(per),
+      hint1: "Le contour d'un demi-disque est formé de deux parties : un demi-cercle et… un segment. Lequel ?",
+      hint2: 'Longueur d\'un cercle de diamètre $d$ : $\\pi \\times d$ ; un demi-cercle en mesure la moitié.',
+      solution: `**Étape 1 :** le demi-cercle mesure la moitié de la longueur du cercle : $3{,}14 \\times ${d} \\div 2 = ${T(half)}\\text{ cm}$.\n` +
+        `**Étape 2 :** le contour comprend aussi le diamètre, qui mesure $${d}\\text{ cm}$.\n` +
+        `$$P = ${T(half)} + ${d} = ${T(per)}\\text{ cm}$$\nLe périmètre du demi-disque est d'environ **$${T(per)}\\text{ cm}$**.`,
+      _v: { k: '6M1.demidisque', d }
+    }, 'Calculer');
+  });
+
+  G._6X_origWeight('6M1', 4, 4);
+  G._6X_add('6M1', 4, function () {
+    const d = this.randChoice([50, 60, 64, 70, 72, 80]);
+    const Dm = this.randInt(2, 30) * 50;
+    const tour = this._6r(3.14 * d);
+    const nb = Math.floor(Dm * 100 / tour);
+    const T = x => this._6tex(x);
+    return this._6mQ('6M1', 4, {
+      title: 'Combien de tours de roue ?',
+      statement: `Une roue a un diamètre de $${d}\\text{ cm}$. Le vélo doit parcourir $${T(Dm)}\\text{ m}$.\n**Combien de tours complets la roue fait-elle sur ce trajet ?** *(Prendre $3{,}14$ pour $\\pi$.)*`,
+      type: 'exact', answer: String(nb), placeholder: 'Ex : 250',
+      hint1: 'Calcule la distance parcourue en un tour de roue, puis cherche combien de fois elle « rentre » dans la distance totale (même unité !).',
+      hint2: "En un tour, la roue avance de la longueur de son cercle : $\\pi \\times d$. Et $1\\text{ m} = 100\\text{ cm}$.",
+      solution: `**Étape 1 :** un tour de roue : $3{,}14 \\times ${d} = ${T(tour)}\\text{ cm}$.\n` +
+        `**Étape 2 :** on convertit : $${T(Dm)}\\text{ m} = ${T(Dm * 100)}\\text{ cm}$.\n` +
+        `**Étape 3 :** $${T(Dm * 100)} \\div ${T(tour)} \\approx ${T(Math.floor(Dm * 100 / tour * 100) / 100)}$.\n` +
+        `La roue fait donc **${nb} tours complets** (le tour suivant n'est pas terminé).`,
+      _v: { k: '6M1.tours', d, Dm }
+    }, 'Modéliser');
+  });
+
+  // =====================================================================
+  // 6M2 — Aires
+  // =====================================================================
+  G._6X_origWeight('6M2', 1, 3);
+  G._6X_add('6M2', 1, function () {
+    const hs = gridHeights(this);
+    const area = hs.reduce((a, b) => a + b, 0);
+    return this._6mQ('6M2', 1, {
+      title: 'Aire par comptage de carreaux',
+      statement: `Sur le quadrillage ci-dessous, chaque carreau a une aire de $1\\text{ cm}^2$.\n${gridSvg(this, hs)}**Quelle est l'aire de la figure colorée, en cm² ?**`,
+      type: 'exact', answer: String(area), placeholder: 'Ex : 12',
+      hint1: 'Compte les carreaux colonne par colonne, puis additionne.',
+      hint2: "L'aire mesure la surface : c'est le nombre de carreaux unités recouverts par la figure (et non le nombre de côtés du contour).",
+      solution: `On compte les carreaux colonne par colonne : $${hs.join(' + ')} = ${area}$.\nLa figure recouvre ${area} carreaux de $1\\text{ cm}^2$ : son aire est **$${area}\\text{ cm}^2$**.`,
+      _v: { k: '6M2.gridaire', hs }
+    }, 'Calculer');
+  });
+  G._6X_add('6M2', 1, function () {
+    const items = [
+      ['la surface d\'un terrain de football', 'm²'], ['la surface d\'une page de cahier', 'cm²'],
+      ['la surface d\'un timbre', 'mm²'], ['la surface d\'une région française', 'km²'],
+      ['le tour d\'un jardin', 'm'], ['la superficie d\'un appartement', 'm²']
+    ];
+    const [obj, u] = this.randChoice(items);
+    const all = ['m²', 'cm²', 'mm²', 'km²', 'm'];
+    const fmt = x => (x.includes('²') ? `$\\text{${x.replace('²', '')}}^2$` : `$\\text{${x}}$`);
+    const q = this._6mQ('6M2', 1, {
+      title: 'Choisir une unité adaptée',
+      statement: `Quelle est l'unité la mieux adaptée pour exprimer **${obj}** ?`,
+      hint1: 'Demande-toi d\'abord s\'il s\'agit d\'une aire (une surface) ou d\'une longueur (un contour), puis estime l\'ordre de grandeur.',
+      hint2: 'Une aire s\'exprime dans une unité « carrée » (mm², cm², m², km²) ; une longueur dans une unité simple (mm, cm, m, km).',
+      solution: u === 'm'
+        ? `Le tour d'un jardin est une **longueur** (un périmètre) : on l'exprime en mètres, donc **${fmt(u)}**.`
+        : `Il s'agit d'une **aire**, donc d'une unité « carrée ». Compte tenu de la taille de l'objet, l'unité adaptée est **${fmt(u)}**.`,
+      _v: { k: '6M2.unite', obj, u }
+    }, 'Communiquer');
+    const opts = this.shuffle(all.filter(x => x !== u)).slice(0, 3).map(fmt);
+    return this._6mcq(q, fmt(u), opts);
+  });
+
+  G._6X_origWeight('6M2', 2, 4);
+  G._6X_add('6M2', 2, function () {
+    // rectangle a × b et carré de côté c : comparer aires ou périmètres
+    let a, b, c;
+    do {
+      a = this.randInt(2, 15); b = this.randInt(1, a - 1); c = this.randInt(2, 12);
+    } while (c * c === a * b && 2 * c === a + b || 2 * c === a + b && Math.random() < 0.7);
+    const ask = this.randChoice(['aire', 'périmètre']);
+    const vR = ask === 'aire' ? a * b : 2 * (a + b), vC = ask === 'aire' ? c * c : 4 * c;
+    const opts = ['le rectangle', 'le carré', 'ils sont égaux'];
+    const correct = vR > vC ? opts[0] : vR < vC ? opts[1] : opts[2];
+    const u = ask === 'aire' ? '\\text{ cm}^2' : '\\text{ cm}';
+    const q = this._6mQ('6M2', 2, {
+      title: 'Comparer les aires ou les périmètres de deux figures',
+      statement: `Un rectangle mesure $${a}\\text{ cm}$ sur $${b}\\text{ cm}$. Un carré a pour côté $${c}\\text{ cm}$.\n**Laquelle de ces deux figures a ${ask === 'aire' ? 'la plus grande aire' : 'le plus grand périmètre'} ?**`,
+      hint1: `Calcule ${ask === 'aire' ? "l'aire" : 'le périmètre'} de chaque figure, puis compare les deux nombres.`,
+      hint2: ask === 'aire' ? 'Aire du rectangle : $L \\times \\ell$ ; aire du carré : $c \\times c$.' : 'Périmètre du rectangle : $2 \\times (L + \\ell)$ ; périmètre du carré : $4 \\times c$.',
+      solution: `**Rectangle :** ${ask === 'aire' ? `$${a} \\times ${b} = ${vR}${u}$` : `$2 \\times (${a} + ${b}) = ${vR}${u}$`}.\n` +
+        `**Carré :** ${ask === 'aire' ? `$${c} \\times ${c} = ${vC}${u}$` : `$4 \\times ${c} = ${vC}${u}$`}.\n` +
+        `On compare $${vR}$ et $${vC}$ : la réponse est **${correct}**.\n*(Attention : une figure peut avoir la plus grande aire sans avoir le plus grand périmètre.)*`,
+      _v: { k: '6M2.cmpfig', a, b, c, ask }
+    }, 'Raisonner');
+    return this._6mcq(q, correct, opts.filter(o => o !== correct));
+  });
+  G._6X_add('6M2', 2, function () {
+    const c = this.randInt(3, 25);
+    const P = 4 * c;
+    return this._6mQ('6M2', 2, {
+      title: "Du périmètre à l'aire d'un carré",
+      statement: `Un carré a un périmètre de $${P}\\text{ cm}$.\n**Quelle est son aire, en cm² ?**`,
+      type: 'exact', answer: String(c * c), placeholder: 'Ex : 49',
+      hint1: "On ne peut pas calculer l'aire directement : cherche d'abord la longueur du côté.",
+      hint2: 'Carré de côté $c$ : périmètre $P = 4 \\times c$ et aire $\\mathcal{A} = c \\times c$.',
+      solution: `**Étape 1 :** $P = 4 \\times c$, donc $c = ${P} \\div 4 = ${c}\\text{ cm}$.\n**Étape 2 :** $$\\mathcal{A} = ${c} \\times ${c} = ${c * c}\\text{ cm}^2$$\nL'aire du carré est **$${c * c}\\text{ cm}^2$**.`,
+      _v: { k: '6M2.per2aire', P }
+    }, 'Calculer');
+  });
+
+  G._6X_origWeight('6M2', 3, 3);
+  G._6X_add('6M2', 3, function () {
+    let a, b, h;
+    do { a = this.randInt(3, 14); b = this.randInt(2, 10); h = this.randInt(2, 10); } while ((b * h) % 2 !== 0);
+    const rect = a * h, tri = b * h / 2, tot = rect + tri;
+    const sc = 160 / (a + b), x0 = 30, y0 = 20, H = Math.max(40, h * sc), y1 = y0 + H;
+    const xa = x0 + a * sc, xb = x0 + (a + b) * sc;
+    let s = `<polygon points="${x0},${y0} ${xa},${y0} ${xb},${y1} ${x0},${y1}" fill="rgba(16, 185, 129, 0.15)" stroke="var(--text-main, #334155)" stroke-width="2"/>`;
+    s += `<line x1="${xa}" y1="${y0}" x2="${xa}" y2="${y1}" stroke="var(--text-muted, #64748b)" stroke-dasharray="4 3"/>`;
+    s += `<polyline points="${x0},${y1 - 10} ${x0 + 10},${y1 - 10} ${x0 + 10},${y1}" fill="none" stroke="var(--text-main, #334155)" stroke-width="1.2"/>`;
+    s += `<polyline points="${x0},${y0 + 10} ${x0 + 10},${y0 + 10} ${x0 + 10},${y0}" fill="none" stroke="var(--text-main, #334155)" stroke-width="1.2"/>`;
+    s += this._6svgText((x0 + xa) / 2, y0 - 6, `${a} cm`);
+    s += this._6svgText((x0 + xb) / 2, y1 + 16, `${a + b} cm`);
+    s += this._6svgText(x0 - 6, (y0 + y1) / 2 + 4, `${h} cm`, { anchor: 'end' });
+    const fig = this._6svg(240, Math.round(y1 + 26), s, 300);
+    return this._6mQ('6M2', 3, {
+      title: 'Aire par découpage : rectangle et triangle rectangle',
+      statement: `La figure ci-dessous a deux angles droits (dimensions en cm, figure non à l'échelle). Le pointillé la partage en un rectangle et un triangle rectangle.\n${fig}**Calculer l'aire de cette figure en cm².**`,
+      type: 'exact', answer: this._6ans(tot),
+      hint1: 'Calcule séparément l\'aire du rectangle et celle du triangle rectangle (cherche d\'abord la base du triangle), puis additionne.',
+      hint2: 'Un triangle rectangle dont les côtés de l\'angle droit mesurent $a$ et $b$ est la moitié d\'un rectangle : son aire vaut $\\frac{a \\times b}{2}$.',
+      solution: `**Étape 1 (rectangle) :** $${a} \\times ${h} = ${rect}\\text{ cm}^2$.\n` +
+        `**Étape 2 (triangle rectangle) :** sa base mesure $${a + b} - ${a} = ${b}\\text{ cm}$ et sa hauteur $${h}\\text{ cm}$ ; c'est la moitié d'un rectangle de $${b}\\text{ cm}$ sur $${h}\\text{ cm}$ : $${b} \\times ${h} \\div 2 = ${this._6tex(tri)}\\text{ cm}^2$.\n` +
+        `**Étape 3 :** $$\\mathcal{A} = ${rect} + ${this._6tex(tri)} = ${this._6tex(tot)}\\text{ cm}^2$$`,
+      _v: { k: '6M2.trapeze', a, b, h }
+    }, 'Modéliser');
+  });
+
+  // =====================================================================
+  // 6M3 — Volumes
+  // =====================================================================
+  G._6X_origWeight('6M3', 1, 3);
+  G._6X_add('6M3', 1, function () {
+    const items = [
+      ['le volume d\'eau d\'une piscine', 'm³'], ['le volume d\'une benne de camion', 'm³'],
+      ['la contenance d\'une bouteille d\'eau', 'L'], ['la contenance d\'un réservoir de voiture', 'L'],
+      ['la contenance d\'une cuillère à café', 'mL'], ['la contenance d\'une seringue', 'mL']
+    ];
+    const [obj, u] = this.randChoice(items);
+    const fmt = x => (x === 'm³' ? '$\\text{m}^3$' : x === 'm²' ? '$\\text{m}^2$' : `$\\text{${x}}$`);
+    const others = ['m³', 'L', 'mL', 'm²'].filter(x => x !== u);
+    const q = this._6mQ('6M3', 1, {
+      title: 'Choisir une unité de volume adaptée',
+      statement: `Quelle est l'unité la mieux adaptée pour exprimer **${obj}** ?`,
+      hint1: 'Imagine la taille de l\'objet : tient-il dans une main, dans une cuisine, ou faut-il un camion ?',
+      hint2: '$1\\text{ m}^3 = 1\\,000\\text{ L}$ et $1\\text{ L} = 1\\,000\\text{ mL}$. Attention : le m² est une unité d\'aire, pas de volume.',
+      solution: `Il s'agit d'un volume (ou d'une contenance). Compte tenu de la taille de l'objet, l'unité adaptée est **${fmt(u)}**.\n(Le $\\text{m}^2$ mesure une aire : il ne convient jamais pour un volume.)`,
+      _v: { k: '6M3.unite', obj, u }
+    }, 'Communiquer');
+    return this._6mcq(q, fmt(u), others.map(fmt));
+  });
+  G._6X_add('6M3', 1, function () {
+    let A, B;
+    do {
+      A = [this.randInt(2, 6), this.randInt(2, 5), this.randInt(1, 4)];
+      B = [this.randInt(2, 6), this.randInt(2, 5), this.randInt(1, 4)];
+    } while (A[0] * A[1] * A[2] === B[0] * B[1] * B[2]);
+    const vA = A[0] * A[1] * A[2], vB = B[0] * B[1] * B[2];
+    return this._6mQ('6M3', 1, {
+      title: 'Comparer deux volumes',
+      statement: `Avec des cubes de $1\\text{ cm}^3$, ${this.randChoice(PRENOMS)} construit deux pavés droits :\n• le pavé A : ${A[0]} cubes de long, ${A[1]} de large et ${A[2]} de haut ;\n• le pavé B : ${B[0]} cubes de long, ${B[1]} de large et ${B[2]} de haut.\n**Quelle est la différence entre les deux volumes, en cm³ ?**`,
+      type: 'exact', answer: String(Math.abs(vA - vB)), placeholder: 'Ex : 6',
+      hint1: 'Calcule le nombre de cubes de chaque pavé (cubes par couche × nombre de couches), puis fais la différence.',
+      hint2: 'Volume d\'un pavé droit : longueur × largeur × hauteur.',
+      solution: `**Pavé A :** $${A[0]} \\times ${A[1]} \\times ${A[2]} = ${vA}$ cubes, soit $${vA}\\text{ cm}^3$.\n**Pavé B :** $${B[0]} \\times ${B[1]} \\times ${B[2]} = ${vB}$ cubes, soit $${vB}\\text{ cm}^3$.\nDifférence : $${Math.max(vA, vB)} - ${Math.min(vA, vB)} = ${Math.abs(vA - vB)}$. Le pavé ${vA > vB ? 'A' : 'B'} a **$${Math.abs(vA - vB)}\\text{ cm}^3$** de plus.`,
+      _v: { k: '6M3.compare', A, B }
+    }, 'Calculer');
+  });
+
+  G._6X_origWeight('6M3', 2, 3);
+  G._6X_add('6M3', 2, function () {
+    const a = this.randInt(4, 12);
+    const V = a * a * a;
+    return this._6mQ('6M3', 2, {
+      title: "Retrouver l'arête d'un cube",
+      statement: `Un cube a un volume de $${this._6tex(V)}\\text{ cm}^3$.\n**Quelle est la longueur de son arête, en cm ?**`,
+      type: 'exact', answer: String(a), placeholder: 'Ex : 4',
+      hint1: 'Essaie des nombres entiers : $2 \\times 2 \\times 2$, $3 \\times 3 \\times 3$… jusqu\'à retrouver le volume.',
+      hint2: "Volume d'un cube d'arête $a$ : $\\mathcal{V} = a \\times a \\times a$.",
+      solution: `On cherche le nombre $a$ tel que $a \\times a \\times a = ${this._6tex(V)}$.\nOr $${a} \\times ${a} \\times ${a} = ${a * a} \\times ${a} = ${this._6tex(V)}$.\nL'arête du cube mesure **$${a}\\text{ cm}$**.`,
+      _v: { k: '6M3.arete', V }
+    }, 'Raisonner');
+  });
+  G._6X_add('6M3', 2, function () {
+    const L = this.randChoice([10, 20, 25, 30, 40, 50]), l = this.randChoice([5, 8, 10, 12, 15, 20]), h = this.randChoice([4, 5, 6, 10, 12, 15]);
+    const V = L * l * h;
+    const res = this._6r(V / 1000);
+    if ([1, 3, 1000].includes(res)) return null;
+    return this._6mQ('6M3', 2, {
+      title: "Contenance d'une boîte en litres",
+      statement: `Une boîte en forme de pavé droit mesure intérieurement $${L}\\text{ cm}$ sur $${l}\\text{ cm}$ sur $${h}\\text{ cm}$.\n**Quelle est sa contenance, en litres ?**`,
+      type: 'exact', answer: this._6ans(res), placeholder: 'Ex : 1,5',
+      hint1: 'Calcule d\'abord le volume en cm³, puis convertis-le en litres.',
+      hint2: '$1\\text{ L} = 1\\text{ dm}^3 = 1\\,000\\text{ cm}^3$.',
+      solution: `**Étape 1 :** $\\mathcal{V} = ${L} \\times ${l} \\times ${h} = ${this._6tex(V)}\\text{ cm}^3$.\n**Étape 2 :** $1\\text{ L} = 1\\,000\\text{ cm}^3$, donc on divise par $1\\,000$ : $${this._6tex(V)} \\div 1\\,000 = ${this._6tex(res)}$.\nLa boîte contient **$${this._6tex(res)}\\text{ L}$**.`,
+      _v: { k: '6M3.boiteL', L, l, h }
+    }, 'Calculer');
+  });
+
+  G._6X_origWeight('6M3', 3, 3);
+  G._6X_add('6M3', 3, function () {
+    const a = this.randInt(4, 10), b = this.randInt(2, 6), h1 = this.randInt(1, 4);
+    const c = this.randInt(1, a - 1), h2 = this.randInt(1, 4);
+    const v1 = a * b * h1, v2 = c * b * h2, tot = v1 + v2;
+    return this._6mQ('6M3', 3, {
+      title: 'Volume d\'un solide composé de deux pavés',
+      statement: `Un escalier en béton est formé de deux pavés droits posés l'un sur l'autre :\n• en bas, un pavé de $${a}\\text{ dm}$ de long, $${b}\\text{ dm}$ de large et $${h1}\\text{ dm}$ de haut ;\n• au-dessus, un pavé de $${c}\\text{ dm}$ de long, $${b}\\text{ dm}$ de large et $${h2}\\text{ dm}$ de haut.\n**Quel est le volume de béton, en dm³ ?**`,
+      type: 'exact', answer: String(tot), placeholder: 'Ex : 84',
+      hint1: 'Calcule le volume de chaque pavé séparément, puis additionne.',
+      hint2: 'Volume d\'un pavé droit : $\\mathcal{V} = L \\times \\ell \\times h$ (dans la même unité de longueur).',
+      solution: `**Étape 1 :** pavé du bas : $${a} \\times ${b} \\times ${h1} = ${v1}\\text{ dm}^3$.\n**Étape 2 :** pavé du haut : $${c} \\times ${b} \\times ${h2} = ${v2}\\text{ dm}^3$.\n**Étape 3 :** $$\\mathcal{V} = ${v1} + ${v2} = ${tot}\\text{ dm}^3$$\nIl faut **$${tot}\\text{ dm}^3$** de béton (soit ${tot} L).`,
+      _v: { k: '6M3.compose', a, b, h1, c, h2 }
+    }, 'Modéliser');
+  });
+  G._6X_add('6M3', 3, function () {
+    const verre = this.randChoice([20, 25, 10]);
+    const nb = this.randChoice([4, 5, 6, 8, 9, 12, 15, 16, 18, 20, 24, 30]);
+    const totCl = verre * nb;
+    // pavé en cm dont le volume (cm³) = totCl × 10
+    const V = totCl * 10;
+    const choices = [];
+    for (const L of [10, 20, 25, 30, 40, 50]) for (const l of [5, 10, 15, 20, 25]) if (V % (L * l) === 0 && V / (L * l) >= 2 && V / (L * l) <= 40) choices.push([L, l, V / (L * l)]);
+    if (!choices.length) return null;
+    const [L, l, h] = this.randChoice(choices);
+    return this._6mQ('6M3', 3, {
+      title: 'Remplir des verres',
+      statement: `Un récipient en forme de pavé droit mesure intérieurement $${L}\\text{ cm}$ sur $${l}\\text{ cm}$ sur $${h}\\text{ cm}$. Il est plein de jus de fruits.\n**Combien de verres de $${verre}\\text{ cL}$ peut-on remplir ?**`,
+      type: 'exact', answer: String(nb), placeholder: 'Ex : 12',
+      hint1: 'Calcule le volume en cm³, convertis-le en centilitres, puis partage en verres.',
+      hint2: '$1\\text{ cm}^3 = 1\\text{ mL}$ et $1\\text{ cL} = 10\\text{ mL}$.',
+      solution: `**Étape 1 :** $\\mathcal{V} = ${L} \\times ${l} \\times ${h} = ${this._6tex(V)}\\text{ cm}^3 = ${this._6tex(V)}\\text{ mL}$.\n**Étape 2 :** $${this._6tex(V)}\\text{ mL} = ${this._6tex(totCl)}\\text{ cL}$ (on divise par 10).\n**Étape 3 :** $${this._6tex(totCl)} \\div ${verre} = ${nb}$.\nOn peut remplir **${nb} verres**.`,
+      _v: { k: '6M3.verres', L, l, h, verre }
+    }, 'Modéliser');
+  });
+
+  G._6X_origWeight('6M3', 4, 3);
+  G._6X_add('6M3', 4, function () {
+    const a = this.randInt(2, 6), k = this.randChoice([2, 3]);
+    const V1 = a * a * a, V2 = Math.pow(k * a, 3);
+    const ask = this.randChoice(['vol', 'fois']);
+    const mot = k === 2 ? 'double' : 'triple';
+    return this._6mQ('6M3', 4, {
+      title: 'Agrandir un cube',
+      statement: `Un cube a une arête de $${a}\\text{ cm}$. On construit un second cube dont l'arête est le ${mot} de la première.\n` +
+        (ask === 'vol' ? '**Quel est le volume du second cube, en cm³ ?**' : '**Par combien le volume a-t-il été multiplié ?**'),
+      type: 'exact', answer: String(ask === 'vol' ? V2 : V2 / V1), placeholder: 'Ex : 8',
+      hint1: 'Calcule la nouvelle arête, puis le volume des deux cubes. Le volume n\'est pas multiplié par le même nombre que l\'arête !',
+      hint2: 'Volume d\'un cube d\'arête $a$ : $a \\times a \\times a$ (l\'arête intervient trois fois).',
+      solution: `**Étape 1 :** nouvelle arête : $${k} \\times ${a} = ${k * a}\\text{ cm}$.\n**Étape 2 :** volumes : $${a} \\times ${a} \\times ${a} = ${V1}\\text{ cm}^3$ et $${k * a} \\times ${k * a} \\times ${k * a} = ${this._6tex(V2)}\\text{ cm}^3$.\n` +
+        (ask === 'vol' ? `Le second cube a un volume de **$${this._6tex(V2)}\\text{ cm}^3$**.` : `**Étape 3 :** $${this._6tex(V2)} \\div ${V1} = ${V2 / V1}$ : le volume est multiplié par **${V2 / V1}** ($= ${k} \\times ${k} \\times ${k}$), et non par ${k}.`),
+      _v: { k: '6M3.agrandir', a, kf: k, ask }
+    }, 'Raisonner');
+  });
+  G._6X_add('6M3', 4, function () {
+    const a = this.randChoice([5, 10]);
+    const [L, l] = this.randChoice([[25, 20], [50, 20], [40, 25], [50, 40], [20, 20], [50, 50]]);
+    const rise = this._6r(a * a * a / (L * l));
+    return this._6mQ('6M3', 4, {
+      title: "Plonger un cube dans l'eau",
+      statement: `Un aquarium a un fond rectangulaire de $${L}\\text{ cm}$ sur $${l}\\text{ cm}$ ; il contient de l'eau. On y plonge entièrement un cube plein de $${a}\\text{ cm}$ d'arête (l'eau ne déborde pas).\n**De combien de centimètres le niveau de l'eau monte-t-il ?**`,
+      type: 'exact', answer: this._6ans(rise), placeholder: 'Ex : 0,5',
+      hint1: "Le cube prend la place d'un volume d'eau égal à son propre volume : cette eau « monte » en formant un pavé de même fond que l'aquarium.",
+      hint2: 'Volume d\'un pavé = aire du fond × hauteur, donc hauteur = volume ÷ aire du fond.',
+      solution: `**Étape 1 :** volume du cube : $${a} \\times ${a} \\times ${a} = ${this._6tex(a * a * a)}\\text{ cm}^3$.\n**Étape 2 :** aire du fond : $${L} \\times ${l} = ${this._6tex(L * l)}\\text{ cm}^2$.\n**Étape 3 :** l'eau déplacée forme un pavé de hauteur $${this._6tex(a * a * a)} \\div ${this._6tex(L * l)} = ${this._6tex(rise)}$.\nLe niveau monte de **$${this._6tex(rise)}\\text{ cm}$**.`,
+      _v: { k: '6M3.immersion', a, L, l }
+    }, 'Modéliser');
+  });
+
+  // =====================================================================
+  // 6M4 — Durées
+  // =====================================================================
+  const Hr = m => G._6mHour(m), D = m => G._6mDur(m);
+  const hms = s => `${Math.floor(s / 3600)} h ${String(Math.floor(s / 60) % 60).padStart(2, '0')} min ${String(s % 60).padStart(2, '0')} s`;
+
+  G._6X_origWeight('6M4', 1, 3);
+  G._6X_add('6M4', 1, function () {
+    const h = this.randInt(7, 18), m1 = this.randInt(0, 40), m2 = this.randInt(m1 + 5, 59);
+    const s = h * 60 + m1, e = h * 60 + m2;
+    const act = this.randChoice(['Une séance de natation', 'Un cours de musique', 'Une partie de jeu', 'Une réunion']);
+    return this._6mQ('6M4', 1, {
+      title: 'Durée dans une même heure',
+      statement: `${act} commence à **${Hr(s)}** et se termine à **${Hr(e)}**.\n**Combien de minutes a-t-elle duré ?**`,
+      type: 'exact', answer: String(e - s), placeholder: 'Ex : 25',
+      hint1: 'Les deux horaires sont dans la même heure : il suffit de comparer les minutes.',
+      hint2: 'Durée = horaire de fin − horaire de début.',
+      solution: `Les deux horaires sont dans la même heure (${h} h).\nDurée : $${m2} - ${m1} = ${e - s}$ min.\nL'activité a duré **${e - s} minutes**.`,
+      _v: { k: '6M4.samehour', s, e }
+    }, 'Calculer');
+  });
+  G._6X_add('6M4', 1, function () {
+    const w = this.randInt(1, 8), d = this.randInt(1, 6);
+    return this._6mQ('6M4', 1, {
+      title: 'Semaines et jours',
+      statement: `Des vacances durent **${w} semaine${w > 1 ? 's' : ''} et ${d} jour${d > 1 ? 's' : ''}**.\n**Combien de jours cela fait-il en tout ?**`,
+      type: 'exact', answer: String(7 * w + d), placeholder: 'Ex : 16',
+      hint1: 'Convertis d\'abord les semaines en jours, puis ajoute les jours restants.',
+      hint2: '1 semaine = 7 jours.',
+      solution: `**Étape 1 :** $${w} \\times 7 = ${7 * w}$ jours.\n**Étape 2 :** $${7 * w} + ${d} = ${7 * w + d}$ jours.\nLes vacances durent **${7 * w + d} jours**.`,
+      _v: { k: '6M4.semaines', w, d }
+    }, 'Convertir');
+  });
+
+  G._6X_origWeight('6M4', 2, 3);
+  G._6X_add('6M4', 2, function () {
+    const n = this.randInt(2, 5), c = this.randChoice([15, 20, 25, 30, 35, 40, 45]);
+    const x = this.randInt(65, 110);
+    const tot = n * c + x;
+    const nom = this.randChoice(PRENOMS);
+    return this._6mQ('6M4', 2, {
+      title: 'Durée totale de plusieurs activités',
+      statement: `Cette semaine, ${nom} a fait ${n} séances de révision de **${c} min** chacune et une longue séance de **${D(x)}**.\n**Combien de minutes a-t-${/^(Léa|Inès|Jade|Chloé|Lina|Zoé)$/.test(nom) ? 'elle' : 'il'} révisé en tout ?**`,
+      type: 'exact', answer: String(tot), placeholder: 'Ex : 150',
+      hint1: 'Convertis tout en minutes avant d\'additionner.',
+      hint2: '1 h = 60 min ; pour plusieurs séances identiques, on peut multiplier.',
+      solution: `**Étape 1 :** séances courtes : $${n} \\times ${c} = ${n * c}$ min.\n**Étape 2 :** ${D(x)} $= 60 + ${x - 60} = ${x}$ min.\n**Étape 3 :** $${n * c} + ${x} = ${tot}$ min.\nDurée totale : **${tot} minutes** (soit ${D(tot)}).`,
+      _v: { k: '6M4.seances', n, c, x }
+    }, 'Calculer');
+  });
+  G._6X_add('6M4', 2, function () {
+    const mois = this.randChoice(['janvier', 'mars', 'mai', 'octobre', 'décembre']);
+    const d1 = this.randInt(1, 15), d2 = this.randInt(d1 + 3, 31);
+    return this._6mQ('6M4', 2, {
+      title: 'Compter des jours sur un calendrier',
+      statement: `Une exposition ouvre le **${d1 === 1 ? '1er' : d1} ${mois}** au matin et ferme le **${d2} ${mois}** au matin.\n**Combien de jours s'écoulent entre l'ouverture et la fermeture ?**`,
+      type: 'exact', answer: String(d2 - d1), placeholder: 'Ex : 12',
+      hint1: 'Imagine un compteur qui avance d\'un jour chaque matin : combien de fois avance-t-il ?',
+      hint2: 'D\'un même moment d\'un jour au même moment du lendemain, il s\'écoule un jour : la durée est la différence des dates.',
+      solution: `Du ${d1 === 1 ? "1er" : d1} au ${d2} ${mois}, au même moment de la journée, il s'écoule $${d2} - ${d1} = ${d2 - d1}$ jours.\n*(Attention : on ne compte pas « les cases » du calendrier, ce qui donnerait ${d2 - d1 + 1}.)*\nRéponse : **${d2 - d1} jours**.`,
+      _v: { k: '6M4.calendrier', d1, d2 }
+    }, 'Raisonner');
+  });
+
+  G._6X_origWeight('6M4', 3, 3);
+  G._6X_add('6M4', 3, function () {
+    const stops = this.shuffle(['Gare', 'Mairie', 'Collège', 'Piscine', 'Marché', 'Hôpital', 'Stade', 'Musée']).slice(0, 5);
+    let times;
+    do {
+      times = [this.randInt(7 * 60 + 30, 17 * 60 + 40)];
+      for (let i = 1; i < 5; i++) times.push(times[i - 1] + this.randInt(4, 19));
+    } while (Math.floor(times[0] / 60) === Math.floor(times[4] / 60));
+    let i, j;
+    do { i = this.randInt(0, 3); j = this.randInt(i + 1, 4); } while (Math.floor(times[i] / 60) === Math.floor(times[j] / 60) || j - i < 2);
+    const rows = stops.map((st, k) => `\\text{${st}} & ${Math.floor(times[k] / 60)}\\text{ h }${String(times[k] % 60).padStart(2, '0')}`).join(' \\\\ \\hline ');
+    const table = `$$\\begin{array}{|l|c|}\\hline \\text{Arrêt} & \\text{Horaire} \\\\ \\hline ${rows} \\\\ \\hline \\end{array}$$`;
+    const hr = Math.ceil(times[i] / 60) * 60;
+    return this._6mQ('6M4', 3, {
+      title: "Lire une fiche d'horaires de bus",
+      statement: `Voici les horaires de passage d'un bus :\n${table}\n**Combien de minutes dure le trajet entre l'arrêt « ${stops[i]} » et l'arrêt « ${stops[j]} » ?**`,
+      type: 'exact', answer: String(times[j] - times[i]), placeholder: 'Ex : 23',
+      hint1: 'Repère les deux horaires dans le tableau, puis compte les minutes en passant par l\'heure ronde.',
+      hint2: 'Durée = horaire d\'arrivée − horaire de départ. Méthode du « saut » : on complète jusqu\'à l\'heure ronde, puis on ajoute les minutes restantes.',
+      solution: `Départ de « ${stops[i]} » à ${Hr(times[i])}, arrivée à « ${stops[j]} » à ${Hr(times[j])}.\n` +
+        `**Étape 1 :** de ${Hr(times[i])} à ${Hr(hr)} : ${hr - times[i]} min.\n**Étape 2 :** de ${Hr(hr)} à ${Hr(times[j])} : ${times[j] - hr} min.\n` +
+        `Total : $${hr - times[i]} + ${times[j] - hr} = ${times[j] - times[i]}$. Le trajet dure **${times[j] - times[i]} minutes**.`,
+      _v: { k: '6M4.bus', ti: times[i], tj: times[j] }
+    }, 'Calculer');
+  });
+  G._6X_add('6M4', 3, function () {
+    const n = this.randInt(3, 4), c = this.randChoice([45, 50, 55]), r = this.randChoice([10, 15, 20]);
+    const s = 8 * 60 + this.randChoice([0, 5, 10, 15, 30]);
+    const e = s + n * c + r;
+    return this._6mQ('6M4', 3, {
+      title: "Problème d'emploi du temps",
+      statement: `Le matin, les cours commencent à **${Hr(s)}** et se terminent à **${Hr(e)}**. Il y a ${n} cours de même durée et une seule récréation de **${r} min**, sans autre pause.\n**Combien de minutes dure un cours ?**`,
+      type: 'exact', answer: String(c), placeholder: 'Ex : 55',
+      hint1: 'Calcule la durée totale de la matinée en minutes, retire la récréation, puis partage entre les cours.',
+      hint2: '1 h = 60 min. Durée = horaire de fin − horaire de début.',
+      solution: `**Étape 1 :** de ${Hr(s)} à ${Hr(e)}, il s'écoule ${D(e - s)}, soit $${e - s}$ min.\n**Étape 2 :** sans la récréation : $${e - s} - ${r} = ${n * c}$ min.\n**Étape 3 :** $${n * c} \\div ${n} = ${c}$.\nUn cours dure **${c} minutes**.`,
+      _v: { k: '6M4.edt', s, e, r, n }
+    }, 'Modéliser');
+  });
+  G._6X_add('6M4', 3, function () {
+    const st = this.randInt(9 * 3600, 11 * 3600);
+    const d = this.randInt(300, 1700);
+    const et = st + d;
+    const nom = this.randChoice(PRENOMS);
+    return this._6mQ('6M4', 3, {
+      title: 'Durée en secondes (chronométrage)',
+      statement: `Lors d'une course, ${nom} part à **${hms(st)}** et franchit la ligne d'arrivée à **${hms(et)}**.\n**Quelle est la durée de sa course, en secondes ?**`,
+      type: 'exact', answer: String(d), placeholder: 'Ex : 754',
+      hint1: 'Calcule l\'écart en minutes et secondes (en « empruntant » 60 s si besoin), puis convertis en secondes.',
+      hint2: '1 min = 60 s et 1 h = 60 min = 3 600 s.',
+      solution: `Écart entre les deux horaires : ${Math.floor(d / 60)} min ${d % 60} s.\n$$${Math.floor(d / 60)} \\times 60 + ${d % 60} = ${Math.floor(d / 60) * 60} + ${d % 60} = ${this._6tex(d)}\\text{ s}$$\nLa course a duré **${d} secondes**.`,
+      _v: { k: '6M4.chrono', st, et }
+    }, 'Calculer');
+  });
+
+  G._6X_origWeight('6M4', 4, 4);
+  G._6X_add('6M4', 4, function () {
+    const s = this.randInt(20 * 12, 23 * 12 + 9) * 5;
+    const a = 1440 + this.randInt(4 * 12, 9 * 12) * 5;
+    const esc = this.randInt(4, 18) * 5;
+    const vol = a - s - esc;
+    const ville = this.randChoice(['Montréal', 'Dakar', 'Tokyo', 'Lima', 'Nairobi']);
+    return this._6mQ('6M4', 4, {
+      title: 'Voyage avec escale',
+      statement: `Un avion pour ${ville} décolle à **${Hr(s)}** et arrive à destination le lendemain à **${Hr(a)}** (horaires de Paris). Pendant le voyage, il fait une escale de **${D(esc)}** au sol.\n**Combien de minutes l'avion a-t-il passées en vol ?**`,
+      type: 'exact', answer: String(vol), placeholder: 'Ex : 425',
+      hint1: 'Calcule d\'abord la durée totale du voyage en passant par minuit, puis retire l\'escale.',
+      hint2: 'Une journée compte 24 h ; à minuit, on repasse à 0 h 00. 1 h = 60 min.',
+      solution: `**Étape 1 :** de ${Hr(s)} à minuit : ${1440 - s} min ; de minuit à ${Hr(a)} : ${a - 1440} min.\nDurée totale : $${1440 - s} + ${a - 1440} = ${a - s}$ min.\n**Étape 2 :** on retire l'escale : $${a - s} - ${esc} = ${vol}$.\nL'avion a volé **${vol} minutes** (soit ${D(vol)}).`,
+      _v: { k: '6M4.escale', s, a, esc }
+    }, 'Modéliser');
+  });
+  G._6X_add('6M4', 4, function () {
+    const F = [[1, 2], [1, 3], [2, 3], [1, 4], [3, 4], [1, 5], [1, 6], [5, 6], [1, 10], [1, 12]];
+    let f1, f2;
+    do { f1 = this.randChoice(F); f2 = this.randChoice(F); } while (f1 === f2);
+    const m1 = 60 * f1[0] / f1[1], m2 = 60 * f2[0] / f2[1];
+    const fr = f => `\\frac{${f[0]}}{${f[1]}}`;
+    return this._6mQ('6M4', 4, {
+      title: "Fractions d'heure",
+      statement: `Un randonneur marche pendant $${fr(f1)}$ d'heure, fait une pause, puis marche encore pendant $${fr(f2)}$ d'heure.\n**Combien de minutes a-t-il marché en tout ?**`,
+      type: 'exact', answer: String(m1 + m2), placeholder: 'Ex : 50',
+      hint1: 'Convertis chaque fraction d\'heure en minutes, puis additionne.',
+      hint2: 'Une heure compte soixante minutes : prendre $\\frac{a}{b}$ d\'heure, c\'est diviser ce nombre de minutes par $b$, puis multiplier par $a$.',
+      solution: `**Étape 1 :** $${fr(f1)}$ h $= 60 \\div ${f1[1]} \\times ${f1[0]} = ${m1}$ min.\n**Étape 2 :** $${fr(f2)}$ h $= 60 \\div ${f2[1]} \\times ${f2[0]} = ${m2}$ min.\n**Étape 3 :** $${m1} + ${m2} = ${m1 + m2}$.\nIl a marché **${m1 + m2} minutes**.`,
+      _v: { k: '6M4.frach', f1, f2 }
+    }, 'Calculer');
+  });
+
+  // =====================================================================
+  // 6G1 — Droites, segments, distances, milieu, cercle, quadrilatères
+  // =====================================================================
+  G._6X_origWeight('6G1', 1, 3);
+  G._6X_add('6G1', 1, function () {
+    const [A, B, C, Dp] = this._6E_pts(4);
+    const kinds = [
+      { d: 'a quatre angles droits et ses côtés consécutifs n\'ont pas la même longueur', c: 'un rectangle (non carré)', why: 'Un quadrilatère qui a quatre angles droits est un **rectangle**.' },
+      { d: 'a quatre côtés de même longueur mais aucun angle droit', c: 'un losange (non carré)', why: 'Un quadrilatère qui a quatre côtés de même longueur est un **losange**.' },
+      { d: 'a quatre angles droits et quatre côtés de même longueur', c: 'un carré', why: 'Un **carré** a quatre angles droits (c\'est un rectangle) et quatre côtés de même longueur (c\'est un losange).' }
+    ];
+    const kind = this.randInt(0, 2);
+    const opts = kinds.map(k => k.c).concat(['un triangle rectangle']);
+    return this._6E_mcq('6G1', 1, {
+      title: 'Reconnaître un quadrilatère particulier',
+      statement: `Le quadrilatère $${A}${B}${C}${Dp}$ ${kinds[kind].d}.\n**Quelle est sa nature ?**`,
+      hint1: 'Regarde séparément les angles (droits ou non) et les longueurs des côtés.',
+      hint2: 'Rectangle : quatre angles droits. Losange : quatre côtés de même longueur. Carré : les deux à la fois.',
+      solution: `${kinds[kind].why}\n$${A}${B}${C}${Dp}$ est donc **${kinds[kind].c}**.`,
+      skill: 'Communiquer',
+      _v: { k: '6G1.quadri', kind }
+    }, kinds[kind].c, opts.filter(o => o !== kinds[kind].c));
+  });
+
+  G._6X_origWeight('6G1', 2, 4);
+  G._6X_add('6G1', 2, function () {
+    const cases = [
+      { s: '$(d_1) \\perp (d_3)$ et $(d_2) \\perp (d_3)$', ask: '$(d_1)$ et $(d_2)$', c: 'parallèles', p: 'Si deux droites sont perpendiculaires à une même troisième droite, alors elles sont parallèles entre elles.' },
+      { s: '$(d_1) \\parallel (d_2)$ et $(d_3) \\perp (d_1)$', ask: '$(d_3)$ et $(d_2)$', c: 'perpendiculaires', p: 'Si deux droites sont parallèles, toute droite perpendiculaire à l\'une est perpendiculaire à l\'autre.' },
+      { s: '$(d_1) \\parallel (d_3)$ et $(d_2) \\parallel (d_3)$', ask: '$(d_1)$ et $(d_2)$', c: 'parallèles', p: 'Si deux droites sont parallèles à une même troisième droite, alors elles sont parallèles entre elles.' }
+    ];
+    const kind = this.randInt(0, 2);
+    const cs = cases[kind];
+    const opts = ['parallèles', 'perpendiculaires', 'sécantes mais pas perpendiculaires', 'on ne peut pas savoir'];
+    return this._6E_mcq('6G1', 2, {
+      title: 'Droites parallèles et perpendiculaires',
+      statement: `Trois droites distinctes $(d_1)$, $(d_2)$ et $(d_3)$ vérifient : ${cs.s}.\n**Que peut-on dire des droites ${cs.ask} ?**`,
+      hint1: 'Fais un schéma à main levée en respectant les informations de l\'énoncé.',
+      hint2: 'Rappel des symboles : $\\perp$ indique deux droites qui se coupent en formant un angle droit ; $\\parallel$ indique deux droites qui ne se coupent pas (ou sont confondues).',
+      solution: `**Propriété :** ${cs.p}\nDonc les droites ${cs.ask} sont **${cs.c}**.`,
+      _v: { k: '6G1.droites', kind }
+    }, cs.c, opts.filter(o => o !== cs.c));
+  });
+
+  G._6X_origWeight('6G1', 3, 3);
+  G._6X_add('6G1', 3, function () {
+    const [A, B, C, Dp, O] = this._6E_pts(5);
+    const x = Math.random() < 0.6 ? 2 * this.randInt(3, 20) : this.randInt(30, 150) / 5;
+    const mode = this.randChoice(['half', 'other', 'fromhalf']);
+    const W = v => this._6tex(this._6r(v));
+    let stmt, ans, sol;
+    if (mode === 'half') {
+      stmt = `On sait que $${A}${C} = ${W(x)}$ cm. **Calcule $${O}${B}$, en cm.**`;
+      ans = x / 2;
+      sol = `**Étape 1 :** les diagonales d'un rectangle ont la même longueur : $${B}${Dp} = ${A}${C} = ${W(x)}$ cm.\n**Étape 2 :** elles se coupent en leur milieu $${O}$ : $${O}${B} = ${B}${Dp} \\div 2 = ${W(x / 2)}$ cm.`;
+    } else if (mode === 'other') {
+      stmt = `On sait que $${A}${C} = ${W(x)}$ cm. **Calcule $${B}${Dp}$, en cm.**`;
+      ans = x;
+      sol = `Les diagonales d'un rectangle ont **la même longueur** : $${B}${Dp} = ${A}${C} = ${W(x)}$ cm.`;
+    } else {
+      stmt = `On sait que $${O}${A} = ${W(x / 2)}$ cm. **Calcule $${B}${Dp}$, en cm.**`;
+      ans = x;
+      sol = `**Étape 1 :** $${O}$ est le milieu de $[${A}${C}]$ : $${A}${C} = 2 \\times ${W(x / 2)} = ${W(x)}$ cm.\n**Étape 2 :** les diagonales d'un rectangle ont la même longueur : $${B}${Dp} = ${A}${C} = ${W(x)}$ cm.`;
+    }
+    return this._6E_q('6G1', 3, {
+      title: "Diagonales d'un rectangle",
+      statement: `$${A}${B}${C}${Dp}$ est un rectangle ; ses diagonales $[${A}${C}]$ et $[${B}${Dp}]$ se coupent en $${O}$.\n${stmt}`,
+      type: 'exact', answer: this._6ans(ans),
+      hint1: 'Fais une figure à main levée et code les longueurs égales.',
+      hint2: 'Les diagonales d\'un rectangle ont la même longueur et le même milieu.',
+      solution: sol + `\nRéponse : **${W(ans)} cm**.`,
+      _v: { k: '6G1.diagrect', x, mode }
+    });
+  });
+
+  G._6X_origWeight('6G1', 4, 3);
+  G._6X_add('6G1', 4, function () {
+    const [A, B, C, I, J] = this._6E_pts(5);
+    const a = 2 * this.randInt(2, 12), b = 2 * this.randInt(2, 12);
+    const y = (a + b) / 2;
+    const ask = this.randChoice(['BC', 'AC']);
+    const ans = ask === 'BC' ? b : a + b;
+    return this._6E_q('6G1', 4, {
+      title: 'Milieux de deux segments consécutifs',
+      statement: `Les points $${A}$, $${B}$ et $${C}$ sont alignés dans cet ordre. $${I}$ est le milieu de $[${A}${B}]$ et $${J}$ est le milieu de $[${B}${C}]$.\nOn sait que ${ask === 'BC' ? `$${A}${B} = ${a}$ cm et ` : ''}$${I}${J} = ${y}$ cm. **Calcule $${ask === 'BC' ? `${B}${C}` : `${A}${C}`}$, en cm.**`,
+      type: 'exact', answer: String(ans),
+      hint1: `Décompose $${I}${J}$ en deux morceaux de part et d'autre de $${B}$.`,
+      hint2: 'Le milieu d\'un segment le partage en deux segments de même longueur, égale à la moitié du segment.',
+      solution: `$${I}${J} = ${I}${B} + ${B}${J}$, avec $${I}${B} = \\frac{${A}${B}}{2}$ et $${B}${J} = \\frac{${B}${C}}{2}$.\nDonc $${I}${J} = \\frac{${A}${B} + ${B}${C}}{2} = \\frac{${A}${C}}{2}$, c'est-à-dire $${A}${C} = 2 \\times ${I}${J} = ${a + b}$ cm.\n` +
+        (ask === 'BC' ? `Enfin $${B}${C} = ${A}${C} - ${A}${B} = ${a + b} - ${a} = ${b}$ cm.\nRéponse : **${b} cm**.` : `Réponse : **${a + b} cm**.`),
+      _v: { k: '6G1.milieux2', a, y, ask }
+    });
+  });
+  G._6X_add('6G1', 4, function () {
+    const [O, H] = this._6E_pts(2);
+    const r = this.randInt(3, 9);
+    const n = this.randChoice([0, 1, 2, 2]);
+    const h = n === 2 ? this.randInt(1, r - 1) : n === 1 ? r : this.randInt(r + 1, r + 5);
+    return this._6E_q('6G1', 4, {
+      title: 'Cercle et droite : combien de points communs ?',
+      statement: `Le point $${H}$ est le pied de la perpendiculaire à la droite $(d)$ passant par $${O}$, et $${O}${H} = ${h}$ cm : c'est la distance du point $${O}$ à la droite $(d)$.\n**Combien de points de la droite $(d)$ sont situés à $${r}$ cm de $${O}$ ?** *(Répondre par un nombre.)*`,
+      type: 'exact', answer: String(n), placeholder: 'Ex : 1',
+      hint1: `Les points situés à $${r}$ cm de $${O}$ forment un cercle : cherche combien de fois ce cercle coupe $(d)$.`,
+      hint2: `La distance d'un point à une droite est la plus courte distance entre ce point et un point de la droite : tout point de $(d)$ autre que $${H}$ est plus loin de $${O}$ que $${H}$.`,
+      solution: `On cherche les points communs à $(d)$ et au cercle de centre $${O}$ et de rayon $${r}$ cm. Le point de $(d)$ le plus proche de $${O}$ est $${H}$, à $${h}$ cm.\n` +
+        (n === 2 ? `Comme $${h} < ${r}$, $${H}$ est à l'intérieur du disque : la droite traverse le cercle en **2 points**.` :
+          n === 1 ? `Comme $${O}${H} = ${r}$ cm, seul $${H}$ convient (la droite « touche » le cercle) : **1 point**.` :
+            `Comme $${h} > ${r}$, tous les points de $(d)$ sont à plus de $${r}$ cm de $${O}$ : **0 point**.`),
+      _v: { k: '6G1.cercledroite', r, h }
+    });
+  });
+})();
+
+// ----- Extensions 6ème, groupe D (audit 2026-10-31) -----
+// ---------------------------------------------------------------------
+// Extensions 6G2 à 6G5 (audit 2026-10-31) : nouvelles familles de questions
+// ---------------------------------------------------------------------
+(function () {
+  'use strict';
+  if (typeof window === 'undefined' || !window.MathsGenerators || !window.MathsGenerators._6X_add) return;
+  const G = window.MathsGenerators;
+  const INK = 'var(--text-main, #334155)';
+  const GRID = 'var(--border-color, #cbd5e1)';
+  const ang = (P, O, Q) => `\\widehat{${P}${O}${Q}}`;
+  const sum = a => a.reduce((s, v) => s + v, 0);
+
+  // Quadrillage nx × ny (cases de c px) ; renvoie { inner, X, Y } (X(i), Y(j) : coordonnées des nœuds).
+  const gridBase = (nx, ny, c, ox, oy) => {
+    let inner = '';
+    for (let i = 0; i <= nx; i++) inner += `<line x1="${ox + i * c}" y1="${oy}" x2="${ox + i * c}" y2="${oy + ny * c}" stroke="${GRID}" stroke-width="1"/>`;
+    for (let j = 0; j <= ny; j++) inner += `<line x1="${ox}" y1="${oy + j * c}" x2="${ox + nx * c}" y2="${oy + j * c}" stroke="${GRID}" stroke-width="1"/>`;
+    return { inner, X: i => ox + i * c, Y: j => oy + j * c };
+  };
+
+  // Rapporteur simplifié : demi-cercle gradué de 10 en 10 (petits traits de 5 en 5).
+  // double = true : graduation intérieure (de 0 à gauche) en plus de l'extérieure (de 0 à droite).
+  // rays : angles (degrés, repère « extérieur ») des deux côtés de l'angle, sommet au centre.
+  const protractor = (rays, double, labels) => {
+    const cx = 160, cy = 160, R = 130;
+    const pt = (deg, r) => [Math.round((cx + r * Math.cos(deg * Math.PI / 180)) * 10) / 10, Math.round((cy - r * Math.sin(deg * Math.PI / 180)) * 10) / 10];
+    let inner = `<path d="M ${cx - R} ${cy} A ${R} ${R} 0 0 1 ${cx + R} ${cy} Z" fill="#fef9c3" fill-opacity="0.55" stroke="#a16207" stroke-width="1.5"/>`;
+    for (let d = 0; d <= 180; d += 5) {
+      const big = d % 10 === 0;
+      const [x1, y1] = pt(d, R), [x2, y2] = pt(d, R - (big ? 10 : 5));
+      inner += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#a16207" stroke-width="${big ? 1.3 : 0.8}"/>`;
+      if (d % 20 === 0) {
+        const [tx, ty] = pt(d, R - 20);
+        inner += G._6svgText(tx, ty + 4, String(d), { size: 9, fill: '#a16207', weight: '700' });
+        if (double) {
+          const [ux, uy] = pt(d, R - 36);
+          inner += G._6svgText(ux, uy + 4, String(180 - d), { size: 8, fill: '#2563eb', weight: '600' });
+        }
+      }
+    }
+    rays.forEach((d, i) => {
+      const [x, y] = pt(d, R + 22);
+      inner += `<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="#dc2626" stroke-width="2.4"/>`;
+      const [lx, ly] = pt(d, R + 34);
+      inner += G._6svgText(lx, ly + 4, labels[i + 1], { size: 13, weight: '800', fill: '#dc2626' });
+    });
+    inner += `<circle cx="${cx}" cy="${cy}" r="3" fill="${INK}"/>` + G._6svgText(cx, cy + 18, labels[0], { size: 13, weight: '800' });
+    return G._6svg(320, 190, inner, 320);
+  };
+
+  // Patrons de cube : 6 cases [colonne, ligne].
+  const NETS_OK = [
+    [[1, 0], [0, 1], [1, 1], [2, 1], [3, 1], [1, 2]], [[0, 0], [0, 1], [1, 1], [2, 1], [3, 1], [3, 2]],
+    [[0, 0], [0, 1], [1, 1], [2, 1], [3, 1], [0, 2]], [[1, 0], [0, 1], [1, 1], [2, 1], [3, 1], [2, 2]],
+    [[0, 0], [0, 1], [1, 1], [2, 1], [3, 1], [1, 2]], [[0, 0], [1, 0], [1, 1], [2, 1], [2, 2], [3, 2]],
+    [[0, 0], [1, 0], [2, 0], [2, 1], [3, 1], [4, 1]], [[0, 0], [1, 0], [1, 1], [2, 1], [3, 1], [1, 2]],
+    [[0, 0], [1, 0], [1, 1], [2, 1], [3, 1], [2, 2]]
+  ];
+  const NETS_KO = [
+    [[0, 0], [3, 0], [0, 1], [1, 1], [2, 1], [3, 1]], [[0, 0], [1, 0], [0, 1], [1, 1], [2, 1], [3, 1]],
+    [[0, 0], [1, 0], [2, 0], [3, 0], [4, 0], [2, 1]], [[0, 0], [1, 0], [2, 0], [0, 1], [1, 1], [2, 1]],
+    [[1, 0], [2, 0], [0, 1], [1, 1], [2, 1], [3, 1]], [[0, 0], [0, 1], [0, 2], [1, 2], [2, 2], [3, 2]],
+    [[0, 0], [1, 0], [1, 1], [2, 1], [3, 1], [4, 1]], [[1, 0], [0, 1], [1, 1], [2, 1], [3, 1], [3, 0]]
+  ];
+  // Transformation aléatoire (rotation d'un quart de tour / symétrie) puis recalage en (0,0).
+  const transformNet = (cells, rot, flip) => {
+    let c = cells.map(([x, y]) => (flip ? [-x, y] : [x, y]));
+    for (let k = 0; k < rot; k++) c = c.map(([x, y]) => [-y, x]);
+    const mx = Math.min(...c.map(p => p[0])), my = Math.min(...c.map(p => p[1]));
+    return c.map(([x, y]) => [x - mx, y - my]);
+  };
+  const netsSvg = (nets, texts) => {
+    const s = 17, bw = 112, bh = 112;
+    let inner = '';
+    nets.forEach((cells, n) => {
+      const ox = (n % 2) * (bw + 16) + 8, oy = Math.floor(n / 2) * (bh + 10) + 6;
+      const w = Math.max(...cells.map(p => p[0])) + 1, h = Math.max(...cells.map(p => p[1])) + 1;
+      const dx = ox + (bw - w * s) / 2, dy = oy + 18 + (bh - 18 - h * s) / 2;
+      inner += G._6svgText(ox + bw / 2, oy + 11, `Figure ${n + 1}`, { size: 11, weight: '800' });
+      cells.forEach(([x, y], i) => {
+        inner += `<rect x="${dx + x * s}" y="${dy + y * s}" width="${s}" height="${s}" fill="#bfdbfe" stroke="#1e3a8a" stroke-width="1.2"/>`;
+        if (texts && texts[n] && texts[n][i] !== undefined) inner += G._6svgText(dx + x * s + s / 2, dy + y * s + s / 2 + 4, texts[n][i], { size: 11, weight: '800', fill: texts[n][i] === '?' ? '#dc2626' : '#1e3a8a' });
+      });
+    });
+    const rows = Math.ceil(nets.length / 2);
+    return G._6svg(2 * bw + 32, rows * (bh + 10) + 6, inner, 270);
+  };
+  // Vue en « colonnes de carrés » (hauteurs de gauche à droite).
+  const viewSvg = (heights, title, s = 18) => {
+    const hmax = Math.max(...heights), w = heights.length;
+    let inner = G._6svgText(8 + w * s / 2, 12, title, { size: 11, weight: '800' });
+    heights.forEach((hgt, i) => {
+      for (let k = 0; k < hgt; k++) inner += `<rect x="${8 + i * s}" y="${20 + (hmax - 1 - k) * s}" width="${s}" height="${s}" fill="#93c5fd" stroke="#1e3a8a" stroke-width="1.2"/>`;
+    });
+    inner += `<line x1="2" y1="${20 + hmax * s}" x2="${14 + w * s}" y2="${20 + hmax * s}" stroke="${INK}" stroke-width="1.6"/>`;
+    return { inner, w: 16 + w * s, h: 26 + hmax * s };
+  };
+
+  // =====================================================================
+  // 6G2 — Médiatrice et symétrie axiale
+  // =====================================================================
+  const LETTERS_AXE = 'ABCDEHIKMOTUVWXY';
+  const LETTERS_NO = 'FGJLNPQRSZ';
+  G._6X_origWeight('6G2', 1, 4);
+  G._6X_add('6G2', 1, function () {
+    const nYes = this.randInt(1, 4), nNo = 5 - nYes;
+    const yes = this.shuffle(LETTERS_AXE.split('')).slice(0, nYes);
+    const no = this.shuffle(LETTERS_NO.split('')).slice(0, nNo);
+    const list = this.shuffle(yes.concat(no));
+    return this._6E_q('6G2', 1, {
+      title: 'Lettres et axes de symétrie',
+      statement: `On considère les lettres majuscules d'imprimerie (sans empattements) :\n$$${list.map(l => `\\mathsf{${l}}`).join(' \\quad ')}$$\n**Combien de ces lettres possèdent au moins un axe de symétrie ?**`,
+      type: 'exact', answer: String(nYes), placeholder: 'Ex : 3',
+      hint1: 'Pour chaque lettre, imagine un pliage vertical, puis un pliage horizontal : les deux moitiés se superposent-elles ?',
+      hint2: 'Une figure possède un axe de symétrie si, en la pliant le long de cette droite, les deux parties se superposent exactement.',
+      solution: `**Étape 1 :** on teste chaque lettre.\n• Lettres avec au moins un axe : ${yes.map(l => `$\\mathsf{${l}}$`).join(', ')}.\n• Lettres sans axe (elles ont parfois un centre de symétrie, mais pas d'axe) : ${no.map(l => `$\\mathsf{${l}}$`).join(', ')}.\n**Conclusion :** **${nYes}** lettre${nYes > 1 ? 's possèdent' : ' possède'} au moins un axe de symétrie.`,
+      skill: 'Chercher',
+      _v: { k: '6G2.lettres', list }
+    });
+  });
+
+  G._6X_origWeight('6G2', 2, 3);
+  G._6X_add('6G2', 2, function () {
+    const [P] = this._6E_pts(1);
+    const x = this.randChoice([this.randInt(2, 20), this.randInt(11, 99) / 10 * 2]);
+    const xr = Math.round(x * 10) / 10;
+    return this._6E_q('6G2', 2, {
+      title: 'Distance d’un point à l’axe de symétrie',
+      statement: `Le point $${P}'$ est le symétrique du point $${P}$ par rapport à la droite $(d)$, et $${P}${P}' = ${this._6tex(xr)}$ cm. **À quelle distance de la droite $(d)$ se trouve le point $${P}$, en cm ?**`,
+      type: 'exact', answer: this._6ans(xr / 2), placeholder: 'Ex : 3,5',
+      hint1: `Fais un schéma : où la droite $(d)$ coupe-t-elle le segment $[${P}${P}']$ ?`,
+      hint2: `Définition : $${P}'$ est le symétrique de $${P}$ par rapport à $(d)$ lorsque $(d)$ est la médiatrice de $[${P}${P}']$ (perpendiculaire à $[${P}${P}']$ en son milieu).`,
+      solution: `**Étape 1 :** $(d)$ est la médiatrice de $[${P}${P}']$ : elle coupe ce segment perpendiculairement en son milieu $I$.\n**Étape 2 :** la distance de $${P}$ à $(d)$ est donc $${P}I = ${this._6tex(xr)} \\div 2 = ${this._6tex(xr / 2)}$ cm.\n**Conclusion :** le point $${P}$ est à **$${this._6tex(xr / 2)}$ cm** de $(d)$.`,
+      skill: 'Raisonner',
+      _v: { k: '6G2.distaxe', x: xr }
+    });
+  });
+  G._6X_add('6G2', 2, function () {
+    // Figure de n carreaux à gauche d'un axe vertical ; on compte la figure complétée par symétrie.
+    const nx = 10, ny = 6, axis = 5;
+    const n = this.randInt(3, 7);
+    const cells = new Set();
+    let c = [this.randInt(1, 4), this.randInt(1, 4)];
+    cells.add(c.join(','));
+    let guard = 0;
+    while (cells.size < n && guard++ < 200) {
+      const [dx, dy] = this.randChoice([[1, 0], [-1, 0], [0, 1], [0, -1]]);
+      const nc = [c[0] + dx, c[1] + dy];
+      if (nc[0] < 0 || nc[0] > axis - 1 || nc[1] < 0 || nc[1] > ny - 1) continue;
+      c = nc; cells.add(c.join(','));
+    }
+    const list = [...cells].map(s => s.split(',').map(Number));
+    const g = gridBase(nx, ny, 22, 12, 12);
+    let inner = g.inner;
+    for (const [i, j] of list) inner += `<rect x="${g.X(i)}" y="${g.Y(j)}" width="22" height="22" fill="#f59e0b" fill-opacity="0.75" stroke="#b45309"/>`;
+    inner += `<line x1="${g.X(axis)}" y1="6" x2="${g.X(axis)}" y2="${g.Y(ny) + 6}" stroke="#2563eb" stroke-width="3"/>` + G._6svgText(g.X(axis) + 14, g.Y(ny) + 2, '(d)', { size: 12, fill: '#2563eb', weight: '800' });
+    const fig = this._6svg(nx * 22 + 24, ny * 22 + 24, inner, 260);
+    const m = list.length;
+    return this._6E_q('6G2', 2, {
+      title: 'Compléter une figure par symétrie',
+      statement: `On complète la figure coloriée par son symétrique par rapport à la droite $(d)$.\n${fig}\n**Combien de carreaux la figure complète (figure de départ et son symétrique) couvre-t-elle ?**`,
+      type: 'exact', answer: String(2 * m), placeholder: 'Ex : 10',
+      hint1: 'Compte les carreaux de la figure de départ, puis demande-toi combien de carreaux possède son symétrique.',
+      hint2: 'La symétrie axiale conserve les longueurs et les aires : le symétrique d’une figure lui est superposable.',
+      solution: `**Étape 1 :** la figure de départ compte $${m}$ carreaux, tous situés à gauche de $(d)$.\n**Étape 2 :** son symétrique a la même aire, donc $${m}$ carreaux, situés à droite de $(d)$ (ils ne se chevauchent pas).\n**Conclusion :** $${m} + ${m} = ${2 * m}$ carreaux.`,
+      skill: 'Représenter',
+      _v: { k: '6G2.carreaux', cells: list }
+    });
+  });
+
+  G._6X_origWeight('6G2', 3, 3);
+  G._6X_add('6G2', 3, function () {
+    const nx = 12, ny = 5;
+    const a = this.randInt(3, 9);
+    const dmax = Math.min(a, nx - a);
+    const d = this.randInt(1, dmax) * this.randChoice([-1, 1]);
+    const x = a + d, y = this.randInt(1, ny - 1);
+    const g = gridBase(nx, ny, 22, 14, 10);
+    let inner = g.inner;
+    for (let i = 0; i <= nx; i++) inner += G._6svgText(g.X(i), g.Y(ny) + 16, String(i), { size: 10, weight: '600' });
+    inner += `<line x1="${g.X(a)}" y1="4" x2="${g.X(a)}" y2="${g.Y(ny) + 4}" stroke="#2563eb" stroke-width="3"/>` + G._6svgText(g.X(a) + 14, 16, '(d)', { size: 12, fill: '#2563eb', weight: '800' });
+    inner += `<circle cx="${g.X(x)}" cy="${g.Y(y)}" r="4" fill="#dc2626"/>` + G._6svgText(g.X(x) + 9, g.Y(y) - 7, 'M', { size: 13, fill: '#dc2626', weight: '800' });
+    const fig = this._6svg(nx * 22 + 28, ny * 22 + 32, inner, 300);
+    const ans = 2 * a - x;
+    return this._6E_q('6G2', 3, {
+      title: 'Symétrique sur un quadrillage repéré',
+      statement: `Les lignes verticales du quadrillage sont numérotées de $0$ à $${nx}$. L'axe $(d)$ est la ligne numéro $${a}$.\n${fig}\n**Sur quelle ligne verticale (donner son numéro) se trouve le point $M'$, symétrique de $M$ par rapport à $(d)$ ?**`,
+      type: 'exact', answer: String(ans), placeholder: 'Ex : 7',
+      hint1: `Compte de combien de carreaux $M$ est éloigné de l'axe, et de quel côté.`,
+      hint2: 'Un point et son symétrique sont de part et d’autre de l’axe, à la même distance de l’axe, sur une même perpendiculaire à l’axe.',
+      solution: `**Étape 1 :** $M$ est sur la ligne $${x}$, donc à $${Math.abs(d)}$ carreau${Math.abs(d) > 1 ? 'x' : ''} ${d > 0 ? 'à droite' : 'à gauche'} de l'axe (ligne $${a}$).\n**Étape 2 :** $M'$ est à la même distance, de l'autre côté : ${d > 0 ? `$${a} - ${Math.abs(d)} = ${ans}$` : `$${a} + ${Math.abs(d)} = ${ans}$`}.\n**Conclusion :** $M'$ est sur la ligne verticale numéro **${ans}** (même ligne horizontale que $M$).`,
+      skill: 'Représenter',
+      _v: { k: '6G2.repere', a, x }
+    });
+  });
+  G._6X_add('6G2', 3, function () {
+    const [P, Q, R] = this._6E_pts(3);
+    let a, b;
+    do { a = this.randInt(25, 110); b = this.randInt(25, 110); } while (a + b > 160);
+    return this._6E_q('6G2', 3, {
+      title: 'Symétrie axiale et angles d’un triangle',
+      statement: `Le triangle $${P}'${Q}'${R}'$ est le symétrique du triangle $${P}${Q}${R}$ par rapport à une droite $(d)$. On sait que $${ang(Q, P, R)} = ${a}^\\circ$ et $${ang(P, Q, R)} = ${b}^\\circ$. **Combien mesure l'angle $${ang(P + "'", R + "'", Q + "'")}$, en degrés ?**`,
+      type: 'exact', answer: String(180 - a - b), placeholder: 'Ex : 50',
+      hint1: `Cherche d'abord l'angle $${ang(P, R, Q)}$ dans le triangle de départ, puis utilise la symétrie.`,
+      hint2: 'La symétrie axiale conserve les mesures d’angles ; dans un triangle, la somme des mesures des trois angles vaut $180^\\circ$.',
+      solution: `**Étape 1 :** dans le triangle $${P}${Q}${R}$ : $${ang(P, R, Q)} = 180^\\circ - ${a}^\\circ - ${b}^\\circ = ${180 - a - b}^\\circ$.\n**Étape 2 :** la symétrie axiale conserve les angles, donc $${ang(P + "'", R + "'", Q + "'")} = ${ang(P, R, Q)}$.\n**Conclusion :** $${ang(P + "'", R + "'", Q + "'")} = ${180 - a - b}^\\circ$.`,
+      skill: 'Raisonner',
+      _v: { k: '6G2.angtri', a, b }
+    });
+  });
+
+  G._6X_origWeight('6G2', 4, 3);
+  G._6X_add('6G2', 4, function () {
+    const e = this.randInt(2, 9), x = this.randInt(1, 6);
+    const [A] = this._6E_pts(1);
+    return this._6E_q('6G2', 4, {
+      title: 'Deux symétries successives',
+      statement: `Les droites $(d_1)$ et $(d_2)$ sont parallèles et distantes de $${e}$ cm. Le point $${A}$ est à $${x}$ cm de $(d_1)$, du côté opposé à $(d_2)$. On construit $${A}'$, symétrique de $${A}$ par rapport à $(d_1)$, puis $${A}''$, symétrique de $${A}'$ par rapport à $(d_2)$. **Calcule la distance $${A}${A}''$, en cm.**`,
+      type: 'exact', answer: String(2 * e), placeholder: 'Ex : 12',
+      hint1: `Trace une perpendiculaire commune aux deux droites passant par $${A}$ et repère les positions comme sur une règle graduée (par exemple $(d_1)$ en $0$ et $(d_2)$ en $${e}$).`,
+      hint2: 'Le symétrique d’un point est sur la perpendiculaire à l’axe passant par ce point, de l’autre côté, à la même distance de l’axe.',
+      solution: `On repère les points sur une perpendiculaire commune : $(d_1)$ en $0$, $(d_2)$ en $${e}$.\n**Étape 1 :** $${A}$ est en $-${x}$ ; son symétrique par rapport à $(d_1)$ est en $${x}$.\n**Étape 2 :** $${A}'$ est à $|${e} - ${x}| = ${Math.abs(e - x)}$ cm de $(d_2)$ ; son symétrique $${A}''$ est en $2 \\times ${e} - ${x} = ${2 * e - x}$.\n**Étape 3 :** $${A}${A}'' = ${2 * e - x} - (-${x}) = ${2 * e}$ cm.\n**Conclusion :** $${A}${A}'' = ${2 * e}$ cm, le double de la distance entre les axes (quelle que soit la position de $${A}$ !).`,
+      skill: 'Chercher',
+      _v: { k: '6G2.deuxsym', e, x }
+    });
+  });
+  G._6X_add('6G2', 4, function () {
+    const n = this.randInt(5, 12);
+    const names = { 5: 'pentagone', 6: 'hexagone', 7: 'heptagone', 8: 'octogone', 9: 'ennéagone', 10: 'décagone', 11: 'hendécagone', 12: 'dodécagone' };
+    return this._6E_q('6G2', 4, {
+      title: 'Axes de symétrie d’un polygone régulier',
+      statement: `Un polygone régulier a tous ses côtés de même longueur et tous ses angles de même mesure. **Combien d'axes de symétrie possède un ${names[n]} régulier ($${n}$ côtés) ?**`,
+      type: 'exact', answer: String(n), placeholder: 'Ex : 4',
+      hint1: 'Commence par des cas connus : combien d’axes pour le triangle équilatéral ? pour le carré ? Cherche une régularité.',
+      hint2: 'Dans un polygone régulier, la médiatrice de chaque côté et la droite joignant chaque sommet au centre sont des axes de symétrie.',
+      solution: `**Étape 1 :** cas connus : triangle équilatéral, $3$ axes ; carré, $4$ axes ; hexagone régulier, $6$ axes.\n**Étape 2 :** un polygone régulier à $n$ côtés possède $n$ axes : ${n % 2 === 0 ? `pour $n = ${n}$ pair, $${n / 2}$ axes passent par deux sommets opposés et $${n / 2}$ axes sont des médiatrices de deux côtés opposés` : `pour $n = ${n}$ impair, chaque axe passe par un sommet et le milieu du côté opposé`}.\n**Conclusion :** le ${names[n]} régulier possède **${n}** axes de symétrie.`,
+      skill: 'Raisonner',
+      _v: { k: '6G2.polyreg', n }
+    });
+  });
+
+  // =====================================================================
+  // 6G3 — Angles
+  // =====================================================================
+  G._6X_origWeight('6G3', 1, 3);
+  G._6X_add('6G3', 1, function () {
+    const x = 5 * this.randInt(2, 34);
+    const [O, P, Q] = this._6E_pts(3);
+    const fig = protractor([0, x], false, [O, P, Q]);
+    return this._6E_q('6G3', 1, {
+      title: 'Lire la mesure d’un angle au rapporteur',
+      statement: `Le centre du rapporteur est placé sur le sommet $${O}$ et le côté $[${O}${P})$ passe par le $0$.\n${fig}\n**Quelle est la mesure de l'angle $${ang(P, O, Q)}$, en degrés ?**`,
+      type: 'exact', answer: String(x), placeholder: 'Ex : 40',
+      hint1: `Pars du $0$ situé sur le côté $[${O}${P})$ et suis la graduation jusqu'au côté $[${O}${Q})$ ; les petits traits valent $5^\\circ$.`,
+      hint2: 'Pour mesurer un angle : centre du rapporteur sur le sommet, un côté sur le zéro, puis lecture sur la graduation qui part de ce zéro.',
+      solution: `**Étape 1 :** le côté $[${O}${P})$ passe par la graduation $0$.\n**Étape 2 :** le côté $[${O}${Q})$ passe par la graduation $${x}$ (${x % 10 === 0 ? 'grand trait' : 'petit trait entre deux grands traits'}).\n**Conclusion :** $${ang(P, O, Q)} = ${x}^\\circ$ ; c'est un angle ${x < 90 ? 'aigu' : x === 90 ? 'droit' : 'obtus'}.`,
+      skill: 'Représenter',
+      _v: { k: '6G3.rapp', x, inner: false }
+    });
+  });
+  G._6X_add('6G3', 1, function () {
+    const kind = this.randChoice(['aigus', 'obtus']);
+    const n = 6;
+    let list;
+    do {
+      list = [];
+      for (let i = 0; i < n; i++) list.push(this.randChoice([this.randInt(5, 89), this.randInt(91, 179), 90, 180, this.randInt(80, 100)]));
+    } while (new Set(list).size < 5 || !list.some(x => (kind === 'aigus' ? x < 90 : x > 90 && x < 180)));
+    const cnt = list.filter(x => (kind === 'aigus' ? x < 90 : x > 90 && x < 180)).length;
+    return this._6E_q('6G3', 1, {
+      title: `Compter les angles ${kind}`,
+      statement: `Voici les mesures de six angles :\n$$${list.map(x => `${x}^\\circ`).join(' \\; ; \\; ')}$$\n**Combien de ces angles sont ${kind} ?**`,
+      type: 'exact', answer: String(cnt), placeholder: 'Ex : 2',
+      hint1: 'Compare chaque mesure à $90^\\circ$ (et à $180^\\circ$), une par une, en cochant celles qui conviennent.',
+      hint2: 'Angle aigu : mesure strictement comprise entre $0^\\circ$ et $90^\\circ$. Angle droit : $90^\\circ$. Angle obtus : mesure strictement comprise entre $90^\\circ$ et $180^\\circ$. Angle plat : $180^\\circ$.',
+      solution: `On classe chaque angle :\n${list.map(x => `• $${x}^\\circ$ : ${x < 90 ? 'aigu' : x === 90 ? 'droit' : x < 180 ? 'obtus' : 'plat'}`).join('\n')}\n**Conclusion :** il y a **${cnt}** angle${cnt > 1 ? 's' : ''} ${kind}${kind === 'obtus' ? '' : ''}.`,
+      skill: 'Chercher',
+      _v: { k: '6G3.compte', list, kind }
+    });
+  });
+
+  G._6X_origWeight('6G3', 2, 4);
+  G._6X_add('6G3', 2, function () {
+    const phi = 5 * this.randInt(2, 34);
+    const [O, P, Q] = this._6E_pts(3);
+    const fig = protractor([180, phi], true, [O, P, Q]);
+    const x = 180 - phi;
+    return this._6E_q('6G3', 2, {
+      title: 'Lire un angle sur la double graduation',
+      statement: `Le centre du rapporteur est sur le sommet $${O}$ ; le côté $[${O}${P})$ est à **gauche**, sur le zéro de la graduation intérieure (en bleu).\n${fig}\n**Quelle est la mesure de l'angle $${ang(P, O, Q)}$, en degrés ?**`,
+      type: 'exact', answer: String(x), placeholder: 'Ex : 40',
+      hint1: `Repère la graduation dont le $0$ est sur le côté $[${O}${P})$ : c'est celle qu'il faut lire, pas l'autre !`,
+      hint2: 'Un rapporteur porte deux graduations en sens contraires ; on lit toujours celle qui part de $0$ sur le premier côté de l’angle. Vérifie ensuite : l’angle est-il aigu ou obtus ?',
+      solution: `**Étape 1 :** le côté $[${O}${P})$ passe par le $0$ de la graduation intérieure.\n**Étape 2 :** sur cette graduation, le côté $[${O}${Q})$ indique $${x}$ (la graduation extérieure indique $${phi}$, c'est le piège).\n**Étape 3 (contrôle) :** l'angle est visiblement ${x < 90 ? 'aigu' : x === 90 ? 'droit' : 'obtus'}, ce qui est cohérent.\n**Conclusion :** $${ang(P, O, Q)} = ${x}^\\circ$.`,
+      skill: 'Représenter',
+      _v: { k: '6G3.rapp', x, inner: true }
+    });
+  });
+  G._6X_add('6G3', 2, function () {
+    const x = this.randInt(12, 78);
+    const [O, P, Q, R] = this._6E_pts(4);
+    const fig = this._6E_rays(O, [{ deg: 0, label: P }, { deg: 90, label: Q }, { deg: x, label: R }], [{ from: 0, to: x, text: `${x}°` }, { from: x, to: 90, text: '?', color: '#dc2626' }]);
+    return this._6E_q('6G3', 2, {
+      title: 'Angle droit partagé en deux',
+      statement: `L'angle $${ang(P, O, Q)}$ est droit et la demi-droite $[${O}${R})$ est à l'intérieur de cet angle, avec $${ang(P, O, R)} = ${x}^\\circ$.\n${fig}\n**Calcule la mesure de l'angle $${ang(R, O, Q)}$, en degrés.**`,
+      type: 'exact', answer: String(90 - x), placeholder: 'Ex : 35',
+      hint1: `Les angles $${ang(P, O, R)}$ et $${ang(R, O, Q)}$ sont adjacents : ensemble, ils forment l'angle $${ang(P, O, Q)}$.`,
+      hint2: 'Un angle droit mesure $90^\\circ$ ; la mesure d’un angle formé de deux angles adjacents est la somme de leurs mesures.',
+      solution: `**Étape 1 :** $${ang(P, O, R)} + ${ang(R, O, Q)} = ${ang(P, O, Q)} = 90^\\circ$ (angles adjacents).\n**Étape 2 :** $${ang(R, O, Q)} = 90^\\circ - ${x}^\\circ = ${90 - x}^\\circ$.\n**Conclusion :** $${ang(R, O, Q)} = ${90 - x}^\\circ$.`,
+      skill: 'Calculer',
+      _v: { k: '6G3.droit', x }
+    });
+  });
+
+  G._6X_origWeight('6G3', 3, 3);
+  G._6X_add('6G3', 3, function () {
+    let a, b;
+    do { a = this.randInt(20, 100); b = 2 * this.randInt(15, 60); } while (a + b > 170);
+    const [O, P, Q, R, M] = this._6E_pts(5);
+    const fig = this._6E_rays(O, [{ deg: 0, label: P }, { deg: a, label: Q }, { deg: a + b, label: R }, { deg: a + b / 2, label: M }], [{ from: 0, to: a, text: `${a}°` }, { from: a, to: a + b, text: `${b}°`, color: '#059669' }]);
+    return this._6E_q('6G3', 3, {
+      title: 'Bissectrice et angles adjacents',
+      statement: `Les angles $${ang(P, O, Q)}$ et $${ang(Q, O, R)}$ sont adjacents, avec $${ang(P, O, Q)} = ${a}^\\circ$ et $${ang(Q, O, R)} = ${b}^\\circ$. La demi-droite $[${O}${M})$ est la bissectrice de l'angle $${ang(Q, O, R)}$.\n${fig}\n**Calcule la mesure de l'angle $${ang(P, O, M)}$, en degrés.**`,
+      type: 'exact', answer: String(a + b / 2), placeholder: 'Ex : 75',
+      hint1: `Décompose : $${ang(P, O, M)}$ est formé de $${ang(P, O, Q)}$ et de $${ang(Q, O, M)}$. Calcule d'abord $${ang(Q, O, M)}$.`,
+      hint2: 'La bissectrice d’un angle le partage en deux angles adjacents de même mesure (chacun vaut la moitié de l’angle).',
+      solution: `**Étape 1 :** $[${O}${M})$ est la bissectrice de $${ang(Q, O, R)}$, donc $${ang(Q, O, M)} = ${b}^\\circ \\div 2 = ${b / 2}^\\circ$.\n**Étape 2 :** $${ang(P, O, Q)}$ et $${ang(Q, O, M)}$ sont adjacents : $${ang(P, O, M)} = ${a}^\\circ + ${b / 2}^\\circ = ${a + b / 2}^\\circ$.\n**Conclusion :** $${ang(P, O, M)} = ${a + b / 2}^\\circ$.`,
+      skill: 'Raisonner',
+      _v: { k: '6G3.bissadj', a, b }
+    });
+  });
+  G._6X_add('6G3', 3, function () {
+    let a, b;
+    do { a = this.randInt(25, 100); b = this.randInt(20, 100); } while (a + b > 160);
+    const [O, P, Q, R, S] = this._6E_pts(5);
+    const fig = this._6E_rays(O, [{ deg: 0, label: Q }, { deg: 180, label: P }, { deg: 180 - a, label: R }, { deg: 180 - a - b, label: S }], [{ from: 180 - a, to: 180, text: `${a}°` }, { from: 180 - a - b, to: 180 - a, text: `${b}°`, color: '#059669' }, { from: 0, to: 180 - a - b, text: '?', color: '#dc2626' }]);
+    return this._6E_q('6G3', 3, {
+      title: 'Angle plat partagé en trois',
+      statement: `Les points $${P}$, $${O}$ et $${Q}$ sont alignés. On a $${ang(P, O, R)} = ${a}^\\circ$ et $${ang(R, O, S)} = ${b}^\\circ$.\n${fig}\n**Calcule la mesure de l'angle $${ang(S, O, Q)}$, en degrés.**`,
+      type: 'exact', answer: String(180 - a - b), placeholder: 'Ex : 50',
+      hint1: `Les trois angles $${ang(P, O, R)}$, $${ang(R, O, S)}$ et $${ang(S, O, Q)}$ sont adjacents et remplissent l'angle $${ang(P, O, Q)}$.`,
+      hint2: 'Trois points alignés forment un angle plat, qui mesure $180^\\circ$.',
+      solution: `**Étape 1 :** $${P}$, $${O}$, $${Q}$ alignés, donc $${ang(P, O, Q)} = 180^\\circ$.\n**Étape 2 :** $${ang(P, O, R)} + ${ang(R, O, S)} = ${a}^\\circ + ${b}^\\circ = ${a + b}^\\circ$.\n**Étape 3 :** $${ang(S, O, Q)} = 180^\\circ - ${a + b}^\\circ = ${180 - a - b}^\\circ$.\n**Conclusion :** $${ang(S, O, Q)} = ${180 - a - b}^\\circ$.`,
+      skill: 'Calculer',
+      _v: { k: '6G3.plat3', a, b }
+    });
+  });
+
+  G._6X_origWeight('6G3', 4, 3);
+  G._6X_add('6G3', 4, function () {
+    let a, b;
+    do { a = 2 * this.randInt(10, 60); b = 2 * this.randInt(10, 60); } while (a + b > 180 || a === b);
+    const [O, P, Q, R, M, N] = this._6E_pts(6);
+    return this._6E_q('6G3', 4, {
+      title: 'Angle formé par deux bissectrices',
+      statement: `Les angles $${ang(P, O, Q)} = ${a}^\\circ$ et $${ang(Q, O, R)} = ${b}^\\circ$ sont adjacents. On trace $[${O}${M})$, bissectrice de $${ang(P, O, Q)}$, et $[${O}${N})$, bissectrice de $${ang(Q, O, R)}$. **Calcule la mesure de l'angle $${ang(M, O, N)}$, en degrés.**`,
+      type: 'exact', answer: String((a + b) / 2), placeholder: 'Ex : 65',
+      hint1: `Fais une figure à main levée. L'angle $${ang(M, O, N)}$ est formé de deux morceaux de part et d'autre de $[${O}${Q})$.`,
+      hint2: 'La bissectrice d’un angle le partage en deux angles adjacents de même mesure.',
+      solution: `**Étape 1 :** $${ang(M, O, Q)} = ${a}^\\circ \\div 2 = ${a / 2}^\\circ$ (bissectrice de $${ang(P, O, Q)}$).\n**Étape 2 :** $${ang(Q, O, N)} = ${b}^\\circ \\div 2 = ${b / 2}^\\circ$ (bissectrice de $${ang(Q, O, R)}$).\n**Étape 3 :** ces deux angles sont adjacents : $${ang(M, O, N)} = ${a / 2}^\\circ + ${b / 2}^\\circ = ${(a + b) / 2}^\\circ$.\n**Conclusion :** $${ang(M, O, N)} = ${(a + b) / 2}^\\circ$, la moitié de $${ang(P, O, R)} = ${a + b}^\\circ$.`,
+      skill: 'Raisonner',
+      _v: { k: '6G3.deuxbiss', a, b }
+    });
+  });
+  G._6X_add('6G3', 4, function () {
+    const n = this.randChoice([5, 6, 8, 9, 10, 12, 15, 18, 20, 24, 36]);
+    const k = this.randInt(2, Math.floor(n / 2));
+    const ctx = this.randChoice(['Une roue de vélo possède', 'Un parapluie ouvert possède', 'Une grande roue de fête foraine possède']);
+    return this._6E_q('6G3', 4, {
+      title: 'Partager un tour en angles égaux',
+      statement: `${ctx} $${n}$ rayons régulièrement espacés autour du centre $O$ (deux rayons voisins forment toujours le même angle). **Quelle est la mesure, en degrés, de l'angle formé par deux rayons séparés par $${k}$ intervalles ?**`,
+      type: 'exact', answer: this._6ans(360 * k / n), placeholder: 'Ex : 72',
+      hint1: 'Calcule d’abord l’angle entre deux rayons voisins, puis multiplie par le nombre d’intervalles.',
+      hint2: 'Un tour complet autour d’un point mesure $360^\\circ$.',
+      solution: `**Étape 1 :** les $${n}$ rayons partagent le tour complet en $${n}$ angles égaux : $360^\\circ \\div ${n} = ${this._6tex(360 / n)}^\\circ$.\n**Étape 2 :** pour $${k}$ intervalles : $${k} \\times ${this._6tex(360 / n)}^\\circ = ${this._6tex(360 * k / n)}^\\circ$.\n**Conclusion :** l'angle mesure $${this._6tex(360 * k / n)}^\\circ$.`,
+      skill: 'Modéliser',
+      _v: { k: '6G3.tour', n, m: k }
+    });
+  });
+
+  // =====================================================================
+  // 6G4 — Triangles
+  // =====================================================================
+  G._6X_origWeight('6G4', 1, 4);
+  G._6X_add('6G4', 1, function () {
+    const [P, Q, R] = this._6E_pts(3);
+    const x = this.randInt(3, 15);
+    let b; do { b = this.randInt(2, 2 * x - 1); } while (b === x);
+    return this._6E_q('6G4', 1, {
+      title: 'Périmètre d’un triangle isocèle',
+      statement: `Le triangle $${P}${Q}${R}$ est isocèle en $${P}$, avec $${P}${Q} = ${x}$ cm et $${Q}${R} = ${b}$ cm. **Calcule son périmètre, en cm.**`,
+      type: 'exact', answer: String(2 * x + b), placeholder: 'Ex : 17',
+      hint1: `Cherche d'abord la longueur du troisième côté $[${P}${R}]$.`,
+      hint2: `Un triangle isocèle en $${P}$ a deux côtés de même longueur : ceux qui partent du sommet principal $${P}$. Le périmètre est la somme des longueurs des côtés.`,
+      solution: `**Étape 1 :** isocèle en $${P}$ : $${P}${R} = ${P}${Q} = ${x}$ cm.\n**Étape 2 :** périmètre $= ${x} + ${x} + ${b} = ${2 * x + b}$ cm.\n**Conclusion :** le périmètre de $${P}${Q}${R}$ est $${2 * x + b}$ cm.`,
+      skill: 'Calculer',
+      _v: { k: '6G4.isoper', x, b }
+    });
+  });
+
+  G._6X_origWeight('6G4', 2, 3);
+  G._6X_add('6G4', 2, function () {
+    const [P, Q, R] = this._6E_pts(3);
+    const c = Math.random() < 0.6 ? this.randInt(2, 30) : this.randInt(11, 99) / 10;
+    const per = Math.round(3 * c * 10) / 10;
+    return this._6E_q('6G4', 2, {
+      title: 'Triangle équilatéral : côté à partir du périmètre',
+      statement: `Le triangle $${P}${Q}${R}$ est équilatéral et son périmètre mesure $${this._6tex(per)}$ cm. **Quelle est la longueur d'un côté, en cm ?**`,
+      type: 'exact', answer: this._6ans(c), placeholder: 'Ex : 4,5',
+      hint1: 'Le périmètre est partagé en parts égales : combien de côtés a le triangle ?',
+      hint2: 'Un triangle équilatéral a ses trois côtés de même longueur.',
+      solution: `**Étape 1 :** les trois côtés ont la même longueur $c$, donc $3 \\times c = ${this._6tex(per)}$.\n**Étape 2 :** $c = ${this._6tex(per)} \\div 3 = ${this._6tex(c)}$.\n**Conclusion :** chaque côté mesure $${this._6tex(c)}$ cm.`,
+      skill: 'Calculer',
+      _v: { k: '6G4.equicote', per }
+    });
+  });
+  G._6X_add('6G4', 2, function () {
+    const [P, Q, R] = this._6E_pts(3);
+    let s;
+    do { s = [this.randInt(3, 9), this.randInt(3, 9), this.randInt(3, 9)]; } while (new Set(s).size < 3 || Math.max(...s) >= sum(s) - Math.max(...s));
+    const [ab, ac, bc] = s; // PQ, PR, QR
+    const arc = (c, r) => `un arc de cercle de centre $${c}$ et de rayon $${r}$ cm`;
+    const correct = arc(P, ac);
+    return this._6E_mcq('6G4', 2, {
+      title: 'Construire un triangle connaissant ses trois côtés',
+      statement: `On veut construire le triangle $${P}${Q}${R}$ tel que $${P}${Q} = ${ab}$ cm, $${P}${R} = ${ac}$ cm et $${Q}${R} = ${bc}$ cm. On a déjà tracé le segment $[${P}${Q}]$. Pour placer le point $${R}$, on trace deux arcs de cercle au compas. **Lequel des arcs suivants faut-il tracer ?**`,
+      hint1: `Le point $${R}$ doit être à $${ac}$ cm de $${P}$ et à $${bc}$ cm de $${Q}$.`,
+      hint2: 'Les points situés à une distance $r$ d’un point $O$ sont sur le cercle de centre $O$ et de rayon $r$.',
+      solution: `**Étape 1 :** $${P}${R} = ${ac}$ cm : $${R}$ est sur le cercle de centre $${P}$ et de rayon $${ac}$ cm.\n**Étape 2 :** $${Q}${R} = ${bc}$ cm : $${R}$ est aussi sur le cercle de centre $${Q}$ et de rayon $${bc}$ cm.\n**Conclusion :** parmi les propositions, il faut tracer **${correct}** ; $${R}$ est un point d'intersection des deux arcs.`,
+      skill: 'Représenter',
+      _v: { k: '6G4.compas', P, Q, ab, ac, bc }
+    }, correct, [arc(P, bc), arc(Q, ac), arc(P, ab)]);
+  });
+
+  G._6X_origWeight('6G4', 3, 3);
+  G._6X_add('6G4', 3, function () {
+    const [P, Q, R] = this._6E_pts(3);
+    const k = this.randChoice([2, 3, 4]);
+    let x; do { x = this.randInt(10, 40); } while ((k + 1) * x >= 170);
+    const c = 180 - (k + 1) * x;
+    return this._6E_q('6G4', 3, {
+      title: 'Angles liés par une relation',
+      statement: `Dans le triangle $${P}${Q}${R}$, $\\widehat{${P}} = ${x}^\\circ$ et l'angle $\\widehat{${Q}}$ mesure ${['', '', 'le double', 'le triple', 'le quadruple'][k]} de l'angle $\\widehat{${P}}$. **Calcule la mesure de l'angle $\\widehat{${R}}$, en degrés.**`,
+      type: 'exact', answer: String(c), placeholder: 'Ex : 70',
+      hint1: `Calcule d'abord $\\widehat{${Q}}$, puis utilise les trois angles du triangle.`,
+      hint2: 'Dans un triangle, la somme des mesures des trois angles est égale à $180^\\circ$.',
+      solution: `**Étape 1 :** $\\widehat{${Q}} = ${k} \\times ${x}^\\circ = ${k * x}^\\circ$.\n**Étape 2 :** $\\widehat{${P}} + \\widehat{${Q}} = ${x}^\\circ + ${k * x}^\\circ = ${(k + 1) * x}^\\circ$.\n**Étape 3 :** $\\widehat{${R}} = 180^\\circ - ${(k + 1) * x}^\\circ = ${c}^\\circ$.\n**Conclusion :** $\\widehat{${R}} = ${c}^\\circ$.`,
+      skill: 'Calculer',
+      _v: { k: '6G4.relation', x, m: k }
+    });
+  });
+  G._6X_add('6G4', 3, function () {
+    const [P, Q, R] = this._6E_pts(3);
+    let a, b;
+    do { a = this.randInt(3, 12); b = this.randInt(2, 12); } while (a === b || Math.abs(a - b) < 2);
+    const lo = Math.abs(a - b), hi = a + b;
+    const good = this.randInt(lo + 1, hi - 1);
+    const bads = this.shuffle([hi, hi + this.randInt(1, 4), lo, Math.max(1, lo - 1)].filter((v, i, arr) => arr.indexOf(v) === i && (v <= lo || v >= hi)));
+    const f = v => `$${v}$ cm`;
+    return this._6E_mcq('6G4', 3, {
+      title: 'Inégalité triangulaire : longueur possible',
+      statement: `On veut construire un triangle $${P}${Q}${R}$ (non aplati) avec $${P}${Q} = ${a}$ cm et $${Q}${R} = ${b}$ cm. **Parmi ces longueurs, laquelle peut être celle de $[${P}${R}]$ ?**`,
+      hint1: 'Pour chaque proposition, compare la plus grande des trois longueurs à la somme des deux autres.',
+      hint2: 'Un triangle (non aplati) est constructible lorsque la plus grande longueur est strictement inférieure à la somme des deux autres.',
+      solution: `On teste chaque proposition :\n${[good].concat(bads.slice(0, 3)).sort((u, v) => u - v).map(v => { const m = Math.max(a, b, v), r = a + b + v - m; return `• $${v}$ cm : plus grande longueur $${m}$, somme des deux autres $${r}$ : ${m < r ? `$${m} < ${r}$, **constructible**` : `$${m} \\geq ${r}$, impossible`}.`; }).join('\n')}\n**Conclusion :** $${P}${R}$ peut mesurer $${good}$ cm.`,
+      skill: 'Raisonner',
+      _v: { k: '6G4.ineg', a, b, good }
+    }, f(good), bads.map(f));
+  });
+
+  G._6X_origWeight('6G4', 4, 3);
+  G._6X_add('6G4', 4, function () {
+    const [P, Q, R] = this._6E_pts(3);
+    const k = this.randChoice([1, 2, 3, 4, 7, 8, 10, 13]);
+    const base = 180 / (k + 2);
+    return this._6E_q('6G4', 4, {
+      title: 'Triangle isocèle : angle au sommet et angles à la base',
+      statement: `Le triangle $${P}${Q}${R}$ est isocèle en $${P}$. L'angle au sommet principal $\\widehat{${P}}$ mesure ${k === 1 ? 'autant que' : `$${k}$ fois`} un angle à la base. **Calcule la mesure de l'angle $\\widehat{${Q}}$, en degrés.**`,
+      type: 'exact', answer: String(base), placeholder: 'Ex : 36',
+      hint1: `Appelle $x$ la mesure d'un angle à la base et exprime les trois angles du triangle à l'aide de $x$.`,
+      hint2: 'Dans un triangle isocèle, les deux angles à la base ont la même mesure ; la somme des trois angles d’un triangle vaut $180^\\circ$.',
+      solution: `**Étape 1 :** isocèle en $${P}$ : $\\widehat{${Q}} = \\widehat{${R}} = x$ et $\\widehat{${P}} = ${k === 1 ? 'x' : `${k}x`}$.\n**Étape 2 :** somme des angles : $x + x + ${k === 1 ? 'x' : `${k}x`} = 180^\\circ$, soit $${k + 2}x = 180^\\circ$.\n**Étape 3 :** $x = 180^\\circ \\div ${k + 2} = ${base}^\\circ$.\n**Conclusion :** $\\widehat{${Q}} = ${base}^\\circ$ (et $\\widehat{${P}} = ${k * base}^\\circ$ ; vérification : $${base} + ${base} + ${k * base} = 180$).`,
+      skill: 'Chercher',
+      _v: { k: '6G4.isorel', m: k }
+    });
+  });
+  G._6X_add('6G4', 4, function () {
+    const [P, Q, R] = this._6E_pts(3);
+    let a, b; do { a = this.randInt(3, 15); b = this.randInt(2, 12); } while (a === b);
+    const ask = this.randChoice(['max', 'min', 'count']);
+    const lo = Math.abs(a - b) + 1, hi = a + b - 1;
+    const ans = ask === 'max' ? hi : ask === 'min' ? lo : hi - lo + 1;
+    const qtxt = ask === 'max' ? 'Quelle est la plus grande valeur possible de $' + P + R + '$, en cm ?' : ask === 'min' ? 'Quelle est la plus petite valeur possible de $' + P + R + '$, en cm ?' : 'Combien de valeurs entières sont possibles pour $' + P + R + '$ ?';
+    return this._6E_q('6G4', 4, {
+      title: 'Longueurs entières possibles d’un côté',
+      statement: `On veut construire un triangle $${P}${Q}${R}$ non aplati tel que $${P}${Q} = ${a}$ cm, $${Q}${R} = ${b}$ cm et dont le côté $[${P}${R}]$ mesure un **nombre entier** de centimètres. **${qtxt}**`,
+      type: 'exact', answer: String(ans), placeholder: 'Ex : 9',
+      hint1: `Teste des valeurs de $${P}${R}$ : il faut qu'aucune longueur ne soit trop grande par rapport aux deux autres.`,
+      hint2: 'Un triangle non aplati existe lorsque chaque longueur est strictement inférieure à la somme des deux autres.',
+      solution: `**Étape 1 :** $${P}${R} < ${a} + ${b} = ${a + b}$, donc $${P}${R} \\leq ${hi}$ (entier).\n**Étape 2 :** la plus grande des deux longueurs connues doit aussi être inférieure à la somme des deux autres : $${Math.max(a, b)} < ${Math.min(a, b)} + ${P}${R}$, donc $${P}${R} > ${Math.abs(a - b)}$, soit $${P}${R} \\geq ${lo}$.\n**Étape 3 :** les valeurs possibles vont de $${lo}$ à $${hi}$${ask === 'count' ? ` : il y en a $${hi} - ${lo} + 1 = ${hi - lo + 1}$` : ''}.\n**Conclusion :** ${ask === 'max' ? `la plus grande valeur est **${hi}** cm` : ask === 'min' ? `la plus petite valeur est **${lo}** cm` : `il y a **${hi - lo + 1}** valeurs possibles`}.`,
+      skill: 'Raisonner',
+      _v: { k: '6G4.entiers', a, b, ask }
+    });
+  });
+
+  // =====================================================================
+  // 6G5 — Vision dans l'espace
+  // =====================================================================
+  const SOLIDES = [
+    ['six faces, toutes des carrés de même taille', 'un cube'],
+    ['six faces rectangulaires, qui ne sont pas toutes des carrés', 'un pavé droit'],
+    ['deux bases en forme de disque reliées par une surface courbe', 'un cylindre'],
+    ['une base polygonale et des faces triangulaires qui se rejoignent en un même sommet', 'une pyramide'],
+    ['une base en forme de disque et un sommet, reliés par une surface courbe', 'un cône'],
+    ['une seule surface courbe, dont tous les points sont à la même distance du centre', 'une boule'],
+    ['deux bases polygonales identiques et parallèles reliées par des faces rectangulaires', 'un prisme droit']
+  ];
+  G._6X_origWeight('6G5', 1, 3);
+  G._6X_add('6G5', 1, function () {
+    const i = this.randInt(0, SOLIDES.length - 1);
+    const correct = SOLIDES[i][1];
+    const others = this.shuffle(SOLIDES.filter((_, j) => j !== i).map(s => s[1]));
+    return this._6E_mcq('6G5', 1, {
+      title: 'Reconnaître un solide d’après sa description',
+      statement: `Un solide possède ${SOLIDES[i][0]}. **De quel solide s'agit-il ?**`,
+      hint1: 'Demande-toi si le solide a des faces planes, une surface courbe, un sommet où tout se rejoint…',
+      hint2: 'Cube : 6 faces carrées. Pavé droit : 6 faces rectangulaires. Prisme droit : 2 bases polygonales et des faces rectangulaires. Pyramide : une base et des faces triangulaires. Cylindre, cône, boule : surfaces courbes.',
+      solution: `**Indice décisif :** ${SOLIDES[i][0]}.\n**Conclusion :** c'est **${correct}**.`,
+      skill: 'Communiquer',
+      _v: { k: '6G5.solide', i }
+    }, correct, others);
+  });
+  G._6X_add('6G5', 1, function () {
+    const a = Math.random() < 0.6 ? this.randInt(2, 15) : this.randInt(11, 59) / 10;
+    return this._6E_q('6G5', 1, {
+      title: 'Longueur totale des arêtes d’un cube',
+      statement: `On fabrique le squelette d'un cube d'arête $${this._6tex(a)}$ cm avec des baguettes. **Quelle longueur totale de baguettes faut-il, en cm ?**`,
+      type: 'exact', answer: this._6ans(12 * a), placeholder: 'Ex : 36',
+      hint1: 'Compte les arêtes du cube (dessus, dessous, et verticales) : elles ont toutes la même longueur.',
+      hint2: 'Un cube a 6 faces carrées, 12 arêtes de même longueur et 8 sommets.',
+      solution: `**Étape 1 :** un cube possède $12$ arêtes, toutes de longueur $${this._6tex(a)}$ cm.\n**Étape 2 :** $12 \\times ${this._6tex(a)} = ${this._6tex(12 * a)}$.\n**Conclusion :** il faut $${this._6tex(12 * a)}$ cm de baguettes.`,
+      skill: 'Calculer',
+      _v: { k: '6G5.aretescube', a }
+    });
+  });
+
+  G._6X_origWeight('6G5', 2, 3);
+  G._6X_add('6G5', 2, function () {
+    const ok = transformNet(this.randChoice(NETS_OK), this.randInt(0, 3), Math.random() < 0.5);
+    const kos = this.shuffle(NETS_KO.slice()).slice(0, 3).map(n => transformNet(n, this.randInt(0, 3), Math.random() < 0.5));
+    const pos = this.randInt(0, 3);
+    const nets = kos.slice(); nets.splice(pos, 0, ok);
+    const fig = netsSvg(nets);
+    const correct = `la figure ${pos + 1}`;
+    return this._6E_mcq('6G5', 2, {
+      title: 'Reconnaître un patron de cube',
+      statement: `Chacune des figures ci-dessous est formée de six carrés identiques.\n${fig}\n**Laquelle est un patron de cube ?**`,
+      hint1: 'Imagine le pliage : choisis un carré comme base et rabats les autres autour. Deux carrés ne doivent jamais arriver sur la même face.',
+      hint2: 'Un patron de cube est formé de 6 carrés qui, après pliage, recouvrent chacun une face différente. Une figure contenant 2 × 2 carrés en bloc ou 5 carrés alignés n’est jamais un patron de cube.',
+      solution: `**Étape 1 :** on élimine les figures où deux carrés se superposent au pliage (bloc de $2 \\times 2$ carrés, $5$ carrés alignés, deux carrés repliés du même côté d'une bande de $4$…).\n**Étape 2 :** dans ${correct}, en pliant autour d'un carré de base, les six carrés couvrent les six faces du cube.\n**Conclusion :** le patron de cube est **${correct}**.`,
+      skill: 'Représenter',
+      _v: { k: '6G5.patron', nets }
+    }, correct, [0, 1, 2, 3].filter(i => i !== pos).map(i => `la figure ${i + 1}`));
+  });
+  G._6X_add('6G5', 2, function () {
+    let a, b, c;
+    do { a = this.randInt(1, 4); b = this.randInt(1, 4); c = this.randInt(1, 4); } while (a === b && b === c);
+    const h = [];
+    for (let i = 0; i < a; i++) h.push(Array(b).fill(c));
+    const m = Math.max(a, b, c);
+    return this._6E_q('6G5', 2, {
+      title: 'Transformer un pavé en cube',
+      statement: `Ce pavé droit plein est formé de cubes identiques.\n${this._6E_iso(h)}\n**Combien de cubes faut-il ajouter, au minimum, pour obtenir un cube plein ?**`,
+      type: 'exact', answer: String(m * m * m - a * b * c), placeholder: 'Ex : 19',
+      hint1: 'Compte les cubes du pavé (longueur, largeur, hauteur), puis cherche le plus petit grand cube qui peut le contenir.',
+      hint2: 'Un pavé droit de $L$ sur $\\ell$ sur $h$ cubes contient $L \\times \\ell \\times h$ cubes ; un cube a ses trois dimensions égales.',
+      solution: `**Étape 1 :** le pavé mesure $${a}$ sur $${b}$ sur $${c}$ cubes : il contient $${a} \\times ${b} \\times ${c} = ${a * b * c}$ cubes.\n**Étape 2 :** le plus petit cube qui le contient a pour arête la plus grande dimension, $${m}$ cubes : il contient $${m} \\times ${m} \\times ${m} = ${m * m * m}$ cubes.\n**Étape 3 :** $${m * m * m} - ${a * b * c} = ${m * m * m - a * b * c}$.\n**Conclusion :** il faut ajouter $${m * m * m - a * b * c}$ cubes.`,
+      skill: 'Chercher',
+      _v: { k: '6G5.verscube', a, b, c }
+    });
+  });
+
+  G._6X_origWeight('6G5', 3, 3);
+  G._6X_add('6G5', 3, function () {
+    // Patron 1-4-1 numéroté comme un dé (faces opposées : somme 7).
+    const flapsTop = this.randInt(0, 3), flapsBot = this.randInt(0, 3);
+    const cells = [[0, 1], [1, 1], [2, 1], [3, 1], [flapsTop, 0], [flapsBot, 2]];
+    // opposés : bande 0-2, 1-3 ; rabats haut-bas
+    const pairs = [[0, 2], [1, 3], [4, 5]];
+    const vals = this.shuffle([[1, 6], [2, 5], [3, 4]]);
+    const num = Array(6);
+    pairs.forEach(([u, v], i) => { const sw = Math.random() < 0.5; num[u] = vals[i][sw ? 1 : 0]; num[v] = vals[i][sw ? 0 : 1]; });
+    const hole = this.randInt(0, 5);
+    const texts = num.map((v, i) => (i === hole ? '?' : String(v)));
+    const fig = netsSvg([cells], [texts]).replace('Figure 1', 'Patron');
+    const opp = pairs.find(p => p.includes(hole)).find(i => i !== hole);
+    return this._6E_q('6G5', 3, {
+      title: 'Patron d’un dé : face opposée',
+      statement: `Sur un dé à six faces, la somme des nombres de deux faces opposées est toujours égale à $7$. Voici un patron de ce dé, où une face n'est pas encore numérotée.\n${fig}\n**Quel nombre faut-il écrire à la place du point d'interrogation ?**`,
+      type: 'exact', answer: String(7 - num[opp]), placeholder: 'Ex : 3',
+      hint1: 'Plie le patron dans ta tête : dans une bande de quatre carrés, deux carrés séparés par un autre carré deviennent des faces opposées. Les deux carrés hors de la bande sont opposés entre eux.',
+      hint2: 'Sur un cube, chaque face a une seule face opposée (parallèle) : les deux ne se touchent pas.',
+      solution: `**Étape 1 :** on repère la face opposée à la face « ? » : ${hole >= 4 ? 'les deux carrés situés hors de la bande se replient l\'un en face de l\'autre' : 'dans la bande de quatre carrés, les faces séparées par un carré sont opposées'} ; la face opposée porte le nombre $${num[opp]}$.\n**Étape 2 :** deux faces opposées ont pour somme $7$ : $7 - ${num[opp]} = ${7 - num[opp]}$.\n**Conclusion :** il faut écrire **${7 - num[opp]}**.`,
+      skill: 'Représenter',
+      _v: { k: '6G5.de', cells, texts }
+    });
+  });
+  G._6X_add('6G5', 3, function () {
+    const nr = this.randInt(2, 3), nc = this.randInt(2, 4);
+    const h = [];
+    for (let r = 0; r < nr; r++) { h.push([]); for (let c = 0; c < nc; c++) h[r].push(this.randInt(1, 4)); }
+    const ask = this.randChoice(['total', 'face']);
+    const s = 30, ox = 30, oy = 22;
+    const g = gridBase(nc, nr, s, ox, oy);
+    let inner = '';
+    for (let r = 0; r < nr; r++) for (let c = 0; c < nc; c++) {
+      inner += `<rect x="${g.X(c)}" y="${g.Y(r)}" width="${s}" height="${s}" fill="#dbeafe" stroke="#1e3a8a" stroke-width="1.2"/>`;
+      inner += G._6svgText(g.X(c) + s / 2, g.Y(r) + s / 2 + 5, String(h[r][c]), { size: 14, weight: '800', fill: '#1e3a8a' });
+    }
+    inner += G._6svgText(ox + nc * s / 2, oy + nr * s + 22, 'FACE ↑ (on regarde depuis ce côté)', { size: 10, fill: '#dc2626', weight: '800' });
+    const fig = this._6svg(nc * s + 2 * ox + 40, nr * s + oy + 34, inner, 260);
+    const tot = sum(h.flat());
+    const face = [...Array(nc).keys()].map(c => Math.max(...h.map(r => r[c])));
+    return this._6E_q('6G5', 3, {
+      title: ask === 'total' ? 'Vue de dessus codée : compter les cubes' : 'Vue de dessus codée : vue de face',
+      statement: `Voici la vue de dessus d'un assemblage de cubes identiques posé sur une table. Le nombre écrit dans chaque case indique combien de cubes sont empilés à cet endroit.\n${fig}\n**${ask === 'total' ? 'Combien de cubes compte cet assemblage ?' : 'Combien de carrés voit-on sur la vue de face (côté marqué FACE) ?'}**`,
+      type: 'exact', answer: String(ask === 'total' ? tot : sum(face)), placeholder: 'Ex : 12',
+      hint1: ask === 'total' ? 'Chaque nombre est la hauteur d’une pile : il faut tenir compte de toutes les piles.' : 'Sur la vue de face, chaque colonne de la grille (de gauche à droite) devient une colonne de carrés : seule la pile la plus haute de cette colonne compte.',
+      hint2: ask === 'total' ? 'Le nombre de cubes d’un assemblage est la somme des hauteurs de toutes ses piles.' : 'Une vue de face ne montre pas la profondeur : les piles situées les unes derrière les autres se cachent.',
+      solution: ask === 'total'
+        ? `**Étape 1 :** on additionne les hauteurs ligne par ligne : ${h.map(r => `$${r.join(' + ')} = ${sum(r)}$`).join(' ; ')}.\n**Étape 2 :** $${h.map(r => sum(r)).join(' + ')} = ${tot}$.\n**Conclusion :** l'assemblage compte $${tot}$ cubes.`
+        : `**Étape 1 :** pour chaque colonne (de gauche à droite), on garde la plus grande hauteur : $${face.join('$, $')}$.\n**Étape 2 :** $${face.join(' + ')} = ${sum(face)}$.\n**Conclusion :** on voit $${sum(face)}$ carrés sur la vue de face.`,
+      skill: 'Représenter',
+      _v: { k: '6G5.cotee', h, ask }
+    });
+  });
+
+  G._6X_origWeight('6G5', 4, 1);
+  G._6X_add('6G5', 4, function () {
+    // Vue de face (colonnes) et vue de droite (rangées) ; vue de dessus rectangulaire pleine.
+    let f, s;
+    do {
+      f = Array.from({ length: this.randInt(2, 4) }, () => this.randInt(1, 4));
+      s = Array.from({ length: this.randInt(2, 3) }, () => this.randInt(1, 4));
+    } while (Math.max(...f) !== Math.max(...s) || Math.max(...f) < 2);
+    const vf = viewSvg(f, 'Vue de face'), vs = viewSvg(s, 'Vue de droite');
+    const inner = vf.inner + `<g transform="translate(${vf.w + 24},0)">${vs.inner}</g>`;
+    const W = vf.w + 24 + vs.w, H = Math.max(vf.h, vs.h);
+    const fig = this._6svg(W, H + 6, inner, 300);
+    let max = 0;
+    for (const a of f) for (const b of s) max += Math.min(a, b);
+    return this._6E_q('6G5', 4, {
+      title: 'Nombre maximal de cubes d’après deux vues',
+      statement: `Un assemblage de cubes identiques est posé sur une table. Sa vue de dessus est un rectangle plein de $${f.length}$ carrés de large et $${s.length}$ carrés de profondeur (chaque emplacement porte au moins un cube). Voici sa vue de face et sa vue de droite.\n${fig}\n**Quel est le nombre maximal de cubes que peut contenir cet assemblage ?**`,
+      type: 'exact', answer: String(max), placeholder: 'Ex : 15',
+      hint1: 'Chaque emplacement de la vue de dessus est à la croisée d’une colonne de la vue de face et d’une colonne de la vue de droite : sa pile ne peut dépasser aucune des deux hauteurs.',
+      hint2: 'Une vue de face (ou de droite) montre, pour chaque colonne, la hauteur de la pile la plus haute de cette rangée.',
+      solution: `**Étape 1 :** pour l'emplacement situé dans la colonne de hauteur $a$ (vue de face) et la rangée de hauteur $b$ (vue de droite), la pile mesure au plus le plus petit des deux nombres.\n**Étape 2 :** on additionne ces maximums :\n${s.map(b => `• rangée de hauteur $${b}$ : $${f.map(a => Math.min(a, b)).join(' + ')} = ${sum(f.map(a => Math.min(a, b)))}$`).join('\n')}\n**Étape 3 :** total $= ${s.map(b => sum(f.map(a => Math.min(a, b)))).join(' + ')} = ${max}$ (et cet assemblage a bien les deux vues demandées).\n**Conclusion :** au maximum $${max}$ cubes.`,
+      skill: 'Chercher',
+      _v: { k: '6G5.maxvues', f, s }
+    });
+  });
+  G._6X_add('6G5', 4, function () {
+    const L = this.randInt(2, 15), l = this.randInt(2, 12), hh = this.randInt(2, 10);
+    const A = 2 * (L * l + l * hh + L * hh);
+    return this._6E_q('6G5', 4, {
+      title: 'Aire du patron d’un pavé droit',
+      statement: `On découpe dans du carton le patron d'un pavé droit de $${L}$ cm de long, $${l}$ cm de large et $${hh}$ cm de haut (sans languettes de collage). **Quelle est l'aire du patron, en cm² ?**`,
+      type: 'exact', answer: String(A), placeholder: 'Ex : 148',
+      hint1: 'Le patron est formé des 6 faces du pavé : repère les faces identiques deux à deux et calcule l’aire de chaque sorte de face.',
+      hint2: 'Un pavé droit a 6 faces rectangulaires, opposées deux à deux et superposables ; l’aire d’un rectangle est longueur × largeur.',
+      solution: `**Étape 1 :** deux faces de $${L}$ cm sur $${l}$ cm : $2 \\times ${L * l} = ${2 * L * l}$ cm².\n**Étape 2 :** deux faces de $${l}$ cm sur $${hh}$ cm : $2 \\times ${l * hh} = ${2 * l * hh}$ cm².\n**Étape 3 :** deux faces de $${L}$ cm sur $${hh}$ cm : $2 \\times ${L * hh} = ${2 * L * hh}$ cm².\n**Conclusion :** aire du patron $= ${2 * L * l} + ${2 * l * hh} + ${2 * L * hh} = ${A}$ cm².`,
+      skill: 'Modéliser',
+      _v: { k: '6G5.airepatron', L, l, h: hh }
+    });
+  });
+  G._6X_add('6G5', 4, function () {
+    const n = this.randInt(3, 12);
+    const kind = this.randChoice(['pile', 'rangee']);
+    const ans = kind === 'pile' ? 4 * n + 1 : 3 * n + 2;
+    const h = kind === 'pile' ? [[n]] : Array.from({ length: Math.min(n, 6) }, () => [1]);
+    return this._6E_q('6G5', 4, {
+      title: kind === 'pile' ? 'Faces visibles d’une tour de cubes' : 'Faces visibles d’une rangée de cubes',
+      statement: kind === 'pile'
+        ? `On empile $${n}$ cubes identiques les uns sur les autres pour former une tour posée sur une table. On peut tourner autour de la tour. **Combien de faces de petits cubes sont visibles ?** (Les faces collées entre deux cubes et la face posée sur la table ne sont pas visibles.)`
+        : `On aligne $${n}$ cubes identiques, côte à côte, sur une table pour former une rangée. On peut tourner autour de la rangée. **Combien de faces de petits cubes sont visibles ?** (Les faces collées entre deux cubes et les faces posées sur la table ne sont pas visibles.)${n <= 6 ? `\n${this._6E_iso(h)}` : ''}`,
+      type: 'exact', answer: String(ans), placeholder: 'Ex : 13',
+      hint1: 'Commence par de petits cas (1 cube, 2 cubes, 3 cubes) et cherche la régularité, ou compte direction par direction (dessus, devant, derrière, côtés).',
+      hint2: 'Un cube a 6 faces. Quand deux cubes sont collés, deux faces (une de chaque cube) deviennent invisibles.',
+      solution: kind === 'pile'
+        ? `**Étape 1 :** chaque cube montre ses $4$ faces latérales (devant, derrière, gauche, droite) : $4 \\times ${n} = ${4 * n}$ faces.\n**Étape 2 :** on voit en plus la face du dessus du cube le plus haut : $1$ face.\n**Conclusion :** $${4 * n} + 1 = ${ans}$ faces visibles.`
+        : `**Étape 1 :** chaque cube montre sa face du dessus, sa face avant et sa face arrière : $3 \\times ${n} = ${3 * n}$ faces.\n**Étape 2 :** on voit aussi les deux faces des extrémités de la rangée : $2$ faces.\n**Conclusion :** $${3 * n} + 2 = ${ans}$ faces visibles.`,
+      skill: 'Chercher',
+      _v: { k: '6G5.visibles', n, kind }
+    });
+  });
+})();
+
+// ----- Extensions 6ème, groupe A (audit 2026-10-31) -----
+// ---------------------------------------------------------------------
+// Extensions 6N1 à 6N5 (audit 2026-10-31) : nouvelles familles
+// ---------------------------------------------------------------------
+(function () {
+  'use strict';
+  if (typeof window === 'undefined' || !window.MathsGenerators || !window.MathsGenerators._6X_add) return;
+  const G = window.MathsGenerators;
+  const PH_DEC = 'Ex : 12,5';
+  const PH_INT = 'Ex : 24';
+  const PRENOMS = ['Léa', 'Hugo', 'Inès', 'Noah', 'Jade', 'Adam', 'Chloé', 'Rayan', 'Lina', 'Tom', 'Zoé', 'Malo', 'Sacha', 'Nina', 'Yanis', 'Emma'];
+
+  // --- Écriture en lettres (rectifications de 1990 : traits d'union entre tous les numéraux) ---
+  const UNITS = ['zéro', 'un', 'deux', 'trois', 'quatre', 'cinq', 'six', 'sept', 'huit', 'neuf', 'dix', 'onze', 'douze', 'treize', 'quatorze', 'quinze', 'seize'];
+  const TENS = { 2: 'vingt', 3: 'trente', 4: 'quarante', 5: 'cinquante', 6: 'soixante' };
+  const w99 = (n, fin) => {
+    if (n < 17) return UNITS[n];
+    if (n < 20) return 'dix-' + UNITS[n - 10];
+    if (n < 70) {
+      const d = Math.floor(n / 10), u = n % 10;
+      return u === 0 ? TENS[d] : u === 1 ? `${TENS[d]}-et-un` : `${TENS[d]}-${UNITS[u]}`;
+    }
+    if (n < 80) return n === 71 ? 'soixante-et-onze' : 'soixante-' + w99(n - 60, true);
+    if (n === 80) return fin ? 'quatre-vingts' : 'quatre-vingt';
+    return 'quatre-vingt-' + w99(n - 80, true);
+  };
+  const w999 = (n, fin) => {
+    const h = Math.floor(n / 100), r = n % 100;
+    let s = '';
+    if (h === 1) s = 'cent';
+    else if (h > 1) s = UNITS[h] + '-cent' + (r === 0 && fin ? 's' : '');
+    if (r) s += (s ? '-' : '') + w99(r, fin);
+    return s;
+  };
+  const enLettres = (n) => {
+    const M = Math.floor(n / 1e6), K = Math.floor(n / 1000) % 1000, U = n % 1000;
+    const parts = [];
+    if (M) parts.push(M === 1 ? 'un million' : `${w999(M, true)} millions`);
+    const low = [];
+    if (K) low.push(K === 1 ? 'mille' : `${w999(K, false)}-mille`);
+    if (U) low.push(w999(U, true));
+    if (low.length) parts.push(low.join('-'));
+    return parts.join(' ');
+  };
+
+  // =====================================================================
+  // 6N1
+  // =====================================================================
+  G._6X_add('6N1', 1, function () {
+    // Valeur d'un chiffre (et non « chiffre des … »)
+    const RANKS = [[3, 'milliers', 1000], [2, 'centaines', 100], [1, 'dizaines', 10], [0, 'unités', 1], [-1, 'dixièmes', 0.1], [-2, 'centièmes', 0.01], [-3, 'millièmes', 0.001]];
+    let digits, p, d;
+    do {
+      digits = [this.randInt(1, 9)];
+      for (let i = 0; i < 6; i++) digits.push(this.randInt(0, 9));
+      p = this.randChoice(RANKS);
+      d = digits[3 - p[0]];
+    } while (d < 2 || digits.filter(x => x === d).length > 1);
+    const m = parseInt(digits.join(''), 10);
+    const val = this._6r(d * p[2]);
+    return this._6A_q('6N1', 1, 'Chercher', {
+      title: 'Valeur d\'un chiffre dans un nombre',
+      statement: `Dans le nombre $${this._6tex(m / 1000)}$, **quelle valeur représente le chiffre $${d}$ ?**\n*(Exemple : dans $352$, le chiffre $5$ représente $50$.)*`,
+      type: 'exact', answer: this._6ans(val), placeholder: PH_DEC,
+      hint1: `Repère d'abord le rang du chiffre $${d}$ (unités, dizaines, dixièmes…).`,
+      hint2: 'Un chiffre au rang des dizaines vaut ce chiffre × 10 ; au rang des dixièmes, ce chiffre × 0,1 ; au rang des centièmes, ce chiffre × 0,01, etc.',
+      solution: `**Étape 1 :** dans $${this._6tex(m / 1000)}$, le chiffre $${d}$ est au rang des **${p[1]}**.\n**Étape 2 :** il représente donc $${d}$ ${p[1]}, c'est-à-dire $${d} \\times ${this._6tex(p[2])} = ${this._6tex(val)}$.`,
+      _v: { k: '6N1.valeur', m, d }
+    });
+  });
+  G._6X_add('6N1', 1, function () {
+    let n;
+    const r = Math.random();
+    if (r < 0.35) n = this.randInt(1001, 99999);
+    else if (r < 0.75) n = this.randInt(100001, 999999);
+    else n = this.randInt(1, 9) * 1e6 + this.randInt(0, 999) * 1000 + this.randInt(0, 999);
+    if (Math.random() < 0.4) n = n - (n % 1000) + this.randChoice([0, 7, 80, 71, 91, 200]);
+    const words = enLettres(n);
+    return this._6A_q('6N1', 1, 'Chercher', {
+      title: 'Écrire en chiffres un nombre donné en lettres',
+      statement: `Écrire en chiffres le nombre :\n**${words}**\n*(Saisir le nombre sans espace.)*`,
+      type: 'exact', answer: String(n), placeholder: 'Ex : 205030',
+      hint1: 'Découpe l\'écriture en lettres autour des mots « million » et « mille » : chaque morceau remplit une classe de trois chiffres.',
+      hint2: 'Classes de trois chiffres : millions | milliers | unités. Une classe vide ou incomplète se complète avec des zéros.',
+      solution: `On remplit les classes de trois chiffres de gauche à droite (millions | milliers | unités), en complétant par des zéros :\n$$${this._6tex(n)}$$\nRéponse : **${n}**.`,
+      _v: { k: '6N1.lettres', words }
+    });
+  });
+  G._6X_origWeight('6N1', 1, 3);
+
+  G._6X_add('6N1', 2, function () {
+    // Écrire en lettres : QCM (erreurs typiques d'accord de « mille », « cent », « vingt » et de classe)
+    const k = this.randInt(2, 9), u = this.randChoice([80, 200, 300, 280, 500, 180, 700, 380, 81, 205, 480, 900]);
+    const n = k * 1000 + u;
+    const ok = enLettres(n);
+    const agree = /cents/.test(ok) ? ok.replace('cents', 'cent') : /vingts/.test(ok) ? ok.replace('vingts', 'vingt') : /-cent-/.test(ok) ? ok.replace('-cent-', '-cents-') : ok.replace('quatre-vingt-', 'quatre-vingts-');
+    const wrongs = [ok.replace('-mille', '-milles'), agree, enLettres(k * 1e6 + u)];
+    const q = this._6A_q('6N1', 2, 'Chercher', {
+      title: 'Écrire un nombre en lettres',
+      statement: `Quelle est l'écriture en lettres correcte du nombre $${this._6tex(n)}$ ?`,
+      hint1: 'Lis le nombre classe par classe : d\'abord la classe des milliers, puis celle des unités simples.',
+      hint2: '« Mille » est invariable ; « cent » et « vingt » prennent un s quand ils sont multipliés et terminent le nombre ; on relie les mots-nombres par des traits d\'union.',
+      solution: `$${this._6tex(n)}$ = ${k} milliers et ${u} unités. On écrit : **${ok}**.\n« Mille » ne prend jamais de s ; « cent » et « vingt » ne prennent un s que s'ils sont multipliés et terminent le nombre.`,
+      _v: { k: '6N1.enlettres', n }
+    });
+    return this._6mcq(q, ok, wrongs);
+  });
+  G._6X_origWeight('6N1', 2, 4);
+
+  G._6X_add('6N1', 4, function () {
+    // Plus grand / plus petit décimal avec des chiffres imposés
+    const ds = this.shuffle([1, 2, 3, 4, 5, 6, 7, 8, 9]).slice(0, 4);
+    const fmt = this.randChoice([[2, 2], [1, 3], [3, 1]]);
+    const ask = this.randChoice(['grand', 'petit']);
+    const sorted = ds.slice().sort((x, y) => (ask === 'grand' ? y - x : x - y));
+    const str = sorted.join('');
+    const val = parseInt(str, 10) / Math.pow(10, fmt[1]);
+    return this._6A_q('6N1', 4, 'Raisonner', {
+      title: 'Former le plus grand ou le plus petit décimal',
+      statement: `Avec les chiffres $${ds.join('$ ; $')}$, utilisés **chacun une seule fois**, on écrit un nombre ayant ${fmt[0]} chiffre${fmt[0] > 1 ? 's' : ''} avant la virgule et ${fmt[1]} chiffre${fmt[1] > 1 ? 's' : ''} après la virgule.\n**Quel est le plus ${ask} nombre que l'on peut écrire ?**`,
+      type: 'exact', answer: this._6ans(val), placeholder: PH_DEC,
+      hint1: `Le chiffre placé le plus à gauche a le plus de poids : choisis-le en premier, puis le suivant, etc.`,
+      hint2: 'Pour comparer deux décimaux, on compare les chiffres de même rang en partant de la gauche.',
+      solution: `Pour obtenir le plus ${ask} nombre, on place les chiffres du plus ${ask} au plus ${ask === 'grand' ? 'petit' : 'grand'}, du rang le plus fort au rang le plus faible : ${sorted.join(', ')}.\nOn place la virgule après ${fmt[0]} chiffre${fmt[0] > 1 ? 's' : ''} : **$${this._6tex(val)}$**.`,
+      _v: { k: '6N1.chiffres', ds, ent: fmt[0], dec: fmt[1], ask }
+    });
+  });
+  G._6X_origWeight('6N1', 4, 4);
+
+  // =====================================================================
+  // 6N2
+  // =====================================================================
+  G._6X_add('6N2', 1, function () {
+    // Placer : quel point a pour abscisse x ?
+    const s = this.randInt(0, 30);
+    let j;
+    do { j = this.randInt(1, 9); } while (j === 5);
+    const cand = [j, 10 - j, j + 10, j + 1].filter((v, i, a) => a.indexOf(v) === i && v > 0 && v < 20);
+    while (cand.length < 4) { const v = this.randInt(1, 19); if (!cand.includes(v) && v !== 10) cand.push(v); }
+    const labels = ['A', 'B', 'C', 'D'];
+    const sorted = cand.slice().sort((a, b) => a - b);
+    const pts = sorted.map((v, i) => [labels[i], v]);
+    const x = this._6r(s + j / 10);
+    const fig = this._6numberLine({ start: s, step: 1, nTicks: 2, sub: 10, points: pts.map(([l, v]) => ({ label: l, value: this._6r(s + v / 10) })), shown: [s, s + 1, s + 2] });
+    const correct = pts.find(p => p[1] === j)[0];
+    const q = this._6A_q('6N2', 1, 'Représenter', {
+      title: 'Repérer un point d\'abscisse donnée',
+      statement: `Sur cette demi-droite graduée, chaque unité est partagée en 10 parts égales.\n${fig}\n**Quel point a pour abscisse $${this._6tex(x)}$ ?**`,
+      hint1: 'Repère d\'abord la bonne graduation entière, puis compte les petites graduations vers la droite.',
+      hint2: 'Une unité partagée en 10 parts égales : chaque petite graduation vaut un dixième.',
+      solution: `Chaque petite graduation vaut $0{,}1$. $${this._6tex(x)} = ${s} + ${this._6tex(j / 10)}$ : on part de $${s}$ et on avance de ${j} petites graduations.\nC'est le point **${correct}**.`,
+      _v: { k: '6N2.placer', s, j, pts }
+    });
+    return this._6mcq(q, correct, labels.filter(l => l !== correct));
+  });
+  G._6X_add('6N2', 1, function () {
+    // Intercaler un décimal à un chiffre après la virgule (réponse unique)
+    let t10;
+    do { t10 = this.randInt(11, 499); } while (t10 % 10 === 0);
+    const lo = t10 * 10 - this.randInt(1, 9), hi = t10 * 10 + this.randInt(1, 9);
+    return this._6A_q('6N2', 1, 'Chercher', {
+      title: 'Intercaler un nombre à un chiffre après la virgule',
+      statement: `Donner le nombre décimal qui s'écrit avec **un seul chiffre après la virgule** (non nul) et qui est compris entre $${this._6tex(lo / 100)}$ et $${this._6tex(hi / 100)}$.`,
+      type: 'exact', answer: this._6ans(t10 / 10), placeholder: PH_DEC,
+      hint1: 'Écris les deux bornes avec deux chiffres après la virgule et cherche un dixième « rond » entre elles.',
+      hint2: 'Pour comparer deux décimaux, on compare d\'abord les parties entières, puis les dixièmes, puis les centièmes.',
+      solution: `On encadre les bornes au dixième : $${this._6tex((t10 - 1) / 10)} < ${this._6tex(lo / 100)}$ et $${this._6tex(hi / 100)} < ${this._6tex((t10 + 1) / 10)}$.\nLe seul nombre à un chiffre après la virgule situé entre les deux bornes est donc $${this._6tex(t10 / 10)}$ : $${this._6tex(lo / 100)} < ${this._6tex(t10 / 10)} < ${this._6tex(hi / 100)}$.\nRéponse : **$${this._6tex(t10 / 10)}$**.`,
+      _v: { k: '6N2.intercale1', lo, hi }
+    });
+  });
+  G._6X_origWeight('6N2', 1, 3);
+
+  G._6X_add('6N2', 4, function () {
+    // Compter les nombres à deux décimales strictement entre deux bornes
+    const a = this.randInt(10, 900);
+    const w = this.randInt(2, 14);
+    const b = a + w;
+    const ans = w * 10 - 1;
+    return this._6A_q('6N2', 4, 'Raisonner', {
+      title: 'Combien de nombres au centième entre deux décimaux ?',
+      statement: `On s'intéresse aux nombres qui s'écrivent avec au plus deux chiffres après la virgule (comme $${this._6tex((a * 10 + 3) / 100)}$ ou $${this._6tex((a + 1) / 10)}$).\n**Combien de ces nombres sont strictement compris entre $${this._6tex(a / 10)}$ et $${this._6tex(b / 10)}$ ?**`,
+      type: 'exact', answer: String(ans), placeholder: PH_INT,
+      hint1: 'Écris les deux bornes en centièmes : combien de centièmes séparent-elles ?',
+      hint2: 'Entre deux nombres entiers distants de n, il y a n − 1 entiers strictement compris entre eux.',
+      solution: `**Étape 1 :** en centièmes, $${this._6tex(a / 10)} = \\frac{${a * 10}}{100}$ et $${this._6tex(b / 10)} = \\frac{${b * 10}}{100}$.\n**Étape 2 :** les nombres cherchés correspondent aux entiers strictement compris entre $${a * 10}$ et $${b * 10}$ : il y en a $${b * 10} - ${a * 10} - 1 = ${ans}$.\nRéponse : **${ans}** nombres.`,
+      _v: { k: '6N2.nbentre', a, b }
+    });
+  });
+  G._6X_origWeight('6N2', 4, 4);
+
+  // =====================================================================
+  // 6N3
+  // =====================================================================
+  G._6X_add('6N3', 1, function () {
+    // Calcul mental : ajouter/retrancher 1 ; 0,1 ; 0,01 (avec passages de rang)
+    const d = this.randChoice([1, 10, 100]); // en centièmes
+    const op = this.randChoice(['+', '-']);
+    let a = this.randInt(101, 9999);
+    if (Math.random() < 0.6) {
+      // forcer un passage : chiffre 9 (pour +) ou 0 (pour −) au rang concerné
+      const rank = d === 1 ? 1 : d === 10 ? 10 : 100;
+      const digit = Math.floor(a / rank) % 10;
+      a += ((op === '+' ? 9 : 0) - digit) * rank;
+      if (op === '-' && a < 200) a += 1000;
+    }
+    const res = op === '+' ? a + d : a - d;
+    const tx = v => this._6tex(v);
+    const nomD = { 1: 'un centième', 10: 'un dixième', 100: 'une unité' }[d];
+    return this._6A_q('6N3', 1, 'Calculer', {
+      title: 'Calcul mental : ajouter ou retrancher 1 ; 0,1 ; 0,01',
+      statement: `Calculer mentalement :\n$$${tx(a / 100)} ${op} ${tx(d / 100)}$$`,
+      type: 'exact', answer: this._6ans(res / 100), placeholder: PH_DEC,
+      hint1: `Repère le rang concerné par $${tx(d / 100)}$, puis ${op === '+' ? 'ajoute' : 'retire'} une unité à ce rang.`,
+      hint2: 'Si le chiffre de ce rang dépasse neuf (ou passe sous zéro), il faut une retenue : dix unités d\'un rang font une unité du rang de gauche.',
+      solution: `${op === '+' ? 'Ajouter' : 'Retrancher'} $${tx(d / 100)}$, c'est ${op === '+' ? 'ajouter' : 'retirer'} ${nomD} au nombre.\n$$${tx(a / 100)} ${op} ${tx(d / 100)} = ${tx(res / 100)}$$`,
+      _v: { k: '6N3.mental', a, d, op }
+    });
+  });
+  G._6X_origWeight('6N3', 1, 3);
+
+  G._6X_add('6N3', 2, function () {
+    // Choisir le bon résultat grâce à un ordre de grandeur (erreurs typiques)
+    let a, b, A, B, correct, opts;
+    do {
+      a = this.randInt(201, 999); b = this.randInt(101, 999);
+      A = a / 10; B = b / 100;
+      correct = this._6r(A + B);
+      opts = [correct, this._6r((a + b) / 100), this._6r(correct * 10), this._6r(correct / 10)];
+    } while (new Set(opts).size < 4);
+    const fmt = v => `$${this._6tex(v)}$`;
+    const q = this._6A_q('6N3', 2, 'Calculer', {
+      title: 'Contrôler un résultat par un ordre de grandeur',
+      statement: `Sans poser l'opération, choisir le résultat exact de :\n$$${this._6tex(A)} + ${this._6tex(B)}$$`,
+      hint1: 'Arrondis chaque terme à l\'unité et calcule mentalement un ordre de grandeur.',
+      hint2: 'Un ordre de grandeur s\'obtient en remplaçant chaque nombre par une valeur proche, simple à calculer.',
+      solution: `**Ordre de grandeur :** $${this._6tex(A)} \\approx ${Math.round(A)}$ et $${this._6tex(B)} \\approx ${Math.round(B)}$, donc la somme est proche de $${Math.round(A) + Math.round(B)}$.\nLe seul résultat proposé de cet ordre de grandeur est **${fmt(correct)}**.\n(Le résultat $${this._6tex(opts[1])}$ vient d'une erreur classique : chiffres alignés à droite au lieu d'aligner les virgules.)`,
+      _v: { k: '6N3.bonresultat', a, b }
+    });
+    return this._6mcq(q, fmt(correct), opts.slice(1).map(fmt));
+  });
+  G._6X_add('6N3', 2, function () {
+    // Calcul astucieux : + 9,9 ; − 0,99 ; + 19,9 ; − 4,9
+    const V = this.randChoice([[99, 'dix', 100, -1], [199, 'vingt', 200, -1], [49, 'cinq', 50, -1], [99, 'un', 100, -1, 100]]);
+    const den = V[4] || 10; // 9,9 / 19,9 / 4,9 (dixièmes) ou 0,99 (centièmes)
+    const v = V[0];
+    const op = this.randChoice(['+', '-']);
+    let x = this.randInt(110, 999) * (den === 100 ? 10 : 1); // en 1/den
+    if (op === '-' && x <= v + 10) x += v + 100;
+    const res = op === '+' ? x + v : x - v;
+    const tx = n => this._6tex(n);
+    const round = V[2] / den;
+    const eps = this._6r((V[2] - v) / den);
+    return this._6A_q('6N3', 2, 'Calculer', {
+      title: 'Calcul mental astucieux',
+      statement: `Calculer mentalement :\n$$${tx(x / den)} ${op} ${tx(v / den)}$$`,
+      type: 'exact', answer: this._6ans(res / den), placeholder: PH_DEC,
+      hint1: `$${tx(v / den)}$ est très proche d'un nombre « rond » : ${op === '+' ? 'ajoute' : 'retire'} ce nombre rond, puis corrige.`,
+      hint2: `Remplacer $${tx(v / den)}$ par un nombre rond oblige à corriger : si on ${op === '+' ? 'ajoute trop, on retire ensuite l\'excédent' : 'retire trop, on rajoute ensuite l\'excédent'}.`,
+      solution: `$${tx(v / den)} = ${tx(round)} - ${tx(eps)}$.\n${op === '+' ? `On ajoute $${tx(round)}$ puis on retire $${tx(eps)}$` : `On retire $${tx(round)}$ puis on rajoute $${tx(eps)}$`} :\n$$${tx(x / den)} ${op} ${tx(round)} ${op === '+' ? '-' : '+'} ${tx(eps)} = ${tx(this._6r(op === '+' ? x / den + round : x / den - round))} ${op === '+' ? '-' : '+'} ${tx(eps)} = ${tx(res / den)}$$`,
+      _v: { k: '6N3.astuce', x, v, den, op }
+    });
+  });
+  G._6X_origWeight('6N3', 2, 3);
+
+  G._6X_add('6N3', 3, function () {
+    // Ticket de caisse : prix effacé
+    const items = this.shuffle([['un cahier', 'cahier'], ['un classeur', 'classeur'], ['une trousse', 'trousse'], ['un compas', 'compas'], ['une gomme', 'gomme'], ['un feutre', 'feutre']]).slice(0, 3);
+    const p = [this.randInt(95, 899), this.randInt(95, 899), this.randInt(95, 899)];
+    const miss = this.randInt(0, 2);
+    const total = p[0] + p[1] + p[2];
+    const nom = this.randChoice(PRENOMS);
+    const lignes = items.map((it, i) => `• ${it[1]} : ${i === miss ? '**…** €' : this._6A_money(p[i]) + ' €'}`).join('\n');
+    const known = p.filter((_, i) => i !== miss);
+    return this._6A_q('6N3', 3, 'Modéliser', {
+      title: 'Problème : ticket de caisse incomplet',
+      statement: `Le ticket de caisse de ${nom} est taché :\n${lignes}\n• **Total : ${this._6A_money(total)} €**\n**Quel est le prix effacé (${items[miss][1]}) ?** (en euros)`,
+      type: 'exact', answer: this._6ans(p[miss] / 100), placeholder: PH_DEC,
+      hint1: 'Calcule d\'abord le prix des articles connus.',
+      hint2: 'Le prix manquant est la différence entre le total et la somme des prix connus.',
+      solution: `**Étape 1 :** articles connus : $${this._6tex(known[0] / 100)} + ${this._6tex(known[1] / 100)} = ${this._6tex((known[0] + known[1]) / 100)}$ €.\n**Étape 2 :** prix effacé : $${this._6tex(total / 100)} - ${this._6tex((known[0] + known[1]) / 100)} = ${this._6tex(p[miss] / 100)}$ €.\nLe prix effacé est **${this._6A_money(p[miss])} €**.`,
+      _v: { k: '6N3.ticket', p, miss }
+    });
+  });
+  G._6X_add('6N3', 3, function () {
+    // Analyse d'erreur (justification)
+    const OPTS = {
+      droite: 'Les derniers chiffres ont été alignés au lieu des virgules.',
+      retenue: 'Une retenue a été oubliée.',
+      virgule: 'La virgule du résultat est mal placée.',
+      juste: 'Aucune : le résultat est juste.'
+    };
+    const noCarry = (x, y) => { // somme chiffre à chiffre sans retenue (entiers)
+      let r = 0, m = 1;
+      while (x > 0 || y > 0) { r += ((x % 10 + y % 10) % 10) * m; x = Math.floor(x / 10); y = Math.floor(y / 10); m *= 10; }
+      return r;
+    };
+    let a, b, vals;
+    do {
+      a = this.randInt(1001, 9999); b = this.randInt(11, 999); // A = a/100, B = b/10
+      const c = a + 10 * b; // centièmes
+      vals = { juste: c / 100, droite: (a + b) / 100, virgule: c / 1000, retenue: noCarry(a, 10 * b) / 100 };
+    } while (new Set(Object.values(vals)).size < 4);
+    const kind = this.randChoice(['droite', 'retenue', 'virgule', 'juste']);
+    const shown = this._6r(vals[kind]);
+    const nom = this.randChoice(PRENOMS);
+    const tx = v => this._6tex(v);
+    const q = this._6A_q('6N3', 3, 'Raisonner', {
+      title: 'Analyser une erreur de calcul',
+      statement: `${nom} a calculé $${tx(a / 100)} + ${tx(b / 10)}$ et a trouvé $${tx(shown)}$.\n**Quelle erreur a été commise ?**`,
+      hint1: 'Calcule toi-même la somme en alignant les virgules, puis compare avec son résultat.',
+      hint2: 'Pour additionner des décimaux, on aligne les virgules (unités sous unités, dixièmes sous dixièmes) et on reporte les retenues.',
+      solution: `Le résultat exact est $${tx(a / 100)} + ${tx(b / 10)} = ${tx(vals.juste)}$.\n${kind === 'juste' ? `Le résultat trouvé est identique : **${OPTS.juste}**` : kind === 'droite' ? `En alignant les derniers chiffres, on calcule en fait $${tx(a / 100)} + ${tx(b / 100)} = ${tx(vals.droite)}$ : **${OPTS.droite}**` : kind === 'virgule' ? `Les chiffres sont les bons mais le résultat est 10 fois trop petit : **${OPTS.virgule}**` : `Les chiffres diffèrent du résultat exact à cause d'une retenue non reportée : **${OPTS.retenue}**`}`,
+      _v: { k: '6N3.erreur', a, b, shown100: Math.round(shown * 1000) }
+    });
+    return this._6mcq(q, OPTS[kind], Object.values(OPTS).filter(o => o !== OPTS[kind]));
+  });
+  G._6X_origWeight('6N3', 3, 3);
+
+  // Pyramide de nombres (SVG)
+  const pyramidSvg = (vals) => {
+    // vals = [[b0,b1,b2],[m0,m1],[t]] (chaînes)
+    const W = 50, H = 28;
+    let inner = '';
+    const brick = (x, y, txt) => {
+      inner += `<rect x="${x}" y="${y}" width="${W * 2}" height="${H}" rx="3" fill="var(--bg-card, #fff7ed)" stroke="#b45309" stroke-width="1.6"/>`;
+      inner += G._6svgText(x + W, y + H / 2 + 5, txt, { size: 13 });
+    };
+    vals[0].forEach((v, i) => brick(10 + i * W * 2, 10 + 2 * H, v));
+    vals[1].forEach((v, i) => brick(10 + W + i * W * 2, 10 + H, v));
+    brick(10 + 2 * W, 10, vals[2][0]);
+    return G._6svg(W * 6 + 20, 3 * H + 20, inner, 320);
+  };
+
+  G._6X_add('6N3', 4, function () {
+    // Pyramide : retrouver la brique du milieu de la base
+    const a = this.randInt(11, 99), b = this.randInt(11, 99), c = this.randInt(11, 99); // dixièmes
+    const top = a + 2 * b + c;
+    const tx = v => this._6tex(v);
+    const fig = pyramidSvg([[tx(a / 10), '?', tx(c / 10)], ['', ''], [tx(top / 10)]]);
+    return this._6A_q('6N3', 4, 'Chercher', {
+      title: 'Pyramide de nombres décimaux',
+      statement: `Dans cette pyramide, chaque brique contient la **somme des deux briques situées juste en dessous**.\n${fig}\n**Quel nombre faut-il écrire à la place de « ? » ?**`,
+      type: 'exact', answer: this._6ans(b / 10), placeholder: PH_DEC,
+      hint1: 'Exprime les deux briques du milieu à l\'aide de la brique inconnue, puis la brique du sommet.',
+      hint2: 'La brique inconnue intervient dans les deux briques du milieu : elle compte deux fois dans le sommet.',
+      solution: `Notons $?$ la brique inconnue. Milieu : $${tx(a / 10)} + ?$ et $? + ${tx(c / 10)}$. Sommet : $${tx(a / 10)} + ? + ? + ${tx(c / 10)} = ${tx(top / 10)}$.\n**Étape 1 :** $? + ? = ${tx(top / 10)} - ${tx(a / 10)} - ${tx(c / 10)} = ${tx(2 * b / 10)}$.\n**Étape 2 :** $? = ${tx(2 * b / 10)} \\div 2 = ${tx(b / 10)}$.\nVérification : $${tx((a + b) / 10)} + ${tx((b + c) / 10)} = ${tx(top / 10)}$.`,
+      _v: { k: '6N3.pyramide', a, c, top }
+    });
+  });
+  G._6X_add('6N3', 4, function () {
+    // Carré magique décimal
+    let c, x, y, M;
+    do {
+      c = this.randInt(30, 90); x = this.randInt(1, 12); y = this.randInt(1, 12);
+      M = [[c + x, c - x - y, c + y], [c - x + y, c, c + x - y], [c - y, c + x + y, c - x]];
+    } while (x === y || new Set(M.flat()).size < 9 || Math.min(...M.flat()) < 5);
+    // case demandée et case masquée (dans une autre ligne)
+    const r = this.randInt(0, 2), col = this.randInt(0, 2);
+    let r2, c2;
+    do { r2 = this.randInt(0, 2); c2 = this.randInt(0, 2); } while (r2 === r || c2 === col);
+    const tx = v => this._6tex(v / 10);
+    const cell = (i, j) => (i === r && j === col ? '?' : i === r2 && j === c2 ? '…' : tx(M[i][j]));
+    let inner = '';
+    for (let i = 0; i < 3; i++) for (let j = 0; j < 3; j++) {
+      inner += `<rect x="${10 + j * 60}" y="${10 + i * 40}" width="60" height="40" fill="none" stroke="var(--text-main, #334155)" stroke-width="1.6"/>`;
+      inner += this._6svgText(40 + j * 60, 35 + i * 40, cell(i, j), { size: 14, fill: cell(i, j) === '?' ? '#dc2626' : undefined });
+    }
+    const fig = this._6svg(200, 140, inner, 220);
+    const full = [0, 1, 2].find(i => i !== r && i !== r2);
+    return this._6A_q('6N3', 4, 'Chercher', {
+      title: 'Carré magique décimal',
+      statement: `Dans ce carré magique, la somme des trois nombres de chaque ligne, de chaque colonne et de chaque diagonale est la même.\n${fig}\n**Quel nombre faut-il écrire à la place de « ? » ?**`,
+      type: 'exact', answer: this._6ans(M[r][col] / 10), placeholder: PH_DEC,
+      hint1: 'Commence par une ligne complète pour trouver la somme magique.',
+      hint2: 'Dans la ligne (ou la colonne) qui contient « ? », le nombre manquant = somme magique − somme des deux autres nombres.',
+      solution: `**Étape 1 :** la ligne ${full + 1} est complète : $${M[full].map(tx).join(' + ')} = ${tx(3 * c)}$ ; la somme magique est $${tx(3 * c)}$.\n**Étape 2 :** dans la ligne ${r + 1}, les deux autres nombres sont $${M[r].filter((_, j) => j !== col).map(tx).join('$ et $')}$.\n$$${tx(3 * c)} - ${M[r].filter((_, j) => j !== col).map(tx).join(' - ')} = ${tx(M[r][col])}$$`,
+      _v: { k: '6N3.magique', M, r, col }
+    });
+  });
+  G._6X_origWeight('6N3', 4, 3);
+
+  // =====================================================================
+  // 6N4
+  // =====================================================================
+  G._6X_add('6N4', 1, function () {
+    // Multiplier par 0,5 (moitié) ou 0,25 (quart)
+    const f = this.randChoice([[5, 2, 'la moitié', '0,5'], [5, 2, 'la moitié', '0,5'], [25, 4, 'le quart', '0,25']]);
+    const k = f[1];
+    let n = this.randInt(3, 60) * k;
+    if (Math.random() < 0.4 && k === 2) n = this.randInt(11, 199) * 2 / 10; // décimal
+    const res = this._6r(n / k);
+    const tx = v => this._6tex(v);
+    return this._6A_q('6N4', 1, 'Calculer', {
+      title: `Multiplier par ${f[3]}`,
+      statement: `Calculer mentalement :\n$$${tx(n)} \\times ${tx(f[0] / (k === 2 ? 10 : 100))}$$`,
+      type: 'exact', answer: this._6ans(res), placeholder: PH_DEC,
+      hint1: `Écris $${tx(f[0] / (k === 2 ? 10 : 100))}$ sous la forme d'une fraction simple.`,
+      hint2: `Multiplier par $${tx(f[0] / (k === 2 ? 10 : 100))}$, c'est prendre ${f[2]} du nombre.`,
+      solution: `$${tx(f[0] / (k === 2 ? 10 : 100))} = \\frac{1}{${k}}$ : multiplier par $${tx(f[0] / (k === 2 ? 10 : 100))}$, c'est prendre ${f[2]}, donc diviser par ${k}.\n$$${tx(n)} \\times ${tx(f[0] / (k === 2 ? 10 : 100))} = ${tx(n)} \\div ${k} = ${tx(res)}$$`,
+      _v: { k: '6N4.moitie', n100: Math.round(n * 100), div: k }
+    });
+  });
+  G._6X_origWeight('6N4', 1, 3);
+
+  G._6X_add('6N4', 2, function () {
+    // Aire d'un rectangle à dimensions décimales (contexte)
+    const L = this.randInt(21, 99), l = this.randInt(11, Math.min(39, L - 1)); // dixièmes de m
+    const ctx = this.randChoice(['un potager', 'une terrasse', 'une chambre', 'un tapis']);
+    const A = this._6r(L * l / 100);
+    const tx = v => this._6tex(v);
+    return this._6A_q('6N4', 2, 'Modéliser', {
+      title: 'Aire d\'un rectangle aux dimensions décimales',
+      statement: `${ctx.charAt(0).toUpperCase() + ctx.slice(1)} rectangulaire mesure $${tx(L / 10)}$ m de long et $${tx(l / 10)}$ m de large.\n**Quelle est son aire, en m² ?**`,
+      type: 'exact', answer: this._6ans(A), placeholder: PH_DEC,
+      hint1: 'Calcule le produit sans les virgules, puis place la virgule.',
+      hint2: 'Aire d\'un rectangle = longueur × largeur (dans la même unité).',
+      solution: `**Étape 1 :** $\\mathcal{A} = L \\times \\ell = ${tx(L / 10)} \\times ${tx(l / 10)}$.\n**Étape 2 :** $${L} \\times ${l} = ${L * l}$ ; les facteurs ont $1 + 1 = 2$ chiffres après la virgule.\n$$${tx(L / 10)} \\times ${tx(l / 10)} = ${tx(A)}$$\nL'aire est **${this._6txt(A)} m²**.`,
+      _v: { k: '6N4.aire', L, l }
+    });
+  });
+  G._6X_add('6N4', 2, function () {
+    // Diviser par 10, 100, 1 000 en contexte
+    const m = this.randChoice([10, 100, 1000]);
+    const ctx = this.randChoice([
+      ['Un paquet de', 'feuilles pèse', 'g', 'Quelle est la masse d\'une feuille, en g ?'],
+      ['Un lot de', 'clous coûte', '€', 'Quel est le prix d\'un clou, en euros ?'],
+      ['Une pile de', 'pièces identiques mesure', 'mm de haut', 'Quelle est l\'épaisseur d\'une pièce, en mm ?']
+    ]);
+    let tot, res;
+    do { tot = this.randInt(11, 9999) / (Math.random() < 0.5 ? 10 : 1); res = this._6r(tot / m); } while (res === Math.round(res) && res <= 10);
+    const tx = v => this._6tex(v);
+    return this._6A_q('6N4', 2, 'Modéliser', {
+      title: 'Diviser par 10, 100 ou 1 000 dans un problème',
+      statement: `${ctx[0]} $${tx(m)}$ ${ctx[1]} $${tx(tot)}$ ${ctx[2]}.\n**${ctx[3]}**`,
+      type: 'exact', answer: this._6ans(res), placeholder: PH_DEC,
+      hint1: 'Pour passer de tout le lot à un seul objet, quelle opération faut-il faire ?',
+      hint2: 'Diviser par 10, 100 ou 1 000 décale les chiffres d\'un, deux ou trois rangs vers la droite.',
+      solution: `Un objet représente une part sur $${tx(m)}$ : on divise par $${tx(m)}$, les chiffres se décalent de ${String(m).length - 1} rang(s) vers la droite.\n$$${tx(tot)} \\div ${tx(m)} = ${tx(res)}$$`,
+      _v: { k: '6N4.div10', tot10: Math.round(tot * 10), m }
+    });
+  });
+  G._6X_origWeight('6N4', 2, 3);
+
+  G._6X_add('6N4', 3, function () {
+    // Calcul astucieux : × 99, × 101, × 9, × 11
+    const K = this.randChoice([[99, 100, -1], [101, 100, 1], [9, 10, -1], [11, 10, 1], [999, 1000, -1]]);
+    const x = this.randInt(11, 99) / 10;
+    const tx = v => this._6tex(v);
+    const big = this._6r(x * K[1]);
+    const res = this._6r(x * K[0]);
+    return this._6A_q('6N4', 3, 'Calculer', {
+      title: 'Produit astucieux (distributivité)',
+      statement: `Calculer astucieusement, sans poser l'opération :\n$$${tx(x)} \\times ${K[0]}$$`,
+      type: 'exact', answer: this._6ans(res), placeholder: PH_DEC,
+      hint1: `Écris $${K[0]}$ comme un nombre rond ${K[2] < 0 ? 'moins' : 'plus'} 1.`,
+      hint2: 'Multiplier un nombre par une somme (ou une différence), c\'est multiplier par chaque terme puis additionner (ou soustraire) les produits.',
+      solution: `$${K[0]} = ${tx(K[1])} ${K[2] < 0 ? '-' : '+'} 1$, donc :\n$$${tx(x)} \\times ${K[0]} = ${tx(x)} \\times ${tx(K[1])} ${K[2] < 0 ? '-' : '+'} ${tx(x)} = ${tx(big)} ${K[2] < 0 ? '-' : '+'} ${tx(x)} = ${tx(res)}$$`,
+      _v: { k: '6N4.distrib', x10: Math.round(x * 10), m: K[0] }
+    });
+  });
+  G._6X_add('6N4', 3, function () {
+    // Problème à plusieurs étapes : courses et rendu de monnaie
+    const pk = this.randInt(13, 69) * 10; // prix au kg en centimes (multiple de 10)
+    const mk = this.randInt(12, 39); // masse en dixièmes de kg
+    const n = this.randInt(2, 6), pu = this.randInt(45, 299); // n articles à pu centimes
+    const fruit = this.randChoice(['pommes', 'poires', 'tomates', 'clémentines', 'pêches']);
+    const art = this.randChoice(['bouteilles de jus', 'paquets de gâteaux', 'yaourts à boire', 'baguettes']);
+    const c1 = pk * mk / 10; // centimes (entier car pk multiple de 10)
+    const tot = c1 + n * pu;
+    const billet = [10, 20, 50].find(bb => bb * 100 > tot);
+    const rendu = billet * 100 - tot;
+    const nom = this.randChoice(PRENOMS);
+    const tx = v => this._6tex(v);
+    return this._6A_q('6N4', 3, 'Modéliser', {
+      title: 'Problème : courses et rendu de monnaie',
+      statement: `${nom} achète $${tx(mk / 10)}$ kg de ${fruit} à ${this._6A_money(pk)} € le kilogramme et ${n} ${art} à ${this._6A_money(pu)} € l'unité. Il paie avec un billet de ${billet} €.\n**Combien d'euros lui rend-on ?**`,
+      type: 'exact', answer: this._6ans(rendu / 100), placeholder: PH_DEC,
+      hint1: 'Calcule séparément le prix des fruits et celui des autres articles, puis le total.',
+      hint2: 'Prix = prix unitaire × quantité ; monnaie rendue = somme donnée − prix total.',
+      solution: `**Étape 1 :** fruits : $${tx(pk / 100)} \\times ${tx(mk / 10)} = ${tx(c1 / 100)}$ €.\n**Étape 2 :** articles : $${n} \\times ${tx(pu / 100)} = ${tx(n * pu / 100)}$ €.\n**Étape 3 :** total : $${tx(c1 / 100)} + ${tx(n * pu / 100)} = ${tx(tot / 100)}$ €.\n**Étape 4 :** rendu : $${billet} - ${tx(tot / 100)} = ${tx(rendu / 100)}$ €.\nOn lui rend **${this._6A_money(rendu)} €**.`,
+      _v: { k: '6N4.courses', pk, mk, n, pu, billet }
+    });
+  });
+  G._6X_origWeight('6N4', 3, 3);
+
+  G._6X_add('6N4', 4, function () {
+    // Retrouver un décimal dont le carré est donné
+    const r = this.randChoice([[2, 9], [11, 19], [21, 30]]);
+    let a;
+    do { a = this.randInt(r[0], r[1]); } while (a % 10 === 0);
+    const s = this.randChoice([10, 100]); // x = a / s
+    const sq = a * a; // carré = sq / s²
+    const tx = v => this._6tex(v);
+    return this._6A_q('6N4', 4, 'Chercher', {
+      title: 'Le nombre caché',
+      statement: `Je suis un nombre décimal positif. Quand on me multiplie par moi-même, on obtient $${tx(sq / (s * s))}$.\n**Qui suis-je ?**`,
+      type: 'exact', answer: this._6ans(a / s), placeholder: PH_DEC,
+      hint1: 'Oublie d\'abord la virgule : quel entier, multiplié par lui-même, donne ce nombre sans virgule ?',
+      hint2: 'Le produit d\'un nombre par lui-même a deux fois plus de chiffres après la virgule que ce nombre.',
+      solution: `**Étape 1 :** sans la virgule, $${a} \\times ${a} = ${sq}$.\n**Étape 2 :** $${tx(sq / (s * s))}$ a ${2 * String(s).length - 2} chiffres après la virgule (en comptant les zéros), donc le nombre cherché en a ${String(s).length - 1}.\n$$${tx(a / s)} \\times ${tx(a / s)} = ${tx(sq / (s * s))}$$`,
+      _v: { k: '6N4.carre', a, s }
+    });
+  });
+  G._6X_add('6N4', 4, function () {
+    // Sans calculer : le plus grand / le plus petit produit
+    const N = this.randInt(12, 95);
+    const F = this.shuffle([9, 99, 101, 11, 5, 15, 102, 98]).slice(0, 4); // en centièmes
+    const ask = this.randChoice(['grand', 'petit']);
+    const best = ask === 'grand' ? Math.max(...F) : Math.min(...F);
+    const fmt = f => `$${N} \\times ${this._6tex(f / 100)}$`;
+    const q = this._6A_q('6N4', 4, 'Raisonner', {
+      title: 'Comparer des produits sans les calculer',
+      statement: `Sans effectuer les calculs, quel est le **plus ${ask}** de ces produits ?`,
+      hint1: 'Tous les produits ont le même premier facteur : compare seulement les seconds facteurs.',
+      hint2: 'Multiplier par un nombre inférieur à 1 donne un résultat inférieur au nombre de départ ; par un nombre supérieur à 1, un résultat supérieur.',
+      solution: `Le premier facteur $${N}$ est le même partout : le produit le plus ${ask} est celui dont le second facteur est le plus ${ask}.\nSeconds facteurs rangés : $${F.slice().sort((x, y) => x - y).map(f => this._6tex(f / 100)).join(' < ')}$.\nRéponse : **${fmt(best)}**.`,
+      _v: { k: '6N4.cmpprod', N, F, ask }
+    });
+    return this._6mcq(q, fmt(best), F.filter(f => f !== best).map(fmt));
+  });
+  G._6X_origWeight('6N4', 4, 2);
+  G._6X_drop('6N4', 4, ['6N4.compare']);
+
+  // =====================================================================
+  // 6N5
+  // =====================================================================
+  G._6X_add('6N5', 1, function () {
+    // Quotient exact à l'aide des tables / facteur manquant
+    const d = this.randInt(2, 9), q0 = this.randInt(2, 12);
+    const n = d * q0;
+    const form = this.randChoice(['div', 'trou']);
+    return this._6A_q('6N5', 1, 'Calculer', {
+      title: form === 'div' ? 'Quotient exact (tables de multiplication)' : 'Facteur manquant',
+      statement: form === 'div' ? `Calculer mentalement :\n$$${n} \\div ${d}$$` : `Compléter :\n$$${d} \\times \\dots = ${n}$$`,
+      type: 'exact', answer: String(q0), placeholder: PH_INT,
+      hint1: `Cherche dans la table de ${d} le nombre qui donne $${n}$.`,
+      hint2: `Diviser $${n}$ par $${d}$, c'est chercher le nombre qui, multiplié par $${d}$, donne $${n}$.`,
+      solution: `Dans la table de ${d} : $${d} \\times ${q0} = ${n}$.\n${form === 'div' ? `Donc $${n} \\div ${d} = ${q0}$.` : `Le facteur manquant est **${q0}**.`}`,
+      _v: { k: '6N5.tables', n, d }
+    });
+  });
+  G._6X_origWeight('6N5', 1, 3);
+
+  G._6X_add('6N5', 2, function () {
+    // Combien de multiples de d entre 1 et N
+    const d = this.randInt(3, 15), N = this.randInt(40, 300);
+    const ans = Math.floor(N / d);
+    return this._6A_q('6N5', 2, 'Raisonner', {
+      title: 'Compter des multiples',
+      statement: `Combien y a-t-il de multiples de $${d}$ compris entre $1$ et $${N}$ (inclus) ?`,
+      type: 'exact', answer: String(ans), placeholder: PH_INT,
+      hint1: `Écris les multiples de $${d}$ dans l'ordre : jusqu'à quel facteur peut-on aller sans dépasser $${N}$ ?`,
+      hint2: 'Dans une division euclidienne, le quotient indique combien de fois le diviseur « rentre » dans le dividende.',
+      solution: `Division euclidienne : $${N} = ${d} \\times ${ans} + ${N % d}$ avec $${N % d} < ${d}$.\nLes multiples cherchés sont $${d} \\times 1$, …, $${d} \\times ${ans} = ${d * ans}$ : il y en a **${ans}**.`,
+      _v: { k: '6N5.nbmult', d, N }
+    });
+  });
+  G._6X_add('6N5', 2, function () {
+    // Par combien des nombres 2, 3, 5, 9, 10 le nombre est-il divisible ?
+    const D = [2, 3, 5, 9, 10];
+    let n, ok;
+    do { n = this.randInt(100, 9999); ok = D.filter(d => n % d === 0); } while (!ok.length);
+    const sumD = String(n).split('').reduce((s, c) => s + +c, 0);
+    return this._6A_q('6N5', 2, 'Raisonner', {
+      title: 'Critères de divisibilité',
+      statement: `Parmi les nombres $2$ ; $3$ ; $5$ ; $9$ et $10$, **combien sont des diviseurs de $${this._6tex(n)}$ ?**`,
+      type: 'exact', answer: String(ok.length), placeholder: PH_INT,
+      hint1: 'Utilise les critères de divisibilité : regarde le chiffre des unités, puis la somme des chiffres.',
+      hint2: 'Divisible par 2 : unités paires ; par 5 : unités 0 ou 5 ; par 10 : unités 0 ; par 3 (ou 9) : somme des chiffres divisible par 3 (ou 9).',
+      solution: `Chiffre des unités : $${n % 10}$ ; somme des chiffres : $${String(n).split('').join(' + ')} = ${sumD}$.\n${D.map(d => `• ${d} : ${n % d === 0 ? 'oui' : 'non'}`).join('\n')}\n$${this._6tex(n)}$ est divisible par **${ok.length}** de ces nombres${ok.length ? ` (${ok.join(', ')})` : ''}.`,
+      _v: { k: '6N5.criteres', n }
+    });
+  });
+  G._6X_origWeight('6N5', 2, 3);
+
+  G._6X_add('6N5', 3, function () {
+    // Quotient approché
+    let n, d;
+    do { n = this.randInt(10, 400); d = this.randChoice([3, 6, 7, 9, 11, 12]); } while ((n * 1000) % d === 0);
+    const prec = this.randChoice([['au dixième', 10], ['au centième', 100]]);
+    const ans = Math.round(n / d * prec[1]) / prec[1];
+    const tr = Math.floor(n / d * prec[1] * 10) / (prec[1] * 10);
+    return this._6A_q('6N5', 3, 'Calculer', {
+      title: 'Valeur approchée d\'un quotient',
+      statement: `Donner l'arrondi ${prec[0]} du quotient :\n$$${n} \\div ${d}$$`,
+      type: 'exact', answer: this._6ans(ans), placeholder: PH_DEC,
+      hint1: `Pose la division et calcule un chiffre de plus que la précision demandée.`,
+      hint2: `Pour arrondir ${prec[0]}, on regarde le chiffre suivant : de 0 à 4 on garde, de 5 à 9 on augmente d'un.`,
+      solution: `**Étape 1 :** la division ne s'arrête pas ; on calcule $${n} \\div ${d} \\approx ${this._6tex(tr)}\\dots$\n**Étape 2 :** on regarde le chiffre ${prec[1] === 10 ? 'des centièmes' : 'des millièmes'} pour arrondir ${prec[0]}.\nL'arrondi ${prec[0]} est **$${this._6tex(ans)}$**.`,
+      _v: { k: '6N5.approche', n, d, p: prec[1] }
+    });
+  });
+  G._6X_origWeight('6N5', 3, 4);
+
+  G._6X_add('6N5', 4, function () {
+    // Énigme des restes
+    const pairs = [[3, 4], [4, 5], [3, 5], [5, 6], [4, 7], [3, 7], [5, 7], [2, 9]];
+    const [a, b] = this.randChoice(pairs);
+    const L = a * b;
+    const lo = this.randInt(2, 8) * 10;
+    let n;
+    do { n = this.randInt(lo, lo + L - 1); } while (n % a === 0 || n % b === 0);
+    const ra = n % a, rb = n % b;
+    const obj = this.randChoice(['billes', 'cartes', 'perles', 'timbres']);
+    return this._6A_q('6N5', 4, 'Chercher', {
+      title: 'Énigme des restes',
+      statement: `Une collection compte entre $${lo}$ et $${lo + L - 1}$ ${obj}.\n• Si on les range par paquets de $${a}$, il en reste $${ra}$.\n• Si on les range par paquets de $${b}$, il en reste $${rb}$.\n**Combien y a-t-il de ${obj} ?**`,
+      type: 'exact', answer: String(n), placeholder: PH_INT,
+      hint1: `Écris les nombres de l'intervalle dont le reste dans la division par $${b}$ est $${rb}$, puis teste-les avec $${a}$.`,
+      hint2: 'Dans une division euclidienne : dividende = diviseur × quotient + reste, avec reste < diviseur.',
+      solution: `**Étape 1 :** nombres entre $${lo}$ et $${lo + L - 1}$ de la forme $${b} \\times q + ${rb}$ : ${(() => { const l = []; for (let m = lo; m < lo + L; m++) if (m % b === rb) l.push(m); return l.join(' ; '); })()}.\n**Étape 2 :** parmi eux, seul $${n}$ a pour reste $${ra}$ dans la division par $${a}$ : $${n} = ${a} \\times ${Math.floor(n / a)} + ${ra}$.\nIl y a **${n}** ${obj}.`,
+      _v: { k: '6N5.restes', a, b, lo, ra, rb }
+    });
+  });
+  G._6X_origWeight('6N5', 4, 4);
 })();
