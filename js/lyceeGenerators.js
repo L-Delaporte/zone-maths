@@ -6175,7 +6175,9 @@ window.MathsLyceeGenerators = {
         "Résoudre $1 - (1-p)^n \\ge s$ à l'aide du logarithme",
         `On répète de façon indépendante une épreuve dont la probabilité de succès est $${P(p)}$. Quel nombre minimal $n$ de répétitions faut-il pour que la probabilité d'obtenir au moins un succès soit supérieure ou égale à $${P(s)}$ ?`,
         `$n = ${n}$`,
-        [`$n = ${n - 1}$`, `$n = ${n + 1}$`, `$n = ${Math.max(2, Math.round(s / p))}$`, `$n = ${Math.ceil(Math.log(s) / Math.log(1 - p))}$`],
+        // Erreurs typiques : arrondi par défaut du quotient (n - 1), décalage d'un rang, probabilités additionnées (np ≥ s) ;
+        // pas de (1 - p)^n ≤ s, qui donnait n = 1, réponse absurde
+        [n - 1, n + 1, Math.ceil(s / p - 1e-9), n + 2].filter((v, i, arr) => v >= 2 && v !== n && arr.indexOf(v) === i).map((v) => `$n = ${v}$`),
         "Si $X \\sim \\mathcal{B}(n ; p)$, $P(X \\ge 1) = 1 - P(X = 0) = 1 - (1-p)^n$.",
         `Résous $${P(1 - p)}^n \\le ${P(1 - s)}$ en appliquant $\\ln$ (attention : $\\ln(${P(1 - p)}) < 0$).`,
         `$P(X \\ge 1) = 1 - ${P(1 - p)}^n \\ge ${P(s)} \\iff ${P(1 - p)}^n \\le ${P(1 - s)} \\iff n \\ge \\frac{\\ln(${P(1 - s)})}{\\ln(${P(1 - p)})} \\approx ${this.dec(Math.log(1 - s) / Math.log(1 - p), 2)}$. Le plus petit entier convenable est $n = ${n}$.`
@@ -8682,6 +8684,11 @@ window.MathsLyceeGenerators = {
         ms = String(m); ps = String(p); fx0s = String(F.f(x0));
       }
       const eq = (a, b) => `$y = ${this._1re_poly([[a, 'x'], [b, '']])}$`;
+      // Forme y = f'(a)(x - a) + f(a) écrite simplement : -7(x + 1) - 2 plutôt que (-7) × (x - (-1)) + (-2)
+      const fac = x0 === 0 ? 'x' : `(x ${this.formatSign(-x0)})`;
+      const coef = ms === '0' ? '' : ms === '1' ? fac : ms === '-1' ? `-${fac}` : `${ms}${fac}`;
+      const cst = fx0s === '0' ? '' : String(fx0s).startsWith('-') ? `${coef ? ' - ' : '-'}${String(fx0s).slice(1)}` : `${coef ? ' + ' : ''}${fx0s}`;
+      const tgt = (coef + cst) || '0';
       const wrongP = F.kind === 'inv' ? this.frac(F.k, x0) : String(F.f(x0));
       const wrongP2 = F.kind === 'inv' ? this.frac(-2 * F.k, x0) : String(F.f(x0) + m * x0);
       return this._xa([F.kind === 'inv' ? `(${this._xf(m[0], m[1])};${this._xf(p[0], p[1])})` : `(${m};${p})`, 'Saisir (m ; p) pour $y = mx + p$.'], '1A2', 3, 'Équation de la tangente',
@@ -8691,7 +8698,7 @@ window.MathsLyceeGenerators = {
         [eq(ms, wrongP), eq(wrongP, ms), eq(ms, wrongP2), eq(F.kind === 'inv' ? this.frac(F.k, x0 * x0) : String(-m), ps), F.kind === 'inv' ? eq(ms, this.frac(-2 * F.k, x0)) : eq(String(m), String(p + 1)), F.kind === 'inv' ? eq(this.frac(-F.k, x0), ps) : eq(String(m + 1), String(p))],
         "Formule : $y = f'(a)(x - a) + f(a)$.",
         `$f'(x) = ${F.dfs}$ ; calcule $f(${x0})$ et $f'(${x0})$.`,
-        `$f(${x0}) = ${fx0s}$ et $f'(${x0}) = ${ms}$. Donc $y = ${this.paren(ms)} \\times ${x0 === 0 ? 'x' : `\\left(x - ${this.paren(x0)}\\right)`}${fx0s === '0' ? '' : ' + ' + this.paren(fx0s)}$, soit ${eq(ms, ps)}.`
+        `$f(${x0}) = ${fx0s}$ et $f'(${x0}) = ${ms}$. Donc $y = ${tgt}$, soit ${eq(ms, ps)}.`
       );
     }
     // tier 4
@@ -9880,7 +9887,7 @@ window.MathsLyceeGenerators = {
         [eq(-c), `$${this.poly([[-b, 'x'], [a, 'y'], [b * xA - a * yA, '']])} = 0$`, eq(c + 1), `$${this.poly([[a, 'x'], [b, 'y']])} = ${-c === 0 ? 1 : -c + 1}$`].filter(Boolean),
         "$M(x ; y)$ appartient à la droite si et seulement si $\\overrightarrow{AM} \\cdot \\vec{n} = 0$.",
         `$\\overrightarrow{AM}(x ${this.formatSign(-xA)} ; y ${this.formatSign(-yA)})$.`.replace(/x \+ 0|x - 0/, 'x').replace(/y \+ 0|y - 0/, 'y'),
-        `$\\overrightarrow{AM} \\cdot \\vec{n} = ${this.poly([[a, xA === 0 ? 'x' : `(x - ${this.paren(xA)})`], [b, yA === 0 ? 'y' : `(y - ${this.paren(yA)})`]])} = 0 \\iff ${eq(c).slice(1, -1)}$.`
+        `$\\overrightarrow{AM} \\cdot \\vec{n} = ${this.poly([[a, xA === 0 ? 'x' : `(x ${this.formatSign(-xA)})`], [b, yA === 0 ? 'y' : `(y ${this.formatSign(-yA)})`]])} = 0 \\iff ${eq(c).slice(1, -1)}$.`
       );
     }
     if (tier === 3) {

@@ -76,7 +76,7 @@ module.exports = {
   '5N4.cubes': v => (v.a / v.b) ** 3,
   // ---- 5N5
   '5N5.s1': v => (v.v ? v.a * v.x : v.x + v.a),
-  '5N5.conv': v => `$${v.a} \\times x$`,
+  '5N5.conv': v => v.ans || `$${v.a} \\times x$`,
   '5N5.trou': v => (v.v === 1 ? v.b + v.a : v.b - v.a),
   '5N5.form': v => v.m * v.c,
   '5N5.ctx': v => v.p * v.n + v.f,
@@ -97,7 +97,7 @@ module.exports = {
   '5G1.para': v => `(${v.A[0] + v.C[0] - v.B[0]};${v.A[1] + v.C[1] - v.B[1]})`,
   '5G1.grad': v => r6(v.a + v.j * (v.b - v.a) / v.n),
   // ---- 5G2
-  '5G2.lettre': v => (['H', 'I', 'N', 'O', 'S', 'X', 'Z'].includes(v.g) ? v.g : 'ERREUR'),
+  '5G2.lettre': v => { const C = ['H', 'I', 'N', 'O', 'S', 'X', 'Z']; return v.inv ? (C.includes(v.g) ? 'ERREUR' : v.g) : (C.includes(v.g) ? v.g : 'ERREUR'); },
   '5G2.mil': v => (v.v ? 2 * v.d : v.d),
   '5G2.fig': v => v.L.filter(f => /carré|rectangle|losange|parallélogramme|cercle|segment|hexagone/.test(f) && !/demi/.test(f)).length,
   '5G2.orig': v => `(${-v.x};${-v.y})`,
@@ -122,8 +122,15 @@ module.exports = {
   // ---- 5G4
   '5G4.id': v => v.d,
   '5G4.aire': v => r6(v.b * v.h / 2),
-  '5G4.diam': v => 2 * v.r,
+  '5G4.diam': v => r6(v.half ? v.r / 2 : 2 * v.r),
   '5G4.fig': v => ({ hauteur: 'la hauteur issue de A', mediane: 'la médiane issue de A', mediatrice: 'la médiatrice de [BC]' })[v.ty],
+  '5G4.voc': (v, q) => {
+    const side = `[${v.Q}${v.S}]`;
+    if (v.mode === 'equi') { const m = q.statement.match(/point \$(\w)\$ vérifie/); return `$${m[1]}$ appartient à la médiatrice de $${side}$`; }
+    const nom = { hauteur: `la hauteur issue de $${v.P}$`, mediane: `la médiane issue de $${v.P}$`, mediatrice: `la médiatrice de $${side}$` }[v.kind];
+    const def = { hauteur: `la droite qui passe par $${v.P}$ et qui est perpendiculaire à $(${v.Q}${v.S})$`, mediane: `la droite qui passe par $${v.P}$ et par le milieu de $${side}$`, mediatrice: `la droite perpendiculaire à $${side}$ en son milieu` }[v.kind];
+    return v.mode === 'def2nom' ? nom : def;
+  },
   '5G4.comp': v => r6(v.L * v.l + v.L * v.h / 2),
   '5G4.comp2': v => r6(v.L * v.l - v.a * v.b / 2 - v.c * (v.l - v.a) / 2),
   '5G4.int': v => { let n = 0; for (let x = 1; x < v.a + v.b; x++) if (x < v.a + v.b && v.a < x + v.b && v.b < x + v.a) n++; return n; },
@@ -139,7 +146,7 @@ module.exports = {
   // ---- 5G6
   '5G6.elt': v => ({ faces: v.n + 2, 'arêtes': 3 * v.n, sommets: 2 * v.n })[v.what],
   '5G6.cv': v => [v.x, v.x * 1000, v.x, v.x][v.v],
-  '5G6.sol': v => ['Un cylindre de révolution', 'Un prisme droit à base triangulaire', 'Un pavé droit', 'Une pyramide', 'Un cône de révolution'][v.k2],
+  '5G6.sol': v => v.ans || ['Un cylindre de révolution', 'Un prisme droit à base triangulaire', 'Un pavé droit', 'Une pyramide', 'Un cône de révolution'][v.k2],
   '5G6.pt': v => r6(v.a * v.b * v.h / 2),
   '5G6.cv2': v => r6([v.x * 1000, v.x * 100 / 1000, v.x * 1000][v.v]),
   '5G6.pat': v => v.a + v.b + v.c,
@@ -158,6 +165,14 @@ module.exports = {
   '5D1.mg': v => Math.round((v.n1 * v.m1 + v.n2 * v.m2) / (v.n1 + v.n2) * 10) / 10,
   // ---- 5D2
   '5D2.ech': v => (/obtenir 7|boule verte/.test(v.ev) ? 'Impossible' : /inférieur à 7|tirer une boule rouge dans un sac qui ne/.test(v.ev) ? 'Certain' : /obtenir 6|unique/.test(v.ev) ? 'Peu probable' : /pile|pair/.test(v.ev) ? 'Une chance sur deux' : 'Très probable'),
+  '5D2.ech2': v => { const p = v.fav / v.tot; return p === 0 ? 'Impossible' : p === 1 ? 'Certain' : p === 0.5 ? 'Une chance sur deux' : p <= 0.125 ? 'Peu probable' : p >= 0.875 ? 'Très probable' : 'AMBIGU'; },
+  '5D2.de': v => { let c = 0; for (let x = 1; x <= v.n; x++) if ({ face: x === v.s, pair: x % 2 === 0, multiple: x % v.m === 0, sup_eg: x >= v.s, sup: x > v.s, inf_eg: x <= v.s }[v.ty]) c++; return fr(c, v.n); },
+  '5D2.carte': v => {
+    const neg = /^ne pas/.test(v.ev), e = v.ev.replace(/^(ne pas )?obtenir /, '');
+    const f = /^une carte (rouge|noire)$/.test(e) ? v.n / 2 : /^un (cœur|carreau|pique|trèfle)$/.test(e) ? v.n / 4 : /^une? (as|roi|dame|valet)$/.test(e) ? 4
+      : /^une figure/.test(e) ? 12 : /^une? (as|roi|dame|valet) (rouge|noire?)$/.test(e) ? 2 : /^(le |la |l')(as|roi|dame|valet) de (cœur|carreau|pique|trèfle)$/.test(e) ? 1 : NaN;
+    return fr(neg ? v.n - f : f, v.n);
+  },
   '5D2.iss': v => (v.v === 2 ? v.w.length : v.n),
   '5D2.urne': v => fr(v.not ? v.b + v.v : v.b, v.r + v.b + v.v),
   '5D2.mot': v => fr(v.w.split('').filter(c => /[AEIOUY]/.test(c)).length, v.w.length),
@@ -234,8 +249,15 @@ module.exports = {
   '4D2.derniere': v => (100 - v.a - v.b) / 100,
   '4D2.issues': v => v.N,
   '4D2.pct': v => 1 - v.p,
-  '4D2.somme': v => { let c = 0; for (let i = 1; i <= 6; i++) for (let j = 1; j <= 6; j++) if (i + j === v.s) c++; return fr(c, 36); },
-  '4D2.auMoins': v => fr(v.n * v.n - (v.n - v.kk) * (v.n - v.kk), v.n * v.n),
+  '4D2.pp': v => { let c = 0; for (const a of [0, 1]) for (const b of [0, 1]) if ({ aa: a + b === 0, bb: a + b === 2, ab: a !== b, 'a+': a === 0 || b === 0, 'b+': a === 1 || b === 1, eq: a === b, ne: a !== b }[v.id]) c++; return fr(c, 4); },
+  '4D2.pd': v => { let c = 0; for (let x = 1; x <= v.n; x++) if ({ pair: x % 2 === 0, impair: x % 2 === 1, multiple: x % v.m === 0, face: x === v.s, sup_eg: x >= v.s, inf_eg: x <= v.s }[v.ty]) c++; return fr(c, 2 * v.n); },
+  '4D2.sum': v => (v.q === 'sum' ? '1' : fr(1, v.n)),
+  '4D2.somme': v => { let c = 0; for (let i = 1; i <= 6; i++) for (let j = 1; j <= 6; j++) if ({ eq: i + j === v.s, ge: i + j >= v.s, le: i + j <= v.s, ecart: Math.abs(i - j) === v.s, double: i === j }[v.mode || 'eq']) c++; return fr(c, 36); },
+  '4D2.auMoins': v => { // dénombrement direct des couples gagnants
+    const ok = x => ({ le: x <= v.kk, ge: x >= v.n - v.kk + 1, face: x === v.j, pair: x % 2 === 0 })[v.ty || 'le'];
+    let c = 0; for (let a = 1; a <= v.n; a++) for (let b = 1; b <= v.n; b++) if (ok(a) || ok(b)) c++;
+    return fr(c, v.n * v.n);
+  },
   '4D2.sansRemise': v => fr(v.r * (v.r - 1) + v.b * (v.b - 1), (v.r + v.b) * (v.r + v.b - 1)),
   '4D2.prodPair': v => { let c = 0; for (let i = 1; i <= v.n1; i++) for (let j = 1; j <= v.n2; j++) if ((i * j) % 2 === 0) c++; return fr(c, v.n1 * v.n2); },
   '4D2.urnes': v => fr(v.r1 * v.r2, (v.r1 + v.b1) * (v.r2 + v.b2)),
@@ -270,7 +292,7 @@ module.exports = {
   '4G3.aire': v => v.b * v.h / 2,
   // 4G4
   '4G4.elements': v => (v.ask === 'arêtes' ? 2 * v.n : v.n + 1),
-  '4G4.patron': () => 'Un disque et une portion de disque',
+  '4G4.patron': v => v.good || 'Un disque et une portion de disque',
   '4G4.pyrB': v => v.B * v.h / 3,
   '4G4.pyrRect': v => v.L * v.l * v.h / 3,
   '4G4.coneD': v => v.r * v.r * v.h / 3,
@@ -578,7 +600,9 @@ module.exports = {
   'G0.coneH': v => Math.round(Math.PI * v.r * v.r * L(v.g, v.r) / 3),
   // ---------------- G1 Thalès
   'G1.rapEmb': v => `\\frac{${v.A}${v.M}}{${v.A}${v.B}}=\\frac{${v.A}${v.N}}{${v.A}${v.C}}=\\frac{${v.M}${v.N}}{${v.B}${v.C}}`,
-  'G1.rapPap': () => '\\frac{OA}{OB}=\\frac{OC}{OD}=\\frac{AC}{BD}',
+  'G1.rapEmb1': v => [`\\frac{${v.A}${v.M}}{${v.A}${v.B}}`, `\\frac{${v.A}${v.N}}{${v.A}${v.C}}`, `\\frac{${v.M}${v.N}}{${v.B}${v.C}}`][v.a],
+  'G1.rapPap': ({ O = 'O', A = 'A', B = 'B', C = 'C', D = 'D' }) => `\\frac{${O}${A}}{${O}${B}}=\\frac{${O}${C}}{${O}${D}}=\\frac{${A}${C}}{${B}${D}}`,
+  'G1.paral': v => (near(v.a1 / v.b1, v.a2 / v.b2) ? `Oui : (${v.X}${v.Z}) et (${v.Y}${v.W}) sont parallèles (réciproque du théorème de Thalès)` : `Non : (${v.X}${v.Z}) et (${v.Y}${v.W}) ne sont pas parallèles (contraposée du théorème de Thalès)`),
   'G1.coefK': v => v.AM / v.AB,
   'G1.NC': v => v.AC - v.AC * v.AM / v.AB,
   'G1.ombre': v => v.S / v.s * v.b,
@@ -623,7 +647,7 @@ module.exports = {
   // ---------------- G4 Sphère, boule, repérage
   'G4.aireSph': v => 4 * v.R * v.R,
   'G4.volBoule': v => frac(4 * v.R ** 3, 3),
-  'G4.vocab': v => ['une sphère', 'une boule', 'un cercle', 'un disque', 'une sphère', 'une boule'][v.i],
+  'G4.vocab': v => ({ sphObj: 'une sphère', bouleObj: 'une boule', secS: 'un cercle', secB: 'un disque', espEx: 'une sphère', espLe: 'une boule', planEx: 'un cercle', planLe: 'un disque' })[v.i],
   'G4.lireGeo': v => `(${Math.abs(v.la)}° ${v.la > 0 ? 'N' : 'S'} ; ${Math.abs(v.lo)}° ${v.lo > 0 ? 'E' : 'O'})`,
   'G4.arrondi': v => Math.round(v.mode === 'aire' ? 4 * Math.PI * v.R ** 2 : 4 * Math.PI * v.R ** 3 / 3),
   'G4.sectionR': v => L(v.R, v.d),
@@ -639,7 +663,11 @@ module.exports = {
   'G4.dome': v => Math.ceil(2 * Math.PI * v.R * v.R / v.c),
   'G4.parallele': v => Math.round(2 * Math.PI * 6400 * Math.cos(rad(v.la)) / 100) * 100,
   // ---------------- G5 Espace et sections
-  'G5.natSection': v => ['Un rectangle', 'Un carré', 'Un disque de même rayon que la base', 'Un rectangle', 'Un disque, réduction de la base', 'Un carré, réduction de la base', 'Un cercle', 'Un rectangle'][v.i],
+  'G5.natSection': v => ['Un rectangle', 'Un carré', 'Un disque de même rayon que la base', 'Un rectangle', 'Un disque, réduction de la base', 'Un carré, réduction de la base', 'Un cercle', 'Un rectangle', 'Un triangle superposable à la base', 'Un triangle, réduction de la base', 'Un disque', 'Un rectangle'][v.i],
+  'G5.natNum': v => {
+    if (v.kind === 'pave') { const d = { ABCD: [v.L, v.l], ABFE: [v.L, v.h], ADHE: [v.l, v.h] }[v.face]; return `Un rectangle de ${d[0]} cm sur ${d[1]} cm`; }
+    return v.kind === 'cylA' ? `Un rectangle de ${2 * v.r} cm sur ${v.h} cm` : `Un disque de rayon ${v.r} cm`;
+  },
   'G5.vol': v => ({ pave: v.a * v.b * v.c, prisme: v.a * v.b * v.c / 2, cyl: v.a * v.a * v.b, pyr: v.a * v.b * v.c / 3, cone: v.a * v.a * v.b / 3 })[v.kind],
   'G5.repere': v => { const p = { B: [v.L, 0, 0], C: [v.L, v.l, 0], D: [0, v.l, 0], E: [0, 0, v.h], F: [v.L, 0, v.h], G: [v.L, v.l, v.h], H: [0, v.l, v.h] }[v.n]; return `(${p.join(';')})`; },
   'G5.fas': v => (v.kind === 'prisme' ? { faces: v.n + 2, 'arêtes': 3 * v.n, sommets: 2 * v.n } : { faces: v.n + 1, 'arêtes': 2 * v.n, sommets: v.n + 1 })[v.what],
@@ -650,11 +678,11 @@ module.exports = {
   'G5.maison': v => v.c ** 3 + v.c * v.c * v.h / 3,
   'G5.secRed': v => v.base * v.hp / v.H,
   'G5.secDiag': v => H(v.L, v.l) * v.h,
-  'G5.coneCl': v => r(Math.PI * v.r * v.r * v.h / 30, 1),
-  'G5.verre': v => r(100 * v.kk ** 3, 1),
+  'G5.coneCl': v => (v.u === 'mL' ? Math.round(Math.PI * v.r * v.r * v.h / 3) : r(Math.PI * v.r * v.r * v.h / 30, 1)),
+  'G5.verre': v => r((v.V || 100) * v.kk ** 3, 1),
   'G5.aquarium': v => r(4 * Math.PI * v.r ** 3 / 3 / (v.L * v.l), 2),
   'G5.petitePyr': v => r(v.c * v.c * v.H / 3 * v.kk ** 3, 1),
-  'G5.vide': v => 2 * v.c ** 3 / 3,
+  'G5.vide': v => 2 * (v.L ? v.L * v.l * v.h : v.c ** 3) / 3,
   // ---------------- G6 Rotations et transformations
   'G6.polyRot': v => 'ABCDEFGH'[((v.i + (v.anti ? v.m : -v.m)) % v.n + v.n) % v.n],
   'G6.conserv': v => v.v,
@@ -663,7 +691,7 @@ module.exports = {
     if (v.ang === 180) { X = -dx; Y = -dy; } else { const t = (v.anti ? 1 : -1) * Math.PI / 2; X = Math.round(dx * Math.cos(t) - dy * Math.sin(t)); Y = Math.round(dx * Math.sin(t) + dy * Math.cos(t)); }
     return `(${v.cx + X};${v.cy + Y})`;
   },
-  'G6.ident': v => (v.hard ? { rotA: "La rotation de centre O d'angle 90^\\circ dans le sens anti-horaire", rotH: "La rotation de centre O d'angle 90^\\circ dans le sens horaire", symC: 'La symétrie de centre O', symY: "La symétrie d'axe l'axe des ordonnées", trans: 'Une translation' } : { trans: 'Une translation', symY: 'Une symétrie axiale', symC: 'Une symétrie centrale', rotA: "Une rotation d'angle 90^\\circ" })[v.kind],
+  'G6.ident': v => (v.hard ? { rotA: "La rotation de centre O d'angle 90^\\circ dans le sens anti-horaire", rotH: "La rotation de centre O d'angle 90^\\circ dans le sens horaire", symC: 'La symétrie de centre O', symY: "La symétrie d'axe l'axe des ordonnées", symX: "La symétrie d'axe l'axe des abscisses", trans: 'Une translation' } : { trans: 'Une translation', symY: 'Une symétrie axiale', symC: 'Une symétrie centrale', rotA: "Une rotation d'angle 90^\\circ" })[v.kind],
   'G6.angleRot': v => 360 * v.m / v.n,
   'G6.AAp': v => r(2 * v.OA * Math.sin(rad(v.ang / 2)), 1),
   'G6.invTri': v => (v.what === 'hyp' ? H(v.a, v.b) : v.a * v.b / 2),
