@@ -8080,9 +8080,10 @@ window.MathsLyceeGenerators = {
 
   _x2N3sig(tier) {
     const e = this.randInt(-3, 4);
-    const m = this.randInt(100000, 999999);
-    const x = m * 10 ** (e - 5);
     const k = this.randChoice([2, 3]);
+    let m;
+    do { m = this.randInt(100000, 999999); } while (m % 10 ** (6 - k) === 5 * 10 ** (5 - k)); // pas de cas « pile au milieu » (…5 final)
+    const x = m * 10 ** (e - 5);
     const ord = e;
     const mr = Math.round(m / 10 ** (6 - k)) * 10 ** (6 - k);
     const r = e <= 5 ? mr / 10 ** (5 - e) : mr * 10 ** (e - 5);
