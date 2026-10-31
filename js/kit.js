@@ -1,5 +1,5 @@
 /**
- * L'Établi des Maths — Kit enseignant et affiche (kit-enseignant.html, affiche.html).
+ * L'Établi des Maths — Kit enseignant et affiche (enseignants.html, affiche.html).
  * Boutons « Copier le message » (presse-papiers, repli par sélection du texte) et boutons d'impression.
  */
 (function () {

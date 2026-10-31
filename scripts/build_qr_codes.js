@@ -6,7 +6,7 @@
  *   assets/qr/affiche.svg     → page d'accueil, QR de l'affiche A4 du kit enseignant (src=affiche)
  *   assets/qr/niveau-<N>.svg  → accueil d'un niveau (6eme … tale), QR par niveau du kit (src=affiche)
  * Le paramètre src permet de mesurer ces visites dans GoatCounter (liste des sources :
- * commentaire GoatCounter en fin d'index.html et FAQ de kit-enseignant.html).
+ * commentaire GoatCounter en fin d'index.html et FAQ de enseignants.html).
  *
  * Usage : node scripts/build_qr_codes.js   (nécessite la commande `qrencode`)
  * À relancer après l'ajout de chapitres (idempotent : ne réécrit que ce qui change).

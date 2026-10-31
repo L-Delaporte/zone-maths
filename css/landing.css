@@ -380,7 +380,7 @@
   text-decoration: none;
 }
 
-/* ===================== Kit enseignant (kit-enseignant.html) ===================== */
+/* ===================== Kit enseignant (enseignants.html) ===================== */
 .kit-breadcrumb { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem; }
 .kit-breadcrumb a { color: var(--primary-text); }
 .kit-section { margin-top: 2.5rem; scroll-margin-top: 5rem; }
