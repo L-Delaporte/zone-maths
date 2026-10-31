@@ -244,6 +244,7 @@
 .cours-hint summary { color: var(--text-muted); font-weight: 600; }
 
 .cours-flashcards { display: grid; gap: 0.5rem; }
+/* important : prime sur une règle concurrente plus spécifique ou plus tardive */
 .cours-flash { margin-top: 0 !important; }
 .cours-flash summary { color: var(--text-main); font-weight: 600; }
 
@@ -371,16 +372,17 @@
 
 /* Impression : contenu seul, détails dépliés */
 @media print {
-  .app-header, .cours-footer, .cours-cta, .cours-cta-box, .cours-pager, .cours-toc, .cours-skip, .cours-breadcrumb { display: none !important; }
+  .app-header, .cours-footer, .cours-cta, .cours-cta-box, .cours-pager, .cours-toc, .cours-skip, .cours-breadcrumb { display: none; }
   body { display: block; background: #fff; color: #000; }
   .cours-wrapper { max-width: none; padding: 0; gap: 1rem; }
+  /* important : impression, prime sur les styles d'écran, le thème sombre et le JS */
   .cours-hero, .cours-card, .cours-list, .cours-page details { box-shadow: none; background: #fff !important; border-color: #999; }
   .cours-hero { padding: 0 0 0.5rem; border: 0; border-bottom: 2px solid #000; border-radius: 0; }
   .cours-title, .cours-section > h2, .cours-card > h3 { color: #000; }
   .cours-lead, .cours-tier, .cours-note { color: #333; }
   .cours-card, .cours-exo, .katex-display { break-inside: avoid; }
   .cours-section > h2 { break-after: avoid; border-bottom-color: #000; }
-  .cours-page details > div { display: block !important; }
+  .cours-page details > div { display: block; }
   .cours-page details::details-content { content-visibility: visible; display: block; }
   .cours-page details > summary { border: 0; color: #000; }
   .cours-exo-num { background: none; color: #000; padding: 0; }
@@ -505,6 +507,7 @@
 .hub-table tbody th { font-weight: 700; white-space: nowrap; }
 .hub-more > summary { font-size: 0.95rem; }
 .hub-exo-more { margin-top: 0.85rem; font-size: 0.9rem; color: var(--text-muted); }
+/* important : prime sur une règle concurrente plus spécifique ou plus tardive */
 .hub-inline { list-style: none; display: flex !important; flex-wrap: wrap; gap: 0.35rem 0.9rem; }
 .hub-pills a {
   display: inline-block;
@@ -525,7 +528,7 @@
   .hub-table th, .hub-table td { padding: 0.45rem 0.5rem; }
 }
 @media print {
-  .cours-related { display: none !important; }
-  .cours-faq-item > div { display: block !important; }
+  .cours-related { display: none; }
+  .cours-faq-item > div { display: block; }
 }
 .hub-chapters + .cours-note, .hub-grid + .cours-note { margin-top: 0.85rem; }

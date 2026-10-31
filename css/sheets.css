@@ -4,6 +4,7 @@
    ========================================================================= */
 
 /* Doublon de la barre d'outils de l'onglet (le bouton « Devoir blanc multi-chapitres » y figure) */
+/* important : prime sur une règle concurrente plus spécifique ou plus tardive */
 #tab-pane-sheets .sheets-quick-header-actions { display: none !important; }
 
 .ws-toolbar {
@@ -302,43 +303,43 @@
 
 @media print {
   body:has(#tab-pane-sheets.active):not(.modal-open) {
-    padding: 0 !important;
+    padding: 0;
   }
   #tab-pane-sheets .ws-sheet {
     page: etabli-sheet;
-    border: none !important;
-    border-radius: 0 !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    max-width: none !important;
-    background: #fff !important;
-    color: #000 !important;
-    font-size: 10.5pt !important;
-    line-height: 1.45 !important;
-    box-shadow: none !important;
-    break-inside: auto !important;
-    page-break-inside: auto !important;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    margin: 0;
+    max-width: none;
+    background: #fff;
+    color: #000;
+    font-size: 10.5pt;
+    line-height: 1.45;
+    box-shadow: none;
+    break-inside: auto;
+    page-break-inside: auto;
   }
-  #tab-pane-sheets .ws-sheet * { color: #000 !important; }
-  #tab-pane-sheets .ws-header { border-bottom-color: #000 !important; margin-bottom: 3mm !important; }
-  #tab-pane-sheets .ws-kicker { font-size: 8.5pt !important; }
-  #tab-pane-sheets .ws-title { font-size: 15pt !important; }
-  #tab-pane-sheets .ws-infos { font-size: 9.5pt !important; }
-  #tab-pane-sheets .ws-grade { display: block !important; border-color: #000 !important; }
+  #tab-pane-sheets .ws-sheet * { color: #000; }
+  #tab-pane-sheets .ws-header { border-bottom-color: #000; margin-bottom: 3mm; }
+  #tab-pane-sheets .ws-kicker { font-size: 8.5pt; }
+  #tab-pane-sheets .ws-title { font-size: 15pt; }
+  #tab-pane-sheets .ws-infos { font-size: 9.5pt; }
+  #tab-pane-sheets .ws-grade { display: block; border-color: #000; }
   #tab-pane-sheets .ws-qr.print-only,
-  .quiz-footer-credit .print-qr { display: flex !important; }
+  .quiz-footer-credit .print-qr { display: flex; }
   #tab-pane-sheets .ws-student.print-only {
-    display: flex !important;
-    margin: 0 0 4mm !important;
-    padding: 0 0 2mm !important;
-    border: none !important;
-    font-size: 10pt !important;
+    display: flex;
+    margin: 0 0 4mm;
+    padding: 0 0 2mm;
+    border: none;
+    font-size: 10pt;
   }
   #tab-pane-sheets .ws-ex-title {
-    background: none !important;
-    border-left: 3px solid #000 !important;
-    padding: 1mm 0 1mm 2.5mm !important;
-    font-size: 11.5pt !important;
+    background: none;
+    border-left: 3px solid #000;
+    padding: 1mm 0 1mm 2.5mm;
+    font-size: 11.5pt;
     break-after: avoid;
     page-break-after: avoid;
   }
@@ -354,18 +355,21 @@
   #tab-pane-sheets .ws-body h2,
   #tab-pane-sheets .ws-body h3,
   #tab-pane-sheets .ws-body h4 { break-after: avoid; page-break-after: avoid; }
+  /* important : impression, prime sur les styles d'écran, le thème sombre et le JS */
   #tab-pane-sheets .ws-body,
   #tab-pane-sheets .ws-body .katex-display,
   #tab-pane-sheets .ws-body table { overflow: visible !important; }
-  #tab-pane-sheets .ws-method { background: none !important; border-color: #888 !important; }
+  #tab-pane-sheets .ws-method { background: none; border-color: #888; }
 
   /* Corrigé : masqué par défaut, sur une nouvelle page avec « Sujet + corrigé » */
+  /* important : impression, prime sur les styles d'écran, le thème sombre et le JS */
   #tab-pane-sheets .ws-solution { display: none !important; }
+  /* important : impression, prime sur les styles d'écran, le thème sombre et le JS */
   body.sheets-print-solution #tab-pane-sheets .ws-solution {
     display: block !important;
-    border: none !important;
-    margin: 0 !important;
-    padding: 0 !important;
+    border: none;
+    margin: 0;
+    padding: 0;
   }
   body.sheets-print-solution #tab-pane-sheets .ws-solution::details-content {
     content-visibility: visible;
@@ -374,8 +378,8 @@
   body.sheets-print-solution #tab-pane-sheets .ws-solution-page {
     break-before: page;
     page-break-before: always;
-    background: none !important;
-    padding: 0 !important;
+    background: none;
+    padding: 0;
   }
 }
 
