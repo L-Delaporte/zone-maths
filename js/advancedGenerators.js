@@ -13364,7 +13364,7 @@ window.MathsAdvancedGenerators = {
 
   // =========================================================================
   // LYCÉE (2NDE, 1ÈRE, TALE) : délégation à js/lyceeGenerators.js
-  // Renvoie null si aucun générateur n'est disponible : randomGenerators.generateForChapter
+  // Renvoie null si aucun générateur n'est disponible : MathsGenerators.generateForChapter (js/generatorsCore.js)
   // puise alors dans la banque statique MATHS_EXERCISES.
   // =========================================================================
 

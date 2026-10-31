@@ -49,7 +49,7 @@ global.document = {
 if (typeof global.navigator === 'undefined') global.navigator = { userAgent: 'node' };
 
 // Fichiers nécessaires, chargés dans l'ordre de index.html
-const NEEDED = ['js/geometryFigures.js', 'js/scratchRenderer.js', 'js/randomGenerators.js', 'js/generators6e.js'];
+const NEEDED = ['js/geometryFigures.js', 'js/scratchRenderer.js', 'js/generatorsCore.js', 'js/randomGenerators.js', 'js/generators6e.js'];
 const html = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
 const ordered = [];
 for (const m of html.matchAll(/<script[^>]*\bsrc="([^"?]+)/g)) if (NEEDED.includes(m[1])) ordered.push(m[1]);

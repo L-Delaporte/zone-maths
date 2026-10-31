@@ -190,7 +190,8 @@ require(path.join(__dirname, '../js/mathVisualizer.js'));
 require(path.join(__dirname, '../js/lyceeGenerators.js'));
 require(path.join(__dirname, '../js/advancedGenerators.js'));
 
-// Load randomGenerators
+// Load generatorsCore (aiguillage) then randomGenerators (collège)
+require(path.join(__dirname, '../js/generatorsCore.js'));
 require(path.join(__dirname, '../js/randomGenerators.js'));
 
 // 1. Audit AdvancedGenerators directly

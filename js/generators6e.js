@@ -3,8 +3,8 @@
  * Programme de mathématiques du cycle 3 (arrêté du 10 avril 2025, BO n° 16 du 17 avril 2025),
  * applicable en 6e depuis la rentrée 2025.
  *
- * Chargé APRÈS js/randomGenerators.js : les fonctions generate6XX(tier, mastery) sont
- * ajoutées à l'objet global window.MathsGenerators (helpers réutilisés : randInt, randChoice,
+ * Chargé APRÈS js/generatorsCore.js (sans js/randomGenerators.js) : les fonctions generate6XX(tier, mastery) sont
+ * ajoutées à l'objet global window.MathsGenerators (helpers du cœur réutilisés : randInt, randChoice,
  * shuffle, gcd, simplifyFraction, resolveTier, renderScratch…).
  *
  * Paliers : 1 Socle & Automatismes · 2 Entraînement guidé · 3 Approfondissement · 4 Défi 5ème.
