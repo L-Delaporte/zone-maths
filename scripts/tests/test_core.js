@@ -64,6 +64,60 @@ exact('(3;5)', '(3 ; 5)', true);
 exact('2x+3', '2x + 3', true);
 exact('−3', '-3', true);
 exact('oui', 'vrai', true);
+
+// --- Racines, π, mots : analyseur d'expressions (sans eval) ---------------------------------
+// Écritures équivalentes d'une forme exacte
+[['√2', '√2'], ['sqrt(2)', '√2'], ['sqrt2', '√2'], ['racine de 2', '√2'], ['\\sqrt{2}', '√2'],
+ ['3√2', '3√2'], ['3*sqrt(2)', '3√2'], ['3√(2)', '3√2'], ['√2*3', '3√2'], ['3 racine(2)', '3√2'],
+ ['2√3/3', '2√3/3'], ['(2/3)√3', '2√3/3'], ['2sqrt(3)/3', '2√3/3'], ['\\frac{2\\sqrt{3}}{3}', '2√3/3'],
+ ['2π', '2π'], ['2pi', '2π'], ['2*pi', '2π'], ['π/3', 'π/3'], ['pi/3', 'π/3'], ['1/3π', 'π/3'],
+ ['3π/4', '3π/4'], ['3/4π', '3π/4'], ['-π/2', '-π/2'], ['−pi/2', '-π/2'], ['x = π/3', 'π/3'],
+ ['(1+√5)/2', '(1+√5)/2'], ['1/2+√5/2', '(1+√5)/2'], ['(√2;π)', '(√2;π)'], ['(3√2 ; pi/4)', '(3√2;π/4)'],
+ ['S={-2;3}', '(-2;3)'], ['(2, 5)', '(2;5)'], ['3,5;2', '(3,5;2)'], ['10*x', '10x'], ['10⁻³', '0.001'],
+ ['0,060', '0,06'], ['10000000', '10^7']]
+  .forEach(([u, a]) => exact(u, a, true));
+// Forme exacte exigée : une valeur décimale, même très précise, ne remplace pas √2 ou π
+[['1,414', '√2'], ['1.41421356237', '√2'], ['6.2832', '2π'], ['3,14', 'π'], ['0,33', '1/3'], ['0,333', '1/3'],
+ ['(1,414;π)', '(√2;π)'], ['2', '2π'], ['3', '3√2'], ['√3', '√2'], ['π/4', '3π/4'], ['-√2', '√2'],
+ // Arrondi demandé : la valeur non arrondie ou une forme exacte ne valident pas
+ ['0,0609', '0,06'], ['1/3', '0,33'], ['√2', '1,41'], ['3,1416', '3,14'],
+ // La réponse doit être calculée, pas recopiée sous forme d'opération
+ ['2*3', '6'], ['√4', '2'], ['2^3', '8'], ['59049', '9^5'], ['2²', '4'],
+ // Saisies invalides ou non sûres (aucune évaluation de code)
+ ['1/0', '1'], ['2abc', '2'], ['alert(1)', '1'], ['Math.PI', 'π'], ['√', '√2'], ['((2', '2'], ['', '0'], ['2;3', '(2;3;4)']]
+  .forEach(([u, a]) => exact(u, a, false));
+// Mots et synonymes
+[['Aucune', 'aucune'], ['∅', 'aucune'], ['pas de solution', 'aucune'], ["l'ensemble vide", 'aucune'], ['S = ∅', 'aucune'],
+ ['{}', 'aucune'], ['Oui !', 'oui'], ['VRAI', 'oui'], ['faux', 'non'], ['Impossible', 'impossible'],
+ ["ça n'existe pas", 'impossible'], ['Isocèle', 'isocèle'], ['un triangle isocèle', 'triangle isocèle'],
+ ['parallèles', 'parallèle'], ["plus l'infini", '+∞'], ['-inf', '-∞']]
+  .forEach(([u, a]) => exact(u, a, true));
+[['0', 'aucune'], ['non', 'oui'], ['vrai', 'faux'], ['-inf', '+∞'], ['aucune', 'impossible'], ['rectangle', 'isocèle']]
+  .forEach(([u, a]) => exact(u, a, false));
+
+// Conseils (non comptés comme erreurs) : le motif est identifié
+const advice = (user, answer, kind, statement = '') =>
+  check(`analyzeAnswer(${JSON.stringify(user)} pour ${JSON.stringify(answer)}).advice`,
+    E.analyzeAnswer(user, { type: 'exact', answer, statement }).advice || null, kind);
+advice('1,414', '√2', 'exact');
+advice('√18', '3√2', 'radical');
+advice('2/√3', '2√3/3', 'denominator');
+advice('4√3/6', '2√3/3', 'fraction');
+advice('π+π', '2π', 'form');
+advice('0,0609', '0,06', 'rounding');
+advice('0,1234', '0,12', 'rounding', 'Donner la valeur arrondie au centième.');
+advice('√2', '1,41', 'approx');
+advice('0,07', '0,06', null);
+advice('5', '3√2', null);
+check('Message de conseil défini pour chaque motif',
+  ['exact', 'radical', 'denominator', 'fraction', 'form', 'rounding', 'approx'].every(k => Array.isArray(E.ADVICE_MESSAGES[k]) && E.ADVICE_MESSAGES[k].length === 2), true);
+
+// Réponses alternatives proposées par le générateur (ex. ancienne saisie « (3;2) » pour 3√2)
+const withAlt = { type: 'exact', answer: '(3;2)', acceptedAnswers: ['3√2'] };
+check('acceptedAnswers : réponse principale', E.validateAnswer('(3;2)', withAlt), true);
+check('acceptedAnswers : forme alternative', E.validateAnswer('3sqrt(2)', withAlt), true);
+check('acceptedAnswers : décimal refusé', E.validateAnswer('4,24', withAlt), false);
+check('acceptedAnswers : autre valeur refusée', E.validateAnswer('2√3', withAlt), false);
 // QCM
 check('QCM bon indice', E.validateAnswer(2, { type: 'mcq', options: ['a', 'b', 'c'], correctIndex: 2 }), true);
 check('QCM mauvais indice', E.validateAnswer(0, { type: 'mcq', options: ['a', 'b', 'c'], correctIndex: 2 }), false);
@@ -133,6 +187,15 @@ const answer = ok => {
   return E.submitAnswer(ok ? '7' : '8');
 };
 const tiersOf = () => (S.getChapterProgress('SIM').validatedTiers || []).slice().sort();
+
+// Un conseil de forme (racine à simplifier) n'est pas compté comme une erreur
+freshChapter();
+E.state.currentExercise = { type: 'exact', title: 't', statement: 'Simplifier √18.', answer: '3√2', solution: 's' };
+const histBefore = E.state.sessionHistory.length;
+const adv = E.submitAnswer('√18');
+check('submitAnswer : conseil « radical »', adv && adv.needsSimplification && adv.adviceKind, 'radical');
+check('submitAnswer : conseil non compté', E.state.sessionHistory.length, histBefore);
+check('submitAnswer : forme exacte acceptée ensuite', E.submitAnswer('3*sqrt(2)').isCorrect, true);
 
 // Pas de validation en moins de MIN_ANSWERS réponses, même toutes justes
 freshChapter();

@@ -558,7 +558,8 @@ window.MathsAdaptiveEngine = {
   },
 
   /**
-   * Évalue la réponse fournie par l'élève
+   * Évalue la réponse fournie par l'élève (true / false).
+   * Saisie exacte : voir analyzeAnswer (règles de correction détaillées).
    */
   validateAnswer(userAnswer, exercise) {
     if (!exercise) return false;
@@ -578,99 +579,444 @@ window.MathsAdaptiveEngine = {
       return false;
     }
 
-    // Type Saisie Exacte (fraction, nombre ou expression)
-    if (exercise.type === 'exact') {
-      if (userAnswer === null || userAnswer === undefined) return false;
-      const normalizeMath = (str) => {
-        return String(str)
-          .trim()
-          .toLowerCase()
-          .replace(/[−–—]/g, '-')
-          .replace(/[÷⁄]/g, '/')
-          .replace(/\\?frac\{([^{}]+)\}\{([^{}]+)\}/g, '$1/$2')
-          .replace(/,/g, '.')
-          .replace(/\s+/g, '');
-      };
-
-      let cleanUser = normalizeMath(userAnswer);
-      let cleanExpected = normalizeMath(exercise.answer);
-
-      // Correspondance stricte directe
-      if (cleanUser === cleanExpected) return true;
-
-      // Tolérance pour les coordonnées d'un point (ex: "(3; 5)", "(3;5)", "3;5", "(3, 5)", "M'(3;5)")
-      const parseCoordinates = (str) => {
-        if (!str) return null;
-        let s = String(str).trim();
-        s = s.replace(/^[a-zA-Z]['’]?\s*[:=]?\s*/, '').trim();
-        const hasParens = (s.startsWith('(') && s.endsWith(')')) || (s.startsWith('[') && s.endsWith(']'));
-        if (hasParens) {
-          s = s.slice(1, -1).trim();
-        }
-        let parts;
-        if (s.includes(';')) {
-          parts = s.split(';');
-        } else if (hasParens && s.includes(',')) {
-          parts = s.split(',');
-        } else {
-          return null;
-        }
-        if (parts.length < 2 || parts.length > 4) return null;
-        const nums = parts.map(p => {
-          p = p.trim().replace(/[−–—]/g, '-').replace(/\s+/g, '');
-          if (p.includes('/')) {
-            const frac = p.split('/');
-            const num = parseFloat(frac[0]);
-            const den = parseFloat(frac[1]);
-            return (den && !isNaN(num) && !isNaN(den)) ? num / den : null;
-          }
-          const n = Number(p);
-          return isNaN(n) ? null : n;
-        });
-        if (nums.some(n => n === null)) return null;
-        return nums;
-      };
-
-      const userCoords = parseCoordinates(userAnswer);
-      const expectedCoords = parseCoordinates(exercise.answer);
-      if (userCoords && expectedCoords && userCoords.length === expectedCoords.length) {
-        const allMatch = userCoords.every((val, idx) => Math.abs(val - expectedCoords[idx]) < 0.0001);
-        if (allMatch) return true;
-      }
-
-      // Normalisation oui/non vs vrai/faux
-      const trueSet = ['oui', 'vrai', 'true', 'v'];
-      const falseSet = ['non', 'faux', 'false', 'f'];
-      if (trueSet.includes(cleanExpected) && trueSet.includes(cleanUser)) return true;
-      if (falseSet.includes(cleanExpected) && falseSet.includes(cleanUser)) return true;
-
-      // Tolérance si l'élève préfixe par "x=", "y=", "n=", etc. ou note l'ensemble solution "S={...}"
-      let strippedUser = cleanUser.replace(/^s=\s*\{/i, '').replace(/[\{\}]/g, '').replace(/^[a-z]=\s*/i, '');
-      let strippedExpected = cleanExpected.replace(/^s=\s*\{/i, '').replace(/[\{\}]/g, '').replace(/^[a-z]=\s*/i, '');
-      if (strippedUser === strippedExpected) return true;
-
-      // Tolérance unités usuelles en fin de saisie (ex: "12cm", "45°", "30€", "150L", "90km/h")
-      const stripUnits = (s) => s.replace(/(cm2|cm|mm|dm|m2|m|km\/h|km|deg|°|euros?|€|litres?|l)$/i, '');
-      const noUnitUser = stripUnits(strippedUser);
-      const noUnitExpected = stripUnits(strippedExpected);
-      if (noUnitUser === noUnitExpected) return true;
-
-      // Correspondance numérique (fractions, puissances de 10, écriture scientifique)
-      const userVal = this.parseStrictNumber(noUnitUser);
-      const expectedVal = this.parseStrictNumber(noUnitExpected);
-
-      if (!isNaN(userVal) && !isNaN(expectedVal)) {
-        return Math.abs(userVal - expectedVal) < 0.0001;
-      }
-    }
-
+    if (exercise.type === 'exact') return this.analyzeAnswer(userAnswer, exercise).correct;
     return false;
   },
 
+  /*
+   * ======================================================================================
+   * CORRECTION DES SAISIES EXACTES
+   * ======================================================================================
+   * La réponse attendue (exercise.answer, texte brut) fixe à la fois la VALEUR et la FORME attendues.
+   * exercise.acceptedAnswers (facultatif) : autres réponses attendues, jugées avec les mêmes règles.
+   *
+   * 1. Mots (« oui », « aucune », « isocèle »…) : comparaison sans casse, accents, ponctuation, articles
+   *    (le, la, les, l', un, une, des, du, de, d') ni pluriel simple (s final), plus des groupes de
+   *    synonymes : oui = vrai ; non = faux ; aucune = ∅ = { } = ensemble vide = pas de solution ;
+   *    impossible = n'existe pas ; +∞ = infini…
+   * 2. n-uplets « (a;b) » : composante par composante, avec les règles ci-dessous ; « ; » sépare
+   *    toujours, « , » seulement entre parenthèses quand l'élève n'a mis aucun « ; ».
+   * 3. Nombres et expressions : analyseur sans eval (entiers, décimaux à virgule ou point, fractions,
+   *    signes, parenthèses, puissances, √n, √(…), sqrt, racine, π, pi, produits implicites 2π, 3√2).
+   *    Égalité des valeurs à 1e-9 près en relatif (erreurs d'arrondi machine seulement) :
+   *      - réponse attendue décimale (« 0,06 ») : la valeur arrondie demandée, exactement ;
+   *        « 0,0609 » est refusé (un message invite à arrondir, sans compter d'erreur) ;
+   *      - réponse attendue exacte (fraction, √, π) : un décimal approché est refusé (message
+   *        « valeur exacte attendue »), même avec beaucoup de décimales.
+   *    Puis contrôle de la FORME :
+   *      - réponse attendue « nombre simple » (entier, décimal, fraction, écriture scientifique,
+   *        puissance de 10) : la saisie doit aussi être un nombre simple ; un calcul (« 2*3 »), une
+   *        racine (« √4 ») ou une puissance (« 2^3 ») de même valeur est refusé ;
+   *      - réponse attendue avec √, π ou une puissance (autre que de 10) : la saisie doit employer
+   *        les mêmes symboles, pas plus souvent (« π+π » refusé pour « 2π »), avec une racine
+   *        simplifiée (√12 → 2√3), sans racine au dénominateur et des fractions irréductibles,
+   *        sauf si la réponse attendue elle-même ne respecte pas l'une de ces règles.
+   *    Les écritures équivalentes simplifiées sont acceptées : 2√3/3 = (2/3)√3 = 2*√3/3 ;
+   *    3π/4 = 3/4π (lecture de gauche à droite) ; (1+√5)/2 = 1/2 + √5/2.
+   */
+
+  /** Égalité numérique « exacte » (1e-9 en relatif : erreurs d'arrondi machine seulement) */
+  _closeEnough(u, e) {
+    return Math.abs(u - e) <= 1e-9 * Math.abs(e) + 1e-15;
+  },
+
+  /** Normalisation commune des chaînes (comparaison textuelle) */
+  _normalizeMath(str) {
+    let s = String(str);
+    let guard = 0;
+    // LaTeX imbriqué (\frac{2\sqrt{3}}{3}) : de l'intérieur vers l'extérieur, avant tout retrait d'accolades
+    while (/\\sqrt\{[^{}]*\}|\\[dt]?frac\{[^{}]*\}\{[^{}]*\}/.test(s) && guard++ < 20) {
+      s = s.replace(/\\sqrt\{([^{}]*)\}/g, '√($1)')
+        .replace(/\\[dt]?frac\{([^{}]*)\}\{([^{}]*)\}/, '(($1)/($2))');
+    }
+    return s
+      .trim()
+      .toLowerCase()
+      .replace(/[−–—]/g, '-')
+      .replace(/[÷⁄∕]/g, '/')
+      .replace(/\\?frac\{([^{}]+)\}\{([^{}]+)\}/g, '($1)/($2)')
+      .replace(/,/g, '.')
+      .replace(/\s+/g, '')
+      .replace(/(\d)[*×·](?=[a-z])/g, '$1'); // 10*x -> 10x
+  },
+
+  /** Retire « x = », « S = { … } », accolades et unités usuelles en fin de saisie */
+  _stripDecorations(clean) {
+    return clean
+      .replace(/^s=\s*\{/i, '').replace(/[{}]/g, '')
+      .replace(/^[a-zα-ω]=\s*/i, '')
+      .replace(/(cm2|cm|mm|dm|m2|m|km\/h|km|deg|°|rad|euros?|€|litres?|l)$/i, '');
+  },
+
   /**
-   * Convertit une réponse normalisée en nombre UNIQUEMENT si la chaîne entière est
-   * un nombre, une fraction, une puissance de 10 ou une écriture scientifique.
-   * Sinon NaN : parseFloat("2x+3") vaudrait 2 et accepterait à tort la réponse « 2 ».
+   * Mots : forme canonique (minuscules, sans accents, ponctuation, articles ni pluriel simple),
+   * remplacée par le représentant de son groupe de synonymes.
+   */
+  _canonWords(str) {
+    let s = String(str).trim().toLowerCase().replace(/[’`]/g, "'");
+    s = s.normalize('NFD').replace(/[̀-ͯ]/g, '');
+    s = s.replace(/\\(emptyset|varnothing)|\{\s*\}|ø/g, '∅').replace(/\\infty/g, '∞');
+    s = s.replace(/^s\s*=\s*/, '');
+    s = s.replace(/[.!?:«»"()]/g, ' ').replace(/([a-z])-(?=[a-z])/g, '$1 ');
+    s = s.replace(/\b(l|d|n|qu|c)'/g, '$1 ');
+    const ARTICLES = new Set(['le', 'la', 'les', 'l', 'un', 'une', 'des', 'du', 'de', 'd']);
+    const INVARIABLE = new Set(['plus', 'moins', 'sans', 'dans', 'sous', 'vers', 'tres', 'alors', 'jamais', 'toujours', 'fois', 'mais', 'donc', 'pas']);
+    const words = s.split(/\s+/).filter((w) => w && !ARTICLES.has(w))
+      .map((w) => (w.length > 3 && /s$/.test(w) && !INVARIABLE.has(w) ? w.slice(0, -1) : w));
+    s = words.join(' ').replace(/^(reponse |c est |ca |cela |ce )+/, '');
+    const GROUPS = {
+      oui: ['oui', 'vrai', 'v', 'true', 'yes'],
+      non: ['non', 'faux', 'f', 'false', 'no'],
+      '∅': ['∅', 'aucune', 'aucun', 'aucune solution', 'aucun solution', 'pas solution', 'sans solution', 'ensemble vide',
+        'vide', 'rien', 'il n y a pas solution', 'n y a pas solution', 'y a pas solution', 'zero solution', '0 solution'],
+      impossible: ['impossible', 'pas possible', 'c est impossible', 'n existe pas', 'existe pas', 'inexistant', 'inexistante'],
+      '+∞': ['+∞', '∞', '+ ∞', '+inf', 'inf', '+infini', 'infini', 'plus infini', '+ infini'],
+      '-∞': ['-∞', '- ∞', '-inf', '-infini', 'moins infini', '- infini']
+    };
+    for (const [rep, list] of Object.entries(GROUPS)) if (list.includes(s)) return rep;
+    return s;
+  },
+
+  /** La réponse attendue est-elle un mot (ou une expression verbale) ? */
+  _isWordAnswer(expected) {
+    const c = this._canonWords(expected);
+    if (['oui', 'non', '∅', 'impossible', '+∞', '-∞'].includes(c)) return true;
+    return /^[a-z' ]+$/.test(c) && c.replace(/[^a-z]/g, '').length >= 2;
+  },
+
+  /**
+   * Découpe un n-uplet « (a;b) », « A(a ; b) », « {a;b} », « a;b » en composantes (chaînes), ou null.
+   * allowComma : « (a, b) » accepté s'il n'y a aucun « ; » (la virgule est sinon décimale).
+   */
+  _splitTuple(str, allowComma) {
+    let s = String(str).trim().replace(/[−–—]/g, '-');
+    s = s.replace(/^(s\s*=\s*)?[a-zA-Z]?['’]?\s*[:=]?\s*(?=[([{])/, '');
+    s = s.replace(/^[a-zA-Z]['’]?\s*[:=]\s*/, '').trim();
+    // parenthèses extérieures appariées : « (1+√5)/2 ; 3 » n'en a pas
+    let hasParens = /^[([{].*[)\]}]$/.test(s);
+    if (hasParens) {
+      let depth = 0;
+      for (let k = 0; k < s.length - 1; k++) {
+        if ('([{'.includes(s[k])) depth++;
+        else if (')]}'.includes(s[k])) depth--;
+        if (depth === 0) { hasParens = false; break; }
+      }
+    }
+    if (hasParens) s = s.slice(1, -1).trim();
+    const split = (sep) => {
+      const parts = [];
+      let depth = 0;
+      let cur = '';
+      for (const ch of s) {
+        if ('([{'.includes(ch)) depth++;
+        else if (')]}'.includes(ch)) depth--;
+        if (ch === sep && depth === 0) { parts.push(cur); cur = ''; } else cur += ch;
+      }
+      parts.push(cur);
+      return parts.map((p) => p.trim());
+    };
+    let parts = split(';');
+    if (parts.length === 1) {
+      if (!(hasParens && allowComma && s.includes(','))) return null;
+      parts = split(',');
+    }
+    if (parts.length < 2 || parts.length > 4 || parts.some((p) => !p)) return null;
+    return parts;
+  },
+
+  /** Prépare une saisie pour l'analyseur d'expressions (symboles unifiés), ou null si trop longue */
+  _prepMathExpr(input) {
+    let s = String(input).trim();
+    if (!s || s.length > 120) return null;
+    s = s.replace(/[−–—]/g, '-').replace(/[÷⁄∕]/g, '/')
+      .replace(/\\left|\\right|\\[,;!: ]/g, ' ')
+      .replace(/\\(times|cdot)|[×·∙⋅]/g, '*').replace(/\\div/g, '/')
+      .replace(/\\pi/g, 'π');
+    let guard = 0;
+    // \sqrt{…} puis \frac{…}{…} de l'intérieur vers l'extérieur (imbrications : \frac{2\sqrt{3}}{3})
+    while (/\\sqrt\{[^{}]*\}|\\[dt]?frac\{[^{}]*\}\{[^{}]*\}/.test(s) && guard++ < 20) {
+      s = s.replace(/\\sqrt\{([^{}]*)\}/g, '√($1)')
+        .replace(/\\[dt]?frac\{([^{}]*)\}\{([^{}]*)\}/, '(($1)/($2))');
+    }
+    s = s.replace(/\\sqrt/g, '√');
+    s = s.toLowerCase()
+      .replace(/racines?\s*carr[ée]es?(\s*de)?|racines?(\s*de)?|sqrt|rac/g, '√')
+      .replace(/pi|π/g, 'π');
+    const SUP = { '⁰': '0', '¹': '1', '²': '2', '³': '3', '⁴': '4', '⁵': '5', '⁶': '6', '⁷': '7', '⁸': '8', '⁹': '9', '⁻': '-', '⁺': '+' };
+    s = s.replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹⁻⁺]+/g, (m) => '^(' + [...m].map((c) => SUP[c]).join('') + ')');
+    s = s.replace(/\*\*/g, '^').replace(/,/g, '.').replace(/[{[]/g, '(').replace(/[}\]]/g, ')').replace(/\s+/g, '');
+    return s;
+  },
+
+  /**
+   * Analyse une expression numérique simple SANS eval. Renvoie null si la saisie n'en est pas une, sinon
+   * { value, plain, decimals, sqrt, pi, pow, badRadical, sqrtInDen, unreduced } :
+   *   plain : nombre simple (entier, décimal, fraction a/b, écriture scientifique, puissance de 10) ;
+   *   decimals : nombre de décimales écrites si plain est un décimal, sinon null ;
+   *   sqrt, pi, pow : nombre de racines, de π, de puissances (hors puissances de 10) ;
+   *   badRadical : radicande non entier, carré parfait ou divisible par un carré > 1 ;
+   *   sqrtInDen : racine au dénominateur ; unreduced : fraction (entière) non irréductible.
+   */
+  parseMathExpression(input) {
+    const s = this._prepMathExpr(input);
+    if (!s) return null;
+    const toks = [];
+    for (let i = 0; i < s.length;) {
+      const m = s.slice(i).match(/^(\d+(?:\.\d+)?|\.\d+)/);
+      if (m) {
+        const raw = m[1];
+        toks.push({ t: 'num', v: Number(raw), dec: raw.includes('.') ? raw.split('.')[1].length : 0 });
+        i += raw.length;
+      } else if ('+-*/^()√π'.includes(s[i])) {
+        toks.push({ t: 'op', v: s[i] });
+        i++;
+      } else {
+        return null;
+      }
+    }
+    if (!toks.length) return null;
+    let i = 0;
+    let depth = 0;
+    const peek = () => toks[i];
+    const isOp = (t, v) => t && t.t === 'op' && t.v === v;
+    const startsAtom = (t) => t && (t.t === 'num' || isOp(t, 'π') || isOp(t, '√') || isOp(t, '('));
+    const fail = () => { throw new Error('syntaxe'); };
+    const expr = () => {
+      if (++depth > 40) fail();
+      let n = term();
+      while (isOp(peek(), '+') || isOp(peek(), '-')) {
+        const op = toks[i++].v;
+        n = { t: op === '+' ? 'add' : 'sub', a: n, b: term() };
+      }
+      depth--;
+      return n;
+    };
+    const term = () => {
+      let n = unary();
+      for (;;) {
+        const t = peek();
+        if (isOp(t, '*') || isOp(t, '/')) { i++; n = { t: t.v === '*' ? 'mul' : 'div', a: n, b: unary() }; } else if (startsAtom(t)) n = { t: 'mul', a: n, b: power(), implicit: true };
+        else break;
+      }
+      return n;
+    };
+    const unary = () => {
+      if (isOp(peek(), '-')) { i++; return { t: 'neg', a: unary() }; }
+      if (isOp(peek(), '+')) { i++; return unary(); }
+      return power();
+    };
+    const power = () => {
+      const base = atom();
+      if (isOp(peek(), '^')) { i++; return { t: 'pow', a: base, b: unary() }; }
+      return base;
+    };
+    const atom = () => {
+      const t = toks[i++];
+      if (!t) fail();
+      if (t.t === 'num') return { t: 'num', v: t.v, dec: t.dec };
+      if (t.v === 'π') return { t: 'pi' };
+      if (t.v === '(') {
+        const e = expr();
+        if (!isOp(toks[i++], ')')) fail();
+        return { t: 'paren', a: e };
+      }
+      if (t.v === '√') {
+        if (isOp(peek(), '-')) fail();
+        return { t: 'sqrt', a: atom() };
+      }
+      return fail();
+    };
+    let ast;
+    try {
+      ast = expr();
+      if (i !== toks.length) return null;
+    } catch (e) {
+      return null;
+    }
+
+    const gcd = (a, b) => { a = Math.abs(a); b = Math.abs(b); while (b) [a, b] = [b, a % b]; return a; };
+    const info = { sqrt: 0, pi: 0, pow: 0, badRadical: false, sqrtInDen: false, unreduced: false };
+    const strip = (n) => { while (n.t === 'paren') n = n.a; return n; };
+    const isInt = (x) => Number.isFinite(x) && Math.abs(x - Math.round(x)) < 1e-9;
+    const hasSqrt = (n) => n.t === 'sqrt' || (n.a && hasSqrt(n.a)) || (n.b && hasSqrt(n.b));
+    // Contenu entier (pgcd des coefficients entiers) d'un numérateur ; null si inconnu
+    const content = (n) => {
+      n = strip(n);
+      if (n.t === 'num') return n.dec === 0 ? Math.abs(n.v) : null;
+      if (n.t === 'neg') return content(n.a);
+      if (n.t === 'pi' || n.t === 'sqrt') return 1;
+      if (n.t === 'mul') { const a = content(n.a); const b = content(n.b); return a === null || b === null ? null : a * b; }
+      if (n.t === 'add' || n.t === 'sub') { const a = content(n.a); const b = content(n.b); return a === null || b === null ? null : gcd(a, b); }
+      return null;
+    };
+    const ev = (n) => {
+      switch (n.t) {
+        case 'num': return n.v;
+        case 'pi': info.pi++; return Math.PI;
+        case 'paren': return ev(n.a);
+        case 'neg': return -ev(n.a);
+        case 'add': return ev(n.a) + ev(n.b);
+        case 'sub': return ev(n.a) - ev(n.b);
+        case 'mul': return ev(n.a) * ev(n.b);
+        case 'div': {
+          const d = strip(n.b);
+          if (hasSqrt(n.b)) info.sqrtInDen = true;
+          if (d.t === 'num' && d.dec === 0) {
+            const c = content(n.a);
+            if (d.v === 1 || (c !== null && c !== 0 && gcd(c, d.v) > 1)) info.unreduced = true;
+          }
+          const den = ev(n.b);
+          return den === 0 ? NaN : ev(n.a) / den;
+        }
+        case 'pow': {
+          const b = strip(n.a);
+          if (!(b.t === 'num' && b.v === 10)) info.pow++;
+          const e = ev(n.b);
+          if (!Number.isFinite(e) || Math.abs(e) > 400) return NaN;
+          return Math.pow(ev(n.a), e);
+        }
+        case 'sqrt': {
+          info.sqrt++;
+          const r = ev(n.a);
+          if (!(r >= 0)) return NaN;
+          if (!isInt(r) || r < 2) info.badRadical = true;
+          else {
+            const k = Math.round(r);
+            for (let f = 2; f * f <= k; f++) if (k % (f * f) === 0) { info.badRadical = true; break; }
+          }
+          return Math.sqrt(r);
+        }
+        default: return NaN;
+      }
+    };
+    const value = ev(ast);
+    if (!Number.isFinite(value)) return null;
+
+    // Nombre simple : n, -n, a/b, m*10^k, 10^k (parenthèses tolérées)
+    const plainNum = (n) => { n = strip(n); return n.t === 'num' || (n.t === 'neg' && plainNum(n.a)); };
+    const pow10 = (n) => { n = strip(n); return n.t === 'pow' && strip(n.a).t === 'num' && strip(n.a).v === 10 && plainNum(n.b) && isInt(ev(n.b)); };
+    const plain = (n) => {
+      n = strip(n);
+      if (n.t === 'num' || pow10(n)) return true;
+      if (n.t === 'neg') return plain(n.a);
+      if (n.t === 'div') return plainNum(n.a) && strip(n.b).t === 'num';
+      if (n.t === 'mul' && !n.implicit) return plainNum(n.a) && pow10(n.b);
+      return false;
+    };
+    const isPlain = plain(ast);
+    let decimals = null;
+    if (isPlain) {
+      let n = strip(ast);
+      while (n.t === 'neg') n = strip(n.a);
+      if (n.t === 'num') decimals = n.dec;
+    }
+    return Object.assign({ value, plain: isPlain, decimals }, info);
+  },
+
+  /**
+   * Compare une saisie (nombre ou expression) à la réponse attendue.
+   * Renvoie { correct, advice } ; advice (facultatif) : bonne valeur ou valeur proche mais forme à revoir
+   * ('radical', 'denominator', 'fraction', 'form', 'rounding', 'approx', 'exact').
+   */
+  _compareExpressions(userStr, expectedStr, exercise) {
+    const E = this.parseMathExpression(expectedStr);
+    if (!E) return { correct: false };
+    const U = this.parseMathExpression(userStr);
+    if (!U) return { correct: false };
+    if (this._closeEnough(U.value, E.value)) {
+      if (E.plain) return { correct: U.plain };
+      if ((U.sqrt > 0) !== (E.sqrt > 0) || (U.pi > 0) !== (E.pi > 0) || (U.pow > 0) !== (E.pow > 0)) {
+        return { correct: false, advice: U.plain && U.decimals ? 'exact' : null };
+      }
+      if (U.sqrt > E.sqrt || U.pi > E.pi || U.pow > E.pow) return { correct: false, advice: 'form' };
+      if (U.badRadical && !E.badRadical) return { correct: false, advice: 'radical' };
+      if (U.sqrtInDen && !E.sqrtInDen) return { correct: false, advice: 'denominator' };
+      if (U.unreduced && !E.unreduced) return { correct: false, advice: 'fraction' };
+      return { correct: true };
+    }
+    // Valeur différente : saisie correcte mais non arrondie, ou approchée au lieu d'exacte ?
+    const statement = String((exercise && exercise.statement) || '');
+    if (E.plain && E.decimals !== null && (E.decimals > 0 || /arrondi|près|approch|décimale/i.test(statement))) {
+      const p = Math.pow(10, E.decimals);
+      if (this._closeEnough(Math.round(U.value * p) / p, E.value)) return { correct: false, advice: U.plain ? 'rounding' : 'approx' };
+    }
+    const terminating = (x) => Number.isFinite(x) && Math.abs(x * 1e6 - Math.round(x * 1e6)) < 1e-6;
+    if (U.plain && U.decimals > 0 && (!E.plain || !terminating(E.value)) && Math.abs(U.value - E.value) <= Math.pow(10, -U.decimals)) {
+      return { correct: false, advice: 'exact' };
+    }
+    return { correct: false };
+  },
+
+  /** Compare une saisie à UNE réponse attendue (voir les règles plus haut) */
+  _matchExpected(userAnswer, expected, exercise) {
+    const cleanUser = this._normalizeMath(userAnswer);
+    const cleanExpected = this._normalizeMath(expected);
+    if (!cleanUser) return { correct: false };
+    if (cleanUser === cleanExpected) return { correct: true };
+
+    // Mots et synonymes
+    if (this._isWordAnswer(expected)) return { correct: this._canonWords(userAnswer) === this._canonWords(expected) };
+
+    // n-uplets (coordonnées, solutions ordonnées…)
+    const expTuple = this._splitTuple(expected, false);
+    if (expTuple) {
+      const userTuple = this._splitTuple(userAnswer, true);
+      if (!userTuple || userTuple.length !== expTuple.length) return { correct: false };
+      let advice = null;
+      for (let k = 0; k < expTuple.length; k++) {
+        const r = this._compareComponent(userTuple[k], expTuple[k], exercise);
+        if (!r.correct && !r.advice) return { correct: false };
+        if (!r.correct) advice = advice || r.advice;
+      }
+      return advice ? { correct: false, advice } : { correct: true };
+    }
+    return this._compareComponent(userAnswer, expected, exercise);
+  },
+
+  _compareComponent(user, expected, exercise) {
+    const u = this._stripDecorations(this._normalizeMath(user));
+    const e = this._stripDecorations(this._normalizeMath(expected));
+    if (u === e && u !== '') return { correct: true };
+    return this._compareExpressions(u, e, exercise);
+  },
+
+  /**
+   * Analyse complète d'une saisie exacte : { correct, advice }.
+   * advice n'est renseigné que si la réponse est refusée mais mérite un conseil sans pénalité.
+   */
+  analyzeAnswer(userAnswer, exercise) {
+    if (!exercise || userAnswer === null || userAnswer === undefined || exercise.answer === undefined || exercise.answer === null) return { correct: false };
+    const expectedList = [exercise.answer].concat(Array.isArray(exercise.acceptedAnswers) ? exercise.acceptedAnswers : []);
+    let advice = null;
+    for (const expected of expectedList) {
+      const r = this._matchExpected(userAnswer, String(expected), exercise);
+      if (r.correct) return { correct: true };
+      advice = advice || r.advice || null;
+    }
+    return { correct: false, advice };
+  },
+
+  /** Messages des conseils sans pénalité (bonne valeur, forme à revoir) */
+  ADVICE_MESSAGES: {
+    radical: ['C\'est la bonne valeur, mais la racine carrée n\'est pas simplifiée !',
+      'Extrais les carrés parfaits de la racine : par exemple $\\sqrt{12} = \\sqrt{4 \\times 3} = 2\\sqrt{3}$.'],
+    denominator: ['C\'est la bonne valeur, mais il reste une racine au dénominateur !',
+      'Rends le dénominateur rationnel : par exemple $\\dfrac{1}{\\sqrt{2}} = \\dfrac{\\sqrt{2}}{2}$.'],
+    fraction: ['C\'est la bonne valeur, mais la fraction n\'est pas simplifiée !',
+      'Simplifie la fraction : divise numérateur et dénominateur par leur plus grand diviseur commun.'],
+    form: ['C\'est la bonne valeur, mais l\'expression n\'est pas réduite !',
+      'Regroupe les termes semblables : par exemple $\\pi + \\pi = 2\\pi$ et $\\sqrt{2} + \\sqrt{2} = 2\\sqrt{2}$.'],
+    rounding: ['Ta valeur est juste, mais elle n\'est pas arrondie comme demandé !',
+      'Relis la précision demandée dans l\'énoncé et arrondis ton résultat (même nombre de décimales).'],
+    approx: ['On attend ici une valeur approchée !',
+      'Donne l\'écriture décimale arrondie comme demandé dans l\'énoncé (avec la calculatrice si besoin).'],
+    exact: ['Ta réponse est une valeur approchée : on attend la valeur exacte !',
+      'Garde une écriture exacte : fraction (ex. 1/3), racine carrée (ex. 2√3 ou 2sqrt(3)) ou π (ex. 3π/4 ou 3pi/4).']
+  },
+
+  /**
+   * Ancien analyseur strict (nombres simples), conservé pour compatibilité.
+   * Préférer parseMathExpression.
    */
   parseStrictNumber(val) {
     const NUM = '-?\\d+(?:\\.\\d+)?';
@@ -693,21 +1039,8 @@ window.MathsAdaptiveEngine = {
    */
   checkUnsimplifiedFraction(userAnswer, exercise) {
     if (!exercise || exercise.type !== 'exact' || userAnswer === null || userAnswer === undefined) return null;
-    const normalizeMath = (str) => {
-      return String(str)
-        .trim()
-        .toLowerCase()
-        .replace(/[−–—]/g, '-')
-        .replace(/[÷⁄]/g, '/')
-        .replace(/\\?frac\{([^{}]+)\}\{([^{}]+)\}/g, '$1/$2')
-        .replace(/,/g, '.')
-        .replace(/\s+/g, '');
-    };
-    let cleanUser = normalizeMath(userAnswer).replace(/^s=\s*\{/i, '').replace(/[\{\}]/g, '').replace(/^[a-z]=\s*/i, '');
-    let cleanExpected = normalizeMath(exercise.answer).replace(/^s=\s*\{/i, '').replace(/[\{\}]/g, '').replace(/^[a-z]=\s*/i, '');
-    const stripUnits = (s) => s.replace(/(cm2|cm|mm|dm|m2|m|km\/h|km|deg|°|euros?|€|litres?|l)$/i, '');
-    cleanUser = stripUnits(cleanUser);
-    cleanExpected = stripUnits(cleanExpected);
+    const cleanUser = this._stripDecorations(this._normalizeMath(userAnswer));
+    const cleanExpected = this._stripDecorations(this._normalizeMath(exercise.answer));
 
     const fracMatch = cleanUser.match(/^(-?[0-9]+)\/([0-9]+)$/);
     if (!fracMatch) return null;
@@ -717,9 +1050,10 @@ window.MathsAdaptiveEngine = {
     if (den === 0) return null;
 
     const userVal = num / den;
-    const expVal = this.parseStrictNumber(cleanExpected);
+    const parsedExpected = this.parseMathExpression(cleanExpected);
+    const expVal = parsedExpected && parsedExpected.plain ? parsedExpected.value : NaN;
 
-    if (!isNaN(userVal) && !isNaN(expVal) && Math.abs(userVal - expVal) < 0.0001) {
+    if (!isNaN(userVal) && !isNaN(expVal) && this._closeEnough(userVal, expVal)) {
       const gcd = (a, b) => {
         a = Math.abs(Math.round(a));
         b = Math.abs(Math.round(b));
@@ -764,6 +1098,22 @@ window.MathsAdaptiveEngine = {
         feedback: "C'est la bonne fraction, mais il faut la simplifier !",
         userFraction: unsimplifiedInfo.userFraction
       };
+    }
+
+    // Détection bienveillante : bonne valeur sous une forme à revoir (racine non simplifiée, valeur
+    // approchée au lieu d'exacte, arrondi non fait…) : conseil sans compter d'erreur
+    if (exercise.type === 'exact') {
+      const analysis = this.analyzeAnswer(userAnswer, exercise);
+      const msg = analysis.advice && this.ADVICE_MESSAGES[analysis.advice];
+      if (!analysis.correct && msg) {
+        return {
+          isCorrect: false,
+          needsSimplification: true,
+          adviceKind: analysis.advice,
+          feedback: msg[0],
+          adviceText: msg[1]
+        };
+      }
     }
 
     const isCorrect = this.validateAnswer(userAnswer, exercise);

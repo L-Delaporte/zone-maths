@@ -191,6 +191,18 @@ window.MathsRenderer = {
       return `${powMatch[1]}^{${powMatch[2]}}`;
     }
 
+    // Racines et π : « 3sqrt(2) » -> 3\sqrt{2}, « 2pi/3 » -> 2\pi/3
+    if (/[√π]|sqrt|racine|pi/i.test(clean)) {
+      return clean
+        .replace(/\\/g, '')
+        .replace(/racines?\s*(carr[ée]es?)?\s*(de)?|sqrt/gi, '√')
+        .replace(/pi/gi, 'π')
+        .replace(/√\s*(\d+(?:\.\d+)?|\([^()]*\))/g, (m, a) => `\\sqrt{${a.replace(/^\((.*)\)$/, '$1')}}`)
+        .replace(/√/g, '\\sqrt{\\,}')
+        .replace(/π/g, '\\pi ')
+        .replace(/\*/g, '\\times ');
+    }
+
     // Cas standard
     return clean;
   },

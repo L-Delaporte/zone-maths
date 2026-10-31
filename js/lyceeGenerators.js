@@ -160,7 +160,7 @@ window.MathsLyceeGenerators = {
       if (Math.random() < 0.55) {
         const a = this.randInt(2, 9);
         const N = a * a * b;
-        return this._xa([`(${a};${b})`, 'Écrire le résultat sous la forme $a\\sqrt{b}$ et saisir (a ; b), par exemple (3;2) pour $3\\sqrt{2}$.'], '2N1', 2, 'Simplification de radicaux',
+        return this._xa([`(${a};${b})`, 'Écrire le résultat sous la forme $a\\sqrt{b}$ et le saisir, par exemple 3√2 (touche √ ou « sqrt »), ou saisir le couple (a ; b), par exemple (3;2).', [this._xsq(a, b)]], '2N1', 2, 'Simplification de radicaux',
           'Extraire les carrés parfaits d\'une racine carrée',
           `Écrire sous la forme $a\\sqrt{b}$ (avec $a$ et $b$ entiers, $b$ le plus petit possible) : $\\sqrt{${N}}$.`,
           `$${a}\\sqrt{${b}}$`,
@@ -180,7 +180,7 @@ window.MathsLyceeGenerators = {
       const t2 = `\\sqrt{${q * q * b}}`;
       const s1 = p === 1 ? `\\sqrt{${b}}` : `${p}\\sqrt{${b}}`;
       const wrong = (k) => (k === 1 ? `$\\sqrt{${b}}$` : k === -1 ? `$-\\sqrt{${b}}$` : k === 0 ? null : `$${k}\\sqrt{${b}}$`);
-      return this._xa([String(r), `Le résultat s'écrit $a\\sqrt{${b}}$ : saisir l'entier relatif $a$.`], '2N1', 2, 'Somme de radicaux',
+      return this._xa([String(r), `Le résultat s'écrit $a\\sqrt{${b}}$ : saisir l'entier relatif $a$, ou directement $a\\sqrt{${b}}$ (touche √ ou « sqrt »).`, [this._xsq(r, b)]], '2N1', 2, 'Somme de radicaux',
         'Simplifier puis réduire une somme de racines carrées',
         `Écrire sous la forme $a\\sqrt{${b}}$ : $B = ${t1} ${sg > 0 ? '+' : '-'} ${t2}$.`,
         `$${res}$`,
@@ -2661,7 +2661,11 @@ window.MathsLyceeGenerators = {
     return this[this.randChoice(names)](tier);
   },
 
-  /** makeMcq + pilotage de la saisie exacte : ex = [saisie, consigne] ou 'keep' (QCM conceptuel) */
+  /**
+   * makeMcq + pilotage de la saisie exacte : ex = [saisie, consigne, autres saisies acceptées] ou 'keep'
+   * (QCM conceptuel). Les autres saisies (ex. « 3π/4 » quand on demande k pour kπ) sont jugées par
+   * MathsAdaptiveEngine.validateAnswer avec les mêmes règles que la saisie principale.
+   */
   _xa(ex, ...args) {
     const q = this.makeMcq(...args);
     if (ex === 'keep') q.keepMcq = true;
@@ -2673,7 +2677,11 @@ window.MathsLyceeGenerators = {
         const ov = r ? this.numValue(`$${r.input.replace(/^(-?\d+)\/(\d+)$/, '\\frac{$1}{$2}').replace(',', '{,}')}$`) : null;
         return ov !== null && Math.abs(ov - v) < 1e-4;
       });
-      if (!clash) { q.exactAnswer = ex[0]; if (ex[1]) q.exactInstruction = ex[1]; }
+      if (!clash) {
+        q.exactAnswer = ex[0];
+        if (ex[1]) q.exactInstruction = ex[1];
+        if (ex[2] && ex[2].length) q.acceptedAnswers = ex[2];
+      }
     }
     return q;
   },
@@ -2709,6 +2717,20 @@ window.MathsLyceeGenerators = {
     const g = this.gcd(Math.abs(n), d) || 1;
     n /= g; d /= g;
     return d === 1 ? String(n) : `${n}/${d}`;
+  },
+
+  /** Multiple de π en texte brut (saisie exacte) : _xpi('3/4') -> "3π/4", _xpi('-1') -> "-π", _xpi('0') -> "0" */
+  _xpi(k) {
+    const m = String(k).match(/^(-?)(\d+)(?:\/(\d+))?$/);
+    if (!m) return null;
+    if (m[2] === '0') return '0';
+    return `${m[1]}${m[2] === '1' ? '' : m[2]}π${m[3] ? '/' + m[3] : ''}`;
+  },
+
+  /** k√m en texte brut (saisie exacte) : _xsq(3, 2) -> "3√2", _xsq(-1, 5) -> "-√5", _xsq(4, 1) -> "4" */
+  _xsq(k, m) {
+    if (m === 1 || k === 0) return String(k);
+    return `${k === 1 ? '' : k === -1 ? '-' : k}√${m}`;
   },
 
   /** Saisie brute d'un décimal : 2.5 -> "2,5" */
@@ -6464,7 +6486,9 @@ window.MathsLyceeGenerators = {
   gen_TX2(tier) {
     const C = (a, b) => this._TGSX_cplx(a, b);
     const ang = (k, m) => this._TGSX_angle(k, m);
-    const EI = 'On écrit le résultat $re^{i\\theta}$ avec $r > 0$ et $\\theta \\in ]-\\pi ; \\pi]$ : saisir le couple (r ; θ/π), en fractions si besoin.';
+    const EI = 'On écrit le résultat $re^{i\\theta}$ avec $r > 0$ et $\\theta \\in ]-\\pi ; \\pi]$ : saisir le couple (r ; θ), par exemple (2;-π/3) (touche π ou « pi »), ou le couple (r ; θ/π), en fractions si besoin.';
+    // saisie acceptée avec π : (r ; θ)
+    const EIacc = (r, th) => [`(${r};${this._xpi(th)})`];
     // argument k*pi/m ramené dans ]-pi ; pi], divisé par pi (texte brut)
     const argPi = (k, m) => { let kk = ((k % (2 * m)) + 2 * m) % (2 * m); if (kk > m) kk -= 2 * m; return this._Tq(kk, m); };
     // r e^{i theta} avec signe moins sorti : e^{-i\frac{\pi}{3}}
@@ -6516,7 +6540,7 @@ window.MathsLyceeGenerators = {
           "Simplifie la racine carrée si possible.",
           `$|z| = \\sqrt{${this.paren(x)}^2 + ${this.paren(y)}^2} = \\sqrt{${m2}}${r === `\\sqrt{${m2}}` ? '' : ' = ' + r}$.`
         );
-        return mq === 1 ? qMod : this._Tx(qMod, [kq, mq], 'On écrit $|z| = k\\sqrt{m}$ avec $k$, $m$ entiers et $m$ le plus petit possible : saisir (k ; m).');
+        return mq === 1 ? qMod : this._Tx(qMod, [kq, mq], 'On écrit $|z| = k\\sqrt{m}$ avec $k$, $m$ entiers et $m$ le plus petit possible : saisir $k\\sqrt{m}$, par exemple 3√2 (touche √ ou « sqrt »), ou le couple (k ; m).', [this._xsq(kq, mq)]);
       }
       // forme exponentielle -> algébrique
       const r = this.randInt(1, 6);
@@ -6560,7 +6584,7 @@ window.MathsLyceeGenerators = {
         "Repère le quadrant grâce aux signes de la partie réelle et de la partie imaginaire.",
         `$|z| = ${rr}$, puis $\\cos\\theta = ${exact(1, ...c) === 0 ? '0' : exact(1, ...c)}$ et $\\sin\\theta = ${exact(1, ...s) === 0 ? '0' : exact(1, ...s)}$, donc $\\theta = ${ang(k, m)}$ (modulo $2\\pi$). Ainsi ${ans}.`
       );
-      return m === 4 ? q2 : this._Tx(q2, [m === 2 ? lam : 2 * lam, argPi(k, m)], EI);
+      return m === 4 ? q2 : this._Tx(q2, [m === 2 ? lam : 2 * lam, argPi(k, m)], EI, EIacc(m === 2 ? lam : 2 * lam, argPi(k, m)));
     }
     if (tier === 3) {
       const ms = [2, 3, 4, 6];
@@ -6581,7 +6605,7 @@ window.MathsLyceeGenerators = {
           "$(re^{i\\theta})^n = r^n e^{in\\theta}$.",
           "Ramène l'argument dans $]-\\pi ; \\pi]$ en retirant un multiple de $2\\pi$.",
           `$z^{${n}} = ${r === 1 ? '' : r + '^{' + n + '}'}e^{i \\times ${n} \\times ${ang(k, m) === '\\pi' ? '\\pi' : '\\left(' + ang(k, m) + '\\right)'}}$, et $${n} \\times ${ang(k, m) === '\\pi' ? '\\pi' : '\\left(' + ang(k, m) + '\\right)'} \\equiv ${ang(n * k, m)} \\pmod{2\\pi}$. Donc ${ans}.`.replace(/\$z\^\{(\d+)\} = /, '$z^{$1} = ')
-        ), [r ** n, argPi(n * k, m)], EI);
+        ), [r ** n, argPi(n * k, m)], EI, EIacc(r ** n, argPi(n * k, m)));
       }
       const m1 = this.randChoice(ms); const m2 = this.randChoice(ms);
       const k1 = this.randNonZero(-m1 + 1, m1 - 1) || 1; const k2 = this.randNonZero(-m2 + 1, m2 - 1) || 1;
@@ -6601,7 +6625,7 @@ window.MathsLyceeGenerators = {
         div ? "$\\frac{re^{i\\alpha}}{r'e^{i\\beta}} = \\frac{r}{r'}e^{i(\\alpha - \\beta)}$." : "$re^{i\\alpha} \\times r'e^{i\\beta} = rr'e^{i(\\alpha + \\beta)}$.",
         "Mets les arguments au même dénominateur.",
         `Module : $${div ? `\\frac{|z_1|}{|z_2|} = ${modS}` : `${r1} \\times ${r2} = ${modS}`}$. Argument : $${ang(k1, m1)} ${div ? '-' : '+'} ${/^-/.test(ang(k2, m2)) ? '\\left(' + ang(k2, m2) + '\\right)' : ang(k2, m2)} \\equiv ${ang(kr, L)} \\pmod{2\\pi}$. Donc ${ans}.`
-      ), [div ? this._Tq(r1, r2) : r1 * r2, argPi(kr, L)], EI);
+      ), [div ? this._Tq(r1, r2) : r1 * r2, argPi(kr, L)], EI, EIacc(div ? this._Tq(r1, r2) : r1 * r2, argPi(kr, L)));
     }
     // tier 4 : nature d'un triangle ; construction d'un triangle rectangle isocèle
     if (Math.random() < 0.45) {
@@ -9519,7 +9543,7 @@ window.MathsLyceeGenerators = {
         do { deg = this.randInt(-24, 24) * 15; } while (deg === 0);
         const r = this._1re_pi(deg, 180);
         if (toRad) {
-          return this._xa([this._xf(deg, 180), 'Le résultat s\'écrit $k\\pi$ rad : saisir $k$ (entier ou fraction).'], '1G1', 2, 'Conversion degrés-radians',
+          return this._xa([this._xf(deg, 180), 'Le résultat s\'écrit $k\\pi$ rad : saisir la mesure, par exemple 3π/4 (touche π ou « pi »), ou seulement $k$ (entier ou fraction).', [this._xpi(this._xf(deg, 180))]], '1G1', 2, 'Conversion degrés-radians',
             "Utiliser la proportionnalité $180^\\circ \\leftrightarrow \\pi$ rad",
             `Convertir $${deg}^\\circ$ en radians.`,
             `$${r}$ rad`,
@@ -9568,7 +9592,7 @@ window.MathsLyceeGenerators = {
         // mesure principale dans ]-π ; π]
         let m = ((p % (2 * d)) + 2 * d) % (2 * d);
         if (m > d) m -= 2 * d;
-        return this._xa([this._xf(m, d), 'Le réel cherché s\'écrit $k\\pi$ : saisir $k$ (entier ou fraction).'], '1G1', 3, 'Réel associé dans $]-\\pi ; \\pi]$',
+        return this._xa([this._xf(m, d), 'Le réel cherché s\'écrit $k\\pi$ : le saisir, par exemple -π/3 (touche π ou « pi »), ou saisir seulement $k$ (entier ou fraction).', [this._xpi(this._xf(m, d))]], '1G1', 3, 'Réel associé dans $]-\\pi ; \\pi]$',
           "Utiliser l'enroulement de la droite sur le cercle : $x$ et $x + 2k\\pi$ ont le même point image",
           `Quel est le réel de $]-\\pi ; \\pi]$ associé au même point du cercle trigonométrique que le réel $${this._1re_pi(p, d)}$ ?`,
           `$${this._1re_pi(m, d)}$`,
@@ -9743,7 +9767,7 @@ window.MathsLyceeGenerators = {
       const dot = u[0] * v[0] + u[1] * v[1];
       const n2u = u[0] ** 2 + u[1] ** 2; const n2v = v[0] ** 2 + v[1] ** 2;
       const ang = this._1re_pi(p, d);
-      return this._xa([this._xf(p, d), 'La mesure s\'écrit $k\\pi$ avec $0 \\le k \\le 1$ : saisir $k$ (par exemple 3/4).'], '1G2', 4, 'Angle entre deux vecteurs',
+      return this._xa([this._xf(p, d), 'La mesure s\'écrit $k\\pi$ avec $0 \\le k \\le 1$ : la saisir, par exemple 3π/4 (touche π ou « pi »), ou saisir seulement $k$ (par exemple 3/4).', [this._xpi(this._xf(p, d))]], '1G2', 4, 'Angle entre deux vecteurs',
         "Calculer $\\cos(\\vec{u}, \\vec{v}) = \\frac{\\vec{u} \\cdot \\vec{v}}{\\|\\vec{u}\\| \\times \\|\\vec{v}\\|}$",
         `Dans un repère orthonormé, on donne $\\vec{u}${V(u[0], u[1])}$ et $\\vec{v}${V(v[0], v[1])}$. Quelle est la mesure dans $[0 ; \\pi]$ de l'angle géométrique entre $\\vec{u}$ et $\\vec{v}$ ?`,
         `$${ang}$`,
@@ -10549,18 +10573,20 @@ window.MathsLyceeGenerators = {
   },
 
   /** Saisie exacte explicite d'un QCM : n-uplet (tableau) ou valeur, avec consigne */
-  _Tx(q, ans, instruction) {
+  _Tx(q, ans, instruction, accepted) {
     q.exactAnswer = Array.isArray(ans) ? `(${ans.join(';')})` : String(ans);
     if (instruction) q.exactInstruction = instruction;
+    if (accepted && accepted.length) q.acceptedAnswers = accepted;
     return q;
   },
 
   /** Saisie des solutions d'une équation trigonométrique (unités π/12) : quotients par π, ordre croissant */
   _TA9_exact(ks) {
-    const ins = 'Diviser chaque solution par $\\pi$ et saisir les quotients dans l\'ordre croissant, entre parenthèses et séparés par « ; » s\'il y en a plusieurs (une seule solution : saisir son quotient seul ; aucune : saisir « aucune »).';
+    const ins = 'Saisir les solutions dans l\'ordre croissant, entre parenthèses et séparées par « ; » s\'il y en a plusieurs, par exemple (π/6;5π/6) (touche π ou « pi ») ; on peut aussi saisir leurs quotients par $\\pi$, par exemple (1/6;5/6). Une seule solution : la saisir seule ; aucune : saisir « aucune ».';
     if (!ks.length) return ['aucune', ins];
     const v = ks.map((k) => this._Tq(k, 12));
-    return [v.length === 1 ? v[0] : v, ins];
+    const p = v.map((x) => this._xpi(x));
+    return [v.length === 1 ? v[0] : v, ins, [p.length === 1 ? p[0] : `(${p.join(';')})`]];
   },
 
 };
