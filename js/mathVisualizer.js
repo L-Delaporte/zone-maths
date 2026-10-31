@@ -78,8 +78,9 @@
       if (typeof document !== 'undefined') {
         const tabBtns = document.querySelectorAll('.vis-tab-btn');
         tabBtns.forEach(btn => {
-          const onclickAttr = btn.getAttribute('onclick') || '';
-          if (onclickAttr.includes(`'${mode}'`) || onclickAttr.includes(`"${mode}"`)) {
+          let btnMode = null;
+          try { btnMode = JSON.parse(btn.getAttribute('data-args') || '[]')[0]; } catch (e) { /* attribut absent ou invalide */ }
+          if (btnMode === mode) {
             btn.classList.add('active');
             btn.setAttribute('aria-pressed', 'true');
           } else {
@@ -126,18 +127,17 @@
       if (!container) return;
       const box = 'display:flex; align-items:center; gap:0.5rem; background:rgba(255,255,255,0.04); padding:6px 12px; border-radius:8px;';
       const selStyle = 'padding:4px 8px; border-radius:6px; background:var(--bg-surface, #1e293b); color:var(--text-main, #fff); border:1px solid var(--input-border, #475569); cursor:pointer;';
-      const upd = 'window.MathVisualizer.updateCanvasLabel();';
 
       if (this.activeMode === 'torus') {
         container.innerHTML = `
           <div style="${box}">
             <label for="vis-range-r-grand" style="color:var(--text-muted);">Grand rayon R :</label>
-            <input id="vis-range-r-grand" type="range" min="60" max="180" value="${this.torus.R}" aria-describedby="val-r-grand" oninput="window.MathVisualizer.torus.R = +this.value; document.getElementById('val-r-grand').textContent = (this.value/10).toFixed(1) + ' cm'; ${upd}" style="cursor:pointer;" />
+            <input id="vis-range-r-grand" type="range" min="60" max="180" value="${this.torus.R}" aria-describedby="val-r-grand" style="cursor:pointer;" />
             <span id="val-r-grand" class="vis-val" style="font-weight:700; min-width:48px;">${(this.torus.R/10).toFixed(1)} cm</span>
           </div>
           <div style="${box}">
             <label for="vis-range-r-petit" style="color:var(--text-muted);">Petit rayon r :</label>
-            <input id="vis-range-r-petit" type="range" min="15" max="75" value="${this.torus.r}" aria-describedby="val-r-petit" oninput="window.MathVisualizer.torus.r = +this.value; document.getElementById('val-r-petit').textContent = (this.value/10).toFixed(1) + ' cm'; ${upd}" style="cursor:pointer;" />
+            <input id="vis-range-r-petit" type="range" min="15" max="75" value="${this.torus.r}" aria-describedby="val-r-petit" style="cursor:pointer;" />
             <span id="val-r-petit" class="vis-val" style="font-weight:700; min-width:48px;">${(this.torus.r/10).toFixed(1)} cm</span>
           </div>
           <span style="color:var(--text-muted); font-size:0.8rem;">Rotation : glisser à la souris, ou flèches du clavier sur la figure.</span>
@@ -146,24 +146,24 @@
         container.innerHTML = `
           <div style="${box}">
             <label for="vis-select-model" style="color:var(--text-muted);">Modèle EDO :</label>
-            <select id="vis-select-model" onchange="window.MathVisualizer.phase.model = this.value; window.MathVisualizer.phase.trajectories = []; window.MathVisualizer.addTrajectory(1.5, 0.5); ${upd}" style="${selStyle}">
+            <select id="vis-select-model" style="${selStyle}">
               <option value="pendulum" ${this.phase.model === 'pendulum' ? 'selected' : ''}>Pendule simple amorti (θ'' + μθ' + sin θ = 0)</option>
               <option value="lotka" ${this.phase.model === 'lotka' ? 'selected' : ''}>Lotka-Volterra (Proies/Prédateurs)</option>
             </select>
           </div>
           <div style="${box}">
             <label for="vis-range-mu" style="color:var(--text-muted);">Amortissement μ :</label>
-            <input id="vis-range-mu" type="range" min="0" max="0.25" step="0.01" value="${this.phase.damping}" aria-describedby="val-mu" oninput="window.MathVisualizer.phase.damping = +this.value; document.getElementById('val-mu').textContent = this.value; ${upd}" style="cursor:pointer;" />
+            <input id="vis-range-mu" type="range" min="0" max="0.25" step="0.01" value="${this.phase.damping}" aria-describedby="val-mu" style="cursor:pointer;" />
             <span id="val-mu" class="vis-val vis-val-green" style="font-weight:700; min-width:36px;">${this.phase.damping}</span>
           </div>
-          <button type="button" class="btn-sm btn-secondary" onclick="window.MathVisualizer.addRandomTrajectory();" style="padding:5px 10px; border-radius:6px; cursor:pointer;"><span aria-hidden="true">➕</span> Ajouter une orbite</button>
-          <button type="button" class="btn-sm btn-secondary" onclick="window.MathVisualizer.phase.trajectories = []; ${upd}" style="padding:5px 10px; border-radius:6px; cursor:pointer;"><span aria-hidden="true">🧹</span> Effacer les orbites</button>
+          <button type="button" class="btn-sm btn-secondary" id="vis-btn-add-orbit" style="padding:5px 10px; border-radius:6px; cursor:pointer;"><span aria-hidden="true">➕</span> Ajouter une orbite</button>
+          <button type="button" class="btn-sm btn-secondary" id="vis-btn-clear-orbits" style="padding:5px 10px; border-radius:6px; cursor:pointer;"><span aria-hidden="true">🧹</span> Effacer les orbites</button>
         `;
       } else if (this.activeMode === 'fourier') {
         container.innerHTML = `
           <div style="${box}">
             <label for="vis-select-wave" style="color:var(--text-muted);">Forme d'onde :</label>
-            <select id="vis-select-wave" onchange="window.MathVisualizer.fourier.waveType = this.value; ${upd}" style="${selStyle}">
+            <select id="vis-select-wave" style="${selStyle}">
               <option value="square" ${this.fourier.waveType === 'square' ? 'selected' : ''}>Signal Créneau</option>
               <option value="sawtooth" ${this.fourier.waveType === 'sawtooth' ? 'selected' : ''}>Dent de scie</option>
               <option value="triangle" ${this.fourier.waveType === 'triangle' ? 'selected' : ''}>Onde triangulaire</option>
@@ -171,12 +171,46 @@
           </div>
           <div style="${box}">
             <label for="vis-range-harm" style="color:var(--text-muted);">Harmoniques N :</label>
-            <input id="vis-range-harm" type="range" min="1" max="25" step="1" value="${this.fourier.harmonics}" aria-describedby="val-harm" oninput="window.MathVisualizer.fourier.harmonics = +this.value; document.getElementById('val-harm').textContent = this.value; ${upd}" style="cursor:pointer;" />
+            <input id="vis-range-harm" type="range" min="1" max="25" step="1" value="${this.fourier.harmonics}" aria-describedby="val-harm" style="cursor:pointer;" />
             <span id="val-harm" class="vis-val vis-val-red" style="font-weight:700; min-width:24px;">${this.fourier.harmonics}</span>
           </div>
         `;
       }
+      this.bindControls(container);
       this.updateCanvasLabel();
+    },
+
+    /** Écouteurs des contrôles (pas d'attributs on*= : compatibilité CSP). */
+    bindControls(container) {
+      const on = (id, type, handler) => {
+        const el = container.querySelector('#' + id);
+        if (el) el.addEventListener(type, () => { handler(el); this.updateCanvasLabel(); });
+      };
+      const setText = (id, text) => { const el = document.getElementById(id); if (el) el.textContent = text; };
+      on('vis-range-r-grand', 'input', el => {
+        this.torus.R = +el.value;
+        setText('val-r-grand', (el.value / 10).toFixed(1) + ' cm');
+      });
+      on('vis-range-r-petit', 'input', el => {
+        this.torus.r = +el.value;
+        setText('val-r-petit', (el.value / 10).toFixed(1) + ' cm');
+      });
+      on('vis-select-model', 'change', el => {
+        this.phase.model = el.value;
+        this.phase.trajectories = [];
+        this.addTrajectory(1.5, 0.5);
+      });
+      on('vis-range-mu', 'input', el => {
+        this.phase.damping = +el.value;
+        setText('val-mu', el.value);
+      });
+      on('vis-btn-add-orbit', 'click', () => this.addRandomTrajectory());
+      on('vis-btn-clear-orbits', 'click', () => { this.phase.trajectories = []; });
+      on('vis-select-wave', 'change', el => { this.fourier.waveType = el.value; });
+      on('vis-range-harm', 'input', el => {
+        this.fourier.harmonics = +el.value;
+        setText('val-harm', el.value);
+      });
     },
 
     attachEvents() {

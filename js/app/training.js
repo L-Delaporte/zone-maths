@@ -688,7 +688,7 @@ Object.assign(window.MathsApp, {
       <div class="hint-content">${window.MathsRenderer.markdownToHtml(hint)}</div>
       ${num === 2 ? `
         <div style="margin-top: 0.75rem; text-align: right;">
-          <button class="btn-secondary btn-sm" onclick="window.MathsApp.switchTab('course')" type="button">
+          <button class="btn-secondary btn-sm" data-click="MathsApp.switchTab" data-args='["course"]' type="button">
             📖 Consulter la fiche de cours complète ➔
           </button>
         </div>
@@ -784,11 +784,11 @@ Object.assign(window.MathsApp, {
       <div class="modal-box share-class-box">
         <div class="modal-header">
           <h2 id="share-class-title">📣 Partager à ma classe</h2>
-          <button type="button" class="modal-close-btn" aria-label="Fermer" onclick="window.MathsApp.closeShareModal()">✕</button>
+          <button type="button" class="modal-close-btn" aria-label="Fermer" data-click="MathsApp.closeShareModal">✕</button>
         </div>
         <p class="share-class-chapter"><strong>${esc(levelName)}</strong> — ${esc(chapterName)}</p>
         <div class="share-class-qr">
-          <img src="assets/qr/${encodeURIComponent(chapterId)}.svg" alt="QR code vers l'entraînement sur ce chapitre" onerror="this.src='assets/qr/site.svg'" />
+          <img src="assets/qr/${encodeURIComponent(chapterId)}.svg" alt="QR code vers l'entraînement sur ce chapitre" data-fallback-src="assets/qr/site.svg" />
           <p>Projetez ce QR code : les élèves le scannent avec leur téléphone et arrivent directement sur ce chapitre.</p>
         </div>
         <label class="share-class-label" for="share-class-url">Lien direct</label>

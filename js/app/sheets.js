@@ -446,7 +446,7 @@ Object.assign(window.MathsApp, {
         ${isDs && !isSolution ? `<div class="ws-grade">Note<br><span>…… / ${sheet.total}</span></div>` : ''}
       </header>
       ${isSolution ? '' : `<div class="ws-student print-only"><span>Nom : ……………………………</span><span>Prénom : ……………………………</span><span>Classe : …………</span><span>Date : …………</span></div>
-      <p class="ws-qr print-only"><img src="assets/qr/${encodeURIComponent(sheet.chapterId)}.svg" alt="" width="56" height="56" onerror="this.src='assets/qr/site.svg'" /><span>S’entraîner sur ce chapitre, gratuitement : <strong>etabli-des-maths.fr</strong> (scanner le QR code)</span></p>`}`;
+      <p class="ws-qr print-only"><img src="assets/qr/${encodeURIComponent(sheet.chapterId)}.svg" alt="" width="56" height="56" data-fallback-src="assets/qr/site.svg" /><span>S’entraîner sur ce chapitre, gratuitement : <strong>etabli-des-maths.fr</strong> (scanner le QR code)</span></p>`}`;
   },
 
   sumStaticPoints(md) {
@@ -491,7 +491,7 @@ Object.assign(window.MathsApp, {
     const notice = this.sheetNotice && this.sheetNotice.chapterId === chapterId && this.sheetNotice.sheetId === sheet.id ? this.sheetNotice.text : '';
 
     const chips = sheets.map((s, i) => `
-      <button type="button" class="ws-chip${i === idx ? ' active' : ''}" aria-pressed="${i === idx}" onclick="window.MathsApp.selectSheet(${i})">
+      <button type="button" class="ws-chip${i === idx ? ' active' : ''}" aria-pressed="${i === idx}" data-click="MathsApp.selectSheet" data-args='[${i}]'>
         <span class="ws-chip-kind ws-kind-${s.origin === 'generated' ? (s.type === 'ds_type' ? 'ds' : 'gen') : 'static'}">${this.escapeSheetText(s.kind)}</span>
         <span class="ws-chip-title">${this.escapeSheetText(s.title)}</span>
       </button>`).join('');
@@ -500,14 +500,14 @@ Object.assign(window.MathsApp, {
       <div class="ws-toolbar no-print">
         <div class="ws-chips" role="group" aria-label="Fiches du chapitre">${chips}</div>
         <div class="ws-actions">
-          ${isGenerated ? `<button type="button" class="btn-secondary ws-btn" data-action="regenerate" onclick="window.MathsApp.regenerateSheet()" title="Tirer de nouveaux exercices et le corrigé correspondant">🔀 Nouvelle version</button>` : ''}
+          ${isGenerated ? `<button type="button" class="btn-secondary ws-btn" data-action="regenerate" data-click="MathsApp.regenerateSheet" title="Tirer de nouveaux exercices et le corrigé correspondant">🔀 Nouvelle version</button>` : ''}
           ${sheet.type === 'ds_type' ? `<label class="ws-option">Calculatrice
-            <select onchange="window.MathsApp.setSheetOption('calculator', this.value)">
+            <select data-change="MathsApp.setSheetOption" data-args='["calculator", "$value"]'>
               ${['autorisée', 'interdite', 'en mode examen'].map(v => `<option value="${v}"${opts.calculator === v ? ' selected' : ''}>${v}</option>`).join('')}
             </select></label>` : ''}
-          <button type="button" class="btn-primary ws-btn print-btn" data-print="subject" onclick="window.MathsApp.printSheet(false)">🖨️ Imprimer le sujet</button>
-          <button type="button" class="btn-secondary ws-btn" data-print="solution" onclick="window.MathsApp.printSheet(true)" ${solutionHtml ? '' : 'disabled'}>🖨️ Sujet + corrigé</button>
-          <button type="button" class="btn-secondary ws-btn" onclick="window.MathsQuizGenerator.openModal(window.MathsApp.currentChapterId)" title="Composer un devoir blanc sur un ou plusieurs chapitres (format brevet ou bac possible)">📝 Devoir blanc multi-chapitres</button>
+          <button type="button" class="btn-primary ws-btn print-btn" data-print="subject" data-click="MathsApp.printSheet" data-args='[false]'>🖨️ Imprimer le sujet</button>
+          <button type="button" class="btn-secondary ws-btn" data-print="solution" data-click="MathsApp.printSheet" data-args='[true]' ${solutionHtml ? '' : 'disabled'}>🖨️ Sujet + corrigé</button>
+          <button type="button" class="btn-secondary ws-btn" data-click="MathsApp.openSheetQuizModal" title="Composer un devoir blanc sur un ou plusieurs chapitres (format brevet ou bac possible)">📝 Devoir blanc multi-chapitres</button>
         </div>
       </div>
       ${notice ? `<p class="ws-notice no-print" role="status">${notice}</p>` : ''}
@@ -577,6 +577,11 @@ Object.assign(window.MathsApp, {
         : 'Nouvelle version générée : énoncés et corrigé ont été renouvelés.'
     } : null;
     this.renderSheetsView();
+  },
+
+  /** Devoir blanc multi-chapitres, pré-rempli avec le chapitre courant. */
+  openSheetQuizModal() {
+    window.MathsQuizGenerator.openModal(this.currentChapterId);
   },
 
   /** Impression : sujet seul, ou sujet + corrigé (le corrigé commence sur une nouvelle page). */

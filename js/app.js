@@ -448,14 +448,13 @@ window.MathsApp = {
     return wasOpen;
   },
 
-  /** Éléments cliquables non natifs (div onclick, cartes) : rendus accessibles au clavier. */
-  CLICKABLE_SELECTOR: '[onclick]:not(button):not(a):not(input):not(select):not(textarea):not(label):not(.modal-overlay):not([class*="overlay"]), .chapter-trophy-card, .home-cycle-card',
+  /** Éléments cliquables non natifs (div data-click, cartes) : rendus accessibles au clavier. */
+  CLICKABLE_SELECTOR: '[data-click]:not(button):not(a):not(input):not(select):not(textarea):not(label):not(.modal-overlay):not([class*="overlay"]), .chapter-trophy-card, .home-cycle-card',
 
   enhanceClickableA11y(root = document) {
     const nodes = root.querySelectorAll ? root.querySelectorAll(this.CLICKABLE_SELECTOR) : [];
     nodes.forEach(el => {
-      const handler = el.getAttribute('onclick') || '';
-      if (/event\.target\s*===\s*this/.test(handler)) return; // fermeture de fond de modale
+      if (el.hasAttribute('data-self')) return; // fermeture de fond de modale
       if (!el.hasAttribute('role')) el.setAttribute('role', 'button');
       if (!el.hasAttribute('tabindex')) el.setAttribute('tabindex', '0');
     });
