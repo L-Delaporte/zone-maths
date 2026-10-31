@@ -426,16 +426,28 @@
       do {
         fr = this.randChoice(FR);
         p = this.randInt(30, 95);
-        dec = this.randInt(300, 950);
+        // Piège fréquent : un décimal court (0,8) jugé plus petit qu'un décimal long (0,725)
+        dec = Math.random() < 0.35 ? 100 * this.randInt(3, 9) : this.randInt(300, 950);
         n = this.randInt(300, 999);
         vals = [1000 * fr[0] / fr[1], 10 * p, dec, n];
       } while (new Set(vals).size < 4);
       const sDec = `$${this._6tex(dec / 1000)}$`, sPct = `$${p}\\,\\%$`, sFr = `$\\frac{${fr[0]}}{${fr[1]}}$`, sN = `$\\frac{${n}}{1\\,000}$`;
       const strs = [sFr, sPct, sDec, sN];
       const imax = vals.indexOf(Math.max(...vals));
+      const noms = this.shuffle(PRENOMS6).slice(0, 4);
+      const ctx = this.randChoice([
+        ['ont rempli leur gourde. Chacun indique la part de la gourde qui est remplie', 'Quelle part est la plus grande ?'],
+        ['ont répondu à un quiz. Chacun indique la proportion de bonnes réponses obtenue', 'Quelle proportion est la plus grande ?'],
+        ['ont lu le même roman. Chacun indique la part du livre déjà lue', 'Quelle part est la plus grande ?'],
+        ['chargent leur tablette. Chacun indique la part de la batterie déjà chargée', 'Quelle part est la plus grande ?']
+      ]);
+      const ordre = this.shuffle([0, 1, 2, 3]);
+      const stmt = Math.random() < 0.3
+        ? `Parmi les nombres ${ordre.map(i => strs[i]).join(' ; ')}, lequel est **le plus grand** ?`
+        : `${noms.slice(0, 3).join(', ')} et ${noms[3]} ${ctx[0]} :\n${ordre.map((i, j) => `• ${noms[j]} : ${strs[i]}`).join('\n')}\n**${ctx[1]}**`;
       const q = this._6A_q(id, t, 'Raisonner', {
         title: 'Comparer des écritures différentes',
-        statement: 'Parmi ces nombres, lequel est **le plus grand** ?',
+        statement: stmt,
         hint1: 'Convertis chaque nombre en écriture décimale.',
         hint2: 'Un pourcentage est une fraction de dénominateur 100 ; une fraction $\\frac{a}{b}$ est égale au quotient $a \\div b$.',
         solution: `En écriture décimale : $\\frac{${fr[0]}}{${fr[1]}} = ${this._6tex(vals[0] / 1000)}$ ; $${p}\\,\\% = ${this._6tex(vals[1] / 1000)}$ ; $${this._6tex(dec / 1000)}$ ; $\\frac{${n}}{1\\,000} = ${this._6tex(n / 1000)}$.\nLe plus grand est **${strs[imax]}**.`,
@@ -569,9 +581,20 @@
         const vals = ds.map(d => a * 1000 + d);
         const target = mode === 'max' ? Math.max(...vals) : Math.min(...vals);
         const strs = vals.map(v => `$${tx(v / 1000)}$`);
+        const noms = this.shuffle(PRENOMS6).slice(0, 4);
+        const ctx = this.randChoice([
+          { u: 'kg', s: 'Quatre colis ont été pesés', max: 'Quelle est la masse du colis le plus lourd ?', min: 'Quelle est la masse du colis le plus léger ?' },
+          { u: 'm', s: 'Quatre rouleaux de ficelle ont été mesurés', max: 'Quelle est la longueur du rouleau le plus long ?', min: 'Quelle est la longueur du rouleau le plus court ?' },
+          { u: 'L', s: 'Quatre récipients ont été remplis d\'eau', max: 'Quel est le volume du récipient le plus rempli ?', min: 'Quel est le volume du récipient le moins rempli ?' },
+          { u: 'km', s: 'Quatre randonneurs ont noté la distance parcourue dans la journée', max: 'Quelle est la plus grande distance parcourue ?', min: 'Quelle est la plus petite distance parcourue ?' },
+          { u: '', s: '', max: '', min: '' }
+        ]);
+        const stmt = ctx.u
+          ? `${ctx.s} :\n${vals.map((v, j) => `• ${noms[j]} : $${tx(v / 1000)}$ ${ctx.u}`).join('\n')}\n**${ctx[mode]}**`
+          : `Parmi les nombres ${strs.join(' ; ')}, lequel est **le plus ${mode === 'max' ? 'grand' : 'petit'}** ?`;
         const q = this._6A_q(id, t, 'Comparer', {
           title: mode === 'max' ? 'Trouver le plus grand décimal' : 'Trouver le plus petit décimal',
-          statement: `Parmi ces nombres, lequel est **le plus ${mode === 'max' ? 'grand' : 'petit'}** ?`,
+          statement: stmt,
           hint1: 'Le nombre de chiffres après la virgule ne dit rien de la taille du nombre !',
           hint2: 'Complète avec des zéros pour avoir trois chiffres après la virgule, puis compare.',
           solution: `Avec trois décimales : ${vals.map(v => `$${tx(v / 1000)}$ → $${Math.floor(v / 1000)}{,}${String(v % 1000).padStart(3, '0')}$`).join(' ; ')}.\nLe plus ${mode === 'max' ? 'grand' : 'petit'} est **$${tx(target / 1000)}$**.`,
@@ -679,7 +702,7 @@
         });
       }
       if (sub === 'abscisse_fine') {
-        const s100 = this.randInt(0, 999);
+        const s100 = this.randInt(1, 999); // s = 0 avec k = 1 donnerait la réponse 0,001, écrite dans l'indice 2
         let k = this.randInt(1, 29);
         if (k % 10 === 0) k += 1;
         const s = s100 / 100;
@@ -1174,6 +1197,19 @@
         const k = this.randChoice([2, 3, 5, 9, 10]);
         const good = k * this.randInt(12, 1111);
         const nums = [good];
+        // Distracteurs « pièges » : critère d'un autre diviseur appliqué par erreur
+        const sumDig = c => String(c).split('').reduce((a, b) => a + +b, 0);
+        const trap = {
+          2: c => c % 2 === 1 && +String(c)[0] % 2 === 0,          // premier chiffre pair, unités impaires
+          3: c => [3, 6, 9].includes(c % 10),                      // se termine par 3, 6 ou 9
+          5: c => sumDig(c) % 5 === 0 || String(c).includes('5'),  // somme des chiffres multiple de 5, ou un 5 ailleurs
+          9: c => c % 3 === 0 || c % 10 === 9,                     // divisible par 3 seulement, ou se termine par 9
+          10: c => c % 5 === 0                                     // se termine par 5
+        }[k];
+        for (let tries = 0; nums.length < 3 && tries < 500; tries++) {
+          const c = this.randInt(100, 9999);
+          if (c % k !== 0 && trap(c) && !nums.includes(c)) nums.push(c);
+        }
         while (nums.length < 4) {
           const c = this.randInt(100, 9999);
           if (c % k !== 0 && !nums.includes(c)) nums.push(c);
@@ -1181,7 +1217,14 @@
         const crit = { 2: 'son chiffre des unités est 0, 2, 4, 6 ou 8', 3: 'la somme de ses chiffres est divisible par 3', 5: 'son chiffre des unités est 0 ou 5', 9: 'la somme de ses chiffres est divisible par 9', 10: 'son chiffre des unités est 0' }[k];
         const q = this._6A_q(id, t, 'Raisonner', {
           title: `Critère de divisibilité par ${k}`,
-          statement: `Parmi ces nombres, lequel est divisible par $${k}$ ?`,
+          statement: this.randChoice([
+            `Parmi ces nombres, lequel est divisible par $${k}$ ?`,
+            `Lequel de ces nombres est un multiple de $${k}$ ?`,
+            `Pour lequel de ces nombres la division euclidienne par $${k}$ a-t-elle un reste nul ?`,
+            `Lequel de ces nombres admet $${k}$ comme diviseur ?`,
+            `${this.randChoice(PRENOMS6)} veut répartir des ${this.randChoice(['billes', 'cartes', 'bonbons', 'images', 'perles'])} en $${k}$ paquets identiques, sans qu'il en reste. Quel nombre d'objets le permet ?`,
+            `${this.randChoice(PRENOMS6)} veut coller sa collection de timbres dans $${k}$ albums, avec le même nombre de timbres dans chacun. Quel nombre de timbres le permet ?`
+          ]),
           hint1: `Un nombre entier est divisible par ${k} si ${crit}.`,
           hint2: 'Teste le critère sur chacun des nombres.',
           solution: `Un nombre est divisible par ${k} si ${crit}. Seul **$${tx(good)}$** vérifie ce critère.`,
@@ -2342,26 +2385,40 @@
           `Le prix payé pour des baguettes à $${this._6tex(a / 10 + 1)}$ € l'une et le nombre de baguettes achetées.`,
           `Le périmètre d'un carré et la longueur de son côté.`,
           `La distance parcourue à la vitesse constante de $${b * 5}$ km/h et la durée du trajet.`,
-          `La masse de $${c}$ sacs de riz identiques et le nombre de sacs.`
+          `La masse de $${c}$ sacs de riz identiques et le nombre de sacs.`,
+          `La quantité de farine et le nombre de crêpes, en suivant toujours la même recette.`,
+          `Le nombre de tickets de bus achetés au tarif unique de $${this._6tex(c / 10 + 1)}$ € et le prix payé.`,
+          `Le nombre de tours de piste de $${b * 20}$ m effectués et la distance parcourue.`,
+          `La quantité d'essence achetée à prix fixe par litre et le prix payé.`
         ];
         const nonProps = [
           `La taille d'un enfant et son âge.`,
           `L'aire d'un carré et la longueur de son côté.`,
           `Le prix d'un taxi avec une prise en charge de $${a}$ € puis $${this._6tex(c / 10 + 1)}$ € par km, et la distance parcourue.`,
           `La température extérieure et l'heure de la journée.`,
-          `Le nombre de buts marqués par une équipe et le nombre de matchs joués.`
+          `Le nombre de buts marqués par une équipe et le nombre de matchs joués.`,
+          `La masse d'une personne et sa taille.`,
+          `Le prix d'un abonnement de $${b}$ € par mois plus $${a}$ € par séance, et le nombre de séances.`,
+          `La pointure d'un élève et son âge.`,
+          `Le prix mensuel d'un forfait téléphonique illimité à $${b}$ € et le nombre d'appels passés dans le mois.`
         ];
-        const correct = this.randChoice(props);
+        const neg = Math.random() < 0.3;
+        const nom = this.randChoice(['Léa', 'Hugo', 'Inès', 'Noah', 'Jade', 'Adam', 'Chloé', 'Rayan', 'Lina', 'Tom']);
+        const intro = this.randChoice(['', 'Dans chaque situation, on étudie deux grandeurs.\n', 'Pour chaque situation, demande-toi si doubler une grandeur double l\'autre.\n',
+          `Pour un exposé, ${nom} a relevé quatre situations où deux grandeurs varient ensemble.\n`, `${nom} doit classer des situations en deux groupes : proportionnalité ou non.\n`]);
+        const correct = this.randChoice(neg ? nonProps : props);
         const q = mk({
           title: 'Défi 5ème : reconnaître la proportionnalité',
-          statement: 'Parmi ces situations, laquelle relève de la **proportionnalité** ?',
+          statement: intro + (neg ? 'Parmi ces situations, laquelle **ne relève pas** de la proportionnalité ?' : this.randChoice(['Parmi ces situations, laquelle relève de la **proportionnalité** ?', 'Dans laquelle de ces situations les deux grandeurs sont-elles **proportionnelles** ?'])),
           hint1: 'Deux grandeurs sont proportionnelles si l\'on passe de l\'une à l\'autre en multipliant toujours par le même nombre.',
           hint2: 'Si l\'on double l\'une, l\'autre doit doubler aussi.',
-          solution: `La situation proportionnelle est : ${correct}\nDans les autres situations, doubler une grandeur ne double pas l'autre.`,
+          solution: neg
+            ? `La situation non proportionnelle est : ${correct}\nDoubler une des grandeurs ne double pas l'autre. Dans les autres situations, on passe d'une grandeur à l'autre en multipliant toujours par le même nombre.`
+            : `La situation proportionnelle est : ${correct}\nDans les autres situations, doubler une grandeur ne double pas l'autre.`,
           skill: 'Raisonner',
           _v: { k: '6P1.which', correct }
         });
-        return this._6mcq(q, correct, this.shuffle(nonProps).slice(0, 3));
+        return this._6mcq(q, correct, this.shuffle(neg ? props : nonProps).slice(0, 3));
       }
       if (sub === 'offers') {
         const n1 = this.randChoice([2, 3, 4, 5]), n2 = this.randChoice([6, 8, 10, 12]);
@@ -3805,10 +3862,26 @@
         ];
         const idx = this.randInt(0, figs.length - 1);
         const correct = figs[idx][1];
-        const pool = ['aucun', '1', '2', '3', '4', '6', 'une infinité'].filter(o => o !== correct);
+        // Distracteurs typiques : diagonales du rectangle/losange/parallélogramme comptées comme axes, axes oubliés…
+        const typical = { 0: ['2', '8'], 1: ['4', 'aucun'], 2: ['4', 'aucun'], 3: ['1', '6'], 4: ['3', 'aucun'], 5: ['2', '4'], 6: ['1', 'une infinité'], 7: ['2', '4'], 8: ['3', '12'], 9: ['1', '3'] }[idx];
+        const pool = typical.concat(this.shuffle(['aucun', '1', '2', '3', '4', '6', 'une infinité'])).filter(o => o !== correct);
+        const pts = this._6E_pts(6);
+        const nm = {
+          0: `le carré $${pts.slice(0, 4).join('')}$`, 1: `le rectangle $${pts.slice(0, 4).join('')}$ (qui n’est pas un carré)`,
+          2: `le losange $${pts.slice(0, 4).join('')}$ (qui n’est pas un carré)`, 3: `le triangle équilatéral $${pts.slice(0, 3).join('')}$`,
+          4: `le triangle $${pts.slice(0, 3).join('')}$, isocèle en $${pts[0]}$ mais pas équilatéral`, 5: `un cercle de centre $${pts[0]}$`,
+          6: `le segment $[${pts[0]}${pts[1]}]$`, 7: `le parallélogramme $${pts.slice(0, 4).join('')}$ (ni rectangle, ni losange)`,
+          8: `l’hexagone régulier $${pts.join('')}$`, 9: `le triangle $${pts.slice(0, 3).join('')}$, dont les trois côtés ont des longueurs différentes`
+        }[idx];
+        const stmt = this.randChoice([
+          `**Combien d'axes de symétrie possède ${figs[idx][0]} ?**`,
+          `On considère ${nm}. **Combien possède-t-il d'axes de symétrie ?**`,
+          `${this.randChoice(['Léa', 'Hugo', 'Inès', 'Noah', 'Jade', 'Adam'])} a tracé ${nm} sur une feuille de papier calque. **Selon combien de droites différentes peut-on plier la figure pour que les deux parties se superposent exactement ?**`,
+          `**Combien de droites sont des axes de symétrie ${nm.startsWith("le ") ? "du " + nm.slice(3) : nm.startsWith("un ") ? "d’" + nm : "de " + nm} ?**`
+        ]);
         return this._6E_mcq(ch, t, {
           title: 'Axes de symétrie des figures usuelles',
-          statement: `**Combien d'axes de symétrie possède ${figs[idx][0]} ?**`,
+          statement: stmt,
           hint1: 'Dessine la figure à main levée et cherche toutes les droites de pliage possibles, sans en oublier ni en compter deux fois.',
           hint2: 'Un axe de symétrie est une droite de pliage pour laquelle les deux parties se superposent exactement. Pour un polygone, on teste les diagonales et les médiatrices des côtés ; pour un cercle, les droites passant par son centre.',
           solution: `On cherche les droites de pliage qui superposent exactement les deux moitiés de la figure.\n**Conclusion :** ${figs[idx][0]} possède **${correct === 'aucun' ? 'aucun axe' : correct === 'une infinité' ? "une infinité d'axes" : correct === '1' ? 'un seul axe' : correct + ' axes'}** de symétrie${correct === 'une infinité' ? ' (toutes les droites passant par son centre)' : ''}.`,
@@ -3900,28 +3973,41 @@
             _v: { k: '6G2.rect', L, l, ask }
           });
         }
-        const [P] = this._6E_pts(1);
+        const [P, U, V] = this._6E_pts(3);
         const kind = this.randInt(0, 1);
+        const ax = this.randChoice(['(d)', '(\\Delta)', `(${U}${V})`]);
+        const axTxt = `la droite $${ax}$`;
         if (kind === 0) {
           const correct = `le point $${P}$ lui-même`;
+          const stmt = this.randChoice([
+            `Le point $${P}$ appartient à l'axe de symétrie $${ax}$. **Quel est le symétrique de $${P}$ par rapport à $${ax}$ ?**`,
+            `On construit le symétrique de la figure par rapport à ${axTxt}. Le point $${P}$ est situé sur $${ax}$. **Quel est son symétrique ?**`,
+            `Le point $${P}$ est sur ${axTxt}. ${this.randChoice(['Léa', 'Hugo', 'Inès', 'Noah', 'Jade', 'Adam'])} plie la feuille le long de $${ax}$. **Avec quel point le point $${P}$ se superpose-t-il ?**`,
+            `Une figure est symétrique par rapport à ${axTxt}. Le point $${P}$ de cette figure est situé sur $${ax}$. **Quel est le symétrique de $${P}$ par rapport à $${ax}$ ?**`
+          ]);
           return this._6E_mcq(ch, t, {
             title: 'Point situé sur l’axe',
-            statement: `Le point $${P}$ appartient à l'axe de symétrie $(d)$. **Quel est le symétrique de $${P}$ par rapport à $(d)$ ?**`,
+            statement: stmt,
             hint1: 'Quand on plie le long de l’axe, que devient un point situé sur la ligne de pliage ?',
             hint2: 'Un point de l’axe ne bouge pas.',
             solution: `Un point de l'axe est son propre symétrique : c'est **${correct}**.`,
             _v: { k: '6G2.axe', kind, P }
-          }, correct, ['il n’a pas de symétrique', `un point de $(d)$ différent de $${P}$`, `un point situé à $1$ cm de $${P}$`]);
+          }, correct, ['il n’a pas de symétrique', `un point de $${ax}$ différent de $${P}$`, `un point situé à $1$ cm de $${P}$`]);
         }
         const correct = `la médiatrice du segment $[${P}${P}']$`;
+        const stmt = this.randChoice([
+          `Le point $${P}'$ est le symétrique du point $${P}$ par rapport à ${axTxt}, et $${P}$ n'est pas sur $${ax}$. **Que représente la droite $${ax}$ pour le segment $[${P}${P}']$ ?**`,
+          `On a construit le point $${P}'$, symétrique de $${P}$ par rapport à $${ax}$ (le point $${P}$ n'étant pas sur $${ax}$), puis on a tracé le segment $[${P}${P}']$. **Que peut-on dire de $${ax}$ pour ce segment ?**`,
+          `En pliant la feuille le long de $${ax}$, le point $${P}$ vient se superposer au point $${P}'$, distinct de $${P}$. **Que représente $${ax}$ pour le segment $[${P}${P}']$ ?**`
+        ]);
         return this._6E_mcq(ch, t, {
           title: 'Axe de symétrie et médiatrice',
-          statement: `Le point $${P}'$ est le symétrique du point $${P}$ par rapport à la droite $(d)$, et $${P}$ n'est pas sur $(d)$. **Que représente la droite $(d)$ pour le segment $[${P}${P}']$ ?**`,
+          statement: stmt,
           hint1: `$(d)$ coupe $[${P}${P}']$ perpendiculairement…`,
           hint2: '… et en son milieu.',
           solution: `Par définition du symétrique, $(d)$ est **${correct}**.`,
           _v: { k: '6G2.axe', kind, P }
-        }, correct, [`une droite parallèle à $(${P}${P}')$`, `la droite $(${P}${P}')$ elle-même`, `une droite passant par $${P}$`]);
+        }, correct, [`une droite perpendiculaire à $[${P}${P}']$, sans passer forcément par son milieu`, `une droite passant par le milieu de $[${P}${P}']$, sans lui être forcément perpendiculaire`, `une droite parallèle à $(${P}${P}')$`, `la droite $(${P}${P}')$ elle-même`]);
       }
 
       // Palier 4
@@ -5035,8 +5121,19 @@
             this.randInt(101, 190) / 100, this.randInt(11, 30) / 10, -this.randInt(1, 9) / 10, -this.randInt(1, 99) / 100, this.randInt(2, 15)
           ]).slice(0, 3);
           const opts = bads.map(x => this._6ans(x));
+          const evt = this.randChoice([
+            'tirer une boule rouge dans une urne', 'il pleut demain', 'le bus arrive en retard',
+            'tirer un jeton gagnant dans un sac', 'la flèche de la roue s\'arrête sur le bleu',
+            'gagner à une loterie', 'tirer une voyelle dans un sac de lettres'
+          ]);
+          const nom = this.randChoice(['Léa', 'Hugo', 'Inès', 'Noah', 'Jade', 'Adam', 'Chloé', 'Rayan']);
+          const stmt = this.randChoice([
+            "Parmi les nombres suivants, **lequel peut être la probabilité d'un événement ?**",
+            `Quatre élèves ont estimé la probabilité de l'événement « ${evt} ». Un seul résultat est possible. **Lequel ?**`,
+            `${nom} cherche la probabilité de l'événement « ${evt} ». **Quel nombre peut être cette probabilité ?**`
+          ]);
           const q = base("Une probabilité est comprise entre 0 et 1", {
-            statement: "Parmi les nombres suivants, **lequel peut être la probabilité d'un événement ?**",
+            statement: stmt,
             hint1: "Une probabilité est toujours un nombre compris entre $0$ et $1$.",
             hint2: "Élimine les nombres négatifs et les nombres plus grands que $1$.",
             solution: `Une probabilité est comprise entre $0$ et $1$ (inclus). Seul $${this._6tex(good)}$ convient.`,
@@ -5190,15 +5287,31 @@
         });
       }
       // freqProba : quel résultat de simulation est le plus cohérent avec la probabilité ?
-      const N = this.randChoice([60, 120, 300, 600]);
-      const n = this.randChoice([2, 3, 4, 6]);
+      const n = this.randChoice([2, 3, 4, 5, 6, 8, 10]);
+      const N = this.randChoice([120, 300, 600, 1200].concat(n <= 6 ? [60] : []).filter(x => x % n === 0));
       const exp = N / n;
       const good = exp + this.randInt(-Math.floor(exp * 0.06), Math.floor(exp * 0.06));
-      const bad = this.shuffle([Math.round(exp * 0.4), Math.round(exp * 1.8), Math.round(exp * 2.6), Math.round(exp * 0.15) + 1]).slice(0, 3);
-      const objTxt = { 2: 'une pièce équilibrée (Pile ou Face) et on compte les « Pile »', 3: 'une roue équilibrée à 3 secteurs identiques (rouge, vert, bleu) et on compte les « rouge »', 4: 'un dé équilibré à 4 faces et on compte les « 4 »', 6: 'un dé équilibré à 6 faces et on compte les « 6 »' }[n];
+      // Distracteurs : « 1 chance sur n » lu comme n succès, moitié des lancers, résultats trop éloignés
+      const bad = [];
+      for (const b of this.shuffle([n, Math.round(N / 2), Math.round(exp * 0.4), Math.round(exp * 1.8), Math.round(exp * 2.6)])) {
+        if (bad.length < 3 && !bad.includes(b) && Math.abs(b - exp) > Math.abs(good - exp) + 2) bad.push(b);
+      }
+      const objTxt = this.randChoice({
+        2: ['une pièce équilibrée (Pile ou Face) et on compte les « Pile »', 'une pièce équilibrée (Pile ou Face) et on compte les « Face »'],
+        3: ['une roue équilibrée à 3 secteurs identiques (rouge, vert, bleu) et on compte les « rouge »'],
+        4: ['un dé équilibré à 4 faces et on compte les « 4 »', 'une roue équilibrée à 4 secteurs identiques (rouge, vert, bleu, jaune) et on compte les « jaune »'],
+        5: ['une roue équilibrée à 5 secteurs identiques numérotés de 1 à 5 et on compte les « 5 »'],
+        6: ['un dé équilibré à 6 faces et on compte les « 6 »', 'un dé équilibré à 6 faces et on compte les « 1 »'],
+        8: ['un dé équilibré à 8 faces et on compte les « 8 »'],
+        10: ['une roue équilibrée à 10 secteurs identiques numérotés de 0 à 9 et on compte les « 7 »']
+      }[n]);
+      const nom = this.randChoice(['Léa', 'Hugo', 'Inès', 'Noah', 'Jade', 'Adam', 'Chloé', 'Rayan']);
       const opts = bad.map(String);
       const q = base("Fréquence observée et probabilité", {
-        statement: `On lance ${N} fois ${objTxt}.\n**Lequel de ces nombres de succès est le plus vraisemblable ?**`,
+        statement: this.randChoice([
+          `On lance ${N} fois ${objTxt}.\n**Lequel de ces nombres de succès est le plus vraisemblable ?**`,
+          `${nom} fait simuler ${N} lancers par un tableur : on lance ${objTxt}.\n**Quel nombre de succès a-t-on le plus de chances d'observer ?**`
+        ]),
         hint1: `La probabilité d'un succès est $\\frac{1}{${n}}$.`,
         hint2: 'Sur un grand nombre d\'essais, la fréquence observée d\'un résultat se rapproche de sa probabilité.',
         solution: `**Étape 1.** La probabilité d'un succès est $\\frac{1}{${n}}$. Sur ${N} essais, la fréquence observée doit être proche de $\\frac{1}{${n}}$, donc le nombre de succès proche de $\\frac{1}{${n}} \\times ${N} = ${exp}$.\n**Étape 2.** Parmi les propositions, la plus proche de $${exp}$ est $${good}$ (les autres sont beaucoup trop éloignées).\nLe nombre le plus vraisemblable est **$${good}$**.`,
@@ -5585,13 +5698,24 @@
     ['courbe', 'On a mesuré la taille d\'une plante chaque semaine pendant deux mois. On veut **observer l\'évolution de sa taille** au fil du temps.'],
     ['courbe', 'On a noté la population d\'une ville tous les dix ans depuis 1950. On veut **montrer l\'évolution de la population** au cours du temps.'],
     ['double', 'On a interrogé des élèves sur leur moyen de transport et on veut **croiser deux informations** : le moyen de transport et la classe (6e ou 5e) de chaque élève.'],
-    ['double', 'Au restaurant scolaire, on veut **présenter en même temps** le nombre de repas servis selon le jour de la semaine **et** selon le menu choisi (avec ou sans viande).']
+    ['double', 'Au restaurant scolaire, on veut **présenter en même temps** le nombre de repas servis selon le jour de la semaine **et** selon le menu choisi (avec ou sans viande).'],
+    ['barres', 'On a relevé le nombre de médailles obtenues par cinq pays lors d\'une compétition. On veut **comparer les nombres de médailles** des différents pays.'],
+    ['barres', 'Chaque élève de 6e a indiqué son fruit préféré. On veut **comparer les effectifs** obtenus par chaque fruit.'],
+    ['barres', 'Un cinéma a compté le nombre de spectateurs pour chacun de ses six films à l\'affiche. On veut **repérer facilement le film le plus vu** et comparer les fréquentations.'],
+    ['circ', 'Un collège compte des élèves de 6e, 5e, 4e et 3e. On veut **montrer la part de chaque niveau** dans l\'effectif total du collège.'],
+    ['circ', 'Une salade de fruits contient des pommes, des fraises, des bananes et des kiwis. On veut **représenter la part de chaque fruit** dans la masse totale de la salade.'],
+    ['circ', 'Un sondage demande aux habitants d\'une ville leur mode de chauffage. On veut **visualiser la répartition de l\'ensemble des réponses** entre les différents modes.'],
+    ['courbe', 'Une infirmière a relevé la température d\'un malade toutes les quatre heures pendant trois jours. On veut **suivre l\'évolution de sa température**.'],
+    ['courbe', 'On a noté chaque mois la hauteur d\'eau dans un lac pendant une année. On veut **voir comment cette hauteur varie** au fil des mois.'],
+    ['courbe', 'Un cycliste a relevé sa vitesse toutes les cinq minutes pendant sa sortie. On veut **montrer comment sa vitesse évolue** pendant le trajet.'],
+    ['double', 'On a demandé à des élèves s\'ils pratiquent un instrument de musique, en notant aussi s\'il s\'agit de filles ou de garçons. On veut **présenter les effectifs selon ces deux critères** à la fois.'],
+    ['double', 'Une boutique vend des tee-shirts de trois tailles et de quatre couleurs. On veut **présenter le nombre de tee-shirts vendus pour chaque taille et chaque couleur**.']
   ];
   G._6X_add('6D1', 2, function () {
     const [type, txt] = this.randChoice(DIAG_CTX);
     const q = this._6A_q('6D1', 2, 'Représenter', {
       title: 'Choisir une représentation adaptée',
-      statement: `${txt}\n**Quelle représentation est la plus adaptée ?**`,
+      statement: `${txt}\n**${this.randChoice(['Quelle représentation est la plus adaptée ?', 'Quel type de représentation faut-il choisir ?', 'Quelle représentation convient le mieux ?'])}**`,
       hint1: 'Repère le mot-clé de la consigne : comparer des catégories ? montrer des parts d\'un tout ? suivre une évolution dans le temps ? croiser deux critères ?',
       hint2: 'Diagramme en barres : comparer des effectifs. Diagramme circulaire : parts d\'un tout. Graphique en fonction du temps : évolution. Tableau à double entrée : deux critères à la fois.',
       solution: {
@@ -7022,17 +7146,36 @@
 
   G._6X_origWeight('6G1', 2, 4);
   G._6X_add('6G1', 2, function () {
+    // Noms des trois droites : (d_1), (d_2), (d_3) ; (d), (d'), (d'') ; ou (AB), (CD), (EF)
+    const naming = this.randInt(0, 2);
+    let D;
+    if (naming === 0) D = ['(d_1)', '(d_2)', '(d_3)'];
+    else if (naming === 1) D = this.shuffle(['(d)', "(d')", "(d'')"]);
+    else { const P = this._6E_pts(6); D = [`(${P[0]}${P[1]})`, `(${P[2]}${P[3]})`, `(${P[4]}${P[5]})`]; }
+    const [d1, d2, d3] = D;
+    const facts = [
+      [`$${d1} \\perp ${d3}$`, `$${d2} \\perp ${d3}$`],
+      [`$${d1} \\parallel ${d2}$`, `$${d3} \\perp ${d1}$`],
+      [`$${d1} \\parallel ${d3}$`, `$${d2} \\parallel ${d3}$`]
+    ];
     const cases = [
-      { s: '$(d_1) \\perp (d_3)$ et $(d_2) \\perp (d_3)$', ask: '$(d_1)$ et $(d_2)$', c: 'parallèles', p: 'Si deux droites sont perpendiculaires à une même troisième droite, alors elles sont parallèles entre elles.' },
-      { s: '$(d_1) \\parallel (d_2)$ et $(d_3) \\perp (d_1)$', ask: '$(d_3)$ et $(d_2)$', c: 'perpendiculaires', p: 'Si deux droites sont parallèles, toute droite perpendiculaire à l\'une est perpendiculaire à l\'autre.' },
-      { s: '$(d_1) \\parallel (d_3)$ et $(d_2) \\parallel (d_3)$', ask: '$(d_1)$ et $(d_2)$', c: 'parallèles', p: 'Si deux droites sont parallèles à une même troisième droite, alors elles sont parallèles entre elles.' }
+      { ask: `$${d1}$ et $${d2}$`, c: 'parallèles', p: 'Si deux droites sont perpendiculaires à une même troisième droite, alors elles sont parallèles entre elles.' },
+      { ask: `$${d3}$ et $${d2}$`, c: 'perpendiculaires', p: 'Si deux droites sont parallèles, toute droite perpendiculaire à l\'une est perpendiculaire à l\'autre.' },
+      { ask: `$${d1}$ et $${d2}$`, c: 'parallèles', p: 'Si deux droites sont parallèles à une même troisième droite, alors elles sont parallèles entre elles.' }
     ];
     const kind = this.randInt(0, 2);
     const cs = cases[kind];
+    const f = this.shuffle(facts[kind].slice());
+    const ctx = this.randChoice([
+      `Trois droites distinctes $${d1}$, $${d2}$ et $${d3}$ vérifient : ${f[0]} et ${f[1]}.`,
+      `On sait que ${f[0]} et que ${f[1]}, les trois droites étant distinctes.`,
+      `Sur un plan, trois rues rectilignes distinctes sont représentées par les droites $${d1}$, $${d2}$ et $${d3}$. On sait que ${f[0]} et ${f[1]}.`,
+      `${this.randChoice(['Léa', 'Hugo', 'Inès', 'Noah', 'Jade', 'Adam'])} trace trois droites distinctes $${d1}$, $${d2}$ et $${d3}$ telles que ${f[0]} et ${f[1]}.`
+    ]);
     const opts = ['parallèles', 'perpendiculaires', 'sécantes mais pas perpendiculaires', 'on ne peut pas savoir'];
     return this._6E_mcq('6G1', 2, {
       title: 'Droites parallèles et perpendiculaires',
-      statement: `Trois droites distinctes $(d_1)$, $(d_2)$ et $(d_3)$ vérifient : ${cs.s}.\n**Que peut-on dire des droites ${cs.ask} ?**`,
+      statement: `${ctx}\n**${this.randChoice(['Que peut-on dire des droites', 'Que peut-on affirmer pour les droites'])} ${cs.ask} ?**`,
       hint1: 'Fais un schéma à main levée en respectant les informations de l\'énoncé.',
       hint2: 'Rappel des symboles : $\\perp$ indique deux droites qui se coupent en formant un angle droit ; $\\parallel$ indique deux droites qui ne se coupent pas (ou sont confondues).',
       solution: `**Propriété :** ${cs.p}\nDonc les droites ${cs.ask} sont **${cs.c}**.`,
@@ -7628,16 +7771,36 @@
     ['deux bases polygonales identiques et parallèles reliées par des faces rectangulaires', 'un prisme droit']
   ];
   G._6X_origWeight('6G5', 1, 3);
+  // Autres descriptions (même ordre que SOLIDES) et solides les plus souvent confondus
+  const SOLIDES_BIS = [
+    ['12 arêtes de même longueur et 6 faces carrées', '8 sommets et 6 faces qui sont toutes des carrés superposables'],
+    ['6 faces, 12 arêtes et 8 sommets, avec des faces rectangulaires qui ne sont pas toutes des carrés', 'la forme d\'une boîte à chaussures'],
+    ['deux faces planes en forme de disque, superposables, et une face courbe', 'la forme d\'une boîte de conserve'],
+    ['un seul sommet principal, d\'où partent des faces triangulaires, et une base qui est un polygone', 'une base carrée et quatre faces triangulaires qui se rejoignent en un même point'],
+    ['une seule face plane, en forme de disque, et une face courbe qui se termine en pointe', 'la forme d\'un cornet de glace (sans la glace)'],
+    ['aucune face plane, aucune arête et aucun sommet', 'la forme d\'une bille'],
+    ['deux bases triangulaires superposables et parallèles, reliées par trois faces rectangulaires', 'deux bases hexagonales superposables et parallèles, reliées par six faces rectangulaires']
+  ];
+  // Un cube est aussi un pavé droit et un prisme droit, un pavé droit est un prisme droit : jamais proposés comme faux
+  const SOLIDES_PIEGE = [[3, 2], [0, 3], [6, 4], [4, 6], [3, 2], [2, 4], [2, 3]];
+  const SOLIDES_EXCLUS = [[1, 6], [6], [], [], [], [], []];
   G._6X_add('6G5', 1, function () {
     const i = this.randInt(0, SOLIDES.length - 1);
     const correct = SOLIDES[i][1];
-    const others = this.shuffle(SOLIDES.filter((_, j) => j !== i).map(s => s[1]));
+    const others = SOLIDES_PIEGE[i].map(j => SOLIDES[j][1]).concat(this.shuffle(SOLIDES.filter((_, j) => j !== i && !SOLIDES_EXCLUS[i].includes(j)).map(s => s[1])));
+    const desc = this.randChoice([SOLIDES[i][0], ...SOLIDES_BIS[i]]);
+    const avoir = /^la forme/.test(desc) ? 'a' : 'possède';
+    const stmt = this.randChoice([
+      `Un solide ${avoir} ${desc}. **De quel solide s'agit-il ?**`,
+      `Je suis un solide et j'ai ${desc}. **Qui suis-je ?**`,
+      `${this.randChoice(['Léa', 'Hugo', 'Inès', 'Noah', 'Jade', 'Adam'])} décrit un solide : « il ${avoir} ${desc} ». **De quel solide s'agit-il ?**`
+    ]);
     return this._6E_mcq('6G5', 1, {
       title: 'Reconnaître un solide d’après sa description',
-      statement: `Un solide possède ${SOLIDES[i][0]}. **De quel solide s'agit-il ?**`,
+      statement: stmt,
       hint1: 'Demande-toi si le solide a des faces planes, une surface courbe, un sommet où tout se rejoint…',
       hint2: 'Cube : 6 faces carrées. Pavé droit : 6 faces rectangulaires. Prisme droit : 2 bases polygonales et des faces rectangulaires. Pyramide : une base et des faces triangulaires. Cylindre, cône, boule : surfaces courbes.',
-      solution: `**Indice décisif :** ${SOLIDES[i][0]}.\n**Conclusion :** c'est **${correct}**.`,
+      solution: `**Indice décisif :** ${desc}.${desc === SOLIDES[i][0] ? '' : `\nAutrement dit, le solide possède ${SOLIDES[i][0]}.`}\n**Conclusion :** c'est **${correct}**.`,
       skill: 'Communiquer',
       _v: { k: '6G5.solide', i }
     }, correct, others);
@@ -8314,13 +8477,19 @@
   G._6X_add('6N4', 4, function () {
     // Sans calculer : le plus grand / le plus petit produit
     const N = this.randInt(12, 95);
-    const F = this.shuffle([9, 99, 101, 11, 5, 15, 102, 98]).slice(0, 4); // en centièmes
+    // En centièmes ; 90/15, 50/5, 120/102 : pièges « plus de chiffres = plus grand »
+    const F = this.shuffle([9, 99, 101, 11, 5, 15, 102, 98, 90, 50, 120, 150]).slice(0, 4);
     const ask = this.randChoice(['grand', 'petit']);
     const best = ask === 'grand' ? Math.max(...F) : Math.min(...F);
     const fmt = f => `$${N} \\times ${this._6tex(f / 100)}$`;
     const q = this._6A_q('6N4', 4, 'Raisonner', {
       title: 'Comparer des produits sans les calculer',
-      statement: `Sans effectuer les calculs, quel est le **plus ${ask}** de ces produits ?`,
+      statement: this.randChoice([
+        `Sans effectuer les calculs, quel est le **plus ${ask}** de ces produits ?`,
+        `Les quatre produits proposés ont le même premier facteur, $${N}$. Sans les calculer, quel est le **plus ${ask}** ?`,
+        `Un article coûte $${N}$ €. On multiplie son prix par l'un des nombres $${this.shuffle(F.slice()).map(f => this._6tex(f / 100)).join('$ ; $')}$. Sans calculer, quel produit donne le prix le **plus ${ask === 'grand' ? 'élevé' : 'bas'}** ?`,
+        `${this.randChoice(['Léa', 'Hugo', 'Inès', 'Noah', 'Jade', 'Adam'])} affirme qu'on peut trouver le **plus ${ask}** de ces produits sans poser aucune multiplication. Lequel est-ce ?`
+      ]),
       hint1: 'Tous les produits ont le même premier facteur : compare seulement les seconds facteurs.',
       hint2: 'Multiplier par un nombre inférieur à 1 donne un résultat inférieur au nombre de départ ; par un nombre supérieur à 1, un résultat supérieur.',
       solution: `Le premier facteur $${N}$ est le même partout : le produit le plus ${ask} est celui dont le second facteur est le plus ${ask}.\nSeconds facteurs rangés : $${F.slice().sort((x, y) => x - y).map(f => this._6tex(f / 100)).join(' < ')}$.\nRéponse : **${fmt(best)}**.`,

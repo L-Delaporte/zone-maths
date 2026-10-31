@@ -850,15 +850,33 @@
       this._h3b_fixLegacy(q, /papillon/.test(q.title) ? H2Pap : (/Réciproque|Contraposée/.test(q.title) ? H2R : H2T), legacyH1);
       if (/soustraction préalable/.test(q.title)) q.title = 'Thalès direct : calcul de MN';
       if (/inconnue/.test(q.title)) q.hint2 = "Rappel : produit en croix, si $\\frac{a}{b} = \\frac{c}{d}$ alors $a \\times d = b \\times c$ ; on développe puis on regroupe les termes en $x$ dans un même membre.";
-      if (/Réciproque|Contraposée/.test(q.title)) q.title = 'Les droites sont-elles parallèles ?' + (/papillon/.test(q.title) ? ' (configuration papillon)' : (/préalable/.test(q.title) ? ' (calcul préalable)' : ''));
+      if (/(Réciproque|Contraposée) du théorème/.test(q.title)) return paral(); // remplacé par la version à longueurs aléatoires
+      if (/Réciproque|Contraposée/.test(q.title)) q.title ='Les droites sont-elles parallèles ?' + (/papillon/.test(q.title) ? ' (configuration papillon)' : (/préalable/.test(q.title) ? ' (calcul préalable)' : ''));
       return q;
     };
     const L3 = () => this.randChoice([['A', 'B', 'C', 'M', 'N'], ['S', 'T', 'U', 'E', 'F'], ['O', 'P', 'R', 'K', 'L'], ['A', 'D', 'E', 'G', 'H']]);
 
     // --- Écrire les rapports égaux (configuration emboîtée)
+    const lettres = n => this.shuffle('ABCDEFGHKLMNPRSTUV'.split('')).slice(0, n);
     const rapports = () => {
-      const [A, B, C, M, N] = L3();
+      const [A, B, C, M, N] = lettres(5);
       const fr = (a, b) => `\\frac{${a}}{${b}}`;
+      if (this.randInt(0, 1)) {
+        // Variante : un quotient est donné, trouver un quotient égal
+        const P = [[A + M, A + B], [A + N, A + C], [M + N, B + C]];
+        const g = this.randInt(0, 2), a = this.randChoice([0, 1, 2].filter(i => i !== g)), o = 3 - g - a;
+        const [nu, de] = P[a]; const tf = (x, y) => `$${fr(x, y)}$`;
+        const third = a === 2 ? tf(nu, P[o][1]) : tf(nu, a === 0 ? M + B : N + C);
+        return this._h3b_mk({
+          title: "Écrire l'égalité de Thalès (triangles emboîtés)", type: 'mcq',
+          statement: `${this.buildThalesEmboiteSvg({ A, B, C, M, N, lengths: {} })}Les points $${M}$ et $${N}$ appartiennent respectivement aux segments $[${A}${B}]$ et $[${A}${C}]$, et $(${M}${N}) \\parallel (${B}${C})$.\n**D'après le théorème de Thalès, quel quotient est égal à $${fr(...P[g])}$ ?**`,
+          options: [tf(nu, de), tf(de, nu), tf(nu, P[g][1]), third],
+          hint1: `Les numérateurs sont les côtés du petit triangle $${A}${M}${N}$ ; les dénominateurs sont les côtés correspondants du grand triangle $${A}${B}${C}$.`,
+          hint2: H2Tg,
+          solution: `Les triangles $${A}${M}${N}$ et $${A}${B}${C}$ ont des côtés proportionnels :\n$$${fr(A + M, A + B)} = ${fr(A + N, A + C)} = ${fr(M + N, B + C)}$$\nDonc $${fr(...P[g])} = ${fr(nu, de)}$ (on garde le même ordre : petit triangle au numérateur, grand triangle au dénominateur).`,
+          _v: { k: 'G1.rapEmb1', A, B, C, M, N, a }
+        });
+      }
       const good = `$${fr(A + M, A + B)} = ${fr(A + N, A + C)} = ${fr(M + N, B + C)}$`;
       return this._h3b_mk({
         title: "Écrire l'égalité de Thalès (triangles emboîtés)", type: 'mcq',
@@ -874,15 +892,44 @@
     // --- Écrire les rapports égaux (papillon)
     const rapPap = () => {
       const fr = (a, b) => `\\frac{${a}}{${b}}`;
-      const good = `$${fr('OA', 'OB')} = ${fr('OC', 'OD')} = ${fr('AC', 'BD')}$`;
+      const [O, A, B, C, D] = this.randInt(0, 2) ? lettres(5) : ['O', 'A', 'B', 'C', 'D'];
+      const good = `$${fr(O + A, O + B)} = ${fr(O + C, O + D)} = ${fr(A + C, B + D)}$`;
       return this._h3b_mk({
         title: "Écrire l'égalité de Thalès (configuration papillon)", type: 'mcq',
-        statement: `${this.buildThalesPapillonSvg({ lengths: {} })}Les droites $(AB)$ et $(CD)$ sont sécantes en $O$, et $(AC) \\parallel (BD)$.\n**Quelle égalité découle du théorème de Thalès ?**`,
-        options: [good, `$${fr('OA', 'OD')} = ${fr('OC', 'OB')} = ${fr('AC', 'BD')}$`, `$${fr('OA', 'AB')} = ${fr('OC', 'CD')} = ${fr('AC', 'BD')}$`, `$${fr('OA', 'OB')} = ${fr('OD', 'OC')} = ${fr('AC', 'BD')}$`],
-        hint1: "Le triangle $OAC$ est associé au triangle $OBD$ : $A$ correspond à $B$ (même droite), $C$ correspond à $D$.",
+        statement: `${this.buildThalesPapillonSvg({ O, A, B, C, D, lengths: {} })}Les droites $(${A}${B})$ et $(${C}${D})$ sont sécantes en $${O}$, et $(${A}${C}) \\parallel (${B}${D})$.\n**Quelle égalité découle du théorème de Thalès ?**`,
+        options: [good, `$${fr(O + A, O + D)} = ${fr(O + C, O + B)} = ${fr(A + C, B + D)}$`, `$${fr(O + A, A + B)} = ${fr(O + C, C + D)} = ${fr(A + C, B + D)}$`, `$${fr(O + A, O + B)} = ${fr(O + D, O + C)} = ${fr(A + C, B + D)}$`],
+        hint1: `Le triangle $${O}${A}${C}$ est associé au triangle $${O}${B}${D}$ : $${A}$ correspond à $${B}$ (même droite), $${C}$ correspond à $${D}$.`,
         hint2: "Rappel : en configuration « papillon », les deux triangles opposés par le sommet commun ont des côtés proportionnels ; on associe deux points situés sur une même droite passant par le sommet commun.",
-        solution: `Les triangles $OAC$ et $OBD$ ont leurs côtés proportionnels. On associe $A$ et $B$ (sur la droite $(AB)$), $C$ et $D$ (sur la droite $(CD)$) :\n$$${fr('OA', 'OB')} = ${fr('OC', 'OD')} = ${fr('AC', 'BD')}$$`,
-        _v: { k: 'G1.rapPap' }
+        solution: `Les triangles $${O}${A}${C}$ et $${O}${B}${D}$ ont leurs côtés proportionnels. On associe $${A}$ et $${B}$ (sur la droite $(${A}${B})$), $${C}$ et $${D}$ (sur la droite $(${C}${D})$) :\n$$${fr(O + A, O + B)} = ${fr(O + C, O + D)} = ${fr(A + C, B + D)}$$`,
+        _v: { k: 'G1.rapPap', O, A, B, C, D }
+      });
+    };
+
+    // --- Réciproque / contraposée : les droites sont-elles parallèles ? (emboîtée ou papillon, longueurs tirées au hasard)
+    const paral = () => {
+      const pap = this.randInt(0, 1) === 1, yes = this.randInt(0, 1) === 1;
+      const [p, q] = this.randChoice([[1, 3], [2, 3], [1, 4], [3, 4], [2, 5], [3, 5], [4, 5], [5, 6], [3, 7], [5, 8]]);
+      const [u1, u2] = this.shuffle([0.5, 1, 1.2, 1.5, 2, 2.5, 3]).slice(0, 2);
+      const a1 = +(p * u1).toFixed(2), b1 = +(q * u1).toFixed(2), b2 = +(q * u2).toFixed(2);
+      let a2 = +(p * u2).toFixed(2);
+      if (!yes) { a2 = +(a2 + this.randChoice([-0.5, 0.5, 1])).toFixed(2); if (a2 <= 0 || (!pap && a2 >= b2) || Math.abs(a1 * b2 - a2 * b1) < 1e-9) return paral(); }
+      const [S, X, Y, Z, W] = lettres(5); // S : sommet commun ; X, Y sur une droite, Z, W sur l'autre
+      const [nX, nY, nZ, nW] = [S + X, S + Y, S + Z, S + W];
+      const fig = pap ? this.buildThalesPapillonSvg({ O: S, A: X, B: Y, C: Z, D: W, lengths: { OA: ft(a1), OB: ft(b1), OC: ft(a2), OD: ft(b2) } })
+        : this.buildThalesEmboiteSvg({ A: S, M: X, B: Y, N: Z, C: W, lengths: { AM: ft(a1), AB: ft(b1), AN: ft(a2), AC: ft(b2) } });
+      const d1 = `(${X}${Z})`, d2 = `(${Y}${W})`;
+      const ordre = pap ? `$${X}, ${S}, ${Y}$ d'une part et $${Z}, ${S}, ${W}$ d'autre part` : `$${S}, ${X}, ${Y}$ d'une part et $${S}, ${Z}, ${W}$ d'autre part`;
+      const OUI = `Oui : ${d1} et ${d2} sont parallèles (réciproque du théorème de Thalès)`, NON = `Non : ${d1} et ${d2} ne sont pas parallèles (contraposée du théorème de Thalès)`;
+      const c1 = a1 * b2, c2 = b1 * a2;
+      return this._h3b_mk({
+        title: `Les droites sont-elles parallèles ?${pap ? ' (configuration papillon)' : ''}`, type: 'mcq',
+        statement: `${fig}Les points ${ordre} sont alignés dans cet ordre. On donne $${nX} = ${f(a1)}\\text{ cm}$, $${nY} = ${f(b1)}\\text{ cm}$, $${nZ} = ${f(a2)}\\text{ cm}$ et $${nW} = ${f(b2)}\\text{ cm}$.\n**Les droites $${d1}$ et $${d2}$ sont-elles parallèles ?**`,
+        options: yes ? [OUI, `Oui : ${d1} et ${d2} sont parallèles (théorème de Thalès)`, NON, 'On ne peut pas conclure sans mesurer des angles']
+          : [NON, OUI, `Oui : ${d1} et ${d2} sont parallèles (théorème de Thalès)`, 'On ne peut pas conclure sans mesurer des angles'],
+        hint1: `Calcule séparément $\\frac{${nX}}{${nY}}$ et $\\frac{${nZ}}{${nW}}$ (ou compare les produits en croix), puis compare.`,
+        hint2: `Rappel : si $\\frac{${nX}}{${nY}} = \\frac{${nZ}}{${nW}}$ et si les points ${ordre} sont alignés dans le même ordre, alors ${d1} et ${d2} sont parallèles (réciproque du théorème de Thalès). Si les quotients sont différents, les droites ne sont pas parallèles.`,
+        solution: `Produits en croix : $${f(a1)} \\times ${f(b2)} = ${f(c1, 4)}$ et $${f(b1)} \\times ${f(a2)} = ${f(c2, 4)}$.\n${yes ? `Les produits en croix sont égaux, donc $\\frac{${nX}}{${nY}} = \\frac{${nZ}}{${nW}}$ (les deux valent $${f(p / q, 4)}${Math.abs(p / q - +(p / q).toFixed(4)) > 1e-9 ? '\\ldots' : ''}$). De plus, les points ${ordre} sont alignés dans le même ordre. D'après la **réciproque du théorème de Thalès**, les droites $${d1}$ et $${d2}$ sont **parallèles**.` : `Les produits en croix sont différents, donc $\\frac{${nX}}{${nY}} \\neq \\frac{${nZ}}{${nW}}$. Si les droites étaient parallèles, ces quotients seraient égaux d'après le théorème de Thalès : d'après sa **contraposée**, les droites $${d1}$ et $${d2}$ **ne sont pas parallèles**.`}\nLe théorème de Thalès (sens direct) ne permet pas de démontrer un parallélisme : il suppose les droites parallèles.`,
+        _v: { k: 'G1.paral', X, Y, Z, W, a1, b1, a2, b2 }
       });
     };
 
@@ -1320,12 +1367,13 @@
 
     // --- Nature de la transformation selon k (QCM)
     const natureK = () => {
-      const k = this.randChoice([3, 2, 1.5, 0.5, 0.3, -1, -2, -3, -0.5, -0.25, 4, -1.5]);
+      const k = this.randInt(0, 7) === 0 ? -1 : this.randChoice([1, -1]) * this.randChoice([0.1, 0.2, 0.25, 0.3, 0.4, 0.5, 0.6, 0.7, 0.75, 0.8, 0.9, 1.2, 1.25, 1.5, 2, 2.5, 3, 3.5, 4, 5, 10]);
       const good = k === -1 ? 'Une symétrie centrale de centre $O$' : Math.abs(k) > 1 ? 'Un agrandissement' : 'Une réduction';
       const opts = ['Un agrandissement', 'Une réduction', 'Une symétrie centrale de centre $O$', 'Une figure identique (superposée à la figure de départ)'];
+      const fig = this.randChoice(['une figure', 'un triangle $ABC$', 'un carré $ABCD$', 'un cercle de centre $A$', 'un rectangle $EFGH$', 'un logo']);
       return this._h3b_mk({
         title: "Agrandissement, réduction ou symétrie ?", type: 'mcq',
-        statement: `On applique à une figure l'homothétie de centre $O$ et de rapport $k = ${f(k)}$.\n**Qu'obtient-on ?**`,
+        statement: `On applique à ${fig} l'homothétie de centre $O$ et de rapport $k = ${f(k)}$.\n**Qu'obtient-on ?**`,
         options: [good, ...opts.filter(o => o !== good)],
         hint1: "Ce n'est pas le signe de $k$ qui décide de l'agrandissement : compare la valeur absolue $|k|$ à 1.",
         hint2: "Rappel : si $|k| > 1$, l'homothétie est un agrandissement ; si $0 < |k| < 1$, c'est une réduction ; si $k = -1$, c'est la symétrie centrale de centre $O$ ; un rapport négatif « retourne » la figure de l'autre côté de $O$.",
@@ -1592,15 +1640,18 @@
 
     // --- Sphère, boule, cercle, disque (QCM)
     const vocab = () => {
-      const items = [
-        ["L'enveloppe d'une balle de ping-pong (on ne s'intéresse qu'à la surface) est un modèle de", 'une sphère'],
-        ['Une bille en acier, pleine, est un modèle de', 'une boule'],
-        ["La section d'une sphère par un plan qui la coupe est", 'un cercle'],
-        ["La section d'une boule par un plan qui la coupe est", 'un disque'],
-        ["L'ensemble des points de l'espace situés à exactement $5\\text{ cm}$ d'un point $O$ est", 'une sphère'],
-        ["L'ensemble des points de l'espace situés à $5\\text{ cm}$ ou moins d'un point $O$ est", 'une boule']
-      ];
-      const i = this.randInt(0, items.length - 1); const [st, good] = items[i];
+      const d = f(this.randChoice([2, 3, 4, 5, 6, 7, 8, 10, 12, 1.5, 2.5])); const O = this.randChoice(['O', 'A', 'I', 'K']);
+      const items = {
+        sphObj: [`${this.randChoice(["L'enveloppe d'une balle de ping-pong", "La surface d'un ballon de baudruche gonflé", "La paroi d'une bulle de savon", 'La surface de la Terre (modélisée)'])} (on ne s'intéresse qu'à la surface) est un modèle de`, 'une sphère'],
+        bouleObj: [`${this.randChoice(['Une bille en acier, pleine,', 'Un boulet de canon, plein,', 'Une boule de glace', 'Une orange (avec sa pulpe)'])} est un modèle de`, 'une boule'],
+        secS: ["La section d'une sphère par un plan qui la coupe (sans lui être tangent) est", 'un cercle'],
+        secB: ["La section d'une boule par un plan qui la coupe (sans lui être tangent) est", 'un disque'],
+        espEx: [`L'ensemble des points de l'espace situés à exactement $${d}\\text{ cm}$ d'un point $${O}$ est`, 'une sphère'],
+        espLe: [`L'ensemble des points de l'espace situés à $${d}\\text{ cm}$ ou moins d'un point $${O}$ est`, 'une boule'],
+        planEx: [`Dans un plan, l'ensemble des points situés à exactement $${d}\\text{ cm}$ d'un point $${O}$ est`, 'un cercle'],
+        planLe: [`Dans un plan, l'ensemble des points situés à $${d}\\text{ cm}$ ou moins d'un point $${O}$ est`, 'un disque']
+      };
+      const i = this.randChoice(Object.keys(items)); const [st, good] = items[i];
       return this._h3b_mk({
         title: 'Sphère ou boule ? Cercle ou disque ?', type: 'mcq',
         statement: `**Compléter :** ${st} …`,
@@ -1870,15 +1921,52 @@
         ['un cône de révolution', 'parallèle à sa base', 'Un disque, réduction de la base', ['Un triangle', 'Un disque de même rayon que la base', 'Un rectangle']],
         ['une pyramide à base carrée', 'parallèle à sa base', 'Un carré, réduction de la base', ['Un triangle', 'Un rectangle non carré', 'Un carré de même côté que la base']],
         ['une sphère', 'qui la coupe', 'Un cercle', ['Un disque', 'Une sphère plus petite', 'Un carré']],
-        ['un pavé droit', 'parallèle à une arête', 'Un rectangle', ['Un triangle', 'Un cercle', 'Un pentagone']]
+        ['un pavé droit', 'parallèle à une arête', 'Un rectangle', ['Un triangle', 'Un cercle', 'Un pentagone']],
+        ['un prisme droit à base triangulaire', 'parallèle à ses bases', 'Un triangle superposable à la base', ['Un rectangle', 'Un triangle plus petit que la base', 'Un disque']],
+        ['une pyramide à base triangulaire', 'parallèle à sa base', 'Un triangle, réduction de la base', ['Un triangle superposable à la base', 'Un carré', 'Un rectangle']],
+        ['une boule', 'qui la coupe', 'Un disque', ['Un cercle', 'Une boule plus petite', 'Un carré']],
+        ['un prisme droit à base triangulaire', 'parallèle à une arête latérale', 'Un rectangle', ['Un triangle', 'Un disque', 'Un trapèze']]
       ];
+      // variante chiffrée (une fois sur deux) : dimensions de la section
+      if (this.randInt(0, 1)) {
+        const kind = this.randChoice(['pave', 'cylB', 'cylA']);
+        if (kind === 'pave') {
+          const [L, l, h] = this.shuffle([2, 3, 4, 5, 6, 7, 8, 9, 10, 12]).slice(0, 3).sort((x, y) => y - x);
+          const face = this.randChoice(['ABCD', 'ABFE', 'ADHE']); const d = { ABCD: [L, l], ABFE: [L, h], ADHE: [l, h] }[face];
+          const others = [[L, l], [L, h], [l, h]].filter(p => p[0] !== d[0] || p[1] !== d[1]);
+          return this._h3b_mk({
+            title: "Nature et dimensions d'une section plane", type: 'mcq',
+            statement: `${this._h3b_figPave(L, l, h, { dims: [`${L} cm`, `${l} cm`, `${h} cm`] })}Le pavé droit $ABCDEFGH$ a pour dimensions $AB = ${L}\\text{ cm}$, $AD = ${l}\\text{ cm}$ et $AE = ${h}\\text{ cm}$. On le coupe par un plan parallèle à la face $${face}$.\n**Quelle est la section obtenue ?**`,
+            options: [`Un rectangle de ${d[0]} cm sur ${d[1]} cm`, ...others.map(p => `Un rectangle de ${p[0]} cm sur ${p[1]} cm`), `Un triangle rectangle de côtés ${d[0]} cm et ${d[1]} cm`],
+            hint1: `La section d'un pavé droit par un plan parallèle à une face est un rectangle superposable à cette face.`,
+            hint2: `Repère les deux arêtes qui forment la face $${face}$.`,
+            solution: `La section est un rectangle superposable à la face $${face}$, donc de dimensions $${d[0]}\\text{ cm}$ et $${d[1]}\\text{ cm}$ : **un rectangle de ${d[0]} cm sur ${d[1]} cm**.`,
+            _v: { k: 'G5.natNum', kind, L, l, h, face }
+          });
+        }
+        const r = this.randInt(2, 9); let h = this.randInt(4, 15); if (h === 2 * r || h === r) h += 1;
+        const axe = kind === 'cylA';
+        const good = axe ? `Un rectangle de ${2 * r} cm sur ${h} cm` : `Un disque de rayon ${r} cm`;
+        const bad = axe ? [`Un rectangle de ${r} cm sur ${h} cm`, `Un disque de rayon ${r} cm`, `Un triangle de base ${2 * r} cm et de hauteur ${h} cm`]
+          : [`Un disque de rayon ${2 * r} cm`, `Un rectangle de ${2 * r} cm sur ${h} cm`, `Un cercle de rayon ${r} cm`];
+        return this._h3b_mk({
+          title: "Nature et dimensions d'une section plane", type: 'mcq',
+          statement: `Un cylindre de révolution a pour rayon de base $${r}\\text{ cm}$ et pour hauteur $${h}\\text{ cm}$. On le coupe par un plan ${axe ? 'qui contient son axe' : 'parallèle à ses bases'}.\n**Quelle est la section obtenue ?**`,
+          options: [good, ...bad],
+          hint1: axe ? "Un plan qui contient l'axe coupe chaque base selon un diamètre." : 'Une section parallèle aux bases est superposable à une base.',
+          hint2: 'Attention à ne pas confondre rayon et diamètre, ni disque (surface) et cercle (ligne).',
+          solution: axe ? `Le plan contient l'axe : il coupe chaque base selon un diamètre de longueur $2 \\times ${r} = ${2 * r}\\text{ cm}$ et les côtés de la section sont des génératrices de longueur $${h}\\text{ cm}$. La section est **un rectangle de ${2 * r} cm sur ${h} cm**.`
+            : `Le plan est parallèle aux bases : la section est un disque superposable à une base, donc **un disque de rayon ${r} cm** (la section est pleine : c'est un disque et non un cercle).`,
+          _v: { k: 'G5.natNum', kind, r, h }
+        });
+      }
       const i = this.randInt(0, items.length - 1); const [sol, pl, good, bad] = items[i];
       return this._h3b_mk({
         title: "Nature d'une section plane", type: 'mcq',
         statement: `On coupe ${sol} par un plan ${pl}.\n**Quelle est la nature de la section obtenue ?**`,
         options: [good, ...bad],
         hint1: "Imagine le solide coupé « en tranche » dans la direction indiquée : quelle forme a la tranche ?",
-        hint2: "Rappels : pavé (ou cube) coupé parallèlement à une face ou à une arête : rectangle ; cylindre : disque (perpendiculairement à l'axe) ou rectangle (parallèlement à l'axe) ; pyramide ou cône coupé parallèlement à la base : réduction de la base ; sphère : cercle.",
+        hint2: "Rappels : pavé (ou cube) coupé parallèlement à une face ou à une arête : rectangle ; cylindre : disque (perpendiculairement à l'axe) ou rectangle (parallèlement à l'axe) ; pyramide ou cône coupé parallèlement à la base : réduction de la base ; prisme droit coupé parallèlement aux bases : base superposable ; sphère : cercle ; boule : disque.",
         solution: `En coupant ${sol} par un plan ${pl}, on obtient : **${good.toLowerCase()}**.`,
         _v: { k: 'G5.natSection', i }
       });
@@ -2070,30 +2158,53 @@
 
     // --- Verre conique en litres / cl
     const coneCl = () => {
-      const r = this.randChoice([3, 3.5, 4, 4.5, 5]); const h = this.randChoice([6, 8, 9, 10, 12]);
-      const V = Math.PI * r * r * h / 3; const cl = V / 10;
-      if (this._h3b_edge(cl, 1)) return coneCl();
+      const r = this.randChoice([2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6]); const h = this.randInt(5, 12);
+      const u = this.randChoice(['cL', 'mL']); const dia = this.randInt(0, 1) === 1;
+      const ctx = this.randChoice([
+        ['Un verre à pied a un récipient', "d'ouverture", 'profondeur', 'Le verre'],
+        ['Un cornet de glace', "d'ouverture", 'hauteur', 'Le cornet'],
+        ['Un entonnoir, dont on a bouché le bec, a une partie supérieure', "d'ouverture", 'profondeur', "L'entonnoir"],
+        ['Une flûte à champagne a un récipient', "d'ouverture", 'profondeur', 'La flûte']
+      ]);
+      const V = Math.PI * r * r * h / 3; const c = u === 'cL' ? V / 10 : V; const d = u === 'cL' ? 1 : 0;
+      if (this._h3b_edge(c, d)) return coneCl();
+      const dimTxt = dia ? `diamètre ${ctx[1]} $${f(2 * r)}\\text{ cm}$` : `rayon ${ctx[1]} $${f(r)}\\text{ cm}$`;
       return this._h3b_mk({
-        title: 'Contenance d\'un verre conique',
-        statement: `Un verre à pied a un récipient en forme de cône de révolution : rayon d'ouverture $${f(r)}\\text{ cm}$ et profondeur $${h}\\text{ cm}$.\n**Quelle est sa contenance, en centilitres, arrondie au dixième ?** (rappel : $1\\text{ cL} = 10\\text{ cm}^3$)`,
-        answer: this._h3b_num(cl, 1),
-        hint1: "Calcule le volume du cône en $\\text{cm}^3$, puis convertis : il y a 10 $\\text{cm}^3$ dans un centilitre.",
+        title: 'Contenance d\'un récipient conique',
+        statement: `${ctx[0]} en forme de cône de révolution : ${dimTxt} et ${ctx[2]} $${h}\\text{ cm}$.\n**Quelle est sa contenance, en ${u === 'cL' ? 'centilitres, arrondie au dixième' : "millilitres, arrondie à l'unité"} ?** (rappel : ${u === 'cL' ? '$1\\text{ cL} = 10\\text{ cm}^3$' : '$1\\text{ mL} = 1\\text{ cm}^3$'})`,
+        answer: this._h3b_num(c, d),
+        hint1: `Calcule le volume du cône en $\\text{cm}^3$${dia ? ' (attention : on donne le diamètre, il faut le rayon)' : ''}, puis convertis${u === 'cL' ? ' : il y a 10 $\\text{cm}^3$ dans un centilitre' : ''}.`,
         hint2: H2V,
-        solution: `Étape 1 : $\\mathcal{V} = \\frac{1}{3} \\times \\pi \\times ${f(r)}^2 \\times ${h} \\approx ${f(+V.toFixed(2))}\\text{ cm}^3$.\nÉtape 2 : $${f(+V.toFixed(2))} \\div 10 \\approx ${f(+cl.toFixed(1))}$.\nLe verre contient environ $${f(+cl.toFixed(1))}\\text{ cL}$.`,
-        _v: { k: 'G5.coneCl', r, h }
+        solution: `${dia ? `Étape 0 : le rayon vaut $${f(2 * r)} \\div 2 = ${f(r)}\\text{ cm}$.\n` : ''}Étape 1 : $\\mathcal{V} = \\frac{1}{3} \\times \\pi \\times ${f(r)}^2 \\times ${h} \\approx ${f(+V.toFixed(2))}\\text{ cm}^3$.\n${u === 'cL' ? `Étape 2 : $${f(+V.toFixed(2))} \\div 10 \\approx ${f(+c.toFixed(1))}$.` : `Étape 2 : $1\\text{ cm}^3 = 1\\text{ mL}$, donc on arrondit à l'unité : $${Math.round(V)}$.`}\n${ctx[3]} contient environ $${f(+c.toFixed(d))}\\text{ ${u}}$.`,
+        _v: { k: 'G5.coneCl', r, h, u }
       });
     };
 
     // --- P4 : verre conique rempli à une fraction de la hauteur
     const verre = () => {
-      const kk = this.randChoice([0.5, 0.6, 0.75, 0.8, 0.9, 0.4]); const p = kk ** 3 * 100;
+      if (this.randInt(0, 1)) {
+        const H = this.randChoice([8, 9, 10, 12, 15]); const hp = this.randInt(Math.ceil(0.3 * H), Math.floor(0.9 * H));
+        const V = this.randChoice([12, 15, 18, 20, 24, 25, 30]); const kk = hp / H; const w = V * kk ** 3;
+        if (this._h3b_edge(w, 1)) return verre();
+        return this._h3b_mk({
+          title: 'Problème type brevet : verre conique rempli en partie',
+          statement: `${this._h3b_figCone('cone', kk, {})}Un verre a la forme d'un cône de révolution, pointe en bas, de hauteur $${H}\\text{ cm}$ ; plein, il contient $${V}\\text{ cL}$. On y verse de l'eau jusqu'à une hauteur de $${hp}\\text{ cm}$ (mesurée depuis la pointe).\n**Quel volume d'eau contient-il, en centilitres, arrondi au dixième ?**`,
+          answer: this._h3b_num(w, 1),
+          hint1: "Le cône d'eau est une réduction du cône du verre : quel est le rapport de réduction ? Quel est l'effet d'une réduction sur un volume ?",
+          hint2: H2S,
+          solution: `Étape 1 : le cône d'eau est une réduction du verre de rapport $k = \\frac{${hp}}{${H}}$ (rapport des hauteurs).\nÉtape 2 : les volumes sont multipliés par $k^3$ : $${V} \\times \\left(\\frac{${hp}}{${H}}\\right)^3 \\approx ${f(+w.toFixed(1))}$.\nLe verre contient environ $${f(+w.toFixed(1))}\\text{ cL}$ d'eau (et non $${V} \\times \\frac{${hp}}{${H}}$ : le volume n'est pas proportionnel à la hauteur).`,
+          _v: { k: 'G5.verre', kk, V }
+        });
+      }
+      const pc = this.randInt(6, 19) * 5; const kk = pc / 100; const p = kk ** 3 * 100;
+      if (this._h3b_edge(p, 1)) return verre();
       return this._h3b_mk({
         title: 'Problème type brevet : verre conique rempli en partie',
-        statement: `${this._h3b_figCone('cone', kk, {})}Un verre a la forme d'un cône de révolution, pointe en bas. On le remplit d'eau jusqu'à ${this.formatDecimal(kk * 100, { text: true })} % de sa hauteur.\n**Quel pourcentage du volume du verre l'eau occupe-t-elle ? Arrondir au dixième.**`,
+        statement: `${this._h3b_figCone('cone', kk, {})}Un verre a la forme d'un cône de révolution, pointe en bas. On le remplit d'eau jusqu'à ${pc} % de sa hauteur.\n**Quel pourcentage du volume du verre l'eau occupe-t-elle ? Arrondir au dixième.**`,
         answer: this._h3b_num(p, 1),
         hint1: "Le cône d'eau est une réduction du cône du verre : quel est le rapport de réduction ? Quel est l'effet d'une réduction sur un volume ?",
         hint2: H2S,
-        solution: `Étape 1 : le cône d'eau est une réduction du verre de rapport $k = ${f(kk)}$ (rapport des hauteurs).\nÉtape 2 : les volumes sont multipliés par $k^3 = ${f(kk)}^3 = ${f(kk ** 3)}$.\nÉtape 3 : $${f(kk ** 3)} = ${f(+p.toFixed(1))}\\,\\%$ environ.\nL'eau occupe environ ${this.formatDecimal(+p.toFixed(1), { text: true })} % du volume du verre (et non ${this.formatDecimal(kk * 100, { text: true })} % !).`,
+        solution: `Étape 1 : le cône d'eau est une réduction du verre de rapport $k = ${f(kk)}$ (rapport des hauteurs).\nÉtape 2 : les volumes sont multipliés par $k^3 = ${f(kk)}^3 = ${f(kk ** 3)}$.\nÉtape 3 : $${f(kk ** 3)} = ${f(+p.toFixed(1))}\\,\\%$ environ.\nL'eau occupe environ ${this.formatDecimal(+p.toFixed(1), { text: true })} % du volume du verre (et non ${pc} % !).`,
         _v: { k: 'G5.verre', kk }
       });
     };
@@ -2131,7 +2242,21 @@
 
     // --- P4 : volume libre autour d'une pyramide dans un cube
     const vide = () => {
-      const c = this.randChoice([3, 6, 9, 12, 15, 30]); const unit = c >= 30 ? 'cm' : this.randChoice(['cm', 'dm']);
+      if (this.randInt(0, 1)) {
+        const L = this.randInt(4, 15), l = this.randInt(3, 12), h = this.randInt(3, 12); const unit = this.randChoice(['cm', 'dm']);
+        if (L === l || (L * l * h) % 3) return vide();
+        const Vc = L * l * h, Vp = Vc / 3, Vv = Vc - Vp;
+        return this._h3b_mk({
+          title: 'Problème type brevet : pyramide dans un pavé',
+          statement: `${this._h3b_figPave(L, l, h, { dims: [`${L} ${unit}`, `${l} ${unit}`, `${h} ${unit}`] })}Une pyramide est posée à l'intérieur d'une boîte en forme de pavé droit de dimensions $${L}\\text{ ${unit}}$, $${l}\\text{ ${unit}}$ et $${h}\\text{ ${unit}}$ (hauteur) : sa base est le fond de la boîte et son sommet est un point du couvercle.\n**Quel volume reste libre dans la boîte autour de la pyramide, en $\\text{${unit}}^3$ ?**`,
+          answer: String(Vv),
+          hint1: "La pyramide a la même base que la boîte et une hauteur égale à celle de la boîte (le sommet est sur le couvercle) : compare les deux volumes, puis fais la différence.",
+          hint2: H2V,
+          solution: `Étape 1 : volume de la boîte : $${L} \\times ${l} \\times ${h} = ${Vc}$.\nÉtape 2 : volume de la pyramide : $\\frac{1}{3} \\times (${L} \\times ${l}) \\times ${h} = ${Vp}$ (sa hauteur est la distance du sommet au fond, soit $${h}\\text{ ${unit}}$, où que soit le sommet sur le couvercle).\nÉtape 3 : volume libre : $${Vc} - ${Vp} = ${Vv}$.\nIl reste $${Vv}\\text{ ${unit}}^3$ de libre (les deux tiers de la boîte).`,
+          _v: { k: 'G5.vide', L, l, h }
+        });
+      }
+      const c = 3 * this.randInt(1, 10); const unit = c >= 21 ? 'cm' : this.randChoice(['cm', 'dm']);
       const Vc = c ** 3, Vp = c ** 3 / 3, Vv = Vc - Vp;
       return this._h3b_mk({
         title: 'Problème type brevet : pyramide dans un cube',
@@ -2222,14 +2347,24 @@
 
     // --- Identifier une transformation sur quadrillage (QCM)
     const ident = (hard) => () => {
-      const F = [[1, 1], [2, 1], [2, 2], [3, 2], [3, 4], [1, 4]];
-      const kinds = hard ? ['rotA', 'rotH', 'symC', 'symY', 'trans'] : ['trans', 'symY', 'symC', 'rotA'];
+      // Figure de départ sans symétrie (tirée au hasard puis décalée), vecteur de translation aléatoire
+      const shapes = [[[1, 1], [2, 1], [2, 2], [3, 2], [3, 4], [1, 4]], [[1, 1], [4, 1], [4, 2], [2, 2], [2, 3], [1, 3]], [[1, 1], [3, 1], [1, 4]], [[1, 1], [3, 1], [4, 3], [1, 2]], [[1, 1], [2, 1], [2, 2], [4, 2], [4, 3], [1, 3]], [[1, 2], [3, 1], [4, 1], [4, 2], [2, 4]]];
+      const s0 = this.randChoice(shapes); const mx = Math.max(...s0.map(p => p[0])), my = Math.max(...s0.map(p => p[1]));
+      const ox = this.randInt(0, 5 - mx), oy = this.randInt(0, 5 - my); const F = s0.map(p => [p[0] + ox, p[1] + oy]);
+      const vx = -this.randInt(Math.min(...F.map(p => p[0])) + 1, Math.min(...F.map(p => p[0])) + 5), vy = -this.randInt(2, Math.min(...F.map(p => p[1])) + 5);
+      const kinds = hard ? ['rotA', 'rotH', 'symC', 'symY', 'symX', 'trans'] : ['trans', 'symY', 'symC', 'rotA'];
       const k = this.randChoice(kinds);
-      const tf = { trans: p => [p[0] - 5, p[1] - 5], symY: p => [-p[0], p[1]], symC: p => [-p[0], -p[1]], rotA: p => [-p[1], p[0]], rotH: p => [p[1], -p[0]] }[k];
+      const TF = { trans: p => [p[0] + vx, p[1] + vy], symY: p => [-p[0], p[1]], symX: p => [p[0], -p[1]], symC: p => [-p[0], -p[1]], rotA: p => [-p[1], p[0]], rotH: p => [p[1], -p[0]] };
+      const tf = TF[k];
       const img = F.map(tf);
+      if (img.some(p => Math.abs(p[0]) > 5 || Math.abs(p[1]) > 5) || -vx - vy < 4) return ident(hard)();
+      // La figure ne doit avoir aucune symétrie (sinon deux réponses seraient justes)
+      const norm = P => { const a = Math.min(...P.map(p => p[0])), b = Math.min(...P.map(p => p[1])); return P.map(p => `${p[0] - a},${p[1] - b}`).sort().join(' '); };
+      const G = [p => [-p[1], p[0]], p => [-p[0], -p[1]], p => [p[1], -p[0]], p => [-p[0], p[1]], p => [p[0], -p[1]], p => [p[1], p[0]], p => [-p[1], -p[0]]];
+      if (G.some(g => norm(F.map(g)) === norm(F))) return ident(hard)();
       const fig = this._h3b_grid({ xmin: -5, xmax: 5, ymin: -5, ymax: 5, u: 20, polys: [{ pts: F }, { pts: img, c: '#e11d48', fill: 'rgba(225, 29, 72, 0.15)' }], pts: [{ x: 0, y: 0, l: 'O', c: '#0f172a', dx: -14, dy: -16 }] });
       const lab = hard
-        ? { rotA: "La rotation de centre $O$ d'angle $90^\\circ$ dans le sens anti-horaire", rotH: "La rotation de centre $O$ d'angle $90^\\circ$ dans le sens horaire", symC: 'La symétrie de centre $O$', symY: "La symétrie d'axe l'axe des ordonnées", trans: 'Une translation' }
+        ? { rotA: "La rotation de centre $O$ d'angle $90^\\circ$ dans le sens anti-horaire", rotH: "La rotation de centre $O$ d'angle $90^\\circ$ dans le sens horaire", symC: 'La symétrie de centre $O$', symY: "La symétrie d'axe l'axe des ordonnées", symX: "La symétrie d'axe l'axe des abscisses", trans: 'Une translation' }
         : { trans: 'Une translation', symY: 'Une symétrie axiale', symC: 'Une symétrie centrale', rotA: "Une rotation d'angle $90^\\circ$" };
       const good = lab[k]; const others = this.shuffle(Object.keys(lab).filter(x => x !== k)).slice(0, 3).map(x => lab[x]);
       return this._h3b_mk({
@@ -2238,7 +2373,7 @@
         options: [good, ...others],
         hint1: "Regarde si la figure a été « retournée » (comme dans un miroir) ou seulement déplacée / tournée, puis repère où est passé un sommet particulier par rapport à $O$.",
         hint2: "Rappels : une translation fait glisser la figure sans la tourner ; une symétrie axiale la retourne ; une symétrie centrale (rotation de $180^\\circ$) la fait tourner d'un demi-tour autour du centre ; une rotation de $90^\\circ$ la fait tourner d'un quart de tour.",
-        solution: { trans: "La figure a glissé sans tourner ni se retourner : c'est une **translation**.", symY: "La figure est retournée, comme dans un miroir placé sur l'axe des ordonnées : c'est la **symétrie axiale** d'axe l'axe des ordonnées.", symC: "La figure a fait un demi-tour autour de $O$ ($O$ est le milieu de chaque segment joignant un point à son image) : c'est la **symétrie centrale** de centre $O$ (rotation de $180^\\circ$).", rotA: "La figure a tourné d'un quart de tour autour de $O$, dans le sens anti-horaire : c'est la **rotation de centre $O$ d'angle $90^\\circ$** (sens anti-horaire).", rotH: "La figure a tourné d'un quart de tour autour de $O$, dans le sens horaire : c'est la **rotation de centre $O$ d'angle $90^\\circ$ dans le sens horaire**." }[k],
+        solution: { trans: `La figure a glissé sans tourner ni se retourner (chaque point s'est déplacé de ${-vx} carreaux vers la gauche et ${-vy} vers le bas) : c'est une **translation**.`, symY: "La figure est retournée, comme dans un miroir placé sur l'axe des ordonnées : c'est la **symétrie axiale** d'axe l'axe des ordonnées.", symX: "La figure est retournée, comme dans un miroir placé sur l'axe des abscisses : c'est la **symétrie axiale** d'axe l'axe des abscisses.", symC: "La figure a fait un demi-tour autour de $O$ ($O$ est le milieu de chaque segment joignant un point à son image) : c'est la **symétrie centrale** de centre $O$ (rotation de $180^\\circ$).", rotA: "La figure a tourné d'un quart de tour autour de $O$, dans le sens anti-horaire : c'est la **rotation de centre $O$ d'angle $90^\\circ$** (sens anti-horaire).", rotH: "La figure a tourné d'un quart de tour autour de $O$, dans le sens horaire : c'est la **rotation de centre $O$ d'angle $90^\\circ$ dans le sens horaire**." }[k],
         _v: { k: 'G6.ident', kind: k, hard: !!hard }
       });
     };
@@ -3582,20 +3717,27 @@
       if (Math.random() < 0.25) {
         // Formule générale (vocabulaire)
         const label = { adj: 'Côté adjacent', opp: 'Côté opposé', hyp: 'Hypoténuse' };
-        const good = `${label[it.num]} / ${label[it.den]}`.replace('/ Côté', '/ côté');
-        const allOpts = ["Côté adjacent / Hypoténuse", "Côté opposé / Hypoténuse", "Côté opposé / côté adjacent", "Hypoténuse / Côté opposé"];
+        let good = `${label[it.num]} / ${label[it.den]}`.replace('/ Côté', '/ côté');
+        let allOpts = ["Côté adjacent / Hypoténuse", "Côté opposé / Hypoténuse", "Côté opposé / côté adjacent", "Hypoténuse / Côté opposé"];
+        // Angle désigné par une lettre grecque ou par trois lettres ; question directe ou inverse (quel rapport -> quelle fonction)
+        const [X, Y, Z] = this.shuffle(this.randChoice([['A', 'B', 'C'], ['D', 'E', 'F'], ['M', 'N', 'P'], ['R', 'S', 'T'], ['I', 'J', 'K'], ['E', 'F', 'G'], ['L', 'M', 'N'], ['U', 'V', 'W']]));
+        const named = this.randInt(0, 2) > 0;
+        const angM = named ? `\\widehat{${X}${Z}${Y}}` : this.randChoice(['\\alpha', '\\beta', '\\theta', 'x']);
+        const ctxT = named ? `Dans le triangle $${X}${Y}${Z}$ rectangle en $${Y}$` : 'Dans un triangle rectangle';
+        const inverse = this.randInt(0, 1) === 1;
+        if (inverse) { good = `${it.art === 'la' ? 'La' : 'Le'} ${it.fn}`; allOpts = ['Le cosinus', 'Le sinus', 'La tangente', "L'inverse de la tangente"]; }
         const opts = this.shuffle(allOpts);
         return {
           chapterId: 'G2',
           tier: 1,
           title: "Formules trigonométriques (SOH CAH TOA)",
-          statement: `Dans un triangle rectangle, quelle est la formule correcte définissant ${it.art} **${it.fn}** d'un angle aigu $\\alpha$ ?`,
+          statement: inverse ? `${ctxT}, les côtés étant repérés par rapport à l'angle aigu $${angM}$, le quotient $\\frac{\\text{${label[it.num].toLowerCase()}}}{\\text{${label[it.den].toLowerCase()}}}$ définit :` : `${ctxT}, quelle est la formule correcte définissant ${it.art} **${it.fn}** de l'angle aigu $${angM}$ ?`,
           type: 'mcq',
           options: opts,
           answer: good,
           correctIndex: opts.indexOf(good),
           hint1: `Pense au moyen mnémotechnique : ${it.memo}.`,
-          solution: `Dans un triangle rectangle :\n$$${it.cmd}(\\alpha) = \\frac{\\text{${label[it.num].toLowerCase()}}}{\\text{${label[it.den].toLowerCase()}}}$$`
+          solution: `${ctxT} :\n$$${it.cmd}(${angM}) = \\frac{\\text{${label[it.num].toLowerCase()}}}{\\text{${label[it.den].toLowerCase()}}}$$${named ? `\nIci, l'hypoténuse est $[${X}${Z}]$, le côté opposé à $${angM}$ est $[${X}${Y}]$ et le côté adjacent est $[${Z}${Y}]$ : $${it.cmd}(${angM}) = \\frac{${{ adj: Z + Y, opp: X + Y, hyp: X + Z }[it.num]}}{${{ adj: Z + Y, opp: X + Y, hyp: X + Z }[it.den]}}$.` : ''}${inverse ? `\nC'est donc ${good.toLowerCase()} (moyen mnémotechnique : ${it.memo}).` : ''}`
         };
       }
       // Application à un triangle nommé : rectangle en R, angle étudié en P, troisième sommet Q
@@ -5068,18 +5210,32 @@
             : `$$P(\\bar{E}) = 1 - \\frac{${num}}{${den}} = \\frac{${den} - ${num}}{${den}} = \\frac{${ansNum}}{${den}}$$`
         };
       } else {
-        const opts = this.shuffle(["1", "0", "100", "0,5"]);
+        // Expérience tirée au hasard ; distracteurs = nombre d'issues, 100 (confusion avec 100 %), 0, probabilité d'une issue
+        const n = this.randInt(3, 20), q = this.randChoice(['sum', 'sum', 'each']);
+        const ctx = this.randChoice([
+          `On lance un dé équilibré à $${n}$ faces numérotées de 1 à $${n}$.`,
+          `Une roue est partagée en $${n}$ secteurs identiques, numérotés de 1 à $${n}$ ; on la fait tourner.`,
+          `Une urne contient $${n}$ boules indiscernables au toucher, numérotées de 1 à $${n}$ ; on en tire une au hasard.`,
+          `On écrit les prénoms de $${n}$ amis sur des papiers identiques et on en tire un au sort.`
+        ]);
+        const fr1 = `1/${n}`;
+        const [ans, bad] = q === 'sum' ? ['1', ['0', '100', String(n), fr1]] : [fr1, ['1', String(n), `1/${n - 1}`, '1/2']];
+        const opts = this.shuffle([ans, ...this.shuffle(bad.filter((x, i, l) => x !== ans && l.indexOf(x) === i)).slice(0, 3)]);
         return {
           chapterId: '4D2',
           tier: 1,
-          title: "Somme des probabilités de toutes les issues (4ème)",
-          statement: `Dans une expérience aléatoire, quelle est la somme des probabilités de toutes les issues possibles ?`,
+          title: q === 'sum' ? "Somme des probabilités de toutes les issues (4ème)" : "Probabilité d'une issue en situation d'équiprobabilité (4ème)",
+          statement: q === 'sum' ? `${ctx}\n**Que vaut la somme des probabilités de toutes les issues possibles de cette expérience ?**` : `${ctx}\nToutes les issues ont la même probabilité.\n**Quelle est la probabilité de chacune des issues ?**`,
           type: "mcq",
           options: opts,
-          answer: "1",
-          correctIndex: opts.indexOf("1"),
-          hint1: "La somme de toutes les probabilités d'un univers vaut toujours 100% ou 1.",
-          solution: "La somme des probabilités de toutes les issues possibles d'une expérience aléatoire est toujours égale à 1."
+          answer: ans,
+          correctIndex: opts.indexOf(ans),
+          hint1: q === 'sum' ? 'Il est certain que l\'une des issues se produira : quelle est la probabilité d\'un événement certain ?' : 'Les probabilités de toutes les issues ont pour somme 1 et elles sont toutes égales.',
+          hint2: 'Une probabilité est comprise entre 0 et 1 ; la somme des probabilités de toutes les issues d\'une expérience vaut 1 (événement certain).',
+          solution: q === 'sum'
+            ? `L'événement « obtenir l'une des $${n}$ issues » est certain : la somme des probabilités de toutes les issues vaut toujours **1** (et non le nombre d'issues, ni 100 : 100 % correspond à 1).`
+            : `Les $${n}$ issues sont équiprobables et leurs probabilités ont pour somme 1, donc chacune a pour probabilité $\\frac{1}{${n}}$.`,
+          _v: { k: '4D2.sum', q, n }
         };
       }
     } else if (t === 2) {
@@ -5143,93 +5299,71 @@
       }
     } else if (t === 3) {
       const vtype = this.randChoice(['two_coins', 'coin_and_die']);
+      const FR = (a, b) => { const [p, q] = this.simplifyFraction(a, b); return q === 1 ? String(p) : `${p}/${q}`; };
+      const ARBRE = 'Dans un arbre de probabilités, la probabilité d\'une issue (un chemin) est le **produit** des probabilités rencontrées sur les branches de ce chemin ; la probabilité d\'un événement est la **somme** des probabilités des chemins qui le réalisent.';
       if (vtype === 'two_coins') {
-        const cases = [
-          {
-            statement: "On lance consécutivement deux pièces de monnaie équilibrées. Quelle est la probabilité d'obtenir 2 fois « Pile » ?",
-            ans: "1/4",
-            hint: "Il y a 4 issues équiprobables : (P,P), (P,F), (F,P), (F,F). Seule (P,P) convient.",
-            sol: "$$P(\\text{Pile, Pile}) = \\frac{1}{2} \\times \\frac{1}{2} = \\frac{1}{4}$$"
-          },
-          {
-            statement: "On lance consécutivement deux pièces de monnaie équilibrées. Quelle est la probabilité d'obtenir 2 fois « Face » ?",
-            ans: "1/4",
-            hint: "Seule l'issue (F,F) convient sur les 4 issues possibles.",
-            sol: "$$P(\\text{Face, Face}) = \\frac{1}{2} \\times \\frac{1}{2} = \\frac{1}{4}$$"
-          },
-          {
-            statement: "On lance consécutivement deux pièces de monnaie équilibrées. Quelle est la probabilité d'obtenir exactement 1 Pile et 1 Face (dans n'importe quel ordre) ?",
-            ans: "1/2",
-            hint: "Sur les 4 issues (P,P), (P,F), (F,P), (F,F), 2 comportent un Pile et un Face.",
-            sol: "$$P = \\frac{2}{4} = \\frac{1}{2}$$"
-          },
-          {
-            statement: "On lance consécutivement deux pièces de monnaie équilibrées. Quelle est la probabilité d'obtenir au moins une fois « Pile » ?",
-            ans: "3/4",
-            hint: "L'événement contraire est d'obtenir 2 fois Face (probabilité 1/4). $1 - 1/4 = 3/4$.",
-            sol: "$$P(\\text{au moins un Pile}) = 1 - P(\\text{Face, Face}) = 1 - \\frac{1}{4} = \\frac{3}{4}$$"
-          }
+        // Objet à deux faces équiprobables lancé deux fois ; distracteur clé : l'erreur classique des trois issues « équiprobables »
+        const obj = this.randChoice([
+          { txt: 'On lance consécutivement deux pièces de monnaie équilibrées.', a: 'Pile', b: 'Face', sa: 'P', sb: 'F' },
+          { txt: 'On lance deux fois de suite une pièce de monnaie équilibrée.', a: 'Pile', b: 'Face', sa: 'P', sb: 'F' },
+          { txt: 'Un jeton a une face rouge et une face bleue ; on le lance deux fois de suite (chaque face a autant de chances d\'apparaître).', a: 'rouge', b: 'bleu', sa: 'R', sb: 'B' },
+          { txt: 'Une roue est partagée en deux secteurs égaux, l\'un blanc et l\'autre noir ; on la fait tourner deux fois.', a: 'blanc', b: 'noir', sa: 'B', sb: 'N' }
+        ]);
+        const [A, B] = [obj.sa, obj.sb];
+        const E = [
+          { id: 'aa', txt: `obtenir deux fois « ${obj.a} »`, f: 1, bad: 3 },
+          { id: 'bb', txt: `obtenir deux fois « ${obj.b} »`, f: 1, bad: 3 },
+          { id: 'ab', txt: `obtenir exactement une fois « ${obj.a} » (dans n'importe quel ordre)`, f: 2, bad: 3 },
+          { id: 'a+', txt: `obtenir au moins une fois « ${obj.a} »`, f: 3, bad: 1.5 },
+          { id: 'b+', txt: `obtenir au moins une fois « ${obj.b} »`, f: 3, bad: 1.5 },
+          { id: 'eq', txt: 'obtenir deux fois le même résultat', f: 2, bad: 1.5 },
+          { id: 'ne', txt: 'obtenir deux résultats différents', f: 2, bad: 3 }
         ];
-        const c = this.randChoice(cases);
-        const allChoices = ["1/4", "1/2", "3/4", "1/8"];
-        const opts = this.shuffle(allChoices);
+        const ev = this.randChoice(E), ans = FR(ev.f, 4);
+        // bad = 3 : 1 issue « favorable » sur 3 issues prétendument équiprobables (1/3) ; bad = 1,5 : 2 sur 3 (2/3)
+        const dal = ev.bad === 3 ? '1/3' : '2/3';
+        const opts = this.shuffle([ans, dal, ...this.shuffle(['1/4', '1/2', '3/4'].filter(x => x !== ans)).slice(0, 2)]);
+        const paths = [[A, A], [A, B], [B, A], [B, B]];
+        const ok = { aa: p => p[0] === A && p[1] === A, bb: p => p[0] === B && p[1] === B, ab: p => p[0] !== p[1], 'a+': p => p.includes(A), 'b+': p => p.includes(B), eq: p => p[0] === p[1], ne: p => p[0] !== p[1] }[ev.id];
+        const good = paths.filter(ok).map(p => `(${p[0]} ; ${p[1]})`);
         return {
           chapterId: '4D2',
           tier: 3,
-          title: "Deux lancers de pièces (4ème)",
-          statement: c.statement,
+          title: obj.sa === 'P' ? "Deux lancers de pièces (4ème)" : obj.sa === 'R' ? "Deux lancers d'un jeton bicolore (4ème)" : "Deux tours de roue (4ème)",
+          statement: `${obj.txt}\n**Quelle est la probabilité de ${ev.txt} ?**`,
           type: "mcq",
           options: opts,
-          answer: c.ans,
-          correctIndex: opts.indexOf(c.ans),
-          hint1: c.hint,
-          solution: c.sol
+          answer: ans,
+          correctIndex: opts.indexOf(ans),
+          hint1: 'Dessine l\'arbre des deux lancers : combien y a-t-il de chemins, et lesquels conviennent ?',
+          hint2: `${ARBRE} Chaque chemin a ici la même probabilité.`,
+          solution: `**Étape 1 (arbre).** Notons ${A} pour « ${obj.a} » et ${B} pour « ${obj.b} ». L'arbre a $4$ chemins équiprobables : $(${A} ; ${A})$, $(${A} ; ${B})$, $(${B} ; ${A})$, $(${B} ; ${B})$, chacun de probabilité $\\frac{1}{2} \\times \\frac{1}{2} = \\frac{1}{4}$.\n**Étape 2.** Chemins favorables : $${good.join(' ~;~ ')}$, soit $${ev.f}$ chemin${ev.f > 1 ? 's' : ''}.\n**Conclusion :** $P = \\frac{${ev.f}}{4}${ev.f === 2 ? ' = \\frac{1}{2}' : ''}$.\n**Attention :** « ${obj.a} puis ${obj.b} » et « ${obj.b} puis ${obj.a} » sont deux issues distinctes ; compter seulement trois cas (deux « ${obj.a} », deux « ${obj.b} », un de chaque) est faux car ces trois cas ne sont pas équiprobables.`,
+          _v: { k: '4D2.pp', id: ev.id }
         };
       } else {
-        const subEvents = [
-          {
-            cond: "« Pile » ET un nombre pair",
-            pDieNum: 3,
-            pDieDen: 6,
-            dieExplain: "un nombre pair (2, 4, 6) : $3/6 = 1/2$",
-            ans: "1/4"
-          },
-          {
-            cond: "« Face » ET un multiple de 3",
-            pDieNum: 2,
-            pDieDen: 6,
-            dieExplain: "un multiple de 3 (3, 6) : $2/6 = 1/3$",
-            ans: "1/6"
-          },
-          {
-            cond: "« Pile » ET le chiffre 6",
-            pDieNum: 1,
-            pDieDen: 6,
-            dieExplain: "le chiffre 6 : $1/6$",
-            ans: "1/12"
-          },
-          {
-            cond: "« Face » ET un nombre supérieur ou égal à 5",
-            pDieNum: 2,
-            pDieDen: 6,
-            dieExplain: "supérieur ou égal à 5 (5, 6) : $2/6 = 1/3$",
-            ans: "1/6"
-          }
-        ];
-        const ev = this.randChoice(subEvents);
-        const allChoices = Array.from(new Set([ev.ans, "1/4", "1/6", "1/12", "1/2"])).slice(0, 4);
-        const opts = this.shuffle(allChoices);
+        // Pièce puis dé à n faces, événement tiré au hasard ; distracteurs = probabilités additionnées, pièce oubliée, issues additionnées
+        const n = this.randChoice([4, 6, 8, 10, 12]), side = this.randChoice(['Pile', 'Face']);
+        const ty = this.randChoice(['pair', 'impair', 'multiple', 'face', 'sup_eg', 'inf_eg']);
+        const m = this.randChoice([3, 4, 5].filter(d => d < n)), s = ty === 'face' ? this.randInt(1, n) : this.randInt(2, n - 1);
+        const txt = { pair: 'un nombre pair', impair: 'un nombre impair', multiple: `un multiple de $${m}$`, face: `le nombre $${s}$`, sup_eg: `un nombre supérieur ou égal à $${s}$`, inf_eg: `un nombre inférieur ou égal à $${s}$` }[ty];
+        const L = []; for (let x = 1; x <= n; x++) if ({ pair: x % 2 === 0, impair: x % 2 === 1, multiple: x % m === 0, face: x === s, sup_eg: x >= s, inf_eg: x <= s }[ty]) L.push(x);
+        const fav = L.length, ans = FR(fav, 2 * n);
+        const bad = [FR(fav, n), FR(n + 2 * fav, 2 * n), FR(fav + 1, n + 2), FR(1, 2 * n), FR(fav + 1, 2 * n)]
+          .filter((d, i, a) => d !== ans && a.indexOf(d) === i && this._h5_pval(d) < 1).slice(0, 3);
+        const opts = this.shuffle([ans, ...bad]);
         return {
           chapterId: '4D2',
           tier: 3,
           title: "Événement à deux épreuves successives (4ème)",
-          statement: `On lance une pièce de monnaie équilibrée puis un dé à 6 faces. Quelle est la probabilité d'obtenir ${ev.cond} ?`,
+          statement: `On lance une pièce de monnaie équilibrée, puis un dé équilibré à $${n}$ faces numérotées de 1 à $${n}$.\n**Quelle est la probabilité d'obtenir « ${side} » et ${txt} ?**`,
           type: "mcq",
           options: opts,
-          answer: ev.ans,
-          correctIndex: opts.indexOf(ev.ans),
-          hint1: `Les épreuves sont indépendantes : multiplie la probabilité de la pièce ($1/2$) par celle du dé (${ev.dieExplain}).`,
-          solution: `Les deux épreuves étant indépendantes :\n$$P = \\frac{1}{2} \\times \\frac{${ev.pDieNum}}{${ev.pDieDen}} = ${ev.ans}$$`
+          answer: ans,
+          correctIndex: opts.indexOf(ans),
+          hint1: 'Fais un arbre : première épreuve la pièce, deuxième épreuve le dé. Cherche la probabilité de chaque branche du chemin demandé.',
+          hint2: ARBRE,
+          solution: `**Étape 1 (pièce).** $P(\\text{${side}}) = \\frac{1}{2}$.\n**Étape 2 (dé).** Faces qui conviennent : $${L.join(' ; ')}$, soit $${fav}$ sur $${n}$ : probabilité $\\frac{${fav}}{${n}}$.\n**Étape 3 (chemin).** On **multiplie** les probabilités le long du chemin : $P = \\frac{1}{2} \\times \\frac{${fav}}{${n}} = \\frac{${fav}}{${2 * n}}${this.gcd(fav, 2 * n) > 1 ? ` = ${this._h4_fr(fav, 2 * n)}` : ''}$.\n**Attention :** il ne faut pas additionner les deux probabilités : « ${side} » **et** ${txt.replace(/\$/g, '')} est un seul chemin de l'arbre.`,
+          _v: { k: '4D2.pd', n, ty, s, m }
         };
       }
     } else {
@@ -5333,30 +5467,47 @@
       ],
       3: [
         () => {
-          const s = this.randInt(2, 12);
-          const fav = []; for (let i = 1; i <= 6; i++) for (let j = 1; j <= 6; j++) if (i + j === s) fav.push(`(${i};${j})`);
+          // Couleurs des dés et événement tirés au hasard (somme, écart, double)
+          const [c1, c2] = this.randChoice([['rouge', 'bleu'], ['vert', 'jaune'], ['blanc', 'noir']]);
+          const mode = this.randChoice(['eq', 'eq', 'ge', 'le', 'ecart', 'double']);
+          const s = mode === 'eq' ? this.randInt(2, 12) : mode === 'ge' ? this.randInt(8, 12) : mode === 'le' ? this.randInt(2, 6) : mode === 'ecart' ? this.randInt(1, 5) : 0;
+          const test = { eq: (i, j) => i + j === s, ge: (i, j) => i + j >= s, le: (i, j) => i + j <= s, ecart: (i, j) => Math.abs(i - j) === s, double: (i, j) => i === j }[mode];
+          const fav = []; for (let i = 1; i <= 6; i++) for (let j = 1; j <= 6; j++) if (test(i, j)) fav.push(`(${i};${j})`);
+          const [what, lab] = {
+            eq: [`on additionne les deux nombres obtenus.\n**Quelle est la probabilité que la somme soit égale à $${s}$ ?**`, `Somme $${s}$`],
+            ge: [`on additionne les deux nombres obtenus.\n**Quelle est la probabilité que la somme soit supérieure ou égale à $${s}$ ?**`, `Somme $\\geqslant ${s}$`],
+            le: [`on additionne les deux nombres obtenus.\n**Quelle est la probabilité que la somme soit inférieure ou égale à $${s}$ ?**`, `Somme $\\leqslant ${s}$`],
+            ecart: [`on calcule l'écart entre les deux nombres obtenus (le plus grand moins le plus petit).\n**Quelle est la probabilité que cet écart soit égal à $${s}$ ?**`, `Écart $${s}$`],
+            double: ['on regarde si les deux dés donnent le même nombre (un « double »).\n**Quelle est la probabilité d\'obtenir un double ?**', 'Doubles']
+          }[mode];
           return Q({
-            title: 'Somme de deux dés',
-            statement: `On lance deux dés équilibrés à six faces (un rouge et un bleu) et on additionne les deux nombres obtenus.\n**Quelle est la probabilité que la somme soit égale à $${s}$ ?** (fraction irréductible)`,
+            title: mode === 'ecart' ? 'Écart entre deux dés' : mode === 'double' ? 'Obtenir un double avec deux dés' : 'Somme de deux dés',
+            statement: `On lance deux dés équilibrés à six faces (un ${c1} et un ${c2}) et ${what} (fraction irréductible)`,
             answer: A(fav.length, 36),
-            hint1: 'Construis un tableau à double entrée (dé rouge en ligne, dé bleu en colonne) et compte les cases dont la somme convient.',
-            hint2: `${EQUI} Avec deux dés, les issues sont les couples (dé rouge ; dé bleu), tous équiprobables.`,
-            solution: `**Étape 1 (issues).** Le tableau compte $6 \\times 6 = 36$ issues équiprobables.\n**Étape 2 (favorables).** Somme $${s}$ : $${fav.join(' ~;~ ')}$, soit $${fav.length}$ issue${fav.length > 1 ? 's' : ''}.\n**Étape 3.** $P = \\frac{${fav.length}}{36} = ${F(fav.length, 36)}$.\n**Conclusion :** la probabilité est $${F(fav.length, 36)}$.`,
-            _v: { k: '4D2.somme', s }
+            hint1: `Construis un tableau à double entrée (dé ${c1} en ligne, dé ${c2} en colonne) et compte les cases qui conviennent.`,
+            hint2: `${EQUI} Avec deux dés, les issues sont les couples (dé ${c1} ; dé ${c2}), tous équiprobables.`,
+            solution: `**Étape 1 (issues).** Le tableau compte $6 \\times 6 = 36$ issues équiprobables (couples (dé ${c1} ; dé ${c2})).\n**Étape 2 (favorables).** ${lab} : $${fav.join(' ~;~ ')}$, soit $${fav.length}$ issue${fav.length > 1 ? 's' : ''}.\n**Étape 3.** $P = \\frac{${fav.length}}{36} = ${F(fav.length, 36)}$.\n**Conclusion :** la probabilité est $${F(fav.length, 36)}$.`,
+            _v: { k: '4D2.somme', s, mode }
           });
         },
         () => {
-          const n = this.randChoice([4, 6, 8, 10]);
-          const k = this.randInt(1, 3);
+          // Condition sur un lancer tirée au hasard ; kk = nombre de faces gagnantes à chaque lancer
+          const n = this.randChoice([4, 6, 8, 10, 12, 20]);
+          const ty = this.randChoice(['le', 'ge', 'face', 'pair']);
+          const k = ty === 'face' ? 1 : ty === 'pair' ? n / 2 : this.randInt(1, Math.min(4, n / 2));
+          const j = this.randInt(1, n);
+          const cond = { le: `un numéro inférieur ou égal à $${k}$`, ge: `un numéro supérieur ou égal à $${n - k + 1}$`, face: `le numéro $${j}$`, pair: 'un numéro pair' }[ty];
+          const bad = { le: `supérieur à $${k}$`, ge: `inférieur à $${n - k + 1}$`, face: `différent de $${j}$`, pair: 'impair' }[ty];
+          const ctx = this.randChoice([`On lance deux fois un dé équilibré à $${n}$ faces numérotées de 1 à $${n}$.`, `On fait tourner deux fois une roue partagée en $${n}$ secteurs identiques numérotés de 1 à $${n}$.`]);
           const N = n * n, notK = (n - k) * (n - k);
           return Q({
             title: 'Au moins une fois : passer par le contraire',
-            statement: `On lance deux fois un dé équilibré à $${n}$ faces numérotées de 1 à $${n}$. On gagne si l'on obtient **au moins une fois** un numéro inférieur ou égal à $${k}$.\n**Quelle est la probabilité de gagner ?** (fraction irréductible)`,
+            statement: `${ctx} On gagne si l'on obtient **au moins une fois** ${cond}.\n**Quelle est la probabilité de gagner ?** (fraction irréductible)`,
             answer: A(N - notK, N),
             hint1: '« Au moins une fois » est difficile à compter directement : décris l\'événement contraire (ne jamais obtenir un tel numéro) et calcule sa probabilité avec un arbre.',
             hint2: `${CONTR} ${ARBRE}`,
-            solution: `**Étape 1 (contraire).** Perdre, c'est obtenir aux deux lancers un numéro supérieur à $${k}$ : probabilité $\\frac{${n - k}}{${n}}$ à chaque lancer.\n**Étape 2 (arbre).** $P(\\text{perdre}) = \\frac{${n - k}}{${n}} \\times \\frac{${n - k}}{${n}} = \\frac{${notK}}{${N}}$.\n**Étape 3.** $P(\\text{gagner}) = 1 - \\frac{${notK}}{${N}} = ${this.gcd(N - notK, N) > 1 ? `\\frac{${N - notK}}{${N}} = ` : ''}${F(N - notK, N)}$.\n**Conclusion :** la probabilité de gagner est $${F(N - notK, N)}$.`,
-            _v: { k: '4D2.auMoins', n, kk: k }
+            solution: `**Étape 1 (contraire).** Perdre, c'est obtenir aux deux essais un numéro ${bad} : $${n - k}$ numéros sur $${n}$, soit une probabilité $\\frac{${n - k}}{${n}}$ à chaque essai.\n**Étape 2 (arbre).** $P(\\text{perdre}) = \\frac{${n - k}}{${n}} \\times \\frac{${n - k}}{${n}} = \\frac{${notK}}{${N}}$.\n**Étape 3.** $P(\\text{gagner}) = 1 - \\frac{${notK}}{${N}} = ${this.gcd(N - notK, N) > 1 ? `\\frac{${N - notK}}{${N}} = ` : ''}${F(N - notK, N)}$.\n**Conclusion :** la probabilité de gagner est $${F(N - notK, N)}$.\n**Attention :** additionner les probabilités des deux essais ($\\frac{${k}}{${n}} + \\frac{${k}}{${n}}$) est faux, car le cas où l'on gagne aux deux essais serait compté deux fois.`,
+            _v: { k: '4D2.auMoins', n, kk: k, ty, j }
           });
         },
         () => {
@@ -5959,23 +6110,29 @@
           solution: `$$\\text{Hypoténuse} = 2 \\times R = 2 \\times ${r} = ${hyp}\\text{ cm}$$`
         };
       } else {
-        const opts = this.shuffle([
-          "Au milieu de l'hypoténuse",
+        // Lettres tirées au hasard ; distracteur clé : le milieu d'un côté de l'angle droit.
+        const [X, Y, Z] = this.shuffle('ABCDEFGHIJKLMNPRSTUV'.split('')).slice(0, 3);
+        const generic = this.randInt(0, 2) === 0;
+        const ansT = generic ? "Au milieu de l'hypoténuse" : `Le milieu du segment $[${Y}${Z}]$`;
+        const opts = this.shuffle(generic ? [
+          ansT,
           "À l'intérieur du triangle sans être sur un côté",
           "Sur le sommet de l'angle droit",
-          "À l'extérieur du triangle"
-        ]);
+          "Au milieu d'un des côtés de l'angle droit"
+        ] : [ansT, `Le milieu du segment $[${X}${Y}]$`, `Le point $${X}$`, `Le milieu du segment $[${X}${Z}]$`]);
         return {
           chapterId: '4G2',
           tier: 1,
           title: "Position du centre du cercle circonscrit (4ème)",
-          statement: `Dans un triangle rectangle, où est situé le centre de son cercle circonscrit ?`,
+          statement: generic ? `Dans un triangle rectangle, où est situé le centre de son cercle circonscrit ?`
+            : `Le triangle $${X}${Y}${Z}$ est rectangle en $${X}$. **Quel est le centre de son cercle circonscrit ?**`,
           type: "mcq",
           options: opts,
-          answer: "Au milieu de l'hypoténuse",
-          correctIndex: opts.indexOf("Au milieu de l'hypoténuse"),
+          answer: ansT,
+          correctIndex: opts.indexOf(ansT),
           hint1: "L'hypoténuse est un diamètre du cercle circonscrit.",
-          solution: "Dans tout triangle rectangle, le centre du cercle circonscrit est exactement situé au milieu de son hypoténuse."
+          solution: generic ? "Dans tout triangle rectangle, le centre du cercle circonscrit est exactement situé au milieu de son hypoténuse."
+            : `Le triangle est rectangle en $${X}$, donc son hypoténuse est $[${Y}${Z}]$ (le côté opposé à l'angle droit).\nDans un triangle rectangle, le centre du cercle circonscrit est le milieu de l'hypoténuse : c'est le **milieu de $[${Y}${Z}]$**.`
         };
       }
     } else if (t === 2) {
@@ -6303,31 +6460,53 @@
           solution: `Déplacement de $${P1}$ vers $${P2}$ : $${xa + dx} - ${rel(xa)} = ${dx}$ en abscisse et $${ya + dy} - ${rel(ya)} = ${dy}$ en ordonnée.\nOn applique ce déplacement à $${P3}$ :\n$$x_{${P4}} = ${xc} + ${rel(dx)} = ${xd} \\quad \\text{et} \\quad y_{${P4}} = ${yc} + ${rel(dy)} = ${yd}$$\nDonc $${P4}${pt(xd, yd)}$.`
         };
       } else if (vtype === 'quad_parall') {
-        const quad = this.randChoice([
-          { a: 'A', b: 'B', c: 'C', d: 'D', name: 'ABDC' },
-          { a: 'E', b: 'F', c: 'G', d: 'H', name: 'EFHG' },
-          { a: 'M', b: 'N', c: 'P', d: 'Q', name: 'MNQP' },
-          { a: 'R', b: 'S', c: 'T', d: 'U', name: 'RSUT' }
-        ]);
-        const opts = this.shuffle([
-          "Un parallélogramme",
-          "Un trapèze non parallélogramme",
-          "Un losange obligatoire",
-          "Un rectangle obligatoire"
-        ]);
+        // Lettres tirées au hasard ; variante « quel nom convient ? » (piège : l'ordre des sommets).
+        const [qa, qb, qc, qd] = this.shuffle('ABCDEFGHIJKLMNPRSTUV'.split('')).slice(0, 4);
+        const quad = { a: qa, b: qb, c: qc, d: qd, name: `${qa}${qb}${qd}${qc}` };
+        const askName = this.randInt(0, 1) === 1;
+        const ansQ = askName ? quad.name : "Un parallélogramme";
+        const opts = this.shuffle(askName
+          ? [quad.name, `${qa}${qb}${qc}${qd}`, `${qa}${qc}${qb}${qd}`, `${qa}${qd}${qb}${qc}`]
+          : ["Un parallélogramme", "Un trapèze non parallélogramme", "Un losange obligatoire", "Un rectangle obligatoire"]);
         return {
           chapterId: '4G3',
           tier: 2,
           title: "Nature du quadrilatère formé par translation (4ème)",
-          statement: `Si le point $${quad.d}$ est l'image du point $${quad.c}$ par la translation qui transforme $${quad.a}$ en $${quad.b}$, quelle est la nature du quadrilatère $${quad.name}$ ?`,
+          statement: askName
+            ? `Le point $${quad.d}$ est l'image du point $${quad.c}$ par la translation qui transforme $${quad.a}$ en $${quad.b}$ (les quatre points ne sont pas alignés).\n**Quel quadrilatère est un parallélogramme ?**`
+            : `Si le point $${quad.d}$ est l'image du point $${quad.c}$ par la translation qui transforme $${quad.a}$ en $${quad.b}$, quelle est la nature du quadrilatère $${quad.name}$ ?`,
           type: "mcq",
           options: opts,
-          answer: "Un parallélogramme",
-          correctIndex: opts.indexOf("Un parallélogramme"),
+          answer: ansQ,
+          correctIndex: opts.indexOf(ansQ),
           hint1: `Les segments [${quad.a}${quad.b}] et [${quad.c}${quad.d}] sont parallèles, de même sens et de même longueur.`,
-          solution: `Par définition de la translation, si le vecteur $\\vec{${quad.a}${quad.b}} = \\vec{${quad.c}${quad.d}}$, alors le quadrilatère $${quad.name}$ est un parallélogramme.`
+          solution: `La translation qui transforme $${quad.a}$ en $${quad.b}$ transforme $${quad.c}$ en $${quad.d}$ : les segments $[${quad.a}${quad.b}]$ et $[${quad.c}${quad.d}]$ sont parallèles, de même longueur, et « vont dans le même sens ». Le quadrilatère $${quad.name}$ est donc un **parallélogramme**.${askName ? `\nAttention à l'ordre des sommets : dans $${quad.name}$, $[${quad.a}${quad.b}]$ et $[${quad.d}${quad.c}]$ sont des côtés opposés ; $${qa}${qb}${qc}${qd}$ serait un quadrilatère croisé.` : ''}`
         };
       } else if (vtype === 'parallel_lines') {
+        // Variante paramétrée : position de (d) par rapport à (AB) ; si (d) est parallèle à (AB)
+        // (ou la contient), son image est (d) elle-même.
+        const [pa, pb, pe] = this.shuffle('ABCDEFGHIJKLMNPRSTUV'.split('')).slice(0, 3);
+        const md = this.randChoice(['gen', 'contient', 'para', 'perp', 'sec']);
+        if (md !== 'gen') {
+          const conf = md === 'contient' || md === 'para';
+          const pos = { contient: `passe par les points $${pa}$ et $${pb}$`, para: `est parallèle à la droite $(${pa}${pb})$ et ne passe pas par $${pa}$`, perp: `est perpendiculaire à la droite $(${pa}${pb})$`, sec: `coupe la droite $(${pa}${pb})$ en un point $${pe}$ sans lui être perpendiculaire` }[md];
+          const ansD = conf ? "Confondues" : "Parallèles et distinctes";
+          const opts = this.shuffle(["Confondues", "Parallèles et distinctes", "Perpendiculaires", "Sécantes en un point"]);
+          return {
+            chapterId: '4G3',
+            tier: 2,
+            title: "Image d'une droite par translation (4ème)",
+            statement: `La droite $(d)$ ${pos}. On construit son image $(d')$ par la translation qui transforme $${pa}$ en $${pb}$.\n**Quelle est la position des droites $(d)$ et $(d')$ ?**`,
+            type: "mcq",
+            options: opts,
+            answer: ansD,
+            correctIndex: opts.indexOf(ansD),
+            hint1: `La translation fait glisser chaque point dans la direction de $(${pa}${pb})$. Un point de $(d)$ reste-t-il sur $(d)$ ?`,
+            solution: conf
+              ? `La translation fait glisser les points parallèlement à $(${pa}${pb})$. Comme $(d)$ a la même direction que $(${pa}${pb})$, chaque point de $(d)$ glisse **le long de** $(d)$ : l'image $(d')$ est la droite $(d)$ elle-même.\n**Conclusion** : les droites sont **confondues**.`
+              : `L'image d'une droite par une translation est une droite parallèle. Ici, $(d)$ n'a pas la direction de $(${pa}${pb})$ : chaque point de $(d)$ quitte la droite $(d)$, donc $(d')$ est distincte de $(d)$.\n**Conclusion** : les droites sont **parallèles et distinctes**.`
+          };
+        }
         const opts = this.shuffle([
           "Parallèle à la droite de départ",
           "Perpendiculaire à la droite de départ",
@@ -6344,9 +6523,36 @@
           answer: "Parallèle à la droite de départ",
           correctIndex: opts.indexOf("Parallèle à la droite de départ"),
           hint1: "La translation conserve la direction.",
-          solution: "L'image d'une droite par une translation est une droite qui lui est strictement parallèle (ou confondue si le vecteur est porté par la droite)."
+          solution: "L'image d'une droite par une translation est une droite qui lui est parallèle (éventuellement confondue avec elle, si la translation se fait dans la direction de la droite)."
         };
       } else {
+        // Variantes paramétrées : sens et longueur du glissement pour la translation qui transforme A en B.
+        const [ta, tb, tm] = this.shuffle('ABCDEFGHIJKLMNPRSTUV'.split('')).slice(0, 3);
+        const md = this.randInt(0, 2);
+        if (md > 0) {
+          const L = this.randInt(2, 15) + (this.randInt(0, 1) ? 0.5 : 0), Ls = this._h5_n(L);
+          const ansC = md === 1 ? `De $${ta}$ vers $${tb}$` : `$${Ls}$ cm`;
+          const dis = md === 1
+            ? [`De $${tb}$ vers $${ta}$`, `De $${tm}$ vers $${ta}$`, `Cela dépend de la position de $${tm}$`]
+            : [`$${this._h5_n(2 * L)}$ cm`, `$${this._h5_n(L / 2)}$ cm`, `Cela dépend de la position de $${tm}$`];
+          const opts = this.shuffle([ansC, ...dis]);
+          return {
+            chapterId: '4G3',
+            tier: 2,
+            title: "Caractéristiques d'une translation (4ème)",
+            statement: md === 1
+              ? `On considère la translation qui transforme $${ta}$ en $${tb}$. Le point $${tm}$ est déplacé parallèlement à $(${ta}${tb})$.\n**Dans quel sens ?**`
+              : `On considère la translation qui transforme $${ta}$ en $${tb}$, avec $${ta}${tb} = ${Ls}$ cm.\n**De quelle longueur le point $${tm}$ est-il déplacé ?**`,
+            type: "mcq",
+            options: opts,
+            answer: ansC,
+            correctIndex: opts.indexOf(ansC),
+            hint1: "Tous les points glissent de la même façon : même direction, même sens et même longueur que de $" + ta + "$ à $" + tb + "$.",
+            solution: md === 1
+              ? `La translation qui transforme $${ta}$ en $${tb}$ fait glisser **tous** les points dans la direction de $(${ta}${tb})$, **dans le sens de $${ta}$ vers $${tb}$**.`
+              : `La translation fait glisser **tous** les points de la même longueur, égale à $${ta}${tb} = ${Ls}$ cm : le point $${tm}$ est donc déplacé de **$${Ls}$ cm**, quelle que soit sa position.`
+          };
+        }
         const opts = this.shuffle([
           "Une direction, un sens et une longueur",
           "Un centre et un angle",
@@ -6788,6 +6994,26 @@
           });
         },
         () => {
+          // Autres solides (pyramide, prisme droit, cylindre) : distracteurs = patrons des solides voisins.
+          const s = this.randInt(0, 3);
+          if (s > 0) {
+            const n = this.randChoice([3, 4, 5, 6]), NB = { 3: 'trois', 4: 'quatre', 5: 'cinq', 6: 'six' }, PL = { 3: 'triangles', 4: 'carrés', 5: 'pentagones', 6: 'hexagones' };
+            const SG = { 3: 'Un triangle', 4: 'Un carré', 5: 'Un pentagone', 6: 'Un hexagone' };
+            const sol = s === 1 ? `une pyramide à base ${POLY[n]}` : s === 2 ? `un prisme droit à base ${POLY[n]}` : 'un cylindre de révolution';
+            const good = s === 1 ? `${SG[n]} et ${NB[n]} triangles` : s === 2 ? `Deux ${PL[n]} et ${NB[n]} rectangles` : 'Deux disques et un rectangle';
+            const dis = s === 1 ? [`Deux ${PL[n]} et ${NB[n]} triangles`, `${SG[n]} et ${NB[n]} rectangles`, `${SG[n]} et ${NB[n === 6 ? 5 : n + 1]} triangles`]
+              : s === 2 ? [`${SG[n]} et ${NB[n]} triangles`, `Deux ${PL[n]} et ${NB[n === 6 ? 5 : n + 1]} rectangles`, `Deux ${PL[n]} et ${NB[n]} triangles`]
+                : ['Un disque et une portion de disque', 'Deux disques et un triangle', 'Un disque et un rectangle'];
+            return this._h4_mcq('4G4', t, {
+              title: 'Patron d\'un solide',
+              statement: `De quelles figures se compose le **patron d'${sol}** ?`,
+              hint1: 'Compte les bases (une ou deux ?) puis les faces latérales (une par côté de la base).',
+              hint2: 'Une pyramide a **une** base et des faces latérales triangulaires ; un prisme droit a **deux** bases superposables et des faces latérales rectangulaires ; la surface latérale d\'un cylindre, déroulée, est un rectangle.',
+              solution: s === 3 ? 'Un cylindre de révolution a deux bases qui sont des **disques** de même rayon ; sa surface latérale, une fois déroulée, est un **rectangle** dont une dimension est la hauteur et l\'autre le périmètre de la base.\n**Conclusion :** deux disques et un rectangle.'
+                : `Le solide est ${sol}. ${s === 1 ? `Il a une base (${SG[n].toLowerCase()}) et une face latérale triangulaire par côté de la base, soit ${n} triangles.` : `Il a deux bases (des ${PL[n]} superposables) et une face latérale rectangulaire par côté de la base, soit ${n} rectangles.`}\n**Conclusion :** ${good.charAt(0).toLowerCase() + good.slice(1)}.`,
+              _v: { k: '4G4.patron', good }
+            }, good, dis);
+          }
           const good = 'Un disque et une portion de disque';
           return this._h4_mcq('4G4', t, {
             title: 'Patron d\'un cône de révolution',
@@ -13597,7 +13823,7 @@
     } else if (t === 2) {
       // Palier 2 : Guidé (Identités remarquables (x+a)^2, (x-a)^2, (x-a)(x+a), (ax+b)^2)
       const type = this.randChoice(['id1', 'id2', 'id3', 'id1_coeff', 'id3_coeff']);
-      const b = this.randInt(2, 15);
+      const b = this.randInt(2, 20);
       const b2 = b * b;
       const twoB = 2 * b;
 
@@ -13697,7 +13923,7 @@
           chapterId: 'N2',
           tier: 2,
           title: "Identité remarquable $(x - a)(x + a)$",
-          statement: `Développer directement :\n$$D = (x - ${b})(x + ${b})$$`,
+          statement: `Développer directement :\n$$D = ${this.randInt(0, 1) ? `(x - ${b})(x + ${b})` : `(x + ${b})(x - ${b})`}$$`,
           type: 'mcq',
           options: [
             `$x^2 - ${b2}$`,
@@ -14320,6 +14546,27 @@
           { name: "nano (n)", e: -9 }
         ];
         const p = this.randChoice(prefixes);
+        if (this.randInt(0, 1)) {
+          // Variante : conversion d'une mesure vers l'unité de base (distracteurs : erreur de signe, préfixe voisin)
+          const [u, nom] = this.randChoice([['m', 'mètres'], ['g', 'grammes'], ['W', 'watts'], ['s', 'secondes'], ['Hz', 'hertz'], ['o', 'octets']]);
+          const a = this.randInt(2, 9); const sym = p.name.match(/\((.+)\)/)[1];
+          const tx = e => `$${a} \\times 10^{${e}}$ ${u}`;
+          const good = tx(p.e);
+          const wrongE = [...new Set([-p.e, p.e + 3, p.e - 3, p.e > 0 ? p.e + 6 : p.e - 6])].filter(e => e !== p.e && e !== 0).slice(0, 3);
+          const opts = this.shuffle([good, ...wrongE.map(tx)]);
+          return {
+            chapterId: 'N3',
+            tier: 1,
+            title: "Préfixes d'unités et puissances de 10",
+            statement: `Exprimer $${a}$ ${sym}${u} en ${nom} (${u}).`,
+            type: 'mcq',
+            options: opts,
+            answer: good,
+            correctIndex: opts.indexOf(good),
+            hint1: "Rappel : kilo = mille ($10^3$), méga = million ($10^6$), milli = millième ($10^{-3}$)...",
+            solution: `Le préfixe **${p.name}** correspond à $10^{${p.e}}$, donc $${a}$ ${sym}${u} $= ${a} \\times 10^{${p.e}}$ ${u}.`
+          };
+        }
         const texOf = (e) => `$10^{${e}}$`;
         const good = texOf(p.e);
         const wrongChoices = prefixes.filter(x => x.name !== p.name).map(x => texOf(x.e));
@@ -14767,17 +15014,18 @@
         const shuffledComps = this.shuffle(comps).slice(0, 2);
         const correct = `$${p}$`;
         const allOpts = this.shuffle([correct, `$${shuffledComps[0]}$`, `$${shuffledComps[1]}$`, `$1$`]);
+        const spf = n => [3, 5, 7].find(d => n % d === 0);
         return {
           chapterId: 'N5',
           tier: 1,
           title: "Reconnaissance d'un nombre premier",
-          statement: `Parmi les nombres suivants, lequel est un **nombre premier** ?`,
+          statement: `Parmi les nombres ${allOpts.join(' ; ')}, lequel est un **nombre premier** ?`,
           type: 'mcq',
           options: allOpts,
           answer: correct,
           correctIndex: allOpts.indexOf(correct),
           hint1: "Un nombre premier n'a exactement que deux diviseurs distincts : 1 et lui-même (attention, 1 n'est pas premier).",
-          solution: `Le nombre **$${p}$** n'admet que deux diviseurs (1 et lui-même), c'est un nombre premier.`
+          solution: `Le nombre **$${p}$** n'admet que deux diviseurs (1 et lui-même), c'est un nombre premier.\nLes autres ne le sont pas : $1$ n'a qu'un seul diviseur, ${shuffledComps.map(c => `$${c} = ${spf(c)} \\times ${c / spf(c)}$`).join(' et ')}.`
         };
       } else if (vtype === 'not_prime') {
         const comps = [
@@ -14802,7 +15050,7 @@
           chapterId: 'N5',
           tier: 1,
           title: "Reconnaissance d'un nombre composé",
-          statement: `Parmi les nombres suivants, lequel **n'est pas** un nombre premier (nombre composé) ?`,
+          statement: `Parmi les nombres ${allOpts.join(' ; ')}, lequel **n'est pas** un nombre premier (nombre composé) ?`,
           type: 'mcq',
           options: allOpts,
           answer: correct,
@@ -14811,19 +15059,23 @@
           solution: `Le nombre **$${c.n}$** n'est pas premier car il est divisible par ${c.div}.`
         };
       } else {
-        const rules = [
-          { n: 234, div: "9", why: "la somme de ses chiffres (2+3+4 = 9) est un multiple de 9" },
-          { n: 315, div: "5", why: "son chiffre des unités est 5" },
-          { n: 426, div: "3", why: "la somme de ses chiffres (4+2+6 = 12) est un multiple de 3" },
-          { n: 520, div: "10", why: "son chiffre des unités est 0" },
-          { n: 738, div: "9", why: "la somme de ses chiffres (7+3+8 = 18) est un multiple de 9" },
-          { n: 645, div: "5", why: "son chiffre des unités est 5" },
-          { n: 812, div: "2", why: "son chiffre des unités est pair (2)" },
-          { n: 531, div: "3", why: "la somme de ses chiffres (5+3+1 = 9) est un multiple de 3" },
-          { n: 950, div: "10", why: "son chiffre des unités est 0" }
-        ];
-        const r = this.randChoice(rules);
-        const wrongDivs = ["7", "11", "13"].filter(d => d !== r.div);
+        // Un seul des quatre diviseurs proposés (parmi 2, 3, 4, 5, 9, 10) divise n : les autres sont des confusions de critères
+        const digits = n => String(n).split('').map(Number);
+        const why = (n, d) => {
+          const s = digits(n), u = n % 10, sum = s.reduce((a, b) => a + b, 0);
+          if (d === 2) return `son chiffre des unités (${u}) est pair`;
+          if (d === 5) return `son chiffre des unités est ${u}`;
+          if (d === 10) return 'son chiffre des unités est 0';
+          if (d === 4) return `le nombre formé par ses deux derniers chiffres (${n % 100}) est un multiple de 4`;
+          return `la somme de ses chiffres (${s.join('+')} = ${sum}) est un multiple de ${d}`;
+        };
+        let n, d, wrong;
+        do {
+          d = this.randChoice([2, 3, 4, 5, 9, 10]); n = d * this.randInt(Math.ceil(100 / d), Math.floor(9999 / d));
+          wrong = [2, 3, 4, 5, 9, 10].filter(x => n % x !== 0);
+        } while (wrong.length < 3);
+        const r = { n, div: String(d), why: why(n, d) };
+        const wrongDivs = this.shuffle(wrong).slice(0, 3).map(String);
         const opts = this.shuffle([r.div, ...wrongDivs]);
         return {
           chapterId: 'N5',
@@ -14867,7 +15119,26 @@
         { n: 180, decomp: "2^2 \\times 3^2 \\times 5", wrong: ["4 \\times 45", "9 \\times 20", "6 \\times 30"] },
         { n: 200, decomp: "2^3 \\times 5^2", wrong: ["8 \\times 25", "4 \\times 50", "2 \\times 100"] }
       ];
-      const item = this.randChoice(list);
+      // Une fois sur deux : nombre construit à partir d'exposants aléatoires, distracteurs = facteur non premier,
+      // exposant erroné (décomposition d'un autre nombre), produit de deux facteurs non premiers
+      const build = () => {
+        const P = [2, 3, 5, 7, 11];
+        let e, n;
+        do { e = [this.randInt(0, 4), this.randInt(0, 3), this.randInt(0, 2), this.randInt(0, 1), this.randInt(0, 1)]; n = P.reduce((a, p, i) => a * p ** e[i], 1); }
+        while (n < 20 || n > 400 || e.filter(x => x > 0).length < 2 || e.reduce((a, b) => a + b, 0) < 3);
+        const tex = ex => P.map((p, i) => (ex[i] ? (ex[i] > 1 ? `${p}^${ex[i]}` : `${p}`) : null)).filter(Boolean).join(' \\times ');
+        const used = P.map((p, i) => i).filter(i => e[i] > 0);
+        const i0 = used.find(i => e[i] >= 2) ?? used[0], i1 = used.find(i => i !== i0);
+        const merged = [...e]; merged[i0]--; merged[i1]--; // p0 × p1 regroupés en un facteur non premier
+        const w1 = `${P[i0] * P[i1]}${merged.some(x => x > 0) ? ' \\times ' + tex(merged) : ''}`;
+        const bump = [...e]; const j = this.randChoice(used); bump[j] += e[j] > 1 && this.randInt(0, 1) ? -1 : 1;
+        const w2 = tex(bump);
+        const a = P[used[0]] ** e[used[0]], b = n / a;
+        const w3 = `${a * P[used[1]]} \\times ${b / P[used[1]]}`;
+        const wrong = [...new Set([w1, w2, w3])].filter(w => w !== tex(e) && !/\\times 1$/.test(w));
+        return wrong.length === 3 ? { n, decomp: tex(e), wrong } : build();
+      };
+      const item = this.randInt(0, 1) ? this.randChoice(list) : build();
       const correct = `$${item.decomp}$`;
       const opts = this.shuffle([correct, ...item.wrong.map(w => `$${w}$`)]);
       return {
@@ -14880,7 +15151,7 @@
         answer: correct,
         correctIndex: opts.indexOf(correct),
         hint1: "Divise successivement par 2, puis par 3, 5... Tous les facteurs doivent être des nombres premiers.",
-        solution: `$$${item.n} = ${item.decomp}$$`
+        solution: `On divise successivement par les plus petits nombres premiers possibles : ${(() => { const s = []; let m = item.n; for (const p of [2, 3, 5, 7, 11]) while (m % p === 0) { s.push(`$${m} \\div ${p} = ${m / p}$`); m /= p; } return s.join(' ; '); })()}.\n$$${item.n} = ${item.decomp}$$\nLes autres propositions contiennent un facteur qui n'est pas premier, ou ne sont pas égales à $${item.n}$.`
       };
     } else if (t === 3) {
       // Génération procédurale d'une fraction simplifiable via PGCD
@@ -15139,37 +15410,30 @@
         };
       }
     } else if (t === 2) {
+      // Médiane d'une série de N valeurs (N de 5 à 12), données rangées ou non, dans un contexte varié
       const vtype = this.randChoice(['mediane_odd', 'mediane_even']);
-      if (vtype === 'mediane_odd') {
-        const base = this.randInt(8, 14);
-        const vals = [base - 4, base - 2, base, base + 3, base + 5];
-
-        return {
-          chapterId: 'Org2',
-          tier: 2,
-          title: "Détermination de la médiane (effectif impair)",
-          statement: `On a ordonné une série de 5 valeurs dans l'ordre croissant :\n$$${vals.join(' \\le ')}$$\n**Quelle est la valeur médiane de cette série statistique ?**`,
-          type: 'exact',
-          answer: String(base),
-          hint1: `L'effectif total est impair ($N = 5$). La médiane est la 3ème valeur : $\\frac{5 + 1}{2} = 3$.`,
-          solution: `L'effectif total est $N = 5$.\nLa médiane est la 3ème valeur :\n$$\\text{Médiane} = ${base}$$`
-        };
-      } else {
-        const m1 = this.randInt(10, 14);
-        const m2 = m1 + 2; // pour que la demi-somme soit un entier m1 + 1
-        const med = (m1 + m2) / 2;
-        const vals = [m1 - 5, m1 - 2, m1, m2, m2 + 3, m2 + 6];
-        return {
-          chapterId: 'Org2',
-          tier: 2,
-          title: "Détermination de la médiane (effectif pair)",
-          statement: `Voici une série ordonnée de 6 valeurs :\n$$${vals.join(' \\le ')}$$\n**Quelle est la médiane de cette série ?**`,
-          type: 'exact',
-          answer: String(med),
-          hint1: `L'effectif total est pair ($N = 6$). La médiane est la moyenne de la 3ème ($${m1}$) et de la 4ème ($${m2}$) valeur.`,
-          solution: `L'effectif est $N = 6$ (pair). La médiane est la moyenne des 3e et 4e valeurs :\n$$\\text{Médiane} = \\frac{${m1} + ${m2}}{2} = \\frac{${m1 + m2}}{2} = ${med}$$`
-        };
-      }
+      const N = vtype === 'mediane_odd' ? this.randChoice([5, 7, 9, 11]) : this.randChoice([6, 8, 10, 12]);
+      const [ctx, lo, hi, e] = this.randChoice([
+        ['notes sur 20 obtenues par un élève', 4, 20, 'e'], ['températures relevées à midi (en °C)', -3, 25, 'e'],
+        ['nombres de buts marqués par une équipe à chaque match', 0, 7, ''], ['tailles de plants de tomates (en cm)', 15, 60, 'e'],
+        ['temps de trajet domicile-collège de quelques élèves (en minutes)', 5, 45, ''], ['nombres de SMS envoyés dans la journée', 0, 40, '']
+      ]);
+      const p = x => (x < 0 ? `(${x})` : x);
+      const sorted = Array.from({ length: N }, () => this.randInt(lo, hi)).sort((a, b) => a - b);
+      const rang = this.randInt(0, 1) === 1; const shown = rang ? sorted : this.shuffle([...sorted]);
+      const odd = N % 2 === 1; const m = Math.floor(N / 2);
+      const med = odd ? sorted[m] : (sorted[m - 1] + sorted[m]) / 2;
+      const ord = rang ? '' : `Étape 1 : on range les valeurs dans l'ordre croissant :\n$$${sorted.join(' \\le ')}$$\n`;
+      return {
+        chapterId: 'Org2',
+        tier: 2,
+        title: `Détermination de la médiane (effectif ${odd ? 'impair' : 'pair'})`,
+        statement: `Voici les ${ctx}${rang ? `, rangé${e}s dans l'ordre croissant` : ''} :\n$$${shown.join('~;~')}$$\n**Quelle est la médiane de cette série ?**`,
+        type: 'exact',
+        answer: this.formatDecimal(med, { text: true }),
+        hint1: `${rang ? '' : "Commence par ranger les valeurs dans l'ordre croissant. "}L'effectif total est ${odd ? 'impair' : 'pair'} ($N = ${N}$) : ${odd ? `la médiane est la valeur de rang $\\frac{${N} + 1}{2} = ${m + 1}$.` : `la médiane est la moyenne des valeurs de rangs $${m}$ et $${m + 1}$.`}`,
+        solution: `${ord}${rang ? '' : 'Étape 2 : '}L'effectif est $N = ${N}$ (${odd ? 'impair' : 'pair'}). ${odd ? `La médiane est la valeur de rang $\\frac{${N} + 1}{2} = ${m + 1}$ :\n$$\\text{Médiane} = ${sorted[m]}$$` : `La médiane est la moyenne des valeurs de rangs $${m}$ et $${m + 1}$ :\n$$\\text{Médiane} = \\frac{${sorted[m - 1]} + ${p(sorted[m])}}{2} = \\frac{${sorted[m - 1] + sorted[m]}}{2} = ${this.formatDecimal(med)}$$`}\nAu moins la moitié des valeurs sont inférieures ou égales à $${this.formatDecimal(med)}$, et au moins la moitié lui sont supérieures ou égales.`
+      };
     } else if (t === 3) {
       // Palier 3 : Brevet (Moyenne pondérée avec coefficients) — moyenne exacte (au plus 1 décimale), notes dans [0 ; 20]
       let c1, c2, c3, n1, n2, n3, totalCoeff, actualSum;
@@ -15278,23 +15542,26 @@
           solution: `L'ordonnée à l'origine est la valeur de $f(0)$ :\n$$b = ${b}$$`
         };
       } else {
-        const a = this.randInt(2, 7);
+        // Quatre fonctions affichées dans l'énoncé ; on cherche la seule linéaire, ou la seule non linéaire
+        const a = this.randInt(2, 9), b = this.randInt(1, 9), sa = this.randChoice([1, -1]);
+        const lin = [`${sa * a}x`, `\\frac{x}{${a}}`, `${this.formatDecimal(sa * a / 10)}x`, `-x`, `${a}x \\times ${b}`];
+        const nonLin = [`${sa * a}x + ${b}`, `${a}(x + ${b})`, `x^2`, `\\frac{${a}}{x}`, `${b} - ${a}x`, `${a}x^2`, `${b}`];
+        const seulNon = this.randInt(0, 2) === 0;
+        const [goodE, ...others] = seulNon ? [this.randChoice(nonLin), ...this.shuffle(lin).slice(0, 3)] : [this.randChoice(lin), ...this.shuffle(nonLin).slice(0, 3)];
+        const exprs = this.shuffle([goodE, ...others]); const noms = ['f', 'g', 'h', 'k'];
+        const gi = exprs.indexOf(goodE); const good = `La fonction $${noms[gi]}$`;
+        const opts = noms.map(n => `La fonction $${n}$`);
         return {
           chapterId: 'Org3',
           tier: 1,
           title: "Reconnaître une fonction linéaire",
-          statement: `Parmi les fonctions suivantes, laquelle est une fonction linéaire (traduisant une situation de proportionnalité) ?`,
+          statement: `On considère les fonctions :\n$$${exprs.map((e, i) => `${noms[i]}(x) = ${e}`).join(' \\qquad ')}$$\n**Laquelle ${seulNon ? "n'est pas" : 'est'} une fonction linéaire ?**`,
           type: "mcq",
-          options: [
-            `$f(x) = ${a}x$`,
-            `$g(x) = ${a}x + 3$`,
-            `$h(x) = x^2$`,
-            `$k(x) = \\frac{${a}}{x}$`
-          ],
-          answer: `$f(x) = ${a}x$`,
-          correctIndex: 0,
-          hint1: "Une fonction linéaire est de la forme $f(x) = ax$ sans terme constant ajouté. Sa droite passe par l'origine.",
-          solution: `Une fonction linéaire s'écrit sous la forme $f(x) = ax$. La bonne réponse est donc **$f(x) = ${a}x$**.`
+          options: opts,
+          answer: good,
+          correctIndex: gi,
+          hint1: "Une fonction linéaire peut s'écrire sous la forme $x \\mapsto ax$ (un nombre fixe multiplié par $x$, sans terme constant ajouté). Pense à développer ou à réécrire chaque expression.",
+          solution: `Une fonction linéaire s'écrit $x \\mapsto ax$.\n${exprs.map((e, i) => `- $${noms[i]}(x) = ${e}$ : ${lin.includes(e) ? 'linéaire' : 'non linéaire'}${e === `\\frac{x}{${a}}` ? ` ($\\frac{x}{${a}} = \\frac{1}{${a}}x$)` : e === `${a}x \\times ${b}` ? ` ($= ${a * b}x$)` : e === `${a}(x + ${b})` ? ` ($= ${a}x + ${a * b}$ : terme constant)` : e === `${b}` ? ' (fonction constante)' : ''}`).join('\n')}\nLa réponse est donc **${good.replace('La', 'la')}**.`
         };
       }
     } else if (t === 2) {
@@ -15331,9 +15598,11 @@
           solution: `$$${a}x + ${b} = ${y} \\iff ${a}x = ${y} - ${b} = ${y - b} \\iff x = \\frac{${y - b}}{${a}} = ${ans}$$`
         };
       } else {
-        const a = this.randChoice([-5, -4, -3, -2, 2, 3, 4, 5]);
-        const b = this.randInt(-8, 8, [0]);
-        const bStr = b >= 0 ? `+ ${b}` : `- ${Math.abs(b)}`;
+        const a = this.randChoice([-5, -4, -3, -2, -1, 1, 2, 3, 4, 5, -0.5, 0.5, -1.5, 1.5, -2.5, 2.5, -0.2, 0.2]);
+        const b = this.randInt(-9, 9);
+        const ax = `${a === 1 ? '' : a === -1 ? '-' : this.formatDecimal(a)}x`;
+        // écriture « ax + b » ou « b + ax » (le coefficient directeur n'est pas toujours en tête)
+        const expr = b === 0 ? ax : this.randInt(0, 2) ? `${ax} ${b > 0 ? '+' : '-'} ${Math.abs(b)}` : `${b} ${a > 0 ? '+' : '-'} ${(a === 1 || a === -1) ? '' : this.formatDecimal(Math.abs(a))}x`;
         const isCroissante = a > 0;
         const correct = isCroissante ? "Strictement croissante (la droite monte)" : "Strictement décroissante (la droite descend)";
         const wrong = isCroissante ? "Strictement décroissante (la droite descend)" : "Strictement croissante (la droite monte)";
@@ -15342,7 +15611,7 @@
           chapterId: 'Org3',
           tier: 2,
           title: "Sens de variation d'une fonction affine",
-          statement: `On considère la fonction affine $f(x) = ${a}x ${bStr}$.\nQuel est son sens de variation sur $\\mathbb{R}$ ?`,
+          statement: `On considère la fonction affine $f(x) = ${expr}$.\nQuel est son sens de variation sur $\\mathbb{R}$ ?`,
           type: "mcq",
           options: [
             correct,
@@ -15353,7 +15622,7 @@
           answer: correct,
           correctIndex: 0,
           hint1: "Le sens de variation dépend uniquement du signe du coefficient directeur $a$ devant $x$.",
-          solution: `Le coefficient directeur est $a = ${a}$. Comme $a ${isCroissante ? '> 0' : '< 0'}$, la fonction $f$ est **${correct.toLowerCase()}**.`
+          solution: `Le coefficient directeur (le nombre qui multiplie $x$) est $a = ${this.formatDecimal(a)}$${b !== 0 ? ` ; l'ordonnée à l'origine $${b}$ n'intervient pas` : ''}. Comme $a ${isCroissante ? '> 0' : '< 0'}$, la fonction $f$ est **${correct.toLowerCase()}**.`
         };
       }
     } else if (t === 3) {
@@ -15924,6 +16193,12 @@
     return Object.assign({}, o, { type: 'mcq', options: sh, correctIndex: sh.indexOf(correct), answer: correct });
   },
 
+  /** Valeur d'une option de probabilité écrite « a/b » ou « a ». */
+  _h5_pval(s) {
+    const [a, b] = String(s).split('/').map(Number);
+    return a / (b || 1);
+  },
+
   /** Nombre en écriture LaTeX française (virgule {,}, espace fine des milliers). */
   _h5_n(x) {
     const v = +(+x).toFixed(6);
@@ -16194,6 +16469,49 @@
         ];
         const v = this.randChoice(vocab);
         const opts = ["Une somme", "Une différence", "Un produit", "Un quotient"];
+        // Variantes : vocabulaire appliqué à deux nombres (somme, différence, produit, quotient),
+        // sens inverse (quelle opération ?) et noms des termes (facteurs, dividende, diviseur).
+        const md = this.randInt(0, 3);
+        if (md > 0) {
+          const ops = [['La somme', '+', (a, b) => a + b], ['La différence', '-', (a, b) => a - b], ['Le produit', '\\times', (a, b) => a * b], ['Le quotient', '\\div', (a, b) => a / b]];
+          let st, ans, dis, sol, title = "Vocabulaire fondamental des 4 opérations";
+          if (md === 1) {
+            const i = this.randInt(0, 3), b = this.randInt(2, 9), a = i === 3 ? b * this.randInt(2, 12) : (i === 1 ? b + this.randInt(2, 40) : this.randInt(2, 15));
+            const val = ops[i][2](a, b);
+            const all = ops.map(o => o[2](a, b));
+            st = `${ops[i][0]} de $${a}$ et de $${b}$ est égal${i === 0 || i === 1 ? 'e' : ''} à :`;
+            ans = String(val); dis = [...new Set(all.filter(x => x !== val && Number.isInteger(x) && x > 0).map(String))];
+            for (let c = 1; dis.length < 3; c++) if (!dis.includes(String(val + c))) dis.push(String(val + c));
+            dis = dis.slice(0, 3);
+            sol = `${ops[i][0]} de $${a}$ et de $${b}$ est le résultat de $${a} ${ops[i][1]} ${b} = ${val}$.`;
+          } else if (md === 2) {
+            const i = this.randInt(0, 3), names = ['une addition', 'une soustraction', 'une multiplication', 'une division'];
+            st = `${ops[i][0]} est le résultat de quelle opération ?`;
+            ans = names[i].charAt(0).toUpperCase() + names[i].slice(1); dis = names.filter((x, j) => j !== i).map(x => x.charAt(0).toUpperCase() + x.slice(1));
+            sol = `${ops[i][0]} est le résultat d'${names[i]}.`;
+          } else {
+            const a = this.randInt(12, 99), b = this.randInt(2, 9), w = this.randChoice(['div', 'fac', 'som']);
+            title = "Nommer les termes d'une opération";
+            if (w === 'div') {
+              const p = this.randInt(0, 1);
+              st = `Dans la division $${a * b} \\div ${b}$, comment s'appelle le nombre $${p ? b : a * b}$ ?`;
+              ans = p ? 'Le diviseur' : 'Le dividende'; dis = [p ? 'Le dividende' : 'Le diviseur', 'Le quotient', 'Un facteur'];
+              sol = `Dans $${a * b} \\div ${b} = ${a}$ : $${a * b}$ est le **dividende**, $${b}$ est le **diviseur** et $${a}$ est le **quotient**.`;
+            } else if (w === 'fac') {
+              st = `Dans le produit $${a} \\times ${b}$, comment s'appellent les nombres $${a}$ et $${b}$ ?`;
+              ans = 'Les facteurs'; dis = ['Les termes', 'Les multiples', 'Les diviseurs'];
+              sol = `Les nombres que l'on multiplie s'appellent les **facteurs** du produit (les termes sont les nombres que l'on additionne ou que l'on soustrait).`;
+            } else {
+              st = `Dans la somme $${a} + ${b}$, comment s'appellent les nombres $${a}$ et $${b}$ ?`;
+              ans = 'Les termes'; dis = ['Les facteurs', 'Les dividendes', 'Les quotients'];
+              sol = `Les nombres que l'on additionne s'appellent les **termes** de la somme (les facteurs sont les nombres que l'on multiplie).`;
+            }
+          }
+          const o2 = this.shuffle([ans, ...dis]);
+          return { chapterId: '5N1', tier: 1, title, statement: st, type: "mcq", options: o2, answer: ans, correctIndex: o2.indexOf(ans),
+            hint1: "Rappel : Addition -> Somme, Soustraction -> Différence, Multiplication -> Produit, Division -> Quotient.",
+            solution: `${sol}\n**Conclusion** : ${ans}.` };
+        }
         return {
           chapterId: '5N1',
           tier: 1,
@@ -17282,7 +17600,23 @@
           { leftExpr: '2^5', leftVal: 32, rightExpr: '5^2', rightVal: 25, comp: '>' },
           { leftExpr: '1^{10}', leftVal: 1, rightExpr: '10^0', rightVal: 1, comp: '=' }
         ];
-        const item = this.randChoice(cases);
+        // Cas paramétrés en plus des cas de la fiche : pièges « carré = double », « a^n = n × a »,
+        // échange base/exposant, puissances de 10 (nombre de zéros), exposant 0.
+        const rn = (a, b) => this.randInt(a, b), F = x => this._h5_n(x);
+        const cmp = (l, r) => (l < r ? '<' : l > r ? '>' : '=');
+        const mk = (le, lv, re, rv) => (this.randInt(0, 1)
+          ? { leftExpr: le, leftVal: F(lv), rightExpr: re, rightVal: F(rv), comp: cmp(lv, rv) }
+          : { leftExpr: re, leftVal: F(rv), rightExpr: le, rightVal: F(lv), comp: cmp(rv, lv) });
+        const gen = [
+          () => cases[rn(0, cases.length - 1)],
+          () => { const a = rn(2, 7), b = rn(2, 7), n = rn(2, 4), m = rn(2, 4); return mk(`${a}^${n}`, a ** n, `${b}^${m}`, b ** m); },
+          () => { const a = rn(2, 12); return mk(`${a}^2`, a * a, `2 \\times ${a}`, 2 * a); },
+          () => { const a = rn(2, 6), n = rn(3, 5); return mk(`${a}^${n}`, a ** n, `${n} \\times ${a}`, n * a); },
+          () => { const p = this.randChoice([[2, 3], [2, 4], [2, 5], [3, 4], [2, 6], [3, 5]]); return mk(`${p[0]}^${p[1]}`, p[0] ** p[1], `${p[1]}^${p[0]}`, p[1] ** p[0]); },
+          () => { const n = rn(2, 6), z = n + rn(-1, 1); return mk(`10^${n}`, 10 ** n, F(10 ** z), 10 ** z); },
+          () => { const a = rn(2, 9); return this.randInt(0, 1) ? mk(`${a}^0`, 1, `${a}^1`, a) : mk(`${a}^0`, 1, '0', 0); }
+        ];
+        const item = this.randChoice(gen)();
         const correctSymbol = item.comp === '<' ? '$<$' : (item.comp === '>' ? '$>$' : '$=$');
         const opts = ['$<$', '$>$', '$=$'];
         return {
@@ -17334,14 +17668,31 @@
             just: "$4^3 = 4 \\times 4 \\times 4 = 64$."
           }
         ];
-        const item = this.randChoice(cases);
+        // Affirmations paramétrées (vraies ou fausses selon les valeurs tirées) ; les fausses
+        // reprennent les erreurs typiques : base × exposant, carré pris pour le double, zéros mal comptés.
+        const rn = (a, b) => this.randInt(a, b), F = x => this._h5_n(x);
+        const vf = (aff, ok, just) => ({ aff, ans: ok ? 'vrai' : 'faux', just });
+        const gen = [
+          () => cases[rn(0, cases.length - 1)],
+          () => { const a = rn(2, 6), n = rn(2, 4), w = this.randInt(0, 1) ? a ** n : a * n;
+            return vf(`$${a}^${n} = ${F(w)}$`, w === a ** n, `$${a}^${n} = ${Array(n).fill(a).join(' \\times ')} = ${F(a ** n)}$${w === a ** n ? '' : ` et non $${a} \\times ${n} = ${F(a * n)}$`}.`); },
+          () => { const a = rn(3, 12), w = this.randInt(0, 1) ? a * a : 2 * a;
+            return vf(`Le carré de ${a} est égal à ${F(w)}`, w === a * a, `Le carré de ${a} vaut $${a}^2 = ${a} \\times ${a} = ${F(a * a)}$${w === a * a ? '' : ` ; $${F(2 * a)}$ est le double de ${a}`}.`); },
+          () => { const n = rn(3, 7), z = n + this.randChoice([0, 0, -1, 1]);
+            return vf(`$10^${n} = ${F(10 ** z)}$`, z === n, `$10^${n}$ s'écrit avec un 1 suivi de ${n} zéros : $10^${n} = ${F(10 ** n)}$.`); },
+          () => { const a = rn(2, 15), w = this.randChoice([0, 1, a]);
+            return vf(`$${a}^0 = ${w}$`, w === 1, `Tout nombre non nul élevé à la puissance 0 est égal à 1 : $${a}^0 = 1$.`); },
+          () => { const a = rn(2, 5), w = this.randInt(0, 1) ? a ** 3 : 3 * a;
+            return vf(`Le cube de ${a} vaut ${F(w)}`, w === a ** 3, `Le cube de ${a} vaut $${a}^3 = ${a} \\times ${a} \\times ${a} = ${F(a ** 3)}$.`); }
+        ];
+        const item = this.randChoice(gen)();
         const correctText = item.ans === 'vrai' ? 'Vrai' : 'Faux';
         const opts = ['Vrai', 'Faux'];
         return {
           chapterId: '5N4',
           tier: 3,
           title: "Vrai ou Faux ? (Justification par le calcul)",
-          statement: `L'affirmation suivante est-elle vraie ou fausse ?\n> **« ${item.aff} »**`,
+          statement: `L'affirmation suivante est-elle vraie ou fausse ?\n> **« ${item.aff.replace(/^« | »$/g, '')} »**`,
           type: "mcq",
           options: opts,
           answer: correctText,
@@ -18178,45 +18529,49 @@
       const subType = this.randChoice(['milieu_def', 'demi_tour', 'segment_image']);
 
       if (subType === 'milieu_def') {
-        const tri = this.randChoice([
-          { orig: 'A', img: "A'", ctr: 'O' },
-          { orig: 'M', img: "M'", ctr: 'I' },
-          { orig: 'E', img: "E'", ctr: 'K' },
-          { orig: 'P', img: "P'", ctr: 'O' }
-        ]);
-        const correct = `Le milieu du segment [${tri.orig}${tri.img}]`;
+        // Lettres tirées au hasard ; distracteur clé : la médiatrice (confusion avec la symétrie axiale)
+        const [o, c] = this.shuffle('ABCDEFGHIJKLMNPRSTUVZ'.split('')).slice(0, 2);
+        const tri = { orig: o, img: `${o}'`, ctr: c };
+        const seg = `[${tri.orig}${tri.img}]`;
+        const correct = `Le milieu du segment ${seg}`;
         const opts = this.shuffle([
           correct,
-          "Une extrémité du segment",
-          "Le tiers du segment",
-          "Le centre de gravité"
+          `Un point de la médiatrice du segment ${seg}`,
+          `Une extrémité du segment ${seg}`,
+          `Un point du segment ${seg} plus proche de ${tri.orig} que de ${tri.img}`
         ]);
+        const v = this.randInt(0, 2);
         return {
           chapterId: '5G2',
           tier: 1,
           title: "Définition de la symétrie centrale (5ème)",
-          statement: `Si le point $${tri.img}$ est le symétrique du point $${tri.orig}$ par rapport à $${tri.ctr}$, que représente le point $${tri.ctr}$ pour le segment $[${tri.orig}${tri.img}]$ ?`,
+          statement: [
+            `Si le point $${tri.img}$ est le symétrique du point $${tri.orig}$ par rapport à $${tri.ctr}$, que représente le point $${tri.ctr}$ pour le segment $${seg}$ ?`,
+            `Les points $${tri.orig}$ et $${tri.img}$ sont symétriques par rapport au point $${tri.ctr}$. **Que peut-on dire du point $${tri.ctr}$ ?**`,
+            `Le point $${tri.img}$ est l'image du point $${tri.orig}$ par la symétrie de centre $${tri.ctr}$. **Quelle est la position de $${tri.ctr}$ ?**`
+          ][v],
           type: "mcq",
           options: opts,
           answer: correct,
           correctIndex: opts.indexOf(correct),
           hint1: `La symétrie centrale de centre ${tri.ctr} est un demi-tour autour de ${tri.ctr}.`,
-          solution: `Par définition, le centre de symétrie $${tri.ctr}$ est le milieu du segment reliant le point et son image $[${tri.orig}${tri.img}]$.`
+          solution: `Par définition, le centre de symétrie $${tri.ctr}$ est le milieu du segment $${seg}$ qui relie le point à son image : $${tri.ctr}$ est sur $${seg}$ et $${tri.ctr}${tri.orig} = ${tri.ctr}${tri.img}$.\nAttention : un point de la médiatrice de $${seg}$ est à égale distance de $${tri.orig}$ et de $${tri.img}$, mais n'est pas forcément sur le segment ; c'est la symétrie **axiale** qui fait intervenir la médiatrice.`
         };
       } else if (subType === 'demi_tour') {
-        const angle = 180;
-        const opts = this.shuffle(["180°", "90°", "360°", "45°"]);
+        const [c, f, g, h] = this.shuffle('ABCDEFGHIJKLMNPRSTUVZ'.split('')).slice(0, 4);
+        const fig = this.randChoice([`le triangle $${f}${g}${h}$`, `le segment $[${f}${g}]$`, `le point $${f}$`, 'le drapeau dessiné sur la feuille']);
+        const opts = this.shuffle(["180°", "90°", "360°", this.randChoice(["45°", "270°"])]);
         return {
           chapterId: '5G2',
           tier: 1,
           title: "Angle du demi-tour en symétrie centrale",
-          statement: `Une symétrie centrale par rapport à un point $O$ correspond à une rotation autour de $O$ d'un angle de :`,
+          statement: `On construit l'image de ${fig} par la symétrie de centre $${c}$.\n**Cette symétrie correspond à une rotation autour de $${c}$ d'un angle de :**`,
           type: "mcq",
           options: opts,
           answer: "180°",
           correctIndex: opts.indexOf("180°"),
           hint1: "Un demi-tour complet correspond à la moitié d'un tour (360°).",
-          solution: "La symétrie centrale est un demi-tour, c'est-à-dire une rotation de **180°**."
+          solution: `La symétrie de centre $${c}$ est un **demi-tour** autour de $${c}$, c'est-à-dire une rotation de **180°** (un quart de tour correspondrait à 90°, un tour complet à 360° et ramènerait la figure à sa place).`
         };
       } else {
         const L = this.randInt(5, 12);
@@ -18292,18 +18647,24 @@
           solution: `La symétrie centrale conserve les angles, donc l'angle image mesure également $${deg}^\\circ$.`
         };
       } else {
-        const opts = this.shuffle(["Parallèles", "Perpendiculaires", "Sécantes non perpendiculaires", "Confondues obligatoirement"]);
+        // Droite nommée par deux points et centre tirés au hasard ; cas où la droite passe par le centre (image confondue)
+        const [p, q, c] = this.shuffle('ABCDEFGHIJKLMNPRSTUVZ'.split('')).slice(0, 3);
+        const through = Math.random() < 0.3;
+        const ans = through ? "Confondues" : "Parallèles et distinctes";
+        const opts = this.shuffle(["Parallèles et distinctes", "Confondues", "Perpendiculaires", "Sécantes en $" + c + "$"]);
         return {
           chapterId: '5G2',
           tier: 3,
           title: "Position relative d'une droite et de son image",
-          statement: `Soit $(d)$ une droite ne passant pas par le centre de symétrie $O$, et $(d')$ son image par la symétrie centrale de centre $O$.\n**Comment sont les droites $(d)$ et $(d')$ entre elles ?**`,
+          statement: `La droite $(${p}${q})$ ${through ? `passe par le point $${c}$` : `ne passe pas par le point $${c}$`}. On construit son image $(${p}'${q}')$ par la symétrie de centre $${c}$.\n**Comment sont les droites $(${p}${q})$ et $(${p}'${q}')$ ?**`,
           type: "mcq",
           options: opts,
-          answer: "Parallèles",
-          correctIndex: opts.indexOf("Parallèles"),
+          answer: ans,
+          correctIndex: opts.indexOf(ans),
           hint1: "Par symétrie centrale, l'image d'une droite est une droite qui lui est parallèle.",
-          solution: "L'image d'une droite par une symétrie centrale est toujours une droite qui lui est **parallèle**."
+          solution: through
+            ? `L'image d'une droite par une symétrie centrale est une droite parallèle. Ici, $(${p}${q})$ passe par le centre $${c}$, qui est sa propre image : $(${p}'${q}')$ est parallèle à $(${p}${q})$ et passe par $${c}$, donc les deux droites sont **confondues**.`
+            : `L'image d'une droite par une symétrie centrale est toujours une droite qui lui est **parallèle**. Comme $(${p}${q})$ ne passe pas par $${c}$, son image est une droite distincte : les droites sont **parallèles et distinctes**.`
         };
       }
     } else {
@@ -18863,64 +19224,40 @@
         };
       }
     } else if (t === 3) {
-      const questions = [
-        {
-          statement: "Un parallélogramme dont les diagonales sont perpendiculaires est un...",
-          answer: "Losange",
-          hint: "Des diagonales perpendiculaires dans un parallélogramme caractérisent le losange.",
-          solution: "Si les diagonales d'un parallélogramme sont perpendiculaires, alors c'est un losange."
-        },
-        {
-          statement: "Un parallélogramme dont les diagonales ont la même longueur est un...",
-          answer: "Rectangle",
-          hint: "Des diagonales de même longueur dans un parallélogramme caractérisent le rectangle.",
-          solution: "Si les diagonales d'un parallélogramme ont la même longueur, alors c'est un rectangle."
-        },
-        {
-          statement: "Un parallélogramme ayant deux côtés consécutifs de même longueur est un...",
-          answer: "Losange",
-          hint: "Deux côtés consécutifs égaux dans un parallélogramme caractérisent le losange.",
-          solution: "Un parallélogramme avec deux côtés consécutifs de même longueur a ses 4 côtés égaux : c'est un losange."
-        },
-        {
-          statement: "Un parallélogramme possédant un angle droit est un...",
-          answer: "Rectangle",
-          hint: "Un seul angle droit suffit pour qu'un parallélogramme soit un rectangle.",
-          solution: "Un parallélogramme ayant un angle droit a ses 4 angles droits : c'est un rectangle."
-        },
-        {
-          statement: "Un parallélogramme dont les diagonales sont à la fois perpendiculaires ET de même longueur est un...",
-          answer: "Carré",
-          hint: "Réunit à la fois les propriétés du losange et du rectangle.",
-          solution: "Diagonales perpendiculaires (losange) + diagonales égales (rectangle) = Carré."
-        },
-        {
-          statement: "Un rectangle qui possède deux côtés consécutifs de même longueur est un...",
-          answer: "Carré",
-          hint: "Un rectangle avec des côtés consécutifs égaux a ses 4 côtés égaux.",
-          solution: "Un rectangle aux côtés consécutifs égaux possède 4 angles droits et 4 côtés égaux : c'est un carré."
-        },
-        {
-          statement: "Un losange qui possède un angle droit est un...",
-          answer: "Carré",
-          hint: "Un losange avec un angle droit possède 4 côtés égaux et 4 angles droits.",
-          solution: "Un losange avec un angle droit a tous ses angles droits : c'est un carré."
-        }
+      // Quadrilatère et données tirés au hasard ; « On ne peut pas conclure » quand la donnée est vraie pour tout parallélogramme
+      const L = this.shuffle('ABCDEFGHIJKLMNPRSTUVZ'.split('')).slice(0, 4), [P1, P2, P3, P4] = L, Q = L.join('');
+      const dec = () => (this.randInt(30, 120) / 10).toString().replace('.', '{,}');
+      const x = dec(), y = dec();
+      const ang = this.randChoice([`\\widehat{${P1}${P2}${P3}}`, `\\widehat{${P2}${P3}${P4}}`, `\\widehat{${P3}${P4}${P1}}`, `\\widehat{${P4}${P1}${P2}}`]);
+      const NC = "On ne peut pas conclure";
+      const cases = [
+        { st: `$${Q}$ est un parallélogramme dont les diagonales $[${P1}${P3}]$ et $[${P2}${P4}]$ mesurent toutes les deux $${x}$ cm.`, a: "Un rectangle", s: `Les diagonales du parallélogramme $${Q}$ ont la même longueur : c'est un **rectangle** (rien n'indique qu'elles soient perpendiculaires, donc on ne peut pas affirmer que c'est un carré).` },
+        { st: `$${Q}$ est un parallélogramme dont les diagonales $(${P1}${P3})$ et $(${P2}${P4})$ sont perpendiculaires.`, a: "Un losange", s: `Les diagonales du parallélogramme $${Q}$ sont perpendiculaires : c'est un **losange** (rien n'indique qu'elles aient la même longueur).` },
+        { st: `$${Q}$ est un parallélogramme tel que $${P1}${P2} = ${P2}${P3} = ${x}$ cm.`, a: "Un losange", s: `$[${P1}${P2}]$ et $[${P2}${P3}]$ sont deux côtés **consécutifs** de même longueur ; dans un parallélogramme, les côtés opposés sont aussi égaux, donc les quatre côtés mesurent $${x}$ cm : c'est un **losange**.` },
+        { st: `$${Q}$ est un parallélogramme tel que $${ang} = 90°$.`, a: "Un rectangle", s: `Un parallélogramme qui possède un angle droit a ses quatre angles droits (deux angles consécutifs sont supplémentaires) : $${Q}$ est un **rectangle**.` },
+        { st: `$${Q}$ est un parallélogramme dont les diagonales sont perpendiculaires et mesurent toutes les deux $${x}$ cm.`, a: "Un carré", s: `Diagonales perpendiculaires : c'est un losange ; diagonales de même longueur : c'est un rectangle. À la fois losange et rectangle, $${Q}$ est un **carré**.` },
+        { st: `$${Q}$ est un rectangle tel que $${P1}${P2} = ${P2}${P3} = ${x}$ cm.`, a: "Un carré", s: `Un rectangle qui a deux côtés consécutifs de même longueur a ses quatre côtés égaux : c'est aussi un losange, donc $${Q}$ est un **carré**.` },
+        { st: `$${Q}$ est un losange tel que $${ang} = 90°$.`, a: "Un carré", s: `Un losange est un parallélogramme : avec un angle droit, il a ses quatre angles droits. C'est donc aussi un rectangle : $${Q}$ est un **carré**.` },
+        { st: `$${Q}$ est un losange dont les diagonales $[${P1}${P3}]$ et $[${P2}${P4}]$ mesurent toutes les deux $${x}$ cm.`, a: "Un carré", s: `Un losange est un parallélogramme ; ses diagonales ont la même longueur, c'est donc aussi un rectangle : $${Q}$ est un **carré**.` },
+        { st: `$${Q}$ est un rectangle dont les diagonales $(${P1}${P3})$ et $(${P2}${P4})$ sont perpendiculaires.`, a: "Un carré", s: `Un rectangle est un parallélogramme ; ses diagonales sont perpendiculaires, c'est donc aussi un losange : $${Q}$ est un **carré**.` },
+        // Pièges : la donnée est vraie dans tout parallélogramme
+        { st: `$${Q}$ est un parallélogramme tel que $${P1}${P2} = ${P3}${P4} = ${x}$ cm et $${P2}${P3} = ${P4}${P1} = ${y}$ cm.`, a: NC, s: `$[${P1}${P2}]$ et $[${P3}${P4}]$ sont des côtés **opposés**, de même que $[${P2}${P3}]$ et $[${P4}${P1}]$ : dans tout parallélogramme, les côtés opposés ont la même longueur. Ces données n'apportent rien : **on ne peut pas conclure** que $${Q}$ est un rectangle, un losange ou un carré.` },
+        { st: `$${Q}$ est un parallélogramme de centre $O$ tel que $O${P1} = O${P3} = ${x}$ cm.`, a: NC, s: `Dans tout parallélogramme, les diagonales se coupent en leur milieu, donc $O${P1} = O${P3}$ est toujours vrai. Rien n'est dit sur l'autre diagonale : **on ne peut pas conclure**.` },
+        { st: `$${Q}$ est un parallélogramme tel que $(${P1}${P2})$ est parallèle à $(${P3}${P4})$.`, a: NC, s: `Dans tout parallélogramme, les côtés opposés sont parallèles : cette donnée n'apporte rien, **on ne peut pas conclure**.` }
       ];
-      const q = this.randChoice(questions);
-      const allChoices = ["Losange", "Rectangle", "Carré", "Trapèze"];
-      const opts = this.shuffle(allChoices);
+      const c = this.randChoice(cases);
+      const opts = this.shuffle(["Un losange", "Un rectangle", "Un carré", NC]);
       return {
         chapterId: '5G5',
         tier: 3,
         title: "Caractérisation des quadrilatères particuliers (5ème)",
-        statement: q.statement,
+        statement: `${c.st}\n**Quelle est la conclusion la plus précise que l'on peut en tirer ?**`,
         type: "mcq",
         options: opts,
-        answer: q.answer,
-        correctIndex: opts.indexOf(q.answer),
-        hint1: q.hint,
-        solution: q.solution
+        answer: c.a,
+        correctIndex: opts.indexOf(c.a),
+        hint1: "Repère si la donnée porte sur les côtés, les angles ou les diagonales, et si elle est déjà vraie pour tout parallélogramme.",
+        solution: c.s
       };
     } else {
       const challengeType = this.randChoice(['rect_half_diag', 'rect_full_diag', 'rhombus_diag_angle', 'rhombus_perim']);
@@ -21175,15 +21512,41 @@
       });
     }
     if (fam === 'convention') {
-      const a = R(2, 9);
+      // Variantes : nombre × lettre, lettre × lettre, carré, écriture simplifiée (sens inverse).
+      // Distracteurs : erreurs typiques (× lu comme +, confusion avec une puissance, 2x confondu avec x²).
+      const a = R(2, 9), L = this.randChoice(['x', 'y', 'a', 'n', 't', 'z']);
+      const L2 = this.randChoice(['b', 'c', 'k', 'm', 'p', 'u'].filter(l => l !== L));
+      const mode = this.randChoice(['nb', 'nb', 'deux', 'carre', 'inv', 'inv2']);
+      let st, ans, dis, sol;
+      if (mode === 'nb') {
+        st = `Que signifie l'écriture $${a}${L}$ ?`; ans = `$${a} \\times ${L}$`;
+        dis = [`$${a} + ${L}$`, `$${L}^{${a}}$`, `$${a}0 + ${L}$`];
+        sol = `Le signe × est sous-entendu entre un nombre et une lettre : $${a}${L} = ${a} \\times ${L}$.`;
+      } else if (mode === 'deux') {
+        st = `Que signifie l'écriture $${L2}${L}$ ?`; ans = `$${L2} \\times ${L}$`;
+        dis = [`$${L2} + ${L}$`, `$${L2}^{${L}}$`, `$${L2} - ${L}$`];
+        sol = `Le signe × est sous-entendu entre deux lettres : $${L2}${L} = ${L2} \\times ${L}$.`;
+      } else if (mode === 'carre') {
+        st = `Que signifie l'écriture $${L}^2$ ?`; ans = `$${L} \\times ${L}$`;
+        dis = [`$2 \\times ${L}$`, `$${L} + ${L}$`, `$${L} + 2$`];
+        sol = `$${L}^2$ se lit « ${L} au carré » : c'est le produit $${L} \\times ${L}$ (et non $2 \\times ${L}$, qui vaut $${L} + ${L}$).`;
+      } else if (mode === 'inv') {
+        st = `Comment écrire plus simplement $${L} \\times ${a}$ ?`; ans = `$${a}${L}$`;
+        dis = [`$${L}${a}$`, `$${L}^{${a}}$`, `$${a} + ${L}$`];
+        sol = `On écrit le nombre devant la lettre et on supprime le signe × : $${L} \\times ${a} = ${a} \\times ${L} = ${a}${L}$.`;
+      } else {
+        st = `Comment écrire plus simplement $${a} \\times ${L} \\times ${L}$ ?`; ans = `$${a}${L}^2$`;
+        dis = [`$${2 * a}${L}$`, `$(${a}${L})^2$`, `$${a}${L}${L}^2$`];
+        sol = `$${L} \\times ${L} = ${L}^2$, donc $${a} \\times ${L} \\times ${L} = ${a}${L}^2$ (le carré ne porte que sur $${L}$).`;
+      }
       return this._h5_mcq({
         title: "Signification d'une écriture littérale",
-        statement: `Que signifie l'écriture $${a}x$ ?`,
-        hint1: 'Entre un nombre et une lettre, quel signe opératoire a-t-on le droit de ne pas écrire ?',
-        hint2: "**Convention d'écriture** : on peut supprimer le signe × entre un nombre et une lettre, ou entre deux lettres : $3 \\times a = 3a$, $a \\times b = ab$.",
-        solution: `Le signe × est sous-entendu entre un nombre et une lettre : $${a}x = ${a} \\times x$.\n**Conclusion** : $${a}x$ signifie « $${a} \\times x$ ».`,
-        _v: { k: '5N5.conv', a }
-      }, `$${a} \\times x$`, [`$${a} + x$`, `$x^{${a}}$`, `$${a}${a} \\times x$`]);
+        statement: st,
+        hint1: 'Entre un nombre et une lettre, ou entre deux lettres, quel signe opératoire a-t-on le droit de ne pas écrire ?',
+        hint2: "**Convention d'écriture** : on peut supprimer le signe × entre un nombre et une lettre, ou entre deux lettres : $3 \\times a = 3a$, $a \\times b = ab$ ; et $a \\times a = a^2$.",
+        solution: `${sol}\n**Conclusion** : la bonne réponse est ${ans}.`,
+        _v: { k: '5N5.conv', a, ans }
+      }, ans, dis);
     }
     if (fam === 'trou_simple') {
       const a = R(3, 30), x = R(2, 40), v = R(0, 2);
@@ -21510,14 +21873,18 @@
     const CENTRE = "Une figure admet un **centre de symétrie** $O$ lorsqu'elle se superpose à elle-même par le demi-tour de centre $O$.";
     if (fam === 'centre_lettre') {
       const yes = ['H', 'I', 'N', 'O', 'S', 'X', 'Z'], no = ['A', 'B', 'C', 'D', 'E', 'K', 'M', 'T', 'U', 'V', 'W', 'Y'];
-      const g = this.randChoice(yes), bad = this.shuffle(no).slice(0, 3);
+      // Sens direct (une seule lettre a un centre) ou inverse (une seule n'en a pas) ; lettres citées dans l'énoncé
+      const inv = this.randInt(0, 19) < 7;
+      const g = this.randChoice(inv ? no : yes), bad = this.shuffle(inv ? yes : no).slice(0, 3), all = [g, ...bad].sort();
       return this._h5_mcq({
         title: 'Centre de symétrie : lettres',
-        statement: `Parmi ces lettres majuscules (écrites en caractères « bâton »), **laquelle possède un centre de symétrie ?**`,
-        hint1: 'Imagine chaque lettre tournée d\'un demi-tour (tête en bas) : laquelle reste identique ?',
+        statement: `On considère les lettres majuscules ${all.slice(0, 3).join(', ')} et ${all[3]}, écrites en caractères « bâton ».\n**${inv ? 'Laquelle ne possède pas de centre de symétrie ?' : 'Laquelle possède un centre de symétrie ?'}**`,
+        hint1: inv ? 'Imagine chaque lettre tournée d\'un demi-tour (tête en bas) : laquelle change d\'aspect ?' : 'Imagine chaque lettre tournée d\'un demi-tour (tête en bas) : laquelle reste identique ?',
         hint2: CENTRE,
-        solution: `Après un demi-tour autour de son centre, la lettre **${g}** se superpose à elle-même : elle admet un centre de symétrie.\nLes lettres ${bad.join(', ')} changent d'aspect après un demi-tour (certaines ont seulement un axe de symétrie, ce qui est différent).`,
-        _v: { k: '5G2.lettre', g }
+        solution: inv
+          ? `Après un demi-tour autour de leur centre, les lettres ${bad.join(', ')} se superposent à elles-mêmes : elles admettent un centre de symétrie.\nLa lettre **${g}** change d'aspect après un demi-tour : elle n'a pas de centre de symétrie (un axe de symétrie éventuel ne suffit pas).`
+          : `Après un demi-tour autour de son centre, la lettre **${g}** se superpose à elle-même : elle admet un centre de symétrie.\nLes lettres ${bad.join(', ')} changent d'aspect après un demi-tour (certaines ont seulement un axe de symétrie, ce qui est différent).`,
+        _v: { k: '5G2.lettre', g, inv }
       }, g, bad);
     }
     if (fam === 'milieu_def') {
@@ -21805,7 +22172,8 @@
     const DR = "**Droites remarquables** : la **médiatrice** d'un segment est la droite perpendiculaire à ce segment en son milieu ; la **hauteur** issue d'un sommet passe par ce sommet et est perpendiculaire au côté opposé ; la **médiane** issue d'un sommet passe par ce sommet et par le milieu du côté opposé.";
     const AIR = "**Aire d'un triangle** : $\\mathcal{A} = \\dfrac{\\text{base} \\times \\text{hauteur relative à cette base}}{2}$.";
     return {
-      old: [2, 2, 2, 1],
+      // Palier 2 : les six définitions figées de l'ancien générateur sont remplacées par la famille droites_vocab
+      old: [2, 0, 2, 1],
       h1: [
         [/Inégalité triangulaire \(Constructibilité\)/, "Repère le plus grand des trois côtés, puis compare-le à la somme des deux autres."],
         [/Périmètre d'un triangle/, "Additionne les longueurs des trois côtés."],
@@ -21828,7 +22196,7 @@
       h2def: [AIR, DR, AIR, AIR],
       f: {
         1: ['mediatrice_dist', 'aire_simple'],
-        2: ['cercle_circ', 'droite_fig', 'mediatrice_dist'],
+        2: ['cercle_circ', 'droite_fig', 'mediatrice_dist', 'droites_vocab', 'droites_vocab'],
         3: ['aire_tri_fig', 'aire_composee', 'ineg_intervalle'],
         4: ['aire_composee2', 'ineg_max', 'mediane_aire']
       }
@@ -21862,17 +22230,68 @@
     const R = (a, b) => this.randInt(a, b), N = x => this._h5_n(x);
     const AIR = "**Aire d'un triangle** : $\\mathcal{A} = \\dfrac{\\text{base} \\times \\text{hauteur relative à cette base}}{2}$.";
     const INEG = "**Inégalité triangulaire** : dans un triangle, la longueur de chaque côté est **strictement inférieure** à la somme des longueurs des deux autres côtés.";
+    // Noms de points tirés au hasard (lettres distinctes, sans O réservé aux centres)
+    const pts = (n) => this.shuffle('ABCDEFGHIJKLMNPRSTUVXYZ'.split('')).slice(0, n);
     if (fam === 'mediatrice_dist') {
       const d = R(3, 15) + this.randChoice([0, 0.5]), v = R(0, 1);
+      const [M, E, F] = pts(3), [K, X, Y, Z] = pts(4);
       return this._h5_q({
         title: v ? 'Point de la médiatrice' : 'Point équidistant et médiatrice',
-        statement: v ? `Le point $M$ appartient à la médiatrice du segment $[EF]$, et $ME = ${N(d)}$ cm.\n**Quelle est la longueur $MF$ (en cm) ?**` : `Le point $K$ est le point d'intersection des médiatrices du triangle $RST$, et $KR = ${N(d)}$ cm.\n**Quelle est la longueur $KT$ (en cm) ?**`,
+        statement: v ? `Le point $${M}$ appartient à la médiatrice du segment $[${E}${F}]$, et $${M}${E} = ${N(d)}$ cm.\n**Quelle est la longueur $${M}${F}$ (en cm) ?**` : `Le point $${K}$ est le point d'intersection des médiatrices du triangle $${X}${Y}${Z}$, et $${K}${X} = ${N(d)}$ cm.\n**Quelle est la longueur $${K}${Z}$ (en cm) ?**`,
         answer: this._h5_a(d),
         hint1: v ? 'Quelle propriété ont les points de la médiatrice d\'un segment vis-à-vis des extrémités de ce segment ?' : 'Ce point appartient aux trois médiatrices : à quelle distance est-il de chacun des sommets ?',
         hint2: "**Médiatrice** : tout point de la médiatrice d'un segment est à **égale distance** des extrémités de ce segment. Les trois médiatrices d'un triangle se coupent au centre du cercle circonscrit.",
-        solution: v ? `$M$ est sur la médiatrice de $[EF]$, donc $MF = ME = ${N(d)}$ cm.` : `$K$ est sur les médiatrices de $[RS]$ et de $[ST]$, donc $KR = KS$ et $KS = KT$. Ainsi $KT = KR = ${N(d)}$ cm : $K$ est le centre du cercle circonscrit à $RST$.`,
+        solution: v ? `$${M}$ est sur la médiatrice de $[${E}${F}]$, donc $${M}${F} = ${M}${E} = ${N(d)}$ cm.` : `$${K}$ est sur les médiatrices de $[${X}${Y}]$ et de $[${Y}${Z}]$, donc $${K}${X} = ${K}${Y}$ et $${K}${Y} = ${K}${Z}$. Ainsi $${K}${Z} = ${K}${X} = ${N(d)}$ cm : $${K}$ est le centre du cercle circonscrit à $${X}${Y}${Z}$.`,
         _v: { k: '5G4.id', d }
       });
+    }
+    if (fam === 'droites_vocab') {
+      // Vocabulaire des droites remarquables, triangle et sommet tirés au hasard ; distracteurs = confusions typiques
+      const [P, Q, S] = pts(3), tri = `$${P}${Q}${S}$`, side = `[${Q}${S}]`;
+      const kind = this.randChoice(['hauteur', 'mediane', 'mediatrice']);
+      const NOM = { hauteur: `la hauteur issue de $${P}$`, mediane: `la médiane issue de $${P}$`, mediatrice: `la médiatrice de $${side}$` };
+      const DEF = {
+        hauteur: `la droite qui passe par $${P}$ et qui est perpendiculaire à $(${Q}${S})$`,
+        mediane: `la droite qui passe par $${P}$ et par le milieu de $${side}$`,
+        mediatrice: `la droite perpendiculaire à $${side}$ en son milieu`
+      };
+      const mode = this.randChoice(['def2nom', 'nom2def', 'equi', 'equi']);
+      const H2 = "**Droites remarquables** : la **médiatrice** d'un segment est la droite perpendiculaire à ce segment en son milieu ; la **hauteur** issue d'un sommet passe par ce sommet et est perpendiculaire au côté opposé ; la **médiane** issue d'un sommet passe par ce sommet et par le milieu du côté opposé.";
+      if (mode === 'equi') {
+        // Point équidistant de deux sommets : piège classique « c'est le milieu »
+        const M = pts(4).find(x => ![P, Q, S].includes(x));
+        return this._h5_mcq({
+          title: 'Droites remarquables : point équidistant',
+          statement: `Dans le triangle ${tri}, un point $${M}$ vérifie $${M}${Q} = ${M}${S}$.\n**Que peut-on affirmer à coup sûr ?**`,
+          hint1: `Un point à égale distance de $${Q}$ et de $${S}$ n'est pas forcément sur le segment $${side}$ : pense à la droite formée par tous ces points.`,
+          hint2: "**Médiatrice** : un point est à égale distance des extrémités d'un segment si et seulement s'il appartient à la médiatrice de ce segment.",
+          solution: `$${M}$ est à égale distance de $${Q}$ et de $${S}$, donc $${M}$ appartient à **la médiatrice de $${side}$**.\nAttention : $${M}$ n'est pas forcément le milieu de $${side}$ (il peut être en dehors du segment), et rien n'indique qu'il soit sur une droite passant par $${P}$.`,
+          _v: { k: '5G4.voc', mode, P, Q, S }
+        }, `$${M}$ appartient à la médiatrice de $${side}$`, [`$${M}$ est le milieu de $${side}$`, `$${M}$ appartient à la médiane issue de $${P}$`, `$${M}$ appartient à la hauteur issue de $${P}$`]);
+      }
+      if (mode === 'def2nom') {
+        const dist = Object.keys(NOM).filter(k => k !== kind).map(k => NOM[k]);
+        // Erreur typique : se tromper de sommet
+        dist.push(kind === 'mediatrice' ? `la médiatrice de $[${P}${Q}]$` : kind === 'hauteur' ? `la hauteur issue de $${Q}$` : `la médiane issue de $${S}$`);
+        return this._h5_mcq({
+          title: 'Droites remarquables : nommer une droite',
+          statement: `Dans le triangle ${tri}, comment s'appelle ${DEF[kind]} ?`,
+          hint1: kind === 'mediane' ? 'Le mot « médiane » évoque le « milieu » : une médiane relie un sommet à un milieu.' : 'Regarde si la droite passe par un sommet du triangle et si elle forme un angle droit avec un côté.',
+          hint2: H2,
+          solution: `Il s'agit de **${NOM[kind]}**.\n${kind === 'hauteur' ? `Elle passe par le sommet $${P}$ et elle est perpendiculaire au côté opposé $(${Q}${S})$ : c'est une hauteur (pas une médiane, qui passerait par le milieu de $${side}$).` : kind === 'mediane' ? `Elle passe par le sommet $${P}$ et par le milieu du côté opposé $${side}$ : c'est une médiane (elle n'est en général pas perpendiculaire à $${side}$).` : `Elle est perpendiculaire à $${side}$ et passe par son milieu : c'est une médiatrice ; en général, elle ne passe par aucun sommet du triangle.`}`,
+          _v: { k: '5G4.voc', mode, kind, P, Q, S }
+        }, NOM[kind], dist);
+      }
+      const dist = Object.keys(DEF).filter(k => k !== kind).map(k => DEF[k]);
+      dist.push(kind === 'hauteur' ? `la droite qui passe par $${P}$ et qui est parallèle à $(${Q}${S})$` : kind === 'mediane' ? `la droite qui passe par $${Q}$ et par le milieu de $[${P}${S}]$` : `la droite qui coupe $${side}$ en son milieu`); // définition incomplète (angle droit oublié)
+      return this._h5_mcq({
+        title: 'Droites remarquables : définition',
+        statement: `Dans le triangle ${tri}, qu'appelle-t-on **${NOM[kind]}** ?`,
+        hint1: kind === 'mediatrice' ? 'Une médiatrice est définie à partir d\'un segment seulement : on ne parle d\'aucun sommet.' : `La droite cherchée passe par le sommet $${P}$ : à quoi doit-elle être reliée sur le côté opposé ?`,
+        hint2: H2,
+        solution: `${NOM[kind].charAt(0).toUpperCase() + NOM[kind].slice(1)} est **${DEF[kind]}**.`,
+        _v: { k: '5G4.voc', mode, kind, P, Q, S }
+      }, DEF[kind], dist);
     }
     if (fam === 'aire_simple') {
       const b = R(3, 15), h = R(2, 12) * (b % 2 ? 2 : 1);
@@ -21887,15 +22306,22 @@
       });
     }
     if (fam === 'cercle_circ') {
-      const r = R(3, 12);
+      // Sens direct (rayon → diamètre) ou inverse (diamètre → distance au sommet), lettres et sommet tirés au hasard
+      const half = Math.random() < 0.4, r = half ? R(5, 25) : R(3, 12) + this.randChoice([0, 0, 0.5]);
+      const [A, B, C] = pts(3), [s1, s2] = this.shuffle([A, B, C]).slice(0, 2);
+      const res = half ? r / 2 : 2 * r;
       return this._h5_q({
         title: 'Cercle circonscrit',
-        statement: `Le point $O$ est le point de concours des médiatrices du triangle $ABC$, et $OA = ${r}$ cm.\n**Quel est le diamètre (en cm) du cercle passant par $A$, $B$ et $C$ ?**`,
-        answer: String(2 * r),
-        hint1: 'Le point de concours des médiatrices est à égale distance des trois sommets : c\'est le centre d\'un cercle particulier. Quel est son rayon ?',
+        statement: half
+          ? `Le point $O$ est le point de concours des médiatrices du triangle $${A}${B}${C}$. Le cercle de centre $O$ qui passe par $${A}$, $${B}$ et $${C}$ a un diamètre de $${N(r)}$ cm.\n**Quelle est la longueur $O${s1}$ (en cm) ?**`
+          : `Le point $O$ est le point de concours des médiatrices du triangle $${A}${B}${C}$, et $O${s1} = ${N(r)}$ cm.\n**Quel est le diamètre (en cm) du cercle passant par $${A}$, $${B}$ et $${C}$ ?**`,
+        answer: this._h5_a(res),
+        hint1: half ? 'La distance du centre d\'un cercle à un point du cercle est son rayon : quel lien y a-t-il entre rayon et diamètre ?' : 'Le point de concours des médiatrices est à égale distance des trois sommets : c\'est le centre d\'un cercle particulier. Quel est son rayon ?',
         hint2: "Le point de concours des médiatrices d'un triangle est le **centre du cercle circonscrit** au triangle ; le diamètre d'un cercle est le double de son rayon.",
-        solution: `**Étape 1** : $O$ est sur les trois médiatrices, donc $OA = OB = OC = ${r}$ cm : le cercle de centre $O$ et de rayon $${r}$ cm passe par $A$, $B$ et $C$.\n**Étape 2** : diamètre $= 2 \\times ${r} = ${2 * r}$ cm.`,
-        _v: { k: '5G4.diam', r }
+        solution: half
+          ? `**Étape 1** : $O$ est sur les trois médiatrices, donc $O${A} = O${B} = O${C}$ : c'est le rayon du cercle circonscrit.\n**Étape 2** : rayon $= ${N(r)} \\div 2 = ${N(res)}$ cm, donc $O${s1} = ${N(res)}$ cm.`
+          : `**Étape 1** : $O$ est sur les trois médiatrices, donc $O${A} = O${B} = O${C} = ${N(r)}$ cm (en particulier $O${s2} = O${s1}$) : le cercle de centre $O$ et de rayon $${N(r)}$ cm passe par $${A}$, $${B}$ et $${C}$.\n**Étape 2** : diamètre $= 2 \\times ${N(r)} = ${N(res)}$ cm.`,
+        _v: { k: '5G4.diam', r, half }
       });
     }
     if (fam === 'droite_fig') {
@@ -21908,7 +22334,7 @@
         hint2: "**Droites remarquables** : la **médiatrice** d'un segment est perpendiculaire à ce segment en son milieu ; la **hauteur** issue d'un sommet passe par ce sommet et est perpendiculaire au côté opposé ; la **médiane** issue d'un sommet passe par ce sommet et par le milieu du côté opposé.",
         solution: ty === 'hauteur' ? 'La droite rouge passe par $A$ et est perpendiculaire à $(BC)$ (codage de l\'angle droit) : c\'est **la hauteur issue de A**.' : ty === 'mediane' ? 'La droite rouge passe par $A$ et par le milieu $I$ de $[BC]$ (codage des longueurs égales), sans angle droit : c\'est **la médiane issue de A**.' : 'La droite rouge est perpendiculaire à $[BC]$ en son milieu $I$ et ne passe pas par $A$ : c\'est **la médiatrice de [BC]**.',
         _v: { k: '5G4.fig', ty }
-      }, NAMES[ty], Object.keys(NAMES).filter(k => k !== ty).map(k => NAMES[k]).concat(['la bissectrice de l\'angle en A']));
+      }, NAMES[ty], Object.keys(NAMES).filter(k => k !== ty).map(k => NAMES[k]).concat([ty === 'mediatrice' ? 'la médiatrice de [AB]' : 'la hauteur issue de B']));
     }
     if (fam === 'aire_tri_fig') {
       const obt = Math.random() < 0.5, b = R(4, 12), h = R(3, 9), side = h + R(1, 4);
@@ -22201,15 +22627,30 @@
         ['Une pyramide', 'une base polygonale et des faces latérales triangulaires qui ont un sommet commun'],
         ['Un cône de révolution', 'une base en forme de disque et une surface courbe qui se termine en un sommet']
       ];
-      const k = R(0, 4);
+      // Descriptions supplémentaires (prismes à base quelconque, objets courants) ;
+      // les distracteurs sont choisis parmi les solides voisins (même nombre de bases ou même base).
+      const PB = this.randChoice([['triangulaire', 3, 'triangles'], ['pentagonale', 5, 'pentagones'], ['hexagonale', 6, 'hexagones']]);
+      S.push(
+        [`Un prisme droit à base ${PB[0]}`, `deux bases qui sont des ${PB[2]} superposables et parallèles, et ${PB[1]} faces latérales rectangulaires`],
+        ['Un cylindre de révolution', 'la forme d\'une boîte de conserve : deux disques de même rayon reliés par une surface courbe'],
+        ['Un cône de révolution', 'la forme d\'un cornet de glace fermé par un disque : une seule base en forme de disque et un sommet'],
+        ['Une pyramide', `une base qui est un ${this.randChoice(['carré', 'triangle', 'pentagone', 'hexagone'])} et des faces latérales triangulaires qui se rejoignent en un même point`]
+      );
+      const k = R(0, S.length - 1), ans = S[k][0];
+      const pool = ans.indexOf('prisme') >= 0 ? ['Un pavé droit', 'Une pyramide', 'Un cylindre de révolution', `Un prisme droit à base ${PB[1] === 3 ? 'hexagonale' : 'triangulaire'}`]
+        : ans.indexOf('cylindre') >= 0 ? ['Un pavé droit', 'Un cône de révolution', 'Un prisme droit à base triangulaire', 'Une boule']
+        : ans.indexOf('cône') >= 0 ? ['Une pyramide', 'Un cylindre de révolution', 'Une boule', 'Un prisme droit à base triangulaire']
+        : ans.indexOf('pyramide') >= 0 ? ['Un cône de révolution', 'Un prisme droit à base triangulaire', 'Un pavé droit', 'Un cylindre de révolution']
+        : ['Un cône de révolution', 'Un prisme droit à base triangulaire', 'Une pyramide', 'Un cylindre de révolution'];
+      const dis = this.shuffle(pool.filter(x => x !== ans)).slice(0, 3);
       return this._h5_mcq({
         title: 'Reconnaître un solide',
         statement: `Un solide possède ${S[k][1]}.\n**De quel solide s'agit-il ?**`,
         hint1: 'Regarde la forme des bases (polygone ou disque) et le nombre de bases (une ou deux).',
         hint2: "Un **prisme droit** a deux bases polygonales superposables et des faces latérales rectangulaires ; un **cylindre de révolution** a deux bases qui sont des disques ; une **pyramide** ou un **cône** n'a qu'une base et un sommet.",
-        solution: `Description : ${S[k][1]}.\n**Conclusion** : c'est ${S[k][0].charAt(0).toLowerCase() + S[k][0].slice(1)}.`,
-        _v: { k: '5G6.sol', k2: k }
-      }, S[k][0], S.filter((x, i) => i !== k).map(x => x[0]));
+        solution: `Description : ${S[k][1]}.\n**Conclusion** : c'est ${ans.charAt(0).toLowerCase() + ans.slice(1)}.`,
+        _v: { k: '5G6.sol', k2: k, ans }
+      }, ans, dis);
     }
     if (fam === 'prisme_tri_volume') {
       const a = R(2, 10), b = R(2, 10) * (a % 2 ? 2 : 1), h = R(3, 15);
@@ -22466,7 +22907,8 @@
     const EQ = "**Équiprobabilité** : lorsque toutes les issues ont la même chance de se produire, $P(\\text{événement}) = \\dfrac{\\text{nombre d'issues favorables}}{\\text{nombre d'issues possibles}}$.";
     const CTR = "**Événement contraire** : $P(\\text{non } A) = 1 - P(A)$ ; une probabilité est toujours comprise entre 0 (événement impossible) et 1 (événement certain).";
     return {
-      old: [2, 2, 1, 1],
+      // Palier 1 : l'ancien générateur (dé à 6 faces et jeu de 32 cartes figés) est remplacé par de_n et cartes
+      old: [0, 2, 1, 1],
       force1: /impossible|certain/,
       h1: [
         [/dé à/, "Compte le nombre de faces du dé, puis le nombre de faces qui conviennent."],
@@ -22490,7 +22932,7 @@
       ],
       h2def: [EQ, EQ, EQ, EQ],
       f: {
-        1: ['echelle', 'nb_issues', 'urne_simple'],
+        1: ['echelle', 'nb_issues', 'urne_simple', 'de_n', 'de_n', 'cartes'],
         2: ['mot_lettres', 'urne_couleurs', 'issues_favorables'],
         3: ['contraire_frac', 'comparer_urnes', 'somme_probas'],
         4: ['urne_ajout', 'proba_inverse', 'deux_conditions']
@@ -22503,22 +22945,87 @@
     const FT = (n, d) => { const [a, b] = this.simplifyFraction(n, d); return b === 1 ? String(a) : F(a, b); };
     const EQ = "**Équiprobabilité** : lorsque toutes les issues ont la même chance de se produire, $P(\\text{événement}) = \\dfrac{\\text{nombre d'issues favorables}}{\\text{nombre d'issues possibles}}$.";
     if (fam === 'echelle') {
-      const E = [
-        ['Impossible', ['obtenir 7 en lançant un dé à six faces numérotées de 1 à 6', 'tirer une boule verte dans un sac qui ne contient que des boules rouges']],
-        ['Peu probable', ['obtenir 6 en lançant un dé à six faces', 'tirer l\'unique boule noire d\'un sac de 20 boules']],
-        ['Une chance sur deux', ['obtenir « pile » en lançant une pièce équilibrée', 'obtenir un nombre pair avec un dé à six faces']],
-        ['Très probable', ['obtenir un nombre inférieur à 6 avec un dé à six faces', 'tirer une boule rouge dans un sac de 19 boules rouges et 1 bleue']],
-        ['Certain', ['obtenir un nombre inférieur à 7 avec un dé à six faces numérotées de 1 à 6', 'tirer une boule rouge dans un sac qui ne contient que des boules rouges']]
-      ];
-      const k = R(0, 4), ev = this.randChoice(E[k][1]);
+      // Situation (sac ou dé) et effectifs tirés au hasard ; catégories nettes : 0, au plus 1/8, 1/2, au moins 7/8, 1
+      const CAT = ['Impossible', 'Peu probable', 'Une chance sur deux', 'Très probable', 'Certain'];
+      const k = R(0, 4), sac = Math.random() < 0.5;
+      let ev, fav, tot, ctx;
+      if (sac) {
+        tot = k === 2 ? 2 * R(5, 20) : R(10, 40);
+        const few = R(1, Math.floor(tot / 8));
+        fav = [0, few, tot / 2, tot - few, tot][k];
+        const [c1, c2] = this.randChoice([['rouges', 'bleues'], ['vertes', 'jaunes'], ['blanches', 'noires']]);
+        ctx = fav === 0 ? `Un sac contient $${tot}$ boules ${c2}.` : fav === tot ? `Un sac contient $${tot}$ boules ${c1}.` : `Un sac contient $${fav}$ boule${fav > 1 ? 's' : ''} ${fav > 1 ? c1 : c1.slice(0, -1)} et $${tot - fav}$ boule${tot - fav > 1 ? 's' : ''} ${tot - fav > 1 ? c2 : c2.slice(0, -1)}, indiscernables au toucher.`;
+        ev = `tirer au hasard une boule ${c1.slice(0, -1)}`;
+      } else {
+        tot = k === 1 || k === 3 ? this.randChoice([8, 10, 12, 20]) : this.randChoice([6, 8, 10, 12, 20]);
+        const f = R(1, tot), s = tot / 2;
+        ctx = `On lance un dé équilibré à $${tot}$ faces numérotées de 1 à $${tot}$.`;
+        [ev, fav] = [
+          this.randChoice([[`obtenir $${tot + R(1, 5)}$`, 0], ['obtenir $0$', 0], [`obtenir un nombre strictement supérieur à $${tot}$`, 0]]),
+          [`obtenir $${f}$`, 1],
+          this.randChoice([['obtenir un nombre pair', s], ['obtenir un nombre impair', s], [`obtenir un nombre strictement supérieur à $${s}$`, s], [`obtenir un nombre inférieur ou égal à $${s}$`, s]]),
+          [`obtenir un nombre différent de $${f}$`, tot - 1],
+          this.randChoice([[`obtenir un nombre inférieur ou égal à $${tot}$`, tot], ['obtenir un nombre entier', tot]])
+        ][k];
+      }
+      // Distracteurs : les catégories voisines d'abord (erreurs les plus fréquentes)
+      const dist = CAT.map((c, i) => [c, Math.abs(i - k) + Math.random() / 2]).filter(x => x[0] !== CAT[k]).sort((a, b) => a[1] - b[1]).map(x => x[0]);
       return this._h5_mcq({
         title: 'Placer un événement sur l\'échelle des probabilités',
-        statement: `On considère l'événement : « ${ev} ».\n**Où se place-t-il sur l'échelle des probabilités ?**`,
+        statement: `${ctx}\nOn considère l'événement : « ${ev} ».\n**Où se place-t-il sur l'échelle des probabilités ?**`,
         hint1: 'Compare le nombre de cas favorables au nombre total de cas : aucun, peu, la moitié, presque tous, tous ?',
         hint2: "**Échelle des probabilités** : de 0 (impossible) à 1 (certain) ; $\\frac{1}{2}$ correspond à « une chance sur deux ». Plus la probabilité est proche de 1, plus l'événement a de chances de se produire.",
-        solution: `Pour l'événement « ${ev} », ${k === 0 ? 'aucune issue ne convient : probabilité 0' : k === 4 ? 'toutes les issues conviennent : probabilité 1' : k === 2 ? 'la moitié des issues conviennent : probabilité $\\frac{1}{2}$' : k === 1 ? 'peu d\'issues conviennent : probabilité proche de 0' : 'presque toutes les issues conviennent : probabilité proche de 1'}.\n**Conclusion** : ${E[k][0].toLowerCase()}.`,
-        _v: { k: '5D2.ech', ev }
-      }, E[k][0], this.shuffle(E.filter((x, i) => i !== k).map(x => x[0])).slice(0, 3));
+        solution: `Il y a $${tot}$ issues équiprobables, dont $${fav}$ réalise${fav > 1 ? 'nt' : ''} l'événement : $P = ${fav === 0 ? '0' : fav === tot ? '1' : `\\dfrac{${fav}}{${tot}}`}$${k === 2 ? ` $= \\dfrac{1}{2}$` : ''}.\n${k === 0 ? 'Aucune issue ne convient : la probabilité est 0' : k === 4 ? 'Toutes les issues conviennent : la probabilité est 1' : k === 2 ? 'La moitié des issues conviennent' : k === 1 ? 'Très peu d\'issues conviennent : la probabilité est proche de 0' : 'Presque toutes les issues conviennent : la probabilité est proche de 1'}.\n**Conclusion** : ${CAT[k].toLowerCase()}.`,
+        _v: { k: '5D2.ech2', fav, tot }
+      }, CAT[k], dist.slice(0, 3));
+    }
+    if (fam === 'de_n') {
+      // Dé à n faces et événement tirés au hasard ; distracteurs = erreurs typiques
+      const n = this.randChoice([4, 6, 8, 10, 12, 20]), ty = this.randChoice(['face', 'pair', 'multiple', 'sup_eg', 'sup', 'inf_eg']);
+      const FR = (a, b) => { const [p, q] = this.simplifyFraction(a, b); return q === 1 ? String(p) : `${p}/${q}`; };
+      let txt, test, near = null, m = 0, s = 0;
+      if (ty === 'face') { s = R(1, n); txt = `obtenir la face $${s}$`; test = x => x === s; }
+      else if (ty === 'pair') { txt = 'obtenir un nombre pair'; test = x => x % 2 === 0; }
+      else if (ty === 'multiple') { m = this.randChoice([3, 4, 5].filter(d => d < n)); txt = `obtenir un multiple de $${m}$`; test = x => x % m === 0; }
+      else if (ty === 'sup_eg') { s = R(2, n - 1); txt = `obtenir un nombre supérieur ou égal à $${s}$`; test = x => x >= s; near = FR(n - s, n); }
+      else if (ty === 'sup') { s = R(2, n - 2); txt = `obtenir un nombre strictement supérieur à $${s}$`; test = x => x > s; near = FR(n - s + 1, n); }
+      else { s = R(2, n - 1); txt = `obtenir un nombre inférieur ou égal à $${s}$`; test = x => x <= s; near = FR(s - 1, n); }
+      const L = []; for (let x = 1; x <= n; x++) if (test(x)) L.push(x);
+      const fav = L.length, good = FR(fav, n);
+      // favorables / défavorables, borne mal comptée, événement contraire, une seule issue
+      const dist = [fav < n ? FR(fav, n - fav) : null, near, FR(n - fav, n), fav > 1 ? FR(1, n) : FR(1, n - 1), FR(fav + 1, n)].filter(d => d && d !== good && this._h5_pval(d) > 0 && this._h5_pval(d) < 1);
+      return this._h5_mcq({
+        title: `Lancer d'un dé à ${n} faces`,
+        statement: `On lance un dé équilibré à $${n}$ faces numérotées de 1 à $${n}$.\n**Quelle est la probabilité de ${txt} ?**`,
+        hint1: 'Écris la liste des faces qui conviennent, puis compte-les ; le dénominateur est le nombre total de faces.',
+        hint2: EQ,
+        solution: `**Étape 1** : les $${n}$ faces sont équiprobables.\n**Étape 2** : issues favorables : $${L.join(' ; ')}$, soit $${fav}$ issue${fav > 1 ? 's' : ''}${ty === 'sup_eg' || ty === 'inf_eg' ? ` (la valeur $${s}$ est comprise)` : ty === 'sup' ? ` (la valeur $${s}$ est exclue)` : ''}.\n**Étape 3** : $P = ${F(fav, n)}${this.gcd(fav, n) > 1 ? ` = ${FT(fav, n)}` : ''}$.`,
+        _v: { k: '5D2.de', n, ty, s, m }
+      }, good, dist);
+    }
+    if (fam === 'cartes') {
+      // Jeu de 32 ou 52 cartes, événement (éventuellement contraire) tiré au hasard
+      const n = this.randChoice([32, 52]), FR = (a, b) => { const [p, q] = this.simplifyFraction(a, b); return `${p}/${q}`; };
+      const coul = this.randChoice([['cœur', 'rouge'], ['carreau', 'rouge'], ['pique', 'noire'], ['trèfle', 'noire']]);
+      const val = this.randChoice([['as', 'un as'], ['roi', 'un roi'], ['dame', 'une dame'], ['valet', 'un valet']]);
+      const E = [[`une carte ${coul[1]}`, n / 2, `il y a deux couleurs ${coul[1]}s sur quatre, soit $${n / 2}$ cartes ${coul[1]}s`],
+        [`un ${coul[0]}`, n / 4, `chacune des quatre couleurs compte $${n / 4}$ cartes`],
+        [val[1], 4, `il y a ${val[1]} dans chacune des quatre couleurs, soit $4$ cartes`],
+        ['une figure (valet, dame ou roi)', 12, 'il y a $3$ figures dans chacune des quatre couleurs, soit $12$ figures'],
+        [`${val[1]} ${coul[1] === 'noire' && !val[1].startsWith('une') ? 'noir' : coul[1]}`, 2, `il y a deux couleurs ${coul[1]}s, donc deux cartes de ce type`],
+        [`${val[1].replace(/^une? /, val[1].startsWith('une') ? 'la ' : 'le ')} de ${coul[0]}`.replace('le as', 'l\'as'), 1, 'il n\'y a qu\'une seule carte de ce type']];
+      const [ev0, fav0, why] = this.randChoice(E), neg = Math.random() < 0.3;
+      const ev = neg ? `ne pas obtenir ${ev0}` : `obtenir ${ev0}`, fav = neg ? n - fav0 : fav0, good = FR(fav, n);
+      // favorables/défavorables, une seule carte, oubli du contraire, mauvaise taille de jeu, confusion couleur/valeur
+      const dist = [FR(fav, n - fav), FR(1, n), FR(fav0, n), FR(fav, 32 + 52 - n), FR(1, 4), FR(1, 2), FR(1, 13)].filter(d => d !== good && this._h5_pval(d) < 1);
+      return this._h5_mcq({
+        title: `Tirage d'une carte dans un jeu de ${n} cartes`,
+        statement: `On tire une carte au hasard dans un jeu de $${n}$ cartes bien mélangé (quatre couleurs : cœur et carreau sont rouges, pique et trèfle sont noirs).\n**Quelle est la probabilité de ${ev} ?**`,
+        hint1: neg ? 'Compte d\'abord les cartes qui réalisent l\'événement contraire, puis celles qui restent.' : 'Compte les cartes qui conviennent dans le jeu, puis divise par le nombre total de cartes.',
+        hint2: EQ,
+        solution: `**Étape 1** : les $${n}$ cartes ont la même chance d'être tirées.\n**Étape 2** : pour « ${ev0} », ${why}${neg ? ` ; les cartes qui conviennent sont les autres : $${n} - ${fav0} = ${fav}$` : ''}.\n**Étape 3** : $P = ${F(fav, n)}${this.gcd(fav, n) > 1 ? ` = ${F(...this.simplifyFraction(fav, n))}` : ''}$.`,
+        _v: { k: '5D2.carte', n, ev }
+      }, good, dist);
     }
     if (fam === 'nb_issues') {
       const v = R(0, 2), n = R(4, 20), w = 'MATHEMATIQUES|CHOCOLAT|BIBLIOTHEQUE|ORDINATEUR'.split('|')[R(0, 3)];
