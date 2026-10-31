@@ -237,7 +237,8 @@ const strong = profile('Élève fort (90 %)', 0.9, { mcq: 0.3 }, { 1: [6, 9], 2:
 check('Élève fort : jamais de palier validé en moins de 6 questions', strong.every(r => r[1] >= P.MIN_ANSWERS), true);
 profile('Élève moyen (70 %)', 0.7, { mcq: 0.3 }, { 1: [6, 12], 2: [7, 14], 3: [7, 14], 4: [7, 14] });
 const weak = profile('Élève en difficulté (45 %)', 0.45, { mcq: 0.3 }, { 1: [8, 30] });
-check('Élève à 45 % : jamais bloqué au palier 1 (validé en moins de 60 questions)', weak.every(r => r[1] && r[1] <= 60), true);
+check('Élève à 45 % : jamais bloqué au palier 1 (toujours validé, sans allègement)', weak.every(r => r[1]), true);
+check('Objectif inchangé (6 sur 8) même après 16 questions sur le palier', E.getTierTarget({ tierAnswered: { 1: 40 }, tierWindows: { 1: Array(40).fill(0.75) } }, 1), P.TARGET);
 const guessers = Array.from({ length: 40 }, () => simulate(0, { mcq: 1, guess: true, maxQ: 100 }));
 check('QCM au hasard : palier 1 presque jamais validé en 100 questions', guessers.filter(r => r[1]).length <= 4, true);
 mcqRate = 0;

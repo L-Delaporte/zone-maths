@@ -155,9 +155,8 @@ window.MathsAdaptiveEngine = {
    *   −1/(k−1) : QCM à k choix faux du premier coup, même s'il est ensuite trouvé par élimination
    *           (correction du hasard : un élève qui répond au hasard a une espérance nulle).
    * Un palier est validé quand la somme des WINDOW dernières traces atteint TARGET
-   * (au moins MIN_ANSWERS questions). Après RELIEF_AFTER questions sur le même palier, si l'élève
-   * progresse réellement (crédit moyen ≥ RELIEF_MIN_AVG), l'objectif s'abaisse à RELIEF_TARGET pour
-   * qu'il ne reste pas bloqué indéfiniment.
+   * (au moins MIN_ANSWERS questions). L'objectif ne s'abaisse jamais, même après de nombreuses questions
+   * (choix du professeur : les paliers montent déjà vite).
    * Un palier validé ne se perd jamais ; la maîtrise affichée vaut 25 % par palier validé
    * plus l'avancement vers l'objectif du palier en cours.
    */
@@ -166,9 +165,6 @@ window.MathsAdaptiveEngine = {
     WINDOW: 8,
     TARGET: 6,
     MIN_ANSWERS: 6,
-    RELIEF_AFTER: 16,
-    RELIEF_TARGET: 5,
-    RELIEF_MIN_AVG: 0.4, // crédit moyen minimal sur les 16 dernières questions pour bénéficier de l'allègement
     REVIEW_EVERY: 5, // une question de rappel d'un palier validé toutes les 5 questions
     REVIEW_AFTER_MS: 20 * 3600 * 1000 // rappel d'échauffement si le chapitre n'a pas été travaillé depuis 20 h
   },
@@ -212,13 +208,7 @@ window.MathsAdaptiveEngine = {
   },
 
   getTierTarget(p, tier) {
-    const cfg = this.PROGRESSION;
-    const answered = (p.tierAnswered && p.tierAnswered[tier]) || 0;
-    if (answered < cfg.RELIEF_AFTER) return cfg.TARGET;
-    // Allègement réservé à l'élève qui progresse réellement (pas à celui qui répond au hasard en QCM)
-    const hist = ((p.tierWindows && p.tierWindows[tier]) || []).slice(-2 * cfg.WINDOW);
-    const avg = hist.length ? hist.reduce((a, c) => a + c, 0) / hist.length : 0;
-    return avg >= cfg.RELIEF_MIN_AVG ? cfg.RELIEF_TARGET : cfg.TARGET;
+    return this.PROGRESSION.TARGET;
   },
 
   windowSum(list) {
@@ -271,14 +261,12 @@ window.MathsAdaptiveEngine = {
     const target = this.getTierTarget(p, tier);
     const remaining = this.remainingCorrectFor(p, tier);
     const answered = p.tierAnswered[tier] || 0;
-    const relief = target < cfg.TARGET;
     const goal = tier < 4 ? `débloquer le Palier ${tier + 1}` : 'valider tout le chapitre';
     let message = remaining <= 1
       ? `Encore 1 bonne réponse pour ${goal} !`
       : `Encore ${remaining} bonnes réponses pour ${goal}.`;
-    if (relief) message += ' Ta persévérance compte : l\'objectif est allégé à ' + target + ' sur ' + cfg.WINDOW + '.';
     return {
-      complete: false, validatedCount: vc, tier, window: recent, target, remaining, answered, relief,
+      complete: false, validatedCount: vc, tier, window: recent, target, remaining, answered,
       mastery: this.computeMastery(p),
       objective: `Objectif du Palier ${tier} : ${String(target).replace('.', ',')} bonnes réponses sur les ${cfg.WINDOW} dernières questions`,
       message
