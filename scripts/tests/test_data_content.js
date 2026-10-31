@@ -342,7 +342,9 @@ dupCheck('Fiches', allWs);
 // ---------------------------------------------------------------------------
 const roots = {
   MATHS_CHAPTERS: chapters, MATHS_COURSES: courses, MATHS_EXERCISES: exercises,
-  MATHS_WORKSHEETS: worksheets, CAPES_LESSONS: capesLessons
+  MATHS_WORKSHEETS: worksheets, CAPES_LESSONS: capesLessons,
+  // Flashcards complémentaires (js/data/flashcards_<niveau>.js)
+  MATHS_EXTRA_FLASHCARDS: W.MATHS_EXTRA_FLASHCARDS || {}
 };
 for (const [name, obj] of Object.entries(roots)) {
   walkStrings(obj, name, (s, where) => {
