@@ -333,6 +333,17 @@
   color: inherit;
   text-decoration: underline;
 }
+/* Pied de page des pages éditoriales (anciennement en attributs style, retirés pour la CSP) */
+.site-footer {
+  text-align: center;
+  padding: 2rem;
+  border-top: 1px solid var(--border-color);
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+.site-footer .site-legal-links {
+  margin-top: 0.4rem;
+}
 
 /* Liens de maillage vers les pages piliers et les cours (rituels, brevet, bac, enseignants) — ajout SEO 31/10/2026 */
 .landing-links-box {

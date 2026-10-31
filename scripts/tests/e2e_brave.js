@@ -4,6 +4,9 @@
  * Usage : node e2e_brave.js [url_de_base]   (défaut http://127.0.0.1:8765/)
  * Le site doit être servi (python3 -m http.server 8765 --bind 127.0.0.1 depuis Site/).
  * Captures dans ./e2e_shots/ (à côté du script, ignoré par git)
+ * Les violations de la Content-Security-Policy (scripts/csp.js) sont collectées sur tout le parcours,
+ * et un parcours dédié (clair puis sombre) couvre accueil, défi, niveaux, cours, flashcards, rituel,
+ * fiches & DS + impression, brevet/bac blancs, sauvegarde/restauration, pages annexes : 0 attendue.
  */
 const { spawn } = require('child_process');
 const fs = require('fs');
@@ -23,6 +26,8 @@ const brave = spawn('brave', ['--headless=new', `--remote-debugging-port=${PORT}
 let ws, msgId = 0;
 const pending = new Map();
 const errors = [];
+const cspViolations = []; // violations de la Content-Security-Policy (événement securitypolicyviolation + console)
+let fileChooserWaiter = null;
 function send(method, params = {}) {
   const id = ++msgId;
   ws.send(JSON.stringify({ id, method, params }));
@@ -79,11 +84,19 @@ async function step(label, fn) {
   ws.addEventListener('message', ev => {
     const m = JSON.parse(ev.data);
     if (m.id && pending.has(m.id)) { pending.get(m.id).res(m.result || {}); pending.delete(m.id); }
+    if (m.method === 'Runtime.bindingCalled' && m.params.name === '__e2eCspReport') cspViolations.push(m.params.payload);
+    if (m.method === 'Log.entryAdded' && /Content[ -]Security[ -]Policy/i.test(m.params.entry.text)) cspViolations.push('console ' + m.params.entry.text.slice(0, 200));
+    if (m.method === 'Page.fileChooserOpened' && fileChooserWaiter) { fileChooserWaiter(m.params); fileChooserWaiter = null; }
     if (m.method === 'Runtime.exceptionThrown') errors.push('EXCEPTION ' + (m.params.exceptionDetails.exception || {}).description);
     if (m.method === 'Runtime.consoleAPICalled' && m.params.type === 'error') errors.push('console.error ' + m.params.args.map(a => a.value || a.description).join(' '));
     if (m.method === 'Log.entryAdded' && m.params.entry.level === 'error' && !/goatcounter|gc\.zgo/.test(m.params.entry.url || '')) errors.push('LOG ' + m.params.entry.text + ' ' + (m.params.entry.url || ''));
   });
   await send('Runtime.enable'); await send('Page.enable'); await send('Log.enable');
+  // Collecte des violations CSP sur toutes les pages visitées (script injecté par DevTools, hors CSP)
+  await send('Runtime.addBinding', { name: '__e2eCspReport' });
+  await send('Page.addScriptToEvaluateOnNewDocument', { source: `document.addEventListener('securitypolicyviolation', function (e) {
+    try { window.__e2eCspReport(location.pathname + ' : ' + (e.effectiveDirective || e.violatedDirective) + ' bloque ' + (e.blockedURI || '(inline)') + ' (' + (e.sourceFile || '') + ':' + e.lineNumber + ')'); } catch (_) {}
+  }, true);` });
 
   await step('Accueil : chargement sans données de niveau superflues', async () => {
     await goto(BASE + 'index.html');
@@ -511,12 +524,180 @@ async function step(label, fn) {
   }
   await send('Emulation.setTouchEmulationEnabled', { enabled: false });
 
+  // ── Content-Security-Policy : parcours complet en clair et en sombre, zéro violation attendue ──
+  // (les violations sont collectées pendant TOUT le test, voir __e2eCspReport plus haut)
+  const dlDir = fs.mkdtempSync(path.join(os.tmpdir(), 'e2e-dl-'));
+  await send('Page.setDownloadBehavior', { behavior: 'allow', downloadPath: dlDir });
+  const stubPrint = `window.__prints = 0; window.print = function () { window.__prints++; }; true`;
+  const printMedia = async (fn) => {
+    await send('Emulation.setEmulatedMedia', { media: 'print' });
+    await sleep(500);
+    try { return await fn(); } finally { await send('Emulation.setEmulatedMedia', { media: '' }); }
+  };
+  for (const theme of ['light', 'dark']) {
+    const cspStep = async (label, fn) => step(`CSP ${theme} : ${label}`, async () => {
+      const before = cspViolations.length;
+      const info = await fn();
+      await sleep(300);
+      const v = cspViolations.slice(before);
+      if (v.length) throw new Error(`${v.length} violation(s) : ${[...new Set(v)].slice(0, 3).join(' | ')}`);
+      return info;
+    });
+    const setTheme = `localStorage.setItem('maths_3e_progress_v1', JSON.stringify(Object.assign(JSON.parse(localStorage.getItem('maths_3e_progress_v1') || '{}'), { theme: '${theme}' }))); true`;
+
+    await cspStep('accueil, défi de la semaine, entraînement + cours de chaque grand niveau', async () => {
+      await goto(BASE + 'index.html');
+      await evaluate('localStorage.clear(); true');
+      await evaluate(setTheme);
+      await goto(BASE + 'index.html');
+      await waitFor('window.MathsApp && window.MathsApp.isHomeView');
+      const t = await evaluate('document.documentElement.getAttribute("data-theme")');
+      if (t !== theme) throw new Error(`thème ${t} au lieu de ${theme}`);
+      // Défi : mauvaise réponse, puis corrigé
+      await waitFor('document.getElementById("home-defi-input")');
+      await evaluate(`document.getElementById('home-defi-input').value = '123456789'; document.querySelector('.home-defi-submit').click(); true`);
+      await sleep(400);
+      await evaluate(`(document.querySelector('[data-defi-action="reveal"]') || { click() {} }).click(); true`);
+      await sleep(400);
+      if (!await evaluate('!!document.getElementById("home-defi-solution")')) throw new Error('corrigé du défi absent');
+      const done = [];
+      for (const level of ['6eme', '4eme', '3eme', '2nde', 'tale', 'L2', 'capes']) {
+        await evaluate(`window.MathsApp.switchLevel('${level}', true)`);
+        await waitFor(`window.MathsDataLoader.isLevelLoaded('${level}') && window.MathsApp.currentLevel === '${level}'`);
+        const chap = await evaluate(`(window.MATHS_CHAPTERS.find(c => c.level === '${level}') || {}).id`);
+        await evaluate(`window.MathsApp.selectChapter('${chap}'); window.MathsApp.switchTab('train'); true`);
+        await sleep(600);
+        await evaluate(`window.MathsApp.switchTab('course'); true`);
+        await sleep(500);
+        done.push(chap);
+      }
+      return `thème ${t}, défi, ${done.join(' ')}`;
+    });
+
+    await cspStep('flashcards, rituel, fiches & DS (génération + impression)', async () => {
+      await evaluate(`window.MathsApp.switchLevel('3eme', false)`);
+      await waitFor(`window.MathsDataLoader.isLevelLoaded('3eme')`);
+      await evaluate(`window.MathsApp.selectChapter('G1'); window.MathsApp.openFlashcardsModal('G1'); true`);
+      await sleep(600);
+      await evaluate(`window.MathsFlashcards.closeModal(); window.MathsApp.openDiaporamaModal('G1'); true`);
+      await sleep(600);
+      await evaluate(`window.MathsDiaporama.closeModal(); true`);
+      await evaluate(stubPrint);
+      await evaluate(`window.MathsApp.switchTab('sheets'); true`);
+      await sleep(500);
+      const n = await evaluate(`document.querySelectorAll('#sheets-content-container .ws-chip').length`);
+      for (let i = 0; i < n; i++) {
+        await evaluate(`window.MathsApp.selectSheet(${i}); true`);
+        await sleep(200);
+      }
+      // Impression du dernier sujet (DS) avec corrigé : rendu en média print
+      await printMedia(async () => {
+        await evaluate(`document.querySelector('#sheets-content-container [data-print="solution"]').click(); true`);
+        await sleep(600);
+      });
+      const prints = await evaluate('window.__prints');
+      if (prints < 1) throw new Error('impression non déclenchée');
+      await evaluate(`window.MathsApp.switchTab('train'); true`);
+      return `${n} fiches, impression ×${prints}`;
+    });
+
+    await cspStep('brevet blanc et bac blanc (génération + impression)', async () => {
+      await evaluate(stubPrint);
+      await evaluate("window.MathsApp.openQuizModal('N1', false); true");
+      await sleep(600);
+      await evaluate("document.getElementById('quiz-count-select').value='dnb-20'; window.MathsQuizGenerator.generate(); true");
+      await sleep(1200);
+      await printMedia(async () => {
+        await evaluate(`(() => { const b = [...document.querySelectorAll('#quiz-modal [data-click="print"]')].find(x => x.offsetParent !== null) || document.querySelector('#quiz-modal [data-click="print"]'); b.click(); return true; })()`);
+        await sleep(400);
+      });
+      await evaluate("window.MathsQuizGenerator.closeModal(); true");
+      await evaluate(`window.MathsApp.switchLevel('tale', false)`);
+      await waitFor(`window.MathsDataLoader.isLevelLoaded('tale')`);
+      await evaluate("window.MathsApp.openQuizModal('TA4', false); true");
+      await sleep(600);
+      await evaluate("document.getElementById('quiz-count-select').value='bac-20'; window.MathsQuizGenerator.generate(); true");
+      await sleep(1200);
+      const err = await evaluate(`document.querySelectorAll('#quiz-preview-content .katex-error').length`);
+      await evaluate("window.MathsQuizGenerator.closeModal(); true");
+      if (err) throw new Error(`${err} erreur(s) KaTeX`);
+      return `impression ×${await evaluate('window.__prints')}`;
+    });
+
+    await cspStep('bilan : sauvegarde (Blob) puis restauration (fichier)', async () => {
+      await evaluate(`window.MathsApp.switchTab('stats'); true`);
+      await sleep(500);
+      for (const f of fs.readdirSync(dlDir)) fs.rmSync(path.join(dlDir, f), { force: true });
+      await evaluate(`document.querySelector('[data-click="MathsStorage.exportToJson"]').click(); true`);
+      let file;
+      for (let i = 0; i < 40 && !file; i++) {
+        await sleep(150);
+        file = fs.readdirSync(dlDir).find(f => f.endsWith('.json'));
+      }
+      if (!file) throw new Error('sauvegarde non téléchargée');
+      const saved = JSON.parse(fs.readFileSync(path.join(dlDir, file), 'utf8'));
+      if (saved.theme !== theme && (saved.user || {}).theme !== theme && JSON.stringify(saved).indexOf(theme) < 0) throw new Error('sauvegarde sans le thème');
+      // Restauration : on modifie la progression, puis on recharge le fichier via le vrai sélecteur de fichier
+      await evaluate(`localStorage.setItem('maths_3e_progress_v1', JSON.stringify({ theme: 'light' })); window.confirm = () => true; true`);
+      await send('Page.setInterceptFileChooserDialog', { enabled: true });
+      const chooser = new Promise(r => { fileChooserWaiter = r; });
+      // userGesture : input.click() n'ouvre le sélecteur de fichier qu'avec une activation utilisateur
+      await send('Runtime.evaluate', { expression: `document.querySelector('[data-click="MathsApp.handleImportProgress"]').click()`, userGesture: true });
+      const fc = await Promise.race([chooser, sleep(4000).then(() => null)]);
+      await send('Page.setInterceptFileChooserDialog', { enabled: false });
+      if (!fc) { await evaluate(setTheme); throw new Error('sélecteur de fichier non ouvert'); }
+      await send('DOM.enable');
+      await send('DOM.setFileInputFiles', { files: [path.join(dlDir, file)], backendNodeId: fc.backendNodeId });
+      await sleep(1500); // restauration → location.reload()
+      await waitFor('document.readyState === "complete" && window.MathsApp');
+      const t = await evaluate('document.documentElement.getAttribute("data-theme")');
+      if (t !== theme) throw new Error(`thème après restauration : ${t}`);
+      return `${file} restauré`;
+    });
+
+    for (const [url, extra] of [
+      ['rituels.html'], ['brevet.html'], ['bac.html'], ['parents.html'], ['a-propos.html'], ['mentions-legales.html'],
+      ['enseignants.html', 'copy'], ['affiche.html', 'print'],
+      ['cours/'], ['cours/4e/theoreme-de-pythagore.html'], ['cours/terminale/calcul-integral.html'], ['reussir-le-bac-de-maths/'], ['entrainement-maths/'],
+    ]) {
+      await cspStep(url, async () => {
+        await goto(BASE + url);
+        const t = await evaluate('document.documentElement.getAttribute("data-theme")');
+        if (url !== 'affiche.html' && t !== theme) throw new Error(`thème ${t} au lieu de ${theme}`);
+        let info = `thème ${t || '—'}`;
+        if (extra === 'copy') {
+          const st = [];
+          for (const id of ['msg-ent', 'msg-parents', 'msg-collegues']) {
+            await evaluate(`document.querySelector('[data-copy-target="${id}"]').click(); true`);
+            await sleep(400);
+            st.push(await evaluate(`document.getElementById('${id}-statut').textContent.trim()`));
+          }
+          if (st.some(s => !s)) throw new Error('statut de copie vide');
+          await evaluate(stubPrint);
+          await printMedia(async () => { await evaluate(`document.getElementById('kit-print-qr').click(); true`); await sleep(400); });
+          info += `, copie : ${st[0]}, QR imprimés ×${await evaluate('window.__prints')}`;
+        } else if (extra === 'print') {
+          await evaluate(stubPrint);
+          await printMedia(async () => { await evaluate(`document.querySelector('[data-print]').click(); true`); await sleep(400); });
+          info += `, impression ×${await evaluate('window.__prints')}`;
+        }
+        const katex = await evaluate('document.querySelectorAll(".katex").length');
+        return info + (katex ? `, ${katex} formules KaTeX` : '');
+      });
+    }
+  }
+  await evaluate('localStorage.clear(); true');
+  try { fs.rmSync(dlDir, { recursive: true, force: true }); } catch (e) {}
+
   for (const r of results) console.log(r.join(' '));
   const uniq = [...new Set(errors)];
   console.log(`\nErreurs JavaScript / réseau : ${uniq.length}`);
   uniq.slice(0, 30).forEach(e => console.log('  - ' + e.slice(0, 300)));
+  const cspUniq = [...new Set(cspViolations)];
+  console.log(`Violations de la Content-Security-Policy (tout le parcours) : ${cspViolations.length}`);
+  cspUniq.slice(0, 30).forEach(e => console.log('  - ' + e.slice(0, 300)));
   ws.close();
   brave.kill();
   try { fs.rmSync(profile, { recursive: true, force: true, maxRetries: 5 }); } catch (e) {}
-  process.exit(results.some(r => r[0] === '✖') || uniq.length ? 1 : 0);
+  process.exit(results.some(r => r[0] === '✖') || uniq.length || cspViolations.length ? 1 : 0);
 })().catch(e => { console.error(e); brave.kill(); process.exit(2); });
