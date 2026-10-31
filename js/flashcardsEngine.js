@@ -60,7 +60,10 @@
      */
     enrichCoursesWithExtras() {
       if (!window.MATHS_COURSES) return;
-      for (const [chapId, extraList] of Object.entries(this.EXTRA_FLASHCARDS)) {
+      // Cartes intégrées (5e, 4e) + cartes des fichiers js/data/flashcards_<niveau>.js,
+      // chargés avec leur niveau (level-bundles) dans window.MATHS_EXTRA_FLASHCARDS.
+      const sources = [this.EXTRA_FLASHCARDS, window.MATHS_EXTRA_FLASHCARDS || {}];
+      for (const [chapId, extraList] of sources.flatMap(src => Object.entries(src))) {
         if (!window.MATHS_COURSES[chapId]) {
           window.MATHS_COURSES[chapId] = {};
         }

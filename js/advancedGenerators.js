@@ -458,6 +458,7 @@ window.MathsAdvancedGenerators = {
       case 'L2-MUL':  return this.generateL2_MUL(t);
       case 'L2-CRB':  return this.generateL2_CRB(t);
       case 'L2-PRB':  return this.generateL2_PRB(t);
+      case 'L2-PRF':  return this.generateL2_PRF(t);
 
       // =========================================================================
       // LICENCE 3 (15 modules)
@@ -477,6 +478,7 @@ window.MathsAdvancedGenerators = {
       case 'L3-NUM':  return this.generateL3_NUM(t);
       case 'L3-PROG': return this.generateL3_PROG(t);
       case 'L3-PRC':  return this.generateL3_PRC(t);
+      case 'L3-PRF':  return this.generateL3_PRF(t);
 
       // =========================================================================
       // LYCÉE : 2NDE, 1ÈRE, TERMINALE
@@ -13360,6 +13362,542 @@ window.MathsAdvancedGenerators = {
       `$E(S) = ${n} \\times ${this.paren(m)} = ${n * m}$ et $V(S) = ${n} \\times ${v} = ${n * v}$, d'où $(\\mu ; \\sigma^2) = ${this._L23_tup([n * m, n * v])}$.`,
       `(${n * m};${n * v})`, 'Saisir (μ;σ²).'
     );
+  },
+
+  // =========================================================================
+  // L2-PRF / L3-PRF : démonstrations fondamentales — applications chiffrées des théorèmes
+  // démontrés dans le cours (Cauchy-Schwarz, théorème spectral, Cayley-Hamilton, lemme d'Abel,
+  // dérivation sous l'intégrale ; convergence dominée, Fatou, Banach-Steinhaus, inversion locale, Sylow).
+  // =========================================================================
+
+  /** Fraction -> saisie élève « n/d » irréductible (alias lisible de _L1in) */
+  _PRF_in(n, d = 1) {
+    return this._L1in([n, d]);
+  },
+
+  /** Matrice symétrique 2x2 [[a, b], [b, d]] (b non nul) à valeurs propres entières l1 < l2 */
+  _PRF_sym2() {
+    for (;;) {
+      const a = this.randInt(-5, 5), d = this.randInt(-5, 5), b = this.randNonZero(-4, 4);
+      const disc = (a - d) ** 2 + 4 * b * b;
+      const s = Math.round(Math.sqrt(disc));
+      if (s * s !== disc || (a + d + s) % 2 !== 0) continue;
+      return { a, b, d, l1: (a + d - s) / 2, l2: (a + d + s) / 2 };
+    }
+  },
+
+  /** Forme quadratique « a x^2 + 2b xy + d y^2 (+ c z^2) » */
+  _PRF_qf(a, b, d, c) {
+    const t = [[a, 'x^2'], [2 * b, 'xy'], [d, 'y^2']];
+    if (c !== undefined) t.push([c, 'z^2']);
+    return this.poly(t);
+  },
+
+  /** Polynôme caractéristique 3x3 : [Tr, somme des mineurs principaux d'ordre 2, det] */
+  _PRF_chi3(M) {
+    const t = M[0][0] + M[1][1] + M[2][2];
+    const m2 = (i, j) => M[i][i] * M[j][j] - M[i][j] * M[j][i];
+    return [t, m2(0, 1) + m2(0, 2) + m2(1, 2), this._L2_det3(M)];
+  },
+
+  generateL2_PRF(tier) {
+    const fams = {
+      1: [this._L2PRF_csMax, this._L2PRF_eig2, this._L2PRF_ch2],
+      2: [this._L2PRF_csMin, this._L2PRF_rayleigh, this._L2PRF_cube, this._L2PRF_dsi0],
+      3: [this._L2PRF_ch3, this._L2PRF_sig3, this._L2PRF_abel, this._L2PRF_dsiN],
+      4: [this._L2PRF_pow, this._L2PRF_dsiLap, this._L2PRF_minmax3]
+    }[tier] || [this._L2PRF_csMax];
+    return this.randChoice(fams).call(this);
+  },
+
+  _L2PRF_csMax() {
+    const V2 = [[3, 4, 5], [5, 12, 13], [6, 8, 10], [8, 15, 17], [7, 24, 25]];
+    const V3 = [[1, 2, 2, 3], [2, 3, 6, 7], [1, 4, 8, 9], [2, 6, 9, 11], [4, 4, 7, 9]];
+    const three = Math.random() < 0.5;
+    const base = this.randChoice(three ? V3 : V2);
+    const N = base[base.length - 1];
+    const u = this.shuffleArray(base.slice(0, -1)).map((x) => (Math.random() < 0.5 ? -x : x));
+    const vars = three ? ['x', 'y', 'z'] : ['x', 'y'];
+    const r = this.randInt(1, 4);
+    const sph = this.poly(vars.map((v) => [1, `${v}^2`]));
+    const sumAbs = u.reduce((s, x) => s + Math.abs(x), 0);
+    const args = vars.join(', ');
+    return this._L23_mcq('L2-PRF', 1, 'Cauchy-Schwarz : maximum d\'une forme linéaire sur une sphère euclidienne',
+      'Appliquer l\'inégalité de Cauchy-Schwarz et son cas d\'égalité',
+      `On munit $\\mathbb{R}^{${vars.length}}$ du produit scalaire canonique. Déterminer le maximum de $f(${args}) = ${this._L23_lin(u, vars)}$ sur ${three ? 'la sphère' : 'le cercle'} d'équation $${sph} = ${r * r}$.`,
+      `$\\max f = ${N * r}$`,
+      [N, r * sumAbs, N * N * r, N * r * r, sumAbs].map((x) => `$\\max f = ${x}$`),
+      'Écris $f(X) = \\langle u, X \\rangle$ et utilise $|\\langle u, X \\rangle| \\leq \\|u\\| \\, \\|X\\|$.',
+      'Le cas d\'égalité de Cauchy-Schwarz est atteint pour $X$ colinéaire à $u$ et de même sens.',
+      `Avec $u = ${this._L23_tup(u)}$, $\\|u\\| = \\sqrt{${u.map((x) => x * x).join(' + ')}} = ${N}$ et $\\|X\\| = ${r}$. Cauchy-Schwarz donne $f(X) \\leq ${N} \\times ${r} = ${N * r}$, avec égalité pour $X = ${this.frac(r, N)} \\, u$, point de la sphère. Donc $\\max f = ${N * r}$.`,
+      String(N * r), 'Saisir un nombre entier.');
+  },
+
+  _L2PRF_csMin() {
+    let u;
+    do { u = [this.randNonZero(-3, 3), this.randNonZero(-3, 3), this.randInt(-3, 3)]; } while (u[2] === 0 && Math.random() < 0.7);
+    const d = this.randInt(1, 9);
+    const S = u.reduce((s, x) => s + x * x, 0);
+    const ans = this.frac(d * d, S);
+    return this._L23_mcq('L2-PRF', 2, 'Cauchy-Schwarz : distance minimale sous une contrainte linéaire',
+      'Minimiser une norme sous contrainte par Cauchy-Schwarz',
+      `Déterminer le minimum de $x^2 + y^2 + z^2$ lorsque $(x, y, z)$ décrit le plan d'équation $${this._L23_lin(u)} = ${d}$.`,
+      `$\\min = ${ans}$`,
+      [this.frac(d, S), this.frac(d * d, S * S), this.frac(d, Math.round(Math.sqrt(S)) || 1), this.frac(d * d, u.reduce((s, x) => s + Math.abs(x), 0)), this.frac(S, d * d)].map((x) => `$\\min = ${x}$`),
+      'Avec $u$ le vecteur des coefficients, la contrainte s\'écrit $\\langle u, X \\rangle = d$ : applique Cauchy-Schwarz.',
+      'On obtient $d^2 \\leq \\|u\\|^2 \\|X\\|^2$ ; l\'égalité a lieu pour $X$ colinéaire à $u$.',
+      `Soit $u = ${this._L23_tup(u)}$, $\\|u\\|^2 = ${S}$. Pour $X$ dans le plan, $${d * d} = \\langle u, X \\rangle^2 \\leq ${S} \\, \\|X\\|^2$, donc $\\|X\\|^2 \\geq ${ans}$. Le point $X = ${this.frac(d, S)} \\, u$ est dans le plan et réalise l'égalité : le minimum vaut $${ans}$ (carré de la distance de l'origine au plan).`,
+      this._PRF_in(d * d, S));
+  },
+
+  _L2PRF_eig2() {
+    const { a, b, d, l1, l2 } = this._PRF_sym2();
+    const T = (x, y) => `$(\\lambda_1 ; \\lambda_2) = ${this._L23_tup([x, y])}$`;
+    return this._L23_mcq('L2-PRF', 1, 'Théorème spectral : valeurs propres d\'une matrice symétrique 2x2',
+      'Calculer le spectre réel d\'une matrice symétrique',
+      `Soit $A = ${this._L2_pm([[a, b], [b, d]])} \\in \\mathcal{S}_2(\\mathbb{R})$. D'après le théorème spectral, $A$ est diagonalisable dans une base orthonormée. Donner ses valeurs propres $\\lambda_1 < \\lambda_2$.`,
+      T(l1, l2),
+      [T(Math.min(a, d), Math.max(a, d) + (a === d ? 1 : 0)), T(-l2, -l1), T(l1 - 1, l2 + 1), T(l1 + b, l2 - b), T(a + d, a * d - b * b)],
+      'Les valeurs propres sont les racines de $\\chi_A(\\lambda) = \\lambda^2 - \\mathrm{Tr}(A)\\lambda + \\det(A)$.',
+      'Calcule $\\mathrm{Tr}(A)$ et $\\det(A)$, puis résous l\'équation du second degré (son discriminant est positif car $A$ est symétrique réelle).',
+      `$\\mathrm{Tr}(A) = ${a + d}$ et $\\det(A) = ${a * d - b * b}$, donc $\\chi_A(\\lambda) = ${this.polyX([1, -(a + d), a * d - b * b], '\\lambda')}$, de racines $${l1}$ et $${l2}$. Les sous-espaces propres associés sont deux droites orthogonales.`,
+      `(${l1};${l2})`, 'Saisir (λ1;λ2) avec λ1 < λ2, par exemple (-1;4).');
+  },
+
+  _L2PRF_rayleigh() {
+    const { a, b, d, l1, l2 } = this._PRF_sym2();
+    const isMax = Math.random() < 0.5;
+    const ans = isMax ? l2 : l1;
+    const w = isMax ? 'maximum' : 'minimum';
+    return this._L23_mcq('L2-PRF', 2, 'Théorème spectral : extremum d\'une forme quadratique sur le cercle unité',
+      'Relier les extremums d\'une forme quadratique sur la sphère aux valeurs propres',
+      `Déterminer le ${w} de $q(x, y) = ${this._PRF_qf(a, b, d)}$ sur le cercle unité $x^2 + y^2 = 1$.`,
+      `$\\${isMax ? 'max' : 'min'} q = ${ans}$`,
+      [isMax ? l1 : l2, isMax ? Math.max(a, d) : Math.min(a, d), a + d, isMax ? l2 + Math.abs(b) : l1 - Math.abs(b), -ans].map((x) => `$\\${isMax ? 'max' : 'min'} q = ${x}$`),
+      'Écris $q(X) = {}^{t}X A X$ avec $A$ symétrique, puis diagonalise $A$ en base orthonormée.',
+      'Dans une base orthonormée de vecteurs propres, $q = \\lambda_1 X_1^2 + \\lambda_2 X_2^2$ avec $X_1^2 + X_2^2 = 1$.',
+      `La matrice de $q$ est $A = ${this._L2_pm([[a, b], [b, d]])}$, de valeurs propres $${l1}$ et $${l2}$ ($\\mathrm{Tr} = ${a + d}$, $\\det = ${a * d - b * b}$). En base orthonormée propre, $q = ${this.poly([[l1, 'X_1^2'], [l2, 'X_2^2']])}$ avec $X_1^2 + X_2^2 = 1$ : $q$ varie entre $${l1}$ et $${l2}$, valeurs atteintes en des vecteurs propres unitaires. Le ${w} vaut $${ans}$.`,
+      String(ans), 'Saisir un nombre entier.');
+  },
+
+  _L2PRF_ch2() {
+    let M;
+    do { M = [[this.randInt(-5, 5), this.randNonZero(-5, 5)], [this.randNonZero(-5, 5), this.randInt(-5, 5)]]; } while (M[0][0] + M[1][1] === 0 || M[0][0] * M[1][1] - M[0][1] * M[1][0] === 0);
+    const t = M[0][0] + M[1][1], d = M[0][0] * M[1][1] - M[0][1] * M[1][0];
+    const T = (x, y) => `$(\\alpha ; \\beta) = ${this._L23_tup([x, y])}$`;
+    return this._L23_mcq('L2-PRF', 1, 'Cayley-Hamilton : relation $A^2 = \\alpha A + \\beta I_2$',
+      'Appliquer le théorème de Cayley-Hamilton en dimension 2',
+      `Soit $A = ${this._L2_pm(M)}$. D'après le théorème de Cayley-Hamilton, il existe des réels $\\alpha, \\beta$ tels que $A^2 = \\alpha A + \\beta I_2$. Donner $(\\alpha ; \\beta)$.`,
+      T(t, -d), [T(t, d), T(-t, d), T(-t, -d), T(d, -t)],
+      'Le polynôme caractéristique annule la matrice : $\\chi_A(A) = 0$.',
+      'En dimension 2, $\\chi_A(X) = X^2 - \\mathrm{Tr}(A) X + \\det(A)$.',
+      `$\\mathrm{Tr}(A) = ${t}$, $\\det(A) = ${d}$, donc $\\chi_A(X) = ${this.polyX([1, -t, d], 'X')}$ et $\\chi_A(A) = 0$ donne $A^2 = ${this.poly([[t, 'A'], [-d, 'I_2']])}$ : $(\\alpha ; \\beta) = ${this._L23_tup([t, -d])}$.`,
+      `(${t};${-d})`, 'Saisir (α;β), par exemple (3;-2).');
+  },
+
+  _L2PRF_cube() {
+    let M;
+    do { M = [[this.randInt(-3, 3), this.randNonZero(-3, 3)], [this.randNonZero(-3, 3), this.randInt(-3, 3)]]; } while (M[0][0] + M[1][1] === 0 || M[0][0] * M[1][1] - M[0][1] * M[1][0] === 0);
+    const t = M[0][0] + M[1][1], d = M[0][0] * M[1][1] - M[0][1] * M[1][0];
+    const p = t * t - d, q = -t * d;
+    const T = (x, y) => `$(p ; q) = ${this._L23_tup([x, y])}$`;
+    return this._L23_mcq('L2-PRF', 2, 'Cayley-Hamilton : réduction de $A^3$',
+      'Exprimer une puissance de $A$ à l\'aide de Cayley-Hamilton',
+      `Soit $A = ${this._L2_pm(M)}$. Déterminer les réels $p, q$ tels que $A^3 = pA + qI_2$.`,
+      T(p, q), [T(t * t, q), T(t * t + d, -q), T(t, -d), T(p, -q), T(q, p)],
+      'Commence par écrire $A^2$ comme combinaison de $A$ et $I_2$ grâce à Cayley-Hamilton.',
+      'Multiplie ensuite la relation obtenue par $A$ et remplace à nouveau $A^2$.',
+      `$\\mathrm{Tr}(A) = ${t}$ et $\\det(A) = ${d}$, donc $A^2 = ${this.poly([[t, 'A'], [-d, 'I_2']])}$. Alors $A^3 = ${this.poly([[t, 'A^2'], [-d, 'A']])} = ${t === 1 ? '' : t === -1 ? '-' : t}(${this.poly([[t, 'A'], [-d, 'I_2']])}) ${d < 0 ? '+' : '-'} ${Math.abs(d) === 1 ? '' : Math.abs(d)}A = ${this.poly([[p, 'A'], [q, 'I_2']])}$ : $(p ; q) = ${this._L23_tup([p, q])}$.`,
+      `(${p};${q})`, 'Saisir (p;q), par exemple (7;-6).');
+  },
+
+  _L2PRF_dsiF(tier) {
+    const k = this.randInt(0, 4);
+    const a = this.randNonZero(tier === 2 ? -5 : -3, tier === 2 ? 5 : 3);
+    const n = tier === 2 ? 1 : this.randInt(2, 3);
+    const tk = this.pow('t', k);
+    const F = `\\int_0^1 ${tk === '1' ? '' : tk + ' '}e^{${this.coefStr(a, 'xt')}} \\, dt`;
+    const ansN = a ** n, ansD = k + n + 1;
+    const der = n === 1 ? "F'(0)" : n === 2 ? "F''(0)" : 'F^{(3)}(0)';
+    const fact = n === 3 ? 6 : n;
+    const lab = (x) => `$${der} = ${x}$`;
+    return this._L23_mcq('L2-PRF', tier, n === 1 ? 'Dérivation sous le signe intégrale' : 'Dérivées successives sous le signe intégrale',
+      'Justifier et appliquer la dérivation sous le signe intégrale',
+      `On pose, pour $x \\in \\mathbb{R}$, $F(x) = ${F}$. Après avoir justifié que $F$ est de classe $\\mathcal{C}^{${n === 1 ? 1 : '\\infty'}}$, calculer $${der}$.`,
+      lab(this.frac(ansN, ansD)),
+      [this.frac(ansN, k + n), this.frac(ansN, k + 1), this.frac(1, ansD), this.frac(fact * ansN, ansD), this.frac(a ** (n - 1) || 1, ansD), this.frac(-ansN, ansD)].map(lab),
+      'Sur $[-M ; M]$, la dérivée partielle par rapport à $x$ est dominée par une constante (intégrable sur $[0 ; 1]$).',
+      `Dérive sous l'intégrale${n === 1 ? '' : ` $${n}$ fois`} : chaque dérivation en $x$ fait apparaître un facteur $${this.coefStr(a, 't')}$.`,
+      `Pour $|x| \\leq M$ et $t \\in [0 ; 1]$, $\\left|\\frac{\\partial^{j}}{\\partial x^{j}} \\left(${tk === '1' ? '' : tk}e^{${this.coefStr(a, 'xt')}}\\right)\\right| \\leq ${Math.abs(a) === 1 ? '' : Math.abs(a) + '^j '}e^{${Math.abs(a) === 1 ? '' : Math.abs(a)}M}$ : la domination est uniforme, donc on peut dériver sous l'intégrale. $${der} = \\int_0^1 ${a ** n === 1 ? '' : a ** n === -1 ? '-' : a ** n + ' '}${this.pow('t', k + n)} \\, dt = ${this.frac(ansN, ansD)}$.`,
+      this._PRF_in(ansN, ansD));
+  },
+
+  _L2PRF_dsi0() { return this._L2PRF_dsiF(2); },
+  _L2PRF_dsiN() { return this._L2PRF_dsiF(3); },
+
+  _L2PRF_ch3() {
+    let M;
+    do { M = [0, 1, 2].map(() => [0, 1, 2].map(() => this.randInt(-2, 3))); } while (M.flat().filter((x) => x === 0).length > 4 || this._L2_det3(M) === 0);
+    const [t, s, D] = this._PRF_chi3(M);
+    const T = (x, y, z) => `$(a ; b ; c) = ${this._L23_tup([x, y, z])}$`;
+    return this._L23_mcq('L2-PRF', 3, 'Cayley-Hamilton en dimension 3',
+      'Calculer le polynôme caractéristique d\'une matrice 3x3 et l\'utiliser comme annulateur',
+      `Soit $A = ${this._L2_pm(M)}$. D'après le théorème de Cayley-Hamilton, $A^3 = aA^2 + bA + cI_3$ pour des réels $a, b, c$. Donner $(a ; b ; c)$.`,
+      T(t, -s, D), [T(t, s, D), T(t, -s, -D), T(-t, s, -D), T(t, s, -D), T(D, -s, t)],
+      '$\\chi_A(X) = X^3 - \\mathrm{Tr}(A) X^2 + s_2 X - \\det(A)$, où $s_2$ est la somme des trois mineurs principaux d\'ordre 2.',
+      'Calcule séparément $\\mathrm{Tr}(A)$, $s_2$ et $\\det(A)$, puis écris $\\chi_A(A) = 0$.',
+      `$\\mathrm{Tr}(A) = ${t}$, $s_2 = ${s}$ et $\\det(A) = ${D}$, donc $\\chi_A(X) = ${this.polyX([1, -t, s, -D], 'X')}$. Le théorème de Cayley-Hamilton donne $A^3 = ${this.poly([[t, 'A^2'], [-s, 'A'], [D, 'I_3']])}$ : $(a ; b ; c) = ${this._L23_tup([t, -s, D])}$.`,
+      `(${t};${-s};${D})`, 'Saisir (a;b;c), par exemple (2;-1;3).');
+  },
+
+  /** Signature d'une forme quadratique (bloc 2x2 symétrique + terme diagonal en z) */
+  _L2PRF_sig3() {
+    let a, b, d, c;
+    do { a = this.randInt(-4, 4); b = this.randNonZero(-3, 3); d = this.randInt(-4, 4); c = this.randNonZero(-4, 4); } while (a === 0 && d === 0);
+    const det = a * d - b * b, tr = a + d;
+    let p = 0, n = 0;
+    if (det > 0) { if (tr > 0) p += 2; else n += 2; } else if (det < 0) { p++; n++; } else if (tr > 0) p++; else n++;
+    if (c > 0) p++; else n++;
+    const pairs = [];
+    for (let i = 0; i <= 3; i++) for (let j = 0; i + j <= 3; j++) if (i !== p || j !== n) pairs.push([i, j]);
+    const T = (x, y) => `$(p ; q) = ${this._L23_tup([x, y])}$`;
+    return this._L23_mcq('L2-PRF', 3, 'Théorème spectral : signature d\'une forme quadratique',
+      'Lire la signature sur le signe des valeurs propres',
+      `Déterminer la signature $(p ; q)$ de la forme quadratique $q(x, y, z) = ${this._PRF_qf(a, b, d, c)}$ sur $\\mathbb{R}^3$ ($p$ : nombre de valeurs propres strictement positives de sa matrice, $q$ : nombre de valeurs propres strictement négatives).`,
+      T(p, n), this.shuffleArray(pairs).slice(0, 5).map(([x, y]) => T(x, y)),
+      'Dans une base orthonormée de vecteurs propres de la matrice symétrique de $q$, $q = \\lambda_1 X_1^2 + \\lambda_2 X_2^2 + \\lambda_3 X_3^2$.',
+      'La matrice est diagonale par blocs : étudie le bloc en $(x, y)$ par le signe de son déterminant et de sa trace.',
+      `La matrice de $q$ est $${this._L2_pm([[a, b, 0], [b, d, 0], [0, 0, c]])}$. Le bloc $${this._L2_pm([[a, b], [b, d]])}$ a pour déterminant $${det}$ (produit des deux valeurs propres) et pour trace $${tr}$ (leur somme) ; la troisième valeur propre est $${c}$. D'où $(p ; q) = ${this._L23_tup([p, n])}$.`,
+      `(${p};${n})`, 'Saisir (p;q), par exemple (2;1).');
+  },
+
+  _L2PRF_abel() {
+    const k = this.randChoice([2, 3]);
+    const m = k === 2 ? this.randInt(2, 6) : this.randInt(2, 4);
+    const c = m ** k, j = this.randInt(0, 2);
+    const num = j === 0 ? '' : j === 1 ? 'n ' : 'n^2 ';
+    return this._L23_mcq('L2-PRF', 3, 'Lemme d\'Abel : rayon d\'une série lacunaire',
+      'Déterminer un rayon de convergence par le lemme d\'Abel',
+      `Déterminer le rayon de convergence $R$ de la série entière $\\displaystyle\\sum_{n \\geq 1} \\frac{${num}z^{${k}n}}{${c}^n}$.`,
+      `$R = ${m}$`,
+      [c, this.frac(1, m), this.frac(1, c), k * m, m * m === c ? m + 1 : m * m].map((x) => `$R = ${x}$`),
+      'Lemme d\'Abel : si la suite $(a_n r^n)$ est bornée, la série $\\sum a_n z^n$ converge absolument pour $|z| < r$.',
+      `Étudie, pour $z$ fixé, la suite $\\left(\\frac{|z|^{${k}}}{${c}}\\right)^n$ : est-elle bornée ?`,
+      `Pour $|z|^{${k}} < ${c}$, le terme général vaut $${j ? num : ''}q^n$ avec $q = \\frac{|z|^{${k}}}{${c}} < 1$ : la série converge absolument. Pour $|z|^{${k}} > ${c}$, le terme général ne tend pas vers $0$. Le rayon vérifie donc $R^{${k}} = ${c}$, soit $R = ${m}$.`,
+      String(m), 'Saisir un nombre entier.');
+  },
+
+  _L2PRF_pow() {
+    let l, u, P, A;
+    do {
+      l = this.randInt(-3, 3); u = this.randInt(-3, 3);
+      const p = this.randInt(-2, 2), q = this.randInt(-2, 2);
+      P = [[1 + p * q, p], [q, 1]]; // det = 1
+      const Pi = [[1, -p], [-q, 1 + p * q]];
+      const PD = [[P[0][0] * l, P[0][1] * u], [P[1][0] * l, P[1][1] * u]];
+      A = [[PD[0][0] * Pi[0][0] + PD[0][1] * Pi[1][0], PD[0][0] * Pi[0][1] + PD[0][1] * Pi[1][1]], [PD[1][0] * Pi[0][0] + PD[1][1] * Pi[1][0], PD[1][0] * Pi[0][1] + PD[1][1] * Pi[1][1]]];
+    } while (l >= u || l === 0 || u === 0 || A[0][1] === 0 || A[1][0] === 0 || A.flat().some((x) => Math.abs(x) > 9));
+    const n = this.randInt(4, 6);
+    const al = (u ** n - l ** n) / (u - l), be = (u * l ** n - l * u ** n) / (u - l);
+    const T = (x, y) => `$(\\alpha ; \\beta) = ${this._L23_tup([x, y])}$`;
+    return this._L23_mcq('L2-PRF', 4, 'Cayley-Hamilton : puissance $n$-ième d\'une matrice 2x2',
+      'Calculer $A^n$ par division euclidienne de $X^n$ par $\\chi_A$',
+      `Soit $A = ${this._L2_pm(A)}$. On écrit $A^{${n}} = \\alpha A + \\beta I_2$. Donner $(\\alpha ; \\beta)$.`,
+      T(al, be), [T(be, al), T(al, -be), T(u ** n + l ** n, be), T(al, l * u ** n - u * l ** n), T(u ** n - l ** n, be)],
+      `Divise $X^{${n}}$ par $\\chi_A$ : le reste $\\alpha X + \\beta$ donne $A^{${n}}$ puisque $\\chi_A(A) = 0$.`,
+      'Évalue l\'égalité $X^n = Q(X) \\chi_A(X) + \\alpha X + \\beta$ en les deux racines (distinctes) de $\\chi_A$.',
+      `$\\chi_A(X) = ${this.polyX([1, -(l + u), l * u], 'X')} = (X ${l < 0 ? '+' : '-'} ${Math.abs(l)})(X ${u < 0 ? '+' : '-'} ${Math.abs(u)})$. En évaluant en $${l}$ et $${u}$ : $${this.coefStr(l, '\\alpha')} + \\beta = ${l ** n}$ et $${this.coefStr(u, '\\alpha')} + \\beta = ${u ** n}$, d'où $\\alpha = ${al}$ et $\\beta = ${be}$. Cayley-Hamilton donne $A^{${n}} = ${this.poly([[al, 'A'], [be, 'I_2']])}$.`,
+      `(${al};${be})`, 'Saisir (α;β), par exemple (31;-30).');
+  },
+
+  _L2PRF_dsiLap() {
+    const k = this.randInt(0, 3), x0 = this.randInt(1, 4);
+    const fa = [1, 1, 2, 6, 24, 120];
+    const tk = this.pow('t', k);
+    const ans = this.frac(-fa[k + 1], x0 ** (k + 2));
+    const lab = (x) => `$F'(${x0}) = ${x}$`;
+    return this._L23_mcq('L2-PRF', 4, 'Dérivation sous l\'intégrale sur un intervalle non borné',
+      'Dominer localement pour dériver une intégrale à paramètre',
+      `Pour $x > 0$, on pose $F(x) = \\int_0^{+\\infty} ${tk === '1' ? '' : tk + ' '}e^{-xt} \\, dt$. Justifier que $F$ est dérivable sur $]0 ; +\\infty[$ et calculer $F'(${x0})$.`,
+      lab(ans),
+      [this.frac(fa[k + 1], x0 ** (k + 2)), this.frac(-fa[k], x0 ** (k + 1)), this.frac(-fa[k + 1], x0 ** (k + 1)), this.frac(-fa[k], x0 ** (k + 2)), this.frac(-fa[k + 1] * (k + 2), x0 ** (k + 3))].map(lab),
+      'La domination doit être locale : on se place sur $[a ; +\\infty[$ avec $a > 0$.',
+      `Pour $x \\geq a$, $\\left|\\frac{\\partial}{\\partial x} ${tk === '1' ? '' : tk}e^{-xt}\\right| \\leq ${this.pow('t', k + 1)} e^{-at}$, intégrable sur $[0 ; +\\infty[$.`,
+      `La domination sur tout $[a ; +\\infty[$ ($a > 0$) permet de dériver sous l'intégrale : $F'(x) = -\\int_0^{+\\infty} ${this.pow('t', k + 1)} e^{-xt} \\, dt = -\\frac{${fa[k + 1]}}{x^{${k + 2}}}$ (intégrations par parties successives, ou $\\int_0^{+\\infty} t^m e^{-xt} \\, dt = \\frac{m!}{x^{m+1}}$). Donc $F'(${x0}) = ${ans}$.`,
+      this._PRF_in(-fa[k + 1], x0 ** (k + 2)));
+  },
+
+  _L2PRF_minmax3() {
+    const { a, b, d, l1, l2 } = this._PRF_sym2();
+    let c;
+    do { c = this.randInt(-6, 6); } while (c === l1 || c === l2);
+    const lo = Math.min(l1, c), hi = Math.max(l2, c);
+    const T = (x, y) => `$(m ; M) = ${this._L23_tup([x, y])}$`;
+    return this._L23_mcq('L2-PRF', 4, 'Théorème spectral : bornes d\'une forme quadratique sur la sphère unité',
+      'Encadrer une forme quadratique par ses valeurs propres extrêmes',
+      `Soit $q(x, y, z) = ${this._PRF_qf(a, b, d, c)}$. Déterminer le minimum $m$ et le maximum $M$ de $q$ sur la sphère unité $x^2 + y^2 + z^2 = 1$.`,
+      T(lo, hi), [T(Math.min(a, d, c), Math.max(a, d, c)), T(l1, l2), T(Math.min(l1, c), l2), T(l1, Math.max(l2, c)), T(-hi, -lo), T(lo - Math.abs(b), hi + Math.abs(b))].filter((x) => x !== T(lo, hi)),
+      'Sur la sphère unité, une forme quadratique est comprise entre la plus petite et la plus grande valeur propre de sa matrice.',
+      'La matrice est diagonale par blocs : cherche les valeurs propres du bloc en $(x, y)$ puis ajoute le coefficient de $z^2$.',
+      `La matrice de $q$ est $${this._L2_pm([[a, b, 0], [b, d, 0], [0, 0, c]])}$. Le bloc $2 \\times 2$ a pour trace $${a + d}$ et déterminant $${a * d - b * b}$, donc pour valeurs propres $${l1}$ et $${l2}$ ; la troisième est $${c}$. En base orthonormée propre, $q = \\sum \\lambda_i X_i^2$ avec $\\sum X_i^2 = 1$ : $m = ${lo}$ et $M = ${hi}$, atteints en des vecteurs propres unitaires.`,
+      `(${lo};${hi})`, 'Saisir (m;M), par exemple (-2;5).');
+  },
+
+  // ---------------------------------------------------------------- L3-PRF
+
+  generateL3_PRF(tier) {
+    const fams = {
+      1: [this._L3PRF_sylOrder, this._L3PRF_jac, this._L3PRF_tcd01],
+      2: [this._L3PRF_fatou, this._L3PRF_sylCount, this._L3PRF_bsNorm],
+      3: [this._L3PRF_sylElem, this._L3PRF_invJac, this._L3PRF_tcdLap, this._L3PRF_opNorm],
+      4: [this._L3PRF_implicit, this._L3PRF_cyclic, this._L3PRF_tcdSin]
+    }[tier] || [this._L3PRF_sylOrder];
+    return this.randChoice(fams).call(this);
+  },
+
+  /** n = p^a m avec p premier ne divisant pas m */
+  _L3PRF_order(maxN = 2000) {
+    for (;;) {
+      const p = this.randChoice([2, 3, 5, 7, 11]);
+      const a = this.randInt(1, p === 2 ? 5 : p === 3 ? 3 : 2);
+      const m = this.randInt(2, 40);
+      if (m % p === 0 || p ** a * m > maxN) continue;
+      return { p, a, m, n: p ** a * m };
+    }
+  },
+
+  _L3PRF_sylOrder() {
+    const { p, a, m, n } = this._L3PRF_order();
+    return this._L23_mcq('L3-PRF', 1, 'Sylow : ordre d\'un $p$-sous-groupe de Sylow',
+      'Identifier l\'ordre des $p$-Sylow à partir de l\'ordre du groupe',
+      `Soit $G$ un groupe d'ordre $${n}$. Quel est l'ordre d'un $${p}$-sous-groupe de Sylow de $G$ ?`,
+      `$${p ** a}$`,
+      [p, a > 1 ? p ** (a - 1) : p * p * p, p ** (a + 1), m, n / p].map((x) => `$${x}$`),
+      'Si $|G| = p^{\\alpha} m$ avec $p \\nmid m$, un $p$-Sylow est un sous-groupe d\'ordre $p^{\\alpha}$.',
+      `Décompose $${n}$ en facteurs premiers et isole la plus grande puissance de $${p}$ qui le divise.`,
+      `$${n} = ${a === 1 ? p : `${p}^{${a}}`} \\times ${m}$ avec $${p} \\nmid ${m}$. Le premier théorème de Sylow assure l'existence de sous-groupes d'ordre $${p ** a}$ : ce sont les $${p}$-Sylow.`,
+      String(p ** a), 'Saisir un nombre entier.');
+  },
+
+  /** f(x, y) = (a x^2 + b y, c x + d y^2) et sa jacobienne en (x0, y0) */
+  _L3PRF_map() {
+    for (;;) {
+      const a = this.randNonZero(-3, 3), b = this.randNonZero(-4, 4), c = this.randNonZero(-4, 4), d = this.randNonZero(-3, 3);
+      const x0 = this.randNonZero(-2, 2), y0 = this.randNonZero(-2, 2);
+      const J = [[2 * a * x0, b], [c, 2 * d * y0]];
+      const D = J[0][0] * J[1][1] - J[0][1] * J[1][0];
+      if (D === 0) continue;
+      const f = `f(x, y) = \\left(${this.poly([[a, 'x^2'], [b, 'y']])} ; ${this.poly([[c, 'x'], [d, 'y^2']])}\\right)`;
+      return { a, b, c, d, x0, y0, J, D, f };
+    }
+  },
+
+  _L3PRF_jac() {
+    const { x0, y0, J, D, f } = this._L3PRF_map();
+    return this._L23_mcq('L3-PRF', 1, 'Inversion locale : jacobien en un point',
+      'Vérifier l\'hypothèse du théorème d\'inversion locale',
+      `Soit $${f}$. Calculer le jacobien $\\det J_f(${x0}, ${y0})$ ; le théorème d'inversion locale s'applique en ce point lorsqu'il est non nul.`,
+      `$\\det J_f(${x0}, ${y0}) = ${D}$`,
+      [J[0][0] * J[1][1] + J[0][1] * J[1][0], -D, J[0][0] + J[1][1], J[0][0] * J[1][1], (J[0][0] / 2) * J[1][1] - J[0][1] * J[1][0]].map((x) => `$\\det J_f(${x0}, ${y0}) = ${x}$`),
+      'La matrice jacobienne a pour lignes les gradients des deux composantes de $f$.',
+      'Dérive chaque composante par rapport à $x$ puis à $y$, évalue au point, puis calcule le déterminant $2 \\times 2$.',
+      `$J_f(${x0}, ${y0}) = ${this._L2_pm(J)}$, donc $\\det J_f(${x0}, ${y0}) = ${this.paren(J[0][0])} \\times ${this.paren(J[1][1])} - ${this.paren(J[0][1])} \\times ${this.paren(J[1][0])} = ${D} \\neq 0$ : $f$ est un $\\mathcal{C}^1$-difféomorphisme d'un voisinage de $(${x0}, ${y0})$ sur un voisinage de son image.`,
+      String(D), 'Saisir un nombre entier.');
+  },
+
+  _L3PRF_tcd01() {
+    const c = this.randInt(1, 3), k = this.randInt(0, 3);
+    const sinV = Math.random() < 0.5;
+    const xk = this.pow('x', k);
+    const pre = xk === '1' ? '' : xk + ' ';
+    const e = sinV ? k + 2 : k + 1;
+    const ansN = c ** e, ansD = e;
+    const fn = sinV ? `n ${pre}\\sin\\left(\\frac{x}{n}\\right)` : `${pre}\\left(1 + \\frac{x}{n}\\right)^{n} e^{-x}`;
+    const lim = sinV ? this.pow('x', k + 1) : (xk === '1' ? '1' : xk);
+    const dom = sinV ? this.pow('x', k + 1) : (xk === '1' ? '1' : xk);
+    return this.makeMcq('L3-PRF', 1, 'Convergence dominée sur un segment',
+      'Appliquer le théorème de convergence dominée',
+      `Calculer $\\displaystyle\\ell = \\lim_{n \\to +\\infty} \\int_0^{${c}} ${fn} \\, dx$.`,
+      `$\\ell = ${this.frac(ansN, ansD)}$`,
+      [this.frac(c ** (e - 1), e - 1 || 1), this.frac(ansN, e + 1), this.frac(2 * ansN, ansD), this.frac(c ** (e + 1), e + 1), sinV ? this.frac(c ** (k + 1), k + 1) : this.frac(c ** (k + 2), k + 2)].map((x) => `$\\ell = ${x}$`),
+      `Cherche la limite simple de l'intégrande puis une fonction dominante intégrable sur $[0 ; ${c}]$.`,
+      sinV ? '$|\\sin u| \\leq |u|$ pour tout réel $u$.' : '$\\left(1 + \\frac{x}{n}\\right)^n \\leq e^{x}$ pour $x \\geq 0$ (car $\\ln(1 + u) \\leq u$).',
+      `Pour tout $x \\in [0 ; ${c}]$, l'intégrande tend vers $${lim}$ et est majorée en valeur absolue par $${dom}$, intégrable sur $[0 ; ${c}]$. Par convergence dominée, la limite vaut $\\int_0^{${c}} ${lim === '1' ? '1' : lim} \\, dx = ${this.frac(ansN, ansD)}$.`);
+  },
+
+  _L3PRF_fatou() {
+    const a = this.randInt(1, 6), b = this.randInt(1, 5), c = this.randInt(1, 4);
+    const T = (x, y) => `$(I ; J) = ${this._L23_tup([x, y])}$`;
+    return this._L23_mcq('L3-PRF', 2, 'Lemme de Fatou : inégalité stricte',
+      'Calculer les deux membres de l\'inégalité de Fatou',
+      `Sur $[0 ; ${c}]$ muni de la mesure de Lebesgue, on pose $f_n = ${this.coefStr(a, 'n')} \\, \\mathbf{1}_{]0 ; 1/n]} + ${b}$ pour $n \\geq 1$. Calculer $I = \\int_0^{${c}} \\liminf_{n} f_n$ et $J = \\liminf_{n} \\int_0^{${c}} f_n$.`,
+      T(b * c, a + b * c), [T(a + b * c, b * c), T(b * c, b * c), T(0, a + b * c), T(b * c, a), T(a * c + b * c, a + b * c)],
+      'Pour $x > 0$ fixé, $x \\notin\\, ]0 ; 1/n]$ dès que $n$ est assez grand.',
+      'L\'intégrale de $n \\, \\mathbf{1}_{]0 ; 1/n]}$ vaut $1$ pour tout $n$.',
+      `Pour tout $x \\in\\, ]0 ; ${c}]$, $f_n(x) = ${b}$ à partir d'un certain rang, donc $\\liminf f_n = ${b}$ presque partout et $I = ${b * c}$. Pour tout $n$, $\\int_0^{${c}} f_n = ${a} + ${b * c} = ${a + b * c}$, donc $J = ${a + b * c}$. On a bien $I \\leq J$ (Fatou), avec inégalité stricte : la masse $${a}$ « s'échappe » en $0$.`,
+      `(${b * c};${a + b * c})`, 'Saisir (I;J), par exemple (2;5).');
+  },
+
+  _L3PRF_sylCount() {
+    const { p, a, m, n } = this._L3PRF_order(1500);
+    const divs = [];
+    for (let d = 1; d <= m; d++) if (m % d === 0 && d % p === 1 % p) divs.push(d);
+    const cnt = divs.length;
+    return this.makeMcq('L3-PRF', 2, 'Sylow : valeurs possibles du nombre de $p$-Sylow',
+      'Appliquer les congruences de Sylow',
+      `Soit $G$ un groupe d'ordre $${n}$ et $n_{${p}}$ le nombre de ses $${p}$-sous-groupes de Sylow. Combien de valeurs les théorèmes de Sylow autorisent-ils pour $n_{${p}}$ ?`,
+      `$${cnt}$`, [cnt + 1, cnt + 2, Math.max(1, cnt - 1) === cnt ? cnt + 3 : cnt - 1, divs.length === 1 ? 4 : 1].map((x) => `$${x}$`),
+      `Écris $${n} = ${p}^{\\alpha} m$ avec $${p} \\nmid m$ : $n_{${p}}$ divise $m$ et $n_{${p}} \\equiv 1 \\pmod{${p}}$.`,
+      'Liste les diviseurs de $m$ et garde ceux qui sont congrus à $1$ modulo $p$.',
+      `$${n} = ${a === 1 ? p : `${p}^{${a}}`} \\times ${m}$. Les diviseurs de $${m}$ congrus à $1$ modulo $${p}$ sont : $${divs.join(', ')}$. Il y a donc $${cnt}$ valeur${cnt > 1 ? 's' : ''} possible${cnt > 1 ? 's' : ''} pour $n_{${p}}$.${cnt === 1 ? ` Ainsi $n_{${p}} = 1$ : le $${p}$-Sylow est distingué dans $G$.` : ''}`);
+  },
+
+  _L3PRF_bsNorm() {
+    const N = this.randInt(3, 5);
+    let c;
+    do { c = Array.from({ length: N }, () => this.randInt(-6, 6)); } while (c.filter((x) => x !== 0).length < 3 || new Set(c.map(Math.abs)).size < 2);
+    const inf = Math.random() < 0.5;
+    const sAbs = c.reduce((s, x) => s + Math.abs(x), 0), mx = Math.max(...c.map(Math.abs)), sum = c.reduce((s, x) => s + x, 0);
+    const ans = inf ? sAbs : mx;
+    const vars = c.map((_, i) => `x_{${i + 1}}`);
+    return this.makeMcq('L3-PRF', 2, 'Norme d\'une forme linéaire (Banach-Steinhaus)',
+      'Calculer une norme subordonnée',
+      `On munit $\\mathbb{R}^{${N}}$ de la norme $\\|\\cdot\\|_{${inf ? '\\infty' : 1}}$. Calculer la norme subordonnée $\\|\\varphi\\| = \\sup_{\\|x\\|_{${inf ? '\\infty' : 1}} \\leq 1} |\\varphi(x)|$ de la forme linéaire $\\varphi(x) = ${this.poly(c.map((x, i) => [x, vars[i]]))}$.`,
+      `$\\|\\varphi\\| = ${ans}$`,
+      [inf ? mx : sAbs, Math.abs(sum), sAbs * N, mx * N, c.reduce((s, x) => s + x * x, 0)].map((x) => `$\\|\\varphi\\| = ${x}$`),
+      `Majore $|\\varphi(x)|$ par l'inégalité triangulaire en fonction de $\\|x\\|_{${inf ? '\\infty' : 1}}$.`,
+      inf ? 'Pour l\'égalité, choisis $x_i$ égal au signe du coefficient de $x_i$.' : 'Pour l\'égalité, choisis un vecteur de la base canonique bien placé.',
+      inf
+        ? `$|\\varphi(x)| \\leq \\sum |c_i| \\, |x_i| \\leq ${sAbs} \\, \\|x\\|_\\infty$, et l'égalité a lieu pour $x_i = \\pm 1$ du signe de $c_i$. Donc $\\|\\varphi\\| = ${sAbs}$. (Le théorème de Banach-Steinhaus porte sur des familles de telles normes : bornées ponctuellement implique bornées uniformément.)`
+        : `$|\\varphi(x)| \\leq \\max |c_i| \\sum |x_i| = ${mx} \\, \\|x\\|_1$, et l'égalité a lieu pour $x = e_j$ où $|c_j| = ${mx}$. Donc $\\|\\varphi\\| = ${mx}$.`);
+  },
+
+  _L3PRF_sylElem() {
+    for (;;) {
+      const p = this.randChoice([2, 3, 5, 7, 11, 13]);
+      const m = this.randInt(3, 60);
+      if (m % p === 0) continue;
+      const ds = [];
+      for (let d = 2; d <= m; d++) if (m % d === 0 && d % p === 1 % p) ds.push(d);
+      if (!ds.length) continue;
+      const d = this.randChoice(ds), n = p * m, ans = d * (p - 1);
+      return this.makeMcq('L3-PRF', 3, 'Sylow : dénombrement des éléments d\'ordre $p$',
+        'Utiliser l\'intersection triviale de Sylow d\'ordre premier',
+        `Soit $G$ un groupe d'ordre $${n}$. On suppose que $G$ possède exactement $${d}$ sous-groupes de Sylow d'ordre $${p}$. Combien $G$ possède-t-il d'éléments d'ordre $${p}$ ?`,
+        `$${ans}$`, [d * p, d, p - 1, d * (p - 1) + 1, n - d * (p - 1)].map((x) => `$${x}$`),
+        `Un groupe d'ordre $${p}$ premier est cyclique : tous ses éléments différents du neutre engendrent le groupe.`,
+        `Deux sous-groupes distincts d'ordre $${p}$ ont une intersection réduite au neutre (ordre divisant $${p}$).`,
+        `Chaque $${p}$-Sylow contient $${p - 1}$ élément${p - 1 > 1 ? 's' : ''} d'ordre $${p}$, ces ensembles sont deux à deux disjoints, et tout élément d'ordre $${p}$ engendre un sous-groupe d'ordre $${p}$, donc un $${p}$-Sylow. Il y a donc $${d} \\times ${p - 1} = ${ans}$ éléments d'ordre $${p}$.`);
+    }
+  },
+
+  _L3PRF_invJac() {
+    const { x0, y0, J, D, f } = this._L3PRF_map();
+    const inv = [[J[1][1], -J[0][1]], [-J[1][0], J[0][0]]];
+    const fx = (v) => this.frac(v, D);
+    const T = (M) => `$(\\alpha ; \\beta ; \\gamma ; \\delta) = ${this._L23_tup(M.flat().map(fx))}$`;
+    const flip = [[J[1][1], J[0][1]], [J[1][0], J[0][0]]];
+    const tr = [[J[1][1], -J[1][0]], [-J[0][1], J[0][0]]];
+    return this._L23_mcq('L3-PRF', 3, 'Inversion locale : différentielle de la réciproque',
+      'Calculer $d(f^{-1})_{f(a)} = (df_a)^{-1}$',
+      `Soit $${f}$, et $g$ la réciproque locale de $f$ au voisinage de $A = (${x0}, ${y0})$ fournie par le théorème d'inversion locale. On note $J_g(f(A)) = \\begin{pmatrix} \\alpha & \\beta \\\\ \\gamma & \\delta \\end{pmatrix}$. Donner $(\\alpha ; \\beta ; \\gamma ; \\delta)$.`,
+      T(inv), [T(flip), T(tr), T(inv.map((r) => r.map((x) => -x))), `$(\\alpha ; \\beta ; \\gamma ; \\delta) = ${this._L23_tup(J.flat())}$`],
+      'En dérivant $g \\circ f = \\mathrm{Id}$ au point $A$ : $J_g(f(A)) \\, J_f(A) = I_2$.',
+      'Calcule $J_f(A)$, puis son inverse par la formule $\\frac{1}{ad - bc}\\begin{pmatrix} d & -b \\\\ -c & a \\end{pmatrix}$.',
+      `$J_f(A) = ${this._L2_pm(J)}$, de déterminant $${D} \\neq 0$. Donc $J_g(f(A)) = J_f(A)^{-1} = ${this.frac(1, D)} ${this._L2_pm(inv)}$, soit $(\\alpha ; \\beta ; \\gamma ; \\delta) = ${this._L23_tup(inv.flat().map(fx))}$.`,
+      `(${inv.flat().map((v) => this._PRF_in(v, D)).join(';')})`, 'Saisir (α;β;γ;δ), par exemple (1/2;-1;0;3/4).');
+  },
+
+  _L3PRF_tcdLap() {
+    const k = this.randInt(0, 3), a = this.randInt(1, 6);
+    const fa = [1, 1, 2, 6, 24, 120];
+    const xk = this.pow('x', k);
+    const pre = xk === '1' ? '' : xk + ' ';
+    const ansN = fa[k], ansD = (a + 1) ** (k + 1);
+    return this.makeMcq('L3-PRF', 3, 'Convergence dominée sur $[0 ; +\\infty[$',
+      'Appliquer le théorème de convergence dominée sur un intervalle non borné',
+      `Calculer $\\displaystyle\\ell = \\lim_{n \\to +\\infty} \\int_0^{+\\infty} ${pre}\\left(1 + \\frac{x}{n}\\right)^{-n} e^{${this.coefStr(-a, 'x')}} \\, dx$.`,
+      `$\\ell = ${this.frac(ansN, ansD)}$`,
+      [this.frac(fa[k], a ** (k + 1)), this.frac(fa[k + 1] || 24, ansD), this.frac(1, a + 1), this.frac(fa[k], (a + 1) ** (k + 2)), this.frac(fa[k], a ** k)].map((x) => `$\\ell = ${x}$`),
+      'Pour $x \\geq 0$, $\\left(1 + \\frac{x}{n}\\right)^{-n} \\to e^{-x}$ et $0 \\leq \\left(1 + \\frac{x}{n}\\right)^{-n} \\leq 1$.',
+      `La limite est une intégrale de la forme $\\int_0^{+\\infty} x^{m} e^{-sx} \\, dx = \\frac{m!}{s^{m+1}}$.`,
+      `L'intégrande converge simplement vers $${pre}e^{${this.coefStr(-(a + 1), 'x')}}$ et est dominé par $${pre}e^{${this.coefStr(-a, 'x')}}$, intégrable sur $[0 ; +\\infty[$. Par convergence dominée, la limite vaut $\\int_0^{+\\infty} ${pre}e^{${this.coefStr(-(a + 1), 'x')}} \\, dx = ${this.frac(ansN, ansD)}$.`);
+  },
+
+  _L3PRF_opNorm() {
+    let M;
+    do { M = [0, 1, 2].map(() => [0, 1, 2].map(() => this.randInt(-4, 4))); } while (M.flat().filter((x) => x === 0).length > 3);
+    const rows = M.map((r) => r.reduce((s, x) => s + Math.abs(x), 0));
+    const cols = [0, 1, 2].map((j) => M.reduce((s, r) => s + Math.abs(r[j]), 0));
+    const inf = Math.random() < 0.5;
+    const ans = inf ? Math.max(...rows) : Math.max(...cols);
+    const other = inf ? Math.max(...cols) : Math.max(...rows);
+    return this.makeMcq('L3-PRF', 3, 'Norme subordonnée d\'une matrice',
+      'Calculer une norme d\'opérateur en dimension finie',
+      `On munit $\\mathbb{R}^3$ de la norme $\\|\\cdot\\|_{${inf ? '\\infty' : 1}}$. Calculer la norme subordonnée $\\|A\\| = \\sup_{\\|x\\| \\leq 1} \\|Ax\\|$ de $A = ${this._L2_pm(M)}$.`,
+      `$\\|A\\| = ${ans}$`,
+      [other, Math.max(...M.flat().map(Math.abs)), rows.reduce((s, x) => s + x, 0), Math.min(...(inf ? rows : cols)), Math.abs(M.flat().reduce((s, x) => s + x, 0))].map((x) => `$\\|A\\| = ${x}$`),
+      `Majore chaque ${inf ? 'coordonnée de $Ax$' : 'terme de $\\|Ax\\|_1$'} par l'inégalité triangulaire.`,
+      inf ? 'L\'égalité s\'obtient avec un vecteur de coordonnées $\\pm 1$ adapté à la ligne qui réalise le maximum.' : 'L\'égalité s\'obtient avec un vecteur de la base canonique adapté à la colonne qui réalise le maximum.',
+      inf
+        ? `$\\|A\\|_\\infty$ est le maximum des sommes des valeurs absolues des lignes : $${rows.join(', ')}$. Donc $\\|A\\| = ${ans}$.`
+        : `$\\|A\\|_1$ est le maximum des sommes des valeurs absolues des colonnes : $${cols.join(', ')}$. Donc $\\|A\\| = ${ans}$.`);
+  },
+
+  _L3PRF_implicit() {
+    for (;;) {
+      const a = this.randNonZero(-3, 3), b = this.randInt(-3, 3), c = this.randNonZero(-2, 2), d = this.randInt(-4, 4), e = this.randInt(-4, 4);
+      const x0 = this.randInt(-2, 2), y0 = this.randInt(-2, 2);
+      const K = -(a * x0 * x0 + b * x0 * y0 + c * y0 ** 3 + d * x0 + e * y0);
+      const Fx = 2 * a * x0 + b * y0 + d, Fy = b * x0 + 3 * c * y0 * y0 + e;
+      if (Fy === 0 || Fx === 0 || Math.abs(K) > 30) continue;
+      const F = this.poly([[a, 'x^2'], [b, 'xy'], [c, 'y^3'], [d, 'x'], [e, 'y'], [K, '']]);
+      const ans = this.frac(-Fx, Fy);
+      return this._L23_mcq('L3-PRF', 4, 'Fonctions implicites : dérivée de la fonction implicite',
+        'Appliquer le théorème des fonctions implicites (conséquence de l\'inversion locale)',
+        `Soit $F(x, y) = ${F}$. On a $F(${x0}, ${y0}) = 0$. Le théorème des fonctions implicites fournit $\\varphi$ de classe $\\mathcal{C}^1$ au voisinage de $${x0}$ avec $\\varphi(${x0}) = ${y0}$ et $F(x, \\varphi(x)) = 0$. Calculer $\\varphi'(${x0})$.`,
+        `$\\varphi'(${x0}) = ${ans}$`,
+        [this.frac(Fx, Fy), this.frac(-Fy, Fx), this.frac(Fy, Fx), String(-Fx)].map((x) => `$\\varphi'(${x0}) = ${x}$`),
+        'Dérive la relation $F(x, \\varphi(x)) = 0$ par rapport à $x$.',
+        'On obtient $\\partial_x F + \\varphi\'(x) \\, \\partial_y F = 0$ ; l\'hypothèse du théorème est $\\partial_y F \\neq 0$ au point.',
+        `$\\partial_x F = ${this.poly([[2 * a, 'x'], [b, 'y'], [d, '']])}$ et $\\partial_y F = ${this.poly([[b, 'x'], [3 * c, 'y^2'], [e, '']])}$. Au point $(${x0}, ${y0})$ : $\\partial_x F = ${Fx}$ et $\\partial_y F = ${Fy} \\neq 0$. Donc $\\varphi'(${x0}) = -\\frac{\\partial_x F}{\\partial_y F} = ${ans}$.`,
+        this._PRF_in(-Fx, Fy));
+    }
+  },
+
+  _L3PRF_cyclic() {
+    const P = [3, 5, 7, 11, 13, 17, 19, 23];
+    for (;;) {
+      const [p, q] = this.pickDistinct(P, 2).sort((x, y) => x - y);
+      if ((q - 1) % p === 0 || p * q > 300) continue;
+      const which = this.randInt(0, 2);
+      const ord = [p * q, p, q][which];
+      const ans = [(p - 1) * (q - 1), p - 1, q - 1][which];
+      return this.makeMcq('L3-PRF', 4, 'Sylow : groupe d\'ordre $pq$',
+        'Montrer qu\'un groupe d\'ordre $pq$ est cyclique lorsque $p \\nmid q - 1$',
+        `Soit $G$ un groupe d'ordre $${p * q} = ${p} \\times ${q}$. Combien $G$ possède-t-il d'éléments d'ordre $${ord}$ ?`,
+        `$${ans}$`,
+        [(p - 1) * (q - 1), p - 1, q - 1, p * q - 1, p + q - 2, q * (p - 1)].filter((x) => x !== ans).map((x) => `$${x}$`),
+        `Calcule $n_{${p}}$ et $n_{${q}}$ par les congruences de Sylow.`,
+        'Si les deux Sylow sont distingués, d\'intersection triviale, $G$ est isomorphe à leur produit direct.',
+        `$n_{${q}}$ divise $${p}$ et vaut $1$ modulo $${q}$ : $n_{${q}} = 1$. $n_{${p}}$ divise $${q}$ et vaut $1$ modulo $${p}$ ; comme $${p} \\nmid ${q - 1}$, $n_{${p}} = 1$. Les deux Sylow sont distingués, donc $G \\simeq \\mathbb{Z}/${p}\\mathbb{Z} \\times \\mathbb{Z}/${q}\\mathbb{Z} \\simeq \\mathbb{Z}/${p * q}\\mathbb{Z}$ (lemme chinois). Le nombre d'éléments d'ordre $${ord}$ est $\\varphi(${ord}) = ${ans}$.`);
+    }
+  },
+
+  _L3PRF_tcdSin() {
+    const k = this.randInt(0, 2), a = this.randInt(1, 5);
+    const fa = [1, 1, 2, 6, 24, 120];
+    const xk = this.pow('x', k);
+    const pre = xk === '1' ? '' : xk + ' ';
+    const ansN = fa[k + 1], ansD = a ** (k + 2);
+    return this.makeMcq('L3-PRF', 4, 'Convergence dominée : limite d\'intégrales à paramètre entier',
+      'Trouver la limite simple et une domination intégrable',
+      `Calculer $\\displaystyle\\ell = \\lim_{n \\to +\\infty} \\int_0^{+\\infty} n ${pre}\\sin\\left(\\frac{x}{n}\\right) e^{${this.coefStr(-a, 'x')}} \\, dx$.`,
+      `$\\ell = ${this.frac(ansN, ansD)}$`,
+      [this.frac(fa[k], a ** (k + 1)), this.frac(ansN, a ** (k + 1)), this.frac(fa[k + 2], a ** (k + 3)), this.frac(fa[k], a ** (k + 2)), this.frac(ansN + 1, ansD)].map((x) => `$\\ell = ${x}$`),
+      'Utilise $|\\sin u| \\leq |u|$ pour obtenir à la fois la limite simple et la domination.',
+      'On rappelle $\\int_0^{+\\infty} x^m e^{-ax} \\, dx = \\frac{m!}{a^{m+1}}$ pour $a > 0$.',
+      `Pour $x \\geq 0$, $n \\sin\\left(\\frac{x}{n}\\right) \\to x$ et $\\left|n ${pre}\\sin\\left(\\frac{x}{n}\\right) e^{${this.coefStr(-a, 'x')}}\\right| \\leq ${this.pow('x', k + 1)} e^{${this.coefStr(-a, 'x')}}$, intégrable sur $[0 ; +\\infty[$. Par convergence dominée, la limite vaut $\\int_0^{+\\infty} ${this.pow('x', k + 1)} e^{${this.coefStr(-a, 'x')}} \\, dx = ${this.frac(ansN, ansD)}$.`);
   },
 
   // =========================================================================

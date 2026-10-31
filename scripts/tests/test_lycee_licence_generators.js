@@ -7563,6 +7563,249 @@ addPre(( (V) => {
   return Object.fromEntries(Object.entries(R).map(([k, fs]) => [k.replace('/', '/'), (q) => { for (const f of fs) { const r = f(q); if (r !== undefined) return r; } return undefined; }]));
 })(V));
 }
+// ---- vérificateurs L2-PRF / L3-PRF (démonstrations fondamentales) ----
+{
+// Recalcul indépendant à partir de l'énoncé : parseurs propres (matrices, formes linéaires et quadratiques,
+// polynômes en x, y), calcul matriciel direct (puissances), intégrales par la méthode de Simpson.
+addPre(((V) => {
+  const near = (a, b, e = 1e-9) => Math.abs(a - b) <= e * Math.max(1, Math.abs(a), Math.abs(b));
+  const strip = (s) => String(s).replace(/\$/g, '');
+  const val = (s) => V.val(String(s).replace(/\\dfrac/g, '\\frac').trim());
+  /** nombres de la réponse : n-uplet final « (a ; b) » ou membre de droite d'une égalité */
+  const ansNums = (s) => {
+    const t = strip(s);
+    const m = t.match(/\(([^()]*;[^()]*)\)\s*$/);
+    return m ? m[1].split(';').map(val) : [val(t.split('=').pop())];
+  };
+  const inNums = (s) => String(s).replace(/^\(|\)$/g, '').split(';').map((x) => { const m = x.match(/^(-?\d+)\/(\d+)$/); return m ? m[1] / m[2] : Number(x); });
+  const cmp = (q, exp, msg, eps = 1e-9) => {
+    const got = ansNums(q.answer);
+    if (got.length !== exp.length || got.some((x, i) => !near(x, exp[i], eps))) return `${msg} : attendu (${exp.join(';')}) / réponse ${q.answer}`;
+    const ex = q.exactInput || q.exactAnswer;
+    if (ex !== undefined) {
+      const e = inNums(ex);
+      if (e.length !== exp.length || e.some((x, i) => !near(x, exp[i], eps))) return `${msg} : saisie ${ex} ≠ (${exp.join(';')})`;
+    }
+    for (const o of q.options || []) {
+      if (o === q.answer) continue;
+      const g = ansNums(o);
+      if (g.length === exp.length && g.every((x, i) => near(x, exp[i], eps))) return `${msg} : distracteur juste ${o}`;
+    }
+    return true;
+  };
+  const mat = (s) => { const m = String(s).match(/\\begin\{pmatrix\}(.*?)\\end\{pmatrix\}/); return m[1].split('\\\\').map((r) => r.split('&').map((x) => +x.trim())); };
+  const mul = (A, B) => A.map((r) => B[0].map((_, j) => r.reduce((s, x, k) => s + x * B[k][j], 0)));
+  const mpow = (A, n) => { let R = A.map((r, i) => r.map((_, j) => +(i === j))); for (let i = 0; i < n; i++) R = mul(R, A); return R; };
+  /** termes « ±c·monôme » : renvoie la liste [coef, monôme] */
+  const terms = (s) => {
+    const t = String(s).replace(/\s+/g, '').replace(/^(?=[^+-])/, '+');
+    const out = []; const re = /([+-])(\d*)((?:[a-z](?:_\{\d\})?(?:\^\{?\d\}?)?)*)/g; let m;
+    while ((m = re.exec(t)) && m[0]) out.push([(m[1] === '-' ? -1 : 1) * (m[2] ? +m[2] : 1), m[3]]);
+    return out;
+  };
+  /** polynôme en x, y -> liste [c, ex, ey] */
+  const pxy = (s) => terms(s).map(([c, mo]) => {
+    let ex = 0, ey = 0;
+    for (const [, v, e] of mo.matchAll(/([xy])(?:\^\{?(\d)\}?)?/g)) { if (v === 'x') ex += e ? +e : 1; else ey += e ? +e : 1; }
+    return [c, ex, ey];
+  });
+  const ev = (P, x, y) => P.reduce((s, [c, a, b]) => s + c * x ** a * y ** b, 0);
+  const dx = (P) => P.filter((t) => t[1] > 0).map(([c, a, b]) => [c * a, a - 1, b]);
+  const dy = (P) => P.filter((t) => t[2] > 0).map(([c, a, b]) => [c * b, a, b - 1]);
+  /** matrice symétrique d'une forme quadratique en x, y, z */
+  const qmat = (s) => {
+    const M = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]; const ix = { x: 0, y: 1, z: 2 };
+    for (const [c, mo] of terms(s)) {
+      const sq = mo.match(/^([xyz])\^2$/);
+      if (sq) M[ix[sq[1]]][ix[sq[1]]] += c;
+      else { const [i, j] = mo.split('').map((v) => ix[v]); M[i][j] += c / 2; M[j][i] += c / 2; }
+    }
+    return M;
+  };
+  /** valeurs propres d'une matrice symétrique 3x3 (méthode de Jacobi), triées */
+  const eigSym = (M0) => {
+    const A = M0.map((r) => r.slice()); const n = A.length;
+    for (let it = 0; it < 100; it++) {
+      let p = 0, q = 1, mx = 0;
+      for (let i = 0; i < n; i++) for (let j = i + 1; j < n; j++) if (Math.abs(A[i][j]) > mx) { mx = Math.abs(A[i][j]); p = i; q = j; }
+      if (mx < 1e-13) break;
+      const th = 0.5 * Math.atan2(2 * A[p][q], A[q][q] - A[p][p]); const c = Math.cos(th), s = Math.sin(th);
+      for (let k = 0; k < n; k++) { const akp = A[k][p], akq = A[k][q]; A[k][p] = c * akp - s * akq; A[k][q] = s * akp + c * akq; }
+      for (let k = 0; k < n; k++) { const apk = A[p][k], aqk = A[q][k]; A[p][k] = c * apk - s * aqk; A[q][k] = s * apk + c * aqk; }
+    }
+    return A.map((r, i) => r[i]).sort((a, b) => a - b);
+  };
+  const simpson = (f, a, b, n = 20000) => { const h = (b - a) / n; let s = f(a) + f(b); for (let i = 1; i < n; i++) s += (i % 2 ? 4 : 2) * f(a + i * h); return s * h / 3; };
+  const powOf = (s, v) => { const m = String(s).match(new RegExp(`${v}(?:\\^\\{(\\d+)\\})?`)); return m ? (m[1] ? +m[1] : 1) : 0; };
+  const st = (q) => String(q.statement);
+  const g = (q, re) => { const m = st(q).match(re); if (!m) throw new Error('énoncé non reconnu ' + re); return m; };
+
+  const L2 = (q) => {
+    const T = String(q.title);
+    if (/maximum d'une forme linéaire sur une sphère/.test(T)) {
+      const m = g(q, /= ([^$]*)\$ sur (?:la sphère|le cercle) d'équation \$[^=]*= (\d+)\$/);
+      const u = terms(m[1]).map((t) => t[0]);
+      return cmp(q, [Math.sqrt(u.reduce((s, x) => s + x * x, 0) * +m[2])], 'max Cauchy-Schwarz');
+    }
+    if (/distance minimale/.test(T)) {
+      const m = g(q, /plan d'équation \$(.*) = (\d+)\$/);
+      const tt = terms(m[1]); const S = tt.reduce((s, [c]) => s + c * c, 0);
+      // contrôle par minimisation directe : point X = d u / S
+      return cmp(q, [m[2] ** 2 / S], 'min sous contrainte');
+    }
+    if (/valeurs propres d'une matrice symétrique/.test(T)) return cmp(q, eigSym(mat(st(q))), 'spectre');
+    if (/extremum d'une forme quadratique sur le cercle/.test(T)) {
+      const m = g(q, /le (maximum|minimum) de \$q\(x, y\) = (.*)\$ sur le cercle/);
+      const M = qmat(m[2]); const e = eigSym([[M[0][0], M[0][1]], [M[1][0], M[1][1]]]);
+      return cmp(q, [m[1] === 'maximum' ? e[1] : e[0]], 'Rayleigh');
+    }
+    if (/relation \$A\^2/.test(T)) {
+      const A = mat(st(q)); const A2 = mul(A, A);
+      const al = A2[0][1] / A[0][1]; const be = A2[0][0] - al * A[0][0];
+      return cmp(q, [al, be], 'Cayley-Hamilton 2x2');
+    }
+    if (/réduction de \$A\^3\$/.test(T)) {
+      const A = mat(st(q)); const A3 = mpow(A, 3);
+      const p = A3[0][1] / A[0][1];
+      return cmp(q, [p, A3[0][0] - p * A[0][0]], 'A^3');
+    }
+    if (/sous le signe intégrale/.test(T)) {
+      const m = g(q, /F\(x\) = \\int_0\^1 (.*?)e\^\{(-?\d*)xt\} \\, dt/);
+      const k = powOf(m[1], 't'); const a = m[2] === '' ? 1 : m[2] === '-' ? -1 : +m[2];
+      const n = /F'\(0\)/.test(st(q)) ? 1 : /F''\(0\)/.test(st(q)) ? 2 : 3;
+      // F^(n)(0) par différences finies centrées sur F calculée par Simpson
+      const F = (x) => simpson((t) => t ** k * Math.exp(a * x * t), 0, 1, 2000);
+      const h = 1e-2;
+      const d = n === 1 ? (F(h) - F(-h)) / (2 * h) : n === 2 ? (F(h) - 2 * F(0) + F(-h)) / (h * h) : (F(2 * h) - 2 * F(h) + 2 * F(-h) - F(-2 * h)) / (2 * h ** 3);
+      return cmp(q, [d], 'dérivée sous l\'intégrale', 2e-3);
+    }
+    if (/Cayley-Hamilton en dimension 3/.test(T)) {
+      const A = mat(st(q)); const A2 = mul(A, A), A3 = mul(A2, A);
+      const [a, b, c] = ansNums(q.answer);
+      for (let i = 0; i < 3; i++) for (let j = 0; j < 3; j++) if (!near(A3[i][j], a * A2[i][j] + b * A[i][j] + (i === j ? c : 0))) return `A^3 ≠ aA^2 + bA + cI (${q.answer})`;
+      return cmp(q, [a, b, c], 'CH 3x3');
+    }
+    if (/signature/.test(T)) {
+      const e = eigSym(qmat(g(q, /q\(x, y, z\) = (.*?)\$ sur/)[1]));
+      return cmp(q, [e.filter((x) => x > 1e-9).length, e.filter((x) => x < -1e-9).length], 'signature');
+    }
+    if (/Lemme d'Abel/.test(T)) {
+      const m = g(q, /z\^\{(\d)n\}\}\{(\d+)\^n\}/);
+      return cmp(q, [(+m[2]) ** (1 / +m[1])], 'rayon', 1e-9);
+    }
+    if (/puissance \$n\$-ième/.test(T)) {
+      const A = mat(st(q)); const n = +g(q, /A\^\{(\d+)\}/)[1]; const An = mpow(A, n);
+      const al = An[0][1] / A[0][1];
+      return cmp(q, [al, An[0][0] - al * A[0][0]], 'A^n');
+    }
+    if (/intervalle non borné/.test(T)) {
+      const m = g(q, /\\int_0\^\{\+\\infty\} (.*?)e\^\{-xt\}/); const k = powOf(m[1], 't');
+      const x0 = +g(q, /calculer \$F'\((\d+)\)\$/)[1];
+      const F = (x) => simpson((t) => t ** k * Math.exp(-x * t), 0, 80 / x, 40000);
+      const h = 1e-3;
+      return cmp(q, [(F(x0 + h) - F(x0 - h)) / (2 * h)], 'F\'(x0)', 1e-4);
+    }
+    if (/bornes d'une forme quadratique/.test(T)) {
+      const e = eigSym(qmat(g(q, /q\(x, y, z\) = (.*?)\$\. Déterminer/)[1]));
+      return cmp(q, [e[0], e[2]], 'min/max sphère', 1e-9);
+    }
+    return 'titre L2-PRF inconnu : ' + T;
+  };
+
+  const divisors = (m) => { const d = []; for (let i = 1; i <= m; i++) if (m % i === 0) d.push(i); return d; };
+  const vp = (n, p) => { let a = 0; while (n % p === 0) { n /= p; a++; } return a; };
+  const phi = (n) => { let c = 0; for (let i = 1; i <= n; i++) if (V.gcd(i, n) === 1) c++; return c; };
+  const isPrime = (n) => n > 1 && divisors(n).length === 2;
+  const fmap = (q) => {
+    const m = g(q, /f\(x, y\) = \\left\((.*) ; (.*)\\right\)/);
+    const P = [pxy(m[1]), pxy(m[2])];
+    const pt = g(q, /(?:J_f|A = )\(?(-?\d+), (-?\d+)\)/);
+    const x = +pt[1], y = +pt[2];
+    return P.map((Pi) => [ev(dx(Pi), x, y), ev(dy(Pi), x, y)]);
+  };
+
+  const L3 = (q) => {
+    const T = String(q.title);
+    if (/ordre d'un \$p\$-sous-groupe/.test(T)) {
+      const m = g(q, /groupe d'ordre \$(\d+)\$\. Quel est l'ordre d'un \$(\d+)\$-sous-groupe/);
+      return cmp(q, [(+m[2]) ** vp(+m[1], +m[2])], 'ordre du Sylow');
+    }
+    if (/jacobien en un point/.test(T)) {
+      const J = fmap(q);
+      return cmp(q, [J[0][0] * J[1][1] - J[0][1] * J[1][0]], 'jacobien');
+    }
+    if (/Convergence dominée sur un segment/.test(T)) {
+      const c = +g(q, /\\int_0\^\{(\d+)\}/)[1]; const N = 1e5;
+      const k = powOf(g(q, /\\int_0\^\{\d+\} (.*?) \\, dx/)[1].replace(/\^\{n\}/, '').replace(/\\frac\{x\}\{n\}/g, '').replace(/e\^\{-x\}|\\sin\\left\(.*$/, ''), 'x');
+      const f = /\\sin/.test(st(q)) ? (x) => N * x ** k * Math.sin(x / N) : (x) => x ** k * (1 + x / N) ** N * Math.exp(-x);
+      return cmp(q, [simpson(f, 0, c)], 'TCD segment', 1e-3);
+    }
+    if (/Lemme de Fatou/.test(T)) {
+      const m = g(q, /\[0 ; (\d+)\]\$ muni.*f_n = (\d*)n \\, \\mathbf\{1\}_\{\]0 ; 1\/n\]\} \+ (\d+)\$/);
+      const c = +m[1], a = m[2] ? +m[2] : 1, b = +m[3];
+      // ∫ f_n calculé directement pour un n grand, liminf f_n = b presque partout
+      const n = 1000; const In = simpson((x) => (x > 0 && x <= 1 / n ? a * n : 0) + b, 0, c, 400000);
+      return cmp(q, [b * c, Math.round(In)], 'Fatou');
+    }
+    if (/valeurs possibles du nombre/.test(T)) {
+      const m = g(q, /groupe d'ordre \$(\d+)\$ et \$n_\{(\d+)\}\$/); const n = +m[1], p = +m[2];
+      const mm = n / p ** vp(n, p);
+      return cmp(q, [divisors(mm).filter((d) => d % p === 1 % p).length], 'n_p possibles');
+    }
+    if (/Norme d'une forme linéaire/.test(T)) {
+      const c = terms(g(q, /\\varphi\(x\) = (.*)\$\.?$/)[1]).map((t) => Math.abs(t[0]));
+      const inf = /\\\|_\{\\infty\}/.test(st(q));
+      // calcul par énumération des sommets de la boule unité
+      let best = 0; const N = c.length;
+      if (inf) { for (let s = 0; s < 1 << N; s++) best = Math.max(best, Math.abs(c.reduce((acc, x, i) => acc + x * (s >> i & 1 ? 1 : -1), 0))); }
+      else best = Math.max(...c);
+      return cmp(q, [best], 'norme de forme linéaire');
+    }
+    if (/éléments d'ordre \$p\$/.test(T)) {
+      const m = g(q, /exactement \$(\d+)\$ sous-groupes de Sylow d'ordre \$(\d+)\$/);
+      return cmp(q, [+m[1] * (+m[2] - 1)], 'éléments d\'ordre p');
+    }
+    if (/différentielle de la réciproque/.test(T)) {
+      const J = fmap(q); const D = J[0][0] * J[1][1] - J[0][1] * J[1][0];
+      const I = [[J[1][1] / D, -J[0][1] / D], [-J[1][0] / D, J[0][0] / D]];
+      const P = mul(I, J); if (!near(P[0][0], 1) || !near(P[1][1], 1) || !near(P[0][1], 0)) return 'inverse incorrect';
+      return cmp(q, I.flat(), 'J_g');
+    }
+    if (/Convergence dominée sur \$\[0 ; \+\\infty\[\$/.test(T)) {
+      const m = g(q, /\\int_0\^\{\+\\infty\} (.*?)\\left\(1 \+ \\frac\{x\}\{n\}\\right\)\^\{-n\} e\^\{(-\d*)x\}/);
+      const k = powOf(m[1], 'x'); const a = m[2] === '-' ? 1 : -m[2]; const N = 1e5;
+      return cmp(q, [simpson((x) => x ** k * (1 + x / N) ** -N * Math.exp(-a * x), 0, 60, 60000)], 'TCD Laplace', 1e-3);
+    }
+    if (/Norme subordonnée d'une matrice/.test(T)) {
+      const A = mat(st(q)); const inf = /\\\|_\{\\infty\}/.test(st(q));
+      let best = 0;
+      // sup sur les sommets de la boule unité
+      if (inf) { for (let s = 0; s < 8; s++) { const x = [0, 1, 2].map((i) => (s >> i & 1 ? 1 : -1)); best = Math.max(best, ...A.map((r) => Math.abs(r.reduce((acc, v, i) => acc + v * x[i], 0)))); } }
+      else { for (let j = 0; j < 3; j++) best = Math.max(best, A.reduce((acc, r) => acc + Math.abs(r[j]), 0)); }
+      return cmp(q, [best], 'norme subordonnée');
+    }
+    if (/dérivée de la fonction implicite/.test(T)) {
+      const P = pxy(g(q, /F\(x, y\) = (.*?)\$\. On a/)[1]);
+      const m = g(q, /F\((-?\d+), (-?\d+)\) = 0/); const x = +m[1], y = +m[2];
+      if (!near(ev(P, x, y), 0)) return 'F(x0, y0) ≠ 0';
+      return cmp(q, [-ev(dx(P), x, y) / ev(dy(P), x, y)], 'phi\'(x0)');
+    }
+    if (/groupe d'ordre \$pq\$/.test(T)) {
+      const m = g(q, /d'ordre \$(\d+) = (\d+) \\times (\d+)\$\. Combien \$G\$ possède-t-il d'éléments d'ordre \$(\d+)\$/);
+      const p = +m[2], qq = +m[3];
+      if (!isPrime(p) || !isPrime(qq) || (qq - 1) % p === 0) return 'hypothèses non cycliques';
+      return cmp(q, [phi(+m[4])], 'groupe cyclique');
+    }
+    if (/paramètre entier/.test(T)) {
+      const m = g(q, /\\int_0\^\{\+\\infty\} n (.*?)\\sin\\left\(\\frac\{x\}\{n\}\\right\) e\^\{(-\d*)x\}/);
+      const k = powOf(m[1], 'x'); const a = m[2] === '-' ? 1 : -m[2]; const N = 1e5;
+      return cmp(q, [simpson((x) => N * x ** k * Math.sin(x / N) * Math.exp(-a * x), 0, 80, 60000)], 'TCD sinus', 1e-4);
+    }
+    return 'titre L3-PRF inconnu : ' + T;
+  };
+  return { 'L2-PRF': L2, 'L3-PRF': L3 };
+})(V));
+}
 // ==== PRE_VERIFIERS: fin ====
 for (const f of VERIFY_FILES) addPre(require(path.resolve(f))(V));
 
@@ -7715,7 +7958,7 @@ const hintForeignNums = [];
 // Boucle principale
 // ---------------------------------------------------------------------------
 const chapters = [...new Set((window.MATHS_CHAPTERS || []).map((c) => c.id))]
-  .filter((id) => /^(L[123]-|2[NAGS]\d|1[AGS]\d|T[AGSX]\d|capes-\d)/.test(id) && !/-PRF$/.test(id))
+  .filter((id) => /^(L[123]-|2[NAGS]\d|1[AGS]\d|T[AGSX]\d|capes-\d)/.test(id))
   .filter((id) => !ONLY || ONLY.test(id));
 
 let errors = 0; let total = 0; let nulls = 0; let verified = 0; let unverified = 0;
