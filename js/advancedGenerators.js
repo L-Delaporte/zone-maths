@@ -9537,7 +9537,7 @@ window.MathsAdvancedGenerators = {
   },
 
   // =========================================================================
-  // CAPES (écrit) : générateurs paramétrés gen_capes_01 … gen_capes_10, majoritairement à saisie
+  // CAPES (écrit) : générateurs paramétrés gen_capes_01 … gen_capes_15, majoritairement à saisie
   // exacte. Chaque palier renvoie null avec une probabilité de 25 % : la question conceptuelle de la
   // banque statique CAPES_EXERCISES (js/data/data_capes.js) reste ainsi en rotation.
   // Recalculs indépendants : scripts/tests/test_lycee_licence_generators.js (PRE_VERIFIERS CAPES).
@@ -10340,6 +10340,550 @@ window.MathsAdvancedGenerators = {
       `$\\varphi(n) = ${phi}$ ; cherche l'inverse de $${e}$ modulo $${phi}$ (Euclide étendu).`,
       `$\\varphi(n) = ${p - 1} \\times ${q - 1} = ${phi}$ et $${e} \\times ${d} = ${e * d} = ${Math.floor(e * d / phi)} \\times ${phi} + 1$, donc $d = ${d}$. Le déchiffrement $c \\mapsto c^{d} \\bmod ${p * q}$ inverse le chiffrement $m \\mapsto m^{${e}} \\bmod ${p * q}$ (petit théorème de Fermat et restes chinois).`,
       { instruction: 'Saisir un nombre entier.' });
+  },
+
+  // ---- Leçons CAPES 11 à 15 (thèmes du secondaire) ----
+
+  /** Affixe a + bi en LaTeX : "3 - 2i", "-i", "4", "2i" */
+  _cp_cx(a, b) {
+    if (b === 0) return String(a);
+    const bs = Math.abs(b) === 1 ? 'i' : `${Math.abs(b)}i`;
+    if (a === 0) return (b < 0 ? '-' : '') + bs;
+    return `${a} ${b < 0 ? '-' : '+'} ${bs}`;
+  },
+
+  /** (re + i im) / den en LaTeX réduit : "-\\frac{1}{2} + \\frac{3}{2}i", "2", "-i" */
+  _cp_cxq(re, im, den) {
+    const imPart = (v) => { const f = this.frac(Math.abs(v), den); return f === '1' ? 'i' : `${f}i`; };
+    if (im === 0) return this.frac(re, den);
+    if (re === 0) return (im < 0 ? '-' : '') + imPart(im);
+    return `${this.frac(re, den)} ${im < 0 ? '-' : '+'} ${imPart(im)}`;
+  },
+
+  /** Probabilité p/100 en écriture décimale LaTeX : 35 -> "0{,}35" */
+  _cp_pc(p) {
+    return this.dec(p / 100);
+  },
+
+  gen_capes_11(t) {
+    if (this._cp_static()) return null;
+    const C = 'capes-11';
+    if (t === 1) {
+      const a = this.randNonZero(-6, 6); const b = this.randNonZero(-6, 6);
+      const c = this.randNonZero(-6, 6); const d = this.randNonZero(-6, 6);
+      if (this.randInt(0, 1)) {
+        return this.makeExact(C, 1, 'Produit scalaire en repère orthonormé',
+          'Calculer un produit scalaire à l\'aide des coordonnées',
+          `Dans un repère orthonormé du plan, on considère les vecteurs $\\vec{u}(${a} ; ${b})$ et $\\vec{v}(${c} ; ${d})$. Calculer $\\vec{u} \\cdot \\vec{v}$.`,
+          String(a * c + b * d),
+          'En repère orthonormé, le produit scalaire de $\\vec{u}(x ; y)$ et $\\vec{v}(x\' ; y\')$ vaut $xx\' + yy\'$.',
+          `Multiplie les abscisses entre elles, puis les ordonnées entre elles.`,
+          `$\\vec{u} \\cdot \\vec{v} = ${this.paren(a)} \\times ${this.paren(c)} + ${this.paren(b)} \\times ${this.paren(d)} = ${this.poly([[a * c, ''], [b * d, '']])} = ${a * c + b * d}$.${a * c + b * d === 0 ? ' Les vecteurs sont orthogonaux.' : ''}`);
+      }
+      return this.makeExact(C, 1, 'Condition de colinéarité',
+        'Utiliser le déterminant de deux vecteurs',
+        `Dans un repère du plan, on considère les vecteurs $\\vec{u}(${a} ; m)$ et $\\vec{v}(${c} ; ${d})$. Pour quelle valeur du réel $m$ ces vecteurs sont-ils colinéaires ?`,
+        this._cp_q(a * d, c),
+        'Deux vecteurs $\\vec{u}(x ; y)$ et $\\vec{v}(x\' ; y\')$ sont colinéaires si et seulement si $xy\' - yx\' = 0$.',
+        `Écris $\\det(\\vec{u}, \\vec{v})$ en fonction de $m$.`,
+        `$\\det(\\vec{u}, \\vec{v}) = ${this.paren(a)} \\times ${this.paren(d)} - m \\times ${this.paren(c)} = ${this.poly([[a * d, ''], [-c, 'm']])}$. Il est nul si et seulement si $m = ${this.frac(a * d, c)}$.`);
+    }
+    if (t === 2) {
+      if (this.randInt(0, 1)) {
+        const b = this.randInt(2, 9); const c = this.randInt(2, 9);
+        const ang = this.randChoice([60, 90, 120]);
+        const k = ang === 60 ? -1 : ang === 120 ? 1 : 0; // BC² = b² + c² + k bc
+        const r = b * b + c * c + k * b * c;
+        const cosTex = ang === 60 ? '\\frac{1}{2}' : ang === 120 ? '-\\frac{1}{2}' : '0';
+        return this.makeExact(C, 2, 'Formule d\'Al-Kashi',
+          'Calculer une longueur à l\'aide de la formule d\'Al-Kashi',
+          `Dans un triangle $ABC$, on a $AB = ${b}$, $AC = ${c}$ et $\\widehat{BAC} = ${ang}°$. Calculer $BC^2$.`,
+          String(r),
+          'Al-Kashi : $BC^2 = AB^2 + AC^2 - 2 \\times AB \\times AC \\times \\cos\\widehat{BAC}$.',
+          `$\\cos(${ang}°) = ${cosTex}$.`,
+          `$BC^2 = ${b * b} + ${c * c} - 2 \\times ${b} \\times ${c} \\times ${cosTex.startsWith('-') ? `\\left(${cosTex}\\right)` : cosTex} = ${r}$${ang === 90 ? ' : on retrouve le théorème de Pythagore' : ''}.`);
+      }
+      const nu = this.randInt(2, 9); const nv = this.randInt(2, 9); const ns = this.randInt(Math.abs(nu - nv) + 1, nu + nv - 1);
+      const ps = ns * ns - nu * nu - nv * nv;
+      return this.makeExact(C, 2, 'Produit scalaire et normes',
+        'Utiliser une identité de polarisation',
+        `On sait que $\\|\\vec{u}\\| = ${nu}$, $\\|\\vec{v}\\| = ${nv}$ et $\\|\\vec{u} + \\vec{v}\\| = ${ns}$. Calculer $\\vec{u} \\cdot \\vec{v}$.`,
+        this._cp_q(ps, 2),
+        'Développer $\\|\\vec{u} + \\vec{v}\\|^2 = (\\vec{u} + \\vec{v}) \\cdot (\\vec{u} + \\vec{v})$.',
+        `$\\|\\vec{u} + \\vec{v}\\|^2 = \\|\\vec{u}\\|^2 + 2\\,\\vec{u} \\cdot \\vec{v} + \\|\\vec{v}\\|^2$.`,
+        `$\\vec{u} \\cdot \\vec{v} = \\frac{1}{2}\\left(\\|\\vec{u} + \\vec{v}\\|^2 - \\|\\vec{u}\\|^2 - \\|\\vec{v}\\|^2\\right) = \\frac{1}{2}(${ns * ns} - ${nu * nu} - ${nv * nv}) = ${this.frac(ps, 2)}$.`);
+    }
+    if (t === 3) {
+      if (this.randInt(0, 1)) {
+        const x1 = this.randInt(-6, 6); const y1 = this.randInt(-6, 6);
+        let x2 = this.randInt(-6, 6); const y2 = this.randInt(-6, 6);
+        if (x1 === x2 && y1 === y2) x2 = x1 + 3;
+        const p = -(x1 + x2); const q = -(y1 + y2); const r = x1 * x2 + y1 * y2;
+        return this.makeExact(C, 3, 'Cercle de diamètre donné',
+          'Caractériser un cercle par la relation $\\overrightarrow{MA} \\cdot \\overrightarrow{MB} = 0$',
+          `Dans un repère orthonormé, on considère $A(${x1} ; ${y1})$ et $B(${x2} ; ${y2})$. Le cercle de diamètre $[AB]$ a une équation de la forme $x^2 + y^2 + px + qy + r = 0$. Donner $(p ; q ; r)$.`,
+          `(${p};${q};${r})`,
+          'Un point $M$ appartient au cercle de diamètre $[AB]$ si et seulement si $\\overrightarrow{MA} \\cdot \\overrightarrow{MB} = 0$.',
+          `Avec $M(x ; y)$, on a $\\overrightarrow{MA}(${this.poly([[x1, ''], [-1, 'x']])} ; ${this.poly([[y1, ''], [-1, 'y']])})$.`,
+          `$\\overrightarrow{MA} \\cdot \\overrightarrow{MB} = ${[[x1, 'x'], [x2, 'x'], [y1, 'y'], [y2, 'y']].map(([v, w]) => `(${this.poly([[1, w], [-v, '']])})`).reduce((acc, f, i) => acc + (i === 2 ? ' + ' : '') + f, '')}$. En développant : $${this.poly([[1, 'x^2'], [1, 'y^2'], [p, 'x'], [q, 'y'], [r, '']])} = 0$, d'où $(p ; q ; r) = (${p} ; ${q} ; ${r})$.`,
+          { instruction: 'Saisir le triplet (p ; q ; r), par exemple (-2;4;-3).' });
+      }
+      const a = this.randNonZero(-5, 5); const b = this.randNonZero(-5, 5); const c = this.randInt(-9, 9);
+      const x0 = this.randInt(-5, 5); const y0 = this.randInt(-5, 5);
+      let num = a * x0 + b * y0 + c;
+      if (num === 0) num = 1;
+      const cc = num - a * x0 - b * y0;
+      const den = a * a + b * b;
+      return this.makeExact(C, 3, 'Distance d\'un point à une droite',
+        'Calculer une distance à l\'aide d\'un vecteur normal',
+        `Dans un repère orthonormé, on considère la droite $d$ d'équation $${this.poly([[a, 'x'], [b, 'y'], [cc, '']])} = 0$ et le point $M(${x0} ; ${y0})$. On note $\\delta$ la distance de $M$ à $d$. Calculer $\\delta^2$.`,
+        this._cp_q(num * num, den),
+        'Le vecteur $\\vec{n}(a ; b)$ est normal à la droite d\'équation $ax + by + c = 0$ ; la distance cherchée est $\\frac{|ax_0 + by_0 + c|}{\\sqrt{a^2 + b^2}}$.',
+        `Calcule d'abord $${this.poly([[a, 'x_0'], [b, 'y_0'], [cc, '']])}$ pour $x_0 = ${x0}$ et $y_0 = ${y0}$.`,
+        `$ax_0 + by_0 + c = ${num}$ et $a^2 + b^2 = ${den}$, donc $\\delta = \\frac{${Math.abs(num)}}{\\sqrt{${den}}}$ et $\\delta^2 = ${this.frac(num * num, den)}$.`);
+    }
+    // t === 4 : espace
+    const n = [this.randNonZero(-3, 3), this.randNonZero(-3, 3), this.randNonZero(-3, 3)];
+    if (this.randInt(0, 1)) {
+      const P = [this.randInt(-4, 4), this.randInt(-4, 4), this.randInt(-4, 4)];
+      const d = this.randInt(-9, 9);
+      let num = n[0] * P[0] + n[1] * P[1] + n[2] * P[2] + d;
+      const dd = num === 0 ? d + 2 : d; num = num === 0 ? 2 : num;
+      const den = n[0] ** 2 + n[1] ** 2 + n[2] ** 2;
+      return this.makeExact(C, 4, 'Distance d\'un point à un plan',
+        'Utiliser le projeté orthogonal sur un plan',
+        `Dans un repère orthonormé de l'espace, on considère le plan $\\mathcal{P}$ d'équation $${this.poly([[n[0], 'x'], [n[1], 'y'], [n[2], 'z'], [dd, '']])} = 0$ et le point $M(${P[0]} ; ${P[1]} ; ${P[2]})$. On note $\\delta$ la distance de $M$ à $\\mathcal{P}$. Calculer $\\delta^2$.`,
+        this._cp_q(num * num, den),
+        'Si $H$ est le projeté orthogonal de $M$ sur le plan, $\\overrightarrow{MH}$ est colinéaire à un vecteur normal $\\vec{n}$ et $\\delta = MH$.',
+        `$\\delta = \\frac{|ax_0 + by_0 + cz_0 + d|}{\\|\\vec{n}\\|}$ avec $\\vec{n}(${n[0]} ; ${n[1]} ; ${n[2]})$.`,
+        `$ax_0 + by_0 + cz_0 + d = ${num}$ et $\\|\\vec{n}\\|^2 = ${den}$, donc $\\delta^2 = ${this.frac(num * num, den)}$.`);
+    }
+    // intersection droite / plan
+    const A = [this.randInt(-4, 4), this.randInt(-4, 4), this.randInt(-4, 4)];
+    let u = [this.randInt(-3, 3), this.randInt(-3, 3), this.randInt(-3, 3)];
+    let nu = n[0] * u[0] + n[1] * u[1] + n[2] * u[2];
+    if (nu === 0) { u = [n[0], n[1], n[2] + (n[2] > 0 ? 1 : -1)]; nu = n[0] * u[0] + n[1] * u[1] + n[2] * u[2]; }
+    if (nu === 0) { u = n.slice(); nu = n[0] ** 2 + n[1] ** 2 + n[2] ** 2; }
+    const d = this.randInt(-9, 9);
+    const nA = n[0] * A[0] + n[1] * A[1] + n[2] * A[2] + d;
+    // t0 = -nA / nu ; point = A + t0 u
+    const coords = [0, 1, 2].map((i) => this._cp_q(A[i] * nu - nA * u[i], nu));
+    const par = (i, v) => this.poly([[A[i], ''], [u[i], 't']]) || '0';
+    return this.makeExact(C, 4, 'Intersection d\'une droite et d\'un plan',
+      'Utiliser une représentation paramétrique et une équation cartésienne',
+      `Dans un repère de l'espace, la droite $\\Delta$ a pour représentation paramétrique $x = ${par(0)}$, $y = ${par(1)}$, $z = ${par(2)}$ ($t \\in \\mathbb{R}$) et le plan $\\mathcal{P}$ a pour équation $${this.poly([[n[0], 'x'], [n[1], 'y'], [n[2], 'z'], [d, '']])} = 0$. Déterminer les coordonnées du point d'intersection $I$ de $\\Delta$ et $\\mathcal{P}$.`,
+      `(${coords.join(';')})`,
+      'Remplacer $x$, $y$ et $z$ par leurs expressions en fonction de $t$ dans l\'équation du plan.',
+      `On obtient une équation du premier degré en $t$, de coefficient $${nu}$.`,
+      `En substituant : $${this.poly([[nu, 't'], [nA, '']])} = 0$, donc $t = ${this.frac(-nA, nu)}$. En reportant dans la représentation paramétrique : $I\\left(${coords.map((s) => { const m = s.match(/^(-?\d+)\/(\d+)$/); return m ? this.frac(+m[1], +m[2]) : s; }).join(' ; ')}\\right)$.`,
+      { instruction: 'Saisir le triplet de coordonnées (x ; y ; z), par exemple (1;-2;1/3).' });
+  },
+
+  gen_capes_12(t) {
+    if (this._cp_static()) return null;
+    const C = 'capes-12';
+    const cx = (a, b) => this._cp_cx(a, b);
+    if (t === 1) {
+      if (this.randInt(0, 1)) {
+        const a = this.randNonZero(-6, 6); const b = this.randNonZero(-6, 6);
+        const c = this.randNonZero(-6, 6); const d = this.randNonZero(-6, 6);
+        const re = a * c - b * d; const im = a * d + b * c;
+        return this.makeExact(C, 1, 'Produit de deux nombres complexes',
+          'Calculer sous forme algébrique',
+          `On pose $z = ${cx(a, b)}$ et $w = ${cx(c, d)}$. Écrire $zw$ sous forme algébrique $x + iy$ et donner $(x ; y)$.`,
+          `(${re};${im})`,
+          'Développer le produit en utilisant $i^2 = -1$.',
+          `$(a + ib)(c + id) = (ac - bd) + i(ad + bc)$.`,
+          `$zw = (${cx(a, b)})(${cx(c, d)}) = ${this.poly([[a * c, ''], [a * d, 'i'], [b * c, 'i'], [-b * d, '']])} = ${cx(re, im)}$, car $i^2 = -1$.`,
+          { instruction: 'Saisir le couple (x ; y), par exemple (3;-2).' });
+      }
+      const [p, q, r] = this.randChoice([[3, 4, 5], [5, 12, 13], [6, 8, 10], [8, 15, 17], [9, 12, 15], [12, 16, 20], [7, 24, 25], [20, 21, 29]]);
+      const sw = this.randInt(0, 1);
+      const a = (sw ? p : q) * this.randChoice([1, -1]); const b = (sw ? q : p) * this.randChoice([1, -1]);
+      return this.makeExact(C, 1, 'Module d\'un nombre complexe',
+        'Calculer un module',
+        `Calculer le module du nombre complexe $z = ${cx(a, b)}$.`,
+        String(r),
+        'Le module de $x + iy$ vaut $\\sqrt{x^2 + y^2}$.',
+        `Calcule $${a * a} + ${b * b}$.`,
+        `$|z| = \\sqrt{(${a})^2 + (${b})^2} = \\sqrt{${a * a + b * b}} = ${r}$.`);
+    }
+    if (t === 2) {
+      if (this.randInt(0, 1)) {
+        const a = this.randInt(-6, 6); const b = this.randNonZero(-6, 6);
+        const c = this.randNonZero(-4, 4); const d = this.randNonZero(-4, 4);
+        const den = c * c + d * d; const re = a * c + b * d; const im = b * c - a * d;
+        return this.makeExact(C, 2, 'Quotient de deux nombres complexes',
+          'Utiliser le conjugué du dénominateur',
+          `Écrire $\\frac{${cx(a, b)}}{${cx(c, d)}}$ sous forme algébrique $x + iy$ et donner $(x ; y)$.`,
+          `(${this._cp_q(re, den)};${this._cp_q(im, den)})`,
+          'Multiplier le numérateur et le dénominateur par le conjugué du dénominateur.',
+          `$(${cx(c, d)})(${cx(c, -d)}) = ${den}$.`,
+          `$\\frac{${cx(a, b)}}{${cx(c, d)}} = \\frac{(${cx(a, b)})(${cx(c, -d)})}{${den}} = ${this._cp_cxq(re, im, den)}$, donc $(x ; y) = \\left(${this.frac(re, den)} ; ${this.frac(im, den)}\\right)$.`,
+          { instruction: 'Saisir le couple (x ; y), par exemple (1/5;-2/5).' });
+      }
+      const k = this.randChoice([2, 3, -2, -3, 4]);
+      // z + k z̄ = (1+k)x + i(1-k)y
+      const x = this.randInt(-5, 5); const y = this.randNonZero(-5, 5);
+      const R1 = (1 + k) * x; const I1 = (1 - k) * y;
+      return this.makeExact(C, 2, 'Équation avec conjugué',
+        'Identifier parties réelle et imaginaire',
+        `Déterminer le nombre complexe $z = x + iy$ ($x$, $y$ réels) tel que $z ${k > 0 ? '+' : '-'} ${Math.abs(k)}\\bar{z} = ${cx(R1, I1)}$. Donner $(x ; y)$.`,
+        `(${x};${y})`,
+        'Écrire $z = x + iy$ et $\\bar{z} = x - iy$, puis identifier les parties réelles et imaginaires.',
+        `Le membre de gauche vaut $${this.poly([[1 + k, 'x'], [1 - k, 'iy']])}$.`,
+        `$z ${k > 0 ? '+' : '-'} ${Math.abs(k)}\\bar{z} = ${this.poly([[1 + k, 'x'], [1 - k, 'iy']])}$. Par unicité de la forme algébrique, $${this.poly([[1 + k, 'x']])} = ${R1}$ et $${this.poly([[1 - k, 'y']])} = ${I1}$, donc $z = ${cx(x, y)}$.`,
+        { instruction: 'Saisir le couple (x ; y), par exemple (2;-1).' });
+    }
+    if (t === 3) {
+      if (this.randInt(0, 1)) {
+        const al = this.randInt(-5, 5); const be = this.randInt(1, 6);
+        const p = -2 * al; const q = al * al + be * be;
+        return this.makeExact(C, 3, 'Équation du second degré à discriminant négatif',
+          'Résoudre dans $\\mathbb{C}$ une équation à coefficients réels',
+          `L'équation $${this.polyX([1, p, q], 'z')} = 0$ admet deux solutions complexes conjuguées $\\alpha + i\\beta$ et $\\alpha - i\\beta$, avec $\\beta \\gt 0$. Donner $(\\alpha ; \\beta)$.`,
+          `(${al};${be})`,
+          'Calculer le discriminant ; s\'il est négatif, les solutions sont $\\frac{-b \\pm i\\sqrt{-\\Delta}}{2a}$.',
+          `$\\Delta = ${p * p} - ${4 * q} = ${p * p - 4 * q}$.`,
+          `$\\Delta = ${p * p - 4 * q} = (${2 * be}i)^2$, donc les solutions sont $\\frac{${-p} \\pm ${2 * be}i}{2} = ${cx(al, be)}$ et $${cx(al, -be)}$.`,
+          { instruction: 'Saisir le couple (alpha ; beta), par exemple (1;2).' });
+      }
+      const s = this.randChoice([1, -1]); const n = this.randInt(2, 12);
+      let re = 1; let im = 0;
+      for (let k = 0; k < n; k++) { const r2 = re - s * im; const i2 = im + s * re; re = r2; im = i2; }
+      const base = s === 1 ? '1 + i' : '1 - i';
+      return this.makeExact(C, 3, 'Puissance d\'un nombre complexe',
+        'Utiliser la forme exponentielle et la formule de Moivre',
+        `Écrire $(${base})^{${n}}$ sous forme algébrique $x + iy$ et donner $(x ; y)$.`,
+        `(${re};${im})`,
+        `Écrire $${base}$ sous forme exponentielle.`,
+        `$${base} = \\sqrt{2}\\,e^{${s === 1 ? '' : '-'}\\frac{i\\pi}{4}}$.`,
+        `$(${base})^{${n}} = (\\sqrt{2})^{${n}}e^{${s === 1 ? '' : '-'}\\frac{${n}i\\pi}{4}} = ${cx(re, im)}$, car $(\\sqrt{2})^{${n}} = 2^{${this.frac(n, 2)}}$ et $\\frac{${n}\\pi}{4}$ est un multiple de $\\frac{\\pi}{4}$ dont on connaît le cosinus et le sinus.`,
+        { instruction: 'Saisir le couple (x ; y), par exemple (-4;0).' });
+    }
+    // t === 4
+    if (this.randInt(0, 1)) {
+      const w = [this.randInt(-4, 4), this.randInt(-4, 4)];
+      const z = [this.randInt(-5, 5), this.randInt(-5, 5)];
+      if (z[0] === w[0] && z[1] === w[1]) z[0] += 2;
+      const ang = this.randChoice(['\\frac{\\pi}{2}', '-\\frac{\\pi}{2}', '\\pi']);
+      const rot = ang === '\\pi' ? [-1, 0] : ang === '\\frac{\\pi}{2}' ? [0, 1] : [0, -1];
+      const dx = z[0] - w[0]; const dy = z[1] - w[1];
+      const ix = w[0] + rot[0] * dx - rot[1] * dy; const iy = w[1] + rot[0] * dy + rot[1] * dx;
+      return this.makeExact(C, 4, 'Image par une rotation',
+        'Utiliser l\'écriture complexe $z\' = \\omega + e^{i\\theta}(z - \\omega)$',
+        `Dans le plan complexe, on note $r$ la rotation de centre $\\Omega$ d'affixe $\\omega = ${cx(w[0], w[1])}$ et d'angle $${ang}$. Le point $M$ a pour affixe $${cx(z[0], z[1])}$. L'image $M'$ de $M$ par $r$ a pour affixe $x + iy$ : donner $(x ; y)$.`,
+        `(${ix};${iy})`,
+        'L\'écriture complexe de la rotation de centre $\\Omega(\\omega)$ et d\'angle $\\theta$ est $z\' = \\omega + e^{i\\theta}(z - \\omega)$.',
+        `$e^{i${ang}} = ${cx(rot[0], rot[1])}$ et $z - \\omega = ${cx(dx, dy)}$.`,
+        `$z' = ${cx(w[0], w[1])} + (${cx(rot[0], rot[1])})(${cx(dx, dy)}) = ${cx(w[0], w[1])} + (${cx(rot[0] * dx - rot[1] * dy, rot[0] * dy + rot[1] * dx)}) = ${cx(ix, iy)}$.`,
+        { instruction: 'Saisir le couple (x ; y), par exemple (3;-1).' });
+    }
+    const a = [this.randInt(-3, 3), this.randInt(-3, 3)];
+    let b = [this.randInt(-3, 4), this.randInt(-3, 4)];
+    if (b[0] === a[0] && b[1] === a[1]) b = [a[0] + 2, a[1] + 1];
+    let c = [this.randInt(-4, 4), this.randInt(-4, 4)];
+    while ((c[0] === a[0] && c[1] === a[1]) || (c[0] === b[0] && c[1] === b[1])) c = [this.randInt(-4, 4), this.randInt(-4, 4)];
+    const u = [b[0] - a[0], b[1] - a[1]]; const v = [c[0] - a[0], c[1] - a[1]];
+    const den = u[0] ** 2 + u[1] ** 2;
+    const re = v[0] * u[0] + v[1] * u[1]; const im = v[1] * u[0] - v[0] * u[1];
+    return this.makeExact(C, 4, 'Quotient et configuration',
+      'Calculer $\\frac{c - a}{b - a}$ pour étudier un triangle',
+      `Les points $A$, $B$, $C$ ont pour affixes $a = ${cx(a[0], a[1])}$, $b = ${cx(b[0], b[1])}$ et $c = ${cx(c[0], c[1])}$. Écrire $\\frac{c - a}{b - a}$ sous forme algébrique $x + iy$ et donner $(x ; y)$.`,
+      `(${this._cp_q(re, den)};${this._cp_q(im, den)})`,
+      'Calculer $c - a$ et $b - a$, puis multiplier par le conjugué du dénominateur.',
+      `$c - a = ${cx(v[0], v[1])}$ et $b - a = ${cx(u[0], u[1])}$.`,
+      `${u[1] === 0 ? `$b - a = ${u[0]}$ est réel, donc $\\frac{c - a}{b - a} = ${this.frac(1, u[0])} \\times (${cx(v[0], v[1])}) = ${this._cp_cxq(re, im, den)}$.` : `$\\frac{c - a}{b - a} = \\frac{${cx(v[0], v[1])}}{${cx(u[0], u[1])}} = \\frac{(${cx(v[0], v[1])})(${cx(u[0], -u[1])})}{${den}} = ${this._cp_cxq(re, im, den)}$.`} ${im === 0 ? 'Le quotient est réel : $A$, $B$, $C$ sont alignés.' : re === 0 ? 'Le quotient est imaginaire pur : le triangle est rectangle en $A$.' : 'Son module donne $\\frac{AC}{AB}$ et son argument l\'angle $(\\overrightarrow{AB}, \\overrightarrow{AC})$.'}`,
+      { instruction: 'Saisir le couple (x ; y), par exemple (1/2;-3/2).' });
+  },
+
+  gen_capes_13(t) {
+    if (this._cp_static()) return null;
+    const C = 'capes-13';
+    const pc = (p) => this._cp_pc(p);
+    if (t === 1) {
+      if (this.randInt(0, 1)) {
+        const pa = this.randChoice([20, 25, 40, 50, 60, 75, 80]);
+        const pab = this.randInt(1, pa / 5 - 1) * 5;
+        return this.makeExact(C, 1, 'Calcul d\'une probabilité conditionnelle',
+          'Appliquer la définition de $P_A(B)$',
+          `On donne $P(A) = ${pc(pa)}$ et $P(A \\cap B) = ${pc(pab)}$. Calculer $P_A(B)$.`,
+          this._cp_q(pab, pa),
+          'Par définition, $P_A(B) = \\frac{P(A \\cap B)}{P(A)}$.',
+          'Divise la probabilité de l\'intersection par celle de l\'événement par lequel on conditionne.',
+          `$P_A(B) = \\frac{${pc(pab)}}{${pc(pa)}} = ${this.frac(pab, pa)}$.`);
+      }
+      const pa = this.randInt(1, 9) * 10; const pb = this.randInt(1, 19) * 5;
+      return this.makeExact(C, 1, 'Probabilités composées',
+        'Lire la probabilité d\'un chemin dans un arbre pondéré',
+        `On donne $P(A) = ${pc(pa)}$ et $P_A(B) = ${pc(pb)}$. Calculer $P(A \\cap B)$.`,
+        this._cp_q(pa * pb, 10000),
+        'La probabilité d\'un chemin est le produit des probabilités des branches qui le composent.',
+        '$P(A \\cap B) = P(A) \\times P_A(B)$.',
+        `$P(A \\cap B) = ${pc(pa)} \\times ${pc(pb)} = ${this.dec(pa * pb / 10000)}$.`);
+    }
+    if (t === 2) {
+      if (this.randInt(0, 1)) {
+        const pa = this.randInt(1, 9) * 10; const b1 = this.randInt(1, 19) * 5; let b2 = this.randInt(1, 19) * 5;
+        if (b2 === b1) b2 = b1 === 95 ? 50 : b1 + 5;
+        const num = pa * b1 + (100 - pa) * b2;
+        return this.makeExact(C, 2, 'Formule des probabilités totales',
+          'Utiliser la partition $\\{A, \\bar{A}\\}$',
+          `On donne $P(A) = ${pc(pa)}$, $P_A(B) = ${pc(b1)}$ et $P_{\\bar{A}}(B) = ${pc(b2)}$. Calculer $P(B)$.`,
+          this._cp_q(num, 10000),
+          'Additionner les probabilités des deux chemins de l\'arbre qui mènent à $B$.',
+          `$P(\\bar{A}) = ${pc(100 - pa)}$.`,
+          `$P(B) = P(A)P_A(B) + P(\\bar{A})P_{\\bar{A}}(B) = ${pc(pa)} \\times ${pc(b1)} + ${pc(100 - pa)} \\times ${pc(b2)} = ${this.dec(num / 10000)}$.`);
+      }
+      const pa = this.randInt(1, 9) * 10; const pb = this.randInt(1, 9) * 10;
+      const num = 100 * pa + 100 * pb - pa * pb;
+      return this.makeExact(C, 2, 'Événements indépendants',
+        'Utiliser l\'indépendance pour calculer une réunion',
+        `$A$ et $B$ sont deux événements indépendants tels que $P(A) = ${pc(pa)}$ et $P(B) = ${pc(pb)}$. Calculer $P(A \\cup B)$.`,
+        this._cp_q(num, 10000),
+        'Pour des événements indépendants, $P(A \\cap B) = P(A) \\times P(B)$.',
+        '$P(A \\cup B) = P(A) + P(B) - P(A \\cap B)$.',
+        `$P(A \\cap B) = ${pc(pa)} \\times ${pc(pb)} = ${this.dec(pa * pb / 10000)}$, donc $P(A \\cup B) = ${pc(pa)} + ${pc(pb)} - ${this.dec(pa * pb / 10000)} = ${this.dec(num / 10000)}$.`);
+    }
+    if (t === 3) {
+      if (this.randInt(0, 1)) {
+        const pa = this.randChoice([1, 2, 4, 5, 10, 20]); const se = this.randChoice([80, 90, 95, 98, 99]); const fp = this.randChoice([1, 2, 5, 10]);
+        const num = pa * se; const den = pa * se + (100 - pa) * fp;
+        return this.makeExact(C, 3, 'Formule de Bayes',
+          'Inverser un conditionnement',
+          `Une maladie touche $${pa}$ % d'une population. Un test est positif chez $${se}$ % des malades et chez $${fp}$ % des personnes saines. On note $M$ l'événement « être malade » et $T$ l'événement « avoir un test positif ». Calculer $P_T(M)$ (valeur exacte).`,
+          this._cp_q(num, den),
+          'Construire l\'arbre ($M$ ou non, puis $T$ ou non), calculer $P(T)$ par la formule des probabilités totales.',
+          `$P_T(M) = \\frac{P(M \\cap T)}{P(T)}$.`,
+          `$P(M \\cap T) = ${pc(pa)} \\times ${pc(se)} = ${this.dec(num / 10000)}$ et $P(T) = ${this.dec(num / 10000)} + ${pc(100 - pa)} \\times ${pc(fp)} = ${this.dec(den / 10000)}$, donc $P_T(M) = ${this.frac(num, den)} \\approx ${this.dec(num / den, 3)}$.`);
+      }
+      const r = this.randInt(2, 8); const nn = this.randInt(2, 8);
+      const N = r + nn;
+      return this.makeExact(C, 3, 'Deux tirages sans remise',
+        'Utiliser un arbre pondéré pour des tirages successifs',
+        `Une urne contient $${r}$ boules rouges et $${nn}$ boules noires. On tire successivement et sans remise deux boules. Quelle est la probabilité d'obtenir deux boules de la même couleur ?`,
+        this._cp_q(r * (r - 1) + nn * (nn - 1), N * (N - 1)),
+        'Les probabilités du second tirage dépendent du résultat du premier.',
+        `Additionne les probabilités des chemins « rouge puis rouge » et « noire puis noire ».`,
+        `$P = P(R_1 \\cap R_2) + P(N_1 \\cap N_2) = ${this.frac(r, N)} \\times ${this.frac(r - 1, N - 1)} + ${this.frac(nn, N)} \\times ${this.frac(nn - 1, N - 1)} = ${this.frac(r * (r - 1) + nn * (nn - 1), N * (N - 1))}$.`);
+    }
+    // t === 4
+    if (this.randInt(0, 1)) {
+      const p = this.randChoice([5, 10, 15, 20, 25, 30, 40, 50]); const s = this.randChoice([90, 95, 99]);
+      let n = 0; let q = 1;
+      while (1 - q < s / 100 - 1e-12) { q *= (100 - p) / 100; n++; }
+      return this.makeExact(C, 4, 'Au moins un succès',
+        'Passer à l\'événement contraire pour des épreuves indépendantes',
+        `Un joueur gagne une partie avec probabilité $${pc(p)}$, les parties étant indépendantes. Quel est le nombre minimal $n$ de parties à jouer pour que la probabilité de gagner au moins une fois soit supérieure ou égale à $${pc(s)}$ ?`,
+        String(n),
+        'L\'événement contraire de « gagner au moins une fois » est « perdre toutes les parties ».',
+        `Résous $1 - ${pc(100 - p)}^n \\ge ${pc(s)}$ à l'aide du logarithme népérien.`,
+        `La probabilité de gagner au moins une fois en $n$ parties vaut $1 - ${pc(100 - p)}^n$. L'inéquation équivaut à $${pc(100 - p)}^n \\le ${this.dec(1 - s / 100)}$, soit $n \\ge \\frac{\\ln(${this.dec(1 - s / 100)})}{\\ln(${pc(100 - p)})} \\approx ${this.dec(Math.log(1 - s / 100) / Math.log(1 - p / 100), 2)}$ (on divise par un logarithme négatif). Le plus petit entier convenable est $n = ${n}$.`);
+    }
+    const r = this.randChoice([60, 70, 75, 80, 85, 90, 95]); const s = this.randChoice([5, 10, 15, 20, 25, 30, 40]);
+    // l = r l + s (1 - l) -> l = s / (100 - r + s)
+    return this.makeExact(C, 4, 'État stable d\'un système à deux états',
+      'Combiner probabilités totales et suites arithmético-géométriques',
+      `Chaque mois, un abonné reste abonné le mois suivant avec probabilité $${pc(r)}$, et une personne non abonnée s'abonne le mois suivant avec probabilité $${pc(s)}$. On note $p_n$ la probabilité qu'une personne soit abonnée le mois $n$. La suite $(p_n)$ converge vers $\\ell$. Calculer $\\ell$.`,
+      this._cp_q(s, 100 - r + s),
+      'Établir une relation de récurrence entre $p_{n+1}$ et $p_n$ par la formule des probabilités totales.',
+      `$p_{n+1} = ${pc(r)}\\,p_n + ${pc(s)}(1 - p_n)$ ; la limite est un point fixe.`,
+      `$p_{n+1} = ${this.dec((r - s) / 100)}\\,p_n + ${pc(s)}$. La suite est arithmético-géométrique de coefficient compris strictement entre $-1$ et $1$ ; sa limite vérifie $\\ell = ${this.dec((r - s) / 100)}\\,\\ell + ${pc(s)}$, d'où $\\ell = \\frac{${pc(s)}}{${this.dec((100 - r + s) / 100)}} = ${this.frac(s, 100 - r + s)}$.`);
+  },
+
+  gen_capes_14(t) {
+    if (this._cp_static()) return null;
+    const C = 'capes-14';
+    const list = (a) => a.join(' ; ');
+    if (t === 1) {
+      if (this.randInt(0, 1)) {
+        const k = this.randInt(3, 4);
+        const xs = []; while (xs.length < k) { const v = this.randInt(1, 20); if (!xs.includes(v)) xs.push(v); }
+        xs.sort((a, b) => a - b);
+        const ns = xs.map(() => this.randInt(1, 9));
+        const N = ns.reduce((s, v) => s + v, 0); const S = xs.reduce((s, v, i) => s + v * ns[i], 0);
+        return this.makeExact(C, 1, 'Moyenne pondérée',
+          'Calculer une moyenne à partir d\'un tableau d\'effectifs',
+          `Dans une série statistique, les valeurs $${list(xs)}$ ont respectivement les effectifs $${list(ns)}$. Calculer la moyenne $\\bar{x}$ de la série.`,
+          this._cp_q(S, N),
+          'Multiplier chaque valeur par son effectif, additionner, puis diviser par l\'effectif total.',
+          `L'effectif total vaut $${N}$.`,
+          `$\\bar{x} = \\frac{${xs.map((x, i) => `${ns[i]} \\times ${x}`).join(' + ')}}{${N}} = \\frac{${S}}{${N}} = ${this.frac(S, N)}$.`);
+      }
+      const n = this.randChoice([6, 7, 8, 9]);
+      const xs = Array.from({ length: n }, () => this.randInt(1, 30));
+      const so = xs.slice().sort((a, b) => a - b);
+      const med2 = n % 2 ? 2 * so[(n - 1) / 2] : so[n / 2 - 1] + so[n / 2];
+      return this.makeExact(C, 1, 'Médiane d\'une série',
+        'Ordonner une série et déterminer sa médiane',
+        `Déterminer la médiane de la série : $${list(xs)}$.`,
+        this._cp_q(med2, 2),
+        'Commencer par ranger les valeurs dans l\'ordre croissant.',
+        `L'effectif vaut $${n}$, qui est ${n % 2 ? 'impair' : 'pair'}.`,
+        `Série ordonnée : $${list(so)}$. ${n % 2 ? `La médiane est la valeur de rang $${(n + 1) / 2}$, soit $${so[(n - 1) / 2]}$.` : `La médiane est la demi-somme des valeurs de rangs $${n / 2}$ et $${n / 2 + 1}$ : $\\frac{${so[n / 2 - 1]} + ${so[n / 2]}}{2} = ${this.frac(med2, 2).replace(/^(\d+)$/, '$1')}$.`}`);
+    }
+    if (t === 2) {
+      if (this.randInt(0, 1)) {
+        const n = this.randChoice([4, 5, 6]);
+        const xs = Array.from({ length: n }, () => this.randInt(0, 15));
+        const S = xs.reduce((s, v) => s + v, 0); const S2 = xs.reduce((s, v) => s + v * v, 0);
+        // V = S2/n - (S/n)^2 = (n S2 - S^2)/n^2
+        return this.makeExact(C, 2, 'Variance d\'une série',
+          'Calculer une variance par la formule de König-Huygens',
+          `Calculer la variance $V$ de la série : $${list(xs)}$.`,
+          this._cp_q(n * S2 - S * S, n * n),
+          '$V$ est la moyenne des carrés des écarts à la moyenne, ou encore la moyenne des carrés moins le carré de la moyenne.',
+          `La moyenne vaut $${this.frac(S, n)}$.`,
+          `$\\bar{x} = ${this.frac(S, n)}$ et la moyenne des carrés vaut $${this.frac(S2, n)}$, donc $V = ${this.frac(S2, n)} - \\left(${this.frac(S, n)}\\right)^2 = ${this.frac(n * S2 - S * S, n * n)}$.`);
+      }
+      const m = this.randInt(5, 20); const s = this.randInt(1, 6);
+      const a = this.randChoice([-3, -2, 2, 3, 4, 5]); const b = this.randNonZero(-10, 10);
+      return this.makeExact(C, 2, 'Transformation affine des données',
+        'Étudier l\'effet d\'une transformation affine sur la moyenne et l\'écart type',
+        `Une série a pour moyenne $${m}$ et pour écart type $${s}$. On transforme chaque valeur $x$ en $y = ${a}x ${b >= 0 ? '+' : '-'} ${Math.abs(b)}$. Donner $(\\bar{y} ; \\sigma_y)$.`,
+        `(${a * m + b};${Math.abs(a) * s})`,
+        'La moyenne est linéaire ; l\'écart type n\'est pas modifié par l\'ajout d\'une constante.',
+        `$\\sigma_y = |a|\\sigma_x$.`,
+        `$\\bar{y} = ${a} \\times ${m} ${b >= 0 ? '+' : '-'} ${Math.abs(b)} = ${a * m + b}$ et $\\sigma_y = |${a}| \\times ${s} = ${Math.abs(a) * s}$.`,
+        { instruction: 'Saisir le couple (moyenne ; écart type), par exemple (12;6).' });
+    }
+    if (t === 3) {
+      if (this.randInt(0, 1)) {
+        const n1 = this.randInt(8, 25); const n2 = this.randInt(8, 25);
+        const m1 = this.randInt(8, 16); let m2 = this.randInt(8, 16);
+        if (m1 === m2) m2 = m1 + 1;
+        return this.makeExact(C, 3, 'Moyenne de la réunion de deux groupes',
+          'Pondérer des moyennes par les effectifs',
+          `Un groupe de $${n1}$ élèves a obtenu une moyenne de $${m1}$, un autre groupe de $${n2}$ élèves une moyenne de $${m2}$. Calculer la moyenne de l'ensemble des élèves.`,
+          this._cp_q(n1 * m1 + n2 * m2, n1 + n2),
+          'La moyenne des moyennes ne convient pas : il faut pondérer par les effectifs.',
+          `La somme des notes du premier groupe vaut $${n1} \\times ${m1}$.`,
+          `$\\bar{x} = \\frac{${n1} \\times ${m1} + ${n2} \\times ${m2}}{${n1 + n2}} = \\frac{${n1 * m1 + n2 * m2}}{${n1 + n2}} = ${this.frac(n1 * m1 + n2 * m2, n1 + n2)}$.`);
+      }
+      const xb = this.randInt(2, 10); const yb = this.randInt(5, 30);
+      const vx = this.randChoice([2, 4, 5, 8, 10]); const cov = this.randNonZero(-12, 12);
+      const aN = cov; const aD = vx; // a = cov/vx ; b = yb - a xb
+      return this.makeExact(C, 3, 'Coefficients de la droite des moindres carrés',
+        'Utiliser covariance et variance',
+        `Pour une série à deux variables, on a $\\bar{x} = ${xb}$, $\\bar{y} = ${yb}$, $V_x = ${vx}$ et $\\mathrm{cov}(x, y) = ${cov}$. La droite d'ajustement de $y$ en $x$ par les moindres carrés a pour équation $y = ax + b$. Donner $(a ; b)$.`,
+        `(${this._cp_q(aN, aD)};${this._cp_q(yb * aD - aN * xb, aD)})`,
+        'Le coefficient directeur est $\\frac{\\mathrm{cov}(x, y)}{V_x}$ et la droite passe par le point moyen.',
+        `$b = \\bar{y} - a\\bar{x}$.`,
+        `$a = \\frac{${cov}}{${vx}} = ${this.frac(aN, aD)}$ et $b = ${yb} - ${this.frac(aN, aD).startsWith('-') ? `\\left(${this.frac(aN, aD)}\\right)` : this.frac(aN, aD)} \\times ${xb} = ${this.frac(yb * aD - aN * xb, aD)}$.`,
+        { instruction: 'Saisir le couple (a ; b), par exemple (3/2;-1).' });
+    }
+    // t === 4 : moindres carrés à partir des points
+    const n = this.randChoice([4, 5]);
+    const xs = Array.from({ length: n }, (_, i) => i + 1);
+    const a0 = this.randInt(1, 4); const b0 = this.randInt(-3, 6);
+    const ys = xs.map((x) => a0 * x + b0 + this.randInt(-2, 2));
+    const Sx = xs.reduce((s, v) => s + v, 0); const Sy = ys.reduce((s, v) => s + v, 0);
+    const Sxy = xs.reduce((s, v, i) => s + v * ys[i], 0); const Sxx = xs.reduce((s, v) => s + v * v, 0);
+    // a = (n Sxy - Sx Sy)/(n Sxx - Sx^2) ; b = (Sy - a Sx)/n
+    const aN = n * Sxy - Sx * Sy; const aD = n * Sxx - Sx * Sx;
+    const bN = Sy * aD - aN * Sx; const bD = n * aD;
+    return this.makeExact(C, 4, 'Ajustement affine par les moindres carrés',
+      'Déterminer la droite des moindres carrés à partir des données',
+      `On considère la série à deux variables : $x$ prend les valeurs $${list(xs)}$ et $y$ les valeurs correspondantes $${list(ys)}$. La droite d'ajustement de $y$ en $x$ par les moindres carrés a pour équation $y = ax + b$. Donner $(a ; b)$.`,
+      `(${this._cp_q(aN, aD)};${this._cp_q(bN, bD)})`,
+      'Calculer le point moyen, la variance de $x$ et la covariance, puis $a = \\frac{\\mathrm{cov}(x, y)}{V_x}$.',
+      `$\\bar{x} = ${this.frac(Sx, n)}$ et $\\bar{y} = ${this.frac(Sy, n)}$.`,
+      `$\\bar{x} = ${this.frac(Sx, n)}$, $\\bar{y} = ${this.frac(Sy, n)}$, $V_x = ${this.frac(aD, n * n)}$ et $\\mathrm{cov}(x, y) = ${this.frac(aN, n * n)}$. Donc $a = ${this.frac(aN, aD)}$ et $b = \\bar{y} - a\\bar{x} = ${this.frac(bN, bD)}$.`,
+      { instruction: 'Saisir le couple (a ; b), par exemple (7/5;1/2).' });
+  },
+
+  gen_capes_15(t) {
+    if (this._cp_static()) return null;
+    const C = 'capes-15';
+    const binom = (n, k) => { if (k < 0 || k > n) return 0; let r = 1; for (let i = 1; i <= k; i++) r = r * (n - k + i) / i; return Math.round(r); };
+    if (t === 1) {
+      const n = this.randInt(3, 12); const k = this.randInt(2, Math.min(5, n));
+      if (this.randInt(0, 1)) {
+        return this.makeExact(C, 1, 'Nombre de k-uplets',
+          'Appliquer le principe multiplicatif',
+          `Un code est formé de $${k}$ symboles choisis parmi $${n}$ symboles distincts, les répétitions étant autorisées et l'ordre comptant. Combien de codes peut-on former ?`,
+          String(n ** k),
+          'Pour chaque position, compter le nombre de choix possibles.',
+          `Chaque position offre $${n}$ choix.`,
+          `Il s'agit de $${k}$-uplets d'un ensemble à $${n}$ éléments : $${n}^{${k}} = ${n ** k}$ codes.`);
+      }
+      let A = 1; for (let i = 0; i < k; i++) A *= n - i;
+      return this.makeExact(C, 1, 'Classements et arrangements',
+        'Dénombrer des $k$-uplets d\'éléments distincts',
+        `$${n}$ concurrents participent à une course. Combien y a-t-il de classements possibles des $${k}$ premiers (sans ex aequo) ?`,
+        String(A),
+        'L\'ordre compte et un concurrent ne peut occuper qu\'une seule place.',
+        `Il y a $${n}$ choix pour la première place, puis $${n - 1}$ pour la deuxième.`,
+        `On compte les $${k}$-uplets d'éléments distincts : $${Array.from({ length: k }, (_, i) => n - i).join(' \\times ')} = ${A}$.`);
+    }
+    if (t === 2) {
+      if (this.randInt(0, 1)) {
+        const n = this.randInt(5, 20); const k = this.randInt(2, Math.min(5, n - 1));
+        return this.makeExact(C, 2, 'Nombre de combinaisons',
+          'Dénombrer des parties à $k$ éléments',
+          `De combien de façons peut-on choisir un groupe de $${k}$ personnes parmi $${n}$ (l'ordre ne compte pas) ?`,
+          String(binom(n, k)),
+          'L\'ordre ne compte pas et il n\'y a pas de répétition : on dénombre des parties.',
+          `$\\binom{n}{k} = \\frac{n!}{k!\\,(n - k)!}$.`,
+          `$\\binom{${n}}{${k}} = \\frac{${Array.from({ length: k }, (_, i) => n - i).join(' \\times ')}}{${k}!} = ${binom(n, k)}$.`);
+      }
+      const f = this.randInt(3, 10); const h = this.randInt(3, 10); const k = this.randInt(3, 5); const j = this.randInt(1, k - 1);
+      const res = binom(f, j) * binom(h, k - j);
+      return this.makeExact(C, 2, 'Comité avec contrainte',
+        'Combiner principe multiplicatif et combinaisons',
+        `Une association compte $${f}$ femmes et $${h}$ hommes. Combien de comités de $${k}$ personnes comportant exactement $${j}$ femme${j > 1 ? 's' : ''} peut-on former ?`,
+        String(res),
+        'Choisir séparément les femmes et les hommes, puis appliquer le principe multiplicatif.',
+        `Il faut choisir $${k - j}$ homme${k - j > 1 ? 's' : ''} parmi $${h}$.`,
+        `$\\binom{${f}}{${j}} \\times \\binom{${h}}{${k - j}} = ${binom(f, j)} \\times ${binom(h, k - j)} = ${res}$.`);
+    }
+    if (t === 3) {
+      if (this.randInt(0, 1)) {
+        const w = this.randChoice(['ANANAS', 'BANANE', 'PAPAYE', 'TOMATE', 'CERCLE', 'ENTIER', 'MATHS', 'RADAR', 'NOMBRE', 'PARALLELE', 'COLLEGE', 'SOMME', 'CARRE', 'DIVISEUR', 'POLYGONE']);
+        const cnt = {}; for (const ch of w) cnt[ch] = (cnt[ch] || 0) + 1;
+        const rep = Object.values(cnt).filter((v) => v > 1);
+        let res = this._cp_fact(w.length); for (const v of rep) res /= this._cp_fact(v);
+        const repTxt = Object.entries(cnt).filter(([, v]) => v > 1).map(([c, v]) => `${v} lettres ${c}`).join(', ');
+        return this.makeExact(C, 3, 'Anagrammes',
+          'Dénombrer des permutations avec répétitions',
+          `Combien le mot ${w} possède-t-il d'anagrammes (ayant un sens ou non, le mot lui-même compris) ?`,
+          String(res),
+          'Compter les rangements des lettres comme si elles étaient distinctes, puis tenir compte des lettres identiques.',
+          `Le mot comporte $${w.length}$ lettres${rep.length ? ', dont certaines répétées' : ', toutes distinctes'}.`,
+          `${rep.length ? `Le mot comporte ${repTxt}. ` : ''}Le nombre d'anagrammes est $${rep.length ? `\\frac{${w.length}!}{${rep.map((v) => `${v}!`).join('\\,')}}` : `${w.length}!`} = ${res}$.`);
+      }
+      const p = this.randInt(2, 8); const q = this.randInt(2, 6);
+      return this.makeExact(C, 3, 'Chemins dans un quadrillage',
+        'Coder un chemin par un mot et dénombrer',
+        `Dans un quadrillage, on va du point $(0 ; 0)$ au point $(${p} ; ${q})$ par des pas unitaires vers la droite ou vers le haut. Combien y a-t-il de chemins ?`,
+        String(binom(p + q, q)),
+        'Un chemin est une suite de pas « droite » et « haut » ; il est déterminé par la position des pas « haut ».',
+        `Un chemin comporte $${p + q}$ pas, dont $${q}$ vers le haut.`,
+        `On choisit les positions des $${q}$ pas vers le haut parmi les $${p + q}$ pas : $\\binom{${p + q}}{${q}} = ${binom(p + q, q)}$ chemins.`);
+    }
+    // t === 4
+    if (this.randInt(0, 1)) {
+      const n = this.randInt(4, 8); const k = this.randInt(2, n - 2);
+      const a = this.randChoice([1, 2, 3, -1, -2]); const b = this.randChoice([1, 2, 3, -1, -2, -3]);
+      const coef = binom(n, k) * a ** k * b ** (n - k);
+      const ax = a === 1 ? 'x' : a === -1 ? '-x' : `${a}x`;
+      return this.makeExact(C, 4, 'Coefficient d\'un développement',
+        'Appliquer la formule du binôme',
+        `Quel est le coefficient de $x^{${k}}$ dans le développement de $(${ax} ${b > 0 ? '+' : '-'} ${Math.abs(b)})^{${n}}$ ?`,
+        String(coef),
+        'Formule du binôme : $(u + v)^n = \\sum_{k=0}^{n}\\binom{n}{k}u^kv^{n-k}$.',
+        `Le terme en $x^{${k}}$ est $\\binom{${n}}{${k}}${a === 1 ? 'x' : `(${ax})`}^{${k}} \\times ${this.paren(b)}^{${n - k}}$.`,
+        `$\\binom{${n}}{${k}} \\times ${this.paren(a)}^{${k}} \\times ${this.paren(b)}^{${n - k}} = ${binom(n, k)} \\times ${this.paren(a ** k)} \\times ${this.paren(b ** (n - k))} = ${coef}$.`);
+    }
+    const f = this.randInt(3, 9); const h = this.randInt(3, 9); const k = this.randInt(3, Math.min(5, h));
+    const res = binom(f + h, k) - binom(h, k);
+    return this.makeExact(C, 4, 'Au moins un élément d\'une catégorie',
+      'Passer au complémentaire dans un dénombrement',
+      `Une classe compte $${f}$ filles et $${h}$ garçons. Combien de groupes de $${k}$ élèves comportant au moins une fille peut-on former ?`,
+      String(res),
+      'Dénombrer plutôt le complémentaire : les groupes sans aucune fille.',
+      `Il y a $\\binom{${f + h}}{${k}}$ groupes au total.`,
+      `$\\binom{${f + h}}{${k}} - \\binom{${h}}{${k}} = ${binom(f + h, k)} - ${binom(h, k)} = ${res}$. Additionner des cas « choisir une fille puis le reste » compterait plusieurs fois les mêmes groupes.`);
   },
 
   /** Tire une famille complémentaire du palier (ou null : famille d'origine) */

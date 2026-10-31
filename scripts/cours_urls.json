@@ -515,6 +515,21 @@
  "capes-10": [
   "capes/arithmetique-dans-z.html"
  ],
+ "capes-11": [
+  "capes/geometrie-vectorielle-et-produit-scalaire.html"
+ ],
+ "capes-12": [
+  "capes/nombres-complexes.html"
+ ],
+ "capes-13": [
+  "capes/probabilites-conditionnelles-et-independance.html"
+ ],
+ "capes-14": [
+  "capes/statistique-descriptive-a-une-et-deux-variables.html"
+ ],
+ "capes-15": [
+  "capes/denombrement-et-combinatoire.html"
+ ],
  "capes-oral2": [
   "capes/epreuve-d-entretien.html"
  ]

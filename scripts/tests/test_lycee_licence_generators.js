@@ -4769,7 +4769,7 @@ const addPre = (obj) => { for (const [k, f] of Object.entries(obj)) (PRE_VERIFIE
 // ==== PRE_VERIFIERS: blocs intégrés ====
 // ---- vérificateurs prioritaires CAPES ----
 {
-// Recalculs indépendants — CAPES (gen_capes_01 … gen_capes_10). Chaque fonction relit l'énoncé.
+// Recalculs indépendants — CAPES (gen_capes_01 … gen_capes_15). Chaque fonction relit l'énoncé.
 addPre(( (V) => {
   const fact = (n) => (n <= 1 ? 1 : n * fact(n - 1));
   const gcd = (a, b) => { a = Math.abs(a); b = Math.abs(b); while (b) [a, b] = [b, a % b]; return a; };
@@ -5166,6 +5166,233 @@ addPre(( (V) => {
       const pw = (b, k, mod) => { let r = 1; b %= mod; while (k) { if (k & 1) r = (r * b) % mod; b = (b * b) % mod; k >>= 1; } return r; };
       for (const msg of [2, 3, 7, 10, n - 2]) if (pw(pw(msg, e, n), d, n) !== msg) return 'le déchiffrement échoue';
       return (d > 0 && d < (p - 1) * (qq - 1)) || 'd hors de l\'intervalle';
+    }
+    return undefined;
+  };
+  // ---- Leçons 11 à 15 (thèmes du secondaire) ----
+  /** "3 - 2i", "-i", "4", "2i" -> [re, im] */
+  const cxp = (s) => {
+    s = s.replace(/\s+/g, '');
+    if (!s.endsWith('i')) return [+s, 0];
+    const body = s.slice(0, -1);
+    const idx = Math.max(body.lastIndexOf('+'), body.lastIndexOf('-'));
+    const re = idx > 0 ? +body.slice(0, idx) : 0;
+    const ims = idx > 0 ? body.slice(idx) : body;
+    const im = ims === '' || ims === '+' ? 1 : ims === '-' ? -1 : +ims;
+    return [re, im];
+  };
+  /** "0{,}35" -> 0.35 */
+  const dn = (s) => +s.replace('{,}', '.');
+  /** coefficients d'une combinaison linéaire « 2x - y + 3z - 4 » selon les variables données */
+  const lin = (expr, vars) => {
+    const t = expr.replace(/\s+/g, '');
+    const c = {}; for (const v of vars.concat([''])) c[v] = 0;
+    for (const m of t.matchAll(/([+-]?)(\d*)([a-z]?)/g)) {
+      if (m[0] === '') continue;
+      const v = m[3]; const k = m[2] === '' ? 1 : +m[2];
+      c[v] += (m[1] === '-' ? -1 : 1) * k;
+    }
+    return c;
+  };
+  const binom = (n, k) => (k < 0 || k > n ? 0 : Math.round(fact(n) / (fact(k) * fact(n - k))));
+  R['capes-11'] = (q) => {
+    const s = st(q);
+    let m;
+    if ((m = s.match(/\\vec\{u\}\((-?\d+) ; (-?\d+)\)\$ et \$\\vec\{v\}\((-?\d+) ; (-?\d+)\)\$\. Calculer/))) return expect(q, +m[1] * +m[3] + +m[2] * +m[4]);
+    if ((m = s.match(/\\vec\{u\}\((-?\d+) ; m\)\$ et \$\\vec\{v\}\((-?\d+) ; (-?\d+)\)/))) {
+      const x = vals(q)[0]; return close(+m[1] * +m[3] - x * +m[2], 0) || 'déterminant non nul';
+    }
+    if ((m = s.match(/AB = (\d+)\$, \$AC = (\d+)\$ et \$\\widehat\{BAC\} = (\d+)°/))) {
+      const b = +m[1]; const c = +m[2]; const a = +m[3] * Math.PI / 180;
+      return expect(q, Math.round(b * b + c * c - 2 * b * c * Math.cos(a)));
+    }
+    if ((m = s.match(/\\\|\\vec\{u\}\\\| = (\d+)\$, \$\\\|\\vec\{v\}\\\| = (\d+)\$ et \$\\\|\\vec\{u\} \+ \\vec\{v\}\\\| = (\d+)/))) {
+      return expect(q, (m[3] ** 2 - m[1] ** 2 - m[2] ** 2) / 2);
+    }
+    if ((m = s.match(/A\((-?\d+) ; (-?\d+)\)\$ et \$B\((-?\d+) ; (-?\d+)\)\$\. Le cercle/))) {
+      const [x1, y1, x2, y2] = m.slice(1, 5).map(Number);
+      const [p, qq, r] = vals(q);
+      // le centre et le rayon doivent correspondre, et A, B doivent vérifier l'équation
+      const on = (x, y) => close(x * x + y * y + p * x + qq * y + r, 0);
+      const cx = (x1 + x2) / 2; const cy = (y1 + y2) / 2;
+      return (on(x1, y1) && on(x2, y2) && close(-p / 2, cx) && close(-qq / 2, cy)) || 'équation incorrecte';
+    }
+    if ((m = s.match(/la droite \$d\$ d'équation \$(.+?) = 0\$ et le point \$M\((-?\d+) ; (-?\d+)\)/))) {
+      const c = lin(m[1], ['x', 'y']); const x0 = +m[2]; const y0 = +m[3];
+      return expect(q, (c.x * x0 + c.y * y0 + c['']) ** 2 / (c.x ** 2 + c.y ** 2));
+    }
+    if ((m = s.match(/plan \$\\mathcal\{P\}\$ d'équation \$(.+?) = 0\$ et le point \$M\((-?\d+) ; (-?\d+) ; (-?\d+)\)/))) {
+      const c = lin(m[1], ['x', 'y', 'z']); const P = m.slice(2, 5).map(Number);
+      return expect(q, (c.x * P[0] + c.y * P[1] + c.z * P[2] + c['']) ** 2 / (c.x ** 2 + c.y ** 2 + c.z ** 2));
+    }
+    if ((m = s.match(/\$x = (.+?)\$, \$y = (.+?)\$, \$z = (.+?)\$ \(\$t.*?pour équation \$(.+?) = 0\$/))) {
+      const par = [1, 2, 3].map((i) => lin(m[i], ['t']));
+      const pl = lin(m[4], ['x', 'y', 'z']);
+      const I = vals(q);
+      if (I.length !== 3) return 'triplet attendu';
+      if (!close(pl.x * I[0] + pl.y * I[1] + pl.z * I[2] + pl[''], 0)) return 'I hors du plan';
+      // I sur la droite : même paramètre pour les trois coordonnées
+      let tt = null;
+      for (let i = 0; i < 3; i++) {
+        if (par[i].t === 0) { if (!close(I[i], par[i][''])) return 'I hors de la droite'; continue; }
+        const ti = (I[i] - par[i]['']) / par[i].t;
+        if (tt === null) tt = ti; else if (!close(tt, ti)) return 'I hors de la droite';
+      }
+      return true;
+    }
+    return undefined;
+  };
+  R['capes-12'] = (q) => {
+    const s = st(q);
+    let m;
+    const mul = (a, b) => [a[0] * b[0] - a[1] * b[1], a[0] * b[1] + a[1] * b[0]];
+    const div = (a, b) => { const d = b[0] ** 2 + b[1] ** 2; return [(a[0] * b[0] + a[1] * b[1]) / d, (a[1] * b[0] - a[0] * b[1]) / d]; };
+    if ((m = s.match(/On pose \$z = (.+?)\$ et \$w = (.+?)\$\. Écrire \$zw\$/))) return expect(q, ...mul(cxp(m[1]), cxp(m[2])));
+    if ((m = s.match(/module du nombre complexe \$z = (.+?)\$/))) { const z = cxp(m[1]); return expect(q, Math.hypot(z[0], z[1])); }
+    if ((m = s.match(/\$a = (.+?)\$, \$b = (.+?)\$ et \$c = (.+?)\$\. Écrire/))) {
+      const a = cxp(m[1]); const b = cxp(m[2]); const c = cxp(m[3]);
+      return expect(q, ...div([c[0] - a[0], c[1] - a[1]], [b[0] - a[0], b[1] - a[1]]));
+    }
+    if ((m = s.match(/Écrire \$\\frac\{(.+?)\}\{(.+?)\}\$ sous forme/))) return expect(q, ...div(cxp(m[1]), cxp(m[2])));
+    if ((m = s.match(/tel que \$z ([+-]) (\d+)\\bar\{z\} = (.+?)\$/))) {
+      const k = (m[1] === '-' ? -1 : 1) * +m[2]; const rhs = cxp(m[3]); const [x, y] = vals(q);
+      return (close(x + k * x, rhs[0]) && close(y - k * y, rhs[1])) || 'équation non vérifiée';
+    }
+    if ((m = s.match(/L'équation \$(.+?) = 0\$ admet deux solutions complexes/))) {
+      const c = lin(m[1].replace(/z\^2/, 'w'), ['w', 'z']);
+      const [al, be] = vals(q);
+      if (!(be > 0)) return 'beta doit être positif';
+      const z = [al, be]; const z2 = mul(z, z);
+      return (close(c.w * z2[0] + c.z * al + c[''], 0) && close(c.w * z2[1] + c.z * be, 0)) || 'pas racine';
+    }
+    if ((m = s.match(/Écrire \$\(1 ([+-]) i\)\^\{(\d+)\}\$/))) {
+      const b = [1, m[1] === '-' ? -1 : 1]; let z = [1, 0];
+      for (let k = 0; k < +m[2]; k++) z = mul(z, b);
+      return expect(q, ...z);
+    }
+    if ((m = s.match(/\\omega = (.+?)\$ et d'angle \$(.+?)\$\. Le point \$M\$ a pour affixe \$(.+?)\$/))) {
+      const w = cxp(m[1]); const th = m[2] === '\\pi' ? Math.PI : m[2] === '\\frac{\\pi}{2}' ? Math.PI / 2 : -Math.PI / 2;
+      const z = cxp(m[3]);
+      const r = mul([Math.round(Math.cos(th)), Math.round(Math.sin(th))], [z[0] - w[0], z[1] - w[1]]);
+      return expect(q, w[0] + r[0], w[1] + r[1]);
+    }
+    return undefined;
+  };
+  R['capes-13'] = (q) => {
+    const s = st(q);
+    let m;
+    if ((m = s.match(/\$P\(A\) = ([\d{},]+)\$ et \$P\(A \\cap B\) = ([\d{},]+)\$/))) return expect(q, dn(m[2]) / dn(m[1]));
+    if ((m = s.match(/\$P\(A\) = ([\d{},]+)\$ et \$P_A\(B\) = ([\d{},]+)\$\. Calculer/))) return expect(q, dn(m[1]) * dn(m[2]));
+    if ((m = s.match(/\$P\(A\) = ([\d{},]+)\$, \$P_A\(B\) = ([\d{},]+)\$ et \$P_\{\\bar\{A\}\}\(B\) = ([\d{},]+)\$/))) {
+      const a = dn(m[1]); return expect(q, a * dn(m[2]) + (1 - a) * dn(m[3]));
+    }
+    if ((m = s.match(/indépendants tels que \$P\(A\) = ([\d{},]+)\$ et \$P\(B\) = ([\d{},]+)\$/))) {
+      const a = dn(m[1]); const b = dn(m[2]); return expect(q, 1 - (1 - a) * (1 - b));
+    }
+    if ((m = s.match(/touche \$(\d+)\$ % .*? positif chez \$(\d+)\$ % des malades et chez \$(\d+)\$ %/))) {
+      const p = m[1] / 100; const se = m[2] / 100; const fp = m[3] / 100;
+      return expect(q, p * se / (p * se + (1 - p) * fp));
+    }
+    if ((m = s.match(/contient \$(\d+)\$ boules rouges et \$(\d+)\$ boules noires/))) {
+      const r = +m[1]; const n = +m[2]; const N = r + n;
+      // énumération des couples ordonnés de boules distinctes
+      let fav = 0; let tot = 0;
+      for (let i = 0; i < N; i++) for (let j = 0; j < N; j++) if (i !== j) { tot++; if ((i < r) === (j < r)) fav++; }
+      return expect(q, fav / tot);
+    }
+    if ((m = s.match(/gagne une partie avec probabilité \$([\d{},]+)\$.*?supérieure ou égale à \$([\d{},]+)\$/))) {
+      const p = dn(m[1]); const sl = dn(m[2]);
+      const n = vals(q)[0];
+      const ok = (k) => 1 - (1 - p) ** k >= sl - 1e-12;
+      return (ok(n) && !ok(n - 1)) || 'pas le n minimal';
+    }
+    if ((m = s.match(/reste abonné le mois suivant avec probabilité \$([\d{},]+)\$, .*? avec probabilité \$([\d{},]+)\$/))) {
+      const r = dn(m[1]); const a = dn(m[2]);
+      let p = 0.3; for (let k = 0; k < 5000; k++) p = r * p + a * (1 - p);
+      return Math.abs(p - vals(q)[0]) < 1e-9 || `limite ${p}`;
+    }
+    return undefined;
+  };
+  R['capes-14'] = (q) => {
+    const s = st(q);
+    let m;
+    const nums = (t) => t.split(';').map(Number);
+    if ((m = s.match(/les valeurs \$([\d ;]+)\$ ont respectivement les effectifs \$([\d ;]+)\$/))) {
+      const x = nums(m[1]); const n = nums(m[2]); const N = n.reduce((a, b) => a + b, 0);
+      return expect(q, x.reduce((a, v, i) => a + v * n[i], 0) / N);
+    }
+    if ((m = s.match(/médiane de la série : \$([\d ;]+)\$/))) {
+      const x = nums(m[1]).sort((a, b) => a - b); const med = vals(q)[0];
+      const le = x.filter((v) => v <= med).length; const ge = x.filter((v) => v >= med).length;
+      const n = x.length;
+      const conv = n % 2 ? x[(n - 1) / 2] : (x[n / 2 - 1] + x[n / 2]) / 2;
+      return (le >= n / 2 && ge >= n / 2 && close(med, conv)) || 'médiane incorrecte';
+    }
+    if ((m = s.match(/variance \$V\$ de la série : \$([\d ;]+)\$/))) {
+      const x = nums(m[1]); const n = x.length; const mo = x.reduce((a, b) => a + b, 0) / n;
+      return expect(q, x.reduce((a, v) => a + (v - mo) ** 2, 0) / n);
+    }
+    if ((m = s.match(/moyenne \$(\d+)\$ et pour écart type \$(\d+)\$\. On transforme chaque valeur \$x\$ en \$y = (-?\d+)x ([+-]) (\d+)\$/))) {
+      const mo = +m[1]; const sd = +m[2]; const a = +m[3]; const b = (m[4] === '-' ? -1 : 1) * +m[5];
+      // simulation : série symétrique {mo - sd, mo + sd}
+      const ys = [mo - sd, mo + sd].map((x) => a * x + b);
+      const my = (ys[0] + ys[1]) / 2; const sy = Math.sqrt(((ys[0] - my) ** 2 + (ys[1] - my) ** 2) / 2);
+      return expect(q, my, sy);
+    }
+    if ((m = s.match(/groupe de \$(\d+)\$ élèves a obtenu une moyenne de \$(\d+)\$, un autre groupe de \$(\d+)\$ élèves une moyenne de \$(\d+)\$/))) {
+      return expect(q, (m[1] * m[2] + m[3] * m[4]) / (+m[1] + +m[3]));
+    }
+    if ((m = s.match(/\\bar\{x\} = (\d+)\$, \$\\bar\{y\} = (\d+)\$, \$V_x = (\d+)\$ et \$\\mathrm\{cov\}\(x, y\) = (-?\d+)\$/))) {
+      const a = m[4] / m[3]; return expect(q, a, m[2] - a * m[1]);
+    }
+    if ((m = s.match(/\$x\$ prend les valeurs \$([\d ;]+)\$ et \$y\$ les valeurs correspondantes \$([-\d ;]+)\$/))) {
+      const x = nums(m[1]); const y = nums(m[2]);
+      const [a, b] = vals(q);
+      // le couple doit annuler les dérivées partielles de S(a, b)
+      const ga = x.reduce((acc, v, i) => acc + v * (y[i] - a * v - b), 0);
+      const gb = x.reduce((acc, v, i) => acc + (y[i] - a * v - b), 0);
+      return (close(ga, 0) && close(gb, 0)) || 'pas le minimum des moindres carrés';
+    }
+    return undefined;
+  };
+  R['capes-15'] = (q) => {
+    const s = st(q);
+    let m;
+    if ((m = s.match(/formé de \$(\d+)\$ symboles choisis parmi \$(\d+)\$ symboles/))) return expect(q, (+m[2]) ** +m[1]);
+    if ((m = s.match(/\$(\d+)\$ concurrents .*? des \$(\d+)\$ premiers/))) return expect(q, fact(+m[1]) / fact(+m[1] - +m[2]));
+    if ((m = s.match(/groupe de \$(\d+)\$ personnes parmi \$(\d+)\$/))) {
+      // énumération des parties par masques binaires
+      const n = +m[2]; const k = +m[1]; let c = 0;
+      for (let mask = 0; mask < (1 << n); mask++) { let b = 0; for (let x = mask; x; x &= x - 1) b++; if (b === k) c++; }
+      return expect(q, c);
+    }
+    if ((m = s.match(/compte \$(\d+)\$ femmes et \$(\d+)\$ hommes\. Combien de comités de \$(\d+)\$ personnes comportant exactement \$(\d+)\$/))) {
+      return expect(q, binom(+m[1], +m[4]) * binom(+m[2], m[3] - m[4]));
+    }
+    if ((m = s.match(/le mot ([A-Z]+) possède/))) {
+      // énumération des permutations distinctes
+      const w = m[1].split('').sort(); const seen = new Set();
+      const rec = (pre, rest) => { if (!rest.length) { seen.add(pre); return; } for (let i = 0; i < rest.length; i++) { if (i && rest[i] === rest[i - 1]) continue; rec(pre + rest[i], rest.slice(0, i).concat(rest.slice(i + 1))); } };
+      if (w.length <= 9) rec('', w);
+      return expect(q, seen.size);
+    }
+    if ((m = s.match(/au point \$\((\d+) ; (\d+)\)\$ par des pas unitaires/))) {
+      const p = +m[1]; const r = +m[2];
+      const N = Array.from({ length: p + 1 }, () => Array(r + 1).fill(0));
+      for (let i = 0; i <= p; i++) for (let j = 0; j <= r; j++) N[i][j] = i === 0 || j === 0 ? 1 : N[i - 1][j] + N[i][j - 1];
+      return expect(q, N[p][r]);
+    }
+    if ((m = s.match(/coefficient de \$x\^\{(\d+)\}\$ dans le développement de \$\((-?\d*)x ([+-]) (\d+)\)\^\{(\d+)\}\$/))) {
+      const k = +m[1]; const a = m[2] === '' ? 1 : m[2] === '-' ? -1 : +m[2]; const b = (m[3] === '-' ? -1 : 1) * +m[4]; const n = +m[5];
+      // développement effectif du polynôme
+      let P = [1];
+      for (let i = 0; i < n; i++) { const Q = Array(P.length + 1).fill(0); P.forEach((c, d) => { Q[d] += c * b; Q[d + 1] += c * a; }); P = Q; }
+      return expect(q, P[k]);
+    }
+    if ((m = s.match(/compte \$(\d+)\$ filles et \$(\d+)\$ garçons\. Combien de groupes de \$(\d+)\$ élèves comportant au moins une fille/))) {
+      const f = +m[1]; const h = +m[2]; const k = +m[3]; let c = 0;
+      for (let j = 1; j <= Math.min(f, k); j++) c += binom(f, j) * binom(h, k - j);
+      return expect(q, c);
     }
     return undefined;
   };
