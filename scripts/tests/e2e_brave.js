@@ -379,7 +379,7 @@ async function step(label, fn) {
     return out.join(' · ');
   });
 
-  for (const [name, url] of [['rituels', 'rituels.html'], ['brevet', 'brevet.html'], ['bac', 'bac.html'], ['enseignants', 'enseignants.html'], ['mentions', 'mentions-legales.html'], ['apropos', 'a-propos.html'], ['cours', 'cours/'], ['cours_6e', 'cours/6e/'], ['cours_pythagore', 'cours/4e/theoreme-de-pythagore.html']]) {
+  for (const [name, url] of [['rituels', 'rituels.html'], ['brevet', 'brevet.html'], ['bac', 'bac.html'], ['enseignants', 'enseignants.html'], ['parents', 'parents.html'], ['mentions', 'mentions-legales.html'], ['apropos', 'a-propos.html'], ['cours', 'cours/'], ['cours_6e', 'cours/6e/'], ['cours_pythagore', 'cours/4e/theoreme-de-pythagore.html']]) {
     await step(`Page ${url} (mobile 390 px, pas de débordement)`, async () => {
       await send('Emulation.setDeviceMetricsOverride', { width: 390, height: 844, deviceScaleFactor: 1, mobile: true });
       await goto(BASE + url);

@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <script>
+    // Applique le thème (clair/sombre) choisi dans l'application, avant l'affichage
+    try {
+      document.documentElement.setAttribute('data-theme', JSON.parse(localStorage.getItem('maths_3e_progress_v1') || '{}').theme || 'light');
+    } catch (e) {}
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="author" content="Loïc Delaporte, Professeur de Mathématiques" />
+  <meta name="description" content="Espace parents de L'Établi des Maths : comment aider votre enfant en maths de la 6e au bac, suivre ses progrès, préparer le brevet et le bac. Gratuit, sans compte, sans donnée personnelle." />
+  <meta name="keywords" content="aider son enfant en maths, soutien maths gratuit, exercices de maths corrigés, réviser le brevet de maths, préparer le bac de maths, site de maths sans compte" />
+  <link rel="canonical" href="https://etabli-des-maths.fr/parents.html" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Espace parents : aider son enfant en maths, de la 6e au bac" />
+  <meta property="og:description" content="Espace parents de L'Établi des Maths : comment aider votre enfant en maths de la 6e au bac, suivre ses progrès, préparer le brevet et le bac. Gratuit, sans compte, sans donnée personnelle." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://etabli-des-maths.fr/parents.html" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta property="og:site_name" content="L'Établi des Maths" />
+  <meta property="og:image" content="https://etabli-des-maths.fr/assets/logo.jpg" />
+
+  <title>Espace parents : aider son enfant en maths, de la 6e au bac</title>
+
+  <link rel="stylesheet" href="css/style.css?v=a16f3fb3d8" />
+  <link rel="stylesheet" href="css/landing.css?v=8c38c6ce85" />
+  <link rel="icon" href="favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png" />
+  <link rel="apple-touch-icon" href="assets/favicon.png" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#2563eb" />
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Espace parents : aider son enfant en maths, de la 6e au bac",
+  "description": "Espace parents de L'Établi des Maths : comment aider votre enfant en maths de la 6e au bac, suivre ses progrès, préparer le brevet et le bac. Gratuit, sans compte, sans donnée personnelle.",
+  "url": "https://etabli-des-maths.fr/parents.html",
+  "inLanguage": "fr",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "L'Établi des Maths",
+    "url": "https://etabli-des-maths.fr/"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Loïc Delaporte",
+    "jobTitle": "Professeur de mathématiques"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "L'Établi des Maths",
+    "url": "https://etabli-des-maths.fr/",
+    "logo": "https://etabli-des-maths.fr/assets/logo.png"
+  },
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "Parents d'élèves"
+  }
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Accueil",
+      "item": "https://etabli-des-maths.fr/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Parents",
+      "item": "https://etabli-des-maths.fr/parents.html"
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Est-ce vraiment gratuit ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Oui. Toutes les fonctions sont accessibles gratuitement, sans abonnement ni version payante. Le site est un projet indépendant, conçu par un professeur de mathématiques."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Mon enfant doit-il créer un compte ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Non. Il n'y a ni inscription, ni adresse électronique, ni mot de passe. Il suffit d'ouvrir le site et de choisir sa classe."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Quelles données sont collectées ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Aucune donnée personnelle n'est demandée. La progression est enregistrée uniquement dans le navigateur de l'appareil utilisé : elle ne quitte pas l'appareil. La mesure d'audience est anonyme et sans cookie."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Mon enfant a des lacunes : quel niveau choisir ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Commencez par sa classe actuelle, au palier 1, qui reprend les bases. Si les difficultés viennent d'une notion plus ancienne, ouvrez la classe précédente : tous les niveaux sont accessibles librement."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Il change de téléphone ou d'ordinateur : perd-il sa progression ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "La progression est liée à l'appareil et au navigateur. Pour la conserver, utilisez dans l'onglet « Bilan » le bouton « Sauvegarder ma progression », puis « Restaurer une sauvegarde » sur le nouvel appareil."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Le site remplace-t-il le cours ou un professeur ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Non. Il complète le travail fait en classe : il permet de s'entraîner autant que nécessaire, avec une correction détaillée. Le professeur reste le meilleur interlocuteur pour faire le point sur les difficultés."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Une erreur dans un exercice ? Une question ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Écrivez à delaporte@etabli-des-maths.fr. Chaque retour est lu et sert à améliorer le site."
+      }
+    }
+  ]
+}
+  </script>
+</head>
+<body class="kit-page">
+  <a class="skip-link" href="#contenu">Aller au contenu</a>
+
+  <!-- Header -->
+  <header class="app-header">
+    <div class="header-inner">
+      <a href="index.html" class="brand-container" style="text-decoration: none;">
+        <img src="assets/logo-96.png" alt="" class="brand-logo-img" width="44" height="44" />
+        <div class="brand-text">
+          <p class="brand-title">L'Établi des Maths <span class="brand-level-tag">Parents</span></p>
+          <span class="brand-tagline">Outils pour apprendre et pratiquer</span>
+        </div>
+      </a>
+
+      <nav class="nav-portal-links" aria-label="Portails thématiques">
+        <a href="index.html" class="nav-portal-btn">🏠 Accueil</a>
+        <a href="cours/" class="nav-portal-btn">📚 Cours</a>
+        <a href="rituels.html" class="nav-portal-btn">⏱️ Rituels</a>
+        <a href="brevet.html" class="nav-portal-btn">📝 Brevet 3e</a>
+        <a href="bac.html" class="nav-portal-btn">🎓 Baccalauréat</a>
+        <a href="enseignants.html" class="nav-portal-btn">👨‍🏫 Enseignants</a>
+        <a href="parents.html" class="nav-portal-btn active" aria-current="page">👪 Parents</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="landing-wrapper" id="contenu" tabindex="-1">
+    <section class="landing-hero">
+      <span class="landing-tag">👪 Pour les familles</span>
+      <h1 class="landing-title">Espace parents</h1>
+      <p class="landing-subtitle">
+        L'Établi des Maths aide votre enfant à s'entraîner en mathématiques, de la 6e au bac : cours, exercices corrigés pas à pas, flashcards et révisions du brevet et du bac. Gratuit, sans compte et sans donnée personnelle.
+      </p>
+      <div class="landing-cta-grid">
+        <a href="index.html?src=parents" class="btn-primary landing-cta-btn">🚀 Ouvrir le site</a>
+        <a href="cours/" class="btn-secondary landing-cta-btn">📚 Voir les cours</a>
+      </div>
+      <nav class="kit-toc" aria-label="Sommaire de la page">
+        <ul>
+          <li><a href="#fonctionnement">Comment ça marche</a></li>
+          <li><a href="#accompagner">L'accompagner</a></li>
+          <li><a href="#niveaux">Par classe</a></li>
+          <li><a href="#examens">Brevet et bac</a></li>
+          <li><a href="#progres">Suivre ses progrès</a></li>
+          <li><a href="#faq">Questions fréquentes</a></li>
+        </ul>
+      </nav>
+    </section>
+
+    <section class="kit-section" id="fonctionnement" aria-labelledby="fonctionnement-titre">
+      <h2 class="kit-h2" id="fonctionnement-titre">Comment ça marche</h2>
+      <div class="usage-grid">
+        <div class="usage-card">
+          <span class="usage-badge usage-1">Étape 1</span>
+          <h3 class="usage-title">Choisir sa classe et un chapitre</h3>
+          <p class="usage-desc">Pas d'inscription : votre enfant ouvre le site, choisit sa classe, puis le chapitre étudié en ce moment en classe.</p>
+        </div>
+        <div class="usage-card">
+          <span class="usage-badge usage-2">Étape 2</span>
+          <h3 class="usage-title">S'entraîner par paliers</h3>
+          <p class="usage-desc">Les exercices sont renouvelés à chaque fois et organisés en quatre paliers : le palier 1 reprend les bases, le palier 4 propose des questions plus exigeantes. Un palier se débloque en réussissant le précédent.</p>
+        </div>
+        <div class="usage-card">
+          <span class="usage-badge usage-3">Étape 3</span>
+          <h3 class="usage-title">Comprendre ses erreurs</h3>
+          <p class="usage-desc">Chaque réponse est corrigée immédiatement, avec une solution détaillée étape par étape et un lien vers le cours du chapitre.</p>
+        </div>
+        <div class="usage-card">
+          <span class="usage-badge usage-4">Étape 4</span>
+          <h3 class="usage-title">Mémoriser</h3>
+          <p class="usage-desc">Les flashcards font revoir définitions, propriétés et formules au bon moment, juste avant de les oublier (répétition espacée).</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="kit-section" id="accompagner" aria-labelledby="accompagner-titre">
+      <h2 class="kit-h2" id="accompagner-titre">Comment l'accompagner</h2>
+      <p class="kit-lead">Pas besoin d'être à l'aise en maths pour aider : l'essentiel est la régularité.</p>
+      <ul class="kit-facts">
+        <li><strong>Peu mais souvent</strong> : 10 à 15 minutes, trois ou quatre fois par semaine, valent mieux qu'une longue séance la veille d'un contrôle.</li>
+        <li><strong>Suivre le rythme de la classe</strong> : demandez-lui quel chapitre est en cours et entraînez-vous sur celui-là.</li>
+        <li><strong>Laisser chercher</strong> : une erreur suivie de la lecture de la correction est très formatrice. Encouragez-le à lire la solution détaillée plutôt qu'à passer vite à la question suivante.</li>
+        <li><strong>Revoir les bases sans gêne</strong> : revenir au palier 1, ou à la classe précédente, n'a rien d'un échec.</li>
+        <li><strong>Valoriser les progrès</strong> : regardez ensemble l'onglet « Bilan », les paliers atteints et la série de jours d'entraînement.</li>
+      </ul>
+    </section>
+
+    <section class="kit-section" id="niveaux" aria-labelledby="niveaux-titre">
+      <h2 class="kit-h2" id="niveaux-titre">Accès direct par classe</h2>
+      <p class="kit-lead">Ces liens ouvrent directement le site sur la classe choisie. Vous pouvez les ajouter aux favoris de l'appareil de votre enfant.</p>
+      <nav class="kit-toc" aria-label="Accès par classe">
+        <ul>
+          <li><a href="index.html?niveau=6eme&amp;src=parents">6e</a></li>
+          <li><a href="index.html?niveau=5eme&amp;src=parents">5e</a></li>
+          <li><a href="index.html?niveau=4eme&amp;src=parents">4e</a></li>
+          <li><a href="index.html?niveau=3eme&amp;src=parents">3e</a></li>
+          <li><a href="index.html?niveau=2nde&amp;src=parents">Seconde</a></li>
+          <li><a href="index.html?niveau=1ere&amp;src=parents">Première</a></li>
+          <li><a href="index.html?niveau=tale&amp;src=parents">Terminale</a></li>
+        </ul>
+      </nav>
+      <p class="kit-note">Le cours de chaque chapitre est aussi consultable sans l'application, page par page : <a href="cours/">tous les cours de maths</a>.</p>
+    </section>
+
+    <section class="kit-section" id="examens" aria-labelledby="examens-titre">
+      <h2 class="kit-h2" id="examens-titre">Préparer le brevet et le bac</h2>
+      <div class="usage-grid">
+        <div class="usage-card">
+          <span class="usage-badge usage-1">3e</span>
+          <h3 class="usage-title">Brevet des collèges</h3>
+          <p class="usage-desc">Brevet blanc généré au format de l'épreuve, avec barème et corrigé, et conseils de révision : <a href="brevet.html">brevet blanc</a> · <a href="reviser-le-brevet-de-maths/">réviser le brevet de maths</a>.</p>
+        </div>
+        <div class="usage-card">
+          <span class="usage-badge usage-2">Lycée</span>
+          <h3 class="usage-title">Baccalauréat</h3>
+          <p class="usage-desc">Sujets de type bac avec corrigé détaillé, et méthode pour s'organiser : <a href="bac.html">sujets type bac</a> · <a href="reussir-le-bac-de-maths/">réussir le bac de maths</a>.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="kit-section" id="progres" aria-labelledby="progres-titre">
+      <h2 class="kit-h2" id="progres-titre">Suivre ses progrès</h2>
+      <p class="kit-lead">L'onglet <strong>« Bilan »</strong> du site affiche, pour la classe choisie, la maîtrise de chaque chapitre, les paliers atteints, les badges et la série de jours d'entraînement.</p>
+      <ul class="kit-facts">
+        <li>La progression est enregistrée <strong>sur l'appareil et le navigateur utilisés</strong> : pour la retrouver, votre enfant doit utiliser le même appareil.</li>
+        <li>Pour changer d'appareil, utilisez dans l'onglet « Bilan » le bouton <strong>« Sauvegarder ma progression »</strong>, puis <strong>« Restaurer une sauvegarde »</strong> sur le nouvel appareil.</li>
+        <li>Effacer les données du navigateur efface aussi la progression : pensez à faire une sauvegarde avant.</li>
+      </ul>
+    </section>
+
+    <section class="ethics-box kit-section" id="confiance" aria-labelledby="confiance-titre">
+      <h2 class="kit-h2" id="confiance-titre">En toute confiance</h2>
+      <div class="ethics-grid">
+        <div class="ethics-item">
+          <div class="ethics-icon">🛡️</div>
+          <div>
+            <h3>Aucune donnée personnelle</h3>
+            <p>Ni compte, ni adresse électronique, ni mot de passe. Rien n'est demandé à votre enfant.</p>
+          </div>
+        </div>
+        <div class="ethics-item">
+          <div class="ethics-icon">🆓</div>
+          <div>
+            <h3>Gratuit</h3>
+            <p>Toutes les fonctions sont accessibles librement, sans abonnement ni version payante.</p>
+          </div>
+        </div>
+        <div class="ethics-item">
+          <div class="ethics-icon">🏛️</div>
+          <div>
+            <h3>Conforme aux programmes</h3>
+            <p>Conçu par un professeur de mathématiques, à partir des programmes officiels de l'Éducation nationale. <a href="a-propos.html">Qui suis-je ?</a></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="landing-faq-box kit-section" id="faq" aria-labelledby="faq-titre">
+      <h2 class="landing-faq-title" id="faq-titre">Questions fréquentes</h2>
+      <details class="landing-faq-item kit-faq-item">
+        <summary class="landing-faq-q">Est-ce vraiment gratuit ?</summary>
+        <p class="landing-faq-a">Oui. Toutes les fonctions sont accessibles gratuitement, sans abonnement ni version payante. Le site est un projet indépendant, conçu par un professeur de mathématiques.</p>
+      </details>
+      <details class="landing-faq-item kit-faq-item">
+        <summary class="landing-faq-q">Mon enfant doit-il créer un compte ?</summary>
+        <p class="landing-faq-a">Non. Il n'y a ni inscription, ni adresse électronique, ni mot de passe. Il suffit d'ouvrir le site et de choisir sa classe.</p>
+      </details>
+      <details class="landing-faq-item kit-faq-item">
+        <summary class="landing-faq-q">Quelles données sont collectées ?</summary>
+        <p class="landing-faq-a">Aucune donnée personnelle n'est demandée. La progression est enregistrée uniquement dans le navigateur de l'appareil utilisé : elle ne quitte pas l'appareil. La mesure d'audience est anonyme et sans cookie.</p>
+      </details>
+      <details class="landing-faq-item kit-faq-item">
+        <summary class="landing-faq-q">Mon enfant a des lacunes : quel niveau choisir ?</summary>
+        <p class="landing-faq-a">Commencez par sa classe actuelle, au palier 1, qui reprend les bases. Si les difficultés viennent d'une notion plus ancienne, ouvrez la classe précédente : tous les niveaux sont accessibles librement.</p>
+      </details>
+      <details class="landing-faq-item kit-faq-item">
+        <summary class="landing-faq-q">Il change de téléphone ou d'ordinateur : perd-il sa progression ?</summary>
+        <p class="landing-faq-a">La progression est liée à l'appareil et au navigateur. Pour la conserver, utilisez dans l'onglet « Bilan » le bouton « Sauvegarder ma progression », puis « Restaurer une sauvegarde » sur le nouvel appareil.</p>
+      </details>
+      <details class="landing-faq-item kit-faq-item">
+        <summary class="landing-faq-q">Le site remplace-t-il le cours ou un professeur ?</summary>
+        <p class="landing-faq-a">Non. Il complète le travail fait en classe : il permet de s'entraîner autant que nécessaire, avec une correction détaillée. Le professeur reste le meilleur interlocuteur pour faire le point sur les difficultés.</p>
+      </details>
+      <details class="landing-faq-item kit-faq-item">
+        <summary class="landing-faq-q">Une erreur dans un exercice ? Une question ?</summary>
+        <p class="landing-faq-a">Écrivez à <a href="mailto:delaporte@etabli-des-maths.fr">delaporte@etabli-des-maths.fr</a>. Chaque retour est lu et sert à améliorer le site.</p>
+      </details>
+    </section>
+  </main>
+
+  <footer style="text-align: center; padding: 2rem; border-top: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.85rem;">
+    <p>L'Établi des Maths — Conçu par Loïc Delaporte, Professeur de Mathématiques • 100 % gratuit, sans publicité & conforme aux programmes</p>
+    <p class="site-legal-links" style="margin-top: 0.4rem;"><a href="enseignants.html">Espace enseignants</a> · <a href="parents.html" aria-current="page">Espace parents</a> · <a href="a-propos.html">Qui suis-je ?</a> · <a href="mentions-legales.html">Mentions légales et confidentialité</a> · <a href="mailto:delaporte@etabli-des-maths.fr">Contact</a> · Contenus sous licence <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr" rel="license noopener">CC BY-NC-SA 4.0</a></p>
+  </footer>
+
+  <!-- Statistiques d'audience anonymes et conformes RGPD (GoatCounter) ; sources ?src= : voir index.html -->
+  <script data-goatcounter="https://etabli-des-maths.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

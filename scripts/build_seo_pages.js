@@ -350,6 +350,7 @@ ${extraHead}${jsonld.map((j) => '  ' + jsonLd(j).replace(/\n/g, '\n  ')).join('\
         <a href="${up}${HUBS.brevet.dir}/" class="nav-portal-btn${cur('brevet')}">📝 Brevet</a>
         <a href="${up}${HUBS.bac.dir}/" class="nav-portal-btn${cur('bac')}">🎓 Bac</a>
         <a href="${up}enseignants.html" class="nav-portal-btn">👨‍🏫 Enseignants</a>
+        <a href="${up}parents.html" class="nav-portal-btn">👪 Parents</a>
       </nav>
     </div>
   </header>
@@ -361,7 +362,7 @@ ${body}
   <footer class="cours-footer">
     <p>${esc(BRAND)} — Conçu par ${AUTHOR}, professeur de mathématiques • 100${NNB}% gratuit, conforme aux programmes</p>
     <p><a href="${up}cours/">Cours de maths</a> · <a href="${up}${HUBS.exercices.dir}/">Exercices corrigés</a> · <a href="${up}${HUBS.entrainement.dir}/">Entraînement en ligne</a> · <a href="${up}${HUBS.brevet.dir}/">Réviser le brevet</a> · <a href="${up}${HUBS.bac.dir}/">Réussir le bac</a></p>
-    <p><a href="${up}index.html">Ouvrir l'application</a> · <a href="${up}rituels.html">Rituels</a> · <a href="${up}brevet.html">Brevet blanc</a> · <a href="${up}bac.html">Devoir type bac</a> · <a href="${up}enseignants.html">Espace enseignants</a> · <a href="${up}a-propos.html">Qui suis-je ?</a> · <a href="${up}mentions-legales.html">Mentions légales</a> · <a href="mailto:delaporte@etabli-des-maths.fr">Contact</a></p>
+    <p><a href="${up}index.html">Ouvrir l'application</a> · <a href="${up}rituels.html">Rituels</a> · <a href="${up}brevet.html">Brevet blanc</a> · <a href="${up}bac.html">Devoir type bac</a> · <a href="${up}enseignants.html">Espace enseignants</a> · <a href="${up}parents.html">Espace parents</a> · <a href="${up}a-propos.html">Qui suis-je ?</a> · <a href="${up}mentions-legales.html">Mentions légales</a> · <a href="mailto:delaporte@etabli-des-maths.fr">Contact</a></p>
     <p>Contenus sous licence <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr" rel="license noopener">CC BY-NC-SA 4.0</a></p>
   </footer>
   <!-- Statistiques d'audience anonymes et conformes RGPD (GoatCounter) -->
@@ -1003,6 +1004,7 @@ ${section('faq', 'Questions fréquentes', faqHtml(faqs))}`;
     { loc: '/brevet.html', changefreq: 'monthly', priority: '0.9' },
     { loc: '/bac.html', changefreq: 'monthly', priority: '0.9' },
     { loc: '/enseignants.html', changefreq: 'monthly', priority: '0.85' },
+    { loc: '/parents.html', changefreq: 'monthly', priority: '0.85' },
     { loc: '/a-propos.html', changefreq: 'yearly', priority: '0.5' },
     { loc: '/mentions-legales.html', changefreq: 'yearly', priority: '0.3' }
   ];
