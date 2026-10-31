@@ -61,7 +61,7 @@ const FILES = [
   'js/data/chapters.js', 'js/data/chapters_lycee.js', 'js/data/chapters_licence.js', 'js/data/exercises.js',
   'js/data/data_2nde.js', 'js/data/data_1ere.js', 'js/data/data_terminale.js',
   'js/data/data_l1.js', 'js/data/data_l2.js', 'js/data/data_l3.js', 'js/data/data_capes.js', 'js/data/data_proofs.js',
-  'js/advancedGenerators.js', 'js/lyceeGenerators.js', 'js/randomGenerators.js', 'js/adaptiveEngine.js'
+  'js/generatorsCore.js', 'js/advancedGenerators.js', 'js/lyceeGenerators.js', 'js/adaptiveEngine.js'
 ];
 for (const f of FILES) require(path.join(ROOT, f));
 for (const f of LOADS) require(path.resolve(f));

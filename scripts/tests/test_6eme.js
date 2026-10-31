@@ -69,14 +69,14 @@ let katex = null;
   if (!katex) { console.error('KaTeX introuvable'); process.exit(2); }
 }
 
-// Ordre d'index.html (données puis moteurs), puis fichiers 6ème
+// Ordre d'index.html (données puis moteurs), puis fichiers 6ème (bundle du niveau : sans js/randomGenerators.js)
 const ORDER = [
   'js/data/chapters.js', 'js/data/chapters_lycee.js', 'js/data/chapters_licence.js',
   'js/data/courses.js', 'js/data/worksheets.js', 'js/data/exercises.js',
   'js/data/data_5eme.js', 'js/data/data_4eme.js',
   'js/data/data_6eme.js',
   'js/storage.js', 'js/geometryFigures.js', 'js/scratchRenderer.js',
-  'js/advancedGenerators.js', 'js/lyceeGenerators.js', 'js/randomGenerators.js',
+  'js/generatorsCore.js', 'js/advancedGenerators.js', 'js/lyceeGenerators.js',
   'js/generators6e.js'
 ];
 if (process.env.TEST6_DATA_FILE) ORDER[ORDER.indexOf('js/data/data_6eme.js')] = process.env.TEST6_DATA_FILE;
