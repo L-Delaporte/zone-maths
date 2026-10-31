@@ -10,7 +10,7 @@
  * NE PAS éditer à la main la liste ci-dessous ni CACHE_NAME : lancer `node scripts/build_versions.js`.
  */
 
-const CACHE_NAME = 'etabli-des-maths-daea8615f4';
+const CACHE_NAME = 'etabli-des-maths-9f5f9da69c';
 
 // @precache-start
 const PRECACHE_URLS = [
@@ -21,8 +21,8 @@ const PRECACHE_URLS = [
   './assets/favicon-32x32.png',
   './assets/favicon-144x144.png',
   './vendor/katex/katex.min.css?v=000b7545e1',
-  './css/style.css?v=903100fef1',
-  './css/sheets.css?v=c8cd74024b',
+  './css/style.css?v=1b3744d926',
+  './css/sheets.css?v=cbc3ab2e84',
   './vendor/katex/katex.min.js?v=9616b6e2a7',
   './vendor/katex/auto-render.min.js?v=491616b8c9',
   './js/data/chapters.js?v=c4d084203e',
