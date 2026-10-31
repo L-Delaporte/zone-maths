@@ -105,7 +105,7 @@ const LEVELS = [
   { code: 'L3', slug: 'l3', label: 'Licence 3', de: 'de L3', cycle: 'licence', app: 'L3', edu: 'Université — licence de mathématiques, 3e année (L3)',
     intro: "Troisième année de licence : théorie des groupes, anneaux, topologie des espaces métriques, espaces de Banach, séries de Fourier, théorie de la mesure, probabilités et analyse numérique." },
   { code: 'capes', slug: 'capes', label: 'CAPES', de: 'CAPES', cycle: 'concours', app: 'capes', edu: 'Concours — CAPES et agrégation de mathématiques',
-    intro: "Préparation aux oraux du CAPES de mathématiques : leçons avec plan, théorème clé démontré, développements possibles, remarques du jury, et épreuve d'entretien." }
+    intro: "Préparation aux oraux du CAPES de mathématiques : leçons avec plan (y compris sur les grands thèmes du secondaire : géométrie vectorielle, nombres complexes, probabilités, statistique, dénombrement), théorème clé démontré, développements possibles, remarques du jury, et épreuve d'entretien." }
 ];
 /** Libellé court du niveau dans les titres (« Pythagore en 4e », « Maths en terminale »). */
 const SHORT = { '6eme': '6e', '5eme': '5e', '4eme': '4e', '3eme': '3e', '2nde': 'seconde', '1ere': 'première', tale: 'terminale',

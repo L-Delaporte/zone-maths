@@ -459,6 +459,241 @@
       ]
     },
     {
+      "id": "capes-11",
+      "num": "Leçon 11",
+      "title": "Géométrie vectorielle et produit scalaire : du plan à l'espace, transformations",
+      "domain": "Géométrie",
+      "level": "CAPES — leçon (seconde, première, terminale)",
+      "prerequisites": [
+        "Niveaux concernés et situation dans les programmes : au cycle 4, translations, rotations et homothéties, théorèmes de Pythagore et de Thalès, trigonométrie du triangle rectangle ; en seconde, vecteur associé à une translation, somme de vecteurs et relation de Chasles, produit par un réel, coordonnées, colinéarité et déterminant de deux vecteurs, équations cartésiennes et réduites de droites ; en première spécialité, produit scalaire (définitions, propriétés, formule d'Al-Kashi), équations de droites à l'aide d'un vecteur normal, équations de cercles, ensembles de points ; en terminale spécialité, vecteurs, droites et plans de l'espace, bases et repères, représentations paramétriques, produit scalaire dans l'espace, vecteur normal et équation cartésienne d'un plan, projeté orthogonal.",
+        "Plan de leçon possible : I. Vecteurs et colinéarité (seconde) ; II. Produit scalaire dans le plan (première) ; III. Géométrie dans l'espace et transformations (terminale). Le développement présenté au jury peut être la démonstration du théorème clé (expression analytique, formule d'Al-Kashi, cercle de diamètre $[AB]$) ou l'un des exercices proposés plus bas.",
+        "Prérequis des élèves : géométrie du collège (Pythagore et sa réciproque, Thalès, trigonométrie du triangle rectangle), repère orthonormé du plan, distance de deux points $AB = \\sqrt{(x_B - x_A)^2 + (y_B - y_A)^2}$, coordonnées du milieu d'un segment, résolution de systèmes linéaires $2 \\times 2$.",
+        "Recul attendu du candidat : structure d'espace vectoriel réel de dimension 2 ou 3, espace affine associé, forme bilinéaire symétrique définie positive et norme euclidienne, isométries et similitudes. Ce cadre éclaire la leçon mais ne s'expose pas tel quel aux élèves."
+      ],
+      "plan": [
+        {
+          "part": "I. Vecteurs du plan et colinéarité",
+          "content": "Définition (seconde) : la translation qui transforme $A$ en $B$ associe à tout point $M$ l'unique point $M'$ tel que $ABM'M$ soit un parallélogramme, éventuellement aplati ; le vecteur $\\overrightarrow{AB}$ est associé à cette translation, et $\\overrightarrow{AB} = \\overrightarrow{DC}$ si et seulement si $ABCD$ est un parallélogramme. Relation de Chasles $\\overrightarrow{AB} + \\overrightarrow{BC} = \\overrightarrow{AC}$, produit par un réel, milieu $I$ de $[AB]$ caractérisé par $\\overrightarrow{AI} = \\frac{1}{2}\\overrightarrow{AB}$. Dans une base $(\\vec{\\imath}, \\vec{\\jmath})$, les vecteurs $\\vec{u}(x ; y)$ et $\\vec{v}(x' ; y')$ ont pour déterminant $\\det(\\vec{u}, \\vec{v}) = xy' - x'y$. Propriété (démonstration exigible) : $\\vec{u}$ et $\\vec{v}$ sont colinéaires si et seulement si $\\det(\\vec{u}, \\vec{v}) = 0$. Applications : trois points $A$, $B$, $C$ sont alignés si et seulement si $\\overrightarrow{AB}$ et $\\overrightarrow{AC}$ sont colinéaires ; deux droites sont parallèles si et seulement si leurs vecteurs directeurs sont colinéaires. Toute droite admet une équation $ax + by + c = 0$ avec $(a ; b) \\neq (0 ; 0)$, de vecteur directeur $(-b ; a)$. Exemple : $A(1 ; 2)$, $B(3 ; 5)$, $C(7 ; 11)$ donnent $\\overrightarrow{AB}(2 ; 3)$, $\\overrightarrow{AC}(6 ; 9)$ et $2 \\times 9 - 3 \\times 6 = 0$ : les points sont alignés. Contre-exemple : l'égalité $\\overrightarrow{AB} = \\overrightarrow{CD}$ ne signifie pas que $ABCD$ est un parallélogramme, mais que $ABDC$ en est un."
+        },
+        {
+          "part": "II. Produit scalaire dans le plan",
+          "content": "Définition retenue : $\\vec{u} \\cdot \\vec{v} = \\frac{1}{2}\\left(\\|\\vec{u} + \\vec{v}\\|^2 - \\|\\vec{u}\\|^2 - \\|\\vec{v}\\|^2\\right)$, de sorte que $\\vec{u} \\cdot \\vec{u} = \\|\\vec{u}\\|^2$. Expressions équivalentes, toutes à démontrer à partir de la définition choisie : dans une base orthonormée, $\\vec{u} \\cdot \\vec{v} = xx' + yy'$ ; si $\\vec{u}$ et $\\vec{v}$ sont non nuls, $\\vec{u} \\cdot \\vec{v} = \\|\\vec{u}\\|\\,\\|\\vec{v}\\|\\cos(\\vec{u}, \\vec{v})$ ; par projection, $\\overrightarrow{AB} \\cdot \\overrightarrow{AC} = \\overrightarrow{AB} \\cdot \\overrightarrow{AH}$ où $H$ est le projeté orthogonal de $C$ sur $(AB)$. Propriétés : symétrie, bilinéarité, $\\|\\vec{u} - \\vec{v}\\|^2 = \\|\\vec{u}\\|^2 - 2\\vec{u} \\cdot \\vec{v} + \\|\\vec{v}\\|^2$. Orthogonalité : $\\vec{u} \\perp \\vec{v}$ si et seulement si $\\vec{u} \\cdot \\vec{v} = 0$, le vecteur nul étant orthogonal à tout vecteur. Théorèmes (démonstrations exigibles) : formule d'Al-Kashi $BC^2 = AB^2 + AC^2 - 2\\,AB \\times AC \\times \\cos\\widehat{BAC}$, qui généralise le théorème de Pythagore ; l'ensemble des points $M$ tels que $\\overrightarrow{MA} \\cdot \\overrightarrow{MB} = 0$ est le cercle de diamètre $[AB]$. Applications : vecteur normal $(a ; b)$ à la droite $ax + by + c = 0$, équation $(x - x_0)^2 + (y - y_0)^2 = r^2$ d'un cercle, tangente à un cercle. Exemple : pour $A(0 ; 0)$, $B(4 ; 0)$, $C(1 ; 3)$, $\\overrightarrow{AB} \\cdot \\overrightarrow{AC} = 4$, $AB = 4$ et $AC = \\sqrt{10}$, d'où $\\cos\\widehat{BAC} = \\frac{1}{\\sqrt{10}}$. Contre-exemple : $\\vec{u} \\cdot \\vec{v} = \\vec{u} \\cdot \\vec{w}$ n'entraîne pas $\\vec{v} = \\vec{w}$, seulement $\\vec{u} \\perp (\\vec{v} - \\vec{w})$."
+        },
+        {
+          "part": "III. Géométrie dans l'espace et transformations",
+          "content": "Les vecteurs de l'espace se définissent comme dans le plan. Trois vecteurs sont coplanaires si l'un est combinaison linéaire des deux autres ; trois vecteurs non coplanaires forment une base, et un point $O$ avec une base forme un repère. Une droite passant par $A$ et dirigée par $\\vec{u}$ admet la représentation paramétrique $M = A + t\\vec{u}$, $t \\in \\mathbb{R}$. Le produit scalaire de deux vecteurs de l'espace se calcule dans un plan contenant des représentants de ces vecteurs ; dans une base orthonormée, $\\vec{u} \\cdot \\vec{v} = xx' + yy' + zz'$. Une droite est orthogonale à un plan si et seulement si elle est orthogonale à deux droites sécantes de ce plan ; un vecteur $\\vec{n}$ non nul orthogonal à deux vecteurs non colinéaires d'un plan est normal à ce plan, et le plan passant par $A$ de vecteur normal $\\vec{n}(a ; b ; c)$ a une équation $ax + by + cz + d = 0$. Propriété (démonstration exigible) : le projeté orthogonal $H$ d'un point $M$ sur un plan $\\mathcal{P}$ est le point de $\\mathcal{P}$ le plus proche de $M$, car $MN^2 = MH^2 + HN^2$ pour tout $N \\in \\mathcal{P}$ (Pythagore). Transformations : la translation de vecteur $\\vec{u}$ envoie $M$ sur $M'$ tel que $\\overrightarrow{MM'} = \\vec{u}$ et conserve les distances ; l'homothétie de centre $O$ et de rapport $k \\neq 0$ envoie $M$ sur $M'$ tel que $\\overrightarrow{OM'} = k\\overrightarrow{OM}$, transforme tout vecteur $\\overrightarrow{AB}$ en $k\\overrightarrow{AB}$, multiplie les longueurs par $|k|$ et les aires par $k^2$ ; la symétrie centrale est l'homothétie de rapport $-1$. Les rotations du plan s'expriment simplement avec les nombres complexes (leçon 12)."
+        }
+      ],
+      "keyTheorem": {
+        "title": "Expression analytique du produit scalaire, formule d'Al-Kashi et cercle de diamètre [AB]",
+        "statement": "On définit le produit scalaire de deux vecteurs du plan par $\\vec{u} \\cdot \\vec{v} = \\frac{1}{2}\\left(\\|\\vec{u} + \\vec{v}\\|^2 - \\|\\vec{u}\\|^2 - \\|\\vec{v}\\|^2\\right)$. (i) Dans une base orthonormée, si $\\vec{u}(x ; y)$ et $\\vec{v}(x' ; y')$, alors $\\vec{u} \\cdot \\vec{v} = xx' + yy'$ ; en conséquence, le produit scalaire est symétrique et bilinéaire. (ii) Pour tout triangle $ABC$, $\\overrightarrow{AB} \\cdot \\overrightarrow{AC} = AB \\times AC \\times \\cos\\widehat{BAC}$ et $BC^2 = AB^2 + AC^2 - 2\\,AB \\times AC \\times \\cos\\widehat{BAC}$. (iii) Pour deux points distincts $A$ et $B$, l'ensemble des points $M$ du plan tels que $\\overrightarrow{MA} \\cdot \\overrightarrow{MB} = 0$ est le cercle de diamètre $[AB]$.",
+        "proof": "1. **Expression analytique.** Dans une base orthonormée, le théorème de Pythagore donne $\\|\\vec{u}\\|^2 = x^2 + y^2$. Comme $\\vec{u} + \\vec{v}$ a pour coordonnées $(x + x' ; y + y')$, on obtient $\\|\\vec{u} + \\vec{v}\\|^2 - \\|\\vec{u}\\|^2 - \\|\\vec{v}\\|^2 = (x + x')^2 + (y + y')^2 - x^2 - y^2 - x'^2 - y'^2 = 2xx' + 2yy'$, d'où $\\vec{u} \\cdot \\vec{v} = xx' + yy'$. Cette expression est visiblement symétrique et linéaire par rapport à chacun des deux vecteurs.\n2. **Développement du carré d'une différence.** Par bilinéarité et symétrie, $\\|\\vec{u} - \\vec{v}\\|^2 = (\\vec{u} - \\vec{v}) \\cdot (\\vec{u} - \\vec{v}) = \\|\\vec{u}\\|^2 - 2\\,\\vec{u} \\cdot \\vec{v} + \\|\\vec{v}\\|^2$.\n3. **Formule avec le cosinus.** On note $\\alpha = \\widehat{BAC}$ et on choisit le repère orthonormé d'origine $A$ dont le premier vecteur est $\\frac{1}{AB}\\overrightarrow{AB}$, orienté de sorte que $C$ ait une ordonnée positive. Alors $B(AB ; 0)$ et, par définition du cosinus et du sinus, $C(AC\\cos\\alpha ; AC\\sin\\alpha)$. Le point 1 donne $\\overrightarrow{AB} \\cdot \\overrightarrow{AC} = AB \\times AC\\cos\\alpha + 0 = AB \\times AC \\times \\cos\\alpha$.\n4. **Formule d'Al-Kashi.** Par la relation de Chasles, $\\overrightarrow{BC} = \\overrightarrow{AC} - \\overrightarrow{AB}$, donc par le point 2, $BC^2 = AC^2 - 2\\,\\overrightarrow{AB} \\cdot \\overrightarrow{AC} + AB^2$, et le point 3 conclut. Pour $\\alpha = \\frac{\\pi}{2}$, on retrouve le théorème de Pythagore, et sa réciproque puisque $\\cos\\alpha = 0$ équivaut à $\\alpha = \\frac{\\pi}{2}$ pour $\\alpha \\in [0 ; \\pi]$.\n5. **Cercle de diamètre $[AB]$.** Soit $I$ le milieu de $[AB]$, de sorte que $\\overrightarrow{IB} = -\\overrightarrow{IA}$. Par Chasles et bilinéarité, $\\overrightarrow{MA} \\cdot \\overrightarrow{MB} = (\\overrightarrow{MI} + \\overrightarrow{IA}) \\cdot (\\overrightarrow{MI} - \\overrightarrow{IA}) = MI^2 - IA^2 = MI^2 - \\frac{AB^2}{4}$. Ainsi $\\overrightarrow{MA} \\cdot \\overrightarrow{MB} = 0$ si et seulement si $MI = \\frac{AB}{2}$, c'est-à-dire si et seulement si $M$ appartient au cercle de centre $I$ et de rayon $\\frac{AB}{2}$."
+      },
+      "developments": [
+        "Exercice de seconde (colinéarité) : dans un repère, $A(-1 ; 2)$, $B(3 ; 4)$, $C(1 ; -2)$ et $D(9 ; 2)$. Montrer que $(AB)$ et $(CD)$ sont parallèles, puis que ces droites sont distinctes. Corrigé : $\\overrightarrow{AB}(4 ; 2)$ et $\\overrightarrow{CD}(8 ; 4)$, de déterminant $4 \\times 4 - 2 \\times 8 = 0$ : les droites sont parallèles. Puis $\\overrightarrow{AD}(10 ; 0)$ et $\\det(\\overrightarrow{AB}, \\overrightarrow{AD}) = 4 \\times 0 - 2 \\times 10 = -20 \\neq 0$ : $D \\notin (AB)$, donc les droites sont strictement parallèles.",
+        "Exercice de première (formule d'Al-Kashi) : dans un triangle $ABC$, $AB = 5$, $AC = 8$ et $\\widehat{BAC} = 60°$. Calculer $BC$ et $\\overrightarrow{AB} \\cdot \\overrightarrow{AC}$. Corrigé : $BC^2 = 25 + 64 - 2 \\times 5 \\times 8 \\times \\frac{1}{2} = 49$, donc $BC = 7$ ; $\\overrightarrow{AB} \\cdot \\overrightarrow{AC} = 5 \\times 8 \\times \\frac{1}{2} = 20$. Variante : retrouver l'angle à partir des trois longueurs.",
+        "Exercice de première (ensemble de points) : $A(1 ; 2)$ et $B(5 ; -2)$. Déterminer une équation de l'ensemble des points $M(x ; y)$ tels que $\\overrightarrow{MA} \\cdot \\overrightarrow{MB} = 0$. Corrigé : $(1 - x)(5 - x) + (2 - y)(-2 - y) = 0$ équivaut à $x^2 - 6x + 5 + y^2 - 4 = 0$, soit $(x - 3)^2 + y^2 = 8$ : c'est le cercle de centre $I(3 ; 0)$, milieu de $[AB]$, et de rayon $2\\sqrt{2} = \\frac{AB}{2}$, conformément au théorème clé.",
+        "Exercice de terminale (projeté orthogonal) : $\\mathcal{P}$ est le plan d'équation $2x - y + 2z - 1 = 0$ et $M(3 ; 1 ; 4)$. Déterminer le projeté orthogonal $H$ de $M$ sur $\\mathcal{P}$ et la distance de $M$ à $\\mathcal{P}$. Corrigé : $\\vec{n}(2 ; -1 ; 2)$ est normal à $\\mathcal{P}$ ; la droite passant par $M$ dirigée par $\\vec{n}$ a pour représentation $(3 + 2t ; 1 - t ; 4 + 2t)$ ; elle coupe $\\mathcal{P}$ lorsque $12 + 9t = 0$, soit $t = -\\frac{4}{3}$, d'où $H\\left(\\frac{1}{3} ; \\frac{7}{3} ; \\frac{4}{3}\\right)$ et $MH = \\frac{4}{3}\\|\\vec{n}\\| = 4$.",
+        "Prolongements : théorème de la médiane $MA^2 + MB^2 = 2MI^2 + \\frac{AB^2}{2}$ ; droite d'Euler (si $O$ est le centre du cercle circonscrit, le point $H$ défini par $\\overrightarrow{OH} = \\overrightarrow{OA} + \\overrightarrow{OB} + \\overrightarrow{OC}$ est l'orthocentre, et $\\overrightarrow{OH} = 3\\overrightarrow{OG}$) ; distance d'un point à un plan $\\frac{|ax_0 + by_0 + cz_0 + d|}{\\sqrt{a^2 + b^2 + c^2}}$ ; rotations et similitudes par les nombres complexes (leçon 12) ; cadre des espaces préhilbertiens (leçon 05)."
+      ],
+      "juryTips": [
+        "Erreur fréquente d'élève : traduire « $ABCD$ est un parallélogramme » par $\\overrightarrow{AB} = \\overrightarrow{CD}$. La bonne égalité est $\\overrightarrow{AB} = \\overrightarrow{DC}$ ; faire tracer la figure suffit en général à corriger.",
+        "Erreur fréquente d'élève : utiliser $xx' + yy'$ dans une base non orthonormée. Si $\\|\\vec{\\imath}\\| = \\|\\vec{\\jmath}\\| = 1$ et $(\\vec{\\imath}, \\vec{\\jmath}) = \\frac{\\pi}{3}$, alors $\\vec{\\imath} \\cdot \\vec{\\jmath} = \\frac{1}{2}$, alors que la formule donnerait $1 \\times 0 + 0 \\times 1 = 0$.",
+        "Erreur fréquente d'élève : « simplifier » par un vecteur dans $\\vec{u} \\cdot \\vec{v} = \\vec{u} \\cdot \\vec{w}$. Avec $\\vec{u}(1 ; 0)$, $\\vec{v}(0 ; 1)$ et $\\vec{w}(0 ; 2)$, les deux produits sont nuls alors que $\\vec{v} \\neq \\vec{w}$.",
+        "Erreur fréquente d'élève dans l'espace : croire qu'une droite orthogonale à une seule droite d'un plan est orthogonale au plan, ou que deux droites orthogonales sont sécantes. Il faut deux droites sécantes du plan, et l'orthogonalité de deux droites ne dit rien de leur intersection (arêtes opposées d'un cube).",
+        "Le jury demande quelle définition du produit scalaire a été choisie : une leçon qui utilise successivement les normes, la projection, le cosinus et les coordonnées sans en démontrer l'équivalence est circulaire. Il faut aussi savoir dire ce qu'est un vecteur au niveau de la seconde (translation) et au niveau supérieur (élément d'un espace vectoriel, classe de bipoints équipollents).",
+        "Le mot « angle » cache deux notions : l'angle géométrique $\\widehat{BAC} \\in [0 ; \\pi]$, qui suffit pour le produit scalaire puisque le cosinus est pair, et l'angle orienté de vecteurs, défini modulo $2\\pi$, indispensable pour les rotations."
+      ]
+    },
+    {
+      "id": "capes-12",
+      "num": "Leçon 12",
+      "title": "Nombres complexes : formes algébrique et exponentielle, équations et géométrie",
+      "domain": "Algèbre & Géométrie",
+      "level": "CAPES — leçon (terminale, mathématiques expertes)",
+      "prerequisites": [
+        "Niveaux concernés et situation dans les programmes : les nombres complexes sont étudiés en terminale dans l'option mathématiques expertes de la voie générale (forme algébrique, conjugué, équations du second degré à coefficients réels, formule du binôme, module et argument, forme trigonométrique et exponentielle, formules d'Euler et de Moivre, racines $n$-ièmes de l'unité, utilisation en géométrie) ; ils figurent aussi dans les programmes de terminale STI2D et STL, au service de la physique (signaux sinusoïdaux, électricité). La trigonométrie (cercle trigonométrique, cosinus et sinus d'un réel) et le produit scalaire sont vus en première spécialité.",
+        "Plan de leçon possible : I. Forme algébrique et équations ; II. Module, argument et forme exponentielle ; III. Nombres complexes et géométrie. Le développement peut être le théorème clé (conjugaison et équations du second degré), le calcul de $\\cos\\frac{2\\pi}{5}$ par les racines cinquièmes de l'unité, ou l'un des exercices proposés plus bas.",
+        "Prérequis des élèves : trinôme du second degré (discriminant, forme canonique, factorisation), trigonométrie du cercle, vecteurs et produit scalaire, raisonnement par récurrence, sommes de termes d'une suite géométrique.",
+        "Recul attendu du candidat : une construction de $\\mathbb{C}$ (le plan $\\mathbb{R}^2$ muni du produit $(a, b)(c, d) = (ac - bd, ad + bc)$, ou le quotient $\\mathbb{R}[X]/(X^2 + 1)$), le fait que $\\mathbb{C}$ est un corps qui ne peut pas être ordonné, le théorème de d'Alembert-Gauss, le groupe $\\mathbb{U}$ des complexes de module 1 et les similitudes directes $z \\mapsto az + b$."
+      ],
+      "plan": [
+        {
+          "part": "I. Forme algébrique, conjugué et équations",
+          "content": "Théorème admis au lycée : il existe un ensemble $\\mathbb{C}$ contenant $\\mathbb{R}$, muni d'une addition et d'une multiplication prolongeant celles de $\\mathbb{R}$ et ayant les mêmes règles de calcul, contenant un élément $i$ tel que $i^2 = -1$, et dont tout élément s'écrit de façon unique $z = a + ib$ avec $a, b$ réels (partie réelle et partie imaginaire). Conjugué $\\bar{z} = a - ib$ : $\\overline{z + z'} = \\bar{z} + \\bar{z'}$, $\\overline{zz'} = \\bar{z}\\,\\bar{z'}$, $\\overline{z^n} = \\bar{z}^n$ (démonstrations exigibles) ; $z\\bar{z} = a^2 + b^2$, ce qui donne l'inverse $\\frac{1}{z} = \\frac{\\bar{z}}{a^2 + b^2}$ pour $z \\neq 0$ ; $z$ est réel si et seulement si $\\bar{z} = z$, imaginaire pur si et seulement si $\\bar{z} = -z$. La formule du binôme vaut dans $\\mathbb{C}$. Équation $az^2 + bz + c = 0$ à coefficients réels, $a \\neq 0$, de discriminant $\\Delta \\lt 0$ : deux solutions conjuguées $\\frac{-b \\pm i\\sqrt{-\\Delta}}{2a}$. Factorisation $z^n - a^n = (z - a)(z^{n-1} + az^{n-2} + \\cdots + a^{n-1})$ : si $P(a) = 0$, alors $P(z)$ se factorise par $z - a$, et un polynôme de degré $n$ a au plus $n$ racines. Exemple : $z^2 - 2z + 5 = 0$ a pour solutions $1 + 2i$ et $1 - 2i$. Contre-exemple : il n'existe pas d'ordre sur $\\mathbb{C}$ compatible avec les opérations, car on aurait $i^2 \\ge 0$, c'est-à-dire $-1 \\ge 0$."
+        },
+        {
+          "part": "II. Module, argument et forme exponentielle",
+          "content": "Module $|z| = \\sqrt{z\\bar{z}} = \\sqrt{a^2 + b^2}$ : $|zz'| = |z|\\,|z'|$, $\\left|\\frac{1}{z}\\right| = \\frac{1}{|z|}$ et inégalité triangulaire $|z + z'| \\le |z| + |z'|$. Pour $z \\neq 0$, un argument de $z$ est un réel $\\theta$ tel que $z = |z|(\\cos\\theta + i\\sin\\theta)$ ; il est défini modulo $2\\pi$. On note $e^{i\\theta} = \\cos\\theta + i\\sin\\theta$. Les formules d'addition des fonctions cosinus et sinus donnent $e^{i\\theta}e^{i\\theta'} = e^{i(\\theta + \\theta')}$, d'où $\\arg(zz') \\equiv \\arg z + \\arg z' \\pmod{2\\pi}$, la formule de Moivre $(e^{i\\theta})^n = e^{in\\theta}$ (récurrence) et les formules d'Euler $\\cos\\theta = \\frac{e^{i\\theta} + e^{-i\\theta}}{2}$, $\\sin\\theta = \\frac{e^{i\\theta} - e^{-i\\theta}}{2i}$, qui servent à linéariser : $\\cos^3\\theta = \\frac{\\cos(3\\theta) + 3\\cos\\theta}{4}$. Exemple : $1 + i = \\sqrt{2}e^{i\\frac{\\pi}{4}}$, donc $(1 + i)^8 = 16e^{2i\\pi} = 16$. Racines $n$-ièmes de l'unité : les solutions de $z^n = 1$ sont les $e^{\\frac{2ik\\pi}{n}}$, $0 \\le k \\le n - 1$, dont les images sont les sommets d'un polygone régulier inscrit dans le cercle unité ; leur somme est nulle pour $n \\ge 2$. Contre-exemple : $-2e^{i\\frac{\\pi}{3}}$ n'est pas une forme exponentielle, car le module est positif ; on écrit $-2e^{i\\frac{\\pi}{3}} = 2e^{-\\frac{2i\\pi}{3}}$."
+        },
+        {
+          "part": "III. Nombres complexes et géométrie",
+          "content": "Dans un repère orthonormé direct, le point $M(x ; y)$ et le vecteur $\\vec{w}(x ; y)$ ont pour affixe $x + iy$. Si $A$ et $B$ ont pour affixes $a$ et $b$, alors $\\overrightarrow{AB}$ a pour affixe $b - a$, $AB = |b - a|$, et le milieu de $[AB]$ a pour affixe $\\frac{a + b}{2}$. Pour des vecteurs non nuls d'affixes $w$ et $w'$, $(\\vec{w}, \\vec{w'}) \\equiv \\arg\\frac{w'}{w} \\pmod{2\\pi}$ ; en particulier $(\\overrightarrow{AB}, \\overrightarrow{AC}) \\equiv \\arg\\frac{c - a}{b - a}$. Conséquences : pour $A$, $B$, $C$ distincts, ils sont alignés si et seulement si $\\frac{c - a}{b - a}$ est réel, et $(AB) \\perp (AC)$ si et seulement si ce quotient est imaginaire pur. Transformations : la translation de vecteur d'affixe $b$ s'écrit $z \\mapsto z + b$, l'homothétie de centre $\\Omega(\\omega)$ et de rapport $k$ s'écrit $z \\mapsto \\omega + k(z - \\omega)$, et la rotation de centre $\\Omega$ et d'angle $\\theta$ s'écrit $z \\mapsto \\omega + e^{i\\theta}(z - \\omega)$. Exemple : si $a = 0$, $b = 2$ et $c = 1 + i\\sqrt{3}$, alors $\\frac{c - a}{b - a} = e^{i\\frac{\\pi}{3}}$ : le triangle $ABC$ est équilatéral. Le cercle de centre $\\Omega$ et de rayon $r$ est l'ensemble des points d'affixe $\\omega + re^{i\\theta}$, $\\theta \\in \\mathbb{R}$."
+        }
+      ],
+      "keyTheorem": {
+        "title": "Conjugaison et équations du second degré à coefficients réels",
+        "statement": "(i) Pour tous complexes $z$ et $z'$ et tout entier naturel $n$, $\\overline{zz'} = \\bar{z}\\,\\bar{z'}$ et $\\overline{z^n} = \\bar{z}^n$ ; si $z \\neq 0$, $\\overline{\\left(\\frac{1}{z}\\right)} = \\frac{1}{\\bar{z}}$. (ii) Soit $a$, $b$, $c$ des réels avec $a \\neq 0$ et $\\Delta = b^2 - 4ac \\lt 0$. L'équation $az^2 + bz + c = 0$ admet dans $\\mathbb{C}$ exactement deux solutions, $z_1 = \\frac{-b + i\\sqrt{-\\Delta}}{2a}$ et $z_2 = \\overline{z_1}$, et pour tout complexe $z$, $az^2 + bz + c = a(z - z_1)(z - z_2)$.",
+        "proof": "1. **Conjugué d'un produit.** Avec $z = x + iy$ et $z' = x' + iy'$, $zz' = (xx' - yy') + i(xy' + x'y)$, donc $\\overline{zz'} = (xx' - yy') - i(xy' + x'y)$. Par ailleurs $\\bar{z}\\,\\bar{z'} = (x - iy)(x' - iy') = (xx' - yy') - i(xy' + x'y)$ : les deux nombres sont égaux.\n2. **Puissances et inverse.** La propriété $\\overline{z^n} = \\bar{z}^n$ est vraie pour $n = 0$ et, si elle est vraie au rang $n$, alors $\\overline{z^{n+1}} = \\overline{z^n z} = \\overline{z^n}\\,\\bar{z} = \\bar{z}^{n+1}$ : elle est vraie pour tout $n$ par récurrence. Si $z \\neq 0$, en conjuguant $z \\times \\frac{1}{z} = 1$, on obtient $\\bar{z} \\times \\overline{\\left(\\frac{1}{z}\\right)} = 1$, d'où le résultat.\n3. **Forme canonique.** Les règles de calcul de $\\mathbb{C}$ étant celles de $\\mathbb{R}$, on a pour tout complexe $z$ : $az^2 + bz + c = a\\left[\\left(z + \\frac{b}{2a}\\right)^2 - \\frac{\\Delta}{4a^2}\\right]$.\n4. **Factorisation.** Posons $\\delta = \\frac{i\\sqrt{-\\Delta}}{2a}$. Alors $\\delta^2 = \\frac{i^2(-\\Delta)}{4a^2} = \\frac{\\Delta}{4a^2}$, donc $az^2 + bz + c = a\\left(z + \\frac{b}{2a} - \\delta\\right)\\left(z + \\frac{b}{2a} + \\delta\\right) = a(z - z_1)(z - z_2)$, avec $z_1 = -\\frac{b}{2a} + \\delta$ et $z_2 = -\\frac{b}{2a} - \\delta$.\n5. **Solutions.** Dans $\\mathbb{C}$, un produit est nul si et seulement si l'un des facteurs est nul : si $uv = 0$ et $u \\neq 0$, on multiplie par $\\frac{1}{u}$ pour obtenir $v = 0$. Comme $a \\neq 0$, les solutions sont exactement $z_1$ et $z_2$. Elles sont distinctes car $\\delta \\neq 0$, et conjuguées car $-\\frac{b}{2a}$ est réel et $\\delta$ imaginaire pur.\n6. **Remarque.** Plus généralement, si $P$ est un polynôme à coefficients réels, le point 1 donne $P(\\bar{z}) = \\overline{P(z)}$ : les racines non réelles de $P$ vont par paires conjuguées."
+      },
+      "developments": [
+        "Exercice de terminale (équation et géométrie) : résoudre dans $\\mathbb{C}$ l'équation $z^2 - 6z + 13 = 0$, puis montrer que le triangle formé par l'origine $O$ et les points images $A$ et $B$ des solutions est isocèle. Corrigé : $\\Delta = 36 - 52 = -16 = (4i)^2$, donc les solutions sont $3 + 2i$ et $3 - 2i$ ; $OA = OB = \\sqrt{13}$, et les points $A$ et $B$ sont symétriques par rapport à l'axe des réels.",
+        "Exercice de terminale (forme exponentielle) : on pose $z = 1 + i\\sqrt{3}$. Écrire $z$ sous forme exponentielle, calculer $z^6$ et déterminer les entiers $n$ pour lesquels $z^n$ est réel. Corrigé : $|z| = 2$ et $z = 2e^{i\\frac{\\pi}{3}}$, donc $z^6 = 64e^{2i\\pi} = 64$. $z^n = 2^ne^{i\\frac{n\\pi}{3}}$ est réel si et seulement si $\\frac{n\\pi}{3} \\equiv 0 \\pmod{\\pi}$, c'est-à-dire si $n$ est multiple de 3. En revanche $z^n$ n'est jamais imaginaire pur, car $\\frac{n}{3} - \\frac{1}{2} = \\frac{2n - 3}{6}$ n'est jamais entier ($2n - 3$ est impair).",
+        "Exercice de terminale (linéarisation) : linéariser $\\cos^3 x$ et en déduire une primitive. Corrigé : $\\cos^3 x = \\frac{1}{8}\\left(e^{ix} + e^{-ix}\\right)^3 = \\frac{1}{8}\\left(e^{3ix} + 3e^{ix} + 3e^{-ix} + e^{-3ix}\\right) = \\frac{\\cos(3x) + 3\\cos x}{4}$, donc $x \\mapsto \\frac{\\sin(3x)}{12} + \\frac{3\\sin x}{4}$ est une primitive de $x \\mapsto \\cos^3 x$ sur $\\mathbb{R}$.",
+        "Exercice de terminale (configuration) : $A$, $B$, $C$ ont pour affixes $a = 1 + i$, $b = 4 + 2i$ et $c = 4i$. Calculer $\\frac{c - a}{b - a}$ et en déduire la nature du triangle $ABC$. Corrigé : $c - a = -1 + 3i = i(3 + i) = i(b - a)$, donc $\\frac{c - a}{b - a} = i$ : $AC = AB$ et $(\\overrightarrow{AB}, \\overrightarrow{AC}) \\equiv \\frac{\\pi}{2} \\pmod{2\\pi}$, le triangle est rectangle isocèle en $A$ ; $C$ est l'image de $B$ par la rotation de centre $A$ et d'angle $\\frac{\\pi}{2}$.",
+        "Prolongements : calcul de $\\cos\\frac{2\\pi}{5} = \\frac{\\sqrt{5} - 1}{4}$ par les racines cinquièmes de l'unité et construction du pentagone régulier ; sommes $\\sum_{k=0}^{n}\\cos(kx)$ par une somme géométrique ; similitudes directes $z \\mapsto az + b$ ; théorème de d'Alembert-Gauss ; exponentielle complexe et équations différentielles linéaires d'ordre 2 (leçon 01)."
+      ],
+      "juryTips": [
+        "Erreur fréquente d'élève : écrire $i = \\sqrt{-1}$ puis appliquer $\\sqrt{u}\\sqrt{v} = \\sqrt{uv}$, ce qui conduit à $-1 = i^2 = \\sqrt{-1}\\sqrt{-1} = \\sqrt{1} = 1$. Le symbole $\\sqrt{\\ }$ est réservé aux réels positifs.",
+        "Erreur fréquente d'élève : comparer des complexes (« $z \\gt 0$ ») ou croire que le module et l'argument sont additifs pour la somme. Avec $z = 1$ et $z' = i$, $|z + z'| = \\sqrt{2} \\neq |z| + |z'| = 2$.",
+        "Erreur fréquente d'élève : calculer un argument de $a + ib$ par $\\arctan\\frac{b}{a}$ sans tenir compte du quadrant. Pour $-1 - i$, on obtient $\\frac{\\pi}{4}$ au lieu de $-\\frac{3\\pi}{4}$ ; il faut contrôler les signes de $\\cos\\theta = \\frac{a}{|z|}$ et $\\sin\\theta = \\frac{b}{|z|}$.",
+        "Erreur fréquente d'élève : appliquer la formule $\\frac{-b \\pm i\\sqrt{-\\Delta}}{2a}$ à une équation à coefficients non réels, ou oublier que les solutions d'une équation à coefficients réels sont conjuguées, ce qui fournit pourtant une vérification immédiate.",
+        "Le jury traque la circularité : si les formules d'addition du cosinus et du sinus ont été démontrées (par exemple à l'aide du produit scalaire), elles prouvent $e^{ia}e^{ib} = e^{i(a + b)}$ ; on ne peut pas ensuite « démontrer » les formules d'addition par cette relation. Il faut annoncer clairement ce qui est admis.",
+        "Le jury demande souvent comment justifier l'existence de $\\mathbb{C}$ : elle est admise en terminale, mais le candidat doit savoir présenter une construction et expliquer pourquoi la forme algébrique est unique, ce qui fonde l'identification des parties réelles et imaginaires."
+      ]
+    },
+    {
+      "id": "capes-13",
+      "num": "Leçon 13",
+      "title": "Probabilités conditionnelles et indépendance : arbres, probabilités totales et formule de Bayes",
+      "domain": "Probabilités",
+      "level": "CAPES — leçon (seconde, première, terminale)",
+      "prerequisites": [
+        "Niveaux concernés et situation dans les programmes : en seconde, modélisation d'une expérience aléatoire, loi de probabilité sur un ensemble fini, probabilité d'une réunion, tableaux croisés d'effectifs et fréquences conditionnelles ; en première spécialité, probabilité conditionnelle $P_A(B)$, arbres pondérés, formule des probabilités totales, indépendance de deux événements, succession de deux épreuves indépendantes ; en terminale spécialité, succession d'épreuves indépendantes, schéma de Bernoulli et loi binomiale. Les programmes de seconde et de première mis à jour (BO n° 14 du 2 avril 2026) conservent ces notions ; le candidat vérifiera le placement exact de chaque item dans les textes en vigueur.",
+        "Plan de leçon possible : I. Probabilité conditionnelle ; II. Arbres pondérés et formule des probabilités totales, formule de Bayes ; III. Indépendance et répétition d'épreuves. Le développement peut être la formule des probabilités totales et la formule de Bayes (théorème clé), l'étude d'un test de dépistage, ou la stabilité de l'indépendance par passage au complémentaire.",
+        "Prérequis des élèves : calcul de probabilités sur un univers fini, équiprobabilité, événements contraires, réunion et intersection, tableaux croisés d'effectifs, calcul fractionnaire et pourcentages.",
+        "Recul attendu du candidat : $P_A$ est une probabilité sur $\\Omega$ ; partition (système complet d'événements) ; distinction entre indépendance deux à deux et indépendance mutuelle ; indépendance de variables aléatoires ; lien entre fréquences conditionnelles d'un tableau croisé et probabilités conditionnelles ; paradoxes classiques (faux positifs, paradoxe de Simpson)."
+      ],
+      "plan": [
+        {
+          "part": "I. Probabilité conditionnelle",
+          "content": "Soit $(\\Omega, P)$ un univers fini muni d'une probabilité et $A$ un événement tel que $P(A) \\neq 0$. La probabilité de $B$ sachant $A$ est $P_A(B) = \\frac{P(A \\cap B)}{P(A)}$. Motivation : dans un tableau croisé d'effectifs, la fréquence de $B$ parmi les individus vérifiant $A$ est $\\frac{n(A \\cap B)}{n(A)}$ ; en situation d'équiprobabilité, $P_A(B) = \\frac{\\mathrm{card}(A \\cap B)}{\\mathrm{card}(A)}$, c'est-à-dire que l'on restreint l'univers à $A$. Propriétés : $P_A$ est une probabilité ($P_A(\\Omega) = 1$, additivité pour des événements incompatibles), donc $P_A(\\bar{B}) = 1 - P_A(B)$. Formule des probabilités composées : $P(A \\cap B) = P(A) \\times P_A(B)$. Exemple : on tire successivement sans remise deux boules d'une urne contenant 3 rouges et 2 vertes ; la probabilité d'obtenir deux rouges vaut $\\frac{3}{5} \\times \\frac{2}{4} = \\frac{3}{10}$. Contre-exemple : en général $P_A(B) \\neq P_B(A)$ ; la probabilité qu'une personne soit malade sachant que son test est positif n'est pas celle d'un test positif sachant la personne malade."
+        },
+        {
+          "part": "II. Arbres pondérés, probabilités totales et formule de Bayes",
+          "content": "Des événements $A_1, \\dots, A_n$ de probabilités non nulles forment une partition de $\\Omega$ s'ils sont deux à deux incompatibles et de réunion $\\Omega$ ; le cas le plus fréquent est $\\{A, \\bar{A}\\}$. Règles de l'arbre pondéré : la somme des probabilités des branches issues d'un même nœud vaut 1 ; la probabilité d'un chemin est le produit des probabilités de ses branches (probabilités composées) ; la probabilité d'un événement est la somme des probabilités des chemins qui y mènent. Formule des probabilités totales : $P(B) = \\sum_{k=1}^{n}P(A_k)P_{A_k}(B)$, en particulier $P(B) = P(A)P_A(B) + P(\\bar{A})P_{\\bar{A}}(B)$ (démonstration exigible). Formule de Bayes (« inversion du conditionnement ») : si $P(B) \\neq 0$, $P_B(A) = \\frac{P(A)P_A(B)}{P(A)P_A(B) + P(\\bar{A})P_{\\bar{A}}(B)}$. Exemple : une maladie touche 1 % d'une population ; un test est positif chez 99 % des malades et chez 2 % des personnes saines. Alors $P(T) = 0{,}01 \\times 0{,}99 + 0{,}99 \\times 0{,}02 = 0{,}0297$ et $P_T(M) = \\frac{0{,}0099}{0{,}0297} = \\frac{1}{3}$ : deux tiers des tests positifs sont des faux positifs. Contre-exemple : les événements de l'arbre doivent former une partition ; « être fumeur » et « avoir plus de 50 ans » ne permettent pas d'appliquer la formule."
+        },
+        {
+          "part": "III. Indépendance et répétition d'épreuves",
+          "content": "Deux événements $A$ et $B$ sont indépendants si $P(A \\cap B) = P(A)P(B)$. Lorsque $P(A) \\neq 0$, cela équivaut à $P_A(B) = P(B)$ : savoir que $A$ est réalisé ne modifie pas la probabilité de $B$. Propriété (démonstration exigible) : si $A$ et $B$ sont indépendants, alors $\\bar{A}$ et $B$ le sont, ainsi que $A$ et $\\bar{B}$, et $\\bar{A}$ et $\\bar{B}$. L'indépendance dépend de la probabilité choisie, et non seulement des événements : c'est une hypothèse de modélisation (épreuves physiquement sans influence l'une sur l'autre) ou une propriété à vérifier par le calcul. Succession de deux épreuves indépendantes : l'univers est un produit cartésien et la probabilité d'un couple d'issues est le produit des probabilités ; on la représente par un arbre dont les pondérations ne dépendent pas de la première issue, ou par un tableau à double entrée. Généralisation en terminale : répétition de $n$ épreuves de Bernoulli identiques et indépendantes, loi binomiale ; probabilité d'au moins un succès : $1 - (1 - p)^n$. Exemple : on lance un dé équilibré ; $A$ : « résultat pair », $B$ : « résultat inférieur ou égal à 2 » ; $P(A \\cap B) = \\frac{1}{6} = \\frac{1}{2} \\times \\frac{1}{3}$, les événements sont indépendants. Contre-exemple : deux événements incompatibles de probabilités non nulles ne sont jamais indépendants, puisque $P(A \\cap B) = 0 \\neq P(A)P(B)$."
+        }
+      ],
+      "keyTheorem": {
+        "title": "Formule des probabilités totales et formule de Bayes",
+        "statement": "Soit $A_1, \\dots, A_n$ une partition de $\\Omega$ formée d'événements de probabilités non nulles, et $B$ un événement. Alors $P(B) = \\sum_{k=1}^{n}P(A_k)P_{A_k}(B)$. Si de plus $P(B) \\neq 0$, alors pour tout $j \\in \\{1, \\dots, n\\}$, $P_B(A_j) = \\frac{P(A_j)P_{A_j}(B)}{\\sum_{k=1}^{n}P(A_k)P_{A_k}(B)}$.",
+        "proof": "1. **Décomposition de $B$.** Comme $A_1 \\cup \\dots \\cup A_n = \\Omega$, on a $B = B \\cap \\Omega = (B \\cap A_1) \\cup \\dots \\cup (B \\cap A_n)$ par distributivité de l'intersection sur la réunion.\n2. **Incompatibilité.** Pour $k \\neq l$, $(B \\cap A_k) \\cap (B \\cap A_l) \\subset A_k \\cap A_l = \\varnothing$ : les événements $B \\cap A_k$ sont deux à deux incompatibles.\n3. **Additivité.** La probabilité d'une réunion d'événements deux à deux incompatibles est la somme des probabilités, donc $P(B) = \\sum_{k=1}^{n}P(B \\cap A_k)$.\n4. **Probabilités composées.** Comme $P(A_k) \\neq 0$, la définition de la probabilité conditionnelle donne $P(B \\cap A_k) = P(A_k)P_{A_k}(B)$, d'où la formule des probabilités totales.\n5. **Formule de Bayes.** Si $P(B) \\neq 0$, par définition $P_B(A_j) = \\frac{P(A_j \\cap B)}{P(B)}$. Le numérateur vaut $P(A_j)P_{A_j}(B)$ (point 4) et le dénominateur est donné par la formule des probabilités totales.\n6. **Lecture sur l'arbre.** Le point 4 est la règle du produit le long d'un chemin, le point 3 la règle de la somme des chemins menant à $B$ : la preuve justifie les règles de l'arbre pondéré, qu'il ne faut pas présenter comme des axiomes."
+      },
+      "developments": [
+        "Exercice de première (tableau croisé) : dans un lycée de 800 élèves, 480 sont demi-pensionnaires, dont 300 en seconde ; il y a 450 élèves de seconde. On choisit un élève au hasard. Calculer la probabilité qu'il soit demi-pensionnaire sachant qu'il est en seconde, puis qu'il soit en seconde sachant qu'il est demi-pensionnaire. Corrigé : $P_S(D) = \\frac{300}{450} = \\frac{2}{3}$ et $P_D(S) = \\frac{300}{480} = \\frac{5}{8}$. Les deux nombres diffèrent : on ne divise pas par le même effectif.",
+        "Exercice de première (arbre et probabilités totales) : un atelier produit 60 % de ses pièces sur la machine $M_1$ et 40 % sur $M_2$ ; les taux de pièces défectueuses sont 3 % et 5 %. Quelle est la probabilité qu'une pièce soit défectueuse ? Sachant qu'elle est défectueuse, quelle est la probabilité qu'elle vienne de $M_2$ ? Corrigé : $P(D) = 0{,}6 \\times 0{,}03 + 0{,}4 \\times 0{,}05 = 0{,}038$ et $P_D(M_2) = \\frac{0{,}02}{0{,}038} = \\frac{10}{19} \\approx 0{,}53$.",
+        "Exercice de première (indépendance) : on tire une carte au hasard dans un jeu de 32 cartes. Les événements $A$ : « la carte est un cœur » et $B$ : « la carte est un as » sont-ils indépendants ? Même question après avoir ajouté un joker au jeu. Corrigé : avec 32 cartes, $P(A \\cap B) = \\frac{1}{32} = \\frac{8}{32} \\times \\frac{4}{32}$ : indépendants. Avec 33 cartes, $P(A \\cap B) = \\frac{1}{33}$ alors que $P(A)P(B) = \\frac{32}{1089} \\neq \\frac{1}{33} = \\frac{33}{1089}$ : ils ne le sont plus. L'indépendance dépend de la probabilité.",
+        "Exercice de terminale (au moins un succès) : un archer atteint sa cible avec probabilité $0{,}3$ à chaque tir, les tirs étant indépendants. Combien de tirs faut-il au minimum pour que la probabilité d'atteindre au moins une fois la cible dépasse $0{,}99$ ? Corrigé : la probabilité cherchée est $1 - 0{,}7^n$ et $1 - 0{,}7^n \\ge 0{,}99 \\iff 0{,}7^n \\le 0{,}01 \\iff n \\ge \\frac{\\ln 0{,}01}{\\ln 0{,}7} \\approx 12{,}9$ (le logarithme de $0{,}7$ est négatif, ce qui renverse l'inégalité) : il faut au moins 13 tirs.",
+        "Prolongements : indépendance mutuelle de $n$ événements et contre-exemple d'événements deux à deux indépendants mais non mutuellement indépendants (deux lancers de pièce, « pile au premier », « pile au second », « résultats identiques ») ; chaînes de Markov à deux états et suites arithmético-géométriques ; paradoxe de Simpson ; problème de Monty Hall ; probabilités conditionnelles pour une variable aléatoire et loi géométrique « sans mémoire »."
+      ],
+      "juryTips": [
+        "Erreur fréquente d'élève : confondre $P_A(B)$ et $P(A \\cap B)$, en particulier lire sur une branche de second niveau la probabilité de l'intersection. La phrase « parmi les ... » ou « sachant que ... » doit signaler le conditionnement.",
+        "Erreur fréquente d'élève : confondre incompatibles et indépendants. Deux événements incompatibles de probabilités non nulles sont au contraire très dépendants : la réalisation de l'un empêche celle de l'autre.",
+        "Erreur fréquente d'élève : inverser le conditionnement ($P_A(B)$ au lieu de $P_B(A)$), ce qui conduit à croire qu'un test fiable à 99 % donne un diagnostic sûr à 99 %. L'exemple du dépistage d'une maladie rare est un bon support pour discuter de la formule de Bayes et du rôle de la prévalence.",
+        "Erreur fréquente d'élève : additionner les probabilités pour « au moins un succès » ($n \\times p$, qui peut dépasser 1) au lieu de passer à l'événement contraire « aucun succès ».",
+        "Le jury attend que le candidat distingue l'indépendance comme hypothèse de modélisation (tirages avec remise, lancers successifs) et comme propriété démontrée par le calcul ; il apprécie qu'on justifie les règles des arbres pondérés plutôt qu'on les présente comme des recettes.",
+        "Question fréquente : $P_A$ est-elle une probabilité ? Le candidat doit savoir le démontrer ($P_A(\\Omega) = 1$ et additivité) et en déduire les règles de calcul, notamment $P_A(\\bar{B}) = 1 - P_A(B)$, qui justifie la somme des branches issues d'un nœud."
+      ]
+    },
+    {
+      "id": "capes-14",
+      "num": "Leçon 14",
+      "title": "Statistique descriptive à une et deux variables : indicateurs de position, de dispersion et ajustement affine",
+      "domain": "Statistiques & Probabilités",
+      "level": "CAPES — leçon (collège, seconde, première, terminale)",
+      "prerequisites": [
+        "Niveaux concernés et situation dans les programmes : au collège, recueil et représentation de données, fréquences, moyenne, médiane et étendue ; en seconde, moyenne pondérée, linéarité de la moyenne, écart type, quartiles et écart interquartile, avec l'outil numérique (tableur, programmation) ; en première, en spécialité comme dans l'enseignement scientifique ou les mathématiques du tronc commun selon les séries, tableaux croisés, séries à deux variables et nuages de points ; en terminale, ajustement affine selon les options (mathématiques complémentaires, voie technologique). Les programmes de seconde et de première mis à jour (BO n° 14 du 2 avril 2026) maintiennent cette progression ; le candidat vérifiera dans les textes en vigueur le niveau exact de chaque notion, notamment l'ajustement par moindres carrés.",
+        "Plan de leçon possible : I. Séries à une variable et indicateurs de position ; II. Indicateurs de dispersion ; III. Séries à deux variables et ajustement affine. Le développement peut être la propriété de minimisation de la moyenne (théorème clé, $\\sum(x_i - a)^2$ minimal en $a = \\bar{x}$), la détermination de la droite des moindres carrés, ou l'étude de l'effet d'une transformation affine sur les indicateurs.",
+        "Prérequis des élèves : calcul de fréquences et de pourcentages, fonctions affines et polynômes du second degré (pour la minimisation), symbole $\\sum$, utilisation d'un tableur ou d'une calculatrice.",
+        "Recul attendu du candidat : lien entre statistique descriptive et variables aléatoires (espérance, variance, inégalité de Bienaymé-Tchebychev), robustesse de la médiane, interprétation de la variance comme carré d'une distance, droite de régression comme projection orthogonale, coefficient de corrélation et inégalité de Cauchy-Schwarz, corrélation et causalité."
+      ],
+      "plan": [
+        {
+          "part": "I. Séries à une variable : indicateurs de position",
+          "content": "Une série statistique quantitative est donnée par des valeurs $x_1, \\dots, x_p$ et des effectifs $n_1, \\dots, n_p$, d'effectif total $N = \\sum n_i$, ou par les fréquences $f_i = \\frac{n_i}{N}$. Moyenne : $\\bar{x} = \\frac{1}{N}\\sum_{i=1}^{p}n_ix_i = \\sum_{i=1}^{p}f_ix_i$. Linéarité (démonstration exigible) : si $y_i = ax_i + b$, alors $\\bar{y} = a\\bar{x} + b$ ; la moyenne d'une réunion de deux séries est la moyenne des moyennes pondérée par les effectifs. Médiane : valeur $Me$ telle qu'au moins la moitié des valeurs soient inférieures ou égales à $Me$ et au moins la moitié supérieures ou égales ; pour une série ordonnée de $N$ valeurs, c'est la valeur de rang $\\frac{N + 1}{2}$ si $N$ est impair, et par convention la demi-somme des valeurs de rangs $\\frac{N}{2}$ et $\\frac{N}{2} + 1$ si $N$ est pair. Exemple : pour la série $2, 3, 3, 5, 7, 22$, $\\bar{x} = 7$ et $Me = 4$. Contre-exemple : la médiane n'est pas linéaire vis-à-vis de la réunion de séries, et la moyenne n'est pas robuste : une seule valeur extrême ($22$) suffit à la rendre supérieure à quatre des six valeurs."
+        },
+        {
+          "part": "II. Indicateurs de dispersion",
+          "content": "Étendue : différence entre la plus grande et la plus petite valeur. Quartiles : $Q_1$ est la plus petite valeur de la série telle qu'au moins 25 % des valeurs lui soient inférieures ou égales, $Q_3$ la plus petite telle qu'au moins 75 % des valeurs lui soient inférieures ou égales ; écart interquartile $Q_3 - Q_1$ ; diagramme en boîte. Variance : $V = \\frac{1}{N}\\sum_{i=1}^{p}n_i(x_i - \\bar{x})^2$, écart type $\\sigma = \\sqrt{V}$, exprimé dans l'unité des données. Formule de König-Huygens : $V = \\frac{1}{N}\\sum n_ix_i^2 - \\bar{x}^2$ (démonstration exigible : développer le carré et utiliser $\\sum n_i(x_i - \\bar{x}) = 0$). Transformation affine : si $y_i = ax_i + b$, alors $V_y = a^2V_x$ et $\\sigma_y = |a|\\sigma_x$ ; une translation ne modifie pas la dispersion. Propriété de minimisation : la fonction $a \\mapsto \\frac{1}{N}\\sum n_i(x_i - a)^2$ atteint son minimum, égal à $V$, en $a = \\bar{x}$. Exemple : la série $4, 8, 9, 11$ a pour moyenne $8$, pour variance $\\frac{16 + 0 + 1 + 9}{4} = 6{,}5$ et pour écart type $\\sqrt{6{,}5} \\approx 2{,}55$. Contre-exemple : deux séries de même moyenne et de même étendue peuvent avoir des écarts types différents ($0, 5, 5, 5, 10$ et $0, 0, 5, 10, 10$, d'écarts types $\\sqrt{10}$ et $\\sqrt{20}$)."
+        },
+        {
+          "part": "III. Séries à deux variables et ajustement affine",
+          "content": "Une série à deux variables est une liste de couples $(x_i ; y_i)$, $1 \\le i \\le n$, représentée par un nuage de points dans un repère ; le point moyen est $G(\\bar{x} ; \\bar{y})$. Covariance : $\\mathrm{cov}(x, y) = \\frac{1}{n}\\sum_{i=1}^{n}(x_i - \\bar{x})(y_i - \\bar{y}) = \\frac{1}{n}\\sum x_iy_i - \\bar{x}\\,\\bar{y}$. Lorsque le nuage a une forme allongée, on peut chercher une droite d'ajustement $y = ax + b$. Méthode des moindres carrés : on minimise la somme $S(a, b) = \\sum_{i=1}^{n}(y_i - ax_i - b)^2$ des carrés des écarts verticaux ; si $V_x \\neq 0$, le minimum est atteint pour $a = \\frac{\\mathrm{cov}(x, y)}{V_x}$ et $b = \\bar{y} - a\\bar{x}$ ; la droite passe par le point moyen. Le coefficient de corrélation linéaire $r = \\frac{\\mathrm{cov}(x, y)}{\\sigma_x\\sigma_y}$ vérifie $-1 \\le r \\le 1$, et $|r| = 1$ si et seulement si les points sont alignés. L'ajustement permet d'interpoler ou d'extrapoler, avec prudence. Changement de variable : un nuage d'allure exponentielle se traite en ajustant $z = \\ln y$ en fonction de $x$. Exemple : pour les points $(1 ; 2)$, $(2 ; 3)$, $(3 ; 5)$, $(4 ; 6)$, on trouve $G(2{,}5 ; 4)$, $\\mathrm{cov} = 1{,}75$, $V_x = 1{,}25$, donc $y = 1{,}4x + 0{,}5$. Contre-exemple : une forte corrélation n'implique pas un lien de causalité (deux grandeurs qui augmentent avec le temps sont corrélées sans dépendre l'une de l'autre), et $r = 0$ n'exclut pas une liaison non affine (points d'une parabole symétrique)."
+        }
+      ],
+      "keyTheorem": {
+        "title": "La moyenne minimise l'écart quadratique ; formule de König-Huygens",
+        "statement": "Soit $x_1, \\dots, x_n$ une série de moyenne $\\bar{x}$ et de variance $V = \\frac{1}{n}\\sum_{i=1}^{n}(x_i - \\bar{x})^2$. Pour tout réel $a$, on pose $f(a) = \\frac{1}{n}\\sum_{i=1}^{n}(x_i - a)^2$. Alors, pour tout réel $a$, $f(a) = V + (a - \\bar{x})^2$. En particulier, $f$ atteint son minimum en $a = \\bar{x}$ et uniquement en ce point, ce minimum vaut $V$, et $V = \\frac{1}{n}\\sum_{i=1}^{n}x_i^2 - \\bar{x}^2$.",
+        "proof": "1. **Somme des écarts à la moyenne.** $\\sum_{i=1}^{n}(x_i - \\bar{x}) = \\sum_{i=1}^{n}x_i - n\\bar{x} = n\\bar{x} - n\\bar{x} = 0$.\n2. **Décomposition.** Pour tout $i$, $x_i - a = (x_i - \\bar{x}) + (\\bar{x} - a)$, donc $(x_i - a)^2 = (x_i - \\bar{x})^2 + 2(\\bar{x} - a)(x_i - \\bar{x}) + (\\bar{x} - a)^2$.\n3. **Sommation.** En sommant et en divisant par $n$, $f(a) = V + \\frac{2(\\bar{x} - a)}{n}\\sum_{i=1}^{n}(x_i - \\bar{x}) + (\\bar{x} - a)^2 = V + (a - \\bar{x})^2$, d'après le point 1.\n4. **Minimum.** Comme $(a - \\bar{x})^2 \\ge 0$, avec égalité si et seulement si $a = \\bar{x}$, on a $f(a) \\ge V = f(\\bar{x})$ pour tout $a$, avec égalité seulement en $\\bar{x}$.\n5. **Formule de König-Huygens.** Pour $a = 0$, le point 3 donne $\\frac{1}{n}\\sum_{i=1}^{n}x_i^2 = V + \\bar{x}^2$.\n6. **Autre lecture.** $f(a) = a^2 - 2\\bar{x}a + \\frac{1}{n}\\sum x_i^2$ est un trinôme du second degré de coefficient dominant positif, minimal en $-\\frac{-2\\bar{x}}{2} = \\bar{x}$ : la preuve est accessible en première. Le même calcul, mené à $a$ fixé pour minimiser en $b$, montre que la droite des moindres carrés passe par le point moyen."
+      },
+      "developments": [
+        "Exercice de seconde (moyenne et transformation affine) : les notes d'un devoir, sur 20, ont pour moyenne $9{,}5$ et pour écart type $3$. Le professeur décide de multiplier toutes les notes par $1{,}1$ puis d'ajouter $1$ point. Quelles sont la nouvelle moyenne et le nouvel écart type ? Corrigé : par linéarité, la moyenne devient $1{,}1 \\times 9{,}5 + 1 = 11{,}45$ ; l'écart type est multiplié par $1{,}1$ et n'est pas modifié par l'ajout d'une constante : il vaut $3{,}3$.",
+        "Exercice de seconde (moyenne d'une réunion) : dans une classe, les 12 garçons ont une moyenne de $11$ et les 18 filles une moyenne de $13$. Quelle est la moyenne de la classe ? Corrigé : $\\frac{12 \\times 11 + 18 \\times 13}{30} = \\frac{132 + 234}{30} = 12{,}2$, et non $12$ : la moyenne des moyennes doit être pondérée par les effectifs.",
+        "Exercice de seconde (médiane et quartiles) : on considère la série des 11 valeurs ordonnées $3, 5, 6, 6, 8, 9, 10, 12, 12, 15, 30$. Déterminer la médiane, les quartiles et l'écart interquartile. Que deviennent la moyenne et la médiane si l'on remplace $30$ par $16$ ? Corrigé : $Me$ est la 6e valeur, $9$ ; $Q_1$ est la 3e valeur ($\\frac{11}{4} = 2{,}75$, arrondi à 3), soit $6$ ; $Q_3$ est la 9e valeur ($\\frac{33}{4} = 8{,}25$, arrondi à 9), soit $12$ ; l'écart interquartile vaut $6$. La moyenne passe de $\\frac{116}{11} \\approx 10{,}5$ à $\\frac{102}{11} \\approx 9{,}3$, la médiane reste égale à $9$ : elle est robuste.",
+        "Exercice de terminale (ajustement après changement de variable) : un capital placé évolue ainsi : année $x$ = 0, 1, 2, 3 ; valeur $y$ = 1000, 1100, 1210, 1331. On pose $z = \\ln y$. Montrer que les points $(x ; z)$ sont alignés et en déduire une expression de $y$. Corrigé : $\\frac{y_{k+1}}{y_k} = 1{,}1$ pour chaque $k$, donc $z_{k+1} - z_k = \\ln 1{,}1$ : les points sont alignés sur la droite $z = \\ln 1000 + x\\ln 1{,}1$, ce qui donne $y = 1000 \\times 1{,}1^x$ (évolution à taux constant de 10 %).",
+        "Prolongements : interprétation géométrique de la droite des moindres carrés comme projection orthogonale dans $\\mathbb{R}^n$ ; inégalité de Cauchy-Schwarz et encadrement $-1 \\le r \\le 1$ ; ajustement de $x$ en $y$ et comparaison des deux droites ; échantillonnage, loi des grands nombres et intervalle de fluctuation ; régression non linéaire par changement de variable ; paradoxe de Simpson sur des moyennes pondérées."
+      ],
+      "juryTips": [
+        "Erreur fréquente d'élève : calculer la moyenne d'une série regroupée sans pondérer par les effectifs, ou calculer « la moyenne des moyennes » de deux groupes d'effectifs différents.",
+        "Erreur fréquente d'élève : donner pour médiane la valeur centrale de la série non ordonnée, ou la valeur de la colonne centrale du tableau d'effectifs ; il faut ordonner les valeurs et utiliser les effectifs cumulés croissants.",
+        "Erreur fréquente d'élève : croire que l'écart type est modifié par une translation des valeurs, ou qu'il est multiplié par $a$ (et non $|a|$) dans une transformation $y = ax + b$ ; confondre aussi variance et écart type dans l'interprétation (l'unité de la variance est le carré de celle des données).",
+        "Erreur fréquente d'élève : extrapoler loin du domaine des données à l'aide d'une droite d'ajustement, ou conclure à une relation de cause à effet à partir d'une corrélation.",
+        "Le jury attend que le candidat fixe des définitions précises des quartiles et de la médiane (il existe plusieurs conventions, notamment entre la calculatrice et le tableur) et qu'il les applique de manière cohérente.",
+        "Question fréquente : pourquoi des carrés et non des valeurs absolues ? Le candidat peut répondre que la somme $\\sum|x_i - a|$ est minimale en une médiane, alors que la somme des carrés est minimale en la moyenne, et que le carré se prête au calcul (trinôme, dérivation, géométrie euclidienne)."
+      ]
+    },
+    {
+      "id": "capes-15",
+      "num": "Leçon 15",
+      "title": "Dénombrement et combinatoire : listes, arrangements, permutations et combinaisons",
+      "domain": "Algèbre & Combinatoire",
+      "level": "CAPES — leçon (terminale, mathématiques expertes)",
+      "prerequisites": [
+        "Niveaux concernés et situation dans les programmes : le dénombrement est un chapitre de terminale spécialité (principes additif et multiplicatif, $k$-uplets, $k$-uplets d'éléments distincts, permutations, factorielle, combinaisons, triangle de Pascal, nombre de parties d'un ensemble), réinvesti dans la loi binomiale ; il prépare en mathématiques expertes l'arithmétique et la formule du binôme dans $\\mathbb{C}$. Des situations de dénombrement par arbres ou tableaux apparaissent dès le collège et en seconde en probabilités. Le candidat vérifiera dans les programmes en vigueur, y compris après le BO n° 14 du 2 avril 2026 pour la seconde et la première, ce qui relève de chaque niveau.",
+        "Plan de leçon possible : I. Principes de dénombrement et $k$-uplets ; II. Arrangements, permutations, factorielle ; III. Combinaisons, triangle de Pascal et formule du binôme. Le développement peut être la formule de Pascal et la formule du binôme (théorème clé), le nombre de parties d'un ensemble par deux méthodes, ou une démonstration combinatoire d'une identité (Vandermonde).",
+        "Prérequis des élèves : vocabulaire des ensembles (réunion, intersection, produit cartésien, cardinal), arbres, raisonnement par récurrence, suites, probabilités en situation d'équiprobabilité.",
+        "Recul attendu du candidat : bijections et cardinaux (principe des bergers), double comptage, principe d'inclusion-exclusion, applications injectives et surjectives, coefficients multinomiaux, lien avec la loi binomiale et la loi hypergéométrique, nombres de Catalan et chemins dans un quadrillage."
+      ],
+      "plan": [
+        {
+          "part": "I. Principes de dénombrement et k-uplets",
+          "content": "Principe additif : si $A$ et $B$ sont des ensembles finis disjoints, $\\mathrm{card}(A \\cup B) = \\mathrm{card}(A) + \\mathrm{card}(B)$ ; plus généralement $\\mathrm{card}(A \\cup B) = \\mathrm{card}(A) + \\mathrm{card}(B) - \\mathrm{card}(A \\cap B)$. Principe multiplicatif : $\\mathrm{card}(A \\times B) = \\mathrm{card}(A) \\times \\mathrm{card}(B)$, ce qu'illustre un arbre dont chaque nœud d'un même niveau a le même nombre de branches. Un $k$-uplet (ou $k$-liste) d'éléments de $E$ est un élément de $E^k$ : l'ordre compte et les répétitions sont permises. Si $\\mathrm{card}(E) = n$, il y a $n^k$ $k$-uplets d'éléments de $E$ (récurrence sur $k$). Exemple : il y a $10^4$ codes à quatre chiffres et $26^3 \\times 10^3$ plaques formées de trois lettres suivies de trois chiffres. Nombre de parties : un ensemble à $n$ éléments a $2^n$ parties, car une partie s'identifie à un $n$-uplet de $\\{0 ; 1\\}$ (on code 1 si l'élément appartient à la partie). Contre-exemple : le principe multiplicatif ne s'applique pas directement lorsque le nombre de choix à une étape dépend des choix précédents de manière non uniforme (par exemple, les nombres de trois chiffres distincts ne commençant pas par 0 se comptent en traitant d'abord le premier chiffre : $9 \\times 9 \\times 8 = 648$)."
+        },
+        {
+          "part": "II. Arrangements, permutations et factorielle",
+          "content": "Un $k$-uplet d'éléments distincts de $E$ (ou arrangement) est un $k$-uplet dont les composantes sont deux à deux distinctes. Si $\\mathrm{card}(E) = n$ et $1 \\le k \\le n$, leur nombre est $n(n - 1)\\cdots(n - k + 1) = \\frac{n!}{(n - k)!}$, avec $n! = 1 \\times 2 \\times \\cdots \\times n$ et $0! = 1$ (démonstration exigible, par le principe multiplicatif ou par récurrence). Une permutation de $E$ est un $n$-uplet d'éléments distincts de $E$, c'est-à-dire un rangement de tous ses éléments : il y en a $n!$. Exemple : le podium d'une course de 8 coureurs peut être occupé de $8 \\times 7 \\times 6 = 336$ façons ; les anagrammes du mot MATHS sont au nombre de $5! = 120$. Anagrammes avec répétitions : le mot RADAR a $\\frac{5!}{2!\\,2!} = 30$ anagrammes (on divise par les permutations des lettres identiques). Contre-exemple : si $k \\gt n$, il n'existe aucun $k$-uplet d'éléments distincts (principe des tiroirs) : dans un groupe de 367 personnes, deux ont nécessairement le même jour anniversaire."
+        },
+        {
+          "part": "III. Combinaisons, triangle de Pascal et formule du binôme",
+          "content": "Une combinaison de $k$ éléments de $E$ est une partie de $E$ à $k$ éléments : l'ordre ne compte pas et il n'y a pas de répétition. Leur nombre est noté $\\binom{n}{k}$ et vaut $\\frac{n!}{k!\\,(n - k)!}$ pour $0 \\le k \\le n$, car chaque partie à $k$ éléments correspond à exactement $k!$ arrangements (démonstration exigible). Propriétés : $\\binom{n}{0} = \\binom{n}{n} = 1$, symétrie $\\binom{n}{k} = \\binom{n}{n - k}$ (passage au complémentaire), relation de Pascal $\\binom{n}{k} + \\binom{n}{k + 1} = \\binom{n + 1}{k + 1}$, triangle de Pascal, $\\sum_{k=0}^{n}\\binom{n}{k} = 2^n$. Formule du binôme : $(a + b)^n = \\sum_{k=0}^{n}\\binom{n}{k}a^kb^{n-k}$ pour des réels ou complexes $a$ et $b$. Lien avec les probabilités : dans un schéma de Bernoulli à $n$ épreuves, $\\binom{n}{k}$ est le nombre de chemins de l'arbre comportant $k$ succès, d'où $P(X = k) = \\binom{n}{k}p^k(1 - p)^{n-k}$. Exemple : une main de 5 cartes d'un jeu de 32 : $\\binom{32}{5} = 201\\,376$ mains ; mains contenant exactement 2 as : $\\binom{4}{2}\\binom{28}{3} = 6 \\times 3276 = 19\\,656$. Contre-exemple : pour un comité comprenant un président et un trésorier, l'ordre (le rôle) compte : on dénombre des arrangements et non des combinaisons."
+        }
+      ],
+      "keyTheorem": {
+        "title": "Relation de Pascal et formule du binôme",
+        "statement": "(i) Pour tous entiers $n \\ge 0$ et $0 \\le k \\le n - 1$, $\\binom{n}{k} + \\binom{n}{k + 1} = \\binom{n + 1}{k + 1}$. (ii) Pour tous nombres complexes $a$ et $b$ et tout entier naturel $n$, $(a + b)^n = \\sum_{k=0}^{n}\\binom{n}{k}a^kb^{n-k}$.",
+        "proof": "1. **Démonstration combinatoire de (i).** Soit $E$ un ensemble à $n + 1$ éléments et $x$ un élément fixé de $E$. Les parties de $E$ à $k + 1$ éléments se répartissent en deux catégories disjointes : celles qui contiennent $x$, déterminées par le choix de $k$ éléments parmi les $n$ autres, au nombre de $\\binom{n}{k}$, et celles qui ne contiennent pas $x$, formées de $k + 1$ éléments parmi les $n$ autres, au nombre de $\\binom{n}{k + 1}$. Le principe additif donne (i).\n2. **Démonstration calculatoire de (i).** $\\binom{n}{k} + \\binom{n}{k + 1} = \\frac{n!}{k!\\,(n - k)!} + \\frac{n!}{(k + 1)!\\,(n - k - 1)!} = \\frac{n!\\,\\left[(k + 1) + (n - k)\\right]}{(k + 1)!\\,(n - k)!} = \\frac{(n + 1)!}{(k + 1)!\\,(n - k)!} = \\binom{n + 1}{k + 1}$.\n3. **Initialisation de (ii).** Pour $n = 0$, les deux membres valent $1$.\n4. **Hérédité.** Supposons la formule vraie au rang $n$. Alors $(a + b)^{n+1} = (a + b)\\sum_{k=0}^{n}\\binom{n}{k}a^kb^{n-k} = \\sum_{k=0}^{n}\\binom{n}{k}a^{k+1}b^{n-k} + \\sum_{k=0}^{n}\\binom{n}{k}a^kb^{n+1-k}$. Dans la première somme, on pose $j = k + 1$ : elle vaut $\\sum_{j=1}^{n+1}\\binom{n}{j - 1}a^jb^{n+1-j}$.\n5. **Regroupement.** On isole les termes $j = n + 1$ (égal à $a^{n+1}$) et $j = 0$ (égal à $b^{n+1}$), puis on applique la relation de Pascal aux termes $1 \\le j \\le n$ : $\\binom{n}{j - 1} + \\binom{n}{j} = \\binom{n + 1}{j}$. On obtient $(a + b)^{n+1} = \\sum_{j=0}^{n+1}\\binom{n + 1}{j}a^jb^{n+1-j}$, car $\\binom{n + 1}{0} = \\binom{n + 1}{n + 1} = 1$.\n6. **Remarque.** La preuve n'utilise que la commutativité et la distributivité : la formule vaut pour des matrices qui commutent, mais elle est fausse en général pour deux matrices $A$ et $B$ telles que $AB \\neq BA$. On peut aussi la lire combinatoirement : développer $(a + b)^n$ revient à choisir, dans chacun des $n$ facteurs, $a$ ou $b$, et le monôme $a^kb^{n-k}$ apparaît autant de fois qu'il y a de façons de choisir les $k$ facteurs fournissant $a$."
+      },
+      "developments": [
+        "Exercice de terminale (codes) : un code d'accès est formé de 4 chiffres. Combien y a-t-il de codes ? de codes à chiffres tous distincts ? de codes comportant au moins deux chiffres identiques ? Corrigé : $10^4 = 10\\,000$ codes ; $10 \\times 9 \\times 8 \\times 7 = 5040$ codes à chiffres distincts ; par passage au complémentaire, $10\\,000 - 5040 = 4960$ codes comportent au moins une répétition.",
+        "Exercice de terminale (comités) : une association compte 7 femmes et 5 hommes. Combien de comités de 4 personnes peut-on former ? avec exactement 2 femmes ? avec au moins une femme ? Corrigé : $\\binom{12}{4} = 495$ ; $\\binom{7}{2}\\binom{5}{2} = 21 \\times 10 = 210$ ; $\\binom{12}{4} - \\binom{5}{4} = 495 - 5 = 490$, l'événement contraire étant « aucune femme ».",
+        "Exercice de terminale (chemins) : dans un quadrillage, on va du point $(0 ; 0)$ au point $(5 ; 3)$ par des pas unitaires vers la droite ou vers le haut. Combien y a-t-il de chemins ? Combien passent par le point $(2 ; 1)$ ? Corrigé : un chemin est une suite de 8 pas dont 3 vers le haut, déterminée par la position de ces 3 pas : $\\binom{8}{3} = 56$ chemins. Par le principe multiplicatif, $\\binom{3}{1} \\times \\binom{5}{2} = 3 \\times 10 = 30$ chemins passent par $(2 ; 1)$.",
+        "Exercice de terminale (binôme) : déterminer le coefficient de $x^3$ dans le développement de $(2x - 1)^6$, puis calculer $\\sum_{k=0}^{n}\\binom{n}{k}(-1)^k$ pour $n \\ge 1$. Corrigé : le terme en $x^3$ est $\\binom{6}{3}(2x)^3(-1)^3 = -160x^3$ ; la formule du binôme avec $a = -1$ et $b = 1$ donne $\\sum\\binom{n}{k}(-1)^k = (1 - 1)^n = 0$ : un ensemble non vide a autant de parties de cardinal pair que de cardinal impair.",
+        "Prolongements : identité de Vandermonde $\\sum_{k}\\binom{p}{k}\\binom{q}{n - k} = \\binom{p + q}{n}$ par double comptage ; formule du crible ; nombre de surjections ; coefficients multinomiaux ; loi hypergéométrique ; nombres de Catalan ; applications en arithmétique ($p$ premier divise $\\binom{p}{k}$ pour $1 \\le k \\le p - 1$, petit théorème de Fermat)."
+      ],
+      "juryTips": [
+        "Erreur fréquente d'élève : ne pas identifier si l'ordre compte et si les répétitions sont permises, et donc confondre $n^k$, $\\frac{n!}{(n - k)!}$ et $\\binom{n}{k}$. Le candidat peut proposer un tableau de décision à deux questions (ordre ? répétitions ?) en le complétant par des exemples.",
+        "Erreur fréquente d'élève : compter deux fois les mêmes configurations, par exemple pour « au moins un as » en choisissant d'abord un as puis 4 cartes quelconques ($4 \\times \\binom{31}{4}$), ce qui compte plusieurs fois les mains contenant plusieurs as. Le passage au complémentaire évite cette erreur.",
+        "Erreur fréquente d'élève : additionner au lieu de multiplier (ou l'inverse) ; on multiplie pour des choix successifs (« et puis »), on additionne pour des cas disjoints (« ou bien »).",
+        "Erreur fréquente d'élève : oublier les conventions $0! = 1$ et $\\binom{n}{0} = 1$, ou croire que $\\binom{n}{k}$ peut ne pas être entier ; la définition combinatoire montre au contraire que c'est un entier, ce qui n'est pas évident sur la formule avec les factorielles.",
+        "Le jury apprécie les démonstrations combinatoires (double comptage, bijection) à côté des démonstrations calculatoires, et une réflexion sur l'outil numérique : calcul de factorielles, construction du triangle de Pascal par un programme utilisant la relation de Pascal.",
+        "Question fréquente : quelle définition de $\\binom{n}{k}$ adopter ? En terminale, on la définit comme nombre de parties à $k$ éléments, puis on démontre la formule factorielle ; le candidat doit pouvoir expliquer le lien avec le nombre de chemins à $k$ succès dans un arbre de Bernoulli."
+      ]
+    },
+    {
       "id": "capes-oral2",
       "num": "Oral 2",
       "title": "Épreuve d'entretien : Éthique professionnelle, laïcité et valeurs de la République",
@@ -1283,6 +1518,381 @@
         answer: "L'application $\\psi : x \\bmod mn \\mapsto (x \\bmod m, x \\bmod n)$ est un isomorphisme d'anneaux de $\\mathbb{Z}/mn\\mathbb{Z}$ sur $\\mathbb{Z}/m\\mathbb{Z} \\times \\mathbb{Z}/n\\mathbb{Z}$",
         hint1: "Le noyau du morphisme canonique est $m\\mathbb{Z} \\cap n\\mathbb{Z} = \\mathrm{PPCM}(m, n)\\mathbb{Z} = mn\\mathbb{Z}$ car $\\mathrm{PGCD}(m, n) = 1$, et les cardinaux sont égaux.",
         solution: "L'application $\\psi : \\mathbb{Z} \\to \\mathbb{Z}/m\\mathbb{Z} \\times \\mathbb{Z}/n\\mathbb{Z}$ est un morphisme d'anneaux. Son noyau est $\\ker(\\psi) = m\\mathbb{Z} \\cap n\\mathbb{Z}$. Comme $\\mathrm{PGCD}(m, n) = 1$, $m\\mathbb{Z} \\cap n\\mathbb{Z} = mn\\mathbb{Z}$. Par le premier théorème d'isomorphisme, $\\bar{\\psi} : \\mathbb{Z}/mn\\mathbb{Z} \\to \\mathbb{Z}/m\\mathbb{Z} \\times \\mathbb{Z}/n\\mathbb{Z}$ est un morphisme injectif. Comme les deux ensembles ont le même cardinal fini $mn$, c'est un isomorphisme d'anneaux. En corollaire, pour le groupe des inversibles : $(\\mathbb{Z}/mn\\mathbb{Z})^\\times \\simeq (\\mathbb{Z}/m\\mathbb{Z})^\\times \\times (\\mathbb{Z}/n\\mathbb{Z})^\\times$, ce qui prouve la multiplicativité de l'indicateur d'Euler : $\\varphi(mn) = \\varphi(m)\\varphi(n)$."
+      }
+    ],
+
+    'capes-11': [
+      {
+        "id": "capes-11-1",
+        "chapterId": "capes-11",
+        "tier": 1,
+        "title": "Critère de colinéarité par le déterminant",
+        "statement": "Dans une base du plan, on considère $\\vec{u}(x ; y)$ et $\\vec{v}(x' ; y')$. Quelle condition est nécessaire et suffisante pour que $\\vec{u}$ et $\\vec{v}$ soient colinéaires ?",
+        "type": "mcq",
+        "options": [
+          "$xy' - x'y = 0$",
+          "$xx' + yy' = 0$",
+          "$x = x'$ et $y = y'$",
+          "$xy - x'y' = 0$"
+        ],
+        "correctIndex": 0,
+        "answer": "$xy' - x'y = 0$",
+        "hint1": "Si $\\vec{u} \\neq \\vec{0}$, la colinéarité signifie qu'il existe un réel $k$ tel que $\\vec{v} = k\\vec{u}$ : comparer les « produits en croix ».",
+        "solution": "Si $\\vec{v} = k\\vec{u}$, alors $x' = kx$ et $y' = ky$, donc $xy' - x'y = kxy - kxy = 0$ (de même si $\\vec{u} = k\\vec{v}$). Réciproquement, si $xy' - x'y = 0$ et $\\vec{u} = \\vec{0}$, les vecteurs sont colinéaires ; si par exemple $x \\neq 0$, on pose $k = \\frac{x'}{x}$ : alors $x' = kx$ et $y' = \\frac{x'y}{x} = ky$, donc $\\vec{v} = k\\vec{u}$ (cas $y \\neq 0$ analogue). La condition $xx' + yy' = 0$ caractérise l'orthogonalité dans une base orthonormée, et $x = x'$, $y = y'$ l'égalité des vecteurs."
+      },
+      {
+        "id": "capes-11-2",
+        "chapterId": "capes-11",
+        "tier": 2,
+        "title": "Retrouver un angle par la formule d'Al-Kashi",
+        "statement": "Dans un triangle $ABC$, on a $AB = 3$, $AC = 4$ et $BC = \\sqrt{13}$. Quelle est la mesure de l'angle $\\widehat{BAC}$ ?",
+        "type": "mcq",
+        "options": [
+          "$60°$",
+          "$30°$",
+          "$45°$",
+          "$120°$"
+        ],
+        "correctIndex": 0,
+        "answer": "$60°$",
+        "hint1": "Isoler $\\cos\\widehat{BAC}$ dans $BC^2 = AB^2 + AC^2 - 2\\,AB \\times AC \\times \\cos\\widehat{BAC}$.",
+        "solution": "La formule d'Al-Kashi donne $13 = 9 + 16 - 24\\cos\\widehat{BAC}$, donc $\\cos\\widehat{BAC} = \\frac{12}{24} = \\frac{1}{2}$. Comme $\\widehat{BAC} \\in [0° ; 180°]$, on obtient $\\widehat{BAC} = 60°$. La réponse $120°$ correspond à un cosinus égal à $-\\frac{1}{2}$, c'est-à-dire à $BC^2 = 37$."
+      },
+      {
+        "id": "capes-11-3",
+        "chapterId": "capes-11",
+        "tier": 3,
+        "title": "Distance d'un point à un plan de l'espace",
+        "statement": "Dans un repère orthonormé de l'espace, $\\mathcal{P}$ est le plan d'équation $x - 2y + 2z - 5 = 0$ et $A(1 ; 1 ; 1)$. Quelle est la distance du point $A$ au plan $\\mathcal{P}$ ?",
+        "type": "mcq",
+        "options": [
+          "$\\frac{4}{3}$",
+          "$\\frac{4}{9}$",
+          "$\\frac{2}{3}$",
+          "$4$"
+        ],
+        "correctIndex": 0,
+        "answer": "$\\frac{4}{3}$",
+        "hint1": "Chercher le projeté orthogonal $H$ de $A$ sous la forme $H = A + t\\vec{n}$, avec $\\vec{n}(1 ; -2 ; 2)$ normal à $\\mathcal{P}$.",
+        "solution": "Le point $A + t\\vec{n} = (1 + t ; 1 - 2t ; 1 + 2t)$ appartient à $\\mathcal{P}$ lorsque $(1 + t) - 2(1 - 2t) + 2(1 + 2t) - 5 = 0$, soit $9t - 4 = 0$, donc $t = \\frac{4}{9}$. La distance cherchée est $AH = |t|\\,\\|\\vec{n}\\| = \\frac{4}{9} \\times 3 = \\frac{4}{3}$, ce que confirme la formule $\\frac{|1 - 2 + 2 - 5|}{\\sqrt{1 + 4 + 4}} = \\frac{4}{3}$. La valeur $\\frac{4}{9}$ oublie de multiplier par la norme de $\\vec{n}$."
+      },
+      {
+        "id": "capes-11-4",
+        "chapterId": "capes-11",
+        "tier": 4,
+        "title": "Composée de deux homothéties",
+        "statement": "Soit $A$ et $B$ deux points distincts du plan, $h_1$ l'homothétie de centre $A$ et de rapport $2$, et $h_2$ l'homothétie de centre $B$ et de rapport $\\frac{1}{2}$. Quelle est la transformation $h_2 \\circ h_1$ ?",
+        "type": "mcq",
+        "options": [
+          "La translation de vecteur $\\frac{1}{2}\\overrightarrow{AB}$",
+          "L'identité du plan",
+          "La translation de vecteur $\\overrightarrow{AB}$",
+          "La symétrie centrale de centre le milieu de $[AB]$"
+        ],
+        "correctIndex": 0,
+        "answer": "La translation de vecteur $\\frac{1}{2}\\overrightarrow{AB}$",
+        "hint1": "Exprimer $\\overrightarrow{AM_1}$ puis $\\overrightarrow{BM_2}$, où $M_1 = h_1(M)$ et $M_2 = h_2(M_1)$, et calculer $\\overrightarrow{MM_2}$ par la relation de Chasles.",
+        "solution": "Pour tout point $M$, $\\overrightarrow{AM_1} = 2\\overrightarrow{AM}$ et $\\overrightarrow{BM_2} = \\frac{1}{2}\\overrightarrow{BM_1}$. Alors $\\overrightarrow{MM_2} = \\overrightarrow{MB} + \\frac{1}{2}\\overrightarrow{BM_1} = \\overrightarrow{MB} + \\frac{1}{2}(\\overrightarrow{BA} + 2\\overrightarrow{AM}) = \\overrightarrow{MB} + \\overrightarrow{AM} + \\frac{1}{2}\\overrightarrow{BA} = \\overrightarrow{AB} - \\frac{1}{2}\\overrightarrow{AB} = \\frac{1}{2}\\overrightarrow{AB}$. Le vecteur $\\overrightarrow{MM_2}$ ne dépend pas de $M$ : $h_2 \\circ h_1$ est la translation de vecteur $\\frac{1}{2}\\overrightarrow{AB}$, non triviale car $A \\neq B$. Plus généralement, la composée de deux homothéties de rapports $k$ et $k'$ est une homothétie de rapport $kk'$ si $kk' \\neq 1$, et une translation si $kk' = 1$."
+      }
+    ],
+
+    'capes-12': [
+      {
+        "id": "capes-12-1",
+        "chapterId": "capes-12",
+        "tier": 1,
+        "title": "Inverse d'un nombre complexe",
+        "statement": "Quelle est la forme algébrique de l'inverse du nombre complexe $3 + 4i$ ?",
+        "type": "mcq",
+        "options": [
+          "$\\frac{3}{25} - \\frac{4}{25}i$",
+          "$\\frac{3}{5} - \\frac{4}{5}i$",
+          "$\\frac{1}{3} + \\frac{1}{4}i$",
+          "$\\frac{3}{25} + \\frac{4}{25}i$"
+        ],
+        "correctIndex": 0,
+        "answer": "$\\frac{3}{25} - \\frac{4}{25}i$",
+        "hint1": "Multiplier le numérateur et le dénominateur de $\\frac{1}{3 + 4i}$ par le conjugué du dénominateur.",
+        "solution": "$\\frac{1}{3 + 4i} = \\frac{3 - 4i}{(3 + 4i)(3 - 4i)} = \\frac{3 - 4i}{9 + 16} = \\frac{3}{25} - \\frac{4}{25}i$. L'erreur $\\frac{1}{3} + \\frac{1}{4}i$ revient à croire que l'inverse d'une somme est la somme des inverses ; l'erreur $\\frac{3}{5} - \\frac{4}{5}i$ divise par le module au lieu de son carré."
+      },
+      {
+        "id": "capes-12-2",
+        "chapterId": "capes-12",
+        "tier": 2,
+        "title": "Forme exponentielle d'un nombre complexe",
+        "statement": "Quelle est la forme exponentielle du nombre complexe $-1 + i\\sqrt{3}$ ?",
+        "type": "mcq",
+        "options": [
+          "$2e^{\\frac{2i\\pi}{3}}$",
+          "$2e^{-\\frac{i\\pi}{3}}$",
+          "$2e^{\\frac{i\\pi}{3}}$",
+          "$4e^{\\frac{2i\\pi}{3}}$"
+        ],
+        "correctIndex": 0,
+        "answer": "$2e^{\\frac{2i\\pi}{3}}$",
+        "hint1": "Calculer le module, puis chercher un réel $\\theta$ dont le cosinus et le sinus sont les coordonnées du nombre divisé par son module.",
+        "solution": "$|-1 + i\\sqrt{3}| = \\sqrt{1 + 3} = 2$, et $-1 + i\\sqrt{3} = 2\\left(-\\frac{1}{2} + i\\frac{\\sqrt{3}}{2}\\right)$. On cherche $\\theta$ tel que $\\cos\\theta = -\\frac{1}{2}$ et $\\sin\\theta = \\frac{\\sqrt{3}}{2}$ : $\\theta = \\frac{2\\pi}{3}$ convient. Donc $-1 + i\\sqrt{3} = 2e^{\\frac{2i\\pi}{3}}$. Le module vaut $2$ et non $4$ ; l'argument $-\\frac{\\pi}{3}$ provient d'un calcul par $\\arctan(-\\sqrt{3})$ sans tenir compte du quadrant."
+      },
+      {
+        "id": "capes-12-3",
+        "chapterId": "capes-12",
+        "tier": 3,
+        "title": "Somme des racines cubiques de l'unité",
+        "statement": "On pose $j = e^{\\frac{2i\\pi}{3}}$. Quelle est la valeur de $1 + j + j^2$ ?",
+        "type": "mcq",
+        "options": [
+          "$0$",
+          "$1$",
+          "$3$",
+          "$-1$"
+        ],
+        "correctIndex": 0,
+        "answer": "$0$",
+        "hint1": "$j$ est une racine de $z^3 - 1$, qui se factorise par $z - 1$.",
+        "solution": "$j^3 = e^{2i\\pi} = 1$ et $z^3 - 1 = (z - 1)(z^2 + z + 1)$. Comme $j \\neq 1$, on obtient $1 + j + j^2 = 0$. Géométriquement, les points d'affixes $1$, $j$, $j^2$ forment un triangle équilatéral de centre $O$, dont l'isobarycentre est l'origine. On peut aussi calculer : $j = -\\frac{1}{2} + i\\frac{\\sqrt{3}}{2}$ et $j^2 = \\bar{j} = -\\frac{1}{2} - i\\frac{\\sqrt{3}}{2}$."
+      },
+      {
+        "id": "capes-12-4",
+        "chapterId": "capes-12",
+        "tier": 4,
+        "title": "Caractérisation d'un triangle équilatéral",
+        "statement": "Les points $A$, $B$, $C$ distincts ont pour affixes $a$, $b$, $c$. On suppose que $\\frac{c - a}{b - a} = e^{\\frac{i\\pi}{3}}$. Que peut-on en conclure ?",
+        "type": "mcq",
+        "options": [
+          "Le triangle $ABC$ est équilatéral",
+          "Le triangle $ABC$ est rectangle en $A$",
+          "Les points $A$, $B$, $C$ sont alignés",
+          "Le triangle $ABC$ est isocèle en $B$ sans être équilatéral"
+        ],
+        "correctIndex": 0,
+        "answer": "Le triangle $ABC$ est équilatéral",
+        "hint1": "Interpréter le module et un argument du quotient $\\frac{c - a}{b - a}$ en termes de longueurs et d'angle orienté.",
+        "solution": "Le module donne $\\frac{AC}{AB} = 1$, donc $AC = AB$, et un argument donne $(\\overrightarrow{AB}, \\overrightarrow{AC}) \\equiv \\frac{\\pi}{3} \\pmod{2\\pi}$. Le triangle $ABC$ est isocèle en $A$ avec un angle principal de $60°$ : ses deux autres angles valent aussi $60°$, il est équilatéral (et direct). Autrement dit, $C$ est l'image de $B$ par la rotation de centre $A$ et d'angle $\\frac{\\pi}{3}$. Le quotient serait réel pour des points alignés et imaginaire pur pour un angle droit en $A$."
+      }
+    ],
+
+    'capes-13': [
+      {
+        "id": "capes-13-1",
+        "chapterId": "capes-13",
+        "tier": 1,
+        "title": "Définition de la probabilité conditionnelle",
+        "statement": "On donne $P(A) = 0{,}4$ et $P(A \\cap B) = 0{,}1$. Quelle est la valeur de $P_A(B)$ ?",
+        "type": "mcq",
+        "options": [
+          "$0{,}25$",
+          "$0{,}04$",
+          "$0{,}1$",
+          "$0{,}5$"
+        ],
+        "correctIndex": 0,
+        "answer": "$0{,}25$",
+        "hint1": "Une probabilité conditionnelle est un quotient : on divise la probabilité de l'intersection par celle de l'événement par lequel on conditionne.",
+        "solution": "$P_A(B) = \\frac{P(A \\cap B)}{P(A)} = \\frac{0{,}1}{0{,}4} = 0{,}25$. Le produit $0{,}4 \\times 0{,}1 = 0{,}04$ et la valeur $0{,}1$ confondent la probabilité conditionnelle avec celle de l'intersection."
+      },
+      {
+        "id": "capes-13-2",
+        "chapterId": "capes-13",
+        "tier": 2,
+        "title": "Formule des probabilités totales",
+        "statement": "On donne $P(A) = 0{,}3$, $P_A(B) = 0{,}6$ et $P_{\\bar{A}}(B) = 0{,}2$. Quelle est la valeur de $P(B)$ ?",
+        "type": "mcq",
+        "options": [
+          "$0{,}32$",
+          "$0{,}8$",
+          "$0{,}4$",
+          "$0{,}18$"
+        ],
+        "correctIndex": 0,
+        "answer": "$0{,}32$",
+        "hint1": "Utiliser la partition formée par $A$ et son contraire, puis sommer les probabilités des deux chemins de l'arbre qui mènent à $B$.",
+        "solution": "$P(\\bar{A}) = 0{,}7$ et, par la formule des probabilités totales, $P(B) = P(A)P_A(B) + P(\\bar{A})P_{\\bar{A}}(B) = 0{,}3 \\times 0{,}6 + 0{,}7 \\times 0{,}2 = 0{,}18 + 0{,}14 = 0{,}32$. La valeur $0{,}8$ additionne des probabilités conditionnelles ; $0{,}4$ en fait la moyenne sans pondération ; $0{,}18$ oublie le second chemin."
+      },
+      {
+        "id": "capes-13-3",
+        "chapterId": "capes-13",
+        "tier": 3,
+        "title": "Test de dépistage et formule de Bayes",
+        "statement": "Une maladie touche 2 % d'une population. Un test est positif chez 95 % des malades et chez 5 % des personnes saines. Une personne a un test positif. Quelle est, arrondie au centième, la probabilité qu'elle soit malade ?",
+        "type": "mcq",
+        "options": [
+          "$0{,}28$",
+          "$0{,}95$",
+          "$0{,}02$",
+          "$0{,}5$"
+        ],
+        "correctIndex": 0,
+        "answer": "$0{,}28$",
+        "hint1": "Construire l'arbre (malade ou non, puis test positif ou non), calculer la probabilité d'un test positif, puis inverser le conditionnement.",
+        "solution": "$P(T) = 0{,}02 \\times 0{,}95 + 0{,}98 \\times 0{,}05 = 0{,}019 + 0{,}049 = 0{,}068$, puis $P_T(M) = \\frac{0{,}019}{0{,}068} = \\frac{19}{68} \\approx 0{,}28$. Bien que le test soit fiable, près des trois quarts des tests positifs concernent des personnes saines, car la maladie est rare. La réponse $0{,}95$ confond $P_T(M)$ et $P_M(T)$."
+      },
+      {
+        "id": "capes-13-4",
+        "chapterId": "capes-13",
+        "tier": 4,
+        "title": "Indépendance et événement contraire",
+        "statement": "$A$ et $B$ sont deux événements indépendants avec $P(A) = 0{,}5$ et $P(B) = 0{,}4$. Quelle est la probabilité de $A \\cup B$ ?",
+        "type": "mcq",
+        "options": [
+          "$0{,}7$",
+          "$0{,}9$",
+          "$0{,}2$",
+          "$0{,}3$"
+        ],
+        "correctIndex": 0,
+        "answer": "$0{,}7$",
+        "hint1": "Exprimer la probabilité de la réunion à l'aide de celle de l'intersection, ou passer à l'événement contraire en utilisant l'indépendance des contraires.",
+        "solution": "Par indépendance, $P(A \\cap B) = 0{,}5 \\times 0{,}4 = 0{,}2$, donc $P(A \\cup B) = 0{,}5 + 0{,}4 - 0{,}2 = 0{,}7$. Autre méthode : $\\bar{A}$ et $\\bar{B}$ sont indépendants, donc $P(\\overline{A \\cup B}) = P(\\bar{A} \\cap \\bar{B}) = 0{,}5 \\times 0{,}6 = 0{,}3$ et $P(A \\cup B) = 0{,}7$. La valeur $0{,}9$ suppose les événements incompatibles, ce qui contredit l'indépendance."
+      }
+    ],
+
+    'capes-14': [
+      {
+        "id": "capes-14-1",
+        "chapterId": "capes-14",
+        "tier": 1,
+        "title": "Moyenne pondérée",
+        "statement": "Dans une série, la valeur $10$ a l'effectif $3$ et la valeur $15$ a l'effectif $2$. Quelle est la moyenne de la série ?",
+        "type": "mcq",
+        "options": [
+          "$12$",
+          "$12{,}5$",
+          "$13$",
+          "$25$"
+        ],
+        "correctIndex": 0,
+        "answer": "$12$",
+        "hint1": "Multiplier chaque valeur par son effectif, additionner, puis diviser par l'effectif total.",
+        "solution": "$\\bar{x} = \\frac{3 \\times 10 + 2 \\times 15}{3 + 2} = \\frac{60}{5} = 12$. La valeur $12{,}5$ est la moyenne des deux valeurs sans tenir compte des effectifs."
+      },
+      {
+        "id": "capes-14-2",
+        "chapterId": "capes-14",
+        "tier": 2,
+        "title": "Médiane d'une série d'effectif pair",
+        "statement": "Quelle est la médiane de la série $8, 3, 12, 5, 9, 14$ ?",
+        "type": "mcq",
+        "options": [
+          "$8{,}5$",
+          "$12$",
+          "$5$",
+          "$9$"
+        ],
+        "correctIndex": 0,
+        "answer": "$8{,}5$",
+        "hint1": "Commencer par ranger les valeurs dans l'ordre croissant ; l'effectif est pair.",
+        "solution": "La série ordonnée est $3, 5, 8, 9, 12, 14$. L'effectif $6$ est pair : la médiane est la demi-somme des 3e et 4e valeurs, $\\frac{8 + 9}{2} = 8{,}5$. Les réponses $12$ ou $5$ proviennent de la lecture des valeurs centrales de la série non ordonnée."
+      },
+      {
+        "id": "capes-14-3",
+        "chapterId": "capes-14",
+        "tier": 3,
+        "title": "Écart type et transformation affine",
+        "statement": "Une série a pour moyenne $20$ et pour écart type $4$. On transforme chaque valeur $x$ en $y = -3x + 5$. Quel est l'écart type de la nouvelle série ?",
+        "type": "mcq",
+        "options": [
+          "$12$",
+          "$-12$",
+          "$-7$",
+          "$36$"
+        ],
+        "correctIndex": 0,
+        "answer": "$12$",
+        "hint1": "Une translation ne modifie pas la dispersion ; seul le coefficient multiplicateur intervient, et un écart type est toujours positif.",
+        "solution": "$V_y = (-3)^2V_x = 9 \\times 16 = 144$, donc $\\sigma_y = |-3| \\times 4 = 12$. Un écart type ne peut pas être négatif ; la valeur $-7$ applique la transformation à l'écart type comme à une valeur ; $36$ multiplie l'écart type par $a^2$, ce qui vaut pour la variance. La nouvelle moyenne est $-3 \\times 20 + 5 = -55$."
+      },
+      {
+        "id": "capes-14-4",
+        "chapterId": "capes-14",
+        "tier": 4,
+        "title": "Droite des moindres carrés",
+        "statement": "Pour une série à deux variables, on a $\\bar{x} = 4$, $\\bar{y} = 10$, $V_x = 2{,}5$ et $\\mathrm{cov}(x, y) = 5$. Quelle est l'équation de la droite d'ajustement de $y$ en $x$ par la méthode des moindres carrés ?",
+        "type": "mcq",
+        "options": [
+          "$y = 2x + 2$",
+          "$y = 0{,}5x + 8$",
+          "$y = 2x + 10$",
+          "$y = 2{,}5x$"
+        ],
+        "correctIndex": 0,
+        "answer": "$y = 2x + 2$",
+        "hint1": "Le coefficient directeur est le quotient de la covariance par la variance de $x$, et la droite passe par le point moyen.",
+        "solution": "$a = \\frac{\\mathrm{cov}(x, y)}{V_x} = \\frac{5}{2{,}5} = 2$ et $b = \\bar{y} - a\\bar{x} = 10 - 8 = 2$, donc $y = 2x + 2$. On vérifie que le point moyen $G(4 ; 10)$ appartient à la droite. La réponse $y = 0{,}5x + 8$ inverse le quotient ; $y = 2x + 10$ ne passe pas par $G$."
+      }
+    ],
+
+    'capes-15': [
+      {
+        "id": "capes-15-1",
+        "chapterId": "capes-15",
+        "tier": 1,
+        "title": "Nombre de k-uplets",
+        "statement": "Combien existe-t-il de mots de 3 lettres (ayant un sens ou non) formés avec les lettres A, B, C, D, chaque lettre pouvant être répétée ?",
+        "type": "mcq",
+        "options": [
+          "$64$",
+          "$24$",
+          "$12$",
+          "$4$"
+        ],
+        "correctIndex": 0,
+        "answer": "$64$",
+        "hint1": "Pour chacune des trois positions, compter le nombre de choix possibles, puis appliquer le principe multiplicatif.",
+        "solution": "Chaque mot est un triplet d'éléments d'un ensemble à 4 éléments : il y en a $4^3 = 64$. La réponse $24 = 4 \\times 3 \\times 2$ correspond aux mots à lettres distinctes ; $4$ correspond au nombre de parties à 3 éléments, sans ordre ni répétition."
+      },
+      {
+        "id": "capes-15-2",
+        "chapterId": "capes-15",
+        "tier": 2,
+        "title": "Podium et arrangements",
+        "statement": "Dix athlètes participent à une finale. De combien de façons le podium (or, argent, bronze) peut-il être composé ?",
+        "type": "mcq",
+        "options": [
+          "$720$",
+          "$120$",
+          "$1000$",
+          "$30$"
+        ],
+        "correctIndex": 0,
+        "answer": "$720$",
+        "hint1": "L'ordre des trois premiers compte et un athlète ne peut occuper qu'une place.",
+        "solution": "On compte les triplets d'athlètes distincts : $10 \\times 9 \\times 8 = 720$. La réponse $120 = \\binom{10}{3}$ ne tient pas compte de l'ordre (elle compte les groupes de trois médaillés) ; $1000 = 10^3$ autorise les répétitions."
+      },
+      {
+        "id": "capes-15-3",
+        "chapterId": "capes-15",
+        "tier": 3,
+        "title": "Comité avec contrainte",
+        "statement": "Une classe compte 12 filles et 8 garçons. Combien de délégations de 3 élèves comportant exactement 2 filles peut-on former ?",
+        "type": "mcq",
+        "options": [
+          "$528$",
+          "$1140$",
+          "$74$",
+          "$1056$"
+        ],
+        "correctIndex": 0,
+        "answer": "$528$",
+        "hint1": "Choisir séparément les filles et le garçon, sans tenir compte de l'ordre, puis appliquer le principe multiplicatif.",
+        "solution": "On choisit 2 filles parmi 12 et 1 garçon parmi 8 : $\\binom{12}{2}\\binom{8}{1} = 66 \\times 8 = 528$. La réponse $1140 = \\binom{20}{3}$ compte toutes les délégations ; $1056 = 12 \\times 11 \\times 8$ ordonne les deux filles ; $74 = 66 + 8$ additionne au lieu de multiplier."
+      },
+      {
+        "id": "capes-15-4",
+        "chapterId": "capes-15",
+        "tier": 4,
+        "title": "Coefficient dans un développement",
+        "statement": "Quel est le coefficient de $x^2$ dans le développement de $(1 + 2x)^5$ ?",
+        "type": "mcq",
+        "options": [
+          "$40$",
+          "$10$",
+          "$20$",
+          "$80$"
+        ],
+        "correctIndex": 0,
+        "answer": "$40$",
+        "hint1": "Utiliser la formule du binôme : le terme en $x^2$ provient de $\\binom{5}{2}(2x)^2$.",
+        "solution": "D'après la formule du binôme, $(1 + 2x)^5 = \\sum_{k=0}^{5}\\binom{5}{k}(2x)^k$. Le terme en $x^2$ est $\\binom{5}{2}(2x)^2 = 10 \\times 4x^2 = 40x^2$. La réponse $10$ oublie la puissance de $2$ ; $20$ ne l'élève pas au carré ; $80$ correspond au coefficient de $x^3$."
       }
     ],
 
