@@ -101,6 +101,139 @@ window.MathsQuizGenerator = {
     }
   },
 
+  BREVET_THEME_LABELS: {
+    'géométrie': 'Géométrie',
+    'fonctions': 'Fonctions',
+    'statistiques-probabilités': 'Statistiques et probabilités',
+    'algorithmique': 'Algorithmique et programmation',
+    'grandeurs-mesures': 'Grandeurs et mesures',
+    'nombres-calculs': 'Nombres et calculs'
+  },
+
+  /**
+   * Tire 3 problèmes de MATHS_BREVET_PROBLEMS de thèmes différents totalisant 12 points.
+   * Retourne null si la banque n'est pas chargée (repli sur les questions générées).
+   */
+  pickBrevetProblems() {
+    const bank = Array.isArray(window.MATHS_BREVET_PROBLEMS) ? window.MATHS_BREVET_PROBLEMS : [];
+    const triples = [];
+    for (let i = 0; i < bank.length; i++) {
+      for (let j = i + 1; j < bank.length; j++) {
+        if (bank[i].theme === bank[j].theme) continue;
+        for (let k = j + 1; k < bank.length; k++) {
+          if (bank[k].theme === bank[i].theme || bank[k].theme === bank[j].theme) continue;
+          if (Math.abs(bank[i].points + bank[j].points + bank[k].points - 12) < 1e-9) triples.push([i, j, k]);
+        }
+      }
+    }
+    if (!triples.length) return null;
+    const picked = triples[Math.floor(Math.random() * triples.length)].map(idx => bank[idx]);
+    return picked.sort(() => Math.random() - 0.5);
+  },
+
+  /**
+   * Remplace les blocs ```scratch (une instruction par ligne, imbrication par 4 espaces)
+   * par des blocs Scratch colorés (classes CSS scratch-*), sur une seule ligne HTML.
+   */
+  renderScratchFences(md) {
+    if (!md || md.indexOf('```scratch') === -1) return md;
+    const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    const flag = '<span style="display:inline-block; vertical-align:middle; width:15px; height:15px; background:#00b84c; border-radius:3px; clip-path: polygon(0 0, 100% 30%, 0 65%);"></span>';
+    const fmt = (text) => {
+      // Les groupes (…) de premier niveau et les […] deviennent des emplacements blancs
+      let out = '', depth = 0, buf = '';
+      for (const ch of text) {
+        if (ch === '(') { if (depth === 0) { out += esc(buf); buf = ''; } else buf += ch; depth++; continue; }
+        if (ch === ')' && depth > 0) { depth--; if (depth === 0) { out += `<span class="scratch-slot-str">${esc(buf)}</span>`; buf = ''; } else buf += ch; continue; }
+        buf += ch;
+      }
+      out += esc(buf);
+      out = out.replace(/\[([^\]]*)\]/g, '<span class="scratch-slot-str">$1</span>');
+      return out.replace(/drapeau( vert)?/i, flag);
+    };
+    const kind = (t) => {
+      if (/^quand\b/i.test(t)) return ['scratch-hat', ''];
+      if (/^définir\b/i.test(t)) return ['scratch-hat', 'background:#ff6680; border-color:#e64d6a; color:#fff;'];
+      if (/^(stylo|relever le stylo|effacer tout|mettre la couleur du stylo|mettre la taille du stylo)/i.test(t)) return ['scratch-motion', 'background:#0fbd8c; border-color:#0b9a72; color:#fff;'];
+      if (/^(avancer|tourner|aller à|s'orienter|glisser|ajouter .* à x|ajouter .* à y|donner la valeur .* à (x|y))/i.test(t)) return ['scratch-motion', ''];
+      if (/^demander\b/i.test(t)) return ['scratch-sensing', ''];
+      if (/^(dire|penser)\b/i.test(t)) return ['scratch-looks', ''];
+      if (/^(mettre|ajouter|changer)\b/i.test(t)) return ['scratch-variables', ''];
+      if (/^(répéter|si\b|sinon|attendre|stop)/i.test(t)) return ['scratch-control', ''];
+      return ['scratch-control', 'background:#ff6680; border-color:#e64d6a; color:#fff;'];
+    };
+    const blockHtml = (t) => {
+      const [cls, style] = kind(t);
+      return `<div class="scratch-block ${cls}" style="white-space:normal; flex-wrap:wrap; max-width:100%;${style ? ' ' + style : ''}">${fmt(t)}</div>`;
+    };
+    const renderLines = (lines) => {
+      const walk = (i, ind) => {
+        let out = '';
+        while (i < lines.length && lines[i].ind >= ind) {
+          const t = lines[i].text;
+          if (lines[i].ind > ind || /^sinon$/i.test(t)) { out += blockHtml(t); i++; continue; }
+          if (/^(répéter|si\b)/i.test(t)) {
+            const [body, j] = walk(i + 1, ind + 1);
+            let html = `<div class="scratch-c-wrap">${blockHtml(t)}<div class="scratch-c-body">${body || '&nbsp;'}</div>`;
+            i = j;
+            if (i < lines.length && lines[i].ind === ind && /^sinon$/i.test(lines[i].text)) {
+              const [body2, k] = walk(i + 1, ind + 1);
+              html += `${blockHtml('sinon')}<div class="scratch-c-body">${body2 || '&nbsp;'}</div>`;
+              i = k;
+            }
+            out += html + '<div class="scratch-c-bottom"></div></div>';
+          } else {
+            out += blockHtml(t);
+            i++;
+          }
+        }
+        return [out, i];
+      };
+      return walk(0, 0)[0];
+    };
+    return md.replace(/```scratch\n([\s\S]*?)```/g, (m, code) => {
+      const lines = code.split('\n').filter(l => l.trim()).map(l => {
+        const sp = l.replace(/\t/g, '    ').match(/^ */)[0].length;
+        return { ind: Math.floor(sp / 4), text: l.trim() };
+      });
+      return `<div class="scratch-stage-wrapper" style="max-width:100%;"><div class="scratch-script" style="text-align:left; max-width:100%;">${renderLines(lines)}</div></div>`;
+    });
+  },
+
+  /**
+   * Construit les « questions » de la partie 2 du brevet blanc à partir de la banque.
+   */
+  buildBrevetPart2(offset) {
+    const picked = this.pickBrevetProblems();
+    if (!picked) return null;
+    const items = picked.map((p, idx) => ({
+      id: p.id,
+      isBrevetProblem: true,
+      tier: 4,
+      skill: this.BREVET_THEME_LABELS[p.theme] || p.theme,
+      statement: this.renderScratchFences(p.statement),
+      solution: this.renderScratchFences(p.solution),
+      examTitle: `Exercice ${idx + 1} — ${p.title}`,
+      examPoints: p.points,
+      seriesIndex: offset + idx + 1,
+      sectionTitle: idx === 0 ? 'Partie 2 — Raisonnement et résolution de problèmes — 14 points — 1 h 40' : undefined,
+      sectionNote: idx === 0 ? `Calculatrice autorisée. Toutes les réponses doivent être justifiées, sauf indication contraire. Exercices : ${picked.map(q => String(q.points).replace('.', ',')).join(' + ')} = 12 points ; la clarté et la précision des raisonnements ainsi que la rédaction sont évaluées sur 2 points. Si le travail n'est pas terminé, laisser une trace de la recherche : elle sera prise en compte.` : undefined
+    }));
+    items.push({
+      id: 'BR-redaction',
+      isBrevetProblem: true,
+      solutionOnly: true,
+      tier: 4,
+      skill: 'Communiquer, raisonner',
+      statement: '',
+      solution: 'Évaluée sur l\'ensemble de la partie 2 :\n- raisonnements clairs, organisés et justifiés (propriétés citées, calculs posés) ;\n- phrases de conclusion répondant à la question posée, avec les unités ;\n- vocabulaire et notations mathématiques corrects ; copie soignée et lisible.',
+      examTitle: 'Clarté et rédaction',
+      examPoints: 2,
+      seriesIndex: offset + items.length + 1
+    });
+    return items;
+  },
+
   /**
    * Génère un nouveau sujet blanc complet avec corrigé détaillé
    */
@@ -181,6 +314,11 @@ window.MathsQuizGenerator = {
         automatismes.push(q);
       }
 
+      // Partie 2 : 3 problèmes de la banque type brevet (thèmes différents, 12 points) + 2 points de rédaction.
+      const bankProblems = this.buildBrevetPart2(automatismes.length);
+      if (bankProblems) {
+        questions = automatismes.concat(bankProblems);
+      } else {
       const problemStructure = [
         { title: "Exercice 1 — Géométrie (4 points)", points: 4, pool: ['G0', 'G1', 'G2', 'G7'] },
         { title: "Exercice 2 — Calcul littéral, équations et fonctions (3,5 points)", points: 3.5, pool: ['N2', 'N4', 'Org1', 'Org3'] },
@@ -202,6 +340,7 @@ window.MathsQuizGenerator = {
         return q;
       }).filter(Boolean);
       questions = automatismes.concat(problems);
+      }
 
     } else if (isExamBac) {
       totalPoints = 20;
@@ -217,7 +356,26 @@ window.MathsQuizGenerator = {
         { title: "Exercice 4 — Analyse approfondie : dérivation, trigonométrie, convexité ou intégration (5 points)", pool: ['TA4', 'TA6', 'TA7', 'TA8', 'TA9'], tier: 3 }
       ];
 
+      // Questions ouvertes uniquement : exercices rédigés de la banque de DS de Terminale
+      // (difficulté 3-4, type bac), sinon repli sur les générateurs.
+      const bank = window.MATHS_DS_BANK || {};
       questions = bacStructure.map((def, idx) => {
+        const candidates = def.pool.flatMap(cid => (bank[cid] || []).filter(ex => ex.difficulty >= 3).map(ex => ({ cid, ex })));
+        if (candidates.length) {
+          const { cid, ex } = candidates[Math.floor(Math.random() * candidates.length)];
+          return {
+            id: ex.id,
+            chapterId: cid,
+            isBrevetProblem: true,
+            tier: ex.difficulty,
+            skill: ex.title,
+            statement: ex.statement,
+            solution: ex.solution,
+            examTitle: `${def.title.replace(/ \(5 points\)$/, '')} — ${ex.title}`,
+            examPoints: 5,
+            seriesIndex: idx + 1
+          };
+        }
         const cid = def.pool[Math.floor(Math.random() * def.pool.length)];
         const q = window.MathsGenerators.generateForChapter(cid, def.tier);
         if (q) {
@@ -232,7 +390,44 @@ window.MathsQuizGenerator = {
       const count = parseInt(selectedFormat, 10) || 10;
       totalPoints = count === 5 ? 10 : (count === 10 ? 20 : 30);
       ptsPerQ = Math.round((totalPoints / count) * 10) / 10;
-      questions = window.MathsGenerators.generateSeries(chapters, count);
+      // Pas de QCM dans un devoir : exercices rédigés des banques de DS quand elles existent
+      // (lycée, licence, CAPES), sinon questions générées ouvertes uniquement.
+      const bank = window.MATHS_DS_BANK || {};
+      const bankItems = chapters.flatMap(cid => (bank[cid] || []).map(ex => ({ cid, ex })));
+      const isOpen = q => q && q.type !== 'mcq' && !(Array.isArray(q.options) && q.options.length);
+      if (bankItems.length >= 2) {
+        const nbEx = count <= 5 ? 2 : (count <= 10 ? 3 : 4);
+        const picked = [];
+        const byChapter = {};
+        bankItems.forEach(it => { (byChapter[it.cid] = byChapter[it.cid] || []).push(it); });
+        const order = Object.keys(byChapter).sort(() => Math.random() - 0.5);
+        for (let k = 0; picked.length < nbEx && k < nbEx * 4; k++) {
+          const list = byChapter[order[k % order.length]].filter(it => !picked.includes(it));
+          if (list.length) picked.push(list[Math.floor(Math.random() * list.length)]);
+        }
+        picked.sort((a, b) => (a.ex.difficulty || 1) - (b.ex.difficulty || 1));
+        const raw = picked.reduce((t, it) => t + (it.ex.points || 5), 0);
+        let assigned = 0;
+        questions = picked.map((it, idx) => {
+          const pts = idx === picked.length - 1 ? totalPoints - assigned : Math.max(1, Math.round((it.ex.points || 5) * totalPoints / raw * 2) / 2);
+          assigned += pts;
+          return {
+            id: it.ex.id,
+            chapterId: it.cid,
+            isBrevetProblem: true,
+            tier: it.ex.difficulty,
+            skill: it.ex.title,
+            statement: it.ex.statement,
+            solution: it.ex.solution,
+            examTitle: `Exercice ${idx + 1} — ${it.ex.title}`,
+            examPoints: pts,
+            seriesIndex: idx + 1
+          };
+        });
+      } else {
+        questions = window.MathsGenerators.generateSeries(chapters, count * 3).filter(isOpen).slice(0, count);
+        if (!questions.length) questions = window.MathsGenerators.generateSeries(chapters, count);
+      }
       examSolutionTitle = `L'ÉTABLI DES MATHS (${levelLabel}) — CORRIGÉ DÉTAILLÉ DU DEVOIR BLANC — BARÈME SUR ${totalPoints} POINTS`;
     }
 
@@ -279,7 +474,7 @@ window.MathsQuizGenerator = {
           </div>
 
           <div class="quiz-questions-grid">
-            ${questions.map((q, idx) => {
+            ${questions.filter(q => !q.solutionOnly).map((q, idx) => {
               const stage = (window.MathsApp && typeof window.MathsApp.getPedagogicalStage === 'function')
                 ? window.MathsApp.getPedagogicalStage(q.tier)
                 : { label: `Palier ${q.tier || 1}` };
@@ -348,7 +543,7 @@ window.MathsQuizGenerator = {
               const cardTitle = q.examTitle || `Exercice ${idx + 1}`;
               const pointsDisplay = q.hidePoints ? '' : (q.examPoints ? `${String(q.examPoints).replace('.', ',')} points` : `${ptsPerQ} pt${ptsPerQ > 1 ? 's' : ''}`);
               const rawSol = q.solution || (q.answer ? `Réponse attendue : **${q.answer}**` : "Voir le cours pour les étapes détaillées.");
-              const solFormatted = (window.MathsAdaptiveEngine && q.statement && rawSol)
+              const solFormatted = (!q.isBrevetProblem && window.MathsAdaptiveEngine && q.statement && rawSol)
                 ? window.MathsAdaptiveEngine.formatSolutionWithInitialExpr(q.statement, rawSol)
                 : rawSol;
               const section = q.sectionTitle ? `<div class="quiz-exam-section"><h4>${q.sectionTitle}</h4></div>` : '';

@@ -189,6 +189,41 @@ async function step(label, fn) {
     return out.join(' · ');
   });
 
+  await step('DS sans QCM (banques rédigées) + brevet blanc et bac blanc', async () => {
+    const out = [];
+    for (const [lvl, chap] of [['2nde', '2S4'], ['tale', 'TA4'], ['L2', 'L2-DET'], ['capes', 'capes-05'], ['4eme', '4G1']]) {
+      await evaluate(`window.MathsApp.switchLevel('${lvl}', false)`);
+      await waitFor(`window.MathsDataLoader.isLevelLoaded('${lvl}')`);
+      await evaluate(`window.MathsApp.selectChapter('${chap}'); window.MathsApp.switchTab('sheets'); true`);
+      await sleep(600);
+      await evaluate(`(()=>{const b=[...document.querySelectorAll('#sheets-content-container button, #sheets-content-container [role=tab]')].find(x=>/DS/.test(x.textContent)); if(b) b.click(); return true})()`);
+      await sleep(700);
+      const st = await evaluate(`({ choices: document.querySelectorAll('#sheets-content-container .ws-choices').length, exercises: document.querySelectorAll('#sheets-content-container .ws-exercise').length, err: document.querySelectorAll('#sheets-content-container .katex-error').length, bank: !!(window.MATHS_DS_BANK && window.MATHS_DS_BANK['${chap}']) })`);
+      if (lvl === 'tale') await shot('12_ds_banque_tale');
+      if (st.choices || !st.exercises || st.err) throw new Error(`${chap} ${JSON.stringify(st)}`);
+      out.push(`${chap}: ${st.exercises} ex.${st.bank ? ' (banque)' : ''}`);
+    }
+    await evaluate(`window.MathsApp.switchLevel('3eme', false)`);
+    await waitFor(`window.MathsDataLoader.isLevelLoaded('3eme')`);
+    await evaluate("window.MathsApp.openQuizModal('N1', false); true");
+    await sleep(600);
+    await evaluate("document.getElementById('quiz-count-select').value='dnb-20'; window.MathsQuizGenerator.generate(); true");
+    await sleep(1200);
+    const br = await evaluate(`({ bank: [...document.querySelectorAll('.quiz-questions-grid .quiz-q-badge')].filter(b => /^Exercice/.test(b.textContent)).length, err: document.querySelectorAll('#quiz-preview-content .katex-error').length })`);
+    await evaluate("window.MathsQuizGenerator.closeModal(); true");
+    if (br.bank !== 3 || br.err) throw new Error('brevet ' + JSON.stringify(br));
+    await evaluate(`window.MathsApp.switchLevel('tale', false)`);
+    await evaluate("window.MathsApp.openQuizModal('TA4', false); true");
+    await sleep(600);
+    await evaluate("document.getElementById('quiz-count-select').value='bac-20'; window.MathsQuizGenerator.generate(); true");
+    await sleep(1200);
+    const bac = await evaluate(`({ cards: document.querySelectorAll('.quiz-questions-grid .quiz-q-card').length, mcq: /Choisir|Entourer|A\.\s/.test(document.querySelector('.quiz-questions-grid').textContent) && document.querySelectorAll('.quiz-questions-grid .quiz-q-card ol li').length > 50, err: document.querySelectorAll('#quiz-preview-content .katex-error').length })`);
+    await shot('13_bac_blanc');
+    await evaluate("window.MathsQuizGenerator.closeModal(); true");
+    if (bac.cards !== 4 || bac.err) throw new Error('bac ' + JSON.stringify(bac));
+    return out.join(' · ') + ' · brevet 3 problèmes · bac 4 exercices';
+  });
+
   await step('Navigation clavier : Tab atteint les cartes de l’accueil', async () => {
     await evaluate(`window.MathsApp.showHomeView(); true`);
     await sleep(300);
@@ -344,7 +379,7 @@ async function step(label, fn) {
     return out.join(' · ');
   });
 
-  for (const [name, url] of [['rituels', 'rituels.html'], ['brevet', 'brevet.html'], ['bac', 'bac.html'], ['enseignants', 'enseignants.html'], ['mentions', 'mentions-legales.html'], ['cours', 'cours/'], ['cours_6e', 'cours/6e/'], ['cours_pythagore', 'cours/4e/theoreme-de-pythagore.html']]) {
+  for (const [name, url] of [['rituels', 'rituels.html'], ['brevet', 'brevet.html'], ['bac', 'bac.html'], ['enseignants', 'enseignants.html'], ['mentions', 'mentions-legales.html'], ['apropos', 'a-propos.html'], ['cours', 'cours/'], ['cours_6e', 'cours/6e/'], ['cours_pythagore', 'cours/4e/theoreme-de-pythagore.html']]) {
     await step(`Page ${url} (mobile 390 px, pas de débordement)`, async () => {
       await send('Emulation.setDeviceMetricsOverride', { width: 390, height: 844, deviceScaleFactor: 1, mobile: true });
       await goto(BASE + url);

@@ -174,16 +174,18 @@ Object.assign(window.MathsApp, {
   /**
    * Tire `count` questions distinctes d'un palier (générateurs du chapitre, sinon banque statique).
    */
-  drawSheetQuestions(chapterId, tier, count, used) {
+  drawSheetQuestions(chapterId, tier, count, used, openOnly = false) {
     const gen = window.MathsGenerators;
-    const staticPool = ((window.MATHS_EXERCISES || {})[chapterId] || []).filter(q => q && q.statement);
+    const isOpen = q => q && q.type !== 'mcq' && !(Array.isArray(q.options) && q.options.length) && !(Array.isArray(q.choices) && q.choices.length);
+    const staticPool = ((window.MATHS_EXERCISES || {})[chapterId] || []).filter(q => q && q.statement && (!openOnly || isOpen(q)));
     const tierPool = staticPool.filter(q => (q.tier || 1) === tier);
     const out = [];
     for (let k = 0; k < count; k++) {
       let picked = null;
-      for (let attempt = 0; attempt < 10 && !picked; attempt++) {
+      for (let attempt = 0; attempt < (openOnly ? 25 : 10) && !picked; attempt++) {
         let ex = null;
         try { ex = gen && gen.generateForChapter(chapterId, tier); } catch (e) { ex = null; }
+        if (openOnly && !isOpen(ex)) ex = null;
         if (!ex || !ex.statement) {
           const pool = tierPool.length ? tierPool : staticPool;
           ex = pool.length ? pool[Math.floor(Math.random() * pool.length)] : null;
@@ -233,11 +235,15 @@ Object.assign(window.MathsApp, {
    * DS type : 4 exercices progressifs (paliers 1 à 4), barème total ramené à 20 points.
    */
   createDsTypeSheet(chapterId) {
+    // Un DS ne contient que des questions ouvertes (comme aux épreuves officielles) : on
+    // utilise d'abord la banque d'exercices de DS rédigés, sinon les questions générées ouvertes.
+    const bank = (window.MATHS_DS_BANK || {})[chapterId];
+    if (Array.isArray(bank) && bank.length >= 3) return this.createBankDsSheet(chapterId, bank);
     const plan = this.DS_PLANS[this.getSheetCycle()] || this.DS_PLANS.college;
     const used = new Set();
     this.resetRecentStatements(chapterId);
     let parts = plan.map(([tier, count, pts]) => {
-      const questions = this.drawSheetQuestions(chapterId, tier, count, used);
+      const questions = this.drawSheetQuestions(chapterId, tier, count, used, true);
       return { tier, stage: this.getPedagogicalStage(tier), weight: count * pts, questions: questions.map(ex => ({ ex, pts })) };
     }).filter(p => p.questions.length);
     if (!parts.length) return null;
@@ -269,6 +275,63 @@ Object.assign(window.MathsApp, {
       duration: this.getDsDuration(),
       parts,
       signature: parts.map(p => p.questions.map(q => q.ex.statement).join('|')).join('#')
+    };
+  },
+
+  /**
+   * DS construit à partir de la banque d'exercices rédigés (MATHS_DS_BANK) : un exercice par
+   * niveau de difficulté croissant, en évitant ceux du DS précédent ; barème ramené à 20.
+   */
+  createBankDsSheet(chapterId, bank) {
+    const cycle = this.getSheetCycle();
+    const plan = cycle === 'superieur' ? [[1, 2], [3], [4, 3]] : [[1], [2], [3], [4, 3]];
+    if (!this.lastBankDs) this.lastBankDs = {};
+    const previous = new Set(this.lastBankDs[chapterId] || []);
+    const chosen = [];
+    const pick = difficulties => {
+      const fits = bank.filter(ex => difficulties.includes(ex.difficulty) && !chosen.includes(ex));
+      const fresh = fits.filter(ex => !previous.has(ex.id));
+      const pool = fresh.length ? fresh : fits;
+      return pool.length ? pool[Math.floor(Math.random() * pool.length)] : null;
+    };
+    plan.forEach(diffs => {
+      const ex = pick(diffs);
+      if (ex) chosen.push(ex);
+    });
+    while (chosen.length < Math.min(3, bank.length)) {
+      const rest = bank.filter(ex => !chosen.includes(ex));
+      chosen.push(rest[Math.floor(Math.random() * rest.length)]);
+    }
+    chosen.sort((a, b) => (a.difficulty || 1) - (b.difficulty || 1));
+    this.lastBankDs[chapterId] = chosen.map(ex => ex.id);
+
+    const target = 20;
+    const raw = chosen.reduce((sum, ex) => sum + (ex.points || 5), 0);
+    const parts = chosen.map(ex => ({
+      tier: ex.difficulty || 1,
+      stage: this.getPedagogicalStage(ex.difficulty || 1),
+      pts: Math.max(1, Math.round((ex.points || 5) * target / raw * 2) / 2),
+      bankEx: ex,
+      questions: []
+    }));
+    const sum = parts.reduce((t, p) => t + p.pts, 0);
+    parts[parts.length - 1].pts += target - sum;
+
+    const ch = this.getChapterMeta(chapterId);
+    return {
+      id: `${chapterId}-ds_type_sommatif`,
+      chapterId,
+      type: 'ds_type',
+      origin: 'generated',
+      kind: 'DS',
+      title: `DS type sur 20 points`,
+      chapterTitle: ch ? ch.title : chapterId,
+      total: target,
+      duration: this.getDsDuration(),
+      parts,
+      fromBank: true,
+      bankSize: bank.length,
+      signature: chosen.map(ex => ex.id).join('|')
     };
   },
 
@@ -320,6 +383,9 @@ Object.assign(window.MathsApp, {
       ? `<p class="ws-instructions">Le sujet comporte ${sheet.parts.length} exercices indépendants, du plus simple au plus exigeant. Toute réponse doit être justifiée : la clarté de la rédaction et la précision des calculs sont prises en compte.</p>`
       : `<p class="ws-instructions">Les exercices sont rangés par palier, du plus simple au plus exigeant. Rédiger les calculs sur une feuille, puis comparer avec le corrigé.</p>`;
     const body = sheet.parts.map((part, i) => {
+      if (part.bankEx) {
+        return `<section class="ws-exercise"><h3 class="ws-ex-title">Exercice ${i + 1} — ${this.escapeSheetText(part.bankEx.title)} <span class="ws-pts">${this.formatPoints(part.pts)}</span></h3><div class="ws-q-text ws-bank-text">${this.md(part.bankEx.statement)}</div></section>`;
+      }
       const skills = [...new Set(part.questions.map(q => this.getExerciseCompetency(q.ex, sheet.chapterId)))];
       const head = isDs
         ? `<h3 class="ws-ex-title">Exercice ${i + 1} — ${part.stage.label} <span class="ws-pts">${this.formatPoints(part.pts)}</span></h3>`
@@ -338,6 +404,9 @@ Object.assign(window.MathsApp, {
     const isDs = sheet.type === 'ds_type';
     let qNum = 0;
     return sheet.parts.map((part, i) => {
+      if (part.bankEx) {
+        return `<section class="ws-exercise"><h3 class="ws-ex-title">Exercice ${i + 1} — ${this.escapeSheetText(part.bankEx.title)} <span class="ws-pts">${this.formatPoints(part.pts)}</span></h3><div class="ws-sol-text ws-bank-text">${this.md(part.bankEx.solution)}</div></section>`;
+      }
       const head = isDs
         ? `<h3 class="ws-ex-title">Exercice ${i + 1} — ${part.stage.label} <span class="ws-pts">${this.formatPoints(part.pts)}</span></h3>`
         : `<h3 class="ws-ex-title">Palier ${part.tier} — ${part.stage.label}</h3>`;

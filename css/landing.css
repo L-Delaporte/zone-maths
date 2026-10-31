@@ -368,3 +368,14 @@
 [data-theme="dark"] .topic-num-bac { color: #6ee7b7; }
 [data-theme="dark"] .landing-tag.tag-bac { color: #6ee7b7; }
 .landing-title { overflow-wrap: anywhere; hyphens: auto; }
+
+/* Page « Qui suis-je » */
+.about-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+.about-cta .landing-cta-btn {
+  text-decoration: none;
+}

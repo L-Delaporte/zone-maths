@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <script>
+    // Applique le thème (clair/sombre) choisi dans l'application, avant l'affichage
+    try {
+      document.documentElement.setAttribute('data-theme', JSON.parse(localStorage.getItem('maths_3e_progress_v1') || '{}').theme || 'light');
+    } catch (e) {}
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="author" content="Loïc Delaporte, Professeur de Mathématiques" />
+  <meta name="description" content="Qui est derrière L'Établi des Maths ? Loïc Delaporte, professeur de mathématiques, explique pourquoi il a créé cet outil gratuit pour les élèves et leurs parents." />
+  <link rel="canonical" href="https://etabli-des-maths.fr/a-propos.html" />
+  <title>Qui suis-je ? Le projet L'Établi des Maths</title>
+
+  <link rel="stylesheet" href="css/style.css?v=903100fef1" />
+  <link rel="stylesheet" href="css/landing.css?v=fe3c4158e1" />
+  <link rel="icon" href="favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png" />
+  <link rel="apple-touch-icon" href="assets/favicon.png" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#2563eb" />
+  <script type="application/ld+json">
+[
+  {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    "name": "Qui suis-je ? Le projet L'Établi des Maths",
+    "url": "https://etabli-des-maths.fr/a-propos.html",
+    "inLanguage": "fr",
+    "mainEntity": {
+      "@type": "Person",
+      "name": "Loïc Delaporte",
+      "jobTitle": "Professeur de mathématiques",
+      "alumniOf": [
+        { "@type": "CollegeOrUniversity", "name": "Université Polytechnique Hauts-de-France" },
+        { "@type": "CollegeOrUniversity", "name": "Université catholique de Lille" }
+      ],
+      "email": "mailto:delaporte@etabli-des-maths.fr"
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://etabli-des-maths.fr/" },
+      { "@type": "ListItem", "position": 2, "name": "Qui suis-je ?", "item": "https://etabli-des-maths.fr/a-propos.html" }
+    ]
+  }
+]
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#contenu">Aller au contenu</a>
+
+  <header class="app-header">
+    <div class="header-inner">
+      <a href="index.html" class="brand-container" style="text-decoration: none;">
+        <img src="assets/logo-96.png" alt="" class="brand-logo-img" width="44" height="44" />
+        <div class="brand-text">
+          <p class="brand-title">L'Établi des Maths <span class="brand-level-tag">Le projet</span></p>
+          <span class="brand-tagline">Outils pour apprendre et pratiquer</span>
+        </div>
+      </a>
+
+      <nav class="nav-portal-links" aria-label="Portails thématiques">
+        <a href="index.html" class="nav-portal-btn">🏠 Accueil</a>
+        <a href="cours/" class="nav-portal-btn">📚 Cours</a>
+        <a href="rituels.html" class="nav-portal-btn">⏱️ Rituels</a>
+        <a href="brevet.html" class="nav-portal-btn">📝 Brevet 3e</a>
+        <a href="bac.html" class="nav-portal-btn">🎓 Baccalauréat</a>
+        <a href="enseignants.html" class="nav-portal-btn">👨‍🏫 Enseignants</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="landing-wrapper legal-page" id="contenu" tabindex="-1">
+    <section class="landing-hero">
+      <h1 class="landing-title">Qui suis-je ? Le projet L'Établi des Maths</h1>
+      <p class="landing-subtitle">
+        Un outil gratuit, conçu par un professeur de mathématiques, pour que chaque élève puisse s'entraîner, progresser et reprendre confiance.
+      </p>
+    </section>
+
+    <section class="legal-section about-section" aria-labelledby="qui">
+      <h2 id="qui">Loïc Delaporte, professeur de mathématiques</h2>
+      <p>
+        Je m'appelle <strong>Loïc Delaporte</strong>. J'ai fait mes études de mathématiques à
+        l'<strong>Université Polytechnique Hauts-de-France</strong>, à Valenciennes, puis un <strong>master des métiers de l'enseignement</strong>
+        à l'<strong>Université catholique de Lille</strong>.
+      </p>
+      <p>
+        J'enseigne les mathématiques <strong>au collège depuis quatre ans</strong>. J'ai également enseigné pendant un an à
+        l'Université catholique de Lille, en travaux dirigés et en cours magistraux : c'est ce double regard, du collège
+        jusqu'à l'université, qui m'a guidé pour construire un outil qui accompagne les élèves de la 6e jusqu'aux études supérieures.
+      </p>
+    </section>
+
+    <section class="legal-section about-section" aria-labelledby="pourquoi">
+      <h2 id="pourquoi">Pourquoi ce site ?</h2>
+      <p>
+        Les évaluations internationales comme <strong>PISA</strong> le montrent d'année en année : le niveau en mathématiques des élèves
+        français recule. En classe, je vois chaque jour qu'il ne manque souvent pas grand-chose : <strong>s'entraîner régulièrement,
+        au bon niveau, avec une correction immédiate</strong>.
+      </p>
+      <p>
+        J'ai donc créé L'Établi des Maths avec deux objectifs :
+      </p>
+      <ul>
+        <li><strong>Pour les élèves</strong> : un outil pour s'entraîner et progresser efficacement, avec des exercices qui se renouvellent à l'infini, des paliers de difficulté qui s'adaptent à leur niveau, des cours clairs et une correction détaillée.</li>
+        <li><strong>Pour les parents</strong> : des ressources simples pour accompagner leur enfant à la maison, même sans être à l'aise avec les mathématiques : cours, fiches d'exercices corrigées, devoirs blancs et suivi de la progression.</li>
+      </ul>
+      <p>
+        Les collègues professeurs y trouvent aussi des rituels à projeter en début de cours, des fiches et des DS prêts à imprimer.
+      </p>
+    </section>
+
+    <section class="legal-section about-section" aria-labelledby="engagements">
+      <h2 id="engagements">Mes engagements</h2>
+      <ul>
+        <li><strong>Gratuit et sans compte</strong>, aujourd'hui comme demain : tous les cours, exercices et outils restent accessibles à tous.</li>
+        <li><strong>Sans compte et sans collecte de données</strong> : la progression reste sur l'appareil de l'élève (voir les <a href="mentions-legales.html">mentions légales et la confidentialité</a>).</li>
+        <li><strong>Conforme aux programmes officiels</strong> de l'Éducation nationale, avec des contenus originaux, relus et vérifiés.</li>
+        <li><strong>À l'écoute</strong> : chaque remarque d'élève, de parent ou de collègue aide à améliorer le site.</li>
+      </ul>
+    </section>
+
+    <section class="legal-section about-section" aria-labelledby="contact">
+      <h2 id="contact">Me contacter</h2>
+      <p>
+        Une erreur dans un exercice, une idée d'amélioration, un témoignage ? Écrivez-moi à
+        <a href="mailto:delaporte@etabli-des-maths.fr">delaporte@etabli-des-maths.fr</a>.
+      </p>
+      <p class="about-cta">
+        <a href="index.html" class="btn-primary landing-cta-btn">Commencer à s'entraîner</a>
+        <a href="cours/" class="btn-secondary landing-cta-btn">Voir tous les cours</a>
+      </p>
+    </section>
+  </main>
+
+  <footer style="text-align: center; padding: 2rem; border-top: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.85rem;">
+    <p>L'Établi des Maths — Conçu par Loïc Delaporte, Professeur de Mathématiques • Contenus sous licence CC BY-NC-SA 4.0</p>
+    <p class="site-legal-links" style="margin-top: 0.4rem;"><a href="mentions-legales.html">Mentions légales et confidentialité</a> · <a href="mailto:delaporte@etabli-des-maths.fr">Contact</a></p>
+  </footer>
+
+  <!-- Statistiques d'audience anonymes et conformes RGPD (GoatCounter) -->
+  <script data-goatcounter="https://etabli-des-maths.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

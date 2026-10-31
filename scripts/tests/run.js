@@ -15,6 +15,7 @@ const steps = [
   ['Versions des ressources (cache)', ['scripts/build_versions.js', '--check']],
   ['Cœur applicatif', ['scripts/tests/test_core.js']],
   ['Contenus (cours, exercices, fiches)', ['scripts/tests/test_data_content.js']],
+  ['Banques de DS et problèmes de brevet', ['scripts/tests/test_ds_banks.js']],
   ['Générateurs collège', ['scripts/tests/test_college_generators.js']],
   ['Générateurs 6e', ['scripts/tests/test_6eme.js']],
   ['Générateurs lycée et licence', ['scripts/tests/test_lycee_licence_generators.js']],
