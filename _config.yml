@@ -1,0 +1,7 @@
+# Configuration de la publication GitHub Pages (Jekyll).
+# Fichiers de travail exclus du site publié : ils restent dans le dépôt.
+exclude:
+  - GEMINI.md
+  - scripts/
+  - outils-audit/
+  - "*.md"
