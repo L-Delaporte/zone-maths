@@ -12,3 +12,6 @@ Thumbs.db
 # Logs
 *.log
 scripts/tests/e2e_shots/
+
+# Worktrees des agents Claude Code
+.claude/

@@ -24,6 +24,8 @@
  * Feuille de style des pages générées : css/cours.css (+ css/style.css et css/landing.css).
  *
  * Les URL des chapitres sont dérivées de leur titre (slug ASCII) : changer un titre change l'URL.
+ * Le registre scripts/cours_urls.json garde toutes les URL publiées de chaque chapitre : après un
+ * renommage, l'ancienne URL devient automatiquement une page relais vers la nouvelle (à committer).
  */
 'use strict';
 
@@ -35,13 +37,12 @@ const ROOT = path.resolve(__dirname, '..');
 const OUT = path.join(ROOT, 'cours');
 const SITE = 'https://etabli-des-maths.fr';
 const BRAND = "L'Établi des Maths";
-// Anciennes URL de chapitres (titre renommé) → nouvelle URL, relatives à cours/.
-// GitHub Pages n'a pas de redirection serveur : une page relais (canonical + refresh) est générée.
-const REDIRECTS = {
-  'seconde/echantillonnage-fluctuation-et-algorithmique-en-python.html': 'seconde/fluctuation-d-echantillonnage.html',
-  'seconde/probabilites-sur-un-ensemble-fini.html': 'seconde/probabilites-modele-probabiliste-probabilites.html',
-  'premiere/trigonometrie-cercle-trigonometrique-et-fonctions-sinus.html': 'premiere/trigonometrie-cercle-trigonometrique-radian-cosinus.html'
-};
+// Redirections : GitHub Pages n'a pas de redirection serveur, une page relais (noindex, canonical,
+// refresh) est générée à l'ancienne URL. Les renommages de chapitres sont gérés automatiquement par
+// le registre URL_REGISTRY ; REDIRECTS ne sert qu'aux cas particuliers (ancienne URL → cible choisie
+// à la main), chemins relatifs à cours/.
+const URL_REGISTRY = path.join(__dirname, 'cours_urls.json');
+const REDIRECTS = {};
 const AUTHOR = 'Loïc Delaporte';
 const BUILD_DATE = process.env.BUILD_DATE || new Date().toISOString().slice(0, 10);
 const NB = '\u00a0';   // espace insécable
@@ -636,6 +637,40 @@ function relatedHtml(it, lvl, items, levelsData) {
     </nav>`;
 }
 
+// Registre des URL publiées : { idChapitre: [plus ancienne, …, actuelle] }.
+// Toute URL antérieure d'un chapitre renvoie vers son URL actuelle ; celle d'un chapitre supprimé
+// renvoie vers l'index de son niveau. Le registre est complété puis réécrit à chaque génération.
+function registryRedirects(currentPaths) {
+  const registry = fs.existsSync(URL_REGISTRY) ? JSON.parse(fs.readFileSync(URL_REGISTRY, 'utf8')) : {};
+  const live = new Set(Object.values(currentPaths));
+  const out = {};
+  for (const [id, history] of Object.entries(registry)) {
+    const to = currentPaths[id];
+    if (!to) warnings.push(`Chapitre ${id} supprimé : ses anciennes URL renvoient vers l'index du niveau`);
+    for (const from of history) {
+      if (from === to) continue;
+      if (live.has(from)) { warnings.push(`Redirection ${from} ignorée : URL reprise par un autre chapitre`); continue; }
+      out[from] = to || `${from.split('/')[0]}/index.html`;
+    }
+  }
+  let changed = false;
+  for (const [id, p] of Object.entries(currentPaths)) {
+    const history = registry[id] || (registry[id] = []);
+    if (history[history.length - 1] !== p) {
+      const i = history.indexOf(p);
+      if (i >= 0) history.splice(i, 1);
+      history.push(p);
+      changed = true;
+    }
+  }
+  if (changed) {
+    const sorted = Object.fromEntries(Object.keys(registry).sort().map((k) => [k, registry[k]]));
+    fs.writeFileSync(URL_REGISTRY, JSON.stringify(sorted, null, 1) + '\n');
+    console.log('Registre des URL de cours mis à jour (scripts/cours_urls.json) : à committer avec cours/.');
+  }
+  return out;
+}
+
 function main() {
   const { win, missing } = loadData();
   MD = win.MathsRenderer.markdownToHtml.bind(win.MathsRenderer);
@@ -648,6 +683,7 @@ function main() {
   fs.mkdirSync(OUT, { recursive: true });
 
   const pages = []; // chemins relatifs à la racine (pour le sitemap)
+  const currentPaths = {}; // id de chapitre → chemin relatif à cours/
   const levelsData = [];
 
   // Préparer chapitres et slugs
@@ -661,6 +697,7 @@ function main() {
       if (slug.length < 8 || used.has(slug)) slug = truncSlug(slugify(title.replace(/\s*\([^)]*\)/g, '')), 60);
       if (used.has(slug)) slug = `${slug}-${slugify(ch.id)}`;
       used.add(slug);
+      currentPaths[ch.id] = `${lvl.slug}/${slug}.html`;
       return { ch, slug, title };
     });
     levelsData.push({ lvl, items });
@@ -937,10 +974,12 @@ ${section('faq', 'Questions fréquentes', faqHtml(faqs))}`;
   const hubPages = buildHubs({ levelsData, COURSES, EXOS });
 
   // Pages relais des anciennes URL (hors sitemap)
-  for (const [from, to] of Object.entries(REDIRECTS)) {
+  const redirects = { ...registryRedirects(currentPaths), ...REDIRECTS };
+  for (const [from, to] of Object.entries(redirects)) {
     if (!fs.existsSync(path.join(OUT, to))) { warnings.push(`Redirection ${from} : cible absente ${to}`); continue; }
     if (fs.existsSync(path.join(OUT, from))) { warnings.push(`Redirection ${from} : l'ancienne URL est de nouveau une page`); continue; }
-    const url = `${SITE}/cours/${to}`;
+    const url = `${SITE}/cours/${to.replace(/index\.html$/, '')}`;
+    fs.mkdirSync(path.dirname(path.join(OUT, from)), { recursive: true });
     fs.writeFileSync(path.join(OUT, from), `<!DOCTYPE html>
 <html lang="fr">
 <head>
