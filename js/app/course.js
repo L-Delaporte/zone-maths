@@ -30,7 +30,7 @@ Object.assign(window.MathsApp, {
             <div style="color:var(--text-muted); font-size:0.9rem; font-weight:600; margin-top:0.25rem;">Domaine : ${capesLesson.domain} • Niveau : ${capesLesson.level}</div>
           </div>
           <div class="course-header-actions">
-            <button class="btn-secondary no-print course-print-btn" onclick="window.print()" title="Imprimer la leçon"><span style="margin-right: 0.35rem;" aria-hidden="true">🖨️</span>Imprimer la fiche</button>
+            <button class="btn-secondary no-print course-print-btn" data-click="print" title="Imprimer la leçon"><span style="margin-right: 0.35rem;" aria-hidden="true">🖨️</span>Imprimer la fiche</button>
             <img src="assets/logo-96.png" alt="" class="course-header-logo" width="48" height="48" />
           </div>
         </div>
@@ -105,7 +105,7 @@ Object.assign(window.MathsApp, {
               <h3 class="course-sheet-title">${chMeta.num} : ${chMeta.title}</h3>
             </div>
             <div class="course-header-actions">
-              <button class="btn-secondary no-print course-print-btn" onclick="window.print()" title="Imprimer le cours"><span style="margin-right: 0.35rem;" aria-hidden="true">🖨️</span>Imprimer le cours</button>
+              <button class="btn-secondary no-print course-print-btn" data-click="print" title="Imprimer le cours"><span style="margin-right: 0.35rem;" aria-hidden="true">🖨️</span>Imprimer le cours</button>
               <img src="assets/logo-96.png" alt="" class="course-header-logo" width="48" height="48" />
             </div>
           </div>
@@ -144,7 +144,7 @@ Object.assign(window.MathsApp, {
           <h3 class="course-sheet-title">${course.title}</h3>
         </div>
         <div class="course-header-actions">
-          <button class="btn-secondary no-print course-print-btn" onclick="window.print()" title="Imprimer le cours"><span style="margin-right: 0.35rem;" aria-hidden="true">🖨️</span>Imprimer le cours</button>
+          <button class="btn-secondary no-print course-print-btn" data-click="print" title="Imprimer le cours"><span style="margin-right: 0.35rem;" aria-hidden="true">🖨️</span>Imprimer le cours</button>
           <img src="assets/logo-96.png" alt="" class="course-header-logo" width="48" height="48" />
         </div>
       </div>
@@ -210,7 +210,7 @@ Object.assign(window.MathsApp, {
               <h3><span aria-hidden="true">🗂️</span> Mémorisation Active & Flashcards de Révision</h3>
               <span class="flashcards-subtitle">Teste ta mémoire sur les définitions, formules et théorèmes clés avant de t'entraîner</span>
             </div>
-            <button class="btn-primary btn-sm-flashcards" onclick="window.MathsFlashcards.openModal('${this.currentChapterId}')" style="margin-left:auto;">
+            <button class="btn-primary btn-sm-flashcards" data-click="MathsFlashcards.openModal" data-args='["${this.currentChapterId}"]' style="margin-left:auto;">
               🚀 Lancer l'entraînement interactif (Boîte Leitner)
             </button>
           </div>
@@ -223,7 +223,7 @@ Object.assign(window.MathsApp, {
                   <strong>Réponse :</strong>
                   <div>${window.MathsRenderer.markdownToHtml(fc.a)}</div>
                 </div>
-                <button class="flashcard-btn-action" onclick="window.MathsApp.toggleFlashcard(${idx})">
+                <button class="flashcard-btn-action" data-click="MathsApp.toggleFlashcard" data-args='[${idx}]'>
                   👁️ Révéler la réponse
                 </button>
               </div>
@@ -236,7 +236,7 @@ Object.assign(window.MathsApp, {
     html += `
       <div class="course-cta-box">
         <p>Prêt à tester ta compréhension dans ta zone optimale ?</p>
-        <button class="btn-primary" onclick="window.MathsApp.switchTab('train')">Lancer l'entraînement adaptatif 🎯</button>
+        <button class="btn-primary" data-click="MathsApp.switchTab" data-args='["train"]'>Lancer l'entraînement adaptatif 🎯</button>
       </div>
       <div class="course-print-footer print-only">
         <span>L'Établi des Maths</span>

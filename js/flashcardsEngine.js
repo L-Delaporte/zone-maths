@@ -498,7 +498,7 @@
           const isDefault = (c.id === defaultId);
           return `
             <label class="diapo-chip fc-chap-chip">
-              <input type="checkbox" name="fc-chap" value="${c.id}" ${isDefault ? 'checked' : ''} onchange="window.MathsFlashcards.updateStatsPreview()" />
+              <input type="checkbox" name="fc-chap" value="${c.id}" ${isDefault ? 'checked' : ''} data-change="MathsFlashcards.updateStatsPreview" />
               <span>${c.num} : ${c.shortTitle || c.title} <small class="fc-chip-count">(${count})</small></span>
             </label>
           `;

@@ -119,9 +119,9 @@ Object.assign(window.MathsApp, {
       </div>
 
       <div class="stats-footer-actions no-print">
-        <button class="btn-secondary" onclick="window.MathsStorage.exportToJson()" title="Télécharger un fichier de sauvegarde de ta progression">💾 Sauvegarder ma progression</button>
-        <button class="btn-secondary" onclick="window.MathsApp.handleImportProgress()" title="Restaurer une progression depuis un fichier de sauvegarde">📂 Restaurer une sauvegarde</button>
-        <button class="btn-danger" onclick="window.MathsApp.handleResetProgress()">🔄 Réinitialiser ma progression</button>
+        <button class="btn-secondary" data-click="MathsStorage.exportToJson" title="Télécharger un fichier de sauvegarde de ta progression">💾 Sauvegarder ma progression</button>
+        <button class="btn-secondary" data-click="MathsApp.handleImportProgress" title="Restaurer une progression depuis un fichier de sauvegarde">📂 Restaurer une sauvegarde</button>
+        <button class="btn-danger" data-click="MathsApp.handleResetProgress">🔄 Réinitialiser ma progression</button>
       </div>
     `;
 
@@ -244,7 +244,7 @@ Object.assign(window.MathsApp, {
 
       return `
         <div class="chapter-trophy-card ${highestTier > 0 ? 'unlocked tier-' + highestTier : 'locked'}" 
-             onclick="window.MathsApp.startChapterTier('${c.id}', ${highestTier > 0 ? highestTier : 1})"
+             data-click="MathsApp.startChapterTier" data-args='["${c.id}", ${highestTier > 0 ? highestTier : 1}]'
              title="Clique pour t'entraîner sur ${c.shortTitle || c.title}">
           <div class="chapter-trophy-header">
             <div class="chapter-trophy-title-wrap">

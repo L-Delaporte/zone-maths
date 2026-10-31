@@ -82,7 +82,7 @@ Object.assign(window.MathsApp, {
     container.innerHTML = `
       <div style="margin-bottom: 1.25rem; display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center;">
         <label for="proof-theorem-select" style="font-weight: 700; font-size: 0.9rem;">Théorème :</label>
-        <select id="proof-theorem-select" class="form-select" style="max-width: 380px;" onchange="window.MathsApp.renderProofEngineUI(this.value)">
+        <select id="proof-theorem-select" class="form-select" style="max-width: 380px;" data-change="MathsApp.renderProofEngineUI" data-args='["$value"]'>
           ${thList.map(t => `<option value="${t.id}" ${t.id === currentTh.id ? 'selected' : ''}>${t.title} (${t.level})</option>`).join('')}
         </select>
       </div>

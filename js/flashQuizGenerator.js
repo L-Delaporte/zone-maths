@@ -41,8 +41,8 @@ window.MathsQuizGenerator = {
 
       const actionsHtml = `
         <div class="quiz-select-actions no-print" style="display: flex; gap: 0.5rem; margin-bottom: 0.85rem; flex-wrap: wrap;">
-          <button type="button" class="btn-secondary btn-sm" style="font-size: 0.85rem; padding: 0.35rem 0.75rem;" onclick="window.MathsQuizGenerator.selectAllChapters(true)">✅ Tout sélectionner</button>
-          <button type="button" class="btn-secondary btn-sm" style="font-size: 0.85rem; padding: 0.35rem 0.75rem;" onclick="window.MathsQuizGenerator.selectAllChapters(false)">❌ Tout désélectionner</button>
+          <button type="button" class="btn-secondary btn-sm" style="font-size: 0.85rem; padding: 0.35rem 0.75rem;" data-click="MathsQuizGenerator.selectAllChapters" data-args='[true]'>✅ Tout sélectionner</button>
+          <button type="button" class="btn-secondary btn-sm" style="font-size: 0.85rem; padding: 0.35rem 0.75rem;" data-click="MathsQuizGenerator.selectAllChapters" data-args='[false]'>❌ Tout désélectionner</button>
         </div>
       `;
 
