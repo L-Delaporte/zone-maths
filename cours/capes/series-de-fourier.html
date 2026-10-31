@@ -2,12 +2,9 @@
 <html lang="fr" data-theme="light">
 <head>
   <meta charset="UTF-8" />
-  <script>
-    // Applique le thème (clair/sombre) choisi dans l'application, avant l'affichage
-    try {
-      document.documentElement.setAttribute('data-theme', JSON.parse(localStorage.getItem('maths_3e_progress_v1') || '{}').theme || 'light');
-    } catch (e) {}
-  </script>
+  <!-- Content-Security-Policy : voir scripts/csp.js (style-src 'unsafe-inline' requis par les attributs style de KaTeX) -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://gc.zgo.at; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://etabli-des-maths.goatcounter.com; font-src 'self' data:; connect-src 'self' https://etabli-des-maths.goatcounter.com; object-src 'none'; base-uri 'self'; form-action 'self'; manifest-src 'self'; worker-src 'self'" />
+  <script src="../../js/themeInit.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Séries de Fourier — leçon d'oral du CAPES</title>
   <meta name="description" content="Leçon d'oral du CAPES de maths — Séries de Fourier : coefficients, convergence et formule de Parseval : plan détaillé, théorème clé démontré et remarques…" />
@@ -116,7 +113,7 @@
   <!-- Header Uniformisé -->
   <header class="app-header">
     <div class="header-inner">
-      <a href="../../index.html" class="brand-container" style="text-decoration: none;">
+      <a href="../../index.html" class="brand-container">
         <img src="../../assets/logo-96.png" alt="" class="brand-logo-img" width="44" height="44" />
         <div class="brand-text">
           <p class="brand-title">L'Établi des Maths <span class="brand-level-tag">Cours</span></p>
@@ -253,6 +250,6 @@
     <p>Contenus sous licence <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr" rel="license noopener">CC BY-NC-SA 4.0</a></p>
   </footer>
   <!-- Statistiques d'audience anonymes et conformes RGPD (GoatCounter) -->
-  <script data-goatcounter="https://etabli-des-maths.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  <script data-goatcounter="https://etabli-des-maths.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>
 </html>

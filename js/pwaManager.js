@@ -149,3 +149,14 @@ if (document.readyState === 'loading') {
 } else {
   window.MathsPwa.init();
 }
+
+// Enregistrement du service worker (PWA hors ligne) — anciennement script inline d'index.html
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('./sw.js').then(function (reg) {
+      console.log('[PWA] Service Worker actif :', reg.scope);
+    }).catch(function (err) {
+      console.warn('[PWA] Échec enregistrement Service Worker :', err);
+    });
+  });
+}

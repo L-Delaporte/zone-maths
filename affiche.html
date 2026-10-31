@@ -2,6 +2,8 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
+  <!-- Content-Security-Policy : voir scripts/csp.js (style-src 'unsafe-inline' requis par les attributs style de KaTeX et de l'application) -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://gc.zgo.at; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://etabli-des-maths.goatcounter.com; font-src 'self' data:; connect-src 'self' https://etabli-des-maths.goatcounter.com; object-src 'none'; base-uri 'self'; form-action 'self'; manifest-src 'self'; worker-src 'self'" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <!-- Support imprimable du kit enseignant : hors sitemap, non indexé -->
   <meta name="robots" content="noindex, follow" />
@@ -85,7 +87,7 @@
   </main>
 
   <!-- Statistiques d'audience anonymes et conformes RGPD (GoatCounter) -->
-  <script data-goatcounter="https://etabli-des-maths.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  <script data-goatcounter="https://etabli-des-maths.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
   <script src="js/kit.js?v=ebf64040f7"></script>
 </body>
 </html>

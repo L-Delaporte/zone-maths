@@ -2,12 +2,9 @@
 <html lang="fr" data-theme="light">
 <head>
   <meta charset="UTF-8" />
-  <script>
-    // Applique le thème (clair/sombre) choisi dans l'application, avant l'affichage
-    try {
-      document.documentElement.setAttribute('data-theme', JSON.parse(localStorage.getItem('maths_3e_progress_v1') || '{}').theme || 'light');
-    } catch (e) {}
-  </script>
+  <!-- Content-Security-Policy : voir scripts/csp.js (style-src 'unsafe-inline' requis par les attributs style de KaTeX et de l'application) -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://gc.zgo.at; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://etabli-des-maths.goatcounter.com; font-src 'self' data:; connect-src 'self' https://etabli-des-maths.goatcounter.com; object-src 'none'; base-uri 'self'; form-action 'self'; manifest-src 'self'; worker-src 'self'" />
+  <script src="js/themeInit.js?v=5a89a0607f"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="author" content="Loïc Delaporte, Professeur de Mathématiques" />
   <meta name="description" content="Exercices de maths corrigés et générés à l'infini, cours, rituels et brevets blancs, de la 6e au bac. Gratuit, sans compte ni pub, par un prof de maths." />
@@ -76,7 +73,7 @@
   <script src="js/eventDelegation.js?v=89e87b61a8"></script>
 
   <!-- KaTeX pour le rendu des formules mathématiques (avec fallback CDN) -->
-  <link rel="stylesheet" href="vendor/katex/katex.min.css?v=000b7545e1" data-fallback-href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" />
+  <link rel="stylesheet" href="vendor/katex/katex.min.css?v=000b7545e1" />
   
   <!-- Feuilles de style de l'application -->
   <link rel="stylesheet" href="css/style.css?v=a16f3fb3d8" />
@@ -1323,9 +1320,9 @@
     </div>
   </div>
 
-  <!-- Scripts KaTeX (avec fallback CDN) -->
-  <script src="vendor/katex/katex.min.js?v=9616b6e2a7" data-fallback-src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
-  <script src="vendor/katex/auto-render.min.js?v=491616b8c9" data-fallback-src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+  <!-- Scripts KaTeX (copie locale ; pas de repli CDN : la CSP n'autorise que la même origine) -->
+  <script src="vendor/katex/katex.min.js?v=9616b6e2a7"></script>
+  <script src="vendor/katex/auto-render.min.js?v=491616b8c9"></script>
 
   <!-- Données communes : la liste des chapitres de tous les niveaux (navigation, recherche, bilan) -->
   <script src="js/data/chapters.js?v=c4d084203e"></script>
@@ -1377,101 +1374,10 @@
   <script src="js/app/sheets.js?v=711106cf8f"></script>
   <script src="js/app/defi.js?v=2eb0e40fa1"></script>
   <script src="js/app/stats.js?v=2c229a7173"></script>
-  <script src="js/pwaManager.js?v=0a3ce1177d"></script>
+  <script src="js/pwaManager.js?v=2bb857ae9d"></script>
 
-  <!-- Statistiques d'audience anonymes et conformes RGPD (GoatCounter, sans cookie)
-       Sources de trafic : les liens diffusés portent ?src=<source>. GoatCounter lit nativement
-       les paramètres utm_source, ref, src et source (et utm_campaign / campaign) comme
-       « source » de la visite (https://www.goatcounter.com/help/campaigns).
-       Liste de référence (à garder identique à la FAQ de enseignants.html) :
-         qr        QR codes imprimés ou projetés (fiches, DS, rituels, « Partager à ma classe »)
-                   — scripts/build_qr_codes.js (assets/qr/site.svg et assets/qr/<chapitre>.svg)
-         classe    lien « Partager à ma classe » d'un chapitre (js/app/training.js)
-         affiche   QR codes de l'affiche A4 et des QR par niveau (affiche.html, enseignants.html)
-         ent       message aux élèves pour l'ENT / Pronote (enseignants.html)
-         parents   message aux parents (enseignants.html)
-         collegues message de présentation aux collègues (enseignants.html)
-         defi      lien partagé du défi de la semaine (js/app/defi.js)
-       Ces paramètres sont retirés du chemin compté (sinon « /?src=qr » et « / » seraient deux
-       pages), la source est transmise comme référent, puis l'adresse affichée est nettoyée. -->
-  <script>
-    (function () {
-      var TRACKING = /^(src|ref|source|campaign|utm_[a-z]+)$/i;
-      var first = new URLSearchParams(location.search);
-      var source = (first.get('src') || first.get('ref') || first.get('source') || first.get('utm_source') || '')
-        .toLowerCase().replace(/[^a-z0-9_-]/g, '').slice(0, 40);
-      var counted = false;
-      function cleanSearch() {
-        var p = new URLSearchParams(location.search), drop = [];
-        p.forEach(function (v, k) { if (TRACKING.test(k)) drop.push(k); });
-        drop.forEach(function (k) { p.delete(k); });
-        var q = p.toString();
-        return q ? '?' + q : '';
-      }
-      function cleanPath() { return location.pathname + cleanSearch() + location.hash; }
-      function cleanUrl() {
-        var target = cleanPath();
-        if (window.history && history.replaceState && target !== location.pathname + location.search + location.hash) {
-          history.replaceState(history.state, '', target);
-        }
-      }
-      window.goatcounter = {
-        no_onload: true, // première visite comptée ci-dessous, pour nettoyer l'URL ensuite
-        path: function () { return cleanPath(); }
-      };
-      // Appelé au chargement de count.js : compte l'arrivée avec sa source, puis nettoie l'URL
-      window.edmCountLanding = function () {
-        if (counted) return;
-        var gc = window.goatcounter;
-        if (!gc || typeof gc.count !== 'function') return;
-        var go = function () {
-          counted = true;
-          gc.count(source ? { path: cleanPath(), referrer: source } : { path: cleanPath() });
-          cleanUrl();
-        };
-        if (document.visibilityState === 'prerender' || document.visibilityState === 'hidden') {
-          var onVisible = function () {
-            if (document.visibilityState !== 'visible') return;
-            document.removeEventListener('visibilitychange', onVisible);
-            go();
-          };
-          document.addEventListener('visibilitychange', onVisible);
-        } else {
-          go();
-        }
-      };
-      // Script bloqué ou hors ligne : l'adresse est nettoyée quand même
-      window.addEventListener('load', function () { setTimeout(function () { if (!counted) cleanUrl(); }, 5000); });
-      window.addEventListener('hashchange', function () {
-        if (window.goatcounter && typeof window.goatcounter.count === 'function') {
-          window.goatcounter.count({ path: cleanPath() });
-        }
-      });
-    })();
-  </script>
-  <script>
-    // count.js inséré ici pour écouter son chargement sans attribut onload (compatibilité CSP)
-    (function () {
-      var s = document.createElement('script');
-      s.async = true;
-      s.src = '//gc.zgo.at/count.js';
-      s.setAttribute('data-goatcounter', 'https://etabli-des-maths.goatcounter.com/count');
-      s.addEventListener('load', function () { window.edmCountLanding(); });
-      document.body.appendChild(s);
-    })();
-  </script>
-
-  <!-- Enregistrement Service Worker (PWA Hors-Ligne) -->
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', function() {
-        navigator.serviceWorker.register('./sw.js').then(function(reg) {
-          console.log('[PWA] Service Worker actif :', reg.scope);
-        }).catch(function(err) {
-          console.warn('[PWA] Échec enregistrement Service Worker :', err);
-        });
-      });
-    }
-  </script>
+  <!-- Statistiques d'audience anonymes et conformes RGPD (GoatCounter, sans cookie) : voir js/analytics.js
+       (sources de trafic ?src=…). L'enregistrement du service worker est dans js/pwaManager.js. -->
+  <script src="js/analytics.js?v=e2a0e91aab"></script>
 </body>
 </html>

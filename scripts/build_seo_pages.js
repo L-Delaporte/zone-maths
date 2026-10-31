@@ -32,6 +32,7 @@
 const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
+const { CSP_META } = require('./csp.js');
 
 const ROOT = path.resolve(__dirname, '..');
 const OUT = path.join(ROOT, 'cours');
@@ -293,12 +294,9 @@ function layout({ depth, title, description, canonical, ogType = 'website', json
 <html lang="fr" data-theme="light">
 <head>
   <meta charset="UTF-8" />
-  <script>
-    // Applique le thème (clair/sombre) choisi dans l'application, avant l'affichage
-    try {
-      document.documentElement.setAttribute('data-theme', JSON.parse(localStorage.getItem('maths_3e_progress_v1') || '{}').theme || 'light');
-    } catch (e) {}
-  </script>
+  <!-- Content-Security-Policy : voir scripts/csp.js (style-src 'unsafe-inline' requis par les attributs style de KaTeX) -->
+  ${CSP_META}
+  <script src="${up}js/themeInit.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>${esc(title)}</title>
   <meta name="description" content="${esc(description)}" />
@@ -333,7 +331,7 @@ ${extraHead}${jsonld.map((j) => '  ' + jsonLd(j).replace(/\n/g, '\n  ')).join('\
   <!-- Header Uniformisé -->
   <header class="app-header">
     <div class="header-inner">
-      <a href="${up}index.html" class="brand-container" style="text-decoration: none;">
+      <a href="${up}index.html" class="brand-container">
         <img src="${up}assets/logo-96.png" alt="" class="brand-logo-img" width="44" height="44" />
         <div class="brand-text">
           <p class="brand-title">L'Établi des Maths <span class="brand-level-tag">${esc(tag)}</span></p>
@@ -366,7 +364,7 @@ ${body}
     <p>Contenus sous licence <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr" rel="license noopener">CC BY-NC-SA 4.0</a></p>
   </footer>
   <!-- Statistiques d'audience anonymes et conformes RGPD (GoatCounter) -->
-  <script data-goatcounter="https://etabli-des-maths.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  <script data-goatcounter="https://etabli-des-maths.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>
 </html>
 `;
@@ -985,6 +983,7 @@ ${section('faq', 'Questions fréquentes', faqHtml(faqs))}`;
 <html lang="fr">
 <head>
 <meta charset="utf-8">
+${CSP_META}
 <title>Page déplacée — ${BRAND}</title>
 <meta name="robots" content="noindex">
 <link rel="canonical" href="${url}">
