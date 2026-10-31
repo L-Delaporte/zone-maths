@@ -86,7 +86,7 @@ window.MathsRenderer = {
       let tableHtml = '<div class="math-table-container"><table class="math-table"><thead><tr>';
       headerCells.forEach((th, idx) => {
         const align = alignSpecs[idx] || 'left';
-        tableHtml += `<th style="text-align:${align}">${th}</th>`;
+        tableHtml += `<th scope="col" style="text-align:${align}">${th}</th>`;
       });
       tableHtml += '</tr></thead><tbody>';
 
@@ -110,7 +110,8 @@ window.MathsRenderer = {
     html = html.replace(/^#### (.*$)/gim, '<h4 class="math-h4">$1</h4>');
     html = html.replace(/^### (.*$)/gim, '<h3 class="math-h3">$1</h3>');
     html = html.replace(/^## (.*$)/gim, '<h2 class="math-h2">$1</h2>');
-    html = html.replace(/^# (.*$)/gim, '<h1 class="math-h1">$1</h1>');
+    // Un titre « # » du contenu ne doit pas créer une seconde h1 dans la page (la h1 est le titre du site / du cours)
+    html = html.replace(/^# (.*$)/gim, '<h2 class="math-h1">$1</h2>');
 
     // 4. Gras **texte**
     html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');

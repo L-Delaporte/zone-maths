@@ -76,8 +76,8 @@
   <link rel="stylesheet" href="vendor/katex/katex.min.css?v=000b7545e1" onerror="this.onerror=null;this.href='https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css';" />
   
   <!-- Feuilles de style de l'application -->
-  <link rel="stylesheet" href="css/style.css?v=d28d41392e" />
-  <link rel="stylesheet" href="css/sheets.css?v=6cd4e247a9" />
+  <link rel="stylesheet" href="css/style.css?v=903100fef1" />
+  <link rel="stylesheet" href="css/sheets.css?v=c8cd74024b" />
   <link rel="icon" href="/favicon.ico" sizes="any" />
   <link rel="icon" type="image/png" sizes="48x48" href="assets/favicon-48x48.png" />
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png" />
@@ -86,17 +86,18 @@
   <link rel="apple-touch-icon" href="assets/favicon.png" />
 </head>
 <body>
+  <a class="skip-link" href="#contenu">Aller au contenu</a>
 
   <!-- En-tête de l'application -->
   <header class="app-header">
     <div class="header-inner">
-      <div class="brand-container" id="brand-home-link" onclick="window.MathsApp.showHomeView()" title="Retourner à la page d'accueil" style="cursor: pointer;">
-        <img src="assets/logo-96.png" alt="L'Établi des Maths" class="brand-logo-img" width="44" height="44" />
+      <a class="brand-container" id="brand-home-link" href="./" onclick="window.MathsApp.showHomeView(); return false;" title="Retourner à la page d'accueil">
+        <img src="assets/logo-96.png" alt="" class="brand-logo-img" width="44" height="44" />
         <div class="brand-text">
           <h1 id="app-main-title">L'Établi des Maths <span class="brand-level-tag">Collège & Lycée</span></h1>
           <span class="brand-tagline">Outils pour apprendre et pratiquer</span>
         </div>
-      </div>
+      </a>
 
       <!-- Sélecteur Multi-Cycles (Collège, Lycée, Licence) & Niveaux -->
       <div class="app-curriculum-nav" role="navigation" aria-label="Cycles et Niveaux d'études">
@@ -140,15 +141,15 @@
 
       <div class="header-user-status">
         <div class="status-pills-row">
-          <div class="status-pill status-pill-clickable" id="header-level-pill" title="Clique pour voir ta progression vers le niveau suivant">
+          <button type="button" class="status-pill status-pill-clickable" id="header-level-pill" title="Clique pour voir ta progression vers le niveau suivant">
             <span id="header-user-level">Niveau 1</span>
-          </div>
-          <div class="status-pill status-pill-clickable" id="header-xp-pill" title="Clique pour voir ta progression d'XP">
+          </button>
+          <button type="button" class="status-pill status-pill-clickable" id="header-xp-pill" title="Clique pour voir ta progression d'XP">
             <span id="header-user-xp">0 XP</span>
-          </div>
-          <div class="status-pill status-pill-clickable" id="header-streak-pill" title="Clique pour voir les détails de ta série quotidienne">
-            <span id="header-user-streak">🔥 0</span>
-          </div>
+          </button>
+          <button type="button" class="status-pill status-pill-clickable" id="header-streak-pill" title="Clique pour voir les détails de ta série quotidienne" aria-label="Série quotidienne : 0 jour">
+            <span id="header-user-streak" aria-hidden="true">🔥 0</span>
+          </button>
         </div>
         
         <div class="header-actions-row">
@@ -214,7 +215,7 @@
   </div>
 
   <!-- Contenu Principal -->
-  <div class="app-container">
+  <main class="app-container" id="contenu" tabindex="-1">
 
     <!-- =========================================================================
          PAGE D'ACCUEIL / TABLEAU DE BORD (HUB D'APPRENTISSAGE ZPD)
@@ -270,7 +271,7 @@
 
       <!-- Section Cycles d'études -->
       <div class="home-section-header">
-        <h3 class="home-section-title">📚 Choisir un cycle d'études</h3>
+        <h3 class="home-section-title"><span aria-hidden="true">📚</span> Choisir un cycle d'études</h3>
         <span class="home-section-subtitle">Tous les niveaux en libre accès, de la 6e au CAPES</span>
       </div>
       <div class="home-cycles-grid">
@@ -323,7 +324,7 @@
 
       <!-- Section Outils Pédagogiques -->
       <div class="home-section-header">
-        <h3 class="home-section-title">⚡ Les 4 modes d'apprentissage</h3>
+        <h3 class="home-section-title"><span aria-hidden="true">⚡</span> Les 4 modes d'apprentissage</h3>
         <span class="home-section-subtitle">Outils intégrés pour s'entraîner, mémoriser et s'évaluer</span>
       </div>
       <div class="home-tools-grid">
@@ -405,7 +406,7 @@
     </aside>
 
     <!-- Zone Centrale de Travail -->
-    <main class="main-workspace">
+    <div class="main-workspace">
 
       <!-- Hero Bannière du Chapitre Sélectionné -->
       <div class="chapter-hero-banner">
@@ -430,23 +431,23 @@
       </div>
 
       <!-- Barre d'onglets du Chapitre -->
-      <nav class="tabs-navigation-bar no-print">
-        <button class="tab-btn active" data-tab="train">
-          <span class="tab-icon">🎯</span> <span class="tab-label">Entraînement</span>
+      <div class="tabs-navigation-bar no-print" role="tablist" aria-label="Rubriques du chapitre">
+        <button type="button" class="tab-btn active" data-tab="train" role="tab" id="tab-btn-train" aria-selected="true" aria-controls="tab-pane-train">
+          <span class="tab-icon" aria-hidden="true">🎯</span> <span class="tab-label">Entraînement</span>
         </button>
-        <button class="tab-btn" data-tab="course">
-          <span class="tab-icon">📖</span> <span class="tab-label">Cours</span>
+        <button type="button" class="tab-btn" data-tab="course" role="tab" id="tab-btn-course" aria-selected="false" aria-controls="tab-pane-course" tabindex="-1">
+          <span class="tab-icon" aria-hidden="true">📖</span> <span class="tab-label">Cours</span>
         </button>
-        <button class="tab-btn" data-tab="sheets">
-          <span class="tab-icon">📄</span> <span class="tab-label">Fiches & DS</span>
+        <button type="button" class="tab-btn" data-tab="sheets" role="tab" id="tab-btn-sheets" aria-selected="false" aria-controls="tab-pane-sheets" tabindex="-1">
+          <span class="tab-icon" aria-hidden="true">📄</span> <span class="tab-label">Fiches & DS</span>
         </button>
-        <button class="tab-btn" data-tab="stats">
-          <span class="tab-icon">📊</span> <span class="tab-label">Bilan</span>
+        <button type="button" class="tab-btn" data-tab="stats" role="tab" id="tab-btn-stats" aria-selected="false" aria-controls="tab-pane-stats" tabindex="-1">
+          <span class="tab-icon" aria-hidden="true">📊</span> <span class="tab-label">Bilan</span>
         </button>
-      </nav>
+      </div>
 
       <!-- 1. ONGLET : ENTRAÎNEMENT ADAPTATIF -->
-      <section id="tab-pane-train" class="tab-pane active">
+      <section id="tab-pane-train" class="tab-pane active" role="tabpanel" aria-labelledby="tab-btn-train">
         
         <!-- Panneau de Contrôle Adaptatif ZPD -->
         <div class="adaptive-control-panel">
@@ -465,8 +466,8 @@
               <button id="btn-open-visualizer" class="btn-secondary btn-sm" type="button" onclick="window.MathsApp.openVisualizerModal()" style="display:none;" title="Laboratoire interactif 2D/3D (Tore, EDO, Fourier)">
                 🔬 Labo 2D/3D
               </button>
-              <button id="btn-share-training" class="btn-secondary btn-sm" type="button" title="Partager le lien de cet entraînement">
-                🔗 Partager le lien
+              <button id="btn-share-training" class="btn-secondary btn-sm" type="button" title="Lien, QR code à projeter et message ENT pour ce chapitre">
+                📣 Partager à ma classe
               </button>
               <button id="btn-random-exercise" class="btn-secondary btn-sm" type="button" title="Générer une nouvelle question à données aléatoires">
                 🎲 Question Aléatoire
@@ -497,33 +498,33 @@
               </button>
             </div>
             <div id="virtual-math-keyboard" class="virtual-math-keyboard" style="display: none;">
-              <button class="key-btn" data-val="7">7</button>
-              <button class="key-btn" data-val="8">8</button>
-              <button class="key-btn" data-val="9">9</button>
-              <button class="key-btn" data-val="+">+</button>
-              <button class="key-btn" data-val="-">−</button>
-              <button class="key-btn action-key" data-action="backspace">⌫</button>
+              <button type="button" class="key-btn" data-val="7">7</button>
+              <button type="button" class="key-btn" data-val="8">8</button>
+              <button type="button" class="key-btn" data-val="9">9</button>
+              <button type="button" class="key-btn" data-val="+">+</button>
+              <button type="button" class="key-btn" data-val="-" aria-label="moins">−</button>
+              <button type="button" class="key-btn action-key" data-action="backspace" aria-label="Effacer le dernier caractère">⌫</button>
 
-              <button class="key-btn" data-val="4">4</button>
-              <button class="key-btn" data-val="5">5</button>
-              <button class="key-btn" data-val="6">6</button>
-              <button class="key-btn" data-val="*">×</button>
-              <button class="key-btn" data-val="/">/ (frac)</button>
-              <button class="key-btn action-key" data-action="clear">C</button>
+              <button type="button" class="key-btn" data-val="4">4</button>
+              <button type="button" class="key-btn" data-val="5">5</button>
+              <button type="button" class="key-btn" data-val="6">6</button>
+              <button type="button" class="key-btn" data-val="*" aria-label="fois">×</button>
+              <button type="button" class="key-btn" data-val="/">/ (frac)</button>
+              <button type="button" class="key-btn action-key" data-action="clear" aria-label="Tout effacer">C</button>
 
-              <button class="key-btn" data-val="1">1</button>
-              <button class="key-btn" data-val="2">2</button>
-              <button class="key-btn" data-val="3">3</button>
-              <button class="key-btn" data-val="x">x</button>
-              <button class="key-btn" data-val="^2">x²</button>
-              <button class="key-btn" data-val="^3">x³</button>
+              <button type="button" class="key-btn" data-val="1">1</button>
+              <button type="button" class="key-btn" data-val="2">2</button>
+              <button type="button" class="key-btn" data-val="3">3</button>
+              <button type="button" class="key-btn" data-val="x">x</button>
+              <button type="button" class="key-btn" data-val="^2">x²</button>
+              <button type="button" class="key-btn" data-val="^3">x³</button>
 
-              <button class="key-btn" data-val="0">0</button>
-              <button class="key-btn" data-val=",">,</button>
-              <button class="key-btn" data-val=";">;</button>
-              <button class="key-btn" data-val="(">(</button>
-              <button class="key-btn" data-val=")">)</button>
-              <button class="key-btn action-key" data-action="enter">⏎</button>
+              <button type="button" class="key-btn" data-val="0">0</button>
+              <button type="button" class="key-btn" data-val=",">,</button>
+              <button type="button" class="key-btn" data-val=";">;</button>
+              <button type="button" class="key-btn" data-val="(">(</button>
+              <button type="button" class="key-btn" data-val=")">)</button>
+              <button type="button" class="key-btn action-key" data-action="enter" aria-label="Valider">⏎</button>
             </div>
           </div>
 
@@ -557,14 +558,14 @@
       </section>
 
       <!-- 2. ONGLET : FICHE DE COURS SYNTHÉTIQUE -->
-      <section id="tab-pane-course" class="tab-pane">
+      <section id="tab-pane-course" class="tab-pane" role="tabpanel" aria-labelledby="tab-btn-course">
         <div id="course-content-container">
           <!-- Rempli dynamiquement par app.js -->
         </div>
       </section>
 
       <!-- 3. ONGLET : FICHES & SUJETS IMPRIMABLES -->
-      <section id="tab-pane-sheets" class="tab-pane">
+      <section id="tab-pane-sheets" class="tab-pane" role="tabpanel" aria-labelledby="tab-btn-sheets">
         <div class="sheets-quick-header-actions no-print" style="margin-bottom: 1rem; display: flex; gap: 0.75rem;">
           <button id="btn-quiz-from-sheets" class="btn-primary" type="button">
             📝 Générer des devoirs blancs d'entraînement (+ corrigé)
@@ -576,15 +577,15 @@
       </section>
 
       <!-- 4. ONGLET : BILAN, COMPÉTENCES & PASSEPORT -->
-      <section id="tab-pane-stats" class="tab-pane">
+      <section id="tab-pane-stats" class="tab-pane" role="tabpanel" aria-labelledby="tab-btn-stats">
         <div id="stats-content-container">
           <!-- Rempli dynamiquement par app.js -->
         </div>
       </section>
 
-    </main>
+    </div>
 
-  </div>
+  </main>
 
   <!-- Pied de page de l'application -->
   <footer class="app-footer no-print">
@@ -687,7 +688,7 @@
           </div>
         </div>
 
-        <div class="diapo-main-stage">
+        <div class="diapo-main-stage" aria-live="polite">
           <h3 id="diapo-q-title" class="diapo-stage-title">Titre de la question</h3>
           <div id="diapo-q-body" class="diapo-stage-body">
             <!-- Énoncé rendu en grand -->
@@ -710,8 +711,8 @@
             <span class="diapo-mm-brand-text">L'Établi des Maths</span>
           </div>
           <div class="diapo-mm-tabs">
-            <button id="diapo-tab-statements" class="diapo-mm-tab active" onclick="window.MathsDiaporama.setRecapMode('statements')">Énoncés</button>
-            <button id="diapo-tab-solutions" class="diapo-mm-tab" onclick="window.MathsDiaporama.setRecapMode('solutions')">Correction</button>
+            <button type="button" id="diapo-tab-statements" class="diapo-mm-tab active" aria-pressed="true" onclick="window.MathsDiaporama.setRecapMode('statements')">Énoncés</button>
+            <button type="button" id="diapo-tab-solutions" class="diapo-mm-tab" aria-pressed="false" onclick="window.MathsDiaporama.setRecapMode('solutions')">Correction</button>
             <button id="diapo-tab-config" class="diapo-mm-tab" onclick="window.MathsDiaporama.showScreen('config')">Paramétrer</button>
           </div>
           <div class="diapo-mm-topbar-actions">
@@ -731,9 +732,9 @@
                   <span>✏️</span>
                 </div>
                 <div class="diapo-mm-zoom-group">
-                  <button class="diapo-mm-zoom-btn" onclick="window.MathsDiaporama.zoomOut()" title="Réduire la taille (Zoom −)">🔍−</button>
-                  <button class="diapo-mm-zoom-btn" onclick="window.MathsDiaporama.zoomReset()" title="Taille par défaut">A</button>
-                  <button class="diapo-mm-zoom-btn" onclick="window.MathsDiaporama.zoomIn()" title="Agrandir la taille (Zoom +)">🔍+</button>
+                  <button type="button" class="diapo-mm-zoom-btn" onclick="window.MathsDiaporama.zoomOut()" title="Réduire la taille (Zoom −)" aria-label="Réduire la taille du texte">🔍−</button>
+                  <button type="button" class="diapo-mm-zoom-btn" onclick="window.MathsDiaporama.zoomReset()" title="Taille par défaut" aria-label="Taille du texte par défaut">A</button>
+                  <button type="button" class="diapo-mm-zoom-btn" onclick="window.MathsDiaporama.zoomIn()" title="Agrandir la taille (Zoom +)" aria-label="Agrandir la taille du texte">🔍+</button>
                 </div>
               </div>
               <div class="diapo-mm-header-center">
@@ -762,7 +763,7 @@
       <div id="quiz-config-screen">
         <div class="modal-header">
           <div>
-            <h2>📝 L'Établi des Maths — Devoirs blancs d'entraînement</h2>
+            <h2><span aria-hidden="true">📝</span> L'Établi des Maths — Devoirs blancs d'entraînement</h2>
             <div class="modal-author-badge">Créé par <strong>Loïc Delaporte</strong>, Professeur de Mathématiques</div>
           </div>
           <button aria-label="Fermer" class="modal-close-btn" onclick="window.MathsQuizGenerator.closeModal()">✕</button>
@@ -775,7 +776,7 @@
           <div class="diapo-setting-item">
             <label for="quiz-count-select">Format du devoir blanc :</label>
             <select id="quiz-count-select" class="form-select">
-              <option value="dnb-100">🎓 Sujet Brevet DNB Officiel (5 exercices types — 100 points — 2h)</option>
+              <option value="dnb-20">🎓 Sujet blanc type brevet (format 2026 — automatismes + problèmes — 20 points — 2 h)</option>
               <option value="bac-20">🎓 Sujet Bac Spécialité Maths (4 exercices types — 20 points — 4h)</option>
               <option value="5">5 questions (Interrogation courte - 15 min - sur 10 pts)</option>
               <option value="10" selected>10 questions (Devoir type - 30 min - sur 20 pts)</option>
@@ -801,7 +802,7 @@
       <div id="quiz-preview-screen" style="display: none;">
         <div class="modal-header no-print">
           <div>
-            <h2>📝 L'Établi des Maths — Mes devoirs blancs</h2>
+            <h2><span aria-hidden="true">📝</span> L'Établi des Maths — Mes devoirs blancs</h2>
             <div class="modal-author-badge">Créé par <strong>Loïc Delaporte</strong>, Professeur de Mathématiques</div>
           </div>
           <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
@@ -849,7 +850,8 @@
           <div class="reward-timer-progress" id="unlock-timer-progress"></div>
         </div>
         <div class="reward-timer-label">
-          Fermeture automatique dans <strong id="unlock-timer-seconds">10</strong>s
+          <span id="unlock-timer-text">Fermeture automatique dans <strong id="unlock-timer-seconds">10</strong>s</span>
+          <button type="button" class="reward-keep-open-btn" id="unlock-keep-open-btn">Garder ouvert</button>
         </div>
       </div>
 
@@ -871,7 +873,7 @@
       <div id="flashcards-config-screen">
         <div class="modal-header">
           <div>
-            <h2 id="fc-modal-title">🗂️ L'Établi des Maths — Boîte à Flashcards</h2>
+            <h2 id="fc-modal-title"><span aria-hidden="true">🗂️</span> L'Établi des Maths — Boîte à Flashcards</h2>
             <div class="modal-author-badge">Mémorisation Active & Répétition Espacée · Par <strong>Loïc Delaporte</strong></div>
           </div>
           <button type="button" aria-label="Fermer" class="modal-close-btn" onclick="window.MathsFlashcards.closeModal()">✕</button>
@@ -1003,7 +1005,7 @@
       <div id="flashcards-summary-screen" style="display: none;">
         <div class="modal-header">
           <div>
-            <h2>🎉 Bilan de votre session Flashcards</h2>
+            <h2><span aria-hidden="true">🎉</span> Bilan de votre session Flashcards</h2>
             <div class="modal-author-badge">Mémoire active consolidée !</div>
           </div>
           <button type="button" aria-label="Fermer" class="modal-close-btn" onclick="window.MathsFlashcards.closeModal()">✕</button>
@@ -1062,10 +1064,10 @@
 
         <!-- Trophées de Régularité (Daily Streak) -->
         <div class="streak-trophies-section">
-          <h4 style="margin: 0 0 0.65rem 0; font-size: 0.95rem; color: var(--text-main); display: flex; align-items: center; justify-content: space-between;">
-            <span>🏆 Trophées de Régularité</span>
+          <h3 style="margin: 0 0 0.65rem 0; font-size: 0.95rem; color: var(--text-main); display: flex; align-items: center; justify-content: space-between;">
+            <span><span aria-hidden="true">🏆</span> Trophées de Régularité</span>
             <span style="font-size: 0.78rem; font-weight: normal; color: var(--text-muted);">Jalons à débloquer</span>
-          </h4>
+          </h3>
           <div id="streak-modal-trophies-list" class="streak-trophies-modal-grid">
             <!-- Rempli dynamiquement par JS -->
           </div>
@@ -1073,7 +1075,7 @@
 
         <!-- Explication pédagogique -->
         <div class="streak-explanation-box">
-          <h4>💡 Comment fonctionne la flamme ?</h4>
+          <h3><span aria-hidden="true">💡</span> Comment fonctionne la flamme ?</h3>
           <ul>
             <li><strong>1 exercice par jour</strong> suffit pour entretenir ta flamme et faire grimper ta série.</li>
             <li><strong>La régularité est la clé</strong> : s'entraîner 5 à 10 minutes chaque jour consolide durablement ta mémoire pour tout le collège et le Brevet.</li>
@@ -1141,7 +1143,7 @@
 
         <!-- Astuces pédagogiques -->
         <div class="level-tips-box">
-          <h4>💡 Comment fonctionne la montée de niveau ?</h4>
+          <h3><span aria-hidden="true">💡</span> Comment fonctionne la montée de niveau ?</h3>
           <ul>
             <li><strong>Courbe progressive</strong> : comme dans un jeu d'aventure, chaque niveau demande un peu plus d'expérience (+25 XP par palier) pour valoriser ta persévérance.</li>
             <li><strong>+10 XP</strong> par bonne réponse en entraînement adaptatif ou flashcards.</li>
@@ -1200,9 +1202,9 @@
       </div>
 
       <div class="visualizer-tabs-row" style="margin-top: 1rem;">
-        <button class="vis-tab-btn active" onclick="window.MathVisualizer.switchMode('torus')">🍩 Tore 3D Paramétré</button>
-        <button class="vis-tab-btn" onclick="window.MathVisualizer.switchMode('phase_plane')">🌀 Plan de Phase EDO (Runge-Kutta 4)</button>
-        <button class="vis-tab-btn" onclick="window.MathVisualizer.switchMode('fourier')">🌊 Synthèse de Fourier (Gibbs)</button>
+        <button type="button" class="vis-tab-btn active" aria-pressed="true" onclick="window.MathVisualizer.switchMode('torus')"><span aria-hidden="true">🍩</span> Tore 3D Paramétré</button>
+        <button type="button" class="vis-tab-btn" aria-pressed="false" onclick="window.MathVisualizer.switchMode('phase_plane')"><span aria-hidden="true">🌀</span> Plan de Phase EDO (Runge-Kutta 4)</button>
+        <button type="button" class="vis-tab-btn" aria-pressed="false" onclick="window.MathVisualizer.switchMode('fourier')"><span aria-hidden="true">🌊</span> Synthèse de Fourier (Gibbs)</button>
       </div>
 
       <div id="vis-controls" style="display: flex; gap: 1rem; align-items: center; margin-bottom: 0.75rem; flex-wrap: wrap; font-size: 0.88rem;">
@@ -1210,7 +1212,7 @@
       </div>
 
       <div style="position: relative; width: 100%; height: 380px; background: #0b1329; border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--border-color);">
-        <canvas id="vis-canvas" style="width: 100%; height: 100%; display: block; cursor: crosshair;"></canvas>
+        <canvas id="vis-canvas" tabindex="0" role="img" aria-label="Laboratoire de visualisation" style="width: 100%; height: 100%; display: block; cursor: crosshair;"></canvas>
       </div>
 
       <div class="modal-footer" style="margin-top: 1rem; justify-content: space-between;">
@@ -1327,7 +1329,7 @@
   <script id="level-bundles" type="application/json">
   {
     "6eme": ["js/data/data_6eme.js?v=bcf81645d8", "js/generators6e.js?v=01e9337c19"],
-    "5eme": ["js/data/data_5eme.js?v=7412c763ee"],
+    "5eme": ["js/data/data_5eme.js?v=0c0bebd803"],
     "4eme": ["js/data/data_4eme.js?v=82f7987e93"],
     "3eme": ["js/data/courses.js?v=ee6da61112", "js/data/exercises.js?v=3fd352d4c1", "js/data/worksheets.js?v=617c760ac9"],
     "2nde": ["js/data/data_2nde.js?v=8cff233382", "js/advancedGenerators.js?v=a8b5bbf977", "js/lyceeGenerators.js?v=84e32be68e"],
@@ -1342,26 +1344,26 @@
 
   <!-- Modules applicatifs -->
   <script src="js/storage.js?v=974eea8078"></script>
-  <script src="js/audioEffects.js?v=61af5bd9de"></script>
-  <script src="js/confetti.js?v=a25de2b7fe"></script>
-  <script src="js/mathRenderer.js?v=a79ff2ff2a"></script>
+  <script src="js/audioEffects.js?v=b65413daaf"></script>
+  <script src="js/confetti.js?v=b2b29d56a8"></script>
+  <script src="js/mathRenderer.js?v=7e4ab0facd"></script>
   <script src="js/geometryFigures.js?v=656295f7c5"></script>
   <script src="js/scratchRenderer.js?v=ed1e43916b"></script>
   <script src="js/adaptiveEngine.js?v=4157252bf2"></script>
   <script src="js/randomGenerators.js?v=b7b7de56c7"></script>
   <script src="js/proofEngine.js?v=f99d384bfd"></script>
-  <script src="js/mathVisualizer.js?v=96becc2c77"></script>
-  <script src="js/diaporamaEngine.js?v=56f2c319fe"></script>
-  <script src="js/flashQuizGenerator.js?v=694557b7d8"></script>
-  <script src="js/flashcardsEngine.js?v=eaaaf3412c"></script>
+  <script src="js/mathVisualizer.js?v=dae9a74a57"></script>
+  <script src="js/diaporamaEngine.js?v=1833780366"></script>
+  <script src="js/flashQuizGenerator.js?v=1c6814e503"></script>
+  <script src="js/flashcardsEngine.js?v=1d33aefd7b"></script>
   <script src="js/dataLoader.js?v=828f7fa67d"></script>
-  <script src="js/app.js?v=1ae39dddbd"></script>
-  <script src="js/app/home.js?v=68176da850"></script>
-  <script src="js/app/tools.js?v=a0dd55c70d"></script>
-  <script src="js/app/training.js?v=a4976f4bd5"></script>
-  <script src="js/app/course.js?v=417bf8b735"></script>
-  <script src="js/app/sheets.js?v=003c656fff"></script>
-  <script src="js/app/stats.js?v=3165940613"></script>
+  <script src="js/app.js?v=56ca597042"></script>
+  <script src="js/app/home.js?v=72cdb60c9e"></script>
+  <script src="js/app/tools.js?v=0cec4ea7db"></script>
+  <script src="js/app/training.js?v=f187a1fa23"></script>
+  <script src="js/app/course.js?v=e8977e54eb"></script>
+  <script src="js/app/sheets.js?v=c9c4472639"></script>
+  <script src="js/app/stats.js?v=2693dadcef"></script>
   <script src="js/pwaManager.js?v=0a3ce1177d"></script>
 
   <!-- Statistiques d'audience anonymes et conformes RGPD (GoatCounter) -->

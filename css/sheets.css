@@ -264,7 +264,7 @@
   border: 1px solid var(--primary-border);
   border-radius: var(--radius-md);
   background: var(--primary-subtle);
-  color: var(--primary);
+  color: var(--primary-text);
   font-weight: 700;
 }
 .ws-solution > summary::-webkit-details-marker { display: none; }
@@ -325,6 +325,8 @@
   #tab-pane-sheets .ws-title { font-size: 15pt !important; }
   #tab-pane-sheets .ws-infos { font-size: 9.5pt !important; }
   #tab-pane-sheets .ws-grade { display: block !important; border-color: #000 !important; }
+  #tab-pane-sheets .ws-qr.print-only,
+  .quiz-footer-credit .print-qr { display: flex !important; }
   #tab-pane-sheets .ws-student.print-only {
     display: flex !important;
     margin: 0 0 4mm !important;
@@ -380,3 +382,51 @@
 /* --- Thème sombre -------------------------------------------------------------------- */
 [data-theme="dark"] .ws-sheet { background: var(--bg-surface); color: var(--text-main); }
 [data-theme="dark"] .ws-solution-page { background: var(--bg-subtle); }
+
+/* Devoir blanc type brevet / bac : intitulés des parties */
+.quiz-exam-section {
+  grid-column: 1 / -1;
+  margin: 0.5rem 0 0.25rem;
+  padding: 0.6rem 0.9rem;
+  border-left: 4px solid var(--primary-text, #1d4ed8);
+  background: var(--bg-subtle);
+  border-radius: var(--radius-sm);
+  break-inside: avoid;
+}
+.quiz-exam-section h4 {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--text-main);
+}
+.quiz-exam-section p {
+  margin: 0.3rem 0 0;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+
+/* QR code imprimé en pied de sujet */
+.print-qr {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: 1rem;
+  font-weight: 600;
+}
+.print-qr img {
+  width: 64px;
+  height: 64px;
+}
+
+/* QR code d'entraînement en tête des fiches imprimées */
+.ws-qr {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0.4rem 0 0.6rem;
+  font-size: 0.8rem;
+}
+.ws-qr img {
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+}

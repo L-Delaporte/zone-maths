@@ -10,19 +10,6 @@
   min-width: 0; /* body est en flex : indispensable pour éviter le débordement sur mobile */
 }
 
-/* Lien d'évitement */
-.cours-skip {
-  position: absolute;
-  left: -9999px;
-  top: 0;
-  z-index: 100;
-  background: var(--primary);
-  color: #fff;
-  padding: 0.6rem 1rem;
-  border-radius: 0 0 var(--radius-sm) 0;
-  font-weight: 700;
-}
-.cours-skip:focus { left: 0; }
 
 /* Focus visible */
 .cours-page a:focus-visible,
@@ -35,7 +22,7 @@
 
 /* Liens dans le texte : contraste AA et soulignement */
 .cours-wrapper a:not([class]) {
-  color: var(--primary-hover);
+  color: var(--primary-text);
   text-decoration: underline;
   text-underline-offset: 2px;
 }
@@ -56,7 +43,7 @@
   color: var(--text-muted);
 }
 .cours-breadcrumb a { color: var(--text-muted); text-decoration: underline; text-underline-offset: 2px; }
-.cours-breadcrumb a:hover { color: var(--primary); }
+.cours-breadcrumb a:hover { color: var(--primary-text); }
 .cours-breadcrumb [aria-current] { color: var(--text-main); font-weight: 600; }
 
 /* En-tête de page */
@@ -128,7 +115,7 @@
   padding-left: 1.4rem;
 }
 .cours-toc a { color: var(--text-main); text-decoration: underline; text-underline-offset: 2px; }
-.cours-toc a:hover { color: var(--primary); }
+.cours-toc a:hover { color: var(--primary-text); }
 
 /* Sections */
 .cours-section { min-width: 0; scroll-margin-top: 5.5rem; }
@@ -193,7 +180,7 @@
   font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  color: var(--primary-hover);
+  color: var(--primary-text);
   margin-bottom: 0.35rem;
 }
 [data-theme="dark"] .cours-example-label { color: #93c5fd; }
@@ -221,7 +208,7 @@
   text-transform: uppercase;
   letter-spacing: 0.04em;
   color: #fff;
-  background: var(--primary-hover);
+  background: var(--primary-fill-hover);
   padding: 2px 8px;
   border-radius: var(--radius-full);
 }
@@ -246,7 +233,7 @@
   cursor: pointer;
   padding: 0.6rem 0.9rem;
   font-weight: 700;
-  color: var(--primary-hover);
+  color: var(--primary-text);
   list-style-position: inside;
 }
 [data-theme="dark"] .cours-page summary { color: #93c5fd; }
@@ -347,14 +334,14 @@
   align-items: baseline;
   gap: 0.25rem 0.6rem;
 }
-.cours-level-card h3 a { color: var(--primary-hover); text-decoration: none; }
+.cours-level-card h3 a { color: var(--primary-text); text-decoration: none; display: inline-block; min-width: 24px; padding: 0 0.2rem; }
 [data-theme="dark"] .cours-level-card h3 a { color: #93c5fd; }
 .cours-level-card h3 a:hover { text-decoration: underline; }
 .cours-count { font-size: 0.8rem; font-weight: 600; color: var(--text-muted); }
 .cours-level-card ul { padding-left: 1.1rem; font-size: 0.9rem; line-height: 1.5; }
 .cours-level-card li + li { margin-top: 0.3rem; }
 .cours-level-card li a { color: var(--text-main); text-decoration: none; }
-.cours-level-card li a:hover { color: var(--primary); text-decoration: underline; }
+.cours-level-card li a:hover { color: var(--primary-text); text-decoration: underline; }
 
 /* Pied de page */
 .cours-footer {
@@ -410,7 +397,7 @@
   font-weight: 700;
   letter-spacing: 0.03em;
   text-transform: uppercase;
-  color: var(--primary-hover);
+  color: var(--primary-text);
   margin-bottom: 0.35rem;
 }
 [data-theme="dark"] .cours-title-kicker { color: #93c5fd; }
@@ -466,7 +453,7 @@
   display: flex;
   flex-direction: column;
 }
-.hub-facts strong { font-size: 1.35rem; font-weight: 800; color: var(--primary-hover); line-height: 1.2; }
+.hub-facts strong { font-size: 1.35rem; font-weight: 800; color: var(--primary-text); line-height: 1.2; }
 [data-theme="dark"] .hub-facts strong { color: #93c5fd; }
 .hub-facts span { font-size: 0.8rem; color: var(--text-muted); }
 .hub-grid {
@@ -494,7 +481,7 @@
 .cours-wrapper a.hub-train {
   font-size: 0.8rem;
   font-weight: 700;
-  color: var(--primary-hover);
+  color: var(--primary-text);
   border: 1px solid var(--primary-border);
   background: var(--primary-subtle);
   border-radius: var(--radius-full, 999px);
@@ -502,7 +489,7 @@
   text-decoration: none;
   white-space: nowrap;
 }
-.cours-wrapper a.hub-train:hover { background: var(--primary); color: #fff; }
+.cours-wrapper a.hub-train:hover { background: var(--primary-fill); color: #fff; }
 [data-theme="dark"] .cours-wrapper a.hub-train { color: #93c5fd; }
 .hub-steps { padding-left: 1.5rem; display: grid; gap: 0.6rem; line-height: 1.65; }
 .hub-table-wrap { max-width: 100%; overflow-x: auto; margin-bottom: 0.85rem; }

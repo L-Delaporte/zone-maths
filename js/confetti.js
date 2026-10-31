@@ -7,6 +7,8 @@
 
   window.MathsConfetti = {
     launch: function(durationMs = 2800) {
+      // Mouvement réduit demandé par le système : pas d'animation
+      if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
       // Éviter de lancer plusieurs toiles superflues en même temps
       const existingCanvas = document.getElementById('maths-confetti-canvas');
       if (existingCanvas) {

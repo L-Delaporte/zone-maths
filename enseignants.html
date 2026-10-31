@@ -25,8 +25,8 @@
 
   <title>Outils gratuits pour professeurs de maths : rituels, devoirs</title>
 
-  <link rel="stylesheet" href="css/style.css?v=d28d41392e" />
-  <link rel="stylesheet" href="css/landing.css?v=c7262c9047" />
+  <link rel="stylesheet" href="css/style.css?v=903100fef1" />
+  <link rel="stylesheet" href="css/landing.css?v=e01cce93cb" />
   <link rel="icon" href="favicon.ico" sizes="any" />
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png" />
   <link rel="apple-touch-icon" href="assets/favicon.png" />
@@ -84,12 +84,13 @@
   </script>
 </head>
 <body>
+  <a class="skip-link" href="#contenu">Aller au contenu</a>
 
   <!-- Header -->
   <header class="app-header">
     <div class="header-inner">
       <a href="index.html" class="brand-container" style="text-decoration: none;">
-        <img src="assets/logo-96.png" alt="L'Établi des Maths" class="brand-logo-img" width="44" height="44" />
+        <img src="assets/logo-96.png" alt="" class="brand-logo-img" width="44" height="44" />
         <div class="brand-text">
           <p class="brand-title">L'Établi des Maths <span class="brand-level-tag">Enseignants</span></p>
           <span class="brand-tagline">Outils pour apprendre et pratiquer</span>
@@ -102,13 +103,13 @@
         <a href="rituels.html" class="nav-portal-btn">⏱️ Rituels</a>
         <a href="brevet.html" class="nav-portal-btn">📝 Brevet 3e</a>
         <a href="bac.html" class="nav-portal-btn">🎓 Baccalauréat</a>
-        <a href="enseignants.html" class="nav-portal-btn active">👨‍🏫 Enseignants</a>
+        <a href="enseignants.html" class="nav-portal-btn active" aria-current="page">👨‍🏫 Enseignants</a>
       </nav>
     </div>
   </header>
 
   <!-- Contenu Principal -->
-  <main class="landing-wrapper">
+  <main class="landing-wrapper" id="contenu" tabindex="-1">
     <section class="landing-hero">
       <span class="landing-tag">👨‍🏫 Conçu par un Enseignant pour les Enseignants</span>
       <h1 class="landing-title">L'Établi des Maths au Service de Votre Pratique de Classe</h1>
@@ -140,7 +141,7 @@
 
       <div class="usage-grid">
         <div class="usage-card">
-          <span class="usage-badge" style="background: rgba(37, 99, 235, 0.12); color: #2563eb;">Usage 1 • Début d'heure</span>
+          <span class="usage-badge usage-1">Usage 1 • Début d'heure</span>
           <h3 class="usage-title">Rituels & Questions Flash (5 min)</h3>
           <p class="usage-desc">
             Vidéoprojetez en un clic une série de questions d'automatismes avec compte à rebours réglable. Déclenchez la correction animée pas à pas pour favoriser l'auto-positionnement sur ardoise.
@@ -148,7 +149,7 @@
         </div>
 
         <div class="usage-card">
-          <span class="usage-badge" style="background: rgba(16, 185, 129, 0.15); color: #059669;">Usage 2 • Différenciation & AP</span>
+          <span class="usage-badge usage-2">Usage 2 • Différenciation & AP</span>
           <h3 class="usage-title">La Progression par Paliers ZPD</h3>
           <p class="usage-desc">
             En salle informatique ou sur tablettes, chaque élève avance à son rythme : le <em>Palier 1 (Socle)</em> débloque les bases sans stress, tandis que les <em>Paliers 3 et 4</em> stimulent les élèves avancés avec des défis et des démonstrations.
@@ -156,7 +157,7 @@
         </div>
 
         <div class="usage-card">
-          <span class="usage-badge" style="background: rgba(124, 58, 237, 0.12); color: #7c3aed;">Usage 3 • Devoirs & Révisions</span>
+          <span class="usage-badge usage-3">Usage 3 • Devoirs & Révisions</span>
           <h3 class="usage-title">Générateur de Devoirs Blancs</h3>
           <p class="usage-desc">
             Générez des sujets d'entraînement ou d'évaluation formateurs (format Brevet sur 100 points ou format Bac) avec barème détaillé, idéaux pour les devoirs maison ou l'auto-évaluation guidée.
@@ -164,7 +165,7 @@
         </div>
 
         <div class="usage-card">
-          <span class="usage-badge" style="background: rgba(245, 158, 11, 0.15); color: #d97706;">Usage 4 • Cahier de Texte & ENT</span>
+          <span class="usage-badge usage-4">Usage 4 • Cahier de Texte & ENT</span>
           <h3 class="usage-title">Partage de Liens Ciblés</h3>
           <p class="usage-desc">
             Chaque chapitre et chaque palier possède son lien direct (ex : <code>?chapitre=4G1&palier=2</code>). Collez simplement l'adresse dans Pronote ou votre ENT pour cibler précisément le travail demandé.
@@ -186,7 +187,7 @@
         <div class="ethics-item">
           <div class="ethics-icon">🛡️</div>
           <div>
-            <h4>Conformité RGPD stricte</h4>
+            <h3>Conformité RGPD stricte</h3>
             <p>Aucun compte élève requis, aucun mot de passe, aucun traçage. Les progrès sont mémorisés localement sur la machine de l'élève (localStorage).</p>
           </div>
         </div>
@@ -194,7 +195,7 @@
         <div class="ethics-item">
           <div class="ethics-icon">🆓</div>
           <div>
-            <h4>100 % Gratuit & Sans Publicité</h4>
+            <h3>100 % Gratuit & Sans Publicité</h3>
             <p>Pas de modèle freemium déguisé, pas de bannières publicitaires ni de pièges pour les élèves. Un outil purement pédagogique au service du service public.</p>
           </div>
         </div>
@@ -202,7 +203,7 @@
         <div class="ethics-item">
           <div class="ethics-icon">🏛️</div>
           <div>
-            <h4>Conforme aux Programmes</h4>
+            <h3>Conforme aux Programmes</h3>
             <p>Respect scrupuleux des repères de progression du ministère de l'Éducation Nationale (Cycle 4, Seconde et Spécialité Mathématiques).</p>
           </div>
         </div>

@@ -260,8 +260,8 @@ Object.assign(window.MathsApp, {
 
     if (todayEl) {
       todayEl.innerHTML = streakInfo.isActiveToday 
-        ? `<span style="color: var(--success, #10b981); font-weight: 700;">Validé ✓</span>` 
-        : `<span style="color: #f59e0b; font-weight: 700;">En attente ⏳</span>`;
+        ? `<span class="streak-today-ok">Validé ✓</span>`
+        : `<span class="streak-today-wait">En attente <span aria-hidden="true">⏳</span></span>`;
     }
 
     if (statusEl) {
@@ -377,7 +377,7 @@ Object.assign(window.MathsApp, {
       btn.classList.toggle('active', btn.id === 'cycle-tab-home');
     });
     // Retirer la sélection active des pilules de niveaux sur la page d'accueil
-    document.querySelectorAll('.level-pill').forEach(pill => pill.classList.remove('active'));
+    document.querySelectorAll('.level-pill').forEach(pill => { pill.classList.remove('active'); pill.removeAttribute('aria-current'); });
 
     this.renderHomeView();
     window.scrollTo({ top: 0, behavior: 'smooth' });

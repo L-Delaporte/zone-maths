@@ -10,7 +10,7 @@
  * NE PAS éditer à la main la liste ci-dessous ni CACHE_NAME : lancer `node scripts/build_versions.js`.
  */
 
-const CACHE_NAME = 'etabli-des-maths-6047eff331';
+const CACHE_NAME = 'etabli-des-maths-1d70933c30';
 
 // @precache-start
 const PRECACHE_URLS = [
@@ -21,8 +21,8 @@ const PRECACHE_URLS = [
   './assets/favicon-32x32.png',
   './assets/favicon-144x144.png',
   './vendor/katex/katex.min.css?v=000b7545e1',
-  './css/style.css?v=d28d41392e',
-  './css/sheets.css?v=6cd4e247a9',
+  './css/style.css?v=903100fef1',
+  './css/sheets.css?v=c8cd74024b',
   './vendor/katex/katex.min.js?v=9616b6e2a7',
   './vendor/katex/auto-render.min.js?v=491616b8c9',
   './js/data/chapters.js?v=c4d084203e',
@@ -30,26 +30,26 @@ const PRECACHE_URLS = [
   './js/data/chapters_licence.js?v=862554015c',
   './js/data/data_capes.js?v=5ce35bd63a',
   './js/storage.js?v=974eea8078',
-  './js/audioEffects.js?v=61af5bd9de',
-  './js/confetti.js?v=a25de2b7fe',
-  './js/mathRenderer.js?v=a79ff2ff2a',
+  './js/audioEffects.js?v=b65413daaf',
+  './js/confetti.js?v=b2b29d56a8',
+  './js/mathRenderer.js?v=7e4ab0facd',
   './js/geometryFigures.js?v=656295f7c5',
   './js/scratchRenderer.js?v=ed1e43916b',
   './js/adaptiveEngine.js?v=4157252bf2',
   './js/randomGenerators.js?v=b7b7de56c7',
   './js/proofEngine.js?v=f99d384bfd',
-  './js/mathVisualizer.js?v=96becc2c77',
-  './js/diaporamaEngine.js?v=56f2c319fe',
-  './js/flashQuizGenerator.js?v=694557b7d8',
-  './js/flashcardsEngine.js?v=eaaaf3412c',
+  './js/mathVisualizer.js?v=dae9a74a57',
+  './js/diaporamaEngine.js?v=1833780366',
+  './js/flashQuizGenerator.js?v=1c6814e503',
+  './js/flashcardsEngine.js?v=1d33aefd7b',
   './js/dataLoader.js?v=828f7fa67d',
-  './js/app.js?v=1ae39dddbd',
-  './js/app/home.js?v=68176da850',
-  './js/app/tools.js?v=a0dd55c70d',
-  './js/app/training.js?v=a4976f4bd5',
-  './js/app/course.js?v=417bf8b735',
-  './js/app/sheets.js?v=003c656fff',
-  './js/app/stats.js?v=3165940613',
+  './js/app.js?v=56ca597042',
+  './js/app/home.js?v=72cdb60c9e',
+  './js/app/tools.js?v=0cec4ea7db',
+  './js/app/training.js?v=f187a1fa23',
+  './js/app/course.js?v=e8977e54eb',
+  './js/app/sheets.js?v=c9c4472639',
+  './js/app/stats.js?v=2693dadcef',
   './js/pwaManager.js?v=0a3ce1177d'
 ];
 // @precache-end

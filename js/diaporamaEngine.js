@@ -397,8 +397,8 @@ window.MathsDiaporama = {
     const isSolutions = this.state.recapMode === 'solutions';
 
     // Mettre à jour les onglets actifs
-    if (tabStatements) tabStatements.classList.toggle('active', !isSolutions);
-    if (tabSolutions) tabSolutions.classList.toggle('active', isSolutions);
+    if (tabStatements) { tabStatements.classList.toggle('active', !isSolutions); tabStatements.setAttribute('aria-pressed', String(!isSolutions)); }
+    if (tabSolutions) { tabSolutions.classList.toggle('active', isSolutions); tabSolutions.setAttribute('aria-pressed', String(isSolutions)); }
     if (sheetTitle) sheetTitle.textContent = this.state.isDifferentiated ? 'Double Rituel (Socle & Défi)' : 'Diapo 1';
 
     // Rendu en mode différencié (2 colonnes synchronisées)
@@ -447,6 +447,36 @@ window.MathsDiaporama = {
       this.applyZoom();
       return;
     }
+
+    // Rendu standard : une ligne compacte par question
+    const itemsHtml = this.state.questions.map((q, idx) => {
+      const cleanStmt = (q.statement || '').replace(/\r?\n+/g, ' ');
+      const statementHtml = window.MathsRenderer.markdownToHtml(cleanStmt);
+
+      let ansHtml = '';
+      if (isSolutions) {
+        const rawAns = q.options ? q.options[q.correctIndex !== undefined ? q.correctIndex : 0] : (q.answer || '');
+        ansHtml = this.formatAnswerForDisplay(rawAns);
+      }
+
+      return `
+        <div class="diapo-mm-item">
+          <span class="diapo-mm-num">${idx + 1})</span>
+          <div class="diapo-mm-content">
+            <span class="diapo-mm-statement">${statementHtml}</span>
+            ${isSolutions ? `
+              <span class="diapo-mm-ans-badge">➜ <strong>${ansHtml}</strong></span>
+              ${q.solution ? `
+                <details class="diapo-mm-detail">
+                  <summary>Détail du calcul</summary>
+                  <div class="diapo-mm-sol-text">${window.MathsRenderer.markdownToHtml(q.solution)}</div>
+                </details>
+              ` : ''}
+            ` : ''}
+          </div>
+        </div>
+      `;
+    }).join('');
 
     listContainer.innerHTML = itemsHtml;
 

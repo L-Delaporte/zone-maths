@@ -26,12 +26,12 @@ Object.assign(window.MathsApp, {
         <div class="course-sheet-header">
           <div class="course-header-titles">
             <span class="badge-tag" style="background:${themeColor}; color:#fff; font-weight:800; font-size:0.75rem; padding:3px 10px; border-radius:12px; margin-bottom:0.5rem; display:inline-block;">${badgeText}</span>
-            <h2>${capesLesson.num} : ${capesLesson.title}</h2>
+            <h3 class="course-sheet-title">${capesLesson.num} : ${capesLesson.title}</h3>
             <div style="color:var(--text-muted); font-size:0.9rem; font-weight:600; margin-top:0.25rem;">Domaine : ${capesLesson.domain} • Niveau : ${capesLesson.level}</div>
           </div>
           <div class="course-header-actions">
-            <button class="btn-secondary no-print course-print-btn" onclick="window.print()" title="Imprimer la leçon"><span style="margin-right: 0.35rem;">🖨️</span>Imprimer la fiche</button>
-            <img src="assets/logo-96.png" alt="Logo L'Établi des Maths" class="course-header-logo" width="48" height="48" />
+            <button class="btn-secondary no-print course-print-btn" onclick="window.print()" title="Imprimer la leçon"><span style="margin-right: 0.35rem;" aria-hidden="true">🖨️</span>Imprimer la fiche</button>
+            <img src="assets/logo-96.png" alt="" class="course-header-logo" width="48" height="48" />
           </div>
         </div>
 
@@ -102,28 +102,28 @@ Object.assign(window.MathsApp, {
         container.innerHTML = `
           <div class="course-sheet-header">
             <div class="course-header-titles">
-              <h2>${chMeta.num} : ${chMeta.title}</h2>
+              <h3 class="course-sheet-title">${chMeta.num} : ${chMeta.title}</h3>
             </div>
             <div class="course-header-actions">
-              <button class="btn-secondary no-print course-print-btn" onclick="window.print()" title="Imprimer le cours"><span style="margin-right: 0.35rem;">🖨️</span>Imprimer le cours</button>
-              <img src="assets/logo-96.png" alt="Logo L'Établi des Maths" class="course-header-logo" width="48" height="48" />
+              <button class="btn-secondary no-print course-print-btn" onclick="window.print()" title="Imprimer le cours"><span style="margin-right: 0.35rem;" aria-hidden="true">🖨️</span>Imprimer le cours</button>
+              <img src="assets/logo-96.png" alt="" class="course-header-logo" width="48" height="48" />
             </div>
           </div>
           <div class="course-card course-objectives">
-            <h3>🎯 Attendus & Objectifs ${lvlLabel}</h3>
+            <h3><span aria-hidden="true">🎯</span> Attendus & Objectifs ${lvlLabel}</h3>
             <ul class="math-list">
               ${(chMeta.skills || []).map(s => `<li>${s}</li>`).join('')}
             </ul>
           </div>
           <div class="course-card">
-            <h3>📖 Synthèse du chapitre & Notions clés</h3>
+            <h3><span aria-hidden="true">📖</span> Synthèse du chapitre & Notions clés</h3>
             <div class="course-card-body">
               <p class="math-p">${chMeta.description}</p>
               ${resourceCallout}
             </div>
           </div>
           <div class="course-card course-method">
-            <h3>⚡ Entraînement & Automatismes</h3>
+            <h3><span aria-hidden="true">⚡</span> Entraînement & Automatismes</h3>
             <p class="math-p">Rendez-vous dans l'onglet <strong>🎯 S'entraîner</strong> pour pratiquer les 4 Paliers ZPD ou lancez un <strong>⏱️ Rituel Flash</strong> !</p>
           </div>
           <div class="course-print-footer print-only">
@@ -141,11 +141,11 @@ Object.assign(window.MathsApp, {
     let html = `
       <div class="course-sheet-header">
         <div class="course-header-titles">
-          <h2>${course.title}</h2>
+          <h3 class="course-sheet-title">${course.title}</h3>
         </div>
         <div class="course-header-actions">
-          <button class="btn-secondary no-print course-print-btn" onclick="window.print()" title="Imprimer le cours"><span style="margin-right: 0.35rem;">🖨️</span>Imprimer le cours</button>
-          <img src="assets/logo-96.png" alt="Logo L'Établi des Maths" class="course-header-logo" width="48" height="48" />
+          <button class="btn-secondary no-print course-print-btn" onclick="window.print()" title="Imprimer le cours"><span style="margin-right: 0.35rem;" aria-hidden="true">🖨️</span>Imprimer le cours</button>
+          <img src="assets/logo-96.png" alt="" class="course-header-logo" width="48" height="48" />
         </div>
       </div>
     `;
@@ -154,7 +154,7 @@ Object.assign(window.MathsApp, {
     if (course.objectives && course.objectives.length) {
       html += `
         <div class="course-card course-objectives">
-          <h3>🎯 Attendus de fin de cycle & Objectifs ${lvlLabel}</h3>
+          <h3><span aria-hidden="true">🎯</span> Attendus de fin de cycle & Objectifs ${lvlLabel}</h3>
           <ul class="math-list">
             ${course.objectives.map(o => `<li>${o}</li>`).join('')}
           </ul>
@@ -179,7 +179,7 @@ Object.assign(window.MathsApp, {
       course.methods.forEach(m => {
         html += `
           <div class="course-card course-method">
-            <h3>⚡ ${m.title}</h3>
+            <h3><span aria-hidden="true">⚡</span> ${m.title}</h3>
             <div class="method-example"><strong>Exemple :</strong> ${window.MathsRenderer.markdownToHtml(m.example)}</div>
             <div class="method-steps">
               ${m.steps.map(s => `<div class="method-step-item">${window.MathsRenderer.markdownToHtml(s)}</div>`).join('')}
@@ -193,7 +193,7 @@ Object.assign(window.MathsApp, {
     if (course.traps && course.traps.length) {
       html += `
         <div class="course-card course-traps">
-          <h3>⚠️ Pièges fréquents</h3>
+          <h3><span aria-hidden="true">⚠️</span> Pièges fréquents</h3>
           <ul>
             ${course.traps.map(t => `<li>${window.MathsRenderer.markdownToHtml(t)}</li>`).join('')}
           </ul>
@@ -207,7 +207,7 @@ Object.assign(window.MathsApp, {
         <div class="course-flashcards-section">
           <div class="flashcards-header">
             <div>
-              <h3>🗂️ Mémorisation Active & Flashcards de Révision</h3>
+              <h3><span aria-hidden="true">🗂️</span> Mémorisation Active & Flashcards de Révision</h3>
               <span class="flashcards-subtitle">Teste ta mémoire sur les définitions, formules et théorèmes clés avant de t'entraîner</span>
             </div>
             <button class="btn-primary btn-sm-flashcards" onclick="window.MathsFlashcards.openModal('${this.currentChapterId}')" style="margin-left:auto;">

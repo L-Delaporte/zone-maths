@@ -57,14 +57,14 @@ Object.assign(window.MathsApp, {
       </div>
 
       <div class="stats-section">
-        <h3>🏆 Badges d'Étapes & Jalons</h3>
+        <h3><span aria-hidden="true">🏆</span> Badges d'Étapes & Jalons</h3>
         <div class="badges-grid">
           ${this.renderBadgesHtml(data.badges)}
         </div>
       </div>
 
       <div class="stats-section">
-        <h3>🔥 Trophées de Régularité (Daily Streak)</h3>
+        <h3><span aria-hidden="true">🔥</span> Trophées de Régularité (Daily Streak)</h3>
         <p class="math-p" style="margin-bottom: 1rem; font-size: 0.92rem; color: var(--text-muted);">
           S'entraîner chaque jour entretient ta flamme et débloque des trophées d'assiduité : 1 semaine, 2 semaines, 1 mois, 2 mois, 6 mois et 1 an de persévérance !
         </p>
@@ -74,7 +74,7 @@ Object.assign(window.MathsApp, {
       </div>
 
       <div class="stats-section">
-        <h3>🎖️ Rangs & Trophées par Chapitre — ${levelName}</h3>
+        <h3><span aria-hidden="true">🎖️</span> Rangs & Trophées par Chapitre — ${levelName}</h3>
         <p class="math-p" style="margin-bottom: 1rem; font-size: 0.92rem; color: var(--text-muted);">
           Valide les paliers d'entraînement pour faire évoluer ton titre : 🥉 <strong>Novice</strong> (Palier 1 validé) ➔ 🥈 <strong>Apprenti</strong> (Palier 2 validé) ➔ 🥇 <strong>Chevalier</strong> (Palier 3 validé) ➔ 💎 <strong>Maître</strong> (100% de la notion) !
         </p>
@@ -84,7 +84,7 @@ Object.assign(window.MathsApp, {
       </div>
 
       <div class="stats-section">
-        <h3>🗺️ Maîtrise par Chapitre — Classe de ${levelName} (${levelChapters.length} Thèmes)</h3>
+        <h3><span aria-hidden="true">🗺️</span> Maîtrise par Chapitre — Classe de ${levelName} (${levelChapters.length} Thèmes)</h3>
         <div class="chapters-mastery-list">
           ${levelChapters.map(c => {
             const p = data.chapters[c.id] || { mastery: 0, currentTier: 1, completed: [], validatedTiers: [] };
@@ -105,7 +105,7 @@ Object.assign(window.MathsApp, {
             return `
               <div class="mastery-row">
                 <div class="mastery-left">
-                  <span class="mastery-code" style="color:${c.color}; font-weight:bold;">${c.num}</span>
+                  <span class="mastery-code" style="color: color-mix(in srgb, ${c.color} 40%, var(--text-main)); font-weight:bold;">${c.num}</span>
                   <span class="mastery-name">${c.shortTitle || c.title}</span>
                 </div>
                 <div class="mastery-bar-wrapper">
@@ -248,7 +248,7 @@ Object.assign(window.MathsApp, {
              title="Clique pour t'entraîner sur ${c.shortTitle || c.title}">
           <div class="chapter-trophy-header">
             <div class="chapter-trophy-title-wrap">
-              <span class="chapter-trophy-code" style="color: ${c.color}; border-color: ${c.color}40; background-color: ${c.color}15;">${c.num}</span>
+              <span class="chapter-trophy-code" style="color: color-mix(in srgb, ${c.color} 40%, var(--text-main)); border-color: ${c.color}40; background-color: ${c.color}15;">${c.num}</span>
               <strong class="chapter-trophy-name" title="${c.title}">${c.shortTitle || c.title}</strong>
             </div>
             <span class="chapter-trophy-mastery">${p.mastery || 0}%</span>

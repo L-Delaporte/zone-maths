@@ -28,7 +28,7 @@
   padding: 4px 12px;
   border-radius: var(--radius-full);
   background: linear-gradient(135deg, rgba(37, 99, 235, 0.12), rgba(16, 185, 129, 0.16));
-  color: var(--primary);
+  color: var(--primary-text);
   margin-bottom: 1rem;
 }
 .landing-title {
@@ -96,7 +96,7 @@
   padding: 3px 8px;
   border-radius: var(--radius-sm);
   background: rgba(5, 150, 105, 0.12);
-  color: #059669;
+  color: #047857;
   flex-shrink: 0;
 }
 .landing-features-grid {
@@ -156,7 +156,7 @@
 .nav-portal-btn:hover, .nav-portal-btn.active {
   background: var(--primary-subtle);
   border-color: var(--primary);
-  color: var(--primary);
+  color: var(--primary-text);
 }
 .topics-grid-3e {
   display: grid;
@@ -186,7 +186,7 @@
   padding: 3px 8px;
   border-radius: var(--radius-sm);
   background: var(--primary-subtle);
-  color: var(--primary);
+  color: var(--primary-text);
   flex-shrink: 0;
 }
 .topic-name {
@@ -246,7 +246,7 @@
   line-height: 1;
   flex-shrink: 0;
 }
-.ethics-item h4 {
+.ethics-item h3, .ethics-item h4 {
   font-size: 1rem;
   font-weight: 700;
   color: var(--text-main);
@@ -291,7 +291,7 @@
 
 .landing-tag.tag-bac {
   background: linear-gradient(135deg, rgba(5, 150, 105, 0.15), rgba(2, 132, 199, 0.15));
-  color: #047857;
+  color: #065f46;
 }
 
 /* Page « Mentions légales et confidentialité » */
@@ -320,7 +320,7 @@
   margin-top: 0.4rem;
 }
 .legal-section a {
-  color: var(--primary);
+  color: var(--primary-text);
   text-decoration: underline;
   overflow-wrap: anywhere;
 }
@@ -351,5 +351,20 @@
   grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr));
   gap: 0.4rem 1.5rem;
 }
-.landing-links-box a { color: var(--primary-hover, var(--primary)); text-decoration: underline; text-underline-offset: 2px; }
+.landing-links-box a { color: var(--primary-text)); text-decoration: underline; text-underline-offset: 2px; }
 [data-theme="dark"] .landing-links-box a { color: #93c5fd; }
+
+/* Accessibilité : contrastes ≥ 4,5:1 dans les deux thèmes */
+.landing-tag { color: var(--primary-text); }
+.usage-badge.usage-1 { background: rgba(37, 99, 235, 0.12); color: #1d4ed8; }
+.usage-badge.usage-2 { background: rgba(16, 185, 129, 0.15); color: #047857; }
+.usage-badge.usage-3 { background: rgba(124, 58, 237, 0.12); color: #6d28d9; }
+.usage-badge.usage-4 { background: rgba(245, 158, 11, 0.15); color: #92400e; }
+.landing-cta-btn.cta-bac { background: linear-gradient(135deg, #047857, #0369a1); }
+[data-theme="dark"] .usage-badge.usage-1 { color: #93c5fd; }
+[data-theme="dark"] .usage-badge.usage-2 { color: #6ee7b7; }
+[data-theme="dark"] .usage-badge.usage-3 { color: #c4b5fd; }
+[data-theme="dark"] .usage-badge.usage-4 { color: #fcd34d; }
+[data-theme="dark"] .topic-num-bac { color: #6ee7b7; }
+[data-theme="dark"] .landing-tag.tag-bac { color: #6ee7b7; }
+.landing-title { overflow-wrap: anywhere; hyphens: auto; }

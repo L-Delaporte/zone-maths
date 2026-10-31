@@ -326,7 +326,7 @@ ${extraHead}${jsonld.map((j) => '  ' + jsonLd(j).replace(/\n/g, '\n  ')).join('\
   <header class="app-header">
     <div class="header-inner">
       <a href="${up}index.html" class="brand-container" style="text-decoration: none;">
-        <img src="${up}assets/logo-96.png" alt="L'Établi des Maths" class="brand-logo-img" width="44" height="44" />
+        <img src="${up}assets/logo-96.png" alt="" class="brand-logo-img" width="44" height="44" />
         <div class="brand-text">
           <p class="brand-title">L'Établi des Maths <span class="brand-level-tag">${esc(tag)}</span></p>
           <span class="brand-tagline">Outils pour apprendre et pratiquer</span>
@@ -346,7 +346,7 @@ ${extraHead}${jsonld.map((j) => '  ' + jsonLd(j).replace(/\n/g, '\n  ')).join('\
     </div>
   </header>
 
-  <main class="landing-wrapper cours-wrapper" id="contenu">
+  <main class="landing-wrapper cours-wrapper" id="contenu" tabindex="-1">
 ${body}
   </main>
 

@@ -376,7 +376,8 @@ Object.assign(window.MathsApp, {
         </div>
         ${isDs && !isSolution ? `<div class="ws-grade">Note<br><span>…… / ${sheet.total}</span></div>` : ''}
       </header>
-      ${isSolution ? '' : `<div class="ws-student print-only"><span>Nom : ……………………………</span><span>Prénom : ……………………………</span><span>Classe : …………</span><span>Date : …………</span></div>`}`;
+      ${isSolution ? '' : `<div class="ws-student print-only"><span>Nom : ……………………………</span><span>Prénom : ……………………………</span><span>Classe : …………</span><span>Date : …………</span></div>
+      <p class="ws-qr print-only"><img src="assets/qr/${encodeURIComponent(sheet.chapterId)}.svg" alt="" width="56" height="56" onerror="this.src='assets/qr/site.svg'" /><span>S’entraîner sur ce chapitre, gratuitement : <strong>etabli-des-maths.fr</strong> (scanner le QR code)</span></p>`}`;
   },
 
   sumStaticPoints(md) {

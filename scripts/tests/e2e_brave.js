@@ -240,6 +240,18 @@ async function step(label, fn) {
     return 'reste au palier 1, palier 4 verrouillé';
   });
 
+  await step('Partager à ma classe : lien, QR code et message ENT', async () => {
+    await goto(BASE + 'index.html?chapitre=G1');
+    await sleep(1200);
+    await evaluate("document.getElementById('btn-share-training').click(); true");
+    await sleep(500);
+    const st = await evaluate(`({ open: document.getElementById('share-class-modal').style.display, url: document.getElementById('share-class-url').value, qr: document.querySelector('.share-class-qr img').naturalWidth, msg: document.getElementById('share-class-msg').value.length })`);
+    await shot('11_partage_classe');
+    if (st.open !== 'flex' || !st.url.includes('chapitre=G1') || !st.qr || st.msg < 50) throw new Error(JSON.stringify(st));
+    await evaluate("window.MathsApp.closeShareModal(); true");
+    return st.url;
+  });
+
   await step('Bouton Retour du navigateur', async () => {
     await goto(BASE + 'index.html');
     await waitFor('window.MathsApp && window.MathsApp.isHomeView');
@@ -252,6 +264,84 @@ async function step(label, fn) {
     const cur = await evaluate('window.MathsApp.currentChapterId + " " + location.search');
     if (!cur.startsWith('N1')) throw new Error('retour vers ' + cur);
     return cur;
+  });
+
+  // --- Accessibilité (RGAA / WCAG 2.2 AA) : contrôles légers et stables ---
+  // Contraste du texte visible sous ROOT (fonds composés, dégradés pris au pire, opacité héritée).
+  const CONTRAST = (root) => `(() => {
+    const cv = document.createElement('canvas'); cv.width = cv.height = 1; const cx = cv.getContext('2d', { willReadFrequently: true });
+    const parse = c => { cx.clearRect(0,0,1,1); cx.fillStyle = '#000'; cx.fillStyle = c; cx.fillRect(0,0,1,1); const d = cx.getImageData(0,0,1,1).data; return [d[0], d[1], d[2], d[3] / 255]; };
+    const blend = (t, b) => { const a = t[3]; return [t[0]*a + b[0]*(1-a), t[1]*a + b[1]*(1-a), t[2]*a + b[2]*(1-a), 1]; };
+    const lum = c => { const f = v => { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }; return 0.2126*f(c[0]) + 0.7152*f(c[1]) + 0.0722*f(c[2]); };
+    const ratio = (a, b) => { const x = lum(a), y = lum(b); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); };
+    const bgs = el => { const layers = []; for (let n = el; n && n.nodeType === 1; n = n.parentElement) { const cs = getComputedStyle(n);
+        const g = (cs.backgroundImage.match(/(rgba?\\([^)]*\\)|#[0-9a-f]{3,8})/gi) || []);
+        if (/gradient/.test(cs.backgroundImage) && g.length) { const below = n.parentElement ? bgs(n.parentElement)[0] : [255,255,255,1]; return g.map(c => layers.reduceRight((acc, l) => blend(l, acc), blend(parse(c), below))); }
+        const c = parse(cs.backgroundColor); if (c[3] > 0) { layers.push(c); if (c[3] >= 0.999) break; } }
+      return [layers.reduceRight((acc, l) => blend(l, acc), [255,255,255,1])]; };
+    const fails = []; const seen = new Set();
+    const w = document.createTreeWalker(document.querySelector(${JSON.stringify(root)}), NodeFilter.SHOW_TEXT); let t;
+    while ((t = w.nextNode())) {
+      if (!/[\\p{L}\\p{N}]/u.test(t.nodeValue)) continue;
+      const el = t.parentElement; if (!el || seen.has(el)) continue; seen.add(el);
+      if (el.closest('script,style,.katex-mathml,.skip-link,.cours-skip,.sr-only,[aria-disabled="true"]')) continue;
+      const r = el.getBoundingClientRect(); if (r.width < 2 || r.height < 2) continue;
+      const cs = getComputedStyle(el); if (cs.visibility !== 'visible') continue;
+      let op = 1; for (let n = el; n && n.nodeType === 1; n = n.parentElement) op *= parseFloat(getComputedStyle(n).opacity); if (op < 0.05) continue;
+      const fg = parse(cs.color); const size = parseFloat(cs.fontSize), wt = parseInt(cs.fontWeight);
+      const need = (size >= 24 || (size >= 18.66 && wt >= 700)) ? 3 : 4.5;
+      const worst = Math.min(...bgs(el).map(bg => { let f = blend(fg, bg); if (op < 1) f = blend([f[0], f[1], f[2], op], bg); return ratio(f, bg); }));
+      if (worst < need - 0.05) fails.push((el.id ? '#' + el.id : el.tagName.toLowerCase() + '.' + [...el.classList].slice(0, 2).join('.')) + ' ' + worst.toFixed(2) + ' « ' + t.nodeValue.trim().slice(0, 25) + ' »');
+    }
+    return fails;
+  })()`;
+
+  await step('Accessibilité : contrastes clair/sombre, lien d’évitement, champ étiqueté, onglets ARIA, récapitulatif du rituel', async () => {
+    const out = [];
+    for (const theme of ['light', 'dark']) {
+      await evaluate(`localStorage.clear(); localStorage.setItem('maths_3e_progress_v1', JSON.stringify({ theme: '${theme}' })); true`);
+      await goto(BASE + 'index.html');
+      await waitFor('window.MathsApp && window.MathsApp.isHomeView');
+      if (await evaluate('document.documentElement.getAttribute("data-theme")') !== theme && theme === 'dark') throw new Error('thème sombre non appliqué');
+      const home = await evaluate(CONTRAST('body'));
+      if (home.length) throw new Error(`accueil (${theme}) : ${home.length} texte(s) sous le seuil : ${home.slice(0, 4).join(' ; ')}`);
+      await evaluate(`window.MathsApp.switchLevel('3eme', false)`);
+      await waitFor(`window.MathsDataLoader.isLevelLoaded('3eme')`);
+      for (let i = 0; i < 30; i++) {
+        await evaluate(`window.MathsApp.selectChapter('N1'); window.MathsApp.switchTab('train'); window.MathsAdaptiveEngine.nextExercise(); window.MathsApp.renderTrainingView(); true`);
+        if (await evaluate(`window.MathsAdaptiveEngine.state.currentExercise.type === 'exact'`)) break;
+      }
+      await sleep(500);
+      const exo = await evaluate(CONTRAST('#contenu'));
+      if (exo.length) throw new Error(`exercice (${theme}) : ${exo.length} texte(s) sous le seuil : ${exo.slice(0, 4).join(' ; ')}`);
+      out.push(`${theme} OK`);
+    }
+    const skip = await evaluate(`(() => { const a = document.querySelector('body > a.skip-link'); const first = [...document.querySelectorAll('a[href],button,input,[tabindex]')].find(e => e.tabIndex >= 0); return !!a && a === first && !!document.getElementById('contenu') && document.querySelectorAll('main').length === 1 && !!document.getElementById('contenu').closest('main'); })()`);
+    if (!skip) throw new Error('lien d’évitement absent, pas en premier, ou région <main id="contenu"> manquante');
+    const input = await evaluate(`(() => { const i = document.getElementById('math-user-input'); return !i ? 'absent' : (i.labels && i.labels.length ? i.labels[0].textContent.trim() : (i.getAttribute('aria-label') || '')); })()`);
+    if (input === 'absent') out.push('pas de saisie exacte'); else if (!input) throw new Error('champ de réponse sans étiquette'); else out.push(`champ « ${input} »`);
+    await evaluate(`window.MathsApp.switchTab('course'); true`);
+    await sleep(300);
+    const tabs = await evaluate(`[...document.querySelectorAll('.tab-btn')].map(b => b.getAttribute('role') + ':' + b.getAttribute('aria-selected')).join(',')`);
+    if (tabs !== 'tab:false,tab:true,tab:false,tab:false') throw new Error('onglets : ' + tabs);
+    await evaluate(`window.MathsApp.switchTab('train'); true`);
+    if (await evaluate(`document.activeElement && document.activeElement.id === 'home-resume-card'`)) throw new Error('focus volé par l’observateur des modales');
+    // Rituel en mode Standard : le récapitulatif doit lister les questions (régression itemsHtml)
+    await evaluate(`window.MathsApp.openDiaporamaModal('N1'); true`);
+    await sleep(400);
+    await evaluate(`(() => { const m = document.getElementById('diapo-mode-select'); if (m) m.value = 'standard'; const t = document.getElementById('diapo-time-select'); if (t) t.value = '0'; window.MathsDiaporama.start(); return true; })()`);
+    await sleep(500);
+    await evaluate(`window.MathsDiaporama.finish(); true`);
+    await sleep(500);
+    const recap = await evaluate(`document.querySelectorAll('#diapo-mm-questions-list .diapo-mm-item').length`);
+    if (!recap) throw new Error('récapitulatif du rituel standard vide');
+    await evaluate(`window.MathsDiaporama.setRecapMode('solutions'); true`);
+    await sleep(300);
+    const sol = await evaluate(`document.querySelectorAll('#diapo-mm-questions-list .diapo-mm-ans-badge').length`);
+    if (sol !== recap) throw new Error(`correction incomplète (${sol}/${recap})`);
+    await evaluate(`window.MathsDiaporama.closeModal(); localStorage.clear(); true`);
+    out.push(`onglets OK, rituel ${recap} questions récapitulées`);
+    return out.join(' · ');
   });
 
   for (const [name, url] of [['rituels', 'rituels.html'], ['brevet', 'brevet.html'], ['bac', 'bac.html'], ['enseignants', 'enseignants.html'], ['mentions', 'mentions-legales.html'], ['cours', 'cours/'], ['cours_6e', 'cours/6e/'], ['cours_pythagore', 'cours/4e/theoreme-de-pythagore.html']]) {

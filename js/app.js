@@ -53,6 +53,7 @@ window.MathsApp = {
     this.bindKeyboardShortcuts();
     this.bindClickableA11y();
     this.bindModalA11y();
+    this.bindScrollHints();
     this.bindHistoryNavigation();
     this.renderDomainNav();
     this.updateHeaderProfile();
@@ -146,7 +147,9 @@ window.MathsApp = {
 
     // Met à jour les pilules du sélecteur
     document.querySelectorAll('.level-pill').forEach(btn => {
-      btn.classList.toggle('active', btn.getAttribute('data-level') === level);
+      const on = btn.getAttribute('data-level') === level;
+      btn.classList.toggle('active', on);
+      if (on) btn.setAttribute('aria-current', 'true'); else btn.removeAttribute('aria-current');
     });
 
     const lvlLabel = this.getLevelName(level);
@@ -268,18 +271,31 @@ window.MathsApp = {
     }
 
     // Onglets principaux du chapitre
-    document.querySelectorAll('.tab-btn').forEach(btn => {
+    const tabBtns = Array.from(document.querySelectorAll('.tab-btn'));
+    tabBtns.forEach((btn, i) => {
       btn.addEventListener('click', (e) => {
         const tab = e.currentTarget.dataset.tab;
         this.switchTab(tab);
       });
+      // Onglets ARIA : flèches gauche/droite, Début, Fin
+      btn.addEventListener('keydown', (e) => {
+        const n = tabBtns.length;
+        const j = { ArrowRight: (i + 1) % n, ArrowLeft: (i - 1 + n) % n, Home: 0, End: n - 1 }[e.key];
+        if (j === undefined) return;
+        e.preventDefault();
+        this.switchTab(tabBtns[j].dataset.tab);
+        tabBtns[j].focus();
+      });
     });
+    // Filtres de domaine : état restitué (aria-pressed)
+    document.querySelectorAll('.domain-filter-btn').forEach(b => b.setAttribute('aria-pressed', b.classList.contains('active') ? 'true' : 'false'));
 
     // Filtres de domaine
     document.querySelectorAll('.domain-filter-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
-        document.querySelectorAll('.domain-filter-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.domain-filter-btn').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-pressed', 'false'); });
         e.currentTarget.classList.add('active');
+        e.currentTarget.setAttribute('aria-pressed', 'true');
         this.currentFilterDomain = e.currentTarget.dataset.domain;
         this.renderChaptersGrid();
       });
@@ -465,6 +481,32 @@ window.MathsApp = {
   },
 
   /**
+   * Rangées de l'en-tête défilant horizontalement sur mobile (barre de défilement masquée) :
+   * un fondu sur le bord signale qu'il reste des boutons à droite / à gauche.
+   */
+  bindScrollHints() {
+    const rows = document.querySelectorAll('.cycle-tabs-row, .cycle-levels-group, .status-pills-row, .header-actions-row');
+    const update = el => {
+      const max = el.scrollWidth - el.clientWidth;
+      el.classList.toggle('scroll-more-right', max > 2 && el.scrollLeft < max - 2);
+      el.classList.toggle('scroll-more-left', max > 2 && el.scrollLeft > 2);
+    };
+    rows.forEach(el => {
+      el.addEventListener('scroll', () => update(el), { passive: true });
+      // Un élément qui reçoit le focus clavier est ramené dans la zone visible
+      el.addEventListener('focusin', e => { if (e.target.scrollIntoView) e.target.scrollIntoView({ block: 'nearest', inline: 'nearest' }); });
+    });
+    const all = () => rows.forEach(update);
+    if (typeof ResizeObserver === 'function') {
+      const ro = new ResizeObserver(entries => entries.forEach(en => update(en.target)));
+      rows.forEach(el => ro.observe(el));
+    } else {
+      window.addEventListener('resize', all);
+    }
+    setTimeout(all, 300);
+  },
+
+  /**
    * Accessibilité des modales : Échap ferme la modale du dessus, le focus y entre à
    * l'ouverture, reste piégé dedans (Tab) et revient à l'élément d'origine à la fermeture.
    */
@@ -478,6 +520,8 @@ window.MathsApp = {
 
     new MutationObserver(mutations => {
       mutations.forEach(({ target: modal }) => {
+        // Seuls les fonds de modale sont concernés (sinon tout changement de style volerait le focus)
+        if (!modal.classList || !modal.classList.contains('modal-overlay')) return;
         const open = modal.style.display !== 'none';
         if (open && !returnFocus.has(modal)) {
           returnFocus.set(modal, document.activeElement);
@@ -658,6 +702,8 @@ window.MathsApp = {
     if (streakEl) {
       const s = streakInfo.streak || 0;
       streakEl.textContent = `🔥 ${s}`;
+      const pill = document.getElementById('header-streak-pill');
+      if (pill) pill.setAttribute('aria-label', `Série quotidienne : ${s} jour${s > 1 ? 's' : ''}${streakInfo.isActiveToday ? ', défi du jour validé' : ''}`);
       streakEl.title = streakInfo.isActiveToday
         ? `Série : ${s} jour(s) d'affilée • Défi du jour validé ! (Clique pour voir les détails)`
         : `Série : ${s} jour(s) d'affilée • Entraîne-toi aujourd'hui pour continuer ! (Clique pour voir les détails)`;
@@ -692,15 +738,16 @@ window.MathsApp = {
     }
 
     navContainer.innerHTML = filters.map(f => `
-      <button class="domain-filter-btn ${f.domain === this.currentFilterDomain ? 'active' : ''}" data-domain="${f.domain}">
+      <button type="button" class="domain-filter-btn ${f.domain === this.currentFilterDomain ? 'active' : ''}" data-domain="${f.domain}" aria-pressed="${f.domain === this.currentFilterDomain ? 'true' : 'false'}">
         ${f.label}
       </button>
     `).join('');
 
     navContainer.querySelectorAll('.domain-filter-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
-        navContainer.querySelectorAll('.domain-filter-btn').forEach(b => b.classList.remove('active'));
+        navContainer.querySelectorAll('.domain-filter-btn').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-pressed', 'false'); });
         e.currentTarget.classList.add('active');
+        e.currentTarget.setAttribute('aria-pressed', 'true');
         this.currentFilterDomain = e.currentTarget.dataset.domain;
         this.renderChaptersGrid();
       });
@@ -756,10 +803,12 @@ window.MathsApp = {
       const progress = window.MathsStorage.getChapterProgress(chap.id);
       const card = document.createElement('button');
       card.className = `chapter-card ${chap.id === this.currentChapterId ? 'active' : ''}`;
+      card.type = 'button';
       card.setAttribute('data-chapter-id', chap.id);
+      if (chap.id === this.currentChapterId) card.setAttribute('aria-current', 'true');
 
       card.innerHTML = `
-        <div class="chap-badge-id" style="background-color: ${chap.color}20; color: ${chap.color};">
+        <div class="chap-badge-id" style="background-color: ${chap.color}20; color: color-mix(in srgb, ${chap.color} 40%, var(--text-main));">
           ${chap.num}
         </div>
         <div class="chap-info">
@@ -799,7 +848,9 @@ window.MathsApp = {
 
     // Mise à jour de la sélection dans la barre latérale / grille
     document.querySelectorAll('.chapter-card').forEach(c => {
-      c.classList.toggle('active', c.dataset.chapterId === chapterId);
+      const on = c.dataset.chapterId === chapterId;
+      c.classList.toggle('active', on);
+      if (on) c.setAttribute('aria-current', 'true'); else c.removeAttribute('aria-current');
     });
 
     // En-tête du chapitre
@@ -827,7 +878,7 @@ window.MathsApp = {
     if (domainEl) {
       domainEl.textContent = chapter.domainName;
       domainEl.style.backgroundColor = `${chapter.color}20`;
-      domainEl.style.color = chapter.color;
+      domainEl.style.color = `color-mix(in srgb, ${chapter.color} 40%, var(--text-main))`;
     }
     if (descEl) descEl.textContent = chapter.description;
 
@@ -883,7 +934,10 @@ window.MathsApp = {
   switchTab(tabName) {
     this.currentTab = tabName;
     document.querySelectorAll('.tab-btn').forEach(btn => {
-      btn.classList.toggle('active', btn.dataset.tab === tabName);
+      const on = btn.dataset.tab === tabName;
+      btn.classList.toggle('active', on);
+      btn.setAttribute('aria-selected', on ? 'true' : 'false');
+      btn.tabIndex = on ? 0 : -1;
     });
     document.querySelectorAll('.tab-pane').forEach(pane => {
       pane.classList.toggle('active', pane.id === `tab-pane-${tabName}`);

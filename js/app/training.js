@@ -72,18 +72,24 @@ Object.assign(window.MathsApp, {
         // Affichage QCM
         const mcqBox = document.createElement('div');
         mcqBox.className = 'mcq-options-grid';
+        mcqBox.setAttribute('role', 'group');
+        mcqBox.setAttribute('aria-label', 'Choix de la réponse');
+        mcqBox.setAttribute('aria-describedby', 'exercise-statement-box');
 
         exercise.options.forEach((opt, idx) => {
           const btn = document.createElement('button');
           btn.className = 'mcq-opt-btn';
+          btn.type = 'button';
           btn.setAttribute('data-index', idx);
+          btn.setAttribute('aria-pressed', 'false');
           btn.innerHTML = `
             <span class="mcq-letter">${String.fromCharCode(65 + idx)}</span>
             <span class="mcq-text">${opt}</span>
           `;
           btn.addEventListener('click', () => {
-            document.querySelectorAll('.mcq-opt-btn').forEach(b => b.classList.remove('selected'));
+            document.querySelectorAll('.mcq-opt-btn').forEach(b => { b.classList.remove('selected'); b.setAttribute('aria-pressed', 'false'); });
             btn.classList.add('selected');
+            btn.setAttribute('aria-pressed', 'true');
             this.selectedMcqAnswer = idx;
           });
           mcqBox.appendChild(btn);
@@ -92,7 +98,7 @@ Object.assign(window.MathsApp, {
         // Raccourcis clavier guide
         const kbdHint = document.createElement('div');
         kbdHint.className = 'kbd-hint';
-        kbdHint.innerHTML = `<span>⌨️ Raccourcis :</span> <kbd class="kbd-badge">A</kbd> <kbd class="kbd-badge">B</kbd> <kbd class="kbd-badge">C</kbd> <kbd class="kbd-badge">D</kbd> pour choisir, <kbd class="kbd-badge">Entrée</kbd> pour valider, <kbd class="kbd-badge">H</kbd> pour indice`;
+        kbdHint.innerHTML = `<span><span aria-hidden="true">⌨️</span> Raccourcis :</span> <kbd class="kbd-badge">A</kbd> <kbd class="kbd-badge">B</kbd> <kbd class="kbd-badge">C</kbd> <kbd class="kbd-badge">D</kbd> pour choisir, <kbd class="kbd-badge">Entrée</kbd> pour valider, <kbd class="kbd-badge">H</kbd> pour indice`;
         mcqBox.appendChild(kbdHint);
 
         interactionContainer.appendChild(mcqBox);
@@ -121,12 +127,13 @@ Object.assign(window.MathsApp, {
 
         inputWrapper.innerHTML = `
           <div class="input-row">
-            <input type="text" id="math-user-input" class="math-text-input" placeholder="${safePlaceholder}" autocomplete="off" />
+            <label class="sr-only" for="math-user-input">Ta réponse</label>
+            <input type="text" id="math-user-input" class="math-text-input" placeholder="${safePlaceholder}" autocomplete="off" aria-describedby="exercise-statement-box" />
             <div id="math-preview-badge" class="math-preview-badge" style="display:none;"></div>
           </div>
           <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.4rem;">
             <p class="input-tip" style="margin:0;">${inputTip}</p>
-            <div class="kbd-hint" style="margin:0;"><span>⌨️</span> <kbd class="kbd-badge">Entrée</kbd> pour valider, <kbd class="kbd-badge">H</kbd> pour indice</div>
+            <div class="kbd-hint" style="margin:0;"><span aria-hidden="true">⌨️</span> <kbd class="kbd-badge">Entrée</kbd> pour valider, <kbd class="kbd-badge">H</kbd> pour indice</div>
           </div>
         `;
         interactionContainer.appendChild(inputWrapper);
@@ -384,7 +391,9 @@ Object.assign(window.MathsApp, {
       if (!isUnlocked) {
         // Palier verrouillé : l'élève doit d'abord atteindre le pourcentage requis
         const reqPercent = { 2: '25%', 3: '50%', 4: '75%' }[tier] || '25%';
-        btn.innerHTML = `<span class="tier-lock-icon">🔒</span> ${baseLabel}`;
+        btn.innerHTML = `<span class="tier-lock-icon" aria-hidden="true">🔒</span> ${baseLabel}<span class="sr-only"> (verrouillé)</span>`;
+        btn.setAttribute('aria-disabled', 'true');
+        btn.setAttribute('aria-pressed', 'false');
         btn.classList.add('tier-locked');
         btn.classList.remove('active', 'tier-validated');
         btn.title = `Palier ${tier} verrouillé — Atteins ${reqPercent} de maîtrise (validation du Palier ${tier - 1}) pour le débloquer`;
@@ -394,7 +403,9 @@ Object.assign(window.MathsApp, {
         };
       } else {
         // Palier débloqué : l'élève peut toujours choisir lui-même ce palier
-        btn.innerHTML = `${isValidated ? '<span class="tier-check-icon">✓</span> ' : ''}${baseLabel}`;
+        btn.innerHTML = `${isValidated ? '<span class="tier-check-icon" aria-hidden="true">✓</span> ' : ''}${baseLabel}${isValidated ? '<span class="sr-only"> (validé)</span>' : ''}`;
+        btn.removeAttribute('aria-disabled');
+        btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
         btn.classList.remove('tier-locked');
         btn.classList.toggle('active', isActive);
         btn.classList.toggle('tier-validated', isValidated);
@@ -501,7 +512,7 @@ Object.assign(window.MathsApp, {
           <span class="xp-badge">+${result.xpEarned} XP</span>
         </div>
         ${result.leveledUp ? `<div class="level-up-banner">${result.levelUpMessage}</div>` : ''}
-        ${result.tierCapMessage ? `<div class="level-up-banner" style="background: rgba(37,99,235,0.08); border-color: rgba(37,99,235,0.3); color: var(--primary);">🎯 ${result.tierCapMessage}</div>` : ''}
+        ${result.tierCapMessage ? `<div class="level-up-banner" style="background: rgba(37,99,235,0.08); border-color: rgba(37,99,235,0.3); color: var(--primary-text);">🎯 ${result.tierCapMessage}</div>` : ''}
         ${result.solution ? `
         <div class="feedback-solution">
           <div class="feedback-solution-title">Explication / Solution détaillée :</div>
@@ -689,26 +700,88 @@ Object.assign(window.MathsApp, {
     }
   },
 
+  /**
+   * « Partager à ma classe » : lien direct vers le chapitre, QR code à projeter et message
+   * prêt à coller dans l'ENT. Le lien ne débloque aucun palier (voir checkUrlShareParams).
+   */
   shareCurrentTraining() {
     const chapterId = this.currentChapterId;
-    const currentTier = (window.MathsAdaptiveEngine && window.MathsAdaptiveEngine.state && window.MathsAdaptiveEngine.state.currentTier) || 1;
     const chapter = (window.MATHS_CHAPTERS || []).find(c => c.id === chapterId);
-    const chapterName = chapter ? (chapter.shortTitle || chapter.title) : chapterId;
+    if (!chapter) return;
+    const chapterName = chapter.title || chapter.shortTitle || chapterId;
+    const levelName = this.getLevelName(chapter.level || this.currentLevel);
+    const shareUrl = `https://etabli-des-maths.fr/?chapitre=${encodeURIComponent(chapterId)}&src=classe`;
+    const message = `Pour vous entraîner en mathématiques (${levelName}), travaillez le chapitre « ${chapterName} » sur L'Établi des Maths : ${shareUrl}\nC'est gratuit et sans inscription : les exercices sont corrigés immédiatement et deviennent plus difficiles à mesure que vous progressez.`;
 
-    const url = new URL(window.location.href);
-    url.searchParams.set('chapitre', chapterId);
-    url.searchParams.set('palier', currentTier);
-    const shareUrl = url.toString();
-
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(shareUrl).then(() => {
-        this.showToast(`🔗 <strong>Lien copié !</strong><br><small>${chapterName} — Palier ${currentTier}</small>`);
-      }).catch(() => {
-        prompt('Lien à copier :', shareUrl);
-      });
-    } else {
-      prompt('Lien à copier :', shareUrl);
+    let modal = document.getElementById('share-class-modal');
+    if (!modal) {
+      modal = document.createElement('div');
+      modal.id = 'share-class-modal';
+      modal.className = 'modal-overlay';
+      modal.setAttribute('role', 'dialog');
+      modal.setAttribute('aria-modal', 'true');
+      modal.setAttribute('aria-labelledby', 'share-class-title');
+      modal.style.display = 'none';
+      modal.addEventListener('click', e => { if (e.target === modal) this.closeShareModal(); });
+      document.body.appendChild(modal);
     }
+    const esc = str => this.escapeHtml(str);
+    modal.innerHTML = `
+      <div class="modal-box share-class-box">
+        <div class="modal-header">
+          <h2 id="share-class-title">📣 Partager à ma classe</h2>
+          <button type="button" class="modal-close-btn" aria-label="Fermer" onclick="window.MathsApp.closeShareModal()">✕</button>
+        </div>
+        <p class="share-class-chapter"><strong>${esc(levelName)}</strong> — ${esc(chapterName)}</p>
+        <div class="share-class-qr">
+          <img src="assets/qr/${encodeURIComponent(chapterId)}.svg" alt="QR code vers l'entraînement sur ce chapitre" onerror="this.src='assets/qr/site.svg'" />
+          <p>Projetez ce QR code : les élèves le scannent avec leur téléphone et arrivent directement sur ce chapitre.</p>
+        </div>
+        <label class="share-class-label" for="share-class-url">Lien direct</label>
+        <div class="share-class-row">
+          <input id="share-class-url" class="form-input" type="text" readonly value="${esc(shareUrl)}" />
+          <button type="button" class="btn-primary" data-copy="url">Copier le lien</button>
+        </div>
+        <label class="share-class-label" for="share-class-msg">Message pour l'ENT ou Pronote</label>
+        <textarea id="share-class-msg" class="form-input" rows="4" readonly>${esc(message)}</textarea>
+        <div class="share-class-actions">
+          <button type="button" class="btn-secondary" data-copy="msg">Copier le message</button>
+          <button type="button" class="btn-secondary" data-action="project">🖥️ Projeter le QR code en grand</button>
+        </div>
+        <p class="share-class-note">Chaque élève démarre au palier qu'il a lui-même débloqué : le lien n'ouvre aucun palier supérieur.</p>
+      </div>`;
+
+    const copy = (text, label) => {
+      const done = () => this.showToast(`📋 <strong>${label} copié</strong>`);
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done).catch(() => this.selectShareField(label));
+      } else {
+        this.selectShareField(label);
+      }
+    };
+    modal.querySelector('[data-copy="url"]').addEventListener('click', () => copy(shareUrl, 'Lien'));
+    modal.querySelector('[data-copy="msg"]').addEventListener('click', () => copy(message, 'Message'));
+    modal.querySelector('[data-action="project"]').addEventListener('click', () => modal.classList.toggle('share-class-projecting'));
+    modal.style.display = 'flex';
+    document.body.classList.add('modal-open');
+  },
+
+  selectShareField(label) {
+    const field = document.getElementById(label === 'Lien' ? 'share-class-url' : 'share-class-msg');
+    if (field) {
+      field.focus();
+      field.select();
+    }
+    this.showToast('Sélectionné : utilisez Ctrl+C (ou un appui long) pour copier.');
+  },
+
+  closeShareModal() {
+    const modal = document.getElementById('share-class-modal');
+    if (modal) {
+      modal.style.display = 'none';
+      modal.classList.remove('share-class-projecting');
+    }
+    document.body.classList.remove('modal-open');
   },
 
   /**
@@ -916,32 +989,57 @@ Object.assign(window.MathsApp, {
       window.MathsConfetti.launch(3500);
     }
 
-    // Initialisation du compte à rebours 10 secondes (10 000 ms)
+    // Compte à rebours de 10 secondes (10 000 ms), suspendu tant que la souris est sur la carte,
+    // et désactivable (bouton « Garder ouvert » ou navigation au clavier) : WCAG 2.2.1
     const totalDuration = 10000;
-    const startTime = Date.now();
+    let remainingMs = totalDuration;
+    let lastTick = Date.now();
+    let hovered = false;
+    const card = modal.querySelector('.reward-modal-card');
+    const timerText = document.getElementById('unlock-timer-text');
+    const keepBtn = document.getElementById('unlock-keep-open-btn');
     if (progressBar) progressBar.style.width = '100%';
-    if (secondsEl) secondsEl.textContent = '10';
+    if (timerText) timerText.innerHTML = 'Fermeture automatique dans <strong id="unlock-timer-seconds">10</strong>s';
+    if (keepBtn) keepBtn.style.display = '';
+    const keepOpen = () => {
+      if (this._unlockInterval) clearInterval(this._unlockInterval);
+      this._unlockInterval = null;
+      if (progressBar) progressBar.style.width = '0%';
+      if (timerText) timerText.textContent = 'Fermeture automatique désactivée';
+      if (keepBtn) keepBtn.style.display = 'none';
+    };
+    if (keepBtn) keepBtn.onclick = keepOpen;
+    if (card) {
+      card.onmouseenter = () => { hovered = true; };
+      card.onmouseleave = () => { hovered = false; lastTick = Date.now(); };
+    }
 
     modal.style.display = 'flex';
     modal.setAttribute('aria-hidden', 'false');
 
     // Décompte fluide et régulier
     this._unlockInterval = setInterval(() => {
-      const elapsed = Date.now() - startTime;
-      const remainingMs = Math.max(0, totalDuration - elapsed);
+      const now = Date.now();
+      if (!hovered) remainingMs = Math.max(0, remainingMs - (now - lastTick));
+      lastTick = now;
       const remainingSec = Math.ceil(remainingMs / 1000);
       const percent = (remainingMs / totalDuration) * 100;
+      const secondsNow = document.getElementById('unlock-timer-seconds');
 
       if (progressBar) progressBar.style.width = `${percent}%`;
-      if (secondsEl) secondsEl.textContent = remainingSec;
+      if (secondsNow) secondsNow.textContent = remainingSec;
 
       if (remainingMs <= 0) {
         this.closeUnlockPopup();
       }
     }, 100);
 
-    // Fermeture par raccourci clavier (Échap ou Entrée / Espace)
+    // Fermeture par raccourci clavier (Échap ou Entrée / Espace) ; Tab = navigation : on arrête le décompte
     this._unlockKeyHandler = (e) => {
+      if (e.key === 'Tab') { keepOpen(); return; }
+      const t = e.target;
+      // Entrée / Espace sur un bouton de la modale (✕, Garder ouvert…) : action native du bouton
+      if ((e.key === 'Enter' || e.code === 'Space') && t && t.closest && t.closest('#reward-unlock-modal') && t.matches('button') && !t.classList.contains('reward-action-btn')) return;
       if (e.key === 'Escape' || e.key === 'Enter' || e.code === 'Space') {
         e.preventDefault();
         this.closeUnlockPopup();

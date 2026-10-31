@@ -81,18 +81,18 @@ Object.assign(window.MathsApp, {
 
     container.innerHTML = `
       <div style="margin-bottom: 1.25rem; display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center;">
-        <label style="font-weight: 700; font-size: 0.9rem;">Théorème :</label>
+        <label for="proof-theorem-select" style="font-weight: 700; font-size: 0.9rem;">Théorème :</label>
         <select id="proof-theorem-select" class="form-select" style="max-width: 380px;" onchange="window.MathsApp.renderProofEngineUI(this.value)">
           ${thList.map(t => `<option value="${t.id}" ${t.id === currentTh.id ? 'selected' : ''}>${t.title} (${t.level})</option>`).join('')}
         </select>
       </div>
 
       <div class="proof-statement-box">
-        <strong style="color: var(--primary);">Énoncé :</strong>
+        <strong style="color: var(--primary-text);">Énoncé :</strong>
         <p class="math-p" style="margin: 0.4rem 0 0 0;">${currentTh.statement}</p>
       </div>
 
-      <h4 style="margin: 1.25rem 0 0.5rem 0; font-size: 1.05rem;">Étapes de la démonstration :</h4>
+      <h3 style="margin: 1.25rem 0 0.5rem 0; font-size: 1.05rem;">Étapes de la démonstration :</h3>
       <div id="proof-steps-container" class="proof-steps-list">
         ${ex.shuffledSteps.map((step, idx) => `
           <div class="proof-step-item" data-step-id="${step.id}">
@@ -105,10 +105,10 @@ Object.assign(window.MathsApp, {
         `).join('')}
       </div>
 
-      <div style="background: rgba(239, 68, 68, 0.08); border-left: 4px solid #ef4444; padding: 1rem; border-radius: 0 8px 8px 0; margin-top: 1.25rem;">
-        <h4 style="margin: 0 0 0.4rem 0; color: #dc2626; font-size: 0.98rem;">⚠️ Piège / Sophisme à éviter absolument :</h4>
+      <div class="proof-fallacy-box">
+        <h3 class="proof-fallacy-title"><span aria-hidden="true">⚠️</span> Piège / Sophisme à éviter absolument :</h3>
         <p class="math-p" style="margin: 0; font-style: italic;">« ${currentTh.fallacy.fakeStep} »</p>
-        <div style="color: #991b1b; font-weight: 600; font-size: 0.85rem; margin-top: 0.4rem;">
+        <div class="proof-fallacy-refutation">
           <strong>Réfutation :</strong> ${currentTh.fallacy.whyFalse}
         </div>
       </div>

@@ -81,8 +81,10 @@
           const onclickAttr = btn.getAttribute('onclick') || '';
           if (onclickAttr.includes(`'${mode}'`) || onclickAttr.includes(`"${mode}"`)) {
             btn.classList.add('active');
+            btn.setAttribute('aria-pressed', 'true');
           } else {
             btn.classList.remove('active');
+            btn.setAttribute('aria-pressed', 'false');
           }
         });
         this.renderControls();
@@ -93,56 +95,88 @@
       }
     },
 
+    /** Alternative textuelle du canevas (mode et paramètres courants). */
+    updateCanvasLabel() {
+      if (typeof document === 'undefined') return;
+      const cv = document.getElementById('vis-canvas');
+      if (!cv) return;
+      let label = '';
+      if (this.activeMode === 'torus') {
+        label = `Tore 3D paramétré, grand rayon R = ${(this.torus.R / 10).toFixed(1).replace('.', ',')} cm, petit rayon r = ${(this.torus.r / 10).toFixed(1).replace('.', ',')} cm. Flèches du clavier : faire tourner le tore.`;
+      } else if (this.activeMode === 'phase_plane') {
+        const model = this.phase.model === 'lotka' ? 'Lotka-Volterra (proies et prédateurs)' : 'pendule simple amorti';
+        label = `Plan de phase de l'équation différentielle, modèle ${model}, amortissement ${String(this.phase.damping).replace('.', ',')}, ${this.phase.trajectories.length} orbite(s) tracée(s). Entrée : ajouter une orbite au hasard.`;
+      } else if (this.activeMode === 'fourier') {
+        const w = { square: 'signal créneau', sawtooth: 'dent de scie', triangle: 'onde triangulaire' }[this.fourier.waveType] || this.fourier.waveType;
+        label = `Synthèse de Fourier d'un ${w} avec ${this.fourier.harmonics} harmonique(s) : phénomène de Gibbs.`;
+      }
+      cv.setAttribute('aria-label', label);
+    },
+
+    /** Ajoute une orbite à partir d'un point initial tiré au hasard (alternative au clic). */
+    addRandomTrajectory() {
+      const rx = this.phase.xMin + Math.random() * (this.phase.xMax - this.phase.xMin);
+      const ry = this.phase.yMin + Math.random() * (this.phase.yMax - this.phase.yMin);
+      this.addTrajectory(rx, ry);
+      this.updateCanvasLabel();
+    },
+
     renderControls() {
       const container = document.getElementById('vis-controls');
       if (!container) return;
+      const box = 'display:flex; align-items:center; gap:0.5rem; background:rgba(255,255,255,0.04); padding:6px 12px; border-radius:8px;';
+      const selStyle = 'padding:4px 8px; border-radius:6px; background:var(--bg-surface, #1e293b); color:var(--text-main, #fff); border:1px solid var(--input-border, #475569); cursor:pointer;';
+      const upd = 'window.MathVisualizer.updateCanvasLabel();';
 
       if (this.activeMode === 'torus') {
         container.innerHTML = `
-          <div style="display:flex; align-items:center; gap:0.5rem; background:rgba(255,255,255,0.04); padding:6px 12px; border-radius:8px;">
-            <label style="color:var(--text-muted);">Grand rayon R :</label>
-            <input type="range" min="60" max="180" value="${this.torus.R}" oninput="window.MathVisualizer.torus.R = +this.value; document.getElementById('val-r-grand').textContent = (this.value/10).toFixed(1) + ' cm';" style="cursor:pointer;" />
-            <span id="val-r-grand" style="font-weight:700; color:#38bdf8; min-width:48px;">${(this.torus.R/10).toFixed(1)} cm</span>
+          <div style="${box}">
+            <label for="vis-range-r-grand" style="color:var(--text-muted);">Grand rayon R :</label>
+            <input id="vis-range-r-grand" type="range" min="60" max="180" value="${this.torus.R}" aria-describedby="val-r-grand" oninput="window.MathVisualizer.torus.R = +this.value; document.getElementById('val-r-grand').textContent = (this.value/10).toFixed(1) + ' cm'; ${upd}" style="cursor:pointer;" />
+            <span id="val-r-grand" class="vis-val" style="font-weight:700; min-width:48px;">${(this.torus.R/10).toFixed(1)} cm</span>
           </div>
-          <div style="display:flex; align-items:center; gap:0.5rem; background:rgba(255,255,255,0.04); padding:6px 12px; border-radius:8px;">
-            <label style="color:var(--text-muted);">Petit rayon r :</label>
-            <input type="range" min="15" max="75" value="${this.torus.r}" oninput="window.MathVisualizer.torus.r = +this.value; document.getElementById('val-r-petit').textContent = (this.value/10).toFixed(1) + ' cm';" style="cursor:pointer;" />
-            <span id="val-r-petit" style="font-weight:700; color:#38bdf8; min-width:48px;">${(this.torus.r/10).toFixed(1)} cm</span>
+          <div style="${box}">
+            <label for="vis-range-r-petit" style="color:var(--text-muted);">Petit rayon r :</label>
+            <input id="vis-range-r-petit" type="range" min="15" max="75" value="${this.torus.r}" aria-describedby="val-r-petit" oninput="window.MathVisualizer.torus.r = +this.value; document.getElementById('val-r-petit').textContent = (this.value/10).toFixed(1) + ' cm'; ${upd}" style="cursor:pointer;" />
+            <span id="val-r-petit" class="vis-val" style="font-weight:700; min-width:48px;">${(this.torus.r/10).toFixed(1)} cm</span>
           </div>
+          <span style="color:var(--text-muted); font-size:0.8rem;">Rotation : glisser à la souris, ou flèches du clavier sur la figure.</span>
         `;
       } else if (this.activeMode === 'phase_plane') {
         container.innerHTML = `
-          <div style="display:flex; align-items:center; gap:0.5rem; background:rgba(255,255,255,0.04); padding:6px 12px; border-radius:8px;">
-            <label style="color:var(--text-muted);">Modèle EDO :</label>
-            <select onchange="window.MathVisualizer.phase.model = this.value; window.MathVisualizer.phase.trajectories = []; window.MathVisualizer.addTrajectory(1.5, 0.5);" style="padding:4px 8px; border-radius:6px; background:var(--bg-surface, #1e293b); color:var(--text-main, #fff); border:1px solid var(--border-color, #475569); cursor:pointer;">
+          <div style="${box}">
+            <label for="vis-select-model" style="color:var(--text-muted);">Modèle EDO :</label>
+            <select id="vis-select-model" onchange="window.MathVisualizer.phase.model = this.value; window.MathVisualizer.phase.trajectories = []; window.MathVisualizer.addTrajectory(1.5, 0.5); ${upd}" style="${selStyle}">
               <option value="pendulum" ${this.phase.model === 'pendulum' ? 'selected' : ''}>Pendule simple amorti (θ'' + μθ' + sin θ = 0)</option>
               <option value="lotka" ${this.phase.model === 'lotka' ? 'selected' : ''}>Lotka-Volterra (Proies/Prédateurs)</option>
             </select>
           </div>
-          <div style="display:flex; align-items:center; gap:0.5rem; background:rgba(255,255,255,0.04); padding:6px 12px; border-radius:8px;">
-            <label style="color:var(--text-muted);">Amortissement μ :</label>
-            <input type="range" min="0" max="0.25" step="0.01" value="${this.phase.damping}" oninput="window.MathVisualizer.phase.damping = +this.value; document.getElementById('val-mu').textContent = this.value;" style="cursor:pointer;" />
-            <span id="val-mu" style="font-weight:700; color:#34d399; min-width:36px;">${this.phase.damping}</span>
+          <div style="${box}">
+            <label for="vis-range-mu" style="color:var(--text-muted);">Amortissement μ :</label>
+            <input id="vis-range-mu" type="range" min="0" max="0.25" step="0.01" value="${this.phase.damping}" aria-describedby="val-mu" oninput="window.MathVisualizer.phase.damping = +this.value; document.getElementById('val-mu').textContent = this.value; ${upd}" style="cursor:pointer;" />
+            <span id="val-mu" class="vis-val vis-val-green" style="font-weight:700; min-width:36px;">${this.phase.damping}</span>
           </div>
-          <button type="button" class="btn-sm btn-secondary" onclick="window.MathVisualizer.phase.trajectories = [];" style="padding:5px 10px; border-radius:6px; cursor:pointer;">🧹 Effacer les orbites</button>
+          <button type="button" class="btn-sm btn-secondary" onclick="window.MathVisualizer.addRandomTrajectory();" style="padding:5px 10px; border-radius:6px; cursor:pointer;"><span aria-hidden="true">➕</span> Ajouter une orbite</button>
+          <button type="button" class="btn-sm btn-secondary" onclick="window.MathVisualizer.phase.trajectories = []; ${upd}" style="padding:5px 10px; border-radius:6px; cursor:pointer;"><span aria-hidden="true">🧹</span> Effacer les orbites</button>
         `;
       } else if (this.activeMode === 'fourier') {
         container.innerHTML = `
-          <div style="display:flex; align-items:center; gap:0.5rem; background:rgba(255,255,255,0.04); padding:6px 12px; border-radius:8px;">
-            <label style="color:var(--text-muted);">Forme d'onde :</label>
-            <select onchange="window.MathVisualizer.fourier.waveType = this.value;" style="padding:4px 8px; border-radius:6px; background:var(--bg-surface, #1e293b); color:var(--text-main, #fff); border:1px solid var(--border-color, #475569); cursor:pointer;">
+          <div style="${box}">
+            <label for="vis-select-wave" style="color:var(--text-muted);">Forme d'onde :</label>
+            <select id="vis-select-wave" onchange="window.MathVisualizer.fourier.waveType = this.value; ${upd}" style="${selStyle}">
               <option value="square" ${this.fourier.waveType === 'square' ? 'selected' : ''}>Signal Créneau</option>
               <option value="sawtooth" ${this.fourier.waveType === 'sawtooth' ? 'selected' : ''}>Dent de scie</option>
               <option value="triangle" ${this.fourier.waveType === 'triangle' ? 'selected' : ''}>Onde triangulaire</option>
             </select>
           </div>
-          <div style="display:flex; align-items:center; gap:0.5rem; background:rgba(255,255,255,0.04); padding:6px 12px; border-radius:8px;">
-            <label style="color:var(--text-muted);">Harmoniques N :</label>
-            <input type="range" min="1" max="25" step="1" value="${this.fourier.harmonics}" oninput="window.MathVisualizer.fourier.harmonics = +this.value; document.getElementById('val-harm').textContent = this.value;" style="cursor:pointer;" />
-            <span id="val-harm" style="font-weight:700; color:#f43f5e; min-width:24px;">${this.fourier.harmonics}</span>
+          <div style="${box}">
+            <label for="vis-range-harm" style="color:var(--text-muted);">Harmoniques N :</label>
+            <input id="vis-range-harm" type="range" min="1" max="25" step="1" value="${this.fourier.harmonics}" aria-describedby="val-harm" oninput="window.MathVisualizer.fourier.harmonics = +this.value; document.getElementById('val-harm').textContent = this.value; ${upd}" style="cursor:pointer;" />
+            <span id="val-harm" class="vis-val vis-val-red" style="font-weight:700; min-width:24px;">${this.fourier.harmonics}</span>
           </div>
         `;
       }
+      this.updateCanvasLabel();
     },
 
     attachEvents() {
@@ -171,6 +205,7 @@
           const mathX = this.phase.xMin + (p.x / p.width) * (this.phase.xMax - this.phase.xMin);
           const mathY = this.phase.yMax - (p.y / p.height) * (this.phase.yMax - this.phase.yMin);
           this.addTrajectory(mathX, mathY);
+          this.updateCanvasLabel();
         }
       };
 
@@ -189,6 +224,19 @@
       const onEnd = () => {
         this.torus.isDragging = false;
       };
+
+      // Clavier (2.1.1) : flèches = rotation du tore, Entrée / Espace = nouvelle orbite
+      this.canvas.addEventListener('keydown', (e) => {
+        if (this.activeMode === 'torus') {
+          const step = 0.12;
+          const moves = { ArrowLeft: ['rotY', -step], ArrowRight: ['rotY', step], ArrowUp: ['rotX', -step], ArrowDown: ['rotX', step] };
+          const m = moves[e.key];
+          if (m) { e.preventDefault(); this.torus[m[0]] += m[1]; }
+        } else if (this.activeMode === 'phase_plane' && (e.key === 'Enter' || e.key === ' ')) {
+          e.preventDefault();
+          this.addRandomTrajectory();
+        }
+      });
 
       this.canvas.addEventListener('mousedown', onStart);
       window.addEventListener('mousemove', onMove);

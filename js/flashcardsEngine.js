@@ -963,7 +963,7 @@
         </div>
 
         <div class="fc-box-distribution-section">
-          <h4>📦 État actuel de vos boîtes de mémorisation (Chapitres révisés) :</h4>
+          <h4><span aria-hidden="true">📦</span> État actuel de vos boîtes de mémorisation (Chapitres révisés) :</h4>
           <div class="fc-boxes-strip large">
             <div class="fc-box-col b1">
               <span class="fc-box-num">${countsByBox[1]}</span>
@@ -1039,7 +1039,7 @@
       }).join('');
       return `
         <section class="fc-recap-section" aria-labelledby="fc-recap-title">
-          <h4 id="fc-recap-title">📝 Récapitulatif : énoncés et corrections (${cards.length})</h4>
+          <h4 id="fc-recap-title"><span aria-hidden="true">📝</span> Récapitulatif : énoncés et corrections (${cards.length})</h4>
           <ol class="fc-recap-list">${items}</ol>
         </section>
       `;
