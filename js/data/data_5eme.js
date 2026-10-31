@@ -2033,7 +2033,7 @@ window.MATHS_WORKSHEETS_5E = {
       "filename": "Fiche_5e_Nombres_Relatifs.md",
       "type": "devoir_entrainement",
       "title": "Fiche 5ème : Nombres relatifs et repérage",
-      "statement": "# Classe de 5ème — Mathématiques\n## Fiche d'entraînement : Nombres relatifs et opérations\n\n### Exercice 1 : Comparaison et repérage (4 points)\n1. Ranger par ordre croissant : $-5 \\quad ; \\quad +3{,}2 \\quad ; \\quad -8{,}5 \\quad ; \\quad 0 \\quad ; \\quad -1{,}2 \\quad ; \\quad +4$.\n2. Donner l'opposé et la distance à zéro de chacun des nombres : $-7{,}4$ et $+5$.\n\n### Exercice 2 : Additions et soustractions (6 points)\nCalculer en détaillant les étapes de calcul :\n1. $A = (-8) + (+15)$\n2. $B = (-12) + (-9)$\n3. $C = (+7) - (-11)$\n4. $D = (-14) - (+6)$\n",
+      "statement": "# Classe de 5ème — Mathématiques\n## Fiche d'entraînement : Nombres relatifs et opérations\n\n### Exercice 1 : Comparaison et repérage (4 points)\n1. Ranger par ordre croissant : $-5$ ; $+3{,}2$ ; $-8{,}5$ ; $0$ ; $-1{,}2$ ; $+4$.\n2. Donner l'opposé et la distance à zéro de chacun des nombres : $-7{,}4$ et $+5$.\n\n### Exercice 2 : Additions et soustractions (6 points)\nCalculer en détaillant les étapes de calcul :\n1. $A = (-8) + (+15)$\n2. $B = (-12) + (-9)$\n3. $C = (+7) - (-11)$\n4. $D = (-14) - (+6)$\n",
       "solution": "## Corrigé détaillé\n\n### Exercice 1\n1. Ordre croissant : $-8{,}5 < -5 < -1{,}2 < 0 < +3{,}2 < +4$.\n2. Pour $-7{,}4$ : opposé $= +7{,}4$, distance à zéro $= 7{,}4$.\nPour $+5$ : opposé $= -5$, distance à zéro $= 5$.\n\n### Exercice 2\n1. $A = +(15 - 8) = 7$.\n2. $B = -(12 + 9) = -21$.\n3. $C = 7 + 11 = 18$.\n4. $D = -14 + (-6) = -20$."
     }
   ],

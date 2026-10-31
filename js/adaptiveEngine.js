@@ -259,7 +259,7 @@ window.MathsAdaptiveEngine = {
 
   /**
    * Sélectionne le prochain exercice optimal selon le pourcentage de maîtrise et l'historique
-   * Mode procédural infini (MathsMentales) : génère de nouvelles valeurs aléatoires à chaque tirage
+   * Mode procédural infini : génère de nouvelles valeurs aléatoires à chaque tirage
    */
   nextExercise() {
     if (!this.state.chapterId && window.MathsApp && window.MathsApp.currentChapterId) {

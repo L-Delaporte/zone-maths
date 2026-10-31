@@ -1,5 +1,5 @@
 /**
- * Moteur de Génération Procédurale Aléatoire (Inspiré de MathsMentales.net)
+ * Moteur de Génération Procédurale Aléatoire
  * Génère une infinité de questions d'automatismes et de calcul mental
  * avec données aléatoires, solutions exactes, étapes et distracteurs.
  * Calibré sur les 4 Paliers ZPD pour tout le Cycle 4 (5ème, 4ème, 3ème) :

@@ -285,6 +285,8 @@ for (const [chId, list] of Object.entries(worksheets)) {
     allWs.push(ws.id);
     if ('fullText' in ws) fail(`MATHS_WORKSHEETS.${chId}[${i}] : champ obsolète « fullText »`);
     if (!ws.statement || !String(ws.statement).trim()) fail(`MATHS_WORKSHEETS.${chId}[${i}] : énoncé vide`);
+    if (ws.type !== 'cours' && !String(ws.solution || '').trim()) fail(`MATHS_WORKSHEETS.${chId}[${i}] : corrigé absent (champ solution)`);
+    if (/\n#{1,3}\s*Corrig[ée]/.test(String(ws.statement || ''))) fail(`MATHS_WORKSHEETS.${chId}[${i}] : corrigé inclus dans l'énoncé`);
   });
 }
 dupCheck('Fiches', allWs);

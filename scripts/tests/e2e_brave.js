@@ -151,6 +151,44 @@ async function step(label, fn) {
     return out.join(' · ');
   });
 
+  await step('Fiches & DS : fiches rédigées + fiche générée + DS sur 20 (6e, 4e, 3e, 1re, L2, CAPES)', async () => {
+    // css/sheets.css est injectée si la page ne la déclare pas encore
+    await evaluate(`(() => { if (![...document.styleSheets].some(s => /sheets\\.css/.test(s.href || ''))) { const l = document.createElement('link'); l.rel = 'stylesheet'; l.href = 'css/sheets.css'; document.head.appendChild(l); } return true; })()`);
+    const out = [];
+    for (const [lvl, chap] of [['6eme', '6N4'], ['4eme', '4G2'], ['3eme', 'G1'], ['1ere', '1A1'], ['L2', 'L2-RED1'], ['capes', 'capes-03']]) {
+      await evaluate(`window.MathsApp.switchLevel('${lvl}', false)`);
+      await waitFor(`window.MathsDataLoader.isLevelLoaded('${lvl}')`);
+      await evaluate(`window.MathsApp.selectChapter('${chap}'); window.MathsApp.switchTab('sheets'); true`);
+      await sleep(400);
+      const n = await evaluate(`document.querySelectorAll('#sheets-content-container .ws-chip').length`);
+      const kinds = [];
+      for (let i = 0; i < n; i++) {
+        await evaluate(`window.MathsApp.selectSheet(${i}); true`);
+        await sleep(150);
+        const r = await evaluate(`(() => { const C = document.getElementById('sheets-content-container'); const body = C.querySelector('.ws-subject .ws-body');
+          const pts = [...C.querySelectorAll('.ws-subject .ws-ex-title .ws-pts')].reduce((s, e) => s + parseFloat(e.textContent.replace(',', '.')), 0);
+          return { type: (C.querySelector('.ws-sheet').className.match(/ws-type-(\\S+)/) || [])[1], len: body ? body.textContent.trim().length : 0,
+            kerr: C.querySelectorAll('.katex-error').length, print: !!C.querySelector('[data-print="subject"]'), sol: !!C.querySelector('.sheet-solution'), pts }; })()`);
+        if (r.len < 150) throw new Error(`${chap} fiche ${i} vide ou trop courte (${r.len} car.)`);
+        if (r.kerr) throw new Error(`${chap} fiche ${i} : ${r.kerr} erreur(s) KaTeX`);
+        if (!r.print) throw new Error(`${chap} fiche ${i} : bouton imprimer absent`);
+        if (r.type !== 'ds_type' && r.type !== 'entrainement_genere' && !r.sol) throw new Error(`${chap} fiche ${i} : corrigé absent`);
+        if (r.type === 'ds_type' && r.pts !== 20) throw new Error(`${chap} : DS noté sur ${r.pts} au lieu de 20`);
+        kinds.push(r.type);
+      }
+      if (!kinds.includes('ds_type') || !kinds.includes('entrainement_genere')) throw new Error(`${chap} : fiche générée ou DS manquant (${kinds})`);
+      if (lvl === '1ere') await shot('03c_fiches_ds');
+      out.push(`${chap} ${n} fiches`);
+    }
+    await send('Emulation.setDeviceMetricsOverride', { width: 390, height: 844, deviceScaleFactor: 1, mobile: true });
+    await sleep(300);
+    const over = await evaluate('document.documentElement.scrollWidth - document.documentElement.clientWidth');
+    await send('Emulation.setDeviceMetricsOverride', { width: 1440, height: 900, deviceScaleFactor: 1, mobile: false });
+    if (over > 2) throw new Error(`débordement horizontal mobile de ${over} px`);
+    await evaluate(`window.MathsApp.switchTab('train'); true`);
+    return out.join(' · ');
+  });
+
   await step('Navigation clavier : Tab atteint les cartes de l’accueil', async () => {
     await evaluate(`window.MathsApp.showHomeView(); true`);
     await sleep(300);
@@ -235,6 +273,114 @@ async function step(label, fn) {
     if (over > 2) throw new Error(`débordement horizontal de ${over} px`);
     return 'OK';
   });
+
+  // --- Téléphone tactile (390×844 puis 360×740) : tiroir des chapitres, modales, flashcards ---
+  const rect = sel => evaluate(`(() => { const e = document.querySelector(${JSON.stringify(sel)}); if (!e || !e.getClientRects().length) return null; const r = e.getBoundingClientRect(); return { x: r.x, y: r.y, w: r.width, h: r.height }; })()`);
+  async function tapXY(x, y) {
+    await send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x, y }] });
+    await send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+    await sleep(350);
+  }
+  async function tap(sel) {
+    const r = await rect(sel);
+    if (!r) throw new Error('élément invisible : ' + sel);
+    await tapXY(r.x + r.w / 2, r.y + r.h / 2);
+  }
+  const overflowX = () => evaluate('document.documentElement.scrollWidth - document.documentElement.clientWidth');
+  for (const [w, h] of [[390, 844], [360, 740]]) {
+    await send('Emulation.setDeviceMetricsOverride', { width: w, height: h, deviceScaleFactor: 2, mobile: true });
+    await send('Emulation.setTouchEmulationEnabled', { enabled: true, maxTouchPoints: 5 });
+
+    await step(`Mobile ${w} px : la barre « Chapitre » ouvre/ferme la liste, le choix d'un chapitre la referme`, async () => {
+      await evaluate('localStorage.clear(); true');
+      await goto(BASE + 'index.html');
+      await waitFor('window.MathsApp && window.MathsApp.isHomeView');
+      await evaluate(`window.MathsApp.switchLevel('4eme', true); true`);
+      await waitFor(`window.MathsDataLoader.isLevelLoaded('4eme') && !window.MathsApp.isHomeView`);
+      await sleep(500);
+      const shown = () => evaluate(`getComputedStyle(document.getElementById('sidebar-chapters')).display !== 'none'`);
+      if (await shown()) throw new Error('liste des chapitres déjà dépliée à l’arrivée');
+      await tap('#mobile-chapter-btn');
+      if (!await shown()) throw new Error('1er tap : la liste ne s’ouvre pas');
+      if (await evaluate(`document.getElementById('mobile-chapter-btn').getAttribute('aria-expanded')`) !== 'true') throw new Error('aria-expanded non mis à jour');
+      await tap('#mobile-chapter-btn');
+      if (await shown()) throw new Error('2e tap : la liste ne se referme pas');
+      await tap('#mobile-chapter-btn');
+      const target = await evaluate(`[...document.querySelectorAll('#sidebar-chapters .chapter-card')].map(c => c.dataset.chapterId)[2]`);
+      await evaluate(`document.querySelector('#sidebar-chapters .chapter-card[data-chapter-id="${target}"]').scrollIntoView({ block: 'center' }); true`);
+      await sleep(200);
+      await tap(`#sidebar-chapters .chapter-card[data-chapter-id="${target}"]`);
+      await sleep(400);
+      if (await evaluate('window.MathsApp.currentChapterId') !== target) throw new Error('le tap sur le chapitre ne le sélectionne pas');
+      if (await shown()) throw new Error('la liste reste ouverte après le choix du chapitre');
+      if (await overflowX() > 2) throw new Error('débordement horizontal');
+      await shot(`08_chapitres_mobile_${w}`, w, h, true);
+      return `${target} choisi, liste refermée`;
+    });
+
+    await step(`Mobile ${w} px : popups Niveau et Série lisibles et faciles à fermer (✕, fond, Échap)`, async () => {
+      const out = [];
+      for (const [pill, id] of [['#header-level-pill', 'level-modal'], ['#header-streak-pill', 'streak-modal']]) {
+        const isOpen = () => evaluate(`document.getElementById('${id}').style.display !== 'none'`);
+        for (const how of ['croix', 'fond', 'Échap']) {
+          await evaluate('window.scrollTo(0, 0); true');
+          await tap(pill);
+          if (!await isOpen()) throw new Error(`${id} ne s’ouvre pas au tap`);
+          const c = await rect(`#${id} .modal-header .modal-close-btn`);
+          if (!c || c.w < 44 || c.h < 44) throw new Error(`${id} : bouton ✕ trop petit (${c && Math.round(c.w)}×${c && Math.round(c.h)})`);
+          if (c.y < 0 || c.y + c.h > h || c.x + c.w > w) throw new Error(`${id} : bouton ✕ hors de l’écran`);
+          const foot = await rect(`#${id} .modal-footer .btn-primary`);
+          if (!foot || foot.y + foot.h > h + 1) throw new Error(`${id} : bouton du bas inaccessible`);
+          if (await overflowX() > 2) throw new Error(`${id} : débordement horizontal`);
+          if (how === 'croix') { await shot(`09_${id}_${w}`, w, h, true); await tap(`#${id} .modal-header .modal-close-btn`); }
+          else if (how === 'fond') await tapXY(w / 2, 12);
+          else {
+            await send('Input.dispatchKeyEvent', { type: 'keyDown', key: 'Escape', code: 'Escape', windowsVirtualKeyCode: 27 });
+            await send('Input.dispatchKeyEvent', { type: 'keyUp', key: 'Escape', code: 'Escape', windowsVirtualKeyCode: 27 });
+            await sleep(300);
+          }
+          if (await isOpen()) throw new Error(`${id} ne se ferme pas (${how})`);
+        }
+        out.push(id);
+      }
+      return out.join(' + ') + ' : fermeture ✕ / fond / Échap OK';
+    });
+
+    await step(`Mobile ${w} px : séance de flashcards complète au doigt + récapitulatif énoncés/corrections`, async () => {
+      await evaluate(`window.MathsApp.switchLevel('3eme', false)`);
+      await waitFor(`window.MathsDataLoader.isLevelLoaded('3eme')`);
+      await evaluate(`window.MathsApp.selectChapter('N1'); window.scrollTo(0, 0); true`);
+      await sleep(400);
+      await tap('#btn-open-flashcards');
+      await waitFor(`document.getElementById('flashcards-modal').style.display !== 'none'`);
+      const start = '#flashcards-config-screen .modal-footer .btn-primary';
+      const r0 = await rect(start);
+      if (!r0 || r0.y + r0.h > h + 1) throw new Error('bouton « Démarrer » hors de l’écran');
+      await tap(start);
+      let n = 0;
+      for (; n < 40; n++) {
+        if (await evaluate(`document.getElementById('flashcards-summary-screen').style.display !== 'none'`)) break;
+        await tap('#fc-flipper');
+        if (!await evaluate('window.MathsFlashcards.isRevealed')) throw new Error('le tap sur la carte ne la retourne pas');
+        const sel = n === 1 ? '.btn-fc-wrong' : '.btn-fc-correct';
+        const b = await rect(sel);
+        if (!b || b.y + b.h > h + 1) throw new Error('boutons d’auto-évaluation hors de l’écran');
+        await tap(sel);
+      }
+      const recap = await evaluate(`(() => { const s = document.getElementById('flashcards-summary-screen'); return { items: s.querySelectorAll('.fc-recap-item').length, q: s.querySelectorAll('.fc-recap-q .fc-recap-text').length, a: s.querySelectorAll('.fc-recap-a .fc-recap-text').length, katex: s.querySelectorAll('.katex').length, raw: /\\$[^$]+\\$/.test(s.innerText) }; })()`);
+      if (!recap.items || recap.q !== recap.items || recap.a !== recap.items) throw new Error('récapitulatif absent ou incomplet ' + JSON.stringify(recap));
+      if (!recap.katex || recap.raw) throw new Error('KaTeX non rendu dans le récapitulatif');
+      const close = await rect('#flashcards-summary-screen .modal-close-btn');
+      if (!close || close.w < 44 || close.y < 0) throw new Error('bouton ✕ du bilan inaccessible');
+      if (await overflowX() > 2) throw new Error('débordement horizontal');
+      await evaluate(`document.querySelector('.fc-recap-item').scrollIntoView({ block: 'start' }); true`);
+      await shot(`10_flashcards_recap_${w}`, w, h, true);
+      await tap('#flashcards-summary-screen .modal-footer .btn-primary');
+      if (await evaluate(`document.getElementById('flashcards-modal').style.display !== 'none'`)) throw new Error('« Terminer » ne ferme pas');
+      return `${n} cartes jouées, ${recap.items} notions récapitulées (${recap.katex} formules KaTeX)`;
+    });
+  }
+  await send('Emulation.setTouchEmulationEnabled', { enabled: false });
 
   for (const r of results) console.log(r.join(' '));
   const uniq = [...new Set(errors)];

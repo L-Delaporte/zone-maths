@@ -1,5 +1,5 @@
 /**
- * Contrôleur du Mode Diaporama / Rituel Chronométré (Inspiré de MathsMentales.net)
+ * Contrôleur du Mode Diaporama / Rituel Chronométré
  * Permet de projeter ou de s'entraîner avec des questions flash rythmées par un compte à rebours.
  * Écran récapitulatif optimisé pour capture d'écran Notability sur iPad.
  */
@@ -284,7 +284,7 @@ window.MathsDiaporama = {
     }
 
     this.state.xpBonus = xpBonus;
-    this.state.recapMode = 'statements'; // Affichage direct des énoncés selon l'ergonomie MathsMentales
+    this.state.recapMode = 'statements'; // Affichage direct des énoncés
     this.renderRecapScreen();
   },
 
@@ -383,7 +383,7 @@ window.MathsDiaporama = {
   },
 
   /**
-   * Rendu de la feuille récapitulative au format MathsMentales
+   * Rendu de la feuille récapitulative à projeter
    */
   renderRecapScreen() {
     const listContainer = document.getElementById('diapo-mm-questions-list');

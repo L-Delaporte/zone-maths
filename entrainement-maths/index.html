@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <script>
+    // Applique le thème (clair/sombre) choisi dans l'application, avant l'affichage
+    try {
+      document.documentElement.setAttribute('data-theme', JSON.parse(localStorage.getItem('maths_3e_progress_v1') || '{}').theme || 'light');
+    } catch (e) {}
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Entraînement maths en ligne gratuit : exercices par paliers</title>
+  <meta name="description" content="S’entraîner en maths en ligne gratuitement : exercices générés à l’infini et corrigés, quatre paliers, questions flash et flashcards, de la 6e au bac." />
+  <meta name="author" content="Loïc Delaporte, professeur de mathématiques" />
+  <link rel="canonical" href="https://etabli-des-maths.fr/entrainement-maths/" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Entraînement maths en ligne gratuit : exercices par paliers" />
+  <meta property="og:description" content="S’entraîner en maths en ligne gratuitement : exercices générés à l’infini et corrigés, quatre paliers, questions flash et flashcards, de la 6e au bac." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://etabli-des-maths.fr/entrainement-maths/" />
+  <meta property="og:image" content="https://etabli-des-maths.fr/entrainement-maths/og.png" />
+  <meta property="og:image:alt" content="Entraînement maths en ligne gratuit : exercices par paliers" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta property="og:site_name" content="L'Établi des Maths" />
+
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/landing.css" />
+  <link rel="stylesheet" href="../vendor/katex/katex.min.css" />
+  <link rel="stylesheet" href="../css/cours.css" />
+  <link rel="icon" href="../favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32x32.png" />
+  <link rel="apple-touch-icon" href="../assets/favicon.png" />
+  <link rel="manifest" href="../manifest.json" />
+  <meta name="theme-color" content="#2563eb" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Entraînement maths en ligne, gratuit et par paliers",
+    "description": "S’entraîner en maths en ligne gratuitement : exercices générés à l’infini et corrigés, quatre paliers, questions flash et flashcards, de la 6e au bac.",
+    "url": "https://etabli-des-maths.fr/entrainement-maths/",
+    "inLanguage": "fr",
+    "isAccessibleForFree": true,
+    "dateModified": "2026-10-31",
+    "author": {
+      "@type": "Person",
+      "name": "Loïc Delaporte",
+      "jobTitle": "Professeur de mathématiques"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "L'Établi des Maths",
+      "url": "https://etabli-des-maths.fr/",
+      "logo": "https://etabli-des-maths.fr/assets/logo.png"
+    },
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "L'Établi des Maths",
+      "url": "https://etabli-des-maths.fr/"
+    },
+    "about": {
+      "@type": "Thing",
+      "name": "Entraînement en mathématiques en ligne"
+    },
+    "mainEntity": {
+      "@type": "WebApplication",
+      "name": "L'Établi des Maths",
+      "url": "https://etabli-des-maths.fr/",
+      "applicationCategory": "EducationalApplication",
+      "operatingSystem": "Web",
+      "inLanguage": "fr",
+      "isAccessibleForFree": true,
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "EUR"
+      }
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "L’entraînement est-il vraiment gratuit et sans inscription ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Oui. Aucun compte n’est nécessaire et il n’y a pas de publicité. La progression est enregistrée dans le navigateur de ton appareil ; aucune donnée personnelle n’est envoyée."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Les exercices changent-ils à chaque fois ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Oui : les nombres, les figures et les situations sont générés à chaque tirage. On peut s’entraîner longtemps sur un même chapitre sans retomber sur le même énoncé."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Comment débloquer les paliers ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Le palier 1 est ouvert d’office. Les bonnes réponses font monter la maîtrise du chapitre : le palier 2 s’ouvre à 25 %, le palier 3 à 50 % et le palier 4 à 75 %."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Peut-on utiliser l’entraînement sur téléphone ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Oui, le site s’adapte au téléphone et à la tablette, et peut être installé comme une application depuis le navigateur pour y accéder plus vite."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Un professeur peut-il l’utiliser avec sa classe ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Oui : questions flash à projeter, liens directs vers un chapitre et un palier à partager dans l’ENT, devoirs blancs imprimables. Voir l’espace enseignants."
+        }
+      }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Accueil",
+        "item": "https://etabli-des-maths.fr/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Entraînement maths",
+        "item": "https://etabli-des-maths.fr/entrainement-maths/"
+      }
+    ]
+  }
+  </script>
+</head>
+<body class="cours-page">
+  <a class="cours-skip" href="#contenu">Aller au contenu</a>
+
+  <!-- Header Uniformisé -->
+  <header class="app-header">
+    <div class="header-inner">
+      <a href="../index.html" class="brand-container" style="text-decoration: none;">
+        <img src="../assets/logo-96.png" alt="L'Établi des Maths" class="brand-logo-img" width="44" height="44" />
+        <div class="brand-text">
+          <p class="brand-title">L'Établi des Maths <span class="brand-level-tag">Entraînement</span></p>
+          <span class="brand-tagline">Outils pour apprendre et pratiquer</span>
+        </div>
+      </a>
+
+      <!-- Navigation entre Portails -->
+      <nav class="nav-portal-links" aria-label="Portails thématiques">
+        <a href="../index.html" class="nav-portal-btn">🏠 Accueil</a>
+        <a href="../cours/" class="nav-portal-btn">📚 Cours</a>
+        <a href="../exercices-de-maths/" class="nav-portal-btn">✏️ Exercices</a>
+        <a href="../rituels.html" class="nav-portal-btn">⏱️ Rituels</a>
+        <a href="../reviser-le-brevet-de-maths/" class="nav-portal-btn">📝 Brevet</a>
+        <a href="../reussir-le-bac-de-maths/" class="nav-portal-btn">🎓 Bac</a>
+        <a href="../enseignants.html" class="nav-portal-btn">👨‍🏫 Enseignants</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="landing-wrapper cours-wrapper" id="contenu">
+    <nav class="cours-breadcrumb" aria-label="Fil d'Ariane">
+      <ol>
+        <li><a href="../index.html">Accueil</a></li>
+        <li><span aria-current="page">Entraînement maths</span></li>
+      </ol>
+    </nav>
+
+    <header class="cours-hero hub-hero">
+      <p class="landing-tag">🎯 Gratuit · sans compte · de la 6e à la licence</p>
+      <h1 class="cours-title">Entraînement maths en ligne, gratuit et par paliers</h1>
+      <p class="cours-lead">Des exercices de mathématiques qui se renouvellent à chaque tirage, corrigés immédiatement et rangés en quatre paliers de difficulté. On choisit sa classe et son chapitre, on progresse à son rythme : pas d'inscription, pas de publicité, la progression reste sur l'appareil.</p>
+      <div class="cours-cta">
+        <a class="btn-primary cours-cta-main" href="../index.html">🎯 Commencer l’entraînement</a>
+        <a class="btn-secondary cours-cta-alt" href="../rituels.html">⏱️ Questions flash</a>
+        <a class="btn-secondary cours-cta-alt" href="../exercices-de-maths/">✏️ Exercices corrigés</a>
+      </div>
+      <ul class="hub-facts"><li><strong>4</strong><span>paliers par chapitre</span></li><li><strong>∞</strong><span>exercices renouvelés</span></li><li><strong>172</strong><span>chapitres</span></li><li><strong>0</strong><span>compte à créer</span></li></ul>
+    </header>
+
+    <nav class="cours-toc" aria-label="Sommaire de la page">
+      <p class="cours-toc-title">Sommaire</p>
+      <ol><li><a href="#fonctionnement">Comment fonctionne l’entraînement</a></li><li><a href="#paliers">Les quatre paliers de difficulté</a></li><li><a href="#flash">Questions flash et calcul mental</a></li><li><a href="#flashcards">Flashcards et répétition espacée</a></li><li><a href="#devoirs">Devoirs blancs générés</a></li><li><a href="#classes">Commencer l’entraînement par classe</a></li><li><a href="#faq">Questions fréquentes</a></li></ol>
+    </nav>
+
+    <section class="cours-section " id="fonctionnement" aria-labelledby="fonctionnement-titre">
+      <h2 id="fonctionnement-titre">Comment fonctionne l’entraînement</h2>
+      <ol class="hub-steps">
+        <li><strong>Choisis ta classe</strong>, de la 6e à la licence.</li>
+        <li><strong>Choisis un chapitre</strong> : le cours est accessible à côté des exercices.</li>
+        <li><strong>Réponds</strong> : la réponse est vérifiée immédiatement. Un indice est disponible avant de répondre, la correction pas à pas après.</li>
+        <li><strong>Progresse</strong> : chaque bonne réponse fait monter ta maîtrise du chapitre et débloque les paliers suivants.</li>
+      </ol>
+    </section>
+
+    <section class="cours-section " id="paliers" aria-labelledby="paliers-titre">
+      <h2 id="paliers-titre">Les quatre paliers de difficulté</h2>
+      <div class="hub-table-wrap"><table class="hub-table"><thead><tr><th scope="col">Palier</th><th scope="col">Se débloque</th><th scope="col">Contenu</th></tr></thead><tbody><tr><th scope="row">1 · Socle et automatismes</th><td>tout de suite</td><td>Appliquer une définition, un calcul direct</td></tr><tr><th scope="row">2 · Entraînement guidé</th><td>à 25 % de maîtrise</td><td>Exercices classiques en deux ou trois étapes</td></tr><tr><th scope="row">3 · Approfondissement</th><td>à 50 % de maîtrise</td><td>Problèmes en contexte : « Objectif brevet » en 3e, « Objectif bac » en première et terminale</td></tr><tr><th scope="row">4 · Défi</th><td>à 75 % de maîtrise</td><td>Un pas vers la classe suivante</td></tr></tbody></table></div>
+      <p class="cours-note">Ce principe de difficulté progressive permet de travailler juste au-dessus de son niveau, là où l'on apprend le plus, sans se décourager.</p>
+    </section>
+
+    <section class="cours-section " id="flash" aria-labelledby="flash-titre">
+      <h2 id="flash-titre">Questions flash et calcul mental</h2>
+      <p>Le mode <strong>questions flash</strong> enchaîne des questions courtes chronométrées sur les chapitres choisis, puis affiche la correction. C'est l'outil idéal pour les <strong>automatismes</strong> évalués sans calculatrice au brevet et à l'épreuve anticipée de première. En classe, les professeurs l'utilisent en <a href="../rituels.html">rituel de début de cours</a> à vidéoprojeter.</p>
+      <ul class="hub-inline hub-pills"><li><a href="../index.html?mode=rituel&amp;level=6eme">Questions flash en 6e</a></li><li><a href="../index.html?mode=rituel&amp;level=5eme">Questions flash en 5e</a></li><li><a href="../index.html?mode=rituel&amp;level=4eme">Questions flash en 4e</a></li><li><a href="../index.html?mode=rituel&amp;level=3eme">Questions flash en 3e</a></li><li><a href="../index.html?mode=rituel&amp;level=2nde">Questions flash en seconde</a></li><li><a href="../index.html?mode=rituel&amp;level=1ere">Questions flash en première</a></li><li><a href="../index.html?mode=rituel&amp;level=tale">Questions flash en terminale</a></li></ul>
+    </section>
+
+    <section class="cours-section " id="flashcards" aria-labelledby="flashcards-titre">
+      <h2 id="flashcards-titre">Flashcards et répétition espacée</h2>
+      <p>Chaque chapitre a ses flashcards : définitions, théorèmes et formules. Elles fonctionnent comme une boîte de Leitner : une carte bien sue revient de moins en moins souvent, une carte ratée revient vite. Quelques minutes par jour suffisent pour retenir durablement le cours.</p>
+    </section>
+
+    <section class="cours-section " id="devoirs" aria-labelledby="devoirs-titre">
+      <h2 id="devoirs-titre">Devoirs blancs générés</h2>
+      <p>Pour se tester en conditions d'examen, l'application génère des sujets complets avec leur corrigé détaillé : <a href="../brevet.html">brevet blanc de maths</a> en 3e, <a href="../bac.html">sujet type bac</a> en terminale, et des devoirs d'entraînement dans chaque classe.</p>
+    </section>
+
+    <section class="cours-section " id="classes" aria-labelledby="classes-titre">
+      <h2 id="classes-titre">Commencer l’entraînement par classe</h2>
+      <ul class="hub-level-grid"><li><a class="cours-chapter-card" href="../index.html?level=6eme"><span class="topic-num">6e</span><span class="cours-chapter-text"><strong>S'entraîner en 6e</strong><span>21 chapitres</span></span></a></li><li><a class="cours-chapter-card" href="../index.html?level=5eme"><span class="topic-num">5e</span><span class="cours-chapter-text"><strong>S'entraîner en 5e</strong><span>16 chapitres</span></span></a></li><li><a class="cours-chapter-card" href="../index.html?level=4eme"><span class="topic-num">4e</span><span class="cours-chapter-text"><strong>S'entraîner en 4e</strong><span>14 chapitres</span></span></a></li><li><a class="cours-chapter-card" href="../index.html?level=3eme"><span class="topic-num">3e</span><span class="cours-chapter-text"><strong>S'entraîner en 3e</strong><span>19 chapitres</span></span></a></li><li><a class="cours-chapter-card" href="../index.html?level=2nde"><span class="topic-num">Seconde</span><span class="cours-chapter-text"><strong>S'entraîner en seconde</strong><span>15 chapitres</span></span></a></li><li><a class="cours-chapter-card" href="../index.html?level=1ere"><span class="topic-num">Première</span><span class="cours-chapter-text"><strong>S'entraîner en première</strong><span>12 chapitres</span></span></a></li><li><a class="cours-chapter-card" href="../index.html?level=tale"><span class="topic-num">Terminale</span><span class="cours-chapter-text"><strong>S'entraîner en terminale</strong><span>20 chapitres</span></span></a></li><li><a class="cours-chapter-card" href="../index.html?level=L1"><span class="topic-num">Licence 1</span><span class="cours-chapter-text"><strong>S'entraîner en L1</strong><span>12 chapitres</span></span></a></li><li><a class="cours-chapter-card" href="../index.html?level=L2"><span class="topic-num">Licence 2</span><span class="cours-chapter-text"><strong>S'entraîner en L2</strong><span>16 chapitres</span></span></a></li><li><a class="cours-chapter-card" href="../index.html?level=L3"><span class="topic-num">Licence 3</span><span class="cours-chapter-text"><strong>S'entraîner en L3</strong><span>16 chapitres</span></span></a></li><li><a class="cours-chapter-card" href="../index.html?level=capes"><span class="topic-num">CAPES</span><span class="cours-chapter-text"><strong>Préparer le CAPES</strong><span>11 chapitres</span></span></a></li></ul>
+      <p class="cours-note">Besoin de revoir le cours d'abord ? <a href="../cours/">Tous les cours de maths</a>.</p>
+    </section>
+
+    <section class="cours-section " id="faq" aria-labelledby="faq-titre">
+      <h2 id="faq-titre">Questions fréquentes</h2>
+      <div class="cours-faq">
+        <details class="cours-faq-item"><summary><h3>L’entraînement est-il vraiment gratuit et sans inscription ?</h3></summary><div><p>Oui. Aucun compte n’est nécessaire et il n’y a pas de publicité. La progression est enregistrée dans le navigateur de ton appareil ; aucune donnée personnelle n’est envoyée.</p></div></details>
+        <details class="cours-faq-item"><summary><h3>Les exercices changent-ils à chaque fois ?</h3></summary><div><p>Oui : les nombres, les figures et les situations sont générés à chaque tirage. On peut s’entraîner longtemps sur un même chapitre sans retomber sur le même énoncé.</p></div></details>
+        <details class="cours-faq-item"><summary><h3>Comment débloquer les paliers ?</h3></summary><div><p>Le palier 1 est ouvert d’office. Les bonnes réponses font monter la maîtrise du chapitre : le palier 2 s’ouvre à 25 %, le palier 3 à 50 % et le palier 4 à 75 %.</p></div></details>
+        <details class="cours-faq-item"><summary><h3>Peut-on utiliser l’entraînement sur téléphone ?</h3></summary><div><p>Oui, le site s’adapte au téléphone et à la tablette, et peut être installé comme une application depuis le navigateur pour y accéder plus vite.</p></div></details>
+        <details class="cours-faq-item"><summary><h3>Un professeur peut-il l’utiliser avec sa classe ?</h3></summary><div><p>Oui : questions flash à projeter, liens directs vers un chapitre et un palier à partager dans l’ENT, devoirs blancs imprimables. Voir l’<a href="../enseignants.html">espace enseignants</a>.</p></div></details>
+      </div>
+    </section>
+
+    <aside class="cours-cta-box" aria-label="Commencer">
+      <p class="cours-cta-box-title">C’est parti ?</p>
+      <p>Gratuit, sans inscription et sans publicité. La progression reste sur ton appareil.</p>
+      <div class="cours-cta">
+        <a class="btn-primary cours-cta-main" href="../index.html">🎯 Commencer l’entraînement</a>
+        <a class="btn-secondary cours-cta-alt" href="../rituels.html">⏱️ Questions flash</a>
+      </div>
+    </aside>
+
+    <nav class="cours-related" aria-label="Autres pages">
+      <div><p class="cours-related-title">Les autres pages</p><ul><li><a href="../exercices-de-maths/">Exercices de maths corrigés</a></li><li><a href="../reviser-le-brevet-de-maths/">Réviser le brevet de maths</a></li><li><a href="../reussir-le-bac-de-maths/">Réussir le bac de maths</a></li><li><a href="../cours/">Cours de maths, de la 6e à la licence</a></li></ul></div>
+      <div><p class="cours-related-title">Par classe</p><ul class="hub-inline"><li><a href="../cours/6e/">6e</a></li><li><a href="../cours/5e/">5e</a></li><li><a href="../cours/4e/">4e</a></li><li><a href="../cours/3e/">3e</a></li><li><a href="../cours/seconde/">Seconde</a></li><li><a href="../cours/premiere/">Première</a></li><li><a href="../cours/terminale/">Terminale</a></li><li><a href="../cours/l1/">Licence 1</a></li><li><a href="../cours/l2/">Licence 2</a></li><li><a href="../cours/l3/">Licence 3</a></li><li><a href="../cours/capes/">CAPES</a></li></ul></div>
+    </nav>
+  </main>
+
+  <footer class="cours-footer">
+    <p>L'Établi des Maths — Conçu par Loïc Delaporte, professeur de mathématiques • 100 % gratuit, conforme aux programmes</p>
+    <p><a href="../cours/">Cours de maths</a> · <a href="../exercices-de-maths/">Exercices corrigés</a> · <a href="../entrainement-maths/">Entraînement en ligne</a> · <a href="../reviser-le-brevet-de-maths/">Réviser le brevet</a> · <a href="../reussir-le-bac-de-maths/">Réussir le bac</a></p>
+    <p><a href="../index.html">Ouvrir l'application</a> · <a href="../rituels.html">Rituels</a> · <a href="../brevet.html">Brevet blanc</a> · <a href="../bac.html">Devoir type bac</a> · <a href="../enseignants.html">Espace enseignants</a> · <a href="../mentions-legales.html">Mentions légales</a> · <a href="mailto:delaporte@etabli-des-maths.fr">Contact</a></p>
+    <p>Contenus sous licence <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr" rel="license noopener">CC BY-NC-SA 4.0</a></p>
+  </footer>
+  <!-- Statistiques d'audience anonymes et conformes RGPD (GoatCounter) -->
+  <script data-goatcounter="https://etabli-des-maths.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

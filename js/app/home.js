@@ -81,11 +81,11 @@ Object.assign(window.MathsApp, {
     rituel: {
       icon: '⏱️',
       title: "Rituels Flash Chronométrés",
-      subtitle: "Calcul mental & Automatismes façon MathsMentales",
+      subtitle: "Calcul mental & automatismes",
       actionLabel: "Lancer un Rituel Flash ⏱️",
       contentHtml: `
         <div class="mode-explainer-concept">
-          Inspiré du célèbre outil pédagogique <strong>MathsMentales</strong>, le rituel flash est idéal pour démarrer chaque séance : une série courte de questions défilant avec un <strong>compte à rebours dynamique</strong>, parfaite pour la vidéoprojection en classe ou l'échauffement individuel.
+          Le rituel flash est idéal pour démarrer chaque séance : une série courte de questions défilant avec un <strong>compte à rebours dynamique</strong>, parfaite pour la vidéoprojection en classe ou l'échauffement individuel.
         </div>
 
         <div class="mode-explainer-example-card">
@@ -394,7 +394,9 @@ Object.assign(window.MathsApp, {
     const appContainer = document.querySelector('.app-container');
 
     if (homeView) homeView.style.display = 'none';
-    if (sidebar) sidebar.style.display = 'flex';
+    // Pas de display inline : la feuille de style décide (toujours visible sur ordinateur,
+    // tiroir replié ouvert par la barre « Chapitre » sur téléphone / tablette).
+    if (sidebar) sidebar.style.display = '';
     if (workspace) workspace.style.display = 'flex';
     if (mobileBar) mobileBar.style.display = '';
     if (appContainer) appContainer.classList.remove('home-active');

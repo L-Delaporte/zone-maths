@@ -45,6 +45,14 @@
       this.enrichCoursesWithExtras();
       this.loadStorage();
       this.bindShortcuts();
+      // Tap / clic sur le fond sombre : fermeture (avec confirmation si séance en cours)
+      const modal = typeof document !== 'undefined' && document.getElementById('flashcards-modal');
+      if (modal && !modal._fcBackdropBound) {
+        modal._fcBackdropBound = true;
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) this.confirmClose();
+        });
+      }
     },
 
     /**
@@ -447,6 +455,8 @@
             this.submitEvaluation(true);
           }
         } else if (e.key === 'Escape') {
+          // Déjà traité par la gestion commune des modales (bouton ✕) : pas de double confirmation
+          if (e.defaultPrevented) return;
           e.preventDefault();
           this.confirmClose();
         }
@@ -501,6 +511,15 @@
       document.getElementById('flashcards-config-screen').style.display = 'block';
       document.getElementById('flashcards-play-screen').style.display = 'none';
       document.getElementById('flashcards-summary-screen').style.display = 'none';
+      this.scrollModalTop();
+    },
+
+    /**
+     * Remet la boîte de la modale en haut (changement d'écran ou de carte sur téléphone)
+     */
+    scrollModalTop() {
+      const box = document.querySelector('#flashcards-modal .flashcards-box');
+      if (box) box.scrollTop = 0;
     },
 
     /**
@@ -655,6 +674,8 @@
         isRetry: false,
         failedInSession: false
       }));
+      // Cartes de la séance dans l'ordre de passage (récapitulatif final)
+      this.sessionCards = this.sessionQueue.map(({ id, chapterId, q, a }) => ({ id, chapterId, q, a }));
 
       this.currentIndex = 0;
       this.isRevealed = false;
@@ -722,6 +743,7 @@
       this.isRevealed = false;
       const flipper = document.getElementById('fc-flipper');
       if (flipper) flipper.classList.remove('is-flipped');
+      this.scrollModalTop();
 
       // Actions dock
       const preActions = document.getElementById('fc-pre-reveal-actions');
@@ -882,6 +904,7 @@
       document.getElementById('flashcards-play-screen').style.display = 'none';
       const summaryScreen = document.getElementById('flashcards-summary-screen');
       summaryScreen.style.display = 'block';
+      this.scrollModalTop();
 
       // Confettis de réussite
       if (window.MathsConfetti && typeof window.MathsConfetti.launch === 'function') {
@@ -964,7 +987,14 @@
             </div>
           </div>
         </div>
+
+        ${this.renderSessionRecap()}
       `;
+
+      // Rendu KaTeX des énoncés et corrections du récapitulatif
+      if (window.MathsRenderer && window.MathsRenderer.renderElement) {
+        window.MathsRenderer.renderElement(container);
+      }
 
       const retryBtn = document.getElementById('fc-retry-missed-btn');
       if (retryBtn) {
@@ -975,6 +1005,44 @@
           retryBtn.style.display = 'none';
         }
       }
+    },
+
+    /**
+     * Récapitulatif de la séance : chaque notion avec son énoncé et sa correction
+     */
+    renderSessionRecap() {
+      const cards = this.sessionCards || [];
+      if (!cards.length) return '';
+      const md = t => (window.MathsRenderer && window.MathsRenderer.markdownToHtml) ? window.MathsRenderer.markdownToHtml(t || '') : (t || '');
+      const missed = new Set((this.sessionStats.missedCards || []).map(c => c.id));
+      const items = cards.map((card, i) => {
+        const chMeta = (window.MATHS_CHAPTERS || []).find(c => c.id === card.chapterId);
+        const chap = chMeta ? `${chMeta.num} · ${chMeta.shortTitle || chMeta.title}` : card.chapterId;
+        const wasMissed = missed.has(card.id);
+        return `
+          <li class="fc-recap-item ${wasMissed ? 'is-missed' : 'is-known'}">
+            <div class="fc-recap-head">
+              <span class="fc-recap-num">${i + 1}</span>
+              <span class="fc-recap-chap">${chap}</span>
+              <span class="fc-recap-status">${wasMissed ? '🔄 Revue en répétition' : '✅ Sue du premier coup'}</span>
+            </div>
+            <div class="fc-recap-block fc-recap-q">
+              <span class="fc-recap-label">Énoncé</span>
+              <div class="fc-recap-text">${md(card.q)}</div>
+            </div>
+            <div class="fc-recap-block fc-recap-a">
+              <span class="fc-recap-label">Correction</span>
+              <div class="fc-recap-text">${md(card.a)}</div>
+            </div>
+          </li>
+        `;
+      }).join('');
+      return `
+        <section class="fc-recap-section" aria-labelledby="fc-recap-title">
+          <h4 id="fc-recap-title">📝 Récapitulatif : énoncés et corrections (${cards.length})</h4>
+          <ol class="fc-recap-list">${items}</ol>
+        </section>
+      `;
     },
 
     /**

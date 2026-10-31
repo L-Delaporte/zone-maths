@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <script>
+    // Applique le thème (clair/sombre) choisi dans l'application, avant l'affichage
+    try {
+      document.documentElement.setAttribute('data-theme', JSON.parse(localStorage.getItem('maths_3e_progress_v1') || '{}').theme || 'light');
+    } catch (e) {}
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Réviser le brevet de maths : méthode, programme, planning</title>
+  <meta name="description" content="Réviser le brevet de maths efficacement : déroulé de l’épreuve, automatismes, chapitres qui tombent, planning sur 6 semaines et brevets blancs corrigés." />
+  <meta name="author" content="Loïc Delaporte, professeur de mathématiques" />
+  <link rel="canonical" href="https://etabli-des-maths.fr/reviser-le-brevet-de-maths/" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Réviser le brevet de maths : méthode, programme, planning" />
+  <meta property="og:description" content="Réviser le brevet de maths efficacement : déroulé de l’épreuve, automatismes, chapitres qui tombent, planning sur 6 semaines et brevets blancs corrigés." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://etabli-des-maths.fr/reviser-le-brevet-de-maths/" />
+  <meta property="og:image" content="https://etabli-des-maths.fr/reviser-le-brevet-de-maths/og.png" />
+  <meta property="og:image:alt" content="Réviser le brevet de maths : méthode, programme, planning" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta property="og:site_name" content="L'Établi des Maths" />
+
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/landing.css" />
+  <link rel="stylesheet" href="../vendor/katex/katex.min.css" />
+  <link rel="stylesheet" href="../css/cours.css" />
+  <link rel="icon" href="../favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32x32.png" />
+  <link rel="apple-touch-icon" href="../assets/favicon.png" />
+  <link rel="manifest" href="../manifest.json" />
+  <meta name="theme-color" content="#2563eb" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LearningResource",
+    "name": "Réviser le brevet de maths : méthode, programme et planning",
+    "description": "Réviser le brevet de maths efficacement : déroulé de l’épreuve, automatismes, chapitres qui tombent, planning sur 6 semaines et brevets blancs corrigés.",
+    "url": "https://etabli-des-maths.fr/reviser-le-brevet-de-maths/",
+    "inLanguage": "fr",
+    "isAccessibleForFree": true,
+    "dateModified": "2026-10-31",
+    "author": {
+      "@type": "Person",
+      "name": "Loïc Delaporte",
+      "jobTitle": "Professeur de mathématiques"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "L'Établi des Maths",
+      "url": "https://etabli-des-maths.fr/",
+      "logo": "https://etabli-des-maths.fr/assets/logo.png"
+    },
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "L'Établi des Maths",
+      "url": "https://etabli-des-maths.fr/"
+    },
+    "educationalLevel": "Collège — classe de 3e (diplôme national du brevet)",
+    "learningResourceType": [
+      "Méthode de révision",
+      "Exercices corrigés"
+    ],
+    "teaches": [
+      "Préparation à l’épreuve de mathématiques du diplôme national du brevet"
+    ],
+    "about": {
+      "@type": "Thing",
+      "name": "Brevet des collèges — mathématiques"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Quand commencer à réviser le brevet de maths ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Idéalement deux mois avant l’épreuve, avec quelques minutes d’automatismes par jour dès le début de la 3e. Le planning de six semaines proposé ici suffit si les bases sont en place ; sinon, commence par les chapitres de 4e."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Quels chapitres tombent le plus souvent au brevet de maths ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Les théorèmes de Pythagore et de Thalès, la trigonométrie, le calcul littéral et les équations, les fonctions affines, les statistiques et les probabilités, et un programme Scratch. Mais tout le programme du cycle 4 peut être évalué."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "La calculatrice est-elle autorisée au brevet de maths ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Pas pour la partie automatismes, qui se fait sans calculatrice. Elle est autorisée (en mode examen) pour la partie raisonnement et résolution de problèmes."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Comment faire un brevet blanc de maths en ligne ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "La page Brevet blanc de maths génère un sujet complet de 3e avec son corrigé détaillé. Chaque sujet est différent : tu peux en refaire autant que tu veux, en temps limité."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Comment gagner des points facilement au brevet de maths ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "En sécurisant les automatismes (6 points accessibles avec de l’entraînement régulier), en justifiant chaque réponse, en n’oubliant pas les unités et en traitant toutes les questions faciles de chaque exercice, même si le début bloque."
+        }
+      }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Accueil",
+        "item": "https://etabli-des-maths.fr/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Réviser le brevet de maths",
+        "item": "https://etabli-des-maths.fr/reviser-le-brevet-de-maths/"
+      }
+    ]
+  }
+  </script>
+</head>
+<body class="cours-page">
+  <a class="cours-skip" href="#contenu">Aller au contenu</a>
+
+  <!-- Header Uniformisé -->
+  <header class="app-header">
+    <div class="header-inner">
+      <a href="../index.html" class="brand-container" style="text-decoration: none;">
+        <img src="../assets/logo-96.png" alt="L'Établi des Maths" class="brand-logo-img" width="44" height="44" />
+        <div class="brand-text">
+          <p class="brand-title">L'Établi des Maths <span class="brand-level-tag">Brevet</span></p>
+          <span class="brand-tagline">Outils pour apprendre et pratiquer</span>
+        </div>
+      </a>
+
+      <!-- Navigation entre Portails -->
+      <nav class="nav-portal-links" aria-label="Portails thématiques">
+        <a href="../index.html" class="nav-portal-btn">🏠 Accueil</a>
+        <a href="../cours/" class="nav-portal-btn">📚 Cours</a>
+        <a href="../exercices-de-maths/" class="nav-portal-btn">✏️ Exercices</a>
+        <a href="../rituels.html" class="nav-portal-btn">⏱️ Rituels</a>
+        <a href="../reviser-le-brevet-de-maths/" class="nav-portal-btn active" aria-current="page">📝 Brevet</a>
+        <a href="../reussir-le-bac-de-maths/" class="nav-portal-btn">🎓 Bac</a>
+        <a href="../enseignants.html" class="nav-portal-btn">👨‍🏫 Enseignants</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="landing-wrapper cours-wrapper" id="contenu">
+    <nav class="cours-breadcrumb" aria-label="Fil d'Ariane">
+      <ol>
+        <li><a href="../index.html">Accueil</a></li>
+        <li><span aria-current="page">Réviser le brevet de maths</span></li>
+      </ol>
+    </nav>
+
+    <header class="cours-hero hub-hero">
+      <p class="landing-tag">📝 Brevet des collèges · 3e</p>
+      <h1 class="cours-title">Réviser le brevet de maths : méthode, programme et planning</h1>
+      <p class="cours-lead">Comment se passe l'épreuve de mathématiques du brevet, quels automatismes travailler, quels chapitres reviennent le plus souvent, et comment organiser ses révisions semaine après semaine. Chaque notion renvoie vers son cours, des exercices corrigés et un entraînement en ligne.</p>
+      <div class="cours-cta">
+        <a class="btn-primary cours-cta-main" href="../brevet.html">📝 Faire un brevet blanc</a>
+        <a class="btn-secondary cours-cta-alt" href="../index.html?level=3eme">🎯 S’entraîner sur la 3e</a>
+        <a class="btn-secondary cours-cta-alt" href="../index.html?mode=flashcards&amp;level=3eme">🗂️ Flashcards de 3e</a>
+      </div>
+      <ul class="hub-facts"><li><strong>2 h</strong><span>d’épreuve</span></li><li><strong>6 pts</strong><span>automatismes, sans calculatrice</span></li><li><strong>14 pts</strong><span>problèmes, avec calculatrice</span></li><li><strong>6</strong><span>semaines de planning</span></li></ul>
+    </header>
+
+    <nav class="cours-toc" aria-label="Sommaire de la page">
+      <p class="cours-toc-title">Sommaire</p>
+      <ol><li><a href="#epreuve">Comment se passe l’épreuve de maths du brevet</a></li><li><a href="#automatismes">Les automatismes à maîtriser sans calculatrice</a></li><li><a href="#chapitres">Les chapitres de 3e à réviser</a></li><li><a href="#methode">La méthode en cinq étapes</a></li><li><a href="#planning">Planning de révision sur six semaines</a></li><li><a href="#exemple">Exercices type brevet, corrigés</a></li><li><a href="#jour-j">Le jour de l’épreuve</a></li><li><a href="#faq">Questions fréquentes</a></li></ol>
+    </nav>
+
+    <section class="cours-section " id="epreuve" aria-labelledby="epreuve-titre">
+      <h2 id="epreuve-titre">Comment se passe l’épreuve de maths du brevet</h2>
+      <p>Depuis la session 2026, l'épreuve écrite de mathématiques dure <strong>2 heures</strong> et est notée sur <strong>20 points</strong>, en deux parties :</p>
+      <div class="hub-table-wrap"><table class="hub-table"><thead><tr><th scope="col">Partie</th><th scope="col">Durée</th><th scope="col">Points</th><th scope="col">Ce qui est évalué</th></tr></thead><tbody><tr><th scope="row">1 · Automatismes</th><td>environ 20 min</td><td>6 points</td><td>Une série de questions courtes, <strong>sans calculatrice</strong>, sur des notions travaillées depuis la 6e. La copie est ramassée à la fin de la partie.</td></tr><tr><th scope="row">2 · Raisonnement et résolution de problèmes</th><td>environ 1 h 40</td><td>14 points</td><td>Plusieurs exercices indépendants, <strong>calculatrice autorisée</strong>, souvent en contexte (géométrie, fonctions, probabilités, programme Scratch). La rédaction et la justification comptent.</td></tr></tbody></table></div>
+      <p class="cours-note">Les modalités peuvent évoluer d'une session à l'autre : vérifie toujours la note de service de l'année sur le site du ministère de l'Éducation nationale et auprès de ton professeur.</p>
+    </section>
+
+    <section class="cours-section " id="automatismes" aria-labelledby="automatismes-titre">
+      <h2 id="automatismes-titre">Les automatismes à maîtriser sans calculatrice</h2>
+      <p>La première partie se gagne par la régularité : ce sont des réflexes, pas des problèmes. Dix minutes par jour de <a href="../index.html?mode=rituel&amp;level=3eme">questions flash</a> suffisent à les installer. Chaque automatisme renvoie à son cours :</p>
+      <ul class="hub-chapters"><li><a href="../cours/3e/ensemble-de-nombres-et-fractions.html">Fractions et priorités opératoires</a><span class="cours-count">3e</span><a class="hub-train" href="../index.html?chapitre=N1" aria-label="S'entraîner : Fractions et priorités opératoires">S'entraîner</a></li><li><a href="../cours/4e/operations-sur-les-nombres-relatifs.html">Nombres relatifs</a><span class="cours-count">4e</span><a class="hub-train" href="../index.html?chapitre=4N1" aria-label="S'entraîner : Nombres relatifs">S'entraîner</a></li><li><a href="../cours/3e/puissances-et-notation-scientifique.html">Puissances et notation scientifique</a><span class="cours-count">3e</span><a class="hub-train" href="../index.html?chapitre=N3" aria-label="S'entraîner : Puissances et notation scientifique">S'entraîner</a></li><li><a href="../cours/4e/proportionnalite-ratios-et-pourcentages.html">Proportionnalité et pourcentages</a><span class="cours-count">4e</span><a class="hub-train" href="../index.html?chapitre=4P1" aria-label="S'entraîner : Proportionnalité et pourcentages">S'entraîner</a></li><li><a href="../cours/3e/calcul-litteral-et-developpement.html">Développer, réduire</a><span class="cours-count">3e</span><a class="hub-train" href="../index.html?chapitre=N2" aria-label="S'entraîner : Développer, réduire">S'entraîner</a></li><li><a href="../cours/3e/equations-et-resolution-de-problemes.html">Résoudre une équation</a><span class="cours-count">3e</span><a class="hub-train" href="../index.html?chapitre=N4" aria-label="S'entraîner : Résoudre une équation">S'entraîner</a></li><li><a href="../cours/6e/reperage-dans-le-temps-et-durees.html">Durées et conversions</a><span class="cours-count">6e</span><a class="hub-train" href="../index.html?chapitre=6M4" aria-label="S'entraîner : Durées et conversions">S'entraîner</a></li><li><a href="../cours/3e/statistiques-et-analyse-de-donnees.html">Moyenne, médiane, étendue</a><span class="cours-count">3e</span><a class="hub-train" href="../index.html?chapitre=Org2" aria-label="S'entraîner : Moyenne, médiane, étendue">S'entraîner</a></li><li><a href="../cours/3e/probabilites-et-experiences-aleatoires.html">Probabilités simples</a><span class="cours-count">3e</span><a class="hub-train" href="../index.html?chapitre=Org4" aria-label="S'entraîner : Probabilités simples">S'entraîner</a></li><li><a href="../cours/3e/notion-de-fonction.html">Lire un graphique, une image, un antécédent</a><span class="cours-count">3e</span><a class="hub-train" href="../index.html?chapitre=Org1" aria-label="S'entraîner : Lire un graphique, une image, un antécédent">S'entraîner</a></li></ul>
+      <p class="cours-note">Exemples de questions : calculer le tiers de 18, écrire 0,045 en notation scientifique, augmenter un prix de 20 %, résoudre 3x + 5 = 17, donner la médiane d'une petite série.</p>
+    </section>
+
+    <section class="cours-section " id="chapitres" aria-labelledby="chapitres-titre">
+      <h2 id="chapitres-titre">Les chapitres de 3e à réviser</h2>
+      <p>Tout le programme du cycle 4 peut être évalué. Les théorèmes de géométrie (<strong>Pythagore, Thalès, trigonométrie</strong>), le <strong>calcul littéral</strong>, les <strong>fonctions</strong> et les <strong>probabilités</strong> reviennent presque à chaque session : ce sont les priorités.</p>
+      <div class="hub-grid"><article class="cours-card"><h3>Nombres et calculs</h3><ul class="hub-chapters"><li><a href="../cours/3e/ensemble-de-nombres-et-fractions.html">Ensemble de nombres et fractions</a><a class="hub-train" href="../index.html?chapitre=N1" aria-label="S'entraîner : Nombres &amp; Fractions">S'entraîner</a></li><li><a href="../cours/3e/calcul-litteral-et-developpement.html">Calcul littéral et développement</a><a class="hub-train" href="../index.html?chapitre=N2" aria-label="S'entraîner : Développement">S'entraîner</a></li><li><a href="../cours/3e/calcul-litteral-et-factorisation.html">Calcul littéral et factorisation</a><a class="hub-train" href="../index.html?chapitre=N2bis" aria-label="S'entraîner : Factorisation">S'entraîner</a></li><li><a href="../cours/3e/puissances-et-notation-scientifique.html">Puissances et Notation scientifique</a><a class="hub-train" href="../index.html?chapitre=N3" aria-label="S'entraîner : Puissances &amp; Ordres">S'entraîner</a></li><li><a href="../cours/3e/equations-et-resolution-de-problemes.html">Équations et Résolution de problèmes</a><a class="hub-train" href="../index.html?chapitre=N4" aria-label="S'entraîner : Équations">S'entraîner</a></li><li><a href="../cours/3e/arithmetique-et-nombres-premiers.html">Arithmétique et Nombres premiers</a><a class="hub-train" href="../index.html?chapitre=N5" aria-label="S'entraîner : Arithmétique">S'entraîner</a></li></ul></article><article class="cours-card"><h3>Géométrie</h3><ul class="hub-chapters"><li><a href="../cours/3e/theoreme-de-pythagore-et-proprietes.html">Théorème de Pythagore et Propriétés</a><a class="hub-train" href="../index.html?chapitre=G0" aria-label="S'entraîner : Pythagore">S'entraîner</a></li><li><a href="../cours/3e/theoreme-de-thales-et-reciproque.html">Théorème de Thalès et Réciproque</a><a class="hub-train" href="../index.html?chapitre=G1" aria-label="S'entraîner : Thalès">S'entraîner</a></li><li><a href="../cours/3e/trigonometrie-dans-le-triangle-rectangle.html">Trigonométrie dans le triangle rectangle</a><a class="hub-train" href="../index.html?chapitre=G2" aria-label="S'entraîner : Trigonométrie">S'entraîner</a></li><li><a href="../cours/3e/triangles-semblables.html">Triangles semblables</a><a class="hub-train" href="../index.html?chapitre=G7" aria-label="S'entraîner : Triangles semblables">S'entraîner</a></li><li><a href="../cours/3e/homotheties-et-effets-d-echelle.html">Homothéties et Effets d'échelle</a><a class="hub-train" href="../index.html?chapitre=G3" aria-label="S'entraîner : Homothéties">S'entraîner</a></li><li><a href="../cours/3e/rotations-et-transformations-du-plan.html">Rotations et Transformations du plan</a><a class="hub-train" href="../index.html?chapitre=G6" aria-label="S'entraîner : Rotations">S'entraîner</a></li><li><a href="../cours/3e/geometrie-dans-l-espace-et-sections-planes.html">Géométrie dans l'espace et Sections planes</a><a class="hub-train" href="../index.html?chapitre=G5" aria-label="S'entraîner : Espace &amp; Sections">S'entraîner</a></li><li><a href="../cours/3e/sphere-boule-et-reperage-terrestre.html">Sphère, Boule et Repérage terrestre</a><a class="hub-train" href="../index.html?chapitre=G4" aria-label="S'entraîner : Sphère &amp; Boule">S'entraîner</a></li></ul></article><article class="cours-card"><h3>Fonctions, statistiques et probabilités</h3><ul class="hub-chapters"><li><a href="../cours/3e/notion-de-fonction.html">Notion de fonction</a><a class="hub-train" href="../index.html?chapitre=Org1" aria-label="S'entraîner : Notion de fonction">S'entraîner</a></li><li><a href="../cours/3e/fonctions-lineaires-et-affines.html">Fonctions linéaires et affines</a><a class="hub-train" href="../index.html?chapitre=Org3" aria-label="S'entraîner : Fonctions affines">S'entraîner</a></li><li><a href="../cours/3e/statistiques-et-analyse-de-donnees.html">Statistiques et Analyse de données</a><a class="hub-train" href="../index.html?chapitre=Org2" aria-label="S'entraîner : Statistiques">S'entraîner</a></li><li><a href="../cours/3e/probabilites-et-experiences-aleatoires.html">Probabilités et Expériences aléatoires</a><a class="hub-train" href="../index.html?chapitre=Org4" aria-label="S'entraîner : Probabilités">S'entraîner</a></li></ul></article><article class="cours-card"><h3>Algorithmique</h3><ul class="hub-chapters"><li><a href="../cours/3e/algorithmique-scratch-et-tableur.html">Algorithmique, Scratch et Tableur</a><a class="hub-train" href="../index.html?chapitre=Algo" aria-label="S'entraîner : Scratch &amp; Tableur">S'entraîner</a></li></ul></article></div>
+      <p class="cours-note">Les bases de 4e restent indispensables : <a href="../cours/4e/theoreme-de-pythagore.html">théorème de Pythagore en 4e</a>, <a href="../cours/4e/puissances-d-un-nombre-et-puissances-de-10.html">puissances</a>, <a href="../cours/4e/calcul-litteral-et-resolution-d-equations-du-premier.html">équations</a>. Voir aussi <a href="../cours/3e/">tous les cours de 3e</a>.</p>
+    </section>
+
+    <section class="cours-section " id="methode" aria-labelledby="methode-titre">
+      <h2 id="methode-titre">La méthode en cinq étapes</h2>
+      <ol class="hub-steps">
+        <li><strong>Faire le point.</strong> Génère un <a href="../brevet.html">brevet blanc</a> sans préparation et repère les chapitres où tu perds des points.</li>
+        <li><strong>Revoir le cours ciblé.</strong> Pour chaque chapitre faible, relis la page de cours et refais les exemples de la partie « Méthodes » sans regarder la solution.</li>
+        <li><strong>S'entraîner par paliers.</strong> Paliers 1 et 2 jusqu'à réussir sans indice, puis le palier 3 « Objectif brevet », calibré sur les exercices de l'examen.</li>
+        <li><strong>Mémoriser.</strong> Formules de volumes, trigonométrie, identités remarquables : quelques flashcards par jour, les cartes ratées reviennent plus souvent.</li>
+        <li><strong>Se mettre en conditions.</strong> Deux ou trois sujets complets en temps limité, puis corriger soi-même avec le corrigé et refaire les questions ratées le lendemain.</li>
+      </ol>
+    </section>
+
+    <section class="cours-section " id="planning" aria-labelledby="planning-titre">
+      <h2 id="planning-titre">Planning de révision sur six semaines</h2>
+      <div class="hub-table-wrap"><table class="hub-table"><thead><tr><th scope="col">Semaine</th><th scope="col">Contenu</th><th scope="col">Outils</th></tr></thead><tbody><tr><th scope="row">1</th><td>Diagnostic, puis fractions, relatifs, priorités et puissances</td><td><a href="../brevet.html">Brevet blanc</a>, <a href="../cours/3e/ensemble-de-nombres-et-fractions.html">fractions</a>, <a href="../cours/3e/puissances-et-notation-scientifique.html">puissances</a></td></tr><tr><th scope="row">2</th><td>Calcul littéral, équations, proportionnalité et pourcentages</td><td><a href="../cours/3e/calcul-litteral-et-developpement.html">développer</a>, <a href="../cours/3e/calcul-litteral-et-factorisation.html">factoriser</a>, <a href="../cours/3e/equations-et-resolution-de-problemes.html">équations</a></td></tr><tr><th scope="row">3</th><td>Pythagore, Thalès, trigonométrie, triangles semblables</td><td><a href="../cours/3e/theoreme-de-pythagore-et-proprietes.html">Pythagore</a>, <a href="../cours/3e/theoreme-de-thales-et-reciproque.html">Thalès</a>, <a href="../cours/3e/trigonometrie-dans-le-triangle-rectangle.html">trigonométrie</a></td></tr><tr><th scope="row">4</th><td>Fonctions linéaires et affines, statistiques, probabilités</td><td><a href="../cours/3e/fonctions-lineaires-et-affines.html">fonctions affines</a>, <a href="../cours/3e/statistiques-et-analyse-de-donnees.html">statistiques</a>, <a href="../cours/3e/probabilites-et-experiences-aleatoires.html">probabilités</a></td></tr><tr><th scope="row">5</th><td>Espace et volumes, transformations, Scratch ; un sujet complet</td><td><a href="../cours/3e/geometrie-dans-l-espace-et-sections-planes.html">espace</a>, <a href="../cours/3e/rotations-et-transformations-du-plan.html">transformations</a>, <a href="../cours/3e/algorithmique-scratch-et-tableur.html">Scratch</a></td></tr><tr><th scope="row">6</th><td>Sujets en temps limité, reprise des erreurs, flashcards</td><td><a href="../brevet.html">Brevets blancs</a>, <a href="../index.html?mode=flashcards&amp;level=3eme">flashcards</a></td></tr></tbody></table></div>
+      <p class="cours-note">Chaque jour : 10 minutes d'automatismes + 20 à 30 minutes sur le thème de la semaine. Les révisions sur plusieurs semaines retiennent bien mieux que le bachotage de la dernière nuit.</p>
+    </section>
+
+    <section class="cours-section " id="exemple" aria-labelledby="exemple-titre">
+      <h2 id="exemple-titre">Exercices type brevet, corrigés</h2>
+      <article class="cours-card cours-exo">
+<h3><span class="cours-exo-num">Type brevet · Pythagore</span> Contraposée du théorème de Pythagore</h3>
+<p class="cours-tier cours-tier-3">Palier 3 · approfondissement</p>
+<div class="geo-figure-wrapper" style="text-align:center; margin:12px 0;">
+<svg class="geo-svg-figure" viewBox="0 0 270 175" width="270" height="175" style="max-width:270px; width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg">
+  <polygon points="50,135 220,135 50,35" fill="rgba(59, 130, 246, 0.05)" stroke="var(--text-main, #334155)" stroke-width="2" stroke-linejoin="round" />
+  <text x="34" y="152" font-family="system-ui, sans-serif" font-size="14" font-weight="700" fill="var(--text-main, #0f172a)">I</text>
+  <text x="236" y="140" font-family="system-ui, sans-serif" font-size="14" font-weight="700" fill="var(--text-main, #0f172a)">J</text>
+  <text x="50" y="22" font-family="system-ui, sans-serif" font-size="14" font-weight="700" fill="var(--text-main, #0f172a)">K</text>
+  <g class="geo-pill">
+      <rect x="113" y="143" width="44" height="22" rx="5" fill="var(--bg-surface, #ffffff)" stroke="var(--border-color, #94a3b8)" stroke-width="1" />
+      <text x="135" y="158.5" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="600" fill="var(--text-main, #0f172a)">6 cm</text>
+    </g>
+  <g class="geo-pill">
+      <rect x="6" y="74" width="44" height="22" rx="5" fill="var(--bg-surface, #ffffff)" stroke="var(--border-color, #94a3b8)" stroke-width="1" />
+      <text x="28" y="89.5" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="600" fill="var(--text-main, #0f172a)">7 cm</text>
+    </g>
+  <g class="geo-pill">
+      <rect x="126" y="64" width="44" height="22" rx="5" fill="var(--bg-surface, #ffffff)" stroke="var(--border-color, #94a3b8)" stroke-width="1" />
+      <text x="148" y="79.5" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="600" fill="var(--text-main, #0f172a)">9 cm</text>
+    </g>
+</svg>
+</div>
+<p class="math-p">Un triangle <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi><mi>J</mi><mi>K</mi></mrow><annotation encoding="application/x-tex">IJK</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="mord mathnormal" style="margin-right:0.09618em;">J</span><span class="mord mathnormal" style="margin-right:0.07153em;">K</span></span></span></span> a pour côtés : <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi><mi>J</mi><mo>=</mo><mn>6</mn><mtext> cm</mtext></mrow><annotation encoding="application/x-tex">IJ = 6\text{ cm}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="mord mathnormal" style="margin-right:0.09618em;">J</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">6</span><span class="mord text"><span class="mord"> cm</span></span></span></span></span>, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi><mi>K</mi><mo>=</mo><mn>7</mn><mtext> cm</mtext></mrow><annotation encoding="application/x-tex">IK = 7\text{ cm}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">7</span><span class="mord text"><span class="mord"> cm</span></span></span></span></span> et <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>J</mi><mi>K</mi><mo>=</mo><mn>9</mn><mtext> cm</mtext></mrow><annotation encoding="application/x-tex">JK = 9\text{ cm}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.09618em;">J</span><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">9</span><span class="mord text"><span class="mord"> cm</span></span></span></span></span>.<br/><strong>Ce triangle est-il rectangle ?</strong></p>
+<ol class="cours-mcq" type="A"><li>Non, le triangle IJK n'est pas rectangle</li><li>Oui, le triangle IJK est rectangle en I</li></ol>
+<details class="cours-hint"><summary>Un indice</summary><div><p class="math-p">Identifie le plus long côté (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>J</mi><mi>K</mi><mo>=</mo><mn>9</mn><mtext> cm</mtext></mrow><annotation encoding="application/x-tex">JK = 9\text{ cm}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.09618em;">J</span><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">9</span><span class="mord text"><span class="mord"> cm</span></span></span></span></span>). Calcule <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>J</mi><msup><mi>K</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">JK^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord mathnormal" style="margin-right:0.09618em;">J</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span> d'une part, et <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi><msup><mi>J</mi><mn>2</mn></msup><mo>+</mo><mi>I</mi><msup><mi>K</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">IJ^2 + IK^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8974em;vertical-align:-0.0833em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.09618em;">J</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span> d'autre part.</p></div></details>
+<details class="cours-solution"><summary>Voir la correction</summary><div class="cours-solution-body"><p class="cours-answer"><strong>Bonne réponse :</strong> A. Non, le triangle IJK n'est pas rectangle</p><p class="math-p">Dans le triangle <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi><mi>J</mi><mi>K</mi></mrow><annotation encoding="application/x-tex">IJK</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="mord mathnormal" style="margin-right:0.09618em;">J</span><span class="mord mathnormal" style="margin-right:0.07153em;">K</span></span></span></span>, le plus long côté est <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mi>J</mi><mi>K</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[JK]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.09618em;">J</span><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="mclose">]</span></span></span></span> :<br/>1. D'une part : <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>J</mi><msup><mi>K</mi><mn>2</mn></msup><mo>=</mo><msup><mn>9</mn><mn>2</mn></msup><mo>=</mo><mn>81</mn></mrow><annotation encoding="application/x-tex">JK^2 = 9^2 = 81</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8641em;"></span><span class="mord mathnormal" style="margin-right:0.09618em;">J</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8641em;"></span><span class="mord"><span class="mord">9</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">81</span></span></span></span></span><br/>2. D'autre part : <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>I</mi><msup><mi>J</mi><mn>2</mn></msup><mo>+</mo><mi>I</mi><msup><mi>K</mi><mn>2</mn></msup><mo>=</mo><msup><mn>6</mn><mn>2</mn></msup><mo>+</mo><msup><mn>7</mn><mn>2</mn></msup><mo>=</mo><mn>36</mn><mo>+</mo><mn>49</mn><mo>=</mo><mn>85</mn></mrow><annotation encoding="application/x-tex">IJ^2 + IK^2 = 6^2 + 7^2 = 36 + 49 = 85</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9474em;vertical-align:-0.0833em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.09618em;">J</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8641em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.9474em;vertical-align:-0.0833em;"></span><span class="mord"><span class="mord">6</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8641em;"></span><span class="mord"><span class="mord">7</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">36</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">49</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">85</span></span></span></span></span><br/>3. On constate que <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>J</mi><msup><mi>K</mi><mn>2</mn></msup><mo mathvariant="normal">≠</mo><mi>I</mi><msup><mi>J</mi><mn>2</mn></msup><mo>+</mo><mi>I</mi><msup><mi>K</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">JK^2 \neq IJ^2 + IK^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0085em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.09618em;">J</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel"><span class="mrel"><span class="mord vbox"><span class="thinbox"><span class="rlap"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="inner"><span class="mord"><span class="mrel"></span></span></span><span class="fix"></span></span></span></span></span><span class="mrel">=</span></span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8974em;vertical-align:-0.0833em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.09618em;">J</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span> (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>81</mn><mo mathvariant="normal">≠</mo><mn>85</mn></mrow><annotation encoding="application/x-tex">81 \neq 85</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord">81</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel"><span class="mrel"><span class="mord vbox"><span class="thinbox"><span class="rlap"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="inner"><span class="mord"><span class="mrel"></span></span></span><span class="fix"></span></span></span></span></span><span class="mrel">=</span></span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">85</span></span></span></span>).<br/>Par conséquent, d'après la <strong>contraposée du théorème de Pythagore</strong>, le triangle <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi><mi>J</mi><mi>K</mi></mrow><annotation encoding="application/x-tex">IJK</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="mord mathnormal" style="margin-right:0.09618em;">J</span><span class="mord mathnormal" style="margin-right:0.07153em;">K</span></span></span></span> <strong>n'est pas rectangle</strong>.</p></div></details>
+<p class="hub-exo-more">Chapitre : <a href="../cours/3e/theoreme-de-pythagore-et-proprietes.html">Théorème de Pythagore et Propriétés</a> · <a href="../index.html?chapitre=G0">s'entraîner sur des exercices du même type</a></p></article>
+      <article class="cours-card cours-exo">
+<h3><span class="cours-exo-num">Type brevet · probabilités</span> Arbre à deux épreuves (Brevet)</h3>
+<p class="cours-tier cours-tier-3">Palier 3 · approfondissement</p>
+<p class="math-p">On lance deux fois de suite une pièce équilibrée (Pile ou Face). Quelle est la probabilité d'obtenir deux fois Pile sous forme de fraction ?</p>
+
+<details class="cours-hint"><summary>Un indice</summary><div><p class="math-p">À chaque lancer, la probabilité de Pile est <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mn>1</mn><mn>2</mn></mfrac></mrow><annotation encoding="application/x-tex">\frac{1}{2}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1901em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8451em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span>. Multiplie le long du chemin.</p></div></details>
+<details class="cours-solution"><summary>Voir la correction</summary><div class="cours-solution-body"><p class="cours-answer"><strong>Réponse attendue :</strong> 1/4</p><p class="math-p">D'après la règle du produit dans un arbre de probabilités :<br/><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>P</mi><mo stretchy="false">(</mo><mtext>Pile, Pile</mtext><mo stretchy="false">)</mo><mo>=</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mo>×</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mo>=</mo><mfrac><mn>1</mn><mn>4</mn></mfrac><mo>=</mo><mn>0</mn><mo separator="true">,</mo><mn>25</mn></mrow><annotation encoding="application/x-tex">P(\text{Pile, Pile}) = \frac{1}{2} \times \frac{1}{2} = \frac{1}{4} = 0,25</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord text"><span class="mord">Pile, Pile</span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.0074em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3214em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">2</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:2.0074em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3214em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">2</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.0074em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3214em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">4</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8389em;vertical-align:-0.1944em;"></span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">25</span></span></span></span></span></p></div></details>
+<p class="hub-exo-more">Chapitre : <a href="../cours/3e/probabilites-et-experiences-aleatoires.html">Probabilités et Expériences aléatoires</a> · <a href="../index.html?chapitre=Org4">s'entraîner sur des exercices du même type</a></p></article>
+    </section>
+
+    <section class="cours-section " id="jour-j" aria-labelledby="jour-j-titre">
+      <h2 id="jour-j-titre">Le jour de l’épreuve</h2>
+      <ul class="cours-list">
+        <li>Partie automatismes : réponds d'abord aux questions sûres, puis reviens sur les autres ; une réponse vide ne rapporte rien.</li>
+        <li>Lis tout le sujet de la deuxième partie et commence par l'exercice où tu te sens le plus à l'aise : les exercices sont indépendants.</li>
+        <li>Justifie : cite le théorème utilisé (Pythagore, Thalès…), écris les calculs, conclus par une phrase avec l'unité.</li>
+        <li>Une question bloque ? Admets le résultat et continue : les questions suivantes restent faisables.</li>
+        <li>Garde 5 minutes pour relire : unités, arrondis demandés, signes.</li>
+      </ul>
+    </section>
+
+    <section class="cours-section " id="faq" aria-labelledby="faq-titre">
+      <h2 id="faq-titre">Questions fréquentes</h2>
+      <div class="cours-faq">
+        <details class="cours-faq-item"><summary><h3>Quand commencer à réviser le brevet de maths ?</h3></summary><div><p>Idéalement deux mois avant l’épreuve, avec quelques minutes d’automatismes par jour dès le début de la 3e. Le planning de six semaines proposé ici suffit si les bases sont en place ; sinon, commence par les chapitres de 4e.</p></div></details>
+        <details class="cours-faq-item"><summary><h3>Quels chapitres tombent le plus souvent au brevet de maths ?</h3></summary><div><p>Les théorèmes de Pythagore et de Thalès, la trigonométrie, le calcul littéral et les équations, les fonctions affines, les statistiques et les probabilités, et un programme Scratch. Mais tout le programme du cycle 4 peut être évalué.</p></div></details>
+        <details class="cours-faq-item"><summary><h3>La calculatrice est-elle autorisée au brevet de maths ?</h3></summary><div><p>Pas pour la partie automatismes, qui se fait sans calculatrice. Elle est autorisée (en mode examen) pour la partie raisonnement et résolution de problèmes.</p></div></details>
+        <details class="cours-faq-item"><summary><h3>Comment faire un brevet blanc de maths en ligne ?</h3></summary><div><p>La page <a href="../brevet.html">Brevet blanc de maths</a> génère un sujet complet de 3e avec son corrigé détaillé. Chaque sujet est différent : tu peux en refaire autant que tu veux, en temps limité.</p></div></details>
+        <details class="cours-faq-item"><summary><h3>Comment gagner des points facilement au brevet de maths ?</h3></summary><div><p>En sécurisant les automatismes (6 points accessibles avec de l’entraînement régulier), en justifiant chaque réponse, en n’oubliant pas les unités et en traitant toutes les questions faciles de chaque exercice, même si le début bloque.</p></div></details>
+      </div>
+    </section>
+
+    <aside class="cours-cta-box" aria-label="Commencer">
+      <p class="cours-cta-box-title">Teste ton niveau avec un brevet blanc</p>
+      <p>Gratuit, sans inscription et sans publicité. La progression reste sur ton appareil.</p>
+      <div class="cours-cta">
+        <a class="btn-primary cours-cta-main" href="../brevet.html">📝 Faire un brevet blanc</a>
+        <a class="btn-secondary cours-cta-alt" href="../index.html?level=3eme">🎯 S’entraîner sur la 3e</a>
+      </div>
+    </aside>
+
+    <nav class="cours-related" aria-label="Autres pages">
+      <div><p class="cours-related-title">Les autres pages</p><ul><li><a href="../exercices-de-maths/">Exercices de maths corrigés</a></li><li><a href="../reussir-le-bac-de-maths/">Réussir le bac de maths</a></li><li><a href="../entrainement-maths/">Entraînement maths en ligne</a></li><li><a href="../cours/">Cours de maths, de la 6e à la licence</a></li></ul></div>
+      <div><p class="cours-related-title">Par classe</p><ul class="hub-inline"><li><a href="../cours/6e/">6e</a></li><li><a href="../cours/5e/">5e</a></li><li><a href="../cours/4e/">4e</a></li><li><a href="../cours/3e/">3e</a></li><li><a href="../cours/seconde/">Seconde</a></li><li><a href="../cours/premiere/">Première</a></li><li><a href="../cours/terminale/">Terminale</a></li><li><a href="../cours/l1/">Licence 1</a></li><li><a href="../cours/l2/">Licence 2</a></li><li><a href="../cours/l3/">Licence 3</a></li><li><a href="../cours/capes/">CAPES</a></li></ul></div>
+    </nav>
+  </main>
+
+  <footer class="cours-footer">
+    <p>L'Établi des Maths — Conçu par Loïc Delaporte, professeur de mathématiques • 100 % gratuit, conforme aux programmes</p>
+    <p><a href="../cours/">Cours de maths</a> · <a href="../exercices-de-maths/">Exercices corrigés</a> · <a href="../entrainement-maths/">Entraînement en ligne</a> · <a href="../reviser-le-brevet-de-maths/">Réviser le brevet</a> · <a href="../reussir-le-bac-de-maths/">Réussir le bac</a></p>
+    <p><a href="../index.html">Ouvrir l'application</a> · <a href="../rituels.html">Rituels</a> · <a href="../brevet.html">Brevet blanc</a> · <a href="../bac.html">Devoir type bac</a> · <a href="../enseignants.html">Espace enseignants</a> · <a href="../mentions-legales.html">Mentions légales</a> · <a href="mailto:delaporte@etabli-des-maths.fr">Contact</a></p>
+    <p>Contenus sous licence <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr" rel="license noopener">CC BY-NC-SA 4.0</a></p>
+  </footer>
+  <!-- Statistiques d'audience anonymes et conformes RGPD (GoatCounter) -->
+  <script data-goatcounter="https://etabli-des-maths.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

@@ -3024,9 +3024,8 @@ Calculer sans poser l'opération :
 Un rouleau de ruban mesure $5$ m. Inès en coupe $3$ morceaux de $1{,}35$ m chacun.
 1. Quelle longueur de ruban a-t-elle utilisée ?
 2. Quelle longueur reste-t-il sur le rouleau ?
-
----
-## Corrigé détaillé
+`,
+        "solution": `## Corrigé détaillé
 
 ### Exercice 1
 1. $A = 4$.
@@ -3041,8 +3040,7 @@ Un rouleau de ruban mesure $5$ m. Inès en coupe $3$ morceaux de $1{,}35$ m chac
 
 ### Exercice 3
 1. $3 \\times 1{,}35 = 4{,}05$ m.
-2. $5 - 4{,}05 = 0{,}95$ m.`,
-        "solution": ""
+2. $5 - 4{,}05 = 0{,}95$ m.`
     }
   ],
   "6N7": [
@@ -3068,9 +3066,8 @@ Calculer et donner le résultat sous forme d'une fraction simplifiée :
 ### Exercice 3 : Problème (2 points)
 Une classe compte $28$ élèves. Les $\\frac{3}{7}$ des élèves pratiquent un sport dans un club.
 Combien d'élèves pratiquent un sport en club ?
-
----
-## Corrigé détaillé
+`,
+        "solution": `## Corrigé détaillé
 
 ### Exercice 1
 1. $\\frac{3}{4} = \\frac{3 \\times 3}{4 \\times 3} = \\frac{9}{12}$ et $\\frac{18}{24} = \\frac{18 \\div 6}{24 \\div 6} = \\frac{3}{4}$.
@@ -3083,8 +3080,7 @@ Combien d'élèves pratiquent un sport en club ?
 3. $C = \\frac{10}{15} = \\frac{2}{3}$.
 
 ### Exercice 3
-$\\frac{3}{7} \\times 28 = (28 \\div 7) \\times 3 = 4 \\times 3 = 12$ élèves.`,
-        "solution": ""
+$\\frac{3}{7} \\times 28 = (28 \\div 7) \\times 3 = 4 \\times 3 = 12$ élèves.`
     }
   ],
   "6M2": [
@@ -3109,9 +3105,8 @@ $\\frac{3}{7} \\times 28 = (28 \\div 7) \\times 3 = 4 \\times 3 = 12$ élèves.`
 Une roue de vélo a un diamètre de $70$ cm.
 1. Donner la valeur exacte de la longueur de son contour.
 2. En prenant $\\pi \\approx 3{,}14$, donner une valeur approchée de cette longueur en cm.
-
----
-## Corrigé détaillé
+`,
+        "solution": `## Corrigé détaillé
 
 ### Exercice 1
 1. $4{,}5 \\text{ m} = 450 \\text{ cm}$.
@@ -3124,8 +3119,7 @@ Une roue de vélo a un diamètre de $70$ cm.
 
 ### Exercice 3
 1. Longueur du cercle : $\\pi \\times d = 70\\pi$ cm.
-2. $70 \\times 3{,}14 = 219{,}8$ cm environ.`,
-        "solution": ""
+2. $70 \\times 3{,}14 = 219{,}8$ cm environ.`
     }
   ],
   "6G4": [
@@ -3147,9 +3141,8 @@ Donner la nature (aigu, droit, obtus, plat) des angles mesurant : $35^\\circ$ ; 
 ### Exercice 3 : Construction (3 points)
 1. Peut-on construire un triangle dont les côtés mesurent $3$ cm, $4$ cm et $8$ cm ? Justifier.
 2. Que peut-on dire des trois médiatrices d'un triangle ?
-
----
-## Corrigé détaillé
+`,
+        "solution": `## Corrigé détaillé
 
 ### Exercice 1
 $35^\\circ$ : aigu ; $90^\\circ$ : droit ; $128^\\circ$ : obtus ; $180^\\circ$ : plat.
@@ -3160,8 +3153,7 @@ $35^\\circ$ : aigu ; $90^\\circ$ : droit ; $128^\\circ$ : obtus ; $180^\\circ$ :
 
 ### Exercice 3
 1. Non : $3 + 4 = 7$ est inférieur à $8$, les deux petits côtés ne peuvent pas se rejoindre.
-2. Elles sont concourantes : elles se coupent en un même point, centre du cercle circonscrit au triangle.`,
-        "solution": ""
+2. Elles sont concourantes : elles se coupent en un même point, centre du cercle circonscrit au triangle.`
     }
   ]
 };

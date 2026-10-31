@@ -231,14 +231,9 @@ window.MathsApp = {
     // Déclencheur du tiroir mobile de chapitres
     const mobileChapterBtn = document.getElementById('mobile-chapter-btn');
     const sidebarChapters = document.getElementById('sidebar-chapters');
-    const mobileArrow = document.getElementById('mobile-chapter-arrow');
     if (mobileChapterBtn && sidebarChapters) {
       mobileChapterBtn.addEventListener('click', () => {
-        const isOpen = sidebarChapters.classList.toggle('mobile-open');
-        mobileChapterBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-        if (mobileArrow) {
-          mobileArrow.textContent = isOpen ? '▴' : '▾';
-        }
+        this.setMobileChapterDrawer(!sidebarChapters.classList.contains('mobile-open'));
       });
     }
 
@@ -290,7 +285,7 @@ window.MathsApp = {
       });
     });
 
-    // Boutons Diaporama (MathsMentales)
+    // Boutons Diaporama
     const openDiapoBtn = document.getElementById('btn-open-diaporama');
     if (openDiapoBtn) {
       openDiapoBtn.addEventListener('click', () => {
@@ -419,6 +414,22 @@ window.MathsApp = {
         if (e.target === levelModal) this.closeLevelModal();
       });
     }
+  },
+
+  /**
+   * Ouvre / ferme le tiroir des chapitres (téléphone et tablette).
+   * Renvoie true si le tiroir était ouvert avant l'appel.
+   */
+  setMobileChapterDrawer(open) {
+    const sidebar = document.getElementById('sidebar-chapters');
+    const btn = document.getElementById('mobile-chapter-btn');
+    const arrow = document.getElementById('mobile-chapter-arrow');
+    if (!sidebar) return false;
+    const wasOpen = sidebar.classList.contains('mobile-open');
+    sidebar.classList.toggle('mobile-open', !!open);
+    if (btn) btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    if (arrow) arrow.textContent = open ? '▴' : '▾';
+    return wasOpen;
   },
 
   /** Éléments cliquables non natifs (div onclick, cartes) : rendus accessibles au clavier. */
@@ -803,17 +814,11 @@ window.MathsApp = {
     if (mobileLabel) {
       mobileLabel.textContent = `${chapter.num || chapter.id} : ${chapter.shortTitle || chapter.title}`;
     }
-    const sidebarChapters = document.getElementById('sidebar-chapters');
-    if (sidebarChapters) {
-      sidebarChapters.classList.remove('mobile-open');
-    }
-    const mobileArrow = document.getElementById('mobile-chapter-arrow');
-    if (mobileArrow) {
-      mobileArrow.textContent = '▾';
-    }
-    const mobileBtn = document.getElementById('mobile-chapter-btn');
-    if (mobileBtn) {
-      mobileBtn.setAttribute('aria-expanded', 'false');
+    const drawerWasOpen = this.setMobileChapterDrawer(false);
+    if (drawerWasOpen) {
+      // Choix fait depuis le tiroir mobile : on remonte sur la barre du chapitre
+      const bar = document.getElementById('mobile-chapter-trigger-bar');
+      if (bar && bar.scrollIntoView) bar.scrollIntoView({ block: 'start', behavior: 'smooth' });
     }
 
     const progress = window.MathsStorage.getChapterProgress(chapterId);

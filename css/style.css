@@ -2693,7 +2693,7 @@ body.home-view-active .cycle-levels-row {
 }
 
 /* =========================================================================
-   Figures Géométriques SVG (Pythagore & Thalès - style MathsMentales)
+   Figures Géométriques SVG (Pythagore & Thalès)
    ========================================================================= */
 
 .geo-figure-wrapper {
@@ -2728,7 +2728,7 @@ body.home-view-active .cycle-levels-row {
 }
 
 /* =========================================================================
-   5. NOUVEAUX COMPOSANTS : DIAPORAMA & DEVOIR FLASH (MathsMentales)
+   5. NOUVEAUX COMPOSANTS : DIAPORAMA & DEVOIR FLASH
    ========================================================================= */
 
 .btn-accent-glow {
@@ -3010,7 +3010,7 @@ body.home-view-active .cycle-levels-row {
 }
 
 /* =========================================================================
-   ÉCRAN RÉCAPITULATIF DIAPORAMA / RITUEL (Style MathsMentales pour Notability)
+   ÉCRAN RÉCAPITULATIF DIAPORAMA / RITUEL
    ========================================================================= */
 
 .modal-box.diapo-box.diapo-recap-active {
@@ -3035,7 +3035,7 @@ body.home-view-active .cycle-levels-row {
   overflow: hidden;
 }
 
-/* Barre supérieure MathsMentales (Onglets & Actions) */
+/* Barre supérieure (Onglets & Actions) */
 .diapo-mm-topbar {
   display: flex;
   align-items: center;
@@ -3138,7 +3138,7 @@ body.home-view-active .cycle-levels-row {
   justify-content: center;
 }
 
-/* La Feuille Blanche MathsMentales (Optimisée pour capture Notability) */
+/* La feuille blanche (Optimisée pour capture Notability) */
 .diapo-mm-sheet {
   --diapo-font-size: 1.15rem;
   background-color: #ffffff !important;
@@ -8116,5 +8116,579 @@ body.home-view-active .cycle-levels-row {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+/* ==========================================================================
+   MODALES : CONTENU DÉFILABLE, EN-TÊTE ET PIED TOUJOURS ACCESSIBLES
+   (flashcards, série, niveau ; tous écrans, puis réglages téléphone)
+   ========================================================================== */
+.gami-modal-title {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-width: 0;
+}
+
+.gami-modal-icon {
+  font-size: 1.6rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.gami-modal-title h2 {
+  font-size: 1.22rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--text-main);
+}
+
+.gami-modal-footer {
+  justify-content: center;
+  padding: 1rem 1.5rem 1.25rem;
+}
+
+/* La boîte défile (au doigt comme à la molette) au lieu de couper son contenu */
+.flashcards-box,
+.streak-modal-box,
+.level-modal-box {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.flashcards-box .modal-header,
+.streak-modal-box > .modal-header,
+.level-modal-box > .modal-header {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  background-color: var(--bg-surface);
+  gap: 0.75rem;
+}
+
+.flashcards-box .modal-footer,
+.flashcards-box .fc-actions-dock,
+.streak-modal-box > .modal-footer,
+.level-modal-box > .modal-footer {
+  position: sticky;
+  bottom: 0;
+  z-index: 3;
+}
+
+[data-theme="dark"] .flashcards-box .modal-header,
+[data-theme="dark"] .streak-modal-box > .modal-header,
+[data-theme="dark"] .level-modal-box > .modal-header {
+  background-color: #1e293b;
+}
+
+[data-theme="dark"] .fc-actions-dock {
+  background-color: #162032;
+}
+
+/* Carte retournable : les deux faces partagent la même case de grille, la carte
+   prend la hauteur de la face la plus longue (plus de texte qui déborde). */
+.fc-flipper-container {
+  display: grid;
+}
+
+.fc-flipper-container > .fc-card-face {
+  position: relative;
+  grid-area: 1 / 1;
+  height: auto;
+}
+
+/* Une seule face visible, même si backface-visibility est mal gérée (iOS) */
+.fc-flipper-container .fc-card-back,
+.fc-flipper-container.is-flipped .fc-card-front {
+  visibility: hidden;
+  transition: visibility 0s linear 0.18s;
+}
+
+.fc-flipper-container .fc-card-front,
+.fc-flipper-container.is-flipped .fc-card-back {
+  visibility: visible;
+  transition: visibility 0s linear 0.18s;
+}
+
+/* Récapitulatif de fin de séance : énoncés et corrections */
+.fc-recap-section h4 {
+  font-size: 0.95rem;
+  margin: 0 0 0.75rem;
+  color: var(--text-main);
+}
+
+.fc-recap-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.fc-recap-item {
+  border: 1px solid var(--border-color);
+  border-left: 4px solid #10b981;
+  border-radius: var(--radius-md);
+  background-color: var(--bg-surface);
+  padding: 0.75rem 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  min-width: 0;
+}
+
+.fc-recap-item.is-missed {
+  border-left-color: #f59e0b;
+}
+
+.fc-recap-head {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.6rem;
+  font-size: 0.78rem;
+}
+
+.fc-recap-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.6rem;
+  height: 1.6rem;
+  border-radius: var(--radius-full);
+  background-color: var(--primary-subtle);
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.fc-recap-chap {
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.fc-recap-status {
+  margin-left: auto;
+  font-weight: 700;
+  color: #059669;
+}
+
+.fc-recap-item.is-missed .fc-recap-status {
+  color: #b45309;
+}
+
+.fc-recap-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
+.fc-recap-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: var(--primary);
+}
+
+.fc-recap-a .fc-recap-label {
+  color: #059669;
+}
+
+.fc-recap-text {
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--text-main);
+  overflow-wrap: anywhere;
+  overflow-x: auto;
+}
+
+.fc-recap-text p,
+.fc-recap-text .math-display,
+.fc-recap-text .katex-display {
+  margin: 0.25rem 0;
+}
+
+.fc-recap-a .fc-recap-text {
+  background-color: rgba(16, 185, 129, 0.06);
+  border-radius: var(--radius-sm);
+  padding: 0.4rem 0.6rem;
+}
+
+[data-theme="dark"] .fc-recap-item {
+  background-color: #1e293b;
+  border-color: #334155;
+}
+
+[data-theme="dark"] .fc-recap-item.is-known { border-left-color: #10b981; }
+[data-theme="dark"] .fc-recap-item.is-missed { border-left-color: #f59e0b; }
+[data-theme="dark"] .fc-recap-status { color: #34d399; }
+[data-theme="dark"] .fc-recap-item.is-missed .fc-recap-status { color: #fbbf24; }
+[data-theme="dark"] .fc-recap-a .fc-recap-label { color: #34d399; }
+
+/* --- Téléphones et petites tablettes --- */
+@media (max-width: 768px) {
+  /* Feuille ancrée en bas, hauteur limitée à la zone réellement visible (barres du navigateur exclues) */
+  .modal-overlay:not(.reward-modal-overlay) {
+    padding: max(0.5rem, env(safe-area-inset-top)) 0.4rem 0;
+    align-items: flex-end;
+    overscroll-behavior: contain;
+  }
+
+  .modal-box {
+    max-height: calc(100vh - 0.75rem) !important;
+    max-height: calc(100dvh - max(0.5rem, env(safe-area-inset-top))) !important;
+  }
+
+  .streak-modal-box,
+  .level-modal-box {
+    width: 100%;
+    border-radius: 18px 18px 0 0;
+  }
+
+  /* Bande de fond toujours visible au-dessus de la feuille : un tap dessus ferme */
+  #streak-modal,
+  #level-modal,
+  #flashcards-modal {
+    padding-top: calc(3rem + env(safe-area-inset-top));
+  }
+
+  #streak-modal .modal-box,
+  #level-modal .modal-box,
+  #flashcards-modal .modal-box {
+    max-height: calc(100vh - 3rem) !important;
+    max-height: calc(100dvh - 3rem - env(safe-area-inset-top)) !important;
+  }
+
+  /* Boutons de fermeture : cible tactile de 44 px, jamais écrasés */
+  .modal-close-btn,
+  .reward-modal-close {
+    min-width: 44px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 1.3rem;
+  }
+
+  .modal-header {
+    gap: 0.5rem;
+    padding: 0.6rem 0.6rem 0.6rem 1rem;
+  }
+
+  .modal-header h2,
+  .gami-modal-title h2 {
+    font-size: 1.05rem;
+    line-height: 1.3;
+  }
+
+  .gami-modal-icon {
+    font-size: 1.35rem;
+  }
+
+  .modal-footer {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0.7rem 0.75rem max(0.7rem, env(safe-area-inset-bottom));
+  }
+
+  .modal-footer > .btn-primary,
+  .modal-footer > .btn-secondary {
+    flex: 1 1 140px;
+    min-height: 44px;
+  }
+
+  /* Série et niveau : contenu resserré */
+  .streak-modal-body,
+  .level-modal-body {
+    padding: 1rem;
+    gap: 0.85rem;
+  }
+
+  .streak-hero-card {
+    padding: 0.9rem 0.75rem;
+  }
+
+  .streak-hero-flame {
+    font-size: 2.4rem;
+  }
+
+  .streak-hero-count {
+    font-size: 1.8rem;
+  }
+
+  .streak-stats-row {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.4rem;
+  }
+
+  .streak-stat-card {
+    padding: 0.55rem 0.3rem;
+  }
+
+  .streak-stat-lbl {
+    font-size: 0.7rem;
+  }
+
+  .streak-stat-val {
+    font-size: 0.88rem;
+  }
+
+  /* Flashcards : configuration */
+  .flashcards-box {
+    min-height: 0;
+  }
+
+  .fc-intro-banner {
+    padding: 0.75rem 1rem;
+  }
+
+  .fc-intro-text {
+    font-size: 0.85rem;
+  }
+
+  .flashcards-box .modal-author-badge {
+    display: none;
+  }
+
+  /* Flashcards : séance */
+  .fc-play-header-meta {
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    min-width: 0;
+  }
+
+  .fc-pill-badge,
+  .fc-pill-box {
+    font-size: 0.72rem;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .fc-play-header-progress {
+    flex-shrink: 0;
+    gap: 0.25rem;
+    font-size: 0.8rem;
+  }
+
+  .fc-card-stage {
+    min-height: 0;
+    padding: 0.9rem 0.75rem;
+  }
+
+  .fc-flipper-container,
+  .fc-card-face {
+    min-height: 230px;
+  }
+
+  .fc-card-face {
+    padding: 1rem;
+  }
+
+  .fc-question-main,
+  .fc-answer-main {
+    font-size: 1.02rem;
+    max-width: 100%;
+  }
+
+  .fc-actions-dock {
+    padding: 0.65rem 0.75rem max(0.65rem, env(safe-area-inset-bottom));
+  }
+
+  .fc-action-group {
+    gap: 0.5rem;
+  }
+
+  .btn-reveal-big {
+    min-width: 0;
+    width: 100%;
+    min-height: 48px;
+  }
+
+  .btn-fc-eval {
+    max-width: none;
+    min-height: 56px;
+    padding: 0.55rem 0.6rem;
+    gap: 0.45rem;
+    justify-content: center;
+  }
+
+  .btn-fc-emoji {
+    font-size: 1.25rem;
+  }
+
+  .btn-fc-main {
+    font-size: 0.86rem;
+    line-height: 1.25;
+  }
+
+  .btn-fc-sub,
+  .btn-fc-shortcut {
+    display: none;
+  }
+
+  /* Flashcards : bilan */
+  .fc-summary-content {
+    padding: 1rem;
+    gap: 1rem;
+    overflow: visible;
+  }
+
+  .fc-summary-badge {
+    font-size: 1.05rem;
+    padding: 6px 14px;
+  }
+
+  .fc-boxes-strip.large {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0.3rem;
+  }
+
+  .fc-box-col {
+    min-width: 0;
+    padding: 0.45rem 0.15rem;
+  }
+
+  .fc-box-col .fc-box-title {
+    font-size: 0.68rem;
+  }
+
+  /* Devoir blanc (aperçu) : en-tête compact, le sujet occupe l'écran */
+  #quiz-preview-screen > .modal-header {
+    flex-wrap: wrap;
+  }
+
+  #quiz-preview-screen > .modal-header > div:first-child {
+    flex: 1 1 100%;
+  }
+
+  #quiz-preview-screen > .modal-header .modal-author-badge {
+    display: none;
+  }
+
+  #quiz-preview-screen > .modal-header > div:last-child {
+    flex: 1 1 100%;
+    flex-wrap: wrap !important;
+    gap: 0.35rem !important;
+  }
+
+  #quiz-preview-screen > .modal-header > div:last-child > .btn-primary {
+    flex-basis: 100% !important;
+  }
+
+  #quiz-preview-screen > .modal-header > div:last-child > .btn-primary,
+  #quiz-preview-screen > .modal-header > div:last-child > .btn-secondary {
+    flex: 1 1 0;
+    min-width: 0;
+    min-height: 44px;
+    padding: 0.4rem 0.45rem;
+    font-size: 0.74rem;
+    line-height: 1.2;
+  }
+
+  /* La boîte défile, l'en-tête (Régénérer / Corrigé / Imprimer / ✕) reste en haut */
+  .modal-box.quiz-box {
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  #quiz-preview-screen > .modal-header {
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    background-color: var(--bg-surface);
+  }
+
+  [data-theme="dark"] #quiz-preview-screen > .modal-header,
+  [data-theme="dark"] .diapo-box #diapo-screen-config > .modal-header,
+  [data-theme="dark"] .quiz-box #quiz-config-screen > .modal-header {
+    background-color: #1e293b;
+  }
+
+  .quiz-scroll-preview {
+    max-height: none;
+    overflow: visible;
+    padding: 0.75rem;
+  }
+
+  /* Récompense : jamais plus haute que l'écran visible */
+  .reward-modal-card {
+    max-height: calc(100vh - 2.5rem);
+    max-height: calc(100dvh - 2.5rem);
+    overflow-y: auto;
+  }
+
+  /* Rituel : configuration défilable, récapitulatif à la hauteur visible */
+  .diapo-box #diapo-screen-config,
+  .quiz-box #quiz-config-screen {
+    overflow-y: auto;
+    min-height: 0;
+    overscroll-behavior: contain;
+  }
+
+  .quiz-box #quiz-config-screen {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .diapo-box #diapo-screen-config > .modal-header,
+  .quiz-box #quiz-config-screen > .modal-header {
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    background-color: var(--bg-surface);
+  }
+
+  .diapo-box #diapo-screen-config > .modal-footer,
+  .quiz-box #quiz-config-screen > .modal-footer {
+    position: sticky;
+    bottom: 0;
+    z-index: 3;
+  }
+
+  .modal-box.diapo-box.diapo-recap-active,
+  .diapo-screen-mm {
+    max-height: calc(100dvh - 0.5rem) !important;
+  }
+}
+
+/* Petits téléphones (360 px) : la colonne unique ne doit jamais être élargie par
+   le contenu minimal d'un enfant (sinon toute la page déborde horizontalement). */
+@media (max-width: 1024px) {
+  .app-container {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .main-workspace,
+  .sidebar-chapters {
+    min-width: 0;
+  }
+}
+
+/* Trophées de série : deux colonnes qui ne débordent jamais de la modale */
+.streak-trophies-modal-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.streak-trophy-modal-card,
+.streak-trophy-details {
+  min-width: 0;
+}
+
+.flashcards-box,
+.streak-modal-box,
+.level-modal-box {
+  overflow-x: hidden;
+}
+
+@media (max-width: 460px) {
+  .streak-trophies-modal-grid {
+    grid-template-columns: minmax(0, 1fr);
   }
 }

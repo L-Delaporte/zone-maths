@@ -9,17 +9,19 @@
     } catch (e) {}
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Groupe symétrique — préparation CAPES | L'Établi des Maths</title>
-  <meta name="description" content="Leçon de CAPES — Groupe symétrique, signature et applications aux déterminants : structure du groupe symétrique Sn, signature d'une permutation, formes…" />
+  <title>Groupe symétrique — leçon d'oral du CAPES</title>
+  <meta name="description" content="Leçon d'oral du CAPES de maths — Groupe symétrique, signature et applications aux déterminants : plan détaillé, théorème clé démontré et remarques…" />
   <meta name="author" content="Loïc Delaporte, professeur de mathématiques" />
   <link rel="canonical" href="https://etabli-des-maths.fr/cours/capes/groupe-symetrique.html" />
 
   <!-- Open Graph -->
-  <meta property="og:title" content="Groupe symétrique — préparation CAPES | L'Établi des Maths" />
-  <meta property="og:description" content="Leçon de CAPES — Groupe symétrique, signature et applications aux déterminants : structure du groupe symétrique Sn, signature d'une permutation, formes…" />
+  <meta property="og:title" content="Groupe symétrique — leçon d'oral du CAPES" />
+  <meta property="og:description" content="Leçon d'oral du CAPES de maths — Groupe symétrique, signature et applications aux déterminants : plan détaillé, théorème clé démontré et remarques…" />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://etabli-des-maths.fr/cours/capes/groupe-symetrique.html" />
   <meta property="og:image" content="https://etabli-des-maths.fr/assets/logo.jpg" />
+  <meta property="og:image:alt" content="Groupe symétrique — leçon d'oral du CAPES" />
+  <meta name="twitter:card" content="summary" />
   <meta property="og:locale" content="fr_FR" />
   <meta property="og:site_name" content="L'Établi des Maths" />
 
@@ -38,7 +40,7 @@
     "@type": "LearningResource",
     "name": "Groupe symétrique, signature et applications aux déterminants — leçon de CAPES",
     "headline": "Groupe symétrique, signature et applications aux déterminants",
-    "description": "Leçon de CAPES — Groupe symétrique, signature et applications aux déterminants : structure du groupe symétrique Sn, signature d'une permutation, formes…",
+    "description": "Leçon d'oral du CAPES de maths — Groupe symétrique, signature et applications aux déterminants : plan détaillé, théorème clé démontré et remarques…",
     "url": "https://etabli-des-maths.fr/cours/capes/groupe-symetrique.html",
     "inLanguage": "fr",
     "educationalLevel": "Concours — CAPES et agrégation de mathématiques",
@@ -56,7 +58,7 @@
       "name": "Algèbre"
     },
     "isAccessibleForFree": true,
-    "dateModified": "2026-10-30",
+    "dateModified": "2026-10-31",
     "author": {
       "@type": "Person",
       "name": "Loïc Delaporte",
@@ -126,9 +128,10 @@
       <nav class="nav-portal-links" aria-label="Portails thématiques">
         <a href="../../index.html" class="nav-portal-btn">🏠 Accueil</a>
         <a href="../../cours/" class="nav-portal-btn active" aria-current="true">📚 Cours</a>
+        <a href="../../exercices-de-maths/" class="nav-portal-btn">✏️ Exercices</a>
         <a href="../../rituels.html" class="nav-portal-btn">⏱️ Rituels</a>
-        <a href="../../brevet.html" class="nav-portal-btn">📝 Brevet 3e</a>
-        <a href="../../bac.html" class="nav-portal-btn">🎓 Baccalauréat</a>
+        <a href="../../reviser-le-brevet-de-maths/" class="nav-portal-btn">📝 Brevet</a>
+        <a href="../../reussir-le-bac-de-maths/" class="nav-portal-btn">🎓 Bac</a>
         <a href="../../enseignants.html" class="nav-portal-btn">👨‍🏫 Enseignants</a>
       </nav>
     </div>
@@ -146,7 +149,7 @@
 
     <header class="cours-hero">
       <p class="landing-tag">CAPES · Algèbre · Leçon 07</p>
-      <h1 class="cours-title">Groupe symétrique, signature et applications aux déterminants — leçon de CAPES</h1>
+      <h1 class="cours-title"><span class="cours-title-kicker">Leçon d'oral du CAPES :</span> Groupe symétrique, signature et applications aux déterminants</h1>
       <p class="cours-lead">I. Structure du groupe symétrique <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi mathvariant="script">S</mi><mi>n</mi></msub></mrow><annotation encoding="application/x-tex">\mathcal{S}_n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathcal" style="margin-right:0.075em;">S</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.075em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> • II. Signature d'une permutation • III. Formes multilinéaires alternées et déterminant</p>
       <div class="cours-cta">
         <a class="btn-primary cours-cta-main" href="../../index.html?chapitre=capes-07">🎯 S'entraîner sur ce chapitre</a>
@@ -236,6 +239,11 @@
       </div>
     </aside>
 
+    <nav class="cours-related" aria-label="Chapitres liés">
+      <div><p class="cours-related-title">Même thème en CAPES</p><ul><li><a href="reduction-des-endomorphismes.html">Réduction des endomorphismes : éléments propres, diagonalisation et trigonalisation</a></li></ul></div>
+      <div><p class="cours-related-title">Pour aller plus loin</p><ul><li><a href="../../exercices-de-maths/">Exercices de maths corrigés, tous niveaux</a></li><li><a href="../../entrainement-maths/">S'entraîner en ligne par paliers</a></li><li><a href="./">Tous les chapitres en CAPES</a></li></ul></div>
+    </nav>
+
     <nav class="cours-pager" aria-label="Chapitres voisins">
       <a class="cours-pager-link cours-pager-prev" href="integrale-de-riemann.html" rel="prev"><span>← Chapitre précédent</span><strong>Intégrale de Riemann, primitives et intégrales à paramètres</strong></a>
       <a class="cours-pager-link cours-pager-up" href="./"><span>Tous les chapitres</span><strong>CAPES</strong></a>
@@ -245,7 +253,8 @@
 
   <footer class="cours-footer">
     <p>L'Établi des Maths — Conçu par Loïc Delaporte, professeur de mathématiques • 100 % gratuit, conforme aux programmes</p>
-    <p><a href="../../cours/">Tous les cours</a> · <a href="../../index.html">Ouvrir l'application</a> · <a href="../../enseignants.html">Espace enseignants</a> · <a href="../../mentions-legales.html">Mentions légales</a> · <a href="mailto:delaporte@etabli-des-maths.fr">Contact</a></p>
+    <p><a href="../../cours/">Cours de maths</a> · <a href="../../exercices-de-maths/">Exercices corrigés</a> · <a href="../../entrainement-maths/">Entraînement en ligne</a> · <a href="../../reviser-le-brevet-de-maths/">Réviser le brevet</a> · <a href="../../reussir-le-bac-de-maths/">Réussir le bac</a></p>
+    <p><a href="../../index.html">Ouvrir l'application</a> · <a href="../../rituels.html">Rituels</a> · <a href="../../brevet.html">Brevet blanc</a> · <a href="../../bac.html">Devoir type bac</a> · <a href="../../enseignants.html">Espace enseignants</a> · <a href="../../mentions-legales.html">Mentions légales</a> · <a href="mailto:delaporte@etabli-des-maths.fr">Contact</a></p>
     <p>Contenus sous licence <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr" rel="license noopener">CC BY-NC-SA 4.0</a></p>
   </footer>
   <!-- Statistiques d'audience anonymes et conformes RGPD (GoatCounter) -->

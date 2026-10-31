@@ -1,21 +1,133 @@
 /**
- * L'Établi des Maths — Onglet Fiches & DS : fiches, devoirs surveillés générés.
+ * L'Établi des Maths — Onglet Fiches & DS : fiches imprimables et devoirs surveillés générés.
  * Méthodes de window.MathsApp (voir js/app.js), ajoutées avant l'initialisation.
+ *
+ * Pour chaque chapitre, l'onglet propose :
+ *  - les fiches rédigées (window.MATHS_WORKSHEETS, énoncé + corrigé séparés) ;
+ *  - une fiche d'entraînement générée (4 paliers, corrigé détaillé), renouvelable ;
+ *  - un DS type généré (4 exercices progressifs, barème total sur 20), renouvelable.
+ * Le corrigé est replié à l'écran ; l'impression propose « sujet seul » ou « sujet + corrigé »
+ * (le corrigé commence alors sur une nouvelle page). Styles : css/sheets.css.
  */
 Object.assign(window.MathsApp, {
+  // Libellés des fiches rédigées selon leur type
+  SHEET_KIND_LABELS: {
+    brevet_entrainement: 'Entraînement',
+    seconde_approfondissement: 'Approfondissement',
+    automatismes: 'Automatismes',
+    brevet_croise: 'Sujet croisé',
+    cours: 'Mémo de cours',
+    devoir_entrainement: 'Fiche d’exercices',
+    td: 'Feuille de TD',
+    entrainement_genere: 'Entraînement',
+    ds_type: 'DS'
+  },
+
+  // Plan du DS selon le cycle : [palier, nombre de questions, points par question] (total 20)
+  DS_PLANS: {
+    college: [[1, 4, 1], [2, 3, 2], [3, 2, 2], [4, 2, 3]],
+    lycee: [[1, 4, 1], [2, 2, 3], [3, 2, 2], [4, 2, 3]],
+    superieur: [[1, 2, 2], [2, 2, 3], [3, 1, 4], [4, 1, 6]]
+  },
+
+  // Fiche d'entraînement : nombre de questions par palier
+  PRACTICE_PLANS: {
+    college: [3, 3, 2, 2],
+    lycee: [2, 2, 2, 2],
+    superieur: [2, 2, 2, 2]
+  },
+
+  getSheetCycle(level = this.currentLevel) {
+    if (['6eme', '5eme', '4eme', '3eme'].includes(level)) return 'college';
+    if (['2nde', '1ere', 'tale'].includes(level)) return 'lycee';
+    return 'superieur';
+  },
+
+  getDsDuration(level = this.currentLevel) {
+    const cycle = this.getSheetCycle(level);
+    if (cycle === 'college') return '55 min';
+    if (cycle === 'lycee') return '1 h';
+    return level === 'capes' ? '2 h' : '1 h 30';
+  },
+
+  getSheetOptions() {
+    if (!this._sheetOptions) {
+      let saved = {};
+      try { saved = JSON.parse(localStorage.getItem('etabli_sheet_options') || '{}') || {}; } catch (e) {}
+      this._sheetOptions = Object.assign({ calculator: 'autorisée' }, saved);
+    }
+    return this._sheetOptions;
+  },
+
+  setSheetOption(key, value) {
+    this.getSheetOptions()[key] = value;
+    try { localStorage.setItem('etabli_sheet_options', JSON.stringify(this._sheetOptions)); } catch (e) {}
+    this.renderSheetsView();
+  },
+
+  escapeSheetText(text) {
+    return String(text == null ? '' : text).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  },
+
+  formatPoints(pts) {
+    const n = Math.round(pts * 100) / 100;
+    const str = String(n).replace('.', ',');
+    return `${str} pt${n > 1 ? 's' : ''}`;
+  },
+
+  getChapterMeta(chapterId) {
+    return (window.MATHS_CHAPTERS || []).find(c => c.id === chapterId) || null;
+  },
+
+  /**
+   * Liste des fiches du chapitre : fiches rédigées, puis fiche d'entraînement et DS générés.
+   */
   getChapterSheets(chapterId) {
-    const baseSheets = ((window.MATHS_WORKSHEETS || {})[chapterId] || []).slice();
-    if (!baseSheets.some(s => s.type === 'ds_type' || (s.id && s.id.includes('ds_type')))) {
-      const dsSheet = this.generatedDsByChapter[chapterId] || this.createDsTypeSheet(chapterId);
-      if (dsSheet) {
-        this.generatedDsByChapter[chapterId] = dsSheet;
-        baseSheets.push(dsSheet);
+    if (!this.generatedPracticeByChapter) this.generatedPracticeByChapter = {};
+    const sheets = ((window.MATHS_WORKSHEETS || {})[chapterId] || []).map((s, i) => this.normalizeStaticSheet(s, chapterId, i));
+
+    let practice = this.generatedPracticeByChapter[chapterId];
+    if (!practice) {
+      practice = this.createPracticeSheet(chapterId);
+      if (practice) this.generatedPracticeByChapter[chapterId] = practice;
+    }
+    if (practice) sheets.push(practice);
+
+    if (!sheets.some(s => s.type === 'ds_type')) {
+      let ds = this.generatedDsByChapter[chapterId];
+      if (!ds) {
+        ds = this.createDsTypeSheet(chapterId);
+        if (ds) this.generatedDsByChapter[chapterId] = ds;
+      }
+      if (ds) sheets.push(ds);
+    }
+    return sheets;
+  },
+
+  /**
+   * Fiche rédigée : type et libellé par défaut ; un corrigé resté dans l'énoncé est séparé.
+   */
+  normalizeStaticSheet(sheet, chapterId, index) {
+    let statement = sheet.statement || '';
+    let solution = sheet.solution || '';
+    if (!solution.trim()) {
+      const m = statement.match(/\n-{3,}\s*\n(#{1,3}\s*Corrig[ée][^\n]*\n[\s\S]*)$/);
+      if (m) {
+        solution = m[1];
+        statement = statement.slice(0, m.index);
       }
     }
-    if (this.generatedPracticeSheet && this.generatedPracticeSheet.chapterId === chapterId) {
-      baseSheets.push(this.generatedPracticeSheet);
-    }
-    return baseSheets;
+    const type = sheet.type || (/^L\d|^capes/.test(chapterId) ? 'td' : 'devoir_entrainement');
+    return {
+      id: sheet.id || `${chapterId}-fiche-${index}`,
+      chapterId,
+      type,
+      origin: 'static',
+      kind: this.SHEET_KIND_LABELS[type] || 'Fiche',
+      title: String(sheet.title || `Fiche ${index + 1}`).replace(/^[^\p{L}\p{N}]+/u, '').trim(),
+      statement,
+      solution
+    };
   },
 
   getPedagogicalStage(tier) {
@@ -31,7 +143,7 @@ Object.assign(window.MathsApp, {
   getExerciseCompetency(exercise, chapterId) {
     if (exercise && exercise.skill) return exercise.skill;
     if (exercise && exercise.title) return exercise.title;
-    const chapter = (window.MATHS_CHAPTERS || []).find(c => c.id === chapterId);
+    const chapter = this.getChapterMeta(chapterId);
     return chapter ? (chapter.shortTitle || chapter.title) : chapterId;
   },
 
@@ -59,246 +171,363 @@ Object.assign(window.MathsApp, {
     return checklists[parseInt(tier, 10)] || checklists[1];
   },
 
-  createDsTypeSheet(chapterId) {
-    const ch = (window.MATHS_CHAPTERS || []).find(c => c.id === chapterId);
-    const chTitle = ch ? (ch.shortTitle || ch.title) : chapterId;
-    const lvlLabel = this.getLevelName(this.currentLevel);
-    const staticExos = (window.MATHS_EXERCISES || {})[chapterId] || [];
+  /**
+   * Tire `count` questions distinctes d'un palier (générateurs du chapitre, sinon banque statique).
+   */
+  drawSheetQuestions(chapterId, tier, count, used) {
     const gen = window.MathsGenerators;
-    
-    const makeExercise = tier => (gen && gen.generateForChapter(chapterId, tier)) || staticExos.find(e => e.tier === tier) || null;
-    const ex1 = makeExercise(1);
-    const ex2 = makeExercise(2);
-    const ex3 = makeExercise(3);
-    const ex4 = makeExercise(4);
+    const staticPool = ((window.MATHS_EXERCISES || {})[chapterId] || []).filter(q => q && q.statement);
+    const tierPool = staticPool.filter(q => (q.tier || 1) === tier);
+    const out = [];
+    for (let k = 0; k < count; k++) {
+      let picked = null;
+      for (let attempt = 0; attempt < 10 && !picked; attempt++) {
+        let ex = null;
+        try { ex = gen && gen.generateForChapter(chapterId, tier); } catch (e) { ex = null; }
+        if (!ex || !ex.statement) {
+          const pool = tierPool.length ? tierPool : staticPool;
+          ex = pool.length ? pool[Math.floor(Math.random() * pool.length)] : null;
+        }
+        if (!ex || !ex.statement) break;
+        if (!used.has(ex.statement)) picked = ex;
+      }
+      if (!picked) break;
+      used.add(picked.statement);
+      out.push(Object.assign({}, picked, { tier: picked.tier || tier }));
+    }
+    return out;
+  },
 
-    const items = [
-      { num: 1, name: "Automatismes & Questions flash", pts: 4, ex: ex1 },
-      { num: 2, name: "Application directe du cours", pts: 5, ex: ex2 },
-      { num: 3, name: "Raisonnement et calculs approfondis", pts: 5, ex: ex3 },
-      { num: 4, name: "Tâche complexe & Problème concret de modélisation", pts: 6, ex: ex4 }
-    ].filter(item => item.ex && item.ex.statement);
+  resetRecentStatements(chapterId) {
+    const cache = window.MathsGenerators && window.MathsGenerators._recentGeneratedStatements;
+    if (!cache) return;
+    for (let t = 1; t <= 4; t++) delete cache[`${chapterId}:${t}`];
+  },
 
-    if (!items.length) return null;
+  /**
+   * Fiche d'entraînement générée : 4 paliers progressifs, sans barème, avec corrigé détaillé.
+   */
+  createPracticeSheet(chapterId) {
+    const plan = this.PRACTICE_PLANS[this.getSheetCycle()] || this.PRACTICE_PLANS.college;
+    const used = new Set();
+    this.resetRecentStatements(chapterId);
+    const parts = plan.map((count, i) => {
+      const tier = i + 1;
+      return { tier, stage: this.getPedagogicalStage(tier), questions: this.drawSheetQuestions(chapterId, tier, count, used).map(ex => ({ ex })) };
+    }).filter(p => p.questions.length);
+    if (!parts.length) return null;
+    const n = parts.reduce((s, p) => s + p.questions.length, 0);
+    return {
+      id: `${chapterId}-fiche-generee`,
+      chapterId,
+      type: 'entrainement_genere',
+      origin: 'generated',
+      kind: 'Entraînement',
+      title: `Fiche d’entraînement (${n} exercices, 4 paliers)`,
+      parts,
+      signature: parts.map(p => p.questions.map(q => q.ex.statement).join('|')).join('#')
+    };
+  },
 
-    let statementMd = `# Devoir Surveillé de Mathématiques (${lvlLabel})\n`;
-    statementMd += `## Sujet de DS Type : ${ch ? ch.title : chapterId} (Barème sur 20 points)\n\n`;
-    statementMd += `*Durée recommandée : 50 minutes. Calculatrice autorisée. La qualité de la rédaction, la clarté et la précision des justifications seront notées sur 20 points.*\n\n---\n\n`;
+  /**
+   * DS type : 4 exercices progressifs (paliers 1 à 4), barème total ramené à 20 points.
+   */
+  createDsTypeSheet(chapterId) {
+    const plan = this.DS_PLANS[this.getSheetCycle()] || this.DS_PLANS.college;
+    const used = new Set();
+    this.resetRecentStatements(chapterId);
+    let parts = plan.map(([tier, count, pts]) => {
+      const questions = this.drawSheetQuestions(chapterId, tier, count, used);
+      return { tier, stage: this.getPedagogicalStage(tier), weight: count * pts, questions: questions.map(ex => ({ ex, pts })) };
+    }).filter(p => p.questions.length);
+    if (!parts.length) return null;
 
-    items.forEach(item => {
-      const tier = item.ex.tier || item.num;
-      const stage = this.getPedagogicalStage(tier);
-      const competency = this.getExerciseCompetency(item.ex, chapterId);
-      statementMd += `### Exercice ${item.num} — ${stage.label} : ${item.ex.title || item.name} (${item.pts} points)\n`;
-      statementMd += `*Compétence : ${competency} · Palier ${tier}*\n\n`;
-      statementMd += `${item.ex.statement}\n\n---\n\n`;
+    // Banque incomplète : on répartit les 20 points sur les questions effectivement tirées.
+    const target = 20;
+    const totalWeight = parts.reduce((s, p) => s + p.weight, 0);
+    parts.forEach(p => {
+      const share = p.weight * target / totalWeight;
+      p.questions.forEach(q => { q.pts = Math.round(share / p.questions.length * 2) / 2; });
     });
+    const sum = parts.reduce((s, p) => s + p.questions.reduce((t, q) => t + q.pts, 0), 0);
+    if (sum !== target) {
+      const last = parts[parts.length - 1].questions;
+      last[last.length - 1].pts += target - sum;
+    }
+    parts.forEach(p => { p.pts = p.questions.reduce((t, q) => t + q.pts, 0); });
 
-    let solutionMd = `## Corrigé Détaillé et Barème Officiel du Devoir Surveillé (sur 20 points)\n\n`;
-    items.forEach(item => {
-      const tier = item.ex.tier || item.num;
-      const rawSol = item.ex.solution || (item.ex.answer ? `Réponse attendue : **${item.ex.answer}**` : "Voir le cours pour les étapes détaillées.");
-      const solContent = (window.MathsAdaptiveEngine && item.ex && item.ex.statement)
-        ? window.MathsAdaptiveEngine.formatSolutionWithInitialExpr(item.ex.statement, rawSol)
-        : rawSol;
-      solutionMd += `### Exercice ${item.num} — ${this.getPedagogicalStage(tier).label} : ${item.ex.title || item.name} (${item.pts} points)\n`;
-      solutionMd += `**Méthode à vérifier dans sa démarche :**\n${this.getMethodChecklist(tier, chapterId).map(step => `- ${step}`).join('\n')}\n\n${solContent}\n\n---\n\n`;
-    });
-
+    const ch = this.getChapterMeta(chapterId);
     return {
       id: `${chapterId}-ds_type_sommatif`,
-      filename: `DS_Type_${chapterId}.md`,
-      type: 'ds_type',
-      title: `📝 Sujet type de DS (20 pts)`,
-      statement: statementMd,
-      solution: solutionMd
-    };
-  },
-
-  generatePracticeSheet() {
-    const chapterId = this.currentChapterId;
-    if (window.MathsGenerators && window.MathsGenerators._recentGeneratedStatements) {
-      for (let t = 1; t <= 4; t++) {
-        delete window.MathsGenerators._recentGeneratedStatements[`${chapterId}:${t}`];
-      }
-    }
-    const ch = (window.MATHS_CHAPTERS || []).find(c => c.id === chapterId);
-    const title = ch ? ch.title : chapterId;
-    const gen = window.MathsGenerators;
-    const staticExos = (window.MATHS_EXERCISES || {})[chapterId] || [];
-    const items = [];
-    const usedStatements = new Set();
-    for (let i = 0; i < 8; i++) {
-      const tier = (i % 4) + 1;
-      let ex = null;
-      for (let attempt = 0; attempt < 8; attempt++) {
-        ex = (gen && gen.generateForChapter(chapterId, tier)) || staticExos.find(q => q.tier === tier) || staticExos[i % Math.max(1, staticExos.length)];
-        if (!ex || !ex.statement || !usedStatements.has(ex.statement)) break;
-      }
-      if (ex && ex.statement) {
-        usedStatements.add(ex.statement);
-        items.push({ ex, tier, num: items.length + 1 });
-      }
-    }
-    if (!items.length) return;
-
-    const statement = `# Fiche d'entraînement renouvelable — ${title}\n\n${[1, 2, 3, 4].map(tier => {
-      const stageItems = items.filter(item => item.tier === tier);
-      if (!stageItems.length) return '';
-      const stage = this.getPedagogicalStage(tier);
-      return `## ${stage.label}\n\n*${stage.prompt}*\n\n${stageItems.map(({ ex, num }) => `### Exercice ${num} : ${ex.title || 'Application'}\n\n**Compétence / notion :** ${this.getExerciseCompetency(ex, chapterId)} · **Palier ${tier}**\n\n${ex.statement}`).join('\n\n')}`;
-    }).filter(Boolean).join('\n\n---\n\n')}`;
-    const solution = `# Corrigé détaillé et méthodes\n\n${[1, 2, 3, 4].map(tier => {
-      const stageItems = items.filter(item => item.tier === tier);
-      if (!stageItems.length) return '';
-      const stage = this.getPedagogicalStage(tier);
-      return `## ${stage.label}\n\n${stageItems.map(({ ex, num }) => `### Exercice ${num} : ${ex.title || 'Application'}\n\n**Méthode à vérifier :**\n${this.getMethodChecklist(tier, chapterId).map(step => `- ${step}`).join('\n')}\n\n${ex.solution || `Réponse : **${ex.answer || 'à déterminer'}**`}`).join('\n\n')}`;
-    }).filter(Boolean).join('\n\n---\n\n')}`;
-    this.generatedPracticeSheet = {
-      id: `${chapterId}-fiche-renouvelable`,
       chapterId,
-      type: 'devoir_entrainement',
-      title: `✨ Fiche d'entraînement renouvelée (${items.length} exercices)`,
-      statement,
-      solution
+      type: 'ds_type',
+      origin: 'generated',
+      kind: 'DS',
+      title: `DS type sur 20 points`,
+      chapterTitle: ch ? ch.title : chapterId,
+      total: target,
+      duration: this.getDsDuration(),
+      parts,
+      signature: parts.map(p => p.questions.map(q => q.ex.statement).join('|')).join('#')
     };
-    this.selectedSheetIndex = this.getChapterSheets(chapterId).length - 1;
-    this.renderSheetsView();
   },
 
-  regenerateDs() {
-    const chapterId = this.currentChapterId;
-    if (window.MathsGenerators && window.MathsGenerators._recentGeneratedStatements) {
-      for (let t = 1; t <= 4; t++) {
-        delete window.MathsGenerators._recentGeneratedStatements[`${chapterId}:${t}`];
-      }
+  // --- Rendu HTML -----------------------------------------------------------------------
+
+  md(text) {
+    // Protège les « * » des formules (ex. $e_1^*$) que le Markdown prendrait pour de l'italique.
+    const safe = String(text || '').replace(/\$\$[\s\S]+?\$\$|\$[^$\n]+?\$/g, m => m.replace(/\*/g, '\\ast '));
+    return window.MathsRenderer.markdownToHtml(safe);
+  },
+
+  getChoices(ex) {
+    const list = (ex && (ex.options || ex.choices)) || [];
+    return Array.isArray(list) ? list.filter(o => o != null && String(o).trim()) : [];
+  },
+
+  renderQuestionStatement(ex, opts = {}) {
+    let html = `<div class="ws-q-text">${this.md(ex.statement)}</div>`;
+    const choices = this.getChoices(ex);
+    if (choices.length > 1) {
+      const instr = (ex.tier || 1) >= 3 || opts.justify ? 'Choisir la bonne réponse et justifier.' : 'Entourer la bonne réponse.';
+      html += `<p class="ws-choices-instr">${instr}</p><ol class="ws-choices">${choices.map((c, i) => `<li><span class="ws-choice-letter">${String.fromCharCode(65 + i)}.</span> ${this.md(String(c))}</li>`).join('')}</ol>`;
     }
-    this.generatedDsByChapter[chapterId] = this.createDsTypeSheet(chapterId);
-    const sheets = this.getChapterSheets(chapterId);
-    this.selectedSheetIndex = Math.max(0, sheets.findIndex(s => s.type === 'ds_type'));
-    this.renderSheetsView();
+    return html;
+  },
+
+  renderQuestionSolution(ex) {
+    const choices = this.getChoices(ex);
+    let answerLine = '';
+    if (choices.length > 1) {
+      let idx = choices.indexOf(ex.answer);
+      if (idx < 0 && Number.isInteger(ex.correctIndex)) idx = ex.correctIndex;
+      if (idx >= 0 && idx < choices.length) answerLine = `<p class="ws-answer"><strong>Réponse ${String.fromCharCode(65 + idx)}</strong> : ${this.escapeSheetText(choices[idx])}</p>`;
+    }
+    let raw = ex.solution || (ex.answer ? `Réponse attendue : **${ex.answer}**` : 'Voir le cours pour les étapes détaillées.');
+    if (window.MathsAdaptiveEngine && typeof window.MathsAdaptiveEngine.formatSolutionWithInitialExpr === 'function') {
+      try { raw = window.MathsAdaptiveEngine.formatSolutionWithInitialExpr(ex.statement, raw); } catch (e) {}
+    }
+    if (!answerLine && ex.answer && !String(raw).includes(String(ex.answer))) {
+      answerLine = `<p class="ws-answer"><strong>Réponse</strong> : ${this.escapeSheetText(ex.answer)}</p>`;
+    }
+    return answerLine + `<div class="ws-sol-text">${this.md(raw)}</div>`;
+  },
+
+  renderGeneratedStatement(sheet) {
+    const isDs = sheet.type === 'ds_type';
+    let qNum = 0;
+    const intro = isDs
+      ? `<p class="ws-instructions">Le sujet comporte ${sheet.parts.length} exercices indépendants, du plus simple au plus exigeant. Toute réponse doit être justifiée : la clarté de la rédaction et la précision des calculs sont prises en compte.</p>`
+      : `<p class="ws-instructions">Les exercices sont rangés par palier, du plus simple au plus exigeant. Rédiger les calculs sur une feuille, puis comparer avec le corrigé.</p>`;
+    const body = sheet.parts.map((part, i) => {
+      const skills = [...new Set(part.questions.map(q => this.getExerciseCompetency(q.ex, sheet.chapterId)))];
+      const head = isDs
+        ? `<h3 class="ws-ex-title">Exercice ${i + 1} — ${part.stage.label} <span class="ws-pts">${this.formatPoints(part.pts)}</span></h3>`
+        : `<h3 class="ws-ex-title">Palier ${part.tier} — ${part.stage.label}</h3>`;
+      const items = part.questions.map(q => {
+        qNum++;
+        const num = isDs ? `${part.questions.indexOf(q) + 1}.` : `${qNum}.`;
+        return `<li class="ws-q"><div class="ws-q-head"><span class="ws-q-num">${num}</span>${q.ex.title ? `<span class="ws-q-topic">${this.escapeSheetText(q.ex.title)}</span>` : ''}${isDs ? `<span class="ws-pts">${this.formatPoints(q.pts)}</span>` : ''}</div>${this.renderQuestionStatement(q.ex)}</li>`;
+      }).join('');
+      return `<section class="ws-exercise">${head}<p class="ws-skills"><em>${part.stage.prompt}</em> Compétences : ${skills.map(s => this.escapeSheetText(s)).join(' ; ')}.</p><ol class="ws-questions">${items}</ol></section>`;
+    }).join('');
+    return intro + body;
+  },
+
+  renderGeneratedSolution(sheet) {
+    const isDs = sheet.type === 'ds_type';
+    let qNum = 0;
+    return sheet.parts.map((part, i) => {
+      const head = isDs
+        ? `<h3 class="ws-ex-title">Exercice ${i + 1} — ${part.stage.label} <span class="ws-pts">${this.formatPoints(part.pts)}</span></h3>`
+        : `<h3 class="ws-ex-title">Palier ${part.tier} — ${part.stage.label}</h3>`;
+      const method = `<div class="ws-method"><strong>Méthode attendue :</strong><ul>${this.getMethodChecklist(part.tier, sheet.chapterId).map(s => `<li>${s}</li>`).join('')}</ul></div>`;
+      const items = part.questions.map((q, j) => {
+        qNum++;
+        const num = isDs ? `${j + 1}.` : `${qNum}.`;
+        return `<li class="ws-q"><div class="ws-q-head"><span class="ws-q-num">${num}</span>${isDs ? `<span class="ws-pts">${this.formatPoints(q.pts)}</span>` : ''}</div>${this.renderQuestionSolution(q.ex)}</li>`;
+      }).join('');
+      return `<section class="ws-exercise">${head}${method}<ol class="ws-questions">${items}</ol></section>`;
+    }).join('');
+  },
+
+  renderSheetHeader(sheet, isSolution = false) {
+    const ch = this.getChapterMeta(sheet.chapterId);
+    const lvl = this.getLevelName(this.currentLevel);
+    const chTitle = ch ? ch.title : sheet.chapterId;
+    const isDs = sheet.type === 'ds_type';
+    const opts = this.getSheetOptions();
+    const kicker = `L’Établi des Maths · ${this.escapeSheetText(lvl)} · ${this.escapeSheetText(ch && ch.num ? `${ch.num} — ` : '')}${this.escapeSheetText(chTitle)}`;
+    const title = isSolution ? `Corrigé — ${this.escapeSheetText(sheet.title)}` : this.escapeSheetText(sheet.title);
+    const infos = [];
+    if (isDs) {
+      infos.push(`Durée : ${sheet.duration}`);
+      infos.push(`Calculatrice : ${opts.calculator}`);
+      infos.push(`Barème : ${sheet.total} points`);
+    }
+    const staticPts = !isDs && sheet.origin === 'static' ? this.sumStaticPoints(sheet.statement) : 0;
+    if (staticPts) infos.push(`Barème indicatif : ${staticPts} points`);
+    return `
+      <header class="ws-header">
+        <div class="ws-header-main">
+          <p class="ws-kicker">${kicker}</p>
+          <h2 class="ws-title">${title}</h2>
+          ${infos.length ? `<p class="ws-infos">${infos.map(s => `<span>${s}</span>`).join('')}</p>` : ''}
+        </div>
+        ${isDs && !isSolution ? `<div class="ws-grade">Note<br><span>…… / ${sheet.total}</span></div>` : ''}
+      </header>
+      ${isSolution ? '' : `<div class="ws-student print-only"><span>Nom : ……………………………</span><span>Prénom : ……………………………</span><span>Classe : …………</span><span>Date : …………</span></div>`}`;
+  },
+
+  sumStaticPoints(md) {
+    // Somme des barèmes des exercices (titres « Exercice … (n points) » ou « Partie … (n points) » de même niveau)
+    const lines = String(md || '').split('\n').filter(l => /^#{2,4}\s/.test(l) && /\((\d+(?:[.,]\d+)?)\s*points?\)/.test(l));
+    if (!lines.length) return 0;
+    const depth = Math.min(...lines.map(l => l.match(/^#+/)[0].length));
+    const total = lines.filter(l => l.match(/^#+/)[0].length === depth)
+      .reduce((s, l) => s + parseFloat(l.match(/\((\d+(?:[.,]\d+)?)\s*points?\)/)[1].replace(',', '.')), 0);
+    return Math.round(total * 100) / 100;
+  },
+
+  getSelectedSheetIndex(chapterId, sheets) {
+    if (!this.sheetSelection) this.sheetSelection = {};
+    const wanted = this.sheetSelection[chapterId];
+    const idx = wanted ? sheets.findIndex(s => s.id === wanted) : -1;
+    return idx >= 0 ? idx : 0;
   },
 
   // =========================================================================
-  // 3. ESPACE FICHES D'EXERCICES COMPLÈTES (IMPRESSION & SUJETS)
+  // ESPACE FICHES & DS (ÉCRAN + IMPRESSION)
   // =========================================================================
   renderSheetsView() {
     const container = document.getElementById('sheets-content-container');
     if (!container) return;
+    const chapterId = this.currentChapterId;
+    const sheets = this.getChapterSheets(chapterId);
 
-    const sheets = this.getChapterSheets(this.currentChapterId);
     if (!sheets.length) {
-      const chMeta = (window.MATHS_CHAPTERS || []).find(c => c.id === this.currentChapterId);
-      const exos = (window.MATHS_EXERCISES || {})[this.currentChapterId] || [];
-      const currentCycle = window.MathsStorage.getCycleForLevel(this.currentLevel);
-      const cycleName = this.CYCLES[currentCycle] ? this.CYCLES[currentCycle].name : 'Maths';
-      const lvlLabel = this.getLevelName(this.currentLevel);
-      
-      container.innerHTML = `
-        <div class="sheets-nav-bar no-print">
-          <div class="sheets-tabs-group">
-            <button class="sheet-select-btn active">Fiche d'entraînement (${chMeta ? chMeta.shortTitle : this.currentChapterId})</button>
-          </div>
-          <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
-            <button class="btn-primary no-print" onclick="window.MathsQuizGenerator.openModal(window.MathsApp.currentChapterId)">📝 Devoir Surveillé (20 pts)</button>
-            <button class="btn-secondary no-print" onclick="window.MathsApp.generatePracticeSheet()">✨ Nouvelle fiche variée</button>
-            <button class="btn-secondary print-btn" onclick="window.print()">🖨️ Imprimer la fiche</button>
-          </div>
-        </div>
-        <div class="printable-worksheet">
-          <div class="sheet-print-header">
-            <h1>L'Établi des Maths • ${cycleName} — Mathématiques ${lvlLabel}</h1>
-            <h2>Fiche d'entraînement : ${chMeta ? chMeta.title : this.currentChapterId}</h2>
-            <div class="sheet-author-tag">Fiche créée par <strong>Loïc Delaporte</strong>, Professeur de Mathématiques</div>
-            <div class="print-meta">Nom : .................................... Prénom : .................................... Classe : .......... Date : ..........</div>
-          </div>
-          <div class="sheet-statement-content">
-            ${exos.length ? exos.map((ex, i) => `
-              <div style="margin-bottom: 1.25rem; padding: 0.9rem; border: 1px solid var(--border, #cbd5e1); border-radius: 8px;">
-                <h4 style="margin-top:0; color: var(--primary, #2563eb);">Exercice ${i+1} : ${ex.title || 'Application directe'} (Palier ${ex.tier || 1})</h4>
-                <div>${window.MathsRenderer.markdownToHtml(ex.statement)}</div>
-              </div>
-            `).join('') : `
-              <p class="math-p">Entraînez-vous avec les exercices interactifs dans l'onglet <strong>🎯 S'entraîner</strong> ou générez un sujet complet dans <strong>📝 Devoir Blanc</strong>.</p>
-            `}
-          </div>
-        </div>
-      `;
-      window.MathsRenderer.renderElement(container);
+      container.innerHTML = `<div class="ws-empty"><p>Aucune fiche n’est encore disponible pour ce chapitre. Entraînez-vous dans l’onglet <strong>S’entraîner</strong>.</p></div>`;
       return;
     }
 
-    if (this.selectedSheetIndex >= sheets.length) {
-      this.selectedSheetIndex = 0;
-    }
+    const idx = this.getSelectedSheetIndex(chapterId, sheets);
+    this.selectedSheetIndex = idx;
+    const sheet = sheets[idx];
+    const isGenerated = sheet.origin === 'generated';
+    const opts = this.getSheetOptions();
 
-    const activeSheet = sheets[this.selectedSheetIndex] || sheets[0];
-    const currentCycle = window.MathsStorage.getCycleForLevel(this.currentLevel);
-    const cycleName = this.CYCLES[currentCycle] ? this.CYCLES[currentCycle].name : 'Maths';
-    const lvlLabel = this.getLevelName(this.currentLevel);
+    const statementHtml = isGenerated ? this.renderGeneratedStatement(sheet) : this.md(sheet.statement);
+    const solutionHtml = isGenerated ? this.renderGeneratedSolution(sheet) : (sheet.solution ? this.md(sheet.solution) : '');
+    const notice = this.sheetNotice && this.sheetNotice.chapterId === chapterId && this.sheetNotice.sheetId === sheet.id ? this.sheetNotice.text : '';
 
-    let navHtml = `
-      <div class="sheets-nav-bar no-print">
-        <div class="sheets-tabs-group">
-          ${sheets.map((s, idx) => `
-            <button class="sheet-select-btn ${idx === this.selectedSheetIndex ? 'active' : ''}" onclick="window.MathsApp.selectSheet(${idx})">
-              ${s.title}
-            </button>
-          `).join('')}
-        </div>
-        <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
-          <button class="btn-secondary no-print" onclick="window.MathsApp.generatePracticeSheet()" title="Créer une fiche avec de nouveaux exercices pour ce chapitre">✨ Nouvelle fiche variée</button>
-          <button class="btn-secondary no-print" onclick="window.MathsApp.regenerateDs()" title="Renouveler les valeurs du sujet et de son corrigé">🔀 Renouveler le DS</button>
-          <button class="btn-primary no-print" onclick="window.MathsQuizGenerator.openModal(window.MathsApp.currentChapterId)" title="Générer un Devoir Surveillé complet calibré sur 20 points pour ce chapitre">
-            📝 Générer un DS (20 pts)
-          </button>
-          <button class="btn-secondary print-btn" onclick="window.print()">🖨️ Imprimer la fiche</button>
+    const chips = sheets.map((s, i) => `
+      <button type="button" class="ws-chip${i === idx ? ' active' : ''}" aria-pressed="${i === idx}" onclick="window.MathsApp.selectSheet(${i})">
+        <span class="ws-chip-kind ws-kind-${s.origin === 'generated' ? (s.type === 'ds_type' ? 'ds' : 'gen') : 'static'}">${this.escapeSheetText(s.kind)}</span>
+        <span class="ws-chip-title">${this.escapeSheetText(s.title)}</span>
+      </button>`).join('');
+
+    container.innerHTML = `
+      <div class="ws-toolbar no-print">
+        <div class="ws-chips" role="group" aria-label="Fiches du chapitre">${chips}</div>
+        <div class="ws-actions">
+          ${isGenerated ? `<button type="button" class="btn-secondary ws-btn" data-action="regenerate" onclick="window.MathsApp.regenerateSheet()" title="Tirer de nouveaux exercices et le corrigé correspondant">🔀 Nouvelle version</button>` : ''}
+          ${sheet.type === 'ds_type' ? `<label class="ws-option">Calculatrice
+            <select onchange="window.MathsApp.setSheetOption('calculator', this.value)">
+              ${['autorisée', 'interdite', 'en mode examen'].map(v => `<option value="${v}"${opts.calculator === v ? ' selected' : ''}>${v}</option>`).join('')}
+            </select></label>` : ''}
+          <button type="button" class="btn-primary ws-btn print-btn" data-print="subject" onclick="window.MathsApp.printSheet(false)">🖨️ Imprimer le sujet</button>
+          <button type="button" class="btn-secondary ws-btn" data-print="solution" onclick="window.MathsApp.printSheet(true)" ${solutionHtml ? '' : 'disabled'}>🖨️ Sujet + corrigé</button>
+          <button type="button" class="btn-secondary ws-btn" onclick="window.MathsQuizGenerator.openModal(window.MathsApp.currentChapterId)" title="Composer un devoir blanc sur un ou plusieurs chapitres (format brevet ou bac possible)">📝 Devoir blanc multi-chapitres</button>
         </div>
       </div>
-    `;
-
-    let sheetBody = `
-      <div class="printable-worksheet">
-        <div class="sheet-print-header print-only">
-          <h1>L'Établi des Maths • ${cycleName} — Mathématiques ${lvlLabel}</h1>
-          <h2>${activeSheet.title} (${this.currentChapterId})</h2>
-          <div class="sheet-author-tag">Fiche d'exercices créée par <strong>Loïc Delaporte</strong>, Professeur de Mathématiques</div>
-          <div class="print-meta">Nom : .................................... Prénom : .................................... Classe : .......... Date : ..........</div>
+      ${notice ? `<p class="ws-notice no-print" role="status">${notice}</p>` : ''}
+      <article class="ws-sheet ws-type-${sheet.type}">
+        <div class="ws-page ws-subject">
+          ${this.renderSheetHeader(sheet)}
+          <div class="ws-body sheet-statement-content">${statementHtml}</div>
         </div>
-        
-        <div class="sheet-statement-content">
-          ${window.MathsRenderer.markdownToHtml(activeSheet.statement)}
-        </div>
-
-        ${activeSheet.solution ? `
-          <div class="sheet-solution-accordion no-print">
-            <button class="accordion-toggle-btn" onclick="window.MathsApp.toggleSheetSolution()">
-              <span>🔍 Afficher / Masquer la Correction détaillée</span>
-              <span id="solution-toggle-arrow">▼</span>
-            </button>
-            <div id="sheet-solution-wrapper" class="solution-content" style="display:none;">
-              ${window.MathsRenderer.markdownToHtml(activeSheet.solution)}
+        ${solutionHtml ? `
+          <details class="ws-solution" id="sheet-solution-details">
+            <summary class="no-print">Afficher le corrigé détaillé</summary>
+            <div class="ws-page ws-solution-page">
+              ${this.renderSheetHeader(sheet, true)}
+              <div class="ws-body sheet-solution" id="sheet-solution-wrapper">${solutionHtml}</div>
             </div>
-          </div>
-        ` : ''}
-      </div>
-    `;
-
-    container.innerHTML = navHtml + sheetBody;
+          </details>` : `<p class="ws-no-solution no-print">Pas de corrigé rédigé pour cette fiche.</p>`}
+      </article>`;
     window.MathsRenderer.renderElement(container);
   },
 
   selectSheet(idx) {
-    this.selectedSheetIndex = idx;
+    const sheets = this.getChapterSheets(this.currentChapterId);
+    if (!sheets[idx]) return;
+    if (!this.sheetSelection) this.sheetSelection = {};
+    this.sheetSelection[this.currentChapterId] = sheets[idx].id;
+    this.sheetNotice = null;
     this.renderSheetsView();
   },
 
+  /** Régénère la fiche générée affichée (fiche d'entraînement ou DS). */
+  regenerateSheet() {
+    const chapterId = this.currentChapterId;
+    const sheets = this.getChapterSheets(chapterId);
+    const current = sheets[this.getSelectedSheetIndex(chapterId, sheets)];
+    if (!current || current.origin !== 'generated') return;
+    if (current.type === 'ds_type') this.regenerateDs();
+    else this.generatePracticeSheet();
+  },
+
+  generatePracticeSheet() {
+    const chapterId = this.currentChapterId;
+    if (!this.generatedPracticeByChapter) this.generatedPracticeByChapter = {};
+    const before = this.generatedPracticeByChapter[chapterId];
+    const fresh = this.createPracticeSheet(chapterId);
+    if (fresh) this.generatedPracticeByChapter[chapterId] = fresh;
+    this.focusGeneratedSheet(chapterId, 'entrainement_genere', before, fresh);
+  },
+
+  regenerateDs() {
+    const chapterId = this.currentChapterId;
+    const before = this.generatedDsByChapter[chapterId];
+    const fresh = this.createDsTypeSheet(chapterId);
+    if (fresh) this.generatedDsByChapter[chapterId] = fresh;
+    this.focusGeneratedSheet(chapterId, 'ds_type', before, fresh);
+  },
+
+  focusGeneratedSheet(chapterId, type, before, fresh) {
+    const sheets = this.getChapterSheets(chapterId);
+    const sheet = sheets.find(s => s.type === type && s.origin === 'generated');
+    if (!this.sheetSelection) this.sheetSelection = {};
+    if (sheet) this.sheetSelection[chapterId] = sheet.id;
+    this.sheetNotice = sheet ? {
+      chapterId,
+      sheetId: sheet.id,
+      text: before && fresh && before.signature === fresh.signature
+        ? 'La banque d’exercices de ce chapitre est encore limitée : cette nouvelle version reprend les mêmes énoncés.'
+        : 'Nouvelle version générée : énoncés et corrigé ont été renouvelés.'
+    } : null;
+    this.renderSheetsView();
+  },
+
+  /** Impression : sujet seul, ou sujet + corrigé (le corrigé commence sur une nouvelle page). */
+  printSheet(withSolution = false) {
+    const body = document.body;
+    const details = document.getElementById('sheet-solution-details');
+    const wasOpen = details ? details.open : false;
+    body.classList.add('sheets-printing');
+    body.classList.toggle('sheets-print-solution', !!withSolution);
+    if (details && withSolution) details.open = true;
+    const cleanup = () => {
+      body.classList.remove('sheets-printing', 'sheets-print-solution');
+      if (details) details.open = wasOpen;
+      window.removeEventListener('afterprint', cleanup);
+    };
+    window.addEventListener('afterprint', cleanup);
+    window.print();
+  },
+
   toggleSheetSolution() {
-    const wrapper = document.getElementById('sheet-solution-wrapper');
-    const arrow = document.getElementById('solution-toggle-arrow');
-    if (!wrapper) return;
-    const isHidden = wrapper.style.display === 'none';
-    wrapper.style.display = isHidden ? 'block' : 'none';
-    if (arrow) arrow.textContent = isHidden ? '▲' : '▼';
+    const details = document.getElementById('sheet-solution-details');
+    if (details) details.open = !details.open;
   },
 });

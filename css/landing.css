@@ -333,3 +333,23 @@
   color: inherit;
   text-decoration: underline;
 }
+
+/* Liens de maillage vers les pages piliers et les cours (rituels, brevet, bac, enseignants) — ajout SEO 31/10/2026 */
+.landing-links-box {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem 1.75rem;
+  line-height: 1.65;
+  color: var(--text-main);
+}
+.landing-links-box h2 { font-size: 1.3rem; font-weight: 800; margin-bottom: 0.6rem; }
+.landing-links-box p { color: var(--text-muted); margin-bottom: 0.75rem; }
+.landing-links-box ul {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr));
+  gap: 0.4rem 1.5rem;
+}
+.landing-links-box a { color: var(--primary-hover, var(--primary)); text-decoration: underline; text-underline-offset: 2px; }
+[data-theme="dark"] .landing-links-box a { color: #93c5fd; }
