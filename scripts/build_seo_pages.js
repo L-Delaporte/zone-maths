@@ -12,8 +12,11 @@
  *     node scripts/build_seo_pages.js
  *
  *   - Supprime puis régénère entièrement le dossier cours/ (idempotent, relançable à volonté).
- *   - Réécrit sitemap.xml (pages racine + toutes les pages cours/) avec lastmod = date du jour
- *     (ou la date passée en variable d'environnement : BUILD_DATE=2026-10-30 node scripts/…).
+ *   - Réécrit sitemap.xml (pages racine + toutes les pages cours/). Dates de modification stables :
+ *     une page générée garde sa date précédente (lastmod du sitemap, dateModified du JSON-LD) si son
+ *     contenu n'a pas changé ; sinon elle prend la date du jour (ou BUILD_DATE=2026-10-30 node scripts/…).
+ *     Les pages racine écrites à la main prennent la date de leur dernier commit.
+ *     Google ignore un lastmod qui change partout à chaque génération : ne pas revenir en arrière.
  *   - Vérifie que robots.txt déclare le sitemap (l'ajoute sinon).
  *   - Affiche un résumé : nombre de pages, erreurs KaTeX, titres/descriptions trop longs ou en double.
  *
@@ -46,6 +49,56 @@ const URL_REGISTRY = path.join(__dirname, 'cours_urls.json');
 const REDIRECTS = {};
 const AUTHOR = 'Loïc Delaporte';
 const BUILD_DATE = process.env.BUILD_DATE || new Date().toISOString().slice(0, 10);
+
+// ---------------------------------------------------------------------------
+// Dates de modification stables
+// ---------------------------------------------------------------------------
+// Les pages sont produites avec DATE_TOKEN à la place de leur date ; writeStable() compare le
+// résultat à la version précédente (dates neutralisées) et ne date du jour que les pages modifiées.
+const DATE_TOKEN = '__DATE_MODIFIED__';
+const DATE_RE = /"dateModified": "\d{4}-\d{2}-\d{2}"/g;
+const PREV = { files: new Map(), lastmod: new Map() };
+const pageDates = new Map(); // chemin du sitemap (ex. /cours/3e/) → AAAA-MM-JJ
+
+function snapshotPrevious() {
+  const walk = (dir) => {
+    if (!fs.existsSync(dir)) return;
+    for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+      const p = path.join(dir, e.name);
+      if (e.isDirectory()) walk(p);
+      else if (e.name.endsWith('.html')) PREV.files.set(p, fs.readFileSync(p, 'utf8'));
+    }
+  };
+  walk(OUT);
+  const sm = path.join(ROOT, 'sitemap.xml');
+  if (fs.existsSync(sm)) {
+    const re = /<loc>([^<]+)<\/loc>\s*<lastmod>(\d{4}-\d{2}-\d{2})<\/lastmod>/g;
+    for (const m of fs.readFileSync(sm, 'utf8').matchAll(re)) PREV.lastmod.set(m[1].replace(SITE, ''), m[2]);
+  }
+}
+
+function writeStable(file, html, loc) {
+  const prev = PREV.files.has(file) ? PREV.files.get(file) : (fs.existsSync(file) ? fs.readFileSync(file, 'utf8') : null);
+  let date = BUILD_DATE;
+  if (prev != null && prev.replace(DATE_RE, `"dateModified": "${DATE_TOKEN}"`) === html) {
+    const m = prev.match(/"dateModified": "(\d{4}-\d{2}-\d{2})"/);
+    date = (m && m[1]) || PREV.lastmod.get(loc) || BUILD_DATE;
+  }
+  fs.writeFileSync(file, html.split(DATE_TOKEN).join(date));
+  if (loc) pageDates.set(loc, date);
+}
+
+/** Date du dernier commit d'un fichier écrit à la main (date du jour s'il a des modifications non committées). */
+function gitDate(rel) {
+  const { execFileSync } = require('child_process');
+  try {
+    const opts = { cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] };
+    if (execFileSync('git', ['status', '--porcelain', '--', rel], opts).trim()) return BUILD_DATE;
+    return execFileSync('git', ['log', '-1', '--format=%cs', '--', rel], opts).trim() || BUILD_DATE;
+  } catch (e) {
+    return BUILD_DATE;
+  }
+}
 const NB = '\u00a0';   // espace insécable
 const NNB = '\u202f';  // espace fine insécable
 
@@ -678,6 +731,7 @@ function main() {
   const EXOS = win.MATHS_EXERCISES || {};
   const CAPES = win.CAPES_LESSONS || [];
 
+  snapshotPrevious();
   fs.rmSync(OUT, { recursive: true, force: true });
   fs.mkdirSync(OUT, { recursive: true });
 
@@ -790,13 +844,13 @@ ${relatedHtml(it, lvl, items, levelsData)}
         teaches,
         about: { '@type': 'Thing', name: plain(ch.domainName || ch.domain || 'Mathématiques') },
         isAccessibleForFree: true,
-        dateModified: BUILD_DATE,
+        dateModified: DATE_TOKEN,
         author: { '@type': 'Person', name: AUTHOR, jobTitle: 'Professeur de mathématiques' },
         publisher: { '@type': 'Organization', name: BRAND, url: `${SITE}/`, logo: `${SITE}/assets/logo.png` },
         isPartOf: { '@type': 'WebSite', name: BRAND, url: `${SITE}/` }
       };
       const html = layout({ depth: 2, title: titleTag, description: desc, canonical: url, ogType: 'article', jsonld: [ld, breadcrumbLd(crumbs)], body });
-      fs.writeFileSync(path.join(lvlDir, `${slug}.html`), html);
+      writeStable(path.join(lvlDir, `${slug}.html`), html, `/cours/${lvl.slug}/${slug}.html`);
       pages.push({ loc: `/cours/${lvl.slug}/${slug}.html`, priority: '0.7' });
     });
   }
@@ -885,8 +939,8 @@ ${LEVELS.filter((l) => levelsData.some((d) => d.lvl === l)).map((l) => `      <a
       }
     };
     trackMeta(titleTag, desc, url);
-    fs.writeFileSync(path.join(OUT, lvl.slug, 'index.html'),
-      layout({ depth: 2, title: titleTag, description: desc, canonical: url, jsonld: [ld, faqLd(faqs), breadcrumbLd(crumbs)], body }));
+    writeStable(path.join(OUT, lvl.slug, 'index.html'),
+      layout({ depth: 2, title: titleTag, description: desc, canonical: url, jsonld: [ld, faqLd(faqs), breadcrumbLd(crumbs)], body }), `/cours/${lvl.slug}/`);
     pages.push({ loc: `/cours/${lvl.slug}/`, priority: '0.8' });
   }
 
@@ -964,8 +1018,8 @@ ${section('faq', 'Questions fréquentes', faqHtml(faqs))}`;
       }
     };
     trackMeta(titleTag, desc, url);
-    fs.writeFileSync(path.join(OUT, 'index.html'),
-      layout({ depth: 1, title: titleTag, description: desc, canonical: url, jsonld: [ld, faqLd(faqs), breadcrumbLd(crumbs)], body }));
+    writeStable(path.join(OUT, 'index.html'),
+      layout({ depth: 1, title: titleTag, description: desc, canonical: url, jsonld: [ld, faqLd(faqs), breadcrumbLd(crumbs)], body }), '/cours/');
     pages.unshift({ loc: '/cours/', priority: '0.9' });
   }
 
@@ -1014,7 +1068,7 @@ ${CSP_META}
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${all.map((p) => `  <url>
     <loc>${SITE}${p.loc}</loc>
-    <lastmod>${BUILD_DATE}</lastmod>
+    <lastmod>${pageDates.get(p.loc) || gitDate(p.loc === '/' ? 'index.html' : p.loc.slice(1))}</lastmod>
     <changefreq>${p.changefreq}</changefreq>
     <priority>${p.priority}</priority>
   </url>`).join('\n')}
@@ -1133,15 +1187,15 @@ ${h.ctas.slice(0, 2).map((c, i) => `        <a class="${i === 0 ? 'btn-primary c
       url,
       inLanguage: 'fr',
       isAccessibleForFree: true,
-      dateModified: BUILD_DATE,
+      dateModified: DATE_TOKEN,
       author: { '@type': 'Person', name: AUTHOR, jobTitle: 'Professeur de mathématiques' },
       publisher: { '@type': 'Organization', name: BRAND, url: `${SITE}/`, logo: `${SITE}/assets/logo.png` },
       isPartOf: { '@type': 'WebSite', name: BRAND, url: `${SITE}/` }
     }, h.ld || {});
     fs.mkdirSync(path.join(ROOT, h.dir), { recursive: true });
     const og = fs.existsSync(path.join(ROOT, h.dir, 'og.png')) ? `${url}og.png` : undefined;
-    fs.writeFileSync(path.join(ROOT, h.dir, 'index.html'), layout({ depth: 1, title: h.title, description: h.desc, canonical: url,
-      jsonld: [ld, faqLd(h.faqs), breadcrumbLd(crumbs)], body, active: h.key, tag: h.tag, ogImage: og }));
+    writeStable(path.join(ROOT, h.dir, 'index.html'), layout({ depth: 1, title: h.title, description: h.desc, canonical: url,
+      jsonld: [ld, faqLd(h.faqs), breadcrumbLd(crumbs)], body, active: h.key, tag: h.tag, ogImage: og }), `/${h.dir}/`);
     written.push(`/${h.dir}/`);
   }
 
