@@ -56,6 +56,8 @@ window.MathsApp = {
     this.bindScrollHints();
     this.bindHistoryNavigation();
     this.renderDomainNav();
+    // Badges à niveaux : premier passage silencieux (une progression existante ne déclenche pas de rafale)
+    if (window.MathsBadges) window.MathsBadges.evaluate({ silent: true });
     this.updateHeaderProfile();
     // Les données du niveau courant sont chargées avant le premier affichage
     this.whenLevelReady(this.currentLevel, () => {
@@ -243,7 +245,11 @@ window.MathsApp = {
     // Bouton ouvrir passeport modal
     const passportBtn = document.getElementById('passport-btn');
     if (passportBtn) {
-      passportBtn.addEventListener('click', () => this.switchTab('stats'));
+      passportBtn.addEventListener('click', () => {
+        // Depuis l'accueil, il faut d'abord quitter la vue d'accueil pour afficher le Bilan
+        if (this.isHomeView) this.hideHomeView();
+        this.switchTab('stats');
+      });
     }
 
     // Recherche instantanée de chapitres
@@ -696,7 +702,16 @@ window.MathsApp = {
     const xpEl = document.getElementById('header-user-xp');
     const streakEl = document.getElementById('header-user-streak');
 
-    if (levelEl) levelEl.textContent = `Niveau ${data.user.level}`;
+    if (levelEl) {
+      // Badge favori (choisi dans la vitrine du Bilan) affiché devant le niveau
+      let fav = '';
+      if (data.user.favoriteBadge && window.MathsBadges) {
+        const d = window.MathsBadges.getShowcase(data).find(b => b.id === data.user.favoriteBadge && b.level > 0);
+        if (d) fav = `${d.icon} `;
+        levelEl.title = d ? `Badge favori : ${d.title} (${window.MathsBadges.tierLabel(d, d.level)})` : '';
+      }
+      levelEl.textContent = `${fav}Niveau ${data.user.level}`;
+    }
     if (xpEl) xpEl.textContent = `${data.user.xp} XP`;
     if (streakEl) {
       const s = streakInfo.streak || 0;

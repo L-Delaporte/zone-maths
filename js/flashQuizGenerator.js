@@ -238,6 +238,7 @@ window.MathsQuizGenerator = {
    * Génère un nouveau sujet blanc complet avec corrigé détaillé
    */
   generate() {
+    if (window.MathsBadges) { window.MathsBadges.recordEvent('paper'); setTimeout(() => window.MathsBadges.check(), 400); }
     const previewScreen = document.getElementById('quiz-preview-screen');
     const isRegenerating = previewScreen && previewScreen.style.display === 'block';
 

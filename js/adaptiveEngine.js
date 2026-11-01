@@ -1172,15 +1172,18 @@ window.MathsAdaptiveEngine = {
     let frontierBefore = 1;
     let supportMessage = '';
 
+    const firstSubmission = !this.state.answerEntry;
+    let prevPracticedAt = null;
     const progressAfter = window.MathsStorage.updateChapterProgress(this.state.chapterId, p => {
       this.ensureProgressModel(p);
+      prevPracticedAt = p.lastPracticedAt || null;
       frontierBefore = this.countValidatedTiers(p) + 1;
       // Sans-faute : possible seulement pour un chapitre commencé à 0 %, perdu à la première erreur
-      // (les indices sont permis : ils ne sont pas des erreurs)
+      // ou au premier indice (choix du professeur : ni erreur ni indice)
       if (typeof p.flawless !== 'boolean') {
         p.flawless = !(p.attempts > 0) && !(p.mastery > 0) && !(p.validatedTiers || []).length;
       }
-      if (!isCorrect) p.flawless = false;
+      if (!isCorrect || hintsUsed > 0) p.flawless = false;
       p.attempts = (p.attempts || 0) + 1;
       p.lastPracticedAt = Date.now();
       p.tierLastAt = p.tierLastAt || {};
@@ -1241,6 +1244,17 @@ window.MathsAdaptiveEngine = {
       }
       return p;
     });
+
+    // Compteurs des badges à niveaux (js/badges.js)
+    if (window.MathsBadges) {
+      const chap = (window.MATHS_CHAPTERS || []).find(c => c.id === this.state.chapterId);
+      window.MathsBadges.recordAnswer({
+        chapterId: this.state.chapterId,
+        domain: chap ? chap.domain : null,
+        isCorrect, firstSubmission, mistakesBefore, hintsUsed, prevPracticedAt,
+        newlyValidated: newlyValidatedTiers.map(t => ({ tier: t, marks: (progressAfter.tierMarks || {})[t] || [] }))
+      });
+    }
 
     const status = this.getTierProgressStatus(this.state.chapterId, progressAfter);
     const progressMessage = isReview
@@ -1360,6 +1374,14 @@ window.MathsAdaptiveEngine = {
     const exercise = this.state.currentExercise;
     if (!exercise) return null;
     this.state.usedHintsCount++;
+    // Un indice fait perdre le trophée Grand Maître (sans erreur ni indice), même si la question est ensuite passée
+    if (this.state.chapterId && window.MathsStorage) {
+      window.MathsStorage.updateChapterProgress(this.state.chapterId, p => {
+        if (typeof p.flawless !== 'boolean') p.flawless = !(p.attempts > 0) && !(p.mastery > 0) && !(p.validatedTiers || []).length;
+        p.flawless = false;
+        return p;
+      });
+    }
     if (hintNumber === 1) {
       if (exercise.hint1 && exercise.hint1.trim()) return exercise.hint1;
       return "Observe bien les données de l'énoncé, repère les mots-clés et commence par appliquer les règles opératoires prioritaires.";
@@ -1633,11 +1655,16 @@ window.MathsAdaptiveEngine = {
       if ((masteryPercent >= 100 || p.mastery >= 100) && p.flawless === true) {
         const perfectId = `${chapterId}_perfect`;
         const perfectTitle = this.getChapterRankTitle(chapter, 5);
-        const perfectDesc = `Chapitre ${chapter.shortTitle || chapter.title} réussi de 0 % à 100 % sans aucune erreur.`;
+        const perfectDesc = `Chapitre ${chapter.shortTitle || chapter.title} réussi de 0 % à 100 % sans aucune erreur ni indice.`;
         if (window.MathsStorage.unlockBadge(perfectId, perfectTitle, perfectDesc, '🌟')) {
           newlyUnlockedBadges.push({ kind: 'rank', tier: 5, badgeId: perfectId, title: perfectTitle, desc: perfectDesc, icon: '🌟', chapter });
         }
       }
+    }
+
+    // 2 bis. Badges à niveaux (Bronze → Légende), évalués après les trophées
+    if (window.MathsBadges) {
+      window.MathsBadges.evaluate().forEach(u => newlyUnlockedBadges.push({ kind: 'badge', id: u.def.id, upgrade: u }));
     }
 
     // 3. Badges de régularité quotidienne (Daily Streak)

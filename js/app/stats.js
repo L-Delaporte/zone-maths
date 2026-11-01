@@ -56,11 +56,12 @@ Object.assign(window.MathsApp, {
         </div>
       </div>
 
-      <div class="stats-section">
-        <h3><span aria-hidden="true">🏆</span> Badges d'Étapes & Jalons</h3>
-        <div class="badges-grid">
-          ${this.renderBadgesHtml(data.badges)}
-        </div>
+      <div class="stats-section badge-showcase">
+        <h3><span aria-hidden="true">🏅</span> Mes badges</h3>
+        <p class="math-p" style="margin-bottom: 1rem; font-size: 0.92rem; color: var(--text-muted);">
+          Chaque badge monte de niveau : 🥉 <strong>Bronze</strong> ➔ 🥈 <strong>Argent</strong> ➔ 🥇 <strong>Or</strong> ➔ 💎 <strong>Diamant</strong> ➔ 🌟 <strong>Légende</strong>. Un niveau gagné ne se perd jamais. Touche ☆ pour afficher ton badge préféré à côté de ton niveau.
+        </p>
+        ${this.renderBadgeShowcaseHtml(data)}
       </div>
 
       <div class="stats-section">
@@ -76,7 +77,7 @@ Object.assign(window.MathsApp, {
       <div class="stats-section">
         <h3><span aria-hidden="true">🎖️</span> Rangs & Trophées par Chapitre — ${levelName}</h3>
         <p class="math-p" style="margin-bottom: 1rem; font-size: 0.92rem; color: var(--text-muted);">
-          Valide les paliers d'entraînement pour faire évoluer ton titre : 🥉 <strong>Novice</strong> (Palier 1 validé) ➔ 🥈 <strong>Apprenti</strong> (Palier 2 validé) ➔ 🥇 <strong>Chevalier</strong> (Palier 3 validé) ➔ 💎 <strong>Maître</strong> (100% de la notion) ➔ 🌟 <strong>Grand Maître</strong> (de 0 % à 100 % sans aucune erreur) !
+          Valide les paliers d'entraînement pour faire évoluer ton titre : 🥉 <strong>Novice</strong> (Palier 1 validé) ➔ 🥈 <strong>Apprenti</strong> (Palier 2 validé) ➔ 🥇 <strong>Chevalier</strong> (Palier 3 validé) ➔ 💎 <strong>Maître</strong> (100% de la notion) ➔ 🌟 <strong>Grand Maître</strong> (de 0 % à 100 % sans erreur ni indice) !
         </p>
         <div class="chapter-trophies-grid">
           ${this.renderChapterTrophiesHtml(levelChapters, data.badges, data.chapters)}
@@ -128,54 +129,61 @@ Object.assign(window.MathsApp, {
     container.innerHTML = html;
   },
 
-  renderBadgesHtml(unlockedBadges = []) {
+  /** Niveau d'animation d'un trophée de régularité selon sa durée. */
+  streakTierClass(days) {
+    return days >= 180 ? 5 : days >= 60 ? 4 : days >= 30 ? 3 : days >= 14 ? 2 : 1;
+  },
+
+  /** Vitrine des badges à niveaux (js/badges.js), par famille. */
+  renderBadgeShowcaseHtml(data) {
+    const B = window.MathsBadges;
+    if (!B) return '';
     const lvl = this.getCurrentChapterLevel();
-    let tier4Title = 'Cap vers la Seconde';
-    let tier4Desc = 'Débloquer le palier 4 (Défi Seconde)';
-    if (lvl === '6eme') {
-      tier4Title = 'Cap vers la 5ème';
-      tier4Desc = 'Débloquer le palier 4 (Défi 5ème)';
-    } else if (lvl === '5eme') {
-      tier4Title = 'Cap vers la 4ème';
-      tier4Desc = 'Débloquer le palier 4 (Défi 4ème)';
-    } else if (lvl === '4eme') {
-      tier4Title = 'Cap vers la 3ème';
-      tier4Desc = 'Débloquer le palier 4 (Défi 3ème)';
-    } else if (lvl === '2nde') {
-      tier4Title = 'Cap vers la 1ère Spé';
-      tier4Desc = 'Débloquer le palier 4 (Défi 1ère Spé)';
-    } else if (lvl === '1ere' || lvl === 'tale' || lvl === 'lycee') {
-      tier4Title = 'Excellence Baccalauréat';
-      tier4Desc = 'Débloquer le palier 4 (Défi & Approfondissement)';
-    } else if (['L1', 'L2', 'L3', 'licence', 'capes'].includes(lvl)) {
-      tier4Title = 'Rigueur Universitaire & Concours';
-      tier4Desc = 'Débloquer le palier 4 (Démonstrations & Rigueur)';
-    }
-    const unlockedTier4 = (unlockedBadges || []).find(ub => ub.id === 'tier_4_unlocked');
-
-    const allPossibleBadges = [
-      { id: 'first_step', title: 'Premier Pas', desc: 'Compléter un exercice avec succès', icon: '🎯' },
-      { id: 'level_3', title: 'Apprenti Géomètre', desc: "Atteindre le Niveau 3 d'expérience", icon: '📐' },
-      { id: 'level_5', title: 'Maître du Calcul', desc: "Atteindre le Niveau 5 d'expérience", icon: '⚡' },
-      { 
-        id: 'tier_4_unlocked', 
-        title: unlockedTier4 ? (unlockedTier4.title || tier4Title) : tier4Title, 
-        desc: unlockedTier4 ? (unlockedTier4.description || tier4Desc) : tier4Desc, 
-        icon: '🚀' 
-      }
-    ];
-
-    return allPossibleBadges.map(b => {
-      const isUnlocked = (unlockedBadges || []).some(ub => ub.id === b.id);
+    const fav = data.user && data.user.favoriteBadge;
+    const all = B.getShowcase(data).filter(d => d.family !== 'niveau' || d.schoolLevel === lvl);
+    const esc = t => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+    const card = d => {
+      const lv = d.level;
+      const tc = B.tierClass(d, lv);
+      const hidden = d.secret && !lv;
+      const max = lv >= d.thresholds.length;
+      const next = max ? null : d.thresholds[lv];
+      const isRank = d.unit === 'rank';
+      const cur = Math.min(d.value, next || d.value);
+      const pct = max ? 100 : Math.max(0, Math.min(100, Math.round(100 * (isRank ? d.value : cur) / next)));
+      const nextLabel = max ? '' : (d.secret ? '' : B.tierLabel(Object.assign({}, d), lv + 1));
+      const goal = hidden
+        ? `Indice : ${esc(d.desc())}`
+        : max ? `✓ ${esc(d.desc(d.thresholds[lv - 1]))}` : `${nextLabel ? `<b>${nextLabel}</b> : ` : ''}${esc(d.desc(next))}`;
+      const progress = (max || d.secret) ? '' : `
+            <div class="badge-progress" role="progressbar" aria-valuemin="0" aria-valuemax="${next}" aria-valuenow="${cur}" aria-label="Progression vers le niveau suivant">
+              <div class="badge-progress-fill" style="width:${pct}%"></div>
+            </div>
+            <span class="badge-progress-txt">${isRank ? `Chapitre le moins avancé : ${['aucun palier', 'palier 1', 'palier 2', 'palier 3', '100 %', 'Grand Maître'][Math.max(0, Math.min(5, d.value))]}` : `${cur} / ${next}`}</span>`;
+      const star = lv > 0 ? `<button type="button" class="badge-fav-btn${fav === d.id ? ' is-fav' : ''}" data-click="MathsApp.setFavoriteBadge" data-args='["${d.id}"]' aria-pressed="${fav === d.id}" title="${fav === d.id ? 'Retirer de l’en-tête' : 'Afficher ce badge à côté de mon niveau'}">${fav === d.id ? '★' : '☆'}</button>` : '';
       return `
-        <div class="badge-item ${isUnlocked ? 'unlocked' : 'locked'}">
-          <span class="badge-emoji">${b.icon}</span>
-          <div class="badge-info">
-            <strong>${b.title}</strong>
-            <small>${b.desc}</small>
-          </div>
-        </div>
-      `;
+          <div class="badge-item level-badge ${lv > 0 ? 'unlocked fx-t' + tc : 'locked'}${d.secret ? ' is-secret' : ''}">
+            <span class="badge-emoji fx-medal" aria-hidden="true">${hidden ? '❔' : d.icon}</span>
+            <div class="badge-info">
+              <div class="badge-head">
+                <strong>${hidden ? '???' : esc(d.title)}</strong>
+                ${lv > 0 ? `<span class="badge-tier-pill tier-pill-${tc}">${B.tierLabel(d, lv)}${!d.secret && d.thresholds.length > 1 ? ` · ${lv}/${d.thresholds.length}` : ''}</span>` : ''}
+                ${star}
+              </div>
+              <small>${goal}</small>${progress}
+            </div>
+          </div>`;
+    };
+    return B.FAMILIES.map(f => {
+      const list = all.filter(d => d.family === f.id);
+      if (!list.length) return '';
+      const got = list.filter(d => d.level > 0).length;
+      return `
+        <div class="badge-family">
+          <h4 class="badge-family-title">${f.title} <span class="badge-family-count">${got} / ${list.length}</span></h4>
+          <p class="badge-family-intro">${f.intro}</p>
+          <div class="badges-grid">${list.map(card).join('')}</div>
+        </div>`;
     }).join('');
   },
 
@@ -190,8 +198,8 @@ Object.assign(window.MathsApp, {
         : `<span style="color: var(--text-muted);">${m.current} / ${m.days} j (${m.progressPct}%)</span>`;
 
       return `
-        <div class="badge-item ${m.isUnlocked ? 'unlocked' : 'locked'}">
-          <span class="badge-emoji">${m.icon}</span>
+        <div class="badge-item streak-badge ${m.isUnlocked ? 'unlocked fx-t' + this.streakTierClass(m.days) : 'locked'}">
+          <span class="badge-emoji fx-medal">${m.icon}</span>
           <div class="badge-info">
             <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 0.35rem;">
               <strong>${m.title}</strong>
@@ -234,11 +242,11 @@ Object.assign(window.MathsApp, {
         2: 'Palier 2 validé',
         3: 'Palier 3 validé',
         4: '100% de la notion validé',
-        5: '100 % sans aucune erreur'
+        5: '100 % sans erreur ni indice'
       };
       // Sans-faute en cours (chapitre commencé à 0 % et aucune erreur jusqu'ici)
       const flawlessLine = (p.flawless === true && highestTier < 4)
-        ? `<div class="chapter-trophy-flawless" title="Aucune erreur depuis le début : continue pour décrocher le trophée Grand Maître 🌟">🌟 Sans faute en cours</div>`
+        ? `<div class="chapter-trophy-flawless" title="Aucune erreur ni indice depuis le début : continue pour décrocher le trophée Grand Maître 🌟">🌟 Sans faute en cours</div>`
         : '';
 
       const rankTitle = highestTier > 0 
@@ -250,7 +258,7 @@ Object.assign(window.MathsApp, {
       const displayTitle = highestTier > 0 ? rankTitle : `Objectif : ${rankTitle}`;
 
       return `
-        <div class="chapter-trophy-card ${highestTier > 0 ? 'unlocked tier-' + highestTier : 'locked'}" 
+        <div class="chapter-trophy-card ${highestTier > 0 ? 'unlocked tier-' + highestTier + ' fx-t' + highestTier : 'locked'}" 
              data-click="MathsApp.startChapterTier" data-args='["${c.id}", ${highestTier > 0 ? highestTier : 1}]'
              title="Clique pour t'entraîner sur ${c.shortTitle || c.title}">
           <div class="chapter-trophy-header">

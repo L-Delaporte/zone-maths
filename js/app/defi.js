@@ -177,6 +177,7 @@ Object.assign(window.MathsApp, {
       window.MathsStorage.addXp(this.DEFI_XP);
       if (typeof this.updateHeaderProfile === 'function') this.updateHeaderProfile();
       this.showToast(`🏆 <strong>Défi relevé !</strong> +${this.DEFI_XP} XP`);
+      if (window.MathsBadges) window.MathsBadges.check();
     } else if (window.MathsAudio) {
       window.MathsAudio.playIncorrect();
     }

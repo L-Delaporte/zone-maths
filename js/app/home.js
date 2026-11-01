@@ -279,8 +279,8 @@ Object.assign(window.MathsApp, {
     if (trophiesContainer && typeof window.MathsStorage.getStreakMilestones === 'function') {
       const milestones = window.MathsStorage.getStreakMilestones();
       trophiesContainer.innerHTML = milestones.map(m => `
-        <div class="streak-trophy-modal-card ${m.isUnlocked ? 'unlocked' : 'locked'}">
-          <span class="streak-trophy-icon" aria-hidden="true">${m.icon}</span>
+        <div class="streak-trophy-modal-card ${m.isUnlocked ? 'unlocked fx-t' + this.streakTierClass(m.days) : 'locked'}">
+          <span class="streak-trophy-icon fx-medal" aria-hidden="true">${m.icon}</span>
           <div class="streak-trophy-details">
             <div class="streak-trophy-top">
               <span class="streak-trophy-title" title="${m.title}">${m.title}</span>

@@ -14,6 +14,7 @@ Object.assign(window.MathsApp, {
     const currentCycle = window.MathsStorage.getCycleForLevel(this.currentLevel);
     const cycleInfo = this.CYCLES[currentCycle] || { name: 'Mathématiques' };
     const course = (window.MATHS_COURSES || {})[this.currentChapterId];
+    if (course && window.MathsBadges) window.MathsBadges.recordEvent('course', { chapterId: this.currentChapterId });
     const capesLesson = (window.CAPES_LESSONS || []).find(l => l.id.toLowerCase() === (this.currentChapterId || '').toLowerCase());
     if (capesLesson) {
       const isOral2 = capesLesson.id === 'capes-oral2';

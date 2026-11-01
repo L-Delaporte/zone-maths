@@ -896,6 +896,7 @@
       }
 
       this.saveStorage();
+      if (window.MathsBadges) window.MathsBadges.check();
       this.renderCurrentCard();
     },
 

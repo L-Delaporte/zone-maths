@@ -554,6 +554,7 @@ Object.assign(window.MathsApp, {
     const fresh = this.createPracticeSheet(chapterId);
     if (fresh) this.generatedPracticeByChapter[chapterId] = fresh;
     this.focusGeneratedSheet(chapterId, 'entrainement_genere', before, fresh);
+    if (window.MathsBadges) { window.MathsBadges.recordEvent('paper'); window.MathsBadges.check(); }
   },
 
   regenerateDs() {
@@ -562,6 +563,7 @@ Object.assign(window.MathsApp, {
     const fresh = this.createDsTypeSheet(chapterId);
     if (fresh) this.generatedDsByChapter[chapterId] = fresh;
     this.focusGeneratedSheet(chapterId, 'ds_type', before, fresh);
+    if (window.MathsBadges) { window.MathsBadges.recordEvent('paper'); window.MathsBadges.check(); }
   },
 
   focusGeneratedSheet(chapterId, type, before, fresh) {
@@ -598,6 +600,7 @@ Object.assign(window.MathsApp, {
       window.removeEventListener('afterprint', cleanup);
     };
     window.addEventListener('afterprint', cleanup);
+    if (window.MathsBadges) { window.MathsBadges.recordEvent('paper'); window.MathsBadges.check(); }
     window.print();
   },
 

@@ -284,6 +284,7 @@ window.MathsDiaporama = {
     }
 
     this.state.xpBonus = xpBonus;
+    if (window.MathsBadges) { window.MathsBadges.recordEvent('rituel'); window.MathsBadges.check(); }
     this.state.recapMode = 'statements'; // Affichage direct des énoncés
     this.renderRecapScreen();
   },

@@ -857,6 +857,52 @@ Object.assign(window.MathsApp, {
    */
   handleUnlockCelebration(result) {
     if (!result || !result.isCorrect) return false;
+    const badgeUps = (result.newlyUnlockedBadges || []).filter(b => b.kind === 'badge').map(b => b.upgrade);
+    const shown = this.handleRankCelebration(result);
+    if (!badgeUps.length) return shown;
+    if (shown) {
+      // Une autre célébration est déjà affichée : les badges sont signalés discrètement
+      badgeUps.forEach(u => {
+        const d = window.MathsBadges.describeUpgrade(u);
+        this.showToast(`${d.icon} <strong>Badge ${d.title}</strong> : ${d.tier} !`, 4000);
+      });
+      return true;
+    }
+    this.celebrateBadgeUpgrades(badgeUps);
+    return true;
+  },
+
+  /** Fenêtre de célébration d'un ou plusieurs nouveaux niveaux de badge (le plus haut en vedette). */
+  celebrateBadgeUpgrades(ups) {
+    if (!ups || !ups.length || !window.MathsBadges) return;
+    const B = window.MathsBadges;
+    const sorted = ups.slice().sort((a, b) => B.tierClass(b.def, b.level) - B.tierClass(a.def, a.level));
+    const top = B.describeUpgrade(sorted[0]);
+    const others = sorted.slice(1).map(u => { const d = B.describeUpgrade(u); return `${d.icon} ${d.title} : ${d.tier}`; });
+    const isSecret = !!sorted[0].def.secret;
+    this.showUnlockPopup({
+      icon: top.icon,
+      category: isSecret ? '🔮 BADGE SECRET DÉVOILÉ !' : `🏅 NOUVEAU BADGE : NIVEAU ${top.tier.toUpperCase()} !`,
+      title: top.title,
+      chapterTitle: isSecret ? '' : `Niveau ${top.tier}`,
+      description: `${top.desc}.<br>Retrouve tous tes badges dans le <strong>Bilan</strong>.`,
+      perks: [`🏅 ${top.title} : ${top.tier}`].concat(others.slice(0, 2)).concat(others.length ? [] : ['⭐ Ajouté à ta vitrine de badges']),
+      isMaster: top.tierClass >= 4,
+      actionLabel: `Continuer`
+    });
+  },
+
+  /** Choisit le badge affiché à côté du niveau dans l'en-tête (un second clic le retire). */
+  setFavoriteBadge(id) {
+    const data = window.MathsStorage.load();
+    data.user.favoriteBadge = data.user.favoriteBadge === id ? null : id;
+    window.MathsStorage.save(data);
+    this.updateHeaderProfile();
+    if (typeof this.renderStatsView === 'function') this.renderStatsView();
+  },
+
+  handleRankCelebration(result) {
+    if (!result || !result.isCorrect) return false;
 
     const chapterId = this.currentChapterId;
     const chapter = (window.MATHS_CHAPTERS || []).find(c => c.id === chapterId);
@@ -906,10 +952,10 @@ Object.assign(window.MathsApp, {
     if (perfectBadge) {
       this.showUnlockPopup({
         icon: '🌟',
-        category: '🌟 TROPHÉE GRAND MAÎTRE : SANS AUCUNE ERREUR !',
+        category: '🌟 TROPHÉE GRAND MAÎTRE : SANS ERREUR NI INDICE !',
         title: perfectBadge.title,
         chapterTitle: chapter ? `${chapter.num} — ${chapter.shortTitle || chapter.title}` : '',
-        description: `Exceptionnel ! Tu as mené <em>${chapter ? (chapter.shortTitle || chapter.title) : 'ce chapitre'}</em> de <strong>0 % à 100 %</strong> sans faire <strong>aucune erreur</strong>. C'est le plus haut trophée d'un chapitre.`,
+        description: `Exceptionnel ! Tu as mené <em>${chapter ? (chapter.shortTitle || chapter.title) : 'ce chapitre'}</em> de <strong>0 % à 100 %</strong> sans <strong>aucune erreur ni indice</strong>. C'est le plus haut trophée d'un chapitre.`,
         perks: [
           `🌟 Titre ${perfectBadge.title}`,
           `💎 100 % de maîtrise`,

@@ -10,7 +10,7 @@
  * NE PAS éditer à la main la liste ci-dessous ni CACHE_NAME : lancer `node scripts/build_versions.js`.
  */
 
-const CACHE_NAME = 'etabli-des-maths-5075cafe07';
+const CACHE_NAME = 'etabli-des-maths-fa85d192f0';
 
 // @precache-start
 const PRECACHE_URLS = [
@@ -23,7 +23,7 @@ const PRECACHE_URLS = [
   './js/themeInit.js?v=5a89a0607f',
   './js/eventDelegation.js?v=89e87b61a8',
   './vendor/katex/katex.min.css?v=000b7545e1',
-  './css/style.css?v=34ccbf1b34',
+  './css/style.css?v=14068d9f93',
   './css/sheets.css?v=cbc3ab2e84',
   './vendor/katex/katex.min.js?v=9616b6e2a7',
   './vendor/katex/auto-render.min.js?v=491616b8c9',
@@ -32,28 +32,29 @@ const PRECACHE_URLS = [
   './js/data/chapters_licence.js?v=862554015c',
   './js/data/data_capes.js?v=eb9e1f543b',
   './js/data/defis.js?v=3bb2c75031',
+  './js/badges.js?v=a9f88aebb9',
   './js/storage.js?v=6cfd159b0b',
   './js/audioEffects.js?v=b65413daaf',
   './js/confetti.js?v=b2b29d56a8',
   './js/mathRenderer.js?v=b18b8ba377',
   './js/geometryFigures.js?v=656295f7c5',
   './js/scratchRenderer.js?v=5f9033f40a',
-  './js/adaptiveEngine.js?v=0ef5ce4a64',
+  './js/adaptiveEngine.js?v=a2154a1de4',
   './js/generatorsCore.js?v=facc7f5c20',
   './js/proofEngine.js?v=f99d384bfd',
   './js/mathVisualizer.js?v=c374ad43df',
-  './js/diaporamaEngine.js?v=1833780366',
-  './js/flashQuizGenerator.js?v=2f903b49ac',
-  './js/flashcardsEngine.js?v=80deafaac0',
+  './js/diaporamaEngine.js?v=ebc328db91',
+  './js/flashQuizGenerator.js?v=b9e594acbe',
+  './js/flashcardsEngine.js?v=9621e5c78a',
   './js/dataLoader.js?v=828f7fa67d',
-  './js/app.js?v=116d3dd408',
-  './js/app/home.js?v=75ad05503c',
+  './js/app.js?v=de47196530',
+  './js/app/home.js?v=c25700373c',
   './js/app/tools.js?v=4b710dcdc8',
-  './js/app/training.js?v=15e3ffba4e',
-  './js/app/course.js?v=5c3060eab4',
-  './js/app/sheets.js?v=711106cf8f',
-  './js/app/defi.js?v=2eb0e40fa1',
-  './js/app/stats.js?v=283dd91d4e',
+  './js/app/training.js?v=7437ea1e9a',
+  './js/app/course.js?v=8ee3ffdddf',
+  './js/app/sheets.js?v=656bcc4137',
+  './js/app/defi.js?v=521135bee7',
+  './js/app/stats.js?v=8893e07607',
   './js/pwaManager.js?v=2bb857ae9d',
   './js/analytics.js?v=e2a0e91aab'
 ];

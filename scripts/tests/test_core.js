@@ -264,6 +264,8 @@ check('Grand Maître : titre', /^Grand Maître /.test((S.load().badges.find(b =>
 vb = runToFull(10);
 check('Grand Maître : une seule erreur suffit à le perdre', vb.includes('SIM_perfect'), false);
 check('Grand Maître : rang Maître malgré l\'erreur', vb.includes('SIM_tier_4'), true);
+freshChapter(); answer(true); E.nextExercise(); E.requestHint(1);
+check('Grand Maître : un indice suffit à le perdre', S.getChapterProgress('SIM').flawless, false);
 store[KEY] = JSON.stringify({ version: 2, user: { xp: 0 }, chapters: { SIM: { mastery: 30, currentTier: 2, validatedTiers: [1], completed: [], attempts: 12 } } });
 E.startChapterSession('SIM'); answer(true);
 check('Grand Maître : impossible pour un chapitre déjà commencé', S.getChapterProgress('SIM').flawless, false);

@@ -14,6 +14,7 @@ const steps = [
   ['Syntaxe JavaScript', null],
   ['Versions des ressources (cache)', ['scripts/build_versions.js', '--check']],
   ['Cœur applicatif', ['scripts/tests/test_core.js']],
+  ['Badges à niveaux', ['scripts/tests/test_badges.js']],
   ['Contenus (cours, exercices, fiches)', ['scripts/tests/test_data_content.js']],
   ['Banques de DS et problèmes de brevet', ['scripts/tests/test_ds_banks.js']],
   ['Défi de la semaine', ['scripts/tests/test_defis.js']],
