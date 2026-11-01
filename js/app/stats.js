@@ -153,7 +153,7 @@ Object.assign(window.MathsApp, {
       const pct = max ? 100 : Math.max(0, Math.min(100, Math.round(100 * (isRank ? d.value : cur) / next)));
       const nextLabel = max ? '' : (d.secret ? '' : B.tierLabel(Object.assign({}, d), lv + 1));
       const goal = hidden
-        ? `Indice : ${esc(d.desc())}`
+        ? `Indice : <em>${esc(d.riddle || '…')}</em>`
         : max ? `✓ ${esc(d.desc(d.thresholds[lv - 1]))}` : `${nextLabel ? `<b>${nextLabel}</b> : ` : ''}${esc(d.desc(next))}`;
       const progress = (max || d.secret) ? '' : `
             <div class="badge-progress" role="progressbar" aria-valuemin="0" aria-valuemax="${next}" aria-valuenow="${cur}" aria-label="Progression vers le niveau suivant">

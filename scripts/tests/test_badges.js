@@ -87,5 +87,8 @@ check('Secret : classe Diamant', B.tierClass(sec, 1), 4);
 const sf = B.getShowcase(S.load()).find(x => x.id === 'sans_filet');
 check('Libellé Légende au niveau 5', B.tierLabel(sf, 5), 'Légende');
 
+// Les badges secrets cachés ne révèlent pas leur condition
+B.getShowcase(S.load()).filter(x => x.secret).forEach(x => check(`Secret ${x.id} : devinette distincte de la condition`, !!x.riddle && x.riddle !== x.desc(), true));
+
 if (failures) { console.error(`\n✖ test_badges : ${failures} échec(s)`); process.exit(1); }
 console.log('✔ test_badges : compteurs, montées de niveau, thèmes et secrets OK');

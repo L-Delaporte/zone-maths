@@ -272,14 +272,15 @@
         desc: n => `Débloquer le palier 4 dans ${plural(n, 'chapitre')}` });
 
       // --- Secrets (un seul niveau, cachés tant qu'ils ne sont pas obtenus) ---
-      const secret = (id, icon, title, hint, ok) => add({ id: `secret_${id}`, family: 'secrets', secret: true, icon, title,
-        thresholds: [1], value: ok ? 1 : 0, desc: () => hint });
-      secret('triple', '🎰', 'Coup triple', 'Valider 3 paliers le même jour', !!st.secrets.triple);
-      secret('piday', '🥧', 'Jour de π', 'S\'entraîner un 14 mars (3/14)', !!st.secrets.piday);
-      secret('polyvalent', '🧩', 'Touche-à-tout', 'S\'entraîner dans 3 thèmes différents le même jour', !!st.secrets.polyvalent);
-      secret('rebond', '🦘', 'Rebond', 'Réussir du premier coup juste après 3 questions ratées d\'affilée', !!st.secrets.rebond);
-      secret('marathon', '🏃', 'Marathonien', '50 bonnes réponses dans la même journée', !!st.secrets.marathon);
-      secret('grand_maitre', '🌟', 'Légende vivante', 'Décrocher un trophée Grand Maître', hasGrandMaitre);
+      // desc : condition exacte, montrée une fois le badge obtenu ; riddle : devinette affichée tant qu'il est caché
+      const secret = (id, icon, title, how, riddle, ok) => add({ id: `secret_${id}`, family: 'secrets', secret: true, icon, title,
+        thresholds: [1], value: ok ? 1 : 0, desc: () => how, riddle });
+      secret('triple', '🎰', 'Coup triple', 'Valider 3 paliers le même jour', 'Certains jours, tout s\'enchaîne…', !!st.secrets.triple);
+      secret('piday', '🥧', 'Jour de π', 'S\'entraîner un 14 mars (3/14)', 'Une date qui plaît aux amateurs de cercles.', !!st.secrets.piday);
+      secret('polyvalent', '🧩', 'Touche-à-tout', 'S\'entraîner dans 3 thèmes différents le même jour', 'La curiosité n\'a pas de frontières.', !!st.secrets.polyvalent);
+      secret('rebond', '🦘', 'Rebond', 'Réussir du premier coup juste après 3 questions ratées d\'affilée', 'Après la pluie vient le beau temps.', !!st.secrets.rebond);
+      secret('marathon', '🏃', 'Marathonien', '50 bonnes réponses dans la même journée', 'Certains jours, on ne s\'arrête plus !', !!st.secrets.marathon);
+      secret('grand_maitre', '🌟', 'Légende vivante', 'Décrocher un trophée Grand Maître', 'Vise la perfection, du premier au dernier exercice.', hasGrandMaitre);
 
       return defs.map(d => {
         let lvl = 0;
