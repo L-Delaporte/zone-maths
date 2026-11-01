@@ -7389,6 +7389,17 @@ body.home-view-active .cycle-levels-row {
   gap: 4px;
 }
 
+/* Bloc booléen (comparaison) : forme hexagonale comme dans Scratch */
+.scratch-slot-bool {
+  background: #59c059;
+  color: #1f2937;
+  padding: 3px 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  clip-path: polygon(10px 0, calc(100% - 10px) 0, 100% 50%, calc(100% - 10px) 100%, 10px 100%, 0 50%);
+}
+
 .scratch-slot-var {
   background: #ff8c1a;
   color: #1f2937;

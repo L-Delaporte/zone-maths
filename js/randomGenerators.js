@@ -2836,7 +2836,7 @@
     });
   },
 
-  // --- Algo : Algorithmique et programmation (Scratch / Python) ---
+  // --- Algo : Algorithmique et programmation (Scratch, tableur) ---
   generateAlgo(tier = 1, mastery = 0) {
     return this._h3a_run('Algo', tier, mastery, {
       1: ['L', 'tab1', 'var1', 'move1'],
@@ -13113,14 +13113,14 @@
     const k = this.randInt(3, 4);
     const seq = [n0];
     for (let i = 0; i < k; i++) { const n = seq[seq.length - 1]; seq.push(n % 2 === 0 ? n / 2 : 3 * n + 1); }
-    const code = `\`\`\`python\nn = ${n0}\nfor i in range(${k}):\n    if n % 2 == 0:\n        n = n // 2\n    else:\n        n = 3 * n + 1\nprint(n)\n\`\`\``;
+    const lines = ['quand drapeau vert pressé', `mettre [n] à ${n0}`, `répéter ${k} fois`, '    si ((n modulo 2) = 0) alors', '        mettre [n] à (n / 2)', '    sinon', '        mettre [n] à ((3 * n) + 1)', 'dire (n)'];
     return {
-      title: 'Boucle et instruction conditionnelle',
-      statement: `On exécute le programme Python suivant (« n % 2 == 0 » teste si n est pair ; « // » donne le quotient entier) :\n${code}\n**Quelle valeur est affichée ?**`,
+      title: 'Scratch : boucle et instruction conditionnelle',
+      statement: `On exécute le script suivant (« n modulo 2 » donne le reste de la division euclidienne de n par 2 : il vaut 0 quand n est pair) :\n${this.renderScratch(lines)}\n**Quel nombre le lutin dit-il à la fin ?**`,
       answer: `${seq[k]}`,
       hint1: `La boucle tourne ${k} fois. À chaque passage, teste d'abord si la valeur actuelle de n est paire, puis applique la bonne instruction. Note les valeurs successives.`,
       hint2: "Rappel : dans « si … sinon … », une seule des deux branches est exécutée ; la condition est testée avec la valeur actuelle de la variable.",
-      solution: `Valeurs successives de n : ${seq.join(' → ')}.\n**Conclusion** : le programme affiche ${seq[k]}.`,
+      solution: `Valeurs successives de n : ${seq.join(' → ')}.\n**Conclusion** : le lutin dit ${seq[k]}.`,
       _v: { k: '3Algo.syr', n0, k2: k }
     };
   },
@@ -13183,14 +13183,15 @@
     const N = this.randInt(20, 120);
     let s = 0, n = 0;
     while (s < N) { n++; s += n; }
-    const code = `\`\`\`python\ns = 0\nn = 0\nwhile s < ${N}:\n    n = n + 1\n    s = s + n\nprint(n)\n\`\`\``;
+    const M = N - 1; // « jusqu'à ce que s > M » ⇔ sortir dès que s ≥ N
+    const lines = ['quand drapeau vert pressé', 'mettre [s] à 0', 'mettre [n] à 0', `répéter jusqu'à ce que (s > ${M})`, '    ajouter 1 à [n]', '    ajouter n à [s]', 'dire (n)'];
     return {
-      title: 'Défi : boucle « tant que »',
-      statement: `On exécute le programme Python suivant :\n${code}\n**Quelle valeur est affichée ?**`,
+      title: 'Défi : boucle « répéter jusqu\'à ce que »',
+      statement: `On exécute le script suivant :\n${this.renderScratch(lines)}\n**Quel nombre le lutin dit-il à la fin ?**`,
       answer: `${n}`,
-      hint1: `Note dans un tableau les valeurs de n et de s après chaque passage, et arrête-toi dès que s n'est plus strictement inférieur à ${N}.`,
-      hint2: "Rappel : la condition d'une boucle « tant que » (while) est testée avant chaque passage ; dès qu'elle est fausse, on sort de la boucle et on exécute la suite.",
-      solution: `s prend successivement les valeurs 1, 3, 6, 10… (somme $1 + 2 + \\ldots + n$).\nPour n = ${n - 1}, s = ${s - n} < ${N} : la boucle continue. Pour n = ${n}, s = ${s} : la condition « s < ${N} » est fausse, la boucle s'arrête.\n**Conclusion** : le programme affiche ${n}.`,
+      hint1: `Note dans un tableau les valeurs de n et de s après chaque passage, et arrête-toi dès que s est strictement supérieur à ${M}.`,
+      hint2: "Rappel : la condition d'une boucle « répéter jusqu'à ce que » est testée avant chaque passage ; dès qu'elle est vraie, on sort de la boucle et on exécute la suite du script.",
+      solution: `s prend successivement les valeurs 1, 3, 6, 10… (somme $1 + 2 + \\ldots + n$).\nPour n = ${n - 1}, s = ${s - n} : la condition « s > ${M} » est fausse, la boucle continue. Pour n = ${n}, s = ${s} : la condition « s > ${M} » est vraie, la boucle s'arrête.\n**Conclusion** : le lutin dit ${n}.`,
       _v: { k: '3Algo.while', N }
     };
   },
@@ -13213,14 +13214,14 @@
   _h3a_Algo_prog4(t) {
     const a = this.randInt(2, 9), x0 = this.randInt(-10, 15, [0]);
     const R = 2 * a * x0 + a * a;
-    const code = `\`\`\`python\ndef f(x):\n    y = x + ${a}\n    y = y * y\n    return y - x * x\n\`\`\``;
+    const lines = ['quand drapeau vert pressé', 'demander [Choisis un nombre] et attendre', 'mettre [x] à réponse', `mettre [y] à (x + ${a})`, 'mettre [y] à (y * y)', 'dire (y - (x * x))'];
     return {
-      title: 'Défi : fonction Python et équation',
-      statement: `On considère la fonction Python suivante :\n${code}\n**Quel nombre $x$ faut-il donner à la fonction pour qu'elle renvoie $${R}$ ?**`,
+      title: 'Défi : programme Scratch et équation',
+      statement: `On considère le script suivant :\n${this.renderScratch(lines)}\n**Quel nombre faut-il choisir au départ pour que le lutin dise $${R}$ ?**`,
       answer: `${x0}`,
-      hint1: 'Écris l\'expression mathématique calculée par la fonction en fonction de $x$, développe-la, puis résous l\'équation obtenue.',
+      hint1: 'Note $x$ le nombre choisi : écris l\'expression calculée par le script en fonction de $x$, développe-la, puis résous l\'équation obtenue.',
       hint2: "Rappel : $(x + a)^2 = x^2 + 2ax + a^2$ ; pour résoudre $mx + p = q$, on soustrait $p$ puis on divise par $m$.",
-      solution: `La fonction calcule $(x + ${a})^2 - x^2 = x^2 + ${2 * a}x + ${a * a} - x^2 = ${2 * a}x + ${a * a}$.\n$$${2 * a}x + ${a * a} = ${R} \\iff ${2 * a}x = ${R - a * a} \\iff x = ${x0}$$\n**Conclusion** : il faut donner $x = ${x0}$.`,
+      solution: `Le script calcule $(x + ${a})^2 - x^2 = x^2 + ${2 * a}x + ${a * a} - x^2 = ${2 * a}x + ${a * a}$.\n$$${2 * a}x + ${a * a} = ${R} \\iff ${2 * a}x = ${R - a * a} \\iff x = ${x0}$$\n**Conclusion** : il faut choisir $${x0}$.`,
       _v: { k: '3Algo.prog4', a, R }
     };
   },
@@ -16033,8 +16034,8 @@
       return {
         chapterId: 'Algo',
         tier: 3,
-        title: "Boucle et calcul de puissances (Python / Scratch)",
-        statement: `On exécute le script Python suivant :\n\`\`\`python\nx = 1\nfor k in range(${iters}):\n    x = x * ${mult}\nprint(x)\n\`\`\`\n**Quelle valeur sera affichée par ce programme ?**`,
+        title: "Boucle et calcul de puissances (Scratch)",
+        statement: `On exécute le script suivant :\n${this.renderScratch(['quand drapeau vert pressé', 'mettre [x] à 1', `répéter ${iters} fois`, `    mettre [x] à (x * ${mult})`, 'dire (x)'])}\n**Quel nombre le lutin dit-il à la fin ?**`,
         type: 'exact',
         answer: String(val),
         hint1: `La boucle s'exécute $${iters}$ fois. À chaque passage, la variable $x$ est multipliée par $${mult}$. C'est le calcul de $${mult}^{${iters}}$.`,
@@ -16071,7 +16072,7 @@
       const target = this.randChoice([50, 100, 120]);
       let aCur = startA;
       let bCur = 0;
-      while (aCur < target) {
+      while (!(aCur > target)) {
         aCur *= multA;
         bCur += 1;
       }
@@ -16079,23 +16080,23 @@
       return {
         chapterId: 'Algo',
         tier: 4,
-        title: "Défi Seconde : Boucle conditionnelle 'Tant que' à variables couplées",
-        statement: `On considère l'algorithme suivant :\n\`\`\`python\nA = ${startA}\nB = 0\nwhile A < ${target}:\n    A = A * 2\n    B = B + 1\nprint(B)\n\`\`\`\n\n**Quelle sera la valeur affichée pour la variable $B$ lorsque la boucle s'arrêtera ?**`,
+        title: "Défi : boucle « répéter jusqu'à ce que » à deux variables",
+        statement: `On exécute le script suivant :\n${this.renderScratch(['quand drapeau vert pressé', `mettre [A] à ${startA}`, 'mettre [B] à 0', `répéter jusqu'à ce que (A > ${target})`, '    mettre [A] à (A * 2)', '    ajouter 1 à [B]', 'dire (B)'])}\n**Quel nombre le lutin dit-il à la fin ?**`,
         type: 'exact',
         answer: String(bCur),
-        hint1: `Fais un tableau d'état des variables $A$ et $B$ après chaque tour de boucle jusqu'à ce que $A \\ge ${target}$.`,
-        hint2: `À chaque tour, $A$ est multiplié par 2 et $B$ est incrémenté de 1.`,
+        hint1: `Fais un tableau des valeurs de $A$ et $B$ après chaque tour de boucle, jusqu'à ce que $A > ${target}$.`,
+        hint2: `À chaque tour, $A$ est multiplié par 2 et $B$ augmente de 1.`,
         solution: `Tableau d'exécution pas à pas :\n- Début : $A = ${startA}$, $B = 0$\n${(() => {
           let str = "";
           let aTmp = startA;
           let bTmp = 0;
-          while (aTmp < target) {
+          while (!(aTmp > target)) {
             aTmp *= 2;
             bTmp += 1;
-            str += `- Tour ${bTmp} : $A = ${aTmp}$, $B = ${bTmp}$ (Condition $A < ${target}$ : ${aTmp < target ? 'Vraie' : 'Fausse'})\n`;
+            str += `- Tour ${bTmp} : $A = ${aTmp}$, $B = ${bTmp}$ (condition $A > ${target}$ : ${aTmp > target ? 'vraie' : 'fausse'})\n`;
           }
           return str;
-        })()}\nLa boucle s'arrête car la condition $A < ${target}$ n'est plus vérifiée. La valeur finale affichée est donc :\n$$B = ${bCur}$$`
+        })()}\nLa boucle s'arrête dès que la condition $A > ${target}$ est vraie. Le lutin dit donc :\n$$B = ${bCur}$$`
       };
     }
   },
