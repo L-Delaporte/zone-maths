@@ -2470,6 +2470,141 @@ body.home-view-active .cycle-levels-row {
   box-shadow: 0 0 12px rgba(16, 185, 129, 0.15);
 }
 
+.chapter-trophy-card.unlocked.tier-5 .chapter-single-rank-banner {
+  background: linear-gradient(135deg, rgba(234, 179, 8, 0.18), rgba(236, 72, 153, 0.14), rgba(99, 102, 241, 0.16));
+  border-color: rgba(234, 179, 8, 0.8);
+  box-shadow: 0 0 14px rgba(234, 179, 8, 0.3);
+}
+
+.chapter-trophy-card.unlocked.tier-5 .rank-single-status {
+  color: #a16207;
+}
+
+[data-theme="dark"] .chapter-trophy-card.unlocked.tier-5 .rank-single-status {
+  color: #fde047;
+}
+
+/* ===== Trophée Grand Maître (sans aucune erreur) : animation façon jeu vidéo ===== */
+.chapter-trophy-card.tier-5 {
+  position: relative;
+  border: 2px solid #eab308;
+  animation: gm-pop 0.7s cubic-bezier(.2, 1.6, .4, 1) both, gm-aura 2.4s ease-in-out 0.7s infinite;
+}
+
+.chapter-trophy-card.tier-5 .chapter-single-rank-banner {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Reflet doré qui balaie la bannière */
+.chapter-trophy-card.tier-5 .chapter-single-rank-banner::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -60%;
+  width: 40%;
+  height: 200%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.75), transparent);
+  transform: skewX(-20deg);
+  animation: gm-shine 2.8s ease-in-out 0.8s infinite;
+  pointer-events: none;
+}
+
+.chapter-trophy-card.tier-5 .rank-single-medal {
+  display: inline-block;
+  filter: drop-shadow(0 0 6px rgba(234, 179, 8, 0.9));
+  animation: gm-bounce 1.6s ease-in-out infinite;
+}
+
+.chapter-trophy-card.tier-5 .rank-single-title {
+  white-space: normal;
+  background: linear-gradient(90deg, #92400e, #b45309, #d97706, #b45309, #92400e);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gm-text 3s linear infinite;
+}
+
+.gm-sparkles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.gm-sparkles i {
+  position: absolute;
+  font-style: normal;
+  color: #facc15;
+  text-shadow: 0 0 6px rgba(250, 204, 21, 0.9);
+  opacity: 0;
+  animation: gm-twinkle 2s ease-in-out infinite;
+}
+
+.gm-sparkles i:nth-child(1) { top: 8%;  left: 6%;  font-size: 0.8rem; animation-delay: 0s; }
+.gm-sparkles i:nth-child(2) { top: 60%; left: 14%; font-size: 0.6rem; animation-delay: 0.5s; }
+.gm-sparkles i:nth-child(3) { top: 12%; right: 10%; font-size: 0.9rem; animation-delay: 1s; }
+.gm-sparkles i:nth-child(4) { top: 65%; right: 22%; font-size: 0.7rem; animation-delay: 1.4s; }
+.gm-sparkles i:nth-child(5) { top: 35%; right: 4%;  font-size: 0.6rem; animation-delay: 0.8s; }
+
+@keyframes gm-pop {
+  0%   { transform: scale(0.6); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes gm-aura {
+  0%, 100% { box-shadow: 0 0 6px rgba(234, 179, 8, 0.35), 0 0 0 rgba(236, 72, 153, 0); }
+  50%      { box-shadow: 0 0 18px rgba(234, 179, 8, 0.75), 0 0 28px rgba(236, 72, 153, 0.25); }
+}
+
+@keyframes gm-shine {
+  0%   { left: -60%; }
+  60%, 100% { left: 130%; }
+}
+
+@keyframes gm-bounce {
+  0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+  25%      { transform: translateY(-4px) rotate(-10deg) scale(1.12); }
+  50%      { transform: translateY(0) rotate(0deg) scale(1); }
+  75%      { transform: translateY(-2px) rotate(10deg) scale(1.06); }
+}
+
+[data-theme="dark"] .chapter-trophy-card.tier-5 .rank-single-title {
+  background-image: linear-gradient(90deg, #facc15, #fde68a, #fffbeb, #fde68a, #facc15);
+}
+
+@keyframes gm-text {
+  to { background-position: 200% center; }
+}
+
+@keyframes gm-twinkle {
+  0%, 100% { opacity: 0; transform: scale(0.4) rotate(0deg); }
+  50%      { opacity: 1; transform: scale(1.2) rotate(90deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chapter-trophy-card.tier-5,
+  .chapter-trophy-card.tier-5 .chapter-single-rank-banner::after,
+  .chapter-trophy-card.tier-5 .rank-single-medal,
+  .chapter-trophy-card.tier-5 .rank-single-title,
+  .gm-sparkles i {
+    animation: none;
+  }
+  .gm-sparkles i { opacity: 0.8; }
+  .chapter-trophy-card.tier-5 { box-shadow: 0 0 12px rgba(234, 179, 8, 0.6); }
+}
+
+.chapter-trophy-flawless {
+  margin-top: 0.5rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #a16207;
+}
+
+[data-theme="dark"] .chapter-trophy-flawless {
+  color: #fde047;
+}
+
 .chapter-trophy-card.locked .chapter-single-rank-banner {
   background: var(--bg-subtle);
   border: 1px dashed var(--border-color);

@@ -1175,6 +1175,12 @@ window.MathsAdaptiveEngine = {
     const progressAfter = window.MathsStorage.updateChapterProgress(this.state.chapterId, p => {
       this.ensureProgressModel(p);
       frontierBefore = this.countValidatedTiers(p) + 1;
+      // Sans-faute : possible seulement pour un chapitre commencé à 0 %, perdu à la première erreur
+      // (les indices sont permis : ils ne sont pas des erreurs)
+      if (typeof p.flawless !== 'boolean') {
+        p.flawless = !(p.attempts > 0) && !(p.mastery > 0) && !(p.validatedTiers || []).length;
+      }
+      if (!isCorrect) p.flawless = false;
       p.attempts = (p.attempts || 0) + 1;
       p.lastPracticedAt = Date.now();
       p.tierLastAt = p.tierLastAt || {};
@@ -1427,7 +1433,8 @@ window.MathsAdaptiveEngine = {
       1: 'Novice',
       2: 'Apprenti',
       3: 'Chevalier',
-      4: 'Maître'
+      4: 'Maître',
+      5: 'Grand Maître'
     };
     const rank = ranks[tier] || 'Explorateur';
     if (!chapter) return `${rank} des Maths`;
@@ -1619,18 +1626,16 @@ window.MathsAdaptiveEngine = {
         }
       });
 
-      if (masteryPercent >= 100 || p.mastery >= 100) {
-        const masterUnlocked = window.MathsStorage.unlockBadge(`${chapterId}_master`, `Grand Maître ${chapter.shortTitle || chapter.title}`, 'Maîtrise totale à 100% du chapitre.', '👑');
-        if (masterUnlocked) {
-          newlyUnlockedBadges.push({
-            kind: 'rank',
-            tier: 4,
-            badgeId: `${chapterId}_master`,
-            title: `Grand Maître ${chapter.shortTitle || chapter.title}`,
-            desc: 'Maîtrise totale à 100% du chapitre.',
-            icon: '👑',
-            chapter
-          });
+      // (L'ancien badge « Grand Maître » à 100 % est remplacé par le trophée sans faute ci-dessous ;
+      //  100 % reste récompensé par le rang 💎 Maître.)
+
+      // Trophée supérieur « Grand Maître » : chapitre mené de 0 % à 100 % sans aucune erreur
+      if ((masteryPercent >= 100 || p.mastery >= 100) && p.flawless === true) {
+        const perfectId = `${chapterId}_perfect`;
+        const perfectTitle = this.getChapterRankTitle(chapter, 5);
+        const perfectDesc = `Chapitre ${chapter.shortTitle || chapter.title} réussi de 0 % à 100 % sans aucune erreur.`;
+        if (window.MathsStorage.unlockBadge(perfectId, perfectTitle, perfectDesc, '🌟')) {
+          newlyUnlockedBadges.push({ kind: 'rank', tier: 5, badgeId: perfectId, title: perfectTitle, desc: perfectDesc, icon: '🌟', chapter });
         }
       }
     }

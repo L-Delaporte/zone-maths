@@ -242,6 +242,34 @@ answer(false); E.nextExercise();
 check('Pastilles vert / orange / rouge / rouge', E.getTierProgressStatus('SIM').marks.join(''), 'gorr');
 check('Pastilles alignées sur les traces', S.getChapterProgress('SIM').tierMarks[1].length, S.getChapterProgress('SIM').tierWindows[1].length);
 
+// Trophée Grand Maître : chapitre mené de 0 % à 100 % sans aucune erreur (indices permis)
+const prevChapters = window.MATHS_CHAPTERS;
+const seedBefore = seed, genBefore = genCount;
+window.MATHS_CHAPTERS = [{ id: 'SIM', num: 'S1', title: 'Simulation', shortTitle: 'Simulation' }];
+const runToFull = (errorAt) => {
+  freshChapter();
+  const badges = [];
+  for (let i = 0; i < 200 && S.getChapterProgress('SIM').mastery < 100; i++) {
+    if (i === errorAt) answer(false);
+    const r = answer(true);
+    if (r && r.newlyUnlockedBadges) badges.push(...r.newlyUnlockedBadges.map(b => b.badgeId || b.id));
+    E.nextExercise();
+  }
+  return badges;
+};
+let vb = runToFull(-1);
+check('Grand Maître : sans erreur, trophée décroché à 100 %', vb.includes('SIM_perfect'), true);
+check('Grand Maître : rang Maître (100 %) aussi décroché', vb.includes('SIM_tier_4'), true);
+check('Grand Maître : titre', /^Grand Maître /.test((S.load().badges.find(b => b.id === 'SIM_perfect') || {}).title), true);
+vb = runToFull(10);
+check('Grand Maître : une seule erreur suffit à le perdre', vb.includes('SIM_perfect'), false);
+check('Grand Maître : rang Maître malgré l\'erreur', vb.includes('SIM_tier_4'), true);
+store[KEY] = JSON.stringify({ version: 2, user: { xp: 0 }, chapters: { SIM: { mastery: 30, currentTier: 2, validatedTiers: [1], completed: [], attempts: 12 } } });
+E.startChapterSession('SIM'); answer(true);
+check('Grand Maître : impossible pour un chapitre déjà commencé', S.getChapterProgress('SIM').flawless, false);
+window.MATHS_CHAPTERS = prevChapters;
+seed = seedBefore; genCount = genBefore;
+
 // Migration douce des progressions de l'ancien modèle
 store[KEY] = JSON.stringify({ version: 2, user: { xp: 0 }, chapters: {
   OLD1: { mastery: 40, currentTier: 2, validatedTiers: [1], completed: [], successesByTier: { 1: 9, 2: 4, 3: 0, 4: 0 } },

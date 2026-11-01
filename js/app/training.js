@@ -866,7 +866,7 @@ Object.assign(window.MathsApp, {
     const newValidatedTiers = result.newlyValidatedTiers || [];
     const tierUnlocked = result.unlockedTier || (result.leveledUp ? result.newTier : null);
 
-    // Filtrer les badges de rang par palier (Novice, Apprenti, Chevalier, Maître / Grand Maître)
+    // Filtrer les badges de rang par palier (Novice, Apprenti, Chevalier, Maître, Grand Maître sans faute)
     const rankBadges = newBadges.filter(b => b.kind === 'rank');
     // Badge général de tier 4 ("Cap vers la Seconde / 3e / 4e")
     const tier4Badge = newBadges.find(b => b.id === 'tier_4_unlocked');
@@ -896,6 +896,26 @@ Object.assign(window.MathsApp, {
           `🏆 Trophée débloqué dans ton passeport`,
           `⭐ Persévérance exemplaire`
         ],
+        actionLabel: `Continuer l'entraînement`
+      });
+      return true;
+    }
+
+    // 0 bis. Trophée Grand Maître : chapitre réussi de 0 % à 100 % sans aucune erreur
+    const perfectBadge = rankBadges.find(b => b.tier === 5);
+    if (perfectBadge) {
+      this.showUnlockPopup({
+        icon: '🌟',
+        category: '🌟 TROPHÉE GRAND MAÎTRE : SANS AUCUNE ERREUR !',
+        title: perfectBadge.title,
+        chapterTitle: chapter ? `${chapter.num} — ${chapter.shortTitle || chapter.title}` : '',
+        description: `Exceptionnel ! Tu as mené <em>${chapter ? (chapter.shortTitle || chapter.title) : 'ce chapitre'}</em> de <strong>0 % à 100 %</strong> sans faire <strong>aucune erreur</strong>. C'est le plus haut trophée d'un chapitre.`,
+        perks: [
+          `🌟 Titre ${perfectBadge.title}`,
+          `💎 100 % de maîtrise`,
+          `🏅 Trophée ajouté à ton passeport`
+        ],
+        isMaster: true,
         actionLabel: `Continuer l'entraînement`
       });
       return true;

@@ -76,7 +76,7 @@ Object.assign(window.MathsApp, {
       <div class="stats-section">
         <h3><span aria-hidden="true">🎖️</span> Rangs & Trophées par Chapitre — ${levelName}</h3>
         <p class="math-p" style="margin-bottom: 1rem; font-size: 0.92rem; color: var(--text-muted);">
-          Valide les paliers d'entraînement pour faire évoluer ton titre : 🥉 <strong>Novice</strong> (Palier 1 validé) ➔ 🥈 <strong>Apprenti</strong> (Palier 2 validé) ➔ 🥇 <strong>Chevalier</strong> (Palier 3 validé) ➔ 💎 <strong>Maître</strong> (100% de la notion) !
+          Valide les paliers d'entraînement pour faire évoluer ton titre : 🥉 <strong>Novice</strong> (Palier 1 validé) ➔ 🥈 <strong>Apprenti</strong> (Palier 2 validé) ➔ 🥇 <strong>Chevalier</strong> (Palier 3 validé) ➔ 💎 <strong>Maître</strong> (100% de la notion) ➔ 🌟 <strong>Grand Maître</strong> (de 0 % à 100 % sans aucune erreur) !
         </p>
         <div class="chapter-trophies-grid">
           ${this.renderChapterTrophiesHtml(levelChapters, data.badges, data.chapters)}
@@ -226,13 +226,20 @@ Object.assign(window.MathsApp, {
         highestTier = 1;
       }
 
-      const tierMedals = { 1: '🥉', 2: '🥈', 3: '🥇', 4: '💎' };
+      if (highestTier === 4 && (unlockedBadges || []).some(b => b.id === `${c.id}_perfect`)) highestTier = 5;
+
+      const tierMedals = { 1: '🥉', 2: '🥈', 3: '🥇', 4: '💎', 5: '🌟' };
       const tierLabels = {
         1: 'Palier 1 validé',
         2: 'Palier 2 validé',
         3: 'Palier 3 validé',
-        4: '100% de la notion validé'
+        4: '100% de la notion validé',
+        5: '100 % sans aucune erreur'
       };
+      // Sans-faute en cours (chapitre commencé à 0 % et aucune erreur jusqu'ici)
+      const flawlessLine = (p.flawless === true && highestTier < 4)
+        ? `<div class="chapter-trophy-flawless" title="Aucune erreur depuis le début : continue pour décrocher le trophée Grand Maître 🌟">🌟 Sans faute en cours</div>`
+        : '';
 
       const rankTitle = highestTier > 0 
         ? (engine ? engine.getChapterRankTitle(c, highestTier) : `Palier ${highestTier}`)
@@ -255,12 +262,14 @@ Object.assign(window.MathsApp, {
           </div>
 
           <div class="chapter-single-rank-banner">
+            ${highestTier === 5 ? '<span class="gm-sparkles" aria-hidden="true"><i>✦</i><i>✧</i><i>✦</i><i>✧</i><i>✦</i></span>' : ''}
             <span class="rank-single-medal">${medal}</span>
             <div class="rank-single-text">
               <span class="rank-single-status">${statusLabel}</span>
               <strong class="rank-single-title">${displayTitle}</strong>
             </div>
           </div>
+          ${flawlessLine}
         </div>
       `;
     }).join('');
