@@ -257,7 +257,11 @@ window.MathsAdaptiveEngine = {
     }
     const tier = vc + 1;
     const cfg = this.PROGRESSION;
-    const recent = (p.tierWindows[tier] || []).slice(-cfg.WINDOW);
+    const fullWin = p.tierWindows[tier] || [];
+    const recent = fullWin.slice(-cfg.WINDOW);
+    const allMarks = (p.tierMarks && Array.isArray(p.tierMarks[tier]) && p.tierMarks[tier].length === fullWin.length)
+      ? p.tierMarks[tier] : fullWin.map(c => this.markFromCredit(c));
+    const marks = allMarks.slice(-cfg.WINDOW);
     const target = this.getTierTarget(p, tier);
     const remaining = this.remainingCorrectFor(p, tier);
     const answered = p.tierAnswered[tier] || 0;
@@ -266,11 +270,26 @@ window.MathsAdaptiveEngine = {
       ? `Encore 1 bonne réponse pour ${goal} !`
       : `Encore ${remaining} bonnes réponses pour ${goal}.`;
     return {
-      complete: false, validatedCount: vc, tier, window: recent, target, remaining, answered,
+      complete: false, validatedCount: vc, tier, window: recent, marks, target, remaining, answered,
       mastery: this.computeMastery(p),
       objective: `Objectif du Palier ${tier} : ${String(target).replace('.', ',')} bonnes réponses sur les ${cfg.WINDOW} dernières questions`,
       message
     };
+  },
+
+  /**
+   * Couleur de la pastille d'une question : g = juste du premier coup, h = juste du premier coup avec indice,
+   * o = juste après une erreur, r = juste après plusieurs erreurs, ou pas (encore) trouvée.
+   */
+  answerMark(isCorrect, mistakesBefore, hintsUsed) {
+    if (!isCorrect) return 'r';
+    if (mistakesBefore === 0) return hintsUsed > 0 ? 'h' : 'g';
+    return mistakesBefore === 1 ? 'o' : 'r';
+  },
+
+  /** Pastille déduite d'une trace (anciennes données sans pastilles enregistrées). */
+  markFromCredit(c) {
+    return c >= 1 ? 'g' : c >= 0.75 ? 'h' : c >= 0.5 ? 'o' : 'r';
   },
 
   /** Crédit d'une question selon le déroulé (essais, indices, type QCM). */
@@ -1149,15 +1168,27 @@ window.MathsAdaptiveEngine = {
       p.tierLastAt = p.tierLastAt || {};
       p.tierLastAt[entryTier] = Date.now();
       const win = p.tierWindows[entryTier] || (p.tierWindows[entryTier] = []);
+      // Pastilles (couleur de chaque question), alignées sur la fenêtre des traces
+      p.tierMarks = p.tierMarks || {};
+      let marks = p.tierMarks[entryTier];
+      if (!Array.isArray(marks) || marks.length !== win.length) marks = p.tierMarks[entryTier] = win.map(c => this.markFromCredit(c));
+      const mark = this.answerMark(isCorrect, mistakesBefore, hintsUsed);
       if (!this.state.answerEntry) {
         win.push(Math.round(credit * 100) / 100);
+        marks.push(mark);
         p.tierAnswered[entryTier] = (p.tierAnswered[entryTier] || 0) + 1;
         this.state.answerEntry = { tier: entryTier };
       } else if (isCorrect && win.length) {
         win[win.length - 1] = Math.max(win[win.length - 1], Math.round(credit * 100) / 100);
+        const rank = { r: 0, o: 1, h: 2, g: 3 };
+        if (rank[mark] > rank[marks[marks.length - 1]]) marks[marks.length - 1] = mark;
       }
       // On garde un peu d'historique au-delà de la fenêtre (affichage / analyse), sans croissance infinie
-      if (win.length > 2 * this.PROGRESSION.WINDOW) win.splice(0, win.length - 2 * this.PROGRESSION.WINDOW);
+      if (win.length > 2 * this.PROGRESSION.WINDOW) {
+        const cut = win.length - 2 * this.PROGRESSION.WINDOW;
+        win.splice(0, cut);
+        marks.splice(0, cut);
+      }
 
       if (isCorrect) {
         if (!/-dyn-|-gen-|fallback/.test(exercise.id) && !p.completed.includes(exercise.id)) {

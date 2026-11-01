@@ -233,6 +233,15 @@ answer(false);
 E.nextExercise();
 check('Erreur puis question suivante : trace conservée', S.getChapterProgress('SIM').tierWindows[1].length, 1);
 
+// Pastilles : vert du premier coup, orange après une erreur, rouge après plusieurs erreurs ou si non trouvée
+freshChapter();
+answer(true); E.nextExercise();
+answer(false); answer(true); E.nextExercise();
+answer(false); answer(false); answer(true); E.nextExercise();
+answer(false); E.nextExercise();
+check('Pastilles vert / orange / rouge / rouge', E.getTierProgressStatus('SIM').marks.join(''), 'gorr');
+check('Pastilles alignées sur les traces', S.getChapterProgress('SIM').tierMarks[1].length, S.getChapterProgress('SIM').tierWindows[1].length);
+
 // Migration douce des progressions de l'ancien modèle
 store[KEY] = JSON.stringify({ version: 2, user: { xp: 0 }, chapters: {
   OLD1: { mastery: 40, currentTier: 2, validatedTiers: [1], completed: [], successesByTier: { 1: 9, 2: 4, 3: 0, 4: 0 } },

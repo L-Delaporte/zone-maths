@@ -232,14 +232,13 @@ Object.assign(window.MathsApp, {
     const W = engine.PROGRESSION.WINDOW;
     const dots = [];
     for (let i = 0; i < W; i++) {
-      const c = st.window[i];
+      const m = (st.marks || [])[i];
       let color = 'rgba(100,116,139,0.18)';
       let label = 'pas encore de réponse';
-      if (c !== undefined) {
-        if (c >= 1) { color = '#16a34a'; label = 'réussie'; }
-        else if (c > 0) { color = '#86efac'; label = 'réussie avec aide'; }
-        else { color = '#f87171'; label = 'à retravailler'; }
-      }
+      if (m === 'g') { color = '#16a34a'; label = 'réussie du premier coup'; }
+      else if (m === 'h') { color = '#86efac'; label = 'réussie du premier coup avec un indice'; }
+      else if (m === 'o') { color = '#f59e0b'; label = 'réussie après une erreur'; }
+      else if (m === 'r') { color = '#dc2626'; label = 'plusieurs erreurs ou pas trouvée'; }
       dots.push(`<span title="${label}" style="display:inline-block;width:0.8rem;height:0.8rem;border-radius:50%;background:${color};"></span>`);
     }
     const reviewNote = exercise && exercise.isReview
