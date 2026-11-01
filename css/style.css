@@ -7335,6 +7335,12 @@ body.home-view-active .cycle-levels-row {
   color: #1f2937;
 }
 
+.scratch-pen {
+  background-color: #0fbd8c;
+  border: 1px solid #0b9a72;
+  color: #1f2937;
+}
+
 .scratch-looks {
   background-color: #855cd6;
   border: 1px solid #6a45b0;

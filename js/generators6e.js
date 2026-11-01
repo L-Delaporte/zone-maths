@@ -5500,14 +5500,24 @@
         const mode = this.randChoice(['sup', 'inf']);
         const cond = mode === 'sup' ? x > s : x < s;
         const res = cond ? x * b : x + a;
-        return base("Instruction conditionnelle", {
-          statement: `Voici un algorithme :\n\n- Choisir un nombre N.\n- **Si** N est strictement ${mode === 'sup' ? 'supérieur' : 'inférieur'} à ${s}, **alors** multiplier N par ${b} ;\n- **sinon**, ajouter ${a} à N.\n- Afficher N.\n\n**Quel nombre est affiché si l'on choisit N = $${x}$ ?**`,
+        const html = this.renderScratch([
+          'quand drapeau cliqué',
+          'demander [Choisis un nombre] et attendre',
+          'mettre [N] à (réponse)',
+          `si (N ${mode === 'sup' ? '>' : '<'} ${s}) alors`,
+          `    mettre [N] à (N * ${b})`,
+          'sinon',
+          `    ajouter ${a} à [N]`,
+          'dire (N)'
+        ]);
+        return base("Instruction conditionnelle (Scratch)", {
+          statement: `On exécute le script suivant :\n${html}\n**Si l'on répond $${x}$, quel nombre le lutin dit-il ?**`,
           type: 'exact', answer: String(res), placeholder: 'Ex : 24',
           hint1: `Teste d'abord la condition : $${x}$ est-il strictement ${mode === 'sup' ? 'supérieur' : 'inférieur'} à $${s}$ ?`,
-          hint2: "Une seule des deux branches (alors / sinon) est exécutée.",
+          hint2: "Dans un bloc « si … alors … sinon », une seule des deux parties est exécutée : celle du « alors » si la condition est vraie, celle du « sinon » si elle est fausse.",
           solution: cond
-            ? `La condition est vraie, donc N devient $${x} \\times ${b} = ${res}$.`
-            : `La condition est fausse, donc N devient $${x} + ${a} = ${res}$.`,
+            ? `N vaut $${x}$ : la condition est vraie, donc on exécute la partie « alors » et N devient $${x} \\times ${b} = ${res}$.\nLe lutin dit $${res}$.`
+            : `N vaut $${x}$ : la condition est fausse, donc on exécute la partie « sinon » et N devient $${x} + ${a} = ${res}$.\nLe lutin dit $${res}$.`,
           _v: { k: '6A1.condition', x, s, a, b, mode }
         });
       }
@@ -5532,8 +5542,16 @@
       if (sub === 'imbrique') {
         const k1 = this.randInt(2, 5), k2 = this.randInt(2, 4), d = this.randChoice([5, 10, 15, 20, 25]), e = this.randInt(0, 1) ? this.randChoice([10, 20, 30]) : 0;
         const total = k1 * (k2 * d + e);
-        return base("Boucles imbriquées", {
-          statement: `Un lutin exécute l'algorithme suivant :\n\n- **Répéter ${k1} fois :**\n  - **Répéter ${k2} fois :** avancer de ${d} pas ;\n  ${e ? `- avancer de ${e} pas ;\n  ` : ''}- tourner de 90 degrés.\n\n**Combien de pas le lutin a-t-il parcourus au total ?**`,
+        const html = this.renderScratch([
+          'quand drapeau cliqué',
+          `répéter ${k1} fois`,
+          `    répéter ${k2} fois`,
+          `        avancer de ${d} pas`,
+          ...(e ? [`    avancer de ${e} pas`] : []),
+          '    tourner droite de 90 degrés'
+        ]);
+        return base("Boucles imbriquées (Scratch)", {
+          statement: `Le lutin exécute le script suivant :\n${html}\n**Combien de pas le lutin a-t-il parcourus au total ?**`,
           type: 'exact', answer: String(total), placeholder: 'Ex : 120',
           hint1: `Calcule d'abord la distance parcourue pendant UNE répétition de la grande boucle.`,
           hint2: 'Dans des boucles imbriquées, la boucle intérieure est exécutée en entier à chaque tour de la boucle extérieure.',

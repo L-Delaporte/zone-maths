@@ -141,15 +141,24 @@
             </div>
           `;
       }
-      // Tourner de N degrés
-      if (/^tourner (droite|gauche )?de\s+(.*?)\s*(degr[ée]s)?$/i.test(line)) {
-        const m = line.match(/^tourner (droite|gauche )?de\s+(.*?)\s*(degr[ée]s)?$/i);
-        const deg = m[2] || m[1];
+      // Tourner (à droite ↻ par défaut, à gauche ↺) de N degrés
+      const reTurn = /^tourner\s+(?:(?:à\s+)?(droite|gauche)\s+)?de\s+(.*?)\s*(degr[ée]s)?$/i;
+      if (reTurn.test(line)) {
+        const m = line.match(reTurn);
+        const arrow = m[1] && m[1].toLowerCase() === 'gauche' ? '↺' : '↻';
         return `
             <div class="scratch-block scratch-motion">
-              <span>tourner ↻ de</span>
-              <span class="scratch-slot-num">${deg}</span>
+              <span>tourner ${arrow} de</span>
+              <span class="scratch-slot-num">${m[2]}</span>
               <span>degrés</span>
+            </div>
+          `;
+      }
+      // Stylo (extension) : stylo en position d'écriture, relever le stylo, effacer tout
+      if (/^(stylo\b|relever le stylo|effacer tout)/i.test(line)) {
+        return `
+            <div class="scratch-block scratch-pen">
+              <span>${line}</span>
             </div>
           `;
       }
