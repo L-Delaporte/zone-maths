@@ -154,8 +154,11 @@ window.MathsAdaptiveEngine = {
    *   0     : fausse (saisie)
    *   −1/(k−1) : QCM à k choix faux du premier coup, même s'il est ensuite trouvé par élimination
    *           (correction du hasard : un élève qui répond au hasard a une espérance nulle).
-   * Un palier est validé quand la somme des WINDOW dernières traces atteint TARGET
-   * (au moins MIN_ANSWERS questions). L'objectif ne s'abaisse jamais, même après de nombreuses questions
+   * Chaque question a aussi une pastille (tierMarks) : g = juste du premier coup, h = juste du premier coup
+   * avec indice, o = juste après une erreur, r = plusieurs erreurs ou non trouvée.
+   * Un palier est validé quand les WINDOW dernières pastilles comptent au moins TARGET bonnes réponses
+   * du premier coup (g ou h), ou TARGET + 1 si un indice a été utilisé dans la fenêtre (choix du professeur),
+   * avec au moins MIN_ANSWERS questions. Les traces numériques servent aux messages d'aide. L'objectif ne s'abaisse jamais, même après de nombreuses questions
    * (choix du professeur : les paliers montent déjà vite).
    * Un palier validé ne se perd jamais ; la maîtrise affichée vaut 25 % par palier validé
    * plus l'avancement vers l'objectif du palier en cours.
@@ -207,18 +210,28 @@ window.MathsAdaptiveEngine = {
     return p;
   },
 
-  getTierTarget(p, tier) {
-    return this.PROGRESSION.TARGET;
+  /** Pastilles du palier (g, h, o, r), alignées sur les traces ; déduites des traces pour les anciennes données. */
+  tierMarksOf(p, tier) {
+    const win = (p && p.tierWindows && p.tierWindows[tier]) || [];
+    const m = p && p.tierMarks && p.tierMarks[tier];
+    return (Array.isArray(m) && m.length === win.length) ? m : win.map(c => this.markFromCredit(c));
   },
 
-  windowSum(list) {
-    return (list || []).slice(-this.PROGRESSION.WINDOW).reduce((s, c) => s + c, 0);
+  /** Objectif : TARGET bonnes réponses sur les WINDOW dernières, une de plus si un indice a servi dans la fenêtre. */
+  getTierTarget(p, tier) {
+    const recent = this.tierMarksOf(p, tier).slice(-this.PROGRESSION.WINDOW);
+    return this.PROGRESSION.TARGET + (recent.includes('h') ? 1 : 0);
+  },
+
+  /** Nombre de bonnes réponses du premier coup (pastilles vertes, claires comprises) dans la fenêtre. */
+  windowGood(p, tier) {
+    return this.tierMarksOf(p, tier).slice(-this.PROGRESSION.WINDOW).filter(m => m === 'g' || m === 'h').length;
   },
 
   isTierObjectiveMet(p, tier) {
     const answered = (p.tierAnswered && p.tierAnswered[tier]) || 0;
     return answered >= this.PROGRESSION.MIN_ANSWERS
-      && this.windowSum(p.tierWindows[tier]) >= this.getTierTarget(p, tier) - 1e-9;
+      && this.windowGood(p, tier) >= this.getTierTarget(p, tier);
   },
 
   /** Maîtrise affichée (0-100) : 25 % par palier validé + avancement vers l'objectif du palier en cours. */
@@ -226,19 +239,20 @@ window.MathsAdaptiveEngine = {
     const vc = this.countValidatedTiers(p);
     if (vc >= 4) return 100;
     const t = vc + 1;
-    const target = this.getTierTarget(p, t);
-    const frac = Math.max(0, Math.min(1, this.windowSum(p.tierWindows && p.tierWindows[t]) / target));
+    const frac = Math.max(0, Math.min(1, this.windowGood(p, t) / this.getTierTarget(p, t)));
     return 25 * vc + Math.min(24, Math.floor(25 * frac));
   },
 
-  /** Nombre minimal de bonnes réponses (du premier coup) encore nécessaires pour valider `tier`. */
+  /** Nombre minimal de bonnes réponses (du premier coup, sans indice) encore nécessaires pour valider `tier`. */
   remainingCorrectFor(p, tier) {
     const win = ((p.tierWindows && p.tierWindows[tier]) || []).slice();
+    const marks = this.tierMarksOf(p, tier).slice();
     let answered = (p.tierAnswered && p.tierAnswered[tier]) || 0;
-    const sim = { tierWindows: { [tier]: win }, tierAnswered: { [tier]: answered } };
+    const sim = { tierWindows: { [tier]: win }, tierMarks: { [tier]: marks }, tierAnswered: { [tier]: answered } };
     for (let k = 0; k <= this.PROGRESSION.WINDOW + this.PROGRESSION.MIN_ANSWERS; k++) {
       if (this.isTierObjectiveMet(sim, tier)) return k;
       win.push(1);
+      marks.push('g');
       sim.tierAnswered[tier] = ++answered;
     }
     return this.PROGRESSION.WINDOW;
@@ -259,9 +273,7 @@ window.MathsAdaptiveEngine = {
     const cfg = this.PROGRESSION;
     const fullWin = p.tierWindows[tier] || [];
     const recent = fullWin.slice(-cfg.WINDOW);
-    const allMarks = (p.tierMarks && Array.isArray(p.tierMarks[tier]) && p.tierMarks[tier].length === fullWin.length)
-      ? p.tierMarks[tier] : fullWin.map(c => this.markFromCredit(c));
-    const marks = allMarks.slice(-cfg.WINDOW);
+    const marks = this.tierMarksOf(p, tier).slice(-cfg.WINDOW);
     const target = this.getTierTarget(p, tier);
     const remaining = this.remainingCorrectFor(p, tier);
     const answered = p.tierAnswered[tier] || 0;
@@ -272,7 +284,7 @@ window.MathsAdaptiveEngine = {
     return {
       complete: false, validatedCount: vc, tier, window: recent, marks, target, remaining, answered,
       mastery: this.computeMastery(p),
-      objective: `Objectif du Palier ${tier} : ${String(target).replace('.', ',')} bonnes réponses sur les ${cfg.WINDOW} dernières questions`,
+      objective: `Objectif du Palier ${tier} : ${target} bonnes réponses du premier coup sur les ${cfg.WINDOW} dernières questions${target > cfg.TARGET ? ' (une de plus, car un indice a été utilisé)' : ''}`,
       message
     };
   },
@@ -1289,7 +1301,12 @@ window.MathsAdaptiveEngine = {
         progress: status,
         progressMessage: leveledUp ? (status.complete ? '' : status.objective + '.') : progressMessage,
         solution: this.formatSolutionWithInitialExpr(exercise.statement, exercise.solution),
-        feedback: credit >= 1 ? "Bravo ! Réponse correcte." : "Réponse correcte ! (comptée partiellement : aide ou plusieurs essais)"
+        feedback: ({
+          g: "Bravo ! Réponse correcte.",
+          h: "Réponse correcte ! (avec un indice : il faut alors 7 bonnes réponses sur 8 pour valider le palier)",
+          o: "Réponse correcte ! (trouvée après une erreur : elle ne compte pas pour valider le palier)",
+          r: "Réponse correcte ! (trouvée après plusieurs erreurs : elle ne compte pas pour valider le palier)"
+        })[this.answerMark(true, mistakesBefore, hintsUsed)]
       };
     }
 

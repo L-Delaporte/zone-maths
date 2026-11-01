@@ -308,9 +308,20 @@ function profile(label, p, opts, ranges) {
 const strong = profile('Élève fort (90 %)', 0.9, { mcq: 0.3 }, { 1: [6, 9], 2: [6, 10], 3: [6, 10], 4: [6, 10] });
 check('Élève fort : jamais de palier validé en moins de 6 questions', strong.every(r => r[1] >= P.MIN_ANSWERS), true);
 profile('Élève moyen (70 %)', 0.7, { mcq: 0.3 }, { 1: [6, 12], 2: [7, 14], 3: [7, 14], 4: [7, 14] });
-const weak = profile('Élève en difficulté (45 %)', 0.45, { mcq: 0.3 }, { 1: [8, 30] });
+// Pastilles orange (juste après une erreur) non comptées : environ 31 questions en médiane (25 avant le 1/11/2026)
+const weak = profile('Élève en difficulté (45 %)', 0.45, { mcq: 0.3 }, { 1: [8, 40] });
 check('Élève à 45 % : jamais bloqué au palier 1 (toujours validé, sans allègement)', weak.every(r => r[1]), true);
-check('Objectif inchangé (6 sur 8) même après 16 questions sur le palier', E.getTierTarget({ tierAnswered: { 1: 40 }, tierWindows: { 1: Array(40).fill(0.75) } }, 1), P.TARGET);
+check('Objectif inchangé (6 sur 8) même après 16 questions sur le palier', E.getTierTarget({ tierAnswered: { 1: 40 }, tierWindows: { 1: Array(40).fill(1) } }, 1), P.TARGET);
+// Indice utilisé dans la fenêtre : 7 bonnes réponses sur 8 au lieu de 6
+const withHint = { tierAnswered: { 1: 8 }, tierWindows: { 1: [1, 1, 1, 1, 1, 0.75, 0, 0] }, tierMarks: { 1: ['g', 'g', 'g', 'g', 'g', 'h', 'r', 'r'] } };
+check('Indice dans la fenêtre : objectif 7', E.getTierTarget(withHint, 1), P.TARGET + 1);
+check('6 bonnes dont une avec indice : palier non validé', E.isTierObjectiveMet(withHint, 1), false);
+withHint.tierWindows[1][6] = 1; withHint.tierMarks[1][6] = 'g';
+check('7 bonnes dont une avec indice : palier validé', E.isTierObjectiveMet(withHint, 1), true);
+const noHint = { tierAnswered: { 1: 8 }, tierWindows: { 1: [1, 1, 1, 1, 1, 1, 0.5, 0] }, tierMarks: { 1: ['g', 'g', 'g', 'g', 'g', 'g', 'o', 'r'] } };
+check('6 vertes sans indice : palier validé', E.isTierObjectiveMet(noHint, 1), true);
+noHint.tierMarks[1][5] = 'o';
+check('Orange non comptée : 5 vertes ne suffisent pas', E.isTierObjectiveMet(noHint, 1), false);
 const guessers = Array.from({ length: 40 }, () => simulate(0, { mcq: 1, guess: true, maxQ: 100 }));
 check('QCM au hasard : palier 1 presque jamais validé en 100 questions', guessers.filter(r => r[1]).length <= 4, true);
 mcqRate = 0;
