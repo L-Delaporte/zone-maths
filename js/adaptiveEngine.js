@@ -426,7 +426,7 @@ window.MathsAdaptiveEngine = {
    * Tire un exercice de la banque statique du chapitre (de préférence du palier courant),
    * en évitant les énoncés récents puis les exercices déjà réussis.
    */
-  pickStaticExercise(chapterId, tier, progress, recentStatements = []) {
+  pickStaticExercise(chapterId, tier, progress, recentStatements = [], freshOnly = false) {
     const capesExos = window.CAPES_EXERCISES && window.CAPES_EXERCISES[chapterId];
     const proofExos = window.PROOF_EXERCISES && window.PROOF_EXERCISES[chapterId];
     const exercises = (window.MATHS_EXERCISES && window.MATHS_EXERCISES[chapterId]) || capesExos || proofExos || [];
@@ -435,6 +435,8 @@ window.MathsAdaptiveEngine = {
     if (!pool.length) pool = exercises;
     const fresh = pool.filter(e => !recentStatements.includes(e.statement));
     if (fresh.length) pool = fresh;
+    // En complément du générateur : ne jamais resservir un énoncé vu récemment (banques d'un seul exercice par palier)
+    else if (freshOnly) return null;
     const completedSet = new Set((progress && progress.completed) || []);
     const notDone = pool.filter(e => !completedSet.has(e.id));
     if (notDone.length) pool = notDone;
@@ -486,7 +488,7 @@ window.MathsAdaptiveEngine = {
     let candidate = null;
     const chapterId = this.state.chapterId;
     const recent = this.getRecentStatements(chapterId);
-    const staticPick = () => this.pickStaticExercise(chapterId, genTier, progress, recent);
+    const staticPick = (freshOnly = false) => this.pickStaticExercise(chapterId, genTier, progress, recent, freshOnly);
 
     // 1. Génération procédurale (nouvelles valeurs à chaque tirage), avec anti-répétition
     //    sur l'historique récent du chapitre et non plus seulement sur la question précédente.
@@ -507,7 +509,7 @@ window.MathsAdaptiveEngine = {
       }
       // Générateur à court d'énoncés nouveaux (ou mélange occasionnel) : puiser dans la banque statique
       if (candidate && (isRepeat || Math.random() < this.STATIC_MIX_RATE)) {
-        candidate = staticPick() || candidate;
+        candidate = staticPick(true) || candidate;
       }
     }
 
