@@ -190,6 +190,114 @@ La nouvelle dépense est de **$161$ €**.
 
 **b)** Par distributivité, $12 \\times (9{,}50 - 1) = 12 \\times 9{,}50 - 12 \\times 1$ et $8 \\times (6{,}50 - 1) = 8 \\times 6{,}50 - 8 \\times 1$.
 L'économie est donc $12 \\times 1 + 8 \\times 1 = 20$ € : $1$ € par billet pour $20$ billets. On vérifie : $181 - 161 = 20$ €.`
+    },
+    {
+      id: "5N1-ds-09",
+      title: "Crochets et traits de fraction",
+      difficulty: 1,
+      points: 4,
+      statement: `Calculer chacune des expressions suivantes en détaillant les étapes, sans calculatrice.
+
+$$A = \\frac{45 - 9}{4 \\times 3} \\qquad B = 60 - [\\,4 \\times (7 - 2) + 8\\,] \\qquad C = 2 \\times [\\,18 - (3 + 4) \\times 2\\,] \\qquad D = \\frac{7 \\times 8 - 6}{2 + 3}$$
+
+1. Calculer $A$.
+2. Réécrire $A$ sur une seule ligne, avec le symbole $\\div$ et des parenthèses.
+3. Calculer $B$ et $C$.
+4. Calculer $D$.`,
+      solution: `**1.** Un trait de fraction joue le rôle de parenthèses : on calcule séparément le numérateur et le dénominateur.
+$A = \\frac{45 - 9}{4 \\times 3} = \\frac{36}{12} = 3$.
+
+**2.** Le numérateur et le dénominateur doivent rester groupés : $A = (45 - 9) \\div (4 \\times 3)$.
+(Sans parenthèses, $45 - 9 \\div 4 \\times 3$ donnerait un tout autre calcul.)
+
+**3.** On commence par les parenthèses les plus intérieures, puis les crochets.
+$B = 60 - [\\,4 \\times 5 + 8\\,] = 60 - [\\,20 + 8\\,] = 60 - 28 = 32$.
+$C = 2 \\times [\\,18 - 7 \\times 2\\,] = 2 \\times [\\,18 - 14\\,] = 2 \\times 4 = 8$.
+
+**4.** Au numérateur, la multiplication est prioritaire : $7 \\times 8 - 6 = 56 - 6 = 50$. Au dénominateur : $2 + 3 = 5$.
+$D = \\frac{50}{5} = 10$.`
+    },
+    {
+      id: "5N1-ds-10",
+      title: "Ranger des œufs dans des boîtes",
+      difficulty: 2,
+      points: 5,
+      statement: `Une ferme a ramassé $347$ œufs dans la journée. On les range dans des boîtes de $6$ œufs.
+
+1. Effectuer la division euclidienne de $347$ par $6$ et écrire l'égalité correspondante.
+2. Combien de boîtes peut-on remplir complètement ? Combien d'œufs reste-t-il hors des boîtes ?
+3. Chaque boîte pleine est vendue $2$ €. Écrire en une seule expression la recette obtenue si l'on vend toutes les boîtes pleines sauf $7$, puis la calculer.
+4. Le lendemain, on reçoit des boîtes de $12$ œufs. Combien de boîtes de $12$ peut-on remplir avec les $347$ œufs ? Combien d'œufs restent ?`,
+      solution: `**1.** $6 \\times 50 = 300$ et $6 \\times 57 = 342$, $6 \\times 58 = 348 > 347$. Le quotient est $57$ et le reste $347 - 342 = 5$.
+$$347 = 6 \\times 57 + 5 \\quad \\text{avec } 5 < 6.$$
+
+**2.** On peut remplir **$57$ boîtes** et il reste **$5$ œufs** (le reste est bien inférieur à $6$ : on ne peut pas remplir une boîte de plus).
+
+**3.** On vend $57 - 7$ boîtes à $2$ € : la recette est $(57 - 7) \\times 2$. Les parenthèses sont indispensables, car la soustraction doit être faite avant la multiplication.
+$(57 - 7) \\times 2 = 50 \\times 2 = 100$ €.
+
+**4.** $12 \\times 28 = 336$ et $12 \\times 29 = 348 > 347$. Donc $347 = 12 \\times 28 + 11$ avec $11 < 12$.
+On remplit **$28$ boîtes de $12$** et il reste **$11$ œufs**.`
+    },
+    {
+      id: "5N1-ds-11",
+      title: "Les erreurs de calcul de Tom",
+      difficulty: 3,
+      points: 5,
+      statement: `Tom a fait les calculs suivants, mais ils sont tous faux.
+
+- a) $30 - 4 \\times 5 = 130$
+- b) $48 \\div 4 \\times 2 = 6$
+- c) $20 - 8 + 2 = 10$
+- d) $3 + 2 \\times (5 + 1) = 30$
+
+1. Pour chaque calcul, expliquer quelle erreur Tom a commise, puis donner le bon résultat en détaillant.
+2. Tom doit calculer « la moitié de la somme de $18$ et de $6$ ». Il écrit $18 + 6 \\div 2 = 21$.
+   a) Pourquoi son expression ne traduit-elle pas la phrase ?
+   b) Écrire une expression correcte et la calculer.`,
+      solution: `**1.**
+a) Tom a d'abord calculé $30 - 4 = 26$, puis $26 \\times 5 = 130$. Or la multiplication est prioritaire sur la soustraction :
+$30 - 4 \\times 5 = 30 - 20 = 10$.
+
+b) Tom a calculé $4 \\times 2 = 8$ en premier, puis $48 \\div 8 = 6$. Or, entre multiplications et divisions, on calcule **de gauche à droite** :
+$48 \\div 4 \\times 2 = 12 \\times 2 = 24$.
+
+c) Tom a calculé $8 + 2 = 10$ en premier, puis $20 - 10 = 10$. Entre additions et soustractions, on calcule aussi de gauche à droite :
+$20 - 8 + 2 = 12 + 2 = 14$.
+
+d) Tom a calculé $(3 + 2) \\times 6 = 30$, comme s'il y avait des parenthèses autour de $3 + 2$. Après la parenthèse, la multiplication reste prioritaire :
+$3 + 2 \\times (5 + 1) = 3 + 2 \\times 6 = 3 + 12 = 15$.
+
+**2.** a) Dans $18 + 6 \\div 2$, la division est prioritaire : on ne prend la moitié que de $6$. L'expression est une somme, alors que la phrase décrit un quotient (« la moitié de… »).
+b) Il faut grouper la somme avec des parenthèses : $(18 + 6) \\div 2 = 24 \\div 2 = 12$.`
+    },
+    {
+      id: "5N1-ds-12",
+      title: "Le compte est bon",
+      difficulty: 4,
+      points: 6,
+      statement: `Dans un jeu, on dispose des quatre nombres $2$, $3$, $5$ et $25$. On doit utiliser **chacun d'eux exactement une fois**, avec les opérations $+$, $-$, $\\times$, $\\div$ et autant de parenthèses que l'on veut, pour obtenir un nombre cible.
+
+1. La cible est $100$. Ana propose $25 - 5 \\times 3 + 2$ et Bilal propose $(25 - 5) \\times (3 + 2)$.
+   a) Calculer chaque proposition.
+   b) Qui a atteint la cible ?
+2. La cible est $125$. Proposer une expression qui convient et la calculer.
+3. La cible est $1$. Proposer une expression qui convient et la calculer.
+4. On considère $C = 25 \\times 2 + 3 \\times 5$.
+   a) Calculer $C$.
+   b) $C$ est-il une somme ou un produit ? Traduire $C$ par une phrase utilisant les mots « somme » et « produit ».`,
+      solution: `**1.** a) Ana : la multiplication est prioritaire, $25 - 5 \\times 3 + 2 = 25 - 15 + 2 = 10 + 2 = 12$.
+Bilal : on calcule les parenthèses d'abord, $(25 - 5) \\times (3 + 2) = 20 \\times 5 = 100$.
+b) C'est **Bilal** qui a atteint la cible $100$.
+
+**2.** Par exemple $25 \\times 5 \\times (3 - 2) = 125 \\times 1 = 125$.
+Chaque nombre est utilisé une fois. (D'autres réponses sont possibles.)
+
+**3.** Par exemple $(25 \\div 5 - 3) \\div 2$ : on calcule $25 \\div 5 = 5$, puis $5 - 3 = 2$, puis $2 \\div 2 = 1$.
+Les quatre nombres sont utilisés une fois chacun. (D'autres réponses sont possibles.)
+
+**4.** a) Les multiplications sont prioritaires : $C = 50 + 15 = 65$.
+b) La dernière opération effectuée est l'addition : $C$ est une **somme**. Phrase : « $C$ est la somme du produit de $25$ par $2$ et du produit de $3$ par $5$ ».`
     }
   ],
   "5N2": [
@@ -410,6 +518,107 @@ Le compte devient négatif **après le paiement du loyer** (solde $-35$ €).
 Solde final : $125 + 235 - 387{,}50 = 360 - 387{,}50 = -27{,}50$ €. On retrouve le même résultat.
 
 **4.** $100 - (-27{,}50) = 100 + 27{,}50 = 127{,}50$. Nadia doit verser **$127{,}50$ €**.`
+    },
+    {
+      id: "5N2-ds-09",
+      title: "Opposés et distance à zéro",
+      difficulty: 1,
+      points: 4,
+      statement: `On considère les nombres suivants :
+$$-7 \\qquad 4{,}5 \\qquad 0 \\qquad -2{,}5 \\qquad 6 \\qquad -6$$
+
+1. Donner l'opposé de chacun de ces nombres.
+2. Quels sont, dans cette liste, les deux nombres opposés l'un de l'autre ?
+3. Donner la distance à zéro de $-7$, de $4{,}5$ et de $-2{,}5$.
+4. Sur une droite graduée, le point $A$ a pour abscisse $-3$ et le point $B$ a pour abscisse $5$. Quelle est la longueur du segment $[AB]$ (en unités de graduation) ? Justifier.`,
+      solution: `**1.** L'opposé d'un nombre a la même distance à zéro mais le signe contraire :
+- opposé de $-7$ : $7$ ;
+- opposé de $4{,}5$ : $-4{,}5$ ;
+- opposé de $0$ : $0$ ;
+- opposé de $-2{,}5$ : $2{,}5$ ;
+- opposé de $6$ : $-6$ ;
+- opposé de $-6$ : $6$.
+
+**2.** $6$ et $-6$ sont opposés : leur somme vaut $0$ et ils sont à la même distance de zéro, de part et d'autre.
+
+**3.** La distance à zéro est le nombre sans son signe : $-7$ est à $7$ unités de zéro, $4{,}5$ à $4{,}5$ unités et $-2{,}5$ à $2{,}5$ unités.
+
+**4.** $A$ est à $3$ unités à gauche de zéro et $B$ à $5$ unités à droite. Les deux points sont de part et d'autre de l'origine, donc $AB = 3 + 5 = 8$ unités. On peut aussi calculer $5 - (-3) = 5 + 3 = 8$.`
+    },
+    {
+      id: "5N2-ds-10",
+      title: "L'ascenseur de l'hôtel",
+      difficulty: 2,
+      points: 5,
+      statement: `Dans un hôtel, les étages sont numérotés de $-3$ (parking le plus bas) à $12$. Le rez-de-chaussée porte le numéro $0$. Un déplacement vers le haut est compté positivement, un déplacement vers le bas négativement.
+
+1. Un client part de l'étage $4$, monte de $6$ étages, puis descend de $13$ étages. À quel étage arrive-t-il ? Écrire le calcul.
+2. Le groom part de l'étage $-2$ et arrive à l'étage $9$. Quel est son déplacement ?
+3. Une cliente part de l'étage $11$ et arrive au parking $-3$. Quel est son déplacement ?
+4. L'ascenseur part de l'étage $-1$ et effectue successivement les déplacements $+8$ ; $-5$ ; $+9$ ; $-14$. Calculer l'étage d'arrivée. L'ascenseur est-il resté dans le bâtiment pendant tout le trajet ?`,
+      solution: `**1.** $4 + (+6) + (-13) = 10 + (-13) = -3$. Le client arrive à l'étage **$-3$** (le parking le plus bas).
+
+**2.** Le déplacement est « arrivée $-$ départ » : $9 - (-2) = 9 + 2 = +11$. Le groom **monte de $11$ étages**.
+
+**3.** $-3 - 11 = -14$. La cliente **descend de $14$ étages**.
+
+**4.** On suit les étages successifs :
+- $-1 + 8 = 7$ ;
+- $7 + (-5) = 2$ ;
+- $2 + 9 = 11$ ;
+- $11 + (-14) = -3$.
+L'ascenseur arrive à l'étage **$-3$**. Les étages atteints ($7$ ; $2$ ; $11$ ; $-3$) sont tous compris entre $-3$ et $12$ : l'ascenseur est bien resté dans le bâtiment.`
+    },
+    {
+      id: "5N2-ds-11",
+      title: "Les décalages horaires",
+      difficulty: 3,
+      points: 5,
+      statement: `En hiver, le tableau suivant donne le décalage horaire de quelques villes par rapport à Paris (un décalage de $-6$ signifie qu'il est $6$ heures de moins qu'à Paris).
+
+| Ville | New York | Tokyo | Los Angeles | Dubaï |
+|---|---|---|---|---|
+| Décalage (en h) | $-6$ | $+8$ | $-9$ | $+3$ |
+
+1. Quand il est $14$ h à Paris, quelle heure est-il à New York ? À Tokyo ?
+2. Quel est le décalage horaire entre Tokyo et New York ? Justifier par un calcul.
+3. Quand il est $2$ h du matin à Los Angeles, quelle heure est-il à Dubaï ?
+4. Un avion décolle de New York à $18$ h (heure de New York) pour Paris. Le vol dure $7$ h. À quelle heure (heure de Paris) atterrit-il ?`,
+      solution: `**1.** À New York : $14 + (-6) = 8$, il est **$8$ h**. À Tokyo : $14 + 8 = 22$, il est **$22$ h**.
+
+**2.** On calcule la différence des décalages : $8 - (-6) = 8 + 6 = 14$. Il est **$14$ heures de plus à Tokyo qu'à New York**.
+
+**3.** Décalage de Dubaï par rapport à Los Angeles : $3 - (-9) = 3 + 9 = 12$. Il est $12$ heures de plus à Dubaï : $2 + 12 = 14$, il est **$14$ h** à Dubaï.
+
+**4.** L'avion arrive à $18 + 7 = 25$ h, heure de New York, c'est-à-dire $1$ h du matin le lendemain (heure de New York).
+Paris a $6$ heures d'avance sur New York : $1 + 6 = 7$. L'avion atterrit à **$7$ h du matin, heure de Paris**.`
+    },
+    {
+      id: "5N2-ds-12",
+      title: "Une suite qui se répète",
+      difficulty: 4,
+      points: 6,
+      statement: `On écrit une liste de nombres en suivant la règle : **chaque nombre est égal au précédent moins celui d'avant**. On commence par $4$ puis $-3$. Le troisième nombre est donc $-3 - 4 = -7$.
+
+1. Calculer les nombres de la liste du $4^\\text{e}$ au $8^\\text{e}$, en détaillant chaque calcul.
+2. Que remarque-t-on à partir du $7^\\text{e}$ nombre ? Expliquer pourquoi la liste se répète ensuite indéfiniment.
+3. Quel est le $20^\\text{e}$ nombre de la liste ? Justifier.
+4. a) Calculer la somme des $6$ premiers nombres.
+   b) En déduire la somme des $20$ premiers nombres.`,
+      solution: `**1.** On applique la règle « précédent $-$ celui d'avant » :
+- $4^\\text{e}$ : $-7 - (-3) = -7 + 3 = -4$ ;
+- $5^\\text{e}$ : $-4 - (-7) = -4 + 7 = 3$ ;
+- $6^\\text{e}$ : $3 - (-4) = 3 + 4 = 7$ ;
+- $7^\\text{e}$ : $7 - 3 = 4$ ;
+- $8^\\text{e}$ : $4 - 7 = -3$.
+La liste commence par : $4$ ; $-3$ ; $-7$ ; $-4$ ; $3$ ; $7$ ; $4$ ; $-3$.
+
+**2.** Les $7^\\text{e}$ et $8^\\text{e}$ nombres sont $4$ et $-3$, comme les deux premiers. Chaque nombre ne dépend que des deux précédents : la suite des calculs recommence donc à l'identique. La liste se répète **par blocs de $6$ nombres** : $4$ ; $-3$ ; $-7$ ; $-4$ ; $3$ ; $7$.
+
+**3.** $20 = 6 \\times 3 + 2$ : après $3$ blocs complets ($18$ nombres), le $20^\\text{e}$ nombre est le $2^\\text{e}$ d'un bloc. C'est **$-3$**.
+
+**4.** a) $4 + (-3) + (-7) + (-4) + 3 + 7$. On regroupe les opposés : $(-3) + 3 = 0$, $(-7) + 7 = 0$, $4 + (-4) = 0$. La somme vaut **$0$**.
+b) Les $18$ premiers nombres forment $3$ blocs de somme nulle. Il reste les $19^\\text{e}$ et $20^\\text{e}$ nombres, $4$ et $-3$ : la somme des $20$ premiers nombres vaut $0 + 4 + (-3) = 1$.`
     }
   ],
   "5N3": [
@@ -601,6 +810,113 @@ $54 \\div 18 = 3$ et $3 \\times 7 = 21$ : il reste **$21$ litres**.
 
 **4.** $\\dfrac{1}{3} = \\dfrac{6}{18}$ et $\\dfrac{6}{18} < \\dfrac{7}{18}$ : c'est **possible**.
 On utilise $54 \\div 3 = 18$ L ; il restera $21 - 18 = 3$ litres (soit $\\dfrac{1}{18}$ de la cuve).`
+    },
+    {
+      id: "5N3-ds-09",
+      title: "Quotients et écritures décimales",
+      difficulty: 1,
+      points: 4,
+      statement: `1. Compléter chaque égalité par une fraction :
+   a) $3 \\times \\ldots = 7$
+   b) $8 \\times \\ldots = 30$
+2. Donner l'écriture décimale de $\\frac{7}{4}$ et de $\\frac{3}{8}$.
+3. a) Simplifier la fraction $\\frac{30}{8}$, puis donner son écriture décimale.
+   b) Vérifier que $8 \\times 3{,}75 = 30$.
+4. La fraction $\\frac{2}{3}$ a-t-elle une écriture décimale exacte ? En donner une valeur approchée au centième.`,
+      solution: `**1.** Par définition, le quotient de $a$ par $b$ est le nombre qui, multiplié par $b$, donne $a$ ; il s'écrit $\\frac{a}{b}$.
+a) $3 \\times \\frac{7}{3} = 7$.
+b) $8 \\times \\frac{30}{8} = 30$.
+
+**2.** $\\frac{7}{4} = 7 \\div 4 = 1{,}75$ et $\\frac{3}{8} = 3 \\div 8 = 0{,}375$.
+
+**3.** a) On divise le numérateur et le dénominateur par $2$ : $\\frac{30}{8} = \\frac{15}{4}$. Et $15 \\div 4 = 3{,}75$.
+b) $8 \\times 3{,}75 = 8 \\times 3 + 8 \\times 0{,}75 = 24 + 6 = 30$. On retrouve bien que $\\frac{30}{8} = 3{,}75$ est le nombre qui, multiplié par $8$, donne $30$.
+
+**4.** En posant la division de $2$ par $3$, on obtient $0{,}666\\ldots$ : le chiffre $6$ se répète sans fin, la division ne « tombe jamais juste ». $\\frac{2}{3}$ n'a donc **pas d'écriture décimale exacte**. Une valeur approchée au centième est $0{,}67$.`
+    },
+    {
+      id: "5N3-ds-10",
+      title: "Quel sirop est le plus sucré ?",
+      difficulty: 2,
+      points: 5,
+      statement: `Pour préparer une boisson, Inès mélange du sirop et de l'eau.
+- Verre A : $3$ cL de sirop pour un mélange total de $20$ cL.
+- Verre B : $4$ cL de sirop pour un mélange total de $25$ cL.
+
+1. Quelle est la proportion de sirop dans le verre A ? Dans le verre B ? (Répondre par une fraction.)
+2. Écrire ces deux proportions avec le dénominateur $100$, puis dire quel verre a le goût de sirop le plus prononcé.
+3. Quelle est la proportion d'eau dans le verre A ?
+4. Inès verse les deux verres dans une carafe. Quelle est la proportion de sirop dans la carafe ? Est-elle plus grande ou plus petite que celle du verre A ? Justifier.`,
+      solution: `**1.** La proportion de sirop est « quantité de sirop $\\div$ quantité totale » : $\\frac{3}{20}$ pour le verre A et $\\frac{4}{25}$ pour le verre B.
+
+**2.** $\\frac{3}{20} = \\frac{3 \\times 5}{20 \\times 5} = \\frac{15}{100}$ et $\\frac{4}{25} = \\frac{4 \\times 4}{25 \\times 4} = \\frac{16}{100}$.
+Comme $\\frac{16}{100} > \\frac{15}{100}$, le **verre B** est le plus sucré ($16\\,\\%$ de sirop contre $15\\,\\%$).
+
+**3.** Il y a $20 - 3 = 17$ cL d'eau sur $20$ cL : la proportion d'eau est $\\frac{17}{20}$. (On peut aussi calculer $1 - \\frac{3}{20} = \\frac{20}{20} - \\frac{3}{20} = \\frac{17}{20}$.)
+
+**4.** Dans la carafe, il y a $3 + 4 = 7$ cL de sirop pour $20 + 25 = 45$ cL : la proportion de sirop est $\\frac{7}{45}$.
+Pour comparer avec $\\frac{3}{20}$, on prend un dénominateur commun : $180$ est un multiple de $45$ et de $20$.
+$\\frac{7}{45} = \\frac{28}{180}$ et $\\frac{3}{20} = \\frac{27}{180}$. Comme $28 > 27$, la proportion de sirop dans la carafe est **plus grande** que dans le verre A (mais plus petite que dans le verre B).`
+    },
+    {
+      id: "5N3-ds-11",
+      title: "Le samedi de Zoé",
+      difficulty: 3,
+      points: 5,
+      statement: `Un samedi, Zoé a passé :
+- $\\frac{3}{8}$ de la journée à dormir ;
+- $\\frac{1}{12}$ de la journée à faire du sport ;
+- $\\frac{1}{8}$ de la journée à prendre ses repas ;
+- $\\frac{1}{6}$ de la journée devant un écran.
+
+Une journée dure $24$ heures.
+
+1. Combien d'heures Zoé a-t-elle dormi ?
+2. Quelle fraction de la journée représentent ces quatre activités ensemble ? Donner le résultat sous forme simplifiée.
+3. Quelle fraction de la journée lui reste-t-il pour ses autres activités ? Combien d'heures cela représente-t-il ?
+4. Zoé affirme : « J'ai passé deux fois plus de temps devant un écran qu'à faire du sport. » A-t-elle raison ? Calculer la différence entre ces deux fractions de la journée.`,
+      solution: `**1.** $\\frac{3}{8}$ de $24$ h : $24 \\div 8 = 3$, puis $3 \\times 3 = 9$. Zoé a dormi **$9$ heures**.
+
+**2.** On réduit au même dénominateur $24$ (multiple de $8$, de $12$ et de $6$) :
+$\\frac{3}{8} = \\frac{9}{24}$ ; $\\frac{1}{12} = \\frac{2}{24}$ ; $\\frac{1}{8} = \\frac{3}{24}$ ; $\\frac{1}{6} = \\frac{4}{24}$.
+$$\\frac{9}{24} + \\frac{2}{24} + \\frac{3}{24} + \\frac{4}{24} = \\frac{18}{24} = \\frac{3}{4}.$$
+Les quatre activités occupent les **$\\frac{3}{4}$** de la journée.
+
+**3.** Il reste $1 - \\frac{3}{4} = \\frac{4}{4} - \\frac{3}{4} = \\frac{1}{4}$ de la journée, soit $24 \\div 4 = 6$ heures.
+
+**4.** Écran : $\\frac{1}{6} = \\frac{2}{12}$ ; sport : $\\frac{1}{12}$. Comme $\\frac{2}{12}$ est le double de $\\frac{1}{12}$, **Zoé a raison** ($4$ h d'écran contre $2$ h de sport).
+Différence : $\\frac{1}{6} - \\frac{1}{12} = \\frac{2}{12} - \\frac{1}{12} = \\frac{1}{12}$ de la journée, c'est-à-dire $2$ heures.`
+    },
+    {
+      id: "5N3-ds-12",
+      title: "Des fractions de numérateur 1",
+      difficulty: 4,
+      points: 6,
+      statement: `Dans l'Égypte ancienne, on écrivait les fractions comme des sommes de fractions de numérateur $1$.
+
+1. Vérifier par le calcul que $\\frac{5}{6} = \\frac{1}{2} + \\frac{1}{3}$ et que $\\frac{7}{12} = \\frac{1}{3} + \\frac{1}{4}$.
+2. Calculer :
+   a) $\\frac{1}{2} - \\frac{1}{3}$
+   b) $\\frac{1}{3} - \\frac{1}{4}$
+   c) $\\frac{1}{4} - \\frac{1}{5}$
+3. On veut calculer $S = \\frac{1}{2} + \\frac{1}{6} + \\frac{1}{12} + \\frac{1}{20}$.
+   a) Calculer $S$ en réduisant au même dénominateur $60$.
+   b) Retrouver ce résultat en utilisant la question 2 : écrire $S = \\left(1 - \\frac{1}{2}\\right) + \\left(\\frac{1}{2} - \\frac{1}{3}\\right) + \\ldots$ et simplifier.
+4. Calculer $\\frac{1}{5} - \\frac{1}{6}$, puis en déduire, sans réduire au même dénominateur, la valeur de $S + \\frac{1}{30}$.`,
+      solution: `**1.** $\\frac{1}{2} + \\frac{1}{3} = \\frac{3}{6} + \\frac{2}{6} = \\frac{5}{6}$ et $\\frac{1}{3} + \\frac{1}{4} = \\frac{4}{12} + \\frac{3}{12} = \\frac{7}{12}$. Les deux égalités sont vraies.
+
+**2.** a) $\\frac{1}{2} - \\frac{1}{3} = \\frac{3}{6} - \\frac{2}{6} = \\frac{1}{6}$.
+b) $\\frac{1}{3} - \\frac{1}{4} = \\frac{4}{12} - \\frac{3}{12} = \\frac{1}{12}$.
+c) $\\frac{1}{4} - \\frac{1}{5} = \\frac{5}{20} - \\frac{4}{20} = \\frac{1}{20}$.
+
+**3.** a) $60$ est un multiple de $2$, $6$, $12$ et $20$ :
+$S = \\frac{30}{60} + \\frac{10}{60} + \\frac{5}{60} + \\frac{3}{60} = \\frac{48}{60} = \\frac{4}{5}$ (en divisant par $12$).
+b) D'après la question 2, et comme $\\frac{1}{2} = 1 - \\frac{1}{2}$ :
+$$S = \\left(1 - \\frac{1}{2}\\right) + \\left(\\frac{1}{2} - \\frac{1}{3}\\right) + \\left(\\frac{1}{3} - \\frac{1}{4}\\right) + \\left(\\frac{1}{4} - \\frac{1}{5}\\right).$$
+Les termes $\\frac{1}{2}$, $\\frac{1}{3}$ et $\\frac{1}{4}$ apparaissent une fois ajoutés et une fois soustraits : ils s'annulent. Il reste $S = 1 - \\frac{1}{5} = \\frac{4}{5}$. On retrouve le résultat du a).
+
+**4.** $\\frac{1}{5} - \\frac{1}{6} = \\frac{6}{30} - \\frac{5}{30} = \\frac{1}{30}$.
+Donc $S + \\frac{1}{30} = \\left(1 - \\frac{1}{5}\\right) + \\left(\\frac{1}{5} - \\frac{1}{6}\\right) = 1 - \\frac{1}{6} = \\frac{5}{6}$.`
     }
   ],
   "5N4": [
@@ -794,6 +1110,99 @@ Le total est égal à la puissance de $2$ suivante, diminuée de $1$.
 
 **4.** Sur $8$ cases, on prévoit $2^8 - 1 = 256 - 1 = 255$ grains.
 Vérification : $1 + 2 + 4 + 8 + 16 + 32 + 64 + 128 = 255$ grains.`
+    },
+    {
+      id: "5N4-ds-09",
+      title: "Carré ou double ?",
+      difficulty: 1,
+      points: 4,
+      statement: `1. Calculer :
+   a) $6^2$ et $6 \\times 2$
+   b) $2^4$ et $4^2$
+   c) $2^3$ et $3^2$
+   d) $10^2$ et $10 \\times 2$
+2. Léa affirme : « $5^2 = 10$ ». Expliquer son erreur.
+3. Écrire sous la forme d'une puissance : $3 \\times 3 \\times 3 \\times 3$ ; $\\;7 \\times 7$ ; $\\;2 \\times 2 \\times 2 \\times 2 \\times 2$.
+4. Trouver le nombre entier positif qui convient : $\\ldots^2 = 81$ ; $\\;2^{\\ldots} = 64$.`,
+      solution: `**1.** Le carré d'un nombre est ce nombre multiplié **par lui-même** ; le double est ce nombre multiplié par $2$.
+a) $6^2 = 6 \\times 6 = 36$ et $6 \\times 2 = 12$.
+b) $2^4 = 2 \\times 2 \\times 2 \\times 2 = 16$ et $4^2 = 4 \\times 4 = 16$ (cas particulier où les deux sont égaux).
+c) $2^3 = 2 \\times 2 \\times 2 = 8$ et $3^2 = 3 \\times 3 = 9$ : ils sont différents.
+d) $10^2 = 10 \\times 10 = 100$ et $10 \\times 2 = 20$.
+
+**2.** Léa a calculé $5 \\times 2$ (le double) au lieu de $5 \\times 5$. En réalité $5^2 = 5 \\times 5 = 25$.
+
+**3.** $3 \\times 3 \\times 3 \\times 3 = 3^4$ ; $\\;7 \\times 7 = 7^2$ ; $\\;2 \\times 2 \\times 2 \\times 2 \\times 2 = 2^5$ (on compte le nombre de facteurs égaux).
+
+**4.** $9 \\times 9 = 81$, donc $9^2 = 81$.
+$2^5 = 32$ et $2^6 = 32 \\times 2 = 64$, donc $2^6 = 64$.`
+    },
+    {
+      id: "5N4-ds-10",
+      title: "Le tournoi à élimination directe",
+      difficulty: 2,
+      points: 5,
+      statement: `Dans un tournoi de tennis de table, les joueurs s'affrontent par matchs à deux. À chaque tour, le perdant de chaque match est éliminé, le gagnant passe au tour suivant. Le tournoi se termine quand il ne reste qu'un joueur.
+
+1. Le tournoi commence avec $32$ joueurs. Combien en reste-t-il après chaque tour ? Combien de tours faut-il pour désigner le vainqueur ?
+2. Écrire $32$ sous la forme d'une puissance de $2$. Quel lien y a-t-il avec le nombre de tours ?
+3. Un tournoi se déroule en $7$ tours. Combien de joueurs y avait-il au départ ? Justifier.
+4. Combien de matchs ont été joués en tout dans le tournoi à $32$ joueurs ? Expliquer pourquoi ce nombre est égal à $32 - 1$.`,
+      solution: `**1.** À chaque tour, le nombre de joueurs est divisé par $2$ : $32 \\to 16 \\to 8 \\to 4 \\to 2 \\to 1$.
+Il faut **$5$ tours** pour désigner le vainqueur.
+
+**2.** $32 = 2 \\times 2 \\times 2 \\times 2 \\times 2 = 2^5$. L'exposant $5$ est égal au **nombre de tours** : chaque tour correspond à une division par $2$.
+
+**3.** En remontant le tournoi, on multiplie par $2$ à chaque tour : il y avait $2^7$ joueurs au départ.
+$2^7 = 2^5 \\times 2 \\times 2 = 32 \\times 4 = 128$ joueurs.
+
+**4.** Chaque tour comporte un match pour deux joueurs : $16 + 8 + 4 + 2 + 1 = 31$ matchs.
+Chaque match élimine exactement un joueur et, à la fin, tous les joueurs sauf le vainqueur ont été éliminés : il y a donc autant de matchs que de joueurs éliminés, soit $32 - 1 = 31$.`
+    },
+    {
+      id: "5N4-ds-11",
+      title: "Sommes de nombres impairs",
+      difficulty: 3,
+      points: 5,
+      statement: `On additionne les premiers nombres impairs :
+$$1 \\qquad 1 + 3 \\qquad 1 + 3 + 5 \\qquad 1 + 3 + 5 + 7 \\qquad \\ldots$$
+
+1. Calculer ces quatre sommes, puis la suivante $1 + 3 + 5 + 7 + 9$. Que remarque-t-on ?
+2. Énoncer une conjecture : à quoi est égale la somme des $n$ premiers nombres impairs ?
+3. En utilisant cette conjecture, calculer sans poser l'addition $1 + 3 + 5 + \\ldots + 23$. Combien de nombres impairs additionne-t-on ? Vérifier ensuite le résultat à la calculatrice.
+4. On additionne les premiers nombres impairs à partir de $1$ et on obtient $121$. Combien de nombres a-t-on additionnés, et quel est le dernier ?`,
+      solution: `**1.** $1 = 1$ ; $1 + 3 = 4$ ; $1 + 3 + 5 = 9$ ; $1 + 3 + 5 + 7 = 16$ ; $1 + 3 + 5 + 7 + 9 = 25$.
+On reconnaît les carrés : $1 = 1^2$, $4 = 2^2$, $9 = 3^2$, $16 = 4^2$, $25 = 5^2$.
+
+**2.** Conjecture : **la somme des $n$ premiers nombres impairs est égale à $n^2$** (par exemple, avec $5$ nombres impairs, on obtient $5^2$).
+
+**3.** Les nombres impairs de $1$ à $23$ sont $1, 3, 5, \\ldots, 23$. Le $n$-ième nombre impair est $2n - 1$ ; $23 = 2 \\times 12 - 1$, donc on additionne **$12$ nombres impairs** (on peut aussi les compter).
+D'après la conjecture : $1 + 3 + \\ldots + 23 = 12^2 = 144$. La calculatrice confirme.
+
+**4.** $121 = 11^2$ : on a additionné **$11$ nombres impairs**. Le $11^\\text{e}$ nombre impair est $2 \\times 11 - 1 = 21$ : le dernier nombre est **$21$**.`
+    },
+    {
+      id: "5N4-ds-12",
+      title: "Le chiffre des unités d'une puissance",
+      difficulty: 4,
+      points: 6,
+      statement: `1. a) Écrire les carrés des nombres entiers de $1$ à $12$.
+   b) Quels chiffres des unités peut-on obtenir ? Lesquels n'apparaissent jamais ?
+2. Le chiffre des unités du carré d'un nombre entier ne dépend que du chiffre des unités de ce nombre (par exemple, $23^2$ se termine comme $3^2$). En déduire que $2\\,027$ n'est le carré d'aucun nombre entier.
+3. a) Calculer les puissances de $2$ de $2^1$ à $2^8$ et noter leur chiffre des unités.
+   b) Que remarque-t-on ? En déduire le chiffre des unités de $2^{20}$.
+4. En procédant de la même façon avec les puissances de $3$, trouver le chiffre des unités de $3^{10}$.`,
+      solution: `**1.** a) $1^2 = 1$ ; $2^2 = 4$ ; $3^2 = 9$ ; $4^2 = 16$ ; $5^2 = 25$ ; $6^2 = 36$ ; $7^2 = 49$ ; $8^2 = 64$ ; $9^2 = 81$ ; $10^2 = 100$ ; $11^2 = 121$ ; $12^2 = 144$.
+b) Les chiffres des unités obtenus sont $0$, $1$, $4$, $5$, $6$ et $9$. Les chiffres **$2$, $3$, $7$ et $8$** n'apparaissent jamais.
+
+**2.** Le chiffre des unités de $n^2$ est celui du carré du chiffre des unités de $n$, c'est-à-dire celui de l'un des carrés $0^2, 1^2, \\ldots, 9^2$. D'après la question 1, il ne peut valoir que $0$, $1$, $4$, $5$, $6$ ou $9$. Comme $2\\,027$ se termine par $7$, **ce n'est pas un carré**.
+
+**3.** a) $2^1 = 2$ ; $2^2 = 4$ ; $2^3 = 8$ ; $2^4 = 16$ ; $2^5 = 32$ ; $2^6 = 64$ ; $2^7 = 128$ ; $2^8 = 256$.
+Chiffres des unités : $2$ ; $4$ ; $8$ ; $6$ ; $2$ ; $4$ ; $8$ ; $6$.
+b) Les chiffres des unités se répètent par cycles de $4$ : $2, 4, 8, 6$. On multiplie à chaque fois par $2$ et seul le chiffre des unités compte, donc le cycle continue. Les exposants multiples de $4$ donnent $6$. Comme $20 = 4 \\times 5$, **$2^{20}$ se termine par $6$** (en effet, $2^{20} = 1\\,048\\,576$).
+
+**4.** $3^1 = 3$ ; $3^2 = 9$ ; $3^3 = 27$ ; $3^4 = 81$ ; $3^5 = 243$… Les chiffres des unités forment le cycle $3, 9, 7, 1$ de longueur $4$.
+$10 = 4 \\times 2 + 2$ : $3^{10}$ a le même chiffre des unités que $3^2$, c'est-à-dire **$9$** (en effet, $3^{10} = 59\\,049$).`
     }
   ],
   "5N5": [
@@ -996,6 +1405,112 @@ $4x = 64 - 4 = 60$, puis $x = 60 \\div 4 = 15$.
 
 **4.** Le premier frère reçoit $15$ €, le deuxième $15 + 4 = 19$ €, le troisième $2 \\times 15 = 30$ €.
 Vérification : $15 + 19 + 30 = 64$ € ; on a bien $19 = 15 + 4$ et $30 = 2 \\times 15$.`
+    },
+    {
+      id: "5N5-ds-09",
+      title: "Formule de livraison et test d'égalité",
+      difficulty: 1,
+      points: 4,
+      statement: `Une pizzeria livre à domicile. Le prix à payer, en euros, pour $n$ pizzas livrées est donné par la formule :
+$$P = 9n + 3.$$
+
+1. Que représentent, à votre avis, le nombre $9$ et le nombre $3$ dans cette formule ?
+2. Calculer le prix à payer pour $2$ pizzas, puis pour $5$ pizzas.
+3. On considère l'égalité $4x + 3 = 2x + 11$.
+   a) Est-elle vraie pour $x = 4$ ? Justifier.
+   b) Est-elle vraie pour $x = 2$ ? Justifier.`,
+      solution: `**1.** $9n$ augmente de $9$ quand on commande une pizza de plus : $9$ € est le **prix d'une pizza**. Le nombre $3$ s'ajoute quel que soit le nombre de pizzas : ce sont les **frais de livraison** ($3$ €).
+
+**2.** On remplace $n$ par sa valeur ($9n$ signifie $9 \\times n$) :
+- pour $n = 2$ : $P = 9 \\times 2 + 3 = 18 + 3 = 21$ € ;
+- pour $n = 5$ : $P = 9 \\times 5 + 3 = 45 + 3 = 48$ €.
+
+**3.** On calcule séparément les deux membres.
+a) Pour $x = 4$ : $4 \\times 4 + 3 = 16 + 3 = 19$ et $2 \\times 4 + 11 = 8 + 11 = 19$. Les deux membres sont égaux : l'égalité est **vraie** pour $x = 4$.
+b) Pour $x = 2$ : $4 \\times 2 + 3 = 11$ et $2 \\times 2 + 11 = 15$. Comme $11 \\neq 15$, l'égalité est **fausse** pour $x = 2$.`
+    },
+    {
+      id: "5N5-ds-10",
+      title: "Les âges de la famille",
+      difficulty: 2,
+      points: 5,
+      statement: `Léo a $x$ ans. Sa sœur Maya a $3$ ans de plus que lui et leur père a le triple de l'âge de Léo.
+
+1. Exprimer en fonction de $x$ l'âge de Maya et l'âge du père.
+2. Montrer que la somme des âges des trois personnes est égale à $5x + 3$.
+3. Calculer cette somme lorsque Léo a $10$ ans.
+4. En réalité, la somme des trois âges est $58$ ans.
+   a) Écrire une équation traduisant cette information.
+   b) Résoudre cette équation et donner l'âge de chacun. Vérifier.`,
+      solution: `**1.** Maya a $3$ ans de plus : son âge est $x + 3$. Le père a le triple de l'âge de Léo : $3 \\times x = 3x$.
+
+**2.** Somme des âges : $x + (x + 3) + 3x = x + x + 3x + 3 = 5x + 3$ (on regroupe les termes en $x$ : $1 + 1 + 3 = 5$).
+
+**3.** Pour $x = 10$ : $5 \\times 10 + 3 = 53$ ans.
+
+**4.** a) $5x + 3 = 58$.
+b) On soustrait $3$ aux deux membres : $5x = 55$. On divise par $5$ : $x = 11$.
+Léo a **$11$ ans**, Maya **$14$ ans** et le père **$33$ ans**.
+Vérification : $11 + 14 + 33 = 58$.`
+    },
+    {
+      id: "5N5-ds-11",
+      title: "Le cadre photo",
+      difficulty: 3,
+      points: 5,
+      statement: `Une photo carrée a pour côté $x$ cm. On l'entoure d'un cadre de bois qui forme une bande de $2$ cm de large tout autour de la photo. L'ensemble (photo et cadre) est donc aussi un carré.
+
+1. Montrer que le côté du carré extérieur est égal à $x + 4$ (en cm).
+2. Exprimer en fonction de $x$ :
+   a) le périmètre de la photo ;
+   b) le périmètre extérieur du cadre, sous la forme d'une expression développée et réduite.
+3. Calculer le périmètre extérieur du cadre pour une photo de $15$ cm de côté.
+4. Le périmètre extérieur du cadre mesure $100$ cm. Écrire une équation, la résoudre, puis donner le côté de la photo.
+5. Noé affirme : « Quelle que soit la photo, le périmètre extérieur du cadre dépasse celui de la photo de $16$ cm. » A-t-il raison ? Justifier.`,
+      solution: `**1.** Sur chaque côté, le cadre ajoute $2$ cm à gauche et $2$ cm à droite de la photo : le côté extérieur mesure $2 + x + 2 = x + 4$ cm.
+
+**2.** a) La photo est un carré de côté $x$ : son périmètre est $4x$.
+b) Le périmètre extérieur est $4 \\times (x + 4)$. Par distributivité : $4(x + 4) = 4x + 16$.
+
+**3.** Pour $x = 15$ : $4 \\times 15 + 16 = 60 + 16 = 76$ cm.
+
+**4.** On résout $4x + 16 = 100$.
+On soustrait $16$ : $4x = 84$. On divise par $4$ : $x = 21$.
+La photo a **$21$ cm** de côté. Vérification : $4 \\times (21 + 4) = 4 \\times 25 = 100$.
+
+**5.** Différence des périmètres : $(4x + 16) - 4x = 16$. Le résultat ne dépend pas de $x$ : **Noé a raison**, pour toute photo l'écart est de $16$ cm.`
+    },
+    {
+      id: "5N5-ds-12",
+      title: "Le carré du calendrier",
+      difficulty: 4,
+      points: 6,
+      statement: `Sur une page de calendrier, les dates d'une même semaine sont écrites sur une ligne de $7$ cases. On entoure un carré de $4$ dates, comme ci-dessous.
+
+| $3$ | $4$ |
+|---|---|
+| $10$ | $11$ |
+
+1. Calculer la somme des $4$ dates entourées dans cet exemple.
+2. On appelle $n$ la date en haut à gauche d'un tel carré.
+   a) Expliquer pourquoi les trois autres dates sont $n + 1$, $n + 7$ et $n + 8$.
+   b) Montrer que la somme des quatre dates est égale à $4n + 16$. Vérifier avec l'exemple.
+3. Un carré de quatre dates a pour somme $76$. Trouver les quatre dates en résolvant une équation.
+4. Peut-on trouver un carré de quatre dates dont la somme vaut $50$ ? Justifier.
+5. Peut-on trouver un carré de quatre dates dont la somme vaut $140$ ? Justifier.`,
+      solution: `**1.** $3 + 4 + 10 + 11 = 28$.
+
+**2.** a) La date à droite de $n$ est le lendemain : $n + 1$. La date en dessous de $n$ est le même jour de la semaine suivante, $7$ jours plus tard : $n + 7$. Celle en dessous de $n + 1$ est $n + 1 + 7 = n + 8$.
+b) $n + (n + 1) + (n + 7) + (n + 8) = 4n + 16$ (quatre fois $n$, et $1 + 7 + 8 = 16$).
+Avec $n = 3$ : $4 \\times 3 + 16 = 12 + 16 = 28$. On retrouve le résultat de la question 1.
+
+**3.** On résout $4n + 16 = 76$ : $4n = 60$, donc $n = 15$.
+Les dates sont **$15$, $16$, $22$ et $23$**. Vérification : $15 + 16 + 22 + 23 = 76$.
+
+**4.** Il faudrait $4n + 16 = 50$, donc $4n = 34$ et $n = 8{,}5$. Une date est un nombre entier : **c'est impossible**.
+(On peut aussi remarquer que $4n + 16 = 4(n + 4)$ est toujours un multiple de $4$, ce qui n'est pas le cas de $50$.)
+
+**5.** Il faudrait $4n + 16 = 140$, donc $4n = 124$ et $n = 31$. Mais alors la date en bas à droite serait $31 + 8 = 39$, et aucun mois n'a $39$ jours : **c'est impossible**.`
     }
   ],
   "5G1": [
@@ -1173,6 +1688,113 @@ Donc **$M(-6 ; -3)$**. (Vérification : $-6 + (-3) = -9$ et $-6 = 2 \\times (-3)
 
 **3.** La base $[AB]$ mesure $8$ cm et la hauteur issue de $C$ est $[OC]$. Aire $= \\dfrac{8 \\times OC}{2} = 4 \\times OC$.
 $4 \\times OC = 12$ donne $OC = 3$ cm. Le point $C$ est à $3$ cm de $O$ sur l'axe des ordonnées : **$C(0 ; 3)$ ou $C(0 ; -3)$**.`
+    },
+    {
+      id: "5G1-ds-09",
+      title: "Distances sur une droite graduée",
+      difficulty: 1,
+      points: 4,
+      statement: `Sur une droite graduée d'origine $O$, on a placé les points $A(-4)$, $B(2{,}5)$ et $C(-1{,}5)$.
+
+1. Ranger les points $A$, $B$, $C$ et $O$ dans l'ordre où on les rencontre en parcourant la droite de gauche à droite.
+2. Calculer les distances $AC$, $CB$ et $AB$ (en unités de graduation).
+3. Quelle est l'abscisse du milieu $M$ du segment $[AB]$ ? Justifier.
+4. Le point $D$ est le symétrique de $B$ par rapport à l'origine $O$. Quelle est son abscisse ? Le point $D$ est-il situé entre $A$ et $C$ ?`,
+      solution: `**1.** On range les abscisses dans l'ordre croissant : $-4 < -1{,}5 < 0 < 2{,}5$. L'ordre est donc **$A$, $C$, $O$, $B$**.
+
+**2.**
+- $A$ et $C$ sont du même côté de $O$ : $AC = 4 - 1{,}5 = 2{,}5$ unités.
+- $C$ et $B$ sont de part et d'autre de $O$ : $CB = 1{,}5 + 2{,}5 = 4$ unités.
+- $A$ et $B$ sont de part et d'autre de $O$ : $AB = 4 + 2{,}5 = 6{,}5$ unités. (On vérifie : $AC + CB = 2{,}5 + 4 = 6{,}5$.)
+
+**3.** $M$ est à mi-chemin entre $A$ et $B$ : $6{,}5 \\div 2 = 3{,}25$. En partant de $A$ et en avançant de $3{,}25$ vers la droite : $-4 + 3{,}25 = -0{,}75$. L'abscisse de $M$ est **$-0{,}75$**.
+
+**4.** Le symétrique de $B$ par rapport à $O$ est à la même distance de $O$, de l'autre côté : $D$ a pour abscisse l'opposé de $2{,}5$, soit **$-2{,}5$**.
+Comme $-4 < -2{,}5 < -1{,}5$, le point $D$ est bien situé **entre $A$ et $C$**.`
+    },
+    {
+      id: "5G1-ds-10",
+      title: "Le personnage du jeu vidéo",
+      difficulty: 2,
+      points: 5,
+      statement: `Dans un jeu vidéo, la carte est munie d'un repère orthogonal. Un déplacement « vers la droite » augmente l'abscisse, un déplacement « vers le haut » augmente l'ordonnée (une case vaut une unité).
+
+Le personnage part du point $P(-3 ; 2)$.
+
+1. Il se déplace de $5$ cases vers la droite puis de $4$ cases vers le bas. Quelles sont les coordonnées du point $Q$ où il arrive ?
+2. De $Q$, il se déplace de $6$ cases vers la gauche et de $1$ case vers le haut. Donner les coordonnées du point $R$ d'arrivée.
+3. Pour chacun des points $P$, $Q$ et $R$, donner le signe de l'abscisse et celui de l'ordonnée.
+4. Le trésor est en $T(3 ; -5)$. Décrire un déplacement qui mène directement de $R$ au trésor.`,
+      solution: `**1.** Vers la droite, on ajoute à l'abscisse : $-3 + 5 = 2$. Vers le bas, on retire à l'ordonnée : $2 - 4 = -2$. Donc **$Q(2 ; -2)$**.
+
+**2.** Abscisse : $2 - 6 = -4$. Ordonnée : $-2 + 1 = -1$. Donc **$R(-4 ; -1)$**.
+
+**3.**
+- $P(-3 ; 2)$ : abscisse négative, ordonnée positive.
+- $Q(2 ; -2)$ : abscisse positive, ordonnée négative.
+- $R(-4 ; -1)$ : abscisse et ordonnée négatives.
+
+**4.** Pour l'abscisse, on passe de $-4$ à $3$ : $3 - (-4) = 7$, soit $7$ cases **vers la droite**.
+Pour l'ordonnée, on passe de $-1$ à $-5$ : $-5 - (-1) = -4$, soit $4$ cases **vers le bas**.`
+    },
+    {
+      id: "5G1-ds-11",
+      title: "Des points sur une même ligne",
+      difficulty: 3,
+      points: 5,
+      statement: `Dans un repère orthogonal d'unité $1$ cm, on considère le point $A(1 ; -2)$.
+
+1. Placer $A$, puis placer trois autres points ayant la même ordonnée que $A$. Que remarque-t-on ?
+2. Trouver les coordonnées des deux points $B$ et $C$ qui ont la même ordonnée que $A$ et qui sont à $3$ cm de $A$ ($B$ étant à gauche de $A$). Justifier.
+3. Trouver de même les coordonnées des deux points $D$ et $E$ qui ont la même abscisse que $A$ et qui sont à $3$ cm de $A$ ($D$ étant au-dessus de $A$).
+4. a) Tracer le quadrilatère $BDCE$. Quelle semble être sa nature ?
+   b) Justifier à l'aide de ses diagonales $[BC]$ et $[DE]$.`,
+      solution: `**1.** Tous les points d'ordonnée $-2$ sont situés sur **une même droite parallèle à l'axe des abscisses** (horizontale), qui coupe l'axe des ordonnées au point $(0 ; -2)$.
+
+**2.** $B$ et $C$ sont sur cette droite horizontale, à $3$ cm de $A$ : on retire ou on ajoute $3$ à l'abscisse de $A$.
+$1 - 3 = -2$ et $1 + 3 = 4$. Donc **$B(-2 ; -2)$** et **$C(4 ; -2)$**.
+
+**3.** Les points d'abscisse $1$ sont sur une droite parallèle à l'axe des ordonnées (verticale). On ajoute ou on retire $3$ à l'ordonnée de $A$ : $-2 + 3 = 1$ et $-2 - 3 = -5$. Donc **$D(1 ; 1)$** et **$E(1 ; -5)$**.
+
+**4.** a) $BDCE$ semble être un **carré**.
+b) Les diagonales $[BC]$ (horizontale) et $[DE]$ (verticale) sont **perpendiculaires**. Elles ont **la même longueur** : $BC = 6$ cm et $DE = 6$ cm. Elles ont **le même milieu** $A$ (car $AB = AC = AD = AE = 3$ cm).
+Un quadrilatère dont les diagonales ont le même milieu, la même longueur et sont perpendiculaires est un carré.`
+    },
+    {
+      id: "5G1-ds-12",
+      title: "Deux robots se croisent-ils ?",
+      difficulty: 4,
+      points: 6,
+      statement: `Dans un repère orthogonal, deux robots se déplacent par sauts, en même temps.
+- Le robot Alpha part de l'origine $(0 ; 0)$. À chaque saut, son abscisse augmente de $3$ et son ordonnée diminue de $2$.
+- Le robot Bêta part du point $(-10 ; 5)$. À chaque saut, son abscisse augmente de $5$ et son ordonnée diminue de $3$.
+
+1. Donner les coordonnées d'Alpha après $1$, $2$, $3$ et $4$ sauts.
+2. Expliquer pourquoi, après $n$ sauts, Alpha se trouve au point de coordonnées $(3n ; -2n)$. Où est-il après $10$ sauts ?
+3. Alpha passera-t-il par le point $(45 ; -30)$ ? Par le point $(20 ; -14)$ ? Justifier.
+4. Recopier et compléter le tableau des positions des deux robots, puis dire s'ils se retrouvent un jour au même point en même temps. Si oui, où et après combien de sauts ?
+
+| Nombre de sauts | $0$ | $1$ | $2$ | $3$ | $4$ | $5$ | $6$ |
+|---|---|---|---|---|---|---|---|
+| Alpha | $(0 ; 0)$ | | | | | | |
+| Bêta | $(-10 ; 5)$ | | | | | | |`,
+      solution: `**1.** On ajoute $3$ à l'abscisse et on retire $2$ à l'ordonnée à chaque saut : $(3 ; -2)$, $(6 ; -4)$, $(9 ; -6)$, $(12 ; -8)$.
+
+**2.** Après $n$ sauts, l'abscisse a augmenté $n$ fois de $3$ à partir de $0$ : elle vaut $3 \\times n = 3n$. L'ordonnée a diminué $n$ fois de $2$ à partir de $0$ : elle vaut $-2n$.
+Après $10$ sauts : $(30 ; -20)$.
+
+**3.** Pour $(45 ; -30)$ : $3n = 45$ donne $n = 15$, et alors $-2 \\times 15 = -30$. Les deux coordonnées correspondent : **oui**, Alpha y passe après $15$ sauts.
+Pour $(20 ; -14)$ : il faudrait $3n = 20$, mais $20$ n'est pas un multiple de $3$. **Non**, Alpha n'y passe pas (de plus, $-2n = -14$ donnerait $n = 7$, et après $7$ sauts Alpha est en $(21 ; -14)$).
+
+**4.** Pour Bêta, on ajoute $5$ à l'abscisse et on retire $3$ à l'ordonnée à chaque saut.
+
+| Nombre de sauts | $0$ | $1$ | $2$ | $3$ | $4$ | $5$ | $6$ |
+|---|---|---|---|---|---|---|---|
+| Alpha | $(0 ; 0)$ | $(3 ; -2)$ | $(6 ; -4)$ | $(9 ; -6)$ | $(12 ; -8)$ | $(15 ; -10)$ | $(18 ; -12)$ |
+| Bêta | $(-10 ; 5)$ | $(-5 ; 2)$ | $(0 ; -1)$ | $(5 ; -4)$ | $(10 ; -7)$ | $(15 ; -10)$ | $(20 ; -13)$ |
+
+Après **$5$ sauts**, les deux robots sont au même point **$(15 ; -10)$**.
+L'abscisse de Bêta augmente plus vite que celle d'Alpha ($5$ contre $3$ par saut) : avant le $5^\\text{e}$ saut, Bêta est toujours à gauche d'Alpha, et après, toujours à droite. Ils ne se retrouvent donc qu'une seule fois.`
     }
   ],
   "5G2": [
@@ -1337,6 +1959,103 @@ L'abscisse de $O'$ est à mi-chemin entre $1$ et $5$ : c'est $3$. L'ordonnée es
 **3.** Les diagonales $[AA']$ et $[BB']$ du quadrilatère $ABA'B'$ ont le même milieu $O'$. Un quadrilatère dont les diagonales se coupent en leur milieu est un parallélogramme : **$ABA'B'$ est un parallélogramme**.
 
 **4.** Oui, un seul : le centre $O'$ lui-même. Pour tout autre point $M$, son symétrique $M'$ vérifie $O'M' = O'M \\neq 0$ et se trouve de l'autre côté de $O'$, donc $M' \\neq M$.`
+    },
+    {
+      id: "5G2-ds-09",
+      title: "Symétrie par rapport à l'origine d'un repère",
+      difficulty: 1,
+      points: 4,
+      statement: `Dans un repère orthogonal d'origine $O$, on place les points $A(3 ; -2)$, $B(-4 ; -1)$ et $C(0 ; 5)$.
+
+1. Placer les points $A$, $B$ et $C$, puis construire leurs symétriques $A'$, $B'$ et $C'$ par rapport au point $O$.
+2. Lire les coordonnées de $A'$, $B'$ et $C'$.
+3. Quelle règle permet d'obtenir les coordonnées du symétrique d'un point par rapport à l'origine ?
+4. Les points $E(2 ; 2)$ et $F(-2 ; -2)$ sont-ils symétriques par rapport à $O$ ? Et les points $G(1 ; 3)$ et $H(-3 ; -1)$ ? Justifier.`,
+      solution: `**1.** Pour construire $A'$, on trace la demi-droite $[AO)$ et on reporte la longueur $OA$ de l'autre côté de $O$ : $O$ est le milieu de $[AA']$. On fait de même pour $B$ et $C$.
+
+**2.** $A'(-3 ; 2)$, $\\;B'(4 ; 1)$, $\\;C'(0 ; -5)$.
+
+**3.** $O$ est le milieu du segment joignant un point à son symétrique : on passe d'un point à son symétrique en **remplaçant l'abscisse et l'ordonnée par leurs opposés**.
+
+**4.** Les coordonnées de $F$ sont les opposées de celles de $E$ ($2 \\to -2$ et $2 \\to -2$) : **$E$ et $F$ sont symétriques** par rapport à $O$.
+Le symétrique de $G(1 ; 3)$ est $(-1 ; -3)$, qui n'est pas $H(-3 ; -1)$ : **$G$ et $H$ ne sont pas symétriques** par rapport à $O$ (on a échangé l'abscisse et l'ordonnée).`
+    },
+    {
+      id: "5G2-ds-10",
+      title: "Images d'un cercle et de droites",
+      difficulty: 2,
+      points: 5,
+      statement: `On considère un point $O$, un cercle $\\mathcal{C}$ de centre $I$ et de rayon $3$ cm, avec $OI = 5$ cm.
+
+1. On construit le symétrique $\\mathcal{C}'$ du cercle $\\mathcal{C}$ par rapport à $O$.
+   a) Quelle est la nature de $\\mathcal{C}'$ ? Préciser son centre $I'$ et son rayon.
+   b) Calculer la distance $II'$.
+2. Une droite $(d)$ passe par le point $O$. Quelle est sa symétrique par rapport à $O$ ? Justifier.
+3. Une droite $(\\Delta)$ ne passe pas par $O$. Sur $(\\Delta)$, on place deux points $A$ et $B$ tels que $AB = 4{,}2$ cm.
+   a) Quelle est la longueur $A'B'$ de l'image du segment $[AB]$ ?
+   b) Que peut-on dire des droites $(\\Delta)$ et $(A'B')$ ?
+4. Un angle $\\widehat{xAy}$ mesure $37^\\circ$. Combien mesure son symétrique par rapport à $O$ ?`,
+      solution: `**1.** a) La symétrie centrale conserve les longueurs : tous les points de $\\mathcal{C}'$ sont à $3$ cm du symétrique $I'$ de $I$. $\\mathcal{C}'$ est donc **le cercle de centre $I'$ et de rayon $3$ cm**.
+b) $O$ est le milieu de $[II']$, donc $II' = 2 \\times OI = 2 \\times 5 = 10$ cm.
+
+**2.** Le symétrique d'un point de $(d)$ est sur la droite qui joint ce point à $O$, c'est-à-dire sur $(d)$ elle-même. La droite $(d)$ est **sa propre symétrique**.
+
+**3.** a) La symétrie centrale conserve les longueurs : $A'B' = AB = 4{,}2$ cm.
+b) Le symétrique d'une droite par rapport à un point est une **droite parallèle** : $(A'B') \\parallel (\\Delta)$. Les deux droites sont distinctes car $(\\Delta)$ ne passe pas par $O$.
+
+**4.** La symétrie centrale conserve les mesures d'angles : le symétrique mesure aussi **$37^\\circ$**.`
+    },
+    {
+      id: "5G2-ds-11",
+      title: "Compléter un triangle rectangle par symétrie",
+      difficulty: 3,
+      points: 5,
+      statement: `$ABC$ est un triangle rectangle en $B$ tel que $AB = 6$ cm et $BC = 4$ cm. On note $O$ le milieu de $[AC]$ et $D$ le symétrique de $B$ par rapport à $O$.
+
+1. Faire la figure en vraie grandeur.
+2. Quels sont les symétriques des points $A$ et $C$ par rapport à $O$ ? Justifier.
+3. En déduire le symétrique du triangle $ABC$ par rapport à $O$, puis les longueurs $CD$ et $DA$.
+4. a) Démontrer que $ABCD$ est un parallélogramme.
+   b) Quelle est la nature précise de $ABCD$ ? Justifier.
+5. Calculer l'aire du quadrilatère $ABCD$ de deux façons différentes.`,
+      solution: `**1.** On trace l'angle droit en $B$, on place $A$ et $C$, on place le milieu $O$ de $[AC]$, puis $D$ sur la demi-droite $[BO)$ tel que $OD = OB$.
+
+**2.** $O$ est le milieu de $[AC]$ : le symétrique de $A$ par rapport à $O$ est **$C$**, et le symétrique de $C$ est **$A$**.
+
+**3.** Le symétrique du triangle $ABC$ est le triangle $CDA$ ($A \\to C$, $B \\to D$, $C \\to A$).
+La symétrie centrale conserve les longueurs : $CD = AB = 6$ cm et $DA = BC = 4$ cm.
+
+**4.** a) Les diagonales $[AC]$ et $[BD]$ ont le même milieu $O$ ($O$ est le milieu de $[AC]$ par définition et le milieu de $[BD]$ car $D$ est le symétrique de $B$). Un quadrilatère dont les diagonales ont le même milieu est un **parallélogramme**.
+b) Ce parallélogramme a un angle droit en $B$ : c'est un **rectangle**.
+
+**5.** Première façon : $ABCD$ est un rectangle de dimensions $6$ cm et $4$ cm, donc son aire est $6 \\times 4 = 24$ cm².
+Deuxième façon : $ABCD$ est formé du triangle $ABC$ et de son symétrique $CDA$, qui ont la même aire (la symétrie centrale conserve les aires). L'aire de $ABC$ est $\\frac{6 \\times 4}{2} = 12$ cm², donc l'aire de $ABCD$ est $2 \\times 12 = 24$ cm².`
+    },
+    {
+      id: "5G2-ds-12",
+      title: "Deux symétries axiales valent un demi-tour",
+      difficulty: 4,
+      points: 6,
+      statement: `On travaille dans un repère orthogonal d'origine $O$. On note $s_1$ la symétrie axiale d'axe l'axe des abscisses et $s_2$ la symétrie axiale d'axe l'axe des ordonnées.
+
+1. On considère le point $M(3 ; 2)$.
+   a) Construire son symétrique $M_1$ par la symétrie $s_1$ et donner ses coordonnées.
+   b) Construire le symétrique $M_2$ de $M_1$ par la symétrie $s_2$ et donner ses coordonnées.
+2. Comparer les coordonnées de $M_2$ et celles de $M$. Que peut-on en déduire pour les points $M$ et $M_2$ ?
+3. Recommencer avec le point $N(-1 ; 4)$ : donner les coordonnées de $N_1$ puis de $N_2$. La conclusion est-elle la même ?
+4. Expliquer pourquoi, pour n'importe quel point $P(a ; b)$, appliquer $s_1$ puis $s_2$ revient à appliquer la symétrie de centre $O$.
+5. Obtient-on le même point si l'on applique d'abord $s_2$, puis $s_1$ ? Justifier.`,
+      solution: `**1.** a) Le symétrique par rapport à l'axe des abscisses garde l'abscisse et change l'ordonnée en son opposée : $M_1(3 ; -2)$.
+b) Le symétrique par rapport à l'axe des ordonnées garde l'ordonnée et change l'abscisse en son opposée : $M_2(-3 ; -2)$.
+
+**2.** Les coordonnées de $M_2$ sont les opposées de celles de $M$. Donc $O$ est le milieu de $[MM_2]$ : **$M_2$ est le symétrique de $M$ par rapport à $O$**.
+
+**3.** $N(-1 ; 4) \\to N_1(-1 ; -4) \\to N_2(1 ; -4)$. Les coordonnées de $N_2$ sont encore les opposées de celles de $N$ : $N_2$ est le symétrique de $N$ par rapport à $O$. La conclusion est la même.
+
+**4.** $s_1$ transforme $P(a ; b)$ en $P_1(a ; -b)$ : l'ordonnée devient son opposée. Puis $s_2$ transforme $P_1$ en $P_2(-a ; -b)$ : l'abscisse devient son opposée.
+Les deux coordonnées de $P_2$ sont les opposées de celles de $P$ : $P_2$ est le symétrique de $P$ par rapport à $O$, pour tout point $P$. Enchaîner les deux symétries axiales d'axes perpendiculaires revient donc à faire **un demi-tour autour de $O$**.
+
+**5.** Avec $s_2$ d'abord : $P(a ; b) \\to (-a ; b)$, puis avec $s_1$ : $(-a ; b) \\to (-a ; -b)$. On obtient **le même point** $P_2(-a ; -b)$ : l'ordre n'a pas d'importance ici.`
     }
   ],
   "5G3": [
@@ -1510,6 +2229,105 @@ La demi-droite $[Mz)$ est située entre $[MA)$ et $[MB)$, donc $\\widehat{AMB} =
 Les angles $\\widehat{BDC}$ et $\\widehat{BCD}$ mesurent tous deux $72^\\circ$ : le triangle $BCD$ est **isocèle en $B$**, donc $BD = BC$.
 
 **5.** D'après la question 4, $BD = BC = 4$ cm, et d'après la question 3, $AD = BD = 4$ cm.`
+    },
+    {
+      id: "5G3-ds-09",
+      title: "La route qui traverse la voie ferrée",
+      difficulty: 1,
+      points: 4,
+      statement: `Les deux rails d'une voie ferrée sont représentés par deux droites parallèles $(AB)$ et $(CD)$, avec $(AB)$ au-dessus de $(CD)$, $A$ et $C$ à gauche, $B$ et $D$ à droite. Une route rectiligne coupe $(AB)$ en $E$ et $(CD)$ en $F$. Le point $G$ est sur la route, au-dessus de $E$.
+
+On sait que $\\widehat{BEF} = 72^\\circ$.
+
+1. Faire une figure à main levée codée.
+2. a) Nommer l'angle alterne-interne à $\\widehat{BEF}$.
+   b) Calculer sa mesure en justifiant.
+3. Calculer $\\widehat{GEB}$.
+4. Nommer l'angle correspondant à $\\widehat{GEB}$ et donner sa mesure. Retrouver cette mesure d'une autre façon.`,
+      solution: `**1.** On trace deux droites horizontales parallèles, une sécante qui les coupe en $E$ (en haut) et $F$ (en bas), et on code $\\widehat{BEF} = 72^\\circ$.
+
+**2.** a) Les angles alternes-internes sont situés entre les deux droites, de part et d'autre de la sécante : l'angle alterne-interne à $\\widehat{BEF}$ est **$\\widehat{EFC}$**.
+b) Propriété : si deux droites parallèles sont coupées par une sécante, alors les angles alternes-internes ont la même mesure. Comme $(AB) \\parallel (CD)$, $\\widehat{EFC} = \\widehat{BEF} = 72^\\circ$.
+
+**3.** $\\widehat{GEB}$ et $\\widehat{BEF}$ sont adjacents et forment un angle plat ($G$, $E$, $F$ sont alignés) :
+$\\widehat{GEB} = 180^\\circ - 72^\\circ = 108^\\circ$.
+
+**4.** L'angle correspondant à $\\widehat{GEB}$ est **$\\widehat{EFD}$** (même position : au-dessus de la droite, à droite de la sécante). Les droites étant parallèles, les angles correspondants ont la même mesure : $\\widehat{EFD} = 108^\\circ$.
+Autre façon : $\\widehat{EFD}$ et $\\widehat{EFC}$ forment un angle plat, donc $\\widehat{EFD} = 180^\\circ - 72^\\circ = 108^\\circ$.`
+    },
+    {
+      id: "5G3-ds-10",
+      title: "Angles de triangles particuliers",
+      difficulty: 2,
+      points: 5,
+      statement: `1. Le pignon d'une maison a la forme d'un triangle $ABC$ isocèle en $A$ (le sommet du toit), avec $\\widehat{BAC} = 110^\\circ$. Calculer $\\widehat{ABC}$ et $\\widehat{ACB}$.
+2. Un triangle $DEF$ est isocèle en $D$ et $\\widehat{DEF} = 50^\\circ$. Calculer les deux autres angles.
+3. Un triangle $GHI$ est rectangle en $G$ et $\\widehat{GHI} = 27^\\circ$. Calculer $\\widehat{GIH}$.
+4. Mila affirme : « J'ai construit un triangle qui a un angle de $95^\\circ$ et un angle droit. » Est-ce possible ? Justifier.
+5. Combien mesure chacun des angles d'un triangle équilatéral ? Justifier.`,
+      solution: `On utilise dans chaque cas la propriété : **la somme des mesures des angles d'un triangle est égale à $180^\\circ$**.
+
+**1.** Dans un triangle isocèle en $A$, les angles à la base sont égaux : $\\widehat{ABC} = \\widehat{ACB}$.
+Leur somme vaut $180^\\circ - 110^\\circ = 70^\\circ$, donc $\\widehat{ABC} = \\widehat{ACB} = 70^\\circ \\div 2 = 35^\\circ$.
+
+**2.** Le triangle est isocèle en $D$, donc $\\widehat{DFE} = \\widehat{DEF} = 50^\\circ$.
+Puis $\\widehat{EDF} = 180^\\circ - 50^\\circ - 50^\\circ = 80^\\circ$.
+
+**3.** $\\widehat{GIH} = 180^\\circ - 90^\\circ - 27^\\circ = 63^\\circ$.
+
+**4.** Ces deux angles auraient déjà une somme de $95^\\circ + 90^\\circ = 185^\\circ$, ce qui dépasse $180^\\circ$. **C'est impossible.**
+
+**5.** Un triangle équilatéral a ses trois angles égaux et leur somme vaut $180^\\circ$ : chacun mesure $180^\\circ \\div 3 = 60^\\circ$.`
+    },
+    {
+      id: "5G3-ds-11",
+      title: "Une droite parallèle à un côté ?",
+      difficulty: 3,
+      points: 5,
+      statement: `$ABC$ est un triangle tel que $\\widehat{BAC} = 40^\\circ$ et $\\widehat{ABC} = 75^\\circ$. Le point $E$ est sur le segment $[AC]$ et le point $F$ sur le segment $[BC]$, de sorte que $\\widehat{CEF} = 40^\\circ$.
+
+1. Calculer $\\widehat{ACB}$.
+2. a) Pour les droites $(EF)$ et $(AB)$ coupées par la sécante $(AC)$, quelle est la position des angles $\\widehat{CEF}$ et $\\widehat{CAB}$ ?
+   b) Démontrer que les droites $(EF)$ et $(AB)$ sont parallèles.
+3. Calculer $\\widehat{CFE}$ de deux façons différentes.
+4. Si l'on avait placé $E$ de sorte que $\\widehat{CEF} = 45^\\circ$, les droites $(EF)$ et $(AB)$ seraient-elles parallèles ? Justifier.`,
+      solution: `**1.** Dans le triangle $ABC$ : $\\widehat{ACB} = 180^\\circ - 40^\\circ - 75^\\circ = 65^\\circ$.
+
+**2.** a) Les angles $\\widehat{CEF}$ (en $E$) et $\\widehat{CAB}$ (en $A$) sont du même côté de la sécante $(AC)$ et occupent la même position par rapport aux droites $(EF)$ et $(AB)$ : ce sont des **angles correspondants**.
+b) Propriété : si deux droites coupées par une sécante forment deux angles correspondants de même mesure, alors ces droites sont parallèles. Ici $\\widehat{CEF} = \\widehat{CAB} = 40^\\circ$, donc **$(EF) \\parallel (AB)$**.
+
+**3.** Première façon, dans le triangle $CEF$ : $\\widehat{CFE} = 180^\\circ - \\widehat{CEF} - \\widehat{ECF} = 180^\\circ - 40^\\circ - 65^\\circ = 75^\\circ$.
+Deuxième façon : $(EF) \\parallel (AB)$ et la sécante $(BC)$ forme les angles correspondants $\\widehat{CFE}$ et $\\widehat{CBA}$, qui ont donc la même mesure : $\\widehat{CFE} = 75^\\circ$.
+
+**4.** Si $(EF)$ était parallèle à $(AB)$, les angles correspondants $\\widehat{CEF}$ et $\\widehat{CAB}$ auraient la même mesure. Or $45^\\circ \\neq 40^\\circ$ : les droites **ne seraient pas parallèles**.`
+    },
+    {
+      id: "5G3-ds-12",
+      title: "La trajectoire d'une boule de billard",
+      difficulty: 4,
+      points: 6,
+      statement: `Deux bandes d'un billard sont représentées par deux droites parallèles : $(d_1)$ en haut et $(d_2)$ en bas. Sur $(d_1)$, le point $P$ est à gauche et le point $Q$ à droite ; sur $(d_2)$, le point $R$ est à gauche et le point $S$ à droite.
+
+Une boule part d'un point $M$ situé entre les bandes et touche $(d_1)$ en $A$, avec $\\widehat{MAP} = 35^\\circ$. Elle rebondit en repartant vers la droite selon la règle : **l'angle de départ est égal à l'angle d'arrivée**, c'est-à-dire $\\widehat{QAB} = 35^\\circ$, où $B$ est le point où elle touche $(d_2)$. En $B$, elle rebondit de la même façon vers un point $C$, avec $\\widehat{SBC} = \\widehat{ABR}$.
+
+1. Faire une figure à main levée codée.
+2. Calculer $\\widehat{MAB}$.
+3. Calculer $\\widehat{ABR}$ en justifiant, puis $\\widehat{ABC}$.
+4. Démontrer que la trajectoire $(BC)$ après le deuxième rebond est parallèle à la trajectoire de départ $(MA)$.
+5. Le résultat de la question 4 dépend-il de la valeur $35^\\circ$ ? Expliquer.`,
+      solution: `**1.** On trace deux droites horizontales parallèles et une ligne brisée $M \\to A \\to B \\to C$ en « zigzag » : $A$ sur la bande du haut, $B$ sur celle du bas, avec $M$ à gauche de $A$ et $C$ à droite de $B$.
+
+**2.** Les angles $\\widehat{PAM}$, $\\widehat{MAB}$ et $\\widehat{BAQ}$ sont adjacents et forment l'angle plat $\\widehat{PAQ}$ :
+$\\widehat{MAB} = 180^\\circ - 35^\\circ - 35^\\circ = 110^\\circ$.
+
+**3.** Les droites $(d_1)$ et $(d_2)$ sont parallèles et coupées par la sécante $(AB)$. Les angles $\\widehat{QAB}$ et $\\widehat{ABR}$ sont **alternes-internes** (entre les deux droites, de part et d'autre de la sécante), donc ils ont la même mesure : $\\widehat{ABR} = 35^\\circ$.
+Par la règle du rebond, $\\widehat{SBC} = \\widehat{ABR} = 35^\\circ$. Les angles $\\widehat{RBA}$, $\\widehat{ABC}$ et $\\widehat{CBS}$ forment l'angle plat $\\widehat{RBS}$ :
+$\\widehat{ABC} = 180^\\circ - 35^\\circ - 35^\\circ = 110^\\circ$.
+
+**4.** Les droites $(MA)$ et $(BC)$ sont coupées par la sécante $(AB)$. Les angles $\\widehat{MAB}$ et $\\widehat{ABC}$ sont alternes-internes ($M$ et $C$ sont de part et d'autre de $(AB)$) et mesurent tous les deux $110^\\circ$.
+Propriété : si deux droites coupées par une sécante forment des angles alternes-internes de même mesure, alors elles sont parallèles. Donc **$(BC) \\parallel (MA)$**.
+
+**5.** Non. Si l'angle de départ mesure $a$, le même raisonnement donne $\\widehat{MAB} = 180^\\circ - 2a$ et $\\widehat{ABC} = 180^\\circ - 2a$ : ces angles alternes-internes sont toujours égaux, donc après deux rebonds sur des bandes parallèles, la boule repart **toujours parallèlement** à sa trajectoire de départ.`
     }
   ],
   "5G4": [
@@ -1695,6 +2513,103 @@ Donc $\\dfrac{8 \\times CK}{2} = 30$, soit $8 \\times CK = 60$ et $CK = 60 \\div
 À l'échelle $1$ cm pour $1$ km, l'antenne est à $5$ km de chaque village.
 
 **4.** Chaque village est à $5$ km de l'antenne, et $5 > 4{,}8$ : la portée est insuffisante, **aucun des trois villages** ne sera couvert.`
+    },
+    {
+      id: "5G4-ds-09",
+      title: "Les voiles du dériveur",
+      difficulty: 1,
+      points: 4,
+      statement: `Un petit voilier porte deux voiles triangulaires.
+- La grand-voile est un triangle rectangle dont les deux côtés de l'angle droit mesurent $2{,}4$ m (le long du mât) et $4{,}5$ m (le long de la bôme).
+- Le foc est un triangle dont un côté mesure $1{,}8$ m ; la hauteur relative à ce côté mesure $3{,}5$ m.
+
+1. Rappeler la formule de l'aire d'un triangle.
+2. Calculer l'aire de la grand-voile.
+3. Calculer l'aire du foc.
+4. Calculer la surface totale de toile, puis l'exprimer en $\\text{dm}^2$.`,
+      solution: `**1.** $\\text{Aire d'un triangle} = \\dfrac{\\text{base} \\times \\text{hauteur}}{2}$, où la hauteur est relative à la base choisie.
+
+**2.** Dans un triangle rectangle, chacun des deux côtés de l'angle droit est une hauteur relative à l'autre. Donc
+$\\mathcal{A}_{\\text{grand-voile}} = \\dfrac{2{,}4 \\times 4{,}5}{2} = \\dfrac{10{,}8}{2} = 5{,}4$. La grand-voile a une aire de $5{,}4\\text{ m}^2$.
+
+**3.** $\\mathcal{A}_{\\text{foc}} = \\dfrac{1{,}8 \\times 3{,}5}{2} = \\dfrac{6{,}3}{2} = 3{,}15$. Le foc a une aire de $3{,}15\\text{ m}^2$.
+
+**4.** Surface totale : $5{,}4 + 3{,}15 = 8{,}55$, soit $8{,}55\\text{ m}^2$.
+Comme $1\\text{ m}^2 = 100\\text{ dm}^2$, on obtient $8{,}55 \\times 100 = 855\\text{ dm}^2$.`
+    },
+    {
+      id: "5G4-ds-10",
+      title: "Partager un champ avec une médiane",
+      difficulty: 2,
+      points: 5,
+      statement: `Un champ a la forme d'un triangle $ABC$ avec $BC = 12$ m. La hauteur issue de $A$ mesure $9$ m ; on note $H$ son pied sur la droite $(BC)$. On note $I$ le milieu du segment $[BC]$.
+
+1. Comment s'appelle la droite $(AI)$ pour le triangle $ABC$ ?
+2. Calculer l'aire du champ $ABC$.
+3. a) Calculer l'aire du triangle $ABI$, puis celle du triangle $AIC$.
+   b) Expliquer pourquoi la droite $(AI)$ partage toujours un triangle en deux triangles de même aire.
+4. Deux frères et leur sœur veulent se partager le champ en trois parcelles triangulaires de même aire, en traçant deux clôtures droites partant de $A$ jusqu'au côté $[BC]$. Où faut-il placer les extrémités $M$ et $N$ des clôtures sur $[BC]$ ? Justifier en calculant l'aire de chaque parcelle.`,
+      solution: `**1.** $(AI)$ passe par le sommet $A$ et par le milieu du côté opposé $[BC]$ : c'est la **médiane** issue de $A$.
+
+**2.** $\\mathcal{A}_{ABC} = \\dfrac{BC \\times AH}{2} = \\dfrac{12 \\times 9}{2} = 54$. Le champ a une aire de $54\\text{ m}^2$.
+
+**3.** a) $I$ est le milieu de $[BC]$, donc $BI = IC = 6$ m. Les triangles $ABI$ et $AIC$ ont la même hauteur $[AH]$ (relative aux bases $[BI]$ et $[IC]$, situées sur la même droite $(BC)$) :
+$\\mathcal{A}_{ABI} = \\dfrac{6 \\times 9}{2} = 27\\text{ m}^2$ et $\\mathcal{A}_{AIC} = \\dfrac{6 \\times 9}{2} = 27\\text{ m}^2$.
+b) Les deux triangles ont des bases de même longueur ($BI = IC$) et la même hauteur (la distance de $A$ à la droite $(BC)$) : ils ont donc toujours la même aire, égale à la moitié de l'aire de $ABC$.
+
+**4.** On partage $[BC]$ en trois segments de même longueur : $12 \\div 3 = 4$ m. On place $M$ sur $[BC]$ tel que $BM = 4$ m et $N$ tel que $BN = 8$ m (donc $MN = NC = 4$ m).
+Les trois parcelles $ABM$, $AMN$ et $ANC$ ont toutes une base de $4$ m et la même hauteur $AH = 9$ m :
+chacune a une aire de $\\dfrac{4 \\times 9}{2} = 18\\text{ m}^2$, et $3 \\times 18 = 54\\text{ m}^2$ : le partage est équitable.`
+    },
+    {
+      id: "5G4-ds-11",
+      title: "Un point qui se promène",
+      difficulty: 3,
+      points: 5,
+      statement: `$ABCD$ est un rectangle avec $AB = 10$ cm et $AD = 6$ cm. Un point $M$ se déplace sur le côté $[DC]$.
+
+1. On place $M$ tel que $DM = 3$ cm.
+   a) Faire une figure en vraie grandeur.
+   b) Quelle est la hauteur du triangle $ABM$ relative à la base $[AB]$ ? Calculer l'aire du triangle $ABM$.
+2. On place maintenant $M$ tel que $DM = 7$ cm. Que devient l'aire du triangle $ABM$ ? Expliquer pourquoi elle ne dépend pas de la position de $M$ sur $[DC]$.
+3. On revient au cas $DM = 3$ cm. Calculer les aires des triangles $ADM$ et $BCM$. Vérifier que leur somme est cohérente avec les résultats précédents.
+4. Où faut-il placer $M$ sur $[DC]$ pour que le triangle $ADM$ ait une aire de $12\\text{ cm}^2$ ?`,
+      solution: `**1.** a) On trace le rectangle puis on place $M$ sur $[DC]$ à $3$ cm de $D$.
+b) La hauteur issue de $M$ est le segment perpendiculaire à $(AB)$ passant par $M$ : comme $(DC)$ est parallèle à $(AB)$, sa longueur est égale à $AD = 6$ cm.
+$\\mathcal{A}_{ABM} = \\dfrac{AB \\times 6}{2} = \\dfrac{10 \\times 6}{2} = 30\\text{ cm}^2$.
+
+**2.** Pour $DM = 7$ cm, la base est toujours $AB = 10$ cm et la hauteur est toujours $6$ cm (la distance entre les droites parallèles $(DC)$ et $(AB)$) : l'aire vaut encore $30\\text{ cm}^2$.
+Quelle que soit la position de $M$ sur $[DC]$, ni la base ni la hauteur ne changent : l'aire de $ABM$ vaut toujours $30\\text{ cm}^2$, la moitié de l'aire du rectangle ($10 \\times 6 = 60\\text{ cm}^2$).
+
+**3.** $ADM$ est rectangle en $D$ : $\\mathcal{A}_{ADM} = \\dfrac{AD \\times DM}{2} = \\dfrac{6 \\times 3}{2} = 9\\text{ cm}^2$.
+$MC = 10 - 3 = 7$ cm et $BCM$ est rectangle en $C$ : $\\mathcal{A}_{BCM} = \\dfrac{6 \\times 7}{2} = 21\\text{ cm}^2$.
+Somme : $9 + 21 = 30\\text{ cm}^2$. C'est cohérent : le rectangle ($60\\text{ cm}^2$) est formé des trois triangles $ADM$, $ABM$ et $BCM$, et $60 - 30 = 30\\text{ cm}^2$.
+
+**4.** On veut $\\dfrac{6 \\times DM}{2} = 12$, donc $6 \\times DM = 24$ et $DM = 24 \\div 6 = 4$. Il faut placer $M$ sur $[DC]$ à $4$ cm de $D$.`
+    },
+    {
+      id: "5G4-ds-12",
+      title: "Côtés et hauteurs d'un même triangle",
+      difficulty: 4,
+      points: 6,
+      statement: `$ABC$ est un triangle tel que $AB = 13$ cm, $BC = 14$ cm et $AC = 15$ cm. La hauteur issue de $A$ mesure $AH = 12$ cm.
+
+1. Vérifier que ce triangle est constructible.
+2. Calculer l'aire du triangle $ABC$.
+3. a) Calculer la longueur de la hauteur issue de $B$ (relative au côté $[AC]$).
+   b) Calculer la longueur de la hauteur issue de $C$ (relative au côté $[AB]$), arrondie au dixième.
+4. Ranger les trois hauteurs dans l'ordre croissant, puis les trois côtés dans l'ordre croissant. Que remarque-t-on ? Expliquer cette remarque à l'aide de la formule de l'aire.`,
+      solution: `**1.** Le plus grand côté mesure $15$ cm et $13 + 14 = 27 > 15$ : le triangle est constructible.
+
+**2.** Avec la base $[BC]$ et la hauteur $[AH]$ : $\\mathcal{A}_{ABC} = \\dfrac{14 \\times 12}{2} = 84\\text{ cm}^2$.
+
+**3.** a) Notons $h_B$ la hauteur issue de $B$ : $\\dfrac{AC \\times h_B}{2} = 84$, donc $15 \\times h_B = 168$ et $h_B = 168 \\div 15 = 11{,}2$ cm.
+b) Notons $h_C$ la hauteur issue de $C$ : $13 \\times h_C = 168$, donc $h_C = \\dfrac{168}{13} \\approx 12{,}9$ cm.
+
+**4.** Hauteurs : $h_B \\approx 11{,}2 < AH = 12 < h_C \\approx 12{,}9$ (relatives aux côtés de $15$ cm, $14$ cm et $13$ cm).
+Côtés : $AB = 13 < BC = 14 < AC = 15$.
+On remarque que **plus le côté est long, plus la hauteur relative à ce côté est courte** : la plus petite hauteur correspond au plus grand côté.
+Explication : pour chaque côté, $\\text{côté} \\times \\text{hauteur} = 2 \\times \\text{aire} = 168$. Le produit est toujours le même ; donc si le côté est plus grand, la hauteur doit être plus petite.`
     }
   ],
   "5G5": [
@@ -1862,6 +2777,97 @@ Comme $100 > 96$, c'est le **carré** qui a la plus grande aire.`
 
 **4.** Dans le triangle $ADE$ : $\\widehat{ADE} = 180^\\circ - 60^\\circ - 60^\\circ = 60^\\circ$. Les trois angles mesurent $60^\\circ$ : $ADE$ est **équilatéral**.
 Donc $DE = AD = 4$ cm. Comme $DC = AB = 7$ cm, on obtient $EC = DC - DE = 7 - 4 = 3$ cm.`
+    },
+    {
+      id: "5G5-ds-09",
+      title: "Des places de parking en épi",
+      difficulty: 1,
+      points: 4,
+      statement: `Sur un parking, chaque place est un parallélogramme $ABCD$ : le côté $[AB]$, le long du trottoir, mesure $3$ m, le côté oblique $[AD]$ mesure $5$ m et la distance entre les droites $(AB)$ et $(DC)$ est de $4{,}5$ m. L'angle $\\widehat{DAB}$ mesure $65^\\circ$.
+
+1. Donner, sans les mesurer, les longueurs $DC$ et $BC$. Justifier.
+2. Donner les mesures des angles $\\widehat{BCD}$, $\\widehat{ABC}$ et $\\widehat{CDA}$. Justifier.
+3. Calculer l'aire d'une place de parking.
+4. Le parking comporte $15$ places identiques. Calculer l'aire totale occupée par les places.`,
+      solution: `**1.** Dans un parallélogramme, les côtés opposés ont la même longueur : $DC = AB = 3$ m et $BC = AD = 5$ m.
+
+**2.** Dans un parallélogramme, les angles opposés ont la même mesure : $\\widehat{BCD} = \\widehat{DAB} = 65^\\circ$.
+Deux angles consécutifs sont supplémentaires : $\\widehat{ABC} = 180^\\circ - 65^\\circ = 115^\\circ$, et $\\widehat{CDA} = \\widehat{ABC} = 115^\\circ$ (angles opposés).
+(Vérification : $65 + 115 + 65 + 115 = 360$.)
+
+**3.** Aire d'un parallélogramme : base $\\times$ hauteur relative. Avec la base $[AB]$ et la hauteur $4{,}5$ m :
+$\\mathcal{A} = 3 \\times 4{,}5 = 13{,}5\\text{ m}^2$. (Attention : on n'utilise pas le côté oblique de $5$ m, qui n'est pas perpendiculaire à la base.)
+
+**4.** $15 \\times 13{,}5 = 202{,}5$. Les places occupent $202{,}5\\text{ m}^2$.`
+    },
+    {
+      id: "5G5-ds-10",
+      title: "Construire à partir des diagonales",
+      difficulty: 2,
+      points: 5,
+      statement: `1. On veut construire un losange $ABCD$ de centre $O$ dont les diagonales mesurent $AC = 8$ cm et $BD = 6$ cm.
+   a) Rappeler deux propriétés des diagonales d'un losange.
+   b) Écrire un programme de construction, puis construire le losange.
+   c) Mesurer un côté du losange.
+2. On veut construire un rectangle $EFGH$ tel que $EG = 10$ cm et $EF = 6$ cm.
+   a) Rappeler deux propriétés des diagonales d'un rectangle.
+   b) Expliquer pourquoi les quatre sommets du rectangle sont sur un même cercle dont on précisera le centre et le rayon.
+   c) En déduire une construction du rectangle (sans équerre), puis mesurer $FG$.`,
+      solution: `**1.** a) Les diagonales d'un losange **se coupent en leur milieu** (comme pour tout parallélogramme) et elles sont **perpendiculaires**.
+b) On trace $[AC]$ de longueur $8$ cm et on place son milieu $O$ ($OA = OC = 4$ cm). On trace la perpendiculaire à $(AC)$ passant par $O$ et on place sur cette droite $B$ et $D$ de part et d'autre de $O$, avec $OB = OD = 3$ cm. On trace les côtés $[AB]$, $[BC]$, $[CD]$ et $[DA]$.
+c) On mesure $AB = BC = CD = DA = 5$ cm.
+
+**2.** a) Les diagonales d'un rectangle **se coupent en leur milieu** et elles **ont la même longueur**.
+b) Notons $O$ le point d'intersection des diagonales. Il est le milieu de $[EG]$ et de $[FH]$, et $EG = FH = 10$ cm, donc $OE = OG = OF = OH = 5$ cm. Les quatre sommets sont sur le cercle de centre $O$ et de rayon $5$ cm.
+c) On trace $[EG]$ de longueur $10$ cm, son milieu $O$, puis le cercle de centre $O$ et de rayon $5$ cm. Avec le compas, on place sur ce cercle le point $F$ tel que $EF = 6$ cm. On place $H$, le point du cercle diamétralement opposé à $F$ (sur la droite $(FO)$, avec $OH = 5$ cm). Le quadrilatère $EFGH$ a des diagonales de même longueur qui se coupent en leur milieu : c'est un rectangle. On mesure $FG = 8$ cm.`
+    },
+    {
+      id: "5G5-ds-11",
+      title: "Une droite qui passe par le centre",
+      difficulty: 3,
+      points: 5,
+      statement: `$ABCD$ est un parallélogramme de centre $O$ tel que $AB = 8$ cm ; la distance entre les droites $(AB)$ et $(DC)$ est de $5$ cm. Une droite $d$ passant par $O$ coupe le segment $[AB]$ en $E$ et le segment $[DC]$ en $F$.
+
+1. Faire une figure.
+2. Quel est le symétrique du point $A$ par rapport à $O$ ? celui du point $B$ ? Justifier. En déduire le symétrique du segment $[AB]$.
+3. Démontrer que $O$ est le milieu du segment $[EF]$.
+4. Démontrer que le quadrilatère $AECF$ est un parallélogramme.
+5. La droite $d$ partage $ABCD$ en deux quadrilatères $AEFD$ et $EBCF$. Calculer l'aire de chacun d'eux.`,
+      solution: `**1.** Figure : un parallélogramme $ABCD$, ses diagonales qui se coupent en $O$, une droite passant par $O$ qui coupe $[AB]$ en $E$ et $[DC]$ en $F$.
+
+**2.** Les diagonales d'un parallélogramme se coupent en leur milieu : $O$ est le milieu de $[AC]$ et de $[BD]$. Donc le symétrique de $A$ par rapport à $O$ est $C$ et celui de $B$ est $D$. La symétrie centrale transforme un segment en un segment : le symétrique de $[AB]$ est $[CD]$.
+
+**3.** Le point $E$ est sur $[AB]$, donc son symétrique $E'$ est sur $[CD]$. La droite $d$ passe par le centre $O$, donc elle est sa propre symétrique : $E'$ est aussi sur $d$. Le point $E'$ est donc à l'intersection de $d$ et de $[DC]$ : c'est $F$. Ainsi $F$ est le symétrique de $E$ par rapport à $O$, donc $O$ est le milieu de $[EF]$.
+
+**4.** Les diagonales $[AC]$ et $[EF]$ du quadrilatère $AECF$ ont le même milieu $O$. Or un quadrilatère dont les diagonales se coupent en leur milieu est un parallélogramme : $AECF$ est un parallélogramme.
+
+**5.** Aire de $ABCD$ : $8 \\times 5 = 40\\text{ cm}^2$.
+Par la symétrie de centre $O$, $A$ a pour image $C$, $E$ a pour image $F$, $F$ a pour image $E$ et $D$ a pour image $B$ : le quadrilatère $AEFD$ a pour symétrique $CFEB$. La symétrie centrale conserve les aires, donc les deux quadrilatères ont la même aire : $40 \\div 2 = 20\\text{ cm}^2$ chacun, quelle que soit la droite $d$ choisie.`
+    },
+    {
+      id: "5G5-ds-12",
+      title: "Le cadre articulé",
+      difficulty: 4,
+      points: 6,
+      statement: `Lucie fabrique un cadre articulé avec quatre baguettes : deux de $6$ cm et deux de $4$ cm, fixées par des attaches à leurs extrémités. En déformant le cadre, elle obtient toujours un parallélogramme $ABCD$ avec $AB = 6$ cm et $AD = 4$ cm.
+
+1. Expliquer pourquoi le quadrilatère obtenu est toujours un parallélogramme.
+2. Dans une première position, la hauteur relative au côté $[AB]$ mesure $3{,}2$ cm.
+   a) Calculer l'aire du parallélogramme.
+   b) En déduire la hauteur relative au côté $[AD]$.
+3. Lucie affirme qu'en déformant le cadre, elle peut obtenir une aire de $30\\text{ cm}^2$. A-t-elle raison ? Justifier.
+4. Quelle est l'aire maximale que peut avoir ce cadre ? Quelle est alors la nature du quadrilatère ?
+5. Avec la même longueur totale de baguettes, coupée en quatre baguettes de même longueur, quelle aire maximale pourrait-elle obtenir ? Préciser la forme obtenue.`,
+      solution: `**1.** Les côtés opposés ont toujours la même longueur ($AB = CD = 6$ cm et $AD = BC = 4$ cm). Or un quadrilatère non croisé dont les côtés opposés ont deux à deux la même longueur est un parallélogramme.
+
+**2.** a) $\\mathcal{A} = AB \\times h = 6 \\times 3{,}2 = 19{,}2\\text{ cm}^2$.
+b) En prenant $[AD]$ comme base : $4 \\times h' = 19{,}2$, donc $h' = 19{,}2 \\div 4 = 4{,}8$ cm.
+
+**3.** La hauteur relative à $[AB]$ est la distance du point $D$ à la droite $(AB)$. Or la distance d'un point à une droite est la plus courte des distances : elle est inférieure ou égale à $AD = 4$ cm. Donc l'aire est au plus $6 \\times 4 = 24\\text{ cm}^2$. Une aire de $30\\text{ cm}^2$ est impossible : Lucie a **tort**.
+
+**4.** L'aire vaut $24\\text{ cm}^2$ lorsque la hauteur est égale à $AD$, c'est-à-dire lorsque $[AD]$ est perpendiculaire à $[AB]$. Le parallélogramme a alors un angle droit : c'est un **rectangle**. L'aire maximale est $24\\text{ cm}^2$.
+
+**5.** Longueur totale : $2 \\times 6 + 2 \\times 4 = 20$ cm, donc quatre baguettes de $20 \\div 4 = 5$ cm. Le cadre est alors un losange de côté $5$ cm ; par le même raisonnement, son aire est au plus $5 \\times 5 = 25\\text{ cm}^2$, obtenue lorsqu'il a un angle droit : c'est alors un **carré**. Aire maximale : $25\\text{ cm}^2$.`
     }
   ],
   "5G6": [
@@ -2028,6 +3034,91 @@ b) Une dimension du rectangle est la hauteur du cylindre, $10$ cm. L'autre est �
 **3.** $V_{\\text{prisme}} = 7 \\times 7 \\times 10 = 490\\text{ cm}^3$. Comme $503 > 490$, c'est le **cylindre** qui a le plus grand volume.
 
 **4.** Avec un rayon de $8$ cm : $V' = \\pi \\times 8^2 \\times 10 = 640\\pi\\text{ cm}^3$. Or $640\\pi = 4 \\times 160\\pi$ : le volume est multiplié par $4$, et non par $2$. Noé a tort (le rayon intervient deux fois dans $r^2 = r \\times r$).`
+    },
+    {
+      id: "5G6-ds-09",
+      title: "Le crayon à papier",
+      difficulty: 1,
+      points: 4,
+      statement: `Un crayon à papier neuf a la forme d'un prisme droit de longueur $17{,}5$ cm dont les bases sont des hexagones (polygones à $6$ côtés) d'aire $0{,}6\\text{ cm}^2$. En son centre, sur toute la longueur, se trouve une mine en forme de cylindre de révolution de rayon $0{,}1$ cm.
+
+1. Combien le prisme a-t-il de faces ? d'arêtes ? de sommets ? Quelle est la nature de ses faces latérales ?
+2. Calculer le volume du crayon entier (bois et mine).
+3. Calculer le volume de la mine : donner la valeur exacte, puis l'arrondi au centième de $\\text{cm}^3$.
+4. En déduire le volume de bois, arrondi au centième de $\\text{cm}^3$.`,
+      solution: `**1.** Les bases sont des hexagones : il y a $2$ bases et $6$ faces latérales, soit $8$ faces. Arêtes : $6 + 6$ (les deux bases) $+ 6$ (arêtes latérales) $= 18$ arêtes. Sommets : $6 + 6 = 12$ sommets. Comme c'est un prisme droit, les faces latérales sont des **rectangles**.
+
+**2.** Volume d'un prisme droit : aire de la base $\\times$ hauteur. $V = 0{,}6 \\times 17{,}5 = 10{,}5\\text{ cm}^3$.
+
+**3.** Volume d'un cylindre : $\\pi \\times r^2 \\times h$. $V_{\\text{mine}} = \\pi \\times 0{,}1^2 \\times 17{,}5 = \\pi \\times 0{,}01 \\times 17{,}5 = 0{,}175\\pi\\text{ cm}^3$, soit environ $0{,}55\\text{ cm}^3$.
+
+**4.** $V_{\\text{bois}} = 10{,}5 - 0{,}175\\pi \\approx 10{,}5 - 0{,}55 = 9{,}95\\text{ cm}^3$ (calcul exact à la calculatrice : $9{,}950\\,2\\ldots$).
+
+Le volume de bois est donc d'environ $9{,}95\\text{ cm}^3$ : la mine ne représente qu'une très petite partie du crayon.`
+    },
+    {
+      id: "5G6-ds-10",
+      title: "La tente canadienne",
+      difficulty: 2,
+      points: 5,
+      statement: `Une tente a la forme d'un prisme droit couché, de longueur $2$ m. Ses deux bases (l'avant et l'arrière de la tente) sont des triangles isocèles : la base du triangle, posée au sol, mesure $1{,}8$ m, la hauteur relative à cette base mesure $1{,}2$ m et les deux autres côtés mesurent $1{,}5$ m.
+
+1. Dessiner la tente en perspective cavalière (à main levée), en indiquant les dimensions.
+2. Décrire le patron du prisme : nombre, nature et dimensions des faces.
+3. Calculer le volume d'air à l'intérieur de la tente, en $\\text{m}^3$ puis en litres.
+4. La toile recouvre les deux triangles et les deux pans inclinés (le sol n'est pas en toile). Calculer l'aire de toile nécessaire.`,
+      solution: `**1.** On dessine le triangle avant en vraie forme, puis on trace les arêtes fuyantes (parallèles, de même longueur réduite) vers l'arrière, les arêtes cachées en pointillés.
+
+**2.** Le patron comporte $5$ faces : $2$ triangles isocèles (côtés $1{,}5$ m, $1{,}5$ m et $1{,}8$ m) et $3$ rectangles de longueur $2$ m : un de $1{,}8$ m sur $2$ m (le sol) et deux de $1{,}5$ m sur $2$ m (les pans inclinés).
+
+**3.** Aire d'une base : $\\mathcal{B} = \\dfrac{1{,}8 \\times 1{,}2}{2} = 1{,}08\\text{ m}^2$.
+Volume : $V = \\mathcal{B} \\times h = 1{,}08 \\times 2 = 2{,}16\\text{ m}^3$.
+Comme $1\\text{ m}^3 = 1\\,000$ L, $V = 2\\,160$ L.
+
+**4.** Deux triangles : $2 \\times 1{,}08 = 2{,}16\\text{ m}^2$. Deux pans : $2 \\times (1{,}5 \\times 2) = 6\\text{ m}^2$.
+Aire de toile : $2{,}16 + 6 = 8{,}16\\text{ m}^2$.`
+    },
+    {
+      id: "5G6-ds-11",
+      title: "Le rouleau de peinture",
+      difficulty: 3,
+      points: 5,
+      statement: `Un rouleau de peinture a la forme d'un cylindre de révolution de rayon $2{,}5$ cm et de longueur $18$ cm.
+
+1. Lorsqu'on « déroule » la surface latérale du cylindre, on obtient un rectangle. Donner ses dimensions (valeur exacte, puis arrondi au millimètre).
+2. Quand le rouleau fait un tour complet sur un mur, quelle aire peint-il ? Donner la valeur exacte, puis l'arrondi au $\\text{cm}^2$.
+3. Un mur rectangulaire mesure $4$ m sur $2{,}5$ m. Convertir son aire en $\\text{cm}^2$, puis calculer le nombre minimal de tours de rouleau nécessaires pour le peindre une fois.
+4. Calculer le volume du cylindre (arrondi au $\\text{cm}^3$).`,
+      solution: `**1.** Une dimension du rectangle est la longueur du cylindre : $18$ cm. L'autre est le périmètre du disque de base : $2 \\times \\pi \\times 2{,}5 = 5\\pi$ cm, soit environ $15{,}7$ cm. Le rectangle mesure $18$ cm sur $5\\pi \\approx 15{,}7$ cm.
+
+**2.** En un tour, le rouleau peint exactement ce rectangle : $18 \\times 5\\pi = 90\\pi\\text{ cm}^2$, soit environ $283\\text{ cm}^2$.
+
+**3.** Aire du mur : $4 \\times 2{,}5 = 10\\text{ m}^2$. Comme $1\\text{ m}^2 = 10\\,000\\text{ cm}^2$, cela fait $100\\,000\\text{ cm}^2$.
+Nombre de tours : $100\\,000 \\div (90\\pi) \\approx 353{,}7$. Avec $353$ tours, le mur n'est pas entièrement peint : il faut au minimum **$354$ tours**.
+
+**4.** $V = \\pi \\times 2{,}5^2 \\times 18 = \\pi \\times 6{,}25 \\times 18 = 112{,}5\\pi \\approx 353\\text{ cm}^3$.`
+    },
+    {
+      id: "5G6-ds-12",
+      title: "Changer de moule à gâteau",
+      difficulty: 4,
+      points: 6,
+      statement: `Une recette de gâteau est prévue pour un moule cylindrique de $20$ cm de diamètre : la pâte y monte à $4$ cm de hauteur.
+
+1. Calculer le volume de pâte : valeur exacte, puis arrondi au $\\text{cm}^3$. Est-ce plus ou moins d'un litre ?
+2. Lina n'a qu'un moule en forme de pavé droit dont le fond mesure $25$ cm sur $18$ cm. Quelle hauteur la pâte atteindra-t-elle ? Arrondir au millimètre.
+3. Pour une fête, Lina double les quantités de la recette et utilise un moule cylindrique de $24$ cm de diamètre et de $5$ cm de haut.
+   a) Exprimer le volume de pâte, puis la hauteur atteinte par la pâte dans ce moule, sous la forme d'une fraction (sans utiliser de valeur approchée de $\\pi$).
+   b) La pâte va-t-elle déborder ?`,
+      solution: `**1.** Le rayon est $20 \\div 2 = 10$ cm. $V = \\pi \\times 10^2 \\times 4 = 400\\pi \\approx 1\\,257\\text{ cm}^3$.
+$1$ L $= 1\\text{ dm}^3 = 1\\,000\\text{ cm}^3$ : il y a **un peu plus d'un litre** de pâte (environ $1{,}26$ L).
+
+**2.** Dans le pavé droit, le volume de pâte est égal à $25 \\times 18 \\times h = 450 \\times h$, où $h$ est la hauteur en centimètres.
+$450 \\times h = 400\\pi$, donc $h = \\dfrac{400\\pi}{450} \\approx 2{,}79$. La pâte atteindra environ $2{,}8$ cm de hauteur.
+
+**3.** a) Volume doublé : $2 \\times 400\\pi = 800\\pi\\text{ cm}^3$. Rayon du moule : $12$ cm ; l'aire du fond est $\\pi \\times 12^2 = 144\\pi\\text{ cm}^2$.
+On cherche $h$ tel que $144\\pi \\times h = 800\\pi$, donc $144 \\times h = 800$ et $h = \\dfrac{800}{144} = \\dfrac{50}{9}$ cm.
+b) $\\dfrac{50}{9} \\approx 5{,}56$ cm, ce qui est plus que les $5$ cm du moule ($5 = \\dfrac{45}{9} < \\dfrac{50}{9}$) : la pâte va **déborder** (avant même la cuisson).`
     }
   ],
   "5D1": [
@@ -2240,6 +3331,120 @@ Vérification : $\\dfrac{47 + 13}{5} = \\dfrac{60}{5} = 12$.
 **3.** Groupe : $15 + 12 = 27$ demi-pensionnaires sur $20 + 30 = 50$ élèves. $\\dfrac{27}{50} = \\dfrac{54}{100} = 54\\,\\%$.
 
 **4.** Moyenne des deux pourcentages : $\\dfrac{75 + 40}{2} = 57{,}5\\,\\%$, alors que le vrai pourcentage est $54\\,\\%$. Tom a tort : les deux classes n'ont pas le même effectif, donc on ne peut pas faire la moyenne des pourcentages ; il faut revenir aux effectifs.`
+    },
+    {
+      id: "5D1-ds-09",
+      title: "Les emprunts au CDI",
+      difficulty: 1,
+      points: 4,
+      statement: `La documentaliste du collège a relevé le genre des $50$ livres empruntés pendant une semaine.
+
+| Genre | Bande dessinée | Roman | Manga | Documentaire |
+|---|---|---|---|---|
+| Effectif | $18$ | $12$ | $15$ | $5$ |
+
+1. Vérifier que l'effectif total est bien $50$.
+2. Calculer la fréquence de chaque genre, sous forme décimale puis en pourcentage.
+3. Écrire la fréquence des mangas sous la forme d'une fraction irréductible.
+4. Quel pourcentage des livres empruntés sont des livres dessinés (bandes dessinées ou mangas) ?`,
+      solution: `**1.** $18 + 12 + 15 + 5 = 50$ : l'effectif total est bien $50$.
+
+**2.** La fréquence d'une valeur est égale à $\\dfrac{\\text{effectif}}{\\text{effectif total}}$.
+- Bande dessinée : $\\dfrac{18}{50} = 0{,}36$, soit $36\\,\\%$.
+- Roman : $\\dfrac{12}{50} = 0{,}24$, soit $24\\,\\%$.
+- Manga : $\\dfrac{15}{50} = 0{,}3$, soit $30\\,\\%$.
+- Documentaire : $\\dfrac{5}{50} = 0{,}1$, soit $10\\,\\%$.
+(Vérification : $36 + 24 + 30 + 10 = 100$.)
+
+**3.** $\\dfrac{15}{50} = \\dfrac{15 \\div 5}{50 \\div 5} = \\dfrac{3}{10}$, fraction irréductible car $3$ et $10$ n'ont pas de diviseur commun autre que $1$.
+
+**4.** $18 + 15 = 33$ livres dessinés, et $\\dfrac{33}{50} = \\dfrac{66}{100}$ : cela représente $66\\,\\%$ des emprunts (on retrouve $36\\,\\% + 30\\,\\%$).`
+    },
+    {
+      id: "5D1-ds-10",
+      title: "Le vote du menu de fin d'année",
+      difficulty: 2,
+      points: 5,
+      statement: `Les $60$ élèves de 5e ont voté pour le menu du repas de fin d'année. Les résultats sont représentés par un diagramme circulaire dont les secteurs ont les angles suivants :
+- pizza : $144^\\circ$ ;
+- burger : $90^\\circ$ ;
+- couscous : $72^\\circ$ ;
+- lasagnes : $54^\\circ$.
+
+1. Vérifier que la somme des angles est cohérente.
+2. Quel angle représente un élève ?
+3. Retrouver le nombre de votes pour chaque menu.
+4. Calculer la fréquence, en pourcentage, de chaque menu.
+5. Le menu choisi doit obtenir plus de la moitié des voix, sinon on fait un second tour. Faut-il un second tour ? Justifier.`,
+      solution: `**1.** $144 + 90 + 72 + 54 = 360$ : les secteurs remplissent bien tout le disque ($360^\\circ$).
+
+**2.** Les $60$ élèves se partagent $360^\\circ$ : un élève correspond à $360 \\div 60 = 6^\\circ$.
+
+**3.** On divise chaque angle par $6$ :
+- pizza : $144 \\div 6 = 24$ votes ;
+- burger : $90 \\div 6 = 15$ votes ;
+- couscous : $72 \\div 6 = 12$ votes ;
+- lasagnes : $54 \\div 6 = 9$ votes.
+(Vérification : $24 + 15 + 12 + 9 = 60$.)
+
+**4.** Pizza : $\\dfrac{24}{60} = 0{,}4 = 40\\,\\%$ ; burger : $\\dfrac{15}{60} = 0{,}25 = 25\\,\\%$ ; couscous : $\\dfrac{12}{60} = 0{,}2 = 20\\,\\%$ ; lasagnes : $\\dfrac{9}{60} = 0{,}15 = 15\\,\\%$.
+
+**5.** La moitié des voix correspond à $30$ votes (ou à un angle de $180^\\circ$). Le menu arrivé en tête, la pizza, n'a que $24$ votes ($40\\,\\%$, angle $144^\\circ < 180^\\circ$) : il faut un **second tour**.`
+    },
+    {
+      id: "5D1-ds-11",
+      title: "Une erreur de saisie",
+      difficulty: 3,
+      points: 5,
+      statement: `Un professeur a calculé que la moyenne des $24$ élèves de sa classe à un contrôle est $11{,}5$ sur $20$.
+
+1. Calculer la somme des notes des $24$ élèves.
+2. En relisant les copies, il s'aperçoit qu'il a saisi la note $8$ au lieu de $14$ pour l'une d'elles. Calculer la moyenne corrigée.
+3. Deux élèves absents passent ensuite le contrôle et obtiennent $15$ et $9$.
+   a) Sans calculer, dire si la moyenne de la classe va augmenter ou diminuer. Justifier.
+   b) Calculer la nouvelle moyenne de la classe, arrondie au centième.
+4. Un élève affirme : « Si on ajoute une note égale à la moyenne, la moyenne ne change pas. » Vérifier cette affirmation sur l'exemple de la question 2.`,
+      solution: `**1.** Moyenne $= \\dfrac{\\text{somme des notes}}{\\text{nombre de notes}}$, donc somme $= 11{,}5 \\times 24 = 276$.
+
+**2.** La somme corrigée est $276 - 8 + 14 = 282$. Moyenne corrigée : $\\dfrac{282}{24} = 11{,}75$.
+
+**3.** a) Les deux nouvelles notes ont pour moyenne $\\dfrac{15 + 9}{2} = 12$, ce qui est plus que $11{,}75$ : la moyenne de la classe va **augmenter** (légèrement).
+b) Nouvelle somme : $282 + 15 + 9 = 306$ pour $26$ élèves. Moyenne : $\\dfrac{306}{26} \\approx 11{,}77$.
+
+**4.** On ajoute la note $11{,}75$ aux $24$ notes corrigées : somme $282 + 11{,}75 = 293{,}75$ pour $25$ notes, et $\\dfrac{293{,}75}{25} = 11{,}75$. La moyenne ne change pas : l'affirmation est vérifiée sur cet exemple.`
+    },
+    {
+      id: "5D1-ds-12",
+      title: "Les séances de sport de la semaine",
+      difficulty: 4,
+      points: 6,
+      statement: `On a demandé aux $25$ élèves d'une classe combien de séances de sport ils pratiquent par semaine (en dehors du collège). Le tableau a été en partie effacé.
+
+| Nombre de séances | $0$ | $1$ | $2$ | $3$ | $4$ |
+|---|---|---|---|---|---|
+| Effectif | | $5$ | | $6$ | $2$ |
+
+On sait aussi que $8\\,\\%$ des élèves ne pratiquent aucune séance.
+
+1. Calculer l'effectif de la valeur $0$, puis celui de la valeur $2$.
+2. Calculer le nombre moyen de séances par élève.
+3. On veut représenter la série par un diagramme circulaire. Calculer l'angle du secteur correspondant à $2$ séances.
+4. Quel pourcentage des élèves pratique au moins $2$ séances par semaine ?
+5. Des élèves d'une autre classe, qui pratiquent tous $4$ séances par semaine, rejoignent le groupe. Combien doivent-ils être au minimum pour que la moyenne du groupe dépasse $2{,}5$ séances ? Justifier par des essais.`,
+      solution: `**1.** $8\\,\\%$ de $25$ : $\\dfrac{8}{100} \\times 25 = 2$. L'effectif de la valeur $0$ est $2$.
+Effectif de la valeur $2$ : $25 - (2 + 5 + 6 + 2) = 25 - 15 = 10$.
+
+**2.** Nombre total de séances : $0 \\times 2 + 1 \\times 5 + 2 \\times 10 + 3 \\times 6 + 4 \\times 2 = 0 + 5 + 20 + 18 + 8 = 51$.
+Moyenne : $\\dfrac{51}{25} = 2{,}04$ séances par élève.
+
+**3.** Un élève correspond à $360 \\div 25 = 14{,}4^\\circ$. Pour $10$ élèves : $10 \\times 14{,}4 = 144^\\circ$.
+
+**4.** $10 + 6 + 2 = 18$ élèves pratiquent au moins $2$ séances ; $\\dfrac{18}{25} = \\dfrac{72}{100} = 72\\,\\%$.
+
+**5.** Avec $n$ élèves de plus à $4$ séances, il y a $51 + 4n$ séances pour $25 + n$ élèves.
+- $n = 7$ : $\\dfrac{51 + 28}{32} = \\dfrac{79}{32} \\approx 2{,}47$, ce qui ne dépasse pas $2{,}5$.
+- $n = 8$ : $\\dfrac{51 + 32}{33} = \\dfrac{83}{33} \\approx 2{,}52$, ce qui dépasse $2{,}5$.
+Plus on ajoute d'élèves à $4$ séances, plus la moyenne augmente ; il faut donc au minimum **$8$ élèves**.`
     }
   ],
   "5D2": [
@@ -2461,6 +3666,112 @@ Somme supérieure ou égale à 6 : 6 apparaît 3 fois, 7 apparaît 2 fois, 8 app
 **5.** Le produit est impair seulement si les deux numéros sont impairs (1 ou 3) : $2 \\times 2 = 4$ cases sur 16. Le produit est pair dans les $16 - 4 = 12$ autres cases.
 $P(\\text{Sam gagne}) = \\dfrac{12}{16} = \\dfrac{3}{4}$ et $P(\\text{l'autre gagne}) = \\dfrac{4}{16} = \\dfrac{1}{4}$.
 Les deux probabilités sont différentes : le jeu **n'est pas équitable**, il avantage Sam.`
+    },
+    {
+      id: "5D2-ds-09",
+      title: "Le dé à huit faces",
+      difficulty: 1,
+      points: 4,
+      statement: `On lance un dé équilibré à huit faces numérotées de $1$ à $8$ et on note le numéro obtenu.
+
+On considère les événements suivants :
+- A : « obtenir un nombre pair » ;
+- B : « obtenir un multiple de $3$ » ;
+- C : « obtenir $9$ » ;
+- D : « obtenir un nombre inférieur ou égal à $8$ » ;
+- E : « ne pas obtenir $1$ ».
+
+1. Pourquoi les issues de cette expérience sont-elles équiprobables ? Quelle est la probabilité de chaque issue ?
+2. Calculer la probabilité de chacun des événements A, B, C, D et E.
+3. Comment appelle-t-on l'événement C ? et l'événement D ?
+4. Tracer une échelle de probabilité de $0$ à $1$ (de longueur $8$ cm) et y placer les cinq événements.`,
+      solution: `**1.** Le dé est équilibré : chacune des $8$ faces a la même chance d'apparaître. Chaque issue a donc pour probabilité $\\dfrac{1}{8}$.
+
+**2.**
+- A est réalisé par $2$, $4$, $6$, $8$ : $P(A) = \\dfrac{4}{8} = \\dfrac{1}{2}$.
+- B est réalisé par $3$ et $6$ : $P(B) = \\dfrac{2}{8} = \\dfrac{1}{4}$.
+- C n'est réalisé par aucune issue : $P(C) = 0$.
+- D est réalisé par les $8$ issues : $P(D) = \\dfrac{8}{8} = 1$.
+- E est réalisé par $2$, $3$, $4$, $5$, $6$, $7$, $8$ : $P(E) = \\dfrac{7}{8}$.
+
+**3.** C est un événement **impossible** (probabilité $0$) ; D est un événement **certain** (probabilité $1$).
+
+**4.** Sur l'échelle de $8$ cm, $1$ cm représente $\\dfrac{1}{8}$ : C est placé à $0$ cm, B à $2$ cm, A à $4$ cm (au milieu), E à $7$ cm et D à $8$ cm.`
+    },
+    {
+      id: "5D2-ds-10",
+      title: "Tirer une lettre au hasard",
+      difficulty: 2,
+      points: 5,
+      statement: `On écrit chacune des lettres du mot PROBABILITE sur un carton (un carton par lettre, donc certaines lettres sont écrites plusieurs fois). On mélange les cartons, retournés, et on en tire un au hasard.
+
+1. Combien y a-t-il de cartons ? Les issues « obtenir P », « obtenir B », … sont-elles toutes équiprobables ? Justifier.
+2. Calculer la probabilité de tirer la lettre B, puis celle de tirer la lettre T.
+3. On rappelle que les voyelles sont A, E, I, O, U et Y. Calculer la probabilité de l'événement V : « tirer une voyelle ».
+4. Décrire par une phrase l'événement contraire de V et calculer sa probabilité.
+5. Quelle est la probabilité de tirer la lettre Z ?`,
+      solution: `**1.** Le mot PROBABILITE comporte $11$ lettres, donc il y a $11$ cartons, chacun ayant la même chance d'être tiré.
+Les lettres, elles, ne sont pas équiprobables : B et I figurent sur $2$ cartons chacune, alors que P, R, O, A, L, T et E ne figurent que sur un carton. On a plus de chances de tirer un B qu'un P.
+
+**2.** $P(\\text{B}) = \\dfrac{2}{11}$ (deux cartons sur onze) et $P(\\text{T}) = \\dfrac{1}{11}$.
+
+**3.** Les cartons portant une voyelle sont O, A, I, I, E : il y en a $5$. Donc $P(V) = \\dfrac{5}{11}$.
+
+**4.** L'événement contraire de V est « tirer une consonne ». Il est réalisé par P, R, B, B, L, T, soit $6$ cartons : sa probabilité est $\\dfrac{6}{11}$. On vérifie que $\\dfrac{5}{11} + \\dfrac{6}{11} = 1$.
+
+**5.** Aucun carton ne porte la lettre Z : c'est un événement impossible, de probabilité $0$.`
+    },
+    {
+      id: "5D2-ds-11",
+      title: "La tombola de l'association",
+      difficulty: 3,
+      points: 5,
+      statement: `Pour sa tombola, une association vend $200$ billets numérotés. Les numéros gagnants seront tirés au hasard : il y a $1$ gros lot, $4$ lots moyens et $15$ petits lots (un billet gagne au plus un lot). Noa achète un billet.
+
+1. Quelle est la probabilité que le billet de Noa gagne le gros lot ?
+2. Quelle est la probabilité qu'il gagne un lot (quel qu'il soit) ? Donner le résultat sous forme de fraction simplifiée puis de pourcentage.
+3. Quelle est la probabilité qu'il ne gagne rien ?
+4. L'association voudrait que la probabilité de gagner un lot soit égale à $\\dfrac{1}{8}$, sans changer le nombre de billets. Combien de petits lots doit-elle ajouter ?
+5. Une autre tombola propose $16$ lots pour $150$ billets. Dans laquelle des deux tombolas (avant l'ajout de la question 4) a-t-on le plus de chances de gagner un lot ? Justifier.`,
+      solution: `On suppose que chaque billet a la même chance d'être tiré.
+
+**1.** Un seul billet sur $200$ gagne le gros lot : la probabilité est $\\dfrac{1}{200}$.
+
+**2.** Il y a $1 + 4 + 15 = 20$ billets gagnants. La probabilité de gagner un lot est $\\dfrac{20}{200} = \\dfrac{1}{10}$, soit $10\\,\\%$.
+
+**3.** « Ne rien gagner » est l'événement contraire de « gagner un lot » : sa probabilité est $1 - \\dfrac{1}{10} = \\dfrac{9}{10}$, soit $90\\,\\%$.
+
+**4.** On veut $\\dfrac{\\text{nombre de lots}}{200} = \\dfrac{1}{8}$, donc le nombre de lots doit être $200 \\div 8 = 25$. Il faut ajouter $25 - 20 = 5$ petits lots.
+
+**5.** Dans la seconde tombola, la probabilité de gagner un lot est $\\dfrac{16}{150} \\approx 0{,}107$, alors qu'elle vaut $\\dfrac{1}{10} = 0{,}1$ dans la première. On a donc un peu plus de chances de gagner avec la **seconde tombola**.`
+    },
+    {
+      id: "5D2-ds-12",
+      title: "Deux pièces de monnaie",
+      difficulty: 4,
+      points: 6,
+      statement: `On lance deux pièces de monnaie équilibrées, une pièce de $1$ € et une pièce de $2$ €, et on note la face obtenue par chacune (P pour pile, F pour face).
+
+Hugo affirme : « Il y a trois résultats possibles : deux piles, deux faces, ou un pile et un face. Chacun a donc une probabilité de $\\dfrac{1}{3}$. »
+
+1. Faire la liste de toutes les issues de l'expérience, en notant d'abord la face de la pièce de $1$ €, puis celle de la pièce de $2$ €. Ces issues sont-elles équiprobables ?
+2. Calculer la probabilité d'obtenir deux piles, puis celle d'obtenir un pile et un face. Hugo a-t-il raison ?
+3. Hugo et Lina jouent : Hugo gagne si les deux pièces tombent sur la même face, Lina gagne sinon. Le jeu est-il équitable ? Justifier.
+4. On lance maintenant trois pièces équilibrées.
+   a) Combien y a-t-il d'issues ? Les écrire toutes.
+   b) Calculer la probabilité d'obtenir au moins deux piles.
+   c) Calculer la probabilité que les trois pièces tombent du même côté.`,
+      solution: `**1.** Les issues sont : PP, PF, FP, FF. Chaque pièce est équilibrée : ces $4$ issues ont la même chance de se produire, chacune a pour probabilité $\\dfrac{1}{4}$.
+
+**2.** « Deux piles » n'est réalisé que par PP : probabilité $\\dfrac{1}{4}$.
+« Un pile et un face » est réalisé par PF et FP : probabilité $\\dfrac{2}{4} = \\dfrac{1}{2}$.
+Hugo a **tort** : les trois résultats qu'il cite ne sont pas équiprobables (« un pile et un face » est deux fois plus probable que « deux piles »).
+
+**3.** Hugo gagne avec PP ou FF : probabilité $\\dfrac{2}{4} = \\dfrac{1}{2}$. Lina gagne avec PF ou FP : probabilité $\\dfrac{1}{2}$. Les deux joueurs ont la même probabilité de gagner : le jeu est **équitable**.
+
+**4.** a) Il y a $8$ issues équiprobables : PPP, PPF, PFP, PFF, FPP, FPF, FFP, FFF.
+b) « Au moins deux piles » est réalisé par PPP, PPF, PFP, FPP : probabilité $\\dfrac{4}{8} = \\dfrac{1}{2}$.
+c) « Les trois pièces tombent du même côté » est réalisé par PPP et FFF : probabilité $\\dfrac{2}{8} = \\dfrac{1}{4}$.`
     }
   ],
   "5P1": [
@@ -2663,6 +3974,113 @@ Aire sur le plan : $9 \\times 6 = 54$ cm².
 $2\\,160\\,000 \\div 54 = 40\\,000$ : l'aire réelle est $40\\,000$ fois plus grande que l'aire sur le plan.
 
 **4.** Paul a tort : l'aire est multipliée par $40\\,000$ et non par 200. En effet, la longueur **et** la largeur sont chacune multipliées par 200, donc l'aire est multipliée par $200 \\times 200 = 40\\,000$. L'échelle concerne les longueurs, pas les aires.`
+    },
+    {
+      id: "5P1-ds-09",
+      title: "La photocopieuse de la médiathèque",
+      difficulty: 1,
+      points: 4,
+      statement: `À la médiathèque, le prix des photocopies est proportionnel au nombre de photocopies : $25$ photocopies coûtent $1{,}50$ €.
+
+1. Recopier et compléter le tableau de proportionnalité suivant.
+
+| Nombre de photocopies | $25$ | $50$ | $10$ | $40$ | $100$ |
+|---|---|---|---|---|---|
+| Prix (€) | $1{,}50$ | … | … | … | … |
+
+2. Quel est le prix d'une photocopie ? Quel est le coefficient de proportionnalité qui permet de passer de la première ligne à la seconde ?
+3. Combien de photocopies peut-on faire avec $4{,}20$ € ?
+4. On représente le prix en fonction du nombre de photocopies dans un repère. Comment sont placés les points obtenus ? Justifier.`,
+      solution: `**1.**
+- $50 = 2 \\times 25$, donc le prix est $2 \\times 1{,}50 = 3$ €.
+- $10$ photocopies : $1{,}50 \\div 25 \\times 10 = 0{,}06 \\times 10 = 0{,}60$ €.
+- $40 = 50 - 10$, donc le prix est $3 - 0{,}60 = 2{,}40$ €.
+- $100 = 4 \\times 25$, donc le prix est $4 \\times 1{,}50 = 6$ €.
+
+**2.** Prix d'une photocopie : $1{,}50 \\div 25 = 0{,}06$ €, soit $6$ centimes. Le coefficient de proportionnalité est $0{,}06$ : on multiplie le nombre de photocopies par $0{,}06$ pour obtenir le prix.
+
+**3.** $4{,}20 \\div 0{,}06 = 70$. Avec $4{,}20$ €, on peut faire $70$ photocopies.
+
+**4.** Le prix est proportionnel au nombre de photocopies : les points sont **alignés avec l'origine du repère**.`
+    },
+    {
+      id: "5P1-ds-10",
+      title: "Le sucre dans les barres de céréales",
+      difficulty: 2,
+      points: 5,
+      statement: `Une barre de céréales de la marque A pèse $25$ g et contient $6$ g de sucre. Une barre de la marque B pèse $40$ g et contient $9$ g de sucre.
+
+1. Calculer le pourcentage de sucre dans une barre de la marque A.
+2. Calculer le pourcentage de sucre dans une barre de la marque B.
+3. Quelle barre est la plus sucrée en proportion ? Laquelle apporte le plus de sucre quand on en mange une ?
+4. La barre A contient aussi $12\\,\\%$ de protéines. Calculer la masse de protéines dans une barre A.
+5. Une boîte contient $6$ barres A. Calculer la masse de sucre contenue dans la boîte. Le pourcentage de sucre dans la boîte est-il différent de celui d'une barre ? Justifier.`,
+      solution: `**1.** $\\dfrac{6}{25} = \\dfrac{24}{100}$ : la barre A contient $24\\,\\%$ de sucre.
+
+**2.** $\\dfrac{9}{40} = 0{,}225 = \\dfrac{22{,}5}{100}$ : la barre B contient $22{,}5\\,\\%$ de sucre.
+
+**3.** $24\\,\\% > 22{,}5\\,\\%$ : la barre **A** est la plus sucrée en proportion. Mais une barre B apporte $9$ g de sucre contre $6$ g pour une barre A : c'est la barre **B** qui apporte le plus de sucre quand on en mange une (car elle est plus lourde).
+
+**4.** $12\\,\\%$ de $25$ g : $\\dfrac{12}{100} \\times 25 = 3$ g de protéines.
+
+**5.** Masse de sucre : $6 \\times 6 = 36$ g pour $6 \\times 25 = 150$ g de barres.
+$\\dfrac{36}{150} = 0{,}24 = 24\\,\\%$ : le pourcentage est le même, car la masse de sucre et la masse totale ont toutes les deux été multipliées par $6$.`
+    },
+    {
+      id: "5P1-ds-11",
+      title: "Mélanger de la peinture verte",
+      difficulty: 3,
+      points: 5,
+      statement: `Pour obtenir une certaine teinte de vert, Malo mélange de la peinture jaune et de la peinture bleue : il faut toujours $3$ volumes de jaune pour $2$ volumes de bleu.
+
+1. Recopier et compléter le tableau (volumes en mL), qui est un tableau de proportionnalité.
+
+| Jaune (mL) | $300$ | $150$ | … | $900$ |
+|---|---|---|---|---|
+| Bleu (mL) | $200$ | … | $50$ | … |
+| Vert obtenu (mL) | … | … | … | … |
+
+2. Quel pourcentage du mélange vert la peinture jaune représente-t-elle ?
+3. Malo veut préparer exactement $750$ mL de vert. Quels volumes de jaune et de bleu doit-il mélanger ?
+4. Il lui reste $1$ L de jaune et $0{,}5$ L de bleu. Quelle quantité maximale de vert peut-il préparer ? Quelle peinture restera-t-il, et en quelle quantité ?`,
+      solution: `**1.** Le volume de bleu s'obtient en multipliant celui de jaune par $\\dfrac{2}{3}$, et le vert est la somme des deux.
+- $300$ mL de jaune, $200$ mL de bleu : $500$ mL de vert.
+- $150$ mL de jaune (moitié) : $100$ mL de bleu, $250$ mL de vert.
+- $50$ mL de bleu : $50 \\times \\dfrac{3}{2} = 75$ mL de jaune, $125$ mL de vert.
+- $900$ mL de jaune ($3$ fois $300$) : $600$ mL de bleu, $1\\,500$ mL de vert.
+
+**2.** Sur $5$ volumes de mélange, $3$ sont jaunes : $\\dfrac{3}{5} = \\dfrac{60}{100}$, soit $60\\,\\%$ de jaune (et $40\\,\\%$ de bleu).
+
+**3.** Jaune : $60\\,\\%$ de $750$ mL, soit $0{,}6 \\times 750 = 450$ mL. Bleu : $750 - 450 = 300$ mL. (Vérification : $\\dfrac{450}{3} = 150$ et $\\dfrac{300}{2} = 150$, on a bien $3$ volumes pour $2$.)
+
+**4.** Avec les $500$ mL de bleu, il faudrait $500 \\times \\dfrac{3}{2} = 750$ mL de jaune : il en a assez ($1\\,000$ mL).
+Avec les $1\\,000$ mL de jaune, il faudrait $1\\,000 \\times \\dfrac{2}{3} \\approx 667$ mL de bleu : il n'en a pas assez.
+C'est donc le bleu qui limite : il prépare $750 + 500 = 1\\,250$ mL de vert, soit $1{,}25$ L, et il lui restera $1\\,000 - 750 = 250$ mL de peinture jaune.`
+    },
+    {
+      id: "5P1-ds-12",
+      title: "Soldes : quelle offre choisir ?",
+      difficulty: 4,
+      points: 6,
+      statement: `1. Pendant les soldes, le magasin A affiche une réduction de $20\\,\\%$ sur tous ses articles. Après réduction, un sweat coûte $36$ €.
+   a) Quel pourcentage du prix initial paie-t-on ?
+   b) Calculer le prix initial du sweat.
+2. Le magasin B vend le même sweat au même prix initial, avec l'offre : « le deuxième article à moitié prix » (le premier et le troisième sont au prix normal).
+   a) Calculer le prix payé pour deux sweats dans le magasin B.
+   b) Quel pourcentage de réduction cela représente-t-il sur le prix de deux sweats ?
+3. Léna veut acheter deux sweats. Dans quel magasin doit-elle aller ?
+4. Son frère veut en acheter trois. Quel magasin est le plus intéressant pour lui ? Justifier par des calculs de pourcentages.`,
+      solution: `**1.** a) On paie $100\\,\\% - 20\\,\\% = 80\\,\\%$ du prix initial.
+b) $80\\,\\%$ du prix initial valent $36$ € : $1\\,\\%$ vaut $36 \\div 80 = 0{,}45$ €, donc $100\\,\\%$ valent $45$ €. Le prix initial est $45$ €. (Vérification : $45 \\times 0{,}8 = 36$.)
+
+**2.** a) $45 + 45 \\div 2 = 45 + 22{,}50 = 67{,}50$ €.
+b) Sans réduction, deux sweats coûtent $90$ € ; la réduction est de $90 - 67{,}50 = 22{,}50$ €. $\\dfrac{22{,}5}{90} = 0{,}25$ : c'est une réduction de $25\\,\\%$.
+
+**3.** Dans le magasin A, deux sweats coûtent $2 \\times 36 = 72$ € ; dans le magasin B, $67{,}50$ €. Léna doit aller dans le **magasin B** ($25\\,\\% > 20\\,\\%$).
+
+**4.** Magasin A : $3 \\times 36 = 108$ € (réduction de $20\\,\\%$).
+Magasin B : $45 + 22{,}50 + 45 = 112{,}50$ € ; la réduction est de $135 - 112{,}50 = 22{,}50$ € sur $135$ €, soit $\\dfrac{22{,}5}{135} \\approx 0{,}167$, environ $16{,}7\\,\\%$.
+Pour trois sweats, le **magasin A** est le plus intéressant.`
     }
   ],
   "5P2": [
@@ -2900,6 +4318,127 @@ $9{,}5$ min $= 9$ min $+ 0{,}5 \\times 60$ s $=$ **9 min 30 s**.`
 
 **5.** On cherche le plus grand $n$ tel que $3 \\times n + 1 \\leq 100$, c'est-à-dire $3 \\times n \\leq 99$, soit $n \\leq 33$.
 Pour $n = 33$ : $3 \\times 33 + 1 = 100$. On peut construire **33 carrés** et il ne reste **aucune** allumette.`
+    },
+    {
+      id: "5P2-ds-09",
+      title: "La recharge du téléphone",
+      difficulty: 1,
+      points: 4,
+      statement: `Sacha met son téléphone à charger et relève le niveau de la batterie toutes les $10$ minutes.
+
+| Temps de charge (min) | $0$ | $10$ | $20$ | $30$ | $40$ | $50$ | $60$ |
+|---|---|---|---|---|---|---|---|
+| Niveau de batterie (%) | $15$ | $32$ | $48$ | $62$ | $74$ | $84$ | $91$ |
+
+1. Compléter la phrase : « Le niveau de batterie est donné en fonction de … ».
+2. Quel était le niveau de la batterie au moment du branchement ? au bout de $40$ minutes ?
+3. Au bout de combien de minutes de charge la batterie a-t-elle dépassé $80\\,\\%$ pour la première fois, d'après les relevés ?
+4. De combien le niveau a-t-il augmenté pendant les $10$ premières minutes ? pendant les $10$ dernières ? Que remarque-t-on ?
+5. Le niveau de batterie est-il proportionnel au temps de charge ? Justifier.`,
+      solution: `**1.** « Le niveau de batterie est donné en fonction du **temps de charge**. »
+
+**2.** Au branchement ($0$ min), le niveau était de $15\\,\\%$. Au bout de $40$ minutes, il était de $74\\,\\%$.
+
+**3.** À $40$ min, le niveau est $74\\,\\% < 80\\,\\%$ ; à $50$ min, il est $84\\,\\% > 80\\,\\%$. C'est au relevé de **$50$ minutes** que le niveau dépasse $80\\,\\%$ pour la première fois.
+
+**4.** Pendant les $10$ premières minutes : $32 - 15 = 17$ points de pourcentage. Pendant les $10$ dernières : $91 - 84 = 7$ points. La charge **ralentit** au fur et à mesure que la batterie se remplit.
+
+**5.** Non : pour $0$ minute, le niveau n'est pas nul ($15\\,\\%$). De plus $\\dfrac{32}{10} = 3{,}2$ et $\\dfrac{48}{20} = 2{,}4$ : les quotients ne sont pas égaux. Le niveau n'est pas proportionnel au temps de charge.`
+    },
+    {
+      id: "5P2-ds-10",
+      title: "La température en montagne",
+      difficulty: 2,
+      points: 5,
+      statement: `Un jour d'été, il fait $15$ °C au niveau de la mer. On admet qu'en montant, la température baisse de $6$ °C tous les $1\\,000$ m d'altitude.
+
+1. Recopier et compléter le tableau donnant la température $T$ (en °C) en fonction de l'altitude $a$ (en m).
+
+| Altitude $a$ (m) | $0$ | $1\\,000$ | $2\\,000$ | $3\\,000$ | $4\\,000$ |
+|---|---|---|---|---|---|
+| Température $T$ (°C) | $15$ | … | … | … | … |
+
+2. De combien de degrés la température baisse-t-elle quand on monte de $100$ m ? En déduire une expression de $T$ en fonction de $a$.
+3. À quelle altitude la température est-elle égale à $0$ °C ? Justifier.
+4. Calculer la température prévue au sommet d'une montagne de $4\\,800$ m d'altitude.
+5. On place les points du tableau dans un repère (altitude en abscisse, température en ordonnée). Que remarque-t-on ?`,
+      solution: `**1.** On retire $6$ °C par tranche de $1\\,000$ m :
+- $1\\,000$ m : $15 - 6 = 9$ °C ;
+- $2\\,000$ m : $9 - 6 = 3$ °C ;
+- $3\\,000$ m : $3 - 6 = -3$ °C ;
+- $4\\,000$ m : $-3 - 6 = -9$ °C.
+
+**2.** $100$ m représentent $\\dfrac{1}{10}$ de $1\\,000$ m : la température baisse de $6 \\div 10 = 0{,}6$ °C. Pour $1$ m, elle baisse de $0{,}006$ °C. Donc $T = 15 - 0{,}006 \\times a$.
+
+**3.** Il faut que la baisse soit de $15$ °C : $15 \\div 0{,}6 = 25$ tranches de $100$ m, soit $2\\,500$ m. (Vérification : $15 - 0{,}006 \\times 2\\,500 = 15 - 15 = 0$.) Il fait $0$ °C à $2\\,500$ m d'altitude.
+
+**4.** $T = 15 - 0{,}006 \\times 4\\,800 = 15 - 28{,}8 = -13{,}8$. Il fait environ $-13{,}8$ °C au sommet.
+
+**5.** Les points ont pour coordonnées $(0 ; 15)$, $(1\\,000 ; 9)$, $(2\\,000 ; 3)$, $(3\\,000 ; -3)$, $(4\\,000 ; -9)$. Ils sont **alignés** (la température baisse toujours de la même quantité pour une même hausse d'altitude), mais la droite ne passe pas par l'origine : la température n'est pas proportionnelle à l'altitude (elle diminue quand l'altitude augmente).`
+    },
+    {
+      id: "5P2-ds-11",
+      title: "Le trajet de Zoé à vélo",
+      difficulty: 3,
+      points: 5,
+      statement: `Zoé part de chez elle à vélo pour rejoindre une amie. Le tableau donne la distance $d$ (en km) qui la sépare de chez elle en fonction du temps $t$ (en min) écoulé depuis son départ.
+
+| Temps $t$ (min) | $0$ | $5$ | $10$ | $15$ | $20$ | $25$ | $30$ |
+|---|---|---|---|---|---|---|---|
+| Distance $d$ (km) | $0$ | $1{,}5$ | $3$ | $3$ | $3$ | $4{,}5$ | $6$ |
+
+1. Placer ces points dans un repère : $1$ cm pour $5$ min en abscisse, $1$ cm pour $1$ km en ordonnée. Relier les points par des segments.
+2. À quelle distance de chez elle se trouve l'amie de Zoé, sachant que Zoé arrive au bout de $30$ minutes ?
+3. Que s'est-il passé entre la $10^\\text{e}$ et la $20^\\text{e}$ minute ? Comment cela se voit-il sur le graphique ?
+4. Zoé roule à vitesse constante pendant chaque phase de déplacement. Quelle distance parcourt-elle en $5$ minutes ? Les deux phases de déplacement se font-elles à la même vitesse ?
+5. À quel instant Zoé se trouve-t-elle à $4$ km de chez elle ? Donner la réponse en minutes et secondes.`,
+      solution: `**1.** On place les points $(0 ; 0)$, $(5 ; 1{,}5)$, $(10 ; 3)$, $(15 ; 3)$, $(20 ; 3)$, $(25 ; 4{,}5)$, $(30 ; 6)$ et on les relie : deux segments « montants » séparés par un palier horizontal.
+
+**2.** Au bout de $30$ minutes, $d = 6$ km : l'amie habite à $6$ km de chez Zoé.
+
+**3.** Entre la $10^\\text{e}$ et la $20^\\text{e}$ minute, la distance reste égale à $3$ km : Zoé s'est **arrêtée** pendant $10$ minutes. Sur le graphique, cela correspond à un segment horizontal.
+
+**4.** Pendant chaque phase, elle parcourt $1{,}5$ km toutes les $5$ minutes (de $0$ à $1{,}5$ puis de $1{,}5$ à $3$ km ; de $3$ à $4{,}5$ puis de $4{,}5$ à $6$ km). Les deux phases se font à la **même vitesse** ($1{,}5$ km en $5$ min, soit $18$ km par heure).
+
+**5.** $4$ km est atteint pendant la deuxième phase, entre $t = 20$ ($3$ km) et $t = 25$ ($4{,}5$ km). Il lui reste $4 - 3 = 1$ km à parcourir après la pause. En $5$ min elle parcourt $1{,}5$ km, donc $1$ km lui prend $5 \\times \\dfrac{1}{1{,}5} = \\dfrac{10}{3}$ min, soit $3$ min et $20$ s.
+Elle est à $4$ km de chez elle à $t = 23$ min $20$ s.`
+    },
+    {
+      id: "5P2-ds-12",
+      title: "Fabriquer une boîte sans couvercle",
+      difficulty: 4,
+      points: 6,
+      statement: `Dans une feuille de carton carrée de $20$ cm de côté, on découpe aux quatre coins un carré de côté $x$ cm, puis on replie les bords pour obtenir une boîte sans couvercle, en forme de pavé droit.
+
+1. Expliquer pourquoi le fond de la boîte est un carré de côté $20 - 2x$ cm et pourquoi la hauteur de la boîte est $x$ cm.
+2. Quelles sont les valeurs possibles de $x$ (nombre entier ou non) ? Justifier.
+3. Calculer le volume de la boîte pour $x = 2$, puis pour $x = 5$.
+4. Recopier et compléter le tableau donnant le volume $V$ (en $\\text{cm}^3$) en fonction de $x$.
+
+| $x$ (cm) | $1$ | $2$ | $3$ | $4$ | $5$ | $6$ | $7$ | $8$ | $9$ |
+|---|---|---|---|---|---|---|---|---|---|
+| $V$ ($\\text{cm}^3$) | … | … | … | … | … | … | … | … | … |
+
+5. Pour quelle valeur entière de $x$ le volume est-il le plus grand ? Calculer aussi le volume pour $x = 2{,}5$ et pour $x = 3{,}5$. Peut-on dire que la valeur $x = 3$ donne le plus grand volume possible ?`,
+      solution: `**1.** Sur chaque côté de la feuille ($20$ cm), on retire deux carrés de côté $x$ (un à chaque extrémité) : il reste $20 - 2x$ cm, qui est le côté du fond. Les bords repliés ont la largeur des carrés découpés : la hauteur de la boîte est $x$ cm.
+
+**2.** Il faut $x > 0$ (sinon on ne replie rien) et $20 - 2x > 0$, c'est-à-dire $2x < 20$, donc $x < 10$. Les valeurs possibles sont les nombres strictement compris entre $0$ et $10$.
+
+**3.** Volume d'un pavé droit : $V = (20 - 2x) \\times (20 - 2x) \\times x$.
+- $x = 2$ : $V = 16 \\times 16 \\times 2 = 512\\text{ cm}^3$.
+- $x = 5$ : $V = 10 \\times 10 \\times 5 = 500\\text{ cm}^3$.
+
+**4.**
+
+| $x$ (cm) | $1$ | $2$ | $3$ | $4$ | $5$ | $6$ | $7$ | $8$ | $9$ |
+|---|---|---|---|---|---|---|---|---|---|
+| $V$ ($\\text{cm}^3$) | $324$ | $512$ | $588$ | $576$ | $500$ | $384$ | $252$ | $128$ | $36$ |
+
+(Par exemple, pour $x = 3$ : $14 \\times 14 \\times 3 = 588$ ; pour $x = 4$ : $12 \\times 12 \\times 4 = 576$.)
+
+**5.** Pour les valeurs entières de $x$, le volume est le plus grand pour $x = 3$ ($588\\text{ cm}^3$).
+$x = 2{,}5$ : $15 \\times 15 \\times 2{,}5 = 562{,}5\\text{ cm}^3$. $\\quad x = 3{,}5$ : $13 \\times 13 \\times 3{,}5 = 591{,}5\\text{ cm}^3$.
+Comme $591{,}5 > 588$, la valeur $x = 3$ **ne donne pas** le plus grand volume possible : le maximum est atteint pour une valeur de $x$ comprise entre $3$ et $4$ (on pourrait affiner par de nouveaux essais).`
     }
   ],
   "5A1": [
@@ -3206,6 +4745,158 @@ répéter n fois
 **3.** On cherche $n$ tel que $360 \\div n = 40$, c'est-à-dire $n = 360 \\div 40 = 9$. On a répondu **9** (le lutin trace un polygone régulier à 9 côtés). Vérification : $9 \\times 40^\\circ = 360^\\circ$.
 
 **4.** Pour $n = 5$, le lutin tourne de $360 \\div 5 = 72^\\circ$. L'angle intérieur vaut $180^\\circ - 72^\\circ = $ **108°**.`
+    },
+    {
+      id: "5A1-ds-09",
+      title: "Le compte à rebours",
+      difficulty: 1,
+      points: 4,
+      statement: `On considère le script suivant, qui utilise une variable nommée « compteur ».
+
+\`\`\`scratch
+quand drapeau cliqué
+mettre [compteur] à 10
+répéter 4 fois
+    dire (compteur) pendant 1 secondes
+    ajouter -2 à [compteur]
+\`\`\`
+
+1. Quel nombre le lutin dit-il en premier ? Justifier.
+2. Écrire la liste de tous les nombres dits par le lutin, dans l'ordre.
+3. Quelle est la valeur de la variable « compteur » à la fin du script ? Combien de temps dure l'exécution du script (environ) ?
+4. On veut que le lutin dise $10$, $8$, $6$, $4$, $2$ puis $0$. Quelle modification faut-il apporter au script ?`,
+      solution: `**1.** La variable « compteur » est initialisée à $10$ avant la boucle, et l'instruction « dire » est exécutée avant « ajouter -2 » : le lutin dit d'abord **$10$**.
+
+**2.** À chaque passage, il dit la valeur de compteur puis lui retire $2$ :
+- passage 1 : il dit $10$, compteur devient $8$ ;
+- passage 2 : il dit $8$, compteur devient $6$ ;
+- passage 3 : il dit $6$, compteur devient $4$ ;
+- passage 4 : il dit $4$, compteur devient $2$.
+Le lutin dit : $10$, $8$, $6$, $4$.
+
+**3.** À la fin, compteur vaut **$2$**. Chaque nombre est affiché pendant $1$ seconde et il y a $4$ passages : le script dure environ $4$ secondes.
+
+**4.** Il faut dire $6$ nombres au lieu de $4$ : on remplace « répéter 4 fois » par « répéter **6** fois ». (On peut vérifier : la dernière valeur dite est $10 - 5 \\times 2 = 0$.)`
+    },
+    {
+      id: "5A1-ds-10",
+      title: "Les créneaux du château fort",
+      difficulty: 2,
+      points: 5,
+      statement: `Le lutin part du point de coordonnées $(-90 \\,;\\, 0)$, orienté vers la droite (orientation $90$).
+
+\`\`\`scratch
+quand drapeau cliqué
+effacer tout
+aller à x: -90 y: 0
+s'orienter à 90
+stylo en position d'écriture
+répéter 3 fois
+    avancer de 30 pas
+    tourner ↺ de 90 degrés
+    avancer de 20 pas
+    tourner ↻ de 90 degrés
+    avancer de 30 pas
+    tourner ↻ de 90 degrés
+    avancer de 20 pas
+    tourner ↺ de 90 degrés
+\`\`\`
+
+1. Décrire le trajet du lutin pendant le premier passage dans la boucle et donner ses coordonnées à la fin de ce passage.
+2. Dans quelle direction le lutin est-il orienté à la fin d'un passage ? Pourquoi est-ce important pour la suite ?
+3. Tracer à main levée la figure obtenue et donner les coordonnées du lutin à la fin du script.
+4. Calculer la longueur totale du tracé.
+5. On veut que le lutin s'arrête au point d'abscisse $150$. Combien de répétitions faut-il programmer ?`,
+      solution: `**1.** Le lutin avance de $30$ pas vers la droite (jusqu'à $(-60 \\,;\\, 0)$), tourne vers le haut et monte de $20$ pas (jusqu'à $(-60 \\,;\\, 20)$), tourne vers la droite et avance de $30$ pas (jusqu'à $(-30 \\,;\\, 20)$), tourne vers le bas et descend de $20$ pas (jusqu'à $(-30 \\,;\\, 0)$), puis tourne de nouveau vers la droite.
+À la fin du premier passage, il est en $(-30 \\,;\\, 0)$.
+
+**2.** Il a tourné deux fois ↺ et deux fois ↻ de $90^\\circ$ : les rotations se compensent et il est de nouveau **orienté vers la droite**. Ainsi, chaque passage reproduit le même motif, décalé de $60$ pas vers la droite.
+
+**3.** La figure est une ligne en créneaux (comme le haut d'une muraille de château) formée de $3$ motifs identiques. Chaque passage augmente l'abscisse de $30 + 30 = 60$ et ne change pas l'ordonnée : à la fin, le lutin est en $(-90 + 3 \\times 60 \\,;\\, 0) = (90 \\,;\\, 0)$.
+
+**4.** Un passage : $30 + 20 + 30 + 20 = 100$ pas. Trois passages : $3 \\times 100 = 300$ pas.
+
+**5.** Il faut parcourir horizontalement $150 - (-90) = 240$ pas, soit $240 \\div 60 = 4$ motifs : il faut programmer « répéter **4** fois ».`
+    },
+    {
+      id: "5A1-ds-11",
+      title: "L'étoile à cinq branches",
+      difficulty: 3,
+      points: 5,
+      statement: `Au départ, le lutin est orienté vers la droite.
+
+\`\`\`scratch
+quand drapeau cliqué
+effacer tout
+stylo en position d'écriture
+répéter 5 fois
+    avancer de 100 pas
+    tourner ↻ de 144 degrés
+\`\`\`
+
+1. Combien de segments le lutin trace-t-il ? Calculer la longueur totale du tracé.
+2. De combien de degrés le lutin a-t-il tourné au total à la fin du script ? Combien de tours complets cela représente-t-il ? Dans quelle direction est-il alors orienté ?
+3. On admet que le lutin revient à son point de départ. Dessiner à main levée la figure obtenue.
+4. Noa remplace $144$ par $72$ dans le script. De combien de degrés le lutin tourne-t-il au total ? Quelle figure obtient-on ?
+5. Avec le script de départ, Noa remplace « répéter 5 fois » par « répéter 3 fois ». Le lutin revient-il à son point de départ ? Justifier par un calcul d'angle.`,
+      solution: `**1.** L'instruction « avancer de 100 pas » est exécutée $5$ fois : le lutin trace $5$ segments, pour une longueur totale de $5 \\times 100 = 500$ pas.
+
+**2.** $5 \\times 144 = 720^\\circ$. Or un tour complet vaut $360^\\circ$ et $720 = 2 \\times 360$ : le lutin a fait **deux tours complets**. Il est donc de nouveau orienté vers la droite, comme au départ.
+
+**3.** La figure est une **étoile à cinq branches** : les cinq segments se croisent et l'on retrouve le tracé de l'étoile « dessinée sans lever le crayon ».
+
+**4.** $5 \\times 72 = 360^\\circ$ : un seul tour complet. Le lutin trace $5$ côtés de même longueur en tournant toujours du même angle : on obtient un **pentagone régulier** de côté $100$ pas.
+
+**5.** Après $3$ passages, le lutin a tourné de $3 \\times 144 = 432^\\circ$, soit un tour complet plus $72^\\circ$ : il n'a pas retrouvé son orientation de départ, et il n'a tracé que trois des cinq branches. Il **ne revient pas** à son point de départ : la figure est une étoile inachevée.`
+    },
+    {
+      id: "5A1-ds-12",
+      title: "Des carrés emboîtés",
+      difficulty: 4,
+      points: 6,
+      statement: `Au départ, le lutin est en $(0 \\,;\\, 0)$, orienté vers la droite.
+
+\`\`\`scratch
+quand drapeau cliqué
+effacer tout
+aller à x: 0 y: 0
+s'orienter à 90
+stylo en position d'écriture
+mettre [côté] à 20
+répéter 4 fois
+    répéter 4 fois
+        avancer de (côté) pas
+        tourner ↺ de 90 degrés
+    ajouter 20 à [côté]
+\`\`\`
+
+1. Que trace la boucle intérieure lors du premier passage dans la grande boucle ? Où se trouve alors le lutin, et vers où est-il orienté ?
+2. Recopier et compléter le tableau.
+
+| Passage dans la grande boucle | $1$ | $2$ | $3$ | $4$ |
+|---|---|---|---|---|
+| Valeur de côté au début du passage | $20$ | … | … | … |
+| Longueur tracée pendant le passage (pas) | $80$ | … | … | … |
+
+3. Dessiner à main levée la figure obtenue. Quels sont les points communs à tous les carrés ?
+4. Quelle est la valeur de la variable « côté » à la fin du script ? Calculer la longueur totale du tracé.
+5. On veut obtenir $6$ carrés emboîtés dont le plus grand a pour côté $120$ pas. Quelle modification faut-il apporter ? Calculer alors la longueur totale du tracé.`,
+      solution: `**1.** La boucle intérieure fait avancer le lutin de $20$ pas puis tourner d'un quart de tour vers la gauche, $4$ fois : elle trace un **carré de côté $20$ pas**. Le lutin a tourné de $4 \\times 90 = 360^\\circ$ et a fait le tour du carré : il est revenu en $(0 \\,;\\, 0)$, orienté vers la droite.
+
+**2.** À chaque passage, côté augmente de $20$, et le lutin trace un carré de périmètre $4 \\times \\text{côté}$.
+
+| Passage dans la grande boucle | $1$ | $2$ | $3$ | $4$ |
+|---|---|---|---|---|
+| Valeur de côté au début du passage | $20$ | $40$ | $60$ | $80$ |
+| Longueur tracée pendant le passage (pas) | $80$ | $160$ | $240$ | $320$ |
+
+**3.** On obtient $4$ carrés de côtés $20$, $40$, $60$ et $80$ pas, emboîtés les uns dans les autres. Ils ont tous pour sommet le point $(0 \\,;\\, 0)$ (coin en bas à gauche), et leurs côtés de départ sont portés par les mêmes demi-droites (vers la droite et vers le haut).
+
+**4.** Après le $4^\\text{e}$ passage, on a ajouté $20$ une dernière fois : côté vaut $80 + 20 = 100$.
+Longueur totale : $80 + 160 + 240 + 320 = 800$ pas.
+
+**5.** Les côtés seront $20$, $40$, $60$, $80$, $100$ et $120$ : il suffit de remplacer la grande boucle « répéter 4 fois » par « répéter **6** fois » (la boucle intérieure reste « répéter 4 fois »).
+Longueur totale : $4 \\times (20 + 40 + 60 + 80 + 100 + 120) = 4 \\times 420 = 1\\,680$ pas.`
     }
   ]
 });

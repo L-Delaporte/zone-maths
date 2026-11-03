@@ -434,3 +434,15 @@
   height: 56px;
   flex-shrink: 0;
 }
+
+/* Barème indicatif par question (DS tirés de la banque) */
+.ws-scale {
+  margin: 0.2rem 0 0.45rem;
+  font-size: 0.85em;
+  color: var(--text-muted, #555);
+}
+.ws-sheet .exam-competency-grid,
+.exam-competency-grid {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}

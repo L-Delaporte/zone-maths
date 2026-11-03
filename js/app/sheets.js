@@ -384,7 +384,8 @@ Object.assign(window.MathsApp, {
       : `<p class="ws-instructions">Les exercices sont rangés par palier, du plus simple au plus exigeant. Rédiger les calculs sur une feuille, puis comparer avec le corrigé.</p>`;
     const body = sheet.parts.map((part, i) => {
       if (part.bankEx) {
-        return `<section class="ws-exercise"><h3 class="ws-ex-title">Exercice ${i + 1} — ${this.escapeSheetText(part.bankEx.title)} <span class="ws-pts">${this.formatPoints(part.pts)}</span></h3><div class="ws-q-text ws-bank-text">${this.md(part.bankEx.statement)}</div></section>`;
+        const scale = window.MathsExamTools ? window.MathsExamTools.scaleHtml(part.bankEx.statement, part.pts, 'ws-scale') : '';
+        return `<section class="ws-exercise"><h3 class="ws-ex-title">Exercice ${i + 1} — ${this.escapeSheetText(part.bankEx.title)} <span class="ws-pts">${this.formatPoints(part.pts)}</span></h3>${scale}<div class="ws-q-text ws-bank-text">${this.md(part.bankEx.statement)}</div></section>`;
       }
       const skills = [...new Set(part.questions.map(q => this.getExerciseCompetency(q.ex, sheet.chapterId)))];
       const head = isDs
@@ -397,7 +398,11 @@ Object.assign(window.MathsApp, {
       }).join('');
       return `<section class="ws-exercise">${head}<p class="ws-skills"><em>${part.stage.prompt}</em> Compétences : ${skills.map(s => this.escapeSheetText(s)).join(' ; ')}.</p><ol class="ws-questions">${items}</ol></section>`;
     }).join('');
-    return intro + body;
+    const bankParts = isDs ? sheet.parts.filter(p => p.bankEx) : [];
+    const grid = bankParts.length && this.getSheetCycle() !== 'superieur' && window.MathsExamTools
+      ? window.MathsExamTools.competencyGridHtml(sheet.parts.map((p, i) => p.bankEx && { label: `Ex. ${i + 1}`, statement: p.bankEx.statement, tier: p.tier }).filter(Boolean))
+      : '';
+    return intro + body + grid;
   },
 
   renderGeneratedSolution(sheet) {
@@ -571,13 +576,21 @@ Object.assign(window.MathsApp, {
     const sheet = sheets.find(s => s.type === type && s.origin === 'generated');
     if (!this.sheetSelection) this.sheetSelection = {};
     if (sheet) this.sheetSelection[chapterId] = sheet.id;
-    this.sheetNotice = sheet ? {
-      chapterId,
-      sheetId: sheet.id,
-      text: before && fresh && before.signature === fresh.signature
-        ? 'La banque d’exercices de ce chapitre est encore limitée : cette nouvelle version reprend les mêmes énoncés.'
-        : 'Nouvelle version générée : énoncés et corrigé ont été renouvelés.'
-    } : null;
+    let text = 'Nouvelle version générée : énoncés et corrigé ont été renouvelés.';
+    if (before && fresh && fresh.fromBank) {
+      // DS tiré de la banque : dire précisément combien d'exercices changent
+      const old = new Set(String(before.signature || '').split('|'));
+      const ids = String(fresh.signature || '').split('|');
+      const changed = ids.filter(id => !old.has(id)).length;
+      text = changed === 0
+        ? 'La banque d’exercices de ce chapitre est encore limitée : cette nouvelle version reprend les mêmes exercices.'
+        : changed === ids.length
+          ? `Nouveau sujet : les ${ids.length} exercices ont changé (banque de ${fresh.bankSize} exercices pour ce chapitre).`
+          : `Nouveau sujet : ${changed} exercice${changed > 1 ? 's' : ''} sur ${ids.length} ${changed > 1 ? 'ont' : 'a'} changé (banque de ${fresh.bankSize} exercices pour ce chapitre).`;
+    } else if (before && fresh && before.signature === fresh.signature) {
+      text = 'La banque d’exercices de ce chapitre est encore limitée : cette nouvelle version reprend les mêmes énoncés.';
+    }
+    this.sheetNotice = sheet ? { chapterId, sheetId: sheet.id, text } : null;
     this.renderSheetsView();
   },
 

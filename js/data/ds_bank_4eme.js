@@ -208,6 +208,119 @@ Changer le signe d'un seul facteur change le signe du produit : le sommet vaut *
 **b)** On veut $-10 \\times x^2 = -90$, donc $x^2 = 9$. Les nombres dont le carré vaut $9$ sont $3$ et $-3$.
 Vérifications : $(-2 \\times 3) \\times (3 \\times 5) = -6 \\times 15 = -90$ et $(-2 \\times (-3)) \\times ((-3) \\times 5) = 6 \\times (-15) = -90$.
 Il y a **deux** valeurs possibles : $x = 3$ ou $x = -3$.`
+    },
+    {
+      id: "4N1-ds-09",
+      title: "Le relevé de compte",
+      difficulty: 1,
+      points: 4,
+      statement: `Le $1^{\\text{er}}$ mars, le compte bancaire de Nora affiche un solde de $-35$ €. Pendant le mois, on enregistre les opérations suivantes : un dépôt de $120$ €, un paiement par carte de $48$ €, un prélèvement de $75$ € et trois retraits de $20$ € chacun.
+1. Écrire une expression qui permet de calculer le solde du compte à la fin du mois, en utilisant des nombres relatifs.
+2. Calculer ce solde.
+3. Quelle somme minimale Nora doit-elle déposer pour que son compte ne soit plus négatif ? Justifier.
+4. La banque retire $2$ € de frais pour chaque jour où le compte est négatif. Le compte reste négatif pendant $9$ jours après la fin du mois, sans autre opération. Calculer le solde après ces $9$ jours.`,
+      solution: `**1.** Un dépôt est une variation positive, un paiement, un prélèvement ou un retrait est une variation négative :
+$$S = -35 + 120 + (-48) + (-75) + 3 \\times (-20)$$
+
+**2.** La multiplication est prioritaire : $3 \\times (-20) = -60$. Puis, de gauche à droite :
+$-35 + 120 = 85$ ; $85 - 48 = 37$ ; $37 - 75 = -38$ ; $-38 - 60 = -98$.
+Le solde à la fin du mois est de $-98$ €.
+
+**3.** Pour atteindre $0$ €, il faut ajouter l'opposé de $-98$, c'est-à-dire $98$ € : $-98 + 98 = 0$. Nora doit déposer **au moins $98$ €**.
+
+**4.** Les frais représentent $9 \\times (-2) = -18$ €. Nouveau solde : $-98 + (-18) = -116$ €.`
+    },
+    {
+      id: "4N1-ds-10",
+      title: "Un carré magique de relatifs",
+      difficulty: 2,
+      points: 5,
+      statement: `Dans un carré magique, les sommes des nombres de chaque ligne, de chaque colonne et de chacune des deux diagonales sont toutes égales. On considère le carré magique incomplet suivant :
+
+| $-5$ | $\\ldots$ | $-1$ |
+|---|---|---|
+| $\\ldots$ | $-2$ | $\\ldots$ |
+| $-3$ | $\\ldots$ | $1$ |
+
+1. Calculer la somme des nombres de la diagonale qui contient $-5$, $-2$ et $1$. Quelle est la somme « magique » de ce carré ?
+2. Compléter le carré en justifiant chaque case par un calcul.
+3. On multiplie chaque nombre du carré par $-3$.
+   a) Écrire la première ligne du nouveau carré.
+   b) Le nouveau carré est-il encore magique ? Si oui, quelle est sa somme magique ? Justifier.`,
+      solution: `**1.** $-5 + (-2) + 1 = -7 + 1 = -6$. Toutes les sommes sont égales, donc la somme magique vaut $-6$.
+
+**2.** On complète case par case :
+- 1re ligne : $-5 + \\ldots + (-1) = -6$, donc la case vaut $-6 - (-6) = 0$ ;
+- 1re colonne : $-5 + \\ldots + (-3) = -6$, donc la case vaut $-6 - (-8) = 2$ ;
+- 3e ligne : $-3 + \\ldots + 1 = -6$, donc la case vaut $-6 - (-2) = -4$ ;
+- 3e colonne : $-1 + \\ldots + 1 = -6$, donc la case vaut $-6 - 0 = -6$.
+
+| $-5$ | $0$ | $-1$ |
+|---|---|---|
+| $2$ | $-2$ | $-6$ |
+| $-3$ | $-4$ | $1$ |
+
+Vérifications : 2e ligne $2 - 2 - 6 = -6$ ; 2e colonne $0 - 2 - 4 = -6$ ; autre diagonale $-1 - 2 - 3 = -6$.
+
+**3. a)** $(-5) \\times (-3) = 15$ ; $0 \\times (-3) = 0$ ; $(-1) \\times (-3) = 3$. La première ligne devient $15$ ; $0$ ; $3$.
+
+**b)** Dans chaque ligne, colonne ou diagonale, on a multiplié les trois nombres par $-3$, donc leur somme est aussi multipliée par $-3$ (distributivité : $-3a + (-3b) + (-3c) = -3 \\times (a + b + c)$). Toutes les sommes valent donc $-6 \\times (-3) = 18$ : le carré est **encore magique**, de somme magique $18$. Exemple : $15 + 0 + 3 = 18$.`
+    },
+    {
+      id: "4N1-ds-11",
+      title: "La plongée sous-marine",
+      difficulty: 3,
+      points: 5,
+      statement: `On repère les altitudes par rapport à la surface de la mer : la surface est à l'altitude $0$ m, un point situé sous l'eau a une altitude négative.
+1. Un plongeur part de la surface et descend régulièrement jusqu'à l'altitude $-24$ m en $3$ minutes. De combien son altitude varie-t-elle chaque minute ?
+2. Au même moment, une mouette vole à l'altitude $15$ m, juste au-dessus du plongeur. Calculer la distance entre la mouette et le plongeur.
+3. Pour sa sécurité, le plongeur doit remonter de $-24$ m jusqu'à $-3$ m sans dépasser une vitesse de $9$ m par minute. Quelle est la durée minimale de cette remontée ? Donner la réponse en minutes et secondes.
+4. Pendant la plongée, l'altitude a été relevée toutes les $5$ minutes :
+
+| Relevé | 1 | 2 | 3 | 4 | 5 | 6 |
+|---|---|---|---|---|---|---|
+| Altitude (m) | $-6$ | $-12$ | $-24$ | $-24$ | $-15$ | $-3$ |
+
+Calculer l'altitude moyenne de ces relevés.`,
+      solution: `**1.** La variation totale est $-24 - 0 = -24$ m en $3$ minutes, donc chaque minute : $(-24) \\div 3 = -8$ m. L'altitude **diminue de $8$ m par minute**.
+
+**2.** La distance entre deux altitudes est la différence entre la plus grande et la plus petite : $15 - (-24) = 15 + 24 = 39$ m.
+
+**3.** Le plongeur doit remonter de $-3 - (-24) = 21$ m. À $9$ m par minute au maximum, il lui faut au moins $21 \\div 9 = \\dfrac{21}{9} = \\dfrac{7}{3}$ min, soit $2$ min et $\\dfrac{1}{3}$ min. Or $\\dfrac{1}{3}$ min $= 20$ s.
+La durée minimale de la remontée est de **2 min 20 s**.
+
+**4.** Somme des relevés : $(-6) + (-12) + (-24) + (-24) + (-15) + (-3) = -84$.
+Moyenne : $(-84) \\div 6 = -14$ (quotient de deux nombres de signes contraires, donc négatif).
+L'altitude moyenne est de $-14$ m.`
+    },
+    {
+      id: "4N1-ds-12",
+      title: "Sommes et produits imposés",
+      difficulty: 4,
+      points: 6,
+      statement: `1. Trouver deux nombres entiers relatifs dont la somme est $-3$ et le produit est $-40$. Expliquer la démarche.
+2. Trouver deux nombres entiers relatifs dont la somme est $-13$ et le produit est $40$. Expliquer la démarche.
+3. Deux nombres non nuls ont une somme égale à $0$. Montrer que leur produit est forcément négatif.
+4. On multiplie quatre nombres entiers relatifs consécutifs (par exemple $-7$, $-6$, $-5$ et $-4$).
+   a) Calculer le produit de l'exemple.
+   b) Montrer que le produit de quatre nombres entiers relatifs consécutifs n'est jamais strictement négatif.`,
+      solution: `**1.** Le produit $-40$ est négatif, donc les deux nombres sont de signes contraires. Les décompositions de $40$ en produit de deux entiers positifs sont : $1 \\times 40$, $2 \\times 20$, $4 \\times 10$, $5 \\times 8$.
+Deux nombres de signes contraires ont une somme égale, au signe près, à la différence de leurs distances à zéro ; il faut donc une différence de $3$ : seul le couple $5$ et $8$ convient. La somme est négative, donc c'est le nombre de plus grande distance à zéro qui est négatif : les nombres sont **$5$ et $-8$**.
+Vérification : $5 + (-8) = -3$ et $5 \\times (-8) = -40$.
+
+**2.** Le produit $40$ est positif, donc les deux nombres ont le même signe ; leur somme est négative, donc ils sont tous les deux négatifs. On cherche deux entiers positifs de produit $40$ et de somme $13$ : $5 + 8 = 13$. Les nombres sont **$-5$ et $-8$**.
+Vérification : $(-5) + (-8) = -13$ et $(-5) \\times (-8) = 40$.
+
+**3.** Si $a + b = 0$, alors $b$ est l'opposé de $a$. Deux nombres opposés non nuls sont de signes contraires (l'un est positif, l'autre négatif). D'après la règle des signes, leur produit est **négatif**.
+
+**4. a)** $(-7) \\times (-6) \\times (-5) \\times (-4)$ : quatre facteurs négatifs (nombre pair), donc le produit est positif ; $7 \\times 6 = 42$, $5 \\times 4 = 20$, $42 \\times 20 = 840$. Le produit vaut $840$.
+
+**b)** Trois cas sont possibles pour quatre entiers consécutifs :
+- l'un d'eux est $0$ : le produit est nul ;
+- ils sont tous strictement positifs : le produit est positif ;
+- ils sont tous strictement négatifs : il y a $4$ facteurs négatifs, nombre pair, donc le produit est positif.
+
+On ne peut pas avoir à la fois des nombres strictement négatifs et strictement positifs sans « passer » par $0$, puisque les nombres se suivent. Dans tous les cas, le produit est positif ou nul : il n'est **jamais strictement négatif**.`
     }
   ],
   "4N2": [
@@ -377,6 +490,96 @@ Driss : $\\dfrac{2}{5} - \\dfrac{3}{10} = \\dfrac{4}{10} - \\dfrac{3}{10} = \\df
 - Driss : $300$ m².
 
 **4.** $1\\,000 + 800 + 900 + 300 = 3\\,000$ m² : on retrouve bien l'aire totale. De même, $\\dfrac{1}{3} + \\dfrac{4}{15} + \\dfrac{3}{10} + \\dfrac{1}{10} = \\dfrac{10 + 8 + 9 + 3}{30} = 1$.`
+    },
+    {
+      id: "4N2-ds-09",
+      title: "Crêpes et paquet de farine",
+      difficulty: 1,
+      points: 4,
+      statement: `Une recette de crêpes pour $6$ personnes demande $\\dfrac{3}{4}$ L de lait.
+1. Quelle quantité de lait faut-il pour $4$ personnes ? Donner le résultat sous forme d'une fraction simplifiée.
+2. Sami utilise d'abord les $\\dfrac{2}{5}$ d'un paquet de farine, puis, le lendemain, le quart de ce qui reste.
+   a) Calculer la fraction du paquet utilisée le lendemain.
+   b) Calculer la fraction du paquet utilisée en tout.
+3. Le paquet contenait $1$ kg de farine. Quelle masse de farine reste-t-il ?`,
+      solution: `**1.** Pour $1$ personne, il faut $\\dfrac{3}{4} \\div 6 = \\dfrac{3}{4} \\times \\dfrac{1}{6} = \\dfrac{3}{24} = \\dfrac{1}{8}$ L. Pour $4$ personnes : $4 \\times \\dfrac{1}{8} = \\dfrac{4}{8} = \\dfrac{1}{2}$ L.
+(On peut aussi calculer $\\dfrac{3}{4} \\times \\dfrac{4}{6} = \\dfrac{12}{24} = \\dfrac{1}{2}$.)
+
+**2. a)** Après le premier jour, il reste $1 - \\dfrac{2}{5} = \\dfrac{3}{5}$ du paquet. Le quart de ce reste représente $\\dfrac{1}{4} \\times \\dfrac{3}{5} = \\dfrac{3}{20}$ du paquet.
+
+**b)** En tout : $\\dfrac{2}{5} + \\dfrac{3}{20} = \\dfrac{8}{20} + \\dfrac{3}{20} = \\dfrac{11}{20}$ du paquet.
+
+**3.** Il reste $1 - \\dfrac{11}{20} = \\dfrac{9}{20}$ du paquet, soit $\\dfrac{9}{20} \\times 1\\,000 = 450$ g de farine.`
+    },
+    {
+      id: "4N2-ds-10",
+      title: "Une journée en fractions",
+      difficulty: 2,
+      points: 5,
+      statement: `Un jour de semaine, Lina passe $\\dfrac{1}{3}$ de la journée ($24$ h) à dormir, $\\dfrac{1}{4}$ au collège et $\\dfrac{1}{8}$ devant des écrans.
+1. Quelle fraction de la journée reste-t-il pour ses autres activités ?
+2. Combien d'heures cela représente-t-il ? Combien d'heures passe-t-elle devant des écrans ?
+3. Les $\\dfrac{2}{3}$ de son temps d'écran sont consacrés à regarder des vidéos. Quelle fraction de la journée cela représente-t-il ? Combien d'heures ?
+4. Le samedi, son temps d'écran augmente d'un tiers par rapport à un jour de semaine. Quelle fraction de la journée passe-t-elle alors devant des écrans ?`,
+      solution: `**1.** Fraction déjà occupée : $\\dfrac{1}{3} + \\dfrac{1}{4} + \\dfrac{1}{8} = \\dfrac{8}{24} + \\dfrac{6}{24} + \\dfrac{3}{24} = \\dfrac{17}{24}$.
+Il reste $1 - \\dfrac{17}{24} = \\dfrac{24}{24} - \\dfrac{17}{24} = \\dfrac{7}{24}$ de la journée.
+
+**2.** $\\dfrac{7}{24} \\times 24 = 7$ h pour les autres activités, et $\\dfrac{1}{8} \\times 24 = 3$ h devant des écrans.
+
+**3.** Prendre les $\\dfrac{2}{3}$ de $\\dfrac{1}{8}$ revient à multiplier : $\\dfrac{2}{3} \\times \\dfrac{1}{8} = \\dfrac{2}{24} = \\dfrac{1}{12}$ de la journée, soit $\\dfrac{1}{12} \\times 24 = 2$ h.
+
+**4.** Augmenter d'un tiers revient à ajouter $\\dfrac{1}{3}$ de la quantité, donc à la multiplier par $1 + \\dfrac{1}{3} = \\dfrac{4}{3}$ :
+$\\dfrac{1}{8} \\times \\dfrac{4}{3} = \\dfrac{4}{24} = \\dfrac{1}{6}$ de la journée (soit $4$ h).`
+    },
+    {
+      id: "4N2-ds-11",
+      title: "Remplir une baignoire",
+      difficulty: 3,
+      points: 5,
+      statement: `Une baignoire vide peut être remplie par le robinet A seul en $6$ minutes, ou par le robinet B seul en $12$ minutes. Les débits sont constants.
+1. Quelle fraction de la baignoire le robinet A remplit-il en une minute ? Et le robinet B ?
+2. On ouvre les deux robinets en même temps.
+   a) Quelle fraction de la baignoire est remplie en une minute ?
+   b) En combien de temps la baignoire est-elle pleine ?
+3. On ouvre les deux robinets, mais la bonde est restée ouverte : seule, elle viderait une baignoire pleine en $8$ minutes. En combien de temps la baignoire sera-t-elle pleine ?
+4. Sans bonde ouverte, on ouvre d'abord le robinet A seul pendant $2$ minutes, puis on ouvre aussi le robinet B. Combien de temps faut-il en tout pour remplir la baignoire ?`,
+      solution: `**1.** En une minute, A remplit $\\dfrac{1}{6}$ de la baignoire et B en remplit $\\dfrac{1}{12}$.
+
+**2. a)** $\\dfrac{1}{6} + \\dfrac{1}{12} = \\dfrac{2}{12} + \\dfrac{1}{12} = \\dfrac{3}{12} = \\dfrac{1}{4}$ de la baignoire par minute.
+
+**b)** Il faut $4$ quarts pour remplir la baignoire, donc $4$ minutes.
+
+**3.** En une minute, la bonde vide $\\dfrac{1}{8}$ de la baignoire. Bilan par minute :
+$\\dfrac{1}{6} + \\dfrac{1}{12} - \\dfrac{1}{8} = \\dfrac{4}{24} + \\dfrac{2}{24} - \\dfrac{3}{24} = \\dfrac{3}{24} = \\dfrac{1}{8}$.
+La baignoire se remplit de $\\dfrac{1}{8}$ par minute : elle est pleine en **8 minutes**.
+
+**4.** En $2$ minutes, A remplit $2 \\times \\dfrac{1}{6} = \\dfrac{1}{3}$ de la baignoire. Il reste $1 - \\dfrac{1}{3} = \\dfrac{2}{3}$ à remplir, à raison de $\\dfrac{1}{4}$ par minute avec les deux robinets :
+$\\dfrac{2}{3} \\div \\dfrac{1}{4} = \\dfrac{2}{3} \\times 4 = \\dfrac{8}{3}$ min, soit $2$ min $40$ s (car $\\dfrac{2}{3}$ min $= 40$ s).
+Durée totale : $2$ min $+ 2$ min $40$ s $=$ **4 min 40 s**.`
+    },
+    {
+      id: "4N2-ds-12",
+      title: "Entre deux fractions",
+      difficulty: 4,
+      points: 6,
+      statement: `1. Trouver le nombre situé exactement au milieu de $\\dfrac{2}{7}$ et $\\dfrac{3}{7}$. Justifier.
+2. Écrire $\\dfrac{1}{3}$ et $\\dfrac{1}{2}$ avec le dénominateur $24$, puis donner trois fractions comprises strictement entre $\\dfrac{1}{3}$ et $\\dfrac{1}{2}$.
+3. Tom affirme : « Pour additionner deux fractions, il suffit d'additionner les numérateurs entre eux et les dénominateurs entre eux. »
+   a) Montrer, à l'aide d'un exemple, que Tom se trompe.
+   b) Avec la « méthode de Tom », on obtient à partir de $\\dfrac{1}{3}$ et $\\dfrac{1}{2}$ la fraction $\\dfrac{1 + 1}{3 + 2} = \\dfrac{2}{5}$. Démontrer, par des calculs de différences, que $\\dfrac{2}{5}$ est comprise entre $\\dfrac{1}{3}$ et $\\dfrac{1}{2}$.
+4. Trouver une fraction de dénominateur $48$ comprise strictement entre $\\dfrac{5}{8}$ et $\\dfrac{2}{3}$.`,
+      solution: `**1.** $\\dfrac{2}{7} = \\dfrac{4}{14}$ et $\\dfrac{3}{7} = \\dfrac{6}{14}$. Le nombre situé au milieu est $\\dfrac{5}{14}$ : en effet $\\dfrac{5}{14} - \\dfrac{4}{14} = \\dfrac{1}{14}$ et $\\dfrac{6}{14} - \\dfrac{5}{14} = \\dfrac{1}{14}$, les deux écarts sont égaux.
+(Autre méthode : $\\left(\\dfrac{2}{7} + \\dfrac{3}{7}\\right) \\div 2 = \\dfrac{5}{7} \\times \\dfrac{1}{2} = \\dfrac{5}{14}$.)
+
+**2.** $\\dfrac{1}{3} = \\dfrac{8}{24}$ et $\\dfrac{1}{2} = \\dfrac{12}{24}$. Les fractions $\\dfrac{9}{24}$, $\\dfrac{10}{24}$ et $\\dfrac{11}{24}$ conviennent (soit $\\dfrac{3}{8}$, $\\dfrac{5}{12}$ et $\\dfrac{11}{24}$).
+
+**3. a)** Avec la méthode de Tom, $\\dfrac{1}{2} + \\dfrac{1}{2}$ donnerait $\\dfrac{2}{4} = \\dfrac{1}{2}$, alors que $\\dfrac{1}{2} + \\dfrac{1}{2} = 1$. Tom se trompe.
+
+**b)** $\\dfrac{2}{5} - \\dfrac{1}{3} = \\dfrac{6}{15} - \\dfrac{5}{15} = \\dfrac{1}{15}$, qui est positif, donc $\\dfrac{2}{5} > \\dfrac{1}{3}$.
+$\\dfrac{1}{2} - \\dfrac{2}{5} = \\dfrac{5}{10} - \\dfrac{4}{10} = \\dfrac{1}{10}$, qui est positif, donc $\\dfrac{2}{5} < \\dfrac{1}{2}$.
+Ainsi $\\dfrac{1}{3} < \\dfrac{2}{5} < \\dfrac{1}{2}$ : la fraction obtenue n'est pas la somme, mais elle est bien comprise entre les deux.
+
+**4.** $\\dfrac{5}{8} = \\dfrac{30}{48}$ et $\\dfrac{2}{3} = \\dfrac{32}{48}$. La fraction $\\dfrac{31}{48}$ convient : $\\dfrac{30}{48} < \\dfrac{31}{48} < \\dfrac{32}{48}$.`
     }
   ],
   "4N3": [
@@ -546,6 +749,89 @@ Donc $10^9 < 2^{30} < 3^{20}$.
 **5.** On cherche le plus petit $n$ tel que $500 \\times 2^n > 1\\,000\\,000$, c'est-à-dire $2^n > 2\\,000$.
 $2^{10} = 1\\,024 < 2\\,000$ et $2^{11} = 2\\,048 > 2\\,000$, donc $n = 11$ doublements.
 $11 \\times 20 = 220$ min $= 3$ h $40$ min. La population dépasse un million au bout de **3 h 40 min**.`
+    },
+    {
+      id: "4N3-ds-09",
+      title: "Du kilomètre au nanomètre",
+      difficulty: 1,
+      points: 4,
+      statement: `On rappelle que $1$ mm $= 10^{-3}$ m, $1$ µm (micromètre) $= 10^{-6}$ m et $1$ nm (nanomètre) $= 10^{-9}$ m.
+1. Écrire $1$ km en mètres sous la forme d'une puissance de $10$.
+2. Un cheveu a une épaisseur de $80$ µm. Écrire cette épaisseur en mètres, en notation scientifique.
+3. Combien y a-t-il de micromètres dans un millimètre ? Justifier par un calcul sur les puissances de $10$.
+4. Un virus mesure environ $100$ nm.
+   a) Écrire cette longueur en mètres sous la forme d'une puissance de $10$.
+   b) Combien de virus faudrait-il aligner pour couvrir l'épaisseur du cheveu ?`,
+      solution: `**1.** $1$ km $= 1\\,000$ m $= 10^3$ m.
+
+**2.** $80$ µm $= 80 \\times 10^{-6}$ m $= 8 \\times 10 \\times 10^{-6}$ m $= 8 \\times 10^{-5}$ m.
+
+**3.** $\\dfrac{1 \\text{ mm}}{1 \\text{ µm}} = \\dfrac{10^{-3}}{10^{-6}} = 10^{-3 - (-6)} = 10^{3}$. Il y a $1\\,000$ micromètres dans un millimètre.
+
+**4. a)** $100$ nm $= 10^2 \\times 10^{-9}$ m $= 10^{-7}$ m.
+
+**b)** $\\dfrac{8 \\times 10^{-5}}{10^{-7}} = 8 \\times 10^{-5 - (-7)} = 8 \\times 10^{2} = 800$. Il faudrait aligner environ $800$ virus.`
+    },
+    {
+      id: "4N3-ds-10",
+      title: "L'eau des océans",
+      difficulty: 2,
+      points: 5,
+      statement: `Le volume d'eau des océans est estimé à $1{,}34 \\times 10^{9}$ km³. On rappelle que $1$ km³ $= 10^{9}$ m³ et que $1$ m³ $= 10^{3}$ L.
+1. Montrer que $1$ km³ $= 10^{12}$ L.
+2. Exprimer le volume d'eau des océans en litres, en notation scientifique.
+3. La Terre compte environ $8 \\times 10^{9}$ habitants. Si l'on partageait l'eau des océans équitablement, quel volume, en litres, reviendrait à chaque habitant ? Donner le résultat en notation scientifique.
+4. Une goutte d'eau a un volume d'environ $5 \\times 10^{-5}$ L. Combien de gouttes d'eau contiennent les océans ? Donner le résultat en notation scientifique.`,
+      solution: `**1.** $1$ km³ $= 10^9$ m³ $= 10^9 \\times 10^3$ L $= 10^{9 + 3}$ L $= 10^{12}$ L.
+
+**2.** $1{,}34 \\times 10^{9} \\times 10^{12} = 1{,}34 \\times 10^{21}$ L.
+
+**3.** $\\dfrac{1{,}34 \\times 10^{21}}{8 \\times 10^{9}} = \\dfrac{1{,}34}{8} \\times 10^{21 - 9} = 0{,}1675 \\times 10^{12} = 1{,}675 \\times 10^{11}$ L par habitant.
+
+**4.** $\\dfrac{1{,}34 \\times 10^{21}}{5 \\times 10^{-5}} = \\dfrac{1{,}34}{5} \\times 10^{21 - (-5)} = 0{,}268 \\times 10^{26} = 2{,}68 \\times 10^{25}$ gouttes.`
+    },
+    {
+      id: "4N3-ds-11",
+      title: "Les atomes d'un diamant",
+      difficulty: 3,
+      points: 5,
+      statement: `Un diamant est formé d'atomes de carbone. Un atome de carbone a une masse d'environ $2 \\times 10^{-23}$ g et un diamètre d'environ $1{,}4 \\times 10^{-10}$ m.
+1. Calculer la masse d'un million d'atomes de carbone. Donner le résultat en notation scientifique.
+2. Un petit diamant a une masse de $0{,}2$ g. Montrer qu'il contient environ $10^{22}$ atomes de carbone.
+3. On imagine que l'on aligne tous les atomes de ce diamant, côte à côte, en ligne droite. Quelle longueur, en mètres, obtiendrait-on ? Donner le résultat en notation scientifique.
+4. La distance entre la Terre et le Soleil est d'environ $1{,}5 \\times 10^{11}$ m. Combien de fois environ la longueur trouvée à la question 3 est-elle plus grande que cette distance ? Arrondir à l'unité.`,
+      solution: `**1.** Un million $= 10^6$. Masse : $10^6 \\times 2 \\times 10^{-23} = 2 \\times 10^{6 + (-23)} = 2 \\times 10^{-17}$ g.
+
+**2.** Nombre d'atomes : $\\dfrac{0{,}2}{2 \\times 10^{-23}} = \\dfrac{0{,}2}{2} \\times 10^{23} = 0{,}1 \\times 10^{23} = 10^{-1} \\times 10^{23} = 10^{22}$.
+
+**3.** Longueur : $10^{22} \\times 1{,}4 \\times 10^{-10} = 1{,}4 \\times 10^{22 - 10} = 1{,}4 \\times 10^{12}$ m.
+
+**4.** $\\dfrac{1{,}4 \\times 10^{12}}{1{,}5 \\times 10^{11}} = \\dfrac{1{,}4}{1{,}5} \\times 10^{1} \\approx 0{,}933 \\times 10 \\approx 9{,}33$.
+La longueur obtenue représente environ **9 fois** la distance Terre-Soleil.`
+    },
+    {
+      id: "4N3-ds-12",
+      title: "Le dernier chiffre d'une puissance",
+      difficulty: 4,
+      points: 6,
+      statement: `1. Calculer $3^1$, $3^2$, $3^3$, $3^4$, $3^5$, $3^6$, $3^7$ et $3^8$.
+2. Quels sont les chiffres des unités obtenus ? Que remarque-t-on ? Expliquer pourquoi ce phénomène se poursuit pour les puissances suivantes.
+3. En déduire le chiffre des unités de $3^{2026}$.
+4. a) Trouver de même le cycle des chiffres des unités des puissances de $7$.
+   b) En déduire le chiffre des unités de $7^{100}$.
+5. Démontrer que $3^{2025} + 7^{2025}$ est divisible par $10$.`,
+      solution: `**1.** $3^1 = 3$ ; $3^2 = 9$ ; $3^3 = 27$ ; $3^4 = 81$ ; $3^5 = 243$ ; $3^6 = 729$ ; $3^7 = 2\\,187$ ; $3^8 = 6\\,561$.
+
+**2.** Chiffres des unités : $3$, $9$, $7$, $1$, $3$, $9$, $7$, $1$. Ils se répètent par cycles de $4$.
+Pour passer d'une puissance à la suivante, on multiplie par $3$, et le chiffre des unités du résultat ne dépend que du chiffre des unités de la puissance précédente. Comme on retrouve le chiffre $1$ tous les $4$ rangs (et $1 \\times 3 = 3$), le cycle $3$ ; $9$ ; $7$ ; $1$ recommence indéfiniment.
+
+**3.** $2026 = 4 \\times 506 + 2$. Après $506$ cycles complets, on est au $2^{\\text{e}}$ terme du cycle : le chiffre des unités de $3^{2026}$ est le même que celui de $3^2$, c'est-à-dire **9**.
+
+**4. a)** $7^1 = 7$, $7^2 = 49$, $7^3 = 343$, $7^4 = 2\\,401$, $7^5 = 16\\,807$ : les chiffres des unités sont $7$ ; $9$ ; $3$ ; $1$, puis le cycle recommence (même raisonnement qu'à la question 2).
+
+**b)** $100 = 4 \\times 25$ : $7^{100}$ est en fin de cycle, comme $7^4$. Son chiffre des unités est **1**.
+
+**5.** $2025 = 4 \\times 506 + 1$ : $3^{2025}$ a le même chiffre des unités que $3^1$, soit $3$, et $7^{2025}$ le même que $7^1$, soit $7$. Le chiffre des unités de la somme est celui de $3 + 7 = 10$, c'est-à-dire $0$. Un nombre entier qui se termine par $0$ est divisible par $10$ : $3^{2025} + 7^{2025}$ est **divisible par 10**.`
     }
   ],
   "4N4": [
@@ -701,6 +987,104 @@ Vérification par les aires : $20{,}25 \\div 0{,}09 = 225$.
 **3.** Périmètre : $4 \\times 4{,}5 = 18$ m. Plinthe : $18 - 0{,}9 = 17{,}1$ m.
 
 **4.** Le côté de cette pièce vaut $\\sqrt{30} \\approx 5{,}477$ m. Il faudrait $\\sqrt{30} \\div 0{,}3 \\approx 18{,}26$ carreaux par rangée, ce qui n'est pas un nombre entier. **On devra découper des carreaux.**`
+    },
+    {
+      id: "4N4-ds-09",
+      title: "Les plates-bandes carrées",
+      difficulty: 1,
+      points: 4,
+      statement: `Un jardinier aménage trois plates-bandes carrées, d'aires respectives $144$ m², $2{,}25$ m² et $30$ m².
+1. Calculer la longueur du côté de chacune des trois plates-bandes. Donner une valeur exacte, puis, si nécessaire, une valeur arrondie au centimètre.
+2. Le nombre $30$ est-il un carré parfait ? Justifier.
+3. Calculer le périmètre de la plus grande plate-bande.
+4. Une quatrième plate-bande carrée a un périmètre de $26$ m. Calculer son aire.`,
+      solution: `**1.** Le côté $c$ d'un carré d'aire $A$ vérifie $c^2 = A$ avec $c$ positif, donc $c = \\sqrt{A}$.
+- $\\sqrt{144} = 12$ car $12^2 = 144$ : côté de $12$ m.
+- $\\sqrt{2{,}25} = 1{,}5$ car $1{,}5^2 = 2{,}25$ : côté de $1{,}5$ m.
+- Le côté vaut $\\sqrt{30}$ m (valeur exacte), soit environ $5{,}48$ m.
+
+**2.** $5^2 = 25$ et $6^2 = 36$. On a $25 < 30 < 36$ : aucun entier n'a pour carré $30$, donc $30$ **n'est pas** un carré parfait.
+
+**3.** Périmètre : $4 \\times 12 = 48$ m.
+
+**4.** Côté : $26 \\div 4 = 6{,}5$ m. Aire : $6{,}5^2 = 42{,}25$ m².`
+    },
+    {
+      id: "4N4-ds-10",
+      title: "Chasse aux carrés parfaits",
+      difficulty: 2,
+      points: 5,
+      statement: `On rappelle qu'un carré parfait est le carré d'un nombre entier.
+1. Le nombre $1\\,089$ est-il un carré parfait ? Justifier. Que vaut $\\sqrt{1\\,089}$ ?
+2. Par quel plus petit nombre entier non nul faut-il multiplier $12$ pour obtenir un carré parfait ? Justifier.
+3. Combien y a-t-il de carrés parfaits compris entre $100$ et $400$ (inclus) ? Justifier.
+4. a) Recopier et compléter le tableau des chiffres des unités :
+
+| Chiffre des unités de $n$ | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| Chiffre des unités de $n^2$ | | | | | | | | | | |
+
+   b) Un nombre entier se termine par $7$. Peut-il être un carré parfait ? Justifier.`,
+      solution: `**1.** $33^2 = 33 \\times 33 = 1\\,089$. Donc $1\\,089$ est un carré parfait et $\\sqrt{1\\,089} = 33$.
+
+**2.** On essaie les multiples successifs : $12 \\times 1 = 12$ et $12 \\times 2 = 24$ ne sont pas des carrés parfaits ($3^2 = 9$, $4^2 = 16$, $5^2 = 25$), mais $12 \\times 3 = 36 = 6^2$. Le plus petit nombre cherché est **3**.
+
+**3.** $100 = 10^2$ et $400 = 20^2$. Les carrés parfaits compris entre $100$ et $400$ sont $10^2, 11^2, \\ldots, 20^2$, soit $20 - 10 + 1 = 11$ carrés parfaits.
+
+**4. a)** Le chiffre des unités de $n^2$ ne dépend que du chiffre des unités de $n$ :
+
+| Chiffre des unités de $n$ | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| Chiffre des unités de $n^2$ | 0 | 1 | 4 | 9 | 6 | 5 | 6 | 9 | 4 | 1 |
+
+**b)** Le chiffre $7$ n'apparaît pas dans la deuxième ligne : aucun carré d'entier ne se termine par $7$. Un nombre qui se termine par $7$ **n'est donc pas** un carré parfait.`
+    },
+    {
+      id: "4N4-ds-11",
+      title: "Un carré incliné sur un quadrillage",
+      difficulty: 3,
+      points: 5,
+      statement: `Dans un repère orthonormé d'unité $1$ cm, on place les points $A(0 ; 1)$, $B(3 ; 0)$, $C(4 ; 3)$ et $D(1 ; 4)$. On admet que $ABCD$ est un carré.
+1. Le carré $ABCD$ est contenu dans le carré de sommets $(0 ; 0)$, $(4 ; 0)$, $(4 ; 4)$ et $(0 ; 4)$. Calculer l'aire de ce grand carré.
+2. Le grand carré est formé du carré $ABCD$ et de quatre triangles rectangles. Calculer l'aire d'un de ces triangles, puis en déduire l'aire du carré $ABCD$.
+3. En déduire la valeur exacte de la longueur $AB$.
+4. Donner un encadrement de $AB$ entre deux nombres décimaux consécutifs ayant un chiffre après la virgule. Justifier.
+5. Sur le même principe, proposer les coordonnées de quatre points formant un carré d'aire $5$ cm². Justifier.`,
+      solution: `**1.** Le grand carré a pour côté $4$ cm : son aire est $4^2 = 16$ cm².
+
+**2.** Par exemple, le triangle de sommets $(0 ; 0)$, $B(3 ; 0)$ et $A(0 ; 1)$ est rectangle, de côtés de l'angle droit $3$ cm et $1$ cm. Son aire est $\\dfrac{3 \\times 1}{2} = 1{,}5$ cm². Les quatre triangles sont superposables (mêmes dimensions $3$ et $1$).
+Aire de $ABCD$ : $16 - 4 \\times 1{,}5 = 16 - 6 = 10$ cm².
+
+**3.** $AB^2 = 10$ et $AB$ est une longueur positive, donc $AB = \\sqrt{10}$ cm.
+
+**4.** $3{,}1^2 = 9{,}61$ et $3{,}2^2 = 10{,}24$. Comme $9{,}61 < 10 < 10{,}24$, on a $3{,}1 < \\sqrt{10} < 3{,}2$.
+
+**5.** Il faut un grand carré d'aire $9$ et des triangles de côtés $2$ et $1$ : $3^2 - 4 \\times \\dfrac{2 \\times 1}{2} = 9 - 4 = 5$. Par exemple $E(0 ; 1)$, $F(2 ; 0)$, $G(3 ; 2)$ et $H(1 ; 3)$, dans le carré de côté $3$ de sommets $(0 ; 0)$, $(3 ; 0)$, $(3 ; 3)$ et $(0 ; 3)$. Le côté de $EFGH$ vaut $\\sqrt{5}$ cm.`
+    },
+    {
+      id: "4N4-ds-12",
+      title: "Un disque et un carré de même aire",
+      difficulty: 4,
+      points: 6,
+      statement: `On rappelle que l'aire d'un disque de rayon $r$ est $\\pi r^2$ et que son périmètre est $2 \\pi r$.
+1. Un disque a une aire de $49\\pi$ cm². Calculer son rayon.
+2. Un disque a une aire de $50\\pi$ cm². Donner la valeur exacte de son rayon, puis une valeur arrondie au millimètre.
+3. On veut un disque et un carré qui ont tous les deux une aire de $100$ cm².
+   a) Calculer le côté du carré et son périmètre.
+   b) Montrer que le rayon du disque vaut $\\sqrt{\\dfrac{100}{\\pi}}$ cm. En donner une valeur arrondie au centième.
+   c) Calculer le périmètre du disque, arrondi au dixième. Laquelle des deux figures a le plus petit périmètre ?
+4. On multiplie l'aire d'un disque par $4$. Par combien son rayon est-il multiplié ? Justifier.`,
+      solution: `**1.** $\\pi r^2 = 49\\pi$, donc $r^2 = 49$. Le rayon est positif, donc $r = \\sqrt{49} = 7$ cm.
+
+**2.** $r^2 = 50$, donc $r = \\sqrt{50}$ cm. Comme $7{,}07^2 = 49{,}9849$ et $7{,}08^2 = 50{,}1264$, on a $r \\approx 7{,}1$ cm.
+
+**3. a)** Côté du carré : $\\sqrt{100} = 10$ cm ; périmètre : $4 \\times 10 = 40$ cm.
+
+**b)** $\\pi r^2 = 100$ donne $r^2 = \\dfrac{100}{\\pi}$ ; comme $r$ est positif, $r = \\sqrt{\\dfrac{100}{\\pi}}$. À la calculatrice, $r \\approx 5{,}64$ cm.
+
+**c)** Périmètre du disque : $2 \\pi r \\approx 2 \\times \\pi \\times 5{,}642 \\approx 35{,}4$ cm. Pour une même aire, **le disque** a un périmètre plus petit que le carré ($35{,}4 < 40$).
+
+**4.** Si l'aire $\\pi r^2$ est multipliée par $4$, le nouveau rayon $R$ vérifie $\\pi R^2 = 4\\pi r^2$, donc $R^2 = 4 r^2 = (2r)^2$. Comme $R$ et $2r$ sont positifs, $R = 2r$ : le rayon est **multiplié par 2**.`
     }
   ],
   "4N5": [
@@ -866,6 +1250,97 @@ La solution est négative : cela signifie **il y a un an**. Paul avait alors $40
 Vérification : triangle $3 \\times \\dfrac{4}{3} + 6 = 4 + 6 = 10$ ; rectangle $6 \\times \\dfrac{4}{3} + 2 = 8 + 2 = 10$.
 
 **4.** $4x = 6x + 2$ donne $-2 = 2x$, soit $x = -1$. Or $x$ est une longueur, donc positif : **c'est impossible**.`
+    },
+    {
+      id: "4N5-ds-09",
+      title: "La balance équilibrée",
+      difficulty: 1,
+      points: 4,
+      statement: `1. Sur le plateau gauche d'une balance, on pose $5$ boîtes identiques et une masse de $40$ g. Sur le plateau droit, on pose $2$ boîtes identiques aux précédentes et une masse de $190$ g. La balance est équilibrée. On note $x$ la masse d'une boîte, en grammes.
+   a) Écrire une équation traduisant l'équilibre de la balance.
+   b) Résoudre cette équation et conclure.
+2. Le nombre $3$ est-il solution de l'équation $4x - 7 = 2x - 1$ ? Justifier.
+3. Résoudre l'équation $7 - 2x = 15$.`,
+      solution: `**1. a)** Le plateau gauche porte $5x + 40$ grammes et le plateau droit $2x + 190$ grammes. L'équilibre se traduit par $5x + 40 = 2x + 190$.
+
+**b)** On soustrait $2x$ aux deux membres : $3x + 40 = 190$. On soustrait $40$ : $3x = 150$. On divise par $3$ : $x = 50$.
+Vérification : $5 \\times 50 + 40 = 290$ et $2 \\times 50 + 190 = 290$. Une boîte pèse **50 g**.
+
+**2.** Pour $x = 3$ : $4 \\times 3 - 7 = 12 - 7 = 5$ et $2 \\times 3 - 1 = 6 - 1 = 5$. Les deux membres sont égaux, donc $3$ **est solution**.
+
+**3.** $7 - 2x = 15$ donne $-2x = 15 - 7 = 8$, donc $x = \\dfrac{8}{-2} = -4$.
+Vérification : $7 - 2 \\times (-4) = 7 + 8 = 15$. La solution est $-4$.`
+    },
+    {
+      id: "4N5-ds-10",
+      title: "Les carrés en allumettes",
+      difficulty: 2,
+      points: 5,
+      statement: `On construit une rangée de carrés accolés avec des allumettes : un carré utilise $4$ allumettes, deux carrés accolés en utilisent $7$, trois carrés accolés en utilisent $10$, et ainsi de suite.
+1. Combien faut-il d'allumettes pour une rangée de $4$ carrés ? de $5$ carrés ?
+2. Expliquer pourquoi une rangée de $n$ carrés nécessite $3n + 1$ allumettes.
+3. Combien faut-il d'allumettes pour une rangée de $100$ carrés ?
+4. Avec $85$ allumettes, combien de carrés peut-on former exactement ? Résoudre une équation.
+5. Peut-on utiliser exactement $200$ allumettes pour former une telle rangée ? Justifier.`,
+      solution: `**1.** Chaque nouveau carré ajoute $3$ allumettes (il partage un côté avec le carré précédent) : $4$ carrés → $10 + 3 = 13$ allumettes ; $5$ carrés → $13 + 3 = 16$ allumettes.
+
+**2.** Le premier carré utilise $4$ allumettes, soit $1 + 3$. Chacun des carrés suivants en ajoute $3$. Pour $n$ carrés, on a donc $1 + 3 \\times n = 3n + 1$ allumettes. (Vérification : $n = 3$ donne $3 \\times 3 + 1 = 10$.)
+
+**3.** $3 \\times 100 + 1 = 301$ allumettes.
+
+**4.** On résout $3n + 1 = 85$ : $3n = 84$, donc $n = 28$. On forme **28 carrés**.
+
+**5.** Il faudrait $3n + 1 = 200$, soit $3n = 199$, donc $n = \\dfrac{199}{3}$. Or $199$ n'est pas divisible par $3$ ($1 + 9 + 9 = 19$ n'est pas un multiple de $3$), donc $n$ ne serait pas un nombre entier : **c'est impossible**.`
+    },
+    {
+      id: "4N5-ds-11",
+      title: "Trois entiers consécutifs",
+      difficulty: 3,
+      points: 5,
+      statement: `1. On considère l'expression $A = 3(2x - 5) - 4(x - 2)$.
+   a) Développer et réduire $A$.
+   b) Résoudre l'équation $A = 9$.
+2. On note $n$ un nombre entier.
+   a) Écrire, en fonction de $n$, les deux entiers qui suivent $n$.
+   b) Démontrer que la somme de trois entiers consécutifs est toujours un multiple de $3$.
+3. Trouver trois entiers consécutifs dont la somme est égale à $2\\,025$.
+4. Existe-t-il trois entiers consécutifs dont la somme est égale à $1\\,000$ ? Justifier.`,
+      solution: `**1. a)** $A = 3 \\times 2x - 3 \\times 5 - 4 \\times x + 4 \\times 2 = 6x - 15 - 4x + 8 = 2x - 7$.
+
+**b)** $2x - 7 = 9$ donne $2x = 16$, puis $x = 8$. Vérification : $2 \\times 8 - 7 = 9$.
+
+**2. a)** Les deux entiers suivants sont $n + 1$ et $n + 2$.
+
+**b)** $n + (n + 1) + (n + 2) = 3n + 3 = 3(n + 1)$. Comme $n + 1$ est un entier, cette somme est un multiple de $3$.
+
+**3.** On résout $3n + 3 = 2\\,025$ : $3n = 2\\,022$, donc $n = 674$. Les entiers sont **674, 675 et 676**.
+Vérification : $674 + 675 + 676 = 2\\,025$.
+
+**4.** D'après la question 2, la somme serait un multiple de $3$. Or $1 + 0 + 0 + 0 = 1$ n'est pas un multiple de $3$, donc $1\\,000$ n'est pas divisible par $3$ : **c'est impossible**.`
+    },
+    {
+      id: "4N5-ds-12",
+      title: "Les deux bougies",
+      difficulty: 4,
+      points: 6,
+      statement: `Une bougie A mesure $30$ cm et raccourcit de $2$ cm par heure. Une bougie B mesure $18$ cm et raccourcit de $0{,}5$ cm par heure. On les allume en même temps. On note $t$ le nombre d'heures écoulées depuis l'allumage.
+1. Exprimer, en fonction de $t$, la hauteur de chaque bougie.
+2. Au bout de combien de temps les deux bougies ont-elles la même hauteur ? Quelle est alors cette hauteur ?
+3. Au bout de combien de temps chaque bougie est-elle entièrement consumée ?
+4. On recommence avec deux bougies neuves, mais cette fois on allume la bougie B $4$ heures avant la bougie A. On note encore $t$ le temps écoulé depuis l'allumage de la bougie A.
+   a) Montrer que la hauteur de la bougie B est alors $16 - 0{,}5t$.
+   b) Au bout de combien de temps (en heures et minutes) après l'allumage de A les deux bougies ont-elles la même hauteur ?`,
+      solution: `**1.** Bougie A : $30 - 2t$ (en cm). Bougie B : $18 - 0{,}5t$ (en cm).
+
+**2.** On résout $30 - 2t = 18 - 0{,}5t$. On ajoute $2t$ aux deux membres : $30 = 18 + 1{,}5t$. On soustrait $18$ : $12 = 1{,}5t$, donc $t = \\dfrac{12}{1{,}5} = 8$.
+Au bout de **8 heures**, les deux bougies mesurent $30 - 2 \\times 8 = 14$ cm (et $18 - 0{,}5 \\times 8 = 14$ cm).
+
+**3.** Bougie A : $30 - 2t = 0$ donne $t = 15$ h. Bougie B : $18 - 0{,}5t = 0$ donne $t = 36$ h.
+
+**4. a)** Quand $t$ heures se sont écoulées depuis l'allumage de A, la bougie B brûle depuis $t + 4$ heures. Sa hauteur est $18 - 0{,}5(t + 4) = 18 - 0{,}5t - 2 = 16 - 0{,}5t$.
+
+**b)** On résout $30 - 2t = 16 - 0{,}5t$ : $14 = 1{,}5t$, donc $t = \\dfrac{14}{1{,}5} = \\dfrac{28}{3} = 9 + \\dfrac{1}{3}$ h.
+Or $\\dfrac{1}{3}$ h $= 20$ min. Les deux bougies ont la même hauteur **9 h 20 min** après l'allumage de A (la bougie A n'est pas encore consumée, car $\\dfrac{28}{3} < 15$). Cette hauteur vaut $30 - 2 \\times \\dfrac{28}{3} = \\dfrac{34}{3} \\approx 11{,}3$ cm.`
     }
   ],
   "4G1": [
@@ -1035,6 +1510,89 @@ Dans les trois cas, d'après la réciproque du théorème de Pythagore, les tria
 
 **3. a)** Si $x$ est l'hypoténuse : $x^2 = 6^2 + 8^2 = 100$, donc $x = 10$ cm.
 **b)** Oui : si le côté de $8$ cm est l'hypoténuse, alors $8^2 = 6^2 + x^2$, donc $x^2 = 64 - 36 = 28$ et $x = \\sqrt{28} \\approx 5{,}29$ cm.`
+    },
+    {
+      id: "4G1-ds-09",
+      title: "Couper à travers le parc",
+      difficulty: 1,
+      points: 4,
+      statement: `Un parc a la forme d'un rectangle $ABCD$ avec $AB = 80$ m et $BC = 60$ m. Pour aller de $A$ à $C$, Malik peut longer les bords ($A \\to B \\to C$) ou traverser le parc en ligne droite.
+1. Calculer la longueur du trajet en ligne droite $AC$.
+2. Quelle distance Malik économise-t-il en traversant le parc ?
+3. Un autre parc a la forme d'un triangle dont les côtés mesurent $50$ m, $120$ m et $130$ m. Ce triangle est-il rectangle ? Justifier.`,
+      solution: `**1.** $ABCD$ est un rectangle, donc le triangle $ABC$ est rectangle en $B$. D'après le théorème de Pythagore :
+$AC^2 = AB^2 + BC^2 = 80^2 + 60^2 = 6\\,400 + 3\\,600 = 10\\,000$, donc $AC = \\sqrt{10\\,000} = 100$ m.
+
+**2.** En longeant les bords : $80 + 60 = 140$ m. Économie : $140 - 100 = 40$ m.
+
+**3.** Le plus grand côté mesure $130$ m. $130^2 = 16\\,900$ et $50^2 + 120^2 = 2\\,500 + 14\\,400 = 16\\,900$.
+L'égalité de Pythagore est vérifiée, donc, d'après la réciproque du théorème de Pythagore, ce triangle **est rectangle** (l'angle droit est opposé au côté de $130$ m).`
+    },
+    {
+      id: "4G1-ds-10",
+      title: "La rampe d'accès",
+      difficulty: 2,
+      points: 5,
+      statement: `Pour permettre l'accès d'un bâtiment aux fauteuils roulants, on installe une rampe. On modélise la situation par un triangle $ABC$ rectangle en $B$ : $[AB]$ est le sol horizontal, $[BC]$ la hauteur à franchir et $[AC]$ la rampe.
+Une première rampe mesure $AC = 7{,}25$ m, avec $AB = 7{,}2$ m.
+1. Calculer la hauteur $BC$ franchie par cette rampe.
+2. Une règle impose que la hauteur franchie ne dépasse pas $\\dfrac{1}{12}$ de la longueur horizontale $AB$. Cette rampe respecte-t-elle la règle ? Justifier.
+3. On garde la même hauteur $BC$, mais on allonge la partie horizontale pour respecter exactement la règle.
+   a) Quelle doit être la longueur horizontale ?
+   b) Calculer la longueur de la nouvelle rampe, arrondie au centimètre.`,
+      solution: `**1.** Le triangle $ABC$ est rectangle en $B$. D'après le théorème de Pythagore : $AC^2 = AB^2 + BC^2$, donc
+$BC^2 = AC^2 - AB^2 = 7{,}25^2 - 7{,}2^2 = 52{,}5625 - 51{,}84 = 0{,}7225$, d'où $BC = \\sqrt{0{,}7225} = 0{,}85$ m.
+
+**2.** $\\dfrac{1}{12} \\times 7{,}2 = 0{,}6$ m. Or $0{,}85 > 0{,}6$ : la rampe **ne respecte pas** la règle (elle est trop raide).
+
+**3. a)** Il faut $\\dfrac{AB}{12} = 0{,}85$, donc $AB = 12 \\times 0{,}85 = 10{,}2$ m.
+
+**b)** Dans le nouveau triangle rectangle : $AC^2 = 10{,}2^2 + 0{,}85^2 = 104{,}04 + 0{,}7225 = 104{,}7625$, donc $AC = \\sqrt{104{,}7625} \\approx 10{,}24$ m.`
+    },
+    {
+      id: "4G1-ds-11",
+      title: "Un triangle sur quadrillage",
+      difficulty: 3,
+      points: 5,
+      statement: `Dans un repère orthonormé d'unité $1$ cm, on place les points $A(1 ; 1)$, $B(5 ; 3)$, $C(3 ; 7)$ et $D(-1 ; 5)$.
+1. En utilisant un triangle rectangle dont les côtés suivent les lignes du quadrillage, montrer que $AB^2 = 20$.
+2. Calculer de même $BC^2$ et $AC^2$.
+3. Démontrer que le triangle $ABC$ est rectangle et isocèle. Préciser le sommet de l'angle droit.
+4. Calculer l'aire du triangle $ABC$.
+5. Calculer $AD^2$ et $CD^2$. En déduire la nature du quadrilatère $ABCD$. Justifier.`,
+      solution: `**1.** On considère le point $E(5 ; 1)$ : le triangle $AEB$ est rectangle en $E$, avec $AE = 5 - 1 = 4$ cm et $EB = 3 - 1 = 2$ cm. D'après le théorème de Pythagore : $AB^2 = 4^2 + 2^2 = 16 + 4 = 20$.
+
+**2.** De la même manière :
+- pour $[BC]$ : écarts horizontal $5 - 3 = 2$ et vertical $7 - 3 = 4$, donc $BC^2 = 2^2 + 4^2 = 20$ ;
+- pour $[AC]$ : écarts $3 - 1 = 2$ et $7 - 1 = 6$, donc $AC^2 = 2^2 + 6^2 = 40$.
+
+**3.** $AB^2 = BC^2 = 20$, donc $AB = BC$ : le triangle est isocèle en $B$. Le plus grand côté est $[AC]$ et $AB^2 + BC^2 = 20 + 20 = 40 = AC^2$. D'après la réciproque du théorème de Pythagore, $ABC$ est rectangle en $B$. Il est donc **rectangle isocèle en $B$**.
+
+**4.** Aire $= \\dfrac{AB \\times BC}{2}$. Comme $AB = BC$, on a $AB \\times BC = AB^2 = 20$. L'aire vaut $\\dfrac{20}{2} = 10$ cm².
+
+**5.** $AD^2 = (1 - (-1))^2 + (5 - 1)^2 = 4 + 16 = 20$ et $CD^2 = (3 - (-1))^2 + (7 - 5)^2 = 16 + 4 = 20$.
+Les quatre côtés de $ABCD$ ont la même longueur ($\\sqrt{20}$ cm) : c'est un losange. Il possède un angle droit en $B$ : un losange ayant un angle droit est un **carré**.`
+    },
+    {
+      id: "4G1-ds-12",
+      title: "Le triangle 13-14-15",
+      difficulty: 4,
+      points: 6,
+      statement: `Le triangle $ABC$ a pour côtés $AB = 13$ cm, $BC = 14$ cm et $AC = 15$ cm. On note $H$ le pied de la hauteur issue de $A$ ; on admet que $H$ appartient au segment $[BC]$ et que $BH = 5$ cm.
+1. Le triangle $ABC$ est-il rectangle ? Justifier.
+2. Calculer la longueur $AH$.
+3. Calculer $HC$, puis vérifier, par un calcul, que la longueur $AC$ obtenue est bien cohérente avec l'énoncé.
+4. Calculer l'aire du triangle $ABC$.
+5. On note $K$ le pied de la hauteur issue de $B$, sur le côté $[AC]$. En utilisant l'aire, calculer la longueur $BK$.`,
+      solution: `**1.** Le plus grand côté est $[AC]$. $AC^2 = 15^2 = 225$ et $AB^2 + BC^2 = 169 + 196 = 365$. Comme $225 \\neq 365$, l'égalité de Pythagore n'est pas vérifiée : d'après la contraposée du théorème de Pythagore, le triangle $ABC$ **n'est pas rectangle**.
+
+**2.** Le triangle $ABH$ est rectangle en $H$. D'après le théorème de Pythagore : $AH^2 = AB^2 - BH^2 = 169 - 25 = 144$, donc $AH = 12$ cm.
+
+**3.** $H$ appartient à $[BC]$, donc $HC = BC - BH = 14 - 5 = 9$ cm. Dans le triangle $AHC$ rectangle en $H$ : $AC^2 = AH^2 + HC^2 = 144 + 81 = 225$, donc $AC = 15$ cm. C'est bien la longueur de l'énoncé.
+
+**4.** Aire $= \\dfrac{BC \\times AH}{2} = \\dfrac{14 \\times 12}{2} = 84$ cm².
+
+**5.** L'aire se calcule aussi avec la base $[AC]$ et la hauteur $[BK]$ : $\\dfrac{AC \\times BK}{2} = 84$, donc $15 \\times BK = 168$ et $BK = \\dfrac{168}{15} = 11{,}2$ cm.`
     }
   ],
   "4G2": [
@@ -1186,6 +1744,87 @@ Il devient inférieur à $1$ cm pour le triangle **$A_6B_6C_6$** ($0{,}75$ cm).`
 
 **4.** Dans le triangle $CAD$, la droite $(OJ)$ passe par le milieu $O$ de $[CA]$ et est parallèle à $(AD)$. D'après la réciproque du théorème de la droite des milieux, elle coupe $[CD]$ en son milieu : **$J$ est le milieu de $[CD]$**.
 Alors $OJ = \\dfrac{AD}{2} = 3{,}5$ cm, et comme $O$ est entre $I$ et $J$ : $IJ = OI + OJ = 7$ cm.`
+    },
+    {
+      id: "4G2-ds-09",
+      title: "L'escabeau",
+      difficulty: 1,
+      points: 4,
+      statement: `Un escabeau est schématisé par un triangle $ABC$ : $A$ est le sommet, $B$ et $C$ sont les pieds posés au sol. Une corde relie les points $M$ et $N$, milieux respectifs des montants $[AB]$ et $[AC]$.
+1. Les pieds sont écartés de $BC = 1{,}2$ m. Calculer la longueur de la corde $MN$. Justifier.
+2. Démontrer que la corde est parallèle au sol $(BC)$.
+3. On remplace la corde par une corde de $0{,}7$ m, toujours fixée aux milieux des montants et bien tendue. Quel est alors l'écartement des pieds ?`,
+      solution: `**1.** Dans le triangle $ABC$, $M$ est le milieu de $[AB]$ et $N$ est le milieu de $[AC]$. Or, si un segment joint les milieux de deux côtés d'un triangle, alors sa longueur est la moitié de celle du troisième côté. Donc $MN = \\dfrac{BC}{2} = \\dfrac{1{,}2}{2} = 0{,}6$ m.
+
+**2.** Si une droite passe par les milieux de deux côtés d'un triangle, alors elle est parallèle au troisième côté. Donc $(MN) \\parallel (BC)$ : la corde est parallèle au sol.
+
+**3.** On a toujours $MN = \\dfrac{BC}{2}$, donc $BC = 2 \\times MN = 2 \\times 0{,}7 = 1{,}4$ m.`
+    },
+    {
+      id: "4G2-ds-10",
+      title: "Le puits équidistant",
+      difficulty: 2,
+      points: 5,
+      statement: `Trois maisons $A$, $B$ et $C$ forment un triangle rectangle en $A$, avec $AB = 30$ m et $AC = 40$ m. On veut creuser un puits $P$ situé à la même distance des trois maisons.
+1. Calculer la distance $BC$.
+2. Où faut-il placer le puits ? Justifier, puis calculer la distance entre le puits et chaque maison.
+3. Une quatrième maison $D$, située de l'autre côté de $(BC)$ par rapport à $A$, est à $14$ m de $B$ et à $48$ m de $C$.
+   a) Démontrer que le triangle $BDC$ est rectangle.
+   b) En déduire que la maison $D$ est, elle aussi, à $25$ m du puits.`,
+      solution: `**1.** Le triangle $ABC$ est rectangle en $A$. D'après le théorème de Pythagore : $BC^2 = 30^2 + 40^2 = 900 + 1\\,600 = 2\\,500$, donc $BC = 50$ m.
+
+**2.** Le point à égale distance des trois sommets d'un triangle est le centre de son cercle circonscrit. Si un triangle est rectangle, alors le centre de son cercle circonscrit est le milieu de son hypoténuse. Il faut donc placer le puits au **milieu $P$ de $[BC]$**. La distance à chaque maison est le rayon : $\\dfrac{BC}{2} = 25$ m.
+
+**3. a)** Dans le triangle $BDC$, le plus grand côté est $[BC]$. $BC^2 = 2\\,500$ et $BD^2 + DC^2 = 14^2 + 48^2 = 196 + 2\\,304 = 2\\,500$. D'après la réciproque du théorème de Pythagore, $BDC$ est rectangle en $D$.
+
+**b)** Le triangle $BDC$ est rectangle en $D$, d'hypoténuse $[BC]$ : son cercle circonscrit a pour centre le milieu $P$ de $[BC]$ et pour rayon $25$ m. Donc $PD = 25$ m : le puits est aussi à $25$ m de la maison $D$.`
+    },
+    {
+      id: "4G2-ds-11",
+      title: "La ligne médiane d'un trapèze",
+      difficulty: 3,
+      points: 5,
+      statement: `$ABCD$ est un trapèze de bases $[AB]$ et $[CD]$, avec $(AB) \\parallel (CD)$, $AB = 10$ cm et $CD = 6$ cm. Le point $M$ est le milieu de $[AD]$. La droite parallèle à $(AB)$ passant par $M$ coupe $[AC]$ en $I$ et $[BC]$ en $N$.
+1. Faire une figure à main levée codée.
+2. En se plaçant dans le triangle $ACD$, démontrer que $I$ est le milieu de $[AC]$, puis calculer $MI$.
+3. En se plaçant dans le triangle $ABC$, démontrer que $N$ est le milieu de $[BC]$, puis calculer $IN$.
+4. En déduire la longueur $MN$. Comparer avec la moyenne des longueurs des deux bases.`,
+      solution: `**1.** Figure : trapèze $ABCD$ avec $[AB]$ et $[CD]$ parallèles, $M$ milieu de $[AD]$ (codage), la diagonale $[AC]$, et le segment $[MN]$ parallèle aux bases, qui coupe $[AC]$ en $I$.
+
+**2.** La droite $(MN)$ est parallèle à $(AB)$, et $(AB) \\parallel (CD)$ ; donc $(MI) \\parallel (DC)$.
+Dans le triangle $ACD$, la droite $(MI)$ passe par le milieu $M$ de $[AD]$ et est parallèle à $(DC)$. Si une droite passe par le milieu d'un côté d'un triangle et est parallèle à un deuxième côté, alors elle coupe le troisième côté en son milieu : $I$ est le milieu de $[AC]$.
+$M$ et $I$ sont les milieux de $[AD]$ et $[AC]$, donc $MI = \\dfrac{DC}{2} = \\dfrac{6}{2} = 3$ cm.
+
+**3.** Dans le triangle $ABC$, la droite $(IN)$ passe par le milieu $I$ de $[AC]$ et est parallèle à $(AB)$ : elle coupe $[BC]$ en son milieu, donc $N$ est le milieu de $[BC]$.
+$I$ et $N$ sont les milieux de $[CA]$ et $[CB]$, donc $IN = \\dfrac{AB}{2} = \\dfrac{10}{2} = 5$ cm.
+
+**4.** $I$ est situé sur le segment $[MN]$, donc $MN = MI + IN = 3 + 5 = 8$ cm.
+Moyenne des bases : $\\dfrac{10 + 6}{2} = 8$ cm. La longueur $MN$ est **égale à la moyenne** des longueurs des deux bases.`
+    },
+    {
+      id: "4G2-ds-12",
+      title: "Le triangle rectangle à 60°",
+      difficulty: 4,
+      points: 6,
+      statement: `Le triangle $ABC$ est rectangle en $A$, avec $BC = 12$ cm et $\\widehat{ABC} = 60^\\circ$. On note $M$ le milieu de $[BC]$ et $I$ le milieu de $[AC]$.
+1. Justifier que $MA = MB = MC = 6$ cm.
+2. a) Quelle est la nature du triangle $ABM$ ? Justifier.
+   b) En déduire la longueur $AB$.
+3. Calculer la longueur $AC$, arrondie au millimètre.
+4. Démontrer que $(MI) \\parallel (AB)$ et calculer $MI$.
+5. Démontrer que les droites $(MI)$ et $(AC)$ sont perpendiculaires. Que représente la droite $(MI)$ pour le segment $[AC]$ ?`,
+      solution: `**1.** Le triangle $ABC$ est rectangle en $A$ : le centre de son cercle circonscrit est le milieu $M$ de l'hypoténuse $[BC]$, et le rayon vaut $\\dfrac{BC}{2} = 6$ cm. Les points $A$, $B$ et $C$ sont sur ce cercle, donc $MA = MB = MC = 6$ cm.
+
+**2. a)** $MA = MB$, donc le triangle $ABM$ est isocèle en $M$ : ses angles à la base sont égaux, $\\widehat{MAB} = \\widehat{MBA} = 60^\\circ$. La somme des angles d'un triangle vaut $180^\\circ$, donc $\\widehat{AMB} = 180^\\circ - 60^\\circ - 60^\\circ = 60^\\circ$. Ses trois angles mesurent $60^\\circ$ : $ABM$ est **équilatéral**.
+
+**b)** Donc $AB = MB = 6$ cm (c'est la moitié de l'hypoténuse).
+
+**3.** D'après le théorème de Pythagore dans $ABC$ rectangle en $A$ : $AC^2 = BC^2 - AB^2 = 144 - 36 = 108$, donc $AC = \\sqrt{108} \\approx 10{,}4$ cm.
+
+**4.** Dans le triangle $ABC$, $M$ est le milieu de $[CB]$ et $I$ celui de $[CA]$. La droite qui joint les milieux de deux côtés est parallèle au troisième côté : $(MI) \\parallel (AB)$. De plus, $MI = \\dfrac{AB}{2} = 3$ cm.
+
+**5.** $(AB) \\perp (AC)$ (angle droit en $A$) et $(MI) \\parallel (AB)$. Si deux droites sont parallèles, toute droite perpendiculaire à l'une est perpendiculaire à l'autre : $(MI) \\perp (AC)$.
+La droite $(MI)$ est perpendiculaire à $[AC]$ et passe par son milieu $I$ : c'est la **médiatrice** de $[AC]$ (ce qui est cohérent avec $MA = MC$).`
     }
   ],
   "4G3": [
@@ -1336,6 +1975,115 @@ Réunion : $16 + 16 - 4 = 28$ cm² (on retire la partie commune comptée deux fo
 
 **5.** Chaque carré a un périmètre de $16$ cm, mais une partie de son bord est à l'intérieur de l'autre carré : pour $ABCD$, les segments de $(4 ; 2)$ à $(4 ; 4)$ et de $(2 ; 4)$ à $(4 ; 4)$, soit $4$ cm ; de même $4$ cm pour $A'B'C'D'$.
 Périmètre de la réunion : $(16 - 4) + (16 - 4) = 24$ cm.`
+    },
+    {
+      id: "4G3-ds-09",
+      title: "La banderole à motifs",
+      difficulty: 1,
+      points: 4,
+      statement: `Pour décorer une banderole, Inès dessine un motif triangulaire $ABC$ tel que $AB = 3$ cm, $AC = 2{,}5$ cm et $\\widehat{BAC} = 50^\\circ$. Elle le reproduit ensuite plusieurs fois en le faisant glisser de $4$ cm vers la droite : le deuxième motif $A_1B_1C_1$ est l'image du triangle $ABC$ par la translation $t$ qui transforme $A$ en $A_1$, avec $AA_1 = 4$ cm. On suppose que le point $B$ n'est pas sur la droite $(AA_1)$.
+1. Donner, en justifiant, les longueurs $A_1B_1$ et $A_1C_1$ et la mesure de l'angle $\\widehat{B_1A_1C_1}$.
+2. Que peut-on dire des droites $(BC)$ et $(B_1C_1)$ ? Justifier.
+3. Quelle est la nature du quadrilatère $AA_1B_1B$ ? Justifier.
+4. Inès dessine $10$ motifs, chacun obtenu à partir du précédent par la translation $t$. Chaque motif occupe une largeur de $3$ cm.
+   a) De quelle distance le $6^\\text{e}$ motif est-il décalé par rapport au premier ?
+   b) Quelle longueur de banderole occupent les $10$ motifs, du bord gauche du premier au bord droit du dernier ?`,
+      solution: `**1.** Une translation conserve les longueurs et les mesures d'angles. Donc $A_1B_1 = AB = 3$ cm, $A_1C_1 = AC = 2{,}5$ cm et $\\widehat{B_1A_1C_1} = \\widehat{BAC} = 50^\\circ$.
+
+**2.** L'image d'une droite par une translation est une droite parallèle : $(B_1C_1) \\parallel (BC)$.
+
+**3.** La translation $t$ transforme $A$ en $A_1$ et $B$ en $B_1$, donc $AA_1B_1B$ est un **parallélogramme** (non aplati, car $B$ n'est pas sur la droite $(AA_1)$). On a d'ailleurs $BB_1 = AA_1 = 4$ cm.
+
+**4. a)** Pour passer du $1^\\text{er}$ au $6^\\text{e}$ motif, on applique $5$ fois la translation $t$ : le décalage est de $5 \\times 4 = 20$ cm vers la droite.
+
+**b)** Le $10^\\text{e}$ motif est décalé de $9 \\times 4 = 36$ cm par rapport au premier. Il faut ajouter la largeur du dernier motif : $36 + 3 = 39$ cm.
+Les $10$ motifs occupent **$39$ cm** de banderole.`
+    },
+    {
+      id: "4G3-ds-10",
+      title: "Compléter un parallélogramme dans un repère",
+      difficulty: 2,
+      points: 5,
+      statement: `Dans un repère, on considère les points $A(-1 ; 2)$, $B(3 ; 0)$ et $C(4 ; 3)$.
+1. On note $t$ la translation qui transforme $B$ en $A$. Décrire le déplacement associé à $t$.
+2. Calculer les coordonnées du point $D$, image de $C$ par la translation $t$.
+3. Justifier que $ABCD$ est un parallélogramme.
+4. Déterminer les coordonnées du point $E$ tel que $ABEC$ soit un parallélogramme. Expliquer la méthode.
+5. Démontrer que $C$ est le milieu du segment $[DE]$.`,
+      solution: `**1.** Pour aller de $B(3 ; 0)$ à $A(-1 ; 2)$, on se déplace de $-1 - 3 = -4$, soit $4$ unités **vers la gauche**, et de $2 - 0 = 2$ unités **vers le haut**.
+
+**2.** On applique ce déplacement à $C$ : $D(4 - 4 ; 3 + 2) = D(0 ; 5)$.
+
+**3.** La translation $t$ transforme $B$ en $A$ et $C$ en $D$, donc le quadrilatère $BADC$ est un parallélogramme. Ses côtés sont $[BA]$, $[AD]$, $[DC]$ et $[CB]$ : ce sont les côtés de $ABCD$. Donc **$ABCD$ est un parallélogramme** (non aplati, car $C$ n'est pas sur la droite $(AB)$).
+
+**4.** $ABEC$ est un parallélogramme lorsque $E$ est l'image de $C$ par la translation qui transforme $A$ en $B$ (côtés opposés $[AB]$ et $[CE]$). Cette translation correspond à un déplacement de $4$ unités vers la droite et $2$ unités vers le bas.
+Donc $E(4 + 4 ; 3 - 2) = E(8 ; 1)$.
+
+**5.** Pour aller de $C$ à $D$, on se déplace de $4$ unités vers la gauche et $2$ vers le haut ; pour aller de $C$ à $E$, de $4$ unités vers la droite et $2$ vers le bas. Ces deux déplacements sont opposés : $D$, $C$, $E$ sont alignés et $CD = CE$.
+Donc **$C$ est le milieu de $[DE]$**. (Vérification : $\\dfrac{0 + 8}{2} = 4$ et $\\dfrac{5 + 1}{2} = 3$.)`
+    },
+    {
+      id: "4G3-ds-11",
+      title: "Un triangle isocèle qui glisse",
+      difficulty: 3,
+      points: 5,
+      statement: `$ABC$ est un triangle isocèle en $A$ tel que $AB = AC = 5$ cm et $BC = 6$ cm. On note $t$ la translation qui transforme $B$ en $C$. Elle transforme $A$ en $A'$ et $C$ en $C'$.
+1. Quelle est la nature du triangle $A'CC'$ ? Justifier.
+2. a) Démontrer que $ABCA'$ est un parallélogramme.
+   b) En déduire les longueurs $AA'$ et $CA'$, puis la nature du triangle $ACA'$.
+3. Justifier que les points $B$, $C$ et $C'$ sont alignés et calculer $BC'$.
+4. On note $H$ le milieu de $[BC]$. On admet que $(AH)$ est perpendiculaire à $(BC)$.
+   a) Calculer $AH$.
+   b) Calculer l'aire du quadrilatère $ABC'A'$.`,
+      solution: `**1.** Le triangle $A'CC'$ est l'image du triangle $ABC$ par la translation $t$ (car $t$ transforme $B$ en $C$). Une translation conserve les longueurs : $A'C = AB = 5$ cm, $A'C' = AC = 5$ cm et $CC' = BC = 6$ cm. Le triangle $A'CC'$ est donc **isocèle en $A'$**.
+
+**2. a)** La translation $t$ transforme $B$ en $C$ et $A$ en $A'$, donc $BCA'A$ est un parallélogramme. Ses côtés $[BC]$, $[CA']$, $[A'A]$, $[AB]$ sont ceux de $ABCA'$ : **$ABCA'$ est un parallélogramme**.
+
+**b)** Les côtés opposés d'un parallélogramme ont la même longueur : $AA' = BC = 6$ cm et $CA' = AB = 5$ cm.
+Dans le triangle $ACA'$, on a $CA = 5$ cm et $CA' = 5$ cm : il est **isocèle en $C$**.
+
+**3.** La translation $t$ transforme $B$ en $C$ et $C$ en $C'$ : elle fait glisser chaque point dans la direction de $(BC)$, du sens de $B$ vers $C$, d'une longueur $BC$. Donc $C'$ est sur la droite $(BC)$, au-delà de $C$, avec $CC' = BC = 6$ cm.
+Ainsi $B$, $C$, $C'$ sont alignés et $BC' = 6 + 6 = 12$ cm.
+
+**4. a)** $H$ est le milieu de $[BC]$, donc $BH = 3$ cm. Le triangle $ABH$ est rectangle en $H$ ; d'après le théorème de Pythagore :
+$AH^2 = AB^2 - BH^2 = 25 - 9 = 16$, donc $AH = 4$ cm.
+
+**b)** Le quadrilatère $ABC'A'$ est formé de trois triangles : $ABC$, $ACA'$ et $A'CC'$.
+- Aire de $ABC$ : $\\dfrac{BC \\times AH}{2} = \\dfrac{6 \\times 4}{2} = 12$ cm².
+- $A'CC'$ est l'image de $ABC$ par une translation, qui conserve les aires : $12$ cm².
+- $ACA'$ a pour base $AA' = 6$ cm ; comme $(AA') \\parallel (BC)$, sa hauteur relative à $[AA']$ est la distance entre ces deux droites, soit $AH = 4$ cm. Aire : $\\dfrac{6 \\times 4}{2} = 12$ cm².
+
+Aire de $ABC'A'$ : $12 + 12 + 12 = 36$ cm².`
+    },
+    {
+      id: "4G3-ds-12",
+      title: "Le pont sur le canal",
+      difficulty: 4,
+      points: 6,
+      statement: `Dans un repère (unité : $100$ m), la maison de Noé est au point $A(0 ; 0)$ et son collège au point $B(6 ; 7)$. Entre les deux coule un canal : c'est la bande comprise entre la droite horizontale passant par le point $(0 ; 2)$ (rive sud) et la droite horizontale passant par le point $(0 ; 3)$ (rive nord).
+La mairie veut construire un pont $[PQ]$ perpendiculaire aux rives, avec $P$ sur la rive sud et $Q$ sur la rive nord : $Q$ est donc l'image de $P$ par la translation de $1$ unité vers le haut. Noé va de $A$ à $P$ en ligne droite, traverse le pont, puis va de $Q$ à $B$ en ligne droite.
+1. On place le pont en $P(0 ; 2)$ et $Q(0 ; 3)$. Calculer la longueur du trajet $A \\to P \\to Q \\to B$, arrondie au mètre.
+2. On note $A'$ l'image de $A$ par la translation de $1$ unité vers le haut.
+   a) Donner les coordonnées de $A'$.
+   b) Démontrer que, quelle que soit la position du pont, $AP = A'Q$.
+3. En déduire que la longueur du trajet est égale à $A'Q + QB + 1$, puis expliquer pourquoi elle est la plus courte possible lorsque $Q$ est sur le segment $[A'B]$.
+4. On admet que les points $A'$, $Q(2 ; 3)$ et $B$ sont alignés. Calculer la longueur du trajet lorsque le pont relie $P(2 ; 2)$ à $Q(2 ; 3)$, arrondie au mètre, et la comparer à celle de la question 1.`,
+      solution: `**1.** $AP = 2$ (segment vertical) et $PQ = 1$.
+Pour $QB$ : de $Q(0 ; 3)$ à $B(6 ; 7)$, on se déplace de $6$ horizontalement et de $4$ verticalement. D'après le théorème de Pythagore, $QB^2 = 6^2 + 4^2 = 52$, donc $QB = \\sqrt{52} \\approx 7{,}211$.
+Trajet : $2 + 1 + \\sqrt{52} \\approx 10{,}211$ unités, soit environ **$1\\,021$ m**.
+
+**2. a)** $A'(0 ; 1)$.
+
+**b)** La translation de $1$ unité vers le haut transforme $A$ en $A'$ et $P$ en $Q$. Donc $AA'QP$ est un parallélogramme (éventuellement aplati), et ses côtés opposés $[AP]$ et $[A'Q]$ ont la même longueur : $AP = A'Q$.
+
+**3.** Le trajet mesure $AP + PQ + QB = A'Q + 1 + QB$.
+Le pont mesure toujours $1$ unité ; il faut donc rendre $A'Q + QB$ le plus petit possible. D'après l'inégalité triangulaire, $A'Q + QB \\geqslant A'B$, avec égalité seulement lorsque $Q$ appartient au segment $[A'B]$. Le trajet est donc le plus court lorsque $Q$ est sur $[A'B]$.
+
+**4.** $Q(2 ; 3)$ est sur $[A'B]$, donc $A'Q + QB = A'B$.
+De $A'(0 ; 1)$ à $B(6 ; 7)$ : $6$ horizontalement et $6$ verticalement, donc $A'B^2 = 36 + 36 = 72$ et $A'B = \\sqrt{72} \\approx 8{,}485$.
+Trajet : $\\sqrt{72} + 1 \\approx 9{,}485$ unités, soit environ **$949$ m**.
+Vérification directe : $AP = \\sqrt{2^2 + 2^2} = \\sqrt{8} \\approx 2{,}828$ ; $PQ = 1$ ; $QB = \\sqrt{4^2 + 4^2} = \\sqrt{32} \\approx 5{,}657$ ; total $\\approx 9{,}485$.
+Ce trajet est plus court d'environ $1\\,021 - 949 = 72$ m que celui de la question 1.`
     }
   ],
   "4G4": [
@@ -1481,6 +2229,102 @@ Avec le coefficient : dans une réduction de rapport $k$, les volumes sont multi
 **3.** Volume de blé : $0{,}8 \\times 78\\pi \\approx 196{,}0$ m³. Masse : $0{,}75 \\times 0{,}8 \\times 78\\pi = 46{,}8\\pi \\approx 147$ tonnes.
 
 **4.** $46{,}8\\pi \\div 25 \\approx 5{,}9$. Cinq camions ne suffisent pas ($5 \\times 25 = 125 < 147$) : il faut **$6$ camions**.`
+    },
+    {
+      id: "4G4-ds-09",
+      title: "Le tas de sable et la tente",
+      difficulty: 1,
+      points: 4,
+      statement: `1. Sur un chantier, un tas de sable a la forme d'un cône de révolution de $4$ m de diamètre et de $1{,}5$ m de hauteur.
+   a) Calculer le volume exact du tas de sable, puis son arrondi au dm³.
+   b) Un ouvrier transporte le sable avec une brouette de $80$ L. Combien de voyages devra-t-il faire au minimum ?
+2. Une tente a la forme d'une pyramide régulière à base carrée de $2{,}4$ m de côté et de $1{,}8$ m de hauteur. Calculer le volume d'air contenu dans la tente.`,
+      solution: `**1. a)** Le rayon de la base vaut $4 \\div 2 = 2$ m. Aire de la base : $\\pi \\times 2^2 = 4\\pi$ m².
+$V = \\dfrac{1}{3} \\times 4\\pi \\times 1{,}5 = 2\\pi$ m³ (valeur exacte) $\\approx 6{,}283$ m³.
+
+**b)** $6{,}283$ m³ $= 6\\,283$ dm³ $= 6\\,283$ L. Et $6\\,283 \\div 80 \\approx 78{,}5$.
+$78$ voyages ne suffisent pas ($78 \\times 80 = 6\\,240$ L $< 6\\,283$ L) : il faut **$79$ voyages** au minimum.
+
+**2.** Aire de la base : $2{,}4^2 = 5{,}76$ m².
+$V = \\dfrac{1}{3} \\times 5{,}76 \\times 1{,}8 = 3{,}456$ m³, soit $3\\,456$ L d'air.`
+    },
+    {
+      id: "4G4-ds-10",
+      title: "Retrouver une dimension",
+      difficulty: 2,
+      points: 5,
+      statement: `1. Un cône de révolution a pour rayon de base $5$ cm et pour volume $100\\pi$ cm³.
+   a) Calculer sa hauteur.
+   b) Calculer la longueur d'une génératrice (segment qui joint le sommet du cône à un point du cercle de base).
+2. Une pyramide à base carrée a pour hauteur $9$ cm et pour volume $75$ cm³. Calculer la longueur du côté de sa base.
+3. Un cône de révolution a pour hauteur $6$ cm et pour volume $50\\pi$ cm³. Calculer le rayon de sa base.`,
+      solution: `**1. a)** Aire de la base : $\\pi \\times 5^2 = 25\\pi$ cm². On cherche $h$ tel que $\\dfrac{1}{3} \\times 25\\pi \\times h = 100\\pi$.
+Donc $25\\pi \\times h = 300\\pi$, d'où $h = \\dfrac{300\\pi}{25\\pi} = 12$ cm.
+
+**b)** Le sommet $S$, le centre $O$ de la base et un point $M$ du cercle de base forment un triangle $SOM$ rectangle en $O$, avec $SO = 12$ cm et $OM = 5$ cm. D'après le théorème de Pythagore :
+$SM^2 = 12^2 + 5^2 = 144 + 25 = 169$, donc $SM = 13$ cm.
+
+**2.** On note $\\mathcal{B}$ l'aire de la base : $\\dfrac{1}{3} \\times \\mathcal{B} \\times 9 = 75$, donc $3 \\times \\mathcal{B} = 75$ et $\\mathcal{B} = 25$ cm².
+La base est un carré d'aire $25$ cm² : son côté mesure $\\sqrt{25} = 5$ cm.
+
+**3.** On note $r$ le rayon : $\\dfrac{1}{3} \\times \\pi r^2 \\times 6 = 50\\pi$, donc $2\\pi r^2 = 50\\pi$ et $r^2 = 25$.
+Comme $r$ est une longueur, $r = 5$ cm.`
+    },
+    {
+      id: "4G4-ds-11",
+      title: "La bougie",
+      difficulty: 3,
+      points: 5,
+      statement: `Une bougie est formée d'un cylindre de révolution de rayon $3$ cm et de hauteur $10$ cm, surmonté d'un cône de révolution de même rayon et de hauteur $4$ cm.
+1. Quelle est la hauteur totale de la bougie ?
+2. Calculer la longueur d'une génératrice du cône.
+3. Montrer que le volume de la bougie est égal à $102\\pi$ cm³, puis en donner l'arrondi au cm³.
+4. La cire utilisée a une masse de $0{,}9$ g par cm³. Calculer la masse d'une bougie, arrondie au gramme.
+5. Combien de bougies complètes peut-on fabriquer avec un bloc de $5$ kg de cire ?`,
+      solution: `**1.** $10 + 4 = 14$ cm.
+
+**2.** Le sommet du cône, le centre de sa base et un point du cercle de base forment un triangle rectangle dont les côtés de l'angle droit mesurent $4$ cm et $3$ cm. D'après le théorème de Pythagore, la génératrice $g$ vérifie $g^2 = 4^2 + 3^2 = 25$, donc $g = 5$ cm.
+
+**3.** Aire de la base commune : $\\pi \\times 3^2 = 9\\pi$ cm².
+- Volume du cylindre : $9\\pi \\times 10 = 90\\pi$ cm³.
+- Volume du cône : $\\dfrac{1}{3} \\times 9\\pi \\times 4 = 12\\pi$ cm³.
+
+Volume de la bougie : $90\\pi + 12\\pi = 102\\pi$ cm³ $\\approx 320$ cm³.
+
+**4.** $0{,}9 \\times 102\\pi \\approx 288{,}4$ : une bougie pèse environ **$288$ g**.
+
+**5.** $5$ kg $= 5\\,000$ g et $5\\,000 \\div 288{,}4 \\approx 17{,}3$.
+On peut fabriquer **$17$ bougies** complètes ($17 \\times 288{,}4 \\approx 4\\,903$ g $\\leqslant 5\\,000$ g, alors que $18$ bougies demanderaient environ $5\\,191$ g).`
+    },
+    {
+      id: "4G4-ds-12",
+      title: "Des pyramides dans un cube",
+      difficulty: 4,
+      points: 6,
+      statement: `$ABCDEFGH$ est un cube d'arête $6$ cm ; sa face du bas est le carré $ABCD$ et sa face du haut est le carré $EFGH$ (avec $E$ au-dessus de $A$, $F$ au-dessus de $B$, etc.).
+1. Calculer le volume du cube.
+2. On note $S$ le centre de la face $EFGH$. Calculer le volume de la pyramide $SABCD$. Quelle fraction du volume du cube représente-t-il ?
+3. On note $K$ le centre du cube (point d'intersection de ses grandes diagonales).
+   a) Calculer le volume de la pyramide $KABCD$.
+   b) Expliquer pourquoi le cube peut être découpé en $6$ pyramides identiques à $KABCD$, et vérifier la cohérence avec les volumes trouvés.
+4. On note $O$ le centre du carré $ABCD$ ; le segment $[SO]$ est la hauteur de la pyramide $SABCD$.
+   a) Calculer $AC^2$, puis $OA^2$.
+   b) En déduire la longueur de l'arête latérale $SA$, arrondie au millimètre.`,
+      solution: `**1.** $V_{\\text{cube}} = 6^3 = 216$ cm³.
+
+**2.** La base $ABCD$ a pour aire $6^2 = 36$ cm² et la hauteur est la distance entre les faces du bas et du haut : $6$ cm.
+$V = \\dfrac{1}{3} \\times 36 \\times 6 = 72$ cm³. Or $\\dfrac{72}{216} = \\dfrac{1}{3}$ : la pyramide occupe **le tiers** du cube.
+
+**3. a)** $K$ est au milieu du cube, à $3$ cm de la face $ABCD$. $V = \\dfrac{1}{3} \\times 36 \\times 3 = 36$ cm³.
+
+**b)** Le cube a $6$ faces carrées identiques et $K$ est à la même distance ($3$ cm) de chacune. En joignant $K$ aux sommets du cube, on découpe le cube en $6$ pyramides de sommet $K$, ayant chacune pour base une face du cube : elles sont identiques à $KABCD$.
+Vérification : $6 \\times 36 = 216$ cm³, c'est bien le volume du cube.
+
+**4. a)** Le triangle $ABC$ est rectangle en $B$ ; d'après le théorème de Pythagore, $AC^2 = 6^2 + 6^2 = 72$.
+$O$ est le milieu de la diagonale $[AC]$, donc $OA = \\dfrac{AC}{2}$ et $OA^2 = \\dfrac{AC^2}{4} = \\dfrac{72}{4} = 18$.
+
+**b)** Le triangle $SOA$ est rectangle en $O$ (la hauteur $[SO]$ est perpendiculaire à la base), avec $SO = 6$ cm. D'après le théorème de Pythagore :
+$SA^2 = SO^2 + OA^2 = 36 + 18 = 54$, donc $SA = \\sqrt{54} \\approx 7{,}348$ cm, soit environ $7{,}3$ cm au millimètre près.`
     }
   ],
   "4D1": [
@@ -1654,6 +2498,119 @@ Moyenne : $\\dfrac{21\\,000}{9} \\approx 2\\,333$ €.
 
 **4.** Nouvelle somme : $21\\,000 + 2\\,700 = 23\\,700$ €, nouvelle moyenne $\\dfrac{23\\,700}{9} \\approx 2\\,633$ €. La médiane ne change pas ($1\\,800$ €), car la $5^\\text{e}$ valeur est inchangée.
 La moyenne est sensible aux valeurs extrêmes, la médiane ne l'est pas.`
+    },
+    {
+      id: "4D1-ds-09",
+      title: "Les précipitations d'une année",
+      difficulty: 1,
+      points: 4,
+      statement: `Voici les hauteurs de pluie (en mm) relevées chaque mois dans une ville pendant une année :
+
+| Mois | J | F | M | A | M | J | J | A | S | O | N | D |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Pluie (mm) | $62$ | $48$ | $55$ | $70$ | $81$ | $43$ | $18$ | $25$ | $54$ | $89$ | $96$ | $71$ |
+
+1. Calculer la hauteur totale de pluie tombée dans l'année.
+2. Calculer la hauteur moyenne mensuelle, arrondie au dixième.
+3. Déterminer la médiane de cette série. Interpréter le résultat.
+4. Calculer l'étendue de la série.
+5. Combien de mois ont reçu une hauteur de pluie supérieure à la moyenne ?`,
+      solution: `**1.** $62 + 48 + 55 + 70 + 81 + 43 + 18 + 25 + 54 + 89 + 96 + 71 = 712$ mm.
+
+**2.** Moyenne : $\\dfrac{712}{12} \\approx 59{,}3$ mm.
+
+**3.** On range les $12$ valeurs dans l'ordre croissant :
+$18 ; 25 ; 43 ; 48 ; 54 ; 55 ; 62 ; 70 ; 71 ; 81 ; 89 ; 96$.
+L'effectif est pair : la médiane est la moyenne des $6^\\text{e}$ et $7^\\text{e}$ valeurs, $\\dfrac{55 + 62}{2} = 58{,}5$ mm.
+Interprétation : pendant la moitié des mois, il est tombé au plus $58{,}5$ mm de pluie ; pendant l'autre moitié, au moins $58{,}5$ mm.
+
+**4.** Étendue : $96 - 18 = 78$ mm.
+
+**5.** Les valeurs supérieures à $59{,}3$ sont $62$, $70$, $71$, $81$, $89$ et $96$ : **$6$ mois**.`
+    },
+    {
+      id: "4D1-ds-10",
+      title: "Le temps d'écran",
+      difficulty: 2,
+      points: 5,
+      statement: `On a demandé aux $25$ élèves d'une classe combien d'heures ils passent devant un écran, en dehors du travail scolaire, un jour de semaine (arrondi à l'heure). Voici les résultats :
+
+| Nombre d'heures | $0$ | $1$ | $2$ | $3$ | $4$ | $5$ |
+|---|---|---|---|---|---|---|
+| Effectif | $2$ | $5$ | $8$ | $6$ | $3$ | $1$ |
+
+1. Vérifier que $25$ élèves ont répondu.
+2. Calculer le temps d'écran moyen par élève.
+3. Déterminer la médiane de cette série. Justifier.
+4. Calculer l'étendue.
+5. Quel pourcentage des élèves passe au moins $3$ heures devant un écran ?`,
+      solution: `**1.** $2 + 5 + 8 + 6 + 3 + 1 = 25$.
+
+**2.** On calcule une moyenne pondérée par les effectifs :
+$\\dfrac{0 \\times 2 + 1 \\times 5 + 2 \\times 8 + 3 \\times 6 + 4 \\times 3 + 5 \\times 1}{25} = \\dfrac{0 + 5 + 16 + 18 + 12 + 5}{25} = \\dfrac{56}{25} = 2{,}24$ h.
+Le temps d'écran moyen est de $2{,}24$ h, soit environ $2$ h $14$ min ($0{,}24 \\times 60 = 14{,}4$).
+
+**3.** L'effectif est impair ($25$) : la médiane est la $13^\\text{e}$ valeur de la série rangée dans l'ordre croissant.
+Effectifs cumulés : $2$ élèves à $0$ h ; $2 + 5 = 7$ jusqu'à $1$ h ; $7 + 8 = 15$ jusqu'à $2$ h. La $13^\\text{e}$ valeur est donc $2$.
+La médiane est **$2$ heures** : au moins la moitié des élèves passe au plus $2$ h devant un écran.
+
+**4.** Étendue : $5 - 0 = 5$ h.
+
+**5.** Au moins $3$ heures : $6 + 3 + 1 = 10$ élèves. $\\dfrac{10}{25} = 0{,}4$, soit **$40$ %** des élèves.`
+    },
+    {
+      id: "4D1-ds-11",
+      title: "Les deux groupes du club d'athlétisme",
+      difficulty: 3,
+      points: 5,
+      statement: `Dans un club d'athlétisme, on mesure la performance de chaque sauteur en longueur.
+- Le groupe A compte $12$ sauteurs ; leur moyenne est de $4{,}20$ m.
+- Le groupe B compte $8$ sauteurs ; leur moyenne est de $3{,}70$ m.
+1. Calculer la somme des performances du groupe A, puis celle du groupe B.
+2. Calculer la moyenne des $20$ sauteurs du club.
+3. Lucas affirme : « La moyenne du club est $\\dfrac{4{,}20 + 3{,}70}{2} = 3{,}95$ m. » Expliquer son erreur.
+4. Un sauteur du groupe B, dont la performance est de $3{,}10$ m, quitte le club.
+   a) Calculer la nouvelle moyenne du groupe B, arrondie au centimètre.
+   b) Calculer la nouvelle moyenne du club, arrondie au centimètre. Pourquoi était-il prévisible qu'elle augmente ?`,
+      solution: `**1.** La somme des valeurs est égale à la moyenne multipliée par l'effectif.
+Groupe A : $12 \\times 4{,}20 = 50{,}4$ m. Groupe B : $8 \\times 3{,}70 = 29{,}6$ m.
+
+**2.** Moyenne du club : $\\dfrac{50{,}4 + 29{,}6}{20} = \\dfrac{80}{20} = 4$ m.
+
+**3.** Lucas fait la moyenne des deux moyennes comme si les deux groupes avaient le même effectif. Or le groupe A ($12$ sauteurs) est plus nombreux que le groupe B ($8$ sauteurs) : il faut pondérer chaque moyenne par l'effectif du groupe. La bonne moyenne, $4$ m, est plus proche de celle du groupe A.
+
+**4. a)** Il reste $7$ sauteurs dans le groupe B : $\\dfrac{29{,}6 - 3{,}10}{7} = \\dfrac{26{,}5}{7} \\approx 3{,}79$ m.
+
+**b)** Il reste $19$ sauteurs dans le club : $\\dfrac{80 - 3{,}10}{19} = \\dfrac{76{,}9}{19} \\approx 4{,}05$ m.
+C'était prévisible : le sauteur qui part a une performance ($3{,}10$ m) inférieure à la moyenne du club ($4$ m) ; en le retirant, on enlève une valeur qui « tirait la moyenne vers le bas ».`
+    },
+    {
+      id: "4D1-ds-12",
+      title: "Construire une série de notes",
+      difficulty: 4,
+      points: 6,
+      statement: `Un professeur a rendu $5$ notes entières (sur $20$) à un groupe d'élèves. Il donne les indications suivantes : la moyenne est $12$, la médiane est $14$ et l'étendue est $10$.
+1. Vérifier que la série $6 ; 8 ; 14 ; 16 ; 16$ respecte ces trois conditions.
+2. On range les notes dans l'ordre croissant : $a \\leqslant b \\leqslant c \\leqslant d \\leqslant e$.
+   a) Que vaut $c$ ? Que vaut $a + b + c + d + e$ ?
+   b) Exprimer $e$ en fonction de $a$.
+3. Expliquer pourquoi la plus petite note ne peut pas être $3$.
+4. Expliquer pourquoi la plus petite note ne peut pas être $8$.
+5. Proposer une série qui respecte les conditions et dont la plus petite note est $7$.`,
+      solution: `**1.** Moyenne : $\\dfrac{6 + 8 + 14 + 16 + 16}{5} = \\dfrac{60}{5} = 12$. Médiane : il y a $5$ valeurs rangées, la $3^\\text{e}$ est $14$. Étendue : $16 - 6 = 10$. Les trois conditions sont respectées.
+
+**2. a)** La médiane d'une série de $5$ valeurs rangées est la $3^\\text{e}$ : $c = 14$.
+La moyenne vaut $12$, donc la somme vaut $5 \\times 12 = 60$.
+
+**b)** L'étendue vaut $10$ : $e - a = 10$, donc $e = a + 10$.
+
+**3.** Si $a = 3$, alors $e = 13$. Mais $e$ est la plus grande note, elle doit être supérieure ou égale à la médiane $c = 14$ : c'est impossible.
+
+**4.** Si $a = 8$, alors $e = 18$ et $b + d = 60 - 8 - 14 - 18 = 20$.
+Or $b \\geqslant a = 8$ et $d \\geqslant c = 14$, donc $b + d \\geqslant 22$. Comme $20 < 22$, c'est impossible.
+
+**5.** Avec $a = 7$ : $e = 17$ et $b + d = 60 - 7 - 14 - 17 = 22$, avec $7 \\leqslant b \\leqslant 14$ et $14 \\leqslant d \\leqslant 17$. On peut prendre $b = 8$ et $d = 14$.
+Série : $7 ; 8 ; 14 ; 14 ; 17$. Vérification : somme $60$, moyenne $12$ ; médiane $14$ ; étendue $17 - 7 = 10$. (La série $7 ; 7 ; 14 ; 15 ; 17$ convient aussi.)`
     }
   ],
   "4D2": [
@@ -1841,6 +2798,126 @@ Il y a $4 \\times 4 = 16$ issues équiprobables.
 **3.** Produits inférieurs ou égaux à $4$ : $1, 2, 3, 4$ (première ligne), $2, 4$ (deuxième), $3$ (troisième), $4$ (quatrième), soit $8$ issues. $P(\\text{Zoé}) = \\dfrac{8}{16} = \\dfrac{1}{2} = P(\\text{Paul})$ : **le jeu est équitable**.
 
 **4.** Fréquence : $\\dfrac{148}{200} = 0{,}74$. C'est très proche de la probabilité $\\dfrac{3}{4} = 0{,}75$ : c'est cohérent (sur un grand nombre de parties, la fréquence se rapproche de la probabilité).`
+    },
+    {
+      id: "4D2-ds-09",
+      title: "Le jeu de 32 cartes",
+      difficulty: 1,
+      points: 4,
+      statement: `Un jeu de $32$ cartes comporte $4$ couleurs (pique, cœur, carreau, trèfle). Dans chaque couleur, il y a $8$ cartes : $7$, $8$, $9$, $10$, valet, dame, roi et as. Les valets, dames et rois sont appelés des « figures ».
+On tire une carte au hasard dans ce jeu bien mélangé.
+1. Calculer la probabilité de chacun des événements suivants. Donner les résultats sous forme de fractions irréductibles.
+   a) $C$ : « la carte est un cœur ».
+   b) $R$ : « la carte est un roi ».
+   c) $K$ : « la carte est le roi de cœur ».
+   d) $F$ : « la carte est une figure ».
+2. Décrire par une phrase l'événement contraire de $C$, puis calculer sa probabilité.
+3. Est-il plus probable de tirer une figure ou un as ? Justifier.`,
+      solution: `Les $32$ cartes ont la même chance d'être tirées : la probabilité d'un événement est $\\dfrac{\\text{nombre d'issues favorables}}{32}$.
+
+**1. a)** Il y a $8$ cœurs : $P(C) = \\dfrac{8}{32} = \\dfrac{1}{4}$.
+**b)** Il y a $4$ rois (un par couleur) : $P(R) = \\dfrac{4}{32} = \\dfrac{1}{8}$.
+**c)** Il n'y a qu'un roi de cœur : $P(K) = \\dfrac{1}{32}$.
+**d)** Il y a $3$ figures par couleur, soit $3 \\times 4 = 12$ figures : $P(F) = \\dfrac{12}{32} = \\dfrac{3}{8}$.
+
+**2.** L'événement contraire de $C$ est « la carte n'est pas un cœur » (c'est un pique, un carreau ou un trèfle).
+$P(\\text{non } C) = 1 - P(C) = 1 - \\dfrac{1}{4} = \\dfrac{3}{4}$.
+
+**3.** Il y a $4$ as, donc $P(\\text{as}) = \\dfrac{4}{32} = \\dfrac{1}{8}$, alors que $P(F) = \\dfrac{3}{8}$. Il est **plus probable de tirer une figure** (trois fois plus).`
+    },
+    {
+      id: "4D2-ds-10",
+      title: "Le code du cadenas",
+      difficulty: 2,
+      points: 5,
+      statement: `Le code d'un cadenas est formé de deux chiffres : le premier chiffre et le second chiffre peuvent chacun valoir $1$, $2$, $3$ ou $4$. Le propriétaire a choisi son code au hasard.
+1. Représenter toutes les issues possibles dans un tableau à double entrée. Combien y a-t-il de codes possibles ?
+2. Un voleur essaie un code au hasard. Quelle est la probabilité qu'il ouvre le cadenas du premier coup ?
+3. Calculer la probabilité des événements suivants :
+   a) $A$ : « les deux chiffres du code sont identiques » ;
+   b) $B$ : « la somme des deux chiffres du code est égale à $5$ ».
+4. On considère l'événement $C$ : « le code contient au moins un $4$ ».
+   a) Décrire l'événement contraire de $C$ et calculer sa probabilité.
+   b) En déduire $P(C)$.`,
+      solution: `**1.**
+
+| $1^\\text{er}$ \\ $2^\\text{e}$ | $1$ | $2$ | $3$ | $4$ |
+|---|---|---|---|---|
+| $1$ | $11$ | $12$ | $13$ | $14$ |
+| $2$ | $21$ | $22$ | $23$ | $24$ |
+| $3$ | $31$ | $32$ | $33$ | $34$ |
+| $4$ | $41$ | $42$ | $43$ | $44$ |
+
+Il y a $4 \\times 4 = 16$ codes possibles, tous équiprobables.
+
+**2.** Un seul code ouvre le cadenas : $P = \\dfrac{1}{16}$.
+
+**3. a)** Codes favorables : $11$, $22$, $33$, $44$. $P(A) = \\dfrac{4}{16} = \\dfrac{1}{4}$.
+**b)** Codes favorables : $14$, $23$, $32$, $41$. $P(B) = \\dfrac{4}{16} = \\dfrac{1}{4}$.
+
+**4. a)** L'événement contraire de $C$ est « le code ne contient aucun $4$ » : chacun des deux chiffres vaut $1$, $2$ ou $3$, ce qui donne $3 \\times 3 = 9$ codes. $P(\\text{non } C) = \\dfrac{9}{16}$.
+
+**b)** $P(C) = 1 - \\dfrac{9}{16} = \\dfrac{7}{16}$. (Vérification dans le tableau : $14$, $24$, $34$, $41$, $42$, $43$, $44$, soit $7$ codes.)`
+    },
+    {
+      id: "4D2-ds-11",
+      title: "Le produit de deux tétraèdres",
+      difficulty: 3,
+      points: 5,
+      statement: `On lance deux dés équilibrés en forme de tétraèdre, dont les faces sont numérotées de $1$ à $4$ : un dé rouge et un dé vert. On note le nombre lu sur chaque dé, puis on calcule le **produit** de ces deux nombres.
+1. Construire un tableau à double entrée donnant tous les produits possibles. Combien y a-t-il d'issues ?
+2. Calculer la probabilité que le produit soit égal à $4$.
+3. a) Dans quel cas le produit est-il impair ? Calculer la probabilité que le produit soit impair.
+   b) En déduire la probabilité que le produit soit pair.
+4. Calculer la probabilité que le produit soit strictement supérieur à $8$.
+5. Quel produit a le plus de chances d'être obtenu ? Justifier.`,
+      solution: `**1.**
+
+| Rouge \\ Vert | $1$ | $2$ | $3$ | $4$ |
+|---|---|---|---|---|
+| $1$ | $1$ | $2$ | $3$ | $4$ |
+| $2$ | $2$ | $4$ | $6$ | $8$ |
+| $3$ | $3$ | $6$ | $9$ | $12$ |
+| $4$ | $4$ | $8$ | $12$ | $16$ |
+
+Il y a $4 \\times 4 = 16$ issues équiprobables (les dés sont équilibrés).
+
+**2.** Le produit vaut $4$ dans $3$ cases : (rouge $1$, vert $4$), ($2$ ; $2$) et ($4$ ; $1$). $P = \\dfrac{3}{16}$.
+
+**3. a)** Un produit est impair seulement si les deux nombres sont impairs : $(1 ; 1)$, $(1 ; 3)$, $(3 ; 1)$, $(3 ; 3)$. $P(\\text{impair}) = \\dfrac{4}{16} = \\dfrac{1}{4}$.
+**b)** « Pair » est l'événement contraire de « impair » : $P(\\text{pair}) = 1 - \\dfrac{1}{4} = \\dfrac{3}{4}$.
+
+**4.** Produits strictement supérieurs à $8$ : $9$, $12$, $12$ et $16$, soit $4$ cases. $P = \\dfrac{4}{16} = \\dfrac{1}{4}$.
+
+**5.** Nombre de cases pour chaque produit : $1$ (une fois), $2$ (deux), $3$ (deux), $4$ (trois), $6$ (deux), $8$ (deux), $9$ (une), $12$ (deux), $16$ (une). Le total vaut bien $16$.
+Le produit **$4$** est le plus probable, avec une probabilité de $\\dfrac{3}{16}$.`
+    },
+    {
+      id: "4D2-ds-12",
+      title: "Composer une urne",
+      difficulty: 4,
+      points: 6,
+      statement: `Une urne contient $3$ boules rouges et un certain nombre $n$ de boules bleues, indiscernables au toucher. On tire une boule au hasard.
+1. Dans cette question, $n = 9$. Calculer la probabilité de tirer une boule rouge.
+2. Combien de boules bleues faut-il dans l'urne pour que la probabilité de tirer une boule rouge soit égale à $\\dfrac{1}{5}$ ?
+3. L'urne contient maintenant $3$ boules rouges et $12$ boules bleues. Combien de boules rouges faut-il ajouter pour que la probabilité de tirer une boule bleue soit égale à $\\dfrac{3}{5}$ ?
+4. Avec $3$ boules rouges et $12$ boules bleues, peut-on, en ajoutant uniquement des boules bleues, obtenir une probabilité de tirer une boule rouge égale à $\\dfrac{1}{4}$ ? Justifier.
+5. Avec $3$ boules rouges et $12$ boules bleues, on tire une boule, on note sa couleur, on la remet dans l'urne, puis on tire une seconde boule.
+   a) Combien y a-t-il d'issues, en numérotant les boules ? Combien d'issues donnent deux boules rouges ?
+   b) En déduire la probabilité d'obtenir deux boules rouges, puis celle d'obtenir au moins une boule bleue.`,
+      solution: `**1.** L'urne contient $3 + 9 = 12$ boules, dont $3$ rouges : $P(\\text{rouge}) = \\dfrac{3}{12} = \\dfrac{1}{4}$.
+
+**2.** Il faut que les $3$ boules rouges représentent $\\dfrac{1}{5}$ du total, donc que le total soit $3 \\times 5 = 15$ boules. Il faut **$12$ boules bleues**. Vérification : $\\dfrac{3}{15} = \\dfrac{1}{5}$.
+
+**3.** Les $12$ boules bleues doivent représenter $\\dfrac{3}{5}$ du total. Or $12 = 3 \\times 4$, donc le total doit être $5 \\times 4 = 20$ boules. Il y a déjà $15$ boules : il faut ajouter **$5$ boules rouges**.
+Vérification : $8$ rouges et $12$ bleues, $P(\\text{bleue}) = \\dfrac{12}{20} = \\dfrac{3}{5}$.
+
+**4.** Actuellement $P(\\text{rouge}) = \\dfrac{3}{15} = \\dfrac{1}{5}$, et $\\dfrac{1}{5} < \\dfrac{1}{4}$. Si l'on ajoute des boules bleues, le nombre de rouges reste $3$ mais le total augmente : la probabilité de tirer une rouge **diminue**. On ne peut donc pas atteindre $\\dfrac{1}{4}$ : **c'est impossible**.
+
+**5. a)** On numérote les $15$ boules. Il y a $15$ possibilités pour le premier tirage et $15$ pour le second (la boule est remise) : $15 \\times 15 = 225$ issues équiprobables. Deux boules rouges : $3 \\times 3 = 9$ issues.
+
+**b)** $P(\\text{deux rouges}) = \\dfrac{9}{225} = \\dfrac{1}{25}$.
+« Au moins une boule bleue » est l'événement contraire de « deux boules rouges » : $P = 1 - \\dfrac{1}{25} = \\dfrac{24}{25}$.`
     }
   ],
   "4P1": [
@@ -1984,6 +3061,117 @@ Il y a $4 \\times 4 = 16$ issues équiprobables.
 **4.** $48$ km/h $= \\dfrac{48\\,000 \\text{ m}}{3\\,600 \\text{ s}} \\approx 13{,}3$ m/s.
 
 **5.** L'aller dure $2$ h ; il resterait $4 - 2 = 2$ h pour le retour de $120$ km : il aurait fallu rouler à $\\dfrac{120}{2} = 60$ km/h.`
+    },
+    {
+      id: "4P1-ds-09",
+      title: "La carte de randonnée",
+      difficulty: 1,
+      points: 4,
+      statement: `Une carte de randonnée est à l'échelle $\\dfrac{1}{25\\,000}$.
+1. Que signifie cette échelle ?
+2. Sur la carte, deux refuges sont distants de $6$ cm. Quelle est la distance réelle, en km ?
+3. Un sentier mesure en réalité $4{,}2$ km. Quelle longueur mesure-t-il sur la carte ?
+4. Ce sentier traverse une forêt sur $30$ % de sa longueur. Calculer la longueur de la partie en forêt.
+5. Un randonneur marche à la vitesse moyenne de $4$ km/h. Combien de temps met-il pour parcourir ce sentier de $4{,}2$ km ? Donner la réponse en heures et minutes.`,
+      solution: `**1.** Les distances sur la carte sont proportionnelles aux distances réelles : $1$ cm sur la carte représente $25\\,000$ cm en réalité.
+
+**2.** $6 \\times 25\\,000 = 150\\,000$ cm $= 1\\,500$ m $= 1{,}5$ km.
+
+**3.** $4{,}2$ km $= 420\\,000$ cm et $420\\,000 \\div 25\\,000 = 16{,}8$ cm.
+
+**4.** $30$ % de $4{,}2$ km : $0{,}3 \\times 4{,}2 = 1{,}26$ km.
+
+**5.** Durée $= \\dfrac{\\text{distance}}{\\text{vitesse}} = \\dfrac{4{,}2}{4} = 1{,}05$ h. Or $0{,}05$ h $= 0{,}05 \\times 60 = 3$ min. Le randonneur met **$1$ h $3$ min**.`
+    },
+    {
+      id: "4P1-ds-10",
+      title: "Des crêpes pour toute la classe",
+      difficulty: 2,
+      points: 5,
+      statement: `Voici une recette de pâte à crêpes pour $4$ personnes :
+- $250$ g de farine ;
+- $4$ œufs ;
+- $0{,}5$ L de lait ;
+- $40$ g de beurre.
+
+On suppose que les quantités sont proportionnelles au nombre de personnes.
+1. Calculer les quantités nécessaires pour $26$ personnes. Présenter les résultats dans un tableau.
+2. La farine est vendue en paquets de $1$ kg et le lait en bouteilles de $1$ L. Combien de paquets de farine et de bouteilles de lait faut-il acheter pour $26$ personnes ?
+3. Avec un seul paquet de $1$ kg de farine (et suffisamment des autres ingrédients), pour combien de personnes peut-on préparer la pâte ? Quelle quantité de lait faut-il alors ?
+4. Dans cette recette, quel est le ratio masse de farine (en g) : volume de lait (en mL) ? Le simplifier.`,
+      solution: `**1.** On passe de $4$ à $26$ personnes en multipliant par $\\dfrac{26}{4} = 6{,}5$.
+
+| Personnes | $4$ | $26$ |
+|---|---|---|
+| Farine (g) | $250$ | $250 \\times 6{,}5 = 1\\,625$ |
+| Œufs | $4$ | $4 \\times 6{,}5 = 26$ |
+| Lait (L) | $0{,}5$ | $0{,}5 \\times 6{,}5 = 3{,}25$ |
+| Beurre (g) | $40$ | $40 \\times 6{,}5 = 260$ |
+
+**2.** $1\\,625$ g $= 1{,}625$ kg : un paquet ne suffit pas, il faut **$2$ paquets** de farine. $3{,}25$ L de lait : $3$ bouteilles ne suffisent pas, il faut **$4$ bouteilles**.
+
+**3.** $1\\,000 \\div 250 = 4$ : on peut faire $4$ fois la recette, soit pour $4 \\times 4 = 16$ personnes. Il faut alors $4 \\times 0{,}5 = 2$ L de lait.
+
+**4.** $0{,}5$ L $= 500$ mL. Ratio $250 : 500$, soit en divisant par $250$ : **$1 : 2$**. Il faut deux fois plus de millilitres de lait que de grammes de farine.`
+    },
+    {
+      id: "4P1-ds-11",
+      title: "La boisson aux fruits",
+      difficulty: 3,
+      points: 5,
+      statement: `Une bouteille de $1{,}5$ L de boisson aux fruits contient $20$ % de jus de fruits pur (le reste est de l'eau).
+1. Calculer le volume de jus pur contenu dans la bouteille.
+2. Inès verse toute la bouteille dans une carafe et ajoute $0{,}5$ L d'eau. Quel est le pourcentage de jus pur dans la carafe ?
+3. Hugo, lui, part d'une bouteille identique ($1{,}5$ L à $20$ %) et veut obtenir une boisson à $25$ % de jus pur en ajoutant du jus pur. On note $x$ le volume de jus pur ajouté, en litres.
+   a) Exprimer en fonction de $x$ le volume total de boisson et le volume de jus pur.
+   b) Justifier que $x$ vérifie l'équation $0{,}3 + x = 0{,}25 \\times (1{,}5 + x)$.
+   c) Résoudre cette équation et conclure en centilitres.
+4. Vérifier le résultat de la question 3.`,
+      solution: `**1.** $20$ % de $1{,}5$ L : $0{,}2 \\times 1{,}5 = 0{,}3$ L de jus pur.
+
+**2.** La carafe contient toujours $0{,}3$ L de jus pur, pour un volume total de $1{,}5 + 0{,}5 = 2$ L.
+$\\dfrac{0{,}3}{2} = 0{,}15$ : la boisson contient **$15$ %** de jus pur.
+
+**3. a)** Volume total : $1{,}5 + x$ litres. Volume de jus pur : $0{,}3 + x$ litres.
+
+**b)** On veut que le jus pur représente $25$ % du volume total : $0{,}3 + x = 0{,}25 \\times (1{,}5 + x)$.
+
+**c)** On développe : $0{,}3 + x = 0{,}375 + 0{,}25x$.
+Donc $x - 0{,}25x = 0{,}375 - 0{,}3$, soit $0{,}75x = 0{,}075$ et $x = \\dfrac{0{,}075}{0{,}75} = 0{,}1$.
+Hugo doit ajouter $0{,}1$ L, soit **$10$ cL** de jus pur.
+
+**4.** Volume total : $1{,}5 + 0{,}1 = 1{,}6$ L ; jus pur : $0{,}3 + 0{,}1 = 0{,}4$ L. $\\dfrac{0{,}4}{1{,}6} = 0{,}25$, soit bien $25$ %.`
+    },
+    {
+      id: "4P1-ds-12",
+      title: "La TVA offerte",
+      difficulty: 4,
+      points: 6,
+      statement: `Le prix TTC (toutes taxes comprises) d'un article s'obtient en ajoutant au prix HT (hors taxes) une taxe, la TVA, égale à $20$ % du prix HT.
+1. Un casque audio coûte $45$ € HT. Calculer son prix TTC.
+2. Par quel nombre faut-il multiplier un prix HT pour obtenir le prix TTC ? En déduire le prix HT d'un article vendu $72$ € TTC.
+3. Le magasin accorde une remise de $10$ % sur le casque.
+   a) Calculer le prix payé si la remise est appliquée sur le prix TTC.
+   b) Calculer le prix payé si la remise est appliquée sur le prix HT, la TVA étant ajoutée ensuite.
+   c) Expliquer pourquoi on obtient le même résultat.
+4. Pendant une opération « TVA offerte », le client paie le prix HT au lieu du prix TTC.
+   a) Pour le casque, calculer le pourcentage de réduction par rapport au prix TTC, arrondi au dixième.
+   b) Un client pense que « TVA offerte » signifie « $20$ % de réduction ». A-t-il raison ? Justifier, quel que soit le prix de l'article.`,
+      solution: `**1.** TVA : $0{,}2 \\times 45 = 9$ €. Prix TTC : $45 + 9 = 54$ €.
+
+**2.** Ajouter $20$ %, c'est multiplier par $1 + \\dfrac{20}{100} = 1{,}2$. Donc prix TTC $=$ prix HT $\\times 1{,}2$.
+Pour retrouver le prix HT, on divise par $1{,}2$ : $72 \\div 1{,}2 = 60$ € HT. Vérification : $60 \\times 1{,}2 = 72$.
+
+**3. a)** Une remise de $10$ % revient à multiplier par $0{,}9$ : $54 \\times 0{,}9 = 48{,}60$ €.
+
+**b)** $45 \\times 0{,}9 = 40{,}50$ € HT, puis $40{,}50 \\times 1{,}2 = 48{,}60$ € TTC.
+
+**c)** Dans les deux cas, on multiplie le prix HT par $1{,}2$ et par $0{,}9$, seulement dans un ordre différent : $45 \\times 1{,}2 \\times 0{,}9 = 45 \\times 0{,}9 \\times 1{,}2$. L'ordre des facteurs d'un produit ne change pas le résultat.
+
+**4. a)** Le client paie $45$ € au lieu de $54$ € : réduction de $9$ €. $\\dfrac{9}{54} \\approx 0{,}167$, soit environ **$16{,}7$ %**.
+
+**b)** Il a tort. Le prix HT s'obtient en divisant le prix TTC par $1{,}2$, c'est-à-dire en le multipliant par $\\dfrac{1}{1{,}2} = \\dfrac{10}{12} = \\dfrac{5}{6}$.
+La réduction est donc de $\\dfrac{1}{6}$ du prix TTC, soit environ $16{,}7$ % et non $20$ %, quel que soit l'article. (La TVA représente $20$ % du prix HT, mais seulement $\\dfrac{1}{6}$ du prix TTC.)`
     }
   ],
   "4P2": [
@@ -2188,6 +3376,137 @@ Vérification : A : $2{,}5 - 7 = -4{,}5$ ; B : $1{,}5 - 6 = -4{,}5$.
 **5.** $A(3) = A(7) = 21$ : les antécédents de $21$ sont $3$ et $7$. Ils correspondent au même rectangle de $3$ cm sur $7$ cm, pris dans un sens ou dans l'autre.
 
 **6.** L'aire maximale du tableau est $25$ cm², pour $x = 5$ : la longueur vaut alors $10 - 5 = 5$ cm. Le rectangle d'aire maximale est un **carré** de $5$ cm de côté.`
+    },
+    {
+      id: "4P2-ds-09",
+      title: "La location de vélos",
+      difficulty: 1,
+      points: 4,
+      statement: `Un loueur de vélos fait payer $5$ € de frais fixes, plus $3$ € par heure de location. On note $f$ la fonction qui, au nombre $x$ d'heures de location, associe le prix à payer en euros.
+1. Calculer le prix d'une location de $2$ h, puis d'une location de $4{,}5$ h.
+2. Exprimer $f(x)$ en fonction de $x$.
+3. Calculer $f(6)$. Traduire ce résultat par une phrase.
+4. Léna a payé $26$ €. Combien de temps a-t-elle loué son vélo ? Comment appelle-t-on ce nombre pour la fonction $f$ ?
+5. Le prix est-il proportionnel à la durée de location ? Justifier.`,
+      solution: `**1.** $2$ h : $5 + 3 \\times 2 = 11$ €. $4{,}5$ h : $5 + 3 \\times 4{,}5 = 5 + 13{,}5 = 18{,}50$ €.
+
+**2.** $f(x) = 3x + 5$.
+
+**3.** $f(6) = 3 \\times 6 + 5 = 23$. Une location de $6$ heures coûte $23$ €.
+
+**4.** On cherche $x$ tel que $3x + 5 = 26$ : $3x = 21$, donc $x = 7$. Léna a loué son vélo **$7$ heures**. Le nombre $7$ est un **antécédent** de $26$ par la fonction $f$.
+
+**5.** Non : pour $2$ h on paie $11$ €, pour $4$ h on paie $f(4) = 17$ €. La durée double mais le prix ne double pas ($2 \\times 11 = 22 \\neq 17$). Le prix n'est donc pas proportionnel à la durée (à cause des frais fixes).`
+    },
+    {
+      id: "4P2-ds-10",
+      title: "Une fonction et ses antécédents",
+      difficulty: 2,
+      points: 5,
+      statement: `On considère la fonction $g$ définie par $g(x) = x^2 - 4x$.
+1. Calculer $g(0)$, $g(3)$ et $g(-1)$. Détailler les calculs.
+2. Recopier et compléter le tableau de valeurs suivant.
+
+| $x$ | $-1$ | $0$ | $1$ | $2$ | $3$ | $4$ | $5$ |
+|---|---|---|---|---|---|---|---|
+| $g(x)$ | | | | | | | |
+
+3. À l'aide du tableau, donner deux antécédents de $0$ par $g$, puis deux antécédents de $5$.
+4. Quel est, d'après le tableau, le plus petit nombre obtenu comme image ? Pour quelle valeur de $x$ ?
+5. Montrer que $g(x) = x \\times (x - 4)$ pour tout nombre $x$, puis retrouver le résultat de la question 3 concernant le nombre $0$.`,
+      solution: `**1.** $g(0) = 0^2 - 4 \\times 0 = 0$.
+$g(3) = 3^2 - 4 \\times 3 = 9 - 12 = -3$.
+$g(-1) = (-1)^2 - 4 \\times (-1) = 1 + 4 = 5$.
+
+**2.**
+
+| $x$ | $-1$ | $0$ | $1$ | $2$ | $3$ | $4$ | $5$ |
+|---|---|---|---|---|---|---|---|
+| $g(x)$ | $5$ | $0$ | $-3$ | $-4$ | $-3$ | $0$ | $5$ |
+
+(Par exemple $g(2) = 4 - 8 = -4$ et $g(5) = 25 - 20 = 5$.)
+
+**3.** $g(0) = 0$ et $g(4) = 0$ : $0$ et $4$ sont deux antécédents de $0$.
+$g(-1) = 5$ et $g(5) = 5$ : $-1$ et $5$ sont deux antécédents de $5$.
+
+**4.** La plus petite image du tableau est $-4$, obtenue pour $x = 2$.
+
+**5.** En développant : $x \\times (x - 4) = x \\times x - x \\times 4 = x^2 - 4x = g(x)$.
+Pour $x = 0$ : $0 \\times (0 - 4) = 0$. Pour $x = 4$ : $4 \\times (4 - 4) = 4 \\times 0 = 0$. Un produit dont un facteur est nul est nul : on retrouve que $0$ et $4$ ont pour image $0$.`
+    },
+    {
+      id: "4P2-ds-11",
+      title: "La boîte sans couvercle",
+      difficulty: 3,
+      points: 5,
+      statement: `Dans une feuille de carton carrée de $20$ cm de côté, on découpe un carré de côté $x$ cm à chacun des quatre coins, puis on relève les bords pour former une boîte sans couvercle (un pavé droit).
+1. Expliquer pourquoi la base de la boîte est un carré de côté $20 - 2x$ cm et pourquoi la hauteur de la boîte est $x$ cm.
+2. Pourquoi faut-il que $x$ soit strictement compris entre $0$ et $10$ ?
+3. On note $V$ la fonction qui à $x$ associe le volume de la boîte en cm³. Montrer que $V(x) = x \\times (20 - 2x)^2$.
+4. Recopier et compléter le tableau suivant.
+
+| $x$ (cm) | $1$ | $2$ | $3$ | $4$ | $5$ | $6$ | $8$ |
+|---|---|---|---|---|---|---|---|
+| $V(x)$ (cm³) | | | | | | | |
+
+5. Parmi les valeurs entières du tableau, laquelle donne la boîte de plus grand volume ?
+6. Calculer $V(3{,}5)$. Que peut-on en conclure ?`,
+      solution: `**1.** Sur chaque côté de $20$ cm, on retire deux carrés de côté $x$ (un à chaque extrémité) : il reste $20 - 2x$ cm. La base est donc un carré de côté $20 - 2x$. Les bords relevés ont pour largeur le côté $x$ des carrés découpés : la hauteur est $x$.
+
+**2.** Il faut $x > 0$ pour qu'il y ait des bords. Il faut aussi $20 - 2x > 0$, c'est-à-dire $x < 10$, pour que la base existe (pour $x = 10$, les quatre carrés recouvrent toute la feuille).
+
+**3.** Volume d'un pavé droit : aire de la base $\\times$ hauteur $= (20 - 2x)^2 \\times x = x \\times (20 - 2x)^2$.
+
+**4.**
+
+| $x$ (cm) | $1$ | $2$ | $3$ | $4$ | $5$ | $6$ | $8$ |
+|---|---|---|---|---|---|---|---|
+| $V(x)$ (cm³) | $324$ | $512$ | $588$ | $576$ | $500$ | $384$ | $128$ |
+
+Par exemple : $V(3) = 3 \\times 14^2 = 3 \\times 196 = 588$ ; $V(4) = 4 \\times 12^2 = 576$ ; $V(8) = 8 \\times 4^2 = 128$.
+
+**5.** Parmi les valeurs entières, c'est $x = 3$ cm qui donne le plus grand volume : $588$ cm³.
+
+**6.** $V(3{,}5) = 3{,}5 \\times (20 - 7)^2 = 3{,}5 \\times 169 = 591{,}5$ cm³.
+Comme $591{,}5 > 588$, la valeur $x = 3$ ne donne pas le plus grand volume possible : en découpant des carrés dont le côté n'est pas entier, on peut obtenir une boîte encore plus grande.`
+    },
+    {
+      id: "4P2-ds-12",
+      title: "Défaire un programme de calcul",
+      difficulty: 4,
+      points: 6,
+      statement: `On considère le programme de calcul suivant :
+- choisir un nombre ;
+- lui soustraire $3$ ;
+- multiplier le résultat par $4$ ;
+- ajouter au résultat le double du nombre choisi au départ.
+
+On note $h$ la fonction qui, au nombre $x$ choisi, associe le résultat du programme.
+1. Calculer $h(5)$ et $h(-2)$.
+2. Montrer que $h(x) = 6x - 12$.
+3. Quel nombre faut-il choisir pour obtenir $0$ ? pour obtenir $33$ ?
+4. Montrer que, si le nombre de départ est un nombre entier, le résultat est toujours un multiple de $6$.
+5. Écrire un programme de calcul en deux étapes qui, à partir du résultat de ce programme, permet de retrouver le nombre de départ. Le tester avec le résultat $33$.
+6. Existe-t-il un nombre de départ égal au résultat obtenu ? Si oui, lequel ?`,
+      solution: `**1.** Avec $5$ : $5 - 3 = 2$ ; $2 \\times 4 = 8$ ; $8 + 2 \\times 5 = 18$. Donc $h(5) = 18$.
+Avec $-2$ : $-2 - 3 = -5$ ; $-5 \\times 4 = -20$ ; $-20 + 2 \\times (-2) = -24$. Donc $h(-2) = -24$.
+
+**2.** $h(x) = (x - 3) \\times 4 + 2x = 4x - 12 + 2x = 6x - 12$.
+(Vérification : $6 \\times 5 - 12 = 18$ et $6 \\times (-2) - 12 = -24$.)
+
+**3.** $6x - 12 = 0$ donne $6x = 12$, donc $x = 2$.
+$6x - 12 = 33$ donne $6x = 45$, donc $x = 7{,}5$.
+
+**4.** $6x - 12 = 6 \\times x - 6 \\times 2 = 6 \\times (x - 2)$. Si $x$ est entier, $x - 2$ est entier, donc $h(x)$ est un multiple de $6$.
+
+**5.** Le programme multiplie par $6$ puis soustrait $12$. Pour revenir en arrière, on effectue les opérations inverses dans l'ordre inverse :
+- ajouter $12$ au résultat ;
+- diviser par $6$.
+
+Test : $33 + 12 = 45$ et $45 \\div 6 = 7{,}5$ : on retrouve bien le nombre de départ de la question 3.
+
+**6.** On cherche $x$ tel que $6x - 12 = x$, soit $5x = 12$, donc $x = \\dfrac{12}{5} = 2{,}4$.
+Vérification : $6 \\times 2{,}4 - 12 = 14{,}4 - 12 = 2{,}4$. Oui : en choisissant $2{,}4$, on obtient $2{,}4$.`
     }
   ],
   "4A1": [
@@ -2473,6 +3792,179 @@ Position finale : **$(40 ; 20)$**.
 **4.** Après le dernier segment, le lutin tourne encore de $90^\\circ$ : il est orienté **vers le bas** (orientation $180$).
 
 **5.** Il faut supprimer l'instruction « ajouter 10 à longueur » (pour que tous les côtés mesurent $20$ pas) et remplacer « répéter 5 fois » par « répéter 4 fois ».`
+    },
+    {
+      id: "4A1-ds-09",
+      title: "Suivre le lutin dans le repère",
+      difficulty: 1,
+      points: 4,
+      statement: `La scène de Scratch est munie d'un repère : $x$ est l'abscisse du lutin et $y$ son ordonnée. On considère le script suivant :
+
+\`\`\`scratch
+quand drapeau cliqué
+aller à x: (-100) y: (50)
+s'orienter à (90)
+avancer de (80)
+ajouter (-30) à y
+répéter (3) fois
+    ajouter (40) à x
+    ajouter (10) à y
+\`\`\`
+
+L'instruction « s'orienter à 90 » tourne le lutin vers la droite.
+1. Donner les coordonnées du lutin après l'instruction « avancer de 80 », puis après « ajouter -30 à y ».
+2. Recopier et compléter le tableau des coordonnées du lutin à la fin de chaque passage dans la boucle.
+
+| Passage | $1$ | $2$ | $3$ |
+|---|---|---|---|
+| $x$ | | | |
+| $y$ | | | |
+
+3. Quelles sont les coordonnées finales du lutin ?
+4. Par quel nombre faut-il remplacer le $3$ de « répéter 3 fois » pour que le lutin termine avec une abscisse égale à $180$ ? Quelle serait alors son ordonnée ?`,
+      solution: `**1.** Le lutin part de $(-100 ; 50)$, tourné vers la droite. « Avancer de 80 » augmente son abscisse de $80$ : il arrive en $(-20 ; 50)$.
+« Ajouter -30 à y » : $50 - 30 = 20$, il est en $(-20 ; 20)$.
+
+**2.** À chaque passage, $x$ augmente de $40$ et $y$ augmente de $10$.
+
+| Passage | $1$ | $2$ | $3$ |
+|---|---|---|---|
+| $x$ | $20$ | $60$ | $100$ |
+| $y$ | $30$ | $40$ | $50$ |
+
+**3.** Le lutin termine en $(100 ; 50)$.
+
+**4.** Avant la boucle, $x = -20$. Il faut $-20 + 40 \\times n = 180$, soit $40n = 200$ et $n = 5$. On remplace $3$ par **$5$**.
+L'ordonnée vaut alors $20 + 5 \\times 10 = 70$.`
+    },
+    {
+      id: "4A1-ds-10",
+      title: "Pair ou impair ?",
+      difficulty: 2,
+      points: 5,
+      statement: `Dans Scratch, l'opérateur « $a$ modulo $b$ » donne le **reste** de la division euclidienne de $a$ par $b$. On considère le script suivant :
+
+\`\`\`scratch
+quand drapeau cliqué
+demander [Donne un nombre entier positif] et attendre
+mettre [n] à (réponse)
+si (((n) modulo (2)) = (0)) alors
+    dire [Pair]
+sinon
+    dire [Impair]
+\`\`\`
+
+1. Calculer $27$ modulo $2$, puis $27$ modulo $5$.
+2. Qu'affiche le lutin si l'on saisit $14$ ? $27$ ? $0$ ? Justifier.
+3. Modifier le script pour que le lutin dise « Multiple de 3 » ou « Pas multiple de 3 ».
+4. Léo veut que le lutin dise « Multiple de 10 » lorsque le nombre saisi est un multiple de $10$.
+   a) Écrire une condition utilisant l'opérateur modulo qui convient.
+   b) Mia propose la condition « $(n$ modulo $2 = 0)$ et $(n$ modulo $5 = 0)$ ». Sa condition convient-elle aussi ? Justifier.`,
+      solution: `**1.** $27 = 2 \\times 13 + 1$, donc $27$ modulo $2$ vaut $1$.
+$27 = 5 \\times 5 + 2$, donc $27$ modulo $5$ vaut $2$.
+
+**2.**
+- $14 = 2 \\times 7 + 0$ : le reste vaut $0$, la condition est vraie, le lutin dit « Pair ».
+- $27$ : le reste vaut $1$, la condition est fausse, le lutin dit « Impair ».
+- $0 = 2 \\times 0 + 0$ : le reste vaut $0$, le lutin dit « Pair » (c'est correct : $0$ est un nombre pair).
+
+**3.** On remplace le test par « $(n$ modulo $3) = 0$ », le premier message par « Multiple de 3 » et le second par « Pas multiple de 3 ». En effet, $n$ est un multiple de $3$ exactement lorsque le reste de sa division par $3$ est nul.
+
+**4. a)** La condition « $(n$ modulo $10) = 0$ » convient.
+
+**b)** Oui. Si $n$ est multiple de $10$, il est multiple de $2$ et de $5$ (car $10 = 2 \\times 5$), donc la condition de Mia est vraie.
+Réciproquement, si $n$ est multiple de $5$, son chiffre des unités est $0$ ou $5$ ; s'il est aussi pair, son chiffre des unités est pair, donc c'est $0$ : $n$ est un multiple de $10$. Les deux conditions sont donc équivalentes.`
+    },
+    {
+      id: "4A1-ds-11",
+      title: "Les rebonds de la balle",
+      difficulty: 3,
+      points: 5,
+      statement: `On lâche une balle d'une hauteur de $200$ cm. À chaque rebond, elle remonte aux $\\dfrac{6}{10}$ de la hauteur précédente. Le script suivant compte les rebonds :
+
+\`\`\`scratch
+quand drapeau cliqué
+mettre [hauteur] à (200)
+mettre [rebonds] à (0)
+répéter jusqu'à ((hauteur) < (10))
+    mettre [hauteur] à (((hauteur) × (6)) / (10))
+    ajouter 1 à [rebonds]
+dire (rebonds)
+\`\`\`
+
+1. Quelle est la valeur de la variable hauteur après le premier passage dans la boucle ?
+2. Recopier et compléter un tableau donnant les valeurs de hauteur et de rebonds après chaque passage dans la boucle, jusqu'à l'arrêt.
+3. Qu'affiche le lutin à la fin ? Interpréter ce nombre.
+4. Zoé remplace la condition par « répéter jusqu'à (hauteur = 0) ». Que se passe-t-il ? Justifier.
+5. On remplace $6$ par $5$ dans le script (la balle remonte à la moitié de la hauteur précédente). Qu'affiche alors le lutin ?`,
+      solution: `**1.** $200 \\times 6 \\div 10 = 120$ cm.
+
+**2.** À chaque passage, la hauteur est multipliée par $0{,}6$ et rebonds augmente de $1$.
+
+| Passage | $1$ | $2$ | $3$ | $4$ | $5$ | $6$ |
+|---|---|---|---|---|---|---|
+| hauteur | $120$ | $72$ | $43{,}2$ | $25{,}92$ | $15{,}552$ | $9{,}3312$ |
+| rebonds | $1$ | $2$ | $3$ | $4$ | $5$ | $6$ |
+
+Après le $5^\\text{e}$ passage, $15{,}552 < 10$ est faux : la boucle continue. Après le $6^\\text{e}$, $9{,}3312 < 10$ est vrai : la boucle s'arrête.
+
+**3.** Le lutin dit **$6$** : c'est le nombre de rebonds nécessaires pour que la balle remonte à moins de $10$ cm.
+
+**4.** On multiplie toujours la hauteur par $0{,}6$ : un produit de deux nombres non nuls n'est jamais nul, donc la hauteur ne vaut jamais exactement $0$. La condition n'est jamais vraie et **la boucle ne s'arrête jamais** (en théorie).
+
+**5.** Les hauteurs successives sont $100$ ; $50$ ; $25$ ; $12{,}5$ ; $6{,}25$. La condition devient vraie au $5^\\text{e}$ passage : le lutin dit **$5$**.`
+    },
+    {
+      id: "4A1-ds-12",
+      title: "Compter les diviseurs",
+      difficulty: 4,
+      points: 6,
+      statement: `On rappelle que « $a$ modulo $b$ » donne le reste de la division euclidienne de $a$ par $b$. On considère le script suivant :
+
+\`\`\`scratch
+quand drapeau cliqué
+demander [Donne un nombre entier supérieur ou égal à 1] et attendre
+mettre [n] à (réponse)
+mettre [compteur] à (0)
+mettre [d] à (1)
+répéter (n) fois
+    si (((n) modulo (d)) = (0)) alors
+        ajouter 1 à [compteur]
+    ajouter 1 à [d]
+dire (compteur)
+\`\`\`
+
+1. On saisit $6$. Recopier et compléter le tableau suivant, qui décrit chaque passage dans la boucle.
+
+| Passage | $1$ | $2$ | $3$ | $4$ | $5$ | $6$ |
+|---|---|---|---|---|---|---|
+| $d$ au début du passage | | | | | | |
+| $6$ modulo $d$ | | | | | | |
+| compteur à la fin du passage | | | | | | |
+
+2. Qu'affiche le lutin pour $n = 6$ ? Que représente ce nombre ?
+3. Sans refaire de tableau, qu'affiche le lutin pour $n = 12$ ? pour $n = 13$ ? pour $n = 1$ ? Justifier.
+4. Pour quels nombres entiers compris entre $20$ et $30$ le lutin affiche-t-il $2$ ?
+5. On remplace l'instruction « ajouter 1 à compteur » par « ajouter (d) à compteur ». Que calcule alors le script ? Qu'affiche-t-il pour $n = 6$, puis pour $n = 28$ ?`,
+      solution: `**1.**
+
+| Passage | $1$ | $2$ | $3$ | $4$ | $5$ | $6$ |
+|---|---|---|---|---|---|---|
+| $d$ au début du passage | $1$ | $2$ | $3$ | $4$ | $5$ | $6$ |
+| $6$ modulo $d$ | $0$ | $0$ | $0$ | $2$ | $1$ | $0$ |
+| compteur à la fin du passage | $1$ | $2$ | $3$ | $3$ | $3$ | $4$ |
+
+**2.** Le lutin dit **$4$**. Le compteur augmente de $1$ chaque fois que le reste de la division de $n$ par $d$ est nul, c'est-à-dire chaque fois que $d$ est un diviseur de $n$. Comme $d$ prend toutes les valeurs entières de $1$ à $n$, le script affiche le **nombre de diviseurs** de $n$ : $6$ a $4$ diviseurs ($1$, $2$, $3$, $6$).
+
+**3.**
+- $12$ a pour diviseurs $1$, $2$, $3$, $4$, $6$, $12$ : le lutin dit $6$.
+- $13$ n'est divisible que par $1$ et $13$ : le lutin dit $2$.
+- Pour $n = 1$, la boucle tourne une fois avec $d = 1$, et $1$ modulo $1$ vaut $0$ : le lutin dit $1$.
+
+**4.** Le lutin dit $2$ pour les nombres qui ont exactement deux diviseurs, $1$ et eux-mêmes. Entre $20$ et $30$ : $21 = 3 \\times 7$, $22 = 2 \\times 11$, $24$, $25 = 5 \\times 5$, $26$, $27 = 3 \\times 9$, $28$, $30$ ont d'autres diviseurs. Il reste **$23$ et $29$**.
+
+**5.** Le script additionne alors les diviseurs de $n$ : il calcule la **somme des diviseurs** de $n$.
+Pour $6$ : $1 + 2 + 3 + 6 = 12$. Pour $28$ (diviseurs $1$, $2$, $4$, $7$, $14$, $28$) : $1 + 2 + 4 + 7 + 14 + 28 = 56$.`
     }
   ]
 });

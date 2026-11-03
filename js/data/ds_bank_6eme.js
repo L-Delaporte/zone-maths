@@ -204,6 +204,95 @@ Le nombre le plus proche de 500 est donc **$497{,}52$**.
 **3.** $497{,}52 = \\frac{49\\,752}{100} = 4 \\times 100 + 9 \\times 10 + 7 + \\frac{5}{10} + \\frac{2}{100}$.
 
 **4.** On place 2 aux centaines et 9 aux dixièmes ; il reste 4, 5 et 7. Pour obtenir le plus grand nombre, on met 7 aux dizaines, 5 aux unités et 4 aux centièmes : **$275{,}94$**.`
+    },
+    {
+      id: "6N1-ds-09",
+      title: "Reconstituer un nombre à partir de sa décomposition",
+      difficulty: 1,
+      points: 4,
+      statement: `Sans calculatrice.
+
+1. Écrire en chiffres chacun des nombres suivants :
+   a) $3$ millions, $4$ dizaines de mille, $6$ unités et $2$ centièmes ;
+   b) $7$ centaines de mille, $5$ centaines et $9$ millièmes ;
+   c) $8 \\times 10\\,000 + 3 \\times 100 + 1 + \\frac{4}{10}$.
+2. Dans le nombre obtenu au 1. a), quel est le chiffre des dizaines de mille ? Quelle est sa valeur ?
+3. Écrire en chiffres le nombre « douze unités et trente-cinq millièmes ».`,
+      solution: `**1.** On remplit un tableau de numération et on écrit $0$ dans chaque rang vide.
+a) $3$ millions, $0$ centaine de mille, $4$ dizaines de mille, $0$ unité de mille, $0$ centaine, $0$ dizaine, $6$ unités, $0$ dixième, $2$ centièmes : **$3\\,040\\,006{,}02$**.
+b) $7$ centaines de mille, puis $0$ jusqu'aux centaines, $5$ centaines, $0$ dizaine, $0$ unité, $0$ dixième, $0$ centième, $9$ millièmes : **$700\\,500{,}009$**.
+c) $8$ dizaines de mille, $0$ unité de mille, $3$ centaines, $0$ dizaine, $1$ unité et $4$ dixièmes : **$80\\,301{,}4$**.
+
+**2.** Dans $3\\,040\\,006{,}02$, le chiffre des dizaines de mille est $4$ ; il vaut $4 \\times 10\\,000 = 40\\,000$.
+
+**3.** Trente-cinq millièmes, c'est $\\frac{35}{1\\,000} = 0{,}035$ (le $5$ doit être au rang des millièmes, avec un $0$ aux dixièmes). Le nombre est **$12{,}035$**.`
+    },
+    {
+      id: "6N1-ds-10",
+      title: "Remplir un chèque",
+      difficulty: 2,
+      points: 4,
+      statement: `Sur un chèque, la somme doit être écrite en chiffres et en lettres.
+
+1. M. Durand achète un canapé à $1\\,280{,}50$ €. Écrire cette somme en lettres (avec les mots « euros » et « centimes »).
+2. Mme Petit a écrit sur son chèque : « deux mille quatorze euros et sept centimes ». Écrire cette somme en chiffres.
+3. Un centime vaut un centième d'euro. Écrire $7$ centimes sous la forme d'une fraction décimale d'euro, puis d'un nombre à virgule.
+4. Combien de centimes y a-t-il en tout dans $1\\,280{,}50$ € ?
+5. Un chèque porte la somme $3\\,006{,}8$ €. Le banquier préfère qu'on écrive $3\\,006{,}80$ €. Les deux écritures représentent-elles la même somme ? Justifier.`,
+      solution: `**1.** $1\\,280{,}50$ € : « mille deux cent quatre-vingts euros et cinquante centimes ».
+
+**2.** Deux mille quatorze euros : $2\\,014$ ; sept centimes : $0{,}07$ €. La somme est **$2\\,014{,}07$ €** (le $7$ est au rang des centièmes, avec $0$ aux dixièmes).
+
+**3.** $7$ centimes $= \\frac{7}{100}$ € $= 0{,}07$ €.
+
+**4.** $1$ € $= 100$ centimes, donc $1\\,280$ € $= 128\\,000$ centimes. On ajoute $50$ centimes : $128\\,000 + 50 = 128\\,050$ centimes.
+
+**5.** Oui. $3\\,006{,}8$ a $8$ dixièmes et $0$ centième ; $3\\,006{,}80$ aussi. Ajouter un zéro à la fin de la partie décimale ne change pas la valeur du nombre : $\\frac{8}{10} = \\frac{80}{100}$. Les deux écritures désignent $3\\,006$ euros et $80$ centimes.`
+    },
+    {
+      id: "6N1-ds-11",
+      title: "Une même longueur, plusieurs écritures",
+      difficulty: 3,
+      points: 5,
+      statement: `Une planche mesure $3{,}456$ m.
+
+1. Donner le chiffre des dixièmes, celui des centièmes et celui des millièmes de ce nombre.
+2. Sachant que $1$ dm $= \\frac{1}{10}$ m, $1$ cm $= \\frac{1}{100}$ m et $1$ mm $= \\frac{1}{1\\,000}$ m, combien la planche mesure-t-elle de millimètres ? de centimètres ?
+3. Compléter, en expliquant : $3{,}456 = 3 + \\frac{\\ldots}{10} + \\frac{\\ldots}{100} + \\frac{\\ldots}{1\\,000}$ et $3{,}456 = 3 + \\frac{\\ldots}{1\\,000}$.
+4. Combien y a-t-il de dixièmes (en tout) dans $3{,}456$ ?
+5. On coupe dans cette planche un morceau de $4$ dixièmes de mètre. Écrire la longueur restante à l'aide d'une écriture à virgule.`,
+      solution: `**1.** Dixièmes : $4$ ; centièmes : $5$ ; millièmes : $6$.
+
+**2.** $1$ m $= 1\\,000$ mm, donc $3{,}456$ m $= 3\\,456$ mm (le chiffre des millièmes de mètre est celui des millimètres).
+$1$ m $= 100$ cm, donc $3{,}456$ m $= 345{,}6$ cm.
+
+**3.** $3{,}456 = 3 + \\frac{4}{10} + \\frac{5}{100} + \\frac{6}{1\\,000}$ (un chiffre par rang).
+Les trois chiffres après la virgule forment $456$ millièmes : $3{,}456 = 3 + \\frac{456}{1\\,000}$.
+
+**4.** Une unité vaut $10$ dixièmes : $3$ unités font $30$ dixièmes, auxquels on ajoute les $4$ dixièmes, soit **$34$ dixièmes** en tout (le reste, $56$ millièmes, ne fait pas un dixième entier).
+
+**5.** On retire $4$ dixièmes : le chiffre des dixièmes passe de $4$ à $0$. Il reste $3{,}056$ m.`
+    },
+    {
+      id: "6N1-ds-12",
+      title: "Le compteur du vélo",
+      difficulty: 4,
+      points: 5,
+      statement: `Le compteur du vélo de Yanis affiche les kilomètres parcourus avec un chiffre après la virgule. Ce matin, il affiche $1\\,999{,}7$.
+
+1. Écrire ce nombre en lettres, puis sous la forme d'une fraction décimale.
+2. Yanis parcourt $3$ dixièmes de kilomètre. Que devient l'affichage ? Combien de chiffres du compteur ont changé ?
+3. Après une promenade, le compteur affiche $2\\,035{,}1$. Combien de kilomètres Yanis a-t-il parcourus depuis ce matin ?
+4. Yanis remarque que le compteur affichera un jour un nombre dont les cinq chiffres sont tous égaux. Quel est le premier nombre de ce type qui apparaîtra après $2\\,035{,}1$ ? Combien de kilomètres devra-t-il encore parcourir pour le voir ?`,
+      solution: `**1.** « Mille neuf cent quatre-vingt-dix-neuf unités et sept dixièmes ». Il y a un chiffre après la virgule, donc $1\\,999{,}7 = \\frac{19\\,997}{10}$.
+
+**2.** $3$ dixièmes ajoutés à $7$ dixièmes font $10$ dixièmes, c'est-à-dire $1$ unité : $1\\,999{,}7 + 0{,}3 = 2\\,000{,}0$. L'affichage devient **$2\\,000{,}0$** : les **cinq chiffres** ont changé ($1 \\to 2$, $9 \\to 0$, $9 \\to 0$, $9 \\to 0$, $7 \\to 0$).
+
+**3.** $2\\,035{,}1 - 1\\,999{,}7 = 35{,}4$. Yanis a parcouru **$35{,}4$ km**.
+(Vérification : $1\\,999{,}7 + 35{,}4 = 2\\,035{,}1$.)
+
+**4.** Les nombres à cinq chiffres égaux s'écrivent $1\\,111{,}1$ ; $2\\,222{,}2$ ; $3\\,333{,}3$ ; … Le premier supérieur à $2\\,035{,}1$ est **$2\\,222{,}2$**.
+Distance restante : $2\\,222{,}2 - 2\\,035{,}1 = 187{,}1$ km.`
     }
   ],
   "6N2": [
@@ -383,6 +472,99 @@ Classement : 1. Chloé ; 2. Dylan ; 3. Emma ; 4. Ana ; 5. Bilal.
 
 **4.** a) Le temps $t$ de Farid a pour arrondi au dixième $31{,}3$, donc $31{,}25 \\leqslant t < 31{,}35$.
 b) Oui. Son temps est supérieur à $31{,}25$, donc supérieur à celui de Dylan ($31{,}09$) ; il est inférieur à $31{,}35$, donc inférieur à celui d'Emma ($31{,}4$). Farid se classe donc **3e**, entre Dylan et Emma, quel que soit son temps exact.`
+    },
+    {
+      id: "6N2-ds-09",
+      title: "Le concours de saut en longueur",
+      difficulty: 1,
+      points: 4,
+      statement: `Voici les meilleurs sauts (en mètres) de six élèves lors du concours de saut en longueur :
+$$\\text{Jade} : 3{,}6 \\qquad \\text{Malo} : 3{,}46 \\qquad \\text{Lina} : 3{,}06 \\qquad \\text{Tom} : 4{,}03 \\qquad \\text{Rose} : 3{,}64 \\qquad \\text{Noé} : 3{,}600$$
+
+1. Jade dit qu'elle a sauté plus loin que Noé. A-t-elle raison ? Justifier.
+2. Ranger les sauts dans l'ordre **décroissant** et donner le podium (les trois meilleurs).
+3. Encadrer le saut de Malo entre deux nombres entiers consécutifs.
+4. Donner l'arrondi au dixième du saut de Rose et celui du saut de Malo.`,
+      solution: `**1.** Non : $3{,}600 = 3{,}6$ (les zéros à la fin de la partie décimale ne changent pas le nombre). Jade et Noé ont sauté **la même distance**.
+
+**2.** On écrit tous les nombres avec deux chiffres après la virgule : $3{,}60$ ; $3{,}46$ ; $3{,}06$ ; $4{,}03$ ; $3{,}64$ ; $3{,}60$.
+$$4{,}03 > 3{,}64 > 3{,}6 = 3{,}600 > 3{,}46 > 3{,}06$$
+Podium : 1. Tom ($4{,}03$ m), 2. Rose ($3{,}64$ m), 3. Jade et Noé ex aequo ($3{,}6$ m).
+
+**3.** $3 < 3{,}46 < 4$.
+
+**4.** Rose : $3{,}6 < 3{,}64 < 3{,}7$ et le chiffre des centièmes est $4$, donc l'arrondi au dixième est $3{,}6$ m.
+Malo : $3{,}4 < 3{,}46 < 3{,}5$ et le chiffre des centièmes est $6$, donc l'arrondi au dixième est $3{,}5$ m.`
+    },
+    {
+      id: "6N2-ds-10",
+      title: "Des chiffres effacés",
+      difficulty: 2,
+      points: 4,
+      statement: `Dans chaque cas, le symbole $\\square$ remplace **un seul chiffre** (de $0$ à $9$).
+
+1. Donner toutes les valeurs possibles du chiffre caché pour que l'inégalité soit vraie :
+   a) $4{,}\\square 7 > 4{,}58$
+   b) $12{,}3\\square < 12{,}34$
+2. Peut-on remplacer $\\square$ par un chiffre pour que $0{,}\\square 9 > 0{,}99$ ? Justifier.
+3. Trouver le chiffre caché sachant que $6{,}\\square 2$ a pour arrondi à l'unité $7$ et que ce nombre est plus petit que $6{,}6$.`,
+      solution: `**1.** a) Les parties entières sont égales. Si le chiffre des dixièmes vaut $6$, $7$, $8$ ou $9$, le nombre est plus grand que $4{,}58$. S'il vaut $5$, on compare $4{,}57$ et $4{,}58$ : $7 < 8$ centièmes, donc $4{,}57 < 4{,}58$, ce qui ne convient pas. Les chiffres possibles sont **$6$, $7$, $8$, $9$**.
+b) Les parties entières et les dixièmes sont égaux ; on compare les centièmes : il faut que le chiffre caché soit inférieur à $4$. Les chiffres possibles sont **$0$, $1$, $2$, $3$**.
+
+**2.** Non. Le plus grand nombre possible est $0{,}99$ (avec le chiffre $9$), qui est égal à $0{,}99$ et non plus grand. Tous les autres sont plus petits. Aucun chiffre ne convient.
+
+**3.** L'arrondi à l'unité de $6{,}\\square 2$ est $7$ lorsque le chiffre des dixièmes vaut $5$, $6$, $7$, $8$ ou $9$. De plus, le nombre doit être plus petit que $6{,}6 = 6{,}60$ : seul le chiffre $5$ convient ($6{,}52 < 6{,}60$ alors que $6{,}62 > 6{,}60$). Le chiffre caché est **$5$** : le nombre est $6{,}52$.`
+    },
+    {
+      id: "6N2-ds-11",
+      title: "Zoomer sur une droite graduée",
+      difficulty: 3,
+      points: 5,
+      statement: `On s'intéresse à une droite graduée en dixièmes. On « zoome » sur la partie comprise entre $2{,}3$ et $2{,}4$ : cette portion est partagée en $10$ intervalles égaux.
+
+1. Que représente un intervalle dans cette nouvelle graduation ? Justifier.
+2. Un point $A$ est situé sur la $7^\\text{e}$ graduation après $2{,}3$. Quelle est son abscisse ?
+3. Le point $B$ a pour abscisse $2{,}35$. Combien de graduations le séparent de $2{,}3$ ? Que peut-on dire de sa position entre $2{,}3$ et $2{,}4$ ?
+4. On zoome une seconde fois, sur la portion comprise entre $2{,}37$ et $2{,}38$, à nouveau partagée en $10$ intervalles égaux. Quelle est l'abscisse du point $C$ situé sur la $4^\\text{e}$ graduation après $2{,}37$ ?
+5. Ranger $A$, $B$ et $C$ dans l'ordre croissant de leurs abscisses, puis donner l'arrondi au centième de l'abscisse de $C$.`,
+      solution: `**1.** La portion mesure $2{,}4 - 2{,}3 = 0{,}1$ (un dixième). Partagée en $10$, chaque intervalle représente un dixième de dixième, c'est-à-dire **un centième** ($0{,}01$).
+
+**2.** $A$ est à $7$ centièmes de $2{,}3$ : $A(2{,}37)$.
+
+**3.** $2{,}35 = 2{,}30 + 0{,}05$ : le point $B$ est **à $5$ graduations** de $2{,}3$. Comme la portion compte $10$ graduations, $B$ est **au milieu** du segment qui va de $2{,}3$ à $2{,}4$.
+
+**4.** Cette fois, la portion mesure un centième ; partagée en $10$, chaque intervalle représente **un millième**. $C$ est à $4$ millièmes de $2{,}37$ : $C(2{,}374)$.
+
+**5.** $2{,}350 < 2{,}370 < 2{,}374$, donc l'ordre croissant est $B$, $A$, $C$.
+Arrondi au centième de $2{,}374$ : le chiffre des millièmes est $4$, donc l'arrondi est $2{,}37$.`
+    },
+    {
+      id: "6N2-ds-12",
+      title: "Le contrôle de qualité",
+      difficulty: 4,
+      points: 6,
+      statement: `Une usine fabrique des vis qui doivent mesurer $25$ mm. Une vis est acceptée si sa longueur est **supérieure ou égale à $24{,}95$ mm et inférieure ou égale à $25{,}05$ mm**. Un contrôleur mesure huit vis (en mm) :
+$$25{,}1 \\quad 24{,}97 \\quad 25{,}005 \\quad 24{,}9 \\quad 25{,}05 \\quad 24{,}949 \\quad 25{,}04 \\quad 24{,}99$$
+
+1. Quelles vis sont acceptées ? Justifier pour chacune des vis refusées.
+2. Ranger les longueurs des vis acceptées dans l'ordre croissant.
+3. Le contrôleur arrondit chaque mesure au dixième. Donner l'arrondi au dixième de $24{,}97$, de $25{,}05$ et de $25{,}1$. Expliquer pourquoi le contrôleur ne peut pas se contenter de ces arrondis pour décider si une vis est acceptée.
+4. Donner une longueur, écrite avec trois chiffres après la virgule, d'une vis acceptée qui soit plus courte que toutes les vis acceptées de la liste.`,
+      solution: `**1.** On compare chaque mesure à $24{,}950$ et à $25{,}050$ (en écrivant trois chiffres après la virgule).
+- $25{,}1 = 25{,}100 > 25{,}050$ : **refusée** (trop longue).
+- $24{,}9 = 24{,}900 < 24{,}950$ : **refusée** (trop courte).
+- $24{,}949 < 24{,}950$ : **refusée** (trop courte, d'un millième seulement).
+- $24{,}970$ ; $25{,}005$ ; $25{,}050$ ; $25{,}040$ ; $24{,}990$ sont tous compris entre $24{,}950$ et $25{,}050$ ($25{,}05$ est accepté car l'égalité est autorisée).
+Les vis acceptées mesurent $24{,}97$ ; $25{,}005$ ; $25{,}05$ ; $25{,}04$ et $24{,}99$ mm.
+
+**2.** $24{,}97 < 24{,}99 < 25{,}005 < 25{,}04 < 25{,}05$.
+
+**3.** $24{,}97$ : le chiffre des centièmes est $7$, l'arrondi au dixième est $25{,}0$.
+$25{,}05$ : le chiffre des centièmes est $5$, l'arrondi au dixième est $25{,}1$.
+$25{,}1$ : l'arrondi au dixième est $25{,}1$.
+Les vis de $25{,}05$ mm (acceptée) et de $25{,}1$ mm (refusée) ont **le même arrondi au dixième** : avec ce seul arrondi, on ne peut pas savoir si la vis est acceptée. Les arrondis au dixième sont trop peu précis, car la tolérance se joue au centième.
+
+**4.** La plus courte vis acceptée de la liste mesure $24{,}97$ mm et la longueur minimale autorisée est $24{,}95$ mm. Il faut donc un nombre supérieur ou égal à $24{,}950$ et inférieur à $24{,}970$ : par exemple **$24{,}960$ mm** (ou $24{,}951$ ; $24{,}955$ ; … ; $24{,}969$).`
     }
   ],
   "6N3": [
@@ -556,6 +738,116 @@ Vérification : $24{,}85 + 23 = 47{,}85$.
 
 **3.** Prix avec le bon : $47{,}85 - 4{,}75 = 43{,}10$ €.
 Monnaie rendue : $50 - 43{,}10 = 6{,}90$ €. Paul aurait payé **$43{,}10$ €** et la caissière lui aurait rendu **$6{,}90$ €**.`
+    },
+    {
+      id: "6N3-ds-09",
+      title: "Le colis de la poste",
+      difficulty: 1,
+      points: 4,
+      statement: `Clara prépare un colis. Elle y met un livre de $1{,}25$ kg, un pot de confiture de $0{,}875$ kg et une paire de chaussures de $2{,}4$ kg. Le carton vide a une masse négligeable.
+
+1. Poser l'addition et calculer la masse totale du colis.
+2. Le tarif « petit colis » est accepté jusqu'à $5$ kg. Le colis de Clara peut-il partir à ce tarif ? Quelle masse peut-elle encore ajouter au maximum ?
+3. Quelle est la différence de masse entre l'objet le plus lourd et l'objet le plus léger ?`,
+      solution: `**1.** On aligne les virgules et on complète avec des zéros :
+$$1{,}250 + 0{,}875 + 2{,}400 = 4{,}525$$
+Le colis pèse **$4{,}525$ kg**.
+
+**2.** $4{,}525 < 5$ : le colis peut partir au tarif « petit colis ».
+Masse encore possible : $5 - 4{,}525 = 0{,}475$ kg, soit $475$ g au maximum.
+(Vérification : $4{,}525 + 0{,}475 = 5$.)
+
+**3.** L'objet le plus lourd est la paire de chaussures ($2{,}4$ kg), le plus léger le pot de confiture ($0{,}875$ kg) :
+$$2{,}400 - 0{,}875 = 1{,}525$$
+La différence est de **$1{,}525$ kg**.`
+    },
+    {
+      id: "6N3-ds-10",
+      title: "Un carré magique décimal",
+      difficulty: 2,
+      points: 4,
+      statement: `Dans un carré magique, les sommes des trois nombres de chaque ligne, de chaque colonne et de chacune des deux diagonales sont toutes égales. Voici un carré magique incomplet :
+
+| | | |
+|:---:|:---:|:---:|
+| $2$ | $a$ | $4$ |
+| $b$ | $3{,}5$ | $c$ |
+| $3$ | $d$ | $e$ |
+
+1. En utilisant la diagonale qui contient $4$, $3{,}5$ et $3$, calculer la somme magique.
+2. Calculer $a$, puis $b$ (justifier par un calcul).
+3. Calculer $c$, $d$ et $e$.
+4. Vérifier le résultat avec la colonne de droite et avec l'autre diagonale.`,
+      solution: `**1.** $4 + 3{,}5 + 3 = 10{,}5$ : la somme magique est **$10{,}5$**.
+
+**2.** Première ligne : $2 + a + 4 = 10{,}5$, donc $a = 10{,}5 - 6 = 4{,}5$.
+Première colonne : $2 + b + 3 = 10{,}5$, donc $b = 10{,}5 - 5 = 5{,}5$.
+
+**3.** Deuxième ligne : $5{,}5 + 3{,}5 + c = 10{,}5$, donc $c = 10{,}5 - 9 = 1{,}5$.
+Deuxième colonne : $4{,}5 + 3{,}5 + d = 10{,}5$, donc $d = 10{,}5 - 8 = 2{,}5$.
+Troisième ligne : $3 + 2{,}5 + e = 10{,}5$, donc $e = 10{,}5 - 5{,}5 = 5$.
+
+**4.** Colonne de droite : $4 + 1{,}5 + 5 = 10{,}5$. Diagonale : $2 + 3{,}5 + 5 = 10{,}5$. Le carré est bien magique.`
+    },
+    {
+      id: "6N3-ds-11",
+      title: "Les comptes de la coopérative",
+      difficulty: 3,
+      points: 5,
+      statement: `Au début du mois, la coopérative de la classe dispose de $152{,}40$ €. Le trésorier note les opérations du mois :
+
+| Opération | Recette (€) | Dépense (€) |
+|:---|:---:|:---:|
+| Vente de gâteaux | $87{,}65$ | |
+| Achat de ballons | | $64{,}90$ |
+| Tombola | $120{,}50$ | |
+| Sortie au musée | | $198{,}75$ |
+
+1. Calculer la somme disponible après chaque opération, dans l'ordre du tableau.
+2. Calculer le total des recettes et le total des dépenses du mois.
+3. La coopérative a-t-elle gagné ou perdu de l'argent ce mois-ci ? De combien ? Vérifier la cohérence avec la question 1.
+4. La classe veut acheter un jeu de société à $120$ €. Combien lui manque-t-il ?`,
+      solution: `**1.**
+- Après la vente de gâteaux : $152{,}40 + 87{,}65 = 240{,}05$ €.
+- Après l'achat de ballons : $240{,}05 - 64{,}90 = 175{,}15$ €.
+- Après la tombola : $175{,}15 + 120{,}50 = 295{,}65$ €.
+- Après la sortie : $295{,}65 - 198{,}75 = 96{,}90$ €.
+
+**2.** Recettes : $87{,}65 + 120{,}50 = 208{,}15$ €. Dépenses : $64{,}90 + 198{,}75 = 263{,}65$ €.
+
+**3.** Les dépenses dépassent les recettes : la coopérative a **perdu** de l'argent. Perte : $263{,}65 - 208{,}15 = 55{,}50$ €.
+Cohérence : la somme est passée de $152{,}40$ € à $96{,}90$ €, et $152{,}40 - 96{,}90 = 55{,}50$ €. On retrouve bien la même perte.
+
+**4.** $120 - 96{,}90 = 23{,}10$. Il manque **$23{,}10$ €**.`
+    },
+    {
+      id: "6N3-ds-12",
+      title: "Des additions à chiffres cachés",
+      difficulty: 4,
+      points: 5,
+      statement: `Chaque case $\\square$ cache un chiffre (les cases peuvent cacher des chiffres différents).
+
+1. Retrouver les chiffres cachés dans l'addition posée suivante, en expliquant la démarche colonne par colonne (en commençant par la droite) :
+$$\\begin{array}{r} 3\\,\\square{,}7\\,\\square \\\\ +\\ \\square\\,7{,}\\square\\,8 \\\\ \\hline 6\\,2{,}1\\,3 \\end{array}$$
+2. Vérifier le résultat en effectuant une soustraction.
+3. Dans l'égalité suivante, les trois cases cachent **le même chiffre** :
+$$5{,}\\square + \\square{,}7 + 2{,}\\square 5 = 11{,}35$$
+Trouver ce chiffre. Justifier, par exemple en testant et en expliquant pourquoi c'est le seul possible.`,
+      solution: `**1.** On travaille de droite à gauche, en tenant compte des retenues.
+- Centièmes : $\\square + 8$ se termine par $3$, donc $\\square = 5$ ($5 + 8 = 13$) ; on retient $1$.
+- Dixièmes : $7 + \\square + 1$ se termine par $1$, donc $\\square = 3$ ($7 + 3 + 1 = 11$) ; on retient $1$.
+- Unités : $\\square + 7 + 1$ se termine par $2$, donc $\\square = 4$ ($4 + 7 + 1 = 12$) ; on retient $1$.
+- Dizaines : $3 + \\square + 1 = 6$, donc $\\square = 2$.
+
+L'addition est $34{,}75 + 27{,}38 = 62{,}13$.
+
+**2.** $62{,}13 - 27{,}38 = 34{,}75$ : on retrouve bien le premier terme.
+
+**3.** Si le chiffre caché augmente de $1$, chacun des trois nombres augmente : la somme augmente donc toujours. Il y a ainsi au plus un chiffre qui convient. On teste :
+- avec $2$ : $5{,}2 + 2{,}7 + 2{,}25 = 10{,}15$, trop petit ;
+- avec $3$ : $5{,}3 + 3{,}7 + 2{,}35 = 11{,}35$ : c'est la somme voulue.
+
+Le chiffre caché est **$3$**.`
     }
   ]
 });
@@ -727,6 +1019,112 @@ Le forfait A devient plus avantageux **à partir de 50 Go** par mois.`
 **3.** $20{,}3 \\times 1{,}85$ : $203 \\times 185 = 37\\,555$, avec $1 + 2 = 3$ chiffres après la virgule : $37{,}555$ €. Arrondi au centime : **$37{,}56$ €** (ordre de grandeur : $20 \\times 2 = 40$ €, cohérent).
 
 **4.** $37{,}56 + 12{,}40 = 49{,}96$. Le trajet coûte environ **$49{,}96$ €**.`
+    },
+    {
+      id: "6N4-ds-09",
+      title: "Multiplier par 0,5 ; 0,25 et 1,5",
+      difficulty: 1,
+      points: 4,
+      statement: `Sans calculatrice.
+
+1. Calculer : $46 \\times 0{,}5$ ; $\\quad 3{,}8 \\times 0{,}5$ ; $\\quad 120 \\times 0{,}25$ ; $\\quad 18 \\times 0{,}25$.
+2. Expliquer pourquoi multiplier un nombre par $0{,}5$ revient à en prendre la moitié.
+3. Calculer $24 \\times 1{,}5$ et $7 \\times 1{,}5$ en remarquant que $1{,}5 = 1 + 0{,}5$.
+4. Poser la multiplication $6{,}4 \\times 0{,}25$.`,
+      solution: `**1.** Multiplier par $0{,}5$ revient à prendre la moitié ; multiplier par $0{,}25$ revient à prendre le quart (la moitié de la moitié).
+- $46 \\times 0{,}5 = 23$ ;
+- $3{,}8 \\times 0{,}5 = 1{,}9$ ;
+- $120 \\times 0{,}25 = 30$ (moitié : $60$, puis moitié : $30$) ;
+- $18 \\times 0{,}25 = 4{,}5$ (moitié : $9$, puis moitié : $4{,}5$).
+
+**2.** $0{,}5 = \\frac{5}{10} = \\frac{1}{2}$ : multiplier par $0{,}5$, c'est multiplier par $5$ puis diviser par $10$, ce qui revient à diviser par $2$, donc à prendre la moitié.
+
+**3.** $24 \\times 1{,}5 = 24 + 24 \\times 0{,}5 = 24 + 12 = 36$.
+$7 \\times 1{,}5 = 7 + 7 \\times 0{,}5 = 7 + 3{,}5 = 10{,}5$.
+
+**4.** On calcule $64 \\times 25 = 1\\,600$. Il y a un chiffre après la virgule dans $6{,}4$ et deux dans $0{,}25$, donc trois en tout dans le produit : $6{,}4 \\times 0{,}25 = 1{,}600 = 1{,}6$.
+(Contrôle : le quart de $6{,}4$ est bien $1{,}6$.)`
+    },
+    {
+      id: "6N4-ds-10",
+      title: "Recharger une voiture électrique",
+      difficulty: 2,
+      points: 5,
+      statement: `Pour recharger sa voiture électrique, Mme Lambert a le choix entre deux bornes :
+- borne A : $0{,}32$ € par kilowattheure (kWh) ;
+- borne B : $2{,}50$ € de frais par recharge, plus $0{,}18$ € par kWh.
+
+1. Calculer le prix d'une recharge de $42{,}5$ kWh avec la borne A.
+2. Calculer le prix de la même recharge avec la borne B. Quelle borne est la plus avantageuse ?
+3. Pour une petite recharge de $5$ kWh, quelle borne est la plus avantageuse ? Justifier.
+4. Même question pour une recharge de $20$ kWh.`,
+      solution: `**1.** Borne A : $42{,}5 \\times 0{,}32 = 13{,}6$. La recharge coûte **$13{,}60$ €**.
+(On calcule $425 \\times 32 = 13\\,600$, puis on place la virgule : $1 + 2 = 3$ chiffres après la virgule, soit $13{,}600$.)
+
+**2.** Borne B : $42{,}5 \\times 0{,}18 = 7{,}65$, puis $7{,}65 + 2{,}50 = 10{,}15$ €.
+$10{,}15 < 13{,}60$ : la **borne B** est la plus avantageuse pour cette recharge.
+
+**3.** Borne A : $5 \\times 0{,}32 = 1{,}60$ €. Borne B : $5 \\times 0{,}18 + 2{,}50 = 0{,}90 + 2{,}50 = 3{,}40$ €.
+Pour $5$ kWh, la **borne A** est la plus avantageuse : les frais fixes de la borne B pèsent lourd pour une petite recharge.
+
+**4.** Borne A : $20 \\times 0{,}32 = 6{,}40$ €. Borne B : $20 \\times 0{,}18 + 2{,}50 = 3{,}60 + 2{,}50 = 6{,}10$ €.
+Pour $20$ kWh, la **borne B** est (de peu) la plus avantageuse.`
+    },
+    {
+      id: "6N4-ds-11",
+      title: "Multiplier, est-ce toujours agrandir ?",
+      difficulty: 3,
+      points: 5,
+      statement: `On considère les produits suivants :
+$$A = 45 \\times 0{,}8 \\qquad B = 45 \\times 1{,}2 \\qquad C = 2{,}5 \\times 0{,}4 \\qquad D = 0{,}6 \\times 0{,}5 \\qquad E = 12 \\times 1$$
+
+1. **Sans calculer**, dire pour chaque produit si le résultat est plus petit, plus grand ou égal au premier facteur. Expliquer la règle utilisée.
+2. Calculer $A$, $B$, $C$, $D$ et $E$ pour vérifier.
+3. Léa affirme : « $0{,}6 \\times 0{,}5$ est forcément plus grand que $0{,}6$, car une multiplication agrandit toujours. » Expliquer son erreur.
+4. Pendant les soldes, un magasin affiche : « Vous payez $0{,}7$ fois le prix initial. » Une veste coûte $64$ € avant les soldes. Combien coûte-t-elle pendant les soldes ? Quelle est l'économie réalisée ?
+5. Par quel nombre faut-il multiplier $8$ pour obtenir $6$ ? Justifier par un calcul.`,
+      solution: `**1.** Règle : multiplier par un nombre plus petit que $1$ donne un résultat plus petit que le nombre de départ ; multiplier par un nombre plus grand que $1$ donne un résultat plus grand ; multiplier par $1$ ne change rien.
+- $A$ : $0{,}8 < 1$, donc $A < 45$.
+- $B$ : $1{,}2 > 1$, donc $B > 45$.
+- $C$ : $0{,}4 < 1$, donc $C < 2{,}5$.
+- $D$ : $0{,}5 < 1$, donc $D < 0{,}6$.
+- $E$ : $E = 12$.
+
+**2.** $A = 36$ ; $\\ B = 54$ ; $\\ C = 1$ ; $\\ D = 0{,}3$ ; $\\ E = 12$. Les résultats confirment la question 1.
+
+**3.** Multiplier par $0{,}5$, c'est prendre la moitié : $0{,}6 \\times 0{,}5 = 0{,}3$, qui est plus petit que $0{,}6$. Une multiplication n'agrandit que si l'on multiplie par un nombre plus grand que $1$.
+
+**4.** $64 \\times 0{,}7 = 44{,}8$ : la veste coûte **$44{,}80$ €**. L'économie est de $64 - 44{,}80 = 19{,}20$ €.
+
+**5.** Le nombre cherché est plus petit que $1$, car $6 < 8$. On essaie $0{,}75$ : $8 \\times 0{,}75 = 6$. Il faut multiplier $8$ par **$0{,}75$**.`
+    },
+    {
+      id: "6N4-ds-12",
+      title: "Plier une feuille de papier",
+      difficulty: 4,
+      points: 6,
+      statement: `Une feuille de papier a une épaisseur de $0{,}08$ mm. On la plie en deux, puis encore en deux, et ainsi de suite. À chaque pliage, l'épaisseur est multipliée par $2$.
+
+1. Calculer l'épaisseur obtenue après $1$, $2$, $3$, $4$ et $5$ pliages. Présenter les résultats dans un tableau.
+2. Après combien de pliages l'épaisseur dépasse-t-elle $1$ cm pour la première fois ? Justifier.
+3. Expliquer pourquoi l'épaisseur après $10$ pliages est égale à $0{,}08 \\times 1\\,024$ mm, puis la calculer.
+4. Un roman a une épaisseur de $2{,}5$ cm. Après $10$ pliages, le papier plié est-il plus épais que ce roman ? Combien de fois plus épais environ (arrondir à l'unité) ?`,
+      solution: `**1.** On multiplie par $2$ à chaque étape :
+
+| Nombre de pliages | $0$ | $1$ | $2$ | $3$ | $4$ | $5$ |
+|:---|:---:|:---:|:---:|:---:|:---:|:---:|
+| Épaisseur (mm) | $0{,}08$ | $0{,}16$ | $0{,}32$ | $0{,}64$ | $1{,}28$ | $2{,}56$ |
+
+**2.** $1$ cm $= 10$ mm. On continue : $6$ pliages : $2{,}56 \\times 2 = 5{,}12$ mm ; $7$ pliages : $5{,}12 \\times 2 = 10{,}24$ mm.
+$5{,}12 < 10 < 10{,}24$ : l'épaisseur dépasse $1$ cm pour la première fois après **$7$ pliages**.
+
+**3.** Après $10$ pliages, on a multiplié $10$ fois par $2$, c'est-à-dire par $2 \\times 2 \\times \\ldots \\times 2$ ($10$ facteurs) $= 1\\,024$ (on double : $2$ ; $4$ ; $8$ ; $16$ ; $32$ ; $64$ ; $128$ ; $256$ ; $512$ ; $1\\,024$).
+$0{,}08 \\times 1\\,024 = 81{,}92$ mm.
+
+**4.** $2{,}5$ cm $= 25$ mm et $81{,}92 > 25$ : oui, le papier plié est plus épais que le roman.
+On cherche combien de fois $25$ mm « entrent » dans $81{,}92$ mm : $3 \\times 25 = 75$ et $4 \\times 25 = 100$ ; $81{,}92$ est plus proche de $75$. Le papier plié est environ **$3$ fois** plus épais que le roman ($81{,}92 \\div 25 \\approx 3{,}3$).
+
+*(En pratique, il est très difficile de plier une feuille plus de $7$ ou $8$ fois !)*`
     }
   ],
   "6N5": [
@@ -891,6 +1289,111 @@ $195 = 15 \\times 13 + 0$ : chaque élève paie **13 €**. Vérification : $15 
 Le chocolatier a **360 chocolats**. Vérification : $360 = 9 \\times 40 = 5 \\times 72 = 2 \\times 180$.
 
 **4.** $360 = 12 \\times 30$ : il remplit **30 boîtes** et il ne reste aucun chocolat.`
+    },
+    {
+      id: "6N5-ds-09",
+      title: "Multiples et diviseurs : le vocabulaire",
+      difficulty: 1,
+      points: 4,
+      statement: `1. Recopier et compléter chaque phrase par « multiple » ou « diviseur », en justifiant par un calcul :
+   a) $84$ est un … de $7$.
+   b) $6$ est un … de $54$.
+   c) $100$ est un … de $25$.
+2. Écrire la liste de tous les diviseurs de $30$.
+3. Écrire tous les multiples de $13$ compris entre $50$ et $120$.
+4. Le nombre $91$ est-il un multiple de $13$ ? Est-il divisible par $3$ ? Justifier.`,
+      solution: `**1.** a) $84 = 7 \\times 12$ : $84$ est un **multiple** de $7$ (et $7$ est un diviseur de $84$).
+b) $54 = 6 \\times 9$ : $6$ est un **diviseur** de $54$.
+c) $100 = 25 \\times 4$ : $100$ est un **multiple** de $25$.
+
+**2.** On cherche les produits égaux à $30$ : $30 = 1 \\times 30 = 2 \\times 15 = 3 \\times 10 = 5 \\times 6$.
+Les diviseurs de $30$ sont : $1$ ; $2$ ; $3$ ; $5$ ; $6$ ; $10$ ; $15$ ; $30$.
+
+**3.** Les multiples de $13$ sont $13$ ; $26$ ; $39$ ; $52$ ; $65$ ; … Entre $50$ et $120$ : $52$ ; $65$ ; $78$ ; $91$ ; $104$ ; $117$ (le suivant, $130$, dépasse $120$).
+
+**4.** $91 = 13 \\times 7$ : oui, $91$ est un multiple de $13$ (il apparaît dans la liste précédente).
+La somme de ses chiffres est $9 + 1 = 10$, qui n'est pas divisible par $3$ : $91$ **n'est pas** divisible par $3$.`
+    },
+    {
+      id: "6N5-ds-10",
+      title: "Le prix d'un yaourt",
+      difficulty: 2,
+      points: 5,
+      statement: `Au supermarché, les mêmes yaourts sont vendus en deux formats :
+- le lot de $6$ yaourts à $3{,}72$ € ;
+- le lot de $4$ yaourts à $2{,}58$ €.
+
+1. Poser la division et calculer le prix d'un yaourt dans le lot de $6$.
+2. Calculer le prix d'un yaourt dans le lot de $4$.
+3. Quel lot est le plus avantageux ? Justifier.
+4. Nora a besoin de $24$ yaourts. Combien paie-t-elle si elle n'achète que des lots de $6$ ? Combien économise-t-elle par rapport à des lots de $4$ uniquement ?`,
+      solution: `**1.** $3{,}72 \\div 6 = 0{,}62$ (on divise $3$ unités : $0$ au quotient ; puis $37$ dixièmes : $6$ fois $6$ font $36$, reste $1$ ; puis $12$ centièmes : $2$ fois). Un yaourt coûte **$0{,}62$ €**.
+Vérification : $6 \\times 0{,}62 = 3{,}72$.
+
+**2.** $2{,}58 \\div 4 = 0{,}645$. Un yaourt coûte **$0{,}645$ €** (environ $0{,}65$ €).
+Vérification : $4 \\times 0{,}645 = 2{,}58$.
+
+**3.** $0{,}62 < 0{,}645$ : le yaourt est moins cher dans le **lot de $6$**.
+
+**4.** $24 = 6 \\times 4$ : il faut $4$ lots de $6$, soit $4 \\times 3{,}72 = 14{,}88$ €.
+Avec des lots de $4$ : $24 = 4 \\times 6$, il faut $6$ lots, soit $6 \\times 2{,}58 = 15{,}48$ €.
+Économie : $15{,}48 - 14{,}88 = 0{,}60$ €.`
+    },
+    {
+      id: "6N5-ds-11",
+      title: "Les rangs de la fanfare",
+      difficulty: 3,
+      points: 5,
+      statement: `Une fanfare compte entre $100$ et $200$ musiciens. Le chef remarque que :
+- s'il les range par $4$, il en reste $3$ ;
+- s'il les range par $5$, il en reste $4$ ;
+- s'il les range par $6$, il en reste $5$ ;
+- s'il les range par $7$, il ne reste personne.
+
+1. Que peut-on dire du chiffre des unités du nombre de musiciens ? Justifier à l'aide des rangs de $5$ puis des rangs de $4$.
+2. Écrire la liste des nombres possibles compris entre $100$ et $200$ qui vérifient les deux premières conditions.
+3. En déduire le nombre de musiciens. Justifier par des divisions euclidiennes.
+4. Combien de rangs de $7$ le chef forme-t-il ?`,
+      solution: `**1.** Rangés par $5$, il en reste $4$ : le nombre s'écrit $5 \\times q + 4$, donc son chiffre des unités est $4$ ou $9$ (les multiples de $5$ se terminent par $0$ ou $5$).
+Rangés par $4$, il en reste $3$ : le nombre n'est pas pair (un multiple de $4$ est pair, plus $3$ donne un nombre impair). Son chiffre des unités est donc **$9$**.
+
+**2.** Nombres entre $100$ et $200$ terminés par $9$ : $109$ ; $119$ ; $129$ ; … ; $199$. On garde ceux dont le reste dans la division par $4$ vaut $3$ :
+$109 = 4 \\times 27 + 1$ (non) ; $119 = 4 \\times 29 + 3$ (oui) ; $129 = 4 \\times 32 + 1$ (non) ; $139 = 4 \\times 34 + 3$ (oui) ; … On obtient : **$119$ ; $139$ ; $159$ ; $179$ ; $199$**.
+
+**3.** On teste les rangs de $6$ et de $7$ :
+- $119 = 6 \\times 19 + 5$ et $119 = 7 \\times 17 + 0$ : les deux conditions sont vérifiées ;
+- $139 = 6 \\times 23 + 1$ (non) ; $159 = 6 \\times 26 + 3$ (non) ; $199 = 6 \\times 33 + 1$ (non) ;
+- $179 = 6 \\times 29 + 5$ mais $179 = 7 \\times 25 + 4$ (non).
+
+La fanfare compte **$119$ musiciens**.
+
+**4.** $119 = 7 \\times 17$ : le chef forme **$17$ rangs** de $7$ musiciens.`
+    },
+    {
+      id: "6N5-ds-12",
+      title: "L'addition du restaurant",
+      difficulty: 4,
+      points: 6,
+      statement: `Huit amis dînent au restaurant. L'addition s'élève à $187{,}60$ €. Elle comprend $5$ desserts à $6{,}40$ € chacun ; le reste correspond aux plats, que tout le monde a partagés.
+
+1. Si l'on partage l'addition en huit parts égales, combien chacun paie-t-il ? Poser la division.
+2. Ceux qui n'ont pas pris de dessert trouvent ce partage injuste. On décide que chacun paie une part égale des plats, et que ceux qui ont pris un dessert paient en plus leur dessert.
+   a) Calculer le prix total des desserts, puis celui des plats.
+   b) Calculer la part des plats pour chaque personne.
+   c) Combien paie une personne qui a pris un dessert ? une personne qui n'en a pas pris ?
+3. Vérifier que les huit paiements de la question 2 redonnent bien le montant de l'addition.
+4. Pour le pourboire, chacun ajoute $1{,}50$ €. Quel est le montant total payé par le groupe ?`,
+      solution: `**1.** $187{,}60 \\div 8 = 23{,}45$. Chacun paierait **$23{,}45$ €** (vérification : $8 \\times 23{,}45 = 187{,}60$).
+
+**2.** a) Desserts : $5 \\times 6{,}40 = 32$ €. Plats : $187{,}60 - 32 = 155{,}60$ €.
+b) $155{,}60 \\div 8 = 19{,}45$ € par personne.
+c) Avec dessert : $19{,}45 + 6{,}40 = 25{,}85$ €. Sans dessert : **$19{,}45$ €**.
+
+**3.** $5$ personnes ont pris un dessert et $8 - 5 = 3$ n'en ont pas pris :
+$$5 \\times 25{,}85 + 3 \\times 19{,}45 = 129{,}25 + 58{,}35 = 187{,}60$$
+On retrouve bien le montant de l'addition.
+
+**4.** Pourboire : $8 \\times 1{,}50 = 12$ €. Total : $187{,}60 + 12 = 199{,}60$ €.`
     }
   ]
 });
@@ -1064,6 +1567,103 @@ b) $\\frac{6}{12} < \\frac{7}{12} < \\frac{8}{12}$ : la fraction $\\frac{7}{12}$
 
 **3.** Avec le dénominateur 12 : $\\frac{2}{3} = \\frac{8}{12}$ et $\\frac{3}{4} = \\frac{9}{12}$ ; il n'y a pas de numérateur entier entre 8 et 9. On double les dénominateurs : $\\frac{2}{3} = \\frac{16}{24}$ et $\\frac{3}{4} = \\frac{18}{24}$.
 Comme $16 < 17 < 18$, la fraction **$\\frac{17}{24}$** est comprise entre $\\frac{2}{3}$ et $\\frac{3}{4}$.`
+    },
+    {
+      id: "6N6-ds-09",
+      title: "La tablette de chocolat",
+      difficulty: 1,
+      points: 4,
+      statement: `Une tablette de chocolat est formée de $24$ carreaux identiques ($4$ rangées de $6$ carreaux). Léna mange $6$ carreaux, son frère Sacha en mange $8$.
+
+1. Quelle fraction de la tablette Léna a-t-elle mangée ? Simplifier cette fraction le plus possible.
+2. Quelle fraction de la tablette Sacha a-t-il mangée ? Simplifier.
+3. Qui a mangé la plus grande part de la tablette ? Justifier.
+4. Une rangée de la tablette représente quelle fraction de la tablette ? Combien de rangées Léna a-t-elle mangées ?
+5. Écrire en lettres la fraction $\\frac{3}{4}$, puis donner son écriture décimale.`,
+      solution: `**1.** Léna a mangé $6$ carreaux sur $24$ : $\\frac{6}{24}$. En divisant le numérateur et le dénominateur par $6$ : $\\frac{6}{24} = \\frac{1}{4}$.
+
+**2.** Sacha a mangé $\\frac{8}{24}$. En divisant par $8$ : $\\frac{8}{24} = \\frac{1}{3}$.
+
+**3.** On compare $\\frac{6}{24}$ et $\\frac{8}{24}$ : même dénominateur et $8 > 6$, donc **Sacha** a mangé la plus grande part.
+
+**4.** Une rangée contient $6$ carreaux sur $24$ : elle représente $\\frac{6}{24} = \\frac{1}{4}$ de la tablette. Léna a mangé $6$ carreaux, donc **une rangée**.
+
+**5.** $\\frac{3}{4}$ se lit « trois quarts ». $3 \\div 4 = 0{,}75$, donc $\\frac{3}{4} = 0{,}75$.`
+    },
+    {
+      id: "6N6-ds-10",
+      title: "Le nombre qui manque",
+      difficulty: 2,
+      points: 4,
+      statement: `On rappelle que $\\frac{a}{b}$ est le nombre qui, multiplié par $b$, donne $a$.
+
+1. Compléter chaque égalité avec un nombre entier, un nombre décimal ou une fraction :
+   a) $7 \\times \\ldots = 21$
+   b) $4 \\times \\ldots = 3$
+   c) $7 \\times \\ldots = 5$
+   d) $\\ldots \\times 9 = 2$
+2. Pour chacun des nombres trouvés en b) et c), dire s'il peut s'écrire sous la forme d'un nombre décimal. Si oui, donner cette écriture.
+3. Écrire $\\frac{45}{9}$ et $\\frac{30}{8}$ sous une forme plus simple.
+4. Le nombre $\\frac{13}{6}$ est-il plus grand ou plus petit que $2$ ? Justifier.`,
+      solution: `**1.** a) $7 \\times 3 = 21$ (le quotient $\\frac{21}{7}$ est égal à $3$).
+b) $4 \\times \\frac{3}{4} = 3$.
+c) $7 \\times \\frac{5}{7} = 5$.
+d) $\\frac{2}{9} \\times 9 = 2$.
+
+**2.** $\\frac{3}{4} = 3 \\div 4 = 0{,}75$ : c'est un nombre décimal.
+$\\frac{5}{7} = 5 \\div 7 = 0{,}714\\,285\\,7\\ldots$ : la division ne s'arrête pas, ce **n'est pas** un nombre décimal (on peut seulement en donner une valeur approchée, par exemple $0{,}71$).
+
+**3.** $\\frac{45}{9} = 5$ car $9 \\times 5 = 45$.
+$\\frac{30}{8} = \\frac{15}{4}$ (on divise numérateur et dénominateur par $2$), et $\\frac{15}{4} = 3{,}75$.
+
+**4.** $2 = \\frac{12}{6}$ et $13 > 12$, donc $\\frac{13}{6} > 2$ (on a $\\frac{13}{6} = 2 + \\frac{1}{6}$).`
+    },
+    {
+      id: "6N6-ds-11",
+      title: "Des fractions d'heure",
+      difficulty: 3,
+      points: 5,
+      statement: `Quatre élèves indiquent la durée de leur trajet pour venir au collège :
+$$\\text{Anis} : \\frac{3}{4}\\text{ h} \\qquad \\text{Bérénice} : \\frac{2}{3}\\text{ h} \\qquad \\text{Côme} : \\frac{7}{12}\\text{ h} \\qquad \\text{Dina} : \\frac{5}{6}\\text{ h}$$
+
+1. Écrire ces quatre fractions avec le dénominateur $12$.
+2. Ranger les élèves du trajet le plus court au trajet le plus long.
+3. Une heure dure $60$ minutes, donc $\\frac{1}{12}$ h dure $5$ minutes. En déduire la durée de chaque trajet en minutes, et vérifier le classement de la question 2.
+4. Le trajet d'Élio dure $\\frac{17}{12}$ h. Ce trajet dure-t-il plus d'une heure ? Encadrer $\\frac{17}{12}$ entre deux entiers consécutifs, puis donner la durée en heures et minutes.`,
+      solution: `**1.** $12 = 4 \\times 3 = 3 \\times 4 = 6 \\times 2$ :
+$\\frac{3}{4} = \\frac{9}{12}$ ; $\\quad \\frac{2}{3} = \\frac{8}{12}$ ; $\\quad \\frac{7}{12}$ ; $\\quad \\frac{5}{6} = \\frac{10}{12}$.
+
+**2.** Les fractions ont le même dénominateur, on compare les numérateurs : $7 < 8 < 9 < 10$.
+Du plus court au plus long : **Côme, Bérénice, Anis, Dina**.
+
+**3.** $\\frac{1}{12}$ h $= 60 \\div 12 = 5$ min.
+Côme : $7 \\times 5 = 35$ min ; Bérénice : $8 \\times 5 = 40$ min ; Anis : $9 \\times 5 = 45$ min ; Dina : $10 \\times 5 = 50$ min. On retrouve le même classement.
+
+**4.** $1 = \\frac{12}{12}$ et $17 > 12$ : le trajet dure plus d'une heure.
+$\\frac{12}{12} < \\frac{17}{12} < \\frac{24}{12}$, donc $1 < \\frac{17}{12} < 2$.
+$\\frac{17}{12} = 1 + \\frac{5}{12}$ : le trajet dure $1$ h et $5 \\times 5 = 25$ min, soit **$1$ h $25$ min**.`
+    },
+    {
+      id: "6N6-ds-12",
+      title: "Des fractions égales sous conditions",
+      difficulty: 4,
+      points: 5,
+      statement: `On cherche des fractions égales à $\\frac{3}{4}$.
+
+1. Écrire cinq fractions égales à $\\frac{3}{4}$. Expliquer comment on les obtient.
+2. Trouver la fraction égale à $\\frac{3}{4}$ dont la somme du numérateur et du dénominateur vaut $35$.
+3. Trouver la fraction égale à $\\frac{3}{4}$ dont le dénominateur dépasse le numérateur de $6$.
+4. Trouver une fraction égale à $\\frac{3}{4}$ dont le numérateur est compris entre $40$ et $50$ et dont le dénominateur est un multiple de $10$.
+5. Existe-t-il une fraction égale à $\\frac{3}{4}$ (avec numérateur et dénominateur entiers) dont la somme du numérateur et du dénominateur vaut $50$ ? Justifier.`,
+      solution: `**1.** On multiplie le numérateur et le dénominateur par un même nombre entier : $\\frac{6}{8}$ ; $\\frac{9}{12}$ ; $\\frac{12}{16}$ ; $\\frac{15}{20}$ ; $\\frac{30}{40}$ (multiplication par $2$, $3$, $4$, $5$, $10$).
+
+**2.** Pour $\\frac{3}{4}$, la somme vaut $3 + 4 = 7$. Quand on multiplie numérateur et dénominateur par un même nombre, la somme est multipliée par ce nombre. Or $35 = 7 \\times 5$ : on multiplie par $5$ et on obtient $\\frac{15}{20}$ (et $15 + 20 = 35$).
+
+**3.** Pour $\\frac{3}{4}$, l'écart entre dénominateur et numérateur vaut $1$ ; en multipliant par $6$, l'écart devient $6$ : $\\frac{18}{24}$ (et $24 - 18 = 6$).
+
+**4.** Les numérateurs possibles sont des multiples de $3$ : entre $40$ et $50$, ce sont $42$, $45$ et $48$, ce qui donne $\\frac{42}{56}$, $\\frac{45}{60}$ et $\\frac{48}{64}$. Seul $60$ est un multiple de $10$ : la fraction cherchée est **$\\frac{45}{60}$**.
+
+**5.** La somme du numérateur et du dénominateur est toujours un multiple de $7$ ($7 \\times 1$, $7 \\times 2$, …). Or $50$ n'est pas un multiple de $7$ ($7 \\times 7 = 49$ et $7 \\times 8 = 56$) : **il n'en existe pas**.`
     }
   ],
   "6N7": [
@@ -1228,6 +1828,94 @@ Vérification : $400 + 200 + 300 + 300 = 1\\,200$ m².`
 **3.** Sœur : $\\frac{1}{4}$ de 96 $= 96 \\div 4 = 24$ cartes. Ami : $\\frac{3}{8}$ de 96 $= 12 \\times 3 = 36$ cartes. Il reste $96 - 24 - 36 = 36$ cartes : on retrouve le même résultat.
 
 **4.** La nouvelle collection compte $36 + 12 = 48$ cartes. Les cartes achetées représentent $\\frac{12}{48} = \\frac{1}{4}$ de la nouvelle collection.`
+    },
+    {
+      id: "6N7-ds-09",
+      title: "La recette du cake",
+      difficulty: 1,
+      points: 4,
+      statement: `Pour préparer un cake, Yasmine verse dans un saladier $\\frac{1}{2}$ L de lait et $\\frac{1}{4}$ L de crème. Elle dispose d'un paquet de $\\frac{3}{4}$ kg de farine et en utilise $\\frac{3}{8}$ kg.
+
+1. Calculer la quantité totale de liquide (lait et crème) versée dans le saladier, en litre.
+2. Quelle masse de farine reste-t-il dans le paquet ?
+3. Yasmine prépare $3$ cakes identiques. Quelle quantité de lait utilise-t-elle en tout ? Donner le résultat sous forme d'une fraction, puis d'un nombre décimal.
+4. Convertir en grammes la masse de farine utilisée pour un cake.`,
+      solution: `**1.** $\\frac{1}{2} = \\frac{2}{4}$, donc $\\frac{1}{2} + \\frac{1}{4} = \\frac{2}{4} + \\frac{1}{4} = \\frac{3}{4}$. Elle a versé $\\frac{3}{4}$ L de liquide.
+
+**2.** $\\frac{3}{4} = \\frac{6}{8}$, donc $\\frac{3}{4} - \\frac{3}{8} = \\frac{6}{8} - \\frac{3}{8} = \\frac{3}{8}$. Il reste $\\frac{3}{8}$ kg de farine.
+
+**3.** $3 \\times \\frac{1}{2} = \\frac{3}{2}$ L, et $\\frac{3}{2} = 3 \\div 2 = 1{,}5$ L.
+
+**4.** $1$ kg $= 1\\,000$ g, donc $\\frac{1}{8}$ kg $= 1\\,000 \\div 8 = 125$ g et $\\frac{3}{8}$ kg $= 3 \\times 125 = 375$ g.`
+    },
+    {
+      id: "6N7-ds-10",
+      title: "Remplir des bouteilles",
+      difficulty: 2,
+      points: 5,
+      statement: `Pour un pique-nique, Arthur remplit $6$ gourdes de $\\frac{3}{4}$ L chacune avec l'eau d'un bidon de $5$ L.
+
+1. Écrire la quantité totale d'eau versée dans les gourdes sous la forme d'un produit, puis calculer ce produit. Simplifier la fraction obtenue.
+2. Le bidon de $5$ L suffit-il ? Combien d'eau reste-t-il dans le bidon ?
+3. Avec l'eau restante, Arthur remplit des gobelets de $\\frac{1}{8}$ L. Combien de gobelets peut-il remplir ?
+4. Sa sœur affirme : « $6 \\times \\frac{3}{4}$, c'est $\\frac{18}{24}$. » Expliquer son erreur.`,
+      solution: `**1.** Quantité totale : $6 \\times \\frac{3}{4} = \\frac{6 \\times 3}{4} = \\frac{18}{4}$. En divisant par $2$ : $\\frac{18}{4} = \\frac{9}{2}$, soit $4{,}5$ L.
+
+**2.** $4{,}5 < 5$ : le bidon suffit. Il reste $5 - 4{,}5 = 0{,}5$ L, c'est-à-dire $\\frac{1}{2}$ L.
+(En fractions : $5 = \\frac{10}{2}$ et $\\frac{10}{2} - \\frac{9}{2} = \\frac{1}{2}$.)
+
+**3.** $\\frac{1}{2} = \\frac{4}{8}$ : il reste $4$ huitièmes de litre, Arthur peut remplir **$4$ gobelets**.
+
+**4.** Pour multiplier un entier par une fraction, on multiplie seulement le numérateur : $6 \\times \\frac{3}{4} = \\frac{18}{4}$. Sa sœur a aussi multiplié le dénominateur par $6$ ; or $\\frac{18}{24} = \\frac{3}{4}$, ce qui correspond à une seule gourde, pas à six.`
+    },
+    {
+      id: "6N7-ds-11",
+      title: "Une pyramide de fractions",
+      difficulty: 3,
+      points: 5,
+      statement: `Dans une pyramide de nombres, chaque case est égale à la **somme** des deux cases situées juste en dessous d'elle.
+
+**Pyramide 1** — ligne du bas : $\\frac{1}{8}$ ; $\\frac{3}{8}$ ; $\\frac{1}{4}$.
+
+**Pyramide 2** — ligne du bas : $\\frac{1}{4}$ ; $\\square$ ; $\\frac{1}{2}$ ; sommet : $3$.
+
+1. Pyramide 1 : calculer les deux cases de la ligne du milieu, puis le sommet. Simplifier les résultats quand c'est possible.
+2. Le sommet de la pyramide 1 est-il plus grand que $1$ ? Justifier.
+3. Pyramide 2 : on note $\\square$ la case manquante de la ligne du bas.
+   a) Expliquer pourquoi le sommet est égal à $\\frac{1}{4} + \\frac{1}{2} + 2 \\times \\square$.
+   b) En déduire la valeur de la case manquante, puis vérifier en complétant la pyramide.`,
+      solution: `**1.** Ligne du milieu : $\\frac{1}{8} + \\frac{3}{8} = \\frac{4}{8} = \\frac{1}{2}$ et $\\frac{3}{8} + \\frac{1}{4} = \\frac{3}{8} + \\frac{2}{8} = \\frac{5}{8}$.
+Sommet : $\\frac{1}{2} + \\frac{5}{8} = \\frac{4}{8} + \\frac{5}{8} = \\frac{9}{8}$.
+
+**2.** $1 = \\frac{8}{8}$ et $9 > 8$ : oui, $\\frac{9}{8} > 1$ (on a $\\frac{9}{8} = 1 + \\frac{1}{8}$).
+
+**3.** a) Ligne du milieu : $\\frac{1}{4} + \\square$ et $\\square + \\frac{1}{2}$. Le sommet est leur somme : $\\frac{1}{4} + \\square + \\square + \\frac{1}{2}$ ; la case du milieu est comptée deux fois, d'où $\\frac{1}{4} + \\frac{1}{2} + 2 \\times \\square$.
+b) $\\frac{1}{4} + \\frac{1}{2} = \\frac{1}{4} + \\frac{2}{4} = \\frac{3}{4}$. Il faut donc $\\frac{3}{4} + 2 \\times \\square = 3$, c'est-à-dire $2 \\times \\square = 3 - \\frac{3}{4} = \\frac{12}{4} - \\frac{3}{4} = \\frac{9}{4}$.
+Or $2 \\times \\frac{9}{8} = \\frac{18}{8} = \\frac{9}{4}$ : la case manquante vaut $\\frac{9}{8}$.
+Vérification : ligne du milieu $\\frac{1}{4} + \\frac{9}{8} = \\frac{2}{8} + \\frac{9}{8} = \\frac{11}{8}$ et $\\frac{9}{8} + \\frac{1}{2} = \\frac{9}{8} + \\frac{4}{8} = \\frac{13}{8}$ ; sommet $\\frac{11}{8} + \\frac{13}{8} = \\frac{24}{8} = 3$.`
+    },
+    {
+      id: "6N7-ds-12",
+      title: "Remonter au tout",
+      difficulty: 4,
+      points: 6,
+      statement: `Dans chaque situation, on connaît une partie et la fraction qu'elle représente ; on cherche le tout. On pourra s'aider d'un schéma en barres.
+
+1. Mathis a dépensé $\\frac{3}{8}$ de son argent de poche, soit $15$ €.
+   a) Combien représente $\\frac{1}{8}$ de son argent ?
+   b) Combien avait-il au départ ? Combien lui reste-t-il ?
+2. Dans un bus, $\\frac{2}{7}$ des places sont libres, ce qui fait $16$ places libres. Combien le bus compte-t-il de places en tout ? Combien sont occupées ?
+3. Après avoir lu $\\frac{5}{12}$ d'un roman, Inès constate qu'il lui reste $210$ pages à lire. Combien de pages compte ce roman ?
+4. Vérifier le résultat de la question 3 en calculant $\\frac{5}{12}$ du nombre de pages trouvé.`,
+      solution: `**1.** a) $\\frac{3}{8}$ correspond à $3$ parts égales qui valent $15$ € en tout : une part, $\\frac{1}{8}$, vaut $15 \\div 3 = 5$ €.
+b) Le tout correspond à $8$ parts : $8 \\times 5 = 40$ €. Il lui reste $40 - 15 = 25$ € (soit $\\frac{5}{8}$ de son argent : $5 \\times 5 = 25$).
+
+**2.** $\\frac{2}{7}$ correspond à $16$ places, donc $\\frac{1}{7}$ correspond à $16 \\div 2 = 8$ places. Le bus compte $7 \\times 8 = 56$ places, dont $56 - 16 = 40$ occupées.
+
+**3.** Inès a lu $\\frac{5}{12}$ du roman : il lui reste $\\frac{12}{12} - \\frac{5}{12} = \\frac{7}{12}$ du roman, soit $210$ pages.
+$\\frac{1}{12}$ du roman fait donc $210 \\div 7 = 30$ pages, et le roman compte $12 \\times 30 = 360$ pages.
+
+**4.** $\\frac{5}{12}$ de $360$ : $360 \\div 12 \\times 5 = 30 \\times 5 = 150$ pages lues. Et $360 - 150 = 210$ pages restantes : le résultat est cohérent.`
     }
   ]
 });
@@ -1446,6 +2134,117 @@ Il faut aligner au minimum $24$ tables.
 
 **4.** $50 \\div 6$ : $6 \\times 8 = 48 < 50$ et $6 \\times 9 = 54 \\geqslant 50$. Il faut $9$ îlots, soit $9 \\times 2 = 18$ tables.
 Avec les îlots, on utilise $18$ tables au lieu de $24$ : c'est la disposition en îlots qui utilise le moins de tables.`
+    },
+    {
+      id: "6N8-ds-09",
+      title: "Des balances en équilibre",
+      difficulty: 1,
+      points: 4,
+      statement: `On utilise une balance à deux plateaux. Quand la balance est en équilibre, les deux plateaux portent la même masse.
+
+**Balance 1** : sur le plateau de gauche, $3$ sacs de sable identiques et une masse de $2$ kg ; sur le plateau de droite, une masse de $11$ kg. La balance est en équilibre.
+
+**Balance 2** : sur le plateau de gauche, $5$ boules identiques ; sur le plateau de droite, $2$ boules identiques aux précédentes et une masse de $4{,}5$ kg. La balance est en équilibre.
+
+1. Traduire l'équilibre de la balance 1 par une égalité à trou, en notant $\\square$ la masse d'un sac (en kg).
+2. Trouver la masse d'un sac. Expliquer la démarche.
+3. Pour la balance 2, on retire $2$ boules de chaque plateau. La balance reste-t-elle en équilibre ? Que reste-t-il sur chaque plateau ?
+4. En déduire la masse d'une boule, puis vérifier.`,
+      solution: `**1.** $3 \\times \\square + 2 = 11$.
+
+**2.** On retire la masse de $2$ kg de chaque côté : la balance reste en équilibre, donc $3 \\times \\square = 11 - 2 = 9$. Les $3$ sacs pèsent $9$ kg, donc un sac pèse $\\square = 9 \\div 3 = 3$ kg.
+Vérification : $3 \\times 3 + 2 = 11$.
+
+**3.** On enlève la même masse des deux côtés : la balance **reste en équilibre**. Il reste $5 - 2 = 3$ boules à gauche et la masse de $4{,}5$ kg à droite.
+
+**4.** $3$ boules pèsent $4{,}5$ kg, donc une boule pèse $4{,}5 \\div 3 = 1{,}5$ kg.
+Vérification : à gauche $5 \\times 1{,}5 = 7{,}5$ kg ; à droite $2 \\times 1{,}5 + 4{,}5 = 3 + 4{,}5 = 7{,}5$ kg. Les deux plateaux portent bien la même masse.`
+    },
+    {
+      id: "6N8-ds-10",
+      title: "Pour quel nombre l'égalité est-elle vraie ?",
+      difficulty: 2,
+      points: 5,
+      statement: `On considère l'égalité $\\square \\times 2 + 1 = \\square + 4$, où le même nombre est écrit dans les deux carrés.
+
+1. Remplacer le carré par $0$, puis par $1$. L'égalité est-elle vraie ? Calculer chaque membre.
+2. Recopier et compléter le tableau suivant :
+
+| Nombre dans le carré | $0$ | $1$ | $2$ | $3$ | $4$ | $5$ |
+|:---|:---:|:---:|:---:|:---:|:---:|:---:|
+| $\\square \\times 2 + 1$ | | | | | | |
+| $\\square + 4$ | | | | | | |
+
+3. Pour quel nombre l'égalité est-elle vraie ?
+4. Que remarque-t-on sur chaque ligne du tableau quand le nombre augmente de $1$ ? Expliquer pourquoi, au-delà de ce nombre, l'égalité ne peut plus être vraie.
+5. L'égalité $\\square + \\square + \\square = 3 \\times \\square$ est-elle vraie pour tous les nombres ? Justifier.`,
+      solution: `**1.** Avec $0$ : $0 \\times 2 + 1 = 1$ et $0 + 4 = 4$ ; $1 \\neq 4$, l'égalité est fausse.
+Avec $1$ : $1 \\times 2 + 1 = 3$ et $1 + 4 = 5$ ; $3 \\neq 5$, l'égalité est fausse.
+
+**2.**
+
+| Nombre dans le carré | $0$ | $1$ | $2$ | $3$ | $4$ | $5$ |
+|:---|:---:|:---:|:---:|:---:|:---:|:---:|
+| $\\square \\times 2 + 1$ | $1$ | $3$ | $5$ | $7$ | $9$ | $11$ |
+| $\\square + 4$ | $4$ | $5$ | $6$ | $7$ | $8$ | $9$ |
+
+**3.** Les deux lignes sont égales pour le nombre **$3$** : $3 \\times 2 + 1 = 7$ et $3 + 4 = 7$.
+
+**4.** Quand le nombre augmente de $1$, la première ligne augmente de $2$ et la seconde de $1$. À partir de $3$, où les deux valeurs sont égales, la première ligne augmente plus vite que la seconde : elle reste toujours plus grande, donc l'égalité ne peut plus être vraie.
+
+**5.** Oui : ajouter trois fois le même nombre, c'est multiplier ce nombre par $3$ (par exemple $5 + 5 + 5 = 15 = 3 \\times 5$). L'égalité est vraie quel que soit le nombre choisi.`
+    },
+    {
+      id: "6N8-ds-11",
+      title: "Les âges de deux frères",
+      difficulty: 3,
+      points: 5,
+      statement: `Tom et son frère Lou ont, à eux deux, $31$ ans. Tom a $7$ ans de plus que Lou.
+
+1. Représenter la situation par un schéma en barres.
+2. Expliquer pourquoi, si l'on retire les $7$ ans d'écart, il reste deux parts égales. En déduire l'âge de Lou, puis celui de Tom.
+3. Vérifier les deux conditions de l'énoncé.
+4. Leur grand-père a le double de la somme de leurs âges. Quel âge a-t-il ?
+5. Dans $3$ ans, quelle sera la somme des âges des deux frères ? Quel sera alors l'écart entre leurs âges ? Justifier sans calculer chaque âge.`,
+      solution: `**1.** Lou : [■] ; Tom : [■][7 ans]. Les deux barres ensemble représentent $31$ ans.
+
+**2.** La barre de Tom est formée d'une part identique à celle de Lou et de $7$ ans. Si on enlève ces $7$ ans, il reste deux parts égales : $31 - 7 = 24$ ans pour deux parts, donc une part vaut $24 \\div 2 = 12$ ans.
+Lou a **$12$ ans** et Tom a $12 + 7 =$ **$19$ ans**.
+
+**3.** $12 + 19 = 31$ et $19 - 12 = 7$ : les deux conditions sont vérifiées.
+
+**4.** $2 \\times 31 = 62$. Le grand-père a **$62$ ans**.
+
+**5.** Dans $3$ ans, chacun aura vieilli de $3$ ans : la somme augmente de $3 + 3 = 6$ ans et vaudra $31 + 6 = 37$ ans.
+L'écart ne change pas : les deux frères vieillissent en même temps, Tom aura toujours **$7$ ans** de plus que Lou (en effet : $22 - 15 = 7$).`
+    },
+    {
+      id: "6N8-ds-12",
+      title: "Des escaliers de carrés",
+      difficulty: 4,
+      points: 6,
+      statement: `On construit des escaliers avec des carrés identiques :
+- étape 1 : une colonne de $1$ carré ;
+- étape 2 : une colonne de $1$ carré et une colonne de $2$ carrés, soit $3$ carrés ;
+- étape 3 : des colonnes de $1$, $2$ et $3$ carrés, soit $6$ carrés ;
+- et ainsi de suite : à chaque étape, on ajoute à droite une colonne qui a un carré de plus que la précédente.
+
+1. Combien de carrés faut-il pour les étapes $4$, $5$ et $6$ ? Comment passe-t-on d'une étape à la suivante ?
+2. Le nombre de carrés augmente-t-il toujours de la même quantité d'une étape à l'autre ? En quoi cette suite est-elle différente de celle d'une rangée de carrés en allumettes ?
+3. On place deux escaliers identiques de l'étape $4$ l'un contre l'autre, le second étant retourné : on obtient un rectangle de $4$ carrés sur $5$ carrés. En déduire le nombre de carrés de l'escalier de l'étape $4$, et vérifier avec la question 1.
+4. En utilisant la même idée, calculer le nombre de carrés de l'escalier de l'étape $20$.
+5. Lina a $78$ carrés. Peut-elle construire un escalier complet en les utilisant tous ? Si oui, de quelle étape ?`,
+      solution: `**1.** On ajoute une colonne de $4$, puis $5$, puis $6$ carrés : étape 4 : $6 + 4 = 10$ ; étape 5 : $10 + 5 = 15$ ; étape 6 : $15 + 6 = 21$ carrés.
+Pour passer d'une étape à la suivante, on ajoute le numéro de la nouvelle étape.
+
+**2.** Non : on ajoute $2$, puis $3$, puis $4$, puis $5$… La quantité ajoutée augmente de $1$ à chaque étape. Pour une rangée de carrés en allumettes, on ajoute toujours le même nombre d'allumettes à chaque étape.
+
+**3.** Le rectangle contient $4 \\times 5 = 20$ carrés ; il est formé de deux escaliers identiques, donc un escalier en contient $20 \\div 2 = 10$. C'est bien le résultat de la question 1.
+
+**4.** Deux escaliers de l'étape $20$ forment un rectangle de $20$ carrés sur $21$ carrés : $20 \\times 21 = 420$ carrés. L'escalier en compte $420 \\div 2 = 210$.
+
+**5.** On cherche une étape dont le nombre de carrés vaut $78$, c'est-à-dire telle que (numéro de l'étape) $\\times$ (numéro $+ 1$) $= 2 \\times 78 = 156$. Or $12 \\times 13 = 156$ : l'escalier de l'**étape $12$** utilise exactement $78$ carrés.
+(On peut aussi continuer la liste : $21$ ; $28$ ; $36$ ; $45$ ; $55$ ; $66$ ; $78$, obtenu à l'étape $12$.)`
     }
   ],
   "6P1": [
@@ -1646,6 +2445,95 @@ Pour $45$ m² : $45 \\div 12 = 3{,}75$. Il faut $3{,}75$ L de peinture.
 **4.** Prix sans remise : $2 \\times 24{,}90 = 49{,}80$ €.
 Remise : $20\\,\\%$ de $49{,}80$, c'est $\\frac{20}{100} \\times 49{,}80 = 9{,}96$ €.
 Prix payé : $49{,}80 - 9{,}96 = 39{,}84$. Mathis paiera $39{,}84$ €.`
+    },
+    {
+      id: "6P1-ds-09",
+      title: "L'imprimante du CDI",
+      difficulty: 1,
+      points: 4,
+      statement: `L'imprimante du CDI imprime $12$ pages en $3$ minutes. Le nombre de pages imprimées est proportionnel à la durée d'impression.
+
+1. Recopier et compléter le tableau en expliquant, pour chaque case, le calcul effectué :
+
+| Durée (min) | 3 | 6 | 9 | 15 | 1 |
+|:---|:---:|:---:|:---:|:---:|:---:|
+| Nombre de pages | 12 | | | | |
+
+2. Combien de pages l'imprimante imprime-t-elle en $20$ minutes ?
+3. Le professeur doit imprimer $100$ pages. Combien de temps faut-il ?`,
+      solution: `**1.**
+- $6 = 2 \\times 3$ : en $6$ min, on imprime $2 \\times 12 = 24$ pages.
+- $9 = 3 \\times 3$ : en $9$ min, on imprime $3 \\times 12 = 36$ pages.
+- $15 = 6 + 9$ : on ajoute les pages des colonnes $6$ et $9$, soit $24 + 36 = 60$ pages.
+- $1 = 3 \\div 3$ : en $1$ min, on imprime $12 \\div 3 = 4$ pages.
+
+| Durée (min) | 3 | 6 | 9 | 15 | 1 |
+|:---|:---:|:---:|:---:|:---:|:---:|
+| Nombre de pages | 12 | 24 | 36 | 60 | 4 |
+
+**2.** L'imprimante imprime $4$ pages par minute, donc en $20$ minutes : $20 \\times 4 = 80$ pages.
+
+**3.** $100 \\div 4 = 25$. Il faut $25$ minutes pour imprimer $100$ pages.`
+    },
+    {
+      id: "6P1-ds-10",
+      title: "Lire une étiquette de céréales",
+      difficulty: 2,
+      points: 5,
+      statement: `Sur un paquet de céréales de $500$ g, on lit : « sucres : $20\\,\\%$ ; fibres : $8\\,\\%$ ».
+
+1. Quelle masse de sucres contient le paquet entier ?
+2. Quelle masse de fibres contient le paquet entier ?
+3. Le matin, Inès mange un bol de $40$ g de ces céréales. Quelle masse de sucres avale-t-elle ?
+4. Un autre paquet de $750$ g contient $120$ g de sucres. Quel pourcentage de sucres contient-il ? Lequel des deux paquets est le plus sucré ?`,
+      solution: `**1.** $20\\,\\%$ de $500$ g : $\\frac{20}{100} \\times 500 = \\frac{10\\,000}{100} = 100$ g de sucres.
+
+**2.** $8\\,\\%$ de $500$ g : $\\frac{8}{100} \\times 500 = \\frac{4\\,000}{100} = 40$ g de fibres.
+
+**3.** $20\\,\\%$ de $40$ g : $\\frac{20}{100} \\times 40 = \\frac{800}{100} = 8$ g. Inès avale $8$ g de sucres.
+
+**4.** La masse de sucres est proportionnelle à la masse de céréales. Pour $750$ g, il y a $120$ g de sucres ; pour $250$ g ($3$ fois moins), il y en a $120 \\div 3 = 40$ g ; pour $50$ g ($5$ fois moins), $40 \\div 5 = 8$ g ; donc pour $100$ g (le double), $2 \\times 8 = 16$ g.
+Ce paquet contient $16\\,\\%$ de sucres. Comme $16\\,\\% < 20\\,\\%$, c'est le **premier paquet** qui est le plus sucré.`
+    },
+    {
+      id: "6P1-ds-11",
+      title: "La maquette du voilier",
+      difficulty: 3,
+      points: 5,
+      statement: `Tom construit la maquette d'un voilier. Le vrai voilier mesure $12$ m de long et la maquette mesure $30$ cm de long. Toutes les longueurs de la maquette sont proportionnelles aux longueurs réelles.
+
+1. Exprimer $12$ m en centimètres. Par combien faut-il diviser une longueur réelle pour obtenir la longueur sur la maquette ? En déduire l'échelle de la maquette.
+2. Le mât du vrai voilier mesure $16$ m. Quelle est la hauteur du mât de la maquette ?
+3. Sur la maquette, la largeur du voilier est de $9$ cm. Quelle est sa largeur réelle, en mètres ?
+4. Tom fabrique un petit personnage pour la maquette. Il veut représenter un marin de $1{,}80$ m. Quelle doit être la taille du personnage, en millimètres ?`,
+      solution: `**1.** $12$ m $= 1\\,200$ cm. $1\\,200 \\div 30 = 40$ : les longueurs de la maquette sont $40$ fois plus petites que les longueurs réelles. L'échelle de la maquette est $\\frac{1}{40}$ ($1$ cm sur la maquette représente $40$ cm en réalité).
+
+**2.** $16$ m $= 1\\,600$ cm et $1\\,600 \\div 40 = 40$. Le mât de la maquette mesure $40$ cm.
+
+**3.** $9 \\times 40 = 360$ cm, soit $3{,}6$ m. Le voilier mesure $3{,}6$ m de large.
+
+**4.** $1{,}80$ m $= 1\\,800$ mm et $1\\,800 \\div 40 = 45$. Le personnage doit mesurer $45$ mm.`
+    },
+    {
+      id: "6P1-ds-12",
+      title: "Le sirop de menthe",
+      difficulty: 4,
+      points: 6,
+      statement: `Léa prépare ses verres de menthe à l'eau avec $3$ cL de sirop et $21$ cL d'eau. Hugo prépare les siens avec $4$ cL de sirop et $26$ cL d'eau.
+
+1. Quelle est la contenance d'un verre de Léa ? D'un verre de Hugo ?
+2. Pour chacun, calculer la quantité d'eau utilisée pour $1$ cL de sirop. Qui obtient la boisson la plus forte en goût de menthe ? Justifier.
+3. Pour une fête, Léa veut préparer $4{,}8$ L de boisson avec sa recette. Quelles quantités de sirop et d'eau doit-elle utiliser ?
+4. Une bouteille contient $75$ cL de sirop. Combien de verres peut-on préparer avec la recette de Léa ? Avec celle de Hugo ? Dans le cas de Hugo, que reste-t-il de sirop ?`,
+      solution: `**1.** Verre de Léa : $3 + 21 = 24$ cL. Verre de Hugo : $4 + 26 = 30$ cL.
+
+**2.** Léa : $21 \\div 3 = 7$ cL d'eau pour $1$ cL de sirop. Hugo : $26 \\div 4 = 6{,}5$ cL d'eau pour $1$ cL de sirop.
+Hugo met moins d'eau pour la même quantité de sirop : sa boisson est **plus forte** en goût de menthe.
+
+**3.** $4{,}8$ L $= 480$ cL et $480 \\div 24 = 20$ : cela correspond à $20$ verres de Léa. Les quantités sont proportionnelles, donc il faut $20 \\times 3 = 60$ cL de sirop et $20 \\times 21 = 420$ cL d'eau (vérification : $60 + 420 = 480$ cL).
+
+**4.** Recette de Léa : $75 \\div 3 = 25$, on prépare $25$ verres.
+Recette de Hugo : $75 = 4 \\times 18 + 3$, on prépare $18$ verres et il reste $3$ cL de sirop (pas assez pour un verre de plus).`
     }
   ],
   "6M1": [
@@ -1811,6 +2699,88 @@ On peut fabriquer $21$ bracelets ; il reste $500 - 491{,}4 = 8{,}6$ cm de fil.
 
 **4.** $20{,}4$ cm $= 204$ mm. $25 \\times 8 = 200$ mm et $26 \\times 8 = 208$ mm $> 204$ mm.
 On peut enfiler au maximum $25$ perles sur un bracelet.`
+    },
+    {
+      id: "6M1-ds-09",
+      title: "Polygones réguliers et côté manquant",
+      difficulty: 1,
+      points: 4,
+      statement: `1. Un hexagone régulier (six côtés de même longueur) a des côtés de $4{,}5$ cm. Calculer son périmètre.
+2. Un triangle équilatéral a un périmètre de $27$ cm. Quelle est la longueur de chacun de ses côtés ?
+3. Un triangle $ABC$ a un périmètre de $18$ cm. On sait que $AB = 5{,}5$ cm et $BC = 7$ cm. Calculer la longueur $AC$.
+4. Un rectangle a un périmètre de $1$ m et une largeur de $15$ cm. Calculer sa longueur en centimètres.`,
+      solution: `**1.** Les six côtés ont la même longueur : $P = 6 \\times 4{,}5 = 27$ cm.
+
+**2.** Les trois côtés d'un triangle équilatéral ont la même longueur : $27 \\div 3 = 9$. Chaque côté mesure $9$ cm.
+
+**3.** $AB + BC = 5{,}5 + 7 = 12{,}5$ cm, donc $AC = 18 - 12{,}5 = 5{,}5$ cm.
+
+**4.** $1$ m $= 100$ cm. Le périmètre vaut deux longueurs plus deux largeurs : les deux largeurs mesurent $2 \\times 15 = 30$ cm, donc les deux longueurs mesurent $100 - 30 = 70$ cm. Une longueur mesure $70 \\div 2 = 35$ cm.`
+    },
+    {
+      id: "6M1-ds-10",
+      title: "Les aiguilles de l'horloge",
+      difficulty: 2,
+      points: 5,
+      statement: `L'aiguille des minutes de l'horloge de la classe mesure $12$ cm et celle des heures mesure $8$ cm. On prend $3{,}14$ comme valeur approchée de $\\pi$.
+
+1. En une heure, l'extrémité de l'aiguille des minutes fait un tour complet. Quelle distance parcourt-elle ?
+2. Quelle distance parcourt cette extrémité en $15$ minutes ?
+3. Quelle distance parcourt-elle en une journée de $24$ heures ? Donner le résultat en mètres, arrondi au centimètre.
+4. L'aiguille des heures fait un tour complet en $12$ heures. Quelle distance parcourt son extrémité en une journée ?`,
+      solution: `**1.** L'extrémité décrit un cercle de rayon $12$ cm, donc de diamètre $2 \\times 12 = 24$ cm.
+Longueur du cercle : $3{,}14 \\times 24 = 75{,}36$ cm. En une heure, elle parcourt environ $75{,}36$ cm.
+
+**2.** $15$ minutes, c'est un quart d'heure : l'aiguille fait un quart de tour. $75{,}36 \\div 4 = 18{,}84$ cm.
+
+**3.** En $24$ heures, l'aiguille fait $24$ tours : $24 \\times 75{,}36 = 1\\,808{,}64$ cm, soit environ $18{,}09$ m.
+
+**4.** En une journée, l'aiguille des heures fait $24 \\div 12 = 2$ tours d'un cercle de diamètre $2 \\times 8 = 16$ cm.
+Un tour : $3{,}14 \\times 16 = 50{,}24$ cm ; deux tours : $2 \\times 50{,}24 = 100{,}48$ cm, soit environ $1$ m.`
+    },
+    {
+      id: "6M1-ds-11",
+      title: "La rosace en demi-cercles",
+      difficulty: 3,
+      points: 5,
+      statement: `On trace un carré de $10$ cm de côté. Sur chacun de ses quatre côtés, on trace à l'extérieur du carré un demi-cercle dont ce côté est le diamètre. On obtient une rosace à quatre pétales dont le contour est formé uniquement des quatre demi-cercles. On prend $3{,}14$ comme valeur approchée de $\\pi$.
+
+1. Calculer la longueur d'un demi-cercle.
+2. En déduire le périmètre de la rosace. Expliquer pourquoi on aurait pu calculer directement la longueur de deux cercles.
+3. La rosace a-t-elle un périmètre plus grand ou plus petit que celui du carré ? De combien ?
+4. On ne trace maintenant les demi-cercles que sur deux côtés opposés du carré. Calculer le périmètre de la nouvelle figure.`,
+      solution: `**1.** Un cercle de diamètre $10$ cm mesure $3{,}14 \\times 10 = 31{,}4$ cm. Un demi-cercle mesure $31{,}4 \\div 2 = 15{,}7$ cm.
+
+**2.** Périmètre de la rosace : $4 \\times 15{,}7 = 62{,}8$ cm.
+Quatre demi-cercles de même diamètre forment deux cercles entiers : $2 \\times 31{,}4 = 62{,}8$ cm.
+
+**3.** Le périmètre du carré est $4 \\times 10 = 40$ cm. $62{,}8 - 40 = 22{,}8$ : la rosace a un périmètre plus grand de $22{,}8$ cm.
+
+**4.** Le contour est formé de deux demi-cercles (soit un cercle entier) et des deux côtés du carré restés libres :
+$P \\approx 31{,}4 + 10 + 10 = 51{,}4$ cm.`
+    },
+    {
+      id: "6M1-ds-12",
+      title: "Les roues du tracteur",
+      difficulty: 4,
+      points: 6,
+      statement: `Les roues arrière d'un tracteur ont un diamètre de $1{,}5$ m et ses roues avant un diamètre de $0{,}75$ m. On prend $3{,}14$ comme valeur approchée de $\\pi$. Quand une roue fait un tour, le tracteur avance de la longueur du cercle de cette roue.
+
+1. Calculer la longueur du cercle d'une roue arrière, puis celle d'une roue avant.
+2. Pendant un trajet, une roue arrière fait $200$ tours. Quelle distance le tracteur a-t-il parcourue ?
+3. Combien de tours une roue avant a-t-elle faits pendant ce même trajet ? Expliquer pourquoi ce résultat était prévisible en comparant les diamètres.
+4. Le fermier doit parcourir $3$ km pour rejoindre son champ. Combien de tours complets une roue arrière doit-elle faire, au minimum, pour qu'il ait parcouru au moins cette distance ?`,
+      solution: `**1.** Roue arrière : $3{,}14 \\times 1{,}5 = 4{,}71$ m. Roue avant : $3{,}14 \\times 0{,}75 = 2{,}355$ m.
+
+**2.** $200 \\times 4{,}71 = 942$. Le tracteur a parcouru environ $942$ m.
+
+**3.** $942 \\div 2{,}355 = 400$. Une roue avant a fait $400$ tours.
+C'était prévisible : le diamètre de la roue avant est la moitié de celui de la roue arrière ($1{,}5 \\div 2 = 0{,}75$), donc sa longueur de cercle est aussi deux fois plus petite. Pour parcourir la même distance, elle doit faire deux fois plus de tours : $2 \\times 200 = 400$.
+
+**4.** $3$ km $= 3\\,000$ m.
+$636 \\times 4{,}71 = 2\\,995{,}56$ m : c'est moins que $3\\,000$ m.
+$637 \\times 4{,}71 = 3\\,000{,}27$ m : c'est au moins $3\\,000$ m.
+Une roue arrière doit faire au minimum $637$ tours.`
     }
   ],
   "6M2": [
@@ -1990,6 +2960,94 @@ $3 \\times 19{,}90 = 59{,}70$. Emma dépensera $59{,}70$ €.`
 **3.** La plus grande aire est $36$ m², obtenue pour $6$ m sur $6$ m : l'enclos est alors un carré.
 
 **4.** $36 \\div 4 = 9$. Sacha peut mettre au maximum $9$ lapins dans l'enclos.`
+    },
+    {
+      id: "6M2-ds-09",
+      title: "Le tapis du salon",
+      difficulty: 1,
+      points: 4,
+      statement: `1. Un tapis rectangulaire mesure $1{,}2$ m de long et $80$ cm de large.
+   a) Calculer son aire en cm².
+   b) Convertir cette aire en m².
+2. Une dalle carrée mesure $4{,}5$ dm de côté. Calculer son aire en dm², puis en cm².
+3. Ranger dans l'ordre croissant les aires suivantes : $0{,}5$ m² ; $4\\,800$ cm² ; $52$ dm².`,
+      solution: `**1.** a) Il faut exprimer les deux dimensions dans la même unité : $1{,}2$ m $= 120$ cm.
+$\\mathcal{A} = 120 \\times 80 = 9\\,600$ cm².
+b) $1$ m² $= 10\\,000$ cm², donc $9\\,600$ cm² $= 9\\,600 \\div 10\\,000 = 0{,}96$ m².
+(Vérification : $1{,}2 \\times 0{,}8 = 0{,}96$ m².)
+
+**2.** $\\mathcal{A} = 4{,}5 \\times 4{,}5 = 20{,}25$ dm². Comme $1$ dm² $= 100$ cm², cela fait $2\\,025$ cm².
+
+**3.** On convertit tout en dm² : $0{,}5$ m² $= 50$ dm² ; $4\\,800$ cm² $= 48$ dm² ; $52$ dm².
+Ordre croissant : $4\\,800$ cm² $< 0{,}5$ m² $< 52$ dm².`
+    },
+    {
+      id: "6M2-ds-10",
+      title: "La photo et son cadre",
+      difficulty: 2,
+      points: 5,
+      statement: `Une photo rectangulaire mesure $15$ cm sur $10$ cm. On la place dans un cadre en bois qui forme tout autour de la photo une bande de $2$ cm de large.
+
+1. Calculer l'aire de la photo.
+2. Quelles sont les dimensions extérieures du cadre ? Calculer l'aire du rectangle extérieur.
+3. En déduire l'aire de la bande de bois visible autour de la photo.
+4. Calculer le périmètre extérieur du cadre.`,
+      solution: `**1.** $\\mathcal{A} = 15 \\times 10 = 150$ cm².
+
+**2.** La bande de $2$ cm s'ajoute des deux côtés, dans chaque direction :
+longueur $15 + 2 + 2 = 19$ cm et largeur $10 + 2 + 2 = 14$ cm.
+Aire du rectangle extérieur : $19 \\times 14 = 266$ cm².
+
+**3.** L'aire de la bande est la différence des deux aires : $266 - 150 = 116$ cm².
+
+**4.** $P = 2 \\times (19 + 14) = 2 \\times 33 = 66$ cm.`
+    },
+    {
+      id: "6M2-ds-11",
+      title: "Le jardin partagé",
+      difficulty: 3,
+      points: 5,
+      statement: `Un jardin partagé est un rectangle de $30$ m sur $20$ m. Deux allées de $2$ m de large le traversent en croix : l'une parallèle à la longueur, l'autre parallèle à la largeur. Elles découpent le jardin en $4$ parcelles rectangulaires identiques.
+
+1. Calculer l'aire totale du jardin.
+2. Calculer les dimensions d'une parcelle, puis l'aire totale des quatre parcelles.
+3. En déduire l'aire des allées.
+4. Ilyès calcule l'aire des allées ainsi : $30 \\times 2 + 20 \\times 2 = 100$ m². Expliquer pourquoi son résultat est faux et le corriger.`,
+      solution: `**1.** $\\mathcal{A} = 30 \\times 20 = 600$ m².
+
+**2.** Dans la longueur, il reste $30 - 2 = 28$ m pour deux parcelles, soit $28 \\div 2 = 14$ m chacune. Dans la largeur, il reste $20 - 2 = 18$ m, soit $18 \\div 2 = 9$ m.
+Une parcelle mesure $14$ m sur $9$ m : son aire est $14 \\times 9 = 126$ m². Les quatre parcelles : $4 \\times 126 = 504$ m².
+
+**3.** Aire des allées : $600 - 504 = 96$ m².
+
+**4.** Ilyès a compté deux fois le carré de $2$ m sur $2$ m où les deux allées se croisent : il appartient aux deux allées.
+Il faut l'enlever une fois : $100 - 2 \\times 2 = 100 - 4 = 96$ m². On retrouve le résultat de la question 3.`
+    },
+    {
+      id: "6M2-ds-12",
+      title: "Agrandir une photo",
+      difficulty: 4,
+      points: 6,
+      statement: `Une photo rectangulaire mesure $10$ cm sur $15$ cm. Le photographe propose des agrandissements.
+
+1. Calculer l'aire de la photo.
+2. On multiplie la longueur et la largeur par $2$.
+   a) Calculer les nouvelles dimensions et la nouvelle aire.
+   b) Par combien l'aire a-t-elle été multipliée ?
+3. Même question si on multiplie la longueur et la largeur par $3$.
+4. Le prix d'un tirage est proportionnel à son aire : la photo de départ coûte $0{,}30$ €. Combien coûte le tirage de la question 2 ?
+5. Un poster de même forme (dimensions de la photo multipliées par un même nombre entier) a une aire de $2\\,400$ cm². Trouver ses dimensions en expliquant la démarche.`,
+      solution: `**1.** $\\mathcal{A} = 10 \\times 15 = 150$ cm².
+
+**2.** a) $20$ cm sur $30$ cm, d'aire $20 \\times 30 = 600$ cm².
+b) $600 \\div 150 = 4$ : l'aire a été multipliée par $4$ (et non par $2$), car $2 \\times 2 = 4$.
+
+**3.** $30$ cm sur $45$ cm, d'aire $30 \\times 45 = 1\\,350$ cm². $1\\,350 \\div 150 = 9$ : l'aire est multipliée par $9 = 3 \\times 3$.
+
+**4.** L'aire est multipliée par $4$, donc le prix aussi : $4 \\times 0{,}30 = 1{,}20$ €.
+
+**5.** $2\\,400 \\div 150 = 16$ : l'aire doit être multipliée par $16$. D'après les questions précédentes, multiplier les dimensions par un nombre multiplie l'aire par ce nombre multiplié par lui-même. Or $4 \\times 4 = 16$ : on multiplie les dimensions par $4$.
+Le poster mesure $40$ cm sur $60$ cm (vérification : $40 \\times 60 = 2\\,400$ cm²).`
     }
   ],
   "6M3": [
@@ -2141,6 +3199,100 @@ Nombre maximal : $8 \\times 4 \\times 4 = 128$ cartons.
 
 **4.** $90$ cartons occupent $90 \\times 0{,}125 = 11{,}25$ m³. Il reste $16 - 11{,}25 = 4{,}75$ m³.
 L'armoire a un volume de $2 \\times 1 \\times 0{,}6 = 1{,}2$ m³ et $1{,}2 < 4{,}75$ : le volume restant est suffisant (à condition de bien ranger les cartons).`
+    },
+    {
+      id: "6M3-ds-09",
+      title: "La boîte à chaussures",
+      difficulty: 1,
+      points: 4,
+      statement: `On rappelle que $1$ L $= 1$ dm³ $= 1\\,000$ cm³.
+
+1. Une boîte à chaussures a la forme d'un pavé droit de $0{,}3$ m de long, $20$ cm de large et $15$ cm de haut.
+   a) Exprimer toutes les dimensions en centimètres.
+   b) Calculer le volume de la boîte en cm³.
+   c) Exprimer ce volume en litres.
+2. Un cube a une arête de $1$ dm. Calculer son volume en cm³. Que peut-on dire de sa contenance ?`,
+      solution: `**1.** a) $0{,}3$ m $= 30$ cm. Les dimensions sont $30$ cm, $20$ cm et $15$ cm.
+b) $V = 30 \\times 20 \\times 15 = 600 \\times 15 = 9\\,000$ cm³.
+c) $9\\,000 \\div 1\\,000 = 9$. La boîte a un volume de $9$ L.
+
+**2.** $1$ dm $= 10$ cm, donc $V = 10 \\times 10 \\times 10 = 1\\,000$ cm³.
+Ce cube a un volume de $1$ dm³ : sa contenance est exactement $1$ L.`
+    },
+    {
+      id: "6M3-ds-10",
+      title: "Le bac à sable",
+      difficulty: 2,
+      points: 5,
+      statement: `L'école maternelle installe un bac à sable en forme de pavé droit de $1{,}5$ m de long et $1{,}2$ m de large. On veut le remplir de sable sur une hauteur de $25$ cm. On rappelle que $1$ m³ $= 1\\,000$ L.
+
+1. Exprimer $25$ cm en mètres.
+2. Calculer le volume de sable nécessaire, en m³, puis en litres.
+3. Le sable est vendu en sacs de $25$ L. Combien de sacs faut-il acheter ?
+4. Un sac coûte $4{,}50$ €. Calculer le prix total du sable.`,
+      solution: `**1.** $25$ cm $= 0{,}25$ m.
+
+**2.** $V = 1{,}5 \\times 1{,}2 \\times 0{,}25 = 1{,}8 \\times 0{,}25 = 0{,}45$ m³, soit $0{,}45 \\times 1\\,000 = 450$ L.
+
+**3.** $450 \\div 25 = 18$. Il faut acheter $18$ sacs de sable.
+
+**4.** $18 \\times 4{,}50 = 81$. Le sable coûte $81$ €.`
+    },
+    {
+      id: "6M3-ds-11",
+      title: "Le volume d'un caillou",
+      difficulty: 3,
+      points: 5,
+      statement: `Pour mesurer le volume d'un caillou, Chloé utilise un récipient en forme de pavé droit dont le fond est un rectangle de $20$ cm sur $15$ cm et dont la hauteur est $15$ cm. Elle y verse de l'eau jusqu'à une hauteur de $12$ cm.
+
+1. Calculer le volume d'eau versé, en cm³, puis en litres.
+2. Chloé plonge le caillou, qui est entièrement recouvert par l'eau. Le niveau de l'eau monte jusqu'à $12{,}8$ cm. Expliquer pourquoi le volume du caillou est égal au volume d'un pavé droit de $20$ cm sur $15$ cm sur $0{,}8$ cm. Calculer ce volume.
+3. Elle ajoute ensuite des billes de $8$ cm³ chacune, qui coulent au fond. Combien de billes peut-elle ajouter au maximum sans que l'eau ne déborde ?`,
+      solution: `**1.** $V = 20 \\times 15 \\times 12 = 3\\,600$ cm³, soit $3{,}6$ L.
+
+**2.** Le caillou prend la place d'une partie de l'eau, qui est poussée vers le haut : l'eau monte de $12{,}8 - 12 = 0{,}8$ cm. Le volume « gagné » au-dessus de l'ancien niveau est un pavé droit de $20$ cm sur $15$ cm sur $0{,}8$ cm, et il est égal au volume du caillou.
+$V = 20 \\times 15 \\times 0{,}8 = 300 \\times 0{,}8 = 240$ cm³. Le caillou a un volume de $240$ cm³.
+
+**3.** Espace libre au-dessus de l'eau : $15 - 12{,}8 = 2{,}2$ cm de hauteur, soit $20 \\times 15 \\times 2{,}2 = 660$ cm³.
+$82 \\times 8 = 656$ cm³ $\\leqslant 660$ cm³ et $83 \\times 8 = 664$ cm³ $> 660$ cm³.
+Chloé peut ajouter au maximum $82$ billes.`
+    },
+    {
+      id: "6M3-ds-12",
+      title: "La boîte sans couvercle la plus grande",
+      difficulty: 4,
+      points: 6,
+      statement: `On dispose d'une plaque de carton rectangulaire de $30$ cm sur $20$ cm. Dans chaque coin, on découpe un carré de même côté, puis on relève les bords pour obtenir une boîte sans couvercle en forme de pavé droit.
+
+1. On découpe des carrés de $2$ cm de côté.
+   a) Expliquer pourquoi le fond de la boîte mesure $26$ cm sur $16$ cm. Quelle est la hauteur de la boîte ?
+   b) Calculer le volume de la boîte.
+2. Recopier et compléter le tableau (côté du carré découpé en cm, volume en cm³) :
+
+| Côté du carré | 1 | 2 | 3 | 4 | 5 |
+|:---|:---:|:---:|:---:|:---:|:---:|
+| Longueur du fond | | 26 | | | |
+| Largeur du fond | | 16 | | | |
+| Volume | | | | | |
+
+3. Parmi ces valeurs, quel côté faut-il choisir pour obtenir la boîte de plus grand volume ?
+4. Peut-on découper des carrés de $10$ cm de côté ? Justifier.`,
+      solution: `**1.** a) On enlève $2$ cm à chaque bout de la longueur et de la largeur : $30 - 2 - 2 = 26$ cm et $20 - 2 - 2 = 16$ cm. En relevant les bords, la hauteur de la boîte est le côté du carré découpé, soit $2$ cm.
+b) $V = 26 \\times 16 \\times 2 = 832$ cm³.
+
+**2.** Pour un côté $c$ : longueur $30 - 2 \\times c$, largeur $20 - 2 \\times c$, hauteur $c$.
+
+| Côté du carré | 1 | 2 | 3 | 4 | 5 |
+|:---|:---:|:---:|:---:|:---:|:---:|
+| Longueur du fond | 28 | 26 | 24 | 22 | 20 |
+| Largeur du fond | 18 | 16 | 14 | 12 | 10 |
+| Volume | 504 | 832 | 1 008 | 1 056 | 1 000 |
+
+(Par exemple, pour $4$ cm : $22 \\times 12 \\times 4 = 1\\,056$ cm³.)
+
+**3.** Le plus grand volume du tableau est $1\\,056$ cm³ : il faut découper des carrés de $4$ cm de côté.
+
+**4.** Non : la largeur du fond serait $20 - 10 - 10 = 0$ cm. Il n'y aurait plus de fond, donc plus de boîte.`
     }
   ],
   "6M4": [
@@ -2312,6 +3464,95 @@ $10$ h $20 + 14$ min $= 10$ h $34$. Elle arrivera à $10$ h $34$, soit $4$ min d
 **3.** Train de $7$ h $37$ : arrivée en gare à $7$ h $37 + 1$ h $48$ min $= 9$ h $25$, à l'arrêt de bus à $9$ h $37$.
 Elle prend le bus de $9$ h $40$ et arrive à $9$ h $40 + 14$ min $= 9$ h $54$.
 De $9$ h $54$ à $10$ h $30$, il y a $6 + 30 = 36$ min. Maëlle sera à l'heure et attendra $36$ minutes.`
+    },
+    {
+      id: "6M4-ds-09",
+      title: "Dates, siècles et calendrier",
+      difficulty: 1,
+      points: 4,
+      statement: `1. Dans quel siècle se situe chacune des années suivantes ? Écrire la réponse en chiffres romains.
+   a) $1789$ ; b) $2026$ ; c) $1600$.
+2. Combien d'années se sont écoulées entre $1492$ et $2026$ ?
+3. Une année, le 3 mars tombe un mardi. On rappelle que le mois de mars compte $31$ jours.
+   a) Combien de jours y a-t-il du 3 mars au 17 avril de la même année ?
+   b) Quel jour de la semaine sera le 17 avril ? Justifier.`,
+      solution: `**1.** Le premier siècle va de l'an $1$ à l'an $100$, le deuxième de $101$ à $200$, etc.
+a) $1789$ est entre $1701$ et $1800$ : c'est le XVIIIe siècle.
+b) $2026$ est entre $2001$ et $2100$ : c'est le XXIe siècle.
+c) $1600$ est la dernière année du siècle qui va de $1501$ à $1600$ : c'est le XVIe siècle.
+
+**2.** $2026 - 1492 = 534$. Il s'est écoulé $534$ ans.
+
+**3.** a) Du 3 mars au 31 mars : $31 - 3 = 28$ jours ; puis du 31 mars au 17 avril : $17$ jours. En tout : $28 + 17 = 45$ jours.
+b) $45 = 6 \\times 7 + 3$ : $45$ jours, c'est $6$ semaines et $3$ jours. Après $6$ semaines, on est de nouveau un mardi ; $3$ jours plus tard, c'est un **vendredi**.`
+    },
+    {
+      id: "6M4-ds-10",
+      title: "Le relais du cross",
+      difficulty: 2,
+      points: 5,
+      statement: `Une équipe de quatre élèves court un relais. Chacun parcourt $800$ m. Voici leurs temps :
+
+| Coureur | Adam | Lou | Malik | Sarah |
+|:---|:---:|:---:|:---:|:---:|
+| Temps | 2 min 35 s | 2 min 48 s | 2 min 29 s | 2 min 51 s |
+
+1. Convertir le temps d'Adam en secondes.
+2. Quel est le coureur le plus rapide ? Quel est l'écart, en secondes, entre le plus rapide et le plus lent ?
+3. Calculer le temps total de l'équipe, en minutes et secondes.
+4. L'équipe gagnante a mis $10$ min $31$ s. Combien de secondes de plus l'équipe d'Adam a-t-elle mis ?`,
+      solution: `**1.** $2$ min $35$ s $= 2 \\times 60 + 35 = 120 + 35 = 155$ s.
+
+**2.** Le plus petit temps est celui de Malik ($2$ min $29$ s) : c'est le plus rapide. Le plus lent est Sarah ($2$ min $51$ s).
+Écart : $51 - 29 = 22$ s.
+
+**3.** On additionne les minutes et les secondes séparément : $2 + 2 + 2 + 2 = 8$ min et $35 + 48 + 29 + 51 = 163$ s.
+$163$ s $= 2 \\times 60 + 43 = 2$ min $43$ s. Temps total : $8$ min $+ 2$ min $43$ s $= 10$ min $43$ s.
+
+**4.** $10$ min $43$ s $- 10$ min $31$ s $= 12$ s. L'équipe d'Adam a mis $12$ secondes de plus.`
+    },
+    {
+      id: "6M4-ds-11",
+      title: "Le voyage à Montréal",
+      difficulty: 3,
+      points: 5,
+      statement: `Quand il est $12$ h à Paris, il est $6$ h à Montréal : l'heure de Montréal a $6$ h de moins que celle de Paris.
+Jules prend l'avion à Paris à $13$ h $40$ (heure de Paris). Le vol dure $7$ h $35$ min.
+
+1. À quelle heure arrive-t-il, en heure de Paris ?
+2. Quelle heure est-il alors à Montréal ?
+3. Jules écrit à sa grand-mère : « Je suis parti à $13$ h $40$ et arrivé à $15$ h $15$, le vol n'a duré qu'$1$ h $35$ min ! » Expliquer son erreur.
+4. Pour le retour, l'avion décolle de Montréal à $22$ h $10$ (heure de Montréal) et le vol dure $6$ h $50$ min. À quelle heure, en heure de Paris, Jules arrive-t-il à Paris ?`,
+      solution: `**1.** $13$ h $40 + 7$ h $35$ min $= 20$ h $75$ min $= 21$ h $15$. Il arrive à $21$ h $15$, heure de Paris.
+
+**2.** $21$ h $15 - 6$ h $= 15$ h $15$. Il est $15$ h $15$ à Montréal.
+
+**3.** Jules a soustrait deux horaires qui ne sont pas lus sur la même horloge : $13$ h $40$ est une heure de Paris et $15$ h $15$ une heure de Montréal. Pour calculer une durée, il faut exprimer les deux horaires dans le même fuseau : en heure de Paris, de $13$ h $40$ à $21$ h $15$, il s'écoule bien $7$ h $35$ min.
+
+**4.** Au décollage, il est $22$ h $10 + 6$ h $= 28$ h $10$ à Paris, c'est-à-dire $4$ h $10$ le lendemain.
+$4$ h $10 + 6$ h $50$ min $= 10$ h $60$ min $= 11$ h. Jules arrive à Paris à $11$ h (heure de Paris), le lendemain du décollage.`
+    },
+    {
+      id: "6M4-ds-12",
+      title: "L'horloge qui avance",
+      difficulty: 4,
+      points: 6,
+      statement: `Un lundi à $8$ h $00$, Inès règle exactement l'horloge de sa cuisine. Mais cette horloge avance régulièrement de $3$ minutes par jour (toutes les $24$ heures).
+
+1. Quelle heure affichera l'horloge le jeudi suivant, quand il sera réellement $8$ h $00$ ?
+2. Au bout de combien de jours l'horloge aura-t-elle exactement $1$ h d'avance ?
+3. Quel jour de la semaine cela se produira-t-il ? Justifier.
+4. Si Inès ne la règle jamais, quelle avance l'horloge aura-t-elle au bout d'une année de $365$ jours ? Donner le résultat en heures et minutes.
+5. Quelle avance l'horloge prend-elle en $8$ heures réelles ? Donner le résultat en secondes.`,
+      solution: `**1.** Du lundi $8$ h au jeudi $8$ h, il s'écoule $3$ jours. L'horloge a pris $3 \\times 3 = 9$ min d'avance : elle affiche $8$ h $09$.
+
+**2.** $1$ h $= 60$ min et $60 \\div 3 = 20$. L'horloge aura $1$ h d'avance au bout de $20$ jours.
+
+**3.** $20 = 2 \\times 7 + 6$ : $20$ jours, c'est $2$ semaines et $6$ jours. Après $2$ semaines, on est de nouveau un lundi ; $6$ jours plus tard, c'est un **dimanche**.
+
+**4.** $365 \\times 3 = 1\\,095$ min. Or $1\\,095 = 18 \\times 60 + 15$, donc l'avance est de $18$ h $15$ min.
+
+**5.** $8$ heures, c'est le tiers d'une journée ($24 \\div 3 = 8$). L'avance est donc le tiers de $3$ min, soit $1$ min, c'est-à-dire $60$ secondes.`
     }
   ],
   "6D1": [
@@ -2556,6 +3797,117 @@ $3 + 4 + 7 + 3 + 2 + 1 = 20$ : on a bien compté tous les élèves.
 **3.** Ce sont les crêpes qui ont rapporté le plus ($186$ €). Ce n'est pas le jus de fruits : il s'en est vendu davantage, mais il coûte seulement $1$ €, alors qu'une crêpe coûte $1{,}50$ €.
 
 **4.** Recette totale : $186 + 170 + 140 + 115 = 611$ €. Comme $611 > 600$, l'objectif est atteint (avec $11$ € de plus).`
+    },
+    {
+      id: "6D1-ds-09",
+      title: "Le tableau des distances",
+      difficulty: 1,
+      points: 4,
+      statement: `Le tableau ci-dessous donne les distances par la route, en kilomètres (valeurs arrondies), entre quatre villes.
+
+| | Lille | Paris | Lyon | Marseille |
+|:---|:---:|:---:|:---:|:---:|
+| **Lille** | | 225 | 690 | 1 005 |
+| **Paris** | 225 | | 465 | 780 |
+| **Lyon** | 690 | 465 | | 315 |
+| **Marseille** | 1 005 | 780 | 315 | |
+
+1. Quelle est la distance entre Paris et Lyon ?
+2. Quelles sont les deux villes les plus éloignées l'une de l'autre ? Les plus proches ?
+3. Pourquoi certaines cases du tableau sont-elles vides ?
+4. Un camion part de Lille, va à Lyon, puis à Marseille, et revient directement à Lille. Quelle distance parcourt-il ?`,
+      solution: `**1.** On lit la case à l'intersection de la ligne « Paris » et de la colonne « Lyon » : $465$ km.
+
+**2.** La plus grande valeur du tableau est $1\\,005$ km : Lille et Marseille sont les plus éloignées. La plus petite est $225$ km : Lille et Paris sont les plus proches.
+
+**3.** Les cases vides correspondent à la distance entre une ville et elle-même (par exemple Lille–Lille), qui vaut $0$ km : il n'y a rien à indiquer.
+
+**4.** Lille → Lyon : $690$ km ; Lyon → Marseille : $315$ km ; Marseille → Lille : $1\\,005$ km.
+$690 + 315 + 1\\,005 = 2\\,010$. Le camion parcourt $2\\,010$ km.`
+    },
+    {
+      id: "6D1-ds-10",
+      title: "Choisir l'échelle d'un diagramme",
+      difficulty: 2,
+      points: 5,
+      statement: `Une station météo a relevé la hauteur de pluie tombée chaque mois, en millimètres (mm) :
+
+| Mois | Janv. | Févr. | Mars | Avr. | Mai | Juin |
+|:---|:---:|:---:|:---:|:---:|:---:|:---:|
+| Pluie (mm) | 80 | 60 | 50 | 70 | 90 | 40 |
+
+1. Quelle hauteur de pluie est tombée en tout pendant ces six mois ?
+2. Pendant quels mois est-il tombé plus de $60$ mm de pluie ?
+3. On veut construire un diagramme en barres avec l'échelle : $1$ cm de hauteur pour $20$ mm de pluie. Calculer la hauteur de chaque barre.
+4. Yanis propose plutôt l'échelle : $1$ cm pour $5$ mm. Calculer la hauteur de la barre de mai avec cette échelle. Pourquoi ce choix n'est-il pas pratique ?`,
+      solution: `**1.** $80 + 60 + 50 + 70 + 90 + 40 = 390$. Il est tombé $390$ mm de pluie.
+
+**2.** Plus de $60$ mm (strictement) : janvier ($80$), avril ($70$) et mai ($90$). Février ($60$ mm) n'est pas retenu.
+
+**3.** La hauteur est proportionnelle à la quantité de pluie : on divise par $20$.
+Janvier : $80 \\div 20 = 4$ cm ; février : $3$ cm ; mars : $50 \\div 20 = 2{,}5$ cm ; avril : $3{,}5$ cm ; mai : $4{,}5$ cm ; juin : $2$ cm.
+
+**4.** $90 \\div 5 = 18$ : la barre de mai mesurerait $18$ cm. Le diagramme serait trop haut pour tenir facilement sur une feuille de cahier ; l'échelle de la question 3 est mieux adaptée.`
+    },
+    {
+      id: "6D1-ds-11",
+      title: "Le tableau des médailles",
+      difficulty: 3,
+      points: 5,
+      statement: `Voici les médailles obtenues par quatre pays lors d'une compétition :
+
+| Pays | Or | Argent | Bronze |
+|:---|:---:|:---:|:---:|
+| Pays A | 10 | 5 | 3 |
+| Pays B | 8 | 12 | 9 |
+| Pays C | 10 | 7 | 2 |
+| Pays D | 6 | 9 | 15 |
+
+1. Ajouter une colonne « Total » et la compléter.
+2. **Classement 1** : on range les pays selon leur nombre de médailles d'or ; en cas d'égalité, on regarde le nombre de médailles d'argent. Donner ce classement.
+3. **Classement 2** : on range les pays selon leur nombre total de médailles. Donner ce classement.
+4. **Classement 3** : une médaille d'or rapporte $3$ points, une d'argent $2$ points et une de bronze $1$ point. Calculer les points de chaque pays et donner ce classement.
+5. Quel pays a intérêt à ce qu'on utilise le classement 1 ? Le classement 2 ?`,
+      solution: `**1.** A : $10 + 5 + 3 = 18$ ; B : $8 + 12 + 9 = 29$ ; C : $10 + 7 + 2 = 19$ ; D : $6 + 9 + 15 = 30$.
+
+**2.** A et C ont tous les deux $10$ médailles d'or ; C a $7$ médailles d'argent contre $5$ pour A, donc C passe devant.
+Classement 1 : C, A, B ($8$), D ($6$).
+
+**3.** Classement 2 : D ($30$), B ($29$), C ($19$), A ($18$).
+
+**4.** A : $3 \\times 10 + 2 \\times 5 + 3 = 30 + 10 + 3 = 43$ points.
+B : $3 \\times 8 + 2 \\times 12 + 9 = 24 + 24 + 9 = 57$ points.
+C : $3 \\times 10 + 2 \\times 7 + 2 = 30 + 14 + 2 = 46$ points.
+D : $3 \\times 6 + 2 \\times 9 + 15 = 18 + 18 + 15 = 51$ points.
+Classement 3 : B, D, C, A.
+
+**5.** Le pays C est premier avec le classement 1, et le pays D est premier avec le classement 2 : chacun a intérêt à ce que « son » classement soit utilisé. Les mêmes données peuvent donc être présentées de façons différentes selon le critère choisi.`
+    },
+    {
+      id: "6D1-ds-12",
+      title: "Un diagramme trompeur",
+      difficulty: 4,
+      points: 6,
+      statement: `Une marque de vélos publie un diagramme en barres pour montrer ses ventes. Sur ce diagramme :
+- l'axe vertical ne commence pas à $0$ mais à $900$ vélos, et $1$ cm représente $10$ vélos ;
+- la barre de l'année 2025 mesure $2$ cm de haut ;
+- la barre de l'année 2026 mesure $8$ cm de haut.
+
+1. Combien de vélos ont été vendus en 2025 ? En 2026 ? Expliquer.
+2. Quelle a été l'augmentation des ventes entre 2025 et 2026 ?
+3. Sur le diagramme, combien de fois la barre de 2026 est-elle plus haute que celle de 2025 ? Les ventes de 2026 sont-elles vraiment ce nombre de fois plus grandes que celles de 2025 ? Justifier.
+4. On construit un nouveau diagramme dont l'axe vertical commence à $0$, avec $1$ cm pour $100$ vélos. Calculer la hauteur des deux barres.
+5. Expliquer en une ou deux phrases pourquoi le premier diagramme est trompeur.`,
+      solution: `**1.** La barre de 2025 dépasse le bas de l'axe ($900$) de $2$ cm, soit $2 \\times 10 = 20$ vélos : $900 + 20 = 920$ vélos.
+La barre de 2026 dépasse de $8$ cm, soit $8 \\times 10 = 80$ vélos : $900 + 80 = 980$ vélos.
+
+**2.** $980 - 920 = 60$. Les ventes ont augmenté de $60$ vélos.
+
+**3.** $8 \\div 2 = 4$ : la barre de 2026 est $4$ fois plus haute. Mais $4 \\times 920 = 3\\,680$, bien plus que $980$ : les ventes ne sont pas $4$ fois plus grandes, elles ont seulement augmenté de $60$ vélos sur $920$.
+
+**4.** $920 \\div 100 = 9{,}2$ cm pour 2025 et $980 \\div 100 = 9{,}8$ cm pour 2026.
+
+**5.** Comme l'axe commence à $900$, la hauteur des barres n'est pas proportionnelle aux ventes : la petite différence de $60$ vélos paraît énorme. Avec un axe partant de $0$, les deux barres sont presque de la même hauteur, ce qui montre que les ventes ont peu changé.`
     }
   ]
 });
@@ -2748,6 +4100,125 @@ Chaque distance vaut donc $24 \\div 3 = 8$ km : **deux villages voisins sont à 
 $BE = AE - AB = 12 - 8 = 4$ km et $EC = AC - AE = 16 - 12 = 4$ km. L'école est à $4$ km de $B$ et à $4$ km de $C$ : c'est aussi le milieu de $[BC]$.
 
 **4.** $AE = ED = 12$ km puisque $E$ est le milieu de $[AD]$ : les deux élèves parcourent **la même distance, $12$ km**.`
+    },
+    {
+      id: "6G1-ds-09",
+      title: "Quatre points et des traits",
+      difficulty: 1,
+      points: 4,
+      statement: `On place quatre points $A$, $B$, $C$ et $D$ sur une feuille, de sorte que trois d'entre eux ne soient jamais alignés.
+
+1. Combien de segments ont pour extrémités deux de ces quatre points ? Les nommer tous.
+2. Combien de droites passent par deux de ces quatre points ?
+3. On place un point $E$ sur le segment $[AB]$, différent de $A$ et de $B$. Les droites $(AE)$ et $(AB)$ sont-elles différentes ? Justifier.
+4. On place un point $F$ tel que $F \\in [AB)$ mais $F \\notin [AB]$. Où se trouve le point $F$ ?`,
+      solution: `**1.** On associe chaque point à chacun des points suivants dans la liste : $[AB]$, $[AC]$, $[AD]$, $[BC]$, $[BD]$, $[CD]$. Il y a **$6$ segments** (le segment $[BA]$ est le même que $[AB]$, on ne le compte pas deux fois).
+
+**2.** Par deux points distincts passe une seule droite. Comme trois des points ne sont jamais alignés, deux segments différents ne sont jamais portés par la même droite : il y a **$6$ droites** : $(AB)$, $(AC)$, $(AD)$, $(BC)$, $(BD)$ et $(CD)$.
+
+**3.** Le point $E$ est sur le segment $[AB]$, donc sur la droite $(AB)$. La droite $(AE)$ passe par $A$ et $E$, comme la droite $(AB)$. Or par deux points distincts il ne passe qu'une seule droite : $(AE)$ et $(AB)$ sont **la même droite**.
+
+**4.** La demi-droite $[AB)$ part de $A$, passe par $B$ et continue au-delà de $B$. Le point $F$ est sur cette demi-droite mais pas sur le segment $[AB]$ : il se trouve donc **au-delà de $B$**, dans le prolongement du segment $[AB]$ du côté de $B$ (les points $A$, $B$ et $F$ sont alignés dans cet ordre).`
+    },
+    {
+      id: "6G1-ds-10",
+      title: "Deux cercles qui se coupent",
+      difficulty: 2,
+      points: 5,
+      statement: `On trace un segment $[AB]$ de longueur $4$ cm, puis :
+- le cercle $\\mathcal{C}_1$ de centre $A$ et de rayon $3$ cm ;
+- le cercle $\\mathcal{C}_2$ de centre $B$ et de rayon $2$ cm.
+
+Les deux cercles se coupent en deux points $M$ et $N$.
+
+1. Faire la figure en vraie grandeur.
+2. Donner, sans mesurer, les longueurs $AM$, $AN$, $BM$ et $BN$. Justifier.
+3. Calculer le périmètre du quadrilatère $AMBN$.
+4. Le cercle $\\mathcal{C}_1$ coupe le segment $[AB]$ en $P$, et le cercle $\\mathcal{C}_2$ coupe le segment $[AB]$ en $Q$.
+   a) Calculer $AP$, $PB$, $BQ$ et $AQ$.
+   b) Que représente le point $Q$ pour le segment $[AB]$ ? Justifier.
+   c) Calculer la longueur $PQ$.`,
+      solution: `**1.** On trace $[AB]$ à la règle, puis les deux cercles au compas (écartement $3$ cm avec la pointe en $A$, écartement $2$ cm avec la pointe en $B$).
+
+**2.** $M$ et $N$ sont sur le cercle $\\mathcal{C}_1$ de centre $A$ et de rayon $3$ cm, donc $AM = AN = 3$ cm.
+$M$ et $N$ sont aussi sur le cercle $\\mathcal{C}_2$ de centre $B$ et de rayon $2$ cm, donc $BM = BN = 2$ cm.
+
+**3.** Périmètre de $AMBN$ : $AM + MB + BN + NA = 3 + 2 + 2 + 3 = 10$ cm.
+
+**4.** a) $P$ est sur $\\mathcal{C}_1$, donc $AP = 3$ cm ; comme $P$ est sur $[AB]$, $PB = AB - AP = 4 - 3 = 1$ cm.
+$Q$ est sur $\\mathcal{C}_2$, donc $BQ = 2$ cm ; comme $Q$ est sur $[AB]$, $AQ = AB - BQ = 4 - 2 = 2$ cm.
+
+b) Le point $Q$ appartient au segment $[AB]$ et $AQ = QB = 2$ cm : $Q$ est **le milieu** du segment $[AB]$.
+
+c) Sur le segment $[AB]$, les points sont dans l'ordre $A$, $Q$, $P$, $B$ (car $AQ = 2$ cm et $AP = 3$ cm). Donc $PQ = AP - AQ = 3 - 2 = 1$ cm.`
+    },
+    {
+      id: "6G1-ds-11",
+      title: "La cible de fléchettes",
+      difficulty: 3,
+      points: 5,
+      statement: `Une cible est formée de trois cercles de même centre $O$, de rayons $2$ cm, $4$ cm et $6$ cm.
+- Une fléchette plantée à moins de $2$ cm de $O$ rapporte $10$ points.
+- Entre $2$ cm et $4$ cm de $O$, elle rapporte $5$ points.
+- Entre $4$ cm et $6$ cm de $O$, elle rapporte $2$ points.
+- Au-delà de $6$ cm, elle ne rapporte rien.
+- Une fléchette plantée exactement sur un cercle rapporte le plus grand des deux scores possibles.
+
+1. Quel est le diamètre du plus grand cercle ?
+2. Malo lance quatre fléchettes, plantées aux points $A$, $B$, $C$ et $D$ tels que $OA = 1{,}5$ cm, $OB = 4{,}5$ cm, $OC = 6{,}2$ cm et $OD = 3$ cm. Calculer son score total.
+3. Sa cinquième fléchette $E$ est plantée sur le cercle de rayon $4$ cm. Quel est alors son nouveau score total ?
+4. On sait que les points $A$, $O$ et $B$ sont alignés.
+   a) Calculer $AB$ si $O$ est entre $A$ et $B$.
+   b) Calculer $AB$ si $A$ et $B$ sont du même côté de $O$.`,
+      solution: `**1.** Le plus grand cercle a pour rayon $6$ cm ; son diamètre mesure le double : $2 \\times 6 = 12$ cm.
+
+**2.** On compare chaque distance au centre avec les rayons :
+- $OA = 1{,}5$ cm et $1{,}5 < 2$ : $A$ est dans la zone centrale, $10$ points ;
+- $OB = 4{,}5$ cm, entre $4$ et $6$ : $2$ points ;
+- $OC = 6{,}2$ cm et $6{,}2 > 6$ : $C$ est hors de la cible, $0$ point ;
+- $OD = 3$ cm, entre $2$ et $4$ : $5$ points.
+
+Score total : $10 + 2 + 0 + 5 = 17$ points.
+
+**3.** $E$ est sur le cercle de rayon $4$ cm : il est à la limite entre la zone à $5$ points et la zone à $2$ points ; il rapporte le plus grand score, $5$ points. Nouveau total : $17 + 5 = 22$ points.
+
+**4.** a) Si $O$ est entre $A$ et $B$, la longueur $AB$ est la somme des deux distances : $AB = AO + OB = 1{,}5 + 4{,}5 = 6$ cm.
+
+b) Si $A$ et $B$ sont du même côté de $O$, comme $OA < OB$, le point $A$ est entre $O$ et $B$ : $AB = OB - OA = 4{,}5 - 1{,}5 = 3$ cm.`
+    },
+    {
+      id: "6G1-ds-12",
+      title: "Deux antennes le long d'une route",
+      difficulty: 4,
+      points: 6,
+      statement: `Deux antennes de radio $A$ et $B$ sont installées au bord d'une route droite, à $7$ km l'une de l'autre. L'antenne $A$ capte tous les lieux situés à $4$ km ou moins d'elle ; l'antenne $B$ capte tous les lieux situés à $5$ km ou moins d'elle. Sur une carte, $1$ cm représente $1$ km.
+
+1. Décrire, avec le vocabulaire du cercle, la zone de la carte captée par l'antenne $A$.
+2. Pour chacun des lieux suivants, dire par quelle(s) antenne(s) il est capté. Justifier.
+   a) le hameau $H$, avec $HA = 3{,}5$ km et $HB = 6$ km ;
+   b) la ferme $F$, avec $FA = 4{,}5$ km et $FB = 2{,}5$ km ;
+   c) le village $V$, avec $VA = 5$ km et $VB = 5{,}5$ km.
+3. On s'intéresse aux points de la route situés entre $A$ et $B$.
+   a) Un point $M$ du segment $[AB]$ est à $1{,}5$ km de $A$. À quelle distance est-il de $B$ ? Par quelle(s) antenne(s) est-il capté ?
+   b) Montrer que tous les points du segment $[AB]$ sont captés, puis calculer la longueur de la portion de route captée par les deux antennes.
+4. L'antenne $B$ tombe en panne et ne capte plus qu'à $2$ km. Quelle longueur de la route entre $A$ et $B$ n'est plus captée ? Quelle portée minimale faudrait-il à l'antenne $B$ pour que tout le segment $[AB]$ soit de nouveau capté ?`,
+      solution: `**1.** Les lieux captés par $A$ sont à $4$ km ou moins de $A$ : sur la carte, c'est le **cercle de centre $A$ et de rayon $4$ cm, ainsi que tout son intérieur** (le disque de centre $A$ et de rayon $4$ cm).
+
+**2.** a) $HA = 3{,}5 \\le 4$ : $H$ est capté par $A$. $HB = 6 > 5$ : il n'est pas capté par $B$. Le hameau est capté **seulement par $A$**.
+b) $FA = 4{,}5 > 4$ : pas capté par $A$. $FB = 2{,}5 \\le 5$ : capté par $B$. La ferme est captée **seulement par $B$**.
+c) $VA = 5 > 4$ et $VB = 5{,}5 > 5$ : le village **n'est capté par aucune antenne**.
+
+**3.** a) $M$ est sur $[AB]$, donc $MB = AB - AM = 7 - 1{,}5 = 5{,}5$ km. $AM = 1{,}5 \\le 4$ : $M$ est capté par $A$ ; $MB = 5{,}5 > 5$ : il n'est pas capté par $B$.
+
+b) Un point du segment $[AB]$ est capté par $A$ s'il est à $4$ km ou moins de $A$. Il est capté par $B$ s'il est à $5$ km ou moins de $B$, c'est-à-dire à au moins $7 - 5 = 2$ km de $A$.
+- Les points situés de $0$ à $4$ km de $A$ sont captés par $A$ ;
+- les points situés de $2$ à $7$ km de $A$ sont captés par $B$.
+
+Ces deux portions se chevauchent : tout le segment $[AB]$ est capté. La portion captée par les deux antennes va de $2$ km à $4$ km de $A$ : sa longueur est $4 - 2 = 2$ km.
+
+**4.** L'antenne $B$ capte maintenant les points à au moins $7 - 2 = 5$ km de $A$. L'antenne $A$ capte jusqu'à $4$ km de $A$. Les points situés entre $4$ km et $5$ km de $A$ ne sont plus captés : cela fait $5 - 4 = 1$ km de route.
+
+Pour tout capter, l'antenne $B$ doit atteindre le point situé à $4$ km de $A$, qui est à $7 - 4 = 3$ km de $B$. Il faut une portée d'**au moins $3$ km**.`
     }
   ],
   "6G2": [
@@ -2922,6 +4393,113 @@ Périmètre : $AB + BC + CD + DA = 5 + 5 + 8 + 8 = 26$ cm.
 
 **4.** $C$ est le symétrique de $A$ par rapport à $(BD)$, donc **$(BD)$ est la médiatrice de $[AC]$** : elle coupe $[AC]$ en son milieu et perpendiculairement.
 Donc $I$ est le milieu de $[AC]$ : $AI = 6 \\div 2 = 3$ cm, et $(AC) \\perp (BD)$ : l'angle $\\widehat{AIB}$ est un **angle droit** ($90^\\circ$).`
+    },
+    {
+      id: "6G2-ds-09",
+      title: "Le papillon plié",
+      difficulty: 1,
+      points: 4,
+      statement: `Léa plie une feuille en deux le long d'une droite $(d)$. Elle dessine la moitié d'un papillon d'un côté du pli, puis décalque son dessin de l'autre côté pour obtenir le papillon entier.
+
+- Le bout de l'aile droite est le point $T$ ; le segment qui le relie au bout de l'aile gauche $T'$ coupe le pli $(d)$ en $H$, avec $TH = 4$ cm.
+- La tête du papillon est un point $K$ situé sur le pli, avec $KT = 5$ cm.
+- L'antenne droite mesure $3$ cm et fait un angle de $30^\\circ$ avec le pli.
+
+1. Quelle transformation permet de passer d'une moitié du papillon à l'autre ? Préciser son axe.
+2. Que représente la droite $(d)$ pour le segment $[TT']$ ? En déduire la longueur $TT'$.
+3. Quel est le symétrique du point $K$ ? En déduire la longueur $KT'$.
+4. Donner la longueur de l'antenne gauche et l'angle qu'elle fait avec le pli. Justifier.`,
+      solution: `**1.** Le pliage fait coïncider les deux moitiés : on passe de l'une à l'autre par la **symétrie axiale d'axe $(d)$** (le pli).
+
+**2.** $T'$ est le symétrique de $T$ par rapport à $(d)$ : la droite $(d)$ est donc la **médiatrice** du segment $[TT']$. Elle le coupe perpendiculairement en son milieu, qui est $H$. Ainsi $TT' = 2 \\times TH = 2 \\times 4 = 8$ cm.
+
+**3.** Le point $K$ est sur l'axe $(d)$ : il est **son propre symétrique**. Le segment $[KT']$ est donc le symétrique du segment $[KT]$. La symétrie axiale conserve les longueurs, donc $KT' = KT = 5$ cm.
+
+**4.** L'antenne gauche est la symétrique de l'antenne droite, et le pli est son propre symétrique. La symétrie axiale conserve les longueurs et les angles : l'antenne gauche mesure **$3$ cm** et fait un angle de **$30^\\circ$** avec le pli.`
+    },
+    {
+      id: "6G2-ds-10",
+      title: "Le symétrique d'un point au compas seul",
+      difficulty: 2,
+      points: 5,
+      statement: `Pour construire le symétrique d'un point $A$ par rapport à une droite $(d)$ sans équerre, Hugo procède ainsi :
+- il place deux points $E$ et $F$ sur la droite $(d)$ ;
+- il trace l'arc de cercle de centre $E$ passant par $A$ ;
+- il trace l'arc de cercle de centre $F$ passant par $A$ ;
+- les deux arcs se recoupent, de l'autre côté de $(d)$, en un point qu'il appelle $A'$.
+
+1. Réaliser cette construction avec $EA = 4$ cm et $FA = 3$ cm.
+2. Expliquer pourquoi $EA' = EA$ et $FA' = FA$.
+3. En déduire que les points $E$ et $F$ sont sur la médiatrice du segment $[AA']$.
+4. Expliquer pourquoi la droite $(d)$ est la médiatrice de $[AA']$, puis conclure : le point $A'$ est-il bien le symétrique de $A$ par rapport à $(d)$ ?`,
+      solution: `**1.** On place $E$ et $F$ sur $(d)$, on règle le compas à $4$ cm avec la pointe en $E$ et à $3$ cm avec la pointe en $F$ ($E$ et $F$ étant choisis pour que ces arcs passent par $A$). Les deux arcs se recoupent en $A'$.
+
+**2.** $A$ et $A'$ sont tous les deux sur l'arc de centre $E$ passant par $A$ : ils sont à la même distance de $E$, donc $EA' = EA$. De même, ils sont sur l'arc de centre $F$, donc $FA' = FA$.
+
+**3.** La médiatrice d'un segment est formée des points situés à égale distance de ses extrémités.
+- $EA = EA'$ : le point $E$ est sur la médiatrice de $[AA']$.
+- $FA = FA'$ : le point $F$ est sur la médiatrice de $[AA']$.
+
+**4.** La médiatrice de $[AA']$ est une droite qui passe par $E$ et par $F$. Or par deux points distincts il ne passe qu'une seule droite : c'est la droite $(EF)$, c'est-à-dire $(d)$. Donc $(d)$ est la médiatrice de $[AA']$.
+
+Par définition, le symétrique de $A$ par rapport à $(d)$ est le point $A'$ tel que $(d)$ soit la médiatrice de $[AA']$ : la construction d'Hugo donne **bien le symétrique** de $A$.`
+    },
+    {
+      id: "6G2-ds-11",
+      title: "Un triangle né d'une symétrie",
+      difficulty: 3,
+      points: 5,
+      statement: `On trace une droite $(d)$ et un point $A$ sur cette droite. On note $[Ax)$ une des deux demi-droites d'origine $A$ portées par $(d)$. On place un point $B$ hors de $(d)$ tel que $AB = 5$ cm et $\\widehat{xAB} = 35^\\circ$. On construit le point $B'$, symétrique de $B$ par rapport à $(d)$. Le segment $[BB']$ coupe $(d)$ en $I$.
+
+1. Construire la figure en vraie grandeur.
+2. Calculer $AB'$. Justifier.
+3. Quelle est la nature du triangle $ABB'$ ?
+4. Donner la mesure de l'angle $\\widehat{xAB'}$, puis celle de l'angle $\\widehat{BAB'}$. Justifier.
+5. a) Que représente le point $I$ pour le segment $[BB']$ ? Quel angle forment les droites $(BB')$ et $(d)$ ?
+   b) On mesure $BB' \\approx 5{,}7$ cm. En déduire une valeur approchée de $BI$.`,
+      solution: `**1.** On trace $(d)$, le point $A$ et la demi-droite $[Ax)$. Au rapporteur, on trace la demi-droite faisant un angle de $35^\\circ$ avec $[Ax)$ et on y place $B$ à $5$ cm de $A$. On construit $B'$ à l'équerre et à la règle graduée (ou au compas).
+
+**2.** $A$ est sur l'axe : il est son propre symétrique. Le segment $[AB']$ est donc le symétrique de $[AB]$ ; la symétrie axiale conserve les longueurs, donc $AB' = AB = 5$ cm.
+
+**3.** $AB = AB' = 5$ cm : le triangle $ABB'$ est **isocèle en $A$**.
+
+**4.** La demi-droite $[Ax)$ est portée par l'axe, elle est sa propre symétrique. L'angle $\\widehat{xAB'}$ est le symétrique de l'angle $\\widehat{xAB}$ ; la symétrie conserve les angles, donc $\\widehat{xAB'} = 35^\\circ$.
+Les points $B$ et $B'$ sont de part et d'autre de $(d)$, donc les angles $\\widehat{xAB}$ et $\\widehat{xAB'}$ sont adjacents : $\\widehat{BAB'} = 35^\\circ + 35^\\circ = 70^\\circ$.
+
+**5.** a) $B'$ est le symétrique de $B$ par rapport à $(d)$, donc $(d)$ est la médiatrice de $[BB']$ : elle coupe $[BB']$ perpendiculairement en son milieu. Le point $I$ est le **milieu** de $[BB']$ et les droites $(BB')$ et $(d)$ sont **perpendiculaires** (angle droit, $90^\\circ$).
+
+b) $BI = BB' \\div 2 \\approx 5{,}7 \\div 2 = 2{,}85$ cm.`
+    },
+    {
+      id: "6G2-ds-12",
+      title: "Deux miroirs perpendiculaires",
+      difficulty: 4,
+      points: 6,
+      statement: `Deux droites $(d_1)$ et $(d_2)$ sont perpendiculaires en un point $O$. On note $[Ox)$ une demi-droite de $(d_1)$ et $[Oy)$ une demi-droite de $(d_2)$, et $[Oy')$ la demi-droite opposée à $[Oy)$. Le point $A$ est à l'intérieur de l'angle droit $\\widehat{xOy}$, avec $OA = 3$ cm et $\\widehat{xOA} = 25^\\circ$.
+
+On construit :
+- le point $A_1$, symétrique de $A$ par rapport à $(d_1)$ ;
+- le point $A_2$, symétrique de $A_1$ par rapport à $(d_2)$.
+
+1. Construire la figure en vraie grandeur.
+2. Montrer que $OA_1 = 3$ cm, puis que $OA_2 = 3$ cm. Sur quel cercle se trouvent les points $A$, $A_1$ et $A_2$ ?
+3. a) Donner la mesure de l'angle $\\widehat{xOA_1}$, puis celle de $\\widehat{AOA_1}$.
+   b) Calculer la mesure de l'angle $\\widehat{y'OA_1}$, puis celle de $\\widehat{A_1OA_2}$.
+4. Calculer $\\widehat{AOA_1} + \\widehat{A_1OA_2}$. Que peut-on en déduire pour les points $A$, $O$ et $A_2$ ? Que représente alors le point $O$ pour le segment $[AA_2]$ ?`,
+      solution: `**1.** On trace les deux droites perpendiculaires, l'angle $\\widehat{xOA} = 25^\\circ$ au rapporteur et $A$ à $3$ cm de $O$, puis on construit $A_1$ et $A_2$ à l'équerre et au compas.
+
+**2.** $O$ est sur $(d_1)$ : il est son propre symétrique par rapport à $(d_1)$. $[OA_1]$ est le symétrique de $[OA]$, et la symétrie conserve les longueurs : $OA_1 = OA = 3$ cm.
+De même, $O$ est sur $(d_2)$ et $[OA_2]$ est le symétrique de $[OA_1]$ par rapport à $(d_2)$ : $OA_2 = OA_1 = 3$ cm.
+Les trois points sont à $3$ cm de $O$ : ils sont sur le **cercle de centre $O$ et de rayon $3$ cm**.
+
+**3.** a) $[Ox)$ est sur l'axe $(d_1)$, donc l'angle $\\widehat{xOA_1}$ est le symétrique de $\\widehat{xOA}$ : $\\widehat{xOA_1} = 25^\\circ$ (conservation des angles). $A$ et $A_1$ sont de part et d'autre de $(d_1)$, donc $\\widehat{AOA_1} = 25^\\circ + 25^\\circ = 50^\\circ$.
+
+b) $A_1$ est à l'intérieur de l'angle droit $\\widehat{xOy'}$ ; comme $\\widehat{xOA_1} = 25^\\circ$, on a $\\widehat{y'OA_1} = 90^\\circ - 25^\\circ = 65^\\circ$.
+$[Oy')$ est sur l'axe $(d_2)$, donc $\\widehat{y'OA_2} = \\widehat{y'OA_1} = 65^\\circ$, et $A_1$, $A_2$ sont de part et d'autre de $(d_2)$ : $\\widehat{A_1OA_2} = 65^\\circ + 65^\\circ = 130^\\circ$.
+
+**4.** $\\widehat{AOA_1} + \\widehat{A_1OA_2} = 50^\\circ + 130^\\circ = 180^\\circ$.
+Ces deux angles sont adjacents (côté commun $[OA_1)$) : ensemble ils forment l'angle $\\widehat{AOA_2}$, qui mesure $180^\\circ$. C'est un **angle plat** : les points $A$, $O$ et $A_2$ sont **alignés**, avec $O$ entre $A$ et $A_2$.
+Comme de plus $OA = OA_2 = 3$ cm, le point $O$ est le **milieu** du segment $[AA_2]$ (et $[AA_2]$ est un diamètre du cercle de la question 2).`
     }
   ]
 });
@@ -3096,6 +4674,104 @@ NNE est la bissectrice de l'angle formé par N et NE : N et NNE forment $45^\\ci
 **3.** La bissectrice d'un angle plat forme un angle de $180^\\circ \\div 2 = 90^\\circ$ avec chaque côté. La branche $k$ forme avec la branche $1$ un angle de $(k - 1) \\times 20^\\circ$ : la branche $5$ est à $80^\\circ$ et la branche $6$ à $100^\\circ$. Aucune branche n'est à $90^\\circ$ : la bissectrice n'est pas une branche, elle se trouve **entre les branches $5$ et $6$** (c'est d'ailleurs la bissectrice de l'angle qu'elles forment).
 
 **4.** Un angle obtus est strictement compris entre $90^\\circ$ et $180^\\circ$. Les branches $6$, $7$, $8$, $9$ forment avec la branche $1$ des angles de $100^\\circ$, $120^\\circ$, $140^\\circ$ et $160^\\circ$ ; la branche $10$ forme un angle plat. Il y a donc **$4$ branches**.`
+    },
+    {
+      id: "6G3-ds-09",
+      title: "Lire correctement un rapporteur",
+      difficulty: 1,
+      points: 4,
+      statement: `Lou mesure des angles de sommet $O$. Elle place le centre du rapporteur sur $O$ et aligne la graduation $0$ de l'échelle extérieure sur la demi-droite $[Ox)$.
+- La demi-droite $[Oy)$ passe par la graduation où l'on lit $65$ sur l'échelle extérieure et $115$ sur l'échelle intérieure.
+- La demi-droite $[Oz)$ passe par la graduation $150$ de l'échelle extérieure.
+
+1. Quelle est la mesure de l'angle $\\widehat{xOy}$ : $65^\\circ$ ou $115^\\circ$ ? Expliquer le choix de l'échelle.
+2. Donner la nature (aigu, droit, obtus, plat) de l'angle $\\widehat{xOy}$ et de l'angle $\\widehat{xOz}$.
+3. La demi-droite $[Oy)$ est entre $[Ox)$ et $[Oz)$. Calculer la mesure de l'angle $\\widehat{yOz}$.
+4. Dans l'écriture $\\widehat{yOz}$, quel est le sommet de l'angle ? Quels sont ses côtés ?`,
+      solution: `**1.** On lit toujours l'échelle dont le $0$ est placé sur le premier côté de l'angle. Ici, c'est le $0$ de l'échelle **extérieure** qui est sur $[Ox)$ : on lit donc $\\widehat{xOy} = 65^\\circ$ (le $115$ appartient à l'autre échelle, qui part de l'autre côté).
+
+**2.** $65^\\circ$ est compris entre $0^\\circ$ et $90^\\circ$ : $\\widehat{xOy}$ est **aigu**.
+$\\widehat{xOz} = 150^\\circ$ est compris entre $90^\\circ$ et $180^\\circ$ : il est **obtus**.
+
+**3.** $[Oy)$ est entre $[Ox)$ et $[Oz)$, donc les angles $\\widehat{xOy}$ et $\\widehat{yOz}$ sont adjacents et forment ensemble $\\widehat{xOz}$ :
+$\\widehat{yOz} = 150^\\circ - 65^\\circ = 85^\\circ$.
+
+**4.** La lettre du milieu, $O$, est le **sommet**. Les côtés sont les demi-droites **$[Oy)$ et $[Oz)$**.`
+    },
+    {
+      id: "6G3-ds-10",
+      title: "Les parts du gâteau rond",
+      difficulty: 2,
+      points: 5,
+      statement: `Pour un anniversaire, on découpe des gâteaux ronds en parts égales, en coupant toujours depuis le centre. On rappelle qu'un tour complet (angle plein) mesure $360^\\circ$.
+
+1. On découpe un gâteau en $8$ parts égales. Quel est l'angle au centre d'une part ? Quelle est sa nature ?
+2. Un autre gâteau est découpé en $6$ parts égales. Quel est l'angle au centre d'une part ?
+3. Inès veut des parts d'angle $40^\\circ$. Combien de parts obtiendra-t-elle ?
+4. Dans le gâteau en $8$ parts, Tom prend $3$ parts voisines. Quel angle forme l'ensemble de ses parts ? Quelle est sa nature ?
+5. Peut-on découper un gâteau en parts égales d'angle $50^\\circ$, sans reste ? Justifier.`,
+      solution: `**1.** Les $8$ parts se partagent le tour complet : $360 \\div 8 = 45$. L'angle d'une part mesure $45^\\circ$ : c'est un angle **aigu** (moins de $90^\\circ$).
+
+**2.** $360 \\div 6 = 60$ : chaque part a un angle de $60^\\circ$.
+
+**3.** $360 \\div 40 = 9$ : Inès obtiendra **$9$ parts**.
+
+**4.** Les $3$ parts voisines sont adjacentes : $3 \\times 45^\\circ = 135^\\circ$. C'est un angle **obtus** (entre $90^\\circ$ et $180^\\circ$).
+
+**5.** Il faudrait que $360$ soit un multiple de $50$. Or $50 \\times 7 = 350$ et $50 \\times 8 = 400$ : $360$ n'est pas dans la table de $50$ (il resterait un morceau de $10^\\circ$). **Ce n'est pas possible.**`
+    },
+    {
+      id: "6G3-ds-11",
+      title: "Trois demi-droites autour d'un point",
+      difficulty: 3,
+      points: 5,
+      statement: `Trois demi-droites $[OA)$, $[OB)$ et $[OC)$ de même origine $O$ partagent le plan en trois angles adjacents : $\\widehat{AOB}$, $\\widehat{BOC}$ et $\\widehat{COA}$. On sait que $\\widehat{AOB} = 110^\\circ$ et $\\widehat{BOC} = 140^\\circ$. Ces trois angles font le tour complet du point $O$.
+
+1. Calculer la mesure de l'angle $\\widehat{COA}$.
+2. On trace la demi-droite $[OD)$ opposée à $[OA)$ (les points $A$, $O$ et $D$ sont alignés, $O$ entre $A$ et $D$). La demi-droite $[OD)$ est à l'intérieur de l'angle $\\widehat{BOC}$.
+   a) Quelle est la mesure de l'angle $\\widehat{AOD}$ ?
+   b) Calculer $\\widehat{BOD}$, puis $\\widehat{DOC}$.
+3. Que représente la demi-droite $[OD)$ pour l'angle $\\widehat{BOC}$ ? Justifier.
+4. On trace la bissectrice $[Ou)$ de l'angle $\\widehat{AOB}$. Calculer l'angle $\\widehat{uOD}$.`,
+      solution: `**1.** Les trois angles font le tour complet, soit $360^\\circ$ :
+$\\widehat{COA} = 360^\\circ - 110^\\circ - 140^\\circ = 110^\\circ$.
+
+**2.** a) $A$, $O$, $D$ sont alignés avec $O$ entre $A$ et $D$ : $\\widehat{AOD}$ est un angle plat, il mesure $180^\\circ$.
+
+b) Les angles $\\widehat{AOB}$ et $\\widehat{BOD}$ sont adjacents et forment l'angle plat $\\widehat{AOD}$ : ils sont supplémentaires. $\\widehat{BOD} = 180^\\circ - 110^\\circ = 70^\\circ$.
+$[OD)$ est à l'intérieur de $\\widehat{BOC}$, donc $\\widehat{DOC} = \\widehat{BOC} - \\widehat{BOD} = 140^\\circ - 70^\\circ = 70^\\circ$.
+(Vérification : de l'autre côté, $\\widehat{COA}$ et $\\widehat{DOC}$ sont supplémentaires : $110^\\circ + 70^\\circ = 180^\\circ$.)
+
+**3.** La demi-droite $[OD)$ partage l'angle $\\widehat{BOC}$ en deux angles adjacents de même mesure ($70^\\circ$ et $70^\\circ$) : $[OD)$ est la **bissectrice** de l'angle $\\widehat{BOC}$.
+
+**4.** $[Ou)$ est la bissectrice de $\\widehat{AOB}$ : $\\widehat{uOB} = 110^\\circ \\div 2 = 55^\\circ$.
+Les angles $\\widehat{uOB}$ et $\\widehat{BOD}$ sont adjacents : $\\widehat{uOD} = 55^\\circ + 70^\\circ = 125^\\circ$.`
+    },
+    {
+      id: "6G3-ds-12",
+      title: "La grande roue",
+      difficulty: 4,
+      points: 6,
+      statement: `Une grande roue porte $12$ nacelles, numérotées de $1$ à $12$ dans l'ordre, accrochées à égale distance les unes des autres sur un cercle de centre $O$. La roue tourne toujours dans le même sens, à vitesse constante, et fait un tour complet en $8$ minutes.
+
+1. Quel angle forment les rayons $[ON_1]$ et $[ON_2]$ qui vont du centre à deux nacelles voisines ?
+2. Quelle est la mesure de l'angle formé par les rayons des nacelles $1$ et $5$ ? Quelle est sa nature ?
+3. Avec quelle nacelle les rayons de la nacelle $1$ forment-ils un angle plat ? Justifier.
+4. De quel angle la roue tourne-t-elle en $1$ minute ? En $3$ minutes ?
+5. Combien de temps faut-il pour que la roue tourne de $210^\\circ$ ? Donner la réponse en minutes et secondes.
+6. Au départ, la nacelle $1$ est tout en bas. Où est-elle au bout de $20$ minutes ? Justifier.`,
+      solution: `**1.** Les $12$ nacelles partagent le tour complet en $12$ angles égaux : $360 \\div 12 = 30$. L'angle mesure $30^\\circ$.
+
+**2.** De la nacelle $1$ à la nacelle $5$, il y a $4$ intervalles : $4 \\times 30^\\circ = 120^\\circ$. C'est un angle **obtus**.
+
+**3.** Un angle plat mesure $180^\\circ$, soit $180 \\div 30 = 6$ intervalles. C'est la nacelle $1 + 6 = 7$ : les rayons des nacelles $1$ et $7$ forment un angle plat (elles sont diamétralement opposées).
+
+**4.** En $8$ minutes, la roue tourne de $360^\\circ$. En $1$ minute : $360 \\div 8 = 45$, soit $45^\\circ$. En $3$ minutes : $3 \\times 45^\\circ = 135^\\circ$.
+
+**5.** $210 \\div 45$ : $45 \\times 4 = 180$, il reste $30^\\circ$. Or $30^\\circ$ correspondent à $\\frac{30}{45} = \\frac{2}{3}$ de minute, soit $\\frac{2}{3} \\times 60 = 40$ secondes. Il faut **$4$ min $40$ s**.
+(Vérification : en $1$ seconde, la roue tourne de $45 \\div 60 = 0{,}75^\\circ$, et $280 \\times 0{,}75 = 210$.)
+
+**6.** $20 = 8 + 8 + 4$ : en $20$ minutes, la roue fait $2$ tours complets (la nacelle revient en bas) puis tourne encore pendant $4$ minutes, soit $4 \\times 45^\\circ = 180^\\circ$, un demi-tour. La nacelle $1$ est alors **tout en haut** de la roue.`
     }
   ],
   "6G4": [
@@ -3249,6 +4925,110 @@ Vérification : $30 + 60 + 90 = 180$. Le triangle $ABC$ est **rectangle en $C$**
 Les angles mesurent $45^\\circ$, $45^\\circ$ et $90^\\circ$ : c'est un **triangle rectangle isocèle**.
 
 **3.** Non : il resterait $180^\\circ - 180^\\circ = 0^\\circ$ pour les deux angles à la base. Les trois sommets seraient alignés : ce ne serait pas un vrai triangle.`
+    },
+    {
+      id: "6G4-ds-09",
+      title: "Construire des triangles avec des angles",
+      difficulty: 1,
+      points: 4,
+      statement: `1. On veut construire un triangle $ABC$ tel que $AB = 6$ cm, $\\widehat{BAC} = 50^\\circ$ et $\\widehat{ABC} = 60^\\circ$.
+   a) Décrire les étapes de la construction, puis la réaliser.
+   b) Calculer la mesure de l'angle $\\widehat{ACB}$, puis vérifier au rapporteur.
+2. On veut construire un triangle $DEF$ tel que $DE = 5$ cm, $DF = 4$ cm et $\\widehat{EDF} = 45^\\circ$.
+   a) Décrire les étapes de la construction, puis la réaliser.
+   b) Mesurer la longueur $EF$ (au millimètre près).`,
+      solution: `**1.** a) On trace le segment $[AB]$ de $6$ cm. Au rapporteur (centre en $A$, zéro sur $[AB)$), on trace une demi-droite d'origine $A$ faisant un angle de $50^\\circ$ avec $[AB]$. Puis, du même côté de $[AB]$, on trace en $B$ une demi-droite faisant un angle de $60^\\circ$ avec $[BA]$. Les deux demi-droites se coupent en $C$.
+
+b) La somme des angles d'un triangle vaut $180^\\circ$ :
+$\\widehat{ACB} = 180^\\circ - 50^\\circ - 60^\\circ = 70^\\circ$. On vérifie au rapporteur qu'on mesure bien environ $70^\\circ$.
+
+**2.** a) On trace $[DE]$ de $5$ cm. En $D$, on trace au rapporteur une demi-droite faisant un angle de $45^\\circ$ avec $[DE]$. Sur cette demi-droite, on place $F$ à $4$ cm de $D$ (règle graduée ou compas). On trace le segment $[EF]$.
+
+b) On mesure $EF \\approx 3{,}6$ cm (une mesure entre $3{,}5$ cm et $3{,}6$ cm est acceptée selon la précision du tracé).`
+    },
+    {
+      id: "6G4-ds-10",
+      title: "Des triangles impossibles ?",
+      difficulty: 2,
+      points: 5,
+      statement: `Pour chaque question, répondre par une phrase et justifier par un calcul ou une propriété.
+
+1. Peut-on construire un triangle dont deux angles mesurent $100^\\circ$ et $85^\\circ$ ?
+2. Un triangle peut-il avoir deux angles droits ?
+3. Un triangle $ABC$ a deux angles de $30^\\circ$ et $60^\\circ$. Quelle est la mesure du troisième angle ? Que peut-on dire de ce triangle ?
+4. Un triangle équilatéral a ses trois angles de même mesure. Calculer cette mesure.
+5. Le triangle $MNP$ est rectangle et isocèle en $M$. Calculer les mesures de ses angles $\\widehat{MNP}$ et $\\widehat{MPN}$.
+6. Un triangle isocèle peut-il avoir des angles à la base de $95^\\circ$ ?`,
+      solution: `On utilise : la somme des angles d'un triangle vaut $180^\\circ$.
+
+**1.** $100^\\circ + 85^\\circ = 185^\\circ$, ce qui dépasse déjà $180^\\circ$ : **impossible**.
+
+**2.** Deux angles droits font déjà $90^\\circ + 90^\\circ = 180^\\circ$ ; le troisième angle mesurerait $0^\\circ$ : ce ne serait plus un triangle. **Impossible.**
+
+**3.** $180^\\circ - 30^\\circ - 60^\\circ = 90^\\circ$ : le troisième angle est droit, le triangle $ABC$ est **rectangle**.
+
+**4.** Les trois angles sont égaux et leur somme vaut $180^\\circ$ : chacun mesure $180 \\div 3 = 60^\\circ$.
+
+**5.** L'angle $\\widehat{NMP}$ est droit : $90^\\circ$. Le triangle étant isocèle en $M$, ses angles à la base $\\widehat{MNP}$ et $\\widehat{MPN}$ sont égaux. Leur somme vaut $180^\\circ - 90^\\circ = 90^\\circ$, donc chacun mesure $90 \\div 2 = 45^\\circ$.
+
+**6.** Les deux angles à la base d'un triangle isocèle sont égaux : $95^\\circ + 95^\\circ = 190^\\circ > 180^\\circ$. **Impossible** (les angles à la base d'un triangle isocèle sont toujours aigus).`
+    },
+    {
+      id: "6G4-ds-11",
+      title: "Le toit de la maison",
+      difficulty: 3,
+      points: 5,
+      statement: `Vue de face, la façade du grenier d'une maison est un triangle $ABC$ : la base $[BC]$ (le plancher) mesure $8$ m et les deux pentes du toit mesurent $AB = AC = 5$ m. Sur un plan, on mesure $\\widehat{ABC} \\approx 37^\\circ$.
+
+1. Quelle est la nature du triangle $ABC$ ? En déduire une valeur approchée de $\\widehat{ACB}$.
+2. Calculer une valeur approchée de l'angle au sommet $\\widehat{BAC}$. Cet angle est-il aigu ou obtus ?
+3. Construire le triangle $ABC$ à l'échelle $1$ cm pour $1$ m.
+4. On note $H$ le milieu de $[BC]$.
+   a) Expliquer pourquoi le point $A$ est sur la médiatrice de $[BC]$. Que peut-on dire de la droite $(AH)$ ?
+   b) Calculer une valeur approchée de l'angle $\\widehat{BAH}$ en utilisant le triangle $ABH$.
+   c) Mesurer $AH$ sur le plan et en déduire la hauteur réelle du grenier.`,
+      solution: `**1.** $AB = AC$ : le triangle $ABC$ est **isocèle en $A$**. Ses angles à la base sont égaux : $\\widehat{ACB} = \\widehat{ABC} \\approx 37^\\circ$.
+
+**2.** $\\widehat{BAC} \\approx 180^\\circ - 37^\\circ - 37^\\circ = 106^\\circ$. C'est un angle **obtus** (plus de $90^\\circ$).
+
+**3.** On trace $[BC]$ de $8$ cm, puis deux arcs de rayon $5$ cm centrés en $B$ et en $C$ : ils se coupent en $A$.
+
+**4.** a) $AB = AC$ : le point $A$ est à égale distance de $B$ et de $C$, il est donc sur la médiatrice de $[BC]$. Cette médiatrice passe aussi par le milieu $H$ de $[BC]$ : c'est la droite $(AH)$. Ainsi **$(AH)$ est perpendiculaire à $(BC)$** en $H$ ($\\widehat{AHB} = 90^\\circ$).
+
+b) Dans le triangle $ABH$, rectangle en $H$ :
+$\\widehat{BAH} \\approx 180^\\circ - 90^\\circ - 37^\\circ = 53^\\circ$.
+(On retrouve bien la moitié de $\\widehat{BAC} \\approx 106^\\circ$.)
+
+c) On mesure $AH = 3$ cm sur le plan ; avec l'échelle $1$ cm pour $1$ m, le grenier a une hauteur de **$3$ m**.`
+    },
+    {
+      id: "6G4-ds-12",
+      title: "Un triangle dans un demi-cercle",
+      difficulty: 4,
+      points: 6,
+      statement: `On trace un cercle de centre $O$ et de rayon $4$ cm, et un diamètre $[AB]$. On place un point $M$ sur le cercle, différent de $A$ et de $B$, tel que $\\widehat{MOB} = 64^\\circ$.
+
+1. Faire la figure en vraie grandeur.
+2. Expliquer pourquoi les triangles $OAM$ et $OBM$ sont isocèles. Préciser en quel sommet.
+3. a) Calculer la mesure de l'angle $\\widehat{AOM}$.
+   b) En déduire les mesures des angles $\\widehat{OAM}$ et $\\widehat{OMA}$.
+4. Calculer les mesures des angles $\\widehat{OBM}$ et $\\widehat{OMB}$.
+5. Calculer $\\widehat{AMB}$. Quelle est la nature du triangle $AMB$ ?`,
+      solution: `**1.** On trace le cercle, le diamètre $[AB]$, puis au rapporteur l'angle $\\widehat{MOB} = 64^\\circ$ ; $M$ est le point où la demi-droite tracée coupe le cercle.
+
+**2.** $OA$, $OB$ et $OM$ sont des rayons du cercle : $OA = OB = OM = 4$ cm.
+Le triangle $OAM$ a deux côtés égaux ($OA = OM$) : il est **isocèle en $O$**. De même, $OB = OM$ : le triangle $OBM$ est **isocèle en $O$**.
+
+**3.** a) $A$, $O$, $B$ sont alignés ($[AB]$ est un diamètre), donc $\\widehat{AOM}$ et $\\widehat{MOB}$ sont supplémentaires :
+$\\widehat{AOM} = 180^\\circ - 64^\\circ = 116^\\circ$.
+
+b) Dans le triangle $OAM$ isocèle en $O$, les angles à la base $\\widehat{OAM}$ et $\\widehat{OMA}$ sont égaux et leur somme vaut $180^\\circ - 116^\\circ = 64^\\circ$. Chacun mesure $64 \\div 2 = 32^\\circ$.
+
+**4.** Dans le triangle $OBM$ isocèle en $O$ : $\\widehat{OBM} + \\widehat{OMB} = 180^\\circ - 64^\\circ = 116^\\circ$, donc $\\widehat{OBM} = \\widehat{OMB} = 116 \\div 2 = 58^\\circ$.
+
+**5.** La demi-droite $[MO)$ est entre $[MA)$ et $[MB)$, donc :
+$\\widehat{AMB} = \\widehat{OMA} + \\widehat{OMB} = 32^\\circ + 58^\\circ = 90^\\circ$.
+Le triangle $AMB$ est **rectangle en $M$**. (Vérification : $32^\\circ + 58^\\circ + 90^\\circ = 180^\\circ$.)`
     }
   ]
 });
@@ -3437,6 +5217,116 @@ Avec $3$ rangées : $3 \\times 55 = 165$. Il faudrait **$165$ cubes**.`
 
 **4.** Aire du patron $= 2 \\times (6 \\times 4) + 2 \\times (6 \\times 2) + 2 \\times (2 \\times 4) = 48 + 24 + 16 = 88$ $\\text{cm}^2$.
 Papier perdu : $120 - 88 = 32$ $\\text{cm}^2$.`
+    },
+    {
+      id: "6G5-ds-09",
+      title: "Des solides en fil de fer",
+      difficulty: 1,
+      points: 4,
+      statement: `Pour une décoration, Jade fabrique des solides « squelettes » : seules les arêtes sont réalisées, en fil de fer.
+
+1. Combien un cube a-t-il de faces, d'arêtes et de sommets ?
+2. Jade fabrique un cube d'arête $5$ cm. Quelle longueur de fil utilise-t-elle ?
+3. Elle fabrique ensuite un pavé droit de longueur $6$ cm, de largeur $4$ cm et de hauteur $3$ cm.
+   a) Combien d'arêtes mesurent $6$ cm ? $4$ cm ? $3$ cm ?
+   b) Quelle longueur de fil faut-il pour ce pavé ?
+4. Il lui reste $1$ m de fil. Peut-elle fabriquer un cube d'arête $8$ cm ? Justifier.`,
+      solution: `**1.** Un cube a **$6$ faces** (des carrés), **$12$ arêtes** et **$8$ sommets**.
+
+**2.** Les $12$ arêtes mesurent toutes $5$ cm : $12 \\times 5 = 60$ cm de fil.
+
+**3.** a) Dans un pavé droit, les arêtes vont par groupes de $4$ arêtes de même longueur : $4$ arêtes de $6$ cm, $4$ arêtes de $4$ cm et $4$ arêtes de $3$ cm.
+
+b) $4 \\times 6 + 4 \\times 4 + 4 \\times 3 = 24 + 16 + 12 = 52$ cm de fil.
+
+**4.** Il faut $12 \\times 8 = 96$ cm de fil, et $1$ m $= 100$ cm. Comme $96 < 100$, **oui**, elle peut le fabriquer (il lui restera $4$ cm de fil).`
+    },
+    {
+      id: "6G5-ds-10",
+      title: "Ranger 24 cubes en pavé",
+      difficulty: 2,
+      points: 5,
+      statement: `Arthur possède $24$ cubes identiques de $1$ cm d'arête. Il veut les assembler, **tous**, pour former un pavé droit plein.
+
+1. Il forme une première couche de $3$ cubes sur $4$ cubes. Combien de cubes contient cette couche ? Combien de couches peut-il empiler ? Donner les dimensions du pavé obtenu.
+2. Peut-il former un pavé de $2$ cubes de large, $2$ cubes de long et $5$ cubes de haut ? Justifier.
+3. Trouver toutes les façons de former un pavé droit avec les $24$ cubes (on donne les trois dimensions en cubes ; on ne compte pas deux fois le même pavé posé différemment).
+4. Arthur voudrait plutôt construire un cube plein. Quel est le plus petit cube plein qu'il ne peut pas construire avec ses $24$ cubes ? Combien de cubes lui manque-t-il pour le construire ?`,
+      solution: `**1.** La couche contient $3 \\times 4 = 12$ cubes. Avec $24$ cubes : $24 \\div 12 = 2$ couches. Le pavé mesure $3$ cm, $4$ cm et $2$ cm.
+
+**2.** Un tel pavé contiendrait $2 \\times 2 \\times 5 = 20$ cubes, et non $24$ : **non**, il resterait $4$ cubes inutilisés.
+
+**3.** On cherche trois nombres entiers dont le produit vaut $24$ (rangés du plus petit au plus grand) :
+- $1 \\times 1 \\times 24$ ;
+- $1 \\times 2 \\times 12$ ;
+- $1 \\times 3 \\times 8$ ;
+- $1 \\times 4 \\times 6$ ;
+- $2 \\times 2 \\times 6$ ;
+- $2 \\times 3 \\times 4$.
+
+Il y a **$6$ pavés** possibles.
+
+**4.** Un cube de $2$ cubes d'arête utilise $2 \\times 2 \\times 2 = 8$ cubes : il peut le construire. Un cube de $3$ cubes d'arête utilise $3 \\times 3 \\times 3 = 27$ cubes : c'est plus que $24$. Le plus petit cube impossible est donc celui de $3$ cm d'arête ; il lui manque $27 - 24 = 3$ cubes.`
+    },
+    {
+      id: "6G5-ds-11",
+      title: "Le patron d'un dé",
+      difficulty: 3,
+      points: 5,
+      statement: `Sur un dé ordinaire, la somme des points de deux faces opposées vaut toujours $7$.
+
+On utilise un patron de cube en forme de croix : une colonne de quatre carrés notés, de haut en bas, $A$, $B$, $C$ et $D$ ; un carré $E$ collé à gauche de $B$ et un carré $F$ collé à droite de $B$.
+
+1. En imaginant le pliage, indiquer quelle face est opposée à $A$, à $B$ et à $E$. Expliquer.
+2. Maëlle écrit sur son patron : $A = 1$, $B = 2$, $C = 6$, $D = 5$, $E = 3$, $F = 4$. Obtient-elle un dé ordinaire ? Justifier.
+3. Léo écrit : $A = 1$, $B = 2$, $C = 3$, $D = 4$, $E = 5$, $F = 6$. Obtient-il un dé ordinaire ? Justifier.
+4. Sur un nouveau patron du même modèle, on a déjà écrit $A = 4$, $B = 1$ et $E = 2$. Compléter les faces $C$, $D$ et $F$ pour obtenir un dé ordinaire.`,
+      solution: `**1.** Les quatre carrés de la colonne se replient en faisant le tour du cube : $A$ et $C$ sont séparés par $B$, ils se retrouvent face à face ; de même $B$ et $D$ sont opposées. Les carrés $E$ et $F$, de part et d'autre de $B$, viennent fermer les deux côtés de ce « tour » : ils sont opposés.
+Faces opposées : **$A$ et $C$**, **$B$ et $D$**, **$E$ et $F$**.
+
+**2.** Sommes des faces opposées : $A + C = 1 + 6 = 7$, $B + D = 2 + 5 = 7$, $E + F = 3 + 4 = 7$. Toutes valent $7$ : **oui**, c'est un dé ordinaire.
+
+**3.** $A + C = 1 + 3 = 4 \\ne 7$ : les faces $1$ et $3$ seraient opposées. **Non**, ce n'est pas un dé ordinaire.
+
+**4.** $C$ est opposée à $A$ : $C = 7 - 4 = 3$.
+$D$ est opposée à $B$ : $D = 7 - 1 = 6$.
+$F$ est opposée à $E$ : $F = 7 - 2 = 5$.
+On vérifie que les six nombres $4$, $1$, $3$, $6$, $2$, $5$ sont bien différents et vont de $1$ à $6$.`
+    },
+    {
+      id: "6G5-ds-12",
+      title: "Des vues qui ne disent pas tout",
+      difficulty: 4,
+      points: 6,
+      statement: `Un assemblage de cubes identiques est posé sur un plateau de $2$ cases sur $2$ : une rangée du fond et une rangée de devant, une colonne de gauche et une colonne de droite. Sur chaque case, les cubes sont empilés en colonne, sans trou.
+
+On connaît seulement :
+- la **vue de dessus** : les $4$ cases sont occupées ;
+- la **vue de face** : la colonne de gauche paraît haute de $2$ cubes et la colonne de droite de $3$ cubes ;
+- la **vue de côté** (regard depuis la droite) : la rangée du fond paraît haute de $2$ cubes et la rangée de devant de $3$ cubes.
+
+(Sur une vue de face, chaque colonne apparaît avec la hauteur de sa pile la plus haute ; de même pour la vue de côté et les rangées.)
+
+1. Pourquoi y a-t-il au moins un cube sur chaque case ?
+2. Sur quelle case se trouve une pile de $3$ cubes ? Justifier. Peut-il y en avoir une autre ?
+3. Quel est le nombre **maximal** de cubes de cet assemblage ? Donner le nombre de cubes de chaque case.
+4. Quel est le nombre **minimal** de cubes ? Donner une répartition possible.
+5. Donner une répartition qui respecte les trois vues et utilise exactement $8$ cubes.`,
+      solution: `**1.** Sur la vue de dessus, les $4$ cases sont occupées : chaque case porte au moins un cube.
+
+**2.** La vue de face montre une pile de $3$ cubes uniquement dans la colonne de droite ; la vue de côté en montre une uniquement dans la rangée de devant. Une pile de $3$ est donc dans la colonne de droite **et** dans la rangée de devant : c'est la case **devant-droite**. Aucune autre case ne peut avoir $3$ cubes (elle serait dans la colonne de gauche ou dans la rangée du fond, qui ne dépassent pas $2$).
+
+**3.** Chaque pile ne peut pas dépasser la hauteur de sa colonne (vue de face) ni celle de sa rangée (vue de côté) :
+- fond-gauche : au plus $2$ ; fond-droite : au plus $2$ (rangée du fond) ;
+- devant-gauche : au plus $2$ (colonne de gauche) ; devant-droite : $3$.
+
+En mettant le maximum partout, les vues sont bien respectées : $2 + 2 + 2 + 3 = 9$ cubes au **maximum**.
+
+**4.** Il faut $3$ cubes sur la case devant-droite. La colonne de gauche doit paraître haute de $2$ et la rangée du fond aussi : en mettant $2$ cubes sur la case fond-gauche, on satisfait les deux à la fois. Les deux autres cases ont au moins $1$ cube.
+Minimum : fond-gauche $2$, fond-droite $1$, devant-gauche $1$, devant-droite $3$, soit $2 + 1 + 1 + 3 = 7$ cubes.
+On ne peut pas faire moins : il faut $3$ cubes devant-droite, au moins $1$ cube sur chacune des trois autres cases, et une pile de $2$ dans la colonne de gauche, ce qui ajoute au moins $1$ cube.
+
+**5.** Par exemple : fond-gauche $2$, fond-droite $2$, devant-gauche $1$, devant-droite $3$ ; total $2 + 2 + 1 + 3 = 8$ cubes. Vue de face : la plus haute pile de gauche a $2$ cubes et celle de droite $3$ cubes ; vue de côté : la plus haute pile du fond a $2$ cubes et celle de devant $3$ cubes. Les trois vues sont respectées.`
     }
   ],
   "6D2": [
@@ -3618,6 +5508,112 @@ Probabilité d'un nombre pair : $\\frac{3}{6} = 0{,}5$. La fréquence est proche
 Total : $12 + 6 + 2 = 20$, cohérent avec le nombre de boules. On peut estimer que le sac contient **$12$ rouges, $6$ bleues et $2$ vertes** (c'est une estimation, pas une certitude).
 
 **4.** Avec peu de tirages, les fréquences peuvent beaucoup s'éloigner des probabilités (le hasard « fluctue ») ; avec un grand nombre de tirages, elles s'en rapprochent : l'estimation est plus fiable.`
+    },
+    {
+      id: "6D2-ds-09",
+      title: "Les jetons du mot PROBABILITE",
+      difficulty: 1,
+      points: 4,
+      statement: `On écrit chaque lettre du mot **PROBABILITE** sur un jeton (une lettre par jeton, en écrivant toutes les lettres, même répétées). On met les jetons dans un sac et on en tire un au hasard.
+
+1. Combien y a-t-il de jetons dans le sac ?
+2. Calculer la probabilité de tirer la lettre B, puis celle de tirer la lettre T.
+3. Calculer la probabilité de tirer une voyelle.
+4. Pour chacun des événements suivants, dire s'il est certain, impossible ou ni l'un ni l'autre, et donner sa probabilité :
+   a) « tirer la lettre Z » ;
+   b) « tirer une lettre du mot PROBABILITE ».`,
+      solution: `**1.** Le mot P-R-O-B-A-B-I-L-I-T-E compte $11$ lettres : il y a **$11$ jetons**.
+
+Les jetons ont tous la même chance d'être tirés : la probabilité d'un événement est le nombre de jetons qui le réalisent divisé par $11$.
+
+**2.** Il y a $2$ jetons B : $P(\\text{B}) = \\frac{2}{11}$. Il y a $1$ jeton T : $P(\\text{T}) = \\frac{1}{11}$.
+
+**3.** Les voyelles sont O, A, I, I, E : $5$ jetons. La probabilité est $\\frac{5}{11}$.
+
+**4.** a) Aucun jeton ne porte la lettre Z : l'événement est **impossible**, sa probabilité est $0$.
+b) Tous les jetons portent une lettre du mot : l'événement est **certain**, sa probabilité est $\\frac{11}{11} = 1$.`
+    },
+    {
+      id: "6D2-ds-10",
+      title: "Le dé à douze faces",
+      difficulty: 2,
+      points: 5,
+      statement: `Pour un jeu de société, on utilise un dé équilibré à $12$ faces numérotées de $1$ à $12$.
+
+1. Quelle est la probabilité d'obtenir le $7$ ?
+2. Calculer la probabilité de chacun des événements suivants. Donner le résultat sous la forme d'une fraction la plus simple possible.
+   a) $A$ : « obtenir un nombre pair » ;
+   b) $B$ : « obtenir un multiple de $3$ » ;
+   c) $C$ : « obtenir un diviseur de $12$ ».
+3. Calculer la probabilité de ne pas obtenir un multiple de $3$.
+4. Avec un dé ordinaire à $6$ faces, on gagne si l'on obtient $6$. Avec le dé à $12$ faces, on gagne si l'on obtient $11$ ou plus. Quel dé donne le plus de chances de gagner ? Justifier.`,
+      solution: `Les $12$ faces ont la même chance de sortir.
+
+**1.** Une seule face porte le $7$ : $P = \\frac{1}{12}$.
+
+**2.** a) Les nombres pairs sont $2$, $4$, $6$, $8$, $10$, $12$ : $6$ faces. $P(A) = \\frac{6}{12} = \\frac{1}{2}$.
+b) Les multiples de $3$ sont $3$, $6$, $9$, $12$ : $4$ faces. $P(B) = \\frac{4}{12} = \\frac{1}{3}$.
+c) Les diviseurs de $12$ sont $1$, $2$, $3$, $4$, $6$, $12$ : $6$ faces. $P(C) = \\frac{6}{12} = \\frac{1}{2}$.
+
+**3.** $12 - 4 = 8$ faces ne portent pas un multiple de $3$ : $P = \\frac{8}{12} = \\frac{2}{3}$.
+(On peut aussi calculer $1 - \\frac{1}{3} = \\frac{2}{3}$.)
+
+**4.** Dé à $6$ faces : $P(\\text{gagner}) = \\frac{1}{6}$.
+Dé à $12$ faces : on gagne avec $11$ ou $12$, soit $2$ faces : $P = \\frac{2}{12} = \\frac{1}{6}$.
+Les deux probabilités sont égales : **les deux dés donnent la même chance de gagner**.`
+    },
+    {
+      id: "6D2-ds-11",
+      title: "La tombola de la fête du collège",
+      difficulty: 3,
+      points: 5,
+      statement: `Pour la fête du collège, on met en vente $200$ tickets de tombola, bien mélangés. Parmi eux, $1$ ticket fait gagner le gros lot, $4$ tickets font gagner un lot moyen et $25$ tickets font gagner un petit lot. Les autres tickets sont perdants.
+
+1. Combien de tickets sont perdants ?
+2. On achète le premier ticket vendu. Calculer la probabilité :
+   a) de gagner le gros lot (donner l'écriture décimale) ;
+   b) de gagner un lot, quel qu'il soit (sous forme de fraction simplifiée, puis de pourcentage) ;
+   c) de perdre.
+3. En fin d'après-midi, $50$ tickets ont déjà été vendus et ouverts. Parmi eux, il y avait $1$ lot moyen et $5$ petits lots ; le gros lot n'est pas encore sorti.
+   a) Combien reste-t-il de tickets ? Combien sont encore gagnants ?
+   b) Calculer la probabilité qu'un ticket acheté maintenant soit gagnant. Est-ce plus ou moins intéressant qu'au début ? Justifier.`,
+      solution: `**1.** Tickets gagnants : $1 + 4 + 25 = 30$. Tickets perdants : $200 - 30 = 170$.
+
+**2.** Les $200$ tickets ont la même chance d'être achetés.
+a) $P(\\text{gros lot}) = \\frac{1}{200} = 0{,}005$.
+b) $P(\\text{gagner}) = \\frac{30}{200} = \\frac{3}{20} = \\frac{15}{100} = 15\\,\\%$.
+c) $P(\\text{perdre}) = \\frac{170}{200} = \\frac{17}{20} = 85\\,\\%$ (on vérifie : $15\\,\\% + 85\\,\\% = 100\\,\\%$).
+
+**3.** a) Il reste $200 - 50 = 150$ tickets. Il est sorti $1 + 5 = 6$ tickets gagnants, il en reste donc $30 - 6 = 24$.
+
+b) Sur les $150$ tickets restants, $24$ sont gagnants : $P = \\frac{24}{150} = \\frac{8}{50} = \\frac{16}{100} = 16\\,\\%$.
+$16\\,\\% > 15\\,\\%$ : c'est **un peu plus intéressant** qu'au début, car proportionnellement il est sorti moins de tickets gagnants que prévu ($6$ sur $50$, soit $12\\,\\%$).`
+    },
+    {
+      id: "6D2-ds-12",
+      title: "Modifier le contenu d'un sac",
+      difficulty: 4,
+      points: 6,
+      statement: `Un sac contient $4$ jetons rouges et $6$ jetons bleus, indiscernables au toucher. On tire un jeton au hasard.
+
+1. Calculer la probabilité de tirer un jeton rouge. Donner le résultat sous forme décimale.
+2. Combien de jetons rouges faut-il **ajouter** dans le sac pour que la probabilité de tirer un rouge soit égale à $\\frac{1}{2}$ ? Justifier.
+3. On repart du sac de départ. On veut que la probabilité de tirer un rouge soit égale à $\\frac{2}{3}$.
+   a) Expliquer pourquoi il faut alors qu'il y ait deux fois plus de jetons rouges que de jetons bleus.
+   b) Combien de jetons rouges faut-il ajouter (sans toucher aux bleus) ?
+   c) Combien de jetons bleus faudrait-il plutôt retirer (sans toucher aux rouges) ?
+4. En ajoutant suffisamment de jetons rouges, peut-on rendre certain l'événement « tirer un jeton rouge » ? Justifier.`,
+      solution: `**1.** Le sac contient $4 + 6 = 10$ jetons, dont $4$ rouges : $P(\\text{rouge}) = \\frac{4}{10} = 0{,}4$.
+
+**2.** La probabilité vaut $\\frac{1}{2}$ quand la moitié des jetons sont rouges, c'est-à-dire quand il y a autant de rouges que de bleus. Il y a $6$ bleus : il faut $6$ rouges, donc **ajouter $2$ jetons rouges**. Vérification : $\\frac{6}{12} = \\frac{1}{2}$.
+
+**3.** a) Si $P(\\text{rouge}) = \\frac{2}{3}$, sur $3$ parts égales du sac, $2$ parts sont rouges et $1$ part est bleue : il y a deux fois plus de rouges que de bleus.
+
+b) Avec $6$ bleus, il faut $2 \\times 6 = 12$ rouges : on ajoute $12 - 4 = 8$ jetons rouges. Vérification : $\\frac{12}{18} = \\frac{2}{3}$.
+
+c) Avec $4$ rouges, il faut $4 \\div 2 = 2$ bleus : on retire $6 - 2 = 4$ jetons bleus. Vérification : $\\frac{4}{6} = \\frac{2}{3}$.
+
+**4.** Non. Tant que les $6$ jetons bleus sont dans le sac, il est toujours possible d'en tirer un : l'événement « tirer un rouge » n'est jamais certain, sa probabilité reste inférieure à $1$ (même si elle s'en rapproche quand on ajoute beaucoup de rouges).`
     }
   ]
 });
@@ -3849,6 +5845,155 @@ dire (argent)
 
 **4.** Script de Lou : « quand drapeau cliqué ; mettre [argent] à 0 ; répéter … fois : ajouter 7 à [argent] ; dire (argent) ».
 $7 \\times 14 = 98$ € : c'est moins que $100$ €. $7 \\times 15 = 105$ € : c'est au moins $100$ €. Il faut **$15$ semaines** au minimum (donc « répéter 15 fois »).`
+    },
+    {
+      id: "6A1-ds-09",
+      title: "Le robot qui tourne sur place",
+      difficulty: 1,
+      points: 4,
+      statement: `Un robot se déplace sur un quadrillage. Il comprend trois instructions :
+- **A** : avancer d'une case dans la direction où il regarde ;
+- **G** : tourner sur place d'un quart de tour vers sa gauche ;
+- **D** : tourner sur place d'un quart de tour vers sa droite.
+
+Au départ, le robot est sur la case S et regarde vers le haut de la feuille. Il exécute le programme :
+$$\\text{A} \; \\text{A} \; \\text{D} \; \\text{A} \; \\text{A} \; \\text{A} \; \\text{D} \; \\text{A}$$
+
+1. Combien d'instructions comporte ce programme ? Combien d'entre elles font changer le robot de case ?
+2. Décrire, étape par étape, le trajet du robot. Où arrive-t-il par rapport à la case S, et dans quelle direction regarde-t-il à la fin ?
+3. Écrire un programme qui ramène ensuite le robot sur la case S.`,
+      solution: `**1.** Le programme comporte **$8$ instructions**. Seules les instructions A déplacent le robot : il y en a **$6$** (les instructions D le font seulement tourner sur place).
+
+**2.**
+- A A : il monte de $2$ cases (il regarde vers le haut).
+- D : il tourne d'un quart de tour vers sa droite, il regarde maintenant **vers la droite**.
+- A A A : il avance de $3$ cases vers la droite.
+- D : nouveau quart de tour vers sa droite, il regarde maintenant **vers le bas**.
+- A : il descend d'une case.
+
+Bilan : $3$ cases à droite et $2 - 1 = 1$ case vers le haut. Le robot arrive **$3$ cases à droite et $1$ case au-dessus de S**, et il **regarde vers le bas**.
+
+**3.** Le robot regarde vers le bas. Par exemple : D (il regarde vers la gauche), A A A (il revient $3$ cases à gauche), G (il regarde vers le bas), A (il descend d'une case). Programme : $\\text{D} \; \\text{A} \; \\text{A} \; \\text{A} \; \\text{G} \; \\text{A}$.
+(D'autres programmes sont possibles, par exemple $\\text{A} \; \\text{D} \; \\text{A} \; \\text{A} \; \\text{A}$ : il descend d'abord d'une case puis va $3$ cases à gauche.)`
+    },
+    {
+      id: "6A1-ds-10",
+      title: "Une ligne en pointillés",
+      difficulty: 2,
+      points: 5,
+      statement: `Le lutin est orienté vers la droite. On exécute le script suivant :
+
+\`\`\`scratch
+quand drapeau cliqué
+répéter 5 fois
+    stylo en position d'écriture
+    avancer de 20 pas
+    relever le stylo
+    avancer de 10 pas
+\`\`\`
+
+1. Décrire ce que dessine le lutin.
+2. Quelle est la longueur totale des traits dessinés ? Quelle distance le lutin a-t-il parcourue en tout ?
+3. Combien d'instructions faudrait-il écrire sans utiliser de boucle ?
+4. Modifier le script pour obtenir $8$ traits de $15$ pas séparés par des espaces de $5$ pas. Quelle distance le lutin parcourt-il alors ?`,
+      solution: `**1.** À chaque passage dans la boucle, le lutin trace un trait de $20$ pas (stylo baissé), puis avance de $10$ pas sans tracer (stylo relevé). Il dessine une **ligne en pointillés horizontale** formée de $5$ traits de $20$ pas séparés par des espaces de $10$ pas.
+
+**2.** Traits dessinés : $5 \\times 20 = 100$ pas.
+Distance parcourue : à chaque passage $20 + 10 = 30$ pas, donc $5 \\times 30 = 150$ pas.
+
+**3.** La boucle contient $4$ instructions, répétées $5$ fois : $5 \\times 4 = 20$ instructions (sans compter « quand drapeau cliqué »).
+
+**4.** Script modifié :
+\`\`\`scratch
+quand drapeau cliqué
+répéter 8 fois
+    stylo en position d'écriture
+    avancer de 15 pas
+    relever le stylo
+    avancer de 5 pas
+\`\`\`
+Distance parcourue : $8 \\times (15 + 5) = 8 \\times 20 = 160$ pas.`
+    },
+    {
+      id: "6A1-ds-11",
+      title: "Le triangle qui ne se ferme pas",
+      difficulty: 3,
+      points: 5,
+      statement: `Emma veut que le lutin trace un triangle équilatéral de côté $100$ pas. Le lutin est orienté vers la droite, stylo baissé. Comme les angles d'un triangle équilatéral mesurent $60^\\circ$, elle écrit :
+
+\`\`\`scratch
+quand drapeau cliqué
+stylo en position d'écriture
+répéter 3 fois
+    avancer de 100 pas
+    tourner ↺ de 60 degrés
+\`\`\`
+
+Le dessin obtenu n'est pas un triangle.
+
+1. Après le premier « tourner », quel angle forment le premier trait dessiné et la direction dans laquelle le lutin va avancer ? (On pourra faire un schéma.)
+2. Le lutin revient-il à son point de départ ? Que dessine-t-il ?
+3. Par quel angle faut-il remplacer $60$ pour obtenir le triangle équilatéral ? Justifier.
+4. De combien de degrés le lutin a-t-il tourné en tout avec le script corrigé ? Interpréter ce résultat.
+5. En gardant « tourner ↺ de 60 degrés », combien de fois faut-il répéter la boucle pour que le lutin revienne à son point de départ ? Quelle figure obtient-on ?`,
+      solution: `**1.** Le lutin tourne de $60^\\circ$ par rapport à la direction dans laquelle il avançait. Le trait déjà tracé est derrière lui : l'angle entre ce trait et la nouvelle direction est le supplémentaire de $60^\\circ$, soit $180^\\circ - 60^\\circ = 120^\\circ$.
+
+**2.** Les côtés successifs forment des angles de $120^\\circ$ et non de $60^\\circ$ : le lutin ne revient pas à son point de départ. Il dessine **$3$ côtés de $100$ pas d'un hexagone régulier**, une ligne brisée ouverte.
+
+**3.** Pour que deux côtés consécutifs forment un angle de $60^\\circ$, le lutin doit tourner du supplémentaire : $180^\\circ - 60^\\circ = 120^\\circ$. On remplace donc $60$ par **$120$**.
+
+**4.** $3 \\times 120^\\circ = 360^\\circ$ : le lutin a fait **un tour complet**. Il revient à son point de départ, orienté comme au début (vers la droite).
+
+**5.** Pour faire un tour complet par tranches de $60^\\circ$, il faut $360 \\div 60 = 6$ répétitions. Le lutin trace alors **un hexagone régulier** de côté $100$ pas ($6$ côtés égaux).`
+    },
+    {
+      id: "6A1-ds-12",
+      title: "La course de deux lutins",
+      difficulty: 4,
+      points: 6,
+      statement: `Dans un jeu, deux lutins courent sur une même ligne droite, vers la droite. Le lutin Lapin part de la ligne de départ ; le lutin Tortue part $100$ pas devant lui. Quand on clique sur le drapeau, les deux scripts se lancent en même temps et les deux boucles avancent au même rythme (un passage chacun, en même temps).
+
+Script de Lapin :
+\`\`\`scratch
+quand drapeau cliqué
+répéter 25 fois
+    avancer de 15 pas
+\`\`\`
+
+Script de Tortue :
+\`\`\`scratch
+quand drapeau cliqué
+répéter 25 fois
+    avancer de 10 pas
+\`\`\`
+
+1. Recopier et compléter le tableau des distances à la ligne de départ :
+
+| Nombre de passages | $0$ | $1$ | $2$ | $3$ | $10$ |
+|:---|:---:|:---:|:---:|:---:|:---:|
+| Lapin (en pas) | $0$ | | | | |
+| Tortue (en pas) | $100$ | | | | |
+
+2. De combien de pas l'écart entre les deux lutins diminue-t-il à chaque passage ?
+3. Après combien de passages Lapin rattrape-t-il Tortue ? À quelle distance de la ligne de départ ?
+4. À la fin des deux scripts, qui est devant, et de combien de pas ?
+5. On veut que Lapin rattrape Tortue après exactement $10$ passages, sans changer le script de Lapin. Par quel nombre faut-il remplacer $10$ dans « avancer de 10 pas » du script de Tortue ? Justifier.`,
+      solution: `**1.** À chaque passage, Lapin avance de $15$ pas et Tortue de $10$ pas ; Tortue part de $100$ pas. Par exemple, après $10$ passages : Lapin est à $10 \\times 15 = 150$ pas et Tortue à $100 + 10 \\times 10 = 200$ pas.
+
+| Nombre de passages | $0$ | $1$ | $2$ | $3$ | $10$ |
+|:---|:---:|:---:|:---:|:---:|:---:|
+| Lapin (en pas) | $0$ | $15$ | $30$ | $45$ | $150$ |
+| Tortue (en pas) | $100$ | $110$ | $120$ | $130$ | $200$ |
+
+**2.** À chaque passage, Lapin avance de $15$ pas et Tortue de $10$ pas : l'écart diminue de $15 - 10 = 5$ pas.
+
+**3.** L'écart de départ est $100$ pas. Il faut $100 \\div 5 = 20$ passages pour l'annuler.
+Distance : Lapin est à $20 \\times 15 = 300$ pas ; Tortue à $100 + 20 \\times 10 = 300$ pas. Ils sont ensemble à **$300$ pas** de la ligne de départ.
+
+**4.** Après $25$ passages : Lapin est à $25 \\times 15 = 375$ pas, Tortue à $100 + 25 \\times 10 = 350$ pas. **Lapin est devant, de $25$ pas.**
+
+**5.** Pour rattraper $100$ pas en $10$ passages, l'écart doit diminuer de $100 \\div 10 = 10$ pas par passage. Tortue doit donc avancer de $15 - 10 = 5$ pas par passage : on remplace $10$ par **$5$**.
+Vérification : après $10$ passages, Lapin est à $150$ pas et Tortue à $100 + 10 \\times 5 = 150$ pas.`
     }
   ]
 });

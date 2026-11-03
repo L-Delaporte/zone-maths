@@ -3645,6 +3645,44 @@ body.home-view-active .cycle-levels-row {
   border-bottom: 1px solid #e5e7eb;
 }
 
+.quiz-scale {
+  margin: 0.35rem 0 0.5rem;
+  font-size: 0.82rem;
+  color: var(--text-muted, #555);
+}
+.quiz-mcq-choices p {
+  margin: 0.15rem 0;
+}
+.quiz-mcq-choices {
+  margin-top: 0.4rem;
+  padding-left: 0.5rem;
+}
+.exam-competency-grid {
+  margin-top: 1rem;
+}
+.exam-competency-grid h4 {
+  margin: 0 0 0.4rem;
+}
+.exam-competency-grid table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+.exam-competency-grid th,
+.exam-competency-grid td {
+  border: 1px solid var(--border-color, #999);
+  padding: 0.25rem 0.4rem;
+  text-align: left;
+}
+.exam-competency-grid td:nth-child(n+3) {
+  width: 11%;
+}
+.exam-competency-note {
+  margin: 0.3rem 0 0;
+  font-size: 0.78rem;
+  color: var(--text-muted, #555);
+}
+
 .quiz-learning-meta {
   display: flex;
   align-items: center;
@@ -4537,19 +4575,19 @@ body.home-view-active .cycle-levels-row {
     overflow: visible;
   }
 
+  /* Une colonne, corps lisible (10,5 pt) : une copie d'examen, pas une fiche condensée */
   .quiz-questions-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2mm 3.5mm;
+    display: block;
   }
 
   /* important : impression, prime sur les styles d'écran, le thème sombre et le JS */
   .quiz-q-card {
     border: 1px solid #444 !important;
     background: white !important;
-    padding: 1.8mm 2.5mm;
-    font-size: 8pt;
-    line-height: 1.25;
+    padding: 2mm 3mm;
+    margin-bottom: 2.5mm;
+    font-size: 10.5pt;
+    line-height: 1.35;
     page-break-inside: avoid;
     break-inside: avoid;
     box-sizing: border-box;
@@ -4631,10 +4669,17 @@ body.home-view-active .cycle-levels-row {
     overflow: visible;
   }
 
-  /* Masquer à l'impression UNIQUEMENT si l'élève a cliqué sur "Masquer le corrigé" */
-  #quiz-solutions-block.quiz-solutions-hidden {
-    display: none;
+  /* Corrigé imprimé seulement avec « Sujet + corrigé » (le bouton « Imprimer le sujet » l'exclut toujours) */
+  /* important : impression, prime sur le style en ligne posé par l'affichage à l'écran */
+  body:not(.quiz-print-solution) #quiz-solutions-block {
+    display: none !important;
   }
+  /* important : impression, prime sur le style en ligne posé par l'affichage à l'écran */
+  body.quiz-print-solution #quiz-solutions-block {
+    display: block !important;
+  }
+  .quiz-learning-meta { display: none; }
+  .exam-competency-grid { page-break-inside: avoid; break-inside: avoid; font-size: 9pt; }
 
   /* important : impression, prime sur les styles d'écran, le thème sombre et le JS */
   .teacher-header h3 {
@@ -4645,18 +4690,17 @@ body.home-view-active .cycle-levels-row {
   }
 
   .quiz-solutions-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2mm 3.5mm;
+    display: block;
   }
 
   /* important : impression, prime sur les styles d'écran, le thème sombre et le JS */
   .quiz-sol-card {
     border: 1px solid #2563eb !important;
     background: white !important;
-    padding: 1.8mm 2.5mm;
-    font-size: 7.5pt;
-    line-height: 1.25;
+    padding: 2mm 3mm;
+    margin-bottom: 2.5mm;
+    font-size: 9.5pt;
+    line-height: 1.3;
     page-break-inside: avoid;
     break-inside: avoid;
     box-sizing: border-box;
