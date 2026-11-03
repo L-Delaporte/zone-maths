@@ -340,6 +340,16 @@
 .cours-level-card h3 a:hover { text-decoration: underline; }
 .cours-count { font-size: 0.8rem; font-weight: 600; color: var(--text-muted); }
 .cours-level-card ul { padding-left: 1.1rem; font-size: 0.9rem; line-height: 1.5; }
+.cours-level-card .cours-cat-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--primary-text);
+  margin: 0.9rem 0 0.35rem;
+  padding-top: 0.6rem;
+  border-top: 1px solid var(--border-color);
+}
+.cours-level-card h3 + .cours-cat-title { margin-top: 0.2rem; padding-top: 0; border-top: 0; }
+[data-theme="dark"] .cours-level-card .cours-cat-title { color: #93c5fd; }
 .cours-level-card li + li { margin-top: 0.3rem; }
 .cours-level-card li a { color: var(--text-main); text-decoration: none; }
 .cours-level-card li a:hover { color: var(--primary-text); text-decoration: underline; }

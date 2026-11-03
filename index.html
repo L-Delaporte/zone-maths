@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <!-- Content-Security-Policy : voir scripts/csp.js (style-src 'unsafe-inline' requis par les attributs style de KaTeX et de l'application) -->
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://gc.zgo.at; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://etabli-des-maths.goatcounter.com; font-src 'self' data:; connect-src 'self' https://etabli-des-maths.goatcounter.com; object-src 'none'; base-uri 'self'; form-action 'self'; manifest-src 'self'; worker-src 'self'" />
-  <script src="js/themeInit.js?v=5a89a0607f"></script>
+  <script src="js/themeInit.js?v=a282873d6c"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="author" content="Loïc Delaporte, Professeur de Mathématiques" />
   <meta name="description" content="Exercices de maths corrigés et générés à l'infini, cours, rituels et brevets blancs, de la 6e au bac. Gratuit, sans compte ni pub, par un prof de maths." />
@@ -76,7 +76,7 @@
   <link rel="stylesheet" href="vendor/katex/katex.min.css?v=000b7545e1" />
   
   <!-- Feuilles de style de l'application -->
-  <link rel="stylesheet" href="css/style.css?v=6b1c31eb72" />
+  <link rel="stylesheet" href="css/style.css?v=aa771d5e84" />
   <link rel="stylesheet" href="css/sheets.css?v=1f1346a799" />
   <link rel="icon" href="/favicon.ico" sizes="any" />
   <link rel="icon" type="image/png" sizes="48x48" href="assets/favicon-48x48.png" />
@@ -173,6 +173,9 @@
           <div class="header-utility-actions">
             <button id="sound-toggle-btn" class="btn-icon-text btn-utility-action" title="Activer / Couper les sons" data-click="MathsAudio.toggleMute">
               🔊 <span class="btn-sound-text btn-lbl">Sons</span>
+            </button>
+            <button id="simple-toggle-btn" class="btn-icon-text btn-utility-action" type="button" aria-pressed="false" title="Réduire les animations et effets visuels">
+              👓 <span class="btn-lbl">Affichage simplifié</span>
             </button>
             <button id="theme-toggle-btn" class="btn-icon-text btn-utility-action" title="Basculer le thème">
               🌙 <span class="btn-lbl">Mode Sombre</span>
@@ -1353,7 +1356,7 @@
   <script src="js/badges.js?v=c5824c0ee8"></script>
   <script src="js/storage.js?v=6cfd159b0b"></script>
   <script src="js/audioEffects.js?v=b65413daaf"></script>
-  <script src="js/confetti.js?v=b2b29d56a8"></script>
+  <script src="js/confetti.js?v=2f09c3d81b"></script>
   <script src="js/mathRenderer.js?v=b18b8ba377"></script>
   <script src="js/geometryFigures.js?v=656295f7c5"></script>
   <script src="js/scratchRenderer.js?v=5f9033f40a"></script>
@@ -1365,7 +1368,7 @@
   <script src="js/flashQuizGenerator.js?v=3ffdafda14"></script>
   <script src="js/flashcardsEngine.js?v=9621e5c78a"></script>
   <script src="js/dataLoader.js?v=828f7fa67d"></script>
-  <script src="js/app.js?v=de47196530"></script>
+  <script src="js/app.js?v=885fb814d1"></script>
   <script src="js/app/home.js?v=c25700373c"></script>
   <script src="js/app/tools.js?v=4b710dcdc8"></script>
   <script src="js/app/training.js?v=7437ea1e9a"></script>
@@ -1373,7 +1376,7 @@
   <script src="js/app/sheets.js?v=f612e1dce0"></script>
   <script src="js/app/defi.js?v=521135bee7"></script>
   <script src="js/app/stats.js?v=fd7ce9df6d"></script>
-  <script src="js/pwaManager.js?v=2bb857ae9d"></script>
+  <script src="js/pwaManager.js?v=325a61601c"></script>
 
   <!-- Statistiques d'audience anonymes et conformes RGPD (GoatCounter, sans cookie) : voir js/analytics.js
        (sources de trafic ?src=…). L'enregistrement du service worker est dans js/pwaManager.js. -->

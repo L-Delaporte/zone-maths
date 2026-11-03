@@ -227,11 +227,31 @@ window.MathsApp = {
     }
   },
 
+  // --- Affichage simplifié (accessibilité) ---
+  toggleSimpleDisplay() {
+    const root = document.documentElement;
+    const on = !root.hasAttribute('data-simple');
+    if (on) root.setAttribute('data-simple', ''); else root.removeAttribute('data-simple');
+    try { localStorage.setItem('etabli_affichage_simple', on ? '1' : '0'); } catch (e) {}
+    this.updateSimpleButton();
+  },
+
+  updateSimpleButton() {
+    const btn = document.getElementById('simple-toggle-btn');
+    if (!btn) return;
+    const on = document.documentElement.hasAttribute('data-simple');
+    btn.innerHTML = on ? '✨ <span class="btn-lbl">Affichage normal</span>' : '👓 <span class="btn-lbl">Affichage simplifié</span>';
+    btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+  },
+
   // --- Navigation par Domaine & Chapitre ---
   bindGlobalEvents() {
     // Bouton thème
     const themeBtn = document.getElementById('theme-toggle-btn');
     if (themeBtn) themeBtn.addEventListener('click', () => this.toggleTheme());
+    const simpleBtn = document.getElementById('simple-toggle-btn');
+    if (simpleBtn) simpleBtn.addEventListener('click', () => this.toggleSimpleDisplay());
+    this.updateSimpleButton();
 
     // Déclencheur du tiroir mobile de chapitres
     const mobileChapterBtn = document.getElementById('mobile-chapter-btn');

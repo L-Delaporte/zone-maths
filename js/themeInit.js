@@ -3,3 +3,7 @@
 try {
   document.documentElement.setAttribute('data-theme', JSON.parse(localStorage.getItem('maths_3e_progress_v1') || '{}').theme || 'light');
 } catch (e) {}
+// Affichage simplifié (réglage d'accessibilité) : sans animations ni effets visuels.
+try {
+  if (localStorage.getItem('etabli_affichage_simple') === '1') document.documentElement.setAttribute('data-simple', '');
+} catch (e) {}

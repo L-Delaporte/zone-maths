@@ -17,6 +17,20 @@ window.MathsPwa = {
       return;
     }
 
+    // 1 bis. Ne proposer l'installation qu'à partir de la 2e visite (une visite = une session d'onglet)
+    let visits = 0;
+    try {
+      visits = parseInt(localStorage.getItem('etabli_visits') || '0', 10) || 0;
+      if (!sessionStorage.getItem('etabli_visit_counted')) {
+        visits += 1;
+        localStorage.setItem('etabli_visits', String(visits));
+        sessionStorage.setItem('etabli_visit_counted', '1');
+      }
+    } catch (e) {}
+    if (visits < 2) {
+      return;
+    }
+
     // 2. Vérifier si l'utilisateur a fermé récemment le bandeau (rappel après 7 jours)
     let dismissedTime = null;
     try { dismissedTime = localStorage.getItem('etabli_pwa_dismissed'); } catch (e) {}

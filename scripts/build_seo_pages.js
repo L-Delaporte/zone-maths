@@ -183,6 +183,32 @@ const HUBS = {
   entrainement: { dir: 'entrainement-maths', name: 'Entraînement maths en ligne' }
 };
 
+/** Grande catégorie d'un chapitre, commune à toutes les classes (sommaire /cours/). */
+const CATEGORIES = [
+  { id: 'nombres', name: 'Nombres, calcul et algèbre' },
+  { id: 'fonctions', name: 'Fonctions et analyse' },
+  { id: 'geometrie', name: 'Géométrie' },
+  { id: 'grandeurs', name: 'Grandeurs et mesures' },
+  { id: 'stats', name: 'Statistiques et probabilités' },
+  { id: 'algo', name: 'Algorithmique et programmation' },
+  { id: 'autres', name: 'Raisonnement et métier' }
+];
+function categoryOf(ch, title) {
+  const dom = String(ch.domainName || ch.domain || '');
+  const t = String(title);
+  if (/démonstrations fondamentales|éthique|laïcité/i.test(dom)) return 'autres';
+  if (/statisti|probabilit|données|dénombrement|combinatoire|aléatoire|échantillonnage|fluctuation|bernoulli|binomiale/i.test(t)) return 'stats';
+  if (/algorithm|programmation|pensée informatique|scratch|python/i.test(t)) return 'algo';
+  if (/espaces métriques|banach|compacité|mesure et intégration|analyse numérique|calcul différentiel/i.test(t)) return 'fonctions';
+  if (/vecteurs du plan|géométrie (affine|euclidienne|différentielle|vectorielle)|courbes paramétrées/i.test(t)) return 'geometrie';
+  if (/fraction|relatifs|nombres complexes|matric|linéaires?,|applications linéaires|endomorphism|déterminant|espaces vectoriels|dualité|groupes?\b|anneaux|arithmétique|préhilbert|euclidiens|récurrence/i.test(t)) return 'nombres';
+  if (/grandeurs et mesures/i.test(dom)) return 'grandeurs';
+  if (/fonction|suite|série|dérivé|intégra|primitive|différentielle|limite|continuit|exponentiel|logarithm|convexit|proportionnalit|pourcentage|polynôme du second|taylor|dépendance entre grandeurs/i.test(t)) return 'fonctions';
+  if (/géométri|espace|triangle|pythagore|thalès|trigonom|vecteur|\bdroites?\b|cercle|\bangles?\b|\baires?\b|périmètre|volume|solide|symétri|translation|rotation|homothét|produit scalaire|sphère|parallélogramme|quadrilatère|repérage|courbes paramétrées/i.test(t)) return 'geometrie';
+  if (/analyse/i.test(dom)) return 'fonctions';
+  return 'nombres';
+}
+
 const CYCLES = [
   { id: 'college', name: 'Collège', desc: 'De la 6e à la 3e, jusqu\u2019au brevet.' },
   { id: 'lycee', name: 'Lycée', desc: 'Seconde, puis spécialité mathématiques en première et terminale.' },
@@ -986,9 +1012,14 @@ ${CYCLES.map((cy) => {
       <div class="cours-level-grid">
 ${lv.map(({ lvl, items }) => `        <article class="cours-level-card">
           <h3><a href="${lvl.slug}/">${lvl.code === 'capes' ? 'CAPES de mathématiques' : esc(lvl.label)}</a> <span class="cours-count">${items.length} chapitres</span></h3>
+${CATEGORIES.map((cat) => {
+    const list = items.filter((it) => categoryOf(it.ch, it.title) === cat.id);
+    if (!list.length) return '';
+    return `          <h4 class="cours-cat-title">${esc(cat.name)}</h4>
           <ul>
-${items.map((it) => `            <li><a href="${lvl.slug}/${it.slug}.html">${esc(frTypo(it.title))}</a></li>`).join('\n')}
-          </ul>
+${list.map((it) => `            <li><a href="${lvl.slug}/${it.slug}.html">${esc(frTypo(it.title))}</a></li>`).join('\n')}
+          </ul>`;
+  }).filter(Boolean).join('\n')}
         </article>`).join('\n')}
       </div>
     </section>`;
