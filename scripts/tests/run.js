@@ -16,7 +16,7 @@ const steps = [
   ['Cœur applicatif', ['scripts/tests/test_core.js']],
   ['Badges à niveaux', ['scripts/tests/test_badges.js']],
   ['Contenus (cours, exercices, fiches)', ['scripts/tests/test_data_content.js']],
-  ['Banques de DS et problèmes de brevet', ['scripts/tests/test_ds_banks.js', '--min', '12']],
+  ['Banques de DS et problèmes de brevet', ['scripts/tests/test_ds_banks.js', '--min', '12', '--min-secondaire', '16']],
   ['Défi de la semaine', ['scripts/tests/test_defis.js']],
   ['Content-Security-Policy (pages et scripts)', ['scripts/tests/test_csp.js']],
   ['Générateurs collège', ['scripts/tests/test_college_generators.js']],

@@ -14,7 +14,8 @@
  * Un problème de brevet a en plus : theme (géométrie | fonctions | statistiques-probabilités |
  *   algorithmique | grandeurs-mesures | nombres-calculs) et points ∈ {3; 3,5; 4; 4,5; 5}.
  *
- * Usage : node scripts/tests/test_ds_banks.js [--min N]   (N exercices minimum par chapitre bancarisé)
+ * Usage : node scripts/tests/test_ds_banks.js [--min N] [--min-secondaire M]
+ *   (N exercices minimum par chapitre bancarisé, M pour les chapitres de la 6e à la Terminale)
  */
 const fs = require('fs');
 const path = require('path');
@@ -23,6 +24,10 @@ const vm = require('vm');
 const ROOT = path.resolve(__dirname, '..', '..');
 const minArg = process.argv.indexOf('--min');
 const MIN_PER_CHAPTER = minArg > 0 ? parseInt(process.argv[minArg + 1], 10) : 1;
+// --min-secondaire N : seuil propre au secondaire (6e → Tle), plus exigeant que celui du supérieur
+const minSecArg = process.argv.indexOf('--min-secondaire');
+const MIN_SECONDAIRE = minSecArg > 0 ? parseInt(process.argv[minSecArg + 1], 10) : MIN_PER_CHAPTER;
+const SECONDAIRE = ['6eme', '5eme', '4eme', '3eme', '2nde', '1ere', 'tale'];
 
 const ctx = { window: {}, console };
 ctx.window.window = ctx.window;
@@ -99,7 +104,8 @@ let total = 0;
 for (const [chapterId, list] of Object.entries(bank)) {
   if (!chapterIds.has(chapterId)) fail(`MATHS_DS_BANK : chapitre inconnu ${chapterId}`);
   if (!Array.isArray(list)) { fail(`MATHS_DS_BANK[${chapterId}] n'est pas une liste`); continue; }
-  if (list.length < MIN_PER_CHAPTER) fail(`${chapterId} : ${list.length} exercice(s) < ${MIN_PER_CHAPTER}`);
+  const minHere = SECONDAIRE.includes(LEVEL_OF[chapterId]) ? Math.max(MIN_SECONDAIRE, MIN_PER_CHAPTER) : MIN_PER_CHAPTER;
+  if (list.length < minHere) fail(`${chapterId} : ${list.length} exercice(s) < ${minHere}`);
   const diffs = new Set(list.map(e => e && e.difficulty));
   if (list.length >= 4 && diffs.size < 3) fail(`${chapterId} : difficultés trop peu variées`);
   list.forEach((ex, i) => {

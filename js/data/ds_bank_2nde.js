@@ -275,8 +275,9 @@ Cette fraction est irréductible : $611 = 13 \\times 47$ et $495 = 3^2 \\times 5
 1. Montrer que pour tout entier $n$, le nombre $n^2 + n$ est pair. (On pourra raisonner par disjonction des cas, ou factoriser.)
 2. a) Montrer que si $n$ est pair, alors $n^2$ est un multiple de $4$.
  b) Montrer que si $n$ est impair, alors $n^2$ s'écrit $4k + 1$ avec $k$ entier.
-3. En déduire les restes possibles de la division euclidienne de $a^2 + b^2$ par $4$.
-4. Le nombre $2\\,027$ peut-il s'écrire comme la somme des carrés de deux entiers ? Et $2\\,026$ ? Justifier.`,
+3. En distinguant trois cas ($a$ et $b$ pairs ; l'un pair et l'autre impair ; $a$ et $b$ impairs), montrer que $a^2 + b^2$ s'écrit toujours sous l'une des formes $4k$, $4k + 1$ ou $4k + 2$ ($k$ entier). En déduire que $a^2 + b^2$ ne s'écrit jamais sous la forme $4k + 3$.
+4. a) Vérifier que $2\\,027 = 4 \\times 506 + 3$. Le nombre $2\\,027$ peut-il s'écrire comme la somme des carrés de deux entiers ?
+ b) Le nombre $2\\,026$ peut-il s'écrire comme la somme des carrés de deux entiers ? (On pourra calculer $45^2$.)`,
       solution: `**1.** $n^2 + n = n(n + 1)$ est le produit de deux entiers consécutifs. L'un des deux est pair :
 - si $n = 2p$, alors $n(n + 1) = 2 \\times p(2p + 1)$ ;
 - si $n = 2p + 1$, alors $n(n + 1) = (2p + 1)(2p + 2) = 2 \\times (2p + 1)(p + 1)$.
@@ -287,16 +288,128 @@ Dans les deux cas, $n^2 + n$ est pair.
 
 **b)** Si $n = 2p + 1$, alors $n^2 = 4p^2 + 4p + 1 = 4(p^2 + p) + 1$, de la forme $4k + 1$ avec $k = p^2 + p$ entier.
 
-**3.** D'après la question 2, le reste de la division d'un carré par $4$ vaut $0$ ou $1$. Les restes de $a^2$ et $b^2$ s'ajoutent :
-- $a$ et $b$ pairs : $a^2 + b^2 = 4k + 4k'$, reste $0$ ;
-- un pair, un impair : reste $1$ ;
-- $a$ et $b$ impairs : $a^2 + b^2 = 4(k + k') + 2$, reste $2$.
+**3.** D'après la question 2, un carré d'entier s'écrit $4k$ (si l'entier est pair) ou $4k + 1$ (s'il est impair). Avec $k$ et $k'$ entiers :
+- $a$ et $b$ pairs : $a^2 + b^2 = 4k + 4k' = 4(k + k')$ ;
+- un pair, un impair : $a^2 + b^2 = 4k + 4k' + 1 = 4(k + k') + 1$ ;
+- $a$ et $b$ impairs : $a^2 + b^2 = 4k + 1 + 4k' + 1 = 4(k + k') + 2$.
 
-Le reste vaut donc $0$, $1$ ou $2$, **jamais $3$**.
+Dans tous les cas, $a^2 + b^2$ est de la forme $4K$, $4K + 1$ ou $4K + 2$ avec $K = k + k'$ entier. Il ne peut pas s'écrire $4K' + 3$ : sinon, en soustrayant, $3$, $2$ ou $1$ serait un multiple de $4$, ce qui est faux.
 
-**4.** $2\\,027 = 4 \\times 506 + 3$ : son reste dans la division par $4$ est $3$. D'après la question 3, $2\\,027$ ne peut pas être la somme de deux carrés d'entiers.
+**4. a)** $4 \\times 506 = 2\\,024$ et $2\\,024 + 3 = 2\\,027$. D'après la question 3, $2\\,027$ ne peut pas être la somme de deux carrés d'entiers.
 
-Pour $2\\,026 = 4 \\times 506 + 2$, l'argument ne permet pas de conclure, mais on peut chercher : $2\\,026 = 45^2 + 1^2 = 2\\,025 + 1$. Donc $2\\,026$ est bien la somme de deux carrés.`
+**b)** $2\\,026 = 4 \\times 506 + 2$ : la question 3 ne permet pas de conclure, mais $45^2 = 2\\,025$, donc $2\\,026 = 45^2 + 1^2$ est bien la somme de deux carrés.`
+    },
+{
+      id: "2N1-ds-13",
+      title: "Multiples d'un entier et sommes d'entiers consécutifs",
+      difficulty: 1,
+      points: 4,
+      statement: `Dans tout l'exercice, $n$ désigne un entier.
+
+1. Les nombres $91$, $119$ et $143$ sont-ils des multiples de $7$ ? Justifier.
+2. Donner la liste des multiples de $7$ compris entre $100$ et $150$.
+3. a) Calculer la somme de trois entiers consécutifs pour trois exemples de votre choix. Que remarque-t-on ?
+ b) Démontrer que la somme de trois entiers consécutifs $n$, $n + 1$ et $n + 2$ est toujours un multiple de $3$.
+4. La somme de quatre entiers consécutifs est-elle toujours un multiple de $4$ ? Justifier.`,
+      solution: `**1.** $91 = 7 \\times 13$ et $119 = 7 \\times 17$ sont des multiples de $7$. En revanche $143 = 7 \\times 20 + 3$ : ce n'est pas un multiple de $7$ (on a d'ailleurs $143 = 11 \\times 13$).
+
+**2.** $7 \\times 14 = 98 < 100$ et $7 \\times 15 = 105$ ; $7 \\times 21 = 147$ et $7 \\times 22 = 154 > 150$. Les multiples de $7$ cherchés sont : $105$ ; $112$ ; $119$ ; $126$ ; $133$ ; $140$ ; $147$.
+
+**3. a)** Par exemple $4 + 5 + 6 = 15$, $10 + 11 + 12 = 33$, $27 + 28 + 29 = 84$ : on obtient à chaque fois un multiple de $3$ ($15 = 3 \\times 5$, $33 = 3 \\times 11$, $84 = 3 \\times 28$).
+
+**b)** $n + (n + 1) + (n + 2) = 3n + 3 = 3(n + 1)$, et $n + 1$ est un entier : la somme est un multiple de $3$ (c'est même le triple de l'entier du milieu).
+
+**4.** Non : $1 + 2 + 3 + 4 = 10$ n'est pas un multiple de $4$. Ce contre-exemple suffit. (En général, $n + (n + 1) + (n + 2) + (n + 3) = 4n + 6 = 4(n + 1) + 2$ n'est jamais un multiple de $4$.)`
+    },
+    {
+      id: "2N1-ds-14",
+      title: "Ce nombre est-il premier ?",
+      difficulty: 2,
+      points: 5,
+      statement: `On rappelle qu'un nombre premier est un entier naturel qui admet exactement deux diviseurs : $1$ et lui-même.
+
+1. Soit $n$ un entier naturel supérieur ou égal à $2$ qui n'est pas premier. Il s'écrit donc $n = a \\times b$ avec $a$ et $b$ entiers et $2 \\leqslant a \\leqslant b$.
+ a) Justifier que $a^2 \\leqslant n$.
+ b) En déduire que $n$ admet un diviseur $a$ compris entre $2$ et $\\sqrt{n}$.
+2. Pour savoir si $199$ est premier, jusqu'à quel entier suffit-il de tester les diviseurs ? Faire le test et conclure.
+3. Montrer que $221$ n'est pas premier en donnant sa décomposition en produit de facteurs premiers.
+4. Un élève affirme : « tous les nombres de la forme $10k + 1$ ($k$ entier naturel non nul) sont premiers ». A-t-il raison ?`,
+      solution: `**1. a)** Comme $a \\leqslant b$ et $a > 0$, on a $a \\times a \\leqslant a \\times b$, soit $a^2 \\leqslant n$.
+
+**b)** $a$ et $\\sqrt{n}$ sont positifs et $a^2 \\leqslant n$, donc $a \\leqslant \\sqrt{n}$ (la fonction racine carrée est croissante). Ainsi $a$ est un diviseur de $n$ tel que $2 \\leqslant a \\leqslant \\sqrt{n}$.
+
+Conséquence : si aucun entier compris entre $2$ et $\\sqrt{n}$ ne divise $n$, alors $n$ est premier.
+
+**2.** $14^2 = 196 \\leqslant 199 < 225 = 15^2$, donc $\\sqrt{199} < 15$ : il suffit de tester les entiers de $2$ à $14$, et même seulement les nombres premiers $2$, $3$, $5$, $7$, $11$, $13$ (un diviseur non premier aurait lui-même un diviseur premier plus petit).
+- $199$ est impair ; la somme de ses chiffres vaut $19$ : il n'est pas divisible par $3$ ; il ne se termine ni par $0$ ni par $5$.
+- $199 = 7 \\times 28 + 3$ ; $199 = 11 \\times 18 + 1$ ; $199 = 13 \\times 15 + 4$.
+
+Aucun de ces nombres ne divise $199$ : **$199$ est premier**.
+
+**3.** On teste les nombres premiers : $221$ n'est divisible ni par $2$, ni par $3$ ($2 + 2 + 1 = 5$), ni par $5$, ni par $7$ ($221 = 7 \\times 31 + 4$), ni par $11$ ($221 = 11 \\times 20 + 1$), mais $221 = 13 \\times 17$. Ces deux facteurs sont premiers : c'est la décomposition cherchée.
+
+**4.** Non : pour $k = 2$, $21 = 3 \\times 7$ n'est pas premier. Un seul contre-exemple suffit à prouver que l'affirmation est fausse.`
+    },
+    {
+      id: "2N1-ds-15",
+      title: "Le carré d'un nombre impair",
+      difficulty: 3,
+      points: 6,
+      statement: `Dans tout l'exercice, $n$ et $k$ désignent des entiers.
+
+1. Calculer $n^2 - 1$ pour $n = 3$, $5$, $7$ et $9$. Quelle conjecture peut-on faire sur ces nombres ?
+2. On suppose que $n$ est impair et on écrit $n = 2k + 1$.
+ a) Montrer que $n^2 - 1 = 4k(k + 1)$.
+ b) Justifier que $k(k + 1)$ est pair (on pourra distinguer le cas où $k$ est pair et celui où $k$ est impair).
+ c) En déduire que $n^2 - 1$ est un multiple de $8$.
+3. La propriété reste-t-elle vraie lorsque $n$ est pair ?
+4. Application : sans calculer $2\\,027^2$, justifier que $2\\,027^2 - 1$ est divisible par $8$, puis que $2\\,027^2 + 7$ l'est aussi.`,
+      solution: `**1.** $3^2 - 1 = 8$ ; $5^2 - 1 = 24$ ; $7^2 - 1 = 48$ ; $9^2 - 1 = 80$. Ce sont $8 \\times 1$, $8 \\times 3$, $8 \\times 6$ et $8 \\times 10$ : on conjecture que, pour $n$ impair, $n^2 - 1$ est un multiple de $8$.
+
+**2. a)** $n^2 - 1 = (2k + 1)^2 - 1 = 4k^2 + 4k + 1 - 1 = 4k^2 + 4k = 4k(k + 1)$.
+
+**b)** Si $k$ est pair, $k = 2p$ et $k(k + 1) = 2 \\times p(k + 1)$ est pair. Si $k$ est impair, $k + 1$ est pair, $k + 1 = 2q$ et $k(k + 1) = 2 \\times kq$ est pair. Dans tous les cas, $k(k + 1)$ est pair : c'est le produit de deux entiers consécutifs.
+
+**c)** On écrit $k(k + 1) = 2m$ avec $m$ entier. Alors $n^2 - 1 = 4 \\times 2m = 8m$ : c'est un multiple de $8$.
+
+**3.** Non : pour $n = 2$, $n^2 - 1 = 3$ n'est pas un multiple de $8$. (Si $n$ est pair, $n^2$ est pair donc $n^2 - 1$ est impair : il ne peut même pas être pair.)
+
+**4.** $2\\,027$ est impair, donc $2\\,027^2 - 1$ est un multiple de $8$ d'après la question 2. Ensuite $2\\,027^2 + 7 = (2\\,027^2 - 1) + 8$ est la somme de deux multiples de $8$ : c'est un multiple de $8$.`
+    },
+    {
+      id: "2N1-ds-16",
+      title: "Fractions égyptiennes",
+      difficulty: 4,
+      points: 7,
+      statement: `Les scribes de l'Égypte ancienne écrivaient les fractions comme sommes de fractions de numérateur $1$, toutes différentes, appelées **fractions unitaires** : par exemple $\\dfrac{3}{4} = \\dfrac{1}{2} + \\dfrac{1}{4}$.
+
+1. Vérifier que $\\dfrac{5}{6} = \\dfrac{1}{2} + \\dfrac{1}{3}$ et que $\\dfrac{7}{12} = \\dfrac{1}{3} + \\dfrac{1}{4}$.
+2. Soit $n$ un entier naturel non nul. Démontrer que $\\dfrac{1}{n} = \\dfrac{1}{n + 1} + \\dfrac{1}{n(n + 1)}$.
+3. En utilisant la question 2, écrire $\\dfrac{1}{3}$, puis $\\dfrac{2}{3}$ comme somme de fractions unitaires toutes différentes.
+4. **Méthode gloutonne.** Pour écrire $\\dfrac{4}{13}$ :
+ a) Déterminer le plus petit entier $a$ tel que $\\dfrac{1}{a} \\leqslant \\dfrac{4}{13}$ et calculer $\\dfrac{4}{13} - \\dfrac{1}{a}$ sous forme irréductible.
+ b) Recommencer avec la fraction obtenue, jusqu'à obtenir une fraction unitaire. En déduire une écriture de $\\dfrac{4}{13}$ comme somme de fractions unitaires différentes.
+5. Démontrer que la somme $\\dfrac{1}{1 \\times 2} + \\dfrac{1}{2 \\times 3} + \\dfrac{1}{3 \\times 4} + \\cdots + \\dfrac{1}{9 \\times 10}$ est un nombre décimal et donner sa valeur.`,
+      solution: `**1.** $\\frac{1}{2} + \\frac{1}{3} = \\frac{3}{6} + \\frac{2}{6} = \\frac{5}{6}$ et $\\frac{1}{3} + \\frac{1}{4} = \\frac{4}{12} + \\frac{3}{12} = \\frac{7}{12}$.
+
+**2.** $\\frac{1}{n + 1} + \\frac{1}{n(n + 1)} = \\frac{n}{n(n + 1)} + \\frac{1}{n(n + 1)} = \\frac{n + 1}{n(n + 1)} = \\frac{1}{n}$.
+
+**3.** Avec $n = 3$ : $\\frac{1}{3} = \\frac{1}{4} + \\frac{1}{12}$. Donc
+$$\\frac{2}{3} = \\frac{1}{3} + \\frac{1}{3} = \\frac{1}{3} + \\frac{1}{4} + \\frac{1}{12},$$
+trois fractions unitaires différentes. (On peut aussi écrire $\\frac{2}{3} = \\frac{1}{2} + \\frac{1}{6}$.)
+
+**4. a)** $\\frac{1}{a} \\leqslant \\frac{4}{13} \\iff a \\geqslant \\frac{13}{4} = 3{,}25$ : le plus petit entier convenable est $a = 4$, ce qui donne la plus grande fraction unitaire $\\frac{1}{4}$. Puis
+$$\\frac{4}{13} - \\frac{1}{4} = \\frac{16 - 13}{52} = \\frac{3}{52}.$$
+
+**b)** $\\frac{1}{b} \\leqslant \\frac{3}{52} \\iff b \\geqslant \\frac{52}{3} \\approx 17{,}3$, donc $b = 18$ et
+$$\\frac{3}{52} - \\frac{1}{18} = \\frac{27 - 26}{468} = \\frac{1}{468}.$$
+On obtient une fraction unitaire : $\\dfrac{4}{13} = \\dfrac{1}{4} + \\dfrac{1}{18} + \\dfrac{1}{468}$.
+
+*Vérification* : au dénominateur commun $468 = 4 \\times 117 = 18 \\times 26$ : $\\frac{117 + 26 + 1}{468} = \\frac{144}{468} = \\frac{4}{13}$.
+
+**5.** D'après la question 2, $\\frac{1}{n(n + 1)} = \\frac{1}{n} - \\frac{1}{n + 1}$. La somme s'écrit donc
+$$\\left(1 - \\frac{1}{2}\\right) + \\left(\\frac{1}{2} - \\frac{1}{3}\\right) + \\cdots + \\left(\\frac{1}{9} - \\frac{1}{10}\\right) = 1 - \\frac{1}{10} = \\frac{9}{10} = 0{,}9,$$
+tous les termes intermédiaires s'éliminant deux à deux. C'est un nombre décimal.`
     }
   ],
   "2N2": [
@@ -582,6 +695,115 @@ Or $X(X + 2) + 1 = X^2 + 2X + 1 = (X + 1)^2$. Donc $N = (n^2 + 3n + 1)^2$.
 
 **4.** C'est $N$ pour $n = 2\\,026$. Donc ce nombre est le carré de
 $$2\\,026^2 + 3 \\times 2\\,026 + 1 = 4\\,104\\,676 + 6\\,078 + 1 = 4\\,110\\,755.$$`
+    },
+{
+      id: "2N2-ds-13",
+      title: "Aire d'une figure en L de deux façons",
+      difficulty: 1,
+      points: 4,
+      statement: `Un jardin a la forme d'un grand carré de côté $x + 4$ (en mètres, $x > 0$) dont on a retiré, dans un coin, un carré de côté $x$ occupé par une terrasse. On obtient une figure en forme de L.
+
+1. Exprimer l'aire $\\mathcal{A}$ du jardin en fonction de $x$, comme différence de deux aires.
+2. Développer et réduire l'expression obtenue.
+3. Le L peut aussi être découpé en un rectangle de dimensions $4$ et $x + 4$ et un rectangle de dimensions $4$ et $x$. Retrouver ainsi l'expression de la question 2.
+4. Calculer l'aire du jardin pour $x = 6$, puis déterminer $x$ pour que l'aire du jardin soit égale à $96$ m².`,
+      solution: `**1.** $\\mathcal{A} = (x + 4)^2 - x^2$.
+
+**2.** $(x + 4)^2 - x^2 = x^2 + 8x + 16 - x^2 = 8x + 16$.
+
+**3.** Aire des deux rectangles : $4(x + 4) + 4x = 4x + 16 + 4x = 8x + 16$. On retrouve le même résultat.
+
+(On pouvait aussi factoriser la différence de deux carrés : $(x + 4)^2 - x^2 = (x + 4 - x)(x + 4 + x) = 4(2x + 4) = 8x + 16$.)
+
+**4.** Pour $x = 6$ : $\\mathcal{A} = 8 \\times 6 + 16 = 64$ m² (vérification : $10^2 - 6^2 = 100 - 36 = 64$).
+
+$8x + 16 = 96 \\iff 8x = 80 \\iff x = 10$. La terrasse doit mesurer $10$ m de côté (le jardin occupe alors $14^2 - 10^2 = 196 - 100 = 96$ m²).`
+    },
+    {
+      id: "2N2-ds-14",
+      title: "Calculer avec des puissances",
+      difficulty: 2,
+      points: 5,
+      statement: `Dans cet exercice, on n'utilisera pas la calculatrice. $a$ désigne un réel non nul et $n$ un entier.
+
+1. Écrire sous la forme d'une seule puissance de $2$ :
+$$A = 2^5 \\times 2^{-3}, \\qquad B = \\frac{4^3}{2^{4}}, \\qquad C = \\left(2^{-2}\\right)^3 \\times 8^2.$$
+2. Écrire sous la forme $a^p$ ($p$ entier) : $D = \\dfrac{a^7 \\times a^{-2}}{a^3}$ et $E = \\left(a^2\\right)^4 \\times a^{-5}$.
+3. Donner l'écriture scientifique de $F = \\dfrac{3 \\times 10^{5} \\times 8 \\times 10^{-2}}{6 \\times 10^{-4}}$.
+4. Montrer que $2^{n+3} - 2^{n} = 7 \\times 2^{n}$. En déduire que $2^{n+3} - 2^n$ est un multiple de $7$ pour tout entier naturel $n$.`,
+      solution: `**1.** $A = 2^{5 + (-3)} = 2^2$.
+
+$4^3 = \\left(2^2\\right)^3 = 2^6$, donc $B = \\frac{2^6}{2^4} = 2^2$.
+
+$\\left(2^{-2}\\right)^3 = 2^{-6}$ et $8^2 = \\left(2^3\\right)^2 = 2^6$, donc $C = 2^{-6} \\times 2^{6} = 2^0 = 1$.
+
+**2.** $D = \\frac{a^{7 - 2}}{a^3} = \\frac{a^5}{a^3} = a^2$ et $E = a^{8} \\times a^{-5} = a^{3}$.
+
+**3.** $F = \\frac{3 \\times 8}{6} \\times \\frac{10^5 \\times 10^{-2}}{10^{-4}} = 4 \\times 10^{5 - 2 + 4} = 4 \\times 10^{7}$.
+
+**4.** $2^{n+3} = 2^n \\times 2^3 = 8 \\times 2^n$, donc $2^{n+3} - 2^n = 8 \\times 2^n - 2^n = 7 \\times 2^n$.
+
+Pour $n$ entier naturel, $2^n$ est un entier, donc $7 \\times 2^n$ est un multiple de $7$. Par exemple, pour $n = 2$ : $2^5 - 2^2 = 32 - 4 = 28 = 7 \\times 4$.`
+    },
+    {
+      id: "2N2-ds-15",
+      title: "Différence de deux carrés : calculer et résoudre",
+      difficulty: 3,
+      points: 6,
+      statement: `1. Sans calculatrice, en utilisant l'identité $a^2 - b^2 = (a - b)(a + b)$, calculer :
+$$P = 1\\,001^2 - 999^2 \\qquad \\text{et} \\qquad Q = 57^2 - 43^2.$$
+2. On considère l'expression $R(x) = (2x - 1)^2 - (x + 3)^2$.
+ a) Factoriser $R(x)$.
+ b) Développer et réduire $R(x)$.
+ c) En choisissant la forme la plus adaptée, résoudre $R(x) = 0$, puis $R(x) = -8$.
+3. Factoriser $S(x) = x^2 - 9 - (x - 3)(2x + 1)$, puis résoudre $S(x) = 0$.`,
+      solution: `**1.** $P = (1\\,001 - 999)(1\\,001 + 999) = 2 \\times 2\\,000 = 4\\,000$.
+
+$Q = (57 - 43)(57 + 43) = 14 \\times 100 = 1\\,400$.
+
+**2. a)** $R(x) = \\left[(2x - 1) - (x + 3)\\right]\\left[(2x - 1) + (x + 3)\\right] = (x - 4)(3x + 2)$.
+
+**b)** $R(x) = 4x^2 - 4x + 1 - (x^2 + 6x + 9) = 3x^2 - 10x - 8$.
+
+*Vérification* : $(x - 4)(3x + 2) = 3x^2 + 2x - 12x - 8 = 3x^2 - 10x - 8$.
+
+**c)** Forme factorisée : $R(x) = 0 \\iff x - 4 = 0$ ou $3x + 2 = 0 \\iff x = 4$ ou $x = -\\frac{2}{3}$.
+
+Forme développée : $R(x) = -8 \\iff 3x^2 - 10x = 0 \\iff x(3x - 10) = 0 \\iff x = 0$ ou $x = \\frac{10}{3}$.
+
+**3.** $x^2 - 9 = (x - 3)(x + 3)$, donc $x - 3$ est un facteur commun :
+$$S(x) = (x - 3)\\left[(x + 3) - (2x + 1)\\right] = (x - 3)(-x + 2).$$
+$S(x) = 0 \\iff x = 3$ ou $x = 2$.`
+    },
+    {
+      id: "2N2-ds-16",
+      title: "Produit de deux sommes de deux carrés",
+      difficulty: 4,
+      points: 7,
+      statement: `Dans cet exercice, $a$, $b$, $c$ et $d$ désignent des réels.
+
+1. Vérifier que $5 = 1^2 + 2^2$, $13 = 2^2 + 3^2$, puis que $5 \\times 13 = 65$ est aussi une somme de deux carrés d'entiers.
+2. Démontrer l'égalité
+$$(a^2 + b^2)(c^2 + d^2) = (ac - bd)^2 + (ad + bc)^2.$$
+(On développera séparément chacun des deux membres.)
+3. En déduire que $13 \\times 29 = 377$ est la somme de deux carrés d'entiers, que l'on précisera.
+4. En échangeant le rôle de $c$ et $d$ dans la formule, trouver une seconde écriture de $377$ comme somme de deux carrés.
+5. Démontrer que le produit de deux entiers qui sont chacun somme de deux carrés d'entiers est encore une somme de deux carrés d'entiers.`,
+      solution: `**1.** $1 + 4 = 5$ et $4 + 9 = 13$. Puis $65 = 64 + 1 = 8^2 + 1^2$ (ou $65 = 49 + 16 = 7^2 + 4^2$).
+
+**2.** Membre de gauche : $(a^2 + b^2)(c^2 + d^2) = a^2c^2 + a^2d^2 + b^2c^2 + b^2d^2$.
+
+Membre de droite :
+$$(ac - bd)^2 + (ad + bc)^2 = a^2c^2 - 2abcd + b^2d^2 + a^2d^2 + 2abcd + b^2c^2 = a^2c^2 + a^2d^2 + b^2c^2 + b^2d^2.$$
+Les deux membres sont égaux.
+
+**3.** $13 = 2^2 + 3^2$ et $29 = 2^2 + 5^2$. Avec $a = 2$, $b = 3$, $c = 2$, $d = 5$ :
+$$ac - bd = 4 - 15 = -11 \\quad \\text{et} \\quad ad + bc = 10 + 6 = 16,$$
+donc $377 = (-11)^2 + 16^2 = 11^2 + 16^2$. *Vérification* : $121 + 256 = 377$.
+
+**4.** Avec $c = 5$ et $d = 2$ : $ac - bd = 10 - 6 = 4$ et $ad + bc = 4 + 15 = 19$, d'où $377 = 4^2 + 19^2 = 16 + 361$.
+
+**5.** Si $m = a^2 + b^2$ et $n = c^2 + d^2$ avec $a$, $b$, $c$, $d$ entiers, alors d'après la question 2, $mn = (ac - bd)^2 + (ad + bc)^2$, et $ac - bd$, $ad + bc$ sont des entiers (sommes et produits d'entiers). Donc $mn$ est une somme de deux carrés d'entiers.`
     }
   ],
   "2N3": [
@@ -879,6 +1101,110 @@ $$\\left|\\frac{a + c}{b + c} - 1\\right| = \\frac{|a - b|}{b + c} < \\frac{|a -
 car $|a - b| > 0$ et $0 < b < b + c$ (diviser par un nombre plus grand donne un résultat plus petit). Sur la droite graduée, le quotient $\\frac{a + c}{b + c}$ est **plus proche de $1$** que $\\frac{a}{b}$.
 
 **b)** Son taux passe de $\\frac{12}{20}$ à $\\frac{12 + 5}{20 + 5}$ : on ajoute $c = 5$ au numérateur et au dénominateur, avec $a = 12 < b = 20$. D'après la question 3, le taux augmente : il passe de $0{,}6$ à $\\frac{17}{25} = 0{,}68$, soit de $60\\,\\%$ à $68\\,\\%$.`
+    },
+{
+      id: "2N3-ds-13",
+      title: "Ranger un nombre, son carré, sa racine et son inverse",
+      difficulty: 1,
+      points: 4,
+      statement: `1. On prend $a = 0{,}64$. Calculer $a^2$, $\\sqrt{a}$ et $\\dfrac{1}{a}$, puis ranger les quatre nombres $a$, $a^2$, $\\sqrt{a}$ et $\\dfrac{1}{a}$ dans l'ordre croissant.
+2. On considère maintenant un réel $a$ quelconque tel que $0 < a < 1$.
+ a) En multipliant les deux membres de l'inégalité $a < 1$ par $a$, montrer que $a^2 < a$.
+ b) Justifier que $0 < \\sqrt{a} < 1$, puis, en multipliant par $\\sqrt{a}$, que $a < \\sqrt{a}$.
+ c) Justifier que $\\dfrac{1}{a} > 1$. Conclure en rangeant $a$, $a^2$, $\\sqrt{a}$ et $\\dfrac{1}{a}$.
+3. Que devient ce rangement si $a = 4$ ? Le donner sans justification.`,
+      solution: `**1.** $a^2 = 0{,}4096$ ; $\\sqrt{0{,}64} = 0{,}8$ ; $\\frac{1}{0{,}64} = \\frac{100}{64} = \\frac{25}{16} = 1{,}5625$.
+
+Rangement : $a^2 < a < \\sqrt{a} < \\frac{1}{a}$, soit $0{,}4096 < 0{,}64 < 0{,}8 < 1{,}5625$.
+
+**2. a)** $a > 0$ : multiplier par $a$ conserve l'ordre, donc $a \\times a < 1 \\times a$, soit $a^2 < a$.
+
+**b)** La fonction racine carrée est strictement croissante sur $[0 ; +\\infty[$ : de $0 < a < 1$, on déduit $0 < \\sqrt{a} < \\sqrt{1} = 1$. En multipliant $\\sqrt{a} < 1$ par $\\sqrt{a} > 0$ : $\\sqrt{a} \\times \\sqrt{a} < \\sqrt{a}$, soit $a < \\sqrt{a}$.
+
+**c)** La fonction inverse est strictement décroissante sur $]0 ; +\\infty[$ : de $0 < a < 1$, on déduit $\\frac{1}{a} > \\frac{1}{1} = 1$. Comme $\\sqrt{a} < 1 < \\frac{1}{a}$, on obtient
+$$a^2 < a < \\sqrt{a} < \\frac{1}{a}.$$
+
+**3.** Pour $a = 4$ : $\\frac{1}{a} = 0{,}25$, $\\sqrt{a} = 2$, $a = 4$, $a^2 = 16$, d'où $\\frac{1}{a} < \\sqrt{a} < a < a^2$ : l'ordre est inversé.`
+    },
+    {
+      id: "2N3-ds-14",
+      title: "Comparer des sommes de racines carrées",
+      difficulty: 2,
+      points: 5,
+      statement: `On rappelle que deux nombres **positifs** sont rangés dans le même ordre que leurs carrés. Aucune calculatrice n'est autorisée.
+
+1. Comparer $3\\sqrt{2}$ et $2\\sqrt{3}$.
+2. a) Développer $\\left(\\sqrt{3} + \\sqrt{5}\\right)^2$ et $\\left(\\sqrt{2} + \\sqrt{6}\\right)^2$.
+ b) En déduire le plus grand des deux nombres $\\sqrt{3} + \\sqrt{5}$ et $\\sqrt{2} + \\sqrt{6}$.
+3. Comparer $5$ et $\\sqrt{3} + \\sqrt{8}$. (On pourra comparer $4\\sqrt{6}$ et $14$ en élevant à nouveau au carré.)
+4. Un élève affirme : « pour tous réels positifs $a$ et $b$, $\\sqrt{a + b} = \\sqrt{a} + \\sqrt{b}$ ». Montrer qu'il a tort, puis comparer $\\sqrt{a + b}$ et $\\sqrt{a} + \\sqrt{b}$ pour $a > 0$ et $b > 0$.`,
+      solution: `**1.** Ces nombres sont positifs ; $\\left(3\\sqrt{2}\\right)^2 = 9 \\times 2 = 18$ et $\\left(2\\sqrt{3}\\right)^2 = 4 \\times 3 = 12$. Comme $18 > 12$, $3\\sqrt{2} > 2\\sqrt{3}$.
+
+**2. a)** $\\left(\\sqrt{3} + \\sqrt{5}\\right)^2 = 3 + 2\\sqrt{15} + 5 = 8 + 2\\sqrt{15}$ et $\\left(\\sqrt{2} + \\sqrt{6}\\right)^2 = 2 + 2\\sqrt{12} + 6 = 8 + 2\\sqrt{12}$.
+
+**b)** $15 > 12$ donc $\\sqrt{15} > \\sqrt{12}$ et $8 + 2\\sqrt{15} > 8 + 2\\sqrt{12}$. Les deux sommes étant positives, $\\sqrt{3} + \\sqrt{5} > \\sqrt{2} + \\sqrt{6}$.
+
+**3.** $5^2 = 25$ et $\\left(\\sqrt{3} + \\sqrt{8}\\right)^2 = 11 + 2\\sqrt{24} = 11 + 2 \\times 2\\sqrt{6} = 11 + 4\\sqrt{6}$.
+
+On compare $25$ et $11 + 4\\sqrt{6}$, c'est-à-dire $14$ et $4\\sqrt{6}$. Or $14^2 = 196$ et $\\left(4\\sqrt{6}\\right)^2 = 96$ : $4\\sqrt{6} < 14$. Donc $11 + 4\\sqrt{6} < 25$, et, ces nombres étant positifs, $\\sqrt{3} + \\sqrt{8} < 5$.
+
+**4.** Contre-exemple : $a = 9$, $b = 16$ : $\\sqrt{25} = 5$ mais $\\sqrt{9} + \\sqrt{16} = 7$.
+
+Pour $a > 0$ et $b > 0$ : $\\left(\\sqrt{a} + \\sqrt{b}\\right)^2 = a + b + 2\\sqrt{ab} > a + b = \\left(\\sqrt{a + b}\\right)^2$, car $2\\sqrt{ab} > 0$. Les deux nombres étant positifs, $\\sqrt{a + b} < \\sqrt{a} + \\sqrt{b}$.`
+    },
+    {
+      id: "2N3-ds-15",
+      title: "Valeurs absolues et distances sur une droite graduée",
+      difficulty: 3,
+      points: 6,
+      statement: `Sur une droite graduée, on note $A$ et $B$ les points d'abscisses $2$ et $-4$, et $M$ un point d'abscisse $x$. On rappelle que la distance entre deux points d'abscisses $a$ et $b$ est $|a - b|$.
+
+1. Exprimer les distances $MA$ et $MB$ à l'aide de valeurs absolues.
+2. a) Interpréter l'équation $|x - 2| = |x + 4|$ en termes de distances, puis la résoudre.
+ b) Résoudre l'inéquation $|x - 2| < |x + 4|$ et interpréter le résultat.
+3. On cherche les points $M$ deux fois plus éloignés de $A$ que de $B$, c'est-à-dire les solutions de $|x - 2| = 2|x + 4|$.
+ a) On rappelle que $|X| = |Y|$ équivaut à $X = Y$ ou $X = -Y$. Justifier que l'équation équivaut à : $x - 2 = 2(x + 4)$ ou $x - 2 = -2(x + 4)$.
+ b) Résoudre l'équation et vérifier les solutions obtenues.`,
+      solution: `**1.** $MA = |x - 2|$ et $MB = |x - (-4)| = |x + 4|$.
+
+**2. a)** $|x - 2| = |x + 4|$ signifie $MA = MB$ : $M$ est à égale distance de $A$ et $B$, c'est le milieu de $[AB]$, d'abscisse $\\frac{2 + (-4)}{2} = -1$. L'unique solution est $x = -1$.
+
+**b)** $|x - 2| < |x + 4|$ signifie $MA < MB$ : $M$ est plus proche de $A$ que de $B$, c'est-à-dire situé du côté de $A$ par rapport au milieu d'abscisse $-1$. $\\mathcal{S} = \\,]-1 ; +\\infty[$.
+
+**3. a)** $2|x + 4| = |2(x + 4)|$ car $2 > 0$. L'équation s'écrit $|x - 2| = |2(x + 4)|$, ce qui équivaut à $x - 2 = 2(x + 4)$ ou $x - 2 = -2(x + 4)$.
+
+**b)** $x - 2 = 2x + 8 \\iff x = -10$ ; $x - 2 = -2x - 8 \\iff 3x = -6 \\iff x = -2$.
+
+*Vérification* : pour $x = -10$, $MA = 12$ et $MB = 6$ ; pour $x = -2$, $MA = 4$ et $MB = 2$. Dans les deux cas $MA = 2MB$. $\\mathcal{S} = \\{-10 ; -2\\}$.`
+    },
+    {
+      id: "2N3-ds-16",
+      title: "L'inégalité triangulaire sur la droite réelle",
+      difficulty: 4,
+      points: 7,
+      statement: `Dans cet exercice, $a$ et $b$ désignent des réels. On rappelle que $|a|^2 = a^2$ et $|a| \\times |b| = |ab|$.
+
+1. Vérifier l'inégalité $|a + b| \\leqslant |a| + |b|$ pour $a = 3$, $b = 5$, puis pour $a = 3$, $b = -5$.
+2. a) Développer $(|a| + |b|)^2 - (a + b)^2$ et montrer que cette différence vaut $2(|ab| - ab)$.
+ b) En déduire que pour tous réels $a$ et $b$ : $|a + b| \\leqslant |a| + |b|$.
+ c) Dans quel cas a-t-on égalité ?
+3. **Application.** Une mesure $x$ vérifie $|x - 3| \\leqslant 0{,}1$ et une mesure $y$ vérifie $|y + 1| \\leqslant 0{,}2$.
+ a) Montrer que $|x + y - 2| \\leqslant 0{,}3$. (On pourra écrire $x + y - 2 = (x - 3) + (y + 1)$.)
+ b) Interpréter ce résultat en termes d'intervalle.
+4. En écrivant $a = (a - b) + b$, démontrer que $|a| - |b| \\leqslant |a - b|$.`,
+      solution: `**1.** $|3 + 5| = 8 = 3 + 5$ : égalité. $|3 - 5| = 2 \\leqslant 3 + 5 = 8$ : l'inégalité est vérifiée.
+
+**2. a)** $(|a| + |b|)^2 = |a|^2 + 2|a||b| + |b|^2 = a^2 + 2|ab| + b^2$ et $(a + b)^2 = a^2 + 2ab + b^2$. La différence vaut $2|ab| - 2ab = 2(|ab| - ab)$.
+
+**b)** Un nombre est toujours inférieur ou égal à sa valeur absolue : $ab \\leqslant |ab|$, donc la différence est positive ou nulle : $(a + b)^2 \\leqslant (|a| + |b|)^2$, soit $|a + b|^2 \\leqslant (|a| + |b|)^2$. Les nombres $|a + b|$ et $|a| + |b|$ sont positifs, ils sont rangés comme leurs carrés : $|a + b| \\leqslant |a| + |b|$.
+
+**c)** Égalité si et seulement si $|ab| = ab$, c'est-à-dire $ab \\geqslant 0$ : $a$ et $b$ sont de même signe (ou l'un est nul).
+
+**3. a)** $|x + y - 2| = |(x - 3) + (y + 1)| \\leqslant |x - 3| + |y + 1| \\leqslant 0{,}1 + 0{,}2 = 0{,}3$.
+
+**b)** $x \\in [2{,}9 ; 3{,}1]$ et $y \\in [-1{,}2 ; -0{,}8]$ entraînent $x + y \\in [1{,}7 ; 2{,}3]$ : les incertitudes s'ajoutent.
+
+**4.** D'après la question 2, $|a| = |(a - b) + b| \\leqslant |a - b| + |b|$, d'où $|a| - |b| \\leqslant |a - b|$.`
     }
   ],
   "2N4": [
@@ -1216,12 +1542,126 @@ $$\\frac{(x + 1)(x + 2) - (x - 3)(x - 2)}{(x - 2)(x + 2)} = \\frac{x^2 + 3x + 2 
 | $4(2x - 1)$ | | $-$ | | $-$ | $0$ | $+$ | | $+$ | |
 | $x + 2$ | | $-$ | $0$ | $+$ | | $+$ | | $+$ | |
 | $x - 2$ | | $-$ | | $-$ | | $-$ | $0$ | $+$ | |
-| quotient | | $-$ | ‖ | $+$ | $0$ | $-$ | ‖ | $+$ | |
+| quotient | | $-$ | $\\Vert$ | $+$ | $0$ | $-$ | $\\Vert$ | $+$ | |
+
+(La double barre $\\Vert$ signale une valeur interdite : le quotient n'y est pas défini.)
 
 Le quotient est positif ou nul sur $\\left]-2 ; \\frac{1}{2}\\right]$ et sur $]2 ; +\\infty[$ (les valeurs interdites sont exclues, $\\frac{1}{2}$ est inclus car le quotient y est nul).
 
 $$\\mathcal{S} = \\left]-2 ; \\frac{1}{2}\\right] \\cup \\,]2 ; +\\infty[.$$
 On retrouve que $0$ est solution, contrairement à ce que donnait la méthode de l'élève.`
+    },
+{
+      id: "2N4-ds-13",
+      title: "Résoudre et écrire les solutions avec des intervalles",
+      difficulty: 1,
+      points: 4,
+      statement: `1. Résoudre l'équation $3x - 7 = 2x + 5$.
+2. Résoudre l'équation $5 - 2x = 3(x + 5)$.
+3. Résoudre l'inéquation $4x - 3 \\leqslant 9$ et donner l'ensemble des solutions sous forme d'intervalle.
+4. Résoudre l'inéquation $2 - 5x > x + 14$ et donner l'ensemble des solutions sous forme d'intervalle.
+5. Le nombre $-2$ est-il solution de l'inéquation de la question 4 ? Et de celle de la question 3 ?`,
+      solution: `**1.** $3x - 7 = 2x + 5 \\iff 3x - 2x = 5 + 7 \\iff x = 12$. $\\mathcal{S} = \\{12\\}$.
+
+**2.** $5 - 2x = 3x + 15 \\iff -2x - 3x = 15 - 5 \\iff -5x = 10 \\iff x = -2$. $\\mathcal{S} = \\{-2\\}$.
+
+*Vérification* : $5 - 2 \\times (-2) = 9$ et $3 \\times (-2 + 5) = 9$.
+
+**3.** $4x - 3 \\leqslant 9 \\iff 4x \\leqslant 12 \\iff x \\leqslant 3$ (on divise par $4 > 0$, le sens ne change pas). $\\mathcal{S} = \\,]-\\infty ; 3]$.
+
+**4.** $2 - 5x > x + 14 \\iff -6x > 12 \\iff x < -2$ : on divise par $-6 < 0$, **le sens de l'inégalité change**. $\\mathcal{S} = \\,]-\\infty ; -2[$.
+
+**5.** $-2$ n'appartient pas à $]-\\infty ; -2[$ (crochet ouvert) : ce n'est pas une solution de la question 4 ; en effet $2 - 5 \\times (-2) = 12$ et $-2 + 14 = 12$, et $12 > 12$ est faux.
+
+En revanche $-2 \\leqslant 3$ : $-2$ est solution de l'inéquation de la question 3.`
+    },
+    {
+      id: "2N4-ds-14",
+      title: "Degrés Celsius et degrés Fahrenheit",
+      difficulty: 2,
+      points: 5,
+      statement: `Une température de $C$ degrés Celsius correspond à $F$ degrés Fahrenheit, avec $F = 1{,}8\\,C + 32$.
+
+1. Convertir $20$ °C en degrés Fahrenheit, puis $100$ °F en degrés Celsius (valeur arrondie au dixième).
+2. Exprimer $C$ en fonction de $F$.
+3. Les poissons d'un aquarium supportent une eau dont la température, en degrés Fahrenheit, vérifie $59 \\leqslant F \\leqslant 77$. Traduire cette condition en degrés Celsius.
+4. Existe-t-il une température qui s'exprime par le même nombre dans les deux unités ?
+5. Pour quelles températures $C$ le nombre de degrés Fahrenheit dépasse-t-il le double du nombre de degrés Celsius ?`,
+      solution: `**1.** $F = 1{,}8 \\times 20 + 32 = 36 + 32 = 68$ °F.
+
+$100 = 1{,}8\\,C + 32 \\iff 1{,}8\\,C = 68 \\iff C = \\frac{68}{1{,}8} \\approx 37{,}8$ °C.
+
+**2.** $F = 1{,}8\\,C + 32 \\iff 1{,}8\\,C = F - 32 \\iff C = \\dfrac{F - 32}{1{,}8}$.
+
+**3.** $59 \\leqslant 1{,}8\\,C + 32 \\leqslant 77 \\iff 27 \\leqslant 1{,}8\\,C \\leqslant 45 \\iff 15 \\leqslant C \\leqslant 25$ (division par $1{,}8 > 0$). L'eau doit être entre $15$ °C et $25$ °C : $C \\in [15 ; 25]$.
+
+**4.** On cherche $C$ tel que $C = 1{,}8\\,C + 32 \\iff -0{,}8\\,C = 32 \\iff C = -40$. Ainsi $-40$ °C $= -40$ °F.
+
+**5.** $1{,}8\\,C + 32 > 2C \\iff 32 > 0{,}2\\,C \\iff C < 160$. C'est le cas pour toutes les températures strictement inférieures à $160$ °C, soit $C \\in \\,]-\\infty ; 160[$ (en pratique, $C$ reste supérieur à $-273{,}15$ °C).`
+    },
+    {
+      id: "2N4-ds-15",
+      title: "Choisir la meilleure formule d'abonnement",
+      difficulty: 3,
+      points: 6,
+      statement: `Une piscine propose trois formules pour une saison :
+- formule A : $8$ € par entrée ;
+- formule B : une carte à $30$ €, puis $5$ € par entrée ;
+- formule C : un forfait illimité à $150$ €.
+
+On note $n$ le nombre d'entrées dans la saison ($n$ entier naturel).
+
+1. Calculer le prix payé avec chaque formule pour $n = 8$.
+2. Exprimer en fonction de $n$ les prix $a(n)$, $b(n)$ et $c(n)$ payés avec les formules A, B et C.
+3. Résoudre l'inéquation $8n < 30 + 5n$. Interpréter.
+4. Résoudre l'inéquation $30 + 5n < 150$. Interpréter.
+5. Indiquer, selon le nombre d'entrées prévu, la formule la plus avantageuse.`,
+      solution: `**1.** Pour $n = 8$ : A coûte $8 \\times 8 = 64$ € ; B coûte $30 + 5 \\times 8 = 70$ € ; C coûte $150$ €.
+
+**2.** $a(n) = 8n$, $b(n) = 30 + 5n$ et $c(n) = 150$.
+
+**3.** $8n < 30 + 5n \\iff 3n < 30 \\iff n < 10$. La formule A est moins chère que la formule B pour $9$ entrées au plus ; pour $n = 10$, les deux coûtent $80$ € ; au-delà, B est moins chère.
+
+**4.** $30 + 5n < 150 \\iff 5n < 120 \\iff n < 24$. La formule B est moins chère que C pour $23$ entrées au plus ; pour $n = 24$, elles coûtent toutes deux $150$ €.
+
+**5.** On compare aussi A et C : $8n < 150 \\iff n < 18{,}75$, mais B est déjà moins chère que A dès $n \\geqslant 11$. Conclusion :
+- de $0$ à $9$ entrées : formule A ;
+- $10$ entrées : A ou B ($80$ €) ;
+- de $11$ à $23$ entrées : formule B ;
+- $24$ entrées : B ou C ($150$ €) ;
+- $25$ entrées ou plus : formule C.`
+    },
+    {
+      id: "2N4-ds-16",
+      title: "Une inéquation qui dépend d'un paramètre",
+      difficulty: 4,
+      points: 7,
+      statement: `Pour tout réel $m$, on considère l'inéquation, d'inconnue $x$ :
+$$(I_m) : \\quad mx + 2 > 3x - 1.$$
+
+1. Montrer que $(I_m)$ équivaut à $(m - 3)x > -3$.
+2. Résoudre $(I_m)$ pour $m = 5$, puis pour $m = 1$.
+3. Résoudre $(I_m)$ pour $m = 3$.
+4. Résoudre $(I_m)$ dans le cas général, en distinguant $m > 3$ et $m < 3$.
+5. Déterminer la valeur de $m$ pour laquelle l'ensemble des solutions est $]-\\infty ; 1[$. Vérifier.
+6. Démontrer que, quel que soit $m$, le nombre $0$ est solution de $(I_m)$. Était-ce prévisible au vu des résultats de la question 4 ?`,
+      solution: `**1.** $mx + 2 > 3x - 1 \\iff mx - 3x > -1 - 2 \\iff (m - 3)x > -3$.
+
+**2.** $m = 5$ : $2x > -3 \\iff x > -\\frac{3}{2}$, $\\mathcal{S} = \\,\\left]-\\frac{3}{2} ; +\\infty\\right[$.
+
+$m = 1$ : $-2x > -3 \\iff x < \\frac{3}{2}$ (division par $-2 < 0$, le sens change), $\\mathcal{S} = \\,\\left]-\\infty ; \\frac{3}{2}\\right[$.
+
+**3.** $m = 3$ : l'inéquation devient $0 \\times x > -3$, soit $0 > -3$, vraie pour tout $x$. $\\mathcal{S} = \\mathbb{R}$.
+
+**4.** Si $m > 3$ : $m - 3 > 0$, donc $x > \\dfrac{-3}{m - 3}$ et $\\mathcal{S} = \\,\\left]-\\dfrac{3}{m - 3} ; +\\infty\\right[$.
+
+Si $m < 3$ : $m - 3 < 0$, le sens change : $x < \\dfrac{-3}{m - 3} = \\dfrac{3}{3 - m}$ et $\\mathcal{S} = \\,\\left]-\\infty ; \\dfrac{3}{3 - m}\\right[$.
+
+**5.** L'ensemble est de la forme $]-\\infty ; \\ldots[$ seulement si $m < 3$. Il faut $\\frac{3}{3 - m} = 1 \\iff 3 - m = 3 \\iff m = 0$.
+
+*Vérification* : pour $m = 0$, $(I_0)$ s'écrit $2 > 3x - 1 \\iff 3x < 3 \\iff x < 1$.
+
+**6.** Pour $x = 0$ : $(m - 3) \\times 0 = 0 > -3$ est toujours vrai. C'était prévisible : si $m > 3$, la borne $-\\frac{3}{m - 3}$ est négative, et si $m < 3$, la borne $\\frac{3}{3 - m}$ est positive ; dans les deux cas $0$ est dans l'intervalle.`
     }
   ],
   "2N5": [
@@ -1435,12 +1875,12 @@ L'entreprise doit augmenter son chiffre d'affaires d'environ $4{,}43\\,\\%$ en 2
       title: "Points de pourcentage ou pourcentage ?",
       difficulty: 3,
       points: 6,
-      statement: `Dans un pays, la population active compte $30$ millions de personnes et le taux de chômage (proportion de chômeurs dans la population active) passe de $8\\,\\%$ à $6\\,\\%$.
+      statement: `Dans un pays imaginaire (données fictives), la population active compte $30$ millions de personnes et le taux de chômage (proportion de chômeurs dans la population active) passe de $8\\,\\%$ à $6\\,\\%$.
 
 1. Un journal titre : « Le chômage baisse de $2\\,\\%$ ». Expliquer pourquoi ce titre est ambigu. Exprimer la baisse en points de pourcentage, puis calculer le taux d'évolution du taux de chômage.
 2. On suppose que la population active n'a pas changé. Calculer le nombre de chômeurs avant et après, puis le taux d'évolution du nombre de chômeurs.
 3. On suppose maintenant que la population active a augmenté de $5\\,\\%$ pendant la même période (le taux de chômage passant toujours de $8\\,\\%$ à $6\\,\\%$). Calculer le taux d'évolution du nombre de chômeurs.
-4. Un taux de TVA passe de $5{,}5\\,\\%$ à $7\\,\\%$. Exprimer cette hausse en points, puis en pourcentage (arrondi à $0{,}1\\,\\%$).`,
+4. Dans ce même pays, un taux de TVA passe de $5{,}5\\,\\%$ à $7\\,\\%$. Exprimer cette hausse en points, puis en pourcentage (arrondi à $0{,}1\\,\\%$).`,
       solution: `**1.** « $2\\,\\%$ » peut désigner deux choses différentes. Le taux passe de $8\\,\\%$ à $6\\,\\%$ : il perd $2$ **points de pourcentage**. Mais son taux d'évolution est
 $$\\frac{6 - 8}{8} = -0{,}25,$$
 soit une baisse de $25\\,\\%$ du taux de chômage.
@@ -1490,6 +1930,106 @@ $0{,}2$ et $0{,}8$ sont les proportions de cas simples et de cas difficiles parm
 **4.** Avec les pondérations de $A$ : $0{,}2 \\times 0{,}90 + 0{,}8 \\times 0{,}70 = 0{,}18 + 0{,}56 = 0{,}74$, soit $74\\,\\% < 79\\,\\%$.
 
 À patientèle comparable, l'hôpital $A$ est le plus performant : c'est la répartition des cas qui avantageait $B$.`
+    },
+{
+      id: "2N5-ds-13",
+      title: "Les spectateurs d'un festival",
+      difficulty: 1,
+      points: 4,
+      statement: `Un festival a accueilli $2\\,400$ spectateurs. $35$ % d'entre eux ont moins de $25$ ans. Parmi les moins de $25$ ans, $60$ % sont venus en train ; parmi les autres spectateurs, $25$ % sont venus en train.
+
+1. Combien de spectateurs ont moins de $25$ ans ?
+2. Combien de spectateurs de moins de $25$ ans sont venus en train ? Quelle proportion de l'ensemble des spectateurs cela représente-t-il ?
+3. Combien de spectateurs sont venus en train au total ? Exprimer cette proportion en pourcentage.
+4. Parmi les spectateurs venus en train, quelle est la proportion de moins de $25$ ans ? (Arrondir au dixième de pourcentage.)`,
+      solution: `**1.** $0{,}35 \\times 2\\,400 = 840$ spectateurs ont moins de $25$ ans.
+
+**2.** $0{,}6 \\times 840 = 504$ spectateurs. Proportion dans l'ensemble : $0{,}35 \\times 0{,}6 = 0{,}21$, soit $21$ % (on vérifie : $\\frac{504}{2\\,400} = 0{,}21$). La proportion d'une proportion s'obtient en multipliant les proportions.
+
+**3.** Les autres spectateurs sont $2\\,400 - 840 = 1\\,560$, dont $0{,}25 \\times 1\\,560 = 390$ venus en train. Total : $504 + 390 = 894$ spectateurs, soit $\\frac{894}{2\\,400} = 0{,}3725 = 37{,}25$ %.
+
+**4.** $\\frac{504}{894} \\approx 0{,}564$ : environ $56{,}4$ % des spectateurs venus en train ont moins de $25$ ans. Attention : ce n'est pas la même proportion qu'à la question 2, car l'ensemble de référence a changé.`
+    },
+    {
+      id: "2N5-ds-14",
+      title: "Indices de fréquentation d'un musée",
+      difficulty: 2,
+      points: 5,
+      statement: `Le tableau suivant donne la fréquentation d'un musée (données fictives), avec un indice base $100$ en 2020.
+
+| Année | 2020 | 2021 | 2022 | 2023 |
+|---|---|---|---|---|
+| Visiteurs | $48\\,000$ | $60\\,000$ | ? | $54\\,000$ |
+| Indice | $100$ | ? | $135$ | ? |
+
+1. Calculer l'indice de 2021.
+2. Calculer le nombre de visiteurs en 2022.
+3. Calculer l'indice de 2023.
+4. Calculer le taux d'évolution du nombre de visiteurs entre 2022 et 2023 (arrondi au dixième de pourcentage). Un élève affirme que la baisse est de $22{,}5$ %. Expliquer son erreur.
+5. Quel est le taux d'évolution entre 2020 et 2023 ? Comment le lire directement sur les indices ?`,
+      solution: `**1.** Indice 2021 : $100 \\times \\frac{60\\,000}{48\\,000} = 125$.
+
+**2.** Visiteurs 2022 : $48\\,000 \\times \\frac{135}{100} = 64\\,800$.
+
+**3.** Indice 2023 : $100 \\times \\frac{54\\,000}{48\\,000} = 112{,}5$.
+
+**4.** $\\frac{54\\,000 - 64\\,800}{64\\,800} = \\frac{-10\\,800}{64\\,800} \\approx -0{,}167$ : baisse d'environ $16{,}7$ %.
+
+L'élève a calculé $135 - 112{,}5 = 22{,}5$ : c'est une différence de **points d'indice**, qui n'est un pourcentage d'évolution que si l'on part de l'année de base (indice $100$). Ici il faut diviser par l'indice de départ : $\\frac{112{,}5 - 135}{135} \\approx -0{,}167$.
+
+**5.** $\\frac{54\\,000 - 48\\,000}{48\\,000} = 0{,}125$, soit $+12{,}5$ %. Par rapport à l'année de base, on le lit directement : $112{,}5 - 100 = 12{,}5$.`
+    },
+    {
+      id: "2N5-ds-15",
+      title: "Hausse puis baisse du même pourcentage",
+      difficulty: 3,
+      points: 6,
+      statement: `Le prix d'un article subit une hausse de $t$ %, puis une baisse de $t$ % ($0 < t < 100$).
+
+1. Dans le cas $t = 10$, calculer le coefficient multiplicateur global et le taux d'évolution global.
+2. Montrer que, dans le cas général, le coefficient multiplicateur global est $1 - \\left(\\dfrac{t}{100}\\right)^2$. Le prix final peut-il être supérieur ou égal au prix initial ?
+3. Déterminer $t$ pour que le prix ait finalement baissé de $4$ %.
+4. Après une baisse de $20$ %, quelle hausse faut-il appliquer pour revenir au prix initial ?
+5. Le prix subit cette fois une baisse de $t$ % puis une hausse de $t$ %. Le résultat est-il différent ?`,
+      solution: `**1.** $t = 10$ : $1{,}1 \\times 0{,}9 = 0{,}99$ ; taux global $0{,}99 - 1 = -0{,}01$, soit une baisse de $1$ %.
+
+**2.** Le coefficient global est
+$$\\left(1 + \\frac{t}{100}\\right)\\left(1 - \\frac{t}{100}\\right) = 1 - \\left(\\frac{t}{100}\\right)^2$$
+(identité $(a + b)(a - b) = a^2 - b^2$). Comme $\\left(\\frac{t}{100}\\right)^2 > 0$, ce coefficient est strictement inférieur à $1$ : le prix final est toujours strictement inférieur au prix initial.
+
+**3.** On veut $1 - \\left(\\frac{t}{100}\\right)^2 = 0{,}96 \\iff \\left(\\frac{t}{100}\\right)^2 = 0{,}04 \\iff \\frac{t}{100} = 0{,}2$ (car $t > 0$), soit $t = 20$.
+
+*Vérification* : $1{,}2 \\times 0{,}8 = 0{,}96$.
+
+**4.** Il faut un coefficient $c$ tel que $0{,}8 \\times c = 1$, soit $c = \\frac{1}{0{,}8} = 1{,}25$ : une hausse de $25$ % (et non de $20$ %).
+
+**5.** Les coefficients sont les mêmes, dans l'autre ordre : $\\left(1 - \\frac{t}{100}\\right)\\left(1 + \\frac{t}{100}\\right)$, et la multiplication est commutative. Le résultat est identique.`
+    },
+    {
+      id: "2N5-ds-16",
+      title: "Remises successives en période de soldes",
+      difficulty: 4,
+      points: 7,
+      statement: `1. Un magasin applique une première remise de $25$ %, puis une seconde remise de $c$ % sur le prix déjà réduit. Le prix final est inférieur de $40$ % au prix initial. Déterminer $c$.
+2. Une publicité annonce « $-30$ % puis encore $-30$ % ». Un client pense économiser $60$ %. Calculer la baisse réelle.
+3. Après des soldes de $40$ %, le commerçant veut revenir au prix initial. Quel pourcentage de hausse doit-il appliquer ? (Arrondir au centième de pourcentage.)
+4. Un article coûte $84$ € après une remise de $30$ %. Quel était son prix initial ? Le vendeur affirme que ce prix a été obtenu par deux remises successives de $15$ %. A-t-il raison ?
+5. On applique à un prix des remises successives de $10$ % chacune. Combien de remises faut-il au minimum pour que le prix soit divisé par plus de deux ? On pourra calculer les puissances successives de $0{,}9$.`,
+      solution: `**1.** Coefficient global : $0{,}75 \\times \\left(1 - \\frac{c}{100}\\right) = 0{,}6 \\iff 1 - \\frac{c}{100} = \\frac{0{,}6}{0{,}75} = 0{,}8 \\iff c = 20$. La seconde remise est de $20$ %.
+
+**2.** $0{,}7 \\times 0{,}7 = 0{,}49$ : le prix est multiplié par $0{,}49$, soit une baisse de $51$ %, et non de $60$ %. Les pourcentages successifs ne s'additionnent pas.
+
+**3.** On cherche $c$ tel que $0{,}6 \\times c = 1$, soit $c = \\frac{1}{0{,}6} = \\frac{5}{3} \\approx 1{,}6667$ : une hausse d'environ $66{,}67$ %.
+
+**4.** Prix initial $P$ : $0{,}7\\,P = 84 \\iff P = \\frac{84}{0{,}7} = 120$ €.
+
+Deux remises de $15$ % donnent le coefficient $0{,}85^2 = 0{,}7225$, soit $120 \\times 0{,}7225 = 86{,}70$ € et une baisse de $27{,}75$ % seulement : le vendeur a tort.
+
+**5.** Après $n$ remises, le prix est multiplié par $0{,}9^n$. On cherche le plus petit $n$ tel que $0{,}9^n < 0{,}5$.
+
+$0{,}9^5 = 0{,}59049$ ; $0{,}9^6 = 0{,}531441$ ; $0{,}9^7 = 0{,}4782969$.
+
+Il faut au minimum $7$ remises de $10$ %.`
     }
   ],
   "2A1": [
@@ -1791,10 +2331,10 @@ Un carré est positif ou nul, donc $12 - \\mathcal{A}(x) \\geqslant 0$, c'est-à
 2. Calculer $f(-2)$ et $g(-2)$, puis $f(1)$ et $g(1)$.
 3. a) Montrer que si $f(x) = g(x)$, alors $x + 3 = (x + 1)^2$.
  b) Résoudre l'équation $x + 3 = (x + 1)^2$. (On pourra vérifier que $x^2 + x - 2 = (x - 1)(x + 2)$.)
- c) En déduire les solutions de $f(x) = g(x)$. Pourquoi faut-il vérifier les valeurs obtenues ?
+ c) La question a) montre seulement que les solutions de $f(x) = g(x)$ sont à chercher **parmi** les solutions trouvées en b). Vérifier, à l'aide de la question 2, si chacune de ces valeurs est solution de $f(x) = g(x)$, puis conclure. Pourquoi l'une d'elles ne convient-elle pas ?
 4. On veut résoudre $f(x) > g(x)$ sur l'ensemble de définition de $f$.
- a) Justifier que tout réel de $[-3 ; -1]$ est solution.
- b) Pour $x > -1$, justifier que $f(x) > g(x) \\iff x + 3 > (x + 1)^2$, puis résoudre.
+ a) Justifier que tout réel de $[-3 ; -1]$ est solution (on pourra comparer les signes de $f(x)$ et de $g(x)$).
+ b) On rappelle que deux nombres **positifs** sont rangés dans le même ordre que leurs carrés. Pour $x > -1$, en déduire que $f(x) > g(x) \\iff x + 3 > (x + 1)^2$, puis résoudre à l'aide d'un tableau de signes de $(x - 1)(x + 2)$.
  c) Conclure et interpréter graphiquement.`,
       solution: `**1.** $f(x)$ existe si et seulement si $x + 3 \\geqslant 0$, soit $x \\geqslant -3$ : $\\mathcal{D}_f = [-3 ; +\\infty[$.
 
@@ -1804,7 +2344,7 @@ Un carré est positif ou nul, donc $12 - \\mathcal{A}(x) \\geqslant 0$, c'est-à
 
 **b)** $x + 3 = x^2 + 2x + 1 \\iff x^2 + x - 2 = 0 \\iff (x - 1)(x + 2) = 0 \\iff x = 1$ ou $x = -2$.
 
-**c)** Élever au carré donne seulement une implication : les solutions de $f(x) = g(x)$ sont **parmi** $1$ et $-2$, mais il faut les tester. D'après la question 2, $f(1) = g(1)$, mais $f(-2) = 1 \\neq g(-2) = -1$ (deux nombres opposés ont le même carré). L'unique solution est $x = 1$.
+**c)** Élever au carré donne seulement une implication : les solutions de $f(x) = g(x)$ sont **parmi** $1$ et $-2$, mais il faut les tester (vérification indispensable). D'après la question 2, $f(1) = g(1)$, mais $f(-2) = 1 \\neq g(-2) = -1$ (deux nombres opposés ont le même carré). L'unique solution est $x = 1$.
 
 **4. a)** Si $-3 \\leqslant x \\leqslant -1$ : $g(x) = x + 1 \\leqslant 0$ et $f(x) \\geqslant 0$. On a donc $f(x) \\geqslant g(x)$, l'égalité imposant $f(x) = g(x) = 0$, soit $x = -3$ et $x = -1$ à la fois, impossible. Donc $f(x) > g(x)$ sur $[-3 ; -1]$.
 
@@ -1813,6 +2353,117 @@ Un carré est positif ou nul, donc $12 - \\mathcal{A}(x) \\geqslant 0$, c'est-à
 Le produit est négatif strictement entre $-2$ et $1$ ; avec $x > -1$, on obtient $x \\in \\,]-1 ; 1[$.
 
 **c)** $\\mathcal{S} = [-3 ; -1] \\cup \\,]-1 ; 1[ = [-3 ; 1[$. Graphiquement, la courbe de la fonction $f$ est strictement au-dessus de la droite d'équation $y = x + 1$ sur $[-3 ; 1[$ ; elles se coupent au point $(1 ; 2)$, puis la droite passe au-dessus.`
+    },
+{
+      id: "2A1-ds-13",
+      title: "Une fonction issue d'un programme de calcul",
+      difficulty: 1,
+      points: 4,
+      statement: `On considère le programme de calcul suivant : « Choisir un nombre ; lui ajouter $3$ ; élever le résultat au carré ; soustraire $9$. » On note $f(x)$ le résultat obtenu à partir du nombre $x$.
+
+1. Calculer $f(2)$ et $f(-3)$.
+2. Exprimer $f(x)$ en fonction de $x$.
+3. Montrer que $f(x) = x^2 + 6x$, puis que $f(x) = x(x + 6)$.
+4. Déterminer les antécédents de $0$ par $f$.
+5. Le nombre $-10$ a-t-il un antécédent par $f$ ? Justifier à l'aide de la question 2.`,
+      solution: `**1.** $f(2) = (2 + 3)^2 - 9 = 25 - 9 = 16$ et $f(-3) = 0^2 - 9 = -9$.
+
+**2.** $f(x) = (x + 3)^2 - 9$.
+
+**3.** $(x + 3)^2 - 9 = x^2 + 6x + 9 - 9 = x^2 + 6x$, puis on factorise par $x$ : $f(x) = x(x + 6)$.
+
+**4.** $f(x) = 0 \\iff x(x + 6) = 0 \\iff x = 0$ ou $x = -6$ (produit nul). Les antécédents de $0$ sont $0$ et $-6$.
+
+*Vérification* : $f(-6) = (-3)^2 - 9 = 0$.
+
+**5.** Un carré est positif : $(x + 3)^2 \\geqslant 0$, donc $f(x) \\geqslant -9$ pour tout réel $x$. Comme $-10 < -9$, l'équation $f(x) = -10$ n'a pas de solution : $-10$ n'a pas d'antécédent par $f$.`
+    },
+    {
+      id: "2A1-ds-14",
+      title: "Deux fonctions sont-elles égales ?",
+      difficulty: 2,
+      points: 5,
+      statement: `On dit que deux fonctions sont égales si elles ont le même ensemble de définition et la même image en chaque point de cet ensemble.
+
+On considère $f(x) = \\dfrac{x^2 - 1}{x - 1}$ et $g(x) = x + 1$.
+
+1. Déterminer l'ensemble de définition de $f$ et celui de $g$.
+2. Montrer que, pour tout $x \\neq 1$, $f(x) = g(x)$.
+3. Les fonctions $f$ et $g$ sont-elles égales ? Décrire la courbe de $f$.
+4. On considère $h(x) = \\sqrt{x^2}$ et $k(x) = \\left(\\sqrt{x}\\right)^2$.
+ a) Donner l'ensemble de définition de $h$ et de $k$.
+ b) Calculer $h(-3)$. A-t-on $h(x) = x$ pour tout réel $x$ ? Exprimer $h(x)$ à l'aide d'une fonction de référence.
+ c) Les fonctions $k$ et $x \\mapsto x$ sont-elles égales ?`,
+      solution: `**1.** $f(x)$ existe si et seulement si $x - 1 \\neq 0$ : $\\mathcal{D}_f = \\mathbb{R} \\setminus \\{1\\}$. $g$ est définie sur $\\mathbb{R}$.
+
+**2.** Pour $x \\neq 1$ : $f(x) = \\frac{(x - 1)(x + 1)}{x - 1} = x + 1 = g(x)$.
+
+**3.** Non : elles n'ont pas le même ensemble de définition ($g(1) = 2$ existe, $f(1)$ n'existe pas). La courbe de $f$ est la droite d'équation $y = x + 1$ **privée du point** $(1 ; 2)$.
+
+**4. a)** $x^2 \\geqslant 0$ pour tout $x$ : $h$ est définie sur $\\mathbb{R}$. $\\sqrt{x}$ n'existe que pour $x \\geqslant 0$ : $k$ est définie sur $[0 ; +\\infty[$.
+
+**b)** $h(-3) = \\sqrt{9} = 3 \\neq -3$ : on n'a pas $h(x) = x$ pour tout $x$. En fait $h(x) = |x|$ pour tout réel $x$.
+
+**c)** Pour $x \\geqslant 0$, $k(x) = x$, mais $k$ n'est définie que sur $[0 ; +\\infty[$ alors que $x \\mapsto x$ l'est sur $\\mathbb{R}$ : ces fonctions ne sont pas égales.`
+    },
+    {
+      id: "2A1-ds-15",
+      title: "La sortie d'un cycliste",
+      difficulty: 3,
+      points: 6,
+      statement: `Un cycliste part à $t = 0$ (en heures). Pendant la première heure, il roule à vitesse constante de $20$ km/h ; il fait ensuite une pause d'une demi-heure, puis repart à $16$ km/h pendant une heure et demie. On note $d(t)$ la distance parcourue (en km) à l'instant $t$, pour $t \\in [0 ; 3]$.
+
+1. Calculer $d(0{,}5)$, $d(1{,}25)$ et $d(3)$.
+2. Exprimer $d(t)$ en fonction de $t$ sur chacun des intervalles $[0 ; 1]$, $[1 ; 1{,}5]$ et $[1{,}5 ; 3]$.
+3. Calculer $d(2)$. À quel instant le cycliste a-t-il parcouru $30$ km ? Donner la réponse en heures, minutes et secondes.
+4. Quels sont les antécédents de $20$ par la fonction $d$ ?
+5. Calculer la vitesse moyenne du cycliste sur l'ensemble de la sortie, pause comprise (arrondir au dixième).`,
+      solution: `**1.** $d(0{,}5) = 20 \\times 0{,}5 = 10$ km ; à $t = 1{,}25$, il est en pause : $d(1{,}25) = 20$ km ; $d(3) = 20 + 16 \\times 1{,}5 = 44$ km.
+
+**2.**
+- sur $[0 ; 1]$ : $d(t) = 20t$ ;
+- sur $[1 ; 1{,}5]$ : $d(t) = 20$ ;
+- sur $[1{,}5 ; 3]$ : $d(t) = 20 + 16(t - 1{,}5) = 16t - 4$.
+
+Les expressions se raccordent : $d(1) = 20$ et $d(1{,}5) = 16 \\times 1{,}5 - 4 = 20$.
+
+**3.** $d(2) = 16 \\times 2 - 4 = 28$ km. Comme $d(t) \\leqslant 20$ avant $t = 1{,}5$, on résout sur $[1{,}5 ; 3]$ : $16t - 4 = 30 \\iff t = \\frac{34}{16} = 2{,}125$ h, soit $2$ h $7$ min $30$ s ($0{,}125 \\times 60 = 7{,}5$ min).
+
+**4.** $d(t) = 20$ pour tout $t \\in [1 ; 1{,}5]$ : $20$ a une infinité d'antécédents, tous les réels de $[1 ; 1{,}5]$.
+
+**5.** $v = \\frac{44}{3} \\approx 14{,}7$ km/h.`
+    },
+    {
+      id: "2A1-ds-16",
+      title: "Nombre d'antécédents selon la valeur",
+      difficulty: 4,
+      points: 7,
+      statement: `Soit $f$ la fonction définie sur $\\mathbb{R}$ par $f(x) = x^2 - 4x + 1$.
+
+1. Montrer que, pour tout réel $x$, $f(x) = (x - 2)^2 - 3$.
+2. Résoudre $f(x) = -3$, puis $f(x) = 1$.
+3. Justifier que $f(x) \\geqslant -3$ pour tout réel $x$. Que peut-on dire des nombres $k < -3$ ?
+4. Soit $k$ un réel tel que $k > -3$.
+ a) Montrer que l'équation $f(x) = k$ équivaut à $(x - 2)^2 = k + 3$.
+ b) En déduire que $k$ a exactement deux antécédents, que l'on exprimera en fonction de $k$.
+5. Déterminer $k$ pour que les deux antécédents de $k$ soient distants de $6$. Vérifier en calculant ces antécédents.`,
+      solution: `**1.** $(x - 2)^2 - 3 = x^2 - 4x + 4 - 3 = x^2 - 4x + 1 = f(x)$.
+
+**2.** $f(x) = -3 \\iff (x - 2)^2 = 0 \\iff x = 2$ : un seul antécédent.
+
+$f(x) = 1 \\iff x^2 - 4x = 0 \\iff x(x - 4) = 0 \\iff x = 0$ ou $x = 4$.
+
+**3.** $(x - 2)^2 \\geqslant 0$ donc $f(x) \\geqslant -3$. Un nombre $k < -3$ n'a aucun antécédent par $f$.
+
+**4. a)** $f(x) = k \\iff (x - 2)^2 - 3 = k \\iff (x - 2)^2 = k + 3$.
+
+**b)** Comme $k + 3 > 0$, $X^2 = k + 3 \\iff X = \\sqrt{k + 3}$ ou $X = -\\sqrt{k + 3}$. Donc $x = 2 + \\sqrt{k + 3}$ ou $x = 2 - \\sqrt{k + 3}$ : deux antécédents distincts.
+
+*Bilan* : $k < -3$ : aucun antécédent ; $k = -3$ : un seul ; $k > -3$ : deux.
+
+**5.** La distance entre les deux antécédents est $2\\sqrt{k + 3}$. $2\\sqrt{k + 3} = 6 \\iff \\sqrt{k + 3} = 3 \\iff k + 3 = 9 \\iff k = 6$.
+
+*Vérification* : les antécédents de $6$ sont $2 - 3 = -1$ et $2 + 3 = 5$, distants de $6$ ; $f(-1) = 1 + 4 + 1 = 6$ et $f(5) = 25 - 20 + 1 = 6$.`
     }
   ],
   "2A2": [
@@ -2037,7 +2688,7 @@ On conjecture que le point de $d$ le plus proche de $A$ est le **pied de la perp
       title: "Température et altitude",
       difficulty: 1,
       points: 4,
-      statement: `Dans un modèle simplifié de l'atmosphère, la température (en °C) à l'altitude $x$ (en km) est donnée par $T(x) = 15 - 6{,}5x$, pour $x \\in [0 ; 11]$.
+      statement: `Dans un modèle simplifié de l'atmosphère (l'« atmosphère type » utilisée en aéronautique, valable jusqu'à $11$ km d'altitude), la température (en °C) à l'altitude $x$ (en km) est donnée par $T(x) = 15 - 6{,}5x$, pour $x \\in [0 ; 11]$.
 
 1. Quel est le sens de variation de la fonction $T$ sur $[0 ; 11]$ ? Justifier.
 2. Dresser le tableau de variations de $T$ et donner son maximum et son minimum sur $[0 ; 11]$.
@@ -2182,6 +2833,134 @@ Si $5 \\leqslant a < b$, alors $b - a > 0$ et $a + b > 10$, donc $S(b) - S(a) > 
 **5.** $S(x) \\leqslant 68 \\iff 2(x - 5)^2 \\leqslant 18 \\iff (x - 5)^2 \\leqslant 9 \\iff |x - 5| \\leqslant 3 \\iff 2 \\leqslant x \\leqslant 8$.
 
 L'aire est au plus $68$ cm² pour $x \\in [2 ; 8]$ (vérification : $S(2) = 8 - 40 + 100 = 68$).`
+    },
+{
+      id: "2A2-ds-13",
+      title: "Construire un tableau de variations à partir d'une description",
+      difficulty: 1,
+      points: 4,
+      statement: `Une fonction $f$ est définie sur $[-4 ; 6]$. On sait que :
+- $f(-4) = 1$ ;
+- $f$ est croissante sur $[-4 ; -1]$ et $f(-1) = 5$ ;
+- $f$ est décroissante sur $[-1 ; 3]$ et $f(3) = -2$ ;
+- $f$ est croissante sur $[3 ; 6]$ et $f(6) = 3$.
+
+On admet que la courbe de $f$ se trace sans lever le crayon.
+
+1. Dresser le tableau de variations de $f$.
+2. Donner le maximum et le minimum de $f$ sur $[-4 ; 6]$, et les valeurs de $x$ où ils sont atteints.
+3. Comparer, si possible, $f(-3)$ et $f(-2)$, puis $f(0)$ et $f(2)$, puis $f(-2)$ et $f(4)$.
+4. Combien l'équation $f(x) = 0$ a-t-elle de solutions ? Même question pour $f(x) = 4$.`,
+      solution: `**1.**
+
+| $x$ | $-4$ | | $-1$ | | $3$ | | $6$ |
+|---|---|---|---|---|---|---|---|
+| $f(x)$ | $1$ | $\\nearrow$ | $5$ | $\\searrow$ | $-2$ | $\\nearrow$ | $3$ |
+
+**2.** Le maximum est $5$, atteint en $x = -1$ ; le minimum est $-2$, atteint en $x = 3$.
+
+**3.** $-3 < -2$ dans $[-4 ; -1]$ où $f$ est croissante : $f(-3) \\leqslant f(-2)$ (l'ordre est conservé).
+
+$0 < 2$ dans $[-1 ; 3]$ où $f$ est décroissante : $f(0) \\geqslant f(2)$ (l'ordre est inversé).
+
+$-2$ et $4$ ne sont pas dans un même intervalle où $f$ est monotone : on sait seulement que $f(-2) \\in [1 ; 5]$ et $f(4) \\in [-2 ; 3]$, ces intervalles se chevauchent : **on ne peut pas conclure**.
+
+**4.** $f(x) = 0$ : sur $[-4 ; -1]$, $f(x) \\geqslant 1$, pas de solution ; sur $[-1 ; 3]$, $f$ passe de $5$ à $-2$ : une solution ; sur $[3 ; 6]$, $f$ passe de $-2$ à $3$ : une solution. Total : $2$ solutions.
+
+$f(x) = 4$ : une solution sur $[-4 ; -1]$ ($1 \\to 5$), une sur $[-1 ; 3]$ ($5 \\to -2$), aucune sur $[3 ; 6]$ (valeurs inférieures ou égales à $3$). Total : $2$ solutions.`
+    },
+    {
+      id: "2A2-ds-14",
+      title: "Deux carrés avec un fil de fer",
+      difficulty: 2,
+      points: 5,
+      statement: `On coupe un fil de fer de $20$ cm en deux morceaux. Avec le premier, de longueur $x$ (en cm, $0 \\leqslant x \\leqslant 20$), on forme un carré ; avec le second, on forme un autre carré. On note $\\mathcal{A}(x)$ la somme des aires des deux carrés, en cm².
+
+1. Calculer $\\mathcal{A}(4)$.
+2. Montrer que $\\mathcal{A}(x) = \\dfrac{x^2 + (20 - x)^2}{16}$, puis que $\\mathcal{A}(x) = \\dfrac{x^2 - 20x + 200}{8}$.
+3. Vérifier que $x^2 - 20x + 200 = (x - 10)^2 + 100$.
+4. En déduire la valeur de $x$ pour laquelle l'aire totale est minimale, et la valeur de ce minimum. Que remarque-t-on sur les deux carrés ?
+5. Calculer $\\mathcal{A}(0)$ et $\\mathcal{A}(20)$. Pour quelle découpe l'aire totale est-elle maximale ?`,
+      solution: `**1.** Pour $x = 4$ : les carrés ont pour côtés $1$ cm et $\\frac{16}{4} = 4$ cm, d'où $\\mathcal{A}(4) = 1 + 16 = 17$ cm².
+
+**2.** Le premier carré a pour côté $\\frac{x}{4}$, le second $\\frac{20 - x}{4}$. Donc
+$$\\mathcal{A}(x) = \\frac{x^2}{16} + \\frac{(20 - x)^2}{16} = \\frac{x^2 + 400 - 40x + x^2}{16} = \\frac{2x^2 - 40x + 400}{16} = \\frac{x^2 - 20x + 200}{8}.$$
+
+**3.** $(x - 10)^2 + 100 = x^2 - 20x + 100 + 100 = x^2 - 20x + 200$.
+
+**4.** $\\mathcal{A}(x) = \\frac{(x - 10)^2 + 100}{8} \\geqslant \\frac{100}{8} = 12{,}5$ car $(x - 10)^2 \\geqslant 0$, avec égalité si et seulement si $x = 10$. L'aire totale est minimale pour $x = 10$ et vaut $12{,}5$ cm² : les deux carrés sont alors identiques (côté $2{,}5$ cm).
+
+**5.** $\\mathcal{A}(0) = \\mathcal{A}(20) = \\frac{200}{8} = 25$ cm². $(x - 10)^2$ est maximal sur $[0 ; 20]$ quand $x$ est le plus loin possible de $10$, c'est-à-dire pour $x = 0$ ou $x = 20$ : l'aire est maximale ($25$ cm²) quand on ne forme qu'un seul carré avec tout le fil.`
+    },
+    {
+      id: "2A2-ds-15",
+      title: "Variations de x + 1/x",
+      difficulty: 3,
+      points: 6,
+      statement: `Soit $f$ la fonction définie sur $]0 ; +\\infty[$ par $f(x) = x + \\dfrac{1}{x}$.
+
+1. Calculer $f\\left(\\dfrac{1}{2}\\right)$, $f(1)$ et $f(2)$.
+2. Soient $a$ et $b$ deux réels tels que $0 < a < b$. Montrer que
+$$f(b) - f(a) = \\frac{(b - a)(ab - 1)}{ab}.$$
+3. a) On suppose $0 < a < b \\leqslant 1$. Déterminer le signe de $f(b) - f(a)$. Que peut-on en déduire pour $f$ ?
+ b) Étudier de même le cas $1 \\leqslant a < b$.
+ c) Dresser le tableau de variations de $f$.
+4. En déduire que, pour tout réel $x > 0$, $x + \\dfrac{1}{x} \\geqslant 2$.
+5. **Application.** Parmi tous les rectangles d'aire $1$ m², lequel a le plus petit périmètre ?`,
+      solution: `**1.** $f\\left(\\frac{1}{2}\\right) = \\frac{1}{2} + 2 = 2{,}5$ ; $f(1) = 2$ ; $f(2) = 2{,}5$.
+
+**2.** $f(b) - f(a) = (b - a) + \\frac{1}{b} - \\frac{1}{a} = (b - a) + \\frac{a - b}{ab} = (b - a)\\left(1 - \\frac{1}{ab}\\right) = \\frac{(b - a)(ab - 1)}{ab}$.
+
+**3. a)** $b - a > 0$ et $ab > 0$. Comme $0 < a < 1$ et $0 < b \\leqslant 1$, on a $ab < 1$, donc $ab - 1 < 0$. Ainsi $f(b) - f(a) < 0$ : $f$ est (strictement) décroissante sur $]0 ; 1]$.
+
+**b)** Si $1 \\leqslant a < b$, alors $ab > 1$, donc $f(b) - f(a) > 0$ : $f$ est croissante sur $[1 ; +\\infty[$.
+
+**c)**
+
+| $x$ | $0$ | | $1$ | | $+\\infty$ |
+|---|---|---|---|---|---|
+| $f(x)$ | $\\Vert$ | $\\searrow$ | $2$ | $\\nearrow$ | |
+
+(La double barre indique que $f$ n'est pas définie en $0$.)
+
+**4.** D'après le tableau, $f$ admet un minimum égal à $f(1) = 2$ sur $]0 ; +\\infty[$ : $x + \\frac{1}{x} \\geqslant 2$ pour tout $x > 0$.
+
+**5.** Un rectangle d'aire $1$ et de largeur $x$ a pour longueur $\\frac{1}{x}$ et pour périmètre $2\\left(x + \\frac{1}{x}\\right) \\geqslant 4$, avec égalité pour $x = 1$ : c'est le carré de côté $1$ m qui a le plus petit périmètre.`
+    },
+    {
+      id: "2A2-ds-16",
+      title: "Variations obtenues à partir des fonctions de référence",
+      difficulty: 4,
+      points: 7,
+      statement: `Soit $f$ la fonction définie sur $\\mathbb{R}$ par $f(x) = \\dfrac{1}{x^2 + 1}$.
+
+1. Justifier que $f$ est bien définie sur $\\mathbb{R}$ et que $f(-x) = f(x)$ pour tout réel $x$. Interpréter graphiquement.
+2. a) Soient $a$ et $b$ tels que $0 \\leqslant a < b$. En comparant successivement $a^2$ et $b^2$, $a^2 + 1$ et $b^2 + 1$, puis leurs inverses, montrer que $f(a) > f(b)$.
+ b) En déduire le sens de variation de $f$ sur $[0 ; +\\infty[$, puis sur $]-\\infty ; 0]$.
+ c) Dresser le tableau de variations de $f$ et en déduire que $0 < f(x) \\leqslant 1$ pour tout réel $x$.
+3. Soit $g$ la fonction définie sur $\\mathbb{R}$ par $g(x) = \\dfrac{x^2 + 3}{x^2 + 1}$.
+ a) Montrer que $g(x) = 1 + 2f(x)$.
+ b) En déduire les variations de $g$ et un encadrement de $g(x)$.
+ c) Résoudre l'équation $g(x) = 2$.`,
+      solution: `**1.** $x^2 + 1 \\geqslant 1 > 0$ : le dénominateur ne s'annule jamais, $f$ est définie sur $\\mathbb{R}$. $f(-x) = \\frac{1}{(-x)^2 + 1} = \\frac{1}{x^2 + 1} = f(x)$ : la courbe de $f$ est symétrique par rapport à l'axe des ordonnées ($f$ est paire).
+
+**2. a)** La fonction carré est croissante sur $[0 ; +\\infty[$ : $0 \\leqslant a < b \\Rightarrow a^2 < b^2$, donc $1 \\leqslant a^2 + 1 < b^2 + 1$. La fonction inverse est décroissante sur $]0 ; +\\infty[$ : $\\frac{1}{a^2 + 1} > \\frac{1}{b^2 + 1}$, soit $f(a) > f(b)$.
+
+**b)** $f$ est décroissante sur $[0 ; +\\infty[$. Par symétrie (question 1), elle est croissante sur $]-\\infty ; 0]$ : si $a < b \\leqslant 0$, alors $0 \\leqslant -b < -a$, donc $f(-b) > f(-a)$, soit $f(b) > f(a)$.
+
+**c)**
+
+| $x$ | $-\\infty$ | | $0$ | | $+\\infty$ |
+|---|---|---|---|---|---|
+| $f(x)$ | | $\\nearrow$ | $1$ | $\\searrow$ | |
+
+Le maximum est $f(0) = 1$, et $f(x) > 0$ comme inverse d'un nombre positif : $0 < f(x) \\leqslant 1$.
+
+**3. a)** $1 + 2f(x) = \\frac{x^2 + 1}{x^2 + 1} + \\frac{2}{x^2 + 1} = \\frac{x^2 + 3}{x^2 + 1} = g(x)$.
+
+**b)** Multiplier par $2 > 0$ puis ajouter $1$ conserve le sens de variation : $g$ est croissante sur $]-\\infty ; 0]$ et décroissante sur $[0 ; +\\infty[$, de maximum $g(0) = 3$. De $0 < f(x) \\leqslant 1$, on tire $1 < g(x) \\leqslant 3$.
+
+**c)** $g(x) = 2 \\iff 2f(x) = 1 \\iff x^2 + 1 = 2 \\iff x^2 = 1 \\iff x = -1$ ou $x = 1$.`
     }
   ],
   "2A3": [
@@ -2451,9 +3230,13 @@ $\\mathcal{S} = \\left]-\\infty ; -\\frac{1}{2}\\right] \\cup \\,]0 ; +\\infty[$
 2. En déduire le sens de variation de la fonction racine carrée sur $[0 ; +\\infty[$.
 
 **Partie B : la fonction cube.**
-3. Montrer que pour tous réels $a$ et $b$ : $b^3 - a^3 = (b - a)(b^2 + ab + a^2)$.
-4. Montrer que $b^2 + ab + a^2 = \\left(a + \\dfrac{b}{2}\\right)^2 + \\dfrac{3}{4}b^2$.
-5. En déduire que si $a < b$, alors $b^2 + ab + a^2 > 0$, puis que la fonction cube est strictement croissante sur $\\mathbb{R}$.`,
+On admet l'identité suivante, valable pour tous réels $a$ et $b$ :
+$$b^3 - a^3 = (b - a)(b^2 + ab + a^2).$$
+3. Vérifier cette identité en développant le membre de droite.
+4. Montrer que $b^2 + ab + a^2 = \\left(a + \\dfrac{b}{2}\\right)^2 + \\dfrac{3}{4}b^2$, puis en déduire que $b^2 + ab + a^2 \\geqslant 0$.
+5. a) Montrer que si $b^2 + ab + a^2 = 0$, alors $b = 0$ puis $a = 0$.
+ b) En déduire que si $a < b$, alors $b^2 + ab + a^2 > 0$.
+ c) Conclure : la fonction cube est strictement croissante sur $\\mathbb{R}$.`,
       solution: `**1.** Comme $0 \\leqslant a < b$, on a $\\sqrt{b} > 0$, donc $\\sqrt{b} + \\sqrt{a} > 0$. Alors
 $$\\frac{b - a}{\\sqrt{b} + \\sqrt{a}} = \\frac{(\\sqrt{b})^2 - (\\sqrt{a})^2}{\\sqrt{b} + \\sqrt{a}} = \\frac{(\\sqrt{b} - \\sqrt{a})(\\sqrt{b} + \\sqrt{a})}{\\sqrt{b} + \\sqrt{a}} = \\sqrt{b} - \\sqrt{a}.$$
 
@@ -2461,11 +3244,13 @@ $$\\frac{b - a}{\\sqrt{b} + \\sqrt{a}} = \\frac{(\\sqrt{b})^2 - (\\sqrt{a})^2}{\
 
 **3.** $(b - a)(b^2 + ab + a^2) = b^3 + ab^2 + a^2b - ab^2 - a^2b - a^3 = b^3 - a^3$.
 
-**4.** $\\left(a + \\frac{b}{2}\\right)^2 + \\frac{3}{4}b^2 = a^2 + ab + \\frac{b^2}{4} + \\frac{3b^2}{4} = a^2 + ab + b^2$.
+**4.** $\\left(a + \\frac{b}{2}\\right)^2 + \\frac{3}{4}b^2 = a^2 + ab + \\frac{b^2}{4} + \\frac{3b^2}{4} = a^2 + ab + b^2$. C'est la somme d'un carré et de $\\frac{3}{4}$ fois un carré, deux nombres positifs ou nuls : $b^2 + ab + a^2 \\geqslant 0$.
 
-**5.** D'après la question 4, $b^2 + ab + a^2$ est une somme de deux carrés (le second multiplié par $\\frac{3}{4} > 0$), donc il est positif ou nul. Il est nul seulement si $b = 0$ et $a + \\frac{b}{2} = 0$, c'est-à-dire $a = b = 0$, ce qui est impossible lorsque $a < b$. Donc $b^2 + ab + a^2 > 0$.
+**5. a)** Si la somme de deux nombres positifs ou nuls est nulle, chacun est nul : $\\frac{3}{4}b^2 = 0$, donc $b = 0$ ; puis $\\left(a + \\frac{b}{2}\\right)^2 = a^2 = 0$, donc $a = 0$.
 
-Si $a < b$, alors $b - a > 0$ et $b^2 + ab + a^2 > 0$, donc $b^3 - a^3 > 0$, soit $a^3 < b^3$ : la fonction cube est strictement croissante sur $\\mathbb{R}$.`
+**b)** Si $a < b$, $a$ et $b$ ne sont pas tous les deux nuls ; d'après a), $b^2 + ab + a^2 \\neq 0$, et comme il est positif ou nul, $b^2 + ab + a^2 > 0$.
+
+**c)** Si $a < b$, alors $b - a > 0$ et $b^2 + ab + a^2 > 0$, donc $b^3 - a^3 > 0$, soit $a^3 < b^3$ : la fonction cube est strictement croissante sur $\\mathbb{R}$.`
     },
     {
       id: "2A3-ds-12",
@@ -2501,6 +3286,110 @@ $f$ est affine décroissante sur $[-2 ; 1]$ (coefficient $-2$), constante sur $[
 **5. a)** Si $1 \\leqslant x \\leqslant 8$ : $|x - 1| + |x - 8| = (x - 1) + (8 - x) = 7$ (la distance entre les deux hameaux). Si $x < 1$ : la somme vaut $(1 - x) + (8 - x) = 9 - 2x > 7$. Si $x > 8$ : elle vaut $2x - 9 > 7$.
 
 **b)** Pour $x \\in [1 ; 8]$, $g(x) = 7 + |x - 3| \\geqslant 7$, avec égalité si et seulement si $x = 3$. Pour $x \\notin [1 ; 8]$, $g(x) > 7 + |x - 3| \\geqslant 7$. Le minimum de $g$ est $7$, atteint uniquement en $x = 3$ : il faut placer l'abribus au village (la valeur « du milieu »).`
+    },
+{
+      id: "2A3-ds-13",
+      title: "Parité et symétries des courbes de référence",
+      difficulty: 1,
+      points: 4,
+      statement: `On dit qu'une fonction $f$ définie sur $\\mathbb{R}$ (ou sur $\\mathbb{R} \\setminus \\{0\\}$) est **paire** si $f(-x) = f(x)$ pour tout $x$, et **impaire** si $f(-x) = -f(x)$ pour tout $x$.
+
+1. Calculer $(-3)^2$ et $3^2$, $|-3|$ et $|3|$, $(-2)^3$ et $2^3$, $\\dfrac{1}{-4}$ et $\\dfrac{1}{4}$.
+2. Montrer que les fonctions carré et valeur absolue sont paires, et que les fonctions cube et inverse sont impaires.
+3. Que peut-on dire de la courbe d'une fonction paire ? d'une fonction impaire ?
+4. Sachant que $2{,}5^3 = 15{,}625$ et $\\dfrac{1}{8} = 0{,}125$, donner sans calcul $(-2{,}5)^3$ et $\\dfrac{1}{-8}$.
+5. Pourquoi la question de la parité ne se pose-t-elle pas pour la fonction racine carrée ?`,
+      solution: `**1.** $(-3)^2 = 9 = 3^2$ ; $|-3| = 3 = |3|$ ; $(-2)^3 = -8$ et $2^3 = 8$ ; $\\frac{1}{-4} = -0{,}25$ et $\\frac{1}{4} = 0{,}25$.
+
+**2.** Pour tout réel $x$ : $(-x)^2 = x^2$ et $|-x| = |x|$ : carré et valeur absolue sont paires.
+
+$(-x)^3 = (-x)(-x)(-x) = -x^3$ et, pour $x \\neq 0$, $\\frac{1}{-x} = -\\frac{1}{x}$ : cube et inverse sont impaires.
+
+**3.** Si $f$ est paire, les points $(x ; f(x))$ et $(-x ; f(x))$ sont sur la courbe : elle est symétrique par rapport à l'axe des ordonnées (parabole, courbe en V). Si $f$ est impaire, les points $(x ; f(x))$ et $(-x ; -f(x))$ sont sur la courbe : elle est symétrique par rapport à l'origine (courbe de la fonction cube, hyperbole).
+
+**4.** Par imparité : $(-2{,}5)^3 = -15{,}625$ et $\\frac{1}{-8} = -0{,}125$.
+
+**5.** La fonction racine carrée est définie sur $[0 ; +\\infty[$ : si $x > 0$, $-x$ n'appartient pas à l'ensemble de définition, donc $f(-x)$ n'existe pas.`
+    },
+    {
+      id: "2A3-ds-14",
+      title: "Résistances en parallèle et fonction inverse",
+      difficulty: 2,
+      points: 5,
+      statement: `Lorsque deux résistances $R_1$ et $R_2$ (en ohms, strictement positives) sont montées en parallèle, la résistance équivalente $R$ vérifie
+$$\\frac{1}{R} = \\frac{1}{R_1} + \\frac{1}{R_2}.$$
+
+1. Calculer $R$ pour $R_1 = 6$ et $R_2 = 3$.
+2. Calculer $R$ lorsque $R_1 = R_2 = r$.
+3. Montrer que $R = \\dfrac{R_1 R_2}{R_1 + R_2}$.
+4. Justifier que $\\dfrac{1}{R} > \\dfrac{1}{R_1}$, puis, à l'aide du sens de variation de la fonction inverse, que $R < R_1$. Interpréter.
+5. On dispose d'une résistance $R_1 = 12$. Quelle résistance $R_2$ faut-il lui associer en parallèle pour obtenir $R = 4$ ?`,
+      solution: `**1.** $\\frac{1}{R} = \\frac{1}{6} + \\frac{1}{3} = \\frac{1}{6} + \\frac{2}{6} = \\frac{3}{6} = \\frac{1}{2}$, donc $R = 2$ ohms.
+
+**2.** $\\frac{1}{R} = \\frac{2}{r}$, donc $R = \\frac{r}{2}$.
+
+**3.** $\\frac{1}{R} = \\frac{R_2 + R_1}{R_1 R_2}$, et en prenant l'inverse : $R = \\frac{R_1 R_2}{R_1 + R_2}$.
+
+*Vérification* avec la question 1 : $\\frac{6 \\times 3}{9} = 2$.
+
+**4.** $\\frac{1}{R_2} > 0$, donc $\\frac{1}{R} = \\frac{1}{R_1} + \\frac{1}{R_2} > \\frac{1}{R_1}$. La fonction inverse est strictement décroissante sur $]0 ; +\\infty[$ : appliquée à $\\frac{1}{R} > \\frac{1}{R_1}$ (deux nombres positifs), elle inverse l'ordre, d'où $R < R_1$. De même $R < R_2$ : la résistance équivalente est plus petite que chacune des deux résistances.
+
+**5.** $\\frac{1}{R_2} = \\frac{1}{4} - \\frac{1}{12} = \\frac{3 - 1}{12} = \\frac{1}{6}$, donc $R_2 = 6$ ohms. *Vérification* : $\\frac{12 \\times 6}{18} = 4$.`
+    },
+    {
+      id: "2A3-ds-15",
+      title: "Parabole et hyperbole : positions relatives",
+      difficulty: 3,
+      points: 6,
+      statement: `On note $\\mathcal{P}$ la courbe de la fonction carré et $\\mathcal{H}$ celle de la fonction inverse. On veut résoudre l'inéquation $(I) : x^2 \\leqslant \\dfrac{1}{x}$, pour $x \\neq 0$.
+
+1. Comparer $x^2$ et $\\dfrac{1}{x}$ pour $x = \\dfrac{1}{2}$, $x = 2$ et $x = -1$.
+2. Montrer que $(I)$ n'a aucune solution strictement négative.
+3. On suppose $x > 0$.
+ a) Montrer que $(I)$ équivaut à $x^3 \\leqslant 1$.
+ b) En utilisant le sens de variation de la fonction cube, résoudre $x^3 \\leqslant 1$.
+4. Donner l'ensemble des solutions de $(I)$.
+5. En déduire les positions relatives de $\\mathcal{P}$ et $\\mathcal{H}$, et les coordonnées de leur unique point d'intersection.`,
+      solution: `**1.** $x = \\frac{1}{2}$ : $x^2 = 0{,}25 < 2 = \\frac{1}{x}$. $x = 2$ : $x^2 = 4 > 0{,}5$. $x = -1$ : $x^2 = 1 > -1 = \\frac{1}{x}$.
+
+**2.** Si $x < 0$, alors $\\frac{1}{x} < 0 < x^2$ : l'inéquation n'est jamais vérifiée.
+
+**3. a)** $x > 0$ : multiplier les deux membres par $x$ conserve l'ordre : $x^2 \\leqslant \\frac{1}{x} \\iff x^3 \\leqslant 1$.
+
+**b)** La fonction cube est strictement croissante sur $\\mathbb{R}$ et $1^3 = 1$ : $x^3 \\leqslant 1 \\iff x \\leqslant 1$. Avec $x > 0$ : $x \\in \\,]0 ; 1]$.
+
+**4.** $\\mathcal{S} = \\,]0 ; 1]$.
+
+**5.**
+- Sur $]0 ; 1[$, $\\mathcal{P}$ est strictement en dessous de $\\mathcal{H}$.
+- Sur $]-\\infty ; 0[$ et sur $]1 ; +\\infty[$, $\\mathcal{P}$ est strictement au-dessus de $\\mathcal{H}$.
+- Les courbes se coupent uniquement au point $(1 ; 1)$ (égalité $x^3 = 1 \\iff x = 1$).`
+    },
+    {
+      id: "2A3-ds-16",
+      title: "Point d'une parabole le plus proche d'un point donné",
+      difficulty: 4,
+      points: 7,
+      statement: `Dans un repère orthonormé, on considère la parabole $\\mathcal{P}$ d'équation $y = x^2$ et le point $A(0 ; 2)$. Pour tout réel $x$, on note $M$ le point de $\\mathcal{P}$ d'abscisse $x$.
+
+1. Calculer $AO$, puis la distance $AM$ lorsque $x = 1$.
+2. Montrer que $AM^2 = x^4 - 3x^2 + 4$.
+3. On pose $X = x^2$.
+ a) Vérifier que $X^2 - 3X + 4 = \\left(X - \\dfrac{3}{2}\\right)^2 + \\dfrac{7}{4}$.
+ b) En déduire la valeur minimale de $AM^2$, puis celle de $AM$.
+ c) Pour quelles valeurs de $x$ ce minimum est-il atteint ? Donner les coordonnées des points correspondants.
+4. Le point $O$, sommet de la parabole, est-il le point de $\\mathcal{P}$ le plus proche de $A$ ?`,
+      solution: `**1.** $AO = 2$. Pour $x = 1$, $M(1 ; 1)$ et $AM = \\sqrt{1^2 + (1 - 2)^2} = \\sqrt{2}$.
+
+**2.** $M(x ; x^2)$, donc $AM^2 = x^2 + (x^2 - 2)^2 = x^2 + x^4 - 4x^2 + 4 = x^4 - 3x^2 + 4$.
+
+**3. a)** $\\left(X - \\frac{3}{2}\\right)^2 + \\frac{7}{4} = X^2 - 3X + \\frac{9}{4} + \\frac{7}{4} = X^2 - 3X + 4$.
+
+**b)** $AM^2 = \\left(x^2 - \\frac{3}{2}\\right)^2 + \\frac{7}{4} \\geqslant \\frac{7}{4}$, avec égalité si et seulement si $x^2 = \\frac{3}{2}$, ce qui est possible. Le minimum de $AM^2$ est $\\frac{7}{4}$ ; la fonction racine carrée étant croissante, le minimum de $AM$ est $\\sqrt{\\frac{7}{4}} = \\frac{\\sqrt{7}}{2} \\approx 1{,}32$.
+
+**c)** $x^2 = \\frac{3}{2} \\iff x = \\sqrt{\\frac{3}{2}} = \\frac{\\sqrt{6}}{2}$ ou $x = -\\frac{\\sqrt{6}}{2}$. Les points les plus proches de $A$ sont $M_1\\left(\\frac{\\sqrt{6}}{2} ; \\frac{3}{2}\\right)$ et $M_2\\left(-\\frac{\\sqrt{6}}{2} ; \\frac{3}{2}\\right)$, symétriques par rapport à l'axe des ordonnées.
+
+**4.** Non : $AO = 2 > \\frac{\\sqrt{7}}{2}$ (car $4 > \\frac{7}{4}$). Le sommet n'est pas le point de la parabole le plus proche de $A$.`
     }
   ],
   "2G1": [
@@ -2790,6 +3679,109 @@ $\\Omega A^2 = \\Omega B^2 \\iff 0 = -12x - 4y + 40 \\iff 12x + 4y = 40 \\iff 3x
 Vérification : $\\Omega B^2 = 3{,}5^2 + (-0{,}5)^2 = 12{,}25 + 0{,}25 = 12{,}5$ et $\\Omega C^2 = (-0{,}5)^2 + 3{,}5^2 = 12{,}5$.
 
 **4.** $\\Omega D^2 = (-1 - 2{,}5)^2 + (3 - 2{,}5)^2 = 12{,}25 + 0{,}25 = 12{,}5 = R^2$, donc $\\Omega D = R$ : le point $D$ appartient au cercle $\\mathcal{C}$. Les quatre points $A$, $B$, $C$, $D$ sont sur un même cercle.`
+    },
+{
+      id: "2G1-ds-13",
+      title: "Un losange défini par ses sommets",
+      difficulty: 1,
+      points: 4,
+      statement: `Dans un repère orthonormé, on considère les points $A(1 ; 1)$, $B(4 ; 2)$, $C(5 ; 5)$ et $D(2 ; 4)$.
+
+1. Calculer les coordonnées des milieux des segments $[AC]$ et $[BD]$. Que peut-on en déduire pour le quadrilatère $ABCD$ ?
+2. Calculer les longueurs $AB$ et $AD$. Préciser la nature de $ABCD$.
+3. Calculer les longueurs des diagonales $AC$ et $BD$. Le quadrilatère $ABCD$ est-il un carré ?
+4. On admet que l'aire d'un losange est égale au demi-produit des longueurs de ses diagonales. Calculer l'aire de $ABCD$.`,
+      solution: `**1.** Milieu de $[AC]$ : $\\left(\\frac{1 + 5}{2} ; \\frac{1 + 5}{2}\\right) = (3 ; 3)$. Milieu de $[BD]$ : $\\left(\\frac{4 + 2}{2} ; \\frac{2 + 4}{2}\\right) = (3 ; 3)$.
+
+Les diagonales ont le même milieu : $ABCD$ est un parallélogramme.
+
+**2.** $AB = \\sqrt{(4 - 1)^2 + (2 - 1)^2} = \\sqrt{10}$ et $AD = \\sqrt{(2 - 1)^2 + (4 - 1)^2} = \\sqrt{10}$.
+
+Un parallélogramme ayant deux côtés consécutifs de même longueur est un losange.
+
+**3.** $AC = \\sqrt{4^2 + 4^2} = \\sqrt{32} = 4\\sqrt{2}$ et $BD = \\sqrt{(-2)^2 + 2^2} = \\sqrt{8} = 2\\sqrt{2}$.
+
+Les diagonales n'ont pas la même longueur : ce losange n'est pas un rectangle, donc pas un carré.
+
+**4.** $\\mathcal{A} = \\frac{AC \\times BD}{2} = \\frac{4\\sqrt{2} \\times 2\\sqrt{2}}{2} = \\frac{16}{2} = 8$ unités d'aire.`
+    },
+    {
+      id: "2G1-ds-14",
+      title: "Retrouver une extrémité et construire un rectangle",
+      difficulty: 2,
+      points: 5,
+      statement: `Dans un repère orthonormé, on considère les points $A(-1 ; 3)$, $I(2 ; 1)$ et $C(7 ; 2)$.
+
+1. Déterminer les coordonnées du point $B$ tel que $I$ soit le milieu du segment $[AB]$.
+2. Calculer $AB^2$, $BC^2$ et $AC^2$. Démontrer que le triangle $ABC$ est rectangle et préciser en quel sommet.
+3. Déterminer les coordonnées du point $D$ tel que $ABCD$ soit un parallélogramme. Justifier que $ABCD$ est un rectangle.
+4. Déterminer les coordonnées du centre $K$ du rectangle et le rayon du cercle passant par ses quatre sommets.`,
+      solution: `**1.** $I$ milieu de $[AB]$ : $\\frac{-1 + x_B}{2} = 2$ et $\\frac{3 + y_B}{2} = 1$, d'où $x_B = 5$ et $y_B = -1$ : $B(5 ; -1)$.
+
+**2.** $AB^2 = 6^2 + (-4)^2 = 52$ ; $BC^2 = 2^2 + 3^2 = 13$ ; $AC^2 = 8^2 + (-1)^2 = 65$.
+
+$AB^2 + BC^2 = 52 + 13 = 65 = AC^2$ : d'après la réciproque du théorème de Pythagore, $ABC$ est rectangle en $B$.
+
+**3.** $ABCD$ est un parallélogramme si et seulement si $[AC]$ et $[BD]$ ont le même milieu. Milieu de $[AC]$ : $K\\left(3 ; \\frac{5}{2}\\right)$. Donc $\\frac{5 + x_D}{2} = 3$ et $\\frac{-1 + y_D}{2} = \\frac{5}{2}$, soit $D(1 ; 6)$.
+
+$ABCD$ est un parallélogramme qui a un angle droit (en $B$) : c'est un rectangle.
+
+**4.** Le centre est $K\\left(3 ; \\frac{5}{2}\\right)$, milieu des diagonales. Les diagonales d'un rectangle ont même longueur et même milieu, donc $K$ est équidistant des quatre sommets : le rayon vaut $\\frac{AC}{2} = \\frac{\\sqrt{65}}{2}$.`
+    },
+    {
+      id: "2G1-ds-15",
+      title: "Points de l'axe des ordonnées à une distance donnée",
+      difficulty: 3,
+      points: 6,
+      statement: `Dans un repère orthonormé, on considère le point $A(3 ; 1)$ et le cercle $\\mathcal{C}$ de centre $A$ et de rayon $5$.
+
+1. Le point $E(6 ; 5)$ appartient-il au cercle $\\mathcal{C}$ ? Et le point $F(-1 ; 3)$ ?
+2. On cherche les points $M(0 ; y)$ de l'axe des ordonnées tels que $AM = 5$.
+ a) Montrer que cette condition équivaut à $(y - 1)^2 = 16$.
+ b) En déduire les coordonnées des deux points $M_1$ et $M_2$ cherchés ($y_{M_1} > y_{M_2}$).
+3. Quelle est la nature du triangle $AM_1M_2$ ? Calculer son aire.
+4. Déterminer de même les abscisses des points d'intersection de $\\mathcal{C}$ avec l'axe des abscisses (valeurs exactes).`,
+      solution: `**1.** $AE^2 = 3^2 + 4^2 = 25$, donc $AE = 5$ : $E \\in \\mathcal{C}$.
+
+$AF^2 = (-4)^2 + 2^2 = 20 \\neq 25$ : $F \\notin \\mathcal{C}$ ($AF = 2\\sqrt{5} < 5$, $F$ est à l'intérieur du cercle).
+
+**2. a)** $AM = 5 \\iff AM^2 = 25 \\iff (0 - 3)^2 + (y - 1)^2 = 25 \\iff (y - 1)^2 = 16$ (une distance étant positive, $AM = 5$ équivaut à $AM^2 = 25$).
+
+**b)** $(y - 1)^2 = 16 \\iff y - 1 = 4$ ou $y - 1 = -4 \\iff y = 5$ ou $y = -3$. Donc $M_1(0 ; 5)$ et $M_2(0 ; -3)$.
+
+**3.** $AM_1 = AM_2 = 5$ : le triangle est isocèle en $A$. Sa base $[M_1M_2]$ est sur l'axe des ordonnées, de longueur $5 - (-3) = 8$ ; la hauteur issue de $A$ est la distance de $A$ à cet axe, soit $3$. Aire : $\\frac{8 \\times 3}{2} = 12$ unités d'aire.
+
+*Contrôle* : le pied de la hauteur est le milieu $(0 ; 1)$ de $[M_1M_2]$, et $3^2 + 4^2 = 5^2$.
+
+**4.** $N(x ; 0) \\in \\mathcal{C} \\iff (x - 3)^2 + 1 = 25 \\iff (x - 3)^2 = 24 \\iff x = 3 + 2\\sqrt{6}$ ou $x = 3 - 2\\sqrt{6}$ (car $\\sqrt{24} = 2\\sqrt{6}$).`
+    },
+    {
+      id: "2G1-ds-16",
+      title: "Construire un triangle équilatéral et son centre",
+      difficulty: 4,
+      points: 7,
+      statement: `Dans un repère orthonormé, on considère les points $A(0 ; 0)$ et $B(4 ; 0)$. On cherche les points $C$ tels que le triangle $ABC$ soit équilatéral.
+
+1. Justifier qu'un tel point $C$ est sur la médiatrice de $[AB]$, et en déduire que son abscisse vaut $2$.
+2. On note $C(2 ; h)$. Déterminer les valeurs possibles de $h$. On choisit dans la suite $h > 0$.
+3. Calculer l'aire du triangle $ABC$.
+4. Soit $G$ le point de coordonnées $\\left(\\dfrac{x_A + x_B + x_C}{3} ; \\dfrac{y_A + y_B + y_C}{3}\\right)$.
+ a) Calculer les coordonnées de $G$.
+ b) Calculer $GA$, $GB$ et $GC$. Que représente le point $G$ pour le cercle passant par $A$, $B$ et $C$ ?
+5. Soit $I$ le milieu de $[AB]$. Vérifier que $GC = 2\\,GI$.`,
+      solution: `**1.** $CA = CB$ : $C$ est équidistant de $A$ et $B$, donc sur la médiatrice de $[AB]$, qui est la droite verticale passant par le milieu $(2 ; 0)$. Ainsi $x_C = 2$.
+
+**2.** $AC = 4 \\iff 2^2 + h^2 = 16 \\iff h^2 = 12 \\iff h = 2\\sqrt{3}$ ou $h = -2\\sqrt{3}$. On prend $C(2 ; 2\\sqrt{3})$.
+
+**3.** Base $AB = 4$, hauteur $2\\sqrt{3}$ : $\\mathcal{A} = \\frac{4 \\times 2\\sqrt{3}}{2} = 4\\sqrt{3}$ unités d'aire.
+
+**4. a)** $G\\left(\\frac{0 + 4 + 2}{3} ; \\frac{0 + 0 + 2\\sqrt{3}}{3}\\right) = \\left(2 ; \\frac{2\\sqrt{3}}{3}\\right)$.
+
+**b)** $GA^2 = 2^2 + \\left(\\frac{2\\sqrt{3}}{3}\\right)^2 = 4 + \\frac{12}{9} = \\frac{16}{3}$, donc $GA = \\frac{4}{\\sqrt{3}} = \\frac{4\\sqrt{3}}{3}$. Par symétrie, $GB^2 = (2 - 4)^2 + \\frac{4}{3} = \\frac{16}{3}$. Et $GC = 2\\sqrt{3} - \\frac{2\\sqrt{3}}{3} = \\frac{4\\sqrt{3}}{3}$.
+
+$G$ est équidistant des trois sommets : c'est le centre du cercle circonscrit, de rayon $\\frac{4\\sqrt{3}}{3}$.
+
+**5.** $I(2 ; 0)$ et $GI = \\frac{2\\sqrt{3}}{3}$, donc $GC = \\frac{4\\sqrt{3}}{3} = 2\\,GI$. ($G$ est aux deux tiers de la médiane $[CI]$ en partant de $C$.)`
     }
   ],
   "2G2": [
@@ -3071,6 +4063,113 @@ Les directions des forces $\\vec{u}$ et $\\vec{v}$ sont donc **perpendiculaires*
 **5.** $\\vec{u} + k\\vec{v}\\begin{pmatrix} 6 + 8k \\\\ 8 - 6k \\end{pmatrix}$. Ce vecteur est colinéaire à $\\vec{i}\\begin{pmatrix} 1 \\\\ 0 \\end{pmatrix}$ si et seulement si $\\det = (6 + 8k) \\times 0 - (8 - 6k) \\times 1 = 0$, c'est-à-dire $8 - 6k = 0$, soit $k = \\frac{4}{3}$.
 
 La résultante vaut alors $\\begin{pmatrix} 6 + \\frac{32}{3} \\\\ 0 \\end{pmatrix} = \\begin{pmatrix} \\frac{50}{3} \\\\ 0 \\end{pmatrix}$ : le navire est bien tiré vers l'est, avec une force d'intensité $\\frac{50}{3} \\times 10 \\approx 167$ kN.`
+    },
+{
+      id: "2G2-ds-13",
+      title: "Calculs sur les coordonnées de vecteurs",
+      difficulty: 1,
+      points: 4,
+      statement: `Dans un repère, on considère les vecteurs $\\vec{u}(2 ; -3)$, $\\vec{v}(-1 ; 4)$ et $\\vec{w}(-4 ; 6)$.
+
+1. Calculer les coordonnées des vecteurs $\\vec{u} + \\vec{v}$ et $2\\vec{u} - 3\\vec{v}$.
+2. Calculer $\\det(\\vec{u}, \\vec{v})$. Les vecteurs $\\vec{u}$ et $\\vec{v}$ sont-ils colinéaires ?
+3. Les vecteurs $\\vec{u}$ et $\\vec{w}$ sont-ils colinéaires ? Si oui, exprimer $\\vec{w}$ en fonction de $\\vec{u}$.
+4. Déterminer le réel $m$ tel que le vecteur $\\vec{t}(m ; 6)$ soit colinéaire à $\\vec{v}$.`,
+      solution: `**1.** $\\vec{u} + \\vec{v}\\,(2 - 1 ; -3 + 4) = (1 ; 1)$.
+
+$2\\vec{u}\\,(4 ; -6)$ et $3\\vec{v}\\,(-3 ; 12)$, donc $2\\vec{u} - 3\\vec{v}\\,(4 + 3 ; -6 - 12) = (7 ; -18)$.
+
+**2.** $\\det(\\vec{u}, \\vec{v}) = 2 \\times 4 - (-3) \\times (-1) = 8 - 3 = 5 \\neq 0$ : $\\vec{u}$ et $\\vec{v}$ ne sont pas colinéaires.
+
+**3.** $\\det(\\vec{u}, \\vec{w}) = 2 \\times 6 - (-3) \\times (-4) = 12 - 12 = 0$ : ils sont colinéaires. On remarque que $-2 \\times 2 = -4$ et $-2 \\times (-3) = 6$, donc $\\vec{w} = -2\\vec{u}$.
+
+**4.** $\\det(\\vec{t}, \\vec{v}) = m \\times 4 - 6 \\times (-1) = 4m + 6$. $\\vec{t}$ et $\\vec{v}$ sont colinéaires si et seulement si $4m + 6 = 0$, soit $m = -\\frac{3}{2}$.
+
+*Vérification* : $\\vec{t}\\left(-\\frac{3}{2} ; 6\\right) = \\frac{3}{2}\\,\\vec{v}$.`
+    },
+    {
+      id: "2G2-ds-14",
+      title: "Partager un segment en trois",
+      difficulty: 2,
+      points: 5,
+      statement: `Dans un repère, on considère les points $A(-2 ; 1)$ et $B(7 ; 4)$.
+
+1. Calculer les coordonnées du vecteur $\\overrightarrow{AB}$.
+2. Déterminer les coordonnées des points $M$ et $N$ définis par $\\overrightarrow{AM} = \\dfrac{1}{3}\\overrightarrow{AB}$ et $\\overrightarrow{AN} = \\dfrac{2}{3}\\overrightarrow{AB}$.
+3. Vérifier que $M$ est le milieu de $[AN]$ et que $N$ est le milieu de $[MB]$.
+4. Le point $P(10 ; 5)$ appartient-il à la droite $(AB)$ ? Au segment $[AB]$ ?
+5. Soit $C(1 ; -2)$. Déterminer les coordonnées de l'image $C'$ de $C$ par la translation de vecteur $\\overrightarrow{AB}$. Quelle est la nature du quadrilatère $ABC'C$ ?`,
+      solution: `**1.** $\\overrightarrow{AB}\\,(7 - (-2) ; 4 - 1) = (9 ; 3)$.
+
+**2.** $\\overrightarrow{AM}\\,(3 ; 1)$, donc $M(-2 + 3 ; 1 + 1) = (1 ; 2)$. $\\overrightarrow{AN}\\,(6 ; 2)$, donc $N(4 ; 3)$.
+
+**3.** Milieu de $[AN]$ : $\\left(\\frac{-2 + 4}{2} ; \\frac{1 + 3}{2}\\right) = (1 ; 2) = M$. Milieu de $[MB]$ : $\\left(\\frac{1 + 7}{2} ; \\frac{2 + 4}{2}\\right) = (4 ; 3) = N$. Les points $M$ et $N$ partagent $[AB]$ en trois segments de même longueur.
+
+**4.** $\\overrightarrow{AP}\\,(12 ; 4)$ et $\\det(\\overrightarrow{AB}, \\overrightarrow{AP}) = 9 \\times 4 - 3 \\times 12 = 0$ : $A$, $B$, $P$ sont alignés, $P \\in (AB)$. Comme $\\overrightarrow{AP} = \\frac{4}{3}\\overrightarrow{AB}$ avec $\\frac{4}{3} > 1$, $P$ est au-delà de $B$ : $P \\notin [AB]$.
+
+**5.** $\\overrightarrow{CC'} = \\overrightarrow{AB}$, donc $C'(1 + 9 ; -2 + 3) = (10 ; 1)$. L'égalité $\\overrightarrow{AB} = \\overrightarrow{CC'}$ signifie que $ABC'C$ est un parallélogramme (éventuellement aplati ; ici $\\det(\\overrightarrow{AB}, \\overrightarrow{AC}) = 9 \\times (-3) - 3 \\times 3 = -36 \\neq 0$, il ne l'est pas).`
+    },
+    {
+      id: "2G2-ds-15",
+      title: "Un point au tiers d'une diagonale",
+      difficulty: 3,
+      points: 6,
+      statement: `Dans un repère, on considère les points $A(1 ; 1)$, $B(7 ; 2)$ et $D(2 ; 4)$.
+
+1. Déterminer les coordonnées du point $C$ tel que $ABCD$ soit un parallélogramme.
+2. Soit $I$ le milieu de $[AB]$. Calculer ses coordonnées.
+3. Soit $E$ le point défini par $\\overrightarrow{DE} = \\dfrac{2}{3}\\overrightarrow{DI}$. Calculer les coordonnées de $E$.
+4. a) Montrer que les points $A$, $E$ et $C$ sont alignés.
+ b) Préciser la position de $E$ sur le segment $[AC]$ en exprimant $\\overrightarrow{AE}$ en fonction de $\\overrightarrow{AC}$.
+5. On note $J$ le milieu de $[BC]$. Montrer que $(DJ)$ coupe aussi $[AC]$ en un point $F$ tel que $\\overrightarrow{AF} = \\dfrac{2}{3}\\overrightarrow{AC}$. (On pourra vérifier que $D$, $F$ et $J$ sont alignés.)`,
+      solution: `**1.** $ABCD$ parallélogramme $\\iff \\overrightarrow{AB} = \\overrightarrow{DC}$. $\\overrightarrow{AB}\\,(6 ; 1)$, donc $C(2 + 6 ; 4 + 1) = (8 ; 5)$.
+
+**2.** $I\\left(\\frac{1 + 7}{2} ; \\frac{1 + 2}{2}\\right) = \\left(4 ; \\frac{3}{2}\\right)$.
+
+**3.** $\\overrightarrow{DI}\\,\\left(2 ; -\\frac{5}{2}\\right)$, donc $\\overrightarrow{DE}\\,\\left(\\frac{4}{3} ; -\\frac{5}{3}\\right)$ et $E\\left(2 + \\frac{4}{3} ; 4 - \\frac{5}{3}\\right) = \\left(\\frac{10}{3} ; \\frac{7}{3}\\right)$.
+
+**4. a)** $\\overrightarrow{AC}\\,(7 ; 4)$ et $\\overrightarrow{AE}\\,\\left(\\frac{7}{3} ; \\frac{4}{3}\\right)$. $\\det(\\overrightarrow{AC}, \\overrightarrow{AE}) = 7 \\times \\frac{4}{3} - 4 \\times \\frac{7}{3} = 0$ : $A$, $E$, $C$ sont alignés.
+
+**b)** $\\overrightarrow{AE} = \\frac{1}{3}\\overrightarrow{AC}$ : $E$ est sur $[AC]$, au tiers en partant de $A$.
+
+**5.** $J\\left(\\frac{7 + 8}{2} ; \\frac{2 + 5}{2}\\right) = \\left(\\frac{15}{2} ; \\frac{7}{2}\\right)$. Le point $F$ tel que $\\overrightarrow{AF} = \\frac{2}{3}\\overrightarrow{AC}$ a pour coordonnées $\\left(1 + \\frac{14}{3} ; 1 + \\frac{8}{3}\\right) = \\left(\\frac{17}{3} ; \\frac{11}{3}\\right)$.
+
+$\\overrightarrow{DF}\\,\\left(\\frac{11}{3} ; -\\frac{1}{3}\\right)$ et $\\overrightarrow{DJ}\\,\\left(\\frac{11}{2} ; -\\frac{1}{2}\\right)$ : $\\det(\\overrightarrow{DF}, \\overrightarrow{DJ}) = \\frac{11}{3} \\times \\left(-\\frac{1}{2}\\right) - \\left(-\\frac{1}{3}\\right) \\times \\frac{11}{2} = 0$. Donc $F \\in (DJ)$ : les droites $(DI)$ et $(DJ)$ partagent la diagonale $[AC]$ en trois segments de même longueur.`
+    },
+    {
+      id: "2G2-ds-16",
+      title: "Trois points alignés sur les côtés d'un triangle",
+      difficulty: 4,
+      points: 7,
+      statement: `Dans un repère, on considère les points $A(0 ; 0)$, $B(6 ; 0)$ et $C(0 ; 4)$. On définit les points $M$, $N$ et, pour tout réel $k$, le point $P$ par
+$$\\overrightarrow{AM} = \\frac{1}{3}\\overrightarrow{AB}, \\qquad \\overrightarrow{AN} = \\frac{3}{4}\\overrightarrow{AC}, \\qquad \\overrightarrow{BP} = k\\,\\overrightarrow{BC}.$$
+
+1. Calculer les coordonnées de $M$ et $N$.
+2. Montrer que $P$ a pour coordonnées $(6 - 6k ; 4k)$.
+3. a) Calculer $\\det(\\overrightarrow{MN}, \\overrightarrow{MP})$ en fonction de $k$.
+ b) En déduire la valeur de $k$ pour laquelle $M$, $N$ et $P$ sont alignés, et les coordonnées de $P$ dans ce cas.
+ c) Le point $P$ appartient-il au segment $[BC]$ ?
+4. On veut montrer que la valeur de $k$ trouvée ne dépend pas de la forme du triangle. On admet que deux vecteurs $x\\overrightarrow{AB} + y\\overrightarrow{AC}$ et $x'\\overrightarrow{AB} + y'\\overrightarrow{AC}$ sont colinéaires si et seulement si $xy' - x'y = 0$, pour tout triangle $ABC$.
+ a) Exprimer $\\overrightarrow{MN}$ et $\\overrightarrow{MP}$ en fonction de $\\overrightarrow{AB}$ et $\\overrightarrow{AC}$.
+ b) Retrouver la valeur de $k$.`,
+      solution: `**1.** $\\overrightarrow{AB}\\,(6 ; 0)$ et $\\overrightarrow{AC}\\,(0 ; 4)$, donc $M(2 ; 0)$ et $N(0 ; 3)$.
+
+**2.** $\\overrightarrow{BC}\\,(-6 ; 4)$ et $\\overrightarrow{BP}\\,(-6k ; 4k)$, d'où $P(6 - 6k ; 4k)$.
+
+**3. a)** $\\overrightarrow{MN}\\,(-2 ; 3)$ et $\\overrightarrow{MP}\\,(4 - 6k ; 4k)$.
+$$\\det(\\overrightarrow{MN}, \\overrightarrow{MP}) = (-2)(4k) - 3(4 - 6k) = -8k - 12 + 18k = 10k - 12.$$
+
+**b)** Alignement $\\iff 10k - 12 = 0 \\iff k = \\frac{6}{5}$. Alors $P\\left(6 - \\frac{36}{5} ; \\frac{24}{5}\\right) = \\left(-\\frac{6}{5} ; \\frac{24}{5}\\right)$, soit $P(-1{,}2 ; 4{,}8)$.
+
+**c)** $k = \\frac{6}{5} > 1$ : $P$ est sur la droite $(BC)$, au-delà de $C$ ; il n'appartient pas au segment $[BC]$.
+
+**4. a)** $\\overrightarrow{MN} = \\overrightarrow{MA} + \\overrightarrow{AN} = -\\frac{1}{3}\\overrightarrow{AB} + \\frac{3}{4}\\overrightarrow{AC}$.
+
+$\\overrightarrow{MP} = \\overrightarrow{MB} + \\overrightarrow{BP} = \\frac{2}{3}\\overrightarrow{AB} + k\\left(\\overrightarrow{AC} - \\overrightarrow{AB}\\right) = \\left(\\frac{2}{3} - k\\right)\\overrightarrow{AB} + k\\,\\overrightarrow{AC}$.
+
+**b)** Colinéarité : $\\left(-\\frac{1}{3}\\right) \\times k - \\left(\\frac{2}{3} - k\\right) \\times \\frac{3}{4} = 0 \\iff -\\frac{k}{3} - \\frac{1}{2} + \\frac{3k}{4} = 0 \\iff \\frac{5k}{12} = \\frac{1}{2} \\iff k = \\frac{6}{5}$.
+
+On retrouve la même valeur, quel que soit le triangle $ABC$.`
     }
   ],
   "2G3": [
@@ -3323,7 +4422,10 @@ On remplace $y$ par $-2x + 10$ dans l'équation de $d'$ : $3x - 2(-2x + 10) - 8 
 
 1. Traduire l'énoncé par un système de deux équations d'inconnues $x$ et $y$.
 2. Interpréter chaque équation comme l'équation d'une droite du plan. Justifier, sans résoudre, que le système admet une unique solution.
-3. Résoudre le système et donner le prix d'un café et celui d'un croissant.
+3. Résolution du système par combinaison.
+ a) Multiplier les deux membres de la première équation par $2$ et ceux de la seconde par $3$. Que remarque-t-on sur les coefficients de $x$ ?
+ b) En soustrayant membre à membre les deux équations obtenues, en déduire $y$.
+ c) Calculer alors $x$, vérifier le résultat dans les deux équations et donner le prix d'un café et celui d'un croissant.
 4. Léo dispose de $10$ €. Il achète $4$ croissants. Combien de cafés peut-il acheter au maximum avec la somme restante ?`,
       solution: `**1.** $$\\begin{cases} 3x + 2y = 7{,}1 \\\\ 2x + 5y = 9{,}5 \\end{cases}$$
 
@@ -3331,11 +4433,15 @@ On remplace $y$ par $-2x + 10$ dans l'équation de $d'$ : $3x - 2(-2x + 10) - 8 
 
 $\\det(\\vec{u}_1, \\vec{u}_2) = (-2) \\times 2 - 3 \\times (-5) = -4 + 15 = 11 \\neq 0$ : les droites ne sont pas parallèles, elles sont sécantes en un unique point. Les coordonnées de ce point forment l'unique solution du système.
 
-**3.** On multiplie la première équation par $2$ et la seconde par $3$ :
+**3. a)** On obtient le système équivalent
 $$\\begin{cases} 6x + 4y = 14{,}2 \\\\ 6x + 15y = 28{,}5 \\end{cases}$$
-Par soustraction : $11y = 14{,}3$, donc $y = 1{,}3$. Puis $3x = 7{,}1 - 2{,}6 = 4{,}5$, donc $x = 1{,}5$.
+Les deux équations ont maintenant le même coefficient $6$ devant $x$.
 
-Vérification : $2 \\times 1{,}5 + 5 \\times 1{,}3 = 3 + 6{,}5 = 9{,}5$.
+**b)** En soustrayant la première de la seconde, $x$ disparaît : $11y = 28{,}5 - 14{,}2 = 14{,}3$, donc $y = 1{,}3$.
+
+**c)** Dans la première équation : $3x + 2 \\times 1{,}3 = 7{,}1$, soit $3x = 4{,}5$, donc $x = 1{,}5$.
+
+Vérification : $3 \\times 1{,}5 + 2 \\times 1{,}3 = 4{,}5 + 2{,}6 = 7{,}1$ et $2 \\times 1{,}5 + 5 \\times 1{,}3 = 3 + 6{,}5 = 9{,}5$.
 
 Un café coûte $1{,}50$ € et un croissant $1{,}30$ €.
 
@@ -3375,6 +4481,103 @@ $K$ appartient à $d_3$ ($0 - 3 \\times (-1) - 3 = 0$) mais pas à $d_1$ ($0 + 1
 **b)** $\\Delta_m$ est parallèle à $d_1$ si et seulement si elles ont le même coefficient directeur : $m = 1$ (et $\\Delta_1 : y = x - 1$ est distincte de $d_1$).
 
 **c)** $A \\in \\Delta_m \\iff 3 = 2m - 1 \\iff m = 2$.`
+    },
+{
+      id: "2G3-ds-13",
+      title: "Droites parallèles aux axes",
+      difficulty: 1,
+      points: 4,
+      statement: `Dans un repère orthonormé, on considère le point $A(3 ; -2)$ et la droite $d$ d'équation $y = 2x - 1$.
+
+1. Donner une équation de la droite $d_1$ passant par $A$ et parallèle à l'axe des ordonnées, puis de la droite $d_2$ passant par $A$ et parallèle à l'axe des abscisses.
+2. Le point $B(3 ; 7)$ appartient-il à $d_1$ ? à $d_2$ ?
+3. Déterminer les coordonnées du point d'intersection de $d$ et $d_1$, puis de $d$ et $d_2$.
+4. Les droites d'équations $x = -1$, $x = 3$, $y = -2$ et $y = 4$ délimitent un rectangle. Calculer son aire.`,
+      solution: `**1.** $d_1$ est « verticale » : tous ses points ont pour abscisse $3$, d'où $d_1 : x = 3$. $d_2$ est « horizontale » : $d_2 : y = -2$.
+
+**2.** $x_B = 3$ : $B \\in d_1$. $y_B = 7 \\neq -2$ : $B \\notin d_2$.
+
+**3.** $d \\cap d_1$ : $x = 3$ et $y = 2 \\times 3 - 1 = 5$, point $(3 ; 5)$.
+
+$d \\cap d_2$ : $y = -2$ et $2x - 1 = -2 \\iff x = -\\frac{1}{2}$, point $\\left(-\\frac{1}{2} ; -2\\right)$.
+
+**4.** Les sommets sont $(-1 ; -2)$, $(3 ; -2)$, $(3 ; 4)$, $(-1 ; 4)$. Largeur : $3 - (-1) = 4$ ; hauteur : $4 - (-2) = 6$. Aire : $4 \\times 6 = 24$ unités d'aire.`
+    },
+    {
+      id: "2G3-ds-14",
+      title: "Équation cartésienne à partir d'un vecteur directeur",
+      difficulty: 2,
+      points: 5,
+      statement: `Dans un repère, on considère le point $A(2 ; -1)$ et le vecteur $\\vec{u}(3 ; 2)$. On note $d$ la droite passant par $A$ et de vecteur directeur $\\vec{u}$.
+
+1. Soit $M(x ; y)$ un point du plan. Justifier que $M \\in d$ si et seulement si $\\det(\\overrightarrow{AM}, \\vec{u}) = 0$. En déduire qu'une équation cartésienne de $d$ est $2x - 3y - 7 = 0$.
+2. Donner l'équation réduite de $d$, son coefficient directeur et son ordonnée à l'origine.
+3. Déterminer l'ordonnée du point de $d$ d'abscisse $5$, puis les coordonnées du point d'intersection de $d$ avec l'axe des abscisses.
+4. Déterminer une équation cartésienne de la droite $d'$ parallèle à $d$ passant par $B(0 ; 4)$.`,
+      solution: `**1.** $M \\in d \\iff \\overrightarrow{AM}$ et $\\vec{u}$ sont colinéaires $\\iff \\det(\\overrightarrow{AM}, \\vec{u}) = 0$.
+
+$\\overrightarrow{AM}\\,(x - 2 ; y + 1)$, donc $\\det(\\overrightarrow{AM}, \\vec{u}) = (x - 2) \\times 2 - (y + 1) \\times 3 = 2x - 3y - 7$. D'où $d : 2x - 3y - 7 = 0$.
+
+*Vérification* : $2 \\times 2 - 3 \\times (-1) - 7 = 0$.
+
+**2.** $3y = 2x - 7 \\iff y = \\frac{2}{3}x - \\frac{7}{3}$. Coefficient directeur $\\frac{2}{3}$ (cohérent avec $\\vec{u}(3 ; 2)$ : $\\frac{2}{3}$), ordonnée à l'origine $-\\frac{7}{3}$.
+
+**3.** $x = 5$ : $y = \\frac{10}{3} - \\frac{7}{3} = 1$, point $(5 ; 1)$.
+
+$y = 0$ : $2x - 7 = 0 \\iff x = \\frac{7}{2}$, point $\\left(\\frac{7}{2} ; 0\\right)$.
+
+**4.** $d'$ a le même vecteur directeur, donc une équation de la forme $2x - 3y + c = 0$. $B \\in d' \\iff 0 - 12 + c = 0 \\iff c = 12$. $d' : 2x - 3y + 12 = 0$.`
+    },
+    {
+      id: "2G3-ds-15",
+      title: "Aucune, une ou une infinité de solutions",
+      difficulty: 3,
+      points: 6,
+      statement: `Dans un repère, on considère la droite $d$ d'équation $2x + 3y = 5$.
+
+1. Résoudre le système $\\begin{cases} 2x + 3y = 5 \\\\ x - y = 0 \\end{cases}$ et interpréter graphiquement.
+2. On considère la droite $d'$ d'équation $4x + 6y = 10$. Que peut-on dire de $d$ et $d'$ ? Combien le système formé par leurs équations a-t-il de solutions ?
+3. Même question avec la droite $d''$ d'équation $4x + 6y = 7$.
+4. Pour tout réel $m$, on considère la droite $\\Delta_m$ d'équation $mx + 6y = 7$.
+ a) Donner un vecteur directeur de $d$ et de $\\Delta_m$. Pour quelle valeur de $m$ ces droites sont-elles parallèles ?
+ b) Résoudre le système formé par les équations de $d$ et de $\\Delta_1$.`,
+      solution: `**1.** La seconde équation donne $y = x$ ; en remplaçant : $5x = 5$, d'où $x = 1$ et $y = 1$. Les droites $d$ et $x - y = 0$ sont sécantes au point $(1 ; 1)$.
+
+**2.** $4x + 6y = 10 \\iff 2x + 3y = 5$ (division par $2$) : $d' = d$, les droites sont confondues. Le système a une **infinité** de solutions : tous les couples $(x ; y)$ tels que $2x + 3y = 5$.
+
+**3.** Si $(x ; y)$ vérifiait les deux équations, on aurait $4x + 6y = 2(2x + 3y) = 10$ et $4x + 6y = 7$ : impossible. Le système n'a **aucune** solution : $d$ et $d''$ sont parallèles et distinctes (même vecteur directeur $(-3 ; 2)$).
+
+**4. a)** Une droite d'équation $ax + by = c$ a pour vecteur directeur $(-b ; a)$ : $\\vec{u}(-3 ; 2)$ pour $d$ et $\\vec{v}(-6 ; m)$ pour $\\Delta_m$.
+$\\det(\\vec{u}, \\vec{v}) = -3m - 2 \\times (-6) = 12 - 3m = 0 \\iff m = 4$. Pour $m = 4$, les droites sont parallèles (et distinctes, c'est la question 3) ; pour $m \\neq 4$, elles sont sécantes.
+
+**b)** $\\begin{cases} 2x + 3y = 5 \\\\ x + 6y = 7 \\end{cases}$ : en multipliant la première par $2$, $4x + 6y = 10$ ; en soustrayant la seconde : $3x = 3$, $x = 1$, puis $y = \\frac{7 - 1}{6} = 1$. Solution : $(1 ; 1)$ (on vérifie : $2 + 3 = 5$ et $1 + 6 = 7$).`
+    },
+    {
+      id: "2G3-ds-16",
+      title: "Médiatrices et centre du cercle circonscrit",
+      difficulty: 4,
+      points: 7,
+      statement: `Dans un repère orthonormé, on considère les points $A(1 ; 2)$, $B(5 ; 4)$ et $C(7 ; 0)$.
+
+1. Soit $M(x ; y)$. Montrer que $MA^2 = MB^2$ équivaut à $2x + y - 9 = 0$. En déduire une équation de la médiatrice $\\Delta_1$ de $[AB]$ et vérifier que le milieu de $[AB]$ lui appartient.
+2. Déterminer de même une équation de la médiatrice $\\Delta_2$ de $[BC]$.
+3. Résoudre le système formé par les équations de $\\Delta_1$ et $\\Delta_2$. On note $O'$ le point obtenu.
+4. Calculer $O'A$, $O'B$ et $O'C$. Que représente $O'$ ?
+5. a) Calculer $AB^2$, $BC^2$ et $AC^2$. Quelle est la nature du triangle $ABC$ ?
+ b) Expliquer pourquoi le résultat de la question 4 était prévisible.`,
+      solution: `**1.** $MA^2 = (x - 1)^2 + (y - 2)^2$ et $MB^2 = (x - 5)^2 + (y - 4)^2$. Les termes $x^2$ et $y^2$ s'éliminent :
+$$MA^2 = MB^2 \\iff -2x + 1 - 4y + 4 = -10x + 25 - 8y + 16 \\iff 8x + 4y - 36 = 0 \\iff 2x + y - 9 = 0.$$
+La médiatrice étant l'ensemble des points équidistants de $A$ et $B$ : $\\Delta_1 : 2x + y - 9 = 0$. Milieu $(3 ; 3)$ : $6 + 3 - 9 = 0$.
+
+**2.** $MB^2 = MC^2 \\iff -10x + 25 - 8y + 16 = -14x + 49 \\iff 4x - 8y - 8 = 0 \\iff x - 2y - 2 = 0$. $\\Delta_2 : x - 2y - 2 = 0$ (le milieu $(6 ; 2)$ vérifie : $6 - 4 - 2 = 0$).
+
+**3.** De $\\Delta_2$ : $x = 2y + 2$. Dans $\\Delta_1$ : $4y + 4 + y - 9 = 0 \\iff y = 1$, puis $x = 4$. $O'(4 ; 1)$.
+
+**4.** $O'A^2 = 9 + 1 = 10$, $O'B^2 = 1 + 9 = 10$, $O'C^2 = 9 + 1 = 10$ : $O'A = O'B = O'C = \\sqrt{10}$. $O'$ est le centre du cercle circonscrit au triangle $ABC$, de rayon $\\sqrt{10}$.
+
+**5. a)** $AB^2 = 16 + 4 = 20$, $BC^2 = 4 + 16 = 20$, $AC^2 = 36 + 4 = 40$. $AB = BC$ et $AB^2 + BC^2 = AC^2$ : $ABC$ est rectangle isocèle en $B$.
+
+**b)** Le centre du cercle circonscrit à un triangle rectangle est le milieu de l'hypoténuse. Ici le milieu de $[AC]$ est $\\left(\\frac{1 + 7}{2} ; \\frac{2 + 0}{2}\\right) = (4 ; 1) = O'$.`
     }
   ],
   "2S1": [
@@ -3663,7 +4866,7 @@ La proportion d'utilisateurs du bus est effectivement un peu plus élevée en Pr
     },
     {
       id: "2S1-ds-11",
-      title: "Masses de paquets : effet d'une transformation affine",
+      title: "Masses et prix de sachets : moyenne et écart-type",
       difficulty: 3,
       points: 6,
       statement: `Une machine remplit des sachets de graines. On pèse cinq sachets (masses en grammes) :
@@ -3673,8 +4876,11 @@ On rappelle que l'écart-type d'une série $x_1, \\ldots, x_n$ de moyenne $\\ove
 
 1. Calculer la masse moyenne $\\overline{x}$ et l'écart-type $s$ de la série (valeur exacte, puis arrondi au centième).
 2. On ajoute à chaque sachet un emballage de $15$ g. Donner, en justifiant, la moyenne et l'écart-type des masses des sachets emballés.
-3. Les graines sont vendues $0{,}04$ € le gramme (emballage non compris). Donner la moyenne et l'écart-type des prix des cinq sachets.
-4. Plus généralement, on transforme chaque valeur $x_i$ d'une série en $y_i = ax_i + b$ ($a$ et $b$ réels). Démontrer que $\\overline{y} = a\\overline{x} + b$ et que chaque écart $y_i - \\overline{y}$ est égal à $a(x_i - \\overline{x})$. Qu'en déduit-on pour l'écart-type ?`,
+3. Les graines sont vendues $0{,}04$ € le gramme (emballage non compris).
+ a) Calculer le prix de chacun des cinq sachets, puis le prix moyen.
+ b) Calculer les écarts des prix à leur moyenne : comparer avec les écarts de la question 1.
+ c) En déduire l'écart-type des prix (valeur exacte, puis arrondi au centime). Par quel nombre l'écart-type des masses a-t-il été multiplié ?
+4. Résumer, pour cet exemple, l'effet sur la moyenne et sur l'écart-type : de l'ajout de $15$ g à chaque valeur ; de la multiplication de chaque valeur par $0{,}04$.`,
       solution: `**1.** $\\overline{x} = \\frac{48 + 50 + 51 + 49 + 52}{5} = \\frac{250}{5} = 50$ g.
 
 Écarts à la moyenne : $-2$ ; $0$ ; $1$ ; $-1$ ; $2$, de carrés $4$ ; $0$ ; $1$ ; $1$ ; $4$, de somme $10$.
@@ -3683,15 +4889,15 @@ $s = \\sqrt{\\frac{10}{5}} = \\sqrt{2} \\approx 1{,}41$ g.
 
 **2.** Les nouvelles masses sont $x_i + 15$ : la moyenne devient $50 + 15 = 65$ g. Les écarts à la moyenne sont inchangés ($x_i + 15 - 65 = x_i - 50$), donc l'écart-type reste $\\sqrt{2} \\approx 1{,}41$ g.
 
-**3.** Les prix sont $0{,}04x_i$ : moyenne $0{,}04 \\times 50 = 2$ € ; les écarts sont multipliés par $0{,}04$, donc l'écart-type vaut $0{,}04\\sqrt{2} \\approx 0{,}06$ €.
+**3. a)** Prix : $1{,}92$ € ; $2$ € ; $2{,}04$ € ; $1{,}96$ € ; $2{,}08$ €. Prix moyen : $\\frac{10}{5} = 2$ € (c'est $0{,}04 \\times 50$).
 
-**4.** $\\overline{y} = \\frac{(ax_1 + b) + \\cdots + (ax_n + b)}{n} = \\frac{a(x_1 + \\cdots + x_n) + nb}{n} = a\\overline{x} + b$.
+**b)** Écarts à la moyenne : $-0{,}08$ ; $0$ ; $0{,}04$ ; $-0{,}04$ ; $0{,}08$. Ce sont les écarts de la question 1 ($-2$ ; $0$ ; $1$ ; $-1$ ; $2$) multipliés par $0{,}04$.
 
-Alors $y_i - \\overline{y} = ax_i + b - a\\overline{x} - b = a(x_i - \\overline{x})$.
+**c)** Carrés des écarts : $0{,}0064$ ; $0$ ; $0{,}0016$ ; $0{,}0016$ ; $0{,}0064$, de somme $0{,}016$. Écart-type : $\\sqrt{\\frac{0{,}016}{5}} = \\sqrt{0{,}0032}$. Or $0{,}0032 = 0{,}0016 \\times 2 = 0{,}04^2 \\times 2$, donc l'écart-type vaut $0{,}04\\sqrt{2} \\approx 0{,}06$ € : l'écart-type des masses a été multiplié par $0{,}04$.
 
-Chaque carré d'écart est multiplié par $a^2$, donc la quantité sous la racine aussi :
-$$s_y = \\sqrt{a^2 \\times \\frac{\\sum (x_i - \\overline{x})^2}{n}} = |a| \\, s_x.$$
-L'écart-type est multiplié par $|a|$ et ne dépend pas de $b$ : un décalage ne change pas la dispersion.`
+**4.** Sur cet exemple :
+- ajouter $15$ g à chaque valeur ajoute $15$ à la moyenne et ne change pas l'écart-type (les écarts à la moyenne sont inchangés) ;
+- multiplier chaque valeur par $0{,}04$ multiplie la moyenne par $0{,}04$ et l'écart-type aussi par $0{,}04$ (tous les écarts à la moyenne sont multipliés par $0{,}04$).`
     },
     {
       id: "2S1-ds-12",
@@ -3709,7 +4915,10 @@ On sait que l'âge moyen, calculé en remplaçant chaque classe par son centre, 
 1. Donner le centre de chaque classe.
 2. Montrer que $n$ vérifie $\\frac{5\\,850 + 75n}{180 + n} = 36{,}75$, puis en déduire que $n = 20$.
 3. Dans un histogramme, l'**aire** de chaque rectangle est proportionnelle à l'effectif de la classe. On choisit comme hauteur l'effectif divisé par l'amplitude de la classe. Calculer la hauteur de chaque rectangle. Pourquoi ne peut-on pas prendre l'effectif comme hauteur ?
-4. Déterminer la classe qui contient la médiane. En supposant les âges répartis uniformément à l'intérieur de chaque classe, donner une estimation de la médiane.
+Pour les questions 4 et 5, on fait l'hypothèse que, dans chaque classe, les âges sont répartis régulièrement : le nombre de visiteurs par année d'âge est constant dans la classe (il est égal à la hauteur calculée à la question 3).
+4. a) Calculer les effectifs cumulés croissants et déterminer la classe qui contient la médiane (âge du $100^e$ visiteur, les visiteurs étant rangés par âge croissant).
+ b) Combien de visiteurs ont moins de $20$ ans ? Combien faut-il en ajouter pour atteindre $100$ ?
+ c) Dans la classe $[20 ; 40[$, combien d'années d'âge faut-il pour compter ce nombre de visiteurs supplémentaires ? En déduire une estimation de la médiane.
 5. Avec la même hypothèse, estimer le pourcentage de visiteurs de moins de $30$ ans.`,
       solution: `**1.** Centres : $5$ ; $15$ ; $30$ ; $50$ ; $75$.
 
@@ -3723,11 +4932,129 @@ L'effectif total est donc $N = 200$.
 
 Les classes n'ont pas toutes la même amplitude : avec l'effectif comme hauteur, les classes larges (comme $[60 ; 90[$) paraîtraient beaucoup trop importantes, puisque l'œil compare des aires.
 
-**4.** Effectifs cumulés croissants : $20$ ; $50$ ; $110$ ; $180$ ; $200$. La médiane correspond à la $100^e$ valeur environ ($\\frac{N}{2} = 100$) : $50 < 100 \\leqslant 110$, elle est dans la classe $[20 ; 40[$.
+**4. a)** Effectifs cumulés croissants : $20$ ; $50$ ; $110$ ; $180$ ; $200$. La médiane correspond à la $100^e$ valeur ($\\frac{N}{2} = 100$) : $50 < 100 \\leqslant 110$, elle est dans la classe $[20 ; 40[$.
 
-Dans cette classe, il y a $3$ visiteurs par année d'âge ; il faut $100 - 50 = 50$ visiteurs de plus après $20$ ans, soit $\\frac{50}{3} \\approx 16{,}7$ années. Estimation : $Me \\approx 20 + 16{,}7 \\approx 36{,}7$ ans.
+**b)** $20 + 30 = 50$ visiteurs ont moins de $20$ ans ; il en faut $100 - 50 = 50$ de plus.
+
+**c)** Dans cette classe, il y a $\\frac{60}{20} = 3$ visiteurs par année d'âge : il faut $\\frac{50}{3} \\approx 16{,}7$ années. Estimation : $Me \\approx 20 + 16{,}7 \\approx 36{,}7$ ans.
 
 **5.** Moins de $30$ ans : $20 + 30 + 3 \\times 10 = 80$ visiteurs (la moitié de la classe $[20 ; 40[$), soit $\\frac{80}{200} = 40\\,\\%$ des visiteurs.`
+    },
+{
+      id: "2S1-ds-13",
+      title: "Pointures des élèves d'une classe",
+      difficulty: 1,
+      points: 4,
+      statement: `On a relevé la pointure des $25$ élèves d'une classe.
+
+| Pointure | $36$ | $37$ | $38$ | $39$ | $40$ | $41$ |
+|---|---|---|---|---|---|---|
+| Effectif | $3$ | $5$ | $8$ | $6$ | $2$ | $1$ |
+
+1. Quelle est la pointure la plus fréquente ?
+2. Calculer la pointure moyenne de la classe.
+3. Construire la ligne des effectifs cumulés croissants, puis déterminer la médiane de la série.
+4. Quelle proportion des élèves chausse du $39$ ou plus ? Donner le résultat en pourcentage.
+5. Un élève chaussant du $45$ arrive dans la classe. La médiane change-t-elle ? Et la moyenne ?`,
+      solution: `**1.** La pointure la plus fréquente est $38$ (effectif $8$).
+
+**2.** $\\bar{x} = \\frac{36 \\times 3 + 37 \\times 5 + 38 \\times 8 + 39 \\times 6 + 40 \\times 2 + 41 \\times 1}{25} = \\frac{108 + 185 + 304 + 234 + 80 + 41}{25} = \\frac{952}{25} = 38{,}08$.
+
+**3.** Effectifs cumulés croissants : $3$ ; $8$ ; $16$ ; $22$ ; $24$ ; $25$.
+
+$N = 25$ est impair : la médiane est la $13^{\\text{e}}$ valeur de la série rangée. Comme $8 < 13 \\leqslant 16$, c'est $38$.
+
+**4.** $6 + 2 + 1 = 9$ élèves, soit $\\frac{9}{25} = 0{,}36 = 36$ %.
+
+**5.** Avec $26$ élèves, la médiane est la moyenne des $13^{\\text{e}}$ et $14^{\\text{e}}$ valeurs, toutes deux égales à $38$ : elle ne change pas. La moyenne devient $\\frac{952 + 45}{26} = \\frac{997}{26} \\approx 38{,}35$ : elle augmente. La moyenne est sensible aux valeurs extrêmes, pas la médiane.`
+    },
+    {
+      id: "2S1-ds-14",
+      title: "Temps d'attente à un guichet : quartiles et diagramme en boîte",
+      difficulty: 2,
+      points: 5,
+      statement: `Un service a relevé, pendant $15$ jours, le temps d'attente moyen à un guichet (en minutes). Les valeurs, rangées dans l'ordre croissant, sont :
+$$4 \\quad 6 \\quad 7 \\quad 7 \\quad 8 \\quad 9 \\quad 10 \\quad 11 \\quad 11 \\quad 12 \\quad 13 \\quad 14 \\quad 15 \\quad 17 \\quad 20$$
+
+1. Calculer la moyenne de cette série (arrondie au centième).
+2. Déterminer la médiane, le premier quartile $Q_1$ et le troisième quartile $Q_3$.
+3. Calculer l'étendue et l'écart interquartile.
+4. Représenter la série par un diagramme en boîte (décrire les cinq valeurs à placer).
+5. Le responsable affirme : « au moins un quart des jours, on a attendu $14$ minutes ou plus ». Est-ce justifié ? Calculer la proportion exacte de ces jours.`,
+      solution: `**1.** La somme des valeurs vaut $164$, donc $\\bar{x} = \\frac{164}{15} \\approx 10{,}93$ min.
+
+**2.** $N = 15$ : la médiane est la $8^{\\text{e}}$ valeur, $Me = 11$.
+
+$\\frac{15}{4} = 3{,}75$ : $Q_1$ est la $4^{\\text{e}}$ valeur, $Q_1 = 7$. $\\frac{3 \\times 15}{4} = 11{,}25$ : $Q_3$ est la $12^{\\text{e}}$ valeur, $Q_3 = 14$.
+
+**3.** Étendue : $20 - 4 = 16$ min. Écart interquartile : $Q_3 - Q_1 = 14 - 7 = 7$ min.
+
+**4.** Sur un axe gradué, on place : le minimum $4$, $Q_1 = 7$, $Me = 11$, $Q_3 = 14$, le maximum $20$. La boîte va de $7$ à $14$ avec un trait à $11$ ; les « moustaches » vont de $4$ à $7$ et de $14$ à $20$.
+
+**5.** Par définition de $Q_3$, au moins $25$ % des valeurs sont supérieures ou égales à $Q_3 = 14$ : c'est justifié. Les valeurs concernées sont $14$, $15$, $17$, $20$ : $\\frac{4}{15} \\approx 26{,}7$ % des jours.`
+    },
+    {
+      id: "2S1-ds-15",
+      title: "Deux archers de même moyenne",
+      difficulty: 3,
+      points: 6,
+      statement: `Deux archers ont tiré chacun $8$ flèches. Leurs scores sont :
+- archer A : $8$ ; $9$ ; $7$ ; $8$ ; $8$ ; $9$ ; $7$ ; $8$ ;
+- archer B : $10$ ; $5$ ; $9$ ; $6$ ; $10$ ; $7$ ; $10$ ; $7$.
+
+On rappelle que l'écart-type $s$ d'une série $x_1, \\ldots, x_N$ de moyenne $\\bar{x}$ vérifie $s^2 = \\dfrac{(x_1 - \\bar{x})^2 + \\cdots + (x_N - \\bar{x})^2}{N}$.
+
+1. Calculer la moyenne et la médiane des scores de chaque archer.
+2. Calculer l'écart-type de chaque série (valeur exacte, puis arrondie au centième).
+3. Lequel des deux archers est le plus régulier ? Justifier.
+4. L'entraîneur doit choisir un archer pour une épreuve où il faut, pour se qualifier, obtenir au moins $9$ points sur une flèche unique. Lequel peut-il préférer ? Argumenter à l'aide des données.
+5. Après une modification de la cible, chaque score de l'archer B augmente de $1$ point. Que deviennent sa moyenne et son écart-type ?`,
+      solution: `**1.** Somme A : $64$, somme B : $64$. Les deux moyennes valent $\\frac{64}{8} = 8$.
+
+A rangé : $7, 7, 8, 8, 8, 8, 9, 9$ ; médiane $\\frac{8 + 8}{2} = 8$. B rangé : $5, 6, 7, 7, 9, 10, 10, 10$ ; médiane $\\frac{7 + 9}{2} = 8$.
+
+**2.** A : écarts à la moyenne $0, 1, -1, 0, 0, 1, -1, 0$ ; somme des carrés $4$ ; $s_A^2 = \\frac{4}{8} = 0{,}5$, $s_A = \\sqrt{0{,}5} \\approx 0{,}71$.
+
+B : écarts $2, -3, 1, -2, 2, -1, 2, -1$ ; somme des carrés $4 + 9 + 1 + 4 + 4 + 1 + 4 + 1 = 28$ ; $s_B^2 = 3{,}5$, $s_B = \\sqrt{3{,}5} \\approx 1{,}87$.
+
+**3.** Même moyenne, même médiane, mais $s_A < s_B$ : les scores de A sont moins dispersés autour de la moyenne, A est plus régulier.
+
+**4.** A a obtenu au moins $9$ sur $2$ flèches sur $8$ ($25$ %), B sur $4$ flèches sur $8$ ($50$ %). Pour une épreuve « tout ou rien » à un seul tir exigeant, l'archer B, plus irrégulier mais qui atteint plus souvent les hauts scores, peut être préféré. (Sur une épreuve longue, la régularité de A serait un atout.)
+
+**5.** Chaque valeur augmente de $1$ : la moyenne devient $9$. Les écarts à la moyenne sont inchangés, donc l'écart-type reste $\\sqrt{3{,}5} \\approx 1{,}87$.`
+    },
+    {
+      id: "2S1-ds-16",
+      title: "Ajouter des valeurs sans changer la dispersion",
+      difficulty: 4,
+      points: 7,
+      statement: `On considère la série statistique : $2$ ; $4$ ; $4$ ; $4$ ; $5$ ; $5$ ; $7$ ; $9$.
+
+On rappelle que l'écart-type $s$ d'une série de $N$ valeurs de moyenne $\\bar{x}$ vérifie $s^2 = \\dfrac{1}{N}\\displaystyle\\sum (x_i - \\bar{x})^2$.
+
+1. Calculer la moyenne $\\bar{x}$ et l'écart-type $s$ de la série.
+2. Quelle proportion des valeurs appartient à l'intervalle $[\\bar{x} - s ; \\bar{x} + s]$ ?
+3. On ajoute à la série une valeur égale à $5$. Calculer la nouvelle moyenne et le nouvel écart-type (valeur exacte, puis arrondie au centième). Commenter.
+4. On ajoute cette fois à la série initiale deux valeurs $5 - d$ et $5 + d$, où $d$ est un réel positif.
+ a) Montrer que la moyenne reste égale à $5$.
+ b) Exprimer le carré du nouvel écart-type en fonction de $d$.
+ c) Déterminer $d$ pour que l'écart-type reste égal à $2$. Quelles valeurs ajoute-t-on ?
+ d) Pour quelles valeurs de $d$ l'écart-type augmente-t-il ?`,
+      solution: `**1.** Somme : $2 + 4 + 4 + 4 + 5 + 5 + 7 + 9 = 40$, donc $\\bar{x} = 5$.
+
+Écarts : $-3, -1, -1, -1, 0, 0, 2, 4$ ; somme des carrés $9 + 1 + 1 + 1 + 0 + 0 + 4 + 16 = 32$. $s^2 = \\frac{32}{8} = 4$, $s = 2$.
+
+**2.** $[3 ; 7]$ contient $4, 4, 4, 5, 5, 7$ : $6$ valeurs sur $8$, soit $75$ %.
+
+**3.** Nouvelle moyenne : $\\frac{40 + 5}{9} = 5$. La somme des carrés des écarts reste $32$ (le nouvel écart est nul), mais on divise par $9$ : $s'^2 = \\frac{32}{9}$, $s' = \\frac{\\sqrt{32}}{3} = \\frac{4\\sqrt{2}}{3} \\approx 1{,}89$. L'écart-type diminue : on a ajouté une valeur « au centre ».
+
+**4. a)** Somme : $40 + (5 - d) + (5 + d) = 50$, pour $10$ valeurs : moyenne $5$.
+
+**b)** Les deux nouveaux écarts sont $-d$ et $d$ : $s''^2 = \\frac{32 + d^2 + d^2}{10} = \\frac{32 + 2d^2}{10}$.
+
+**c)** $\\frac{32 + 2d^2}{10} = 4 \\iff 2d^2 = 8 \\iff d^2 = 4 \\iff d = 2$ (car $d \\geqslant 0$). On ajoute $3$ et $7$.
+
+**d)** $\\frac{32 + 2d^2}{10} > 4 \\iff d^2 > 4 \\iff d > 2$ ($d \\geqslant 0$) : l'écart-type augmente si l'on ajoute deux valeurs à plus de $2$ (l'écart-type) de la moyenne.`
     }
   ],
   "2S2": [
@@ -4008,7 +5335,7 @@ On choisit un circuit au hasard ; on note $D$ l'événement « le circuit est d�
 2. Calculer $P(A)$.
 3. Le détecteur déclenche une alerte. Calculer la probabilité que le circuit soit réellement défectueux (arrondir au centième). Commenter ce résultat.
 4. Calculer $P_{\\overline{A}}(D)$, probabilité qu'un circuit sans alerte soit défectueux (arrondir à $10^{-4}$). Le détecteur est-il utile ?
-5. Le responsable propose de faire passer une seconde fois dans le détecteur les circuits ayant déclenché une alerte. On admet que le second passage a les mêmes caractéristiques que le premier et se fait de manière indépendante. Parmi les $10\\,000$ circuits, combien d'entre eux déclencheront en moyenne deux alertes, et quelle proportion de ceux-ci seront défectueux ?`,
+5. Le responsable propose de faire passer une seconde fois dans le détecteur les circuits ayant déclenché une alerte. On fait l'hypothèse suivante : le résultat du second passage ne dépend que de l'état du circuit, et pas du premier passage ; ainsi, au second passage, un circuit défectueux déclenche une alerte avec une probabilité de $0{,}98$ et un circuit non défectueux avec une probabilité de $0{,}04$, comme au premier. Parmi les $10\\,000$ circuits, combien d'entre eux déclencheront en moyenne deux alertes, et quelle proportion de ceux-ci seront défectueux ?`,
       solution: `**1.** $D$ : $1\\,\\%$ de $10\\,000$, soit $100$ circuits, dont $98$ avec alerte. $\\overline{D}$ : $9\\,900$ circuits, dont $4\\,\\%$, soit $396$, avec alerte.
 
 | | $A$ | $\\overline{A}$ | Total |
@@ -4027,7 +5354,7 @@ Seulement $20\\,\\%$ environ des alertes concernent un circuit défectueux : $4$
 
 Le détecteur est utile : sans alerte, le risque qu'un circuit soit défectueux passe de $1\\,\\%$ à environ $0{,}02\\,\\%$. Il permet d'écarter les circuits sûrs, mais une alerte doit être confirmée.
 
-**5.** Parmi les $98$ circuits défectueux ayant déclenché une alerte, en moyenne $98\\,\\%$, soit $98 \\times 0{,}98 \\approx 96$, en déclenchent une seconde. Parmi les $396$ circuits sains avec alerte, $4\\,\\%$, soit $396 \\times 0{,}04 \\approx 15{,}8$, en déclenchent une seconde.
+**5.** D'après l'hypothèse de l'énoncé, parmi les $98$ circuits défectueux ayant déclenché une alerte, en moyenne $98\\,\\%$, soit $98 \\times 0{,}98 \\approx 96$, en déclenchent une seconde. Parmi les $396$ circuits sains avec alerte, $4\\,\\%$, soit $396 \\times 0{,}04 \\approx 15{,}8$, en déclenchent une seconde.
 
 Environ $96 + 16 = 112$ circuits déclenchent deux alertes, et la proportion de défectueux parmi eux est $\\frac{96{,}04}{96{,}04 + 15{,}84} \\approx 0{,}86$, soit environ $86\\,\\%$ : le double contrôle rend l'alerte beaucoup plus fiable.`
     },
@@ -4071,6 +5398,125 @@ $$P(\\text{rouge bat vert}) = \\frac{5}{9}.$$
 Bleu contre rouge : le bleu gagne avec $3$ contre $2$ ($1$ case), avec $5$ contre $2$ ou $4$ ($2$ cases), avec $7$ contre $2$ ou $4$ ($2$ cases), soit $5$ cases : $P = \\frac{5}{9}$.
 
 **4.** Le rouge bat le vert, le vert bat le bleu et le bleu bat le rouge, chaque fois avec une probabilité $\\frac{5}{9} > \\frac{1}{2}$ : aucun dé n'est « le meilleur ». Quel que soit le dé choisi par l'adversaire, Paul peut choisir un dé qui le bat avec une probabilité $\\frac{5}{9}$ (bleu contre rouge, rouge contre vert, vert contre bleu). Il a donc l'avantage en choisissant en second.`
+    },
+{
+      id: "2S2-ds-13",
+      title: "Jetons colorés et numérotés",
+      difficulty: 1,
+      points: 4,
+      statement: `Un sac contient $12$ jetons indiscernables au toucher : $5$ rouges numérotés de $1$ à $5$, $4$ bleus numérotés de $1$ à $4$ et $3$ verts numérotés de $1$ à $3$. On tire un jeton au hasard.
+
+On note $R$ l'événement « le jeton est rouge » et $U$ l'événement « le jeton porte le numéro $1$ ».
+
+1. Calculer $P(R)$ et $P(U)$.
+2. Décrire par une phrase l'événement $R \\cap U$, puis calculer sa probabilité.
+3. Calculer $P(R \\cup U)$.
+4. Calculer la probabilité que le jeton ne soit pas vert.
+5. Calculer la probabilité que le jeton porte un numéro pair.`,
+      solution: `Il y a équiprobabilité sur les $12$ jetons.
+
+**1.** $P(R) = \\frac{5}{12}$. Trois jetons portent le numéro $1$ (un de chaque couleur) : $P(U) = \\frac{3}{12} = \\frac{1}{4}$.
+
+**2.** $R \\cap U$ : « le jeton est rouge et porte le numéro $1$ ». Un seul jeton : $P(R \\cap U) = \\frac{1}{12}$.
+
+**3.** $P(R \\cup U) = P(R) + P(U) - P(R \\cap U) = \\frac{5}{12} + \\frac{3}{12} - \\frac{1}{12} = \\frac{7}{12}$.
+
+(*Contrôle* : les $5$ rouges et les $2$ autres « $1$ », bleu et vert, font bien $7$ jetons.)
+
+**4.** Événement contraire de « vert » : $1 - \\frac{3}{12} = \\frac{9}{12} = \\frac{3}{4}$.
+
+**5.** Numéros pairs : rouges $2$ et $4$, bleus $2$ et $4$, vert $2$, soit $5$ jetons : probabilité $\\frac{5}{12}$.`
+    },
+    {
+      id: "2S2-ds-14",
+      title: "Une pièce puis un dé",
+      difficulty: 2,
+      points: 5,
+      statement: `On lance une pièce équilibrée, puis un dé équilibré à six faces. Un résultat est un couple, par exemple (Pile ; 3).
+
+1. Combien y a-t-il d'issues ? Justifier qu'elles sont équiprobables et représenter l'expérience par un tableau ou un arbre.
+2. On considère les événements $A$ : « obtenir Pile et un nombre pair » et $B$ : « obtenir un nombre supérieur ou égal à $5$ ». Calculer $P(A)$ et $P(B)$.
+3. Calculer $P(A \\cap B)$ et $P(A \\cup B)$.
+4. On joue au jeu suivant : si la pièce tombe sur Pile, on gagne en euros le nombre indiqué par le dé ; sinon, on perd $2$ €. Calculer la probabilité de gagner au moins $4$ €, puis la probabilité de perdre de l'argent.`,
+      solution: `**1.** $2 \\times 6 = 12$ issues, de (Pile ; 1) à (Face ; 6). La pièce et le dé étant équilibrés, chaque issue a la probabilité $\\frac{1}{2} \\times \\frac{1}{6} = \\frac{1}{12}$. Arbre : deux branches (Pile, Face), puis six branches chacune.
+
+**2.** $A = \\{(P ; 2), (P ; 4), (P ; 6)\\}$ : $P(A) = \\frac{3}{12} = \\frac{1}{4}$.
+
+$B$ : $4$ issues ($5$ ou $6$ avec Pile ou Face) : $P(B) = \\frac{4}{12} = \\frac{1}{3}$.
+
+**3.** $A \\cap B = \\{(P ; 6)\\}$ : $P(A \\cap B) = \\frac{1}{12}$.
+
+$P(A \\cup B) = \\frac{3}{12} + \\frac{4}{12} - \\frac{1}{12} = \\frac{6}{12} = \\frac{1}{2}$.
+
+**4.** Gagner au moins $4$ € : Pile et un dé égal à $4$, $5$ ou $6$, soit $3$ issues : probabilité $\\frac{3}{12} = \\frac{1}{4}$.
+
+Perdre de l'argent : obtenir Face, $6$ issues : probabilité $\\frac{1}{2}$.`
+    },
+    {
+      id: "2S2-ds-15",
+      title: "Graines de deux fournisseurs",
+      difficulty: 3,
+      points: 6,
+      statement: `Un jardinier achète ses graines chez deux fournisseurs : $60$ % chez le fournisseur A et $40$ % chez le fournisseur B. $90$ % des graines de A germent, contre $80$ % de celles de B. On choisit une graine au hasard et on note $A$, $B$ et $G$ les événements « la graine vient de A », « la graine vient de B » et « la graine germe ».
+
+1. Construire un arbre pondéré décrivant la situation.
+2. Calculer $P(A \\cap G)$ et $P(B \\cap G)$, puis $P(G)$.
+3. Compléter un tableau croisé d'effectifs pour un lot de $1\\,000$ graines (lignes : A, B ; colonnes : $G$, $\\overline{G}$).
+4. Une graine a germé. Quelle est la probabilité qu'elle vienne du fournisseur A ? (Valeur exacte puis arrondie au millième.)
+5. Une graine n'a pas germé. Quelle est la probabilité qu'elle vienne de B ? Commenter.`,
+      solution: `**1.** Premier niveau : $A$ ($0{,}6$) et $B$ ($0{,}4$). Second niveau : après $A$, $G$ ($0{,}9$) et $\\overline{G}$ ($0{,}1$) ; après $B$, $G$ ($0{,}8$) et $\\overline{G}$ ($0{,}2$).
+
+**2.** $P(A \\cap G) = 0{,}6 \\times 0{,}9 = 0{,}54$ et $P(B \\cap G) = 0{,}4 \\times 0{,}8 = 0{,}32$.
+
+$G$ est la réunion des deux événements disjoints $A \\cap G$ et $B \\cap G$ : $P(G) = 0{,}54 + 0{,}32 = 0{,}86$.
+
+**3.**
+
+| | $G$ | $\\overline{G}$ | Total |
+|---|---|---|---|
+| A | $540$ | $60$ | $600$ |
+| B | $320$ | $80$ | $400$ |
+| Total | $860$ | $140$ | $1\\,000$ |
+
+**4.** $P_G(A) = \\frac{P(A \\cap G)}{P(G)} = \\frac{0{,}54}{0{,}86} = \\frac{27}{43} \\approx 0{,}628$ (ou $\\frac{540}{860}$ dans le tableau).
+
+**5.** $P_{\\overline{G}}(B) = \\frac{80}{140} = \\frac{4}{7} \\approx 0{,}571$. Bien que B ne fournisse que $40$ % des graines, plus de la moitié des graines qui ne germent pas viennent de B : son taux d'échec est double de celui de A.`
+    },
+    {
+      id: "2S2-ds-16",
+      title: "Un match en deux sets gagnants",
+      difficulty: 4,
+      points: 7,
+      statement: `Deux joueurs, Alice et Bruno, disputent un match : le premier à gagner deux sets remporte le match (il y a donc deux ou trois sets). On fait l'hypothèse que les sets sont **indépendants** et qu'Alice gagne chaque set avec la probabilité $p$, où $0 < p < 1$.
+
+1. Dans cette question, $p = 0{,}6$.
+ a) Construire un arbre pondéré décrivant le match.
+ b) Calculer la probabilité qu'Alice gagne le match en deux sets, puis en trois sets.
+ c) En déduire la probabilité qu'Alice gagne le match, et la probabilité que le match dure trois sets.
+2. Dans le cas général, montrer que la probabilité qu'Alice gagne le match est $q = p^2(3 - 2p)$. Vérifier le résultat de la question 1.
+3. Calculer $q$ pour $p = 0{,}5$. Était-ce prévisible ?
+4. a) Montrer que $q - p = p(2p - 1)(1 - p)$.
+ b) En déduire, à l'aide d'un tableau de signes, pour quelles valeurs de $p$ le format « deux sets gagnants » avantage Alice par rapport à un match en un seul set.`,
+      solution: `**1. a)** Set 1 : $A$ ($0{,}6$) ou $B$ ($0{,}4$). Après $AA$ ou $BB$, le match s'arrête ; après $AB$ ou $BA$, un troisième set est joué.
+
+**b)** En deux sets : $AA$, probabilité $0{,}6^2 = 0{,}36$. En trois sets : $ABA$ ou $BAA$, probabilité $2 \\times 0{,}6 \\times 0{,}4 \\times 0{,}6 = 0{,}288$.
+
+**c)** Alice gagne avec la probabilité $0{,}36 + 0{,}288 = 0{,}648$. Le match dure trois sets si les deux premiers sets sont partagés : $2 \\times 0{,}6 \\times 0{,}4 = 0{,}48$.
+
+**2.** $q = p^2 + 2p(1 - p)p = p^2 + 2p^2 - 2p^3 = 3p^2 - 2p^3 = p^2(3 - 2p)$. Pour $p = 0{,}6$ : $0{,}36 \\times 1{,}8 = 0{,}648$.
+
+**3.** $q = 0{,}25 \\times 2 = 0{,}5$ : prévisible, les deux joueurs jouent alors des rôles symétriques.
+
+**4. a)** $q - p = 3p^2 - 2p^3 - p = p(-2p^2 + 3p - 1)$. Or $(2p - 1)(1 - p) = 2p - 2p^2 - 1 + p = -2p^2 + 3p - 1$. D'où $q - p = p(2p - 1)(1 - p)$.
+
+**b)** Sur $]0 ; 1[$ : $p > 0$ et $1 - p > 0$ ; $2p - 1$ est négatif pour $p < \\frac{1}{2}$ et positif pour $p > \\frac{1}{2}$.
+
+| $p$ | $0$ | | $\\frac{1}{2}$ | | $1$ |
+|---|---|---|---|---|---|
+| $2p - 1$ | | $-$ | $0$ | $+$ | |
+| $q - p$ | | $-$ | $0$ | $+$ | |
+
+Le format en deux sets gagnants avantage Alice si et seulement si $p > \\frac{1}{2}$ : il favorise le joueur le plus fort.`
     }
   ],
   "2S3": [
@@ -4464,7 +5910,7 @@ Il y a $15$ boules, numérotées de $1$ à $15$ ; les numéros $1$ à $4$ repré
       title: "Le taux de pièces défectueuses annoncé est-il crédible ?",
       difficulty: 3,
       points: 6,
-      statement: `Un fabricant affirme que $10\\,\\%$ des ampoules qu'il produit sont défectueuses. On admet que, pour un échantillon de taille $n$ prélevé au hasard, la fréquence $f$ d'ampoules défectueuses appartient, dans au moins $95\\,\\%$ des cas, à l'intervalle $\\left[p - \\frac{1}{\\sqrt{n}} ; p + \\frac{1}{\\sqrt{n}}\\right]$, où $p$ est la proportion réelle.
+      statement: `Un fabricant affirme que $10\\,\\%$ des ampoules qu'il produit sont défectueuses. On note $p$ la proportion réelle d'ampoules défectueuses. On admet (et on le constate par simulation, voir la question 3) le résultat suivant sur la fluctuation d'échantillonnage : lorsque $n$ est assez grand, parmi un grand nombre d'échantillons de taille $n$ prélevés au hasard, au moins $95\\,\\%$ environ ont une fréquence $f$ d'ampoules défectueuses qui s'écarte de $p$ d'au plus $\\frac{1}{\\sqrt{n}}$, c'est-à-dire qui appartient à l'intervalle $\\left[p - \\frac{1}{\\sqrt{n}} ; p + \\frac{1}{\\sqrt{n}}\\right]$.
 
 1. Un contrôleur prélève $400$ ampoules et en trouve $52$ défectueuses.
  a) Calculer la fréquence observée.
@@ -4498,7 +5944,7 @@ $0{,}13 \\in [0{,}05 ; 0{,}15]$ : la fréquence observée est compatible avec la
 
 **2.** $f = \\frac{325}{2\\,500} = 0{,}13$ et $\\frac{1}{\\sqrt{2\\,500}} = \\frac{1}{50} = 0{,}02$ : l'intervalle est $[0{,}08 ; 0{,}12]$.
 
-Cette fois $0{,}13 \\notin [0{,}08 ; 0{,}12]$. Si la proportion était vraiment $10\\,\\%$, une telle fréquence se produirait dans moins de $5\\,\\%$ des échantillons de cette taille : on peut raisonnablement **douter** de l'affirmation du fabricant (avec un faible risque de se tromper).
+Cette fois $0{,}13 \\notin [0{,}08 ; 0{,}12]$. Si la proportion était vraiment $10\\,\\%$, une fréquence aussi éloignée de $0{,}1$ ne se produirait que dans moins de $5\\,\\%$ environ des échantillons de cette taille : on peut raisonnablement **douter** de l'affirmation du fabricant (avec un faible risque de se tromper).
 
 Avec la même fréquence $0{,}13$, l'échantillon plus grand est plus précis : la fluctuation diminue quand $n$ augmente.
 
@@ -4535,7 +5981,7 @@ def marche(n):
 3. Expliquer pourquoi la position finale après $n$ étapes a toujours la même parité que $n$.
 4. Écrire une fonction \`freq_retour(n, N)\` qui simule \`N\` marches de \`n\` étapes et renvoie la fréquence des marches qui se terminent à l'origine.
 5. a) Montrer que la probabilité que le pion soit à l'origine après $4$ étapes est $\\frac{6}{16} = 0{,}375$.
- b) Un élève obtient \`freq_retour(4, 10000)\` $= 0{,}31$. En utilisant le fait que, pour un échantillon de taille $N$, la fréquence s'écarte de la probabilité de plus de $\\frac{1}{\\sqrt{N}}$ dans moins de $5\\,\\%$ des cas, expliquer pourquoi on peut soupçonner une erreur dans son programme.`,
+ b) Un élève obtient \`freq_retour(4, 10000)\` $= 0{,}31$. On admet le résultat de fluctuation d'échantillonnage suivant : lorsque $N$ est assez grand, au moins $95\\,\\%$ environ des séries de $N$ simulations donnent une fréquence qui s'écarte de la probabilité $p$ d'au plus $\\frac{1}{\\sqrt{N}}$, c'est-à-dire qui appartient à $\\left[p - \\frac{1}{\\sqrt{N}} ; p + \\frac{1}{\\sqrt{N}}\\right]$. Expliquer pourquoi on peut soupçonner une erreur dans son programme.`,
       solution: `**1.** Les quatre issues (Pile, Pile), (Pile, Face), (Face, Pile), (Face, Face) sont équiprobables (probabilité $\\frac{1}{4}$ chacune) et donnent les positions $2$ ; $0$ ; $0$ ; $-2$.
 
 $P(X = -2) = \\frac{1}{4}$, $P(X = 0) = \\frac{2}{4} = \\frac{1}{2}$, $P(X = 2) = \\frac{1}{4}$.
@@ -4562,7 +6008,147 @@ def freq_retour(n, N):
 
 **5. a)** Il y a $2^4 = 16$ issues équiprobables. Le pion est à l'origine si et seulement s'il y a $2$ Pile et $2$ Face. Les issues correspondantes sont PPFF, PFPF, PFFP, FPPF, FPFP, FFPP, soit $6$ issues : $P = \\frac{6}{16} = 0{,}375$.
 
-**b)** Pour $N = 10\\,000$, $\\frac{1}{\\sqrt{N}} = 0{,}01$. Dans au moins $95\\,\\%$ des cas, la fréquence devrait être dans $[0{,}365 ; 0{,}385]$. La valeur $0{,}31$ en est très éloignée (écart de $0{,}065$, plus de six fois $0{,}01$) : un tel résultat est extrêmement improbable si le programme est correct. On peut donc soupçonner une erreur dans le programme.`
+**b)** Pour $N = 10\\,000$, $\\frac{1}{\\sqrt{N}} = 0{,}01$. Dans au moins $95\\,\\%$ environ des cas, la fréquence devrait être dans $[0{,}365 ; 0{,}385]$. La valeur $0{,}31$ en est très éloignée (écart de $0{,}065$, plus de six fois $0{,}01$) : un tel résultat est extrêmement improbable si le programme est correct. On peut donc soupçonner une erreur dans le programme.`
+    },
+{
+      id: "2S3-ds-13",
+      title: "Six cents lancers d'un dé",
+      difficulty: 1,
+      points: 4,
+      statement: `On a lancé $600$ fois un dé à six faces et noté les résultats.
+
+| Face | $1$ | $2$ | $3$ | $4$ | $5$ | $6$ |
+|---|---|---|---|---|---|---|
+| Effectif | $94$ | $108$ | $97$ | $103$ | $92$ | $106$ |
+
+1. Vérifier que le total des effectifs est bien $600$.
+2. Calculer la fréquence d'apparition de chaque face (arrondie au millième).
+3. Si le dé est équilibré, quelle est la probabilité d'obtenir une face donnée ? En donner une valeur approchée au millième.
+4. Calculer la fréquence d'obtention d'un nombre pair. La comparer à la probabilité correspondante pour un dé équilibré.
+5. Ces résultats permettent-ils d'affirmer que le dé est truqué ? Que faudrait-il faire pour se faire une idée plus précise ?`,
+      solution: `**1.** $94 + 108 + 97 + 103 + 92 + 106 = 600$.
+
+**2.** Fréquences : $\\frac{94}{600} \\approx 0{,}157$ ; $\\frac{108}{600} = 0{,}18$ ; $\\frac{97}{600} \\approx 0{,}162$ ; $\\frac{103}{600} \\approx 0{,}172$ ; $\\frac{92}{600} \\approx 0{,}153$ ; $\\frac{106}{600} \\approx 0{,}177$.
+
+**3.** Pour un dé équilibré, chaque face a la probabilité $\\frac{1}{6} \\approx 0{,}167$.
+
+**4.** Nombre pair : $108 + 103 + 106 = 317$ lancers, fréquence $\\frac{317}{600} \\approx 0{,}528$. Pour un dé équilibré, la probabilité est $\\frac{3}{6} = 0{,}5$.
+
+**5.** Non : les fréquences fluctuent naturellement autour des probabilités, et les écarts observés (de l'ordre de $0{,}01$ à $0{,}03$) sont du même ordre que ceux qu'on observe habituellement avec un dé équilibré sur $600$ lancers. D'après la loi des grands nombres, il faudrait effectuer beaucoup plus de lancers : si le dé est équilibré, les fréquences se rapprocheront de $\\frac{1}{6}$.`
+    },
+    {
+      id: "2S3-ds-14",
+      title: "Simuler des tirs au panier",
+      difficulty: 2,
+      points: 5,
+      statement: `Une joueuse de basket réussit un lancer franc avec la probabilité $0{,}7$. On considère le programme Python suivant.
+
+\`\`\`python
+from random import random
+
+def serie(n, p):
+    reussis = 0
+    for i in range(n):
+        if random() < p:
+            reussis = reussis + 1
+    return reussis / n
+\`\`\`
+
+On rappelle que \`random()\` renvoie un nombre décimal aléatoire de l'intervalle $[0 ; 1[$, chaque sous-intervalle de longueur $\\ell$ ayant une probabilité $\\ell$ d'être atteint.
+
+1. Quelle est la probabilité que la condition \`random() < p\` soit vraie ? Que simule-t-elle ?
+2. Que représente la valeur renvoyée par la fonction \`serie\` ?
+3. Quel appel faut-il écrire pour simuler une série de $50$ lancers francs de cette joueuse ?
+4. Trois appels de \`serie(50, 0.7)\` ont renvoyé \`0.64\`, \`0.76\` et \`0.7\`. Expliquer pourquoi les résultats sont différents. Combien de lancers ont été réussis lors du premier appel ?
+5. Que peut-on prévoir pour le résultat de \`serie(100000, 0.7)\` ?`,
+      solution: `**1.** \`random()\` tombe dans $[0 ; p[$, de longueur $p$, avec la probabilité $p$. La condition simule donc une épreuve qui réussit avec la probabilité $p$ : ici, un lancer franc réussi.
+
+**2.** \`reussis\` compte les succès sur $n$ épreuves ; la fonction renvoie la **fréquence** de succès sur un échantillon de taille $n$.
+
+**3.** \`serie(50, 0.7)\`.
+
+**4.** Chaque appel simule un nouvel échantillon de $50$ lancers aléatoires : les fréquences varient d'un échantillon à l'autre, c'est la **fluctuation d'échantillonnage**. Au premier appel : $0{,}64 \\times 50 = 32$ lancers réussis.
+
+**5.** D'après la loi des grands nombres, pour un échantillon de très grande taille, la fréquence est très probablement proche de la probabilité $0{,}7$ (par exemple $0{,}6987$ ou $0{,}7012$).`
+    },
+    {
+      id: "2S3-ds-15",
+      title: "Quelle taille d'échantillon pour un sondage ?",
+      difficulty: 3,
+      points: 6,
+      statement: `Dans une ville, une proportion $p$ inconnue des habitants est favorable à un projet. On interroge un échantillon de $n$ habitants choisis au hasard, et on note $f$ la fréquence de personnes favorables dans l'échantillon.
+
+On admet que, lorsque $n$ est assez grand, au moins $95$ % environ des échantillons de taille $n$ vérifient $|f - p| \\leqslant \\dfrac{1}{\\sqrt{n}}$.
+
+1. Calculer $\\dfrac{1}{\\sqrt{n}}$ pour $n = 100$, $n = 400$ et $n = 2\\,500$.
+2. On suppose dans cette question que $p = 0{,}52$.
+ a) Pour $n = 100$, dans quel intervalle se trouve $f$ pour environ $95$ % des échantillons ?
+ b) Un sondage portant sur $100$ personnes permet-il en général d'affirmer qu'une majorité des habitants est favorable ?
+ c) Même question pour $n = 2\\,500$.
+3. Résoudre l'inéquation $\\dfrac{1}{\\sqrt{n}} \\leqslant 0{,}02$ pour $n$ entier naturel non nul. Interpréter.
+4. Par combien faut-il multiplier la taille de l'échantillon pour diviser la marge $\\dfrac{1}{\\sqrt{n}}$ par $2$ ?`,
+      solution: `**1.** $\\frac{1}{\\sqrt{100}} = 0{,}1$ ; $\\frac{1}{\\sqrt{400}} = 0{,}05$ ; $\\frac{1}{\\sqrt{2\\,500}} = \\frac{1}{50} = 0{,}02$.
+
+**2. a)** $|f - 0{,}52| \\leqslant 0{,}1 \\iff 0{,}42 \\leqslant f \\leqslant 0{,}62$ : $f \\in [0{,}42 ; 0{,}62]$.
+
+**b)** Non : de nombreux échantillons donnent $f < 0{,}5$ (l'intervalle déborde largement sous $0{,}5$). Un sondage sur $100$ personnes peut faire croire à une majorité défavorable.
+
+**c)** Pour $n = 2\\,500$ : $f \\in [0{,}50 ; 0{,}54]$ pour environ $95$ % des échantillons. Dans la plupart des cas, le sondage indiquera bien une majorité favorable (ou au pire $f = 0{,}5$).
+
+**3.** $\\frac{1}{\\sqrt{n}} \\leqslant 0{,}02 \\iff \\sqrt{n} \\geqslant 50$ (les deux nombres sont positifs et la fonction inverse est décroissante sur $]0 ; +\\infty[$) $\\iff n \\geqslant 2\\,500$ (la fonction carré est croissante sur $[0 ; +\\infty[$). Il faut interroger au moins $2\\,500$ personnes pour que la marge soit d'au plus $2$ points.
+
+**4.** $\\frac{1}{\\sqrt{4n}} = \\frac{1}{2\\sqrt{n}}$ : il faut multiplier la taille par $4$ (et non par $2$).`
+    },
+    {
+      id: "2S3-ds-16",
+      title: "Compléter une collection d'images",
+      difficulty: 4,
+      points: 7,
+      statement: `Une marque de céréales glisse dans chaque paquet une image parmi $3$ images différentes, numérotées $1$, $2$ et $3$. On suppose que chaque image a la même probabilité de se trouver dans un paquet, et que le contenu d'un paquet ne dépend pas des autres.
+
+1. On achète $3$ paquets. Un résultat est un triplet, par exemple $(2 ; 2 ; 1)$.
+ a) Combien y a-t-il de résultats possibles ? On admet qu'ils sont équiprobables.
+ b) Calculer la probabilité d'obtenir les trois images différentes (collection complète).
+ c) Calculer la probabilité d'obtenir trois fois la même image.
+2. On veut estimer le nombre de paquets qu'il faut acheter pour compléter la collection. On considère le programme suivant.
+
+\`\`\`python
+from random import randint
+
+def paquets():
+    vues = [False, False, False]
+    n = 0
+    while not (vues[0] and vues[1] and vues[2]):
+        image = randint(1, 3)
+        vues[image - 1] = True
+        n = n + 1
+    return n
+\`\`\`
+
+ a) Que représente la liste \`vues\` ? Expliquer la condition de la boucle.
+ b) Quelle est la plus petite valeur que peut renvoyer \`paquets()\` ?
+ c) Écrire une fonction \`moyenne(k)\` qui appelle \`k\` fois \`paquets()\` et renvoie la moyenne des valeurs obtenues.
+3. Pour $k = 10\\,000$, on obtient environ $5{,}5$. Interpréter ce résultat.`,
+      solution: `**1. a)** Chaque paquet contient l'une des $3$ images : $3 \\times 3 \\times 3 = 27$ résultats.
+
+**b)** Résultats avec trois images différentes : $3$ choix pour le premier paquet, $2$ pour le deuxième, $1$ pour le troisième, soit $6$. Probabilité : $\\frac{6}{27} = \\frac{2}{9} \\approx 0{,}22$.
+
+**c)** $(1 ; 1 ; 1)$, $(2 ; 2 ; 2)$, $(3 ; 3 ; 3)$ : $\\frac{3}{27} = \\frac{1}{9}$.
+
+**2. a)** \`vues[i]\` vaut \`True\` si l'image numéro $i + 1$ a déjà été obtenue. La boucle continue tant que les trois images n'ont pas toutes été obtenues ; \`n\` compte les paquets achetés.
+
+**b)** Il faut au moins $3$ paquets : la plus petite valeur renvoyée est $3$.
+
+**c)**
+\`\`\`python
+def moyenne(k):
+    total = 0
+    for i in range(k):
+        total = total + paquets()
+    return total / k
+\`\`\`
+
+**3.** Sur $10\\,000$ collections simulées, il a fallu en moyenne environ $5{,}5$ paquets pour avoir les trois images. D'après la loi des grands nombres, c'est une bonne estimation du nombre moyen de paquets nécessaires : il faut en général nettement plus que $3$ paquets (seulement $2$ chances sur $9$ de réussir avec $3$).`
     }
   ],
   "2S4": [
@@ -5136,6 +6722,173 @@ def racine(n):
     return n
 \`\`\`
 $4\\,072 \\to 13 \\to 4$ : \`racine(4072)\` renvoie $4$. (Cohérent avec la question 4 : $4\\,072 = 9 \\times 452 + 4$.)`
+    },
+{
+      id: "2S4-ds-13",
+      title: "Suivre une boucle tant que",
+      difficulty: 1,
+      points: 4,
+      statement: `On considère le programme Python suivant.
+
+\`\`\`python
+a = 1
+b = 0
+while a < 50:
+    a = 3 * a
+    b = b + 1
+print(a, b)
+\`\`\`
+
+1. Recopier et compléter le tableau donnant les valeurs de \`a\` et \`b\` après chaque passage dans la boucle.
+2. Qu'affiche le programme ?
+3. Interpréter les valeurs affichées à l'aide des puissances de $3$.
+4. On remplace \`a < 50\` par \`a <= 81\`. Qu'affiche alors le programme ?`,
+      solution: `**1.**
+
+| | début | passage 1 | passage 2 | passage 3 | passage 4 |
+|---|---|---|---|---|---|
+| \`a\` | $1$ | $3$ | $9$ | $27$ | $81$ |
+| \`b\` | $0$ | $1$ | $2$ | $3$ | $4$ |
+
+Après le passage 4, $a = 81$ et la condition $81 < 50$ est fausse : on sort de la boucle.
+
+**2.** Le programme affiche \`81 4\`.
+
+**3.** À chaque passage, $a = 3^b$. Le programme donne la plus petite puissance de $3$ supérieure ou égale à $50$ : $3^4 = 81$ (car $3^3 = 27 < 50$).
+
+**4.** Avec \`a <= 81\`, la condition est encore vraie pour $a = 81$ : on fait un passage de plus, $a = 243$ et $b = 5$. Le programme affiche \`243 5\`.`
+    },
+    {
+      id: "2S4-ds-14",
+      title: "Le prix d'un envoi postal",
+      difficulty: 2,
+      points: 5,
+      statement: `Un transporteur applique les tarifs suivants (tarifs fictifs) selon la masse $m$ d'une lettre, en grammes : jusqu'à $20$ g inclus, $1{,}50$ € ; au-delà de $20$ g et jusqu'à $100$ g inclus, $3$ € ; au-delà de $100$ g et jusqu'à $250$ g inclus, $4{,}50$ € ; au-delà, $6$ €.
+
+\`\`\`python
+def tarif(m):
+    if m <= 20:
+        return 1.5
+    elif m <= 100:
+        return 3
+    elif m <= 250:
+        return 4.5
+    else:
+        return 6
+\`\`\`
+
+1. Que renvoient \`tarif(20)\`, \`tarif(150)\` et \`tarif(300)\` ?
+2. Pourquoi n'est-il pas nécessaire d'écrire \`elif m > 20 and m <= 100:\` ?
+3. Un élève écrit le programme en commençant par \`if m <= 250:\` puis \`elif m <= 100:\`… Quelle erreur commet-il ? Que renverrait sa fonction pour une lettre de $15$ g ?
+4. Écrire une fonction \`total(n, m)\` qui renvoie le prix à payer pour envoyer $n$ lettres de masse $m$, en utilisant la fonction \`tarif\`.`,
+      solution: `**1.** \`tarif(20)\` renvoie $1{,}5$ (car $20 \\leqslant 20$) ; \`tarif(150)\` renvoie $4{,}5$ ; \`tarif(300)\` renvoie $6$.
+
+**2.** Le \`elif\` n'est examiné que si les conditions précédentes sont fausses : quand on teste \`m <= 100\`, on sait déjà que \`m <= 20\` est faux, c'est-à-dire que $m > 20$.
+
+**3.** Toute lettre de moins de $250$ g vérifie la première condition : la fonction renverrait $4{,}5$ € même pour $15$ g, et les cas suivants ne seraient jamais atteints pour ces masses. Il faut tester les conditions de la plus restrictive à la moins restrictive.
+
+**4.**
+\`\`\`python
+def total(n, m):
+    return n * tarif(m)
+\`\`\`
+Par exemple \`total(10, 50)\` renvoie $30$.`
+    },
+    {
+      id: "2S4-ds-15",
+      title: "Diviseurs et nombres parfaits",
+      difficulty: 3,
+      points: 6,
+      statement: `Un entier naturel $n \\geqslant 2$ est dit **parfait** s'il est égal à la somme de ses diviseurs positifs autres que lui-même. Par exemple, les diviseurs de $6$ autres que $6$ sont $1$, $2$ et $3$, et $1 + 2 + 3 = 6$ : $6$ est parfait.
+
+\`\`\`python
+def somme_diviseurs(n):
+    s = 0
+    for d in range(1, n):
+        if n % d == 0:
+            s = s + d
+    return s
+\`\`\`
+
+1. On rappelle que \`n % d\` est le reste de la division euclidienne de \`n\` par \`d\`. Que teste la condition \`n % d == 0\` ? Quelles valeurs prend la variable \`d\` ?
+2. Que renvoie \`somme_diviseurs(12)\` ? L'entier $12$ est-il parfait ?
+3. Montrer que $28$ est parfait.
+4. Écrire une fonction \`est_parfait(n)\` qui renvoie \`True\` si \`n\` est parfait et \`False\` sinon.
+5. Écrire un programme qui affiche tous les nombres parfaits compris entre $2$ et $1\\,000$. On obtient $6$, $28$ et $496$ : vérifier à la main que $496 = 2^4 \\times 31$ est parfait.`,
+      solution: `**1.** La condition teste si le reste est nul, c'est-à-dire si \`d\` divise \`n\`. \`d\` prend les valeurs entières de $1$ à $n - 1$.
+
+**2.** Diviseurs de $12$ autres que $12$ : $1, 2, 3, 4, 6$, de somme $16$. La fonction renvoie $16 \\neq 12$ : $12$ n'est pas parfait.
+
+**3.** Diviseurs de $28$ autres que $28$ : $1, 2, 4, 7, 14$, de somme $28$ : $28$ est parfait.
+
+**4.**
+\`\`\`python
+def est_parfait(n):
+    return somme_diviseurs(n) == n
+\`\`\`
+
+**5.**
+\`\`\`python
+for n in range(2, 1001):
+    if est_parfait(n):
+        print(n)
+\`\`\`
+Diviseurs de $496 = 2^4 \\times 31$ autres que lui-même : $1, 2, 4, 8, 16$ (somme $31$) et $31, 62, 124, 248$ (somme $465$). Total : $31 + 465 = 496$ : $496$ est parfait.`
+    },
+    {
+      id: "2S4-ds-16",
+      title: "Écrire un nombre en binaire",
+      difficulty: 4,
+      points: 7,
+      statement: `En binaire (base $2$), on écrit les nombres avec les chiffres $0$ et $1$. Par exemple $13 = 8 + 4 + 1 = 1 \\times 2^3 + 1 \\times 2^2 + 0 \\times 2^1 + 1 \\times 2^0$ s'écrit \`1101\`.
+
+1. Écrire $10$ et $25$ en binaire. Quel nombre s'écrit \`101101\` ?
+2. On considère la fonction suivante, où \`//\` donne le quotient et \`%\` le reste de la division euclidienne.
+
+\`\`\`python
+def binaire(n):
+    s = ""
+    while n > 0:
+        r = n % 2
+        s = str(r) + s
+        n = n // 2
+    return s
+\`\`\`
+
+ a) Faire fonctionner la fonction à la main pour $n = 13$ en présentant les valeurs de \`r\`, \`s\` et \`n\` à chaque passage dans la boucle.
+ b) Pourquoi ajoute-t-on le chiffre \`r\` à gauche de \`s\` et non à droite ?
+ c) Que renvoie \`binaire(0)\` ? Proposer une correction.
+3. Écrire une fonction \`decimal(s)\` qui reçoit une chaîne de \`0\` et de \`1\` et renvoie le nombre correspondant. On pourra parcourir la chaîne de gauche à droite en utilisant \`n = 2 * n + int(c)\` pour chaque caractère \`c\`.
+4. Combien de chiffres faut-il pour écrire $1\\,000$ en binaire ? Justifier à l'aide des puissances de $2$.`,
+      solution: `**1.** $10 = 8 + 2$ s'écrit \`1010\` ; $25 = 16 + 8 + 1$ s'écrit \`11001\`. \`101101\` $= 32 + 8 + 4 + 1 = 45$.
+
+**2. a)**
+
+| Passage | \`r\` | \`s\` | \`n\` |
+|---|---|---|---|
+| départ | | \`""\` | $13$ |
+| $1$ | $1$ | \`"1"\` | $6$ |
+| $2$ | $0$ | \`"01"\` | $3$ |
+| $3$ | $1$ | \`"101"\` | $1$ |
+| $4$ | $1$ | \`"1101"\` | $0$ |
+
+La fonction renvoie \`"1101"\`.
+
+**b)** Les restes successifs donnent les chiffres de droite à gauche : le premier reste est le chiffre des unités ($2^0$), le suivant celui de $2^1$, etc. Chaque nouveau chiffre doit donc être placé à gauche.
+
+**c)** Pour $n = 0$, on n'entre pas dans la boucle : la fonction renvoie la chaîne vide. On peut ajouter au début : \`if n == 0: return "0"\`.
+
+**3.**
+\`\`\`python
+def decimal(s):
+    n = 0
+    for c in s:
+        n = 2 * n + int(c)
+    return n
+\`\`\`
+Pour \`"1101"\` : $n$ vaut successivement $1$, $3$, $6$, $13$.
+
+**4.** $2^9 = 512 \\leqslant 1\\,000 < 1\\,024 = 2^{10}$ : l'écriture binaire de $1\\,000$ commence par le chiffre de $2^9$, elle compte $10$ chiffres.`
     }
   ]
 });

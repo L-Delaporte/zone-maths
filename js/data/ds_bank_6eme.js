@@ -281,18 +281,151 @@ Les trois chiffres après la virgule forment $456$ millièmes : $3{,}456 = 3 + \
       statement: `Le compteur du vélo de Yanis affiche les kilomètres parcourus avec un chiffre après la virgule. Ce matin, il affiche $1\\,999{,}7$.
 
 1. Écrire ce nombre en lettres, puis sous la forme d'une fraction décimale.
-2. Yanis parcourt $3$ dixièmes de kilomètre. Que devient l'affichage ? Combien de chiffres du compteur ont changé ?
-3. Après une promenade, le compteur affiche $2\\,035{,}1$. Combien de kilomètres Yanis a-t-il parcourus depuis ce matin ?
-4. Yanis remarque que le compteur affichera un jour un nombre dont les cinq chiffres sont tous égaux. Quel est le premier nombre de ce type qui apparaîtra après $2\\,035{,}1$ ? Combien de kilomètres devra-t-il encore parcourir pour le voir ?`,
+2. Yanis parcourt $3$ dixièmes de kilomètre. Expliquer, en comptant les dixièmes, ce que devient l'affichage. Combien de chiffres du compteur ont changé ?
+3. Le soir, le compteur affiche $2\\,035{,}1$.
+   a) Donner le chiffre des dizaines et le chiffre des dixièmes de ce nombre.
+   b) Combien de dixièmes de kilomètre (en tout) ce nombre représente-t-il ?
+4. Yanis remarque que le compteur affichera un jour un nombre dont les cinq chiffres sont tous égaux.
+   a) Écrire les trois plus petits nombres de ce type que peut afficher le compteur (en dehors de $0\\,000{,}0$).
+   b) Quel est le premier nombre de ce type qui apparaîtra après $2\\,035{,}1$ ? Justifier en comparant.
+   c) Décomposer ce nombre : partie entière $+$ fraction décimale.`,
       solution: `**1.** « Mille neuf cent quatre-vingt-dix-neuf unités et sept dixièmes ». Il y a un chiffre après la virgule, donc $1\\,999{,}7 = \\frac{19\\,997}{10}$.
 
-**2.** $3$ dixièmes ajoutés à $7$ dixièmes font $10$ dixièmes, c'est-à-dire $1$ unité : $1\\,999{,}7 + 0{,}3 = 2\\,000{,}0$. L'affichage devient **$2\\,000{,}0$** : les **cinq chiffres** ont changé ($1 \\to 2$, $9 \\to 0$, $9 \\to 0$, $9 \\to 0$, $7 \\to 0$).
+**2.** Le compteur affiche $19\\,997$ dixièmes. En ajoutant $3$ dixièmes, on obtient $20\\,000$ dixièmes, c'est-à-dire $2\\,000$ unités : l'affichage devient **$2\\,000{,}0$**. Les **cinq chiffres** ont changé ($1 \\to 2$, $9 \\to 0$, $9 \\to 0$, $9 \\to 0$, $7 \\to 0$).
 
-**3.** $2\\,035{,}1 - 1\\,999{,}7 = 35{,}4$. Yanis a parcouru **$35{,}4$ km**.
-(Vérification : $1\\,999{,}7 + 35{,}4 = 2\\,035{,}1$.)
+**3.** a) Dans $2\\,035{,}1$ : le chiffre des dizaines est $3$ et le chiffre des dixièmes est $1$.
+b) $2\\,035{,}1 = \\frac{20\\,351}{10}$ : ce nombre représente **$20\\,351$ dixièmes** de kilomètre.
 
-**4.** Les nombres à cinq chiffres égaux s'écrivent $1\\,111{,}1$ ; $2\\,222{,}2$ ; $3\\,333{,}3$ ; … Le premier supérieur à $2\\,035{,}1$ est **$2\\,222{,}2$**.
-Distance restante : $2\\,222{,}2 - 2\\,035{,}1 = 187{,}1$ km.`
+**4.** a) Les plus petits sont $1\\,111{,}1$ ; $2\\,222{,}2$ et $3\\,333{,}3$.
+b) $1\\,111{,}1 < 2\\,035{,}1$ car, au rang des unités de mille, $1 < 2$. Ensuite $2\\,222{,}2$ et $2\\,035{,}1$ ont le même chiffre des milliers ($2$) ; au rang des centaines, $2 > 0$, donc $2\\,222{,}2 > 2\\,035{,}1$. Le premier nombre de ce type après $2\\,035{,}1$ est **$2\\,222{,}2$**.
+c) $2\\,222{,}2 = 2\\,222 + \\frac{2}{10}$.`
+    },
+    {
+      id: "6N1-ds-13",
+      title: "Des nombres dictés",
+      difficulty: 1,
+      points: 4,
+      statement: `Lors d'une dictée de nombres, le professeur lit les nombres suivants :
+- a) « deux millions quarante mille trois cent six » ;
+- b) « dix-sept unités et neuf centièmes » ;
+- c) « trois cent cinq millièmes » ;
+- d) « quatre mille deux unités et soixante-dix-huit centièmes ».
+
+1. Écrire chacun de ces nombres en chiffres.
+2. Pour le nombre d), donner :
+   a) son chiffre des dizaines ;
+   b) son chiffre des dixièmes ;
+   c) son nombre de centaines (en tout).
+3. Écrire le nombre c) sous la forme d'une fraction décimale.`,
+      solution: `**1.**
+a) $2\\,040\\,306$ (2 millions, 0 centaine de mille, 4 dizaines de mille, 0 unité de mille, 3 centaines, 0 dizaine, 6 unités).
+b) $17{,}09$ : il n'y a aucun dixième, on écrit donc un $0$ au rang des dixièmes.
+c) $0{,}305$ : $305$ millièmes, c'est $3$ dixièmes, $0$ centième et $5$ millièmes.
+d) $4\\,002{,}78$ : $78$ centièmes, c'est $7$ dixièmes et $8$ centièmes.
+
+**2.** Dans $4\\,002{,}78$ :
+a) le chiffre des dizaines est $0$ ;
+b) le chiffre des dixièmes est $7$ ;
+c) on garde tous les chiffres jusqu'au rang des centaines : $4\\,002 = 40 \\times 100 + 2$, il y a donc **$40$ centaines** dans ce nombre.
+
+**3.** $0{,}305 = \\frac{305}{1\\,000}$ (le dernier chiffre est celui des millièmes, d'où le dénominateur $1\\,000$).`
+    },
+    {
+      id: "6N1-ds-14",
+      title: "Le contenu de la tirelire",
+      difficulty: 2,
+      points: 4,
+      statement: `Rappel : $1$ € $= 100$ centimes, donc $10$ centimes $= 0{,}1$ € et $1$ centime $= 0{,}01$ €.
+
+En vidant sa tirelire, Malik trouve :
+- $3$ billets de $20$ € et $1$ billet de $5$ € ;
+- $3$ pièces de $2$ € ;
+- $7$ pièces de $10$ centimes ;
+- $3$ pièces de $1$ centime.
+
+1. Quelle somme, en euros, Malik possède-t-il ? Écrire le résultat avec une virgule.
+2. Écrire cette somme en centimes.
+3. Décomposer la somme trouvée à la question 1 sous la forme : partie entière $+$ dixièmes $+$ centièmes (avec des fractions décimales).
+4. Au guichet, Malik échange tout son argent contre des pièces de $10$ centimes et des pièces de $1$ centime, avec le moins de pièces de $1$ centime possible. Combien de pièces de chaque sorte reçoit-il ?`,
+      solution: `**1.** Billets et pièces en euros : $3 \\times 20 + 5 + 3 \\times 2 = 60 + 5 + 6 = 71$ €.
+Les $7$ pièces de $10$ centimes valent $7$ dixièmes d'euro et les $3$ pièces de $1$ centime valent $3$ centièmes d'euro.
+Malik possède donc **$71{,}73$ €**.
+
+**2.** $71$ € $= 7\\,100$ centimes, et $70 + 3 = 73$ centimes : en tout **$7\\,173$ centimes**.
+
+**3.** $71{,}73 = 71 + \\frac{7}{10} + \\frac{3}{100}$.
+
+**4.** On cherche le nombre de dixièmes d'euro (pièces de $10$ centimes) contenus dans $71{,}73$ € : on garde tous les chiffres jusqu'au rang des dixièmes, soit $717$ dixièmes. Il reste $3$ centièmes.
+Malik reçoit **$717$ pièces de $10$ centimes et $3$ pièces de $1$ centime**.
+(Vérification : $717 \\times 10 + 3 = 7\\,173$ centimes.)`
+    },
+    {
+      id: "6N1-ds-15",
+      title: "Des décompositions inhabituelles",
+      difficulty: 3,
+      points: 5,
+      statement: `Sans calculatrice.
+
+1. Donner l'écriture à virgule de chacun des nombres suivants. Attention : certaines fractions ont un numérateur supérieur à $9$.
+$$A = 3 + \\frac{4}{10} + \\frac{12}{100} \\qquad B = \\frac{25}{10} + \\frac{7}{100} \\qquad C = 5 + \\frac{18}{1\\,000} \\qquad D = 6 + \\frac{14}{10} + \\frac{3}{1\\,000}$$
+2. Compléter les égalités suivantes :
+$$4{,}6 = \\frac{\\ldots}{100} \\qquad 0{,}09 = \\frac{9}{\\ldots} \\qquad 12{,}5 = \\frac{125}{\\ldots} \\qquad 7 = \\frac{\\ldots}{1\\,000}$$
+3. Écrire le nombre $8{,}26$ de trois façons différentes en utilisant des fractions décimales.`,
+      solution: `**1.**
+- $\\frac{12}{100}$, c'est $12$ centièmes, soit $1$ dixième et $2$ centièmes. Donc $A = 3 + \\frac{5}{10} + \\frac{2}{100} = 3{,}52$.
+- $\\frac{25}{10}$, c'est $25$ dixièmes, soit $2$ unités et $5$ dixièmes. Donc $B = 2 + \\frac{5}{10} + \\frac{7}{100} = 2{,}57$.
+- $\\frac{18}{1\\,000}$, c'est $18$ millièmes, soit $1$ centième et $8$ millièmes (et $0$ dixième). Donc $C = 5{,}018$.
+- $\\frac{14}{10}$, c'est $1$ unité et $4$ dixièmes. Donc $D = 7 + \\frac{4}{10} + \\frac{3}{1\\,000} = 7{,}403$.
+
+**2.**
+- $4{,}6 = 4{,}60$, c'est $460$ centièmes : $4{,}6 = \\frac{460}{100}$.
+- $0{,}09$, c'est $9$ centièmes : $0{,}09 = \\frac{9}{100}$.
+- $12{,}5$, c'est $125$ dixièmes : $12{,}5 = \\frac{125}{10}$.
+- $7$ unités, c'est $7\\,000$ millièmes : $7 = \\frac{7\\,000}{1\\,000}$.
+
+**3.** Par exemple (d'autres réponses sont possibles) :
+$$8{,}26 = \\frac{826}{100} = 8 + \\frac{26}{100} = 8 + \\frac{2}{10} + \\frac{6}{100} = \\frac{82}{10} + \\frac{6}{100}$$`
+    },
+    {
+      id: "6N1-ds-16",
+      title: "Le message codé",
+      difficulty: 4,
+      points: 6,
+      statement: `Pour coder un mot, Jade remplace chaque lettre par un nombre dont le **chiffre des centièmes** correspond à la lettre, d'après le tableau suivant.
+
+| Chiffre des centièmes | $0$ | $1$ | $2$ | $3$ | $4$ | $5$ | $6$ | $7$ | $8$ | $9$ |
+|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| Lettre | E | B | R | O | A | S | V | I | N | T |
+
+Voici les cinq nombres de son message, dans l'ordre :
+$$N_1 = 5 + \\frac{9}{10} + \\frac{11}{100} \\qquad N_2 = \\frac{47}{10} + \\frac{25}{1\\,000} \\qquad N_3 = \\frac{1\\,234}{100}$$
+$$N_4 = 2 \\text{ dizaines}, \\ 15 \\text{ dixièmes et } 16 \\text{ centièmes} \\qquad N_5 = 8 + \\frac{5}{100} + \\frac{980}{1\\,000}$$
+
+1. Écrire chaque fraction décimale de $N_1$ sous forme d'un nombre à virgule, puis donner l'écriture à virgule de $N_1$.
+2. Faire de même pour $N_2$, $N_3$, $N_4$ et $N_5$.
+3. Donner le chiffre des centièmes de chacun des cinq nombres, puis décoder le message.
+4. Léo affirme : « Le chiffre des centièmes de $N_5$ est $5$, car on lit $\\frac{5}{100}$. » A-t-il raison ? Expliquer son erreur.
+5. Proposer un nombre, écrit à l'aide d'une fraction décimale dont le numérateur est supérieur à $9$, qui code la lettre S.`,
+      solution: `**1.** $\\frac{9}{10} = 0{,}9$ et $\\frac{11}{100} = 0{,}11$. Donc $N_1 = 5 + 0{,}9 + 0{,}11 = 6{,}01$ : les $9$ dixièmes et le dixième contenu dans $11$ centièmes font $10$ dixièmes, soit $1$ unité.
+
+**2.**
+- $\\frac{47}{10} = 4{,}7$ et $\\frac{25}{1\\,000} = 0{,}025$, donc $N_2 = 4{,}725$.
+- $N_3 = \\frac{1\\,234}{100} = 12{,}34$.
+- $N_4 = 20 + 1{,}5 + 0{,}16 = 21{,}66$.
+- $\\frac{5}{100} = 0{,}05$ et $\\frac{980}{1\\,000} = 0{,}98$, donc $N_5 = 8 + 0{,}05 + 0{,}98 = 9{,}03$.
+
+**3.**
+
+| Nombre | $6{,}01$ | $4{,}725$ | $12{,}34$ | $21{,}66$ | $9{,}03$ |
+|:---|:---:|:---:|:---:|:---:|:---:|
+| Chiffre des centièmes | $1$ | $2$ | $4$ | $6$ | $3$ |
+| Lettre | B | R | A | V | O |
+
+Le message est **BRAVO**.
+
+**4.** Non : le chiffre des centièmes de $N_5 = 9{,}03$ est $3$. Léo oublie que $\\frac{980}{1\\,000} = 0{,}98$ contient aussi $8$ centièmes : $5$ centièmes $+ 8$ centièmes $= 13$ centièmes, soit $1$ dixième et $3$ centièmes. Il faut toujours calculer l'écriture à virgule avant de lire un chiffre.
+
+**5.** Il faut un nombre dont le chiffre des centièmes est $5$. Par exemple $\\frac{345}{100} = 3{,}45$, ou $2 + \\frac{15}{100} = 2{,}15$ (toute réponse correcte est acceptée).`
     }
   ],
   "6N2": [
@@ -565,6 +698,117 @@ $25{,}1$ : l'arrondi au dixième est $25{,}1$.
 Les vis de $25{,}05$ mm (acceptée) et de $25{,}1$ mm (refusée) ont **le même arrondi au dixième** : avec ce seul arrondi, on ne peut pas savoir si la vis est acceptée. Les arrondis au dixième sont trop peu précis, car la tolérance se joue au centième.
 
 **4.** La plus courte vis acceptée de la liste mesure $24{,}97$ mm et la longueur minimale autorisée est $24{,}95$ mm. Il faut donc un nombre supérieur ou égal à $24{,}950$ et inférieur à $24{,}970$ : par exemple **$24{,}960$ mm** (ou $24{,}951$ ; $24{,}955$ ; … ; $24{,}969$).`
+    },
+    {
+      id: "6N2-ds-13",
+      title: "La pesée des cartables",
+      difficulty: 1,
+      points: 4,
+      statement: `L'infirmière du collège pèse les cartables de cinq élèves. Voici les masses relevées (en kg) :
+$$\\text{Inès} : 4{,}8 \\qquad \\text{Hugo} : 5{,}25 \\qquad \\text{Lou} : 4{,}75 \\qquad \\text{Noé} : 5{,}2 \\qquad \\text{Zoé} : 4{,}08$$
+
+1. Ranger ces masses dans l'ordre croissant.
+2. Il est conseillé qu'un cartable de 6e pèse moins de $5$ kg. Quels élèves ont un cartable trop lourd ?
+3. Arrondir chaque masse à l'unité.
+4. Encadrer la masse du cartable de Lou entre deux nombres consécutifs ayant un seul chiffre après la virgule.`,
+      solution: `**1.** On compare d'abord les parties entières, puis les dixièmes, puis les centièmes (on peut écrire $4{,}8 = 4{,}80$ et $5{,}2 = 5{,}20$) :
+$$4{,}08 < 4{,}75 < 4{,}8 < 5{,}2 < 5{,}25$$
+(Zoé, Lou, Inès, Noé, Hugo.)
+
+**2.** Les masses supérieures à $5$ kg sont $5{,}2$ et $5{,}25$ : **Noé et Hugo** ont un cartable trop lourd.
+
+**3.** On regarde le chiffre des dixièmes :
+- $4{,}8$ : $8 \\geqslant 5$, arrondi $5$ ;
+- $5{,}25$ : $2 < 5$, arrondi $5$ ;
+- $4{,}75$ : $7 \\geqslant 5$, arrondi $5$ ;
+- $5{,}2$ : $2 < 5$, arrondi $5$ ;
+- $4{,}08$ : $0 < 5$, arrondi $4$.
+
+**4.** $4{,}7 < 4{,}75 < 4{,}8$ ($4{,}75$ est exactement au milieu de $4{,}7$ et $4{,}8$).`
+    },
+    {
+      id: "6N2-ds-14",
+      title: "Comparer des nombres écrits de façons différentes",
+      difficulty: 2,
+      points: 4,
+      statement: `Sans calculatrice.
+
+1. Comparer les nombres suivants avec le symbole $<$, $>$ ou $=$. On pourra d'abord écrire chaque nombre avec une virgule.
+   a) $\\frac{3}{10}$ et $0{,}03$
+   b) $\\frac{25}{100}$ et $2{,}5$
+   c) $4 + \\frac{7}{100}$ et $4{,}7$
+   d) $\\frac{18}{10}$ et $1{,}8$
+   e) $\\frac{5}{1\\,000}$ et $0{,}05$
+2. Ranger les nombres suivants dans l'ordre **décroissant** :
+$$\\frac{12}{10} \\qquad 1{,}02 \\qquad 1 + \\frac{1}{10} + \\frac{5}{100} \\qquad \\frac{1\\,012}{1\\,000} \\qquad 1{,}1$$`,
+      solution: `**1.**
+a) $\\frac{3}{10} = 0{,}3$ et $0{,}3 > 0{,}03$ (3 dixièmes contre 0 dixième) : $\\frac{3}{10} > 0{,}03$.
+b) $\\frac{25}{100} = 0{,}25$ et $0{,}25 < 2{,}5$ (parties entières $0 < 2$) : $\\frac{25}{100} < 2{,}5$.
+c) $4 + \\frac{7}{100} = 4{,}07$ et $4{,}07 < 4{,}7$ (dixièmes $0 < 7$) : $4 + \\frac{7}{100} < 4{,}7$.
+d) $\\frac{18}{10} = 1{,}8$ : $\\frac{18}{10} = 1{,}8$.
+e) $\\frac{5}{1\\,000} = 0{,}005$ et $0{,}005 < 0{,}05$ (centièmes $0 < 5$) : $\\frac{5}{1\\,000} < 0{,}05$.
+
+**2.** Écritures à virgule : $\\frac{12}{10} = 1{,}2$ ; $1{,}02$ ; $1 + \\frac{1}{10} + \\frac{5}{100} = 1{,}15$ ; $\\frac{1\\,012}{1\\,000} = 1{,}012$ ; $1{,}1$.
+Toutes ont pour partie entière $1$ ; on compare les dixièmes ($2$ ; $0$ ; $1$ ; $0$ ; $1$), puis les centièmes si besoin ($1{,}15 > 1{,}10$ et $1{,}020 > 1{,}012$) :
+$$\\frac{12}{10} > 1 + \\frac{1}{10} + \\frac{5}{100} > 1{,}1 > 1{,}02 > \\frac{1\\,012}{1\\,000}$$`
+    },
+    {
+      id: "6N2-ds-15",
+      title: "Ranger les livres de la bibliothèque",
+      difficulty: 3,
+      points: 5,
+      statement: `Au CDI, chaque documentaire porte une cote qui est un nombre décimal. Les livres sont rangés sur l'étagère du plus petit nombre au plus grand. Voici les cotes de sept livres de mathématiques :
+$$510{,}2 \\qquad 510{,}12 \\qquad 512 \\qquad 510{,}125 \\qquad 510{,}9 \\qquad 510{,}09 \\qquad 511{,}3$$
+
+1. Ranger ces cotes dans l'ordre croissant.
+2. Un nouveau livre a pour cote $510{,}13$. Entre quels livres doit-on le ranger ?
+3. La documentaliste regroupe dans une même boîte tous les livres dont la cote, **arrondie à l'unité**, vaut $510$. Quels livres de la liste vont dans cette boîte ? Justifier.
+4. Proposer trois cotes possibles pour des livres qu'on rangerait entre $510{,}12$ et $510{,}125$.
+5. Combien existe-t-il de nombres ayant **exactement deux chiffres après la virgule** compris strictement entre $510{,}1$ et $510{,}2$ ? Les écrire.`,
+      solution: `**1.** On compare les parties entières, puis les chiffres après la virgule rang par rang (en complétant par des zéros) :
+$$510{,}09 < 510{,}12 < 510{,}125 < 510{,}2 < 510{,}9 < 511{,}3 < 512$$
+
+**2.** $510{,}125 < 510{,}130 < 510{,}200$ : le nouveau livre se range **entre $510{,}125$ et $510{,}2$**.
+
+**3.** Un nombre a pour arrondi à l'unité $510$ s'il est supérieur ou égal à $509{,}5$ et strictement inférieur à $510{,}5$.
+- $510{,}09$ ; $510{,}12$ ; $510{,}125$ ; $510{,}2$ : chiffre des dixièmes inférieur à $5$, arrondi $510$ : **ils vont dans la boîte**.
+- $510{,}9$ : chiffre des dixièmes $9 \\geqslant 5$, arrondi $511$ : non.
+- $511{,}3$ et $512$ : arrondis $511$ et $512$ : non.
+
+**4.** On écrit $510{,}12 = 510{,}120$ : entre $510{,}120$ et $510{,}125$ on trouve par exemple $510{,}121$ ; $510{,}122$ ; $510{,}124$ (ou $510{,}1205$, …).
+
+**5.** $510{,}1 = 510{,}10$ et $510{,}2 = 510{,}20$. Les nombres cherchés sont $510{,}11$ ; $510{,}12$ ; $510{,}13$ ; $510{,}14$ ; $510{,}15$ ; $510{,}16$ ; $510{,}17$ ; $510{,}18$ ; $510{,}19$ : il y en a **$9$**.`
+    },
+    {
+      id: "6N2-ds-16",
+      title: "Le tableau d'affichage du stade",
+      difficulty: 4,
+      points: 6,
+      statement: `Lors d'une course de $100$ m, les chronomètres mesurent les temps au centième de seconde, mais le tableau d'affichage du stade n'affiche que l'**arrondi au dixième** de chaque temps.
+
+1. Les temps réels de quatre coureurs sont : Léa $12{,}47$ s ; Tom $12{,}43$ s ; Sam $12{,}45$ s ; Inès $12{,}55$ s. Qu'affiche le tableau pour chacun ?
+2. Pour un coureur, le tableau affiche $12{,}5$ s.
+   a) Son temps réel peut-il être $12{,}44$ s ? $12{,}55$ s ? Justifier.
+   b) Donner tous ses temps réels possibles (avec deux chiffres après la virgule). Combien y en a-t-il ?
+3. Le tableau affiche $12{,}4$ s pour Paul et $12{,}5$ s pour Max. Peut-on être sûr que Paul a été plus rapide que Max ? Justifier.
+4. Le tableau affiche $12{,}5$ s pour Jo et pour Ali. Peut-on savoir lequel a été le plus rapide ? Justifier à l'aide d'un exemple.
+5. On apprend de plus que le temps réel d'Ali, **arrondi à l'unité**, vaut $13$ s. Donner tous ses temps réels possibles.`,
+      solution: `**1.** On regarde le chiffre des centièmes :
+- Léa : $12{,}47$, centièmes $7 \\geqslant 5$ : affichage **$12{,}5$** ;
+- Tom : $12{,}43$, centièmes $3 < 5$ : affichage **$12{,}4$** ;
+- Sam : $12{,}45$, centièmes $5$ : affichage **$12{,}5$** ;
+- Inès : $12{,}55$, centièmes $5$ : affichage **$12{,}6$**.
+
+**2.** a) $12{,}44$ s'arrondit à $12{,}4$ et $12{,}55$ s'arrondit à $12{,}6$ : **aucun des deux** n'est possible.
+b) Les temps possibles vont de $12{,}45$ à $12{,}54$ :
+$12{,}45$ ; $12{,}46$ ; $12{,}47$ ; $12{,}48$ ; $12{,}49$ ; $12{,}50$ ; $12{,}51$ ; $12{,}52$ ; $12{,}53$ ; $12{,}54$, soit **$10$ temps**.
+
+**3.** Oui. Affiché $12{,}4$, le temps de Paul est au plus $12{,}44$ s. Affiché $12{,}5$, le temps de Max est au moins $12{,}45$ s. Comme $12{,}44 < 12{,}45$, Paul a mis moins de temps : **il a été plus rapide**.
+
+**4.** Non. Les deux temps sont entre $12{,}45$ et $12{,}54$. Par exemple, si Jo a couru en $12{,}46$ s et Ali en $12{,}52$ s, Jo est plus rapide ; mais si Jo a couru en $12{,}53$ s et Ali en $12{,}48$ s, c'est Ali. On **ne peut pas savoir**.
+
+**5.** Le temps d'Ali est entre $12{,}45$ et $12{,}54$ (question 2). Son arrondi à l'unité vaut $13$ seulement si son chiffre des dixièmes est au moins $5$, c'est-à-dire s'il est supérieur ou égal à $12{,}5$.
+Les temps possibles sont donc **$12{,}50$ ; $12{,}51$ ; $12{,}52$ ; $12{,}53$ ; $12{,}54$**.`
     }
   ],
   "6N3": [
@@ -768,11 +1012,11 @@ La différence est de **$1{,}525$ kg**.`
       points: 4,
       statement: `Dans un carré magique, les sommes des trois nombres de chaque ligne, de chaque colonne et de chacune des deux diagonales sont toutes égales. Voici un carré magique incomplet :
 
-| | | |
-|:---:|:---:|:---:|
-| $2$ | $a$ | $4$ |
-| $b$ | $3{,}5$ | $c$ |
-| $3$ | $d$ | $e$ |
+| | Colonne 1 | Colonne 2 | Colonne 3 |
+|:---|:---:|:---:|:---:|
+| **Ligne 1** | $2$ | $a$ | $4$ |
+| **Ligne 2** | $b$ | $3{,}5$ | $c$ |
+| **Ligne 3** | $3$ | $d$ | $e$ |
 
 1. En utilisant la diagonale qui contient $4$, $3{,}5$ et $3$, calculer la somme magique.
 2. Calculer $a$, puis $b$ (justifier par un calcul).
@@ -848,6 +1092,121 @@ L'addition est $34{,}75 + 27{,}38 = 62{,}13$.
 - avec $3$ : $5{,}3 + 3{,}7 + 2{,}35 = 11{,}35$ : c'est la somme voulue.
 
 Le chiffre caché est **$3$**.`
+    },
+    {
+      id: "6N3-ds-13",
+      title: "Rendre la monnaie",
+      difficulty: 1,
+      points: 4,
+      statement: `Sans calculatrice pour les questions 1 et 2.
+
+1. Emma achète un livre à $13{,}65$ € et paie avec un billet de $20$ €. Combien la libraire doit-elle lui rendre ?
+2. Compléter :
+   a) $4{,}7 + \\ldots = 10$
+   b) $0{,}85 + \\ldots = 1$
+   c) $12{,}4 + \\ldots = 20$
+3. Poser et effectuer :
+   a) $27{,}8 + 145{,}63$
+   b) $80 - 35{,}46$`,
+      solution: `**1.** On cherche ce qu'il faut ajouter à $13{,}65$ pour obtenir $20$ : $13{,}65 + 0{,}35 = 14$, puis $14 + 6 = 20$. Il faut donc ajouter $0{,}35 + 6 = 6{,}35$.
+La libraire rend **$6{,}35$ €** (on vérifie : $20 - 13{,}65 = 6{,}35$).
+
+**2.**
+a) $4{,}7 + 0{,}3 = 5$ et $5 + 5 = 10$ : $4{,}7 + \\mathbf{5{,}3} = 10$.
+b) $0{,}85 + 0{,}05 = 0{,}9$ et $0{,}9 + 0{,}1 = 1$ : $0{,}85 + \\mathbf{0{,}15} = 1$.
+c) $12{,}4 + 0{,}6 = 13$ et $13 + 7 = 20$ : $12{,}4 + \\mathbf{7{,}6} = 20$.
+
+**3.** On aligne les virgules (on complète par des zéros si besoin).
+a) $27{,}80 + 145{,}63 = 173{,}43$.
+b) $80{,}00 - 35{,}46 = 44{,}54$ (vérification : $44{,}54 + 35{,}46 = 80$).`
+    },
+    {
+      id: "6N3-ds-14",
+      title: "Le relais 4 × 100 m",
+      difficulty: 2,
+      points: 5,
+      statement: `Deux équipes de quatre coureurs disputent un relais $4 \\times 100$ m. Voici le temps (en secondes) de chaque relayeur :
+
+| Équipe | 1er relayeur | 2e relayeur | 3e relayeur | 4e relayeur |
+|:---|:---:|:---:|:---:|:---:|
+| Bleue | $13{,}85$ | $14{,}2$ | $13{,}6$ | $14{,}05$ |
+| Rouge | $14{,}1$ | $13{,}75$ | $13{,}9$ | $13{,}82$ |
+
+1. Sans calcul posé, donner un ordre de grandeur du temps total de chaque équipe.
+2. Calculer le temps total exact de chaque équipe.
+3. Quelle équipe a gagné ? Avec combien de secondes d'avance ?
+4. Quel temps aurait dû réaliser le 4e relayeur de l'équipe Bleue pour que son équipe fasse exactement le même temps que l'équipe Rouge ?`,
+      solution: `**1.** Chaque relayeur court en environ $14$ s : chaque équipe met environ $4 \\times 14 = 56$ s.
+
+**2.** Équipe Bleue : $13{,}85 + 14{,}2 + 13{,}6 + 14{,}05 = 55{,}7$ s.
+(On peut regrouper : $13{,}85 + 14{,}05 = 27{,}9$ et $14{,}2 + 13{,}6 = 27{,}8$, puis $27{,}9 + 27{,}8 = 55{,}7$.)
+Équipe Rouge : $14{,}1 + 13{,}75 + 13{,}9 + 13{,}82 = 55{,}57$ s.
+(Ces résultats sont cohérents avec l'ordre de grandeur $56$ s.)
+
+**3.** $55{,}57 < 55{,}70$ : l'**équipe Rouge** a gagné (le plus petit temps).
+Avance : $55{,}7 - 55{,}57 = 0{,}13$ s.
+
+**4.** Le 4e relayeur bleu aurait dû courir $0{,}13$ s plus vite : $14{,}05 - 0{,}13 = 13{,}92$ s.
+Vérification : $13{,}85 + 14{,}2 + 13{,}6 + 13{,}92 = 55{,}57$ s.`
+    },
+    {
+      id: "6N3-ds-15",
+      title: "La balance à plateaux",
+      difficulty: 3,
+      points: 5,
+      statement: `Une balance à plateaux est en équilibre lorsque les masses posées sur les deux plateaux sont égales.
+
+<div class="geo-figure-wrapper" style="text-align:center; margin:0.8rem auto; max-width:360px;"><svg class="geo-svg-figure" viewBox="0 0 340 170" width="340" height="170" style="width:100%; height:auto; color:var(--text-main, #334155);" xmlns="http://www.w3.org/2000/svg" role="img"><line x1="170" y1="40" x2="170" y2="150" stroke="currentColor" stroke-width="3"/><line x1="135" y1="150" x2="205" y2="150" stroke="currentColor" stroke-width="3"/><line x1="60" y1="40" x2="280" y2="40" stroke="currentColor" stroke-width="3"/><circle cx="170" cy="40" r="4" fill="currentColor"/><line x1="60" y1="40" x2="22" y2="95" stroke="currentColor" stroke-width="1.2"/><line x1="60" y1="40" x2="98" y2="95" stroke="currentColor" stroke-width="1.2"/><line x1="18" y1="95" x2="102" y2="95" stroke="currentColor" stroke-width="3"/><line x1="280" y1="40" x2="242" y2="95" stroke="currentColor" stroke-width="1.2"/><line x1="280" y1="40" x2="318" y2="95" stroke="currentColor" stroke-width="1.2"/><line x1="238" y1="95" x2="322" y2="95" stroke="currentColor" stroke-width="3"/><ellipse cx="42" cy="82" rx="17" ry="12" fill="rgba(34,197,94,0.35)" stroke="currentColor" stroke-width="1.2"/><rect x="66" y="80" width="26" height="14" fill="rgba(239,68,68,0.30)" stroke="currentColor" stroke-width="1.2"/><rect x="250" y="81" width="14" height="13" fill="currentColor"/><rect x="276" y="70" width="30" height="24" fill="rgba(234,179,8,0.30)" stroke="currentColor" stroke-width="1.2"/><text x="60" y="118" text-anchor="middle" font-size="12" fill="currentColor">melon : 1,25 kg</text><text x="60" y="134" text-anchor="middle" font-size="12" fill="currentColor">barquette : 0,8 kg</text><text x="280" y="118" text-anchor="middle" font-size="12" fill="currentColor">masse : 0,375 kg</text><text x="280" y="134" text-anchor="middle" font-size="12" fill="currentColor">sac de farine : ?</text></svg></div>
+
+1. La balance ci-dessus est en équilibre. Calculer la masse totale posée sur le plateau de gauche.
+2. En déduire la masse du sac de farine.
+3. On ajoute une pomme de $0{,}215$ kg sur le plateau de gauche. Quelle masse faut-il ajouter sur le plateau de droite pour retrouver l'équilibre ? Quelle est alors la masse totale sur chaque plateau ?
+4. Sur une autre balance, on pose $2{,}3$ kg de pommes à gauche et deux masses de $1{,}5$ kg et $0{,}6$ kg à droite. De quel côté la balance penche-t-elle ? Que peut-on retirer du plateau de gauche pour rétablir l'équilibre ?`,
+      solution: `**1.** Plateau de gauche : $1{,}25 + 0{,}8 = 2{,}05$ kg.
+
+**2.** La balance est en équilibre, donc le plateau de droite porte aussi $2{,}05$ kg. Le sac de farine pèse :
+$$2{,}05 - 0{,}375 = 1{,}675 \\text{ kg}$$
+Vérification : $0{,}375 + 1{,}675 = 2{,}05$.
+
+**3.** Pour garder l'équilibre, il faut ajouter la même masse des deux côtés : on ajoute **$0{,}215$ kg** à droite.
+Chaque plateau porte alors $2{,}05 + 0{,}215 = 2{,}265$ kg.
+
+**4.** À droite : $1{,}5 + 0{,}6 = 2{,}1$ kg. À gauche : $2{,}3$ kg. Comme $2{,}3 > 2{,}1$, la balance **penche à gauche**.
+Écart : $2{,}3 - 2{,}1 = 0{,}2$ kg. Il faut retirer **$0{,}2$ kg de pommes** du plateau de gauche (on peut aussi ajouter $0{,}2$ kg à droite).`
+    },
+    {
+      id: "6N3-ds-16",
+      title: "Les repères d'une piste cyclable",
+      difficulty: 4,
+      points: 6,
+      statement: `Une piste cyclable relie quatre villages $A$, $B$, $C$ et $D$. Des bornes indiquent la distance (en km) parcourue depuis le village $A$.
+
+<div class="geo-figure-wrapper" style="text-align:center; margin:0.8rem auto; max-width:380px;"><svg class="geo-svg-figure" viewBox="0 0 370 90" width="370" height="90" style="width:100%; height:auto; color:var(--text-main, #334155);" xmlns="http://www.w3.org/2000/svg" role="img"><line x1="25" y1="45" x2="345" y2="45" stroke="currentColor" stroke-width="2"/><circle cx="25" cy="45" r="4" fill="#2563eb"/><text x="25" y="28" text-anchor="middle" font-size="15" font-weight="bold" fill="#2563eb">A</text><text x="25" y="72" text-anchor="middle" font-size="12" fill="currentColor">km 0</text><circle cx="98" cy="45" r="4" fill="#2563eb"/><text x="98" y="28" text-anchor="middle" font-size="15" font-weight="bold" fill="#2563eb">B</text><text x="98" y="72" text-anchor="middle" font-size="12" fill="currentColor">km 23,7</text><circle cx="214" cy="45" r="4" fill="#2563eb"/><text x="214" y="28" text-anchor="middle" font-size="15" font-weight="bold" fill="#2563eb">C</text><text x="214" y="72" text-anchor="middle" font-size="12" fill="currentColor">km 61,45</text><circle cx="345" cy="45" r="4" fill="#2563eb"/><text x="345" y="28" text-anchor="middle" font-size="15" font-weight="bold" fill="#2563eb">D</text><text x="340" y="72" text-anchor="middle" font-size="12" fill="currentColor">km 104,2</text></svg></div>
+
+1. Calculer les distances $AB$, $BC$ et $CD$.
+2. Vérifier, à l'aide d'une addition, que la somme de ces trois distances est égale à la longueur totale de la piste.
+3. Lucie part de $A$ en direction de $D$. Elle a parcouru $48{,}6$ km.
+   a) Entre quels villages se trouve-t-elle ?
+   b) Quelle distance lui reste-t-il à parcourir pour atteindre $C$ ?
+4. Au même moment, Marc, parti de $D$ en direction de $A$, a parcouru $37{,}85$ km.
+   a) Quel nombre est inscrit sur la borne près de laquelle il se trouve ?
+   b) Entre quels villages est-il ? À quelle distance du village $C$ ?
+5. Quelle distance sépare alors Lucie et Marc ? Contrôler le résultat en additionnant les distances parcourues par Lucie, par Marc, et la distance qui les sépare.`,
+      solution: `**1.** On soustrait les numéros des bornes :
+- $AB = 23{,}7 - 0 = 23{,}7$ km ;
+- $BC = 61{,}45 - 23{,}7 = 37{,}75$ km ;
+- $CD = 104{,}2 - 61{,}45 = 42{,}75$ km.
+
+**2.** $23{,}7 + 37{,}75 + 42{,}75 = 61{,}45 + 42{,}75 = 104{,}2$ km : on retrouve bien la longueur totale de la piste.
+
+**3.** a) $23{,}7 < 48{,}6 < 61{,}45$ : Lucie est **entre $B$ et $C$**.
+b) Il lui reste $61{,}45 - 48{,}6 = 12{,}85$ km jusqu'à $C$.
+
+**4.** a) Marc part de la borne $104{,}2$ et revient vers $A$ : il est près de la borne $104{,}2 - 37{,}85 = 66{,}35$.
+b) $61{,}45 < 66{,}35 < 104{,}2$ : Marc est **entre $C$ et $D$**, à $66{,}35 - 61{,}45 = 4{,}9$ km de $C$.
+
+**5.** Lucie est à la borne $48{,}6$ et Marc à la borne $66{,}35$ : ils sont séparés de $66{,}35 - 48{,}6 = 17{,}75$ km.
+Contrôle : $48{,}6 + 17{,}75 + 37{,}85 = 66{,}35 + 37{,}85 = 104{,}2$ km, soit la longueur totale de la piste.`
     }
   ]
 });
@@ -1105,10 +1464,21 @@ $$A = 45 \\times 0{,}8 \\qquad B = 45 \\times 1{,}2 \\qquad C = 2{,}5 \\times 0{
       points: 6,
       statement: `Une feuille de papier a une épaisseur de $0{,}08$ mm. On la plie en deux, puis encore en deux, et ainsi de suite. À chaque pliage, l'épaisseur est multipliée par $2$.
 
-1. Calculer l'épaisseur obtenue après $1$, $2$, $3$, $4$ et $5$ pliages. Présenter les résultats dans un tableau.
+1. Recopier et compléter le tableau des épaisseurs.
+
+| Nombre de pliages | $0$ | $1$ | $2$ | $3$ | $4$ | $5$ |
+|:---|:---:|:---:|:---:|:---:|:---:|:---:|
+| Épaisseur (mm) | $0{,}08$ | | | | | |
+
 2. Après combien de pliages l'épaisseur dépasse-t-elle $1$ cm pour la première fois ? Justifier.
-3. Expliquer pourquoi l'épaisseur après $10$ pliages est égale à $0{,}08 \\times 1\\,024$ mm, puis la calculer.
-4. Un roman a une épaisseur de $2{,}5$ cm. Après $10$ pliages, le papier plié est-il plus épais que ce roman ? Combien de fois plus épais environ (arrondir à l'unité) ?`,
+3. a) Recopier et compléter le tableau suivant, en doublant à chaque fois : il indique par combien l'épaisseur de départ a été multipliée.
+
+| Nombre de pliages | $1$ | $2$ | $3$ | $4$ | $5$ | $6$ | $7$ | $8$ | $9$ | $10$ |
+|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| Épaisseur de départ multipliée par | $2$ | $4$ | | | | | | | | |
+
+   b) En déduire que l'épaisseur après $10$ pliages est égale à $0{,}08 \\times 1\\,024$ mm, puis la calculer.
+4. Un roman a une épaisseur de $2{,}5$ cm. Après $10$ pliages, le papier plié est-il plus épais que ce roman ? Combien de fois plus épais environ (donner un nombre entier) ?`,
       solution: `**1.** On multiplie par $2$ à chaque étape :
 
 | Nombre de pliages | $0$ | $1$ | $2$ | $3$ | $4$ | $5$ |
@@ -1118,13 +1488,119 @@ $$A = 45 \\times 0{,}8 \\qquad B = 45 \\times 1{,}2 \\qquad C = 2{,}5 \\times 0{
 **2.** $1$ cm $= 10$ mm. On continue : $6$ pliages : $2{,}56 \\times 2 = 5{,}12$ mm ; $7$ pliages : $5{,}12 \\times 2 = 10{,}24$ mm.
 $5{,}12 < 10 < 10{,}24$ : l'épaisseur dépasse $1$ cm pour la première fois après **$7$ pliages**.
 
-**3.** Après $10$ pliages, on a multiplié $10$ fois par $2$, c'est-à-dire par $2 \\times 2 \\times \\ldots \\times 2$ ($10$ facteurs) $= 1\\,024$ (on double : $2$ ; $4$ ; $8$ ; $16$ ; $32$ ; $64$ ; $128$ ; $256$ ; $512$ ; $1\\,024$).
-$0{,}08 \\times 1\\,024 = 81{,}92$ mm.
+**3.** a) On double à chaque pliage :
+
+| Nombre de pliages | $1$ | $2$ | $3$ | $4$ | $5$ | $6$ | $7$ | $8$ | $9$ | $10$ |
+|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| Épaisseur de départ multipliée par | $2$ | $4$ | $8$ | $16$ | $32$ | $64$ | $128$ | $256$ | $512$ | $1\\,024$ |
+
+b) Après $10$ pliages, l'épaisseur de départ $0{,}08$ mm a été multipliée par $1\\,024$ : elle vaut $0{,}08 \\times 1\\,024 = 81{,}92$ mm.
 
 **4.** $2{,}5$ cm $= 25$ mm et $81{,}92 > 25$ : oui, le papier plié est plus épais que le roman.
-On cherche combien de fois $25$ mm « entrent » dans $81{,}92$ mm : $3 \\times 25 = 75$ et $4 \\times 25 = 100$ ; $81{,}92$ est plus proche de $75$. Le papier plié est environ **$3$ fois** plus épais que le roman ($81{,}92 \\div 25 \\approx 3{,}3$).
+$3 \\times 25 = 75$ et $4 \\times 25 = 100$ : $81{,}92$ est entre les deux, plus proche de $75$. Le papier plié est environ **$3$ fois** plus épais que le roman.
 
 *(En pratique, il est très difficile de plier une feuille plus de $7$ ou $8$ fois !)*`
+    },
+    {
+      id: "6N4-ds-13",
+      title: "La sortie au cinéma",
+      difficulty: 1,
+      points: 4,
+      statement: `Au cinéma, une place coûte $9{,}80$ € au tarif plein et $7{,}40$ € au tarif réduit (enfants). Un cornet de pop-corn coûte $4{,}50$ €.
+La famille Moreau (deux adultes et trois enfants) va voir un film et achète deux cornets de pop-corn.
+
+1. Donner un ordre de grandeur de la dépense de la famille.
+2. Calculer le prix des places des adultes, puis celui des places des enfants.
+3. Calculer la dépense totale de la famille.
+4. Les parents paient avec trois billets de $20$ €. Combien la caissière leur rend-elle ?`,
+      solution: `**1.** On arrondit les prix : $9{,}80 \\approx 10$ ; $7{,}40 \\approx 7$ ; $4{,}50 \\approx 5$.
+Ordre de grandeur : $2 \\times 10 + 3 \\times 7 + 2 \\times 5 = 20 + 21 + 10 = 51$ €.
+
+**2.** Places adultes : $2 \\times 9{,}80 = 19{,}60$ €.
+Places enfants : $3 \\times 7{,}40 = 22{,}20$ €.
+
+**3.** Pop-corn : $2 \\times 4{,}50 = 9$ €.
+Dépense totale : $19{,}60 + 22{,}20 + 9 = 50{,}80$ € (cohérent avec l'ordre de grandeur $51$ €).
+
+**4.** Les parents donnent $3 \\times 20 = 60$ €. La caissière rend $60 - 50{,}80 = 9{,}20$ €.`
+    },
+    {
+      id: "6N4-ds-14",
+      title: "Le robinet qui fuit",
+      difficulty: 2,
+      points: 5,
+      statement: `Sans calculatrice.
+
+Un robinet mal fermé laisse échapper $0{,}15$ litre d'eau par minute.
+
+1. Quelle quantité d'eau (en litres) s'échappe en une heure ?
+2. Quelle quantité d'eau s'échappe en une journée ($24$ heures) ?
+3. Quelle quantité d'eau s'échappe en $30$ jours ?
+4. Un litre d'eau coûte $0{,}004$ €. Combien coûte cette fuite en $30$ jours ?
+5. Un réparateur demande $22{,}50$ € pour changer le joint. La réparation est-elle « remboursée » en un mois ?`,
+      solution: `**1.** Une heure dure $60$ minutes : $0{,}15 \\times 60 = 9$ litres.
+(Calcul : $15 \\times 60 = 900$, et $0{,}15$ a deux chiffres après la virgule, donc $0{,}15 \\times 60 = 9{,}00$.)
+
+**2.** $9 \\times 24 = 216$ litres en une journée.
+
+**3.** $216 \\times 30 = 6\\,480$ litres en $30$ jours.
+
+**4.** $6\\,480 \\times 0{,}004$ : on calcule $6\\,480 \\times 4 = 25\\,920$, puis on place la virgule ($0{,}004$ a trois chiffres après la virgule) : $25{,}920$.
+La fuite coûte **$25{,}92$ €** en $30$ jours.
+
+**5.** $25{,}92 > 22{,}50$ : en un mois, la fuite coûte plus cher que la réparation. Oui, la réparation est « remboursée » en un mois (et ensuite on économise environ $26$ € par mois).`
+    },
+    {
+      id: "6N4-ds-15",
+      title: "Le carreleur",
+      difficulty: 3,
+      points: 5,
+      statement: `Un carreleur pose une rangée de carreaux carrés le long d'un mur de $2{,}95$ m. Chaque carreau mesure $20{,}5$ cm de côté. Entre deux carreaux voisins, il laisse un joint de $0{,}4$ cm. Il n'y a pas de joint aux deux extrémités de la rangée.
+
+1. Il pose d'abord $14$ carreaux. Combien de joints y a-t-il ? (On pourra faire un petit schéma avec $3$ ou $4$ carreaux.)
+2. Calculer la longueur totale des $14$ carreaux, puis la longueur totale des joints.
+3. Quelle est la longueur de la rangée de $14$ carreaux ? Quelle longueur de mur reste-t-il sans carreau ?
+4. Le carreleur aurait-il pu poser $15$ carreaux entiers dans cette rangée ? Justifier par un calcul.`,
+      solution: `**1.** Avec $3$ carreaux il y a $2$ joints, avec $4$ carreaux $3$ joints : il y a toujours un joint de moins que de carreaux. Avec $14$ carreaux, il y a **$13$ joints**.
+
+**2.** Carreaux : $14 \\times 20{,}5 = 287$ cm.
+Joints : $13 \\times 0{,}4 = 5{,}2$ cm.
+
+**3.** Longueur de la rangée : $287 + 5{,}2 = 292{,}2$ cm.
+Le mur mesure $2{,}95$ m $= 295$ cm. Il reste $295 - 292{,}2 = 2{,}8$ cm sans carreau.
+
+**4.** Avec $15$ carreaux, il y aurait $14$ joints : $15 \\times 20{,}5 + 14 \\times 0{,}4 = 307{,}5 + 5{,}6 = 313{,}1$ cm.
+Comme $313{,}1 > 295$, **non**, $15$ carreaux entiers ne tiennent pas dans la rangée.`
+    },
+    {
+      id: "6N4-ds-16",
+      title: "La photocopieuse",
+      difficulty: 4,
+      points: 6,
+      statement: `Sans calculatrice.
+
+Sur une photocopieuse, la touche « agrandir » multiplie toutes les longueurs d'un document par $1{,}2$ ; la touche « réduire » les multiplie par $0{,}8$.
+
+1. Sur un document, un segment mesure $10$ cm. On l'agrandit une fois. Quelle est sa nouvelle longueur ?
+2. On agrandit une deuxième fois la copie obtenue. Quelle est maintenant la longueur du segment ?
+3. Léo affirme : « Agrandir deux fois de suite, c'est comme multiplier les longueurs par $1{,}4$. » Utiliser les questions 1 et 2 pour montrer que Léo se trompe.
+   a) Calculer $1{,}2 \\times 1{,}2$.
+   b) Vérifier qu'en multipliant $10$ par ce nombre, on retrouve le résultat de la question 2.
+4. Sur une photo, la largeur mesure $25$ cm. Quelle sera sa largeur après deux agrandissements ? (Utiliser le résultat de la question 3.)
+5. Mia agrandit une fois le segment de $10$ cm, puis réduit une fois la copie. Retrouve-t-elle la longueur de départ ? Justifier.`,
+      solution: `**1.** $10 \\times 1{,}2 = 12$ cm.
+
+**2.** $12 \\times 1{,}2 = 14{,}4$ cm.
+
+**3.** Si Léo avait raison, on obtiendrait $10 \\times 1{,}4 = 14$ cm. Or on a trouvé $14{,}4$ cm : **Léo se trompe**.
+a) $12 \\times 12 = 144$, et le produit doit avoir $1 + 1 = 2$ chiffres après la virgule : $1{,}2 \\times 1{,}2 = 1{,}44$.
+b) $10 \\times 1{,}44 = 14{,}4$ cm : on retrouve bien le résultat de la question 2. Agrandir deux fois revient à multiplier les longueurs par $1{,}44$ (et non par $1{,}4$).
+
+**4.** $25 \\times 1{,}44 = 36$ cm.
+(Vérification en deux étapes : $25 \\times 1{,}2 = 30$, puis $30 \\times 1{,}2 = 36$.)
+
+**5.** Après l'agrandissement : $12$ cm. Après la réduction : $12 \\times 0{,}8 = 9{,}6$ cm.
+Comme $9{,}6 \\neq 10$, Mia **ne retrouve pas** la longueur de départ : réduire avec $0{,}8$ ne « défait » pas un agrandissement avec $1{,}2$ (en effet $1{,}2 \\times 0{,}8 = 0{,}96$, qui n'est pas égal à $1$).`
     }
   ],
   "6N5": [
@@ -1394,6 +1870,106 @@ $$5 \\times 25{,}85 + 3 \\times 19{,}45 = 129{,}25 + 58{,}35 = 187{,}60$$
 On retrouve bien le montant de l'addition.
 
 **4.** Pourboire : $8 \\times 1{,}50 = 12$ €. Total : $187{,}60 + 12 = 199{,}60$ €.`
+    },
+    {
+      id: "6N5-ds-13",
+      title: "Les œufs de la ferme",
+      difficulty: 1,
+      points: 4,
+      statement: `1. Un fermier a ramassé $250$ œufs. Il les range dans des boîtes de $12$ œufs.
+   a) Poser et effectuer la division euclidienne de $250$ par $12$. Écrire l'égalité correspondante.
+   b) Combien de boîtes pleines obtient-il ? Combien d'œufs restent hors des boîtes ?
+2. Le lendemain, il ramasse $252$ œufs. Pourra-t-il remplir des boîtes de $12$ sans qu'il reste d'œuf ? Justifier. Que peut-on dire de $252$ par rapport à $12$ ?
+3. Il coupe un ruban de $45$ m en $8$ morceaux de même longueur pour décorer son stand. Poser la division décimale de $45$ par $8$ et donner la longueur d'un morceau.`,
+      solution: `**1.** a) $250 = 12 \\times 20 + 10$, avec $10 < 12$ : le quotient est $20$ et le reste est $10$.
+b) Il obtient **$20$ boîtes pleines** et il reste **$10$ œufs**.
+
+**2.** $252 = 12 \\times 21 + 0$ : le reste est nul, il remplit exactement $21$ boîtes. On dit que **$252$ est un multiple de $12$** (ou que $12$ est un diviseur de $252$).
+
+**3.** On pose $45 \\div 8$ : $45 = 8 \\times 5 + 5$ ; on abaisse un $0$ : $50 = 8 \\times 6 + 2$ ; puis $20 = 8 \\times 2 + 4$ ; puis $40 = 8 \\times 5 + 0$.
+$45 \\div 8 = 5{,}625$ : chaque morceau mesure **$5{,}625$ m**. (Vérification : $8 \\times 5{,}625 = 45$.)`
+    },
+    {
+      id: "6N5-ds-14",
+      title: "Disposer des chaises en rectangle",
+      difficulty: 2,
+      points: 5,
+      statement: `Pour un spectacle, on dispose $36$ chaises en rangées qui contiennent toutes le même nombre de chaises, sans chaise isolée.
+
+1. Si l'on fait $4$ rangées, combien y a-t-il de chaises par rangée ?
+2. Peut-on faire $5$ rangées ? $8$ rangées ? Justifier.
+3. Donner la liste de **tous** les diviseurs de $36$, puis toutes les dispositions possibles (nombre de rangées et nombre de chaises par rangée).
+4. Le directeur veut au moins $3$ rangées et au moins $5$ chaises par rangée. Quelles dispositions conviennent ?
+5. Un autre jour, on dispose de $37$ chaises. Quelles dispositions sont alors possibles ?`,
+      solution: `**1.** $36 = 4 \\times 9$ : il y a **$9$ chaises** par rangée.
+
+**2.** $36 = 5 \\times 7 + 1$ : le reste n'est pas nul, on ne peut pas faire $5$ rangées.
+$36 = 8 \\times 4 + 4$ : on ne peut pas faire $8$ rangées non plus.
+
+**3.** On cherche les produits égaux à $36$ : $1 \\times 36$ ; $2 \\times 18$ ; $3 \\times 12$ ; $4 \\times 9$ ; $6 \\times 6$.
+Les diviseurs de $36$ sont : $1$ ; $2$ ; $3$ ; $4$ ; $6$ ; $9$ ; $12$ ; $18$ ; $36$.
+Dispositions possibles (rangées × chaises par rangée) : $1 \\times 36$ ; $2 \\times 18$ ; $3 \\times 12$ ; $4 \\times 9$ ; $6 \\times 6$ ; $9 \\times 4$ ; $12 \\times 3$ ; $18 \\times 2$ ; $36 \\times 1$.
+
+**4.** Il faut au moins $3$ rangées et au moins $5$ chaises par rangée : **$3$ rangées de $12$**, **$4$ rangées de $9$** ou **$6$ rangées de $6$**. ($9$ rangées de $4$ ne conviennent pas : moins de $5$ chaises par rangée.)
+
+**5.** $37$ n'est divisible ni par $2$, ni par $3$, ni par $4$, ni par $5$, ni par $6$ (il suffit de tester jusqu'à $6$, car $7 \\times 7 = 49 > 37$). Ses seuls diviseurs sont $1$ et $37$ : on ne peut faire qu'**une seule rangée de $37$ chaises** (ou $37$ « rangées » d'une chaise, ce qui n'est pas raisonnable).`
+    },
+    {
+      id: "6N5-ds-15",
+      title: "Partager un ruban",
+      difficulty: 3,
+      points: 5,
+      statement: `Une couturière veut couper des rubans en morceaux de même longueur.
+
+1. Elle partage un ruban de $10$ m en $3$ morceaux égaux.
+   a) Poser la division décimale de $10$ par $3$ jusqu'au rang des centièmes. Que remarque-t-on ?
+   b) Elle mesure au centimètre près : elle coupe des morceaux de $3{,}33$ m. Quelle longueur de ruban reste-t-il ? Donner le résultat en cm.
+2. Elle partage un ruban de $22$ m en $7$ morceaux égaux, coupés au centimètre près (sans dépasser).
+   a) Calculer le quotient décimal de $22$ par $7$ jusqu'au rang des centièmes.
+   b) Quelle est la longueur de chaque morceau ? Quelle longueur reste-t-il ?
+3. Avec le ruban de $22$ m, elle veut maintenant des morceaux de **$3$ m exactement**. Combien de morceaux peut-elle couper, et quelle longueur reste-t-il ? Quelle division faut-il effectuer ?`,
+      solution: `**1.** a) $10 = 3 \\times 3 + 1$ ; on abaisse un $0$ : $10 = 3 \\times 3 + 1$ ; puis encore $10 = 3 \\times 3 + 1$… Le reste vaut toujours $1$ : la division **ne s'arrête jamais**, on obtient $3{,}33\\ldots$
+Au centième : $10 \\div 3 \\approx 3{,}33$.
+b) $3 \\times 3{,}33 = 9{,}99$ m. Il reste $10 - 9{,}99 = 0{,}01$ m, soit **$1$ cm**.
+
+**2.** a) $22 = 7 \\times 3 + 1$ ; $10 = 7 \\times 1 + 3$ ; $30 = 7 \\times 4 + 2$ : le quotient au centième est $3{,}14$ (la division continue : $22 \\div 7 = 3{,}142\\ldots$).
+b) Chaque morceau mesure **$3{,}14$ m**. Les $7$ morceaux mesurent $7 \\times 3{,}14 = 21{,}98$ m ; il reste $22 - 21{,}98 = 0{,}02$ m, soit **$2$ cm**.
+
+**3.** On effectue la **division euclidienne** de $22$ par $3$ : $22 = 3 \\times 7 + 1$.
+Elle coupe **$7$ morceaux de $3$ m** et il reste **$1$ m** de ruban.`
+    },
+    {
+      id: "6N5-ds-16",
+      title: "Le collier de perles",
+      difficulty: 4,
+      points: 6,
+      statement: `Zoé enfile des perles sur un fil en répétant toujours le même motif : $3$ perles rouges, puis $4$ perles bleues. Voici le début de son fil (les perles sont numérotées) :
+
+<div class="geo-figure-wrapper" style="text-align:center; margin:0.8rem auto; max-width:360px;"><svg class="geo-svg-figure" viewBox="0 0 340 80" width="340" height="80" style="width:100%; height:auto; color:var(--text-main, #334155);" xmlns="http://www.w3.org/2000/svg" role="img"><line x1="5" y1="35" x2="335" y2="35" stroke="currentColor" stroke-width="1.2"/><circle cx="20" cy="35" r="9" fill="#dc2626"/><text x="20" y="65" text-anchor="middle" font-size="11" fill="currentColor">1</text><circle cx="43" cy="35" r="9" fill="#dc2626"/><text x="43" y="65" text-anchor="middle" font-size="11" fill="currentColor">2</text><circle cx="66" cy="35" r="9" fill="#dc2626"/><text x="66" y="65" text-anchor="middle" font-size="11" fill="currentColor">3</text><circle cx="89" cy="35" r="9" fill="#2563eb"/><text x="89" y="65" text-anchor="middle" font-size="11" fill="currentColor">4</text><circle cx="112" cy="35" r="9" fill="#2563eb"/><text x="112" y="65" text-anchor="middle" font-size="11" fill="currentColor">5</text><circle cx="135" cy="35" r="9" fill="#2563eb"/><text x="135" y="65" text-anchor="middle" font-size="11" fill="currentColor">6</text><circle cx="158" cy="35" r="9" fill="#2563eb"/><text x="158" y="65" text-anchor="middle" font-size="11" fill="currentColor">7</text><circle cx="181" cy="35" r="9" fill="#dc2626"/><text x="181" y="65" text-anchor="middle" font-size="11" fill="currentColor">8</text><circle cx="204" cy="35" r="9" fill="#dc2626"/><text x="204" y="65" text-anchor="middle" font-size="11" fill="currentColor">9</text><circle cx="227" cy="35" r="9" fill="#dc2626"/><text x="227" y="65" text-anchor="middle" font-size="11" fill="currentColor">10</text><circle cx="250" cy="35" r="9" fill="#2563eb"/><text x="250" y="65" text-anchor="middle" font-size="11" fill="currentColor">11</text><circle cx="273" cy="35" r="9" fill="#2563eb"/><text x="273" y="65" text-anchor="middle" font-size="11" fill="currentColor">12</text><circle cx="296" cy="35" r="9" fill="#2563eb"/><text x="296" y="65" text-anchor="middle" font-size="11" fill="currentColor">13</text><circle cx="319" cy="35" r="9" fill="#2563eb"/><text x="319" y="65" text-anchor="middle" font-size="11" fill="currentColor">14</text></svg></div>
+
+1. Combien de perles compte un motif ? De quelle couleur est la $10^{e}$ perle ? la $20^{e}$ ?
+2. Pour trouver la couleur de la $150^{e}$ perle :
+   a) effectuer la division euclidienne de $150$ par $7$ ;
+   b) combien de motifs complets y a-t-il avant la $150^{e}$ perle ? Quelle est la position de la $150^{e}$ perle dans son motif ?
+   c) en déduire sa couleur.
+3. Zoé a enfilé $150$ perles. Combien de perles rouges et combien de perles bleues a-t-elle utilisées ?
+4. Combien de perles Zoé doit-elle enfiler pour avoir utilisé exactement $100$ perles bleues, la dernière perle enfilée étant bleue ?
+5. Pour fermer son collier sans couper un motif, le nombre total de perles doit être un multiple de $7$. Zoé a-t-elle raison de vouloir un collier de $150$ perles ? Sinon, proposer le nombre de perles le plus proche de $150$ qui convienne.`,
+      solution: `**1.** Un motif compte $3 + 4 = 7$ perles. Les perles $1$ à $3$ de chaque motif sont rouges et les perles $4$ à $7$ sont bleues.
+- $10 = 7 \\times 1 + 3$ : la $10^{e}$ perle est la $3^{e}$ du $2^{e}$ motif, elle est **rouge**.
+- $20 = 7 \\times 2 + 6$ : la $20^{e}$ perle est la $6^{e}$ du $3^{e}$ motif, elle est **bleue**.
+
+**2.** a) $150 = 7 \\times 21 + 3$, avec $3 < 7$.
+b) Il y a $21$ motifs complets ($147$ perles), et la $150^{e}$ perle est la $3^{e}$ du motif suivant.
+c) La $3^{e}$ perle d'un motif est rouge : la $150^{e}$ perle est **rouge**.
+
+**3.** $21$ motifs complets contiennent $21 \\times 3 = 63$ rouges et $21 \\times 4 = 84$ bleues. Les $3$ perles suivantes sont rouges.
+Total : **$66$ rouges** et **$84$ bleues** (vérification : $66 + 84 = 150$).
+
+**4.** Chaque motif contient $4$ bleues et $100 = 4 \\times 25$ : il faut $25$ motifs complets, et la $100^{e}$ bleue est la dernière perle du $25^{e}$ motif. Il faut donc $25 \\times 7 =$ **$175$ perles**.
+
+**5.** $150 = 7 \\times 21 + 3$ : le reste n'est pas nul, $150$ n'est pas un multiple de $7$, le collier de $150$ perles couperait un motif.
+Les multiples de $7$ les plus proches sont $7 \\times 21 = 147$ et $7 \\times 22 = 154$. Le plus proche de $150$ est **$147$** (écart $3$, contre $4$ pour $154$).`
     }
   ]
 });
@@ -1654,7 +2230,14 @@ $\\frac{17}{12} = 1 + \\frac{5}{12}$ : le trajet dure $1$ h et $5 \\times 5 = 25
 2. Trouver la fraction égale à $\\frac{3}{4}$ dont la somme du numérateur et du dénominateur vaut $35$.
 3. Trouver la fraction égale à $\\frac{3}{4}$ dont le dénominateur dépasse le numérateur de $6$.
 4. Trouver une fraction égale à $\\frac{3}{4}$ dont le numérateur est compris entre $40$ et $50$ et dont le dénominateur est un multiple de $10$.
-5. Existe-t-il une fraction égale à $\\frac{3}{4}$ (avec numérateur et dénominateur entiers) dont la somme du numérateur et du dénominateur vaut $50$ ? Justifier.`,
+5. a) Recopier et compléter le tableau.
+
+| Fraction égale à $\\frac{3}{4}$ | $\\frac{3}{4}$ | $\\frac{6}{8}$ | $\\frac{9}{12}$ | $\\frac{12}{16}$ | $\\frac{15}{20}$ | $\\frac{18}{24}$ | $\\frac{21}{28}$ | $\\frac{24}{32}$ |
+|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| Numérateur $+$ dénominateur | $7$ | $14$ | | | | | | |
+
+   b) De combien la somme augmente-t-elle d'une colonne à la suivante ?
+   c) Peut-on trouver, dans ce tableau prolongé, une fraction dont la somme du numérateur et du dénominateur vaut $50$ ? Justifier.`,
       solution: `**1.** On multiplie le numérateur et le dénominateur par un même nombre entier : $\\frac{6}{8}$ ; $\\frac{9}{12}$ ; $\\frac{12}{16}$ ; $\\frac{15}{20}$ ; $\\frac{30}{40}$ (multiplication par $2$, $3$, $4$, $5$, $10$).
 
 **2.** Pour $\\frac{3}{4}$, la somme vaut $3 + 4 = 7$. Quand on multiplie numérateur et dénominateur par un même nombre, la somme est multipliée par ce nombre. Or $35 = 7 \\times 5$ : on multiplie par $5$ et on obtient $\\frac{15}{20}$ (et $15 + 20 = 35$).
@@ -1663,7 +2246,115 @@ $\\frac{17}{12} = 1 + \\frac{5}{12}$ : le trajet dure $1$ h et $5 \\times 5 = 25
 
 **4.** Les numérateurs possibles sont des multiples de $3$ : entre $40$ et $50$, ce sont $42$, $45$ et $48$, ce qui donne $\\frac{42}{56}$, $\\frac{45}{60}$ et $\\frac{48}{64}$. Seul $60$ est un multiple de $10$ : la fraction cherchée est **$\\frac{45}{60}$**.
 
-**5.** La somme du numérateur et du dénominateur est toujours un multiple de $7$ ($7 \\times 1$, $7 \\times 2$, …). Or $50$ n'est pas un multiple de $7$ ($7 \\times 7 = 49$ et $7 \\times 8 = 56$) : **il n'en existe pas**.`
+**5.** a) Sommes : $7$ ; $14$ ; $21$ ; $28$ ; $35$ ; $42$ ; $49$ ; $56$.
+b) La somme augmente de $7$ à chaque colonne (on ajoute $3$ au numérateur et $4$ au dénominateur).
+c) Les sommes sont $7$, $14$, $21$, …, c'est-à-dire les multiples de $7$. On passe de $49$ à $56$ sans obtenir $50$ : **il n'existe pas** de telle fraction ($50$ n'est pas un multiple de $7$).`
+    },
+    {
+      id: "6N6-ds-13",
+      title: "Le drapeau colorié",
+      difficulty: 1,
+      points: 4,
+      statement: `Un drapeau rectangulaire est partagé en $8$ cases identiques. Certaines cases sont coloriées en bleu.
+
+<div class="geo-figure-wrapper" style="text-align:center; margin:0.8rem auto; max-width:280px;"><svg class="geo-svg-figure" viewBox="0 0 260 140" width="260" height="140" style="width:100%; height:auto; color:var(--text-main, #334155);" xmlns="http://www.w3.org/2000/svg" role="img"><rect x="30" y="20" width="50" height="50" fill="rgba(59,130,246,0.45)"/><rect x="80" y="20" width="50" height="50" fill="rgba(59,130,246,0.45)"/><rect x="180" y="70" width="50" height="50" fill="rgba(59,130,246,0.45)"/><rect x="30" y="20" width="200" height="100" fill="none" stroke="currentColor" stroke-width="2"/><line x1="80" y1="20" x2="80" y2="120" stroke="currentColor" stroke-width="1.5"/><line x1="130" y1="20" x2="130" y2="120" stroke="currentColor" stroke-width="1.5"/><line x1="180" y1="20" x2="180" y2="120" stroke="currentColor" stroke-width="1.5"/><line x1="30" y1="70" x2="230" y2="70" stroke="currentColor" stroke-width="1.5"/></svg></div>
+
+1. Quelle fraction du drapeau est coloriée en bleu ?
+2. Quelle fraction du drapeau n'est pas coloriée ?
+3. Écrire en lettres la fraction trouvée à la question 1.
+4. La partie bleue représente-t-elle plus ou moins de la moitié du drapeau ? Justifier.
+5. Combien de cases faudrait-il colorier en plus pour que la partie bleue représente exactement $\\frac{3}{4}$ du drapeau ?`,
+      solution: `**1.** Le drapeau est partagé en $8$ cases identiques et $3$ cases sont bleues : la partie bleue représente $\\frac{3}{8}$ du drapeau.
+
+**2.** $8 - 3 = 5$ cases ne sont pas coloriées : cela représente $\\frac{5}{8}$ du drapeau.
+
+**3.** $\\frac{3}{8}$ se lit « trois huitièmes ».
+
+**4.** La moitié du drapeau, c'est $4$ cases sur $8$, soit $\\frac{4}{8}$. Comme $3 < 4$, on a $\\frac{3}{8} < \\frac{4}{8}$ : la partie bleue représente **moins** de la moitié du drapeau.
+
+**5.** $\\frac{3}{4} = \\frac{3 \\times 2}{4 \\times 2} = \\frac{6}{8}$ : il faut $6$ cases bleues. Il faut donc colorier $6 - 3 = 3$ cases de plus.`
+    },
+    {
+      id: "6N6-ds-14",
+      title: "Des fractions aux nombres décimaux",
+      difficulty: 2,
+      points: 5,
+      statement: `Sans calculatrice.
+
+1. Donner l'écriture décimale de chacune des fractions suivantes, en expliquant la méthode :
+$$\\frac{13}{10} \\qquad \\frac{7}{4} \\qquad \\frac{9}{2} \\qquad \\frac{3}{5}$$
+2. Ranger ces quatre fractions dans l'ordre croissant.
+3. a) Écrire $0{,}35$ sous la forme d'une fraction de dénominateur $100$.
+   b) Trouver une fraction de dénominateur $20$ égale à $0{,}35$.
+4. Lequel de ces nombres est égal à $1{,}25$ : $\\frac{5}{4}$ ou $\\frac{12}{5}$ ? Justifier.`,
+      solution: `**1.** On utilise le fait que $\\frac{a}{b}$ est le quotient de $a$ par $b$, ou on cherche une fraction égale de dénominateur $10$ ou $100$.
+- $\\frac{13}{10}$ : $13$ dixièmes, donc $\\frac{13}{10} = 1{,}3$.
+- $\\frac{7}{4} = \\frac{7 \\times 25}{4 \\times 25} = \\frac{175}{100} = 1{,}75$ (ou $7 \\div 4 = 1{,}75$).
+- $\\frac{9}{2} = 9 \\div 2 = 4{,}5$.
+- $\\frac{3}{5} = \\frac{3 \\times 2}{5 \\times 2} = \\frac{6}{10} = 0{,}6$.
+
+**2.** On compare les écritures décimales : $0{,}6 < 1{,}3 < 1{,}75 < 4{,}5$, donc
+$$\\frac{3}{5} < \\frac{13}{10} < \\frac{7}{4} < \\frac{9}{2}.$$
+
+**3.** a) $0{,}35$, c'est $35$ centièmes : $0{,}35 = \\frac{35}{100}$.
+b) $100 = 20 \\times 5$ et $35 = 7 \\times 5$, donc $\\frac{35}{100} = \\frac{7}{20}$. Ainsi $0{,}35 = \\frac{7}{20}$.
+
+**4.** $\\frac{5}{4} = 5 \\div 4 = 1{,}25$ : c'est $\\frac{5}{4}$ qui est égal à $1{,}25$.
+(En revanche $\\frac{12}{5} = 12 \\div 5 = 2{,}4$.)`
+    },
+    {
+      id: "6N6-ds-15",
+      title: "Trois rubans à comparer",
+      difficulty: 3,
+      points: 5,
+      statement: `Pour un bricolage, Zoé dispose de trois rubans :
+- un ruban rouge de $\\frac{7}{4}$ m ;
+- un ruban vert de $\\frac{5}{2}$ m ;
+- un ruban jaune de $\\frac{19}{8}$ m.
+
+1. Pour chaque ruban, donner les deux nombres entiers consécutifs entre lesquels se trouve sa longueur. Justifier.
+2. Écrire les trois longueurs avec le même dénominateur $8$.
+3. Ranger les trois rubans du plus court au plus long.
+4. Zoé veut un ruban de $3$ m exactement. Elle dispose de petits morceaux de $\\frac{1}{8}$ m. Combien de petits morceaux doit-elle ajouter au ruban jaune pour obtenir $3$ m ?`,
+      solution: `**1.**
+- $\\frac{7}{4}$ : $\\frac{4}{4} = 1$ et $\\frac{8}{4} = 2$, et $4 < 7 < 8$, donc $1 < \\frac{7}{4} < 2$.
+- $\\frac{5}{2}$ : $\\frac{4}{2} = 2$ et $\\frac{6}{2} = 3$, donc $2 < \\frac{5}{2} < 3$.
+- $\\frac{19}{8}$ : $\\frac{16}{8} = 2$ et $\\frac{24}{8} = 3$, et $16 < 19 < 24$, donc $2 < \\frac{19}{8} < 3$.
+
+**2.** $\\frac{7}{4} = \\frac{7 \\times 2}{4 \\times 2} = \\frac{14}{8}$ ; $\\quad \\frac{5}{2} = \\frac{5 \\times 4}{2 \\times 4} = \\frac{20}{8}$ ; $\\quad \\frac{19}{8}$ reste $\\frac{19}{8}$.
+
+**3.** Avec le même dénominateur, on compare les numérateurs : $14 < 19 < 20$, donc $\\frac{7}{4} < \\frac{19}{8} < \\frac{5}{2}$.
+Du plus court au plus long : **rouge, jaune, vert**.
+
+**4.** $3 = \\frac{24}{8}$. Le ruban jaune mesure $\\frac{19}{8}$ m : il manque $24 - 19 = 5$ huitièmes de mètre.
+Zoé doit ajouter **$5$ petits morceaux** de $\\frac{1}{8}$ m.`
+    },
+    {
+      id: "6N6-ds-16",
+      title: "Retrouver l'unité sur une demi-droite",
+      difficulty: 4,
+      points: 6,
+      statement: `Sur une demi-droite graduée d'origine $O$, on a effacé le point d'abscisse $1$. On sait seulement que le point $A$ d'abscisse $\\frac{2}{3}$ est placé à $4$ cm de l'origine $O$.
+
+1. À quelle distance de $O$ se trouve le point d'abscisse $\\frac{1}{3}$ ? Justifier.
+2. En déduire la longueur, en cm, de l'unité.
+3. Tracer la demi-droite et placer les points $O$, $A$, puis $B\\left(\\frac{5}{3}\\right)$, $C(2)$ et $D\\left(\\frac{7}{6}\\right)$. Indiquer pour chaque point sa distance à $O$.
+4. Un point $E$ est placé à $9$ cm de $O$.
+   a) Donner son abscisse sous la forme d'une fraction de dénominateur $6$.
+   b) Donner une autre écriture fractionnaire de cette abscisse, puis son écriture décimale.`,
+      solution: `**1.** $\\frac{2}{3}$, c'est $2$ fois $\\frac{1}{3}$. Comme $A$ est à $4$ cm de $O$, le point d'abscisse $\\frac{1}{3}$ est à $4 \\div 2 = 2$ cm de $O$.
+
+**2.** L'unité, c'est $\\frac{3}{3}$, soit $3$ fois $\\frac{1}{3}$ : elle mesure $3 \\times 2 = 6$ cm.
+
+**3.** On place les points à partir de $O$ :
+- $A\\left(\\frac{2}{3}\\right)$ : $4$ cm ;
+- $B\\left(\\frac{5}{3}\\right)$ : $5 \\times 2 = 10$ cm ;
+- $C(2)$ : $2 \\times 6 = 12$ cm ;
+- $D\\left(\\frac{7}{6}\\right)$ : un sixième de l'unité mesure $6 \\div 6 = 1$ cm, donc $D$ est à $7 \\times 1 = 7$ cm.
+
+**4.** a) Un sixième d'unité mesure $1$ cm, donc $9$ cm correspondent à $9$ sixièmes : l'abscisse de $E$ est $\\frac{9}{6}$.
+b) $\\frac{9}{6} = \\frac{3 \\times 3}{2 \\times 3} = \\frac{3}{2}$, et $\\frac{3}{2} = 3 \\div 2 = 1{,}5$.
+(Vérification : $1{,}5 \\times 6 = 9$ cm.)`
     }
   ],
   "6N7": [
@@ -1877,45 +2568,165 @@ Vérification : $400 + 200 + 300 + 300 = 1\\,200$ m².`
 
 **Pyramide 1** — ligne du bas : $\\frac{1}{8}$ ; $\\frac{3}{8}$ ; $\\frac{1}{4}$.
 
-**Pyramide 2** — ligne du bas : $\\frac{1}{4}$ ; $\\square$ ; $\\frac{1}{2}$ ; sommet : $3$.
+**Pyramide 2** — ligne du bas : $\\frac{1}{4}$ ; $\\square$ ; $\\frac{1}{2}$. La case de gauche de la ligne du milieu vaut $\\frac{7}{8}$.
 
 1. Pyramide 1 : calculer les deux cases de la ligne du milieu, puis le sommet. Simplifier les résultats quand c'est possible.
 2. Le sommet de la pyramide 1 est-il plus grand que $1$ ? Justifier.
-3. Pyramide 2 : on note $\\square$ la case manquante de la ligne du bas.
-   a) Expliquer pourquoi le sommet est égal à $\\frac{1}{4} + \\frac{1}{2} + 2 \\times \\square$.
-   b) En déduire la valeur de la case manquante, puis vérifier en complétant la pyramide.`,
+3. Pyramide 2 :
+   a) Expliquer pourquoi la case manquante $\\square$ vérifie $\\frac{1}{4} + \\square = \\frac{7}{8}$, puis calculer sa valeur.
+   b) Compléter la pyramide 2 : case de droite de la ligne du milieu, puis sommet.`,
       solution: `**1.** Ligne du milieu : $\\frac{1}{8} + \\frac{3}{8} = \\frac{4}{8} = \\frac{1}{2}$ et $\\frac{3}{8} + \\frac{1}{4} = \\frac{3}{8} + \\frac{2}{8} = \\frac{5}{8}$.
 Sommet : $\\frac{1}{2} + \\frac{5}{8} = \\frac{4}{8} + \\frac{5}{8} = \\frac{9}{8}$.
 
 **2.** $1 = \\frac{8}{8}$ et $9 > 8$ : oui, $\\frac{9}{8} > 1$ (on a $\\frac{9}{8} = 1 + \\frac{1}{8}$).
 
-**3.** a) Ligne du milieu : $\\frac{1}{4} + \\square$ et $\\square + \\frac{1}{2}$. Le sommet est leur somme : $\\frac{1}{4} + \\square + \\square + \\frac{1}{2}$ ; la case du milieu est comptée deux fois, d'où $\\frac{1}{4} + \\frac{1}{2} + 2 \\times \\square$.
-b) $\\frac{1}{4} + \\frac{1}{2} = \\frac{1}{4} + \\frac{2}{4} = \\frac{3}{4}$. Il faut donc $\\frac{3}{4} + 2 \\times \\square = 3$, c'est-à-dire $2 \\times \\square = 3 - \\frac{3}{4} = \\frac{12}{4} - \\frac{3}{4} = \\frac{9}{4}$.
-Or $2 \\times \\frac{9}{8} = \\frac{18}{8} = \\frac{9}{4}$ : la case manquante vaut $\\frac{9}{8}$.
-Vérification : ligne du milieu $\\frac{1}{4} + \\frac{9}{8} = \\frac{2}{8} + \\frac{9}{8} = \\frac{11}{8}$ et $\\frac{9}{8} + \\frac{1}{2} = \\frac{9}{8} + \\frac{4}{8} = \\frac{13}{8}$ ; sommet $\\frac{11}{8} + \\frac{13}{8} = \\frac{24}{8} = 3$.`
+**3.** a) La case $\\frac{7}{8}$ est située au-dessus des cases $\\frac{1}{4}$ et $\\square$ : elle est égale à leur somme, donc $\\frac{1}{4} + \\square = \\frac{7}{8}$.
+On cherche ce qu'il faut ajouter à $\\frac{1}{4} = \\frac{2}{8}$ pour obtenir $\\frac{7}{8}$ : $\\square = \\frac{7}{8} - \\frac{2}{8} = \\frac{5}{8}$.
+b) Case de droite de la ligne du milieu : $\\frac{5}{8} + \\frac{1}{2} = \\frac{5}{8} + \\frac{4}{8} = \\frac{9}{8}$.
+Sommet : $\\frac{7}{8} + \\frac{9}{8} = \\frac{16}{8} = 2$.`
     },
     {
       id: "6N7-ds-12",
       title: "Remonter au tout",
       difficulty: 4,
       points: 6,
-      statement: `Dans chaque situation, on connaît une partie et la fraction qu'elle représente ; on cherche le tout. On pourra s'aider d'un schéma en barres.
+      statement: `Dans chaque situation, on connaît une partie et la fraction qu'elle représente ; on cherche le tout. On s'aide d'un schéma en barres : la barre entière représente le tout, partagé en parts égales.
 
 1. Mathis a dépensé $\\frac{3}{8}$ de son argent de poche, soit $15$ €.
-   a) Combien représente $\\frac{1}{8}$ de son argent ?
+
+<div class="geo-figure-wrapper" style="text-align:center; margin:0.8rem auto; max-width:360px;"><svg class="geo-svg-figure" viewBox="0 0 340 100" width="340" height="100" style="width:100%; height:auto; color:var(--text-main, #334155);" xmlns="http://www.w3.org/2000/svg" role="img"><rect x="10.0" y="30" width="40.0" height="30" fill="rgba(59,130,246,0.35)" stroke="currentColor" stroke-width="1.5"/><rect x="50.0" y="30" width="40.0" height="30" fill="rgba(59,130,246,0.35)" stroke="currentColor" stroke-width="1.5"/><rect x="90.0" y="30" width="40.0" height="30" fill="rgba(59,130,246,0.35)" stroke="currentColor" stroke-width="1.5"/><rect x="130.0" y="30" width="40.0" height="30" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="170.0" y="30" width="40.0" height="30" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="210.0" y="30" width="40.0" height="30" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="250.0" y="30" width="40.0" height="30" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="290.0" y="30" width="40.0" height="30" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10.0,26 L10.0,20 L130.0,20 L130.0,26" fill="none" stroke="#2563eb" stroke-width="1.5"/><text x="70.0" y="16" text-anchor="middle" font-size="14" font-weight="bold" fill="#2563eb">15 €</text><path d="M10,64 L10,70 L330,70 L330,64" fill="none" stroke="currentColor" stroke-width="1.5"/><text x="170" y="88" text-anchor="middle" font-size="14" fill="currentColor">argent de départ : ?</text></svg></div>
+
+   a) Combien vaut une part du schéma, c'est-à-dire $\\frac{1}{8}$ de son argent ?
    b) Combien avait-il au départ ? Combien lui reste-t-il ?
-2. Dans un bus, $\\frac{2}{7}$ des places sont libres, ce qui fait $16$ places libres. Combien le bus compte-t-il de places en tout ? Combien sont occupées ?
-3. Après avoir lu $\\frac{5}{12}$ d'un roman, Inès constate qu'il lui reste $210$ pages à lire. Combien de pages compte ce roman ?
-4. Vérifier le résultat de la question 3 en calculant $\\frac{5}{12}$ du nombre de pages trouvé.`,
+2. Dans un bus, $\\frac{2}{7}$ des places sont libres, ce qui fait $16$ places libres.
+   a) Dessiner un schéma en barres de $7$ parts et colorier les places libres.
+   b) Combien de places représente une part ? Combien le bus compte-t-il de places en tout ? Combien sont occupées ?
+3. Inès a lu $\\frac{5}{12}$ d'un roman. Il lui reste $210$ pages à lire. Sur le schéma, les $5$ parts blanches représentent les pages lues.
+
+<div class="geo-figure-wrapper" style="text-align:center; margin:0.8rem auto; max-width:360px;"><svg class="geo-svg-figure" viewBox="0 0 340 100" width="340" height="100" style="width:100%; height:auto; color:var(--text-main, #334155);" xmlns="http://www.w3.org/2000/svg" role="img"><rect x="10.0" y="30" width="26.7" height="30" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="36.7" y="30" width="26.7" height="30" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="63.3" y="30" width="26.7" height="30" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="90.0" y="30" width="26.7" height="30" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="116.7" y="30" width="26.7" height="30" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="143.3" y="30" width="26.7" height="30" fill="rgba(59,130,246,0.35)" stroke="currentColor" stroke-width="1.5"/><rect x="170.0" y="30" width="26.7" height="30" fill="rgba(59,130,246,0.35)" stroke="currentColor" stroke-width="1.5"/><rect x="196.7" y="30" width="26.7" height="30" fill="rgba(59,130,246,0.35)" stroke="currentColor" stroke-width="1.5"/><rect x="223.3" y="30" width="26.7" height="30" fill="rgba(59,130,246,0.35)" stroke="currentColor" stroke-width="1.5"/><rect x="250.0" y="30" width="26.7" height="30" fill="rgba(59,130,246,0.35)" stroke="currentColor" stroke-width="1.5"/><rect x="276.7" y="30" width="26.7" height="30" fill="rgba(59,130,246,0.35)" stroke="currentColor" stroke-width="1.5"/><rect x="303.3" y="30" width="26.7" height="30" fill="rgba(59,130,246,0.35)" stroke="currentColor" stroke-width="1.5"/><path d="M143.3,26 L143.3,20 L330.0,20 L330.0,26" fill="none" stroke="#2563eb" stroke-width="1.5"/><text x="236.7" y="16" text-anchor="middle" font-size="14" font-weight="bold" fill="#2563eb">210 pages restantes</text><path d="M10,64 L10,70 L330,70 L330,64" fill="none" stroke="currentColor" stroke-width="1.5"/><text x="170" y="88" text-anchor="middle" font-size="14" fill="currentColor">roman entier : ?</text></svg></div>
+
+   a) Quelle fraction du roman lui reste-t-il à lire ? Combien de parts du schéma cela représente-t-il ?
+   b) Combien de pages représente une part ? Combien de pages compte le roman ?
+   c) Vérifier en calculant $\\frac{5}{12}$ du nombre de pages trouvé.`,
       solution: `**1.** a) $\\frac{3}{8}$ correspond à $3$ parts égales qui valent $15$ € en tout : une part, $\\frac{1}{8}$, vaut $15 \\div 3 = 5$ €.
-b) Le tout correspond à $8$ parts : $8 \\times 5 = 40$ €. Il lui reste $40 - 15 = 25$ € (soit $\\frac{5}{8}$ de son argent : $5 \\times 5 = 25$).
+b) Le tout correspond à $8$ parts : $8 \\times 5 = 40$ €. Il lui reste $40 - 15 = 25$ € (soit les $5$ parts non coloriées : $5 \\times 5 = 25$ €).
 
-**2.** $\\frac{2}{7}$ correspond à $16$ places, donc $\\frac{1}{7}$ correspond à $16 \\div 2 = 8$ places. Le bus compte $7 \\times 8 = 56$ places, dont $56 - 16 = 40$ occupées.
+**2.** a) On dessine une barre partagée en $7$ parts égales et on en colorie $2$, qui représentent les $16$ places libres.
+b) Une part représente $16 \\div 2 = 8$ places. Le bus compte $7 \\times 8 = 56$ places, dont $56 - 16 = 40$ occupées.
 
-**3.** Inès a lu $\\frac{5}{12}$ du roman : il lui reste $\\frac{12}{12} - \\frac{5}{12} = \\frac{7}{12}$ du roman, soit $210$ pages.
-$\\frac{1}{12}$ du roman fait donc $210 \\div 7 = 30$ pages, et le roman compte $12 \\times 30 = 360$ pages.
+**3.** a) Il lui reste $\\frac{12}{12} - \\frac{5}{12} = \\frac{7}{12}$ du roman, c'est-à-dire les $7$ parts coloriées.
+b) Ces $7$ parts représentent $210$ pages : une part représente $210 \\div 7 = 30$ pages. Le roman compte $12 \\times 30 = 360$ pages.
+c) $\\frac{5}{12}$ de $360$ : $360 \\div 12 \\times 5 = 30 \\times 5 = 150$ pages lues. Et $360 - 150 = 210$ pages restantes : le résultat est cohérent.`
+    },
+    {
+      id: "6N7-ds-13",
+      title: "La course de relais",
+      difficulty: 1,
+      points: 4,
+      statement: `Trois coureurs se relaient sur une course de $1\\,800$ m :
+- Nora court les $\\frac{2}{9}$ de la course ;
+- Bilal court les $\\frac{4}{9}$ de la course ;
+- Jade court le reste.
 
-**4.** $\\frac{5}{12}$ de $360$ : $360 \\div 12 \\times 5 = 30 \\times 5 = 150$ pages lues. Et $360 - 150 = 210$ pages restantes : le résultat est cohérent.`
+1. Quelle fraction de la course Nora et Bilal ont-ils parcourue à eux deux ?
+2. Quelle fraction de la course Jade court-elle ?
+3. Calculer la distance, en mètres, parcourue par chacun des trois coureurs.
+4. Vérifier que la somme des trois distances est bien égale à $1\\,800$ m.`,
+      solution: `**1.** Les fractions ont le même dénominateur : $\\frac{2}{9} + \\frac{4}{9} = \\frac{6}{9}$.
+Nora et Bilal ont parcouru les $\\frac{6}{9}$ de la course (on peut aussi écrire $\\frac{2}{3}$).
+
+**2.** La course entière correspond à $\\frac{9}{9}$ : Jade court $\\frac{9}{9} - \\frac{6}{9} = \\frac{3}{9}$ de la course (soit $\\frac{1}{3}$).
+
+**3.** $\\frac{1}{9}$ de $1\\,800$ m, c'est $1\\,800 \\div 9 = 200$ m. Donc :
+- Nora : $2 \\times 200 = 400$ m ;
+- Bilal : $4 \\times 200 = 800$ m ;
+- Jade : $3 \\times 200 = 600$ m.
+
+**4.** $400 + 800 + 600 = 1\\,800$ m : le compte est bon.`
+    },
+    {
+      id: "6N7-ds-14",
+      title: "Les livres de la bibliothèque",
+      difficulty: 2,
+      points: 5,
+      statement: `La bibliothèque d'un collège compte $600$ livres :
+- $\\frac{2}{5}$ des livres sont des romans ;
+- $\\frac{3}{10}$ des livres sont des bandes dessinées ;
+- les autres livres sont des documentaires.
+
+1. Écrire $\\frac{2}{5}$ sous la forme d'une fraction de dénominateur $10$.
+2. Quelle fraction des livres représentent les romans et les bandes dessinées ensemble ?
+3. Quelle fraction des livres représentent les documentaires ?
+4. Calculer le nombre de romans, de bandes dessinées et de documentaires.
+5. Y a-t-il plus de bandes dessinées ou de documentaires ? Justifier de deux façons.`,
+      solution: `**1.** $\\frac{2}{5} = \\frac{2 \\times 2}{5 \\times 2} = \\frac{4}{10}$.
+
+**2.** $\\frac{4}{10} + \\frac{3}{10} = \\frac{7}{10}$ : romans et bandes dessinées représentent $\\frac{7}{10}$ des livres.
+
+**3.** $\\frac{10}{10} - \\frac{7}{10} = \\frac{3}{10}$ : les documentaires représentent $\\frac{3}{10}$ des livres.
+
+**4.** $\\frac{1}{10}$ de $600$, c'est $600 \\div 10 = 60$ livres. Donc :
+- romans : $\\frac{4}{10}$ de $600$, soit $4 \\times 60 = 240$ livres ;
+- bandes dessinées : $3 \\times 60 = 180$ livres ;
+- documentaires : $3 \\times 60 = 180$ livres.
+(Vérification : $240 + 180 + 180 = 600$.)
+
+**5.** Il y en a autant :
+- avec les fractions : les deux catégories représentent $\\frac{3}{10}$ des livres ;
+- avec les nombres : $180$ bandes dessinées et $180$ documentaires.`
+    },
+    {
+      id: "6N7-ds-15",
+      title: "Les morceaux de ruban",
+      difficulty: 3,
+      points: 5,
+      statement: `Une couturière possède un ruban de $3$ m. Elle y découpe $5$ morceaux qui mesurent chacun $\\frac{3}{8}$ m.
+
+1. Calculer, sous forme de fraction, la longueur totale des $5$ morceaux découpés.
+2. Cette longueur est-elle plus grande ou plus petite que $2$ m ? Justifier.
+3. Écrire $3$ sous la forme d'une fraction de dénominateur $8$, puis calculer la longueur de ruban qui reste.
+4. Combien de morceaux de $\\frac{3}{8}$ m peut-elle encore découper dans ce qui reste ? Reste-t-il alors du ruban ?
+5. Donner la longueur d'un morceau en écriture décimale, en mètres, puis en centimètres.`,
+      solution: `**1.** $5 \\times \\frac{3}{8} = \\frac{5 \\times 3}{8} = \\frac{15}{8}$ m.
+
+**2.** $2 = \\frac{16}{8}$ et $15 < 16$, donc $\\frac{15}{8} < 2$ : la longueur découpée est plus petite que $2$ m.
+
+**3.** $3 = \\frac{24}{8}$. Il reste $\\frac{24}{8} - \\frac{15}{8} = \\frac{9}{8}$ m de ruban.
+
+**4.** Un morceau mesure $\\frac{3}{8}$ m et il reste $\\frac{9}{8}$ m, soit $9$ huitièmes de mètre. Comme $9 = 3 \\times 3$, elle peut découper exactement $3$ morceaux de plus : $3 \\times \\frac{3}{8} = \\frac{9}{8}$.
+Il ne reste alors plus de ruban (elle aura découpé $5 + 3 = 8$ morceaux en tout, et $8 \\times \\frac{3}{8} = \\frac{24}{8} = 3$ m).
+
+**5.** $\\frac{3}{8} = 3 \\div 8 = 0{,}375$ m, soit $0{,}375 \\times 100 = 37{,}5$ cm.`
+    },
+    {
+      id: "6N7-ds-16",
+      title: "Le jeu des cartes-fractions",
+      difficulty: 4,
+      points: 6,
+      statement: `Dans un jeu, on dispose de cinq cartes portant les fractions suivantes :
+$$\\frac{1}{2} \\qquad \\frac{1}{4} \\qquad \\frac{3}{8} \\qquad \\frac{5}{8} \\qquad \\frac{1}{8}$$
+Le but est de choisir des cartes dont la somme est égale à un nombre cible.
+
+1. Écrire chacune des cinq fractions avec le dénominateur $8$.
+2. Calculer $\\frac{1}{2} + \\frac{3}{8}$.
+3. La cible est $1$.
+   a) Trouver deux cartes dont la somme est égale à $1$.
+   b) Trouver deux façons différentes de choisir trois cartes dont la somme est égale à $1$.
+4. La cible est $2$. Peut-on l'atteindre en utilisant les cinq cartes ? Justifier.
+5. Quelle carte faudrait-il ajouter au jeu pour que la somme des six cartes soit égale à $2$ ?`,
+      solution: `**1.** $\\frac{1}{2} = \\frac{4}{8}$ ; $\\quad \\frac{1}{4} = \\frac{2}{8}$ ; $\\quad \\frac{3}{8}$, $\\frac{5}{8}$ et $\\frac{1}{8}$ ont déjà le dénominateur $8$.
+
+**2.** $\\frac{1}{2} + \\frac{3}{8} = \\frac{4}{8} + \\frac{3}{8} = \\frac{7}{8}$.
+
+**3.** En huitièmes, il faut obtenir $1 = \\frac{8}{8}$, donc des numérateurs dont la somme vaut $8$ (les numérateurs disponibles sont $4$, $2$, $3$, $5$ et $1$).
+a) $3 + 5 = 8$ : $\\frac{3}{8} + \\frac{5}{8} = \\frac{8}{8} = 1$.
+b) $4 + 3 + 1 = 8$ : $\\frac{1}{2} + \\frac{3}{8} + \\frac{1}{8} = 1$ ;
+$\\quad 2 + 5 + 1 = 8$ : $\\frac{1}{4} + \\frac{5}{8} + \\frac{1}{8} = 1$.
+
+**4.** Somme des cinq cartes : $\\frac{4}{8} + \\frac{2}{8} + \\frac{3}{8} + \\frac{5}{8} + \\frac{1}{8} = \\frac{15}{8}$.
+Or $2 = \\frac{16}{8}$ et $\\frac{15}{8} < \\frac{16}{8}$ : même avec toutes les cartes, on n'atteint pas $2$. La cible $2$ est impossible.
+
+**5.** Il manque $\\frac{16}{8} - \\frac{15}{8} = \\frac{1}{8}$ : il faudrait ajouter une deuxième carte $\\frac{1}{8}$.`
     }
   ]
 });
@@ -2223,28 +3034,145 @@ L'écart ne change pas : les deux frères vieillissent en même temps, Tom aura 
       title: "Des escaliers de carrés",
       difficulty: 4,
       points: 6,
-      statement: `On construit des escaliers avec des carrés identiques :
-- étape 1 : une colonne de $1$ carré ;
-- étape 2 : une colonne de $1$ carré et une colonne de $2$ carrés, soit $3$ carrés ;
-- étape 3 : des colonnes de $1$, $2$ et $3$ carrés, soit $6$ carrés ;
-- et ainsi de suite : à chaque étape, on ajoute à droite une colonne qui a un carré de plus que la précédente.
+      statement: `On construit des escaliers avec des carrés identiques. À chaque étape, on ajoute à droite une colonne qui a un carré de plus que la précédente.
 
-1. Combien de carrés faut-il pour les étapes $4$, $5$ et $6$ ? Comment passe-t-on d'une étape à la suivante ?
-2. Le nombre de carrés augmente-t-il toujours de la même quantité d'une étape à l'autre ? En quoi cette suite est-elle différente de celle d'une rangée de carrés en allumettes ?
-3. On place deux escaliers identiques de l'étape $4$ l'un contre l'autre, le second étant retourné : on obtient un rectangle de $4$ carrés sur $5$ carrés. En déduire le nombre de carrés de l'escalier de l'étape $4$, et vérifier avec la question 1.
-4. En utilisant la même idée, calculer le nombre de carrés de l'escalier de l'étape $20$.
-5. Lina a $78$ carrés. Peut-elle construire un escalier complet en les utilisant tous ? Si oui, de quelle étape ?`,
-      solution: `**1.** On ajoute une colonne de $4$, puis $5$, puis $6$ carrés : étape 4 : $6 + 4 = 10$ ; étape 5 : $10 + 5 = 15$ ; étape 6 : $15 + 6 = 21$ carrés.
-Pour passer d'une étape à la suivante, on ajoute le numéro de la nouvelle étape.
+<div class="geo-figure-wrapper" style="text-align:center; margin:0.8rem auto; max-width:360px;"><svg class="geo-svg-figure" viewBox="0 0 320 110" width="320" height="110" style="width:100%; height:auto; color:var(--text-main, #334155);" xmlns="http://www.w3.org/2000/svg" role="img"><rect x="30" y="62" width="18" height="18" fill="rgba(59,130,246,0.15)" stroke="currentColor" stroke-width="1.5"/><text x="39" y="102" text-anchor="middle" font-size="14" fill="currentColor">Étape 1</text><rect x="100" y="62" width="18" height="18" fill="rgba(59,130,246,0.15)" stroke="currentColor" stroke-width="1.5"/><rect x="118" y="62" width="18" height="18" fill="rgba(59,130,246,0.15)" stroke="currentColor" stroke-width="1.5"/><rect x="118" y="44" width="18" height="18" fill="rgba(59,130,246,0.15)" stroke="currentColor" stroke-width="1.5"/><text x="118" y="102" text-anchor="middle" font-size="14" fill="currentColor">Étape 2</text><rect x="200" y="62" width="18" height="18" fill="rgba(59,130,246,0.15)" stroke="currentColor" stroke-width="1.5"/><rect x="218" y="62" width="18" height="18" fill="rgba(59,130,246,0.15)" stroke="currentColor" stroke-width="1.5"/><rect x="218" y="44" width="18" height="18" fill="rgba(59,130,246,0.15)" stroke="currentColor" stroke-width="1.5"/><rect x="236" y="62" width="18" height="18" fill="rgba(59,130,246,0.15)" stroke="currentColor" stroke-width="1.5"/><rect x="236" y="44" width="18" height="18" fill="rgba(59,130,246,0.15)" stroke="currentColor" stroke-width="1.5"/><rect x="236" y="26" width="18" height="18" fill="rgba(59,130,246,0.15)" stroke="currentColor" stroke-width="1.5"/><text x="227" y="102" text-anchor="middle" font-size="14" fill="currentColor">Étape 3</text></svg></div>
 
-**2.** Non : on ajoute $2$, puis $3$, puis $4$, puis $5$… La quantité ajoutée augmente de $1$ à chaque étape. Pour une rangée de carrés en allumettes, on ajoute toujours le même nombre d'allumettes à chaque étape.
+1. Combien de carrés y a-t-il aux étapes $1$, $2$ et $3$ ? Calculer le nombre de carrés des étapes $4$, $5$ et $6$.
+2. Combien de carrés ajoute-t-on pour passer de l'étape $3$ à l'étape $4$ ? de l'étape $4$ à l'étape $5$ ? Ajoute-t-on toujours le même nombre de carrés ?
+3. On place deux escaliers identiques de l'étape $4$ l'un contre l'autre, le second étant retourné : on obtient un rectangle de $4$ carrés de large et $5$ carrés de haut.
+   a) Combien de carrés contient ce rectangle ?
+   b) En déduire le nombre de carrés de l'escalier de l'étape $4$, et vérifier avec la question 1.
+4. On fait de même avec deux escaliers de l'étape $20$ : on obtient un rectangle de $20$ carrés de large et $21$ carrés de haut. Combien de carrés contient l'escalier de l'étape $20$ ?
+5. Lina a $78$ carrés. En continuant le calcul de la question 1 étape par étape, dire si elle peut construire un escalier complet en les utilisant tous. Si oui, de quelle étape ?`,
+      solution: `**1.** Étape 1 : $1$ carré ; étape 2 : $1 + 2 = 3$ carrés ; étape 3 : $3 + 3 = 6$ carrés.
+On ajoute une colonne de $4$, puis $5$, puis $6$ carrés : étape 4 : $6 + 4 = 10$ ; étape 5 : $10 + 5 = 15$ ; étape 6 : $15 + 6 = 21$ carrés.
 
-**3.** Le rectangle contient $4 \\times 5 = 20$ carrés ; il est formé de deux escaliers identiques, donc un escalier en contient $20 \\div 2 = 10$. C'est bien le résultat de la question 1.
+**2.** De l'étape $3$ à l'étape $4$, on ajoute $4$ carrés ; de l'étape $4$ à l'étape $5$, on en ajoute $5$. Non, on n'ajoute pas toujours le même nombre : on ajoute le numéro de la nouvelle étape, qui augmente de $1$ à chaque fois.
 
-**4.** Deux escaliers de l'étape $20$ forment un rectangle de $20$ carrés sur $21$ carrés : $20 \\times 21 = 420$ carrés. L'escalier en compte $420 \\div 2 = 210$.
+**3.** a) Le rectangle contient $4 \\times 5 = 20$ carrés.
+b) Il est formé de deux escaliers identiques, donc un escalier en contient $20 \\div 2 = 10$. C'est bien le résultat de la question 1.
 
-**5.** On cherche une étape dont le nombre de carrés vaut $78$, c'est-à-dire telle que (numéro de l'étape) $\\times$ (numéro $+ 1$) $= 2 \\times 78 = 156$. Or $12 \\times 13 = 156$ : l'escalier de l'**étape $12$** utilise exactement $78$ carrés.
-(On peut aussi continuer la liste : $21$ ; $28$ ; $36$ ; $45$ ; $55$ ; $66$ ; $78$, obtenu à l'étape $12$.)`
+**4.** Le rectangle contient $20 \\times 21 = 420$ carrés ; l'escalier de l'étape $20$ en compte $420 \\div 2 = 210$.
+
+**5.** On continue en ajoutant à chaque fois le numéro de l'étape : étape 7 : $21 + 7 = 28$ ; étape 8 : $28 + 8 = 36$ ; étape 9 : $36 + 9 = 45$ ; étape 10 : $45 + 10 = 55$ ; étape 11 : $55 + 11 = 66$ ; étape 12 : $66 + 12 = 78$.
+**Oui** : l'escalier de l'**étape $12$** utilise exactement $78$ carrés.
+(Vérification avec la méthode du rectangle : $12 \\times 13 = 156$ et $156 \\div 2 = 78$.)`
+    },
+    {
+      id: "6N8-ds-13",
+      title: "Devinettes de nombres",
+      difficulty: 1,
+      points: 4,
+      statement: `Pour chaque devinette, trouver le nombre auquel on a pensé. Écrire d'abord une égalité à trou avec un carré $\\square$, puis le calcul qui permet de trouver le nombre, et enfin vérifier.
+
+1. « Je pense à un nombre. Je lui ajoute $15$ et j'obtiens $42$. »
+2. « Je pense à un nombre. Je le multiplie par $8$ et j'obtiens $72$. »
+3. « Je pense à un nombre. Je lui enlève $3{,}5$ et j'obtiens $6$. »
+4. « Je pense à un nombre. Je le divise par $4$ et j'obtiens $2{,}5$. »`,
+      solution: `**1.** $\\square + 15 = 42$. Pour trouver le nombre, on fait l'opération inverse : $42 - 15 = 27$.
+Vérification : $27 + 15 = 42$. Le nombre est **$27$**.
+
+**2.** $\\square \\times 8 = 72$. On divise : $72 \\div 8 = 9$.
+Vérification : $9 \\times 8 = 72$. Le nombre est **$9$**.
+
+**3.** $\\square - 3{,}5 = 6$. On ajoute : $6 + 3{,}5 = 9{,}5$.
+Vérification : $9{,}5 - 3{,}5 = 6$. Le nombre est **$9{,}5$**.
+
+**4.** $\\square \\div 4 = 2{,}5$. On multiplie : $2{,}5 \\times 4 = 10$.
+Vérification : $10 \\div 4 = 2{,}5$. Le nombre est **$10$**.`
+    },
+    {
+      id: "6N8-ds-14",
+      title: "Le bracelet de perles",
+      difficulty: 2,
+      points: 5,
+      statement: `Inès enfile des perles sur un fil en répétant toujours le même motif : $2$ perles rouges, puis $3$ perles bleues, puis de nouveau $2$ rouges, $3$ bleues, etc.
+
+Le début du bracelet est donc : R R B B B R R B B B R R …
+
+1. Combien de perles comporte un motif complet ?
+2. De quelle couleur est la $13$e perle ? Justifier.
+3. Combien y a-t-il de perles bleues parmi les $20$ premières perles ?
+4. De quelle couleur est la $47$e perle ? Expliquer la méthode sans écrire les $47$ perles.
+5. Le bracelet terminé compte $50$ perles. Combien de perles bleues faut-il prévoir ?`,
+      solution: `**1.** Un motif comporte $2 + 3 = 5$ perles.
+
+**2.** Les $10$ premières perles forment $2$ motifs complets. La $13$e perle est la $3$e perle du motif suivant (car $13 = 10 + 3$) : c'est une perle **bleue** (les perles $1$ et $2$ d'un motif sont rouges, les perles $3$, $4$ et $5$ sont bleues).
+
+**3.** $20 = 4 \\times 5$ : les $20$ premières perles forment $4$ motifs complets, avec $3$ perles bleues chacun, soit $4 \\times 3 = 12$ perles bleues.
+
+**4.** On cherche combien de motifs complets tiennent dans $47$ perles : $47 = 9 \\times 5 + 2$. Après $9$ motifs ($45$ perles), la $47$e perle est la $2$e perle du motif suivant : elle est **rouge**.
+
+**5.** $50 = 10 \\times 5$ : il y a $10$ motifs complets, donc $10 \\times 3 = 30$ perles bleues.`
+    },
+    {
+      id: "6N8-ds-15",
+      title: "Remonter un programme de calcul",
+      difficulty: 3,
+      points: 5,
+      statement: `Voici un programme de calcul :
+- Choisir un nombre.
+- Le multiplier par $4$.
+- Soustraire $3$ au résultat.
+- Multiplier le tout par $2$.
+
+1. Montrer que si l'on choisit $5$, on obtient $34$.
+2. Quel résultat obtient-on si l'on choisit $2{,}5$ ?
+3. Léo a obtenu $50$. Quel nombre a-t-il choisi ? Expliquer la méthode en « remontant » le programme étape par étape, puis vérifier.
+4. Quel nombre faut-il choisir pour obtenir $0$ ?
+5. Compléter l'écriture en une seule ligne de ce programme, où $\\square$ désigne le nombre choisi : $(\\square \\times \\ldots - \\ldots) \\times \\ldots$`,
+      solution: `**1.** $5 \\times 4 = 20$ ; $20 - 3 = 17$ ; $17 \\times 2 = 34$. On obtient bien $34$.
+
+**2.** $2{,}5 \\times 4 = 10$ ; $10 - 3 = 7$ ; $7 \\times 2 = 14$. On obtient $14$.
+
+**3.** On part du résultat et on fait les opérations inverses, dans l'ordre inverse :
+- la dernière étape est « multiplier par $2$ » : avant, on avait $50 \\div 2 = 25$ ;
+- avant « soustraire $3$ », on avait $25 + 3 = 28$ ;
+- avant « multiplier par $4$ », on avait $28 \\div 4 = 7$.
+Léo a choisi **$7$**. Vérification : $7 \\times 4 = 28$ ; $28 - 3 = 25$ ; $25 \\times 2 = 50$.
+
+**4.** Même méthode : $0 \\div 2 = 0$ ; $0 + 3 = 3$ ; $3 \\div 4 = 0{,}75$. Il faut choisir **$0{,}75$**.
+Vérification : $0{,}75 \\times 4 = 3$ ; $3 - 3 = 0$ ; $0 \\times 2 = 0$.
+
+**5.** $(\\square \\times 4 - 3) \\times 2$. Les parenthèses indiquent que la soustraction est effectuée avant la dernière multiplication.`
+    },
+    {
+      id: "6N8-ds-16",
+      title: "Une rue de maisons en allumettes",
+      difficulty: 4,
+      points: 6,
+      statement: `Avec des allumettes, Sami construit des maisons collées les unes aux autres. Chaque maison est un carré surmonté d'un toit triangulaire ; deux maisons voisines partagent un mur.
+
+<div class="geo-figure-wrapper" style="text-align:center; margin:0.8rem auto; max-width:300px;"><svg class="geo-svg-figure" viewBox="0 0 280 130" width="280" height="130" style="width:100%; height:auto; color:var(--text-main, #334155);" xmlns="http://www.w3.org/2000/svg" role="img"><g stroke="#b45309" stroke-width="3" stroke-linecap="round" fill="none"><line x1="20" y1="110" x2="70" y2="110"/><line x1="70" y1="110" x2="120" y2="110"/><line x1="120" y1="110" x2="170" y2="110"/><line x1="20" y1="60" x2="70" y2="60"/><line x1="70" y1="60" x2="120" y2="60"/><line x1="120" y1="60" x2="170" y2="60"/><line x1="20" y1="60" x2="20" y2="110"/><line x1="70" y1="60" x2="70" y2="110"/><line x1="120" y1="60" x2="120" y2="110"/><line x1="170" y1="60" x2="170" y2="110"/><line x1="20" y1="60" x2="45" y2="17"/><line x1="45" y1="17" x2="70" y2="60"/><line x1="70" y1="60" x2="95" y2="17"/><line x1="95" y1="17" x2="120" y2="60"/><line x1="120" y1="60" x2="145" y2="17"/><line x1="145" y1="17" x2="170" y2="60"/></g><text x="225" y="90" text-anchor="middle" font-size="14" fill="currentColor">3 maisons</text></svg></div>
+
+1. Combien faut-il d'allumettes pour $1$ maison ? pour $2$ maisons ? Vérifier sur la figure qu'il en faut $16$ pour $3$ maisons.
+2. Recopier et compléter le tableau :
+
+| Nombre de maisons | $1$ | $2$ | $3$ | $4$ | $5$ | $6$ |
+|:---|:---:|:---:|:---:|:---:|:---:|:---:|
+| Nombre d'allumettes | | | $16$ | | | |
+
+3. De combien augmente le nombre d'allumettes quand on ajoute une maison ? Expliquer pourquoi à l'aide de la figure.
+4. Combien faut-il d'allumettes pour construire $10$ maisons ? Expliquer la méthode par une phrase.
+5. Sami a une boîte de $75$ allumettes. Combien de maisons peut-il construire au maximum ? Lui reste-t-il des allumettes ?`,
+      solution: `**1.** Une maison : $4$ allumettes pour le carré et $2$ pour le toit, soit $6$ allumettes.
+Pour $2$ maisons, le mur du milieu est commun : $6 + 5 = 11$ allumettes.
+Pour $3$ maisons, on compte sur la figure : $3$ allumettes en bas, $3$ en haut des murs, $4$ murs verticaux et $6$ pour les toits : $3 + 3 + 4 + 6 = 16$ allumettes.
+
+**2.**
+
+| Nombre de maisons | $1$ | $2$ | $3$ | $4$ | $5$ | $6$ |
+|:---|:---:|:---:|:---:|:---:|:---:|:---:|
+| Nombre d'allumettes | $6$ | $11$ | $16$ | $21$ | $26$ | $31$ |
+
+**3.** Le nombre d'allumettes augmente de $5$ à chaque nouvelle maison : la nouvelle maison réutilise le mur de sa voisine, il faut seulement $1$ allumette en bas, $1$ en haut, $1$ mur et $2$ pour le toit.
+
+**4.** On compte $1$ allumette pour le tout premier mur, puis $5$ allumettes par maison. Pour $10$ maisons : $1 + 10 \\times 5 = 51$ allumettes.
+(On peut aussi poursuivre le tableau de $5$ en $5$ : $31$, $36$, $41$, $46$, $51$.)
+
+**5.** On enlève le premier mur : $75 - 1 = 74$ allumettes pour les maisons, à raison de $5$ par maison. $74 = 14 \\times 5 + 4$.
+Sami peut construire **$14$ maisons** au maximum, avec $1 + 14 \\times 5 = 71$ allumettes. Il lui reste $75 - 71 = 4$ allumettes, ce qui ne suffit pas pour une $15$e maison.`
     }
   ],
   "6P1": [
@@ -2485,15 +3413,17 @@ Prix payé : $49{,}80 - 9{,}96 = 39{,}84$. Mathis paiera $39{,}84$ €.`
 1. Quelle masse de sucres contient le paquet entier ?
 2. Quelle masse de fibres contient le paquet entier ?
 3. Le matin, Inès mange un bol de $40$ g de ces céréales. Quelle masse de sucres avale-t-elle ?
-4. Un autre paquet de $750$ g contient $120$ g de sucres. Quel pourcentage de sucres contient-il ? Lequel des deux paquets est le plus sucré ?`,
+4. Un autre paquet, de $200$ g, contient $30$ g de sucres.
+   a) Quelle masse de sucres y a-t-il dans $100$ g de ces céréales ?
+   b) En déduire le pourcentage de sucres de ce paquet. Lequel des deux paquets est le plus sucré ?`,
       solution: `**1.** $20\\,\\%$ de $500$ g : $\\frac{20}{100} \\times 500 = \\frac{10\\,000}{100} = 100$ g de sucres.
 
 **2.** $8\\,\\%$ de $500$ g : $\\frac{8}{100} \\times 500 = \\frac{4\\,000}{100} = 40$ g de fibres.
 
 **3.** $20\\,\\%$ de $40$ g : $\\frac{20}{100} \\times 40 = \\frac{800}{100} = 8$ g. Inès avale $8$ g de sucres.
 
-**4.** La masse de sucres est proportionnelle à la masse de céréales. Pour $750$ g, il y a $120$ g de sucres ; pour $250$ g ($3$ fois moins), il y en a $120 \\div 3 = 40$ g ; pour $50$ g ($5$ fois moins), $40 \\div 5 = 8$ g ; donc pour $100$ g (le double), $2 \\times 8 = 16$ g.
-Ce paquet contient $16\\,\\%$ de sucres. Comme $16\\,\\% < 20\\,\\%$, c'est le **premier paquet** qui est le plus sucré.`
+**4.** a) La masse de sucres est proportionnelle à la masse de céréales. $100$ g, c'est $2$ fois moins que $200$ g : il y a $30 \\div 2 = 15$ g de sucres dans $100$ g de céréales.
+b) $15$ g pour $100$ g, c'est $15\\,\\%$ de sucres. Comme $15\\,\\% < 20\\,\\%$, c'est le **premier paquet** qui est le plus sucré.`
     },
     {
       id: "6P1-ds-11",
@@ -2519,21 +3449,144 @@ Ce paquet contient $16\\,\\%$ de sucres. Comme $16\\,\\% < 20\\,\\%$, c'est le *
       title: "Le sirop de menthe",
       difficulty: 4,
       points: 6,
-      statement: `Léa prépare ses verres de menthe à l'eau avec $3$ cL de sirop et $21$ cL d'eau. Hugo prépare les siens avec $4$ cL de sirop et $26$ cL d'eau.
+      statement: `Léa prépare ses verres de menthe à l'eau avec $3$ cL de sirop et $21$ cL d'eau. Hugo prépare sa gourde avec $6$ cL de sirop et $36$ cL d'eau.
 
-1. Quelle est la contenance d'un verre de Léa ? D'un verre de Hugo ?
-2. Pour chacun, calculer la quantité d'eau utilisée pour $1$ cL de sirop. Qui obtient la boisson la plus forte en goût de menthe ? Justifier.
-3. Pour une fête, Léa veut préparer $4{,}8$ L de boisson avec sa recette. Quelles quantités de sirop et d'eau doit-elle utiliser ?
-4. Une bouteille contient $75$ cL de sirop. Combien de verres peut-on préparer avec la recette de Léa ? Avec celle de Hugo ? Dans le cas de Hugo, que reste-t-il de sirop ?`,
-      solution: `**1.** Verre de Léa : $3 + 21 = 24$ cL. Verre de Hugo : $4 + 26 = 30$ cL.
+1. Quelle est la contenance d'un verre de Léa ? D'une gourde de Hugo ?
+2. On veut savoir quelle boisson a le goût de menthe le plus fort.
+   a) Si Léa utilise $6$ cL de sirop (le double), quelle quantité d'eau doit-elle ajouter pour garder le même goût ?
+   b) Pour $6$ cL de sirop, qui met le plus d'eau : Léa ou Hugo ?
+   c) En déduire qui obtient la boisson la plus forte en goût de menthe.
+3. Pour une fête, Léa veut préparer $4{,}8$ L de boisson avec sa recette.
+   a) Convertir $4{,}8$ L en cL. Combien de verres de Léa cela représente-t-il ?
+   b) Quelles quantités de sirop et d'eau doit-elle utiliser ?
+4. Une bouteille contient $75$ cL de sirop. Combien de verres peut-on préparer avec la recette de Léa ? Combien de gourdes avec celle de Hugo ? Dans le cas de Hugo, que reste-t-il de sirop ?`,
+      solution: `**1.** Verre de Léa : $3 + 21 = 24$ cL. Gourde de Hugo : $6 + 36 = 42$ cL.
 
-**2.** Léa : $21 \\div 3 = 7$ cL d'eau pour $1$ cL de sirop. Hugo : $26 \\div 4 = 6{,}5$ cL d'eau pour $1$ cL de sirop.
-Hugo met moins d'eau pour la même quantité de sirop : sa boisson est **plus forte** en goût de menthe.
+**2.** a) Pour garder le même goût, les quantités doivent rester proportionnelles : deux fois plus de sirop, donc deux fois plus d'eau, soit $2 \\times 21 = 42$ cL d'eau.
+b) Pour $6$ cL de sirop, Léa met $42$ cL d'eau et Hugo $36$ cL : **Léa met le plus d'eau**.
+c) Pour la même quantité de sirop, Hugo met moins d'eau : sa boisson est **plus forte** en goût de menthe.
 
-**3.** $4{,}8$ L $= 480$ cL et $480 \\div 24 = 20$ : cela correspond à $20$ verres de Léa. Les quantités sont proportionnelles, donc il faut $20 \\times 3 = 60$ cL de sirop et $20 \\times 21 = 420$ cL d'eau (vérification : $60 + 420 = 480$ cL).
+**3.** a) $4{,}8$ L $= 480$ cL et $480 \\div 24 = 20$ : cela correspond à $20$ verres de Léa.
+b) Il faut $20 \\times 3 = 60$ cL de sirop et $20 \\times 21 = 420$ cL d'eau (vérification : $60 + 420 = 480$ cL).
 
 **4.** Recette de Léa : $75 \\div 3 = 25$, on prépare $25$ verres.
-Recette de Hugo : $75 = 4 \\times 18 + 3$, on prépare $18$ verres et il reste $3$ cL de sirop (pas assez pour un verre de plus).`
+Recette de Hugo : $75 = 6 \\times 12 + 3$, on prépare $12$ gourdes et il reste $3$ cL de sirop (pas assez pour une gourde de plus).`
+    },
+    {
+      id: "6P1-ds-13",
+      title: "Le tissu au mètre",
+      difficulty: 1,
+      points: 4,
+      statement: `Au rayon couture, $4$ m de tissu coûtent $18$ €. Le prix payé est proportionnel à la longueur de tissu achetée.
+
+1. Recopier et compléter le tableau, en indiquant à chaque fois le calcul effectué :
+
+| Longueur (m) | $4$ | $2$ | $6$ | $10$ | $1$ |
+|:---|:---:|:---:|:---:|:---:|:---:|
+| Prix (€) | $18$ | | | | |
+
+2. Combien coûtent $7$ m de tissu ?
+3. Avec $36$ €, quelle longueur de tissu peut-on acheter ?`,
+      solution: `**1.**
+- $2$ m, c'est la moitié de $4$ m : $18 \\div 2 = 9$ €.
+- $6$ m $= 4$ m $+ 2$ m : $18 + 9 = 27$ €.
+- $10$ m $= 4$ m $+ 6$ m : $18 + 27 = 45$ € (ou $5 \\times 9 = 45$ €, car $10 = 5 \\times 2$).
+- $1$ m, c'est le quart de $4$ m : $18 \\div 4 = 4{,}50$ €.
+
+| Longueur (m) | $4$ | $2$ | $6$ | $10$ | $1$ |
+|:---|:---:|:---:|:---:|:---:|:---:|
+| Prix (€) | $18$ | $9$ | $27$ | $45$ | $4{,}50$ |
+
+**2.** Par retour à l'unité : $7 \\times 4{,}50 = 31{,}50$ €. (Ou : $6$ m $+ 1$ m, soit $27 + 4{,}50 = 31{,}50$ €.)
+
+**3.** $36 = 2 \\times 18$ : on peut acheter $2 \\times 4 = 8$ m de tissu.`
+    },
+    {
+      id: "6P1-ds-14",
+      title: "La balade à vélo",
+      difficulty: 2,
+      points: 5,
+      statement: `Sur une voie verte, Hugo roule à vitesse constante : il parcourt $45$ km en $3$ heures. La distance parcourue est proportionnelle à la durée du trajet.
+
+1. Quelle distance Hugo parcourt-il en $1$ heure ?
+2. Quelle distance parcourt-il en $2$ h $30$ min ?
+3. Combien de temps lui faut-il pour parcourir $60$ km ?
+4. a) Combien de minutes y a-t-il dans $1$ heure ? Quelle fraction d'heure représentent $20$ minutes ?
+   b) En déduire la distance parcourue en $20$ minutes.`,
+      solution: `**1.** En $1$ heure, Hugo parcourt $3$ fois moins de distance qu'en $3$ heures : $45 \\div 3 = 15$ km.
+
+**2.** $2$ h $30$ min, c'est $2$ heures et une demi-heure. En $2$ heures : $2 \\times 15 = 30$ km ; en une demi-heure : $15 \\div 2 = 7{,}5$ km.
+Total : $30 + 7{,}5 = 37{,}5$ km.
+
+**3.** Il parcourt $15$ km par heure, et $60 = 4 \\times 15$ : il lui faut **$4$ heures**.
+
+**4.** a) $1$ h $= 60$ min, et $60 = 3 \\times 20$ : $20$ minutes représentent $\\frac{1}{3}$ d'heure.
+b) En $20$ minutes, il parcourt $3$ fois moins qu'en une heure : $15 \\div 3 = 5$ km.`
+    },
+    {
+      id: "6P1-ds-15",
+      title: "Agrandir un rectangle",
+      difficulty: 3,
+      points: 5,
+      statement: `Lou dessine un rectangle de $4$ cm de longueur et de $2{,}5$ cm de largeur. Elle veut en tracer un agrandissement : toutes les longueurs de l'agrandissement sont proportionnelles à celles du rectangle de départ, et la longueur devient $10$ cm.
+
+1. Par quel nombre faut-il multiplier les longueurs du rectangle de départ pour obtenir celles de l'agrandissement ?
+2. Calculer la largeur de l'agrandissement.
+3. a) Calculer le périmètre de chacun des deux rectangles.
+   b) Le périmètre est-il multiplié par le même nombre que les longueurs ? Justifier.
+4. a) Calculer l'aire de chacun des deux rectangles.
+   b) L'aire de l'agrandissement est-elle égale à $2{,}5$ fois l'aire du rectangle de départ ? Que peut-on en conclure ?`,
+      solution: `**1.** On cherche le nombre qui, multiplié par $4$, donne $10$ : $10 \\div 4 = 2{,}5$. Il faut multiplier les longueurs par $2{,}5$.
+
+**2.** Largeur de l'agrandissement : $2{,}5 \\times 2{,}5 = 6{,}25$ cm.
+
+**3.** a) Rectangle de départ : $P = 2 \\times (4 + 2{,}5) = 2 \\times 6{,}5 = 13$ cm.
+Agrandissement : $P' = 2 \\times (10 + 6{,}25) = 2 \\times 16{,}25 = 32{,}5$ cm.
+b) $13 \\times 2{,}5 = 32{,}5$ : oui, le périmètre est lui aussi multiplié par $2{,}5$.
+
+**4.** a) Rectangle de départ : $A = 4 \\times 2{,}5 = 10$ cm². Agrandissement : $A' = 10 \\times 6{,}25 = 62{,}5$ cm².
+b) $2{,}5 \\times 10 = 25$ cm², et $62{,}5 \\neq 25$ : l'aire n'est pas multipliée par $2{,}5$.
+On en conclut que l'aire n'est **pas proportionnelle** aux longueurs : quand on agrandit une figure, les longueurs et le périmètre sont multipliés par le même nombre, mais pas l'aire.`
+    },
+    {
+      id: "6P1-ds-16",
+      title: "Deux tarifs pour tirer des photos",
+      difficulty: 4,
+      points: 6,
+      statement: `Pour faire tirer ses photos de vacances sur papier, Maëlle compare deux sites de tirage :
+- **tarif A** : $0{,}15$ € par photo ;
+- **tarif B** : $3$ € de frais d'envoi, plus $0{,}12$ € par photo.
+
+1. Recopier et compléter le tableau :
+
+| Nombre de photos | $10$ | $50$ | $100$ | $200$ |
+|:---|:---:|:---:|:---:|:---:|
+| Prix avec le tarif A (€) | | | | |
+| Prix avec le tarif B (€) | | | | |
+
+2. Le prix du tarif A est-il proportionnel au nombre de photos ? Et celui du tarif B ? Justifier.
+3. Pour quel nombre de photos du tableau les deux tarifs coûtent-ils le même prix ?
+4. Maëlle veut faire tirer $60$ photos. Quel tarif doit-elle choisir ? Justifier par un calcul.
+5. Son frère veut faire tirer $250$ photos. Quel tarif lui conseiller ? Combien économise-t-il par rapport à l'autre tarif ?`,
+      solution: `**1.** Tarif A : on multiplie le nombre de photos par $0{,}15$. Tarif B : on multiplie par $0{,}12$, puis on ajoute $3$.
+
+| Nombre de photos | $10$ | $50$ | $100$ | $200$ |
+|:---|:---:|:---:|:---:|:---:|
+| Prix avec le tarif A (€) | $1{,}50$ | $7{,}50$ | $15$ | $30$ |
+| Prix avec le tarif B (€) | $4{,}20$ | $9$ | $15$ | $27$ |
+
+Par exemple, pour $50$ photos avec le tarif B : $3 + 50 \\times 0{,}12 = 3 + 6 = 9$ €.
+
+**2.** Tarif A : oui, on passe toujours du nombre de photos au prix en multipliant par $0{,}15$ (c'est le prix d'une photo).
+Tarif B : non. Par exemple, $50$ photos, c'est $5$ fois $10$ photos, mais $5 \\times 4{,}20 = 21$ € et non $9$ €. Les frais d'envoi de $3$ € sont payés une seule fois, quel que soit le nombre de photos.
+
+**3.** Pour $100$ photos, les deux tarifs coûtent $15$ €.
+
+**4.** Tarif A : $60 \\times 0{,}15 = 9$ €. Tarif B : $3 + 60 \\times 0{,}12 = 3 + 7{,}20 = 10{,}20$ €.
+Pour $60$ photos, le **tarif A** est le moins cher.
+
+**5.** Tarif A : $250 \\times 0{,}15 = 37{,}50$ €. Tarif B : $3 + 250 \\times 0{,}12 = 3 + 30 = 33$ €.
+On lui conseille le **tarif B** ; il économise $37{,}50 - 33 = 4{,}50$ €.`
     }
   ],
   "6M1": [
@@ -2781,6 +3834,97 @@ C'était prévisible : le diamètre de la roue avant est la moitié de celui de 
 $636 \\times 4{,}71 = 2\\,995{,}56$ m : c'est moins que $3\\,000$ m.
 $637 \\times 4{,}71 = 3\\,000{,}27$ m : c'est au moins $3\\,000$ m.
 Une roue arrière doit faire au minimum $637$ tours.`
+    },
+    {
+      id: "6M1-ds-13",
+      title: "Périmètres avec des unités différentes",
+      difficulty: 1,
+      points: 4,
+      statement: `1. Un cadre photo carré a des côtés de $25$ cm. Calculer son périmètre en cm, puis en m.
+2. Un triangle a des côtés de $4{,}5$ cm, $62$ mm et $0{,}08$ m.
+   a) Convertir les trois longueurs en cm.
+   b) Calculer le périmètre de ce triangle en cm.
+3. Une table rectangulaire mesure $1{,}2$ m de long et $45$ cm de large. Calculer son périmètre en cm, puis en m.`,
+      solution: `**1.** Un carré a quatre côtés de même longueur : $P = 4 \\times 25 = 100$ cm, soit $1$ m.
+
+**2.** a) $4{,}5$ cm reste $4{,}5$ cm ; $62$ mm $= 6{,}2$ cm (car $1$ cm $= 10$ mm) ; $0{,}08$ m $= 8$ cm (car $1$ m $= 100$ cm).
+b) $P = 4{,}5 + 6{,}2 + 8 = 18{,}7$ cm.
+Attention : on ne peut additionner des longueurs que si elles sont exprimées dans la même unité.
+
+**3.** $1{,}2$ m $= 120$ cm. $P = 2 \\times (120 + 45) = 2 \\times 165 = 330$ cm, soit $3{,}3$ m.`
+    },
+    {
+      id: "6M1-ds-14",
+      title: "Le périmètre d'une figure en escalier",
+      difficulty: 2,
+      points: 5,
+      statement: `La figure ci-dessous est formée uniquement d'angles droits. Elle n'est pas en vraie grandeur.
+
+<div class="geo-figure-wrapper" style="text-align:center; margin:0.8rem auto; max-width:320px;"><svg class="geo-svg-figure" viewBox="0 0 300 190" width="300" height="190" style="width:100%; height:auto; color:var(--text-main, #334155);" xmlns="http://www.w3.org/2000/svg" role="img"><polygon points="40,20 160,20 160,80 240,80 240,160 40,160" fill="rgba(59,130,246,0.10)" stroke="currentColor" stroke-width="2"/><text x="100" y="14" text-anchor="middle" font-size="13" fill="currentColor">6 cm</text><text x="34" y="94" text-anchor="end" font-size="13" fill="currentColor">7 cm</text><text x="140" y="178" text-anchor="middle" font-size="13" fill="currentColor">10 cm</text><text x="246" y="124" font-size="13" fill="currentColor">4 cm</text><text x="168" y="54" font-size="15" font-weight="bold" fill="#2563eb">?</text><text x="200" y="72" text-anchor="middle" font-size="15" font-weight="bold" fill="#2563eb">?</text></svg></div>
+
+1. Calculer les deux longueurs marquées d'un point d'interrogation. Expliquer le raisonnement.
+2. Calculer le périmètre de la figure.
+3. Calculer le périmètre d'un rectangle de $10$ cm sur $7$ cm. Que remarque-t-on ?
+4. Expliquer cette remarque en observant les côtés de la figure.`,
+      solution: `**1.** Le côté horizontal marqué « ? » : la longueur totale du bas est $10$ cm, et le haut mesure $6$ cm, donc ce côté mesure $10 - 6 = 4$ cm.
+Le côté vertical marqué « ? » : la hauteur totale à gauche est $7$ cm, et le côté droit mesure $4$ cm, donc ce côté mesure $7 - 4 = 3$ cm.
+
+**2.** On fait le tour de la figure : $P = 6 + 3 + 4 + 4 + 10 + 7 = 34$ cm.
+
+**3.** $P = 2 \\times (10 + 7) = 2 \\times 17 = 34$ cm. Les deux périmètres sont **égaux**.
+
+**4.** Les côtés horizontaux du haut de la figure ($6$ cm et $4$ cm) mesurent ensemble $10$ cm, comme le haut du rectangle. Les côtés verticaux de droite ($3$ cm et $4$ cm) mesurent ensemble $7$ cm, comme le côté droit du rectangle. Couper un coin « en escalier » ne change donc pas le périmètre.`
+    },
+    {
+      id: "6M1-ds-15",
+      title: "La bordure du bassin",
+      difficulty: 3,
+      points: 5,
+      statement: `Dans un jardin public, un bassin circulaire a un rayon de $3{,}5$ m. On veut poser une bordure tout autour du bassin. On prend $3{,}14$ comme valeur approchée de $\\pi$.
+
+1. Quel est le diamètre du bassin ?
+2. Calculer la longueur de la bordure à poser.
+3. La bordure est vendue en éléments de $50$ cm de long. Combien d'éléments faut-il acheter au minimum ? Justifier.
+4. Un élément coûte $12{,}50$ €. Calculer le prix de la bordure.`,
+      solution: `**1.** Le diamètre est le double du rayon : $2 \\times 3{,}5 = 7$ m.
+
+**2.** La longueur d'un cercle est $\\pi \\times$ diamètre : $L \\approx 3{,}14 \\times 7 = 21{,}98$ m.
+
+**3.** $50$ cm $= 0{,}5$ m. Il faut $2$ éléments par mètre : $21{,}98 \\times 2 = 43{,}96$.
+$43$ éléments ne couvrent que $21{,}5$ m, ce qui ne suffit pas : il faut acheter **$44$ éléments** au minimum.
+
+**4.** $44 \\times 12{,}50 = 550$ €.`
+    },
+    {
+      id: "6M1-ds-16",
+      title: "Trois chemins en demi-cercles",
+      difficulty: 4,
+      points: 6,
+      statement: `Dans un parc, deux bancs $A$ et $B$ sont distants de $12$ m. Pour aller de $A$ à $B$, on peut suivre la ligne droite, ou l'un des chemins en demi-cercles suivants. On prend $3{,}14$ comme valeur approchée de $\\pi$.
+
+<div class="geo-figure-wrapper" style="text-align:center; margin:0.8rem auto; max-width:320px;"><svg class="geo-svg-figure" viewBox="0 0 300 215" width="300" height="215" style="width:100%; height:auto; color:var(--text-main, #334155);" xmlns="http://www.w3.org/2000/svg" role="img"><line x1="30" y1="130" x2="270" y2="130" stroke="currentColor" stroke-width="1.5" stroke-dasharray="5 4"/><path d="M30,130 A120,120 0 0 1 270,130" fill="none" stroke="#2563eb" stroke-width="2.5"/><path d="M30,130 A60,60 0 0 0 150,130 A60,60 0 0 0 270,130" fill="none" stroke="#ea580c" stroke-width="2.5"/><circle cx="30" cy="130" r="4" fill="currentColor"/><circle cx="270" cy="130" r="4" fill="currentColor"/><text x="20" y="125" text-anchor="end" font-size="15" font-weight="bold" fill="currentColor">A</text><text x="280" y="125" font-size="15" font-weight="bold" fill="currentColor">B</text><text x="150" y="30" text-anchor="middle" font-size="13" fill="#2563eb">chemin 1</text><text x="150" y="207" text-anchor="middle" font-size="13" fill="#ea580c">chemin 2</text><text x="150" y="124" text-anchor="middle" font-size="12" fill="currentColor">12 m</text></svg></div>
+
+- **Chemin 1** (en bleu) : un demi-cercle de diamètre $[AB]$.
+- **Chemin 2** (en orange) : deux demi-cercles de même diamètre, placés bout à bout entre $A$ et $B$.
+- **Chemin 3** (non dessiné) : quatre demi-cercles de même diamètre, placés bout à bout entre $A$ et $B$.
+
+1. Calculer la longueur du chemin 1.
+2. a) Quel est le diamètre de chacun des demi-cercles du chemin 2 ?
+   b) Calculer la longueur du chemin 2.
+3. Calculer la longueur du chemin 3.
+4. Que remarque-t-on ? Expliquer pourquoi, sans refaire de calcul, le résultat serait le même avec $6$ demi-cercles.
+5. Combien de mètres de plus que la ligne droite parcourt-on en suivant l'un de ces chemins ?`,
+      solution: `**1.** Un cercle de diamètre $12$ m mesure environ $3{,}14 \\times 12 = 37{,}68$ m. Le chemin 1 est un demi-cercle : $37{,}68 \\div 2 = 18{,}84$ m.
+
+**2.** a) Les deux diamètres mis bout à bout font $12$ m : chaque diamètre mesure $12 \\div 2 = 6$ m.
+b) Un demi-cercle de diamètre $6$ m mesure $3{,}14 \\times 6 \\div 2 = 9{,}42$ m. Le chemin 2 mesure $2 \\times 9{,}42 = 18{,}84$ m.
+
+**3.** Chaque diamètre mesure $12 \\div 4 = 3$ m. Un demi-cercle mesure $3{,}14 \\times 3 \\div 2 = 4{,}71$ m, et le chemin 3 mesure $4 \\times 4{,}71 = 18{,}84$ m.
+
+**4.** Les trois chemins ont **la même longueur**, environ $18{,}84$ m.
+Explication : la longueur d'un demi-cercle est la moitié de $\\pi \\times$ son diamètre. En additionnant les demi-cercles, on obtient la moitié de $\\pi \\times$ (somme des diamètres). Or la somme des diamètres vaut toujours $AB = 12$ m, quel que soit le nombre de demi-cercles. Avec $6$ demi-cercles, on trouverait donc aussi $18{,}84$ m.
+
+**5.** $18{,}84 - 12 = 6{,}84$ m de plus que la ligne droite.`
     }
   ],
   "6M2": [
@@ -3048,6 +4192,125 @@ b) $600 \\div 150 = 4$ : l'aire a été multipliée par $4$ (et non par $2$), ca
 
 **5.** $2\\,400 \\div 150 = 16$ : l'aire doit être multipliée par $16$. D'après les questions précédentes, multiplier les dimensions par un nombre multiplie l'aire par ce nombre multiplié par lui-même. Or $4 \\times 4 = 16$ : on multiplie les dimensions par $4$.
 Le poster mesure $40$ cm sur $60$ cm (vérification : $40 \\times 60 = 2\\,400$ cm²).`
+    },
+    {
+      id: "6M2-ds-13",
+      title: "Compter les carreaux",
+      difficulty: 1,
+      points: 4,
+      statement: `Les figures $A$ et $B$ sont tracées sur un quadrillage dont chaque carreau est un carré de $1$ cm de côté.
+
+<div class="geo-figure-wrapper" style="text-align:center; margin:0.8rem auto; max-width:360px;"><svg class="geo-svg-figure" viewBox="0 0 320 120" width="320" height="120" style="width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img"><line x1="10" y1="10" x2="10" y2="110" stroke="#cbd5e1" stroke-width="1"/><line x1="30" y1="10" x2="30" y2="110" stroke="#cbd5e1" stroke-width="1"/><line x1="50" y1="10" x2="50" y2="110" stroke="#cbd5e1" stroke-width="1"/><line x1="70" y1="10" x2="70" y2="110" stroke="#cbd5e1" stroke-width="1"/><line x1="90" y1="10" x2="90" y2="110" stroke="#cbd5e1" stroke-width="1"/><line x1="110" y1="10" x2="110" y2="110" stroke="#cbd5e1" stroke-width="1"/><line x1="130" y1="10" x2="130" y2="110" stroke="#cbd5e1" stroke-width="1"/><line x1="150" y1="10" x2="150" y2="110" stroke="#cbd5e1" stroke-width="1"/><line x1="170" y1="10" x2="170" y2="110" stroke="#cbd5e1" stroke-width="1"/><line x1="190" y1="10" x2="190" y2="110" stroke="#cbd5e1" stroke-width="1"/><line x1="210" y1="10" x2="210" y2="110" stroke="#cbd5e1" stroke-width="1"/><line x1="230" y1="10" x2="230" y2="110" stroke="#cbd5e1" stroke-width="1"/><line x1="250" y1="10" x2="250" y2="110" stroke="#cbd5e1" stroke-width="1"/><line x1="270" y1="10" x2="270" y2="110" stroke="#cbd5e1" stroke-width="1"/><line x1="290" y1="10" x2="290" y2="110" stroke="#cbd5e1" stroke-width="1"/><line x1="310" y1="10" x2="310" y2="110" stroke="#cbd5e1" stroke-width="1"/><line x1="10" y1="10" x2="310" y2="10" stroke="#cbd5e1" stroke-width="1"/><line x1="10" y1="30" x2="310" y2="30" stroke="#cbd5e1" stroke-width="1"/><line x1="10" y1="50" x2="310" y2="50" stroke="#cbd5e1" stroke-width="1"/><line x1="10" y1="70" x2="310" y2="70" stroke="#cbd5e1" stroke-width="1"/><line x1="10" y1="90" x2="310" y2="90" stroke="#cbd5e1" stroke-width="1"/><line x1="10" y1="110" x2="310" y2="110" stroke="#cbd5e1" stroke-width="1"/><polygon points="30,50 150,50 150,90 30,90" fill="rgba(59,130,246,0.18)" stroke="#2563eb" stroke-width="2"/><text x="90" y="42" text-anchor="middle" font-size="14" font-weight="bold" fill="#2563eb">A</text><polygon points="190,30 210,30 210,50 230,50 230,70 250,70 250,90 190,90" fill="rgba(16,185,129,0.18)" stroke="#059669" stroke-width="2"/><text x="270" y="62" text-anchor="middle" font-size="14" font-weight="bold" fill="#059669">B</text></svg></div>
+
+1. Combien de carreaux recouvre la figure $A$ ? Et la figure $B$ ?
+2. En déduire l'aire de chaque figure, en cm².
+3. Dessiner sur un quadrillage un rectangle qui n'a pas les mêmes dimensions que $A$ mais qui a la même aire. Donner ses dimensions.
+4. On reproduit la figure $A$ sur un quadrillage dont les carreaux mesurent $5$ mm de côté (même nombre de carreaux).
+   a) Quelle est l'aire d'un carreau, en mm² ?
+   b) Quelle est alors l'aire de la figure $A$, en mm² ?`,
+      solution: `**1.** La figure $A$ est un rectangle de $6$ carreaux sur $2$ carreaux : $6 \\times 2 = 12$ carreaux.
+La figure $B$ est un « escalier » : une colonne de $3$ carreaux, une de $2$ carreaux et une de $1$ carreau, soit $3 + 2 + 1 = 6$ carreaux.
+
+**2.** Un carreau a une aire de $1$ cm². Donc l'aire de $A$ est **$12$ cm²** et l'aire de $B$ est **$6$ cm²** (la figure $B$ a une aire deux fois plus petite que $A$).
+
+**3.** Il faut deux nombres entiers dont le produit vaut $12$, autres que $6$ et $2$ : par exemple un rectangle de $4$ cm sur $3$ cm ($4 \\times 3 = 12$), ou de $12$ cm sur $1$ cm.
+
+**4.** a) Un carreau est un carré de $5$ mm de côté : son aire est $5 \\times 5 = 25$ mm².
+b) La figure $A$ recouvre toujours $12$ carreaux : $12 \\times 25 = 300$ mm².`
+    },
+    {
+      id: "6M2-ds-14",
+      title: "Le champ de blé",
+      difficulty: 2,
+      points: 5,
+      statement: `On rappelle que $1$ a (are) $= 100$ m² et $1$ ha (hectare) $= 10\\,000$ m².
+
+Un agriculteur possède un champ rectangulaire de $120$ m de long et $75$ m de large.
+
+1. Calculer l'aire de ce champ, en m².
+2. Exprimer cette aire en ares, puis en hectares.
+3. Pour semer du blé, il faut $1$ kg de semences pour $50$ m². Quelle masse de semences faut-il pour tout le champ ?
+4. Son voisin possède un champ rectangulaire de $1{,}2$ ha dont la largeur mesure $80$ m.
+   a) Convertir $1{,}2$ ha en m².
+   b) Calculer la longueur de ce second champ.
+   c) Quel est le plus grand des deux champs ?`,
+      solution: `**1.** $\\mathcal{A} = 120 \\times 75 = 9\\,000$ m².
+
+**2.** $1$ a $= 100$ m², donc $9\\,000$ m² $= 9\\,000 \\div 100 = 90$ a.
+$1$ ha $= 10\\,000$ m², donc $9\\,000$ m² $= 9\\,000 \\div 10\\,000 = 0{,}9$ ha.
+
+**3.** Il y a $9\\,000 \\div 50 = 180$ fois $50$ m² dans le champ. Il faut donc **$180$ kg** de semences.
+
+**4.** a) $1{,}2$ ha $= 1{,}2 \\times 10\\,000 = 12\\,000$ m².
+b) Aire $=$ longueur $\\times$ largeur, donc longueur $= 12\\,000 \\div 80 = 150$ m.
+(Vérification : $150 \\times 80 = 12\\,000$.)
+c) $12\\,000$ m² $> 9\\,000$ m² : c'est **le champ du voisin** qui est le plus grand ($1{,}2$ ha contre $0{,}9$ ha).`
+    },
+    {
+      id: "6M2-ds-15",
+      title: "Coller des affiches sur un panneau",
+      difficulty: 3,
+      points: 5,
+      statement: `Un panneau d'affichage rectangulaire mesure $2{,}4$ m de long et $1{,}5$ m de haut. On veut y coller des affiches rectangulaires de $60$ cm sur $40$ cm, sans qu'elles se chevauchent ni dépassent du panneau, toutes posées dans le même sens.
+
+1. Calculer l'aire du panneau, en cm².
+2. Calculer l'aire d'une affiche, en cm².
+3. Lucas calcule $36\\,000 \\div 2\\,400$ et affirme : « On peut coller $15$ affiches. » Quel calcul a-t-il fait ? Expliquer pourquoi ce raisonnement ne suffit pas.
+4. On pose les affiches avec leur côté de $60$ cm le long du côté de $2{,}4$ m du panneau.
+   a) Combien d'affiches peut-on mettre sur une rangée ? Combien de rangées ?
+   b) Combien d'affiches peut-on coller en tout ?
+5. Même question en posant le côté de $40$ cm le long du côté de $2{,}4$ m.
+6. Quelle aire du panneau reste non recouverte ?`,
+      solution: `**1.** $2{,}4$ m $= 240$ cm et $1{,}5$ m $= 150$ cm. Aire du panneau : $240 \\times 150 = 36\\,000$ cm².
+
+**2.** Aire d'une affiche : $60 \\times 40 = 2\\,400$ cm².
+
+**3.** Lucas a divisé l'aire du panneau par l'aire d'une affiche : $36\\,000 \\div 2\\,400 = 15$. Ce calcul dit seulement que $15$ affiches ont la même aire que le panneau. Mais les affiches ne peuvent pas être découpées : il faut vérifier qu'elles « rentrent » vraiment, rangée par rangée.
+
+**4.** a) Sur la longueur : $240 \\div 60 = 4$ affiches par rangée. Sur la hauteur : $150 = 3 \\times 40 + 30$, donc $3$ rangées (il reste une bande de $30$ cm).
+b) $4 \\times 3 = 12$ affiches.
+
+**5.** Sur la longueur : $240 \\div 40 = 6$ affiches par rangée. Sur la hauteur : $150 = 2 \\times 60 + 30$, donc $2$ rangées.
+$6 \\times 2 = 12$ affiches. On obtient encore $12$ affiches : on ne peut pas en coller $15$.
+
+**6.** Aire recouverte : $12 \\times 2\\,400 = 28\\,800$ cm². Aire non recouverte : $36\\,000 - 28\\,800 = 7\\,200$ cm².
+(C'est bien la bande de $240$ cm sur $30$ cm : $240 \\times 30 = 7\\,200$ cm².)`
+    },
+    {
+      id: "6M2-ds-16",
+      title: "Partager un terrain en trois",
+      difficulty: 4,
+      points: 6,
+      statement: `Un terrain rectangulaire de $60$ m sur $30$ m doit être partagé en trois parcelles rectangulaires **de même aire**. On sépare les parcelles par des clôtures (en pointillés rouges sur les schémas, qui ne sont pas en vraie grandeur). On étudie deux partages.
+
+<div class="geo-figure-wrapper" style="text-align:center; margin:0.8rem auto; max-width:420px;"><svg class="geo-svg-figure" viewBox="-30 0 364 117" width="364" height="117" style="width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img"><text x="81" y="15" text-anchor="middle" font-size="12" fill="currentColor">Partage 1</text><rect x="15" y="25" width="132" height="66" fill="rgba(16,185,129,0.12)" stroke="var(--text-main, #334155)" stroke-width="2"/><line x1="59" y1="25" x2="59" y2="91" stroke="#dc2626" stroke-width="2" stroke-dasharray="5 3"/><line x1="103" y1="25" x2="103" y2="91" stroke="#dc2626" stroke-width="2" stroke-dasharray="5 3"/><text x="81" y="107" text-anchor="middle" font-size="12" fill="currentColor">60 m</text><text x="12" y="62" text-anchor="end" font-size="12" fill="currentColor">30 m</text><text x="37" y="62" text-anchor="middle" font-size="12" fill="currentColor">P1</text><text x="81" y="62" text-anchor="middle" font-size="12" fill="currentColor">P2</text><text x="125.00000000000001" y="62" text-anchor="middle" font-size="12" fill="currentColor">P3</text><text x="253" y="15" text-anchor="middle" font-size="12" fill="currentColor">Partage 2</text><rect x="187" y="25" width="132" height="66" fill="rgba(16,185,129,0.12)" stroke="var(--text-main, #334155)" stroke-width="2"/><line x1="187" y1="47" x2="319" y2="47" stroke="#dc2626" stroke-width="2" stroke-dasharray="5 3"/><line x1="253" y1="47" x2="253" y2="91" stroke="#dc2626" stroke-width="2" stroke-dasharray="5 3"/><text x="253" y="107" text-anchor="middle" font-size="12" fill="currentColor">60 m</text><text x="253" y="40" text-anchor="middle" font-size="12" fill="currentColor">Q1</text><text x="220" y="73" text-anchor="middle" font-size="12" fill="currentColor">Q2</text><text x="286" y="73" text-anchor="middle" font-size="12" fill="currentColor">Q3</text></svg></div>
+
+- Partage 1 : trois bandes $P_1$, $P_2$, $P_3$ de même largeur, perpendiculaires à la longueur.
+- Partage 2 : une bande $Q_1$ de $60$ m de long, puis le reste coupé en deux rectangles $Q_2$ et $Q_3$ identiques.
+
+1. Calculer l'aire du terrain, puis l'aire que doit avoir chaque parcelle.
+2. Partage 1 : donner les dimensions de chaque parcelle et vérifier son aire.
+3. Partage 2 :
+   a) Quelle doit être la largeur de la bande $Q_1$ ?
+   b) En déduire les dimensions de $Q_2$ et de $Q_3$, et vérifier leur aire.
+4. Calculer la longueur totale de clôture intérieure (en pointillés) pour chaque partage.
+5. La clôture coûte $12$ € le mètre. Quel partage est le moins cher, et de combien ?
+6. Calculer le périmètre de $P_1$ et celui de $Q_1$. Deux parcelles de même aire ont-elles toujours le même périmètre ?`,
+      solution: `**1.** Aire du terrain : $60 \\times 30 = 1\\,800$ m². Chaque parcelle : $1\\,800 \\div 3 = 600$ m².
+
+**2.** On partage la longueur de $60$ m en trois : $60 \\div 3 = 20$ m. Chaque parcelle mesure $20$ m sur $30$ m, et $20 \\times 30 = 600$ m². ✓
+
+**3.** a) $Q_1$ a pour longueur $60$ m et pour aire $600$ m² : sa largeur est $600 \\div 60 = 10$ m.
+b) Il reste un rectangle de $60$ m sur $30 - 10 = 20$ m, coupé en deux : $Q_2$ et $Q_3$ mesurent $60 \\div 2 = 30$ m sur $20$ m. $30 \\times 20 = 600$ m². ✓
+
+**4.** Partage 1 : deux clôtures de $30$ m, soit $2 \\times 30 = 60$ m.
+Partage 2 : une clôture de $60$ m (entre $Q_1$ et le reste) et une de $20$ m (entre $Q_2$ et $Q_3$), soit $60 + 20 = 80$ m.
+
+**5.** Partage 1 : $60 \\times 12 = 720$ €. Partage 2 : $80 \\times 12 = 960$ €.
+Le **partage 1** est le moins cher, de $960 - 720 = 240$ € (c'est le prix des $20$ m de clôture en plus).
+
+**6.** Périmètre de $P_1$ : $2 \\times (20 + 30) = 100$ m. Périmètre de $Q_1$ : $2 \\times (60 + 10) = 140$ m.
+Les deux parcelles ont la même aire ($600$ m²) mais pas le même périmètre : **non**, aire égale n'entraîne pas périmètre égal.`
     }
   ],
   "6M3": [
@@ -3293,6 +4556,113 @@ b) $V = 26 \\times 16 \\times 2 = 832$ cm³.
 **3.** Le plus grand volume du tableau est $1\\,056$ cm³ : il faut découper des carrés de $4$ cm de côté.
 
 **4.** Non : la largeur du fond serait $20 - 10 - 10 = 0$ cm. Il n'y aurait plus de fond, donc plus de boîte.`
+    },
+    {
+      id: "6M3-ds-13",
+      title: "Le bac à glaçons",
+      difficulty: 1,
+      points: 4,
+      statement: `On rappelle que $1$ L $= 1\\,000$ cm³ et que $1$ L $= 100$ cL.
+
+Un bac à glaçons permet de fabriquer $12$ glaçons. Chaque glaçon a la forme d'un cube de $3$ cm d'arête. On considère que l'eau versée a le même volume que les glaçons obtenus.
+
+1. Combien de petits cubes de $1$ cm d'arête faudrait-il pour construire un glaçon ? Expliquer.
+2. Calculer le volume d'un glaçon, en cm³.
+3. Calculer le volume d'eau nécessaire pour remplir le bac, en cm³.
+4. a) Combien de cm³ y a-t-il dans $1$ cL ?
+   b) Exprimer le volume d'eau de la question 3 en cL.`,
+      solution: `**1.** Un glaçon peut être découpé en $3$ couches ; chaque couche contient $3 \\times 3 = 9$ petits cubes. Il faut donc $3 \\times 9 = 27$ petits cubes de $1$ cm d'arête.
+
+**2.** $V = 3 \\times 3 \\times 3 = 27$ cm³ (on retrouve les $27$ cubes de $1$ cm³).
+
+**3.** $12 \\times 27 = 324$ cm³.
+
+**4.** a) $1$ L $= 1\\,000$ cm³ $= 100$ cL, donc $1$ cL $= 1\\,000 \\div 100 = 10$ cm³.
+b) $324 \\div 10 = 32{,}4$ cL. Il faut $32{,}4$ cL d'eau.`
+    },
+    {
+      id: "6M3-ds-14",
+      title: "Quelle boîte pour le riz ?",
+      difficulty: 2,
+      points: 5,
+      statement: `On rappelle que $1$ L $= 1\\,000$ cm³.
+
+Un magasin vend du riz en paquets de $1{,}1$ L. On dispose de trois boîtes en forme de pavé droit :
+- boîte A : $10$ cm sur $10$ cm sur $10$ cm ;
+- boîte B : $20$ cm sur $5$ cm sur $12$ cm ;
+- boîte C : $25$ cm sur $8$ cm sur $5$ cm.
+
+1. Calculer le volume de chaque boîte, en cm³.
+2. Deux boîtes ont le même volume. Lesquelles ? Ont-elles la même forme ?
+3. Exprimer le volume de chaque boîte en litres.
+4. Dans quelle(s) boîte(s) peut-on verser entièrement un paquet de riz ? Justifier.
+5. On veut fabriquer une boîte D dont le fond est un rectangle de $8$ cm sur $10$ cm et qui contienne exactement $1{,}2$ L. Quelle doit être sa hauteur ?`,
+      solution: `**1.**
+- $V_A = 10 \\times 10 \\times 10 = 1\\,000$ cm³ ;
+- $V_B = 20 \\times 5 \\times 12 = 1\\,200$ cm³ ;
+- $V_C = 25 \\times 8 \\times 5 = 1\\,000$ cm³.
+
+**2.** Les boîtes A et C ont le même volume ($1\\,000$ cm³), mais pas la même forme : A est un cube, C est un pavé allongé et plat.
+
+**3.** $V_A = 1$ L ; $V_B = 1\\,200 \\div 1\\,000 = 1{,}2$ L ; $V_C = 1$ L.
+
+**4.** Un paquet contient $1{,}1$ L, soit $1\\,100$ cm³. Seule la **boîte B** convient, car $1{,}2$ L $> 1{,}1$ L, alors que les boîtes A et C ne contiennent que $1$ L.
+
+**5.** $1{,}2$ L $= 1\\,200$ cm³. L'aire du fond est $8 \\times 10 = 80$ cm². Il faut $80 \\times$ hauteur $= 1\\,200$, donc hauteur $= 1\\,200 \\div 80 = 15$ cm.
+(Vérification : $8 \\times 10 \\times 15 = 1\\,200$ cm³.)`
+    },
+    {
+      id: "6M3-ds-15",
+      title: "La cuve de récupération d'eau de pluie",
+      difficulty: 3,
+      points: 5,
+      statement: `On rappelle que $1$ m³ $= 1\\,000$ L.
+
+Dans son jardin, Maxime installe une cuve en forme de pavé droit pour récupérer l'eau de pluie. Elle mesure $2$ m de long, $1{,}5$ m de large et $1{,}2$ m de haut.
+
+1. Calculer le volume de la cuve, en m³, puis en litres.
+2. En été, Maxime utilise $150$ L d'eau par jour pour arroser. La cuve étant pleine au départ et sans pluie, pendant combien de jours peut-il arroser ?
+3. Un matin, l'eau atteint une hauteur de $80$ cm dans la cuve. Combien de litres d'eau contient-elle ?
+4. a) Calculer l'aire du fond de la cuve, en m².
+   b) Un orage apporte $600$ L d'eau dans la cuve. De combien de centimètres le niveau de l'eau monte-t-il ?`,
+      solution: `**1.** $V = 2 \\times 1{,}5 \\times 1{,}2 = 3 \\times 1{,}2 = 3{,}6$ m³.
+$3{,}6$ m³ $= 3{,}6 \\times 1\\,000 = 3\\,600$ L.
+
+**2.** $3\\,600 \\div 150 = 24$. Il peut arroser pendant **$24$ jours**.
+
+**3.** $80$ cm $= 0{,}8$ m. Volume d'eau : $2 \\times 1{,}5 \\times 0{,}8 = 3 \\times 0{,}8 = 2{,}4$ m³, soit $2\\,400$ L.
+
+**4.** a) Aire du fond : $2 \\times 1{,}5 = 3$ m².
+b) $600$ L $= 0{,}6$ m³. L'eau ajoutée forme un pavé de fond $3$ m² : sa hauteur $h$ vérifie $3 \\times h = 0{,}6$, donc $h = 0{,}6 \\div 3 = 0{,}2$ m.
+Le niveau monte de **$20$ cm**. (Vérification : $2 \\times 1{,}5 \\times 0{,}2 = 0{,}6$ m³ $= 600$ L.)`
+    },
+    {
+      id: "6M3-ds-16",
+      title: "Modeler la pâte",
+      difficulty: 4,
+      points: 6,
+      statement: `Inès a un bloc de pâte à modeler en forme de cube de $6$ cm d'arête. Elle le remodèle plusieurs fois, sans perdre ni ajouter de pâte : le volume reste donc toujours le même.
+
+1. Calculer le volume du bloc, en cm³.
+2. Elle en fait un pavé droit dont le fond est un rectangle de $9$ cm sur $4$ cm. Quelle est la hauteur de ce pavé ?
+3. Elle l'aplatit ensuite en une plaque en forme de pavé droit de $12$ cm sur $9$ cm. Quelle est l'épaisseur de la plaque ?
+4. Elle découpe enfin toute la pâte en petits cubes de $2$ cm d'arête.
+   a) Quel est le volume d'un petit cube ?
+   b) Combien de petits cubes obtient-elle ? Retrouver ce résultat en imaginant le grand cube de départ découpé.
+5. Son frère veut fabriquer un cube **deux fois plus volumineux** que le cube de départ, avec une arête mesurant un nombre entier de centimètres. Est-ce possible ? Justifier en calculant quelques volumes de cubes.`,
+      solution: `**1.** $V = 6 \\times 6 \\times 6 = 216$ cm³.
+
+**2.** Aire du fond : $9 \\times 4 = 36$ cm². Hauteur : $216 \\div 36 = 6$ cm. (Vérification : $9 \\times 4 \\times 6 = 216$.)
+
+**3.** Aire de la plaque : $12 \\times 9 = 108$ cm². Épaisseur : $216 \\div 108 = 2$ cm.
+
+**4.** a) $2 \\times 2 \\times 2 = 8$ cm³.
+b) $216 \\div 8 = 27$ petits cubes.
+Autre méthode : sur chaque arête du cube de $6$ cm, on place $6 \\div 2 = 3$ petits cubes, donc $3 \\times 3 \\times 3 = 27$ petits cubes. On retrouve $27$.
+
+**5.** Il faudrait un volume de $2 \\times 216 = 432$ cm³.
+$7 \\times 7 \\times 7 = 343$ cm³ (trop petit) et $8 \\times 8 \\times 8 = 512$ cm³ (trop grand).
+Aucun nombre entier entre $7$ et $8$ : ce **n'est pas possible** avec une arête entière (l'arête serait comprise entre $7$ et $8$ cm). Doubler l'arête ne convient pas non plus : on obtiendrait $12 \\times 12 \\times 12 = 1\\,728$ cm³, soit $8$ fois plus.`
     }
   ],
   "6M4": [
@@ -3553,6 +4923,123 @@ $4$ h $10 + 6$ h $50$ min $= 10$ h $60$ min $= 11$ h. Jules arrive à Paris à $
 **4.** $365 \\times 3 = 1\\,095$ min. Or $1\\,095 = 18 \\times 60 + 15$, donc l'avance est de $18$ h $15$ min.
 
 **5.** $8$ heures, c'est le tiers d'une journée ($24 \\div 3 = 8$). L'avance est donc le tiers de $3$ min, soit $1$ min, c'est-à-dire $60$ secondes.`
+    },
+    {
+      id: "6M4-ds-13",
+      title: "En cuisine",
+      difficulty: 1,
+      points: 4,
+      statement: `1. Hugo met des pâtes à cuire à $12$ h $52$. Elles doivent cuire $11$ min. À quelle heure doit-il les égoutter ?
+2. Un rôti doit cuire $1$ h $40$ min et être prêt à $13$ h $15$. À quelle heure faut-il le mettre au four ?
+3. Convertir en minutes : un quart d'heure ; une demi-heure ; trois quarts d'heure.
+4. Tom affirme : « $1{,}5$ h, c'est $1$ h $50$ min. » A-t-il raison ? Corriger si nécessaire.`,
+      solution: `**1.** $12$ h $52$ + $8$ min $= 13$ h $00$, puis $+ 3$ min (car $11 = 8 + 3$) : il égoutte les pâtes à **$13$ h $03$**.
+
+**2.** On remonte le temps : $13$ h $15 - 1$ h $= 12$ h $15$, puis $12$ h $15 - 15$ min $= 12$ h $00$, puis $12$ h $00 - 25$ min $= 11$ h $35$ (car $40 = 15 + 25$).
+Il faut mettre le rôti au four à **$11$ h $35$**. (Vérification : $11$ h $35 + 1$ h $40$ min $= 13$ h $15$.)
+
+**3.** Une heure dure $60$ min :
+- un quart d'heure : $60 \\div 4 = 15$ min ;
+- une demi-heure : $60 \\div 2 = 30$ min ;
+- trois quarts d'heure : $3 \\times 15 = 45$ min.
+
+**4.** Tom a tort. $1{,}5$ h $= 1$ h $+ 0{,}5$ h, et $0{,}5$ h est une demi-heure, soit $30$ min.
+Donc $1{,}5$ h $= 1$ h $30$ min (et non $1$ h $50$ min) : dans une durée, les minutes ne se comptent pas en centièmes d'heure.`
+    },
+    {
+      id: "6M4-ds-14",
+      title: "Le calendrier du club",
+      difficulty: 2,
+      points: 5,
+      statement: `Une année non bissextile compte $365$ jours. Les mois de janvier et mars ont $31$ jours ; février en a $28$ ; avril en a $30$.
+
+1. Un stage de football a lieu du lundi $18$ avril au vendredi $29$ avril, ces deux jours compris. Combien de jours dure le stage ?
+2. Le club organise un tournoi trois semaines après le mardi $7$ mars. Quelle est la date du tournoi ? Quel jour de la semaine sera-t-il ?
+3. Combien de semaines complètes y a-t-il dans une année non bissextile ? Combien reste-t-il de jours ?
+4. Le président lance un défi : courir chaque jour pendant $100$ jours, en commençant le $1^\\text{er}$ janvier (premier jour du défi). Quelle sera la date du dernier jour du défi ?`,
+      solution: `**1.** Du $18$ au $29$ avril, ces deux jours compris : $29 - 18 + 1 = 12$ jours.
+(Attention : $29 - 18 = 11$ compte les « intervalles » entre les jours ; il faut ajouter le premier jour.)
+
+**2.** Trois semaines font $3 \\times 7 = 21$ jours. $7 + 21 = 28$ : le tournoi a lieu le **mardi $28$ mars** (après un nombre entier de semaines, on retombe sur le même jour de la semaine). Comme mars a $31$ jours, on reste bien en mars.
+
+**3.** $365 = 7 \\times 52 + 1$. Il y a **$52$ semaines complètes** et il reste **$1$ jour**.
+
+**4.** Le $1^\\text{er}$ janvier est le jour $1$ du défi. On compte les jours :
+- janvier : jours $1$ à $31$ ;
+- février : $28$ jours, on arrive au jour $31 + 28 = 59$ (le $28$ février) ;
+- mars : $31$ jours, on arrive au jour $59 + 31 = 90$ (le $31$ mars).
+Il reste $100 - 90 = 10$ jours en avril : le dernier jour du défi est le **$10$ avril**.`
+    },
+    {
+      id: "6M4-ds-15",
+      title: "Programmer les appareils la nuit",
+      difficulty: 3,
+      points: 5,
+      statement: `Dans la maison de Léna, l'électricité coûte moins cher pendant les « heures creuses », de $22$ h $30$ à $6$ h $30$ le lendemain matin.
+
+1. Combien de temps durent les heures creuses ?
+2. Le lave-linge a un programme qui dure $2$ h $35$ min. Léna veut que le linge soit prêt à $7$ h $15$ du matin.
+   a) À quelle heure le lave-linge doit-il démarrer ?
+   b) Il est $22$ h $40$. Le lave-linge possède un bouton « départ différé » qui retarde le démarrage d'un nombre entier d'heures. Quel retard faut-il choisir ?
+   c) Le lavage se fait-il entièrement pendant les heures creuses ?
+3. Le lave-vaisselle a un programme de $3$ h $20$ min.
+   a) S'il démarre à $23$ h $50$, à quelle heure s'arrête-t-il ?
+   b) Quelle est l'heure de démarrage la plus tardive pour que tout le programme soit en heures creuses ?`,
+      solution: `**1.** De $22$ h $30$ à minuit : $1$ h $30$ min. De minuit à $6$ h $30$ : $6$ h $30$ min.
+Total : $1$ h $30$ min $+ 6$ h $30$ min $= 8$ h. Les heures creuses durent **$8$ h**.
+
+**2.** a) $7$ h $15 - 2$ h $= 5$ h $15$, puis $5$ h $15 - 35$ min $= 4$ h $40$. Le lave-linge doit démarrer à **$4$ h $40$**.
+b) De $22$ h $40$ à $4$ h $40$ le lendemain, il s'écoule $1$ h $20$ min (jusqu'à minuit) $+ 4$ h $40$ min $= 6$ h. Il faut choisir un départ différé de **$6$ heures**.
+c) Le lavage a lieu de $4$ h $40$ à $7$ h $15$. Or les heures creuses s'arrêtent à $6$ h $30$ : **non**, les $45$ dernières minutes (de $6$ h $30$ à $7$ h $15$) sont en heures pleines.
+
+**3.** a) $23$ h $50 + 3$ h $= 2$ h $50$, puis $2$ h $50 + 20$ min $= 3$ h $10$. Il s'arrête à **$3$ h $10$** (le lendemain).
+b) Il doit finir au plus tard à $6$ h $30$ : $6$ h $30 - 3$ h $20$ min $= 3$ h $10$. Il doit démarrer au plus tard à **$3$ h $10$**.`
+    },
+    {
+      id: "6M4-ds-16",
+      title: "Le voyage en autocar",
+      difficulty: 4,
+      points: 6,
+      statement: `Pour un voyage scolaire, l'autocar doit rouler $7$ h $30$ min au total. Le règlement impose au conducteur une pause de $15$ min après chaque période complète de $2$ h de conduite. L'autocar part à $6$ h $50$.
+
+1. Recopier et compléter le tableau du trajet.
+
+| Étape | Durée | Heure à la fin de l'étape |
+|:---|:---:|:---:|
+| Conduite n° 1 | $2$ h | |
+| Pause n° 1 | $15$ min | |
+| Conduite n° 2 | $2$ h | |
+| Pause n° 2 | $15$ min | |
+| Conduite n° 3 | $2$ h | |
+| Pause n° 3 | $15$ min | |
+| Conduite n° 4 | | |
+
+2. Pourquoi n'y a-t-il pas de pause après la conduite n° 4 ?
+3. Quelle est la durée totale du voyage, pauses comprises ? À quelle heure l'autocar arrive-t-il ?
+4. Les élèves doivent arriver au plus tard à $14$ h $30$. À quelle heure l'autocar aurait-il dû partir, au plus tard ?
+5. Finalement, la pause n° 2 est remplacée par une pause déjeuner de $45$ min (l'autocar repart toujours à $6$ h $50$). À quelle heure arrive-t-il ?`,
+      solution: `**1.** La dernière conduite dure $7$ h $30$ min $- 3 \\times 2$ h $= 1$ h $30$ min.
+
+| Étape | Durée | Heure à la fin de l'étape |
+|:---|:---:|:---:|
+| Conduite n° 1 | $2$ h | $8$ h $50$ |
+| Pause n° 1 | $15$ min | $9$ h $05$ |
+| Conduite n° 2 | $2$ h | $11$ h $05$ |
+| Pause n° 2 | $15$ min | $11$ h $20$ |
+| Conduite n° 3 | $2$ h | $13$ h $20$ |
+| Pause n° 3 | $15$ min | $13$ h $35$ |
+| Conduite n° 4 | $1$ h $30$ min | $15$ h $05$ |
+
+**2.** La conduite n° 4 ne dure que $1$ h $30$ min : ce n'est pas une période complète de $2$ h. De plus, le voyage est terminé.
+
+**3.** Durée totale : $7$ h $30$ min $+ 3 \\times 15$ min $= 7$ h $30$ min $+ 45$ min $= 8$ h $15$ min.
+$6$ h $50 + 8$ h $15$ min $= 14$ h $65$ min $= 15$ h $05$ : l'autocar arrive à **$15$ h $05$** (comme dans le tableau).
+
+**4.** Il faut retirer $8$ h $15$ min à $14$ h $30$ : $14$ h $30 - 8$ h $= 6$ h $30$, puis $6$ h $30 - 15$ min $= 6$ h $15$.
+L'autocar aurait dû partir au plus tard à **$6$ h $15$** (Vérification : l'arrivée prévue à $15$ h $05$ dépasse $14$ h $30$ de $35$ min ; il faut donc partir $35$ min plus tôt que $6$ h $50$, soit à $6$ h $15$.).
+
+**5.** La pause n° 2 dure $45$ min au lieu de $15$ min, soit $30$ min de plus. L'arrivée est retardée de $30$ min : $15$ h $05 + 30$ min, soit **$15$ h $35$**.
+(Autre calcul : $7$ h $30$ min $+ 15 + 45 + 15$ min $= 8$ h $45$ min, et $6$ h $50 + 8$ h $45$ min $= 15$ h $35$.)`
     }
   ],
   "6D1": [
@@ -3893,6 +5380,10 @@ Classement 3 : B, D, C, A.
 - la barre de l'année 2025 mesure $2$ cm de haut ;
 - la barre de l'année 2026 mesure $8$ cm de haut.
 
+Voici ce diagramme (reproduit en plus petit : chaque petite graduation de l'axe vertical représente $10$ vélos).
+
+<div class="geo-figure-wrapper" style="text-align:center; margin:0.8rem auto; max-width:340px;"><svg class="geo-svg-figure" viewBox="0 0 300 300" width="300" height="300" style="width:100%; height:auto; color:var(--text-main, #334155);" xmlns="http://www.w3.org/2000/svg" role="img"><line x1="70" y1="270" x2="280" y2="270" stroke="currentColor" stroke-width="1.5"/><line x1="70" y1="270" x2="70" y2="10" stroke="currentColor" stroke-width="1.5"/><line x1="65" y1="270" x2="70" y2="270" stroke="currentColor" stroke-width="1.2"/><text x="60" y="274" text-anchor="end" font-size="12" fill="currentColor">900</text><line x1="65" y1="245" x2="70" y2="245" stroke="currentColor" stroke-width="1.2"/><line x1="65" y1="220" x2="70" y2="220" stroke="currentColor" stroke-width="1.2"/><text x="60" y="224" text-anchor="end" font-size="12" fill="currentColor">920</text><line x1="65" y1="195" x2="70" y2="195" stroke="currentColor" stroke-width="1.2"/><line x1="65" y1="170" x2="70" y2="170" stroke="currentColor" stroke-width="1.2"/><text x="60" y="174" text-anchor="end" font-size="12" fill="currentColor">940</text><line x1="65" y1="145" x2="70" y2="145" stroke="currentColor" stroke-width="1.2"/><line x1="65" y1="120" x2="70" y2="120" stroke="currentColor" stroke-width="1.2"/><text x="60" y="124" text-anchor="end" font-size="12" fill="currentColor">960</text><line x1="65" y1="95" x2="70" y2="95" stroke="currentColor" stroke-width="1.2"/><line x1="65" y1="70" x2="70" y2="70" stroke="currentColor" stroke-width="1.2"/><text x="60" y="74" text-anchor="end" font-size="12" fill="currentColor">980</text><line x1="65" y1="45" x2="70" y2="45" stroke="currentColor" stroke-width="1.2"/><line x1="65" y1="20" x2="70" y2="20" stroke="currentColor" stroke-width="1.2"/><text x="60" y="24" text-anchor="end" font-size="12" fill="currentColor">1000</text><rect x="100" y="220" width="55" height="50" fill="rgba(59,130,246,0.55)" stroke="currentColor" stroke-width="1"/><rect x="195" y="70" width="55" height="200" fill="rgba(59,130,246,0.55)" stroke="currentColor" stroke-width="1"/><text x="127.5" y="288" text-anchor="middle" font-size="13" fill="currentColor" >2025</text><text x="222.5" y="288" text-anchor="middle" font-size="13" fill="currentColor" >2026</text><text x="16" y="140" font-size="12" fill="currentColor" transform="rotate(-90 16 140)" text-anchor="middle">Nombre de vélos vendus</text></svg></div>
+
 1. Combien de vélos ont été vendus en 2025 ? En 2026 ? Expliquer.
 2. Quelle a été l'augmentation des ventes entre 2025 et 2026 ?
 3. Sur le diagramme, combien de fois la barre de 2026 est-elle plus haute que celle de 2025 ? Les ventes de 2026 sont-elles vraiment ce nombre de fois plus grandes que celles de 2025 ? Justifier.
@@ -3908,6 +5399,138 @@ La barre de 2026 dépasse de $8$ cm, soit $8 \\times 10 = 80$ vélos : $900 + 80
 **4.** $920 \\div 100 = 9{,}2$ cm pour 2025 et $980 \\div 100 = 9{,}8$ cm pour 2026.
 
 **5.** Comme l'axe commence à $900$, la hauteur des barres n'est pas proportionnelle aux ventes : la petite différence de $60$ vélos paraît énorme. Avec un axe partant de $0$, les deux barres sont presque de la même hauteur, ce qui montre que les ventes ont peu changé.`
+    },
+    {
+      id: "6D1-ds-13",
+      title: "Le temps d'écran de la semaine",
+      difficulty: 1,
+      points: 4,
+      statement: `Inès a noté chaque jour, en minutes, le temps passé devant un écran pendant une semaine :
+
+| Jour | Lun. | Mar. | Mer. | Jeu. | Ven. | Sam. | Dim. |
+|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| Durée (min) | $45$ | $30$ | $90$ | $40$ | $35$ | $120$ | $100$ |
+
+1. Combien de temps Inès a-t-elle passé devant un écran le mercredi ?
+2. Quel jour ce temps a-t-il été le plus long ? Le plus court ? Calculer la différence entre ces deux durées.
+3. Quels jours ce temps a-t-il dépassé une heure ?
+4. Calculer le temps total de la semaine, en minutes, puis en heures et minutes.`,
+      solution: `**1.** On lit dans la colonne « Mer. » : $90$ min (soit $1$ h $30$ min).
+
+**2.** Le plus long : le samedi ($120$ min). Le plus court : le mardi ($30$ min).
+Différence : $120 - 30 = 90$ min.
+
+**3.** Une heure, c'est $60$ min. Les durées supérieures à $60$ min sont celles du **mercredi** ($90$), du **samedi** ($120$) et du **dimanche** ($100$).
+
+**4.** $45 + 30 + 90 + 40 + 35 + 120 + 100 = 460$ min.
+$460 = 7 \\times 60 + 40$, donc $460$ min $= 7$ h $40$ min.`
+    },
+    {
+      id: "6D1-ds-14",
+      title: "Comment vient-on au collège ?",
+      difficulty: 2,
+      points: 5,
+      statement: `On a demandé à des élèves de 6e leur principal moyen de transport pour venir au collège. Chaque élève n'a donné qu'une réponse. Les résultats sont représentés par le diagramme en barres ci-dessous.
+
+<div class="geo-figure-wrapper" style="text-align:center; margin:0.8rem auto; max-width:360px;"><svg class="geo-svg-figure" viewBox="0 0 330 232" width="330" height="232" style="width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img"><line x1="80" y1="20" x2="80" y2="190" stroke="#cbd5e1" stroke-width="1"/><text x="80" y="206" text-anchor="middle" font-size="11" fill="currentColor">0</text><line x1="108" y1="20" x2="108" y2="190" stroke="#cbd5e1" stroke-width="1"/><text x="108" y="206" text-anchor="middle" font-size="11" fill="currentColor">5</text><line x1="136" y1="20" x2="136" y2="190" stroke="#cbd5e1" stroke-width="1"/><text x="136" y="206" text-anchor="middle" font-size="11" fill="currentColor">10</text><line x1="164" y1="20" x2="164" y2="190" stroke="#cbd5e1" stroke-width="1"/><text x="164" y="206" text-anchor="middle" font-size="11" fill="currentColor">15</text><line x1="192" y1="20" x2="192" y2="190" stroke="#cbd5e1" stroke-width="1"/><text x="192" y="206" text-anchor="middle" font-size="11" fill="currentColor">20</text><line x1="220" y1="20" x2="220" y2="190" stroke="#cbd5e1" stroke-width="1"/><text x="220" y="206" text-anchor="middle" font-size="11" fill="currentColor">25</text><line x1="248" y1="20" x2="248" y2="190" stroke="#cbd5e1" stroke-width="1"/><text x="248" y="206" text-anchor="middle" font-size="11" fill="currentColor">30</text><line x1="276" y1="20" x2="276" y2="190" stroke="#cbd5e1" stroke-width="1"/><text x="276" y="206" text-anchor="middle" font-size="11" fill="currentColor">35</text><line x1="304" y1="20" x2="304" y2="190" stroke="#cbd5e1" stroke-width="1"/><text x="304" y="206" text-anchor="middle" font-size="11" fill="currentColor">40</text><rect x="80" y="32" width="196" height="24" fill="rgba(37,99,235,0.55)" stroke="#2563eb"/><text x="74" y="48" text-anchor="end" font-size="12" fill="currentColor">Bus</text><rect x="80" y="72" width="112" height="24" fill="rgba(37,99,235,0.55)" stroke="#2563eb"/><text x="74" y="88" text-anchor="end" font-size="12" fill="currentColor">Voiture</text><rect x="80" y="112" width="84" height="24" fill="rgba(37,99,235,0.55)" stroke="#2563eb"/><text x="74" y="128" text-anchor="end" font-size="12" fill="currentColor">Vélo</text><rect x="80" y="152" width="168" height="24" fill="rgba(37,99,235,0.55)" stroke="#2563eb"/><text x="74" y="168" text-anchor="end" font-size="12" fill="currentColor">À pied</text><line x1="80" y1="190" x2="314" y2="190" stroke="var(--text-main, #334155)" stroke-width="2"/><line x1="80" y1="190" x2="80" y2="20" stroke="var(--text-main, #334155)" stroke-width="2"/><text x="192" y="224" text-anchor="middle" font-size="11" fill="currentColor">Nombre d'élèves</text></svg></div>
+
+1. Que représente une graduation de l'axe horizontal ?
+2. Recopier et compléter le tableau :
+
+| Transport | Bus | Voiture | Vélo | À pied | Total |
+|:---|:---:|:---:|:---:|:---:|:---:|
+| Nombre d'élèves | | | | | |
+
+3. Combien d'élèves de plus viennent en bus qu'en voiture ?
+4. Quel moyen de transport est utilisé par deux fois plus d'élèves que le vélo ?
+5. Léa affirme : « Plus du quart des élèves interrogés viennent en bus. » A-t-elle raison ?`,
+      solution: `**1.** Entre $0$ et $5$, il y a une graduation : une graduation représente **$5$ élèves**.
+
+**2.** On lit l'extrémité de chaque barre :
+
+| Transport | Bus | Voiture | Vélo | À pied | Total |
+|:---|:---:|:---:|:---:|:---:|:---:|
+| Nombre d'élèves | $35$ | $20$ | $15$ | $30$ | $100$ |
+
+($35 + 20 + 15 + 30 = 100$.)
+
+**3.** $35 - 20 = 15$ élèves de plus viennent en bus.
+
+**4.** $2 \\times 15 = 30$ : ce sont les élèves qui viennent **à pied**.
+
+**5.** Le quart de $100$ est $100 \\div 4 = 25$. Or $35 > 25$ : **oui**, plus du quart des élèves viennent en bus.`
+    },
+    {
+      id: "6D1-ds-15",
+      title: "Le graphique de la randonnée",
+      difficulty: 3,
+      points: 5,
+      statement: `Un groupe part en randonnée à $9$ h. Le graphique ci-dessous donne la distance parcourue depuis le départ, en kilomètres, en fonction de l'heure.
+
+<div class="geo-figure-wrapper" style="text-align:center; margin:0.8rem auto; max-width:340px;"><svg class="geo-svg-figure" viewBox="0 0 310 240" width="310" height="240" style="width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img"><line x1="50" y1="200" x2="290" y2="200" stroke="#cbd5e1" stroke-width="1"/><text x="44" y="204" text-anchor="end" font-size="11" fill="currentColor">0</text><line x1="50" y1="180" x2="290" y2="180" stroke="#cbd5e1" stroke-width="1"/><text x="44" y="184" text-anchor="end" font-size="11" fill="currentColor">2</text><line x1="50" y1="160" x2="290" y2="160" stroke="#cbd5e1" stroke-width="1"/><text x="44" y="164" text-anchor="end" font-size="11" fill="currentColor">4</text><line x1="50" y1="140" x2="290" y2="140" stroke="#cbd5e1" stroke-width="1"/><text x="44" y="144" text-anchor="end" font-size="11" fill="currentColor">6</text><line x1="50" y1="120" x2="290" y2="120" stroke="#cbd5e1" stroke-width="1"/><text x="44" y="124" text-anchor="end" font-size="11" fill="currentColor">8</text><line x1="50" y1="100" x2="290" y2="100" stroke="#cbd5e1" stroke-width="1"/><text x="44" y="104" text-anchor="end" font-size="11" fill="currentColor">10</text><line x1="50" y1="80" x2="290" y2="80" stroke="#cbd5e1" stroke-width="1"/><text x="44" y="84" text-anchor="end" font-size="11" fill="currentColor">12</text><line x1="50" y1="60" x2="290" y2="60" stroke="#cbd5e1" stroke-width="1"/><text x="44" y="64" text-anchor="end" font-size="11" fill="currentColor">14</text><line x1="50" y1="40" x2="290" y2="40" stroke="#cbd5e1" stroke-width="1"/><text x="44" y="44" text-anchor="end" font-size="11" fill="currentColor">16</text><line x1="50" y1="20" x2="290" y2="20" stroke="#cbd5e1" stroke-width="1"/><text x="44" y="24" text-anchor="end" font-size="11" fill="currentColor">18</text><line x1="50" y1="200" x2="50" y2="20" stroke="#cbd5e1" stroke-width="1"/><text x="50" y="216" text-anchor="middle" font-size="11" fill="currentColor">9 h</text><line x1="90" y1="200" x2="90" y2="20" stroke="#cbd5e1" stroke-width="1"/><text x="90" y="216" text-anchor="middle" font-size="11" fill="currentColor">10 h</text><line x1="130" y1="200" x2="130" y2="20" stroke="#cbd5e1" stroke-width="1"/><text x="130" y="216" text-anchor="middle" font-size="11" fill="currentColor">11 h</text><line x1="170" y1="200" x2="170" y2="20" stroke="#cbd5e1" stroke-width="1"/><text x="170" y="216" text-anchor="middle" font-size="11" fill="currentColor">12 h</text><line x1="210" y1="200" x2="210" y2="20" stroke="#cbd5e1" stroke-width="1"/><text x="210" y="216" text-anchor="middle" font-size="11" fill="currentColor">13 h</text><line x1="250" y1="200" x2="250" y2="20" stroke="#cbd5e1" stroke-width="1"/><text x="250" y="216" text-anchor="middle" font-size="11" fill="currentColor">14 h</text><line x1="290" y1="200" x2="290" y2="20" stroke="#cbd5e1" stroke-width="1"/><text x="290" y="216" text-anchor="middle" font-size="11" fill="currentColor">15 h</text><polyline points="50,200 90,160 130,120 170,100 210,100 250,50 290,20" fill="none" stroke="#2563eb" stroke-width="2.5"/><circle cx="50" cy="200" r="3" fill="#2563eb"/><circle cx="90" cy="160" r="3" fill="#2563eb"/><circle cx="130" cy="120" r="3" fill="#2563eb"/><circle cx="170" cy="100" r="3" fill="#2563eb"/><circle cx="210" cy="100" r="3" fill="#2563eb"/><circle cx="250" cy="50" r="3" fill="#2563eb"/><circle cx="290" cy="20" r="3" fill="#2563eb"/><line x1="50" y1="200" x2="300" y2="200" stroke="var(--text-main, #334155)" stroke-width="2"/><line x1="50" y1="200" x2="50" y2="10" stroke="var(--text-main, #334155)" stroke-width="2"/><text x="8" y="12" font-size="11" fill="currentColor">Distance parcourue (km)</text><text x="170" y="234" text-anchor="middle" font-size="11" fill="currentColor">Heure</text></svg></div>
+
+1. Quelle distance le groupe avait-il parcourue à $11$ h ?
+2. À quelle heure le groupe avait-il parcouru $15$ km ?
+3. Entre quelles heures le groupe s'est-il arrêté pour déjeuner ? Comment le voit-on sur le graphique ?
+4. Quelle distance totale le groupe a-t-il parcourue ?
+5. Recopier et compléter le tableau des distances parcourues pendant chaque heure, puis dire pendant quelle heure le groupe a parcouru la plus grande distance.
+
+| Heure | $9$ h – $10$ h | $10$ h – $11$ h | $11$ h – $12$ h | $12$ h – $13$ h | $13$ h – $14$ h | $14$ h – $15$ h |
+|:---|:---:|:---:|:---:|:---:|:---:|:---:|
+| Distance (km) | | | | | | |`,
+      solution: `Sur l'axe vertical, une graduation représente $2$ km.
+
+**1.** À $11$ h, on lit $8$ km.
+
+**2.** La distance $15$ km est atteinte à **$14$ h**.
+
+**3.** Entre $12$ h et $13$ h, la distance reste égale à $10$ km : le groupe n'avance pas. Sur le graphique, la ligne est **horizontale** entre $12$ h et $13$ h : c'est la pause déjeuner.
+
+**4.** À $15$ h, on lit $18$ km : le groupe a parcouru **$18$ km**.
+
+**5.** On fait la différence des distances lues au début et à la fin de chaque heure :
+
+| Heure | $9$ h – $10$ h | $10$ h – $11$ h | $11$ h – $12$ h | $12$ h – $13$ h | $13$ h – $14$ h | $14$ h – $15$ h |
+|:---|:---:|:---:|:---:|:---:|:---:|:---:|
+| Distance (km) | $4$ | $4$ | $2$ | $0$ | $5$ | $3$ |
+
+(Vérification : $4 + 4 + 2 + 0 + 5 + 3 = 18$ km.)
+La plus grande distance a été parcourue entre **$13$ h et $14$ h** ($5$ km).`
+    },
+    {
+      id: "6D1-ds-16",
+      title: "Le diagramme des visiteurs du musée",
+      difficulty: 4,
+      points: 6,
+      statement: `Un musée, fermé le lundi, a compté ses visiteurs pendant une semaine :
+
+| Jour | Mar. | Mer. | Jeu. | Ven. | Sam. | Dim. |
+|:---|:---:|:---:|:---:|:---:|:---:|:---:|
+| Visiteurs | $60$ | $110$ | $80$ | $70$ | $150$ | $130$ |
+
+Tom a représenté ces données par le diagramme en barres suivant.
+
+<div class="geo-figure-wrapper" style="text-align:center; margin:0.8rem auto; max-width:360px;"><svg class="geo-svg-figure" viewBox="0 0 345 240" width="345" height="240" style="width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img"><line x1="50" y1="200" x2="330" y2="200" stroke="#cbd5e1" stroke-width="1"/><text x="44" y="204" text-anchor="end" font-size="11" fill="currentColor">0</text><line x1="50" y1="180" x2="330" y2="180" stroke="#cbd5e1" stroke-width="1"/><text x="44" y="184" text-anchor="end" font-size="11" fill="currentColor">20</text><line x1="50" y1="160" x2="330" y2="160" stroke="#cbd5e1" stroke-width="1"/><text x="44" y="164" text-anchor="end" font-size="11" fill="currentColor">40</text><line x1="50" y1="140" x2="330" y2="140" stroke="#cbd5e1" stroke-width="1"/><text x="44" y="144" text-anchor="end" font-size="11" fill="currentColor">60</text><line x1="50" y1="120" x2="330" y2="120" stroke="#cbd5e1" stroke-width="1"/><text x="44" y="124" text-anchor="end" font-size="11" fill="currentColor">80</text><line x1="50" y1="100" x2="330" y2="100" stroke="#cbd5e1" stroke-width="1"/><text x="44" y="104" text-anchor="end" font-size="11" fill="currentColor">100</text><line x1="50" y1="80" x2="330" y2="80" stroke="#cbd5e1" stroke-width="1"/><text x="44" y="84" text-anchor="end" font-size="11" fill="currentColor">120</text><line x1="50" y1="60" x2="330" y2="60" stroke="#cbd5e1" stroke-width="1"/><text x="44" y="64" text-anchor="end" font-size="11" fill="currentColor">140</text><line x1="50" y1="40" x2="330" y2="40" stroke="#cbd5e1" stroke-width="1"/><text x="44" y="44" text-anchor="end" font-size="11" fill="currentColor">160</text><rect x="62" y="140" width="30" height="60" fill="rgba(37,99,235,0.55)" stroke="#2563eb"/><text x="77" y="216" text-anchor="middle" font-size="12" fill="currentColor">Mar.</text><rect x="107" y="90" width="30" height="110" fill="rgba(37,99,235,0.55)" stroke="#2563eb"/><text x="122" y="216" text-anchor="middle" font-size="12" fill="currentColor">Mer.</text><rect x="152" y="110" width="30" height="90" fill="rgba(37,99,235,0.55)" stroke="#2563eb"/><text x="167" y="216" text-anchor="middle" font-size="12" fill="currentColor">Jeu.</text><rect x="197" y="130" width="30" height="70" fill="rgba(37,99,235,0.55)" stroke="#2563eb"/><text x="212" y="216" text-anchor="middle" font-size="12" fill="currentColor">Ven.</text><rect x="242" y="50" width="30" height="150" fill="rgba(37,99,235,0.55)" stroke="#2563eb"/><text x="257" y="216" text-anchor="middle" font-size="12" fill="currentColor">Sam.</text><rect x="287" y="70" width="30" height="130" fill="rgba(37,99,235,0.55)" stroke="#2563eb"/><text x="302" y="216" text-anchor="middle" font-size="12" fill="currentColor">Dim.</text><line x1="50" y1="200" x2="335" y2="200" stroke="var(--text-main, #334155)" stroke-width="2"/><line x1="50" y1="200" x2="50" y2="30" stroke="var(--text-main, #334155)" stroke-width="2"/><text x="8" y="16" font-size="11" fill="currentColor">Nombre de visiteurs</text><text x="190" y="234" text-anchor="middle" font-size="11" fill="currentColor">Jour</text></svg></div>
+
+1. Que représente une graduation de l'axe vertical sur le diagramme de Tom ?
+2. Tom a fait une erreur. Quelle barre est fausse ? Quelle hauteur aurait-elle dû avoir ?
+3. Calculer le nombre total de visiteurs de la semaine.
+4. Le directeur affirme : « Le week-end (samedi et dimanche), nous avons reçu plus de la moitié des visiteurs de la semaine. » A-t-il raison ?
+5. Est-il vrai que le samedi, il y a eu plus de deux fois plus de visiteurs que le mardi ?
+6. Sur une feuille, on refait le diagramme en représentant $20$ visiteurs par $1$ cm. Quelle doit être la hauteur de la barre du samedi ? Celle du vendredi ?`,
+      solution: `**1.** Les graduations sont $0$, $20$, $40$, … : une graduation représente **$20$ visiteurs**.
+
+**2.** La barre du **jeudi** s'arrête au milieu entre $80$ et $100$, c'est-à-dire à $90$. Or le tableau indique $80$ visiteurs : la barre aurait dû s'arrêter **sur la graduation $80$**. Les autres barres sont correctes ($60$ ; $110$ ; $70$ ; $150$ ; $130$).
+
+**3.** $60 + 110 + 80 + 70 + 150 + 130 = 600$ visiteurs.
+
+**4.** Le week-end : $150 + 130 = 280$ visiteurs. La moitié de $600$ est $300$. Or $280 < 300$ : le directeur **a tort**, c'est un peu moins de la moitié.
+
+**5.** Le double du nombre de visiteurs du mardi est $2 \\times 60 = 120$. Or $150 > 120$ : **oui**, il y a eu plus de deux fois plus de visiteurs le samedi.
+
+**6.** $1$ cm représente $20$ visiteurs.
+- Samedi : $150 \\div 20 = 7{,}5$, la barre mesure $7{,}5$ cm.
+- Vendredi : $70 \\div 20 = 3{,}5$, la barre mesure $3{,}5$ cm.`
     }
   ]
 });
@@ -4219,6 +5842,106 @@ Ces deux portions se chevauchent : tout le segment $[AB]$ est capté. La portion
 **4.** L'antenne $B$ capte maintenant les points à au moins $7 - 2 = 5$ km de $A$. L'antenne $A$ capte jusqu'à $4$ km de $A$. Les points situés entre $4$ km et $5$ km de $A$ ne sont plus captés : cela fait $5 - 4 = 1$ km de route.
 
 Pour tout capter, l'antenne $B$ doit atteindre le point situé à $4$ km de $A$, qui est à $7 - 4 = 3$ km de $B$. Il faut une portée d'**au moins $3$ km**.`
+    },
+    {
+      id: "6G1-ds-13",
+      title: "Lire une figure avec les bons symboles",
+      difficulty: 1,
+      points: 4,
+      statement: `Sur la figure ci-dessous, les points $A$, $B$ et $C$ sont sur la droite tracée, et le point $D$ n'est pas sur cette droite.
+
+<div class="geo-figure-wrapper" style="text-align:center; margin:0.8rem auto; max-width:340px;"><svg class="geo-svg-figure" viewBox="0 0 340 130" width="340" height="130" style="width:100%; height:auto; color:var(--text-main, #334155);" xmlns="http://www.w3.org/2000/svg" role="img"><line x1="15" y1="100" x2="325" y2="100" stroke="currentColor" stroke-width="2"/><circle cx="60" cy="100" r="3.5" fill="#2563eb"/><text x="60" y="122" text-anchor="middle" font-size="15" font-weight="bold" fill="#2563eb">A</text><circle cx="160" cy="100" r="3.5" fill="#2563eb"/><text x="160" y="122" text-anchor="middle" font-size="15" font-weight="bold" fill="#2563eb">B</text><circle cx="270" cy="100" r="3.5" fill="#2563eb"/><text x="270" y="122" text-anchor="middle" font-size="15" font-weight="bold" fill="#2563eb">C</text><circle cx="210" cy="30" r="3.5" fill="#dc2626"/><text x="222" y="28" font-size="15" font-weight="bold" fill="#dc2626">D</text></svg></div>
+
+1. Donner trois noms différents de la droite tracée.
+2. Recopier et compléter avec le symbole $\\in$ ou $\\notin$ :
+   a) $C \\ldots (AB)$ ;
+   b) $C \\ldots [AB]$ ;
+   c) $B \\ldots [AC]$ ;
+   d) $D \\ldots (BC)$.
+3. Nommer les deux demi-droites d'origine $B$ portées par la droite tracée.
+4. Le point $C$ appartient-il à la demi-droite $[AB)$ ? Justifier.`,
+      solution: `**1.** Une droite se nomme avec deux de ses points, dans n'importe quel ordre : par exemple $(AB)$, $(AC)$ et $(BC)$ (on accepte aussi $(BA)$, $(CA)$, $(CB)$).
+
+**2.**
+a) $C \\in (AB)$ : la droite $(AB)$ est illimitée et $C$ est dessus.
+b) $C \\notin [AB]$ : le segment $[AB]$ s'arrête en $A$ et en $B$, et $C$ est au-delà de $B$.
+c) $B \\in [AC]$ : $B$ est entre $A$ et $C$.
+d) $D \\notin (BC)$ : le point $D$ n'est pas sur la droite tracée, qui est aussi la droite $(BC)$.
+
+**3.** Les deux demi-droites d'origine $B$ sont $[BA)$ (qui part de $B$ et passe par $A$) et $[BC)$ (qui part de $B$ et passe par $C$).
+
+**4.** La demi-droite $[AB)$ part de $A$, passe par $B$ et continue sans fin au-delà de $B$. Le point $C$ est sur la droite, au-delà de $B$ quand on part de $A$ : donc **$C \\in [AB)$**.`
+    },
+    {
+      id: "6G1-ds-14",
+      title: "La distance d'un point à une droite",
+      difficulty: 2,
+      points: 5,
+      statement: `Un randonneur est au point $P$ et veut rejoindre une route droite, représentée par la droite $(d)$. Sur la figure (qui n'est pas en vraie grandeur), le point $H$ est sur $(d)$ et la droite $(PH)$ est perpendiculaire à $(d)$. Les points $M$ et $N$ sont aussi sur $(d)$. On sait que : $PH = 3$ km, $PM = 4{,}2$ km et $PN = 5$ km.
+
+<div class="geo-figure-wrapper" style="text-align:center; margin:0.8rem auto; max-width:340px;"><svg class="geo-svg-figure" viewBox="0 0 340 185" width="340" height="185" style="width:100%; height:auto; color:var(--text-main, #334155);" xmlns="http://www.w3.org/2000/svg" role="img"><line x1="10" y1="150" x2="330" y2="150" stroke="currentColor" stroke-width="2"/><text x="315" y="142" font-size="14" fill="currentColor">(d)</text><line x1="150" y1="60" x2="150" y2="150" stroke="#2563eb" stroke-width="2"/><line x1="150" y1="60" x2="238" y2="150" stroke="currentColor" stroke-width="1.5" stroke-dasharray="5 4"/><line x1="150" y1="60" x2="30" y2="150" stroke="currentColor" stroke-width="1.5" stroke-dasharray="5 4"/><path d="M150,140 L160,140 L160,150" fill="none" stroke="currentColor" stroke-width="1.2"/><circle cx="150" cy="60" r="3.5" fill="#dc2626"/><text x="146" y="48" font-size="15" font-weight="bold" fill="#dc2626">P</text><circle cx="150" cy="150" r="3" fill="currentColor"/><text x="145" y="172" font-size="15" fill="currentColor">H</text><circle cx="238" cy="150" r="3" fill="currentColor"/><text x="233" y="172" font-size="15" fill="currentColor">M</text><circle cx="30" cy="150" r="3" fill="currentColor"/><text x="25" y="172" font-size="15" fill="currentColor">N</text></svg></div>
+
+1. Parmi les trois chemins en ligne droite $[PH]$, $[PM]$ et $[PN]$, lequel est le plus court ? Est-ce un hasard ?
+2. Quelle est la distance du point $P$ à la droite $(d)$ ? Rappeler la définition utilisée.
+3. Un deuxième randonneur est au point $Q$, de l'autre côté de la route. La perpendiculaire à $(d)$ passant par $Q$ coupe $(d)$ en $K$, avec $QK = 2{,}5$ km. Lequel des deux randonneurs est le plus près de la route ? De combien de kilomètres ?
+4. Sur un plan à l'échelle $1$ cm pour $1$ km, expliquer comment construire le point $H$ à partir du point $P$ et de la droite $(d)$, avec les instruments.`,
+      solution: `**1.** Le chemin le plus court est $[PH]$ : $3 < 4{,}2 < 5$. Ce n'est pas un hasard : le point $H$ est le pied de la perpendiculaire à $(d)$ passant par $P$, et de tous les points de $(d)$, c'est le plus proche de $P$.
+
+**2.** La distance du point $P$ à la droite $(d)$ est la longueur $PH$, où $H$ est le point d'intersection de $(d)$ et de la perpendiculaire à $(d)$ passant par $P$. Ici, **la distance de $P$ à $(d)$ est $3$ km**.
+
+**3.** La distance de $Q$ à la route est $QK = 2{,}5$ km. Comme $2{,}5 < 3$, **le deuxième randonneur est le plus près de la route**, de $3 - 2{,}5 = 0{,}5$ km.
+
+**4.** On place l'équerre : un côté de l'angle droit le long de la droite $(d)$, l'autre côté de l'angle droit passant par $P$. On trace la perpendiculaire à $(d)$ passant par $P$ ; elle coupe $(d)$ en $H$. Sur le plan, on doit alors mesurer $PH = 3$ cm.`
+    },
+    {
+      id: "6G1-ds-15",
+      title: "Rédiger un programme de construction",
+      difficulty: 3,
+      points: 5,
+      statement: `Voici une figure réalisée par Elsa. Les codages indiquent les égalités de longueurs et l'angle droit. On sait de plus que $AB = 6$ cm, que le cercle a pour centre $A$ et passe par $I$, et que $BC = 3$ cm.
+
+<div class="geo-figure-wrapper" style="text-align:center; margin:0.8rem auto; max-width:340px;"><svg class="geo-svg-figure" viewBox="0 0 330 235" width="330" height="235" style="width:100%; height:auto; color:var(--text-main, #334155);" xmlns="http://www.w3.org/2000/svg" role="img"><circle cx="100" cy="130" r="90" fill="none" stroke="#2563eb" stroke-width="1.8"/><line x1="100" y1="130" x2="280" y2="130" stroke="currentColor" stroke-width="2"/><line x1="280" y1="15" x2="280" y2="225" stroke="currentColor" stroke-width="1.5"/><line x1="190" y1="130" x2="280" y2="40" stroke="#dc2626" stroke-width="2"/><line x1="141" y1="124" x2="149" y2="136" stroke="currentColor" stroke-width="1.5"/><line x1="231" y1="124" x2="239" y2="136" stroke="currentColor" stroke-width="1.5"/><path d="M270,130 L270,120 L280,120" fill="none" stroke="currentColor" stroke-width="1.2"/><circle cx="100" cy="130" r="3" fill="currentColor"/><text x="88" y="150" font-size="15" fill="currentColor">A</text><circle cx="190" cy="130" r="3" fill="currentColor"/><text x="186" y="150" font-size="15" fill="currentColor">I</text><circle cx="280" cy="130" r="3" fill="currentColor"/><text x="287" y="150" font-size="15" fill="currentColor">B</text><circle cx="280" cy="40" r="3" fill="currentColor"/><text x="288" y="44" font-size="15" fill="currentColor">C</text></svg></div>
+
+1. Que représente le point $I$ pour le segment $[AB]$ ? Calculer $AI$.
+2. Donner le rayon et le diamètre du cercle. Justifier.
+3. Rédiger un programme de construction de cette figure, en quatre ou cinq étapes, avec le vocabulaire et les notations de géométrie, pour qu'un camarade puisse la reproduire sans la voir.
+4. Construire la figure en vraie grandeur en suivant le programme.`,
+      solution: `**1.** Les codages indiquent $AI = IB$ et $I$ est sur le segment $[AB]$ : $I$ est **le milieu de $[AB]$**. Donc $AI = 6 \\div 2 = 3$ cm.
+
+**2.** Le cercle a pour centre $A$ et passe par $I$ : son rayon est $AI = 3$ cm. Son diamètre est le double du rayon : $2 \\times 3 = 6$ cm (c'est aussi la longueur $AB$).
+
+**3.** Un programme possible :
+- Tracer un segment $[AB]$ de longueur $6$ cm.
+- Placer le point $I$, milieu du segment $[AB]$.
+- Tracer le cercle de centre $A$ passant par $I$ (de rayon $3$ cm).
+- Tracer la droite perpendiculaire à $(AB)$ passant par $B$.
+- Placer sur cette droite un point $C$ tel que $BC = 3$ cm, puis tracer le segment $[IC]$.
+
+(Toute rédaction précise, dans un ordre qui permet de construire chaque élément, est acceptée. Il faut indiquer quel côté de $(AB)$ choisir pour $C$ si l'on veut exactement la même figure : par exemple « au-dessus de $(AB)$ ».)
+
+**4.** On trace $[AB]$ à la règle graduée, on place $I$ à $3$ cm de $A$, on trace le cercle au compas (écartement $3$ cm, pointe en $A$), la perpendiculaire avec l'équerre, puis on reporte $3$ cm à partir de $B$ pour placer $C$.`
+    },
+    {
+      id: "6G1-ds-16",
+      title: "Des points à égale distance de deux points",
+      difficulty: 4,
+      points: 6,
+      statement: `On trace un segment $[AB]$ de longueur $6$ cm et on note $I$ son milieu. On cherche les points situés à la **même distance $r$** du point $A$ et du point $B$, pour différentes valeurs de $r$.
+
+1. Cas $r = 4$ cm.
+   a) Où se trouvent tous les points situés à $4$ cm du point $A$ ? Et tous les points situés à $4$ cm du point $B$ ?
+   b) Construire ces deux ensembles de points. Combien de points sont à la fois à $4$ cm de $A$ et à $4$ cm de $B$ ? Les nommer $M$ et $N$.
+2. Cas $r = 3$ cm. Tracer les cercles de centre $A$ et de centre $B$ de rayon $3$ cm. Que constate-t-on ? Quel point est à la fois à $3$ cm de $A$ et à $3$ cm de $B$ ?
+3. Cas $r = 2$ cm. Sur le segment $[AB]$, les points situés à $2$ cm ou moins de $A$ vont de $A$ jusqu'à quelle distance de $A$ ? Et ceux situés à $2$ cm ou moins de $B$ ? En s'aidant de la figure, expliquer pourquoi aucun point n'est à la fois à $2$ cm de $A$ et à $2$ cm de $B$.
+4. Quelle est la plus petite valeur de $r$ pour laquelle il existe au moins un point à la distance $r$ de $A$ et de $B$ ?`,
+      solution: `**1.** a) Les points situés à $4$ cm de $A$ forment le **cercle de centre $A$ et de rayon $4$ cm**. Ceux situés à $4$ cm de $B$ forment le **cercle de centre $B$ et de rayon $4$ cm**.
+b) Les deux cercles se coupent en **deux points** $M$ et $N$, un de chaque côté de la droite $(AB)$. Ce sont les seuls points à $4$ cm de $A$ et à $4$ cm de $B$ : $MA = MB = 4$ cm et $NA = NB = 4$ cm.
+
+**2.** Les deux cercles de rayon $3$ cm se touchent en **un seul point** : le milieu $I$ de $[AB]$. En effet, $IA = IB = 6 \\div 2 = 3$ cm. Le seul point à $3$ cm de $A$ et de $B$ est $I$.
+
+**3.** Sur le segment $[AB]$, les points à $2$ cm ou moins de $A$ vont de $A$ jusqu'à $2$ cm de $A$ ; les points à $2$ cm ou moins de $B$ vont de $6 - 2 = 4$ cm de $A$ jusqu'à $B$. Il reste un « trou » de $2$ cm entre les deux. Sur la figure, le cercle de centre $A$ de rayon $2$ cm et le cercle de centre $B$ de rayon $2$ cm sont trop petits pour se rejoindre : ils n'ont **aucun point commun**, donc aucun point n'est à $2$ cm de $A$ et à $2$ cm de $B$.
+
+**4.** Les deux cercles se rencontrent dès que le rayon atteint la moitié de $AB$. La plus petite valeur est **$r = 3$ cm**, et le seul point obtenu est alors le milieu $I$. Pour $r < 3$ cm, il n'y a aucun point ; pour $r > 3$ cm, il y en a deux.`
     }
   ],
   "6G2": [
@@ -4474,32 +6197,139 @@ b) $BI = BB' \\div 2 \\approx 5{,}7 \\div 2 = 2{,}85$ cm.`
       id: "6G2-ds-12",
       title: "Deux miroirs perpendiculaires",
       difficulty: 4,
-      points: 6,
-      statement: `Deux droites $(d_1)$ et $(d_2)$ sont perpendiculaires en un point $O$. On note $[Ox)$ une demi-droite de $(d_1)$ et $[Oy)$ une demi-droite de $(d_2)$, et $[Oy')$ la demi-droite opposée à $[Oy)$. Le point $A$ est à l'intérieur de l'angle droit $\\widehat{xOy}$, avec $OA = 3$ cm et $\\widehat{xOA} = 25^\\circ$.
+      points: 5,
+      statement: `Deux droites $(d_1)$ et $(d_2)$ sont perpendiculaires en un point $O$. Le point $A$ est situé à $3$ cm de $O$, et la demi-droite $[OA)$ fait un angle de $25^\\circ$ avec la droite $(d_1)$.
 
-On construit :
-- le point $A_1$, symétrique de $A$ par rapport à $(d_1)$ ;
-- le point $A_2$, symétrique de $A_1$ par rapport à $(d_2)$.
+On construit le point $A_1$, symétrique de $A$ par rapport à $(d_1)$, puis le point $A_2$, symétrique de $A_1$ par rapport à $(d_2)$.
 
 1. Construire la figure en vraie grandeur.
-2. Montrer que $OA_1 = 3$ cm, puis que $OA_2 = 3$ cm. Sur quel cercle se trouvent les points $A$, $A_1$ et $A_2$ ?
-3. a) Donner la mesure de l'angle $\\widehat{xOA_1}$, puis celle de $\\widehat{AOA_1}$.
-   b) Calculer la mesure de l'angle $\\widehat{y'OA_1}$, puis celle de $\\widehat{A_1OA_2}$.
-4. Calculer $\\widehat{AOA_1} + \\widehat{A_1OA_2}$. Que peut-on en déduire pour les points $A$, $O$ et $A_2$ ? Que représente alors le point $O$ pour le segment $[AA_2]$ ?`,
-      solution: `**1.** On trace les deux droites perpendiculaires, l'angle $\\widehat{xOA} = 25^\\circ$ au rapporteur et $A$ à $3$ cm de $O$, puis on construit $A_1$ et $A_2$ à l'équerre et au compas.
+2. Justifier que $OA_1 = 3$ cm et que $OA_2 = 3$ cm.
+3. a) Justifier que l'angle $\\widehat{AOA_1}$ mesure $50^\\circ$.
+   b) On admet que l'angle $\\widehat{A_1OA_2}$ mesure $130^\\circ$. Calculer $\\widehat{AOA_1} + \\widehat{A_1OA_2}$.
+4. Que peut-on en déduire pour les points $A$, $O$ et $A_2$ ? Que représente le point $O$ pour le segment $[AA_2]$ ?`,
+      solution: `**1.** On trace les deux droites perpendiculaires, la demi-droite $[OA)$ au rapporteur à $25^\\circ$ de $(d_1)$, et $A$ à $3$ cm de $O$. On construit $A_1$ puis $A_2$ à l'équerre et au compas (ou sur papier quadrillé).
 
-**2.** $O$ est sur $(d_1)$ : il est son propre symétrique par rapport à $(d_1)$. $[OA_1]$ est le symétrique de $[OA]$, et la symétrie conserve les longueurs : $OA_1 = OA = 3$ cm.
-De même, $O$ est sur $(d_2)$ et $[OA_2]$ est le symétrique de $[OA_1]$ par rapport à $(d_2)$ : $OA_2 = OA_1 = 3$ cm.
-Les trois points sont à $3$ cm de $O$ : ils sont sur le **cercle de centre $O$ et de rayon $3$ cm**.
+**2.** $O$ est sur $(d_1)$ : il est son propre symétrique par rapport à $(d_1)$. Le segment $[OA_1]$ est le symétrique de $[OA]$, et la symétrie axiale conserve les longueurs : $OA_1 = OA = 3$ cm.
+De même, $O$ est sur $(d_2)$, donc $[OA_2]$ est le symétrique de $[OA_1]$ par rapport à $(d_2)$ : $OA_2 = OA_1 = 3$ cm.
 
-**3.** a) $[Ox)$ est sur l'axe $(d_1)$, donc l'angle $\\widehat{xOA_1}$ est le symétrique de $\\widehat{xOA}$ : $\\widehat{xOA_1} = 25^\\circ$ (conservation des angles). $A$ et $A_1$ sont de part et d'autre de $(d_1)$, donc $\\widehat{AOA_1} = 25^\\circ + 25^\\circ = 50^\\circ$.
+**3.** a) La symétrie axiale conserve les angles : $[OA_1)$ fait, elle aussi, un angle de $25^\\circ$ avec $(d_1)$, mais de l'autre côté de $(d_1)$. Donc $\\widehat{AOA_1} = 25^\\circ + 25^\\circ = 50^\\circ$.
+(Pour l'angle admis : $[OA_1)$ fait un angle de $90^\\circ - 25^\\circ = 65^\\circ$ avec $(d_2)$, et son symétrique aussi, de l'autre côté : $65^\\circ + 65^\\circ = 130^\\circ$.)
+b) $\\widehat{AOA_1} + \\widehat{A_1OA_2} = 50^\\circ + 130^\\circ = 180^\\circ$.
 
-b) $A_1$ est à l'intérieur de l'angle droit $\\widehat{xOy'}$ ; comme $\\widehat{xOA_1} = 25^\\circ$, on a $\\widehat{y'OA_1} = 90^\\circ - 25^\\circ = 65^\\circ$.
-$[Oy')$ est sur l'axe $(d_2)$, donc $\\widehat{y'OA_2} = \\widehat{y'OA_1} = 65^\\circ$, et $A_1$, $A_2$ sont de part et d'autre de $(d_2)$ : $\\widehat{A_1OA_2} = 65^\\circ + 65^\\circ = 130^\\circ$.
+**4.** Les deux angles sont adjacents et forment ensemble l'angle $\\widehat{AOA_2}$, qui mesure $180^\\circ$ : c'est un angle plat. Les points $A$, $O$ et $A_2$ sont donc **alignés**, avec $O$ entre $A$ et $A_2$.
+Comme de plus $OA = OA_2 = 3$ cm, le point $O$ est le **milieu** du segment $[AA_2]$.`
+    },
+    {
+      id: "6G2-ds-13",
+      title: "Le symétrique sur un quadrillage",
+      difficulty: 1,
+      points: 4,
+      statement: `Sur le quadrillage ci-dessous, la droite $(d)$ en pointillés rouges est un axe de symétrie. On a tracé le segment $[AB]$ et placé le point $C$ sur $(d)$, ainsi que les points $E$, $F$, $G$ et $K$.
 
-**4.** $\\widehat{AOA_1} + \\widehat{A_1OA_2} = 50^\\circ + 130^\\circ = 180^\\circ$.
-Ces deux angles sont adjacents (côté commun $[OA_1)$) : ensemble ils forment l'angle $\\widehat{AOA_2}$, qui mesure $180^\\circ$. C'est un **angle plat** : les points $A$, $O$ et $A_2$ sont **alignés**, avec $O$ entre $A$ et $A_2$.
-Comme de plus $OA = OA_2 = 3$ cm, le point $O$ est le **milieu** du segment $[AA_2]$ (et $[AA_2]$ est un diamètre du cercle de la question 2).`
+<div class="geo-figure-wrapper" style="text-align:center; margin:0.8rem auto; max-width:340px;"><svg class="geo-svg-figure" viewBox="0 0 330 210" width="330" height="210" style="width:100%; height:auto; color:var(--text-main, #334155);" xmlns="http://www.w3.org/2000/svg" role="img"><line x1="15" y1="15" x2="15" y2="195" stroke="#cbd5e1" stroke-width="1"/><line x1="45" y1="15" x2="45" y2="195" stroke="#cbd5e1" stroke-width="1"/><line x1="75" y1="15" x2="75" y2="195" stroke="#cbd5e1" stroke-width="1"/><line x1="105" y1="15" x2="105" y2="195" stroke="#cbd5e1" stroke-width="1"/><line x1="135" y1="15" x2="135" y2="195" stroke="#cbd5e1" stroke-width="1"/><line x1="165" y1="15" x2="165" y2="195" stroke="#cbd5e1" stroke-width="1"/><line x1="195" y1="15" x2="195" y2="195" stroke="#cbd5e1" stroke-width="1"/><line x1="225" y1="15" x2="225" y2="195" stroke="#cbd5e1" stroke-width="1"/><line x1="255" y1="15" x2="255" y2="195" stroke="#cbd5e1" stroke-width="1"/><line x1="285" y1="15" x2="285" y2="195" stroke="#cbd5e1" stroke-width="1"/><line x1="315" y1="15" x2="315" y2="195" stroke="#cbd5e1" stroke-width="1"/><line x1="15" y1="15" x2="315" y2="15" stroke="#cbd5e1" stroke-width="1"/><line x1="15" y1="45" x2="315" y2="45" stroke="#cbd5e1" stroke-width="1"/><line x1="15" y1="75" x2="315" y2="75" stroke="#cbd5e1" stroke-width="1"/><line x1="15" y1="105" x2="315" y2="105" stroke="#cbd5e1" stroke-width="1"/><line x1="15" y1="135" x2="315" y2="135" stroke="#cbd5e1" stroke-width="1"/><line x1="15" y1="165" x2="315" y2="165" stroke="#cbd5e1" stroke-width="1"/><line x1="15" y1="195" x2="315" y2="195" stroke="#cbd5e1" stroke-width="1"/><line x1="165" y1="5" x2="165" y2="205" stroke="#dc2626" stroke-width="2" stroke-dasharray="6 4"/><text x="170" y="14" font-size="13" fill="#dc2626">(d)</text><line x1="75" y1="45" x2="105" y2="135" stroke="#2563eb" stroke-width="2"/><circle cx="75" cy="45" r="3.5" fill="#2563eb"/><text x="81" y="39" font-size="14" font-weight="bold" fill="#2563eb">A</text><circle cx="105" cy="135" r="3.5" fill="#2563eb"/><text x="111" y="129" font-size="14" font-weight="bold" fill="#2563eb">B</text><circle cx="165" cy="75" r="3.5" fill="#2563eb"/><text x="171" y="69" font-size="14" font-weight="bold" fill="#2563eb">C</text><circle cx="255" cy="45" r="3.5" fill="currentColor"/><text x="261" y="39" font-size="14" font-weight="bold" fill="currentColor">E</text><circle cx="225" cy="45" r="3.5" fill="currentColor"/><text x="231" y="39" font-size="14" font-weight="bold" fill="currentColor">G</text><circle cx="225" cy="135" r="3.5" fill="currentColor"/><text x="231" y="129" font-size="14" font-weight="bold" fill="currentColor">F</text><circle cx="255" cy="165" r="3.5" fill="currentColor"/><text x="261" y="159" font-size="14" font-weight="bold" fill="currentColor">K</text></svg></div>
+
+1. Parmi les points $E$ et $G$, lequel est le symétrique du point $A$ par rapport à $(d)$ ? Justifier en comptant les carreaux.
+2. Quel est le symétrique du point $B$ par rapport à $(d)$ ? Justifier.
+3. Quel est le symétrique du point $C$ ? Justifier.
+4. Quel est le symétrique du segment $[AB]$ ? Que peut-on dire de sa longueur ?
+5. Le point $K$ est-il le symétrique d'un des points $A$, $B$ ou $C$ ? Justifier.`,
+      solution: `On compte les carreaux horizontalement : le symétrique d'un point est sur la même ligne du quadrillage (la droite qui les joint est perpendiculaire à l'axe vertical $(d)$), de l'autre côté de l'axe et **à la même distance** de l'axe.
+
+**1.** Le point $A$ est à $3$ carreaux à gauche de $(d)$. Le point $E$, sur la même ligne, est à $3$ carreaux à droite de $(d)$ ; le point $G$ n'est qu'à $2$ carreaux. Le symétrique de $A$ est donc **$E$**.
+
+**2.** Le point $B$ est à $2$ carreaux à gauche de $(d)$. Le point $F$, sur la même ligne, est à $2$ carreaux à droite : le symétrique de $B$ est **$F$**.
+
+**3.** Le point $C$ est sur l'axe $(d)$ : il est **son propre symétrique**.
+
+**4.** Le symétrique du segment $[AB]$ est le segment **$[EF]$**. La symétrie axiale conserve les longueurs : $EF = AB$.
+
+**5.** Le point $K$ est à $3$ carreaux à droite de $(d)$, sur une ligne horizontale du quadrillage. Son symétrique serait à $3$ carreaux à gauche de $(d)$ sur cette même ligne : aucun des points $A$, $B$, $C$ ne s'y trouve. Donc **$K$ n'est le symétrique d'aucun de ces points**.`
+    },
+    {
+      id: "6G2-ds-14",
+      title: "Des lettres et des mots symétriques",
+      difficulty: 2,
+      points: 5,
+      statement: `On écrit des lettres capitales en écriture « bâton » (des traits simples, sans empattement) :
+$$\\text{A} \\quad \\text{B} \\quad \\text{C} \\quad \\text{E} \\quad \\text{F} \\quad \\text{H} \\quad \\text{I} \\quad \\text{M} \\quad \\text{N} \\quad \\text{S} \\quad \\text{T} \\quad \\text{X} \\quad \\text{Z}$$
+
+1. Recopier et compléter le tableau suivant en plaçant chaque lettre dans la bonne colonne.
+
+| Aucun axe | Un axe vertical seulement | Un axe horizontal seulement | Deux axes |
+|:---:|:---:|:---:|:---:|
+| … | … | … | … |
+
+2. Le mot « BEC », écrit en ligne, possède un axe de symétrie. Lequel ? Expliquer.
+3. Le mot « AHA », écrit en ligne, possède un axe de symétrie. Lequel ? Expliquer pourquoi l'ordre des lettres compte ici, alors qu'il ne comptait pas pour « BEC ».
+4. Le mot « MAT » possède-t-il un axe de symétrie vertical ? Justifier.`,
+      solution: `**1.**
+
+| Aucun axe | Un axe vertical seulement | Un axe horizontal seulement | Deux axes |
+|:---:|:---:|:---:|:---:|
+| F, N, S, Z | A, M, T | B, C, E | H, I, X |
+
+(Pour N, S et Z, on peut essayer de plier selon n'importe quelle droite : les deux moitiés ne coïncident jamais.)
+
+**2.** Les lettres B, E et C ont chacune un axe de symétrie horizontal, et ces trois axes sont à la même hauteur (au milieu de la ligne). La droite horizontale qui passe au milieu des lettres est donc **un axe de symétrie du mot « BEC »** : en pliant, le haut de chaque lettre vient sur le bas de la même lettre.
+
+**3.** L'axe est **vertical** et passe par le milieu du H. En pliant le long de cet axe :
+- le H vient sur lui-même (il a un axe vertical) ;
+- le premier A vient sur le dernier A, à la même distance de l'axe, et le A est symétrique par rapport à un axe vertical.
+Avec un axe vertical, chaque lettre vient se poser sur **une autre lettre** (celle à la même place en partant de l'autre bout) : il faut donc que le mot se lise pareil dans les deux sens. Avec l'axe horizontal de « BEC », chaque lettre vient sur elle-même : l'ordre ne compte pas.
+
+**4.** Non. Les lettres M, A et T ont chacune un axe vertical, mais un axe vertical du mot devrait passer par le A et envoyer le M sur le T, ce qui est faux : le M et le T n'ont pas la même forme. **« MAT » n'a pas d'axe de symétrie vertical.**`
+    },
+    {
+      id: "6G2-ds-15",
+      title: "Retrouver un axe effacé",
+      difficulty: 3,
+      points: 5,
+      statement: `Lina a construit le symétrique $A'B'C'$ d'un triangle $ABC$ par rapport à une droite $(d)$, puis elle a effacé la droite $(d)$ par erreur. Elle sait que :
+- $AB = 4{,}5$ cm, $BC = 3{,}8$ cm, $AC = 5{,}2$ cm et $\\widehat{BAC} = 47^\\circ$ ;
+- $AA' = 6$ cm.
+
+1. On rappelle que $A'$ est le symétrique de $A$ par rapport à $(d)$. Que représente la droite $(d)$ pour le segment $[AA']$ ?
+2. Expliquer comment Lina peut retracer la droite $(d)$ avec la règle et le compas.
+3. On note $I$ le point d'intersection de $(d)$ et de $[AA']$. Calculer $AI$. Quelle est la distance du point $A$ à la droite $(d)$ ?
+4. Donner, sans mesurer, les longueurs $A'B'$, $B'C'$, $A'C'$ et la mesure de l'angle $\\widehat{B'A'C'}$. Calculer le périmètre du triangle $A'B'C'$.
+5. Hugo affirme : « $BB'$ mesure forcément $6$ cm, comme $AA'$. » A-t-il raison ? Expliquer.`,
+      solution: `**1.** Dire que $A'$ est le symétrique de $A$ par rapport à $(d)$, c'est dire que $(d)$ est perpendiculaire à $[AA']$ et passe par son milieu : **$(d)$ est la médiatrice du segment $[AA']$**.
+
+**2.** Elle construit la médiatrice de $[AA']$ au compas : avec un même écartement (plus grand que la moitié de $AA'$), elle trace deux arcs de centre $A$ et deux arcs de centre $A'$, de part et d'autre de $[AA']$. Les arcs se coupent en deux points ; la droite qui passe par ces deux points est la médiatrice de $[AA']$, donc la droite $(d)$.
+
+**3.** Le point $I$ est le milieu de $[AA']$ : $AI = 6 \\div 2 = 3$ cm. Comme $(d)$ est perpendiculaire à $(AA')$ en $I$, la distance de $A$ à la droite $(d)$ est $AI = $ **$3$ cm**.
+
+**4.** La symétrie axiale conserve les longueurs et les angles :
+$A'B' = AB = 4{,}5$ cm ; $B'C' = BC = 3{,}8$ cm ; $A'C' = AC = 5{,}2$ cm ; $\\widehat{B'A'C'} = \\widehat{BAC} = 47^\\circ$.
+Périmètre de $A'B'C'$ : $4{,}5 + 3{,}8 + 5{,}2 = 13{,}5$ cm.
+
+**5.** Hugo a tort. La droite $(d)$ est aussi la médiatrice de $[BB']$, mais la longueur $BB'$ est le double de la distance de $B$ à $(d)$, qui n'a aucune raison d'être égale à celle de $A$ à $(d)$. Par exemple, si $B$ est plus loin de l'axe que $A$, alors $BB'$ est plus grand que $6$ cm. On ne peut pas connaître $BB'$ avec les données.`
+    },
+    {
+      id: "6G2-ds-16",
+      title: "Plier et découper",
+      difficulty: 4,
+      points: 6,
+      statement: `Zoé plie une feuille en deux. Le long du pli (la droite $(d)$ en pointillés), elle découpe un triangle $PQR$ : les points $P$ et $Q$ sont sur le pli, $PQ = 3$ cm, $QR = 4$ cm, $PR = 5$ cm, et l'angle $\\widehat{PQR}$ est droit. Elle ne découpe que le long de $[QR]$ et de $[PR]$, puis elle déplie la feuille. On note $R'$ le symétrique de $R$ par rapport à $(d)$.
+
+<div class="geo-figure-wrapper" style="text-align:center; margin:0.8rem auto; max-width:300px;"><svg class="geo-svg-figure" viewBox="0 0 290 220" width="290" height="220" style="width:100%; height:auto; color:var(--text-main, #334155);" xmlns="http://www.w3.org/2000/svg" role="img"><rect x="60" y="15" width="210" height="195" fill="rgba(59,130,246,0.06)" stroke="currentColor" stroke-width="1.5"/><line x1="60" y1="5" x2="60" y2="215" stroke="#dc2626" stroke-width="2" stroke-dasharray="6 4"/><text x="12" y="30" font-size="13" fill="#dc2626">pli (d)</text><path d="M60,60 L180,150 L60,150 Z" fill="rgba(220,38,38,0.12)" stroke="#2563eb" stroke-width="2"/><path d="M60,140 L70,140 L70,150" fill="none" stroke="currentColor" stroke-width="1.2"/><text x="44" y="64" font-size="15" fill="currentColor">P</text><text x="44" y="158" font-size="15" fill="currentColor">Q</text><text x="184" y="160" font-size="15" fill="currentColor">R</text><text x="112" y="168" font-size="12" fill="currentColor">4 cm</text><text x="124" y="96" font-size="12" fill="currentColor">5 cm</text><text x="64" y="108" font-size="12" fill="currentColor">3 cm</text></svg></div>
+
+1. Après dépliage, le trou est un triangle $PRR'$. Expliquer pourquoi $PR' = PR$. Quelle est la nature du triangle $PRR'$ ?
+2. Expliquer pourquoi les points $R$, $Q$ et $R'$ sont alignés, puis calculer $RR'$.
+3. Que représente le pli $(d)$ pour le segment $[RR']$ ? Justifier.
+4. Calculer le périmètre du trou. Quelle longueur de découpe Zoé a-t-elle réalisée avec ses ciseaux ?
+5. Sur une autre feuille pliée, Zoé découpe un demi-disque de rayon $2$ cm dont le centre est sur le pli. Quelle forme obtient-elle en dépliant ? Calculer la longueur du bord du trou, en prenant $3{,}14$ comme valeur approchée de $\\pi$.`,
+      solution: `**1.** Quand on déplie, la partie découpée de l'autre moitié de la feuille est le symétrique de $PQR$ par rapport au pli $(d)$. Le point $P$ est sur l'axe, donc il est son propre symétrique, et $R'$ est le symétrique de $R$ : le segment $[PR']$ est le symétrique de $[PR]$. La symétrie conserve les longueurs, donc $PR' = PR = 5$ cm. Le triangle $PRR'$ a deux côtés de même longueur : il est **isocèle en $P$**.
+
+**2.** La droite $(QR)$ est perpendiculaire au pli $(d)$ en $Q$. Le symétrique $R'$ de $R$ est sur la perpendiculaire à $(d)$ passant par $R$, c'est-à-dire sur $(QR)$, de l'autre côté de $(d)$, à la même distance : $QR' = QR = 4$ cm. Donc $R$, $Q$ et $R'$ sont alignés et $RR' = 4 + 4 = 8$ cm.
+
+**3.** Le pli $(d)$ est perpendiculaire à $[RR']$ et passe par son milieu $Q$ (car $QR = QR' = 4$ cm) : **$(d)$ est la médiatrice de $[RR']$**. C'est normal : $R'$ est le symétrique de $R$ par rapport à $(d)$.
+
+**4.** Périmètre du trou : $PR + RR' + R'P = 5 + 8 + 5 = 18$ cm.
+Zoé n'a découpé que $[QR]$ et $[PR]$ sur la feuille pliée (deux épaisseurs à la fois) : $4 + 5 = 9$ cm de découpe. C'est la moitié du périmètre, puisque la découpe est faite en double.
+
+**5.** Le demi-disque et son symétrique par rapport au pli forment un **disque entier** de rayon $2$ cm (de diamètre $4$ cm). Le bord du trou est un cercle de longueur :
+$$2 \\times \\pi \\times 2 = 4 \\times \\pi \\approx 4 \\times 3{,}14 = 12{,}56 \\text{ cm}.$$`
     }
   ]
 });
@@ -4772,6 +6602,111 @@ Les angles $\\widehat{uOB}$ et $\\widehat{BOD}$ sont adjacents : $\\widehat{uOD}
 (Vérification : en $1$ seconde, la roue tourne de $45 \\div 60 = 0{,}75^\\circ$, et $280 \\times 0{,}75 = 210$.)
 
 **6.** $20 = 8 + 8 + 4$ : en $20$ minutes, la roue fait $2$ tours complets (la nacelle revient en bas) puis tourne encore pendant $4$ minutes, soit $4 \\times 45^\\circ = 180^\\circ$, un demi-tour. La nacelle $1$ est alors **tout en haut** de la roue.`
+    },
+    {
+      id: "6G3-ds-13",
+      title: "Des angles dans un rectangle",
+      difficulty: 1,
+      points: 4,
+      statement: `$ABCD$ est un rectangle. On a tracé la diagonale $[AC]$ et prolongé le côté $[BA]$ au-delà de $A$ jusqu'au point $E$. On sait que $\\widehat{BAC} = 30^\\circ$. La figure n'est pas en vraie grandeur.
+
+<div class="geo-figure-wrapper" style="text-align:center; margin:0.8rem auto; max-width:340px;"><svg class="geo-svg-figure" viewBox="0 0 310 200" width="310" height="200" style="width:100%; height:auto; color:var(--text-main, #334155);" xmlns="http://www.w3.org/2000/svg" role="img"><rect x="80" y="54.5" width="200" height="115.5" fill="rgba(59,130,246,0.06)" stroke="currentColor" stroke-width="2"/><line x1="20" y1="170" x2="80" y2="170" stroke="currentColor" stroke-width="2"/><line x1="80" y1="170" x2="280" y2="54.5" stroke="#2563eb" stroke-width="2"/><path d="M115,170 A35,35 0 0 0 110.3,152.5" fill="none" stroke="#dc2626" stroke-width="1.8"/><text x="120" y="164" font-size="12" fill="#dc2626">30°</text><path d="M80,64.5 L90,64.5 L90,54.5" fill="none" stroke="currentColor" stroke-width="1.2"/><path d="M270,170 L270,160 L280,160" fill="none" stroke="currentColor" stroke-width="1.2"/><path d="M270,54.5 L270,64.5 L280,64.5" fill="none" stroke="currentColor" stroke-width="1.2"/><text x="70" y="190" font-size="15" fill="currentColor">A</text><text x="282" y="190" font-size="15" fill="currentColor">B</text><text x="285" y="52" font-size="15" fill="currentColor">C</text><text x="64" y="52" font-size="15" fill="currentColor">D</text><text x="14" y="190" font-size="15" fill="currentColor">E</text></svg></div>
+
+1. Pour l'angle $\\widehat{BAC}$, donner son sommet et ses deux côtés.
+2. Quelle est la mesure de l'angle $\\widehat{DAB}$ ? Justifier.
+3. Calculer la mesure de l'angle $\\widehat{CAD}$.
+4. Les points $E$, $A$ et $B$ sont alignés. Quelle est la mesure de l'angle $\\widehat{EAB}$ ? En déduire la mesure de l'angle $\\widehat{EAC}$.
+5. Donner la nature (aigu, droit, obtus ou plat) des angles $\\widehat{BAC}$, $\\widehat{DAB}$, $\\widehat{EAC}$ et $\\widehat{EAB}$.`,
+      solution: `**1.** L'angle $\\widehat{BAC}$ a pour sommet le point $A$ (la lettre du milieu) et pour côtés les demi-droites $[AB)$ et $[AC)$.
+
+**2.** $ABCD$ est un rectangle : ses quatre angles sont droits. Donc $\\widehat{DAB} = 90^\\circ$.
+
+**3.** La demi-droite $[AC)$ est à l'intérieur de l'angle droit $\\widehat{DAB}$, qu'elle partage en deux angles adjacents :
+$$\\widehat{CAD} = 90^\\circ - 30^\\circ = 60^\\circ.$$
+
+**4.** $E$, $A$ et $B$ sont alignés avec $A$ entre $E$ et $B$ : $\\widehat{EAB}$ est un angle plat, $\\widehat{EAB} = 180^\\circ$. Les angles $\\widehat{EAC}$ et $\\widehat{CAB}$ sont adjacents et forment cet angle plat :
+$$\\widehat{EAC} = 180^\\circ - 30^\\circ = 150^\\circ.$$
+
+**5.** $\\widehat{BAC} = 30^\\circ$ : **aigu** ; $\\widehat{DAB} = 90^\\circ$ : **droit** ; $\\widehat{EAC} = 150^\\circ$ : **obtus** ; $\\widehat{EAB} = 180^\\circ$ : **plat**.`
+    },
+    {
+      id: "6G3-ds-14",
+      title: "Plier pour partager un angle",
+      difficulty: 2,
+      points: 5,
+      statement: `Sans rapporteur, Malo obtient des angles en pliant des feuilles de papier.
+
+1. Il prend un coin d'une feuille rectangulaire et le plie de façon que les deux bords du coin se superposent exactement. Quel angle partage-t-il ainsi ? Quelle est la mesure de chacun des deux angles obtenus ? Comment s'appelle la droite du pli pour l'angle de départ ?
+2. Il replie encore une fois de la même façon l'angle obtenu. Quelle est la mesure du nouvel angle ?
+3. Le long d'un bord droit de la feuille, Malo marque un point $O$. Le bord forme, autour de $O$, un angle plat. Il plie la feuille en faisant passer le pli par $O$ et en superposant les deux morceaux du bord. Quel angle obtient-il ?
+4. En pliant habilement en trois parts égales l'angle plat de la question 3, quelle mesure aurait chaque part ? Et deux parts ensemble ?
+5. Malo dit : « En repliant plusieurs fois en deux un angle droit, je peux obtenir un angle de $10^\\circ$. » A-t-il raison ? Justifier en donnant les premières mesures obtenues.`,
+      solution: `Plier un angle en superposant ses deux côtés le partage en deux angles égaux : le pli est la **bissectrice** de l'angle.
+
+**1.** Le coin d'une feuille rectangulaire est un **angle droit** ($90^\\circ$). Le pli le partage en deux angles de $90^\\circ \\div 2 = 45^\\circ$. Le pli est la bissectrice de l'angle droit.
+
+**2.** $45^\\circ \\div 2 = 22{,}5^\\circ$.
+
+**3.** L'angle plat mesure $180^\\circ$ ; le pli le partage en deux angles de $180^\\circ \\div 2 = 90^\\circ$ : on obtient un **angle droit**.
+
+**4.** Une part : $180^\\circ \\div 3 = 60^\\circ$. Deux parts : $2 \\times 60^\\circ = 120^\\circ$.
+
+**5.** En partant de $90^\\circ$ et en divisant par $2$ à chaque pliage, on obtient :
+$$90^\\circ \\to 45^\\circ \\to 22{,}5^\\circ \\to 11{,}25^\\circ \\to 5{,}625^\\circ \\to \\ldots$$
+Après $11{,}25^\\circ$, on passe directement à $5{,}625^\\circ$ : on n'obtient jamais exactement $10^\\circ$. **Malo a tort.**`
+    },
+    {
+      id: "6G3-ds-15",
+      title: "Trois droites qui se croisent",
+      difficulty: 3,
+      points: 5,
+      statement: `Trois droites $(AD)$, $(BE)$ et $(CF)$ se coupent en un même point $O$, comme sur la figure (qui n'est pas en vraie grandeur). On sait que $\\widehat{AOB} = 50^\\circ$ et $\\widehat{BOC} = 70^\\circ$. La demi-droite $[OG)$, en pointillés, est la bissectrice de l'angle $\\widehat{BOC}$.
+
+<div class="geo-figure-wrapper" style="text-align:center; margin:0.8rem auto; max-width:320px;"><svg class="geo-svg-figure" viewBox="0 0 320 220" width="320" height="220" style="width:100%; height:auto; color:var(--text-main, #334155);" xmlns="http://www.w3.org/2000/svg" role="img"><line x1="65" y1="110" x2="255" y2="110" stroke="currentColor" stroke-width="2"/><line x1="98.9" y1="182.8" x2="221.1" y2="37.2" stroke="currentColor" stroke-width="2"/><line x1="112.5" y1="27.7" x2="207.5" y2="192.3" stroke="currentColor" stroke-width="2"/><line x1="160" y1="110" x2="167" y2="30.3" stroke="#dc2626" stroke-width="1.8" stroke-dasharray="5 4"/><path d="M185,110 A25,25 0 0 0 176.1,90.8" fill="none" stroke="#2563eb" stroke-width="1.6"/><path d="M176.1,90.8 A25,25 0 0 0 147.5,88.3" fill="none" stroke="#16a34a" stroke-width="1.6"/><text x="191" y="102" font-size="12" fill="#2563eb">50°</text><text x="126" y="76" font-size="12" fill="#16a34a">70°</text><circle cx="160" cy="110" r="3" fill="currentColor"/><text x="146" y="128" font-size="14" fill="currentColor">O</text><text x="262" y="115" font-size="14" fill="currentColor">A</text><text x="226" y="34" font-size="14" fill="currentColor">B</text><text x="102" y="24" font-size="14" fill="currentColor">C</text><text x="46" y="115" font-size="14" fill="currentColor">D</text><text x="86" y="199" font-size="14" fill="currentColor">E</text><text x="212" y="208" font-size="14" fill="currentColor">F</text><text x="170" y="24" font-size="14" fill="#dc2626">G</text></svg></div>
+
+1. Les points $A$, $O$ et $D$ sont alignés. Calculer la mesure de l'angle $\\widehat{COD}$.
+2. Que peut-on dire des angles $\\widehat{AOB}$ et $\\widehat{DOE}$ ? En déduire $\\widehat{DOE}$, puis donner de la même façon $\\widehat{EOF}$ et $\\widehat{FOA}$.
+3. Vérifier que la somme des six angles $\\widehat{AOB}$, $\\widehat{BOC}$, $\\widehat{COD}$, $\\widehat{DOE}$, $\\widehat{EOF}$ et $\\widehat{FOA}$ fait un tour complet.
+4. Calculer $\\widehat{BOG}$, puis $\\widehat{AOG}$ et $\\widehat{GOD}$.`,
+      solution: `**1.** Comme $A$, $O$ et $D$ sont alignés, $\\widehat{AOD}$ est un angle plat ($180^\\circ$). Il est formé des trois angles adjacents $\\widehat{AOB}$, $\\widehat{BOC}$ et $\\widehat{COD}$ :
+$$\\widehat{COD} = 180^\\circ - 50^\\circ - 70^\\circ = 60^\\circ.$$
+
+**2.** Les angles $\\widehat{AOB}$ et $\\widehat{DOE}$ sont **opposés par le sommet** (formés par les droites $(AD)$ et $(BE)$) : ils ont la même mesure, donc $\\widehat{DOE} = 50^\\circ$.
+De même, $\\widehat{EOF}$ est opposé par le sommet à $\\widehat{BOC}$ : $\\widehat{EOF} = 70^\\circ$ ; et $\\widehat{FOA}$ est opposé par le sommet à $\\widehat{COD}$ : $\\widehat{FOA} = 60^\\circ$.
+
+**3.** $50 + 70 + 60 + 50 + 70 + 60 = 360$ : la somme vaut $360^\\circ$, c'est bien un tour complet.
+
+**4.** $[OG)$ partage $\\widehat{BOC}$ en deux angles égaux : $\\widehat{BOG} = 70^\\circ \\div 2 = 35^\\circ$.
+$\\widehat{AOG} = \\widehat{AOB} + \\widehat{BOG} = 50^\\circ + 35^\\circ = 85^\\circ$.
+$\\widehat{GOD} = \\widehat{GOC} + \\widehat{COD} = 35^\\circ + 60^\\circ = 95^\\circ$.
+Vérification : $85^\\circ + 95^\\circ = 180^\\circ$, ce qui est normal puisque $A$, $O$ et $D$ sont alignés.`
+    },
+    {
+      id: "6G3-ds-16",
+      title: "Le rayon de lumière et le miroir",
+      difficulty: 4,
+      points: 6,
+      statement: `Un rayon de lumière part du point $A$, frappe un miroir plan au point $I$ et repart vers le point $B$. Le miroir est représenté par une droite. On admet la loi suivante : **l'angle entre le rayon qui arrive et le miroir est égal à l'angle entre le rayon qui repart et le miroir** (ces deux angles, de part et d'autre, sont notés $a$ sur la figure). La droite en pointillés est perpendiculaire au miroir en $I$.
+
+<div class="geo-figure-wrapper" style="text-align:center; margin:0.8rem auto; max-width:320px;"><svg class="geo-svg-figure" viewBox="0 0 320 185" width="320" height="185" style="width:100%; height:auto; color:var(--text-main, #334155);" xmlns="http://www.w3.org/2000/svg" role="img"><line x1="20" y1="150" x2="300" y2="150" stroke="currentColor" stroke-width="3"/><line x1="40" y1="150" x2="30" y2="162" stroke="currentColor" stroke-width="1"/><line x1="80" y1="150" x2="70" y2="162" stroke="currentColor" stroke-width="1"/><line x1="120" y1="150" x2="110" y2="162" stroke="currentColor" stroke-width="1"/><line x1="160" y1="150" x2="150" y2="162" stroke="currentColor" stroke-width="1"/><line x1="200" y1="150" x2="190" y2="162" stroke="currentColor" stroke-width="1"/><line x1="240" y1="150" x2="230" y2="162" stroke="currentColor" stroke-width="1"/><line x1="280" y1="150" x2="270" y2="162" stroke="currentColor" stroke-width="1"/><line x1="160" y1="150" x2="160" y2="40" stroke="currentColor" stroke-width="1.2" stroke-dasharray="5 4"/><line x1="69.9" y1="86.9" x2="160" y2="150" stroke="#dc2626" stroke-width="2"/><line x1="160" y1="150" x2="250.1" y2="86.9" stroke="#dc2626" stroke-width="2"/><path d="M130,150 A30,30 0 0 1 135.4,132.8" fill="none" stroke="#2563eb" stroke-width="1.6"/><path d="M190,150 A30,30 0 0 0 184.6,132.8" fill="none" stroke="#2563eb" stroke-width="1.6"/><text x="114" y="144" font-size="14" fill="#2563eb">a</text><text x="198" y="144" font-size="14" fill="#2563eb">a</text><text x="56" y="80" font-size="15" fill="currentColor">A</text><text x="254" y="80" font-size="15" fill="currentColor">B</text><text x="156" y="178" font-size="15" fill="currentColor">I</text></svg></div>
+
+1. Dans cette question, $a = 35^\\circ$. Les trois angles $a$, $\\widehat{AIB}$ et $a$ forment l'angle plat du miroir. Calculer $\\widehat{AIB}$.
+2. On veut que le rayon reparte perpendiculairement à sa direction d'arrivée, c'est-à-dire $\\widehat{AIB} = 90^\\circ$. Que doit valoir l'angle $a$ ? Justifier.
+3. Même question si l'on veut $\\widehat{AIB} = 50^\\circ$.
+4. Dans le cas de la question 1, calculer l'angle entre le rayon $[IA)$ et la perpendiculaire au miroir en $I$. Montrer que cette perpendiculaire est la bissectrice de l'angle $\\widehat{AIB}$.
+5. Expliquer pourquoi, quelle que soit la valeur de $a$, la perpendiculaire au miroir en $I$ est toujours la bissectrice de $\\widehat{AIB}$.`,
+      solution: `**1.** Les trois angles adjacents forment un angle plat :
+$$\\widehat{AIB} = 180^\\circ - 35^\\circ - 35^\\circ = 110^\\circ.$$
+
+**2.** Il faut $a + 90^\\circ + a = 180^\\circ$, donc les deux angles $a$ font ensemble $180^\\circ - 90^\\circ = 90^\\circ$, et $a = 90^\\circ \\div 2 = 45^\\circ$.
+Vérification : $45 + 90 + 45 = 180$.
+
+**3.** Les deux angles $a$ font ensemble $180^\\circ - 50^\\circ = 130^\\circ$, donc $a = 130^\\circ \\div 2 = 65^\\circ$. Vérification : $65 + 50 + 65 = 180$.
+
+**4.** La perpendiculaire au miroir forme avec le miroir un angle droit. L'angle entre $[IA)$ et la perpendiculaire est donc $90^\\circ - 35^\\circ = 55^\\circ$. De l'autre côté, l'angle entre la perpendiculaire et $[IB)$ vaut aussi $90^\\circ - 35^\\circ = 55^\\circ$.
+Les deux angles sont adjacents, égaux, et $55^\\circ + 55^\\circ = 110^\\circ = \\widehat{AIB}$ : la perpendiculaire partage $\\widehat{AIB}$ en deux angles égaux, c'est **la bissectrice de $\\widehat{AIB}$**.
+
+**5.** Quelle que soit la valeur de $a$, l'angle entre $[IA)$ et la perpendiculaire vaut $90^\\circ - a$, et l'angle entre la perpendiculaire et $[IB)$ vaut aussi $90^\\circ - a$, car les deux angles $a$ sont égaux. La perpendiculaire partage donc toujours $\\widehat{AIB}$ en deux angles égaux : c'est toujours sa bissectrice.`
     }
   ],
   "6G4": [
@@ -4940,11 +6875,11 @@ Les angles mesurent $45^\\circ$, $45^\\circ$ et $90^\\circ$ : c'est un **triangl
       solution: `**1.** a) On trace le segment $[AB]$ de $6$ cm. Au rapporteur (centre en $A$, zéro sur $[AB)$), on trace une demi-droite d'origine $A$ faisant un angle de $50^\\circ$ avec $[AB]$. Puis, du même côté de $[AB]$, on trace en $B$ une demi-droite faisant un angle de $60^\\circ$ avec $[BA]$. Les deux demi-droites se coupent en $C$.
 
 b) La somme des angles d'un triangle vaut $180^\\circ$ :
-$\\widehat{ACB} = 180^\\circ - 50^\\circ - 60^\\circ = 70^\\circ$. On vérifie au rapporteur qu'on mesure bien environ $70^\\circ$.
+$\\widehat{ACB} = 180^\\circ - 50^\\circ - 60^\\circ = 70^\\circ$. On vérifie au rapporteur : toute mesure comprise entre $68^\\circ$ et $72^\\circ$ est acceptée, compte tenu de la précision du tracé.
 
 **2.** a) On trace $[DE]$ de $5$ cm. En $D$, on trace au rapporteur une demi-droite faisant un angle de $45^\\circ$ avec $[DE]$. Sur cette demi-droite, on place $F$ à $4$ cm de $D$ (règle graduée ou compas). On trace le segment $[EF]$.
 
-b) On mesure $EF \\approx 3{,}6$ cm (une mesure entre $3{,}5$ cm et $3{,}6$ cm est acceptée selon la précision du tracé).`
+b) On mesure $EF \\approx 3{,}6$ cm : toute mesure comprise **entre $3{,}5$ cm et $3{,}7$ cm** est acceptée, selon la précision du tracé.`
     },
     {
       id: "6G4-ds-10",
@@ -4978,57 +6913,176 @@ b) On mesure $EF \\approx 3{,}6$ cm (une mesure entre $3{,}5$ cm et $3{,}6$ cm e
       title: "Le toit de la maison",
       difficulty: 3,
       points: 5,
-      statement: `Vue de face, la façade du grenier d'une maison est un triangle $ABC$ : la base $[BC]$ (le plancher) mesure $8$ m et les deux pentes du toit mesurent $AB = AC = 5$ m. Sur un plan, on mesure $\\widehat{ABC} \\approx 37^\\circ$.
+      statement: `Vue de face, la façade du grenier d'une maison est un triangle $ABC$ : la base $[BC]$ (le plancher) mesure $8$ m et les deux pentes du toit mesurent $AB = AC = 5$ m. Sur un plan, on a mesuré l'angle $\\widehat{ABC}$ : on trouve environ $37^\\circ$. Dans les calculs, on prendra $\\widehat{ABC} = 37^\\circ$.
 
-1. Quelle est la nature du triangle $ABC$ ? En déduire une valeur approchée de $\\widehat{ACB}$.
-2. Calculer une valeur approchée de l'angle au sommet $\\widehat{BAC}$. Cet angle est-il aigu ou obtus ?
+1. Quelle est la nature du triangle $ABC$ ? En déduire la mesure de $\\widehat{ACB}$.
+2. Calculer la mesure de l'angle au sommet $\\widehat{BAC}$. Cet angle est-il aigu ou obtus ?
 3. Construire le triangle $ABC$ à l'échelle $1$ cm pour $1$ m.
 4. On note $H$ le milieu de $[BC]$.
    a) Expliquer pourquoi le point $A$ est sur la médiatrice de $[BC]$. Que peut-on dire de la droite $(AH)$ ?
-   b) Calculer une valeur approchée de l'angle $\\widehat{BAH}$ en utilisant le triangle $ABH$.
+   b) Calculer la mesure de l'angle $\\widehat{BAH}$ en utilisant le triangle $ABH$.
    c) Mesurer $AH$ sur le plan et en déduire la hauteur réelle du grenier.`,
-      solution: `**1.** $AB = AC$ : le triangle $ABC$ est **isocèle en $A$**. Ses angles à la base sont égaux : $\\widehat{ACB} = \\widehat{ABC} \\approx 37^\\circ$.
+      solution: `**1.** $AB = AC$ : le triangle $ABC$ est **isocèle en $A$**. Ses angles à la base sont égaux : $\\widehat{ACB} = \\widehat{ABC} = 37^\\circ$.
 
-**2.** $\\widehat{BAC} \\approx 180^\\circ - 37^\\circ - 37^\\circ = 106^\\circ$. C'est un angle **obtus** (plus de $90^\\circ$).
+**2.** $\\widehat{BAC} = 180^\\circ - 37^\\circ - 37^\\circ = 106^\\circ$. C'est un angle **obtus** (plus de $90^\\circ$).
 
 **3.** On trace $[BC]$ de $8$ cm, puis deux arcs de rayon $5$ cm centrés en $B$ et en $C$ : ils se coupent en $A$.
 
 **4.** a) $AB = AC$ : le point $A$ est à égale distance de $B$ et de $C$, il est donc sur la médiatrice de $[BC]$. Cette médiatrice passe aussi par le milieu $H$ de $[BC]$ : c'est la droite $(AH)$. Ainsi **$(AH)$ est perpendiculaire à $(BC)$** en $H$ ($\\widehat{AHB} = 90^\\circ$).
 
 b) Dans le triangle $ABH$, rectangle en $H$ :
-$\\widehat{BAH} \\approx 180^\\circ - 90^\\circ - 37^\\circ = 53^\\circ$.
-(On retrouve bien la moitié de $\\widehat{BAC} \\approx 106^\\circ$.)
+$\\widehat{BAH} = 180^\\circ - 90^\\circ - 37^\\circ = 53^\\circ$.
+(On retrouve bien la moitié de $\\widehat{BAC} = 106^\\circ$.)
 
-c) On mesure $AH = 3$ cm sur le plan ; avec l'échelle $1$ cm pour $1$ m, le grenier a une hauteur de **$3$ m**.`
+c) On mesure $AH \\approx 3$ cm sur le plan : toute mesure comprise **entre $2{,}9$ cm et $3{,}1$ cm** est acceptée. Avec l'échelle $1$ cm pour $1$ m, le grenier a une hauteur d'environ **$3$ m**.
+(Plus tard, le théorème de Pythagore permettra de démontrer que la hauteur vaut exactement $3$ m.)`
     },
     {
       id: "6G4-ds-12",
-      title: "Un triangle dans un demi-cercle",
+      title: "Un triangle équilatéral et un triangle rectangle isocèle",
       difficulty: 4,
       points: 6,
-      statement: `On trace un cercle de centre $O$ et de rayon $4$ cm, et un diamètre $[AB]$. On place un point $M$ sur le cercle, différent de $A$ et de $B$, tel que $\\widehat{MOB} = 64^\\circ$.
+      statement: `$ABC$ est un triangle équilatéral de côté $4$ cm. On construit, de l'autre côté de la droite $(BC)$ par rapport à $A$, le triangle $BCD$ rectangle et isocèle en $C$ (donc $CD = CB$ et $\\widehat{BCD} = 90^\\circ$). On trace ensuite les segments $[AD]$ et $[BD]$.
 
-1. Faire la figure en vraie grandeur.
-2. Expliquer pourquoi les triangles $OAM$ et $OBM$ sont isocèles. Préciser en quel sommet.
-3. a) Calculer la mesure de l'angle $\\widehat{AOM}$.
-   b) En déduire les mesures des angles $\\widehat{OAM}$ et $\\widehat{OMA}$.
-4. Calculer les mesures des angles $\\widehat{OBM}$ et $\\widehat{OMB}$.
-5. Calculer $\\widehat{AMB}$. Quelle est la nature du triangle $AMB$ ?`,
-      solution: `**1.** On trace le cercle, le diamètre $[AB]$, puis au rapporteur l'angle $\\widehat{MOB} = 64^\\circ$ ; $M$ est le point où la demi-droite tracée coupe le cercle.
+<div class="geo-figure-wrapper" style="text-align:center; margin:0.8rem auto; max-width:260px;"><svg class="geo-svg-figure" viewBox="0 0 250 265" width="250" height="265" style="width:100%; height:auto; color:var(--text-main, #334155);" xmlns="http://www.w3.org/2000/svg" role="img"><polygon points="120,16 60,120 180,120" fill="rgba(59,130,246,0.10)" stroke="currentColor" stroke-width="2"/><polygon points="60,120 180,120 180,240" fill="rgba(16,185,129,0.10)" stroke="currentColor" stroke-width="2"/><line x1="120" y1="16" x2="180" y2="240" stroke="#2563eb" stroke-width="1.8" stroke-dasharray="6 4"/><polyline points="168,120 168,132 180,132" fill="none" stroke="currentColor" stroke-width="1.5"/><text x="120" y="10" text-anchor="middle" font-size="15" font-weight="bold" fill="currentColor">A</text><text x="48" y="126" text-anchor="middle" font-size="15" font-weight="bold" fill="currentColor">B</text><text x="194" y="122" text-anchor="middle" font-size="15" font-weight="bold" fill="currentColor">C</text><text x="194" y="250" text-anchor="middle" font-size="15" font-weight="bold" fill="currentColor">D</text></svg></div>
 
-**2.** $OA$, $OB$ et $OM$ sont des rayons du cercle : $OA = OB = OM = 4$ cm.
-Le triangle $OAM$ a deux côtés égaux ($OA = OM$) : il est **isocèle en $O$**. De même, $OB = OM$ : le triangle $OBM$ est **isocèle en $O$**.
+*La figure est à main levée : les angles et les longueurs n'y sont pas mesurables.*
 
-**3.** a) $A$, $O$, $B$ sont alignés ($[AB]$ est un diamètre), donc $\\widehat{AOM}$ et $\\widehat{MOB}$ sont supplémentaires :
-$\\widehat{AOM} = 180^\\circ - 64^\\circ = 116^\\circ$.
+1. Construire la figure en vraie grandeur. Expliquer la construction du point $D$.
+2. Donner, sans justifier, la mesure des angles $\\widehat{ACB}$ et $\\widehat{ABC}$. Calculer ensuite les mesures des angles $\\widehat{CBD}$ et $\\widehat{CDB}$ en justifiant.
+3. a) Montrer que le triangle $ACD$ est isocèle en $C$.
+   b) Expliquer pourquoi $\\widehat{ACD} = 150^\\circ$.
+   c) En déduire les mesures des angles $\\widehat{CAD}$ et $\\widehat{CDA}$.
+4. a) En utilisant la figure, calculer $\\widehat{BAD}$, $\\widehat{ABD}$ et $\\widehat{ADB}$.
+   b) Vérifier que la somme des angles du triangle $ABD$ vaut bien $180^\\circ$.`,
+      solution: `**1.** On trace $[BC]$ de $4$ cm, puis $A$ à l'intersection de deux arcs de rayon $4$ cm centrés en $B$ et en $C$. Pour $D$ : on trace à l'équerre la perpendiculaire à $(BC)$ passant par $C$, du côté opposé à $A$, et on y place $D$ tel que $CD = 4$ cm (au compas).
 
-b) Dans le triangle $OAM$ isocèle en $O$, les angles à la base $\\widehat{OAM}$ et $\\widehat{OMA}$ sont égaux et leur somme vaut $180^\\circ - 116^\\circ = 64^\\circ$. Chacun mesure $64 \\div 2 = 32^\\circ$.
+**2.** Les trois angles d'un triangle équilatéral mesurent $60^\\circ$ : $\\widehat{ACB} = \\widehat{ABC} = 60^\\circ$.
+Le triangle $BCD$ est isocèle en $C$ : ses angles à la base sont égaux, $\\widehat{CBD} = \\widehat{CDB}$. Leur somme vaut $180^\\circ - 90^\\circ = 90^\\circ$, donc $\\widehat{CBD} = \\widehat{CDB} = 45^\\circ$.
 
-**4.** Dans le triangle $OBM$ isocèle en $O$ : $\\widehat{OBM} + \\widehat{OMB} = 180^\\circ - 64^\\circ = 116^\\circ$, donc $\\widehat{OBM} = \\widehat{OMB} = 116 \\div 2 = 58^\\circ$.
+**3.** a) $CA = CB = 4$ cm (triangle équilatéral) et $CD = CB = 4$ cm : donc $CA = CD$, le triangle $ACD$ est **isocèle en $C$**.
+b) Les angles $\\widehat{ACB}$ et $\\widehat{BCD}$ sont adjacents (côté commun $[CB)$, $A$ et $D$ de part et d'autre de $(BC)$) : $\\widehat{ACD} = 60^\\circ + 90^\\circ = 150^\\circ$.
+c) Dans le triangle $ACD$ isocèle en $C$, les angles à la base sont égaux et leur somme vaut $180^\\circ - 150^\\circ = 30^\\circ$ : $\\widehat{CAD} = \\widehat{CDA} = 15^\\circ$.
 
-**5.** La demi-droite $[MO)$ est entre $[MA)$ et $[MB)$, donc :
-$\\widehat{AMB} = \\widehat{OMA} + \\widehat{OMB} = 32^\\circ + 58^\\circ = 90^\\circ$.
-Le triangle $AMB$ est **rectangle en $M$**. (Vérification : $32^\\circ + 58^\\circ + 90^\\circ = 180^\\circ$.)`
+**4.** a) La demi-droite $[AD)$ est à l'intérieur de l'angle $\\widehat{BAC}$ : $\\widehat{BAD} = \\widehat{BAC} - \\widehat{CAD} = 60^\\circ - 15^\\circ = 45^\\circ$.
+La demi-droite $[BC)$ est à l'intérieur de l'angle $\\widehat{ABD}$ : $\\widehat{ABD} = \\widehat{ABC} + \\widehat{CBD} = 60^\\circ + 45^\\circ = 105^\\circ$.
+La demi-droite $[DA)$ est à l'intérieur de l'angle $\\widehat{CDB}$ : $\\widehat{ADB} = \\widehat{CDB} - \\widehat{CDA} = 45^\\circ - 15^\\circ = 30^\\circ$.
+b) $45^\\circ + 105^\\circ + 30^\\circ = 180^\\circ$ : la somme des angles du triangle $ABD$ vaut bien $180^\\circ$.`
+    },
+    {
+      id: "6G4-ds-13",
+      title: "La nature d'un triangle grâce à ses angles",
+      difficulty: 1,
+      points: 4,
+      statement: `Pour chaque triangle, on connaît la mesure de deux angles.
+
+| Triangle | Premier angle | Deuxième angle |
+|:---:|:---:|:---:|
+| $T_1$ | $60^\\circ$ | $60^\\circ$ |
+| $T_2$ | $90^\\circ$ | $45^\\circ$ |
+| $T_3$ | $30^\\circ$ | $75^\\circ$ |
+| $T_4$ | $35^\\circ$ | $55^\\circ$ |
+| $T_5$ | $50^\\circ$ | $70^\\circ$ |
+
+1. Rappeler la somme des mesures des trois angles d'un triangle.
+2. Calculer, pour chaque triangle, la mesure du troisième angle.
+3. On rappelle qu'un triangle qui a deux angles de même mesure est isocèle et qu'un triangle qui a ses trois angles de même mesure est équilatéral. Donner la nature de chaque triangle (quelconque, isocèle, équilatéral, rectangle, rectangle isocèle). Justifier.`,
+      solution: `**1.** Dans un triangle, la somme des mesures des trois angles est égale à $180^\\circ$.
+
+**2.** On soustrait les deux angles connus à $180^\\circ$ :
+- $T_1$ : $180 - 60 - 60 = 60$, troisième angle $60^\\circ$ ;
+- $T_2$ : $180 - 90 - 45 = 45$, troisième angle $45^\\circ$ ;
+- $T_3$ : $180 - 30 - 75 = 75$, troisième angle $75^\\circ$ ;
+- $T_4$ : $180 - 35 - 55 = 90$, troisième angle $90^\\circ$ ;
+- $T_5$ : $180 - 50 - 70 = 60$, troisième angle $60^\\circ$.
+
+**3.**
+- $T_1$ : trois angles de $60^\\circ$ : **équilatéral**.
+- $T_2$ : un angle droit et deux angles de $45^\\circ$ : **rectangle isocèle**.
+- $T_3$ : deux angles de $75^\\circ$ : **isocèle** (non rectangle, non équilatéral).
+- $T_4$ : un angle de $90^\\circ$ (le troisième) : **rectangle** ; ses deux autres angles, $35^\\circ$ et $55^\\circ$, sont différents, il n'est pas isocèle.
+- $T_5$ : angles $50^\\circ$, $70^\\circ$, $60^\\circ$, tous différents et aucun droit : **quelconque**.`
+    },
+    {
+      id: "6G4-ds-14",
+      title: "Un hexagone en triangles équilatéraux",
+      difficulty: 2,
+      points: 5,
+      statement: `Paul assemble six triangles équilatéraux identiques, de côté $3$ cm, autour d'un même point $O$. Il obtient l'hexagone $ABCDEF$ ci-dessous.
+
+<div class="geo-figure-wrapper" style="text-align:center; margin:0.8rem auto; max-width:300px;"><svg class="geo-svg-figure" viewBox="0 0 300 220" width="300" height="220" style="width:100%; height:auto; color:var(--text-main, #334155);" xmlns="http://www.w3.org/2000/svg" role="img"><polygon points="240,110 195,32.1 105,32.1 60,110 105,187.9 195,187.9" fill="rgba(59,130,246,0.08)" stroke="currentColor" stroke-width="2"/><line x1="150" y1="110" x2="240" y2="110" stroke="currentColor" stroke-width="1.5"/><line x1="150" y1="110" x2="195" y2="32.1" stroke="currentColor" stroke-width="1.5"/><line x1="150" y1="110" x2="105" y2="32.1" stroke="currentColor" stroke-width="1.5"/><line x1="150" y1="110" x2="60" y2="110" stroke="currentColor" stroke-width="1.5"/><line x1="150" y1="110" x2="105" y2="187.9" stroke="currentColor" stroke-width="1.5"/><line x1="150" y1="110" x2="195" y2="187.9" stroke="currentColor" stroke-width="1.5"/><circle cx="150" cy="110" r="3" fill="currentColor"/><text x="146" y="130" font-size="14" fill="currentColor">O</text><text x="248" y="115" font-size="14" fill="currentColor">A</text><text x="198" y="26" font-size="14" fill="currentColor">B</text><text x="92" y="26" font-size="14" fill="currentColor">C</text><text x="42" y="115" font-size="14" fill="currentColor">D</text><text x="92" y="205" font-size="14" fill="currentColor">E</text><text x="198" y="205" font-size="14" fill="currentColor">F</text></svg></div>
+
+1. Quelle est la mesure de chaque angle d'un triangle équilatéral ? Justifier.
+2. Calculer la somme des six angles de sommet $O$. Expliquer pourquoi les six triangles s'assemblent sans laisser de trou.
+3. Calculer le périmètre de l'hexagone $ABCDEF$.
+4. Quelle est la mesure de l'angle $\\widehat{ABC}$ de l'hexagone ? Justifier.
+5. Pourrait-on assembler de la même façon, autour d'un point, des triangles identiques dont un angle mesure $50^\\circ$, en utilisant toujours ce même angle au centre ? Justifier.`,
+      solution: `**1.** Un triangle équilatéral a ses trois angles de même mesure, et leur somme vaut $180^\\circ$ : chaque angle mesure $180^\\circ \\div 3 = 60^\\circ$.
+
+**2.** Il y a six angles de $60^\\circ$ autour de $O$ : $6 \\times 60^\\circ = 360^\\circ$. C'est exactement un tour complet : les six triangles font le tour du point $O$ sans se chevaucher et sans laisser de trou.
+
+**3.** Le bord de l'hexagone est formé de six côtés de triangles, chacun de $3$ cm : périmètre $= 6 \\times 3 = 18$ cm.
+
+**4.** En $B$, l'angle de l'hexagone est formé de deux angles de triangles équilatéraux ($\\widehat{ABO}$ et $\\widehat{OBC}$) : $\\widehat{ABC} = 60^\\circ + 60^\\circ = 120^\\circ$.
+
+**5.** Il faudrait remplir exactement $360^\\circ$ avec des angles de $50^\\circ$. Or $7 \\times 50 = 350$ et $8 \\times 50 = 400$ : $360$ n'est pas un multiple de $50$. **Ce n'est pas possible** : il resterait un trou de $10^\\circ$ avec $7$ triangles, et avec $8$ triangles ils se chevaucheraient.`
+    },
+    {
+      id: "6G4-ds-15",
+      title: "Construire un triangle isocèle par ses angles",
+      difficulty: 3,
+      points: 5,
+      statement: `On veut construire un triangle $ABC$ isocèle en $C$ tel que $AB = 7$ cm et $\\widehat{CAB} = 40^\\circ$.
+
+1. Quelle est la mesure de l'angle $\\widehat{CBA}$ ? Justifier.
+2. Décrire les étapes de la construction, puis la réaliser en vraie grandeur.
+3. Calculer la mesure de l'angle $\\widehat{ACB}$, puis la vérifier au rapporteur.
+4. Mesurer $CA$ et $CB$ sur la figure. Pourquoi ces deux longueurs doivent-elles être égales ?
+5. On note $H$ le milieu de $[AB]$. Expliquer pourquoi le point $C$ est sur la médiatrice de $[AB]$. En déduire la mesure de l'angle $\\widehat{CHA}$, puis mesurer $CH$.`,
+      solution: `**1.** Dans un triangle isocèle, les deux angles à la base ont la même mesure. Le triangle est isocèle en $C$, sa base est $[AB]$ : $\\widehat{CBA} = \\widehat{CAB} = 40^\\circ$.
+
+**2.** On trace le segment $[AB]$ de $7$ cm. Au rapporteur, on construit en $A$ une demi-droite faisant un angle de $40^\\circ$ avec $[AB)$, puis en $B$ une demi-droite faisant un angle de $40^\\circ$ avec $[BA)$, du même côté de $(AB)$. Les deux demi-droites se coupent en $C$.
+
+**3.** $\\widehat{ACB} = 180^\\circ - 40^\\circ - 40^\\circ = 100^\\circ$ (c'est un angle obtus). Au rapporteur, on accepte une mesure comprise entre $98^\\circ$ et $102^\\circ$.
+
+**4.** On mesure $CA \\approx CB \\approx 4{,}6$ cm ; on accepte toute mesure comprise **entre $4{,}4$ cm et $4{,}7$ cm**, la même pour les deux côtés. Ces longueurs sont égales car le triangle est isocèle en $C$ : $CA = CB$.
+
+**5.** $CA = CB$ : le point $C$ est à égale distance de $A$ et de $B$, donc il est sur la médiatrice de $[AB]$. Cette médiatrice passe par le milieu $H$ de $[AB]$ et elle est perpendiculaire à $(AB)$ : la droite $(CH)$ est la médiatrice, et $\\widehat{CHA} = 90^\\circ$.
+On mesure $CH \\approx 2{,}9$ cm ; on accepte une mesure comprise **entre $2{,}8$ cm et $3{,}1$ cm**.`
+    },
+    {
+      id: "6G4-ds-16",
+      title: "Le triangle d'or",
+      difficulty: 4,
+      points: 6,
+      statement: `$ABC$ est un triangle isocèle en $A$ tel que $\\widehat{BAC} = 36^\\circ$. La bissectrice de l'angle $\\widehat{ABC}$ coupe le côté $[AC]$ en $D$. La figure n'est pas en vraie grandeur.
+
+<div class="geo-figure-wrapper" style="text-align:center; margin:0.8rem auto; max-width:260px;"><svg class="geo-svg-figure" viewBox="0 0 300 240" width="300" height="240" style="width:100%; height:auto; color:var(--text-main, #334155);" xmlns="http://www.w3.org/2000/svg" role="img"><polygon points="150,76.5 105,215 195,215" fill="rgba(59,130,246,0.08)" stroke="currentColor" stroke-width="2"/><line x1="105" y1="215" x2="177.8" y2="162.1" stroke="#dc2626" stroke-width="2"/><circle cx="177.8" cy="162.1" r="3" fill="currentColor"/><text x="145" y="68" font-size="15" fill="currentColor">A</text><text x="88" y="230" font-size="15" fill="currentColor">B</text><text x="200" y="230" font-size="15" fill="currentColor">C</text><text x="185" y="160" font-size="15" fill="currentColor">D</text><text x="141" y="110" font-size="12" fill="currentColor">36°</text></svg></div>
+
+On admet la propriété suivante : **si un triangle a deux angles de même mesure, alors il est isocèle** (les deux côtés égaux partent du sommet du troisième angle).
+
+1. Calculer les mesures des angles $\\widehat{ABC}$ et $\\widehat{ACB}$.
+2. Calculer $\\widehat{ABD}$ et $\\widehat{DBC}$.
+3. Dans le triangle $ABD$, calculer $\\widehat{ADB}$. Quelle est la nature du triangle $ABD$ ? Préciser son sommet principal.
+4. Dans le triangle $BDC$, calculer $\\widehat{BDC}$. Quelle est la nature du triangle $BDC$ ? Préciser son sommet principal.
+5. Vérifier que $\\widehat{ADB} + \\widehat{BDC} = 180^\\circ$. Pourquoi fallait-il s'y attendre ?
+6. On donne $BC = 4$ cm. Sans mesurer, donner les longueurs $BD$ et $AD$.`,
+      solution: `**1.** Le triangle est isocèle en $A$ : ses angles à la base sont égaux, $\\widehat{ABC} = \\widehat{ACB}$. Ils font ensemble $180^\\circ - 36^\\circ = 144^\\circ$, donc
+$$\\widehat{ABC} = \\widehat{ACB} = 144^\\circ \\div 2 = 72^\\circ.$$
+
+**2.** $[BD)$ est la bissectrice de $\\widehat{ABC}$ : $\\widehat{ABD} = \\widehat{DBC} = 72^\\circ \\div 2 = 36^\\circ$.
+
+**3.** Dans $ABD$ : $\\widehat{DAB} = 36^\\circ$ et $\\widehat{ABD} = 36^\\circ$, donc
+$$\\widehat{ADB} = 180^\\circ - 36^\\circ - 36^\\circ = 108^\\circ.$$
+Les angles en $A$ et en $B$ sont égaux : d'après la propriété admise, **$ABD$ est isocèle en $D$**, c'est-à-dire $DA = DB$.
+
+**4.** Dans $BDC$ : $\\widehat{DBC} = 36^\\circ$ et $\\widehat{DCB} = 72^\\circ$, donc
+$$\\widehat{BDC} = 180^\\circ - 36^\\circ - 72^\\circ = 72^\\circ.$$
+Les angles en $D$ et en $C$ sont égaux : **$BDC$ est isocèle en $B$**, c'est-à-dire $BD = BC$.
+
+**5.** $108^\\circ + 72^\\circ = 180^\\circ$. C'est normal : $D$ est sur le segment $[AC]$, donc $A$, $D$ et $C$ sont alignés et $\\widehat{ADC}$ est un angle plat, formé des deux angles adjacents $\\widehat{ADB}$ et $\\widehat{BDC}$.
+
+**6.** Le triangle $BDC$ est isocèle en $B$ : $BD = BC = 4$ cm. Le triangle $ABD$ est isocèle en $D$ : $AD = BD = 4$ cm.`
     }
   ]
 });
@@ -5327,6 +7381,149 @@ Minimum : fond-gauche $2$, fond-droite $1$, devant-gauche $1$, devant-droite $3$
 On ne peut pas faire moins : il faut $3$ cubes devant-droite, au moins $1$ cube sur chacune des trois autres cases, et une pile de $2$ dans la colonne de gauche, ce qui ajoute au moins $1$ cube.
 
 **5.** Par exemple : fond-gauche $2$, fond-droite $2$, devant-gauche $1$, devant-droite $3$ ; total $2 + 2 + 1 + 3 = 8$ cubes. Vue de face : la plus haute pile de gauche a $2$ cubes et celle de droite $3$ cubes ; vue de côté : la plus haute pile du fond a $2$ cubes et celle de devant $3$ cubes. Les trois vues sont respectées.`
+    },
+    {
+      id: "6G5-ds-13",
+      title: "Reconnaître des solides de la vie courante",
+      difficulty: 1,
+      points: 4,
+      statement: `Voici des objets de la vie courante :
+- un dé à jouer ;
+- une brique de lait ;
+- une boîte de conserve ;
+- un ballon de football ;
+- un cornet de glace (sans la glace) ;
+- une boîte de chocolats dont les deux bouts sont des triangles identiques et les trois autres faces des rectangles.
+
+1. Donner le nom du solide que représente chaque objet.
+2. Parmi ces solides, lesquels n'ont que des faces planes ?
+3. Recopier et compléter le tableau.
+
+| Solide | Nombre de faces | Nombre d'arêtes | Nombre de sommets |
+|:---:|:---:|:---:|:---:|
+| Cube | … | … | … |
+| Pavé droit | … | … | … |
+| Boîte de chocolats | … | … | … |
+
+4. Pour chaque solide du tableau, calculer « faces $+$ sommets $-$ arêtes ». Que remarque-t-on ?`,
+      solution: `**1.**
+- dé à jouer : **cube** ;
+- brique de lait : **pavé droit** ;
+- boîte de conserve : **cylindre** ;
+- ballon de football : **boule** (sa surface est une sphère) ;
+- cornet de glace : **cône** ;
+- boîte de chocolats : **prisme droit** à base triangulaire.
+
+**2.** Le cube, le pavé droit et le prisme n'ont que des faces planes. Le cylindre, le cône et la boule ont une surface courbe.
+
+**3.**
+
+| Solide | Nombre de faces | Nombre d'arêtes | Nombre de sommets |
+|:---:|:---:|:---:|:---:|
+| Cube | $6$ | $12$ | $8$ |
+| Pavé droit | $6$ | $12$ | $8$ |
+| Boîte de chocolats | $5$ | $9$ | $6$ |
+
+(Pour le prisme : $2$ triangles et $3$ rectangles font $5$ faces ; chaque triangle a $3$ côtés, ce qui fait $6$ arêtes, plus $3$ arêtes qui relient les deux triangles, soit $9$ ; $3$ sommets par triangle, soit $6$.)
+
+**4.** Cube et pavé : $6 + 8 - 12 = 2$. Prisme : $5 + 6 - 9 = 2$. On trouve **toujours $2$**.`
+    },
+    {
+      id: "6G5-ds-14",
+      title: "Lire le patron d'un pavé droit",
+      difficulty: 2,
+      points: 5,
+      statement: `Voici le patron d'un pavé droit (il n'est pas en vraie grandeur). Les faces sont numérotées de $1$ à $6$. On sait que la face $1$ mesure $5$ cm sur $3$ cm et que la hauteur totale du patron, de haut en bas, est $10$ cm.
+
+<div class="geo-figure-wrapper" style="text-align:center; margin:0.8rem auto; max-width:260px;"><svg class="geo-svg-figure" viewBox="0 0 260 240" width="260" height="240" style="width:100%; height:auto; color:var(--text-main, #334155);" xmlns="http://www.w3.org/2000/svg" role="img"><rect x="80" y="20" width="100" height="60" fill="rgba(59,130,246,0.10)" stroke="currentColor" stroke-width="1.8"/><rect x="80" y="80" width="100" height="40" fill="rgba(59,130,246,0.04)" stroke="currentColor" stroke-width="1.8"/><rect x="80" y="120" width="100" height="60" fill="rgba(59,130,246,0.10)" stroke="currentColor" stroke-width="1.8"/><rect x="80" y="180" width="100" height="40" fill="rgba(59,130,246,0.04)" stroke="currentColor" stroke-width="1.8"/><rect x="40" y="20" width="40" height="60" fill="rgba(220,38,38,0.08)" stroke="currentColor" stroke-width="1.8"/><rect x="180" y="20" width="40" height="60" fill="rgba(220,38,38,0.08)" stroke="currentColor" stroke-width="1.8"/><text x="125" y="56" font-size="15" fill="currentColor">1</text><text x="125" y="106" font-size="15" fill="currentColor">2</text><text x="125" y="156" font-size="15" fill="currentColor">3</text><text x="125" y="206" font-size="15" fill="currentColor">4</text><text x="55" y="56" font-size="15" fill="currentColor">5</text><text x="195" y="56" font-size="15" fill="currentColor">6</text><text x="112" y="14" font-size="12" fill="currentColor">5 cm</text><text x="2" y="55" font-size="12" fill="currentColor">3 cm</text><text x="56" y="96" font-size="14" font-style="italic" fill="#dc2626">a</text><text x="188" y="205" font-size="14" font-style="italic" fill="#dc2626">b</text></svg></div>
+
+1. Combien de faces a ce pavé droit ? Quelle forme ont-elles ?
+2. Quand on plie le patron, quelle face est opposée à la face $1$ ? À la face $2$ ? À la face $5$ ?
+3. Les faces $1$ et $3$ sont identiques, ainsi que les faces $2$ et $4$. En utilisant la hauteur totale du patron, calculer la longueur $b$.
+4. La longueur $a$ est la hauteur du pavé, comme $b$. Donner $a$, puis les trois dimensions du pavé droit.
+5. Calculer la largeur totale du patron, puis la longueur totale des arêtes du pavé droit.`,
+      solution: `**1.** Un pavé droit a **$6$ faces**, qui sont toutes des **rectangles**.
+
+**2.** En pliant les faces $2$, $3$, $4$ autour de la face $1$ : la face $3$ se retrouve au-dessus de la face $1$, donc **la face $3$ est opposée à la face $1$** ; **la face $4$ est opposée à la face $2$** ; les faces $5$ et $6$ se relèvent de chaque côté, **la face $6$ est opposée à la face $5$**.
+
+**3.** De haut en bas, on traverse les faces $1$, $2$, $3$, $4$ : $3 + b + 3 + b = 10$, donc $b + b = 10 - 6 = 4$ et **$b = 2$ cm**.
+
+**4.** $a = b = 2$ cm. Les dimensions du pavé sont **$5$ cm, $3$ cm et $2$ cm**.
+
+**5.** Largeur totale du patron : $a + 5 + a = 2 + 5 + 2 = 9$ cm.
+Un pavé droit a $12$ arêtes : $4$ de chaque longueur. Longueur totale : $4 \\times 5 + 4 \\times 3 + 4 \\times 2 = 20 + 12 + 8 = 40$ cm.`
+    },
+    {
+      id: "6G5-ds-15",
+      title: "La fourmi sur les arêtes du cube",
+      difficulty: 3,
+      points: 5,
+      statement: `$ABCDEFGH$ est un cube d'arête $4$ cm, représenté en perspective (les arêtes cachées sont en pointillés). Une fourmi se déplace **uniquement le long des arêtes**.
+
+<div class="geo-figure-wrapper" style="text-align:center; margin:0.8rem auto; max-width:280px;"><svg class="geo-svg-figure" viewBox="0 0 280 225" width="280" height="225" style="width:100%; height:auto; color:var(--text-main, #334155);" xmlns="http://www.w3.org/2000/svg" role="img"><polygon points="60,200 180,200 180,80 60,80" fill="rgba(59,130,246,0.08)" stroke="currentColor" stroke-width="2"/><polyline points="180,200 240,150 240,30 180,80" fill="none" stroke="currentColor" stroke-width="2"/><polyline points="60,80 120,30 240,30" fill="none" stroke="currentColor" stroke-width="2"/><line x1="60" y1="200" x2="120" y2="150" stroke="currentColor" stroke-width="1.5" stroke-dasharray="5 4"/><line x1="120" y1="150" x2="240" y2="150" stroke="currentColor" stroke-width="1.5" stroke-dasharray="5 4"/><line x1="120" y1="150" x2="120" y2="30" stroke="currentColor" stroke-width="1.5" stroke-dasharray="5 4"/><text x="46" y="216" font-size="15" fill="currentColor">A</text><text x="182" y="218" font-size="15" fill="currentColor">B</text><text x="166" y="97" font-size="15" fill="currentColor">C</text><text x="44" y="80" font-size="15" fill="currentColor">D</text><text x="104" y="146" font-size="15" fill="currentColor">E</text><text x="246" y="158" font-size="15" fill="currentColor">F</text><text x="246" y="30" font-size="15" fill="currentColor">G</text><text x="110" y="22" font-size="15" fill="currentColor">H</text></svg></div>
+
+1. Combien d'arêtes partent de chaque sommet du cube ? Nommer celles qui partent de $A$.
+2. La fourmi part de $A$ et veut aller en $G$, le sommet opposé. Quel est le plus petit nombre d'arêtes qu'elle doit parcourir ? Donner un tel chemin et sa longueur.
+3. Trouver tous les chemins les plus courts de $A$ à $G$. Combien y en a-t-il ?
+4. La fourmi veut passer par les $8$ sommets, sans repasser deux fois par le même, puis revenir en $A$. Proposer un tel chemin et calculer sa longueur.
+5. Sur un pavé droit de dimensions $5$ cm, $3$ cm et $2$ cm, quelle est la longueur du plus court chemin le long des arêtes entre deux sommets opposés ?`,
+      solution: `**1.** De chaque sommet partent **$3$ arêtes**. De $A$ partent $[AB]$, $[AD]$ et $[AE]$.
+
+**2.** Pour aller de $A$ à $G$, il faut avancer dans les trois directions du cube (largeur, hauteur, profondeur) : au moins **$3$ arêtes**. Par exemple $A \\to B \\to C \\to G$, de longueur $3 \\times 4 = 12$ cm.
+
+**3.** On choisit la première arête ($3$ possibilités), puis la deuxième parmi les deux directions restantes ($2$ possibilités), la troisième est alors imposée : $3 \\times 2 = 6$ chemins.
+$A\\,B\\,C\\,G$ ; $A\\,B\\,F\\,G$ ; $A\\,D\\,C\\,G$ ; $A\\,D\\,H\\,G$ ; $A\\,E\\,F\\,G$ ; $A\\,E\\,H\\,G$. Il y en a **$6$**.
+
+**4.** Par exemple $A \\to B \\to C \\to D \\to H \\to G \\to F \\to E \\to A$ (chaque étape suit bien une arête). Il comporte $8$ arêtes : longueur $8 \\times 4 = 32$ cm. (D'autres chemins conviennent ; ils ont tous $8$ arêtes.)
+
+**5.** Comme pour le cube, il faut parcourir une arête dans chacune des trois directions : une de $5$ cm, une de $3$ cm et une de $2$ cm. Le plus court chemin mesure $5 + 3 + 2 = 10$ cm.`
+    },
+    {
+      id: "6G5-ds-16",
+      title: "Peindre un escalier de cubes",
+      difficulty: 4,
+      points: 6,
+      statement: `Avec des cubes de $1$ cm d'arête, Nora construit un escalier d'une seule rangée de profondeur, posé sur une table. Pour un escalier à $3$ marches, les colonnes ont, de gauche à droite, $3$, $2$ et $1$ cubes (vue de face ci-dessous). Elle peint toutes les faces visibles des cubes, sauf celles posées sur la table.
+
+<div class="geo-figure-wrapper" style="text-align:center; margin:0.8rem auto; max-width:220px;"><svg class="geo-svg-figure" viewBox="0 0 210 140" width="210" height="140" style="width:100%; height:auto; color:var(--text-main, #334155);" xmlns="http://www.w3.org/2000/svg" role="img"><rect x="60" y="90" width="30" height="30" fill="rgba(59,130,246,0.15)" stroke="currentColor" stroke-width="1.5"/><rect x="60" y="60" width="30" height="30" fill="rgba(59,130,246,0.15)" stroke="currentColor" stroke-width="1.5"/><rect x="60" y="30" width="30" height="30" fill="rgba(59,130,246,0.15)" stroke="currentColor" stroke-width="1.5"/><rect x="90" y="90" width="30" height="30" fill="rgba(59,130,246,0.15)" stroke="currentColor" stroke-width="1.5"/><rect x="90" y="60" width="30" height="30" fill="rgba(59,130,246,0.15)" stroke="currentColor" stroke-width="1.5"/><rect x="120" y="90" width="30" height="30" fill="rgba(59,130,246,0.15)" stroke="currentColor" stroke-width="1.5"/><line x1="20" y1="120" x2="190" y2="120" stroke="currentColor" stroke-width="2.5"/></svg></div>
+
+1. Combien de cubes compte l'escalier à $3$ marches ?
+2. Pour l'escalier à $3$ marches, compter les carrés peints : a) sur la face avant ; b) sur la face arrière ; c) sur le dessus (les « marches » vues de haut) ; d) sur le côté gauche ; e) sur les côtés tournés vers la droite.
+   En déduire le nombre total de carrés peints.
+3. Vérifier ce résultat autrement : chaque cube a $6$ faces ; enlever les faces posées sur la table et les faces collées à un autre cube.
+4. Recopier et compléter le tableau pour un escalier construit de la même façon.
+
+| Nombre de marches | $3$ | $4$ | $10$ |
+|:---:|:---:|:---:|:---:|
+| Nombre de cubes | | | |
+| Carrés peints (avant $+$ arrière) | | | |
+| Carrés peints (dessus $+$ gauche $+$ droite) | | | |
+| Total de carrés peints | | | |`,
+      solution: `**1.** $3 + 2 + 1 = 6$ cubes.
+
+**2.** a) Face avant : on voit tous les cubes, soit $6$ carrés.
+b) Face arrière : de même, $6$ carrés.
+c) Dessus : le haut de chaque colonne, soit $3$ carrés.
+d) Côté gauche : la colonne de gauche, haute de $3$ cubes, soit $3$ carrés.
+e) Vers la droite : chaque colonne dépasse la suivante d'un cube, et la dernière colonne a $1$ cube : $1 + 1 + 1 = 3$ carrés.
+Total : $6 + 6 + 3 + 3 + 3 = 21$ carrés peints.
+
+**3.** $6$ cubes ont $6 \\times 6 = 36$ faces.
+- Faces sur la table : $3$ (une par colonne).
+- Collages verticaux (un cube sur un autre) : $2$ dans la première colonne, $1$ dans la deuxième, soit $3$ collages, donc $6$ faces cachées.
+- Collages horizontaux (colonnes voisines) : $2$ entre la première et la deuxième colonne, $1$ entre la deuxième et la troisième, soit $3$ collages, donc $6$ faces cachées.
+$36 - 3 - 6 - 6 = 21$. On retrouve bien **$21$ carrés peints**.
+
+**4.** Avec $n$ marches, l'avant et l'arrière montrent chacun tous les cubes, et le dessus, la gauche et la droite montrent chacun autant de carrés qu'il y a de marches.
+
+| Nombre de marches | $3$ | $4$ | $10$ |
+|:---:|:---:|:---:|:---:|
+| Nombre de cubes | $6$ | $10$ | $55$ |
+| Carrés peints (avant $+$ arrière) | $12$ | $20$ | $110$ |
+| Carrés peints (dessus $+$ gauche $+$ droite) | $9$ | $12$ | $30$ |
+| Total de carrés peints | $21$ | $32$ | $140$ |
+
+Pour $10$ marches : $10 + 9 + \\ldots + 1 = 55$ cubes ; avant et arrière : $2 \\times 55 = 110$ ; dessus, gauche et droite : $3 \\times 10 = 30$ ; total $110 + 30 = 140$ carrés peints.`
     }
   ],
   "6D2": [
@@ -5614,6 +7811,119 @@ b) Avec $6$ bleus, il faut $2 \\times 6 = 12$ rouges : on ajoute $12 - 4 = 8$ je
 c) Avec $4$ rouges, il faut $4 \\div 2 = 2$ bleus : on retire $6 - 2 = 4$ jetons bleus. Vérification : $\\frac{4}{6} = \\frac{2}{3}$.
 
 **4.** Non. Tant que les $6$ jetons bleus sont dans le sac, il est toujours possible d'en tirer un : l'événement « tirer un rouge » n'est jamais certain, sa probabilité reste inférieure à $1$ (même si elle s'en rapproche quand on ajoute beaucoup de rouges).`
+    },
+    {
+      id: "6D2-ds-13",
+      title: "Tirer au sort un responsable",
+      difficulty: 1,
+      points: 4,
+      statement: `Une classe compte $25$ élèves : $12$ filles et $13$ garçons. Parmi eux, $4$ élèves portent des lunettes : $1$ fille et $3$ garçons. Pour désigner un responsable du cahier de textes, on écrit le nom de chaque élève sur un papier et on tire un papier au hasard.
+
+1. L'événement « le responsable est un élève de la classe » est-il impossible, certain, ou ni l'un ni l'autre ? Et l'événement « le responsable a $40$ ans » ?
+2. Quelle est la probabilité que le responsable soit une fille ? Un garçon ?
+3. Est-il plus probable de tirer une fille ou un garçon ? Justifier.
+4. Quelle est la probabilité que le responsable porte des lunettes ?
+5. Quelle est la probabilité que le responsable soit un garçon qui porte des lunettes ?`,
+      solution: `Il y a $25$ papiers, tous ayant la même chance d'être tirés.
+
+**1.** « Le responsable est un élève de la classe » est **certain** : tous les papiers portent le nom d'un élève de la classe.
+« Le responsable a $40$ ans » est **impossible** : aucun élève de la classe n'a $40$ ans.
+
+**2.** $12$ papiers sur $25$ portent le nom d'une fille : $P(\\text{fille}) = \\frac{12}{25}$.
+$13$ papiers sur $25$ portent le nom d'un garçon : $P(\\text{garçon}) = \\frac{13}{25}$.
+
+**3.** $\\frac{13}{25} > \\frac{12}{25}$ (même dénominateur, $13 > 12$) : il est un peu plus probable de tirer **un garçon**.
+
+**4.** $4$ élèves sur $25$ portent des lunettes : la probabilité est $\\frac{4}{25}$.
+
+**5.** $3$ élèves sont des garçons à lunettes : la probabilité est $\\frac{3}{25}$.`
+    },
+    {
+      id: "6D2-ds-14",
+      title: "Quelle roue choisir ?",
+      difficulty: 2,
+      points: 5,
+      statement: `À la fête de l'école, on peut jouer avec l'une des deux roues ci-dessous. Chaque roue est partagée en secteurs de même taille. On fait tourner la roue ; on gagne si la flèche s'arrête sur un secteur jaune.
+
+<div class="geo-figure-wrapper" style="text-align:center; margin:0.8rem auto; max-width:360px;"><svg class="geo-svg-figure" viewBox="0 0 350 175" width="350" height="175" style="width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img"><path d="M90,80 L90.0,15.0 A65,65 0 0 1 146.3,47.5 Z" fill="rgba(234,179,8,0.75)" stroke="var(--text-main, #334155)" stroke-width="1.5"/><path d="M90,80 L146.3,47.5 A65,65 0 0 1 146.3,112.5 Z" fill="rgba(148,163,184,0.15)" stroke="var(--text-main, #334155)" stroke-width="1.5"/><path d="M90,80 L146.3,112.5 A65,65 0 0 1 90.0,145.0 Z" fill="rgba(148,163,184,0.15)" stroke="var(--text-main, #334155)" stroke-width="1.5"/><path d="M90,80 L90.0,145.0 A65,65 0 0 1 33.7,112.5 Z" fill="rgba(234,179,8,0.75)" stroke="var(--text-main, #334155)" stroke-width="1.5"/><path d="M90,80 L33.7,112.5 A65,65 0 0 1 33.7,47.5 Z" fill="rgba(148,163,184,0.15)" stroke="var(--text-main, #334155)" stroke-width="1.5"/><path d="M90,80 L33.7,47.5 A65,65 0 0 1 90.0,15.0 Z" fill="rgba(148,163,184,0.15)" stroke="var(--text-main, #334155)" stroke-width="1.5"/><text x="90" y="167" text-anchor="middle" font-size="14" font-weight="bold" fill="currentColor">Roue A</text><path d="M260,80 L260.0,15.0 A65,65 0 0 1 292.5,23.7 Z" fill="rgba(234,179,8,0.75)" stroke="var(--text-main, #334155)" stroke-width="1.5"/><path d="M260,80 L292.5,23.7 A65,65 0 0 1 316.3,47.5 Z" fill="rgba(148,163,184,0.15)" stroke="var(--text-main, #334155)" stroke-width="1.5"/><path d="M260,80 L316.3,47.5 A65,65 0 0 1 325.0,80.0 Z" fill="rgba(234,179,8,0.75)" stroke="var(--text-main, #334155)" stroke-width="1.5"/><path d="M260,80 L325.0,80.0 A65,65 0 0 1 316.3,112.5 Z" fill="rgba(148,163,184,0.15)" stroke="var(--text-main, #334155)" stroke-width="1.5"/><path d="M260,80 L316.3,112.5 A65,65 0 0 1 292.5,136.3 Z" fill="rgba(148,163,184,0.15)" stroke="var(--text-main, #334155)" stroke-width="1.5"/><path d="M260,80 L292.5,136.3 A65,65 0 0 1 260.0,145.0 Z" fill="rgba(234,179,8,0.75)" stroke="var(--text-main, #334155)" stroke-width="1.5"/><path d="M260,80 L260.0,145.0 A65,65 0 0 1 227.5,136.3 Z" fill="rgba(148,163,184,0.15)" stroke="var(--text-main, #334155)" stroke-width="1.5"/><path d="M260,80 L227.5,136.3 A65,65 0 0 1 203.7,112.5 Z" fill="rgba(234,179,8,0.75)" stroke="var(--text-main, #334155)" stroke-width="1.5"/><path d="M260,80 L203.7,112.5 A65,65 0 0 1 195.0,80.0 Z" fill="rgba(148,163,184,0.15)" stroke="var(--text-main, #334155)" stroke-width="1.5"/><path d="M260,80 L195.0,80.0 A65,65 0 0 1 203.7,47.5 Z" fill="rgba(148,163,184,0.15)" stroke="var(--text-main, #334155)" stroke-width="1.5"/><path d="M260,80 L203.7,47.5 A65,65 0 0 1 227.5,23.7 Z" fill="rgba(234,179,8,0.75)" stroke="var(--text-main, #334155)" stroke-width="1.5"/><path d="M260,80 L227.5,23.7 A65,65 0 0 1 260.0,15.0 Z" fill="rgba(148,163,184,0.15)" stroke="var(--text-main, #334155)" stroke-width="1.5"/><text x="260" y="167" text-anchor="middle" font-size="14" font-weight="bold" fill="currentColor">Roue B</text></svg></div>
+
+1. Combien la roue A a-t-elle de secteurs ? Combien sont jaunes ? Même question pour la roue B.
+2. Calculer la probabilité de gagner avec la roue A, puis avec la roue B.
+3. Calculer la probabilité de perdre avec la roue A.
+4. a) Écrire la probabilité de gagner avec la roue A sous la forme d'une fraction de dénominateur $12$.
+   b) Avec quelle roue a-t-on le plus de chances de gagner ?
+5. Combien faudrait-il de secteurs jaunes sur la roue B pour avoir exactement la même probabilité de gagner qu'avec la roue A ?`,
+      solution: `**1.** Roue A : $6$ secteurs, dont $2$ jaunes. Roue B : $12$ secteurs, dont $5$ jaunes.
+
+**2.** Les secteurs ont la même taille, donc chacun a la même chance d'être désigné.
+Roue A : $P = \\frac{2}{6}$. Roue B : $P = \\frac{5}{12}$.
+
+**3.** Avec la roue A, $4$ secteurs sur $6$ font perdre : $P(\\text{perdre}) = \\frac{4}{6}$ (on peut aussi écrire $1 - \\frac{2}{6} = \\frac{4}{6}$).
+
+**4.** a) $\\frac{2}{6} = \\frac{2 \\times 2}{6 \\times 2} = \\frac{4}{12}$.
+b) $\\frac{5}{12} > \\frac{4}{12}$ : on a plus de chances de gagner avec la **roue B**.
+
+**5.** Il faudrait $\\frac{4}{12}$, donc **$4$ secteurs jaunes** sur la roue B (au lieu de $5$).`
+    },
+    {
+      id: "6D2-ds-15",
+      title: "Les jetons numérotés",
+      difficulty: 3,
+      points: 5,
+      statement: `Un sac contient $20$ jetons indiscernables au toucher, numérotés de $1$ à $20$. On tire un jeton au hasard.
+
+1. Quelle est la probabilité de tirer le jeton numéro $7$ ?
+2. Quelle est la probabilité de tirer un numéro pair ?
+3. a) Écrire la liste des multiples de $3$ compris entre $1$ et $20$.
+   b) Quelle est la probabilité de tirer un multiple de $3$ ?
+4. Quelle est la probabilité de tirer un numéro qui est à la fois pair et multiple de $3$ ?
+5. Quelle est la probabilité de tirer un numéro dans lequel on voit le chiffre $1$ ?
+6. Donner un événement dont la probabilité est égale à $0$.`,
+      solution: `Les $20$ jetons ont tous la même chance d'être tirés.
+
+**1.** Un seul jeton porte le numéro $7$ : $P = \\frac{1}{20}$.
+
+**2.** Les numéros pairs sont $2$ ; $4$ ; $6$ ; … ; $20$ : il y en a $10$. $P = \\frac{10}{20}$ (soit $\\frac{1}{2}$).
+
+**3.** a) $3$ ; $6$ ; $9$ ; $12$ ; $15$ ; $18$.
+b) Il y en a $6$ : $P = \\frac{6}{20}$.
+
+**4.** Parmi les multiples de $3$, les nombres pairs sont $6$ ; $12$ ; $18$ : $P = \\frac{3}{20}$.
+
+**5.** Le chiffre $1$ apparaît dans $1$ ; $10$ ; $11$ ; $12$ ; $13$ ; $14$ ; $15$ ; $16$ ; $17$ ; $18$ ; $19$, soit $11$ numéros (attention à ne pas oublier $1$ et $10$). $P = \\frac{11}{20}$.
+
+**6.** Par exemple « tirer le numéro $25$ » ou « tirer un numéro supérieur à $20$ » : c'est un événement impossible, sa probabilité est $0$.`
+    },
+    {
+      id: "6D2-ds-16",
+      title: "Inventer la règle de la loterie",
+      difficulty: 4,
+      points: 6,
+      statement: `Pour une loterie, on met dans une urne $100$ boules numérotées de $1$ à $100$, indiscernables au toucher. Un joueur tire une boule au hasard. Les organisateurs hésitent entre plusieurs règles pour désigner les boules gagnantes.
+
+1. Règle 1 : « La boule est gagnante si son numéro se termine par $7$. »
+   a) Combien y a-t-il de boules gagnantes ? Les écrire.
+   b) Quelle est la probabilité de gagner ?
+2. Règle 2 : « La boule est gagnante si son numéro est un multiple de $25$. » Quelle est la probabilité de gagner ?
+3. Règle 3 : « La boule est gagnante si son numéro s'écrit avec deux chiffres identiques (comme $44$). » Quelle est la probabilité de gagner ?
+4. Règle 4 : « La boule est gagnante si son numéro se termine par $7$ **ou** est un multiple de $25$. » Expliquer pourquoi aucune boule n'est comptée deux fois, puis calculer la probabilité de gagner.
+5. Les organisateurs veulent une règle pour laquelle la probabilité de gagner est $\\frac{1}{5}$. Combien faut-il de boules gagnantes ? Proposer une règle qui convient.
+6. Léo dit : « Un numéro pair a plus de chances de sortir qu'un numéro impair. » Qu'en penser ?`,
+      solution: `Les $100$ boules ont toutes la même chance d'être tirées.
+
+**1.** a) $7$ ; $17$ ; $27$ ; $37$ ; $47$ ; $57$ ; $67$ ; $77$ ; $87$ ; $97$ : il y a $10$ boules gagnantes.
+b) $P = \\frac{10}{100}$ (soit $\\frac{1}{10}$).
+
+**2.** Les multiples de $25$ jusqu'à $100$ sont $25$ ; $50$ ; $75$ ; $100$. $P = \\frac{4}{100}$.
+
+**3.** $11$ ; $22$ ; $33$ ; $44$ ; $55$ ; $66$ ; $77$ ; $88$ ; $99$ : $9$ boules. $P = \\frac{9}{100}$.
+
+**4.** Les multiples de $25$ se terminent par $0$ ou par $5$, jamais par $7$ : aucune boule ne vérifie les deux conditions à la fois. Il y a donc $10 + 4 = 14$ boules gagnantes et $P = \\frac{14}{100}$.
+
+**5.** $\\frac{1}{5} = \\frac{20}{100}$ : il faut $20$ boules gagnantes.
+Exemple de règle : « la boule est gagnante si son numéro est un multiple de $5$ » ($5$ ; $10$ ; … ; $100$, soit $100 \\div 5 = 20$ boules). D'autres règles conviennent, par exemple « le numéro se termine par $3$ ou par $8$ ».
+
+**6.** Il y a $50$ numéros pairs et $50$ numéros impairs entre $1$ et $100$ : les deux probabilités valent $\\frac{50}{100}$. Léo **a tort**, les deux événements ont la même probabilité.`
     }
   ]
 });
@@ -5994,6 +8304,187 @@ Distance : Lapin est à $20 \\times 15 = 300$ pas ; Tortue à $100 + 20 \\times 
 
 **5.** Pour rattraper $100$ pas en $10$ passages, l'écart doit diminuer de $100 \\div 10 = 10$ pas par passage. Tortue doit donc avancer de $15 - 10 = 5$ pas par passage : on remplace $10$ par **$5$**.
 Vérification : après $10$ passages, Lapin est à $150$ pas et Tortue à $100 + 10 \\times 5 = 150$ pas.`
+    },
+    {
+      id: "6A1-ds-13",
+      title: "Que dit le lutin ?",
+      difficulty: 1,
+      points: 4,
+      statement: `On exécute le script Scratch suivant, qui utilise une variable « nombre » :
+
+\`\`\`scratch
+quand drapeau cliqué
+mettre [nombre] à 7
+ajouter 5 à [nombre]
+mettre [nombre] à (nombre * 2)
+ajouter -4 à [nombre]
+dire (nombre)
+\`\`\`
+
+1. Recopier et compléter le tableau en donnant la valeur de « nombre » après chaque instruction.
+
+| Instruction | mettre à $7$ | ajouter $5$ | multiplier par $2$ | ajouter $-4$ |
+|:---|:---:|:---:|:---:|:---:|
+| Valeur de « nombre » | | | | |
+
+2. Que dit le lutin à la fin ?
+3. On remplace la deuxième ligne par « mettre [nombre] à 10 ». Que dit alors le lutin ?
+4. Par quel nombre faut-il remplacer $7$ pour que le lutin dise $30$ ? Expliquer la démarche.`,
+      solution: `**1.** Les instructions sont exécutées dans l'ordre, de haut en bas :
+
+| Instruction | mettre à $7$ | ajouter $5$ | multiplier par $2$ | ajouter $-4$ |
+|:---|:---:|:---:|:---:|:---:|
+| Valeur de « nombre » | $7$ | $12$ | $24$ | $20$ |
+
+(« ajouter $-4$ » revient à enlever $4$ : $24 - 4 = 20$.)
+
+**2.** Le lutin dit **$20$**.
+
+**3.** $10 \\to 10 + 5 = 15 \\to 15 \\times 2 = 30 \\to 30 - 4 = 26$. Le lutin dit **$26$**.
+
+**4.** On remonte le programme en faisant les opérations inverses, en partant de la fin :
+- avant « ajouter $-4$ », le nombre valait $30 + 4 = 34$ ;
+- avant « multiplier par $2$ », il valait $34 \\div 2 = 17$ ;
+- avant « ajouter $5$ », il valait $17 - 5 = 12$.
+Il faut remplacer $7$ par **$12$**. (Vérification : $12 + 5 = 17$ ; $17 \\times 2 = 34$ ; $34 - 4 = 30$.)`
+    },
+    {
+      id: "6A1-ds-14",
+      title: "Les créneaux du château",
+      difficulty: 2,
+      points: 5,
+      statement: `Le lutin est orienté vers la droite, stylo baissé. On exécute le script suivant :
+
+\`\`\`scratch
+quand drapeau cliqué
+stylo en position d'écriture
+répéter 4 fois
+    tourner ↺ de 90 degrés
+    avancer de 20 pas
+    tourner ↻ de 90 degrés
+    avancer de 20 pas
+    tourner ↻ de 90 degrés
+    avancer de 20 pas
+    tourner ↺ de 90 degrés
+    avancer de 20 pas
+\`\`\`
+
+(↺ : tourner vers la gauche ; ↻ : tourner vers la droite.)
+
+1. Lors du premier passage dans la boucle, dans quelles directions successives (haut, bas, gauche, droite) le lutin avance-t-il ?
+2. Dessiner à main levée la figure obtenue après le premier passage, puis la figure complète.
+3. Quelle est la longueur totale du tracé, en pas ?
+4. Dans quelle direction le lutin est-il orienté à la fin ? De combien de pas s'est-il déplacé vers la droite entre son point de départ et son point d'arrivée ?
+5. Que faut-il modifier pour tracer $6$ créneaux au lieu de $4$ ?`,
+      solution: `**1.** Le lutin regarde vers la droite. Il tourne à gauche et avance vers le **haut**, tourne à droite et avance vers la **droite**, tourne à droite et avance vers le **bas**, puis tourne à gauche et avance vers la **droite**.
+
+**2.** Un passage dessine un « créneau » (une marche qui monte, un palier, une marche qui descend, puis un palier) ; la boucle répète ce motif $4$ fois :
+
+<div class="geo-figure-wrapper" style="text-align:center; margin:0.8rem auto; max-width:320px;"><svg class="geo-svg-figure" viewBox="0 0 290 100" width="290" height="100" style="width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img"><polyline points="20,70 20,40 50,40 50,70 80,70 80,40 110,40 110,70 140,70 140,40 170,40 170,70 200,70 200,40 230,40 230,70 260,70" fill="none" stroke="#2563eb" stroke-width="2.5"/><circle cx="20" cy="70" r="4" fill="#dc2626"/><text x="20" y="88" text-anchor="middle" font-size="11" fill="currentColor">départ</text><text x="260" y="88" text-anchor="middle" font-size="11" fill="currentColor">arrivée</text></svg></div>
+
+**3.** Chaque passage trace $4 \\times 20 = 80$ pas. Pour $4$ passages : $4 \\times 80 = 320$ pas.
+
+**4.** Dans un passage, le lutin tourne une fois à gauche, deux fois à droite, puis une fois à gauche : les quarts de tour se compensent et il regarde de nouveau **vers la droite**. Il est revenu à la même hauteur qu'au départ.
+À chaque passage, il avance vers la droite de $20 + 20 = 40$ pas. Au total : $4 \\times 40 = 160$ pas vers la droite.
+
+**5.** Il suffit de remplacer « répéter 4 fois » par **« répéter 6 fois »**.`
+    },
+    {
+      id: "6A1-ds-15",
+      title: "Le compte à rebours",
+      difficulty: 3,
+      points: 5,
+      statement: `On exécute le script suivant, qui utilise une variable $n$ :
+
+\`\`\`scratch
+quand drapeau cliqué
+mettre [n] à 50
+répéter jusqu'à ce que (n < 10)
+    dire (n)
+    attendre 1 secondes
+    ajouter -7 à [n]
+dire [Fin !]
+\`\`\`
+
+La boucle « répéter jusqu'à ce que » s'arrête dès que la condition $n < 10$ est vraie au moment où elle est testée (c'est-à-dire au début de chaque passage).
+
+1. Recopier et compléter le tableau jusqu'à l'arrêt de la boucle.
+
+| Passage | $1$ | $2$ | $3$ | $\\ldots$ |
+|:---|:---:|:---:|:---:|:---:|
+| Nombre dit par le lutin | $50$ | | | |
+
+2. Combien de nombres le lutin dit-il avant « Fin ! » ? Combien de temps environ dure le compte à rebours ?
+3. Quelle est la valeur de $n$ à la fin du script ?
+4. On veut que le lutin dise $50$ ; $45$ ; $40$ ; … ; $10$ ; $5$, puis « Fin ! ». Quelles modifications faut-il faire ? Combien de nombres dira-t-il alors ?`,
+      solution: `**1.** $n$ commence à $50$ et diminue de $7$ après chaque nombre dit :
+
+| Passage | $1$ | $2$ | $3$ | $4$ | $5$ | $6$ |
+|:---|:---:|:---:|:---:|:---:|:---:|:---:|
+| Nombre dit par le lutin | $50$ | $43$ | $36$ | $29$ | $22$ | $15$ |
+
+Après le $6^\\text{e}$ passage, $n = 15 - 7 = 8$. Au test suivant, $8 < 10$ est vrai : la boucle s'arrête.
+
+**2.** Le lutin dit **$6$ nombres**. Chaque passage dure environ $1$ seconde : le compte à rebours dure environ **$6$ secondes**.
+
+**3.** À la fin, $n = 8$.
+
+**4.** Il faut enlever $5$ à chaque passage : remplacer « ajouter -7 à [n] » par **« ajouter -5 à [n] »**.
+Il faut aussi dire $5$ mais pas $0$ : on remplace la condition par **« n < 5 »** (ou « n = 0 »). En effet, après $5$, on obtient $n = 0$ et $0 < 5$ arrête la boucle.
+Les nombres dits sont $50$ ; $45$ ; … ; $5$ : ce sont les multiples de $5$ de $5$ à $50$, soit $50 \\div 5 = 10$ nombres.
+(Avec la condition « n < 10 » inchangée, le lutin s'arrêterait après $10$ et ne dirait pas $5$.)`
+    },
+    {
+      id: "6A1-ds-16",
+      title: "Le jeu du nombre mystère",
+      difficulty: 4,
+      points: 6,
+      statement: `Voici le script d'un jeu : le joueur doit deviner un nombre entier compris entre $1$ et $100$.
+
+\`\`\`scratch
+quand drapeau cliqué
+mettre [mystère] à 37
+mettre [essais] à 0
+répéter jusqu'à ce que (réponse = mystère)
+    demander [Propose un nombre entre 1 et 100] et attendre
+    ajouter 1 à [essais]
+    si (réponse > mystère) alors
+        dire [Trop grand !]
+    si (réponse < mystère) alors
+        dire [Trop petit !]
+dire (essais)
+\`\`\`
+
+(« réponse » contient le dernier nombre tapé par le joueur.)
+
+1. Lina propose successivement $50$, puis $25$, puis $37$. Qu'affiche le lutin après chaque proposition ? Que dit-il à la fin ?
+2. Hugo propose successivement $60$, $20$, $45$, $30$, $37$. Recopier et compléter le tableau.
+
+| Proposition | $60$ | $20$ | $45$ | $30$ | $37$ |
+|:---|:---:|:---:|:---:|:---:|:---:|
+| Message du lutin | | | | | |
+| Valeur de « essais » | | | | | |
+
+3. Que représente le nombre dit par le lutin à la fin du jeu ?
+4. Un joueur a proposé $50$ (« Trop grand ! ») puis $25$ (« Trop petit ! »). Combien de nombres sont encore possibles ? Quel nombre a-t-il intérêt à proposer ensuite ? Expliquer.
+5. Avec ce script, le nombre mystère est toujours $37$. Quelle ligne faut-il modifier pour que le nombre change à chaque partie ? Par quoi la remplacer ?`,
+      solution: `**1.** $50 > 37$ : « Trop grand ! ». $25 < 37$ : « Trop petit ! ». $37 = 37$ : aucun des deux messages ; la condition « réponse = mystère » devient vraie, la boucle s'arrête et le lutin dit **$3$** (le nombre d'essais).
+
+**2.**
+
+| Proposition | $60$ | $20$ | $45$ | $30$ | $37$ |
+|:---|:---:|:---:|:---:|:---:|:---:|
+| Message du lutin | Trop grand ! | Trop petit ! | Trop grand ! | Trop petit ! | (aucun) |
+| Valeur de « essais » | $1$ | $2$ | $3$ | $4$ | $5$ |
+
+À la fin, le lutin dit $5$.
+
+**3.** La variable « essais » augmente de $1$ à chaque proposition : le nombre dit à la fin est le **nombre de propositions** faites par le joueur pour trouver le nombre mystère.
+
+**4.** Le nombre est plus petit que $50$ et plus grand que $25$ : il est entre $26$ et $49$. Il reste $49 - 26 + 1 = 24$ nombres possibles.
+Le joueur a intérêt à proposer un nombre « au milieu » de ces possibilités, par exemple $37$ ou $38$ : quelle que soit la réponse, il élimine environ la moitié des nombres restants.
+
+**5.** Il faut modifier la ligne « mettre [mystère] à 37 » et la remplacer par **« mettre [mystère] à (nombre aléatoire entre 1 et 100) »**.`
     }
   ]
 });

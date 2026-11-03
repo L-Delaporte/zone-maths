@@ -272,7 +272,106 @@ donc $L$ et $\\ell$ sont les racines de ce trinôme.
 
 **b)** $\\Delta = 4\\,900 - 4\\,800 = 100$, racines $\\frac{70 - 10}{2} = 30$ et $\\frac{70 + 10}{2} = 40$. Le cadre mesure $30$ cm sur $40$ cm.
 
-Avec une bordure de largeur $x$, il faut $20 + 2x = 30$ et $30 + 2x = 40$ : les deux conditions donnent $x = 5$. Le cadre convient, avec une bordure de $5$ cm ; on retrouve d'ailleurs la situation de la question 3 ($30 \\times 40 = 1\\,200 = 2 \\times 600$).` }
+Avec une bordure de largeur $x$, il faut $20 + 2x = 30$ et $30 + 2x = 40$ : les deux conditions donnent $x = 5$. Le cadre convient, avec une bordure de $5$ cm ; on retrouve d'ailleurs la situation de la question 3 ($30 \\times 40 = 1\\,200 = 2 \\times 600$).` },
+{ id: "1A1-ds-13", title: "Discriminant, racines et signe de trois trinômes", difficulty: 1, points: 4,
+      statement: `On considère les trinômes $f(x) = 2x^2 - 3x - 5$, $g(x) = x^2 - 6x + 9$ et $h(x) = 3x^2 + x + 2$, définis sur $\\mathbb{R}$.
+
+1. Calculer le discriminant de chacun de ces trinômes.
+2. En déduire les racines éventuelles de $f$, $g$ et $h$.
+3. Dresser le tableau de signes de $f(x)$, puis résoudre l'inéquation $f(x) \\leqslant 0$.
+4. Donner sans calcul supplémentaire le signe de $g(x)$ et celui de $h(x)$ selon les valeurs de $x$.`,
+      solution: `**1.** $\\Delta_f = (-3)^2 - 4 \\times 2 \\times (-5) = 9 + 40 = 49$ ; $\\Delta_g = 36 - 36 = 0$ ; $\\Delta_h = 1 - 24 = -23$.
+
+**2.** $\\Delta_f = 49 > 0$ : deux racines $x_1 = \\frac{3 - 7}{4} = -1$ et $x_2 = \\frac{3 + 7}{4} = \\frac{5}{2}$.
+
+$\\Delta_g = 0$ : une racine double $x_0 = \\frac{6}{2} = 3$ (en effet $g(x) = (x - 3)^2$).
+
+$\\Delta_h < 0$ : $h$ n'a pas de racine réelle.
+
+**3.** $a = 2 > 0$ : $f(x)$ est du signe de $a$ à l'extérieur des racines.
+
+| $x$ | $-\\infty$ | | $-1$ | | $\\frac{5}{2}$ | | $+\\infty$ |
+|---|---|---|---|---|---|---|---|
+| $f(x)$ | | $+$ | $0$ | $-$ | $0$ | $+$ | |
+
+$f(x) \\leqslant 0 \\iff x \\in \\left[-1 ; \\frac{5}{2}\\right]$.
+
+**4.** $g(x) = (x - 3)^2$ est positif ou nul, nul seulement en $3$. $h(x)$ est toujours du signe de $a = 3$ : $h(x) > 0$ pour tout réel $x$.` },
+    { id: "1A1-ds-14", title: "Sommes de carrés d'entiers consécutifs", difficulty: 2, points: 5,
+      statement: `1. Vérifier que $10^2 + 11^2 + 12^2 = 13^2 + 14^2$.
+2. On cherche deux entiers consécutifs $n$ et $n + 1$ dont la somme des carrés vaut $365$.
+ a) Montrer que $n$ est solution de l'équation $n^2 + n - 182 = 0$.
+ b) Résoudre cette équation et conclure.
+3. On cherche trois entiers consécutifs $m - 1$, $m$ et $m + 1$ dont la somme des carrés vaut $365$. Montrer que $3m^2 + 2 = 365$ et conclure.
+4. Existe-t-il quatre entiers consécutifs $k$, $k + 1$, $k + 2$, $k + 3$ dont la somme des carrés vaut $365$ ? (On pourra remarquer que $5\\,760$ est compris entre $75^2 = 5\\,625$ et $76^2 = 5\\,776$.)`,
+      solution: `**1.** $100 + 121 + 144 = 365$ et $169 + 196 = 365$.
+
+**2. a)** $n^2 + (n + 1)^2 = 365 \\iff 2n^2 + 2n + 1 = 365 \\iff 2n^2 + 2n - 364 = 0 \\iff n^2 + n - 182 = 0$.
+
+**b)** $\\Delta = 1 + 728 = 729 = 27^2$. Racines : $n = \\frac{-1 - 27}{2} = -14$ et $n = \\frac{-1 + 27}{2} = 13$.
+
+Les couples d'entiers consécutifs cherchés sont $13$ et $14$, ou $-14$ et $-13$.
+
+**3.** $(m - 1)^2 + m^2 + (m + 1)^2 = m^2 - 2m + 1 + m^2 + m^2 + 2m + 1 = 3m^2 + 2$.
+
+$3m^2 + 2 = 365 \\iff m^2 = 121 \\iff m = 11$ ou $m = -11$. On obtient $10, 11, 12$ ou $-12, -11, -10$.
+
+**4.** La somme vaut $k^2 + (k + 1)^2 + (k + 2)^2 + (k + 3)^2 = 4k^2 + 12k + 14$. L'équation $4k^2 + 12k + 14 = 365$ s'écrit $4k^2 + 12k - 351 = 0$, de discriminant $\\Delta = 144 + 16 \\times 351 = 144 + 5\\,616 = 5\\,760$.
+
+Comme $75^2 < 5\\,760 < 76^2$, $\\sqrt{\\Delta}$ n'est pas un entier, donc les racines $\\frac{-12 \\pm \\sqrt{5\\,760}}{8}$ ne sont pas rationnelles, a fortiori pas entières : il n'existe pas de tels entiers.` },
+    { id: "1A1-ds-15", title: "Seuil de rentabilité d'un atelier", difficulty: 3, points: 6,
+      statement: `Un atelier fabrique $x$ centaines d'objets par semaine, avec $0 \\leqslant x \\leqslant 15$. Le bénéfice hebdomadaire, en milliers d'euros, est modélisé par
+$$B(x) = -2x^2 + 28x - 66.$$
+
+1. Calculer $B(0)$ et interpréter.
+2. Déterminer la forme canonique de $B(x)$.
+3. En déduire le bénéfice maximal et la production correspondante.
+4. Résoudre l'équation $B(x) = 0$, puis dresser le tableau de signes de $B(x)$ sur $[0 ; 15]$.
+5. Pour quelles productions l'atelier est-il rentable ?
+6. Pour quelles productions le bénéfice dépasse-t-il $24$ milliers d'euros ?`,
+      solution: `**1.** $B(0) = -66$ : sans production, l'atelier perd $66\\,000$ € (charges fixes).
+
+**2.** $B(x) = -2(x^2 - 14x) - 66 = -2\\left[(x - 7)^2 - 49\\right] - 66 = -2(x - 7)^2 + 98 - 66 = -2(x - 7)^2 + 32$.
+
+**3.** $-2(x - 7)^2 \\leqslant 0$, donc $B(x) \\leqslant 32$, avec égalité pour $x = 7$. Le bénéfice maximal est de $32\\,000$ €, pour $700$ objets.
+
+**4.** $B(x) = 0 \\iff (x - 7)^2 = 16 \\iff x - 7 = 4$ ou $x - 7 = -4 \\iff x = 11$ ou $x = 3$.
+
+$a = -2 < 0$ : $B(x)$ est positif entre les racines.
+
+| $x$ | $0$ | | $3$ | | $11$ | | $15$ |
+|---|---|---|---|---|---|---|---|
+| $B(x)$ | | $-$ | $0$ | $+$ | $0$ | $-$ | |
+
+**5.** L'atelier est rentable ($B(x) > 0$) pour $x \\in \\,]3 ; 11[$, soit entre $300$ et $1\\,100$ objets (exclus).
+
+**6.** $B(x) > 24 \\iff -2(x - 7)^2 + 32 > 24 \\iff (x - 7)^2 < 4 \\iff -2 < x - 7 < 2 \\iff 5 < x < 9$. Entre $500$ et $900$ objets.` },
+    { id: "1A1-ds-16", title: "Le rectangle d'or", difficulty: 4, points: 7,
+      statement: `Un rectangle de largeur $1$ et de longueur $x > 1$ est dit **rectangle d'or** si, lorsqu'on lui retire un carré de côté $1$, le rectangle restant (de dimensions $x - 1$ et $1$) a les mêmes proportions que le rectangle initial, c'est-à-dire $\\dfrac{x}{1} = \\dfrac{1}{x - 1}$.
+
+1. Montrer que $x$ est solution de l'équation $x^2 - x - 1 = 0$.
+2. Résoudre cette équation et en déduire l'unique valeur possible de $x$, notée $\\varphi$ (nombre d'or).
+3. Sans valeur approchée, démontrer que :
+ a) $\\varphi^2 = \\varphi + 1$ ;
+ b) $\\dfrac{1}{\\varphi} = \\varphi - 1$, et en déduire l'écriture de $\\dfrac{1}{\\varphi}$ à l'aide de $\\sqrt{5}$ ;
+ c) $\\varphi^3 = 2\\varphi + 1$, puis $\\varphi^4 = 3\\varphi + 2$. Donner $\\varphi^3$ et $\\varphi^4$ sous la forme $a + b\\sqrt{5}$.
+4. Justifier que $1 < \\varphi < 2$ en utilisant $2 < \\sqrt{5} < 3$.
+5. Déterminer les réels $x$ tels que $x^2 - x - 1 < 0$.`,
+      solution: `**1.** Pour $x > 1$ : $\\frac{x}{1} = \\frac{1}{x - 1} \\iff x(x - 1) = 1 \\iff x^2 - x - 1 = 0$.
+
+**2.** $\\Delta = 1 + 4 = 5$ ; racines $\\frac{1 - \\sqrt{5}}{2}$ (négative) et $\\frac{1 + \\sqrt{5}}{2}$. Seule la seconde est supérieure à $1$ : $\\varphi = \\frac{1 + \\sqrt{5}}{2}$.
+
+**3. a)** $\\varphi$ est racine de $x^2 - x - 1$ : $\\varphi^2 - \\varphi - 1 = 0$, d'où $\\varphi^2 = \\varphi + 1$.
+
+**b)** En divisant $\\varphi^2 = \\varphi + 1$ par $\\varphi \\neq 0$ : $\\varphi = 1 + \\frac{1}{\\varphi}$, soit $\\frac{1}{\\varphi} = \\varphi - 1 = \\frac{\\sqrt{5} - 1}{2}$.
+
+**c)** $\\varphi^3 = \\varphi \\times \\varphi^2 = \\varphi^2 + \\varphi = (\\varphi + 1) + \\varphi = 2\\varphi + 1 = 2 + \\sqrt{5}$.
+
+$\\varphi^4 = \\varphi \\times \\varphi^3 = 2\\varphi^2 + \\varphi = 2(\\varphi + 1) + \\varphi = 3\\varphi + 2 = \\frac{3 + 3\\sqrt{5}}{2} + 2 = \\frac{7 + 3\\sqrt{5}}{2}$.
+
+**4.** $2 < \\sqrt{5} < 3 \\Rightarrow 3 < 1 + \\sqrt{5} < 4 \\Rightarrow \\frac{3}{2} < \\varphi < 2$, donc $1 < \\varphi < 2$.
+
+**5.** $a = 1 > 0$ : le trinôme est négatif strictement entre ses racines : $x \\in \\,\\left]\\frac{1 - \\sqrt{5}}{2} ; \\frac{1 + \\sqrt{5}}{2}\\right[$.` }
   ],
   "1A2": [
     { id: "1A2-ds-01", title: "Nombre dérivé par le taux de variation", difficulty: 1, points: 4,
@@ -493,7 +592,89 @@ $$-(2 - b)^2 = b^2 - 4 \\iff -4 + 4b - b^2 = b^2 - 4 \\iff 2b^2 - 4b = 0 \\iff 2
 - Si $b = 0$, alors $a = 2$ : la droite $y = 4x - 4$, tangente à $\\mathcal{P}_1$ en $(2 ; 4)$ et à $\\mathcal{P}_2$ en $(0 ; -4)$.
 - Si $b = 2$, alors $a = 0$ : la droite $y = 0$ (l'axe des abscisses), tangente à $\\mathcal{P}_1$ en $(0 ; 0)$ et à $\\mathcal{P}_2$ en $(2 ; 0)$.
 
-Réciproquement, ces deux droites conviennent (on vérifie par exemple $g(0) = -4$, $g'(0) = 4$ et $g(2) = 0$, $g'(2) = 0$). Il y a exactement deux tangentes communes.` }
+Réciproquement, ces deux droites conviennent (on vérifie par exemple $g(0) = -4$, $g'(0) = 4$ et $g(2) = 0$, $g'(2) = 0$). Il y a exactement deux tangentes communes.` },
+{ id: "1A2-ds-13", title: "Nombre dérivé d'un trinôme et tangente horizontale", difficulty: 1, points: 4,
+      statement: `Soit $f$ la fonction définie sur $\\mathbb{R}$ par $f(x) = x^2 - 6x + 5$, et $\\mathcal{C}$ sa courbe représentative.
+
+1. Soient $a$ un réel et $h$ un réel non nul. Montrer que le taux de variation de $f$ entre $a$ et $a + h$ vaut $2a - 6 + h$.
+2. En déduire que $f$ est dérivable en $a$ et donner $f'(a)$.
+3. Déterminer une équation de la tangente à $\\mathcal{C}$ au point d'abscisse $0$.
+4. En quel point la tangente à $\\mathcal{C}$ est-elle parallèle à l'axe des abscisses ? Que représente ce point pour la parabole ?`,
+      solution: `**1.** $f(a + h) = (a + h)^2 - 6(a + h) + 5 = a^2 + 2ah + h^2 - 6a - 6h + 5$, donc
+$$\\frac{f(a + h) - f(a)}{h} = \\frac{2ah + h^2 - 6h}{h} = 2a + h - 6.$$
+
+**2.** Lorsque $h$ tend vers $0$, ce taux tend vers $2a - 6$ : $f$ est dérivable en $a$ et $f'(a) = 2a - 6$.
+
+**3.** $f(0) = 5$ et $f'(0) = -6$. La tangente a pour équation $y = f'(0)(x - 0) + f(0)$, soit $y = -6x + 5$.
+
+**4.** La tangente est horizontale lorsque son coefficient directeur est nul : $2a - 6 = 0 \\iff a = 3$. Le point est $(3 ; f(3)) = (3 ; -4)$ : c'est le sommet de la parabole (en effet $f(x) = (x - 3)^2 - 4$).` },
+    { id: "1A2-ds-14", title: "Nombre dérivé de x ↦ 1/(x + 1)", difficulty: 2, points: 5,
+      statement: `Soit $f$ la fonction définie sur $]-1 ; +\\infty[$ par $f(x) = \\dfrac{1}{x + 1}$.
+
+1. Pour $h$ réel non nul tel que $h > -2$, montrer que $\\dfrac{f(1 + h) - f(1)}{h} = \\dfrac{-1}{2(2 + h)}$.
+2. En déduire $f'(1)$.
+3. Déterminer une équation de la tangente $T$ à la courbe de $f$ au point d'abscisse $1$.
+4. En utilisant $T$, donner une valeur approchée de $f(1{,}02)$. Comparer avec la valeur exacte $\\dfrac{1}{2{,}02}$ en montrant que l'écart vaut $\\dfrac{0{,}000\\,1}{2{,}02}$.
+5. Déterminer de même $f'(0)$ et l'équation de la tangente au point d'abscisse $0$.`,
+      solution: `**1.** $f(1 + h) - f(1) = \\frac{1}{2 + h} - \\frac{1}{2} = \\frac{2 - (2 + h)}{2(2 + h)} = \\frac{-h}{2(2 + h)}$. En divisant par $h$ : $\\frac{-1}{2(2 + h)}$.
+
+**2.** Quand $h$ tend vers $0$, $2(2 + h)$ tend vers $4$ : $f'(1) = -\\frac{1}{4}$.
+
+**3.** $f(1) = \\frac{1}{2}$ : $T : y = -\\frac{1}{4}(x - 1) + \\frac{1}{2}$, soit $y = -\\frac{1}{4}x + \\frac{3}{4}$.
+
+**4.** $f(1{,}02) \\approx -\\frac{1{,}02}{4} + \\frac{3}{4} = \\frac{1{,}98}{4} = 0{,}495$.
+
+Écart : $\\frac{1}{2{,}02} - 0{,}495 = \\frac{1 - 0{,}495 \\times 2{,}02}{2{,}02} = \\frac{1 - 0{,}999\\,9}{2{,}02} = \\frac{0{,}000\\,1}{2{,}02}$, inférieur à $0{,}000\\,05$ : l'approximation est excellente.
+
+**5.** $\\frac{f(h) - f(0)}{h} = \\frac{1}{h}\\left(\\frac{1}{1 + h} - 1\\right) = \\frac{-1}{1 + h}$, qui tend vers $-1$ : $f'(0) = -1$. Avec $f(0) = 1$, la tangente a pour équation $y = -x + 1$.` },
+    { id: "1A2-ds-15", title: "Tangentes de pente donnée à une cubique", difficulty: 3, points: 6,
+      statement: `Soit $f$ la fonction définie sur $\\mathbb{R}$ par $f(x) = x^3 - 3x$, et $\\mathcal{C}$ sa courbe.
+
+1. Développer $(a + h)^3$, puis montrer que, pour $h \\neq 0$, le taux de variation de $f$ entre $a$ et $a + h$ vaut $3a^2 - 3 + 3ah + h^2$.
+2. En déduire $f'(a)$ pour tout réel $a$.
+3. Déterminer les points de $\\mathcal{C}$ où la tangente est horizontale.
+4. a) Déterminer les points de $\\mathcal{C}$ où la tangente est parallèle à la droite $\\Delta$ d'équation $y = 9x$.
+ b) Donner une équation de chacune de ces tangentes.
+5. Existe-t-il des points de $\\mathcal{C}$ où la tangente a un coefficient directeur égal à $-4$ ?`,
+      solution: `**1.** $(a + h)^3 = a^3 + 3a^2h + 3ah^2 + h^3$. Donc
+$$f(a + h) - f(a) = 3a^2h + 3ah^2 + h^3 - 3h,$$
+et en divisant par $h$ : $3a^2 + 3ah + h^2 - 3$.
+
+**2.** Quand $h$ tend vers $0$, le taux tend vers $3a^2 - 3$ : $f'(a) = 3a^2 - 3$.
+
+**3.** $3a^2 - 3 = 0 \\iff a^2 = 1 \\iff a = 1$ ou $a = -1$. Points $(1 ; -2)$ et $(-1 ; 2)$.
+
+**4. a)** Tangente parallèle à $\\Delta$ $\\iff f'(a) = 9 \\iff 3a^2 = 12 \\iff a = 2$ ou $a = -2$. Points $(2 ; 2)$ et $(-2 ; -2)$.
+
+**b)** En $2$ : $y = 9(x - 2) + 2 = 9x - 16$. En $-2$ : $y = 9(x + 2) - 2 = 9x + 16$.
+
+Ces deux tangentes sont symétriques par rapport à l'origine, comme la courbe ($f(-x) = -f(x)$).
+
+**5.** $3a^2 - 3 = -4 \\iff a^2 = -\\frac{1}{3}$ : impossible. Comme $f'(a) = 3a^2 - 3 \\geqslant -3$, aucune tangente n'a un coefficient directeur inférieur à $-3$.` },
+    { id: "1A2-ds-16", title: "La propriété de réflexion de la parabole", difficulty: 4, points: 7,
+      statement: `Dans un repère orthonormé, on considère la parabole $\\mathcal{P}$ d'équation $y = x^2$ et le point $F\\left(0 ; \\dfrac{1}{4}\\right)$. Soit $a$ un réel non nul et $M(a ; a^2)$ le point de $\\mathcal{P}$ d'abscisse $a$.
+
+1. On note $f(x) = x^2$. Calculer le taux de variation de $f$ entre $a$ et $a + h$ ($h \\neq 0$) et en déduire $f'(a)$.
+2. Montrer que la tangente $T$ à $\\mathcal{P}$ en $M$ a pour équation $y = 2ax - a^2$.
+3. $T$ coupe l'axe des ordonnées en $P$ et l'axe des abscisses en $N$. Déterminer les coordonnées de $P$ et $N$, puis vérifier que $N$ est le milieu de $[PM]$.
+4. a) Montrer que $FM^2 = \\left(a^2 + \\dfrac{1}{4}\\right)^2$.
+ b) En déduire que le triangle $FMP$ est isocèle en $F$.
+5. On admet que dans un triangle isocèle, les angles à la base sont égaux. En utilisant le fait que la droite verticale passant par $M$ est parallèle à $(FP)$, en déduire que $T$ fait le même angle avec $(MF)$ qu'avec cette verticale. Interpréter : que deviennent des rayons lumineux verticaux réfléchis par un miroir parabolique ?`,
+      solution: `**1.** $\\frac{(a + h)^2 - a^2}{h} = \\frac{2ah + h^2}{h} = 2a + h$, qui tend vers $2a$ quand $h$ tend vers $0$ : $f'(a) = 2a$.
+
+**2.** $T : y = 2a(x - a) + a^2 = 2ax - a^2$.
+
+**3.** $x = 0$ : $y = -a^2$, donc $P(0 ; -a^2)$. $y = 0$ : $2ax = a^2 \\iff x = \\frac{a}{2}$ ($a \\neq 0$), donc $N\\left(\\frac{a}{2} ; 0\\right)$.
+
+Milieu de $[PM]$ : $\\left(\\frac{0 + a}{2} ; \\frac{-a^2 + a^2}{2}\\right) = \\left(\\frac{a}{2} ; 0\\right) = N$.
+
+**4. a)** $FM^2 = a^2 + \\left(a^2 - \\frac{1}{4}\\right)^2 = a^2 + a^4 - \\frac{a^2}{2} + \\frac{1}{16} = a^4 + \\frac{a^2}{2} + \\frac{1}{16} = \\left(a^2 + \\frac{1}{4}\\right)^2$.
+
+**b)** $FM = a^2 + \\frac{1}{4}$ (nombre positif) et $FP = \\frac{1}{4} - (-a^2) = a^2 + \\frac{1}{4}$. Donc $FM = FP$ : $FMP$ est isocèle en $F$.
+
+**5.** Les angles $\\widehat{FMP}$ et $\\widehat{FPM}$ sont égaux. La verticale $\\delta$ passant par $M$ est parallèle à $(FP)$ (axe des ordonnées), donc l'angle entre $T$ et $\\delta$ est égal (angles alternes-internes ou correspondants) à l'angle $\\widehat{FPM}$, lui-même égal à $\\widehat{FMP}$, angle entre $T$ et $(MF)$.
+
+Un rayon vertical arrivant en $M$ est réfléchi (angle d'incidence égal à l'angle de réflexion par rapport à la tangente) suivant la droite $(MF)$ : tous les rayons parallèles à l'axe convergent au point $F$, appelé **foyer**. C'est le principe des antennes paraboliques et des fours solaires.` }
   ],
   "1A3": [
     { id: "1A3-ds-01", title: "Calculs de dérivées", difficulty: 1, points: 4,
@@ -762,7 +943,105 @@ Sur $[0 ; 2\\sqrt{3}]$ : $x - 1$ est négatif avant $1$ et positif après ; $x^2
 | $x^2 + x - 11$ | | $-$ | | $-$ | $0$ | $+$ | |
 | produit | | $+$ | $0$ | $-$ | $0$ | $+$ | |
 
-L'aire est au moins égale à $22$ si et seulement si $x \\in \\left[1 ; \\frac{-1 + 3\\sqrt{5}}{2}\\right]$.` }
+L'aire est au moins égale à $22$ si et seulement si $x \\in \\left[1 ; \\frac{-1 + 3\\sqrt{5}}{2}\\right]$.` },
+{ id: "1A3-ds-13", title: "Dériver produits et quotients", difficulty: 1, points: 4,
+      statement: `Calculer la dérivée de chacune des fonctions suivantes, sur l'intervalle indiqué, en précisant la formule utilisée.
+
+1. $f(x) = (2x - 1)(x^2 + 3)$ sur $\\mathbb{R}$.
+2. $g(x) = \\dfrac{3x + 1}{x - 2}$ sur $]2 ; +\\infty[$.
+3. $h(x) = x\\sqrt{x}$ sur $]0 ; +\\infty[$.
+4. $k(x) = \\dfrac{1}{x^2 + 1}$ sur $\\mathbb{R}$.
+5. Déterminer une équation de la tangente à la courbe de $g$ au point d'abscisse $3$.`,
+      solution: `**1.** Produit $uv$ avec $u = 2x - 1$, $v = x^2 + 3$ : $f' = u'v + uv'$.
+$f'(x) = 2(x^2 + 3) + (2x - 1) \\times 2x = 2x^2 + 6 + 4x^2 - 2x = 6x^2 - 2x + 6$.
+
+**2.** Quotient $\\frac{u}{v}$ : $g' = \\frac{u'v - uv'}{v^2}$.
+$g'(x) = \\frac{3(x - 2) - (3x + 1) \\times 1}{(x - 2)^2} = \\frac{-7}{(x - 2)^2}$.
+
+**3.** Produit avec $u = x$, $v = \\sqrt{x}$, $v' = \\frac{1}{2\\sqrt{x}}$ :
+$h'(x) = \\sqrt{x} + \\frac{x}{2\\sqrt{x}} = \\sqrt{x} + \\frac{\\sqrt{x}}{2} = \\frac{3}{2}\\sqrt{x}$.
+
+**4.** Inverse $\\frac{1}{v}$ : $\\left(\\frac{1}{v}\\right)' = -\\frac{v'}{v^2}$, donc $k'(x) = \\frac{-2x}{(x^2 + 1)^2}$.
+
+**5.** $g(3) = \\frac{10}{1} = 10$ et $g'(3) = \\frac{-7}{1} = -7$. Tangente : $y = -7(x - 3) + 10 = -7x + 31$.` },
+    { id: "1A3-ds-14", title: "La vitesse la plus économique", difficulty: 2, points: 5,
+      statement: `1. Soit $f$ la fonction définie sur $]0 ; +\\infty[$ par $f(x) = x + \\dfrac{4}{x}$.
+ a) Calculer $f'(x)$ et montrer que $f'(x) = \\dfrac{(x - 2)(x + 2)}{x^2}$.
+ b) Dresser le tableau de variations de $f$ sur $]0 ; +\\infty[$ et donner son minimum.
+2. Un camion parcourt $400$ km à vitesse constante $v$ (en km/h), avec $30 \\leqslant v \\leqslant 110$. Le coût du trajet, en euros, est modélisé par
+$$C(v) = 2v + \\frac{7\\,200}{v}.$$
+ a) Calculer $C'(v)$ et étudier son signe.
+ b) Déterminer la vitesse pour laquelle le coût est minimal, et ce coût minimal.
+ c) Montrer que $C(v) = 60\\,f\\left(\\dfrac{v}{30}\\right)$ et retrouver le résultat précédent à l'aide de la question 1.`,
+      solution: `**1. a)** $f'(x) = 1 - \\frac{4}{x^2} = \\frac{x^2 - 4}{x^2} = \\frac{(x - 2)(x + 2)}{x^2}$.
+
+**b)** Sur $]0 ; +\\infty[$, $x^2 > 0$ et $x + 2 > 0$ : $f'(x)$ a le signe de $x - 2$.
+
+| $x$ | $0$ | | $2$ | | $+\\infty$ |
+|---|---|---|---|---|---|
+| $f'(x)$ | $\\Vert$ | $-$ | $0$ | $+$ | |
+| $f(x)$ | $\\Vert$ | $\\searrow$ | $4$ | $\\nearrow$ | |
+
+Le minimum est $f(2) = 2 + 2 = 4$.
+
+**2. a)** $C'(v) = 2 - \\frac{7\\,200}{v^2} = \\frac{2(v^2 - 3\\,600)}{v^2} = \\frac{2(v - 60)(v + 60)}{v^2}$, du signe de $v - 60$ sur $[30 ; 110]$ : négatif sur $[30 ; 60]$, positif sur $[60 ; 110]$.
+
+**b)** $C$ est décroissante sur $[30 ; 60]$ puis croissante sur $[60 ; 110]$ : le coût est minimal pour $v = 60$ km/h, et $C(60) = 120 + 120 = 240$ €.
+
+**c)** $60\\,f\\left(\\frac{v}{30}\\right) = 60\\left(\\frac{v}{30} + \\frac{4 \\times 30}{v}\\right) = 2v + \\frac{7\\,200}{v} = C(v)$. Le minimum de $f$ est atteint pour $\\frac{v}{30} = 2$, soit $v = 60$, et vaut $60 \\times 4 = 240$.` },
+    { id: "1A3-ds-15", title: "Point de la courbe racine carrée le plus proche d'un point", difficulty: 3, points: 6,
+      statement: `Dans un repère orthonormé, on considère la courbe $\\mathcal{C}$ de la fonction racine carrée, le point $A(3 ; 0)$ et, pour $x \\geqslant 0$, le point $M(x ; \\sqrt{x})$ de $\\mathcal{C}$.
+
+1. Montrer que $AM^2 = x^2 - 5x + 9$.
+2. On pose $g(x) = x^2 - 5x + 9$ pour $x \\geqslant 0$. Étudier les variations de $g$ sur $[0 ; +\\infty[$.
+3. En déduire la position du point $M_0$ de $\\mathcal{C}$ le plus proche de $A$ et la distance minimale $AM_0$. (On justifiera que minimiser $AM$ revient à minimiser $AM^2$.)
+4. a) Déterminer le coefficient directeur de la tangente $T$ à $\\mathcal{C}$ en $M_0$.
+ b) Montrer que le vecteur $\\vec{u}\\left(1 ; \\dfrac{1}{\\sqrt{10}}\\right)$ dirige $T$ et que le vecteur $\\overrightarrow{AM_0}$ est orthogonal à $\\vec{u}$. Interpréter.`,
+      solution: `**1.** $AM^2 = (x - 3)^2 + (\\sqrt{x} - 0)^2 = x^2 - 6x + 9 + x = x^2 - 5x + 9$.
+
+**2.** $g'(x) = 2x - 5$, négatif sur $\\left[0 ; \\frac{5}{2}\\right]$ et positif sur $\\left[\\frac{5}{2} ; +\\infty\\right[$ : $g$ est décroissante puis croissante, de minimum
+$$g\\left(\\frac{5}{2}\\right) = \\frac{25}{4} - \\frac{25}{2} + 9 = \\frac{25 - 50 + 36}{4} = \\frac{11}{4}.$$
+
+**3.** $AM = \\sqrt{AM^2}$ et la fonction racine carrée est croissante sur $[0 ; +\\infty[$ : $AM$ est minimale quand $AM^2$ l'est. Le point le plus proche est $M_0\\left(\\frac{5}{2} ; \\sqrt{\\frac{5}{2}}\\right) = \\left(\\frac{5}{2} ; \\frac{\\sqrt{10}}{2}\\right)$ et $AM_0 = \\sqrt{\\frac{11}{4}} = \\frac{\\sqrt{11}}{2}$.
+
+**4. a)** La dérivée de $\\sqrt{x}$ est $\\frac{1}{2\\sqrt{x}}$. En $\\frac{5}{2}$ : $\\frac{1}{2 \\times \\frac{\\sqrt{10}}{2}} = \\frac{1}{\\sqrt{10}}$.
+
+**b)** Une droite de coefficient directeur $m$ est dirigée par $(1 ; m)$ : $\\vec{u}\\left(1 ; \\frac{1}{\\sqrt{10}}\\right)$ dirige $T$.
+
+$\\overrightarrow{AM_0}\\left(-\\frac{1}{2} ; \\frac{\\sqrt{10}}{2}\\right)$ et $\\overrightarrow{AM_0} \\cdot \\vec{u} = -\\frac{1}{2} + \\frac{\\sqrt{10}}{2} \\times \\frac{1}{\\sqrt{10}} = 0$.
+
+La droite $(AM_0)$ est perpendiculaire à la tangente en $M_0$ : le point le plus proche est le pied de la « normale » à la courbe passant par $A$.` },
+    { id: "1A3-ds-16", title: "Une inégalité qui dépend d'un paramètre", difficulty: 4, points: 7,
+      statement: `Pour tout réel $m$, on considère la fonction $g_m$ définie sur $[0 ; +\\infty[$ par $g_m(x) = x^3 - 3mx + 2$. On cherche les valeurs de $m$ pour lesquelles **$x^3 + 2 \\geqslant 3mx$ pour tout $x \\geqslant 0$**, c'est-à-dire $g_m(x) \\geqslant 0$ sur $[0 ; +\\infty[$.
+
+1. Calculer $g_m'(x)$.
+2. On suppose $m \\leqslant 0$. Étudier les variations de $g_m$ sur $[0 ; +\\infty[$ et conclure.
+3. On suppose $m > 0$.
+ a) Dresser le tableau de variations de $g_m$ sur $[0 ; +\\infty[$.
+ b) Montrer que le minimum de $g_m$ sur $[0 ; +\\infty[$ vaut $2 - 2m\\sqrt{m}$.
+ c) En déduire que la propriété cherchée est vraie si et seulement si $m\\sqrt{m} \\leqslant 1$, c'est-à-dire $0 < m \\leqslant 1$.
+4. Conclure. Vérifier le cas $m = 1$ en factorisant $x^3 - 3x + 2$ par $(x - 1)^2$.
+5. Application : démontrer que pour tout $x \\geqslant 0$, $x^3 + 2 \\geqslant 3x$, et préciser le cas d'égalité.`,
+      solution: `**1.** $g_m'(x) = 3x^2 - 3m = 3(x^2 - m)$.
+
+**2.** Si $m \\leqslant 0$, $g_m'(x) = 3x^2 - 3m \\geqslant 0$ : $g_m$ est croissante sur $[0 ; +\\infty[$, de minimum $g_m(0) = 2 > 0$. La propriété est vraie.
+
+**3. a)** Pour $m > 0$ : $x^2 - m = (x - \\sqrt{m})(x + \\sqrt{m})$ est du signe de $x - \\sqrt{m}$ sur $[0 ; +\\infty[$.
+
+| $x$ | $0$ | | $\\sqrt{m}$ | | $+\\infty$ |
+|---|---|---|---|---|---|
+| $g_m'(x)$ | | $-$ | $0$ | $+$ | |
+| $g_m(x)$ | $2$ | $\\searrow$ | $2 - 2m\\sqrt{m}$ | $\\nearrow$ | |
+
+**b)** $g_m(\\sqrt{m}) = (\\sqrt{m})^3 - 3m\\sqrt{m} + 2 = m\\sqrt{m} - 3m\\sqrt{m} + 2 = 2 - 2m\\sqrt{m}$.
+
+**c)** $g_m \\geqslant 0$ sur $[0 ; +\\infty[$ $\\iff$ son minimum est positif $\\iff 2 - 2m\\sqrt{m} \\geqslant 0 \\iff m\\sqrt{m} \\leqslant 1$. La fonction $m \\mapsto m\\sqrt{m}$ est strictement croissante sur $]0 ; +\\infty[$ (produit de deux fonctions positives croissantes) et vaut $1$ en $1$ : $m\\sqrt{m} \\leqslant 1 \\iff m \\leqslant 1$.
+
+**4.** La propriété est vraie si et seulement si $m \\leqslant 1$.
+
+Pour $m = 1$ : $(x - 1)^2(x + 2) = (x^2 - 2x + 1)(x + 2) = x^3 - 3x + 2$, positif sur $[0 ; +\\infty[$ et nul en $x = 1$.
+
+**5.** C'est le cas $m = 1$ : $x^3 + 2 - 3x = (x - 1)^2(x + 2) \\geqslant 0$ pour $x \\geqslant 0$, avec égalité si et seulement si $x = 1$.` }
   ],
   "1A4": [
     { id: "1A4-ds-01", title: "Règles de calcul sur l'exponentielle", difficulty: 1, points: 4,
@@ -1001,9 +1280,9 @@ def euler(n):
         y = ...
     return y
 \`\`\`
-4. On admet que pour tout réel $t$, $e^{t} \\geqslant 1 + t$.
- a) En déduire que $(1 + h)^k \\leqslant e^{kh}$ pour tout entier $k \\geqslant 0$ (on pourra raisonner de proche en proche).
- b) La méthode d'Euler donne-t-elle ici des valeurs approchées par défaut ou par excès de $e$ ? Interpréter graphiquement.
+4. a) On pose $g(t) = e^{t} - 1 - t$ pour tout réel $t$. Étudier les variations de $g$ sur $\\mathbb{R}$ et en déduire que, pour tout réel $t$, $e^{t} \\geqslant 1 + t$.
+ b) En déduire que $(1 + h)^k \\leqslant e^{kh}$ pour tout entier $k \\geqslant 0$ (on pourra raisonner de proche en proche).
+ c) La méthode d'Euler donne-t-elle ici des valeurs approchées par défaut ou par excès de $e$ ? Interpréter graphiquement.
 5. On a obtenu \`euler(100)\` $\\approx 2{,}7048$ et \`euler(1000)\` $\\approx 2{,}7169$. Que peut-on conjecturer ?`,
       solution: `**1.** Comme $f' = f$, l'approximation affine s'écrit $f(x + h) \\approx f(x) + hf(x) = (1 + h)f(x)$. En appliquant cette approximation à la valeur approchée précédente : $y_{k+1} = (1 + h)y_k$.
 
@@ -1024,13 +1303,121 @@ def euler(n):
     return y
 \`\`\`
 
-**4. a)** Avec $t = h$ : $1 + h \\leqslant e^{h}$, et ces deux nombres sont positifs. Pour $k = 0$ : $(1 + h)^0 = 1 = e^{0}$. Si $(1 + h)^k \\leqslant e^{kh}$, alors en multipliant membre à membre des inégalités entre nombres positifs :
+**4. a)** $g$ est dérivable sur $\\mathbb{R}$ et $g'(t) = e^{t} - 1$. Or $e^{t} - 1 < 0 \\iff t < 0$ et $e^{t} - 1 > 0 \\iff t > 0$ (l'exponentielle est strictement croissante et $e^0 = 1$). Donc $g$ est décroissante sur $]-\\infty ; 0]$ et croissante sur $[0 ; +\\infty[$ : elle admet en $0$ un minimum $g(0) = 1 - 1 - 0 = 0$. Ainsi $g(t) \\geqslant 0$, c'est-à-dire $e^{t} \\geqslant 1 + t$, pour tout réel $t$.
+
+**b)** Avec $t = h$ : $1 + h \\leqslant e^{h}$, et ces deux nombres sont positifs. Pour $k = 0$ : $(1 + h)^0 = 1 = e^{0}$. Si $(1 + h)^k \\leqslant e^{kh}$, alors en multipliant membre à membre des inégalités entre nombres positifs :
 $$(1 + h)^{k+1} = (1 + h)^k(1 + h) \\leqslant e^{kh}e^{h} = e^{(k+1)h}.$$
 De proche en proche, l'inégalité est vraie pour tout entier $k$.
 
-**b)** Avec $k = n$ et $h = \\frac{1}{n}$ : $\\left(1 + \\frac{1}{n}\\right)^n \\leqslant e^{1} = e$. Les valeurs obtenues sont des valeurs approchées **par défaut**. Graphiquement, la courbe de l'exponentielle est au-dessus de ses tangentes ($e^{t} \\geqslant 1 + t$ exprime que la courbe est au-dessus de sa tangente en $0$) : en suivant des segments de tangentes, on reste en dessous de la courbe.
+**c)** Avec $k = n$ et $h = \\frac{1}{n}$ : $\\left(1 + \\frac{1}{n}\\right)^n \\leqslant e^{1} = e$. Les valeurs obtenues sont des valeurs approchées **par défaut**. Graphiquement, la courbe de l'exponentielle est au-dessus de ses tangentes ($e^{t} \\geqslant 1 + t$ exprime que la courbe est au-dessus de sa tangente en $0$) : en suivant des segments de tangentes, on reste en dessous de la courbe.
 
-**5.** Les valeurs augmentent avec $n$ et restent inférieures à $e$ ; on conjecture qu'elles se rapprochent de $e \\approx 2{,}718$ quand $n$ devient grand, mais lentement (environ $2$ décimales exactes pour $n = 1\\,000$).` }
+**5.** Les valeurs augmentent avec $n$ et restent inférieures à $e$ ; on conjecture qu'elles se rapprochent de $e \\approx 2{,}718$ quand $n$ devient grand, mais lentement (environ $2$ décimales exactes pour $n = 1\\,000$).` },
+{ id: "1A4-ds-13", title: "Variations des fonctions x ↦ e^(kx)", difficulty: 1, points: 4,
+      statement: `On rappelle que, pour tout réel $k$, la fonction $x \\mapsto e^{kx}$ est dérivable sur $\\mathbb{R}$, de dérivée $x \\mapsto ke^{kx}$.
+
+1. Calculer la dérivée de $f(x) = e^{-2x}$ et de $g(x) = e^{\\frac{x}{3}}$. En déduire le sens de variation de $f$ et de $g$ sur $\\mathbb{R}$.
+2. Plus généralement, justifier que $x \\mapsto e^{kx}$ est strictement croissante si $k > 0$, strictement décroissante si $k < 0$. Que se passe-t-il pour $k = 0$ ?
+3. Soit $h(x) = e^{3x} - 3x$ sur $\\mathbb{R}$.
+ a) Montrer que $h'(x) = 3\\left(e^{3x} - 1\\right)$.
+ b) Étudier le signe de $h'(x)$, dresser le tableau de variations de $h$ et donner son minimum.
+ c) En déduire que pour tout réel $x$, $e^{3x} \\geqslant 3x + 1$.`,
+      solution: `**1.** $f'(x) = -2e^{-2x}$ et $g'(x) = \\frac{1}{3}e^{\\frac{x}{3}}$. Une exponentielle est strictement positive : $f'(x) < 0$ et $g'(x) > 0$. Donc $f$ est strictement décroissante et $g$ strictement croissante sur $\\mathbb{R}$.
+
+**2.** La dérivée $ke^{kx}$ a le signe de $k$ car $e^{kx} > 0$. Si $k > 0$, la fonction est strictement croissante ; si $k < 0$, strictement décroissante ; si $k = 0$, $e^{0 \\times x} = 1$ : la fonction est constante.
+
+**3. a)** $h'(x) = 3e^{3x} - 3 = 3\\left(e^{3x} - 1\\right)$.
+
+**b)** $e^{3x} > 1 = e^0 \\iff 3x > 0 \\iff x > 0$ (stricte croissance de l'exponentielle). Donc $h'(x) < 0$ sur $]-\\infty ; 0[$, $h'(0) = 0$ et $h'(x) > 0$ sur $]0 ; +\\infty[$.
+
+| $x$ | $-\\infty$ | | $0$ | | $+\\infty$ |
+|---|---|---|---|---|---|
+| $h'(x)$ | | $-$ | $0$ | $+$ | |
+| $h(x)$ | | $\\searrow$ | $1$ | $\\nearrow$ | |
+
+Le minimum de $h$ est $h(0) = e^0 - 0 = 1$.
+
+**c)** Pour tout réel $x$, $h(x) \\geqslant 1$, c'est-à-dire $e^{3x} - 3x \\geqslant 1$, soit $e^{3x} \\geqslant 3x + 1$.` },
+    { id: "1A4-ds-14", title: "Étude de (2x + 1)e^(−x)", difficulty: 2, points: 5,
+      statement: `Soit $f$ la fonction définie sur $\\mathbb{R}$ par $f(x) = (2x + 1)e^{-x}$, et $\\mathcal{C}$ sa courbe représentative.
+
+1. Déterminer les coordonnées des points d'intersection de $\\mathcal{C}$ avec les axes du repère.
+2. Étudier le signe de $f(x)$ selon les valeurs de $x$.
+3. Montrer que $f'(x) = (1 - 2x)e^{-x}$.
+4. Dresser le tableau de variations de $f$ sur $\\mathbb{R}$ et donner la valeur exacte de son maximum.
+5. Déterminer une équation de la tangente $T$ à $\\mathcal{C}$ au point d'abscisse $0$.`,
+      solution: `**1.** $f(0) = 1 \\times e^0 = 1$ : $\\mathcal{C}$ coupe l'axe des ordonnées en $(0 ; 1)$.
+
+$f(x) = 0 \\iff 2x + 1 = 0$ (car $e^{-x} > 0$) $\\iff x = -\\frac{1}{2}$ : point $\\left(-\\frac{1}{2} ; 0\\right)$.
+
+**2.** $e^{-x} > 0$, donc $f(x)$ a le signe de $2x + 1$ : négatif sur $\\left]-\\infty ; -\\frac{1}{2}\\right[$, positif sur $\\left]-\\frac{1}{2} ; +\\infty\\right[$.
+
+**3.** Produit $uv$ avec $u = 2x + 1$, $u' = 2$, $v = e^{-x}$, $v' = -e^{-x}$ :
+$$f'(x) = 2e^{-x} - (2x + 1)e^{-x} = (2 - 2x - 1)e^{-x} = (1 - 2x)e^{-x}.$$
+
+**4.** $f'(x)$ a le signe de $1 - 2x$ : positif pour $x < \\frac{1}{2}$, négatif pour $x > \\frac{1}{2}$.
+
+| $x$ | $-\\infty$ | | $\\frac{1}{2}$ | | $+\\infty$ |
+|---|---|---|---|---|---|
+| $f'(x)$ | | $+$ | $0$ | $-$ | |
+| $f(x)$ | | $\\nearrow$ | $2e^{-\\frac{1}{2}}$ | $\\searrow$ | |
+
+Le maximum vaut $f\\left(\\frac{1}{2}\\right) = 2e^{-\\frac{1}{2}} = \\frac{2}{\\sqrt{e}}$.
+
+**5.** $f(0) = 1$ et $f'(0) = 1 \\times e^0 = 1$ : $T : y = 1 \\times (x - 0) + 1$, soit $y = x + 1$.` },
+    { id: "1A4-ds-15", title: "Une équation du second degré en e^x", difficulty: 3, points: 6,
+      statement: `On souhaite résoudre dans $\\mathbb{R}$ l'équation $(E) : e^{2x} - (e + 1)e^{x} + e = 0$.
+
+1. Justifier que $e^{2x} = \\left(e^x\\right)^2$.
+2. On pose $X = e^x$. Montrer que $(E)$ équivaut à $X^2 - (e + 1)X + e = 0$, avec $X > 0$.
+3. a) Vérifier que $1$ est solution de l'équation $X^2 - (e + 1)X + e = 0$.
+ b) En déduire l'autre solution, puis factoriser $X^2 - (e + 1)X + e$.
+4. Résoudre l'équation $(E)$.
+5. Résoudre l'inéquation $e^{2x} - (e + 1)e^{x} + e \\leqslant 0$.
+6. Résoudre de même l'équation $e^{2x} + e^{x} - 2 = 0$.`,
+      solution: `**1.** $e^{2x} = e^{x + x} = e^x \\times e^x = \\left(e^x\\right)^2$.
+
+**2.** Avec $X = e^x$, $(E)$ s'écrit $X^2 - (e + 1)X + e = 0$, et $X = e^x > 0$.
+
+**3. a)** $1 - (e + 1) + e = 0$ : $1$ est racine.
+
+**b)** Le produit des racines vaut $\\frac{c}{a} = e$, donc l'autre racine est $e$. Ainsi $X^2 - (e + 1)X + e = (X - 1)(X - e)$.
+
+(Vérification : $(X - 1)(X - e) = X^2 - eX - X + e$.)
+
+**4.** $(E) \\iff e^x = 1$ ou $e^x = e \\iff x = 0$ ou $x = 1$. $\\mathcal{S} = \\{0 ; 1\\}$.
+
+**5.** L'inéquation s'écrit $\\left(e^x - 1\\right)\\left(e^x - e\\right) \\leqslant 0$. Le trinôme $(X - 1)(X - e)$ est négatif ou nul pour $X \\in [1 ; e]$ (entre les racines, $a = 1 > 0$). Donc $1 \\leqslant e^x \\leqslant e \\iff e^0 \\leqslant e^x \\leqslant e^1 \\iff 0 \\leqslant x \\leqslant 1$ (stricte croissance de l'exponentielle). $\\mathcal{S} = [0 ; 1]$.
+
+**6.** Avec $X = e^x$ : $X^2 + X - 2 = 0$, de racines $1$ et $-2$ (produit $-2$, somme $-1$). Comme $X = e^x > 0$, seule $X = 1$ convient : $e^x = 1 \\iff x = 0$. $\\mathcal{S} = \\{0\\}$.` },
+    { id: "1A4-ds-16", title: "La fonction logistique e^x/(e^x + 1)", difficulty: 4, points: 7,
+      statement: `Soit $f$ la fonction définie sur $\\mathbb{R}$ par $f(x) = \\dfrac{e^x}{e^x + 1}$, et $\\mathcal{C}$ sa courbe dans un repère.
+
+1. Justifier que $f$ est bien définie sur $\\mathbb{R}$ et que $0 < f(x) < 1$ pour tout réel $x$.
+2. Montrer que $f(x) = 1 - \\dfrac{1}{e^x + 1}$ et que $f(-x) = \\dfrac{1}{1 + e^x}$.
+3. En déduire que $f(x) + f(-x) = 1$ pour tout réel $x$. Interpréter graphiquement en considérant le point $\\Omega\\left(0 ; \\dfrac{1}{2}\\right)$.
+4. a) Calculer $f'(x)$ et en déduire le sens de variation de $f$.
+ b) Déterminer une équation de la tangente $T$ à $\\mathcal{C}$ au point $\\Omega$.
+5. a) Montrer que $f'(x) = f(x)\\left(1 - f(x)\\right)$.
+ b) On admet que, pour tout réel $y$, $y(1 - y) \\leqslant \\dfrac{1}{4}$. Justifier ce résultat, puis en déduire que $\\Omega$ est le point de $\\mathcal{C}$ où la tangente a la plus grande pente.`,
+      solution: `**1.** $e^x + 1 > 1 > 0$ donc le dénominateur ne s'annule pas. De plus $0 < e^x < e^x + 1$ ; en divisant par $e^x + 1 > 0$ : $0 < f(x) < 1$.
+
+**2.** $1 - \\frac{1}{e^x + 1} = \\frac{e^x + 1 - 1}{e^x + 1} = f(x)$.
+
+$f(-x) = \\frac{e^{-x}}{e^{-x} + 1}$ ; en multipliant numérateur et dénominateur par $e^x$ : $f(-x) = \\frac{1}{1 + e^x}$.
+
+**3.** $f(x) + f(-x) = 1 - \\frac{1}{e^x + 1} + \\frac{1}{1 + e^x} = 1$.
+
+Les points $M(x ; f(x))$ et $M'(-x ; f(-x))$ ont pour milieu $\\left(0 ; \\frac{f(x) + f(-x)}{2}\\right) = \\left(0 ; \\frac{1}{2}\\right) = \\Omega$ : $\\mathcal{C}$ est symétrique par rapport au point $\\Omega$.
+
+**4. a)** Avec $f = 1 - \\frac{1}{v}$, $v = e^x + 1$ : $f'(x) = \\frac{v'}{v^2} = \\frac{e^x}{(e^x + 1)^2} > 0$. $f$ est strictement croissante sur $\\mathbb{R}$.
+
+**b)** $f(0) = \\frac{1}{2}$ et $f'(0) = \\frac{1}{(1 + 1)^2} = \\frac{1}{4}$ : $T : y = \\frac{1}{4}x + \\frac{1}{2}$.
+
+**5. a)** $f(x)\\left(1 - f(x)\\right) = \\frac{e^x}{e^x + 1} \\times \\frac{1}{e^x + 1} = \\frac{e^x}{(e^x + 1)^2} = f'(x)$.
+
+**b)** $\\frac{1}{4} - y(1 - y) = y^2 - y + \\frac{1}{4} = \\left(y - \\frac{1}{2}\\right)^2 \\geqslant 0$, avec égalité si et seulement si $y = \\frac{1}{2}$.
+
+Donc $f'(x) = f(x)\\left(1 - f(x)\\right) \\leqslant \\frac{1}{4}$, avec égalité si et seulement si $f(x) = \\frac{1}{2}$, c'est-à-dire $x = 0$ ($f$ strictement croissante et $f(0) = \\frac{1}{2}$). La pente maximale, $\\frac{1}{4}$, est atteinte uniquement en $\\Omega$.` }
   ],
   "1A5": [
     { id: "1A5-ds-01", title: "Suite définie explicitement", difficulty: 1, points: 4,
@@ -1203,14 +1590,18 @@ Donc $u_0 > u_1 > u_2$, puis $u_2 < u_3 < u_4 < \\dots$ La suite n'est pas monot
       statement: `Soit $(u_n)$ la suite définie par $u_0 = 0$ et, pour tout entier naturel $n$, $u_{n+1} = u_n + 2n + 1$.
 
 1. Calculer $u_1$, $u_2$, $u_3$ et $u_4$. Quelle forme explicite peut-on conjecturer ?
-2. On pose $v_n = n^2$ pour tout $n$. Montrer que $v_0 = 0$ et que $v_{n+1} = v_n + 2n + 1$. Pourquoi peut-on en conclure que $u_n = n^2$ pour tout $n$ ?
+2. On pose $v_n = n^2$ pour tout $n$. Montrer que $v_0 = 0$ et que $v_{n+1} = v_n + 2n + 1$.
+
+ On rappelle qu'une suite définie par récurrence est entièrement déterminée par son premier terme et sa relation de récurrence : deux suites qui ont le même premier terme et vérifient la même relation de récurrence sont égales. Conclure.
 3. Déterminer le sens de variation de $(u_n)$ de deux façons : à partir de la relation de récurrence, puis à partir de la forme explicite.
 4. Calculer $u_{100}$, puis déterminer le plus petit entier $n$ tel que $u_n > 2\\,026$.`,
       solution: `**1.** $u_1 = 0 + 0 + 1 = 1$ ; $u_2 = 1 + 2 + 1 = 4$ ; $u_3 = 4 + 4 + 1 = 9$ ; $u_4 = 9 + 6 + 1 = 16$. On conjecture que $u_n = n^2$.
 
 **2.** $v_0 = 0^2 = 0$ et $v_{n+1} = (n + 1)^2 = n^2 + 2n + 1 = v_n + 2n + 1$.
 
-Les suites $(u_n)$ et $(v_n)$ ont le même premier terme et vérifient la même relation de récurrence. Chaque terme étant entièrement déterminé par le précédent, elles ont les mêmes termes $u_1 = v_1$, puis $u_2 = v_2$, etc. Donc $u_n = n^2$ pour tout $n$.
+Les suites $(u_n)$ et $(v_n)$ ont le même premier terme $0$ et vérifient la même relation de récurrence $w_{n+1} = w_n + 2n + 1$. D'après la propriété rappelée (chaque terme est déterminé par le précédent : $u_1 = v_1$, puis $u_2 = v_2$, etc.), elles sont égales : $u_n = n^2$ pour tout $n$.
+
+*Autre méthode (calcul direct)* : en ajoutant les égalités $u_{k+1} - u_k = 2k + 1$ pour $k$ de $0$ à $n - 1$, on obtient $u_n - u_0 = 1 + 3 + \\dots + (2n - 1)$, somme de $n$ termes consécutifs d'une suite arithmétique, égale à $n \\times \\frac{1 + (2n - 1)}{2} = n^2$.
 
 **3.** Par la récurrence : $u_{n+1} - u_n = 2n + 1 > 0$ pour tout entier naturel $n$.
 
@@ -1252,17 +1643,21 @@ Conclusion : une suite $u_n = f(n)$ peut être monotone sans que $f$ le soit. La
       statement: `Soit $(u_n)$ la suite définie par $u_0 = 2$ et, pour tout entier naturel $n$, $u_{n+1} = \\dfrac{1}{2}\\left(u_n + \\dfrac{2}{u_n}\\right)$. On admet que tous ses termes existent et sont strictement positifs.
 
 1. Calculer $u_1$, $u_2$ et $u_3$ sous forme de fractions irréductibles.
-2. Montrer que pour tout entier naturel $n$, $u_{n+1} - \\sqrt{2} = \\dfrac{\\left(u_n - \\sqrt{2}\\right)^2}{2u_n}$. En déduire que $u_n \\geqslant \\sqrt{2}$ pour tout $n$.
-3. Montrer que $u_{n+1} - u_n = \\dfrac{2 - u_n^2}{2u_n}$, puis que la suite $(u_n)$ est décroissante.
+2. a) Vérifier que pour tout entier naturel $n$, $u_{n+1} = \\dfrac{u_n^2 + 2}{2u_n}$.
+ b) En réduisant au même dénominateur et en reconnaissant une identité remarquable, montrer que $u_{n+1} - \\sqrt{2} = \\dfrac{\\left(u_n - \\sqrt{2}\\right)^2}{2u_n}$.
+ c) En déduire le signe de $u_{n+1} - \\sqrt{2}$, puis que $u_n \\geqslant \\sqrt{2}$ pour tout entier naturel $n$ (penser à traiter $u_0$).
+3. Montrer que $u_{n+1} - u_n = \\dfrac{2 - u_n^2}{2u_n}$, puis, à l'aide de la question 2, que la suite $(u_n)$ est décroissante.
 4. a) Calculer exactement $u_3^2 - 2$.
  b) En écrivant $u_3 - \\sqrt{2} = \\dfrac{u_3^2 - 2}{u_3 + \\sqrt{2}}$, montrer que $0 \\leqslant u_3 - \\sqrt{2} < 10^{-5}$.
 5. Interpréter géométriquement la relation de récurrence : un rectangle d'aire $2$ a pour côtés $u_n$ et $\\frac{2}{u_n}$ ; que représente $u_{n+1}$ ?`,
       solution: `**1.** $u_1 = \\frac{1}{2}(2 + 1) = \\frac{3}{2}$ ; $u_2 = \\frac{1}{2}\\left(\\frac{3}{2} + \\frac{4}{3}\\right) = \\frac{1}{2} \\times \\frac{17}{6} = \\frac{17}{12}$ ;
 $$u_3 = \\frac{1}{2}\\left(\\frac{17}{12} + \\frac{24}{17}\\right) = \\frac{1}{2} \\times \\frac{289 + 288}{204} = \\frac{577}{408}.$$
 
-**2.** $u_{n+1} - \\sqrt{2} = \\frac{u_n^2 + 2}{2u_n} - \\sqrt{2} = \\frac{u_n^2 - 2\\sqrt{2}u_n + 2}{2u_n} = \\frac{\\left(u_n - \\sqrt{2}\\right)^2}{2u_n}$.
+**2. a)** $u_{n+1} = \\frac{1}{2}\\left(\\frac{u_n^2}{u_n} + \\frac{2}{u_n}\\right) = \\frac{u_n^2 + 2}{2u_n}$.
 
-Un carré est positif et $u_n > 0$ : $u_{n+1} - \\sqrt{2} \\geqslant 0$ pour tout $n$, donc $u_n \\geqslant \\sqrt{2}$ pour tout $n \\geqslant 1$ ; c'est vrai aussi pour $u_0 = 2$.
+**b)** $u_{n+1} - \\sqrt{2} = \\frac{u_n^2 + 2}{2u_n} - \\sqrt{2} = \\frac{u_n^2 - 2\\sqrt{2}u_n + 2}{2u_n} = \\frac{\\left(u_n - \\sqrt{2}\\right)^2}{2u_n}$.
+
+**c)** Un carré est positif et $u_n > 0$ : $u_{n+1} - \\sqrt{2} \\geqslant 0$ pour tout $n$, donc $u_n \\geqslant \\sqrt{2}$ pour tout $n \\geqslant 1$ ; c'est vrai aussi pour $u_0 = 2$.
 
 **3.** $u_{n+1} - u_n = \\frac{u_n^2 + 2}{2u_n} - \\frac{2u_n^2}{2u_n} = \\frac{2 - u_n^2}{2u_n}$.
 
@@ -1275,7 +1670,94 @@ $$u_3^2 - 2 = \\frac{332\\,929 - 2 \\times 166\\,464}{166\\,464} = \\frac{332\\,
 $$0 \\leqslant u_3 - \\sqrt{2} < \\frac{1}{2 \\times 166\\,464} = \\frac{1}{332\\,928} < \\frac{1}{100\\,000} = 10^{-5}.$$
 Ainsi $\\frac{577}{408}$ approche $\\sqrt{2}$ à moins de $10^{-5}$ près, après seulement trois étapes.
 
-**5.** $u_{n+1}$ est la moyenne des deux côtés $u_n$ et $\\frac{2}{u_n}$ du rectangle d'aire $2$. On remplace le rectangle par un rectangle de même aire dont un côté est cette moyenne : les côtés deviennent de plus en plus proches, et le rectangle se rapproche d'un carré d'aire $2$, de côté $\\sqrt{2}$.` }
+**5.** $u_{n+1}$ est la moyenne des deux côtés $u_n$ et $\\frac{2}{u_n}$ du rectangle d'aire $2$. On remplace le rectangle par un rectangle de même aire dont un côté est cette moyenne : les côtés deviennent de plus en plus proches, et le rectangle se rapproche d'un carré d'aire $2$, de côté $\\sqrt{2}$.` },
+{ id: "1A5-ds-13", title: "Des carrés en allumettes", difficulty: 1, points: 4,
+      statement: `On aligne des carrés construits avec des allumettes, deux carrés voisins partageant un côté. On note $u_n$ le nombre d'allumettes nécessaires pour construire une rangée de $n$ carrés ($n \\geqslant 1$).
+
+1. Faire un schéma et vérifier que $u_1 = 4$, $u_2 = 7$ et $u_3 = 10$.
+2. Expliquer pourquoi $u_{n+1} = u_n + 3$ pour tout $n \\geqslant 1$.
+3. En déduire le sens de variation de la suite $(u_n)$.
+4. Justifier que $u_n = 3n + 1$ pour tout $n \\geqslant 1$.
+5. Combien de carrés contient une rangée de $301$ allumettes ? Avec une boîte de $2\\,025$ allumettes, combien de carrés peut-on aligner au maximum ?`,
+      solution: `**1.** Un carré : $4$ allumettes. Chaque nouveau carré réutilise un côté du précédent : $4 + 3 = 7$, puis $7 + 3 = 10$.
+
+**2.** Pour passer de $n$ à $n + 1$ carrés, on ajoute un carré accolé au dernier : son côté commun existe déjà, il suffit d'ajouter $3$ allumettes. Donc $u_{n+1} = u_n + 3$.
+
+**3.** $u_{n+1} - u_n = 3 > 0$ : la suite $(u_n)$ est strictement croissante.
+
+**4.** On part de $u_1 = 4$ et on ajoute $3$ à chaque étape ; pour arriver à $u_n$, on ajoute $3$ exactement $n - 1$ fois : $u_n = 4 + 3(n - 1) = 3n + 1$.
+
+**5.** $3n + 1 = 301 \\iff n = 100$ : la rangée contient $100$ carrés.
+
+$3n + 1 \\leqslant 2\\,025 \\iff n \\leqslant \\frac{2\\,024}{3}$, et $\\frac{2\\,024}{3} = 674 + \\frac{2}{3}$. On peut aligner au maximum $674$ carrés (avec $3 \\times 674 + 1 = 2\\,023$ allumettes).` },
+    { id: "1A5-ds-14", title: "Suites alternées : ni croissantes ni décroissantes", difficulty: 2, points: 5,
+      statement: `On considère les suites $(u_n)$ et $(a_n)$ définies pour tout entier naturel $n$ par $u_n = (-1)^n \\times n$ et $a_n = n + (-1)^n$.
+
+1. Calculer $u_0$, $u_1$, $u_2$, $u_3$, $u_4$ et $u_5$.
+2. Montrer que la suite $(u_n)$ n'est ni croissante, ni décroissante.
+3. On pose $v_n = u_{2n}$ et $w_n = u_{2n+1}$. Exprimer $v_n$ et $w_n$ en fonction de $n$ et donner le sens de variation de chacune de ces suites.
+4. a) Calculer les cinq premiers termes de $(a_n)$. La suite $(a_n)$ est-elle monotone ?
+ b) Montrer que $a_{n+2} - a_n = 2$ pour tout entier naturel $n$, et interpréter.`,
+      solution: `**1.** $u_0 = 0$, $u_1 = -1$, $u_2 = 2$, $u_3 = -3$, $u_4 = 4$, $u_5 = -5$.
+
+**2.** $u_1 < u_0$ donc $(u_n)$ n'est pas croissante ; $u_2 > u_1$ donc elle n'est pas décroissante.
+
+**3.** $2n$ est pair : $(-1)^{2n} = 1$ et $v_n = 2n$. $2n + 1$ est impair : $(-1)^{2n+1} = -1$ et $w_n = -(2n + 1)$.
+
+$v_{n+1} - v_n = 2 > 0$ : $(v_n)$ est strictement croissante. $w_{n+1} - w_n = -2 < 0$ : $(w_n)$ est strictement décroissante.
+
+**4. a)** $a_0 = 1$, $a_1 = 0$, $a_2 = 3$, $a_3 = 2$, $a_4 = 5$. Comme $a_1 < a_0$ et $a_2 > a_1$, la suite n'est pas monotone.
+
+**b)** $(-1)^{n+2} = (-1)^n \\times (-1)^2 = (-1)^n$, donc $a_{n+2} - a_n = (n + 2) - n = 2$.
+
+Les termes de rang pair et ceux de rang impair forment chacun une suite croissante, mais la suite globale « recule » d'une unité à chaque passage d'un rang pair au rang impair suivant ($a_{2k+1} - a_{2k} = -1$).` },
+    { id: "1A5-ds-15", title: "Une suite récurrente et son inverse", difficulty: 3, points: 6,
+      statement: `On considère la suite $(u_n)$ définie par $u_0 = 1$ et, pour tout entier naturel $n$, $u_{n+1} = \\dfrac{u_n}{1 + u_n}$. On admet que $u_n > 0$ pour tout entier naturel $n$.
+
+1. Calculer $u_1$, $u_2$ et $u_3$. Conjecturer une expression de $u_n$ en fonction de $n$.
+2. Étudier le sens de variation de $(u_n)$ en calculant $u_{n+1} - u_n$.
+3. On pose, pour tout entier naturel $n$, $v_n = \\dfrac{1}{u_n}$.
+ a) Montrer que $v_{n+1} = v_n + 1$.
+ b) En déduire $v_n$, puis $u_n$, en fonction de $n$. La conjecture est-elle confirmée ?
+4. À partir de quel rang a-t-on $u_n < 0{,}01$ ?
+5. On définit la suite $(t_n)$ par $t_0 = 1$ et $t_{n+1} = \\dfrac{t_n}{1 + 2t_n}$ (avec $t_n > 0$ admis). En adaptant la méthode, exprimer $t_n$ en fonction de $n$.`,
+      solution: `**1.** $u_1 = \\frac{1}{2}$ ; $u_2 = \\frac{1/2}{3/2} = \\frac{1}{3}$ ; $u_3 = \\frac{1/3}{4/3} = \\frac{1}{4}$. Conjecture : $u_n = \\frac{1}{n + 1}$.
+
+**2.** $u_{n+1} - u_n = \\frac{u_n - u_n(1 + u_n)}{1 + u_n} = \\frac{-u_n^2}{1 + u_n} < 0$ car $u_n > 0$ : $(u_n)$ est strictement décroissante.
+
+**3. a)** $v_{n+1} = \\frac{1}{u_{n+1}} = \\frac{1 + u_n}{u_n} = \\frac{1}{u_n} + 1 = v_n + 1$.
+
+**b)** $(v_n)$ est arithmétique de raison $1$ et de premier terme $v_0 = 1$ : $v_n = 1 + n$. Donc $u_n = \\frac{1}{n + 1}$ : la conjecture est confirmée.
+
+**4.** $\\frac{1}{n + 1} < 0{,}01 \\iff n + 1 > 100 \\iff n > 99$. À partir du rang $n = 100$.
+
+**5.** Avec $s_n = \\frac{1}{t_n}$ : $s_{n+1} = \\frac{1 + 2t_n}{t_n} = s_n + 2$. $(s_n)$ est arithmétique de raison $2$, $s_0 = 1$, donc $s_n = 1 + 2n$ et $t_n = \\frac{1}{2n + 1}$.` },
+    { id: "1A5-ds-16", title: "Les sommes harmoniques dépassent tout nombre", difficulty: 4, points: 7,
+      statement: `Pour tout entier $n \\geqslant 1$, on pose $H_n = 1 + \\dfrac{1}{2} + \\dfrac{1}{3} + \\cdots + \\dfrac{1}{n} = \\displaystyle\\sum_{k=1}^{n} \\dfrac{1}{k}$.
+
+1. Calculer $H_1$, $H_2$, $H_3$ et $H_4$ sous forme de fractions.
+2. Montrer que la suite $(H_n)$ est strictement croissante.
+3. a) Justifier que $H_{2n} - H_n = \\dfrac{1}{n + 1} + \\dfrac{1}{n + 2} + \\cdots + \\dfrac{1}{2n}$ est une somme de $n$ termes.
+ b) En minorant chacun de ces termes par $\\dfrac{1}{2n}$, montrer que $H_{2n} - H_n \\geqslant \\dfrac{1}{2}$.
+4. a) En appliquant la question 3 avec $n = 1, 2, 4, \\ldots, 2^{p-1}$, montrer que pour tout entier $p \\geqslant 1$ :
+$$H_{2^p} \\geqslant 1 + \\frac{p}{2}.$$
+ b) En déduire un entier $N$ tel que $H_N \\geqslant 10$.
+5. Justifier que, pour tout réel $M$, il existe un rang à partir duquel $H_n > M$. La suite $(H_n)$ est-elle majorée ?`,
+      solution: `**1.** $H_1 = 1$ ; $H_2 = \\frac{3}{2}$ ; $H_3 = \\frac{3}{2} + \\frac{1}{3} = \\frac{11}{6}$ ; $H_4 = \\frac{11}{6} + \\frac{1}{4} = \\frac{25}{12}$.
+
+**2.** $H_{n+1} - H_n = \\frac{1}{n + 1} > 0$ : $(H_n)$ est strictement croissante.
+
+**3. a)** $H_{2n}$ contient les termes $\\frac{1}{k}$ pour $k$ de $1$ à $2n$ ; en retirant ceux de $H_n$ ($k$ de $1$ à $n$), il reste ceux pour $k$ de $n + 1$ à $2n$, soit $2n - n = n$ termes.
+
+**b)** Pour $n + 1 \\leqslant k \\leqslant 2n$, $\\frac{1}{k} \\geqslant \\frac{1}{2n}$. En sommant ces $n$ inégalités : $H_{2n} - H_n \\geqslant n \\times \\frac{1}{2n} = \\frac{1}{2}$.
+
+**4. a)** On écrit la somme « télescopique »
+$$H_{2^p} = H_1 + (H_2 - H_1) + (H_4 - H_2) + \\cdots + (H_{2^p} - H_{2^{p-1}}).$$
+Elle comporte $H_1 = 1$ et $p$ différences de la forme $H_{2m} - H_m$ (avec $m = 1, 2, \\ldots, 2^{p-1}$), chacune supérieure ou égale à $\\frac{1}{2}$. Donc $H_{2^p} \\geqslant 1 + \\frac{p}{2}$.
+
+**b)** $1 + \\frac{p}{2} \\geqslant 10 \\iff p \\geqslant 18$. Avec $N = 2^{18} = 262\\,144$, $H_N \\geqslant 10$.
+
+**5.** Soit $M$ un réel. On choisit un entier $p$ tel que $1 + \\frac{p}{2} > M$. Alors $H_{2^p} > M$ et, la suite étant croissante, $H_n \\geqslant H_{2^p} > M$ pour tout $n \\geqslant 2^p$. La suite $(H_n)$ n'est donc pas majorée (bien que ses termes ajoutés $\\frac{1}{n}$ deviennent aussi petits que l'on veut).` }
   ],
   "1A6": [
     { id: "1A6-ds-01", title: "Une suite arithmétique", difficulty: 1, points: 4,
@@ -1510,14 +1992,22 @@ $B_n = 1 \\times \\frac{1 - 2^n}{1 - 2} = 2^n - 1$.
 On note $c_n$ le nombre de côtés, $\\ell_n$ la longueur d'un côté, $P_n$ le périmètre et $\\mathcal{A}_n$ l'aire du flocon à l'étape $n$. On rappelle qu'un triangle équilatéral de côté $a$ a pour aire $\\frac{\\sqrt{3}}{4}a^2$.
 
 1. Justifier que $c_{n+1} = 4c_n$ et $\\ell_{n+1} = \\frac{1}{3}\\ell_n$. En déduire $c_n$, $\\ell_n$ et montrer que $P_n = 3\\left(\\frac{4}{3}\\right)^n$.
-2. Comment se comporte $P_n$ quand $n$ devient grand ?
+2. a) Justifier que la suite $(P_n)$ est croissante.
+ b) Vérifier que $\\left(\\frac{4}{3}\\right)^4 = \\frac{256}{81} > 3$. En déduire que, pour tout entier naturel $k$, $P_{4k} \\geqslant 3^{k+1}$.
+ c) Déterminer un rang à partir duquel le périmètre dépasse $1\\,000$.
 3. a) Montrer que, pour passer de l'étape $n$ à l'étape $n + 1$, on ajoute une aire égale à $\\frac{\\sqrt{3}}{12}\\left(\\frac{4}{9}\\right)^n$.
  b) En déduire que pour tout $n \\geqslant 1$, $\\mathcal{A}_n = \\frac{\\sqrt{3}}{4}\\left[1 + \\frac{3}{5}\\left(1 - \\left(\\frac{4}{9}\\right)^n\\right)\\right]$. Vérifier la formule pour $n = 1$.
-4. Vers quelle valeur $\\mathcal{A}_n$ semble-t-elle se rapprocher ? Commenter ce résultat en le comparant à celui de la question 2.`,
+4. a) Montrer que, pour tout entier $n \\geqslant 1$, $\\mathcal{A}_n < \\frac{2\\sqrt{3}}{5}$.
+ b) On rappelle que, si $0 < q < 1$, $q^n$ devient aussi proche de $0$ que l'on veut lorsque $n$ est assez grand (la suite $(q^n)$ a pour limite $0$). De quelle valeur $\\mathcal{A}_n$ se rapproche-t-elle quand $n$ devient grand ? Commenter en comparant avec la question 2.`,
       solution: `**1.** Chaque côté est remplacé par $4$ segments, chacun de longueur le tiers du côté initial : $c_{n+1} = 4c_n$ et $\\ell_{n+1} = \\frac{1}{3}\\ell_n$. Ce sont des suites géométriques : $c_n = 3 \\times 4^n$ et $\\ell_n = \\left(\\frac{1}{3}\\right)^n$. Donc
 $$P_n = c_n \\times \\ell_n = 3 \\times 4^n \\times \\frac{1}{3^n} = 3\\left(\\frac{4}{3}\\right)^n.$$
 
-**2.** $(P_n)$ est géométrique de raison $\\frac{4}{3} > 1$ et de premier terme positif : $P_n$ devient aussi grand que l'on veut (il tend vers $+\\infty$).
+**2. a)** $P_{n+1} = \\frac{4}{3}P_n$ et $P_n > 0$, donc $P_{n+1} - P_n = \\frac{1}{3}P_n > 0$ : la suite $(P_n)$ est (strictement) croissante.
+
+**b)** $4^4 = 256$ et $3^4 = 81$ ; $3 \\times 81 = 243 < 256$, donc $\\frac{256}{81} > 3$. Alors
+$$P_{4k} = 3\\left(\\frac{4}{3}\\right)^{4k} = 3\\left(\\frac{256}{81}\\right)^k \\geqslant 3 \\times 3^k = 3^{k+1}.$$
+
+**c)** $3^7 = 2\\,187 > 1\\,000$ : avec $k = 6$, $P_{24} \\geqslant 3^7 > 1\\,000$. La suite étant croissante, $P_n > 1\\,000$ pour tout $n \\geqslant 24$. Plus généralement, comme $3^{k+1}$ dépasse n'importe quel nombre donné pour $k$ assez grand, le périmètre devient aussi grand que l'on veut.
 
 **3. a)** À l'étape $n + 1$, on ajoute un petit triangle sur chacun des $c_n = 3 \\times 4^n$ côtés, de côté $\\frac{\\ell_n}{3} = \\frac{1}{3^{n+1}}$, donc d'aire $\\frac{\\sqrt{3}}{4} \\times \\frac{1}{9^{n+1}}$. Aire ajoutée :
 $$3 \\times 4^n \\times \\frac{\\sqrt{3}}{4} \\times \\frac{1}{9^{n+1}} = \\frac{\\sqrt{3}}{4} \\times \\frac{3}{9} \\times \\frac{4^n}{9^n} = \\frac{\\sqrt{3}}{12}\\left(\\frac{4}{9}\\right)^n.$$
@@ -1528,9 +2018,99 @@ Or $\\frac{\\sqrt{3}}{12} \\times \\frac{9}{5} = \\frac{\\sqrt{3}}{4} \\times \\
 
 Pour $n = 1$ : la formule donne $\\frac{\\sqrt{3}}{4}\\left[1 + \\frac{3}{5} \\times \\frac{5}{9}\\right] = \\frac{\\sqrt{3}}{4} \\times \\frac{4}{3} = \\frac{\\sqrt{3}}{3}$, et directement $\\frac{\\sqrt{3}}{4} + 3 \\times \\frac{\\sqrt{3}}{4} \\times \\frac{1}{9} = \\frac{\\sqrt{3}}{4}\\left(1 + \\frac{1}{3}\\right) = \\frac{\\sqrt{3}}{3}$.
 
-**4.** Comme $0 < \\frac{4}{9} < 1$, $\\left(\\frac{4}{9}\\right)^n$ se rapproche de $0$ : $\\mathcal{A}_n$ se rapproche de $\\frac{\\sqrt{3}}{4} \\times \\frac{8}{5} = \\frac{2\\sqrt{3}}{5}$.
+**4. a)** $\\left(\\frac{4}{9}\\right)^n > 0$, donc $1 - \\left(\\frac{4}{9}\\right)^n < 1$ et $\\mathcal{A}_n < \\frac{\\sqrt{3}}{4}\\left(1 + \\frac{3}{5}\\right) = \\frac{\\sqrt{3}}{4} \\times \\frac{8}{5} = \\frac{2\\sqrt{3}}{5}$.
 
-Le flocon a donc une aire qui reste bornée (inférieure à $\\frac{2\\sqrt{3}}{5}$, soit $\\frac{8}{5}$ de l'aire du triangle de départ) alors que son périmètre devient infiniment grand.` }
+**b)** Comme $0 < \\frac{4}{9} < 1$, $\\left(\\frac{4}{9}\\right)^n$ se rapproche de $0$ : $\\mathcal{A}_n$ se rapproche de $\\frac{2\\sqrt{3}}{5}$ (sa limite).
+
+Le flocon a donc une aire qui reste bornée (inférieure à $\\frac{2\\sqrt{3}}{5}$, soit $\\frac{8}{5}$ de l'aire du triangle de départ) alors que son périmètre devient infiniment grand.` },
+{ id: "1A6-ds-13", title: "Une suite géométrique de raison un demi", difficulty: 1, points: 4,
+      statement: `Soit $(u_n)$ la suite géométrique de premier terme $u_0 = 64$ et de raison $q = \\dfrac{1}{2}$.
+
+1. Calculer $u_1$, $u_2$ et $u_3$.
+2. Exprimer $u_n$ en fonction de $n$. Calculer $u_6$.
+3. Déterminer le sens de variation de la suite $(u_n)$.
+4. Calculer la somme $S = u_0 + u_1 + \\cdots + u_6$ à l'aide de la formule du cours, puis vérifier en additionnant les termes.
+5. À partir de quel rang a-t-on $u_n < \\dfrac{1}{10}$ ?`,
+      solution: `**1.** $u_1 = 32$, $u_2 = 16$, $u_3 = 8$.
+
+**2.** $u_n = u_0 \\times q^n = 64 \\times \\left(\\frac{1}{2}\\right)^n = \\frac{64}{2^n}$. $u_6 = \\frac{64}{64} = 1$.
+
+**3.** $u_{n+1} - u_n = \\frac{1}{2}u_n - u_n = -\\frac{1}{2}u_n < 0$ car $u_n > 0$ : la suite est strictement décroissante.
+
+**4.** $S = u_0 \\times \\frac{1 - q^7}{1 - q} = 64 \\times \\frac{1 - \\frac{1}{128}}{\\frac{1}{2}} = 128 \\times \\frac{127}{128} = 127$.
+
+Vérification : $64 + 32 + 16 + 8 + 4 + 2 + 1 = 127$.
+
+**5.** $\\frac{64}{2^n} < \\frac{1}{10} \\iff 2^n > 640$. Or $2^9 = 512 < 640 < 1\\,024 = 2^{10}$ et la suite $(2^n)$ est croissante : $u_n < \\frac{1}{10}$ à partir du rang $n = 10$.` },
+    { id: "1A6-ds-14", title: "Retrouver une suite arithmétique à partir de deux termes", difficulty: 2, points: 5,
+      statement: `$(u_n)$ est une suite arithmétique telle que $u_3 = 7$ et $u_{10} = 28$.
+
+1. Exprimer $u_{10} - u_3$ en fonction de la raison $r$ et en déduire $r$.
+2. Déterminer $u_0$, puis l'expression de $u_n$ en fonction de $n$.
+3. L'entier $100$ est-il un terme de la suite ? Et $150$ ?
+4. Calculer la somme $S = u_0 + u_1 + \\cdots + u_{20}$.
+5. Calculer la somme $T = u_{10} + u_{11} + \\cdots + u_{20}$.`,
+      solution: `**1.** $u_{10} = u_3 + 7r$, donc $7r = 28 - 7 = 21$ et $r = 3$.
+
+**2.** $u_3 = u_0 + 3r \\iff 7 = u_0 + 9 \\iff u_0 = -2$. Donc $u_n = -2 + 3n$.
+
+**3.** $-2 + 3n = 100 \\iff n = 34$ : $100 = u_{34}$ est un terme de la suite.
+
+$-2 + 3n = 150 \\iff n = \\frac{152}{3}$, qui n'est pas entier : $150$ n'est pas un terme de la suite.
+
+**4.** $u_{20} = -2 + 60 = 58$. La somme de $21$ termes consécutifs vaut
+$$S = 21 \\times \\frac{u_0 + u_{20}}{2} = 21 \\times \\frac{-2 + 58}{2} = 21 \\times 28 = 588.$$
+
+**5.** $T$ comporte $20 - 10 + 1 = 11$ termes : $T = 11 \\times \\frac{u_{10} + u_{20}}{2} = 11 \\times \\frac{28 + 58}{2} = 11 \\times 43 = 473$.
+
+(Vérification : $S - T = u_0 + \\cdots + u_9 = 10 \\times \\frac{-2 + 25}{2} = 115$ et $588 - 473 = 115$.)` },
+    { id: "1A6-ds-15", title: "Des carrés emboîtés", difficulty: 3, points: 6,
+      statement: `On construit une suite de carrés : $C_0$ est un carré de côté $4$ cm ; pour tout entier naturel $n$, le carré $C_{n+1}$ a pour sommets les milieux des côtés du carré $C_n$. On note $c_n$ le côté et $a_n$ l'aire du carré $C_n$.
+
+1. a) Montrer, à l'aide du théorème de Pythagore, que $c_{n+1} = \\dfrac{\\sqrt{2}}{2}c_n$.
+ b) En déduire que $a_{n+1} = \\dfrac{1}{2}a_n$.
+2. Exprimer $a_n$ en fonction de $n$. Calculer $a_4$.
+3. Calculer la somme des aires des carrés $C_0$ à $C_9$ sous forme d'une fraction.
+4. Montrer que cette somme est inférieure à $32$ cm², et que cela reste vrai quel que soit le nombre de carrés considérés.
+5. À partir de quel rang l'aire du carré est-elle inférieure à $0{,}01$ cm² ?`,
+      solution: `**1. a)** Le côté de $C_{n+1}$ est l'hypoténuse d'un triangle rectangle isocèle dont les côtés de l'angle droit mesurent $\\frac{c_n}{2}$ :
+$$c_{n+1}^2 = \\left(\\frac{c_n}{2}\\right)^2 + \\left(\\frac{c_n}{2}\\right)^2 = \\frac{c_n^2}{2}, \\quad \\text{donc } c_{n+1} = \\frac{c_n}{\\sqrt{2}} = \\frac{\\sqrt{2}}{2}c_n.$$
+
+**b)** $a_{n+1} = c_{n+1}^2 = \\frac{c_n^2}{2} = \\frac{1}{2}a_n$.
+
+**2.** $(a_n)$ est géométrique de raison $\\frac{1}{2}$ et de premier terme $a_0 = 16$ : $a_n = 16 \\times \\left(\\frac{1}{2}\\right)^n$, et $a_4 = \\frac{16}{16} = 1$ cm².
+
+**3.** $a_0 + \\cdots + a_9 = 16 \\times \\frac{1 - \\left(\\frac{1}{2}\\right)^{10}}{1 - \\frac{1}{2}} = 32\\left(1 - \\frac{1}{1\\,024}\\right) = 32 - \\frac{1}{32} = \\frac{1\\,023}{32}$ cm².
+
+**4.** Pour $n + 1$ carrés, la somme vaut $32\\left(1 - \\left(\\frac{1}{2}\\right)^{n+1}\\right) = 32 - 32\\left(\\frac{1}{2}\\right)^{n+1} < 32$, car $\\left(\\frac{1}{2}\\right)^{n+1} > 0$.
+
+**5.** $\\frac{16}{2^n} < 0{,}01 \\iff 2^n > 1\\,600$. Or $2^{10} = 1\\,024$ et $2^{11} = 2\\,048$ : à partir du rang $n = 11$.` },
+    { id: "1A6-ds-16", title: "Puissances d'une suite arithmétique", difficulty: 4, points: 7,
+      statement: `Soit $(u_n)$ la suite arithmétique de premier terme $u_0 = 1$ et de raison $3$. On définit la suite $(w_n)$ par $w_n = 2^{u_n}$ pour tout entier naturel $n$.
+
+1. Exprimer $u_n$ en fonction de $n$, puis calculer $w_0$, $w_1$ et $w_2$.
+2. Montrer que $(w_n)$ est une suite géométrique dont on précisera la raison et le premier terme.
+3. Calculer $w_0 + w_1 + w_2 + w_3 + w_4$.
+4. a) Calculer la somme $u_0 + u_1 + \\cdots + u_n$ en fonction de $n$.
+ b) En déduire que le produit $P_n = w_0 \\times w_1 \\times \\cdots \\times w_n$ vaut $2^{\\frac{(n + 1)(3n + 2)}{2}}$. Vérifier pour $n = 1$.
+5. **Réciproque.** Soit $(v_n)$ une suite géométrique de raison $q$, à termes strictement positifs. On pose $t_n = e^{v_n}$. La suite $(t_n)$ est-elle géométrique en général ? On pourra examiner le cas $v_n = 2^n$.`,
+      solution: `**1.** $u_n = 1 + 3n$. $w_0 = 2^1 = 2$, $w_1 = 2^4 = 16$, $w_2 = 2^7 = 128$.
+
+**2.** $w_{n+1} = 2^{u_n + 3} = 2^{u_n} \\times 2^3 = 8w_n$. $(w_n)$ est géométrique de raison $8$ et de premier terme $w_0 = 2$.
+
+**3.** $2 \\times \\frac{8^5 - 1}{8 - 1} = 2 \\times \\frac{32\\,767}{7} = 2 \\times 4\\,681 = 9\\,362$.
+
+Vérification : $2 + 16 + 128 + 1\\,024 + 8\\,192 = 9\\,362$.
+
+**4. a)** Somme de $n + 1$ termes consécutifs d'une suite arithmétique : $(n + 1) \\times \\frac{u_0 + u_n}{2} = \\frac{(n + 1)(3n + 2)}{2}$.
+
+**b)** $P_n = 2^{u_0} \\times 2^{u_1} \\times \\cdots \\times 2^{u_n} = 2^{u_0 + u_1 + \\cdots + u_n} = 2^{\\frac{(n + 1)(3n + 2)}{2}}$.
+
+Pour $n = 1$ : $w_0 w_1 = 32 = 2^5$ et $\\frac{2 \\times 5}{2} = 5$. ✓
+
+**5.** Pour $v_n = 2^n$ : $t_0 = e^1$, $t_1 = e^2$, $t_2 = e^4$. $\\frac{t_1}{t_0} = e$ mais $\\frac{t_2}{t_1} = e^2$ : les quotients ne sont pas constants, $(t_n)$ n'est pas géométrique.
+
+En effet $\\frac{t_{n+1}}{t_n} = e^{v_{n+1} - v_n}$ : ce quotient est constant lorsque $v_{n+1} - v_n$ l'est, c'est-à-dire lorsque $(v_n)$ est **arithmétique** — c'est le lien exploité aux questions 1 et 2.` }
   ],
   "1G1": [
     {
@@ -1737,7 +2317,7 @@ $x(40) = \\frac{\\pi}{2} - \\frac{4\\pi}{3} = -\\frac{5\\pi}{6}$ : $\\cos\\left(
 
 1. Convertir $120°$ en radians.
 2. Calculer la longueur de l'arc décrit par l'extrémité du balai (à $60$ cm de $O$), puis par l'autre extrémité du balai (à $15$ cm de $O$). Donner les valeurs exactes.
-3. On admet que l'aire d'un secteur angulaire est proportionnelle à son angle : un disque complet de rayon $R$ (angle $2\\pi$) a pour aire $\\pi R^2$. Montrer qu'un secteur de rayon $R$ et d'angle $\\theta$ radians a pour aire $\\frac{\\theta R^2}{2}$.
+3. **Donnée** : pour un rayon $R$ fixé, l'aire d'un secteur angulaire est proportionnelle à son angle ; le disque complet de rayon $R$ (angle $2\\pi$) a pour aire $\\pi R^2$. À l'aide de cette donnée, montrer qu'un secteur de rayon $R$ et d'angle $\\theta$ radians a pour aire $\\frac{\\theta R^2}{2}$.
 4. En déduire l'aire exacte de la surface de pare-brise essuyée par le balai, en cm².
 5. Le bras effectue $45$ allers-retours par minute. Quelle distance parcourt l'extrémité du balai en une minute ? Donner la valeur exacte en mètres.`,
       solution: `**1.** $180° \\leftrightarrow \\pi$ rad, donc $120° = \\frac{120}{180}\\pi = \\frac{2\\pi}{3}$ rad.
@@ -1759,7 +2339,8 @@ $$\\frac{1}{2} \\times \\frac{2\\pi}{3} \\times (60^2 - 15^2) = \\frac{\\pi}{3} 
 1. Rappeler les coordonnées de $M$. Montrer que $AM^2 = 2 - 2\\cos x$ et $A'M^2 = 2 + 2\\cos x$.
 2. En déduire que, pour $x \\in \\,]0 ; \\pi[$, le triangle $AMA'$ est rectangle en $M$.
 3. Montrer que l'aire du triangle $AMA'$ est égale à $\\sin x$ (on pourra utiliser la base $[AA']$).
-4. a) Pour quelle valeur de $x$ a-t-on $AM = 1$ ? Quelle est alors la nature du triangle $OAM$ ?
+4. Dans cette question, on cherche les solutions **dans l'intervalle $[0 ; \\pi]$** (où est défini le point $M$ de l'exercice).
+ a) Pour quelle valeur de $x$ a-t-on $AM = 1$ ? Quelle est alors la nature du triangle $OAM$ ?
  b) Pour quelles valeurs de $x$ l'aire du triangle $AMA'$ vaut-elle $\\frac{1}{2}$ ?
  c) Pour quelle valeur de $x$ cette aire est-elle maximale ? Quelle est cette aire maximale ?`,
       solution: `**1.** $M(\\cos x ; \\sin x)$. Avec $\\cos^2 x + \\sin^2 x = 1$ :
@@ -1778,23 +2359,29 @@ $$A'M^2 = (\\cos x + 1)^2 + \\sin^2 x = 2 + 2\\cos x.$$
     { id: "1G1-ds-12", title: "Encadrer π grâce au cercle trigonométrique", difficulty: 4, points: 7,
       statement: `Dans un repère orthonormé d'origine $O$, on considère le cercle trigonométrique, le point $A(1 ; 0)$ et un réel $x \\in \\left]0 ; \\frac{\\pi}{2}\\right[$. On note $M(\\cos x ; \\sin x)$ le point associé à $x$, et $T$ le point d'intersection de la droite $(OM)$ avec la tangente au cercle en $A$ (droite d'équation $x = 1$).
 
-On admet que l'aire d'un secteur de disque de rayon $1$ et d'angle $x$ radians est $\\frac{x}{2}$.
+**Donnée** : l'aire d'un secteur de disque est proportionnelle à son angle ; le disque de rayon $1$ (angle $2\\pi$) a pour aire $\\pi$, donc un secteur de rayon $1$ et d'angle $x$ radians a pour aire $\\frac{x}{2}$.
 
-1. Montrer que $T$ a pour coordonnées $\\left(1 ; \\dfrac{\\sin x}{\\cos x}\\right)$.
-2. Le triangle $OAM$ est contenu dans le secteur $OAM$, lui-même contenu dans le triangle $OAT$. Calculer les aires de ces trois figures et en déduire que
+1. a) Justifier que $\\cos x > 0$ et que la droite $(OM)$ a pour équation $y = \\dfrac{\\sin x}{\\cos x}\\,x$ (elle passe par $O$ et par $M$).
+ b) En déduire que $T$ a pour coordonnées $\\left(1 ; \\dfrac{\\sin x}{\\cos x}\\right)$.
+2. Le triangle $OAM$ est contenu dans le secteur $OAM$, lui-même contenu dans le triangle $OAT$.
+ a) Montrer que l'aire du triangle $OAM$ vaut $\\dfrac{\\sin x}{2}$ (prendre $[OA]$ pour base).
+ b) Montrer que l'aire du triangle $OAT$, rectangle en $A$, vaut $\\dfrac{\\sin x}{2\\cos x}$.
+ c) En comparant les trois aires, en déduire que
 $$\\sin x \\leqslant x \\leqslant \\frac{\\sin x}{\\cos x}.$$
 3. En déduire que $\\cos x \\leqslant \\dfrac{\\sin x}{x} \\leqslant 1$.
 4. a) En appliquant l'encadrement de la question 2 à $x = \\frac{\\pi}{6}$, montrer que $3 \\leqslant \\pi \\leqslant 2\\sqrt{3}$.
  b) Faire de même avec $x = \\frac{\\pi}{4}$.
- c) Lequel des deux encadrements de $\\pi$ obtenus est le plus précis ? On justifiera sans calculatrice, en comparant les amplitudes $2\\sqrt{3} - 3$ et $4 - 2\\sqrt{2}$.`,
-      solution: `**1.** Pour $x \\in \\left]0 ; \\frac{\\pi}{2}\\right[$, $\\cos x > 0$. La droite $(OM)$ passe par l'origine et a pour coefficient directeur $\\frac{\\sin x}{\\cos x}$ : elle a pour équation $y = \\frac{\\sin x}{\\cos x}x$. Pour $x = 1$, $y = \\frac{\\sin x}{\\cos x}$ : $T\\left(1 ; \\frac{\\sin x}{\\cos x}\\right)$.
+ c) Lequel des deux encadrements de $\\pi$ obtenus est le plus précis ? On justifiera sans calculatrice, en comparant les amplitudes $2\\sqrt{3} - 3$ et $4 - 2\\sqrt{2}$ : on pourra se ramener à comparer $2\\sqrt{3} + 2\\sqrt{2}$ et $7$, puis leurs carrés.`,
+      solution: `**1. a)** Pour $x \\in \\left]0 ; \\frac{\\pi}{2}\\right[$, $M$ est dans le quart de cercle situé dans le quadrant $x > 0$, $y > 0$, donc $\\cos x > 0$. La droite $(OM)$ passe par l'origine, elle n'est pas parallèle à l'axe des ordonnées et a pour coefficient directeur $\\frac{\\sin x - 0}{\\cos x - 0} = \\frac{\\sin x}{\\cos x}$ : elle a pour équation $y = \\frac{\\sin x}{\\cos x}x$.
+
+**b)** $T$ est sur la droite d'équation $x = 1$ : pour $x = 1$, $y = \\frac{\\sin x}{\\cos x}$ : $T\\left(1 ; \\frac{\\sin x}{\\cos x}\\right)$.
 
 **2.**
-- Triangle $OAM$ : base $OA = 1$, hauteur $\\sin x$ (ordonnée de $M$), aire $\\frac{\\sin x}{2}$.
-- Secteur $OAM$ : aire $\\frac{x}{2}$.
-- Triangle $OAT$ : rectangle en $A$, de côtés $OA = 1$ et $AT = \\frac{\\sin x}{\\cos x}$, aire $\\frac{\\sin x}{2\\cos x}$.
+**a)** Triangle $OAM$ : base $OA = 1$, hauteur $\\sin x$ (ordonnée de $M$, positive), aire $\\frac{\\sin x}{2}$.
 
-Les inclusions donnent $\\frac{\\sin x}{2} \\leqslant \\frac{x}{2} \\leqslant \\frac{\\sin x}{2\\cos x}$, d'où le résultat en multipliant par $2$.
+**b)** Triangle $OAT$ : rectangle en $A$, de côtés $OA = 1$ et $AT = \\frac{\\sin x}{\\cos x}$, aire $\\frac{\\sin x}{2\\cos x}$.
+
+**c)** Secteur $OAM$ : aire $\\frac{x}{2}$ (donnée). Les inclusions donnent $\\frac{\\sin x}{2} \\leqslant \\frac{x}{2} \\leqslant \\frac{\\sin x}{2\\cos x}$, d'où le résultat en multipliant par $2$.
 
 **3.** $x > 0$ : de $\\sin x \\leqslant x$, on tire $\\frac{\\sin x}{x} \\leqslant 1$. De $x \\leqslant \\frac{\\sin x}{\\cos x}$, en multipliant par $\\frac{\\cos x}{x} > 0$ : $\\cos x \\leqslant \\frac{\\sin x}{x}$.
 
@@ -1805,7 +2392,85 @@ $$\\frac{1}{2} \\leqslant \\frac{\\pi}{6} \\leqslant \\frac{\\sqrt{3}}{3} \\iff 
 
 **c)** On compare $2\\sqrt{3} - 3$ et $4 - 2\\sqrt{2}$, c'est-à-dire $2\\sqrt{3} + 2\\sqrt{2}$ et $7$ (même signe que la différence $(4 - 2\\sqrt{2}) - (2\\sqrt{3} - 3) = 7 - (2\\sqrt{3} + 2\\sqrt{2})$). Ces nombres sont positifs et
 $$\\left(2\\sqrt{3} + 2\\sqrt{2}\\right)^2 = 12 + 8 + 8\\sqrt{6} = 20 + 8\\sqrt{6}.$$
-Or $\\sqrt{6} < 2{,}5$ (car $6 < 6{,}25$), donc $20 + 8\\sqrt{6} < 40 < 49$ et $2\\sqrt{3} + 2\\sqrt{2} < 7$. Ainsi $2\\sqrt{3} - 3 < 4 - 2\\sqrt{2}$ : l'encadrement obtenu avec $\\frac{\\pi}{6}$ est le plus précis (amplitude environ $0{,}46$ contre $1{,}17$).` }
+Or $\\sqrt{6} < 2{,}5$ (car $6 < 6{,}25$), donc $20 + 8\\sqrt{6} < 40 < 49$ et $2\\sqrt{3} + 2\\sqrt{2} < 7$. Ainsi $2\\sqrt{3} - 3 < 4 - 2\\sqrt{2}$ : l'encadrement obtenu avec $\\frac{\\pi}{6}$ est le plus précis (amplitude environ $0{,}46$ contre $1{,}17$).` },
+{ id: "1G1-ds-13", title: "Mesures principales et valeurs remarquables", difficulty: 1, points: 4,
+      statement: `1. Convertir en radians les angles de mesures $150^\\circ$, $225^\\circ$ et $-60^\\circ$.
+2. Convertir en degrés les mesures $\\dfrac{7\\pi}{6}$ et $\\dfrac{5\\pi}{4}$ radians.
+3. Donner la mesure principale (dans $]-\\pi ; \\pi]$) de chacun des réels $\\dfrac{17\\pi}{6}$ et $-\\dfrac{13\\pi}{4}$.
+4. Placer sur un cercle trigonométrique les points associés aux réels $\\dfrac{17\\pi}{6}$ et $-\\dfrac{13\\pi}{4}$, puis donner leurs cosinus et sinus.`,
+      solution: `**1.** On multiplie par $\\frac{\\pi}{180}$ : $150^\\circ = \\frac{5\\pi}{6}$ ; $225^\\circ = \\frac{5\\pi}{4}$ ; $-60^\\circ = -\\frac{\\pi}{3}$.
+
+**2.** On multiplie par $\\frac{180}{\\pi}$ : $\\frac{7\\pi}{6} = 210^\\circ$ et $\\frac{5\\pi}{4} = 225^\\circ$.
+
+**3.** $\\frac{17\\pi}{6} = \\frac{5\\pi}{6} + \\frac{12\\pi}{6} = \\frac{5\\pi}{6} + 2\\pi$ : la mesure principale est $\\frac{5\\pi}{6}$.
+
+$-\\frac{13\\pi}{4} = \\frac{3\\pi}{4} - \\frac{16\\pi}{4} = \\frac{3\\pi}{4} - 4\\pi$ : la mesure principale est $\\frac{3\\pi}{4}$.
+
+**4.** Un réel et sa mesure principale sont associés au même point du cercle.
+
+$\\cos \\frac{17\\pi}{6} = \\cos \\frac{5\\pi}{6} = -\\frac{\\sqrt{3}}{2}$ et $\\sin \\frac{17\\pi}{6} = \\sin \\frac{5\\pi}{6} = \\frac{1}{2}$.
+
+$\\cos\\left(-\\frac{13\\pi}{4}\\right) = \\cos \\frac{3\\pi}{4} = -\\frac{\\sqrt{2}}{2}$ et $\\sin\\left(-\\frac{13\\pi}{4}\\right) = \\sin \\frac{3\\pi}{4} = \\frac{\\sqrt{2}}{2}$.` },
+    { id: "1G1-ds-14", title: "Équations trigonométriques de base", difficulty: 2, points: 5,
+      statement: `Dans cet exercice, on s'aidera d'un cercle trigonométrique.
+
+1. Résoudre dans $]-\\pi ; \\pi]$ l'équation $\\cos x = -\\dfrac{1}{2}$.
+2. Résoudre dans $]-\\pi ; \\pi]$ l'équation $\\sin x = \\dfrac{\\sqrt{2}}{2}$.
+3. Résoudre dans $]-\\pi ; \\pi]$ les équations $\\cos x = 0$ et $\\sin x = -1$.
+4. Résoudre dans $[0 ; 2\\pi[$ l'équation $\\cos x = -\\dfrac{1}{2}$. Comparer avec la question 1.
+5. Résoudre dans $]-\\pi ; \\pi]$ l'équation $\\cos x = \\sin x$. (On pourra chercher les points du cercle situés sur la droite d'équation $y = x$.)`,
+      solution: `**1.** $\\cos \\frac{2\\pi}{3} = -\\frac{1}{2}$. Les points du cercle d'abscisse $-\\frac{1}{2}$ sont symétriques par rapport à l'axe des abscisses : $\\mathcal{S} = \\left\\{-\\frac{2\\pi}{3} ; \\frac{2\\pi}{3}\\right\\}$.
+
+**2.** $\\sin \\frac{\\pi}{4} = \\frac{\\sqrt{2}}{2}$. Les points d'ordonnée $\\frac{\\sqrt{2}}{2}$ sont symétriques par rapport à l'axe des ordonnées : $\\mathcal{S} = \\left\\{\\frac{\\pi}{4} ; \\frac{3\\pi}{4}\\right\\}$.
+
+**3.** $\\cos x = 0$ : $\\mathcal{S} = \\left\\{-\\frac{\\pi}{2} ; \\frac{\\pi}{2}\\right\\}$. $\\sin x = -1$ : $\\mathcal{S} = \\left\\{-\\frac{\\pi}{2}\\right\\}$.
+
+**4.** Dans $[0 ; 2\\pi[$, le point associé à $-\\frac{2\\pi}{3}$ correspond à $-\\frac{2\\pi}{3} + 2\\pi = \\frac{4\\pi}{3}$ : $\\mathcal{S} = \\left\\{\\frac{2\\pi}{3} ; \\frac{4\\pi}{3}\\right\\}$. Ce sont les mêmes points du cercle, repérés par d'autres réels.
+
+**5.** Les points du cercle vérifiant $\\cos x = \\sin x$ sont sur la droite $y = x$ : ce sont les points associés à $\\frac{\\pi}{4}$ (coordonnées $\\frac{\\sqrt{2}}{2}$ ; $\\frac{\\sqrt{2}}{2}$) et à $-\\frac{3\\pi}{4}$ (coordonnées $-\\frac{\\sqrt{2}}{2}$ ; $-\\frac{\\sqrt{2}}{2}$). $\\mathcal{S} = \\left\\{-\\frac{3\\pi}{4} ; \\frac{\\pi}{4}\\right\\}$.` },
+    { id: "1G1-ds-15", title: "Inéquations trigonométriques sur le cercle", difficulty: 3, points: 6,
+      statement: `On s'aidera d'un cercle trigonométrique, sur lequel on hachurera les arcs solutions.
+
+1. Résoudre dans $[0 ; 2\\pi[$ l'inéquation $\\sin x \\geqslant \\dfrac{1}{2}$.
+2. Résoudre dans $]-\\pi ; \\pi]$ l'inéquation $\\cos x > \\dfrac{\\sqrt{2}}{2}$.
+3. Résoudre dans $[0 ; 2\\pi[$ l'inéquation $\\cos x < \\dfrac{\\sqrt{3}}{2}$.
+4. a) Résoudre dans $]-\\pi ; \\pi]$ l'équation $2\\sin x + 1 = 0$.
+ b) En déduire les solutions dans $]-\\pi ; \\pi]$ de l'inéquation $2\\sin x + 1 < 0$.
+5. Une roue tourne ; la hauteur (en m) d'une nacelle repérée par l'angle $x$ est $h = 10 + 8\\sin x$. Pour quelles valeurs de $x \\in [0 ; 2\\pi[$ la nacelle est-elle à au moins $14$ m de hauteur ?`,
+      solution: `**1.** $\\sin x = \\frac{1}{2}$ pour $x = \\frac{\\pi}{6}$ et $x = \\frac{5\\pi}{6}$. Les points d'ordonnée supérieure ou égale à $\\frac{1}{2}$ forment l'arc supérieur entre ces deux points : $\\mathcal{S} = \\left[\\frac{\\pi}{6} ; \\frac{5\\pi}{6}\\right]$.
+
+**2.** $\\cos x = \\frac{\\sqrt{2}}{2}$ pour $x = \\pm\\frac{\\pi}{4}$. Les points d'abscisse strictement supérieure à $\\frac{\\sqrt{2}}{2}$ forment l'arc de droite : $\\mathcal{S} = \\left]-\\frac{\\pi}{4} ; \\frac{\\pi}{4}\\right[$.
+
+**3.** $\\cos x = \\frac{\\sqrt{3}}{2}$ pour $x = \\frac{\\pi}{6}$ et $x = \\frac{11\\pi}{6}$ dans $[0 ; 2\\pi[$. On garde les points d'abscisse strictement inférieure, c'est-à-dire l'arc de gauche : $\\mathcal{S} = \\left]\\frac{\\pi}{6} ; \\frac{11\\pi}{6}\\right[$.
+
+**4. a)** $\\sin x = -\\frac{1}{2}$ : $\\mathcal{S} = \\left\\{-\\frac{5\\pi}{6} ; -\\frac{\\pi}{6}\\right\\}$.
+
+**b)** $\\sin x < -\\frac{1}{2}$ : arc inférieur strictement entre ces deux points : $\\mathcal{S} = \\left]-\\frac{5\\pi}{6} ; -\\frac{\\pi}{6}\\right[$.
+
+**5.** $10 + 8\\sin x \\geqslant 14 \\iff \\sin x \\geqslant \\frac{1}{2} \\iff x \\in \\left[\\frac{\\pi}{6} ; \\frac{5\\pi}{6}\\right]$ d'après la question 1. La nacelle est au-dessus de $14$ m pendant un tiers du tour ($\\frac{5\\pi}{6} - \\frac{\\pi}{6} = \\frac{2\\pi}{3}$).` },
+    { id: "1G1-ds-16", title: "Équations du second degré en cosinus", difficulty: 4, points: 7,
+      statement: `On rappelle que pour tout réel $x$, $\\cos^2 x + \\sin^2 x = 1$.
+
+1. a) Résoudre dans $\\mathbb{R}$ l'équation $2X^2 - X - 1 = 0$.
+ b) En posant $X = \\cos x$, résoudre dans $]-\\pi ; \\pi]$ l'équation $2\\cos^2 x - \\cos x - 1 = 0$.
+ c) Résoudre dans $]-\\pi ; \\pi]$ l'inéquation $2\\cos^2 x - \\cos x - 1 \\leqslant 0$. (On utilisera le signe du trinôme $2X^2 - X - 1$ et le fait que $\\cos x \\leqslant 1$.)
+2. a) Montrer que l'équation $2\\sin^2 x + 3\\cos x = 0$ équivaut à $2\\cos^2 x - 3\\cos x - 2 = 0$.
+ b) Résoudre cette équation dans $]-\\pi ; \\pi]$.
+ c) Vérifier l'une des solutions trouvées dans l'équation de départ.
+3. Montrer que l'équation $\\cos^2 x + \\cos x + 1 = 0$ n'a pas de solution réelle.`,
+      solution: `**1. a)** $\\Delta = 1 + 8 = 9$ ; racines $\\frac{1 - 3}{4} = -\\frac{1}{2}$ et $\\frac{1 + 3}{4} = 1$.
+
+**b)** $\\cos x = 1$ ou $\\cos x = -\\frac{1}{2}$. Dans $]-\\pi ; \\pi]$ : $\\cos x = 1 \\iff x = 0$ ; $\\cos x = -\\frac{1}{2} \\iff x = \\pm\\frac{2\\pi}{3}$. $\\mathcal{S} = \\left\\{-\\frac{2\\pi}{3} ; 0 ; \\frac{2\\pi}{3}\\right\\}$.
+
+**c)** $2X^2 - X - 1 \\leqslant 0 \\iff -\\frac{1}{2} \\leqslant X \\leqslant 1$ ($a > 0$, négatif entre les racines). Comme $\\cos x \\leqslant 1$ toujours, l'inéquation équivaut à $\\cos x \\geqslant -\\frac{1}{2}$, c'est-à-dire à l'arc de droite limité par $\\pm\\frac{2\\pi}{3}$ : $\\mathcal{S} = \\left[-\\frac{2\\pi}{3} ; \\frac{2\\pi}{3}\\right]$.
+
+**2. a)** $\\sin^2 x = 1 - \\cos^2 x$ : $2 - 2\\cos^2 x + 3\\cos x = 0 \\iff 2\\cos^2 x - 3\\cos x - 2 = 0$.
+
+**b)** $2X^2 - 3X - 2 = 0$ : $\\Delta = 9 + 16 = 25$, racines $\\frac{3 - 5}{4} = -\\frac{1}{2}$ et $\\frac{3 + 5}{4} = 2$. Or $\\cos x = 2$ est impossible ($\\cos x \\leqslant 1$). Il reste $\\cos x = -\\frac{1}{2}$ : $\\mathcal{S} = \\left\\{-\\frac{2\\pi}{3} ; \\frac{2\\pi}{3}\\right\\}$.
+
+**c)** Pour $x = \\frac{2\\pi}{3}$ : $\\sin^2 x = \\frac{3}{4}$ et $\\cos x = -\\frac{1}{2}$, donc $2 \\times \\frac{3}{4} + 3 \\times \\left(-\\frac{1}{2}\\right) = \\frac{3}{2} - \\frac{3}{2} = 0$. ✓
+
+**3.** Le trinôme $X^2 + X + 1$ a pour discriminant $1 - 4 = -3 < 0$ : il ne s'annule pour aucun réel $X$, en particulier pour aucune valeur $X = \\cos x$. L'équation n'a pas de solution.` }
   ],
   "1G2": [
     { id: "1G2-ds-01", title: "Produit scalaire en coordonnées", difficulty: 1, points: 4,
@@ -2031,7 +2696,96 @@ Les médianes (vecteurs non nuls) sont perpendiculaires $\\iff \\overrightarrow{
 
 **5.** $AB^2 = AC^2 = 1 + a^2$ et $BC^2 = 4$. La condition s'écrit $2 + 2a^2 = 20$, soit $a^2 = 9$, donc $a = 3$.
 
-Vérification : $A(0 ; 3)$, $I\\left(\\frac{1}{2} ; \\frac{3}{2}\\right)$, $J\\left(-\\frac{1}{2} ; \\frac{3}{2}\\right)$, $\\overrightarrow{BI}\\left(\\frac{3}{2} ; \\frac{3}{2}\\right)$, $\\overrightarrow{CJ}\\left(-\\frac{3}{2} ; \\frac{3}{2}\\right)$ et $\\overrightarrow{BI} \\cdot \\overrightarrow{CJ} = -\\frac{9}{4} + \\frac{9}{4} = 0$.` }
+Vérification : $A(0 ; 3)$, $I\\left(\\frac{1}{2} ; \\frac{3}{2}\\right)$, $J\\left(-\\frac{1}{2} ; \\frac{3}{2}\\right)$, $\\overrightarrow{BI}\\left(\\frac{3}{2} ; \\frac{3}{2}\\right)$, $\\overrightarrow{CJ}\\left(-\\frac{3}{2} ; \\frac{3}{2}\\right)$ et $\\overrightarrow{BI} \\cdot \\overrightarrow{CJ} = -\\frac{9}{4} + \\frac{9}{4} = 0$.` },
+{ id: "1G2-ds-13", title: "Produits scalaires dans un rectangle", difficulty: 1, points: 4,
+      statement: `$ABCD$ est un rectangle tel que $AB = 4$ et $AD = 3$.
+
+1. Calculer $\\overrightarrow{AB} \\cdot \\overrightarrow{AD}$.
+2. En utilisant le projeté orthogonal de $C$ sur la droite $(AB)$, calculer $\\overrightarrow{AB} \\cdot \\overrightarrow{AC}$.
+3. Calculer $\\overrightarrow{AB} \\cdot \\overrightarrow{CD}$.
+4. En écrivant $\\overrightarrow{AC} = \\overrightarrow{AB} + \\overrightarrow{AD}$ et $\\overrightarrow{BD} = \\overrightarrow{AD} - \\overrightarrow{AB}$, calculer $\\overrightarrow{AC} \\cdot \\overrightarrow{BD}$. Les diagonales du rectangle sont-elles perpendiculaires ?`,
+      solution: `**1.** Les vecteurs $\\overrightarrow{AB}$ et $\\overrightarrow{AD}$ sont orthogonaux : $\\overrightarrow{AB} \\cdot \\overrightarrow{AD} = 0$.
+
+**2.** Le projeté orthogonal de $C$ sur $(AB)$ est $B$ : $\\overrightarrow{AB} \\cdot \\overrightarrow{AC} = \\overrightarrow{AB} \\cdot \\overrightarrow{AB} = AB^2 = 16$.
+
+**3.** $\\overrightarrow{CD} = -\\overrightarrow{AB}$ : $\\overrightarrow{AB} \\cdot \\overrightarrow{CD} = -AB^2 = -16$.
+
+**4.** Par bilinéarité :
+$$\\overrightarrow{AC} \\cdot \\overrightarrow{BD} = \\left(\\overrightarrow{AB} + \\overrightarrow{AD}\\right) \\cdot \\left(\\overrightarrow{AD} - \\overrightarrow{AB}\\right) = AD^2 - AB^2 + \\overrightarrow{AD} \\cdot \\overrightarrow{AB} - \\overrightarrow{AB} \\cdot \\overrightarrow{AD} = 9 - 16 = -7.$$
+Ce produit scalaire n'est pas nul : les diagonales ne sont pas perpendiculaires (elles le seraient si $AB = AD$, c'est-à-dire pour un carré).` },
+    { id: "1G2-ds-14", title: "Orthogonalité et paramètre", difficulty: 2, points: 5,
+      statement: `Le plan est muni d'un repère orthonormé. $m$ désigne un réel.
+
+1. On considère $\\vec{u}(m ; 2)$ et $\\vec{v}(3 ; m - 5)$. Déterminer $m$ pour que $\\vec{u}$ et $\\vec{v}$ soient orthogonaux.
+2. On considère $\\vec{a}(m ; m + 1)$ et $\\vec{b}(m ; -2)$.
+ a) Montrer que $\\vec{a} \\cdot \\vec{b} = m^2 - 2m - 2$.
+ b) Déterminer les valeurs de $m$ pour lesquelles $\\vec{a}$ et $\\vec{b}$ sont orthogonaux.
+3. Soient $A(1 ; 2)$, $B(4 ; 3)$ et $C(m ; 0)$. Déterminer $m$ pour que le triangle $ABC$ soit rectangle en $B$.
+4. Avec les points de la question 3, peut-on trouver $m$ tel que $ABC$ soit rectangle en $C$ ?`,
+      solution: `**1.** $\\vec{u} \\cdot \\vec{v} = 3m + 2(m - 5) = 5m - 10$. Orthogonaux $\\iff 5m - 10 = 0 \\iff m = 2$.
+
+**2. a)** $\\vec{a} \\cdot \\vec{b} = m \\times m + (m + 1)(-2) = m^2 - 2m - 2$.
+
+**b)** $\\Delta = 4 + 8 = 12$, $\\sqrt{12} = 2\\sqrt{3}$ : $m = \\frac{2 \\pm 2\\sqrt{3}}{2} = 1 \\pm \\sqrt{3}$.
+
+**3.** $\\overrightarrow{BA}(-3 ; -1)$ et $\\overrightarrow{BC}(m - 4 ; -3)$. Rectangle en $B$ $\\iff \\overrightarrow{BA} \\cdot \\overrightarrow{BC} = 0 \\iff -3(m - 4) + 3 = 0 \\iff m = 5$.
+
+**4.** $\\overrightarrow{CA}(1 - m ; 2)$ et $\\overrightarrow{CB}(4 - m ; 3)$ :
+$$\\overrightarrow{CA} \\cdot \\overrightarrow{CB} = (1 - m)(4 - m) + 6 = m^2 - 5m + 10.$$
+$\\Delta = 25 - 40 = -15 < 0$ : ce produit ne s'annule jamais. Aucun point $C$ de l'axe des abscisses ne rend $ABC$ rectangle en $C$ (le cercle de diamètre $[AB]$ ne coupe pas cet axe).` },
+    { id: "1G2-ds-15", title: "Produits scalaires dans un hexagone régulier", difficulty: 3, points: 6,
+      statement: `$ABCDEF$ est un hexagone régulier de centre $O$ et de côté $1$. On rappelle que les triangles $OAB$, $OBC$, …, $OFA$ sont équilatéraux.
+
+1. Justifier que $AD = 2$, puis que $\\widehat{BAD} = 60^\\circ$.
+2. Justifier que le triangle $ACD$ est rectangle en $C$ et que $AC = \\sqrt{3}$.
+3. Calculer les produits scalaires suivants :
+ a) $\\overrightarrow{AB} \\cdot \\overrightarrow{AD}$ ;
+ b) $\\overrightarrow{AB} \\cdot \\overrightarrow{AF}$ (on rappelle que les angles intérieurs d'un hexagone régulier mesurent $120^\\circ$) ;
+ c) $\\overrightarrow{AC} \\cdot \\overrightarrow{AD}$ (par projection).
+4. En remarquant que $\\overrightarrow{AC} = \\overrightarrow{AB} + \\overrightarrow{BC}$ et que $\\overrightarrow{BC} = \\overrightarrow{AO}$, calculer $\\overrightarrow{AB} \\cdot \\overrightarrow{AC}$.
+5. Montrer que $\\overrightarrow{AB} \\cdot \\overrightarrow{AE} = 0$. Que peut-on en déduire ?`,
+      solution: `**1.** $[AD]$ est une grande diagonale : $AD = AO + OD = 1 + 1 = 2$, et $B$, $A$, $O$ forment un triangle équilatéral, donc $\\widehat{BAD} = \\widehat{BAO} = 60^\\circ$.
+
+**2.** $C$ est sur le cercle de centre $O$ et de diamètre $[AD]$ : $ACD$ est rectangle en $C$. Avec $CD = 1$ : $AC^2 = AD^2 - CD^2 = 4 - 1 = 3$, donc $AC = \\sqrt{3}$.
+
+**3. a)** $\\overrightarrow{AB} \\cdot \\overrightarrow{AD} = AB \\times AD \\times \\cos 60^\\circ = 1 \\times 2 \\times \\frac{1}{2} = 1$.
+
+**b)** $\\overrightarrow{AB} \\cdot \\overrightarrow{AF} = 1 \\times 1 \\times \\cos 120^\\circ = -\\frac{1}{2}$.
+
+**c)** Le projeté orthogonal de $D$ sur $(AC)$ est $C$ (angle droit en $C$) : $\\overrightarrow{AC} \\cdot \\overrightarrow{AD} = AC^2 = 3$.
+
+**4.** $\\overrightarrow{AB} \\cdot \\overrightarrow{AC} = \\overrightarrow{AB} \\cdot \\overrightarrow{AB} + \\overrightarrow{AB} \\cdot \\overrightarrow{AO} = 1 + 1 \\times 1 \\times \\cos 60^\\circ = 1 + \\frac{1}{2} = \\frac{3}{2}$.
+
+**5.** $\\overrightarrow{AE} = \\overrightarrow{AF} + \\overrightarrow{FE}$ et $\\overrightarrow{FE} = \\overrightarrow{AO}$ (le quadrilatère $AOEF$ est un losange). Donc
+$$\\overrightarrow{AB} \\cdot \\overrightarrow{AE} = \\overrightarrow{AB} \\cdot \\overrightarrow{AF} + \\overrightarrow{AB} \\cdot \\overrightarrow{AO} = -\\frac{1}{2} + \\frac{1}{2} = 0.$$
+Les droites $(AB)$ et $(AE)$ sont perpendiculaires : l'angle $\\widehat{BAE}$ est droit.` },
+    { id: "1G2-ds-16", title: "Diagonales d'un parallélogramme : losange ou rectangle ?", difficulty: 4, points: 7,
+      statement: `$ABCD$ est un parallélogramme. On pose $\\vec{u} = \\overrightarrow{AB}$ et $\\vec{v} = \\overrightarrow{AD}$.
+
+1. Exprimer $\\overrightarrow{AC}$ et $\\overrightarrow{DB}$ en fonction de $\\vec{u}$ et $\\vec{v}$.
+2. a) Démontrer que $\\left(\\vec{u} + \\vec{v}\\right) \\cdot \\left(\\vec{u} - \\vec{v}\\right) = \\|\\vec{u}\\|^2 - \\|\\vec{v}\\|^2$.
+ b) En déduire que les diagonales de $ABCD$ sont perpendiculaires si et seulement si $ABCD$ est un losange.
+3. a) Démontrer que $\\|\\vec{u} + \\vec{v}\\|^2 - \\|\\vec{u} - \\vec{v}\\|^2 = 4\\,\\vec{u} \\cdot \\vec{v}$.
+ b) En déduire que les diagonales de $ABCD$ ont la même longueur si et seulement si $ABCD$ est un rectangle.
+4. Application, dans un repère orthonormé : $A(0 ; 0)$, $B(3 ; 1)$, $D(1 ; 3)$.
+ a) Déterminer les coordonnées de $C$.
+ b) Calculer $\\vec{u} \\cdot \\vec{v}$, $\\|\\vec{u}\\|$ et $\\|\\vec{v}\\|$. Quelle est la nature de $ABCD$ ?
+ c) Vérifier la relation de la question 3 a) en calculant $AC^2$ et $DB^2$.`,
+      solution: `**1.** $\\overrightarrow{AC} = \\overrightarrow{AB} + \\overrightarrow{BC} = \\vec{u} + \\vec{v}$ et $\\overrightarrow{DB} = \\overrightarrow{DA} + \\overrightarrow{AB} = \\vec{u} - \\vec{v}$.
+
+**2. a)** Par bilinéarité et symétrie : $\\vec{u} \\cdot \\vec{u} - \\vec{u} \\cdot \\vec{v} + \\vec{v} \\cdot \\vec{u} - \\vec{v} \\cdot \\vec{v} = \\|\\vec{u}\\|^2 - \\|\\vec{v}\\|^2$.
+
+**b)** Diagonales perpendiculaires $\\iff \\overrightarrow{AC} \\cdot \\overrightarrow{DB} = 0 \\iff AB^2 = AD^2 \\iff AB = AD$. Un parallélogramme ayant deux côtés consécutifs égaux est un losange.
+
+**3. a)** $\\|\\vec{u} + \\vec{v}\\|^2 = \\|\\vec{u}\\|^2 + 2\\vec{u} \\cdot \\vec{v} + \\|\\vec{v}\\|^2$ et $\\|\\vec{u} - \\vec{v}\\|^2 = \\|\\vec{u}\\|^2 - 2\\vec{u} \\cdot \\vec{v} + \\|\\vec{v}\\|^2$. La différence vaut $4\\,\\vec{u} \\cdot \\vec{v}$.
+
+**b)** $AC = DB \\iff AC^2 - DB^2 = 0 \\iff \\vec{u} \\cdot \\vec{v} = 0 \\iff (AB) \\perp (AD)$. Un parallélogramme ayant un angle droit est un rectangle.
+
+**4. a)** $\\overrightarrow{DC} = \\overrightarrow{AB}$ donne $C(1 + 3 ; 3 + 1) = (4 ; 4)$.
+
+**b)** $\\vec{u}(3 ; 1)$, $\\vec{v}(1 ; 3)$ : $\\vec{u} \\cdot \\vec{v} = 3 + 3 = 6$ ; $\\|\\vec{u}\\| = \\|\\vec{v}\\| = \\sqrt{10}$. $ABCD$ est un losange (côtés consécutifs égaux) mais pas un rectangle ($\\vec{u} \\cdot \\vec{v} \\neq 0$).
+
+**c)** $\\overrightarrow{AC}(4 ; 4)$ : $AC^2 = 32$. $\\overrightarrow{DB}(2 ; -2)$ : $DB^2 = 8$. $AC^2 - DB^2 = 24 = 4 \\times 6$. ✓ De plus $\\overrightarrow{AC} \\cdot \\overrightarrow{DB} = 8 - 8 = 0$ : diagonales perpendiculaires, comme attendu pour un losange.` }
   ],
   "1G3": [
     { id: "1G3-ds-01", title: "Al-Kashi : une longueur, un angle", difficulty: 1, points: 4, calculator: true,
@@ -2209,7 +2963,9 @@ Le point de contact est $H(4 ; -1)$ (la tangente en $H$ est perpendiculaire au r
 1. À l'aide de la formule d'Al-Kashi, calculer $\\cos\\widehat{BAC}$, puis en déduire la mesure de l'angle $\\widehat{BAC}$.
 2. Calculer $\\cos\\widehat{ABC}$ et $\\cos\\widehat{ACB}$. Vérifier qu'il s'agit de deux angles aigus.
 3. Calculer $\\overrightarrow{AB} \\cdot \\overrightarrow{AC}$.
-4. On admet que l'aire d'un triangle est $\\mathcal{A} = \\frac{1}{2}\\,AB \\times AC \\times \\sin\\widehat{BAC}$. Calculer l'aire exacte du triangle $ABC$.
+4. On note $H$ le projeté orthogonal de $C$ sur la droite $(AB)$.
+ a) Justifier que $\\overrightarrow{AB} \\cdot \\overrightarrow{AC} = \\overrightarrow{AB} \\cdot \\overrightarrow{AH}$. En déduire que $H$ n'appartient pas à la demi-droite $[AB)$, puis calculer $AH$.
+ b) Calculer $CH$, puis l'aire exacte du triangle $ABC$.
 5. En déduire la longueur exacte de la hauteur issue de $A$.`,
       solution: `**1.** Al-Kashi : $BC^2 = AB^2 + AC^2 - 2\\,AB \\times AC \\times \\cos\\widehat{BAC}$, soit $49 = 9 + 25 - 30\\cos\\widehat{BAC}$, d'où
 $$\\cos\\widehat{BAC} = \\frac{34 - 49}{30} = -\\frac{1}{2}, \\qquad \\widehat{BAC} = 120°.$$
@@ -2224,7 +2980,13 @@ Les deux cosinus sont strictement positifs : les angles sont aigus (ce qui est c
 
 *Vérification* : $\\overrightarrow{AB} \\cdot \\overrightarrow{AC} = \\frac{AB^2 + AC^2 - BC^2}{2} = \\frac{9 + 25 - 49}{2} = -\\frac{15}{2}$.
 
-**4.** $\\sin 120° = \\frac{\\sqrt{3}}{2}$, donc $\\mathcal{A} = \\frac{1}{2} \\times 3 \\times 5 \\times \\frac{\\sqrt{3}}{2} = \\frac{15\\sqrt{3}}{4}$.
+**4. a)** $\\overrightarrow{AC} = \\overrightarrow{AH} + \\overrightarrow{HC}$ et $\\overrightarrow{HC}$ est orthogonal à $\\overrightarrow{AB}$, donc $\\overrightarrow{AB} \\cdot \\overrightarrow{AC} = \\overrightarrow{AB} \\cdot \\overrightarrow{AH}$ (projection orthogonale).
+
+$H$ est sur la droite $(AB)$ ; si $H$ était sur la demi-droite $[AB)$, $\\overrightarrow{AH}$ et $\\overrightarrow{AB}$ seraient de même sens et le produit scalaire serait positif ou nul. Or il vaut $-\\frac{15}{2} < 0$ : $\\overrightarrow{AH}$ et $\\overrightarrow{AB}$ sont de sens contraires, $H$ est « derrière » $A$. Alors $\\overrightarrow{AB} \\cdot \\overrightarrow{AH} = -AB \\times AH = -3\\,AH$, d'où $AH = \\frac{15}{2} \\times \\frac{1}{3} = \\frac{5}{2}$.
+
+**b)** Le triangle $AHC$ est rectangle en $H$ : $CH^2 = AC^2 - AH^2 = 25 - \\frac{25}{4} = \\frac{75}{4}$, donc $CH = \\frac{5\\sqrt{3}}{2}$.
+
+$[CH]$ est la hauteur issue de $C$, relative à la base $[AB]$ : $\\mathcal{A} = \\frac{AB \\times CH}{2} = \\frac{1}{2} \\times 3 \\times \\frac{5\\sqrt{3}}{2} = \\frac{15\\sqrt{3}}{4}$.
 
 **5.** Avec la base $[BC]$ : $\\mathcal{A} = \\frac{BC \\times h}{2}$, donc $h = \\frac{2\\mathcal{A}}{BC} = \\frac{15\\sqrt{3}}{2 \\times 7} = \\frac{15\\sqrt{3}}{14}$.` },
     { id: "1G3-ds-12", title: "Le cercle d'Apollonius", difficulty: 4, points: 7,
@@ -2253,7 +3015,91 @@ et en divisant par $3$ : $x^2 + y^2 - 8x + 12 = 0$.
 
 Points de contact : $T_1(3 ; \\sqrt{3})$ et $T_2(3 ; -\\sqrt{3})$. Les tangentes passent par l'origine : $y = \\frac{\\sqrt{3}}{3}x$ et $y = -\\frac{\\sqrt{3}}{3}x$.
 
-(*Contrôle* : $AT_1 = \\sqrt{12}$ et $A\\Omega^2 = 16 = 12 + 4 = AT_1^2 + \\Omega T_1^2$.)` }
+(*Contrôle* : $AT_1 = \\sqrt{12}$ et $A\\Omega^2 = 16 = 12 + 4 = AT_1^2 + \\Omega T_1^2$.)` },
+{ id: "1G3-ds-13", title: "Calculer un côté face à un angle de 60°", difficulty: 1, points: 4,
+      statement: `Dans le triangle $ABC$, on donne $AB = 5$, $AC = 8$ et $\\widehat{BAC} = 60^\\circ$. Aucune calculatrice n'est nécessaire.
+
+1. Rappeler la formule d'Al-Kashi donnant $BC^2$ en fonction de $AB$, $AC$ et $\\widehat{BAC}$.
+2. Calculer $BC$.
+3. Calculer $\\cos \\widehat{ABC}$ sous forme de fraction irréductible.
+4. Calculer l'aire du triangle $ABC$, puis la hauteur issue de $A$.`,
+      solution: `**1.** $BC^2 = AB^2 + AC^2 - 2 \\times AB \\times AC \\times \\cos \\widehat{BAC}$.
+
+**2.** $BC^2 = 25 + 64 - 2 \\times 5 \\times 8 \\times \\frac{1}{2} = 89 - 40 = 49$, donc $BC = 7$.
+
+**3.** $AC^2 = AB^2 + BC^2 - 2 \\times AB \\times BC \\times \\cos \\widehat{ABC}$ : $64 = 25 + 49 - 70\\cos \\widehat{ABC}$, d'où $\\cos \\widehat{ABC} = \\frac{10}{70} = \\frac{1}{7}$.
+
+**4.** $\\mathcal{A} = \\frac{1}{2} \\times AB \\times AC \\times \\sin \\widehat{BAC} = \\frac{1}{2} \\times 5 \\times 8 \\times \\frac{\\sqrt{3}}{2} = 10\\sqrt{3}$.
+
+La hauteur $h$ issue de $A$ vérifie $\\mathcal{A} = \\frac{1}{2} \\times BC \\times h$, donc $h = \\frac{2 \\times 10\\sqrt{3}}{7} = \\frac{20\\sqrt{3}}{7}$.` },
+    { id: "1G3-ds-14", title: "Médiatrice par vecteur normal et par distances", difficulty: 2, points: 5,
+      statement: `Dans un repère orthonormé, on considère les points $A(1 ; -2)$ et $B(5 ; 4)$. On note $\\Delta$ la médiatrice du segment $[AB]$.
+
+1. Déterminer les coordonnées du milieu $I$ de $[AB]$ et du vecteur $\\overrightarrow{AB}$.
+2. Justifier que $\\overrightarrow{AB}$ est un vecteur normal à $\\Delta$, puis montrer qu'une équation de $\\Delta$ est $2x + 3y - 9 = 0$.
+3. Retrouver ce résultat autrement : écrire que $M(x ; y)$ vérifie $MA^2 = MB^2$, développer et simplifier.
+4. Déterminer le point $P$ de l'axe des ordonnées équidistant de $A$ et $B$, puis vérifier que $PA = PB$.
+5. Déterminer une équation de la droite $(AB)$ sous la forme $ax + by + c = 0$.`,
+      solution: `**1.** $I\\left(\\frac{1 + 5}{2} ; \\frac{-2 + 4}{2}\\right) = (3 ; 1)$ et $\\overrightarrow{AB}(4 ; 6)$.
+
+**2.** $\\Delta$ est perpendiculaire à $(AB)$ en $I$ : $\\overrightarrow{AB}(4 ; 6)$ est normal à $\\Delta$, qui a une équation $4x + 6y + c = 0$. $I \\in \\Delta$ : $12 + 6 + c = 0$, $c = -18$. En divisant par $2$ : $2x + 3y - 9 = 0$.
+
+**3.** $MA^2 = MB^2 \\iff (x - 1)^2 + (y + 2)^2 = (x - 5)^2 + (y - 4)^2$
+$\\iff -2x + 1 + 4y + 4 = -10x + 25 - 8y + 16$
+$\\iff 8x + 12y - 36 = 0 \\iff 2x + 3y - 9 = 0$.
+
+**4.** $x = 0$ : $3y = 9$, $y = 3$. $P(0 ; 3)$. $PA^2 = 1 + 25 = 26$ et $PB^2 = 25 + 1 = 26$ : $PA = PB = \\sqrt{26}$.
+
+**5.** $\\overrightarrow{AB}(4 ; 6)$, ou $(2 ; 3)$, est directeur de $(AB)$ ; le vecteur $\\vec{n}(3 ; -2)$ lui est orthogonal ($6 - 6 = 0$), donc normal à $(AB)$ : $3x - 2y + c = 0$. Avec $A$ : $3 + 4 + c = 0$, $c = -7$. $(AB) : 3x - 2y - 7 = 0$ (vérification avec $B$ : $15 - 8 - 7 = 0$).` },
+    { id: "1G3-ds-15", title: "Un cercle, une sécante et deux tangentes", difficulty: 3, points: 6,
+      statement: `Dans un repère orthonormé, on considère l'ensemble $\\mathcal{C}$ des points $M(x ; y)$ tels que $x^2 + y^2 - 2x - 4y - 20 = 0$, et la droite $d$ d'équation $x + y - 10 = 0$.
+
+1. Montrer que $\\mathcal{C}$ est un cercle dont on précisera le centre $\\Omega$ et le rayon.
+2. Déterminer les coordonnées des points d'intersection $E$ et $F$ de $\\mathcal{C}$ et $d$ (on notera $E$ celui de plus petite abscisse).
+3. a) Déterminer une équation de la tangente $T_E$ à $\\mathcal{C}$ en $E$.
+ b) Déterminer de même une équation de la tangente $T_F$ en $F$.
+4. Déterminer les coordonnées du point d'intersection $K$ de $T_E$ et $T_F$.
+5. Vérifier que $K$ appartient à la droite $(\\Omega H)$, où $H$ est le milieu de $[EF]$. Pouvait-on le prévoir ?`,
+      solution: `**1.** $x^2 - 2x + y^2 - 4y - 20 = (x - 1)^2 - 1 + (y - 2)^2 - 4 - 20$, donc l'équation équivaut à $(x - 1)^2 + (y - 2)^2 = 25$ : cercle de centre $\\Omega(1 ; 2)$ et de rayon $5$.
+
+**2.** $y = 10 - x$ : $(x - 1)^2 + (8 - x)^2 = 25 \\iff 2x^2 - 18x + 65 = 25 \\iff x^2 - 9x + 20 = 0 \\iff x = 4$ ou $x = 5$. Donc $E(4 ; 6)$ et $F(5 ; 5)$.
+
+**3. a)** $T_E$ est perpendiculaire au rayon $[\\Omega E]$ : $\\overrightarrow{\\Omega E}(3 ; 4)$ est normal. $M \\in T_E \\iff \\overrightarrow{\\Omega E} \\cdot \\overrightarrow{EM} = 0 \\iff 3(x - 4) + 4(y - 6) = 0 \\iff 3x + 4y - 36 = 0$.
+
+**b)** $\\overrightarrow{\\Omega F}(4 ; 3)$ : $4(x - 5) + 3(y - 5) = 0 \\iff 4x + 3y - 35 = 0$.
+
+**4.** On résout $3x + 4y = 36$ et $4x + 3y = 35$. En soustrayant : $x - y = -1$ ; en ajoutant : $7x + 7y = 71$. D'où $x + y = \\frac{71}{7}$ et $y = x + 1$ : $2x + 1 = \\frac{71}{7}$, $x = \\frac{32}{7}$, $y = \\frac{39}{7}$. $K\\left(\\frac{32}{7} ; \\frac{39}{7}\\right)$.
+
+**5.** $H\\left(\\frac{9}{2} ; \\frac{11}{2}\\right)$, $\\overrightarrow{\\Omega H}\\left(\\frac{7}{2} ; \\frac{7}{2}\\right)$ et $\\overrightarrow{\\Omega K}\\left(\\frac{25}{7} ; \\frac{25}{7}\\right)$ : ces vecteurs ont des coordonnées égales deux à deux, ils sont colinéaires (tous deux colinéaires à $(1 ; 1)$). $K \\in (\\Omega H)$.
+
+On pouvait le prévoir : $\\Omega E = \\Omega F = 5$ et, les triangles $\\Omega EK$ et $\\Omega FK$ étant rectangles en $E$ et $F$, $KE^2 = \\Omega K^2 - 25 = KF^2$. Ainsi $\\Omega$, $K$ et $H$ sont tous trois sur la médiatrice de $[EF]$.` },
+    { id: "1G3-ds-16", title: "Deux cercles orthogonaux", difficulty: 4, points: 7,
+      statement: `Dans un repère orthonormé, on considère le cercle $\\mathcal{C}_1$ de centre $O(0 ; 0)$ et de rayon $5$, et le cercle $\\mathcal{C}_2$ de centre $\\Omega(7 ; 1)$ et de rayon $5$.
+
+1. Écrire une équation de chacun des deux cercles.
+2. a) Montrer que si $M(x ; y)$ appartient aux deux cercles, alors $7x + y - 25 = 0$.
+ b) En déduire les coordonnées des points d'intersection $P$ et $Q$ des deux cercles ($P$ ayant l'ordonnée positive).
+ c) Justifier que la droite $(PQ)$ est perpendiculaire à $(O\\Omega)$.
+3. a) Déterminer une équation de la tangente $T_1$ à $\\mathcal{C}_1$ en $P$ et de la tangente $T_2$ à $\\mathcal{C}_2$ en $P$.
+ b) Montrer que $T_1$ et $T_2$ sont perpendiculaires. On dit que les cercles sont **orthogonaux**.
+4. Montrer que $O\\Omega^2 = OP^2 + \\Omega P^2$ et expliquer pourquoi cette égalité traduit le résultat de la question 3 b).`,
+      solution: `**1.** $\\mathcal{C}_1 : x^2 + y^2 = 25$ ; $\\mathcal{C}_2 : (x - 7)^2 + (y - 1)^2 = 25$.
+
+**2. a)** En développant $\\mathcal{C}_2$ : $x^2 + y^2 - 14x - 2y + 50 = 25$. En soustrayant l'équation de $\\mathcal{C}_1$ : $-14x - 2y + 50 = 0$, soit $7x + y - 25 = 0$.
+
+**b)** $y = 25 - 7x$ dans $\\mathcal{C}_1$ : $x^2 + (25 - 7x)^2 = 25 \\iff 50x^2 - 350x + 600 = 0 \\iff x^2 - 7x + 12 = 0 \\iff x = 3$ ou $x = 4$. D'où $P(3 ; 4)$ et $Q(4 ; -3)$.
+
+Vérification dans $\\mathcal{C}_2$ : $(3 - 7)^2 + (4 - 1)^2 = 16 + 9 = 25$ et $(4 - 7)^2 + (-3 - 1)^2 = 9 + 16 = 25$.
+
+**c)** $(PQ)$ a pour équation $7x + y - 25 = 0$, de vecteur normal $(7 ; 1) = \\overrightarrow{O\\Omega}$ : $(PQ) \\perp (O\\Omega)$.
+
+**3. a)** $T_1$ : normal $\\overrightarrow{OP}(3 ; 4)$, $3(x - 3) + 4(y - 4) = 0 \\iff 3x + 4y - 25 = 0$.
+
+$T_2$ : normal $\\overrightarrow{\\Omega P}(-4 ; 3)$, $-4(x - 3) + 3(y - 4) = 0 \\iff -4x + 3y = 0$.
+
+**b)** Les vecteurs normaux vérifient $(3 ; 4) \\cdot (-4 ; 3) = -12 + 12 = 0$ : ils sont orthogonaux, donc $T_1 \\perp T_2$.
+
+**4.** $O\\Omega^2 = 49 + 1 = 50$ et $OP^2 + \\Omega P^2 = 25 + 25 = 50$. Par la réciproque du théorème de Pythagore, $OP\\Omega$ est rectangle en $P$ : $(OP) \\perp (\\Omega P)$. Or $T_1 \\perp (OP)$ et $T_2 \\perp (\\Omega P)$ ; deux droites respectivement perpendiculaires à deux droites perpendiculaires sont perpendiculaires. Ainsi $T_1$ est la droite $(\\Omega P)$ et $T_2$ la droite $(OP)$ : chaque tangente passe par le centre de l'autre cercle.` }
   ],
   "1S1": [
     { id: "1S1-ds-01", title: "Tableau croisé et indépendance", difficulty: 1, points: 4,
@@ -2480,10 +3326,12 @@ $$0{,}3 \\times 0{,}4 + 0{,}7 \\times 0{,}6 = 0{,}12 + 0{,}42 = 0{,}54.$$
       statement: `Une urne contient $2$ boules rouges et $1$ boule bleue. On tire une boule au hasard, on note sa couleur, puis on la remet dans l'urne **en ajoutant une boule de la même couleur**. On effectue ensuite un second tirage. On note $R_1$ (resp. $R_2$) l'événement « la boule tirée au premier (resp. second) tirage est rouge ».
 
 1. Construire un arbre pondéré décrivant les deux tirages.
-2. Calculer $P(R_1 \\cap R_2)$, puis montrer que $P(R_2) = \\frac{2}{3}$. Comparer avec $P(R_1)$.
+2. Calculer $P(R_1 \\cap R_2)$ et $P(\\overline{R_1} \\cap R_2)$, puis, à l'aide de la formule des probabilités totales, montrer que $P(R_2) = \\frac{2}{3}$. Comparer avec $P(R_1)$.
 3. Le second tirage a donné une boule rouge. Quelle est la probabilité que la première boule ait été rouge ?
 4. Les événements $R_1$ et $R_2$ sont-ils indépendants ?
-5. **Généralisation.** L'urne contient au départ $a$ boules rouges et $b$ boules bleues ($a, b$ entiers naturels non nuls), avec la même règle. Montrer que $P(R_2) = \\frac{a}{a + b}$.`,
+5. **Généralisation.** L'urne contient au départ $a$ boules rouges et $b$ boules bleues ($a$, $b$ entiers naturels non nuls), avec la même règle.
+ a) Reproduire l'arbre de la question 1 avec ces nouvelles données : préciser $P(R_1)$, $P_{R_1}(R_2)$ et $P_{\\overline{R_1}}(R_2)$.
+ b) En déduire $P(R_2)$ et montrer, en factorisant le numérateur par $a$, que $P(R_2) = \\frac{a}{a + b}$.`,
       solution: `**1.** Au premier tirage : $P(R_1) = \\frac{2}{3}$, $P(\\overline{R_1}) = \\frac{1}{3}$.
 - Après une rouge, l'urne contient $3$ rouges et $1$ bleue : $P_{R_1}(R_2) = \\frac{3}{4}$.
 - Après une bleue, elle contient $2$ rouges et $2$ bleues : $P_{\\overline{R_1}}(R_2) = \\frac{2}{4} = \\frac{1}{2}$.
@@ -2496,8 +3344,99 @@ On remarque que $P(R_2) = P(R_1)$ : la probabilité de tirer rouge est la même 
 
 **4.** $P(R_1) \\times P(R_2) = \\frac{4}{9} \\neq \\frac{1}{2} = P(R_1 \\cap R_2)$ : ils ne sont pas indépendants (une rouge au premier tirage rend une rouge plus probable au second).
 
-**5.** $P(R_1) = \\frac{a}{a + b}$ ; après une rouge, l'urne contient $a + 1$ rouges sur $a + b + 1$ boules ; après une bleue, $a$ rouges sur $a + b + 1$. Donc
-$$P(R_2) = \\frac{a}{a + b} \\times \\frac{a + 1}{a + b + 1} + \\frac{b}{a + b} \\times \\frac{a}{a + b + 1} = \\frac{a(a + 1 + b)}{(a + b)(a + b + 1)} = \\frac{a}{a + b}.$$` }
+**5. a)** $P(R_1) = \\frac{a}{a + b}$ ; après une rouge, l'urne contient $a + 1$ rouges sur $a + b + 1$ boules ; après une bleue, $a$ rouges sur $a + b + 1$ : $P_{R_1}(R_2) = \\frac{a + 1}{a + b + 1}$ et $P_{\\overline{R_1}}(R_2) = \\frac{a}{a + b + 1}$.
+
+**b)** Par la formule des probabilités totales :
+$$P(R_2) = \\frac{a}{a + b} \\times \\frac{a + 1}{a + b + 1} + \\frac{b}{a + b} \\times \\frac{a}{a + b + 1} = \\frac{a(a + 1 + b)}{(a + b)(a + b + 1)} = \\frac{a}{a + b}.$$` },
+{ id: "1S1-ds-13", title: "Entrée et dessert au restaurant", difficulty: 1, points: 4,
+      statement: `Dans un restaurant, $60\\,\\%$ des clients prennent une entrée. Parmi ceux qui prennent une entrée, $30\\,\\%$ prennent un dessert ; parmi ceux qui ne prennent pas d'entrée, $70\\,\\%$ prennent un dessert. On choisit un client au hasard et on note $E$ l'événement « le client prend une entrée » et $D$ l'événement « le client prend un dessert ».
+
+1. Construire un arbre pondéré décrivant la situation.
+2. Calculer $P(E \\cap D)$ et interpréter.
+3. Montrer que $P(D) = 0{,}46$.
+4. Le client a pris un dessert. Quelle est la probabilité qu'il ait pris une entrée ? (On donnera une fraction irréductible.)
+5. Les événements $E$ et $D$ sont-ils indépendants ?`,
+      solution: `**1.** Premier niveau : $P(E) = 0{,}6$ et $P(\\overline{E}) = 0{,}4$. Second niveau : $P_E(D) = 0{,}3$, $P_E(\\overline{D}) = 0{,}7$ ; $P_{\\overline{E}}(D) = 0{,}7$, $P_{\\overline{E}}(\\overline{D}) = 0{,}3$.
+
+**2.** $P(E \\cap D) = P(E) \\times P_E(D) = 0{,}6 \\times 0{,}3 = 0{,}18$ : $18\\,\\%$ des clients prennent une entrée et un dessert.
+
+**3.** Formule des probabilités totales ($E$ et $\\overline{E}$ forment une partition) :
+$$P(D) = 0{,}18 + P(\\overline{E}) \\times P_{\\overline{E}}(D) = 0{,}18 + 0{,}4 \\times 0{,}7 = 0{,}18 + 0{,}28 = 0{,}46.$$
+
+**4.** $P_D(E) = \\frac{P(E \\cap D)}{P(D)} = \\frac{0{,}18}{0{,}46} = \\frac{18}{46} = \\frac{9}{23}$.
+
+**5.** $P(E) \\times P(D) = 0{,}6 \\times 0{,}46 = 0{,}276 \\neq 0{,}18 = P(E \\cap D)$ : $E$ et $D$ ne sont pas indépendants. (On le voyait déjà : $P_E(D) = 0{,}3 \\neq P(D)$.)` },
+    { id: "1S1-ds-14", title: "Deux tirages sans remise : remonter le temps", difficulty: 2, points: 5,
+      statement: `Une urne contient $3$ boules rouges et $2$ boules bleues. On tire successivement et **sans remise** deux boules. On note $R_1$ (respectivement $R_2$) l'événement « la première (respectivement la deuxième) boule est rouge ».
+
+1. Construire un arbre pondéré de l'expérience.
+2. Calculer $P(R_1 \\cap R_2)$.
+3. Calculer $P(R_2)$. Comparer avec $P(R_1)$ et commenter.
+4. Sachant que la deuxième boule tirée est rouge, quelle est la probabilité que la première l'ait été aussi ?
+5. Calculer la probabilité de tirer deux boules de la même couleur.`,
+      solution: `**1.** $P(R_1) = \\frac{3}{5}$, $P(\\overline{R_1}) = \\frac{2}{5}$. Si $R_1$ est réalisé, il reste $2$ rouges et $2$ bleues : $P_{R_1}(R_2) = \\frac{2}{4} = \\frac{1}{2}$. Sinon, il reste $3$ rouges et $1$ bleue : $P_{\\overline{R_1}}(R_2) = \\frac{3}{4}$.
+
+**2.** $P(R_1 \\cap R_2) = \\frac{3}{5} \\times \\frac{1}{2} = \\frac{3}{10}$.
+
+**3.** $P(R_2) = \\frac{3}{10} + \\frac{2}{5} \\times \\frac{3}{4} = \\frac{3}{10} + \\frac{3}{10} = \\frac{3}{5}$.
+
+$P(R_2) = P(R_1)$ : sans information sur le premier tirage, la deuxième boule a la même probabilité d'être rouge que la première (les deux positions jouent des rôles symétriques).
+
+**4.** $P_{R_2}(R_1) = \\frac{P(R_1 \\cap R_2)}{P(R_2)} = \\frac{3/10}{3/5} = \\frac{1}{2}$.
+
+**5.** $P(\\overline{R_1} \\cap \\overline{R_2}) = \\frac{2}{5} \\times \\frac{1}{4} = \\frac{1}{10}$. La probabilité cherchée vaut $\\frac{3}{10} + \\frac{1}{10} = \\frac{2}{5}$.` },
+    { id: "1S1-ds-15", title: "Retrouver une probabilité manquante", difficulty: 3, points: 6,
+      statement: `$A$ et $B$ sont deux événements d'une même expérience aléatoire. On sait que $P(A) = 0{,}5$, $P_A(B) = 0{,}6$ et $P(B) = 0{,}5$. On note $x = P_{\\overline{A}}(B)$.
+
+1. Représenter la situation par un arbre pondéré, en faisant apparaître $x$.
+2. Calculer $P(A \\cap B)$.
+3. À l'aide de la formule des probabilités totales, écrire une équation vérifiée par $x$ et la résoudre.
+4. Calculer $P_B(A)$ et $P(A \\cup B)$.
+5. Les événements $A$ et $B$ sont-ils indépendants ?
+6. On garde $P(A) = 0{,}5$ et $P_A(B) = 0{,}6$, mais $P(B)$ n'est plus connue. Quelle valeur faudrait-il donner à $P_{\\overline{A}}(B)$ pour que $A$ et $B$ soient indépendants ? Que vaut alors $P(B)$ ?`,
+      solution: `**1.** Branches : $P(A) = 0{,}5$, $P(\\overline{A}) = 0{,}5$ ; puis $P_A(B) = 0{,}6$, $P_A(\\overline{B}) = 0{,}4$ ; $P_{\\overline{A}}(B) = x$, $P_{\\overline{A}}(\\overline{B}) = 1 - x$.
+
+**2.** $P(A \\cap B) = 0{,}5 \\times 0{,}6 = 0{,}3$.
+
+**3.** $P(B) = P(A \\cap B) + P(\\overline{A} \\cap B)$ : $0{,}5 = 0{,}3 + 0{,}5x$, d'où $x = \\frac{0{,}2}{0{,}5} = 0{,}4$.
+
+**4.** $P_B(A) = \\frac{P(A \\cap B)}{P(B)} = \\frac{0{,}3}{0{,}5} = 0{,}6$.
+
+$P(A \\cup B) = P(A) + P(B) - P(A \\cap B) = 0{,}5 + 0{,}5 - 0{,}3 = 0{,}7$.
+
+**5.** $P(A) \\times P(B) = 0{,}25 \\neq 0{,}3$ : $A$ et $B$ ne sont pas indépendants.
+
+**6.** $A$ et $B$ sont indépendants si et seulement si $P_A(B) = P(B)$ (car $P(A) \\neq 0$). Or $P(B) = 0{,}3 + 0{,}5\\,P_{\\overline{A}}(B)$. On veut $0{,}3 + 0{,}5\\,P_{\\overline{A}}(B) = 0{,}6$, soit $P_{\\overline{A}}(B) = 0{,}6$ : il faut $P_{\\overline{A}}(B) = P_A(B)$. Alors $P(B) = 0{,}6$.` },
+    { id: "1S1-ds-16", title: "Indépendants deux à deux, mais pas tous ensemble", difficulty: 4, points: 7,
+      statement: `On lance deux dés équilibrés à six faces, l'un rouge et l'autre vert. On considère les événements :
+- $A$ : « le dé rouge donne un nombre pair » ;
+- $B$ : « le dé vert donne un nombre pair » ;
+- $C$ : « la somme des deux dés est paire ».
+
+1. Justifier que l'univers comporte $36$ issues équiprobables, puis calculer $P(A)$ et $P(B)$.
+2. a) Justifier que $C$ est réalisé si et seulement si les deux dés sont de même parité.
+ b) En déduire que $P(C) = \\dfrac{1}{2}$.
+3. Montrer que $A$ et $B$ sont indépendants, que $A$ et $C$ sont indépendants, et que $B$ et $C$ sont indépendants.
+4. a) Calculer $P(A \\cap B \\cap C)$ et comparer avec $P(A) \\times P(B) \\times P(C)$.
+ b) Calculer $P_{A \\cap B}(C)$. Expliquer pourquoi, intuitivement, $C$ ne peut pas être « indépendant » du couple d'informations $(A, B)$.
+5. On remplace $C$ par $C'$ : « le dé rouge donne $6$ ». Les événements $A$ et $C'$ sont-ils indépendants ?`,
+      solution: `**1.** Chaque dé a $6$ issues équiprobables, les couples (rouge, vert) sont au nombre de $6 \\times 6 = 36$ et équiprobables. $A$ correspond à $3 \\times 6 = 18$ issues : $P(A) = \\frac{1}{2}$ ; de même $P(B) = \\frac{1}{2}$.
+
+**2. a)** Pair + pair et impair + impair donnent un nombre pair ; pair + impair donne un nombre impair.
+
+**b)** $C$ : $3 \\times 3$ couples (pair, pair) et $3 \\times 3$ couples (impair, impair), soit $18$ issues : $P(C) = \\frac{18}{36} = \\frac{1}{2}$.
+
+**3.** $A \\cap B$ : $9$ issues, $P(A \\cap B) = \\frac{1}{4} = P(A)P(B)$.
+
+$A \\cap C$ : dé rouge pair et somme paire, donc dé vert pair : c'est $A \\cap B$, $P(A \\cap C) = \\frac{1}{4} = P(A)P(C)$.
+
+De même $B \\cap C = A \\cap B$ et $P(B \\cap C) = \\frac{1}{4} = P(B)P(C)$. Les trois événements sont indépendants deux à deux.
+
+**4. a)** $A \\cap B \\cap C = A \\cap B$ : $P(A \\cap B \\cap C) = \\frac{1}{4}$, alors que $P(A)P(B)P(C) = \\frac{1}{8}$.
+
+**b)** $P_{A \\cap B}(C) = \\frac{1/4}{1/4} = 1$. Connaître séparément $A$ ou $B$ ne renseigne pas sur $C$, mais connaître les deux détermine entièrement $C$ (la somme de deux pairs est paire).
+
+**5.** $C' \\subset A$, donc $A \\cap C' = C'$ et $P(A \\cap C') = \\frac{1}{6}$, alors que $P(A)P(C') = \\frac{1}{2} \\times \\frac{1}{6} = \\frac{1}{12}$. $A$ et $C'$ ne sont pas indépendants ($P_A(C') = \\frac{1}{3} \\neq \\frac{1}{6}$).` }
   ],
   "1S2": [
     { id: "1S2-ds-01", title: "Exploiter une loi de probabilité", difficulty: 1, points: 4, calculator: true,
@@ -2700,7 +3639,7 @@ $E(N) = 0{,}4 + 2 \\times 0{,}24 + 3 \\times 0{,}36 = 0{,}4 + 0{,}48 + 1{,}08 = 
 Sur un grand nombre de parties, le joueur gagne en moyenne $0{,}50$ € par partie.
 
 **4.** $E(G) > 0$ : le jeu est favorable au joueur. La somme reçue a pour espérance $10 \\times \\frac{1}{8} + 5 \\times \\frac{2}{8} = \\frac{20}{8} = 2{,}5$ € : le jeu serait équitable avec une mise de $2{,}50$ €.` },
-    { id: "1S2-ds-10", title: "Espérance et variance d'une transformation affine", difficulty: 2, points: 5,
+    { id: "1S2-ds-10", title: "Une variable transformée : espérance et variance", difficulty: 2, points: 5,
       statement: `Une variable aléatoire $X$ a la loi suivante :
 
 | $x_i$ | $1$ | $2$ | $3$ | $4$ |
@@ -2711,8 +3650,9 @@ Sur un grand nombre de parties, le joueur gagne en moyenne $0{,}50$ € par part
 2. Calculer $E(X^2)$, puis la variance $V(X)$ à l'aide de la formule $V(X) = E(X^2) - E(X)^2$.
 3. On pose $Y = 5X - 3$.
  a) Donner la loi de $Y$.
- b) Calculer directement $E(Y)$ et vérifier que $E(Y) = 5E(X) - 3$.
- c) Calculer $V(Y)$ à partir de la loi de $Y$, et comparer avec $V(X)$. En déduire l'écart-type $\\sigma(Y)$.`,
+ b) Calculer $E(Y)$ à partir de la loi de $Y$. Comparer avec $5E(X) - 3$.
+ c) Calculer $E(Y^2)$, puis $V(Y)$ à partir de la loi de $Y$. Calculer le quotient $\\dfrac{V(Y)}{V(X)}$.
+ d) Calculer l'écart-type $\\sigma(Y)$ et vérifier que, sur cet exemple, $\\sigma(Y) = 5\\,\\sigma(X)$.`,
       solution: `**1.** $E(X) = 1 \\times 0{,}1 + 2 \\times 0{,}4 + 3 \\times 0{,}3 + 4 \\times 0{,}2 = 0{,}1 + 0{,}8 + 0{,}9 + 0{,}8 = 2{,}6$.
 
 **2.** $E(X^2) = 1 \\times 0{,}1 + 4 \\times 0{,}4 + 9 \\times 0{,}3 + 16 \\times 0{,}2 = 0{,}1 + 1{,}6 + 2{,}7 + 3{,}2 = 7{,}6$.
@@ -2725,13 +3665,13 @@ $V(X) = 7{,}6 - 2{,}6^2 = 7{,}6 - 6{,}76 = 0{,}84$.
 |---|---|---|---|---|
 | $P(Y = y_i)$ | $0{,}1$ | $0{,}4$ | $0{,}3$ | $0{,}2$ |
 
-**b)** $E(Y) = 0{,}2 + 2{,}8 + 3{,}6 + 3{,}4 = 10$, et $5 \\times 2{,}6 - 3 = 10$ ✓ (linéarité de l'espérance).
+**b)** $E(Y) = 2 \\times 0{,}1 + 7 \\times 0{,}4 + 12 \\times 0{,}3 + 17 \\times 0{,}2 = 0{,}2 + 2{,}8 + 3{,}6 + 3{,}4 = 10$, et $5 \\times 2{,}6 - 3 = 10$ : on obtient la même valeur.
 
 **c)** $E(Y^2) = 4 \\times 0{,}1 + 49 \\times 0{,}4 + 144 \\times 0{,}3 + 289 \\times 0{,}2 = 0{,}4 + 19{,}6 + 43{,}2 + 57{,}8 = 121$, donc $V(Y) = 121 - 100 = 21$.
 
-On remarque que $21 = 25 \\times 0{,}84 = 5^2 \\times V(X)$ : la translation de $-3$ ne change pas la dispersion, et la multiplication par $5$ multiplie la variance par $25$.
+$\\dfrac{V(Y)}{V(X)} = \\dfrac{21}{0{,}84} = 25$ : sur cet exemple, la variance de $Y$ est $25$ fois celle de $X$.
 
-$\\sigma(Y) = \\sqrt{21}$ (et $\\sigma(Y) = 5\\,\\sigma(X)$ car $\\sigma(X) = \\sqrt{0{,}84}$ et $5\\sqrt{0{,}84} = \\sqrt{21}$).` },
+**d)** $\\sigma(Y) = \\sqrt{21}$ et $\\sigma(X) = \\sqrt{0{,}84}$. Or $5\\sqrt{0{,}84} = \\sqrt{25 \\times 0{,}84} = \\sqrt{21}$ : on a bien $\\sigma(Y) = 5\\,\\sigma(X)$. Les valeurs de $Y$ sont $5$ fois plus écartées les unes des autres que celles de $X$ (le $-3$ décale toutes les valeurs sans modifier leurs écarts).` },
     { id: "1S2-ds-11", title: "L'écart entre deux dés", difficulty: 3, points: 6,
       statement: `On lance deux dés équilibrés à six faces et on note $X$ la valeur absolue de la différence des deux résultats (par exemple, $X = 3$ pour le résultat $(2 ; 5)$).
 
@@ -2781,7 +3721,107 @@ $E(G) < 0$ : le jeu n'est pas équitable, il est légèrement défavorable au jo
 
 **c)** Pour $x > 0$ : $x^2 + 2x > 0$, donc $x^2 + 2x + 3 > 3$ et $V(G) > \\frac{3}{2}$.
 
-Une variance égale à $1$ est donc impossible pour un jeu équitable de ce type (avec $x > 0$) : la variance est toujours strictement supérieure à $1{,}5$.` }
+Une variance égale à $1$ est donc impossible pour un jeu équitable de ce type (avec $x > 0$) : la variance est toujours strictement supérieure à $1{,}5$.` },
+{ id: "1S2-ds-13", title: "Un tirage à la fête de l'école", difficulty: 1, points: 4,
+      statement: `À la fête de l'école, on paie $2$ € pour tirer une boule au hasard dans une urne contenant $10$ boules : $1$ boule dorée, $3$ boules argentées et $6$ boules blanches. Une boule dorée rapporte $10$ €, une boule argentée $4$ €, une boule blanche ne rapporte rien. On note $X$ le gain algébrique du joueur (gain moins mise).
+
+1. Déterminer les valeurs prises par $X$ et la loi de probabilité de $X$.
+2. Calculer l'espérance $E(X)$ et l'interpréter. Le jeu est-il favorable au joueur ?
+3. Calculer la variance $V(X)$.
+4. Les organisateurs veulent que l'espérance de gain du joueur soit égale à $-0{,}50$ €. Quel prix doivent-ils demander pour un tirage (les lots restant inchangés) ?`,
+      solution: `**1.** $X$ prend les valeurs $10 - 2 = 8$, $4 - 2 = 2$ et $0 - 2 = -2$.
+
+| $x_i$ | $-2$ | $2$ | $8$ |
+|---|---|---|---|
+| $P(X = x_i)$ | $0{,}6$ | $0{,}3$ | $0{,}1$ |
+
+**2.** $E(X) = -2 \\times 0{,}6 + 2 \\times 0{,}3 + 8 \\times 0{,}1 = -1{,}2 + 0{,}6 + 0{,}8 = 0{,}2$.
+
+En moyenne, sur un grand nombre de parties, le joueur gagne $0{,}20$ € par partie : le jeu lui est favorable (et défavorable aux organisateurs).
+
+**3.** $E(X^2) = 4 \\times 0{,}6 + 4 \\times 0{,}3 + 64 \\times 0{,}1 = 2{,}4 + 1{,}2 + 6{,}4 = 10$, donc $V(X) = E(X^2) - E(X)^2 = 10 - 0{,}04 = 9{,}96$.
+
+**4.** Le lot moyen gagné vaut $10 \\times 0{,}1 + 4 \\times 0{,}3 = 2{,}2$ €. Avec un prix $p$, l'espérance de gain vaut $2{,}2 - p$. $2{,}2 - p = -0{,}5 \\iff p = 2{,}70$ €.` },
+    { id: "1S2-ds-14", title: "Même espérance, risques différents", difficulty: 2, points: 5,
+      statement: `On propose deux jeux.
+- **Jeu A** : on lance une pièce équilibrée ; pile fait gagner $1$ €, face fait perdre $1$ €. On note $X$ le gain.
+- **Jeu B** : on tire au hasard un billet parmi $10$ ; un seul billet est gagnant et rapporte $9$ €, les autres font perdre $1$ €. On note $Y$ le gain.
+
+1. Donner la loi de $X$ et celle de $Y$.
+2. Calculer $E(X)$ et $E(Y)$. Les jeux sont-ils équitables ?
+3. Calculer $V(X)$, $\\sigma(X)$, $V(Y)$ et $\\sigma(Y)$.
+4. Quel jeu un joueur prudent préférera-t-il ? Justifier à l'aide des résultats précédents.
+5. On considère le **jeu C** : on lance la pièce ; pile fait gagner $3$ €, face fait perdre $3$ €. On note $Z$ le gain. Exprimer $Z$ en fonction de $X$, puis donner $E(Z)$ et $V(Z)$. Les jeux B et C ont-ils la même loi ?`,
+      solution: `**1.** $P(X = 1) = P(X = -1) = \\frac{1}{2}$. $P(Y = 9) = 0{,}1$ et $P(Y = -1) = 0{,}9$.
+
+**2.** $E(X) = \\frac{1}{2} - \\frac{1}{2} = 0$ et $E(Y) = 0{,}9 - 0{,}9 = 0$. Les deux jeux sont équitables.
+
+**3.** $V(X) = E(X^2) - E(X)^2 = 1 - 0 = 1$ et $\\sigma(X) = 1$.
+
+$E(Y^2) = 81 \\times 0{,}1 + 1 \\times 0{,}9 = 9$, donc $V(Y) = 9$ et $\\sigma(Y) = 3$.
+
+**4.** Les deux jeux ont la même espérance, mais les gains de B sont beaucoup plus dispersés autour de $0$ ($\\sigma(Y) = 3\\sigma(X)$) : le jeu B est plus risqué. Un joueur prudent préférera le jeu A.
+
+**5.** $Z = 3X$. Par linéarité, $E(Z) = 3E(X) = 0$ et $V(Z) = 3^2 V(X) = 9$.
+
+B et C ont même espérance et même variance, mais pas la même loi : $Z$ prend les valeurs $-3$ et $3$ avec probabilité $\\frac{1}{2}$, tandis que $Y$ prend les valeurs $-1$ et $9$. L'espérance et la variance ne suffisent pas à caractériser une loi.` },
+    { id: "1S2-ds-15", title: "Nombre de piles en trois lancers", difficulty: 3, points: 6,
+      statement: `On lance trois fois de suite une pièce équilibrée. On note $X$ le nombre de « pile » obtenus.
+
+1. À l'aide d'un arbre, dénombrer les $8$ issues équiprobables de l'expérience.
+2. Déterminer la loi de probabilité de $X$.
+3. Calculer $E(X)$. Ce résultat était-il prévisible ?
+4. Calculer $V(X)$ à l'aide de la formule $V(X) = E(X^2) - E(X)^2$.
+5. Un joueur gagne $1$ € pour chaque pile et perd $1$ € pour chaque face. On note $G$ son gain total.
+ a) Montrer que $G = 2X - 3$.
+ b) En déduire $E(G)$ et $V(G)$.
+ c) Calculer directement $P(G > 0)$.`,
+      solution: `**1.** Les issues sont PPP, PPF, PFP, PFF, FPP, FPF, FFP, FFF ; la pièce étant équilibrée et les lancers successifs, chacune a pour probabilité $\\frac{1}{8}$.
+
+**2.** On compte les issues selon le nombre de P :
+
+| $k$ | $0$ | $1$ | $2$ | $3$ |
+|---|---|---|---|---|
+| $P(X = k)$ | $\\frac{1}{8}$ | $\\frac{3}{8}$ | $\\frac{3}{8}$ | $\\frac{1}{8}$ |
+
+**3.** $E(X) = \\frac{0 + 3 + 6 + 3}{8} = \\frac{12}{8} = \\frac{3}{2}$. Prévisible : chaque lancer donne pile « une fois sur deux » et la loi est symétrique autour de $\\frac{3}{2}$.
+
+**4.** $E(X^2) = \\frac{0 + 3 + 12 + 9}{8} = \\frac{24}{8} = 3$, donc $V(X) = 3 - \\frac{9}{4} = \\frac{3}{4}$.
+
+**5. a)** Avec $X$ piles, il y a $3 - X$ faces : $G = X - (3 - X) = 2X - 3$.
+
+**b)** $E(G) = 2E(X) - 3 = 0$ et $V(G) = 2^2 V(X) = 3$.
+
+**c)** $G > 0 \\iff 2X - 3 > 0 \\iff X \\geqslant 2$ : $P(G > 0) = \\frac{3}{8} + \\frac{1}{8} = \\frac{1}{2}$.` },
+    { id: "1S2-ds-16", title: "Au plus trois lancers pour obtenir un six", difficulty: 4, points: 7,
+      statement: `On lance un dé équilibré à six faces jusqu'à obtenir un $6$, avec **au plus trois lancers** : on s'arrête dès qu'on obtient $6$, ou après le troisième lancer. On note $X$ le nombre de lancers effectués.
+
+1. a) Justifier que $P(X = 1) = \\dfrac{1}{6}$ et $P(X = 2) = \\dfrac{5}{36}$.
+ b) Montrer que $P(X = 3) = \\dfrac{25}{36}$. (Attention : on effectue un troisième lancer dès que les deux premiers ne donnent pas $6$.)
+2. Calculer $E(X)$.
+3. Calculer la probabilité $p$ d'obtenir un $6$ au cours de la partie.
+4. On transforme l'expérience en jeu : chaque lancer coûte $1$ €, et obtenir un $6$ rapporte $6$ €. On note $G$ le gain algébrique.
+ a) Exprimer $G$ en fonction de $X$ dans le cas où un $6$ a été obtenu, puis dans le cas contraire.
+ b) Déterminer la loi de $G$.
+ c) Calculer $E(G)$. Le jeu est-il équitable ?
+5. Vérifier que $E(X) = 6p$. Comment ce résultat éclaire-t-il la question 4 ?`,
+      solution: `**1. a)** $X = 1$ : le premier lancer donne $6$, probabilité $\\frac{1}{6}$. $X = 2$ : premier lancer différent de $6$ puis $6$, probabilité $\\frac{5}{6} \\times \\frac{1}{6} = \\frac{5}{36}$.
+
+**b)** $X = 3$ dès que les deux premiers lancers ne donnent pas $6$, quel que soit le troisième : $P(X = 3) = \\frac{5}{6} \\times \\frac{5}{6} = \\frac{25}{36}$. (Vérification : $\\frac{6 + 5 + 25}{36} = 1$.)
+
+**2.** $E(X) = 1 \\times \\frac{6}{36} + 2 \\times \\frac{5}{36} + 3 \\times \\frac{25}{36} = \\frac{6 + 10 + 75}{36} = \\frac{91}{36}$.
+
+**3.** On n'obtient pas de $6$ si les trois lancers donnent autre chose : $p = 1 - \\left(\\frac{5}{6}\\right)^3 = 1 - \\frac{125}{216} = \\frac{91}{216}$.
+
+**4. a)** Avec un $6$ au lancer $X$ : $G = 6 - X$. Sans $6$ (trois lancers) : $G = -3$.
+
+**b)** $G = 5$ avec probabilité $\\frac{1}{6} = \\frac{36}{216}$ ; $G = 4$ avec probabilité $\\frac{5}{36} = \\frac{30}{216}$ ; $G = 3$ (six au troisième lancer) avec probabilité $\\frac{25}{216}$ ; $G = -3$ avec probabilité $\\frac{125}{216}$.
+
+**c)** $E(G) = \\frac{5 \\times 36 + 4 \\times 30 + 3 \\times 25 - 3 \\times 125}{216} = \\frac{180 + 120 + 75 - 375}{216} = 0$. Le jeu est équitable.
+
+**5.** $6p = \\frac{6 \\times 91}{216} = \\frac{91}{36} = E(X)$.
+
+Notons $Y$ la variable qui vaut $1$ si un $6$ sort et $0$ sinon : $E(Y) = p$ et $G = 6Y - X$. Par linéarité, $E(G) = 6p - E(X) = 0$ : en moyenne, ce que coûtent les lancers est exactement compensé par la récompense.` }
   ],
   "1S3": [
     { id: "1S3-ds-01", title: "Manipuler une liste Python", difficulty: 1, points: 4,
@@ -3182,7 +4222,7 @@ def verif(N):
             return False
     return True
 \`\`\`
-4. On pose $f(n) = \\dfrac{n(n + 1)(2n + 1)}{6}$. Montrer que $f(1) = 1$ et que $f(n + 1) - f(n) = (n + 1)^2$ pour tout $n \\geqslant 1$. Expliquer pourquoi cela prouve la conjecture.
+4. On pose $f(n) = \\dfrac{n(n + 1)(2n + 1)}{6}$. Montrer que $f(1) = 1$ et que $f(n + 1) - f(n) = (n + 1)^2$ pour tout $n \\geqslant 1$. Sachant qu'une suite définie par récurrence est entièrement déterminée par son premier terme et sa relation de récurrence, expliquer pourquoi cela prouve la conjecture.
 5. Écrire une fonction \`seuil(A)\` qui renvoie le plus petit entier $n$ tel que $S(n) > A$. Que renvoie \`seuil(1000)\` ? Justifier par un calcul.`,
       solution: `**1.**
 \`\`\`python
@@ -3206,7 +4246,7 @@ def verif(N):
 
 **4.** $f(1) = \\frac{1 \\times 2 \\times 3}{6} = 1$. Puis
 $$f(n + 1) - f(n) = \\frac{(n + 1)(n + 2)(2n + 3) - n(n + 1)(2n + 1)}{6} = \\frac{(n + 1)\\left[2n^2 + 7n + 6 - 2n^2 - n\\right]}{6} = \\frac{(n + 1)(6n + 6)}{6} = (n + 1)^2.$$
-Or $S(1) = 1$ et $S(n + 1) - S(n) = (n + 1)^2$. Les suites $(S(n))$ et $(f(n))$ ont le même premier terme et la même relation de passage d'un terme au suivant : elles sont égales terme à terme, donc $S(n) = f(n)$ pour tout $n \\geqslant 1$.
+Or $S(1) = 1$ et $S(n + 1) - S(n) = (n + 1)^2$. Les suites $(S(n))$ et $(f(n))$ ont le même premier terme et vérifient la même relation de récurrence $w_{n+1} = w_n + (n + 1)^2$. Une suite définie par récurrence étant entièrement déterminée par ces deux données, elles sont égales terme à terme, donc $S(n) = f(n)$ pour tout $n \\geqslant 1$.
 
 **5.**
 \`\`\`python
@@ -3216,6 +4256,144 @@ def seuil(A):
         n = n + 1
     return n
 \`\`\`
-$S(13) = \\frac{13 \\times 14 \\times 27}{6} = 819 \\leqslant 1\\,000$ et $S(14) = \\frac{14 \\times 15 \\times 29}{6} = 1\\,015 > 1\\,000$ ; $(S(n))$ étant croissante, \`seuil(1000)\` renvoie $14$.` }
+$S(13) = \\frac{13 \\times 14 \\times 27}{6} = 819 \\leqslant 1\\,000$ et $S(14) = \\frac{14 \\times 15 \\times 29}{6} = 1\\,015 > 1\\,000$ ; $(S(n))$ étant croissante, \`seuil(1000)\` renvoie $14$.` },
+{ id: "1S3-ds-13", title: "Construire et parcourir une liste", difficulty: 1, points: 4,
+      statement: `On considère le programme Python suivant.
+
+\`\`\`python
+L = []
+for k in range(1, 6):
+    L.append(k ** 2)
+
+def compte(liste, s):
+    c = 0
+    for x in liste:
+        if x > s:
+            c = c + 1
+    return c
+\`\`\`
+
+1. Quel est le contenu de la liste \`L\` après exécution de la boucle ?
+2. Que valent \`len(L)\`, \`L[0]\`, \`L[2]\` et \`L[-1]\` ?
+3. Que renvoie \`compte(L, 10)\` ? Que fait la fonction \`compte\` en général ?
+4. Écrire une fonction \`pairs(liste)\` qui renvoie la liste des éléments pairs de \`liste\`. Que renvoie \`pairs(L)\` ?`,
+      solution: `**1.** \`range(1, 6)\` parcourt $1, 2, 3, 4, 5$ ; on ajoute successivement leurs carrés : \`L = [1, 4, 9, 16, 25]\`.
+
+**2.** \`len(L)\` vaut $5$ (nombre d'éléments) ; \`L[0]\` vaut $1$ (les indices commencent à $0$) ; \`L[2]\` vaut $9$ ; \`L[-1]\` désigne le dernier élément : $25$.
+
+**3.** La fonction compte les éléments de la liste strictement supérieurs à \`s\`. Ici, $16$ et $25$ dépassent $10$ : \`compte(L, 10)\` renvoie $2$.
+
+**4.**
+\`\`\`python
+def pairs(liste):
+    P = []
+    for x in liste:
+        if x % 2 == 0:
+            P.append(x)
+    return P
+\`\`\`
+\`pairs(L)\` renvoie \`[4, 16]\`.` },
+    { id: "1S3-ds-14", title: "Seuil d'une suite qui double presque", difficulty: 2, points: 5,
+      statement: `On considère la suite $(u_n)$ définie par $u_0 = 3$ et, pour tout entier naturel $n$, $u_{n+1} = 2u_n - 1$.
+
+\`\`\`python
+def seuil(S):
+    n = 0
+    u = 3
+    while u <= S:
+        n = n + 1
+        u = 2 * u - 1
+    return n
+\`\`\`
+
+1. Calculer à la main $u_1$, $u_2$, $u_3$, $u_4$ et $u_5$.
+2. Que renvoie \`seuil(50)\` ? Interpréter ce résultat pour la suite $(u_n)$.
+3. On pose $v_n = u_n - 1$. Montrer que $(v_n)$ est géométrique, puis exprimer $u_n$ en fonction de $n$.
+4. Sans exécuter le programme, déterminer la valeur renvoyée par \`seuil(1000)\`.
+5. Que se passerait-il si l'on remplaçait \`u = 3\` par \`u = 1\` et que l'on appelait \`seuil(50)\` ?`,
+      solution: `**1.** $u_1 = 5$, $u_2 = 9$, $u_3 = 17$, $u_4 = 33$, $u_5 = 65$.
+
+**2.** La boucle s'arrête dès que \`u\` dépasse $50$ : $u_4 = 33 \\leqslant 50$ et $u_5 = 65 > 50$, donc \`seuil(50)\` renvoie $5$ : c'est le plus petit rang $n$ tel que $u_n > 50$.
+
+**3.** $v_{n+1} = u_{n+1} - 1 = 2u_n - 2 = 2(u_n - 1) = 2v_n$ : $(v_n)$ est géométrique de raison $2$ et de premier terme $v_0 = 2$. Donc $v_n = 2 \\times 2^n = 2^{n+1}$ et $u_n = 2^{n+1} + 1$.
+
+**4.** On cherche le plus petit $n$ tel que $2^{n+1} + 1 > 1\\,000$. Comme $2^9 + 1 = 513$ et $2^{10} + 1 = 1\\,025$, on obtient $n + 1 = 10$ : \`seuil(1000)\` renvoie $9$.
+
+**5.** Avec $u_0 = 1$ : $u_1 = 2 \\times 1 - 1 = 1$, et la suite est constante égale à $1$. La condition \`u <= 50\` reste toujours vraie : la boucle ne s'arrête jamais (boucle infinie).` },
+    { id: "1S3-ds-15", title: "Diviseurs et nombres amis", difficulty: 3, points: 6,
+      statement: `On appelle **diviseur strict** d'un entier $n \\geqslant 2$ tout diviseur positif de $n$ différent de $n$. On note $s(n)$ la somme des diviseurs stricts de $n$. Deux entiers distincts $a$ et $b$ sont dits **amis** si $s(a) = b$ et $s(b) = a$.
+
+\`\`\`python
+def diviseurs(n):
+    L = []
+    for d in range(1, n):
+        if n % d == 0:
+            L.append(d)
+    return L
+
+def s(n):
+    return sum(diviseurs(n))
+\`\`\`
+
+1. Que renvoie \`diviseurs(12)\` ? En déduire $s(12)$.
+2. Calculer à la main $s(220)$ puis $s(284)$. Que peut-on dire de $220$ et $284$ ?
+3. Écrire une fonction \`amis(a)\` qui renvoie \`True\` si $a$ possède un ami, c'est-à-dire si $b = s(a)$ est différent de $a$ et vérifie $s(b) = a$, et \`False\` sinon.
+4. Justifier qu'un diviseur strict $d$ de $n$ vérifie $d \\leqslant \\dfrac{n}{2}$. Comment modifier la fonction \`diviseurs\` pour faire environ deux fois moins de tours de boucle ?`,
+      solution: `**1.** \`diviseurs(12)\` renvoie \`[1, 2, 3, 4, 6]\`, d'où $s(12) = 16$.
+
+**2.** $220 = 2^2 \\times 5 \\times 11$ ; ses diviseurs stricts sont $1, 2, 4, 5, 10, 11, 20, 22, 44, 55, 110$, de somme $284$.
+
+$284 = 2^2 \\times 71$ ; ses diviseurs stricts sont $1, 2, 4, 71, 142$, de somme $220$.
+
+Ainsi $s(220) = 284$ et $s(284) = 220$ : $220$ et $284$ sont amis.
+
+**3.**
+\`\`\`python
+def amis(a):
+    b = s(a)
+    return b != a and s(b) == a
+\`\`\`
+
+**4.** Si $d$ divise $n$ avec $d \\neq n$, alors $n = d \\times k$ avec $k$ entier, $k \\geqslant 2$, donc $d = \\frac{n}{k} \\leqslant \\frac{n}{2}$. On peut remplacer \`range(1, n)\` par \`range(1, n // 2 + 1)\` : la boucle s'arrête à $\\frac{n}{2}$ (partie entière) au lieu de $n - 1$.` },
+    { id: "1S3-ds-16", title: "La suite de Fibonacci et une identité surprenante", difficulty: 4, points: 7,
+      statement: `La suite de Fibonacci est définie par $F_0 = 0$, $F_1 = 1$ et, pour tout $n \\geqslant 1$, $F_{n+1} = F_n + F_{n-1}$.
+
+\`\`\`python
+def fibo(n):
+    F = [0, 1]
+    for k in range(2, n + 1):
+        F.append(F[k - 1] + F[k - 2])
+    return F
+\`\`\`
+
+1. Que renvoie \`fibo(8)\` ?
+2. Pour $n \\geqslant 1$, on pose $c_n = F_{n+1}F_{n-1} - F_n^2$.
+ a) Calculer $c_1$, $c_2$, $c_3$, $c_4$, $c_5$ et $c_6$. Formuler une conjecture.
+ b) Compléter la fonction suivante pour qu'elle renvoie la liste $[c_1, c_2, \\ldots, c_n]$ :
+\`\`\`python
+def cassini(n):
+    F = fibo(n + 1)
+    C = []
+    for k in range(1, n + 1):
+        C.append(...)
+    return C
+\`\`\`
+3. a) Montrer que, pour tout $n \\geqslant 1$, $c_{n+1} = -c_n$. (On pourra remplacer $F_{n+2}$ par $F_{n+1} + F_n$ puis utiliser $F_{n+1} - F_n = F_{n-1}$.)
+ b) En déduire que $c_n = (-1)^n$ pour tout $n \\geqslant 1$.
+4. **Le paradoxe du carré.** On découpe un carré de côté $8$ en quatre morceaux que l'on réarrange en un « rectangle » de côtés $5$ et $13$. Comparer les aires et expliquer le lien avec la question 3.`,
+      solution: `**1.** \`[0, 1, 1, 2, 3, 5, 8, 13, 21]\`.
+
+**2. a)** $c_1 = F_2F_0 - F_1^2 = 0 - 1 = -1$ ; $c_2 = F_3F_1 - F_2^2 = 2 - 1 = 1$ ; $c_3 = 3 \\times 1 - 4 = -1$ ; $c_4 = 5 \\times 2 - 9 = 1$ ; $c_5 = 8 \\times 3 - 25 = -1$ ; $c_6 = 13 \\times 5 - 64 = 1$.
+
+Conjecture : $c_n = (-1)^n$.
+
+**b)** \`C.append(F[k + 1] * F[k - 1] - F[k] ** 2)\` (la liste \`fibo(n + 1)\` contient $F_0$ à $F_{n+1}$).
+
+**3. a)** 
+$$c_{n+1} = F_{n+2}F_n - F_{n+1}^2 = (F_{n+1} + F_n)F_n - F_{n+1}^2 = F_n^2 - F_{n+1}(F_{n+1} - F_n) = F_n^2 - F_{n+1}F_{n-1} = -c_n.$$
+
+**b)** $(c_n)_{n \\geqslant 1}$ est géométrique de raison $-1$ et de premier terme $c_1 = -1$ : $c_n = -1 \\times (-1)^{n-1} = (-1)^n$.
+
+**4.** Le carré a pour aire $8^2 = 64$, le « rectangle » $5 \\times 13 = 65$. Avec $n = 6$ : $F_7F_5 - F_6^2 = 13 \\times 5 - 8^2 = 1 = c_6$. L'unité d'aire « gagnée » vient du fait que les morceaux ne s'ajustent pas exactement : il reste un mince parallélogramme vide d'aire $1$ le long de la diagonale, presque invisible.` }
   ]
 });
