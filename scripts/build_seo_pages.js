@@ -180,8 +180,11 @@ const HUBS = {
   exercices: { dir: 'exercices-de-maths', name: 'Exercices de maths corrigés' },
   brevet: { dir: 'reviser-le-brevet-de-maths', name: 'Réviser le brevet de maths' },
   bac: { dir: 'reussir-le-bac-de-maths', name: 'Réussir le bac de maths' },
-  entrainement: { dir: 'entrainement-maths', name: 'Entraînement maths en ligne' }
+  entrainement: { dir: 'entrainement-maths', name: 'Entraînement maths en ligne' },
+  oral2: { dir: 'epreuve-d-entretien-capes', name: 'Épreuve d’entretien du CAPES (oral 2)' }
 };
+/** Fiche de l'oral 2 du CAPES : épreuve commune à toutes les disciplines, titre et résumé dédiés. */
+const ORAL2_ID = 'capes-oral2';
 
 /** Grande catégorie d'un chapitre, commune à toutes les classes (sommaire /cours/). */
 const CATEGORIES = [
@@ -457,7 +460,7 @@ ${body}
 
   <footer class="cours-footer">
     <p>${esc(BRAND)} — Conçu par ${AUTHOR}, professeur de mathématiques • 100${NNB}% gratuit, conforme aux programmes</p>
-    <p><a href="${up}cours/">Cours de maths</a> · <a href="${up}${HUBS.exercices.dir}/">Exercices corrigés</a> · <a href="${up}${HUBS.entrainement.dir}/">Entraînement en ligne</a> · <a href="${up}${HUBS.brevet.dir}/">Réviser le brevet</a> · <a href="${up}${HUBS.bac.dir}/">Réussir le bac</a></p>
+    <p><a href="${up}cours/">Cours de maths</a> · <a href="${up}${HUBS.exercices.dir}/">Exercices corrigés</a> · <a href="${up}${HUBS.entrainement.dir}/">Entraînement en ligne</a> · <a href="${up}${HUBS.brevet.dir}/">Réviser le brevet</a> · <a href="${up}${HUBS.bac.dir}/">Réussir le bac</a> · <a href="${up}${HUBS.oral2.dir}/">Oral 2 du CAPES</a></p>
     <p><a href="${up}index.html">Ouvrir l'application</a> · <a href="${up}rituels.html">Rituels</a> · <a href="${up}brevet.html">Brevet blanc</a> · <a href="${up}bac.html">Devoir type bac</a> · <a href="${up}a-propos.html">Qui suis-je ?</a> · <a href="${up}mentions-legales.html">Mentions légales</a> · <a href="mailto:delaporte@etabli-des-maths.fr">Contact</a></p>
     <p>Contenus sous licence <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr" rel="license noopener">CC BY-NC-SA 4.0</a></p>
   </footer>
@@ -598,6 +601,7 @@ const TITLE_MAX = 62;
 const noArticle = (s) => ucFirst(String(s).replace(/^(le|la|les)\s+/i, '').replace(/^l['’]\s*/i, ''));
 function chapterTitleTag(ch, lvl) {
   const t = noArticle(plain(ch.title));
+  if (ch.id === ORAL2_ID) return frTypo('Oral 2 du CAPES : épreuve d’entretien et mises en situation');
   if (lvl.code === 'capes') {
     const cands = [`${t} — leçon d'oral du CAPES`, `${headOf(t)} — leçon d'oral du CAPES`, `${headOf(t)} — oral du CAPES`];
     let title = cands.find((c) => c.length <= TITLE_MAX) || `${truncate(headOf(t), TITLE_MAX - 18)} — oral du CAPES`;
@@ -626,6 +630,9 @@ function chapterDescription(ch, lvl, course, capes) {
   else if (course && course.objectives && course.objectives.length) objs = course.objectives.map(plain);
   else objs = (ch.skills || []).map(plain);
   objs = objs.map((o) => lcFirst(o.replace(/\.$/, '')));
+  if (ch.id === ORAL2_ID) {
+    return frTypo('Épreuve d’entretien du CAPES (oral 2), toutes disciplines : déroulé, laïcité et valeurs de la République, mises en situation commentées, questions du jury.');
+  }
   const subj = noArticle(plain(ch.title));
   const head = capes
     ? `Leçon d'oral du CAPES de maths — ${subj}${NB}: plan détaillé, théorème clé démontré et remarques du jury. `
@@ -724,6 +731,7 @@ function relatedHtml(it, lvl, items, levelsData) {
     `<li><a href="../../${HUBS.entrainement.dir}/">S'entraîner en ligne par paliers</a></li>`];
   if (lvl.code === '3eme' || lvl.code === '4eme') hubs.unshift(`<li><a href="../../${HUBS.brevet.dir}/">Réviser le brevet de maths</a></li>`);
   if (lvl.code === '1ere' || lvl.code === 'tale') hubs.unshift(`<li><a href="../../${HUBS.bac.dir}/">Réussir le bac de maths</a></li>`);
+  if (lvl.code === 'capes') hubs.unshift(`<li><a href="../../${HUBS.oral2.dir}/">${esc(HUBS.oral2.name)}${NB}: déroulé, attentes du jury, méthode</a></li>`);
   const li = (x, l) => `<li><a href="${l === lvl ? '' : `../${l.slug}/`}${x.slug}.html">${esc(frTypo(x.title))}</a>${l === lvl ? '' : ` <span class="cours-related-lvl">${esc(l.label)}</span>`}</li>`;
   const cols = [];
   if (same.length) cols.push(`<div><p class="cours-related-title">Même thème ${esc(lvl.en)}</p><ul>${same.map((x) => li(x, lvl)).join('')}</ul></div>`);
@@ -811,7 +819,9 @@ function main() {
       const course = COURSES[ch.id];
       const capes = CAPES.find((l) => l.id.toLowerCase() === ch.id.toLowerCase());
       const url = `${SITE}/cours/${lvl.slug}/${slug}.html`;
-      const h1 = lvl.code === 'capes'
+      const h1 = ch.id === ORAL2_ID
+        ? `<span class="cours-title-kicker">Oral 2 du CAPES, toutes disciplines${NB}:</span> ${esc(frTypo(title))}`
+        : lvl.code === 'capes'
         ? `<span class="cours-title-kicker">Leçon d'oral du CAPES${NB}:</span> ${esc(frTypo(title))}`
         : `<span class="cours-title-kicker">Cours et exercices corrigés ${esc(lvl.de)}${NB}:</span> ${esc(frTypo(title))}`;
       const titleTag = chapterTitleTag(ch, lvl);
@@ -928,7 +938,8 @@ ${relatedHtml(it, lvl, items, levelsData)}
     const prevL = li > 0 ? levelsData.find((d) => d.lvl.code === SCHOOL_ORDER[li - 1]) : null;
     const nextL = li >= 0 && li < SCHOOL_ORDER.length - 1 ? levelsData.find((d) => d.lvl.code === SCHOOL_ORDER[li + 1]) : null;
     const examLink = ['3eme', '4eme', '5eme'].includes(lvl.code) ? `<li><a href="../../${HUBS.brevet.dir}/">Réviser le brevet de maths</a> : méthode, programme, planning</li>`
-      : (lvl.code === '1ere' || lvl.code === 'tale') ? `<li><a href="../../${HUBS.bac.dir}/">Réussir le bac de maths</a> : épreuves, chapitres clés, méthode</li>` : '';
+      : (lvl.code === '1ere' || lvl.code === 'tale') ? `<li><a href="../../${HUBS.bac.dir}/">Réussir le bac de maths</a> : épreuves, chapitres clés, méthode</li>`
+      : lvl.code === 'capes' ? `<li><a href="../../${HUBS.oral2.dir}/">${esc(HUBS.oral2.name)}</a> : déroulé, attentes du jury, mises en situation</li>` : '';
     const body = `${breadcrumbHtml(crumbs)}
 
     <header class="cours-hero">
@@ -1049,6 +1060,7 @@ ${section('aussi', 'Réviser un examen, s’entraîner', `      <ul class="cours
         <li><a href="../${HUBS.bac.dir}/">Réussir le bac de maths</a> : l'épreuve de spécialité, l'épreuve anticipée de première et la méthode.</li>
         <li><a href="../${HUBS.exercices.dir}/">Exercices de maths corrigés</a> : des exemples par classe et des liens vers chaque chapitre.</li>
         <li><a href="../${HUBS.entrainement.dir}/">Entraînement maths en ligne</a> : paliers de difficulté, questions flash et flashcards.</li>
+        <li><a href="../${HUBS.oral2.dir}/">${esc(HUBS.oral2.name)}</a> : l'oral commun à toutes les disciplines, laïcité, valeurs de la République et mises en situation.</li>
       </ul>`)}
 
 ${section('faq', 'Questions fréquentes', faqHtml(faqs))}`;
@@ -1219,7 +1231,7 @@ ${section('faq', 'Questions fréquentes', faqHtml(h.faqs))}
 
     <aside class="cours-cta-box" aria-label="Commencer">
       <p class="cours-cta-box-title">${h.boxTitle}</p>
-      <p>Gratuit, sans inscription et sans publicité. La progression reste sur ton appareil.</p>
+      <p>${h.boxText || 'Gratuit, sans inscription et sans publicité. La progression reste sur ton appareil.'}</p>
       <div class="cours-cta">
 ${h.ctas.slice(0, 2).map((c, i) => `        <a class="${i === 0 ? 'btn-primary cours-cta-main' : 'btn-secondary cours-cta-alt'}" href="${c[1]}">${c[0]}</a>`).join('\n')}
       </div>
@@ -1475,6 +1487,77 @@ ${h.ctas.slice(0, 2).map((c, i) => `        <a class="${i === 0 ? 'btn-primary c
       ld: { '@type': 'WebPage', about: { '@type': 'Thing', name: 'Entraînement en mathématiques en ligne' },
         mainEntity: { '@type': 'WebApplication', name: BRAND, url: `${SITE}/`, applicationCategory: 'EducationalApplication', operatingSystem: 'Web', inLanguage: 'fr', isAccessibleForFree: true,
           offers: { '@type': 'Offer', price: '0', priceCurrency: 'EUR' } } }
+    });
+  }
+  // ---- 9.5 Épreuve d'entretien du CAPES (oral 2) -------------------------------------------
+  {
+    const fiche = href(ORAL2_ID);
+    const caseCard = (title, situation, reponse) => card(title, `<p><strong>Situation.</strong> ${situation}</p><p><strong>Pistes de réponse.</strong> ${reponse}</p>`);
+    writeHub({
+      key: 'oral2', dir: HUBS.oral2.dir, crumb: 'Oral 2 du CAPES', tag: 'CAPES',
+      title: frTypo('Épreuve d’entretien du CAPES (oral 2) : préparer l’oral'),
+      desc: frTypo('Préparer l’épreuve d’entretien du CAPES (oral 2), toutes disciplines : déroulé, attentes du jury, laïcité, mises en situation corrigées et questions fréquentes.'),
+      kicker: '🎓 Concours enseignants · toutes disciplines',
+      h1: 'Épreuve d’entretien du CAPES (oral 2)',
+      lead: `L'oral 2 du CAPES est un entretien de 35 minutes avec le jury, le même dans toutes les disciplines${NB}: on y parle de son parcours, de sa motivation et de situations concrètes de la vie d'un établissement. Cette page présente le déroulé de l'épreuve, ce que le jury évalue, une méthode pour les mises en situation et des cas commentés. La <a href="${fiche}">fiche complète</a> détaille les textes officiels et la jurisprudence.`,
+      ctas: [['📖 Lire la fiche complète', fiche], ['🎯 S’entraîner sur des mises en situation', app(ORAL2_ID)], ['🎓 Leçons d’oral du CAPES de maths', '../cours/capes/']],
+      facts: [['35' + NB + 'min', 'd’entretien, sans préparation'], ['3', 'coefficient'], ['15 + 20', 'minutes : parcours, puis mises en situation'], ['0/20', 'note éliminatoire']],
+      sections: [
+        { id: 'deroule', title: 'Déroulé de l’épreuve', html: `      <p>L'épreuve d'entretien est la seconde épreuve d'admission du CAPES externe. Elle n'a pas de temps de préparation et se déroule en deux temps. Son format diffère légèrement entre le concours de niveau bac${NNB}+${NNB}5 et le nouveau concours de niveau bac${NNB}+${NNB}3, organisé à partir de la session 2026.</p>
+      ${table(['', 'CAPES bac' + NNB + '+' + NNB + '5', 'CAPES bac' + NNB + '+' + NNB + '3 (dès 2026)'], [
+        ['Durée et coefficient', '35 minutes, coefficient 3', '35 minutes, coefficient 3'],
+        ['Premier temps (15' + NB + 'min)', 'Présentation du candidat (5 minutes au plus), appuyée sur la fiche individuelle de renseignement transmise avant l’oral, puis échange avec le jury', 'Présentation de la motivation, du parcours et des expériences (5 minutes), puis échange de 10 minutes avec le jury'],
+        ['Second temps (20' + NB + 'min)', 'Deux mises en situation professionnelle : l’une d’enseignement, l’autre liée à la vie scolaire', 'Questions variées, dont une mise en situation, sur les valeurs de la République et la laïcité, puis sur la projection dans le métier'],
+        ['Notation', 'Sur 20 ; la note 0 est éliminatoire', 'Sur 20 ; la note 0 est éliminatoire']
+      ], 'Format de l’épreuve d’entretien du CAPES externe')}
+      <p class="cours-note">Les modalités sont fixées par arrêté et précisées dans la notice officielle de chaque section, publiée par le ministère. Relisez celle de votre discipline et de votre session avant l'oral.</p>` },
+        { id: 'concours', title: 'Une épreuve commune à toutes les disciplines', html: `      <p>Cet entretien ne porte pas sur la discipline${NB}: il est construit sur le même modèle pour toutes les sections du CAPES (lettres, histoire-géographie, langues, sciences, mathématiques…). Les concours du second degré que sont le CAPET, le CAPLP et le CAPEPS comportent eux aussi une épreuve d'entretien de même nature, et le concours de professeur des écoles (CRPE) un entretien qui inclut en plus une partie consacrée à l'éducation physique et sportive.</p>
+      <p>Les exemples de cette page sont donc volontairement pris dans plusieurs disciplines. Seule la question de la motivation demande de relier sa réponse à la matière que l'on enseignera.</p>` },
+        { id: 'attentes', title: 'Ce que le jury évalue', html: `      <div class="hub-grid">
+        ${card('La projection dans le métier', `<p>Le jury cherche un futur professeur qui se voit déjà dans un établissement${NB}: qui connaît ses missions, sait qu'il travaille en équipe et peut décrire une séance, une évaluation ou un échange avec une famille. Une motivation crédible s'appuie sur une expérience vécue, pas sur des formules générales.</p>`)}
+        ${card('Les valeurs de la République', `<p>Laïcité, neutralité du service public, égalité entre les filles et les garçons, lutte contre les discriminations et les stéréotypes${NB}: il faut savoir les expliquer simplement et montrer comment on les fait vivre en classe, sans réciter des textes.</p>`)}
+        ${card('Le sens des responsabilités', `<p>Face à une situation délicate, le jury attend une réponse posée${NB}: protéger les élèves, rappeler la règle, ne pas agir seul, informer les bons interlocuteurs. Il valorise la capacité à hiérarchiser plus que l'exhaustivité.</p>`)}
+        ${card('La qualité de l’échange', `<p>C'est un entretien, pas un exposé${NB}: écouter la question, répondre précisément, accepter une objection, reconnaître une limite et rester courtois. La manière de dialoguer avec le jury préfigure celle de dialoguer avec les élèves et les familles.</p>`)}
+      </div>` },
+        { id: 'methode', title: 'Une méthode pour les mises en situation', html: `      <ol class="hub-steps">
+        <li><strong>Comprendre la situation.</strong> Reformuler en une phrase ce qui se passe et ce qui est en jeu${NB}: la sécurité d'un élève, son droit à apprendre, une valeur, le fonctionnement de la classe.</li>
+        <li><strong>Agir sur le moment.</strong> Dire ce que l'on fait concrètement dans la classe${NB}: garder son calme, rappeler la règle sans polémiquer, protéger, poursuivre le cours.</li>
+        <li><strong>Ne pas rester seul.</strong> Nommer les bons interlocuteurs${NB}: professeur principal, conseiller principal d'éducation, chef d'établissement, infirmière, assistante sociale, famille.</li>
+        <li><strong>Inscrire la réponse dans la durée.</strong> Prévoir un échange individuel, un suivi, une action éducative${NB}; savoir qu'un élève en danger fait l'objet d'un signalement selon la procédure prévue.</li>
+        <li><strong>Justifier.</strong> Appuyer chaque décision sur un principe (intérêt de l'élève, égalité, laïcité, règlement intérieur) plutôt que sur une préférence personnelle.</li>
+      </ol>` },
+        { id: 'themes', title: 'Les thèmes qui reviennent', html: `      <ul class="hub-inline hub-tags"><li>Laïcité et neutralité</li><li>Contestation d’un enseignement</li><li>Harcèlement et cyberharcèlement</li><li>Élèves à besoins éducatifs particuliers</li><li>Égalité filles-garçons</li><li>Propos discriminatoires</li><li>Autorité, punitions et sanctions</li><li>Relations avec les familles</li><li>Fraude et évaluation</li><li>Usage des réseaux sociaux</li><li>Protection de l’enfance</li><li>Transition écologique</li><li>Travail en équipe</li></ul>` },
+        { id: 'cas', title: 'Quatre mises en situation commentées', html: `      <p class="cours-note">Ces situations ne sont pas tirées de sujets de concours${NB}: ce sont des exemples pour s'exercer. D'autres cas, propres aux mathématiques, figurent dans la <a href="${fiche}">fiche complète</a>.</p>
+      <div class="hub-grid">
+        ${caseCard('Un cours contesté en sciences de la vie et de la Terre', 'Pendant un cours sur l’évolution des espèces, un élève affirme que «' + NB + 'ce qu’on apprend est faux' + NB + '» et que sa religion dit le contraire.', 'Distinguer calmement le savoir scientifique, établi par des preuves, et la croyance, qui appartient à chacun. Rappeler que le programme s’impose à tous sans demander à l’élève de renoncer à ses convictions, puis poursuivre le cours. Reprendre l’échange en tête-à-tête et, si la contestation se répète, en parler à l’équipe.')}
+        ${caseCard('Un refus de la natation en éducation physique', 'Une famille demande que sa fille soit dispensée des séances de natation, pour des raisons religieuses.', 'L’assiduité est une obligation et la natation fait partie des enseignements. Recevoir la famille avec le professeur principal ou la direction, expliquer les objectifs de l’activité, notamment le savoir-nager, enjeu de sécurité, et rappeler que seul un motif légitime, médical par exemple, justifie une dispense. Chercher l’adhésion sans transiger sur la règle.')}
+        ${caseCard('Une insulte entendue en classe', 'Lors d’un travail de groupe, un élève lance une insulte homophobe à un camarade.', 'Réagir immédiatement${NB}: faire cesser les propos, rappeler qu’ils sont interdits et punis par la loi, protéger l’élève visé. Informer le conseiller principal d’éducation et la direction pour une éventuelle sanction, prendre des nouvelles de l’élève visé et prévoir un temps éducatif, avec les personnels de l’établissement.')}
+        ${caseCard('Un message agressif d’un parent', 'Après un devoir, un parent écrit sur l’espace numérique de travail un message virulent qui conteste la note et met en cause votre compétence.', 'Ne pas répondre à chaud ni par écrit sur le même ton. Proposer un rendez-vous, si possible avec le professeur principal, pour expliquer les critères d’évaluation. Informer la direction. En cas de menaces ou d’injures, l’administration peut accorder la protection fonctionnelle due aux agents publics.')}
+      </div>` },
+        { id: 'questions', title: 'Questions fréquentes du jury', html: `      <ul class="cours-list">
+        <li>Qu'est-ce que la laïcité, en une phrase, et que garantit-elle aux élèves${NNB}?</li>
+        <li>L'obligation de neutralité s'applique-t-elle aux élèves${NNB}?</li>
+        <li>Un élève refuse de travailler avec une camarade${NB}: comment réagissez-vous${NNB}?</li>
+        <li>Pourquoi voulez-vous enseigner, et pourquoi cette discipline${NNB}?</li>
+        <li>Quels sont les rôles du professeur principal et du conseiller principal d'éducation${NNB}?</li>
+        <li>Un élève vous confie un secret qui vous inquiète${NB}: que faites-vous${NNB}?</li>
+        <li>Comment faites-vous progresser un élève en grande difficulté sans freiner le reste de la classe${NNB}?</li>
+        <li>Que faites-vous si vous n'êtes pas d'accord avec une consigne de votre hiérarchie${NNB}?</li>
+      </ul>
+      <p class="cours-note">Des éléments de réponse, avec les textes à connaître, sont développés dans la <a href="${fiche}">fiche complète</a>, partie «${NB}Remarques et questions du jury${NB}».</p>` }
+      ],
+      faqs: [
+        { q: 'Combien de temps dure l’oral 2 du CAPES ?', a: 'L’épreuve d’entretien dure 35 minutes, sans temps de préparation : 15 minutes sur le parcours et la motivation du candidat, dont une présentation de 5 minutes, puis 20 minutes de questions et de mises en situation professionnelle.' },
+        { q: 'Quel est le coefficient de l’épreuve d’entretien ?', a: 'Coefficient 3. L’épreuve est notée sur 20 et la note 0 est éliminatoire.' },
+        { q: 'L’épreuve d’entretien est-elle la même pour toutes les disciplines ?', a: 'Oui, dans ses grandes lignes : elle ne porte pas sur la discipline mais sur le métier de professeur et les valeurs du service public. Elle existe dans toutes les sections du CAPES, et sous une forme proche au CAPET, au CAPLP, au CAPEPS et au CRPE.' },
+        { q: 'Faut-il apprendre les textes de loi par cœur ?', a: 'Non. Il faut connaître les principes et quelques références sûres (article 1er de la Constitution, loi de 1905, loi du 15 mars 2004, statut des fonctionnaires). Une référence approximative dessert davantage qu’une réponse bien argumentée sur les principes.' },
+        { q: 'Comment se préparer à l’oral 2 ?', a: 'Préparer sa présentation de 5 minutes et la chronométrer, s’entraîner à voix haute sur des mises en situation variées avec la même démarche (comprendre, agir, ne pas rester seul, suivre, justifier), et se faire interroger par quelqu’un qui pose des questions de relance. Un stage ou des observations en établissement aident beaucoup à donner des exemples concrets.' }
+      ],
+      boxTitle: 'Continuer la préparation',
+      boxText: `La <a href="${fiche}">fiche complète</a> reprend les textes officiels, la jurisprudence, des études de cas et les questions du jury. Gratuit et sans inscription.`,
+      ldType: 'WebPage',
+      ld: { about: [{ '@type': 'Thing', name: 'Épreuve d’entretien du CAPES' }, { '@type': 'Thing', name: 'Laïcité à l’école' }],
+        audience: { '@type': 'EducationalAudience', educationalRole: 'Candidat aux concours de l’enseignement' }, learningResourceType: 'Méthode et mises en situation' }
     });
   }
   return written;

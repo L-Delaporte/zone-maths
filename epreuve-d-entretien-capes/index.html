@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <!-- Content-Security-Policy : voir scripts/csp.js (style-src 'unsafe-inline' requis par les attributs style de KaTeX) -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://gc.zgo.at; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://etabli-des-maths.goatcounter.com; font-src 'self' data:; connect-src 'self' https://etabli-des-maths.goatcounter.com; object-src 'none'; base-uri 'self'; form-action 'self'; manifest-src 'self'; worker-src 'self'" />
+  <script src="../js/themeInit.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Épreuve d’entretien du CAPES (oral 2) : préparer l’oral</title>
+  <meta name="description" content="Préparer l’épreuve d’entretien du CAPES (oral 2), toutes disciplines : déroulé, attentes du jury, laïcité, mises en situation corrigées et questions fréquentes." />
+  <meta name="author" content="Loïc Delaporte, professeur de mathématiques" />
+  <link rel="canonical" href="https://etabli-des-maths.fr/epreuve-d-entretien-capes/" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Épreuve d’entretien du CAPES (oral 2) : préparer l’oral" />
+  <meta property="og:description" content="Préparer l’épreuve d’entretien du CAPES (oral 2), toutes disciplines : déroulé, attentes du jury, laïcité, mises en situation corrigées et questions fréquentes." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://etabli-des-maths.fr/epreuve-d-entretien-capes/" />
+  <meta property="og:image" content="https://etabli-des-maths.fr/assets/logo.jpg" />
+  <meta property="og:image:alt" content="Épreuve d’entretien du CAPES (oral 2) : préparer l’oral" />
+  <meta name="twitter:card" content="summary" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta property="og:site_name" content="L'Établi des Maths" />
+
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/landing.css" />
+  <link rel="stylesheet" href="../vendor/katex/katex.min.css" />
+  <link rel="stylesheet" href="../css/cours.css" />
+  <link rel="icon" href="../favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32x32.png" />
+  <link rel="apple-touch-icon" href="../assets/favicon.png" />
+  <link rel="manifest" href="../manifest.json" />
+  <meta name="theme-color" content="#2563eb" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Épreuve d’entretien du CAPES (oral 2)",
+    "description": "Préparer l’épreuve d’entretien du CAPES (oral 2), toutes disciplines : déroulé, attentes du jury, laïcité, mises en situation corrigées et questions fréquentes.",
+    "url": "https://etabli-des-maths.fr/epreuve-d-entretien-capes/",
+    "inLanguage": "fr",
+    "isAccessibleForFree": true,
+    "dateModified": "2026-11-03",
+    "author": {
+      "@type": "Person",
+      "name": "Loïc Delaporte",
+      "jobTitle": "Professeur de mathématiques"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "L'Établi des Maths",
+      "url": "https://etabli-des-maths.fr/",
+      "logo": "https://etabli-des-maths.fr/assets/logo.png"
+    },
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "L'Établi des Maths",
+      "url": "https://etabli-des-maths.fr/"
+    },
+    "about": [
+      {
+        "@type": "Thing",
+        "name": "Épreuve d’entretien du CAPES"
+      },
+      {
+        "@type": "Thing",
+        "name": "Laïcité à l’école"
+      }
+    ],
+    "audience": {
+      "@type": "EducationalAudience",
+      "educationalRole": "Candidat aux concours de l’enseignement"
+    },
+    "learningResourceType": "Méthode et mises en situation"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Combien de temps dure l’oral 2 du CAPES ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "L’épreuve d’entretien dure 35 minutes, sans temps de préparation : 15 minutes sur le parcours et la motivation du candidat, dont une présentation de 5 minutes, puis 20 minutes de questions et de mises en situation professionnelle."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Quel est le coefficient de l’épreuve d’entretien ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Coefficient 3. L’épreuve est notée sur 20 et la note 0 est éliminatoire."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "L’épreuve d’entretien est-elle la même pour toutes les disciplines ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Oui, dans ses grandes lignes : elle ne porte pas sur la discipline mais sur le métier de professeur et les valeurs du service public. Elle existe dans toutes les sections du CAPES, et sous une forme proche au CAPET, au CAPLP, au CAPEPS et au CRPE."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Faut-il apprendre les textes de loi par cœur ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Non. Il faut connaître les principes et quelques références sûres (article 1er de la Constitution, loi de 1905, loi du 15 mars 2004, statut des fonctionnaires). Une référence approximative dessert davantage qu’une réponse bien argumentée sur les principes."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Comment se préparer à l’oral 2 ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Préparer sa présentation de 5 minutes et la chronométrer, s’entraîner à voix haute sur des mises en situation variées avec la même démarche (comprendre, agir, ne pas rester seul, suivre, justifier), et se faire interroger par quelqu’un qui pose des questions de relance. Un stage ou des observations en établissement aident beaucoup à donner des exemples concrets."
+        }
+      }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Accueil",
+        "item": "https://etabli-des-maths.fr/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Oral 2 du CAPES",
+        "item": "https://etabli-des-maths.fr/epreuve-d-entretien-capes/"
+      }
+    ]
+  }
+  </script>
+</head>
+<body class="cours-page">
+  <a class="cours-skip" href="#contenu">Aller au contenu</a>
+
+  <!-- Header Uniformisé -->
+  <header class="app-header">
+    <div class="header-inner">
+      <a href="../index.html" class="brand-container">
+        <img src="../assets/logo-96.png" alt="" class="brand-logo-img" width="44" height="44" />
+        <div class="brand-text">
+          <p class="brand-title">L'Établi des Maths <span class="brand-level-tag">CAPES</span></p>
+          <span class="brand-tagline">Outils pour apprendre et pratiquer</span>
+        </div>
+      </a>
+
+      <!-- Navigation entre Portails -->
+      <nav class="nav-portal-links" aria-label="Portails thématiques">
+        <a href="../index.html" class="nav-portal-btn">🏠 Accueil</a>
+        <a href="../cours/" class="nav-portal-btn">📚 Cours</a>
+        <a href="../exercices-de-maths/" class="nav-portal-btn">✏️ Exercices</a>
+        <a href="../rituels.html" class="nav-portal-btn">⏱️ Rituels</a>
+        <a href="../reviser-le-brevet-de-maths/" class="nav-portal-btn">📝 Brevet</a>
+        <a href="../reussir-le-bac-de-maths/" class="nav-portal-btn">🎓 Bac</a>
+        <a href="../enseignants.html" class="nav-portal-btn">👨‍🏫 Enseignants</a>
+        <a href="../parents.html" class="nav-portal-btn">👪 Parents</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="landing-wrapper cours-wrapper" id="contenu" tabindex="-1">
+    <nav class="cours-breadcrumb" aria-label="Fil d'Ariane">
+      <ol>
+        <li><a href="../index.html">Accueil</a></li>
+        <li><span aria-current="page">Oral 2 du CAPES</span></li>
+      </ol>
+    </nav>
+
+    <header class="cours-hero hub-hero">
+      <p class="landing-tag">🎓 Concours enseignants · toutes disciplines</p>
+      <h1 class="cours-title">Épreuve d’entretien du CAPES (oral 2)</h1>
+      <p class="cours-lead">L'oral 2 du CAPES est un entretien de 35 minutes avec le jury, le même dans toutes les disciplines : on y parle de son parcours, de sa motivation et de situations concrètes de la vie d'un établissement. Cette page présente le déroulé de l'épreuve, ce que le jury évalue, une méthode pour les mises en situation et des cas commentés. La <a href="../cours/capes/epreuve-d-entretien.html">fiche complète</a> détaille les textes officiels et la jurisprudence.</p>
+      <div class="cours-cta">
+        <a class="btn-primary cours-cta-main" href="../cours/capes/epreuve-d-entretien.html">📖 Lire la fiche complète</a>
+        <a class="btn-secondary cours-cta-alt" href="../index.html?chapitre=capes-oral2">🎯 S’entraîner sur des mises en situation</a>
+        <a class="btn-secondary cours-cta-alt" href="../cours/capes/">🎓 Leçons d’oral du CAPES de maths</a>
+      </div>
+      <ul class="hub-facts"><li><strong>35 min</strong><span>d’entretien, sans préparation</span></li><li><strong>3</strong><span>coefficient</span></li><li><strong>15 + 20</strong><span>minutes : parcours, puis mises en situation</span></li><li><strong>0/20</strong><span>note éliminatoire</span></li></ul>
+    </header>
+
+    <nav class="cours-toc" aria-label="Sommaire de la page">
+      <p class="cours-toc-title">Sommaire</p>
+      <ol><li><a href="#deroule">Déroulé de l’épreuve</a></li><li><a href="#concours">Une épreuve commune à toutes les disciplines</a></li><li><a href="#attentes">Ce que le jury évalue</a></li><li><a href="#methode">Une méthode pour les mises en situation</a></li><li><a href="#themes">Les thèmes qui reviennent</a></li><li><a href="#cas">Quatre mises en situation commentées</a></li><li><a href="#questions">Questions fréquentes du jury</a></li><li><a href="#faq">Questions fréquentes</a></li></ol>
+    </nav>
+
+    <section class="cours-section " id="deroule" aria-labelledby="deroule-titre">
+      <h2 id="deroule-titre">Déroulé de l’épreuve</h2>
+      <p>L'épreuve d'entretien est la seconde épreuve d'admission du CAPES externe. Elle n'a pas de temps de préparation et se déroule en deux temps. Son format diffère légèrement entre le concours de niveau bac + 5 et le nouveau concours de niveau bac + 3, organisé à partir de la session 2026.</p>
+      <div class="hub-table-wrap"><table class="hub-table"><caption>Format de l’épreuve d’entretien du CAPES externe</caption><thead><tr><th scope="col"></th><th scope="col">CAPES bac + 5</th><th scope="col">CAPES bac + 3 (dès 2026)</th></tr></thead><tbody><tr><th scope="row">Durée et coefficient</th><td>35 minutes, coefficient 3</td><td>35 minutes, coefficient 3</td></tr><tr><th scope="row">Premier temps (15 min)</th><td>Présentation du candidat (5 minutes au plus), appuyée sur la fiche individuelle de renseignement transmise avant l’oral, puis échange avec le jury</td><td>Présentation de la motivation, du parcours et des expériences (5 minutes), puis échange de 10 minutes avec le jury</td></tr><tr><th scope="row">Second temps (20 min)</th><td>Deux mises en situation professionnelle : l’une d’enseignement, l’autre liée à la vie scolaire</td><td>Questions variées, dont une mise en situation, sur les valeurs de la République et la laïcité, puis sur la projection dans le métier</td></tr><tr><th scope="row">Notation</th><td>Sur 20 ; la note 0 est éliminatoire</td><td>Sur 20 ; la note 0 est éliminatoire</td></tr></tbody></table></div>
+      <p class="cours-note">Les modalités sont fixées par arrêté et précisées dans la notice officielle de chaque section, publiée par le ministère. Relisez celle de votre discipline et de votre session avant l'oral.</p>
+    </section>
+
+    <section class="cours-section " id="concours" aria-labelledby="concours-titre">
+      <h2 id="concours-titre">Une épreuve commune à toutes les disciplines</h2>
+      <p>Cet entretien ne porte pas sur la discipline : il est construit sur le même modèle pour toutes les sections du CAPES (lettres, histoire-géographie, langues, sciences, mathématiques…). Les concours du second degré que sont le CAPET, le CAPLP et le CAPEPS comportent eux aussi une épreuve d'entretien de même nature, et le concours de professeur des écoles (CRPE) un entretien qui inclut en plus une partie consacrée à l'éducation physique et sportive.</p>
+      <p>Les exemples de cette page sont donc volontairement pris dans plusieurs disciplines. Seule la question de la motivation demande de relier sa réponse à la matière que l'on enseignera.</p>
+    </section>
+
+    <section class="cours-section " id="attentes" aria-labelledby="attentes-titre">
+      <h2 id="attentes-titre">Ce que le jury évalue</h2>
+      <div class="hub-grid">
+        <article class="cours-card"><h3>La projection dans le métier</h3><p>Le jury cherche un futur professeur qui se voit déjà dans un établissement : qui connaît ses missions, sait qu'il travaille en équipe et peut décrire une séance, une évaluation ou un échange avec une famille. Une motivation crédible s'appuie sur une expérience vécue, pas sur des formules générales.</p></article>
+        <article class="cours-card"><h3>Les valeurs de la République</h3><p>Laïcité, neutralité du service public, égalité entre les filles et les garçons, lutte contre les discriminations et les stéréotypes : il faut savoir les expliquer simplement et montrer comment on les fait vivre en classe, sans réciter des textes.</p></article>
+        <article class="cours-card"><h3>Le sens des responsabilités</h3><p>Face à une situation délicate, le jury attend une réponse posée : protéger les élèves, rappeler la règle, ne pas agir seul, informer les bons interlocuteurs. Il valorise la capacité à hiérarchiser plus que l'exhaustivité.</p></article>
+        <article class="cours-card"><h3>La qualité de l’échange</h3><p>C'est un entretien, pas un exposé : écouter la question, répondre précisément, accepter une objection, reconnaître une limite et rester courtois. La manière de dialoguer avec le jury préfigure celle de dialoguer avec les élèves et les familles.</p></article>
+      </div>
+    </section>
+
+    <section class="cours-section " id="methode" aria-labelledby="methode-titre">
+      <h2 id="methode-titre">Une méthode pour les mises en situation</h2>
+      <ol class="hub-steps">
+        <li><strong>Comprendre la situation.</strong> Reformuler en une phrase ce qui se passe et ce qui est en jeu : la sécurité d'un élève, son droit à apprendre, une valeur, le fonctionnement de la classe.</li>
+        <li><strong>Agir sur le moment.</strong> Dire ce que l'on fait concrètement dans la classe : garder son calme, rappeler la règle sans polémiquer, protéger, poursuivre le cours.</li>
+        <li><strong>Ne pas rester seul.</strong> Nommer les bons interlocuteurs : professeur principal, conseiller principal d'éducation, chef d'établissement, infirmière, assistante sociale, famille.</li>
+        <li><strong>Inscrire la réponse dans la durée.</strong> Prévoir un échange individuel, un suivi, une action éducative ; savoir qu'un élève en danger fait l'objet d'un signalement selon la procédure prévue.</li>
+        <li><strong>Justifier.</strong> Appuyer chaque décision sur un principe (intérêt de l'élève, égalité, laïcité, règlement intérieur) plutôt que sur une préférence personnelle.</li>
+      </ol>
+    </section>
+
+    <section class="cours-section " id="themes" aria-labelledby="themes-titre">
+      <h2 id="themes-titre">Les thèmes qui reviennent</h2>
+      <ul class="hub-inline hub-tags"><li>Laïcité et neutralité</li><li>Contestation d’un enseignement</li><li>Harcèlement et cyberharcèlement</li><li>Élèves à besoins éducatifs particuliers</li><li>Égalité filles-garçons</li><li>Propos discriminatoires</li><li>Autorité, punitions et sanctions</li><li>Relations avec les familles</li><li>Fraude et évaluation</li><li>Usage des réseaux sociaux</li><li>Protection de l’enfance</li><li>Transition écologique</li><li>Travail en équipe</li></ul>
+    </section>
+
+    <section class="cours-section " id="cas" aria-labelledby="cas-titre">
+      <h2 id="cas-titre">Quatre mises en situation commentées</h2>
+      <p class="cours-note">Ces situations ne sont pas tirées de sujets de concours : ce sont des exemples pour s'exercer. D'autres cas, propres aux mathématiques, figurent dans la <a href="../cours/capes/epreuve-d-entretien.html">fiche complète</a>.</p>
+      <div class="hub-grid">
+        <article class="cours-card"><h3>Un cours contesté en sciences de la vie et de la Terre</h3><p><strong>Situation.</strong> Pendant un cours sur l’évolution des espèces, un élève affirme que « ce qu’on apprend est faux » et que sa religion dit le contraire.</p><p><strong>Pistes de réponse.</strong> Distinguer calmement le savoir scientifique, établi par des preuves, et la croyance, qui appartient à chacun. Rappeler que le programme s’impose à tous sans demander à l’élève de renoncer à ses convictions, puis poursuivre le cours. Reprendre l’échange en tête-à-tête et, si la contestation se répète, en parler à l’équipe.</p></article>
+        <article class="cours-card"><h3>Un refus de la natation en éducation physique</h3><p><strong>Situation.</strong> Une famille demande que sa fille soit dispensée des séances de natation, pour des raisons religieuses.</p><p><strong>Pistes de réponse.</strong> L’assiduité est une obligation et la natation fait partie des enseignements. Recevoir la famille avec le professeur principal ou la direction, expliquer les objectifs de l’activité, notamment le savoir-nager, enjeu de sécurité, et rappeler que seul un motif légitime, médical par exemple, justifie une dispense. Chercher l’adhésion sans transiger sur la règle.</p></article>
+        <article class="cours-card"><h3>Une insulte entendue en classe</h3><p><strong>Situation.</strong> Lors d’un travail de groupe, un élève lance une insulte homophobe à un camarade.</p><p><strong>Pistes de réponse.</strong> Réagir immédiatement${NB}: faire cesser les propos, rappeler qu’ils sont interdits et punis par la loi, protéger l’élève visé. Informer le conseiller principal d’éducation et la direction pour une éventuelle sanction, prendre des nouvelles de l’élève visé et prévoir un temps éducatif, avec les personnels de l’établissement.</p></article>
+        <article class="cours-card"><h3>Un message agressif d’un parent</h3><p><strong>Situation.</strong> Après un devoir, un parent écrit sur l’espace numérique de travail un message virulent qui conteste la note et met en cause votre compétence.</p><p><strong>Pistes de réponse.</strong> Ne pas répondre à chaud ni par écrit sur le même ton. Proposer un rendez-vous, si possible avec le professeur principal, pour expliquer les critères d’évaluation. Informer la direction. En cas de menaces ou d’injures, l’administration peut accorder la protection fonctionnelle due aux agents publics.</p></article>
+      </div>
+    </section>
+
+    <section class="cours-section " id="questions" aria-labelledby="questions-titre">
+      <h2 id="questions-titre">Questions fréquentes du jury</h2>
+      <ul class="cours-list">
+        <li>Qu'est-ce que la laïcité, en une phrase, et que garantit-elle aux élèves ?</li>
+        <li>L'obligation de neutralité s'applique-t-elle aux élèves ?</li>
+        <li>Un élève refuse de travailler avec une camarade : comment réagissez-vous ?</li>
+        <li>Pourquoi voulez-vous enseigner, et pourquoi cette discipline ?</li>
+        <li>Quels sont les rôles du professeur principal et du conseiller principal d'éducation ?</li>
+        <li>Un élève vous confie un secret qui vous inquiète : que faites-vous ?</li>
+        <li>Comment faites-vous progresser un élève en grande difficulté sans freiner le reste de la classe ?</li>
+        <li>Que faites-vous si vous n'êtes pas d'accord avec une consigne de votre hiérarchie ?</li>
+      </ul>
+      <p class="cours-note">Des éléments de réponse, avec les textes à connaître, sont développés dans la <a href="../cours/capes/epreuve-d-entretien.html">fiche complète</a>, partie « Remarques et questions du jury ».</p>
+    </section>
+
+    <section class="cours-section " id="faq" aria-labelledby="faq-titre">
+      <h2 id="faq-titre">Questions fréquentes</h2>
+      <div class="cours-faq">
+        <details class="cours-faq-item"><summary><h3>Combien de temps dure l’oral 2 du CAPES ?</h3></summary><div><p>L’épreuve d’entretien dure 35 minutes, sans temps de préparation : 15 minutes sur le parcours et la motivation du candidat, dont une présentation de 5 minutes, puis 20 minutes de questions et de mises en situation professionnelle.</p></div></details>
+        <details class="cours-faq-item"><summary><h3>Quel est le coefficient de l’épreuve d’entretien ?</h3></summary><div><p>Coefficient 3. L’épreuve est notée sur 20 et la note 0 est éliminatoire.</p></div></details>
+        <details class="cours-faq-item"><summary><h3>L’épreuve d’entretien est-elle la même pour toutes les disciplines ?</h3></summary><div><p>Oui, dans ses grandes lignes : elle ne porte pas sur la discipline mais sur le métier de professeur et les valeurs du service public. Elle existe dans toutes les sections du CAPES, et sous une forme proche au CAPET, au CAPLP, au CAPEPS et au CRPE.</p></div></details>
+        <details class="cours-faq-item"><summary><h3>Faut-il apprendre les textes de loi par cœur ?</h3></summary><div><p>Non. Il faut connaître les principes et quelques références sûres (article 1er de la Constitution, loi de 1905, loi du 15 mars 2004, statut des fonctionnaires). Une référence approximative dessert davantage qu’une réponse bien argumentée sur les principes.</p></div></details>
+        <details class="cours-faq-item"><summary><h3>Comment se préparer à l’oral 2 ?</h3></summary><div><p>Préparer sa présentation de 5 minutes et la chronométrer, s’entraîner à voix haute sur des mises en situation variées avec la même démarche (comprendre, agir, ne pas rester seul, suivre, justifier), et se faire interroger par quelqu’un qui pose des questions de relance. Un stage ou des observations en établissement aident beaucoup à donner des exemples concrets.</p></div></details>
+      </div>
+    </section>
+
+    <aside class="cours-cta-box" aria-label="Commencer">
+      <p class="cours-cta-box-title">Continuer la préparation</p>
+      <p>La <a href="../cours/capes/epreuve-d-entretien.html">fiche complète</a> reprend les textes officiels, la jurisprudence, des études de cas et les questions du jury. Gratuit et sans inscription.</p>
+      <div class="cours-cta">
+        <a class="btn-primary cours-cta-main" href="../cours/capes/epreuve-d-entretien.html">📖 Lire la fiche complète</a>
+        <a class="btn-secondary cours-cta-alt" href="../index.html?chapitre=capes-oral2">🎯 S’entraîner sur des mises en situation</a>
+      </div>
+    </aside>
+
+    <nav class="cours-related" aria-label="Autres pages">
+      <div><p class="cours-related-title">Les autres pages</p><ul><li><a href="../exercices-de-maths/">Exercices de maths corrigés</a></li><li><a href="../reviser-le-brevet-de-maths/">Réviser le brevet de maths</a></li><li><a href="../reussir-le-bac-de-maths/">Réussir le bac de maths</a></li><li><a href="../entrainement-maths/">Entraînement maths en ligne</a></li><li><a href="../cours/">Cours de maths, de la 6e à la licence</a></li></ul></div>
+      <div><p class="cours-related-title">Par classe</p><ul class="hub-inline"><li><a href="../cours/6e/">6e</a></li><li><a href="../cours/5e/">5e</a></li><li><a href="../cours/4e/">4e</a></li><li><a href="../cours/3e/">3e</a></li><li><a href="../cours/seconde/">Seconde</a></li><li><a href="../cours/premiere/">Première</a></li><li><a href="../cours/terminale/">Terminale</a></li><li><a href="../cours/l1/">Licence 1</a></li><li><a href="../cours/l2/">Licence 2</a></li><li><a href="../cours/l3/">Licence 3</a></li><li><a href="../cours/capes/">CAPES</a></li></ul></div>
+    </nav>
+  </main>
+
+  <footer class="cours-footer">
+    <p>L'Établi des Maths — Conçu par Loïc Delaporte, professeur de mathématiques • 100 % gratuit, conforme aux programmes</p>
+    <p><a href="../cours/">Cours de maths</a> · <a href="../exercices-de-maths/">Exercices corrigés</a> · <a href="../entrainement-maths/">Entraînement en ligne</a> · <a href="../reviser-le-brevet-de-maths/">Réviser le brevet</a> · <a href="../reussir-le-bac-de-maths/">Réussir le bac</a> · <a href="../epreuve-d-entretien-capes/">Oral 2 du CAPES</a></p>
+    <p><a href="../index.html">Ouvrir l'application</a> · <a href="../rituels.html">Rituels</a> · <a href="../brevet.html">Brevet blanc</a> · <a href="../bac.html">Devoir type bac</a> · <a href="../a-propos.html">Qui suis-je ?</a> · <a href="../mentions-legales.html">Mentions légales</a> · <a href="mailto:delaporte@etabli-des-maths.fr">Contact</a></p>
+    <p>Contenus sous licence <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr" rel="license noopener">CC BY-NC-SA 4.0</a></p>
+  </footer>
+  <!-- Statistiques d'audience anonymes et conformes RGPD (GoatCounter) -->
+  <script data-goatcounter="https://etabli-des-maths.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>

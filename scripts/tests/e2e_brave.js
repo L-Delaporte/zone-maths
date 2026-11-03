@@ -658,7 +658,7 @@ async function step(label, fn) {
     for (const [url, extra] of [
       ['rituels.html'], ['brevet.html'], ['bac.html'], ['parents.html'], ['a-propos.html'], ['mentions-legales.html'],
       ['enseignants.html', 'copy'], ['affiche.html', 'print'],
-      ['cours/'], ['cours/4e/theoreme-de-pythagore.html'], ['cours/terminale/calcul-integral.html'], ['reussir-le-bac-de-maths/'], ['entrainement-maths/'],
+      ['cours/'], ['cours/4e/theoreme-de-pythagore.html'], ['cours/terminale/calcul-integral.html'], ['reussir-le-bac-de-maths/'], ['entrainement-maths/'], ['epreuve-d-entretien-capes/'],
     ]) {
       await cspStep(url, async () => {
         await goto(BASE + url);

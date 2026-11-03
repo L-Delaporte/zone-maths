@@ -519,7 +519,7 @@
 .hub-exo-more { margin-top: 0.85rem; font-size: 0.9rem; color: var(--text-muted); }
 /* important : prime sur une règle concurrente plus spécifique ou plus tardive */
 .hub-inline { list-style: none; display: flex !important; flex-wrap: wrap; gap: 0.35rem 0.9rem; }
-.hub-pills a {
+.hub-pills a, .hub-tags li {
   display: inline-block;
   padding: 4px 12px;
   border: 1px solid var(--border-color);
