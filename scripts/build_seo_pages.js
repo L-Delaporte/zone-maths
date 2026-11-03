@@ -191,12 +191,31 @@ const CATEGORIES = [
   { id: 'grandeurs', name: 'Grandeurs et mesures' },
   { id: 'stats', name: 'Statistiques et probabilités' },
   { id: 'algo', name: 'Algorithmique et programmation' },
-  { id: 'autres', name: 'Raisonnement et métier' }
+  { id: 'demos', name: 'Démonstrations' },
+  { id: 'entretien', name: 'Épreuve d\u2019entretien' }
 ];
+/** Collège : thèmes resserrés (Numérique, Géométrie, Gestion de données ; Fonctions à partir de la 3e). */
+const CATEGORIES_COLLEGE = [
+  { id: 'numerique', name: 'Numérique' },
+  { id: 'geometrie', name: 'Géométrie' },
+  { id: 'gestion', name: 'Gestion de données' },
+  { id: 'fonctions', name: 'Fonctions' },
+  { id: 'algo', name: 'Algorithmique et programmation' }
+];
+function categoryFor(it, lvl) {
+  const c = categoryOf(it.ch, it.title);
+  if (lvl.cycle !== 'college') return c;
+  if (c === 'nombres') return 'numerique';
+  if (c === 'geometrie' || c === 'grandeurs') return 'geometrie';
+  if (c === 'stats') return 'gestion';
+  if (c === 'fonctions') return lvl.code === '3eme' && /fonction/i.test(it.title) ? 'fonctions' : 'gestion';
+  return c;
+}
 function categoryOf(ch, title) {
   const dom = String(ch.domainName || ch.domain || '');
   const t = String(title);
-  if (/démonstrations fondamentales|éthique|laïcité/i.test(dom)) return 'autres';
+  if (/démonstrations fondamentales/i.test(dom)) return 'demos';
+  if (/éthique|laïcité/i.test(dom)) return 'entretien';
   if (/statisti|probabilit|données|dénombrement|combinatoire|aléatoire|échantillonnage|fluctuation|bernoulli|binomiale/i.test(t)) return 'stats';
   if (/algorithm|programmation|pensée informatique|scratch|python/i.test(t)) return 'algo';
   if (/espaces métriques|banach|compacité|mesure et intégration|analyse numérique|calcul différentiel/i.test(t)) return 'fonctions';
@@ -1012,8 +1031,8 @@ ${CYCLES.map((cy) => {
       <div class="cours-level-grid">
 ${lv.map(({ lvl, items }) => `        <article class="cours-level-card">
           <h3><a href="${lvl.slug}/">${lvl.code === 'capes' ? 'CAPES de mathématiques' : esc(lvl.label)}</a> <span class="cours-count">${items.length} chapitres</span></h3>
-${CATEGORIES.map((cat) => {
-    const list = items.filter((it) => categoryOf(it.ch, it.title) === cat.id);
+${(lvl.cycle === 'college' ? CATEGORIES_COLLEGE : CATEGORIES).map((cat) => {
+    const list = items.filter((it) => categoryFor(it, lvl) === cat.id);
     if (!list.length) return '';
     return `          <h4 class="cours-cat-title">${esc(cat.name)}</h4>
           <ul>
