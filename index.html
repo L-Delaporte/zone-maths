@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <!-- Content-Security-Policy : voir scripts/csp.js (style-src 'unsafe-inline' requis par les attributs style de KaTeX et de l'application) -->
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://gc.zgo.at; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://etabli-des-maths.goatcounter.com; font-src 'self' data:; connect-src 'self' https://etabli-des-maths.goatcounter.com; object-src 'none'; base-uri 'self'; form-action 'self'; manifest-src 'self'; worker-src 'self'" />
-  <script src="js/themeInit.js?v=a282873d6c"></script>
+  <script src="js/themeInit.js?v=b22b407710"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="author" content="Loïc Delaporte, Professeur de Mathématiques" />
   <meta name="description" content="Exercices de maths corrigés et générés à l'infini, cours, rituels et brevets blancs, de la 6e au bac. Gratuit, sans compte ni pub, par un prof de maths." />
@@ -76,7 +76,7 @@
   <link rel="stylesheet" href="vendor/katex/katex.min.css?v=000b7545e1" />
   
   <!-- Feuilles de style de l'application -->
-  <link rel="stylesheet" href="css/style.css?v=aa771d5e84" />
+  <link rel="stylesheet" href="css/style.css?v=17d35f5ec5" />
   <link rel="stylesheet" href="css/sheets.css?v=1f1346a799" />
   <link rel="icon" href="/favicon.ico" sizes="any" />
   <link rel="icon" type="image/png" sizes="48x48" href="assets/favicon-48x48.png" />
@@ -169,18 +169,19 @@
             </button>
           </div>
 
-          <!-- Outils de confort (Sons et Thème) -->
-          <div class="header-utility-actions">
-            <button id="sound-toggle-btn" class="btn-icon-text btn-utility-action" title="Activer / Couper les sons" data-click="MathsAudio.toggleMute">
-              🔊 <span class="btn-sound-text btn-lbl">Sons</span>
-            </button>
-            <button id="simple-toggle-btn" class="btn-icon-text btn-utility-action" type="button" aria-pressed="false" title="Réduire les animations et effets visuels">
-              👓 <span class="btn-lbl">Affichage simplifié</span>
-            </button>
-            <button id="theme-toggle-btn" class="btn-icon-text btn-utility-action" title="Basculer le thème">
-              🌙 <span class="btn-lbl">Mode Sombre</span>
-            </button>
-          </div>
+          <!-- Réglages d'affichage et de confort (thème, affichage simplifié, police, sons) -->
+          <details class="settings-menu" id="settings-menu">
+            <summary class="settings-trigger btn-icon-text" title="Réglages : thème, affichage, police, sons">
+              <svg class="settings-gear" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg>
+              <span class="btn-lbl">Réglages</span>
+            </summary>
+            <div class="settings-panel" role="group" aria-label="Réglages">
+              <button id="theme-toggle-btn" class="settings-item" type="button" role="switch" aria-checked="false"><span class="settings-ico" aria-hidden="true">🌙</span><span class="settings-txt">Thème sombre</span><span class="settings-state" aria-hidden="true"></span></button>
+              <button id="simple-toggle-btn" class="settings-item" type="button" role="switch" aria-checked="false" title="Réduire les animations et effets visuels"><span class="settings-ico" aria-hidden="true">👓</span><span class="settings-txt">Affichage simplifié</span><span class="settings-state" aria-hidden="true"></span></button>
+              <button id="dys-toggle-btn" class="settings-item" type="button" role="switch" aria-checked="false" title="Remplacer la police du site par OpenDyslexic"><span class="settings-ico" aria-hidden="true">🔤</span><span class="settings-txt">Police dyslexie</span><span class="settings-state" aria-hidden="true"></span></button>
+              <button id="sound-toggle-btn" class="settings-item" type="button" role="switch" aria-checked="true" data-click="MathsAudio.toggleMute"><span class="settings-ico" aria-hidden="true">🔊</span><span class="settings-txt">Sons</span><span class="settings-state" aria-hidden="true"></span></button>
+            </div>
+          </details>
         </div>
       </div>
     </div>
@@ -1356,7 +1357,7 @@
   <script src="js/data/defis.js?v=3bb2c75031"></script>
   <script src="js/badges.js?v=c5824c0ee8"></script>
   <script src="js/storage.js?v=6cfd159b0b"></script>
-  <script src="js/audioEffects.js?v=b65413daaf"></script>
+  <script src="js/audioEffects.js?v=c9749a11c5"></script>
   <script src="js/confetti.js?v=2f09c3d81b"></script>
   <script src="js/mathRenderer.js?v=b18b8ba377"></script>
   <script src="js/geometryFigures.js?v=656295f7c5"></script>
@@ -1369,7 +1370,7 @@
   <script src="js/flashQuizGenerator.js?v=3ffdafda14"></script>
   <script src="js/flashcardsEngine.js?v=9621e5c78a"></script>
   <script src="js/dataLoader.js?v=828f7fa67d"></script>
-  <script src="js/app.js?v=885fb814d1"></script>
+  <script src="js/app.js?v=91be4f0ad1"></script>
   <script src="js/app/home.js?v=c25700373c"></script>
   <script src="js/app/tools.js?v=4b710dcdc8"></script>
   <script src="js/app/training.js?v=7437ea1e9a"></script>

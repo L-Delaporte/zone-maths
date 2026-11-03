@@ -407,19 +407,92 @@ body.home-view-active .cycle-levels-row {
   white-space: nowrap;
 }
 
-.header-utility-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-  justify-content: center;
+/* Menu Réglages (thème, affichage simplifié, police dyslexie, sons) */
+.settings-menu {
+  position: relative;
+  flex-shrink: 0;
+  align-self: center;
 }
 
-.header-utility-actions .btn-utility-action {
-  padding: 4px 10px;
-  font-size: 0.78rem;
-  justify-content: center;
+.settings-trigger {
+  list-style: none;
   white-space: nowrap;
+  user-select: none;
 }
+
+.settings-trigger::-webkit-details-marker { display: none; }
+.settings-trigger::marker { content: ''; }
+
+.settings-gear { flex-shrink: 0; transition: transform 0.25s ease; }
+.settings-menu[open] .settings-gear { transform: rotate(60deg); }
+.settings-panel[hidden] { display: none; }
+.settings-menu[open] > .settings-trigger {
+  background-color: var(--primary-subtle);
+  border-color: var(--primary-border);
+}
+
+/* Panneau déplacé dans <body> et placé en JS (bindSettingsMenu) sous le bouton Réglages */
+.settings-panel {
+  position: fixed;
+  z-index: 1200;
+  min-width: 15rem;
+  max-width: calc(100vw - 16px);
+  padding: 0.35rem;
+  display: grid;
+  gap: 0.15rem;
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+}
+
+.settings-item {
+  font: inherit;
+  font-size: 0.88rem;
+  color: var(--text-main);
+  display: grid;
+  grid-template-columns: 1.5rem 1fr auto;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: 0;
+  border-radius: var(--radius-sm);
+  padding: 0.55rem 0.65rem;
+  cursor: pointer;
+}
+
+.settings-item:hover { background: var(--bg-subtle); }
+.settings-item:focus-visible { outline: 2px solid var(--primary); outline-offset: -2px; }
+.settings-ico { text-align: center; }
+
+/* Petit interrupteur visuel ; l'état est annoncé aux lecteurs d'écran par aria-checked */
+.settings-state {
+  position: relative;
+  width: 2.1rem;
+  height: 1.2rem;
+  border-radius: 999px;
+  background: var(--border-color);
+  font-size: 0;
+  transition: background-color 0.2s ease;
+}
+
+.settings-state::after {
+  content: '';
+  position: absolute;
+  top: 0.15rem;
+  left: 0.15rem;
+  width: 0.9rem;
+  height: 0.9rem;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.25);
+  transition: transform 0.2s ease;
+}
+
+.settings-item[aria-checked="true"] .settings-state { background: var(--primary); }
+.settings-item[aria-checked="true"] .settings-state::after { transform: translateX(0.9rem); }
 
 .btn-flashcards-glow {
   background: linear-gradient(135deg, rgba(245, 158, 11, 0.12), rgba(234, 88, 12, 0.16));
@@ -502,7 +575,7 @@ body.home-view-active .cycle-levels-row {
 /* Zone Continuité / Échauffement (Effet Zeigarnik) */
 .home-resume-box {
   display: grid;
-  grid-template-columns: 1.7fr 1fr;
+  grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
   gap: 1rem;
 }
 
@@ -513,6 +586,7 @@ body.home-view-active .cycle-levels-row {
   border-radius: var(--radius-md);
   padding: 1rem 1.25rem;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
@@ -600,6 +674,7 @@ body.home-view-active .cycle-levels-row {
   border-radius: var(--radius-md);
   padding: 1rem 1.25rem;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 0.75rem;
@@ -4384,7 +4459,7 @@ body.home-view-active .cycle-levels-row {
   padding: 4px 10px;
   font-size: 0.8rem;
   border-radius: var(--radius-sm);
-  white-space: nowrap;
+  max-width: 100%;
 }
 
 /* Impression optimisée : SUJET BLANC & CORRIGÉ DÉTAILLÉ */
@@ -4801,28 +4876,6 @@ body.home-view-active .cycle-levels-row {
 
 .search-clear-btn:hover {
   color: var(--text-main);
-}
-
-/* =========================================================================
-   BOUTON DE CONTRÔLE DU SON DANS L'EN-TÊTE
-   ========================================================================= */
-#sound-toggle-btn {
-  background-color: var(--bg-surface-elevated);
-  border: 1px solid var(--border-color);
-  font-size: 0.82rem;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  padding: 0.35rem 0.75rem;
-  border-radius: var(--radius-full);
-  transition: var(--transition);
-  color: var(--text-main);
-}
-
-#sound-toggle-btn:hover {
-  border-color: var(--primary);
-  transform: translateY(-1px);
 }
 
 /* =========================================================================
@@ -5345,18 +5398,14 @@ body.home-view-active .cycle-levels-row {
     flex-shrink: 0;
   }
 
-  .header-utility-actions {
-    display: flex;
-    flex-direction: row;
-    gap: 0.25rem;
-    flex-shrink: 0;
+  .settings-menu {
     margin-left: 0.2rem;
     padding-right: 8px;
   }
 
   /* important : prime sur une règle concurrente plus spécifique ou plus tardive */
   .header-tools-grid-2x2 .btn-icon-text,
-  .header-utility-actions .btn-utility-action {
+  .settings-trigger.btn-icon-text {
     padding: 4px 8px !important;
     font-size: 0.72rem !important;
     font-weight: 600;
@@ -9457,3 +9506,58 @@ button.status-pill {
 [data-simple] [class*="fx-t"]::after { display: none !important; }
 [data-simple] body { line-height: 1.7; }
 #simple-toggle-btn[aria-pressed="true"] { font-weight: 700; }
+
+/* ============================================================
+   Police adaptée à la dyslexie (OpenDyslexic, licence SIL OFL 1.1 : assets/fonts/OpenDyslexic-OFL.txt)
+   Les fichiers ne sont téléchargés par le navigateur que si [data-dys] est posé (réglage actif).
+   Les formules (KaTeX) et le code (monospace) gardent leurs polices.
+   ============================================================ */
+@font-face {
+  font-family: 'OpenDyslexic';
+  src: url('../assets/fonts/opendyslexic-400-normal.woff2') format('woff2');
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'OpenDyslexic';
+  src: url('../assets/fonts/opendyslexic-700-normal.woff2') format('woff2');
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'OpenDyslexic';
+  src: url('../assets/fonts/opendyslexic-400-italic.woff2') format('woff2');
+  font-weight: 400; font-style: italic; font-display: swap;
+}
+@font-face {
+  font-family: 'OpenDyslexic';
+  src: url('../assets/fonts/opendyslexic-700-italic.woff2') format('woff2');
+  font-weight: 700; font-style: italic; font-display: swap;
+}
+
+[data-dys] {
+  --font-sans: 'OpenDyslexic', system-ui, sans-serif;
+}
+
+/* Les champs et boutons n'héritent pas de la police par défaut (feuille du navigateur) */
+:where([data-dys]) :where(button, input, select, textarea, summary) {
+  font-family: inherit;
+}
+
+[data-dys] .diapo-mm-sheet,
+[data-dys] .scratch-script {
+  font-family: var(--font-sans);
+}
+
+/* Police plus large : l'en-tête de l'application passe sur deux lignes plutôt que de déborder */
+[data-dys] .header-inner {
+  flex-wrap: wrap;
+  gap: 0.5rem 0.75rem;
+}
+
+@media (min-width: 769px) {
+  [data-dys] .header-inner > .app-curriculum-nav {
+    order: 3;
+    flex-basis: 100%;
+    display: flex;
+    justify-content: center;
+  }
+}

@@ -7,3 +7,7 @@ try {
 try {
   if (localStorage.getItem('etabli_affichage_simple') === '1') document.documentElement.setAttribute('data-simple', '');
 } catch (e) {}
+// Police adaptée à la dyslexie (OpenDyslexic) : le fichier de police n'est téléchargé que si ce réglage est actif.
+try {
+  if (localStorage.getItem('etabli_police_dys') === '1') document.documentElement.setAttribute('data-dys', '');
+} catch (e) {}

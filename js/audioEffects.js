@@ -77,11 +77,12 @@
     updateToggleButton: function() {
       const btn = document.getElementById('sound-toggle-btn');
       if (btn) {
-        btn.innerHTML = muted ? '🔇 <span class="btn-sound-text">Sons : Off</span>' : '🔊 <span class="btn-sound-text">Sons : On</span>';
-        // Libellé fixe + état : « Couper les sons », enfoncé quand le son est coupé
-        btn.setAttribute('aria-label', 'Couper les sons');
-        btn.setAttribute('aria-pressed', muted ? 'true' : 'false');
-        btn.setAttribute('title', muted ? 'Activer les sons d\'ambiance' : 'Couper le son');
+        // Interrupteur du menu Réglages : coché quand les sons sont activés
+        btn.setAttribute('aria-checked', muted ? 'false' : 'true');
+        const ico = btn.querySelector('.settings-ico');
+        if (ico) ico.textContent = muted ? '🔇' : '🔊';
+        const st = btn.querySelector('.settings-state');
+        if (st) st.textContent = muted ? 'désactivé' : 'activé';
       }
     },
 

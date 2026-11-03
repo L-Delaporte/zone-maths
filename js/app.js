@@ -221,10 +221,16 @@ window.MathsApp = {
   },
 
   updateThemeButton(theme) {
-    const btn = document.getElementById('theme-toggle-btn');
-    if (btn) {
-      btn.innerHTML = theme === 'dark' ? '☀️ Mode Clair' : '🌙 Mode Sombre';
-    }
+    this.setSettingState('theme-toggle-btn', theme === 'dark');
+  },
+
+  // État d'un interrupteur du menu Réglages (role="switch") : coche + texte « activé / désactivé »
+  setSettingState(id, on) {
+    const btn = document.getElementById(id);
+    if (!btn) return;
+    btn.setAttribute('aria-checked', on ? 'true' : 'false');
+    const st = btn.querySelector('.settings-state');
+    if (st) st.textContent = on ? 'activé' : 'désactivé';
   },
 
   // --- Affichage simplifié (accessibilité) ---
@@ -237,11 +243,63 @@ window.MathsApp = {
   },
 
   updateSimpleButton() {
-    const btn = document.getElementById('simple-toggle-btn');
-    if (!btn) return;
-    const on = document.documentElement.hasAttribute('data-simple');
-    btn.innerHTML = on ? '✨ <span class="btn-lbl">Affichage normal</span>' : '👓 <span class="btn-lbl">Affichage simplifié</span>';
-    btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+    this.setSettingState('simple-toggle-btn', document.documentElement.hasAttribute('data-simple'));
+  },
+
+  // --- Police adaptée à la dyslexie (OpenDyslexic, chargée seulement si le réglage est actif) ---
+  toggleDysFont() {
+    const root = document.documentElement;
+    const on = !root.hasAttribute('data-dys');
+    if (on) root.setAttribute('data-dys', ''); else root.removeAttribute('data-dys');
+    try { localStorage.setItem('etabli_police_dys', on ? '1' : '0'); } catch (e) {}
+    this.updateDysButton();
+  },
+
+  updateDysButton() {
+    this.setSettingState('dys-toggle-btn', document.documentElement.hasAttribute('data-dys'));
+  },
+
+  // Menu Réglages (<details>) : le panneau est déplacé à la fin de <body> pour ne pas être rogné
+  // par la rangée d'outils (défilement horizontal + masque en dégradé sur mobile).
+  // Fermeture au clic extérieur, avec Échap (focus rendu au bouton), au défilement et au redimensionnement.
+  bindSettingsMenu() {
+    const menu = document.getElementById('settings-menu');
+    const panel = menu && menu.querySelector('.settings-panel');
+    const trigger = menu && menu.querySelector('summary');
+    if (!menu || !panel || !trigger) return;
+    panel.id = 'settings-panel';
+    trigger.setAttribute('aria-controls', 'settings-panel');
+    document.body.appendChild(panel);
+    panel.hidden = true;
+
+    const place = () => {
+      const r = trigger.getBoundingClientRect();
+      panel.style.top = Math.round(r.bottom + 6) + 'px';
+      panel.style.right = Math.max(8, Math.round(document.documentElement.clientWidth - r.right)) + 'px';
+    };
+    menu.addEventListener('toggle', () => {
+      trigger.setAttribute('aria-expanded', menu.open ? 'true' : 'false');
+      panel.hidden = !menu.open;
+      if (menu.open) {
+        place();
+        const first = panel.querySelector('button');
+        if (first) first.focus({ preventScroll: true });
+      }
+    });
+    trigger.setAttribute('aria-expanded', 'false');
+    const close = () => { if (menu.open) menu.open = false; };
+    document.addEventListener('click', (e) => {
+      if (menu.open && !menu.contains(e.target) && !panel.contains(e.target)) close();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && menu.open) { close(); trigger.focus(); }
+    });
+    // Tabulation hors du panneau : on referme
+    panel.addEventListener('focusout', (e) => {
+      if (e.relatedTarget && !panel.contains(e.relatedTarget) && e.relatedTarget !== trigger) close();
+    });
+    window.addEventListener('resize', close);
+    window.addEventListener('scroll', close, { passive: true });
   },
 
   // --- Navigation par Domaine & Chapitre ---
@@ -252,6 +310,10 @@ window.MathsApp = {
     const simpleBtn = document.getElementById('simple-toggle-btn');
     if (simpleBtn) simpleBtn.addEventListener('click', () => this.toggleSimpleDisplay());
     this.updateSimpleButton();
+    const dysBtn = document.getElementById('dys-toggle-btn');
+    if (dysBtn) dysBtn.addEventListener('click', () => this.toggleDysFont());
+    this.updateDysButton();
+    this.bindSettingsMenu();
 
     // Déclencheur du tiroir mobile de chapitres
     const mobileChapterBtn = document.getElementById('mobile-chapter-btn');
