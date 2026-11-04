@@ -121,7 +121,10 @@ Object.assign(window.MathsApp, {
         let inputTip = showSqrtPi
           ? '💡 Fraction : <code>13/7</code> · racine : <code>3√2</code> ou <code>3sqrt(2)</code> · π : <code>3π/4</code> ou <code>3pi/4</code> (touches √ et π du clavier mathématique ci-dessous).'
           : '💡 Pour une fraction, écris par exemple <code>13/7</code> ou utilise le clavier virtuel ci-dessous.';
-        if (ansStr.includes(';') || (ansStr.startsWith('(') && ansStr.endsWith(')'))) {
+        if (exercise.answerType === 'factorisation') {
+          safePlaceholder = 'Forme factorisée (ex : 3(x-2)(2x+5))';
+          inputTip = '💡 Écris un produit : <code>3(x-2)(2x+5)</code> ; un carré s\'écrit <code>(x+1)^2</code> ; le signe × est facultatif.';
+        } else if (ansStr.includes(';') || (ansStr.startsWith('(') && ansStr.endsWith(')'))) {
           safePlaceholder = 'Coordonnées (ex: (3;5) ou 3;5)';
           inputTip = '💡 Écris les coordonnées sous la forme <code>(x;y)</code> ou <code>x;y</code>.' + (showSqrtPi ? ' Racine : <code>√</code> ou <code>sqrt</code> ; π : <code>π</code> ou <code>pi</code>.' : '');
         } else if (/[√π]/.test(ansStr)) {

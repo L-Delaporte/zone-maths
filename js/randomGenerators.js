@@ -11271,16 +11271,19 @@
   },
 
   _h3a_N2bis_fill1(t) {
+    // Factorisation par un facteur imposé (parfois négatif) ; saisie de la forme factorisée.
     let k, a, b;
-    do { k = this.randInt(2, 9); a = this.randInt(1, 9); b = this.randInt(-9, 9, [0]); } while (this.gcd(a, Math.abs(b)) !== 1);
+    do { k = this.randInt(2, 9) * (this.randInt(1, 3) === 1 ? -1 : 1); a = this.randInt(1, 9); b = this.randInt(-9, 9, [0]); } while (this.gcd(a, Math.abs(b)) !== 1);
+    const E = this.formatPoly([k * a, k * b]), R = this.formatPoly([a, b]);
     return {
-      title: 'Compléter une factorisation',
-      statement: `Compléter l'égalité suivante, vraie pour tout nombre $x$ :\n$$${this.formatPoly([k * a, k * b])} = ${k}(${this.formatCoef(a)}x + \\square)$$\n**Quel nombre (positif ou négatif) faut-il écrire à la place du carré ?**`,
-      answer: `${b}`,
-      hint1: `Le facteur commun est $${k}$ : écris le terme constant $${k * b}$ comme un produit $${k} \\times \\ldots$`,
-      hint2: "Rappel : factoriser, c'est utiliser $ka + kb = k(a + b)$ « de droite à gauche ». Le signe du terme fait partie de ce qu'on met dans la parenthèse.",
-      solution: `$${this.formatCoef(k * a)}x = ${k} \\times ${this.formatCoef(a)}x$ et $${k * b} = ${k} \\times ${this._h3a_p(b)}$, donc $$${this.formatPoly([k * a, k * b])} = ${k}(${this.formatPoly([a, b])})$$\n**Conclusion** : on écrit $${b}$ à la place du carré.\n**Vérification** : en développant $${k}(${this.formatPoly([a, b])})$ on retrouve l'expression de départ.`,
-      _v: { k: '3N2bis.fill1', k2: k, b }
+      title: k > 0 ? 'Factoriser par un nombre donné' : 'Factoriser par un nombre négatif',
+      statement: `Factoriser l'expression $${E}$ en mettant $${k}$ en facteur.\n**Écrire la forme factorisée.**`,
+      answer: `${k}(${R})`.replace(/\s+/g, ''),
+      answerType: 'factorisation',
+      hint1: `Écris chaque terme comme un produit $${k} \\times \\ldots$ : divise chacun des deux termes par $${k}$${k < 0 ? ', en faisant attention aux signes' : ''}.`,
+      hint2: "Rappel : factoriser, c'est utiliser $ka + kb = k(a + b)$ « de droite à gauche ». Le signe de chaque terme fait partie de ce qu'on met dans la parenthèse.",
+      solution: `$${this.formatCoef(k * a)}x = ${this._h3a_p(k)} \\times ${this.formatCoef(a)}x$ et $${k * b} = ${this._h3a_p(k)} \\times ${this._h3a_p(b)}$, donc $$${E} = ${k}(${R})$$\n**Vérification** : en développant $${k}(${R})$ on retrouve l'expression de départ.`,
+      _v: { k: '3N2bis.fill1', k2: k, a, b }
     };
   },
 
@@ -11288,14 +11291,16 @@
     let k, a, b;
     do { k = this.randInt(2, 12); a = this.randInt(2, 9); b = this.randInt(2, 11); } while (this.gcd(a, b) !== 1);
     const s = this.randChoice([1, -1]);
+    const E = this.formatPoly([k * a, s * k * b]), R = this.formatPoly([a, s * b]);
     return {
-      title: 'Trouver le plus grand facteur commun',
-      statement: `On veut factoriser **au maximum** l'expression $${this.formatPoly([k * a, s * k * b])}$ par un nombre entier positif.\n**Quel est le plus grand nombre entier que l'on peut mettre en facteur ?**`,
-      answer: `${k}`,
-      hint1: 'Liste les diviseurs du coefficient de $x$ et ceux du terme constant (sans tenir compte du signe), puis repère le plus grand diviseur commun.',
+      title: 'Factoriser au maximum par un nombre',
+      statement: `Factoriser **au maximum** l'expression $${E}$.\n**Écrire la forme factorisée.**`,
+      answer: `${k}(${R})`.replace(/\s+/g, ''),
+      answerType: 'factorisation',
+      hint1: 'Liste les diviseurs du coefficient de $x$ et ceux du terme constant (sans tenir compte du signe), puis mets en facteur le plus grand diviseur commun.',
       hint2: "Rappel : factoriser au maximum par un nombre, c'est mettre en facteur le plus grand diviseur commun des coefficients ; dans la parenthèse, les coefficients restants n'ont plus de diviseur commun autre que 1.",
-      solution: `$${k * a} = ${k} \\times ${a}$ et $${k * b} = ${k} \\times ${b}$, avec ${a} et ${b} sans diviseur commun autre que 1.\nDonc $${this.formatPoly([k * a, s * k * b])} = ${k}(${this.formatPoly([a, s * b])})$.\n**Conclusion** : le plus grand facteur commun est $${k}$.`,
-      _v: { k: '3N2bis.gcd1', m: k * a, n: k * b }
+      solution: `$${k * a} = ${k} \\times ${a}$ et $${k * b} = ${k} \\times ${b}$, avec ${a} et ${b} sans diviseur commun autre que 1.\n**Conclusion** : $$${E} = ${k}(${R})$$`,
+      _v: { k: '3N2bis.gcd1', m: k * a, n: k * b, s }
     };
   },
 
@@ -11325,16 +11330,17 @@
   _h3a_N2bis_sq2(t) {
     let m, p;
     do { m = this.randInt(1, 9); p = this.randInt(1, 12); } while (this.gcd(m, p) !== 1); // factorisation complète
-    const ask = m === 1 ? 'p' : this.randChoice(['m', 'p']);
+    const fc = this.formatCoef(m);
     const lhs = `${m * m === 1 ? '' : m * m}x^2 - ${p * p}`;
     return {
       title: 'Factoriser une différence de deux carrés',
-      statement: `On factorise $${lhs}$ sous la forme $(mx - p)(mx + p)$ avec $m$ et $p$ entiers positifs.\n**Donner la valeur de $${ask}$.**`,
-      answer: `${ask === 'm' ? m : p}`,
+      statement: `Factoriser l'expression $${lhs}$.\n**Écrire la forme factorisée.**`,
+      answer: `(${fc}x-${p})(${fc}x+${p})`,
+      answerType: 'factorisation',
       hint1: `Écris chacun des deux termes $${m * m === 1 ? '' : m * m}x^2$ et $${p * p}$ comme le carré d'une expression.`,
       hint2: "Rappel : $a^2 - b^2 = (a - b)(a + b)$.",
-      solution: `$${m * m === 1 ? '' : m * m}x^2 = (${this.formatCoef(m)}x)^2$ et $${p * p} = ${p}^2$, donc $$${lhs} = (${this.formatCoef(m)}x - ${p})(${this.formatCoef(m)}x + ${p})$$\n**Conclusion** : $${ask} = ${ask === 'm' ? m : p}$.`,
-      _v: { k: '3N2bis.sq2', m, p, ask }
+      solution: `$${m * m === 1 ? '' : m * m}x^2 = (${fc}x)^2$ et $${p * p} = ${p}^2$, donc $$${lhs} = (${fc}x - ${p})(${fc}x + ${p})$$`,
+      _v: { k: '3N2bis.sq2', m, p }
     };
   },
 
@@ -11358,14 +11364,16 @@
     do { k = this.randInt(2, 9); a = this.randInt(1, 7); b = this.randInt(1, 9); } while (this.gcd(a, b) !== 1);
     const s = this.randChoice([1, -1]);
     const e = `${this.formatCoef(k * a)}x^2 ${s > 0 ? '+' : '-'} ${k * b}x`;
+    const R = this.formatPoly([a, s * b]);
     return {
       title: 'Factoriser au maximum par $kx$',
-      statement: `On factorise au maximum $${e}$ sous la forme $kx(ax + b)$ avec $k$ entier positif.\n**Donner la valeur de $k$.**`,
-      answer: `${k}`,
+      statement: `Factoriser **au maximum** l'expression $${e}$.\n**Écrire la forme factorisée.**`,
+      answer: `${k}x(${R})`.replace(/\s+/g, ''),
+      answerType: 'factorisation',
       hint1: 'Le facteur commun contient la lettre $x$ (présente dans les deux termes) et le plus grand diviseur commun des deux coefficients.',
       hint2: "Rappel : $x^2 = x \\times x$ ; pour factoriser au maximum, on met en facteur le plus grand diviseur commun des coefficients et la plus grande puissance de $x$ commune.",
-      solution: `$${this.formatCoef(k * a)}x^2 = ${k}x \\times ${this.formatCoef(a)}x$ et $${k * b}x = ${k}x \\times ${b}$, donc $$${e} = ${k}x(${this.formatPoly([a, s * b])})$$\n**Conclusion** : $k = ${k}$.`,
-      _v: { k: '3N2bis.gcd1', m: k * a, n: k * b }
+      solution: `$${this.formatCoef(k * a)}x^2 = ${k}x \\times ${this.formatCoef(a)}x$ et $${k * b}x = ${k}x \\times ${b}$, donc $$${e} = ${k}x(${R})$$`,
+      _v: { k: '3N2bis.mono2', m: k * a, n: k * b, s }
     };
   },
 
@@ -11375,22 +11383,16 @@
     do { m = this.randInt(1, 9); p = this.randInt(2, 12); } while (this.gcd(m, p) !== 1); // factorisation complète
     const fc = this.formatCoef(m);
     const lhs = `${p * p} - ${m * m === 1 ? '' : m * m}x^2`;
-    const correct = `$(${p} - ${fc}x)(${p} + ${fc}x)$`;
-    const wrongs = [
-      `$(${fc}x - ${p})(${fc}x + ${p})$`,
-      `$(${p} - ${fc}x)^2$`,
-      `$(${p * p} - ${fc}x)(${p * p} + ${fc}x)$`,
-      `$(${p} - ${this.formatCoef(m * m)}x)(${p} + ${this.formatCoef(m * m)}x)$`
-    ];
-    const q = {
+    return {
       title: 'Différence de carrés : le carré en $x$ est soustrait',
-      statement: `Factoriser l'expression :\n$$K = ${lhs}$$\n**Quelle est la forme factorisée de $K$ ?**`,
+      statement: `Factoriser l'expression :\n$$K = ${lhs}$$\n**Écrire la forme factorisée.**`,
+      answer: `(${p}-${fc}x)(${p}+${fc}x)`,
+      answerType: 'factorisation',
       hint1: `Ici c'est le terme en $x^2$ qui est soustrait : écris $${p * p}$ et $${m * m === 1 ? '' : m * m}x^2$ comme des carrés, en gardant leur ordre.`,
       hint2: "Rappel : $a^2 - b^2 = (a - b)(a + b)$ ; ici $a$ est le nombre et $b$ le terme en $x$. Attention : $b^2 - a^2$ n'est pas égal à $a^2 - b^2$.",
-      solution: `$${p * p} = ${p}^2$ et $${m * m === 1 ? '' : m * m}x^2 = (${fc}x)^2$, donc $$K = ${p}^2 - (${fc}x)^2 = (${p} - ${fc}x)(${p} + ${fc}x)$$\n**Conclusion** : $K = (${p} - ${fc}x)(${p} + ${fc}x)$. En revanche $(${fc}x - ${p})(${fc}x + ${p}) = ${m * m === 1 ? '' : m * m}x^2 - ${p * p}$ : c'est l'opposé de $K$.`,
+      solution: `$${p * p} = ${p}^2$ et $${m * m === 1 ? '' : m * m}x^2 = (${fc}x)^2$, donc $$K = ${p}^2 - (${fc}x)^2 = (${p} - ${fc}x)(${p} + ${fc}x)$$\nAttention : $(${fc}x - ${p})(${fc}x + ${p}) = ${m * m === 1 ? '' : m * m}x^2 - ${p * p}$ est l'opposé de $K$.`,
       _v: { k: '3N2bis.inv2', m, p }
     };
-    return this._h3a_mcq(q, correct, wrongs, 4);
   },
 
   _h3a_N2bis_fac3(t) {
@@ -11400,34 +11402,35 @@
       s = this.randChoice([1, -1]);
       m = c + s * e; p = d + s * f;
     } while (this.gcd(a, Math.abs(b)) !== 1 || m <= 0 || p === 0 || this.gcd(m, Math.abs(p)) !== 1 || (c === e && d === f));
-    const ask = this.randChoice(['m', 'p', 'p']);
     const F = `(${this.formatPoly([a, b])})`, G = `(${this.formatPoly([c, d])})`, H = `(${this.formatPoly([e, f])})`;
     // Le facteur commun n'est pas toujours écrit en premier : on varie sa position dans chaque terme.
     const pos = this.randInt(0, 3);
     const T1 = pos & 1 ? `${G}${F}` : `${F}${G}`, T2 = pos & 2 ? `${H}${F}` : `${F}${H}`;
     return {
       title: s > 0 ? 'Facteur commun parenthèse (somme)' : 'Facteur commun parenthèse (différence)',
-      statement: `On factorise $$E = ${T1} ${s > 0 ? '+' : '-'} ${T2}$$ sous la forme $${F}(mx + p)$.\n**Donner la valeur de $${ask}$.**`,
-      answer: `${ask === 'm' ? m : p}`,
+      statement: `Factoriser complètement l'expression :\n$$E = ${T1} ${s > 0 ? '+' : '-'} ${T2}$$\n**Écrire la forme factorisée.**`,
+      answer: `${F}(${this.formatPoly([m, p])})`.replace(/\s+/g, ''),
+      answerType: 'factorisation',
       hint1: (pos ? `Le facteur commun $${F}$ n'est pas toujours écrit en premier : repère-le dans chaque terme. ` : '') + (s > 0 ? `Mets $${F}$ en facteur, puis réduis ce qui reste entre crochets.` : `Mets $${F}$ en facteur ; attention, le signe « − » change tous les signes de la seconde parenthèse dans le crochet.`),
       hint2: "Rappel : $k \\times A + k \\times B = k(A + B)$ et $k \\times A - k \\times B = k(A - B)$, même quand $k$ est une parenthèse, et quel que soit l'ordre des facteurs ($A \\times k = k \\times A$).",
-      solution: `**Étape 1** : $$E = ${F}\\left[${G} ${s > 0 ? '+' : '-'} ${H}\\right]$$\n**Étape 2** : $$E = ${F}(${this.formatPoly([c, d])} ${s * e > 0 ? '+' : '-'} ${this.formatPoly([e, s * f]).replace(/^-/, '')})$$ donc $E = ${F}(${this.formatPoly([m, p])})$.\n**Conclusion** : $${ask} = ${ask === 'm' ? m : p}$.`,
-      _v: { k: '3N2bis.fac3', c, d, e: s * e, f: s * f, ask }
+      solution: `**Étape 1** : $$E = ${F}\\left[${G} ${s > 0 ? '+' : '-'} ${H}\\right]$$\n**Étape 2** : $$E = ${F}(${this.formatPoly([c, d])} ${s * e > 0 ? '+' : '-'} ${this.formatPoly([e, s * f]).replace(/^-/, '')})$$ donc $$E = ${F}(${this.formatPoly([m, p])})$$`,
+      _v: { k: '3N2bis.fac3', a, b, c, d, e: s * e, f: s * f }
     };
   },
 
   _h3a_N2bis_diff3(t) {
     const a = this.randInt(-9, 9, [0]), b = this.randInt(1, 9, [Math.abs(a)]);
     const p = a - b, q = a + b;
-    const ask = this.randChoice(['p', 'q']);
+    const A = this.formatPoly([1, a]);
     return {
       title: 'Différence de carrés avec une parenthèse',
-      statement: `On factorise $F = (${this.formatPoly([1, a])})^2 - ${b * b}$ sous la forme $(x + p)(x + q)$ avec $p < q$.\n**Donner la valeur de $${ask}$.**`,
-      answer: `${ask === 'p' ? p : q}`,
-      hint1: `Écris $${b * b}$ comme un carré : $F$ est alors de la forme $A^2 - B^2$ avec $A = ${this.formatPoly([1, a])}$.`,
+      statement: `Factoriser l'expression :\n$$F = (${A})^2 - ${b * b}$$\n**Écrire la forme factorisée (réduire chaque facteur).**`,
+      answer: `(${this.formatPoly([1, p])})(${this.formatPoly([1, q])})`.replace(/\s+/g, ''),
+      answerType: 'factorisation',
+      hint1: `Écris $${b * b}$ comme un carré : $F$ est alors de la forme $A^2 - B^2$ avec $A = ${A}$.`,
       hint2: "Rappel : $A^2 - B^2 = (A - B)(A + B)$, où $A$ peut être une expression entière entre parenthèses.",
-      solution: `$${b * b} = ${b}^2$ donc $$F = \\left[(${this.formatPoly([1, a])}) - ${b}\\right]\\left[(${this.formatPoly([1, a])}) + ${b}\\right] = (${this.formatPoly([1, p])})(${this.formatPoly([1, q])})$$\nAinsi $p = ${p}$ et $q = ${q}$ (on a bien $p < q$).\n**Conclusion** : $${ask} = ${ask === 'p' ? p : q}$.`,
-      _v: { k: '3N2bis.diff3', a, b, ask }
+      solution: `$${b * b} = ${b}^2$ donc $$F = \\left[(${A}) - ${b}\\right]\\left[(${A}) + ${b}\\right] = (${this.formatPoly([1, p])})(${this.formatPoly([1, q])})$$`,
+      _v: { k: '3N2bis.diff3', a, b }
     };
   },
 
@@ -11445,12 +11448,13 @@
     const step = lay === 2 ? `${F} \\times 1 + ${F}${G} = ${F}\\left[1 + ${this.formatPoly([c, d])}\\right]` : `${lay === 1 ? G + F : F + G} ${s > 0 ? '+' : '-'} ${F} \\times 1 = ${F}\\left[${this.formatPoly([c, d])} ${s > 0 ? '+' : '-'} 1\\right]`;
     return {
       title: 'Facteur commun : le « 1 » caché',
-      statement: `On factorise $$G = ${expr}$$ sous la forme $${F}(${c}x + p)$.\n**Donner la valeur de $p$.**`,
-      answer: `${p}`,
+      statement: `Factoriser complètement l'expression :\n$$G = ${expr}$$\n**Écrire la forme factorisée.**`,
+      answer: `${F}(${this.formatPoly([c, p])})`.replace(/\s+/g, ''),
+      answerType: 'factorisation',
       hint1: `Le terme réduit à $${F}$ peut s'écrire $${F} \\times 1$ : mets $${F}$ en facteur.`,
       hint2: "Rappel : $k \\times A + k = k \\times A + k \\times 1 = k(A + 1)$. Ne fais pas « disparaître » le terme qui ne contient que le facteur commun.",
-      solution: `$$G = ${step} = ${F}(${this.formatPoly([c, p])})$$\n**Conclusion** : $p = ${p}$.`,
-      _v: { k: '3N2bis.hid', d, s }
+      solution: `$$G = ${step} = ${F}(${this.formatPoly([c, p])})$$`,
+      _v: { k: '3N2bis.hid', a, b, c, d, s }
     };
   },
 
@@ -11556,19 +11560,22 @@
 
   _h3a_N2bis_hidden4(t) {
     let a, c, d, s;
-    // Forme imposée (x + sa)(mx + p) : on garde mx + p primitive pour que la factorisation soit complète.
     do { a = this.randInt(1, 9); c = this.randInt(1, 5); d = this.randInt(-9, 9, [0]); s = this.randChoice([1, -1]); } // facteur (x + s a)
-    while (d === s * a || this.gcd(1 + c, Math.abs(d - s * a)) !== 1);
-    const ask = this.randChoice(['m', 'p']);
+    while (d === s * a);
     const m = 1 + c, p = -s * a + d;
+    // Le second facteur peut encore contenir un nombre en facteur (ex. 5x − 5 = 5(x − 1)) : il faut aller jusqu'au bout.
+    const g = this.gcd(m, Math.abs(p));
+    const X = `(${this.formatPoly([1, s * a])})`, R = this.formatPoly([m, p]), Rg = this.formatPoly([m / g, p / g]);
+    const fin = g > 1 ? `${g}${X}(${Rg})` : `${X}(${R})`;
     return {
       title: 'Défi : facteur commun caché dans $a^2 - b^2$',
-      statement: `On considère $H = x^2 - ${a * a} + (${this.formatPoly([1, s * a])})(${this.formatPoly([c, d])})$.\nOn factorise $H$ sous la forme $(${this.formatPoly([1, s * a])})(mx + p)$. **Donner la valeur de $${ask}$.**`,
-      answer: `${ask === 'm' ? m : p}`,
-      hint1: `Commence par factoriser $x^2 - ${a * a}$ : un facteur commun avec le second terme apparaît.`,
+      statement: `On considère $H = x^2 - ${a * a} + ${X}(${this.formatPoly([c, d])})$.\nFactoriser **complètement** $H$. **Écrire la forme factorisée.**`,
+      answer: fin.replace(/\s+/g, ''),
+      answerType: 'factorisation',
+      hint1: `Commence par factoriser $x^2 - ${a * a}$ : un facteur commun avec le second terme apparaît. À la fin, vérifie qu'aucun facteur ne peut encore être factorisé.`,
       hint2: "Rappel : $a^2 - b^2 = (a - b)(a + b)$, puis $k \\times A + k \\times B = k(A + B)$.",
-      solution: `**Étape 1** : $x^2 - ${a * a} = (x - ${a})(x + ${a})$.\n**Étape 2** : $$H = (${this.formatPoly([1, s * a])})(${this.formatPoly([1, -s * a])}) + (${this.formatPoly([1, s * a])})(${this.formatPoly([c, d])}) = (${this.formatPoly([1, s * a])})\\left[${this.formatPoly([1, -s * a])} + ${this.formatPoly([c, d])}\\right]$$\n**Étape 3** : $H = (${this.formatPoly([1, s * a])})(${this.formatPoly([m, p])})$.\n**Conclusion** : $${ask} = ${ask === 'm' ? m : p}$.`,
-      _v: { k: '3N2bis.hidden4', a, s, c, d, ask }
+      solution: `**Étape 1** : $x^2 - ${a * a} = (x - ${a})(x + ${a})$.\n**Étape 2** : $$H = ${X}(${this.formatPoly([1, -s * a])}) + ${X}(${this.formatPoly([c, d])}) = ${X}\\left[${this.formatPoly([1, -s * a])} + ${this.formatPoly([c, d])}\\right]$$\n**Étape 3** : $H = ${X}(${R})$` + (g > 1 ? `, et $${R} = ${g}(${Rg})$.\n**Conclusion** : $$H = ${fin}$$` : `.\n**Conclusion** : la parenthèse $(${R})$ ne peut plus être factorisée, donc $$H = ${fin}$$`),
+      _v: { k: '3N2bis.hidden4', a, s, c, d }
     };
   },
 

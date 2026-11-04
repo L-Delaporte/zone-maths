@@ -65,6 +65,8 @@ for (const f of (process.env.TESTC_EXTRA_GEN || '').split(',').filter(Boolean)) 
   vm.runInThisContext(fs.readFileSync(file, 'utf8'), { filename: file });
 }
 const G = global.MathsGenerators;
+vm.runInThisContext(fs.readFileSync(path.join(ROOT, 'js/adaptiveEngine.js'), 'utf8'), { filename: 'js/adaptiveEngine.js' });
+const FACT = global.MathsAdaptiveEngine; // correcteur des factorisations saisies
 if (!G) { console.error('window.MathsGenerators introuvable'); process.exit(1); }
 
 const kCtx = {};
@@ -332,6 +334,12 @@ function checkQuestion(gen, t, q) {
           const ok = o.filter(x => sameAns(x, exp));
           if (ok.length !== 1) add(gen, t, 'VERIF_QCM', `[${q._v.k}] ${ok.length} option(s) = attendu « ${exp} » : ${JSON.stringify(o).slice(0, 160)}`, q);
           else if (!sameAns(q.answer, exp)) add(gen, t, 'VERIF_REPONSE', `[${q._v.k}] réponse « ${q.answer} » ≠ attendu « ${exp} »`, q);
+          else verifiedCount++;
+        } else if (q.answerType === 'factorisation') {
+          // Factorisation saisie : la réponse du générateur doit être jugée juste (égale + complète) par le
+          // correcteur du moteur, face à la forme recalculée par le vérificateur, et réciproquement.
+          const a = FACT.checkFactorisation(q.answer, exp), b = FACT.checkFactorisation(exp, q.answer);
+          if (!a.correct || !b.correct) add(gen, t, 'VERIF_FACTORISATION', `[${q._v.k}] réponse « ${q.answer} » / attendu « ${exp} » : ${JSON.stringify(a)} ${JSON.stringify(b)}`, q);
           else verifiedCount++;
         } else if (!sameAns(q.answer, exp)) add(gen, t, 'VERIF_REPONSE', `[${q._v.k}] réponse « ${q.answer} » ≠ attendu « ${exp} »`, q);
         else verifiedCount++;

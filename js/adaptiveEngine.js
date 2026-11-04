@@ -1019,6 +1019,7 @@ window.MathsAdaptiveEngine = {
    */
   analyzeAnswer(userAnswer, exercise) {
     if (!exercise || userAnswer === null || userAnswer === undefined || exercise.answer === undefined || exercise.answer === null) return { correct: false };
+    if (exercise.answerType === 'factorisation') return this.checkFactorisation(userAnswer, exercise.answer);
     const expectedList = [exercise.answer].concat(Array.isArray(exercise.acceptedAnswers) ? exercise.acceptedAnswers : []);
     let advice = null;
     for (const expected of expectedList) {
@@ -1030,6 +1031,80 @@ window.MathsAdaptiveEngine = {
     // alors qu'on demande la valeur de m) : conseil sans pénalité.
     if (!advice && /x/i.test(String(userAnswer)) && !expectedList.some((e) => /[a-z]/i.test(String(e)))) advice = 'onlyValue';
     return { correct: false, advice };
+  },
+
+  /**
+   * Analyse une expression polynomiale en x saisie par l'élève (entiers, x, + − × ^, parenthèses,
+   * multiplication implicite). Renvoie { poly, terms, factors } : poly = coefficients (degré croissant),
+   * terms = nombre de termes au niveau principal, factors = facteurs du produit principal (si terms = 1),
+   * chacun sous forme { poly, paren } (paren : écrit entre parenthèses). null si l'écriture n'est pas reconnue.
+   * Pas d'eval (CSP stricte) : analyseur descendant.
+   */
+  parsePolyExpr(str) {
+    const s = String(str).replace(/\\left|\\right/g, '').replace(/\\times|\\cdot|[×·]/g, '*').replace(/[−–]/g, '-')
+      .replace(/²/g, '^2').replace(/X/g, 'x').replace(/[[{]/g, '(').replace(/[\]}]/g, ')').replace(/\s+|\$/g, '');
+    if (!s || /[^0-9x+\-*^()]/.test(s)) return null;
+    let i = 0;
+    const trim = (p) => { while (p.length > 1 && p[p.length - 1] === 0) p.pop(); return p; };
+    const add = (p, q, k = 1) => trim(Array.from({ length: Math.max(p.length, q.length) }, (_, j) => (p[j] || 0) + k * (q[j] || 0)));
+    const mul = (p, q) => { const r = new Array(p.length + q.length - 1).fill(0); p.forEach((a, j) => q.forEach((b, l) => { r[j + l] += a * b; })); return trim(r); };
+    const int = () => { const m = /^\d+/.exec(s.slice(i)); if (!m) return null; i += m[0].length; return parseInt(m[0], 10); };
+    let expr;
+    const factor = () => { // base [^ entier] → liste de facteurs répétés
+      let base;
+      if (s[i] === '(') {
+        i++; const e = expr(); if (!e || s[i] !== ')') return null; i++;
+        base = { poly: e.poly, paren: true };
+      } else if (s[i] === 'x') { i++; base = { poly: [0, 1], paren: false }; }
+      else { const n = int(); if (n === null) return null; base = { poly: [n], paren: false }; }
+      let k = 1;
+      if (s[i] === '^') { i++; k = int(); if (k === null || k > 6) return null; }
+      return Array(k).fill(base);
+    };
+    const term = () => {
+      const fs = [];
+      for (;;) {
+        if (s[i] === '*') { if (!fs.length) return null; i++; }
+        const f = factor(); if (!f) return null; fs.push(...f);
+        if (i >= s.length || '+-)'.includes(s[i])) break;
+      }
+      return fs;
+    };
+    expr = () => {
+      let poly = [0], terms = 0, factors = null;
+      for (;;) {
+        let sign = 1;
+        if (s[i] === '+' || s[i] === '-') { sign = s[i] === '-' ? -1 : 1; i++; } else if (terms) break;
+        const fs = term(); if (!fs) return null;
+        let p = [sign];
+        fs.forEach((f) => { p = mul(p, f.poly); });
+        poly = add(poly, p); terms++;
+        factors = terms === 1 ? (sign < 0 ? [{ poly: [-1], paren: false }, ...fs] : fs) : null;
+        if (i >= s.length || s[i] === ')') break;
+      }
+      return { poly, terms, factors };
+    };
+    const r = expr();
+    return r && i === s.length ? r : null;
+  },
+
+  /**
+   * Correction d'une factorisation saisie. expected : forme factorisée attendue (même syntaxe).
+   * Juste : égale à l'attendue, écrite comme un produit, et complète (aucun facteur de degré ≥ 2,
+   * chaque facteur du premier degré sans diviseur commun à ses coefficients).
+   * Égale mais incomplète ou non factorisée, ou écriture non reconnue : conseil sans pénalité.
+   */
+  checkFactorisation(userAnswer, expected) {
+    const u = this.parsePolyExpr(userAnswer), e = this.parsePolyExpr(expected);
+    if (!e) return { correct: false };
+    if (!u) return { correct: false, advice: 'factorSyntax' };
+    const same = u.poly.length === e.poly.length && u.poly.every((c, j) => c === e.poly[j]);
+    if (!same) return { correct: false };
+    if (u.terms !== 1 || !u.factors) return { correct: false, advice: 'factorNotProduct' };
+    const g = (a, b) => { a = Math.abs(a); b = Math.abs(b); while (b) [a, b] = [b, a % b]; return a; };
+    const nonConst = u.factors.filter((f) => f.poly.length > 1);
+    const complete = nonConst.length > 0 && nonConst.every((f) => f.poly.length === 2 && (f.poly[0] === 0 || g(f.poly[0], f.poly[1]) === 1));
+    return complete ? { correct: true } : { correct: false, advice: 'factorIncomplete' };
   },
 
   /** Messages des conseils sans pénalité (bonne valeur, forme à revoir) */
@@ -1046,6 +1121,12 @@ window.MathsAdaptiveEngine = {
       'Relis la précision demandée dans l\'énoncé et arrondis ton résultat (même nombre de décimales).'],
     approx: ['On attend ici une valeur approchée !',
       'Donne l\'écriture décimale arrondie comme demandé dans l\'énoncé (avec la calculatrice si besoin).'],
+    factorIncomplete: ['C\'est bien égal, mais la factorisation n\'est pas complète !',
+      'Un facteur peut encore être factorisé : mets en facteur le plus grand diviseur commun de ses coefficients, par exemple $5x - 5 = 5(x - 1)$.'],
+    factorNotProduct: ['C\'est bien égal, mais ce n\'est pas une forme factorisée !',
+      'Une forme factorisée est un produit, par exemple $3(x - 2)(2x + 5)$ : aucun « + » ni « − » entre des termes en dehors des parenthèses.'],
+    factorSyntax: ['Écriture non reconnue : vérifie ta saisie.',
+      'Écris un produit avec des parenthèses, par exemple 3(x-2)(2x+5) ; un carré s\'écrit (x+1)^2 ; pas de virgule ni de fraction.'],
     onlyValue: ['On attend seulement la valeur demandée, pas une expression !',
       'Relis la question : elle demande un nombre (par exemple la valeur de $m$ ou de $p$). Repère-le dans ta forme factorisée et saisis-le seul.'],
     exact: ['Ta réponse est une valeur approchée : on attend la valeur exacte !',

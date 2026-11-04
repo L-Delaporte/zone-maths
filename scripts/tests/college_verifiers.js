@@ -431,22 +431,23 @@ V['3N2.prog4'] = v => `${(v.R - v.a * v.a) / (2 * v.a)}`;
 V['3N2.area4'] = v => `${(v.S - v.a * v.b) / (v.a + v.b)}`;
 
 // ---------- N2bis ----------
-V['3N2bis.fill1'] = v => `${v.b}`;
-V['3N2bis.gcd1'] = v => `${gcd(v.m, v.n)}`;
+// Écriture indépendante de mx + p (sans espaces : sameAns les ignore).
+const lin = (m, p) => `${m === 1 ? '' : m === -1 ? '-' : m}x${p > 0 ? '+' + p : p < 0 ? p : ''}`;
+V['3N2bis.fill1'] = v => `${v.k2}(${lin(v.a, v.b)})`;
+V['3N2bis.gcd1'] = v => { const g = gcd(v.m, v.n); return `${g}(${lin(v.m / g, v.s * v.n / g)})`; };
+V['3N2bis.mono2'] = v => { const g = gcd(v.m, v.n); return `${g}x(${lin(v.m / g, v.s * v.n / g)})`; };
 V['3N2bis.check1'] = v => (v.err === 0 ? 'vrai' : 'faux');
-V['3N2bis.sq2'] = v => `${v.ask === 'm' ? v.m : v.p}`;
+V['3N2bis.sq2'] = v => { const mx = `${v.m === 1 ? '' : v.m}x`; return `(${mx}-${v.p})(${mx}+${v.p})`; };
 V['3N2bis.mental'] = v => `${v.a * v.a - v.b * v.b}`;
-V['3N2bis.fac3'] = v => `${v.ask === 'm' ? v.c + v.e : v.d + v.f}`;
-V['3N2bis.diff3'] = v => `${v.ask === 'p' ? Math.min(v.a - v.b, v.a + v.b) : Math.max(v.a - v.b, v.a + v.b)}`;
-V['3N2bis.hid'] = v => `${v.d + v.s}`;
+V['3N2bis.fac3'] = v => `(${lin(v.a, v.b)})(${lin(v.c + v.e, v.d + v.f)})`;
+V['3N2bis.diff3'] = v => `(${lin(1, v.a - v.b)})(${lin(1, v.a + v.b)})`;
+V['3N2bis.hid'] = v => `(${lin(v.a, v.b)})(${lin(v.c, v.d + v.s)})`;
 V['3N2bis.solve4'] = v => {
   // racines de (ax+b)^2 = (cx+d)^2 : ax+b = cx+d ou ax+b = -(cx+d)
   const r = [[v.d - v.b, v.a - v.c], [-(v.b + v.d), v.a + v.c]];
   const best = r[0][0] / r[0][1] >= r[1][0] / r[1][1] ? r[0] : r[1];
   return F(best[0], best[1]);
 };
-// Écriture indépendante de mx + p (sans espaces : sameAns les ignore).
-const lin = (m, p) => `${m === 1 ? '' : m === -1 ? '-' : m}x${p > 0 ? '+' + p : p < 0 ? p : ''}`;
 V['3N2bis.inv2'] = v => { const mx = `${v.m === 1 ? '' : v.m}x`; return `(${v.p}-${mx})(${v.p}+${mx})`; };
 V['3N2bis.whole3'] = v => {
   // Coefficients du crochet recalculés à partir des termes de l'énoncé.
@@ -465,7 +466,10 @@ V['3N2bis.brevet4'] = v => {
   const r = [[-v.b, v.a], [-p, m]].sort((x, y) => x[0] / x[1] - y[0] / y[1]);
   return `(${F(r[0][0], r[0][1])};${F(r[1][0], r[1][1])})`;
 };
-V['3N2bis.hidden4'] = v => `${v.ask === 'm' ? 1 + v.c : v.d - v.s * v.a}`;
+V['3N2bis.hidden4'] = v => { // H = (x + sa)[(x − sa) + (cx + d)] = (x + sa)((1 + c)x + d − sa), nombre en facteur extrait
+  const m = 1 + v.c, p = v.d - v.s * v.a, g = gcd(m, p);
+  return `${g > 1 ? g : ''}(${lin(1, v.s * v.a)})(${lin(m / g, p / g)})`;
+};
 
 // ---------- N3 ----------
 const sciOf = x => { const e = Math.floor(Math.log10(Math.abs(x)) + 1e-12); const m = +(x / Math.pow(10, e)).toFixed(9); return m >= 10 ? `${+(m / 10).toFixed(9)}*10^${e + 1}` : `${m}*10^${e}`; };
