@@ -3408,6 +3408,268 @@ Pour $80^\\circ$ : $500 \\times \\sin 80^\\circ \\approx 492$ m².
 L'aire est maximale pour $\\widehat{ABC} = 90^\\circ$ : le triangle est alors rectangle en $B$ et son aire vaut $\\dfrac{25 \\times 40}{2} = 500$ m².`
     }
   ],
+  "G2bis": [
+    {
+      id: "G2bis-ds-01",
+      title: "Trois triangles, trois outils",
+      difficulty: 1,
+      points: 6,
+      statement: `Pour chaque question, nommer l'outil utilisé (théorème de Pythagore, sa réciproque, ou trigonométrie), puis répondre.
+
+1. Le triangle $ABC$ est rectangle en $A$, avec $AB = 5$ cm et $AC = 12$ cm. Calculer $BC$.
+2. Le triangle $DEF$ est rectangle en $D$, avec $EF = 10$ cm et $\\widehat{DEF} = 30^\\circ$. Calculer $DF$.
+3. Le triangle $GHI$ est tel que $GH = 8$ cm, $HI = 15$ cm et $GI = 17$ cm. Est-il rectangle ?`,
+      solution: `**1.** Triangle rectangle, deux côtés connus, on cherche le troisième : **théorème de Pythagore**. $BC^2 = 5^2 + 12^2 = 169$, donc $BC = 13$ cm.
+
+**2.** Triangle rectangle, un angle aigu et un côté connus : **trigonométrie**. Pour l'angle en $E$, $[DF]$ est le côté opposé et $[EF]$ l'hypoténuse : $DF = 10 \\times \\sin 30^\\circ = 5$ cm.
+
+**3.** Trois côtés connus, on demande si le triangle est rectangle : **réciproque de Pythagore**. Le plus grand côté est $[GI]$ : $GI^2 = 289$ et $GH^2 + HI^2 = 64 + 225 = 289$. L'égalité est vérifiée, donc $GHI$ est rectangle en $H$.`
+    },
+    {
+      id: "G2bis-ds-02",
+      title: "Parallèles ou pas ?",
+      difficulty: 1,
+      points: 5,
+      statement: `Les droites $(AB)$ et $(CD)$ se coupent en $O$ ; les points $A$, $O$, $B$ d'une part et $C$, $O$, $D$ d'autre part sont alignés dans cet ordre. On donne $OA = 4$ cm, $OB = 6$ cm, $OC = 5$ cm, $OD = 7{,}5$ cm et $AC = 3$ cm.
+
+1. Quel outil permet de savoir si les droites $(AC)$ et $(BD)$ sont parallèles ? Justifier qu'elles le sont.
+2. Quel outil permet ensuite de calculer $BD$ ? Calculer $BD$.`,
+      solution: `**1.** On veut prouver un parallélisme : **réciproque du théorème de Thalès**. $\\dfrac{OA}{OB} = \\dfrac{4}{6} = \\dfrac{2}{3}$ et $\\dfrac{OC}{OD} = \\dfrac{5}{7{,}5} = \\dfrac{2}{3}$. Les quotients sont égaux et les points sont alignés dans le même ordre, donc $(AC) \\parallel (BD)$.
+
+**2.** Les droites sont maintenant parallèles : **théorème de Thalès**. $\\dfrac{OA}{OB} = \\dfrac{AC}{BD}$, donc $BD = \\dfrac{6 \\times 3}{4} = 4{,}5$ cm.`
+    },
+    {
+      id: "G2bis-ds-03",
+      title: "L'échelle et le mur",
+      difficulty: 2,
+      points: 5,
+      statement: `Une échelle de $4$ m est appuyée contre un mur vertical. Son pied est posé sur le sol horizontal, à $1{,}2$ m du mur.
+
+1. À quelle hauteur l'échelle touche-t-elle le mur ? Arrondir au centimètre.
+2. Calculer l'angle formé par l'échelle et le sol, arrondi au degré.
+3. Pour être stable, une échelle doit former avec le sol un angle compris entre $65^\\circ$ et $75^\\circ$. Est-ce le cas ?
+
+Pour chaque question, préciser l'outil utilisé.`,
+      solution: `Le mur est perpendiculaire au sol : le triangle formé par le mur, le sol et l'échelle est rectangle, d'hypoténuse l'échelle.
+
+**1.** Deux côtés connus, on cherche le troisième : **Pythagore**. $h^2 = 4^2 - 1{,}2^2 = 16 - 1{,}44 = 14{,}56$, donc $h = \\sqrt{14{,}56} \\approx 3{,}82$ m.
+
+**2.** On cherche un angle : **trigonométrie**. Pour l'angle au sol, $1{,}2$ m est le côté adjacent et $4$ m l'hypoténuse : $\\cos \\alpha = \\dfrac{1{,}2}{4} = 0{,}3$, donc $\\alpha \\approx 73^\\circ$.
+
+**3.** $65^\\circ \\leq 73^\\circ \\leq 75^\\circ$ : l'échelle est stable.`
+    },
+    {
+      id: "G2bis-ds-04",
+      title: "Pythagore puis Thalès",
+      difficulty: 2,
+      points: 5,
+      statement: `Le triangle $ABC$ est rectangle en $A$, avec $AB = 12$ cm et $AC = 5$ cm. Le point $M$ appartient à $[AB]$ avec $AM = 3$ cm ; la parallèle à $(BC)$ passant par $M$ coupe $[AC]$ en $N$.
+
+1. Calculer $BC$.
+2. Calculer $MN$ et $AN$.
+3. En déduire le périmètre du triangle $AMN$.`,
+      solution: `**1.** Triangle $ABC$ rectangle en $A$, deux côtés connus : **théorème de Pythagore**. $BC^2 = 12^2 + 5^2 = 169$, donc $BC = 13$ cm.
+
+**2.** $(MN) \\parallel (BC)$, $M \\in [AB]$ et $N \\in [AC]$ : **théorème de Thalès**. $\\dfrac{AM}{AB} = \\dfrac{AN}{AC} = \\dfrac{MN}{BC}$, soit $\\dfrac{3}{12} = \\dfrac{AN}{5} = \\dfrac{MN}{13}$. Donc $AN = \\dfrac{3 \\times 5}{12} = 1{,}25$ cm et $MN = \\dfrac{3 \\times 13}{12} = 3{,}25$ cm.
+
+**3.** Périmètre de $AMN$ : $3 + 1{,}25 + 3{,}25 = 7{,}5$ cm.`
+    },
+    {
+      id: "G2bis-ds-05",
+      title: "La rampe de skate",
+      difficulty: 3,
+      points: 6,
+      statement: `Une rampe de skate a la forme d'un triangle $ABC$ rectangle en $B$ : $[AB]$ est vertical, de hauteur $1{,}5$ m, et la piste $[AC]$ forme avec le sol $[BC]$ un angle $\\widehat{ACB} = 25^\\circ$.
+
+1. Calculer la longueur au sol $BC$, arrondie au centimètre.
+2. Calculer la longueur de la piste $AC$, arrondie au centimètre.
+3. Un montant vertical $[MN]$ renforce la piste, avec $M \\in [AC]$, $N \\in [BC]$ et $CN = 2$ m. Justifier que $(MN) \\parallel (AB)$, puis calculer $MN$, arrondie au centimètre.`,
+      solution: `**1.** Triangle rectangle, un angle et un côté connus : **trigonométrie**. Pour l'angle en $C$, $[AB]$ est le côté opposé et $[BC]$ le côté adjacent : $\\tan 25^\\circ = \\dfrac{1{,}5}{BC}$, donc $BC = \\dfrac{1{,}5}{\\tan 25^\\circ} \\approx 3{,}22$ m.
+
+**2.** $\\sin 25^\\circ = \\dfrac{1{,}5}{AC}$, donc $AC = \\dfrac{1{,}5}{\\sin 25^\\circ} \\approx 3{,}55$ m. (On peut contrôler avec Pythagore : $\\sqrt{1{,}5^2 + 3{,}2168^2} \\approx 3{,}55$.)
+
+**3.** $(MN)$ et $(AB)$ sont toutes deux perpendiculaires au sol $(BC)$, donc parallèles. **Théorème de Thalès** dans le triangle $ABC$ : $\\dfrac{CN}{CB} = \\dfrac{MN}{AB}$, donc $MN = \\dfrac{1{,}5 \\times 2}{BC} \\approx \\dfrac{3}{3{,}2168} \\approx 0{,}93$ m.`
+    },
+    {
+      id: "G2bis-ds-06",
+      title: "D'abord prouver, ensuite calculer",
+      difficulty: 3,
+      points: 6,
+      statement: `Le triangle $EFG$ est tel que $EF = 8$ cm, $FG = 15$ cm et $EG = 17$ cm.
+
+1. Démontrer que le triangle $EFG$ est rectangle.
+2. Calculer la mesure de l'angle $\\widehat{FEG}$, arrondie au degré.
+3. On note $H$ le pied de la hauteur issue de $F$. Calculer $FH$, arrondie au millimètre.`,
+      solution: `**1.** Trois côtés connus : **réciproque de Pythagore**. Le plus grand côté est $[EG]$ : $EG^2 = 289$ et $EF^2 + FG^2 = 64 + 225 = 289$. Donc $EFG$ est rectangle en $F$.
+
+**2.** Le triangle étant rectangle, on peut utiliser la **trigonométrie**. Pour l'angle en $E$ : $\\tan \\widehat{FEG} = \\dfrac{FG}{EF} = \\dfrac{15}{8}$, donc $\\widehat{FEG} \\approx 62^\\circ$.
+
+**3.** Le triangle $EFH$ est rectangle en $H$, d'hypoténuse $[EF]$ : $FH = EF \\times \\sin \\widehat{FEG}$. Avec la valeur exacte $\\sin \\widehat{FEG} = \\dfrac{FG}{EG} = \\dfrac{15}{17}$ (dans le triangle $EFG$), on obtient $FH = 8 \\times \\dfrac{15}{17} = \\dfrac{120}{17} \\approx 7{,}1$ cm.`
+    },
+    {
+      id: "G2bis-ds-07",
+      title: "Un indice, un outil",
+      difficulty: 1,
+      points: 6,
+      statement: `Pour chaque question, nommer l'outil utilisé, puis répondre.
+
+1. Le triangle $ABC$ est rectangle en $B$, avec $AB = 6$ cm et $BC = 8$ cm. Calculer $AC$.
+2. Dans le triangle $ABC$, $M \\in [AB]$, $N \\in [AC]$ et $(MN) \\parallel (BC)$. On donne $AM = 3$ cm, $AB = 9$ cm et $AC = 12$ cm. Calculer $AN$.
+3. Le triangle $JKL$ est rectangle en $K$, avec $JK = 4$ cm et $JL = 8$ cm. Calculer la mesure de l'angle $\\widehat{KJL}$.`,
+      solution: `**1.** Triangle rectangle, deux côtés connus, on cherche le troisième : **théorème de Pythagore**. $AC^2 = 6^2 + 8^2 = 100$, donc $AC = 10$ cm.
+
+**2.** Deux droites parallèles coupées par deux sécantes : **théorème de Thalès**. $\\dfrac{AM}{AB} = \\dfrac{AN}{AC}$, donc $AN = \\dfrac{3 \\times 12}{9} = 4$ cm.
+
+**3.** Triangle rectangle, on cherche un angle : **trigonométrie**. Pour l'angle en $J$, $[JK]$ est le côté adjacent et $[JL]$ l'hypoténuse : $\\cos \\widehat{KJL} = \\dfrac{4}{8} = \\dfrac{1}{2}$, donc $\\widehat{KJL} = 60^\\circ$.`
+    },
+    {
+      id: "G2bis-ds-08",
+      title: "L'échelle contre le mur",
+      difficulty: 1,
+      points: 5,
+      statement: `Une échelle de $5$ m est appuyée contre un mur vertical ; le sol est horizontal. Le pied de l'échelle est à $1{,}4$ m du pied du mur.
+
+1. Quel outil permet de calculer la hauteur atteinte par le haut de l'échelle ? Calculer cette hauteur.
+2. Quel outil permet de calculer l'angle entre l'échelle et le sol ? Calculer cet angle, arrondi au degré.`,
+      solution: `**1.** Le mur est vertical et le sol horizontal : le triangle formé est rectangle au pied du mur, et on connaît deux côtés. **Théorème de Pythagore** : $h^2 = 5^2 - 1{,}4^2 = 25 - 1{,}96 = 23{,}04$, donc $h = 4{,}8$ m.
+
+**2.** Triangle rectangle, on cherche un angle : **trigonométrie**. Pour l'angle au pied de l'échelle, le côté adjacent mesure $1{,}4$ m et l'hypoténuse $5$ m : $\\cos \\alpha = \\dfrac{1{,}4}{5} = \\dfrac{7}{25}$, donc $\\alpha \\approx 74^\\circ$.`
+    },
+    {
+      id: "G2bis-ds-09",
+      title: "L'ombre de l'arbre",
+      difficulty: 2,
+      points: 6,
+      statement: `Au même instant, une personne de $1{,}8$ m a une ombre de $2{,}4$ m et un arbre a une ombre de $10$ m. La personne et l'arbre sont verticaux, le sol est horizontal, et le pied de la personne, le pied de l'arbre et le bout des deux ombres sont alignés (le bout des ombres est commun). Les rayons du soleil sont parallèles.
+
+1. Quel outil permet de calculer la hauteur de l'arbre ? Calculer cette hauteur.
+2. Calculer la distance entre le sommet de l'arbre et le bout de son ombre.`,
+      solution: `**1.** La personne et l'arbre sont tous deux verticaux, donc parallèles, et le bout des ombres est commun : **théorème de Thalès**. $\\dfrac{2{,}4}{10} = \\dfrac{1{,}8}{h}$, donc $h = \\dfrac{1{,}8 \\times 10}{2{,}4} = 7{,}5$ m.
+
+**2.** L'arbre est vertical et le sol horizontal : le triangle est rectangle au pied de l'arbre. **Théorème de Pythagore** : $d^2 = 7{,}5^2 + 10^2 = 56{,}25 + 100 = 156{,}25$, donc $d = 12{,}5$ m.`
+    },
+    {
+      id: "G2bis-ds-10",
+      title: "La rampe d'accès",
+      difficulty: 2,
+      points: 5,
+      statement: `Une rampe rectiligne de $4$ m de long permet de monter une marche de $0{,}35$ m de haut. Le sol est horizontal et la marche verticale.
+
+1. Calculer l'angle entre la rampe et le sol, arrondi au degré.
+2. Calculer la longueur au sol occupée par la rampe, arrondie au centimètre.`,
+      solution: `Le triangle formé par la rampe, le sol et la marche est rectangle au pied de la marche ; la rampe en est l'hypoténuse.
+
+**1.** On cherche un angle : **trigonométrie**. La hauteur $0{,}35$ m est le côté opposé à l'angle au sol : $\\sin \\alpha = \\dfrac{0{,}35}{4} = \\dfrac{7}{80}$, donc $\\alpha \\approx 5^\\circ$.
+
+**2.** On connaît deux côtés : **théorème de Pythagore**. $\\ell^2 = 4^2 - 0{,}35^2 = 16 - 0{,}1225 = 15{,}8775$, donc $\\ell \\approx 3{,}98$ m.`
+    },
+    {
+      id: "G2bis-ds-11",
+      title: "Le cerf-volant",
+      difficulty: 3,
+      points: 6,
+      statement: `Lina tient la ficelle tendue de son cerf-volant à $1{,}2$ m du sol. La ficelle mesure $50$ m et fait un angle de $40^\\circ$ avec l'horizontale. Le sol est horizontal.
+
+1. Expliquer pourquoi le théorème de Pythagore ne suffit pas ici, et quel outil utiliser.
+2. Calculer la hauteur du cerf-volant par rapport au sol, arrondie au décimètre.
+3. Calculer la distance horizontale entre la main de Lina et le cerf-volant, arrondie au décimètre.`,
+      solution: `**1.** Dans le triangle rectangle formé par la ficelle, l'horizontale passant par la main et la verticale passant par le cerf-volant, on ne connaît qu'un seul côté (la ficelle) et un angle aigu : il faut la **trigonométrie**.
+
+**2.** La hauteur au-dessus de la main est le côté opposé à l'angle de $40^\\circ$ : $50 \\times \\sin 40^\\circ \\approx 32{,}14$ m. En ajoutant $1{,}2$ m, la hauteur du cerf-volant est d'environ $33{,}3$ m.
+
+**3.** La distance horizontale est le côté adjacent : $50 \\times \\cos 40^\\circ \\approx 38{,}3$ m.`
+    },
+    {
+      id: "G2bis-ds-12",
+      title: "Un papillon rectangle",
+      difficulty: 3,
+      points: 8,
+      statement: `Les droites $(AB)$ et $(CD)$ se coupent en $O$ ; les points $A$, $O$, $B$ d'une part et $C$, $O$, $D$ d'autre part sont alignés dans cet ordre. On donne $OA = 3$ cm, $OC = 4$ cm, $AC = 5$ cm, $OB = 7{,}5$ cm et $OD = 10$ cm.
+
+1. Démontrer que le triangle $OAC$ est rectangle en $O$.
+2. Démontrer que les droites $(AC)$ et $(BD)$ sont parallèles.
+3. Calculer $BD$.
+4. Calculer la mesure de l'angle $\\widehat{OBD}$, arrondie au degré.`,
+      solution: `**1.** Trois côtés connus : **réciproque de Pythagore**. Le plus grand côté est $[AC]$ : $AC^2 = 25$ et $OA^2 + OC^2 = 9 + 16 = 25$. Donc $OAC$ est rectangle en $O$.
+
+**2.** On veut un parallélisme : **réciproque du théorème de Thalès**. $\\dfrac{OA}{OB} = \\dfrac{3}{7{,}5} = 0{,}4$ et $\\dfrac{OC}{OD} = \\dfrac{4}{10} = 0{,}4$. Les quotients sont égaux et les points sont alignés dans le même ordre, donc $(AC) \\parallel (BD)$.
+
+**3.** **Théorème de Thalès** : $\\dfrac{OA}{OB} = \\dfrac{AC}{BD}$, donc $BD = \\dfrac{7{,}5 \\times 5}{3} = 12{,}5$ cm.
+
+**4.** Les angles $\\widehat{AOC}$ et $\\widehat{BOD}$ sont opposés par le sommet, donc $\\widehat{BOD} = 90^\\circ$ : le triangle $OBD$ est rectangle en $O$. **Trigonométrie** : $\\tan \\widehat{OBD} = \\dfrac{OD}{OB} = \\dfrac{10}{7{,}5} = \\dfrac{4}{3}$, donc $\\widehat{OBD} \\approx 53^\\circ$.`
+    },
+    {
+      id: "G2bis-ds-13",
+      title: "La charpente",
+      difficulty: 3,
+      points: 7,
+      statement: `La coupe d'un toit est un triangle $ABC$ isocèle en $A$. La base $[BC]$ mesure $8$ m et le point $H$, milieu de $[BC]$, est tel que $AH = 3$ m et $(AH) \\perp (BC)$.
+
+1. Calculer la longueur $AB$ d'un pan du toit.
+2. Calculer la mesure de l'angle $\\widehat{ABC}$, arrondie au degré.
+3. Une poutre $[MN]$ est posée parallèlement à $(BC)$, avec $M \\in [AB]$, $N \\in [AC]$ et $AM = 2$ m. Calculer la longueur de la poutre.`,
+      solution: `**1.** Le triangle $ABH$ est rectangle en $H$ avec $BH = 4$ m et $AH = 3$ m : **théorème de Pythagore**. $AB^2 = 4^2 + 3^2 = 25$, donc $AB = 5$ m.
+
+**2.** Dans le triangle $ABH$ rectangle en $H$, on cherche un angle : **trigonométrie**. $\\tan \\widehat{ABC} = \\dfrac{AH}{BH} = \\dfrac{3}{4}$, donc $\\widehat{ABC} \\approx 37^\\circ$.
+
+**3.** $(MN) \\parallel (BC)$ : **théorème de Thalès** dans le triangle $ABC$. $\\dfrac{AM}{AB} = \\dfrac{MN}{BC}$, donc $MN = \\dfrac{2 \\times 8}{5} = 3{,}2$ m.`
+    },
+    {
+      id: "G2bis-ds-14",
+      title: "Quatre outils dans une figure",
+      difficulty: 4,
+      points: 9,
+      statement: `Le triangle $ABC$ est rectangle en $B$, avec $AB = 6$ cm et $BC = 8$ cm. Le point $E$ appartient à $[AC]$ avec $AE = 4$ cm, et le point $F$ appartient à $[AB]$ avec $(EF) \\parallel (BC)$.
+
+1. Calculer $AC$.
+2. Calculer $AF$ et $EF$.
+3. Démontrer de deux façons différentes que le triangle $AFE$ est rectangle en $F$.
+4. Calculer la mesure de l'angle $\\widehat{ACB}$, arrondie au degré.`,
+      solution: `**1.** **Théorème de Pythagore** dans $ABC$ rectangle en $B$ : $AC^2 = 36 + 64 = 100$, donc $AC = 10$ cm.
+
+**2.** **Théorème de Thalès** : $\\dfrac{AF}{AB} = \\dfrac{AE}{AC} = \\dfrac{EF}{BC}$, avec $\\dfrac{AE}{AC} = \\dfrac{4}{10} = 0{,}4$. Donc $AF = 0{,}4 \\times 6 = 2{,}4$ cm et $EF = 0{,}4 \\times 8 = 3{,}2$ cm.
+
+**3.** Première façon : $(EF) \\parallel (BC)$ et $(BC) \\perp (AB)$, donc $(EF) \\perp (AB)$. Deuxième façon, avec la **réciproque de Pythagore** : $AF^2 + EF^2 = 5{,}76 + 10{,}24 = 16 = AE^2$, donc $AFE$ est rectangle en $F$.
+
+**4.** **Trigonométrie** dans $ABC$ rectangle en $B$ : $\\tan \\widehat{ACB} = \\dfrac{AB}{BC} = \\dfrac{6}{8} = \\dfrac{3}{4}$, donc $\\widehat{ACB} \\approx 37^\\circ$.`
+    },
+    {
+      id: "G2bis-ds-15",
+      title: "La randonnée",
+      difficulty: 4,
+      points: 8,
+      statement: `Partant d'un point $A$, une randonneuse marche $3$ km plein est jusqu'à un point $B$, puis $4$ km plein nord jusqu'à un point $C$.
+
+1. Calculer la distance $AC$ à vol d'oiseau.
+2. Calculer la mesure de l'angle $\\widehat{BAC}$, arrondie au degré.
+3. Un second randonneur part de $A$ en ligne droite et atteint la droite $(BC)$ en un point $D$ situé entre $B$ et $C$, avec $\\widehat{BAD} = 30^\\circ$. Calculer $BD$, puis $AD$, arrondies au centième de kilomètre.`,
+      solution: `Les directions est et nord sont perpendiculaires : le triangle $ABC$ est rectangle en $B$.
+
+**1.** Deux côtés connus : **théorème de Pythagore**. $AC^2 = 9 + 16 = 25$, donc $AC = 5$ km.
+
+**2.** On cherche un angle : **trigonométrie**. $\\tan \\widehat{BAC} = \\dfrac{BC}{AB} = \\dfrac{4}{3}$, donc $\\widehat{BAC} \\approx 53^\\circ$.
+
+**3.** Le triangle $ABD$ est rectangle en $B$ ; on connaît un côté et un angle aigu : **trigonométrie**. $BD = 3 \\times \\tan 30^\\circ \\approx 1{,}73$ km et $AD = \\dfrac{3}{\\cos 30^\\circ} \\approx 3{,}46$ km.`
+    },
+    {
+      id: "G2bis-ds-16",
+      title: "Équerre ou pas ?",
+      difficulty: 4,
+      points: 9,
+      statement: `1. Le triangle $RST$ est tel que $RS = 4{,}5$ cm, $ST = 6$ cm et $RT = 7{,}5$ cm. Est-il rectangle ?
+2. Le triangle $UVW$ est tel que $UV = 5$ cm, $VW = 7$ cm et $UW = 8{,}6$ cm. Est-il rectangle ?
+3. Calculer la mesure de l'angle $\\widehat{SRT}$, arrondie au degré.
+4. On place $K$ sur $[RT]$ et $L$ sur $[RS]$ avec $RK = 2{,}5$ cm et $RL = 1{,}5$ cm. Les droites $(KL)$ et $(TS)$ sont-elles parallèles ? Si oui, calculer $KL$.`,
+      solution: `**1.** **Réciproque de Pythagore** : le plus grand côté est $[RT]$. $RT^2 = 56{,}25$ et $RS^2 + ST^2 = 20{,}25 + 36 = 56{,}25$. Donc $RST$ est rectangle en $S$.
+
+**2.** Le plus grand côté est $[UW]$ : $UW^2 = 73{,}96$ et $UV^2 + VW^2 = 25 + 49 = 74$. L'égalité n'est pas vérifiée, donc $UVW$ n'est pas rectangle (le théorème de Pythagore, par contraposée).
+
+**3.** $RST$ est rectangle en $S$ : **trigonométrie**. $\\tan \\widehat{SRT} = \\dfrac{ST}{RS} = \\dfrac{6}{4{,}5} = \\dfrac{4}{3}$, donc $\\widehat{SRT} \\approx 53^\\circ$.
+
+**4.** **Réciproque du théorème de Thalès** : $\\dfrac{RK}{RT} = \\dfrac{2{,}5}{7{,}5} = \\dfrac{1}{3}$ et $\\dfrac{RL}{RS} = \\dfrac{1{,}5}{4{,}5} = \\dfrac{1}{3}$. Les quotients sont égaux et les points sont alignés dans le même ordre, donc $(KL) \\parallel (TS)$. **Théorème de Thalès** : $KL = \\dfrac{1}{3} \\times ST = 2$ cm.`
+    }
+
+  ],
   "G3": [
     {
       id: "G3-ds-01",

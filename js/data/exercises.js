@@ -1200,6 +1200,108 @@ window.MATHS_EXERCISES = Object.assign(window.MATHS_EXERCISES || {}, {
       "skill": "Modéliser"
     }
   ],
+  "G2bis": [
+    {
+      "id": "G2bis-1",
+      "chapterId": "G2bis",
+      "tier": 1,
+      "title": "Quel outil pour cette longueur ?",
+      "statement": "Le triangle $KLM$ est rectangle en $K$, avec $\\widehat{KLM} = 40^\\circ$ et $KL = 7\\text{ cm}$. On veut calculer $KM$.\n**Quel outil permet de répondre ?**",
+      "type": "mcq",
+      "options": [
+        "La trigonométrie (cosinus, sinus ou tangente)",
+        "Le théorème de Pythagore",
+        "Le théorème de Thalès",
+        "La réciproque du théorème de Pythagore"
+      ],
+      "correctIndex": 0,
+      "explanations": [
+        "Exact : le triangle est rectangle et un angle aigu est donné, avec un seul côté connu. Ici, ce sera la tangente de $\\widehat{KLM}$.",
+        "Pythagore exige de connaître deux côtés ; ici on n'en connaît qu'un, mais on a un angle.",
+        "Aucune droite parallèle n'intervient.",
+        "On sait déjà que le triangle est rectangle : rien à prouver."
+      ],
+      "hint1": "Un angle aigu est-il donné ? Combien de côtés connaît-on ?",
+      "hint2": "Triangle rectangle + un angle aigu + un côté → trigonométrie.",
+      "solution": "Le triangle est rectangle et on connaît un angle aigu et un seul côté : c'est la **trigonométrie**. Pour l'angle en $L$, $[KL]$ est adjacent et $[KM]$ opposé : $\\tan(40^\\circ) = \\frac{KM}{7}$.",
+      "skill": "Raisonner"
+    },
+    {
+      "id": "G2bis-2",
+      "chapterId": "G2bis",
+      "tier": 2,
+      "title": "Une question de parallélisme",
+      "statement": "Les points $A$, $E$, $B$ d'une part et $A$, $F$, $C$ d'autre part sont alignés dans cet ordre, avec $AE = 3$, $AB = 7{,}5$, $AF = 4$ et $AC = 10$ (en cm). On se demande si les droites $(EF)$ et $(BC)$ sont parallèles.\n**Quel outil permet de répondre ?**",
+      "type": "mcq",
+      "options": [
+        "La réciproque du théorème de Thalès",
+        "Le théorème de Thalès",
+        "La réciproque du théorème de Pythagore",
+        "La trigonométrie (cosinus, sinus ou tangente)"
+      ],
+      "correctIndex": 0,
+      "explanations": [
+        "Exact : on veut prouver un parallélisme, on compare $\\frac{AE}{AB}$ et $\\frac{AF}{AC}$.",
+        "Le théorème de Thalès suppose que le parallélisme est déjà connu ; ici c'est la question.",
+        "La réciproque de Pythagore sert à prouver qu'un triangle est rectangle.",
+        "Aucun angle aigu n'est donné ni cherché."
+      ],
+      "hint1": "Le parallélisme est-il donné, ou faut-il le démontrer ?",
+      "hint2": "Prouver que deux droites sont parallèles → réciproque de Thalès.",
+      "solution": "On veut **démontrer** un parallélisme : réciproque de Thalès. $\\frac{AE}{AB} = \\frac{3}{7{,}5} = 0{,}4$ et $\\frac{AF}{AC} = \\frac{4}{10} = 0{,}4$ : les points étant alignés dans le même ordre, $(EF) \\parallel (BC)$.",
+      "skill": "Raisonner"
+    },
+    {
+      "id": "G2bis-3",
+      "chapterId": "G2bis",
+      "tier": 3,
+      "title": "Calculer une longueur",
+      "statement": "Une échelle de $4\\text{ m}$ est appuyée contre un mur vertical ; elle forme avec le sol horizontal un angle de $72^\\circ$.\n**À quelle distance du mur se trouve le pied de l'échelle (arrondie au centimètre) ?**",
+      "type": "mcq",
+      "options": [
+        "$1{,}24\\text{ m}$",
+        "$3{,}80\\text{ m}$",
+        "$1{,}30\\text{ m}$",
+        "$3{,}87\\text{ m}$"
+      ],
+      "correctIndex": 0,
+      "explanations": [
+        "Exact : la distance est le côté adjacent à l'angle de $72^\\circ$ et l'échelle l'hypoténuse : $4 \\times \\cos(72^\\circ) \\approx 1{,}24$.",
+        "C'est la hauteur atteinte sur le mur ($4 \\times \\sin(72^\\circ)$), pas la distance au mur.",
+        "Calcul faux : on ne peut pas utiliser Pythagore avec un seul côté connu.",
+        "On n'utilise pas Pythagore ici : il n'y a qu'un côté connu."
+      ],
+      "hint1": "Mur et sol forment un angle droit ; un angle aigu est donné et un seul côté est connu.",
+      "hint2": "La distance au mur est adjacente à l'angle au sol ; l'échelle est l'hypoténuse : cosinus.",
+      "solution": "Le mur est perpendiculaire au sol : triangle rectangle. Un angle aigu et un seul côté sont connus : **trigonométrie**. Pour l'angle de $72^\\circ$, la distance $d$ est le côté adjacent et l'échelle l'hypoténuse :\n$d = 4 \\times \\cos(72^\\circ) \\approx 1{,}24\\text{ m}$",
+      "skill": "Calculer"
+    },
+    {
+      "id": "G2bis-4",
+      "chapterId": "G2bis",
+      "tier": 4,
+      "title": "Problème en deux étapes",
+      "statement": "$ABC$ est un triangle rectangle en $A$ avec $AB = 9\\text{ cm}$ et $AC = 12\\text{ cm}$. $M$ est le point de $[AB]$ tel que $AM = 3\\text{ cm}$ ; la parallèle à $(BC)$ passant par $M$ coupe $[AC]$ en $N$.\n**Combien mesure $MN$ ?**",
+      "type": "mcq",
+      "options": [
+        "$5\\text{ cm}$",
+        "$4\\text{ cm}$",
+        "$15\\text{ cm}$",
+        "$7{,}5\\text{ cm}$"
+      ],
+      "correctIndex": 0,
+      "explanations": [
+        "Exact : Pythagore donne $BC = 15$, puis Thalès donne $MN = \\frac{3 \\times 15}{9} = 5$.",
+        "C'est $AN = \\frac{3 \\times 12}{9}$, pas $MN$.",
+        "C'est $BC$, la première étape seulement.",
+        "Erreur de rapport : $\\frac{AM}{AB} = \\frac{1}{3}$, pas $\\frac{1}{2}$."
+      ],
+      "hint1": "Pour utiliser les rapports égaux avec $MN$, quelle longueur du grand triangle te manque-t-il ?",
+      "hint2": "D'abord Pythagore dans $ABC$ pour $BC$, puis Thalès avec $(MN) \\parallel (BC)$.",
+      "solution": "Étape 1 (Pythagore, $ABC$ rectangle en $A$) : $BC^2 = 9^2 + 12^2 = 225$, donc $BC = 15\\text{ cm}$.\nÉtape 2 (Thalès, $(MN) \\parallel (BC)$) : $\\frac{AM}{AB} = \\frac{MN}{BC}$, donc $MN = \\frac{3 \\times 15}{9} = 5\\text{ cm}$.",
+      "skill": "Modéliser"
+    }
+  ],
   "G3": [
     {
       "id": "G3-1",

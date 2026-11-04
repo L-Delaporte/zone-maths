@@ -545,7 +545,7 @@ window.MathsQuizGenerator = {
         questions = automatismes.concat(bankProblems);
       } else {
       const problemStructure = [
-        { title: "Exercice 1 — Géométrie (4 points)", points: 4, pool: ['G0', 'G1', 'G2', 'G7'] },
+        { title: "Exercice 1 — Géométrie (4 points)", points: 4, pool: ['G0', 'G1', 'G2', 'G2bis', 'G7'] },
         { title: "Exercice 2 — Calcul littéral, équations et fonctions (3,5 points)", points: 3.5, pool: ['N2', 'N4', 'Org1', 'Org3'] },
         { title: "Exercice 3 — Statistiques, probabilités ou algorithmique (4,5 points)", points: 4.5, pool: ['Org2', 'Org4', 'Algo'] }
       ];

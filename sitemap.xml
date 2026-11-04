@@ -9,13 +9,13 @@
   </url>
   <url>
     <loc>https://etabli-des-maths.fr/exercices-de-maths/</loc>
-    <lastmod>2026-11-03</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://etabli-des-maths.fr/reviser-le-brevet-de-maths/</loc>
-    <lastmod>2026-11-03</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -27,7 +27,7 @@
   </url>
   <url>
     <loc>https://etabli-des-maths.fr/entrainement-maths/</loc>
-    <lastmod>2026-11-03</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -81,7 +81,7 @@
   </url>
   <url>
     <loc>https://etabli-des-maths.fr/cours/</loc>
-    <lastmod>2026-11-03</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -339,7 +339,7 @@
   </url>
   <url>
     <loc>https://etabli-des-maths.fr/cours/4e/theoreme-de-pythagore.html</loc>
-    <lastmod>2026-11-03</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -429,49 +429,55 @@
   </url>
   <url>
     <loc>https://etabli-des-maths.fr/cours/3e/theoreme-de-pythagore-et-proprietes.html</loc>
-    <lastmod>2026-11-03</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://etabli-des-maths.fr/cours/3e/theoreme-de-thales-et-reciproque.html</loc>
-    <lastmod>2026-11-03</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://etabli-des-maths.fr/cours/3e/trigonometrie-dans-le-triangle-rectangle.html</loc>
-    <lastmod>2026-11-03</lastmod>
+    <lastmod>2026-11-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://etabli-des-maths.fr/cours/3e/synthese-pythagore-thales-ou-trigonometrie.html</loc>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://etabli-des-maths.fr/cours/3e/homotheties-et-effets-d-echelle.html</loc>
-    <lastmod>2026-11-03</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://etabli-des-maths.fr/cours/3e/sphere-boule-et-reperage-terrestre.html</loc>
-    <lastmod>2026-11-03</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://etabli-des-maths.fr/cours/3e/geometrie-dans-l-espace-et-sections-planes.html</loc>
-    <lastmod>2026-11-03</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://etabli-des-maths.fr/cours/3e/rotations-et-transformations-du-plan.html</loc>
-    <lastmod>2026-11-03</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://etabli-des-maths.fr/cours/3e/triangles-semblables.html</loc>
-    <lastmod>2026-11-03</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -1167,7 +1173,7 @@
   </url>
   <url>
     <loc>https://etabli-des-maths.fr/cours/3e/</loc>
-    <lastmod>2026-11-03</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>

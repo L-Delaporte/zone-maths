@@ -1456,7 +1456,7 @@ window.MathsLyceeGenerators = {
         eq(this.frac(-mNum, mDen), this.frac(y1 * mDen + mNum * x1, mDen))
       ];
       const slope = `\\frac{y_B - y_A}{x_B - x_A} = ${(y2 - y1)} \\div ${this.paren(x2 - x1)} = ${mT}`;
-      return this._xa([`(${this._xf(mNum, mDen)};${this._xf(pN, mDen)})`, 'Saisir (m ; p) pour $y = mx + p$, par exemple (-2/3;5).'], '2G3', 1, 'Équation réduite d\'une droite',
+      return this._xa([this._xeq([mNum, mDen], [pN, mDen]), this._XDROITE, null, 'equationDroite'], '2G3', 1, 'Équation réduite d\'une droite',
         'Calculer le coefficient directeur puis l\'ordonnée à l\'origine',
         `Déterminer l'équation réduite de la droite $(AB)$ avec $${pt('A', x1, y1)}$ et $${pt('B', x2, y2)}$.`,
         `$${ans}$`, cands.map((c) => `$${c}$`),
@@ -2688,7 +2688,7 @@ window.MathsLyceeGenerators = {
         q.exactAnswer = ex[0];
         if (ex[1]) q.exactInstruction = ex[1];
         if (ex[2] && ex[2].length) q.acceptedAnswers = ex[2];
-        if (ex[3]) q.exactAnswerType = ex[3]; // 'factorisation' | 'developpement'
+        if (ex[3]) q.exactAnswerType = ex[3]; // 'factorisation' | 'developpement' | 'equationDroite' | 'canonique'
       }
     }
     return q;
@@ -2724,6 +2724,23 @@ window.MathsLyceeGenerators = {
   _XDEV: 'Écrire l\'expression développée et réduite.',
   /** Consigne de saisie d'une dérivée (ordre 1 ou 2) polynomiale sous forme développée et réduite */
   _XDER(k) { return `Écrire $f${"'".repeat(k)}(x)$ sous forme développée et réduite.`; },
+
+  /** Consigne de saisie d'une équation réduite de droite (answerType 'equationDroite') */
+  _XDROITE: 'Écrire l\'équation réduite sous la forme $y = mx + p$.',
+  /** Consigne de saisie d'une forme canonique (answerType 'canonique') */
+  _XCANON: 'Écrire la forme canonique $a(x - \\alpha)^2 + \\beta$.',
+
+  /** Équation réduite en texte brut, m et p entiers ou [num, den] : _xeq([-2, 3], 5) -> "y=-2/3x+5" ; _xeq(0, 4) -> "y=4" */
+  _xeq(m, p) {
+    return `y=${this.polyPlain([m, p])}`;
+  },
+
+  /** Forme canonique en texte brut a(x - α)² + β (entiers) : _xcanon(2, 3, -5) -> "2(x-3)^2-5" ; _xcanon(-1, 0, 4) -> "-x^2+4" */
+  _xcanon(a, al, be) {
+    const lead = a === 1 ? '' : a === -1 ? '-' : String(a);
+    const sq = al === 0 ? 'x^2' : `(x${al > 0 ? '-' : '+'}${Math.abs(al)})^2`;
+    return `${lead}${sq}${be === 0 ? '' : be > 0 ? `+${be}` : be}`;
+  },
 
   /** Polynôme développé et réduit en texte brut (coefficients du plus haut degré au terme constant) : [25, -10, 1] -> "25x^2-10x+1" */
   _xdev(coeffs) {
@@ -3500,28 +3517,32 @@ window.MathsLyceeGenerators = {
     const b = this.randNonZero(-6, 6);
     const c = this.randInt(-9, 9);
     const eq = `${this.poly([[a, 'x'], [b, 'y'], [c, '']])} = 0`;
-    return this.makeExact('2G3', 2, 'Équation cartésienne vers équation réduite',
+    const q = this.makeExact('2G3', 2, 'Équation cartésienne vers équation réduite',
       'Passer d\'une équation cartésienne à l\'équation réduite',
-      `La droite $d$ a pour équation cartésienne $${eq}$. Son équation réduite s'écrit $y = mx + p$ : saisir $(m ; p)$.`,
-      `(${this._xf(-a, b)};${this._xf(-c, b)})`,
+      `La droite $d$ a pour équation cartésienne $${eq}$. Déterminer son équation réduite.\n**${this._XDROITE}**`,
+      this._xeq([-a, b], [-c, b]),
       'Isole $y$ dans l\'équation.',
       `On obtient $${this.coefStr(b, 'y')} = ${this.poly([[-a, 'x'], [-c, '']])}$, puis on divise par $${b}$.`,
       `$${eq} \\iff ${this.coefStr(b, 'y')} = ${this.poly([[-a, 'x'], [-c, '']])} \\iff y = ${this.poly([[this.frac(-a, b), 'x'], [this.frac(-c, b), '']])}$. Donc $m = ${this.frac(-a, b)}$ et $p = ${this.frac(-c, b)}$.`,
-      { instruction: 'Saisir (m ; p), par exemple (-2/3;5).' });
+      { instruction: false });
+    q.answerType = 'equationDroite';
+    return q;
   },
 
   _x2G3red() {
     const A = [this.randNonZero(-6, 6), this.randInt(-6, 6)];
     const m = this.randNonZero(-5, 5);
     const p = A[1] - m * A[0];
-    return this.makeExact('2G3', 2, 'Droite par un point et sa pente',
+    const q = this.makeExact('2G3', 2, 'Droite par un point et sa pente',
       'Déterminer l\'équation réduite connaissant un point et la pente',
-      `Déterminer l'équation réduite $y = mx + p$ de la droite de pente $${m}$ passant par $A(${A[0]} ; ${A[1]})$. Saisir $(m ; p)$.`,
-      `(${m};${p})`,
+      `Déterminer l'équation réduite de la droite de pente $${m}$ passant par $A(${A[0]} ; ${A[1]})$.\n**${this._XDROITE}**`,
+      this._xeq(m, p),
       'La pente donne directement $m$.',
       '$A$ est sur la droite : $y_A = m x_A + p$.',
       `$m = ${m}$ et $${A[1]} = ${m} \\times ${this.paren(A[0])} + p$, d'où $p = ${A[1]} - ${this.paren(m * A[0])} = ${p}$. Donc $y = ${this.poly([[m, 'x'], [p, '']])}$.`,
-      { instruction: 'Saisir (m ; p), par exemple (3;-1).' });
+      { instruction: false });
+    q.answerType = 'equationDroite';
+    return q;
   },
 
   _x2G3ord() {
@@ -3936,7 +3957,7 @@ window.MathsLyceeGenerators = {
         `Calcule $u_1$, $u_2$, $u_3$ : les écarts successifs $${this.poly([[p, 'n'], [q, '']])}$ sont affines, donc on cherche $u_n$ sous la forme $\\alpha n^2 + \\beta n + \\gamma$.`,
         `Hérédité : si $u_k$ vérifie la formule, calcule $u_k + ${inc}$ et compare à la formule au rang $k+1$.`,
         `Initialisation : la formule donne $${a0}$ pour $n = 0$. Hérédité : si $u_k = ${this.poly([[h, 'k^2'], [q - h, 'k'], [a0, '']])}$, alors $u_{k+1} = u_k ${inc.startsWith('-') ? '- ' + inc.slice(1) : '+ ' + inc} = ${nxt}$, qui est bien le développement de $${this.poly([[h, '(k+1)^2'], [q - h, '(k+1)'], [a0, '']])}$. Donc $u_n = ${ans}$ pour tout $n$.`
-      ), [h, q - h, a0], 'La formule s\'écrit $u_n = \\alpha n^2 + \\beta n + \\gamma$ : saisir (α ; β ; γ).');
+      ), this.polyPlain([h, q - h, a0], 'n'), 'Écrire $u_n$ en fonction de $n$ sous forme développée et réduite.', null, 'developpement');
     }
     const a = this.randInt(1, 5);
     const b = this.randInt(1, 4);
@@ -4482,7 +4503,7 @@ window.MathsLyceeGenerators = {
         'Le point d\'inflexion est l\'endroit où $f\'\'$ s\'annule en changeant de signe.',
         `$f''(x) = ${this.poly([[6 * a, 'x'], [-6 * a * x0, '']])}$ ; calcule ensuite $f$ et $f'$ en ce point et utilise $y = f'(a)(x - a) + f(a)$.`,
         `$f'(x) = ${this.poly([[3 * a, 'x^2'], [-6 * a * x0, 'x'], [d0, '']])}$ et $f''(x) = ${this.poly([[6 * a, 'x'], [-6 * a * x0, '']])}$, qui s'annule en changeant de signe en $x = ${x0}$ : c'est l'abscisse du point d'inflexion. $f(${x0}) = ${y0}$ et $f'(${x0}) = ${m}$, donc la tangente a pour équation $y = ${tw}$, soit ${ans}. Au point d'inflexion, la courbe traverse cette tangente.`
-      ), [m, p], 'L\'équation réduite s\'écrit $y = mx + p$ : saisir (m ; p).');
+      ), this._xeq(m, p), this._XDROITE, null, 'equationDroite');
     }
     if (f === 1) {
       const a = this.randInt(-2, 3);
@@ -5239,7 +5260,7 @@ window.MathsLyceeGenerators = {
         'La tangente en $a$ a pour équation $y = f\'(a)(x - a) + f(a)$.',
         `$f(${x0}) = \\sqrt{${s * s}} = ${s}$ et $f'(x) = \\frac{${a}}{2\\sqrt{${u}}}$.`,
         `$f(${x0}) = ${s}$ et $f'(${x0}) = \\frac{${a}}{2 \\times ${s}} = ${m}$. Donc $y = ${m === '1' ? '' : m === '-1' ? '-' : m}${x0 === 0 ? 'x' : `(x ${this.formatSign(-x0)})`} + ${s}$, soit ${y(m, p)}.`),
-        [this._Tq(a, 2 * s), this._Tq(2 * s * s - a * x0, 2 * s)], 'L\'équation réduite s\'écrit $y = mx + p$ : saisir (m ; p).');
+        this._xeq([a, 2 * s], [2 * s * s - a * x0, 2 * s]), this._XDROITE, null, 'equationDroite');
     }
     if (fam === 1) {
       const a = this.randNonZero(-4, 4); const x0 = this.randNonZero(-4, 4);
@@ -5253,7 +5274,7 @@ window.MathsLyceeGenerators = {
         `Il faut $f(${x0})$ et $f'(${x0})$, puis l'équation $y = f'(${x0})(x ${this.formatSign(-x0)}) + f(${x0})$.`,
         `$${a} \\times ${this.paren(x0)} ${this.formatSign(b)} = 0$, donc $f(${x0}) = e^0 = 1$.`,
         `$f'(x) = ${K(a, ex(u))}$, donc $f'(${x0}) = ${a}$ et $f(${x0}) = 1$. La tangente : $y = ${K(a, `(x ${this.formatSign(-x0)})`)} + 1$, soit ${y(a, 1 - a * x0)}.`),
-        [a, 1 - a * x0], 'L\'équation réduite s\'écrit $y = mx + p$ : saisir (m ; p).');
+        this._xeq(a, 1 - a * x0), this._XDROITE, null, 'equationDroite');
     }
     if (fam === 2) {
       const p = this.randNonZero(-8, 8);
@@ -8237,14 +8258,16 @@ window.MathsLyceeGenerators = {
       const a = this.randNonZero(-6, 6);
       const b = this.randNonZero(-6, 6);
       const c = this.randInt(-12, 12);
-      return this.makeExact('2N4', 2, 'Isoler une variable',
+      const q = this.makeExact('2N4', 2, 'Isoler une variable',
         'Exprimer une variable en fonction d\'une autre dans $ax + by = c$',
-        `On considère la relation $${this.poly([[a, 'x'], [b, 'y']])} = ${c}$. Exprimer $y$ en fonction de $x$ sous la forme $y = mx + p$ et saisir $(m ; p)$.`,
-        `(${this._xf(-a, b)};${this._xf(c, b)})`,
+        `On considère la relation $${this.poly([[a, 'x'], [b, 'y']])} = ${c}$. Exprimer $y$ en fonction de $x$.\n**Écrire $y$ en fonction de $x$ sous la forme $y = mx + p$.**`,
+        this._xeq([-a, b], [c, b]),
         'Fais passer le terme en $x$ dans l\'autre membre.',
         `Divise ensuite les deux membres par $${b}$.`,
         `$${this.poly([[a, 'x'], [b, 'y']])} = ${c} \\iff ${this.coefStr(b, 'y')} = ${this.poly([[-a, 'x'], [c, '']])} \\iff y = ${this.poly([[this.frac(-a, b), 'x'], [this.frac(c, b), '']])}$.`,
-        { instruction: 'Saisir (m ; p), par exemple (-2/3;4).' });
+        { instruction: false });
+      q.answerType = 'equationDroite';
+      return q;
     }
     const f = this.randChoice([
       ['U = R \\times I', 'R', 'U', 'I', 'V', 'A', 'Ω'], ['d = v \\times t', 'v', 'd', 't', 'km', 'h', 'km/h'], ['P = U \\times I', 'I', 'P', 'U', 'W', 'V', 'A']]);
@@ -8523,7 +8546,7 @@ window.MathsLyceeGenerators = {
       const inner = this.polyX([1, -2 * al, 0]);
       const sol = `On met $${a}$ en facteur dans les termes en $x$ et on complète le carré : $f(x) = ${a === 1 ? '' : a === -1 ? '-' : a}\\left(${inner}\\right) ${this.formatSign(c)}$ et $${inner} = (x ${this.formatSign(-al)})^2 - ${al * al}$, donc $f(x) = ${a === 1 ? '' : a === -1 ? '-' : a}(x ${this.formatSign(-al)})^2 ${this.formatSign(-a * al * al)} ${this.formatSign(c)} = ${this._1re_canon(a, al, be)}$ : $\\alpha = ${al}$ et $\\beta = ${be}$.`.replace(/\(x [+-] 0\)\^2 - 0/, 'x^2').replace(/\(x [+-] 0\)/g, 'x').replace(/ \+ 0(?![\d{,])/g, '').replace(/ - 0(?![\d{,])/g, '');
       if (fam === 0) {
-        return this._xa([`(${a};${al};${be})`, 'Écrire $f(x) = a(x - \\alpha)^2 + \\beta$ et saisir (a ; α ; β).'], '1A1', 3, 'Forme canonique d\'un trinôme',
+        return this._xa([this._xcanon(a, al, be), this._XCANON, null, 'canonique'], '1A1', 3, 'Forme canonique d\'un trinôme',
           "Écrire un trinôme sous la forme $a(x - \\alpha)^2 + \\beta$",
           `Quelle est la forme canonique de $f(x) = ${fx}$ ?`,
           `$f(x) = ${this._1re_canon(a, al, be)}$`,
@@ -8745,7 +8768,7 @@ window.MathsLyceeGenerators = {
       const tgt = (coef + cst) || '0';
       const wrongP = F.kind === 'inv' ? this.frac(F.k, x0) : String(F.f(x0));
       const wrongP2 = F.kind === 'inv' ? this.frac(-2 * F.k, x0) : String(F.f(x0) + m * x0);
-      return this._xa([F.kind === 'inv' ? `(${this._xf(m[0], m[1])};${this._xf(p[0], p[1])})` : `(${m};${p})`, 'Saisir (m ; p) pour $y = mx + p$.'], '1A2', 3, 'Équation de la tangente',
+      return this._xa([this._xeq(m, p), this._XDROITE, null, 'equationDroite'], '1A2', 3, 'Équation de la tangente',
         "Appliquer $y = f'(a)(x - a) + f(a)$",
         `Soit $f(x) = ${F.s}$. Déterminer l'équation réduite de la tangente à $\\mathcal{C}_f$ au point d'abscisse $${x0}$.`,
         eq(ms, ps),
@@ -9300,7 +9323,7 @@ window.MathsLyceeGenerators = {
         const b = this.randInt(-6, 6);
         const c = this.randInt(-5, 5);
         const ans = this.polyX([2 * a, a + b], 'n');
-        return this._xa([`(${2 * a};${a + b})`, 'Écrire $u_{n+1} - u_n = pn + q$ et saisir (p ; q).'], '1A5', 3, 'Différence de deux termes consécutifs',
+        return this._xa([this.polyPlain([2 * a, a + b], 'n'), 'Écrire $u_{n+1} - u_n$ sous forme développée et réduite.', null, 'developpement'], '1A5', 3, 'Différence de deux termes consécutifs',
           "Calculer $u_{n+1} - u_n$",
           `Soit $u_n = ${this.polyX([a, b, c], 'n')}$ pour tout $n \\in \\mathbb{N}$. Exprimer $u_{n+1} - u_n$ en fonction de $n$.`,
           `$u_{n+1} - u_n = ${ans}$`,
@@ -10638,7 +10661,7 @@ window.MathsLyceeGenerators = {
     q.exactAnswer = Array.isArray(ans) ? `(${ans.join(';')})` : String(ans);
     if (instruction) q.exactInstruction = instruction;
     if (accepted && accepted.length) q.acceptedAnswers = accepted;
-    if (answerType) q.exactAnswerType = answerType; // 'factorisation' | 'developpement'
+    if (answerType) q.exactAnswerType = answerType; // 'factorisation' | 'developpement' | 'equationDroite' | 'canonique'
     return q;
   },
 
@@ -10656,7 +10679,7 @@ window.MathsLyceeGenerators = {
 // Helpers partagés : implémentation unique dans advancedGenerators.js (window.MathsGenUtils).
 // Délégation paresseuse (résolue à l'appel) : fonctionne quel que soit l'ordre de chargement.
 ['randInt', 'randNonZero', 'randChoice', 'shuffleArray', 'pickDistinct', 'gcd', 'lcm', 'frac', 'simplifyFrac',
-  'dec', 'decText', 'isDecimal', 'formatSign', 'paren', 'poly', 'polyX', 'coefStr', 'pow', 'numValue',
+  'dec', 'decText', 'isDecimal', 'formatSign', 'paren', 'poly', 'polyX', 'polyPlain', 'coefStr', 'pow', 'numValue',
   'normOption', 'makeMcq', 'makeExact'].forEach((name) => {
   window.MathsLyceeGenerators[name] = function (...args) {
     return window.MathsGenUtils[name](...args);

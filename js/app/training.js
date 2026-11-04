@@ -125,8 +125,19 @@ Object.assign(window.MathsApp, {
           safePlaceholder = 'Forme factorisée (ex : 3(x-2)(2x+5))';
           inputTip = '💡 Écris un produit : <code>3(x-2)(2x+5)</code> ; un carré s\'écrit <code>(x+1)^2</code> ; le signe × est facultatif.';
         } else if (exercise.answerType === 'developpement') {
-          safePlaceholder = 'Expression réduite (ex : 6x^2+11x-4)';
-          inputTip = '💡 Écris l\'expression sans parenthèses : <code>6x^2+11x-4</code> ; un carré s\'écrit <code>x^2</code>.';
+          // Variable de l'expression attendue (x, n pour une suite, X pour un polynôme formel)
+          const v = /n/.test(ansStr) ? 'n' : /X/.test(ansStr) ? 'X' : 'x';
+          const ex = { x: '6x^2+11x-4', n: '3n^2-2n+5', X: 'X^2-3X+2' }[v];
+          const withFrac = ansStr.includes('/') || !['6eme', '5eme', '4eme', '3eme'].includes(level);
+          safePlaceholder = `Expression réduite (ex : ${ex})`;
+          inputTip = `💡 Écris l'expression sans parenthèses : <code>${ex}</code> ; un carré s'écrit <code>${v}^2</code>.`
+            + (withFrac ? ` Coefficient fractionnaire : <code>2/3${v}</code> ou <code>(2/3)${v}</code>.` : '');
+        } else if (exercise.answerType === 'equationDroite') {
+          safePlaceholder = 'Équation réduite (ex : y=-2/3x+5)';
+          inputTip = '💡 Écris l\'équation sous la forme <code>y=3x-2</code> ou <code>y=-2/3x+5</code> (fraction irréductible) ; le « y = » est facultatif.';
+        } else if (exercise.answerType === 'canonique') {
+          safePlaceholder = 'Forme canonique (ex : 2(x-3)^2-5)';
+          inputTip = '💡 Écris la forme <code>a(x-α)^2+β</code>, par exemple <code>2(x-3)^2-5</code> ou <code>-(x+1)^2+4</code>.';
         } else if (ansStr.includes(';') || (ansStr.startsWith('(') && ansStr.endsWith(')'))) {
           safePlaceholder = 'Coordonnées (ex: (3;5) ou 3;5)';
           inputTip = '💡 Écris les coordonnées sous la forme <code>(x;y)</code> ou <code>x;y</code>.' + (showSqrtPi ? ' Racine : <code>√</code> ou <code>sqrt</code> ; π : <code>π</code> ou <code>pi</code>.' : '');

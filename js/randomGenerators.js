@@ -1342,6 +1342,382 @@
     return q;
   },
 
+  // --- G2 bis : Synthèse — Pythagore, Thalès ou trigonométrie ? ---
+  // Paliers 1-2 : reconnaître l'outil adapté. Paliers 3-4 : exercices où l'outil n'est jamais nommé.
+  generateG2bis(tier = 1, mastery = 0) {
+    const t = this.resolveTier(tier);
+    const f = (x, d = 2) => this._h3b_f(x, d), ft = (x) => this._h3b_ft(x);
+    const rd = (x, d) => +x.toFixed(d);
+    const sq = x => +(x * x).toFixed(4);
+    const sinD = a => Math.sin(a * Math.PI / 180), cosD = a => Math.cos(a * Math.PI / 180), tanD = a => Math.tan(a * Math.PI / 180);
+    const CLE = "Repères : triangle rectangle et deux longueurs connues pour la troisième → Pythagore ; triangle rectangle et un angle aigu (connu ou cherché) → trigonométrie ; deux droites parallèles coupées par deux sécantes → Thalès ; prouver qu'un triangle est rectangle → réciproque de Pythagore ; prouver que deux droites sont parallèles → réciproque de Thalès.";
+    const H2F = "Rappel : $\\cos = \\frac{\\text{adjacent}}{\\text{hypoténuse}}$, $\\sin = \\frac{\\text{opposé}}{\\text{hypoténuse}}$, $\\tan = \\frac{\\text{opposé}}{\\text{adjacent}}$.";
+    const OUT = {
+      P: 'Le théorème de Pythagore', RP: 'La réciproque du théorème de Pythagore',
+      T: 'Le théorème de Thalès', RT: 'La réciproque du théorème de Thalès',
+      TR: 'La trigonométrie (cosinus, sinus ou tangente)'
+    };
+    const SIB = { P: 'RP', RP: 'P', T: 'RT', RT: 'T', TR: 'P' };
+    const outilOpts = (key) => {
+      const rest = this.shuffle(Object.keys(OUT).filter(k => k !== key && k !== SIB[key])).slice(0, 2);
+      return [OUT[key], OUT[SIB[key]], ...rest.map(k => OUT[k])];
+    };
+    const POURQUOI = {
+      P: "le triangle est rectangle et on connaît deux de ses côtés : le théorème de Pythagore donne le troisième. Aucun angle aigu n'intervient.",
+      TR: "le triangle est rectangle et un angle aigu intervient (il est donné ou c'est lui qu'on cherche) : c'est le domaine du cosinus, du sinus et de la tangente.",
+      T: "on sait que deux droites sont parallèles et qu'elles sont coupées par deux sécantes : c'est une configuration de Thalès, qui donne des longueurs proportionnelles.",
+      RP: "on connaît les trois côtés et on veut savoir si le triangle est rectangle : on compare le carré du plus grand côté à la somme des carrés des deux autres (réciproque ou contraposée de Pythagore).",
+      RT: "on veut savoir si deux droites sont parallèles, avec des points alignés sur deux sécantes : on compare deux quotients (réciproque ou contraposée de Thalès)."
+    };
+    const outilQ = (key, title, statement, v, hint1) => this._h3b_mk({
+      title, type: 'mcq', statement: statement + '\n**Quel outil permet de répondre ?**',
+      options: outilOpts(key),
+      hint1: hint1 || "Repère d'abord les informations clés : y a-t-il un angle droit ? des droites parallèles ? un angle aigu ? Et que cherche-t-on : une longueur, un angle, ou une preuve ?",
+      hint2: CLE,
+      solution: `Indice décisif : ${POURQUOI[key]}\nL'outil adapté est donc : **${OUT[key].charAt(0).toLowerCase() + OUT[key].slice(1)}**.`,
+      _v: Object.assign({ k: 'G2bis.outil' }, v)
+    });
+    // Figure : triangle quelconque connu par ses trois côtés (sans codage d'angle droit) ; V[0] opposé au côté big
+    const triSides = (V, big, s1, s2) => {
+      const x = (s1 * s1 - s2 * s2 + big * big) / (2 * big), y = Math.sqrt(Math.max(s1 * s1 - x * x, 0.01));
+      const pts = [{ x, y }, { x: 0, y: 0 }, { x: big, y: 0 }];
+      const fit = this._h3b_fit(pts, 280, 175, 34); const P = pts.map(p => fit(p.x, p.y));
+      return this._h3b_svg(280, 175, this._h3b_triFig(P, V, { sides: { '12': ft(big) + ' cm', '01': ft(s1) + ' cm', '02': ft(s2) + ' cm' } }), 280);
+    };
+
+    // ===================== Paliers 1-2 : quel outil ? =====================
+    const o1Pyth = () => {
+      const V = this._h3b_names3(); const [R, X, Y] = V;
+      const unk = this.randChoice(['hyp', 's1', 's2']);
+      const a = this.randInt(3, 12), b = this.randInt(4, 15), c = this.randInt(Math.max(a, b) + 1, Math.max(a, b) + 8);
+      const fig = unk === 'hyp' ? this._h3b_rtFig(R, X, Y, a, b, '?', 'hyp') : unk === 's1' ? this._h3b_rtFig(R, X, Y, '?', a, c, 's1') : this._h3b_rtFig(R, X, Y, a, '?', c, 's2');
+      const cherche = unk === 'hyp' ? X + Y : unk === 's1' ? R + X : R + Y;
+      return outilQ('P', 'Quel outil utiliser ?', `${fig}Le triangle $${R}${X}${Y}$ est rectangle en $${R}$. On connaît deux de ses côtés et on veut calculer la longueur $${cherche}$.`,
+        { rt: true, par: false, data: 'cotes2', want: 'longueur' });
+    };
+    const o1TrigLong = () => {
+      const V = this._h3b_names3(); const [R, A, T] = V;
+      const kn = this.randChoice([[R + A, A + T], [A + T, R + T], [R + A, R + T], [R + T, R + A]]);
+      const L = {}; L[kn[0]] = this.randInt(4, 12) + ' cm'; L[kn[1]] = '?';
+      const a = this.randInt(25, 65);
+      return outilQ('TR', 'Quel outil utiliser ?', `${this._h3b_trigFig(V, A, L, kn[1], a + '°', this.randInt(0, 3))}Le triangle $${R}${A}${T}$ est rectangle en $${R}$ et $\\widehat{${R}${A}${T}} = ${a}^\\circ$. On connaît $${kn[0]}$ et on veut calculer $${kn[1]}$.`,
+        { rt: true, par: false, data: 'coteAngle', want: 'longueur' });
+    };
+    const o1TrigAngle = () => {
+      const V = this._h3b_names3(); const [R, A, T] = V;
+      const kn = this.randChoice([[R + A, A + T], [R + T, A + T], [R + A, R + T]]);
+      const L = {}; L[kn[0]] = this.randInt(3, 9) + ' cm'; L[kn[1]] = this.randInt(10, 15) + ' cm';
+      return outilQ('TR', 'Quel outil utiliser ?', `${this._h3b_trigFig(V, A, L, '', '?', this.randInt(0, 3))}Le triangle $${R}${A}${T}$ est rectangle en $${R}$. On connaît $${kn[0]}$ et $${kn[1]}$ et on veut calculer la mesure de l'angle $\\widehat{${R}${A}${T}}$.`,
+        { rt: true, par: false, data: 'cotes2', want: 'angle' },
+        "Que cherche-t-on : une longueur ou un angle ? Le théorème de Pythagore ne fait intervenir que des longueurs.");
+    };
+    const o1Thales = () => {
+      if (Math.random() < 0.5) {
+        const want = this.randChoice(['AN', 'MN', 'AC']);
+        const lg = { AM: this.randInt(2, 5), AB: this.randInt(6, 10) };
+        if (want === 'AN') lg.AC = this.randInt(7, 12); else if (want === 'MN') lg.BC = this.randInt(7, 12); else lg.AN = this.randInt(2, 5);
+        lg[want] = '?';
+        return outilQ('T', 'Quel outil utiliser ?', `${this.buildThalesEmboiteSvg({ lengths: lg })}Dans le triangle $ABC$, $M \\in [AB]$, $N \\in [AC]$ et les droites $(MN)$ et $(BC)$ sont parallèles. On veut calculer $${want}$.`,
+          { rt: false, par: true, data: 'longueurs', want: 'longueur' });
+      }
+      return outilQ('T', 'Quel outil utiliser ?', `${this.buildThalesPapillonSvg({ lengths: { OA: this.randInt(2, 5), OB: this.randInt(6, 10), OC: this.randInt(2, 6), OD: '?' } })}Les droites $(AB)$ et $(CD)$ se coupent en $O$, et les droites $(AC)$ et $(BD)$ sont parallèles. On veut calculer $OD$.`,
+        { rt: false, par: true, data: 'longueurs', want: 'longueur' });
+    };
+    const o1RecipP = () => {
+      const V = this._h3b_names3();
+      const tr = this.randChoice(this._h3b_triples(30, false)).slice(); if (Math.random() < 0.5) tr[2] += 1;
+      return outilQ('RP', 'Quel outil utiliser ?', `${triSides(V, tr[2], tr[0], tr[1])}On connaît les trois côtés du triangle $${V.join('')}$ : $${V[1]}${V[2]} = ${tr[2]}\\text{ cm}$, $${V[0]}${V[1]} = ${tr[0]}\\text{ cm}$ et $${V[0]}${V[2]} = ${tr[1]}\\text{ cm}$. On veut savoir si ce triangle est rectangle.`,
+        { rt: false, par: false, data: 'cotes3', want: 'rect' },
+        "Ici, on ne sait pas encore si le triangle est rectangle : c'est justement ce qu'il faut prouver.");
+    };
+    const o1RecipT = () => {
+      const lg = { AM: this.randInt(2, 5), AB: this.randInt(6, 10), AN: this.randInt(2, 5), AC: this.randInt(6, 10) };
+      return outilQ('RT', 'Quel outil utiliser ?', `${this.buildThalesEmboiteSvg({ lengths: lg })}Les points $A$, $M$, $B$ d'une part et $A$, $N$, $C$ d'autre part sont alignés dans cet ordre. On connaît $AM$, $AB$, $AN$ et $AC$ et on veut savoir si les droites $(MN)$ et $(BC)$ sont parallèles.`,
+        { rt: false, par: false, data: 'longueurs', want: 'para' },
+        "Le parallélisme est-il donné, ou est-ce ce qu'il faut démontrer ?");
+    };
+
+    // Palier 2 : situations sans figure (contexte) et pièges
+    const CTX = [
+      ['P', "Une échelle de $5\\text{ m}$ est appuyée contre un mur vertical ; son pied est posé sur le sol horizontal à $1{,}4\\text{ m}$ du mur. On veut savoir à quelle hauteur elle touche le mur.", { rt: true, par: false, data: 'cotes2', want: 'longueur' }],
+      ['TR', "Une échelle de $5\\text{ m}$ est appuyée contre un mur vertical et fait un angle de $70^\\circ$ avec le sol horizontal. On veut savoir à quelle hauteur elle touche le mur.", { rt: true, par: false, data: 'coteAngle', want: 'longueur' }],
+      ['TR', "Une rampe rectiligne de $6\\text{ m}$ de long permet de monter une marche de $0{,}5\\text{ m}$. On veut connaître l'angle que fait la rampe avec le sol horizontal.", { rt: true, par: false, data: 'cotes2', want: 'angle' }],
+      ['T', "Au même instant, un bâton vertical de $1\\text{ m}$ a une ombre de $1{,}5\\text{ m}$ et un arbre vertical a une ombre de $12\\text{ m}$. Les rayons du soleil sont parallèles. On veut la hauteur de l'arbre.", { rt: false, par: true, data: 'longueurs', want: 'longueur' }],
+      ['RP', "Un maçon veut vérifier que son mur est bien perpendiculaire au sol. Il mesure $60\\text{ cm}$ sur le sol, $80\\text{ cm}$ sur le mur, puis $1\\text{ m}$ entre les deux marques.", { rt: false, par: false, data: 'cotes3', want: 'rect' }],
+      ['RT', "Sur un plan, les droites $(AB)$ et $(CD)$ se coupent en $O$. On connaît $OA$, $OB$, $OC$ et $OD$, et on se demande si les allées $(AC)$ et $(BD)$ sont parallèles.", { rt: false, par: false, data: 'longueurs', want: 'para' }],
+      ['P', "Un écran rectangulaire mesure $52\\text{ cm}$ de long et $30\\text{ cm}$ de large. On veut connaître la longueur de sa diagonale.", { rt: true, par: false, data: 'cotes2', want: 'longueur' }],
+      ['TR', "Un avion décolle en ligne droite selon un angle de $15^\\circ$ avec le sol horizontal. On veut connaître son altitude après $2\\text{ km}$ parcourus.", { rt: true, par: false, data: 'coteAngle', want: 'longueur' }],
+      ['P', "Un bateau parcourt $3\\text{ km}$ vers l'est puis $4\\text{ km}$ vers le nord. On veut connaître la distance qui le sépare de son point de départ.", { rt: true, par: false, data: 'cotes2', want: 'longueur' }],
+      ['T', "Sur la charpente d'un toit en forme de triangle, une poutre horizontale est parallèle à la base. On connaît la longueur de la base et des deux pans, ainsi que la position de la poutre sur un pan. On veut la longueur de la poutre.", { rt: false, par: true, data: 'longueurs', want: 'longueur' }],
+      ['TR', "Depuis un point situé à $30\\text{ m}$ du pied d'une tour verticale, on voit son sommet sous un angle de $40^\\circ$ avec le sol horizontal. On veut la hauteur de la tour.", { rt: true, par: false, data: 'coteAngle', want: 'longueur' }],
+      ['RP', "Un menuisier a découpé une équerre en bois dont les côtés mesurent $15\\text{ cm}$, $20\\text{ cm}$ et $26\\text{ cm}$. Il se demande si son équerre a vraiment un angle droit.", { rt: false, par: false, data: 'cotes3', want: 'rect' }]
+    ];
+    const o2Ctx = () => {
+      const [key, txt, v] = this.randChoice(CTX);
+      return outilQ(key, 'Quel outil pour ce problème ?', txt, v,
+        "Fais un schéma à main levée : y a-t-il un triangle rectangle (mur et sol, directions est et nord…) ? des droites parallèles ? un angle donné ou cherché ?");
+    };
+    // Pythagore ou rapport trigonométrique précis ?
+    const o2Ratio = () => {
+      const V = this._h3b_names3(); const [R, A, T] = V;
+      const nm = { adj: R + A, opp: R + T, hyp: A + T };
+      const kind = this.randChoice(['angleSide', 'twoSidesAngle', 'twoSidesSide']);
+      const sides = ['adj', 'opp', 'hyp'];
+      const k1 = this.randChoice(sides); const k2 = this.randChoice(sides.filter(s => s !== k1));
+      const L = {}; let st, known, want;
+      const val = (s0, lo, hi) => (s0 === 'hyp' ? this.randInt(15, 19) : this.randInt(lo, hi));
+      const a = this.randInt(25, 65);
+      if (kind === 'angleSide') {
+        L[nm[k1]] = this.randInt(4, 12) + ' cm'; L[nm[k2]] = '?';
+        st = `${this._h3b_trigFig(V, A, L, nm[k2], a + '°', this.randInt(0, 3))}Le triangle $${R}${A}${T}$ est rectangle en $${R}$ et $\\widehat{${R}${A}${T}} = ${a}^\\circ$. On connaît $${nm[k1]}$ et on cherche $${nm[k2]}$.`;
+        known = [k1]; want = k2;
+      } else if (kind === 'twoSidesAngle') {
+        L[nm[k1]] = val(k1, 3, 8) + ' cm'; L[nm[k2]] = val(k2, 9, 14) + ' cm';
+        st = `${this._h3b_trigFig(V, A, L, '', '?', this.randInt(0, 3))}Le triangle $${R}${A}${T}$ est rectangle en $${R}$. On connaît $${nm[k1]}$ et $${nm[k2]}$ et on cherche la mesure de l'angle $\\widehat{${R}${A}${T}}$.`;
+        known = [k1, k2]; want = 'angle';
+      } else {
+        const k3 = sides.find(s => s !== k1 && s !== k2);
+        L[nm[k1]] = val(k1, 3, 8) + ' cm'; L[nm[k2]] = val(k2, 9, 14) + ' cm'; L[nm[k3]] = '?';
+        st = `${this._h3b_trigFig(V, A, L, nm[k3], '', this.randInt(0, 3))}Le triangle $${R}${A}${T}$ est rectangle en $${R}$. On connaît $${nm[k1]}$ et $${nm[k2]}$ et on cherche $${nm[k3]}$.`;
+        known = [k1, k2]; want = k3;
+      }
+      const pair = known.length === 2 && want === 'angle' ? known : known.length === 1 ? [known[0], want] : null;
+      const fnOf = p => (p.includes('hyp') ? (p.includes('adj') ? 'cos' : 'sin') : 'tan');
+      const nomF = { cos: 'Le cosinus', sin: 'Le sinus', tan: 'La tangente' };
+      const ang = `de l'angle $\\widehat{${R}${A}${T}}$`;
+      const good = pair ? `${nomF[fnOf(pair)]} ${ang}` : OUT.P;
+      const all = [OUT.P, ...['cos', 'sin', 'tan'].map(x => `${nomF[x]} ${ang}`)];
+      return this._h3b_mk({
+        title: 'Pythagore ou trigonométrie ?', type: 'mcq',
+        statement: st + '\n**Quel outil permet de répondre ?**',
+        options: [good, ...all.filter(o => o !== good)],
+        hint1: `Un angle aigu intervient-il (donné ou cherché) ? Si oui, nomme les côtés utiles par rapport à l'angle en $${A}$ : opposé, adjacent, hypoténuse.`,
+        hint2: CLE + ' ' + H2F,
+        solution: pair
+          ? `Un angle aigu intervient : on utilise la trigonométrie. Pour l'angle $\\widehat{${R}${A}${T}}$, $[${nm.adj}]$ est le côté adjacent, $[${nm.opp}]$ le côté opposé et $[${nm.hyp}]$ l'hypoténuse.\nLe rapport qui relie $${nm[pair[0]]}$ et $${nm[pair[1]]}$ est ${nomF[fnOf(pair)].toLowerCase()} : $\\${fnOf(pair)}(\\widehat{${R}${A}${T}}) = \\frac{${fnOf(pair) === 'cos' ? nm.adj : nm.opp}}{${fnOf(pair) === 'tan' ? nm.adj : nm.hyp}}$.`
+          : `Aucun angle aigu n'est donné ni cherché, et on connaît deux côtés du triangle rectangle : le théorème de Pythagore donne directement le troisième ($${nm.hyp}^2 = ${nm.adj}^2 + ${nm.opp}^2$).`,
+        _v: { k: 'G2bis.ratio', R, A, T, known, want }
+      });
+    };
+    // Dans quel ordre ? (problèmes à deux étapes)
+    const ORD = {
+      pyTh: ['Pythagore, puis Thalès', "Le triangle $ABC$ est rectangle en $A$ ; $M \\in [AB]$, $N \\in [AC]$ et $(MN) \\parallel (BC)$. On connaît $AB$, $AC$ et $AM$, et on veut calculer $MN$.", "Pour utiliser Thalès avec $MN$, il faut connaître $BC$ : on le calcule d'abord avec Pythagore dans le triangle $ABC$ rectangle en $A$ ($AB$ et $AC$ connus), puis Thalès donne $MN = \\frac{AM \\times BC}{AB}$."],
+      thPy: ['Thalès, puis Pythagore', "Le triangle $ABC$ est rectangle en $A$ ; $M \\in [AB]$, $N \\in [AC]$ et $(MN) \\parallel (BC)$. On connaît $AM$, $MN$ et $AB$, et on veut calculer $AC$.", "Thalès donne d'abord $BC = \\frac{AB \\times MN}{AM}$ ; ensuite, dans le triangle $ABC$ rectangle en $A$, on connaît l'hypoténuse $BC$ et le côté $AB$ : Pythagore donne $AC$."],
+      trPy: ['Trigonométrie, puis Pythagore', "Un poteau vertical $[AB]$ est planté sur un sol horizontal. Un câble $[AD]$ fait un angle connu avec le sol et on connaît $BD$. Un second câble $[AC]$ est fixé au sol en $C$, avec $BC$ connu. On veut la longueur $AC$.", "Dans le triangle $ABD$ rectangle en $B$, l'angle en $D$ et $BD$ sont connus : la tangente donne la hauteur $AB$. Ensuite, dans le triangle $ABC$ rectangle en $B$, on connaît $AB$ et $BC$ : Pythagore donne $AC$."],
+      rpTr: ['Réciproque de Pythagore, puis trigonométrie', "On connaît les trois côtés d'un triangle $EFG$ et on veut calculer la mesure de l'angle $\\widehat{EGF}$.", "Pour utiliser la trigonométrie, il faut d'abord prouver que le triangle est rectangle : c'est la réciproque de Pythagore. Ensuite, le cosinus (ou le sinus, ou la tangente) donne l'angle."],
+      rtTh: ['Réciproque de Thalès, puis Thalès', "Les points $A$, $M$, $B$ et $A$, $N$, $C$ sont alignés dans cet ordre. On connaît $AM$, $AB$, $AN$, $AC$ et $BC$ ; on veut d'abord prouver que $(MN) \\parallel (BC)$, puis calculer $MN$.", "On prouve le parallélisme en comparant $\\frac{AM}{AB}$ et $\\frac{AN}{AC}$ (réciproque de Thalès), puis, les droites étant parallèles, le théorème de Thalès donne $MN$."]
+    };
+    const o2Ordre = () => {
+      const s = this.randChoice(Object.keys(ORD));
+      const others = this.shuffle(Object.keys(ORD).filter(x => x !== s)).slice(0, 3);
+      return this._h3b_mk({
+        title: 'Problème en deux étapes : dans quel ordre ?', type: 'mcq',
+        statement: `${ORD[s][1]}\n**Quels outils faut-il utiliser, et dans quel ordre ?**`,
+        options: [ORD[s][0], ...others.map(x => ORD[x][0])],
+        hint1: "Pars de la longueur (ou de l'angle) cherchée : de quelle donnée manquante as-tu besoin pour l'obtenir ? Calcule d'abord celle-là.",
+        hint2: CLE,
+        solution: ORD[s][2],
+        _v: { k: 'G2bis.ordre', s }
+      });
+    };
+
+    // ===================== Paliers 3-4 : l'outil n'est plus nommé =====================
+    const e3Pyth = () => {
+      const V = this._h3b_names3(); const [R, X, Y] = V;
+      if (Math.random() < 0.5) {
+        const a = this.randInt(3, 15), b = this.randInt(3, 15); const h = Math.sqrt(a * a + b * b);
+        if (this._h3b_edge(h, 1)) return e3Pyth();
+        const ex = Number.isInteger(h);
+        return this._h3b_mk({
+          title: 'Calculer une longueur',
+          statement: `${this._h3b_rtFig(R, X, Y, a, b, '?', 'hyp')}Le triangle $${R}${X}${Y}$ est rectangle en $${R}$, avec $${R}${X} = ${a}\\text{ cm}$ et $${R}${Y} = ${b}\\text{ cm}$.\n**Calculer $${X}${Y}$, en cm${ex ? '' : ', arrondie au dixième'}.**`,
+          answer: this._h3b_num(h, 1), hint1: "Repère l'angle droit, puis regarde les données : combien de côtés connais-tu ? Un angle aigu intervient-il ?", hint2: CLE,
+          solution: `Outil : le triangle est rectangle et on connaît deux côtés, sans angle aigu : **théorème de Pythagore**.\n$[${X}${Y}]$ est l'hypoténuse : $$${X}${Y}^2 = ${R}${X}^2 + ${R}${Y}^2 = ${a * a} + ${b * b} = ${a * a + b * b}$$\n$$${X}${Y} = \\sqrt{${a * a + b * b}} ${ex ? '=' : '\\approx'} ${f(rd(h, 1))}\\text{ cm}$$`,
+          _v: { k: 'G0.hyp', a, b, d: 1 }
+        });
+      }
+      const c = this.randInt(8, 20), l = this.randInt(3, c - 2); const s = Math.sqrt(c * c - l * l);
+      if (this._h3b_edge(s, 1)) return e3Pyth();
+      const ex = Number.isInteger(s);
+      return this._h3b_mk({
+        title: 'Calculer une longueur',
+        statement: `${this._h3b_rtFig(R, X, Y, l, '?', c, 's2')}Le triangle $${R}${X}${Y}$ est rectangle en $${R}$, avec $${X}${Y} = ${c}\\text{ cm}$ et $${R}${X} = ${l}\\text{ cm}$.\n**Calculer $${R}${Y}$, en cm${ex ? '' : ', arrondie au dixième'}.**`,
+        answer: this._h3b_num(s, 1), hint1: "Repère l'angle droit et l'hypoténuse : combien de côtés connais-tu ? Un angle aigu intervient-il ?", hint2: CLE,
+        solution: `Outil : le triangle est rectangle et on connaît deux côtés, sans angle aigu : **théorème de Pythagore**.\n$[${X}${Y}]$ est l'hypoténuse : $${X}${Y}^2 = ${R}${X}^2 + ${R}${Y}^2$, donc $$${R}${Y}^2 = ${c * c} - ${l * l} = ${c * c - l * l}$$\n$$${R}${Y} = \\sqrt{${c * c - l * l}} ${ex ? '=' : '\\approx'} ${f(rd(s, 1))}\\text{ cm}$$`,
+        _v: { k: 'G0.cote', c, l, d: 1 }
+      });
+    };
+    const e3TrigLong = () => {
+      const V = this._h3b_names3(); const [R, A, T] = V;
+      const a = this.randInt(20, 70);
+      const c = this.randChoice(['adjFromHyp', 'oppFromHyp', 'oppFromAdj', 'hypFromAdj', 'hypFromOpp', 'adjFromOpp']);
+      const k = this.randInt(4, 15);
+      const nm = { adj: R + A, opp: R + T, hyp: A + T };
+      const [unk, kn, fn] = { adjFromHyp: ['adj', 'hyp', 'cos'], oppFromHyp: ['opp', 'hyp', 'sin'], oppFromAdj: ['opp', 'adj', 'tan'], hypFromAdj: ['hyp', 'adj', 'cos'], hypFromOpp: ['hyp', 'opp', 'sin'], adjFromOpp: ['adj', 'opp', 'tan'] }[c];
+      const tr = { cos: cosD, sin: sinD, tan: tanD }[fn](a);
+      const divide = unk === 'hyp' || (fn === 'tan' && unk === 'adj');
+      const res = divide ? k / tr : k * tr;
+      if (this._h3b_edge(res, 1)) return e3TrigLong();
+      const L = {}; L[nm[kn]] = k + ' cm'; L[nm[unk]] = '?';
+      const nomF = { cos: 'cosinus', sin: 'sinus', tan: 'tangente' }[fn];
+      const num = fn === 'cos' ? nm.adj : nm.opp, den = fn === 'tan' ? nm.adj : nm.hyp;
+      return this._h3b_mk({
+        title: 'Calculer une longueur',
+        statement: `${this._h3b_trigFig(V, A, L, nm[unk], a + '°', this.randInt(0, 3))}Le triangle $${R}${A}${T}$ est rectangle en $${R}$, avec $\\widehat{${R}${A}${T}} = ${a}^\\circ$ et $${nm[kn]} = ${k}\\text{ cm}$.\n**Calculer $${nm[unk]}$, en cm, arrondie au dixième.**`,
+        answer: this._h3b_num(res, 1), hint1: "Un seul côté est connu, mais l'énoncé donne aussi un angle aigu : quel outil relie un angle et des longueurs ?", hint2: CLE + ' ' + H2F,
+        solution: `Outil : le triangle est rectangle et un angle aigu est donné, avec un seul côté connu : **trigonométrie** (Pythagore exigerait deux côtés).\nPour l'angle $\\widehat{${R}${A}${T}}$, on relie $${nm[kn]}$ et $${nm[unk]}$ avec ${fn === 'tan' ? 'la' : 'le'} ${nomF} : $$\\${fn}(${a}^\\circ) = \\frac{${num === nm[kn] ? k : num}}{${den === nm[kn] ? k : den}}$$\n${divide ? `$${nm[unk]} = \\frac{${k}}{\\${fn}(${a}^\\circ)}` : `$${nm[unk]} = ${k} \\times \\${fn}(${a}^\\circ)`} \\approx ${f(rd(res, 1))}\\text{ cm}$.`,
+        _v: { k: 'G2.longueur', c, a, len: k }
+      });
+    };
+    const e3TrigAngle = () => {
+      const V = this._h3b_names3(); const [R, A, T] = V;
+      const fn = this.randChoice(['cos', 'sin', 'tan']);
+      let x, y; do { x = this.randInt(3, 15); y = this.randInt(3, 15); } while (x === y || (fn !== 'tan' && x >= y));
+      const nm = { adj: R + A, opp: R + T, hyp: A + T };
+      const k1 = fn === 'cos' ? 'adj' : 'opp', k2 = fn === 'tan' ? 'adj' : 'hyp';
+      const a = { cos: Math.acos, sin: Math.asin, tan: Math.atan }[fn](x / y) * 180 / Math.PI;
+      if (Math.abs(a % 1 - 0.5) < 0.05) return e3TrigAngle();
+      const L = {}; L[nm[k1]] = x + ' cm'; L[nm[k2]] = y + ' cm';
+      return this._h3b_mk({
+        title: 'Calculer un angle',
+        statement: `${this._h3b_trigFig(V, A, L, '', '?', this.randInt(0, 3))}Le triangle $${R}${A}${T}$ est rectangle en $${R}$, avec $${nm[k1]} = ${x}\\text{ cm}$ et $${nm[k2]} = ${y}\\text{ cm}$.\n**Calculer la mesure de l'angle $\\widehat{${R}${A}${T}}$, arrondie au degré.**`,
+        answer: String(Math.round(a)), hint1: "On cherche un angle, pas une longueur : quel outil relie les côtés d'un triangle rectangle à ses angles ?", hint2: CLE + ' ' + H2F,
+        solution: `Outil : on cherche un angle dans un triangle rectangle : **trigonométrie**.\nPour l'angle $\\widehat{${R}${A}${T}}$, $[${nm[k1]}]$ est ${k1 === 'adj' ? 'le côté adjacent' : 'le côté opposé'} et $[${nm[k2]}]$ ${k2 === 'hyp' ? "l'hypoténuse" : 'le côté adjacent'} : $$\\${fn}(\\widehat{${R}${A}${T}}) = \\frac{${x}}{${y}}$$\n$$\\widehat{${R}${A}${T}} = \\operatorname{Arc${fn}}\\left(\\frac{${x}}{${y}}\\right) \\approx ${Math.round(a)}^\\circ$$`,
+        _v: { k: 'G2.angle2', fn, x, y }
+      });
+    };
+    const e3Thales = () => {
+      const { p, q } = this._h3b_thRatio(); const u = this.randInt(1, 3), w = this.randInt(2, 6);
+      if (Math.random() < 0.35) {
+        const OA = p * u, OB = q * u, OC = p * w, OD = q * w;
+        return this._h3b_mk({
+          title: 'Calculer une longueur',
+          statement: `${this.buildThalesPapillonSvg({ lengths: { OA, OB, OC, OD: '?' } })}Les droites $(AB)$ et $(CD)$ se coupent en $O$ et les droites $(AC)$ et $(BD)$ sont parallèles. On donne $OA = ${OA}\\text{ cm}$, $OB = ${OB}\\text{ cm}$ et $OC = ${OC}\\text{ cm}$.\n**Calculer $OD$, en cm.**`,
+          answer: String(OD), hint1: "Repère les droites parallèles et les deux sécantes : quelles longueurs sont proportionnelles ?", hint2: CLE,
+          solution: `Outil : deux droites parallèles coupées par deux sécantes : **théorème de Thalès**.\n$$\\frac{OA}{OB} = \\frac{OC}{OD} = \\frac{AC}{BD} \\quad \\text{donc} \\quad \\frac{${OA}}{${OB}} = \\frac{${OC}}{OD}$$\n$$OD = \\frac{${OB} \\times ${OC}}{${OA}} = ${OD}\\text{ cm}$$`,
+          _v: { k: 'G2bis.prop', a: OB, b: OA, c: OC }
+        });
+      }
+      const AM = p * u, AB = q * u, wantMN = Math.random() < 0.5;
+      const BC = q * w, MN = p * w, AC = q * w, AN = p * w;
+      const lg = wantMN ? { AM, AB, BC, MN: '?' } : { AM, AB, AC, AN: '?' };
+      return this._h3b_mk({
+        title: 'Calculer une longueur',
+        statement: `${this.buildThalesEmboiteSvg({ lengths: lg })}Dans le triangle $ABC$, $M \\in [AB]$, $N \\in [AC]$ et $(MN) \\parallel (BC)$. On donne $AM = ${AM}\\text{ cm}$, $AB = ${AB}\\text{ cm}$ et ${wantMN ? `$BC = ${BC}` : `$AC = ${AC}`}\\text{ cm}$.\n**Calculer $${wantMN ? 'MN' : 'AN'}$, en cm.**`,
+        answer: String(wantMN ? MN : AN), hint1: "Repère les droites parallèles et les deux sécantes : quelles longueurs sont proportionnelles ?", hint2: CLE,
+        solution: `Outil : deux droites parallèles coupées par deux sécantes : **théorème de Thalès**.\n$$\\frac{AM}{AB} = \\frac{AN}{AC} = \\frac{MN}{BC} \\quad \\text{donc} \\quad \\frac{${AM}}{${AB}} = \\frac{${wantMN ? 'MN' : 'AN'}}{${wantMN ? BC : AC}}$$\n$$${wantMN ? 'MN' : 'AN'} = \\frac{${AM} \\times ${wantMN ? BC : AC}}{${AB}} = ${wantMN ? MN : AN}\\text{ cm}$$`,
+        _v: { k: 'G2bis.prop', a: wantMN ? BC : AC, b: AB, c: AM }
+      });
+    };
+    const e3RecipP = () => {
+      const V = this._h3b_names3();
+      const tr = this.randChoice(this._h3b_triples(30, true)).slice();
+      const isR = Math.random() < 0.55;
+      if (!isR) tr[2] = +(tr[2] + this.randChoice([-0.5, 0.5, 1])).toFixed(2);
+      const sides = {}; sides[V[1] + V[2]] = tr[2]; sides[V[0] + V[1]] = tr[0]; sides[V[0] + V[2]] = tr[1];
+      const order = this.shuffle(Object.keys(sides));
+      const big = V[1] + V[2], s1 = V[0] + V[1], s2 = V[0] + V[2];
+      const c2 = sq(tr[2]), sum = +(sq(tr[0]) + sq(tr[1])).toFixed(4);
+      const opts = [`Oui, il est rectangle en $${V[0]}$`, `Oui, il est rectangle en $${V[1]}$`, `Oui, il est rectangle en $${V[2]}$`, `Non, il n'est pas rectangle`];
+      const good = isR ? opts[0] : opts[3];
+      return this._h3b_mk({
+        title: 'Ce triangle est-il rectangle ?', type: 'mcq',
+        statement: `${triSides(V, tr[2], tr[0], tr[1])}Le triangle $${V.join('')}$ est tel que ${order.map(k => `$${k} = ${f(sides[k])}\\text{ cm}$`).join(', ')}.\n**Ce triangle est-il rectangle ? Si oui, en quel sommet ?**`,
+        options: [good, ...opts.filter(o => o !== good)],
+        hint1: "On ne sait pas si le triangle est rectangle : compare le carré du plus grand côté à la somme des carrés des deux autres.", hint2: CLE,
+        solution: `Outil : on connaît les trois côtés et on veut savoir si le triangle est rectangle : **réciproque (ou contraposée) de Pythagore**.\nLe plus grand côté est $[${big}]$ : $${big}^2 = ${f(c2)}$ et $${s1}^2 + ${s2}^2 = ${f(sq(tr[0]))} + ${f(sq(tr[1]))} = ${f(sum)}$.\n` +
+          (isR ? `Les deux résultats sont égaux : d'après la réciproque du théorème de Pythagore, le triangle est rectangle en $${V[0]}$.` : `$${f(c2)} \\neq ${f(sum)}$ : d'après la contraposée du théorème de Pythagore, le triangle n'est pas rectangle.`),
+        _v: { k: 'G0.recip', V, s: sides }
+      });
+    };
+    const e3RecipT = () => {
+      const { p, q } = this._h3b_thRatio(); const u = this.randInt(1, 3), w = this.randInt(2, 5);
+      const AM = p * u, AB = q * u, AC = q * w; const isP = Math.random() < 0.5;
+      let AN = p * w; if (!isP) AN += AN > 1 ? this.randChoice([-1, 1]) : 1;
+      const yes = 'Oui, $(MN)$ et $(BC)$ sont parallèles', no = 'Non, $(MN)$ et $(BC)$ ne sont pas parallèles';
+      const pr1 = AM * AC, pr2 = AN * AB;
+      return this._h3b_mk({
+        title: 'Ces droites sont-elles parallèles ?', type: 'mcq',
+        statement: `${this.buildThalesEmboiteSvg({ lengths: { AM, AB, AN, AC } })}Les points $A$, $M$, $B$ d'une part et $A$, $N$, $C$ d'autre part sont alignés dans cet ordre. On donne $AM = ${AM}\\text{ cm}$, $AB = ${AB}\\text{ cm}$, $AN = ${AN}\\text{ cm}$ et $AC = ${AC}\\text{ cm}$.\n**Les droites $(MN)$ et $(BC)$ sont-elles parallèles ?**`,
+        options: [isP ? yes : no, isP ? no : yes, 'On ne peut pas le savoir sans mesurer les angles'],
+        hint1: "Le parallélisme n'est pas donné, c'est la question : compare deux quotients de longueurs prises sur les sécantes.", hint2: CLE,
+        solution: `Outil : on veut prouver (ou réfuter) un parallélisme, avec des points alignés dans le même ordre : **réciproque (ou contraposée) de Thalès**.\nOn compare $\\frac{AM}{AB} = \\frac{${AM}}{${AB}}$ et $\\frac{AN}{AC} = \\frac{${AN}}{${AC}}$ par les produits en croix : $${AM} \\times ${AC} = ${pr1}$ et $${AN} \\times ${AB} = ${pr2}$.\n` +
+          (pr1 === pr2 ? `Les quotients sont égaux : d'après la réciproque du théorème de Thalès, $(MN) \\parallel (BC)$.` : `Les quotients sont différents : d'après la contraposée du théorème de Thalès, $(MN)$ et $(BC)$ ne sont pas parallèles.`),
+        _v: { k: 'G2bis.recipT', AM, AB, AN, AC }
+      });
+    };
+
+    // --- Palier 4 : problèmes en plusieurs étapes, outils à enchaîner
+    const p4PyTh = () => {
+      const tr = this.randChoice([[3, 4, 5], [6, 8, 10], [5, 12, 13], [9, 12, 15], [8, 15, 17], [12, 16, 20]]);
+      const sw = Math.random() < 0.5; const AB = sw ? tr[1] : tr[0], AC = sw ? tr[0] : tr[1], BC = tr[2];
+      const AM = this.randChoice([1, 2, 3, 4, 5, 6].filter(x => x < AB)); const MN = BC * AM / AB;
+      if (this._h3b_edge(MN, 1)) return p4PyTh();
+      return this._h3b_mk({
+        title: 'Problème : calculer une longueur',
+        statement: `${this.buildThalesEmboiteSvg({ lengths: { AB, AC, AM, MN: '?' } })}Le triangle $ABC$ est rectangle en $A$ (la figure n'est pas à l'échelle). $M \\in [AB]$, $N \\in [AC]$ et $(MN) \\parallel (BC)$. On donne $AB = ${AB}\\text{ cm}$, $AC = ${AC}\\text{ cm}$ et $AM = ${AM}\\text{ cm}$.\n**Calculer $MN$, en cm, arrondie au dixième si nécessaire.**`,
+        answer: this._h3b_num(MN, 1),
+        hint1: "Pour obtenir $MN$ avec les rapports égaux, il te manque une longueur du grand triangle : calcule-la d'abord.",
+        hint2: CLE,
+        solution: `Étape 1 (Pythagore, triangle $ABC$ rectangle en $A$) : $BC^2 = AB^2 + AC^2 = ${AB * AB} + ${AC * AC} = ${BC * BC}$, donc $BC = ${BC}\\text{ cm}$.\nÉtape 2 (Thalès, $(MN) \\parallel (BC)$) : $\\frac{AM}{AB} = \\frac{MN}{BC}$, donc $$MN = \\frac{${AM} \\times ${BC}}{${AB}} ${Number.isInteger(MN * 10) ? '=' : '\\approx'} ${f(rd(MN, 1))}\\text{ cm}$$`,
+        _v: { k: 'G2bis.pyTh', AB, AC, AM }
+      });
+    };
+    const p4ThPy = () => {
+      const { p, q } = this._h3b_thRatio(); const u = this.randInt(1, 3);
+      const AM = p * u, AB = q * u; const MN = this.randInt(Math.ceil(AM * 0.6) + 1, AM + 6);
+      const BC = MN * AB / AM; if (BC <= AB + 0.5) return p4ThPy();
+      const AC = Math.sqrt(BC * BC - AB * AB); if (this._h3b_edge(AC, 1)) return p4ThPy();
+      return this._h3b_mk({
+        title: 'Problème : calculer une longueur',
+        statement: `${this.buildThalesEmboiteSvg({ lengths: { AM, AB, MN, AC: '?' } })}Le triangle $ABC$ est rectangle en $A$ (la figure n'est pas à l'échelle). $M \\in [AB]$, $N \\in [AC]$ et $(MN) \\parallel (BC)$. On donne $AM = ${AM}\\text{ cm}$, $AB = ${AB}\\text{ cm}$ et $MN = ${MN}\\text{ cm}$.\n**Calculer $AC$, en cm, arrondie au dixième.**`,
+        answer: this._h3b_num(AC, 1),
+        hint1: "Commence par la longueur du grand triangle que les rapports égaux permettent d'obtenir, puis travaille dans le triangle rectangle $ABC$. Garde les valeurs exactes jusqu'au bout.",
+        hint2: CLE,
+        solution: `Étape 1 (Thalès, $(MN) \\parallel (BC)$) : $\\frac{AM}{AB} = \\frac{MN}{BC}$, donc $BC = \\frac{${AB} \\times ${MN}}{${AM}} ${Number.isInteger(rd(BC * 1e4, 6)) ? '=' : '\\approx'} ${f(rd(BC, 4), 4)}\\text{ cm}$.\nÉtape 2 (Pythagore, triangle $ABC$ rectangle en $A$, hypoténuse $[BC]$) : $AC^2 = BC^2 - AB^2 = ${f(sq(BC), 4)} - ${AB * AB} = ${f(rd(BC * BC - AB * AB, 4), 4)}$.\n$$AC = \\sqrt{${f(rd(BC * BC - AB * AB, 4), 4)}} \\approx ${f(rd(AC, 1))}\\text{ cm}$$`,
+        _v: { k: 'G2bis.thPy', AM, AB, MN }
+      });
+    };
+    const p4TrPy = () => {
+      const d = this.randChoice([3, 4, 5, 6, 8]), a = this.randInt(35, 65), c = this.randChoice([2, 3, 4, 5, 6, 7]);
+      const AB = d * tanD(a), AC = Math.sqrt(AB * AB + c * c);
+      if (this._h3b_edge(AC, 1)) return p4TrPy();
+      return this._h3b_mk({
+        title: 'Problème : les câbles du poteau',
+        statement: `Un poteau vertical $[AB]$ est planté en $B$ sur un sol horizontal. Un premier câble $[AD]$ est fixé au sol en $D$, à $${d}\\text{ m}$ du pied du poteau, et fait un angle $\\widehat{ADB} = ${a}^\\circ$ avec le sol. Un second câble $[AC]$ est fixé au sol en $C$, à $${c}\\text{ m}$ du pied du poteau.\n**Calculer la longueur du second câble $AC$, en m, arrondie au dixième.**`,
+        answer: this._h3b_num(AC, 1),
+        hint1: "Fais un schéma : il y a deux triangles rectangles en $B$. Dans lequel peux-tu calculer la hauteur $AB$ ? Garde sa valeur exacte (ou en mémoire) pour la suite.",
+        hint2: CLE + ' ' + H2F,
+        solution: `Étape 1 (trigonométrie, triangle $ABD$ rectangle en $B$) : pour l'angle en $D$, $[BD]$ est le côté adjacent et $[AB]$ le côté opposé : $$AB = ${d} \\times \\tan(${a}^\\circ) \\approx ${f(rd(AB, 3), 3)}\\text{ m}$$\nÉtape 2 (Pythagore, triangle $ABC$ rectangle en $B$) : $$AC^2 = AB^2 + BC^2 \\approx ${f(rd(AB * AB, 3), 3)} + ${c * c} \\quad \\text{donc} \\quad AC \\approx ${f(rd(AC, 1))}\\text{ m}$$`,
+        _v: { k: 'G2bis.trPy', d, a, c }
+      });
+    };
+    const p4RpTr = () => {
+      const tr = this.randChoice([[3, 4, 5], [6, 8, 10], [5, 12, 13], [8, 15, 17], [7, 24, 25], [20, 21, 29], [9, 12, 15], [12, 16, 20]]);
+      const sw = Math.random() < 0.5; const EF = sw ? tr[1] : tr[0], FG = sw ? tr[0] : tr[1], EG = tr[2];
+      const ang = Math.acos(FG / EG) * 180 / Math.PI; if (Math.abs(ang % 1 - 0.5) < 0.05) return p4RpTr();
+      return this._h3b_mk({
+        title: 'Problème : calculer un angle',
+        statement: `${triSides(['F', 'E', 'G'], EG, EF, FG)}Le triangle $EFG$ est tel que $EF = ${EF}\\text{ cm}$, $FG = ${FG}\\text{ cm}$ et $EG = ${EG}\\text{ cm}$.\n**Calculer la mesure de l'angle $\\widehat{EGF}$, arrondie au degré.**`,
+        answer: String(Math.round(ang)),
+        hint1: "Les formules de trigonométrie ne s'appliquent que dans un triangle rectangle : commence par le démontrer.",
+        hint2: CLE + ' ' + H2F,
+        solution: `Étape 1 (réciproque de Pythagore) : le plus grand côté est $[EG]$ : $EG^2 = ${EG * EG}$ et $EF^2 + FG^2 = ${EF * EF} + ${FG * FG} = ${EF * EF + FG * FG}$. Ils sont égaux, donc le triangle $EFG$ est rectangle en $F$.\nÉtape 2 (trigonométrie) : pour l'angle en $G$, $[FG]$ est le côté adjacent et $[EG]$ l'hypoténuse : $$\\cos(\\widehat{EGF}) = \\frac{${FG}}{${EG}} \\quad \\text{donc} \\quad \\widehat{EGF} = \\operatorname{Arccos}\\left(\\frac{${FG}}{${EG}}\\right) \\approx ${Math.round(ang)}^\\circ$$`,
+        _v: { k: 'G2bis.rpTr', adj: FG, hyp: EG }
+      });
+    };
+
+    const fam = {
+      1: [o1Pyth, [o1TrigLong, 0.6], [o1TrigAngle, 0.6], o1Thales, [o1RecipP, 0.8], [o1RecipT, 0.8]],
+      2: [[o2Ctx, 1.6], [o2Ratio, 1.2], [o2Ordre, 0.8], [o1TrigAngle, 0.4], [o1RecipP, 0.3], [o1RecipT, 0.3]],
+      3: [e3Pyth, e3TrigLong, [e3TrigAngle, 0.8], e3Thales, [e3RecipP, 0.6], [e3RecipT, 0.6]],
+      4: [p4PyTh, p4ThPy, p4TrPy, p4RpTr, [e3TrigLong, 0.4], [e3Thales, 0.3], [e3Pyth, 0.3]]
+    };
+    const q = this._h3b_pick(fam[t]);
+    q.chapterId = 'G2bis'; q.tier = t;
+    return q;
+  },
+
   // --- G3 : Homothéties et Agrandissement / Réduction ---
   generateG3(tier = 1, mastery = 0) {
     const t = this.resolveTier(tier);

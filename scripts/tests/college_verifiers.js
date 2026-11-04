@@ -666,6 +666,30 @@ module.exports = {
   'G2.rampe': v => r(deg(Math.asin(v.h / v.L)), 1),
   'G2.hauteurTri': v => { const b = rad(v.b), c = rad(v.c); const AH = v.AB * Math.sin(b); return r(v.AB * Math.cos(b) + AH / Math.tan(c), 1); },
   'G2.cerf': v => r(v.h0 + v.L * Math.sin(rad(v.a)), 1),
+  // ---------------- G2 bis Synthèse : choisir l'outil
+  'G2bis.outil': v => {
+    const OUT = { P: 'Le théorème de Pythagore', RP: 'La réciproque du théorème de Pythagore', T: 'Le théorème de Thalès', RT: 'La réciproque du théorème de Thalès', TR: 'La trigonométrie (cosinus, sinus ou tangente)' };
+    if (v.want === 'rect') return OUT.RP;
+    if (v.want === 'para') return OUT.RT;
+    if (v.par) return OUT.T;
+    if (v.rt && (v.want === 'angle' || v.data === 'coteAngle')) return OUT.TR;
+    if (v.rt && v.data === 'cotes2' && v.want === 'longueur') return OUT.P;
+    throw new Error('situation inconnue');
+  },
+  'G2bis.ratio': v => {
+    const sides = v.want === 'angle' ? v.known : v.known.length === 1 ? [v.known[0], v.want] : null;
+    if (!sides) return 'Le théorème de Pythagore';
+    const has = x => sides.includes(x);
+    const nom = has('adj') && has('hyp') ? 'Le cosinus' : has('opp') && has('hyp') ? 'Le sinus' : 'La tangente';
+    return `${nom} de l'angle \\widehat{${v.R}${v.A}${v.T}}`;
+  },
+  'G2bis.ordre': v => ({ pyTh: 'Pythagore, puis Thalès', thPy: 'Thalès, puis Pythagore', trPy: 'Trigonométrie, puis Pythagore', rpTr: 'Réciproque de Pythagore, puis trigonométrie', rtTh: 'Réciproque de Thalès, puis Thalès' })[v.s],
+  'G2bis.prop': v => r(v.a * v.c / v.b, 2),
+  'G2bis.recipT': v => (v.AM * v.AC === v.AN * v.AB ? 'Oui, (MN) et (BC) sont parallèles' : 'Non, (MN) et (BC) ne sont pas parallèles'),
+  'G2bis.pyTh': v => r(H(v.AB, v.AC) * v.AM / v.AB, 1),
+  'G2bis.thPy': v => r(L(v.MN * v.AB / v.AM, v.AB), 1),
+  'G2bis.trPy': v => r(H(v.d * Math.tan(rad(v.a)), v.c), 1),
+  'G2bis.rpTr': v => Math.round(deg(Math.acos(v.adj / v.hyp))),
   // ---------------- G3 Homothéties
   'G3.longImg': v => v.kk * v.AB,
   'G3.natureK': v => (v.kk === -1 ? 'Une symétrie centrale de centre O' : Math.abs(v.kk) > 1 ? 'Un agrandissement' : 'Une réduction'),

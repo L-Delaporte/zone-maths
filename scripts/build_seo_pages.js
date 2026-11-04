@@ -1319,7 +1319,7 @@ ${h.ctas.slice(0, 2).map((c, i) => `        <a class="${i === 0 ? 'btn-primary c
       ['6M4', 'Durées et conversions'], ['Org2', 'Moyenne, médiane, étendue'], ['Org4', 'Probabilités simples'], ['Org1', 'Lire un graphique, une image, un antécédent']];
     const key = [
       ['Nombres et calculs', ['N1', 'N2', 'N2bis', 'N3', 'N4', 'N5']],
-      ['Géométrie', ['G0', 'G1', 'G2', 'G7', 'G3', 'G6', 'G5', 'G4']],
+      ['Géométrie', ['G0', 'G1', 'G2', 'G2bis', 'G7', 'G3', 'G6', 'G5', 'G4']],
       ['Fonctions, statistiques et probabilités', ['Org1', 'Org3', 'Org2', 'Org4']],
       ['Algorithmique', ['Algo']]
     ];
@@ -1355,7 +1355,7 @@ ${h.ctas.slice(0, 2).map((c, i) => `        <a class="${i === 0 ? 'btn-primary c
         { id: 'planning', title: 'Planning de révision sur six semaines', html: `      ${table(['Semaine', 'Contenu', 'Outils'], [
           ['1', `Diagnostic, puis fractions, relatifs, priorités et puissances`, `<a href="../brevet.html">Brevet blanc</a>, ${link('N1', 'fractions')}, ${link('N3', 'puissances')}`],
           ['2', 'Calcul littéral, équations, proportionnalité et pourcentages', `${link('N2', 'développer')}, ${link('N2bis', 'factoriser')}, ${link('N4', 'équations')}`],
-          ['3', 'Pythagore, Thalès, trigonométrie, triangles semblables', `${link('G0', 'Pythagore')}, ${link('G1', 'Thalès')}, ${link('G2', 'trigonométrie')}`],
+          ['3', 'Pythagore, Thalès, trigonométrie, triangles semblables', `${link('G0', 'Pythagore')}, ${link('G1', 'Thalès')}, ${link('G2', 'trigonométrie')}, ${link('G2bis', 'choisir le bon outil')}`],
           ['4', 'Fonctions linéaires et affines, statistiques, probabilités', `${link('Org3', 'fonctions affines')}, ${link('Org2', 'statistiques')}, ${link('Org4', 'probabilités')}`],
           ['5', 'Espace et volumes, transformations, Scratch ; un sujet complet', `${link('G5', 'espace')}, ${link('G6', 'transformations')}, ${link('Algo', 'Scratch')}`],
           ['6', 'Sujets en temps limité, reprise des erreurs, flashcards', `<a href="../brevet.html">Brevets blancs</a>, <a href="../index.html?mode=flashcards&amp;level=3eme">flashcards</a>`]

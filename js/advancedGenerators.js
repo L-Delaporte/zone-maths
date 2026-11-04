@@ -143,6 +143,29 @@
       }).map(([c, m]) => [c, m.replace(/\^\{(\d)\}$/, '^$1')]));
     },
 
+    /**
+     * Polynôme développé et réduit en texte brut (saisie élève attendue), coefficients du plus haut degré au terme
+     * constant, entiers ou rationnels [num, den] (fraction écrite devant la variable) :
+     * polyPlain([[-2, 3], 5]) -> "-2/3x+5" ; polyPlain([1, -3, 2], 'X') -> "X^2-3X+2" ; polyPlain([0]) -> "0".
+     */
+    polyPlain(coeffs, v = 'x') {
+      const n = coeffs.length - 1;
+      let out = '';
+      coeffs.forEach((c, i) => {
+        let [a, b] = Array.isArray(c) ? c : [c, 1];
+        if (b < 0) { a = -a; b = -b; }
+        const g = U.gcd(Math.abs(a), b) || 1;
+        a /= g; b /= g;
+        if (a === 0) return;
+        const d = n - i;
+        const m = d === 0 ? '' : d === 1 ? v : `${v}^${d}`;
+        const abs = Math.abs(a);
+        const coef = b !== 1 ? `${abs}/${b}` : m && abs === 1 ? '' : String(abs);
+        out += (a < 0 ? '-' : out ? '+' : '') + coef + m;
+      });
+      return out || '0';
+    },
+
     /** Coefficient devant un monôme en tête d'expression : coefStr(1,'x')='x', coefStr(-1,'x')='-x', coefStr(3,'x')='3x' */
     coefStr(c, m) {
       return U.poly([[c, m]]);
@@ -373,7 +396,8 @@
      * Le générateur peut piloter la conversion : q.exactAnswer (saisie attendue explicite, prioritaire),
      * q.exactInstruction (consigne), q.keepMcq = true (question conceptuelle : toujours QCM),
      * q.acceptedAnswers (autres saisies acceptées, ex. « 3π/4 » quand on demande k pour kπ),
-     * q.exactAnswerType ('factorisation' | 'developpement' : saisie de la forme complète, devient q.answerType).
+     * q.exactAnswerType ('factorisation' | 'developpement' | 'equationDroite' | 'canonique' : saisie de la forme complète,
+     * devient q.answerType).
      */
     applyExactPolicy(q, tier) {
       if (!q || q.type !== 'mcq') return q;
@@ -1371,7 +1395,7 @@ window.MathsAdvancedGenerators = {
     const dist = askR
       ? [opt([-Rm[0], -Rm[1]]), opt([Rm[1], Rm[0]]), opt(wrongR), opt([Rm[0], Rm[1] + 1])]
       : [opt(Q.map((c, k) => (k === Q.length - 1 ? c + 1 : c))), opt(Q.map((c, k) => (k ? -c : c))), opt([...Q.slice(0, -1), Q[Q.length - 1] - B[1]]), opt(Q.map((c, k) => (k === Q.length - 1 ? c - 1 : c))), opt([...Q.slice(0, -1), Q[Q.length - 1] + B[1]]), opt(Q.map((c, k) => (k === 0 ? c : c + 2)))];
-    const inst = askR ? 'Écrire $R(X) = aX + b$ et saisir (a ; b), par exemple (2;-3).' : (Q.length === 2 ? 'Écrire $Q(X) = aX + b$ et saisir (a ; b), par exemple (2;-3).' : 'Écrire $Q(X) = aX^2 + bX + c$ et saisir (a ; b ; c), par exemple (1;2;-3).');
+    const inst = `Écrire $${lbl}(X)$ sous forme développée et réduite.`;
     return this._L1x(this.makeMcq(
       'L1-CMP', 2, 'Division euclidienne de polynômes',
       'Effectuer la division euclidienne de polynômes',
@@ -1380,7 +1404,7 @@ window.MathsAdvancedGenerators = {
       'Divise le terme de plus haut degré de $A$ par celui de $B$ pour obtenir le premier terme du quotient, puis soustrais.',
       `Le quotient est de degré $${A.length - 3}$ ; on s'arrête lorsque le reste est de degré strictement inférieur à $2$.`,
       `La division donne $Q(X) = ${P(Q)}$ et $R(X) = ${P(Rm)}$. Vérification : $B(X)Q(X) = ${P(mulP(B, Q))}$, et en ajoutant $R(X)$ on retrouve $A(X) = ${P(A)}$.`
-    ), this._L1tup(askR ? Rm : Q), inst);
+    ), this.polyPlain(target, 'X'), inst, 'developpement');
   },
 
 
@@ -1421,7 +1445,7 @@ window.MathsAdvancedGenerators = {
       'Le pgcd unitaire de deux polynômes scindés est le produit des facteurs $(X - r)$ communs (avec la plus petite multiplicité).',
       `Factorise $P$ et $Q$ : chacun a une troisième racine, différente pour les deux polynômes (utilise la somme des racines).`,
       `Somme des racines : $P$ a pour racines $${a}$, $${b}$ et $${c}$ ; $Q$ a pour racines $${a}$, $${b}$ et $${d}$. Donc $P = ${this._L1fac(a)}${this._L1fac(b)}${this._L1fac(c)}$, $Q = ${this._L1fac(a)}${this._L1fac(b)}${this._L1fac(d)}$ et $\\text{pgcd}(P, Q) = ${this._L1fac(a)}${this._L1fac(b)} = ${this.polyX([1, -(a + b), a * b], 'X')}$ (on peut aussi l'obtenir par l'algorithme d'Euclide).`
-    ), `(${-(a + b)};${a * b})`, 'Écrire le pgcd sous la forme $X^2 + pX + q$ et saisir (p ; q), par exemple (-1;-6).');
+    ), this.polyPlain([1, -(a + b), a * b], 'X'), 'Écrire le pgcd unitaire sous forme développée et réduite.', 'developpement');
   },
 
 
@@ -1466,7 +1490,7 @@ window.MathsAdvancedGenerators = {
       'Comme $\\deg B = 2$, le reste s\'écrit $R(X) = \\alpha X + \\beta$ : écris $X^n = B(X)Q(X) + \\alpha X + \\beta$.',
       `Évalue cette égalité en $X = ${a}$, puis dérive-la et évalue encore en $X = ${a}$ (racine double de $B$).`,
       `En $X = ${a}$ : $${this.paren(a)}^{${n}} = ${a ** n} = ${this.coefStr(a, '\\alpha')} + \\beta$. En dérivant : $${n}X^{${n - 1}} = (BQ)'(X) + \\alpha$ et $(BQ)'(${a}) = 0$ car $${a}$ est racine double de $B$, d'où $\\alpha = ${n} \\times ${this.paren(a)}^{${n - 1}} = ${al}$ et $\\beta = ${a ** n} - ${this.paren(a * al)} = ${be}$. Ainsi ${Rs(al, be)}.`
-    ), `(${al};${be})`, 'Écrire $R(X) = \\alpha X + \\beta$ et saisir (α ; β), par exemple (5;-4).');
+    ), this.polyPlain([al, be], 'X'), 'Écrire $R(X)$ sous forme développée et réduite.', 'developpement');
   },
 
 
@@ -1488,7 +1512,7 @@ window.MathsAdvancedGenerators = {
       `Un polynôme à coefficients réels qui admet $${z}$ pour racine admet aussi son conjugué $${this._L1cx(p, -q)}$.`,
       `Calcule d'abord $(X - (${z}))(X - (${this._L1cx(p, -q)})) = X^2 - 2\\text{Re}(z)X + |z|^2$, puis multiplie par $${this._L1fac(r)}$.`,
       `$P$ étant réel, $\\overline{${z}} = ${this._L1cx(p, -q)}$ est aussi racine, et $P$ est unitaire de degré $3$ : $P(X) = (${this.polyX([1, s2, s0], 'X')})${this._L1fac(r)} = ${this.polyX([1, ...co], 'X')}$. Dans $\\mathbb{R}[X]$, le facteur $${this.polyX([1, s2, s0], 'X')}$ est irréductible (discriminant $${-4 * q * q} < 0$).`
-    ), this._L1tup(co), 'Écrire $P(X) = X^3 + aX^2 + bX + c$ et saisir (a ; b ; c), par exemple (-1;4;-6).');
+    ), this.polyPlain([1, ...co], 'X'), 'Écrire $P(X)$ sous forme développée et réduite.', 'developpement');
   },
 
 
@@ -8455,11 +8479,13 @@ window.MathsAdvancedGenerators = {
   /**
    * Saisie exacte pilotée par le générateur (cf. MathsGenUtils.applyExactPolicy) : la saisie attendue
    * `input` (texte brut, ex. "(1;-2;1/2)") et sa consigne sont attachées au QCM, qui reste utilisable tel quel.
+   * answerType (facultatif) : 'developpement' | 'equationDroite'… (saisie d'une forme complète, cf. toExact).
    */
-  _L1x(q, input, instruction) {
+  _L1x(q, input, instruction, answerType) {
     if (q && q.type === 'mcq') {
       q.exactAnswer = typeof input === 'string' ? input : this._L1in(input);
       if (instruction) q.exactInstruction = instruction;
+      if (answerType) q.exactAnswerType = answerType;
     }
     return q;
   },
@@ -8695,7 +8721,7 @@ window.MathsAdvancedGenerators = {
     if (/image d'un vecteur par une application linéaire/.test(t) && (m = A.match(/= \((-?\d+), (-?\d+)\)\$$/))) return set(`(${m[1]};${m[2]})`, 'Saisir les coordonnées (a ; b) de l\'image, par exemple (3;-1).');
     if (/dérivation concrète/.test(t) && (m = A.match(/D\(P\) = (-?\d*)X(?: ([+-]) (\d+))?\$$/))) {
       const a = m[1] === '' ? 1 : m[1] === '-' ? -1 : +m[1]; const b = m[2] ? (m[2] === '-' ? -1 : 1) * +m[3] : 0;
-      return set(`(${a};${b})`, 'Écrire $D(P) = aX + b$ et saisir (a ; b), par exemple (4;-3).');
+      return this._L1x(q, this.polyPlain([a, b], 'X'), 'Écrire $D(P)$ sous forme développée et réduite.', 'developpement');
     }
     if (/Théorème du rang (appliqué|: Dimension)/.test(t) && (m = A.match(/rg\}\(f\) = (\d+)/))) return set(m[1], 'Saisir la valeur de rg(f) (nombre entier).');
     if (/Matrice d'un endomorphisme dans la base canonique|Matrice de passage entre deux bases/.test(t) && (m = A.match(/\\begin\{pmatrix\} (-?\d+) & (-?\d+) \\\\ (-?\d+) & (-?\d+) \\end\{pmatrix\}\$$/))) return set(`(${m[1]};${m[2]};${m[3]};${m[4]})`, 'Saisir les coefficients (a ; b ; c ; d) de la matrice $\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}$, par exemple (2;0;-1;3).');
@@ -8758,7 +8784,7 @@ window.MathsAdvancedGenerators = {
   },
 
 
-  /** L1-TAY palier 4 : asymptote oblique en +∞ par développement asymptotique (saisie (m ; p)) */
+  /** L1-TAY palier 4 : asymptote oblique en +∞ par développement asymptotique (saisie de l'équation réduite) */
   _L1TAY_asym() {
     const R = this._L1Q();
     const fam = this.randChoice(['exp', 'sqrt', 'ln']);
@@ -8808,7 +8834,7 @@ window.MathsAdvancedGenerators = {
       'Développe $f(x)$ en puissances de $\\frac{1}{x}$ : $f(x) = mx + p + \\frac{c}{x} + o\\left(\\frac{1}{x}\\right)$.',
       `Utilise $${ref}$.`,
       `$${dev}$, d'où $f(x) = ${aff(m, p)} ${c[0] < 0 ? '-' : '+'} ${cx} + o\\left(\\frac{1}{x}\\right)$. L'asymptote est la droite ${line(m, p)} ; ${posTxt}`
-    ), this._L1tup([m, p]), 'Saisir (m ; p), par exemple (2;-1/2).');
+    ), `y=${this.polyPlain([m, p])}`, 'Écrire l\'équation réduite sous la forme $y = mx + p$.', 'equationDroite');
   },
 
 

@@ -1146,6 +1146,25 @@ window.MATHS_CHAPTERS = [
     "level": "3eme"
   },
   {
+    "id": "G2bis",
+    "domain": "geometrie",
+    "domainName": "Espace et Géométrie",
+    "folder": "G2bis_Synthese",
+    "num": "G2 bis",
+    "title": "Synthèse : Pythagore, Thalès ou trigonométrie ?",
+    "shortTitle": "Choisir l'outil",
+    "icon": "compass",
+    "badge": "Stratège du Triangle",
+    "color": "#0f766e",
+    "description": "Reconnaître la bonne configuration pour choisir entre Pythagore, Thalès, leurs réciproques et la trigonométrie, puis enchaîner les outils dans un problème.",
+    "skills": [
+      "Reconnaître l'outil adapté à une figure",
+      "Choisir seul l'outil pour calculer une longueur ou un angle",
+      "Enchaîner plusieurs outils dans un problème"
+    ],
+    "level": "3eme"
+  },
+  {
     "id": "G3",
     "domain": "geometrie",
     "domainName": "Espace et Géométrie",

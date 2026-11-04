@@ -884,6 +884,91 @@ window.MATHS_COURSES = Object.assign(window.MATHS_COURSES || {}, {
       }
     ]
   },
+  "G2bis": {
+    "title": "G2 bis : Synthèse — Pythagore, Thalès ou trigonométrie ?",
+    "domain": "Espace et Géométrie",
+    "objectives": [
+      "Lire une figure ou un énoncé et repérer les indices décisifs : angle droit, droites parallèles, angle aigu, nombre de longueurs connues.",
+      "Choisir entre le théorème de Pythagore, sa réciproque, le théorème de Thalès, sa réciproque et la trigonométrie.",
+      "Dans un problème en plusieurs étapes, trouver dans quel ordre enchaîner les outils."
+    ],
+    "keyPoints": [
+      {
+        "title": "1. Trois questions à se poser avant de calculer",
+        "content": "Ce chapitre ne refait pas les cours de Pythagore, de Thalès et de trigonométrie : il apprend à **choisir** le bon outil. Avant tout calcul, pose-toi trois questions :\n• **Que cherche-t-on ?** Une longueur, un angle, ou une preuve (« le triangle est-il rectangle ? », « les droites sont-elles parallèles ? »).\n• **Y a-t-il un angle droit connu ?** Codage sur la figure, « rectangle en… », mur vertical et sol horizontal, directions nord et est, rectangle, carré…\n• **Y a-t-il des droites parallèles connues ?** « $(MN) \\parallel (BC)$ », rayons du soleil, étagères, montants verticaux…"
+      },
+      {
+        "title": "2. Le tableau de décision",
+        "content": "| Ce que l'on voit | Ce que l'on cherche | Outil |\n|:---|:---|:---|\n| Triangle rectangle + 2 côtés connus | le 3ᵉ côté | Théorème de Pythagore |\n| Triangle rectangle + 1 angle aigu + 1 côté | un autre côté | Trigonométrie (cos, sin ou tan) |\n| Triangle rectangle + 2 côtés connus | un angle aigu | Trigonométrie (Arccos, Arcsin ou Arctan) |\n| Deux droites parallèles coupées par deux sécantes | une longueur | Théorème de Thalès |\n| Les trois côtés d'un triangle | savoir s'il est rectangle | Réciproque (ou contraposée) de Pythagore |\n| Points alignés sur deux sécantes + 4 longueurs | savoir si deux droites sont parallèles | Réciproque (ou contraposée) de Thalès |"
+      },
+      {
+        "title": "3. Les phrases-indices de l'énoncé",
+        "content": "• « **est-il rectangle ?** », « **l'angle est-il droit ?** », « le mur est-il **perpendiculaire** au sol ? » → réciproque de Pythagore.\n• « **sont-elles parallèles ?** » → réciproque de Thalès.\n• « **sachant que** $(MN) \\parallel (BC)$ », « les rayons sont **parallèles** » → Thalès.\n• « **angle** de $35^\\circ$ », « calculer la mesure de l'**angle** », « arrondir **au degré** » → trigonométrie.\n• « triangle rectangle » et **aucun angle aigu** dans les données ni dans la question → Pythagore.\n\nUn énoncé qui *donne* le parallélisme ou l'angle droit appelle le théorème direct ; un énoncé qui le *demande* appelle la réciproque."
+      },
+      {
+        "title": "4. Problèmes en plusieurs étapes : partir de la fin",
+        "content": "Au brevet, un même exercice enchaîne souvent deux outils. Pour trouver l'ordre, pars de ce que l'on cherche :\n1. Quel outil donnerait directement la réponse ?\n2. Quelle donnée lui manque ? On la calcule **d'abord**, avec un autre outil.\n\nEnchaînements fréquents : **Pythagore puis Thalès** (calculer $BC$ avant d'écrire les rapports) ; **Thalès puis Pythagore** ; **trigonométrie puis Pythagore** (une hauteur, puis une distance) ; **réciproque de Pythagore puis trigonométrie** (prouver que le triangle est rectangle avant d'utiliser cos, sin ou tan)."
+      }
+    ],
+    "methods": [
+      {
+        "title": "Méthode : Choisir l'outil en trois questions",
+        "example": "Le triangle $EFG$ est rectangle en $F$, $EF = 6\\text{ cm}$ et $EG = 10\\text{ cm}$. On cherche la mesure de l'angle $\\widehat{FEG}$.",
+        "steps": [
+          "**Que cherche-t-on ?** Un angle : Pythagore et Thalès ne donnent que des longueurs.",
+          "**Angle droit ?** Oui, en $F$ : la trigonométrie s'applique.",
+          "**Quel rapport ?** Pour l'angle en $E$ : $[EF]$ est le côté adjacent, $[EG]$ l'hypoténuse, donc le **cosinus** : $\\cos(\\widehat{FEG}) = \\frac{6}{10}$, puis Arccos à la calculatrice."
+        ]
+      },
+      {
+        "title": "Méthode : Ordonner deux outils (type brevet)",
+        "example": "$ABC$ est rectangle en $A$, $AB = 6$, $AC = 8$ ; $M \\in [AB]$ avec $AM = 3$, $N \\in [AC]$ et $(MN) \\parallel (BC)$. Calculer $MN$.",
+        "steps": [
+          "**Outil final** : $(MN) \\parallel (BC)$ → Thalès : $\\frac{AM}{AB} = \\frac{MN}{BC}$.",
+          "**Donnée manquante** : $BC$ n'est pas connu.",
+          "**Étape 1 (Pythagore dans $ABC$)** : $BC^2 = 6^2 + 8^2 = 100$, donc $BC = 10$.",
+          "**Étape 2 (Thalès)** : $MN = \\frac{3 \\times 10}{6} = 5$."
+        ]
+      }
+    ],
+    "traps": [
+      "⚠️ Utiliser Pythagore pour calculer un **angle** : le théorème ne relie que des longueurs.",
+      "⚠️ Utiliser Pythagore avec **un seul côté** connu et un angle : il faut la trigonométrie.",
+      "⚠️ Utiliser la trigonométrie dans un triangle **qui n'est pas rectangle** : prouver d'abord l'angle droit (réciproque de Pythagore) ou tracer une hauteur.",
+      "⚠️ Écrire « d'après le théorème de Thalès » alors que le parallélisme n'est **pas donné** : c'est la réciproque qu'il faut, si c'est la question.",
+      "⚠️ Confondre « le triangle est rectangle » (donné → Pythagore) et « le triangle est-il rectangle ? » (à prouver → réciproque)."
+    ],
+    "flashcards": [
+      {
+        "q": "Triangle rectangle, deux côtés connus, on cherche le troisième. Quel outil ?",
+        "a": "Le **théorème de Pythagore**."
+      },
+      {
+        "q": "Triangle rectangle, un angle aigu et un côté connus, on cherche un autre côté. Quel outil ?",
+        "a": "La **trigonométrie** : cosinus, sinus ou tangente selon les côtés en jeu."
+      },
+      {
+        "q": "Triangle rectangle, deux côtés connus, on cherche un angle. Quel outil ?",
+        "a": "La **trigonométrie**, avec Arccos, Arcsin ou Arctan à la calculatrice."
+      },
+      {
+        "q": "On sait que $(MN) \\parallel (BC)$ et on cherche une longueur. Quel outil ?",
+        "a": "Le **théorème de Thalès**."
+      },
+      {
+        "q": "On connaît les trois côtés d'un triangle et on demande s'il est rectangle. Quel outil ?",
+        "a": "La **réciproque** (ou la contraposée) **de Pythagore**."
+      },
+      {
+        "q": "On demande si deux droites sont parallèles, avec des points alignés sur deux sécantes. Quel outil ?",
+        "a": "La **réciproque** (ou la contraposée) **de Thalès**."
+      },
+      {
+        "q": "Dans un problème, l'outil final a besoin d'une longueur inconnue. Que faire ?",
+        "a": "Calculer **d'abord** cette longueur avec un autre outil, puis appliquer l'outil final."
+      }
+    ]
+  },
   "G3": {
     "title": "G3 : Homothéties et Effets d'échelle",
     "domain": "Espace et Géométrie",

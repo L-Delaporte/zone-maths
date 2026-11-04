@@ -74,6 +74,61 @@ if (args.mode === 'mcq' || args.mode === 'exact') window.MathsGenUtils.forceMode
 // ---------------------------------------------------------------------------
 const gcd = (a, b) => { a = Math.abs(a); b = Math.abs(b); while (b) [a, b] = [b, a % b]; return a; };
 
+// ---------------------------------------------------------------------------
+// Formes complètes recalculées (développée, équation réduite, canonique) : écriture indépendante des générateurs
+// ---------------------------------------------------------------------------
+/** flottant -> fraction irréductible [n, d] (d <= 1000) ; erreur si aucune fraction ne convient */
+function ratOf(c, tol = 1e-7) {
+  for (let d = 1; d <= 1000; d++) {
+    const n = Math.round(c * d);
+    if (Math.abs(n / d - c) <= tol * Math.max(1, Math.abs(c))) { const g = gcd(n, d) || 1; return [n / g, d / g]; }
+  }
+  throw new Error('coefficient non rationnel ' + c);
+}
+/** forme développée réduite en texte brut, coefficients (flottants) du plus haut degré au terme constant */
+function plainPoly(cs, v = 'x') {
+  let out = '';
+  cs.forEach((c, i) => {
+    const [n, d] = ratOf(c);
+    if (!n) return;
+    const deg = cs.length - 1 - i;
+    const mono = deg === 0 ? '' : deg === 1 ? v : `${v}^${deg}`;
+    const abs = Math.abs(n);
+    out += (n < 0 ? '-' : out ? '+' : '') + (d !== 1 ? `${abs}/${d}` : mono && abs === 1 ? '' : abs) + mono;
+  });
+  return out || '0';
+}
+/** forme canonique a(x - α)² + β (texte brut) du trinôme ax² + bx + c */
+function canonOf(a, b, c) {
+  const al = -b / (2 * a); const be = c - b * b / (4 * a);
+  const [an] = ratOf(a); const [aln, ald] = ratOf(al); const [ben, bed] = ratOf(be);
+  const fr = (n, d) => (d === 1 ? String(Math.abs(n)) : `${Math.abs(n)}/${d}`);
+  const lead = an === 1 ? '' : an === -1 ? '-' : String(an);
+  const sq = aln === 0 ? 'x^2' : `(x${aln > 0 ? '-' : '+'}${fr(aln, ald)})^2`;
+  return `${lead}${sq}${ben === 0 ? '' : (ben > 0 ? '+' : '-') + fr(ben, bed)}`;
+}
+const FORM_CHECKERS = { developpement: 'checkDeveloppement', factorisation: 'checkFactorisation', equationDroite: 'checkEquationDroite', canonique: 'checkCanonique' };
+/**
+ * Saisie d'une forme complète recalculée `exp` : answerType attendu, saisie (exactInput ou réponse native) et
+ * réponse LaTeX du QCM équivalentes à `exp` au sens du correcteur du moteur, dans les deux sens.
+ * Renvoie true si tout est cohérent, sinon un message.
+ */
+function formCheck(q, kind, exp) {
+  const chk = FORM_CHECKERS[kind];
+  const both = (a) => ENGINE[chk](a, exp).correct === true && ENGINE[chk](exp, a).correct === true;
+  const a = q.exactInput !== undefined ? q.exactInput : q.type === 'exact' ? q.answer : null;
+  if (a !== null) {
+    if (q.answerType !== kind) return `answerType ${q.answerType} au lieu de ${kind}`;
+    if (!both(a)) return `saisie ${a} ≠ forme recalculée ${exp}`;
+  }
+  if (q.type === 'mcq' && !both(String(q.answer).replace(/^\$|\$$/g, ''))) return `réponse QCM ${q.answer} ≠ forme recalculée ${exp}`;
+  return true;
+}
+/** équation réduite recalculée y = mx + p (m, p flottants rationnels) */
+const lineForm = (q, m, p) => formCheck(q, 'equationDroite', `y=${plainPoly([m, p])}`);
+/** valeur numérique approchée (dérivée numérique, extrapolation) -> rationnel le plus simple à tol près */
+const snap = (c, tol = 1e-6) => { const [n, d] = ratOf(c, tol); return n / d; };
+
 function mathChunks(str) {
   const out = []; const errs = []; let i = 0; let mode = null; let cur = '';
   while (i < str.length) {
@@ -5552,7 +5607,7 @@ addPre(( (V) => {
       const c = (g(X) - p) * X; // terme en 1/x
       if (/au-dessus/.test(q.solution) !== (c > 0)) return 'position fausse';
       for (const o of q.options) { if (o === q.answer) continue; const po = polyTex(strip(o).replace(/^y = /, '')); if (po && close(po[1] || 0, mm) && close(po[0] || 0, p, 1e-5)) return 'distracteur juste'; }
-      return chkIn(q, [mm, p], 1e-5);
+      return lineForm(q, mm, snap(p, 1e-4));
     }
     return undefined;
   };
@@ -5825,7 +5880,7 @@ addPre(( (V) => {
       const got = V.poly(strip(q.answer).replace(/^[QR]\(X\) = /, ''), 'X');
       const gv = []; for (let d = tgt.length - 1; d >= 0; d--) gv.push(got[d] || 0);
       if (!sameTup(gv, tgt)) return 'division fausse';
-      return chkIn(q, tgt);
+      return formCheck(q, 'developpement', plainPoly(tgt, 'X'));
     }
     if (/degré 3 scindé/.test(t) && q.exactInput !== undefined) {
       const co = V.poly(S.match(/P\(X\) = (.*?)\$/)[1], 'X');
@@ -5849,7 +5904,7 @@ addPre(( (V) => {
       const g = V.poly(q.answer.match(/= (.*)\$/)[1], 'X');
       const exp = [-(com[0] + com[1]), com[0] * com[1]];
       if ((g[2] || 0) !== 1 || (g[1] || 0) !== exp[0] || (g[0] || 0) !== exp[1]) return 'pgcd faux';
-      return chkIn(q, exp);
+      return formCheck(q, 'developpement', plainPoly([1, ...exp], 'X'));
     }
     if (/Équation du second degré dans C/.test(t)) {
       m = S.match(/l'équation \$z\^2(.*) = 0\$/)[1];
@@ -5875,7 +5930,7 @@ addPre(( (V) => {
       const al = n * a ** (n - 1); const be = a ** n - al * a;
       const g = V.poly(q.answer.match(/R\(X\) = (.*)\$/)[1], 'X');
       if ((g[1] || 0) !== al || (g[0] || 0) !== be) return 'reste faux';
-      return chkIn(q, [al, be]);
+      return formCheck(q, 'developpement', plainPoly([al, be], 'X'));
     }
     if (/Polynôme réel de racine complexe/.test(t)) {
       m = S.match(/admettant \$(.*?)\$ et \$(-?\d+)\$ pour racines/);
@@ -5886,7 +5941,7 @@ addPre(( (V) => {
       if (co[0] !== 1) return 'non unitaire';
       let v = [0, 0]; for (const c of co) { v = cmul(v, z); v[0] += c; }
       if (Math.abs(v[0]) + Math.abs(v[1]) > 1e-9 || co.reduce((a, c) => a * r + c, 0) !== 0) return 'polynôme faux';
-      return chkIn(q, co.slice(1));
+      return formCheck(q, 'developpement', plainPoly(co, 'X'));
     }
     if (/racines multiples par le PGCD/.test(t) && q.exactInput !== undefined) {
       const co = V.poly(S.match(/P\(X\) = (.*?)\$/)[1], 'X');
@@ -5909,7 +5964,7 @@ addPre(( (V) => {
     if (q.exactInput === undefined) return undefined;
     const t = q.title; const A = q.answer; let m; let exp = null;
     if (/image d'un vecteur par une application/.test(t)) { m = A.match(/= \((-?\d+), (-?\d+)\)\$$/); exp = [+m[1], +m[2]]; }
-    else if (/dérivation concrète/.test(t)) { const p = V.poly(strip(A).replace(/^D\(P\) = /, ''), 'X'); exp = [p[1] || 0, p[0] || 0]; }
+    else if (/dérivation concrète/.test(t)) { const p = V.poly(strip(A).replace(/^D\(P\) = /, ''), 'X'); const r = formCheck(q, 'developpement', plainPoly([p[1] || 0, p[0] || 0], 'X')); return r === true ? undefined : r; }
     else if (/Théorème du rang (appliqué|: Dimension)/.test(t)) exp = [+A.match(/rg\}\(f\) = (\d+)/)[1]];
     else if (/Matrice d'un endomorphisme dans la base canonique|Matrice de passage entre deux bases/.test(t)) exp = pmats(A)[0].flat();
     else if (/Liberté de deux vecteurs|et liberté sans composante/.test(t)) exp = [+A.match(/\\det\(u, v(?:, w)?\) = (-?\d+)/)[1]];
@@ -7038,9 +7093,9 @@ addPre(( (V) => {
   const cart = (tex) => { const F = (x, y) => evalTex(tex, { x, y }); const c = F(0, 0); return [F(1, 0) - c, F(0, 1) - c, c]; };
   const n2G3 = {
     'Coefficient directeur': (q, s) => { const A = pt(s, 'A'); const B = pt(s, 'B'); return cmp(q, (B[1] - A[1]) / (B[0] - A[0])); },
-    'Équation réduite d\'une droite': (q, s) => { if (inp(q) === null) return undefined; const A = pt(s, 'A'); const B = pt(s, 'B'); const m = (B[1] - A[1]) / (B[0] - A[0]); return cmp(q, [m, A[1] - m * A[0]]); },
-    'Équation cartésienne vers équation réduite': (q, s) => { const [a, b, c] = cart(mat(s, /équation cartésienne \$(.*?) = 0\$/)[1]); return cmp(q, [-a / b, -c / b]); },
-    'Droite par un point et sa pente': (q, s) => { const m = +mat(s, /de pente \$(-?\d+)\$/)[1]; const A = pt(s, 'A'); return cmp(q, [m, A[1] - m * A[0]]); },
+    'Équation réduite d\'une droite': (q, s) => { const A = pt(s, 'A'); const B = pt(s, 'B'); const m = (B[1] - A[1]) / (B[0] - A[0]); return lineForm(q, m, A[1] - m * A[0]); },
+    'Équation cartésienne vers équation réduite': (q, s) => { const [a, b, c] = cart(mat(s, /équation cartésienne \$(.*?) = 0\$/)[1]); return lineForm(q, -a / b, -c / b); },
+    'Droite par un point et sa pente': (q, s) => { const m = +mat(s, /de pente \$(-?\d+)\$/)[1]; const A = pt(s, 'A'); return lineForm(q, m, A[1] - m * A[0]); },
     'Point d\'une droite d\'abscisse donnée': (q, s) => { const x0 = +mat(s, /d'abscisse \$(-?\d+)\$/)[1]; const [a, b, c] = cart(mat(s, /d : (.*?) = 0\$/)[1]); return cmp(q, -(a * x0 + c) / b); },
     'Intersection avec l\'axe des abscisses': (q, s) => { const [c0, c1] = lin(mat(s, /d : y = (.*?)\$/)[1]); return cmp(q, -c0 / c1); },
     'Point d\'intersection de deux droites': (q, s) => { const f = lin(mat(s, /d_1 : y = (.*?)\$/)[1]); const g = lin(mat(s, /d_2 : y = (.*?)\$/)[1]); const x = (g[0] - f[0]) / (f[1] - g[1]); return cmp(q, [x, f[0] + f[1] * x]); },
@@ -7116,7 +7171,7 @@ addPre(( (V) => {
   Object.assign(n2N4, {
     'Équation $x^2 = a$': (q, s) => { const a = +mat(s, /x\^2 = (\d+)\$/)[1]; return cmp(q, [-Math.sqrt(a), Math.sqrt(a)]); },
     'Équation $\\frac{a}{x} = b$': (q, s) => { const m = mat(s, /\\dfrac\{(-?\d+)\}\{x\} = (-?\d+)\$/); return cmp(q, +m[1] / +m[2]); },
-    'Isoler une variable': (q, s) => { const m = mat(s, /relation \$(.*?) = (-?\d+)\$/); const [a, b] = cart(m[1]); return cmp(q, [-a / b, +m[2] / b]); },
+    'Isoler une variable': (q, s) => { const m = mat(s, /relation \$(.*?) = (-?\d+)\$/); const [a, b] = cart(m[1]); return lineForm(q, -a / b, +m[2] / b); },
     'Isoler une variable dans une formule': (q, s) => { const m = mat(s, /relation \$(\w) = (\w) \\times (\w)\$.*Exprimer \$(\w)\$.*pour \$\w = (.*?)\$ .* et \$\w = (.*?)\$/); return cmp(q, nv(m[5]) / nv(m[6])); }
   });
   Object.assign(n2A3, {
@@ -7154,7 +7209,7 @@ addPre(( (V) => {
     'Racine évidente': (q, s) => { const m = mat(s, /que \$(-?\d+)\$ est une racine évidente de \$f\(x\) = (.*?)\$/); const [c0, c1, c2] = quad(m[2]); const one = +m[1]; if (!near(c2 * one * one + c1 * one + c0, 0)) return 'pas racine'; return cmp(q, c0 / c2 / one); },
     'Nombre de solutions d\'une équation du second degré': viaAns((a) => (/Deux/.test(a) ? 2 : /seule/.test(a) ? 1 : /Aucune/.test(a) ? 0 : NaN)),
     'Résolution d\'une équation du second degré': numsAns,
-    'Forme canonique d\'un trinôme': viaAns((a) => { const [c0, c1, c2] = quad(rhs(a)); const al = -c1 / (2 * c2); return [c2, al, c0 + c1 * al + c2 * al * al]; }),
+    'Forme canonique d\'un trinôme': (q, s) => { const [c0, c1, c2] = roundAll(quad(mat(s, /forme canonique de \$f\(x\) = (.*?)\$/)[1])); return formCheck(q, 'canonique', canonOf(c2, c1, c0)); },
     'Trinôme à paramètre': numsAns
   };
   const n1A2 = {
@@ -7163,7 +7218,7 @@ addPre(( (V) => {
     'Nombre dérivé comme limite': (q, s) => { const f = fx(mat(s, /f\(x\) = (.*?)\$ et/)[1]); const a = +mat(s, /\\dfrac\{f\((-?\d+) \+ h\)/)[1]; const t = (h) => (f(a + h) - f(a)) / h; const beta = t(1e-6); const alpha = t(1) - t(0.5) ? (t(1) - t(0.5)) / 0.5 : 0; return cmp(q, [alpha, beta], 1e-4); },
     'Coût marginal': (q, s) => { const C = mat(s, /C\(q\) = (.*?)\$/)[1]; const q0 = +mat(s, /pour \$q = (\d+)\$/)[1]; const f = (x) => evalTex(C, { q: x }); return cmp(q, (f(q0 + 1e-4) - f(q0 - 1e-4)) / 2e-4, 1e-5); },
     'Lecture de la tangente': numsAns,
-    'Équation de la tangente': viaAns((a) => { const [c0, c1] = lin(rhs(a)); return [c1, c0]; }),
+    'Équation de la tangente': (q, s) => { const f = fx(mat(s, /Soit \$f\(x\) = (.*?)\$\./)[1]); const x0 = +mat(s, /abscisse \$(-?\d+)\$/)[1]; const m = snap((f(x0 + 1e-5) - f(x0 - 1e-5)) / 2e-5); return lineForm(q, m, snap(f(x0) - m * x0)); },
     'Tangentes horizontales': numsAns
   };
   const n1A3 = {
@@ -7207,7 +7262,7 @@ addPre(( (V) => {
   const n1A5 = {
     'Rang à partir duquel une suite croît': (q, s) => { const f = (n) => evalTex(mat(s, /u_n = (.*?)\$ pour/)[1], { n }); let n0 = 0; for (let n = 60; n >= 0; n--) { if (f(n + 1) < f(n)) { n0 = n + 1; break; } } return cmp(q, n0); },
     'Conjecturer une limite': (q, s) => { const f = (n) => evalTex(mat(s, /u_n = (.*?)\$ pour/)[1], { n }); return cmp(q, Math.round(f(1e7))); },
-    'Différence de deux termes consécutifs': viaAns((a) => { const g = (n) => evalTex(rhs(a), { n }); return [g(1) - g(0), g(0)]; })
+    'Différence de deux termes consécutifs': (q, s) => { const u = (n) => evalTex(mat(s, /Soit \$u_n = (.*?)\$ pour/)[1], { n }); const d = (n) => u(n + 1) - u(n); return formCheck(q, 'developpement', plainPoly([d(1) - d(0), d(0)], 'n')); }
   };
   const n1A6 = {
     'Terme général d\'une suite arithmétique': (q, s) => { const m = mat(s, /raison \$(-?\d+)\$ et \$u_\{(\d+)\} = (-?\d+)\$/); return cmp(q, [+m[3] - +m[2] * +m[1], +m[1]]); },
@@ -7376,7 +7431,15 @@ addPre(( (V) => {
     const t = tup(q.exactInput);
     return chk(near(t[0], al) && near(t[1], be), `attendu (${al};${be}), saisie ${q.exactInput}`) === true ? undefined : `attendu (${al};${be}), saisie ${q.exactInput}`;
   });
-  by('TA1/4', /accroissements affines/, (q) => sameFn(q, ['n'], ([a, b, c]) => (e) => a * e.n * e.n + b * e.n + c, Nn));
+  by('TA1/4', /accroissements affines/, (q) => {
+    // u_0 et u_{n+1} = u_n + pn + q lus dans l'énoncé : u_n = αn² + βn + γ recalculée sur u_0, u_1, u_2
+    const m = q.statement.match(/u_0 = (-?\d+)\$.*u_\{n\+1\} = u_n \+ (\d+)n(?: ([+-]) (\d+))?\$/);
+    const u0 = +m[1]; const p = +m[2]; const c = m[3] ? (m[3] === '-' ? -1 : 1) * +m[4] : 0;
+    const u1 = u0 + c; const u2 = u1 + p + c;
+    const al = (u2 - 2 * u1 + u0) / 2; const be = u1 - u0 - al;
+    const r = formCheck(q, 'developpement', plainPoly([al, be, u0], 'n'));
+    return r === true ? undefined : r;
+  });
   by('TA1/4', /homographique/, (q) => sameFn(q, ['n'], ([a, b]) => (e) => 1 / (a * e.n + b), Nn));
 
   // =============================== TA3 ===============================
@@ -7430,8 +7493,7 @@ addPre(( (V) => {
     const m = d(x0); const p = f(x0) - m * x0;
     const A = V.poly(rhs(q.answer), 'x');
     if (!A || !near(A[1] || 0, m) || !near(A[0] || 0, p)) return `tangente attendue y = ${m}x + ${p}, trouvé ${q.answer}`;
-    if (q.exactInput !== undefined) { const t = tup(q.exactInput); if (!near(t[0], m) || !near(t[1], p)) return `saisie ${q.exactInput} ≠ (${m};${p})`; }
-    return true;
+    return lineForm(q, m, p);
   });
   by('TA4/4', /Points d'inflexion d'une fonction de degré 4/, (q) => {
     if (q.exactInput === undefined) return undefined;
@@ -7581,9 +7643,11 @@ addPre(( (V) => {
     by('TA8/3', /Dérivée seconde de \$xe\^\{kx\}\$/, (q) => { const u = g(inExp(q.statement)); return sameFn(q, ['x'], ([a, b]) => (e) => (a * e.x + b) * Math.exp(u(e.x)), [0.1, 0.4, -0.3].map((x) => ({ x }))); });
     by('TA8/3', /Dérivée seconde de \$\\sqrt\{ax \+ b\}\$/, (q) => { const u = g(q.statement.match(/\\sqrt\{([^}]*)\}/)[1]); return sameFn(q, ['x'], ([k]) => (e) => k / (u(e.x) * Math.sqrt(u(e.x))), [5, 7, 9].map((x) => ({ x }))); });
     by('TA8/4', /Tangente à la courbe/, (q) => {
-      if (q.exactInput === undefined) return undefined;
-      const f = parse(rhs(q.answer), ['x']); const t = tup(q.exactInput);
-      return near(t[0], f({ x: 1 }) - f({ x: 0 })) && near(t[1], f({ x: 0 })) ? undefined : `saisie ${q.exactInput} ≠ ${q.answer}`;
+      // tangente recalculée sur f (énoncé) : dérivée numérique en x0, coefficients rationnels
+      const f = parse(q.statement.match(/Soit \$f\(x\) = (.*?)\$\./)[1], ['x']); const x0 = +q.statement.match(/abscisse \$(-?\d+)\$/)[1];
+      const F = (x) => f({ x }); const m = snap((F(x0 + 1e-5) - F(x0 - 1e-5)) / 2e-5);
+      const r = lineForm(q, m, snap(F(x0) - m * x0));
+      return r === true ? undefined : r;
     });
   }
 
@@ -8134,16 +8198,40 @@ function checkExact(q) {
   const issues = [];
   if (!ENGINE) return ['EXACT:moteur absent'];
   const ans = String(q.answer);
-  if (q.answerType === 'factorisation' || q.answerType === 'developpement') {
-    // saisie d'une forme complète : acceptée (avec espaces, signe ×), forme développée refusée pour une
-    // factorisation, valeur fausse refusée (la valeur exacte est recalculée par le vérificateur de la famille)
+  if (FORM_CHECKERS[q.answerType]) {
+    // saisie d'une forme complète : acceptée (avec espaces, signe ×), écriture équivalente (termes dans l'ordre
+    // croissant des degrés) acceptée pour une forme développée ou une équation réduite, forme développée refusée
+    // pour une factorisation ou une forme canonique, valeur fausse refusée (la valeur exacte est recalculée par
+    // le vérificateur de la famille)
+    const kind = q.answerType;
     if (!ENGINE.validateAnswer(ans, q)) issues.push('EXACT:forme attendue refusée: ' + ans);
-    const P = ENGINE.parsePolyExpr(ans);
+    const body = kind === 'equationDroite' ? ans.replace(/^\s*y\s*=/, '') : ans;
+    const P = ENGINE.parsePolyExpr(body);
     if (!P) return issues.concat('EXACT:forme attendue illisible par parsePolyExpr: ' + ans);
-    const dev = P.poly.map((c, d) => [c, d]).reverse().filter(([c]) => c).map(([c, d]) => `${c < 0 ? '-' : '+'}${Math.abs(c)}${d ? 'x' : ''}${d > 1 ? '^' + d : ''}`).join('').replace(/^\+/, '');
-    if (q.answerType === 'factorisation' && ENGINE.validateAnswer(dev, q)) issues.push(`EXACT:forme développée ${dev} acceptée pour une factorisation`);
-    if (q.answerType === 'developpement' && !ENGINE.validateAnswer(dev, q)) issues.push(`EXACT:écriture équivalente refusée ${dev}`);
-    if (ENGINE.validateAnswer(`${dev}+1`, q)) issues.push(`EXACT:valeur fausse acceptée ${dev}+1`);
+    const v = P.variable || 'x';
+    const term = ([n, d], deg) => `${n < 0 ? '-' : '+'}${d !== 1 ? `${Math.abs(n)}/${d}` : Math.abs(n)}${deg ? v : ''}${deg > 1 ? '^' + deg : ''}`;
+    const terms = P.rpoly.map((c, deg) => [c, deg]).filter(([c]) => c[0]);
+    const desc = terms.slice().reverse().map(([c, deg]) => term(c, deg)).join('').replace(/^\+/, '') || '0';
+    const asc = terms.map(([c, deg]) => term(c, deg)).join('').replace(/^\+/, '') || '0';
+    const wrong = `${desc}+1`;
+    if (kind === 'factorisation' && ENGINE.validateAnswer(desc, q)) issues.push(`EXACT:forme développée ${desc} acceptée pour une factorisation`);
+    if (kind === 'canonique' && (P.rpoly[1] || [0])[0] !== 0 && ENGINE.validateAnswer(desc, q)) issues.push(`EXACT:forme développée ${desc} acceptée pour une forme canonique`);
+    if (kind === 'developpement' || kind === 'equationDroite') {
+      for (const e of [desc, asc]) if (!ENGINE.validateAnswer(e, q)) issues.push(`EXACT:écriture équivalente refusée ${e}`);
+      if (kind === 'equationDroite' && !ENGINE.validateAnswer(`y = ${asc}`, q)) issues.push(`EXACT:écriture équivalente refusée y = ${asc}`);
+      // fraction non simplifiée : conseil, pas validée
+      const fr = terms.find(([c]) => c[1] !== 1);
+      if (fr) {
+        const unsimp = terms.slice().reverse().map(([c, deg]) => (c === fr[0] ? term([2 * c[0], 2 * c[1]], deg) : term(c, deg))).join('').replace(/^\+/, '');
+        if (ENGINE.validateAnswer(unsimp, q)) issues.push(`EXACT:fraction non simplifiée acceptée ${unsimp}`);
+      }
+    }
+    if (kind === 'canonique') {
+      const m = ans.match(/^(.*\^2)([+-]\d+(?:\/\d+)?)$/);
+      const re = m ? `${m[2]}${m[1].startsWith('-') ? '' : '+'}${m[1]}`.replace(/^\+/, '') : null;
+      if (re && !ENGINE.validateAnswer(re, q)) issues.push(`EXACT:forme canonique réordonnée refusée ${re}`);
+      if (ENGINE.validateAnswer(`${ans}+1`, q)) issues.push(`EXACT:valeur fausse acceptée ${ans}+1`);
+    } else if (ENGINE.validateAnswer(wrong, q)) issues.push(`EXACT:valeur fausse acceptée ${wrong}`);
     return issues;
   }
   const vals = plainVals(ans);

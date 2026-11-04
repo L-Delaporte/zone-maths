@@ -1021,6 +1021,8 @@ window.MathsAdaptiveEngine = {
     if (!exercise || userAnswer === null || userAnswer === undefined || exercise.answer === undefined || exercise.answer === null) return { correct: false };
     if (exercise.answerType === 'factorisation') return this.checkFactorisation(userAnswer, exercise.answer);
     if (exercise.answerType === 'developpement') return this.checkDeveloppement(userAnswer, exercise.answer);
+    if (exercise.answerType === 'equationDroite') return this.checkEquationDroite(userAnswer, exercise.answer);
+    if (exercise.answerType === 'canonique') return this.checkCanonique(userAnswer, exercise.answer);
     const expectedList = [exercise.answer].concat(Array.isArray(exercise.acceptedAnswers) ? exercise.acceptedAnswers : []);
     let advice = null;
     for (const expected of expectedList) {
@@ -1035,109 +1037,245 @@ window.MathsAdaptiveEngine = {
   },
 
   /**
-   * Analyse une expression polynomiale en x saisie par l'élève (entiers, x, + − × ^, parenthèses,
-   * multiplication implicite). Renvoie { poly, terms, factors, termList } : poly = coefficients (degré croissant),
-   * terms = nombre de termes au niveau principal, factors = facteurs du produit principal (si terms = 1),
-   * chacun sous forme { poly, paren } (paren : écrit entre parenthèses), termList = facteurs de chaque terme
-   * du niveau principal avec leur valeur. null si l'écriture n'est pas reconnue.
+   * Analyse une expression polynomiale saisie par l'élève, en une seule variable x, X ou n (détectée
+   * automatiquement ; x et X sont confondues) : entiers, décimaux (virgule ou point), fractions (2/3x, (2/3)x, x/3,
+   * \frac{2}{3}x), + − × ^, parenthèses, multiplication implicite. Coefficients rationnels exacts.
+   * Renvoie { poly, rpoly, variable, terms, factors, termList, unsimplified } :
+   *   rpoly = coefficients exacts [num, den] par degré croissant, poly = leurs valeurs décimales ;
+   *   variable = 'x', 'X' ou 'n' (null pour une expression constante) ;
+   *   terms = nombre de termes au niveau principal ; factors = facteurs du produit principal (si terms = 1) ;
+   *   termList = facteurs de chaque terme du niveau principal ({ fs, rpoly, poly }) ;
+   *   chaque facteur : { rpoly, poly, paren (écrit entre parenthèses), kind ('x', 'num', 'div' = diviseur,
+   *   'numFrac' = nombre entre parenthèses comme (2/3), 'paren'), inner (expression entre parenthèses) } ;
+   *   unsimplified = une fraction saisie n'est pas irréductible (4/6x, 2x/4, x/1).
+   * null si l'écriture n'est pas reconnue (variable autre, division par une expression en x…).
    * Pas d'eval (CSP stricte) : analyseur descendant.
    */
   parsePolyExpr(str) {
-    const s = String(str).replace(/\\left|\\right/g, '').replace(/\\times|\\cdot|[×·]/g, '*').replace(/[−–]/g, '-')
-      .replace(/²/g, '^2').replace(/X/g, 'x').replace(/[[{]/g, '(').replace(/[\]}]/g, ')').replace(/\s+|\$/g, '');
-    if (!s || /[^0-9x+\-*^()]/.test(s)) return null;
+    let s = String(str).replace(/\\left|\\right|\\[,;!]/g, '').replace(/\\[dt]?frac\s*\{\s*(\d+)\s*\}\s*\{\s*(\d+)\s*\}/g, '($1/$2)')
+      .replace(/\\[dt]?frac\s*\{\s*(\d*[A-Za-z](?:\^\d)?)\s*\}\s*\{\s*(\d+)\s*\}/g, '$1/$2')
+      .replace(/\\[dt]?frac\s*\{([^{}]*)\}\s*\{([^{}]*)\}/g, '(($1)/($2))')
+      .replace(/\\times|\\cdot|[×·]/g, '*').replace(/\\div|÷/g, '/').replace(/[−–]/g, '-').replace(/²/g, '^2').replace(/³/g, '^3')
+      .replace(/\{,\}/g, ',').replace(/[[{]/g, '(').replace(/[\]}]/g, ')').replace(/\s+|\$/g, '');
+    const letters = new Set(s.match(/[A-Za-z]/g) || []);
+    if ([...letters].some((c) => !'xXn'.includes(c)) || (letters.has('n') && letters.size > 1)) return null;
+    const variable = letters.has('n') ? 'n' : letters.has('x') ? 'x' : letters.has('X') ? 'X' : null;
+    s = s.replace(/[xXn]/g, 'x');
+    if (!s || /[^0-9x+\-*/^().,]/.test(s)) return null;
     let i = 0;
-    const trim = (p) => { while (p.length > 1 && p[p.length - 1] === 0) p.pop(); return p; };
-    const add = (p, q, k = 1) => trim(Array.from({ length: Math.max(p.length, q.length) }, (_, j) => (p[j] || 0) + k * (q[j] || 0)));
-    const mul = (p, q) => { const r = new Array(p.length + q.length - 1).fill(0); p.forEach((a, j) => q.forEach((b, l) => { r[j + l] += a * b; })); return trim(r); };
+    let unsimplified = false;
+    let overflow = false;
+    const G = (a, b) => { a = Math.abs(a); b = Math.abs(b); while (b) [a, b] = [b, a % b]; return a; };
+    const Q = (n, d = 1) => {
+      if (d < 0) { n = -n; d = -d; }
+      const g = G(n, d) || 1;
+      if (!Number.isSafeInteger(n) || !Number.isSafeInteger(d)) overflow = true;
+      return [n / g, d / g];
+    };
+    const isZ = (c) => c[0] === 0;
+    const trim = (p) => { while (p.length > 1 && isZ(p[p.length - 1])) p.pop(); return p; };
+    const add = (p, q) => trim(Array.from({ length: Math.max(p.length, q.length) }, (_, j) => {
+      const a = p[j] || [0, 1]; const b = q[j] || [0, 1];
+      return Q(a[0] * b[1] + b[0] * a[1], a[1] * b[1]);
+    }));
+    const mul = (p, q) => {
+      const r = Array.from({ length: p.length + q.length - 1 }, () => [0, 1]);
+      p.forEach((a, j) => q.forEach((b, l) => { const c = r[j + l]; r[j + l] = Q(c[0] * a[1] * b[1] + a[0] * b[0] * c[1], c[1] * a[1] * b[1]); }));
+      return trim(r);
+    };
+    const mk = (rpoly, o) => Object.assign({ rpoly, poly: rpoly.map((c) => c[0] / c[1]) }, o);
     const int = () => { const m = /^\d+/.exec(s.slice(i)); if (!m) return null; i += m[0].length; return parseInt(m[0], 10); };
+    const num = () => { // entier ou décimal -> { q, lit (entier écrit, sinon null) }
+      const m = /^(\d+)(?:[.,](\d+))?/.exec(s.slice(i));
+      if (!m) return null;
+      i += m[0].length;
+      if (!m[2]) return { q: Q(parseInt(m[1], 10)), lit: parseInt(m[1], 10) };
+      return { q: Q(parseInt(m[1] + m[2], 10), 10 ** m[2].length), lit: null };
+    };
     let expr;
     const factor = () => { // base [^ entier] → liste de facteurs répétés
       let base;
       if (s[i] === '(') {
         i++; const e = expr(); if (!e || s[i] !== ')') return null; i++;
-        base = { poly: e.poly, paren: true };
-      } else if (s[i] === 'x') { i++; base = { poly: [0, 1], paren: false }; }
-      else { const n = int(); if (n === null) return null; base = { poly: [n], paren: false }; }
+        const t0 = e.terms === 1 ? e.termList[0] : null;
+        const pure = !!t0 && t0.fs.every((f) => f.kind === 'num' || f.kind === 'numFrac' || f.kind === 'div') &&
+          t0.fs.filter((f) => f.kind !== 'div').length <= 1 && t0.fs.filter((f) => f.kind === 'div').length <= 1;
+        const lit = pure && t0.fs.length === 1 && t0.rpoly[0][0] >= 0 ? t0.fs[0].lit : null;
+        base = mk(e.rpoly, { paren: true, kind: pure ? 'numFrac' : 'paren', inner: e, lit });
+      } else if (s[i] === 'x') { i++; base = mk([[0, 1], [1, 1]], { paren: false, kind: 'x' }); }
+      else { const n = num(); if (!n) return null; base = mk([n.q], { paren: false, kind: 'num', lit: n.lit }); }
       let k = 1;
-      if (s[i] === '^') { i++; k = int(); if (k === null || k > 6) return null; }
+      if (s[i] === '^') {
+        i++;
+        const par = s[i] === '(';
+        if (par) i++;
+        k = int();
+        if (k === null || k < 1 || k > 6 || (par && s[i++] !== ')')) return null;
+      }
       return Array(k).fill(base);
     };
     const term = () => {
       const fs = [];
       for (;;) {
-        if (s[i] === '*') { if (!fs.length) return null; i++; }
-        const f = factor(); if (!f) return null; fs.push(...f);
+        let div = false;
+        if (s[i] === '*') { if (!fs.length) return null; i++; } else if (s[i] === '/') { if (!fs.length) return null; i++; div = true; }
+        const f = factor(); if (!f) return null;
+        if (div) { // diviseur : constante non nulle
+          let r = [[1, 1]];
+          f.forEach((b) => { r = mul(r, b.rpoly); });
+          if (r.length !== 1 || isZ(r[0])) return null;
+          fs.push(mk([Q(r[0][1], r[0][0])], { paren: false, kind: 'div', lit: f.length === 1 ? f[0].lit : null }));
+        } else fs.push(...f);
         if (i >= s.length || '+-)'.includes(s[i])) break;
       }
+      // fraction non irréductible : 4/6x, 2x/4, x/1
+      const lits = fs.filter((f) => f.kind !== 'div' && Number.isInteger(f.lit));
+      const divs = fs.filter((f) => f.kind === 'div');
+      if (divs.length === 1 && Number.isInteger(divs[0].lit) &&
+        (divs[0].lit === 1 || (lits.length === 1 && G(lits[0].lit, divs[0].lit) > 1))) unsimplified = true;
       return fs;
     };
     expr = () => {
-      let poly = [0], terms = 0, factors = null;
+      let rpoly = [[0, 1]], terms = 0, factors = null;
       const termList = [];
       for (;;) {
         let sign = 1;
         if (s[i] === '+' || s[i] === '-') { sign = s[i] === '-' ? -1 : 1; i++; } else if (terms) break;
         const fs = term(); if (!fs) return null;
-        let p = [sign];
-        fs.forEach((f) => { p = mul(p, f.poly); });
-        poly = add(poly, p); terms++;
-        termList.push({ fs, poly: p });
-        factors = terms === 1 ? (sign < 0 ? [{ poly: [-1], paren: false }, ...fs] : fs) : null;
+        let p = [[sign, 1]];
+        fs.forEach((f) => { p = mul(p, f.rpoly); });
+        rpoly = add(rpoly, p); terms++;
+        termList.push(mk(p, { fs }));
+        factors = terms === 1 ? (sign < 0 ? [mk([[-1, 1]], { paren: false, kind: 'num', lit: null }), ...fs] : fs) : null;
         if (i >= s.length || s[i] === ')') break;
       }
-      return { poly, terms, factors, termList };
+      return mk(rpoly, { terms, factors, termList });
     };
     const r = expr();
-    return r && i === s.length ? r : null;
+    if (!r || i !== s.length || overflow) return null;
+    return Object.assign(r, { variable, unsimplified });
+  },
+
+  /** Retire un nom d'expression saisi devant la réponse : « f'(x) = », « E = », « u_{n+1} - u_n = », « P(X) = »… */
+  stripExprName(answer) {
+    const NAME = '(?:\\\\(?:text|operatorname|mathrm)\\{[A-Za-z]+\\}|[A-Za-z])(?:_\\{[^{}=]*\\}|_[A-Za-z0-9]|[A-Za-z0-9])*\\s*(?:[\'’′]{1,3})?\\s*(?:\\([^()=]*\\))?';
+    return String(answer == null ? '' : answer).replace(new RegExp(`^\\s*${NAME}(?:\\s*[-+]\\s*${NAME})*\\s*=\\s*`), '');
+  },
+
+  /** Égalité exacte de deux polynômes à coefficients rationnels [num, den] */
+  _polyEq(a, b) {
+    return a.length === b.length && a.every((c, j) => c[0] === b[j][0] && c[1] === b[j][1]);
+  },
+
+  /**
+   * Préalable commun aux corrections de formes polynomiales : analyse des deux écritures, variable et égalité.
+   * Renvoie { u, e } si la saisie est égale à l'attendue, sinon { res } (résultat à renvoyer tel quel).
+   * syntaxAdvice : conseil si la saisie n'est pas reconnue.
+   */
+  _polyPrelude(userAnswer, expected, syntaxAdvice) {
+    const u = this.parsePolyExpr(this.stripExprName(userAnswer)), e = this.parsePolyExpr(this.stripExprName(expected));
+    if (!e) return { res: { correct: false } };
+    if (!u) return { res: { correct: false, advice: syntaxAdvice } };
+    const same = this._polyEq(u.rpoly, e.rpoly);
+    if (u.variable && e.variable && u.variable.toLowerCase() !== e.variable.toLowerCase()) {
+      return { res: same ? { correct: false, advice: 'exprVariable' } : { correct: false } };
+    }
+    return same ? { u, e } : { res: { correct: false } };
+  },
+
+  /** Terme réduit : au plus un coefficient (entier, décimal, fraction a/b ou (a/b)), pas d'autre parenthèse */
+  _reducedTerm(t) {
+    if (t.fs.some((f) => f.paren && f.kind !== 'numFrac')) return false;
+    const coefs = t.fs.filter((f) => f.kind === 'num' || f.kind === 'numFrac').length;
+    const divs = t.fs.filter((f) => f.kind === 'div').length;
+    return coefs <= 1 && divs <= 1 && !(divs && t.fs.some((f) => f.kind === 'numFrac'));
+  },
+
+  /** Expression analysée développée et réduite : termes réduits, non nuls, un seul par puissance (ordre libre) */
+  _isReducedExpr(r) {
+    const degs = new Set();
+    const reduced = r.termList.every((t) => {
+      if (!this._reducedTerm(t)) return false;
+      const nz = t.rpoly.map((c, j) => (c[0] ? j : -1)).filter((j) => j >= 0);
+      if (nz.length !== 1 || degs.has(nz[0])) return false; // terme nul ou puissance déjà présente
+      degs.add(nz[0]);
+      return true;
+    });
+    return reduced || (r.terms === 1 && r.rpoly.length === 1 && r.rpoly[0][0] === 0 && this._reducedTerm(r.termList[0]));
   },
 
   /**
    * Correction d'une factorisation saisie. expected : forme factorisée attendue (même syntaxe).
    * Juste : égale à l'attendue, écrite comme un produit, et complète (aucun facteur de degré ≥ 2,
-   * chaque facteur du premier degré sans diviseur commun à ses coefficients).
+   * chaque facteur du premier degré à coefficients entiers sans diviseur commun).
    * Égale mais incomplète ou non factorisée, ou écriture non reconnue : conseil sans pénalité.
    */
-  /** Retire un nom d'expression saisi devant la réponse : « f'(x) = », « E = », « g''(x)= »… */
-  stripExprName(answer) {
-    return String(answer == null ? '' : answer).replace(/^\s*[A-Za-z][A-Za-z0-9_]*\s*(?:['’′]{1,3}|'')?\s*(?:\(\s*x\s*\))?\s*=\s*/, '');
-  },
-
   checkFactorisation(userAnswer, expected) {
-    const u = this.parsePolyExpr(this.stripExprName(userAnswer)), e = this.parsePolyExpr(expected);
-    if (!e) return { correct: false };
-    if (!u) return { correct: false, advice: 'factorSyntax' };
-    const same = u.poly.length === e.poly.length && u.poly.every((c, j) => c === e.poly[j]);
-    if (!same) return { correct: false };
+    const pre = this._polyPrelude(userAnswer, expected, 'factorSyntax');
+    if (pre.res) return pre.res;
+    const { u } = pre;
     if (u.terms !== 1 || !u.factors) return { correct: false, advice: 'factorNotProduct' };
     const g = (a, b) => { a = Math.abs(a); b = Math.abs(b); while (b) [a, b] = [b, a % b]; return a; };
-    const nonConst = u.factors.filter((f) => f.poly.length > 1);
-    const complete = nonConst.length > 0 && nonConst.every((f) => f.poly.length === 2 && (f.poly[0] === 0 || g(f.poly[0], f.poly[1]) === 1));
-    return complete ? { correct: true } : { correct: false, advice: 'factorIncomplete' };
+    const nonConst = u.factors.filter((f) => f.rpoly.length > 1);
+    if (nonConst.some((f) => f.rpoly.some((c) => c[1] !== 1))) return { correct: false, advice: 'factorFraction' };
+    const complete = nonConst.length > 0 && nonConst.every((f) => f.rpoly.length === 2 && (f.rpoly[0][0] === 0 || g(f.rpoly[0][0], f.rpoly[1][0]) === 1));
+    if (!complete) return { correct: false, advice: 'factorIncomplete' };
+    return u.unsimplified ? { correct: false, advice: 'devFraction' } : { correct: true };
   },
 
   /**
-   * Correction d'une expression développée et réduite. expected : forme attendue (même syntaxe).
-   * Juste : égale à l'attendue, sans parenthèses, au plus un nombre par terme, un seul terme par puissance de x
-   * et aucun terme nul (l'ordre des termes est libre). Égale mais non réduite : conseil sans pénalité.
+   * Correction d'une expression développée et réduite (en x, X ou n). expected : forme attendue (même syntaxe).
+   * Juste : égale à l'attendue, sans parenthèses (sauf une fraction (a/b)), au plus un coefficient par terme,
+   * un seul terme par puissance et aucun terme nul (l'ordre des termes est libre), fractions irréductibles.
+   * Égale mais non réduite, fraction non simplifiée, autre variable : conseil sans pénalité.
+   * notReduced : conseil si l'expression n'est pas réduite (par défaut 'devNotReduced').
    */
-  checkDeveloppement(userAnswer, expected) {
-    const u = this.parsePolyExpr(this.stripExprName(userAnswer)), e = this.parsePolyExpr(expected);
-    if (!e) return { correct: false };
-    if (!u) return { correct: false, advice: 'exprSyntax' };
-    const same = u.poly.length === e.poly.length && u.poly.every((c, j) => c === e.poly[j]);
-    if (!same) return { correct: false };
-    const degs = new Set();
-    const reduced = u.termList.every((t) => {
-      if (t.fs.some((f) => f.paren)) return false;
-      if (t.fs.filter((f) => f.poly.length === 1).length > 1) return false;
-      const nz = t.poly.map((c, j) => (c ? j : -1)).filter((j) => j >= 0);
-      if (nz.length !== 1 || degs.has(nz[0])) return false; // terme nul ou puissance déjà présente
-      degs.add(nz[0]);
-      return true;
+  checkDeveloppement(userAnswer, expected, notReduced = 'devNotReduced', syntaxAdvice = 'exprSyntax') {
+    const pre = this._polyPrelude(userAnswer, expected, syntaxAdvice);
+    if (pre.res) return pre.res;
+    if (!this._isReducedExpr(pre.u)) return { correct: false, advice: notReduced };
+    return pre.u.unsimplified ? { correct: false, advice: 'devFraction' } : { correct: true };
+  },
+
+  /**
+   * Correction d'une équation réduite de droite y = mx + p (m, p rationnels). expected : « y=-2/3x+5 » ou « -2/3x+5 ».
+   * Le « y = » est facultatif (un nom de fonction « T(x) = » est aussi accepté) ; le membre de droite est corrigé
+   * comme une expression développée et réduite en x (ordre libre).
+   */
+  checkEquationDroite(userAnswer, expected) {
+    let str = String(userAnswer == null ? '' : userAnswer);
+    const k = str.indexOf('=');
+    if (k >= 0) {
+      const lhs = str.slice(0, k).replace(/\s+|\$/g, '');
+      if (!/^(?:\(?[A-Za-z]{1,3}\)?:)?(?:y|[A-Za-z][A-Za-z0-9]*(?:_\{?[A-Za-z0-9]+\}?)?\(x\))$/.test(lhs)) return { correct: false, advice: 'eqDroiteSyntax' };
+      str = str.slice(k + 1);
+    }
+    return this.checkDeveloppement(str, String(expected).replace(/^\s*y\s*=\s*/, ''), 'eqNotReduced', 'eqDroiteSyntax');
+  },
+
+  /**
+   * Correction d'une forme canonique a(x − α)² + β (a, α, β rationnels, termes dans un ordre libre).
+   * Juste : égale à l'attendue, un seul terme a(x − α)^2 (parenthèse x − α réduite, ou x^2 si α = 0) et au plus
+   * un terme constant non nul. Égale mais développée, factorisée… : conseil sans pénalité.
+   */
+  checkCanonique(userAnswer, expected) {
+    const pre = this._polyPrelude(userAnswer, expected, 'exprSyntax');
+    if (pre.res) return pre.res;
+    const { u } = pre;
+    let squares = 0, consts = 0;
+    const ok = u.termList.every((t) => {
+      const coef = { fs: t.fs.filter((f) => f.rpoly.length === 1) };
+      const vars = t.fs.filter((f) => f.rpoly.length > 1);
+      if (!this._reducedTerm(coef)) return false;
+      if (!vars.length) { consts++; return t.rpoly[0][0] !== 0; }
+      squares++;
+      if (vars.length !== 2) return false;
+      if (vars.every((f) => f.kind === 'x')) return true; // a x^2 (α = 0)
+      return vars.every((f) => f.kind === 'paren' && f.rpoly.length === 2 && f.rpoly[1][0] === 1 && f.rpoly[1][1] === 1 &&
+        this._polyEq(f.rpoly, vars[0].rpoly) && this._isReducedExpr(f.inner));
     });
-    return reduced || (u.terms === 1 && u.poly.length === 1 && u.poly[0] === 0 && !u.termList[0].fs.some((f) => f.paren))
-      ? { correct: true } : { correct: false, advice: 'devNotReduced' };
+    if (!ok || squares !== 1 || consts > 1) return { correct: false, advice: 'notCanonical' };
+    return u.unsimplified ? { correct: false, advice: 'devFraction' } : { correct: true };
   },
 
   /** Messages des conseils sans pénalité (bonne valeur, forme à revoir) */
@@ -1159,11 +1297,23 @@ window.MathsAdaptiveEngine = {
     factorNotProduct: ['C\'est bien égal, mais ce n\'est pas une forme factorisée !',
       'Une forme factorisée est un produit, par exemple $3(x - 2)(2x + 5)$ : aucun « + » ni « − » entre des termes en dehors des parenthèses.'],
     factorSyntax: ['Écriture non reconnue : vérifie ta saisie.',
-      'Écris un produit avec des parenthèses, par exemple 3(x-2)(2x+5) ; un carré s\'écrit (x+1)^2 ; pas de virgule ni de fraction.'],
+      'Écris un produit avec des parenthèses, par exemple 3(x-2)(2x+5) ; un carré s\'écrit (x+1)^2.'],
+    factorFraction: ['C\'est bien égal, mais garde des coefficients entiers dans chaque facteur !',
+      'Fais passer les dénominateurs dans le coefficient devant : par exemple $2\\left(x - \\frac{1}{2}\\right) = 2x - 1$.'],
     devNotReduced: ['C\'est bien égal, mais l\'expression n\'est pas développée et réduite !',
-      'Supprime toutes les parenthèses puis regroupe les termes de même puissance de $x$ : une seule fois $x^2$, une seule fois $x$ et un seul nombre, par exemple $6x^2 + 11x + 4$.'],
+      'Supprime toutes les parenthèses puis regroupe les termes de même puissance de la variable : une seule fois $x^2$, une seule fois $x$ et un seul nombre, par exemple $6x^2 + 11x + 4$.'],
+    devFraction: ['C\'est bien égal, mais une fraction n\'est pas simplifiée !',
+      'Écris chaque coefficient sous forme de fraction irréductible : par exemple $\\frac{4}{6}x$ s\'écrit $\\frac{2}{3}x$ (saisie 2/3x).'],
     exprSyntax: ['Écriture non reconnue : vérifie ta saisie.',
-      'Écris par exemple 6x^2+11x-4 : un carré s\'écrit x^2 ; pas de virgule ni de fraction.'],
+      'Écris par exemple 6x^2+11x-4 : un carré s\'écrit x^2, une fraction 2/3x ou (2/3)x ; une seule variable ($x$, $n$ ou $X$ selon l\'énoncé).'],
+    exprVariable: ['C\'est bien la bonne expression, mais pas avec la bonne variable !',
+      'Écris l\'expression avec la variable de l\'énoncé : $n$ pour une suite, $X$ pour un polynôme, $x$ pour une fonction.'],
+    eqNotReduced: ['C\'est bien la bonne droite, mais l\'équation n\'est pas réduite !',
+      'Développe et regroupe pour obtenir $y = mx + p$ : un seul terme en $x$ et un seul nombre, par exemple $y = -\\frac{2}{3}x + 5$.'],
+    eqDroiteSyntax: ['Écriture non reconnue : vérifie ta saisie.',
+      'Écris l\'équation réduite, par exemple y=3x-2 ou y=-2/3x+5 (le « y = » est facultatif).'],
+    notCanonical: ['C\'est bien égal, mais ce n\'est pas la forme canonique !',
+      'La forme canonique s\'écrit $a(x - \\alpha)^2 + \\beta$, par exemple $2(x - 3)^2 - 5$ : un seul carré, dont la parenthèse est $x - \\alpha$, et un nombre.'],
     onlyValue: ['On attend seulement la valeur demandée, pas une expression !',
       'Relis la question : elle demande un nombre (par exemple la valeur de $m$ ou de $p$). Repère-le dans ta forme factorisée et saisis-le seul.'],
     exact: ['Ta réponse est une valeur approchée : on attend la valeur exacte !',
@@ -1620,6 +1770,7 @@ window.MathsAdaptiveEngine = {
       '3G0': 'Pythagoricien',
       'G1': 'Thalésien',
       'G2': 'Trigonomètre',
+      'G2bis': 'du Bon Outil',
       'G3': 'des Homothéties',
       'G4': 'de la Sphère',
       'G5': 'de la Géométrie 3D',
