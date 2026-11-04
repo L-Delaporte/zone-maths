@@ -7552,7 +7552,7 @@ addPre(( (V) => {
   // =============================== TA6 ===============================
   by('TA6/1', /Primitive d'une fonction polynôme/, (q) => {
     const P = polyOf(fx(q.statement));
-    return tupEq(q, [P(2) / 3, P(1) / 2, P(0)]);
+    return formCheck(q, 'developpement', plainPoly([P(2) / 3, P(1) / 2, P(0), 0]));
   });
   by('TA6/1', /Primitive de \$e\^\{kx\}\$/, (q) => {
     const f = fx(q.statement); const k = polyOf(inExp(q.statement))(1);

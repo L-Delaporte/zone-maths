@@ -4740,7 +4740,7 @@ window.MathsLyceeGenerators = {
           'Une primitive de $x^n$ est $\\frac{x^{n+1}}{n+1}$.',
           'Vérifie en dérivant : on doit retrouver $f$.',
           `On prend une primitive de chaque terme ($x^n$ a pour primitive $\\frac{x^{n+1}}{n+1}$), sans constante puisque $F(0) = 0$ : $F(x) = ${F}$, et on vérifie que $F'(x) = ${f} = f(x)$.`
-        ), [this._Tq(a, 3), this._Tq(b, 2), c], 'On écrit $F(x) = \\alpha x^3 + \\beta x^2 + \\gamma x$ : saisir (α ; β ; γ).');
+        ), this.polyPlain([[a, 3], [b, 2], c, 0]), 'Écrire $F(x)$ sous forme développée et réduite.', null, 'developpement');
       }
       const a = this.randNonZero(-6, 6);
       const k = this.randChoice([-4, -3, -2, -1, 2, 3, 4]);
