@@ -2722,6 +2722,8 @@ window.MathsLyceeGenerators = {
   /** Consignes des saisies de forme complète (cf. _xa, answerType) */
   _XFAC: 'Écrire la forme factorisée.',
   _XDEV: 'Écrire l\'expression développée et réduite.',
+  /** Consigne de saisie d'une dérivée (ordre 1 ou 2) polynomiale sous forme développée et réduite */
+  _XDER(k) { return `Écrire $f${"'".repeat(k)}(x)$ sous forme développée et réduite.`; },
 
   /** Polynôme développé et réduit en texte brut (coefficients du plus haut degré au terme constant) : [25, -10, 1] -> "25x^2-10x+1" */
   _xdev(coeffs) {
@@ -4378,7 +4380,7 @@ window.MathsLyceeGenerators = {
           'Dérive une première fois, puis dérive $f\'$.',
           `$f'(x) = ${f1}$.`,
           `$f'(x) = ${f1}$, puis $f''(x) = ${ans}$.`
-        ), [6 * a, 2 * b], 'On écrit $f\'\'(x) = \\alpha x + \\beta$ : saisir (α ; β).');
+        ), this._xdev([6 * a, 2 * b]), this._XDER(2), null, 'developpement');
       }
       const a = this.randNonZero(-3, 3); const b = this.randInt(-5, 5); const c = this.randNonZero(-6, 6);
       const f = this.poly([[a, 'x^4'], [b, 'x^3'], [c, 'x^2']]);
@@ -4391,7 +4393,7 @@ window.MathsLyceeGenerators = {
         'Dérive une première fois, puis dérive $f\'$.',
         `$f'(x) = ${this.poly([[4 * a, 'x^3'], [3 * b, 'x^2'], [2 * c, 'x']])}$.`,
         `$f'(x) = ${this.poly([[4 * a, 'x^3'], [3 * b, 'x^2'], [2 * c, 'x']])}$, puis $f''(x) = ${ans}$.`
-      ), [12 * a, 6 * b, 2 * c], 'On écrit $f\'\'(x) = \\alpha x^2 + \\beta x + \\gamma$ : saisir (α ; β ; γ).');
+      ), this._xdev([12 * a, 6 * b, 2 * c]), this._XDER(2), null, 'developpement');
     }
     if (tier === 2) {
       const a = this.randNonZero(-3, 3); const b = this.randNonZero(-6, 6); const c = this.randInt(-9, 9); const d = this.randInt(-9, 9);
@@ -8820,7 +8822,7 @@ window.MathsLyceeGenerators = {
         const b = this.randInt(-5, 5);
         const fs = this.poly([[a, `x^${n}`], [b, 'x']]);
         const ds = this.poly([[a * n, this.pow('x', n - 1)], [b, '']]);
-        return this._xa([`(${a * n};${b})`, `Écrire $f'(x) = px^{${n - 1}} + q$ et saisir (p ; q).`], '1A3', 1, 'Dérivée d\'une fonction polynôme',
+        return this._xa([this._xdev([a * n, ...Array(n - 2).fill(0), b]), this._XDER(1), null, 'developpement'], '1A3', 1, 'Dérivée d\'une fonction polynôme',
           "Appliquer $(x^n)' = nx^{n-1}$",
           `Déterminer la dérivée de $f(x) = ${fs}$.`,
           `$f'(x) = ${ds}$`,
@@ -8836,7 +8838,7 @@ window.MathsLyceeGenerators = {
       const d = this.randInt(-9, 9);
       const fs = this.polyX([a, b, c, d]);
       const ds = this.polyX([3 * a, 2 * b, c]);
-      return this._xa([`(${3 * a};${2 * b};${c})`, 'Écrire $f\'(x) = ax^2 + bx + c$ et saisir (a ; b ; c).'], '1A3', 1, 'Dérivée d\'une fonction polynôme',
+      return this._xa([this._xdev([3 * a, 2 * b, c]), this._XDER(1), null, 'developpement'], '1A3', 1, 'Dérivée d\'une fonction polynôme',
         "Dériver terme à terme un polynôme",
         `Déterminer la dérivée de $f(x) = ${fs}$.`,
         `$f'(x) = ${ds}$`,
@@ -8854,7 +8856,7 @@ window.MathsLyceeGenerators = {
         const c = this.randNonZero(-4, 5);
         const d = this.randNonZero(-6, 6);
         const ds = this.polyX([2 * a * c, a * d + b * c]);
-        return this._xa([`(${2 * a * c};${a * d + b * c})`, 'Écrire $f\'(x) = mx + p$ et saisir (m ; p).'], '1A3', 2, 'Dérivée d\'un produit',
+        return this._xa([this._xdev([2 * a * c, a * d + b * c]), this._XDER(1), null, 'developpement'], '1A3', 2, 'Dérivée d\'un produit',
           "Appliquer $(uv)' = u'v + uv'$",
           `Déterminer la dérivée de $f(x) = (${this.polyX([a, b])})(${this.polyX([c, d])})$.`,
           `$f'(x) = ${ds}$`,
@@ -10632,10 +10634,11 @@ window.MathsLyceeGenerators = {
   },
 
   /** Saisie exacte explicite d'un QCM : n-uplet (tableau) ou valeur, avec consigne */
-  _Tx(q, ans, instruction, accepted) {
+  _Tx(q, ans, instruction, accepted, answerType) {
     q.exactAnswer = Array.isArray(ans) ? `(${ans.join(';')})` : String(ans);
     if (instruction) q.exactInstruction = instruction;
     if (accepted && accepted.length) q.acceptedAnswers = accepted;
+    if (answerType) q.exactAnswerType = answerType; // 'factorisation' | 'developpement'
     return q;
   },
 

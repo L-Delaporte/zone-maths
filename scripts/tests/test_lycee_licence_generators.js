@@ -7170,21 +7170,26 @@ addPre(( (V) => {
     'Dérivée de $x^n$ avec $n$ entier négatif': (q, s) => { const f = fx(mat(s, /f\(x\) = (.*?)\$\. On a/)[1]); const [k, p] = pv(inp(q)); return [0.7, 1.3, 2.1].every((x) => near((f(x + 1e-6) - f(x - 1e-6)) / 2e-6, k / Math.pow(x, p), 1e-4)) || 'dérivée fausse'; },
     'Nombre dérivé d\'un produit': (q, s) => { const f = fx(mat(s, /f\(x\) = (.*?)\$\. Calculer/)[1]); const x0 = +mat(s, /f'\((-?\d+)\)/)[1]; return cmp(q, (f(x0 + 1e-6) - f(x0 - 1e-6)) / 2e-6, 1e-5); },
     'Parité d\'une fonction': (q, s) => { const f = fx(mat(s, /f\(x\) = (.*?)\$ est-elle/)[1]); const xs = [0.5, 1.3, 2.7]; const even = xs.every((x) => near(f(-x), f(x))); const odd = xs.every((x) => near(f(-x), -f(x))); const exp = even ? 'Paire' : odd ? 'Impaire' : 'Ni paire ni impaire'; return q.answer === exp || `attendu ${exp}`; },
-    'Dérivée d\'un produit': viaAns((a) => { const [c0, c1] = lin(rhs(a)); return [c1, c0]; }),
+    'Dérivée d\'un produit': (q, s) => derivForm(mat(s, /f\(x\) = (.*?)\$\./)[1], 1)(q),
     'Dérivée d\'un quotient': viaAns((a) => { const m = rhs(a).match(/(-?)\\frac\{(\d+)\}/); return (m[1] ? -1 : 1) * +m[2]; }),
     'Dérivée de l\'inverse d\'une fonction': viaAns((a) => { const m = rhs(a).match(/(-?)\\frac\{(\d+)\}/); return (m[1] ? -1 : 1) * +m[2]; }),
     'Dérivée d\'un produit avec la racine carrée': viaAns((a) => { const [c0, c1] = lin(rhs(a).match(/\\frac\{(.*?)\}\{2\\sqrt\{x\}\}/)[1]); return [c1, c0]; }),
     'Extremum local d\'une fonction polynôme': viaAns((a) => { const n = ansNums(a); return [n[1], n[0]]; }),
     'Optimisation sur $]0 ; +\\infty[$': viaAns((a) => { const n = ansNums(a); return [n[1], n[0]]; })
   };
-  n1A3['Dérivée d\'une fonction polynôme'] = (q) => {
-    if (q.exactInput === undefined) return undefined;
-    const g = fx(rhs(q.answer)); const v = pv(q.exactInput);
-    let ok;
-    if (v.length === 3) ok = same(g, (x) => v[0] * x * x + v[1] * x + v[2]);
-    else ok = [1, 2, 3, 4, 5, 6].some((d) => same(g, (x) => v[0] * Math.pow(x, d) + v[1]));
-    return ok ? undefined : 'coefficients ≠ réponse';
+  /** Dérivée (ordre k) saisie sous forme développée : answerType, forme réduite, et égalité avec la dérivée numérique de f */
+  const derivForm = (fTex, k) => (q) => {
+    const a = inp(q);
+    if (a === null) return undefined;
+    if (q.answerType !== 'developpement') return `answerType ${q.answerType} au lieu de developpement`;
+    if (ENGINE.checkDeveloppement(a, a).correct !== true) return `saisie non réduite ${a}`;
+    const P = ENGINE.parsePolyExpr(a).poly; const g = (x) => P.reduce((t, c, d) => t + c * Math.pow(x, d), 0);
+    const f = fx(fTex); const h = 1e-3;
+    const d1 = (fn) => (x) => (fn(x + h) - fn(x - h)) / (2 * h);
+    const D = k === 1 ? d1(f) : d1(d1(f));
+    return [0.4, -0.9, 1.3].every((x) => near(D(x), g(x), 1e-3 * Math.max(1, Math.abs(g(x))))) || `f${"'".repeat(k)} ≠ saisie ${a}`;
   };
+  n1A3['Dérivée d\'une fonction polynôme'] = (q, s) => derivForm(mat(s, /f\(x\) = (.*?)\$\./)[1], 1)(q);
   const ek = (t) => { t = t.replace(/\s/g, ''); let m; if (t === '1') return 0; if (t === 'e') return 1; if ((m = t.match(/^e\^\{(-?\d*)x?\}$/))) return m[1] === '' ? 1 : m[1] === '-' ? -1 : +m[1]; return NaN; };
   const n1A4 = {
     'Décroissance exponentielle $e^{-kt}$': (q, s) => { const m = mat(s, /Q\(t\) = (\d+)e\^\{-(.*?)t\}/); return cmp(q, -nv(m[2]) * +m[1]); },
@@ -7411,11 +7416,11 @@ addPre(( (V) => {
   by('TA4/1', /Calcul d'une dérivée seconde/, (q) => {
     if (q.exactInput === undefined) return undefined;
     const P = polyOf(q.statement.match(/f\(x\) = ([^$]*)\$/)[1]);
-    const t = tup(q.exactInput);
-    const exp = P(4) || P(4) === 0 && t.length === 3 ? [12 * P(4), 6 * P(3), 2 * P(2)] : [6 * P(3), 2 * P(2)];
-    const want = t.length === 3 ? [12 * P(4), 6 * P(3), 2 * P(2)] : [6 * P(3), 2 * P(2)];
-    void exp;
-    return want.every((w, i) => near(w, t[i])) ? undefined : `f'' attendu (${want.join(';')}), saisie ${q.exactInput}`;
+    if (q.answerType !== 'developpement') return `answerType ${q.answerType} au lieu de developpement`;
+    const want = [2 * P(2), 6 * P(3), 12 * P(4)];
+    const u = ENGINE.parsePolyExpr(q.exactInput);
+    if (!u || ENGINE.checkDeveloppement(q.exactInput, q.exactInput).correct !== true) return `saisie non réduite ${q.exactInput}`;
+    return want.every((w, d) => near(w, u.poly[d] || 0)) && u.poly.length <= 3 ? undefined : `f'' attendu ${want.join(';')}, saisie ${q.exactInput}`;
   });
   by('TA4/4', /Tangente au point d'inflexion d'une cubique/, (q) => {
     const P = polyOf(q.statement.match(/f\(x\) = ([^$]*)\$/)[1]);

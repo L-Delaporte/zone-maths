@@ -1098,8 +1098,13 @@ window.MathsAdaptiveEngine = {
    * chaque facteur du premier degré sans diviseur commun à ses coefficients).
    * Égale mais incomplète ou non factorisée, ou écriture non reconnue : conseil sans pénalité.
    */
+  /** Retire un nom d'expression saisi devant la réponse : « f'(x) = », « E = », « g''(x)= »… */
+  stripExprName(answer) {
+    return String(answer == null ? '' : answer).replace(/^\s*[A-Za-z][A-Za-z0-9_]*\s*(?:['’′]{1,3}|'')?\s*(?:\(\s*x\s*\))?\s*=\s*/, '');
+  },
+
   checkFactorisation(userAnswer, expected) {
-    const u = this.parsePolyExpr(userAnswer), e = this.parsePolyExpr(expected);
+    const u = this.parsePolyExpr(this.stripExprName(userAnswer)), e = this.parsePolyExpr(expected);
     if (!e) return { correct: false };
     if (!u) return { correct: false, advice: 'factorSyntax' };
     const same = u.poly.length === e.poly.length && u.poly.every((c, j) => c === e.poly[j]);
@@ -1117,7 +1122,7 @@ window.MathsAdaptiveEngine = {
    * et aucun terme nul (l'ordre des termes est libre). Égale mais non réduite : conseil sans pénalité.
    */
   checkDeveloppement(userAnswer, expected) {
-    const u = this.parsePolyExpr(userAnswer), e = this.parsePolyExpr(expected);
+    const u = this.parsePolyExpr(this.stripExprName(userAnswer)), e = this.parsePolyExpr(expected);
     if (!e) return { correct: false };
     if (!u) return { correct: false, advice: 'exprSyntax' };
     const same = u.poly.length === e.poly.length && u.poly.every((c, j) => c === e.poly[j]);
