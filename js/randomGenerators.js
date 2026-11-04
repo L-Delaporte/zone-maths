@@ -759,7 +759,7 @@
       const A = +(tr[0] * tr[1] / 2).toFixed(4);
       return this._h3b_mk({
         title: 'Problème type brevet : démontrer puis calculer une aire',
-        statement: `Un jardin triangulaire $${V.join('')}$ a pour côtés ${order.map(k => `$${k} = ${f(sides[k])}\\text{ m}$`).join(', ')}.\n1. Démontrer que le triangle $${V.join('')}$ est rectangle.\n2. **En déduire l'aire du jardin, en $\\text{m}^2$.**`,
+        statement: `Un jardin triangulaire $${V.join('')}$ a pour côtés ${order.map(k => `$${k} = ${f(sides[k])}\\text{ m}$`).join(', ')}.\n**Calculer l'aire du jardin, en $\\text{m}^2$.**`,
         answer: this._h3b_num(A, 4),
         hint1: "Utilise la réciproque du théorème de Pythagore avec le plus grand côté ; une fois l'angle droit trouvé, les deux autres côtés sont la base et la hauteur.",
         hint2: "Rappel : aire d'un triangle rectangle = (produit des côtés de l'angle droit) ÷ 2. " + H2R,
@@ -807,7 +807,7 @@
       const V = Math.PI * r * r * h / 3;
       return this._h3b_mk({
         title: "Problème type brevet : hauteur et volume d'un cône",
-        statement: `Un cône de révolution de sommet $S$ a une base de centre $O$ et de rayon $OA = ${r}\\text{ cm}$. Sa génératrice $[SA]$ mesure $${g}\\text{ cm}$.\n1. Calculer la hauteur $SO$.\n2. **En déduire le volume du cône, en $\\text{cm}^3$, arrondi à l'unité.**`,
+        statement: `Un cône de révolution de sommet $S$ a une base de centre $O$ et de rayon $OA = ${r}\\text{ cm}$. Sa génératrice $[SA]$ mesure $${g}\\text{ cm}$.\n**Calculer le volume du cône, en $\\text{cm}^3$, arrondi à l'unité.**`,
         answer: String(Math.round(V)),
         hint1: "La hauteur $[SO]$ est perpendiculaire à la base : le triangle $SOA$ est rectangle en $O$, d'hypoténuse la génératrice.",
         hint2: "Rappels : théorème de Pythagore ; volume d'un cône $\\mathcal{V} = \\frac{1}{3} \\times \\pi r^2 \\times h$.",
@@ -1066,7 +1066,7 @@
       const MN = p * BC / q;
       return this._h3b_mk({
         title: 'Problème type brevet : réciproque puis calcul',
-        statement: `${this.buildThalesEmboiteSvg({ lengths: { AM, MB, AN, NC, BC, MN: '?' } })}Les points $A, M, B$ d'une part et $A, N, C$ d'autre part sont alignés dans cet ordre. On donne $AM = ${AM}\\text{ cm}$, $MB = ${MB}\\text{ cm}$, $AN = ${AN}\\text{ cm}$, $NC = ${NC}\\text{ cm}$ et $BC = ${BC}\\text{ cm}$.\n1. Démontrer que les droites $(MN)$ et $(BC)$ sont parallèles.\n2. **Calculer $MN$, en cm.**`,
+        statement: `${this.buildThalesEmboiteSvg({ lengths: { AM, MB, AN, NC, BC, MN: '?' } })}Les points $A, M, B$ d'une part et $A, N, C$ d'autre part sont alignés dans cet ordre. On donne $AM = ${AM}\\text{ cm}$, $MB = ${MB}\\text{ cm}$, $AN = ${AN}\\text{ cm}$, $NC = ${NC}\\text{ cm}$ et $BC = ${BC}\\text{ cm}$.\n**Calculer $MN$, en cm.**`,
         answer: this._h3b_num(MN, 4),
         hint1: "Calcule $AB$ et $AC$, compare $\\frac{AM}{AB}$ et $\\frac{AN}{AC}$ (réciproque), puis utilise le théorème de Thalès pour $MN$.",
         hint2: H2R,
@@ -1284,11 +1284,11 @@
       if (Math.abs((a * 10) % 1 - 0.5) < 0.05) return rampe();
       return this._h3b_mk({
         title: "Problème type brevet : la rampe d'accès",
-        statement: `Une rampe d'accès rectiligne de $${L}\\text{ m}$ de long permet de monter une marche de $${f(h)}\\text{ m}$ de haut. Le règlement de la commune impose que la rampe fasse avec le sol horizontal un angle d'au plus $${lim}^\\circ$.\n1. **Calculer l'angle formé par la rampe et le sol, en degrés, arrondi au dixième.**\n2. La rampe est-elle conforme ?`,
+        statement: `Une rampe d'accès rectiligne de $${L}\\text{ m}$ de long permet de monter une marche de $${f(h)}\\text{ m}$ de haut. Le règlement de la commune impose que la rampe fasse avec le sol horizontal un angle d'au plus $${lim}^\\circ$.\n**Calculer l'angle formé par la rampe et le sol, en degrés, arrondi au dixième.**`,
         answer: this._h3b_num(a, 1),
         hint1: "La rampe est l'hypoténuse d'un triangle rectangle ; la hauteur de la marche est le côté opposé à l'angle cherché.",
         hint2: H2F + " L'angle s'obtient avec Arcsin à la calculatrice.",
-        solution: `1. Le triangle formé par la rampe, le sol et la marche est rectangle. Pour l'angle $\\alpha$ au sol, la hauteur est le côté opposé et la rampe l'hypoténuse :\n$$\\sin(\\alpha) = \\frac{${f(h)}}{${L}} \\quad \\text{donc} \\quad \\alpha = \\operatorname{Arcsin}\\left(\\frac{${f(h)}}{${L}}\\right) \\approx ${f(rd(a, 1))}^\\circ$$\n2. ${a <= lim ? `$${f(rd(a, 1))}^\\circ \\leq ${lim}^\\circ$ : la rampe est conforme.` : `$${f(rd(a, 1))}^\\circ > ${lim}^\\circ$ : la rampe n'est pas conforme.`}`,
+        solution: `Le triangle formé par la rampe, le sol et la marche est rectangle. Pour l'angle $\\alpha$ au sol, la hauteur est le côté opposé et la rampe l'hypoténuse :\n$$\\sin(\\alpha) = \\frac{${f(h)}}{${L}} \\quad \\text{donc} \\quad \\alpha = \\operatorname{Arcsin}\\left(\\frac{${f(h)}}{${L}}\\right) \\approx ${f(rd(a, 1))}^\\circ$$\nConclusion : ${a <= lim ? `$${f(rd(a, 1))}^\\circ \\leq ${lim}^\\circ$, donc la rampe est conforme au règlement.` : `$${f(rd(a, 1))}^\\circ > ${lim}^\\circ$, donc la rampe n'est pas conforme au règlement.`}`,
         _v: { k: 'G2.rampe', L, h }
       });
     };
@@ -3118,7 +3118,7 @@
       const A2 = s2[0] * s2[1] / 2;
       return this._h3b_mk({
         title: 'Problème type brevet : similitude puis aire',
-        statement: `Les côtés du triangle $${T1.join('')}$ mesurent ${this.shuffle(s1).map(x => `$${x}$`).join(', ')} (en cm) ; ceux du triangle $${T2.join('')}$ mesurent ${this.shuffle(s2).map(x => `$${f(x)}$`).join(', ')} (en cm).\n1. Montrer que ces triangles sont semblables.\n2. Montrer que le triangle $${T1.join('')}$ est rectangle.\n3. **En déduire l'aire du triangle $${T2.join('')}$, en $\\text{cm}^2$.**`,
+        statement: `Les côtés du triangle $${T1.join('')}$ mesurent ${this.shuffle(s1).map(x => `$${x}$`).join(', ')} (en cm) ; ceux du triangle $${T2.join('')}$ mesurent ${this.shuffle(s2).map(x => `$${f(x)}$`).join(', ')} (en cm).\n**Calculer l'aire du triangle $${T2.join('')}$, en $\\text{cm}^2$.**`,
         answer: this._h3b_num(A2, 4),
         hint1: "Range les côtés dans l'ordre croissant pour comparer les quotients ; utilise la réciproque du théorème de Pythagore sur le petit triangle ; le grand triangle a les mêmes angles, donc il est rectangle aussi.",
         hint2: H2P + " L'aire d'un triangle rectangle est le demi-produit des côtés de l'angle droit.",
@@ -11940,7 +11940,7 @@
     const ans = `(${this.fracAnswer(lo[0], lo[1])};${this.fracAnswer(hi[0], hi[1])})`;
     return {
       title: 'Défi brevet : développer, factoriser, résoudre',
-      statement: `On considère $E = ${expr}$.\n1. Développer et réduire $E$.\n2. Factoriser $E$.\n3. Résoudre l'équation $E = 0$.\n**Donner les deux solutions sous la forme $(x_1 ; x_2)$ avec $x_1 < x_2$** (fractions irréductibles si besoin).`,
+      statement: `On considère $E = ${expr}$.\n**Résoudre l'équation $E = 0$. Donner les deux solutions sous la forme $(x_1 ; x_2)$ avec $x_1 < x_2$** (fractions irréductibles si besoin).`,
       answer: ans,
       placeholder: 'Ex : (-3/4;2)',
       hint1: `Pour résoudre $E = 0$, la forme factorisée est la plus utile : mets $${F}$ en facteur, réduis le crochet, puis applique la propriété du produit nul.`,
