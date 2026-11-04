@@ -10,7 +10,7 @@
  * NE PAS éditer à la main la liste ci-dessous ni CACHE_NAME : lancer `node scripts/build_versions.js`.
  */
 
-const CACHE_NAME = 'etabli-des-maths-23f7b9ba45';
+const CACHE_NAME = 'etabli-des-maths-9230fd884f';
 
 // @precache-start
 const PRECACHE_URLS = [
@@ -23,7 +23,7 @@ const PRECACHE_URLS = [
   './js/themeInit.js?v=b22b407710',
   './js/eventDelegation.js?v=89e87b61a8',
   './vendor/katex/katex.min.css?v=000b7545e1',
-  './css/style.css?v=17d35f5ec5',
+  './css/style.css?v=a8b36d0029',
   './css/sheets.css?v=1f1346a799',
   './vendor/katex/katex.min.js?v=9616b6e2a7',
   './vendor/katex/auto-render.min.js?v=491616b8c9',
@@ -39,7 +39,7 @@ const PRECACHE_URLS = [
   './js/mathRenderer.js?v=b18b8ba377',
   './js/geometryFigures.js?v=656295f7c5',
   './js/scratchRenderer.js?v=5f9033f40a',
-  './js/adaptiveEngine.js?v=0c6c2a4d8b',
+  './js/adaptiveEngine.js?v=2b6ae5e5d6',
   './js/generatorsCore.js?v=facc7f5c20',
   './js/proofEngine.js?v=f99d384bfd',
   './js/mathVisualizer.js?v=c374ad43df',
@@ -50,7 +50,7 @@ const PRECACHE_URLS = [
   './js/app.js?v=91be4f0ad1',
   './js/app/home.js?v=c25700373c',
   './js/app/tools.js?v=4b710dcdc8',
-  './js/app/training.js?v=30c97a1a56',
+  './js/app/training.js?v=ba83ffb75b',
   './js/app/course.js?v=8ee3ffdddf',
   './js/app/sheets.js?v=f612e1dce0',
   './js/app/defi.js?v=521135bee7',

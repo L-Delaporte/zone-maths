@@ -1143,15 +1143,15 @@
       const sw = Math.random() < 0.5; const adj = sw ? tr[0] : tr[1], opp = sw ? tr[1] : tr[0], hyp = tr[2];
       const fn = this.randChoice(['cos', 'sin', 'tan']);
       const num = fn === 'cos' ? adj : opp, den = fn === 'tan' ? adj : hyp;
-      const val = num / den; const exact = Math.abs(val - rd(val, 2)) < 1e-9;
+      const g = this.gcd(num, den);
       const L = {}; L[R + A] = adj + ' cm'; L[R + T] = opp + ' cm'; L[A + T] = hyp + ' cm';
       return this._h3b_mk({
         title: `Calculer la valeur d'un ${fn === 'cos' ? 'cosinus' : fn === 'sin' ? 'sinus' : 'tangente'}`.replace("d'un tangente", "d'une tangente"),
-        statement: `${this._h3b_trigFig(V, A, L, '', '', this.randInt(0, 3))}Le triangle $${R}${A}${T}$ est rectangle en $${R}$ avec $${R}${A} = ${adj}\\text{ cm}$, $${R}${T} = ${opp}\\text{ cm}$ et $${A}${T} = ${hyp}\\text{ cm}$.\n**Calculer $\\${fn}(\\widehat{${R}${A}${T}})$${exact ? '' : ' (arrondir au centième)'}.**`,
-        answer: this._h3b_num(val, 2),
+        statement: `${this._h3b_trigFig(V, A, L, '', '', this.randInt(0, 3))}Le triangle $${R}${A}${T}$ est rectangle en $${R}$ avec $${R}${A} = ${adj}\\text{ cm}$, $${R}${T} = ${opp}\\text{ cm}$ et $${A}${T} = ${hyp}\\text{ cm}$.\n**Donner la valeur exacte de $\\${fn}(\\widehat{${R}${A}${T}})$ sous forme de fraction.**`,
+        answer: `${num / g}/${den / g}`,
         hint1: `Pour l'angle en $${A}$, repère le côté opposé, le côté adjacent et l'hypoténuse, puis écris le quotient qui définit le ${fn === 'cos' ? 'cosinus' : fn === 'sin' ? 'sinus' : 'la tangente'}.`.replace('le la', 'la'),
         hint2: H2F,
-        solution: `Pour l'angle $\\widehat{${R}${A}${T}}$ : côté adjacent $[${R}${A}]$, côté opposé $[${R}${T}]$, hypoténuse $[${A}${T}]$.\n$$\\${fn}(\\widehat{${R}${A}${T}}) = \\frac{${fn === 'cos' ? R + A : R + T}}{${fn === 'tan' ? R + A : A + T}} = \\frac{${num}}{${den}} ${exact ? '=' : '\\approx'} ${f(rd(val, 2))}$$`,
+        solution: `Pour l'angle $\\widehat{${R}${A}${T}}$ : côté adjacent $[${R}${A}]$, côté opposé $[${R}${T}]$, hypoténuse $[${A}${T}]$.\n$$\\${fn}(\\widehat{${R}${A}${T}}) = \\frac{${fn === 'cos' ? R + A : R + T}}{${fn === 'tan' ? R + A : A + T}} = \\frac{${num}}{${den}}${g > 1 ? ` = \\frac{${num / g}}{${den / g}}` : ''}$$\nOn garde la valeur exacte (une fraction) : on n'arrondit pas un cosinus, un sinus ou une tangente.`,
         _v: { k: 'G2.rapportVal', fn, adj, opp, hyp }
       });
     };
@@ -8897,11 +8897,12 @@
           chapterId: '4N5',
           tier: 1,
           title: "Développement par simple distributivité",
-          statement: `Développer et réduire l'expression :\n$$D = ${k}(${a}x ${sign} ${b})$$\n**Quel est le coefficient de $x$ dans l'expression développée ?**`,
+          statement: `Développer et réduire l'expression :\n$$D = ${k}(${a}x ${sign} ${b})$$\n**Écrire l'expression développée et réduite.**`,
           type: "exact",
-          answer: String(ka),
+          answerType: 'developpement',
+          answer: this.formatPoly([ka, kb]).replace(/\s+/g, ''),
           hint1: `Distribue $${k}$ sur chaque terme dans la parenthèse : $${k} \\times ${a}x ${sign} ${k} \\times ${b}$.`,
-          solution: `$$D = ${k} \\times ${a}x ${sign} ${k} \\times ${b} = ${ka}x ${kb >= 0 ? '+ ' + kb : '- ' + Math.abs(kb)}$$\nLe coefficient de $x$ est $${ka}$.`
+          solution: `$$D = ${k} \\times ${a}x ${sign} ${k} \\times ${b} = ${ka}x ${kb >= 0 ? '+ ' + kb : '- ' + Math.abs(kb)}$$`
         };
       } else if (subType === 'expand_const') {
         const k = this.randInt(2, 5);
@@ -8913,11 +8914,12 @@
           chapterId: '4N5',
           tier: 1,
           title: "Terme constant après développement",
-          statement: `On développe l'expression :\n$$E = ${k}(${a}x ${sign} ${b})$$\n**Quel est le terme constant (sans $x$) du résultat ?**`,
+          statement: `Développer et réduire l'expression :\n$$E = ${k}(${a}x ${sign} ${b})$$\n**Écrire l'expression développée et réduite.**`,
           type: "exact",
-          answer: String(constTerm),
-          hint1: `Le terme constant s'obtient en multipliant $${k}$ par $(${sign}${b})$.`,
-          solution: `$$${k} \\times (${sign === '+' ? '+' : '-'}${b}) = ${constTerm}$$`
+          answerType: 'developpement',
+          answer: this.formatPoly([k * a, constTerm]).replace(/\s+/g, ''),
+          hint1: `Multiplie $${k}$ par chacun des deux termes de la parenthèse, en gardant le signe $${sign}$.`,
+          solution: `$$E = ${k} \\times ${a}x ${sign} ${k} \\times ${b} = ${this.formatPoly([k * a, constTerm])}$$`
         };
       } else if (subType === 'expand_neg_factor') {
         const k = this.randInt(2, 5);
@@ -8931,11 +8933,12 @@
           chapterId: '4N5',
           tier: 1,
           title: "Distributivité avec un facteur négatif",
-          statement: `Développer l'expression :\n$$F = -${k}(${a}x ${sign} ${b})$$\n**Quel est le coefficient de $x$ dans le résultat développé ?**`,
+          statement: `Développer et réduire l'expression :\n$$F = -${k}(${a}x ${sign} ${b})$$\n**Écrire l'expression développée et réduite.**`,
           type: "exact",
-          answer: String(resX),
+          answerType: 'developpement',
+          answer: this.formatPoly([resX, resConst]).replace(/\s+/g, ''),
           hint1: `Distribue $-${k}$ : $(-${k}) \\times ${a}x = ${resX}x$. Attention aux signes !`,
-          solution: `$$F = (-${k}) \\times (${a}x) + (-${k}) \\times (${bSigned}) = ${resX}x ${resConst >= 0 ? '+ ' + resConst : '- ' + Math.abs(resConst)}$$\nLe coefficient de $x$ est $${resX}$.`
+          solution: `$$F = (-${k}) \\times (${a}x) + (-${k}) \\times (${bSigned}) = ${resX}x ${resConst >= 0 ? '+ ' + resConst : '- ' + Math.abs(resConst)}$$`
         };
       } else if (subType === 'expand_and_reduce') {
         const k = this.randInt(2, 4);
@@ -8948,11 +8951,12 @@
           chapterId: '4N5',
           tier: 1,
           title: "Développer puis réduire avec constante",
-          statement: `Développer et réduire l'expression :\n$$G = ${k}(${a}x + ${b}) + ${c}$$\n**Quelle est la valeur du terme constant (le nombre sans $x$) ?**`,
+          statement: `Développer et réduire l'expression :\n$$G = ${k}(${a}x + ${b}) + ${c}$$\n**Écrire l'expression développée et réduite.**`,
           type: "exact",
-          answer: String(totalConst),
+          answerType: 'developpement',
+          answer: `${ka}x+${totalConst}`,
           hint1: `Développe d'abord $${k}(${a}x + ${b}) = ${ka}x + ${k * b}$, puis ajoute $${c}$.`,
-          solution: `$$G = ${ka}x + ${k * b} + ${c} = ${ka}x + ${totalConst}$$\nLe terme constant est $${totalConst}$.`
+          solution: `$$G = ${ka}x + ${k * b} + ${c} = ${ka}x + ${totalConst}$$`
         };
       } else {
         const k = this.randInt(2, 7);
@@ -8962,11 +8966,12 @@
           chapterId: '4N5',
           tier: 1,
           title: "Factorisation par un facteur commun simple",
-          statement: `Compléter la factorisation par $${k}$ de l'expression suivante :\n$$${k}x + ${kb} = ${k}(x + ?)$$\n**Quel est le nombre qui remplace le point d'interrogation ?**`,
+          statement: `Factoriser par $${k}$ l'expression suivante :\n$$${k}x + ${kb}$$\n**Écrire la forme factorisée.**`,
           type: "exact",
-          answer: String(b),
-          hint1: `Divise $${kb}$ par $${k}$ pour trouver le nombre manquant.`,
-          solution: `$$${k}x + ${kb} = ${k} \\times x + ${k} \\times ${b} = ${k}(x + ${b})$$\nLe nombre manquant est **${b}**.`
+          answerType: 'factorisation',
+          answer: `${k}(x+${b})`,
+          hint1: `Écris chaque terme comme un produit par $${k}$ : divise $${kb}$ par $${k}$.`,
+          solution: `$$${k}x + ${kb} = ${k} \\times x + ${k} \\times ${b} = ${k}(x + ${b})$$`
         };
       }
     } else if (t === 2) {
@@ -9234,11 +9239,12 @@
           chapterId: '4N5',
           tier: 4,
           title: "Défi 3ème : Terme de degré 1 d'un produit",
-          statement: `Développer et réduire l'expression algébrique :\n$$E = (${this.formatPoly([a, b])})(${this.formatPoly([c, d])})$$\n\n**Quel est le coefficient du terme en $x$ (le terme du 1er degré) ?**`,
+          statement: `Développer et réduire l'expression algébrique :\n$$E = (${this.formatPoly([a, b])})(${this.formatPoly([c, d])})$$\n\n**Écrire l'expression développée et réduite.**`,
           type: "exact",
-          answer: String(coeffX),
+          answerType: 'developpement',
+          answer: this.formatPoly([coeffX2, coeffX, constTerm]).replace(/\s+/g, ''),
           hint1: `Formule de la double distributivité : $(ax + b)(cx + d) = ax \\times cx + ax \\times d + b \\times cx + b \\times d$.\nLe terme en $x$ provient de $(a \\times d + b \\times c)x$.`,
-          solution: `Développement pas à pas :\n$$E = (${a}x) \\times (${c}x) + (${a}x) \\times (${d}) + (${b}) \\times (${c}x) + (${b}) \\times (${d})$$\n$$E = ${coeffX2}x^2 + (${a * d})x + (${b * c})x + (${constTerm})$$\n$$E = ${this.formatPoly([coeffX2, coeffX, constTerm])}$$\nLe coefficient de $x$ (degré 1) est donc :\n$$${coeffX}$$`
+          solution: `Développement pas à pas :\n$$E = (${a}x) \\times (${c}x) + (${a}x) \\times (${d}) + (${b}) \\times (${c}x) + (${b}) \\times (${d})$$\n$$E = ${coeffX2}x^2 + (${a * d})x + (${b * c})x + (${constTerm})$$\n$$E = ${this.formatPoly([coeffX2, coeffX, constTerm])}$$`
         };
       } else if (subType === 'poly_deg2') {
         const variant = this.randChoice(['product', 'square']);
@@ -9253,11 +9259,12 @@
             chapterId: '4N5',
             tier: 4,
             title: "Défi 3ème : Terme de degré 2 d'un carré",
-            statement: `Développer et réduire l'expression algébrique :\n$$E = (${this.formatPoly([a, b])})^2$$\n\n**Quel est le coefficient du terme en $x^2$ (le terme du 2nd degré) ?**`,
+            statement: `Développer et réduire l'expression algébrique :\n$$E = (${this.formatPoly([a, b])})^2$$\n\n**Écrire l'expression développée et réduite.**`,
             type: "exact",
-            answer: String(coeffX2),
+            answerType: 'developpement',
+            answer: this.formatPoly([coeffX2, coeffX, coeffConst]).replace(/\s+/g, ''),
             hint1: `$(ax + b)^2 = (ax + b)(ax + b) = (ax)^2 + 2 \\times (ax) \\times b + b^2$. Le terme de degré 2 est $(ax)^2$.`,
-            solution: `On développe le carré :\n$$E = (${a}x)^2 + 2 \\times (${a}x) \\times (${b}) + (${b})^2$$\n$$E = ${coeffX2}x^2 ${this.formatSignedTerm(coeffX, 'x')} + ${coeffConst}$$\nLe coefficient du terme en $x^2$ (degré 2) est donc **$${coeffX2}$**.`
+            solution: `On développe le carré :\n$$E = (${a}x)^2 + 2 \\times (${a}x) \\times (${b}) + (${b})^2$$\n$$E = ${coeffX2}x^2 ${this.formatSignedTerm(coeffX, 'x')} + ${coeffConst}$$`
           };
         } else {
           const a = this.randInt(2, 5);
@@ -9272,11 +9279,12 @@
             chapterId: '4N5',
             tier: 4,
             title: "Défi 3ème : Terme de degré 2 d'un produit",
-            statement: `Développer et réduire l'expression algébrique :\n$$E = (${this.formatPoly([a, b])})(${this.formatPoly([c, d])})$$\n\n**Quel est le coefficient du terme en $x^2$ (le terme du 2nd degré) ?**`,
+            statement: `Développer et réduire l'expression algébrique :\n$$E = (${this.formatPoly([a, b])})(${this.formatPoly([c, d])})$$\n\n**Écrire l'expression développée et réduite.**`,
             type: "exact",
-            answer: String(coeffX2),
+            answerType: 'developpement',
+            answer: this.formatPoly([coeffX2, coeffX, constTerm]).replace(/\s+/g, ''),
             hint1: `Le terme en $x^2$ s'obtient en multipliant les termes contenant $x$ entre eux : $(ax) \\times (cx) = (a \\times c)x^2$.`,
-            solution: `Par double distributivité :\n$$E = (${a}x) \\times (${c}x) + (${a}x) \\times (${d}) + (${b}) \\times (${c}x) + (${b}) \\times (${d})$$\n$$E = ${coeffX2}x^2 ${this.formatSignedTerm(coeffX, 'x')} ${this.formatSigned(constTerm)}$$\nLe coefficient du terme en $x^2$ (degré 2) est donc **$${coeffX2}$**.`
+            solution: `Par double distributivité :\n$$E = (${a}x) \\times (${c}x) + (${a}x) \\times (${d}) + (${b}) \\times (${c}x) + (${b}) \\times (${d})$$\n$$E = ${coeffX2}x^2 ${this.formatSignedTerm(coeffX, 'x')} ${this.formatSigned(constTerm)}$$`
           };
         }
       } else if (subType === 'poly_deg0') {
@@ -9290,11 +9298,12 @@
           chapterId: '4N5',
           tier: 4,
           title: "Défi 3ème : Terme constant (degré 0) d'un produit",
-          statement: `Développer et réduire l'expression algébrique :\n$$E = (${this.formatPoly([a, b])})(${this.formatPoly([c, d])})$$\n\n**Quelle est la valeur du terme constant (le nombre sans $x$, de degré 0) ?**`,
+          statement: `Développer et réduire l'expression algébrique :\n$$E = (${this.formatPoly([a, b])})(${this.formatPoly([c, d])})$$\n\n**Écrire l'expression développée et réduite.**`,
           type: "exact",
-          answer: String(constTerm),
-          hint1: `Le terme constant s'obtient en multipliant les deux nombres sans $x$ : $(${b}) \\times (${d})$. Attention aux signes !`,
-          solution: `Par double distributivité, les termes contenant $x$ se réduisent et le terme constant est le produit des deux constantes :\n$$(${b}) \\times (${d}) = ${constTerm}$$\nLe terme constant est donc **$${constTerm}$**.`
+          answerType: 'developpement',
+          answer: this.formatPoly([a * c, a * d + b * c, constTerm]).replace(/\s+/g, ''),
+          hint1: `Multiplie chaque terme de la première parenthèse par chaque terme de la seconde, puis regroupe les termes en $x$. Attention aux signes !`,
+          solution: `Par double distributivité :\n$$E = (${a}x) \\times (${c}x) + (${a}x) \\times (${d}) + (${b}) \\times (${c}x) + (${b}) \\times (${d})$$\n$$E = ${this.formatPoly([a * c, a * d + b * c, constTerm])}$$`
         };
       } else if (subType === 'poly_deg3') {
         const variant = this.randChoice(['monomial_distrib', 'binomial_trinomial']);
@@ -9313,11 +9322,12 @@
             chapterId: '4N5',
             tier: 4,
             title: "Défi 3ème : Terme de degré 3 d'une expression",
-            statement: `Développer et réduire l'expression algébrique :\n$$E = ${kStr}(${this.formatPoly([a, b])})(${this.formatPoly([c, d])})$$\n\n**Quel est le coefficient du terme en $x^3$ (le terme de degré 3) ?**`,
+            statement: `Développer et réduire l'expression algébrique :\n$$E = ${kStr}(${this.formatPoly([a, b])})(${this.formatPoly([c, d])})$$\n\n**Écrire l'expression développée et réduite.**`,
             type: "exact",
-            answer: String(coeffX3),
+            answerType: 'developpement',
+            answer: this.formatPoly([coeffX3, coeffX2, coeffX, 0]).replace(/\s+/g, ''),
             hint1: `Multiplie d'abord les deux parenthèses pour trouver le terme en $x^2$ : $(${a}x) \\times (${c}x) = ${a * c}x^2$. Multiplie ensuite par $${kStr}$ pour obtenir le terme en $x^3$.`,
-            solution: `1. Double distributivité des parenthèses :\n$$(${this.formatPoly([a, b])})(${this.formatPoly([c, d])}) = ${a * c}x^2 ${this.formatSignedTerm(a * d + b * c, 'x')} ${this.formatSigned(b * d)}$$\n2. Multiplication par $${kStr}$ :\n$$E = ${kStr} \\times (${a * c}x^2 ${this.formatSignedTerm(a * d + b * c, 'x')} ${this.formatSigned(b * d)}) = ${this.formatPoly([coeffX3, coeffX2, coeffX, 0])}$$\nLe coefficient du terme en $x^3$ (degré 3) est donc **$${coeffX3}$**.`
+            solution: `1. Double distributivité des parenthèses :\n$$(${this.formatPoly([a, b])})(${this.formatPoly([c, d])}) = ${a * c}x^2 ${this.formatSignedTerm(a * d + b * c, 'x')} ${this.formatSigned(b * d)}$$\n2. Multiplication par $${kStr}$ :\n$$E = ${kStr} \\times (${a * c}x^2 ${this.formatSignedTerm(a * d + b * c, 'x')} ${this.formatSigned(b * d)}) = ${this.formatPoly([coeffX3, coeffX2, coeffX, 0])}$$`
           };
         } else {
           const a = this.randInt(2, 3);
@@ -9334,11 +9344,12 @@
             chapterId: '4N5',
             tier: 4,
             title: "Défi 3ème : Terme de degré 3 avec trinôme",
-            statement: `Développer l'expression algébrique :\n$$E = (${this.formatPoly([a, b])})(${this.formatPoly([c, d, e])})$$\n\n**Quel est le coefficient du terme en $x^3$ (le terme de degré 3) ?**`,
+            statement: `Développer et réduire l'expression algébrique :\n$$E = (${this.formatPoly([a, b])})(${this.formatPoly([c, d, e])})$$\n\n**Écrire l'expression développée et réduite.**`,
             type: "exact",
-            answer: String(coeffX3),
+            answerType: 'developpement',
+            answer: this.formatPoly([coeffX3, coeffX2, coeffX, coeffConst]).replace(/\s+/g, ''),
             hint1: `Par distributivité, le terme en $x^3$ s'obtient uniquement par le produit du terme en $x$ de la 1ère parenthèse avec le terme en $x^2$ de la 2nde parenthèse.`,
-            solution: `Le seul produit donnant une puissance de 3 est :\n$$(${a}x) \\times (${c === 1 ? 'x^2' : `${c}x^2`}) = ${coeffX3}x^3$$\nEn développant entièrement :\n$$E = ${this.formatPoly([coeffX3, coeffX2, coeffX, coeffConst])}$$\nLe coefficient du terme en $x^3$ (degré 3) est **$${coeffX3}$**.`
+            solution: `Le seul produit donnant une puissance de 3 est :\n$$(${a}x) \\times (${c === 1 ? 'x^2' : `${c}x^2`}) = ${coeffX3}x^3$$\nEn développant entièrement :\n$$E = ${this.formatPoly([coeffX3, coeffX2, coeffX, coeffConst])}$$`
           };
         }
       } else if (subType === 'poly_deg4') {
@@ -9356,11 +9367,12 @@
             chapterId: '4N5',
             tier: 4,
             title: "Défi 3ème : Terme de degré 4 d'un produit",
-            statement: `Développer et réduire l'expression algébrique :\n$$E = (${this.formatPoly([a, 0, b])})(${this.formatPoly([c, 0, d])})$$\n\n**Quel est le coefficient du terme en $x^4$ (le terme de degré 4) ?**`,
+            statement: `Développer et réduire l'expression algébrique :\n$$E = (${this.formatPoly([a, 0, b])})(${this.formatPoly([c, 0, d])})$$\n\n**Écrire l'expression développée et réduite.**`,
             type: "exact",
-            answer: String(coeffX4),
+            answerType: 'developpement',
+            answer: this.formatPoly([coeffX4, 0, coeffX2, 0, constTerm]).replace(/\s+/g, ''),
             hint1: `Distribue chaque terme : $(ax^2) \\times (cx^2) = (a \\times c)x^4$. Rappel : $x^2 \\times x^2 = x^4$.`,
-            solution: `Par double distributivité :\n$$E = (${a}x^2) \\times (${c}x^2) + (${a}x^2) \\times (${d}) + (${b}) \\times (${c}x^2) + (${b}) \\times (${d})$$\n$$E = ${coeffX4}x^4 ${this.formatSignedTerm(coeffX2, 'x^2')} ${this.formatSigned(constTerm)}$$\nLe coefficient du terme en $x^4$ (degré 4) est donc **$${coeffX4}$**.`
+            solution: `Par double distributivité :\n$$E = (${a}x^2) \\times (${c}x^2) + (${a}x^2) \\times (${d}) + (${b}) \\times (${c}x^2) + (${b}) \\times (${d})$$\n$$E = ${coeffX4}x^4 ${this.formatSignedTerm(coeffX2, 'x^2')} ${this.formatSigned(constTerm)}$$`
           };
         } else {
           const k = this.randInt(1, 3);
@@ -9377,11 +9389,12 @@
             chapterId: '4N5',
             tier: 4,
             title: "Défi 3ème : Terme de degré 4 avec facteur $x^2$",
-            statement: `Développer et réduire l'expression algébrique :\n$$E = ${kStr}(${this.formatPoly([a, b])})(${this.formatPoly([c, d])})$$\n\n**Quel est le coefficient du terme en $x^4$ (le terme de degré 4) ?**`,
+            statement: `Développer et réduire l'expression algébrique :\n$$E = ${kStr}(${this.formatPoly([a, b])})(${this.formatPoly([c, d])})$$\n\n**Écrire l'expression développée et réduite.**`,
             type: "exact",
-            answer: String(coeffX4),
+            answerType: 'developpement',
+            answer: this.formatPoly([coeffX4, coeffX3, coeffX2, 0, 0]).replace(/\s+/g, ''),
             hint1: `Calcule d'abord le produit des parenthèses qui commence par $(ax)(cx) = (ac)x^2$, puis multiplie par $${kStr}$ devant.`,
-            solution: `1. Produit des parenthèses :\n$$(${this.formatPoly([a, b])})(${this.formatPoly([c, d])}) = ${a * c}x^2 ${this.formatSignedTerm(a * d + b * c, 'x')} ${this.formatSigned(b * d)}$$\n2. Distribution de $${kStr}$ :\n$$E = ${kStr} \\times (${a * c}x^2) + \\dots = ${coeffX4}x^4 ${this.formatSignedTerm(coeffX3, 'x^3')} ${this.formatSignedTerm(coeffX2, 'x^2')}$$\nLe coefficient du terme en $x^4$ (degré 4) est donc **$${coeffX4}$**.`
+            solution: `1. Produit des parenthèses :\n$$(${this.formatPoly([a, b])})(${this.formatPoly([c, d])}) = ${a * c}x^2 ${this.formatSignedTerm(a * d + b * c, 'x')} ${this.formatSigned(b * d)}$$\n2. Distribution de $${kStr}$ :\n$$E = ${kStr} \\times (${a * c}x^2) + \\dots = ${coeffX4}x^4 ${this.formatSignedTerm(coeffX3, 'x^3')} ${this.formatSignedTerm(coeffX2, 'x^2')}$$`
           };
         }
       } else if (subType === 'eq_double_distrib') {
@@ -9484,16 +9497,16 @@
       1: [
         () => {
           let a, b, c, d; do { a = this.randInt(-9, 9, [0]); c = this.randInt(-9, 9, [0]); b = this.randInt(-12, 12, [0]); d = this.randInt(-12, 12, [0]); } while (a + c === 0 || b + d === 0 || Math.abs(a + c) === 1);
-          const ask = this.randChoice(['x', 'c']);
           const expr = `${tx(a)} ${sgn(b)} ${stx(c)} ${sgn(d)}`;
           return Q({
             title: 'Réduire une expression littérale',
-            statement: `Réduire l'expression :\n$$R = ${expr}$$\n**${ask === 'x' ? 'Quel est le coefficient de $x$' : 'Quel est le terme constant (le nombre sans $x$)'} dans l'expression réduite ?**`,
-            answer: String(ask === 'x' ? a + c : b + d),
-            hint1: ask === 'x' ? 'Repère tous les termes en $x$ avec le signe qui les précède, puis additionne leurs coefficients.' : 'Repère tous les nombres sans $x$ avec le signe qui les précède, puis additionne-les.',
+            statement: `Réduire l'expression :\n$$R = ${expr}$$\n**Écrire l'expression réduite.**`,
+            answerType: 'developpement',
+            answer: P(a + c, b + d).replace(/\s+/g, ''),
+            hint1: 'Repère d\'une part les termes en $x$, d\'autre part les nombres sans $x$, chacun avec le signe qui le précède, puis additionne-les séparément.',
             hint2: H2_RED,
-            solution: `**Étape 1 (termes en $x$).** $${tx(a)} ${stx(c)} = (${a} ${sgn(c)})x = ${tx(a + c)}$.\n**Étape 2 (nombres).** $${b} ${sgn(d)} = ${b + d}$.\n**Conclusion :** $R = ${P(a + c, b + d)}$ ; ${ask === 'x' ? `le coefficient de $x$ est $${a + c}$` : `le terme constant est $${b + d}$`}.`,
-            _v: { k: '4N5.reduire', a, b, c, d, ask }
+            solution: `**Étape 1 (termes en $x$).** $${tx(a)} ${stx(c)} = (${a} ${sgn(c)})x = ${tx(a + c)}$.\n**Étape 2 (nombres).** $${b} ${sgn(d)} = ${b + d}$.\n**Conclusion :** $R = ${P(a + c, b + d)}$.`,
+            _v: { k: '4N5.reduire', a, b, c, d }
           });
         },
         () => {
@@ -9526,16 +9539,16 @@
         },
         () => {
           let a, b, c, d; do { a = this.randInt(-6, 6, [0]); b = this.randInt(-9, 9, [0]); c = this.randInt(-6, 6, [0]); d = this.randInt(-9, 9, [0]); } while (a + c === 0 || b + d === 0 || Math.abs(a + c) === 1 || Math.abs(b + d) === 1);
-          const ask = this.randChoice(['x2', 'x']);
           const expr = `${tx(a, 'x^2')} ${stx(b)} ${stx(c, 'x^2')} ${stx(d)}`;
           return Q({
             title: 'Réduire une expression avec des termes en $x^2$',
-            statement: `Réduire l'expression :\n$$B = ${expr}$$\n**Quel est le coefficient de ${ask === 'x2' ? '$x^2$' : '$x$'} dans l'expression réduite ?**`,
-            answer: String(ask === 'x2' ? a + c : b + d),
+            statement: `Réduire l'expression :\n$$B = ${expr}$$\n**Écrire l'expression réduite.**`,
+            answerType: 'developpement',
+            answer: this.formatPoly([a + c, b + d, 0]).replace(/\s+/g, ''),
             hint1: 'Les termes en $x^2$ et les termes en $x$ ne sont pas de même nature : on ne peut pas les regrouper ensemble. Souligne d\'une couleur les uns, d\'une autre couleur les autres.',
             hint2: `${H2_RED} Attention : $x^2$ et $x$ sont différents, $ax^2 + bx$ ne se réduit pas.`,
-            solution: `**Étape 1 (termes en $x^2$).** $${tx(a, 'x^2')} ${stx(c, 'x^2')} = ${tx(a + c, 'x^2')}$.\n**Étape 2 (termes en $x$).** $${tx(b)} ${stx(d)} = ${tx(b + d)}$.\n**Conclusion :** $B = ${tx(a + c, 'x^2')} ${stx(b + d)}$ ; le coefficient de ${ask === 'x2' ? '$x^2$' : '$x$'} est $${ask === 'x2' ? a + c : b + d}$.`,
-            _v: { k: '4N5.reduire2', a, b, c, d, ask }
+            solution: `**Étape 1 (termes en $x^2$).** $${tx(a, 'x^2')} ${stx(c, 'x^2')} = ${tx(a + c, 'x^2')}$.\n**Étape 2 (termes en $x$).** $${tx(b)} ${stx(d)} = ${tx(b + d)}$.\n**Conclusion :** $B = ${tx(a + c, 'x^2')} ${stx(b + d)}$.`,
+            _v: { k: '4N5.reduire2', a, b, c, d }
           });
         }
       ],
@@ -10217,15 +10230,15 @@
       2: [
         () => {
           const a = this.randInt(2, 9), b = this.randInt(2, 9) * this.randChoice([1, -1]);
-          const ask = this.randChoice(['m', 'p']);
           return Q({
             title: 'Traduire un programme de calcul par une formule',
-            statement: `Programme de calcul : « Choisir un nombre ; ${b > 0 ? `ajouter $${b}$` : `soustraire $${-b}$`} ; multiplier le résultat par $${a}$. »\nEn notant $x$ le nombre choisi, le résultat s'écrit, après développement, $mx + p$.\n**Quelle est la valeur de $${ask}$ ?**`,
-            answer: String(ask === 'm' ? a : a * b),
+            statement: `Programme de calcul : « Choisir un nombre ; ${b > 0 ? `ajouter $${b}$` : `soustraire $${-b}$`} ; multiplier le résultat par $${a}$. »\nEn notant $x$ le nombre choisi, **écrire le résultat en fonction de $x$, sous forme développée et réduite.**`,
+            answerType: 'developpement',
+            answer: `${a}x${a * b > 0 ? '+' : ''}${a * b}`,
             hint1: 'Écris le résultat avec des parenthèses (la multiplication porte sur tout le résultat de la première étape), puis développe.',
             hint2: `${PROG} Distributivité : $k(x + c) = kx + kc$.`,
-            solution: `**Étape 1 (traduction).** $(x ${b > 0 ? `+ ${b}` : `- ${-b}`}) \\times ${a} = ${a}(x ${b > 0 ? `+ ${b}` : `- ${-b}`})$.\n**Étape 2 (développement).** $${a}(x ${b > 0 ? `+ ${b}` : `- ${-b}`}) = ${a}x ${a * b > 0 ? `+ ${a * b}` : `- ${-a * b}`}$.\n**Conclusion :** $m = ${a}$ et $p = ${a * b}$ ; on demandait $${ask} = ${ask === 'm' ? a : a * b}$.`,
-            _v: { k: '4P2.formule', a, b, ask }
+            solution: `**Étape 1 (traduction).** $(x ${b > 0 ? `+ ${b}` : `- ${-b}`}) \\times ${a} = ${a}(x ${b > 0 ? `+ ${b}` : `- ${-b}`})$.\n**Étape 2 (développement).** $${a}(x ${b > 0 ? `+ ${b}` : `- ${-b}`}) = ${a}x ${a * b > 0 ? `+ ${a * b}` : `- ${-a * b}`}$.\n**Conclusion :** le résultat est $${a}x ${a * b > 0 ? `+ ${a * b}` : `- ${-a * b}`}$.`,
+            _v: { k: '4P2.formule', a, b }
           });
         },
         () => {
@@ -11031,33 +11044,33 @@
 
   _h3a_N2_dist1(t) {
     const k = this.randInt(-9, 9, [0, 1, -1]), a = this.randInt(1, 9) * this.randChoice([1, -1]), b = this.randInt(-12, 12, [0]);
-    const ask = this.randChoice([1, 0]);
     const m = k * a, p = k * b;
     return {
       title: 'Développer avec la distributivité simple',
-      statement: `On développe et on réduit $A = ${k}(${this._h3a_N2_lin(a, b)})$ ; on obtient une expression de la forme $mx + p$.\n**Donner ${ask ? 'le coefficient $m$ de $x$' : 'le terme constant $p$'}.**`,
-      answer: `${ask ? m : p}`,
+      statement: `Développer et réduire l'expression $A = ${k}(${this._h3a_N2_lin(a, b)})$.\n**Écrire l'expression développée et réduite.**`,
+      answer: this.formatPoly([m, p]).replace(/\s+/g, ''),
+      answerType: 'developpement',
       hint1: `Multiplie $${k}$ par chacun des deux termes de la parenthèse, sans oublier les signes.`,
       hint2: "Rappel (distributivité simple) : $k(a + b) = k \\times a + k \\times b$. Règle des signes : deux facteurs de signes contraires donnent un produit négatif.",
-      solution: `**Étape 1 — Distribuer** : $$A = ${k} \\times ${this._h3a_p(a)}x + ${this._h3a_p(k)} \\times ${this._h3a_p(b)}$$\n**Étape 2 — Calculer** : $A = ${this.formatPoly([m, p])}$.\n**Conclusion** : ${ask ? `$m = ${m}$` : `$p = ${p}$`}.`,
-      _v: { k: '3N2.poly', P: [[[k], [a, b]]], deg: ask }
+      solution: `**Étape 1 — Distribuer** : $$A = ${k} \\times ${this._h3a_p(a)}x + ${this._h3a_p(k)} \\times ${this._h3a_p(b)}$$\n**Étape 2 — Calculer** : $A = ${this.formatPoly([m, p])}$.`,
+      _v: { k: '3N2.poly', P: [[[k], [a, b]]] }
     };
   },
 
   _h3a_N2_red1(t) {
     const a = this.randInt(1, 9), b = this.randInt(-12, 12, [0]), c = this.randInt(1, 9) * this.randChoice([1, -1]), d = this.randInt(-12, 12, [0]);
     const s = this.randChoice([1, -1]);
-    const ask = this.randChoice([1, 0]);
     const m = a + s * c, p = b + s * d;
     const inner = `${this.formatPoly([s * c, s * d])}`;
     return {
       title: s < 0 ? 'Supprimer des parenthèses précédées de « − »' : 'Supprimer des parenthèses et réduire',
-      statement: `On supprime les parenthèses et on réduit $B = (${this._h3a_N2_lin(a, b)}) ${s > 0 ? '+' : '-'} (${this._h3a_N2_lin(c, d)})$. On obtient $B = mx + p$.\n**Donner ${ask ? 'le coefficient $m$ de $x$' : 'le terme constant $p$'}.**`,
-      answer: `${ask ? m : p}`,
+      statement: `Supprimer les parenthèses et réduire $B = (${this._h3a_N2_lin(a, b)}) ${s > 0 ? '+' : '-'} (${this._h3a_N2_lin(c, d)})$.\n**Écrire l'expression réduite.**`,
+      answer: this.formatPoly([m, p]).replace(/\s+/g, ''),
+      answerType: 'developpement',
       hint1: s < 0 ? 'Le signe « − » devant la seconde parenthèse change le signe de chacun de ses termes. Regroupe ensuite les termes en $x$ et les nombres.' : 'Une parenthèse précédée de « + » se supprime sans rien changer. Regroupe ensuite les termes en $x$ et les nombres.',
       hint2: "Rappel : $+(a + b) = a + b$ et $-(a + b) = -a - b$. On ne peut additionner que des termes de même nature (des $x$ avec des $x$, des nombres avec des nombres).",
-      solution: `**Étape 1 — Supprimer les parenthèses** : $$B = ${this.formatPoly([a, b])} ${s * c > 0 ? '+' : '-'} ${inner.replace(/^-/, '')}$$\n**Étape 2 — Réduire** : $B = ${this.formatPoly([m, p])}$.\n**Conclusion** : ${ask ? `$m = ${m}$` : `$p = ${p}$`}.`,
-      _v: { k: '3N2.lin', a, b, c: s * c, d: s * d, deg: ask }
+      solution: `**Étape 1 — Supprimer les parenthèses** : $$B = ${this.formatPoly([a, b])} ${s * c > 0 ? '+' : '-'} ${inner.replace(/^-/, '')}$$\n**Étape 2 — Réduire** : $B = ${this.formatPoly([m, p])}$.`,
+      _v: { k: '3N2.lin', a, b, c: s * c, d: s * d }
     };
   },
 
@@ -11066,42 +11079,43 @@
       const a = this.randInt(-9, 9, [0, 1, -1]), b = this.randInt(-9, 9, [0, 1, -1]);
       return {
         title: 'Réduire un produit',
-        statement: `Réduire le produit $C = ${a}x \\times ${this._h3a_p(b)}x$. On obtient $C = kx^2$.\n**Donner la valeur de $k$.**`,
-        answer: `${a * b}`,
+        statement: `Réduire le produit $C = ${a}x \\times ${this._h3a_p(b)}x$.\n**Écrire l'expression réduite.**`,
+        answer: `${this.formatCoef(a * b)}x^2`,
+        answerType: 'developpement',
         hint1: 'Multiplie les nombres entre eux, puis les lettres entre elles.',
         hint2: "Rappel : $x \\times x = x^2$, et le produit de deux nombres de même signe est positif, de signes contraires est négatif.",
-        solution: `$$C = ${a} \\times ${this._h3a_p(b)} \\times x \\times x = ${this.formatCoef(a * b)}x^2$$\n**Conclusion** : $k = ${a * b}$.`,
+        solution: `$$C = ${a} \\times ${this._h3a_p(b)} \\times x \\times x = ${this.formatCoef(a * b)}x^2$$`,
         _v: { k: '3N2.mono', a, b }
       };
     }
     const c = [this.randInt(-9, 9, [0]), this.randInt(-9, 9, [0]), this.randInt(-9, 9, [0]), this.randInt(-9, 9, [0])];
-    const ask = this.randChoice([1, 0]);
     // termes : c0 x, c1, c2 x, c3
     const terms = [`${this.formatCoef(c[0])}x`, `${c[1] > 0 ? '+' : '-'} ${Math.abs(c[1])}`, `${c[2] > 0 ? '+' : '-'} ${Math.abs(c[2]) === 1 ? '' : Math.abs(c[2])}x`, `${c[3] > 0 ? '+' : '-'} ${Math.abs(c[3])}`];
     const m = c[0] + c[2], p = c[1] + c[3];
     return {
       title: 'Réduire une somme',
-      statement: `Réduire l'expression $D = ${terms.join(' ')}$. On obtient $D = mx + p$.\n**Donner ${ask ? 'le coefficient $m$ de $x$' : 'le terme constant $p$'}.**`,
-      answer: `${ask ? m : p}`,
-      hint1: ask ? 'Repère tous les termes en $x$ (avec le signe qui les précède) et additionne leurs coefficients.' : 'Repère tous les nombres sans $x$ (avec le signe qui les précède) et additionne-les.',
+      statement: `Réduire l'expression $D = ${terms.join(' ')}$.\n**Écrire l'expression réduite.**`,
+      answer: this.formatPoly([m, p]).replace(/\s+/g, ''),
+      answerType: 'developpement',
+      hint1: 'Regroupe d\'un côté les termes en $x$, de l\'autre les nombres sans $x$, chacun avec le signe qui le précède.',
       hint2: "Rappel : réduire, c'est regrouper les termes de même nature : $ax + bx = (a + b)x$.",
-      solution: `**Termes en $x$** : $${this.formatCoef(c[0])}x ${c[2] > 0 ? '+' : '-'} ${Math.abs(c[2]) === 1 ? '' : Math.abs(c[2])}x = ${m === 0 ? '0' : `${this.formatCoef(m)}x`}$.\n**Nombres** : $${c[1]} ${c[3] > 0 ? '+' : '-'} ${Math.abs(c[3])} = ${p}$.\n**Conclusion** : ${ask ? `$m = ${m}$` : `$p = ${p}$`}.`,
-      _v: { k: '3N2.lin', a: c[0], b: c[1], c: c[2], d: c[3], deg: ask }
+      solution: `**Termes en $x$** : $${this.formatCoef(c[0])}x ${c[2] > 0 ? '+' : '-'} ${Math.abs(c[2]) === 1 ? '' : Math.abs(c[2])}x = ${m === 0 ? '0' : `${this.formatCoef(m)}x`}$.\n**Nombres** : $${c[1]} ${c[3] > 0 ? '+' : '-'} ${Math.abs(c[3])} = ${p}$.\n**Conclusion** : $D = ${this.formatPoly([m, p])}$.`,
+      _v: { k: '3N2.lin', a: c[0], b: c[1], c: c[2], d: c[3] }
     };
   },
 
   _h3a_N2_dbl2(t) {
     const a = this.randInt(-9, 9, [0]), b = this.randInt(-9, 9, [0, -a]);
-    const ask = this.randChoice([1, 0]);
     const B = a + b, C = a * b;
     return {
       title: 'Double distributivité $(x + a)(x + b)$',
-      statement: `On développe et on réduit $E = (${this.formatPoly([1, a])})(${this.formatPoly([1, b])})$ ; on obtient $E = x^2 + mx + p$.\n**Donner ${ask ? 'le coefficient $m$ de $x$' : 'le terme constant $p$'}.**`,
-      answer: `${ask ? B : C}`,
+      statement: `Développer et réduire l'expression $E = (${this.formatPoly([1, a])})(${this.formatPoly([1, b])})$.\n**Écrire l'expression développée et réduite.**`,
+      answer: this.formatPoly([1, B, C]).replace(/\s+/g, ''),
+      answerType: 'developpement',
       hint1: 'Multiplie chaque terme de la première parenthèse par chaque terme de la seconde : tu dois obtenir 4 produits.',
       hint2: "Rappel : $(a + b)(c + d) = ac + ad + bc + bd$. Ensuite, on réduit les termes en $x$.",
-      solution: `**Étape 1 — Les 4 produits** : $$E = x \\times x + x \\times ${this._h3a_p(b)} + ${this._h3a_p(a)} \\times x + ${this._h3a_p(a)} \\times ${this._h3a_p(b)}$$\n**Étape 2 — Réduire** : $E = ${this.formatPoly([1, B, C])}$.\n**Conclusion** : ${ask ? `$m = ${B}$` : `$p = ${C}$`}.`,
-      _v: { k: '3N2.poly', P: [[[1, a], [1, b]]], deg: ask }
+      solution: `**Étape 1 — Les 4 produits** : $$E = x \\times x + x \\times ${this._h3a_p(b)} + ${this._h3a_p(a)} \\times x + ${this._h3a_p(a)} \\times ${this._h3a_p(b)}$$\n**Étape 2 — Réduire** : $E = ${this.formatPoly([1, B, C])}$.`,
+      _v: { k: '3N2.poly', P: [[[1, a], [1, b]]] }
     };
   },
 
@@ -11112,23 +11126,24 @@
     if (form === 0) {
       lhs = `(${this.formatCoef(a)}x + ${b})^2`; rhs = `${a * a === 1 ? '' : a * a}x^2 + \\square\\, x + ${b * b}`; ans = 2 * a * b;
       sol = `$(u + v)^2 = u^2 + 2uv + v^2$ avec $u = ${this.formatCoef(a)}x$ et $v = ${b}$ : le terme du milieu est $2 \\times ${this.formatCoef(a)}x \\times ${b} = ${ans}x$.`;
-      hint1 = `Le terme manquant est le « double produit » des deux termes $${this.formatCoef(a)}x$ et $${b}$.`;
+      hint1 = `Le terme du milieu est le « double produit » des deux termes $${this.formatCoef(a)}x$ et $${b}$.`;
     } else if (form === 1) {
       lhs = `(${this.formatCoef(a)}x - ${b})^2`; rhs = `${a * a === 1 ? '' : a * a}x^2 - \\square\\, x + ${b * b}`; ans = 2 * a * b;
       sol = `$(u - v)^2 = u^2 - 2uv + v^2$ avec $u = ${this.formatCoef(a)}x$ et $v = ${b}$ : le terme du milieu est $-2 \\times ${this.formatCoef(a)}x \\times ${b} = -${ans}x$.`;
-      hint1 = `Le terme manquant est le « double produit » des deux termes $${this.formatCoef(a)}x$ et $${b}$.`;
+      hint1 = `Le terme du milieu est le « double produit » des deux termes $${this.formatCoef(a)}x$ et $${b}$.`;
     } else {
       lhs = `(${this.formatCoef(a)}x - ${b})(${this.formatCoef(a)}x + ${b})`; rhs = `${a * a === 1 ? '' : a * a}x^2 - \\square`; ans = b * b;
       sol = `$(u - v)(u + v) = u^2 - v^2$ avec $u = ${this.formatCoef(a)}x$ et $v = ${b}$ : $v^2 = ${b}^2 = ${ans}$.`;
       hint1 = `Reconnais le produit d'une somme par une différence des deux mêmes termes $${this.formatCoef(a)}x$ et $${b}$.`;
     }
     return {
-      title: 'Compléter une identité remarquable',
-      statement: `Compléter l'égalité suivante, vraie pour tout nombre $x$ :\n$$${lhs} = ${rhs}$$\n**Quel nombre faut-il écrire à la place du carré ?**`,
-      answer: `${ans}`,
+      title: 'Développer avec une identité remarquable',
+      statement: `À l'aide d'une identité remarquable, développer et réduire :\n$$${lhs}$$\n**Écrire l'expression développée et réduite.**`,
+      answer: (form === 2 ? this.formatPoly([a * a, 0, -b * b]) : this.formatPoly([a * a, form === 0 ? ans : -ans, b * b])).replace(/\s+/g, ''),
+      answerType: 'developpement',
       hint1,
       hint2: "Rappel : $(a + b)^2 = a^2 + 2ab + b^2$ ; $(a - b)^2 = a^2 - 2ab + b^2$ ; $(a - b)(a + b) = a^2 - b^2$.",
-      solution: `${sol}\n**Conclusion** : on écrit $${ans}$ à la place du carré.`,
+      solution: `${sol}\n**Conclusion** : $${lhs} = ${rhs.replace(/\\square(\\, )?/, ans)}$.`,
       _v: { k: '3N2.fill', form, a, b }
     };
   },
@@ -11163,49 +11178,49 @@
 
   _h3a_N2_dbl3(t) {
     const a = this.randInt(2, 7) * this.randChoice([1, -1]), b = this.randInt(-9, 9, [0]), c = this.randInt(2, 7), d = this.randInt(-9, 9, [0]);
-    const deg = this.randChoice([2, 1, 1, 0]);
     const co = [a * c, a * d + b * c, b * d];
     return {
-      title: 'Double distributivité : coefficient demandé',
-      statement: `On développe et on réduit $F = (${this.formatPoly([a, b])})(${this.formatPoly([c, d])})$ ; on obtient $F = mx^2 + nx + p$.\n**Donner ${deg === 2 ? 'le coefficient $m$' : deg === 1 ? 'le coefficient $n$' : 'le terme constant $p$'}.**`,
-      answer: `${co[2 - deg]}`,
-      hint1: deg === 1 ? 'Le terme en $x$ provient de deux des quatre produits : repère-les, calcule-les avec leur signe, puis additionne-les.' : 'Écris les quatre produits obtenus par double distributivité avec leur signe, puis repère celui qui est demandé.',
+      title: 'Double distributivité',
+      statement: `Développer et réduire l'expression $F = (${this.formatPoly([a, b])})(${this.formatPoly([c, d])})$.\n**Écrire l'expression développée et réduite.**`,
+      answer: this.formatPoly(co).replace(/\s+/g, ''),
+      answerType: 'developpement',
+      hint1: 'Écris les quatre produits obtenus par double distributivité avec leur signe ; deux d\'entre eux sont des termes en $x$ à additionner.',
       hint2: "Rappel : $(a + b)(c + d) = ac + ad + bc + bd$ ; puis on réduit en regroupant les termes de même degré.",
-      solution: `**Étape 1 — Les 4 produits** : $$F = ${this.formatCoef(a * c)}x^2 ${a * d >= 0 ? '+' : '-'} ${Math.abs(a * d)}x ${b * c >= 0 ? '+' : '-'} ${Math.abs(b * c)}x ${b * d >= 0 ? '+' : '-'} ${Math.abs(b * d)}$$\n**Étape 2 — Réduire** : $F = ${this.formatPoly(co)}$.\n**Conclusion** : ${deg === 2 ? `$m = ${co[0]}$` : deg === 1 ? `$n = ${co[1]}$` : `$p = ${co[2]}$`}.`,
-      _v: { k: '3N2.poly', P: [[[a, b], [c, d]]], deg }
+      solution: `**Étape 1 — Les 4 produits** : $$F = ${this.formatCoef(a * c)}x^2 ${a * d >= 0 ? '+' : '-'} ${Math.abs(a * d)}x ${b * c >= 0 ? '+' : '-'} ${Math.abs(b * c)}x ${b * d >= 0 ? '+' : '-'} ${Math.abs(b * d)}$$\n**Étape 2 — Réduire** : $F = ${this.formatPoly(co)}$.`,
+      _v: { k: '3N2.poly', P: [[[a, b], [c, d]]] }
     };
   },
 
   _h3a_N2_sum3(t) {
     const a = this.randInt(1, 5), b = this.randInt(-7, 7, [0]), c = this.randInt(1, 5), d = this.randInt(-7, 7, [0]), e = this.randInt(1, 4), f = this.randInt(-7, 7, [0]);
-    const deg = this.randChoice([2, 1, 0]);
     const sq = [a * a, 2 * a * b, b * b], pr = [c * e, c * f + d * e, d * f];
     const r = [sq[0] - pr[0], sq[1] - pr[1], sq[2] - pr[2]];
     const L = `(${this.formatPoly([a, b])})^2`;
     return {
       title: 'Développer une expression type brevet',
-      statement: `On considère $G = ${L} - (${this.formatPoly([c, d])})(${this.formatPoly([e, f])})$.\nOn développe et on réduit $G$ sous la forme $mx^2 + nx + p$.\n**Donner ${deg === 2 ? 'le coefficient $m$' : deg === 1 ? 'le coefficient $n$' : 'le terme constant $p$'}.**`,
-      answer: `${r[2 - deg]}`,
+      statement: `On considère $G = ${L} - (${this.formatPoly([c, d])})(${this.formatPoly([e, f])})$.\nDévelopper et réduire $G$.\n**Écrire l'expression développée et réduite.**`,
+      answer: this.formatPoly(r).replace(/\s+/g, ''),
+      answerType: 'developpement',
       hint1: `Développe séparément $${L}$ (identité remarquable) et le produit, puis soustrais en mettant le second développement entre parenthèses.`,
       hint2: "Rappel : $(a + b)^2 = a^2 + 2ab + b^2$ et $(a - b)^2 = a^2 - 2ab + b^2$ ; un signe « − » devant une parenthèse change tous les signes à l'intérieur.",
-      solution: `**Étape 1** : $${L} = ${this.formatPoly(sq)}$.\n**Étape 2** : $(${this.formatPoly([c, d])})(${this.formatPoly([e, f])}) = ${this.formatPoly(pr)}$.\n**Étape 3** : $G = ${this.formatPoly(sq)} - (${this.formatPoly(pr)}) = ${this.formatPoly(r)}$.\n**Conclusion** : ${deg === 2 ? `$m = ${r[0]}$` : deg === 1 ? `$n = ${r[1]}$` : `$p = ${r[2]}$`}.`,
-      _v: { k: '3N2.poly', P: [[[a, b], [a, b]], [[-c, -d], [e, f]]], deg }
+      solution: `**Étape 1** : $${L} = ${this.formatPoly(sq)}$.\n**Étape 2** : $(${this.formatPoly([c, d])})(${this.formatPoly([e, f])}) = ${this.formatPoly(pr)}$.\n**Étape 3** : $G = ${this.formatPoly(sq)} - (${this.formatPoly(pr)}) = ${this.formatPoly(r)}$.`,
+      _v: { k: '3N2.poly', P: [[[a, b], [a, b]], [[-c, -d], [e, f]]] }
     };
   },
 
   _h3a_N2_prog3(t) {
     const a = this.randInt(2, 9), b = this.randInt(1, 9, [a]);
     const s = this.randChoice([1, -1]);
-    const ask = this.randChoice([1, 0]);
     const k = a + s * b, p = s * a * b;
     return {
       title: 'Programme de calcul et développement',
-      statement: `Voici un programme de calcul :\n- Choisir un nombre $x$.\n- Calculer le produit de ($x$ plus ${a}) par ($x$ ${s > 0 ? 'plus' : 'moins'} ${b}).\n- Soustraire le carré du nombre choisi.\n\nOn montre que le résultat s'écrit $kx + p$. **Donner la valeur de ${ask ? '$k$' : '$p$'}.**`,
-      answer: `${ask ? k : p}`,
+      statement: `Voici un programme de calcul :\n- Choisir un nombre $x$.\n- Calculer le produit de ($x$ plus ${a}) par ($x$ ${s > 0 ? 'plus' : 'moins'} ${b}).\n- Soustraire le carré du nombre choisi.\n\n**Exprimer le résultat en fonction de $x$, sous forme développée et réduite.**`,
+      answer: this.formatPoly([k, p]).replace(/\s+/g, ''),
+      answerType: 'developpement',
       hint1: 'Traduis le programme par une expression en $x$, puis développe le produit avant de soustraire $x^2$.',
       hint2: "Rappel : $(x + a)(x + b) = x^2 + bx + ax + ab$ ; le carré du nombre choisi est $x^2$.",
-      solution: `**Étape 1 — Expression** : $R = (x + ${a})(${this.formatPoly([1, s * b])}) - x^2$.\n**Étape 2 — Développement** : $(x + ${a})(${this.formatPoly([1, s * b])}) = ${this.formatPoly([1, k, p])}$.\n**Étape 3** : $R = ${this.formatPoly([1, k, p])} - x^2 = ${this.formatPoly([k, p])}$.\n**Conclusion** : ${ask ? `$k = ${k}$` : `$p = ${p}$`}.`,
-      _v: { k: '3N2.poly', P: [[[1, a], [1, s * b]], [[-1, 0], [1, 0]]], deg: ask }
+      solution: `**Étape 1 — Expression** : $R = (x + ${a})(${this.formatPoly([1, s * b])}) - x^2$.\n**Étape 2 — Développement** : $(x + ${a})(${this.formatPoly([1, s * b])}) = ${this.formatPoly([1, k, p])}$.\n**Étape 3** : $R = ${this.formatPoly([1, k, p])} - x^2 = ${this.formatPoly([k, p])}$.`,
+      _v: { k: '3N2.poly', P: [[[1, a], [1, s * b]], [[-1, 0], [1, 0]]] }
     };
   },
 
@@ -11228,12 +11243,13 @@
       const a = this.randInt(1, 6), b = this.randInt(1, 9);
       return {
         title: 'Défi : démontrer une égalité',
-        statement: `Pour tout nombre $x$, on pose $A = (${this.formatCoef(a)}x + ${b})^2 - (${this.formatCoef(a)}x - ${b})^2$.\nEn développant, on montre que $A = kx$ pour un certain nombre $k$. **Donner $k$.**`,
-        answer: `${4 * a * b}`,
+        statement: `Pour tout nombre $x$, on pose $A = (${this.formatCoef(a)}x + ${b})^2 - (${this.formatCoef(a)}x - ${b})^2$.\n**Développer et réduire $A$.** (On doit obtenir un seul terme.)`,
+        answer: `${4 * a * b}x`,
+        answerType: 'developpement',
         hint1: 'Développe chacun des deux carrés avec une identité remarquable, puis soustrais en faisant attention aux signes : plusieurs termes s\'éliminent.',
         hint2: "Rappel : $(u + v)^2 = u^2 + 2uv + v^2$ et $(u - v)^2 = u^2 - 2uv + v^2$. Variante : $U^2 - V^2 = (U - V)(U + V)$.",
-        solution: `**Étape 1** : $(${this.formatCoef(a)}x + ${b})^2 = ${this.formatPoly([a * a, 2 * a * b, b * b])}$ et $(${this.formatCoef(a)}x - ${b})^2 = ${this.formatPoly([a * a, -2 * a * b, b * b])}$.\n**Étape 2** : $A = ${this.formatPoly([a * a, 2 * a * b, b * b])} - ${a * a === 1 ? '' : a * a}x^2 + ${2 * a * b}x - ${b * b} = ${4 * a * b}x$.\n**Conclusion** : $k = ${4 * a * b}$.`,
-        _v: { k: '3N2.poly', P: [[[a, b], [a, b]], [[-a, b], [a, -b]]], deg: 1 }
+        solution: `**Étape 1** : $(${this.formatCoef(a)}x + ${b})^2 = ${this.formatPoly([a * a, 2 * a * b, b * b])}$ et $(${this.formatCoef(a)}x - ${b})^2 = ${this.formatPoly([a * a, -2 * a * b, b * b])}$.\n**Étape 2** : $A = ${this.formatPoly([a * a, 2 * a * b, b * b])} - ${a * a === 1 ? '' : a * a}x^2 + ${2 * a * b}x - ${b * b} = ${4 * a * b}x$.`,
+        _v: { k: '3N2.poly', P: [[[a, b], [a, b]], [[-a, b], [a, -b]]] }
       };
     }
     const a = this.randInt(1, 9), b = this.randInt(1, 9, [a]);
@@ -18063,6 +18079,7 @@
           title: "Réduction d'une somme de termes en x",
           statement: `Réduire l'expression littérale suivante :\n$$A = ${a}x + ${b}x$$`,
           type: "exact",
+          answerType: 'developpement',
           answer: `${sum}x`,
           hint1: `Factorise par $x$ : $(${a} + ${b})x$.`,
           solution: `$$A = (${a} + ${b})x = ${sum}x$$`
@@ -18078,6 +18095,7 @@
           title: "Réduction d'une différence de termes en x",
           statement: `Réduire l'expression littérale suivante :\n$$B = ${a}x - ${b}x$$`,
           type: "exact",
+          answerType: 'developpement',
           answer: ans,
           hint1: `Soustrais les coefficients : $(${a} - ${b})x$.`,
           solution: `$$B = (${a} - ${b})x = ${ans}$$`
@@ -18092,6 +18110,7 @@
             title: "Réduction avec le terme x seul",
             statement: `Réduire l'expression littérale suivante :\n$$C = x + ${a}x$$`,
             type: "exact",
+          answerType: 'developpement',
             answer: `${1 + a}x`,
             hint1: `Rappelle-toi que $x$ s'écrit aussi $1x$. Donc $1x + ${a}x = (1 + ${a})x$.`,
             solution: `$$C = 1x + ${a}x = (1 + ${a})x = ${1 + a}x$$`
@@ -18103,9 +18122,10 @@
             title: "Réduction avec le terme x seul",
             statement: `Réduire l'expression littérale suivante :\n$$C = ${a}x - x$$`,
             type: "exact",
-            answer: `${a - 1}x`,
+          answerType: 'developpement',
+            answer: a === 2 ? 'x' : `${a - 1}x`,
             hint1: `Rappelle-toi que $x$ s'écrit aussi $1x$. Donc $${a}x - 1x = (${a} - 1)x$.`,
-            solution: `$$C = ${a}x - 1x = (${a} - 1)x = ${a - 1}x$$`
+            solution: `$$C = ${a}x - 1x = (${a} - 1)x = ${a === 2 ? '' : a - 1}x$$`
           };
         }
       } else if (subType === 'three_terms') {
@@ -18119,6 +18139,7 @@
           title: "Réduction de trois termes en x",
           statement: `Réduire l'expression littérale suivante :\n$$D = ${a}x + ${b}x + ${c}x$$`,
           type: "exact",
+          answerType: 'developpement',
           answer: `${sum}x`,
           hint1: `Additionne les trois coefficients ensemble : $(${a} + ${b} + ${c})x$.`,
           solution: `$$D = (${a} + ${b} + ${c})x = ${sum}x$$`
@@ -18133,6 +18154,7 @@
           title: "Multiplication d'un entier par un monôme",
           statement: `Simplifier l'expression littérale suivante :\n$$E = ${a} \\times (${b}x)$$`,
           type: "exact",
+          answerType: 'developpement',
           answer: `${prod}x`,
           hint1: `Multiplie les deux nombres ensemble : $(${a} \\times ${b}) \\times x$.`,
           solution: `$$E = (${a} \\times ${b})x = ${prod}x$$`

@@ -124,6 +124,9 @@ Object.assign(window.MathsApp, {
         if (exercise.answerType === 'factorisation') {
           safePlaceholder = 'Forme factorisée (ex : 3(x-2)(2x+5))';
           inputTip = '💡 Écris un produit : <code>3(x-2)(2x+5)</code> ; un carré s\'écrit <code>(x+1)^2</code> ; le signe × est facultatif.';
+        } else if (exercise.answerType === 'developpement') {
+          safePlaceholder = 'Expression réduite (ex : 6x^2+11x-4)';
+          inputTip = '💡 Écris l\'expression sans parenthèses : <code>6x^2+11x-4</code> ; un carré s\'écrit <code>x^2</code>.';
         } else if (ansStr.includes(';') || (ansStr.startsWith('(') && ansStr.endsWith(')'))) {
           safePlaceholder = 'Coordonnées (ex: (3;5) ou 3;5)';
           inputTip = '💡 Écris les coordonnées sous la forme <code>(x;y)</code> ou <code>x;y</code>.' + (showSqrtPi ? ' Racine : <code>√</code> ou <code>sqrt</code> ; π : <code>π</code> ou <code>pi</code>.' : '');

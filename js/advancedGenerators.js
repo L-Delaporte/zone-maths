@@ -351,15 +351,18 @@
      */
     toExact(q, input, instruction, explicit) {
       const ex = Object.assign({}, q);
-      ['options', 'choices', 'correctIndex', 'exactAnswer', 'keepMcq', 'exactInstruction'].forEach((k) => delete ex[k]);
+      ['options', 'choices', 'correctIndex', 'exactAnswer', 'keepMcq', 'exactInstruction', 'exactAnswerType'].forEach((k) => delete ex[k]);
       ex.type = 'exact';
+      // saisie d'une forme factorisée / développée : corrigée par checkFactorisation / checkDeveloppement
+      if (q.exactAnswerType) ex.answerType = q.exactAnswerType;
       ex.mcq = { statement: q.statement, answer: q.answer, options: q.options };
       if (explicit) ex.mcq.explicit = true; // saisie fournie par le générateur (q.exactAnswer)
       ex.answerTex = q.answer;
       ex.answer = String(input);
       ex.id = String(q.id || `${q.chapterId}-gen-${Date.now()}`).replace('-gen-', '-gen-x-');
       const instr = instruction || U.exactInstruction(ex.answer, q.statement);
-      ex.statement = `${q.statement}\n\n*${instr}*`;
+      // consigne d'une forme à écrire (« Écrire la forme factorisée. ») : en gras, comme au collège
+      ex.statement = q.exactAnswerType ? `${q.statement}\n**${instr}**` : `${q.statement}\n\n*${instr}*`;
       return ex;
     },
 
@@ -369,11 +372,12 @@
      * scientifique devient, avec la probabilité EXACT_RATE[tier], une question à saisie.
      * Le générateur peut piloter la conversion : q.exactAnswer (saisie attendue explicite, prioritaire),
      * q.exactInstruction (consigne), q.keepMcq = true (question conceptuelle : toujours QCM),
-     * q.acceptedAnswers (autres saisies acceptées, ex. « 3π/4 » quand on demande k pour kπ).
+     * q.acceptedAnswers (autres saisies acceptées, ex. « 3π/4 » quand on demande k pour kπ),
+     * q.exactAnswerType ('factorisation' | 'developpement' : saisie de la forme complète, devient q.answerType).
      */
     applyExactPolicy(q, tier) {
       if (!q || q.type !== 'mcq') return q;
-      const clean = (x) => { ['exactAnswer', 'keepMcq', 'exactInstruction', 'acceptedAnswers'].forEach((k) => delete x[k]); return x; };
+      const clean = (x) => { ['exactAnswer', 'keepMcq', 'exactInstruction', 'acceptedAnswers', 'exactAnswerType'].forEach((k) => delete x[k]); return x; };
       if (q.keepMcq || U.forceMode === 'mcq') return clean(q);
       let input = null;
       const explicit = q.exactAnswer !== undefined && q.exactAnswer !== null;

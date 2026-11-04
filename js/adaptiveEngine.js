@@ -1020,6 +1020,7 @@ window.MathsAdaptiveEngine = {
   analyzeAnswer(userAnswer, exercise) {
     if (!exercise || userAnswer === null || userAnswer === undefined || exercise.answer === undefined || exercise.answer === null) return { correct: false };
     if (exercise.answerType === 'factorisation') return this.checkFactorisation(userAnswer, exercise.answer);
+    if (exercise.answerType === 'developpement') return this.checkDeveloppement(userAnswer, exercise.answer);
     const expectedList = [exercise.answer].concat(Array.isArray(exercise.acceptedAnswers) ? exercise.acceptedAnswers : []);
     let advice = null;
     for (const expected of expectedList) {
@@ -1035,9 +1036,10 @@ window.MathsAdaptiveEngine = {
 
   /**
    * Analyse une expression polynomiale en x saisie par l'élève (entiers, x, + − × ^, parenthèses,
-   * multiplication implicite). Renvoie { poly, terms, factors } : poly = coefficients (degré croissant),
+   * multiplication implicite). Renvoie { poly, terms, factors, termList } : poly = coefficients (degré croissant),
    * terms = nombre de termes au niveau principal, factors = facteurs du produit principal (si terms = 1),
-   * chacun sous forme { poly, paren } (paren : écrit entre parenthèses). null si l'écriture n'est pas reconnue.
+   * chacun sous forme { poly, paren } (paren : écrit entre parenthèses), termList = facteurs de chaque terme
+   * du niveau principal avec leur valeur. null si l'écriture n'est pas reconnue.
    * Pas d'eval (CSP stricte) : analyseur descendant.
    */
   parsePolyExpr(str) {
@@ -1072,6 +1074,7 @@ window.MathsAdaptiveEngine = {
     };
     expr = () => {
       let poly = [0], terms = 0, factors = null;
+      const termList = [];
       for (;;) {
         let sign = 1;
         if (s[i] === '+' || s[i] === '-') { sign = s[i] === '-' ? -1 : 1; i++; } else if (terms) break;
@@ -1079,10 +1082,11 @@ window.MathsAdaptiveEngine = {
         let p = [sign];
         fs.forEach((f) => { p = mul(p, f.poly); });
         poly = add(poly, p); terms++;
+        termList.push({ fs, poly: p });
         factors = terms === 1 ? (sign < 0 ? [{ poly: [-1], paren: false }, ...fs] : fs) : null;
         if (i >= s.length || s[i] === ')') break;
       }
-      return { poly, terms, factors };
+      return { poly, terms, factors, termList };
     };
     const r = expr();
     return r && i === s.length ? r : null;
@@ -1107,6 +1111,30 @@ window.MathsAdaptiveEngine = {
     return complete ? { correct: true } : { correct: false, advice: 'factorIncomplete' };
   },
 
+  /**
+   * Correction d'une expression développée et réduite. expected : forme attendue (même syntaxe).
+   * Juste : égale à l'attendue, sans parenthèses, au plus un nombre par terme, un seul terme par puissance de x
+   * et aucun terme nul (l'ordre des termes est libre). Égale mais non réduite : conseil sans pénalité.
+   */
+  checkDeveloppement(userAnswer, expected) {
+    const u = this.parsePolyExpr(userAnswer), e = this.parsePolyExpr(expected);
+    if (!e) return { correct: false };
+    if (!u) return { correct: false, advice: 'exprSyntax' };
+    const same = u.poly.length === e.poly.length && u.poly.every((c, j) => c === e.poly[j]);
+    if (!same) return { correct: false };
+    const degs = new Set();
+    const reduced = u.termList.every((t) => {
+      if (t.fs.some((f) => f.paren)) return false;
+      if (t.fs.filter((f) => f.poly.length === 1).length > 1) return false;
+      const nz = t.poly.map((c, j) => (c ? j : -1)).filter((j) => j >= 0);
+      if (nz.length !== 1 || degs.has(nz[0])) return false; // terme nul ou puissance déjà présente
+      degs.add(nz[0]);
+      return true;
+    });
+    return reduced || (u.terms === 1 && u.poly.length === 1 && u.poly[0] === 0 && !u.termList[0].fs.some((f) => f.paren))
+      ? { correct: true } : { correct: false, advice: 'devNotReduced' };
+  },
+
   /** Messages des conseils sans pénalité (bonne valeur, forme à revoir) */
   ADVICE_MESSAGES: {
     radical: ['C\'est la bonne valeur, mais la racine carrée n\'est pas simplifiée !',
@@ -1127,6 +1155,10 @@ window.MathsAdaptiveEngine = {
       'Une forme factorisée est un produit, par exemple $3(x - 2)(2x + 5)$ : aucun « + » ni « − » entre des termes en dehors des parenthèses.'],
     factorSyntax: ['Écriture non reconnue : vérifie ta saisie.',
       'Écris un produit avec des parenthèses, par exemple 3(x-2)(2x+5) ; un carré s\'écrit (x+1)^2 ; pas de virgule ni de fraction.'],
+    devNotReduced: ['C\'est bien égal, mais l\'expression n\'est pas développée et réduite !',
+      'Supprime toutes les parenthèses puis regroupe les termes de même puissance de $x$ : une seule fois $x^2$, une seule fois $x$ et un seul nombre, par exemple $6x^2 + 11x + 4$.'],
+    exprSyntax: ['Écriture non reconnue : vérifie ta saisie.',
+      'Écris par exemple 6x^2+11x-4 : un carré s\'écrit x^2 ; pas de virgule ni de fraction.'],
     onlyValue: ['On attend seulement la valeur demandée, pas une expression !',
       'Relis la question : elle demande un nombre (par exemple la valeur de $m$ ou de $p$). Repère-le dans ta forme factorisée et saisis-le seul.'],
     exact: ['Ta réponse est une valeur approchée : on attend la valeur exacte !',

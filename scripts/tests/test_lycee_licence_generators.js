@@ -6883,11 +6883,58 @@ addPre(( (V) => {
     }
   };
 
+  // ---------------------------------------------------------------- formes complètes (factorisée / développée)
+  /** forme développée et réduite (texte brut) recalculée à partir des coefficients [c0, c1, c2] */
+  const devStr = (cs) => {
+    let out = '';
+    for (let d = cs.length - 1; d >= 0; d--) {
+      const c = cs[d];
+      if (!c) continue;
+      const m = d === 0 ? '' : d === 1 ? 'x' : `x^${d}`;
+      const abs = Math.abs(c);
+      out += (c < 0 ? '-' : out ? '+' : '') + (m && abs === 1 ? '' : abs) + m;
+    }
+    return out || '0';
+  };
+  /** factorisation complète (texte brut) d'un trinôme à racines rationnelles : k*(q1*x-p1)*(q2*x-p2) */
+  const facStr = ([c0, c1, c2]) => {
+    if (!c2) throw new Error('pas de degré 2');
+    const D = c1 * c1 - 4 * c2 * c0; const r = Math.round(Math.sqrt(D));
+    if (D < 0 || r * r !== D) throw new Error('racines non rationnelles');
+    let k = c2; const fs = [];
+    for (const sg of [-1, 1]) {
+      let num = -c1 + sg * r; let den = 2 * c2;
+      if (den < 0) { num = -num; den = -den; }
+      const g = gcd(num, den) || 1; num /= g; den /= g;
+      k /= den;
+      fs.push(`(${den}*x${-num >= 0 ? '+' : ''}${-num})`);
+    }
+    if (!Number.isInteger(k)) throw new Error('coefficient non entier');
+    return `${k}*${fs.join('*')}`;
+  };
+  const roundAll = (cs) => cs.map((c) => { const r = Math.round(c); if (Math.abs(r - c) > 1e-7) throw new Error('coefficient non entier ' + c); return r; });
+  /**
+   * Saisie d'une forme complète : la réponse (saisie convertie ou native, et réponse LaTeX du QCM) doit être
+   * équivalente à la forme recalculée au sens de checkFactorisation / checkDeveloppement, dans les deux sens.
+   */
+  const fullForm = (kind, cs) => (q) => {
+    const exp = kind === 'factorisation' ? facStr(cs) : devStr(cs);
+    const chk = kind === 'factorisation' ? 'checkFactorisation' : 'checkDeveloppement';
+    const both = (a) => ENGINE[chk](a, exp).correct === true && ENGINE[chk](exp, a).correct === true;
+    const a = inp(q);
+    if (a !== null) {
+      if (q.answerType !== kind) return `answerType ${q.answerType} au lieu de ${kind}`;
+      if (!both(a)) return `saisie ${a} ≠ forme recalculée ${exp}`;
+    }
+    if (q.type === 'mcq' && !both(q.answer)) return `réponse QCM ${q.answer} ≠ forme recalculée ${exp}`;
+    return true;
+  };
+
   // ---------------------------------------------------------------- 2N2
   const exprOf = (s, name) => mat(s, new RegExp(`\\$${name} = (.*?)\\$`))[1];
   const n2N2 = {
-    'Développer et réduire': (q, s) => { const f = fx(exprOf(s, 'E')); const a = pv(inp(q)); return same(f, (x) => a[0] * x + a[1]) || 'développement faux'; },
-    'Factoriser $ax^2 + bx$': (q, s) => { const f = fx(exprOf(s, 'F')); const a = pv(inp(q)); if (!same(f, (x) => a[0] * x * (a[1] * x + a[2]))) return 'factorisation fausse'; const [, c1, c2] = quad(exprOf(s, 'F')); return a[0] === gcd(c1, c2) || 'k pas maximal'; },
+    'Développer et réduire': (q, s) => { const [c0, c1, c2] = roundAll(quad(exprOf(s, 'E'))); if (c2) return 'pas affine'; return fullForm('developpement', [c0, c1])(q); },
+    'Factoriser $ax^2 + bx$': (q, s) => fullForm('factorisation', roundAll(quad(exprOf(s, 'F'))))(q),
     'Réduire au même dénominateur': (q, s) => { const m = mat(s, /\$B = (.*?)\$ sous la forme \$\\dfrac\{mx \+ n\}\{(.*?)\}\$/); const f = fx(m[1]); const g = fx(m[2]); const a = pv(inp(q)); return same(f, (x) => (a[0] * x + a[1]) / g(x)) || 'quotient faux'; },
     'Choisir la forme adaptée': (q, s) => {
       const dev = mat(s, /f\(x\) = (.*?) = /)[1]; const [c0, c1, c2] = quad(dev);
@@ -6896,26 +6943,13 @@ addPre(( (V) => {
       const a = +mat(s, /alculer \$f\((-?\d+)\)\$/)[1]; return cmp(q, c0 + c1 * a + c2 * a * a);
     }
   };
-  const polyCheck = (exprName) => (q, s) => {
-    if (inp(q) === null) return undefined;
-    const f = fx(exprOf(s, exprName)); const a = pv(inp(q));
-    return same(f, (x) => a[0] * x * x + a[1] * x + a[2]) || 'coefficients faux';
-  };
+  const polyCheck = (exprName) => (q, s) => fullForm('developpement', roundAll(quad(exprOf(s, exprName))))(q);
   n2N2['Développement : carré d\'une somme'] = polyCheck('A');
   n2N2['Développement : carré d\'une différence'] = polyCheck('A');
   n2N2['Différence de deux carrés'] = polyCheck('B');
   n2N2['Double distributivité'] = polyCheck('B');
-  n2N2['Factorisation par un facteur commun'] = (q, s) => {
-    if (inp(q) === null) return undefined;
-    const f = fx(exprOf(s, 'C')); const F = fx(mat(s, /\$C = (\([^()]*\))/)[1]); const a = pv(inp(q));
-    return same(f, (x) => F(x) * (a[0] * x + a[1])) || 'factorisation fausse';
-  };
-  n2N2['Factorisation : différence de deux carrés'] = (q, s) => {
-    if (inp(q) === null) return undefined;
-    const f = fx(exprOf(s, 'D')); const a = pv(inp(q));
-    if (a.length === 2) { const c = lin(mat(s, /\$D = \(([^()]*)\)\^2/)[1])[1]; if (a[0] >= a[1]) return 'm < n attendu'; return same(f, (x) => (c * x + a[0]) * (c * x + a[1])) || 'factorisation fausse'; }
-    return same(f, (x) => (a[0] * x + a[1]) * (a[2] * x + a[3])) || 'factorisation fausse';
-  };
+  n2N2['Factorisation par un facteur commun'] = (q, s) => fullForm('factorisation', roundAll(quad(exprOf(s, 'C'))))(q);
+  n2N2['Factorisation : différence de deux carrés'] = (q, s) => fullForm('factorisation', roundAll(quad(exprOf(s, 'D'))))(q);
 
   // ---------------------------------------------------------------- 2N3
   const countInt = (pred) => { let c = 0; for (let x = -200; x <= 200; x++) if (pred(x)) c++; return c; };
@@ -7113,8 +7147,8 @@ addPre(( (V) => {
   const viaAns = (fn) => (q, s) => { if (q.exactInput === undefined) return undefined; let e; try { e = fn(q.answer, s); } catch (err) { return 'réponse illisible : ' + err.message; } const r = cmp(q, e); return r === true ? undefined : r; };
   const numsAns = viaAns((a) => ansNums(a));
   const n1A1 = {
-    'Factoriser un trinôme': (q, s) => { const [c0, c1, c2] = quad(mat(s, /f\(x\) = (.*?)\$ sous/)[1]); const D = Math.sqrt(c1 * c1 - 4 * c2 * c0); const r = [(-c1 - D) / (2 * c2), (-c1 + D) / (2 * c2)].sort((u, v) => u - v); return cmp(q, [c2, ...r]); },
-    'Trinôme connaissant ses racines': (q, s) => { const m = mat(s, /s'annule en \$(-?\d+)\$ et en \$(-?\d+)\$, et \$f\((-?\d+)\) = (-?\d+)\$/); const [r1, r2, x0, y0] = m.slice(1).map(Number); const a = y0 / ((x0 - r1) * (x0 - r2)); return cmp(q, [a, -a * (r1 + r2), a * r1 * r2]); },
+    'Factoriser un trinôme': (q, s) => fullForm('factorisation', roundAll(quad(mat(s, /f\(x\) = (.*?)\$ à l'aide/)[1])))(q),
+    'Trinôme connaissant ses racines': (q, s) => { const m = mat(s, /s'annule en \$(-?\d+)\$ et en \$(-?\d+)\$, et \$f\((-?\d+)\) = (-?\d+)\$/); const [r1, r2, x0, y0] = m.slice(1).map(Number); const a = y0 / ((x0 - r1) * (x0 - r2)); return fullForm('developpement', roundAll([a * r1 * r2, -a * (r1 + r2), a]))(q); },
     'Signe d\'un trinôme sous forme factorisée': (q, s) => { const m = mat(s, /f\(x\) = (.*?)\$\. L'ensemble des solutions de \$f\(x\) (<|>) 0\$/); const f = fx(m[1]); const xs = []; for (let x = -20; x <= 20; x += 0.5) if (m[2] === '<' ? f(x) < 0 : f(x) > 0) xs.push(x); return cmp(q, [xs[0] - 0.5, xs[xs.length - 1] + 0.5]); },
     'Deux nombres de somme et produit donnés': (q, s) => { const m = mat(s, /somme vaut \$(-?\d+)\$ et le produit vaut \$(-?\d+)\$/); const S = +m[1]; const P = +m[2]; const D = Math.sqrt(S * S - 4 * P); return cmp(q, [(S - D) / 2, (S + D) / 2]); },
     'Racine évidente': (q, s) => { const m = mat(s, /que \$(-?\d+)\$ est une racine évidente de \$f\(x\) = (.*?)\$/); const [c0, c1, c2] = quad(m[2]); const one = +m[1]; if (!near(c2 * one * one + c1 * one + c0, 0)) return 'pas racine'; return cmp(q, c0 / c2 / one); },
@@ -8095,6 +8129,18 @@ function checkExact(q) {
   const issues = [];
   if (!ENGINE) return ['EXACT:moteur absent'];
   const ans = String(q.answer);
+  if (q.answerType === 'factorisation' || q.answerType === 'developpement') {
+    // saisie d'une forme complète : acceptée (avec espaces, signe ×), forme développée refusée pour une
+    // factorisation, valeur fausse refusée (la valeur exacte est recalculée par le vérificateur de la famille)
+    if (!ENGINE.validateAnswer(ans, q)) issues.push('EXACT:forme attendue refusée: ' + ans);
+    const P = ENGINE.parsePolyExpr(ans);
+    if (!P) return issues.concat('EXACT:forme attendue illisible par parsePolyExpr: ' + ans);
+    const dev = P.poly.map((c, d) => [c, d]).reverse().filter(([c]) => c).map(([c, d]) => `${c < 0 ? '-' : '+'}${Math.abs(c)}${d ? 'x' : ''}${d > 1 ? '^' + d : ''}`).join('').replace(/^\+/, '');
+    if (q.answerType === 'factorisation' && ENGINE.validateAnswer(dev, q)) issues.push(`EXACT:forme développée ${dev} acceptée pour une factorisation`);
+    if (q.answerType === 'developpement' && !ENGINE.validateAnswer(dev, q)) issues.push(`EXACT:écriture équivalente refusée ${dev}`);
+    if (ENGINE.validateAnswer(`${dev}+1`, q)) issues.push(`EXACT:valeur fausse acceptée ${dev}+1`);
+    return issues;
+  }
   const vals = plainVals(ans);
   if (!vals) { // réponse non numérique (mot, oui/non…) : seule la saisie exacte est contrôlée
     if (!ENGINE.validateAnswer(ans, q)) issues.push('EXACT:réponse attendue refusée par validateAnswer: ' + ans);

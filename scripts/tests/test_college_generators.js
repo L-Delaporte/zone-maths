@@ -335,11 +335,12 @@ function checkQuestion(gen, t, q) {
           if (ok.length !== 1) add(gen, t, 'VERIF_QCM', `[${q._v.k}] ${ok.length} option(s) = attendu « ${exp} » : ${JSON.stringify(o).slice(0, 160)}`, q);
           else if (!sameAns(q.answer, exp)) add(gen, t, 'VERIF_REPONSE', `[${q._v.k}] réponse « ${q.answer} » ≠ attendu « ${exp} »`, q);
           else verifiedCount++;
-        } else if (q.answerType === 'factorisation') {
-          // Factorisation saisie : la réponse du générateur doit être jugée juste (égale + complète) par le
-          // correcteur du moteur, face à la forme recalculée par le vérificateur, et réciproquement.
-          const a = FACT.checkFactorisation(q.answer, exp), b = FACT.checkFactorisation(exp, q.answer);
-          if (!a.correct || !b.correct) add(gen, t, 'VERIF_FACTORISATION', `[${q._v.k}] réponse « ${q.answer} » / attendu « ${exp} » : ${JSON.stringify(a)} ${JSON.stringify(b)}`, q);
+        } else if (q.answerType === 'factorisation' || q.answerType === 'developpement') {
+          // Factorisation ou développement saisi : la réponse du générateur doit être jugée juste (égale + forme
+          // attendue) par le correcteur du moteur, face à la forme recalculée par le vérificateur, et réciproquement.
+          const chk = q.answerType === 'factorisation' ? 'checkFactorisation' : 'checkDeveloppement';
+          const a = FACT[chk](q.answer, exp), b = FACT[chk](exp, q.answer);
+          if (!a.correct || !b.correct) add(gen, t, q.answerType === 'factorisation' ? 'VERIF_FACTORISATION' : 'VERIF_DEVELOPPEMENT', `[${q._v.k}] réponse « ${q.answer} » / attendu « ${exp} » : ${JSON.stringify(a)} ${JSON.stringify(b)}`, q);
           else verifiedCount++;
         } else if (!sameAns(q.answer, exp)) add(gen, t, 'VERIF_REPONSE', `[${q._v.k}] réponse « ${q.answer} » ≠ attendu « ${exp} »`, q);
         else verifiedCount++;

@@ -300,7 +300,7 @@ window.MathsLyceeGenerators = {
       const b = this.randNonZero(-9, 9);
       const A = `${L(a, b)}^2`;
       const ans = this.polyX([a * a, 2 * a * b, b * b]);
-      return this._xa([`(${a * a};${2 * a * b};${b * b})`, 'Écrire le résultat sous la forme $ax^2 + bx + c$ et saisir (a ; b ; c).'], '2N2', 1, b > 0 ? 'Développement : carré d\'une somme' : 'Développement : carré d\'une différence',
+      return this._xa([this._xdev([a * a, 2 * a * b, b * b]), this._XDEV, null, 'developpement'], '2N2', 1, b > 0 ? 'Développement : carré d\'une somme' : 'Développement : carré d\'une différence',
         b > 0 ? 'Appliquer $(u + v)^2 = u^2 + 2uv + v^2$' : 'Appliquer $(u - v)^2 = u^2 - 2uv + v^2$',
         `Développer et réduire l'expression : $A = ${A}$.`,
         `$${ans}$`,
@@ -316,7 +316,7 @@ window.MathsLyceeGenerators = {
         const b = this.randInt(1, 9);
         const B = `${L(a, -b)}${L(a, b)}`;
         const ans = this.polyX([a * a, 0, -b * b]);
-        return this._xa([`(${a * a};0;${-b * b})`, 'Écrire le résultat sous la forme $ax^2 + bx + c$ et saisir (a ; b ; c).'], '2N2', 2, 'Différence de deux carrés',
+        return this._xa([this._xdev([a * a, 0, -b * b]), this._XDEV, null, 'developpement'], '2N2', 2, 'Différence de deux carrés',
           'Développer avec $(u - v)(u + v) = u^2 - v^2$',
           `Développer et réduire l'expression : $B = ${B}$.`,
           `$${ans}$`,
@@ -332,7 +332,7 @@ window.MathsLyceeGenerators = {
       const d = this.randNonZero(-7, 7);
       const B = `${L(a, b)}${L(c, d)}`;
       const ans = this.polyX([a * c, a * d + b * c, b * d]);
-      return this._xa([`(${a * c};${a * d + b * c};${b * d})`, 'Écrire le résultat sous la forme $ax^2 + bx + c$ et saisir (a ; b ; c).'], '2N2', 2, 'Double distributivité',
+      return this._xa([this._xdev([a * c, a * d + b * c, b * d]), this._XDEV, null, 'developpement'], '2N2', 2, 'Double distributivité',
         'Développer un produit de deux facteurs affines',
         `Développer et réduire l'expression : $B = ${B}$.`,
         `$${ans}$`,
@@ -352,11 +352,12 @@ window.MathsLyceeGenerators = {
       const minus = Math.random() < 0.45;
       const F = L(a, b);
       const inner = minus ? [c - e, d - f] : [c + e, d + f];
-      if (inner[0] === 0 || inner[1] === 0) return this.gen_2N2(3);
+      // facteurs à coefficients premiers entre eux : la forme obtenue est directement la factorisation complète
+      if (inner[0] === 0 || inner[1] === 0 || this.gcd(a, Math.abs(b)) !== 1 || this.gcd(Math.abs(inner[0]), Math.abs(inner[1])) !== 1) return this.gen_2N2(3);
       const C = `${F}${L(c, d)} ${minus ? '-' : '+'} ${F}${L(e, f)}`;
       const ans = `${F}${L(inner[0], inner[1])}`;
       const wrongMinus = minus ? `${F}${L(c - e, d + f)}` : `${F}${L(c + e, d - f)}`;
-      return this._xa([`(${inner[0]};${inner[1]})`, `Le résultat s'écrit $${F}(cx + d)$ : saisir (c ; d).`], '2N2', 3, 'Factorisation par un facteur commun',
+      return this._xa([this._xprod(1, [[a, b], inner]).plain, this._XFAC, null, 'factorisation'], '2N2', 3, 'Factorisation par un facteur commun',
         'Identifier et mettre en facteur une expression commune',
         `Factoriser l'expression : $C = ${C}$.`,
         `$${ans}$`,
@@ -372,15 +373,18 @@ window.MathsLyceeGenerators = {
     if (Math.random() < 0.5) {
       const k = this.randInt(1, 7);
       const D = `${L(a, b)}^2 - ${k * k}`;
-      const ans = `${L(a, b - k)}${L(a, b + k)}`;
-      return this._xa([`(${b - k};${b + k})`, `Le résultat s'écrit $(${this.coefStr(a, 'x')} + m)(${this.coefStr(a, 'x')} + n)$ avec $m < n$ : saisir (m ; n).`], '2N2', 4, 'Factorisation : différence de deux carrés',
+      const raw = `${L(a, b - k)}${L(a, b + k)}`;
+      // forme complète : le facteur numérique commun éventuel est mis en tête, ex. (2x + 2)(2x + 4) = 4(x + 1)(x + 2)
+      const full = this._xprod(1, [[a, b - k], [a, b + k]]);
+      const ans = full.tex;
+      return this._xa([full.plain, this._XFAC, null, 'factorisation'], '2N2', 4, 'Factorisation : différence de deux carrés',
         'Reconnaître $u^2 - v^2 = (u - v)(u + v)$ avec $u$ composé',
         `Factoriser l'expression : $D = ${D}$.`,
         `$${ans}$`,
         [`$${L(a, -k)}${L(a, k)}$`, `$${L(a, b - k * k)}${L(a, b)}$`, `$${L(a, b + k)}^2$`, `$${L(a, b - k)}^2$`, `$${L(a, -b - k)}${L(a, -b + k)}$`],
         `Écris $${k * k} = ${k}^2$ et applique $u^2 - v^2 = (u - v)(u + v)$.`,
         `Ici $u = ${this.poly([[a, 'x'], [b, '']])}$ et $v = ${k}$.`,
-        `$D = [${L(a, b)} - ${k}][${L(a, b)} + ${k}] = ${ans}$.`
+        `$D = [${L(a, b)} - ${k}][${L(a, b)} + ${k}] = ${raw}${raw !== ans ? ` = ${ans}` : ''}$.${raw !== ans ? ' On met en facteur les nombres communs aux coefficients de chaque facteur pour obtenir la forme factorisée complète.' : ''}`
       );
     }
     let c = this.randInt(1, 4);
@@ -390,15 +394,17 @@ window.MathsLyceeGenerators = {
     const D = `${L(a, b)}^2 - ${L(c, d)}^2`;
     const f1 = [a - c, b - d];
     const f2 = [a + c, b + d];
-    const ans = `${L(f1[0], f1[1])}${L(f2[0], f2[1])}`;
-    return this._xa([`(${a - c};${b - d};${a + c};${b + d})`, 'Le résultat s\'écrit $(px + q)(rx + s)$, où $px + q = u - v$ et $rx + s = u + v$ : saisir (p ; q ; r ; s).'], '2N2', 4, 'Factorisation : différence de deux carrés',
+    const raw = `${L(f1[0], f1[1])}${L(f2[0], f2[1])}`;
+    const full = this._xprod(1, [f1, f2]);
+    const ans = full.tex;
+    return this._xa([full.plain, this._XFAC, null, 'factorisation'], '2N2', 4, 'Factorisation : différence de deux carrés',
       'Factoriser $u^2 - v^2$ avec deux expressions affines',
       `Factoriser l'expression : $D = ${D}$.`,
       `$${ans}$`,
       [`$${L(a - c, b + d)}${L(a + c, b - d)}$`, `$${L(f1[0], f1[1])}^2$`, `$${L(a - c, b - d)}${L(a - c, b + d)}$`, `$${L(a + c, b + d)}^2$`, `$${L(a * a - c * c, b * b - d * d)}$`],
       'Applique $u^2 - v^2 = (u - v)(u + v)$ sans développer.',
       `Ici $u = ${this.poly([[a, 'x'], [b, '']])}$ et $v = ${this.poly([[c, 'x'], [d, '']])}$ ; attention aux parenthèses dans $u - v$.`,
-      `$D = [${L(a, b)} - ${L(c, d)}][${L(a, b)} + ${L(c, d)}] = ${ans}$.`
+      `$D = [${L(a, b)} - ${L(c, d)}][${L(a, b)} + ${L(c, d)}] = ${raw}${raw !== ans ? ` = ${ans}` : ''}$.${raw !== ans ? ' On met en facteur les nombres communs aux coefficients de chaque facteur pour obtenir la forme factorisée complète.' : ''}`
     );
   },
 
@@ -2662,7 +2668,8 @@ window.MathsLyceeGenerators = {
   },
 
   /**
-   * makeMcq + pilotage de la saisie exacte : ex = [saisie, consigne, autres saisies acceptées] ou 'keep'
+   * makeMcq + pilotage de la saisie exacte : ex = [saisie, consigne, autres saisies acceptées, type de saisie] ou 'keep'
+   * (type de saisie : 'factorisation' ou 'developpement', forme complète corrigée par checkFactorisation / checkDeveloppement)
    * (QCM conceptuel). Les autres saisies (ex. « 3π/4 » quand on demande k pour kπ) sont jugées par
    * MathsAdaptiveEngine.validateAnswer avec les mêmes règles que la saisie principale.
    */
@@ -2677,10 +2684,11 @@ window.MathsLyceeGenerators = {
         const ov = r ? this.numValue(`$${r.input.replace(/^(-?\d+)\/(\d+)$/, '\\frac{$1}{$2}').replace(',', '{,}')}$`) : null;
         return ov !== null && Math.abs(ov - v) < 1e-4;
       });
-      if (!clash) {
+      if (!clash || ex[3]) {
         q.exactAnswer = ex[0];
         if (ex[1]) q.exactInstruction = ex[1];
         if (ex[2] && ex[2].length) q.acceptedAnswers = ex[2];
+        if (ex[3]) q.exactAnswerType = ex[3]; // 'factorisation' | 'developpement'
       }
     }
     return q;
@@ -2709,6 +2717,42 @@ window.MathsLyceeGenerators = {
     '1S1': { 3: ['_x1S1bern'], 4: ['_x1S1bern'] },
     '1S2': { 1: ['_x1S2cum'], 2: ['_x1S2jeu'], 3: ['_x1S2kh'], 4: ['_x1S2sd'] },
     '1G3': { 4: ['_x1G3proj'] }
+  },
+
+  /** Consignes des saisies de forme complète (cf. _xa, answerType) */
+  _XFAC: 'Écrire la forme factorisée.',
+  _XDEV: 'Écrire l\'expression développée et réduite.',
+
+  /** Polynôme développé et réduit en texte brut (coefficients du plus haut degré au terme constant) : [25, -10, 1] -> "25x^2-10x+1" */
+  _xdev(coeffs) {
+    return this.polyX(coeffs).replace(/\s+/g, '');
+  },
+
+  /**
+   * Forme factorisée complète k × (a1x + b1) × (a2x + b2)… : le plus grand diviseur commun des coefficients
+   * de chaque facteur passe dans k, avec le signe du coefficient de x (chaque facteur commence par un x positif),
+   * un facteur bx devient x, deux facteurs égaux donnent un carré.
+   * Renvoie { tex, plain } : _xprod(1, [[2, 4], [-2, 6]]) -> -4(x + 2)(x - 3) ; _xprod(-1, [[1, 0], [1, -3]]) -> -x(x - 3).
+   */
+  _xprod(k, facs) {
+    const fs = [];
+    for (const [a, b] of facs) {
+      const g = (this.gcd(Math.abs(a), Math.abs(b)) || 1) * (a < 0 ? -1 : 1);
+      k *= g;
+      fs.push([a / g, b / g]);
+    }
+    const groups = [];
+    for (const f of fs) {
+      const gr = groups.find((x) => x.f[0] === f[0] && x.f[1] === f[1]);
+      if (gr) gr.n++; else groups.push({ f, n: 1 });
+    }
+    groups.sort((u, v) => (u.f[1] === 0 ? 0 : 1) - (v.f[1] === 0 ? 0 : 1));
+    const body = groups.map(({ f, n }) => {
+      const base = f[1] === 0 && f[0] === 1 ? 'x' : `(${this.poly([[f[0], 'x'], [f[1], '']])})`;
+      return n > 1 ? `${base}^${n}` : base;
+    }).join('');
+    const tex = `${k === 1 ? '' : k === -1 ? '-' : k}${body}`;
+    return { tex, plain: tex.replace(/\s+/g, '') };
   },
 
   /** Saisie brute d'une fraction réduite : (6, 1) -> "6", (-6, 8) -> "-3/4" */
@@ -2873,14 +2917,16 @@ window.MathsLyceeGenerators = {
     const B = k * b - m * d;
     if (A === 0) return this._x2N2dev();
     const e = `${k === 1 ? '' : k === -1 ? '-' : k}${this._2nd_lin(a, b)} - ${m === 1 ? '' : m}${this._2nd_lin(c, d)}`;
-    return this.makeExact('2N2', 1, 'Développer et réduire',
+    const q = this.makeExact('2N2', 1, 'Développer et réduire',
       'Distribuer un facteur et un signe « - » devant une parenthèse',
-      `Développer et réduire $E = ${e}$. Le résultat s'écrit $ax + b$ : saisir $(a ; b)$.`,
-      `(${A};${B})`,
+      `Développer et réduire $E = ${e}$.\n**${this._XDEV}**`,
+      this._xdev([A, B]),
       'Distribue chaque facteur sur la parenthèse qui le suit.',
       'Le signe « - » devant la seconde parenthèse change le signe de chacun de ses termes.',
-      `$E = ${this.poly([[k * a, 'x'], [k * b, '']])} ${m === 1 ? '-' : `- ${m} \\times`} (${this.poly([[c, 'x'], [d, '']])})$ $= ${this.poly([[k * a, 'x'], [k * b, '']])} ${this.poly([[-m * c, 'x'], [-m * d, '']]).replace(/^(?!-)/, '+ ').replace(/^-/, '- ')} = ${this.poly([[A, 'x'], [B, '']])}$. Donc $(a ; b) = (${A} ; ${B})$.`,
-      { instruction: 'Saisir (a ; b), par exemple (3;-2).' });
+      `$E = ${this.poly([[k * a, 'x'], [k * b, '']])} ${m === 1 ? '-' : `- ${m} \\times`} (${this.poly([[c, 'x'], [d, '']])})$ $= ${this.poly([[k * a, 'x'], [k * b, '']])} ${this.poly([[-m * c, 'x'], [-m * d, '']]).replace(/^(?!-)/, '+ ').replace(/^-/, '- ')} = ${this.poly([[A, 'x'], [B, '']])}$.`,
+      { instruction: false });
+    q.answerType = 'developpement';
+    return q;
   },
 
   _x2N2fac() {
@@ -2890,14 +2936,16 @@ window.MathsLyceeGenerators = {
     while (this.gcd(p, Math.abs(q)) !== 1) { p = this.randInt(1, 6); q = this.randNonZero(-9, 9); }
     const a = g * p;
     const b = g * q;
-    return this.makeExact('2N2', 2, 'Factoriser $ax^2 + bx$',
+    const ex = this.makeExact('2N2', 2, 'Factoriser $ax^2 + bx$',
       'Mettre en facteur le plus grand facteur commun',
-      `Factoriser $F = ${this.polyX([a, b, 0])}$ sous la forme $kx(px + q)$, avec $k$ entier positif le plus grand possible. Saisir $(k ; p ; q)$.`,
-      `(${g};${p};${q})`,
+      `Factoriser au maximum $F = ${this.polyX([a, b, 0])}$.\n**${this._XFAC}**`,
+      this._xprod(g, [[1, 0], [p, q]]).plain,
       'Les deux termes contiennent le facteur $x$.',
       `Cherche aussi le plus grand diviseur commun de $${a}$ et $${Math.abs(b)}$.`,
-      `$${this.polyX([a, b, 0])} = ${g === 1 ? '' : g}x \\times ${this.coefStr(p, 'x')} ${q > 0 ? '+' : '-'} ${g === 1 ? '' : g}x \\times ${Math.abs(q)} = ${g === 1 ? '' : g}x${this._2nd_lin(p, q)}$. Donc $(k ; p ; q) = (${g} ; ${p} ; ${q})$.`,
-      { instruction: 'Saisir (k ; p ; q), par exemple (2;3;-1).' });
+      `$${this.polyX([a, b, 0])} = ${g === 1 ? '' : g}x \\times ${this.coefStr(p, 'x')} ${q > 0 ? '+' : '-'} ${g === 1 ? '' : g}x \\times ${Math.abs(q)} = ${g === 1 ? '' : g}x${this._2nd_lin(p, q)}$ : les coefficients $${p}$ et $${q}$ restant dans la parenthèse n'ont plus de diviseur commun autre que 1, la factorisation est complète.`,
+      { instruction: false });
+    ex.answerType = 'factorisation';
+    return ex;
   },
 
   _x2N2den() {
@@ -7721,14 +7769,16 @@ window.MathsLyceeGenerators = {
     const a = this.randChoice([1, -1, 2, -2, 3, -3]);
     const r1 = this.randInt(-7, 5);
     const r2 = r1 + this.randInt(1, 7);
-    return this.makeExact('1A1', 2, 'Factoriser un trinôme',
+    const q = this.makeExact('1A1', 2, 'Factoriser un trinôme',
       'Factoriser un trinôme à l\'aide de ses racines',
-      `Factoriser $f(x) = ${this.polyX([a, -a * (r1 + r2), a * r1 * r2])}$ sous la forme $a(x - x_1)(x - x_2)$ avec $x_1 < x_2$. Saisir $(a ; x_1 ; x_2)$.`,
-      `(${a};${r1};${r2})`,
+      `Factoriser $f(x) = ${this.polyX([a, -a * (r1 + r2), a * r1 * r2])}$ à l'aide de ses racines.\n**${this._XFAC}**`,
+      this._xprod(a, [[1, -r1], [1, -r2]]).plain,
       'Calcule le discriminant pour trouver les racines du trinôme.',
       `Le coefficient $a$ est celui de $x^2$ ; les racines sont les solutions de $f(x) = 0$.`,
-      `$\\Delta = ${(a * (r1 + r2)) ** 2 - 4 * a * a * r1 * r2} = ${(a * (r2 - r1)) ** 2}$, donc $x_1 = ${r1}$ et $x_2 = ${r2}$. Ainsi $f(x) = ${a === 1 ? '' : a === -1 ? '-' : a}(x ${this.formatSign(-r1)})(x ${this.formatSign(-r2)})$.`.replace(/\(x \+ 0\)|\(x - 0\)/g, 'x'),
-      { instruction: 'Saisir (a ; x1 ; x2), par exemple (2;-3;1).' });
+      `$\\Delta = ${(a * (r1 + r2)) ** 2 - 4 * a * a * r1 * r2} = ${(a * (r2 - r1)) ** 2}$, donc $x_1 = ${r1}$ et $x_2 = ${r2}$. Ainsi $f(x) = a(x - x_1)(x - x_2) = ${this._xprod(a, [[1, -r1], [1, -r2]]).tex}$.`,
+      { instruction: false });
+    q.answerType = 'factorisation';
+    return q;
   },
 
   _x1A1det() {
@@ -7738,14 +7788,16 @@ window.MathsLyceeGenerators = {
     while (x0 === r1 || x0 === r2) x0 = this.randInt(-4, 6);
     const a = this.randNonZero(-3, 3);
     const y0 = a * (x0 - r1) * (x0 - r2);
-    return this.makeExact('1A1', 3, 'Trinôme connaissant ses racines',
+    const q = this.makeExact('1A1', 3, 'Trinôme connaissant ses racines',
       'Déterminer une fonction polynôme du second degré s\'annulant en deux réels donnés',
-      `La fonction polynôme du second degré $f$ s'annule en $${r1}$ et en $${r2}$, et $f(${x0}) = ${y0}$. Écrire $f(x) = ax^2 + bx + c$ et saisir $(a ; b ; c)$.`,
-      `(${a};${-a * (r1 + r2)};${a * r1 * r2})`,
+      `La fonction polynôme du second degré $f$ s'annule en $${r1}$ et en $${r2}$, et $f(${x0}) = ${y0}$. Déterminer l'expression de $f(x)$.\n**${this._XDEV}**`,
+      this._xdev([a, -a * (r1 + r2), a * r1 * r2]),
       `$f$ s'écrit $f(x) = a(x - x_1)(x - x_2)$ avec $x_1 = ${r1}$ et $x_2 = ${r2}$.`,
       `Utilise $f(${x0}) = ${y0}$ pour trouver $a$, puis développe.`,
       `$f(x) = a(x ${this.formatSign(-r1)})(x ${this.formatSign(-r2)})$ et $f(${x0}) = a \\times ${this.paren(x0 - r1)} \\times ${this.paren(x0 - r2)} = ${this.coefStr((x0 - r1) * (x0 - r2), 'a')} = ${y0}$, d'où $a = ${a}$. En développant : $f(x) = ${this.polyX([a, -a * (r1 + r2), a * r1 * r2])}$.`.replace(/\(x \+ 0\)|\(x - 0\)/g, 'x'),
-      { instruction: 'Saisir (a ; b ; c), par exemple (2;-1;-6).' });
+      { instruction: false });
+    q.answerType = 'developpement';
+    return q;
   },
 
   _x1A1evid() {

@@ -5,6 +5,17 @@
  */
 'use strict';
 const VERIFIERS = {};
+/** Polynôme saisi (coefficients du plus haut degré au terme constant) : « 3x^2-5x+2 », sans espaces */
+const PSTR = (cs) => {
+  const n = cs.length - 1; let out = '';
+  cs.forEach((c, i) => {
+    if (!c) return;
+    const d = n - i, v = d === 0 ? '' : d === 1 ? 'x' : `x^${d}`;
+    const a = Math.abs(c), body = d && a === 1 ? v : `${a}${v}`;
+    out += c < 0 ? `-${body}` : `${out ? '+' : ''}${body}`;
+  });
+  return out || '0';
+};
 
 // ===================== 5e =====================
 Object.assign(VERIFIERS, (function () {
@@ -341,10 +352,10 @@ module.exports = {
   '4N4.sommeAires': v => Math.sqrt(v.a + v.b),
   '4N4.eqCarre': v => Math.sqrt((v.d - v.c) / v.a),
   // 4N5
-  '4N5.reduire': v => (v.ask === 'x' ? v.a + v.c : v.b + v.d),
+  '4N5.reduire': v => PSTR([v.a + v.c, v.b + v.d]),
   '4N5.subst': v => v.a * v.x + v.b,
   '4N5.pense': v => (v.res - v.b) / v.m,
-  '4N5.reduire2': v => (v.ask === 'x2' ? v.a + v.c : v.b + v.d),
+  '4N5.reduire2': v => PSTR([v.a + v.c, v.b + v.d, 0]),
   '4N5.perim': v => (v.Pm / 2 - v.e) / 2,
   '4N5.ages': v => (v.S - v.e) / 2,
   '4N5.tarifs': v => v.F / (v.pB - v.pA),
@@ -361,7 +372,7 @@ module.exports = {
   '4P1.conv': v => v.v * 1000 / 3600,
   // 4P2
   '4P2.lire': v => v.pts.find(p => p[0] === v.x)[1],
-  '4P2.formule': v => (v.ask === 'm' ? v.a : v.a * v.b),
+  '4P2.formule': v => PSTR([v.a, v.a * v.b]),
   '4P2.ante': v => v.pts.find(p => p[1] === v.y)[0],
   '4P2.inverse': v => (v.r + v.c) / v.a - v.b,
   '4P2.taxi': v => (v.ask === 'prix' ? Math.round((v.f + v.k2 * v.d) * 100) / 100 : v.d),
@@ -422,10 +433,12 @@ V['3N1.mid4'] = v => F(v.a * v.d + v.c * v.b, 2 * v.b * v.d);
 // ---------- N2 ----------
 const pmul = (p, q) => { const r = new Array(p.length + q.length - 1).fill(0); p.forEach((x, i) => q.forEach((y, j) => { r[i + j] += x * y; })); return r; };
 const coefDeg = (polys, deg) => { let s = 0; for (const [f, g] of polys) { const r = pmul(f, g); const idx = r.length - 1 - deg; if (idx >= 0 && idx < r.length) s += r[idx]; } return s; };
-V['3N2.poly'] = v => `${coefDeg(v.P, v.deg)}`;
-V['3N2.lin'] = v => `${v.deg ? v.a + v.c : v.b + v.d}`;
-V['3N2.mono'] = v => `${v.a * v.b}`;
-V['3N2.fill'] = v => `${v.form === 2 ? v.b * v.b : 2 * v.a * v.b}`;
+// Sans « deg » : expression développée et réduite complète (somme des produits)
+const fullPoly = (polys) => [4, 3, 2, 1, 0].map((d) => coefDeg(polys, d)).reduce((acc, c) => (acc.length || c ? acc.concat(c) : acc), []);
+V['3N2.poly'] = v => (v.deg === undefined ? PSTR(fullPoly(v.P)) : `${coefDeg(v.P, v.deg)}`);
+V['3N2.lin'] = v => PSTR([v.a + v.c, v.b + v.d]);
+V['3N2.mono'] = v => PSTR([v.a * v.b, 0, 0]);
+V['3N2.fill'] = v => PSTR(v.form === 2 ? [v.a * v.a, 0, -v.b * v.b] : [v.a * v.a, (v.form === 0 ? 2 : -2) * v.a * v.b, v.b * v.b]);
 V['3N2.mental'] = v => `${v.form === 0 ? (v.base + v.e) ** 2 : v.form === 1 ? (v.base - v.e) ** 2 : v.base ** 2 - v.e ** 2}`;
 V['3N2.prog4'] = v => `${(v.R - v.a * v.a) / (2 * v.a)}`;
 V['3N2.area4'] = v => `${(v.S - v.a * v.b) / (v.a + v.b)}`;
@@ -639,7 +652,7 @@ module.exports = {
   'G1.aireK': v => v.S * (v.AM / v.AB) ** 2,
   // ---------------- G2 Trigonométrie
   'G2.idCote': v => `[${{ opp: v.R + v.T, adj: v.R + v.A, hyp: v.A + v.T }[v.role]}]`,
-  'G2.rapportVal': v => r(({ cos: v.adj / v.hyp, sin: v.opp / v.hyp, tan: v.opp / v.adj })[v.fn], 2),
+  'G2.rapportVal': v => { const [n, d] = ({ cos: [v.adj, v.hyp], sin: [v.opp, v.hyp], tan: [v.opp, v.adj] })[v.fn]; const g = (a, b) => (b ? g(b, a % b) : a); const k = g(n, d); return `${n / k}/${d / k}`; },
   'G2.angleVal': v => Math.round(deg(({ cos: Math.acos, sin: Math.asin, tan: Math.atan })[v.fn](v.v))),
   'G2.longueur': v => {
     const a = rad(v.a), k = v.len;
