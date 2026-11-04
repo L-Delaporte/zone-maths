@@ -485,10 +485,10 @@
   // --- N2bis : Calcul littéral et factorisation (3ème) ---
   generateN2bis(tier = 1, mastery = 0) {
     return this._h3a_run('N2bis', tier, mastery, {
-      1: ['L', 'fill1', 'gcd1', 'check1'],
-      2: ['L', 'sq2', 'mental2', 'mono2'],
-      3: ['L', 'fac3', 'diff3', 'hid3'],
-      4: ['L', 'solve4', 'mental4', 'hidden4']
+      1: ['L', 'fill1', 'gcd1', 'check1', 'mono2'],
+      2: ['L', 'sq2', 'mental2', 'inv2'],
+      3: ['L', 'whole3', 'fac3', 'diff3', 'hid3'],
+      4: ['L', 'solve4', 'brevet4', 'hidden4']
     });
   },
 
@@ -11304,7 +11304,7 @@
     do { k = this.randInt(2, 9); a = this.randInt(1, 6); b = this.randInt(2, 9); } while (this.gcd(a, b) !== 1);
     const s = this.randChoice([1, -1]);
     const left = this.formatPoly([k * a, s * k * b]);
-    const err = this.randInt(0, 3);
+    const err = this.randChoice([0, 0, 0, 1, 2, 3]); // vrai une fois sur deux
     let right, ok, why;
     if (err === 0) { right = `${k}(${this.formatPoly([a, s * b])})`; ok = true; why = `En développant : $${k} \\times ${this.formatCoef(a)}x = ${this.formatCoef(k * a)}x$ et $${k} \\times ${this._h3a_p(s * b)} = ${s * k * b}$ : on retrouve bien l'expression.`; }
     else if (err === 1) { right = `${k}(${this.formatPoly([a, s * k * b])})`; ok = false; why = `En développant $${right}$, on obtient $${this.formatPoly([k * a, s * k * k * b])}$ et non $${left}$ : le terme constant n'a pas été divisé par $${k}$.`; }
@@ -11368,20 +11368,48 @@
     };
   },
 
+  _h3a_N2bis_inv2(t) {
+    // Différence de carrés « inversée » : p² − m²x² (le terme en x² est soustrait).
+    const m = this.randInt(1, 9), p = this.randInt(2, 12);
+    const fc = this.formatCoef(m);
+    const lhs = `${p * p} - ${m * m === 1 ? '' : m * m}x^2`;
+    const correct = `$(${p} - ${fc}x)(${p} + ${fc}x)$`;
+    const wrongs = [
+      `$(${fc}x - ${p})(${fc}x + ${p})$`,
+      `$(${p} - ${fc}x)^2$`,
+      `$(${p * p} - ${fc}x)(${p * p} + ${fc}x)$`,
+      `$(${p} - ${this.formatCoef(m * m)}x)(${p} + ${this.formatCoef(m * m)}x)$`
+    ];
+    const q = {
+      title: 'Différence de carrés : le carré en $x$ est soustrait',
+      statement: `Factoriser l'expression :\n$$K = ${lhs}$$\n**Quelle est la forme factorisée de $K$ ?**`,
+      hint1: `Ici c'est le terme en $x^2$ qui est soustrait : écris $${p * p}$ et $${m * m === 1 ? '' : m * m}x^2$ comme des carrés, en gardant leur ordre.`,
+      hint2: "Rappel : $a^2 - b^2 = (a - b)(a + b)$ ; ici $a$ est le nombre et $b$ le terme en $x$. Attention : $b^2 - a^2$ n'est pas égal à $a^2 - b^2$.",
+      solution: `$${p * p} = ${p}^2$ et $${m * m === 1 ? '' : m * m}x^2 = (${fc}x)^2$, donc $$K = ${p}^2 - (${fc}x)^2 = (${p} - ${fc}x)(${p} + ${fc}x)$$\n**Conclusion** : $K = (${p} - ${fc}x)(${p} + ${fc}x)$. En revanche $(${fc}x - ${p})(${fc}x + ${p}) = ${m * m === 1 ? '' : m * m}x^2 - ${p * p}$ : c'est l'opposé de $K$.`,
+      _v: { k: '3N2bis.inv2', m, p }
+    };
+    return this._h3a_mcq(q, correct, wrongs, 4);
+  },
+
   _h3a_N2bis_fac3(t) {
-    const a = this.randInt(1, 5), b = this.randInt(-9, 9, [0]), c = this.randInt(1, 6), d = this.randInt(-9, 9, [0]), e = this.randInt(1, 6), f = this.randInt(-9, 9, [0]);
-    const s = this.randChoice([1, -1]);
-    const m = c + s * e, p = d + s * f;
-    if (m === 0 || m < 0) return this._h3a_N2bis_fac3(t);
+    let a, b, c, d, e, f, s, m, p;
+    do {
+      a = this.randInt(1, 5); b = this.randInt(-9, 9, [0]); c = this.randInt(1, 6); d = this.randInt(-9, 9, [0]); e = this.randInt(1, 6); f = this.randInt(-9, 9, [0]);
+      s = this.randChoice([1, -1]);
+      m = c + s * e; p = d + s * f;
+    } while (this.gcd(a, Math.abs(b)) !== 1 || m <= 0 || p === 0 || this.gcd(m, Math.abs(p)) !== 1 || (c === e && d === f));
     const ask = this.randChoice(['m', 'p', 'p']);
-    const F = `(${this.formatPoly([a, b])})`;
+    const F = `(${this.formatPoly([a, b])})`, G = `(${this.formatPoly([c, d])})`, H = `(${this.formatPoly([e, f])})`;
+    // Le facteur commun n'est pas toujours écrit en premier : on varie sa position dans chaque terme.
+    const pos = this.randInt(0, 3);
+    const T1 = pos & 1 ? `${G}${F}` : `${F}${G}`, T2 = pos & 2 ? `${H}${F}` : `${F}${H}`;
     return {
       title: s > 0 ? 'Facteur commun parenthèse (somme)' : 'Facteur commun parenthèse (différence)',
-      statement: `On factorise $$E = ${F}(${this.formatPoly([c, d])}) ${s > 0 ? '+' : '-'} ${F}(${this.formatPoly([e, f])})$$ sous la forme $${F}(mx + p)$.\n**Donner la valeur de $${ask}$.**`,
+      statement: `On factorise $$E = ${T1} ${s > 0 ? '+' : '-'} ${T2}$$ sous la forme $${F}(mx + p)$.\n**Donner la valeur de $${ask}$.**`,
       answer: `${ask === 'm' ? m : p}`,
-      hint1: s > 0 ? `Mets $${F}$ en facteur, puis réduis ce qui reste entre crochets.` : `Mets $${F}$ en facteur ; attention, le signe « − » change tous les signes de la seconde parenthèse dans le crochet.`,
-      hint2: "Rappel : $k \\times A + k \\times B = k(A + B)$ et $k \\times A - k \\times B = k(A - B)$, même quand $k$ est une parenthèse.",
-      solution: `**Étape 1** : $$E = ${F}\\left[(${this.formatPoly([c, d])}) ${s > 0 ? '+' : '-'} (${this.formatPoly([e, f])})\\right]$$\n**Étape 2** : $$E = ${F}(${this.formatPoly([c, d])} ${s * e > 0 ? '+' : '-'} ${this.formatPoly([e, s * f]).replace(/^-/, '')})$$ donc $E = ${F}(${this.formatPoly([m, p])})$.\n**Conclusion** : $${ask} = ${ask === 'm' ? m : p}$.`,
+      hint1: (pos ? `Le facteur commun $${F}$ n'est pas toujours écrit en premier : repère-le dans chaque terme. ` : '') + (s > 0 ? `Mets $${F}$ en facteur, puis réduis ce qui reste entre crochets.` : `Mets $${F}$ en facteur ; attention, le signe « − » change tous les signes de la seconde parenthèse dans le crochet.`),
+      hint2: "Rappel : $k \\times A + k \\times B = k(A + B)$ et $k \\times A - k \\times B = k(A - B)$, même quand $k$ est une parenthèse, et quel que soit l'ordre des facteurs ($A \\times k = k \\times A$).",
+      solution: `**Étape 1** : $$E = ${F}\\left[${G} ${s > 0 ? '+' : '-'} ${H}\\right]$$\n**Étape 2** : $$E = ${F}(${this.formatPoly([c, d])} ${s * e > 0 ? '+' : '-'} ${this.formatPoly([e, s * f]).replace(/^-/, '')})$$ donc $E = ${F}(${this.formatPoly([m, p])})$.\n**Conclusion** : $${ask} = ${ask === 'm' ? m : p}$.`,
       _v: { k: '3N2bis.fac3', c, d, e: s * e, f: s * f, ask }
     };
   },
@@ -11402,19 +11430,75 @@
   },
 
   _h3a_N2bis_hid3(t) {
-    const a = this.randInt(1, 5), b = this.randInt(-9, 9, [0]), c = this.randInt(2, 6), d = this.randInt(-9, 9, [0, 1, -1]);
-    const s = this.randChoice([1, -1]);
-    const F = `(${this.formatPoly([a, b])})`;
+    let a, b, c, d, s;
+    do {
+      a = this.randInt(1, 5); b = this.randInt(-9, 9, [0]); c = this.randInt(2, 6); d = this.randInt(-9, 9, [0, 1, -1]);
+      s = this.randChoice([1, -1]);
+    } while (this.gcd(a, Math.abs(b)) !== 1 || this.gcd(c, Math.abs(d + s)) !== 1);
+    const F = `(${this.formatPoly([a, b])})`, G = `(${this.formatPoly([c, d])})`;
     const p = d + s;
+    // Trois dispositions : F·G ± F, G·F ± F, et (pour une somme) F + F·G.
+    const lay = s > 0 ? this.randInt(0, 2) : this.randInt(0, 1);
+    const expr = lay === 2 ? `${F} + ${F}${G}` : `${lay === 1 ? G + F : F + G} ${s > 0 ? '+' : '-'} ${F}`;
+    const step = lay === 2 ? `${F} \\times 1 + ${F}${G} = ${F}\\left[1 + ${this.formatPoly([c, d])}\\right]` : `${lay === 1 ? G + F : F + G} ${s > 0 ? '+' : '-'} ${F} \\times 1 = ${F}\\left[${this.formatPoly([c, d])} ${s > 0 ? '+' : '-'} 1\\right]`;
     return {
       title: 'Facteur commun : le « 1 » caché',
-      statement: `On factorise $$G = ${F}(${this.formatPoly([c, d])}) ${s > 0 ? '+' : '-'} ${F}$$ sous la forme $${F}(${c}x + p)$.\n**Donner la valeur de $p$.**`,
+      statement: `On factorise $$G = ${expr}$$ sous la forme $${F}(${c}x + p)$.\n**Donner la valeur de $p$.**`,
       answer: `${p}`,
-      hint1: `Le second terme $${F}$ peut s'écrire $${F} \\times 1$ : mets $${F}$ en facteur.`,
+      hint1: `Le terme réduit à $${F}$ peut s'écrire $${F} \\times 1$ : mets $${F}$ en facteur.`,
       hint2: "Rappel : $k \\times A + k = k \\times A + k \\times 1 = k(A + 1)$. Ne fais pas « disparaître » le terme qui ne contient que le facteur commun.",
-      solution: `$$G = ${F}(${this.formatPoly([c, d])}) ${s > 0 ? '+' : '-'} ${F} \\times 1 = ${F}\\left[${this.formatPoly([c, d])} ${s > 0 ? '+' : '-'} 1\\right] = ${F}(${this.formatPoly([c, p])})$$\n**Conclusion** : $p = ${p}$.`,
+      solution: `$$G = ${step} = ${F}(${this.formatPoly([c, p])})$$\n**Conclusion** : $p = ${p}$.`,
       _v: { k: '3N2bis.hid', d, s }
     };
+  },
+
+  _h3a_N2bis_whole3(t) {
+    // Factorisation complète sans forme imposée : QCM sur l'expression factorisée entière.
+    // E = T1 ± T2 où chaque terme contient le facteur commun F = (ax + b), écrit en premier ou en second.
+    const kind = this.randChoice(['sum', 'diff', 'one', 'sq']);
+    let a, b, c, d, e, f, s, sqFirst, U, W, m, p;
+    do {
+      a = this.randInt(1, 5); b = this.randInt(-9, 9, [0]);
+      c = this.randInt(1, 6); d = this.randInt(-9, 9, [0]); e = this.randInt(1, 6); f = this.randInt(-9, 9, [0]);
+      s = kind === 'sum' ? 1 : kind === 'diff' ? -1 : this.randChoice([1, -1]);
+      sqFirst = this.randChoice([true, false]);
+      // Reste dans le crochet : U + s × W
+      if (kind === 'sum' || kind === 'diff') { U = [c, d]; W = [e, f]; }
+      else if (kind === 'one') { U = [c, d]; W = [0, 1]; }
+      else { U = sqFirst ? [a, b] : [c, d]; W = sqFirst ? [c, d] : [a, b]; }
+      m = U[0] + s * W[0]; p = U[1] + s * W[1];
+    } while (this.gcd(a, Math.abs(b)) !== 1 || m <= 0 || p === 0 || this.gcd(m, Math.abs(p)) !== 1 || (U[0] === W[0] && U[1] === W[1]) || (c === a && d === b));
+    const fp = x => this.formatPoly(x);
+    const F = `(${fp([a, b])})`, G = `(${fp([c, d])})`, H = `(${fp([e, f])})`;
+    const op = s > 0 ? '+' : '-';
+    const side = (X) => (this.randChoice([true, false]) ? `${F}${X}` : `${X}${F}`);
+    let expr;
+    if (kind === 'sum' || kind === 'diff') expr = `${side(G)} ${op} ${side(H)}`;
+    else if (kind === 'one') expr = `${side(G)} ${op} ${F}`;
+    else expr = sqFirst ? `${F}^2 ${op} ${side(G)}` : `${side(G)} ${op} ${F}^2`;
+    const R = [m, p];
+    const correct = `$${F}(${fp(R)})$`;
+    const wrongs = [];
+    if (s < 0) wrongs.push(`$${F}(${fp([U[0] - W[0], U[1] + W[1]])})$`); // signe « − » non distribué à la constante
+    if (kind === 'one') wrongs.push(`$${F}${G}$`); // le « 1 » oublié
+    if (kind === 'sq') wrongs.push(`$${F}(${fp(sqFirst ? [c, d] : [c, d])})$`); // facteur du carré oublié
+    wrongs.push(`$${F}^2(${fp(R)})$`); // facteur commun mis au carré
+    if (kind === 'sum' || kind === 'diff') wrongs.push(`$${F}${G}${H}$`); // somme transformée en produit
+    wrongs.push(`$${F}(${fp([m, p + (p > 0 ? -1 : 1) * this.randChoice([1, 2])])})$`); // erreur de réduction
+    wrongs.push(`$${F}(${fp([m + 1, p])})$`);
+    const left = kind === 'sq' ? (sqFirst ? `${F}` : `${G}`) : `${G}`;
+    const right = kind === 'one' ? '1' : kind === 'sq' ? (sqFirst ? `${G}` : `${F}`) : `${H}`;
+    const q = {
+      title: 'Factoriser complètement (forme non donnée)',
+      statement: `Factoriser complètement l'expression :\n$$E = ${expr}$$\n**Quelle est la forme factorisée de $E$ ?**`,
+      hint1: `Repère la parenthèse présente dans les deux termes (elle n'est pas forcément écrite en premier), mets-la en facteur, puis réduis ce qui reste dans le crochet.`,
+      hint2: kind === 'one' ? "Rappel : $k \\times A - k = k \\times A - k \\times 1 = k(A - 1)$ : le terme qui ne contient que le facteur commun laisse un « 1 » dans le crochet."
+        : kind === 'sq' ? "Rappel : $k^2 = k \\times k$, donc $k^2 + k \\times A = k(k + A)$ : il reste une copie du facteur commun dans le crochet."
+        : "Rappel : $k \\times A + k \\times B = k(A + B)$ et $k \\times A - k \\times B = k(A - B)$ ; le « − » devant la seconde parenthèse change tous ses signes.",
+      solution: `**Étape 1** : $${F}$ est le facteur commun${kind === 'sq' ? ` (car $${F}^2 = ${F}${F}$)` : kind === 'one' ? ` (car $${F} = ${F} \\times 1$)` : ''}, donc $$E = ${F}\\left[${left} ${op} ${right}\\right]$$\n**Étape 2** : on réduit le crochet : $$E = ${F}(${fp(R)})$$\n**Conclusion** : $E = ${F}(${fp(R)})$. La parenthèse $(${fp(R)})$ ne peut plus être factorisée par un nombre : la factorisation est complète.`,
+      _v: { k: '3N2bis.whole3', kind, a, b, c, d, e, f, s, sqFirst }
+    };
+    return this._h3a_mcq(q, correct, wrongs, 4);
   },
 
   _h3a_N2bis_solve4(t) {
@@ -11436,18 +11520,35 @@
     };
   },
 
-  _h3a_N2bis_mental4(t) {
-    const n = this.randChoice([999, 1999, 2024, 2025, 2026, 4999, 9999, 1234, 5000]);
-    const k = this.randInt(1, 3);
-    const a = n + k, b = n;
+  _h3a_N2bis_brevet4(t) {
+    // Enchaînement type brevet : développer, factoriser, résoudre E = 0. On demande les deux solutions.
+    let a, b, c, d, s, sqFirst, m, p;
+    do {
+      a = this.randInt(1, 5); b = this.randInt(-9, 9, [0]); c = this.randInt(1, 5); d = this.randInt(-9, 9, [0]);
+      s = this.randChoice([1, -1]); sqFirst = this.randChoice([true, false]);
+      // E = F² + s·F·G (sqFirst) ou E = F·G + s·F², F = ax + b, G = cx + d
+      m = sqFirst ? a + s * c : c + s * a; p = sqFirst ? b + s * d : d + s * b;
+    } while (this.gcd(a, Math.abs(b)) !== 1 || m === 0 || m * b === a * p || (a === c && b === d) || this.gcd(Math.abs(m), Math.abs(p)) !== 1);
+    const fp = x => this.formatPoly(x);
+    const F = `(${fp([a, b])})`, G = `(${fp([c, d])})`;
+    const op = s > 0 ? '+' : '-';
+    const GF = this.randChoice([true, false]) ? `${F}${G}` : `${G}${F}`;
+    const expr = sqFirst ? `${F}^2 ${op} ${GF}` : `${GF} ${op} ${F}^2`;
+    // Forme développée (pour la solution)
+    const k = sqFirst ? 1 : s, l = sqFirst ? s : 1; // E = k·F² + l·F·G
+    const dev = [k * a * a + l * a * c, k * 2 * a * b + l * (a * d + b * c), k * b * b + l * b * d];
+    const r1 = [-b, a], r2 = [-p, m];
+    const lo = r1[0] / r1[1] <= r2[0] / r2[1] ? r1 : r2, hi = lo === r1 ? r2 : r1;
+    const ans = `(${this.fracAnswer(lo[0], lo[1])};${this.fracAnswer(hi[0], hi[1])})`;
     return {
-      title: 'Défi : grand calcul sans calculatrice',
-      statement: `Sans calculatrice, calculer :\n$$${this.formatThousands(a)}^2 - ${this.formatThousands(b)}^2$$`,
-      answer: `${a * a - b * b}`,
-      hint1: 'Les carrés sont trop grands pour être calculés de tête : transforme cette différence en un produit.',
-      hint2: "Rappel : $a^2 - b^2 = (a - b)(a + b)$.",
-      solution: `$$${a}^2 - ${b}^2 = (${a} - ${b})(${a} + ${b}) = ${k} \\times ${this.formatThousands(a + b)} = ${this.formatThousands(a * a - b * b)}$$\n**Conclusion** : le résultat est $${this.formatThousands(a * a - b * b)}$.`,
-      _v: { k: '3N2bis.mental', a, b }
+      title: 'Défi brevet : développer, factoriser, résoudre',
+      statement: `On considère $E = ${expr}$.\n1. Développer et réduire $E$.\n2. Factoriser $E$.\n3. Résoudre l'équation $E = 0$.\n**Donner les deux solutions sous la forme $(x_1 ; x_2)$ avec $x_1 < x_2$** (fractions irréductibles si besoin).`,
+      answer: ans,
+      placeholder: 'Ex : (-3/4;2)',
+      hint1: `Pour résoudre $E = 0$, la forme factorisée est la plus utile : mets $${F}$ en facteur, réduis le crochet, puis applique la propriété du produit nul.`,
+      hint2: "Rappel : $k^2 = k \\times k$, donc $k^2 + k \\times A = k(k + A)$ ; un produit est nul si et seulement si l'un au moins de ses facteurs est nul.",
+      solution: `**1. Développement** : $E = ${fp(dev)}$.\n**2. Factorisation** : $${F}$ est un facteur commun (car $${F}^2 = ${F}${F}$) : $$E = ${F}\\left[${sqFirst ? `${fp([a, b])} ${op} (${fp([c, d])})` : `${fp([c, d])} ${op} (${fp([a, b])})`}\\right] = ${F}(${fp([m, p])})$$\n**3. Produit nul** : $${fp([a, b])} = 0$ ou $${fp([m, p])} = 0$, soit $x = ${this._h3a_fr(r1[0], r1[1])}$ ou $x = ${this._h3a_fr(r2[0], r2[1])}$.\n**Conclusion** : les solutions sont $${this._h3a_fr(lo[0], lo[1])}$ et $${this._h3a_fr(hi[0], hi[1])}$.`,
+      _v: { k: '3N2bis.brevet4', a, b, c, d, s, sqFirst }
     };
   },
 
@@ -14246,11 +14347,13 @@
       }
     } else if (t === 3) {
       // Palier 3 : Brevet (Facteur commun parenthèse (ax+b))
-      const a = this.randInt(1, 6);
-      const b = this.randInt(1, 9);
+      let a, b;
+      do { a = this.randInt(1, 6); b = this.randInt(1, 9); } while (this.gcd(a, b) !== 1);
       const signB = this.randChoice(['+', '-']);
       const bVal = signB === '+' ? b : -b;
       const commonStr = `${a === 1 ? '' : a}x ${signB} ${b}`;
+      // Factorisation complète : la parenthèse restante doit être primitive (pgcd des coefficients = 1), sans constante nulle.
+      const bad = (m, p) => p === 0 || this.gcd(Math.abs(m), Math.abs(p)) !== 1;
 
       const op = this.randChoice(['plus', 'moins', 'carre']);
 
@@ -14267,6 +14370,7 @@
 
         const sumCoeffX = c + e;
         const sumConst = dVal + fVal;
+        if (bad(sumCoeffX, sumConst) || (c === e && dVal === fVal)) return this._h3a_origN2bis(tier, mastery);
         const reducedP2 = `${this.formatPoly([sumCoeffX, sumConst])}`;
         const correctStr = `$(${commonStr})(${reducedP2})$`;
 
@@ -14306,6 +14410,7 @@
 
         const diffCoeffX = c - e;
         const diffConst = dVal - fVal;
+        if (bad(diffCoeffX, diffConst) || dVal + fVal === diffConst) return this._h3a_origN2bis(tier, mastery);
         const reducedP2 = `${this.formatPoly([diffCoeffX, diffConst])}`;
         const correctStr = `$(${commonStr})(${reducedP2})$`;
         // Piège classique : oublier de changer le signe de fVal
@@ -14343,6 +14448,7 @@
 
         const sumCoeffX = a + c;
         const sumConst = bVal + dVal;
+        if (bad(sumCoeffX, sumConst) || (c === a && dVal === bVal) || bVal - dVal === sumConst) return this._h3a_origN2bis(tier, mastery);
         const reducedP2 = `${this.formatPoly([sumCoeffX, sumConst])}`;
         const correctStr = `$(${commonStr})(${reducedP2})$`;
 
@@ -14383,6 +14489,8 @@
 
         const part1Const = bVal - c;
         const part2Const = bVal + c;
+        // Factorisation complète : aucun des deux facteurs ne doit contenir de facteur numérique commun.
+        if (this.gcd(a, Math.abs(part1Const)) !== 1 || this.gcd(a, Math.abs(part2Const)) !== 1) return this._h3a_origN2bis(tier, mastery);
         const part1Str = `${this.formatPoly([a, part1Const])}`;
         const part2Str = `${this.formatPoly([a, part2Const])}`;
         const correctStr = `$(${part1Str})(${part2Str})$`;
@@ -14428,6 +14536,7 @@
         const part1Const = bVal - dVal;
         const part2X = a + c;
         const part2Const = bVal + dVal;
+        if (part1Const === 0 || part2Const === 0 || this.gcd(part1X, Math.abs(part1Const)) !== 1 || this.gcd(part2X, Math.abs(part2Const)) !== 1) return this._h3a_origN2bis(tier, mastery);
 
         const part1Str = `${this.formatPoly([part1X, part1Const])}`;
         const part2Str = `${this.formatPoly([part2X, part2Const])}`;

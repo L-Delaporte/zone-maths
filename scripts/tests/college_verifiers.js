@@ -445,6 +445,26 @@ V['3N2bis.solve4'] = v => {
   const best = r[0][0] / r[0][1] >= r[1][0] / r[1][1] ? r[0] : r[1];
   return F(best[0], best[1]);
 };
+// Écriture indépendante de mx + p (sans espaces : sameAns les ignore).
+const lin = (m, p) => `${m === 1 ? '' : m === -1 ? '-' : m}x${p > 0 ? '+' + p : p < 0 ? p : ''}`;
+V['3N2bis.inv2'] = v => { const mx = `${v.m === 1 ? '' : v.m}x`; return `(${v.p}-${mx})(${v.p}+${mx})`; };
+V['3N2bis.whole3'] = v => {
+  // Coefficients du crochet recalculés à partir des termes de l'énoncé.
+  let U, W;
+  if (v.kind === 'sum' || v.kind === 'diff') { U = [v.c, v.d]; W = [v.e, v.f]; }
+  else if (v.kind === 'one') { U = [v.c, v.d]; W = [0, 1]; }
+  else { U = v.sqFirst ? [v.a, v.b] : [v.c, v.d]; W = v.sqFirst ? [v.c, v.d] : [v.a, v.b]; }
+  const m = U[0] + v.s * W[0], p = U[1] + v.s * W[1];
+  if (gcd(m, p) !== 1 || p === 0 || gcd(v.a, v.b) !== 1) return 'NON_COMPLETE';
+  return `(${lin(v.a, v.b)})(${lin(m, p)})`;
+};
+V['3N2bis.brevet4'] = v => {
+  // E = k·F² + l·F·G = F·(k·F + l·G) ; racines de F et du second facteur.
+  const k = v.sqFirst ? 1 : v.s, l = v.sqFirst ? v.s : 1;
+  const m = k * v.a + l * v.c, p = k * v.b + l * v.d;
+  const r = [[-v.b, v.a], [-p, m]].sort((x, y) => x[0] / x[1] - y[0] / y[1]);
+  return `(${F(r[0][0], r[0][1])};${F(r[1][0], r[1][1])})`;
+};
 V['3N2bis.hidden4'] = v => `${v.ask === 'm' ? 1 + v.c : v.d - v.s * v.a}`;
 
 // ---------- N3 ----------
