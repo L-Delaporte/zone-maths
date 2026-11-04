@@ -11323,7 +11323,8 @@
   },
 
   _h3a_N2bis_sq2(t) {
-    const m = this.randInt(1, 9), p = this.randInt(1, 12);
+    let m, p;
+    do { m = this.randInt(1, 9); p = this.randInt(1, 12); } while (this.gcd(m, p) !== 1); // factorisation complète
     const ask = m === 1 ? 'p' : this.randChoice(['m', 'p']);
     const lhs = `${m * m === 1 ? '' : m * m}x^2 - ${p * p}`;
     return {
@@ -11370,7 +11371,8 @@
 
   _h3a_N2bis_inv2(t) {
     // Différence de carrés « inversée » : p² − m²x² (le terme en x² est soustrait).
-    const m = this.randInt(1, 9), p = this.randInt(2, 12);
+    let m, p;
+    do { m = this.randInt(1, 9); p = this.randInt(2, 12); } while (this.gcd(m, p) !== 1); // factorisation complète
     const fc = this.formatCoef(m);
     const lhs = `${p * p} - ${m * m === 1 ? '' : m * m}x^2`;
     const correct = `$(${p} - ${fc}x)(${p} + ${fc}x)$`;
@@ -11553,8 +11555,10 @@
   },
 
   _h3a_N2bis_hidden4(t) {
-    const a = this.randInt(1, 9), c = this.randInt(1, 5), d = this.randInt(-9, 9, [0]);
-    const s = this.randChoice([1, -1]); // facteur (x + s a)
+    let a, c, d, s;
+    // Forme imposée (x + sa)(mx + p) : on garde mx + p primitive pour que la factorisation soit complète.
+    do { a = this.randInt(1, 9); c = this.randInt(1, 5); d = this.randInt(-9, 9, [0]); s = this.randChoice([1, -1]); } // facteur (x + s a)
+    while (d === s * a || this.gcd(1 + c, Math.abs(d - s * a)) !== 1);
     const ask = this.randChoice(['m', 'p']);
     const m = 1 + c, p = -s * a + d;
     return {

@@ -1026,6 +1026,9 @@ window.MathsAdaptiveEngine = {
       if (r.correct) return { correct: true };
       advice = advice || r.advice || null;
     }
+    // Réponse attendue = un nombre, mais l'élève a saisi une expression en x (ex. toute la factorisation
+    // alors qu'on demande la valeur de m) : conseil sans pénalité.
+    if (!advice && /x/i.test(String(userAnswer)) && !expectedList.some((e) => /[a-z]/i.test(String(e)))) advice = 'onlyValue';
     return { correct: false, advice };
   },
 
@@ -1043,6 +1046,8 @@ window.MathsAdaptiveEngine = {
       'Relis la précision demandée dans l\'énoncé et arrondis ton résultat (même nombre de décimales).'],
     approx: ['On attend ici une valeur approchée !',
       'Donne l\'écriture décimale arrondie comme demandé dans l\'énoncé (avec la calculatrice si besoin).'],
+    onlyValue: ['On attend seulement la valeur demandée, pas une expression !',
+      'Relis la question : elle demande un nombre (par exemple la valeur de $m$ ou de $p$). Repère-le dans ta forme factorisée et saisis-le seul.'],
     exact: ['Ta réponse est une valeur approchée : on attend la valeur exacte !',
       'Garde une écriture exacte : fraction (ex. 1/3), racine carrée (ex. 2√3 ou 2sqrt(3)) ou π (ex. 3π/4 ou 3pi/4).']
   },
