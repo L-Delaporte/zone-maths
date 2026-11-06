@@ -106,7 +106,7 @@ async function step(label, fn) {
     return `${Math.round(n / 1024)} Ko de JS transférés`;
   });
 
-  for (const level of ['6eme', '5eme', '4eme', '3eme', '2nde', '1ere', 'tale', 'L1', 'L2', 'L3', 'capes', 'crpe']) {
+  for (const level of ['6eme', '5eme', '4eme', '3eme', '2nde', '1ere', 'tale', 'L1', 'L2', 'L3', 'capes', 'crpe', 'sante', 'pass']) {
     await step(`Niveau ${level} : chargement + chapitre + exercice`, async () => {
       await evaluate(`window.MathsApp.switchLevel('${level}', true)`);
       await waitFor(`window.MathsDataLoader.isLevelLoaded('${level}') && window.MathsApp.currentLevel === '${level}'`);

@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <!-- Content-Security-Policy : voir scripts/csp.js (style-src 'unsafe-inline' requis par les attributs style de KaTeX) -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://gc.zgo.at; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://etabli-des-maths.goatcounter.com; font-src 'self' data:; connect-src 'self' https://etabli-des-maths.goatcounter.com; object-src 'none'; base-uri 'self'; form-action 'self'; manifest-src 'self'; worker-src 'self'" />
+  <script src="../../js/themeInit.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Maths en PASS / L.AS : cours et exercices corrigés gratuits</title>
+  <meta name="description" content="Maths en PASS / L.AS : 10 chapitres de cours avec méthodes et exercices corrigés, gratuits et sans inscription. Statistique descriptive, probabilités…" />
+  <meta name="author" content="Loïc Delaporte, professeur de mathématiques" />
+  <link rel="canonical" href="https://etabli-des-maths.fr/cours/pass-las/" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Maths en PASS / L.AS : cours et exercices corrigés gratuits" />
+  <meta property="og:description" content="Maths en PASS / L.AS : 10 chapitres de cours avec méthodes et exercices corrigés, gratuits et sans inscription. Statistique descriptive, probabilités…" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://etabli-des-maths.fr/cours/pass-las/" />
+  <meta property="og:image" content="https://etabli-des-maths.fr/assets/logo.jpg" />
+  <meta property="og:image:alt" content="Maths en PASS / L.AS : cours et exercices corrigés gratuits" />
+  <meta name="twitter:card" content="summary" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta property="og:site_name" content="L'Établi des Maths" />
+
+  <link rel="stylesheet" href="../../css/style.css" />
+  <link rel="stylesheet" href="../../css/landing.css" />
+  <link rel="stylesheet" href="../../vendor/katex/katex.min.css" />
+  <link rel="stylesheet" href="../../css/cours.css" />
+  <link rel="icon" href="../../favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../../assets/favicon-32x32.png" />
+  <link rel="apple-touch-icon" href="../../assets/favicon.png" />
+  <link rel="manifest" href="../../manifest.json" />
+  <meta name="theme-color" content="#2563eb" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Cours et exercices de maths en PASS / L.AS, gratuits et corrigés",
+    "description": "Maths en PASS / L.AS : 10 chapitres de cours avec méthodes et exercices corrigés, gratuits et sans inscription. Statistique descriptive, probabilités…",
+    "url": "https://etabli-des-maths.fr/cours/pass-las/",
+    "inLanguage": "fr",
+    "educationalLevel": "Université — parcours d’accès spécifique santé (PASS) et licence accès santé (L.AS)",
+    "isAccessibleForFree": true,
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "L'Établi des Maths",
+      "url": "https://etabli-des-maths.fr/"
+    },
+    "mainEntity": {
+      "@type": "ItemList",
+      "numberOfItems": 10,
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Statistique descriptive : paramètres de position et de dispersion",
+          "url": "https://etabli-des-maths.fr/cours/pass-las/statistique-descriptive.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Probabilités : dénombrement, indépendance et probabilités conditionnelles",
+          "url": "https://etabli-des-maths.fr/cours/pass-las/probabilites-denombrement-independance.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Tests diagnostiques : sensibilité, spécificité et valeurs prédictives",
+          "url": "https://etabli-des-maths.fr/cours/pass-las/tests-diagnostiques.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Variables aléatoires discrètes : lois binomiale et de Poisson",
+          "url": "https://etabli-des-maths.fr/cours/pass-las/variables-aleatoires-discretes.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 5,
+          "name": "Variables aléatoires continues et loi normale",
+          "url": "https://etabli-des-maths.fr/cours/pass-las/variables-aleatoires-continues-et-loi-normale.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 6,
+          "name": "Échantillonnage et intervalles de confiance",
+          "url": "https://etabli-des-maths.fr/cours/pass-las/echantillonnage-et-intervalles-de-confiance.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 7,
+          "name": "Tests statistiques : principe, risques et tests usuels",
+          "url": "https://etabli-des-maths.fr/cours/pass-las/tests-statistiques.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 8,
+          "name": "Épidémiologie : prévalence, incidence, risque relatif et odds ratio",
+          "url": "https://etabli-des-maths.fr/cours/pass-las/epidemiologie-prevalence-incidence-risque-relatif.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 9,
+          "name": "Fonctions, dérivées, différentielles et incertitudes",
+          "url": "https://etabli-des-maths.fr/cours/pass-las/fonctions-derivees-differentielles-et-incertitudes.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 10,
+          "name": "Équations différentielles et modèles pharmacocinétiques",
+          "url": "https://etabli-des-maths.fr/cours/pass-las/equations-differentielles-et-modeles-pharmacocinetiques.html"
+        }
+      ]
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Quel est le programme de mathématiques en PASS et en L.AS ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Il n'existe pas de programme national commun : chaque université fixe le contenu et les épreuves de ses unités d'enseignement. On y retrouve presque toujours la biostatistique (probabilités, lois, estimation, tests) et des outils d’analyse. Le site les couvre en 10 chapitres : statistique descriptive, probabilités et lois, estimation et tests, outils d'analyse."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Comment s’entraîner en biostatistique ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Choisissez un chapitre puis « S'entraîner » : exercices générés à chaque tirage et problèmes en contexte médical, corrigés immédiatement, en quatre paliers (1. Socle et automatismes, 2. Entraînement et méthodes, 3. Niveau partiels (épreuve), 4. Problèmes et interprétation)."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Ces contenus sont-ils gratuits ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Oui, comme tout le site : sans inscription, sans publicité, sous licence libre CC BY-NC-SA."
+        }
+      }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Accueil",
+        "item": "https://etabli-des-maths.fr/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Cours",
+        "item": "https://etabli-des-maths.fr/cours/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "PASS / L.AS",
+        "item": "https://etabli-des-maths.fr/cours/pass-las/"
+      }
+    ]
+  }
+  </script>
+</head>
+<body class="cours-page">
+  <a class="cours-skip" href="#contenu">Aller au contenu</a>
+
+  <!-- Header Uniformisé -->
+  <header class="app-header">
+    <div class="header-inner">
+      <a href="../../index.html" class="brand-container">
+        <img src="../../assets/logo-96.png" alt="" class="brand-logo-img" width="44" height="44" />
+        <div class="brand-text">
+          <p class="brand-title">L'Établi des Maths <span class="brand-level-tag">Cours</span></p>
+          <span class="brand-tagline">Outils pour apprendre et pratiquer</span>
+        </div>
+      </a>
+
+      <!-- Navigation entre Portails -->
+      <nav class="nav-portal-links" aria-label="Portails thématiques">
+        <a href="../../index.html" class="nav-portal-btn">🏠 Accueil</a>
+        <a href="../../cours/" class="nav-portal-btn active" aria-current="true">📚 Cours</a>
+        <a href="../../exercices-de-maths/" class="nav-portal-btn">✏️ Exercices</a>
+        <a href="../../rituels.html" class="nav-portal-btn">⏱️ Rituels</a>
+        <a href="../../reviser-le-brevet-de-maths/" class="nav-portal-btn">📝 Brevet</a>
+        <a href="../../reussir-le-bac-de-maths/" class="nav-portal-btn">🎓 Bac</a>
+        <a href="../../enseignants.html" class="nav-portal-btn">👨‍🏫 Enseignants</a>
+        <a href="../../parents.html" class="nav-portal-btn">👪 Parents</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="landing-wrapper cours-wrapper" id="contenu" tabindex="-1">
+    <nav class="cours-breadcrumb" aria-label="Fil d'Ariane">
+      <ol>
+        <li><a href="../../index.html">Accueil</a></li>
+        <li><a href="../">Cours</a></li>
+        <li><span aria-current="page">PASS / L.AS</span></li>
+      </ol>
+    </nav>
+
+    <header class="cours-hero">
+      <p class="landing-tag">Concours · PASS / L.AS · 10 chapitres</p>
+      <h1 class="cours-title">Cours et exercices de maths en PASS / L.AS, gratuits et corrigés</h1>
+      <p class="cours-lead">Les mathématiques et la biostatistique de première année d'études de santé : statistique descriptive, probabilités et théorème de Bayes, sensibilité et spécificité des tests diagnostiques, lois binomiale, de Poisson et normale, intervalles de confiance, tests d'hypothèses, épidémiologie, incertitudes et pharmacocinétique. Chaque chapitre contient le cours complet, des méthodes rédigées et des exercices corrigés, puis renvoie vers des exercices générés à l'infini pour s'entraîner.</p>
+      <div class="cours-cta">
+        <a class="btn-primary cours-cta-main" href="../../index.html?level=pass">🎯 S'entraîner en PASS / L.AS</a>
+      </div>
+    </header>
+
+    <section class="cours-section" id="domaine-1" aria-labelledby="domaine-1-titre">
+      <h2 id="domaine-1-titre">Statistique descriptive</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="statistique-descriptive.html">
+          <span class="topic-num">PA-01</span>
+          <span class="cours-chapter-text"><strong>Statistique descriptive : paramètres de position et de dispersion</strong><span>Types de variables, moyenne, médiane, mode, variance et écart type (formule de König-Huygens), coefficient de variation, quantiles, effet d'une…</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-2" aria-labelledby="domaine-2-titre">
+      <h2 id="domaine-2-titre">Probabilités et lois</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="probabilites-denombrement-independance.html">
+          <span class="topic-num">PA-02</span>
+          <span class="cours-chapter-text"><strong>Probabilités : dénombrement, indépendance et probabilités conditionnelles</strong><span>Dénombrement (arrangements, combinaisons), probabilité d'une réunion, probabilités conditionnelles, formule des probabilités totales et de Bayes…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="tests-diagnostiques.html">
+          <span class="topic-num">PA-03</span>
+          <span class="cours-chapter-text"><strong>Tests diagnostiques : sensibilité, spécificité et valeurs prédictives</strong><span>Tableau de contingence, sensibilité, spécificité, valeurs prédictives positive et négative, rôle de la prévalence, rapports de vraisemblance.</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="variables-aleatoires-discretes.html">
+          <span class="topic-num">PA-04</span>
+          <span class="cours-chapter-text"><strong>Variables aléatoires discrètes : lois binomiale et de Poisson</strong><span>Espérance et variance, propriétés de linéarité, loi de Bernoulli, loi binomiale, loi de Poisson et approximation d'une loi binomiale par une loi…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="variables-aleatoires-continues-et-loi-normale.html">
+          <span class="topic-num">PA-05</span>
+          <span class="cours-chapter-text"><strong>Variables aléatoires continues et loi normale</strong><span>Densité et fonction de répartition, loi uniforme et loi exponentielle, loi normale, centrage et réduction, lecture de la table de la loi normale…</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-3" aria-labelledby="domaine-3-titre">
+      <h2 id="domaine-3-titre">Estimation et tests</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="echantillonnage-et-intervalles-de-confiance.html">
+          <span class="topic-num">PA-06</span>
+          <span class="cours-chapter-text"><strong>Échantillonnage et intervalles de confiance</strong><span>Moyenne d'échantillon et théorème central limite, erreur standard, intervalle de confiance d'une moyenne et d'une proportion, effet de la taille…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="tests-statistiques.html">
+          <span class="topic-num">PA-07</span>
+          <span class="cours-chapter-text"><strong>Tests statistiques : principe, risques et tests usuels</strong><span>Hypothèses nulle et alternative, risques de première et de deuxième espèce, puissance, degré de signification (p), test de comparaison d'une moyenne…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="epidemiologie-prevalence-incidence-risque-relatif.html">
+          <span class="topic-num">PA-08</span>
+          <span class="cours-chapter-text"><strong>Épidémiologie : prévalence, incidence, risque relatif et odds ratio</strong><span>Prévalence et incidence, taux, types d'études (cohorte, cas-témoins), risque relatif, odds ratio, différence de risques et nombre de sujets…</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-4" aria-labelledby="domaine-4-titre">
+      <h2 id="domaine-4-titre">Outils d'analyse</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="fonctions-derivees-differentielles-et-incertitudes.html">
+          <span class="topic-num">PA-09</span>
+          <span class="cours-chapter-text"><strong>Fonctions, dérivées, différentielles et incertitudes</strong><span>Dérivées usuelles et composées, dérivées partielles, différentielle totale et logarithmique, propagation des incertitudes, développements limités…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="equations-differentielles-et-modeles-pharmacocinetiques.html">
+          <span class="topic-num">PA-10</span>
+          <span class="cours-chapter-text"><strong>Équations différentielles et modèles pharmacocinétiques</strong><span>Équations différentielles linéaires du premier ordre, élimination d'un médicament (C' = -kC), demi-vie, perfusion à débit constant et plateau…</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section " id="methode" aria-labelledby="methode-titre">
+      <h2 id="methode-titre">Comment travailler les maths en PASS / L.AS ?</h2>
+      <ol class="cours-list">
+        <li><strong>Lire le cours du chapitre</strong> et refaire seul les exemples rédigés de la partie « Méthodes ».</li>
+        <li><strong>Chercher les exercices corrigés</strong> de la page avant d'ouvrir la correction, puis comparer la rédaction.</li>
+        <li><strong>S'entraîner par paliers</strong> dans l'application : palier 1 « Socle et automatismes », palier 2 « Entraînement et méthodes », palier 3 « Niveau partiels (épreuve) », palier 4 « Problèmes et interprétation ». Les exercices changent à chaque tirage.</li>
+        <li><strong>Mémoriser</strong> les définitions et formules avec les flashcards, quelques minutes par jour.</li>
+      </ol>
+    </section>
+
+    <section class="cours-section " id="faq" aria-labelledby="faq-titre">
+      <h2 id="faq-titre">Questions fréquentes sur les maths en PASS / L.AS</h2>
+      <div class="cours-faq">
+        <details class="cours-faq-item"><summary><h3>Quel est le programme de mathématiques en PASS et en L.AS ?</h3></summary><div><p>Il n'existe pas de programme national commun : chaque université fixe le contenu et les épreuves de ses unités d'enseignement. On y retrouve presque toujours la biostatistique (probabilités, lois, estimation, tests) et des outils d’analyse. Le site les couvre en 10 chapitres : statistique descriptive, probabilités et lois, estimation et tests, outils d'analyse.</p></div></details>
+        <details class="cours-faq-item"><summary><h3>Comment s’entraîner en biostatistique ?</h3></summary><div><p>Choisissez un chapitre puis « S'entraîner » : exercices générés à chaque tirage et problèmes en contexte médical, corrigés immédiatement, en quatre paliers (1. Socle et automatismes, 2. Entraînement et méthodes, 3. Niveau partiels (épreuve), 4. Problèmes et interprétation).</p></div></details>
+        <details class="cours-faq-item"><summary><h3>Ces contenus sont-ils gratuits ?</h3></summary><div><p>Oui, comme tout le site : sans inscription, sans publicité, sous licence libre CC BY-NC-SA.</p></div></details>
+      </div>
+    </section>
+
+    <nav class="cours-related" aria-label="Autres ressources">
+      <div><p class="cours-related-title">Autres classes</p><ul><li><a href="../">Tous les cours de maths</a></li></ul></div>
+      <div><p class="cours-related-title">Pages utiles</p><ul><li><a href="../../exercices-de-maths/">Exercices de maths corrigés</a>, tous niveaux</li><li><a href="../../entrainement-maths/">Entraînement en ligne</a> : paliers, rituels, flashcards</li></ul></div>
+    </nav>
+
+    <nav class="cours-pager" aria-label="Autres niveaux">
+      <a class="nav-portal-btn" href="../6e/">6e</a>
+      <a class="nav-portal-btn" href="../5e/">5e</a>
+      <a class="nav-portal-btn" href="../4e/">4e</a>
+      <a class="nav-portal-btn" href="../3e/">3e</a>
+      <a class="nav-portal-btn" href="../seconde/">Seconde</a>
+      <a class="nav-portal-btn" href="../premiere/">Première</a>
+      <a class="nav-portal-btn" href="../terminale/">Terminale</a>
+      <a class="nav-portal-btn" href="../l1/">Licence 1</a>
+      <a class="nav-portal-btn" href="../l2/">Licence 2</a>
+      <a class="nav-portal-btn" href="../l3/">Licence 3</a>
+      <a class="nav-portal-btn" href="../capes/">CAPES</a>
+      <a class="nav-portal-btn" href="../professeur-des-ecoles/">Professeur des écoles</a>
+      <a class="nav-portal-btn" href="../prepa-sante/">Prépa santé</a>
+      <a class="nav-portal-btn active" href="../pass-las/" aria-current="page">PASS / L.AS</a>
+    </nav>
+  </main>
+
+  <footer class="cours-footer">
+    <p>L'Établi des Maths — Conçu par Loïc Delaporte, professeur de mathématiques • 100 % gratuit, conforme aux programmes</p>
+    <p><a href="../../cours/">Cours de maths</a> · <a href="../../exercices-de-maths/">Exercices corrigés</a> · <a href="../../entrainement-maths/">Entraînement en ligne</a> · <a href="../../reviser-le-brevet-de-maths/">Réviser le brevet</a> · <a href="../../reussir-le-bac-de-maths/">Réussir le bac</a> · <a href="../../epreuve-d-entretien-capes/">Oral 2 du CAPES</a></p>
+    <p><a href="../../index.html">Ouvrir l'application</a> · <a href="../../rituels.html">Rituels</a> · <a href="../../brevet.html">Brevet blanc</a> · <a href="../../bac.html">Devoir type bac</a> · <a href="../../a-propos.html">Qui suis-je ?</a> · <a href="../../mentions-legales.html">Mentions légales</a> · <a href="mailto:delaporte@etabli-des-maths.fr">Contact</a></p>
+    <p>Contenus sous licence <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr" rel="license noopener">CC BY-NC-SA 4.0</a></p>
+  </footer>
+  <!-- Statistiques d'audience anonymes et conformes RGPD (GoatCounter) -->
+  <script data-goatcounter="https://etabli-des-maths.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>

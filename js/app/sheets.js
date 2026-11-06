@@ -48,6 +48,8 @@ Object.assign(window.MathsApp, {
     if (cycle === 'college') return '55 min';
     if (cycle === 'lycee') return '1 h';
     if (level === 'crpe') return '1 h 30';
+    if (level === 'sante') return '1 h';
+    if (level === 'pass') return '1 h 30';
     return level === 'capes' ? '2 h' : '1 h 30';
   },
 

@@ -1226,6 +1226,126 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://etabli-des-maths.fr/cours/prepa-sante/puissances-de-10.html</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://etabli-des-maths.fr/cours/prepa-sante/proportionnalite-concentrations-dilutions-et-posologies.html</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://etabli-des-maths.fr/cours/prepa-sante/pourcentages-evolutions-et-indices.html</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://etabli-des-maths.fr/cours/prepa-sante/fonction-exponentielle.html</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://etabli-des-maths.fr/cours/prepa-sante/fonction-logarithme-neperien.html</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://etabli-des-maths.fr/cours/prepa-sante/derivees-variations-et-courbes-de-concentration.html</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://etabli-des-maths.fr/cours/prepa-sante/suites-arithmetiques-et-geometriques.html</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://etabli-des-maths.fr/cours/prepa-sante/probabilites-conditionnelles-et-tests-de-depistage.html</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://etabli-des-maths.fr/cours/prepa-sante/variables-aleatoires-et-loi-binomiale.html</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://etabli-des-maths.fr/cours/prepa-sante/statistiques-descriptives.html</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://etabli-des-maths.fr/cours/pass-las/statistique-descriptive.html</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://etabli-des-maths.fr/cours/pass-las/probabilites-denombrement-independance.html</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://etabli-des-maths.fr/cours/pass-las/tests-diagnostiques.html</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://etabli-des-maths.fr/cours/pass-las/variables-aleatoires-discretes.html</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://etabli-des-maths.fr/cours/pass-las/variables-aleatoires-continues-et-loi-normale.html</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://etabli-des-maths.fr/cours/pass-las/echantillonnage-et-intervalles-de-confiance.html</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://etabli-des-maths.fr/cours/pass-las/tests-statistiques.html</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://etabli-des-maths.fr/cours/pass-las/epidemiologie-prevalence-incidence-risque-relatif.html</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://etabli-des-maths.fr/cours/pass-las/fonctions-derivees-differentielles-et-incertitudes.html</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://etabli-des-maths.fr/cours/pass-las/equations-differentielles-et-modeles-pharmacocinetiques.html</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://etabli-des-maths.fr/cours/6e/</loc>
     <lastmod>2026-11-06</lastmod>
     <changefreq>monthly</changefreq>
@@ -1293,6 +1413,18 @@
   </url>
   <url>
     <loc>https://etabli-des-maths.fr/cours/professeur-des-ecoles/</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://etabli-des-maths.fr/cours/prepa-sante/</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://etabli-des-maths.fr/cours/pass-las/</loc>
     <lastmod>2026-11-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>

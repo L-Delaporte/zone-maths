@@ -57,14 +57,14 @@
       "@type": "WebApplication",
       "name": "L'Établi des Maths",
       "url": "https://etabli-des-maths.fr/",
-      "description": "Cours et exercices de maths corrigés, générés à l'infini et classés par paliers de difficulté, rituels à projeter, flashcards et devoirs blancs, de la 6e au bac (et jusqu'aux concours : CAPES, professeur des écoles).",
+      "description": "Cours et exercices de maths corrigés, générés à l'infini et classés par paliers de difficulté, rituels à projeter, flashcards et devoirs blancs, de la 6e au bac (et jusqu'aux concours : CAPES, professeur des écoles, études de santé).",
       "applicationCategory": "EducationalApplication",
       "operatingSystem": "Web",
       "isAccessibleForFree": true,
       "inLanguage": "fr",
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" },
       "author": { "@type": "Person", "name": "Loïc Delaporte", "jobTitle": "Professeur de mathématiques" },
-      "educationalLevel": ["6e", "5e", "4e", "3e", "Brevet (DNB)", "Seconde", "Première spécialité", "Terminale spécialité", "Baccalauréat", "Licence", "CAPES", "Concours de professeur des écoles (CRPE)"]
+      "educationalLevel": ["6e", "5e", "4e", "3e", "Brevet (DNB)", "Seconde", "Première spécialité", "Terminale spécialité", "Baccalauréat", "Licence", "CAPES", "Concours de professeur des écoles (CRPE)", "Études de santé (PASS / L.AS)"]
     }
   ]
   </script>
@@ -138,10 +138,12 @@
             <button class="level-pill" id="level-btn-L2" data-level="L2" data-click="MathsApp.switchLevel" data-args='["L2"]'>L2 (S3/S4)</button>
             <button class="level-pill" id="level-btn-L3" data-level="L3" data-click="MathsApp.switchLevel" data-args='["L3"]'>L3 (S5/S6)</button>
           </div>
-          <!-- Concours (CAPES / agrégation, professeur des écoles) -->
+          <!-- Concours (CAPES / agrégation, professeur des écoles, études de santé) -->
           <div class="cycle-levels-group" id="levels-group-concours" style="display:none;">
             <button class="level-pill" id="level-btn-capes" data-level="capes" data-click="MathsApp.switchLevel" data-args='["capes"]'>CAPES / Agrég</button>
             <button class="level-pill" id="level-btn-crpe" data-level="crpe" data-click="MathsApp.switchLevel" data-args='["crpe"]'>Professeur des écoles</button>
+            <button class="level-pill" id="level-btn-sante" data-level="sante" data-click="MathsApp.switchLevel" data-args='["sante"]'>Prépa santé</button>
+            <button class="level-pill" id="level-btn-pass" data-level="pass" data-click="MathsApp.switchLevel" data-args='["pass"]'>PASS / L.AS</button>
           </div>
         </div>
       </div>
@@ -345,10 +347,12 @@
             <span class="home-cycle-status-badge badge-open">Libre Accès</span>
           </div>
           <div class="home-cycle-name">Concours</div>
-          <div class="home-cycle-desc">Professorat • CAPES et agrégation, mathématiques du concours de professeur des écoles</div>
+          <div class="home-cycle-desc">Professorat • CAPES et agrégation, professeur des écoles. Études de santé • prépa santé, PASS / L.AS</div>
           <div class="home-cycle-levels">
             <button class="level-pill-mini" data-click="MathsApp.switchLevel" data-args='["capes"]' data-stop>CAPES / Agrég</button>
             <button class="level-pill-mini" data-click="MathsApp.switchLevel" data-args='["crpe"]' data-stop>Professeur des écoles</button>
+            <button class="level-pill-mini" data-click="MathsApp.switchLevel" data-args='["sante"]' data-stop>Prépa santé</button>
+            <button class="level-pill-mini" data-click="MathsApp.switchLevel" data-args='["pass"]' data-stop>PASS / L.AS</button>
           </div>
         </div>
       </div>
@@ -1353,6 +1357,7 @@
   <script src="js/data/chapters_lycee.js?v=9c8659021a"></script>
   <script src="js/data/chapters_licence.js?v=862554015c"></script>
   <script src="js/data/chapters_crpe.js?v=10b36172f9"></script>
+  <script src="js/data/chapters_sante.js?v=76fbde9961"></script>
   <script src="js/data/data_capes.js?v=472498f26b"></script>
 
   <!--
@@ -1372,20 +1377,22 @@
     "L2": ["js/data/data_l2.js?v=dc14a61449", "js/data/ds_bank_l2.js?v=20b64ded8e", "js/data/data_proofs.js?v=a0b3632e2e", "js/advancedGenerators.js?v=1619c6d047", "js/lyceeGenerators.js?v=ee6f054de0"],
     "L3": ["js/data/data_l3.js?v=365e050528", "js/data/ds_bank_l3.js?v=b8cae8303e", "js/data/data_proofs.js?v=a0b3632e2e", "js/advancedGenerators.js?v=1619c6d047", "js/lyceeGenerators.js?v=ee6f054de0"],
     "capes": ["js/data/ds_bank_capes.js?v=966ae95b45", "js/data/data_proofs.js?v=a0b3632e2e", "js/advancedGenerators.js?v=1619c6d047", "js/lyceeGenerators.js?v=ee6f054de0"],
-    "crpe": ["js/data/data_crpe.js?v=f4cc0a84b4", "js/data/exercises_crpe.js?v=5f5cd3b923", "js/randomGenerators.js?v=cb044e9561", "js/generators6e.js?v=cc705c0f30", "js/crpeGenerators.js?v=4f97ee9662"]
+    "crpe": ["js/data/data_crpe.js?v=f4cc0a84b4", "js/data/exercises_crpe.js?v=5f5cd3b923", "js/randomGenerators.js?v=cb044e9561", "js/generators6e.js?v=cc705c0f30", "js/crpeGenerators.js?v=4f97ee9662"],
+    "sante": ["js/data/data_sante.js?v=e5ada6bcec", "js/data/exercises_sante.js?v=4182d4ff9d", "js/advancedGenerators.js?v=1619c6d047", "js/lyceeGenerators.js?v=ee6f054de0", "js/santeGenerators.js?v=e0a8e75e34"],
+    "pass": ["js/data/data_pass.js?v=be9c1f13f2", "js/data/exercises_pass.js?v=963d44528f", "js/advancedGenerators.js?v=1619c6d047", "js/lyceeGenerators.js?v=ee6f054de0", "js/santeGenerators.js?v=e0a8e75e34"]
   }
   </script>
 
   <!-- Modules applicatifs -->
   <script src="js/data/defis.js?v=3bb2c75031"></script>
-  <script src="js/badges.js?v=82d02866c4"></script>
-  <script src="js/storage.js?v=9259dda0a6"></script>
+  <script src="js/badges.js?v=c54d3c0441"></script>
+  <script src="js/storage.js?v=ddb7249f87"></script>
   <script src="js/audioEffects.js?v=c9749a11c5"></script>
   <script src="js/confetti.js?v=2f09c3d81b"></script>
   <script src="js/mathRenderer.js?v=f11fac766a"></script>
   <script src="js/geometryFigures.js?v=656295f7c5"></script>
   <script src="js/scratchRenderer.js?v=5f9033f40a"></script>
-  <script src="js/adaptiveEngine.js?v=b0ba52c78c"></script>
+  <script src="js/adaptiveEngine.js?v=d4eca5dc3b"></script>
   <script src="js/generatorsCore.js?v=5a2f64b52a"></script>
   <script src="js/proofEngine.js?v=f99d384bfd"></script>
   <script src="js/mathVisualizer.js?v=c374ad43df"></script>
@@ -1393,12 +1400,12 @@
   <script src="js/flashQuizGenerator.js?v=c9a8fd5230"></script>
   <script src="js/flashcardsEngine.js?v=9621e5c78a"></script>
   <script src="js/dataLoader.js?v=828f7fa67d"></script>
-  <script src="js/app.js?v=bb7db4dad2"></script>
+  <script src="js/app.js?v=ae564471c9"></script>
   <script src="js/app/home.js?v=c25700373c"></script>
   <script src="js/app/tools.js?v=4b710dcdc8"></script>
-  <script src="js/app/training.js?v=e41b8009fc"></script>
+  <script src="js/app/training.js?v=908a2452e4"></script>
   <script src="js/app/course.js?v=1ad34b342a"></script>
-  <script src="js/app/sheets.js?v=14d313b2f0"></script>
+  <script src="js/app/sheets.js?v=85cb2a564f"></script>
   <script src="js/app/defi.js?v=1e8bbcd86e"></script>
   <script src="js/app/stats.js?v=fd7ce9df6d"></script>
   <script src="js/pwaManager.js?v=325a61601c"></script>

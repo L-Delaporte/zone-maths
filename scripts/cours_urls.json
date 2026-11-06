@@ -571,5 +571,65 @@
  ],
  "crpe-11": [
   "professeur-des-ecoles/algorithmique-et-programmation.html"
+ ],
+ "pass-01": [
+  "pass-las/statistique-descriptive.html"
+ ],
+ "pass-02": [
+  "pass-las/probabilites-denombrement-independance.html"
+ ],
+ "pass-03": [
+  "pass-las/tests-diagnostiques.html"
+ ],
+ "pass-04": [
+  "pass-las/variables-aleatoires-discretes.html"
+ ],
+ "pass-05": [
+  "pass-las/variables-aleatoires-continues-et-loi-normale.html"
+ ],
+ "pass-06": [
+  "pass-las/echantillonnage-et-intervalles-de-confiance.html"
+ ],
+ "pass-07": [
+  "pass-las/tests-statistiques.html"
+ ],
+ "pass-08": [
+  "pass-las/epidemiologie-prevalence-incidence-risque-relatif.html"
+ ],
+ "pass-09": [
+  "pass-las/fonctions-derivees-differentielles-et-incertitudes.html"
+ ],
+ "pass-10": [
+  "pass-las/equations-differentielles-et-modeles-pharmacocinetiques.html"
+ ],
+ "sante-01": [
+  "prepa-sante/puissances-de-10.html"
+ ],
+ "sante-02": [
+  "prepa-sante/proportionnalite-concentrations-dilutions-et-posologies.html"
+ ],
+ "sante-03": [
+  "prepa-sante/pourcentages-evolutions-et-indices.html"
+ ],
+ "sante-04": [
+  "prepa-sante/fonction-exponentielle.html"
+ ],
+ "sante-05": [
+  "prepa-sante/fonction-logarithme-neperien.html"
+ ],
+ "sante-06": [
+  "prepa-sante/derivees-variations-et-courbes-de-concentration.html"
+ ],
+ "sante-07": [
+  "prepa-sante/suites-arithmetiques-et-geometriques.html"
+ ],
+ "sante-08": [
+  "prepa-sante/probabilites-conditionnelles-et-tests-de-depistage.html"
+ ],
+ "sante-09": [
+  "prepa-sante/variables-aleatoires-et-loi-binomiale.html"
+ ],
+ "sante-10": [
+  "prepa-sante/statistiques-descriptives.html"
  ]
 }

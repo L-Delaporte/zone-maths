@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <!-- Content-Security-Policy : voir scripts/csp.js (style-src 'unsafe-inline' requis par les attributs style de KaTeX) -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://gc.zgo.at; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://etabli-des-maths.goatcounter.com; font-src 'self' data:; connect-src 'self' https://etabli-des-maths.goatcounter.com; object-src 'none'; base-uri 'self'; form-action 'self'; manifest-src 'self'; worker-src 'self'" />
+  <script src="../../js/themeInit.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Maths en prépa santé : cours et exercices corrigés gratuits</title>
+  <meta name="description" content="Maths en prépa santé : 10 chapitres de cours avec méthodes et exercices corrigés, gratuits et sans inscription. Notation scientifique et unités, dilutions…" />
+  <meta name="author" content="Loïc Delaporte, professeur de mathématiques" />
+  <link rel="canonical" href="https://etabli-des-maths.fr/cours/prepa-sante/" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Maths en prépa santé : cours et exercices corrigés gratuits" />
+  <meta property="og:description" content="Maths en prépa santé : 10 chapitres de cours avec méthodes et exercices corrigés, gratuits et sans inscription. Notation scientifique et unités, dilutions…" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://etabli-des-maths.fr/cours/prepa-sante/" />
+  <meta property="og:image" content="https://etabli-des-maths.fr/assets/logo.jpg" />
+  <meta property="og:image:alt" content="Maths en prépa santé : cours et exercices corrigés gratuits" />
+  <meta name="twitter:card" content="summary" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta property="og:site_name" content="L'Établi des Maths" />
+
+  <link rel="stylesheet" href="../../css/style.css" />
+  <link rel="stylesheet" href="../../css/landing.css" />
+  <link rel="stylesheet" href="../../vendor/katex/katex.min.css" />
+  <link rel="stylesheet" href="../../css/cours.css" />
+  <link rel="icon" href="../../favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../../assets/favicon-32x32.png" />
+  <link rel="apple-touch-icon" href="../../assets/favicon.png" />
+  <link rel="manifest" href="../../manifest.json" />
+  <meta name="theme-color" content="#2563eb" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Cours et exercices de maths en prépa santé, gratuits et corrigés",
+    "description": "Maths en prépa santé : 10 chapitres de cours avec méthodes et exercices corrigés, gratuits et sans inscription. Notation scientifique et unités, dilutions…",
+    "url": "https://etabli-des-maths.fr/cours/prepa-sante/",
+    "inLanguage": "fr",
+    "educationalLevel": "Lycée — terminale, préparation aux études de santé (PASS, L.AS)",
+    "isAccessibleForFree": true,
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "L'Établi des Maths",
+      "url": "https://etabli-des-maths.fr/"
+    },
+    "mainEntity": {
+      "@type": "ItemList",
+      "numberOfItems": 10,
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Puissances de 10, notation scientifique et unités",
+          "url": "https://etabli-des-maths.fr/cours/prepa-sante/puissances-de-10.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Proportionnalité, concentrations, dilutions et posologies",
+          "url": "https://etabli-des-maths.fr/cours/prepa-sante/proportionnalite-concentrations-dilutions-et-posologies.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Pourcentages, évolutions et indices",
+          "url": "https://etabli-des-maths.fr/cours/prepa-sante/pourcentages-evolutions-et-indices.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Fonction exponentielle : croissance et décroissance",
+          "url": "https://etabli-des-maths.fr/cours/prepa-sante/fonction-exponentielle.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 5,
+          "name": "Fonction logarithme népérien, demi-vie et pH",
+          "url": "https://etabli-des-maths.fr/cours/prepa-sante/fonction-logarithme-neperien.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 6,
+          "name": "Dérivées, variations et courbes de concentration",
+          "url": "https://etabli-des-maths.fr/cours/prepa-sante/derivees-variations-et-courbes-de-concentration.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 7,
+          "name": "Suites arithmétiques et géométriques : modèles d'évolution",
+          "url": "https://etabli-des-maths.fr/cours/prepa-sante/suites-arithmetiques-et-geometriques.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 8,
+          "name": "Probabilités conditionnelles et tests de dépistage",
+          "url": "https://etabli-des-maths.fr/cours/prepa-sante/probabilites-conditionnelles-et-tests-de-depistage.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 9,
+          "name": "Variables aléatoires et loi binomiale",
+          "url": "https://etabli-des-maths.fr/cours/prepa-sante/variables-aleatoires-et-loi-binomiale.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 10,
+          "name": "Statistiques descriptives : moyenne, écart type, médiane et quartiles",
+          "url": "https://etabli-des-maths.fr/cours/prepa-sante/statistiques-descriptives.html"
+        }
+      ]
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Quelles mathématiques réviser avant des études de santé ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Il n'existe pas de programme national commun : chaque université fixe le contenu et les épreuves de ses unités d'enseignement. Les notions de terminale les plus utilisées sont les calculs de dosage, l’exponentielle et le logarithme, les probabilités conditionnelles et la loi binomiale. Le site les couvre en 10 chapitres : calculs et dosages, fonctions et suites, probabilités et statistiques."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Comment s’entraîner pour les études de santé ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Choisissez un chapitre puis « S'entraîner » : exercices générés à chaque tirage et problèmes en contexte médical, corrigés immédiatement, en quatre paliers (1. Socle et automatismes, 2. Entraînement et méthodes, 3. Objectif études de santé, 4. Problèmes et interprétation)."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Ces contenus sont-ils gratuits ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Oui, comme tout le site : sans inscription, sans publicité, sous licence libre CC BY-NC-SA."
+        }
+      }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Accueil",
+        "item": "https://etabli-des-maths.fr/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Cours",
+        "item": "https://etabli-des-maths.fr/cours/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Prépa santé",
+        "item": "https://etabli-des-maths.fr/cours/prepa-sante/"
+      }
+    ]
+  }
+  </script>
+</head>
+<body class="cours-page">
+  <a class="cours-skip" href="#contenu">Aller au contenu</a>
+
+  <!-- Header Uniformisé -->
+  <header class="app-header">
+    <div class="header-inner">
+      <a href="../../index.html" class="brand-container">
+        <img src="../../assets/logo-96.png" alt="" class="brand-logo-img" width="44" height="44" />
+        <div class="brand-text">
+          <p class="brand-title">L'Établi des Maths <span class="brand-level-tag">Cours</span></p>
+          <span class="brand-tagline">Outils pour apprendre et pratiquer</span>
+        </div>
+      </a>
+
+      <!-- Navigation entre Portails -->
+      <nav class="nav-portal-links" aria-label="Portails thématiques">
+        <a href="../../index.html" class="nav-portal-btn">🏠 Accueil</a>
+        <a href="../../cours/" class="nav-portal-btn active" aria-current="true">📚 Cours</a>
+        <a href="../../exercices-de-maths/" class="nav-portal-btn">✏️ Exercices</a>
+        <a href="../../rituels.html" class="nav-portal-btn">⏱️ Rituels</a>
+        <a href="../../reviser-le-brevet-de-maths/" class="nav-portal-btn">📝 Brevet</a>
+        <a href="../../reussir-le-bac-de-maths/" class="nav-portal-btn">🎓 Bac</a>
+        <a href="../../enseignants.html" class="nav-portal-btn">👨‍🏫 Enseignants</a>
+        <a href="../../parents.html" class="nav-portal-btn">👪 Parents</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="landing-wrapper cours-wrapper" id="contenu" tabindex="-1">
+    <nav class="cours-breadcrumb" aria-label="Fil d'Ariane">
+      <ol>
+        <li><a href="../../index.html">Accueil</a></li>
+        <li><a href="../">Cours</a></li>
+        <li><span aria-current="page">Prépa santé</span></li>
+      </ol>
+    </nav>
+
+    <header class="cours-hero">
+      <p class="landing-tag">Concours · Prépa santé · 10 chapitres</p>
+      <h1 class="cours-title">Cours et exercices de maths en prépa santé, gratuits et corrigés</h1>
+      <p class="cours-lead">Les mathématiques utiles pour réussir en études de santé, au niveau terminale : notation scientifique et unités, dilutions et posologies, pourcentages, exponentielle et logarithme (demi-vie, pH), dérivées et courbes de concentration, suites de doses répétées, tests de dépistage, loi binomiale et statistiques. Chaque chapitre contient le cours complet, des méthodes rédigées et des exercices corrigés, puis renvoie vers des exercices générés à l'infini pour s'entraîner.</p>
+      <div class="cours-cta">
+        <a class="btn-primary cours-cta-main" href="../../index.html?level=sante">🎯 S'entraîner en prépa santé</a>
+      </div>
+    </header>
+
+    <section class="cours-section" id="domaine-1" aria-labelledby="domaine-1-titre">
+      <h2 id="domaine-1-titre">Calculs et dosages</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="puissances-de-10.html">
+          <span class="topic-num">PS-01</span>
+          <span class="cours-chapter-text"><strong>Puissances de 10, notation scientifique et unités</strong><span>Puissances de 10, notation scientifique, préfixes du système international (du nano au méga), conversions de masses, de volumes et de débits, ordres…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="proportionnalite-concentrations-dilutions-et-posologies.html">
+          <span class="topic-num">PS-02</span>
+          <span class="cours-chapter-text"><strong>Proportionnalité, concentrations, dilutions et posologies</strong><span>Proportionnalité, concentration massique, dilution (C1V1 = C2V2), posologie en mg/kg, débit d'une perfusion, produit en croix et unités cohérentes.</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="pourcentages-evolutions-et-indices.html">
+          <span class="topic-num">PS-03</span>
+          <span class="cours-chapter-text"><strong>Pourcentages, évolutions et indices</strong><span>Proportion et pourcentage d'un pourcentage, taux d'évolution et coefficient multiplicateur, évolutions successives et réciproques, taux moyen…</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-2" aria-labelledby="domaine-2-titre">
+      <h2 id="domaine-2-titre">Fonctions et suites</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="fonction-exponentielle.html">
+          <span class="topic-num">PS-04</span>
+          <span class="cours-chapter-text"><strong>Fonction exponentielle : croissance et décroissance</strong><span>Propriétés algébriques de l'exponentielle, fonctions t ↦ ekt, croissance d'une population bactérienne, décroissance de la concentration d'un…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="fonction-logarithme-neperien.html">
+          <span class="topic-num">PS-05</span>
+          <span class="cours-chapter-text"><strong>Fonction logarithme népérien, demi-vie et pH</strong><span>Propriétés du logarithme népérien, résolution d'équations ekt = a, temps de doublement et demi-vie, logarithme décimal et pH.</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="derivees-variations-et-courbes-de-concentration.html">
+          <span class="topic-num">PS-06</span>
+          <span class="cours-chapter-text"><strong>Dérivées, variations et courbes de concentration</strong><span>Dérivées usuelles et composées (eu, ln u), tableau de variations, maximum d'une concentration, vitesse d'évolution et tangente, lecture de courbes.</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="suites-arithmetiques-et-geometriques.html">
+          <span class="topic-num">PS-07</span>
+          <span class="cours-chapter-text"><strong>Suites arithmétiques et géométriques : modèles d'évolution</strong><span>Suites arithmétiques et géométriques, terme général et somme, suites arithmético-géométriques (doses répétées d'un médicament), limite et seuil.</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-3" aria-labelledby="domaine-3-titre">
+      <h2 id="domaine-3-titre">Probabilités et statistiques</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="probabilites-conditionnelles-et-tests-de-depistage.html">
+          <span class="topic-num">PS-08</span>
+          <span class="cours-chapter-text"><strong>Probabilités conditionnelles et tests de dépistage</strong><span>Arbres pondérés, probabilités conditionnelles, formule des probabilités totales, indépendance, tests de dépistage (sensibilité, spécificité…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="variables-aleatoires-et-loi-binomiale.html">
+          <span class="topic-num">PS-09</span>
+          <span class="cours-chapter-text"><strong>Variables aléatoires et loi binomiale</strong><span>Variable aléatoire, espérance et variance, schéma de Bernoulli, loi binomiale (calculs, espérance, au moins un succès), fluctuation.</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="statistiques-descriptives.html">
+          <span class="topic-num">PS-10</span>
+          <span class="cours-chapter-text"><strong>Statistiques descriptives : moyenne, écart type, médiane et quartiles</strong><span>Moyenne et moyenne pondérée, variance et écart type, médiane, quartiles et écart interquartile, effet d'un changement d'unité, lecture de diagrammes…</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section " id="methode" aria-labelledby="methode-titre">
+      <h2 id="methode-titre">Comment travailler les maths en prépa santé ?</h2>
+      <ol class="cours-list">
+        <li><strong>Lire le cours du chapitre</strong> et refaire seul les exemples rédigés de la partie « Méthodes ».</li>
+        <li><strong>Chercher les exercices corrigés</strong> de la page avant d'ouvrir la correction, puis comparer la rédaction.</li>
+        <li><strong>S'entraîner par paliers</strong> dans l'application : palier 1 « Socle et automatismes », palier 2 « Entraînement et méthodes », palier 3 « Objectif études de santé », palier 4 « Problèmes et interprétation ». Les exercices changent à chaque tirage.</li>
+        <li><strong>Mémoriser</strong> les définitions et formules avec les flashcards, quelques minutes par jour.</li>
+      </ol>
+    </section>
+
+    <section class="cours-section " id="faq" aria-labelledby="faq-titre">
+      <h2 id="faq-titre">Questions fréquentes sur les maths en prépa santé</h2>
+      <div class="cours-faq">
+        <details class="cours-faq-item"><summary><h3>Quelles mathématiques réviser avant des études de santé ?</h3></summary><div><p>Il n'existe pas de programme national commun : chaque université fixe le contenu et les épreuves de ses unités d'enseignement. Les notions de terminale les plus utilisées sont les calculs de dosage, l’exponentielle et le logarithme, les probabilités conditionnelles et la loi binomiale. Le site les couvre en 10 chapitres : calculs et dosages, fonctions et suites, probabilités et statistiques.</p></div></details>
+        <details class="cours-faq-item"><summary><h3>Comment s’entraîner pour les études de santé ?</h3></summary><div><p>Choisissez un chapitre puis « S'entraîner » : exercices générés à chaque tirage et problèmes en contexte médical, corrigés immédiatement, en quatre paliers (1. Socle et automatismes, 2. Entraînement et méthodes, 3. Objectif études de santé, 4. Problèmes et interprétation).</p></div></details>
+        <details class="cours-faq-item"><summary><h3>Ces contenus sont-ils gratuits ?</h3></summary><div><p>Oui, comme tout le site : sans inscription, sans publicité, sous licence libre CC BY-NC-SA.</p></div></details>
+      </div>
+    </section>
+
+    <nav class="cours-related" aria-label="Autres ressources">
+      <div><p class="cours-related-title">Autres classes</p><ul><li><a href="../">Tous les cours de maths</a></li></ul></div>
+      <div><p class="cours-related-title">Pages utiles</p><ul><li><a href="../../exercices-de-maths/">Exercices de maths corrigés</a>, tous niveaux</li><li><a href="../../entrainement-maths/">Entraînement en ligne</a> : paliers, rituels, flashcards</li></ul></div>
+    </nav>
+
+    <nav class="cours-pager" aria-label="Autres niveaux">
+      <a class="nav-portal-btn" href="../6e/">6e</a>
+      <a class="nav-portal-btn" href="../5e/">5e</a>
+      <a class="nav-portal-btn" href="../4e/">4e</a>
+      <a class="nav-portal-btn" href="../3e/">3e</a>
+      <a class="nav-portal-btn" href="../seconde/">Seconde</a>
+      <a class="nav-portal-btn" href="../premiere/">Première</a>
+      <a class="nav-portal-btn" href="../terminale/">Terminale</a>
+      <a class="nav-portal-btn" href="../l1/">Licence 1</a>
+      <a class="nav-portal-btn" href="../l2/">Licence 2</a>
+      <a class="nav-portal-btn" href="../l3/">Licence 3</a>
+      <a class="nav-portal-btn" href="../capes/">CAPES</a>
+      <a class="nav-portal-btn" href="../professeur-des-ecoles/">Professeur des écoles</a>
+      <a class="nav-portal-btn active" href="../prepa-sante/" aria-current="page">Prépa santé</a>
+      <a class="nav-portal-btn" href="../pass-las/">PASS / L.AS</a>
+    </nav>
+  </main>
+
+  <footer class="cours-footer">
+    <p>L'Établi des Maths — Conçu par Loïc Delaporte, professeur de mathématiques • 100 % gratuit, conforme aux programmes</p>
+    <p><a href="../../cours/">Cours de maths</a> · <a href="../../exercices-de-maths/">Exercices corrigés</a> · <a href="../../entrainement-maths/">Entraînement en ligne</a> · <a href="../../reviser-le-brevet-de-maths/">Réviser le brevet</a> · <a href="../../reussir-le-bac-de-maths/">Réussir le bac</a> · <a href="../../epreuve-d-entretien-capes/">Oral 2 du CAPES</a></p>
+    <p><a href="../../index.html">Ouvrir l'application</a> · <a href="../../rituels.html">Rituels</a> · <a href="../../brevet.html">Brevet blanc</a> · <a href="../../bac.html">Devoir type bac</a> · <a href="../../a-propos.html">Qui suis-je ?</a> · <a href="../../mentions-legales.html">Mentions légales</a> · <a href="mailto:delaporte@etabli-des-maths.fr">Contact</a></p>
+    <p>Contenus sous licence <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr" rel="license noopener">CC BY-NC-SA 4.0</a></p>
+  </footer>
+  <!-- Statistiques d'audience anonymes et conformes RGPD (GoatCounter) -->
+  <script data-goatcounter="https://etabli-des-maths.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>

@@ -19,11 +19,12 @@ window.MathsApp = {
     college: { id: 'college', name: 'Collège', defaultLevel: '3eme', levels: ['6eme', '5eme', '4eme', '3eme'] },
     lycee: { id: 'lycee', name: 'Lycée', defaultLevel: '2nde', levels: ['2nde', '1ere', 'tale'] },
     licence: { id: 'licence', name: 'Licence', defaultLevel: 'L1', levels: ['L1', 'L2', 'L3'] },
-    // Concours : CAPES / agrégation et professeur des écoles (CRPE) ; d'autres concours (santé, vétérinaire) pourront s'y ajouter
-    concours: { id: 'concours', name: 'Concours', defaultLevel: 'capes', levels: ['capes', 'crpe'] }
+    // Concours : CAPES / agrégation, professeur des écoles (CRPE), études de santé (prépa santé, PASS / L.AS) ;
+    // le concours vétérinaire pourra s'y ajouter
+    concours: { id: 'concours', name: 'Concours', defaultLevel: 'capes', levels: ['capes', 'crpe', 'sante', 'pass'] }
   },
 
-  VALID_LEVELS: ['6eme', '5eme', '4eme', '3eme', '2nde', '1ere', 'tale', 'L1', 'L2', 'L3', 'capes', 'crpe'],
+  VALID_LEVELS: ['6eme', '5eme', '4eme', '3eme', '2nde', '1ere', 'tale', 'L1', 'L2', 'L3', 'capes', 'crpe', 'sante', 'pass'],
 
   LEVEL_LABELS: {
     '6eme': '6ème',
@@ -37,7 +38,9 @@ window.MathsApp = {
     'L2': 'Licence 2 (L2)',
     'L3': 'Licence 3 (L3)',
     'capes': 'CAPES / Agrég',
-    'crpe': 'Professeur des écoles (CRPE)'
+    'crpe': 'Professeur des écoles (CRPE)',
+    'sante': 'Prépa santé (terminale)',
+    'pass': 'Médecine : PASS / L.AS'
   },
 
   getLevelName(level) {
@@ -819,6 +822,21 @@ window.MathsApp = {
         { domain: 'all', label: 'Tous' },
         { domain: 'oral1', label: '📐 Oral 1 : Leçons' },
         { domain: 'oral2', label: '⚖️ Oral 2 : Entretien' }
+      ];
+    } else if (this.currentLevel === 'sante') {
+      filters = [
+        { domain: 'all', label: 'Tous' },
+        { domain: 'calculs', label: '💊 Calculs & dosages' },
+        { domain: 'fonctions', label: '📈 Fonctions & suites' },
+        { domain: 'probas', label: '🎲 Probabilités & statistiques' }
+      ];
+    } else if (this.currentLevel === 'pass') {
+      filters = [
+        { domain: 'all', label: 'Tous' },
+        { domain: 'stats', label: '📊 Statistique descriptive' },
+        { domain: 'probas', label: '🎲 Probabilités & lois' },
+        { domain: 'inference', label: '🔬 Estimation & tests' },
+        { domain: 'analyse', label: '📈 Outils d\'analyse' }
       ];
     } else {
       filters = [

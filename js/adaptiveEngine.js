@@ -92,6 +92,14 @@ window.MathsAdaptiveEngine = {
         4: "Palier 4 : Problèmes & Justifications"
       };
       return names[t] || `Palier ${t}`;
+    } else if (lvl === 'sante' || lvl === 'pass') {
+      const names = {
+        1: "Palier 1 : Socle & Automatismes",
+        2: "Palier 2 : Entraînement & Méthodes",
+        3: lvl === 'pass' ? "Palier 3 : Niveau Partiels" : "Palier 3 : Objectif Santé",
+        4: "Palier 4 : Problèmes & Interprétation"
+      };
+      return names[t] || `Palier ${t}`;
     } else if (['L1', 'L2', 'L3', 'licence'].includes(lvl)) {
       const names = {
         1: "Palier 1 : Socle & Définitions",
@@ -1920,6 +1928,9 @@ window.MathsAdaptiveEngine = {
       } else if (lvl === 'crpe') {
         tier4Title = 'Prêt pour le concours';
         tier4Desc = 'Avoir débloqué le palier 4 (Problèmes & Justifications).';
+      } else if (lvl === 'sante' || lvl === 'pass') {
+        tier4Title = lvl === 'pass' ? 'Prêt pour les partiels de santé' : 'Prêt pour les études de santé';
+        tier4Desc = 'Avoir débloqué le palier 4 (Problèmes & Interprétation).';
       } else if (['L1', 'L2', 'L3', 'licence'].includes(lvl)) {
         tier4Title = 'Rigueur Universitaire';
         tier4Desc = 'Avoir débloqué le palier 4 (Démonstrations & Rigueur).';

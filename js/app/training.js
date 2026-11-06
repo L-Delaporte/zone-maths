@@ -355,6 +355,14 @@ Object.assign(window.MathsApp, {
         4: "Palier 4 : Justifier"
       };
       return labels[t] || `Palier ${t}`;
+    } else if (lvl === 'sante' || lvl === 'pass') {
+      const labels = {
+        1: "Palier 1 : Socle",
+        2: "Palier 2 : Méthodes",
+        3: lvl === 'pass' ? "Palier 3 : Partiels" : "Palier 3 : Santé",
+        4: "Palier 4 : Interpréter"
+      };
+      return labels[t] || `Palier ${t}`;
     } else if (lvl === 'capes') {
       if (this.currentChapterId === 'capes-oral2-cas') {
         const labels = {
@@ -449,6 +457,14 @@ Object.assign(window.MathsApp, {
         2: "Entraînement & Méthodes",
         3: "Niveau Concours (Écrit)",
         4: "Problèmes, Justifications & Erreurs d'élèves"
+      };
+      return names[t] || `Niveau ${t}`;
+    } else if (lvl === 'sante' || lvl === 'pass') {
+      const names = {
+        1: "Socle & Automatismes",
+        2: "Entraînement & Méthodes",
+        3: lvl === 'pass' ? "Niveau Partiels (Épreuve)" : "Objectif Études de santé",
+        4: "Problèmes & Interprétation"
       };
       return names[t] || `Niveau ${t}`;
     } else if (lvl === 'capes') {
