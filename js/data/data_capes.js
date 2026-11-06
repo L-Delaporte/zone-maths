@@ -700,7 +700,7 @@
       "domain": "Éthique & Laïcité",
       "level": "CAPES / Agrégation",
       "prerequisites": [
-        "Format de l'épreuve d'entretien du CAPES externe (35 minutes, coefficient 3, sans préparation, note 0 éliminatoire), commune à toutes les disciplines : une première partie de 15 minutes sur la motivation et le parcours du candidat, ouverte par une présentation de 5 minutes, puis 20 minutes d'entretien. Au concours bac + 5, la présentation s'appuie sur la fiche individuelle de renseignement et la seconde partie comporte deux mises en situation professionnelles, l'une d'enseignement, l'autre relative à la vie scolaire ; au concours bac + 3, organisé à partir de la session 2026, elle comprend des questions et une mise en situation sur les valeurs de la République, dont la laïcité, et sur la projection dans le métier. Le jury apprécie l'aptitude à s'approprier les valeurs de la République et les exigences du service public.",
+        "Format de l'épreuve d'entretien du CAPES externe (35 minutes, coefficient 3, sans préparation, note 0 éliminatoire), commune à toutes les disciplines : une première partie de 15 minutes sur la motivation et le parcours du candidat, ouverte par une présentation de 5 minutes, puis 20 minutes d'entretien. Au concours bac + 5, la présentation s'appuie sur la fiche individuelle de renseignement et la seconde partie comporte deux mises en situation professionnelles, l'une d'enseignement, l'autre relative à la vie scolaire ; au concours bac + 3, organisé à partir de la session 2026, elle prend la forme d'un entretien comportant une mise en situation, sur les valeurs de la République, dont la laïcité, la projection dans le métier, les exigences du service public, la transition écologique et l'épanouissement de l'élève. Le jury apprécie l'aptitude à s'approprier les valeurs de la République et les exigences du service public.",
         "Constitution du 4 octobre 1958, article 1er : la France est une République indivisible, laïque, démocratique et sociale, qui assure l'égalité devant la loi de tous les citoyens et respecte toutes les croyances.",
         "Code de l'éducation, article L. 111-1 : outre la transmission des connaissances, la Nation fixe comme mission première à l'école de faire partager aux élèves les valeurs de la République ; le service public de l'éducation veille à la scolarisation inclusive de tous les enfants, sans aucune distinction.",
         "Loi du 9 décembre 1905 concernant la séparation des Églises et de l'État, et loi n° 2004-228 du 15 mars 2004, codifiée à l'article L. 141-5-1 du Code de l'éducation, sur le port de signes ou de tenues manifestant ostensiblement une appartenance religieuse.",
@@ -2253,7 +2253,7 @@
         correctIndex: 0,
         answer: "Il ne révèle rien : les faits et informations dont il a connaissance dans l'exercice de ses fonctions relèvent de la discrétion professionnelle",
         hint1: "L'obligation vaut pour tous les faits, informations ou documents connus à l'occasion du service.",
-        solution: "Le fonctionnaire est tenu au secret professionnel dans les conditions du Code pénal et doit faire preuve de discrétion professionnelle pour tous les faits, informations ou documents dont il a connaissance dans l'exercice ou à l'occasion de ses fonctions (Code général de la fonction publique, articles L. 121-6 et L. 121-7). La situation d'un autre élève ne regarde pas cette mère, même si elle siège au conseil de classe, où les participants sont eux-mêmes tenus à la discrétion. Le professeur décline poliment, sans rien confirmer."
+        solution: "Le fonctionnaire est tenu au secret professionnel dans les conditions du Code pénal et doit faire preuve de discrétion professionnelle pour tous les faits, informations ou documents dont il a connaissance dans l'exercice ou à l'occasion de ses fonctions (Code général de la fonction publique, articles L. 121-6 et L. 121-7). La situation d'un autre élève ne regarde pas cette mère. Le professeur décline poliment, sans rien confirmer."
       },
       {
         id: "capes-oral2-20",
@@ -2307,7 +2307,7 @@
         correctIndex: 0,
         answer: "Non : le principe de laïcité fait obstacle à ce que les agents du service public de l'enseignement manifestent leurs croyances religieuses dans l'exercice de leurs fonctions, qu'ils enseignent ou non",
         hint1: "L'avis du Conseil d'État du 3 mai 2000 portait justement sur une surveillante.",
-        solution: "Dans son avis du 3 mai 2000 (Mlle Marteaux), le Conseil d'État a indiqué que le principe de laïcité fait obstacle à ce que les agents du service public de l'enseignement manifestent leurs croyances religieuses dans l'exercice de leurs fonctions, sans distinguer selon qu'ils assurent ou non des fonctions d'enseignement, et quel que soit leur statut. Contrairement aux élèves, qui peuvent porter des signes discrets, l'agent ne peut porter aucun signe manifestant une appartenance religieuse en service."
+        solution: "Dans son avis du 3 mai 2000 (Mlle Marteaux), rendu à propos d'une surveillante, le Conseil d'État a indiqué que le principe de laïcité fait obstacle à ce que les agents du service public de l'enseignement manifestent leurs croyances religieuses dans le cadre du service, et qu'il n'y a pas lieu de distinguer entre ces agents selon qu'ils sont ou non chargés de fonctions d'enseignement. Dans son étude du 19 décembre 2013, il a précisé que cette obligation s'applique indépendamment de la qualité d'agent public ou de salarié de droit privé. Contrairement aux élèves, qui peuvent porter des signes discrets, l'agent ne peut porter aucun signe manifestant une appartenance religieuse en service."
       },
       {
         id: "capes-oral2-23",
@@ -2325,7 +2325,7 @@
         correctIndex: 0,
         answer: "Les élèves, usagers du service public, ne sont pas soumis à l'obligation de neutralité : leur liberté de conscience est protégée, dans les limites fixées par la loi du 15 mars 2004, le règlement intérieur et le respect d'autrui, sans prosélytisme ni trouble",
         hint1: "La neutralité est une obligation de ceux qui font fonctionner le service, pas de ceux qui l'utilisent.",
-        solution: "Il existe une asymétrie entre agents et usagers : le professeur est neutre, les élèves ne le sont pas. Leur liberté de conscience est protégée par l'école laïque. Elle a des limites : l'interdiction des signes ostensibles (loi du 15 mars 2004), le règlement intérieur, l'interdiction du prosélytisme et des pressions sur autrui. C'est l'occasion de rappeler que la laïcité protège la liberté de croire ou de ne pas croire de chacun."
+        solution: "Il existe une asymétrie entre agents et usagers : le professeur est neutre, les élèves ne le sont pas. Dans les collèges et les lycées, ils disposent, dans le respect du pluralisme et du principe de neutralité, de la liberté d'information et d'expression, dont l'exercice ne peut porter atteinte aux activités d'enseignement (Code de l'éducation, article L. 511-2 ; Charte de la laïcité, article 8). Cette liberté a des limites : l'interdiction des signes ostensibles (loi du 15 mars 2004), le règlement intérieur, l'interdiction du prosélytisme et des pressions sur autrui. C'est l'occasion de rappeler que la laïcité protège la liberté de croire ou de ne pas croire de chacun."
       },
       {
         id: "capes-oral2-24",
@@ -2380,7 +2380,7 @@
         correctIndex: 0,
         answer: "Rappeler calmement qu'aucun élève ne peut invoquer une conviction pour contester le droit de traiter une question au programme, distinguer le savoir (établi par la démonstration et l'argumentation) de la croyance, qui appartient à chacun, faire faire l'exercice, puis reprendre l'échange individuellement",
         hint1: "Charte de la laïcité à l'École, article 12.",
-        solution: "L'article 12 de la Charte de la laïcité à l'École rappelle qu'aucun sujet n'est a priori exclu du questionnement scientifique et pédagogique et qu'aucun élève ne peut invoquer une conviction religieuse ou politique pour contester à un enseignant le droit de traiter une question au programme. Le professeur ne prend pas parti sur la croyance et n'humilie pas l'élève : il explique qu'un modèle mathématique se discute par des arguments et des données. Il poursuit le cours, revoit l'élève seul et informe l'équipe si le refus persiste."
+        solution: "L'article 12 de la Charte de la laïcité à l'École rappelle qu'aucun sujet n'est a priori exclu du questionnement scientifique et pédagogique et qu'aucun élève ne peut invoquer une conviction religieuse ou politique pour contester à un enseignant le droit de traiter une question au programme. L'obligation d'assiduité implique en outre que les élèves accomplissent les travaux demandés et respectent le contenu des programmes (Code de l'éducation, articles L. 511-1 et R. 511-11). Le professeur ne prend pas parti sur la croyance et n'humilie pas l'élève : il explique qu'un modèle mathématique se discute par des arguments et des données. Il poursuit le cours, revoit l'élève seul et informe l'équipe si le refus persiste."
       },
       {
         id: "capes-oral2-27",
@@ -2398,7 +2398,7 @@
         correctIndex: 0,
         answer: "Maintenir la composition du groupe, rappeler sans hausser le ton que la mixité et l'égalité entre filles et garçons sont des principes de l'école qui s'imposent à tous, protéger l'élève visée, puis reprendre l'échange seul à seul et informer le professeur principal et le CPE",
         hint1: "Céder sur la règle, même pour éviter un conflit, revient à admettre une discrimination.",
-        solution: "L'égalité entre les filles et les garçons fait partie des valeurs que l'école doit faire partager (article L. 111-1 du Code de l'éducation, Charte de la laïcité). Nul ne peut invoquer ses convictions pour refuser une règle de fonctionnement de la classe. Le professeur maintient la consigne avec calme, sans humilier, veille à l'élève concernée, puis reprend l'échange en particulier. Si le refus persiste ou s'il relève d'une atteinte à la laïcité, il en informe le professeur principal, le CPE et le chef d'établissement, qui peut solliciter l'équipe académique Valeurs de la République."
+        solution: "La Charte de la laïcité à l'École rappelle que la laïcité garantit l'égalité entre les filles et les garçons (article 9) et que nul ne peut se prévaloir de son appartenance religieuse pour refuser de se conformer aux règles applicables dans l'École de la République (article 13). Le professeur maintient la consigne avec calme, sans humilier, veille à l'élève concernée, puis reprend l'échange en particulier. Si le refus persiste ou s'il relève d'une atteinte à la laïcité, il en informe le professeur principal, le CPE et le chef d'établissement, qui peut solliciter l'équipe académique Valeurs de la République ; tout personnel peut aussi utiliser le formulaire en ligne « atteinte à la laïcité »."
       },
       {
         id: "capes-oral2-28",
@@ -2452,7 +2452,7 @@
         correctIndex: 0,
         answer: "Faire cesser la fraude sans éclat, noter les faits précisément, en informer le professeur principal, le CPE et la direction, et appliquer les suites prévues par le règlement intérieur, sans humilier l'élève devant la classe",
         hint1: "Fermeté sur les faits, discrétion dans la forme, et pas de décision prise seul.",
-        solution: "La fraude doit être traitée, mais sans humiliation ni sanction collective. Le professeur fait cesser la fraude, consigne les faits (heure, circonstances, objet en cause) et en informe l'équipe. Les punitions et sanctions possibles sont fixées par le règlement intérieur ; les sanctions disciplinaires relèvent du chef d'établissement ou du conseil de discipline. L'échange avec l'élève, puis avec la famille, vise aussi à comprendre la raison de la fraude."
+        solution: "La fraude doit être traitée, mais sans humiliation ni sanction collective. Le professeur fait cesser la fraude, consigne les faits (heure, circonstances, objet en cause) et en informe l'équipe. Les enseignants peuvent prononcer des punitions scolaires, dans le cadre du règlement intérieur ; les sanctions disciplinaires sont prononcées par le chef d'établissement ou, pour les plus lourdes, par le conseil de discipline (Code de l'éducation, articles R. 421-10 et R. 511-14). L'échange avec l'élève, puis avec la famille, vise aussi à comprendre la raison de la fraude."
       },
       {
         id: "capes-oral2-31",
@@ -2488,7 +2488,7 @@
         correctIndex: 0,
         answer: "Les aménagements pédagogiques prévus par le PAP s'imposent à l'enseignant ; on les applique sans les commenter devant la classe, car l'équité n'est pas l'uniformité",
         hint1: "Code de l'éducation, articles L. 311-7 et D. 311-13.",
-        solution: "Le plan d'accompagnement personnalisé (Code de l'éducation, articles L. 311-7 et D. 311-13) définit des aménagements et adaptations pédagogiques pour un élève dont les difficultés scolaires durables résultent d'un trouble des apprentissages. Ces aménagements s'imposent aux enseignants. On les met en œuvre discrètement, en lien avec le professeur principal. Ils ne valent pas aménagement d'examen : les aménagements d'examen (temps majoré, secrétaire) font l'objet d'une demande et d'une décision distinctes."
+        solution: "Le plan d'accompagnement personnalisé (Code de l'éducation, articles L. 311-7 et D. 311-13) définit des aménagements et adaptations pédagogiques pour un élève dont les difficultés scolaires résultent d'un trouble des apprentissages ; il est mis en place après avis du médecin de l'éducation nationale. Ces aménagements s'imposent aux enseignants. On les met en œuvre discrètement, en lien avec le professeur principal. Ils ne valent pas aménagement d'examen : les aménagements d'examen (temps majoré, secrétaire) font l'objet d'une demande et d'une décision distinctes."
       },
       {
         id: "capes-oral2-33",
@@ -2498,15 +2498,15 @@
         statement: "Un élève de 3e qui bénéficie d'un plan d'accompagnement personnalisé dispose d'un tiers temps en classe. Sa famille pense qu'il l'aura automatiquement au diplôme national du brevet. Que lui indiquer ?",
         type: "mcq",
         options: [
-          "Les aménagements des examens font l'objet d'une demande et d'une décision distinctes : la famille doit faire la demande dans les délais, le PAP étant un élément du dossier mais ne valant pas décision",
+          "Rien n'est automatique : la famille doit adresser une demande d'aménagement à l'autorité administrative qui organise l'examen, au plus tard à la date limite d'inscription ; si le PAP a été accordé au titre d'un trouble du neurodéveloppement, une procédure simplifiée la dispense d'un nouvel avis médical",
           "Le tiers temps prévu dans le PAP s'applique automatiquement au brevet, sans démarche",
           "Le professeur de mathématiques peut lui accorder lui-même le tiers temps le jour de l'épreuve",
           "Aucun aménagement n'est possible aux examens nationaux"
         ],
         correctIndex: 0,
-        answer: "Les aménagements des examens font l'objet d'une demande et d'une décision distinctes : la famille doit faire la demande dans les délais, le PAP étant un élément du dossier mais ne valant pas décision",
+        answer: "Rien n'est automatique : la famille doit adresser une demande d'aménagement à l'autorité administrative qui organise l'examen, au plus tard à la date limite d'inscription ; si le PAP a été accordé au titre d'un trouble du neurodéveloppement, une procédure simplifiée la dispense d'un nouvel avis médical",
         hint1: "Ne pas confondre aménagements pédagogiques en classe et aménagements d'examen.",
-        solution: "Le PAP organise des aménagements pédagogiques en classe, qui s'imposent aux enseignants. Les aménagements des épreuves d'examen relèvent d'une procédure propre : une demande, un avis médical, puis une décision de l'autorité administrative compétente. Le professeur oriente la famille vers le professeur principal et la direction pour engager la démarche à temps. Pour un élève en situation de handicap, le cadre est le projet personnalisé de scolarisation (article L. 112-2 du Code de l'éducation)."
+        solution: "Le PAP organise des aménagements pédagogiques en classe, qui s'imposent aux enseignants. Les aménagements des épreuves d'examen relèvent d'une procédure propre : le candidat en fait la demande, au plus tard à la date limite d'inscription, et l'autorité administrative décide des aménagements accordés (Code de l'éducation, article D. 351-28). Pour un élève dont le PAP a été accordé au titre d'un trouble du neurodéveloppement, une procédure simplifiée permet de s'adresser directement à l'autorité administrative sans solliciter un nouvel avis médical, pour des aménagements cohérents avec ceux du plan (articles D. 351-28-1 et D. 311-13-1). Dans tous les cas, rien n'est automatique. Le professeur oriente la famille vers le professeur principal et la direction pour engager la démarche à temps. Pour un élève en situation de handicap, le cadre est le projet personnalisé de scolarisation (article L. 112-2 du Code de l'éducation)."
       },
       // PALIER 3 (suite)
       {
@@ -2579,7 +2579,7 @@
         correctIndex: 0,
         answer: "Expliquer que, sauf décision de justice contraire, les deux parents exercent l'autorité parentale et ont chacun le droit d'être informés de la scolarité de leur enfant, et en référer au chef d'établissement",
         hint1: "La séparation des parents ne change pas, par elle-même, l'exercice de l'autorité parentale.",
-        solution: "La séparation des parents est sans incidence sur l'exercice conjoint de l'autorité parentale, sauf décision du juge. Chaque parent qui l'exerce a le droit d'être informé de la scolarité de son enfant (résultats, bulletins, rencontres). L'enseignant reste impartial, traite les deux parents de façon égale et ne tranche pas seul un conflit familial : il informe le chef d'établissement, qui demandera le cas échéant la décision de justice invoquée."
+        solution: "Les père et mère exercent en commun l'autorité parentale, et leur séparation est sans incidence sur les règles de son exercice (Code civil, articles 372 et 373-2), sauf décision du juge. L'établissement transmet donc les mêmes informations à chaque parent (résultats, bulletins, rencontres). Même un parent qui n'exerce pas l'autorité parentale conserve un droit de surveillance de l'éducation de l'enfant (article 373-2-1). L'enseignant reste impartial, traite les deux parents de façon égale et ne tranche pas seul un conflit familial : il informe le chef d'établissement, qui demandera le cas échéant la décision de justice invoquée."
       },
       {
         id: "capes-oral2-38",
@@ -2615,7 +2615,7 @@
         correctIndex: 0,
         answer: "Faire cesser immédiatement ce comportement, protéger la liberté de conscience des élèves, et en rendre compte au chef d'établissement, qui apprécie s'il peut encore participer à des sorties",
         hint1: "Les parents accompagnateurs ne sont pas soumis à la loi de 2004, mais le prosélytisme auprès des élèves n'est pas admis.",
-        solution: "Les parents accompagnateurs ne sont pas des agents publics : la loi de 2004 et l'obligation de neutralité des agents ne leur sont pas applicables en tant que telles. Mais l'école protège les élèves de tout prosélytisme et de toute pression. Le professeur, responsable du groupe, fait cesser le comportement avec calme et en rend compte. La participation de ce parent aux sorties suivantes relève de l'appréciation du chef d'établissement, dans le cadre fixé par l'institution ; le professeur ne tranche pas seul."
+        solution: "Les parents accompagnateurs ne sont pas des agents publics : la loi de 2004 et l'obligation de neutralité des agents ne leur sont pas applicables en tant que telles. Mais l'école protège les élèves de tout prosélytisme et de toute pression. Le Vademecum « La laïcité à l'École » rappelle que les parents doivent s'abstenir de toute forme de prosélytisme et que l'accompagnateur a un devoir d'exemplarité devant les élèves, dans son comportement et ses propos. Le professeur, responsable du groupe, fait cesser le comportement avec calme et en rend compte. Le choix des personnes associées aux sorties appartient au chef d'établissement (ou au directeur d'école) : le professeur ne tranche pas seul."
       },
       // PALIER 4 (suite)
       {
@@ -2634,7 +2634,7 @@
         correctIndex: 0,
         answer: "Recueillir sa parole sans l'interroger de façon insistante, ne pas promettre le secret, alerter sans délai le chef d'établissement et les personnels sociaux et de santé, afin qu'une information préoccupante soit transmise au président du conseil départemental par la cellule de recueil des informations préoccupantes",
         hint1: "Code de l'action sociale et des familles, articles L. 226-2-1 et L. 226-3.",
-        solution: "Lorsqu'un mineur est en danger ou en risque de l'être, une information préoccupante est transmise sans délai au président du conseil départemental, par la cellule de recueil des informations préoccupantes (CRIP), en application des articles L. 226-2-1 et L. 226-3 du Code de l'action sociale et des familles. L'enseignant n'enquête pas et ne contacte pas les parents : il transmet ce qu'il a vu et entendu, en notant les propos de l'enfant tels qu'ils ont été dits, et travaille avec la direction et les personnels sociaux et de santé."
+        solution: "Lorsqu'un mineur est en danger ou en risque de l'être, une information préoccupante est transmise sans délai au président du conseil départemental, par la cellule de recueil des informations préoccupantes (CRIP), en application des articles L. 226-2-1 et L. 226-3 du Code de l'action sociale et des familles. L'enseignant n'enquête pas et ne contacte pas lui-même les parents (leur information préalable est prévue, sauf intérêt contraire de l'enfant, selon l'article L. 226-2-1) : il transmet ce qu'il a vu et entendu, en notant les propos de l'enfant tels qu'ils ont été dits, et travaille avec la direction et les personnels sociaux et de santé."
       },
       {
         id: "capes-oral2-41",
@@ -2644,15 +2644,15 @@
         statement: "En fin de journée, une élève révèle au professeur qu'elle subit des violences graves de la part d'un adulte de son foyer et qu'elle a peur de rentrer chez elle ce soir. Que faire ?",
         type: "mcq",
         options: [
-          "Ne pas la laisser repartir seule, alerter immédiatement le chef d'établissement : en cas de danger grave et immédiat, le procureur de la République est saisi directement, en plus de la transmission à la cellule de recueil des informations préoccupantes",
+          "Ne pas la laisser repartir seule et alerter immédiatement le chef d'établissement : du fait de la gravité de la situation, le procureur de la République est avisé directement, avec copie au président du conseil départemental",
           "Lui conseiller de dormir chez une amie et en reparler le lendemain",
           "Rédiger une information préoccupante dans la semaine et laisser l'élève rentrer chez elle",
           "Prévenir la famille que l'élève a fait des révélations"
         ],
         correctIndex: 0,
-        answer: "Ne pas la laisser repartir seule, alerter immédiatement le chef d'établissement : en cas de danger grave et immédiat, le procureur de la République est saisi directement, en plus de la transmission à la cellule de recueil des informations préoccupantes",
+        answer: "Ne pas la laisser repartir seule et alerter immédiatement le chef d'établissement : du fait de la gravité de la situation, le procureur de la République est avisé directement, avec copie au président du conseil départemental",
         hint1: "L'urgence change la voie de signalement.",
-        solution: "En cas de danger grave et immédiat, on ne se contente pas d'une information préoccupante : le procureur de la République est saisi directement, sans délai, généralement par le chef d'établissement avec qui l'enseignant agit. La famille n'est pas prévenue lorsque cela risque d'aggraver le danger. L'enseignant ne reste pas seul, recueille les propos de l'élève sans l'interroger et les transmet fidèlement."
+        solution: "Lorsqu'un professionnel avise directement le procureur de la République du fait de la gravité de la situation, il adresse une copie de cette transmission au président du conseil départemental (Code de l'action sociale et des familles, article L. 226-4, II). En pratique, le signalement est fait sans délai avec le chef d'établissement. La famille n'est pas informée lorsque c'est contraire à l'intérêt de l'enfant (article L. 226-2-1). L'enseignant ne reste pas seul, recueille les propos de l'élève sans l'interroger et les transmet fidèlement."
       },
       {
         id: "capes-oral2-42",
@@ -2734,15 +2734,15 @@
         statement: "Au concours organisé au niveau bac + 3 à partir de la session 2026, sur quoi porte la seconde partie de l'épreuve d'entretien ?",
         type: "mcq",
         options: [
-          "Des questions et une mise en situation sur les valeurs de la République, dont la laïcité, et sur la projection dans le métier",
+          "Un entretien de 20 minutes, comportant une mise en situation, sur les valeurs de la République dont la laïcité, la projection dans le métier, les exigences du service public, la transition écologique et l'épanouissement de l'élève",
           "Une leçon de mathématiques préparée à l'avance",
           "Exclusivement l'histoire du système éducatif",
           "Un commentaire de copie d'élève sans lien avec les valeurs de la République"
         ],
         correctIndex: 0,
-        answer: "Des questions et une mise en situation sur les valeurs de la République, dont la laïcité, et sur la projection dans le métier",
+        answer: "Un entretien de 20 minutes, comportant une mise en situation, sur les valeurs de la République dont la laïcité, la projection dans le métier, les exigences du service public, la transition écologique et l'épanouissement de l'élève",
         hint1: "La première partie (motivation et parcours) est commune aux deux concours ; la seconde diffère.",
-        solution: "Pour le concours de niveau bac + 3 organisé à partir de la session 2026, la seconde partie de l'entretien comprend des questions et une mise en situation portant sur les valeurs de la République, dont la laïcité, et sur la projection dans le métier. Au concours bac + 5, elle comporte deux mises en situation professionnelles (enseignement et vie scolaire)."
+        solution: "Pour le concours de niveau bac + 3 (arrêté du 17 avril 2025 modifié), l'épreuve dure 35 minutes, coefficient 3, note 0 éliminatoire. Après 15 minutes consacrées à la motivation et au parcours, elle se poursuit par 20 minutes d'entretien, au travers de questionnements divers dont une mise en situation. L'entretien porte sur l'appréhension des valeurs de la République, dont la laïcité, la projection dans le métier, les exigences du service public (neutralité, lutte contre les discriminations), la transition écologique et l'épanouissement de l'élève. Au concours bac + 5, la seconde partie comporte deux mises en situation professionnelles (enseignement et vie scolaire)."
       },
       {
         id: "capes-oral2-47",
@@ -2788,15 +2788,15 @@
         statement: "Pendant un cours de mathématiques, l'alarme spécifique « mise en sûreté » retentit. Quelle doit être la réaction du professeur ?",
         type: "mcq",
         options: [
-          "Appliquer sans délai les consignes du plan de mise en sûreté de l'établissement, connues à l'avance et travaillées lors des exercices, en gardant le contrôle de la classe et en rassurant les élèves",
+          "Appliquer sans délai les consignes du plan particulier de mise en sûreté (PPMS) de l'établissement, connues à l'avance et travaillées lors des exercices, en gardant le contrôle de la classe et en rassurant les élèves",
           "Faire sortir tous les élèves dans la cour comme pour une alarme incendie",
           "Continuer le cours en attendant de savoir s'il s'agit d'un exercice",
           "Laisser chaque élève appeler sa famille avant de décider quoi faire"
         ],
         correctIndex: 0,
-        answer: "Appliquer sans délai les consignes du plan de mise en sûreté de l'établissement, connues à l'avance et travaillées lors des exercices, en gardant le contrôle de la classe et en rassurant les élèves",
+        answer: "Appliquer sans délai les consignes du plan particulier de mise en sûreté (PPMS) de l'établissement, connues à l'avance et travaillées lors des exercices, en gardant le contrôle de la classe et en rassurant les élèves",
         hint1: "Les consignes ne s'improvisent pas le jour de l'alerte.",
-        solution: "Chaque établissement dispose d'un plan de mise en sûreté, qui fixe les signaux d'alerte et les conduites à tenir selon le danger, et l'exerce plusieurs fois par an. Le professeur doit connaître ces consignes dès sa prise de fonction et les appliquer sans improviser : un signal de mise en sûreté n'appelle pas la même réaction qu'une alarme incendie. Il garde la responsabilité de sa classe et adopte une attitude calme."
+        solution: "Chaque école et établissement dispose d'un plan particulier de mise en sûreté (PPMS), qui fixe les moyens d'alerte, distincts de l'alarme incendie, et les conduites à tenir selon le danger ; au moins deux exercices PPMS ont lieu chaque année (circulaire du 8 juin 2023). Le professeur doit connaître ces consignes dès sa prise de fonction et les appliquer sans improviser : un signal de mise en sûreté n'appelle pas la même réaction qu'une alarme incendie. Il garde la responsabilité de sa classe et adopte une attitude calme."
       }
     ]
   };

@@ -1507,7 +1507,7 @@ ${h.ctas.slice(0, 2).map((c, i) => `        <a class="${i === 0 ? 'btn-primary c
       ${table(['', 'CAPES bac' + NNB + '+' + NNB + '5', 'CAPES bac' + NNB + '+' + NNB + '3 (dès 2026)'], [
         ['Durée et coefficient', '35 minutes, coefficient 3', '35 minutes, coefficient 3'],
         ['Premier temps (15' + NB + 'min)', 'Présentation du candidat (5 minutes au plus), appuyée sur la fiche individuelle de renseignement transmise avant l’oral, puis échange avec le jury', 'Présentation de la motivation, du parcours et des expériences (5 minutes), puis échange de 10 minutes avec le jury'],
-        ['Second temps (20' + NB + 'min)', 'Deux mises en situation professionnelle : l’une d’enseignement, l’autre liée à la vie scolaire', 'Questions variées, dont une mise en situation, sur les valeurs de la République et la laïcité, puis sur la projection dans le métier'],
+        ['Second temps (20' + NB + 'min)', 'Deux mises en situation professionnelle : l’une d’enseignement, l’autre liée à la vie scolaire', 'Questions variées, dont une mise en situation : valeurs de la République et laïcité, projection dans le métier, exigences du service public, transition écologique, épanouissement de l’élève'],
         ['Notation', 'Sur 20 ; la note 0 est éliminatoire', 'Sur 20 ; la note 0 est éliminatoire']
       ], 'Format de l’épreuve d’entretien du CAPES externe')}
       <p class="cours-note">Les modalités sont fixées par arrêté et précisées dans la notice officielle de chaque section, publiée par le ministère. Relisez celle de votre discipline et de votre session avant l'oral.</p>` },
