@@ -1816,6 +1816,99 @@ body.home-view-active .cycle-levels-row {
   max-width: 100%;
 }
 
+/* Étude de cas en trois étapes (oral 2 du CAPES) */
+.case3-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.case3-step {
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 0.9rem 1rem;
+  background-color: var(--bg-surface);
+}
+
+.case3-step-title {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0 0 0.6rem;
+  font-size: 1rem;
+}
+
+.case3-step-num {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  background-color: var(--bg-subtle);
+  flex-shrink: 0;
+}
+
+.case3-active {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 1px var(--primary);
+}
+
+.case3-active .case3-step-num {
+  background-color: var(--primary-fill);
+  color: white;
+}
+
+.case3-locked {
+  background-color: var(--bg-subtle);
+}
+
+.case3-locked .case3-step-title,
+.case3-locked-text {
+  color: var(--text-muted);
+  margin-bottom: 0;
+}
+
+.case3-locked-text {
+  margin-top: 0;
+  font-size: 0.9rem;
+}
+
+.case3-question {
+  margin: 0 0 0.75rem;
+}
+
+.case3-pick {
+  margin: 0 0 0.4rem;
+  padding: 0.45rem 0.7rem;
+  border-radius: var(--radius-sm, 6px);
+  border-left: 3px solid transparent;
+}
+
+.case3-ok,
+.case3-good {
+  background-color: var(--success-bg);
+  border-left-color: var(--success);
+  color: var(--success-text);
+}
+
+.case3-ko {
+  background-color: var(--danger-bg);
+  border-left-color: var(--danger);
+  color: var(--danger-text);
+}
+
+.case3-expl {
+  margin-top: 0.5rem;
+  font-size: 0.93rem;
+}
+
+.case3-expl .math-p:last-child {
+  margin-bottom: 0;
+}
+
 /* Saisie Exacte */
 .exact-input-wrapper {
   display: flex;

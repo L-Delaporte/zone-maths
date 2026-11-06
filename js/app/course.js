@@ -17,7 +17,7 @@ Object.assign(window.MathsApp, {
     if (course && window.MathsBadges) window.MathsBadges.recordEvent('course', { chapterId: this.currentChapterId });
     const capesLesson = (window.CAPES_LESSONS || []).find(l => l.id.toLowerCase() === (this.currentChapterId || '').toLowerCase());
     if (capesLesson) {
-      const isOral2 = capesLesson.id === 'capes-oral2';
+      const isOral2 = capesLesson.id.startsWith('capes-oral2');
       const themeColor = isOral2 ? '#ec4899' : '#8b5cf6';
       const badgeText = isOral2
         ? "ÉPREUVE D'ENTRETIEN (ORAL 2) • ÉTHIQUE PROFESSIONNELLE & VALEURS DE LA RÉPUBLIQUE"

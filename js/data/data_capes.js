@@ -738,6 +738,49 @@
         "Le dialogue avec l'élève et sa famille précède la procédure disciplinaire, mais il vise la compréhension de la règle et non sa négociation.",
         "Relier les situations à la discipline : la démarche mathématique (distinction entre conjecture et preuve, esprit critique face aux chiffres et aux statistiques) contribue à la formation du citoyen, ce que le jury apprécie de voir illustré par un exemple de classe."
       ]
+    },
+    {
+      "id": "capes-oral2-cas",
+      "num": "Oral 2 – Cas",
+      "title": "Épreuve d'entretien : études de cas en trois étapes (règle de droit, réaction immédiate, action durable)",
+      "domain": "Éthique & Laïcité",
+      "level": "CAPES / Agrégation",
+      "prerequisites": [
+        "Avoir travaillé le chapitre « Épreuve d'entretien : éthique professionnelle, laïcité et valeurs de la République », qui présente le format de l'épreuve et le cadre institutionnel.",
+        "Connaître les grands textes : article 1er de la Constitution, loi du 9 décembre 1905, article L. 111-1 du Code de l'éducation, article L. 141-5-1 (loi du 15 mars 2004), obligations des agents publics (articles L. 121-1 et L. 121-2 du Code général de la fonction publique).",
+        "Connaître les acteurs de l'établissement : chef d'établissement, conseiller principal d'éducation, professeur principal, infirmier, assistant de service social, médecin scolaire, équipe académique Valeurs de la République.",
+        "Connaître les circuits de signalement : application Faits établissement, information préoccupante à la cellule départementale, saisine du procureur de la République, protocole pHARe, protection fonctionnelle."
+      ],
+      "plan": [
+        {
+          "part": "I. Nommer la règle de droit",
+          "content": "Avant d'agir, on qualifie la situation : quel principe est en jeu (laïcité, neutralité, égalité, assiduité, protection de l'enfance, sécurité), et quel texte l'exprime. On ne cite que des textes dont on est sûr ; à défaut, on énonce le principe avec précision. Il faut savoir à qui la règle s'applique : la neutralité s'impose aux agents, l'article L. 141-5-1 aux seuls élèves des établissements publics, et les parents accompagnateurs n'y sont pas soumis."
+        },
+        {
+          "part": "II. Réagir sur le moment",
+          "content": "Sur le moment, le professeur protège les élèves, fait cesser le trouble sans humilier personne, rappelle la règle sans engager de débat sur les croyances et poursuit le cours lorsque c'est possible. Il ne mène ni enquête ni négociation et ne promet jamais le secret à un élève qui révèle une situation de danger. Il alerte sans délai la personne compétente, le plus souvent le chef d'établissement ou le CPE."
+        },
+        {
+          "part": "III. Agir dans la durée",
+          "content": "Pour régler le problème durablement, le professeur passe le relais à l'équipe et aux circuits prévus : écrit factuel, information de la famille et du professeur principal, procédure disciplinaire décidée par le chef d'établissement, information préoccupante, protocole pHARe, protection fonctionnelle. Il contribue ensuite au suivi de l'élève et à la prévention : formation, consignes partagées, travail pédagogique sur les valeurs de la République."
+        }
+      ],
+      "keyTheorem": {
+        "title": "La démarche en trois temps",
+        "statement": "Face à une mise en situation, une réponse complète articule trois temps : la règle de droit qui fonde l'action, la réaction immédiate du professeur dans la classe, puis l'action menée en équipe pour régler durablement la situation. Chacun des trois temps est nécessaire : une règle exacte sans geste professionnel, ou un bon réflexe sans suite institutionnelle, laisse la réponse incomplète.",
+        "proof": "1. **Qualifier.** Nommer le principe en jeu et le texte qui l'exprime, en précisant à qui il s'applique ; une erreur de qualification (appliquer la loi de 2004 à un parent ou à un candidat libre, par exemple) entraîne une réponse fausse.\n2. **Réagir.** Protéger les élèves, faire cesser le trouble sans humilier, ne pas débattre des croyances, ne pas enquêter, alerter la personne compétente.\n3. **Traiter dans la durée.** Laisser une trace écrite, passer par les circuits prévus (chef d'établissement, CPE, personnels sociaux et de santé, procureur, cellule départementale, protocole pHARe), associer la famille lorsque l'intérêt de l'élève le permet, puis assurer le suivi et la prévention."
+      },
+      "developments": [
+        "Exemple de réponse construite en trois temps : un élève refuse un exercice de probabilités au nom de ses convictions. Règle : obligation d'assiduité (articles L. 511-1 et R. 511-11 du Code de l'éducation) et article L. 511-2 sur la liberté d'expression. Réaction : expliquer que modéliser le hasard n'est ni jouer ni affirmer une thèse, rappeler l'obligation de travail sans humilier, poursuivre. Action durable : information du professeur principal et du chef d'établissement, dialogue avec la famille, réponse graduée en cas de refus persistant.",
+        "Les erreurs qui coûtent le plus devant le jury : promettre le secret à un élève qui révèle un danger, enquêter soi-même, contacter la famille d'un élève qui dénonce des violences à la maison, négocier une règle, régler seul un manquement d'un collègue devant les élèves.",
+        "Distinguer les situations d'urgence (danger grave et immédiat, alerte de mise en sûreté, malaise) où l'on agit sans délai, de celles qui laissent le temps du dialogue (contestation, tenue, absences), où la règle est rappelée puis la situation confiée au chef d'établissement."
+      ],
+      "juryTips": [
+        "Annoncer sa démarche au jury : « je vais d'abord rappeler le cadre, puis dire ce que je fais sur le moment, enfin comment la situation se traite dans la durée ».",
+        "Dans le premier temps, un principe bien formulé vaut mieux qu'un numéro d'article incertain.",
+        "Dans le deuxième temps, insister sur la protection des élèves et le calme de l'adulte ; dans le troisième, sur le travail en équipe et la trace écrite.",
+        "Penser à l'élève jusqu'au bout : la réponse inclut son suivi, et il ne doit jamais subir les conséquences du comportement de ses parents."
+      ]
     }
   ];
 
@@ -758,9 +801,9 @@
       num: lesson.num,
       title: lesson.title,
       shortTitle: lesson.title.split(':')[0].trim(),
-      icon: lesson.id === 'capes-oral2' ? 'scale' : 'award',
-      badge: lesson.id === 'capes-oral2' ? 'Épreuve d\'Admission' : 'Candidat Admissible',
-      color: lesson.id === 'capes-oral2' ? '#ec4899' : '#8b5cf6',
+      icon: lesson.id.startsWith('capes-oral2') ? 'scale' : 'award',
+      badge: lesson.id.startsWith('capes-oral2') ? 'Épreuve d\'Admission' : 'Candidat Admissible',
+      color: lesson.id.startsWith('capes-oral2') ? '#ec4899' : '#8b5cf6',
       description: lesson.plan.map(p => p.part).join(' • '),
       skills: lesson.prerequisites
     };
@@ -2794,6 +2837,1269 @@
         answer: "Appliquer sans délai les consignes du plan particulier de mise en sûreté (PPMS) de l'établissement, connues à l'avance et travaillées lors des exercices, en gardant le contrôle de la classe et en rassurant les élèves",
         hint1: "Les consignes ne s'improvisent pas le jour de l'alerte.",
         solution: "Chaque école et établissement dispose d'un plan particulier de mise en sûreté (PPMS), qui fixe les moyens d'alerte, distincts de l'alarme incendie, et les conduites à tenir selon le danger ; au moins deux exercices PPMS ont lieu chaque année (circulaire du 8 juin 2023). Le professeur doit connaître ces consignes dès sa prise de fonction et les appliquer sans improviser : un signal de mise en sûreté n'appelle pas la même réaction qu'une alarme incendie. Il garde la responsabilité de sa classe et adopte une attitude calme."
+      }
+    ],
+
+    'capes-oral2-cas': [
+      // =========================================================================
+      // PALIER 1 : CLASSE ET ÉVALUATION
+      // =========================================================================
+      {
+        "id": "capes-oral2-cas-1",
+        "chapterId": "capes-oral2-cas",
+        "tier": 1,
+        "title": "Un téléphone utilisé en plein cours au collège",
+        "statement": "En classe de 4e, pendant une activité de géométrie, vous voyez un élève envoyer des messages sur son téléphone, posé sur ses genoux. Ce n'est pas la première fois cette semaine. Identifiez la règle de droit, la réaction immédiate et l'action à long terme.",
+        "type": "case3",
+        "steps": [
+          {
+            "label": "Règle de droit",
+            "question": "Quelle règle de droit s'applique ?",
+            "options": [
+              "Aucun texte national ne traite du téléphone : seul le règlement intérieur, voté chaque année par le conseil d'administration, peut l'interdire",
+              "Le téléphone est interdit au collège (article L. 511-5 du Code de l'éducation), sauf usages prévus par le règlement intérieur",
+              "Seule l'utilisation pendant les contrôles est interdite ; le reste du temps, chaque professeur fixe sa propre règle de tolérance dans sa classe",
+              "La simple détention d'un téléphone est interdite au collège : l'élève qui en possède un commet une faute, qu'il s'en serve ou non pendant le cours"
+            ],
+            "correctIndex": 1,
+            "hint": "Un article du Code de l'éducation, issu d'une loi de 2018, vise précisément les écoles et les collèges.",
+            "explanation": "L'article L. 511-5 du Code de l'éducation (loi du 3 août 2018) interdit l'utilisation du téléphone ou de tout terminal connecté par les élèves dans les écoles et les collèges, sauf circonstances (notamment pédagogiques) et lieux que le règlement intérieur autorise expressément. C'est l'utilisation qui est interdite, non la détention. La loi permet la confiscation par un personnel de direction, d'enseignement, d'éducation ou de surveillance, selon les modalités du règlement intérieur."
+          },
+          {
+            "label": "Réaction immédiate",
+            "question": "Que faire sur le moment ?",
+            "options": [
+              "Confisquer le téléphone et le garder dans son casier personnel jusqu'à la fin du trimestre",
+              "Faire sortir l'élève seul dans le couloir jusqu'à la fin de l'heure, pour ne pas interrompre plus longtemps l'activité du reste de la classe",
+              "Prendre le téléphone et faire défiler les messages, afin de vérifier s'il s'agit d'une tentative de fraude ou d'un simple échange sans gravité",
+              "Demander l'appareil et appliquer la confiscation prévue par le règlement intérieur, sans en consulter le contenu"
+            ],
+            "correctIndex": 3,
+            "hint": "Le règlement intérieur dit comment confisquer et restituer ; il ne donne aucun droit sur le contenu de l'appareil.",
+            "explanation": "La confiscation est prévue par la loi et encadrée par le règlement intérieur, qui fixe aussi la restitution : le professeur l'applique sans éclat. Il n'a aucun droit d'accéder aux messages de l'élève (vie privée). Une rétention prolongée hors des modalités prévues n'a pas de base, et un élève laissé seul dans le couloir échappe à la surveillance dont l'enseignant reste responsable."
+          },
+          {
+            "label": "Action à long terme",
+            "question": "Quelle action mener ensuite pour régler durablement le problème ?",
+            "options": [
+              "Informer la famille et le professeur principal, consigner les faits et convenir en équipe d'une application homogène de la règle",
+              "Afficher dans la classe la liste des élèves surpris avec leur téléphone, afin de dissuader les autres élèves de recommencer",
+              "Ne plus rien dire : la confiscation suffit, et prévenir la famille ou l'équipe pour un simple téléphone risquerait d'envenimer inutilement la situation",
+              "Interdire désormais toute calculatrice dans sa classe, afin d'éviter les confusions entre appareils autorisés et appareils interdits par la loi"
+            ],
+            "correctIndex": 0,
+            "hint": "Un manquement répété se traite en équipe et avec la famille, et la règle gagne à être appliquée de la même façon par tous.",
+            "explanation": "La répétition du comportement appelle un suivi : information de la famille et du professeur principal, signalement selon les procédures internes (une punition ou une sanction peut suivre, dans le cadre du règlement intérieur). Une application cohérente par toute l'équipe donne du crédit à la règle. Afficher des noms porte atteinte à la dignité des élèves ; supprimer la calculatrice pénalise un apprentissage prévu par les programmes."
+          }
+        ],
+        "hint1": "Traitez les trois temps dans l'ordre : le texte qui fonde la réponse, le geste professionnel sur le moment, puis le traitement en équipe qui règle durablement la situation.",
+        "answer": "Règle de droit : le téléphone est interdit au collège (article L. 511-5 du Code de l'éducation), sauf usages prévus par le règlement intérieur. Réaction immédiate : demander l'appareil et appliquer la confiscation prévue par le règlement intérieur, sans en consulter le contenu. Action à long terme : informer la famille et le professeur principal, consigner les faits et convenir en équipe d'une application homogène de la règle.",
+        "solution": "1. Règle de droit : L'article L. 511-5 du Code de l'éducation (loi du 3 août 2018) interdit l'utilisation du téléphone ou de tout terminal connecté par les élèves dans les écoles et les collèges, sauf circonstances (notamment pédagogiques) et lieux que le règlement intérieur autorise expressément. C'est l'utilisation qui est interdite, non la détention. La loi permet la confiscation par un personnel de direction, d'enseignement, d'éducation ou de surveillance, selon les modalités du règlement intérieur.\n2. Réaction immédiate : La confiscation est prévue par la loi et encadrée par le règlement intérieur, qui fixe aussi la restitution : le professeur l'applique sans éclat. Il n'a aucun droit d'accéder aux messages de l'élève (vie privée). Une rétention prolongée hors des modalités prévues n'a pas de base, et un élève laissé seul dans le couloir échappe à la surveillance dont l'enseignant reste responsable.\n3. Action à long terme : La répétition du comportement appelle un suivi : information de la famille et du professeur principal, signalement selon les procédures internes (une punition ou une sanction peut suivre, dans le cadre du règlement intérieur). Une application cohérente par toute l'équipe donne du crédit à la règle. Afficher des noms porte atteinte à la dignité des élèves ; supprimer la calculatrice pénalise un apprentissage prévu par les programmes."
+      },
+      {
+        "id": "capes-oral2-cas-2",
+        "chapterId": "capes-oral2-cas",
+        "tier": 1,
+        "title": "Une antisèche pendant un devoir surveillé",
+        "statement": "Pendant un devoir surveillé de mathématiques en 1re, vous apercevez une élève consulter une feuille de formules dissimulée sous sa trousse. Identifiez la règle de droit, la réaction immédiate et l'action à long terme.",
+        "type": "case3",
+        "steps": [
+          {
+            "label": "Règle de droit",
+            "question": "Quelle règle de droit s'applique ?",
+            "options": [
+              "Le professeur peut donner une punition du règlement intérieur ; une sanction relève du chef d'établissement",
+              "Le professeur peut prononcer seul une exclusion temporaire de l'établissement, puisque la fraude a eu lieu pendant son cours et sous sa surveillance",
+              "Toute fraude à un devoir, même en classe, relève de la commission de discipline du baccalauréat, que le professeur doit saisir par écrit",
+              "Aucune réponse n'est possible tant que la famille n'a pas reconnu la fraude par écrit"
+            ],
+            "correctIndex": 0,
+            "hint": "Distinguez les punitions scolaires et les sanctions disciplinaires : elles ne relèvent pas des mêmes personnes.",
+            "explanation": "Dans le second degré, les punitions scolaires (prévues par le règlement intérieur) peuvent être prononcées par les enseignants ; les sanctions disciplinaires, comme l'exclusion temporaire, relèvent du chef d'établissement ou du conseil de discipline. Un devoir en classe n'est pas un examen : les instances des examens ne sont pas concernées, et l'aveu de la famille n'est pas une condition."
+          },
+          {
+            "label": "Réaction immédiate",
+            "question": "Que faire sur le moment ?",
+            "options": [
+              "Arrêter le devoir de toute la classe et annoncer à voix haute qu'une élève vient d'être prise en train de tricher, pour l'exemple",
+              "Retirer discrètement le document, laisser l'élève finir et noter les faits (heure, contenu du document)",
+              "Ramasser la copie de l'élève, la déchirer devant elle et l'envoyer immédiatement à la vie scolaire avec un mot pour le CPE",
+              "Faire semblant de ne rien voir pour ne pas troubler le devoir, puis en parler discrètement à l'élève quelques semaines plus tard"
+            ],
+            "correctIndex": 1,
+            "hint": "Il faut faire cesser la fraude sans humilier l'élève ni pénaliser le reste de la classe.",
+            "explanation": "Le professeur fait cesser la fraude en retirant le document, sans éclat : humilier l'élève devant la classe est contraire à sa dignité et au respect dû à chacun. Il conserve le document et note les faits avec précision, ce qui permettra une suite juste. Détruire la copie supprime toute trace ; ignorer la fraude rompt l'égalité entre les élèves."
+          },
+          {
+            "label": "Action à long terme",
+            "question": "Quelle action mener ensuite pour régler durablement le problème ?",
+            "options": [
+              "Supprimer définitivement les devoirs surveillés en classe et ne plus évaluer les élèves qu'à partir de travaux faits à la maison",
+              "Mettre un zéro à toute la classe pour ce devoir, afin que les élèves apprennent à se surveiller entre eux lors des prochaines évaluations",
+              "Raconter l'incident en détail aux autres classes de l'établissement",
+              "Reprendre l'incident avec l'élève, informer la famille et le professeur principal, appliquer le règlement intérieur"
+            ],
+            "correctIndex": 3,
+            "hint": "Une suite juste et individuelle, puis une réponse pédagogique.",
+            "explanation": "La réponse doit être individuelle et proportionnée : entretien avec l'élève, information de la famille et du professeur principal, punition ou rapport au chef d'établissement selon le règlement intérieur. Une punition collective frappe des élèves qui n'ont rien fait. Sur le fond, une fiche de formules cachée révèle souvent un besoin de méthode : travailler la mémorisation et la compréhension des formules prévient la récidive."
+          }
+        ],
+        "hint1": "Traitez les trois temps dans l'ordre : le texte qui fonde la réponse, le geste professionnel sur le moment, puis le traitement en équipe qui règle durablement la situation.",
+        "answer": "Règle de droit : le professeur peut donner une punition du règlement intérieur ; une sanction relève du chef d'établissement. Réaction immédiate : retirer discrètement le document, laisser l'élève finir et noter les faits (heure, contenu du document). Action à long terme : reprendre l'incident avec l'élève, informer la famille et le professeur principal, appliquer le règlement intérieur.",
+        "solution": "1. Règle de droit : Dans le second degré, les punitions scolaires (prévues par le règlement intérieur) peuvent être prononcées par les enseignants ; les sanctions disciplinaires, comme l'exclusion temporaire, relèvent du chef d'établissement ou du conseil de discipline. Un devoir en classe n'est pas un examen : les instances des examens ne sont pas concernées, et l'aveu de la famille n'est pas une condition.\n2. Réaction immédiate : Le professeur fait cesser la fraude en retirant le document, sans éclat : humilier l'élève devant la classe est contraire à sa dignité et au respect dû à chacun. Il conserve le document et note les faits avec précision, ce qui permettra une suite juste. Détruire la copie supprime toute trace ; ignorer la fraude rompt l'égalité entre les élèves.\n3. Action à long terme : La réponse doit être individuelle et proportionnée : entretien avec l'élève, information de la famille et du professeur principal, punition ou rapport au chef d'établissement selon le règlement intérieur. Une punition collective frappe des élèves qui n'ont rien fait. Sur le fond, une fiche de formules cachée révèle souvent un besoin de méthode : travailler la mémorisation et la compréhension des formules prévient la récidive."
+      },
+      {
+        "id": "capes-oral2-cas-3",
+        "chapterId": "capes-oral2-cas",
+        "tier": 1,
+        "title": "Un aménagement du PAP oublié le jour du devoir",
+        "statement": "Un élève de 5e dyslexique bénéficie d'un plan d'accompagnement personnalisé (PAP) qui prévoit des énoncés agrandis et allégés. Au début d'un devoir, il vous signale que son sujet est le même que celui des autres. Identifiez la règle de droit, la réaction immédiate et l'action à long terme.",
+        "type": "case3",
+        "steps": [
+          {
+            "label": "Règle de droit",
+            "question": "Quelle règle de droit s'applique ?",
+            "options": [
+              "Le PAP n'est qu'une recommandation du médecin scolaire : chaque professeur décide librement s'il l'applique ou non dans sa discipline",
+              "Le PAP ne concerne que les examens nationaux comme le brevet ; il ne s'applique pas aux devoirs ordinaires faits en classe",
+              "Le PAP ne s'applique qu'aux élèves dont le handicap a été reconnu par la maison départementale des personnes handicapées",
+              "Les aménagements du PAP (articles L. 311-7 et D. 311-13 du Code de l'éducation) s'imposent aux enseignants"
+            ],
+            "correctIndex": 3,
+            "hint": "Le PAP est un dispositif prévu par le Code de l'éducation pour les troubles des apprentissages.",
+            "explanation": "Le PAP (articles L. 311-7 et D. 311-13 du Code de l'éducation) fixe des aménagements et adaptations pédagogiques pour un élève dont les difficultés durables résultent d'un trouble des apprentissages. Ils s'appliquent dans la classe, y compris en évaluation, et s'imposent aux enseignants. Il se distingue du projet personnalisé de scolarisation (PPS), qui relève de la reconnaissance du handicap (article L. 112-2)."
+          },
+          {
+            "label": "Réaction immédiate",
+            "question": "Que faire sur le moment ?",
+            "options": [
+              "Demander à l'élève de composer cette fois avec le sujet commun, en lui promettant que l'aménagement sera bien appliqué au prochain devoir",
+              "Dispenser l'élève de ce devoir et lui attribuer la moyenne de la classe",
+              "Adapter le sujet sur-le-champ (agrandissement, allègement), discrètement et sans pénaliser l'élève pour le temps perdu",
+              "Expliquer d'abord à toute la classe pourquoi cet élève reçoit un sujet différent, afin d'éviter tout sentiment d'injustice chez ses camarades"
+            ],
+            "correctIndex": 2,
+            "hint": "Il faut réparer l'oubli tout de suite, discrètement.",
+            "explanation": "L'aménagement est un droit de l'élève : l'oubli se répare immédiatement, avec les moyens du moment, et l'élève ne doit pas subir le retard. La discrétion est essentielle : exposer ses difficultés devant la classe est stigmatisant. Une note fictive ou une dispense ne correspond pas au PAP, qui adapte l'évaluation sans la supprimer."
+          },
+          {
+            "label": "Action à long terme",
+            "question": "Quelle action mener ensuite pour régler durablement le problème ?",
+            "options": [
+              "Préparer désormais un sujet allégé pour toute la classe",
+              "Prévoir les aménagements dans chaque évaluation et participer avec le professeur principal au bilan du PAP",
+              "Proposer au conseil de classe de retirer le PAP, puisque l'élève a finalement pu composer sans difficulté sur le sujet commun",
+              "Demander à la famille de rappeler le PAP par un mot dans le carnet avant chaque devoir, afin d'éviter qu'un tel oubli ne se reproduise"
+            ],
+            "correctIndex": 1,
+            "hint": "La responsabilité de l'application revient à l'équipe pédagogique, pas à la famille.",
+            "explanation": "Le PAP est élaboré puis suivi par l'équipe pédagogique, en lien avec la famille et le médecin scolaire, et réévalué régulièrement : le professeur prévoit les adaptations dans toutes ses évaluations et fait part de ses observations au bilan. Reporter cette vigilance sur la famille est une erreur ; alléger le sujet de tous change l'évaluation des autres élèves sans répondre précisément aux besoins de celui-ci."
+          }
+        ],
+        "hint1": "Traitez les trois temps dans l'ordre : le texte qui fonde la réponse, le geste professionnel sur le moment, puis le traitement en équipe qui règle durablement la situation.",
+        "answer": "Règle de droit : les aménagements du PAP (articles L. 311-7 et D. 311-13 du Code de l'éducation) s'imposent aux enseignants. Réaction immédiate : adapter le sujet sur-le-champ (agrandissement, allègement), discrètement et sans pénaliser l'élève pour le temps perdu. Action à long terme : prévoir les aménagements dans chaque évaluation et participer avec le professeur principal au bilan du PAP.",
+        "solution": "1. Règle de droit : Le PAP (articles L. 311-7 et D. 311-13 du Code de l'éducation) fixe des aménagements et adaptations pédagogiques pour un élève dont les difficultés durables résultent d'un trouble des apprentissages. Ils s'appliquent dans la classe, y compris en évaluation, et s'imposent aux enseignants. Il se distingue du projet personnalisé de scolarisation (PPS), qui relève de la reconnaissance du handicap (article L. 112-2).\n2. Réaction immédiate : L'aménagement est un droit de l'élève : l'oubli se répare immédiatement, avec les moyens du moment, et l'élève ne doit pas subir le retard. La discrétion est essentielle : exposer ses difficultés devant la classe est stigmatisant. Une note fictive ou une dispense ne correspond pas au PAP, qui adapte l'évaluation sans la supprimer.\n3. Action à long terme : Le PAP est élaboré puis suivi par l'équipe pédagogique, en lien avec la famille et le médecin scolaire, et réévalué régulièrement : le professeur prévoit les adaptations dans toutes ses évaluations et fait part de ses observations au bilan. Reporter cette vigilance sur la famille est une erreur ; alléger le sujet de tous change l'évaluation des autres élèves sans répondre précisément aux besoins de celui-ci."
+      },
+      {
+        "id": "capes-oral2-cas-4",
+        "chapterId": "capes-oral2-cas",
+        "tier": 1,
+        "title": "Un élève confie être harcelé",
+        "statement": "À la fin d'un cours, un élève de 5e reste dans la salle et vous confie que, depuis des semaines, des camarades le bousculent dans les couloirs et l'insultent sur un groupe de messagerie. Il vous demande de n'en parler à personne. Identifiez la règle de droit, la réaction immédiate et l'action à long terme.",
+        "type": "case3",
+        "steps": [
+          {
+            "label": "Règle de droit",
+            "question": "Quelle règle de droit s'applique ?",
+            "options": [
+              "Le harcèlement scolaire est un délit (loi du 2 mars 2022) ; le programme pHARe organise son traitement au collège",
+              "Le harcèlement ne peut être qualifié qu'après une plainte des parents : l'établissement ne peut pas agir de lui-même avant",
+              "Le harcèlement entre élèves relève de la vie privée des familles dès lors qu'une partie des faits se produit hors de l'établissement",
+              "Le professeur est tenu au secret professionnel envers l'élève et ne peut rien révéler de sa confidence sans son accord exprès"
+            ],
+            "correctIndex": 0,
+            "hint": "Une loi de 2022 a créé un délit spécifique, et un programme national organise la réponse des établissements.",
+            "explanation": "La loi du 2 mars 2022 a créé le délit de harcèlement scolaire (article 222-33-2-3 du Code pénal), y compris lorsque les faits se poursuivent en ligne. Depuis la rentrée 2023, le programme pHARe est obligatoire dans les écoles, collèges et lycées : une équipe ressource met en œuvre le protocole de prise en charge. L'école agit sans attendre une plainte, et la discrétion due à l'élève n'interdit pas de transmettre aux personnes chargées de le protéger."
+          },
+          {
+            "label": "Réaction immédiate",
+            "question": "Que faire sur le moment ?",
+            "options": [
+              "Convoquer dès le cours suivant les élèves désignés et les confronter à la victime devant la classe",
+              "Écouter, expliquer qu'on ne peut pas garder ce secret mais qu'on le confiera à qui peut aider, alerter le CPE",
+              "Promettre le secret pour garder sa confiance, et attendre qu'il accepte d'en parler lui-même à ses parents ou au CPE quand il sera prêt",
+              "Lui conseiller de quitter le groupe de messagerie et de répondre fermement à ses agresseurs, pour leur montrer qu'il ne se laisse pas faire"
+            ],
+            "correctIndex": 1,
+            "hint": "Ne pas promettre ce qu'on ne pourra pas tenir, et ne pas agir seul.",
+            "explanation": "La parole de l'élève est accueillie et prise au sérieux. On ne promet pas le secret, mais on explique à qui l'information sera transmise et pourquoi. L'alerte est donnée sans attendre au CPE et au chef d'établissement, qui déclenchent le protocole. Une confrontation publique expose la victime aux représailles ; renvoyer l'élève à ses propres moyens, c'est le laisser seul face au harcèlement."
+          },
+          {
+            "label": "Action à long terme",
+            "question": "Quelle action mener ensuite pour régler durablement le problème ?",
+            "options": [
+              "Organiser un débat en classe sur la situation de l'élève, en le nommant, pour que ses camarades prennent conscience des faits",
+              "Participer avec l'équipe pHARe à la prise en charge et au suivi de l'élève, et rester vigilant en classe",
+              "Changer l'élève harcelé de classe dès la semaine suivante, sans autre mesure",
+              "Considérer l'affaire comme close dès que le CPE a été informé, puisque le traitement du harcèlement relève désormais de la vie scolaire"
+            ],
+            "correctIndex": 1,
+            "hint": "La prise en charge dure dans le temps et associe tous ceux qui côtoient l'élève.",
+            "explanation": "Le protocole pHARe prévoit des entretiens, des mesures envers les auteurs et un suivi de la victime dans la durée ; le professeur y contribue par sa vigilance quotidienne et ses observations. Déplacer la victime peut lui donner le sentiment d'être punie, et nommer l'élève dans un débat l'expose davantage. La prévention passe par des actions générales, sans désigner de cas particulier."
+          }
+        ],
+        "hint1": "Traitez les trois temps dans l'ordre : le texte qui fonde la réponse, le geste professionnel sur le moment, puis le traitement en équipe qui règle durablement la situation.",
+        "answer": "Règle de droit : le harcèlement scolaire est un délit (loi du 2 mars 2022) ; le programme pHARe organise son traitement au collège. Réaction immédiate : écouter, expliquer qu'on ne peut pas garder ce secret mais qu'on le confiera à qui peut aider, alerter le CPE. Action à long terme : participer avec l'équipe pHARe à la prise en charge et au suivi de l'élève, et rester vigilant en classe.",
+        "solution": "1. Règle de droit : La loi du 2 mars 2022 a créé le délit de harcèlement scolaire (article 222-33-2-3 du Code pénal), y compris lorsque les faits se poursuivent en ligne. Depuis la rentrée 2023, le programme pHARe est obligatoire dans les écoles, collèges et lycées : une équipe ressource met en œuvre le protocole de prise en charge. L'école agit sans attendre une plainte, et la discrétion due à l'élève n'interdit pas de transmettre aux personnes chargées de le protéger.\n2. Réaction immédiate : La parole de l'élève est accueillie et prise au sérieux. On ne promet pas le secret, mais on explique à qui l'information sera transmise et pourquoi. L'alerte est donnée sans attendre au CPE et au chef d'établissement, qui déclenchent le protocole. Une confrontation publique expose la victime aux représailles ; renvoyer l'élève à ses propres moyens, c'est le laisser seul face au harcèlement.\n3. Action à long terme : Le protocole pHARe prévoit des entretiens, des mesures envers les auteurs et un suivi de la victime dans la durée ; le professeur y contribue par sa vigilance quotidienne et ses observations. Déplacer la victime peut lui donner le sentiment d'être punie, et nommer l'élève dans un débat l'expose davantage. La prévention passe par des actions générales, sans désigner de cas particulier."
+      },
+      {
+        "id": "capes-oral2-cas-5",
+        "chapterId": "capes-oral2-cas",
+        "tier": 1,
+        "title": "Une alerte de mise en sûreté mal maîtrisée",
+        "statement": "Pendant votre cours, l'alarme de mise en sûreté retentit. Plusieurs élèves se lèvent pour sortir, d'autres veulent appeler leurs parents ; vous découvrez que la porte de votre salle ne ferme pas à clé. Il s'agissait d'un exercice. Identifiez la règle de droit, la réaction immédiate et l'action à long terme.",
+        "type": "case3",
+        "steps": [
+          {
+            "label": "Règle de droit",
+            "question": "Quelle règle de droit s'applique ?",
+            "options": [
+              "Le PPMS ne concerne que la direction et la vie scolaire : les enseignants réagissent selon leur propre appréciation de la situation",
+              "Les consignes en cas d'alerte relèvent du seul plan d'évacuation incendie",
+              "Le PPMS n'est obligatoire que dans les établissements situés à proximité d'un site industriel classé ou d'une zone inondable",
+              "Chaque établissement a un plan particulier de mise en sûreté (PPMS, circulaire du 8 juin 2023) qui s'impose à tous"
+            ],
+            "correctIndex": 3,
+            "hint": "Un plan spécifique, distinct de l'évacuation incendie, a été refondu par une circulaire de 2023.",
+            "explanation": "La circulaire du 8 juin 2023 encadre les plans particuliers de mise en sûreté de chaque école et établissement. Le PPMS fixe les conduites à tenir face aux risques majeurs et aux menaces (attentat, intrusion) ; ses consignes, différentes de celles de l'évacuation incendie, s'imposent à tous les personnels et sont travaillées lors d'exercices réguliers."
+          },
+          {
+            "label": "Réaction immédiate",
+            "question": "Que faire sur le moment ?",
+            "options": [
+              "Sortir dans le couloir pour aller demander à la direction s'il s'agit d'un exercice",
+              "Laisser chaque élève appeler sa famille pour la rassurer, avant de prendre une décision sur la conduite à tenir dans la salle",
+              "Laisser sortir les élèves qui le souhaitent, chacun étant libre de se mettre à l'abri à l'endroit qu'il juge le plus sûr",
+              "Appliquer le PPMS sans délai : garder les élèves avec soi, faire taire les téléphones, rassurer la classe"
+            ],
+            "correctIndex": 3,
+            "hint": "Pendant l'alerte, on applique les consignes sans attendre de savoir s'il s'agit d'un exercice.",
+            "explanation": "Tant que l'alerte dure, elle est traitée comme réelle : le professeur applique les consignes connues à l'avance, garde le contrôle de sa classe et la rassure. Quitter la salle pour s'informer laisse les élèves seuls ; des appels en série gênent les secours et peuvent signaler la présence du groupe."
+          },
+          {
+            "label": "Action à long terme",
+            "question": "Quelle action mener ensuite pour régler durablement le problème ?",
+            "options": [
+              "Garder pour soi le problème de la porte, pour ne pas donner l'impression de mettre en cause la direction ou les services de l'établissement",
+              "Rédiger ses propres consignes pour sa classe, différentes de celles du PPMS, qu'il juge mal adaptées à la configuration de sa salle",
+              "Signaler au chef d'établissement la porte défectueuse et les difficultés observées, puis retravailler les consignes avec la classe",
+              "Demander que les exercices de mise en sûreté soient supprimés, puisqu'ils inquiètent les élèves plus qu'ils ne les préparent"
+            ],
+            "correctIndex": 2,
+            "hint": "L'exercice sert justement à repérer ce qui ne fonctionne pas.",
+            "explanation": "Les exercices permettent d'améliorer le plan : le retour d'expérience fait remonter les défauts (porte qui ne ferme pas, réactions des élèves) au chef d'établissement, qui ajuste le PPMS et fait réaliser les travaux. Le professeur reprend les consignes avec sa classe pour que les bons réflexes soient acquis. Des consignes propres à une classe créeraient de la confusion le jour d'une vraie alerte."
+          }
+        ],
+        "hint1": "Traitez les trois temps dans l'ordre : le texte qui fonde la réponse, le geste professionnel sur le moment, puis le traitement en équipe qui règle durablement la situation.",
+        "answer": "Règle de droit : chaque établissement a un plan particulier de mise en sûreté (PPMS, circulaire du 8 juin 2023) qui s'impose à tous. Réaction immédiate : appliquer le PPMS sans délai : garder les élèves avec soi, faire taire les téléphones, rassurer la classe. Action à long terme : signaler au chef d'établissement la porte défectueuse et les difficultés observées, puis retravailler les consignes avec la classe.",
+        "solution": "1. Règle de droit : La circulaire du 8 juin 2023 encadre les plans particuliers de mise en sûreté de chaque école et établissement. Le PPMS fixe les conduites à tenir face aux risques majeurs et aux menaces (attentat, intrusion) ; ses consignes, différentes de celles de l'évacuation incendie, s'imposent à tous les personnels et sont travaillées lors d'exercices réguliers.\n2. Réaction immédiate : Tant que l'alerte dure, elle est traitée comme réelle : le professeur applique les consignes connues à l'avance, garde le contrôle de sa classe et la rassure. Quitter la salle pour s'informer laisse les élèves seuls ; des appels en série gênent les secours et peuvent signaler la présence du groupe.\n3. Action à long terme : Les exercices permettent d'améliorer le plan : le retour d'expérience fait remonter les défauts (porte qui ne ferme pas, réactions des élèves) au chef d'établissement, qui ajuste le PPMS et fait réaliser les travaux. Le professeur reprend les consignes avec sa classe pour que les bons réflexes soient acquis. Des consignes propres à une classe créeraient de la confusion le jour d'une vraie alerte."
+      },
+      {
+        "id": "capes-oral2-cas-6",
+        "chapterId": "capes-oral2-cas",
+        "tier": 1,
+        "title": "Une insulte adressée au professeur",
+        "statement": "En 3e, après une remarque sur son travail, un élève vous insulte grossièrement devant la classe et refuse de se calmer. Identifiez la règle de droit, la réaction immédiate et l'action à long terme.",
+        "type": "case3",
+        "steps": [
+          {
+            "label": "Règle de droit",
+            "question": "Quelle règle de droit s'applique ?",
+            "options": [
+              "Le professeur peut donner une punition et saisir le chef d'établissement, seul à engager une procédure disciplinaire",
+              "Une insulte entre un élève et un adulte relève uniquement de la famille : l'établissement n'a pas à intervenir dans ce conflit",
+              "Le professeur doit d'abord déposer plainte : aucune mesure scolaire n'est possible tant que la justice ne s'est pas prononcée",
+              "Le professeur peut exclure lui-même l'élève de l'établissement pour plusieurs jours, la gravité d'une insulte publique le justifiant"
+            ],
+            "correctIndex": 0,
+            "hint": "Qui peut prononcer quoi ? Punition et sanction ne relèvent pas de la même autorité.",
+            "explanation": "Les punitions scolaires peuvent être prononcées par les enseignants dans le cadre du règlement intérieur ; les sanctions disciplinaires (avertissement, blâme, exclusions) sont décidées par le chef d'établissement ou le conseil de discipline. Une insulte envers un personnel justifie que le chef d'établissement en soit saisi. La voie pénale est indépendante et n'empêche pas la réponse scolaire."
+          },
+          {
+            "label": "Réaction immédiate",
+            "question": "Que faire sur le moment ?",
+            "options": [
+              "Répondre à l'élève sur le même registre, pour montrer clairement à toute la classe qu'on ne se laisse pas insulter sans réagir",
+              "Garder son calme, ne pas répondre sur le même ton, faire cesser l'incident, au besoin conduire l'élève à la vie scolaire",
+              "Faire comme si de rien n'était et poursuivre le cours, pour ne pas donner d'importance à l'insulte ni à son auteur",
+              "Envoyer l'élève seul dans la cour, le temps qu'il se calme, puis le laisser revenir en classe lorsqu'il se sentira prêt"
+            ],
+            "correctIndex": 1,
+            "hint": "Le professeur reste l'adulte responsable de tous les élèves, y compris de celui qui l'insulte.",
+            "explanation": "Le calme du professeur protège l'autorité et la classe ; répondre sur le même ton ferait de l'incident un affrontement personnel. Si l'élève doit quitter la salle, il est accompagné jusqu'à la vie scolaire : un élève laissé seul reste sous la responsabilité de l'enseignant. Ignorer une insulte publique signifie à la classe qu'elle est acceptable."
+          },
+          {
+            "label": "Action à long terme",
+            "question": "Quelle action mener ensuite pour régler durablement le problème ?",
+            "options": [
+              "Faire un rapport factuel au chef d'établissement, informer le professeur principal et la famille, revoir l'élève",
+              "Baisser les notes de l'élève pour le restant du trimestre, en réponse à son comportement et pour qu'il mesure la gravité des faits",
+              "Refuser désormais d'accueillir l'élève dans son cours jusqu'à la fin de l'année",
+              "Régler l'affaire seul en exigeant des excuses écrites de l'élève, sans en informer personne afin de ne pas l'exposer davantage"
+            ],
+            "correctIndex": 0,
+            "hint": "Un écrit, une réponse institutionnelle, puis la reprise du travail avec l'élève.",
+            "explanation": "Le rapport factuel permet au chef d'établissement de décider des suites, éventuellement disciplinaires. L'information du professeur principal et de la famille inscrit la réponse dans un suivi. La note mesure les acquis et ne sanctionne pas un comportement ; refuser un élève méconnaît l'obligation d'assiduité et le droit à l'instruction. La reprise de la relation est l'objectif final."
+          }
+        ],
+        "hint1": "Traitez les trois temps dans l'ordre : le texte qui fonde la réponse, le geste professionnel sur le moment, puis le traitement en équipe qui règle durablement la situation.",
+        "answer": "Règle de droit : le professeur peut donner une punition et saisir le chef d'établissement, seul à engager une procédure disciplinaire. Réaction immédiate : garder son calme, ne pas répondre sur le même ton, faire cesser l'incident, au besoin conduire l'élève à la vie scolaire. Action à long terme : faire un rapport factuel au chef d'établissement, informer le professeur principal et la famille, revoir l'élève.",
+        "solution": "1. Règle de droit : Les punitions scolaires peuvent être prononcées par les enseignants dans le cadre du règlement intérieur ; les sanctions disciplinaires (avertissement, blâme, exclusions) sont décidées par le chef d'établissement ou le conseil de discipline. Une insulte envers un personnel justifie que le chef d'établissement en soit saisi. La voie pénale est indépendante et n'empêche pas la réponse scolaire.\n2. Réaction immédiate : Le calme du professeur protège l'autorité et la classe ; répondre sur le même ton ferait de l'incident un affrontement personnel. Si l'élève doit quitter la salle, il est accompagné jusqu'à la vie scolaire : un élève laissé seul reste sous la responsabilité de l'enseignant. Ignorer une insulte publique signifie à la classe qu'elle est acceptable.\n3. Action à long terme : Le rapport factuel permet au chef d'établissement de décider des suites, éventuellement disciplinaires. L'information du professeur principal et de la famille inscrit la réponse dans un suivi. La note mesure les acquis et ne sanctionne pas un comportement ; refuser un élève méconnaît l'obligation d'assiduité et le droit à l'instruction. La reprise de la relation est l'objectif final."
+      },
+      // =========================================================================
+      // PALIER 2 : LAÏCITÉ ET NEUTRALITÉ
+      // =========================================================================
+      {
+        "id": "capes-oral2-cas-7",
+        "chapterId": "capes-oral2-cas",
+        "tier": 2,
+        "title": "Un élève refuse un exercice de probabilités",
+        "statement": "En 2de, lors d'une séance sur les probabilités avec des exemples de jeux de hasard, un élève refuse de faire l'exercice, déclare que « ces jeux sont interdits par sa religion » et que « le hasard n'existe pas ». Identifiez la règle de droit, la réaction immédiate et l'action à long terme.",
+        "type": "case3",
+        "steps": [
+          {
+            "label": "Règle de droit",
+            "question": "Quelle règle de droit s'applique ?",
+            "options": [
+              "La loi du 15 mars 2004 interdit aux élèves toute expression religieuse en classe, ce qui justifie une exclusion immédiate du cours",
+              "La liberté de conscience autorise l'élève à refuser les exercices contraires à ses convictions",
+              "Le professeur doit remplacer l'exercice par un autre, puisque la laïcité lui impose de respecter les croyances de chaque élève",
+              "L'assiduité (articles L. 511-1 et R. 511-11) impose de faire les travaux ; la liberté d'expression ne peut nuire aux cours"
+            ],
+            "correctIndex": 3,
+            "hint": "L'obligation d'assiduité ne se limite pas à la présence physique.",
+            "explanation": "L'article L. 511-1 et l'article R. 511-11 du Code de l'éducation imposent aux élèves d'accomplir les travaux demandés et de respecter le contenu des programmes ; l'article L. 511-2 précise que la liberté d'expression ne peut porter atteinte aux activités d'enseignement. La Charte de la laïcité ajoute qu'aucun élève ne peut invoquer ses convictions pour contester une question au programme. La loi de 2004 vise les signes et tenues, pas les propos."
+          },
+          {
+            "label": "Réaction immédiate",
+            "question": "Que faire sur le moment ?",
+            "options": [
+              "Exclure l'élève du cours sur-le-champ pour atteinte à la laïcité, et le faire conduire à la vie scolaire jusqu'à la fin de l'heure",
+              "Engager devant la classe un débat sur la place du hasard dans les religions",
+              "Expliquer sans débat religieux qu'une probabilité modélise le hasard et n'est pas un jeu, rappeler l'obligation de travail",
+              "Dispenser l'élève de cette partie du programme pour éviter le conflit, en lui donnant un autre chapitre à travailler en autonomie"
+            ],
+            "correctIndex": 2,
+            "hint": "Commencer par comprendre et expliquer ; le professeur n'a pas à se prononcer sur une croyance.",
+            "explanation": "Une maladresse ou une question n'est pas forcément une contestation : on écoute, puis on explique ce que fait réellement l'exercice (modéliser une expérience aléatoire n'est ni jouer ni affirmer une thèse sur le monde). Le professeur ne prend pas parti sur les croyances. Il rappelle l'exigence de travail sans humilier et poursuit le cours. Une dispense créerait une inégalité devant le programme."
+          },
+          {
+            "label": "Action à long terme",
+            "question": "Quelle action mener ensuite pour régler durablement le problème ?",
+            "options": [
+              "Retirer définitivement les jeux de hasard de ses exemples, dans toutes ses classes, pour ne plus heurter les convictions des élèves",
+              "Mettre zéro à chaque exercice refusé, sans en parler à personne, pour que l'élève comprenne seul l'intérêt de faire son travail",
+              "Reprendre l'échange, informer le professeur principal et le chef d'établissement, réponse graduée si le refus persiste",
+              "Considérer l'incident comme réglé puisque l'élève a fini par se taire et que le cours a pu se poursuivre normalement"
+            ],
+            "correctIndex": 2,
+            "hint": "Le plan laïcité de 2022 décrit une réponse graduée, qui commence par le dialogue.",
+            "explanation": "Le professeur ne reste pas seul : le professeur principal et le chef d'établissement sont informés, la famille est reçue et la règle expliquée. La circulaire du 9 novembre 2022 (plan laïcité) demande, après la phase de dialogue, de répondre de façon systématique et graduée, y compris par une sanction si la contestation persiste. Supprimer des contenus revient à céder sur le programme ; une note ne sert pas à sanctionner un refus."
+          }
+        ],
+        "hint1": "Traitez les trois temps dans l'ordre : le texte qui fonde la réponse, le geste professionnel sur le moment, puis le traitement en équipe qui règle durablement la situation.",
+        "answer": "Règle de droit : l'assiduité (articles L. 511-1 et R. 511-11) impose de faire les travaux ; la liberté d'expression ne peut nuire aux cours. Réaction immédiate : expliquer sans débat religieux qu'une probabilité modélise le hasard et n'est pas un jeu, rappeler l'obligation de travail. Action à long terme : reprendre l'échange, informer le professeur principal et le chef d'établissement, réponse graduée si le refus persiste.",
+        "solution": "1. Règle de droit : L'article L. 511-1 et l'article R. 511-11 du Code de l'éducation imposent aux élèves d'accomplir les travaux demandés et de respecter le contenu des programmes ; l'article L. 511-2 précise que la liberté d'expression ne peut porter atteinte aux activités d'enseignement. La Charte de la laïcité ajoute qu'aucun élève ne peut invoquer ses convictions pour contester une question au programme. La loi de 2004 vise les signes et tenues, pas les propos.\n2. Réaction immédiate : Une maladresse ou une question n'est pas forcément une contestation : on écoute, puis on explique ce que fait réellement l'exercice (modéliser une expérience aléatoire n'est ni jouer ni affirmer une thèse sur le monde). Le professeur ne prend pas parti sur les croyances. Il rappelle l'exigence de travail sans humilier et poursuit le cours. Une dispense créerait une inégalité devant le programme.\n3. Action à long terme : Le professeur ne reste pas seul : le professeur principal et le chef d'établissement sont informés, la famille est reçue et la règle expliquée. La circulaire du 9 novembre 2022 (plan laïcité) demande, après la phase de dialogue, de répondre de façon systématique et graduée, y compris par une sanction si la contestation persiste. Supprimer des contenus revient à céder sur le programme ; une note ne sert pas à sanctionner un refus."
+      },
+      {
+        "id": "capes-oral2-cas-8",
+        "chapterId": "capes-oral2-cas",
+        "tier": 2,
+        "title": "Une élève arrive en cours vêtue d'une abaya",
+        "statement": "Dans un lycée public, une élève entre dans votre salle vêtue d'une abaya. Plusieurs élèves réagissent à voix haute. Identifiez la règle de droit, la réaction immédiate et l'action à long terme.",
+        "type": "case3",
+        "steps": [
+          {
+            "label": "Règle de droit",
+            "question": "Quelle règle de droit s'applique ?",
+            "options": [
+              "La loi de 2004 ne vise que les signes religieux, comme les bijoux ou les couvre-chefs, et jamais les tenues vestimentaires",
+              "L'interdiction de l'abaya ne s'applique qu'au collège, les lycéens restant libres de leur tenue qu'ils soient mineurs ou majeurs",
+              "L'article L. 141-5-1 interdit aux élèves les tenues religieuses ostensibles ; la note du 31 août 2023 y range l'abaya",
+              "L'abaya est un vêtement de mode et non une tenue religieuse : aucun texte ne permet d'en interdire le port dans un lycée public"
+            ],
+            "correctIndex": 2,
+            "hint": "La loi de 2004 vise les signes et les tenues ; une note de service de 2023 a précisé le cas de l'abaya.",
+            "explanation": "L'article L. 141-5-1 (loi du 15 mars 2004) interdit dans les écoles, collèges et lycées publics le port de signes ou de tenues par lesquels les élèves manifestent ostensiblement une appartenance religieuse. La note de service du 31 août 2023 précise que l'abaya et le qamis en font partie ; le juge des référés du Conseil d'État a refusé de suspendre cette mesure le 7 septembre 2023 (n° 487891)."
+          },
+          {
+            "label": "Réaction immédiate",
+            "question": "Que faire sur le moment ?",
+            "options": [
+              "Faire cesser les commentaires, ne pas débattre devant la classe et informer sans délai le chef d'établissement",
+              "Laisser l'élève assister au cours sans rien dire à personne, afin d'éviter un conflit qui perturberait la séance",
+              "Demander à l'élève de quitter immédiatement l'établissement et de rentrer chez elle pour se changer avant de revenir",
+              "Expliquer à l'élève, devant toute la classe, que sa tenue est religieuse et lui demander de justifier son choix vestimentaire"
+            ],
+            "correctIndex": 0,
+            "hint": "Le dialogue avec l'élève existe, mais ce n'est pas au professeur de le mener seul devant la classe.",
+            "explanation": "Le professeur protège l'élève des réactions de la classe et ne débat pas publiquement de sa tenue. Il alerte immédiatement le chef d'établissement, à qui revient le dialogue préalable avec l'élève ; ce dialogue n'est pas une négociation. Renvoyer l'élève chez elle n'est pas de son ressort ; se taire laisse l'équipe dans l'ignorance."
+          },
+          {
+            "label": "Action à long terme",
+            "question": "Quelle action mener ensuite pour régler durablement le problème ?",
+            "options": [
+              "Proposer que l'élève suive les cours à distance tant qu'elle souhaite porter cette tenue, afin de préserver sa scolarité",
+              "Négocier avec l'élève un compromis, par exemple un port de la tenue limité aux récréations et aux heures sans professeur",
+              "Laisser chaque professeur décider s'il accepte ou non la tenue dans son propre cours, selon sa conception de la laïcité",
+              "Soutenir le chef d'établissement, qui dialogue avec la famille ; si le refus persiste, une procédure disciplinaire suit"
+            ],
+            "correctIndex": 3,
+            "hint": "Le décret du 16 août 2023 a rendu la procédure disciplinaire obligatoire dans certains cas.",
+            "explanation": "Après le dialogue conduit par le chef d'établissement, dont les étapes sont consignées par écrit, un refus persistant entraîne obligatoirement l'engagement d'une procédure disciplinaire (article R. 421-10 du Code de l'éducation modifié par le décret du 16 août 2023). L'équipe académique Valeurs de la République peut accompagner l'établissement. La règle est la même pour tous : ni compromis, ni application variable selon les professeurs."
+          }
+        ],
+        "hint1": "Traitez les trois temps dans l'ordre : le texte qui fonde la réponse, le geste professionnel sur le moment, puis le traitement en équipe qui règle durablement la situation.",
+        "answer": "Règle de droit : l'article L. 141-5-1 interdit aux élèves les tenues religieuses ostensibles ; la note du 31 août 2023 y range l'abaya. Réaction immédiate : faire cesser les commentaires, ne pas débattre devant la classe et informer sans délai le chef d'établissement. Action à long terme : soutenir le chef d'établissement, qui dialogue avec la famille ; si le refus persiste, une procédure disciplinaire suit.",
+        "solution": "1. Règle de droit : L'article L. 141-5-1 (loi du 15 mars 2004) interdit dans les écoles, collèges et lycées publics le port de signes ou de tenues par lesquels les élèves manifestent ostensiblement une appartenance religieuse. La note de service du 31 août 2023 précise que l'abaya et le qamis en font partie ; le juge des référés du Conseil d'État a refusé de suspendre cette mesure le 7 septembre 2023 (n° 487891).\n2. Réaction immédiate : Le professeur protège l'élève des réactions de la classe et ne débat pas publiquement de sa tenue. Il alerte immédiatement le chef d'établissement, à qui revient le dialogue préalable avec l'élève ; ce dialogue n'est pas une négociation. Renvoyer l'élève chez elle n'est pas de son ressort ; se taire laisse l'équipe dans l'ignorance.\n3. Action à long terme : Après le dialogue conduit par le chef d'établissement, dont les étapes sont consignées par écrit, un refus persistant entraîne obligatoirement l'engagement d'une procédure disciplinaire (article R. 421-10 du Code de l'éducation modifié par le décret du 16 août 2023). L'équipe académique Valeurs de la République peut accompagner l'établissement. La règle est la même pour tous : ni compromis, ni application variable selon les professeurs."
+      },
+      {
+        "id": "capes-oral2-cas-9",
+        "chapterId": "capes-oral2-cas",
+        "tier": 2,
+        "title": "Une candidate libre refuse le contrôle avant une épreuve",
+        "statement": "Vous surveillez une épreuve du baccalauréat. Une candidate libre, voilée, se présente ; au moment du contrôle anti-fraude, elle refuse que l'on vérifie qu'elle ne porte pas d'oreillette. Identifiez la règle de droit, la réaction immédiate et l'action à long terme.",
+        "type": "case3",
+        "steps": [
+          {
+            "label": "Règle de droit",
+            "question": "Quelle règle de droit s'applique ?",
+            "options": [
+              "La loi de 2004 ne vise pas les candidats libres, mais un contrôle visuel anti-fraude (oreilles, poignets) reste possible",
+              "Un candidat libre n'est soumis à aucun contrôle, la surveillance anti-fraude ne concernant que les élèves scolarisés dans le centre",
+              "La loi de 2004 s'applique à tout candidat présent dans un centre d'examen public : la candidate doit retirer son voile pour composer",
+              "Les surveillants peuvent fouiller les vêtements et les effets personnels de tout candidat sur simple soupçon de fraude"
+            ],
+            "correctIndex": 0,
+            "hint": "La loi de 2004 vise les élèves des établissements publics ; les règles anti-fraude visent tous les candidats.",
+            "explanation": "Le Vademecum (fiche 6) rappelle que l'article L. 141-5-1 ne concerne que les élèves des établissements publics : ni les candidats libres, ni ceux du Cned, ni les élèves du privé sous contrat. Pour tous, des contrôles anti-fraude sont possibles : la circulaire du 3 mai 2011 prévoit un contrôle visuel des oreilles, de la nuque et des poignets, sans contact. Une fouille n'est jamais du ressort des surveillants. La dissimulation du visage reste interdite (loi du 11 octobre 2010)."
+          },
+          {
+            "label": "Réaction immédiate",
+            "question": "Que faire sur le moment ?",
+            "options": [
+              "L'installer au fond de la salle sans contrôle, et la surveiller de plus près que les autres pendant toute la durée de l'épreuve",
+              "Proposer un contrôle visuel discret, sans contact ; si le refus persiste, le chef de centre refuse l'accès à la salle",
+              "La laisser composer sans contrôle pour éviter tout incident, puisque la loi de 2004 ne lui interdit pas de porter son voile",
+              "Lui retirer soi-même le voile quelques secondes pour vérifier l'absence d'oreillette, puis la laisser s'installer"
+            ],
+            "correctIndex": 1,
+            "hint": "Le contrôle peut être fait avec tact, mais il ne peut pas être évité.",
+            "explanation": "Le contrôle se fait avec discrétion (une surveillante peut s'en charger) et sans aucun contact. Si la candidate le refuse, le surveillant ne décide pas seul : il prévient le chef de centre, qui refuse l'entrée en salle. Laisser composer sans contrôle romprait l'égalité entre candidats ; tout geste physique est exclu."
+          },
+          {
+            "label": "Action à long terme",
+            "question": "Quelle action mener ensuite pour régler durablement le problème ?",
+            "options": [
+              "Proposer de supprimer les contrôles pour les candidates voilées lors des prochaines sessions",
+              "Rédiger un rapport avec le chef de centre et rappeler les consignes aux surveillants avant chaque session",
+              "Inscrire la candidate sur une liste d'interdiction, transmise aux autres centres, pour toutes les sessions futures de l'examen",
+              "Ne rien écrire, puisque la candidate n'a finalement pas composé et qu'aucune fraude n'a donc pu être commise"
+            ],
+            "correctIndex": 1,
+            "hint": "Un incident d'examen laisse une trace écrite, et les consignes se préparent avant l'épreuve.",
+            "explanation": "En cas de refus du contrôle, un rapport est établi : il permet aux services des examens de statuer et protège les surveillants. Bien connaître les consignes avant la session évite les hésitations et les traitements différents d'une salle à l'autre. Un surveillant ne peut pas décider d'une interdiction future ; supprimer les contrôles pour certaines candidates créerait une discrimination."
+          }
+        ],
+        "hint1": "Traitez les trois temps dans l'ordre : le texte qui fonde la réponse, le geste professionnel sur le moment, puis le traitement en équipe qui règle durablement la situation.",
+        "answer": "Règle de droit : la loi de 2004 ne vise pas les candidats libres, mais un contrôle visuel anti-fraude (oreilles, poignets) reste possible. Réaction immédiate : proposer un contrôle visuel discret, sans contact ; si le refus persiste, le chef de centre refuse l'accès à la salle. Action à long terme : rédiger un rapport avec le chef de centre et rappeler les consignes aux surveillants avant chaque session.",
+        "solution": "1. Règle de droit : Le Vademecum (fiche 6) rappelle que l'article L. 141-5-1 ne concerne que les élèves des établissements publics : ni les candidats libres, ni ceux du Cned, ni les élèves du privé sous contrat. Pour tous, des contrôles anti-fraude sont possibles : la circulaire du 3 mai 2011 prévoit un contrôle visuel des oreilles, de la nuque et des poignets, sans contact. Une fouille n'est jamais du ressort des surveillants. La dissimulation du visage reste interdite (loi du 11 octobre 2010).\n2. Réaction immédiate : Le contrôle se fait avec discrétion (une surveillante peut s'en charger) et sans aucun contact. Si la candidate le refuse, le surveillant ne décide pas seul : il prévient le chef de centre, qui refuse l'entrée en salle. Laisser composer sans contrôle romprait l'égalité entre candidats ; tout geste physique est exclu.\n3. Action à long terme : En cas de refus du contrôle, un rapport est établi : il permet aux services des examens de statuer et protège les surveillants. Bien connaître les consignes avant la session évite les hésitations et les traitements différents d'une salle à l'autre. Un surveillant ne peut pas décider d'une interdiction future ; supprimer les contrôles pour certaines candidates créerait une discrimination."
+      },
+      {
+        "id": "capes-oral2-cas-10",
+        "chapterId": "capes-oral2-cas",
+        "tier": 2,
+        "title": "Une prière collective dans la cour",
+        "statement": "Pendant la récréation, que vous surveillez, un élève de 3e prie dans un coin de la cour et insiste auprès de deux camarades pour qu'ils le rejoignent ; l'un d'eux semble mal à l'aise. Identifiez la règle de droit, la réaction immédiate et l'action à long terme.",
+        "type": "case3",
+        "steps": [
+          {
+            "label": "Règle de droit",
+            "question": "Quelle règle de droit s'applique ?",
+            "options": [
+              "Toute pratique religieuse constitue un délit dans un établissement public, quels que soient le lieu et le moment",
+              "La prière n'est interdite que pendant les cours ; à la récréation, les élèves peuvent organiser librement des prières collectives",
+              "L'article L. 141-5-2 interdit les pressions sur les croyances des élèves ; aucun lieu de prière n'est prévu hors internat",
+              "La liberté de culte permet à tout élève de prier où il le souhaite dans l'établissement, et d'inviter ses camarades à le rejoindre"
+            ],
+            "correctIndex": 2,
+            "hint": "Une loi de 2019 a inscrit la protection de la liberté de conscience des élèves dans le Code de l'éducation.",
+            "explanation": "L'article L. 141-5-2 (loi du 26 juillet 2019) dispose que l'État protège la liberté de conscience des élèves : les pressions et tentatives d'endoctrinement sont interdites dans les écoles et établissements publics, à leurs abords et pendant toute activité liée à l'enseignement. Le Vademecum (fiche 14) précise qu'aucun local n'est affecté à la prière, sauf à l'internat, où elle reste possible dans la chambre sans caractère ostentatoire, et dans le cadre d'une aumônerie autorisée."
+          },
+          {
+            "label": "Réaction immédiate",
+            "question": "Que faire sur le moment ?",
+            "options": [
+              "Interpeller l'élève à haute voix devant toute la cour, afin que la scène serve d'exemple aux autres élèves présents",
+              "Se joindre à l'échange et débattre avec l'élève de sa croyance, pour lui démontrer par des arguments rationnels qu'il se trompe",
+              "Faire cesser la scène sans humilier, rappeler que nul ne doit être poussé à pratiquer, rassurer l'élève, prévenir le CPE",
+              "Laisser faire, car intervenir porterait atteinte à la liberté de conscience de l'élève qui prie pendant son temps libre"
+            ],
+            "correctIndex": 2,
+            "hint": "Deux libertés de conscience sont en jeu ici : celle de l'élève qui prie et celle de ceux qu'il sollicite.",
+            "explanation": "Le surveillant intervient avec calme : la pratique religieuse ne s'exerce pas dans le temps et le lieu scolaires, et surtout les élèves sollicités doivent être protégés de toute pression. Il rassure l'élève mal à l'aise et prévient le CPE. Il ne se prononce pas sur la croyance elle-même et ne cherche pas à humilier."
+          },
+          {
+            "label": "Action à long terme",
+            "question": "Quelle action mener ensuite pour régler durablement le problème ?",
+            "options": [
+              "Informer le chef d'établissement, qui reçoit l'élève et sa famille et engage une réponse disciplinaire si cela se répète",
+              "Proposer qu'une salle soit réservée à la prière, afin d'éviter que la scène ne se reproduise devant tous dans la cour",
+              "Changer l'élève de classe, afin de l'éloigner des deux camarades qu'il a sollicités et de mettre fin aux pressions",
+              "Organiser une prière interconfessionnelle dans l'établissement, pour montrer que toutes les religions y sont également respectées"
+            ],
+            "correctIndex": 0,
+            "hint": "La réponse durable passe par le chef d'établissement, et elle ne peut pas consister à aménager un lieu de culte.",
+            "explanation": "Le chef d'établissement reçoit l'élève et sa famille, rappelle la règle et le respect dû aux convictions de chacun, et signale l'incident dans l'application Faits établissement. Des pressions répétées appellent une réponse disciplinaire. Ouvrir une salle de prière ou organiser une célébration contreviendrait à la neutralité de l'établissement."
+          }
+        ],
+        "hint1": "Traitez les trois temps dans l'ordre : le texte qui fonde la réponse, le geste professionnel sur le moment, puis le traitement en équipe qui règle durablement la situation.",
+        "answer": "Règle de droit : l'article L. 141-5-2 interdit les pressions sur les croyances des élèves ; aucun lieu de prière n'est prévu hors internat. Réaction immédiate : faire cesser la scène sans humilier, rappeler que nul ne doit être poussé à pratiquer, rassurer l'élève, prévenir le CPE. Action à long terme : informer le chef d'établissement, qui reçoit l'élève et sa famille et engage une réponse disciplinaire si cela se répète.",
+        "solution": "1. Règle de droit : L'article L. 141-5-2 (loi du 26 juillet 2019) dispose que l'État protège la liberté de conscience des élèves : les pressions et tentatives d'endoctrinement sont interdites dans les écoles et établissements publics, à leurs abords et pendant toute activité liée à l'enseignement. Le Vademecum (fiche 14) précise qu'aucun local n'est affecté à la prière, sauf à l'internat, où elle reste possible dans la chambre sans caractère ostentatoire, et dans le cadre d'une aumônerie autorisée.\n2. Réaction immédiate : Le surveillant intervient avec calme : la pratique religieuse ne s'exerce pas dans le temps et le lieu scolaires, et surtout les élèves sollicités doivent être protégés de toute pression. Il rassure l'élève mal à l'aise et prévient le CPE. Il ne se prononce pas sur la croyance elle-même et ne cherche pas à humilier.\n3. Action à long terme : Le chef d'établissement reçoit l'élève et sa famille, rappelle la règle et le respect dû aux convictions de chacun, et signale l'incident dans l'application Faits établissement. Des pressions répétées appellent une réponse disciplinaire. Ouvrir une salle de prière ou organiser une célébration contreviendrait à la neutralité de l'établissement."
+      },
+      {
+        "id": "capes-oral2-cas-11",
+        "chapterId": "capes-oral2-cas",
+        "tier": 2,
+        "title": "Une assistante d'éducation portant un signe religieux",
+        "statement": "Vous constatez qu'une assistante d'éducation récemment recrutée porte, pendant ses surveillances, un pendentif religieux bien visible. Des élèves vous en font la remarque. Identifiez la règle de droit, la réaction immédiate et l'action à long terme.",
+        "type": "case3",
+        "steps": [
+          {
+            "label": "Règle de droit",
+            "question": "Quelle règle de droit s'applique ?",
+            "options": [
+              "Tout agent public, AED compris, est tenu à la neutralité en service (articles L. 121-1 et L. 121-2 du CGFP)",
+              "La neutralité ne s'impose qu'aux enseignants titulaires : les contractuels et les AED peuvent porter un signe religieux en service",
+              "C'est la loi du 15 mars 2004 qui interdit le signe à l'AED comme aux élèves, et non le statut de la fonction publique",
+              "Seuls les signes ostensibles sont interdits aux agents publics : un simple pendentif reste permis"
+            ],
+            "correctIndex": 0,
+            "hint": "C'est la qualité d'agent public qui compte, pas le statut de titulaire.",
+            "explanation": "L'obligation de neutralité s'impose à tout agent public, titulaire ou contractuel (articles L. 121-1 et L. 121-2 du Code général de la fonction publique) ; l'avis Marteaux du Conseil d'État (3 mai 2000) précise que tout signe religieux, même discret, est interdit en service à un agent de l'enseignement public. Les AED et AESH y sont soumis, et cette obligation leur est rappelée au recrutement. La loi de 2004 concerne les élèves, non les personnels."
+          },
+          {
+            "label": "Réaction immédiate",
+            "question": "Que faire sur le moment ?",
+            "options": [
+              "Répondre sobrement que la règle vaut pour tous les personnels, sans interpeller l'assistante, et informer la direction",
+              "Retirer soi-même le pendentif de l'assistante à la fin de la récréation, discrètement, pour lui éviter d'autres remarques",
+              "Ne rien dire et ne rien faire, car ce n'est pas le rôle d'un enseignant de s'occuper de la tenue de ses collègues",
+              "Demander publiquement à l'assistante, devant les élèves, de retirer immédiatement son pendentif pour faire respecter la règle"
+            ],
+            "correctIndex": 0,
+            "hint": "Le manquement d'un collègue se traite par la voie hiérarchique, pas en public.",
+            "explanation": "Le professeur ne règle pas le problème lui-même en public, ce qui humilierait l'assistante et ferait des élèves les témoins d'un conflit entre adultes. Il répond sobrement aux élèves et informe le chef d'établissement, qui est compétent pour traiter les manquements des personnels. Le silence laisserait perdurer une situation contraire à la neutralité."
+          },
+          {
+            "label": "Action à long terme",
+            "question": "Quelle action mener ensuite pour régler durablement le problème ?",
+            "options": [
+              "Laisser le chef d'établissement rappeler la neutralité en entretien et, si besoin, saisir l'autorité académique",
+              "Demander que les AED soient dispensés de toute surveillance au contact des élèves, afin d'éviter ce type de situation",
+              "Signaler l'assistante directement à la presse locale, pour que la situation soit connue et réglée plus rapidement",
+              "Lancer une pétition parmi les enseignants pour exiger le départ de l'assistante"
+            ],
+            "correctIndex": 0,
+            "hint": "La réponse est graduée : entretien, rappel, puis seulement si besoin l'autorité académique.",
+            "explanation": "Le Vademecum (fiche 20) prévoit un entretien avec le chef d'établissement pour rappeler l'obligation de neutralité ; si le manquement persiste, l'autorité académique est saisie et peut engager une procédure disciplinaire. La formation à la laïcité de tous les personnels (arrêté du 16 juillet 2021 sur le continuum de formation) prévient ces situations. Une pétition ou une médiatisation sont des réponses hors de tout cadre."
+          }
+        ],
+        "hint1": "Traitez les trois temps dans l'ordre : le texte qui fonde la réponse, le geste professionnel sur le moment, puis le traitement en équipe qui règle durablement la situation.",
+        "answer": "Règle de droit : tout agent public, AED compris, est tenu à la neutralité en service (articles L. 121-1 et L. 121-2 du CGFP). Réaction immédiate : répondre sobrement que la règle vaut pour tous les personnels, sans interpeller l'assistante, et informer la direction. Action à long terme : laisser le chef d'établissement rappeler la neutralité en entretien et, si besoin, saisir l'autorité académique.",
+        "solution": "1. Règle de droit : L'obligation de neutralité s'impose à tout agent public, titulaire ou contractuel (articles L. 121-1 et L. 121-2 du Code général de la fonction publique) ; l'avis Marteaux du Conseil d'État (3 mai 2000) précise que tout signe religieux, même discret, est interdit en service à un agent de l'enseignement public. Les AED et AESH y sont soumis, et cette obligation leur est rappelée au recrutement. La loi de 2004 concerne les élèves, non les personnels.\n2. Réaction immédiate : Le professeur ne règle pas le problème lui-même en public, ce qui humilierait l'assistante et ferait des élèves les témoins d'un conflit entre adultes. Il répond sobrement aux élèves et informe le chef d'établissement, qui est compétent pour traiter les manquements des personnels. Le silence laisserait perdurer une situation contraire à la neutralité.\n3. Action à long terme : Le Vademecum (fiche 20) prévoit un entretien avec le chef d'établissement pour rappeler l'obligation de neutralité ; si le manquement persiste, l'autorité académique est saisie et peut engager une procédure disciplinaire. La formation à la laïcité de tous les personnels (arrêté du 16 juillet 2021 sur le continuum de formation) prévient ces situations. Une pétition ou une médiatisation sont des réponses hors de tout cadre."
+      },
+      {
+        "id": "capes-oral2-cas-12",
+        "chapterId": "capes-oral2-cas",
+        "tier": 2,
+        "title": "Une crèche de Noël pour décorer le hall",
+        "statement": "Pour la fête de fin d'année, des élèves de 6e de votre classe proposent d'installer dans le hall du collège une crèche de Noël à côté du sapin qu'ils ont décoré. Identifiez la règle de droit, la réaction immédiate et l'action à long terme.",
+        "type": "case3",
+        "steps": [
+          {
+            "label": "Règle de droit",
+            "question": "Quelle règle de droit s'applique ?",
+            "options": [
+              "La crèche est autorisée puisqu'elle fait partie des traditions françaises et que l'initiative vient des élèves eux-mêmes",
+              "La laïcité interdit toute célébration de Noël dans un établissement public",
+              "L'article 28 de la loi de 1905 proscrit les emblèmes religieux dans un bâtiment public ; un sapin reste possible",
+              "Chaque professeur décide librement de la décoration des espaces communs de l'établissement pendant la période des fêtes"
+            ],
+            "correctIndex": 2,
+            "hint": "Le Vademecum distingue le sapin, symbole d'une fête largement laïcisée, et la crèche.",
+            "explanation": "Les dispositions de l'article 28 de la loi du 9 décembre 1905 s'opposent à l'installation dans un bâtiment public d'un signe ou d'un emblème manifestant la reconnaissance d'un culte ou une préférence religieuse (CE, 9 novembre 2016, n° 395122 et 395223), sauf circonstances particulières. Le Vademecum (fiche 17) précise que la fête de Noël peut être célébrée sans emblème religieux et que le sapin peut être installé s'il n'a aucun caractère cultuel."
+          },
+          {
+            "label": "Réaction immédiate",
+            "question": "Que faire sur le moment ?",
+            "options": [
+              "Accepter la crèche, puisque l'idée vient des élèves et non de l'établissement, qui reste ainsi neutre de son côté",
+              "Réprimander les élèves pour avoir proposé un symbole religieux, et leur rappeler les règles de laïcité devant la classe",
+              "Retirer aussi le sapin et annuler la fête de fin d'année, afin d'éviter toute polémique au sein de l'établissement",
+              "Saluer l'idée, expliquer que la crèche est un symbole religieux qui n'a pas sa place dans le hall, garder le sapin"
+            ],
+            "correctIndex": 3,
+            "hint": "L'initiative est bienveillante : on peut la recadrer sans la condamner.",
+            "explanation": "La proposition des élèves est de bonne foi : le professeur l'accueille et explique la règle avec des mots simples. La neutralité du bâtiment ne dépend pas de l'auteur de l'initiative. Le sapin et les décorations festives restent possibles, si bien que la fête peut avoir lieu ; réprimander les élèves serait disproportionné."
+          },
+          {
+            "label": "Action à long terme",
+            "question": "Quelle action mener ensuite pour régler durablement le problème ?",
+            "options": [
+              "Faire voter les familles pour ou contre la crèche lors de la prochaine fête",
+              "Installer la crèche dans sa propre salle de classe plutôt que dans le hall, où elle ne sera vue que par sa classe",
+              "Informer le chef d'établissement et proposer un travail en classe sur l'histoire des symboles et la laïcité",
+              "Ne plus jamais organiser de fête dans l'établissement, pour ne plus avoir à trancher ce type de question à l'avenir"
+            ],
+            "correctIndex": 2,
+            "hint": "C'est le chef d'établissement qui veille à ces principes ; l'incident est aussi une occasion d'apprendre.",
+            "explanation": "Le Vademecum confie au chef d'établissement le soin de veiller au respect de ces principes lors des célébrations. L'épisode peut nourrir un travail pédagogique : l'histoire du sapin, comment les symboles changent de sens, pourquoi la neutralité protège la liberté de chacun. Un vote ne peut pas déroger à la loi, et une salle de classe est aussi un bâtiment public."
+          }
+        ],
+        "hint1": "Traitez les trois temps dans l'ordre : le texte qui fonde la réponse, le geste professionnel sur le moment, puis le traitement en équipe qui règle durablement la situation.",
+        "answer": "Règle de droit : l'article 28 de la loi de 1905 proscrit les emblèmes religieux dans un bâtiment public ; un sapin reste possible. Réaction immédiate : saluer l'idée, expliquer que la crèche est un symbole religieux qui n'a pas sa place dans le hall, garder le sapin. Action à long terme : informer le chef d'établissement et proposer un travail en classe sur l'histoire des symboles et la laïcité.",
+        "solution": "1. Règle de droit : Les dispositions de l'article 28 de la loi du 9 décembre 1905 s'opposent à l'installation dans un bâtiment public d'un signe ou d'un emblème manifestant la reconnaissance d'un culte ou une préférence religieuse (CE, 9 novembre 2016, n° 395122 et 395223), sauf circonstances particulières. Le Vademecum (fiche 17) précise que la fête de Noël peut être célébrée sans emblème religieux et que le sapin peut être installé s'il n'a aucun caractère cultuel.\n2. Réaction immédiate : La proposition des élèves est de bonne foi : le professeur l'accueille et explique la règle avec des mots simples. La neutralité du bâtiment ne dépend pas de l'auteur de l'initiative. Le sapin et les décorations festives restent possibles, si bien que la fête peut avoir lieu ; réprimander les élèves serait disproportionné.\n3. Action à long terme : Le Vademecum confie au chef d'établissement le soin de veiller au respect de ces principes lors des célébrations. L'épisode peut nourrir un travail pédagogique : l'histoire du sapin, comment les symboles changent de sens, pourquoi la neutralité protège la liberté de chacun. Un vote ne peut pas déroger à la loi, et une salle de classe est aussi un bâtiment public."
+      },
+      // =========================================================================
+      // PALIER 3 : FAMILLES ET SORTIES
+      // =========================================================================
+      {
+        "id": "capes-oral2-cas-13",
+        "chapterId": "capes-oral2-cas",
+        "tier": 3,
+        "title": "Une mère voilée propose d'accompagner une sortie",
+        "statement": "Vous organisez une sortie au musée avec votre classe de 6e. Une mère d'élève qui porte un foulard se propose comme accompagnatrice ; un collègue vous conseille de refuser à cause de son foulard. Identifiez la règle de droit, la réaction immédiate et l'action à long terme.",
+        "type": "case3",
+        "steps": [
+          {
+            "label": "Règle de droit",
+            "question": "Quelle règle de droit s'applique ?",
+            "options": [
+              "Un parent accompagnateur n'est pas un agent public ; il n'est pas tenu à la neutralité, sauf exigences du service",
+              "Les parents accompagnateurs deviennent des agents publics le temps de la sortie et doivent respecter la même neutralité que les enseignants",
+              "La loi de 2004 s'applique à toute personne présente lors d'une activité scolaire, et donc aussi aux parents qui accompagnent",
+              "Le professeur organisateur choisit librement les accompagnateurs, et peut donc écarter un parent en raison de sa tenue"
+            ],
+            "correctIndex": 0,
+            "hint": "Un parent qui accompagne une sortie reste un usager du service public.",
+            "explanation": "Selon l'étude du Conseil d'État du 19 décembre 2013, les parents accompagnateurs sont des usagers ou des collaborateurs occasionnels, et non des agents : ils ne sont pas soumis à la neutralité. Des restrictions ne peuvent être justifiées que par des exigences liées au bon fonctionnement du service ou à l'ordre public, par exemple un comportement prosélyte (voir aussi CAA Lyon, 23 juillet 2019, n° 17LY04351). La loi de 2004 ne concerne que les élèves."
+          },
+          {
+            "label": "Réaction immédiate",
+            "question": "Que faire sur le moment ?",
+            "options": [
+              "Annuler la sortie au musée, afin de ne pas avoir à trancher entre l'avis du collègue et la demande de la mère",
+              "Refuser sa candidature sans donner d'explication, pour éviter d'ouvrir un débat avec le collègue ou avec la mère",
+              "Accepter la mère comme tout parent : le foulard ne peut pas, à lui seul, justifier un refus",
+              "Accepter sa participation à condition qu'elle retire son foulard pendant la sortie"
+            ],
+            "correctIndex": 2,
+            "hint": "Un refus fondé sur le seul foulard serait discriminatoire.",
+            "explanation": "En l'absence de comportement prosélyte ou de trouble, rien ne permet d'écarter cette mère ni d'exiger qu'elle retire son foulard : ce serait une discrimination. Le professeur peut l'expliquer à son collègue en s'appuyant sur le cadre juridique. Annuler la sortie priverait les élèves d'une activité pédagogique."
+          },
+          {
+            "label": "Action à long terme",
+            "question": "Quelle action mener ensuite pour régler durablement le problème ?",
+            "options": [
+              "Ne plus solliciter de parents et réserver les sorties aux classes pour lesquelles assez de professeurs sont disponibles",
+              "Fixer avec la direction des consignes écrites pour tous les accompagnateurs (sécurité, rôle, pas de prosélytisme)",
+              "Faire signer aux mères accompagnatrices un engagement écrit à ne porter aucun signe religieux pendant les sorties",
+              "Établir une liste des parents autorisés à accompagner les sorties, en fonction de leur tenue et de leur disponibilité"
+            ],
+            "correctIndex": 1,
+            "hint": "Des règles connues à l'avance et valables pour tous préviennent les conflits.",
+            "explanation": "Des consignes communes, connues avant la sortie, encadrent le rôle de chaque accompagnateur et permettent de réagir à un éventuel comportement prosélyte, quel que soit le parent. Toute liste ou tout engagement visant la tenue de certains parents serait discriminatoire ; renoncer aux parents réduirait les sorties possibles pour les élèves."
+          }
+        ],
+        "hint1": "Traitez les trois temps dans l'ordre : le texte qui fonde la réponse, le geste professionnel sur le moment, puis le traitement en équipe qui règle durablement la situation.",
+        "answer": "Règle de droit : un parent accompagnateur n'est pas un agent public ; il n'est pas tenu à la neutralité, sauf exigences du service. Réaction immédiate : accepter la mère comme tout parent : le foulard ne peut pas, à lui seul, justifier un refus. Action à long terme : fixer avec la direction des consignes écrites pour tous les accompagnateurs (sécurité, rôle, pas de prosélytisme).",
+        "solution": "1. Règle de droit : Selon l'étude du Conseil d'État du 19 décembre 2013, les parents accompagnateurs sont des usagers ou des collaborateurs occasionnels, et non des agents : ils ne sont pas soumis à la neutralité. Des restrictions ne peuvent être justifiées que par des exigences liées au bon fonctionnement du service ou à l'ordre public, par exemple un comportement prosélyte (voir aussi CAA Lyon, 23 juillet 2019, n° 17LY04351). La loi de 2004 ne concerne que les élèves.\n2. Réaction immédiate : En l'absence de comportement prosélyte ou de trouble, rien ne permet d'écarter cette mère ni d'exiger qu'elle retire son foulard : ce serait une discrimination. Le professeur peut l'expliquer à son collègue en s'appuyant sur le cadre juridique. Annuler la sortie priverait les élèves d'une activité pédagogique.\n3. Action à long terme : Des consignes communes, connues avant la sortie, encadrent le rôle de chaque accompagnateur et permettent de réagir à un éventuel comportement prosélyte, quel que soit le parent. Toute liste ou tout engagement visant la tenue de certains parents serait discriminatoire ; renoncer aux parents réduirait les sorties possibles pour les élèves."
+      },
+      {
+        "id": "capes-oral2-cas-14",
+        "chapterId": "capes-oral2-cas",
+        "tier": 3,
+        "title": "Un père refuse de parler à une professeure",
+        "statement": "Lors de la rencontre parents-professeurs, le père d'un élève refuse de s'entretenir avec vous, professeure principale, et exige un interlocuteur masculin. Identifiez la règle de droit, la réaction immédiate et l'action à long terme.",
+        "type": "case3",
+        "steps": [
+          {
+            "label": "Règle de droit",
+            "question": "Quelle règle de droit s'applique ?",
+            "options": [
+              "L'égalité femmes-hommes (Constitution) s'impose aux usagers : un parent ne choisit pas son interlocuteur selon son sexe",
+              "Aucun texte ne s'applique aux parents dans ce cas, puisqu'ils ne sont pas des agents du service public de l'éducation",
+              "La liberté de conscience du parent oblige l'établissement à lui proposer un interlocuteur du sexe qu'il souhaite rencontrer",
+              "Le parent peut refuser l'entretien avec la professeure, mais il doit alors attendre le conseil de classe pour être informé"
+            ],
+            "correctIndex": 0,
+            "hint": "Le préambule de la Constitution de 1946 garantit à la femme des droits égaux à ceux de l'homme dans tous les domaines.",
+            "explanation": "Le préambule de la Constitution de 1946 garantit à la femme, dans tous les domaines, des droits égaux à ceux de l'homme ; l'article 1er de la Constitution de 1958 pose l'égalité devant la loi. Le Vademecum (fiche 8) range parmi les atteintes à la laïcité le refus d'un enseignant en raison de son sexe. Les usagers ne choisissent pas les agents du service public selon leur sexe."
+          },
+          {
+            "label": "Réaction immédiate",
+            "question": "Que faire sur le moment ?",
+            "options": [
+              "Accepter de lui transmettre les informations uniquement par écrit, pour éviter le conflit tout en informant la famille",
+              "Répondre vivement au père et lui reprocher publiquement son attitude devant les autres parents présents dans la salle",
+              "Demander à un collègue masculin de recevoir le père à sa place, afin que l'entretien puisse avoir lieu dans l'intérêt de l'élève",
+              "Rester calme, maintenir l'entretien avec la professeure et, si le refus persiste, y mettre fin et informer la direction"
+            ],
+            "correctIndex": 3,
+            "hint": "Céder sur la règle, même pour arranger les choses, c'est valider la discrimination.",
+            "explanation": "Se faire remplacer par un collègue masculin reviendrait à accepter la discrimination. Le professeur reste courtois, rappelle le fonctionnement normal et, si le refus persiste, met fin à l'échange plutôt que d'entrer en conflit, puis informe le chef d'établissement. Le calme évite que l'incident ne tourne à l'affrontement public."
+          },
+          {
+            "label": "Action à long terme",
+            "question": "Quelle action mener ensuite pour régler durablement le problème ?",
+            "options": [
+              "Demander au conseil de classe de prendre en compte l'attitude du père dans l'appréciation portée sur le bulletin de l'élève",
+              "Refuser toute communication avec cette famille jusqu'à la fin de l'année scolaire",
+              "Laisser le chef d'établissement recevoir le père et rappeler les règles, sans que l'élève en subisse les conséquences",
+              "Changer de professeur principal pour cette classe, afin d'éviter tout nouvel incident avec ce père lors des prochaines rencontres"
+            ],
+            "correctIndex": 2,
+            "hint": "L'élève n'est pas responsable de son parent, et l'établissement répond d'une seule voix.",
+            "explanation": "Le chef d'établissement reçoit le parent, rappelle l'égalité entre les femmes et les hommes et le fonctionnement du service public, et l'incident peut être signalé dans l'application Faits établissement. La scolarité de l'élève ne doit pas en pâtir : son appréciation ne dépend que de son travail. Changer de professeur principal ou rompre la communication reviendrait à céder ou à pénaliser l'élève."
+          }
+        ],
+        "hint1": "Traitez les trois temps dans l'ordre : le texte qui fonde la réponse, le geste professionnel sur le moment, puis le traitement en équipe qui règle durablement la situation.",
+        "answer": "Règle de droit : l'égalité femmes-hommes (Constitution) s'impose aux usagers : un parent ne choisit pas son interlocuteur selon son sexe. Réaction immédiate : rester calme, maintenir l'entretien avec la professeure et, si le refus persiste, y mettre fin et informer la direction. Action à long terme : laisser le chef d'établissement recevoir le père et rappeler les règles, sans que l'élève en subisse les conséquences.",
+        "solution": "1. Règle de droit : Le préambule de la Constitution de 1946 garantit à la femme, dans tous les domaines, des droits égaux à ceux de l'homme ; l'article 1er de la Constitution de 1958 pose l'égalité devant la loi. Le Vademecum (fiche 8) range parmi les atteintes à la laïcité le refus d'un enseignant en raison de son sexe. Les usagers ne choisissent pas les agents du service public selon leur sexe.\n2. Réaction immédiate : Se faire remplacer par un collègue masculin reviendrait à accepter la discrimination. Le professeur reste courtois, rappelle le fonctionnement normal et, si le refus persiste, met fin à l'échange plutôt que d'entrer en conflit, puis informe le chef d'établissement. Le calme évite que l'incident ne tourne à l'affrontement public.\n3. Action à long terme : Le chef d'établissement reçoit le parent, rappelle l'égalité entre les femmes et les hommes et le fonctionnement du service public, et l'incident peut être signalé dans l'application Faits établissement. La scolarité de l'élève ne doit pas en pâtir : son appréciation ne dépend que de son travail. Changer de professeur principal ou rompre la communication reviendrait à céder ou à pénaliser l'élève."
+      },
+      {
+        "id": "capes-oral2-cas-15",
+        "chapterId": "capes-oral2-cas",
+        "tier": 3,
+        "title": "Des absences chaque vendredi après-midi",
+        "statement": "Un élève de 4e est absent tous les vendredis après-midi depuis la rentrée ; ses parents justifient ces absences par un motif religieux et vous demandent de lui transmettre les cours. Identifiez la règle de droit, la réaction immédiate et l'action à long terme.",
+        "type": "case3",
+        "steps": [
+          {
+            "label": "Règle de droit",
+            "question": "Quelle règle de droit s'applique ?",
+            "options": [
+              "L'assiduité admet des absences pour les grandes fêtes, pas des absences systématiques (CE, Assemblée, 14 avril 1995)",
+              "Les absences sont libres au collège tant que l'élève rattrape les cours manqués et que ses résultats restent satisfaisants",
+              "Aucune absence pour motif religieux ne peut jamais être autorisée, même ponctuellement à l'occasion d'une grande fête",
+              "La liberté de culte permet aux familles de retirer leur enfant de certains cours chaque semaine"
+            ],
+            "correctIndex": 0,
+            "hint": "Le Conseil d'État a distingué l'absence ponctuelle pour une grande fête de l'absence systématique.",
+            "explanation": "L'obligation d'assiduité de l'article L. 511-1 n'empêche pas des autorisations d'absence pour les grandes fêtes religieuses qui ne coïncident pas avec un jour de congé, dont les dates sont rappelées chaque année. En revanche, les demandes d'absence systématique ou prolongée doivent être refusées lorsqu'elles sont incompatibles avec l'organisation de la scolarité (CE, Assemblée, 14 avril 1995)."
+          },
+          {
+            "label": "Réaction immédiate",
+            "question": "Que faire sur le moment ?",
+            "options": [
+              "Accepter l'arrangement et transmettre les cours chaque semaine",
+              "Répondre directement aux parents que leur religion n'a pas sa place à l'école et que l'élève doit venir comme les autres",
+              "Ne pas valider ces absences, continuer à les relever et orienter la demande vers le CPE et le chef d'établissement",
+              "Ne plus faire l'appel le vendredi après-midi, pour ne pas pénaliser l'élève dont l'absence est justifiée par ses parents"
+            ],
+            "correctIndex": 2,
+            "hint": "Le suivi des absences est un circuit de l'établissement, pas un accord privé.",
+            "explanation": "Le professeur relève les absences avec exactitude et ne passe pas d'accord privé avec la famille : la vie scolaire (CPE) et le chef d'établissement traitent les absences. Transmettre chaque semaine les cours installerait l'absence. Une réponse blessante sur la religion des parents serait contraire au respect des convictions et fermerait le dialogue."
+          },
+          {
+            "label": "Action à long terme",
+            "question": "Quelle action mener ensuite pour régler durablement le problème ?",
+            "options": [
+              "Proposer d'inscrire l'élève au Cned pour les seuls cours du vendredi, afin de concilier sa pratique et sa scolarité",
+              "Laisser le CPE recevoir les parents pour rappeler l'assiduité ; si le conflit persiste, procédure disciplinaire",
+              "Signaler immédiatement la famille au procureur de la République pour absentéisme, sans autre démarche préalable",
+              "Déplacer les cours du vendredi après-midi pour toute la classe, afin que l'élève ne manque plus aucun enseignement"
+            ],
+            "correctIndex": 1,
+            "hint": "Le Vademecum (fiche 10) décrit un dialogue puis, faute d'accord, une procédure.",
+            "explanation": "Le Vademecum prévoit que le CPE ou le chef d'établissement reçoit les parents pour rappeler l'obligation d'assiduité et chercher une conciliation : les pratiques religieuses s'exercent dans un temps distinct de celui de l'école. Si le conflit n'est pas résolu, le chef d'établissement prend acte d'un manquement à l'obligation d'assiduité et engage une procédure disciplinaire. Adapter l'emploi du temps de toute la classe reviendrait à céder."
+          }
+        ],
+        "hint1": "Traitez les trois temps dans l'ordre : le texte qui fonde la réponse, le geste professionnel sur le moment, puis le traitement en équipe qui règle durablement la situation.",
+        "answer": "Règle de droit : l'assiduité admet des absences pour les grandes fêtes, pas des absences systématiques (CE, Assemblée, 14 avril 1995). Réaction immédiate : ne pas valider ces absences, continuer à les relever et orienter la demande vers le CPE et le chef d'établissement. Action à long terme : laisser le CPE recevoir les parents pour rappeler l'assiduité ; si le conflit persiste, procédure disciplinaire.",
+        "solution": "1. Règle de droit : L'obligation d'assiduité de l'article L. 511-1 n'empêche pas des autorisations d'absence pour les grandes fêtes religieuses qui ne coïncident pas avec un jour de congé, dont les dates sont rappelées chaque année. En revanche, les demandes d'absence systématique ou prolongée doivent être refusées lorsqu'elles sont incompatibles avec l'organisation de la scolarité (CE, Assemblée, 14 avril 1995).\n2. Réaction immédiate : Le professeur relève les absences avec exactitude et ne passe pas d'accord privé avec la famille : la vie scolaire (CPE) et le chef d'établissement traitent les absences. Transmettre chaque semaine les cours installerait l'absence. Une réponse blessante sur la religion des parents serait contraire au respect des convictions et fermerait le dialogue.\n3. Action à long terme : Le Vademecum prévoit que le CPE ou le chef d'établissement reçoit les parents pour rappeler l'obligation d'assiduité et chercher une conciliation : les pratiques religieuses s'exercent dans un temps distinct de celui de l'école. Si le conflit n'est pas résolu, le chef d'établissement prend acte d'un manquement à l'obligation d'assiduité et engage une procédure disciplinaire. Adapter l'emploi du temps de toute la classe reviendrait à céder."
+      },
+      {
+        "id": "capes-oral2-cas-16",
+        "chapterId": "capes-oral2-cas",
+        "tier": 3,
+        "title": "Une réaction allergique pendant une sortie",
+        "statement": "Lors d'une sortie scolaire en forêt, une élève qui bénéficie d'un projet d'accueil individualisé (PAI) pour une allergie grave présente des signes de réaction après le pique-nique. Identifiez la règle de droit, la réaction immédiate et l'action à long terme.",
+        "type": "case3",
+        "steps": [
+          {
+            "label": "Règle de droit",
+            "question": "Quelle règle de droit s'applique ?",
+            "options": [
+              "Le PAI ne s'applique que dans l'enceinte de l'établissement ; pendant les sorties, la responsabilité médicale revient aux parents",
+              "Le PAI (circulaire du 10 février 2021) fixe le protocole d'urgence de l'élève et l'accompagne dans toutes les sorties",
+              "Le PAI est un document médical confidentiel que l'enseignant n'est pas autorisé à consulter, même avant une sortie",
+              "Les enseignants n'ont pas le droit d'appliquer un protocole d'urgence : seuls un médecin ou un infirmier peuvent intervenir"
+            ],
+            "correctIndex": 1,
+            "hint": "Le PAI suit l'élève sur tous les temps scolaires.",
+            "explanation": "La circulaire du 10 février 2021 encadre le PAI des élèves atteints de maladies chroniques, d'allergies ou d'intolérances alimentaires. Il précise les aménagements et le protocole d'urgence, avec la trousse de l'élève, et s'applique sur tous les temps et lieux de l'activité scolaire, y compris les sorties. Les personnels qui encadrent l'élève doivent en connaître les consignes."
+          },
+          {
+            "label": "Réaction immédiate",
+            "question": "Que faire sur le moment ?",
+            "options": [
+              "Attendre quelques minutes pour voir si les symptômes passent d'eux-mêmes",
+              "Appliquer le protocole du PAI, appeler le 15, confier le groupe aux autres adultes et prévenir l'établissement",
+              "Appeler d'abord les parents pour leur demander s'il faut vraiment utiliser la trousse d'urgence prévue dans le PAI",
+              "Raccompagner l'élève seule jusqu'au car pour qu'elle s'y repose au calme, pendant que la visite continue avec le groupe"
+            ],
+            "correctIndex": 1,
+            "hint": "Face à une réaction allergique grave, chaque minute compte.",
+            "explanation": "Le protocole d'urgence du PAI est conçu pour être appliqué sans attendre ; le SAMU (15) est appelé. L'encadrement de la sortie permet de confier le groupe aux autres adultes pendant que l'élève est prise en charge, puis la direction et la famille sont prévenues. Attendre ou demander l'avis des parents fait perdre un temps décisif ; une élève malade ne reste jamais seule."
+          },
+          {
+            "label": "Action à long terme",
+            "question": "Quelle action mener ensuite pour régler durablement le problème ?",
+            "options": [
+              "Considérer l'incident comme terminé puisque l'élève va bien, et ne pas inquiéter inutilement la famille ni l'équipe",
+              "Interdire tous les pique-niques lors des sorties de l'établissement",
+              "Rédiger un compte rendu et participer avec l'infirmière ou le médecin scolaire à la révision du PAI",
+              "Ne plus emmener l'élève en sortie scolaire, afin de ne pas lui faire courir à nouveau ce risque et de protéger l'équipe"
+            ],
+            "correctIndex": 2,
+            "hint": "L'incident montre une faille à corriger, pas une raison d'exclure l'élève.",
+            "explanation": "Un compte rendu permet d'analyser ce qui s'est passé et de faire évoluer le PAI et l'organisation des sorties (contrôle des repas, trousse toujours présente, accompagnateurs informés). L'école inclusive suppose que l'élève continue de participer aux sorties avec des mesures adaptées ; l'exclure serait discriminatoire."
+          }
+        ],
+        "hint1": "Traitez les trois temps dans l'ordre : le texte qui fonde la réponse, le geste professionnel sur le moment, puis le traitement en équipe qui règle durablement la situation.",
+        "answer": "Règle de droit : le PAI (circulaire du 10 février 2021) fixe le protocole d'urgence de l'élève et l'accompagne dans toutes les sorties. Réaction immédiate : appliquer le protocole du PAI, appeler le 15, confier le groupe aux autres adultes et prévenir l'établissement. Action à long terme : rédiger un compte rendu et participer avec l'infirmière ou le médecin scolaire à la révision du PAI.",
+        "solution": "1. Règle de droit : La circulaire du 10 février 2021 encadre le PAI des élèves atteints de maladies chroniques, d'allergies ou d'intolérances alimentaires. Il précise les aménagements et le protocole d'urgence, avec la trousse de l'élève, et s'applique sur tous les temps et lieux de l'activité scolaire, y compris les sorties. Les personnels qui encadrent l'élève doivent en connaître les consignes.\n2. Réaction immédiate : Le protocole d'urgence du PAI est conçu pour être appliqué sans attendre ; le SAMU (15) est appelé. L'encadrement de la sortie permet de confier le groupe aux autres adultes pendant que l'élève est prise en charge, puis la direction et la famille sont prévenues. Attendre ou demander l'avis des parents fait perdre un temps décisif ; une élève malade ne reste jamais seule.\n3. Action à long terme : Un compte rendu permet d'analyser ce qui s'est passé et de faire évoluer le PAI et l'organisation des sorties (contrôle des repas, trousse toujours présente, accompagnateurs informés). L'école inclusive suppose que l'élève continue de participer aux sorties avec des mesures adaptées ; l'exclure serait discriminatoire."
+      },
+      {
+        "id": "capes-oral2-cas-17",
+        "chapterId": "capes-oral2-cas",
+        "tier": 3,
+        "title": "Des parents séparés et les résultats scolaires",
+        "statement": "La mère d'une élève de 2de, séparée du père, vous demande de ne plus transmettre au père ni les résultats ni les informations sur sa fille. Le père, lui, vous écrit pour obtenir le bulletin. Identifiez la règle de droit, la réaction immédiate et l'action à long terme.",
+        "type": "case3",
+        "steps": [
+          {
+            "label": "Règle de droit",
+            "question": "Quelle règle de droit s'applique ?",
+            "options": [
+              "Les informations scolaires d'un lycéen ne peuvent être transmises à un parent qu'avec l'accord écrit de l'élève lui-même",
+              "Sauf décision contraire du juge, les parents séparés exercent tous deux l'autorité parentale (Code civil, art. 372 et 373-2)",
+              "Seul le parent chez qui l'enfant réside habituellement a droit aux informations sur sa scolarité et à ses bulletins",
+              "L'établissement doit suivre la demande du premier parent qui s'adresse à lui, tant que l'autre parent ne la conteste pas"
+            ],
+            "correctIndex": 1,
+            "hint": "Ce n'est pas la résidence de l'enfant qui fixe les droits des parents.",
+            "explanation": "Selon l'article 372 du Code civil, les père et mère exercent en commun l'autorité parentale, et l'article 373-2 précise que la séparation des parents est sans incidence sur les règles de dévolution de son exercice. Sauf décision de justice qui la retire ou la confie à un seul parent, chacun a droit aux informations sur la scolarité de son enfant."
+          },
+          {
+            "label": "Réaction immédiate",
+            "question": "Que faire sur le moment ?",
+            "options": [
+              "Accepter la demande de la mère, puisqu'elle a la garde de l'enfant et connaît mieux que l'établissement la situation familiale",
+              "Rester neutre : les deux parents sont informés sauf décision de justice, dont on demande une copie si elle existe",
+              "Envoyer au père, de sa propre initiative, l'ensemble des échanges avec la mère, afin d'être parfaitement transparent",
+              "Demander à l'élève lequel de ses parents doit recevoir les informations, puisqu'elle est la première concernée"
+            ],
+            "correctIndex": 1,
+            "hint": "Le professeur n'arbitre pas le conflit familial : il applique le droit commun.",
+            "explanation": "Le professeur reste neutre dans le conflit des parents et rappelle simplement la règle ; seule une décision de justice peut la modifier, d'où l'invitation à la produire. Le circuit officiel de l'établissement (secrétariat, direction) prend le relais. Mettre l'élève au milieu du conflit est à proscrire, comme transmettre à un parent les échanges avec l'autre."
+          },
+          {
+            "label": "Action à long terme",
+            "question": "Quelle action mener ensuite pour régler durablement le problème ?",
+            "options": [
+              "Laisser l'élève transmettre elle-même les informations scolaires à son père, à la fréquence qui lui convient",
+              "Ne plus communiquer avec aucun des deux parents, pour éviter d'être pris à partie dans un conflit qui ne concerne pas l'école",
+              "Vérifier que les coordonnées des deux parents sont à jour pour leur adresser à chacun les informations",
+              "Saisir le juge aux affaires familiales pour qu'il tranche le conflit entre les parents sur la transmission des résultats"
+            ],
+            "correctIndex": 2,
+            "hint": "La solution durable est administrative : les deux parents dans le circuit d'information.",
+            "explanation": "Inscrire correctement les deux responsables légaux permet un double envoi des bulletins et des informations, ce qui met fin aux demandes au cas par cas. Des rencontres séparées peuvent être proposées si la situation l'exige. Couper la communication priverait l'élève du lien entre école et famille ; saisir le juge ne relève pas de l'établissement."
+          }
+        ],
+        "hint1": "Traitez les trois temps dans l'ordre : le texte qui fonde la réponse, le geste professionnel sur le moment, puis le traitement en équipe qui règle durablement la situation.",
+        "answer": "Règle de droit : sauf décision contraire du juge, les parents séparés exercent tous deux l'autorité parentale (Code civil, art. 372 et 373-2). Réaction immédiate : rester neutre : les deux parents sont informés sauf décision de justice, dont on demande une copie si elle existe. Action à long terme : vérifier que les coordonnées des deux parents sont à jour pour leur adresser à chacun les informations.",
+        "solution": "1. Règle de droit : Selon l'article 372 du Code civil, les père et mère exercent en commun l'autorité parentale, et l'article 373-2 précise que la séparation des parents est sans incidence sur les règles de dévolution de son exercice. Sauf décision de justice qui la retire ou la confie à un seul parent, chacun a droit aux informations sur la scolarité de son enfant.\n2. Réaction immédiate : Le professeur reste neutre dans le conflit des parents et rappelle simplement la règle ; seule une décision de justice peut la modifier, d'où l'invitation à la produire. Le circuit officiel de l'établissement (secrétariat, direction) prend le relais. Mettre l'élève au milieu du conflit est à proscrire, comme transmettre à un parent les échanges avec l'autre.\n3. Action à long terme : Inscrire correctement les deux responsables légaux permet un double envoi des bulletins et des informations, ce qui met fin aux demandes au cas par cas. Des rencontres séparées peuvent être proposées si la situation l'exige. Couper la communication priverait l'élève du lien entre école et famille ; saisir le juge ne relève pas de l'établissement."
+      },
+      {
+        "id": "capes-oral2-cas-18",
+        "chapterId": "capes-oral2-cas",
+        "tier": 3,
+        "title": "Les menaces d'un parent après une note",
+        "statement": "Après un devoir, le père d'un élève vous appelle, vous menace et vous injurie, puis publie des messages vous mettant en cause sur un réseau social. Identifiez la règle de droit, la réaction immédiate et l'action à long terme.",
+        "type": "case3",
+        "steps": [
+          {
+            "label": "Règle de droit",
+            "question": "Quelle règle de droit s'applique ?",
+            "options": [
+              "Le professeur doit se défendre seul : la protection de son administration ne couvre que les accidents de service",
+              "Un parent d'élève ne peut pas être poursuivi pour des propos publiés sur un réseau social, qui relèvent de la liberté d'expression",
+              "La protection fonctionnelle n'est accordée qu'après une condamnation pénale définitive de l'auteur des menaces",
+              "L'administration doit protéger l'agent menacé ou injurié en raison de ses fonctions (CGFP, articles L. 134-1 et L. 134-5)"
+            ],
+            "correctIndex": 3,
+            "hint": "Le statut de la fonction publique prévoit une protection de l'agent par son employeur.",
+            "explanation": "La protection fonctionnelle (articles L. 134-1 et L. 134-5 du Code général de la fonction publique) oblige l'administration à protéger l'agent contre les atteintes subies en raison de ses fonctions : menaces, violences, injures, diffamations, outrages. Elle se demande par écrit (à l'Éducation nationale, via l'application Colibris) et n'attend pas une condamnation : l'administration doit prendre sans délai des mesures de protection. Les propos publiés en ligne peuvent relever de la loi du 29 juillet 1881."
+          },
+          {
+            "label": "Réaction immédiate",
+            "question": "Que faire sur le moment ?",
+            "options": [
+              "Répondre publiquement au père sur le même réseau social, pour rétablir la vérité auprès des autres parents",
+              "Revoir à la hausse la note de l'élève, afin d'apaiser le père et d'éviter que la situation ne dégénère davantage",
+              "Mettre fin calmement à l'appel, garder des traces (notes, captures) et informer aussitôt le chef d'établissement",
+              "Rappeler le père le soir même depuis son téléphone personnel pour s'expliquer en tête-à-tête avec lui"
+            ],
+            "correctIndex": 2,
+            "hint": "Ne pas alimenter l'échange, garder des preuves, prévenir la hiérarchie.",
+            "explanation": "Le professeur ne poursuit pas un échange menaçant et ne répond pas publiquement, ce qui alimenterait la polémique. Il garde des preuves datées, utiles pour la protection fonctionnelle et une éventuelle plainte, et alerte aussitôt le chef d'établissement. Modifier une note sous la pression porterait atteinte à l'équité de l'évaluation."
+          },
+          {
+            "label": "Action à long terme",
+            "question": "Quelle action mener ensuite pour régler durablement le problème ?",
+            "options": [
+              "Demander à changer de classe pour ne plus avoir l'élève en cours, et éviter ainsi tout nouveau contact avec ce père",
+              "Mettre l'élève à l'écart en classe tant que son père ne s'est pas excusé",
+              "Demander la protection fonctionnelle (Colibris), envisager une plainte et évaluer l'élève comme avant",
+              "Attendre que la situation se calme d'elle-même, sans rien demander à l'administration ni porter plainte"
+            ],
+            "correctIndex": 2,
+            "hint": "La protection se demande ; l'élève, lui, n'a pas à subir le conflit.",
+            "explanation": "La demande écrite de protection fonctionnelle déclenche l'accompagnement de l'administration (soutien, prise en charge des frais d'avocat le cas échéant, mesures envers l'auteur). Le chef d'établissement reçoit le parent et peut signaler les faits. L'élève n'est pas responsable du comportement de son père et doit continuer à être évalué et traité comme les autres."
+          }
+        ],
+        "hint1": "Traitez les trois temps dans l'ordre : le texte qui fonde la réponse, le geste professionnel sur le moment, puis le traitement en équipe qui règle durablement la situation.",
+        "answer": "Règle de droit : l'administration doit protéger l'agent menacé ou injurié en raison de ses fonctions (CGFP, articles L. 134-1 et L. 134-5). Réaction immédiate : mettre fin calmement à l'appel, garder des traces (notes, captures) et informer aussitôt le chef d'établissement. Action à long terme : demander la protection fonctionnelle (Colibris), envisager une plainte et évaluer l'élève comme avant.",
+        "solution": "1. Règle de droit : La protection fonctionnelle (articles L. 134-1 et L. 134-5 du Code général de la fonction publique) oblige l'administration à protéger l'agent contre les atteintes subies en raison de ses fonctions : menaces, violences, injures, diffamations, outrages. Elle se demande par écrit (à l'Éducation nationale, via l'application Colibris) et n'attend pas une condamnation : l'administration doit prendre sans délai des mesures de protection. Les propos publiés en ligne peuvent relever de la loi du 29 juillet 1881.\n2. Réaction immédiate : Le professeur ne poursuit pas un échange menaçant et ne répond pas publiquement, ce qui alimenterait la polémique. Il garde des preuves datées, utiles pour la protection fonctionnelle et une éventuelle plainte, et alerte aussitôt le chef d'établissement. Modifier une note sous la pression porterait atteinte à l'équité de l'évaluation.\n3. Action à long terme : La demande écrite de protection fonctionnelle déclenche l'accompagnement de l'administration (soutien, prise en charge des frais d'avocat le cas échéant, mesures envers l'auteur). Le chef d'établissement reçoit le parent et peut signaler les faits. L'élève n'est pas responsable du comportement de son père et doit continuer à être évalué et traité comme les autres."
+      },
+      // =========================================================================
+      // PALIER 4 : PROTECTION DE L'ÉLÈVE
+      // =========================================================================
+      {
+        "id": "capes-oral2-cas-19",
+        "chapterId": "capes-oral2-cas",
+        "tier": 4,
+        "title": "Une confidence sur des violences à la maison",
+        "statement": "Une élève de 6e vous confie, après le cours, que son beau-père « la frappe quand il est énervé » ; elle a peur que sa mère l'apprenne. Identifiez la règle de droit, la réaction immédiate et l'action à long terme.",
+        "type": "case3",
+        "steps": [
+          {
+            "label": "Règle de droit",
+            "question": "Quelle règle de droit s'applique ?",
+            "options": [
+              "Le professeur doit d'abord réunir des preuves des violences avant de transmettre quoi que ce soit à qui que ce soit",
+              "Un mineur en danger fait l'objet d'une information préoccupante (CASF, articles L. 226-2-1 et L. 226-3)",
+              "La confidence relève du secret entre l'élève et son professeur",
+              "Seule l'assistante sociale peut décider s'il faut informer quelqu'un, le professeur n'ayant aucune obligation personnelle"
+            ],
+            "correctIndex": 1,
+            "hint": "Le professeur n'a pas à prouver : il transmet ce qu'il sait.",
+            "explanation": "Lorsqu'un mineur est en danger ou en risque de l'être au sens de l'article 375 du Code civil, une information préoccupante est adressée au président du conseil départemental, par la cellule de recueil des informations préoccupantes (CRIP), conformément aux articles L. 226-2-1 et L. 226-3 du Code de l'action sociale et des familles. Le Vademecum rappelle que tout membre du personnel doit le faire. L'enseignant n'a ni à enquêter ni à établir la preuve."
+          },
+          {
+            "label": "Réaction immédiate",
+            "question": "Que faire sur le moment ?",
+            "options": [
+              "Appeler la mère dès la fin du cours pour lui demander des explications sur le comportement de son compagnon",
+              "Poser de nombreuses questions précises sur les faits, les dates et les lieux, pour vérifier que l'élève dit bien la vérité",
+              "Écouter sans insister, ne pas promettre le secret, noter ses mots exacts et alerter sans délai la direction",
+              "Lui promettre de ne rien dire à personne si elle accepte d'aller en parler elle-même à l'infirmière scolaire"
+            ],
+            "correctIndex": 2,
+            "hint": "Recueillir sans enquêter, ne pas promettre le secret, ne pas contacter la famille.",
+            "explanation": "Le rôle du professeur est d'accueillir la parole et de la transmettre fidèlement : noter les mots de l'élève, sans questions orientées qui pourraient fragiliser une future enquête. Il n'appelle pas la famille, ce qui pourrait exposer l'élève. Il ne promet pas le secret et alerte aussitôt le chef d'établissement, l'infirmière et l'assistante sociale."
+          },
+          {
+            "label": "Action à long terme",
+            "question": "Quelle action mener ensuite pour régler durablement le problème ?",
+            "options": [
+              "Suivre soi-même l'évolution de la situation familiale en interrogeant régulièrement l'élève après les cours",
+              "Rencontrer le beau-père pour l'avertir calmement que l'école a été informée et que la situation est surveillée",
+              "Contribuer avec la direction et l'assistante sociale à l'information préoccupante, puis rester attentif à l'élève",
+              "Attendre d'observer de nouveaux signes, comme des marques ou des absences, avant de transmettre quoi que ce soit"
+            ],
+            "correctIndex": 2,
+            "hint": "L'écrit part par le circuit prévu ; le professeur reste ensuite un adulte attentif.",
+            "explanation": "L'information préoccupante est rédigée et transmise selon le protocole départemental, avec l'appui de l'assistante sociale et du chef d'établissement. Les services de protection de l'enfance évaluent ensuite la situation. Le professeur reste vigilant et disponible sans réinterroger l'élève. Prévenir l'auteur présumé ou attendre de nouveaux signes mettrait l'élève en danger."
+          }
+        ],
+        "hint1": "Traitez les trois temps dans l'ordre : le texte qui fonde la réponse, le geste professionnel sur le moment, puis le traitement en équipe qui règle durablement la situation.",
+        "answer": "Règle de droit : un mineur en danger fait l'objet d'une information préoccupante (CASF, articles L. 226-2-1 et L. 226-3). Réaction immédiate : écouter sans insister, ne pas promettre le secret, noter ses mots exacts et alerter sans délai la direction. Action à long terme : contribuer avec la direction et l'assistante sociale à l'information préoccupante, puis rester attentif à l'élève.",
+        "solution": "1. Règle de droit : Lorsqu'un mineur est en danger ou en risque de l'être au sens de l'article 375 du Code civil, une information préoccupante est adressée au président du conseil départemental, par la cellule de recueil des informations préoccupantes (CRIP), conformément aux articles L. 226-2-1 et L. 226-3 du Code de l'action sociale et des familles. Le Vademecum rappelle que tout membre du personnel doit le faire. L'enseignant n'a ni à enquêter ni à établir la preuve.\n2. Réaction immédiate : Le rôle du professeur est d'accueillir la parole et de la transmettre fidèlement : noter les mots de l'élève, sans questions orientées qui pourraient fragiliser une future enquête. Il n'appelle pas la famille, ce qui pourrait exposer l'élève. Il ne promet pas le secret et alerte aussitôt le chef d'établissement, l'infirmière et l'assistante sociale.\n3. Action à long terme : L'information préoccupante est rédigée et transmise selon le protocole départemental, avec l'appui de l'assistante sociale et du chef d'établissement. Les services de protection de l'enfance évaluent ensuite la situation. Le professeur reste vigilant et disponible sans réinterroger l'élève. Prévenir l'auteur présumé ou attendre de nouveaux signes mettrait l'élève en danger."
+      },
+      {
+        "id": "capes-oral2-cas-20",
+        "chapterId": "capes-oral2-cas",
+        "tier": 4,
+        "title": "Une élève qui a peur de rentrer chez elle",
+        "statement": "Un vendredi en fin de journée, une élève de 4e vous montre des marques de coups sur ses bras et vous dit qu'elle ne veut pas rentrer chez elle ce soir car elle a peur. Identifiez la règle de droit, la réaction immédiate et l'action à long terme.",
+        "type": "case3",
+        "steps": [
+          {
+            "label": "Règle de droit",
+            "question": "Quelle règle de droit s'applique ?",
+            "options": [
+              "Le professeur doit d'abord prévenir les parents, qui exercent l'autorité parentale et doivent être informés en premier",
+              "L'école n'a plus aucune obligation après la fin des cours : la situation relève alors de la seule responsabilité de la famille",
+              "En danger grave et immédiat, on saisit directement le procureur ; l'article 40 du CPP oblige à signaler crimes et délits",
+              "Une information préoccupante envoyée par courrier à la cellule départementale suffit dans tous les cas, même en urgence"
+            ],
+            "correctIndex": 2,
+            "hint": "Danger grave et immédiat : la voie n'est pas la même qu'en cas de simple inquiétude.",
+            "explanation": "Lorsque le danger est grave et immédiat, la saisine directe du procureur de la République permet une mesure de protection rapide ; une copie est adressée au président du conseil départemental. L'article 40 du Code de procédure pénale impose à tout fonctionnaire qui acquiert la connaissance d'un crime ou d'un délit d'en aviser sans délai le procureur. Prévenir les parents peut exposer l'enfant si les violences ont lieu à la maison."
+          },
+          {
+            "label": "Réaction immédiate",
+            "question": "Que faire sur le moment ?",
+            "options": [
+              "Photographier soi-même les marques avec son téléphone personnel et envoyer les photos aux parents pour explication",
+              "Laisser l'élève rentrer chez elle comme d'habitude, et faire un point avec elle et l'infirmière dès lundi matin",
+              "Proposer à l'élève de l'héberger chez soi pour le week-end, le temps que la situation familiale s'apaise",
+              "Garder l'élève avec soi, l'accompagner à l'infirmerie et alerter aussitôt la direction, qui saisit le procureur"
+            ],
+            "correctIndex": 3,
+            "hint": "L'élève est encore sous la responsabilité de l'établissement : la protection se décide maintenant.",
+            "explanation": "Le professeur reste avec l'élève et l'accompagne vers l'infirmière et le chef d'établissement, qui saisit le procureur sans attendre ; en cas d'urgence absolue, la police ou la gendarmerie peut être appelée. Héberger l'élève chez soi sort de tout cadre. Les constats sont faits par les professionnels compétents, jamais par des photos personnelles envoyées à la famille."
+          },
+          {
+            "label": "Action à long terme",
+            "question": "Quelle action mener ensuite pour régler durablement le problème ?",
+            "options": [
+              "Remettre un écrit factuel à la direction sur ce qui a été vu et entendu, puis contribuer au suivi",
+              "Considérer que tout est réglé une fois le signalement envoyé, la suite relevant uniquement de la justice",
+              "Partager la situation en salle des professeurs, afin que tous les collègues soient informés des détails et vigilants",
+              "Mener sa propre enquête auprès des camarades de l'élève"
+            ],
+            "correctIndex": 0,
+            "hint": "Un écrit précis, la discrétion, puis le suivi.",
+            "explanation": "Le compte rendu écrit, daté et factuel (paroles rapportées entre guillemets, constats) sert aux autorités. La discrétion protège l'élève : seuls les personnels qui en ont besoin sont informés. Le professeur n'enquête pas. Après le signalement, l'élève reste suivie par l'équipe, en lien avec les services saisis."
+          }
+        ],
+        "hint1": "Traitez les trois temps dans l'ordre : le texte qui fonde la réponse, le geste professionnel sur le moment, puis le traitement en équipe qui règle durablement la situation.",
+        "answer": "Règle de droit : en danger grave et immédiat, on saisit directement le procureur ; l'article 40 du CPP oblige à signaler crimes et délits. Réaction immédiate : garder l'élève avec soi, l'accompagner à l'infirmerie et alerter aussitôt la direction, qui saisit le procureur. Action à long terme : remettre un écrit factuel à la direction sur ce qui a été vu et entendu, puis contribuer au suivi.",
+        "solution": "1. Règle de droit : Lorsque le danger est grave et immédiat, la saisine directe du procureur de la République permet une mesure de protection rapide ; une copie est adressée au président du conseil départemental. L'article 40 du Code de procédure pénale impose à tout fonctionnaire qui acquiert la connaissance d'un crime ou d'un délit d'en aviser sans délai le procureur. Prévenir les parents peut exposer l'enfant si les violences ont lieu à la maison.\n2. Réaction immédiate : Le professeur reste avec l'élève et l'accompagne vers l'infirmière et le chef d'établissement, qui saisit le procureur sans attendre ; en cas d'urgence absolue, la police ou la gendarmerie peut être appelée. Héberger l'élève chez soi sort de tout cadre. Les constats sont faits par les professionnels compétents, jamais par des photos personnelles envoyées à la famille.\n3. Action à long terme : Le compte rendu écrit, daté et factuel (paroles rapportées entre guillemets, constats) sert aux autorités. La discrétion protège l'élève : seuls les personnels qui en ont besoin sont informés. Le professeur n'enquête pas. Après le signalement, l'élève reste suivie par l'équipe, en lien avec les services saisis."
+      },
+      {
+        "id": "capes-oral2-cas-21",
+        "chapterId": "capes-oral2-cas",
+        "tier": 4,
+        "title": "Des photos humiliantes diffusées en ligne",
+        "statement": "Des élèves de 3e vous signalent qu'une photo truquée et humiliante d'une camarade circule sur un réseau social, accompagnée de commentaires moqueurs de plusieurs élèves du collège. Identifiez la règle de droit, la réaction immédiate et l'action à long terme.",
+        "type": "case3",
+        "steps": [
+          {
+            "label": "Règle de droit",
+            "question": "Quelle règle de droit s'applique ?",
+            "options": [
+              "Ce qui se passe sur les réseaux sociaux en dehors des heures de cours ne concerne pas l'établissement, mais les seules familles",
+              "La diffusion d'une image n'est répréhensible que si la photo a été prise à l'intérieur de l'établissement scolaire",
+              "Seuls les parents de la victime peuvent agir, en déposant plainte ; l'établissement doit attendre l'issue de la procédure",
+              "Le harcèlement, même en ligne, est un délit (loi du 2 mars 2022) ; pHARe s'applique et le 3018 aide au retrait"
+            ],
+            "correctIndex": 3,
+            "hint": "La loi de 2022 vise aussi les faits commis en ligne entre élèves.",
+            "explanation": "La loi du 2 mars 2022 réprime le harcèlement scolaire, y compris lorsqu'il se poursuit en ligne, et le cyberharcèlement entre élèves d'un même établissement relève du protocole pHARe. Le 3018, numéro national contre les violences numériques opéré par l'association e-Enfance, accompagne les victimes et peut obtenir des plateformes le retrait rapide des contenus."
+          },
+          {
+            "label": "Réaction immédiate",
+            "question": "Que faire sur le moment ?",
+            "options": [
+              "Remercier les élèves, ne pas demander l'image ni la transférer, informer sans délai le CPE et la direction",
+              "Conseiller aux élèves d'ignorer la publication, qui finira par disparaître d'elle-même si personne ne la commente",
+              "Demander aux élèves de vous transférer la photo sur votre téléphone",
+              "Montrer la photo à la classe pour lui faire prendre conscience de la gravité des faits et de leurs conséquences"
+            ],
+            "correctIndex": 0,
+            "hint": "Ne pas participer à la diffusion, même avec de bonnes intentions.",
+            "explanation": "Chaque partage prolonge l'atteinte : le professeur ne reçoit pas l'image et ne la montre pas. Il valorise le signalement des témoins et alerte immédiatement le CPE et le chef d'établissement, qui prennent en charge la victime, sa famille, et les mesures envers les auteurs. Ignorer le problème laisse la victime seule."
+          },
+          {
+            "label": "Action à long terme",
+            "question": "Quelle action mener ensuite pour régler durablement le problème ?",
+            "options": [
+              "Interdire aux élèves de la classe l'usage de tout réseau social, y compris chez eux, jusqu'à la fin de l'année",
+              "Organiser une confrontation entre la victime et les auteurs devant la classe, pour obtenir des excuses publiques",
+              "Laisser la famille de la victime régler seule la question avec la plateforme, l'établissement n'ayant pas de rôle à jouer",
+              "Suivre le protocole pHARe (protection de la victime, mesures envers les auteurs, 3018) et prévenir les dérives"
+            ],
+            "correctIndex": 3,
+            "hint": "Protection, réponse envers les auteurs, prévention : trois volets.",
+            "explanation": "Le protocole prévoit la protection de la victime, des mesures envers les auteurs (éducatives et, si nécessaire, disciplinaires), l'information des familles et l'orientation vers le 3018 pour le retrait des contenus. La prévention, par l'éducation aux usages numériques, réduit les récidives. Une interdiction hors temps scolaire est hors de portée de l'établissement ; une confrontation publique expose davantage la victime."
+          }
+        ],
+        "hint1": "Traitez les trois temps dans l'ordre : le texte qui fonde la réponse, le geste professionnel sur le moment, puis le traitement en équipe qui règle durablement la situation.",
+        "answer": "Règle de droit : le harcèlement, même en ligne, est un délit (loi du 2 mars 2022) ; pHARe s'applique et le 3018 aide au retrait. Réaction immédiate : remercier les élèves, ne pas demander l'image ni la transférer, informer sans délai le CPE et la direction. Action à long terme : suivre le protocole pHARe (protection de la victime, mesures envers les auteurs, 3018) et prévenir les dérives.",
+        "solution": "1. Règle de droit : La loi du 2 mars 2022 réprime le harcèlement scolaire, y compris lorsqu'il se poursuit en ligne, et le cyberharcèlement entre élèves d'un même établissement relève du protocole pHARe. Le 3018, numéro national contre les violences numériques opéré par l'association e-Enfance, accompagne les victimes et peut obtenir des plateformes le retrait rapide des contenus.\n2. Réaction immédiate : Chaque partage prolonge l'atteinte : le professeur ne reçoit pas l'image et ne la montre pas. Il valorise le signalement des témoins et alerte immédiatement le CPE et le chef d'établissement, qui prennent en charge la victime, sa famille, et les mesures envers les auteurs. Ignorer le problème laisse la victime seule.\n3. Action à long terme : Le protocole prévoit la protection de la victime, des mesures envers les auteurs (éducatives et, si nécessaire, disciplinaires), l'information des familles et l'orientation vers le 3018 pour le retrait des contenus. La prévention, par l'éducation aux usages numériques, réduit les récidives. Une interdiction hors temps scolaire est hors de portée de l'établissement ; une confrontation publique expose davantage la victime."
+      },
+      {
+        "id": "capes-oral2-cas-22",
+        "chapterId": "capes-oral2-cas",
+        "tier": 4,
+        "title": "Un malaise pendant une période de jeûne",
+        "statement": "En plein cours, un élève de 6e fait un malaise. Ses camarades expliquent qu'il jeûne depuis plusieurs jours et qu'il ne boit pas de la journée. Identifiez la règle de droit, la réaction immédiate et l'action à long terme.",
+        "type": "case3",
+        "steps": [
+          {
+            "label": "Règle de droit",
+            "question": "Quelle règle de droit s'applique ?",
+            "options": [
+              "Le professeur peut obliger l'élève à manger et à boire en classe, puisque la protection de sa santé prime sur sa pratique",
+              "Le jeûne étant une pratique religieuse, il est interdit dans l'établissement en application de la loi du 15 mars 2004",
+              "La pratique religieuse relève de la liberté des familles : l'école n'a pas à intervenir, même lorsque la santé de l'élève est en jeu",
+              "L'école ne juge pas la pratique religieuse ; si la santé de l'élève est en danger (article 375 du Code civil), elle alerte"
+            ],
+            "correctIndex": 3,
+            "hint": "Le Vademecum (fiche 13) articule la santé de l'enfant et la neutralité de l'école.",
+            "explanation": "Le Vademecum (fiche 13) prévoit que l'école n'intervient pas sur le contenu des pratiques religieuses mais sur leurs conséquences pour la santé de l'enfant. Si le dialogue avec la famille n'aboutit pas et que le mineur est en danger ou risque de l'être au sens de l'article 375 du Code civil, tout membre du personnel informe par écrit le président du conseil départemental (information préoccupante, article L. 226-2-1 du CASF). La loi de 2004 ne vise que les signes et tenues."
+          },
+          {
+            "label": "Réaction immédiate",
+            "question": "Que faire sur le moment ?",
+            "options": [
+              "Le renvoyer seul chez lui pour qu'il puisse se reposer et reprendre des forces avant de revenir en cours",
+              "Lui demander de rester à sa place jusqu'à la fin du cours, pour ne pas perturber davantage le travail de la classe",
+              "Mettre l'élève en sécurité, le faire conduire à l'infirmerie ou appeler les secours, sans commenter sa pratique",
+              "Lui expliquer devant la classe que sa religion ne l'oblige pas à jeûner à son âge, afin de le rassurer"
+            ],
+            "correctIndex": 2,
+            "hint": "L'urgence est sanitaire, pas religieuse.",
+            "explanation": "La santé de l'élève passe en premier : il est pris en charge par l'infirmière ou, selon son état, par les secours, et ne reste pas seul. Le professeur ne commente pas la pratique religieuse : ce n'est pas le rôle d'un agent public de dire ce qu'une religion exige. Renvoyer un élève malade seul chez lui est dangereux et contraire au devoir de surveillance."
+          },
+          {
+            "label": "Action à long terme",
+            "question": "Quelle action mener ensuite pour régler durablement le problème ?",
+            "options": [
+              "Ne rien faire de plus puisque l'élève s'est rétabli et que la pratique religieuse relève de la vie privée de la famille",
+              "Interdire à l'élève de venir en cours tant qu'il jeûne, afin de protéger sa santé et d'éviter un nouveau malaise",
+              "Contacter un responsable religieux de la commune, pour qu'il convainque la famille de modérer la pratique de l'enfant",
+              "Informer la direction, qui dialogue avec la famille avec le médecin scolaire ; alerter si le danger persiste"
+            ],
+            "correctIndex": 3,
+            "hint": "Dialogue avec la famille, appuyé par les personnels de santé, puis protection si nécessaire.",
+            "explanation": "Selon le Vademecum, le chef d'établissement conduit le dialogue avec les parents et l'élève, avec les enseignants qui le connaissent et le médecin ou l'infirmier, qui rappellent les risques, surtout chez les plus jeunes. L'école ne fait pas appel à des autorités religieuses, en vertu de la neutralité. Si le dialogue échoue et que l'élève reste en danger, l'information préoccupante est transmise. Exclure l'élève méconnaît son droit à l'instruction."
+          }
+        ],
+        "hint1": "Traitez les trois temps dans l'ordre : le texte qui fonde la réponse, le geste professionnel sur le moment, puis le traitement en équipe qui règle durablement la situation.",
+        "answer": "Règle de droit : l'école ne juge pas la pratique religieuse ; si la santé de l'élève est en danger (article 375 du Code civil), elle alerte. Réaction immédiate : mettre l'élève en sécurité, le faire conduire à l'infirmerie ou appeler les secours, sans commenter sa pratique. Action à long terme : informer la direction, qui dialogue avec la famille avec le médecin scolaire ; alerter si le danger persiste.",
+        "solution": "1. Règle de droit : Le Vademecum (fiche 13) prévoit que l'école n'intervient pas sur le contenu des pratiques religieuses mais sur leurs conséquences pour la santé de l'enfant. Si le dialogue avec la famille n'aboutit pas et que le mineur est en danger ou risque de l'être au sens de l'article 375 du Code civil, tout membre du personnel informe par écrit le président du conseil départemental (information préoccupante, article L. 226-2-1 du CASF). La loi de 2004 ne vise que les signes et tenues.\n2. Réaction immédiate : La santé de l'élève passe en premier : il est pris en charge par l'infirmière ou, selon son état, par les secours, et ne reste pas seul. Le professeur ne commente pas la pratique religieuse : ce n'est pas le rôle d'un agent public de dire ce qu'une religion exige. Renvoyer un élève malade seul chez lui est dangereux et contraire au devoir de surveillance.\n3. Action à long terme : Selon le Vademecum, le chef d'établissement conduit le dialogue avec les parents et l'élève, avec les enseignants qui le connaissent et le médecin ou l'infirmier, qui rappellent les risques, surtout chez les plus jeunes. L'école ne fait pas appel à des autorités religieuses, en vertu de la neutralité. Si le dialogue échoue et que l'élève reste en danger, l'information préoccupante est transmise. Exclure l'élève méconnaît son droit à l'instruction."
+      },
+      {
+        "id": "capes-oral2-cas-23",
+        "chapterId": "capes-oral2-cas",
+        "tier": 4,
+        "title": "Des propos racistes en classe",
+        "statement": "Pendant un travail de groupe, un élève de 4e lance une insulte raciste à un camarade. Une partie de la classe rit. Identifiez la règle de droit, la réaction immédiate et l'action à long terme.",
+        "type": "case3",
+        "steps": [
+          {
+            "label": "Règle de droit",
+            "question": "Quelle règle de droit s'applique ?",
+            "options": [
+              "La Constitution garantit l'égalité sans distinction d'origine ; la loi du 29 juillet 1881 punit l'injure raciste",
+              "Les propos entre élèves relèvent de leur liberté d'expression, tant qu'ils ne sont pas répétés ou publiés en ligne",
+              "Le professeur ne peut intervenir que si l'élève visé porte plainte, faute de quoi il n'existe aucune base pour agir",
+              "Une insulte raciste n'est répréhensible que si elle vise un adulte de l'établissement, et non un autre élève"
+            ],
+            "correctIndex": 0,
+            "hint": "La Constitution pose le principe ; une loi de 1881 réprime l'injure raciste.",
+            "explanation": "L'article 1er de la Constitution garantit l'égalité de tous les citoyens sans distinction d'origine, de race ou de religion, et la loi du 29 juillet 1881 sur la liberté de la presse réprime les injures commises en raison de l'origine ou d'une prétendue race. La liberté d'expression des élèves ne couvre pas l'atteinte à la dignité d'autrui, que les règlements intérieurs proscrivent. L'école agit sans attendre une plainte."
+          },
+          {
+            "label": "Réaction immédiate",
+            "question": "Que faire sur le moment ?",
+            "options": [
+              "Poursuivre l'activité sans relever, afin de ne pas donner d'importance à l'incident ni de publicité à son auteur",
+              "Demander d'abord à l'élève visé s'il a été vexé, avant de décider s'il est vraiment nécessaire de réagir",
+              "Organiser immédiatement un débat en classe pour déterminer ensemble si le propos était vraiment raciste",
+              "Réagir aussitôt, faire cesser les rires, nommer le propos comme raciste et inacceptable, soutenir l'élève visé"
+            ],
+            "correctIndex": 3,
+            "hint": "Le silence de l'adulte serait compris comme une approbation.",
+            "explanation": "Le professeur réagit sur-le-champ : laisser passer revient à banaliser le racisme pour toute la classe. Il qualifie le propos sans le répéter, fait cesser les rires et soutient l'élève visé, sans faire reposer sur lui la décision d'agir. Le caractère raciste de l'injure ne se met pas aux voix."
+          },
+          {
+            "label": "Action à long terme",
+            "question": "Quelle action mener ensuite pour régler durablement le problème ?",
+            "options": [
+              "Changer de place l'élève visé, afin de l'éloigner durablement de l'auteur de l'insulte et d'éviter une récidive",
+              "Faire un rapport à la direction, informer le CPE et les familles, mener un travail sur les discriminations",
+              "Baisser la note du travail de groupe de tous les élèves qui ont ri, afin de sanctionner leur attitude",
+              "Exiger des excuses publiques de l'auteur devant la classe, puis considérer l'affaire comme close"
+            ],
+            "correctIndex": 1,
+            "hint": "Réponse disciplinaire, soutien de la victime et prévention.",
+            "explanation": "Le rapport permet au chef d'établissement d'engager une réponse proportionnée, disciplinaire si besoin. Les familles sont informées et l'élève visé est soutenu. Un travail éducatif avec l'équipe (enseignement moral et civique, CPE) traite le fond. Déplacer la victime ou sanctionner par une note collective ne répond pas au problème."
+          }
+        ],
+        "hint1": "Traitez les trois temps dans l'ordre : le texte qui fonde la réponse, le geste professionnel sur le moment, puis le traitement en équipe qui règle durablement la situation.",
+        "answer": "Règle de droit : la Constitution garantit l'égalité sans distinction d'origine ; la loi du 29 juillet 1881 punit l'injure raciste. Réaction immédiate : réagir aussitôt, faire cesser les rires, nommer le propos comme raciste et inacceptable, soutenir l'élève visé. Action à long terme : faire un rapport à la direction, informer le CPE et les familles, mener un travail sur les discriminations.",
+        "solution": "1. Règle de droit : L'article 1er de la Constitution garantit l'égalité de tous les citoyens sans distinction d'origine, de race ou de religion, et la loi du 29 juillet 1881 sur la liberté de la presse réprime les injures commises en raison de l'origine ou d'une prétendue race. La liberté d'expression des élèves ne couvre pas l'atteinte à la dignité d'autrui, que les règlements intérieurs proscrivent. L'école agit sans attendre une plainte.\n2. Réaction immédiate : Le professeur réagit sur-le-champ : laisser passer revient à banaliser le racisme pour toute la classe. Il qualifie le propos sans le répéter, fait cesser les rires et soutient l'élève visé, sans faire reposer sur lui la décision d'agir. Le caractère raciste de l'injure ne se met pas aux voix.\n3. Action à long terme : Le rapport permet au chef d'établissement d'engager une réponse proportionnée, disciplinaire si besoin. Les familles sont informées et l'élève visé est soutenu. Un travail éducatif avec l'équipe (enseignement moral et civique, CPE) traite le fond. Déplacer la victime ou sanctionner par une note collective ne répond pas au problème."
+      },
+      {
+        "id": "capes-oral2-cas-24",
+        "chapterId": "capes-oral2-cas",
+        "tier": 4,
+        "title": "Des messages insistants d'un adulte de l'établissement",
+        "statement": "Une élève de 3e vous montre sur son téléphone des messages privés insistants et ambigus qu'un adulte de l'établissement lui envoie le soir sur un réseau social. Identifiez la règle de droit, la réaction immédiate et l'action à long terme.",
+        "type": "case3",
+        "steps": [
+          {
+            "label": "Règle de droit",
+            "question": "Quelle règle de droit s'applique ?",
+            "options": [
+              "Tout fonctionnaire informé d'un crime ou d'un délit doit aviser le procureur (article 40 du CPP), même contre un collègue",
+              "Il faut d'abord demander une explication au collègue concerné, afin de respecter la présomption d'innocence avant toute démarche",
+              "Ces messages relèvent de la vie privée de l'adulte et de l'élève, tant qu'ils sont envoyés en dehors du temps scolaire",
+              "Un professeur ne peut pas signaler un collègue : seul l'inspecteur est compétent pour traiter le comportement d'un personnel"
+            ],
+            "correctIndex": 0,
+            "hint": "Un article du Code de procédure pénale vise directement les fonctionnaires.",
+            "explanation": "L'article 40 du Code de procédure pénale impose à toute autorité constituée et à tout fonctionnaire qui acquiert, dans l'exercice de ses fonctions, la connaissance d'un crime ou d'un délit d'en aviser sans délai le procureur de la République. Le caractère privé des messages ne protège pas l'adulte : ce qui compte est la mise en danger possible de l'élève. Prévenir l'adulte concerné pourrait compromettre l'enquête."
+          },
+          {
+            "label": "Réaction immédiate",
+            "question": "Que faire sur le moment ?",
+            "options": [
+              "Répondre soi-même aux messages depuis le téléphone de l'élève, pour amener l'adulte à se dévoiler",
+              "Aller voir le collègue concerné pour lui demander fermement de cesser d'envoyer ces messages à l'élève",
+              "Remercier l'élève, ne pas promettre le secret, ne pas confronter l'adulte et alerter aussitôt la direction",
+              "Conseiller à l'élève de bloquer le compte de l'adulte et de ne plus y penser, pour qu'elle retrouve sa tranquillité"
+            ],
+            "correctIndex": 2,
+            "hint": "Ne pas agir seul, ne pas alerter l'adulte mis en cause.",
+            "explanation": "Le professeur accueille la parole de l'élève et la transmet sans délai au chef d'établissement, qui saisit le procureur et informe l'autorité académique. Il ne confronte pas l'adulte, ce qui pourrait entraîner des pressions sur l'élève ou la destruction de preuves, et ne manipule pas le téléphone. Bloquer le compte ne protégerait pas les autres élèves."
+          },
+          {
+            "label": "Action à long terme",
+            "question": "Quelle action mener ensuite pour régler durablement le problème ?",
+            "options": [
+              "Raconter l'affaire aux collègues, afin qu'ils se méfient de l'adulte concerné et protègent les autres élèves",
+              "Remettre un écrit factuel à la direction, rester discret et n'échanger avec les élèves que par l'ENT",
+              "Demander à l'élève de recueillir d'autres messages de l'adulte",
+              "Attendre la suite de l'enquête sans s'occuper de l'élève, pour ne pas interférer avec le travail des enquêteurs"
+            ],
+            "correctIndex": 1,
+            "hint": "Discrétion, soutien de l'élève et règles de communication professionnelles.",
+            "explanation": "L'écrit factuel sert à l'enquête ; la discrétion protège l'élève et la présomption d'innocence. L'élève est accompagnée par l'infirmière, l'assistante sociale et le CPE. Communiquer avec les élèves uniquement par les outils de l'établissement (ENT) est une règle de prudence qui protège les élèves comme les personnels. On ne demande jamais à un élève de recueillir des preuves."
+          }
+        ],
+        "hint1": "Traitez les trois temps dans l'ordre : le texte qui fonde la réponse, le geste professionnel sur le moment, puis le traitement en équipe qui règle durablement la situation.",
+        "answer": "Règle de droit : tout fonctionnaire informé d'un crime ou d'un délit doit aviser le procureur (article 40 du CPP), même contre un collègue. Réaction immédiate : remercier l'élève, ne pas promettre le secret, ne pas confronter l'adulte et alerter aussitôt la direction. Action à long terme : remettre un écrit factuel à la direction, rester discret et n'échanger avec les élèves que par l'ENT.",
+        "solution": "1. Règle de droit : L'article 40 du Code de procédure pénale impose à toute autorité constituée et à tout fonctionnaire qui acquiert, dans l'exercice de ses fonctions, la connaissance d'un crime ou d'un délit d'en aviser sans délai le procureur de la République. Le caractère privé des messages ne protège pas l'adulte : ce qui compte est la mise en danger possible de l'élève. Prévenir l'adulte concerné pourrait compromettre l'enquête.\n2. Réaction immédiate : Le professeur accueille la parole de l'élève et la transmet sans délai au chef d'établissement, qui saisit le procureur et informe l'autorité académique. Il ne confronte pas l'adulte, ce qui pourrait entraîner des pressions sur l'élève ou la destruction de preuves, et ne manipule pas le téléphone. Bloquer le compte ne protégerait pas les autres élèves.\n3. Action à long terme : L'écrit factuel sert à l'enquête ; la discrétion protège l'élève et la présomption d'innocence. L'élève est accompagnée par l'infirmière, l'assistante sociale et le CPE. Communiquer avec les élèves uniquement par les outils de l'établissement (ENT) est une règle de prudence qui protège les élèves comme les personnels. On ne demande jamais à un élève de recueillir des preuves."
       }
     ]
   };

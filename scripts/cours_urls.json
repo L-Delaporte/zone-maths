@@ -535,5 +535,8 @@
  ],
  "capes-oral2": [
   "capes/epreuve-d-entretien.html"
+ ],
+ "capes-oral2-cas": [
+  "capes/epreuve-d-entretien-etudes-de-cas-en-trois-etapes.html"
  ]
 }

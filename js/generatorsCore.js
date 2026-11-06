@@ -276,6 +276,14 @@ window.MathsGenerators = {
     }
     if (Array.isArray(q.hints)) q.hints = q.hints.map(h => this._polishText(h));
     if (Array.isArray(q.explanations)) q.explanations = q.explanations.map(e => this._polishText(e));
+    if (Array.isArray(q.steps)) {
+      q.steps.forEach(st => {
+        for (const f of ['label', 'question', 'hint', 'explanation']) {
+          if (typeof st[f] === 'string') st[f] = this._polishText(st[f]);
+        }
+        if (Array.isArray(st.options)) st.options = st.options.map(o => this._polishText(o));
+      });
+    }
     if (Array.isArray(q.options)) {
       const ans = q.answer;
       const ci = (q.correctIndex !== undefined) ? q.correctIndex : q.options.indexOf(ans);

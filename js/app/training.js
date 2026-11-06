@@ -56,7 +56,13 @@ Object.assign(window.MathsApp, {
     // Zone de saisie / Interaction
     if (interactionContainer) {
       interactionContainer.innerHTML = '';
-      if (exercise.type === 'mcq') {
+      this.case3State = null;
+      if (exercise.type === 'case3') {
+        // Étude de cas en trois étapes : une étape active à la fois, un seul essai par étape
+        if (!exercise._case3Shuffled && engine && typeof engine.shuffleCase3 === 'function') engine.shuffleCase3(exercise);
+        this.case3State = { step: 0, picks: [] };
+        this.renderCase3Steps(exercise);
+      } else if (exercise.type === 'mcq') {
         // Normalisation défensive choices -> options
         if (!exercise.options && exercise.choices) exercise.options = exercise.choices;
         if (exercise.correctIndex === undefined && exercise.options && exercise.answer) {
@@ -206,8 +212,13 @@ Object.assign(window.MathsApp, {
 
     if (validateBtn) {
       validateBtn.style.display = 'inline-flex';
+      validateBtn.textContent = exercise.type === 'case3' ? 'Valider l\'étape 1 sur 3 ✓' : 'Valider ma réponse ✓';
       validateBtn.onclick = () => this.submitCurrentAnswer();
     }
+    if (hint1Btn) hint1Btn.textContent = exercise.type === 'case3' ? '💡 Indice pour cette étape' : '💡 Coup de pouce (Indice 1)';
+    if (hint2Btn) hint2Btn.style.display = exercise.type === 'case3' ? 'none' : '';
+    const kbToggle = document.getElementById('btn-toggle-math-keyboard');
+    if (kbToggle) kbToggle.style.display = exercise.type === 'case3' ? 'none' : '';
     if (nextBtn) {
       nextBtn.style.display = 'none';
       nextBtn.innerHTML = `Exercice suivant ➔`;
@@ -336,6 +347,15 @@ Object.assign(window.MathsApp, {
       };
       return labels[t] || `Palier ${t}`;
     } else if (lvl === 'capes') {
+      if (this.currentChapterId === 'capes-oral2-cas') {
+        const labels = {
+          1: "Palier 1 : Classe",
+          2: "Palier 2 : Laïcité",
+          3: "Palier 3 : Familles",
+          4: "Palier 4 : Protection"
+        };
+        return labels[t] || `Palier ${t}`;
+      }
       if (this.currentChapterId === 'capes-oral2') {
         const labels = {
           1: "Palier 1 : Déontologie",
@@ -415,6 +435,15 @@ Object.assign(window.MathsApp, {
       };
       return names[t] || `Niveau ${t}`;
     } else if (lvl === 'capes') {
+      if (this.currentChapterId === 'capes-oral2-cas') {
+        const names = {
+          1: "Cas en classe et en évaluation",
+          2: "Cas de laïcité et de neutralité",
+          3: "Cas avec les familles et en sortie",
+          4: "Cas de protection de l'élève"
+        };
+        return names[t] || `Niveau ${t}`;
+      }
       if (this.currentChapterId === 'capes-oral2') {
         const names = {
           1: "Socle Déontologique & Textes",
@@ -503,13 +532,109 @@ Object.assign(window.MathsApp, {
     this.renderTierButtons();
   },
 
+  /**
+   * Étude de cas en trois étapes : étapes terminées (choix, correction, explication), étape active
+   * (boutons .mcq-opt-btn, raccourcis A à D), étapes suivantes verrouillées.
+   */
+  renderCase3Steps(exercise) {
+    const zone = document.getElementById('exercise-input-zone');
+    const st = this.case3State;
+    if (!zone || !st || !Array.isArray(exercise.steps)) return;
+    const md = (t) => window.MathsRenderer.markdownToHtml(t || '');
+    const letter = (i) => String.fromCharCode(65 + i);
+    const n = exercise.steps.length;
+    zone.innerHTML = '';
+    const box = document.createElement('div');
+    box.className = 'case3-steps';
+
+    exercise.steps.forEach((step, i) => {
+      const sec = document.createElement('section');
+      const state = i < st.step ? 'done' : (i === st.step ? 'active' : 'locked');
+      sec.className = `case3-step case3-${state}`;
+      sec.setAttribute('aria-label', `Étape ${i + 1} sur ${n} : ${step.label}`);
+      let html = `<h4 class="case3-step-title"><span class="case3-step-num" aria-hidden="true">${i + 1}</span>${step.label}</h4>`;
+      if (state === 'done') {
+        const pick = st.picks[i];
+        const ok = pick === step.correctIndex;
+        html += `<p class="case3-pick ${ok ? 'case3-ok' : 'case3-ko'}"><strong>${ok ? '✓ Juste' : '✗ Pas tout à fait'}</strong> : ${letter(pick)}. ${step.options[pick]}</p>`;
+        if (!ok) html += `<p class="case3-pick case3-good"><strong>Réponse attendue</strong> : ${letter(step.correctIndex)}. ${step.options[step.correctIndex]}</p>`;
+        if (step.explanation) html += `<div class="case3-expl">${md(step.explanation)}</div>`;
+      } else if (state === 'active') {
+        if (step.question) html += `<p class="case3-question">${step.question}</p>`;
+      } else {
+        html += `<p class="case3-locked-text">Accessible après l'étape ${i}.</p>`;
+      }
+      sec.innerHTML = html;
+
+      if (state === 'active') {
+        const grid = document.createElement('div');
+        grid.className = 'mcq-options-grid case3-grid';
+        grid.setAttribute('role', 'group');
+        grid.setAttribute('aria-label', `Choix pour l'étape ${i + 1} : ${step.label}`);
+        step.options.forEach((opt, idx) => {
+          const btn = document.createElement('button');
+          btn.className = 'mcq-opt-btn';
+          btn.type = 'button';
+          btn.setAttribute('data-index', idx);
+          btn.setAttribute('aria-pressed', 'false');
+          btn.innerHTML = `<span class="mcq-letter">${letter(idx)}</span><span class="mcq-text">${opt}</span>`;
+          btn.addEventListener('click', () => {
+            grid.querySelectorAll('.mcq-opt-btn').forEach(b => { b.classList.remove('selected'); b.setAttribute('aria-pressed', 'false'); });
+            btn.classList.add('selected');
+            btn.setAttribute('aria-pressed', 'true');
+            this.selectedMcqAnswer = idx;
+          });
+          grid.appendChild(btn);
+        });
+        sec.appendChild(grid);
+      }
+      box.appendChild(sec);
+    });
+
+    if (st.step < n) {
+      const kbdHint = document.createElement('div');
+      kbdHint.className = 'kbd-hint';
+      kbdHint.innerHTML = `<span><span aria-hidden="true">⌨️</span> Raccourcis :</span> <kbd class="kbd-badge">A</kbd> <kbd class="kbd-badge">B</kbd> <kbd class="kbd-badge">C</kbd> <kbd class="kbd-badge">D</kbd> pour choisir, <kbd class="kbd-badge">Entrée</kbd> pour valider l'étape, <kbd class="kbd-badge">H</kbd> pour un indice`;
+      box.appendChild(kbdHint);
+      // Indice de l'étape active (bouton « Indice pour cette étape » et touche H)
+      const active = exercise.steps[st.step];
+      exercise.hint1 = active.hint || exercise.hint1;
+      exercise.hint2 = exercise.hint1;
+    }
+    zone.appendChild(box);
+    window.MathsRenderer.renderElement(box);
+    if (st.step > 0) {
+      const target = box.querySelector(st.step < n ? '.case3-active' : '.case3-step:last-of-type');
+      if (target && typeof target.scrollIntoView === 'function') target.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    }
+  },
+
   submitCurrentAnswer() {
     const engine = window.MathsAdaptiveEngine;
     const exercise = engine.state.currentExercise;
     if (!exercise) return;
 
     let userAnswer = null;
-    if (exercise.type === 'mcq') {
+    if (exercise.type === 'case3') {
+      const st = this.case3State;
+      if (!st || st.step >= exercise.steps.length) return;
+      if (this.selectedMcqAnswer === null || this.selectedMcqAnswer === undefined) {
+        alert('Veuillez choisir une réponse pour cette étape.');
+        return;
+      }
+      st.picks.push(this.selectedMcqAnswer);
+      st.step++;
+      this.selectedMcqAnswer = null;
+      this.renderCase3Steps(exercise);
+      if (st.step < exercise.steps.length) {
+        const validateBtn = document.getElementById('btn-validate-answer');
+        if (validateBtn) validateBtn.textContent = `Valider l'étape ${st.step + 1} sur ${exercise.steps.length} ✓`;
+        const fb = document.getElementById('exercise-feedback-zone');
+        if (fb) { fb.innerHTML = ''; fb.style.display = 'none'; }
+        return;
+      }
+      userAnswer = st.picks.slice();
+    } else if (exercise.type === 'mcq') {
       if (this.selectedMcqAnswer === null || this.selectedMcqAnswer === undefined) {
         alert('Veuillez sélectionner une réponse parmi les options proposées.');
         return;
@@ -536,6 +661,10 @@ Object.assign(window.MathsApp, {
 
   displayAnswerFeedback(result, exercise) {
     const engine = window.MathsAdaptiveEngine;
+    if (exercise && exercise.type === 'case3' && this.case3State && Array.isArray(exercise.steps)) {
+      const good = this.case3State.picks.filter((pk, i) => exercise.steps[i] && pk === exercise.steps[i].correctIndex).length;
+      if (!result.isCorrect) result.message = `${good} étape${good > 1 ? 's' : ''} juste${good > 1 ? 's' : ''} sur ${exercise.steps.length} : les trois doivent l'être pour réussir le cas. Voici la synthèse du cas.`;
+    }
     const feedbackContainer = document.getElementById('exercise-feedback-zone');
     const validateBtn = document.getElementById('btn-validate-answer');
     const nextBtn = document.getElementById('btn-next-exercise');

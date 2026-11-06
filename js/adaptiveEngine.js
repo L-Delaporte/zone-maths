@@ -539,6 +539,7 @@ window.MathsAdaptiveEngine = {
           candidate.answer = candidate.options[candidate.correctIndex];
         }
       }
+      if (candidate.type === 'case3') this.shuffleCase3(candidate);
       if (!candidate.hint1 && candidate.hint) {
         candidate.hint1 = candidate.hint;
       }
@@ -596,6 +597,14 @@ window.MathsAdaptiveEngine = {
    */
   validateAnswer(userAnswer, exercise) {
     if (!exercise) return false;
+
+    // Étude de cas en trois étapes (règle de droit, réaction immédiate, action durable) :
+    // juste seulement si les trois choix sont justes
+    if (exercise.type === 'case3') {
+      const steps = Array.isArray(exercise.steps) ? exercise.steps : [];
+      if (!Array.isArray(userAnswer) || !steps.length || userAnswer.length !== steps.length) return false;
+      return steps.every((st, i) => parseInt(userAnswer[i], 10) === st.correctIndex);
+    }
 
     // Type QCM
     if (exercise.type === 'mcq' || exercise.options || exercise.choices) {
@@ -1607,6 +1616,8 @@ window.MathsAdaptiveEngine = {
 
     // --- ERREUR / ÉCHAFAUDAGE BIENVEILLANT ---
     this.state.mistakesOnCurrent++;
+    // Étude de cas : chaque étape n'a qu'un essai, la correction complète suit directement
+    if (exercise.type === 'case3') this.state.mistakesOnCurrent = Math.max(3, this.state.mistakesOnCurrent);
     this.state.consecutiveSuccesses = 0;
     const common = {
       isCorrect: false,
@@ -1645,6 +1656,27 @@ window.MathsAdaptiveEngine = {
   /**
    * L'élève demande volontairement un indice
    */
+  /**
+   * Étude de cas en trois étapes : mélange les choix de chaque étape (bonne réponse jamais prévisible).
+   * steps[i] = { label, question, options[], correctIndex, hint, explanation }.
+   */
+  shuffleCase3(exo) {
+    if (!exo || !Array.isArray(exo.steps)) return exo;
+    exo.steps.forEach(st => {
+      if (!Array.isArray(st.options) || st.options.length < 2) return;
+      const ci = (typeof st.correctIndex === 'number') ? st.correctIndex : 0;
+      const items = st.options.map((opt, i) => ({ opt, ok: i === ci }));
+      for (let i = items.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [items[i], items[j]] = [items[j], items[i]];
+      }
+      st.options = items.map(it => it.opt);
+      st.correctIndex = items.findIndex(it => it.ok);
+    });
+    exo._case3Shuffled = true;
+    return exo;
+  },
+
   requestHint(hintNumber) {
     const exercise = this.state.currentExercise;
     if (!exercise) return null;

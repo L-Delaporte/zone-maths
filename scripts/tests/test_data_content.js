@@ -248,6 +248,21 @@ for (const { chId, ex, where } of allEx) {
   for (const f of ['title', 'statement', 'solution']) {
     if (typeof ex[f] !== 'string' || !ex[f].trim()) fail(`${where} : champ « ${f} » vide`);
   }
+  // Étude de cas en trois étapes : trois étapes complètes, quatre choix distincts, une bonne réponse
+  if (ex.type === 'case3') {
+    if (!Array.isArray(ex.steps) || ex.steps.length !== 3) { fail(`${where} : étude de cas sans trois étapes`); continue; }
+    ex.steps.forEach((st, k) => {
+      for (const f of ['label', 'question', 'hint', 'explanation']) {
+        if (typeof st[f] !== 'string' || !st[f].trim()) fail(`${where} : étape ${k + 1}, champ « ${f} » vide`);
+      }
+      if (!Array.isArray(st.options) || st.options.length !== 4) { fail(`${where} : étape ${k + 1} sans quatre choix`); return; }
+      if (!Number.isInteger(st.correctIndex) || st.correctIndex < 0 || st.correctIndex > 3) fail(`${where} : étape ${k + 1}, correctIndex ${st.correctIndex} hors bornes`);
+      const n = st.options.map(norm);
+      n.forEach((v, i) => { if (!v) fail(`${where} : étape ${k + 1}, choix ${i} vide`); if (n.indexOf(v) !== i) fail(`${where} : étape ${k + 1}, choix dupliqué`); });
+    });
+    if (ex.answer === undefined || String(ex.answer).trim() === '') fail(`${where} : synthèse (answer) manquante`);
+    continue;
+  }
   const isMcq = ex.type === 'mcq' || Array.isArray(ex.options);
   if (!isMcq) {
     if (ex.answer === undefined || String(ex.answer).trim() === '') fail(`${where} : réponse attendue manquante`);

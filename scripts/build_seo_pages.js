@@ -185,6 +185,7 @@ const HUBS = {
 };
 /** Fiche de l'oral 2 du CAPES : épreuve commune à toutes les disciplines, titre et résumé dédiés. */
 const ORAL2_ID = 'capes-oral2';
+const ORAL2_CAS_ID = 'capes-oral2-cas';
 
 /** Grande catégorie d'un chapitre, commune à toutes les classes (sommaire /cours/). */
 const CATEGORIES = [
@@ -505,7 +506,7 @@ ${inner}
 function courseSections(ch, course, capes) {
   const out = []; // {id, title, html}
   if (capes) {
-    const oral2 = capes.id === 'capes-oral2';
+    const oral2 = capes.id === ORAL2_ID || /Éthique/.test(capes.domain || '');
     out.push({ id: 'objectifs', title: oral2 ? 'Textes officiels et cadre institutionnel' : 'Prérequis',
       html: `<ul class="cours-list">${(capes.prerequisites || []).map((p) => `<li>${inline(p)}</li>`).join('')}</ul>` });
     out.push({ id: 'cours', title: oral2 ? 'Plan et synthèse thématique' : 'Proposition de plan en trois parties',
@@ -561,7 +562,11 @@ function exercisesHtml(exos) {
   return exos.map((e, i) => {
     let options = '';
     let answer = '';
-    if (e.type === 'mcq' && Array.isArray(e.options)) {
+    if (e.type === 'case3' && Array.isArray(e.steps)) {
+      options = e.steps.map((st, k) => `<h4 class="cours-subhead">Étape ${k + 1}${NB}: ${inline(st.label)}</h4>
+${st.question ? `<p>${inline(st.question)}</p>` : ''}<ol class="cours-mcq" type="A">${st.options.map((o) => `<li>${inline(o)}</li>`).join('')}</ol>`).join('\n');
+      answer = e.steps.map((st, k) => `<p class="cours-answer"><strong>Étape ${k + 1}, ${inline(lcFirst(st.label))}${NB}:</strong> ${String.fromCharCode(65 + st.correctIndex)}. ${inline(st.options[st.correctIndex])}</p>${st.explanation ? rich(st.explanation) : ''}`).join('\n');
+    } else if (e.type === 'mcq' && Array.isArray(e.options)) {
       let ci = typeof e.correctIndex === 'number' ? e.correctIndex : e.options.indexOf(e.answer);
       options = `<ol class="cours-mcq" type="A">${e.options.map((o) => `<li>${inline(o)}</li>`).join('')}</ol>`;
       if (ci >= 0) {
@@ -602,6 +607,7 @@ const noArticle = (s) => ucFirst(String(s).replace(/^(le|la|les)\s+/i, '').repla
 function chapterTitleTag(ch, lvl) {
   const t = noArticle(plain(ch.title));
   if (ch.id === ORAL2_ID) return frTypo('Oral 2 du CAPES : épreuve d’entretien et mises en situation');
+  if (ch.id === ORAL2_CAS_ID) return frTypo('Oral 2 du CAPES : études de cas en trois étapes');
   if (lvl.code === 'capes') {
     const cands = [`${t} — leçon d'oral du CAPES`, `${headOf(t)} — leçon d'oral du CAPES`, `${headOf(t)} — oral du CAPES`];
     let title = cands.find((c) => c.length <= TITLE_MAX) || `${truncate(headOf(t), TITLE_MAX - 18)} — oral du CAPES`;
@@ -630,6 +636,9 @@ function chapterDescription(ch, lvl, course, capes) {
   else if (course && course.objectives && course.objectives.length) objs = course.objectives.map(plain);
   else objs = (ch.skills || []).map(plain);
   objs = objs.map((o) => lcFirst(o.replace(/\.$/, '')));
+  if (ch.id === ORAL2_CAS_ID) {
+    return frTypo('Oral 2 du CAPES : études de cas corrigées en trois étapes, règle de droit, réaction immédiate et action durable, sur la classe, la laïcité, les familles et la protection de l’élève.');
+  }
   if (ch.id === ORAL2_ID) {
     return frTypo('Épreuve d’entretien du CAPES (oral 2), toutes disciplines : déroulé, laïcité et valeurs de la République, mises en situation commentées, questions du jury.');
   }
@@ -819,7 +828,7 @@ function main() {
       const course = COURSES[ch.id];
       const capes = CAPES.find((l) => l.id.toLowerCase() === ch.id.toLowerCase());
       const url = `${SITE}/cours/${lvl.slug}/${slug}.html`;
-      const h1 = ch.id === ORAL2_ID
+      const h1 = (ch.id === ORAL2_ID || ch.id === ORAL2_CAS_ID)
         ? `<span class="cours-title-kicker">Oral 2 du CAPES, toutes disciplines${NB}:</span> ${esc(frTypo(title))}`
         : lvl.code === 'capes'
         ? `<span class="cours-title-kicker">Leçon d'oral du CAPES${NB}:</span> ${esc(frTypo(title))}`
@@ -1500,7 +1509,7 @@ ${h.ctas.slice(0, 2).map((c, i) => `        <a class="${i === 0 ? 'btn-primary c
       kicker: '🎓 Concours enseignants · toutes disciplines',
       h1: 'Épreuve d’entretien du CAPES (oral 2)',
       lead: `L'oral 2 du CAPES est un entretien de 35 minutes avec le jury, le même dans toutes les disciplines${NB}: on y parle de son parcours, de sa motivation et de situations concrètes de la vie d'un établissement. Cette page présente le déroulé de l'épreuve, ce que le jury évalue, une méthode pour les mises en situation et des cas commentés. La <a href="${fiche}">fiche complète</a> détaille les textes officiels et la jurisprudence.`,
-      ctas: [['📖 Lire la fiche complète', fiche], ['🎯 S’entraîner sur des mises en situation', app(ORAL2_ID)], ['🎓 Leçons d’oral du CAPES de maths', '../cours/capes/']],
+      ctas: [['📖 Lire la fiche complète', fiche], ['🎯 S’entraîner sur des mises en situation', app(ORAL2_ID)], ['🧭 Études de cas en trois étapes', app(ORAL2_CAS_ID)], ['🎓 Leçons d’oral du CAPES de maths', '../cours/capes/']],
       facts: [['35' + NB + 'min', 'd’entretien, sans préparation'], ['3', 'coefficient'], ['15 + 20', 'minutes : parcours, puis mises en situation'], ['0/20', 'note éliminatoire']],
       sections: [
         { id: 'deroule', title: 'Déroulé de l’épreuve', html: `      <p>L'épreuve d'entretien est la seconde épreuve d'admission du CAPES externe. Elle n'a pas de temps de préparation et se déroule en deux temps. Son format diffère légèrement entre le concours de niveau bac${NNB}+${NNB}5 et le nouveau concours de niveau bac${NNB}+${NNB}3, organisé à partir de la session 2026.</p>
