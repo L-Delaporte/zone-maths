@@ -10642,8 +10642,8 @@ window.MathsLyceeGenerators = {
       `Qu'affiche le programme Python suivant ?${P(['x = 0', `while ${expr} < ${A}:`, `    x = x + ${p}`, both ? `print(x - ${p}, x)` : 'print(x)'])}`,
       both ? `« ${pf(x - p)} ${pf(x)} »` : N(x),
       both ? [`« ${pf(x)} ${pf(x + p)} »`, `« ${pf(x - 2 * p)} ${pf(x - p)} »`, `« 0 ${pf(x)} »`] : [N(x - p), N(x + p), N(Math.round(x / p) * p === x ? x - 2 * p : x + 2 * p)],
-      `\`x\` augmente de ${p} tant que $x^${cube ? 3 : 2} < ${A}$.`,
-      `Le programme s'arrête au premier multiple de ${p} dont le ${cube ? 'cube' : 'carré'} atteint ${A} : il encadre $${cube ? `\\sqrt[3]{${A}}` : `\\sqrt{${A}}`}$.`,
+      `\`x\` augmente de $${this.dec(p, 3)}$ tant que $x^${cube ? 3 : 2} < ${A}$.`,
+      `Le programme s'arrête au premier multiple de $${this.dec(p, 3)}$ dont le ${cube ? 'cube' : 'carré'} atteint ${A} : il encadre $${cube ? `\\sqrt[3]{${A}}` : `\\sqrt{${A}}`}$.`,
       `$${this.dec(x - p, 4)}^${cube ? 3 : 2} = ${this.dec(f(x - p), 6)} < ${A}$ et $${this.dec(x, 4)}^${cube ? 3 : 2} = ${this.dec(f(x), 6)} \\ge ${A}$ : la boucle s'arrête avec \`x = ${pf(x)}\`. On en déduit $${this.dec(x - p, 4)} < ${cube ? `\\sqrt[3]{${A}}` : `\\sqrt{${A}}`} \\le ${this.dec(x, 4)}$. Affichage : ${both ? `« ${pf(x - p)} ${pf(x)} »` : N(x)}.`
     );
   },

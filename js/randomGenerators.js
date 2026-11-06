@@ -10036,11 +10036,11 @@
           chapterId: '4P1',
           tier: 1,
           title: "Prix proportionnel à la quantité",
-          statement: `$${kg}\\text{ kg}$ de pommes coûtent $${total}\\text{ €}$.\n**Combien coûtent $${targetKg}\\text{ kg}$ de ces mêmes pommes en euros ?**`,
+          statement: `$${kg}\\text{ kg}$ de pommes coûtent $${total}$ €.\n**Combien coûtent $${targetKg}\\text{ kg}$ de ces mêmes pommes en euros ?**`,
           type: "exact",
           answer: String(targetPrix),
-          hint1: `Prix au kilo : $\\frac{${total}}{${kg}} = ${prixUnitaire}\\text{ €/kg}$. Multiplie par $${targetKg}$.`,
-          solution: `Prix au kilo : $${total} \\div ${kg} = ${prixUnitaire}\\text{ €/kg}$.\nPrix pour $${targetKg}\\text{ kg}$ : $${targetKg} \\times ${prixUnitaire} = ${targetPrix}\\text{ €}$.`
+          hint1: `Prix au kilo : $\\frac{${total}}{${kg}} = ${prixUnitaire}$ €/kg. Multiplie par $${targetKg}$.`,
+          solution: `Prix au kilo : $${total} \\div ${kg} = ${prixUnitaire}$ €/kg.\nPrix pour $${targetKg}\\text{ kg}$ : $${targetKg} \\times ${prixUnitaire} = ${targetPrix}$ €.`
         };
       }
     } else if (t === 2) {
@@ -10056,11 +10056,11 @@
           chapterId: '4P1',
           tier: 2,
           title: "Calcul du montant d'une réduction",
-          statement: `Un article coûte $${prix}\\text{ €}$. Le magasin offre une remise de $${p}\\%$.\n**Quel est le montant de la remise en euros ?**`,
+          statement: `Un article coûte $${prix}$ €. Le magasin offre une remise de $${p}\\%$.\n**Quel est le montant de la remise en euros ?**`,
           type: "exact",
           answer: String(remise),
           hint1: `Calcule $\\frac{${p}}{100} \\times ${prix}$.`,
-          solution: `$$\\text{Remise} = ${prix} \\times \\frac{${p}}{100} = ${remise}\\text{ €}$$`
+          solution: `$$\\text{Remise} = ${prix} \\times \\frac{${p}}{100} = ${remise}\\text{ euros}$$`
         };
       } else if (subType === 'prix_apres_remise') {
         const p = this.randChoice([10, 20, 30, 50]);
@@ -10071,11 +10071,11 @@
           chapterId: '4P1',
           tier: 2,
           title: "Prix final après réduction",
-          statement: `Une veste affichée à $${prix}\\text{ €}$ bénéficie d'une réduction de $${p}\\%$.\n**Quel est son nouveau prix en euros après réduction ?**`,
+          statement: `Une veste affichée à $${prix}$ € bénéficie d'une réduction de $${p}\\%$.\n**Quel est son nouveau prix en euros après réduction ?**`,
           type: "exact",
           answer: String(prixFinal),
-          hint1: `Montant de la réduction : $\\frac{${p}}{100} \\times ${prix} = ${remise}\\text{ €}$. Nouveau prix = $${prix} - ${remise}$.`,
-          solution: `$$\\text{Réduction} = ${prix} \\times \\frac{${p}}{100} = ${remise}\\text{ €}$$\n$$\\text{Prix final} = ${prix} - ${remise} = ${prixFinal}\\text{ €}$$`
+          hint1: `Montant de la réduction : $\\frac{${p}}{100} \\times ${prix} = ${remise}$ €. Nouveau prix = $${prix} - ${remise}$.`,
+          solution: `$$\\text{Réduction} = ${prix} \\times \\frac{${p}}{100} = ${remise}\\text{ euros}$$\n$$\\text{Prix final} = ${prix} - ${remise} = ${prixFinal}\\text{ euros}$$`
         };
       } else if (subType === 'augmentation') {
         const p = this.randChoice([5, 10, 15, 20]);
@@ -10085,11 +10085,11 @@
           chapterId: '4P1',
           tier: 2,
           title: "Montant d'une augmentation en pourcentage",
-          statement: `Un loyer de $${loyer}\\text{ €}$ augmente de $${p}\\%$.\n**Quel est le montant de l'augmentation en euros ?**`,
+          statement: `Un loyer de $${loyer}$ € augmente de $${p}\\%$.\n**Quel est le montant de l'augmentation en euros ?**`,
           type: "exact",
           answer: String(hausse),
           hint1: `Calcule $\\frac{${p}}{100} \\times ${loyer}$.`,
-          solution: `$$\\text{Augmentation} = ${loyer} \\times \\frac{${p}}{100} = ${hausse}\\text{ €}$$`
+          solution: `$$\\text{Augmentation} = ${loyer} \\times \\frac{${p}}{100} = ${hausse}\\text{ euros}$$`
         };
       } else {
         const total = this.randChoice([20, 25, 40, 50, 200]);
@@ -20596,11 +20596,11 @@
           chapterId: '5P1',
           tier: 2,
           title: "Quatrième proportionnelle dans un tableau",
-          statement: `Le prix de $${a}\\text{ kg}$ de pommes est de $${b}\\text{ €}$.\n**Quel est le prix de $${c}\\text{ kg}$ de ces mêmes pommes ?**`,
+          statement: `Le prix de $${a}\\text{ kg}$ de pommes est de $${b}$ €.\n**Quel est le prix de $${c}\\text{ kg}$ de ces mêmes pommes ?**`,
           type: "exact",
           answer: String(d),
           hint1: `Utilise le coefficient de proportionnalité ou le produit en croix : $\\frac{${b} \\times ${c}}{${a}}$.`,
-          solution: `$$x = \\frac{${b} \\times ${c}}{${a}} = ${d}\\text{ €}$$`
+          solution: `$$x = \\frac{${b} \\times ${c}}{${a}} = ${d}\\text{ euros}$$`
         };
       } else if (subType === 'recipe') {
         const p1 = 4;
@@ -20673,11 +20673,11 @@
           chapterId: '5P1',
           tier: 3,
           title: "Prix soldé après une réduction en pourcentage",
-          statement: `Un manteau coûte initialement $${prix}\\text{ €}$. Pendant les soldes, il bénéficie d'une réduction de $${p}\\%$.\n**Quel est le nouveau prix soldé du manteau en euros ?**`,
+          statement: `Un manteau coûte initialement $${prix}$ €. Pendant les soldes, il bénéficie d'une réduction de $${p}\\%$.\n**Quel est le nouveau prix soldé du manteau en euros ?**`,
           type: "exact",
           answer: String(nouveauPrix),
-          hint1: `1. Calcule le montant de la remise : $\\frac{${p}}{100} \\times ${prix} = ${remise}\\text{ €}$.\n2. Soustrais la remise au prix initial : $${prix} - ${remise}$.`,
-          solution: `1. Remise : $${prix} \\times \\frac{${p}}{100} = ${remise}\\text{ €}$.\n2. Nouveau prix :\n$$P = ${prix} - ${remise} = ${nouveauPrix}\\text{ €}$$`
+          hint1: `1. Calcule le montant de la remise : $\\frac{${p}}{100} \\times ${prix} = ${remise}$ €.\n2. Soustrais la remise au prix initial : $${prix} - ${remise}$.`,
+          solution: `1. Remise : $${prix} \\times \\frac{${p}}{100} = ${remise}$ €.\n2. Nouveau prix :\n$$P = ${prix} - ${remise} = ${nouveauPrix}\\text{ euros}$$`
         };
       } else if (subType === 'find_pct') {
         const items = [
@@ -20708,11 +20708,11 @@
           chapterId: '5P1',
           tier: 3,
           title: "Calcul après une hausse en pourcentage",
-          statement: `Un abonnement coûte $${prix}\\text{ €}$ par an. Son tarif augmente de $${p}\\%$.\n**Quel est le nouveau tarif de l'abonnement en euros ?**`,
+          statement: `Un abonnement coûte $${prix}$ € par an. Son tarif augmente de $${p}\\%$.\n**Quel est le nouveau tarif de l'abonnement en euros ?**`,
           type: "exact",
           answer: String(nouveauPrix),
-          hint1: `Calcule le montant de l'augmentation : $\\frac{${p}}{100} \\times ${prix} = ${hausse}\\text{ €}$, puis ajoute-le au prix initial.`,
-          solution: `1. Augmentation : $${prix} \\times \\frac{${p}}{100} = ${hausse}\\text{ €}$.\n2. Nouveau tarif :\n$$P = ${prix} + ${hausse} = ${nouveauPrix}\\text{ €}$$`
+          hint1: `Calcule le montant de l'augmentation : $\\frac{${p}}{100} \\times ${prix} = ${hausse}$ €, puis ajoute-le au prix initial.`,
+          solution: `1. Augmentation : $${prix} \\times \\frac{${p}}{100} = ${hausse}$ €.\n2. Nouveau tarif :\n$$P = ${prix} + ${hausse} = ${nouveauPrix}\\text{ euros}$$`
         };
       }
     } else {
@@ -20907,11 +20907,11 @@
           chapterId: '5P2',
           tier: 3,
           title: "Calcul d'un coût avec forfait fixe (5ème)",
-          statement: `Une location de matériel coûte un forfait fixe de $${fixe}\\text{ €}$ plus $${taux}\\text{ €}$ par jour d'utilisation.\n**Quel est le coût total en euros pour $${j}\\text{ jours}$ ?**`,
+          statement: `Une location de matériel coûte un forfait fixe de $${fixe}$ € plus $${taux}$ € par jour d'utilisation.\n**Quel est le coût total en euros pour $${j}\\text{ jours}$ ?**`,
           type: "exact",
           answer: String(total),
           hint1: `Calcule $${fixe} + ${taux} \\times ${j}$.`,
-          solution: `$$\\text{Coût} = ${fixe} + ${taux} \\times ${j} = ${fixe} + ${taux * j} = ${total}\\text{ €}$$`
+          solution: `$$\\text{Coût} = ${fixe} + ${taux} \\times ${j} = ${fixe} + ${taux * j} = ${total}\\text{ euros}$$`
         };
       } else if (vtype === 'taxi_fare') {
         const priseEnCharge = this.randInt(4, 8);
@@ -20922,11 +20922,11 @@
           chapterId: '5P2',
           tier: 3,
           title: "Course de taxi (5ème)",
-          statement: `Un taxi facture une prise en charge forfaitaire de $${priseEnCharge}\\text{ €}$ puis $${prixKm}\\text{ €}$ par kilomètre parcouru.\n**Quel est le montant total de la course pour un trajet de $${km}\\text{ km}$ ?**`,
+          statement: `Un taxi facture une prise en charge forfaitaire de $${priseEnCharge}$ € puis $${prixKm}$ € par kilomètre parcouru.\n**Quel est le montant total de la course pour un trajet de $${km}\\text{ km}$ ?**`,
           type: "exact",
           answer: String(total),
           hint1: `Ajoute la prise en charge au coût kilométrique : $${priseEnCharge} + ${prixKm} \\times ${km}$.`,
-          solution: `$$\\text{Total} = ${priseEnCharge} + (${prixKm} \\times ${km}) = ${priseEnCharge} + ${prixKm * km} = ${total}\\text{ €}$$`
+          solution: `$$\\text{Total} = ${priseEnCharge} + (${prixKm} \\times ${km}) = ${priseEnCharge} + ${prixKm * km} = ${total}\\text{ euros}$$`
         };
       } else {
         const abonnement = this.randChoice([20, 30, 40]);
@@ -20937,11 +20937,11 @@
           chapterId: '5P2',
           tier: 3,
           title: "Abonnement et tarif réduit (5ème)",
-          statement: `Une carte d'abonnement au cinéma coûte $${abonnement}\\text{ €}$ par an. Avec cette carte, la place ne coûte que $${prixSeance}\\text{ €}$ par séance.\n**Combien dépense un abonné qui assiste à $${nbSeances}\\text{ séances}$ dans l'année ?**`,
+          statement: `Une carte d'abonnement au cinéma coûte $${abonnement}$ € par an. Avec cette carte, la place ne coûte que $${prixSeance}$ € par séance.\n**Combien dépense un abonné qui assiste à $${nbSeances}\\text{ séances}$ dans l'année ?**`,
           type: "exact",
           answer: String(total),
           hint1: `Calcule le prix de l'abonnement plus les ${nbSeances} places : $${abonnement} + ${prixSeance} \\times ${nbSeances}$.`,
-          solution: `$$\\text{Total} = ${abonnement} + (${prixSeance} \\times ${nbSeances}) = ${abonnement} + ${prixSeance * nbSeances} = ${total}\\text{ €}$$`
+          solution: `$$\\text{Total} = ${abonnement} + (${prixSeance} \\times ${nbSeances}) = ${abonnement} + ${prixSeance * nbSeances} = ${total}\\text{ euros}$$`
         };
       }
     } else {
