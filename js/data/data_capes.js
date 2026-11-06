@@ -1905,300 +1905,297 @@
         chapterId: 'capes-oral2',
         tier: 1,
         title: "Devoir de stricte neutralité de l'enseignant en classe",
-        statement: "Un enseignant stagiaire de mathématiques porte une médaille religieuse autour du cou. Avant d'entrer en classe, la médaille ressort de son col de façon visible. Un élève l'interroge : « Monsieur, vous êtes croyant ? Quelle est votre religion ? ». Que doit faire l'enseignant au regard du cadre déontologique ?",
+        statement: "Un enseignant stagiaire de mathématiques porte une médaille religieuse autour du cou. En début de cours, la médaille ressort de son col de façon visible. Un élève l'interroge : « Monsieur, vous êtes croyant ? Quelle est votre religion ? ». Que doit faire l'enseignant au regard du cadre déontologique ?",
         type: "mcq",
         options: [
-          "Replacer immédiatement la médaille sous son vêtement pour qu'elle ne soit pas visible, rappeler avec courtoisie que le professeur représente l'école laïque et est soumis à un strict devoir de neutralité, puis recentrer la classe sur le cours de mathématiques sans exprimer ses convictions personnelles",
-          "Expliquer en détail ses convictions personnelles aux élèves au nom de la liberté d'expression garantie par la Constitution",
-          "Confisquer le carnet de correspondance de l'élève pour insolence",
-          "Autoriser un débat de 20 minutes en classe sur les religions respectives des élèves"
+          "Replacer la médaille sous son vêtement, répondre avec courtoisie qu'en tant que professeur de l'école publique il est tenu à la neutralité et ne fait pas état de ses convictions, puis reprendre le cours",
+          "Répondre franchement à la question, puisque la liberté de conscience lui est garantie comme à tout citoyen, à condition de ne pas chercher à convaincre les élèves",
+          "Garder la médaille visible puisqu'elle est de petite taille : seuls les signes ostensibles sont interdits aux enseignants",
+          "Profiter de la question pour organiser un échange sur les religions des élèves afin de montrer que l'école respecte toutes les croyances"
         ],
         correctIndex: 0,
-        answer: "Replacer immédiatement la médaille sous son vêtement pour qu'elle ne soit pas visible, rappeler avec courtoisie que le professeur représente l'école laïque et est soumis à un strict devoir de neutralité, puis recentrer la classe sur le cours de mathématiques sans exprimer ses convictions personnelles",
-        hint1: "Le fonctionnaire est astreint à une stricte obligation de neutralité religieuse et politique (Avis CE Marteaux 2000 et loi du 20 avril 2016).",
-        solution: "1. Cadre juridique : L'article L. 121-2 du Code général de la fonction publique (ancien article 25 de la loi du 13 juillet 1983, issu de la loi du 20 avril 2016) et l'avis du Conseil d'État Marteaux (3 mai 2000) imposent une stricte obligation de neutralité religieuse aux agents du service public de l'enseignement. Ils ne doivent manifester aucune opinion religieuse ou philosophique dans l'exercice de leurs fonctions.\n2. Posture professionnelle : L'enseignant replace son signe sous son vêtement, ne fait pas état de ses croyances intimes, explicite avec calme et bienveillance que l'École laïque garantit la neutralité de l'enseignement pour protéger la liberté de conscience de tous les élèves, et reprend le cours de mathématiques sans polémique."
+        answer: "Replacer la médaille sous son vêtement, répondre avec courtoisie qu'en tant que professeur de l'école publique il est tenu à la neutralité et ne fait pas état de ses convictions, puis reprendre le cours",
+        hint1: "Un agent public n'est pas soumis à la même règle qu'un élève : pour lui, ce n'est pas seulement le signe ostensible qui est en cause.",
+        solution: "1. Cadre juridique : l'article L. 121-2 du Code général de la fonction publique (ancien article 25 de la loi du 13 juillet 1983, issu de la loi du 20 avril 2016) et l'avis du Conseil d'État Marteaux (3 mai 2000) imposent aux agents du service public de l'enseignement une stricte obligation de neutralité : ils ne manifestent aucune appartenance ni opinion religieuse dans l'exercice de leurs fonctions, même par un signe discret. La règle des signes « ostensibles » de la loi de 2004 concerne les élèves, pas les personnels.\n2. Posture professionnelle : l'enseignant replace son signe sous son vêtement, ne fait pas état de ses croyances, explique calmement que la neutralité du professeur protège la liberté de conscience de tous les élèves, et reprend le cours sans polémique."
       },
       {
         id: 'capes-oral2-2',
         chapterId: 'capes-oral2',
         tier: 1,
         title: "Portée de la loi du 15 mars 2004 sur les signes ostensibles",
-        statement: "Quelle est la règle juridique exacte fixée par la loi du 15 mars 2004 (art. L. 141-5-1 du Code de l'éducation) concernant les élèves dans les écoles, collèges et lycées publics ?",
+        statement: "Quelle est la règle fixée par la loi du 15 mars 2004 (article L. 141-5-1 du Code de l'éducation) pour les élèves des écoles, collèges et lycées publics ?",
         type: "mcq",
         options: [
-          "Le port de signes ou de tenues par lesquels les élèves manifestent ostensiblement une appartenance religieuse est interdit, mais le port de signes discrets reste autorisé",
-          "Tout signe religieux, même de taille millimétrique et totalement invisible, est passible d'une exclusion immédiate sans aucun dialogue",
-          "La loi n'interdit que le foulard islamique, les autres signes étant expressément autorisés",
-          "La loi ne s'applique que dans les salles de classe mais pas dans la cour de récréation ni au réfectoire"
+          "Le port de signes ou de tenues par lesquels les élèves manifestent ostensiblement une appartenance religieuse est interdit ; les signes religieux discrets restent autorisés",
+          "Tout signe religieux est interdit aux élèves, y compris une petite médaille ou une croix discrète",
+          "Seuls les signes ostensibles portés pendant les heures de cours sont interdits ; ils restent permis dans la cour et lors des sorties scolaires",
+          "L'interdiction ne s'applique qu'aux élèves mineurs : les élèves majeurs de lycée et de classes post-baccalauréat en sont dispensés"
         ],
         correctIndex: 0,
-        answer: "Le port de signes ou de tenues par lesquels les élèves manifestent ostensiblement une appartenance religieuse est interdit, mais le port de signes discrets reste autorisé",
-        hint1: "Vademecum fiche 3 : la loi s'applique à toutes les religions et proscrit les signes conduisant à se faire immédiatement reconnaître par son appartenance religieuse.",
-        solution: "L'article L. 141-5-1 du Code de l'éducation interdit les signes ou tenues ostensibles (voile, kippa, grande croix, turban sikh) dans l'enceinte de l'établissement public et lors de toute activité sous responsabilité scolaire. Les signes religieux discrets (petites médailles, croix miniatures portées discrètement) restent autorisés pour les élèves, à la différence des personnels qui sont soumis à une neutralité absolue."
+        answer: "Le port de signes ou de tenues par lesquels les élèves manifestent ostensiblement une appartenance religieuse est interdit ; les signes religieux discrets restent autorisés",
+        hint1: "La loi vise le caractère ostensible de la manifestation, pas le signe en tant que tel, et elle s'applique à tous les élèves de l'établissement public.",
+        solution: "L'article L. 141-5-1 du Code de l'éducation interdit les signes ou tenues qui manifestent ostensiblement une appartenance religieuse, par leur nature même (voile ou foulard islamique, kippa, grande croix, keshi sikh) ou en raison du comportement de l'élève. Les signes religieux discrets restent autorisés pour les élèves (CE, 5 décembre 2007). L'interdiction vaut dans l'établissement et pendant toutes les activités placées sous sa responsabilité, y compris à l'extérieur, et pour tous les élèves d'un lycée public, y compris ceux des classes préparatoires et des sections de techniciens supérieurs (Vademecum, fiches 3 à 5). Le règlement intérieur rappelle qu'une procédure disciplinaire est précédée d'un dialogue avec l'élève. Les personnels, eux, sont soumis à une stricte neutralité qui exclut même les signes discrets."
       },
       {
         id: 'capes-oral2-3',
         chapterId: 'capes-oral2',
         tier: 1,
         title: "Première compétence du référentiel des métiers du professorat",
-        statement: "Selon l'arrêté du 1er juillet 2013 fixant le référentiel des compétences professionnelles des métiers du professorat et de l'éducation, quel est l'intitulé et le contenu de la compétence commune n°1 ?",
+        statement: "Selon l'arrêté du 1er juillet 2013 fixant le référentiel des compétences professionnelles des métiers du professorat et de l'éducation, quelle est la première compétence commune à tous les professeurs et personnels d'éducation ?",
         type: "mcq",
         options: [
-          "« Faire partager les valeurs de la République » : transmettre la liberté, l'égalité, la fraternité, la laïcité, le refus de toutes les discriminations, et aider à distinguer savoirs et croyances",
-          "« Maîtriser parfaitement les équations différentielles de niveau agrégation »",
-          "« Remplir les bulletins trimestriels avant le conseil de classe »",
-          "« Organiser au moins un voyage scolaire par an »"
+          "« Faire partager les valeurs de la République » : transmettre les principes de la vie démocratique, la liberté, l'égalité, la fraternité, la laïcité, le refus de toutes les discriminations, et aider les élèves à distinguer les savoirs des opinions ou des croyances",
+          "« Maîtriser les savoirs disciplinaires et leur didactique » : connaître les contenus d'enseignement et les programmes de sa discipline",
+          "« Agir en éducateur responsable et selon des principes éthiques » : veiller à la sécurité des élèves et lutter contre le harcèlement",
+          "« Coopérer au sein d'une équipe » : inscrire son intervention dans un cadre collectif au service des élèves"
         ],
         correctIndex: 0,
-        answer: "« Faire partager les valeurs de la République » : transmettre la liberté, l'égalité, la fraternité, la laïcité, le refus de toutes les discriminations, et aider à distinguer savoirs et croyances",
-        hint1: "Le référentiel place les valeurs républicaines et l'apprentissage de la citoyenneté au tout premier rang de la mission de l'enseignant.",
-        solution: "La compétence 1 du référentiel officiel impose à tout professeur de transmettre et faire partager les principes républicains, la laïcité, l'égalité filles-garçons, le respect d'autrui et la construction de l'esprit critique par la distinction entre vérités scientifiques démontrables et croyances individuelles."
+        answer: "« Faire partager les valeurs de la République » : transmettre les principes de la vie démocratique, la liberté, l'égalité, la fraternité, la laïcité, le refus de toutes les discriminations, et aider les élèves à distinguer les savoirs des opinions ou des croyances",
+        hint1: "Le référentiel place en tête la compétence qui donne son sens à la seconde partie de l'oral 2.",
+        solution: "L'annexe de l'arrêté du 1er juillet 2013 ouvre la liste des compétences communes par « Faire partager les valeurs de la République » : savoir transmettre et faire partager les principes de la vie démocratique et les valeurs de la République (la liberté, l'égalité, la fraternité ; la laïcité ; le refus de toutes les discriminations) ; aider les élèves à développer leur esprit critique, à distinguer les savoirs des opinions ou des croyances, à savoir argumenter et à respecter la pensée des autres (cité par le Vademecum). Les trois autres propositions sont aussi des compétences du référentiel, mais pas la première : la maîtrise des savoirs disciplinaires relève des compétences propres aux professeurs (P1), l'éducateur responsable est la compétence 6 et la coopération en équipe la compétence 10."
       },
       {
         id: 'capes-oral2-4',
         chapterId: 'capes-oral2',
         tier: 1,
-        title: "Rôle et valeur de la Charte de la laïcité à l'École",
-        statement: "Quel est le statut institutionnel et la fonction pédagogique de la Charte de la laïcité à l'École (circulaire du 6 septembre 2013) ?",
+        title: "Affichage et diffusion de la Charte de la laïcité à l'École",
+        statement: "Que prévoient les textes pour la Charte de la laïcité à l'École (circulaire n° 2013-144 du 6 septembre 2013) dans les établissements publics ?",
         type: "mcq",
         options: [
-          "Elle doit être affichée de manière visible dans tous les établissements publics, annexée au règlement intérieur signé par les familles, et sert de support pour expliciter la laïcité comme liberté et émancipation",
-          "C'est un document optionnel laissé à la seule discrétion des professeurs d'histoire",
-          "C'est un code pénal interne permettant de prononcer des amendes financières contre les élèves",
-          "Elle ne concerne que l'enseignement supérieur et les universités"
+          "Elle est affichée de manière visible de tous, notamment dans les lieux d'accueil et de passage ; il est recommandé de la joindre au règlement intérieur, et le chef d'établissement en fait connaître le contenu aux élèves et aux parents, notamment à l'inscription et aux réunions de rentrée",
+          "Elle doit obligatoirement être annexée au règlement intérieur et signée par chaque famille, faute de quoi l'inscription de l'élève n'est pas valide",
+          "Elle n'est affichée que dans les salles où se déroule l'enseignement moral et civique, son explication relevant du seul professeur d'histoire-géographie",
+          "Elle a valeur de règlement intérieur : ses quinze articles peuvent servir directement de fondement à une sanction sans autre texte"
         ],
         correctIndex: 0,
-        answer: "Elle doit être affichée de manière visible dans tous les établissements publics, annexée au règlement intérieur signé par les familles, et sert de support pour expliciter la laïcité comme liberté et émancipation",
-        hint1: "Vademecum fiche 2 : la Charte explicite en 15 articles les principes fondateurs de l'école laïque et fraternelle.",
-        solution: "La Charte de la laïcité est un document officiel de référence affiché dans tous les locaux scolaires publics et annexé au règlement intérieur. Elle rappelle aux élèves et aux parents que l'École laïque garantit l'accès de chacun au savoir libre, protège de tout prosélytisme et forge le libre arbitre citoyen."
+        answer: "Elle est affichée de manière visible de tous, notamment dans les lieux d'accueil et de passage ; il est recommandé de la joindre au règlement intérieur, et le chef d'établissement en fait connaître le contenu aux élèves et aux parents, notamment à l'inscription et aux réunions de rentrée",
+        hint1: "La circulaire de 2013 distingue ce qui est demandé (l'affichage) de ce qui est seulement recommandé.",
+        solution: "La circulaire du 6 septembre 2013 demande un affichage de la Charte « visible de tous », de préférence dans les lieux d'accueil et de passage, et recommande de la joindre au règlement intérieur ; sa présentation aux parents lors des réunions de rentrée permet d'en éclairer le sens. Les chefs d'établissement et directeurs d'école portent son contenu à la connaissance des élèves et de leurs parents, notamment lors de l'inscription et des réunions de rentrée (Vademecum, fiche 1). En quinze articles, la Charte explicite le sens de la laïcité à l'École : liberté de conscience, égalité, protection contre le prosélytisme, aucun sujet exclu du questionnement scientifique. C'est un support pédagogique de référence ; les sanctions, elles, reposent sur le règlement intérieur et le Code de l'éducation."
       },
-
       // =========================================================================
-      // PALIER 2 : SITUATIONS DE CLASSE, CONTESTATIONS & ASSIDUITÉ
+      // PALIER 2 : SITUATIONS DE CLASSE & CONTESTATION
       // =========================================================================
       {
         id: 'capes-oral2-5',
         chapterId: 'capes-oral2',
         tier: 2,
-        title: "Contestation d'un cours de mathématiques (Probabilités et hasard)",
-        statement: "En classe de 3ème, lors d'une activité introduisant les probabilités avec des dés à six faces, un élève refuse de participer et déclare : « Les jeux de hasard sont interdits par ma religion, et le hasard n'existe pas car tout est écrit d'avance ». Quelle est la réaction professionnelle attendue ?",
+        title: "Contestation d'un cours de mathématiques (probabilités et hasard)",
+        statement: "En classe de 3e, lors d'une activité introduisant les probabilités avec des dés à six faces, un élève refuse de participer et déclare : « Les jeux de hasard sont interdits par ma religion, et le hasard n'existe pas car tout est écrit d'avance ». Quelle est la réaction professionnelle attendue ?",
         type: "mcq",
         options: [
-          "Rappeler posément que l'activité mathématique n'est pas un jeu d'argent mais une modélisation scientifique de l'incertitude et des fréquences, réaffirmer l'obligation légale d'assiduité à tous les cours (art. L. 511-1), distinguer savoir scientifique et croyance personnelle, faire effectuer l'exercice et avertir le professeur principal et la direction si le refus persiste",
-          "Remplacer immédiatement l'exercice pour cet élève par un coloriage magique pour éviter tout conflit",
-          "Se lancer dans un débat théologique devant toute la classe pour prouver que les mathématiques sont compatibles avec sa foi",
-          "Exclure l'élève définitivement de l'établissement sans en référer au chef d'établissement"
+          "Expliquer posément que l'activité n'est pas un jeu d'argent mais une modélisation mathématique de l'incertitude, rappeler que tous les élèves suivent l'ensemble des enseignements, demander à l'élève de faire l'exercice et, si le refus persiste, en informer le professeur principal et la direction",
+          "Proposer à l'élève un exercice de remplacement sans dé ni hasard, puisque la liberté de conscience impose d'adapter le contenu aux convictions de chacun",
+          "Engager devant la classe une discussion sur la question de savoir si le hasard existe selon les différentes religions, pour convaincre l'élève par le débat",
+          "Considérer le refus comme une faute disciplinaire et exclure immédiatement l'élève du cours sans autre échange"
         ],
         correctIndex: 0,
-        answer: "Rappeler posément que l'activité mathématique n'est pas un jeu d'argent mais une modélisation scientifique de l'incertitude et des fréquences, réaffirmer l'obligation légale d'assiduité à tous les cours (art. L. 511-1), distinguer savoir scientifique et croyance personnelle, faire effectuer l'exercice et avertir le professeur principal et la direction si le refus persiste",
-        hint1: "Vademecum fiches 8 et 9 : aucune question n'est exclue du questionnement scientifique (Charte art. 12), l'obligation de suivre l'intégralité des enseignements s'impose à tous.",
-        solution: "1. Cadre juridique : D'après les articles L. 511-1 et R. 511-11 du Code de l'éducation, les élèves sont soumis à l'obligation d'assiduité et doivent accomplir tous les travaux demandés. Aucun motif religieux ne permet de se soustraire aux programmes nationaux.\n2. Gestion pédagogique : L'enseignant désamorce l'incident sans agressivité : il explique la différence entre un jeu d'argent et l'étude des lois de probabilités (fréquences, fluctuations d'échantillonnage). Il rappelle que l'École instruit sans juger la foi personnelle.\n3. Suivi : Si l'élève refuse d'obtempérer, l'enseignant ne s'enferme pas dans un bras de fer en classe, consigne l'incident, en informe le professeur principal, le CPE et la direction pour un rappel à la loi avec la famille."
+        answer: "Expliquer posément que l'activité n'est pas un jeu d'argent mais une modélisation mathématique de l'incertitude, rappeler que tous les élèves suivent l'ensemble des enseignements, demander à l'élève de faire l'exercice et, si le refus persiste, en informer le professeur principal et la direction",
+        hint1: "Aucun sujet n'est exclu du questionnement scientifique (Charte, article 12) et l'élève ne peut pas choisir les contenus qu'il suit.",
+        solution: "1. Cadre juridique : les obligations des élèves comprennent l'accomplissement des tâches inhérentes à leurs études et l'assiduité (Code de l'éducation, articles L. 511-1 et R. 511-11) ; aucun élève ne peut invoquer une conviction religieuse pour contester un contenu du programme (Charte de la laïcité à l'École, article 12 ; Vademecum, fiches 8 et 9).\n2. Gestion pédagogique : le professeur désamorce sans agressivité, distingue le savoir mathématique (modéliser des expériences aléatoires, fréquences, probabilités) d'une croyance personnelle qu'il ne juge pas, et ne se laisse pas entraîner dans un débat théologique.\n3. Suivi : si le refus persiste, il ne s'enferme pas dans un bras de fer, consigne l'incident et en informe le professeur principal, le CPE et la direction, qui pourront recevoir la famille."
       },
       {
         id: 'capes-oral2-6',
         chapterId: 'capes-oral2',
         tier: 2,
         title: "Signe religieux devenu ostensible par le comportement de l'élève",
-        statement: "Une élève de collège se présente quotidiennement en cours de mathématiques vêtue d'un large bandeau sombre masquant totalement sa chevelure et d'une longue jupe noire couvrant ses jambes. Invitée par l'enseignante à retirer son bandeau en classe, elle refuse avec obstination en prétendant qu'il s'agit d'un choix purement esthétique. Quelle est l'analyse juridique conforme au Vademecum ?",
+        statement: "Une élève de collège se présente chaque jour en cours vêtue d'un large bandeau sombre masquant sa chevelure et d'une longue jupe noire. Invitée à retirer son bandeau, elle refuse systématiquement en affirmant qu'il s'agit d'un choix purement esthétique. Quelle est l'analyse conforme au Vademecum ?",
         type: "mcq",
         options: [
-          "Un accessoire ou vêtement qui n'est pas religieux par nature devient ostensible compte tenu du comportement de l'élève, de la constance de son port et de son refus répété de l'ôter (jurisprudence CE 2007 et 2013) : la situation relève bien de l'interdiction de l'article L. 141-5-1",
-          "L'enseignante ne peut rien dire car le bandeau n'est pas explicitement mentionné dans le texte de la loi de 2004",
-          "L'enseignante doit lui arracher le bandeau pour faire respecter la laïcité",
-          "L'élève a le droit de porter ce qu'elle veut tant qu'elle a plus de 12 de moyenne en mathématiques"
+          "Une tenue qui n'est pas religieuse par nature peut devenir une manifestation ostensible d'appartenance religieuse en raison du comportement de l'élève (port permanent, refus persistant de l'ôter) ; la déclaration de l'élève ne suffit pas à écarter la loi, et le dialogue précède toute procédure disciplinaire",
+          "Le bandeau et la jupe ne sont pas des signes religieux par nature : la loi de 2004 ne peut donc pas s'appliquer, quel que soit le comportement de l'élève",
+          "Il suffit que l'élève affirme que sa tenue n'a aucune signification religieuse pour que l'établissement soit tenu de l'accepter",
+          "Le chef d'établissement peut engager immédiatement une procédure disciplinaire, la phase de dialogue n'étant exigée que pour les signes religieux par nature"
         ],
         correctIndex: 0,
-        answer: "Un accessoire ou vêtement qui n'est pas religieux par nature devient ostensible compte tenu du comportement de l'élève, de la constance de son port et de son refus répété de l'ôter (jurisprudence CE 2007 et 2013) : la situation relève bien de l'interdiction de l'article L. 141-5-1",
-        hint1: "Vademecum fiche 3 : Conseil d'État, 5 décembre 2007, n° 295671 (cas du bandana) et CAA de Paris, 18 avril 2017.",
-        solution: "Le Conseil d'État et les cours administratives d'appel ont confirmé qu'un signe ou vêtement en apparence neutre (bandana, longue jupe sombre portée systématiquement en refusant tout compromis) devient une manifestation ostensible d'appartenance religieuse en raison du comportement et de la volonté de l'élève. L'enseignant alerte le chef d'établissement qui engage la phase légale obligatoire de dialogue avec l'élève et sa famille avant toute procédure disciplinaire."
+        answer: "Une tenue qui n'est pas religieuse par nature peut devenir une manifestation ostensible d'appartenance religieuse en raison du comportement de l'élève (port permanent, refus persistant de l'ôter) ; la déclaration de l'élève ne suffit pas à écarter la loi, et le dialogue précède toute procédure disciplinaire",
+        hint1: "Le Vademecum (fiche 3) cite deux décisions : CE, 5 décembre 2007, n° 295671 (bandana porté en permanence) et CAA de Paris, 18 avril 2017, n° 15PA04525 (jupe longue sombre et bandana).",
+        solution: "Le Conseil d'État a confirmé la sanction d'une collégienne qui refusait systématiquement de retirer un bandana, auquel elle avait donné le caractère d'un signe ostensible (CE, 5 décembre 2007, n° 295671). La CAA de Paris a jugé de même pour le port quotidien d'une jupe longue sombre et d'un bandana, compte tenu du refus constant de modifier la tenue (18 avril 2017, n° 15PA04525). Les éléments d'appréciation sont la permanence du port et la persistance du refus, rapportées au comportement global de l'élève ; le fait qu'elle déclare ne pas manifester d'appartenance religieuse ne suffit pas (Vademecum, fiche 3). Le professeur alerte le chef d'établissement, qui conduit le dialogue avec l'élève et sa famille ; la procédure disciplinaire ne vient qu'ensuite (article L. 141-5-1, second alinéa)."
       },
       {
         id: 'capes-oral2-7',
         chapterId: 'capes-oral2',
         tier: 2,
-        title: "Demandes d'absences régulières pour motif religieux vs assiduité",
-        statement: "Une famille informe le professeur principal et l'enseignant de mathématiques que leur enfant sera systématiquement absent chaque samedi matin (où ont lieu des devoirs surveillés) ou chaque vendredi après-midi pour assister à l'office religieux. Quelle décision doit être prise par l'établissement ?",
+        title: "Demandes d'absences régulières pour motif religieux",
+        statement: "Une famille informe le professeur principal que leur enfant sera systématiquement absent chaque samedi matin, où ont lieu des devoirs surveillés, pour un motif religieux. Que doit décider l'établissement ?",
         type: "mcq",
         options: [
-          "Le chef d'établissement doit refuser la demande : l'obligation d'assiduité (art. L. 511-1) interdit tout absentéisme régulier ou systématique pour convenance religieuse ; seules des autorisations ponctuelles pour les grandes fêtes religieuses officielles sont recevables",
-          "Le professeur doit obligatoirement accepter et dispenser l'élève de toutes les évaluations du samedi",
-          "L'établissement doit décaler tous les cours du samedi matin au dimanche pour accommoder la famille",
-          "Le professeur doit lui donner 0 à chaque devoir sans en informer la direction"
+          "Refuser cette demande d'absence systématique, incompatible avec l'obligation d'assiduité et l'organisation de la scolarité, tout en rappelant que des absences ponctuelles peuvent être autorisées pour les grandes fêtes religieuses dont la liste est fixée chaque année",
+          "Accepter la demande, la liberté de culte primant sur l'emploi du temps, et dispenser l'élève des devoirs du samedi",
+          "Accepter la demande à condition que la famille fournisse une attestation du responsable du culte",
+          "Refuser toute absence pour motif religieux, y compris le jour d'une grande fête religieuse"
         ],
         correctIndex: 0,
-        answer: "Le chef d'établissement doit refuser la demande : l'obligation d'assiduité (art. L. 511-1) interdit tout absentéisme régulier ou systématique pour convenance religieuse ; seules des autorisations ponctuelles pour les grandes fêtes religieuses officielles sont recevables",
-        hint1: "Vademecum fiche 10 : Conseil d'État, Assemblée, 14 avril 1995, n° 157653 (absences récurrentes les samedis matin contraires à l'assiduité).",
-        solution: "Selon la jurisprudence constante du Conseil d'État (14 avril 1995), les autorisations d'absence pour motifs religieux ne peuvent être que strictement exceptionnelles et ponctuelles (grandes fêtes annuelles arrêtées par circulaire de la fonction publique). Une absence récurrente et systématique (samedis ou vendredis) compromet la scolarité normale, désorganise le service et viole l'article L. 511-1 du Code de l'éducation."
+        answer: "Refuser cette demande d'absence systématique, incompatible avec l'obligation d'assiduité et l'organisation de la scolarité, tout en rappelant que des absences ponctuelles peuvent être autorisées pour les grandes fêtes religieuses dont la liste est fixée chaque année",
+        hint1: "Vademecum, fiche 10 : les demandes d'absence systématique ou prolongée doivent être refusées (CE, Assemblée, 14 avril 1995).",
+        solution: "Les élèves sont soumis à l'obligation d'assiduité (Code de l'éducation, articles L. 511-1 et R. 511-11). Des autorisations d'absence peuvent être accordées pour les grandes fêtes religieuses qui ne coïncident pas avec un jour de congé, dont la liste est rappelée chaque année (circulaire de la fonction publique du 10 février 2012), et aucun examen ni épreuve importante ne doit être organisé ces jours-là (circulaire du 18 mai 2004). En revanche, les demandes d'absence systématique ou prolongée doivent être refusées lorsqu'elles sont incompatibles avec la scolarité et l'organisation du service (CE, Assemblée, 14 avril 1995, Consistoire central des israélites de France, n° 125148) ; il en va ainsi d'une absence récurrente les samedis matin (CE, Assemblée, 14 avril 1995, n° 157653). Le CPE ou le chef d'établissement reçoit la famille pour rappeler l'obligation d'assiduité."
       },
       {
         id: 'capes-oral2-8',
         chapterId: 'capes-oral2',
         tier: 2,
-        title: "Refus de participation à l'EPS ou aux cours de natation",
-        statement: "Des parents refusent que leur fille participe au cycle obligatoire de natation en EPS au motif de la mixité filles/garçons et de la tenue de bain, en produisant un certificat médical de complaisance. Quelle est la position de la Cour Européenne des Droits de l'Homme (CEDH) et du Vademecum ?",
+        title: "Refus de participation aux cours de natation",
+        statement: "Des parents refusent que leur fille participe au cycle de natation en EPS, en invoquant la mixité et la tenue de bain, puis produisent un certificat médical qui paraît de complaisance. Que retenir de la position de la Cour européenne des droits de l'homme et du Vademecum ?",
         type: "mcq",
         options: [
-          "L'obligation de suivre l'intégralité du programme d'EPS et la mixité scolaire priment sur les convictions religieuses (CEDH 2017 Osmanoğlu et Kocabaş c. Suisse) ; le certificat médical peut être soumis au contrôle du médecin scolaire et aucune dispense pour motif religieux n'est admise",
-          "L'établissement a l'obligation de créer des créneaux de piscine séparés pour les filles et les garçons",
-          "La CEDH oblige les collèges à autoriser le burkini dans toutes les piscines municipales scolaires",
-          "L'élève est automatiquement dispensée de l'ensemble de sa scolarité"
+          "L'obligation de suivre intégralement la scolarité peut primer sur le souhait des parents d'une dispense de natation mixte pour motif religieux (CEDH, Osmanoğlu et Kocabaş c. Suisse, 10 janvier 2017) ; un certificat qui paraît injustifié peut être soumis à l'avis du médecin de l'éducation nationale",
+          "L'établissement doit organiser des créneaux de piscine non mixtes dès qu'une famille en fait la demande pour motif religieux",
+          "La CEDH impose d'admettre dans le bassin toute tenue de bain couvrante, dès lors qu'elle respecte les règles d'hygiène de la piscine",
+          "Un certificat médical s'impose toujours à l'établissement, qui ne peut jamais en interroger le bien-fondé"
         ],
         correctIndex: 0,
-        answer: "L'obligation de suivre l'intégralité du programme d'EPS et la mixité scolaire priment sur les convictions religieuses (CEDH 2017 Osmanoğlu et Kocabaş c. Suisse) ; le certificat médical peut être soumis au contrôle du médecin scolaire et aucune dispense pour motif religieux n'est admise",
-        hint1: "Vademecum fiche 9 et point EPS (p. 53-55) : arrêt CEDH Osmanoğlu et Kocabaş c. Suisse du 10 janvier 2017.",
-        solution: "Dans son arrêt de principe du 10 janvier 2017, la CEDH a jugé que l'obligation scolaire et l'intérêt des enfants à suivre l'ensemble de la scolarité avec mixité l'emportent sur les croyances privées des parents. Le port du burkini ou de tenues religieuses est interdit pendant les activités scolaires, les règles d'hygiène et de sécurité ne peuvent être aménagées, et les certificats d'inaptitude physique suspects peuvent être contrôlés par le médecin scolaire académique."
+        answer: "L'obligation de suivre intégralement la scolarité peut primer sur le souhait des parents d'une dispense de natation mixte pour motif religieux (CEDH, Osmanoğlu et Kocabaş c. Suisse, 10 janvier 2017) ; un certificat qui paraît injustifié peut être soumis à l'avis du médecin de l'éducation nationale",
+        hint1: "Vademecum, fiche 9 : aucune dispense pour motif religieux ; les consignes d'hygiène et de sécurité ne sont pas aménagées pour des convictions religieuses.",
+        solution: "Dans l'arrêt Osmanoğlu et Kocabaş c. Suisse (10 janvier 2017, n° 29086/12), la CEDH a jugé qu'en faisant primer l'obligation de suivre intégralement la scolarité et la réussite de l'intégration sur l'intérêt privé des parents, les autorités n'avaient pas outrepassé leur marge d'appréciation. En France, l'élève suit l'ensemble des cours inscrits à son emploi du temps ; l'article L. 141-5-1 s'applique aussi à la piscine, et le burkini, tenue qui manifeste ostensiblement une appartenance religieuse, n'est pas admis dans le bassin ; les consignes d'hygiène et de sécurité ne sont pas aménagées pour un motif religieux (Vademecum, fiches 3 et 9). Un certificat médical qui paraît injustifié peut être soumis à l'avis du médecin de l'éducation nationale ; en cas de suspicion sérieuse, le chef d'établissement peut, en concertation avec le médecin scolaire et avec l'accord de l'autorité académique, saisir le conseil départemental de l'Ordre des médecins."
       },
-
       // =========================================================================
-      // PALIER 3 : PÉRI-SCOLAIRE, PARENTS & SORTIES
+      // PALIER 3 : PARENTS, SORTIES & PÉRISCOLAIRE
       // =========================================================================
       {
         id: 'capes-oral2-9',
         chapterId: 'capes-oral2',
         tier: 3,
-        title: "Parents d'élèves accompagnateurs lors d'une sortie scolaire",
-        statement: "Lors d'une sortie scolaire au Palais de la Découverte organisée par l'équipe de mathématiques, une mère d'élève volontaire pour accompagner le groupe se présente coiffée d'un foulard religieux. Peut-elle accompagner la classe ?",
+        title: "Mère d'élève voilée accompagnant une sortie scolaire",
+        statement: "Lors d'une sortie scolaire organisée par l'équipe de mathématiques, une mère d'élève volontaire pour accompagner le groupe se présente coiffée d'un foulard religieux. Peut-elle accompagner la classe ?",
         type: "mcq",
         options: [
-          "Oui, les parents accompagnateurs sont des usagers du service public et ne sont pas soumis à la loi de 2004 ; le port du foulard ne peut justifier un refus que s'il s'accompagne d'actes de prosélytisme ou de troubles à l'ordre public",
-          "Non, la loi du 15 mars 2004 s'applique à toute personne franchissant le portail du collège, y compris les parents d'élèves",
-          "Non, seuls les parents titulaires d'une agrégation de mathématiques peuvent accompagner les sorties",
-          "Oui, mais la mère doit obligatoirement signer un serment d'abjuration religieuse avant de monter dans le bus"
+          "Oui en principe : les parents accompagnateurs sont des usagers du service public, non soumis à la loi de 2004 ni à la neutralité des agents ; une restriction n'est possible que pour des motifs précis, liés à l'ordre public ou au bon fonctionnement du service, et doit être motivée",
+          "Non : la loi du 15 mars 2004 s'applique à tous les adultes qui encadrent des élèves pendant une activité scolaire",
+          "Non : un parent accompagnateur devient un collaborateur du service public et doit donc respecter la même neutralité qu'un enseignant",
+          "Oui, et aucune exigence ne peut lui être imposée, pas même l'abstention de tout prosélytisme devant les élèves"
         ],
         correctIndex: 0,
-        answer: "Oui, les parents accompagnateurs sont des usagers du service public et ne sont pas soumis à la loi de 2004 ; le port du foulard ne peut justifier un refus que s'il s'accompagne d'actes de prosélytisme ou de troubles à l'ordre public",
-        hint1: "Vademecum fiche 22 : Étude du Conseil d'État du 19 décembre 2013 et jugements des TA de Nice et Amiens (2015).",
-        solution: "Selon l'étude du Conseil d'État de décembre 2013, les parents accompagnateurs ne sont pas des agents publics mais des collaborateurs occasionnels du service public gardant leur qualité d'usagers. La loi de 2004 ne leur est pas applicable. Une interdiction de principe est illégale. Toutefois, ils sont tenus à un devoir de neutralité dans leurs propos et comportements (interdiction absolue de tout prosélytisme devant les élèves) et doivent respecter les consignes de sécurité."
+        answer: "Oui en principe : les parents accompagnateurs sont des usagers du service public, non soumis à la loi de 2004 ni à la neutralité des agents ; une restriction n'est possible que pour des motifs précis, liés à l'ordre public ou au bon fonctionnement du service, et doit être motivée",
+        hint1: "Vademecum, fiche 23 : étude du Conseil d'État du 19 décembre 2013 et jugements des tribunaux administratifs de Nice et d'Amiens (2015).",
+        solution: "Dans son étude du 19 décembre 2013, le Conseil d'État a considéré que les parents d'élèves ont la qualité d'usagers du service public et ne sont donc pas soumis à l'exigence de neutralité religieuse des agents publics ; il admet seulement que l'autorité recommande, au nom du bon fonctionnement du service, de s'abstenir de manifester son appartenance religieuse. Les tribunaux administratifs de Nice (9 juin 2015) et d'Amiens (15 décembre 2015) ont écarté toute interdiction de principe : seules des considérations précises, liées à l'ordre public ou au bon fonctionnement du service, peuvent fonder une restriction motivée. Le parent accompagnateur a un devoir d'exemplarité dans son comportement et ses propos et doit s'abstenir de tout prosélytisme. Enfin, le choix des accompagnateurs revient au chef d'établissement ou au directeur d'école : un parent n'a pas de droit à accompagner une sortie (Vademecum, fiche 23)."
       },
       {
         id: 'capes-oral2-10',
         chapterId: 'capes-oral2',
         tier: 3,
-        title: "Parents d'élèves animant un atelier pédagogique en classe",
-        statement: "Un parent d'élève bénévole est invité à l'intérieur de la classe pour co-encadrer des élèves lors d'un atelier d'algorithmique et de programmation mathématique. Ce parent est-il soumis au principe de neutralité religieuse ?",
+        title: "Parent d'élève animant un atelier pédagogique en classe",
+        statement: "Un parent d'élève bénévole est invité dans la classe pour co-animer avec le professeur un atelier d'algorithmique, dans des conditions proches de celles d'un enseignant. Le principe de neutralité peut-il lui être imposé ?",
         type: "mcq",
         options: [
-          "Oui, d'après l'arrêt de la Cour Administrative d'Appel de Lyon (23 juillet 2019), les personnes qui exercent à l'intérieur des classes des fonctions assimilables à celles des enseignants sont astreintes aux mêmes exigences de neutralité",
-          "Non, un parent d'élève n'étant pas fonctionnaire, il peut faire cours avec n'importe quel signe ou prêche religieux",
-          "Oui, mais uniquement si l'atelier porte sur la géométrie et non sur l'informatique",
-          "La question ne se pose pas car il est strictement interdit aux parents d'entrer dans un établissement scolaire"
+          "Oui : la CAA de Lyon (23 juillet 2019) a admis la légalité d'un règlement intérieur soumettant à la neutralité les personnes, y compris les parents, qui participent dans les locaux scolaires à des activités assimilables à celles des enseignants",
+          "Non : un parent d'élève reste dans tous les cas un usager et ne peut jamais être soumis à la neutralité",
+          "Oui : tout parent qui entre dans l'établissement, même pour un rendez-vous, est soumis à la neutralité",
+          "Non : seule une loi spécifique pourrait l'imposer, un règlement intérieur ne le peut pas"
         ],
         correctIndex: 0,
-        answer: "Oui, d'après l'arrêt de la Cour Administrative d'Appel de Lyon (23 juillet 2019), les personnes qui exercent à l'intérieur des classes des fonctions assimilables à celles des enseignants sont astreintes aux mêmes exigences de neutralité",
-        hint1: "Vademecum fiches 22 et 23 : CAA de Lyon, 23 juillet 2019, n° 17LY04351 (neutralité exigée en situation d'enseignement).",
-        solution: "La CAA de Lyon (23 juillet 2019) a clarifié que dès lors qu'un parent participe directement à une activité d'enseignement ou d'apprentissage à l'intérieur des classes, il exerce des fonctions similaires à celles des professeurs. À ce titre, la protection de la liberté de conscience des élèves exige qu'il soit soumis aux mêmes obligations de stricte neutralité religieuse et politique que les enseignants."
+        answer: "Oui : la CAA de Lyon (23 juillet 2019) a admis la légalité d'un règlement intérieur soumettant à la neutralité les personnes, y compris les parents, qui participent dans les locaux scolaires à des activités assimilables à celles des enseignants",
+        hint1: "Vademecum, fiche 23 : CAA de Lyon, 23 juillet 2019, n° 17LY04351.",
+        solution: "Par un arrêt du 23 juillet 2019 (n° 17LY04351), la cour administrative d'appel de Lyon a admis la légalité d'un règlement intérieur soumettant au principe de neutralité les personnes, y compris les parents d'élèves, qui interviennent à l'intérieur des locaux scolaires pour participer à des activités assimilables à celles des enseignants. Le Vademecum (fiche 23) en retient que la neutralité s'impose aux parents lorsqu'ils exercent ou encadrent de telles activités dans les locaux scolaires, ou lorsque des considérations précises liées à l'ordre public le justifient. En revanche, un parent qui vient chercher son enfant ou participe à une réunion n'y est pas soumis."
       },
       {
         id: 'capes-oral2-11',
         chapterId: 'capes-oral2',
         tier: 3,
-        title: "Restauration scolaire, menus différenciés et refus du PAI",
-        statement: "Des familles demandent à la direction du collège de fournir des repas exclusivement confessionnels à la cantine ou, à défaut, d'établir un PAI (Projet d'Accueil Individualisé) pour que leur enfant apporte son propre panier-repas pour motif religieux. Que prévoit le droit ?",
+        title: "Restauration scolaire, menus confessionnels et PAI",
+        statement: "Des familles demandent au collège des repas conformes à leurs prescriptions religieuses à la cantine ou, à défaut, l'établissement d'un PAI (projet d'accueil individualisé) pour que leur enfant apporte son panier-repas. Que prévoit le droit ?",
         type: "mcq",
         options: [
-          "La cantine est un service public communal/territorial facultatif soumis à la neutralité ; aucun droit à un menu confessionnel n'existe, et le PAI est strictement réservé aux pathologies et allergies médicales (art. D. 351-9), excluant tout motif religieux",
-          "Le chef d'établissement a l'obligation légale d'accepter le PAI sous peine de poursuites pénales pour discrimination",
-          "L'établissement doit fermer la cantine scolaire pour respecter la laïcité",
-          "Le professeur de mathématiques est personnellement responsable des menus de la cantine"
+          "Il n'existe aucun droit à un menu confessionnel : la collectivité peut proposer des repas différenciés mais n'y est pas tenue, et le PAI, réservé aux élèves présentant un trouble de santé (allergie ou intolérance médicalement avérée), ne peut servir à un régime lié à des choix familiaux",
+          "Le collège est tenu de proposer un menu de substitution dès qu'une famille invoque un interdit alimentaire religieux",
+          "Le chef d'établissement doit accepter le PAI, faute de quoi il commettrait une discrimination fondée sur la religion",
+          "Le principe de laïcité interdit à la collectivité de proposer tout repas différencié, même végétarien"
         ],
         correctIndex: 0,
-        answer: "La cantine est un service public communal/territorial facultatif soumis à la neutralité ; aucun droit à un menu confessionnel n'existe, et le PAI est strictement réservé aux pathologies et allergies médicales (art. D. 351-9), excluant tout motif religieux",
-        hint1: "Vademecum fiche 11 : Conseil d'État, 25 octobre 2002, n° 251161, et articles D. 351-4 et D. 351-9 du Code de l'éducation.",
-        solution: "La collectivité territoriale peut librement proposer des repas végétariens ou de substitution, mais n'en a aucune obligation légale. Les usagers ne peuvent exiger des menus conformes à des préceptes religieux. En outre, le PAI est légalement restreint aux enfants présentant un trouble de santé ou un handicap invalidant : l'utiliser pour des motifs confessionnels est formellement prohibé afin d'éviter tout détournement et risque sanitaire."
+        answer: "Il n'existe aucun droit à un menu confessionnel : la collectivité peut proposer des repas différenciés mais n'y est pas tenue, et le PAI, réservé aux élèves présentant un trouble de santé (allergie ou intolérance médicalement avérée), ne peut servir à un régime lié à des choix familiaux",
+        hint1: "Vademecum, fiche 11 : CE, 25 octobre 2002, n° 251161, articles D. 351-4 et D. 351-9 du Code de l'éducation, circulaire du 10 février 2021 sur le PAI.",
+        solution: "L'inscription à la restauration scolaire est facultative, et le service relève de la collectivité qui en a la charge (le département pour un collège). Les collectivités peuvent librement proposer des repas différenciés pour tenir compte des préférences alimentaires ou de prescriptions médicales, sans regrouper les élèves selon leurs pratiques, mais il s'agit d'une possibilité, non d'un droit ; des menus qui ne font référence à aucun interdit alimentaire ne sont pas discriminatoires (CE, 25 octobre 2002, n° 251161). Le panier-repas prévu par le PAI (articles D. 351-4 et D. 351-9) est réservé aux élèves présentant un trouble de santé : selon la circulaire du 10 février 2021, il ne concerne que les allergies ou intolérances alimentaires médicalement avérées et « n'est pas destiné à être utilisé pour permettre un régime alimentaire lié à des choix familiaux » ; la demande ne peut donc pas être acceptée (Vademecum, fiche 11)."
       },
       {
         id: 'capes-oral2-12',
         chapterId: 'capes-oral2',
         tier: 3,
-        title: "Refus d'un parent de saluer ou de s'adresser à une enseignante",
-        statement: "Lors de la remise des bulletins, un père d'élève refuse de serrer la main et refuse de s'adresser à la professeure de mathématiques en raison de son sexe, exigeant de parler à un collègue masculin. Quelle est la réponse professionnelle conforme aux valeurs républicaines ?",
+        title: "Refus d'un parent de s'adresser à une enseignante",
+        statement: "Lors de la remise des bulletins, un père d'élève refuse de serrer la main de la professeure de mathématiques et de s'adresser à elle en raison de son sexe, et exige de parler à un collègue masculin. Quelle est la réponse professionnelle attendue ?",
         type: "mcq",
         options: [
-          "Refuser l'entretien dans ces conditions, rappeler immédiatement que l'égalité entre les femmes et les hommes est un principe républicain non négociable, ne pas céder à la demande de substitution et avertir le chef d'établissement pour un rappel formel à la loi",
-          "S'effacer et chercher immédiatement un collègue masculin pour ne pas froisser le parent d'élève",
-          "Insulter le parent d'élève devant les autres familles",
-          "Modifier les notes de l'élève pour se venger"
+          "Ne pas céder à la demande de substitution, rappeler calmement que l'égalité entre les femmes et les hommes s'impose à l'École, et informer le chef d'établissement, qui reçoit le parent pour lui rappeler les règles",
+          "Faire appel à un collègue masculin pour que l'entretien ait lieu dans l'intérêt de l'élève, puis signaler l'incident après coup",
+          "Poursuivre l'entretien sans rien dire, le comportement d'un parent relevant de sa vie privée",
+          "Convoquer l'élève en conseil de discipline pour le comportement de son père"
         ],
         correctIndex: 0,
-        answer: "Refuser l'entretien dans ces conditions, rappeler immédiatement que l'égalité entre les femmes et les hommes est un principe républicain non négociable, ne pas céder à la demande de substitution et avertir le chef d'établissement pour un rappel formel à la loi",
-        hint1: "Vademecum fiches 18 et point incivilités (p. 82-83) : « Nul ne peut se prévaloir de sa religion ou de ses convictions pour porter atteinte à l'égalité entre les femmes et les hommes ».",
-        solution: "Le refus de saluer ou de communiquer avec un agent public en raison de son sexe porte directement atteinte à la dignité de la personne et viole le principe fondamental d'égalité femmes-hommes. L'enseignante n'a pas à accepter cette discrimination. L'entretien est interrompu, le chef d'établissement prend le relais pour recevoir le parent et lui rappeler les règles républicaines qui s'imposent dans l'enceinte de l'école."
+        answer: "Ne pas céder à la demande de substitution, rappeler calmement que l'égalité entre les femmes et les hommes s'impose à l'École, et informer le chef d'établissement, qui reçoit le parent pour lui rappeler les règles",
+        hint1: "Vademecum, fiche 23 : le refus de parler à un enseignant ou de lui serrer la main en raison de son sexe figure parmi les comportements que les règlements intérieurs doivent permettre de traiter.",
+        solution: "La Charte de la laïcité à l'École rappelle que la laïcité garantit l'égalité entre les filles et les garçons (article 9) et que nul ne peut se prévaloir de son appartenance religieuse pour refuser de se conformer aux règles de l'École de la République (article 13). Le Vademecum (fiche 23) cite expressément le refus de parler à un enseignant ou de lui serrer la main en raison de son sexe parmi les comportements irrespectueux à traiter. L'enseignante n'a pas à accepter cette discrimination ni à se faire remplacer : elle reste courtoise, ne s'engage pas dans une polémique, et le chef d'établissement prend le relais pour recevoir le parent et lui rappeler les règles. L'élève n'a pas à être sanctionné pour le comportement de son parent ; l'incident peut être signalé par l'application Faits établissement."
       },
-
       // =========================================================================
-      // PALIER 4 : CAS COMPLEXES, PROCÉDURES DE CRISE & POSTURE DU JURY
+      // PALIER 4 : PROCÉDURES D'URGENCE & JURY
       // =========================================================================
       {
         id: 'capes-oral2-13',
         chapterId: 'capes-oral2',
         tier: 4,
-        title: "Élève en danger de santé lié à un jeûne imposé et Information Préoccupante",
-        statement: "En classe de mathématiques, un élève de 11 ans est victime de malaises répétés dus à un jeûne strict et à un refus d'hydratation. La famille prévenue exige qu'on ne lui donne ni eau ni sucre à l'infirmerie pour respecter le jeûne. Quelle est l'obligation de l'équipe éducative ?",
+        title: "Élève en danger à cause d'un jeûne et information préoccupante",
+        statement: "Un élève de 11 ans fait des malaises répétés en cours, dus à un jeûne strict sans hydratation. Prévenue, la famille exige qu'on ne lui donne ni eau ni sucre à l'infirmerie pour respecter le jeûne. Quelle est l'obligation de l'équipe éducative ?",
         type: "mcq",
         options: [
-          "Secourir immédiatement l'enfant (l'urgence vitale prime), faire appel aux services médicaux (SAMU, infirmière), et si la santé du mineur est compromise de façon durable, transmettre une Information Préoccupante (IP) au président du conseil départemental (art. 375 Code civil et art. L. 226-2-1 CASF)",
-          "Respecter la volonté parentale et laisser l'enfant sans soin dans le couloir",
-          "Donner une punition collective à la classe de mathématiques",
-          "Exclure l'élève pour perturbation de cours"
+          "Faire prendre en charge l'élève sans délai (infirmière, appel au SAMU si nécessaire), engager le dialogue avec la famille avec les personnels de santé et, si l'élève est en danger ou risque de l'être, transmettre une information préoccupante au président du conseil départemental",
+          "Respecter la consigne de la famille, puisque l'École ne doit pas prendre parti sur une pratique religieuse",
+          "Dispenser l'élève de tous les cours pendant la durée du jeûne pour éviter les malaises",
+          "Se contenter d'en parler à la famille : une information préoccupante n'est possible qu'en cas de maltraitance physique"
         ],
         correctIndex: 0,
-        answer: "Secourir immédiatement l'enfant (l'urgence vitale prime), faire appel aux services médicaux (SAMU, infirmière), et si la santé du mineur est compromise de façon durable, transmettre une Information Préoccupante (IP) au président du conseil départemental (art. 375 Code civil et art. L. 226-2-1 CASF)",
-        hint1: "Vademecum fiche 13 : protection des mineurs en danger (art. 375 du Code civil et art. L. 226-2-1 du CASF).",
-        solution: "1. Priorité absolue à la santé de l'élève : L'assistance à personne en péril s'impose. L'élève est pris en charge par l'infirmière ou les secours d'urgence, qui lui administrent les soins nécessaires nonobstant les consignes parentales.\n2. Volet protection de l'enfance : Si des pratiques imposées mettent en danger la santé, la sécurité ou le développement physique d'un mineur, tout personnel a le devoir de rédiger une Information Préoccupante (IP) adressée à la cellule départementale (CRIP)."
+        answer: "Faire prendre en charge l'élève sans délai (infirmière, appel au SAMU si nécessaire), engager le dialogue avec la famille avec les personnels de santé et, si l'élève est en danger ou risque de l'être, transmettre une information préoccupante au président du conseil départemental",
+        hint1: "Vademecum, fiche 13 : article 375 du Code civil (mineur en danger) et article L. 226-2-1 du Code de l'action sociale et des familles (information préoccupante).",
+        solution: "1. Urgence : la santé de l'élève passe en premier. Il est pris en charge par l'infirmière ou les secours, qui apportent les soins nécessaires.\n2. Dialogue : le chef d'établissement réunit les enseignants, les personnels de santé et l'équipe éducative, puis conduit le dialogue avec les parents et l'élève ; l'École ne prend pas parti sur l'interprétation d'une pratique religieuse, mais rappelle les risques liés à l'absence de nutrition et d'hydratation, surtout chez les plus jeunes.\n3. Protection de l'enfance : si le dialogue n'aboutit pas et que le mineur est en danger ou risque de l'être au sens de l'article 375 du Code civil, tout membre du personnel doit informer par écrit le président du conseil départemental en adressant une information préoccupante à la cellule départementale de recueil des informations préoccupantes (article L. 226-2-1 du Code de l'action sociale et des familles), selon le protocole départemental (Vademecum, fiche 13)."
       },
       {
         id: 'capes-oral2-14',
         chapterId: 'capes-oral2',
         tier: 4,
-        title: "Dispositif national et académique de signalement des atteintes à la laïcité",
-        statement: "Face à une atteinte caractérisée au principe de laïcité ou aux valeurs républicaines au sein d'un collège, quels sont les dispositifs institutionnels créés par le ministère depuis 2017 pour épauler les enseignants et la direction ?",
+        title: "Dispositif ministériel face aux atteintes à la laïcité",
+        statement: "Face à une atteinte à la laïcité dans un collège, sur quel dispositif ministériel, renforcé depuis la rentrée 2017, les enseignants et la direction peuvent-ils s'appuyer ?",
         type: "mcq",
         options: [
-          "Le signalement officiel via l'application nationale « Faits établissement », la saisine de l'Équipe Académique Valeurs de la République (EAVR) pour un appui juridique et humain sous 24h, et l'expertise du Conseil des sages de la laïcité",
-          "Une plainte déposée individuellement sur les réseaux sociaux par l'enseignant",
-          "La fermeture automatique de l'établissement par décision du délégué de classe",
-          "La suppression de l'enseignement des mathématiques dans l'académie"
+          "Le signalement par le chef d'établissement dans l'application Faits établissement, l'équipe académique Valeurs de la République (EAVR), saisissable aussi par tout personnel grâce au formulaire « atteinte à la laïcité », et l'expertise nationale du Conseil des sages de la laïcité et des valeurs de la République",
+          "Une saisine directe du Conseil des sages de la laïcité par l'enseignant, qui rend un avis sur chaque incident de l'établissement",
+          "Le seul dépôt de plainte de l'enseignant au commissariat, aucun dispositif interne n'étant prévu",
+          "Un signalement au rectorat réservé au chef d'établissement, les enseignants n'ayant aucun moyen de saisir eux-mêmes l'équipe académique"
         ],
         correctIndex: 0,
-        answer: "Le signalement officiel via l'application nationale « Faits établissement », la saisine de l'Équipe Académique Valeurs de la République (EAVR) pour un appui juridique et humain sous 24h, et l'expertise du Conseil des sages de la laïcité",
-        hint1: "Vademecum p. 9-10 (Le dispositif ministériel) et fiches 1 et 2.",
-        solution: "Depuis 2017, le ministère a mis en place une architecture robuste : l'application « Faits établissement » pour recenser et objectiver les atteintes, les Équipes Académiques Valeurs de la République (EAVR) composées d'inspecteurs et de juristes pour intervenir sur le terrain et ne laisser aucun professeur isolé, le formulaire national Éduscol « atteinte à la laïcité », et le Conseil des sages de la laïcité présidé par Dominique Schnapper."
+        answer: "Le signalement par le chef d'établissement dans l'application Faits établissement, l'équipe académique Valeurs de la République (EAVR), saisissable aussi par tout personnel grâce au formulaire « atteinte à la laïcité », et l'expertise nationale du Conseil des sages de la laïcité et des valeurs de la République",
+        hint1: "Vademecum, « Le dispositif ministériel » et fiche 1 : équipe nationale, équipes académiques et Conseil des sages.",
+        solution: "Depuis la rentrée 2017, une architecture renforcée accompagne la politique de laïcité. Au niveau national, le Conseil des sages de la laïcité et des valeurs de la République, placé auprès du ministre, aide à préciser la position de l'institution, notamment sur des cas inédits ; une équipe nationale Valeurs de la République anime les équipes académiques. Dans chaque académie, une équipe Valeurs de la République, placée sous la responsabilité du recteur, apporte un soutien concret aux écoles et établissements, après un signalement ou dans un accompagnement plus long. L'IEN ou le chef d'établissement signale toute atteinte par l'application Faits établissement ; l'équipe académique peut être saisie par une adresse académique dédiée ou par cette application, et tout personnel peut utiliser le formulaire en ligne « atteinte à la laïcité » des portails Éduscol et Pléiade (Vademecum, fiche 1)."
       },
       {
         id: 'capes-oral2-15',
         chapterId: 'capes-oral2',
         tier: 4,
-        title: "Stagiaires Greta et étudiants en stage dans un établissement scolaire",
-        statement: "Dans les locaux d'un lycée public accueillant en soirée ou en journée des stagiaires adultes de la formation continue (Greta) et des étudiants de santé en service sanitaire, quelles règles de laïcité s'appliquent ?",
+        title: "Stagiaires du Greta et élèves infirmiers dans un lycée public",
+        statement: "Un lycée public accueille des stagiaires adultes de la formation continue (Greta) et des étudiants d'un institut de formation en soins infirmiers (IFSI) qui y suivent des cours. Quelles règles s'appliquent au port de signes religieux ostensibles ?",
         type: "mcq",
         options: [
-          "Les stagiaires Greta sont des usagers non soumis à la loi de 2004, mais le chef d'établissement peut limiter les signes ostensibles s'ils côtoient les élèves pour éviter tout trouble à l'ordre public (CAA Paris 2015) ; les étudiants en stage de service public sont, eux, soumis à une stricte neutralité d'agents (CE 2017)",
-          "Tous les adultes entrant dans un lycée deviennent automatiquement militaires",
-          "Aucune règle ne s'applique aux adultes dans un établissement scolaire public",
-          "Les étudiants du Greta sont soumis aux sanctions du conseil de discipline du collège"
+          "Les stagiaires du Greta ne sont pas des élèves et ne relèvent pas de la loi de 2004, mais des restrictions proportionnées peuvent être justifiées par le bon fonctionnement de l'établissement ; les étudiants infirmiers doivent respecter la loi de 2004 lorsque leurs cours ont lieu dans le lycée",
+          "Les deux publics sont des adultes : aucune règle relative aux signes religieux ne peut leur être appliquée",
+          "Les deux publics sont des élèves du lycée et relèvent directement de la loi de 2004 dans tous les cas",
+          "Les deux publics sont soumis à la stricte neutralité des agents publics, puisqu'ils se forment à des métiers de service public"
         ],
         correctIndex: 0,
-        answer: "Les stagiaires Greta sont des usagers non soumis à la loi de 2004, mais le chef d'établissement peut limiter les signes ostensibles s'ils côtoient les élèves pour éviter tout trouble à l'ordre public (CAA Paris 2015) ; les étudiants en stage de service public sont, eux, soumis à une stricte neutralité d'agents (CE 2017)",
-        hint1: "Vademecum fiches 4 et 18 : arrêt CAA de Paris du 12 octobre 2015 (Greta) et CE 28 juillet 2017 (service sanitaire).",
-        solution: "La jurisprudence administrative distingue le statut de la personne : les stagiaires de la formation continue adulte ne sont pas des élèves mais des usagers ; toutefois, la mixité des locaux avec les élèves mineurs permet d'encadrer les signes ostensibles par le règlement intérieur pour préserver la sérénité du service. En revanche, tout stagiaire exerçant des missions de service public (service sanitaire, enseignants stagiaires) est astreint à la neutralité absolue."
+        answer: "Les stagiaires du Greta ne sont pas des élèves et ne relèvent pas de la loi de 2004, mais des restrictions proportionnées peuvent être justifiées par le bon fonctionnement de l'établissement ; les étudiants infirmiers doivent respecter la loi de 2004 lorsque leurs cours ont lieu dans le lycée",
+        hint1: "Vademecum, fiche 4 : CAA de Paris, 12 octobre 2015, n° 14PA00582 (Greta) et CE, 28 juillet 2017, n° 390740 (élèves infirmiers).",
+        solution: "Les stagiaires accueillis par un Greta ne sont pas des élèves et ne relèvent pas de l'article L. 141-5-1. La CAA de Paris a toutefois jugé que l'encadrement du port de signes religieux ostensibles par ces stagiaires peut être justifié par le bon fonctionnement de l'établissement, lorsqu'ils fréquentent les mêmes locaux que les élèves de formation initiale pendant les mêmes périodes (12 octobre 2015, n° 14PA00582) ; les restrictions doivent être nécessaires, adaptées et proportionnées. Les étudiants d'un IFSI, usagers de l'enseignement supérieur, ne sont pas soumis à la loi de 2004 en tant que tels, mais doivent en respecter les prescriptions lorsque leurs cours se déroulent dans un lycée public (CE, 28 juillet 2017, n° 390740). Aucun de ces publics n'est soumis à la neutralité des agents : ce sont des usagers (Vademecum, fiche 4)."
       },
       {
         id: 'capes-oral2-16',
         chapterId: 'capes-oral2',
         tier: 4,
-        title: "Méthodologie de l'entretien Oral 2 devant le jury du CAPES",
-        statement: "Lors de la deuxième partie de l'Oral 2 du CAPES portant sur une mise en situation professionnelle ou un cas éthique, quelle est la structure d'exposé attendue par le jury pour valoriser vos compétences de futur fonctionnaire ?",
+        title: "Méthode de réponse à une mise en situation à l'oral 2",
+        statement: "Lors de la seconde partie de l'oral 2 du CAPES, le jury vous soumet une mise en situation professionnelle. Quelle démarche de réponse est la plus solide ?",
         type: "mcq",
         options: [
-          "Articuler sa réponse en 3 temps : 1° Rappel précis du cadre légal et déontologique (neutralité, assiduité, laïcité) ; 2° Réponse pédagogique immédiate et bienveillante en classe ; 3° Inscription dans le travail d'équipe et la chaîne institutionnelle (direction, CPE, partenaires, EAVR)",
-          "Répondre au hasard en 10 secondes et demander à passer à une question de géométrie euclidienne",
-          "Accuser les élèves et prétendre qu'il est impossible d'enseigner les mathématiques aujourd'hui",
-          "Déclarer que les lois de la République ne s'appliquent pas dans une salle de cours"
+          "Analyser la situation et nommer le cadre en jeu, décrire l'action immédiate en classe avec calme, montrer qu'on ne reste pas seul (professeur principal, CPE, direction, équipe académique Valeurs de la République) et, si un mineur est en danger, transmettre une information préoccupante",
+          "Réciter d'abord la liste la plus longue possible de textes de loi, la connaissance des articles étant le seul critère évalué",
+          "Décrire une réponse ferme prise seul en classe, pour montrer son autorité, sans évoquer l'équipe ni la direction",
+          "Renvoyer immédiatement la situation au chef d'établissement sans rien faire en classe, la gestion des incidents ne relevant pas du professeur"
         ],
         correctIndex: 0,
-        answer: "Articuler sa réponse en 3 temps : 1° Rappel précis du cadre légal et déontologique (neutralité, assiduité, laïcité) ; 2° Réponse pédagogique immédiate et bienveillante en classe ; 3° Inscription dans le travail d'équipe et la chaîne institutionnelle (direction, CPE, partenaires, EAVR)",
-        hint1: "Rapports du jury du CAPES : le jury évalue la solidité déontologique, la capacité à ne pas rester isolé et la fermeté sur les valeurs républicaines.",
-        solution: "Le jury attend d'un futur professeur de mathématiques qu'il montre sa pleine appartenance au corps des fonctionnaires de l'État : connaissance des textes fondamentaux (Loi 1905, 2004, 2019, Code de l'éducation), discernement éducatif sur le terrain (fermeté sans provocation ni faiblesse), et réflexe permanent du travail en équipe pédagogique et de la collaboration avec l'équipe de direction."
+        answer: "Analyser la situation et nommer le cadre en jeu, décrire l'action immédiate en classe avec calme, montrer qu'on ne reste pas seul (professeur principal, CPE, direction, équipe académique Valeurs de la République) et, si un mineur est en danger, transmettre une information préoccupante",
+        hint1: "La seconde partie de l'épreuve apprécie l'aptitude à s'approprier et à faire partager les valeurs de la République et les exigences du service public.",
+        solution: "La seconde partie de l'épreuve d'entretien apprécie l'aptitude du candidat à s'approprier et à faire partager les valeurs de la République et les exigences du service public (arrêté du 25 janvier 2021). Une réponse solide suit les étapes présentées dans le cours : 1° analyser la situation et nommer les enjeux et le cadre (par exemple la loi du 9 décembre 1905, la loi du 15 mars 2004, l'article L. 141-5-2 du Code de l'éducation issu de la loi du 26 juillet 2019, la neutralité des agents) ; 2° agir dans la classe avec calme, rappeler la règle sans débattre des croyances, protéger les élèves et poursuivre le cours ; 3° ne pas rester seul : professeur principal, CPE, chef d'établissement, famille, personnels sociaux et de santé, équipe académique Valeurs de la République ; 4° si un mineur est en danger ou risque de l'être, transmettre une information préoccupante. Citer peu de textes, mais des textes sûrs."
       },
       // PALIER 1 (suite)
       {
