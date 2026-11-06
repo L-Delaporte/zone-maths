@@ -217,8 +217,9 @@ Object.assign(window.MathsApp, {
     }
     if (hint1Btn) hint1Btn.textContent = exercise.type === 'case3' ? '💡 Indice pour cette étape' : '💡 Coup de pouce (Indice 1)';
     if (hint2Btn) hint2Btn.style.display = exercise.type === 'case3' ? 'none' : '';
-    const kbToggle = document.getElementById('btn-toggle-math-keyboard');
-    if (kbToggle) kbToggle.style.display = exercise.type === 'case3' ? 'none' : '';
+    // Clavier mathématique : seulement s'il y a un champ à remplir (masqué pour les QCM et les études de cas)
+    const kbSection = document.querySelector('.virtual-keyboard-section');
+    if (kbSection) kbSection.style.display = document.getElementById('math-user-input') ? '' : 'none';
     if (nextBtn) {
       nextBtn.style.display = 'none';
       nextBtn.innerHTML = `Exercice suivant ➔`;
