@@ -115,8 +115,9 @@ window.MathsRenderer = {
 
     // 4. Gras **texte**
     html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-    // Italique *texte* (en évitant les conflits avec les formules LaTeX)
-    html = html.replace(/(?<!\$)\*([^\*\$\n]+)\*(?!\$)/g, '<em>$1</em>');
+    // Italique *texte*, formules $…$ comprises : l'étoile ouvrante ne suit ni lettre, chiffre,
+    // parenthèse fermante, $ ou \ (produit écrit a*b dans une formule) et précède un caractère non blanc
+    html = html.replace(/(?<![*\w$\\)])\*(?=[^\s*])([^*\n]+?)\*(?![*\w$])/g, '<em>$1</em>');
 
     // Code en ligne `code`
     html = html.replace(/(?<!`)`([^`\n]+)`(?!`)/g, '<code class="math-inline-code">$1</code>');
