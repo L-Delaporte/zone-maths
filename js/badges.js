@@ -204,7 +204,7 @@
       const byLevel = {};
       chapters.forEach(c => { const l = c.level || '3eme'; (byLevel[l] = byLevel[l] || []).push(c); });
       Object.keys(byLevel).forEach(level => {
-        if (level === 'capes' || /capes/i.test(level)) return;
+        if (level === 'capes' || level === 'crpe' || /capes/i.test(level)) return;
         const list = byLevel[level];
         const minRank = arr => arr.reduce((m, c) => Math.min(m, this.chapterRank(data, c)), 5);
         const lname = this.levelName(level);

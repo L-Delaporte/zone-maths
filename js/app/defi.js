@@ -27,7 +27,7 @@ Object.assign(window.MathsApp, {
       } catch (e) {}
       if (!ctx.cycle) {
         const appCycle = window.MathsStorage.getCurrentCycle();
-        ctx.cycle = appCycle === 'licence' ? 'superieur' : (U.CYCLES.includes(appCycle) ? appCycle : 'college');
+        ctx.cycle = (appCycle === 'licence' || appCycle === 'concours') ? 'superieur' : (U.CYCLES.includes(appCycle) ? appCycle : 'college');
       }
       ctx.current = ctx.year === now.year && ctx.week === now.week;
       this._defiCtx = ctx;

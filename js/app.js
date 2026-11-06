@@ -18,10 +18,12 @@ window.MathsApp = {
   CYCLES: {
     college: { id: 'college', name: 'Collège', defaultLevel: '3eme', levels: ['6eme', '5eme', '4eme', '3eme'] },
     lycee: { id: 'lycee', name: 'Lycée', defaultLevel: '2nde', levels: ['2nde', '1ere', 'tale'] },
-    licence: { id: 'licence', name: 'Licence & Concours', defaultLevel: 'L1', levels: ['L1', 'L2', 'L3', 'capes'] }
+    licence: { id: 'licence', name: 'Licence', defaultLevel: 'L1', levels: ['L1', 'L2', 'L3'] },
+    // Concours : CAPES / agrégation et professeur des écoles (CRPE) ; d'autres concours (santé, vétérinaire) pourront s'y ajouter
+    concours: { id: 'concours', name: 'Concours', defaultLevel: 'capes', levels: ['capes', 'crpe'] }
   },
 
-  VALID_LEVELS: ['6eme', '5eme', '4eme', '3eme', '2nde', '1ere', 'tale', 'L1', 'L2', 'L3', 'capes'],
+  VALID_LEVELS: ['6eme', '5eme', '4eme', '3eme', '2nde', '1ere', 'tale', 'L1', 'L2', 'L3', 'capes', 'crpe'],
 
   LEVEL_LABELS: {
     '6eme': '6ème',
@@ -34,7 +36,8 @@ window.MathsApp = {
     'L1': 'Licence 1 (L1)',
     'L2': 'Licence 2 (L2)',
     'L3': 'Licence 3 (L3)',
-    'capes': 'CAPES / Agrég'
+    'capes': 'CAPES / Agrég',
+    'crpe': 'Professeur des écoles (CRPE)'
   },
 
   getLevelName(level) {
@@ -821,8 +824,8 @@ window.MathsApp = {
       filters = [
         { domain: 'all', label: 'Tous' },
         { domain: 'nombres', label: '🔢 Nombres' },
-        { domain: 'geometrie', label: '📐 Géométrie' },
-        { domain: 'fonctions', label: this.currentLevel === '6eme' ? '📊 Données & proportionnalité' : '📈 Fonctions' },
+        { domain: 'geometrie', label: this.currentLevel === 'crpe' ? '📐 Géométrie & grandeurs' : '📐 Géométrie' },
+        { domain: 'fonctions', label: this.currentLevel === '6eme' ? '📊 Données & proportionnalité' : this.currentLevel === 'crpe' ? '📊 Proportionnalité, fonctions & données' : '📈 Fonctions' },
         { domain: 'algo', label: '💻 Algo' }
       ];
     }

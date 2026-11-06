@@ -10,7 +10,7 @@
  * NE PAS éditer à la main la liste ci-dessous ni CACHE_NAME : lancer `node scripts/build_versions.js`.
  */
 
-const CACHE_NAME = 'etabli-des-maths-d77f05ee8f';
+const CACHE_NAME = 'etabli-des-maths-140d2bfd30';
 
 // @precache-start
 const PRECACHE_URLS = [
@@ -23,23 +23,24 @@ const PRECACHE_URLS = [
   './js/themeInit.js?v=b22b407710',
   './js/eventDelegation.js?v=89e87b61a8',
   './vendor/katex/katex.min.css?v=000b7545e1',
-  './css/style.css?v=897f4a41c0',
+  './css/style.css?v=a4e7161be9',
   './css/sheets.css?v=1f1346a799',
   './vendor/katex/katex.min.js?v=9616b6e2a7',
   './vendor/katex/auto-render.min.js?v=491616b8c9',
   './js/data/chapters.js?v=46326557ac',
   './js/data/chapters_lycee.js?v=9c8659021a',
   './js/data/chapters_licence.js?v=862554015c',
+  './js/data/chapters_crpe.js?v=10b36172f9',
   './js/data/data_capes.js?v=472498f26b',
   './js/data/defis.js?v=3bb2c75031',
-  './js/badges.js?v=c5824c0ee8',
-  './js/storage.js?v=6cfd159b0b',
+  './js/badges.js?v=82d02866c4',
+  './js/storage.js?v=9259dda0a6',
   './js/audioEffects.js?v=c9749a11c5',
   './js/confetti.js?v=2f09c3d81b',
   './js/mathRenderer.js?v=f11fac766a',
   './js/geometryFigures.js?v=656295f7c5',
   './js/scratchRenderer.js?v=5f9033f40a',
-  './js/adaptiveEngine.js?v=536be758be',
+  './js/adaptiveEngine.js?v=b0ba52c78c',
   './js/generatorsCore.js?v=5a2f64b52a',
   './js/proofEngine.js?v=f99d384bfd',
   './js/mathVisualizer.js?v=c374ad43df',
@@ -47,13 +48,13 @@ const PRECACHE_URLS = [
   './js/flashQuizGenerator.js?v=c9a8fd5230',
   './js/flashcardsEngine.js?v=9621e5c78a',
   './js/dataLoader.js?v=828f7fa67d',
-  './js/app.js?v=91be4f0ad1',
+  './js/app.js?v=bb7db4dad2',
   './js/app/home.js?v=c25700373c',
   './js/app/tools.js?v=4b710dcdc8',
-  './js/app/training.js?v=dc0053bace',
+  './js/app/training.js?v=e41b8009fc',
   './js/app/course.js?v=1ad34b342a',
-  './js/app/sheets.js?v=f612e1dce0',
-  './js/app/defi.js?v=521135bee7',
+  './js/app/sheets.js?v=14d313b2f0',
+  './js/app/defi.js?v=1e8bbcd86e',
   './js/app/stats.js?v=fd7ce9df6d',
   './js/pwaManager.js?v=325a61601c',
   './js/analytics.js?v=e2a0e91aab'

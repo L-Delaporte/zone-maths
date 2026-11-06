@@ -30,7 +30,8 @@ window.MathsStorage = {
   getCycleForLevel(level) {
     if (['6eme', '5eme', '4eme', '3eme'].includes(level)) return 'college';
     if (['2nde', '1ere', 'tale'].includes(level)) return 'lycee';
-    if (['L1', 'L2', 'L3', 'capes'].includes(level)) return 'licence';
+    if (['L1', 'L2', 'L3'].includes(level)) return 'licence';
+    if (['capes', 'crpe'].includes(level)) return 'concours';
     return 'college';
   },
 

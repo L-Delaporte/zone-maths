@@ -84,6 +84,14 @@ window.MathsAdaptiveEngine = {
         4: "Palier 4 : Défi & Approfondissement"
       };
       return names[t] || `Palier ${t}`;
+    } else if (lvl === 'crpe') {
+      const names = {
+        1: "Palier 1 : Socle & Automatismes",
+        2: "Palier 2 : Entraînement & Méthodes",
+        3: "Palier 3 : Niveau Concours",
+        4: "Palier 4 : Problèmes & Justifications"
+      };
+      return names[t] || `Palier ${t}`;
     } else if (['L1', 'L2', 'L3', 'licence'].includes(lvl)) {
       const names = {
         1: "Palier 1 : Socle & Définitions",
@@ -1909,6 +1917,9 @@ window.MathsAdaptiveEngine = {
       } else if (lvl === '1ere' || lvl === 'tale' || lvl === 'lycee') {
         tier4Title = 'Excellence Baccalauréat';
         tier4Desc = 'Avoir débloqué le palier 4 (Défi & Approfondissement).';
+      } else if (lvl === 'crpe') {
+        tier4Title = 'Prêt pour le concours';
+        tier4Desc = 'Avoir débloqué le palier 4 (Problèmes & Justifications).';
       } else if (['L1', 'L2', 'L3', 'licence'].includes(lvl)) {
         tier4Title = 'Rigueur Universitaire';
         tier4Desc = 'Avoir débloqué le palier 4 (Démonstrations & Rigueur).';

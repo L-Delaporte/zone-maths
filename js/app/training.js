@@ -347,6 +347,14 @@ Object.assign(window.MathsApp, {
         4: "Palier 4 : Approfondissement"
       };
       return labels[t] || `Palier ${t}`;
+    } else if (lvl === 'crpe') {
+      const labels = {
+        1: "Palier 1 : Socle",
+        2: "Palier 2 : Méthodes",
+        3: "Palier 3 : Concours",
+        4: "Palier 4 : Justifier"
+      };
+      return labels[t] || `Palier ${t}`;
     } else if (lvl === 'capes') {
       if (this.currentChapterId === 'capes-oral2-cas') {
         const labels = {
@@ -433,6 +441,14 @@ Object.assign(window.MathsApp, {
         2: "Entraînement Guidé",
         3: "Objectif Bac (Épreuve)",
         4: lvl === 'tale' ? "Défi Post-Bac & Approfondissement" : "Défi & Approfondissement"
+      };
+      return names[t] || `Niveau ${t}`;
+    } else if (lvl === 'crpe') {
+      const names = {
+        1: "Socle & Automatismes",
+        2: "Entraînement & Méthodes",
+        3: "Niveau Concours (Écrit)",
+        4: "Problèmes, Justifications & Erreurs d'élèves"
       };
       return names[t] || `Niveau ${t}`;
     } else if (lvl === 'capes') {

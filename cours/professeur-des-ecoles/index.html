@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <!-- Content-Security-Policy : voir scripts/csp.js (style-src 'unsafe-inline' requis par les attributs style de KaTeX) -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://gc.zgo.at; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://etabli-des-maths.goatcounter.com; font-src 'self' data:; connect-src 'self' https://etabli-des-maths.goatcounter.com; object-src 'none'; base-uri 'self'; form-action 'self'; manifest-src 'self'; worker-src 'self'" />
+  <script src="../../js/themeInit.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Maths pour le CRPE : cours et exercices corrigés gratuits</title>
+  <meta name="description" content="Maths pour le CRPE : 11 chapitres de cours avec méthodes et exercices corrigés, gratuits et sans inscription. Nombres et calculs, proportionnalité…" />
+  <meta name="author" content="Loïc Delaporte, professeur de mathématiques" />
+  <link rel="canonical" href="https://etabli-des-maths.fr/cours/professeur-des-ecoles/" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Maths pour le CRPE : cours et exercices corrigés gratuits" />
+  <meta property="og:description" content="Maths pour le CRPE : 11 chapitres de cours avec méthodes et exercices corrigés, gratuits et sans inscription. Nombres et calculs, proportionnalité…" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://etabli-des-maths.fr/cours/professeur-des-ecoles/" />
+  <meta property="og:image" content="https://etabli-des-maths.fr/assets/logo.jpg" />
+  <meta property="og:image:alt" content="Maths pour le CRPE : cours et exercices corrigés gratuits" />
+  <meta name="twitter:card" content="summary" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta property="og:site_name" content="L'Établi des Maths" />
+
+  <link rel="stylesheet" href="../../css/style.css" />
+  <link rel="stylesheet" href="../../css/landing.css" />
+  <link rel="stylesheet" href="../../vendor/katex/katex.min.css" />
+  <link rel="stylesheet" href="../../css/cours.css" />
+  <link rel="icon" href="../../favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../../assets/favicon-32x32.png" />
+  <link rel="apple-touch-icon" href="../../assets/favicon.png" />
+  <link rel="manifest" href="../../manifest.json" />
+  <meta name="theme-color" content="#2563eb" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Cours et exercices de maths pour le CRPE, gratuits et corrigés",
+    "description": "Maths pour le CRPE : 11 chapitres de cours avec méthodes et exercices corrigés, gratuits et sans inscription. Nombres et calculs, proportionnalité…",
+    "url": "https://etabli-des-maths.fr/cours/professeur-des-ecoles/",
+    "inLanguage": "fr",
+    "educationalLevel": "Concours — concours de recrutement de professeurs des écoles (CRPE)",
+    "isAccessibleForFree": true,
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "L'Établi des Maths",
+      "url": "https://etabli-des-maths.fr/"
+    },
+    "mainEntity": {
+      "@type": "ItemList",
+      "numberOfItems": 11,
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Nombres entiers, numération et arithmétique",
+          "url": "https://etabli-des-maths.fr/cours/professeur-des-ecoles/nombres-entiers.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Nombres décimaux, fractions et nombres rationnels",
+          "url": "https://etabli-des-maths.fr/cours/professeur-des-ecoles/nombres-decimaux.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Nombres relatifs, puissances, racines carrées et ordres de grandeur",
+          "url": "https://etabli-des-maths.fr/cours/professeur-des-ecoles/nombres-relatifs.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Calcul littéral, équations et mise en équation de problèmes",
+          "url": "https://etabli-des-maths.fr/cours/professeur-des-ecoles/calcul-litteral.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 5,
+          "name": "Proportionnalité, pourcentages et vitesses",
+          "url": "https://etabli-des-maths.fr/cours/professeur-des-ecoles/proportionnalite-pourcentages-et-vitesses.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 6,
+          "name": "Notion de fonction, fonctions linéaires et affines",
+          "url": "https://etabli-des-maths.fr/cours/professeur-des-ecoles/notion-de-fonction.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 7,
+          "name": "Statistiques et probabilités",
+          "url": "https://etabli-des-maths.fr/cours/professeur-des-ecoles/statistiques-et-probabilites.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 8,
+          "name": "Grandeurs et mesures : longueurs, aires, volumes, durées et conversions",
+          "url": "https://etabli-des-maths.fr/cours/professeur-des-ecoles/grandeurs-et-mesures.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 9,
+          "name": "Triangles : Pythagore, Thalès, trigonométrie et angles",
+          "url": "https://etabli-des-maths.fr/cours/professeur-des-ecoles/triangles-pythagore-thales-trigonometrie-et-angles.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 10,
+          "name": "Figures, transformations et géométrie dans l'espace",
+          "url": "https://etabli-des-maths.fr/cours/professeur-des-ecoles/figures-transformations-et-geometrie-dans-l-espace.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 11,
+          "name": "Algorithmique et programmation (Scratch)",
+          "url": "https://etabli-des-maths.fr/cours/professeur-des-ecoles/algorithmique-et-programmation.html"
+        }
+      ]
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Quel est le programme de mathématiques du concours de professeur des écoles ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Pour la session 2027, la partie mathématiques de l'épreuve écrite porte sur le programme de mathématiques du cycle 4 (5e, 4e et 3e). Le site le couvre en 11 chapitres : nombres et calculs, organisation et gestion de données, fonctions, grandeurs et mesures, espace et géométrie, algorithmique et programmation."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Comment s’entraîner aux mathématiques du CRPE ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Choisissez un chapitre puis « S'entraîner » : exercices générés à chaque tirage et problèmes de type concours, corrigés immédiatement, en quatre paliers (1. Socle et automatismes, 2. Entraînement et méthodes, 3. Niveau concours (écrit), 4. Problèmes, justifications et erreurs d’élèves). Les derniers paliers proposent des affirmations à justifier et des analyses d'erreurs d'élèves."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Les contenus pour le CRPE sont-ils gratuits ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Oui, comme tout le site : sans inscription, sans publicité, sous licence libre CC BY-NC-SA."
+        }
+      }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Accueil",
+        "item": "https://etabli-des-maths.fr/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Cours",
+        "item": "https://etabli-des-maths.fr/cours/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Professeur des écoles",
+        "item": "https://etabli-des-maths.fr/cours/professeur-des-ecoles/"
+      }
+    ]
+  }
+  </script>
+</head>
+<body class="cours-page">
+  <a class="cours-skip" href="#contenu">Aller au contenu</a>
+
+  <!-- Header Uniformisé -->
+  <header class="app-header">
+    <div class="header-inner">
+      <a href="../../index.html" class="brand-container">
+        <img src="../../assets/logo-96.png" alt="" class="brand-logo-img" width="44" height="44" />
+        <div class="brand-text">
+          <p class="brand-title">L'Établi des Maths <span class="brand-level-tag">Cours</span></p>
+          <span class="brand-tagline">Outils pour apprendre et pratiquer</span>
+        </div>
+      </a>
+
+      <!-- Navigation entre Portails -->
+      <nav class="nav-portal-links" aria-label="Portails thématiques">
+        <a href="../../index.html" class="nav-portal-btn">🏠 Accueil</a>
+        <a href="../../cours/" class="nav-portal-btn active" aria-current="true">📚 Cours</a>
+        <a href="../../exercices-de-maths/" class="nav-portal-btn">✏️ Exercices</a>
+        <a href="../../rituels.html" class="nav-portal-btn">⏱️ Rituels</a>
+        <a href="../../reviser-le-brevet-de-maths/" class="nav-portal-btn">📝 Brevet</a>
+        <a href="../../reussir-le-bac-de-maths/" class="nav-portal-btn">🎓 Bac</a>
+        <a href="../../enseignants.html" class="nav-portal-btn">👨‍🏫 Enseignants</a>
+        <a href="../../parents.html" class="nav-portal-btn">👪 Parents</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="landing-wrapper cours-wrapper" id="contenu" tabindex="-1">
+    <nav class="cours-breadcrumb" aria-label="Fil d'Ariane">
+      <ol>
+        <li><a href="../../index.html">Accueil</a></li>
+        <li><a href="../">Cours</a></li>
+        <li><span aria-current="page">Professeur des écoles</span></li>
+      </ol>
+    </nav>
+
+    <header class="cours-hero">
+      <p class="landing-tag">Concours de l’enseignement · Professeur des écoles · 11 chapitres</p>
+      <h1 class="cours-title">Cours et exercices de maths pour le CRPE, gratuits et corrigés</h1>
+      <p class="cours-lead">Les mathématiques du concours de professeur des écoles (programme du cycle 4) : nombres et calculs, proportionnalité et fonctions, statistiques et probabilités, grandeurs et mesures, géométrie, algorithmique, avec analyses d'erreurs d'élèves. Chaque chapitre contient le cours complet, des méthodes rédigées et des exercices corrigés, puis renvoie vers des exercices générés à l'infini pour s'entraîner.</p>
+      <div class="cours-cta">
+        <a class="btn-primary cours-cta-main" href="../../index.html?level=crpe">🎯 S'entraîner pour le CRPE</a>
+      </div>
+    </header>
+
+    <section class="cours-section" id="domaine-1" aria-labelledby="domaine-1-titre">
+      <h2 id="domaine-1-titre">Nombres et calculs</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="nombres-entiers.html">
+          <span class="topic-num">PE-01</span>
+          <span class="cours-chapter-text"><strong>Nombres entiers, numération et arithmétique</strong><span>Numération décimale de position, critères de divisibilité, division euclidienne, nombres premiers, décomposition en facteurs premiers, multiples…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="nombres-decimaux.html">
+          <span class="topic-num">PE-02</span>
+          <span class="cours-chapter-text"><strong>Nombres décimaux, fractions et nombres rationnels</strong><span>Fractions décimales et écriture décimale, comparaison et rangement, fraction comme quotient et comme partage, opérations sur les fractions, nombres…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="nombres-relatifs.html">
+          <span class="topic-num">PE-03</span>
+          <span class="cours-chapter-text"><strong>Nombres relatifs, puissances, racines carrées et ordres de grandeur</strong><span>Calcul avec les nombres relatifs, puissances de 10 et notation scientifique, puissances d'un nombre, racines carrées, priorités opératoires et ordres…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="calcul-litteral.html">
+          <span class="topic-num">PE-04</span>
+          <span class="cours-chapter-text"><strong>Calcul littéral, équations et mise en équation de problèmes</strong><span>Expressions littérales, développement et factorisation, identités remarquables, équations du premier degré et produit nul, inéquations, mise…</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-2" aria-labelledby="domaine-2-titre">
+      <h2 id="domaine-2-titre">Organisation et gestion de données, fonctions</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="proportionnalite-pourcentages-et-vitesses.html">
+          <span class="topic-num">PE-05</span>
+          <span class="cours-chapter-text"><strong>Proportionnalité, pourcentages et vitesses</strong><span>Reconnaître et traiter une situation de proportionnalité (coefficient, linéarité, passage à l'unité, produit en croix), échelles, pourcentages…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="notion-de-fonction.html">
+          <span class="topic-num">PE-06</span>
+          <span class="cours-chapter-text"><strong>Notion de fonction, fonctions linéaires et affines</strong><span>Image, antécédent, tableau de valeurs et représentation graphique, lecture graphique, fonctions linéaires et affines, coefficient directeur…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="statistiques-et-probabilites.html">
+          <span class="topic-num">PE-07</span>
+          <span class="cours-chapter-text"><strong>Statistiques et probabilités</strong><span>Moyenne (simple et pondérée), médiane, étendue, fréquences, lecture de tableaux et de diagrammes, vocabulaire des probabilités, calcul…</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-3" aria-labelledby="domaine-3-titre">
+      <h2 id="domaine-3-titre">Grandeurs et mesures</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="grandeurs-et-mesures.html">
+          <span class="topic-num">PE-08</span>
+          <span class="cours-chapter-text"><strong>Grandeurs et mesures : longueurs, aires, volumes, durées et conversions</strong><span>Périmètres, aires et volumes des figures et solides usuels, conversions d'unités (longueurs, aires, volumes, contenances, durées), grandeurs produits…</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-4" aria-labelledby="domaine-4-titre">
+      <h2 id="domaine-4-titre">Espace et géométrie</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="triangles-pythagore-thales-trigonometrie-et-angles.html">
+          <span class="topic-num">PE-09</span>
+          <span class="cours-chapter-text"><strong>Triangles : Pythagore, Thalès, trigonométrie et angles</strong><span>Somme des angles d'un triangle, angles et parallèles, théorème de Pythagore et sa réciproque, théorème de Thalès et sa réciproque, triangles…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="figures-transformations-et-geometrie-dans-l-espace.html">
+          <span class="topic-num">PE-10</span>
+          <span class="cours-chapter-text"><strong>Figures, transformations et géométrie dans l'espace</strong><span>Propriétés des quadrilatères, symétries, translations, rotations et homothéties, solides (patrons, sections, repérage dans l'espace), représentations…</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-5" aria-labelledby="domaine-5-titre">
+      <h2 id="domaine-5-titre">Algorithmique et programmation</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="algorithmique-et-programmation.html">
+          <span class="topic-num">PE-11</span>
+          <span class="cours-chapter-text"><strong>Algorithmique et programmation (Scratch)</strong><span>Lecture et exécution d'un programme Scratch, variables, boucles, instructions conditionnelles, programmes de calcul, déplacements et tracés…</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section " id="methode" aria-labelledby="methode-titre">
+      <h2 id="methode-titre">Comment travailler les maths pour le CRPE ?</h2>
+      <ol class="cours-list">
+        <li><strong>Lire le cours du chapitre</strong> et refaire seul les exemples rédigés de la partie « Méthodes ».</li>
+        <li><strong>Chercher les exercices corrigés</strong> de la page avant d'ouvrir la correction, puis comparer la rédaction.</li>
+        <li><strong>S'entraîner par paliers</strong> dans l'application : palier 1 « Socle et automatismes », palier 2 « Entraînement et méthodes », palier 3 « Niveau concours (écrit) », palier 4 « Problèmes, justifications et erreurs d’élèves ». Les exercices changent à chaque tirage.</li>
+        <li><strong>Mémoriser</strong> les définitions et formules avec les flashcards, quelques minutes par jour.</li>
+      </ol>
+    </section>
+
+    <section class="cours-section " id="faq" aria-labelledby="faq-titre">
+      <h2 id="faq-titre">Questions fréquentes sur les maths pour le CRPE</h2>
+      <div class="cours-faq">
+        <details class="cours-faq-item"><summary><h3>Quel est le programme de mathématiques du concours de professeur des écoles ?</h3></summary><div><p>Pour la session 2027, la partie mathématiques de l'épreuve écrite porte sur le programme de mathématiques du cycle 4 (5e, 4e et 3e). Le site le couvre en 11 chapitres : nombres et calculs, organisation et gestion de données, fonctions, grandeurs et mesures, espace et géométrie, algorithmique et programmation.</p></div></details>
+        <details class="cours-faq-item"><summary><h3>Comment s’entraîner aux mathématiques du CRPE ?</h3></summary><div><p>Choisissez un chapitre puis « S'entraîner » : exercices générés à chaque tirage et problèmes de type concours, corrigés immédiatement, en quatre paliers (1. Socle et automatismes, 2. Entraînement et méthodes, 3. Niveau concours (écrit), 4. Problèmes, justifications et erreurs d’élèves). Les derniers paliers proposent des affirmations à justifier et des analyses d'erreurs d'élèves.</p></div></details>
+        <details class="cours-faq-item"><summary><h3>Les contenus pour le CRPE sont-ils gratuits ?</h3></summary><div><p>Oui, comme tout le site : sans inscription, sans publicité, sous licence libre CC BY-NC-SA.</p></div></details>
+      </div>
+    </section>
+
+    <nav class="cours-related" aria-label="Autres ressources">
+      <div><p class="cours-related-title">Autres classes</p><ul><li><a href="../">Tous les cours de maths</a></li></ul></div>
+      <div><p class="cours-related-title">Pages utiles</p><ul><li><a href="../../exercices-de-maths/">Exercices de maths corrigés</a>, tous niveaux</li><li><a href="../../entrainement-maths/">Entraînement en ligne</a> : paliers, rituels, flashcards</li></ul></div>
+    </nav>
+
+    <nav class="cours-pager" aria-label="Autres niveaux">
+      <a class="nav-portal-btn" href="../6e/">6e</a>
+      <a class="nav-portal-btn" href="../5e/">5e</a>
+      <a class="nav-portal-btn" href="../4e/">4e</a>
+      <a class="nav-portal-btn" href="../3e/">3e</a>
+      <a class="nav-portal-btn" href="../seconde/">Seconde</a>
+      <a class="nav-portal-btn" href="../premiere/">Première</a>
+      <a class="nav-portal-btn" href="../terminale/">Terminale</a>
+      <a class="nav-portal-btn" href="../l1/">Licence 1</a>
+      <a class="nav-portal-btn" href="../l2/">Licence 2</a>
+      <a class="nav-portal-btn" href="../l3/">Licence 3</a>
+      <a class="nav-portal-btn" href="../capes/">CAPES</a>
+      <a class="nav-portal-btn active" href="../professeur-des-ecoles/" aria-current="page">Professeur des écoles</a>
+    </nav>
+  </main>
+
+  <footer class="cours-footer">
+    <p>L'Établi des Maths — Conçu par Loïc Delaporte, professeur de mathématiques • 100 % gratuit, conforme aux programmes</p>
+    <p><a href="../../cours/">Cours de maths</a> · <a href="../../exercices-de-maths/">Exercices corrigés</a> · <a href="../../entrainement-maths/">Entraînement en ligne</a> · <a href="../../reviser-le-brevet-de-maths/">Réviser le brevet</a> · <a href="../../reussir-le-bac-de-maths/">Réussir le bac</a> · <a href="../../epreuve-d-entretien-capes/">Oral 2 du CAPES</a></p>
+    <p><a href="../../index.html">Ouvrir l'application</a> · <a href="../../rituels.html">Rituels</a> · <a href="../../brevet.html">Brevet blanc</a> · <a href="../../bac.html">Devoir type bac</a> · <a href="../../a-propos.html">Qui suis-je ?</a> · <a href="../../mentions-legales.html">Mentions légales</a> · <a href="mailto:delaporte@etabli-des-maths.fr">Contact</a></p>
+    <p>Contenus sous licence <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr" rel="license noopener">CC BY-NC-SA 4.0</a></p>
+  </footer>
+  <!-- Statistiques d'audience anonymes et conformes RGPD (GoatCounter) -->
+  <script data-goatcounter="https://etabli-des-maths.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>

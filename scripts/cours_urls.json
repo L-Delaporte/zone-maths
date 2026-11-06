@@ -538,5 +538,38 @@
  ],
  "capes-oral2-cas": [
   "capes/epreuve-d-entretien-etudes-de-cas-en-trois-etapes.html"
+ ],
+ "crpe-01": [
+  "professeur-des-ecoles/nombres-entiers.html"
+ ],
+ "crpe-02": [
+  "professeur-des-ecoles/nombres-decimaux.html"
+ ],
+ "crpe-03": [
+  "professeur-des-ecoles/nombres-relatifs.html"
+ ],
+ "crpe-04": [
+  "professeur-des-ecoles/calcul-litteral.html"
+ ],
+ "crpe-05": [
+  "professeur-des-ecoles/proportionnalite-pourcentages-et-vitesses.html"
+ ],
+ "crpe-06": [
+  "professeur-des-ecoles/notion-de-fonction.html"
+ ],
+ "crpe-07": [
+  "professeur-des-ecoles/statistiques-et-probabilites.html"
+ ],
+ "crpe-08": [
+  "professeur-des-ecoles/grandeurs-et-mesures.html"
+ ],
+ "crpe-09": [
+  "professeur-des-ecoles/triangles-pythagore-thales-trigonometrie-et-angles.html"
+ ],
+ "crpe-10": [
+  "professeur-des-ecoles/figures-transformations-et-geometrie-dans-l-espace.html"
+ ],
+ "crpe-11": [
+  "professeur-des-ecoles/algorithmique-et-programmation.html"
  ]
 }

@@ -287,6 +287,12 @@ body {
   box-shadow: 0 2px 4px rgba(124, 58, 237, 0.3);
 }
 
+.cycle-tab-btn.active[data-cycle="concours"] {
+  background: linear-gradient(135deg, #c2410c, #9a3412);
+  color: white;
+  box-shadow: 0 2px 4px rgba(194, 65, 12, 0.3);
+}
+
 .cycle-levels-row {
   display: flex;
   align-items: center;
@@ -344,6 +350,11 @@ body.home-view-active .cycle-levels-row {
 
 .brand-level-tag.badge-licence {
   background: linear-gradient(135deg, #7c3aed, #4f46e5);
+  color: #fff;
+}
+
+.brand-level-tag.badge-concours {
+  background: linear-gradient(135deg, #c2410c, #9a3412);
   color: #fff;
 }
 
@@ -750,11 +761,17 @@ body.home-view-active .cycle-levels-row {
   color: var(--text-muted);
 }
 
-/* Grille des 3 cycles d'études */
+/* Grille des 4 cycles d'études (2 × 2 sur les écrans moyens) */
 .home-cycles-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
+}
+
+@media (max-width: 1200px) {
+  .home-cycles-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .home-cycle-card {
@@ -785,6 +802,10 @@ body.home-view-active .cycle-levels-row {
 
 .home-cycle-card.licence-card {
   border-top: 4px solid #7c3aed;
+}
+
+.home-cycle-card.concours-card {
+  border-top: 4px solid #c2410c;
 }
 
 .home-cycle-card-top {

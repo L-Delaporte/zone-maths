@@ -108,7 +108,8 @@ const NNB = '\u202f';  // espace fine insécable
 const DATA_FILES = [
   'chapters.js', 'chapters_lycee.js', 'chapters_licence.js', 'courses.js', 'exercises.js',
   'data_6eme.js', 'data_5eme.js', 'data_4eme.js', 'data_2nde.js', 'data_1ere.js', 'data_terminale.js',
-  'data_l1.js', 'data_l2.js', 'data_l3.js', 'data_capes.js', 'data_proofs.js'
+  'data_l1.js', 'data_l2.js', 'data_l3.js', 'data_capes.js', 'data_proofs.js',
+  'chapters_crpe.js', 'data_crpe.js', 'exercises_crpe.js'
 ];
 
 function loadData() {
@@ -158,16 +159,20 @@ const LEVELS = [
   { code: 'L3', slug: 'l3', label: 'Licence 3', de: 'de L3', cycle: 'licence', app: 'L3', edu: 'Université — licence de mathématiques, 3e année (L3)',
     intro: "Troisième année de licence : théorie des groupes, anneaux, topologie des espaces métriques, espaces de Banach, séries de Fourier, théorie de la mesure, probabilités et analyse numérique." },
   { code: 'capes', slug: 'capes', label: 'CAPES', de: 'CAPES', cycle: 'concours', app: 'capes', edu: 'Concours — CAPES et agrégation de mathématiques',
-    intro: "Préparation aux oraux du CAPES de mathématiques : leçons avec plan (y compris sur les grands thèmes du secondaire : géométrie vectorielle, nombres complexes, probabilités, statistique, dénombrement), théorème clé démontré, développements possibles, remarques du jury, et épreuve d'entretien." }
+    intro: "Préparation aux oraux du CAPES de mathématiques : leçons avec plan (y compris sur les grands thèmes du secondaire : géométrie vectorielle, nombres complexes, probabilités, statistique, dénombrement), théorème clé démontré, développements possibles, remarques du jury, et épreuve d'entretien." },
+  { code: 'crpe', slug: 'professeur-des-ecoles', label: 'Professeur des écoles', de: 'du CRPE', cycle: 'concours', app: 'crpe', edu: 'Concours — concours de recrutement de professeurs des écoles (CRPE)',
+    intro: "Les mathématiques du concours de professeur des écoles (programme du cycle 4) : nombres et calculs, proportionnalité et fonctions, statistiques et probabilités, grandeurs et mesures, géométrie, algorithmique, avec analyses d'erreurs d'élèves." }
 ];
 /** Libellé court du niveau dans les titres (« Pythagore en 4e », « Maths en terminale »). */
 const SHORT = { '6eme': '6e', '5eme': '5e', '4eme': '4e', '3eme': '3e', '2nde': 'seconde', '1ere': 'première', tale: 'terminale',
-  L1: 'L1', L2: 'L2', L3: 'L3', capes: 'CAPES' };
+  L1: 'L1', L2: 'L2', L3: 'L3', capes: 'CAPES', crpe: 'CRPE' };
 for (const l of LEVELS) { l.short = SHORT[l.code]; l.en = `en ${l.short}`; }
+LEVELS.find((l) => l.code === 'crpe').en = 'pour le CRPE';
 const SCHOOL_ORDER = ['6eme', '5eme', '4eme', '3eme', '2nde', '1ere', 'tale'];
 /** Noms des paliers affichés par l'application (js/adaptiveEngine.js, getTierDisplayName). */
 function tierNames(code) {
   const base = ['Socle et automatismes', 'Entraînement guidé'];
+  if (code === 'crpe') return ['Socle et automatismes', 'Entraînement et méthodes', 'Niveau concours (écrit)', 'Problèmes, justifications et erreurs d\u2019élèves'];
   if (['L1', 'L2', 'L3'].includes(code)) return ['Socle et définitions', 'Entraînement et méthodes', 'Niveau examen', 'Démonstrations et rigueur'];
   if (code === '1ere' || code === 'tale') return base.concat(['Objectif bac', 'Défi et approfondissement']);
   if (code === '3eme') return base.concat(['Objectif brevet', 'Défi seconde']);
@@ -236,7 +241,7 @@ const CYCLES = [
   { id: 'college', name: 'Collège', desc: 'De la 6e à la 3e, jusqu\u2019au brevet.' },
   { id: 'lycee', name: 'Lycée', desc: 'Seconde, puis spécialité mathématiques en première et terminale.' },
   { id: 'licence', name: 'Licence de mathématiques', desc: 'Les trois années de licence à l\u2019université.' },
-  { id: 'concours', name: 'Concours de l\u2019enseignement', desc: 'Préparation aux oraux du CAPES.' }
+  { id: 'concours', name: 'Concours de l\u2019enseignement', desc: 'Oraux du CAPES et mathématiques du concours de professeur des écoles.' }
 ];
 
 // ---------------------------------------------------------------------------
@@ -622,7 +627,13 @@ function chapterTitleTag(ch, lvl) {
   const subjects = [tt, head, etHead.length >= 8 ? etHead : '', colonHead.length >= 4 ? colonHead : '']
     .filter((x, i, arr) => x && !x.includes(':') && arr.indexOf(x) === i);
   const cands = [];
-  for (const suffix of [' : cours et exercices corrigés', ' : cours et exercices', ' : cours']) {
+  const suffixes = [' : cours et exercices corrigés', ' : cours et exercices', ' : cours'];
+  if (lvl.code === 'crpe' && ch.shortTitle) {
+    // Libellé « pour le CRPE » plus long : le titre court du chapitre passe avant les têtes tronquées.
+    const short = plain(ch.shortTitle).replace(/\s*&\s*/g, ' et ').replace(/\btrigo\b/, 'trigonométrie');
+    for (const subj of [tt, short]) for (const suffix of suffixes) cands.push(`${subj} ${lvl.en}${suffix}`);
+  }
+  for (const suffix of suffixes) {
     for (const subj of subjects) cands.push(`${subj} ${lvl.en}${suffix}`);
   }
   let title = cands.find((c) => c.length <= TITLE_MAX && !usedTitles.has(frTypo(c)))
@@ -691,6 +702,12 @@ function levelFaqs(lvl, items, groups) {
   if (lvl.code === 'capes') {
     faqs.push({ q: 'Que contient chaque leçon de CAPES ?', a: `Chaque leçon propose des prérequis, un plan en trois parties, un théorème clé démontré, des développements possibles pour l'oral et les remarques fréquentes du jury. ${items.length} leçons sont disponibles.` });
     faqs.push({ q: 'Les leçons de CAPES sont-elles gratuites ?', a: 'Oui, comme tout le site : sans inscription, sans publicité, sous licence libre CC BY-NC-SA.' });
+    return faqs;
+  }
+  if (lvl.code === 'crpe') {
+    faqs.push({ q: 'Quel est le programme de mathématiques du concours de professeur des écoles ?', a: `Pour la session 2027, la partie mathématiques de l'épreuve écrite porte sur le programme de mathématiques du cycle 4 (5e, 4e et 3e). Le site le couvre en ${items.length} chapitres : ${groups.map((g) => plain(g.name).toLowerCase()).join(', ')}.` });
+    faqs.push({ q: 'Comment s\u2019entraîner aux mathématiques du CRPE ?', a: `Choisissez un chapitre puis « S'entraîner » : exercices générés à chaque tirage et problèmes de type concours, corrigés immédiatement, en quatre paliers (${tierNames('crpe').map((n, i) => `${i + 1}. ${n}`).join(', ')}). Les derniers paliers proposent des affirmations à justifier et des analyses d'erreurs d'élèves.` });
+    faqs.push({ q: 'Les contenus pour le CRPE sont-ils gratuits ?', a: 'Oui, comme tout le site : sans inscription, sans publicité, sous licence libre CC BY-NC-SA.' });
     return faqs;
   }
   faqs.push({ q: `Quels chapitres sont au programme de maths ${lvl.en} ?`,
