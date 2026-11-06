@@ -7228,7 +7228,7 @@
       type: 'exact', answer: this._6ans(ans),
       hint1: 'Fais une figure à main levée et code les longueurs égales.',
       hint2: 'Les diagonales d\'un rectangle ont la même longueur et le même milieu.',
-      solution: sol + `\nRéponse : **${W(ans)} cm**.`,
+      solution: sol + `\nRéponse : **$${W(ans)}$ cm**.`,
       _v: { k: '6G1.diagrect', x, mode }
     });
   });

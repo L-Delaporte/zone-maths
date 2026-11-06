@@ -235,8 +235,30 @@
         u0, u1 = u1, u0 - q * u1
         v0, v1 = v1, v0 - q * v1
     return a, u0, v0
-<p class="math-p">def crible(n):<br/>    est_premier = [True] * (n + 1)<br/>    est_premier[0] = False<br/>    est_premier[1] = False<br/>    for p in range(2, n + 1):<br/>        if p * p &gt; n:<br/>            break<br/>        if est_premier[p]:<br/>            for m in range(p * p, n + 1, p):<br/>                est_premier[m] = False<br/>    return [k for k in range(n + 1) if est_premier[k]]</p>
-<p class="math-p">def decomposition(n):<br/>    facteurs = []<br/>    p = 2<br/>    while n &gt; 1:<br/>        while n % p == 0:<br/>            facteurs.append(p)<br/>            n = n // p<br/>        p = p + 1<br/>    return facteurs<br/></code></pre></div><br/><code class="math-inline-code">bezout(37, 13)</code> renvoie <code class="math-inline-code">(1, 6, -17)</code>, <code class="math-inline-code">crible(30)</code> renvoie <code class="math-inline-code">[2, 3, 5, 7, 11, 13, 17, 19, 23, 29]</code> et <code class="math-inline-code">decomposition(360)</code> renvoie <code class="math-inline-code">[2, 2, 2, 3, 3, 5]</code>.</p></article>
+
+def crible(n):
+    est_premier = [True] * (n + 1)
+    est_premier[0] = False
+    est_premier[1] = False
+    for p in range(2, n + 1):
+        if p * p &gt; n:
+            break
+        if est_premier[p]:
+            for m in range(p * p, n + 1, p):
+                est_premier[m] = False
+    return [k for k in range(n + 1) if est_premier[k]]
+
+def decomposition(n):
+    facteurs = []
+    p = 2
+    while n &gt; 1:
+        while n % p == 0:
+            facteurs.append(p)
+            n = n // p
+        p = p + 1
+    return facteurs
+</code></pre></div>
+<p class="math-p"><code class="math-inline-code">bezout(37, 13)</code> renvoie <code class="math-inline-code">(1, 6, -17)</code>, <code class="math-inline-code">crible(30)</code> renvoie <code class="math-inline-code">[2, 3, 5, 7, 11, 13, 17, 19, 23, 29]</code> et <code class="math-inline-code">decomposition(360)</code> renvoie <code class="math-inline-code">[2, 2, 2, 3, 3, 5]</code>.</p></article>
     </section>
 
     <section class="cours-section " id="methodes" aria-labelledby="methodes-titre">

@@ -8225,7 +8225,7 @@ window.MathsLyceeGenerators = {
       this._xd(r),
       'Pour deux nombres strictement positifs, on compare leur quotient à 1.',
       `Calcule $${A} \\div ${B}$.`,
-      `$\\dfrac{A}{B} = ${A} \\div ${B} = ${this.dec(r)}$ : ${r > 1 ? `$A$ vaut ${this.dec(r)} fois $B$, donc $A > B$` : r < 1 ? `$A$ ne représente que $${this.dec(r)}$ fois $B$, donc $A < B$` : '$A = B$'}.`,
+      `$\\dfrac{A}{B} = ${A} \\div ${B} = ${this.dec(r)}$ : ${r > 1 ? `$A$ vaut $${this.dec(r)}$ fois $B$, donc $A > B$` : r < 1 ? `$A$ ne représente que $${this.dec(r)}$ fois $B$, donc $A < B$` : '$A = B$'}.`,
       { instruction: 'Saisir un nombre décimal, par exemple 1,25.' });
   },
 

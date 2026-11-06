@@ -608,7 +608,7 @@ async function step(label, fn) {
       await evaluate("document.getElementById('quiz-count-select').value='dnb-20'; window.MathsQuizGenerator.generate(); true");
       await sleep(1200);
       await printMedia(async () => {
-        await evaluate(`(() => { const b = [...document.querySelectorAll('#quiz-modal [data-click="print"]')].find(x => x.offsetParent !== null) || document.querySelector('#quiz-modal [data-click="print"]'); b.click(); return true; })()`);
+        await evaluate(`(() => { const b = [...document.querySelectorAll('#quiz-modal [data-click="MathsQuizGenerator.print"]')].find(x => x.offsetParent !== null) || document.querySelector('#quiz-modal [data-click="MathsQuizGenerator.print"]'); b.click(); return true; })()`);
         await sleep(400);
       });
       await evaluate("window.MathsQuizGenerator.closeModal(); true");
