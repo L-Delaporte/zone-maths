@@ -167,6 +167,7 @@ Object.assign(window.MathsApp, {
         interactionContainer.appendChild(inputWrapper);
 
         const inputField = inputWrapper.querySelector('#math-user-input');
+        this.applyMathKeyboardMode(inputField);
         const previewBadge = inputWrapper.querySelector('#math-preview-badge');
 
         inputField.addEventListener('input', () => {
@@ -726,16 +727,38 @@ Object.assign(window.MathsApp, {
     window.MathsRenderer.renderElement(feedbackContainer);
   },
 
+  /**
+   * Clavier mathématique ouvert : inputmode="none" empêche le clavier du téléphone de
+   * s'ouvrir par-dessus (le curseur et la saisie au clavier physique restent possibles).
+   * Clavier mathématique fermé : l'attribut est retiré, le clavier normal revient.
+   */
+  applyMathKeyboardMode(input) {
+    if (!input) return;
+    const keyboard = document.getElementById('virtual-math-keyboard');
+    const open = !!keyboard && keyboard.style.display !== 'none' && keyboard.style.display !== '';
+    if (open) input.setAttribute('inputmode', 'none');
+    else input.removeAttribute('inputmode');
+  },
+
   // Clavier virtuel mathématique
   bindVirtualKeyboard() {
     const toggleBtn = document.getElementById('btn-toggle-math-keyboard');
     const keyboard = document.getElementById('virtual-math-keyboard');
 
     if (toggleBtn && keyboard) {
+      toggleBtn.setAttribute('aria-expanded', 'false');
       toggleBtn.addEventListener('click', () => {
         const isHidden = keyboard.style.display === 'none' || !keyboard.style.display;
         keyboard.style.display = isHidden ? 'grid' : 'none';
         toggleBtn.classList.toggle('active', isHidden);
+        toggleBtn.setAttribute('aria-expanded', String(isHidden));
+        const input = document.getElementById('math-user-input');
+        if (!input) return;
+        this.applyMathKeyboardMode(input);
+        // Le focus suit le clavier choisi : sur mobile, rouvrir le champ affiche le clavier
+        // du téléphone quand le clavier mathématique est fermé, et le laisse caché sinon.
+        input.blur();
+        input.focus({ preventScroll: true });
       });
     }
 
