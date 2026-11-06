@@ -336,6 +336,207 @@
         answer: "Étape 2 → Étape 3 → Étape 1 → Étape 4",
         hint1: "Demande-toi ce dont chaque étape a besoin : peut-on couper un segment en deux avant de l'avoir construit ? peut-on choisir $\\varphi(k+1)$ avant de connaître le segment de l'étape $k+1$ ?",
         solution: "L'ordre logique canonique est :\n1. Confinement initial dans $[a_0, b_0]$ car la suite est bornée (Étape 2).\n2. Construction des segments emboîtés par dichotomie et tiroirs (Étape 3).\n3. Choix itératif des indices croissants $\\varphi(k)$ (Étape 1).\n4. Convergence de la sous-suite vers le point d'intersection unique (Étape 4)."
+      },
+      // Compléments : démonstrations classiques de L1 (paliers 1 à 4)
+      {
+        id: 'L1-PRF-7',
+        chapterId: 'L1-PRF',
+        tier: 1,
+        title: "Unicité de la limite : le bon choix de ε",
+        statement: "On suppose qu'une suite $(u_n)$ converge vers $\\ell$ et vers $\\ell'$ avec $\\ell \\ne \\ell'$, et l'on cherche une contradiction. Pour quel choix de $\\varepsilon > 0$ l'inégalité $|\\ell - \\ell'| \\le |\\ell - u_n| + |u_n - \\ell'|$ fournit-elle une contradiction pour $n$ assez grand ?",
+        type: "mcq",
+        options: [
+          "$\\varepsilon = \\frac{|\\ell - \\ell'|}{2}$",
+          "$\\varepsilon = |\\ell - \\ell'|$",
+          "$\\varepsilon = 1$",
+          "$\\varepsilon = 2|\\ell - \\ell'|$"
+        ],
+        correctIndex: 0,
+        answer: "$\\varepsilon = \\frac{|\\ell - \\ell'|}{2}$",
+        hint1: "Pour $n$ assez grand, chacun des deux termes du membre de droite est strictement inférieur à $\\varepsilon$ : quelle majoration stricte de $|\\ell - \\ell'|$ obtient-on ?",
+        hint2: "La contradiction cherchée est de la forme $|\\ell - \\ell'| < |\\ell - \\ell'|$ : il faut que $2\\varepsilon$ ne dépasse pas la distance entre les deux limites.",
+        solution: "Posons $\\varepsilon = \\frac{|\\ell - \\ell'|}{2} > 0$. Il existe $N_1$ tel que $|u_n - \\ell| < \\varepsilon$ pour $n \\ge N_1$, et $N_2$ tel que $|u_n - \\ell'| < \\varepsilon$ pour $n \\ge N_2$. Pour $n \\ge \\max(N_1, N_2)$, l'inégalité triangulaire donne $|\\ell - \\ell'| < 2\\varepsilon = |\\ell - \\ell'|$, ce qui est absurde. Donc **$\\ell = \\ell'$**.\nAvec $\\varepsilon = |\\ell - \\ell'|$, on obtiendrait seulement $|\\ell - \\ell'| < 2|\\ell - \\ell'|$, qui est vrai ; avec $\\varepsilon = 1$, la contradiction n'apparaît que si $|\\ell - \\ell'| \\ge 2$.",
+        skill: "Raisonner"
+      },
+      {
+        id: 'L1-PRF-8',
+        chapterId: 'L1-PRF',
+        tier: 1,
+        title: "Irrationalité de √2 : le lemme de parité",
+        statement: "Dans la preuve de l'irrationalité de $\\sqrt{2}$, on écrit $\\sqrt{2} = \\frac{p}{q}$ avec $p, q$ entiers premiers entre eux, d'où $p^2 = 2q^2$. On en déduit que $p^2$ est pair. Quel argument justifie alors que **$p$ est pair** ?",
+        type: "mcq",
+        options: [
+          "Par contraposée : si $p = 2k + 1$, alors $p^2 = 2(2k^2 + 2k) + 1$ est impair",
+          "Car tout carré d'entier est pair",
+          "Car $p^2 = 2q^2$ entraîne $p = \\sqrt{2}\\, q$",
+          "Car $p$ et $q$ sont premiers entre eux"
+        ],
+        correctIndex: 0,
+        answer: "Par contraposée : si $p = 2k + 1$, alors $p^2 = 2(2k^2 + 2k) + 1$ est impair",
+        hint1: "Il est plus simple de montrer que le carré d'un entier impair est impair que de montrer directement l'implication demandée.",
+        hint2: "Écrivez un entier impair sous la forme $2k + 1$ et développez son carré.",
+        solution: "On démontre la contraposée : si $p$ est impair, $p = 2k + 1$ et $p^2 = 4k^2 + 4k + 1 = 2(2k^2 + 2k) + 1$ est impair. Donc **$p^2$ pair implique $p$ pair**.\nSuite de la preuve : $p = 2k$ donne $4k^2 = 2q^2$, soit $q^2 = 2k^2$ ; le même lemme montre que $q$ est pair, ce qui contredit le fait que $p$ et $q$ sont premiers entre eux.\nL'argument « $p = \\sqrt{2}\\, q$ » est circulaire : il ne dit rien de la parité de $p$.",
+        skill: "Raisonner"
+      },
+      {
+        id: 'L1-PRF-9',
+        chapterId: 'L1-PRF',
+        tier: 1,
+        title: "Infinité des nombres premiers : l'argument d'Euclide",
+        statement: "On suppose qu'il n'existe qu'un nombre fini de nombres premiers $p_1, \\dots, p_n$, et l'on pose $N = p_1 p_2 \\cdots p_n + 1$. L'entier $N \\ge 2$ admet un diviseur premier $p$. Pourquoi $p$ ne peut-il être aucun des $p_i$ ?",
+        type: "mcq",
+        options: [
+          "Si $p = p_i$, alors $p$ divise $N$ et $p_1 \\cdots p_n$, donc il divise leur différence $1$, ce qui est impossible",
+          "Car $N$ est plus grand que chacun des $p_i$",
+          "Car $N$ est forcément un nombre premier",
+          "Car $N$ est impair"
+        ],
+        correctIndex: 0,
+        answer: "Si $p = p_i$, alors $p$ divise $N$ et $p_1 \\cdots p_n$, donc il divise leur différence $1$, ce qui est impossible",
+        hint1: "Un entier qui divise deux entiers divise aussi leur différence.",
+        hint2: "Calculez $N - p_1 p_2 \\cdots p_n$.",
+        solution: "Si $p$ était l'un des $p_i$, il diviserait le produit $p_1 \\cdots p_n$ ainsi que $N$, donc leur différence $N - p_1 \\cdots p_n = 1$. Or un nombre premier est au moins égal à $2$ : contradiction. Le diviseur premier $p$ de $N$ n'est donc pas dans la liste, qui n'était pas complète : **il existe une infinité de nombres premiers**.\nL'existence de $p$ repose sur le fait que tout entier $N \\ge 2$ admet un diviseur premier (son plus petit diviseur supérieur ou égal à $2$).",
+        skill: "Raisonner"
+      },
+      {
+        id: 'L1-PRF-10',
+        chapterId: 'L1-PRF',
+        tier: 2,
+        title: "Somme géométrique : la méthode du décalage",
+        statement: "Soit $q \\in \\mathbb{R} \\setminus \\{1\\}$ et $S_n = 1 + q + q^2 + \\dots + q^n$. En calculant $S_n - q S_n$, quelle formule obtient-on ?",
+        type: "mcq",
+        options: [
+          "$S_n = \\frac{1 - q^{n+1}}{1 - q}$",
+          "$S_n = \\frac{1 - q^{n}}{1 - q}$",
+          "$S_n = \\frac{1 - q^{n+1}}{1 + q}$",
+          "$S_n = \\frac{q^{n+1}}{q - 1}$"
+        ],
+        correctIndex: 0,
+        answer: "$S_n = \\frac{1 - q^{n+1}}{1 - q}$",
+        hint1: "Écrivez $q S_n = q + q^2 + \\dots + q^{n+1}$ sous $S_n$ en alignant les puissances égales : presque tous les termes disparaissent dans la différence.",
+        hint2: "Il reste le premier terme de $S_n$ et le dernier terme de $q S_n$ ; pour diviser par $1 - q$, l'hypothèse $q \\ne 1$ est nécessaire.",
+        solution: "$S_n - q S_n = (1 + q + \\dots + q^n) - (q + q^2 + \\dots + q^{n+1}) = 1 - q^{n+1}$ (somme télescopique).\nDonc $(1 - q) S_n = 1 - q^{n+1}$ et, comme $q \\ne 1$, **$S_n = \\frac{1 - q^{n+1}}{1 - q}$**. La somme comporte $n + 1$ termes, d'où l'exposant $n + 1$. Pour $q = 1$, $S_n = n + 1$.\nConséquence : si $|q| < 1$, $q^{n+1} \\to 0$ et $S_n \\to \\frac{1}{1 - q}$.",
+        skill: "Calculer"
+      },
+      {
+        id: 'L1-PRF-11',
+        chapterId: 'L1-PRF',
+        tier: 2,
+        title: "Inégalité triangulaire : preuve par les carrés",
+        statement: "Pour démontrer que $|x + y| \\le |x| + |y|$ pour tous réels $x, y$, on compare les carrés des deux membres. Quel enchaînement est correct et complet ?",
+        type: "mcq",
+        options: [
+          "$(|x| + |y|)^2 - |x + y|^2 = 2(|xy| - xy) \\ge 0$, puis on conclut car les deux membres sont positifs et la racine carrée est croissante sur $[0 ; +\\infty[$",
+          "$|x + y|^2 = x^2 + y^2$, donc $|x + y| \\le |x| + |y|$",
+          "$(|x| + |y|)^2 - |x + y|^2 = 2(|xy| - xy) \\ge 0$, donc l'inégalité est vraie, sans autre justification",
+          "$|x + y| = |x| + |y|$ pour tous réels, d'où l'inégalité"
+        ],
+        correctIndex: 0,
+        answer: "$(|x| + |y|)^2 - |x + y|^2 = 2(|xy| - xy) \\ge 0$, puis on conclut car les deux membres sont positifs et la racine carrée est croissante sur $[0 ; +\\infty[$",
+        hint1: "Développez $|x + y|^2 = (x + y)^2$ et $(|x| + |y|)^2$, en utilisant $|x|^2 = x^2$ et $|x||y| = |xy|$.",
+        hint2: "De $a^2 \\le b^2$, on ne peut déduire $a \\le b$ que sous une condition de signe : laquelle ?",
+        solution: "$(|x| + |y|)^2 = x^2 + 2|xy| + y^2$ et $|x + y|^2 = x^2 + 2xy + y^2$, donc leur différence vaut $2(|xy| - xy) \\ge 0$ puisque $xy \\le |xy|$.\nAinsi $|x + y|^2 \\le (|x| + |y|)^2$. Les nombres $|x + y|$ et $|x| + |y|$ étant **positifs**, la croissance de la racine carrée sur $[0 ; +\\infty[$ donne **$|x + y| \\le |x| + |y|$**. Sans l'argument de signe, l'implication $a^2 \\le b^2 \\Rightarrow a \\le b$ est fausse : $a = 2$ et $b = -3$ vérifient $a^2 \\le b^2$ mais $a > b$.\nCas d'égalité : $xy \\ge 0$.",
+        skill: "Raisonner"
+      },
+      {
+        id: 'L1-PRF-12',
+        chapterId: 'L1-PRF',
+        tier: 2,
+        title: "Limite monotone : rôle de la borne supérieure",
+        statement: "Soit $(u_n)$ une suite croissante et majorée, et $\\ell = \\sup \\{u_n \\mid n \\in \\mathbb{N}\\}$. Dans la preuve de $u_n \\to \\ell$, on fixe $\\varepsilon > 0$. Pourquoi existe-t-il un rang $N$ tel que $u_N > \\ell - \\varepsilon$ ?",
+        type: "mcq",
+        options: [
+          "Car $\\ell$ est le plus petit des majorants : $\\ell - \\varepsilon < \\ell$ n'est donc pas un majorant de la suite",
+          "Car la suite est croissante",
+          "Car la suite est majorée par $\\ell$",
+          "Car $\\ell$ est atteint par la suite"
+        ],
+        correctIndex: 0,
+        answer: "Car $\\ell$ est le plus petit des majorants : $\\ell - \\varepsilon < \\ell$ n'est donc pas un majorant de la suite",
+        hint1: "Rappelez la caractérisation de la borne supérieure : c'est un majorant, et c'est le plus petit d'entre eux.",
+        hint2: "Niez la propriété « $\\ell - \\varepsilon$ est un majorant de $\\{u_n\\}$ ».",
+        solution: "La borne supérieure existe car l'ensemble des termes est non vide et majoré (propriété de la borne supérieure de $\\mathbb{R}$). Comme $\\ell - \\varepsilon < \\ell$ et que $\\ell$ est le plus petit majorant, **$\\ell - \\varepsilon$ n'est pas un majorant** : il existe $N$ tel que $u_N > \\ell - \\varepsilon$.\nLa croissance intervient ensuite : pour $n \\ge N$, $\\ell - \\varepsilon < u_N \\le u_n \\le \\ell$, donc $|u_n - \\ell| < \\varepsilon$. La borne $\\ell$ n'est pas forcément atteinte (exemple : $u_n = 1 - \\frac{1}{n + 1}$, de borne supérieure $1$).",
+        skill: "Raisonner"
+      },
+      {
+        id: 'L1-PRF-13',
+        chapterId: 'L1-PRF',
+        tier: 3,
+        title: "Chasse aux sophismes : « N = p₁⋯pₙ + 1 est premier »",
+        statement: "Un étudiant rédige ainsi la preuve d'Euclide : *« Supposons qu'il n'y ait qu'un nombre fini de premiers $p_1, \\dots, p_n$. Alors $N = p_1 \\cdots p_n + 1$ n'est divisible par aucun $p_i$, donc $N$ est un nombre premier, différent des $p_i$ : contradiction. »* Que penser de cette rédaction ?",
+        type: "mcq",
+        options: [
+          "L'affirmation « $N$ est premier » n'est pas justifiée et fausse en général ($2 \\cdot 3 \\cdot 5 \\cdot 7 \\cdot 11 \\cdot 13 + 1 = 59 \\times 509$) ; la conclusion correcte est que $N$ a un diviseur premier hors de la liste",
+          "La rédaction est parfaitement correcte",
+          "L'erreur est que $N$ peut être divisible par l'un des $p_i$",
+          "L'erreur est qu'il faudrait poser $N = p_1 \\cdots p_n - 1$"
+        ],
+        correctIndex: 0,
+        answer: "L'affirmation « $N$ est premier » n'est pas justifiée et fausse en général ($2 \\cdot 3 \\cdot 5 \\cdot 7 \\cdot 11 \\cdot 13 + 1 = 59 \\times 509$) ; la conclusion correcte est que $N$ a un diviseur premier hors de la liste",
+        hint1: "Testez l'affirmation sur des listes réelles de premiers consécutifs : $2$, puis $2, 3$, puis $2, 3, 5$, et ainsi de suite jusqu'à $13$.",
+        hint2: "Un entier peut n'être divisible par aucun nombre d'une liste de premiers sans être premier lui-même : il peut avoir des diviseurs premiers plus grands que ceux de la liste.",
+        solution: "Dans le cadre de l'hypothèse absurde, le raisonnement fonctionne si l'on conclut correctement : $N \\ge 2$ a un diviseur premier, qui n'est aucun des $p_i$, d'où la contradiction. En revanche, la phrase « $N$ est un nombre premier » est présentée comme un fait général, ce qui est **faux** : $2 \\times 3 \\times 5 \\times 7 \\times 11 \\times 13 + 1 = 30\\,031 = 59 \\times 509$.\nUne rédaction rigoureuse dit : **$N$ admet un diviseur premier $p$, et $p$ n'est pas dans la liste**. C'est cette version qui s'adapte aussi en preuve directe : toute liste finie de premiers peut être complétée.",
+        skill: "Analyser une erreur"
+      },
+      {
+        id: 'L1-PRF-14',
+        chapterId: 'L1-PRF',
+        tier: 3,
+        title: "Chasse aux sophismes : la récurrence des chevaux",
+        statement: "On « démontre » par récurrence que $\\mathcal{P}(n)$ : « dans tout ensemble de $n$ chevaux, tous ont la même couleur » est vraie pour tout $n \\ge 1$.\n*Initialisation* : un seul cheval a la couleur de lui-même.\n*Hérédité* : dans un ensemble de $n + 1$ chevaux, les $n$ premiers ont la même couleur, les $n$ derniers aussi ; les deux groupes ont des chevaux en commun, donc tous ont la même couleur.\nOù est l'erreur ?",
+        type: "mcq",
+        options: [
+          "L'hérédité est fausse pour $n = 1$ : les deux groupes d'un seul cheval n'ont aucun cheval en commun",
+          "L'initialisation est fausse",
+          "Une récurrence ne peut pas porter sur des ensembles",
+          "L'hérédité doit être démontrée de $n$ à $n + 2$"
+        ],
+        correctIndex: 0,
+        answer: "L'hérédité est fausse pour $n = 1$ : les deux groupes d'un seul cheval n'ont aucun cheval en commun",
+        hint1: "L'hérédité doit être valable pour **tout** $n \\ge 1$ : testez l'argument pour la plus petite valeur, avec deux chevaux.",
+        hint2: "Pour $n + 1 = 2$, que sont « les $n$ premiers » et « les $n$ derniers » chevaux ?",
+        solution: "L'argument d'hérédité suppose que les groupes $\\{1, \\dots, n\\}$ et $\\{2, \\dots, n + 1\\}$ ont une intersection non vide, c'est-à-dire $n \\ge 2$. Pour $n = 1$, les groupes sont $\\{1\\}$ et $\\{2\\}$, **disjoints** : on ne peut pas transmettre la couleur. L'implication $\\mathcal{P}(1) \\Rightarrow \\mathcal{P}(2)$ n'est pas démontrée (et elle est fausse), donc toute la chaîne s'effondre.\nLeçon : une hérédité doit être vérifiée pour **tous** les rangs à partir de l'initialisation, y compris le premier passage.",
+        skill: "Analyser une erreur"
+      },
+      {
+        id: 'L1-PRF-15',
+        chapterId: 'L1-PRF',
+        tier: 4,
+        title: "Cauchy-Schwarz : la justification par le discriminant",
+        statement: "Dans $\\mathbb{R}^n$ muni du produit scalaire usuel, on fixe $x$ et $y$ et l'on pose $P(t) = \\|x + t y\\|^2 = \\|x\\|^2 + 2t \\langle x, y \\rangle + t^2 \\|y\\|^2$. Quelle justification de $\\langle x, y \\rangle^2 \\le \\|x\\|^2 \\|y\\|^2$ est **complète et correcte** ?",
+        type: "mcq",
+        options: [
+          "Si $y = 0$, l'inégalité est une égalité ; sinon $P$ est un trinôme du second degré positif sur $\\mathbb{R}$, il a au plus une racine réelle, donc son discriminant est négatif ou nul",
+          "$P$ n'a aucune racine réelle, donc son discriminant est strictement négatif",
+          "$P(t) \\ge 0$ pour tout $t$, donc le discriminant est négatif ou nul, quel que soit $y$",
+          "$P(0) = \\|x\\|^2 \\ge 0$, ce qui donne directement l'inégalité"
+        ],
+        correctIndex: 0,
+        answer: "Si $y = 0$, l'inégalité est une égalité ; sinon $P$ est un trinôme du second degré positif sur $\\mathbb{R}$, il a au plus une racine réelle, donc son discriminant est négatif ou nul",
+        hint1: "La notion de discriminant n'a de sens que pour un polynôme de degré exactement $2$ : que vaut le coefficient de $t^2$ ?",
+        hint2: "Pensez au cas où $x$ et $y$ sont colinéaires : $P$ peut-il s'annuler ?",
+        solution: "• Si $y = 0$ : les deux membres sont nuls.\n• Si $y \\ne 0$ : $\\|y\\|^2 > 0$, donc $P$ est un trinôme du second degré. Il est positif sur $\\mathbb{R}$ (carré d'une norme), donc il ne change pas de signe et possède au plus une racine réelle : $\\Delta = 4\\langle x, y \\rangle^2 - 4\\|x\\|^2\\|y\\|^2 \\le 0$, d'où **$\\langle x, y \\rangle^2 \\le \\|x\\|^2\\|y\\|^2$**.\nL'option « aucune racine, donc $\\Delta < 0$ » est fausse : si $x = -t_0 y$, $P(t_0) = 0$ et l'on a égalité. Ce cas d'égalité caractérise d'ailleurs la colinéarité de $x$ et $y$.",
+        skill: "Raisonner"
+      },
+      {
+        id: 'L1-PRF-16',
+        chapterId: 'L1-PRF',
+        tier: 4,
+        title: "Composée injective : que peut-on en déduire ?",
+        statement: "Soient $f : E \\to F$ et $g : F \\to G$ deux applications telles que $g \\circ f$ soit **injective**. Quelle affirmation est démontrée correctement ?",
+        type: "mcq",
+        options: [
+          "$f$ est injective (si $f(a) = f(b)$, alors $g(f(a)) = g(f(b))$, donc $a = b$), mais $g$ ne l'est pas forcément : $f = \\exp$ et $g : x \\mapsto x^2$ sur $\\mathbb{R}$",
+          "$f$ et $g$ sont toutes deux injectives",
+          "$g$ est injective, mais $f$ ne l'est pas forcément",
+          "Ni $f$ ni $g$ n'est forcément injective"
+        ],
+        correctIndex: 0,
+        answer: "$f$ est injective (si $f(a) = f(b)$, alors $g(f(a)) = g(f(b))$, donc $a = b$), mais $g$ ne l'est pas forcément : $f = \\exp$ et $g : x \\mapsto x^2$ sur $\\mathbb{R}$",
+        hint1: "Partez de deux éléments $a, b \\in E$ ayant la même image par $f$, et appliquez $g$.",
+        hint2: "Pour $g$, l'injectivité de $g \\circ f$ ne porte que sur les éléments de $F$ qui sont des images par $f$ : cherchez un $g$ non injectif mais injectif sur $f(E)$.",
+        solution: "• **$f$ est injective** : si $f(a) = f(b)$, alors $(g \\circ f)(a) = (g \\circ f)(b)$, et l'injectivité de $g \\circ f$ donne $a = b$.\n• **$g$ ne l'est pas forcément** : avec $f = \\exp : \\mathbb{R} \\to \\mathbb{R}$ et $g : x \\mapsto x^2$, la composée $x \\mapsto e^{2x}$ est injective, mais $g(-1) = g(1)$. L'injectivité de la composée n'impose rien à $g$ en dehors de $f(E) = ]0 ; +\\infty[$.\nRésultat dual : si $g \\circ f$ est surjective, alors $g$ est surjective.",
+        skill: "Raisonner"
       }
     ],
 

@@ -602,6 +602,9 @@
  "pass-10": [
   "pass-las/equations-differentielles-et-modeles-pharmacocinetiques.html"
  ],
+ "pass-11": [
+  "pass-las/correlation-et-regression-lineaire.html"
+ ],
  "sante-01": [
   "prepa-sante/puissances-de-10.html"
  ],
@@ -631,5 +634,47 @@
  ],
  "sante-10": [
   "prepa-sante/statistiques-descriptives.html"
+ ],
+ "sante-11": [
+  "prepa-sante/primitives-integrales-et-aire-sous-la-courbe.html"
+ ],
+ "veto-01": [
+  "veto-bcpst/logique-raisonnement-par-recurrence-et-denombrement.html"
+ ],
+ "veto-02": [
+  "veto-bcpst/trigonometrie-nombres-complexes-et-polynomes.html"
+ ],
+ "veto-03": [
+  "veto-bcpst/suites-reelles-et-series.html"
+ ],
+ "veto-04": [
+  "veto-bcpst/fonctions-limites-continuite-derivation.html"
+ ],
+ "veto-05": [
+  "veto-bcpst/primitives-integrales-et-integrales-generalisees.html"
+ ],
+ "veto-06": [
+  "veto-bcpst/equations-differentielles.html"
+ ],
+ "veto-07": [
+  "veto-bcpst/fonctions-de-deux-variables-reelles.html"
+ ],
+ "veto-08": [
+  "veto-bcpst/systemes-lineaires-et-calcul-matriciel.html"
+ ],
+ "veto-09": [
+  "veto-bcpst/espaces-vectoriels.html"
+ ],
+ "veto-10": [
+  "veto-bcpst/geometrie-et-produit-scalaire.html"
+ ],
+ "veto-11": [
+  "veto-bcpst/probabilites-et-variables-aleatoires-discretes.html"
+ ],
+ "veto-12": [
+  "veto-bcpst/variables-a-densite-et-theoremes-limites.html"
+ ],
+ "veto-13": [
+  "veto-bcpst/statistique-descriptive-univariee-et-bivariee.html"
  ]
 }

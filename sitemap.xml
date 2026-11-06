@@ -1286,6 +1286,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://etabli-des-maths.fr/cours/prepa-sante/primitives-integrales-et-aire-sous-la-courbe.html</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://etabli-des-maths.fr/cours/pass-las/statistique-descriptive.html</loc>
     <lastmod>2026-11-06</lastmod>
     <changefreq>monthly</changefreq>
@@ -1341,6 +1347,90 @@
   </url>
   <url>
     <loc>https://etabli-des-maths.fr/cours/pass-las/equations-differentielles-et-modeles-pharmacocinetiques.html</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://etabli-des-maths.fr/cours/pass-las/correlation-et-regression-lineaire.html</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://etabli-des-maths.fr/cours/veto-bcpst/logique-raisonnement-par-recurrence-et-denombrement.html</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://etabli-des-maths.fr/cours/veto-bcpst/trigonometrie-nombres-complexes-et-polynomes.html</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://etabli-des-maths.fr/cours/veto-bcpst/suites-reelles-et-series.html</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://etabli-des-maths.fr/cours/veto-bcpst/fonctions-limites-continuite-derivation.html</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://etabli-des-maths.fr/cours/veto-bcpst/primitives-integrales-et-integrales-generalisees.html</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://etabli-des-maths.fr/cours/veto-bcpst/equations-differentielles.html</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://etabli-des-maths.fr/cours/veto-bcpst/fonctions-de-deux-variables-reelles.html</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://etabli-des-maths.fr/cours/veto-bcpst/systemes-lineaires-et-calcul-matriciel.html</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://etabli-des-maths.fr/cours/veto-bcpst/espaces-vectoriels.html</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://etabli-des-maths.fr/cours/veto-bcpst/geometrie-et-produit-scalaire.html</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://etabli-des-maths.fr/cours/veto-bcpst/probabilites-et-variables-aleatoires-discretes.html</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://etabli-des-maths.fr/cours/veto-bcpst/variables-a-densite-et-theoremes-limites.html</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://etabli-des-maths.fr/cours/veto-bcpst/statistique-descriptive-univariee-et-bivariee.html</loc>
     <lastmod>2026-11-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -1425,6 +1515,12 @@
   </url>
   <url>
     <loc>https://etabli-des-maths.fr/cours/pass-las/</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://etabli-des-maths.fr/cours/veto-bcpst/</loc>
     <lastmod>2026-11-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>

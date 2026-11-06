@@ -99,6 +99,14 @@
         'Calculer moyenne, variance et écart type d\'une série',
         'Déterminer médiane et quartiles',
         'Interpréter et comparer des séries statistiques'
+      ]),
+    S('sante-11', 'PS-11', 'fonctions', 'Fonctions et suites',
+      'Primitives, intégrales et aire sous la courbe', 'Intégrales & AUC', 'sigma', 'Pharmacologue de l\'Aire', '#0f766e',
+      'Primitives usuelles, intégrale et aire sous la courbe, valeur moyenne d\'une fonction, méthode des trapèzes, aire sous la courbe des concentrations (AUC) et quantité de médicament éliminée.',
+      [
+        'Calculer une primitive et une intégrale',
+        'Interpréter une intégrale comme une aire ou une valeur moyenne',
+        'Calculer une aire sous la courbe des concentrations'
       ])
   ];
 
@@ -182,6 +190,14 @@
         'Résoudre une équation $y\' = ay + b$ avec condition initiale',
         'Relier constante d\'élimination et demi-vie',
         'Modéliser une perfusion et calculer la concentration à l\'équilibre'
+      ]),
+    P('pass-11', 'PA-11', 'stats', 'Statistique descriptive',
+      'Corrélation et régression linéaire', 'Corrélation & régression', 'scatter-chart', 'Analyste des Liaisons', '#9a3412',
+      'Séries bivariées et nuage de points, covariance, coefficient de corrélation linéaire de Pearson, droite des moindres carrés, coefficient de détermination, prédiction, corrélation et causalité.',
+      [
+        'Calculer une covariance et un coefficient de corrélation',
+        'Déterminer la droite de régression et faire une prédiction',
+        'Interpréter un coefficient de détermination sans confondre corrélation et causalité'
       ])
   ];
 

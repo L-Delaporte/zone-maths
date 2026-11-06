@@ -642,7 +642,90 @@ window.MATHS_COURSES_SANTE = {
       { q: "Effet de $y = ax + b$ sur l'écart type ?", a: "$\\sigma_y = |a|\\sigma_x$." },
       { q: "Que représente la longueur de la boîte d'un diagramme en boîte ?", a: "L'écart interquartile $Q_3 - Q_1$ : la boîte contient environ la moitié centrale des valeurs." }
     ]
+  },
+
+  "sante-11": {
+    title: "PS-11 : Primitives, intégrales et aire sous la courbe",
+    domain: "Fonctions et suites",
+    objectives: [
+      "Déterminer une primitive à l'aide des primitives usuelles et des formes $u'e^{u}$ et $\\dfrac{u'}{u}$.",
+      "Calculer une intégrale et l'interpréter comme une aire, une quantité cumulée ou une valeur moyenne.",
+      "Approcher une aire sous la courbe à partir de mesures par la méthode des trapèzes.",
+      "Calculer l'aire sous la courbe des concentrations (AUC) et une clairance."
+    ],
+    keyPoints: [
+      {
+        title: "1. Primitives",
+        content: "$F$ est une primitive de $f$ sur un intervalle $I$ si $F' = f$ sur $I$. Deux primitives de $f$ diffèrent d'une constante.\nPrimitives usuelles ($k$ et $a$ réels, $a \\neq 0$, $n$ entier, $n \\neq -1$) :\n• $k$ a pour primitive $kx$ ; $x^{n}$ a pour primitive $\\dfrac{x^{n+1}}{n+1}$ ; $\\dfrac{1}{x^{2}}$ a pour primitive $-\\dfrac{1}{x}$ ;\n• $\\dfrac{1}{x}$ a pour primitive $\\ln x$ sur $]0 ; +\\infty[$ ; $e^{ax}$ a pour primitive $\\dfrac{1}{a}e^{ax}$ ;\n• $u'e^{u}$ a pour primitive $e^{u}$ ; $\\dfrac{u'}{u}$ a pour primitive $\\ln u$ (si $u > 0$).\n*Exemple* : une primitive de $e^{-0{,}2t}$ est $-5e^{-0{,}2t}$ (vérification : $(-5e^{-0{,}2t})' = -5 \\times (-0{,}2)e^{-0{,}2t} = e^{-0{,}2t}$)."
+      },
+      {
+        title: "2. Intégrale et aire",
+        content: "Si $f$ est continue sur $[a ; b]$ et $F$ est une primitive de $f$ :\n$$\\int_a^b f(t)\\,dt = \\Big[F(t)\\Big]_a^b = F(b) - F(a).$$\nSi $f$ est positive sur $[a ; b]$, cette intégrale est l'**aire**, en unités d'aire, du domaine compris entre la courbe, l'axe des abscisses et les droites $t = a$ et $t = b$.\n*Interprétation* : l'intégrale d'un débit est une quantité cumulée. Si $d(t)$ est un débit de perfusion en mL/min, $\\displaystyle\\int_0^{10} d(t)\\,dt$ est le volume perfusé, en mL, pendant les 10 premières minutes."
+      },
+      {
+        title: "3. Propriétés de l'intégrale",
+        content: "• **Linéarité** : $\\displaystyle\\int_a^b (\\alpha f + \\beta g) = \\alpha\\int_a^b f + \\beta\\int_a^b g$.\n• **Relation de Chasles** : $\\displaystyle\\int_a^b f + \\int_b^c f = \\int_a^c f$.\n• **Positivité** : si $f \\geq 0$ sur $[a ; b]$ (avec $a \\leq b$), alors $\\displaystyle\\int_a^b f \\geq 0$.\n• **Croissance** : si $f \\leq g$ sur $[a ; b]$, alors $\\displaystyle\\int_a^b f \\leq \\int_a^b g$."
+      },
+      {
+        title: "4. Valeur moyenne",
+        content: "La valeur moyenne de $f$ sur $[a ; b]$ (avec $a < b$) est\n$$\\mu = \\frac{1}{b - a}\\int_a^b f(t)\\,dt.$$\nC'est la hauteur du rectangle de base $[a ; b]$ qui a la même aire que le domaine sous la courbe.\n*Exemple* : si $C(t) = 12 - 2t$ (mg/L) sur $[0 ; 6]$, $\\displaystyle\\int_0^6 C(t)\\,dt = \\Big[12t - t^{2}\\Big]_0^6 = 36$, donc la concentration moyenne est $\\dfrac{36}{6} = 6$ mg/L."
+      },
+      {
+        title: "5. Méthode des trapèzes",
+        content: "Quand on ne connaît la fonction qu'en quelques instants $t_0 < t_1 < \\dots < t_n$ (prises de sang, par exemple), on approche l'aire sous la courbe en reliant les points par des segments et en additionnant les aires des trapèzes :\n$$\\mathcal{A} \\approx \\sum_{i=0}^{n-1} (t_{i+1} - t_i) \\times \\frac{y_i + y_{i+1}}{2}.$$\n*Exemple* : mesures 8 ; 6 ; 2 mg/L à $t = 0$, 2 et 4 h : $\\mathcal{A} \\approx 2 \\times 7 + 2 \\times 4 = 22$ mg·h/L."
+      },
+      {
+        title: "6. AUC et clairance",
+        content: "Après une injection intraveineuse, la concentration est $C(t) = C_0e^{-kt}$ ($k > 0$). L'**aire sous la courbe** (AUC) entre 0 et $T$ vaut\n$$\\int_0^T C_0e^{-kt}\\,dt = \\Big[-\\frac{C_0}{k}e^{-kt}\\Big]_0^T = \\frac{C_0}{k}\\left(1 - e^{-kT}\\right).$$\nComme $\\displaystyle\\lim_{T \\to +\\infty} e^{-kT} = 0$, cette intégrale tend vers $\\dfrac{C_0}{k}$ : c'est l'AUC « de 0 à l'infini », qui mesure l'exposition totale de l'organisme au médicament (en mg·h/L si $C$ est en mg/L et $t$ en h).\nLa **clairance** d'un médicament injecté par voie intraveineuse est $CL = \\dfrac{\\text{Dose}}{\\text{AUC}}$ (en L/h).\n*Exemple* : dose 500 mg, $C_0 = 10$ mg/L, $k = 0{,}2$ par heure : AUC $= \\dfrac{10}{0{,}2} = 50$ mg·h/L et $CL = \\dfrac{500}{50} = 10$ L/h."
+      },
+      {
+        title: "7. Aux épreuves : pièges fréquents",
+        content: "• Oublier de soustraire $F(a)$ quand la borne inférieure n'est pas 0 (ou quand $F(0) \\neq 0$, ce qui est le cas des exponentielles).\n• Se tromper de facteur dans une primitive : une primitive de $e^{-kt}$ est $-\\dfrac{1}{k}e^{-kt}$, et non $-ke^{-kt}$.\n• Confondre l'intégrale (aire, quantité cumulée) et la valeur moyenne (aire divisée par la longueur de l'intervalle).\n• Oublier l'unité d'une AUC : c'est le produit de l'unité de concentration et de l'unité de temps (mg·h/L)."
+      }
+    ],
+    methods: [
+      {
+        title: "Méthode : Calculer une intégrale avec une primitive",
+        example: "Calculer $\\displaystyle\\int_1^3 (2t + 1)\\,dt$.",
+        steps: [
+          "**Étape 1 (Primitive)** : une primitive de $2t + 1$ est $F(t) = t^{2} + t$.",
+          "**Étape 2 (Bornes)** : $F(3) = 12$ et $F(1) = 2$.",
+          "**Étape 3 (Conclure)** : $\\displaystyle\\int_1^3 (2t + 1)\\,dt = F(3) - F(1) = 10$."
+        ]
+      },
+      {
+        title: "Méthode : Calculer l'AUC d'une décroissance exponentielle",
+        example: "$C(t) = 20e^{-0{,}25t}$ (mg/L, $t$ en h). Calculer l'AUC de 0 à l'infini.",
+        steps: [
+          "**Étape 1 (Intégrale sur [0 ; T])** : $\\displaystyle\\int_0^T 20e^{-0{,}25t}\\,dt = \\Big[-80e^{-0{,}25t}\\Big]_0^T = 80\\left(1 - e^{-0{,}25T}\\right)$.",
+          "**Étape 2 (Limite)** : $e^{-0{,}25T}$ tend vers 0 quand $T$ tend vers $+\\infty$.",
+          "**Étape 3 (Conclure)** : l'AUC vaut $80$ mg·h/L, soit $\\dfrac{C_0}{k} = \\dfrac{20}{0{,}25}$."
+        ]
+      },
+      {
+        title: "Méthode : Appliquer la méthode des trapèzes",
+        example: "Concentrations 0 ; 4 ; 3 ; 1 mg/L mesurées à $t = 0$, 1, 3 et 5 h.",
+        steps: [
+          "**Étape 1 (Découper)** : trois trapèzes, de largeurs 1, 2 et 2 h.",
+          "**Étape 2 (Aires)** : $1 \\times \\dfrac{0 + 4}{2} = 2$ ; $2 \\times \\dfrac{4 + 3}{2} = 7$ ; $2 \\times \\dfrac{3 + 1}{2} = 4$.",
+          "**Étape 3 (Conclure)** : AUC entre 0 et 5 h $\\approx 2 + 7 + 4 = 13$ mg·h/L."
+        ]
+      }
+    ],
+    traps: [
+      "⚠️ $\\displaystyle\\int_0^T C_0e^{-kt}\\,dt$ ne vaut pas $-\\dfrac{C_0}{k}e^{-kT}$ : n'oubliez pas de retrancher la valeur en 0, qui vaut $-\\dfrac{C_0}{k}$.",
+      "⚠️ Une intégrale est une aire seulement si la fonction est positive sur l'intervalle.",
+      "⚠️ Avec la méthode des trapèzes, les intervalles de temps ne sont pas forcément égaux : utilisez la largeur de chaque trapèze."
+    ],
+    flashcards: [
+      { q: "Une primitive de $e^{ax}$ ($a \\neq 0$) ?", a: "$\\dfrac{1}{a}e^{ax}$." },
+      { q: "Valeur moyenne de $f$ sur $[a ; b]$ ?", a: "$\\dfrac{1}{b - a}\\displaystyle\\int_a^b f(t)\\,dt$." },
+      { q: "AUC de 0 à l'infini pour $C(t) = C_0e^{-kt}$ ?", a: "$\\dfrac{C_0}{k}$ (limite de $\\dfrac{C_0}{k}(1 - e^{-kT})$ quand $T$ tend vers $+\\infty$)." },
+      { q: "Clairance d'un médicament injecté par voie intraveineuse ?", a: "$CL = \\dfrac{\\text{Dose}}{\\text{AUC}}$." },
+      { q: "Aire d'un trapèze de largeur $h$ entre les valeurs $y_1$ et $y_2$ ?", a: "$h \\times \\dfrac{y_1 + y_2}{2}$." }
+    ]
   }
+
 };
 
 if (!window.MATHS_COURSES) window.MATHS_COURSES = {};

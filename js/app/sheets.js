@@ -50,6 +50,7 @@ Object.assign(window.MathsApp, {
     if (level === 'crpe') return '1 h 30';
     if (level === 'sante') return '1 h';
     if (level === 'pass') return '1 h 30';
+    if (level === 'veto') return '2 h';
     return level === 'capes' ? '2 h' : '1 h 30';
   },
 

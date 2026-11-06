@@ -1269,6 +1269,7 @@ window.MathsAdvancedGenerators = {
 
 
   _L1EV1_gen(tier) {
+    if (tier === 1 && Math.random() < 0.55) return this._L1EV1_t1();
     if (tier === 3 && Math.random() < 0.8) return this._L1EV1_dim();
     if (tier === 4 && Math.random() < 0.8) return this._L1EV1_grass();
     return this._L1EV1_legacy(tier);
@@ -2345,6 +2346,7 @@ window.MathsAdvancedGenerators = {
 
 
   _L1REL_gen(tier) {
+    if (tier === 1 && Math.random() < 0.5) return this._L1REL_t1();
     if (tier === 2 && Math.random() < 0.75) return this._L1REL_ops();
     if (tier === 3 && Math.random() < 0.8) return this._L1REL_arch();
     if (tier === 4 && Math.random() < 0.8) return this._L1REL_nested();
@@ -3008,7 +3010,7 @@ window.MathsAdvancedGenerators = {
       const fam = this.randChoice(['xexp', 'xcos', 'xsin', 'xnln']);
       const C = ' + C';
       if (fam === 'xnln') {
-        const n = this.randInt(1, 4);
+        const n = this.randInt(1, 6);
         const m = n + 1;
         const ans = `$${this.poly([[this.frac(1, m), `x^{${m}}\\ln x`], [this.frac(-1, m * m), `x^{${m}}`]]).replace(/\^\{(\d)\}/g, '^$1')}${C}$`;
         const xn = n === 1 ? 'x' : `x^${n}`;
@@ -3032,6 +3034,11 @@ window.MathsAdvancedGenerators = {
       const ia = this.frac(1, a);
       const b = fam === 'xexp' ? this.randInt(-3, 3) : 0;
       const ia2 = this.frac(1, a * a);
+      // xcos / xsin : facteur multiplicatif kk devant x
+      const kk = fam === 'xexp' ? 1 : this.randChoice([1, 1, 2, 3, 4, -1, -2, -3]);
+      const kx = this.coefStr(kk, 'x');
+      const ik = this.frac(kk, a); const ik2 = this.frac(kk, a * a);
+      const nik = this.frac(-kk, a); const nik2 = this.frac(-kk, a * a);
       let ans; let d; let uv; let sol;
       if (fam === 'xexp') {
         const e = `e^{${arg(a)}}`;
@@ -3043,23 +3050,23 @@ window.MathsAdvancedGenerators = {
         sol = `$\\int (${xb})${e} \\, dx = ${this.coefStr(ia, `(${xb})` + e)} - \\int ${this.coefStr(ia, e)} \\, dx = ${ans.slice(1, -1)}$`;
       } else if (fam === 'xcos') {
         const s = `\\sin(${arg(a)})`; const c = `\\cos(${arg(a)})`;
-        ans = `$${this.poly([[ia, 'x' + s], [ia2, c]])}${C}$`;
-        d = [`$${this.poly([[this.frac(-1, a), 'x' + s], [ia2, c]])}${C}$`, `$${this.poly([[ia2, 'x' + c], [this.frac(-1, a), s]])}${C}$`, `$${this.poly([[ia, 'x' + c], [ia2, s]])}${C}$`, `$${this.poly([[ia2, 'x' + s], [ia, c]])}${C}$`, `$${this.poly([[ia, 'x' + s], [this.frac(-1, a * a), c]])}${C}$`, `$${this.poly([[this.frac(-1, a), 'x' + s], [ia2, c]])}${C}$`, `$${this.poly([[ia, 'x' + s], [ia, c]])}${C}$`, `$${this.poly([[a, 'x' + s], [1, c]])}${C}$`];
-        uv = `$u(x) = x$ et $v'(x) = ${c}$, donc $v(x) = ${this.coefStr(ia, s)}$`;
-        sol = `$\\int x${c} \\, dx = ${this.coefStr(ia, 'x' + s)} - \\int ${this.coefStr(ia, s)} \\, dx = ${ans.slice(1, -1)}$`;
+        ans = `$${this.poly([[ik, 'x' + s], [ik2, c]])}${C}$`;
+        d = [`$${this.poly([[nik, 'x' + s], [ik2, c]])}${C}$`, `$${this.poly([[ik2, 'x' + c], [nik, s]])}${C}$`, `$${this.poly([[ik, 'x' + c], [ik2, s]])}${C}$`, `$${this.poly([[ik2, 'x' + s], [ik, c]])}${C}$`, `$${this.poly([[ik, 'x' + s], [nik2, c]])}${C}$`, `$${this.poly([[ik, 'x' + s], [ik, c]])}${C}$`, `$${this.poly([[kk * a, 'x' + s], [kk, c]])}${C}$`];
+        uv = `$u(x) = ${kx}$ et $v'(x) = ${c}$, donc $u'(x) = ${kk}$ et $v(x) = ${this.coefStr(ia, s)}$`;
+        sol = `$\\int ${kx}${c} \\, dx = ${this.coefStr(ik, 'x' + s)} - \\int ${this.coefStr(ik, s)} \\, dx = ${ans.slice(1, -1)}$`;
       } else {
         const s = `\\sin(${arg(a)})`; const c = `\\cos(${arg(a)})`;
-        ans = `$${this.poly([[this.frac(-1, a), 'x' + c], [ia2, s]])}${C}$`;
-        d = [`$${this.poly([[this.frac(-1, a), 'x' + s], [ia2, c]])}${C}$`, `$${this.poly([[ia2, 'x' + c], [this.frac(-1, a), s]])}${C}$`, `$${this.poly([[ia, 'x' + c], [ia2, s]])}${C}$`, `$${this.poly([[this.frac(-1, a), 'x' + c], [this.frac(-1, a * a), s]])}${C}$`, `$${this.poly([[this.frac(-1, a), 'x' + c], [ia, s]])}${C}$`, `$${this.poly([[-a, 'x' + c], [1, s]])}${C}$`];
-        uv = `$u(x) = x$ et $v'(x) = ${s}$, donc $v(x) = ${this.coefStr(this.frac(-1, a), c)}$`;
-        sol = `$\\int x${s} \\, dx = ${this.coefStr(this.frac(-1, a), 'x' + c)} + \\int ${this.coefStr(ia, c)} \\, dx = ${ans.slice(1, -1)}$`;
+        ans = `$${this.poly([[nik, 'x' + c], [ik2, s]])}${C}$`;
+        d = [`$${this.poly([[nik, 'x' + s], [ik2, c]])}${C}$`, `$${this.poly([[ik2, 'x' + c], [nik, s]])}${C}$`, `$${this.poly([[ik, 'x' + c], [ik2, s]])}${C}$`, `$${this.poly([[nik, 'x' + c], [nik2, s]])}${C}$`, `$${this.poly([[nik, 'x' + c], [ik, s]])}${C}$`, `$${this.poly([[-kk * a, 'x' + c], [kk, s]])}${C}$`];
+        uv = `$u(x) = ${kx}$ et $v'(x) = ${s}$, donc $u'(x) = ${kk}$ et $v(x) = ${this.coefStr(this.frac(-1, a), c)}$`;
+        sol = `$\\int ${kx}${s} \\, dx = ${this.coefStr(nik, 'x' + c)} + \\int ${this.coefStr(ik, c)} \\, dx = ${ans.slice(1, -1)}$`;
       }
-      const fx = fam === 'xexp' ? `${b === 0 ? 'x' : `(${this.poly([[1, 'x'], [b, '']])})`}e^{${arg(a)}}` : fam === 'xcos' ? `x\\cos(${arg(a)})` : `x\\sin(${arg(a)})`;
+      const fx = fam === 'xexp' ? `${b === 0 ? 'x' : `(${this.poly([[1, 'x'], [b, '']])})`}e^{${arg(a)}}` : fam === 'xcos' ? `${kx}\\cos(${arg(a)})` : `${kx}\\sin(${arg(a)})`;
       const ein = fam === 'xexp'
         ? [this._L1tup([[1, a], [a * b - 1, a * a]]), `Écrire $F(x) = (\\alpha x + \\beta)e^{${arg(a)}}$ et saisir (α ; β), par exemple (1/2;-3/4).`]
         : fam === 'xcos'
-          ? [this._L1tup([[1, a], [1, a * a]]), `Écrire $F(x) = \\alpha x\\sin(${arg(a)}) + \\beta\\cos(${arg(a)})$ et saisir (α ; β), par exemple (1/2;-3/4).`]
-          : [this._L1tup([[-1, a], [1, a * a]]), `Écrire $F(x) = \\alpha x\\cos(${arg(a)}) + \\beta\\sin(${arg(a)})$ et saisir (α ; β), par exemple (1/2;-3/4).`];
+          ? [this._L1tup([[kk, a], [kk, a * a]]), `Écrire $F(x) = \\alpha x\\sin(${arg(a)}) + \\beta\\cos(${arg(a)})$ et saisir (α ; β), par exemple (1/2;-3/4).`]
+          : [this._L1tup([[-kk, a], [kk, a * a]]), `Écrire $F(x) = \\alpha x\\cos(${arg(a)}) + \\beta\\sin(${arg(a)})$ et saisir (α ; β), par exemple (1/2;-3/4).`];
       return this._L1x(this.makeMcq(
         'L1-INT', 2, 'Intégration par parties',
         'Choisir $u$ et $v\'$ et appliquer $\\int uv\' = uv - \\int u\'v$',
@@ -3132,11 +3139,11 @@ window.MathsAdvancedGenerators = {
       ), `1/${den}`, `Écrire $F(x) = k(x^2 + ${c})^{${n + 1}}$ et saisir k (fraction irréductible), par exemple 1/8.`);
     }
     // tier 4 : sommes de Riemann
-    const fam = this.randChoice(['pow', 'pow', 'harm', 'atan', 'exp']);
+    const fam = this.randChoice(['pow', 'pow', 'pow', 'harm', 'atan', 'atan', 'exp', 'exp']);
     const L = (v) => `$\\ell = ${v}$`;
     if (fam === 'pow') {
-      const p = this.randInt(1, 6);
-      const a = this.randInt(1, 5);
+      const p = this.randInt(1, 9);
+      const a = this.randInt(1, 9);
       const val = R.Q(a, p + 1);
       const kp = p === 1 ? 'k' : `k^${p}`;
       return this.makeMcq(
@@ -3151,7 +3158,7 @@ window.MathsAdvancedGenerators = {
       );
     }
     if (fam === 'harm') {
-      const a = this.randInt(1, 5);
+      const a = this.randInt(1, 8);
       return this.makeMcq(
         'L1-INT', 4, 'Somme de Riemann et logarithme',
         'Reconnaître une somme de Riemann sur $[0, a]$',
@@ -3164,7 +3171,7 @@ window.MathsAdvancedGenerators = {
       );
     }
     if (fam === 'atan') {
-      const a = this.randInt(1, 4);
+      const a = this.randInt(1, 8);
       const ans = a === 1 ? '\\frac{\\pi}{4}' : `\\frac{\\arctan(${a})}{${a}}`;
       return this.makeMcq(
         'L1-INT', 4, 'Somme de Riemann et arctangente',
@@ -3177,7 +3184,7 @@ window.MathsAdvancedGenerators = {
         `$\\sum_{k=1}^{n} \\frac{1}{n} \\cdot \\frac{1}{1 + ${a === 1 ? '' : a * a}\\left(\\frac{k}{n}\\right)^2} \\to \\int_0^1 \\frac{dx}{1 + ${a === 1 ? '' : a * a}x^2} = ${ans}$.`
       );
     }
-    const a = this.randChoice([-3, -2, -1, 1, 2, 3]);
+    const a = this.randChoice([-6, -5, -4, -3, -2, -1, 1, 2, 3, 4, 5, 6]);
     const ea = a === 1 ? 'e' : `e^{${a}}`;
     const good = a === 1 ? 'e - 1' : a === -1 ? '1 - e^{-1}' : a > 0 ? `\\frac{e^{${a}} - 1}{${a}}` : `\\frac{1 - e^{${a}}}{${-a}}`;
     const dists = [L(ea), L('1'), L(`${ea} + 1`), L(a === 1 ? '\\frac{e}{2}' : a > 0 ? `\\frac{${ea} + 1}{${a}}` : a === -1 ? 'e - 1' : `\\frac{e^{${-a}} - 1}{${-a}}`), L(a === 1 ? 'e' : `${ea} - 1`)];
@@ -5048,7 +5055,7 @@ window.MathsAdvancedGenerators = {
       const ans = this.randChoice(compact);
       return this.makeMcq(C, 1, 'Reconnaître une partie compacte de $\\mathbb{R}$',
         'Appliquer le théorème de Borel-Lebesgue (fermé borné)',
-        'Laquelle des parties suivantes de $\\mathbb{R}$ est compacte ?',
+        `Les parties ci-dessous font intervenir les entiers $${a}$, $${b}$ et $${c}$. Laquelle de ces parties de $\\mathbb{R}$ est compacte ?`,
         `$${ans}$`,
         this.pickDistinct(non, 3).map((s) => `$${s}$`),
         'Dans $\\mathbb{R}$, les compacts sont exactement les parties fermées et bornées.',
@@ -5613,7 +5620,7 @@ window.MathsAdvancedGenerators = {
         sol);
     }
     if (tier === 3) {
-      const alphas = [['\\frac{1}{2}', '1/2', 0.5], ['1', '', 1], ['\\frac{3}{2}', '3/2', 1.5], ['2', '2', 2], ['3', '3', 3], ['\\frac{5}{2}', '5/2', 2.5], ['\\frac{3}{4}', '3/4', 0.75], ['\\frac{4}{3}', '4/3', 4 / 3]];
+      const alphas = [['\\frac{1}{2}', '1/2', 0.5], ['1', '', 1], ['\\frac{3}{2}', '3/2', 1.5], ['2', '2', 2], ['3', '3', 3], ['\\frac{5}{2}', '5/2', 2.5], ['\\frac{3}{4}', '3/4', 0.75], ['\\frac{4}{3}', '4/3', 4 / 3], ['\\frac{2}{3}', '2/3', 2 / 3], ['\\frac{5}{4}', '5/4', 1.25], ['4', '4', 4], ['\\frac{1}{3}', '1/3', 1 / 3], ['\\frac{7}{2}', '7/2', 3.5]];
       const [atex, aexp, av] = this.randChoice(alphas);
       const np = aexp === '' ? 'n' : `n^{${aexp}}`;
       const fam = this.randInt(0, 2);
@@ -5633,8 +5640,8 @@ window.MathsAdvancedGenerators = {
         `${['$|\\cos(nx)| \\le 1$ avec égalité en $x = 0$', '$n^\\alpha + x^2 \\ge n^\\alpha$ avec égalité en $x = 0$', '$\\frac{|x|}{1 + x^2} \\le \\frac{1}{2}$ avec égalité en $x = 1$'][fam]}, donc $\\|f_n\\|_\\infty = ${sup}$. Avec $\\alpha = ${atex}$, la série de Riemann $\\sum \\|f_n\\|_\\infty$ ${ok ? 'converge' : 'diverge'} : ${ok ? yes : no}.`);
     }
     // tier 4
-    const c = this.randInt(1, 4);
-    const b = this.randInt(1, 3);
+    const c = this.randInt(1, 6);
+    const b = this.randInt(1, 4);
     const cb = c * b;
     const plus = Math.random() < 0.5;
     const cx = c === 1 ? 'x' : `${c}x`;
@@ -5888,7 +5895,7 @@ window.MathsAdvancedGenerators = {
       `Soit $f$ la fonction $2\\pi$-périodique définie par $f(x) = ${fx}$ sur $]-\\pi, \\pi]$. ${conv} Que vaut $${name}$ ?`,
       `$${ans}$`,
       wrong.map((w) => `$${w}$`),
-      'Parseval : $\\frac{1}{\\pi}\\int_{-\\pi}^{\\pi} f^2 = \\frac{a_0^2}{2} + \\sum_{n \\geq 1} (a_n^2 + b_n^2)$.',
+      'Égalité de Parseval, avec la normalisation du cours : $\\frac{1}{\\pi}\\int_{-\\pi}^{\\pi} f^2 = \\frac{a_0^2}{2} + \\sum_{n \\geq 1} (a_n^2 + b_n^2)$.',
       'Utilise la parité de $f$ pour savoir quels coefficients sont nuls.',
       sol);
   },
@@ -8939,6 +8946,43 @@ window.MathsAdvancedGenerators = {
   },
 
 
+  /** Palier 1 : appartenance à un sous-espace engendré, sous-espace défini par une équation à paramètre */
+  _L1EV1_t1() {
+    if (Math.random() < 0.5) {
+      const p = this.randInt(-4, 4); const q = this.randInt(-4, 4);
+      const x = this.randNonZero(-5, 5); const y = this.randNonZero(-5, 5);
+      const lam = x * p + y * q;
+      const L = (v) => `$\\lambda = ${v}$`;
+      return this._L1x(this.makeMcq(
+        'L1-EV1', 1, 'Appartenance d\'un vecteur à un plan vectoriel',
+        'Écrire un vecteur comme combinaison linéaire',
+        `Dans $\\mathbb{R}^3$, on pose $u = (1, 0, ${p})$ et $v = (0, 1, ${q})$. Pour quelle valeur du réel $\\lambda$ le vecteur $w = (${x}, ${y}, \\lambda)$ appartient-il à $F = \\mathrm{Vect}(u, v)$ ?`,
+        L(lam),
+        [L(x * q + y * p), L(p + q), L(-lam), L(x * p - y * q), L(lam + 1)],
+        'Cherche des réels $\\alpha, \\beta$ tels que $w = \\alpha u + \\beta v$.',
+        'Les deux premières coordonnées imposent $\\alpha$ et $\\beta$ ; la troisième donne la condition.',
+        `$\\alpha u + \\beta v = (\\alpha, \\beta, ${this.poly([[p, '\\alpha'], [q, '\\beta']])})$. L'égalité avec $w$ impose $\\alpha = ${x}$ et $\\beta = ${y}$, puis $\\lambda = ${[[p, x], [q, y]].filter(([c]) => c).map(([c, v]) => `${this.paren(c)} \\times ${this.paren(v)}`).join(' + ') || '0'}${p || q ? ` = ${lam}` : ''}$.`
+      ), String(lam), 'Saisir la valeur de λ (nombre entier).');
+    }
+    const a = this.randNonZero(-5, 5); const b = this.randInt(-5, 5); const c = this.randNonZero(-5, 5);
+    const k = this.randInt(2, 5); let e = this.randNonZero(-9, 9);
+    if (e % k === 0) e += e > 0 ? 1 : -1;
+    const M = (v) => `$m = ${v}$`;
+    const ans = this.frac(-e, k);
+    const lin = this.poly([[a, 'x'], [b, 'y'], [c, 'z']]);
+    const rhs = this.poly([[k, 'm'], [e, '']]);
+    return this._L1x(this.makeMcq(
+      'L1-EV1', 1, 'Sous-espace défini par une équation à paramètre',
+      'Utiliser qu\'un sous-espace vectoriel contient le vecteur nul',
+      `Pour $m \\in \\mathbb{R}$, on pose $F_m = \\{(x, y, z) \\in \\mathbb{R}^3 \\mid ${lin} = ${rhs}\\}$. Pour quelle valeur de $m$ l'ensemble $F_m$ est-il un sous-espace vectoriel de $\\mathbb{R}^3$ ?`,
+      M(ans),
+      [M(this.frac(e, k)), M(this.frac(-k, e)), M(String(-e)), M('0')],
+      'Un sous-espace vectoriel contient toujours le vecteur nul.',
+      'Remplace $(x, y, z)$ par $(0, 0, 0)$ dans l\'équation.',
+      `Si $F_m$ est un sous-espace, $(0, 0, 0) \\in F_m$, d'où $${rhs} = 0$, soit $m = ${ans}$. Réciproquement, pour cette valeur, $F_m$ est le noyau de la forme linéaire non nulle $(x, y, z) \\mapsto ${lin}$ : c'est bien un sous-espace (un plan vectoriel).`
+    ), this._L1in([-e, k]), 'Saisir la valeur de m (fraction acceptée).');
+  },
+
   _L1EV1_dim() {
     const fam = this.randChoice(['vect', 'vect', 'syst', 'poly']);
     const D = (v) => `$\\dim = ${v}$`;
@@ -9394,6 +9438,54 @@ window.MathsAdvancedGenerators = {
 
 
   /** Bornes de A + B, -A, lambda A sur des intervalles concrets */
+  /** Palier 1 : bornes d'une partie définie par une suite homographique, ou d'une réunion d'intervalles */
+  _L1REL_t1() {
+    if (Math.random() < 0.55) {
+      // A = { (a n + b) / (n + c) : n >= 1 } ; u_n = a + d / (n + c) avec d = b - a c
+      let a; let b; let c; let d;
+      do { a = this.randInt(-4, 4); c = this.randInt(0, 4); b = this.randInt(-8, 8); d = b - a * c; } while (d === 0);
+      const den = c === 0 ? 'n' : `n + ${c}`;
+      const u1 = this.frac(a + b, 1 + c);
+      const dec = d > 0;
+      const O = (s, sAtt, i, iAtt) => `$\\sup A = ${s}$ ${sAtt ? '(atteint)' : '(non atteint)'} et $\\inf A = ${i}$ ${iAtt ? '(atteint)' : '(non atteint)'}`;
+      const fd = `\\frac{${Math.abs(d)}}{${den}}`;
+      const expr = a === 0 ? `${d < 0 ? '-' : ''}${fd}` : `${a} ${d < 0 ? '-' : '+'} ${fd}`;
+      const good = dec ? O(u1, true, a, false) : O(a, false, u1, true);
+      const dist = dec
+        ? [O(u1, true, a, true), O(u1, false, a, false), O(a, false, u1, true), O('+\\infty', false, a, false)]
+        : [O(a, true, u1, true), O(a, false, u1, false), O(u1, true, a, false), O(a, false, '-\\infty', false)];
+      return this.makeMcq(
+        'L1-REL', 1, 'Bornes d\'une partie définie par une suite',
+        'Étudier la monotonie d\'une suite pour en déduire bornes et extrema',
+        `Soit $A = \\left\\{ \\frac{${this.poly([[a, 'n'], [b, '']])}}{${den}} \\mid n \\in \\mathbb{N}^* \\right\\}$. Déterminer $\\sup A$ et $\\inf A$, et préciser s'ils sont atteints.`,
+        good, dist,
+        `Écris $u_n = \\frac{${this.poly([[a, 'n'], [b, '']])}}{${den}}$ sous la forme $\\alpha + \\frac{\\beta}{${den}}$.`,
+        'Une suite monotone atteint sa borne en $n = 1$ ; l\'autre borne est sa limite.',
+        `$u_n = ${expr}$ : la suite est ${dec ? 'strictement décroissante' : 'strictement croissante'} et tend vers $${a}$ sans jamais l'atteindre. Donc ${dec ? `$\\sup A = \\max A = u_1 = ${u1}$ et $\\inf A = ${a}$, non atteint` : `$\\inf A = \\min A = u_1 = ${u1}$ et $\\sup A = ${a}$, non atteint`}.`
+      );
+    }
+    // Réunion de deux intervalles disjoints
+    const a1 = this.randInt(-6, 0); const b1 = a1 + this.randInt(1, 3);
+    const a2 = b1 + this.randInt(1, 3); const b2 = a2 + this.randInt(1, 3);
+    const lo = Math.random() < 0.5; const ro = Math.random() < 0.5;
+    const m1 = Math.random() < 0.5 ? ']' : '['; const m2 = Math.random() < 0.5 ? ']' : '[';
+    const A = `${lo ? ']' : '['}${a1}, ${b1}${m1} \\cup ${m2}${a2}, ${b2}${ro ? '[' : ']'}`;
+    const askSup = Math.random() < 0.5;
+    const [B, E, X, other, inf] = askSup ? ['\\sup', '\\max', b2, b1, '+\\infty'] : ['\\inf', '\\min', a1, a2, '-\\infty'];
+    const att = askSup ? !ro : !lo;
+    const S = (v, ok) => (ok ? `$${B}(A) = ${v}$ et $${E}(A) = ${v}$` : `$${B}(A) = ${v}$ mais $${E}(A)$ n'existe pas`);
+    return this.makeMcq(
+      'L1-REL', 1, 'Bornes d\'une réunion d\'intervalles',
+      'Distinguer borne et extremum à l\'aide des crochets',
+      `Soit $A = ${A}$. Déterminer $${B}(A)$ et dire si $${E}(A)$ existe.`,
+      S(X, att),
+      [S(X, !att), S(other, true), S(other, false), S(inf, false)],
+      `Repère, parmi les deux intervalles, celui qui contient les éléments ${askSup ? 'les plus grands' : 'les plus petits'} de $A$.`,
+      `Regarde le crochet en $${X}$ : ce réel appartient-il à $A$ ?`,
+      `Les éléments ${askSup ? 'les plus grands' : 'les plus petits'} de $A$ sont dans $${askSup ? `${m2}${a2}, ${b2}${ro ? '[' : ']'}` : `${lo ? ']' : '['}${a1}, ${b1}${m1}`}$, donc $${B}(A) = ${X}$. ${att ? `Comme $${X} \\in A$ (crochet fermé), $${E}(A) = ${X}$.` : `Comme $${X} \\notin A$ (crochet ouvert), $${E}(A)$ n'existe pas.`}`
+    );
+  },
+
   _L1REL_ops() {
     const a1 = this.randInt(-6, 3);
     const a2 = a1 + this.randInt(1, 5);
@@ -9842,10 +9934,12 @@ window.MathsAdvancedGenerators = {
       { s: '\\frac{(-1)^{n+1}}{n^2}', from: 'n \\ge 1', p: 2, r: [1, 12], how: 'du développement de $x^2$ évalué en $x = 0$' },
       { s: '\\frac{1}{(2n+1)^2}', from: 'n \\ge 0', p: 2, r: [1, 8], how: 'de $\\sum \\frac{1}{n^2} = \\frac{\\pi^2}{6}$ en retirant les termes pairs ($\\frac{1}{4}\\cdot\\frac{\\pi^2}{6}$)' },
       { s: '\\frac{1}{n^4}', from: 'n \\ge 1', p: 4, r: [1, 90], how: 'de la formule de Parseval appliquée à $x^2$' },
-      { s: '\\frac{1}{(2n+1)^4}', from: 'n \\ge 0', p: 4, r: [1, 96], how: 'de $\\sum \\frac{1}{n^4} = \\frac{\\pi^4}{90}$ en retirant les termes pairs' }
+      { s: '\\frac{1}{(2n+1)^4}', from: 'n \\ge 0', p: 4, r: [1, 96], how: 'de $\\sum \\frac{1}{n^4} = \\frac{\\pi^4}{90}$ en retirant les termes pairs' },
+      { s: '\\frac{(-1)^{n+1}}{n^4}', from: 'n \\ge 1', p: 4, r: [7, 720], how: 'de $\\sum \\frac{1}{n^4} = \\frac{\\pi^4}{90}$ en retranchant deux fois les termes pairs ($1 - \\frac{2}{16} = \\frac{7}{8}$)' },
+      { s: '\\frac{1}{n^6}', from: 'n \\ge 1', p: 6, r: [1, 945], how: 'de la formule de Parseval appliquée au développement de $x^3 - \\pi^2 x$' }
     ];
     const F = this.randChoice(fams);
-    const k = this.randInt(1, 9);
+    const k = this.randInt(1, 15);
     const g = this.gcd(k * F.r[0], F.r[1]);
     const rn = k * F.r[0] / g; const rd = F.r[1] / g;
     const tex = this.frac(rn, rd);
@@ -9855,7 +9949,7 @@ window.MathsAdvancedGenerators = {
       this._cp_q(rn, rd),
       `Résultat classique issu ${F.how}.`,
       `$\\sum_{${F.from}} ${F.s} = ${this.frac(F.r[0], F.r[1])}\\pi^{${F.p}}$ ; multiplie par $${k}$.`,
-      `La somme de référence vaut $\\sum_{${F.from}} ${F.s} = \\frac{\\pi^{${F.p}}}{${F.r[1]}}$ (elle provient ${F.how}). Par linéarité, $S = ${k} \\times \\frac{\\pi^{${F.p}}}{${F.r[1]}} = ${tex}\\,\\pi^{${F.p}}$, donc $r = ${tex}$.`);
+      `La somme de référence vaut $\\sum_{${F.from}} ${F.s} = ${this.frac(F.r[0], F.r[1])}\\,\\pi^{${F.p}}$ (elle provient ${F.how}). Par linéarité, $S = ${k} \\times ${this.frac(F.r[0], F.r[1])}\\,\\pi^{${F.p}} = ${tex}\\,\\pi^{${F.p}}$, donc $r = ${tex}$.`);
   },
 
   gen_capes_04(t) {
@@ -9879,27 +9973,30 @@ window.MathsAdvancedGenerators = {
           : `$E(X) = np = ${n} \\times ${this.frac(k, d)} = ${this.frac(vn, vd)}$ (linéarité de l'espérance appliquée à une somme de variables de Bernoulli).`);
     }
     if (t === 2) {
-      const m = this.randInt(2, 8);
-      const kind = this.randChoice(['E', 'V', 'tail']);
+      // p = 1/m (forme vérifiée par le banc de test)
+      const m = this.randInt(2, 20);
+      const a = 1;
+      const P = this.frac(a, m), Q = this.frac(m - a, m);
+      const kind = this.randChoice(['E', 'V', 'tail', 'tail']);
       if (kind === 'tail') {
-        const k = this.randInt(2, 5);
-        const num = (m - 1) ** k; const den = m ** k;
+        const k = this.randInt(2, 6);
+        const num = (m - a) ** k; const den = m ** k;
         return this.makeExact(C, 2, 'Queue d\'une loi géométrique',
           'Calculer $P(X > k)$ pour une loi géométrique',
-          `Soit $X$ de loi géométrique de paramètre $p = ${this.frac(1, m)}$ (rang du premier succès). Calculer $P(X > ${k})$.`,
+          `Soit $X$ de loi géométrique de paramètre $p = ${P}$ (rang du premier succès). Calculer $P(X > ${k})$.`,
           this._cp_q(num, den),
           '$X > k$ signifie : les $k$ premières épreuves sont des échecs.',
           '$P(X > k) = (1 - p)^k$.',
-          `$P(X > ${k}) = (1 - p)^{${k}} = \\left(${this.frac(m - 1, m)}\\right)^{${k}} = ${this.frac(num, den)}$.`);
+          `$P(X > ${k}) = (1 - p)^{${k}} = \\left(${Q}\\right)^{${k}} = ${this.frac(num, den)}$.`);
       }
-      const vN = kind === 'E' ? m : (m - 1) * m;
+      const vn = kind === 'E' ? m : (m - a) * m; const vd = kind === 'E' ? a : a * a;
       return this.makeExact(C, 2, kind === 'E' ? 'Espérance d\'une loi géométrique' : 'Variance d\'une loi géométrique',
         'Connaître espérance et variance de la loi géométrique',
-        `Soit $X$ de loi géométrique de paramètre $p = ${this.frac(1, m)}$. Calculer $${kind}(X)$.`,
-        String(vN),
+        `Soit $X$ de loi géométrique de paramètre $p = ${P}$. Calculer $${kind}(X)$.`,
+        this._cp_q(vn, vd),
         kind === 'E' ? '$E(X) = \\frac{1}{p}$.' : '$V(X) = \\frac{1 - p}{p^2}$.',
         'On peut dériver la série géométrique $\\sum x^k = \\frac{1}{1 - x}$.',
-        kind === 'E' ? `$E(X) = \\frac{1}{p} = ${m}$.` : `$V(X) = \\frac{1 - p}{p^2} = ${this.frac(m - 1, m)} \\times ${m * m} = ${vN}$.`);
+        kind === 'E' ? `$E(X) = \\frac{1}{p} = ${this.frac(m, a)}$.` : `$V(X) = \\frac{1 - p}{p^2} = ${Q} \\times ${this.frac(m * m, a * a)} = ${this.frac(vn, vd)}$.`);
     }
     if (t === 3) {
       const ln = this.randInt(1, 9); const ld = this.randChoice([1, 1, 2, 3]);
@@ -9934,8 +10031,9 @@ window.MathsAdvancedGenerators = {
         `$V(${this.poly([[c, 'X'], [dd, '']])}) = ${this.paren(c)}^2V(X) = ${c * c} \\times ${lam} = ${this.frac(c * c * a, b)}$.`);
     }
     // t === 4
-    if (this.randInt(0, 1)) {
-      const n = this.randInt(2, 7);
+    const kind4 = this.randChoice(['coll', 'coll', 'tcheb', 'tcheb', 'tcheb']);
+    if (kind4 === 'coll') {
+      const n = this.randInt(2, 12);
       let hn = 0; let hd = 1;
       for (let k = 1; k <= n; k++) { hn = hn * k + hd; hd *= k; const g = this.gcd(hn, hd); hn /= g; hd /= g; }
       return this.makeExact(C, 4, 'Problème du collectionneur',
@@ -9946,8 +10044,8 @@ window.MathsAdvancedGenerators = {
         `Ce temps a pour paramètre $\\frac{${n} - k}{${n}}$ ; somme les espérances pour $k = 0, \\dots, ${n - 1}$.`,
         `$T = \\sum_{k=0}^{${n - 1}} T_k$ où $T_k$ suit la loi géométrique de paramètre $\\frac{${n} - k}{${n}}$, d'espérance $\\frac{${n}}{${n} - k}$. Donc $E(T) = ${n}\\left(1 + \\frac{1}{2} + \\dots + \\frac{1}{${n}}\\right) = ${n} \\times ${this.frac(hn, hd)} = ${this.frac(n * hn, hd)}$.`);
     }
-    const eps = this.randChoice([[1, 10], [1, 20], [1, 5], [1, 4], [1, 50]]);
-    const al = this.randChoice([[1, 20], [1, 10], [1, 4], [1, 100]]);
+    const eps = [1, this.randChoice([2, 3, 4, 5, 6, 8, 10, 12, 15, 16, 20, 25, 30, 40, 50, 60, 80, 100])];
+    const al = [1, this.randChoice([2, 4, 5, 8, 10, 20, 25, 40, 50, 100, 200, 1000])];
     // n >= 1 / (4 eps^2 alpha)
     const nMin = Math.ceil((eps[1] * eps[1] * al[1]) / (4 * eps[0] * eps[0] * al[0]) - 1e-9);
     return this.makeExact(C, 4, 'Taille d\'échantillon par Bienaymé-Tchebychev',
@@ -10016,7 +10114,7 @@ window.MathsAdvancedGenerators = {
         { instruction: 'Saisir le triplet de coordonnées, par exemple (1;-2/3;0).' });
     }
     // t === 4 : meilleure approximation affine de c t^k dans L^2([0,1])
-    const k = this.randInt(2, 6); const c = this.randNonZero(-4, 4);
+    const k = this.randInt(2, 10); const c = this.randNonZero(-9, 9);
     const an = 6 * k * c; const ad = (k + 1) * (k + 2);
     const bn = (2 - 2 * k) * c; const bd = (k + 1) * (k + 2);
     return this.makeExact(C, 4, 'Meilleure approximation affine en moyenne quadratique',
@@ -10055,18 +10153,30 @@ window.MathsAdvancedGenerators = {
         `$\\sum_{k=1}^{n} ${c < 0 ? '-' : ''}\\frac{${co(Math.abs(c))}k^{${p}}}{n^{${p + 1}}} = \\frac{1}{n}\\sum_{k=1}^n f\\left(\\frac{k}{n}\\right)$ avec $f(x) = ${co(c)}x^{${p}}$ continue, d'où la limite $\\int_0^1 ${co(c)}x^{${p}}\\,dx = ${this.frac(c, p + 1)}$.`);
     }
     if (t === 2) {
-      const m = this.randInt(1, 6); const n = this.randInt(1, 5);
+      const m = this.randInt(1, 10); const n = this.randInt(1, 10);
       const num = this._cp_fact(m) * this._cp_fact(n); const den = this._cp_fact(m + n + 1);
       return this.makeExact(C, 2, 'Intégrale de type Bêta',
         'Intégrer par parties de façon répétée',
         `Calculer $\\displaystyle I = \\int_0^1 ${this.pow('t', m)}${this.pow('(1 - t)', n)}\\,dt$.`,
         this._cp_q(num, den),
-        'Intègre par parties en dérivant $(1 - t)^n$ : $I_{m,n} = \\frac{n}{m + 1}I_{m+1, n-1}$.',
-        `On aboutit à $I_{m,n} = \\frac{m!\\,n!}{(m + n + 1)!}$.`,
-        `Par parties, $I_{m,n} = \\left[\\frac{t^{m+1}}{m+1}(1-t)^n\\right]_0^1 + \\frac{n}{m+1}I_{m+1,n-1} = \\frac{n}{m+1}I_{m+1,n-1}$, et $I_{m+n,0} = \\frac{1}{m+n+1}$. Donc $I = \\frac{${m}!\\,${n}!}{${m + n + 1}!} = \\frac{${num}}{${den}} = ${this.frac(num, den)}$.`);
+        `Intègre par parties en dérivant $${this.pow('(1 - t)', 'n')}$ : $I_{m,n} = \\frac{n}{m + 1}I_{m+1, n-1}$.`,
+        'On aboutit à $I_{m,n} = \\frac{m!\\,n!}{(m + n + 1)!}$.',
+        `Par parties, $I_{m,n} = \\left[\\frac{t^{m+1}}{m+1}(1 - t)^n\\right]_0^1 + \\frac{n}{m+1}I_{m+1,n-1} = \\frac{n}{m+1}I_{m+1,n-1}$, et $I_{m+n,0} = \\frac{1}{m+n+1}$. Donc $I = \\frac{${m}!\\,${n}!}{${m + n + 1}!} = ${this.frac(num, den)}$.`);
     }
     if (t === 3) {
-      const m = this.randInt(1, 7); const k = this.randInt(1, 3);
+      if (Math.random() < 0.4) {
+        const n = this.randInt(1, 6); const a = this.randInt(1, 6);
+        const ea = a === 1 ? '' : a;
+        const num = this._cp_fact(n); const den = a ** (n + 1);
+        return this.makeExact(C, 3, 'Dérivation sous le signe intégrale',
+          'Dériver une intégrale à paramètre',
+          `Pour $x > 0$, $G(x) = \\int_0^{+\\infty} e^{-xt}\\,dt = \\frac{1}{x}$. En dérivant sous le signe intégrale, calculer $\\displaystyle \\int_0^{+\\infty} ${this.pow('t', n)}e^{-${ea}t}\\,dt$.`,
+          this._cp_q(num, den),
+          '$\\frac{\\partial^k}{\\partial x^k}e^{-xt} = (-t)^k e^{-xt}$.',
+          `L'intégrale cherchée vaut $${n === 1 ? `-G'(${a})` : `(-1)^{${n}}G^{(${n})}(${a})`}$, avec $G^{(k)}(x) = \\frac{(-1)^k k!}{x^{k+1}}$.`,
+          `La domination $t^k e^{-xt} \\le t^k e^{-ct}$ sur tout $[c ; +\\infty[$, $c > 0$, justifie la dérivation : $G^{(k)}(x) = (-1)^k\\int_0^{+\\infty} t^k e^{-xt}\\,dt = \\frac{(-1)^k k!}{x^{k+1}}$. Pour $k = ${n}$ et $x = ${a}$ : $\\int_0^{+\\infty} ${this.pow('t', n)}e^{-${ea}t}\\,dt = \\frac{${n}!}{${a}^{${n + 1}}} = ${this.frac(num, den)}$.`);
+      }
+      const m = this.randInt(1, 12); const k = this.randInt(1, 5);
       const num = (k % 2 ? -1 : 1) * this._cp_fact(k); const den = (m + 1) ** (k + 1);
       return this.makeExact(C, 3, 'Dérivation sous le signe intégrale',
         'Dériver une intégrale à paramètre',
@@ -10076,7 +10186,7 @@ window.MathsAdvancedGenerators = {
         `L'intégrale cherchée vaut $F^{(${k})}(${m})$, avec $F^{(k)}(x) = \\frac{(-1)^k k!}{(x+1)^{k+1}}$.`,
         `La domination sur $[a ; b] \\subset ]-1 ; +\\infty[$ justifie la dérivation : $F^{(k)}(x) = \\int_0^1 (\\ln t)^k t^x\\,dt = \\frac{(-1)^k k!}{(x+1)^{k+1}}$. Pour $k = ${k}$ et $x = ${m}$ : $\\frac{${k % 2 ? '-' : ''}${this._cp_fact(k)}}{${m + 1}^{${k + 1}}} = ${this.frac(num, den)}$.`);
     }
-    const n = this.randInt(1, 6); const a = this.randInt(1, 5);
+    const n = this.randInt(1, 9); const a = this.randInt(1, 9);
     const num = this._cp_fact(n); const den = a ** (n + 1);
     return this.makeExact(C, 4, 'Intégrale généralisée et fonction Gamma',
       'Calculer une intégrale généralisée à l\'aide de $\\Gamma(n+1) = n!$',
@@ -10151,8 +10261,23 @@ window.MathsAdvancedGenerators = {
         { instruction: 'Saisir 1 ou -1.' });
     }
     if (t === 3) {
-      const n = this.randInt(4, 8);
-      const k = this.randInt(2, Math.min(n, 5));
+      if (Math.random() < 0.3) {
+        // deux cycles à supports disjoints : type (l1, l2)
+        const [l1, l2] = this.randChoice([[2, 2], [2, 2], [3, 2], [3, 2], [3, 3], [4, 2]]);
+        const n = this.randInt(l1 + l2, 9); const fx = n - l1 - l2;
+        const den = l1 * l2 * (l1 === l2 ? 2 : 1) * this._cp_fact(fx);
+        const v = this._cp_fact(n) / den;
+        return this.makeExact(C, 3, 'Cardinal d\'un type de cycles',
+          'Dénombrer les permutations d\'un type cyclique donné',
+          `Combien d'éléments de $\\mathcal{S}_{${n}}$ sont des produits de deux cycles à supports disjoints de longueurs $${l1}, ${l2}$ (les autres points étant fixes) ?`,
+          String(v),
+          'Choisis le support de chaque cycle, puis son ordre circulaire.',
+          l1 === l2 ? 'Les deux cycles ont la même longueur : l\'ordre dans lequel on les choisit ne compte pas, divise par $2$.' : 'Un cycle de longueur $k$ sur un support fixé peut s\'écrire de $(k - 1)!$ façons.',
+          `On choisit le support du cycle de longueur $${l1}$ ($\\binom{${n}}{${l1}}$ choix, puis $${this._cp_fact(l1 - 1)}$ cycle${l1 > 2 ? 's' : ''}), puis celui du cycle de longueur $${l2}$ parmi les $${n - l1}$ restants ($\\binom{${n - l1}}{${l2}}$ choix, puis $${this._cp_fact(l2 - 1)}$ cycle${l2 > 2 ? 's' : ''})${l1 === l2 ? ', et on divise par $2$ car les deux cycles jouent le même rôle' : ''}. Au total, $\\frac{${n}!}{${l1} \\times ${l2}${l1 === l2 ? ' \\times 2' : ''}${fx > 1 ? ` \\times ${fx}!` : ''}} = ${v}$.`,
+          { instruction: 'Saisir un nombre entier.' });
+      }
+      const n = this.randInt(4, 9);
+      const k = this.randInt(2, n);
       const v = this._cp_fact(n) / (this._cp_fact(n - k) * k);
       return this.makeExact(C, 3, 'Dénombrement des cycles',
         'Dénombrer les permutations d\'un type cyclique donné',
@@ -10164,9 +10289,14 @@ window.MathsAdvancedGenerators = {
         { instruction: 'Saisir un nombre entier.' });
     }
     // t === 4 : cardinal de la classe de conjugaison d'un type cyclique
-    const types = [[2, 2], [3, 2], [2, 2, 2], [3, 3], [4, 2], [2, 2, 3], [5, 2], [3, 3, 2]];
-    let tp; let n;
-    do { tp = this.randChoice(types); n = this.randInt(Math.max(4, tp.reduce((a, b) => a + b, 0)), 8); } while (tp.reduce((a, b) => a + b, 0) > n);
+    // type cyclique aléatoire : au moins deux cycles de longueur >= 2, dans S_n (5 <= n <= 9)
+    const n = this.randInt(5, 9);
+    let tp;
+    do {
+      tp = []; let rest = n;
+      while (rest >= 2 && (tp.length < 2 || Math.random() < 0.5)) { const l = this.randInt(2, Math.min(rest, 5)); tp.push(l); rest -= l; }
+    } while (tp.length < 2);
+    tp.sort((x, y) => y - x);
     const cnt = {};
     tp.forEach((l) => { cnt[l] = (cnt[l] || 0) + 1; });
     const fixed = n - tp.reduce((a, b) => a + b, 0);
@@ -10174,13 +10304,21 @@ window.MathsAdvancedGenerators = {
     for (const [l, m] of Object.entries(cnt)) den *= (+l) ** m * this._cp_fact(m);
     const v = this._cp_fact(n) / den;
     const typeTex = tp.map((l) => `${l}`).join(', ');
+    const perm = this.shuffleArray([...Array(n).keys()].map((i) => i + 1));
+    let pos = 0;
+    const sigTex = tp.map((l) => { const c = perm.slice(pos, pos + l); pos += l; return `(${c.join('\\;')})`; }).join('');
+    const concrete = Math.random() < 0.6;
+    const fixTxt = fixed ? ` et $${fixed}$ point${fixed > 1 ? 's' : ''} fixe${fixed > 1 ? 's' : ''}` : '';
+    const denTex = `${Object.entries(cnt).map(([l, m]) => `${l}^{${m}} \\times ${m}!`).join(' \\times ')}${fixed > 1 ? ` \\times ${fixed}!` : ''}`;
     return this.makeExact(C, 4, 'Cardinal d\'une classe de conjugaison',
       'Utiliser la caractérisation des classes de conjugaison de $\\mathcal{S}_n$ par le type cyclique',
-      `Dans $\\mathcal{S}_{${n}}$, combien d'éléments sont conjugués à un produit de cycles à supports disjoints de longueurs $${typeTex}$ (les autres points étant fixes) ?`,
+      concrete
+        ? `Dans $\\mathcal{S}_{${n}}$, soit $\\sigma = ${sigTex}$, produit de cycles à supports disjoints de longueurs $${typeTex}$. Combien d'éléments sont conjugués à $\\sigma$ ?`
+        : `Dans $\\mathcal{S}_{${n}}$, combien d'éléments sont conjugués à un produit de cycles à supports disjoints de longueurs $${typeTex}$ (les autres points étant fixes) ?`,
       String(v),
       'Deux permutations sont conjuguées si et seulement si elles ont le même type cyclique.',
       `Formule : $\\frac{n!}{\\prod_k k^{m_k}\\,m_k!}$, où $m_k$ est le nombre de cycles de longueur $k$ (les points fixes comptent comme cycles de longueur $1$).`,
-      `La classe est formée des permutations de type $(${typeTex})$. Son cardinal vaut $\\frac{${n}!}{${Object.entries(cnt).map(([l, m]) => `${l}^{${m}} \\times ${m}!`).join(' \\times ')}${fixed > 1 ? ` \\times ${fixed}!` : ''}} = \\frac{${this._cp_fact(n)}}{${den}} = ${v}$ (on divise par les rotations de chaque cycle et les permutations des cycles de même longueur).`,
+      `${concrete ? `$\\sigma$ a des cycles de longueurs $${typeTex}$${fixTxt}. ` : ''}La classe est formée des permutations de même type cyclique. Son cardinal vaut $\\frac{${n}!}{${Object.entries(cnt).map(([l, m]) => `${l}^{${m}} \\times ${m}!`).join(' \\times ')}${fixed > 1 ? ` \\times ${fixed}!` : ''}} = \\frac{${this._cp_fact(n)}}{${den}} = ${v}$ (on divise par les rotations de chaque cycle et les permutations des cycles de même longueur).`,
       { instruction: 'Saisir un nombre entier.' });
   },
 
@@ -10198,14 +10336,16 @@ window.MathsAdvancedGenerators = {
         `$f'(x) = ${this.polyX([3, 2 * a, b])}$ et $f''(x) = ${this.polyX([6, 2 * a])}$, qui s'annule en changeant de signe en $x_0 = ${this.frac(-a, 3)}$ (négative avant, positive après) : c'est l'abscisse du point d'inflexion.`);
     }
     if (t === 2) {
-      const a = this.randNonZero(-9, 9);
+      const a = this.randNonZero(-12, 12); const c = 1; const d = this.randInt(-6, 6);
+      const ct = c === 1 ? '' : c;
+      const f = `${ct}x^4 ${a > 0 ? '+' : '-'} ${Math.abs(a) === 1 ? '' : Math.abs(a)}x^3 + bx^2${d === 0 ? '' : ` ${d > 0 ? '+' : '-'} ${Math.abs(d) === 1 ? '' : Math.abs(d)}x`}`;
       return this.makeExact(C, 2, 'Convexité d\'un polynôme de degré 4',
         'Traduire la convexité par le signe de $f\'\'$',
-        `Soit $f(x) = x^4 ${a > 0 ? '+' : '-'} ${Math.abs(a) === 1 ? '' : Math.abs(a)}x^3 + bx^2$ avec $b$ réel. Quelle est la plus petite valeur de $b$ pour laquelle $f$ est convexe sur $\\mathbb{R}$ ?`,
-        this._cp_q(3 * a * a, 8),
+        `Soit $f(x) = ${f}$ avec $b$ réel. Quelle est la plus petite valeur de $b$ pour laquelle $f$ est convexe sur $\\mathbb{R}$ ?`,
+        this._cp_q(3 * a * a, 8 * c),
         '$f$ est convexe sur $\\mathbb{R}$ si et seulement si $f\'\' \\ge 0$ sur $\\mathbb{R}$.',
-        `$f''(x) = ${this.polyX([12, 6 * a])} + 2b$ : un trinôme positif a un discriminant négatif ou nul.`,
-        `$f''(x) = 12x^2 ${6 * a > 0 ? '+' : '-'} ${Math.abs(6 * a)}x + 2b \\ge 0$ pour tout $x$ si et seulement si $\\Delta = ${36 * a * a} - 96b \\le 0$, soit $b \\ge ${this.frac(3 * a * a, 8)}$. La plus petite valeur est $${this.frac(3 * a * a, 8)}$.`);
+        `$f''(x) = ${this.polyX([12 * c, 6 * a])} + 2b$ : un trinôme positif a un discriminant négatif ou nul.`,
+        `$f''(x) = ${12 * c}x^2 ${6 * a > 0 ? '+' : '-'} ${Math.abs(6 * a)}x + 2b \\ge 0$ pour tout $x$ si et seulement si $\\Delta = ${36 * a * a} - ${96 * c}b \\le 0$, soit $b \\ge ${this.frac(3 * a * a, 8 * c)}$. La plus petite valeur est $${this.frac(3 * a * a, 8 * c)}$.`);
     }
     if (t === 3) {
       const n = this.randInt(2, 4); const S = this.randInt(2, 20);
@@ -10246,16 +10386,18 @@ window.MathsAdvancedGenerators = {
         `$\\sum_{n \\ge ${n0}} x^n = \\frac{${this.pow('x', n0)}}{1 - x}$ avec $x = ${this.frac(p, q)}$ : la somme vaut $${this.paren(c)} \\times \\frac{${this.frac(p ** n0, q ** n0)}}{${this.frac(q - p, q)}} = ${this.frac(num, den)}$.`);
     }
     if (t === 2) {
-      const k = this.randInt(1, 6); const c = this.randInt(1, 9);
+      const k = this.randInt(1, 8); const c = this.randInt(1, 15); const n0 = 1;
+      // sum_{n >= n0} 1/(n(n+k)) = (1/k) sum_{j=n0}^{n0+k-1} 1/j
       let hn = 0; let hd = 1;
-      for (let j = 1; j <= k; j++) { hn = hn * j + hd; hd *= j; const g = this.gcd(hn, hd); hn /= g; hd /= g; }
+      for (let j = n0; j < n0 + k; j++) { hn = hn * j + hd; hd *= j; const g = this.gcd(hn, hd); hn /= g; hd /= g; }
+      const hs = n0 === 1 ? `\\sum_{n=1}^{${k}} \\frac{1}{n}` : `\\sum_{n=${n0}}^{${n0 + k - 1}} \\frac{1}{n}`;
       return this.makeExact(C, 2, 'Série télescopique',
         'Calculer la somme d\'une série par télescopage',
-        `Calculer $\\displaystyle \\sum_{n=1}^{+\\infty} \\frac{${c}}{n(n + ${k})}$.`,
+        `Calculer $\\displaystyle \\sum_{n=${n0}}^{+\\infty} \\frac{${c}}{n(n + ${k})}$.`,
         this._cp_q(c * hn, k * hd),
         `Décompose en éléments simples : $\\frac{1}{n(n + ${k})} = ${k === 1 ? '' : this.frac(1, k)}\\left(\\frac{1}{n} - \\frac{1}{n + ${k}}\\right)$.`,
-        `Dans la somme partielle, seuls les $${k}$ premiers termes $\\frac{1}{n}$ subsistent.`,
-        `$\\sum_{n=1}^{N} \\left(\\frac{1}{n} - \\frac{1}{n + ${k}}\\right) = \\sum_{n=1}^{${k}} \\frac{1}{n} - \\sum_{n=N+1}^{N+${k}} \\frac{1}{n} \\to ${this.frac(hn, hd)}$. D'où la somme $${this.frac(c, k)} \\times ${this.frac(hn, hd)} = ${this.frac(c * hn, k * hd)}$.`);
+        `Dans la somme partielle, seuls les $${k}$ premiers termes $\\frac{1}{n}$ (de $n = ${n0}$ à $n = ${n0 + k - 1}$) subsistent.`,
+        `$\\sum_{n=${n0}}^{N} \\left(\\frac{1}{n} - \\frac{1}{n + ${k}}\\right) = ${hs} - \\sum_{n=N+1}^{N+${k}} \\frac{1}{n} \\to ${this.frac(hn, hd)}$. D'où la somme $${this.frac(c, k)} \\times ${this.frac(hn, hd)} = ${this.frac(c * hn, k * hd)}$.`);
     }
     if (t === 3) {
       const p = this.randChoice([1, 2, 3]);
@@ -10868,8 +11010,8 @@ window.MathsAdvancedGenerators = {
         `$\\binom{${f}}{${j}} \\times \\binom{${h}}{${k - j}} = ${binom(f, j)} \\times ${binom(h, k - j)} = ${res}$.`);
     }
     if (t === 3) {
-      if (this.randInt(0, 1)) {
-        const w = this.randChoice(['ANANAS', 'BANANE', 'PAPAYE', 'TOMATE', 'CERCLE', 'ENTIER', 'MATHS', 'RADAR', 'NOMBRE', 'PARALLELE', 'COLLEGE', 'SOMME', 'CARRE', 'DIVISEUR', 'POLYGONE']);
+      if (Math.random() < 0.4) {
+        const w = this.randChoice(['ANANAS', 'BANANE', 'PAPAYE', 'TOMATE', 'CERCLE', 'ENTIER', 'MATHS', 'RADAR', 'NOMBRE', 'PARALLELE', 'COLLEGE', 'SOMME', 'CARRE', 'DIVISEUR', 'POLYGONE', 'ENSEMBLE', 'PARABOLE', 'ELLIPSE', 'RECTANGLE', 'TANGENTE', 'ADDITION', 'FRACTION', 'VECTEUR', 'DROITE', 'MEDIANE', 'MOYENNE', 'PYRAMIDE', 'CYLINDRE', 'SECANTE', 'SOMMET', 'ALGEBRE', 'PREMIER', 'RACINE', 'PUISSANCE', 'LOSANGE', 'TRAPEZE', 'HAUTEUR', 'PRISME', 'ARETE', 'CENTRE']);
         const cnt = {}; for (const ch of w) cnt[ch] = (cnt[ch] || 0) + 1;
         const rep = Object.values(cnt).filter((v) => v > 1);
         let res = this._cp_fact(w.length); for (const v of rep) res /= this._cp_fact(v);
@@ -10882,7 +11024,7 @@ window.MathsAdvancedGenerators = {
           `Le mot comporte $${w.length}$ lettres${rep.length ? ', dont certaines répétées' : ', toutes distinctes'}.`,
           `${rep.length ? `Le mot comporte ${repTxt}. ` : ''}Le nombre d'anagrammes est $${rep.length ? `\\frac{${w.length}!}{${rep.map((v) => `${v}!`).join('\\,')}}` : `${w.length}!`} = ${res}$.`);
       }
-      const p = this.randInt(2, 8); const q = this.randInt(2, 6);
+      const p = this.randInt(2, 12); const q = this.randInt(2, 10);
       return this.makeExact(C, 3, 'Chemins dans un quadrillage',
         'Coder un chemin par un mot et dénombrer',
         `Dans un quadrillage, on va du point $(0 ; 0)$ au point $(${p} ; ${q})$ par des pas unitaires vers la droite ou vers le haut. Combien y a-t-il de chemins ?`,
@@ -12238,7 +12380,7 @@ window.MathsAdvancedGenerators = {
       1: [this._L2RIE_mean, this._L2RIE_leftSum],
       2: [this._L2RIE_floor, this._L2RIE_unif],
       3: [this._L2RIE_varBounds, this._L2RIE_limQuot],
-      4: [this._L2RIE_wallis, this._L2RIE_riemBeta]
+      4: [this._L2RIE_wallis, this._L2RIE_riemBeta, this._L2RIE_riemBeta]
     }[tier];
   },
 
@@ -12342,7 +12484,7 @@ window.MathsAdvancedGenerators = {
   },
 
   _L2RIE_wallis() {
-    const n = this.randChoice([3, 5, 7, 9]);
+    const n = this.randChoice([3, 5, 7, 9, 11, 13]);
     let num = 1, den = 1;
     for (let k = n - 1; k >= 2; k -= 2) num *= k;
     for (let k = n; k >= 1; k -= 2) den *= k;
@@ -12359,18 +12501,24 @@ window.MathsAdvancedGenerators = {
   },
 
   _L2RIE_riemBeta() {
-    const p = this.randInt(1, 3), q = this.randInt(1, 2);
-    const f = (k) => [1, 1, 2, 6, 24, 120, 720, 5040, 40320][k];
-    const ans = this.frac(f(p) * f(q), f(p + q + 1));
-    const term = `\\left(\\frac{k}{n}\\right)^{${p}}\\left(1 - \\frac{k}{n}\\right)^{${q}}`.replace(/\^\{1\}/g, '');
+    const p = this.randInt(1, 5), q = this.randInt(1, 4), c = this.randChoice([1, 1, 1, 2, 3, 4, 5, 6]);
+    const f = (k) => [1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880, 3628800, 39916800][k];
+    const fr = (u, v) => this.frac(c * u, v);
+    const ans = fr(f(p) * f(q), f(p + q + 1));
+    const cs = c === 1 ? '' : String(c);
+    const term = `${cs}\\left(\\frac{k}{n}\\right)^{${p}}\\left(1 - \\frac{k}{n}\\right)^{${q}}`.replace(/\^\{1\}/g, '');
+    const bin = (m, j) => f(m) / (f(j) * f(m - j));
+    const dev = Array.from({ length: q + 1 }, (_, j) => `${j === 0 ? '' : j % 2 ? ' - ' : ' + '}${this.frac(bin(q, j), p + j + 1)}`).join('');
+    const distr = [fr(1, (p + 1) * (q + 1)), fr(f(p) * f(q), f(p + q)), fr(1, p + q + 1), fr(f(p) * f(q), f(p + q + 2))];
+    if (c > 1) distr.push(this.frac(f(p) * f(q), f(p + q + 1)));
     return this.makeMcq('L2-RIE', 4, 'Limite de somme de Riemann (intégrale bêta)',
       'Reconnaître une somme de Riemann puis intégrer',
       `Calculer $L = \\lim_{n \\to +\\infty} \\frac{1}{n} \\sum_{k=1}^{n} ${term}$.`,
       `$L = ${ans}$`,
-      [this.frac(1, (p + 1) * (q + 1)), this.frac(f(p) * f(q), f(p + q)), this.frac(1, p + q + 1), this.frac(f(p) * f(q), f(p + q + 2))].map((x) => `$L = ${x}$`),
-      `C'est une somme de Riemann de $f(x) = ${this.pow('x', p)}${this.pow('(1 - x)', q)}$ sur $[0, 1]$.`,
+      distr.filter((x) => x !== ans).map((x) => `$L = ${x}$`),
+      `C'est une somme de Riemann de $f(x) = ${cs}${this.pow('x', p)}${this.pow('(1 - x)', q)}$ sur $[0, 1]$.`,
       'Développe $(1 - x)^q$ et intègre terme à terme (ou intègre par parties).',
-      `$L = \\int_0^1 ${this.pow('x', p)}${this.pow('(1 - x)', q)} \\, dx = ${q === 1 ? `\\frac{1}{${p + 1}} - \\frac{1}{${p + 2}}` : `\\frac{1}{${p + 1}} - ${this.frac(2, p + 2)} + \\frac{1}{${p + 3}}`} = ${ans}$ (de manière générale $\\int_0^1 x^p(1 - x)^q \\, dx = \\frac{p! \\, q!}{(p + q + 1)!}$).`
+      `$L = ${cs}\\int_0^1 ${this.pow('x', p)}${this.pow('(1 - x)', q)} \\, dx = ${c === 1 ? dev : `${c}\\left(${dev}\\right)`} = ${ans}$ (de manière générale $\\int_0^1 x^p(1 - x)^q \\, dx = \\frac{p! \\, q!}{(p + q + 1)!}$).`
     );
   },
 
@@ -12788,7 +12936,7 @@ window.MathsAdvancedGenerators = {
     return {
       1: [this._L2MUL_rectLin, this._L2MUL_area],
       2: [this._L2MUL_swap, this._L2MUL_parab],
-      3: [this._L2MUL_centroid, this._L2MUL_shell],
+      3: [this._L2MUL_centroid, this._L2MUL_shell, this._L2MUL_tri],
       4: [this._L2MUL_moment, this._L2MUL_gauss2]
     }[tier];
   },
@@ -12854,7 +13002,7 @@ window.MathsAdvancedGenerators = {
   },
 
   _L2MUL_centroid() {
-    const n = this.randInt(1, 2), k = this.randInt(1, 3), a = this.randInt(1, 3);
+    const n = this.randInt(1, 3), k = this.randInt(1, 4), a = this.randInt(1, 4);
     // plaque 0 <= y <= k x^n, 0 <= x <= a
     const xg = this.frac((n + 1) * a, n + 2);
     const ygN = k * a ** n * (n + 1), ygD = 2 * (2 * n + 1);
@@ -12874,7 +13022,7 @@ window.MathsAdvancedGenerators = {
   },
 
   _L2MUL_shell() {
-    const R1 = this.randInt(0, 2), R2 = R1 + this.randInt(1, 2);
+    const R1 = this.randInt(0, 3), R2 = R1 + this.randInt(1, 3);
     const al = this.frac(4 * (R2 ** 3 - R1 ** 3), 3);
     return this._L23_mcq('L2-MUL', 3, 'Volume en coordonnées sphériques',
       'Utiliser $dx \\, dy \\, dz = r^2 \\sin\\varphi \\, dr \\, d\\varphi \\, d\\theta$',
@@ -12884,6 +13032,30 @@ window.MathsAdvancedGenerators = {
       'En sphériques, le jacobien vaut $r^2 \\sin\\varphi$ avec $\\varphi \\in [0, \\pi]$ et $\\theta \\in [0, 2\\pi]$.',
       '$\\int_0^{\\pi} \\sin\\varphi \\, d\\varphi = 2$.',
       `$V = \\int_0^{2\\pi} \\int_0^{\\pi} \\int_{${R1}}^{${R2}} r^2 \\sin\\varphi \\, dr \\, d\\varphi \\, d\\theta = 2\\pi \\times 2 \\times \\frac{${R2 ** 3} - ${R1 ** 3}}{3} = ${al}\\pi$.`.replace(' - 0}{3}', '}{3}')
+    );
+  },
+
+  /** Centre de gravité d'une plaque 0 <= y <= k x^n + d (bord supérieur non nul en 0) */
+  _L2MUL_tri() {
+    const n = this.randInt(1, 2), k = this.randInt(1, 3), d = this.randInt(1, 3), a = this.randInt(1, 3);
+    const An = k * a ** (n + 1) + d * a * (n + 1); // A = An / (n + 1)
+    const xN = (2 * k * a ** (n + 2) + d * a * a * (n + 2)) * (n + 1), xD = 2 * (n + 2) * An;
+    const yN = k * k * a ** (2 * n + 1) * (n + 1) + 2 * k * d * a ** (n + 1) * (2 * n + 1) + d * d * a * (2 * n + 1) * (n + 1);
+    const yD = 2 * (2 * n + 1) * An;
+    const xg = this.frac(xN, xD), yg = this.frac(yN, yD);
+    const T = (u, v) => `$(x_G ; y_G) = ${this._L23_tup([u, v])}$`;
+    const gx = `${this.coefStr(k, this.pow('x', n))} + ${d}`;
+    const good = T(xg, yg);
+    const distr = [T(this.frac(a, 2), yg), T(xg, this.frac(yN, 2 * yD)), T(yg, xg), T(this.frac((n + 1) * a, n + 2), yg), T(xg, this.frac(k * a ** n + d, 2))];
+    return this._L23_mcq('L2-MUL', 3, 'Centre de gravité d\'une plaque homogène',
+      'Calculer un centre de gravité par intégrales doubles',
+      `Déterminer le centre de gravité $G = (x_G, y_G)$ de la plaque homogène $D = \\{(x, y) : 0 \\leq x \\leq ${a}, \\ 0 \\leq y \\leq ${gx}\\}$. Donner $(x_G ; y_G)$.`,
+      good,
+      [...new Set(distr)].filter((x) => x !== good),
+      '$x_G = \\frac{1}{\\mathcal{A}(D)} \\iint_D x \\, dx \\, dy$ et $y_G = \\frac{1}{\\mathcal{A}(D)} \\iint_D y \\, dx \\, dy$.',
+      `L'intégrale intérieure $\\int_0^{${gx}} y \\, dy$ vaut $\\frac{1}{2}(${gx})^2$ : développe ce carré avant d'intégrer en $x$.`,
+      `$\\mathcal{A}(D) = \\int_0^{${a}} (${gx}) \\, dx = ${this.frac(An, n + 1)}$, $\\iint_D x = ${this.frac(2 * k * a ** (n + 2) + d * a * a * (n + 2), 2 * (n + 2))}$, $\\iint_D y = ${this.frac(yN, 2 * (2 * n + 1) * (n + 1))}$. Donc $x_G = ${xg}$ et $y_G = ${yg}$.`,
+      `(${this._L23_fin(xN, xD)};${this._L23_fin(yN, yD)})`, 'Saisir (xG;yG), fractions acceptées.'
     );
   },
 
@@ -13388,17 +13560,50 @@ window.MathsAdvancedGenerators = {
   },
 
   _L3CMP_image() {
-    let a, b;
-    do { a = this.randInt(-5, 3); b = this.randInt(a + 1, 6); } while (false);
-    const vals = [a * a, b * b]; const m = a <= 0 && b >= 0 ? 0 : Math.min(...vals), M = Math.max(...vals);
+    const a = this.randInt(-5, 3), b = this.randInt(a + 1, 6);
+    const c = Math.random() < 0.5 ? 0 : this.randNonZero(-3, 3);
+    const sq = c === 0 || Math.random() < 0.6;
+    if (c !== 0) {
+      // fonction décalée : on demande une seule borne (min ou max) atteinte sur le segment
+      const g = (x) => (sq ? (x - c) * (x - c) : Math.abs(x - c));
+      const ga = g(a), gb = g(b);
+      const inside = a <= c && c <= b;
+      // min demandé seulement si c est hors du segment (min atteint en une extrémité, non trivial)
+      const isMax = inside || Math.random() < 0.6;
+      const val = isMax ? Math.max(ga, gb) : inside ? 0 : Math.min(ga, gb);
+      const xc = this.poly([[1, 'x'], [-c, '']]);
+      const fx = sq ? `(${xc})^2` : `|${xc}|`;
+      const op = isMax ? '\\max' : '\\min';
+      const V = (v) => `$${op}_{[${a}, ${b}]} f = ${v}$`;
+      const distr = [ga, gb, Math.min(ga, gb), Math.max(ga, gb), 0, g(0), isMax ? Math.max(ga, gb) + 1 : 1].map(V);
+      return this._L23_mcq('L3-CMP', 1, 'Bornes atteintes par une fonction continue sur un segment',
+        'Utiliser l\'image continue d\'un compact connexe',
+        `Soit $f(x) = ${fx}$ sur le segment $[${a}, ${b}]$. La fonction $f$ est continue sur ce compact, donc elle y est bornée et atteint ses bornes. Calculer $${op}_{[${a}, ${b}]} f$.`,
+        V(val), [...new Set(distr)].filter((x) => x !== V(val)),
+        'Une fonction continue sur un segment est bornée et atteint ses bornes.',
+        `Étudie les variations de $${fx}$ : elle décroît jusqu'en $${c}$ puis croît. Le point $${c}$ appartient-il à $[${a}, ${b}]$ ?`,
+        isMax
+          ? `Le maximum d'une fonction décroissante puis croissante sur un segment est atteint à une extrémité : $f(${a}) = ${ga}$ et $f(${b}) = ${gb}$, donc $\\max f = ${val}$.`
+          : inside
+            ? `$${c} \\in [${a}, ${b}]$ et $f(${c}) = 0 \\leq f(x)$ pour tout $x$ : $\\min f = 0$.`
+            : `$${c} \\notin [${a}, ${b}]$ : $f$ est monotone sur le segment, donc $\\min f = \\min(f(${a}), f(${b})) = \\min(${ga}, ${gb}) = ${val}$.`,
+        String(val), 'Saisir un nombre entier.'
+      );
+    }
+    const g = (x) => (sq ? (x - c) * (x - c) : Math.abs(x - c));
+    const ga = g(a), gb = g(b);
+    const inside = a <= c && c <= b;
+    const m = inside ? 0 : Math.min(ga, gb), M = Math.max(ga, gb);
+    const xc = c === 0 ? 'x' : this.poly([[1, 'x'], [-c, '']]);
+    const fx = sq ? (c === 0 ? 'x^2' : `(${xc})^2`) : `|${xc}|`;
     const T = (u, v) => `$(m ; M) = ${this._L23_tup([u, v])}$`;
     return this._L23_mcq('L3-CMP', 1, 'Image d\'un segment par une fonction continue',
       'Utiliser l\'image continue d\'un compact connexe',
-      `L'image du compact $[${a}, ${b}]$ par $f : x \\mapsto x^2$ est un segment $[m, M]$. Donner $(m ; M)$.`,
-      T(m, M), [T(a * a, b * b), T(Math.min(...vals), M), T(0, b * b), T(a, b)].filter((x) => x !== T(m, M) && !/\(-?\d+ ; -?\d+\)/.test('') ),
+      `L'image du compact $[${a}, ${b}]$ par $f : x \\mapsto ${fx}$ est un segment $[m, M]$. Donner $(m ; M)$.`,
+      T(m, M), [T(ga, gb), T(gb, ga), T(Math.min(ga, gb), M), T(0, gb), T(a, b)].filter((x) => x !== T(m, M)),
       'L\'image d\'un segment par une fonction continue est un segment (compacité et connexité).',
-      `Étudie les variations de $x^2$ sur $[${a}, ${b}]$ : ${a < 0 && b > 0 ? '$0$ appartient-il à l\'intervalle ?' : 'la fonction y est monotone.'}`,
-      `${a <= 0 && b >= 0 ? `$0 \\in [${a}, ${b}]$ donc $m = 0$` : `$f$ est monotone sur $[${a}, ${b}]$, donc $m = ${m}$`}, et $M = \\max(${a * a}, ${b * b}) = ${M}$.`,
+      `Étudie les variations de $${fx}$ sur $[${a}, ${b}]$ : ${a < c && b > c ? `$${c}$ appartient-il à l'intervalle ?` : 'la fonction y est monotone.'}`,
+      `${inside ? `$${c} \\in [${a}, ${b}]$ et $f(${c}) = 0$ est le minimum de $f$, donc $m = 0$` : `$f$ est monotone sur $[${a}, ${b}]$, donc $m = \\min(f(${a}), f(${b})) = ${m}$`}, et $M = \\max(f(${a}), f(${b})) = \\max(${ga}, ${gb}) = ${M}$.`,
       `(${m};${M})`, 'Saisir (m;M).'
     );
   },
@@ -13498,27 +13703,66 @@ window.MathsAdvancedGenerators = {
   },
 
   _L3SDF_fams(tier) {
-    return { 2: [this._L3SDF_supNorm], 3: [this._L3SDF_normal], 4: [this._L3SDF_fourierSwap] }[tier];
+    return {
+      2: [this._L3SDF_supNorm, this._L3SDF_polyNorm, this._L3SDF_polyNorm],
+      3: [this._L3SDF_normal, this._L3SDF_normal],
+      4: [this._L3SDF_fourierSwap],
+    }[tier];
   },
 
   _L3SDF_supNorm() {
-    const n = this.randInt(1, 4);
-    // sup_{[0,1]} x^n (1 - x) = n^n / (n+1)^{n+1}
-    const num = n ** n, den = (n + 1) ** (n + 1);
-    return this.makeMcq('L3-SDF', 2, 'Norme uniforme d\'une fonction',
+    let n, m;
+    do { n = this.randInt(1, 4); m = this.randInt(1, 3); } while (n + m > 6);
+    // sup_{[0,1]} x^n (1 - x)^m = n^n m^m / (n+m)^{n+m}, atteint en n/(n+m)
+    const num = n ** n * m ** m, den = (n + m) ** (n + m);
+    const ans = this.frac(num, den);
+    const fx = `${this.pow('x', n)}${m === 1 ? '(1 - x)' : `(1 - x)^{${m}}`}`.replace('x^{1}', 'x');
+    const der = `${n === 1 ? '' : this.pow('x', n - 1)}${m === 1 ? '' : m === 2 ? '(1 - x)' : `(1 - x)^{${m - 1}}`}(${this.poly([[n, ''], [-(n + m), 'x']])})`.replace('x^{1}', 'x');
+    return this._L23_mcq('L3-SDF', 2, 'Norme uniforme d\'une fonction',
       'Calculer $\\|f\\|_\\infty$ par étude de fonction',
-      `Calculer $\\|f\\|_\\infty = \\sup_{x \\in [0, 1]} |f(x)|$ pour $f(x) = ${this.pow('x', n)}(1 - x)$.`,
-      `$\\|f\\|_\\infty = ${this.frac(num, den)}$`,
-      [this.frac(1, n + 1), this.frac(n, n + 1), this.frac(num, (n + 1) ** n), this.frac(1, 4)].filter((x) => x !== this.frac(num, den)).map((x) => `$\\|f\\|_\\infty = ${x}$`),
+      `Calculer $\\|f\\|_\\infty = \\sup_{x \\in [0, 1]} |f(x)|$ pour $f(x) = ${fx}$.`,
+      `$\\|f\\|_\\infty = ${ans}$`,
+      [this.frac(1, n + m), this.frac(n, n + m), this.frac(num, (n + m) ** n), this.frac(1, 4), this.frac(m, n + m)].filter((x) => x !== ans).map((x) => `$\\|f\\|_\\infty = ${x}$`),
       '$f$ est positive sur $[0, 1]$ et nulle aux bornes : son maximum est atteint en un point critique intérieur.',
-      `$f'(x) = ${n === 1 ? '1 - 2x' : `${this.pow('x', n - 1)}(${n} - ${n + 1}x)`}$.`,
-      `$f'$ s'annule en $x = ${this.frac(n, n + 1)}$, d'où $\\|f\\|_\\infty = f\\left(${this.frac(n, n + 1)}\\right) = ${this.frac(num, den)}$.`.replace('x^{1}', 'x')
+      `$f'(x) = ${der}$.`,
+      `$f'$ s'annule sur $]0, 1[$ en $x = ${this.frac(n, n + m)}$, d'où $\\|f\\|_\\infty = f\\left(${this.frac(n, n + m)}\\right) = ${ans}$.`,
+      this._L23_fin(num, den), 'Saisir une fraction irréductible.'
+    );
+  },
+
+  /** sup_{[0,1]} |a x^2 + b x + c| : extrémités et sommet éventuel */
+  _L3SDF_polyNorm() {
+    const a = this.randNonZero(-3, 3);
+    let b;
+    if (Math.random() < 0.6) b = -Math.sign(a) * this.randInt(1, 2 * Math.abs(a) - 1);
+    else b = this.randInt(-6, 6);
+    const c = this.randInt(-4, 4);
+    const inside = -b * Math.sign(a) > 0 && -b * Math.sign(a) < 2 * Math.abs(a);
+    // valeurs [numérateur, dénominateur > 0]
+    const v0 = [c, 1], v1 = [a + b + c, 1], vs = [Math.sign(a) * (4 * a * c - b * b), 4 * Math.abs(a)];
+    const cand = inside ? [v0, v1, vs] : [v0, v1];
+    const best = cand.reduce((u, w) => (Math.abs(w[0] / w[1]) > Math.abs(u[0] / u[1]) ? w : u));
+    const N = Math.abs(best[0]), D = best[1];
+    const ans = this.frac(N, D);
+    const fx = this.poly([[a, 'x^2'], [b, 'x'], [c, '']]);
+    const xs = this.frac(-b, 2 * a);
+    const F = (v) => this.frac(v[0], v[1]);
+    const wrong = [this.frac(Math.max(Math.abs(c), Math.abs(a + b + c)), 1), this.frac(Math.abs(vs[0]), vs[1]), F([Math.max(c, a + b + c), 1]), String(Math.abs(a) + Math.abs(b) + Math.abs(c)), this.frac(Math.abs(c), 1)];
+    return this._L23_mcq('L3-SDF', 2, 'Norme uniforme d\'une fonction',
+      'Calculer $\\|f\\|_\\infty$ en comparant extrémités et sommet',
+      `Calculer $\\|f\\|_\\infty = \\sup_{x \\in [0, 1]} |f(x)|$ pour $f(x) = ${fx}$.`,
+      `$\\|f\\|_\\infty = ${ans}$`,
+      [...new Set(wrong)].filter((x) => x !== ans).map((x) => `$\\|f\\|_\\infty = ${x}$`),
+      'Une fonction continue sur un segment atteint ses bornes : aux extrémités ou en un point critique intérieur.',
+      `Le sommet de la parabole a pour abscisse $-\\frac{b}{2a}$ (ici $a = ${a}$ et $b = ${b}$) : vérifie s'il appartient à $]0, 1[$.`,
+      `$f(0) = ${c}$, $f(1) = ${a + b + c}$${inside ? ` et $f\\left(${xs}\\right) = ${F(vs)}$` : ''}. Donc $\\|f\\|_\\infty = \\max\\left(${cand.map((v) => this.frac(Math.abs(v[0]), v[1])).join(', ')}\\right) = ${ans}$.`,
+      this._L23_fin(N, D), 'Saisir un entier ou une fraction irréductible.'
     );
   },
 
   _L3SDF_normal() {
     let p, q;
-    do { q = this.randInt(2, 6); p = this.randInt(1, q - 1); } while (this.gcd(p, q) !== 1);
+    do { q = this.randInt(2, 16); p = this.randInt(1, q - 1); } while (this.gcd(p, q) !== 1);
     const ans = this.frac(p, q - p);
     return this.makeMcq('L3-SDF', 3, 'Série des normes uniformes',
       'Calculer $\\sum \\|f_n\\|_\\infty$ pour établir la convergence normale',
@@ -13532,16 +13776,19 @@ window.MathsAdvancedGenerators = {
   },
 
   _L3SDF_fourierSwap() {
-    const c = this.randInt(2, 4), k = this.randInt(1, 3);
-    const al = this.frac(1, c ** k);
+    const c = this.randInt(2, 9), k = this.randInt(1, c <= 3 ? 5 : 4), a = 1;
+    const fn = 'cos', n0 = 0;
+    const al = this.frac(a, c ** k);
+    const kx = `${k === 1 ? '' : k}x`;
     return this._L23_mcq('L3-SDF', 4, 'Interversion série-intégrale par convergence normale',
       'Intégrer terme à terme une série normalement convergente',
-      `Soit $S(x) = \\sum_{n=0}^{+\\infty} \\frac{\\cos(nx)}{${c}^n}$. On écrit $\\int_0^{2\\pi} S(x)\\cos(${k === 1 ? '' : k}x) \\, dx = \\alpha\\pi$. Donner $\\alpha$.`,
+      `Soit $S(x) = \\sum_{n=${n0}}^{+\\infty} \\frac{${a === 1 ? '' : a}\\${fn}(nx)}{${c}^n}$. On écrit $\\int_0^{2\\pi} S(x)\\${fn}(${kx}) \\, dx = \\alpha\\pi$. Donner $\\alpha$.`,
       `$\\alpha = ${al}$`,
-      [this.frac(2, c ** k), this.frac(1, c ** (k + 1)), this.frac(1, c), this.frac(c, c - 1)].filter((x) => x !== al).map((x) => `$\\alpha = ${x}$`),
-      `$\\left|\\frac{\\cos(nx)}{${c}^n}\\right| \\leq \\frac{1}{${c}^n}$ : la série converge normalement sur $[0, 2\\pi]$, on peut intégrer terme à terme.`,
-      '$\\int_0^{2\\pi} \\cos(nx)\\cos(kx) \\, dx$ vaut $\\pi$ si $n = k \\geq 1$ et $0$ si $n \\neq k$.',
-      `Seul le terme $n = ${k}$ contribue : $\\int_0^{2\\pi} S(x)\\cos(${k === 1 ? '' : k}x) \\, dx = \\frac{\\pi}{${c ** k}}$, donc $\\alpha = ${al}$.`
+      [this.frac(2 * a, c ** k), this.frac(a, c ** (k + 1)), this.frac(a, c), this.frac(a * c, c - 1), this.frac(1, c ** k)].filter((x) => x !== al).map((x) => `$\\alpha = ${x}$`),
+      `$\\left|\\frac{${a === 1 ? '' : a}\\${fn}(nx)}{${c}^n}\\right| \\leq \\frac{${a}}{${c}^n}$ : la série converge normalement sur $[0, 2\\pi]$, on peut intégrer terme à terme.`,
+      `$\\int_0^{2\\pi} \\${fn}(nx)\\${fn}(kx) \\, dx$ vaut $\\pi$ si $n = k \\geq 1$ et $0$ si $n \\neq k$ ($n, k \\geq ${n0}$).`,
+      `Seul le terme $n = ${k}$ contribue : $\\int_0^{2\\pi} S(x)\\${fn}(${kx}) \\, dx = \\frac{${a === 1 ? '' : a}\\pi}{${c ** k}}$, donc $\\alpha = ${al}$.`,
+      this._L23_fin(a, c ** k), 'Saisir une fraction irréductible.'
     );
   },
 
@@ -13598,7 +13845,32 @@ window.MathsAdvancedGenerators = {
   },
 
   _L3FOU_fams(tier) {
-    return { 1: [this._L3FOU_mean], 2: [this._L3FOU_lin], 3: [this._L3FOU_dirichlet] }[tier];
+    return { 1: [this._L3FOU_mean], 2: [this._L3FOU_lin], 3: [this._L3FOU_dirichlet], 4: [this._L3FOU_parsShift, this._L3FOU_parsShift] }[tier];
+  },
+
+  /** Parseval pour f paire décalée d'une constante : la constante n'affecte que a_0 */
+  _L3FOU_parsShift() {
+    const a = this.randInt(1, 5), b = this.randNonZero(-6, 6), quad = Math.random() < 0.5;
+    const a2 = a * a, bb = 2 * b * b;
+    const fx = quad ? `${this.coefStr(a, 'x^2')} ${b < 0 ? '-' : '+'} ${Math.abs(b)}` : `${a === 1 ? '' : a}|x| ${b < 0 ? '-' : '+'} ${Math.abs(b)}`;
+    let ans, wrong, sol;
+    if (quad) {
+      ans = this._L3fs(8 * a2, 45, '\\pi^4');
+      wrong = [this._L3fs(2 * a2, 5, '\\pi^4'), `${ans} + ${bb}`, this._L3fs(2 * a2, 9, '\\pi^4'), this._L3fs(a2, 90, '\\pi^4')];
+      sol = `$f$ est paire, donc $b_n = 0$. $a_0 = \\frac{1}{\\pi}\\int_{-\\pi}^{\\pi} f = ${this._L3fs(2 * a, 3, '\\pi^2')} ${b < 0 ? '-' : '+'} ${2 * Math.abs(b)}$ et, pour $n \\geq 1$, $a_n = \\frac{${4 * a}(-1)^n}{n^2}$ : la constante $${b}$ ne modifie que $a_0$. Par Parseval, $\\sum_{n \\geq 1} a_n^2 = \\frac{1}{\\pi}\\int_{-\\pi}^{\\pi} f^2 - \\frac{a_0^2}{2}$ ; les termes en $${b}$ se compensent et il reste $${this._L3fs(2 * a2, 5, '\\pi^4')} - ${this._L3fs(2 * a2, 9, '\\pi^4')} = ${ans}$ (c'est aussi $${16 * a2}\\sum_{n \\geq 1} \\frac{1}{n^4}$).`;
+    } else {
+      ans = this._L3fs(a2, 6, '\\pi^2');
+      wrong = [this._L3fs(2 * a2, 3, '\\pi^2'), this._L3fs(a2, 2, '\\pi^2'), `${ans} + ${bb}`, this._L3fs(a2, 8, '\\pi^2')];
+      sol = `$f$ est paire, donc $b_n = 0$. $a_0 = ${a === 1 ? '' : a}\\pi ${b < 0 ? '-' : '+'} ${2 * Math.abs(b)}$ et, pour $n \\geq 1$, les $a_n$ sont ceux de $${a === 1 ? '' : a}|x|$ (la constante n'intervient que dans $a_0$). $\\frac{1}{\\pi}\\int_{-\\pi}^{\\pi} f^2 = ${this._L3fs(2 * a2, 3, '\\pi^2')} ${b < 0 ? '-' : '+'} ${Math.abs(4 * a * b)}\\pi + ${bb}$ et $\\frac{a_0^2}{2} = ${this._L3fs(a2, 2, '\\pi^2')} ${b < 0 ? '-' : '+'} ${Math.abs(2 * a * b)}\\pi + ${bb}$. Par Parseval, $\\sum_{n \\geq 1} a_n^2 = ${this._L3fs(2 * a2, 3, '\\pi^2')} - ${this._L3fs(a2, 2, '\\pi^2')} = ${ans}$.`;
+    }
+    return this.makeMcq('L3-FOU', 4, 'Égalité de Parseval : somme des carrés des coefficients',
+      'Calculer $\\sum a_n^2$ sans calculer les coefficients',
+      `Soit $f$ la fonction $2\\pi$-périodique définie par $f(x) = ${fx}$ sur $]-\\pi, \\pi]$. On note $a_n$ ses coefficients de Fourier. Que vaut $\\sum_{n \\geq 1} a_n^2$ ?`,
+      `$${ans}$`,
+      wrong.filter((w) => w !== ans).map((w) => `$${w}$`),
+      'Écris l\'égalité de Parseval en isolant $a_0$ : $\\sum_{n \\geq 1} a_n^2 = \\frac{1}{\\pi}\\int_{-\\pi}^{\\pi} f^2 - \\frac{a_0^2}{2}$ (ici $b_n = 0$).',
+      'Ajouter une constante à $f$ ne change que $a_0$ : les autres coefficients sont ceux de la fonction sans constante.',
+      sol);
   },
 
   _L3FOU_mean() {

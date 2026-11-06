@@ -479,12 +479,155 @@
     return q;
   };
 
+  // sante-11 : intégrales, valeur moyenne, aire sous la courbe des concentrations (AUC)
+  DEDICATED['sante-11'] = function (t, id) {
+    const k = t === 1 ? R(0, 1) : t === 2 ? R(0, 3) : R(2, 5);
+    if (k === 0) {
+      const a = pick([2, 4, 6, 8]), b0 = R(2, 7), B = R(2, 5);
+      const v = a * B * B / 2 + b0 * B;
+      return Q(id, t, 'Calcul d\'une intégrale', 'Calculer une intégrale à l\'aide d\'une primitive',
+        `Calculer $\\displaystyle\\int_0^{${B}} (${a}x + ${b0})\\,\\mathrm{d}x$.`,
+        `$${v}$`, [`$${a * B + b0}$`, `$${a * B * B + b0 * B}$`, `$${v - b0 * B}$`],
+        `Une primitive de $${a}x + ${b0}$ est $F(x) = ${a / 2 === 1 ? '' : a / 2}x^2 + ${b0}x$.`,
+        'L\'intégrale vaut $F(b) - F(a)$, avec ici $F(0) = 0$.',
+        `$\\displaystyle\\int_0^{${B}} (${a}x + ${b0})\\,\\mathrm{d}x = \\left[${a / 2 === 1 ? '' : a / 2}x^2 + ${b0}x\\right]_0^{${B}} = ${a / 2 * B * B} + ${b0 * B} = ${v}$.`, String(v));
+    }
+    if (k === 1) {
+      const a = pick([2, 4, 6, 10]), b0 = R(1, 9), B = pick([2, 4, 6]);
+      const m = a * B / 2 + b0;
+      return Q(id, t, 'Valeur moyenne', 'Calculer la valeur moyenne d\'une fonction sur un intervalle',
+        `La température (en °C, écart à $37$ °C) d'un patient est modélisée par $f(t) = ${D(a / 10)}t + ${D(b0 / 10)}$ pour $t \\in [0 ; ${B}]$ (en heures). Calculer la valeur moyenne de $f$ sur $[0 ; ${B}]$.`,
+        `$${D(m / 10)}$`, [`$${D((a * B + b0) / 10)}$`, `$${D(m * B / 10)}$`, `$${D((a * B / 2) / 10)}$`],
+        'La valeur moyenne de $f$ sur $[a ; b]$ est $\\dfrac{1}{b - a}\\displaystyle\\int_a^b f(t)\\,\\mathrm{d}t$.',
+        'Pour une fonction affine, c\'est aussi la moyenne de $f(a)$ et $f(b)$.',
+        `$\\dfrac{1}{${B}}\\displaystyle\\int_0^{${B}} f(t)\\,\\mathrm{d}t = \\dfrac{f(0) + f(${B})}{2} = \\dfrac{${D(b0 / 10)} + ${D((a * B + b0) / 10)}}{2} = ${D(m / 10)}$.`, inp(m / 10));
+    }
+    if (k === 2) {
+      const [C0, kk] = pick([[4, 0.5], [5, 0.25], [8, 0.4], [10, 0.2], [12, 0.25], [6, 0.5], [9, 0.3], [20, 0.4]]);
+      const auc = rd(C0 / kk);
+      return Q(id, t, 'Aire sous la courbe (AUC)', 'Calculer l\'aire sous la courbe d\'une concentration',
+        `Après une injection intraveineuse, la concentration plasmatique d'un médicament est $C(t) = ${C0}e^{-${D(kk)}t}$ (en mg/L, $t$ en heures). On admet que l'aire sous la courbe totale est $\\displaystyle\\lim_{T \\to +\\infty} \\int_0^{T} C(t)\\,\\mathrm{d}t$. Calculer cette aire (en mg·h/L).`,
+        `$${D(auc)}$`, [`$${D(C0 * kk)}$`, `$${D(C0 / kk / 2)}$`, `$${D(rd(C0 * Math.LN2 / kk, 2))}$`],
+        `Une primitive de $e^{-kt}$ est $-\\dfrac{1}{k}e^{-kt}$.`,
+        `$\\displaystyle\\int_0^{T} C(t)\\,\\mathrm{d}t = \\dfrac{${C0}}{${D(kk)}}\\left(1 - e^{-${D(kk)}T}\\right)$ ; faire tendre $T$ vers $+\\infty$.`,
+        `$\\displaystyle\\int_0^{T} ${C0}e^{-${D(kk)}t}\\,\\mathrm{d}t = \\dfrac{${C0}}{${D(kk)}}\\left(1 - e^{-${D(kk)}T}\\right) \\xrightarrow[T \\to +\\infty]{} \\dfrac{${C0}}{${D(kk)}} = ${D(auc)}$ mg·h/L.`, inp(auc), 'Saisir le nombre seul.');
+    }
+    if (k === 3) {
+      // méthode des trapèzes, pas de 1 h
+      const ys = [R(4, 9) * 2]; for (let i = 1; i < 5; i++) ys.push(Math.max(1, ys[i - 1] - R(1, 3)));
+      if ((ys[0] + ys[4]) % 2) ys[4] += 1;
+      const area = (ys[0] + ys[4]) / 2 + ys[1] + ys[2] + ys[3];
+      return Q(id, t, 'Méthode des trapèzes', 'Estimer une aire sous la courbe par la méthode des trapèzes',
+        `On mesure la concentration d'un médicament (en mg/L) toutes les heures : $\\begin{array}{c|ccccc} t\\ (\\mathrm{h}) & 0 & 1 & 2 & 3 & 4 \\\\ \\hline C & ${ys.join(' & ')} \\end{array}$. Estimer l'aire sous la courbe entre $0$ et $4$ h par la méthode des trapèzes (en mg·h/L).`,
+        `$${D(area)}$`, [`$${ys.reduce((s, y) => s + y, 0)}$`, `$${ys[0] + ys[1] + ys[2] + ys[3]}$`, `$${D(area + (ys[0] + ys[4]) / 2)}$`],
+        'Chaque trapèze a une largeur de 1 h et une aire égale à la moyenne de ses deux hauteurs.',
+        'Les mesures extrêmes comptent pour moitié, les mesures intermédiaires en entier.',
+        `$\\mathcal{A} \\approx 1 \\times \\left(\\dfrac{${ys[0]} + ${ys[4]}}{2} + ${ys[1]} + ${ys[2]} + ${ys[3]}\\right) = ${D(area)}$ mg·h/L.`, inp(area));
+    }
+    if (k === 4) {
+      // clairance = dose / AUC
+      const [dose, auc] = pick([[500, 50], [400, 80], [600, 40], [250, 25], [1000, 125], [300, 60]]);
+      const cl = dose / auc;
+      return Q(id, t, 'Clairance', 'Exploiter une aire sous la courbe : clairance',
+        `Après l'injection d'une dose de $${dose}$ mg, l'aire sous la courbe des concentrations vaut $${auc}$ mg·h/L. La clairance totale est $CL = \\dfrac{\\text{dose}}{\\text{AUC}}$. Calculer $CL$ en L/h.`,
+        `$${D(cl)}$`, [`$${D(auc / dose)}$`, `$${dose * auc}$`, `$${D(cl * 10)}$`],
+        'Appliquer la formule donnée avec des unités cohérentes.',
+        'mg divisé par mg·h/L donne des L/h.',
+        `$CL = \\dfrac{${dose}}{${auc}} = ${D(cl)}$ L/h.`, inp(cl), 'Saisir le nombre seul, en L/h.');
+    }
+    // k === 5 : aire entre 0 et n demi-vies
+    const n = R(1, 3), A = pick([8, 16, 24, 40, 80]);
+    const part = rd(A * (1 - 2 ** -n));
+    return Q(id, t, 'Aire et demi-vie', 'Calculer une intégrale d\'exponentielle et l\'interpréter',
+      `La concentration d'un médicament est $C(t) = C_0e^{-kt}$, avec une demi-vie $T_{1/2} = \\dfrac{\\ln 2}{k}$, et l'aire totale sous la courbe vaut $\\dfrac{C_0}{k} = ${A}$ mg·h/L. Calculer l'aire sous la courbe entre $t = 0$ et $t = ${n === 1 ? 'T_{1/2}' : n + 'T_{1/2}'}$.`,
+      `$${D(part)}$`, [`$${D(A / 2 ** n)}$`, `$${D(A * n / (n + 1))}$`, `$${D(A / 2)}$`].filter((x) => x !== `$${D(part)}$`),
+      `$\\displaystyle\\int_0^{T} C_0e^{-kt}\\,\\mathrm{d}t = \\dfrac{C_0}{k}\\left(1 - e^{-kT}\\right)$.`,
+      `Pour $T = ${n === 1 ? '' : n}T_{1/2}$, $e^{-kT} = 2^{-${n}}$.`,
+      `$\\mathcal{A} = ${A}\\left(1 - \\dfrac{1}{${2 ** n}}\\right) = ${D(part)}$ mg·h/L : ${n === 1 ? 'la moitié' : 'l\'essentiel'} de l'exposition totale.`, inp(part));
+  };
+
+  // pass-11 : corrélation et régression linéaire
+  DEDICATED['pass-11'] = function (t, id) {
+    const k = t === 1 ? R(0, 1) : t === 2 ? R(0, 3) : R(2, 5);
+    if (k === 0 || k === 1) {
+      const [vx, a] = pick([[2, 1.5], [4, 0.5], [5, 2], [2, -1.5], [4, 3], [10, 0.4], [5, -1.2], [8, 0.25]]);
+      const cov = rd(a * vx), xb = R(2, 20), yb = R(10, 90);
+      const b = rd(yb - a * xb);
+      if (k === 0) {
+        return Q(id, t, 'Pente de la droite de régression', 'Calculer la pente de la droite des moindres carrés',
+          `Pour une série $(x_i ; y_i)$, on a $\\mathrm{cov}(x, y) = ${D(cov)}$ et $s_x^2 = ${vx}$ (variance de $x$). Quelle est la pente $a$ de la droite de régression de $y$ en $x$ ?`,
+          `$${D(a)}$`, [`$${D(rd(vx / cov))}$`, `$${D(rd(cov * vx))}$`, `$${D(rd(cov / Math.sqrt(vx), 3))}$`].filter((x) => x !== `$${D(a)}$`),
+          'La pente des moindres carrés est un quotient : covariance et variance de la variable explicative.',
+          '$a = \\dfrac{\\mathrm{cov}(x, y)}{s_x^2}$.',
+          `$a = \\dfrac{${D(cov)}}{${vx}} = ${D(a)}$.`, inp(a));
+      }
+      return Q(id, t, 'Ordonnée à l\'origine', 'Utiliser le point moyen pour déterminer la droite de régression',
+        `La droite de régression de $y$ en $x$ a pour pente $a = ${D(a)}$, et le point moyen du nuage est $G(${xb} ; ${yb})$. Calculer l'ordonnée à l'origine $b$ de cette droite.`,
+        `$${D(b)}$`, [`$${D(rd(yb + a * xb))}$`, `$${D(rd(xb - a * yb))}$`, `$${D(rd(yb / a))}$`],
+        'La droite des moindres carrés passe toujours par le point moyen.',
+        `Écrire $${yb} = ${D(a)} \\times ${xb} + b$.`,
+        `$b = \\bar y - a\\bar x = ${yb} - ${a < 0 ? '(' + D(a) + ')' : D(a)} \\times ${xb} = ${D(b)}$.`, inp(b));
+    }
+    if (k === 2) {
+      const [sx, sy, r] = pick([[2, 5, 0.8], [3, 4, 0.75], [4, 5, -0.6], [2, 10, 0.9], [5, 6, -0.5], [1.5, 4, 0.5], [2.5, 4, -0.85]]);
+      const cov = rd(r * sx * sy);
+      return Q(id, t, 'Coefficient de corrélation', 'Calculer un coefficient de corrélation linéaire',
+        `Sur un échantillon de patients, l'âge $x$ et la pression artérielle $y$ ont pour écarts types $s_x = ${D(sx)}$ et $s_y = ${D(sy)}$ (en unités adaptées), et $\\mathrm{cov}(x, y) = ${D(cov)}$. Calculer le coefficient de corrélation linéaire $r$.`,
+        `$${D(r)}$`, [`$${D(-r)}$`, `$${D(rd(cov / (sx * sx), 3))}$`, `$${D(rd(r * r, 4))}$`],
+        '$r$ est la covariance divisée par le produit des écarts types.',
+        `$r = \\dfrac{\\mathrm{cov}(x, y)}{s_x s_y}$, ici $s_x s_y = ${D(rd(sx * sy))}$.`,
+        `$r = \\dfrac{${D(cov)}}{${D(rd(sx * sy))}} = ${D(r)}$ : liaison linéaire ${r > 0 ? 'positive' : 'négative'} ${Math.abs(r) >= 0.8 ? 'forte' : 'modérée'}.`, inp(r));
+    }
+    if (k === 3) {
+      const r = pick([0.9, -0.8, 0.7, 0.6, -0.5, 0.95, -0.3]);
+      const r2 = rd(r * r * 100, 2);
+      return Q(id, t, 'Coefficient de détermination', 'Interpréter le coefficient de détermination',
+        `Le coefficient de corrélation entre la dose d'un traitement et la baisse de la glycémie vaut $r = ${D(r)}$. Quel pourcentage de la variance de la baisse de glycémie est expliqué par la régression linéaire sur la dose ?`,
+        `$${D(r2)}\\,\\%$`, [`$${D(Math.abs(r) * 100)}\\,\\%$`, `$${D(100 - r2)}\\,\\%$`, `$${D(rd(Math.sqrt(Math.abs(r)) * 100, 1))}\\,\\%$`],
+        'La part de variance expliquée est le coefficient de détermination.',
+        'Le coefficient de détermination vaut $r^2$.',
+        `$r^2 = (${D(r)})^2 = ${D(rd(r * r, 4))}$, soit **$${D(r2)}\\,\\%$** de la variance expliquée.`, inp(r2), 'Saisir le pourcentage sans le symbole %.');
+    }
+    if (k === 4) {
+      // données brutes : x = 1..5, résidus orthogonaux
+      const a = pick([-3, -2, 2, 3, 4]), yb = R(12, 30), s = R(0, 1);
+      const e = [1, -2, 2, -2, 1].map((v) => v * s);
+      const ys = [1, 2, 3, 4, 5].map((x, i) => yb + a * (x - 3) + e[i]);
+      const askB = Math.random() < 0.5;
+      const b = yb - 3 * a;
+      const sxy = [1, 2, 3, 4, 5].reduce((acc, x, i) => acc + (x - 3) * (ys[i] - yb), 0);
+      return Q(id, t, askB ? 'Droite des moindres carrés' : 'Pente à partir des données', 'Déterminer une droite de régression à partir des données',
+        `On relève la masse $y$ (en g) d'une culture au jour $x$ : $\\begin{array}{c|ccccc} x & 1 & 2 & 3 & 4 & 5 \\\\ \\hline y & ${ys.join(' & ')} \\end{array}$. Déterminer ${askB ? 'l\'ordonnée à l\'origine $b$' : 'la pente $a$'} de la droite des moindres carrés $y = ax + b$.`,
+        askB ? `$${b}$` : `$${a}$`, askB ? [`$${yb}$`, `$${yb + 3 * a}$`, `$${ys[0]}$`] : [`$${D(sxy / 5)}$`, `$${ys[4] - ys[3]}$`, `$${-a}$`],
+        'Calculer d\'abord les moyennes $\\bar x$ et $\\bar y$.',
+        '$a = \\dfrac{\\sum (x_i - \\bar x)(y_i - \\bar y)}{\\sum (x_i - \\bar x)^2}$, puis $b = \\bar y - a\\bar x$.',
+        `$\\bar x = 3$, $\\bar y = ${yb}$, $\\sum (x_i - \\bar x)(y_i - \\bar y) = ${sxy}$, $\\sum (x_i - \\bar x)^2 = 10$, donc $a = ${a}$ et $b = ${yb} - ${a < 0 ? '(' + a + ')' : a} \\times 3 = ${b}$.`, String(askB ? b : a));
+    }
+    // k === 5 : interprétation (QCM seul)
+    const ctx = pick([
+      ['le nombre de cigognes et le nombre de naissances dans plusieurs communes', 'la taille des communes (facteur de confusion)'],
+      ['la consommation de glaces et le nombre de noyades selon les mois', 'la température (facteur de confusion)'],
+      ['le nombre de médecins et le nombre de décès dans plusieurs villes', 'la population des villes (facteur de confusion)'],
+      ['la pointure et le score en lecture chez des enfants de 6 à 11 ans', 'l\'âge des enfants (facteur de confusion)']
+    ]);
+    const r = pick([0.82, 0.88, 0.91, 0.76]);
+    return Q(id, t, 'Corrélation et causalité', 'Ne pas confondre corrélation et causalité',
+      `Une étude trouve un coefficient de corrélation $r = ${D(r)}$ entre ${ctx[0]}. Quelle conclusion est correcte ?`,
+      `La liaison linéaire est forte, mais elle peut s'expliquer par ${ctx[1]} : on ne peut pas conclure à une causalité.`,
+      ['La première variable cause la seconde, puisque $r$ est proche de 1.',
+        `$${D(r * 100)}\\,\\%$ des individus vérifient la relation.`,
+        'La corrélation est faible, car $r$ est inférieur à 1.'],
+      'Une corrélation mesure une liaison statistique, pas un mécanisme.',
+      'Cherchez une troisième variable qui pourrait agir sur les deux.',
+      `$r = ${D(r)}$ traduit une liaison linéaire forte, mais une étude observationnelle ne prouve pas la causalité : ${ctx[1]} peut expliquer la liaison.`, null);
+  };
+
   /** Générateurs du lycée par chapitre */
   const SOURCES = {
     'sante-01': [], 'sante-02': [], 'sante-03': ['2N5'], 'sante-04': ['1A4'], 'sante-05': ['TA5'],
-    'sante-06': ['1A3', 'TA8'], 'sante-07': ['1A6'], 'sante-08': ['1S1', '2S2'], 'sante-09': ['TS1', '1S2'], 'sante-10': ['2S1'],
+    'sante-06': ['1A3', 'TA8'], 'sante-07': ['1A6'], 'sante-08': ['1S1', '2S2'], 'sante-09': ['TS1', '1S2'], 'sante-10': ['2S1'], 'sante-11': ['TA7'],
     'pass-01': ['2S1'], 'pass-02': ['TS3', '1S1'], 'pass-03': [], 'pass-04': ['TS1'], 'pass-05': [],
-    'pass-06': [], 'pass-07': [], 'pass-08': [], 'pass-09': ['TA8', 'TA5'], 'pass-10': ['TA6']
+    'pass-06': [], 'pass-07': [], 'pass-08': [], 'pass-09': ['TA8', 'TA5'], 'pass-10': ['TA6'], 'pass-11': []
   };
 
   /** Probabilité de servir un exercice de la banque statique, par palier */
@@ -492,6 +635,8 @@
 
   const api = {
     SANTE_SOURCES: SOURCES,
+    /** Générateurs dédiés, réutilisés par le niveau Véto (js/vetoGenerators.js) */
+    SANTE_DEDICATED: DEDICATED,
 
     _santeGenerate(chapterId, tier) {
       const t = Math.min(4, Math.max(1, parseInt(tier, 10) || 1));

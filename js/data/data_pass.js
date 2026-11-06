@@ -645,6 +645,73 @@ window.MATHS_COURSES_PASS = {
       { q: "Solutions de $y' = ay + b$ ?", a: "$y(t) = Ke^{at} - \\dfrac{b}{a}$." },
       { q: "Fraction du plateau atteinte après $5$ demi-vies ?", a: "Environ $97\\,\\%$ ($1 - 2^{-5}$)." }
     ]
+  },
+
+  "pass-11": {
+    title: "PA-11 : Corrélation et régression linéaire",
+    domain: "Statistique descriptive",
+    objectives: [
+      "Représenter une série statistique à deux variables par un nuage de points et placer le point moyen.",
+      "Calculer une covariance et le coefficient de corrélation linéaire de Pearson $r$.",
+      "Déterminer la droite des moindres carrés $y = ax + b$ et l'utiliser pour une prédiction.",
+      "Interpréter $r$ et $r^2$ sans confondre corrélation et causalité."
+    ],
+    keyPoints: [
+      {
+        title: "1. Nuage de points et point moyen",
+        content: "Une **série bivariée** associe à chaque individu deux mesures $(x_i ; y_i)$, $i = 1, \\dots, n$ (par exemple l'âge et la pression systolique d'un patient). On la représente par un **nuage de points**.\nLe **point moyen** est $G(\\bar{x} ; \\bar{y})$, où $\\bar{x}$ et $\\bar{y}$ sont les moyennes des deux séries.\nAvant tout calcul, on regarde la forme du nuage : allongé selon une droite (liaison **linéaire**), courbe (liaison non linéaire), ou sans structure."
+      },
+      {
+        title: "2. Covariance et coefficient de corrélation",
+        content: "**Covariance** : $\\mathrm{cov}(x, y) = \\dfrac{1}{n}\\sum_{i=1}^{n}(x_i - \\bar{x})(y_i - \\bar{y}) = \\overline{xy} - \\bar{x}\\,\\bar{y}.$ Elle est positive quand $x$ et $y$ varient dans le même sens, négative sinon ; elle dépend des unités.\n**Coefficient de corrélation linéaire de Pearson** : $r = \\dfrac{\\mathrm{cov}(x, y)}{s_x\\, s_y},$ où $s_x$ et $s_y$ sont les écarts types des deux séries (calculés avec le même diviseur que la covariance).\n$r$ est **sans unité**, toujours compris entre $-1$ et $1$ ; $|r| = 1$ si et seulement si les points sont exactement alignés. $r$ ne change pas si l'on change d'unité (transformation affine de coefficient positif)."
+      },
+      {
+        title: "3. Droite des moindres carrés",
+        content: "La **droite de régression de $y$ en $x$** (ou des moindres carrés) est la droite $y = ax + b$ qui rend minimale la somme des carrés des écarts verticaux $\\sum (y_i - ax_i - b)^2$. On a $a = \\dfrac{\\mathrm{cov}(x, y)}{s_x^2}, \\qquad b = \\bar{y} - a\\bar{x}.$\nLa droite **passe par le point moyen** $G$. La pente $a$ a le signe de $r$ et s'exprime en « unité de $y$ par unité de $x$ » : c'est la variation moyenne de $y$ quand $x$ augmente d'une unité.\nOn a aussi $a = r\\,\\dfrac{s_y}{s_x}$. Attention : la droite de régression de $x$ en $y$ est en général **différente**."
+      },
+      {
+        title: "4. Coefficient de détermination, prédiction et causalité",
+        content: "**Coefficient de détermination** : $r^2$, entre $0$ et $1$, est la part de la variance de $y$ « expliquée » par la relation linéaire avec $x$. Avec $r = 0{,}8$, $r^2 = 0{,}64$ : $64\\,\\%$ de la variabilité de $y$ est expliquée par la droite.\n**Prédiction** : pour une valeur $x_0$, on prédit $\\hat{y} = ax_0 + b$. Elle n'est raisonnable que **dans le domaine des $x$ observés** : au-delà, c'est une **extrapolation**, risquée car rien ne garantit que la relation reste linéaire.\n**Corrélation n'est pas causalité** : une forte corrélation peut venir d'un **facteur de confusion** lié aux deux variables (l'âge, la saison…), du hasard, ou d'une causalité inverse. Seul un essai contrôlé randomisé permet de conclure à un effet causal.\n**Test de nullité de $r$** (aperçu) : pour tester $H_0$ « pas de corrélation linéaire dans la population », on calcule $t = \\dfrac{r\\sqrt{n - 2}}{\\sqrt{1 - r^2}}$, que l'on compare au seuil de la loi de Student à $n - 2$ degrés de liberté (proche de $2$ au risque $5\\,\\%$ dès que $n$ dépasse quelques dizaines). Avec un grand effectif, un $r$ faible peut être significatif sans être cliniquement important."
+      },
+      {
+        title: "5. Aux partiels : pièges fréquents",
+        content: "• Diviser la covariance par $s_x s_y$ pour la pente : c'est le coefficient $r$ ; la pente est $\\dfrac{\\mathrm{cov}(x, y)}{s_x^2}$.\n• Oublier de vérifier que la droite passe par $G(\\bar{x} ; \\bar{y})$ : c'est un contrôle rapide de $b$.\n• Croire que $r = 0$ signifie « aucune liaison » : il n'y a pas de liaison **linéaire**, mais une liaison courbe (en U) reste possible.\n• Confondre $r$ et $r^2$ : $r = 0{,}5$ n'explique que $25\\,\\%$ de la variance.\n• Interpréter une corrélation comme un effet causal, ou prédire loin hors du domaine observé."
+      }
+    ],
+    methods: [
+      {
+        title: "Méthode : Calculer $r$ et la droite des moindres carrés",
+        example: "Dose $x$ (en mg) : $1$ ; $2$ ; $3$ ; $4$ ; $5$. Baisse de pression $y$ (en mmHg) : $2$ ; $4$ ; $5$ ; $4$ ; $5$.",
+        steps: [
+          "**Étape 1 (Point moyen)** : $\\bar{x} = 3$, $\\bar{y} = \\dfrac{20}{5} = 4$, donc $G(3 ; 4)$.",
+          "**Étape 2 (Écarts et produits)** : écarts $x_i - \\bar{x}$ : $-2, -1, 0, 1, 2$ ; écarts $y_i - \\bar{y}$ : $-2, 0, 1, 0, 1$ ; somme des produits : $4 + 0 + 0 + 0 + 2 = 6$.",
+          "**Étape 3 (Covariance et variances)** : $\\mathrm{cov} = \\dfrac{6}{5} = 1{,}2$ ; $s_x^2 = \\dfrac{10}{5} = 2$ ; $s_y^2 = \\dfrac{6}{5} = 1{,}2$.",
+          "**Étape 4 (Droite)** : $a = \\dfrac{1{,}2}{2} = 0{,}6$ et $b = 4 - 0{,}6 \\times 3 = 2{,}2$ : $y = 0{,}6x + 2{,}2$.",
+          "**Étape 5 (Corrélation)** : $r^2 = \\dfrac{1{,}2^2}{2 \\times 1{,}2} = 0{,}6$, donc $r = \\sqrt{0{,}6} \\approx 0{,}77$ : $60\\,\\%$ de la variance de $y$ est expliquée par la dose."
+        ]
+      },
+      {
+        title: "Méthode : Prédire et critiquer une prédiction",
+        example: "Chez des enfants de $2$ à $10$ ans, la droite de régression de la taille $y$ (cm) en fonction de l'âge $x$ (ans) est $y = 6x + 77$.",
+        steps: [
+          "**Étape 1 (Domaine)** : $x_0 = 6$ ans est dans le domaine observé ($[2 ; 10]$) : la prédiction est légitime.",
+          "**Étape 2 (Calcul)** : $\\hat{y} = 6 \\times 6 + 77 = 113$ cm (valeur moyenne attendue, pas la taille exacte d'un enfant).",
+          "**Étape 3 (Critique)** : pour $x_0 = 30$ ans, la formule donnerait $257$ cm : l'extrapolation est absurde car la croissance s'arrête."
+        ]
+      }
+    ],
+    traps: [
+      "⚠️ La pente de la droite de régression n'est pas $r$ : $a = r\\,\\dfrac{s_y}{s_x}$, qui dépend des unités.",
+      "⚠️ Un coefficient $r$ proche de $0$ n'exclut pas une liaison non linéaire forte : regardez toujours le nuage.",
+      "⚠️ Une corrélation, même très significative, ne prouve pas la causalité : cherchez un facteur de confusion."
+    ],
+    flashcards: [
+      { q: "Formule de la covariance (König-Huygens) ?", a: "$\\mathrm{cov}(x, y) = \\overline{xy} - \\bar{x}\\,\\bar{y}$." },
+      { q: "Coefficient de corrélation de Pearson ?", a: "$r = \\dfrac{\\mathrm{cov}(x, y)}{s_x s_y}$, compris entre $-1$ et $1$." },
+      { q: "Pente et ordonnée à l'origine de la droite des moindres carrés ?", a: "$a = \\dfrac{\\mathrm{cov}(x, y)}{s_x^2}$, $b = \\bar{y} - a\\bar{x}$ : la droite passe par $G(\\bar{x} ; \\bar{y})$." },
+      { q: "Que représente $r^2$ ?", a: "La part de la variance de $y$ expliquée par la régression linéaire sur $x$." },
+      { q: "Pourquoi une corrélation ne prouve-t-elle pas la causalité ?", a: "Un facteur de confusion, le hasard ou une causalité inverse peuvent l'expliquer." }
+    ]
   }
 };
 

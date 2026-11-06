@@ -31,7 +31,7 @@ window.MathsStorage = {
     if (['6eme', '5eme', '4eme', '3eme'].includes(level)) return 'college';
     if (['2nde', '1ere', 'tale'].includes(level)) return 'lycee';
     if (['L1', 'L2', 'L3'].includes(level)) return 'licence';
-    if (['capes', 'crpe', 'sante', 'pass'].includes(level)) return 'concours';
+    if (['capes', 'crpe', 'sante', 'pass', 'veto'].includes(level)) return 'concours';
     return 'college';
   },
 

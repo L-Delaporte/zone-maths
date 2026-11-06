@@ -110,7 +110,8 @@ const DATA_FILES = [
   'data_6eme.js', 'data_5eme.js', 'data_4eme.js', 'data_2nde.js', 'data_1ere.js', 'data_terminale.js',
   'data_l1.js', 'data_l2.js', 'data_l3.js', 'data_capes.js', 'data_proofs.js',
   'chapters_crpe.js', 'data_crpe.js', 'exercises_crpe.js',
-  'chapters_sante.js', 'data_sante.js', 'exercises_sante.js', 'data_pass.js', 'exercises_pass.js'
+  'chapters_sante.js', 'data_sante.js', 'exercises_sante.js', 'data_pass.js', 'exercises_pass.js',
+  'chapters_veto.js', 'data_veto.js', 'exercises_veto.js', 'exercises_veto_b.js'
 ];
 
 function loadData() {
@@ -166,11 +167,13 @@ const LEVELS = [
   { code: 'sante', slug: 'prepa-sante', label: 'Prépa santé', de: 'de prépa santé', cycle: 'concours', app: 'sante', edu: 'Lycée — terminale, préparation aux études de santé (PASS, L.AS)',
     intro: "Les mathématiques utiles pour réussir en études de santé, au niveau terminale : notation scientifique et unités, dilutions et posologies, pourcentages, exponentielle et logarithme (demi-vie, pH), dérivées et courbes de concentration, suites de doses répétées, tests de dépistage, loi binomiale et statistiques." },
   { code: 'pass', slug: 'pass-las', label: 'PASS / L.AS', de: 'de PASS / L.AS', cycle: 'concours', app: 'pass', edu: 'Université — parcours d’accès spécifique santé (PASS) et licence accès santé (L.AS)',
-    intro: "Les mathématiques et la biostatistique de première année d'études de santé : statistique descriptive, probabilités et théorème de Bayes, sensibilité et spécificité des tests diagnostiques, lois binomiale, de Poisson et normale, intervalles de confiance, tests d'hypothèses, épidémiologie, incertitudes et pharmacocinétique." }
+    intro: "Les mathématiques et la biostatistique de première année d'études de santé : statistique descriptive, probabilités et théorème de Bayes, sensibilité et spécificité des tests diagnostiques, lois binomiale, de Poisson et normale, intervalles de confiance, tests d'hypothèses, épidémiologie, incertitudes et pharmacocinétique." },
+  { code: 'veto', slug: 'veto-bcpst', label: 'Véto (BCPST)', de: 'de prépa BCPST', cycle: 'concours', app: 'veto', edu: 'Classe préparatoire BCPST — préparation au concours A des écoles nationales vétérinaires',
+    intro: "Les mathématiques de la classe préparatoire BCPST, voie principale du concours vétérinaire : logique et dénombrement, nombres complexes et polynômes, suites et séries, fonctions et développements limités, intégration, équations différentielles, fonctions de deux variables, algèbre linéaire et diagonalisation, géométrie, probabilités discrètes et à densité, statistique." }
 ];
 /** Libellé court du niveau dans les titres (« Pythagore en 4e », « Maths en terminale »). */
 const SHORT = { '6eme': '6e', '5eme': '5e', '4eme': '4e', '3eme': '3e', '2nde': 'seconde', '1ere': 'première', tale: 'terminale',
-  L1: 'L1', L2: 'L2', L3: 'L3', capes: 'CAPES', crpe: 'CRPE', sante: 'prépa santé', pass: 'PASS / L.AS' };
+  L1: 'L1', L2: 'L2', L3: 'L3', capes: 'CAPES', crpe: 'CRPE', sante: 'prépa santé', pass: 'PASS / L.AS', veto: 'prépa BCPST' };
 for (const l of LEVELS) { l.short = SHORT[l.code]; l.en = `en ${l.short}`; }
 LEVELS.find((l) => l.code === 'crpe').en = 'pour le CRPE';
 const SCHOOL_ORDER = ['6eme', '5eme', '4eme', '3eme', '2nde', '1ere', 'tale'];
@@ -179,6 +182,7 @@ function tierNames(code) {
   const base = ['Socle et automatismes', 'Entraînement guidé'];
   if (code === 'sante') return ['Socle et automatismes', 'Entraînement et méthodes', 'Objectif études de santé', 'Problèmes et interprétation'];
   if (code === 'pass') return ['Socle et automatismes', 'Entraînement et méthodes', 'Niveau partiels (épreuve)', 'Problèmes et interprétation'];
+  if (code === 'veto') return ['Socle et automatismes', 'Entraînement et méthodes', 'Niveau concours (écrit)', 'Problèmes et démonstrations'];
   if (code === 'crpe') return ['Socle et automatismes', 'Entraînement et méthodes', 'Niveau concours (écrit)', 'Problèmes, justifications et erreurs d\u2019élèves'];
   if (['L1', 'L2', 'L3'].includes(code)) return ['Socle et définitions', 'Entraînement et méthodes', 'Niveau examen', 'Démonstrations et rigueur'];
   if (code === '1ere' || code === 'tale') return base.concat(['Objectif bac', 'Défi et approfondissement']);
@@ -248,7 +252,7 @@ const CYCLES = [
   { id: 'college', name: 'Collège', desc: 'De la 6e à la 3e, jusqu\u2019au brevet.' },
   { id: 'lycee', name: 'Lycée', desc: 'Seconde, puis spécialité mathématiques en première et terminale.' },
   { id: 'licence', name: 'Licence de mathématiques', desc: 'Les trois années de licence à l\u2019université.' },
-  { id: 'concours', name: 'Concours', desc: 'Oraux du CAPES, mathématiques du concours de professeur des écoles et des études de santé (prépa santé, PASS / L.AS).' }
+  { id: 'concours', name: 'Concours', desc: 'Oraux du CAPES, mathématiques du concours de professeur des écoles, des études de santé (prépa santé, PASS / L.AS) et de la prépa BCPST (concours vétérinaire).' }
 ];
 
 // ---------------------------------------------------------------------------
@@ -635,7 +639,7 @@ function chapterTitleTag(ch, lvl) {
     .filter((x, i, arr) => x && !x.includes(':') && arr.indexOf(x) === i);
   const cands = [];
   const suffixes = [' : cours et exercices corrigés', ' : cours et exercices', ' : cours'];
-  if (['crpe', 'sante', 'pass'].includes(lvl.code) && ch.shortTitle) {
+  if (['crpe', 'sante', 'pass', 'veto'].includes(lvl.code) && ch.shortTitle) {
     // Libellé « pour le CRPE » plus long : le titre court du chapitre passe avant les têtes tronquées.
     const short = plain(ch.shortTitle).replace(/\s*&\s*/g, ' et ').replace(/\btrigo\b/, 'trigonométrie');
     for (const subj of [tt, short]) for (const suffix of suffixes) cands.push(`${subj} ${lvl.en}${suffix}`);
@@ -716,6 +720,12 @@ function levelFaqs(lvl, items, groups) {
     faqs.push({ q: pass ? 'Quel est le programme de mathématiques en PASS et en L.AS ?' : 'Quelles mathématiques réviser avant des études de santé ?',
       a: `Il n'existe pas de programme national commun : chaque université fixe le contenu et les épreuves de ses unités d'enseignement. ${pass ? 'On y retrouve presque toujours la biostatistique (probabilités, lois, estimation, tests) et des outils d\u2019analyse.' : 'Les notions de terminale les plus utilisées sont les calculs de dosage, l\u2019exponentielle et le logarithme, les probabilités conditionnelles et la loi binomiale.'} Le site les couvre en ${items.length} chapitres : ${groups.map((g) => plain(g.name).toLowerCase()).join(', ')}.` });
     faqs.push({ q: pass ? 'Comment s\u2019entraîner en biostatistique ?' : 'Comment s\u2019entraîner pour les études de santé ?', a: `Choisissez un chapitre puis « S'entraîner » : exercices générés à chaque tirage et problèmes en contexte médical, corrigés immédiatement, en quatre paliers (${tierNames(lvl.code).map((n, i) => `${i + 1}. ${n}`).join(', ')}).` });
+    faqs.push({ q: 'Ces contenus sont-ils gratuits ?', a: 'Oui, comme tout le site : sans inscription, sans publicité, sous licence libre CC BY-NC-SA.' });
+    return faqs;
+  }
+  if (lvl.code === 'veto') {
+    faqs.push({ q: 'Quel programme de mathématiques pour le concours vétérinaire ?', a: `Après le bac, la voie principale d'accès aux écoles nationales vétérinaires est la classe préparatoire BCPST, suivie du concours A. Le programme de mathématiques de BCPST (première et seconde années) est fixé par arrêté. Le site le couvre en ${items.length} chapitres : ${groups.map((g) => plain(g.name).toLowerCase()).join(', ')}.` });
+    faqs.push({ q: 'Comment s\u2019entraîner aux mathématiques de BCPST ?', a: `Choisissez un chapitre puis « S'entraîner » : exercices générés à chaque tirage et problèmes de type concours, corrigés immédiatement, en quatre paliers (${tierNames('veto').map((n, i) => `${i + 1}. ${n}`).join(', ')}).` });
     faqs.push({ q: 'Ces contenus sont-ils gratuits ?', a: 'Oui, comme tout le site : sans inscription, sans publicité, sous licence libre CC BY-NC-SA.' });
     return faqs;
   }

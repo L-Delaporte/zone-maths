@@ -21,10 +21,10 @@ window.MathsApp = {
     licence: { id: 'licence', name: 'Licence', defaultLevel: 'L1', levels: ['L1', 'L2', 'L3'] },
     // Concours : CAPES / agrégation, professeur des écoles (CRPE), études de santé (prépa santé, PASS / L.AS) ;
     // le concours vétérinaire pourra s'y ajouter
-    concours: { id: 'concours', name: 'Concours', defaultLevel: 'capes', levels: ['capes', 'crpe', 'sante', 'pass'] }
+    concours: { id: 'concours', name: 'Concours', defaultLevel: 'capes', levels: ['capes', 'crpe', 'sante', 'pass', 'veto'] }
   },
 
-  VALID_LEVELS: ['6eme', '5eme', '4eme', '3eme', '2nde', '1ere', 'tale', 'L1', 'L2', 'L3', 'capes', 'crpe', 'sante', 'pass'],
+  VALID_LEVELS: ['6eme', '5eme', '4eme', '3eme', '2nde', '1ere', 'tale', 'L1', 'L2', 'L3', 'capes', 'crpe', 'sante', 'pass', 'veto'],
 
   LEVEL_LABELS: {
     '6eme': '6ème',
@@ -40,7 +40,8 @@ window.MathsApp = {
     'capes': 'CAPES / Agrég',
     'crpe': 'Professeur des écoles (CRPE)',
     'sante': 'Prépa santé (terminale)',
-    'pass': 'Médecine : PASS / L.AS'
+    'pass': 'Médecine : PASS / L.AS',
+    'veto': 'Vétérinaire : prépa BCPST'
   },
 
   getLevelName(level) {
@@ -837,6 +838,14 @@ window.MathsApp = {
         { domain: 'probas', label: '🎲 Probabilités & lois' },
         { domain: 'inference', label: '🔬 Estimation & tests' },
         { domain: 'analyse', label: '📈 Outils d\'analyse' }
+      ];
+    } else if (this.currentLevel === 'veto') {
+      filters = [
+        { domain: 'all', label: 'Tous' },
+        { domain: 'outils', label: '🧰 Outils' },
+        { domain: 'analyse', label: '📈 Analyse' },
+        { domain: 'algebre', label: '🧮 Algèbre linéaire & géométrie' },
+        { domain: 'probas', label: '🎲 Probabilités & statistique' }
       ];
     } else {
       filters = [

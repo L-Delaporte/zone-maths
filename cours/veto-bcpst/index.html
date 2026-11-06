@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <!-- Content-Security-Policy : voir scripts/csp.js (style-src 'unsafe-inline' requis par les attributs style de KaTeX) -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://gc.zgo.at; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://etabli-des-maths.goatcounter.com; font-src 'self' data:; connect-src 'self' https://etabli-des-maths.goatcounter.com; object-src 'none'; base-uri 'self'; form-action 'self'; manifest-src 'self'; worker-src 'self'" />
+  <script src="../../js/themeInit.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Maths en prépa BCPST : cours et exercices corrigés gratuits</title>
+  <meta name="description" content="Maths en prépa BCPST : 13 chapitres de cours avec méthodes et exercices corrigés, gratuits et sans inscription. Logique et dénombrement, nombres complexes…" />
+  <meta name="author" content="Loïc Delaporte, professeur de mathématiques" />
+  <link rel="canonical" href="https://etabli-des-maths.fr/cours/veto-bcpst/" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Maths en prépa BCPST : cours et exercices corrigés gratuits" />
+  <meta property="og:description" content="Maths en prépa BCPST : 13 chapitres de cours avec méthodes et exercices corrigés, gratuits et sans inscription. Logique et dénombrement, nombres complexes…" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://etabli-des-maths.fr/cours/veto-bcpst/" />
+  <meta property="og:image" content="https://etabli-des-maths.fr/assets/logo.jpg" />
+  <meta property="og:image:alt" content="Maths en prépa BCPST : cours et exercices corrigés gratuits" />
+  <meta name="twitter:card" content="summary" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta property="og:site_name" content="L'Établi des Maths" />
+
+  <link rel="stylesheet" href="../../css/style.css" />
+  <link rel="stylesheet" href="../../css/landing.css" />
+  <link rel="stylesheet" href="../../vendor/katex/katex.min.css" />
+  <link rel="stylesheet" href="../../css/cours.css" />
+  <link rel="icon" href="../../favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../../assets/favicon-32x32.png" />
+  <link rel="apple-touch-icon" href="../../assets/favicon.png" />
+  <link rel="manifest" href="../../manifest.json" />
+  <meta name="theme-color" content="#2563eb" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Cours et exercices de maths en prépa BCPST, gratuits et corrigés",
+    "description": "Maths en prépa BCPST : 13 chapitres de cours avec méthodes et exercices corrigés, gratuits et sans inscription. Logique et dénombrement, nombres complexes…",
+    "url": "https://etabli-des-maths.fr/cours/veto-bcpst/",
+    "inLanguage": "fr",
+    "educationalLevel": "Classe préparatoire BCPST — préparation au concours A des écoles nationales vétérinaires",
+    "isAccessibleForFree": true,
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "L'Établi des Maths",
+      "url": "https://etabli-des-maths.fr/"
+    },
+    "mainEntity": {
+      "@type": "ItemList",
+      "numberOfItems": 13,
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Logique, raisonnement par récurrence et dénombrement",
+          "url": "https://etabli-des-maths.fr/cours/veto-bcpst/logique-raisonnement-par-recurrence-et-denombrement.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Trigonométrie, nombres complexes et polynômes",
+          "url": "https://etabli-des-maths.fr/cours/veto-bcpst/trigonometrie-nombres-complexes-et-polynomes.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Suites réelles et séries",
+          "url": "https://etabli-des-maths.fr/cours/veto-bcpst/suites-reelles-et-series.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Fonctions : limites, continuité, dérivation et développements limités",
+          "url": "https://etabli-des-maths.fr/cours/veto-bcpst/fonctions-limites-continuite-derivation.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 5,
+          "name": "Primitives, intégrales et intégrales généralisées",
+          "url": "https://etabli-des-maths.fr/cours/veto-bcpst/primitives-integrales-et-integrales-generalisees.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 6,
+          "name": "Équations différentielles",
+          "url": "https://etabli-des-maths.fr/cours/veto-bcpst/equations-differentielles.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 7,
+          "name": "Fonctions de deux variables réelles",
+          "url": "https://etabli-des-maths.fr/cours/veto-bcpst/fonctions-de-deux-variables-reelles.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 8,
+          "name": "Systèmes linéaires et calcul matriciel",
+          "url": "https://etabli-des-maths.fr/cours/veto-bcpst/systemes-lineaires-et-calcul-matriciel.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 9,
+          "name": "Espaces vectoriels, applications linéaires et diagonalisation",
+          "url": "https://etabli-des-maths.fr/cours/veto-bcpst/espaces-vectoriels.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 10,
+          "name": "Géométrie et produit scalaire",
+          "url": "https://etabli-des-maths.fr/cours/veto-bcpst/geometrie-et-produit-scalaire.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 11,
+          "name": "Probabilités et variables aléatoires discrètes",
+          "url": "https://etabli-des-maths.fr/cours/veto-bcpst/probabilites-et-variables-aleatoires-discretes.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 12,
+          "name": "Variables à densité et théorèmes limites",
+          "url": "https://etabli-des-maths.fr/cours/veto-bcpst/variables-a-densite-et-theoremes-limites.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 13,
+          "name": "Statistique descriptive univariée et bivariée",
+          "url": "https://etabli-des-maths.fr/cours/veto-bcpst/statistique-descriptive-univariee-et-bivariee.html"
+        }
+      ]
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Quel programme de mathématiques pour le concours vétérinaire ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Après le bac, la voie principale d'accès aux écoles nationales vétérinaires est la classe préparatoire BCPST, suivie du concours A. Le programme de mathématiques de BCPST (première et seconde années) est fixé par arrêté. Le site le couvre en 13 chapitres : outils, analyse, algèbre linéaire et géométrie, probabilités et statistique."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Comment s’entraîner aux mathématiques de BCPST ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Choisissez un chapitre puis « S'entraîner » : exercices générés à chaque tirage et problèmes de type concours, corrigés immédiatement, en quatre paliers (1. Socle et automatismes, 2. Entraînement et méthodes, 3. Niveau concours (écrit), 4. Problèmes et démonstrations)."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Ces contenus sont-ils gratuits ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Oui, comme tout le site : sans inscription, sans publicité, sous licence libre CC BY-NC-SA."
+        }
+      }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Accueil",
+        "item": "https://etabli-des-maths.fr/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Cours",
+        "item": "https://etabli-des-maths.fr/cours/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Véto (BCPST)",
+        "item": "https://etabli-des-maths.fr/cours/veto-bcpst/"
+      }
+    ]
+  }
+  </script>
+</head>
+<body class="cours-page">
+  <a class="cours-skip" href="#contenu">Aller au contenu</a>
+
+  <!-- Header Uniformisé -->
+  <header class="app-header">
+    <div class="header-inner">
+      <a href="../../index.html" class="brand-container">
+        <img src="../../assets/logo-96.png" alt="" class="brand-logo-img" width="44" height="44" />
+        <div class="brand-text">
+          <p class="brand-title">L'Établi des Maths <span class="brand-level-tag">Cours</span></p>
+          <span class="brand-tagline">Outils pour apprendre et pratiquer</span>
+        </div>
+      </a>
+
+      <!-- Navigation entre Portails -->
+      <nav class="nav-portal-links" aria-label="Portails thématiques">
+        <a href="../../index.html" class="nav-portal-btn">🏠 Accueil</a>
+        <a href="../../cours/" class="nav-portal-btn active" aria-current="true">📚 Cours</a>
+        <a href="../../exercices-de-maths/" class="nav-portal-btn">✏️ Exercices</a>
+        <a href="../../rituels.html" class="nav-portal-btn">⏱️ Rituels</a>
+        <a href="../../reviser-le-brevet-de-maths/" class="nav-portal-btn">📝 Brevet</a>
+        <a href="../../reussir-le-bac-de-maths/" class="nav-portal-btn">🎓 Bac</a>
+        <a href="../../enseignants.html" class="nav-portal-btn">👨‍🏫 Enseignants</a>
+        <a href="../../parents.html" class="nav-portal-btn">👪 Parents</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="landing-wrapper cours-wrapper" id="contenu" tabindex="-1">
+    <nav class="cours-breadcrumb" aria-label="Fil d'Ariane">
+      <ol>
+        <li><a href="../../index.html">Accueil</a></li>
+        <li><a href="../">Cours</a></li>
+        <li><span aria-current="page">Véto (BCPST)</span></li>
+      </ol>
+    </nav>
+
+    <header class="cours-hero">
+      <p class="landing-tag">Concours · Véto (BCPST) · 13 chapitres</p>
+      <h1 class="cours-title">Cours et exercices de maths en prépa BCPST, gratuits et corrigés</h1>
+      <p class="cours-lead">Les mathématiques de la classe préparatoire BCPST, voie principale du concours vétérinaire : logique et dénombrement, nombres complexes et polynômes, suites et séries, fonctions et développements limités, intégration, équations différentielles, fonctions de deux variables, algèbre linéaire et diagonalisation, géométrie, probabilités discrètes et à densité, statistique. Chaque chapitre contient le cours complet, des méthodes rédigées et des exercices corrigés, puis renvoie vers des exercices générés à l'infini pour s'entraîner.</p>
+      <div class="cours-cta">
+        <a class="btn-primary cours-cta-main" href="../../index.html?level=veto">🎯 S'entraîner en prépa BCPST</a>
+      </div>
+    </header>
+
+    <section class="cours-section" id="domaine-1" aria-labelledby="domaine-1-titre">
+      <h2 id="domaine-1-titre">Outils</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="logique-raisonnement-par-recurrence-et-denombrement.html">
+          <span class="topic-num">VB-01</span>
+          <span class="cours-chapter-text"><strong>Logique, raisonnement par récurrence et dénombrement</strong><span>Connecteurs et quantificateurs, ensembles, raisonnements (contraposée, absurde, récurrence), symboles Σ et Π, listes, arrangements, combinaisons…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="trigonometrie-nombres-complexes-et-polynomes.html">
+          <span class="topic-num">VB-02</span>
+          <span class="cours-chapter-text"><strong>Trigonométrie, nombres complexes et polynômes</strong><span>Formules de trigonométrie, forme algébrique et forme exponentielle d'un complexe, équations du second degré à coefficients réels, polynômes réels…</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-2" aria-labelledby="domaine-2-titre">
+      <h2 id="domaine-2-titre">Analyse</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="suites-reelles-et-series.html">
+          <span class="topic-num">VB-03</span>
+          <span class="cours-chapter-text"><strong>Suites réelles et séries</strong><span>Suites arithmétiques, géométriques et arithmético-géométriques, récurrences linéaires d'ordre 2, limites et théorèmes de convergence, suites…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="fonctions-limites-continuite-derivation.html">
+          <span class="topic-num">VB-04</span>
+          <span class="cours-chapter-text"><strong>Fonctions : limites, continuité, dérivation et développements limités</strong><span>Fonctions usuelles, limites et croissances comparées, continuité et théorème des valeurs intermédiaires, bijections, dérivation, théorème de Rolle…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="primitives-integrales-et-integrales-generalisees.html">
+          <span class="topic-num">VB-05</span>
+          <span class="cours-chapter-text"><strong>Primitives, intégrales et intégrales généralisées</strong><span>Primitives usuelles, intégrale sur un segment et propriétés, théorème fondamental de l'analyse, intégration par parties et changement de variable…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="equations-differentielles.html">
+          <span class="topic-num">VB-06</span>
+          <span class="cours-chapter-text"><strong>Équations différentielles</strong><span>Équations linéaires du premier ordre, équations linéaires du second ordre à coefficients constants, équations autonomes d'ordre 1 et modèles…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="fonctions-de-deux-variables-reelles.html">
+          <span class="topic-num">VB-07</span>
+          <span class="cours-chapter-text"><strong>Fonctions de deux variables réelles</strong><span>Fonctions de deux variables, lignes de niveau, continuité, dérivées partielles d'ordre 1 et 2, gradient, points critiques et recherche d'extremums.</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-3" aria-labelledby="domaine-3-titre">
+      <h2 id="domaine-3-titre">Algèbre linéaire et géométrie</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="systemes-lineaires-et-calcul-matriciel.html">
+          <span class="topic-num">VB-08</span>
+          <span class="cours-chapter-text"><strong>Systèmes linéaires et calcul matriciel</strong><span>Systèmes linéaires et algorithme du pivot de Gauss, opérations sur les matrices, puissances de matrices, matrices inversibles et calcul de l'inverse…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="espaces-vectoriels.html">
+          <span class="topic-num">VB-09</span>
+          <span class="cours-chapter-text"><strong>Espaces vectoriels, applications linéaires et diagonalisation</strong><span>Sous-espaces vectoriels de Kⁿ, familles libres et génératrices, bases et dimension, applications linéaires, noyau et image, rang, matrices…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="geometrie-et-produit-scalaire.html">
+          <span class="topic-num">VB-10</span>
+          <span class="cours-chapter-text"><strong>Géométrie et produit scalaire</strong><span>Vecteurs du plan et de l'espace, déterminant, droites, cercles et plans, produit scalaire dans ℝⁿ, orthogonalité, projection orthogonale et théorème…</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section" id="domaine-4" aria-labelledby="domaine-4-titre">
+      <h2 id="domaine-4-titre">Probabilités et statistique</h2>
+      <ul class="cours-chapter-grid">
+        <li><a class="cours-chapter-card" href="probabilites-et-variables-aleatoires-discretes.html">
+          <span class="topic-num">VB-11</span>
+          <span class="cours-chapter-text"><strong>Probabilités et variables aléatoires discrètes</strong><span>Espaces probabilisés, probabilités conditionnelles, formule des probabilités totales et formule de Bayes, indépendance, variables aléatoires…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="variables-a-densite-et-theoremes-limites.html">
+          <span class="topic-num">VB-12</span>
+          <span class="cours-chapter-text"><strong>Variables à densité et théorèmes limites</strong><span>Densité et fonction de répartition, espérance et variance, lois uniforme, exponentielle et normale, sommes de variables indépendantes, inégalité…</span></span>
+        </a></li>
+        <li><a class="cours-chapter-card" href="statistique-descriptive-univariee-et-bivariee.html">
+          <span class="topic-num">VB-13</span>
+          <span class="cours-chapter-text"><strong>Statistique descriptive univariée et bivariée</strong><span>Moyenne, médiane, quartiles, variance et écart type, séries bivariées, covariance, coefficient de corrélation linéaire, droite de régression…</span></span>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="cours-section " id="methode" aria-labelledby="methode-titre">
+      <h2 id="methode-titre">Comment travailler les maths en prépa BCPST ?</h2>
+      <ol class="cours-list">
+        <li><strong>Lire le cours du chapitre</strong> et refaire seul les exemples rédigés de la partie « Méthodes ».</li>
+        <li><strong>Chercher les exercices corrigés</strong> de la page avant d'ouvrir la correction, puis comparer la rédaction.</li>
+        <li><strong>S'entraîner par paliers</strong> dans l'application : palier 1 « Socle et automatismes », palier 2 « Entraînement et méthodes », palier 3 « Niveau concours (écrit) », palier 4 « Problèmes et démonstrations ». Les exercices changent à chaque tirage.</li>
+        <li><strong>Mémoriser</strong> les définitions et formules avec les flashcards, quelques minutes par jour.</li>
+      </ol>
+    </section>
+
+    <section class="cours-section " id="faq" aria-labelledby="faq-titre">
+      <h2 id="faq-titre">Questions fréquentes sur les maths en prépa BCPST</h2>
+      <div class="cours-faq">
+        <details class="cours-faq-item"><summary><h3>Quel programme de mathématiques pour le concours vétérinaire ?</h3></summary><div><p>Après le bac, la voie principale d'accès aux écoles nationales vétérinaires est la classe préparatoire BCPST, suivie du concours A. Le programme de mathématiques de BCPST (première et seconde années) est fixé par arrêté. Le site le couvre en 13 chapitres : outils, analyse, algèbre linéaire et géométrie, probabilités et statistique.</p></div></details>
+        <details class="cours-faq-item"><summary><h3>Comment s’entraîner aux mathématiques de BCPST ?</h3></summary><div><p>Choisissez un chapitre puis « S'entraîner » : exercices générés à chaque tirage et problèmes de type concours, corrigés immédiatement, en quatre paliers (1. Socle et automatismes, 2. Entraînement et méthodes, 3. Niveau concours (écrit), 4. Problèmes et démonstrations).</p></div></details>
+        <details class="cours-faq-item"><summary><h3>Ces contenus sont-ils gratuits ?</h3></summary><div><p>Oui, comme tout le site : sans inscription, sans publicité, sous licence libre CC BY-NC-SA.</p></div></details>
+      </div>
+    </section>
+
+    <nav class="cours-related" aria-label="Autres ressources">
+      <div><p class="cours-related-title">Autres classes</p><ul><li><a href="../">Tous les cours de maths</a></li></ul></div>
+      <div><p class="cours-related-title">Pages utiles</p><ul><li><a href="../../exercices-de-maths/">Exercices de maths corrigés</a>, tous niveaux</li><li><a href="../../entrainement-maths/">Entraînement en ligne</a> : paliers, rituels, flashcards</li></ul></div>
+    </nav>
+
+    <nav class="cours-pager" aria-label="Autres niveaux">
+      <a class="nav-portal-btn" href="../6e/">6e</a>
+      <a class="nav-portal-btn" href="../5e/">5e</a>
+      <a class="nav-portal-btn" href="../4e/">4e</a>
+      <a class="nav-portal-btn" href="../3e/">3e</a>
+      <a class="nav-portal-btn" href="../seconde/">Seconde</a>
+      <a class="nav-portal-btn" href="../premiere/">Première</a>
+      <a class="nav-portal-btn" href="../terminale/">Terminale</a>
+      <a class="nav-portal-btn" href="../l1/">Licence 1</a>
+      <a class="nav-portal-btn" href="../l2/">Licence 2</a>
+      <a class="nav-portal-btn" href="../l3/">Licence 3</a>
+      <a class="nav-portal-btn" href="../capes/">CAPES</a>
+      <a class="nav-portal-btn" href="../professeur-des-ecoles/">Professeur des écoles</a>
+      <a class="nav-portal-btn" href="../prepa-sante/">Prépa santé</a>
+      <a class="nav-portal-btn" href="../pass-las/">PASS / L.AS</a>
+      <a class="nav-portal-btn active" href="../veto-bcpst/" aria-current="page">Véto (BCPST)</a>
+    </nav>
+  </main>
+
+  <footer class="cours-footer">
+    <p>L'Établi des Maths — Conçu par Loïc Delaporte, professeur de mathématiques • 100 % gratuit, conforme aux programmes</p>
+    <p><a href="../../cours/">Cours de maths</a> · <a href="../../exercices-de-maths/">Exercices corrigés</a> · <a href="../../entrainement-maths/">Entraînement en ligne</a> · <a href="../../reviser-le-brevet-de-maths/">Réviser le brevet</a> · <a href="../../reussir-le-bac-de-maths/">Réussir le bac</a> · <a href="../../epreuve-d-entretien-capes/">Oral 2 du CAPES</a></p>
+    <p><a href="../../index.html">Ouvrir l'application</a> · <a href="../../rituels.html">Rituels</a> · <a href="../../brevet.html">Brevet blanc</a> · <a href="../../bac.html">Devoir type bac</a> · <a href="../../a-propos.html">Qui suis-je ?</a> · <a href="../../mentions-legales.html">Mentions légales</a> · <a href="mailto:delaporte@etabli-des-maths.fr">Contact</a></p>
+    <p>Contenus sous licence <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr" rel="license noopener">CC BY-NC-SA 4.0</a></p>
+  </footer>
+  <!-- Statistiques d'audience anonymes et conformes RGPD (GoatCounter) -->
+  <script data-goatcounter="https://etabli-des-maths.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>
