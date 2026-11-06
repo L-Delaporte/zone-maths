@@ -1915,8 +1915,8 @@
         ],
         correctIndex: 0,
         answer: "Replacer immédiatement la médaille sous son vêtement pour qu'elle ne soit pas visible, rappeler avec courtoisie que le professeur représente l'école laïque et est soumis à un strict devoir de neutralité, puis recentrer la classe sur le cours de mathématiques sans exprimer ses convictions personnelles",
-        hint1: "Consulter la fiche 19 du Vademecum : le fonctionnaire est astreint à une stricte obligation de neutralité religieuse et politique (Avis CE Marteaux 2000 et loi du 20 avril 2016).",
-        solution: "1. Cadre juridique : L'article 25 de la loi du 13 juillet 1983 modifiée en 2016 et l'avis du Conseil d'État Marteaux (3 mai 2000) imposent une stricte obligation de neutralité religieuse aux agents du service public de l'enseignement. Ils ne doivent manifester aucune opinion religieuse ou philosophique dans l'exercice de leurs fonctions.\n2. Posture professionnelle : L'enseignant replace son signe sous son vêtement, ne fait pas état de ses croyances intimes, explicite avec calme et bienveillance que l'École laïque garantit la neutralité de l'enseignement pour protéger la liberté de conscience de tous les élèves, et reprend le cours de mathématiques sans polémique."
+        hint1: "Le fonctionnaire est astreint à une stricte obligation de neutralité religieuse et politique (Avis CE Marteaux 2000 et loi du 20 avril 2016).",
+        solution: "1. Cadre juridique : L'article L. 121-2 du Code général de la fonction publique (ancien article 25 de la loi du 13 juillet 1983, issu de la loi du 20 avril 2016) et l'avis du Conseil d'État Marteaux (3 mai 2000) imposent une stricte obligation de neutralité religieuse aux agents du service public de l'enseignement. Ils ne doivent manifester aucune opinion religieuse ou philosophique dans l'exercice de leurs fonctions.\n2. Posture professionnelle : L'enseignant replace son signe sous son vêtement, ne fait pas état de ses croyances intimes, explicite avec calme et bienveillance que l'École laïque garantit la neutralité de l'enseignement pour protéger la liberté de conscience de tous les élèves, et reprend le cours de mathématiques sans polémique."
       },
       {
         id: 'capes-oral2-2',
@@ -2199,6 +2199,604 @@
         answer: "Articuler sa réponse en 3 temps : 1° Rappel précis du cadre légal et déontologique (neutralité, assiduité, laïcité) ; 2° Réponse pédagogique immédiate et bienveillante en classe ; 3° Inscription dans le travail d'équipe et la chaîne institutionnelle (direction, CPE, partenaires, EAVR)",
         hint1: "Rapports du jury du CAPES : le jury évalue la solidité déontologique, la capacité à ne pas rester isolé et la fermeté sur les valeurs républicaines.",
         solution: "Le jury attend d'un futur professeur de mathématiques qu'il montre sa pleine appartenance au corps des fonctionnaires de l'État : connaissance des textes fondamentaux (Loi 1905, 2004, 2019, Code de l'éducation), discernement éducatif sur le terrain (fermeté sans provocation ni faiblesse), et réflexe permanent du travail en équipe pédagogique et de la collaboration avec l'équipe de direction."
+      },
+      // PALIER 1 (suite)
+      {
+        id: "capes-oral2-17",
+        chapterId: 'capes-oral2',
+        tier: 1,
+        title: "Ordre hiérarchique contestable : quand peut-on refuser d'obéir ?",
+        statement: "Un professeur reçoit de sa hiérarchie une consigne qu'il juge pédagogiquement discutable. Dans quel cas le Code général de la fonction publique l'autorise-t-il à ne pas s'y conformer ?",
+        type: "mcq",
+        options: [
+          "Uniquement si l'ordre est manifestement illégal et de nature à compromettre gravement un intérêt public, ces deux conditions étant cumulatives",
+          "Dès qu'il est en désaccord avec la consigne, au nom de sa liberté pédagogique",
+          "Dès que l'ordre est illégal, même si l'illégalité n'est pas manifeste et ne compromet aucun intérêt public",
+          "Jamais : un fonctionnaire doit exécuter tous les ordres sans exception"
+        ],
+        correctIndex: 0,
+        answer: "Uniquement si l'ordre est manifestement illégal et de nature à compromettre gravement un intérêt public, ces deux conditions étant cumulatives",
+        hint1: "Le principe est l'obéissance hiérarchique ; l'exception repose sur deux conditions réunies en même temps.",
+        solution: "Le fonctionnaire doit se conformer aux instructions de son supérieur hiérarchique, sauf si l'ordre donné est manifestement illégal et de nature à compromettre gravement un intérêt public (Code général de la fonction publique, article L. 121-10). Les deux conditions sont cumulatives. Un simple désaccord pédagogique ne suffit donc pas : on l'exprime par les voies normales (échange avec la direction, conseil pédagogique, inspection), puis on applique la consigne."
+      },
+      {
+        id: "capes-oral2-18",
+        chapterId: 'capes-oral2',
+        tier: 1,
+        title: "Liberté d'opinion et neutralité en service",
+        statement: "Un professeur de mathématiques est engagé dans une association et dans un parti politique. Qu'en est-il au regard de son statut ?",
+        type: "mcq",
+        options: [
+          "Sa liberté d'opinion est garantie par le statut ; il ne doit cependant manifester aucune opinion politique ou religieuse dans l'exercice de ses fonctions, et son expression publique reste encadrée par le devoir de réserve",
+          "Un fonctionnaire n'a pas le droit d'adhérer à un parti politique",
+          "Il peut présenter ses idées politiques à ses élèves dès lors qu'il le fait de façon argumentée",
+          "Il doit déclarer ses engagements au chef d'établissement, qui peut les lui interdire"
+        ],
+        correctIndex: 0,
+        answer: "Sa liberté d'opinion est garantie par le statut ; il ne doit cependant manifester aucune opinion politique ou religieuse dans l'exercice de ses fonctions, et son expression publique reste encadrée par le devoir de réserve",
+        hint1: "Distinguer ce que l'agent pense (libre), ce qu'il montre en service (neutre) et ce qu'il dit publiquement (avec mesure).",
+        solution: "La liberté d'opinion est garantie aux fonctionnaires (Code général de la fonction publique, article L. 111-1) : l'adhésion à une association ou à un parti est libre. En revanche, dans l'exercice de ses fonctions, le professeur est tenu à l'obligation de neutralité (article L. 121-2) : il ne fait état d'aucune opinion devant les élèves. Hors service, son expression publique est encadrée par le devoir de réserve, dégagé par la jurisprudence, apprécié selon ses fonctions et les circonstances."
+      },
+      {
+        id: "capes-oral2-19",
+        chapterId: 'capes-oral2',
+        tier: 1,
+        title: "Discrétion professionnelle après un conseil de classe",
+        statement: "À la sortie du collège, une mère d'élève interroge un professeur sur la situation familiale difficile d'un camarade de son fils, évoquée la veille en conseil de classe. Que doit répondre le professeur ?",
+        type: "mcq",
+        options: [
+          "Il ne révèle rien : les faits et informations dont il a connaissance dans l'exercice de ses fonctions relèvent de la discrétion professionnelle",
+          "Il peut répondre puisque la mère est déléguée des parents et a assisté au conseil",
+          "Il peut répondre de façon générale, sans citer de détails trop personnels",
+          "Il l'oriente vers le professeur principal, qui est seul autorisé à communiquer ces informations aux autres familles"
+        ],
+        correctIndex: 0,
+        answer: "Il ne révèle rien : les faits et informations dont il a connaissance dans l'exercice de ses fonctions relèvent de la discrétion professionnelle",
+        hint1: "L'obligation vaut pour tous les faits, informations ou documents connus à l'occasion du service.",
+        solution: "Le fonctionnaire est tenu au secret professionnel dans les conditions du Code pénal et doit faire preuve de discrétion professionnelle pour tous les faits, informations ou documents dont il a connaissance dans l'exercice ou à l'occasion de ses fonctions (Code général de la fonction publique, articles L. 121-6 et L. 121-7). La situation d'un autre élève ne regarde pas cette mère, même si elle siège au conseil de classe, où les participants sont eux-mêmes tenus à la discrétion. Le professeur décline poliment, sans rien confirmer."
+      },
+      {
+        id: "capes-oral2-20",
+        chapterId: 'capes-oral2',
+        tier: 1,
+        title: "Ce que dit la loi du 9 décembre 1905",
+        statement: "Parmi les affirmations suivantes sur la loi du 9 décembre 1905 concernant la séparation des Églises et de l'État, laquelle est exacte ?",
+        type: "mcq",
+        options: [
+          "Elle assure la liberté de conscience, garantit le libre exercice des cultes et pose que la République ne reconnaît, ne salarie ni ne subventionne aucun culte",
+          "Elle interdit toute manifestation religieuse dans l'espace public",
+          "Elle s'applique de façon identique sur tout le territoire, y compris en Alsace-Moselle",
+          "C'est elle qui interdit aux élèves le port de signes religieux ostensibles"
+        ],
+        correctIndex: 0,
+        answer: "Elle assure la liberté de conscience, garantit le libre exercice des cultes et pose que la République ne reconnaît, ne salarie ni ne subventionne aucun culte",
+        hint1: "Ses deux premiers articles posent une liberté puis une séparation.",
+        solution: "L'article 1er de la loi de 1905 assure la liberté de conscience et garantit le libre exercice des cultes, sous les seules restrictions édictées dans l'intérêt de l'ordre public ; l'article 2 pose que la République ne reconnaît, ne salarie ni ne subventionne aucun culte. La loi ne s'applique pas en Alsace-Moselle, qui relève d'un régime concordataire. L'interdiction des signes ostensibles pour les élèves vient de la loi du 15 mars 2004 (article L. 141-5-1 du Code de l'éducation)."
+      },
+      {
+        id: "capes-oral2-21",
+        chapterId: 'capes-oral2',
+        tier: 1,
+        title: "Fondement constitutionnel de la laïcité",
+        statement: "Quel texte fait de la laïcité un principe de valeur constitutionnelle ?",
+        type: "mcq",
+        options: [
+          "L'article 1er de la Constitution du 4 octobre 1958 : la France est une République indivisible, laïque, démocratique et sociale, qui respecte toutes les croyances",
+          "La loi du 9 décembre 1905, qui a valeur constitutionnelle",
+          "La Charte de la laïcité à l'École de 2013",
+          "L'article L. 141-5-1 du Code de l'éducation"
+        ],
+        correctIndex: 0,
+        answer: "L'article 1er de la Constitution du 4 octobre 1958 : la France est une République indivisible, laïque, démocratique et sociale, qui respecte toutes les croyances",
+        hint1: "Seul l'un de ces textes se situe au sommet de la hiérarchie des normes.",
+        solution: "L'article 1er de la Constitution de 1958 dispose que la France est une République indivisible, laïque, démocratique et sociale, qu'elle assure l'égalité devant la loi de tous les citoyens sans distinction d'origine, de race ou de religion et qu'elle respecte toutes les croyances. La loi de 1905 est une loi ordinaire ; la Charte de 2013 est un texte pédagogique diffusé par circulaire ; l'article L. 141-5-1 est une disposition législative du Code de l'éducation."
+      },
+      {
+        id: "capes-oral2-22",
+        chapterId: 'capes-oral2',
+        tier: 1,
+        title: "Neutralité d'un surveillant qui n'enseigne pas",
+        statement: "Une assistante d'éducation, chargée de la surveillance de la cour et de la permanence, porte un signe religieux visible. Elle fait valoir qu'elle n'enseigne pas. A-t-elle raison ?",
+        type: "mcq",
+        options: [
+          "Non : le principe de laïcité fait obstacle à ce que les agents du service public de l'enseignement manifestent leurs croyances religieuses dans l'exercice de leurs fonctions, qu'ils enseignent ou non",
+          "Oui : l'obligation de neutralité ne concerne que les professeurs devant leurs élèves",
+          "Oui, à condition que le signe soit discret, comme pour les élèves",
+          "Oui : seuls les fonctionnaires titulaires sont tenus à la neutralité, pas les contractuels"
+        ],
+        correctIndex: 0,
+        answer: "Non : le principe de laïcité fait obstacle à ce que les agents du service public de l'enseignement manifestent leurs croyances religieuses dans l'exercice de leurs fonctions, qu'ils enseignent ou non",
+        hint1: "L'avis du Conseil d'État du 3 mai 2000 portait justement sur une surveillante.",
+        solution: "Dans son avis du 3 mai 2000 (Mlle Marteaux), le Conseil d'État a indiqué que le principe de laïcité fait obstacle à ce que les agents du service public de l'enseignement manifestent leurs croyances religieuses dans l'exercice de leurs fonctions, sans distinguer selon qu'ils assurent ou non des fonctions d'enseignement, et quel que soit leur statut. Contrairement aux élèves, qui peuvent porter des signes discrets, l'agent ne peut porter aucun signe manifestant une appartenance religieuse en service."
+      },
+      {
+        id: "capes-oral2-23",
+        chapterId: 'capes-oral2',
+        tier: 1,
+        title: "Les élèves sont-ils tenus à la neutralité ?",
+        statement: "Lors d'un débat organisé en classe, un élève exprime une conviction religieuse personnelle. Un camarade affirme que « l'école est laïque, donc on n'a pas le droit de parler de religion ». Que répond le professeur ?",
+        type: "mcq",
+        options: [
+          "Les élèves, usagers du service public, ne sont pas soumis à l'obligation de neutralité : leur liberté de conscience est protégée, dans les limites fixées par la loi du 15 mars 2004, le règlement intérieur et le respect d'autrui, sans prosélytisme ni trouble",
+          "Le camarade a raison : les élèves sont tenus à la même neutralité que les enseignants",
+          "Le professeur doit interrompre l'élève et le sanctionner pour avoir parlé de religion",
+          "Les élèves peuvent tout dire, y compris faire pression sur leurs camarades, puisqu'ils ne sont pas fonctionnaires"
+        ],
+        correctIndex: 0,
+        answer: "Les élèves, usagers du service public, ne sont pas soumis à l'obligation de neutralité : leur liberté de conscience est protégée, dans les limites fixées par la loi du 15 mars 2004, le règlement intérieur et le respect d'autrui, sans prosélytisme ni trouble",
+        hint1: "La neutralité est une obligation de ceux qui font fonctionner le service, pas de ceux qui l'utilisent.",
+        solution: "Il existe une asymétrie entre agents et usagers : le professeur est neutre, les élèves ne le sont pas. Leur liberté de conscience est protégée par l'école laïque. Elle a des limites : l'interdiction des signes ostensibles (loi du 15 mars 2004), le règlement intérieur, l'interdiction du prosélytisme et des pressions sur autrui. C'est l'occasion de rappeler que la laïcité protège la liberté de croire ou de ne pas croire de chacun."
+      },
+      {
+        id: "capes-oral2-24",
+        chapterId: 'capes-oral2',
+        tier: 1,
+        title: "Missions de l'école selon l'article L. 111-1",
+        statement: "Outre la transmission des connaissances, quelle mission première l'article L. 111-1 du Code de l'éducation assigne-t-il à l'école ?",
+        type: "mcq",
+        options: [
+          "Faire partager aux élèves les valeurs de la République ; le service public de l'éducation veille aussi à la scolarisation inclusive de tous les enfants, sans aucune distinction",
+          "Préparer les élèves aux concours des grandes écoles",
+          "Garantir à chaque élève l'obtention d'un diplôme",
+          "Transmettre à chaque élève les valeurs religieuses de sa famille"
+        ],
+        correctIndex: 0,
+        answer: "Faire partager aux élèves les valeurs de la République ; le service public de l'éducation veille aussi à la scolarisation inclusive de tous les enfants, sans aucune distinction",
+        hint1: "C'est aussi l'intitulé de la première compétence du référentiel de 2013.",
+        solution: "L'article L. 111-1 du Code de l'éducation dispose qu'outre la transmission des connaissances, la Nation fixe comme mission première à l'école de faire partager aux élèves les valeurs de la République. Il prévoit aussi que le service public de l'éducation contribue à l'égalité des chances et veille à la scolarisation inclusive de tous les enfants, sans aucune distinction. On retrouve cette mission dans la compétence 1 du référentiel des métiers du professorat (arrêté du 1er juillet 2013)."
+      },
+      {
+        id: "capes-oral2-25",
+        chapterId: 'capes-oral2',
+        tier: 1,
+        title: "Statut juridique du harcèlement scolaire",
+        statement: "Depuis la loi du 2 mars 2022 visant à combattre le harcèlement scolaire, quel est le statut juridique du harcèlement scolaire ?",
+        type: "mcq",
+        options: [
+          "C'est un délit spécifique prévu par le Code pénal",
+          "C'est un simple manquement au règlement intérieur, sanctionné uniquement par l'établissement",
+          "C'est une contravention, sans conséquence pénale lourde",
+          "Il n'est puni que si l'auteur est majeur"
+        ],
+        correctIndex: 0,
+        answer: "C'est un délit spécifique prévu par le Code pénal",
+        hint1: "La loi de 2022 a créé une infraction autonome.",
+        solution: "La loi du 2 mars 2022 a fait du harcèlement scolaire un délit (Code pénal, article 222-33-2-3), puni de trois ans d'emprisonnement et de 45 000 euros d'amende, peines aggravées selon les conséquences pour la victime. Les mineurs auteurs relèvent des règles propres à la justice des mineurs. Pour l'enseignant, la conséquence pratique est la même : prendre au sérieux tout signal et ne jamais rester seul, en informant sans délai le CPE et le chef d'établissement, qui mettent en œuvre le protocole de traitement du harcèlement."
+      },
+      // PALIER 2 (suite)
+      {
+        id: "capes-oral2-26",
+        chapterId: 'capes-oral2',
+        tier: 2,
+        title: "Datation au carbone 14 contestée au nom d'une croyance",
+        statement: "En terminale, lors d'un exercice sur la décroissance exponentielle appliquée à la datation au carbone 14, un élève refuse de calculer l'âge d'un fossile : « Ce que vous enseignez est contraire à ma religion. » Quelle réaction est attendue ?",
+        type: "mcq",
+        options: [
+          "Rappeler calmement qu'aucun élève ne peut invoquer une conviction pour contester le droit de traiter une question au programme, distinguer le savoir (établi par la démonstration et l'argumentation) de la croyance, qui appartient à chacun, faire faire l'exercice, puis reprendre l'échange individuellement",
+          "Remplacer l'exercice par un autre pour cet élève afin de respecter ses convictions",
+          "Engager devant la classe un débat pour démontrer que sa croyance est fausse",
+          "Ignorer la remarque et laisser l'élève ne rien faire pour ne pas créer de tension"
+        ],
+        correctIndex: 0,
+        answer: "Rappeler calmement qu'aucun élève ne peut invoquer une conviction pour contester le droit de traiter une question au programme, distinguer le savoir (établi par la démonstration et l'argumentation) de la croyance, qui appartient à chacun, faire faire l'exercice, puis reprendre l'échange individuellement",
+        hint1: "Charte de la laïcité à l'École, article 12.",
+        solution: "L'article 12 de la Charte de la laïcité à l'École rappelle qu'aucun sujet n'est a priori exclu du questionnement scientifique et pédagogique et qu'aucun élève ne peut invoquer une conviction religieuse ou politique pour contester à un enseignant le droit de traiter une question au programme. Le professeur ne prend pas parti sur la croyance et n'humilie pas l'élève : il explique qu'un modèle mathématique se discute par des arguments et des données. Il poursuit le cours, revoit l'élève seul et informe l'équipe si le refus persiste."
+      },
+      {
+        id: "capes-oral2-27",
+        chapterId: 'capes-oral2',
+        tier: 2,
+        title: "Refus de travailler en groupe avec une camarade",
+        statement: "Lors d'une activité de géométrie en groupes, un élève refuse de s'asseoir à côté d'une camarade : « Je ne travaille pas avec les filles. » Quelle est la conduite à tenir ?",
+        type: "mcq",
+        options: [
+          "Maintenir la composition du groupe, rappeler sans hausser le ton que la mixité et l'égalité entre filles et garçons sont des principes de l'école qui s'imposent à tous, protéger l'élève visée, puis reprendre l'échange seul à seul et informer le professeur principal et le CPE",
+          "Accepter de changer l'élève de groupe pour préserver le calme de la classe",
+          "Laisser l'élève travailler seul pour cette séance, sans autre suite",
+          "Exclure immédiatement l'élève du cours et l'envoyer chez le chef d'établissement sans explication"
+        ],
+        correctIndex: 0,
+        answer: "Maintenir la composition du groupe, rappeler sans hausser le ton que la mixité et l'égalité entre filles et garçons sont des principes de l'école qui s'imposent à tous, protéger l'élève visée, puis reprendre l'échange seul à seul et informer le professeur principal et le CPE",
+        hint1: "Céder sur la règle, même pour éviter un conflit, revient à admettre une discrimination.",
+        solution: "L'égalité entre les filles et les garçons fait partie des valeurs que l'école doit faire partager (article L. 111-1 du Code de l'éducation, Charte de la laïcité). Nul ne peut invoquer ses convictions pour refuser une règle de fonctionnement de la classe. Le professeur maintient la consigne avec calme, sans humilier, veille à l'élève concernée, puis reprend l'échange en particulier. Si le refus persiste ou s'il relève d'une atteinte à la laïcité, il en informe le professeur principal, le CPE et le chef d'établissement, qui peut solliciter l'équipe académique Valeurs de la République."
+      },
+      {
+        id: "capes-oral2-28",
+        chapterId: 'capes-oral2',
+        tier: 2,
+        title: "Un élève se confie sur un cyberharcèlement",
+        statement: "À la fin du cours, une élève de 4e confie au professeur de mathématiques qu'elle reçoit chaque soir des messages humiliants de camarades de la classe sur un réseau social. Elle lui demande de « ne rien dire à personne ». Que faire ?",
+        type: "mcq",
+        options: [
+          "L'écouter et prendre sa parole au sérieux, lui expliquer qu'on ne peut pas lui promettre le secret parce qu'il faut la protéger, puis informer sans délai le CPE et le chef d'établissement, qui mettent en œuvre le protocole de traitement du harcèlement",
+          "Respecter sa demande et ne rien dire, pour garder sa confiance",
+          "Interpeller dès le lendemain les élèves soupçonnés devant toute la classe",
+          "Lui conseiller de bloquer les comptes concernés et attendre de voir si cela continue"
+        ],
+        correctIndex: 0,
+        answer: "L'écouter et prendre sa parole au sérieux, lui expliquer qu'on ne peut pas lui promettre le secret parce qu'il faut la protéger, puis informer sans délai le CPE et le chef d'établissement, qui mettent en œuvre le protocole de traitement du harcèlement",
+        hint1: "Promettre le secret, c'est rester seul avec une situation qui relève d'un délit.",
+        solution: "Le professeur écoute sans minimiser ni enquêter lui-même. Il explique à l'élève qu'il ne garde pas le secret parce que des adultes de l'établissement doivent la protéger. Il informe sans délai le CPE et le chef d'établissement, qui déclenchent le protocole de traitement du harcèlement (entretiens, information des familles, mesures de protection et sanctions éventuelles). Depuis la loi du 2 mars 2022, le harcèlement scolaire constitue un délit : la situation ne peut être traitée seul en classe."
+      },
+      {
+        id: "capes-oral2-29",
+        chapterId: 'capes-oral2',
+        tier: 2,
+        title: "Insulte homophobe entendue en classe",
+        statement: "Pendant un exercice, un élève lance à un camarade une insulte homophobe. Une partie de la classe rit. Quelle réaction est attendue ?",
+        type: "mcq",
+        options: [
+          "Intervenir immédiatement : faire cesser les propos, rappeler qu'une injure à caractère discriminatoire est interdite par la loi et contraire au respect d'autrui, protéger l'élève visé, puis donner une suite éducative et disciplinaire avec le CPE et la direction",
+          "Ne rien dire pour ne pas donner d'importance à ce qui n'est qu'une plaisanterie entre adolescents",
+          "Demander à l'élève insulté de répondre lui-même pour régler le conflit",
+          "Porter plainte personnellement au commissariat le soir même sans en parler à l'établissement"
+        ],
+        correctIndex: 0,
+        answer: "Intervenir immédiatement : faire cesser les propos, rappeler qu'une injure à caractère discriminatoire est interdite par la loi et contraire au respect d'autrui, protéger l'élève visé, puis donner une suite éducative et disciplinaire avec le CPE et la direction",
+        hint1: "Laisser passer une insulte discriminatoire, c'est lui donner une forme de légitimité devant la classe.",
+        solution: "Le professeur réagit sur-le-champ, sans humilier l'auteur : il nomme le caractère discriminatoire des propos et rappelle la règle. Proférée en classe, une injure non publique à raison de l'orientation sexuelle constitue une contravention (Code pénal, article R. 625-8-1) ; proférée publiquement, c'est un délit (loi du 29 juillet 1881). La première réponse reste éducative et disciplinaire : entretien avec l'auteur, attention à la victime, information du CPE et de la direction, qui apprécient les suites."
+      },
+      {
+        id: "capes-oral2-30",
+        chapterId: 'capes-oral2',
+        tier: 2,
+        title: "Fraude au téléphone pendant un devoir surveillé",
+        statement: "Pendant un devoir surveillé, un professeur constate qu'un élève consulte son téléphone sous la table. Quelle conduite est la plus adaptée ?",
+        type: "mcq",
+        options: [
+          "Faire cesser la fraude sans éclat, noter les faits précisément, en informer le professeur principal, le CPE et la direction, et appliquer les suites prévues par le règlement intérieur, sans humilier l'élève devant la classe",
+          "Lire à voix haute devant la classe le contenu du téléphone pour faire un exemple",
+          "Annuler le devoir pour toute la classe",
+          "Faire comme si de rien n'était pour ne pas perturber les autres élèves"
+        ],
+        correctIndex: 0,
+        answer: "Faire cesser la fraude sans éclat, noter les faits précisément, en informer le professeur principal, le CPE et la direction, et appliquer les suites prévues par le règlement intérieur, sans humilier l'élève devant la classe",
+        hint1: "Fermeté sur les faits, discrétion dans la forme, et pas de décision prise seul.",
+        solution: "La fraude doit être traitée, mais sans humiliation ni sanction collective. Le professeur fait cesser la fraude, consigne les faits (heure, circonstances, objet en cause) et en informe l'équipe. Les punitions et sanctions possibles sont fixées par le règlement intérieur ; les sanctions disciplinaires relèvent du chef d'établissement ou du conseil de discipline. L'échange avec l'élève, puis avec la famille, vise aussi à comprendre la raison de la fraude."
+      },
+      {
+        id: "capes-oral2-31",
+        chapterId: 'capes-oral2',
+        tier: 2,
+        title: "Élève arrivant avec un signe religieux ostensible",
+        statement: "Une élève de lycée entre en cours de mathématiques en portant un signe manifestant ostensiblement une appartenance religieuse, ce qui ne s'était jamais produit. Quelle est la conduite attendue du professeur ?",
+        type: "mcq",
+        options: [
+          "Rappeler calmement la règle sans entrer dans un débat sur les croyances, et informer sans délai le chef d'établissement, qui organise le dialogue avec l'élève prévu par la loi avant toute procédure disciplinaire",
+          "Exclure l'élève définitivement de son cours de sa propre autorité",
+          "Ne rien dire, car la loi de 2004 ne s'applique pas au lycée",
+          "Retirer lui-même le signe à l'élève"
+        ],
+        correctIndex: 0,
+        answer: "Rappeler calmement la règle sans entrer dans un débat sur les croyances, et informer sans délai le chef d'établissement, qui organise le dialogue avec l'élève prévu par la loi avant toute procédure disciplinaire",
+        hint1: "La loi du 15 mars 2004 prévoit une étape obligatoire avant toute sanction.",
+        solution: "L'article L. 141-5-1 du Code de l'éducation interdit, dans les écoles, collèges et lycées publics, le port de signes ou tenues par lesquels les élèves manifestent ostensiblement une appartenance religieuse. Il prévoit que la mise en œuvre d'une procédure disciplinaire est précédée d'un dialogue avec l'élève. Le professeur ne règle pas seul la situation : il rappelle la règle sans polémique et informe le chef d'établissement, qui conduit ce dialogue, associe la famille et peut s'appuyer sur l'équipe académique Valeurs de la République."
+      },
+      {
+        id: "capes-oral2-32",
+        chapterId: 'capes-oral2',
+        tier: 2,
+        title: "Un collègue juge le PAP facultatif",
+        statement: "En salle des professeurs, un collègue affirme : « Les aménagements du plan d'accompagnement personnalisé, c'est indicatif ; en devoir, je traite tout le monde pareil. » Que lui répondre ?",
+        type: "mcq",
+        options: [
+          "Les aménagements pédagogiques prévus par le PAP s'imposent à l'enseignant ; on les applique sans les commenter devant la classe, car l'équité n'est pas l'uniformité",
+          "Il a raison : le PAP n'est qu'une recommandation laissée à l'appréciation de chaque professeur",
+          "Le PAP ne s'applique qu'aux examens nationaux, pas aux devoirs en classe",
+          "Le PAP ne peut être appliqué que si toute la classe bénéficie des mêmes aménagements"
+        ],
+        correctIndex: 0,
+        answer: "Les aménagements pédagogiques prévus par le PAP s'imposent à l'enseignant ; on les applique sans les commenter devant la classe, car l'équité n'est pas l'uniformité",
+        hint1: "Code de l'éducation, articles L. 311-7 et D. 311-13.",
+        solution: "Le plan d'accompagnement personnalisé (Code de l'éducation, articles L. 311-7 et D. 311-13) définit des aménagements et adaptations pédagogiques pour un élève dont les difficultés scolaires durables résultent d'un trouble des apprentissages. Ces aménagements s'imposent aux enseignants. On les met en œuvre discrètement, en lien avec le professeur principal. Ils ne valent pas aménagement d'examen : les aménagements d'examen (temps majoré, secrétaire) font l'objet d'une demande et d'une décision distinctes."
+      },
+      {
+        id: "capes-oral2-33",
+        chapterId: 'capes-oral2',
+        tier: 2,
+        title: "Temps majoré au brevet : PAP ou demande d'examen ?",
+        statement: "Un élève de 3e qui bénéficie d'un plan d'accompagnement personnalisé dispose d'un tiers temps en classe. Sa famille pense qu'il l'aura automatiquement au diplôme national du brevet. Que lui indiquer ?",
+        type: "mcq",
+        options: [
+          "Les aménagements des examens font l'objet d'une demande et d'une décision distinctes : la famille doit faire la demande dans les délais, le PAP étant un élément du dossier mais ne valant pas décision",
+          "Le tiers temps prévu dans le PAP s'applique automatiquement au brevet, sans démarche",
+          "Le professeur de mathématiques peut lui accorder lui-même le tiers temps le jour de l'épreuve",
+          "Aucun aménagement n'est possible aux examens nationaux"
+        ],
+        correctIndex: 0,
+        answer: "Les aménagements des examens font l'objet d'une demande et d'une décision distinctes : la famille doit faire la demande dans les délais, le PAP étant un élément du dossier mais ne valant pas décision",
+        hint1: "Ne pas confondre aménagements pédagogiques en classe et aménagements d'examen.",
+        solution: "Le PAP organise des aménagements pédagogiques en classe, qui s'imposent aux enseignants. Les aménagements des épreuves d'examen relèvent d'une procédure propre : une demande, un avis médical, puis une décision de l'autorité administrative compétente. Le professeur oriente la famille vers le professeur principal et la direction pour engager la démarche à temps. Pour un élève en situation de handicap, le cadre est le projet personnalisé de scolarisation (article L. 112-2 du Code de l'éducation)."
+      },
+      // PALIER 3 (suite)
+      {
+        id: "capes-oral2-34",
+        chapterId: 'capes-oral2',
+        tier: 3,
+        title: "Injures d'un parent sur un réseau social",
+        statement: "Après une mauvaise note, un parent publie sur un réseau social des messages injurieux et menaçants visant nommément le professeur de mathématiques de son enfant. Que peut faire le professeur ?",
+        type: "mcq",
+        options: [
+          "Informer le chef d'établissement, conserver des captures des messages et demander par écrit la protection fonctionnelle à son administration (par l'application Colibris), qui doit prendre sans délai des mesures conservatoires",
+          "Répondre publiquement au parent sur le même réseau social pour rétablir la vérité",
+          "Modifier la note de l'élève pour apaiser la situation",
+          "Ne rien faire : un fonctionnaire ne peut pas être protégé contre les propos d'un usager"
+        ],
+        correctIndex: 0,
+        answer: "Informer le chef d'établissement, conserver des captures des messages et demander par écrit la protection fonctionnelle à son administration (par l'application Colibris), qui doit prendre sans délai des mesures conservatoires",
+        hint1: "Code général de la fonction publique, articles L. 134-1 et L. 134-5.",
+        solution: "L'administration doit protéger l'agent attaqué en raison de ses fonctions, notamment contre les menaces, injures ou outrages, y compris de la part d'un parent d'élève (Code général de la fonction publique, articles L. 134-1 et L. 134-5). La protection fonctionnelle se demande par écrit ; à l'Éducation nationale, par l'application Colibris. L'administration doit prendre sans délai des mesures conservatoires. Le professeur ne répond pas sur le réseau social et ne revient pas sur l'évaluation sous la pression."
+      },
+      {
+        id: "capes-oral2-35",
+        chapterId: 'capes-oral2',
+        tier: 3,
+        title: "Un parent conteste vivement une note",
+        statement: "Lors de la réunion parents-professeurs, un père conteste avec véhémence la note de son fils à un devoir de mathématiques et exige qu'elle soit relevée. Quelle attitude adopter ?",
+        type: "mcq",
+        options: [
+          "Rester calme, écouter, expliquer les critères d'évaluation et les attendus en s'appuyant sur la copie, proposer des pistes de progrès, et, si l'échange devient agressif, l'interrompre et en informer le professeur principal et la direction",
+          "Relever la note pour éviter le conflit",
+          "Refuser toute explication : l'évaluation ne regarde pas les parents",
+          "Comparer devant le parent la copie de son fils avec celles d'autres élèves nommément désignés"
+        ],
+        correctIndex: 0,
+        answer: "Rester calme, écouter, expliquer les critères d'évaluation et les attendus en s'appuyant sur la copie, proposer des pistes de progrès, et, si l'échange devient agressif, l'interrompre et en informer le professeur principal et la direction",
+        hint1: "Le référentiel de 2013 demande de coopérer avec les parents, ce qui n'est pas céder.",
+        solution: "Coopérer avec les parents d'élèves est une compétence du référentiel de 2013. L'enseignant explique sa démarche d'évaluation, montre ce qui est réussi et ce qui ne l'est pas, et propose des pistes pour progresser. Il ne modifie pas une note sous la pression et ne montre pas les copies d'autres élèves (discrétion professionnelle). Si le parent devient injurieux ou menaçant, le professeur met fin à l'entretien, informe la direction et peut demander la protection fonctionnelle."
+      },
+      {
+        id: "capes-oral2-36",
+        chapterId: 'capes-oral2',
+        tier: 3,
+        title: "Un parent veut connaître le nom d'un élève sanctionné",
+        statement: "Un parent apprend que son fils a été bousculé en cours de mathématiques. Il demande au professeur le nom de l'élève responsable et la sanction prise contre lui. Que répondre ?",
+        type: "mcq",
+        options: [
+          "Lui assurer que la situation est prise en charge par l'établissement, sans communiquer d'information sur l'autre élève, et l'orienter vers le CPE ou le chef d'établissement pour le suivi",
+          "Lui donner le nom de l'élève et le détail de la sanction, puisque son fils est la victime",
+          "Lui proposer de rencontrer directement la famille de l'autre élève à la sortie du collège",
+          "Refuser de lui parler de l'incident, qui ne le concerne pas"
+        ],
+        correctIndex: 0,
+        answer: "Lui assurer que la situation est prise en charge par l'établissement, sans communiquer d'information sur l'autre élève, et l'orienter vers le CPE ou le chef d'établissement pour le suivi",
+        hint1: "La famille de la victime a droit à une réponse, pas aux informations concernant un autre mineur.",
+        solution: "Le professeur reçoit la préoccupation du parent avec sérieux et indique que l'établissement traite l'incident. Il ne communique ni l'identité ni la situation disciplinaire d'un autre élève : ces informations relèvent de la discrétion professionnelle (Code général de la fonction publique, article L. 121-7). Il oriente le parent vers le CPE et le chef d'établissement, qui assurent le suivi et l'information des familles concernées."
+      },
+      {
+        id: "capes-oral2-37",
+        chapterId: 'capes-oral2',
+        tier: 3,
+        title: "Parents séparés et accès aux résultats scolaires",
+        statement: "Une mère, séparée du père de l'élève, demande au professeur principal de ne transmettre aucun bulletin ni aucune information au père. Aucune décision de justice ne retire l'autorité parentale au père. Que faire ?",
+        type: "mcq",
+        options: [
+          "Expliquer que, sauf décision de justice contraire, les deux parents exercent l'autorité parentale et ont chacun le droit d'être informés de la scolarité de leur enfant, et en référer au chef d'établissement",
+          "Accepter la demande : le parent qui a la garde décide seul des informations transmises",
+          "Ne plus transmettre d'informations à aucun des deux parents pour rester neutre",
+          "Demander à l'élève lequel de ses parents il préfère voir informé"
+        ],
+        correctIndex: 0,
+        answer: "Expliquer que, sauf décision de justice contraire, les deux parents exercent l'autorité parentale et ont chacun le droit d'être informés de la scolarité de leur enfant, et en référer au chef d'établissement",
+        hint1: "La séparation des parents ne change pas, par elle-même, l'exercice de l'autorité parentale.",
+        solution: "La séparation des parents est sans incidence sur l'exercice conjoint de l'autorité parentale, sauf décision du juge. Chaque parent qui l'exerce a le droit d'être informé de la scolarité de son enfant (résultats, bulletins, rencontres). L'enseignant reste impartial, traite les deux parents de façon égale et ne tranche pas seul un conflit familial : il informe le chef d'établissement, qui demandera le cas échéant la décision de justice invoquée."
+      },
+      {
+        id: "capes-oral2-38",
+        chapterId: 'capes-oral2',
+        tier: 3,
+        title: "Un parent demande le numéro personnel du professeur",
+        statement: "En début d'année, plusieurs parents demandent au professeur de mathématiques son numéro de téléphone personnel, et l'un d'eux lui propose de rejoindre un groupe de messagerie des parents de la classe. Quelle est la position la plus professionnelle ?",
+        type: "mcq",
+        options: [
+          "Décliner poliment et privilégier les canaux institutionnels (espace numérique de travail, carnet de liaison, rendez-vous par l'établissement), qui garantissent l'égalité de traitement des familles et protègent l'enseignant",
+          "Accepter : c'est une bonne pratique de coopération avec les familles",
+          "Donner son numéro aux seuls parents qu'il connaît déjà",
+          "Rejoindre le groupe pour répondre aux questions sur les notes des élèves"
+        ],
+        correctIndex: 0,
+        answer: "Décliner poliment et privilégier les canaux institutionnels (espace numérique de travail, carnet de liaison, rendez-vous par l'établissement), qui garantissent l'égalité de traitement des familles et protègent l'enseignant",
+        hint1: "Coopérer avec les parents passe par des canaux qui traitent toutes les familles de la même façon.",
+        solution: "La coopération avec les parents est attendue (référentiel de 2013), mais elle s'exerce dans un cadre institutionnel. Les canaux de l'établissement assurent la traçabilité des échanges, l'égalité de traitement de toutes les familles et la discrétion sur la situation des élèves. Un groupe de messagerie privé expose l'enseignant à des échanges hors cadre et à des demandes inégales selon les familles."
+      },
+      {
+        id: "capes-oral2-39",
+        chapterId: 'capes-oral2',
+        tier: 3,
+        title: "Un accompagnateur fait du prosélytisme pendant une sortie",
+        statement: "Pendant une sortie scolaire au musée des sciences, un parent accompagnateur distribue aux élèves des brochures religieuses et tient des propos visant à les convaincre. Que doit faire le professeur responsable de la sortie ?",
+        type: "mcq",
+        options: [
+          "Faire cesser immédiatement ce comportement, protéger la liberté de conscience des élèves, et en rendre compte au chef d'établissement, qui apprécie s'il peut encore participer à des sorties",
+          "Laisser faire : un parent n'est pas un agent public et peut dire ce qu'il veut",
+          "Annuler la sortie et ramener immédiatement tous les élèves au collège",
+          "Répondre devant les élèves en présentant à son tour ses propres convictions"
+        ],
+        correctIndex: 0,
+        answer: "Faire cesser immédiatement ce comportement, protéger la liberté de conscience des élèves, et en rendre compte au chef d'établissement, qui apprécie s'il peut encore participer à des sorties",
+        hint1: "Les parents accompagnateurs ne sont pas soumis à la loi de 2004, mais le prosélytisme auprès des élèves n'est pas admis.",
+        solution: "Les parents accompagnateurs ne sont pas des agents publics : la loi de 2004 et l'obligation de neutralité des agents ne leur sont pas applicables en tant que telles. Mais l'école protège les élèves de tout prosélytisme et de toute pression. Le professeur, responsable du groupe, fait cesser le comportement avec calme et en rend compte. La participation de ce parent aux sorties suivantes relève de l'appréciation du chef d'établissement, dans le cadre fixé par l'institution ; le professeur ne tranche pas seul."
+      },
+      // PALIER 4 (suite)
+      {
+        id: "capes-oral2-40",
+        chapterId: 'capes-oral2',
+        tier: 4,
+        title: "Suspicion de maltraitance : la conduite à tenir",
+        statement: "Un élève de 6e arrive régulièrement avec des ecchymoses et finit par confier au professeur de mathématiques qu'il est frappé à la maison. Quelle est la conduite à tenir ?",
+        type: "mcq",
+        options: [
+          "Recueillir sa parole sans l'interroger de façon insistante, ne pas promettre le secret, alerter sans délai le chef d'établissement et les personnels sociaux et de santé, afin qu'une information préoccupante soit transmise au président du conseil départemental par la cellule de recueil des informations préoccupantes",
+          "Appeler les parents le soir même pour vérifier les dires de l'enfant",
+          "Attendre d'avoir des preuves supplémentaires avant d'en parler à quiconque",
+          "Ne rien faire : la protection de l'enfance est l'affaire exclusive de l'infirmière"
+        ],
+        correctIndex: 0,
+        answer: "Recueillir sa parole sans l'interroger de façon insistante, ne pas promettre le secret, alerter sans délai le chef d'établissement et les personnels sociaux et de santé, afin qu'une information préoccupante soit transmise au président du conseil départemental par la cellule de recueil des informations préoccupantes",
+        hint1: "Code de l'action sociale et des familles, articles L. 226-2-1 et L. 226-3.",
+        solution: "Lorsqu'un mineur est en danger ou en risque de l'être, une information préoccupante est transmise sans délai au président du conseil départemental, par la cellule de recueil des informations préoccupantes (CRIP), en application des articles L. 226-2-1 et L. 226-3 du Code de l'action sociale et des familles. L'enseignant n'enquête pas et ne contacte pas les parents : il transmet ce qu'il a vu et entendu, en notant les propos de l'enfant tels qu'ils ont été dits, et travaille avec la direction et les personnels sociaux et de santé."
+      },
+      {
+        id: "capes-oral2-41",
+        chapterId: 'capes-oral2',
+        tier: 4,
+        title: "Danger grave et immédiat pour un élève",
+        statement: "En fin de journée, une élève révèle au professeur qu'elle subit des violences graves de la part d'un adulte de son foyer et qu'elle a peur de rentrer chez elle ce soir. Que faire ?",
+        type: "mcq",
+        options: [
+          "Ne pas la laisser repartir seule, alerter immédiatement le chef d'établissement : en cas de danger grave et immédiat, le procureur de la République est saisi directement, en plus de la transmission à la cellule de recueil des informations préoccupantes",
+          "Lui conseiller de dormir chez une amie et en reparler le lendemain",
+          "Rédiger une information préoccupante dans la semaine et laisser l'élève rentrer chez elle",
+          "Prévenir la famille que l'élève a fait des révélations"
+        ],
+        correctIndex: 0,
+        answer: "Ne pas la laisser repartir seule, alerter immédiatement le chef d'établissement : en cas de danger grave et immédiat, le procureur de la République est saisi directement, en plus de la transmission à la cellule de recueil des informations préoccupantes",
+        hint1: "L'urgence change la voie de signalement.",
+        solution: "En cas de danger grave et immédiat, on ne se contente pas d'une information préoccupante : le procureur de la République est saisi directement, sans délai, généralement par le chef d'établissement avec qui l'enseignant agit. La famille n'est pas prévenue lorsque cela risque d'aggraver le danger. L'enseignant ne reste pas seul, recueille les propos de l'élève sans l'interroger et les transmet fidèlement."
+      },
+      {
+        id: "capes-oral2-42",
+        chapterId: 'capes-oral2',
+        tier: 4,
+        title: "Article 40 du Code de procédure pénale",
+        statement: "Un professeur découvre, dans l'exercice de ses fonctions, des faits susceptibles de constituer un délit commis au préjudice d'élèves. Quelle obligation pèse sur lui ?",
+        type: "mcq",
+        options: [
+          "Comme tout fonctionnaire qui acquiert dans l'exercice de ses fonctions la connaissance d'un crime ou d'un délit, il doit en aviser sans délai le procureur de la République, en pratique en lien avec le chef d'établissement",
+          "Aucune : seul le chef d'établissement est concerné par les procédures pénales",
+          "Il doit d'abord mener sa propre enquête pour vérifier les faits",
+          "Il ne doit signaler que les crimes, jamais les délits"
+        ],
+        correctIndex: 0,
+        answer: "Comme tout fonctionnaire qui acquiert dans l'exercice de ses fonctions la connaissance d'un crime ou d'un délit, il doit en aviser sans délai le procureur de la République, en pratique en lien avec le chef d'établissement",
+        hint1: "Article 40, alinéa 2, du Code de procédure pénale.",
+        solution: "L'article 40, alinéa 2, du Code de procédure pénale impose à toute autorité constituée et à tout fonctionnaire qui, dans l'exercice de ses fonctions, acquiert la connaissance d'un crime ou d'un délit, d'en donner avis sans délai au procureur de la République. Le professeur n'enquête pas lui-même : il informe le chef d'établissement, avec qui le signalement est fait, sans que cela le dispense de son obligation personnelle."
+      },
+      {
+        id: "capes-oral2-43",
+        chapterId: 'capes-oral2',
+        tier: 4,
+        title: "Le jury cite l'avis du Conseil d'État de 1989",
+        statement: "Le jury demande : « Un élève peut-il porter un signe religieux ostensible en cours, du moment qu'il ne fait ni prosélytisme ni trouble ? » Le candidat pense à l'avis du Conseil d'État du 27 novembre 1989. Quelle est la bonne réponse ?",
+        type: "mcq",
+        options: [
+          "Non : cet avis, qui admettait le port de signes sauf pression, prosélytisme ou trouble, est dépassé dans les écoles, collèges et lycées publics par la loi du 15 mars 2004, qui interdit les signes et tenues manifestant ostensiblement une appartenance religieuse",
+          "Oui : l'avis de 1989 reste la règle applicable aux élèves",
+          "Oui, mais seulement au lycée, la loi de 2004 ne visant que le collège",
+          "Non, car l'avis de 1989 interdisait déjà tout signe religieux aux élèves"
+        ],
+        correctIndex: 0,
+        answer: "Non : cet avis, qui admettait le port de signes sauf pression, prosélytisme ou trouble, est dépassé dans les écoles, collèges et lycées publics par la loi du 15 mars 2004, qui interdit les signes et tenues manifestant ostensiblement une appartenance religieuse",
+        hint1: "Situer chaque texte dans le temps : avis de 1989, puis loi de 2004.",
+        solution: "En 1989, le Conseil d'État estimait que le port de signes religieux par les élèves n'était pas incompatible avec la laïcité, sauf pression, provocation, prosélytisme ou trouble. La loi du 15 mars 2004 (article L. 141-5-1 du Code de l'éducation) a tranché autrement pour les écoles, collèges et lycées publics : les signes et tenues manifestant ostensiblement une appartenance religieuse y sont interdits, les signes discrets restant permis. Citer l'avis de 1989 comme règle actuelle serait une erreur."
+      },
+      {
+        id: "capes-oral2-44",
+        chapterId: 'capes-oral2',
+        tier: 4,
+        title: "Ne pas connaître un numéro d'article devant le jury",
+        statement: "Pendant l'entretien, le candidat veut appuyer sa réponse sur un texte mais ne se souvient plus du numéro exact de l'article. Quelle attitude le jury attend-il ?",
+        type: "mcq",
+        options: [
+          "Ne citer que les textes dont il est sûr, nommer le principe et le texte de façon générale sans inventer de numéro, et raisonner à partir des principes et de la situation",
+          "Inventer un numéro plausible pour montrer qu'il connaît les textes",
+          "Refuser de répondre à la question tant qu'il n'a pas le texte sous les yeux",
+          "Réciter le référentiel de compétences en entier pour compenser"
+        ],
+        correctIndex: 0,
+        answer: "Ne citer que les textes dont il est sûr, nommer le principe et le texte de façon générale sans inventer de numéro, et raisonner à partir des principes et de la situation",
+        hint1: "Une référence fausse coûte plus cher qu'une référence générale exacte.",
+        solution: "Le jury évalue la compréhension du cadre et la justesse du raisonnement, pas une mémoire de numéros. Mieux vaut dire « le statut des fonctionnaires impose la neutralité » que citer un article inexact. Le candidat nomme les principes (neutralité, laïcité, protection des élèves, travail en équipe), s'appuie sur les textes qu'il connaît sûrement et montre comment il agirait concrètement."
+      },
+      {
+        id: "capes-oral2-45",
+        chapterId: 'capes-oral2',
+        tier: 4,
+        title: "Format de l'épreuve d'entretien (concours bac + 5)",
+        statement: "Quelle description de l'épreuve d'entretien du CAPES externe (concours bac + 5) est exacte ?",
+        type: "mcq",
+        options: [
+          "35 minutes, coefficient 3, sans préparation, note 0 éliminatoire : une première partie de 15 minutes ouverte par une présentation de 5 minutes, puis 20 minutes comportant deux mises en situation professionnelles, l'une d'enseignement, l'autre relative à la vie scolaire",
+          "1 heure de préparation puis 1 heure d'exposé sur une leçon de mathématiques",
+          "Un questionnaire écrit sur les textes réglementaires, noté sur 20 et non éliminatoire",
+          "Une épreuve de 35 minutes consacrée uniquement à la motivation du candidat"
+        ],
+        correctIndex: 0,
+        answer: "35 minutes, coefficient 3, sans préparation, note 0 éliminatoire : une première partie de 15 minutes ouverte par une présentation de 5 minutes, puis 20 minutes comportant deux mises en situation professionnelles, l'une d'enseignement, l'autre relative à la vie scolaire",
+        hint1: "L'épreuve est commune à toutes les disciplines et s'appuie sur la fiche individuelle de renseignement.",
+        solution: "L'épreuve d'entretien dure 35 minutes, coefficient 3, sans préparation, et la note 0 est éliminatoire. La première partie (15 minutes) porte sur la motivation et le parcours ; elle s'ouvre par une présentation de 5 minutes appuyée sur la fiche individuelle de renseignement. La seconde partie (20 minutes) comporte deux mises en situation professionnelles : l'une d'enseignement, l'autre relative à la vie scolaire. Le jury apprécie l'aptitude à s'approprier les valeurs de la République et les exigences du service public."
+      },
+      {
+        id: "capes-oral2-46",
+        chapterId: 'capes-oral2',
+        tier: 4,
+        title: "Seconde partie de l'entretien au concours bac + 3",
+        statement: "Au concours organisé au niveau bac + 3 à partir de la session 2026, sur quoi porte la seconde partie de l'épreuve d'entretien ?",
+        type: "mcq",
+        options: [
+          "Des questions et une mise en situation sur les valeurs de la République, dont la laïcité, et sur la projection dans le métier",
+          "Une leçon de mathématiques préparée à l'avance",
+          "Exclusivement l'histoire du système éducatif",
+          "Un commentaire de copie d'élève sans lien avec les valeurs de la République"
+        ],
+        correctIndex: 0,
+        answer: "Des questions et une mise en situation sur les valeurs de la République, dont la laïcité, et sur la projection dans le métier",
+        hint1: "La première partie (motivation et parcours) est commune aux deux concours ; la seconde diffère.",
+        solution: "Pour le concours de niveau bac + 3 organisé à partir de la session 2026, la seconde partie de l'entretien comprend des questions et une mise en situation portant sur les valeurs de la République, dont la laïcité, et sur la projection dans le métier. Au concours bac + 5, elle comporte deux mises en situation professionnelles (enseignement et vie scolaire)."
+      },
+      {
+        id: "capes-oral2-47",
+        chapterId: 'capes-oral2',
+        tier: 4,
+        title: "Répondre à la question de motivation",
+        statement: "Le jury demande : « Pourquoi voulez-vous devenir professeur de mathématiques ? » Quelle réponse est la mieux construite ?",
+        type: "mcq",
+        options: [
+          "Relier son parcours à une conception argumentée du métier (transmission des savoirs, exigence, accompagnement de tous les élèves, travail en équipe), illustrée par un exemple concret vécu",
+          "Réciter les quatorze compétences du référentiel de 2013 dans l'ordre",
+          "Mettre en avant la sécurité de l'emploi et la durée des vacances",
+          "Répondre que l'on aime les mathématiques, sans évoquer les élèves"
+        ],
+        correctIndex: 0,
+        answer: "Relier son parcours à une conception argumentée du métier (transmission des savoirs, exigence, accompagnement de tous les élèves, travail en équipe), illustrée par un exemple concret vécu",
+        hint1: "Le jury cherche une conviction personnelle étayée, pas une récitation.",
+        solution: "La question de motivation attend une réponse personnelle et argumentée. Le candidat relie son parcours (études, expériences auprès d'élèves, engagements) à sa conception du métier : transmettre des savoirs exigeants, accompagner tous les élèves, travailler en équipe et avec les familles. Un exemple concret vaut mieux que la récitation du référentiel ; la passion pour la discipline est un point de départ, pas une réponse complète."
+      },
+      {
+        id: "capes-oral2-48",
+        chapterId: 'capes-oral2',
+        tier: 4,
+        title: "Le devoir de réserve : d'où vient-il ?",
+        statement: "Le jury demande au candidat d'où vient le devoir de réserve des fonctionnaires. Quelle réponse est exacte ?",
+        type: "mcq",
+        options: [
+          "C'est une construction de la jurisprudence administrative, qui encadre l'expression publique de l'agent et s'apprécie selon ses fonctions et les circonstances ; il ne figure pas en tant que tel dans le Code général de la fonction publique",
+          "Il est défini par un article précis de la Constitution de 1958",
+          "Il a été créé par la loi du 15 mars 2004",
+          "Il interdit au fonctionnaire toute opinion politique, même en privé"
+        ],
+        correctIndex: 0,
+        answer: "C'est une construction de la jurisprudence administrative, qui encadre l'expression publique de l'agent et s'apprécie selon ses fonctions et les circonstances ; il ne figure pas en tant que tel dans le Code général de la fonction publique",
+        hint1: "Distinguer neutralité (en service, écrite dans le statut) et réserve (expression publique, d'origine jurisprudentielle).",
+        solution: "Le Code général de la fonction publique énonce la neutralité, la laïcité, la dignité, l'impartialité, l'intégrité, la probité, le secret et la discrétion professionnels. Le devoir de réserve, lui, n'y figure pas : c'est une construction jurisprudentielle qui impose à l'agent de la mesure dans l'expression publique de ses opinions, appréciée au cas par cas selon son niveau de responsabilité et le contexte. Il ne supprime pas la liberté d'opinion, garantie par le statut."
+      },
+      {
+        id: "capes-oral2-49",
+        chapterId: 'capes-oral2',
+        tier: 4,
+        title: "Alerte de mise en sûreté pendant un cours",
+        statement: "Pendant un cours de mathématiques, l'alarme spécifique « mise en sûreté » retentit. Quelle doit être la réaction du professeur ?",
+        type: "mcq",
+        options: [
+          "Appliquer sans délai les consignes du plan de mise en sûreté de l'établissement, connues à l'avance et travaillées lors des exercices, en gardant le contrôle de la classe et en rassurant les élèves",
+          "Faire sortir tous les élèves dans la cour comme pour une alarme incendie",
+          "Continuer le cours en attendant de savoir s'il s'agit d'un exercice",
+          "Laisser chaque élève appeler sa famille avant de décider quoi faire"
+        ],
+        correctIndex: 0,
+        answer: "Appliquer sans délai les consignes du plan de mise en sûreté de l'établissement, connues à l'avance et travaillées lors des exercices, en gardant le contrôle de la classe et en rassurant les élèves",
+        hint1: "Les consignes ne s'improvisent pas le jour de l'alerte.",
+        solution: "Chaque établissement dispose d'un plan de mise en sûreté, qui fixe les signaux d'alerte et les conduites à tenir selon le danger, et l'exerce plusieurs fois par an. Le professeur doit connaître ces consignes dès sa prise de fonction et les appliquer sans improviser : un signal de mise en sûreté n'appelle pas la même réaction qu'une alarme incendie. Il garde la responsabilité de sa classe et adopte une attitude calme."
       }
     ]
   };

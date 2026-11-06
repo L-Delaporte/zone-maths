@@ -42,16 +42,16 @@ window.MathsGenerators = {
   _saveRecentStatement(chapterId, statement) {
     if (!statement) return;
     const list = this._getRecentHistory(chapterId);
-    if (!list.includes(statement)) {
-      list.push(statement);
-      if (list.length > 50) list.shift();
-      this._recentGeneratedStatements[chapterId] = list;
-      try {
-        if (typeof window !== 'undefined' && window.localStorage) {
-          window.localStorage.setItem(this._recentStorageKey, JSON.stringify(this._recentGeneratedStatements));
-        }
-      } catch (e) {}
-    }
+    const already = list.indexOf(statement);
+    if (already !== -1) list.splice(already, 1); // un énoncé revu repasse en fin de liste (le plus récent)
+    list.push(statement);
+    if (list.length > 50) list.shift();
+    this._recentGeneratedStatements[chapterId] = list;
+    try {
+      if (typeof window !== 'undefined' && window.localStorage) {
+        window.localStorage.setItem(this._recentStorageKey, JSON.stringify(this._recentGeneratedStatements));
+      }
+    } catch (e) {}
   },
 
   // Utilitaires aléatoires et arithmétiques
@@ -377,7 +377,12 @@ window.MathsGenerators = {
         if (exos.length) {
           const matchingTierExos = exos.filter(e => e.tier === resolvedTier);
           const pool = matchingTierExos.length > 0 ? matchingTierExos : exos;
-          const base = this.randChoice(pool);
+          // Priorité aux exercices pas encore vus ; si tous l'ont été, tirage parmi la moitié la plus anciennement vue
+          const seen = this._getRecentHistory(chapterId);
+          const unseen = pool.filter(e => !seen.includes(e.statement));
+          const oldest = pool.slice().sort((a, b) => seen.indexOf(a.statement) - seen.indexOf(b.statement))
+            .slice(0, Math.ceil(pool.length / 2));
+          const base = this.randChoice(unseen.length > 0 ? unseen : oldest);
           if (typeof window !== 'undefined' && window.MathsAdvancedGenerators && typeof window.MathsAdvancedGenerators.mutateExercise === 'function') {
             q = window.MathsAdvancedGenerators.mutateExercise(base, resolvedTier);
           } else {
